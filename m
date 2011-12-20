@@ -1,30 +1,30 @@
-Received: from mail-pw0-f47.google.com ([209.85.160.47])
+Received: from mail-yw0-f47.google.com ([209.85.213.47])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <bruce.ashfield@gmail.com>) id 1Rd4Xb-00042C-08
+	(envelope-from <otavio.salvador@gmail.com>) id 1Rd569-0005Cd-C9
 	for openembedded-core@lists.openembedded.org;
-	Tue, 20 Dec 2011 19:35:56 +0100
-Received: by pbcc11 with SMTP id c11so3142407pbc.6
+	Tue, 20 Dec 2011 20:11:37 +0100
+Received: by yhoo47 with SMTP id o47so4599160yho.6
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 20 Dec 2011 10:28:50 -0800 (PST)
+	Tue, 20 Dec 2011 11:04:33 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
-	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
-	:content-type:content-transfer-encoding;
-	bh=+j0bsiHitypgDGjzRisb7Ot7T+bIP8PQZWw+AyQ2+hE=;
-	b=MrNhIhRnC8hSaYnJdPnmhAwRMxRPhMeojxsv/V0c2YlzMRBNMjZqp8xkB9l9HQXlVJ
-	y5k/i3VZRtvBOq5KmuqH1N92oGexnmkcmKGFgx+fIQh/ib9hMz4J1SxioEBMrLKKFNhm
-	x6zTnsOlAjB0BPtVJioYKmGNnjmLfWObEB6VQ=
-MIME-Version: 1.0
-Received: by 10.68.189.199 with SMTP id gk7mr4952721pbc.63.1324405729714; Tue,
-	20 Dec 2011 10:28:49 -0800 (PST)
-Received: by 10.143.18.10 with HTTP; Tue, 20 Dec 2011 10:28:49 -0800 (PST)
-In-Reply-To: <4EF0C808.8060609@gmail.com>
-References: <4EF0C808.8060609@gmail.com>
-Date: Tue, 20 Dec 2011 13:28:49 -0500
-Message-ID: <CADkTA4PQC4K2CsEQQz4TbK2JOU26K3R=XUtjEg_OB-nTTgTyXw@mail.gmail.com>
-From: Bruce Ashfield <bruce.ashfield@gmail.com>
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] patch.bbclass: abstract out logic that determines patches to apply
+	h=sender:from:to:subject:date:message-id:x-mailer;
+	bh=7USYDTD1DsM8zByXzEGhTUcAp8ysMuI6gZdMMaylQeA=;
+	b=xj3XbLlsTySg6QrJvh/v9WOTzGlaSxvw7DG6S11GM0sQ45pSb1/Y6/jeYPWlPkwIvi
+	0RoC3lnbXRwQ+co87WnF6hbfv8O/zI2o8Xvpg7NlxT7zO4FwS9Z/ZfmNwf7rVfuEgJd1
+	3teYOBmAx93C+Wby77yMc2b64v9v/Se5a1w6M=
+Received: by 10.236.182.8 with SMTP id n8mr5927080yhm.26.1324407872608;
+	Tue, 20 Dec 2011 11:04:32 -0800 (PST)
+Received: from localhost.localdomain ([189.114.111.55])
+	by mx.google.com with ESMTPS id o50sm4771379yhl.9.2011.12.20.11.04.28
+	(version=TLSv1/SSLv3 cipher=OTHER);
+	Tue, 20 Dec 2011 11:04:31 -0800 (PST)
+Sender: Otavio Salvador <otavio.salvador@gmail.com>
+From: Otavio Salvador <otavio@ossystems.com.br>
+To: openembedded-core@lists.openembedded.org
+Date: Tue, 20 Dec 2011 19:04:06 +0000
+Message-Id: <cover.1324407759.git.otavio@ossystems.com.br>
+X-Mailer: git-send-email 1.7.2.5
+Subject: [PATCH 0/9] Major refactor udev package preparing for update to 173 later
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -39,345 +39,103 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 20 Dec 2011 18:35:57 -0000
-Content-Type: text/plain; charset=ISO-8859-1
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Tue, 20 Dec 2011 19:11:37 -0000
 
-On Tue, Dec 20, 2011 at 12:38 PM, Christopher Larson <kergoth@gmail.com> wr=
-ote:
-> This is needed by the copyleft_compliance class, so it can emit series fi=
-les
-> for the patches, which greatly increases their usefulness to a user tryin=
-g
-> to
-> reconstruct the sources outside of OE.
+The following changes since commit ae4118a1f78f113c3d687c3aa6a86007cf977cae:
 
-.. or inside! As it turns out, I was writing something very similar to
-this to export
-patches for processing with the linux-yocto build changes. I was about to s=
-end
-them out, but this looks drop in or even better.
+  libsdl 1.2.14: fix packaging (2011-12-19 12:17:36 +0000)
 
-I'm going to take this for a spin here and see if I can get it working
-with my other
-changes.
+are available in the git repository at:
+  git://github.com/OSSystems/oe-core master
+  https://github.com/OSSystems/oe-core/tree/HEAD
 
-Cheers,
+Otavio Salvador (9):
+  udev: drop 145 version
+  udev-extraconf: move mount.blacklist to udev-extraconf dir
+  udev: reorganize files of 164 version
+  udev: use tabs for init script (no code changes)
+  udev: skip mounting /dev on tmpfs if it is on devtmpfs
+  udev: improve udev-cache robustness
+  udev: use 'echo' instead of 'echo -n' in init script
+  udev: run depmod if modules.dep doesn't exist
+  udev: split utilities onto udev-utils
 
-Bruce
+ meta/recipes-core/udev/files/fix-alignment.patch   |   26 -
+ meta/recipes-core/udev/files/init                  |  212 ------
+ meta/recipes-core/udev/files/local.rules           |   22 -
+ meta/recipes-core/udev/files/noasmlinkage.patch    |   39 -
+ meta/recipes-core/udev/files/permissions.rules     |   81 --
+ meta/recipes-core/udev/files/tmpfs.patch           |   17 -
+ meta/recipes-core/udev/files/udev-cache            |   20 -
+ meta/recipes-core/udev/files/udev.rules            |   98 ---
+ meta/recipes-core/udev/files/udev_network_queue.sh |   35 -
+ meta/recipes-core/udev/files/udevsynthesize.patch  |  778 --------------------
+ meta/recipes-core/udev/files/udevsynthesize.sh     |   51 --
+ meta/recipes-core/udev/udev-145/enable-gudev.patch |   50 --
+ meta/recipes-core/udev/udev-145/init               |   59 --
+ meta/recipes-core/udev/udev-145/local.rules        |   33 -
+ meta/recipes-core/udev/udev-145/noasmlinkage.patch |   50 --
+ meta/recipes-core/udev/udev-145/unbreak.patch      |   26 -
+ meta/recipes-core/udev/udev-164/init               |   59 --
+ meta/recipes-core/udev/udev-164/permissions.rules  |  131 ----
+ meta/recipes-core/udev/udev-164/run.rules          |   14 -
+ meta/recipes-core/udev/udev-164/udev.rules         |  116 ---
+ .../udev/{files => udev-extraconf}/mount.blacklist |    0
+ meta/recipes-core/udev/udev-new.inc                |   91 ---
+ meta/recipes-core/udev/udev.inc                    |  126 ++--
+ .../udev/{files => udev}/devfs-udev.rules          |    0
+ meta/recipes-core/udev/udev/init                   |   75 ++
+ meta/recipes-core/udev/{files => udev}/links.conf  |    0
+ .../udev/{udev-164 => udev}/local.rules            |    0
+ meta/recipes-core/udev/{files => udev}/mount.sh    |    0
+ meta/recipes-core/udev/{files => udev}/network.sh  |    0
+ .../udev/{udev-145 => udev}/permissions.rules      |    0
+ .../recipes-core/udev/{udev-145 => udev}/run.rules |    0
+ .../udev/{files => udev}/udev-166-v4l1-1.patch     |    0
+ meta/recipes-core/udev/udev/udev-cache             |   33 +
+ meta/recipes-core/udev/udev/udev-cache.default     |    4 +
+ .../udev/{udev-145 => udev}/udev.rules             |    0
+ meta/recipes-core/udev/udev_145.bb                 |   55 --
+ meta/recipes-core/udev/udev_164.bb                 |    4 +-
+ 37 files changed, 193 insertions(+), 2112 deletions(-)
+ delete mode 100644 meta/recipes-core/udev/files/fix-alignment.patch
+ delete mode 100755 meta/recipes-core/udev/files/init
+ delete mode 100644 meta/recipes-core/udev/files/local.rules
+ delete mode 100644 meta/recipes-core/udev/files/noasmlinkage.patch
+ delete mode 100644 meta/recipes-core/udev/files/permissions.rules
+ delete mode 100644 meta/recipes-core/udev/files/tmpfs.patch
+ delete mode 100644 meta/recipes-core/udev/files/udev-cache
+ delete mode 100644 meta/recipes-core/udev/files/udev.rules
+ delete mode 100644 meta/recipes-core/udev/files/udev_network_queue.sh
+ delete mode 100644 meta/recipes-core/udev/files/udevsynthesize.patch
+ delete mode 100644 meta/recipes-core/udev/files/udevsynthesize.sh
+ delete mode 100644 meta/recipes-core/udev/udev-145/enable-gudev.patch
+ delete mode 100644 meta/recipes-core/udev/udev-145/init
+ delete mode 100644 meta/recipes-core/udev/udev-145/local.rules
+ delete mode 100644 meta/recipes-core/udev/udev-145/noasmlinkage.patch
+ delete mode 100644 meta/recipes-core/udev/udev-145/unbreak.patch
+ delete mode 100644 meta/recipes-core/udev/udev-164/init
+ delete mode 100644 meta/recipes-core/udev/udev-164/permissions.rules
+ delete mode 100644 meta/recipes-core/udev/udev-164/run.rules
+ delete mode 100644 meta/recipes-core/udev/udev-164/udev.rules
+ rename meta/recipes-core/udev/{files => udev-extraconf}/mount.blacklist (100%)
+ delete mode 100644 meta/recipes-core/udev/udev-new.inc
+ rename meta/recipes-core/udev/{files => udev}/devfs-udev.rules (100%)
+ create mode 100644 meta/recipes-core/udev/udev/init
+ rename meta/recipes-core/udev/{files => udev}/links.conf (100%)
+ rename meta/recipes-core/udev/{udev-164 => udev}/local.rules (100%)
+ rename meta/recipes-core/udev/{files => udev}/mount.sh (100%)
+ rename meta/recipes-core/udev/{files => udev}/network.sh (100%)
+ rename meta/recipes-core/udev/{udev-145 => udev}/permissions.rules (100%)
+ rename meta/recipes-core/udev/{udev-145 => udev}/run.rules (100%)
+ rename meta/recipes-core/udev/{files => udev}/udev-166-v4l1-1.patch (100%)
+ create mode 100644 meta/recipes-core/udev/udev/udev-cache
+ create mode 100644 meta/recipes-core/udev/udev/udev-cache.default
+ rename meta/recipes-core/udev/{udev-145 => udev}/udev.rules (100%)
+ delete mode 100644 meta/recipes-core/udev/udev_145.bb
 
->
-> Signed-off-by: Christopher Larson <chris_larson@mentor.com>
-> ---
-> =A0meta/classes/patch.bbclass | =A0196
-> +++++++++++++++++++++++--------------------
-> =A01 files changed, 105 insertions(+), 91 deletions(-)
->
-> diff --git a/meta/classes/patch.bbclass b/meta/classes/patch.bbclass
-> index ac6c1ce..454d9ce 100644
-> --- a/meta/classes/patch.bbclass
-> +++ b/meta/classes/patch.bbclass
-> @@ -7,13 +7,106 @@ PATCHDEPENDENCY =3D
-> "${PATCHTOOL}-native:do_populate_sysroot"
-> =A0inherit terminal
-> =A0-python patch_do_patch() {
-> - =A0 =A0 =A0 import oe.patch
-> +def src_patches(d):
-> + =A0 =A0 =A0 workdir =3D d.getVar('WORKDIR', True)
-> + =A0 =A0 =A0 fetch =3D bb.fetch2.Fetch([], d)
-> + =A0 =A0 =A0 patches =3D []
-> + =A0 =A0 =A0 for url in fetch.urls:
-> + =A0 =A0 =A0 =A0 =A0 =A0 =A0 local =3D patch_path(url, fetch, workdir)
-> + =A0 =A0 =A0 =A0 =A0 =A0 =A0 if not local:
-> + =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 continue
-> +
-> + =A0 =A0 =A0 =A0 =A0 =A0 =A0 urldata =3D fetch.ud[url]
-> + =A0 =A0 =A0 =A0 =A0 =A0 =A0 parm =3D urldata.parm
-> + =A0 =A0 =A0 =A0 =A0 =A0 =A0 patchname =3D parm.get('pname') or os.path.=
-basename(local)
-> +
-> + =A0 =A0 =A0 =A0 =A0 =A0 =A0 apply, reason =3D should_apply(parm)
-> + =A0 =A0 =A0 =A0 =A0 =A0 =A0 if not apply:
-> + =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 if reason:
-> + =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 bb.note("Pa=
-tch %s %s" % (patchname, reason))
-> + =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 continue
-> =A0- =A0 =A0 =A0src_uri =3D (d.getVar('SRC_URI', 1) or '').split()
-> - =A0 =A0 =A0 if not src_uri:
-> + =A0 =A0 =A0 =A0 =A0 =A0 =A0 patchparm =3D {'patchname': patchname}
-> + =A0 =A0 =A0 =A0 =A0 =A0 =A0 if "striplevel" in parm:
-> + =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 striplevel =3D parm["stripl=
-evel"]
-> + =A0 =A0 =A0 =A0 =A0 =A0 =A0 elif "pnum" in parm:
-> + =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 striplevel =3D parm["pnum"]
-> + =A0 =A0 =A0 =A0 =A0 =A0 =A0 else:
-> + =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 striplevel =3D '1'
-> + =A0 =A0 =A0 =A0 =A0 =A0 =A0 patchparm['striplevel'] =3D striplevel
-> +
-> + =A0 =A0 =A0 =A0 =A0 =A0 =A0 patchdir =3D parm.get('patchdir')
-> + =A0 =A0 =A0 =A0 =A0 =A0 =A0 if patchdir:
-> + =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 patchparm['patchdir'] =3D p=
-atchdir
-> +
-> + =A0 =A0 =A0 =A0 =A0 =A0 =A0 localurl =3D bb.encodeurl(('file', '', loca=
-l, '', '',
-> patchparm))
-> + =A0 =A0 =A0 =A0 =A0 =A0 =A0 patches.append(localurl)
-> +
-> + =A0 =A0 =A0 return patches
-> +
-> +def patch_path(url, fetch, workdir):
-> + =A0 =A0 =A0 """Return the local path of a patch, or None if this isn't =
-a
-> patch"""
-> +
-> + =A0 =A0 =A0 local =3D fetch.localpath(url)
-> + =A0 =A0 =A0 base, ext =3D os.path.splitext(os.path.basename(local))
-> + =A0 =A0 =A0 if ext in ('.gz', '.bz2', '.Z'):
-> + =A0 =A0 =A0 =A0 =A0 =A0 =A0 local =3D os.path.join(workdir, base)
-> + =A0 =A0 =A0 =A0 =A0 =A0 =A0 ext =3D os.path.splitext(base)[1]
-> +
-> + =A0 =A0 =A0 urldata =3D fetch.ud[url]
-> + =A0 =A0 =A0 if "apply" in urldata.parm:
-> + =A0 =A0 =A0 =A0 =A0 =A0 =A0 apply =3D oe.types.boolean(urldata.parm["ap=
-ply"])
-> + =A0 =A0 =A0 =A0 =A0 =A0 =A0 if not apply:
-> + =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 return
-> + =A0 =A0 =A0 elif ext not in (".diff", ".patch"):
-> =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0return
-> =A0+ =A0 =A0 =A0return local
-> +
-> +def should_apply(parm):
-> + =A0 =A0 =A0 """Determine if we should apply the given patch"""
-> +
-> + =A0 =A0 =A0 if "mindate" in parm or "maxdate" in parm:
-> + =A0 =A0 =A0 =A0 =A0 =A0 =A0 pn =3D d.getVar('PN', 1)
-> + =A0 =A0 =A0 =A0 =A0 =A0 =A0 srcdate =3D d.getVar('SRCDATE_%s' % pn, 1)
-> + =A0 =A0 =A0 =A0 =A0 =A0 =A0 if not srcdate:
-> + =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 srcdate =3D d.getVar('SRCDA=
-TE', 1)
-> +
-> + =A0 =A0 =A0 =A0 =A0 =A0 =A0 if srcdate =3D=3D "now":
-> + =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 srcdate =3D d.getVar('DATE'=
-, 1)
-> +
-> + =A0 =A0 =A0 =A0 =A0 =A0 =A0 if "maxdate" in parm and parm["maxdate"] < =
-srcdate:
-> + =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 return False, 'is outdated'
-> +
-> + =A0 =A0 =A0 =A0 =A0 =A0 =A0 if "mindate" in parm and parm["mindate"] > =
-srcdate:
-> + =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 return False, 'is predated'
-> +
-> +
-> + =A0 =A0 =A0 if "minrev" in parm:
-> + =A0 =A0 =A0 =A0 =A0 =A0 =A0 srcrev =3D d.getVar('SRCREV', 1)
-> + =A0 =A0 =A0 =A0 =A0 =A0 =A0 if srcrev and srcrev < parm["minrev"]:
-> + =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 return False, 'applies to l=
-ater revisions'
-> +
-> + =A0 =A0 =A0 if "maxrev" in parm:
-> + =A0 =A0 =A0 =A0 =A0 =A0 =A0 srcrev =3D d.getVar('SRCREV', 1)
-> + =A0 =A0 =A0 =A0 =A0 =A0 =A0 if srcrev and srcrev > parm["maxrev"]:
-> + =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 return False, 'applies to e=
-arlier revisions'
-> +
-> + =A0 =A0 =A0 if "rev" in parm:
-> + =A0 =A0 =A0 =A0 =A0 =A0 =A0 srcrev =3D d.getVar('SRCREV', 1)
-> + =A0 =A0 =A0 =A0 =A0 =A0 =A0 if srcrev and parm["rev"] not in srcrev:
-> + =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 return False, "doesn't appl=
-y to revision"
-> +
-> + =A0 =A0 =A0 if "notrev" in parm:
-> + =A0 =A0 =A0 =A0 =A0 =A0 =A0 srcrev =3D d.getVar('SRCREV', 1)
-> + =A0 =A0 =A0 =A0 =A0 =A0 =A0 if srcrev and parm["notrev"] in srcrev:
-> + =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 return False, "doesn't appl=
-y to revision"
-> +
-> + =A0 =A0 =A0 return True, None
-> +
-> +python patch_do_patch() {
-> + =A0 =A0 =A0 import oe.patch
-> +
-> =A0 =A0 =A0 =A0patchsetmap =3D {
-> =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0"patch": oe.patch.PatchTree,
-> =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0"quilt": oe.patch.QuiltTree,
-> @@ -29,93 +122,15 @@ python patch_do_patch() {
-> =A0 =A0 =A0 =A0rcls =3D resolvermap[d.getVar('PATCHRESOLVE', 1) or 'user'=
-]
-> =A0+ =A0 =A0 =A0classes =3D {}
-> +
-> =A0 =A0 =A0 =A0s =3D d.getVar('S', 1)
-> =A0 =A0 =A0 =A0path =3D os.getenv('PATH')
-> =A0 =A0 =A0 =A0os.putenv('PATH', d.getVar('PATH', 1))
-> =A0- =A0 =A0 =A0classes =3D {}
-> -
-> - =A0 =A0 =A0 workdir =3D d.getVar('WORKDIR', 1)
-> - =A0 =A0 =A0 for url in src_uri:
-> - =A0 =A0 =A0 =A0 =A0 =A0 =A0 (type, host, path, user, pswd, parm) =3D bb=
-.decodeurl(url)
-> -
-> - =A0 =A0 =A0 =A0 =A0 =A0 =A0 local =3D None
-> - =A0 =A0 =A0 =A0 =A0 =A0 =A0 base, ext =3D os.path.splitext(os.path.base=
-name(path))
-> - =A0 =A0 =A0 =A0 =A0 =A0 =A0 if ext in ('.gz', '.bz2', '.Z'):
-> - =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 local =3D os.path.join(work=
-dir, base)
-> - =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 ext =3D os.path.splitext(ba=
-se)[1]
-> -
-> - =A0 =A0 =A0 =A0 =A0 =A0 =A0 if "apply" in parm:
-> - =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 apply =3D parm["apply"]
-> - =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 if apply !=3D "yes":
-> - =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 if apply !=
-=3D "no":
-> - =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0=
- =A0 bb.msg.warn(None, "Unsupported value
-> '%s' for 'apply' url param in '%s', please use 'yes' or 'no'" % (apply,
-> url))
-> - =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 continue
-> - =A0 =A0 =A0 =A0 =A0 =A0 =A0 #elif "patch" in parm:
-> - =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 #bb.msg.warn(None, "Depreca=
-ted usage of 'patch' url
-> param in '%s', please use 'apply=3D{yes,no}'" % url)
-> - =A0 =A0 =A0 =A0 =A0 =A0 =A0 elif ext not in (".diff", ".patch"):
-> - =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 continue
-> -
-> - =A0 =A0 =A0 =A0 =A0 =A0 =A0 if not local:
-> - =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 url =3D bb.encodeurl((type,=
- host, path, user, pswd,
-> []))
-> - =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 local =3D os.path.join('/',=
- bb.fetch2.localpath(url,
-> d))
-> - =A0 =A0 =A0 =A0 =A0 =A0 =A0 local =3D bb.data.expand(local, d)
-> -
-> - =A0 =A0 =A0 =A0 =A0 =A0 =A0 if "striplevel" in parm:
-> - =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 striplevel =3D parm["stripl=
-evel"]
-> - =A0 =A0 =A0 =A0 =A0 =A0 =A0 elif "pnum" in parm:
-> - =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 #bb.msg.warn(None, "Depreca=
-ted usage of 'pnum' url
-> parameter in '%s', please use 'striplevel'" % url)
-> - =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 striplevel =3D parm["pnum"]
-> - =A0 =A0 =A0 =A0 =A0 =A0 =A0 else:
-> - =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 striplevel =3D '1'
-> -
-> - =A0 =A0 =A0 =A0 =A0 =A0 =A0 if "pname" in parm:
-> - =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 pname =3D parm["pname"]
-> - =A0 =A0 =A0 =A0 =A0 =A0 =A0 else:
-> - =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 pname =3D os.path.basename(=
-local)
-> -
-> - =A0 =A0 =A0 =A0 =A0 =A0 =A0 if "mindate" in parm or "maxdate" in parm:
-> - =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 pn =3D d.getVar('PN', 1)
-> - =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 srcdate =3D d.getVar('SRCDA=
-TE_%s' % pn, 1)
-> - =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 if not srcdate:
-> - =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 srcdate =3D=
- d.getVar('SRCDATE', 1)
-> -
-> - =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 if srcdate =3D=3D "now":
-> - =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 srcdate =3D=
- d.getVar('DATE', 1)
-> -
-> - =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 if "maxdate" in parm and pa=
-rm["maxdate"] < srcdate:
-> - =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 bb.note("Pa=
-tch '%s' is outdated" % pname)
-> - =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 continue
-> -
-> - =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 if "mindate" in parm and pa=
-rm["mindate"] > srcdate:
-> - =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 bb.note("Pa=
-tch '%s' is predated" % pname)
-> - =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 continue
-> -
-> -
-> - =A0 =A0 =A0 =A0 =A0 =A0 =A0 if "minrev" in parm:
-> - =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 srcrev =3D d.getVar('SRCREV=
-', 1)
-> - =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 if srcrev and srcrev < parm=
-["minrev"]:
-> - =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 bb.note("Pa=
-tch '%s' applies to later
-> revisions" % pname)
-> - =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 continue
-> -
-> - =A0 =A0 =A0 =A0 =A0 =A0 =A0 if "maxrev" in parm:
-> - =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 srcrev =3D d.getVar('SRCREV=
-', 1)
-> - =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 if srcrev and srcrev > parm=
-["maxrev"]:
-> - =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 bb.note("Pa=
-tch '%s' applies to earlier
-> revisions" % pname)
-> - =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 continue
-> -
-> - =A0 =A0 =A0 =A0 =A0 =A0 =A0 if "rev" in parm:
-> - =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 srcrev =3D d.getVar('SRCREV=
-', 1)
-> - =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 if srcrev and parm["rev"] n=
-ot in srcrev:
-> - =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 bb.note("Pa=
-tch '%s' doesn't apply to
-> revision" % pname)
-> - =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 continue
-> -
-> - =A0 =A0 =A0 =A0 =A0 =A0 =A0 if "notrev" in parm:
-> - =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 srcrev =3D d.getVar('SRCREV=
-', 1)
-> - =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 if srcrev and parm["notrev"=
-] in srcrev:
-> - =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 bb.note("Pa=
-tch '%s' doesn't apply to
-> revision" % pname)
-> - =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 continue
-> + =A0 =A0 =A0 for patch in src_patches(d):
-> + =A0 =A0 =A0 =A0 =A0 =A0 =A0 _, _, local, _, _, parm =3D bb.decodeurl(pa=
-tch)
-> =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0if "patchdir" in parm:
-> =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0patchdir =3D parm["patchdi=
-r"]
-> @@ -132,12 +147,11 @@ python patch_do_patch() {
-> =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0else:
-> =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0patchset, resolver =3D cla=
-sses[patchdir]
-> =A0- =A0 =A0 =A0 =A0 =A0 =A0 =A0bb.note("Applying patch '%s' (%s)" % (pna=
-me,
-> oe.path.format_display(local, d)))
-> + =A0 =A0 =A0 =A0 =A0 =A0 =A0 bb.note("Applying patch '%s' (%s)" % (parm[=
-'patchname'],
-> oe.path.format_display(local, d)))
-> =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0try:
-> - =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 patchset.Import({"file":loc=
-al, "remote":url,
-> "strippath": striplevel}, True)
-> - =A0 =A0 =A0 =A0 =A0 =A0 =A0 except Exception:
-> - =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 import sys
-> - =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 raise bb.build.FuncFailed(s=
-tr(sys.exc_value))
-> + =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 patchset.Import({"file":loc=
-al, "strippath":
-> parm['striplevel']}, True)
-> + =A0 =A0 =A0 =A0 =A0 =A0 =A0 except Exception as exc:
-> + =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 bb.fatal(str(exc))
-> =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0resolver.Resolve()
-> =A0}
-> =A0patch_do_patch[vardepsexclude] =3D "DATE SRCDATE PATCHRESOLVE"
-> --
-> 1.7.8
->
->
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
+-- 
+1.7.2.5
 
-
-
---=20
-"Thou shalt not follow the NULL pointer, for chaos and madness await
-thee at its end"
 
 
