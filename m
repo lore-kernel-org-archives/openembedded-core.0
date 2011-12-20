@@ -1,40 +1,23 @@
-Received: from mail-ee0-f47.google.com ([74.125.83.47])
+Received: from mga09.intel.com ([134.134.136.24])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <martin.jansa@gmail.com>) id 1Rd2SP-0000H4-U5
+	(envelope-from <elizabeth.flanagan@intel.com>) id 1Rd2Ul-0000N1-4R
 	for openembedded-core@lists.openembedded.org;
-	Tue, 20 Dec 2011 17:22:26 +0100
-Received: by eeit10 with SMTP id t10so2734021eei.6
+	Tue, 20 Dec 2011 17:24:51 +0100
+Received: from mail-iy0-f180.google.com ([209.85.210.180])
+	by mga09.intel.com with ESMTP/TLS/RC4-SHA; 20 Dec 2011 08:17:23 -0800
+Received: by iazz13 with SMTP id z13so8350169iaz.25
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 20 Dec 2011 08:15:18 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
-	h=date:from:to:subject:message-id:references:mime-version
-	:content-type:content-disposition:in-reply-to:user-agent;
-	bh=YfovRj7xzkXvvDy5LQmfcKAVRH9JWc43VND1yNxFD4Y=;
-	b=EkK3vL340cF3v4cuf7CIu+3wYpqYme6fsUuR226K7INoGI1Qe4OZKcZL/vD0MMlGll
-	zPSRDzYR61EMxKO23+rqzwWTNQcLrrpU4uKcJ6o9WeJ/9Vp7SutR8iAVIvU+nG89wdjP
-	iQA1D6tP8ZwiOwwNp1oiJ0RcHqeuXv9Gc5els=
-Received: by 10.213.2.82 with SMTP id 18mr665675ebi.43.1324397718270;
-	Tue, 20 Dec 2011 08:15:18 -0800 (PST)
-Received: from localhost ([94.230.152.246])
-	by mx.google.com with ESMTPS id j20sm8457446eej.8.2011.12.20.08.15.15
-	(version=TLSv1/SSLv3 cipher=OTHER);
-	Tue, 20 Dec 2011 08:15:16 -0800 (PST)
-Date: Tue, 20 Dec 2011 17:15:04 +0100
-From: Martin Jansa <martin.jansa@gmail.com>
+	Tue, 20 Dec 2011 08:17:23 -0800 (PST)
+MIME-Version: 1.0
+Received: by 10.50.181.161 with SMTP id dx1mr2786817igc.90.1324397842841; Tue,
+	20 Dec 2011 08:17:22 -0800 (PST)
+Received: by 10.50.66.2 with HTTP; Tue, 20 Dec 2011 08:17:22 -0800 (PST)
+Date: Tue, 20 Dec 2011 08:17:22 -0800
+Message-ID: <CAPhnLPByP_W+1La9svcgud_yc9WAsP3U9_oCVBGiarZu_YKkdA@mail.gmail.com>
+From: "Flanagan, Elizabeth" <elizabeth.flanagan@intel.com>
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Message-ID: <20111220161504.GA12791@jama.jama.net>
-References: <1323851280-6342-1-git-send-email-raj.khem@gmail.com>
-	<1323856946.25491.31.camel@ted>
-	<CAMKF1sqLHP1cWfBswrqnwhAPj4Tt3XCV8GpQv7Dm71PX3F=rAw@mail.gmail.com>
-	<1323951419.4568.17.camel@ted>
-	<20111216212424.GA28832@sakrah.homelinux.org>
-	<20111220090753.GC3946@jama.jama.net>
-	<20111220093733.GD3946@jama.jama.net>
-MIME-Version: 1.0
-In-Reply-To: <20111220093733.GD3946@jama.jama.net>
-User-Agent: Mutt/1.5.21 (2010-09-15)
-Subject: Re: [PATCH] gcc-4.6: Let G++ relocate gxx-include-dir when using --sysroot option
+Subject: [RFC] LICENSE Standards
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -49,292 +32,354 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 20 Dec 2011 16:22:26 -0000
-X-Groupsio-MsgNum: 14523
-Content-Type: multipart/signed; micalg=pgp-sha1;
-	protocol="application/pgp-signature"; boundary="Kj7319i9nmIyA2yE"
-Content-Disposition: inline
+X-List-Received-Date: Tue, 20 Dec 2011 16:24:52 -0000
+Content-Type: multipart/alternative; boundary=14dae9340399f6bf1104b4886676
 
---Kj7319i9nmIyA2yE
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+--14dae9340399f6bf1104b4886676
+Content-Type: text/plain; charset=windows-1252
 Content-Transfer-Encoding: quoted-printable
 
-On Tue, Dec 20, 2011 at 10:37:34AM +0100, Martin Jansa wrote:
-> On Tue, Dec 20, 2011 at 10:07:56AM +0100, Martin Jansa wrote:
-> > On Fri, Dec 16, 2011 at 01:24:24PM -0800, Khem Raj wrote:
-> > > On (15/12/11 12:16), Richard Purdie wrote:
-> > > > On Wed, 2011-12-14 at 07:49 -0800, Khem Raj wrote:
-> > > > > On Wed, Dec 14, 2011 at 2:02 AM, Richard Purdie
-> > > > > <richard.purdie@linuxfoundation.org> wrote:
-> > > > > > Hi Khem,
-> > > > > >
-> > > > > > What's puzzling me is that reading through this patch, we alrea=
-dy do
-> > > > > > what this patch is doing?
-> > > > > >
-> > > > > > Where is the difference which this patch is fixing?
-> > > > > >
-> > > > >=20
-> > > > > this does essentially what we were doing earlier but this one is =
-going
-> > > > > to go upstream
-> > > >=20
-> > > > Yes, that is good and I'm fine with the patch for that reason.
-> > >=20
-> > > there is additional detail that this patch does which is that in order
-> > > to make gxx-includes to be sysroot relative --with-cxx-include option=
- to
-> > > be also specified relative to initials sysroot during configure time
-> > >=20
-> > > e.g. --with-sysroot=3DSYSROOT --with-gxx-include-dir=3DSYSROOT/usr/in=
-clude/c++
-> > >=20
-> > > since the original behavior of --with-gxx-include-dir is to specify an
-> > > absolute path that is preserved whereas the patch we have in OE reloc=
-ates
-> > > gxx-include-dir regardless.Therefore in order to adopt this patch we =
-have
-> > > to use the above syntax which was original syntax before the above pa=
-tch
-> > > and would make up forward compatible provided this patch makes into g=
-cc
-> > > upstream.
-> > >=20
-> > > >=20
-> > > > >=20
-> > > > > > I appreciate that patch adds in the prefix to the --with-gxx-in=
-clude-dir
-> > > > > > option but it then removes it again during configure so this sh=
-ould be a
-> > > > > > null op. Both versions of the patch set the "1" bit in gcc/cppd=
-efault.c.
-> > > > > >
-> > > > > > So where is the change this patch makes which fixes things?
-> > > > >=20
-> > > > > changing --with-gxx-include-dir to be within sysroot triggers the
-> > > > > relocation code.
-> > > >=20
-> > > > But we were already triggering the relocation code?
-> > > >=20
-> > > > I can't see *any* functionality difference between these, they shou=
-ld
-> > > > both just give the same result as far as I can tell...
-> > > >=20
-> > > same functionality but with a different usage see above
-> > >=20
-> > > > Claiming it fixes things is therefore concerning me.
-> > >=20
-> > > correct it does not fix anything actually that I know was broken befo=
-re
-> > > Thinking out loud given that with-gxx-include-dir is absolute in natu=
-re it could be
-> > > the original patch we have, does not work in some weird case since the
-> > > absolute path we use is still /usr/include/c++ during configure time.
-> > > although I would expect that the include poisoning warning will repor=
-t it if that
-> > > happened
-> > >=20
-> > > -Khem
-> >=20
-> > Is there some pending patch for meta-oe/gcc?
-> >=20
-> > I have some issues while rebuilding toolchain from scratch after this
-> > patchset:
-> >=20
-> > armv7a:
-> > | /OE/shr-core/tmp-eglibc/work-shared/gcc-4.6.2+svnr181430-r23/gcc-4_6-=
-branch/gcc/rtl.h:2163:12: note: expected 'enum machine_mode' but argument i=
-s of type 'int'
-> > | gcc -c   -isystem/OE/shr-core/tmp-eglibc/sysroots/x86_64-linux/usr/in=
-clude -O2 -pipe -DIN_GCC -DCROSS_DIRECTORY_STRUCTURE  -W -Wall -Wwrite-stri=
-ngs -Wcast-qual -Wstrict-prototypes -Wmissing-prototypes -Wmissing-format-a=
-ttribute -pedantic -Wno-long-long -Wno-variadic-macros -Wno-overlength-stri=
-ngs -Wold-style-definition -Wc++-compat   -DHAVE_CONFIG_H -I. -I. -I/OE/shr=
--core/tmp-eglibc/work-shared/gcc-4.6.2+svnr181430-r23/gcc-4_6-branch/gcc -I=
-/OE/shr-core/tmp-eglibc/work-shared/gcc-4.6.2+svnr181430-r23/gcc-4_6-branch=
-/gcc/. -I/OE/shr-core/tmp-eglibc/work-shared/gcc-4.6.2+svnr181430-r23/gcc-4=
-_6-branch/gcc/../include -I/OE/shr-core/tmp-eglibc/work-shared/gcc-4.6.2+sv=
-nr181430-r23/gcc-4_6-branch/gcc/../libcpp/include  -I/OE/shr-core/tmp-eglib=
-c/work-shared/gcc-4.6.2+svnr181430-r23/gcc-4_6-branch/gcc/../libdecnumber -=
-I/OE/shr-core/tmp-eglibc/work-shared/gcc-4.6.2+svnr181430-r23/gcc-4_6-branc=
-h/gcc/../libdecnumber/dpd -I../libdecnumber    /OE/shr-core/tmp-eglibc/work=
--shared/gcc-4.6.2+svnr181430-r23/gcc-4_6-branch/gcc/calls.c -o calls.o
-> > | /OE/shr-core/tmp-eglibc/work-shared/gcc-4.6.2+svnr181430-r23/gcc-4_6-=
-branch/gcc/calls.c: In function 'initialize_argument_information':
-> > | /OE/shr-core/tmp-eglibc/work-shared/gcc-4.6.2+svnr181430-r23/gcc-4_6-=
-branch/gcc/calls.c:1089:9: error: 'STACK_CHECK_MAX_VAR_SIZE' undeclared (fi=
-rst use in this function)
-> > | /OE/shr-core/tmp-eglibc/work-shared/gcc-4.6.2+svnr181430-r23/gcc-4_6-=
-branch/gcc/calls.c:1089:9: note: each undeclared identifier is reported onl=
-y once for each function it appears in
-> > | make[2]: *** [calls.o] Error 1
-> >=20
-> > armv4t:
-> > | gcc -c   -isystem/OE/shr-core/tmp-eglibc/sysroots/x86_64-linux/usr/in=
-clude -O2 -pipe -DIN_GCC -DCROSS_DIRECTORY_STRUCTURE  -W -Wall -Wwrite-stri=
-ngs -Wcast-qual -Wstrict-prototypes -Wmissing-prototypes -Wmissing-format-a=
-ttribute -pedantic -Wno-long-long -Wno-variadic-macros -Wno-overlength-stri=
-ngs -Wold-style-definition -Wc++-compat   -DHAVE_CONFIG_H -I. -I. -I/OE/shr=
--core/tmp-eglibc/work-shared/gcc-4.6.2+svnr181430-r23/gcc-4_6-branch/gcc -I=
-/OE/shr-core/tmp-eglibc/work-shared/gcc-4.6.2+svnr181430-r23/gcc-4_6-branch=
-/gcc/. -I/OE/shr-core/tmp-eglibc/work-shared/gcc-4.6.2+svnr181430-r23/gcc-4=
-_6-branch/gcc/../include -I/OE/shr-core/tmp-eglibc/work-shared/gcc-4.6.2+sv=
-nr181430-r23/gcc-4_6-branch/gcc/../libcpp/include  -I/OE/shr-core/tmp-eglib=
-c/work-shared/gcc-4.6.2+svnr181430-r23/gcc-4_6-branch/gcc/../libdecnumber -=
-I/OE/shr-core/tmp-eglibc/work-shared/gcc-4.6.2+svnr181430-r23/gcc-4_6-branc=
-h/gcc/../libdecnumber/dpd -I../libdecnumber    insn-output.c -o insn-output=
-=2Eo
-> > | In file included from insn-emit.c:23:0:
-> > | /OE/shr-core/tmp-eglibc/work-shared/gcc-4.6.2+svnr181430-r23/gcc-4_6-=
-branch/gcc/config/arm/constraints.md: In function 'satisfies_constraint_Uu':
-> > | /OE/shr-core/tmp-eglibc/work-shared/gcc-4.6.2+svnr181430-r23/gcc-4_6-=
-branch/gcc/config/arm/constraints.md:353:6: warning: implicit declaration o=
-f function 'thumb1_legitimate_address_p' [-Wimplicit-function-declaration]
-> > | insn-opinit.c: In function 'init_all_optabs':
-> > | insn-opinit.c:25:5: warning: implicit declaration of function 'set_wi=
-dening_optab_handler' [-Wimplicit-function-declaration]
-> > | insn-opinit.c:30:7: error: 'TARGET_IDIV' undeclared (first use in thi=
-s function)
-> > | insn-opinit.c:30:7: note: each undeclared identifier is reported only=
- once for each function it appears in
-> > | insn-opinit.c:813:32: error: 'vec_load_lanes_optab' undeclared (first=
- use in this function)
-> > | insn-opinit.c:833:32: error: 'vec_store_lanes_optab' undeclared (firs=
-t use in this function)
-> > | insn-opinit.c:1009:24: error: 'vec_widen_sshiftl_lo_optab' undeclared=
- (first use in this function)
-> > | insn-opinit.c:1011:24: error: 'vec_widen_ushiftl_lo_optab' undeclared=
- (first use in this function)
-> > | insn-opinit.c:1021:24: error: 'vec_widen_sshiftl_hi_optab' undeclared=
- (first use in this function)
-> > | insn-opinit.c:1023:24: error: 'vec_widen_ushiftl_hi_optab' undeclared=
- (first use in this function)
-> > | make[2]: *** [insn-opinit.o] Error 1
-> > | make[2]: *** Waiting for unfinished jobs....
->=20
-> and different one for armv5te too:
-> | GCC -DCROSS_DIRECTORY_STRUCTURE  -W -Wall -Wwrite-strings -Wcast-qual -=
-Wstrict-prototypes -Wmissing-prototypes -Wmissing-format-attribute -pedanti=
-c -Wno-long-long -Wno-variadic-macros -Wno-overlength-strings -Wold-style-d=
-efinition -Wc++-compat   -DHAVE_CONFIG_H -I. -I. -I/OE/shr-core/tmp-eglibc/=
-work-shared/gcc-4.6.2+svnr181430-r23/gcc-4_6-branch/gcc -I/OE/shr-core/tmp-=
-eglibc/work-shared/gcc-4.6.2+svnr181430-r23/gcc-4_6-branch/gcc/. -I/OE/shr-=
-core/tmp-eglibc/work-shared/gcc-4.6.2+svnr181430-r23/gcc-4_6-branch/gcc/../=
-include -I/OE/shr-core/tmp-eglibc/work-shared/gcc-4.6.2+svnr181430-r23/gcc-=
-4_6-branch/gcc/../libcpp/include  -I/OE/shr-core/tmp-eglibc/work-shared/gcc=
--4.6.2+svnr181430-r23/gcc-4_6-branch/gcc/../libdecnumber -I/OE/shr-core/tmp=
--eglibc/work-shared/gcc-4.6.2+svnr181430-r23/gcc-4_6-branch/gcc/../libdecnu=
-mber/dpd -I../libdecnumber    /OE/shr-core/tmp-eglibc/work-shared/gcc-4.6.2=
-+svnr181430-r23/gcc-4_6-branch/gcc/cgraphbuild.c -o cgraphbuild.o
-> | /OE/shr-core/tmp-eglibc/work-shared/gcc-4.6.2+svnr181430-r23/gcc-4_6-br=
-anch/gcc/config/arm/arm.c: In function 'bounds_check':
-> | /OE/shr-core/tmp-eglibc/work-shared/gcc-4.6.2+svnr181430-r23/gcc-4_6-br=
-anch/gcc/config/arm/arm.c:9204:5: warning: format not a string literal and =
-no format arguments [-Wformat-security]
-> | /OE/shr-core/tmp-eglibc/work-shared/gcc-4.6.2+svnr181430-r23/gcc-4_6-br=
-anch/gcc/config/arm/arm.c: In function 'arm_print_operand':
-> | /OE/shr-core/tmp-eglibc/work-shared/gcc-4.6.2+svnr181430-r23/gcc-4_6-br=
-anch/gcc/config/arm/arm.c:16786:4: warning: format not a string literal and=
- no format arguments [-Wformat-security]
-> | /OE/shr-core/tmp-eglibc/work-shared/gcc-4.6.2+svnr181430-r23/gcc-4_6-br=
-anch/gcc/config/arm/arm.c: In function 'arm_init_neon_builtins':
-> | /OE/shr-core/tmp-eglibc/work-shared/gcc-4.6.2+svnr181430-r23/gcc-4_6-br=
-anch/gcc/config/arm/arm.c:19270:4: error: 'neon_struct_operand' undeclared =
-(first use in this function)
-> | /OE/shr-core/tmp-eglibc/work-shared/gcc-4.6.2+svnr181430-r23/gcc-4_6-br=
-anch/gcc/config/arm/arm.c:19270:4: note: each undeclared identifier is repo=
-rted only once for each function it appears in
-> | /OE/shr-core/tmp-eglibc/work-shared/gcc-4.6.2+svnr181430-r23/gcc-4_6-br=
-anch/gcc/config/arm/arm.c: At top level:
-> | /OE/shr-core/tmp-eglibc/work-shared/gcc-4.6.2+svnr181430-r23/gcc-4_6-br=
-anch/gcc/config/arm/arm.c:6753:1: warning: 'arm_legitimate_constant_p' defi=
-ned but not used [-Wunused-function]
-> | /OE/shr-core/tmp-eglibc/work-shared/gcc-4.6.2+svnr181430-r23/gcc-4_6-br=
-anch/gcc/config/arm/arm.c:22697:1: warning: 'arm_array_mode_supported_p' de=
-fined but not used [-Wunused-function]
-> | make[2]: *** [arm.o] Error 1
-> | make[2]: *** Waiting for unfinished jobs....
-> | rm gcov.pod cpp.pod gfdl.pod gcc.pod fsf-funding.pod
-> | make[2]: Leaving directory `/OE/shr-core/tmp-eglibc/work/armv5te-oe-lin=
-ux-gnueabi/gcc-cross-initial/4.6.2+svnr181430-r23/gcc-4_6-branch/build.x86_=
-64-linux.arm-oe-linux-gnueabi/gcc'
-> | make[1]: *** [all-gcc] Error 2
-> | make[1]: Leaving directory `/OE/shr-core/tmp-eglibc/work/armv5te-oe-lin=
-ux-gnueabi/gcc-cross-initial/4.6.2+svnr181430-r23/gcc-4_6-branch/build.x86_=
-64-linux.arm-oe-linux-gnueabi'
-> | make: *** [all] Error 2
+This email describes a suggested implementation of LICENSE
+functionality and standards that will correct some issues within the
+licensing infrastructure of OE-Core. It discusses a LICENSE standard,
+both for license names and operators within the field and touches on
+some issues with regards to how license.bbclass and other classes
+utilize LICENSE. It suggests a path forward in correcting those issues
+and finally, it describes future enhancements to the license
+functionality that will give more accurate manifests and make
+OE-Core's license functionality much more useful.
 
-without
-PARALLEL_MAKE=3D"-j4"
-BB_NUMBER_THREADS =3D "2"
-I've managed to build toolchain for one arch, but after switching MACHINE i=
-t fails again:
+Overview
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+I've identified a few known issues with how LICENSE is implemented and
+used, as well as standards issues:
 
-| Checking multilib configuration for libgcc...
-| Configuring in arm-oe-linux-gnueabi/libgcc
-| configure: loading cache ./config.cache
-| configure: error: `CC' has changed since the previous run:
-| configure:   former value:  ` /OE/shr-core/tmp/work/armv7a-vfp-neon-oe-li=
-nux-gnueabi/gcc-cross/4.6.2+svnr181430-r23/gcc-4_6-branch/build.x86_64-linu=
-x.arm-oe-linux-gnueabi/./gcc/xgcc -B/OE/shr-core/tmp/work/armv7a-vfp-neon-o=
-e-linux-gnueabi/gcc-cross/4.6.2+svnr181430-r23/gcc-4_6-branch/build.x86_64-=
-linux.arm-oe-linux-gnueabi/./gcc/ -march=3Darmv7-a -fno-tree-vectorize     =
- -mthumb-interwork -mfloat-abi=3Dsoftfp -mfpu=3Dneon -mtune=3Dcortex-a8 -is=
-ystem/OE/shr-core/tmp/sysroots/nokia900/usr/include -B/OE/shr-core/tmp/sysr=
-oots/x86_64-linux/usr/arm-oe-linux-gnueabi/bin/ -B/OE/shr-core/tmp/sysroots=
-/x86_64-linux/usr/arm-oe-linux-gnueabi/lib/ -isystem /OE/shr-core/tmp/sysro=
-ots/x86_64-linux/usr/arm-oe-linux-gnueabi/include -isystem /OE/shr-core/tmp=
-/sysroots/x86_64-linux/usr/arm-oe-linux-gnueabi/sys-include --sysroot=3D/OE=
-/shr-core/tmp/sysroots/nokia900  '
-| configure:   current value: ` /OE/shr-core/tmp/work/armv7a-vfp-neon-oe-li=
-nux-gnueabi/gcc-cross/4.6.2+svnr181430-r23/gcc-4_6-branch/build.x86_64-linu=
-x.arm-oe-linux-gnueabi/./gcc/xgcc -B/OE/shr-core/tmp/work/armv7a-vfp-neon-o=
-e-linux-gnueabi/gcc-cross/4.6.2+svnr181430-r23/gcc-4_6-branch/build.x86_64-=
-linux.arm-oe-linux-gnueabi/./gcc/ -march=3Darmv7-a -fno-tree-vectorize     =
- -mthumb-interwork -mfloat-abi=3Dsoftfp -mfpu=3Dneon -mtune=3Dcortex-a8 -is=
-ystem/OE/shr-core/tmp/sysroots/palmpre/usr/include -B/OE/shr-core/tmp/sysro=
-ots/x86_64-linux/usr/arm-oeERROR: Function 'do_compile' failed (see /OE/shr=
--core/tmp/work/armv7a-vfp-neon-oe-linux-gnueabi/gcc-cross/4.6.2+svnr181430-=
-r23/temp/log.do_compile.13936 for further information)
-| -linux-gnueabi/bin/ -B/OE/shr-core/tmp/sysroots/x86_64-linux/usr/arm-oe-l=
-inux-gnueabi/lib/ -isystem /OE/shr-core/tmp/sysroots/x86_64-linux/usr/arm-o=
-e-linux-gnueabi/include -isystem /OE/shr-core/tmp/sysroots/x86_64-linux/usr=
-/arm-oe-linux-gnueabi/sys-include --sysroot=3D/OE/shr-core/tmp/sysroots/pal=
-mpre  '
-| configure: error: in `/OE/shr-core/tmp/work/armv7a-vfp-neon-oe-linux-gnue=
-abi/gcc-cross/4.6.2+svnr181430-r23/gcc-4_6-branch/build.x86_64-linux.arm-oe=
--linux-gnueabi/arm-oe-linux-gnueabi/libgcc':
-| configure: error: changes in the environment can compromise the build
-| configure: error: run `make distclean' and/or `rm ./config.cache' and sta=
-rt over
-| make: *** [configure-target-libgcc] Error 1
-| + die 'oe_runmake failed'
-| + bbfatal 'oe_runmake failed'
-| + echo 'ERROR: oe_runmake failed'
-| ERROR: oe_runmake failed
-| + exit 1
-NOTE: package gcc-cross-4.6.2+svnr181430-r23: task do_compile: Failed
-ERROR: Task 131 (/OE/shr-core/openembedded-core/meta/recipes-devtools/gcc/g=
-cc-cross_4.6.bb, do_compile) failed with exit code '1'
+- Some LICENSE fields have non-versioned LICENSE values in which no
+meaning can actually be deduced from them. An example of this is
+references to GPL or LGPL without a version number. This currently
+throws a bb.warn.
 
-maybe it's because something was reused from work-shared?
+- A few LICENSE fields contain values for licenses that have no
+generic license text.
 
-Regards,
+- The LICENSE parser currently does not utilize operators. It grabs
+all licenses mentioned within the LICENSE field. The plan is to
+implement LICENSE priority, which will utilize field operators.
+However, there seems to be no definition around how operators are
+actually used nor does there exist an agreed upon standard.
 
---=20
-Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
+- A few LICENSE fields have unparsable values.
 
---Kj7319i9nmIyA2yE
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: Digital signature
+- In most cases, LICENSE is set for the recipe, however, a recipe that
+contains multiple packages, all of whom may have a distinct LICENSE,
+would throw an inaccurate LICENSE into the manifest. We've seen a few
+examples of LICENSE_<package_name>, but it is a rare occurrence.
 
------BEGIN PGP SIGNATURE-----
-Version: GnuPG v2.0.18 (GNU/Linux)
+- The LICENSE operands need to be dealt with through a license
+priority map. The plan is to implement this within the next few weeks.
 
-iEYEARECAAYFAk7wtIgACgkQN1Ujt2V2gBzVvwCeOStKhErsd3nMQkoRRcTKqFvQ
-vHAAn2jIhif4pWe43CIw1Fy479xtK0Sa
-=MmQI
------END PGP SIGNATURE-----
+- There are currently two sets of names used within recipes. One, is
+an undocumented but commonly used naming convention. The other is a
+standard created by the SPDX project. The current OE-Core license
+functionality does support compatibility with the OE naming
+conventions so end users do not have to change their common LICENSE
+definitions, however, a documented standard should be implemented and
+a plan forward created.
 
---Kj7319i9nmIyA2yE--
+
+Proposed Solutions
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+
+Decide on a standard.
+------------------------------
+
+I would suggest that new recipes follow the SPDX naming convention
+with support for the OE convention maintained for a period of time (my
+suggestions is 24 months to enable layer maintainers to update with
+warnings turned on if this RFC is adopted). LICENSE fields not
+following SPDX should be corrected as they are audited.
+
+Adopting SPDX will do a few things for us:
+
+- This will allow us to support an open source project dedicated to
+license standards, allowing us to leverage their work and expertise.
+
+- It will also allow us to support recipes that use (or are planning
+to use) the SPDX standard .
+
+- It gets us out of the business of maintaining a licensing standard.
+
+While we could always spend time hashing out the OE standard (and from
+my searching, I've not seen it documented anywhere, other than a few
+places via email archives), I feel this is the wrong path.
+
+The requirements for this should be:
+
+- Any work done with LICENSES within OE-Core or Yocto must maintain
+backwards compatibility with the OE naming convention. If SPDX is decided
+up,
+we should maintain backwards compatibility for a period of time. My
+suggested timeline for removal of that compatibility is 24 months.
+
+LICENSE audit
+----------------------
+Some LICENSE fields are either unparsable, have no version when one is
+required (GPL/GPL-2.0), or are factually wrong. I would suggest we
+spend time auditing these fields over the next few months using the
+following guidelines
+
+- All LICENSE fields must be ast parsable.
+
+- All LICENSE fields should be updated to whatever standard is decided
+upon and documented, with mapping for other conventions for a period
+of time
+
+- All LICENSE fields should support
+
+- If a LICENSE field references a non-existent common-license, we
+either add the common-license or ask the author if we may be permitted
+to license under a generic (see less for an example).
+
+- We should actually split common-licenses into spdx-licenses and
+alternative-licenses. This will allow us to pull license text from
+SPDX and maintain spdx-licenses as a pure form of the provided
+licenses. There is already a bug opened with the SPDX group to provide
+some sore of repository for this. Additional licenses that are non-OSI
+compliant (like Adobe's free license) should be moved to
+alternative-licenses. Licenses that are OSI compliant should be
+upstreamed to SPDX.
+
+For licenses that are non-OSI compliant, I would suggest we use the SPDX
+format:
+
+Where there is a specified version of the license:
+<LICENSE_ABBREVIATION>-<VERSION>
+Example: AFL-1.3
+
+Where no specified version of the license exists:
+<LICENSE_ABBREVIATION>
+Example: Adobe
+
+Field Operators
+----------------------
+The LICENSE parser currently does not act upon Field Operators. It
+grabs all licenses mentioned within the LICENSE field. The plan is to
+implement LICENSE priority, which will utilize field these operators
+and decides on the correct license based on priority. For example, if
+we were to weight BSD as a higher priority than GPL-2.0, when the
+parser hit "BSD | GPL-2.0" it would use BSD for the package. However,
+there seems to be no clear definition around how field operators are
+used.
+
+I would suggest the following:
+
+& : This package/recipe includes multiple files with different
+licenses. These licenses must be included together
+
+| : This package/recipe is dual licensed.
+
++ : This package/recipe has a voluntary upgrade path
+
+() : Used to group licenses decision parameters.
+
+Examples:
+
+LICENSE =3D =93GPL-2.0+=94
+Meaning: This recipe may be licensed as GPL-2.0 or any greater license
+
+LICENSE =3D =93(BSD & LGPL-2.0) | (GPL-2.0+ & LGPL-2.0)=94
+LICENSE =3D =93(BSD | GPL-2.0+) & LGPL-2.0=94
+
+Meaning: This recipe may be licensed as either BSD and LGPL-2.0 or
+GPL-2.0 or greater and LGPL-2.0. The parser should support both ways
+of writing this.
+
+I've seen reference to "/" and "&&" and ",". I don't see a purpose for thes=
+e
+operators and short of a clear need, I would suggest their removal.
+
+Recipe-level Licensing
+-------------------------------
+LICENSE is generally set for the recipe, however, a recipe that
+contains multiple packages, all of whom may have a distinct LICENSE,
+would throw an inaccurate LICENSE. We've seen a few examples of
+LICENSE_${PN}, but it is a rare occurrence. During the audit, I would
+suggest that:
+
+- Recipes be corrected, if need.
+- license and emit_pkg_data and anything that utilizes LICENSE be
+fixed to take package level LICENSE_${PN} into account.
+
+--14dae9340399f6bf1104b4886676
+Content-Type: text/html; charset=windows-1252
+Content-Transfer-Encoding: quoted-printable
+
+This email describes a suggested implementation of LICENSE<br>
+functionality and standards that will correct some issues within the<br>
+licensing infrastructure of OE-Core. It discusses a LICENSE standard,<br>
+both for license names and operators within the field and touches on<br>
+some issues with regards to how license.bbclass and other classes<br>
+utilize LICENSE. It suggests a path forward in correcting those issues<br>
+and finally, it describes future enhancements to the license<br>
+functionality that will give more accurate manifests and make<br>
+OE-Core&#39;s license functionality much more useful.<br>
+<br>
+Overview<br>
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D<br>
+I&#39;ve identified a few known issues with how LICENSE is implemented and<=
+br>
+used, as well as standards issues:<br>
+<br>
+- Some LICENSE fields have non-versioned LICENSE values in which no<br>
+meaning can actually be deduced from them. An example of this is<br>
+references to GPL or LGPL without a version number. This currently<br>
+throws a bb.warn.<br>
+<br>- A few LICENSE fields contain values for licenses that have no<br>
+generic license text.<br>
+<br>- The LICENSE parser currently does not utilize operators. It grabs<br>
+all licenses mentioned within the LICENSE field. The plan is to<br>
+implement LICENSE priority, which will utilize field operators.<br>
+However, there seems to be no definition around how operators are<br>
+actually used nor does there exist an agreed upon standard.<br>
+<br>- A few LICENSE fields have unparsable values.<br>
+<br>- In most cases, LICENSE is set for the recipe, however, a recipe that<=
+br>
+contains multiple packages, all of whom may have a distinct LICENSE,<br>
+would throw an inaccurate LICENSE into the manifest. We&#39;ve seen a few<b=
+r>
+examples of LICENSE_&lt;package_name&gt;, but it is a rare occurrence.<br>
+<br>- The LICENSE operands need to be dealt with through a license<br>
+priority map. The plan is to implement this within the next few weeks.<br>
+<br>- There are currently two sets of names used within recipes. One, is<br=
+>
+an undocumented but commonly used naming convention. The other is a<br>
+standard created by the SPDX project. The current OE-Core license<br>
+functionality does support compatibility with the OE naming<br>
+conventions so end users do not have to change their common LICENSE<br>
+definitions, however, a documented standard should be implemented and<br>
+a plan forward created.<br>
+<br>
+<br>
+Proposed Solutions<br>
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D<br>
+<br>
+Decide on a standard.<br>
+------------------------------<div id=3D":11v"><br>
+I would suggest that new recipes follow the SPDX naming convention<br>
+with support for the OE convention maintained for a period of time (my<br>
+suggestions is 24 months to enable layer maintainers to update with<br>
+warnings turned on if this RFC is adopted). LICENSE fields not<br>
+following SPDX should be corrected as they are audited.<br>
+<br>
+Adopting SPDX will do a few things for us:<br>
+<br>
+- This will allow us to support an open source project dedicated to<br>
+license standards, allowing us to leverage their work and expertise.<br>
+<br>- It will also allow us to support recipes that use (or are planning<br=
+>
+to use) the SPDX standard .<br>
+<br>- It gets us out of the business of maintaining a licensing standard.<b=
+r>
+<br>
+While we could always spend time hashing out the OE standard (and from<br>
+my searching, I&#39;ve not seen it documented anywhere, other than a few<br=
+>
+places via email archives), I feel this is the wrong path.<br>
+<br>
+The requirements for this should be:<br><br>
+- Any work done with LICENSES within OE-Core or Yocto must maintain<br>
+backwards compatibility with the OE naming convention. If SPDX is decided u=
+p,<br>
+we should maintain backwards compatibility for a period of time. My<br>
+suggested timeline for removal of that compatibility is 24 months.<br>
+<br>
+LICENSE audit<br>
+----------------------<br>
+Some LICENSE fields are either unparsable, have no version when one is<br>
+required (GPL/GPL-2.0), or are factually wrong. I would suggest we<br>
+spend time auditing these fields over the next few months using the<br>
+following guidelines<br>
+<br>
+- All LICENSE fields must be ast parsable.<br>
+<br>- All LICENSE fields should be updated to whatever standard is decided<=
+br>
+upon and documented, with mapping for other conventions for a period<br>
+of time<br>
+<br>- All LICENSE fields should support<br>
+<br>- If a LICENSE field references a non-existent common-license, we<br>
+either add the common-license or ask the author if we may be permitted<br>
+to license under a generic (see less for an example).<br>
+<br>- We should actually split common-licenses into spdx-licenses and<br>
+alternative-licenses. This will allow us to pull license text from<br>
+SPDX and maintain spdx-licenses as a pure form of the provided<br>
+licenses. There is already a bug opened with the SPDX group to provide<br>
+some sore of repository for this. Additional licenses that are non-OSI<br>
+compliant (like Adobe&#39;s free license) should be moved to<br>
+alternative-licenses. Licenses that are OSI compliant should be<br>
+upstreamed to SPDX.<br>
+<br>
+For licenses that are non-OSI compliant, I would suggest we use the SPDX fo=
+rmat:<br>
+<br>
+Where there is a specified version of the license:<br>
+&lt;LICENSE_ABBREVIATION&gt;-&lt;VERSION&gt;<br>
+Example: AFL-1.3<br>
+<br>
+Where no specified version of the license exists:<br>
+&lt;LICENSE_ABBREVIATION&gt;<br>
+Example: Adobe<br>
+<br>
+Field Operators<br>
+----------------------<br>
+The LICENSE parser currently does not act upon Field Operators. It<br>
+grabs all licenses mentioned within the LICENSE field. The plan is to<br>
+implement LICENSE priority, which will utilize field these operators<br>
+and decides on the correct license based on priority. For example, if<br>
+we were to weight BSD as a higher priority than GPL-2.0, when the<br>
+parser hit &quot;BSD | GPL-2.0&quot; it would use BSD for the package. Howe=
+ver,<br>
+there seems to be no clear definition around how field operators are<br>
+used.<br>
+<br>
+I would suggest the following:<br>
+<br>
+&amp; : This package/recipe includes multiple files with different<br>
+licenses. These licenses must be included together<br>
+<br>
+| : This package/recipe is dual licensed.<br>
+<br>
++ : This package/recipe has a voluntary upgrade path<br>
+<br>
+() : Used to group licenses decision parameters.<br>
+<br>
+Examples:<br>
+<br>
+LICENSE =3D =93GPL-2.0+=94<br>
+Meaning: This recipe may be licensed as GPL-2.0 or any greater license<br>
+<br>
+LICENSE =3D =93(BSD &amp; LGPL-2.0) | (GPL-2.0+ &amp; LGPL-2.0)=94<br>
+LICENSE =3D =93(BSD | GPL-2.0+) &amp; LGPL-2.0=94<br>
+<br>
+Meaning: This recipe may be licensed as either BSD and LGPL-2.0 or<br>
+GPL-2.0 or greater and LGPL-2.0. The parser should support both ways<br>
+of writing this.<br>
+<br>
+I&#39;ve seen reference to &quot;/&quot; and &quot;&amp;&amp;&quot; and &qu=
+ot;,&quot;. I don&#39;t see a purpose for these<br>
+operators and short of a clear need, I would suggest their removal.<br>
+<br>
+Recipe-level Licensing<br>
+-------------------------------<br>
+LICENSE is generally set for the recipe, however, a recipe that<br>
+contains multiple packages, all of whom may have a distinct LICENSE,<br>
+would throw an inaccurate LICENSE. We&#39;ve seen a few examples of<br>
+LICENSE_${PN}, but it is a rare occurrence. During the audit, I would<br>
+suggest that:<br>
+<br>
+- Recipes be corrected, if need.<br>
+- license and emit_pkg_data and anything that utilizes LICENSE be<br>
+fixed to take package level LICENSE_${PN} into account.<div class=3D"yj6qo =
+ajU"><div id=3D":133" class=3D"ajR" tabindex=3D"0"><img class=3D"ajT" src=
+=3D"images/cleardot.gif"></div></div></div>
+
+--14dae9340399f6bf1104b4886676--
