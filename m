@@ -1,25 +1,29 @@
-Received: from mga02.intel.com ([134.134.136.20])
+Received: from mail-lpp01m010-f47.google.com ([209.85.215.47])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <josh@linux.intel.com>) id 1RclWy-0001KA-1A
+	(envelope-from <raj.khem@gmail.com>) id 1Rco5K-0005gH-3J
 	for openembedded-core@lists.openembedded.org;
-	Mon, 19 Dec 2011 23:18:00 +0100
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-	by orsmga101.jf.intel.com with ESMTP; 19 Dec 2011 14:10:51 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.67,352,1309762800"; d="scan'208";a="88245203"
-Received: from rmoore1-desk5.amr.corp.intel.com (HELO shamshir.jf.intel.com)
-	([10.7.199.156])
-	by orsmga001.jf.intel.com with ESMTP; 19 Dec 2011 14:10:51 -0800
-From: Joshua Lock <josh@linux.intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Mon, 19 Dec 2011 14:10:48 -0800
-Message-Id: <0b8504ef2820aec814e8fc90d361a32762333665.1324332440.git.josh@linux.intel.com>
-X-Mailer: git-send-email 1.7.7.4
-In-Reply-To: <cover.1324332440.git.josh@linux.intel.com>
-References: <cover.1324332440.git.josh@linux.intel.com>
-In-Reply-To: <cover.1324332440.git.josh@linux.intel.com>
-References: <cover.1324332440.git.josh@linux.intel.com>
-Subject: [PATCH 10/10] matchbox-session-sato: clarify LICENSE in GPLv2.0
+	Tue, 20 Dec 2011 02:01:38 +0100
+Received: by lami14 with SMTP id i14so2338194lam.6
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 19 Dec 2011 16:54:34 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:content-type; bh=RPdZrSlQpBHs0TFtBVvo+rvK/A2wBnbT2e3j5WwRMAM=;
+	b=rGCvrxosth+4wZ+RKlE5n/DuOii+4E7mH7yMGa5lFlkP8b8yd9uvFCG8JQpS5fVsfV
+	OemYmUZM3T31PAXsl5OLgq7qEoVAs9tTpoP2FhmJxCi6rQZivcVHi7J9yrn9tJmsRWO5
+	e5xroPO6GW4PMkeA5ReTiauWbdX8Q0IIrEzB0=
+Received: by 10.152.128.103 with SMTP id nn7mr18026649lab.48.1324342474595;
+	Mon, 19 Dec 2011 16:54:34 -0800 (PST)
+MIME-Version: 1.0
+Received: by 10.152.36.198 with HTTP; Mon, 19 Dec 2011 16:54:03 -0800 (PST)
+In-Reply-To: <1324297631-11187-1-git-send-email-b19537@freescale.com>
+References: <1324297631-11187-1-git-send-email-b19537@freescale.com>
+From: Khem Raj <raj.khem@gmail.com>
+Date: Mon, 19 Dec 2011 16:54:03 -0800
+Message-ID: <CAMKF1so+P9PfwA4BwdQewXKAbbfH9Hw1H=du_vzQN+G29ty6AQ@mail.gmail.com>
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH oe-core v2] valgrind: remove COMPATIBLE_HOST to extend the supported arch
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -34,28 +38,15 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 19 Dec 2011 22:18:00 -0000
+X-List-Received-Date: Tue, 20 Dec 2011 01:01:38 -0000
+Content-Type: text/plain; charset=UTF-8
 
-Signed-off-by: Joshua Lock <josh@linux.intel.com>
----
- .../matchbox-sato/matchbox-session-sato_0.1.bb     |    2 +-
- 1 files changed, 1 insertions(+), 1 deletions(-)
+On Mon, Dec 19, 2011 at 4:27 AM,  <b19537@freescale.com> wrote:
+>
+> -COMPATIBLE_HOST = '(i.86|x86_64).*-linux'
+> -
 
-diff --git a/meta/recipes-sato/matchbox-sato/matchbox-session-sato_0.1.bb b/meta/recipes-sato/matchbox-sato/matchbox-session-sato_0.1.bb
-index c738584..10fd5b4 100644
---- a/meta/recipes-sato/matchbox-sato/matchbox-session-sato_0.1.bb
-+++ b/meta/recipes-sato/matchbox-sato/matchbox-session-sato_0.1.bb
-@@ -2,7 +2,7 @@ DESCRIPTION = "Custom MB session files for poky"
- HOMEPAGE = "http://www.matchbox-project.org/"
- BUGTRACKER = "http://bugzilla.openedhand.com/"
- 
--LICENSE = "GPL"
-+LICENSE = "GPLv2.0+"
- LIC_FILES_CHKSUM = "file://session;endline=3;md5=f8a5c5b9c279e52dc094d10e11c2be63"
- 
- # Distro can override initscripts provider
--- 
-1.7.7.4
-
+and did you test it on the newly enabled ones. e.g. mips ?
+does it work for you on mips
 
 
