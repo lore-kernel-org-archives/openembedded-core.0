@@ -1,35 +1,35 @@
 Received: from mail-yw0-f47.google.com ([209.85.213.47])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <otavio.salvador@gmail.com>) id 1Rd56N-0005Cd-Jn
+	(envelope-from <otavio.salvador@gmail.com>) id 1Rd56R-0005Cd-Rw
 	for openembedded-core@lists.openembedded.org;
-	Tue, 20 Dec 2011 20:11:52 +0100
+	Tue, 20 Dec 2011 20:11:56 +0100
 Received: by mail-yw0-f47.google.com with SMTP id o47so4599160yho.6
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 20 Dec 2011 11:04:49 -0800 (PST)
+	Tue, 20 Dec 2011 11:04:52 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
 	h=sender:from:to:subject:date:message-id:x-mailer:in-reply-to
 	:references:in-reply-to:references;
-	bh=h+4H2U7PP1B1mICKONXQGzyyMDhzKNlL4kQkL8I0Ijw=;
-	b=o6SiiuGyub1PsVugCqEHvYijLvZVFPNO5oKjAYVRpV5I+AIj3BuEZ/ltPqQLHt885E
-	H8yEzAi1JK2WtQt+iuwXWPoj16Vm4ufpl80gYY/AeJfjLjtjpVC6RG11L56E8h8CrxR5
-	mMSYQ2Fv7/riUyKTYZ9mdTahylACYByaamYp8=
-Received: by 10.236.149.243 with SMTP id x79mr5912750yhj.92.1324407889612;
-	Tue, 20 Dec 2011 11:04:49 -0800 (PST)
+	bh=iuDRv63/UKl6hRdNoFgT/sGYw2i/mbhbq7GOO8YVkSc=;
+	b=NVhZ+vlmk/FT7Ya32EGpStVclv3KiaXeIPYJWzvTzqStWo/2eEyshxanJSbwBcEMkh
+	eHZyP77gD1wpCyfURaLYzh6pm9Va1QXLXaFyB8uN9mGtyRaWHDNJc7ztgz3u5SQ7AoUr
+	20OqFGIsdSjE4X+4+HKVrh+lAnqecJ/B6FvUs=
+Received: by 10.236.149.243 with SMTP id x79mr5913115yhj.92.1324407892637;
+	Tue, 20 Dec 2011 11:04:52 -0800 (PST)
 Received: from localhost.localdomain ([189.114.111.55])
-	by mx.google.com with ESMTPS id o50sm4771379yhl.9.2011.12.20.11.04.46
+	by mx.google.com with ESMTPS id o50sm4771379yhl.9.2011.12.20.11.04.49
 	(version=TLSv1/SSLv3 cipher=OTHER);
-	Tue, 20 Dec 2011 11:04:48 -0800 (PST)
+	Tue, 20 Dec 2011 11:04:51 -0800 (PST)
 Sender: Otavio Salvador <otavio.salvador@gmail.com>
 From: Otavio Salvador <otavio@ossystems.com.br>
 To: openembedded-core@lists.openembedded.org
-Date: Tue, 20 Dec 2011 19:04:11 +0000
-Message-Id: <90fd35195c25adfe591493ef5863f0b0014d944e.1324407759.git.otavio@ossystems.com.br>
+Date: Tue, 20 Dec 2011 19:04:12 +0000
+Message-Id: <9b350145656d9562d797811283eb5993dc054926.1324407759.git.otavio@ossystems.com.br>
 X-Mailer: git-send-email 1.7.2.5
 In-Reply-To: <cover.1324407759.git.otavio@ossystems.com.br>
 References: <cover.1324407759.git.otavio@ossystems.com.br>
 In-Reply-To: <cover.1324407759.git.otavio@ossystems.com.br>
 References: <cover.1324407759.git.otavio@ossystems.com.br>
-Subject: [PATCH 5/9] udev: skip mounting /dev on tmpfs if it is on devtmpfs
+Subject: [PATCH 6/9] udev: improve udev-cache robustness
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -44,36 +44,150 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 20 Dec 2011 19:11:52 -0000
+X-List-Received-Date: Tue, 20 Dec 2011 19:11:59 -0000
+
+ * allow udev-cache to be disabled at runtime (using
+   /etc/default/udev-cache);
+
+ * make cache invalidated if kernel, bootparams or device list
+   changes;
 
 Signed-off-by: Otavio Salvador <otavio@ossystems.com.br>
 ---
- meta/recipes-core/udev/udev/init   |    2 +-
- meta/recipes-core/udev/udev_164.bb |    2 +-
- 2 files changed, 2 insertions(+), 2 deletions(-)
+ meta/recipes-core/udev/udev.inc                |   11 ++++++++++-
+ meta/recipes-core/udev/udev/init               |   18 +++++++++++++++---
+ meta/recipes-core/udev/udev/udev-cache         |   23 ++++++++++++++++++-----
+ meta/recipes-core/udev/udev/udev-cache.default |    4 ++++
+ meta/recipes-core/udev/udev_164.bb             |    2 +-
+ 5 files changed, 48 insertions(+), 10 deletions(-)
+ create mode 100644 meta/recipes-core/udev/udev/udev-cache.default
 
+diff --git a/meta/recipes-core/udev/udev.inc b/meta/recipes-core/udev/udev.inc
+index eac7903..7b6ed64 100644
+--- a/meta/recipes-core/udev/udev.inc
++++ b/meta/recipes-core/udev/udev.inc
+@@ -25,6 +25,7 @@ SRC_URI = "${KERNELORG_MIRROR}/linux/utils/kernel/hotplug/udev-${PV}.tar.gz \
+            file://network.sh \
+            file://local.rules \
+            file://udev-cache \
++           file://udev-cache.default \
+            file://init"
+ 
+ inherit autotools pkgconfig update-rc.d
+@@ -56,7 +57,7 @@ FILES_libgudev = "${base_libdir}/libgudev*.so.* ${libdir}/libgudev*.so.*"
+ FILES_libgudev-dbg = "${base_libdir}/.debug/libgudev*.so.* ${libdir}/.debug/libgudev*.so.*"
+ FILES_libgudev-dev = "${includedir}/gudev* ${libdir}/libgudev*.so ${libdir}/libgudev*.la \
+                      ${libdir}/libgudev*.a ${libdir}/pkgconfig/gudev*.pc"
+-FILES_udev-cache = "${sysconfdir}/init.d/udev-cache"
++FILES_udev-cache = "${sysconfdir}/init.d/udev-cache ${sysconfdir}/default/udev-cache"
+ 
+ FILES_udev-acl = "${base_libdir}/udev/udev-acl ${base_libdir}/udev/rules.d/70-acl.rules"
+ 
+@@ -68,6 +69,14 @@ do_install_append () {
+ 	install -m 0755 ${WORKDIR}/init ${D}${sysconfdir}/init.d/udev
+ 	install -m 0755 ${WORKDIR}/udev-cache ${D}${sysconfdir}/init.d/udev-cache
+ 
++	install -d ${D}${sysconfdir}/default
++	install -m 0755 ${WORKDIR}/udev-cache.default ${D}${sysconfdir}/default/udev-cache
++
++	touch ${D}${sysconfdir}/udev/saved.uname
++	touch ${D}${sysconfdir}/udev/saved.cmdline
++	touch ${D}${sysconfdir}/udev/saved.devices
++	touch ${D}${sysconfdir}/udev/saved.atags
++
+ 	install -d ${D}${sysconfdir}/udev/rules.d/
+ 
+ 	install -m 0644 ${WORKDIR}/local.rules         ${D}${sysconfdir}/udev/rules.d/local.rules
 diff --git a/meta/recipes-core/udev/udev/init b/meta/recipes-core/udev/udev/init
-index edc3c9a..0b25b07 100644
+index 0b25b07..a2b6f53 100644
 --- a/meta/recipes-core/udev/udev/init
 +++ b/meta/recipes-core/udev/udev/init
-@@ -28,7 +28,7 @@ export ACTION=add
- echo -n "Starting udev"
+@@ -14,6 +14,7 @@ export TZ=/etc/localtime
+ [ -d /sys/class ] || exit 1
+ [ -r /proc/mounts ] || exit 1
+ [ -x /sbin/udevd ] || exit 1
++[ -f /etc/default/udev-cache ] && . /etc/default/udev-cache
+ [ -f /etc/udev/udev.conf ] && . /etc/udev/udev.conf
  
- # mount the tmpfs on /dev, if not already done
--LANG=C awk "\$2 == \"/dev\" && \$4 == \"tmpfs\" { exit 1 }" /proc/mounts && {
-+LANG=C awk '$2 == "/dev" && $3 == "tmpfs" || $3 == "devtmpfs") { exit 1 }' /proc/mounts && {
- 	mount -n -o mode=0755 -t tmpfs none "/dev"
- 	mkdir -m 0755 /dev/pts
+ kill_udevd() {
+@@ -34,9 +35,20 @@ LANG=C awk '$2 == "/dev" && $3 == "tmpfs" || $3 == "devtmpfs") { exit 1 }' /proc
  	mkdir -m 1777 /dev/shm
+ }
+ 
+-if [ -e /etc/dev.tar ]; then
+-	(cd /; tar xf /etc/dev.tar 2>&1 | grep -v 'time stamp' || true)
+-	not_first_boot=1
++if [ "$DEVCACHE" != "" ]; then
++	# Invalidate udev cache if the kernel or its bootargs/cmdline have changed
++	[ -x /bin/uname ] && /bin/uname -mrspv > /tmp/uname || touch /tmp/uname
++	[ -r /proc/cmdline ] && cat /proc/cmdline > /tmp/cmdline || touch /tmp/cmdline
++	[ -r /proc/devices ] && cat /proc/devices > /tmp/devices || touch /tmp/devices
++	[ -r /proc/atags ] && cat /proc/atags > /tmp/atags || touch /tmp/atags
++	if [ -e $DEVCACHE ] && \
++		cmp -s /tmp/uname /etc/udev/saved.uname && \
++		cmp -s /tmp/cmdline /etc/udev/saved.cmdline && \
++		cmp -s /tmp/devices /etc/udev/saved.devices && \
++		cmp -s /tmp/atags /etc/udev/saved.atags; then
++		(cd /; tar xf $DEVCACHE > /dev/null 2>&1)
++		not_first_boot=1
++	fi
+ fi
+ 
+ # make_extra_nodes
+diff --git a/meta/recipes-core/udev/udev/udev-cache b/meta/recipes-core/udev/udev/udev-cache
+index 77bbda6..797cb82 100644
+--- a/meta/recipes-core/udev/udev/udev-cache
++++ b/meta/recipes-core/udev/udev/udev-cache
+@@ -9,12 +9,25 @@
+ # Short-Description: cache /dev to speedup the udev next boot
+ ### END INIT INFO
+ 
+-[ -d /sys/class ] || exit 1
+-[ -r /proc/mounts ] || exit 1
+-[ -x /sbin/udevd ] || exit 1
++export TZ=/etc/localtime
+ 
+-if [ ! -e /etc/dev.tar ]; then
+-	(cd /; tar cf /etc/dev.tar dev)
++[ -f /etc/default/udev-cache ] && . /etc/default/udev-cache
++
++echo "Caching udev devnodes"
++
++if [ "$DEVCACHE" != "" ]; then
++	echo -n "Populating dev cache"
++	(cd /; tar cf $DEVCACHE dev)
++	mv /tmp/uname /etc/udev/saved.uname
++	mv /tmp/cmdline /etc/udev/saved.cmdline
++	mv /tmp/devices /etc/udev/saved.devices
++	mv /tmp/atags /etc/udev/saved.atags
++	echo
++else
++	rm -f /tmp/uname
++	rm -f /tmp/cmdline
++	rm -f /tmp/devices
++	rm -f /tmp/atags
+ fi
+ 
+ exit 0
+diff --git a/meta/recipes-core/udev/udev/udev-cache.default b/meta/recipes-core/udev/udev/udev-cache.default
+new file mode 100644
+index 0000000..5c4937a
+--- /dev/null
++++ b/meta/recipes-core/udev/udev/udev-cache.default
+@@ -0,0 +1,4 @@
++# Default for /etc/init.d/udev
++
++# Comment this out to disable device cache
++DEVCACHE="/etc/dev.tar"
 diff --git a/meta/recipes-core/udev/udev_164.bb b/meta/recipes-core/udev/udev_164.bb
-index 3e4e402..f952c90 100644
+index f952c90..c89eab4 100644
 --- a/meta/recipes-core/udev/udev_164.bb
 +++ b/meta/recipes-core/udev/udev_164.bb
 @@ -1,6 +1,6 @@
  include udev.inc
  
--PR = "r7"
-+PR = "r8"
+-PR = "r8"
++PR = "r9"
  
  SRC_URI += "file://udev-166-v4l1-1.patch"
  
