@@ -1,24 +1,32 @@
-Received: from ecbiz66.inmotionhosting.com ([69.174.114.20])
+Received: from mail-ee0-f47.google.com ([74.125.83.47])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <juraj.hercek@jhksoftware.com>) id 1Rcych-0000pE-VR
+	(envelope-from <otavio.salvador@gmail.com>) id 1Rczy3-000322-PT
 	for openembedded-core@lists.openembedded.org;
-	Tue, 20 Dec 2011 13:16:48 +0100
-Received: from mail.hck.sk ([87.197.106.197]:57547 helo=localhost.localdomain)
-	by ecbiz66.inmotionhosting.com with esmtpsa (TLSv1:AES256-SHA:256)
-	(Exim 4.69) (envelope-from <juraj.hercek@jhksoftware.com>)
-	id 1Rcxye-0008Qd-9J; Tue, 20 Dec 2011 06:35:24 -0500
-From: Juraj Hercek <juraj.hercek@jhksoftware.com>
-To: openembedded-core@lists.openembedded.org
-Date: Tue, 20 Dec 2011 12:34:57 +0100
-Message-Id: <1324380897-11620-1-git-send-email-juraj.hercek@jhksoftware.com>
-X-Mailer: git-send-email 1.7.2.5
-X-AntiAbuse: This header was added to track abuse,
-	please include it with any abuse report
-X-AntiAbuse: Primary Hostname - ecbiz66.inmotionhosting.com
-X-AntiAbuse: Original Domain - lists.openembedded.org
-X-AntiAbuse: Originator/Caller UID/GID - [47 12] / [47 12]
-X-AntiAbuse: Sender Address Domain - jhksoftware.com
-Subject: [PATCH] package.bbclass: fix shared library symlink snapping
+	Tue, 20 Dec 2011 14:42:56 +0100
+Received: by eeit10 with SMTP id t10so2582263eei.6
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 20 Dec 2011 05:35:51 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
+	h=mime-version:sender:in-reply-to:references:date
+	:x-google-sender-auth:message-id:subject:from:to:content-type;
+	bh=zhkZdQhQpRZquq3w3Z4tzm75Cg4YsA7R/7p9JMdjJBw=;
+	b=pCMnuEfhHRgSOgliEYtATsanpm/EfpCoQaG67lW2asuupDL+W39Hx1oNO5NQQFGggx
+	nEBZCE9sHzgBmSq6D2Q9SWkTeChc74jtMR2i1MuEGbZHGUQpBJFBDH30opEmzEoXgHHO
+	hbSIaNWl27fpI8fFwYQyH2Q9+EzNjfiZZXBRc=
+MIME-Version: 1.0
+Received: by 10.205.131.13 with SMTP id ho13mr550309bkc.41.1324388151765; Tue,
+	20 Dec 2011 05:35:51 -0800 (PST)
+Sender: otavio.salvador@gmail.com
+Received: by 10.204.162.76 with HTTP; Tue, 20 Dec 2011 05:35:51 -0800 (PST)
+In-Reply-To: <4EEF8073.2040205@linux.intel.com>
+References: <4EEBC476.20108@linux.intel.com> <4EEF8073.2040205@linux.intel.com>
+Date: Tue, 20 Dec 2011 11:35:51 -0200
+X-Google-Sender-Auth: nublHfa0P9ACudFpSl_i_1RuhAA
+Message-ID: <CAP9ODKoS9HK089TEFRwrddk5gnd5rwArZdWvRysSt2GH47N3gQ@mail.gmail.com>
+From: Otavio Salvador <otavio@ossystems.com.br>
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: UDEV-145??
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -33,164 +41,75 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 20 Dec 2011 12:16:48 -0000
+X-List-Received-Date: Tue, 20 Dec 2011 13:42:56 -0000
+Content-Type: multipart/alternative; boundary=000e0cdfd64654aa4c04b4862529
 
-When PACKAGE_SNAP_LIB_SYMLINK is enabled, development packages (-dev)
-contained dangling symbolic links which prevented usage of snapped
-libraries on development machines with installed toolchain and snapped
--dev package(s).
+--000e0cdfd64654aa4c04b4862529
+Content-Type: text/plain; charset=ISO-8859-1
 
-Good solution to the problem mentioned above is to decouple shared
-library object snapping from dependency computation and put it into
-separate function which is executed before the package splitting is
-done. This way we have all relevant files available and can do all
-necessary queries to library files.
+On Mon, Dec 19, 2011 at 16:20, Joshua Lock <josh@linux.intel.com> wrote:
 
-Signed-off-by: Juraj Hercek <juraj.hercek@jhksoftware.com>
----
- meta/classes/package.bbclass |   85 ++++++++++++++++++++++++++++++++++++-----
- 1 files changed, 74 insertions(+), 11 deletions(-)
+> On 16/12/11 14:21, Saul Wold wrote:
+> >
+> > Does anyone know why we might be keeping this older version around?  I
+> > know that in the past there were kernel <-> udev issues. Are most usages
+> > now using current kernels and udev?
+>
+> I was wondering the same thing. I have a WIP patch series to drop the
+> old version and the old inc file.
+>
+> Further I'd like to try and get meta-oe using at least most of the
+> oe-core udev, I've not looked at the differences there yet.
+>
 
-diff --git a/meta/classes/package.bbclass b/meta/classes/package.bbclass
-index 39c1d4b..9acc745 100644
---- a/meta/classes/package.bbclass
-+++ b/meta/classes/package.bbclass
-@@ -11,6 +11,13 @@
- #
- # b) perform_packagecopy - Copy D into PKGD
- #
-+# b.1) package_snap_lib_symlinks - snap lib symlinks when PACKAGE_SNAP_LIB_SYMLINKS is enabled.
-+#      Runtime optimisation of shared object libraries is used when you use
-+#      PACKAGE_SNAP_LIB_SYMLINKS = "1" in distribution configuration file. It
-+#      causes removal of symbolic link indirection in final image thus speeding
-+#      up loading of shared library object as well as saving inode and
-+#      directory entry in file system.
-+#
- # c) package_do_split_locales - Split out the locale files, updates FILES and PACKAGES
- #
- # d) split_and_strip_files - split the files into runtime and debug and strip them.
-@@ -433,6 +440,72 @@ python perform_packagecopy () {
- 	os.system('tar -cf - -C %s -ps . | tar -xf - -C %s' % (dest, dvar))
- }
- 
-+python package_snap_lib_symlinks () {
-+	"""
-+	Snapping of shared libraries symbolic links consists of 2 steps:
-+	1) renaming shared library file so that its file name is equal to DT_SONAME
-+	   See http://en.wikipedia.org/wiki/Soname for more information.
-+	2) fixing of any dangling symbolic links that could be the result of previous step
-+	"""
-+	import re
-+	import os.path as p
-+
-+	def get_soname(exefile):
-+		cmd = d.getVar('OBJDUMP', True) + " -p " + exefile + " 2>/dev/null"
-+		cmd = "PATH=\"%s\" %s" % (d.getVar('PATH', True), cmd)
-+		fd = os.popen(cmd)
-+		lines = fd.readlines()
-+		fd.close()
-+		for l in lines:
-+			m = re.match("\s+SONAME\s+([^\s]*)", l)
-+			if m:
-+				return m.group(1)
-+		return p.basename(exefile)
-+
-+	def get_cached_soname(exefile):
-+		realfile = p.realpath(exefile)
-+		if get_cached_soname.cache.has_key(realfile):
-+			return get_cached_soname.cache[realfile]
-+		else:
-+			soname = get_soname(realfile)
-+			get_cached_soname.cache[realfile] = soname
-+			return soname
-+	get_cached_soname.cache = dict()
-+
-+	def is_cyclic_symlink(target, link):
-+		link_normpath = p.normpath(link)
-+		if p.isabs(target):
-+			return p.normpath(target) == link_normpath
-+		else:
-+			return p.normpath(p.join(p.dirname(link), target)) == link_normpath
-+
-+	top = d.getVar('PKGD', True)
-+	lib_re = re.compile("^.*\.so")
-+	symlinks = list()
-+	renames = list()
-+	for root, dirs, files in os.walk(top):
-+		for file in files:
-+			path = p.join(root, file)
-+			if p.islink(path):
-+				link_target = os.readlink(path)
-+				link_target_file = p.basename(link_target)
-+				if lib_re.match(link_target_file):
-+					soname = get_cached_soname(path)
-+					if link_target_file != soname:
-+						new_target = link_target.replace(link_target_file,soname)
-+						if not is_cyclic_symlink(new_target, path):
-+							symlinks.append((new_target, path))
-+			elif os.access(path, os.X_OK) or lib_re.match(file):
-+				soname = get_cached_soname(path)
-+				if file != soname:
-+					renames.append((path, p.join(root, soname)))
-+	for old, new in renames:
-+		os.rename(old, new)
-+	for src, dst in symlinks:
-+		os.unlink(dst)
-+		os.symlink(src, dst)
-+}
-+
- # We generate a master list of directories to process, we start by
- # seeding this list with reasonable defaults, then load from
- # the fs-perms.txt files
-@@ -1237,8 +1310,6 @@ python package_do_shlibs() {
- 						sonames.append(this_soname)
- 				if libdir_re.match(root):
- 					needs_ldconfig = True
--				if snap_symlinks and (file != this_soname):
--					renames.append((os.path.join(root, file), os.path.join(root, this_soname)))
- 
- 	def darwin_so(root, path, file):
- 		fullpath = os.path.join(root, file)
-@@ -1302,11 +1373,6 @@ python package_do_shlibs() {
- 								needed[pkg].append(name)
- 								#bb.note("Adding %s for %s" % (name, pkg))
- 
--	if d.getVar('PACKAGE_SNAP_LIB_SYMLINKS', True) == "1":
--		snap_symlinks = True
--	else:
--		snap_symlinks = False
--
- 	if (d.getVar('USE_LDCONFIG', True) or "1") == "1":
- 		use_ldconfig = True
- 	else:
-@@ -1327,7 +1393,6 @@ python package_do_shlibs() {
- 
- 		needed[pkg] = []
- 		sonames = list()
--		renames = list()
- 		top = os.path.join(pkgdest, pkg)
- 		for root, dirs, files in os.walk(top):
- 			for file in files:
-@@ -1339,9 +1404,6 @@ python package_do_shlibs() {
- 					darwin_so(root, dirs, file)
- 				elif os.access(path, os.X_OK) or lib_re.match(file):
- 					linux_so(root, dirs, file)
--		for (old, new) in renames:
--		    	bb.note("Renaming %s to %s" % (old, new))
--			os.rename(old, new)
- 		shlibs_file = os.path.join(shlibswork_dir, pkg + ".list")
- 		shver_file = os.path.join(shlibswork_dir, pkg + ".ver")
- 		if len(sonames):
-@@ -1664,6 +1726,7 @@ PACKAGE_PREPROCESS_FUNCS ?= ""
- PACKAGEFUNCS ?= "package_get_auto_pr \	
-                 perform_packagecopy \
-                 ${PACKAGE_PREPROCESS_FUNCS} \
-+		${@['','package_snap_lib_symlinks'][d.getVar('PACKAGE_SNAP_LIB_SYMLINKS', True) == '1']} \
- 		package_do_split_locales \
- 		split_and_strip_files \
- 		fixup_perms \
+I read this e-mail after I started working on this. My current WIP patchset
+is at:
+
+https://github.com/OSSystems/oe-core/compare/ae4118a1f78f113c3d687c3aa6a86007cf977cae...master
+
+I am going to finish this getting 175 on oe-core but those patches seems
+good for merging to me.
+
 -- 
-1.7.2.5
+Otavio Salvador                             O.S. Systems
+E-mail: otavio@ossystems.com.br  http://www.ossystems.com.br
+Mobile: +55 53 9981-7854              http://projetos.ossystems.com.br
 
+--000e0cdfd64654aa4c04b4862529
+Content-Type: text/html; charset=ISO-8859-1
+Content-Transfer-Encoding: quoted-printable
 
+<div class=3D"gmail_quote">On Mon, Dec 19, 2011 at 16:20, Joshua Lock <span=
+ dir=3D"ltr">&lt;<a href=3D"mailto:josh@linux.intel.com">josh@linux.intel.c=
+om</a>&gt;</span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"marg=
+in:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex">
+<div class=3D"im">On 16/12/11 14:21, Saul Wold wrote:<br>
+&gt;<br>
+&gt; Does anyone know why we might be keeping this older version around? =
+=A0I<br>
+&gt; know that in the past there were kernel &lt;-&gt; udev issues. Are mos=
+t usages<br>
+&gt; now using current kernels and udev?<br>
+<br>
+</div>I was wondering the same thing. I have a WIP patch series to drop the=
+<br>
+old version and the old inc file.<br>
+<br>
+Further I&#39;d like to try and get meta-oe using at least most of the<br>
+oe-core udev, I&#39;ve not looked at the differences there yet.<br></blockq=
+uote><div><br></div><div>I read this e-mail after I started working on this=
+. My current WIP patchset is at:</div><div><br></div><div><a href=3D"https:=
+//github.com/OSSystems/oe-core/compare/ae4118a1f78f113c3d687c3aa6a86007cf97=
+7cae...master">https://github.com/OSSystems/oe-core/compare/ae4118a1f78f113=
+c3d687c3aa6a86007cf977cae...master</a></div>
+<div><br></div><div>I am going to finish this getting 175 on oe-core but th=
+ose patches seems good for merging to me.</div><div><br></div></div>-- <br>=
+Otavio Salvador=A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0O=
+.S. Systems<br>E-mail: <a href=3D"mailto:otavio@ossystems.com.br" target=3D=
+"_blank">otavio@ossystems.com.br</a>=A0 <a href=3D"http://www.ossystems.com=
+.br" target=3D"_blank">http://www.ossystems.com.br</a><br>
+Mobile: +55 53 9981-7854=A0 =A0 =A0 =A0=A0 =A0 =A0 =A0<a href=3D"http://pro=
+jetos.ossystems.com.br" target=3D"_blank">http://projetos.ossystems.com.br<=
+/a><br><br>
 
+--000e0cdfd64654aa4c04b4862529--
