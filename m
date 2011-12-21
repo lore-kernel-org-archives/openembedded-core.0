@@ -1,37 +1,20 @@
-Received: from mail-ey0-f175.google.com ([209.85.215.175])
+Received: from mga09.intel.com ([134.134.136.24])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <otavio.salvador@gmail.com>) id 1RdDOV-0003lO-7R
+	(envelope-from <shane.wang@intel.com>) id 1RdDjT-000482-R7
 	for openembedded-core@lists.openembedded.org;
-	Wed, 21 Dec 2011 05:03:09 +0100
-Received: by eaal1 with SMTP id l1so6381514eaa.6
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 20 Dec 2011 19:56:02 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
-	h=mime-version:sender:in-reply-to:references:date
-	:x-google-sender-auth:message-id:subject:from:to:cc:content-type;
-	bh=m6b9uxs/BVVBugRZU1lHy8vzMNcPFSTqSMgeCTStVPo=;
-	b=s43s5QvqZMS7deZlnO40nHxumQm0jEXK/xxO5koHhF22NAhRKgf6m3kMqZeIG2F2DH
-	GSl6BHsV4sI6O//4Xkq2WTtAh98fUOJp8D/iR5iWT31D4RquUxR9fXymU1VhffyjLkEJ
-	wmXgB+XbQNlJkrF2Ys0k0Af2lZ8hd69cAx62U=
-MIME-Version: 1.0
-Received: by 10.205.138.136 with SMTP id is8mr1626182bkc.35.1324439761170;
-	Tue, 20 Dec 2011 19:56:01 -0800 (PST)
-Sender: otavio.salvador@gmail.com
-Received: by 10.204.78.79 with HTTP; Tue, 20 Dec 2011 19:56:01 -0800 (PST)
-In-Reply-To: <4EF15524.4030509@linux.intel.com>
-References: <cover.1324121806.git.otavio@ossystems.com.br>
-	<20d7007632dde53f3a868e8374a45619319213c2.1324121807.git.otavio@ossystems.com.br>
-	<4EF150A1.60404@linux.intel.com>
-	<CAP9ODKrTMaJugUXTTQYWS0N_S-13jDXCvJ9aP4HL0hjhZYdZgg@mail.gmail.com>
-	<4EF15524.4030509@linux.intel.com>
-Date: Wed, 21 Dec 2011 01:56:01 -0200
-X-Google-Sender-Auth: 0G-obB7S7KKI2dla5amshFzEMSk
-Message-ID: <CAP9ODKojn_NiXfiYyb-hWSSit01OVzcF-rt54JVCxbqtxMuCeg@mail.gmail.com>
-From: Otavio Salvador <otavio@ossystems.com.br>
-To: Darren Hart <dvhart@linux.intel.com>
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 1/1] connman: disable 'alg-test' building
+	Wed, 21 Dec 2011 05:24:48 +0100
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+	by orsmga102.jf.intel.com with ESMTP; 20 Dec 2011 20:17:29 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.67,352,1309762800"; d="scan'208";a="88768347"
+Received: from yocto-build5.sh.intel.com (HELO localhost) ([10.239.48.2])
+	by orsmga001.jf.intel.com with ESMTP; 20 Dec 2011 20:17:28 -0800
+From: Shane Wang <shane.wang@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Wed, 21 Dec 2011 12:32:38 +0800
+Message-Id: <cover.1324441819.git.shane.wang@intel.com>
+X-Mailer: git-send-email 1.7.6
+Subject: [PATCH 0/1] [RESEND]Create a script for SUMMARY audit in recipes
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -46,77 +29,28 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 21 Dec 2011 04:03:09 -0000
-Content-Type: multipart/alternative; boundary=000e0ce0b2b47db12704b492292c
+X-List-Received-Date: Wed, 21 Dec 2011 04:24:48 -0000
 
---000e0ce0b2b47db12704b492292c
-Content-Type: text/plain; charset=ISO-8859-1
+Here is the script to check which recipe provides SUMMARY and which doesnot.
+For those which do not, maintainer should add or update to a meaningful summary for HOB to display in description.
 
-On Wed, Dec 21, 2011 at 01:40, Darren Hart <dvhart@linux.intel.com> wrote:
->
-> On 12/20/2011 07:28 PM, Otavio Salvador wrote:
-> > On Wed, Dec 21, 2011 at 01:21, Darren Hart <dvhart@linux.intel.com
-> > <mailto:dvhart@linux.intel.com>> wrote:
-> >
-> >     (I understand this is poky related and not oe-core, but as the
-> context
-> >     for this patch is here, I opted to continue the discussion here.)
-> >
-> >
-> > It seems you haven't applied the patch as it shows the message that the
-> > patch clearly remove.
->
-> I did have the commit in my source tree, but something didn't trigger as
-> a cleanall and rebuild of connman succeeded. The tree was a clean
-> master, perhaps my sstate had a previous PR=r6 from our earlier testing
-> or something like that. Strange.
+The following changes since commit b281fd127bac9ba77ab63a5c2b812ddd5d56df37:
 
+  documentation/poky-ref-manual/technical-details.xml: edits per Richard Purdie (2011-12-16 16:58:41 +0000)
 
-Ufa! EYOUOUGHTGETCOFFEE :P
+are available in the git repository at:
+  git://git.pokylinux.org/poky-contrib shane/summary-audit
+  http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=shane/summary-audit
+
+Shane Wang (1):
+  Create a script for SUMMARY audit in recipes
+
+ scripts/contrib/summary-audit.sh |   55 ++++++++++++++++++++++++++++++++++++++
+ 1 files changed, 55 insertions(+), 0 deletions(-)
+ create mode 100755 scripts/contrib/summary-audit.sh
 
 -- 
-Otavio Salvador                             O.S. Systems
-E-mail: otavio@ossystems.com.br  http://www.ossystems.com.br
-Mobile: +55 53 9981-7854              http://projetos.ossystems.com.br
+1.7.6
 
---000e0ce0b2b47db12704b492292c
-Content-Type: text/html; charset=ISO-8859-1
-Content-Transfer-Encoding: quoted-printable
 
-<div class=3D"gmail_quote">On Wed, Dec 21, 2011 at 01:40, Darren Hart <span=
- dir=3D"ltr">&lt;<a href=3D"mailto:dvhart@linux.intel.com">dvhart@linux.int=
-el.com</a>&gt;</span> wrote:<blockquote class=3D"gmail_quote" style=3D"marg=
-in:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex">
-<div class=3D"im">
-On 12/20/2011 07:28 PM, Otavio Salvador wrote:<br>
-&gt; On Wed, Dec 21, 2011 at 01:21, Darren Hart &lt;<a href=3D"mailto:dvhar=
-t@linux.intel.com">dvhart@linux.intel.com</a><br>
-</div><div class=3D"im">&gt; &lt;mailto:<a href=3D"mailto:dvhart@linux.inte=
-l.com">dvhart@linux.intel.com</a>&gt;&gt; wrote:<br>
-&gt;<br>
-&gt; =A0 =A0 (I understand this is poky related and not oe-core, but as the=
- context<br>
-&gt; =A0 =A0 for this patch is here, I opted to continue the discussion her=
-e.)<br>
-&gt;<br>
-&gt;<br>
-&gt; It seems you haven&#39;t applied the patch as it shows the message tha=
-t the<br>
-&gt; patch clearly remove.<br>
-<br>
-</div>I did have the commit in my source tree, but something didn&#39;t tri=
-gger as<br>
-a cleanall and rebuild of connman succeeded. The tree was a clean<br>
-master, perhaps my sstate had a previous PR=3Dr6 from our earlier testing<b=
-r>
-or something like that. Strange.</blockquote><div><br></div><div>Ufa! EYOUO=
-UGHTGETCOFFEE :P</div><div><br></div></div>-- <br>Otavio Salvador=A0 =A0 =
-=A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0O.S. Systems<br>E-mail: =
-<a href=3D"mailto:otavio@ossystems.com.br" target=3D"_blank">otavio@ossyste=
-ms.com.br</a>=A0 <a href=3D"http://www.ossystems.com.br" target=3D"_blank">=
-http://www.ossystems.com.br</a><br>
-Mobile: +55 53 9981-7854=A0 =A0 =A0 =A0=A0 =A0 =A0 =A0<a href=3D"http://pro=
-jetos.ossystems.com.br" target=3D"_blank">http://projetos.ossystems.com.br<=
-/a><br><br>
 
---000e0ce0b2b47db12704b492292c--
