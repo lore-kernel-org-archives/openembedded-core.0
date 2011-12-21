@@ -1,45 +1,32 @@
 Received: from mga09.intel.com ([134.134.136.24])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <jiajun.xu@intel.com>) id 1RdOXV-00058g-He
+	(envelope-from <dvhart@linux.intel.com>) id 1RdOfI-0005hH-5r
 	for openembedded-core@lists.openembedded.org;
-	Wed, 21 Dec 2011 16:57:09 +0100
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-	by orsmga102.jf.intel.com with ESMTP; 21 Dec 2011 07:50:03 -0800
+	Wed, 21 Dec 2011 17:05:12 +0100
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+	by orsmga102.jf.intel.com with ESMTP; 21 Dec 2011 07:58:06 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.67,351,1309762800"; d="scan'208";a="90024004"
-Received: from pgsmsx603.gar.corp.intel.com ([10.221.43.87])
-	by orsmga002.jf.intel.com with ESMTP; 21 Dec 2011 07:50:03 -0800
-Received: from shsmsx602.ccr.corp.intel.com (10.239.4.104) by
-	pgsmsx603.gar.corp.intel.com (10.221.43.87) with Microsoft SMTP Server
-	(TLS) id 8.2.255.0; Wed, 21 Dec 2011 23:50:02 +0800
-Received: from shsmsx501.ccr.corp.intel.com ([10.239.4.141]) by
-	SHSMSX602.ccr.corp.intel.com ([10.239.4.104]) with mapi;
-	Wed, 21 Dec 2011 23:50:01 +0800
-From: "Xu, Jiajun" <jiajun.xu@intel.com>
-To: Saul Wold <sgw@linux.intel.com>, Patches and discussions about the oe-core
-	layer <openembedded-core@lists.openembedded.org>
-Date: Wed, 21 Dec 2011 23:49:56 +0800
-Thread-Topic: [OE-core] [PATCH 1/3] ltp: Add recipe from OE
-Thread-Index: AcyyFOG9OE6x0BsjShipBGh2LmwpNQN4fwVQ
-Message-ID: <D5AB6E638E5A3E4B8F4406B113A5A19A12ED75814D@shsmsx501.ccr.corp.intel.com>
-References: <cover.1322840490.git.jiajun.xu@intel.com>
-	<658bdcf24a1ade76126924fcb937c50abce6d08d.1322840490.git.jiajun.xu@intel.com>
-	<4EDAB34E.6050103@linux.intel.com>
-In-Reply-To: <4EDAB34E.6050103@linux.intel.com>
-Accept-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-cr-puzzleid: {C031AB65-F107-404E-BC34-C776C55989E5}
-x-cr-hashedpuzzle: 7qU= AeIe EZjo ErW8 Fkhb KlwV KxFp M6l/ NKlf Rdp3 TbQ1
-	TpM/ TyFf UFHW WQgZ WyYl; 2;
-	bwBwAGUAbgBlAG0AYgBlAGQAZABlAGQALQBjAG8AcgBlAEAAbABpAHMAdABzAC4AbwBwAGUAbgBlAG0AYgBlAGQAZABlAGQALgBvAHIAZwA7AHMAZwB3AEAAbABpAG4AdQB4AC4AaQBuAHQAZQBsAC4AYwBvAG0A;
-	Sosha1_v1; 7; {C031AB65-F107-404E-BC34-C776C55989E5};
-	agBpAGEAagB1AG4ALgB4AHUAQABpAG4AdABlAGwALgBjAG8AbQA=; Wed,
-	21 Dec 2011 15:49:56 GMT;
-	UgBFADoAIABbAE8ARQAtAGMAbwByAGUAXQAgAFsAUABBAFQAQwBIACAAMQAvADMAXQAgAGwAdABwADoAIABBAGQAZAAgAHIAZQBjAGkAcABlACAAZgByAG8AbQAgAE8ARQA=
-acceptlanguage: en-US
+X-IronPort-AV: E=Sophos;i="4.67,352,1309762800"; d="scan'208";a="88966660"
+Received: from unknown (HELO envy.home) ([10.255.12.115])
+	by orsmga001.jf.intel.com with ESMTP; 21 Dec 2011 07:58:05 -0800
+Message-ID: <4EF201FB.3050008@linux.intel.com>
+Date: Wed, 21 Dec 2011 07:57:47 -0800
+From: Darren Hart <dvhart@linux.intel.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:7.0) Gecko/20110927 Thunderbird/7.0
 MIME-Version: 1.0
-Subject: Re: [PATCH 1/3] ltp: Add recipe from OE
+To: Koen Kooi <koen@dominion.thruhere.net>
+References: <cover.1324456294.git.dvhart@linux.intel.com>
+	<2ad76233b10f9e4a61a6ecb5490f92fecdc1f1e1.1324456294.git.dvhart@linux.intel.com>
+	<20111221100909.GD12791@jama.jama.net>
+	<F499A5D5-2BC5-45CC-8DF0-ABD5146E1897@dominion.thruhere.net>
+In-Reply-To: <F499A5D5-2BC5-45CC-8DF0-ABD5146E1897@dominion.thruhere.net>
+X-Enigmail-Version: 1.3.3
+Cc: Martin Jansa <martin.jansa@gmail.com>,
+	Yocto Project <yocto@yoctoproject.org>,
+	Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [yocto] [PATCH 5/9] task-core-boot: Allow DISTRO to disable keymaps
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -54,65 +41,85 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 21 Dec 2011 15:57:10 -0000
-Content-Language: en-US
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Wed, 21 Dec 2011 16:05:12 -0000
+Content-Type: text/plain; charset=ISO-8859-1
+Content-Transfer-Encoding: 7bit
+
+-----BEGIN PGP SIGNED MESSAGE-----
+Hash: SHA1
 
 
-> The "mv" seems to cause a problem.  Is there a reason you do this
-> instead of just setting "S =3D ${WORKDIR}/ltp-full-${PV} if that's what
-> the tarball normally extracts to?
->=20
 
-Sorry for late response, Saul. If I set S to ltp-full-${PV}, do_unpack will=
- report that ltp-full-${PV} is not a directory. It is due to that the sourc=
-e file for ltp is named as "ltp-full-${PV}.bz2", which in fact should be ex=
-tracted by bzip2 and tar. But the unpack code in bitbake could not handle t=
-his so I have to add some extra code for it.
-I have modified the patch to make the unpack pass and will send out again f=
-or review.
+On 12/21/2011 05:19 AM, Koen Kooi wrote:
+> 
+> Op 21 dec. 2011, om 11:09 heeft Martin Jansa het volgende 
+> geschreven:
+> 
+>> On Wed, Dec 21, 2011 at 01:02:51AM -0800, Darren Hart wrote:
+>>> NOTE: I'm looking for a better way to do this.
+>>> 
+>>> keymaps pulls in gettext, which can't build without wide 
+>>> character support.
+>>> 
+>>> Rather than have to add a -tiny variant of every MACHINE to
+>>> drop "keyboard" from the MACHINE_FEATURES, just enable the
+>>> DISTRO to define what gets added to RDEPENDS_task-core-boot
+>>> when MACHINE_FEATURES includes keyboard. By default, keep
+>>> "keymaps", but use DISTRO_KEYMAPS if it is set (to "" for
+>>> example).
+>>> 
+>>> Signed-off-by: Darren Hart <dvhart@linux.intel.com> --- 
+>>> meta/recipes-core/tasks/task-core-boot.bb |    7 ++++++- 1
+>>> files changed, 6 insertions(+), 1 deletions(-)
+>>> 
+>>> diff --git a/meta/recipes-core/tasks/task-core-boot.bb 
+>>> b/meta/recipes-core/tasks/task-core-boot.bb index 
+>>> 05c280d..e097836 100644 --- 
+>>> a/meta/recipes-core/tasks/task-core-boot.bb +++ 
+>>> b/meta/recipes-core/tasks/task-core-boot.bb @@ -17,6 +17,11 @@
+>>> PR = "r9" MACHINE_ESSENTIAL_EXTRA_RDEPENDS ?= "" 
+>>> MACHINE_ESSENTIAL_EXTRA_RRECOMMENDS ?= ""
+>>> 
+>>> +# +# Set by the distro configuration to empty if not supported
+>>>  +# +DISTRO_KEYMAPS ?= "keymaps"
+>> 
+>> Why not VIRTUAL-RUNTIME_keymaps like everywhere else?
+> 
+> Why not just create a proper task for -tiny instead of making the 
+> already horrible task-core-boot even more horrible?
+> 
+> Besided that: this patch needs to go to the oe-core list
 
-Thanks a lot.
+I addressed both of these in 0/9.
 
->=20
->=20
-> ERROR: Function 'do_extract_tarball' failed (see
-> /srv/home/swold/yocto-autobuilder/yocto-slave/nightly-x86/build/build/
-> tmp/w ork/i586-poky-linux/ltp-20110915-r0/temp/log.do_unpack.714 for
-> further information) ERROR: Logfile of failure stored in:
-> /srv/home/swold/yocto-autobuilder/yocto-slave/nightly-x86/build/build/
-> tmp/w ork/i586-poky-linux/ltp-20110915-r0/temp/log.do_unpack.714 Log
-> data follows: | NOTE: Unpacking
-> /srv/home/swold/downloads/ltp-full-20110915.bz2 to
-> /srv/home/swold/yocto-autobuilder/yocto-slave/nightly-x86/build/build/
-> tmp/w ork/i586-poky-linux/ltp-20110915-r0/ | DEBUG: SITE files
-> ['endian-little', 'bit-32', 'ix86-common', 'common-linux',
-> 'common-glibc', 'i586-linux', 'common'] | ERROR: Function
-> 'do_extract_tarball' failed (see
-> /srv/home/swold/yocto-autobuilder/yocto-slave/nightly-x86/build/build/
-> tmp/w ork/i586-poky-linux/ltp-20110915-r0/temp/log.do_unpack.714 for
-> further information) | mv: cannot overwrite directory
-> `/srv/home/swold/yocto-autobuilder/yocto-slave/nightly-x86/build/build
-> /tmp/w
-> ork/i586-poky-linux/ltp-20110915-r0/ltp-20110915/ltp-full-20110915' with
-> non-directory NOTE: package ltp-20110915-r0: task do_unpack: Failed
-> ERROR: Task 2303
-> (/srv/home/swold/yocto-autobuilder/yocto-slave/nightly-x86/build/meta/
-> recipe s-extended/ltp/ltp_20110915.bb, do_unpack) failed with exit code
-> '1'
->=20
->> +do_install(){ +	install -d ${D}/opt/ltp/ +	oe_runmake DESTDIR=3D${D}
->> SKIP_IDCHECK=3D1 install + +	# Copy POSIX test suite into
->> ${D}/opt/ltp/testcases by manual +	cp -r testcases/open_posix_testsuite
->> ${D}/opt/ltp/testcases + +	# We need to remove all scripts which depend
->> on /usr/bin/expect, +since expect is not supported in poky +	# We will
->> add expect for enhancement in future +	find ${D} -type f -print | xargs
->> grep "\!.*\/usr\/bin\/expect" | +awk -F":" '{print $1}' | xargs rm -f }
+task-core-boot really doesn't seem horrible to me. Recreating it
+everytime somone wanted a slightly different image config seems like
+it would explode into a ton of mostly duplicated
+task-core-boot-VARIANT.bb files.
 
-Best Regards,
-Jiajun
+As for the list, I opted to keep everything together for the RFC as
+without the distro definition patches the rest had no real context,
+and that meant picking a list oe-core or yocto - since the ultimate
+goal was a distro definition for yocto, I sent to yocto. I could have
+sent to oe, then someone would have been upset that I didn't send to
+yocto. As I said in 0/9, the non-RFC patches will go to their
+respective lists.
 
+- -- 
+Darren Hart
+Intel Open Source Technology Center
+Yocto Project - Linux Kernel
+-----BEGIN PGP SIGNATURE-----
+Version: GnuPG v1.4.11 (GNU/Linux)
+Comment: Using GnuPG with Mozilla - http://enigmail.mozdev.org/
 
+iQEcBAEBAgAGBQJO8gH7AAoJEKbMaAwKp3642RkH/iAXzR42uEF5MfCrcQQtuKd+
+W5VieJRmMZ8Yfdd9DtNxBcBLuoLSECETFKQihBq95SaEgHacTsw7H3mAY2lPA/qq
+ZUa4RczNC/21CHkKh5VZIYJYY0cIqMJou/7hvyuLyqNuMp9DYAAw4tNWKNNd78QI
+WUvsB9BRW4fDw17lx3ZopyK1ge7U/tWhmCaxlcls0g9s++vWZPiUxQN9h+ZPPluj
+qQ86sb8M3mO6kM6AvWafgQgMAc2fRaKlvvns9YR49kltaeAq/6yBRvowR5x3FLSq
+xz4F2tbtlUuhz56q72y23wJN9/eF0ll1VnKwACTquYNpmWPQGcHe6KQICEluo3Y=
+=JJu4
+-----END PGP SIGNATURE-----
 
 
