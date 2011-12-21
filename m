@@ -1,24 +1,24 @@
 Received: from mga09.intel.com ([134.134.136.24])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <edwin.zhai@intel.com>) id 1RdHcv-000776-LZ
+	(envelope-from <edwin.zhai@intel.com>) id 1RdHcv-000777-Tf
 	for openembedded-core@lists.openembedded.org;
-	Wed, 21 Dec 2011 09:34:17 +0100
+	Wed, 21 Dec 2011 09:34:18 +0100
 Received: from orsmga001.jf.intel.com ([10.7.209.18])
-	by orsmga102.jf.intel.com with ESMTP; 21 Dec 2011 00:27:11 -0800
+	by orsmga102.jf.intel.com with ESMTP; 21 Dec 2011 00:27:12 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.67,352,1309762800"; d="scan'208";a="88828060"
+X-IronPort-AV: E=Sophos;i="4.67,352,1309762800"; d="scan'208";a="88828064"
 Received: from yocto-build3.sh.intel.com ([10.239.48.58])
 	by orsmga001.jf.intel.com with ESMTP; 21 Dec 2011 00:27:11 -0800
 From: edwin.zhai@intel.com
 To: openembedded-core@lists.openembedded.org
-Date: Wed, 21 Dec 2011 16:18:05 +0800
-Message-Id: <bb425c648fb30fa14fe5981b5c8bba8e8cf6ba5d.1324454963.git.edwin.zhai@intel.com>
+Date: Wed, 21 Dec 2011 16:18:06 +0800
+Message-Id: <d03aa0ef5ab991c5f7865a5402d69373ceb19879.1324454963.git.edwin.zhai@intel.com>
 X-Mailer: git-send-email 1.7.1
 In-Reply-To: <cover.1324454963.git.edwin.zhai@intel.com>
 References: <cover.1324454963.git.edwin.zhai@intel.com>
 In-Reply-To: <cover.1324454963.git.edwin.zhai@intel.com>
 References: <cover.1324454963.git.edwin.zhai@intel.com>
-Subject: [PATCH 1/4] minix-session: Add this recipe as the session file for mini X
+Subject: [PATCH 2/4] Add mini X core tasks
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -33,89 +33,88 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 21 Dec 2011 08:34:17 -0000
+X-List-Received-Date: Wed, 21 Dec 2011 08:34:18 -0000
 
 From: Zhai Edwin <edwin.zhai@intel.com>
 
-minix-session runs session files on behalf of file owner, so that no rootless X
-required.
-
 Signed-off-by: Zhai Edwin <edwin.zhai@intel.com>
 ---
- .../minix-session/files/minix-session              |   32 ++++++++++++++++++++
- .../minix-session/minix-session_0.1.bb             |   24 +++++++++++++++
- 2 files changed, 56 insertions(+), 0 deletions(-)
- create mode 100644 meta/recipes-graphics/minix-session/files/minix-session
- create mode 100644 meta/recipes-graphics/minix-session/minix-session_0.1.bb
+ meta/classes/core-image.bbclass               |    2 +
+ meta/recipes-sato/tasks/task-core-x11-mini.bb |   45 +++++++++++++++++++++++++
+ 2 files changed, 47 insertions(+), 0 deletions(-)
+ create mode 100644 meta/recipes-sato/tasks/task-core-x11-mini.bb
 
-diff --git a/meta/recipes-graphics/minix-session/files/minix-session b/meta/recipes-graphics/minix-session/files/minix-session
+diff --git a/meta/classes/core-image.bbclass b/meta/classes/core-image.bbclass
+index 8e83d4a..c08895f 100644
+--- a/meta/classes/core-image.bbclass
++++ b/meta/classes/core-image.bbclass
+@@ -13,6 +13,7 @@ LIC_FILES_CHKSUM = "file://${COREBASE}/LICENSE;md5=3f40d7994397109285ec7b81fdeb3
+ # Available IMAGE_FEATURES:
+ #
+ # - apps-console-core
++# - x11-mini            - minimal environment for X11 server 
+ # - x11-base            - X11 server + minimal desktop	
+ # - x11-sato            - OpenedHand Sato environment
+ # - x11-netbook         - Metacity based environment for netbooks
+@@ -29,6 +30,7 @@ LIC_FILES_CHKSUM = "file://${COREBASE}/LICENSE;md5=3f40d7994397109285ec7b81fdeb3
+ # - debug-tweaks        - makes an image suitable for development
+ #
+ PACKAGE_GROUP_apps-console-core = "task-core-apps-console"
++PACKAGE_GROUP_x11-mini = "task-core-x11-mini"
+ PACKAGE_GROUP_x11-base = "task-core-x11-base"
+ PACKAGE_GROUP_x11-sato = "task-core-x11-sato"
+ PACKAGE_GROUP_x11-netbook = "task-core-x11-netbook"
+diff --git a/meta/recipes-sato/tasks/task-core-x11-mini.bb b/meta/recipes-sato/tasks/task-core-x11-mini.bb
 new file mode 100644
-index 0000000..c28d537
+index 0000000..35779d9
 --- /dev/null
-+++ b/meta/recipes-graphics/minix-session/files/minix-session
-@@ -0,0 +1,32 @@
-+#!/bin/sh
++++ b/meta/recipes-sato/tasks/task-core-x11-mini.bb
+@@ -0,0 +1,45 @@
 +#
-+# Very simple session manager for Mini X
++# Copyright (C) 2011 Intel Corporation
 +#
 +
-+# Uncomment below to enable parsing of debian menu entrys
-+# export MB_USE_DEB_MENUS=1 
++DESCRIPTION = "Tasks for core X11 applications"
++LICENSE = "MIT"
++LIC_FILES_CHKSUM = "file://${COREBASE}/LICENSE;md5=3f40d7994397109285ec7b81fdeb3b58 \
++                    file://${COREBASE}/meta/COPYING.MIT;md5=3da9cfbcb788c80a0384361b4de20420"
++PR = "r0"
 +
-+if [ -e $HOME/.minix/session ]
-+then
-+exec $HOME/.minix/session
-+fi
++PACKAGES = "\
++    task-core-x11-mini \
++    task-core-x11-mini-dbg \
++    task-core-x11-mini-dev \
++    "
 +
-+if [ -e /etc/minix/session ]
-+then
-+exec /etc/minix/session
-+fi
++PACKAGE_ARCH = "${MACHINE_ARCH}"
 +
-+MINIX_SESSION_DIR=/etc/minix/session.d
++XSERVER ?= "xserver-kdrive-fbdev"
 +
-+# Execute session file on behalf of file owner
-+for SESSIONFILE in $MINIX_SESSION_DIR/*; do
-+    set +e
-+    USERNAME=`stat -c %U $SESSIONFILE`
-+    sudo -b -i -u $USERNAME $SESSIONFILE& 
-+    set -e
-+done
-+# Default files to run if $HOME/.minix/session or /etc/minix/session
-+# dont exist. 
++ALLOW_EMPTY = "1"
 +
-+matchbox-terminal&
-+exec matchbox-window-manager
-diff --git a/meta/recipes-graphics/minix-session/minix-session_0.1.bb b/meta/recipes-graphics/minix-session/minix-session_0.1.bb
-new file mode 100644
-index 0000000..2e912c6
---- /dev/null
-+++ b/meta/recipes-graphics/minix-session/minix-session_0.1.bb
-@@ -0,0 +1,24 @@
-+DESCRIPTION = "Mini X session files for poky"
-+HOMEPAGE = "http://www.yoctoproject.org"
-+BUGTRACKER = "http://bugzilla.pokylinux.org"
++ROOTLESS_X = "1"
 +
-+LICENSE = "GPL"
-+LIC_FILES_CHKSUM = "file://minix-session;endline=5;md5=b6430bffbcf05f9760e72938826b7487"
++# xserver-common, x11-common
++VIRTUAL-RUNTIME_xserver_common ?= "x11-common"
 +
-+SECTION = "x11"
-+RCONFLICTS = "matchbox-common"
++# elsa, xserver-nodm-init
++VIRTUAL-RUNTIME_graphical_init_manager ?= "xserver-nodm-init"
 +
-+SRC_URI = "file://minix-session"
-+S = "${WORKDIR}"
 +
-+inherit update-alternatives
-+
-+ALTERNATIVE_NAME = "x-session-manager"
-+ALTERNATIVE_LINK = "${bindir}/x-session-manager"
-+ALTERNATIVE_PATH = "${bindir}/minix-session"
-+ALTERNATIVE_PRIORITY = "10"
-+
-+do_install() {
-+	install -d ${D}/${bindir}
-+	install -m 0755 ${S}/minix-session ${D}/${bindir}
-+}
++RDEPENDS_task-core-x11-mini = "\
++    dbus \
++    pointercal \
++    matchbox-terminal \
++    matchbox-wm \
++    minix-session \
++    ${XSERVER} \
++    ${VIRTUAL-RUNTIME_xserver_common} \
++    ${VIRTUAL-RUNTIME_graphical_init_manager} \
++    liberation-fonts \
++    xauth \
++    xhost \
++    xset \
++    xrandr"
 -- 
 1.7.1
 
