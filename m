@@ -1,24 +1,24 @@
 Received: from mga09.intel.com ([134.134.136.24])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <edwin.zhai@intel.com>) id 1RdHcv-000777-Tf
+	(envelope-from <edwin.zhai@intel.com>) id 1RdHcw-000776-DU
 	for openembedded-core@lists.openembedded.org;
 	Wed, 21 Dec 2011 09:34:18 +0100
 Received: from orsmga001.jf.intel.com ([10.7.209.18])
-	by orsmga102.jf.intel.com with ESMTP; 21 Dec 2011 00:27:12 -0800
+	by orsmga102.jf.intel.com with ESMTP; 21 Dec 2011 00:27:13 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.67,352,1309762800"; d="scan'208";a="88828064"
+X-IronPort-AV: E=Sophos;i="4.67,352,1309762800"; d="scan'208";a="88828066"
 Received: from yocto-build3.sh.intel.com ([10.239.48.58])
-	by orsmga001.jf.intel.com with ESMTP; 21 Dec 2011 00:27:11 -0800
+	by orsmga001.jf.intel.com with ESMTP; 21 Dec 2011 00:27:12 -0800
 From: edwin.zhai@intel.com
 To: openembedded-core@lists.openembedded.org
-Date: Wed, 21 Dec 2011 16:18:06 +0800
-Message-Id: <d03aa0ef5ab991c5f7865a5402d69373ceb19879.1324454963.git.edwin.zhai@intel.com>
+Date: Wed, 21 Dec 2011 16:18:07 +0800
+Message-Id: <f13de6bacfca9935698b1f30f2729b28d9e9a71f.1324454963.git.edwin.zhai@intel.com>
 X-Mailer: git-send-email 1.7.1
 In-Reply-To: <cover.1324454963.git.edwin.zhai@intel.com>
 References: <cover.1324454963.git.edwin.zhai@intel.com>
 In-Reply-To: <cover.1324454963.git.edwin.zhai@intel.com>
 References: <cover.1324454963.git.edwin.zhai@intel.com>
-Subject: [PATCH 2/4] Add mini X core tasks
+Subject: [PATCH 3/4] Add "builder" user for specific purpose.
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -37,84 +37,66 @@ X-List-Received-Date: Wed, 21 Dec 2011 08:34:18 -0000
 
 From: Zhai Edwin <edwin.zhai@intel.com>
 
+"builder" can start some auto stuff by mini X session.
+
 Signed-off-by: Zhai Edwin <edwin.zhai@intel.com>
 ---
- meta/classes/core-image.bbclass               |    2 +
- meta/recipes-sato/tasks/task-core-x11-mini.bb |   45 +++++++++++++++++++++++++
- 2 files changed, 47 insertions(+), 0 deletions(-)
- create mode 100644 meta/recipes-sato/tasks/task-core-x11-mini.bb
+ meta/recipes-graphics/builder/builder_0.1.bb      |   27 +++++++++++++++++++++
+ meta/recipes-graphics/builder/files/auto_start.sh |   11 ++++++++
+ 2 files changed, 38 insertions(+), 0 deletions(-)
+ create mode 100644 meta/recipes-graphics/builder/builder_0.1.bb
+ create mode 100644 meta/recipes-graphics/builder/files/auto_start.sh
 
-diff --git a/meta/classes/core-image.bbclass b/meta/classes/core-image.bbclass
-index 8e83d4a..c08895f 100644
---- a/meta/classes/core-image.bbclass
-+++ b/meta/classes/core-image.bbclass
-@@ -13,6 +13,7 @@ LIC_FILES_CHKSUM = "file://${COREBASE}/LICENSE;md5=3f40d7994397109285ec7b81fdeb3
- # Available IMAGE_FEATURES:
- #
- # - apps-console-core
-+# - x11-mini            - minimal environment for X11 server 
- # - x11-base            - X11 server + minimal desktop	
- # - x11-sato            - OpenedHand Sato environment
- # - x11-netbook         - Metacity based environment for netbooks
-@@ -29,6 +30,7 @@ LIC_FILES_CHKSUM = "file://${COREBASE}/LICENSE;md5=3f40d7994397109285ec7b81fdeb3
- # - debug-tweaks        - makes an image suitable for development
- #
- PACKAGE_GROUP_apps-console-core = "task-core-apps-console"
-+PACKAGE_GROUP_x11-mini = "task-core-x11-mini"
- PACKAGE_GROUP_x11-base = "task-core-x11-base"
- PACKAGE_GROUP_x11-sato = "task-core-x11-sato"
- PACKAGE_GROUP_x11-netbook = "task-core-x11-netbook"
-diff --git a/meta/recipes-sato/tasks/task-core-x11-mini.bb b/meta/recipes-sato/tasks/task-core-x11-mini.bb
+diff --git a/meta/recipes-graphics/builder/builder_0.1.bb b/meta/recipes-graphics/builder/builder_0.1.bb
 new file mode 100644
-index 0000000..35779d9
+index 0000000..abe329f
 --- /dev/null
-+++ b/meta/recipes-sato/tasks/task-core-x11-mini.bb
-@@ -0,0 +1,45 @@
-+#
-+# Copyright (C) 2011 Intel Corporation
-+#
-+
-+DESCRIPTION = "Tasks for core X11 applications"
-+LICENSE = "MIT"
-+LIC_FILES_CHKSUM = "file://${COREBASE}/LICENSE;md5=3f40d7994397109285ec7b81fdeb3b58 \
-+                    file://${COREBASE}/meta/COPYING.MIT;md5=3da9cfbcb788c80a0384361b4de20420"
++++ b/meta/recipes-graphics/builder/builder_0.1.bb
+@@ -0,0 +1,27 @@
++SUMMARY = "New user to do specific job"
++DESCRIPTION = "This recipe create a new user named ${PN}, who is used for specific jobs like building. The task can be auto started via mini X"
++SECTION = "x11"
 +PR = "r0"
++LICENSE = "MIT"
++LIC_FILES_CHKSUM = "file://auto_start.sh;endline=5;md5=66d6c43a8b2583e3bd70c6b020f679a4"
 +
-+PACKAGES = "\
-+    task-core-x11-mini \
-+    task-core-x11-mini-dbg \
-+    task-core-x11-mini-dev \
-+    "
++SRC_URI = "file://auto_start.sh"
 +
-+PACKAGE_ARCH = "${MACHINE_ARCH}"
++S = "${WORKDIR}"
 +
-+XSERVER ?= "xserver-kdrive-fbdev"
++RDEPENDS_${PN} = "minix-session"
 +
-+ALLOW_EMPTY = "1"
++inherit useradd
 +
-+ROOTLESS_X = "1"
++USERADD_PACKAGES = "${PN}"
++USERADD_PARAM_${PN} = "--system --create-home \
++                       --groups video,tty,audio \
++                       --user-group ${PN}"
 +
-+# xserver-common, x11-common
-+VIRTUAL-RUNTIME_xserver_common ?= "x11-common"
++do_install () {
++	install -d -m 755 ${D}/etc/minix/session.d
++	install -p -m 755 auto_start.sh ${D}/etc/minix/session.d/
 +
-+# elsa, xserver-nodm-init
-+VIRTUAL-RUNTIME_graphical_init_manager ?= "xserver-nodm-init"
++	chown  ${PN}.${PN} ${D}/etc/minix/session.d/auto_start.sh
++}
 +
+diff --git a/meta/recipes-graphics/builder/files/auto_start.sh b/meta/recipes-graphics/builder/files/auto_start.sh
+new file mode 100644
+index 0000000..7247d1c
+--- /dev/null
++++ b/meta/recipes-graphics/builder/files/auto_start.sh
+@@ -0,0 +1,11 @@
++#!/bin/sh
++#This script will be called via minix X session on behalf of file owner, after
++#installed in /etc/minix/session.d/. Any auto start jobs including X apps can
++#be put here
 +
-+RDEPENDS_task-core-x11-mini = "\
-+    dbus \
-+    pointercal \
-+    matchbox-terminal \
-+    matchbox-wm \
-+    minix-session \
-+    ${XSERVER} \
-+    ${VIRTUAL-RUNTIME_xserver_common} \
-+    ${VIRTUAL-RUNTIME_graphical_init_manager} \
-+    liberation-fonts \
-+    xauth \
-+    xhost \
-+    xset \
-+    xrandr"
++# start hob here
++#cd /intel/poky/poky
++#. ./oe-init-build-env
++#../scripts/hob
++
++matchbox-terminal&
 -- 
 1.7.1
 
