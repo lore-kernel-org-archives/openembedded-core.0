@@ -1,27 +1,33 @@
-Received: from stoexhubfe02.domain01.net ([83.145.59.141])
-	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <anders@chargestorm.se>) id 1RdKuW-0007Ni-Q0
-	for openembedded-core@lists.openembedded.org;
-	Wed, 21 Dec 2011 13:04:41 +0100
-Received: from ad.chargestorm.se (193.235.91.228) by stoexhubfe02.domain01.net
-	(10.12.10.7) with Microsoft SMTP Server (TLS) id 8.3.213.0;
-	Wed, 21 Dec 2011 12:57:32 +0100
-Date: Wed, 21 Dec 2011 12:57:29 +0100
-From: Anders Darander <anders@chargestorm.se>
-To: <openembedded-core@lists.openembedded.org>
-Message-ID: <20111221115728.GA6198@ad.chargestorm.se>
-Mail-Followup-To: openembedded-core@lists.openembedded.org
+Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
+	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <richard.purdie@linuxfoundation.org>)
+	id 1RdLrP-0000h4-7X for openembedded-core@lists.openembedded.org;
+	Wed, 21 Dec 2011 14:05:31 +0100
+Received: from localhost (localhost [127.0.0.1])
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id pBLCwQCN008801
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 21 Dec 2011 12:58:26 GMT
+Received: from tim.rpsys.net ([127.0.0.1])
+	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
+	port 10024) with LMTP
+	id 08159-05 for <openembedded-core@lists.openembedded.org>;
+	Wed, 21 Dec 2011 12:58:22 +0000 (GMT)
+Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id pBLCwJox008795
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO)
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 21 Dec 2011 12:58:21 GMT
+Message-ID: <1324472301.16323.24.camel@ted>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Date: Wed, 21 Dec 2011 12:58:21 +0000
+In-Reply-To: <1324468506.24417.278.camel@phil-desktop>
 References: <1324465882.16323.13.camel@ted>
-	<CAP9ODKoktx1ByHFbizz7-Dcs3_cS3T5nrytFLcvU=O4imkN13A@mail.gmail.com>
-MIME-Version: 1.0
-In-Reply-To: <CAP9ODKoktx1ByHFbizz7-Dcs3_cS3T5nrytFLcvU=O4imkN13A@mail.gmail.com>
-X-Accept-Language: sv, en, de
-X-GPG-Fingerprint: 5AF0 B2E9 78FE 9D75 D110  6F8F 3E31 84D7 920E 938C
-X-GPG-Key-Id: 0x920E938C
-X-GPG-Keyserver: hkp://keys.gnupg.net
-Organization: ChargeStorm AB
-User-Agent: Mutt/1.5.21 (2010-09-15)
-X-GFI-SMTP-Submission: 1
+	<1324468506.24417.278.camel@phil-desktop>
+X-Mailer: Evolution 3.2.1- 
+Mime-Version: 1.0
+X-Virus-Scanned: amavisd-new at rpsys.net
 Subject: Re: RFC: nativesdk and native recipe names
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
@@ -37,34 +43,58 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 21 Dec 2011 12:04:41 -0000
-Content-Type: text/plain; charset="us-ascii"
-Content-Disposition: inline
+X-List-Received-Date: Wed, 21 Dec 2011 13:05:31 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-* Otavio Salvador <otavio@ossystems.com.br> [111221 12:37]:
-> On Wed, Dec 21, 2011 at 09:11, Richard Purdie <
-> richard.purdie@linuxfoundation.org> wrote:
+On Wed, 2011-12-21 at 11:55 +0000, Phil Blundell wrote:
+> On Wed, 2011-12-21 at 11:11 +0000, Richard Purdie wrote:
+> > If we change nativesdk to become a prefix, the problem can share the
+> > same code as multilib and become much more widely usable rather than the
+> > current special cases. Its obviously a fairly major change in recipe
+> > naming though. Would changing this be acceptable?
+> 
+> I wonder whether we should just stop this business of bashing PN around
+> altogether and encode the native- or sdk-ness into PACKAGE_ARCH or some
+> such instead.  (I guess this would need bitbake enhanced to be able to
+> build a parallel dependency tree for each architecture, and a way of
+> specifying the desired arch in DEPENDS, neither of which it can
+> presumably do at the moment.) 
 
->     If we change nativesdk to become a prefix, the problem can share the
->     same code as multilib and become much more widely usable rather than the
->     current special cases. Its obviously a fairly major change in recipe
->     naming though. Would changing this be acceptable?
+This is certainly an alternative and we already encode the data into
+PACKAGE_ARCH FWIW. My gut instinct says the bitbake changes that would
+be required are rather complex though.
 
-> I second this as this makes it more consistent and predictable (with the plus
-> of avoiding naming hacks too).
+At a high level the issue is making each variant appear unique to
+bitbake so I guess you could do this if you prefixed PROVIDES and R*
+variables internally to bitbake, a bit like BBCLASSEXTEND already does
+with filenames.
 
-I think I'll second this as well...
+This opens up questions like whether we'd have machine behave more like
+a BBCLASSEXTEND so you could do something like:
 
-So far, I haven't used the multilib-features, but just to be sure, there
-is no problem with using prefixes both for multilibs and nativesdk?
-(Like I said, I haven't studied the multilib code/usecases, thus it's
-quite possible that this is a non-issue).
+bitbake qemuarm:core-image-sato qemumips:core-image-sato
+
+which is certainly something people have asked before. Of course we'd
+have to support stacking these:
+
+bitbake qemux86:multilib-lib32:core-image-sato
+
+and I'm shuddering to think of some of the corner cases.
+
+In summary, I think its worth thinking about but its a long term change
+which isn't going to be viable any time soon.
+
+> All these transforms on PN seem rather fragile and, although changing
+> the infix to be a prefix will help, it still doesn't completely
+> eliminate the chance of ambiguity.
+
+It doesn't eliminate the issue but it woiuld certainly be an
+improvement...
 
 Cheers,
-Anders
 
--- 
-Anders Darander
-ChargeStorm AB / eStorm AB
+Richard
+
 
 
