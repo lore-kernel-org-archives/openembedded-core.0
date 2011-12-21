@@ -1,23 +1,27 @@
-Received: from smtp2-g21.free.fr ([212.27.42.2])
+Received: from mga09.intel.com ([134.134.136.24])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <eric@eukrea.com>) id 1RdO10-0004Sh-JL
+	(envelope-from <paul.eggleton@linux.intel.com>) id 1RdO1G-0004UY-0n
 	for openembedded-core@lists.openembedded.org;
-	Wed, 21 Dec 2011 16:23:34 +0100
-Received: from [192.168.1.15] (unknown [82.240.38.71])
-	by smtp2-g21.free.fr (Postfix) with ESMTP id ADCAC4B04B0
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 21 Dec 2011 16:16:27 +0100 (CET)
-Message-ID: <4EF1F84A.6060102@eukrea.com>
-Date: Wed, 21 Dec 2011 16:16:26 +0100
-From: =?ISO-8859-1?Q?Eric_B=E9nard?= <eric@eukrea.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:8.0) Gecko/20111105 Thunderbird/8.0
+	Wed, 21 Dec 2011 16:23:50 +0100
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+	by orsmga102.jf.intel.com with ESMTP; 21 Dec 2011 07:16:43 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.67,352,1309762800"; d="scan'208";a="88953799"
+Received: from unknown (HELO helios.localnet) ([10.252.122.36])
+	by orsmga001.jf.intel.com with ESMTP; 21 Dec 2011 07:16:38 -0800
+From: Paul Eggleton <paul.eggleton@linux.intel.com>
+To: Koen Kooi <koen@dominion.thruhere.net>
+Date: Wed, 21 Dec 2011 15:16:37 +0000
+Message-ID: <2441520.NnWG08Wz7i@helios>
+Organization: Intel Corporation
+User-Agent: KMail/4.7.4 (Linux/3.0.0-14-generic-pae; KDE/4.7.4; i686; ; )
+In-Reply-To: <1482711.caT8mReHxH@helios>
+References: <cover.1324316137.git.paul.eggleton@linux.intel.com>
+	<C0A5EF9A-CDED-41D7-B7D0-2FCB16771898@dominion.thruhere.net>
+	<1482711.caT8mReHxH@helios>
 MIME-Version: 1.0
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-References: <4EF1F39E.60903@jhksoftware.com>
-In-Reply-To: <4EF1F39E.60903@jhksoftware.com>
-Subject: Re: meta-toolchain-qte and wrong paths to QT tools
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH 0/2] psplash fixes
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -32,45 +36,42 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 21 Dec 2011 15:23:34 -0000
-Content-Type: text/plain; charset=ISO-8859-1; format=flowed
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Wed, 21 Dec 2011 15:23:50 -0000
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
 
-Hi Juraj,
+On Monday 19 December 2011 19:12:10 Paul Eggleton wrote:
+> On Monday 19 December 2011 20:02:02 Koen Kooi wrote:
+> > In OE-classic we had IMAGE_SPLASH. Btw, I'm not using
+> > core-image.bbclase.
+> 
+> Well we could always use IMAGE_SPLASH and bring it in via image.bbclass. It
+> seems to me like something you should be able to enable or exchange easily
+> for any image.
+> 
+> > >>> Would update-alternatives be needed at all in
+> > >>> that case?
+> > >> 
+> > >> It would if you want to change it after booting :)
+> > > 
+> > > What's the use case for changing the splash image after booting?
+> > 
+> > If you splash contains text its nice to be able to exchange it as easily
+> > as the rest of the system.
+> 
+> So is this for i18n? Or do you have something in the text that's likely to
+> need changing? Might it be better to provide an alternative channel for
+> displaying text in psplash for that?
 
-Le 21/12/2011 15:56, Juraj Hercek a =E9crit :
-> I've two questions:
->
-> 1) When I build meta-toolchain-qte (c2de8d4 metadata revision) and inst=
-all the
-> resulting sdk, I see two directories in /usr/local/: oecore-i686-arm an=
-d
-> oecore-i686-i686. What is a rationale behind having these two directori=
-es
-> instead of one i.e.: oecore-i686-arm?
->
-> 2) The oecore-i686-arm/environment-setup-armv5te-oe-linux-gnueabi scrip=
-t sets
-> paths to the QT tools which should be installed in oecore-i686-arm dire=
-ctory,
-> but they are not. These tools are installed under oecore-i686-i686 dire=
-ctory.
-> Changing the path in environment-setup-armv5te-oe-linux-gnueabi after
-> toolchain installation is easy, but I do not consider it to be a correc=
-t fix
-> (assuming that oecore-i686-{arm,i686} directories represents proper too=
-lchain
-> structure). What is a proper fix for this issue?
->
-> Thank you in advance for your response(s).
->
-did you build a i686 machine before building the arm one in the same tmp =
-?
+Ping - if you help me to understand what you're trying to achieve then we can 
+try to figure out the best way to solve it.
 
-I have a similar problem reported here :
-http://lists.linuxtogo.org/pipermail/openembedded-core/2011-December/0144=
-80.html
+Cheers,
+Paul
 
-Eric
+-- 
+
+Paul Eggleton
+Intel Open Source Technology Centre
 
 
