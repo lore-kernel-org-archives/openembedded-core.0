@@ -1,33 +1,32 @@
-Received: from mail-ee0-f47.google.com ([74.125.83.47])
+Received: from mail-ww0-f43.google.com ([74.125.82.43])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <otavio.salvador@gmail.com>) id 1RdSXa-0001ii-J7
+	(envelope-from <koen@dominion.thruhere.net>) id 1RdSdB-0001uK-Ts
 	for openembedded-core@lists.openembedded.org;
-	Wed, 21 Dec 2011 21:13:30 +0100
-Received: by eeit10 with SMTP id t10so3754569eei.6
+	Wed, 21 Dec 2011 21:19:17 +0100
+Received: by wgbds11 with SMTP id ds11so12670834wgb.24
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 21 Dec 2011 12:06:16 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
-	h=mime-version:sender:in-reply-to:references:date
-	:x-google-sender-auth:message-id:subject:from:to:cc:content-type;
-	bh=NtijmvjUnElpbC4LIkGLPpnmVplXxiOt7sS8Vhrz7+0=;
-	b=TE43++nv9rzHgZdJaqY71gOKEro/Wp2Y5fIKFC3ylftpPWTnNRpNuvupbBP4l3xxZR
-	QAsrcp4Bxva9yHRzC1y2A7vefvyozuAwxQfJVa7p92i4+R3nXiZ8rkfTEinGyPOvdBjv
-	MrmpX6MJ/vh8P7xKJg/dMWC2PyllF2hktF4Xs=
-MIME-Version: 1.0
-Received: by 10.205.120.148 with SMTP id fy20mr2132594bkc.125.1324497976159;
-	Wed, 21 Dec 2011 12:06:16 -0800 (PST)
-Sender: otavio.salvador@gmail.com
-Received: by 10.204.78.79 with HTTP; Wed, 21 Dec 2011 12:06:16 -0800 (PST)
-In-Reply-To: <1324496894-29239-1-git-send-email-victor.quicksilver@gmail.com>
+	Wed, 21 Dec 2011 12:12:09 -0800 (PST)
+Received: by 10.227.206.76 with SMTP id ft12mr7724905wbb.1.1324498329687;
+	Wed, 21 Dec 2011 12:12:09 -0800 (PST)
+Received: from [172.20.1.20] (ip545070eb.adsl-surfen.hetnet.nl.
+	[84.80.112.235])
+	by mx.google.com with ESMTPS id fi11sm7026235wbb.9.2011.12.21.12.12.08
+	(version=TLSv1/SSLv3 cipher=OTHER);
+	Wed, 21 Dec 2011 12:12:09 -0800 (PST)
 References: <1318534968.3158.2.camel@lenovo.internal.reciva.com>
 	<1324496894-29239-1-git-send-email-victor.quicksilver@gmail.com>
-Date: Wed, 21 Dec 2011 18:06:16 -0200
-X-Google-Sender-Auth: j3ie_Sz3CKM2q-2k3bEg2DtKlNc
-Message-ID: <CAP9ODKrU5xKwpZc5vLXOJsdz8HDtb4nC8-toq9RdQC9--og9JA@mail.gmail.com>
-From: Otavio Salvador <otavio@ossystems.com.br>
+	<CAP9ODKrU5xKwpZc5vLXOJsdz8HDtb4nC8-toq9RdQC9--og9JA@mail.gmail.com>
+In-Reply-To: <CAP9ODKrU5xKwpZc5vLXOJsdz8HDtb4nC8-toq9RdQC9--og9JA@mail.gmail.com>
+Mime-Version: 1.0 (1.0)
+Message-Id: <2FD254D7-6998-44BC-BACB-85BBA4BEB794@dominion.thruhere.net>
+X-Mailer: iPhone Mail (9A405)
+From: Koen Kooi <koen@dominion.thruhere.net>
+Date: Wed, 21 Dec 2011 21:12:07 +0100
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Cc: philb@gnu.org
+Cc: "philb@gnu.org" <philb@gnu.org>,
+	Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
 Subject: Re: [PATCH] conf: machine: includes: add armv6-novfp support
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
@@ -43,52 +42,56 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 21 Dec 2011 20:13:30 -0000
-Content-Type: multipart/alternative; boundary=000e0ce040525feead04b49fb73e
+X-List-Received-Date: Wed, 21 Dec 2011 20:19:18 -0000
+Content-Transfer-Encoding: 7bit
+Content-Type: multipart/alternative;
+	boundary=Apple-Mail-134A2FAB-56BD-4F1F-85E7-AF7647C64D7A
 
---000e0ce040525feead04b49fb73e
-Content-Type: text/plain; charset=ISO-8859-1
+--Apple-Mail-134A2FAB-56BD-4F1F-85E7-AF7647C64D7A
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain;
+	charset=us-ascii
 
-On Wed, Dec 21, 2011 at 17:48, vquicksilver <victor.quicksilver@gmail.com>wrote:
+and a missing real name for the SOB
 
+Op 21 dec. 2011 om 21:06 heeft Otavio Salvador <otavio@ossystems.com.br> het=
+ volgende geschreven:
+
+> On Wed, Dec 21, 2011 at 17:48, vquicksilver <victor.quicksilver@gmail.com>=
+ wrote:
 > This work was made by Victor Enriquez and then modified by
 > Denis Carikli who was helped by Mark Hatle comments( who is
 > fray on #yocto channel on Freenode ).
->
+>=20
 > The changes are for adding support to armv6-novfp, forbuilding
 > binaries for armv6 machines without vfp, for examplethe htcdream.
+>=20
+> Some typos on the commit log and missing spaces.
+>=20
+> --=20
+> Otavio Salvador                             O.S. Systems
+> E-mail: otavio@ossystems.com.br  http://www.ossystems.com.br
+> Mobile: +55 53 9981-7854              http://projetos.ossystems.com.br
+>=20
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
 
+--Apple-Mail-134A2FAB-56BD-4F1F-85E7-AF7647C64D7A
+Content-Transfer-Encoding: 7bit
+Content-Type: text/html;
+	charset=utf-8
 
-Some typos on the commit log and missing spaces.
-
--- 
-Otavio Salvador                             O.S. Systems
-E-mail: otavio@ossystems.com.br  http://www.ossystems.com.br
-Mobile: +55 53 9981-7854              http://projetos.ossystems.com.br
-
---000e0ce040525feead04b49fb73e
-Content-Type: text/html; charset=ISO-8859-1
-Content-Transfer-Encoding: quoted-printable
-
-<div class=3D"gmail_quote">On Wed, Dec 21, 2011 at 17:48, vquicksilver <spa=
-n dir=3D"ltr">&lt;<a href=3D"mailto:victor.quicksilver@gmail.com">victor.qu=
-icksilver@gmail.com</a>&gt;</span> wrote:<br><blockquote class=3D"gmail_quo=
-te" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex"=
->
+<html><head></head><body bgcolor="#FFFFFF"><div>and a missing real name for the SOB<br><br>Op 21 dec. 2011 om 21:06 heeft Otavio Salvador &lt;<a href="mailto:otavio@ossystems.com.br">otavio@ossystems.com.br</a>&gt; het volgende geschreven:<br><br></div><div></div><blockquote type="cite"><div><div class="gmail_quote">On Wed, Dec 21, 2011 at 17:48, vquicksilver <span dir="ltr">&lt;<a href="mailto:victor.quicksilver@gmail.com">victor.quicksilver@gmail.com</a>&gt;</span> wrote:<br><blockquote class="gmail_quote" style="margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex">
 This work was made by Victor Enriquez and then modified by<br>
 Denis Carikli who was helped by Mark Hatle comments( who is<br>
 fray on #yocto channel on Freenode ).<br>
 <br>
 The changes are for adding support to armv6-novfp, forbuilding<br>
-binaries for armv6 machines without vfp, for examplethe htcdream.</blockquo=
-te><div><br></div><div>Some typos on the commit log and missing spaces.</di=
-v><div><br></div></div>-- <br>Otavio Salvador=A0 =A0 =A0 =A0 =A0 =A0 =A0 =
-=A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0O.S. Systems<br>
-E-mail: <a href=3D"mailto:otavio@ossystems.com.br" target=3D"_blank">otavio=
-@ossystems.com.br</a>=A0 <a href=3D"http://www.ossystems.com.br" target=3D"=
-_blank">http://www.ossystems.com.br</a><br>Mobile: +55 53 9981-7854=A0 =A0 =
-=A0 =A0=A0 =A0 =A0 =A0<a href=3D"http://projetos.ossystems.com.br" target=
-=3D"_blank">http://projetos.ossystems.com.br</a><br>
+binaries for armv6 machines without vfp, for examplethe htcdream.</blockquote><div><br></div><div>Some typos on the commit log and missing spaces.</div><div><br></div></div>-- <br>Otavio Salvador&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;O.S. Systems<br>
+E-mail: <a href="mailto:otavio@ossystems.com.br" target="_blank">otavio@ossystems.com.br</a>&nbsp; <a href="http://www.ossystems.com.br" target="_blank">http://www.ossystems.com.br</a><br>Mobile: +55 53 9981-7854&nbsp; &nbsp; &nbsp; &nbsp;&nbsp; &nbsp; &nbsp; &nbsp;<a href="http://projetos.ossystems.com.br" target="_blank">http://projetos.ossystems.com.br</a><br>
 <br>
+</div></blockquote><blockquote type="cite"><div><span>_______________________________________________</span><br><span>Openembedded-core mailing list</span><br><span><a href="mailto:Openembedded-core@lists.openembedded.org">Openembedded-core@lists.openembedded.org</a></span><br><span><a href="http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core">http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core</a></span><br></div></blockquote></body></html>
 
---000e0ce040525feead04b49fb73e--
+--Apple-Mail-134A2FAB-56BD-4F1F-85E7-AF7647C64D7A--
