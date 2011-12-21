@@ -1,33 +1,26 @@
-Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
-	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <richard.purdie@linuxfoundation.org>)
-	id 1RdQCA-00009h-Ly for openembedded-core@lists.openembedded.org;
-	Wed, 21 Dec 2011 18:43:15 +0100
-Received: from localhost (localhost [127.0.0.1])
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id pBLHa8sR012107
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 21 Dec 2011 17:36:08 GMT
-Received: from tim.rpsys.net ([127.0.0.1])
-	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
-	port 10024) with LMTP
-	id 11633-08 for <openembedded-core@lists.openembedded.org>;
-	Wed, 21 Dec 2011 17:36:02 +0000 (GMT)
-Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id pBLHa0tC012101
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO)
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 21 Dec 2011 17:36:01 GMT
-Message-ID: <1324488963.19860.10.camel@ted>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Date: Wed, 21 Dec 2011 17:36:03 +0000
-In-Reply-To: <cover.1324485726.git.jiajun.xu@intel.com>
-References: <cover.1324485726.git.jiajun.xu@intel.com>
-X-Mailer: Evolution 3.2.1- 
-Mime-Version: 1.0
-X-Virus-Scanned: amavisd-new at rpsys.net
-Subject: Re: [PATCH 0/3] ltp: Add recipe from OE
+Received: from mga03.intel.com ([143.182.124.21])
+	by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <josh@linux.intel.com>) id 1RdQp3-0001S6-OU
+	for openembedded-core@lists.openembedded.org;
+	Wed, 21 Dec 2011 19:23:26 +0100
+Received: from azsmga002.ch.intel.com ([10.2.17.35])
+	by azsmga101.ch.intel.com with ESMTP; 21 Dec 2011 10:16:19 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="49478825"
+Received: from unknown (HELO [10.255.15.188]) ([10.255.15.188])
+	by AZSMGA002.ch.intel.com with ESMTP; 21 Dec 2011 10:16:19 -0800
+Message-ID: <4EF22273.3000007@linux.intel.com>
+Date: Wed, 21 Dec 2011 10:16:19 -0800
+From: Joshua Lock <josh@linux.intel.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:8.0) Gecko/20111115 Thunderbird/8.0
+MIME-Version: 1.0
+To: openembedded-core@lists.openembedded.org
+References: <cover.1324441819.git.shane.wang@intel.com>
+	<4EF17275.6080202@linux.intel.com>
+	<D5AB6E638E5A3E4B8F4406B113A5A19A12ED757FB6@shsmsx501.ccr.corp.intel.com>
+In-Reply-To: <D5AB6E638E5A3E4B8F4406B113A5A19A12ED757FB6@shsmsx501.ccr.corp.intel.com>
+Subject: Re: [PATCH 0/1] [RESEND]Create a script for SUMMARY audit in recipes
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -42,35 +35,43 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 21 Dec 2011 17:43:15 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Wed, 21 Dec 2011 18:23:26 -0000
+Content-Type: text/plain; charset=ISO-8859-1
 Content-Transfer-Encoding: 7bit
 
-On Thu, 2011-12-22 at 00:45 +0800, Jiajun Xu wrote:
-> The pull request is to address [YOCTO #1568] - "Add recipe for ltp/posix tests and automate test".
-> ltp is ported from OE and updated to latest version(20110915). Testcases are installed to 
-> ${D}/opt/ltp and POISX test suite is also copied into ${D}/opt/ltp/testcases folder. We 
-> include ltp to testapps list by default.
+On 20/12/11 22:10, Wang, Shane wrote:
+> Saul Wold wrote on 2011-12-21:
 > 
-> Note that some cases are removed from ltp since they depend on expect. Currently there is 
-> no expect recipe in OE and we will add it for enhancement next.
-> 
-> The following changes since commit ae4118a1f78f113c3d687c3aa6a86007cf977cae:
-> 
->   libsdl 1.2.14: fix packaging (2011-12-19 12:17:36 +0000)
-> 
-> are available in the git repository at:
->   git://git.pokylinux.org/poky-contrib jxu49/oe-contrib
->   http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=jxu49/oe-contrib
-> 
-> Jiajun Xu (3):
->   ltp: Add recipe from OE
->   distro_tracking_fields: add information for ltp
->   task-core-tools: add ltp to testapps list
+>> On 12/20/2011 08:32 PM, Shane Wang wrote:
+>>> Here is the script to check which recipe provides SUMMARY and which
+>>> doesnot. For those which do not, maintainer should add or update to a
+>>> meaningful summary for HOB to display in description.
+>>>
+>> Shane,
+>>
+>> I guess I am not understanding why this is needed.  Why can't we use
+>> DESCRIPTION which is a required entry?  Use the first X Characters of
+>> DESCRIPTION?
 
-Merged to master, thanks.
+There's a huge difference between a purposefully crafted 72 character
+summary and a free-for all description field that will have to be
+chopped to be displayed in the GUI. I originally chose summary as a
+succinct 72 characters would fit much better in the available UI.
 
-Richard
+Aside: according to the Yocto docs the SUMMARY field should fall back to
+DESCRIPTION anyway. It's just that right now we do that at the package
+back-end level for each package back-end.
 
+
+> OK, then HOB has a bug. To use DESCRIPTION instead of SUMMARY. I am OK with that.
+> Josh, Dongxiao, did you see any problem if I change that?
+
+I think it's the wrong solution.
+
+Joshua
+-- 
+Joshua Lock
+        Yocto Project "Johannes factotum"
+        Intel Open Source Technology Centre
 
 
