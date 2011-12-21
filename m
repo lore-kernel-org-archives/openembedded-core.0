@@ -1,53 +1,36 @@
-Received: from ch1ehsobe005.messaging.microsoft.com ([216.32.181.185]
-	helo=ch1outboundpool.messaging.microsoft.com)
+Received: from mga09.intel.com ([134.134.136.24])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <B19537@freescale.com>) id 1RdG8I-0004Pc-Mi
+	(envelope-from <dexuan.cui@intel.com>) id 1RdGil-0005gF-1o
 	for openembedded-core@lists.openembedded.org;
-	Wed, 21 Dec 2011 07:58:34 +0100
-Received: from mail179-ch1-R.bigfish.com (10.43.68.252) by
-	CH1EHSOBE002.bigfish.com (10.43.70.52) with Microsoft SMTP Server id
-	14.1.225.23; Wed, 21 Dec 2011 06:21:06 +0000
-Received: from mail179-ch1 (localhost [127.0.0.1])	by
-	mail179-ch1-R.bigfish.com (Postfix) with ESMTP id 1C1F0260086	for
-	<openembedded-core@lists.openembedded.org>;
-	Wed, 21 Dec 2011 06:21:37 +0000 (UTC)
-X-SpamScore: -12
-X-BigFish: VS-12(zz9371I936eK542M1432N98dKzz1202hzz8275dhz2dh2a8h668h839h8e2h8e3h944hbe9n)
-X-Forefront-Antispam-Report: CIP:70.37.183.190; KIP:(null); UIP:(null); IPV:NLI;
-	H:mail.freescale.net; RD:none; EFVD:NLI
-Received: from mail179-ch1 (localhost.localdomain [127.0.0.1]) by mail179-ch1
-	(MessageSwitch) id 132444849528858_17924;
-	Wed, 21 Dec 2011 06:21:35 +0000 (UTC)
-Received: from CH1EHSMHS006.bigfish.com (snatpool1.int.messaging.microsoft.com
-	[10.43.68.253])	by mail179-ch1.bigfish.com (Postfix) with ESMTP id
-	0236B180046	for <openembedded-core@lists.openembedded.org>;
-	Wed, 21 Dec 2011 06:21:35 +0000 (UTC)
-Received: from mail.freescale.net (70.37.183.190) by CH1EHSMHS006.bigfish.com
-	(10.43.70.6) with Microsoft SMTP Server (TLS) id 14.1.225.23;
-	Wed, 21 Dec 2011 06:21:04 +0000
-Received: from 039-SN2MPN1-023.039d.mgd.msft.net ([169.254.3.213]) by
-	039-SN1MMR1-001.039d.mgd.msft.net ([10.84.1.13]) with mapi id
-	14.01.0355.003; Wed, 21 Dec 2011 00:21:04 -0600
-From: Luo Zhenhua-B19537 <B19537@freescale.com>
-To: Patches and discussions about the oe-core layer
+	Wed, 21 Dec 2011 08:36:15 +0100
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+	by orsmga102.jf.intel.com with ESMTP; 20 Dec 2011 23:29:09 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.67,352,1309762800"; d="scan'208";a="88811540"
+Received: from pgsmsx602.gar.corp.intel.com ([10.221.43.81])
+	by orsmga001.jf.intel.com with ESMTP; 20 Dec 2011 23:29:08 -0800
+Received: from shsmsx601.ccr.corp.intel.com (10.239.4.112) by
+	pgsmsx602.gar.corp.intel.com (10.221.43.81) with Microsoft SMTP Server
+	(TLS) id 8.2.255.0; Wed, 21 Dec 2011 15:28:32 +0800
+Received: from shsmsx502.ccr.corp.intel.com ([10.239.4.96]) by
+	shsmsx601.ccr.corp.intel.com ([10.239.4.112]) with mapi;
+	Wed, 21 Dec 2011 15:28:31 +0800
+From: "Cui, Dexuan" <dexuan.cui@intel.com>
+To: Martin Jansa <martin.jansa@gmail.com>, Richard Purdie
+	<richard.purdie@linuxfoundation.org>, =?iso-8859-1?Q?Andreas_M=FCller?=
+	<schnitzeltony@gmx.de>, Koen Kooi <koen@dominion.thruhere.net>,
+	"openembedded-core@lists.openembedded.org"
 	<openembedded-core@lists.openembedded.org>
-Thread-Topic: [OE-core] [PATCH oe-core] valgrind: add powerpc into the
-	compatible host list
-Thread-Index: AQHMv6i3W2Ig/m6mEkSq5CWDpb9K5Q==
-Date: Wed, 21 Dec 2011 06:21:04 +0000
-Message-ID: <CA452391058F6D4E9715FB2C29D9312A010B9EEF@039-SN2MPN1-023.039d.mgd.msft.net>
-References: <1324289521-10140-1-git-send-email-b19537@freescale.com>
-	<C27D8181-0988-4BF7-A858-BC873D7C47F8@dominion.thruhere.net>
-	<CA452391058F6D4E9715FB2C29D9312A010B915F@039-SN2MPN1-023.039d.mgd.msft.net>
-	<1324297600.4568.170.camel@ted>
-In-Reply-To: <1324297600.4568.170.camel@ted>
-Accept-Language: en-US
+Date: Wed, 21 Dec 2011 15:28:29 +0800
+Thread-Topic: opkg still breaks meta-toolchain-gmae
+Thread-Index: Acy/siLj72s9X4jqRQ6I7V5HIXhktg==
+Message-ID: <1865303E0DED764181A9D882DEF65FB6EA8B6E1A65@shsmsx502.ccr.corp.intel.com>
+Accept-Language: zh-CN, en-US
 X-MS-Has-Attach: 
 X-MS-TNEF-Correlator: 
-x-originating-ip: [10.192.208.114]
+acceptlanguage: zh-CN, en-US
 MIME-Version: 1.0
-X-OriginatorOrg: freescale.com
-Subject: Re: [PATCH oe-core] valgrind: add powerpc into the compatible host list
+Subject: opkg still breaks meta-toolchain-gmae
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -62,48 +45,44 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 21 Dec 2011 06:58:35 -0000
+X-List-Received-Date: Wed, 21 Dec 2011 07:36:15 -0000
 Content-Language: en-US
-Content-Type: text/plain; charset="us-ascii"
+Content-Type: text/plain; charset="iso-8859-1"
 Content-Transfer-Encoding: quoted-printable
 
-Since nobody confirm that it works on mips, I will create a new patch to de=
-fine COMPATIBLE_HOST as following, does it make sense?
-	COMPATIBLE_HOST =3D '(i.86|x86_64|powerpc|powerpc64|ppc|ppc64|arm).*-linux=
-'
+Hi all,
+After I upgraded to the latest poky master (commit 4648aadf), core-image-sa=
+to-sdk can build file, but meta-toolchain-gmae (with ipk packaging) still d=
+oesn't work. Now the failure is:
+
+| error: Failed dependencies:
+|   libsdl-nativesdk is needed by qemu-nativesdk-0.15.1-r1.x86_64
+NOTE: package meta-toolchain-gmae-1.0-r6: task do_populate_sdk: Failed
 
 
-Best Regards,
+If I built with a slightly older commit  45987c5135, the failure is:
+| mkdir: cannot create directory `/var/lib/opkg'\'': Permission denied
+| Configuring libc6.
+...
+| + install -m 0644 /distro/dcui/1220/p1/build/tmp/work/i586-poky-linux/met=
+a-toolchain-gmae-1.0-r6/opkg-sdk.conf /distro/dcui/1220/p1/build/tmp/work/i=
+586-poky-linux/meta-toolchain-gmae-1.0-r6/sdk/image//opt/poky/1.1+snapshot/=
+sysroots/x86_64-pokysdk-l'
+| mkdir: cannot create directory `/var/lib/opkg': Permission denied
+...
+| gtk-update-icon-cache: Failed to open file /usr/share/icons/whiteglass/.i=
+con-theme.cache : Permission denied
+...
+| + do_exit=3D1
+| + test 1 =3D 1
+| + exit 1
+NOTE: package meta-toolchain-gmae-1.0-r6: task do_populate_sdk: Failed
 
-Zhenhua
+Looks somewhat the ${D} is empty, so the host directories are being install=
+ed into???
 
-
-> -----Original Message-----
-> From: openembedded-core-bounces@lists.openembedded.org [mailto:openembedd=
-ed-
-> core-bounces@lists.openembedded.org] On Behalf Of Richard Purdie
-> Sent: Monday, December 19, 2011 8:27 PM
-> To: Patches and discussions about the oe-core layer
-> Subject: Re: [OE-core] [PATCH oe-core] valgrind: add powerpc into the com=
-patible
-> host list
->=20
-> On Mon, 2011-12-19 at 10:32 +0000, Luo Zhenhua-B19537 wrote:
-> > Sure, if valgrind can work on x86, powerpc, arm, COMPATIBLE_HOST can be
-> removed, I will post a v2 patch.
->=20
-> Can someone confirm it works on mips too please?
->=20
-> Cheers,
->=20
-> Richard
->=20
->=20
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
-
+Thanks,
+-- Dexuan
 
 
 
