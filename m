@@ -1,33 +1,27 @@
-Received: from mail-wi0-f175.google.com ([209.85.212.175])
+Received: from smtp2-g21.free.fr ([212.27.42.2])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <koen@dominion.thruhere.net>) id 1RdMBX-00017s-2c
+	(envelope-from <eric@eukrea.com>) id 1RdNC2-0002tC-0m
 	for openembedded-core@lists.openembedded.org;
-	Wed, 21 Dec 2011 14:26:19 +0100
-Received: by wibhq7 with SMTP id hq7so1969823wib.6
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 21 Dec 2011 05:19:13 -0800 (PST)
-Received: by 10.180.88.10 with SMTP id bc10mr14324859wib.13.1324473553579;
-	Wed, 21 Dec 2011 05:19:13 -0800 (PST)
-Received: from [172.20.1.19] (ip545070eb.adsl-surfen.hetnet.nl.
-	[84.80.112.235])
-	by mx.google.com with ESMTPS id 1sm13418571wiz.11.2011.12.21.05.19.11
-	(version=TLSv1/SSLv3 cipher=OTHER);
-	Wed, 21 Dec 2011 05:19:12 -0800 (PST)
-Mime-Version: 1.0 (Apple Message framework v1251.1)
-From: Koen Kooi <koen@dominion.thruhere.net>
-In-Reply-To: <20111221100909.GD12791@jama.jama.net>
-Date: Wed, 21 Dec 2011 14:19:08 +0100
-Message-Id: <F499A5D5-2BC5-45CC-8DF0-ABD5146E1897@dominion.thruhere.net>
-References: <cover.1324456294.git.dvhart@linux.intel.com>
-	<2ad76233b10f9e4a61a6ecb5490f92fecdc1f1e1.1324456294.git.dvhart@linux.intel.com>
-	<20111221100909.GD12791@jama.jama.net>
-To: Martin Jansa <martin.jansa@gmail.com>
-X-Mailer: Apple Mail (2.1251.1)
-Cc: Yocto Project <yocto@yoctoproject.org>,
-	Darren Hart <dvhart@linux.intel.com>,
-	Patches and discussions about the oe-core layer
+	Wed, 21 Dec 2011 15:30:54 +0100
+Received: from [192.168.1.15] (unknown [82.240.38.71])
+	by smtp2-g21.free.fr (Postfix) with ESMTP id 6B7AE4B051E;
+	Wed, 21 Dec 2011 15:23:46 +0100 (CET)
+Message-ID: <4EF1EBF1.4090509@eukrea.com>
+Date: Wed, 21 Dec 2011 15:23:45 +0100
+From: =?UTF-8?B?RXJpYyBCw6luYXJk?= <eric@eukrea.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:8.0) Gecko/20111105 Thunderbird/8.0
+MIME-Version: 1.0
+To: Khem Raj <raj.khem@gmail.com>
+References: <1323851280-6342-1-git-send-email-raj.khem@gmail.com>
+	<1323856946.25491.31.camel@ted> <4EE8E607.5080207@emagii.com>
+	<CAMKF1sqgzc=RK4G2yMahvFrTAGSwH40fxjCy=tifrMU=isdO+w@mail.gmail.com>
+	<4EF02CDA.8070707@eukrea.com>
+	<CAMKF1soiqXt3dcJea5o=54bTaJNGUxRDHBoHe6TWa-hEx=AgHw@mail.gmail.com>
+In-Reply-To: <CAMKF1soiqXt3dcJea5o=54bTaJNGUxRDHBoHe6TWa-hEx=AgHw@mail.gmail.com>
+Cc: ulf@emagii.com, Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Subject: Re: [yocto] [PATCH 5/9] task-core-boot: Allow DISTRO to disable keymaps
+Subject: Re: [PATCH] gcc-4.6: Let G++ relocate gxx-include-dir when using --sysroot option
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -42,78 +36,44 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 21 Dec 2011 13:26:19 -0000
-X-Groupsio-MsgNum: 14574
-Content-Type: multipart/signed;
-	boundary="Apple-Mail=_42064903-0414-4CB0-A829-73ECA91E422A";
-	protocol="application/pgp-signature"; micalg=pgp-sha1
-
---Apple-Mail=_42064903-0414-4CB0-A829-73ECA91E422A
+X-List-Received-Date: Wed, 21 Dec 2011 14:30:54 -0000
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain;
-	charset=us-ascii
+
+Hi Khem,
+
+Le 20/12/2011 20:59, Khem Raj a =C3=A9crit :
+> On Mon, Dec 19, 2011 at 10:36 PM, Eric B=C3=A9nard<eric@eukrea.com>  wr=
+ote:
+>> Hi, Khem,
+>>
+>> Le 14/12/2011 19:38, Khem Raj a =C3=A9crit :
+>>
+>>> On Wed, Dec 14, 2011 at 10:08 AM, Ulf Samuelsson
+>>> <openembedded-core@emagii.com>    wrote:
+>>>>>
+>>>>>
+>>>>>
+>>>> Not familiar with gcc internals, but just want to reiterate the
+>>>> point that the problem occured (the one I saw) only when I had
+>>>> BB_NUMBER_THREADS at a high value, so WHEN things are done seems to
+>>>> be important.
+>>>
+>>>
+>> Seems more complicated than this. A customeer reproduced it with
+>> BB_THREAD=3D2 and PARALLEL=3Dj3 ... (I never reproduced in with BB_THR=
+EAD<
+>> 5)
+>>
+>
+> Can you see when gcc-runtime was finished building and staging w.r.t to=
+ the
+> failing app
+>
+rm_work on gcc-runtime was done far before do_configure on the failing ap=
+p
+(mysql in the present case).
+
+Eric
 
 
-Op 21 dec. 2011, om 11:09 heeft Martin Jansa het volgende geschreven:
-
-> On Wed, Dec 21, 2011 at 01:02:51AM -0800, Darren Hart wrote:
->> NOTE: I'm looking for a better way to do this.
->>=20
->> keymaps pulls in gettext, which can't build without wide character =
-support.
->>=20
->> Rather than have to add a -tiny variant of every MACHINE to drop =
-"keyboard" from
->> the MACHINE_FEATURES, just enable the DISTRO to define what gets =
-added to
->> RDEPENDS_task-core-boot when MACHINE_FEATURES includes keyboard. By =
-default,
->> keep "keymaps", but use DISTRO_KEYMAPS if it is set (to "" for =
-example).
->>=20
->> Signed-off-by: Darren Hart <dvhart@linux.intel.com>
->> ---
->> meta/recipes-core/tasks/task-core-boot.bb |    7 ++++++-
->> 1 files changed, 6 insertions(+), 1 deletions(-)
->>=20
->> diff --git a/meta/recipes-core/tasks/task-core-boot.bb =
-b/meta/recipes-core/tasks/task-core-boot.bb
->> index 05c280d..e097836 100644
->> --- a/meta/recipes-core/tasks/task-core-boot.bb
->> +++ b/meta/recipes-core/tasks/task-core-boot.bb
->> @@ -17,6 +17,11 @@ PR =3D "r9"
->> MACHINE_ESSENTIAL_EXTRA_RDEPENDS ?=3D ""
->> MACHINE_ESSENTIAL_EXTRA_RRECOMMENDS ?=3D ""
->>=20
->> +#
->> +# Set by the distro configuration to empty if not supported
->> +#
->> +DISTRO_KEYMAPS ?=3D "keymaps"
->=20
-> Why not VIRTUAL-RUNTIME_keymaps like everywhere else?
-
-Why not just create a proper task for -tiny instead of making the =
-already horrible task-core-boot even more horrible?
-
-Besided that: this patch needs to go to the oe-core list
-
-regards,
-
-Koen=
-
---Apple-Mail=_42064903-0414-4CB0-A829-73ECA91E422A
-Content-Transfer-Encoding: 7bit
-Content-Disposition: inline;
-	filename=signature.asc
-Content-Type: application/pgp-signature;
-	name=signature.asc
-Content-Description: Message signed with OpenPGP using GPGMail
-
------BEGIN PGP SIGNATURE-----
-
-iEYEARECAAYFAk7x3M4ACgkQMkyGM64RGpGFzwCfcFktO3ieJUryhkrJobmB96rS
-4b0Anjv2L3BIMg/F94/UbHh+G/4qKMKb
-=RYRi
------END PGP SIGNATURE-----
-
---Apple-Mail=_42064903-0414-4CB0-A829-73ECA91E422A--
