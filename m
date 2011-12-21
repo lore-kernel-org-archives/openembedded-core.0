@@ -1,28 +1,26 @@
-Received: from mail-vx0-f175.google.com ([209.85.220.175])
+Received: from mga14.intel.com ([143.182.124.37])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <koen@dominion.thruhere.net>) id 1RdJ0f-0001e6-Vo
+	(envelope-from <paul.eggleton@linux.intel.com>) id 1RdJeV-0004kZ-13
 	for openembedded-core@lists.openembedded.org;
-	Wed, 21 Dec 2011 11:02:55 +0100
-Received: by vcbf1 with SMTP id f1so4917422vcb.6
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 21 Dec 2011 01:55:48 -0800 (PST)
-Received: by 10.220.155.3 with SMTP id q3mr4191609vcw.36.1324461348358;
-	Wed, 21 Dec 2011 01:55:48 -0800 (PST)
-Received: from [172.20.1.19] (ip545070eb.adsl-surfen.hetnet.nl.
-	[84.80.112.235])
-	by mx.google.com with ESMTPS id dn20sm3754827vdb.15.2011.12.21.01.55.47
-	(version=TLSv1/SSLv3 cipher=OTHER);
-	Wed, 21 Dec 2011 01:55:47 -0800 (PST)
-Mime-Version: 1.0 (Apple Message framework v1251.1)
-From: Koen Kooi <koen@dominion.thruhere.net>
-In-Reply-To: <CAE=MDVN_3QBq_tr=-xfSrJr-5u4-azhrWytzpugzr+nzcxkJ_g@mail.gmail.com>
-Date: Wed, 21 Dec 2011 10:55:43 +0100
-Message-Id: <B70EE6F2-BB2B-4149-AFA3-8C07CDEDB45B@dominion.thruhere.net>
-References: <CAE=MDVN_3QBq_tr=-xfSrJr-5u4-azhrWytzpugzr+nzcxkJ_g@mail.gmail.com>
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-X-Mailer: Apple Mail (2.1251.1)
-Subject: Re: Architecture mismatch QA issue
+	Wed, 21 Dec 2011 11:44:03 +0100
+Received: from azsmga002.ch.intel.com ([10.2.17.35])
+	by azsmga102.ch.intel.com with ESMTP; 21 Dec 2011 02:36:56 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="49339274"
+Received: from unknown (HELO helios.localnet) ([10.252.122.36])
+	by AZSMGA002.ch.intel.com with ESMTP; 21 Dec 2011 02:36:56 -0800
+From: Paul Eggleton <paul.eggleton@linux.intel.com>
+To: edwin.zhai@intel.com
+Date: Wed, 21 Dec 2011 10:36:54 +0000
+Message-ID: <2254819.M8CecAPdr1@helios>
+Organization: Intel Corporation
+User-Agent: KMail/4.7.4 (Linux/3.0.0-14-generic-pae; KDE/4.7.4; i686; ; )
+In-Reply-To: <bb425c648fb30fa14fe5981b5c8bba8e8cf6ba5d.1324454963.git.edwin.zhai@intel.com>
+References: <cover.1324454963.git.edwin.zhai@intel.com>
+	<bb425c648fb30fa14fe5981b5c8bba8e8cf6ba5d.1324454963.git.edwin.zhai@intel.com>
+MIME-Version: 1.0
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH 1/4] minix-session: Add this recipe as the session file for mini X
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -37,56 +35,28 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 21 Dec 2011 10:02:55 -0000
-X-Groupsio-MsgNum: 14564
-Content-Type: multipart/signed;
-	boundary="Apple-Mail=_ACB76A80-E85C-43C7-AD7D-E1D80AE909BC";
-	protocol="application/pgp-signature"; micalg=pgp-sha1
+X-List-Received-Date: Wed, 21 Dec 2011 10:44:03 -0000
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
 
---Apple-Mail=_ACB76A80-E85C-43C7-AD7D-E1D80AE909BC
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain;
-	charset=iso-8859-1
+Hi Edwin,
+
+On Wednesday 21 December 2011 16:18:05 edwin.zhai@intel.com wrote:
+> From: Zhai Edwin <edwin.zhai@intel.com>
+> 
+> minix-session runs session files on behalf of file owner, so that no
+> rootless X required.
+
+A bit of a minor nitpick I know, but since "minix" is already the name of a 
+well-known operating system I would suggest changing this to mini-x-session or 
+similar.
+
+Cheers,
+Paul
+
+-- 
+
+Paul Eggleton
+Intel Open Source Technology Centre
 
 
-Op 21 dec. 2011, om 10:49 heeft mohamed basith het volgende geschreven:
-
-> Hi,
->=20
->  I got the error when compiling Qt, pls help me to fix this error.
->=20
-> | NOTE: Checking Package: libqt-embeddedpvrqwswsegl4-dbg
-> | NOTE: Checking Package: qt4-embedded-tools
-> | ERROR: QA Issue: Architecture did not match (40 to 3) on =
-/work/armv5te-angstrom-linux-gnueabi/qt4-embedded-4.7.4-r39.5/packages-spl=
-it/qt4-embedded-tools/usr/bin/rcc
-> | ERROR: QA Issue: Architecture did not match (40 to 3) on =
-/work/armv5te-angstrom-linux-gnueabi/qt4-embedded-4.7.4-r39.5/packages-spl=
-it/qt4-embedded-tools/usr/bin/moc
-> | ERROR: QA Issue: Architecture did not match (40 to 3) on =
-/work/armv5te-angstrom-linux-gnueabi/qt4-embedded-4.7.4-r39.5/packages-spl=
-it/qt4-embedded-tools/usr/bin/uic
-
-Hmmm, do we know why these sometimes are target binaries and sometimes =
-host binaries?
-
-regards,
-
-Koen=
-
---Apple-Mail=_ACB76A80-E85C-43C7-AD7D-E1D80AE909BC
-Content-Transfer-Encoding: 7bit
-Content-Disposition: inline;
-	filename=signature.asc
-Content-Type: application/pgp-signature;
-	name=signature.asc
-Content-Description: Message signed with OpenPGP using GPGMail
-
------BEGIN PGP SIGNATURE-----
-
-iEYEARECAAYFAk7xrSEACgkQMkyGM64RGpFDiQCgrQcHk2KLn/ACj80Shl2epJJw
-vvoAn1NsR6Ul10PEmAHJuogLNEOmRdHm
-=7u1Q
------END PGP SIGNATURE-----
-
---Apple-Mail=_ACB76A80-E85C-43C7-AD7D-E1D80AE909BC--
