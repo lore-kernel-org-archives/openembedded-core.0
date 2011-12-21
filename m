@@ -1,23 +1,39 @@
-Received: from smtp3-g21.free.fr ([212.27.42.3])
+Received: from mga09.intel.com ([134.134.136.24])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <eric@eukrea.com>) id 1RdVoJ-0007Nl-PF
+	(envelope-from <jessica.zhang@intel.com>) id 1RdW5i-0007yu-6H
 	for openembedded-core@lists.openembedded.org;
-	Thu, 22 Dec 2011 00:43:16 +0100
-Received: from [192.168.2.10] (unknown [82.233.81.124])
-	by smtp3-g21.free.fr (Postfix) with ESMTP id C399FA630E
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 22 Dec 2011 00:35:14 +0100 (CET)
-Message-ID: <4EF26D31.9050209@eukrea.com>
-Date: Thu, 22 Dec 2011 00:35:13 +0100
-From: =?ISO-8859-1?Q?Eric_B=E9nard?= <eric@eukrea.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:8.0) Gecko/20111105 Thunderbird/8.0
-MIME-Version: 1.0
+	Thu, 22 Dec 2011 01:00:58 +0100
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+	by orsmga102.jf.intel.com with ESMTP; 21 Dec 2011 15:52:34 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.67,351,1309762800"; d="scan'208";a="90182701"
+Received: from orsmsx602.amr.corp.intel.com ([10.22.226.211])
+	by orsmga002.jf.intel.com with ESMTP; 21 Dec 2011 15:52:34 -0800
+Received: from orsmsx106.amr.corp.intel.com (10.22.225.133) by
+	orsmsx602.amr.corp.intel.com (10.22.226.211) with Microsoft SMTP Server
+	(TLS) id 8.2.255.0; Wed, 21 Dec 2011 15:52:34 -0800
+Received: from orsmsx102.amr.corp.intel.com ([169.254.1.40]) by
+	ORSMSX106.amr.corp.intel.com ([169.254.5.229]) with mapi id
+	14.01.0355.002; Wed, 21 Dec 2011 15:52:33 -0800
+From: "Zhang, Jessica" <jessica.zhang@intel.com>
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-References: <4EF1F39E.60903@jhksoftware.com> <jct88c$ajb$1@dough.gmane.org>
-In-Reply-To: <jct88c$ajb$1@dough.gmane.org>
-Subject: Re: meta-toolchain-qte and wrong paths to QT tools
+Thread-Topic: [OE-core] [PATCH] gdb-cross-canadian: build gdb with	python
+	support
+Thread-Index: AQHMwDV+hIOAWt/Oy0yLPW99aAve7JXm9U9g
+Date: Wed, 21 Dec 2011 23:52:33 +0000
+Message-ID: <C6510F6D410BB64A8C15398EDC6B847C2401D1A6@ORSMSX102.amr.corp.intel.com>
+References: <1324044340-21898-1-git-send-email-eric@eukrea.com>
+	<4EF19E06.6030004@eukrea.com>
+	<C6510F6D410BB64A8C15398EDC6B847C2401D155@ORSMSX102.amr.corp.intel.com>
+	<4EF266E0.8040302@eukrea.com>
+In-Reply-To: <4EF266E0.8040302@eukrea.com>
+Accept-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [10.22.254.139]
+MIME-Version: 1.0
+Subject: Re: [PATCH] gdb-cross-canadian: build gdb with	python	support
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -32,54 +48,34 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 21 Dec 2011 23:43:16 -0000
-Content-Type: text/plain; charset=ISO-8859-1; format=flowed
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Thu, 22 Dec 2011 00:00:58 -0000
+Content-Language: en-US
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 
-Hi Dmitry,
-
-Le 21/12/2011 19:22, Dmitry Eremin-Solenikov a =E9crit :
-> On 12/21/2011 06:56 PM, Juraj Hercek wrote:
->> Hello list,
->>
->> I've two questions:
->>
->> 1) When I build meta-toolchain-qte (c2de8d4 metadata revision) and
->> install the resulting sdk, I see two directories in /usr/local/:
->> oecore-i686-arm and oecore-i686-i686. What is a rationale behind havin=
-g
->> these two directories instead of one i.e.: oecore-i686-arm?
->
-> Because oecore-i686-i686 holds files that are created on i686 to be use=
-d on
-> i686. They will be common for arm meta-toolchain-qte, mips meta-toolcha=
-in-qte,
-> powerpc meta-toolchain-qte, etc.
->
->> 2) The oecore-i686-arm/environment-setup-armv5te-oe-linux-gnueabi scri=
-pt
->> sets paths to the QT tools which should be installed in oecore-i686-ar=
-m
->> directory, but they are not. These tools are installed under
->> oecore-i686-i686 directory. Changing the path in
->> environment-setup-armv5te-oe-linux-gnueabi after toolchain installatio=
-n
->> is easy, but I do not consider it to be a correct fix (assuming that
->> oecore-i686-{arm,i686} directories represents proper toolchain
->> structure). What is a proper fix for this issue?
->
-> I have the attached patch in my patch queue. Hope this helps.
->
-there seems to be something wrong here :
-
--    (cd ${SDK_OUTPUT}/${QT_TOOLS_PREFIX}/..; ln -s=20
-${SDKTARGETSYSROOT}/usr/share/qtopia/mkspecs mkspecs;)
-+    (cd ${SDK_NATIVE_OUTPUT}/${QT_TOOLS_PREFIX}/..; ln -s=20
-${SDKTARGETSYSROOT}/usr/share/qtopia/mkspecs mkspecs;)
-
-
-${SDK_NATIVE_OUTPUT} seems undefined.
-
-Eric
+SGkgRXJpYywNCg0KWWVzLCB1bmRlcnN0YW5kIHRoZSB1c2FnZSBhbmQgYWR2YW50YWdlLCBidXQg
+c3RpbGwgdGhpbmsgYXBwbHkgdGhlIHBhdGNoIGluIG1ldGEtb2UgZmlyc3QgdGhlbiBpZiBsYXRl
+ciBvbiB0aGVyZSdzIHN0cm9uZyBkZW1hbmQgZm9yIHRoaXMgZmVhdHVyZSB3ZSBjYW4gcHVsbCBp
+bnRvIG9lLWNvcmUgaXMgdGhlIHJpZ2h0IGFwcHJvYWNoLg0KDQpUaGFua3MsDQpKZXNzaWNhDQoN
+Ci0tLS0tT3JpZ2luYWwgTWVzc2FnZS0tLS0tDQpGcm9tOiBvcGVuZW1iZWRkZWQtY29yZS1ib3Vu
+Y2VzQGxpc3RzLm9wZW5lbWJlZGRlZC5vcmcgW21haWx0bzpvcGVuZW1iZWRkZWQtY29yZS1ib3Vu
+Y2VzQGxpc3RzLm9wZW5lbWJlZGRlZC5vcmddIE9uIEJlaGFsZiBPZiBFcmljIELDqW5hcmQNClNl
+bnQ6IFdlZG5lc2RheSwgRGVjZW1iZXIgMjEsIDIwMTEgMzowOCBQTQ0KVG86IFBhdGNoZXMgYW5k
+IGRpc2N1c3Npb25zIGFib3V0IHRoZSBvZS1jb3JlIGxheWVyDQpTdWJqZWN0OiBSZTogW09FLWNv
+cmVdIFtQQVRDSF0gZ2RiLWNyb3NzLWNhbmFkaWFuOiBidWlsZCBnZGIgd2l0aCBweXRob24gc3Vw
+cG9ydA0KDQpIaSBKZXNzaWNhLA0KDQpMZSAyMS8xMi8yMDExIDIzOjEyLCBaaGFuZywgSmVzc2lj
+YSBhIMOpY3JpdCA6DQo+IENhbiB5b3Ugc3VibWl0IHRoZSBwYXRjaCBhZ2FpbnN0IHF0IGxheWVy
+IG9yIG1ldGEtb2UgaW5zdGVhZCBvZiBvZS1jb3JlLCBzaW5jZSBweXRob24gZW5hYmxlZCBnZGIg
+c2hvdWxkbid0IGJlIHR1cm5lZCBvbiBieSBkZWZhdWx0IGluIG9lLWNvcmUgYmFzZWQgb24gaXRz
+IHVzYWdlLCBxdGNyZWF0b3IsIGV0Yy4NCj4NCkkgY2FuIHN1Ym1pdCB0aGF0IHRvIG1ldGEtb2Ug
+KGFzIHF0IGlzIGluc2lkZSBvZS1jb3JlKSBidXQgaGF2aW5nIGEgZ2RiIHdpdGgNCnB5dGhvbiBj
+YW4NCmFsc28gbWFrZSBzZW5zZSBpbiBvZS1jb3JlIGFzIHRoaXMgaXMgbm90IGRlZGljYXRlZCB0
+byBxdGNyZWF0b3IgYnV0IGdpdmVzDQp2ZXJ5IGdvb2Qgc2NyaXB0aW5nIGNhcGFiaWxpdGllcyB0
+byBkZWJ1ZyB3aXRoIGdkYiA6DQpodHRwOi8vc291cmNld2FyZS5vcmcvZ2RiL2N1cnJlbnQvb25s
+aW5lZG9jcy9nZGIvUHl0aG9uLmh0bWwjUHl0aG9uDQoNCkVyaWMNCg0KX19fX19fX19fX19fX19f
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18NCk9wZW5lbWJlZGRlZC1jb3JlIG1haWxp
+bmcgbGlzdA0KT3BlbmVtYmVkZGVkLWNvcmVAbGlzdHMub3BlbmVtYmVkZGVkLm9yZw0KaHR0cDov
+L2xpc3RzLmxpbnV4dG9nby5vcmcvY2dpLWJpbi9tYWlsbWFuL2xpc3RpbmZvL29wZW5lbWJlZGRl
+ZC1jb3JlDQo=
 
 
