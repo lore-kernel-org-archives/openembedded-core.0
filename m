@@ -1,23 +1,27 @@
-Received: from mail.pbcl.net ([88.198.119.4] helo=hetzner.pbcl.net)
+Received: from stoexhubfe02.domain01.net ([83.145.59.141])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <philb@gnu.org>) id 1RdKs4-0007JC-SD
+	(envelope-from <anders@chargestorm.se>) id 1RdKuW-0007Ni-Q0
 	for openembedded-core@lists.openembedded.org;
-	Wed, 21 Dec 2011 13:02:08 +0100
-Received: from elite.brightsigndigital.co.uk ([81.142.160.137]
-	helo=[172.30.1.145])
-	by hetzner.pbcl.net with esmtpsa (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
-	(Exim 4.72) (envelope-from <philb@gnu.org>) id 1RdKlG-0004lH-5y
-	for openembedded-core@lists.openembedded.org;
-	Wed, 21 Dec 2011 12:55:06 +0100
-From: Phil Blundell <philb@gnu.org>
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Date: Wed, 21 Dec 2011 11:55:05 +0000
-In-Reply-To: <1324465882.16323.13.camel@ted>
+	Wed, 21 Dec 2011 13:04:41 +0100
+Received: from ad.chargestorm.se (193.235.91.228) by stoexhubfe02.domain01.net
+	(10.12.10.7) with Microsoft SMTP Server (TLS) id 8.3.213.0;
+	Wed, 21 Dec 2011 12:57:32 +0100
+Date: Wed, 21 Dec 2011 12:57:29 +0100
+From: Anders Darander <anders@chargestorm.se>
+To: <openembedded-core@lists.openembedded.org>
+Message-ID: <20111221115728.GA6198@ad.chargestorm.se>
+Mail-Followup-To: openembedded-core@lists.openembedded.org
 References: <1324465882.16323.13.camel@ted>
-X-Mailer: Evolution 3.0.2- 
-Message-ID: <1324468506.24417.278.camel@phil-desktop>
-Mime-Version: 1.0
+	<CAP9ODKoktx1ByHFbizz7-Dcs3_cS3T5nrytFLcvU=O4imkN13A@mail.gmail.com>
+MIME-Version: 1.0
+In-Reply-To: <CAP9ODKoktx1ByHFbizz7-Dcs3_cS3T5nrytFLcvU=O4imkN13A@mail.gmail.com>
+X-Accept-Language: sv, en, de
+X-GPG-Fingerprint: 5AF0 B2E9 78FE 9D75 D110  6F8F 3E31 84D7 920E 938C
+X-GPG-Key-Id: 0x920E938C
+X-GPG-Keyserver: hkp://keys.gnupg.net
+Organization: ChargeStorm AB
+User-Agent: Mutt/1.5.21 (2010-09-15)
+X-GFI-SMTP-Submission: 1
 Subject: Re: RFC: nativesdk and native recipe names
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
@@ -33,29 +37,34 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 21 Dec 2011 12:02:08 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Wed, 21 Dec 2011 12:04:41 -0000
+Content-Type: text/plain; charset="us-ascii"
+Content-Disposition: inline
 
-On Wed, 2011-12-21 at 11:11 +0000, Richard Purdie wrote:
-> If we change nativesdk to become a prefix, the problem can share the
-> same code as multilib and become much more widely usable rather than the
-> current special cases. Its obviously a fairly major change in recipe
-> naming though. Would changing this be acceptable?
+* Otavio Salvador <otavio@ossystems.com.br> [111221 12:37]:
+> On Wed, Dec 21, 2011 at 09:11, Richard Purdie <
+> richard.purdie@linuxfoundation.org> wrote:
 
-I wonder whether we should just stop this business of bashing PN around
-altogether and encode the native- or sdk-ness into PACKAGE_ARCH or some
-such instead.  (I guess this would need bitbake enhanced to be able to
-build a parallel dependency tree for each architecture, and a way of
-specifying the desired arch in DEPENDS, neither of which it can
-presumably do at the moment.)  
+>     If we change nativesdk to become a prefix, the problem can share the
+>     same code as multilib and become much more widely usable rather than the
+>     current special cases. Its obviously a fairly major change in recipe
+>     naming though. Would changing this be acceptable?
 
-All these transforms on PN seem rather fragile and, although changing
-the infix to be a prefix will help, it still doesn't completely
-eliminate the chance of ambiguity.
+> I second this as this makes it more consistent and predictable (with the plus
+> of avoiding naming hacks too).
 
-p.
+I think I'll second this as well...
 
+So far, I haven't used the multilib-features, but just to be sure, there
+is no problem with using prefixes both for multilibs and nativesdk?
+(Like I said, I haven't studied the multilib code/usecases, thus it's
+quite possible that this is a non-issue).
 
+Cheers,
+Anders
+
+-- 
+Anders Darander
+ChargeStorm AB / eStorm AB
 
 
