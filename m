@@ -1,16 +1,16 @@
-Received: from mga11.intel.com ([192.55.52.93])
+Received: from mga01.intel.com ([192.55.52.88])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <sgw@linux.intel.com>) id 1RdS5P-0000Ro-Fu
+	(envelope-from <sgw@linux.intel.com>) id 1RdS6D-0000Uw-1q
 	for openembedded-core@lists.openembedded.org;
-	Wed, 21 Dec 2011 20:44:23 +0100
+	Wed, 21 Dec 2011 20:45:13 +0100
 Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-	by fmsmga102.fm.intel.com with ESMTP; 21 Dec 2011 11:37:15 -0800
+	by fmsmga101.fm.intel.com with ESMTP; 21 Dec 2011 11:38:06 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="104765894"
+X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="104766220"
 Received: from unknown (HELO [10.255.12.90]) ([10.255.12.90])
-	by fmsmga002.fm.intel.com with ESMTP; 21 Dec 2011 11:37:15 -0800
-Message-ID: <4EF2356B.3010105@linux.intel.com>
-Date: Wed, 21 Dec 2011 11:37:15 -0800
+	by fmsmga002.fm.intel.com with ESMTP; 21 Dec 2011 11:38:06 -0800
+Message-ID: <4EF2359E.3030904@linux.intel.com>
+Date: Wed, 21 Dec 2011 11:38:06 -0800
 From: Saul Wold <sgw@linux.intel.com>
 User-Agent: Mozilla/5.0 (X11; Linux x86_64;
 	rv:7.0) Gecko/20110927 Thunderbird/7.0
@@ -18,9 +18,9 @@ MIME-Version: 1.0
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
 References: <cover.1324454963.git.edwin.zhai@intel.com>
-	<f13de6bacfca9935698b1f30f2729b28d9e9a71f.1324454963.git.edwin.zhai@intel.com>
-In-Reply-To: <f13de6bacfca9935698b1f30f2729b28d9e9a71f.1324454963.git.edwin.zhai@intel.com>
-Subject: Re: [PATCH 3/4] Add "builder" user for specific purpose.
+	<bb425c648fb30fa14fe5981b5c8bba8e8cf6ba5d.1324454963.git.edwin.zhai@intel.com>
+In-Reply-To: <bb425c648fb30fa14fe5981b5c8bba8e8cf6ba5d.1324454963.git.edwin.zhai@intel.com>
+Subject: Re: [PATCH 1/4] minix-session: Add this recipe as the session file for mini X
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -35,78 +35,97 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 21 Dec 2011 19:44:23 -0000
+X-List-Received-Date: Wed, 21 Dec 2011 19:45:13 -0000
 Content-Type: text/plain; charset=ISO-8859-1; format=flowed
 Content-Transfer-Encoding: 7bit
 
 On 12/21/2011 12:18 AM, edwin.zhai@intel.com wrote:
 > From: Zhai Edwin<edwin.zhai@intel.com>
 >
-> "builder" can start some auto stuff by mini X session.
+> minix-session runs session files on behalf of file owner, so that no rootless X
+> required.
 >
 > Signed-off-by: Zhai Edwin<edwin.zhai@intel.com>
 > ---
->   meta/recipes-graphics/builder/builder_0.1.bb      |   27 +++++++++++++++++++++
->   meta/recipes-graphics/builder/files/auto_start.sh |   11 ++++++++
+>   .../minix-session/files/minix-session              |   32 ++++++++++++++++++++
+>   .../minix-session/minix-session_0.1.bb             |   24 +++++++++++++++
+>   2 files changed, 56 insertions(+), 0 deletions(-)
+>   create mode 100644 meta/recipes-graphics/minix-session/files/minix-session
+>   create mode 100644 meta/recipes-graphics/minix-session/minix-session_0.1.bb
+>
+> diff --git a/meta/recipes-graphics/minix-session/files/minix-session b/meta/recipes-graphics/minix-session/files/minix-session
+> new file mode 100644
+> index 0000000..c28d537
+> --- /dev/null
+> +++ b/meta/recipes-graphics/minix-session/files/minix-session
+> @@ -0,0 +1,32 @@
+> +#!/bin/sh
+> +#
+> +# Very simple session manager for Mini X
+> +#
+> +
+> +# Uncomment below to enable parsing of debian menu entrys
+> +# export MB_USE_DEB_MENUS=1
+> +
+> +if [ -e $HOME/.minix/session ]
+> +then
+> +exec $HOME/.minix/session
+> +fi
+> +
+> +if [ -e /etc/minix/session ]
+> +then
+> +exec /etc/minix/session
+> +fi
+> +
+> +MINIX_SESSION_DIR=/etc/minix/session.d
+> +
+> +# Execute session file on behalf of file owner
+> +for SESSIONFILE in $MINIX_SESSION_DIR/*; do
+> +    set +e
+> +    USERNAME=`stat -c %U $SESSIONFILE`
+> +    sudo -b -i -u $USERNAME $SESSIONFILE&
+> +    set -e
+> +done
+> +# Default files to run if $HOME/.minix/session or /etc/minix/session
+> +# dont exist.
+> +
+> +matchbox-terminal&
+> +exec matchbox-window-manager
+> diff --git a/meta/recipes-graphics/minix-session/minix-session_0.1.bb b/meta/recipes-graphics/minix-session/minix-session_0.1.bb
+> new file mode 100644
+> index 0000000..2e912c6
+> --- /dev/null
+> +++ b/meta/recipes-graphics/minix-session/minix-session_0.1.bb
+> @@ -0,0 +1,24 @@
+> +DESCRIPTION = "Mini X session files for poky"
+> +HOMEPAGE = "http://www.yoctoproject.org"
+> +BUGTRACKER = "http://bugzilla.pokylinux.org"
+> +
+> +LICENSE = "GPL"
+> +LIC_FILES_CHKSUM = "file://minix-session;endline=5;md5=b6430bffbcf05f9760e72938826b7487"
+> +
+Is this really GPL?  MIT maybe?
 
-auto_start is a pretty generic script name, might be better to call it 
-soemthing like builder_hob_start.sh or something more unique.
+And if it is GPL then what version?
 
 Sau!
 
->   2 files changed, 38 insertions(+), 0 deletions(-)
->   create mode 100644 meta/recipes-graphics/builder/builder_0.1.bb
->   create mode 100644 meta/recipes-graphics/builder/files/auto_start.sh
->
-> diff --git a/meta/recipes-graphics/builder/builder_0.1.bb b/meta/recipes-graphics/builder/builder_0.1.bb
-> new file mode 100644
-> index 0000000..abe329f
-> --- /dev/null
-> +++ b/meta/recipes-graphics/builder/builder_0.1.bb
-> @@ -0,0 +1,27 @@
-> +SUMMARY = "New user to do specific job"
-> +DESCRIPTION = "This recipe create a new user named ${PN}, who is used for specific jobs like building. The task can be auto started via mini X"
 > +SECTION = "x11"
-> +PR = "r0"
-> +LICENSE = "MIT"
-> +LIC_FILES_CHKSUM = "file://auto_start.sh;endline=5;md5=66d6c43a8b2583e3bd70c6b020f679a4"
+> +RCONFLICTS = "matchbox-common"
 > +
-> +SRC_URI = "file://auto_start.sh"
-> +
+> +SRC_URI = "file://minix-session"
 > +S = "${WORKDIR}"
 > +
-> +RDEPENDS_${PN} = "minix-session"
+> +inherit update-alternatives
 > +
-> +inherit useradd
+> +ALTERNATIVE_NAME = "x-session-manager"
+> +ALTERNATIVE_LINK = "${bindir}/x-session-manager"
+> +ALTERNATIVE_PATH = "${bindir}/minix-session"
+> +ALTERNATIVE_PRIORITY = "10"
 > +
-> +USERADD_PACKAGES = "${PN}"
-> +USERADD_PARAM_${PN} = "--system --create-home \
-> +                       --groups video,tty,audio \
-> +                       --user-group ${PN}"
-> +
-> +do_install () {
-> +	install -d -m 755 ${D}/etc/minix/session.d
-> +	install -p -m 755 auto_start.sh ${D}/etc/minix/session.d/
-> +
-> +	chown  ${PN}.${PN} ${D}/etc/minix/session.d/auto_start.sh
+> +do_install() {
+> +	install -d ${D}/${bindir}
+> +	install -m 0755 ${S}/minix-session ${D}/${bindir}
 > +}
-> +
-> diff --git a/meta/recipes-graphics/builder/files/auto_start.sh b/meta/recipes-graphics/builder/files/auto_start.sh
-> new file mode 100644
-> index 0000000..7247d1c
-> --- /dev/null
-> +++ b/meta/recipes-graphics/builder/files/auto_start.sh
-> @@ -0,0 +1,11 @@
-> +#!/bin/sh
-> +#This script will be called via minix X session on behalf of file owner, after
-> +#installed in /etc/minix/session.d/. Any auto start jobs including X apps can
-> +#be put here
-> +
-> +# start hob here
-> +#cd /intel/poky/poky
-> +#. ./oe-init-build-env
-> +#../scripts/hob
-> +
-> +matchbox-terminal&
 
 
