@@ -1,26 +1,30 @@
-Received: from mga02.intel.com ([134.134.136.20])
-	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <paul.eggleton@linux.intel.com>) id 1RdK2f-0005eE-0H
-	for openembedded-core@lists.openembedded.org;
-	Wed, 21 Dec 2011 12:09:01 +0100
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-	by orsmga101.jf.intel.com with ESMTP; 21 Dec 2011 03:01:55 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.67,351,1309762800"; d="scan'208";a="89921779"
-Received: from unknown (HELO helios.localnet) ([10.252.122.36])
-	by orsmga002.jf.intel.com with ESMTP; 21 Dec 2011 03:01:54 -0800
-From: Paul Eggleton <paul.eggleton@linux.intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Wed, 21 Dec 2011 11:01:53 +0000
-Message-ID: <1379113.Fy2Op0zW6M@helios>
-Organization: Intel Corporation
-User-Agent: KMail/4.7.4 (Linux/3.0.0-14-generic-pae; KDE/4.7.4; i686; ; )
-In-Reply-To: <B70EE6F2-BB2B-4149-AFA3-8C07CDEDB45B@dominion.thruhere.net>
-References: <CAE=MDVN_3QBq_tr=-xfSrJr-5u4-azhrWytzpugzr+nzcxkJ_g@mail.gmail.com>
-	<B70EE6F2-BB2B-4149-AFA3-8C07CDEDB45B@dominion.thruhere.net>
-MIME-Version: 1.0
-Cc: Koen Kooi <koen@dominion.thruhere.net>
-Subject: Re: Architecture mismatch QA issue
+Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
+	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <richard.purdie@linuxfoundation.org>)
+	id 1RdKBv-0005tf-CD for openembedded-core@lists.openembedded.org;
+	Wed, 21 Dec 2011 12:18:35 +0100
+Received: from localhost (localhost [127.0.0.1])
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id pBLBBVGC007904
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 21 Dec 2011 11:11:31 GMT
+Received: from tim.rpsys.net ([127.0.0.1])
+	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
+	port 10024) with LMTP
+	id 06943-07 for <openembedded-core@lists.openembedded.org>;
+	Wed, 21 Dec 2011 11:11:27 +0000 (GMT)
+Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id pBLBBK7Q007897
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO)
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 21 Dec 2011 11:11:22 GMT
+Message-ID: <1324465882.16323.13.camel@ted>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: openembedded-core <openembedded-core@lists.openembedded.org>
+Date: Wed, 21 Dec 2011 11:11:22 +0000
+X-Mailer: Evolution 3.2.1- 
+Mime-Version: 1.0
+X-Virus-Scanned: amavisd-new at rpsys.net
+Subject: RFC: nativesdk and native recipe names
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -35,30 +39,57 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 21 Dec 2011 11:09:01 -0000
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
+X-List-Received-Date: Wed, 21 Dec 2011 11:18:35 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-On Wednesday 21 December 2011 10:55:43 Koen Kooi wrote:
-> Hmmm, do we know why these sometimes are target binaries and sometimes host
-> binaries?
+We have a problem looming on the horizon with regard to the native and
+particularly nativesdk recipe names.
 
-Having already fixed this and then reverted the fix, this is annoying to say the 
-least. I tested this on several different architectures and the results were 
-correct, so something unusual is at work here.
+We originally ran into this problem with the multilib code. The issue is
+that its rather hard to automagically translate PACKAGES and
+DEPENDS/RDEPENDS etc. into something the BBCLASSEXTEND classes can use
+and be consistent.
 
-I've filed bug #1856 [1] in the Yocto Project bugzilla and will do my best to 
-investigate this, but the first thing I need is some more information to help 
-reproduce the issue, at the moment I don't get the error.
+To illustrate the problem, imagine a PACKAGES like foo:
+
+foo-dev doo-dbg foo-doc foo-utils
+
+which is built from:
+
+${PN} ${PN}-dev ${PN}-dbg ${PN}-doc ${PN}-utils
+
+The class extension code changes PN and since these are constructed with
+PN, they become:
+
+foo-<class> foo-<class>-dev foo-<class>-dbg foo-<class>-doc foo-<class>-utils
+
+Imagine you're then presented with some dependency like "foo-utils". How
+do you know where to place "-<class>"?
+
+We could write code which splits on the first dash character or a
+variety of other ways but for multilibs the easiest approach was to use
+a prefix instead of a suffix.
+
+I recently proposed a patch to native.bbclass and removed some ugly
+workarounds. It turns out this breaks nativesdk. There is some code in
+nativesdk designed to help with this but its disabled. I tried to enable
+it and hit these exact problems.
+
+If we change nativesdk to become a prefix, the problem can share the
+same code as multilib and become much more widely usable rather than the
+current special cases. Its obviously a fairly major change in recipe
+naming though. Would changing this be acceptable?
+
+Just for reference, -native is special in that PACKAGES = "" so its
+easier to handle. In theory we do still have the same issue there but
+R*_${PN} dependencies tend not to be problematic so we've got lucky so
+far.
 
 Cheers,
-Paul
 
-[1] http://bugzilla.pokylinux.org/show_bug.cgi?id=1856
+Richard
 
--- 
 
-Paul Eggleton
-Intel Open Source Technology Centre
 
 
