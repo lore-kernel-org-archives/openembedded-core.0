@@ -1,34 +1,35 @@
-Received: from mail-wi0-f175.google.com ([209.85.212.175])
+Received: from mail-ee0-f47.google.com ([74.125.83.47])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <victor.quicksilver@gmail.com>) id 1RdUZo-0005bJ-9o
+	(envelope-from <martin.jansa@gmail.com>) id 1RdUxo-00064X-Jr
 	for openembedded-core@lists.openembedded.org;
-	Wed, 21 Dec 2011 23:23:56 +0100
-Received: by wibhq7 with SMTP id hq7so2249945wib.6
+	Wed, 21 Dec 2011 23:48:44 +0100
+Received: by eeit10 with SMTP id t10so3843845eei.6
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 21 Dec 2011 14:16:50 -0800 (PST)
+	Wed, 21 Dec 2011 14:41:38 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
-	h=from:to:cc:subject:date:message-id:x-mailer:in-reply-to:references
-	:mime-version:content-type:content-transfer-encoding;
-	bh=rCpr+O213UJUTI0bdZEymdY01yCpk/76E/ZsbEcCr6c=;
-	b=js+YS5BbvyubAoB3+W/+JzCZtuIJeH425/AAdW3rUwK3Woyw4cGg3Oie6pH4cZR/a/
-	ne1SNZONpE7rj0xf9IUnZAMCbC4EloeL4WGqDqluzVE7KZnBFCkR3JbDkGxEzZBS+ZDn
-	+7CVpWNWVH/M/X+kChWUbvR7PhPjwTqTLEOTw=
-Received: by 10.180.19.138 with SMTP id f10mr22659650wie.3.1324505810844;
-	Wed, 21 Dec 2011 14:16:50 -0800 (PST)
-Received: from localhost.localdomain
-	(246.Red-79-154-51.dynamicIP.rima-tde.net. [79.154.51.246])
-	by mx.google.com with ESMTPS id b5sm7365596wbh.4.2011.12.21.14.16.48
+	h=date:from:to:subject:message-id:references:mime-version
+	:content-type:content-disposition:in-reply-to:user-agent;
+	bh=kWhXzRNs8QxAJWIPxWjyd0DnA+v5BFlnsa8d+Oq+vGE=;
+	b=FxEa74X/pmLVuF0gVNPy4GRz/AVtpAxcXgLTV5HmS7IewX7+7wn+aPwD4nl2ojcQ60
+	gXq4DTM7Rf6HtXE01+Uy+DFjf+pqONgeYQa65rxATSTHSInTpYQ11a2rTYbMKLY9JTjC
+	dnaK2mqIGy8SAiTgPBMy98VPLL/4BCYQW/LMg=
+Received: by 10.14.39.15 with SMTP id c15mr3207030eeb.31.1324507298177;
+	Wed, 21 Dec 2011 14:41:38 -0800 (PST)
+Received: from localhost ([94.230.152.246])
+	by mx.google.com with ESMTPS id x12sm26043454eef.9.2011.12.21.14.41.36
 	(version=TLSv1/SSLv3 cipher=OTHER);
-	Wed, 21 Dec 2011 14:16:49 -0800 (PST)
-From: =?UTF-8?q?V=C3=ADctor=20Enr=C3=ADquez?= <victor.quicksilver@gmail.com>
-To: openembedded-core@lists.openembedded.org, philb@gnu.org, GNUtoo@no-log.org
-Date: Wed, 21 Dec 2011 23:16:02 +0100
-Message-Id: <1324505762-30279-1-git-send-email-victor.quicksilver@gmail.com>
-X-Mailer: git-send-email 1.7.8
-In-Reply-To: <1318534968.3158.2.camel@lenovo.internal.reciva.com>
-References: <1318534968.3158.2.camel@lenovo.internal.reciva.com>
+	Wed, 21 Dec 2011 14:41:37 -0800 (PST)
+Date: Wed, 21 Dec 2011 23:41:25 +0100
+From: Martin Jansa <martin.jansa@gmail.com>
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Message-ID: <20111221224125.GG12791@jama.jama.net>
+References: <cover.1324495514.git.nitin.a.kamble@intel.com>
+	<16df1bc176ad96d8fbe36701a40314bdc5a487dc.1324495514.git.nitin.a.kamble@intel.com>
 MIME-Version: 1.0
-Subject: Re: [PATCH v2] conf: machine: includes: add armv6-novfp support
+In-Reply-To: <16df1bc176ad96d8fbe36701a40314bdc5a487dc.1324495514.git.nitin.a.kamble@intel.com>
+User-Agent: Mutt/1.5.21 (2010-09-15)
+Subject: Re: [PATCH 3/3] binutils: fix building on distros with matching binutils version
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -43,86 +44,128 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 21 Dec 2011 22:23:56 -0000
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Wed, 21 Dec 2011 22:48:44 -0000
+X-Groupsio-MsgNum: 14612
+Content-Type: multipart/signed; micalg=pgp-sha1;
+	protocol="application/pgp-signature"; boundary="qxfKREH7IwbezJ+T"
+Content-Disposition: inline
 
-This work was made by Victor Enriquez and then modified by Denis Carikli who was helped by Mark Hatle comments (who is fray on 
-#yocto channel on Freenode).
+--qxfKREH7IwbezJ+T
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-The changes are for adding support to armv6-novfp, for building binaries for armv6 machines without vfp, for example the htc 
-dream.
+On Wed, Dec 21, 2011 at 11:27:14AM -0800, nitin.a.kamble@intel.com wrote:
+> From: Nitin A Kamble <nitin.a.kamble@intel.com>
+>=20
+> x86_64 opensuse 11.4 has bintuils version 2.21, and when
+> binutils_2.21 recipe is built for x86_64 target then, the invocation
+> of distro gcc fails with errors like this:
+>=20
+> /usr/lib64/gcc/x86_64-suse-linux/4.5/../../../../x86_64-suse-linux/bin/as:
+> symbol lookup error: /usr/lib64/gcc/x86_64-suse-linux/4.5/..
+> make[2]: *** [sysinfo.o] Error 1
+>=20
+> The issue rootcaused as incompatible LD_LIBRARY_PATH while running
+> the distro gcc.
+>=20
+> As per Martin Jansa gentoo also sees similar issue with binutils 2.22
+> recipe.
 
-Signed-off-by: Mark Hatle <mark.hatle@windriver.com>
-Signed-off-by: Denis 'GNUtoo' Carikli <GNUtoo@no-log.org>
-Signed-off-by: Víctor Enríquez <victor.quicksilver@gmail.com>
----
- meta/conf/machine/include/arm/arch-armv6.inc      |   28 +++++++++++++-------
- meta/conf/machine/include/arm/feature-arm-vfp.inc |    4 ++-
- 2 files changed, 21 insertions(+), 11 deletions(-)
+I can confirm that with similar patch based on your fix for 2.21 in
+poky-contrib/nitin/bugfix I was able to build binutils for qemux86-64
+for first time without manual fix :).
 
-diff --git a/meta/conf/machine/include/arm/arch-armv6.inc b/meta/conf/machine/include/arm/arch-armv6.inc
-index da8274e..f9c112e 100644
---- a/meta/conf/machine/include/arm/arch-armv6.inc
-+++ b/meta/conf/machine/include/arm/arch-armv6.inc
-@@ -10,24 +10,32 @@ MACHINEOVERRIDES .= "${@bb.utils.contains("TUNE_FEATURES", "armv6", ":armv6", ""
- require conf/machine/include/arm/arch-armv5-dsp.inc
- 
- # Little Endian
--AVAILTUNES += "armv6 armv6t armv6hf armv6thf"
-+AVAILTUNES += "armv6-novfp armv6 armv6t armv6t-novfp armv6hf armv6thf"
-+TUNE_FEATURES_tune-armv6-novfp ?= "armv6"
- TUNE_FEATURES_tune-armv6 ?= "armv6 vfp"
-+TUNE_FEATURES_tune-armv6t-novfp ?= "armv6 thumb"
- TUNE_FEATURES_tune-armv6t ?= "armv6 vfp thumb"
- TUNE_FEATURES_tune-armv6hf ?= "${TUNE_FEATURES_tune-armv6} callconvention-hard"
- TUNE_FEATURES_tune-armv6thf ?= "${TUNE_FEATURES_tune-armv6t} callconvention-hard"
--PACKAGE_EXTRA_ARCHS_tune-armv6 = "${PACKAGE_EXTRA_ARCHS_tune-armv5e-vfp} armv6-vfp"
--PACKAGE_EXTRA_ARCHS_tune-armv6t = "${PACKAGE_EXTRA_ARCHS_tune-armv5te-vfp} armv6-vfp armv6t-vfp"
--PACKAGE_EXTRA_ARCHS_tune-armv6hf = "${PACKAGE_EXTRA_ARCHS_tune-armv5ehf-vfp} armv6hf-vfp"
--PACKAGE_EXTRA_ARCHS_tune-armv6thf = "${PACKAGE_EXTRA_ARCHS_tune-armv5tehf-vfp} armv6hf-vfp armv6thf-vfp"
-+PACKAGE_EXTRA_ARCHS_tune-armv6-novfp = "${PACKAGE_EXTRA_ARCHS_tune-armv5e} armv6-novfp"
-+PACKAGE_EXTRA_ARCHS_tune-armv6 = "${PACKAGE_EXTRA_ARCHS_tune-armv5e-vfp} armv6-novfp armv6"
-+PACKAGE_EXTRA_ARCHS_tune-armv6t-novfp = "${PACKAGE_EXTRA_ARCHS_tune-armv5e} armv6-novfp armv6t-novfp"
-+PACKAGE_EXTRA_ARCHS_tune-armv6t = "${PACKAGE_EXTRA_ARCHS_tune-armv5te-vfp} armv6-novfp armv6t-novfp armv6-vfp armv6t"
-+PACKAGE_EXTRA_ARCHS_tune-armv6hf = "${PACKAGE_EXTRA_ARCHS_tune-armv5ehf-vfp} armv6hf"
-+PACKAGE_EXTRA_ARCHS_tune-armv6thf = "${PACKAGE_EXTRA_ARCHS_tune-armv5tehf-vfp} armv6hf-vfp armv6thf"
- 
- # Big Endian
--AVAILTUNES += "armv6b armv6tb armv6hfb armv6thfb"
-+AVAILTUNES += "armv6b-novfp armv6b armv6tb-novfp armv6tb armv6hfb armv6thfb"
-+TUNE_FEATURES_tune-armv6b-novfp ?= "${TUNE_FEATURES_tune-armv6-novfp} bigendian"
- TUNE_FEATURES_tune-armv6b ?= "${TUNE_FEATURES_tune-armv6} bigendian"
-+TUNE_FEATURES_tune-armv6tb-novfp ?= "${TUNE_FEATURES_tune-armv6t-novfp} bigendian"
- TUNE_FEATURES_tune-armv6tb ?= "${TUNE_FEATURES_tune-armv6t} bigendian"
- TUNE_FEATURES_tune-armv6hfb ?= "${TUNE_FEATURES_tune-armv6b} callconvention-hard"
- TUNE_FEATURES_tune-armv6thfb ?= "${TUNE_FEATURES_tune-armv6tb} callconvention-hard"
--PACKAGE_EXTRA_ARCHS_tune-armv6b = "${PACKAGE_EXTRA_ARCHS_tune-armv5eb-vfp} armv6b-vfp"
--PACKAGE_EXTRA_ARCHS_tune-armv6tb = "${PACKAGE_EXTRA_ARCHS_tune-armv5teb-vfp} armv6b-vfp armv6tb-vfp"
--PACKAGE_EXTRA_ARCHS_tune-armv6hfb = "${PACKAGE_EXTRA_ARCHS_tune-armv5ehfb-vfp} armv6hfb-vfp"
--PACKAGE_EXTRA_ARCHS_tune-armv6thfb = "${PACKAGE_EXTRA_ARCHS_tune-armv5tehfb-vfp} armv6hfb-vfp armv6thfb-vfp"
-+PACKAGE_EXTRA_ARCHS_tune-armv6b-novfp = "${PACKAGE_EXTRA_ARCHS_tune-armv5eb} armv6b-novfp"
-+PACKAGE_EXTRA_ARCHS_tune-armv6b = "${PACKAGE_EXTRA_ARCHS_tune-armv5eb-vfp} armv6b"
-+PACKAGE_EXTRA_ARCHS_tune-armv6tb-novfp = "${PACKAGE_EXTRA_ARCHS_tune-armv5eb} armv6b-novfp armv6tb-novfp"
-+PACKAGE_EXTRA_ARCHS_tune-armv6tb = "${PACKAGE_EXTRA_ARCHS_tune-armv5teb-vfp} armv6b-novfp armv6tb-novfp armv6b-vfp armv6tb"
-+PACKAGE_EXTRA_ARCHS_tune-armv6hfb = "${PACKAGE_EXTRA_ARCHS_tune-armv5ehfb-vfp} armv6hfb"
-+PACKAGE_EXTRA_ARCHS_tune-armv6thfb = "${PACKAGE_EXTRA_ARCHS_tune-armv5tehfb-vfp} armv6hfb-vfp armv6thfb"
- 
-diff --git a/meta/conf/machine/include/arm/feature-arm-vfp.inc b/meta/conf/machine/include/arm/feature-arm-vfp.inc
-index 29a925c..78f453c 100644
---- a/meta/conf/machine/include/arm/feature-arm-vfp.inc
-+++ b/meta/conf/machine/include/arm/feature-arm-vfp.inc
-@@ -1,5 +1,7 @@
- TUNEVALID[vfp] = "Enable Vector Floating Point (vfp) unit."
--ARMPKGSFX_FPU .= "${@bb.utils.contains("TUNE_FEATURES", "vfp", "-vfp", "" ,d)}"
-+TUNE_ARM_VFP = "${@bb.utils.contains("ARMPKGARCH", "armv6", "", "vfp" ,d)}"
-+TUNE_ARM_NOVFP = "${@bb.utils.contains("ARMPKGARCH", "armv6", "-novfp", "" ,d)}"
-+ARMPKGSFX_FPU .= "${@bb.utils.contains("TUNE_FEATURES", "vfp", "${TUNE_ARM_VFP}", "${TUNE_ARM_NOVFP}" ,d)}"
- 
- TUNEVALID[callconvention-hard] = "Enable EABI hard float call convention, requires VFP."
- TUNE_CCARGS += "${@bb.utils.contains("TUNE_FEATURES", "vfp", bb.utils.contains("TUNE_FEATURES", "callconvention-hard", "-mfloat-abi=hard", "-mfloat-abi=softfp", d), "" ,d)}"
--- 
-1.7.8
+Cheers,
 
+> This commit fixes the issue by clearing the LD_LIBRARY_PATH for
+> distro gcc (CC_FOR_BUILD)
+>=20
+> This Fixes bug: [YOCTO #1833]
+>=20
+> Signed-off-by: Nitin A Kamble <nitin.a.kamble@intel.com>
+> ---
+>  .../binutils/binutils-cross-canadian_2.22.bb       |    2 +-
+>  .../binutils/binutils-crosssdk_2.22.bb             |    2 +-
+>  meta/recipes-devtools/binutils/binutils.inc        |    2 +-
+>  meta/recipes-devtools/binutils/binutils_2.22.bb    |    2 +-
+>  4 files changed, 4 insertions(+), 4 deletions(-)
+>=20
+> diff --git a/meta/recipes-devtools/binutils/binutils-cross-canadian_2.22.=
+bb b/meta/recipes-devtools/binutils/binutils-cross-canadian_2.22.bb
+> index e91e7dc..a49aded 100644
+> --- a/meta/recipes-devtools/binutils/binutils-cross-canadian_2.22.bb
+> +++ b/meta/recipes-devtools/binutils/binutils-cross-canadian_2.22.bb
+> @@ -1,3 +1,3 @@
+>  require binutils_${PV}.bb
+>  require binutils-cross-canadian.inc
+> -PR =3D "r1"
+> +PR =3D "r2"
+> diff --git a/meta/recipes-devtools/binutils/binutils-crosssdk_2.22.bb b/m=
+eta/recipes-devtools/binutils/binutils-crosssdk_2.22.bb
+> index 21289cd..0e8b6e4 100644
+> --- a/meta/recipes-devtools/binutils/binutils-crosssdk_2.22.bb
+> +++ b/meta/recipes-devtools/binutils/binutils-crosssdk_2.22.bb
+> @@ -4,7 +4,7 @@ inherit crosssdk
+> =20
+>  PROVIDES =3D "virtual/${TARGET_PREFIX}binutils-crosssdk"
+> =20
+> -PR =3D "r1"
+> +PR =3D "r2"
+> =20
+>  do_configure_prepend () {
+>  	sed -i 's#/usr/local/lib /lib /usr/lib#${SDKPATHNATIVE}/lib ${SDKPATHNA=
+TIVE}/usr/lib /usr/local/lib /lib /usr/lib#' ${S}/ld/configure.tgt
+> diff --git a/meta/recipes-devtools/binutils/binutils.inc b/meta/recipes-d=
+evtools/binutils/binutils.inc
+> index 5cb2cc9..30a0416 100644
+> --- a/meta/recipes-devtools/binutils/binutils.inc
+> +++ b/meta/recipes-devtools/binutils/binutils.inc
+> @@ -76,7 +76,7 @@ export RANLIB_FOR_TARGET =3D "${TARGET_PREFIX}ranlib"
+>  export CC_FOR_HOST =3D "${CCACHE}${HOST_PREFIX}gcc ${HOST_CC_ARCH}"
+>  export CXX_FOR_HOST =3D "${CCACHE}${HOST_PREFIX}gcc ${HOST_CC_ARCH}"
+> =20
+> -export CC_FOR_BUILD =3D "${BUILD_CC}"
+> +export CC_FOR_BUILD =3D "LD_LIBRARY_PATH=3D ${BUILD_CC}"
+>  export CPP_FOR_BUILD =3D "${BUILD_CPP}"
+>  export CFLAGS_FOR_BUILD =3D "${BUILD_CFLAGS}"
+> =20
+> diff --git a/meta/recipes-devtools/binutils/binutils_2.22.bb b/meta/recip=
+es-devtools/binutils/binutils_2.22.bb
+> index f1e7e12..41a30ee 100644
+> --- a/meta/recipes-devtools/binutils/binutils_2.22.bb
+> +++ b/meta/recipes-devtools/binutils/binutils_2.22.bb
+> @@ -1,6 +1,6 @@
+>  require binutils.inc
+> =20
+> -PR =3D "r1"
+> +PR =3D "r2"
+> =20
+>  LIC_FILES_CHKSUM=3D"\
+>      file://src-release;endline=3D17;md5=3D4830a9ef968f3b18dd5e9f2c00db2d=
+35\
+> --=20
+> 1.7.6.4
+>=20
+>=20
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
 
+--=20
+Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
 
+--qxfKREH7IwbezJ+T
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: Digital signature
+
+-----BEGIN PGP SIGNATURE-----
+Version: GnuPG v2.0.18 (GNU/Linux)
+
+iEYEARECAAYFAk7yYJUACgkQN1Ujt2V2gBybDgCfVKVVCoUNZdb5QJY0ygUAGYKM
+CREAoKgbFkju6iwzc3J/ZRLWy76t1FSt
+=lNka
+-----END PGP SIGNATURE-----
+
+--qxfKREH7IwbezJ+T--
