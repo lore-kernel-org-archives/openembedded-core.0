@@ -1,25 +1,33 @@
-Received: from mga01.intel.com ([192.55.52.88])
+Received: from mail-ee0-f47.google.com ([74.125.83.47])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <sgw@linux.intel.com>) id 1RdS6D-0000Uw-1q
+	(envelope-from <otavio.salvador@gmail.com>) id 1RdSA1-0000Zo-6M
 	for openembedded-core@lists.openembedded.org;
-	Wed, 21 Dec 2011 20:45:13 +0100
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-	by fmsmga101.fm.intel.com with ESMTP; 21 Dec 2011 11:38:06 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="104766220"
-Received: from unknown (HELO [10.255.12.90]) ([10.255.12.90])
-	by fmsmga002.fm.intel.com with ESMTP; 21 Dec 2011 11:38:06 -0800
-Message-ID: <4EF2359E.3030904@linux.intel.com>
-Date: Wed, 21 Dec 2011 11:38:06 -0800
-From: Saul Wold <sgw@linux.intel.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:7.0) Gecko/20110927 Thunderbird/7.0
+	Wed, 21 Dec 2011 20:49:09 +0100
+Received: by eeit10 with SMTP id t10so3738708eei.6
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 21 Dec 2011 11:42:00 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
+	h=mime-version:sender:in-reply-to:references:date
+	:x-google-sender-auth:message-id:subject:from:to:cc:content-type;
+	bh=MkBDLgVBmhLClOGzWMWTYHjrIefdRZLDyW2I0LMXnSM=;
+	b=fkbv+CqPmgyMsmtWBjFk7QZg6RvT4HTS5kCobZ4BCrt+ip39XIV5KmVzJTiPiy907r
+	MEXfFPxeLcJqujWPEyMGoRy3B2H4kJ4eSSKYQt/2DAaK5FODH/nD6HeHmVyas9igt6DM
+	TaJuGnzMQNn5Rwq/oxlcXRlS4xcuHkEScQmM4=
 MIME-Version: 1.0
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
+Received: by 10.204.133.207 with SMTP id g15mr2424295bkt.17.1324496520475;
+	Wed, 21 Dec 2011 11:42:00 -0800 (PST)
+Sender: otavio.salvador@gmail.com
+Received: by 10.204.78.79 with HTTP; Wed, 21 Dec 2011 11:42:00 -0800 (PST)
+In-Reply-To: <2254819.M8CecAPdr1@helios>
 References: <cover.1324454963.git.edwin.zhai@intel.com>
 	<bb425c648fb30fa14fe5981b5c8bba8e8cf6ba5d.1324454963.git.edwin.zhai@intel.com>
-In-Reply-To: <bb425c648fb30fa14fe5981b5c8bba8e8cf6ba5d.1324454963.git.edwin.zhai@intel.com>
+	<2254819.M8CecAPdr1@helios>
+Date: Wed, 21 Dec 2011 17:42:00 -0200
+X-Google-Sender-Auth: bBkn0Ry2mA0UE0kVagRwGqM-grM
+Message-ID: <CAP9ODKqMoOUYOS+P__ghJjye5_2T70XV593L1QCqUOsW5T9d4w@mail.gmail.com>
+From: Otavio Salvador <otavio@ossystems.com.br>
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
 Subject: Re: [PATCH 1/4] minix-session: Add this recipe as the session file for mini X
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
@@ -35,97 +43,68 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 21 Dec 2011 19:45:13 -0000
-Content-Type: text/plain; charset=ISO-8859-1; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Wed, 21 Dec 2011 19:49:09 -0000
+Content-Type: multipart/alternative; boundary=0015175cd0889bf37404b49f60da
 
-On 12/21/2011 12:18 AM, edwin.zhai@intel.com wrote:
-> From: Zhai Edwin<edwin.zhai@intel.com>
+--0015175cd0889bf37404b49f60da
+Content-Type: text/plain; charset=ISO-8859-1
+
+On Wed, Dec 21, 2011 at 08:36, Paul Eggleton
+<paul.eggleton@linux.intel.com>wrote:
+
+> Hi Edwin,
 >
-> minix-session runs session files on behalf of file owner, so that no rootless X
-> required.
+> On Wednesday 21 December 2011 16:18:05 edwin.zhai@intel.com wrote:
+> > From: Zhai Edwin <edwin.zhai@intel.com>
+> >
+> > minix-session runs session files on behalf of file owner, so that no
+> > rootless X required.
 >
-> Signed-off-by: Zhai Edwin<edwin.zhai@intel.com>
-> ---
->   .../minix-session/files/minix-session              |   32 ++++++++++++++++++++
->   .../minix-session/minix-session_0.1.bb             |   24 +++++++++++++++
->   2 files changed, 56 insertions(+), 0 deletions(-)
->   create mode 100644 meta/recipes-graphics/minix-session/files/minix-session
->   create mode 100644 meta/recipes-graphics/minix-session/minix-session_0.1.bb
+> A bit of a minor nitpick I know, but since "minix" is already the name of a
+> well-known operating system I would suggest changing this to
+> mini-x-session or
+> similar.
 >
-> diff --git a/meta/recipes-graphics/minix-session/files/minix-session b/meta/recipes-graphics/minix-session/files/minix-session
-> new file mode 100644
-> index 0000000..c28d537
-> --- /dev/null
-> +++ b/meta/recipes-graphics/minix-session/files/minix-session
-> @@ -0,0 +1,32 @@
-> +#!/bin/sh
-> +#
-> +# Very simple session manager for Mini X
-> +#
-> +
-> +# Uncomment below to enable parsing of debian menu entrys
-> +# export MB_USE_DEB_MENUS=1
-> +
-> +if [ -e $HOME/.minix/session ]
-> +then
-> +exec $HOME/.minix/session
-> +fi
-> +
-> +if [ -e /etc/minix/session ]
-> +then
-> +exec /etc/minix/session
-> +fi
-> +
-> +MINIX_SESSION_DIR=/etc/minix/session.d
-> +
-> +# Execute session file on behalf of file owner
-> +for SESSIONFILE in $MINIX_SESSION_DIR/*; do
-> +    set +e
-> +    USERNAME=`stat -c %U $SESSIONFILE`
-> +    sudo -b -i -u $USERNAME $SESSIONFILE&
-> +    set -e
-> +done
-> +# Default files to run if $HOME/.minix/session or /etc/minix/session
-> +# dont exist.
-> +
-> +matchbox-terminal&
-> +exec matchbox-window-manager
-> diff --git a/meta/recipes-graphics/minix-session/minix-session_0.1.bb b/meta/recipes-graphics/minix-session/minix-session_0.1.bb
-> new file mode 100644
-> index 0000000..2e912c6
-> --- /dev/null
-> +++ b/meta/recipes-graphics/minix-session/minix-session_0.1.bb
-> @@ -0,0 +1,24 @@
-> +DESCRIPTION = "Mini X session files for poky"
-> +HOMEPAGE = "http://www.yoctoproject.org"
-> +BUGTRACKER = "http://bugzilla.pokylinux.org"
-> +
-> +LICENSE = "GPL"
-> +LIC_FILES_CHKSUM = "file://minix-session;endline=5;md5=b6430bffbcf05f9760e72938826b7487"
-> +
-Is this really GPL?  MIT maybe?
 
-And if it is GPL then what version?
+Agreed; minix is too confusing for this context.
 
-Sau!
+-- 
+Otavio Salvador                             O.S. Systems
+E-mail: otavio@ossystems.com.br  http://www.ossystems.com.br
+Mobile: +55 53 9981-7854              http://projetos.ossystems.com.br
 
-> +SECTION = "x11"
-> +RCONFLICTS = "matchbox-common"
-> +
-> +SRC_URI = "file://minix-session"
-> +S = "${WORKDIR}"
-> +
-> +inherit update-alternatives
-> +
-> +ALTERNATIVE_NAME = "x-session-manager"
-> +ALTERNATIVE_LINK = "${bindir}/x-session-manager"
-> +ALTERNATIVE_PATH = "${bindir}/minix-session"
-> +ALTERNATIVE_PRIORITY = "10"
-> +
-> +do_install() {
-> +	install -d ${D}/${bindir}
-> +	install -m 0755 ${S}/minix-session ${D}/${bindir}
-> +}
+--0015175cd0889bf37404b49f60da
+Content-Type: text/html; charset=ISO-8859-1
+Content-Transfer-Encoding: quoted-printable
 
+<div class=3D"gmail_quote">On Wed, Dec 21, 2011 at 08:36, Paul Eggleton <sp=
+an dir=3D"ltr">&lt;<a href=3D"mailto:paul.eggleton@linux.intel.com">paul.eg=
+gleton@linux.intel.com</a>&gt;</span> wrote:<br><blockquote class=3D"gmail_=
+quote" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1=
+ex">
+Hi Edwin,<br>
+<div class=3D"im"><br>
+On Wednesday 21 December 2011 16:18:05 <a href=3D"mailto:edwin.zhai@intel.c=
+om">edwin.zhai@intel.com</a> wrote:<br>
+&gt; From: Zhai Edwin &lt;<a href=3D"mailto:edwin.zhai@intel.com">edwin.zha=
+i@intel.com</a>&gt;<br>
+&gt;<br>
+&gt; minix-session runs session files on behalf of file owner, so that no<b=
+r>
+&gt; rootless X required.<br>
+<br>
+</div>A bit of a minor nitpick I know, but since &quot;minix&quot; is alrea=
+dy the name of a<br>
+well-known operating system I would suggest changing this to mini-x-session=
+ or<br>
+similar.<br></blockquote><div><br></div><div>Agreed; minix is too confusing=
+ for this context.</div><div>=A0</div></div>-- <br>Otavio Salvador=A0 =A0 =
+=A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0O.S. Systems<br>E-mail: =
+<a href=3D"mailto:otavio@ossystems.com.br" target=3D"_blank">otavio@ossyste=
+ms.com.br</a>=A0 <a href=3D"http://www.ossystems.com.br" target=3D"_blank">=
+http://www.ossystems.com.br</a><br>
+Mobile: +55 53 9981-7854=A0 =A0 =A0 =A0=A0 =A0 =A0 =A0<a href=3D"http://pro=
+jetos.ossystems.com.br" target=3D"_blank">http://projetos.ossystems.com.br<=
+/a><br><br>
 
+--0015175cd0889bf37404b49f60da--
