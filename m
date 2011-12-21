@@ -1,36 +1,33 @@
-Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
-	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <richard.purdie@linuxfoundation.org>)
-	id 1RdM6G-00010b-Ey for openembedded-core@lists.openembedded.org;
-	Wed, 21 Dec 2011 14:20:52 +0100
-Received: from localhost (localhost [127.0.0.1])
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id pBLDDhgJ008949;
-	Wed, 21 Dec 2011 13:13:43 GMT
-Received: from tim.rpsys.net ([127.0.0.1])
-	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
-	port 10024) with LMTP
-	id 08159-07; Wed, 21 Dec 2011 13:13:39 +0000 (GMT)
-Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id pBLDDXDn008943
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO);
-	Wed, 21 Dec 2011 13:13:34 GMT
-Message-ID: <1324473215.16323.27.camel@ted>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: "Cui, Dexuan" <dexuan.cui@intel.com>
-Date: Wed, 21 Dec 2011 13:13:35 +0000
-In-Reply-To: <1865303E0DED764181A9D882DEF65FB6EA8B6E1B67@shsmsx502.ccr.corp.intel.com>
-References: <1865303E0DED764181A9D882DEF65FB6EA8B6E1A65@shsmsx502.ccr.corp.intel.com>
-	<1865303E0DED764181A9D882DEF65FB6EA8B6E1B0D@shsmsx502.ccr.corp.intel.com>
-	<1324458622.3622.25.camel@ted>
-	<1865303E0DED764181A9D882DEF65FB6EA8B6E1B67@shsmsx502.ccr.corp.intel.com>
-X-Mailer: Evolution 3.2.1- 
-Mime-Version: 1.0
-X-Virus-Scanned: amavisd-new at rpsys.net
-Cc: Koen Kooi <koen@dominion.thruhere.net>,
-	Martin Jansa <martin.jansa@gmail.com>,
+Received: from mail-wi0-f175.google.com ([209.85.212.175])
+	by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <koen@dominion.thruhere.net>) id 1RdMBX-00017s-2c
+	for openembedded-core@lists.openembedded.org;
+	Wed, 21 Dec 2011 14:26:19 +0100
+Received: by wibhq7 with SMTP id hq7so1969823wib.6
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 21 Dec 2011 05:19:13 -0800 (PST)
+Received: by 10.180.88.10 with SMTP id bc10mr14324859wib.13.1324473553579;
+	Wed, 21 Dec 2011 05:19:13 -0800 (PST)
+Received: from [172.20.1.19] (ip545070eb.adsl-surfen.hetnet.nl.
+	[84.80.112.235])
+	by mx.google.com with ESMTPS id 1sm13418571wiz.11.2011.12.21.05.19.11
+	(version=TLSv1/SSLv3 cipher=OTHER);
+	Wed, 21 Dec 2011 05:19:12 -0800 (PST)
+Mime-Version: 1.0 (Apple Message framework v1251.1)
+From: Koen Kooi <koen@dominion.thruhere.net>
+In-Reply-To: <20111221100909.GD12791@jama.jama.net>
+Date: Wed, 21 Dec 2011 14:19:08 +0100
+Message-Id: <F499A5D5-2BC5-45CC-8DF0-ABD5146E1897@dominion.thruhere.net>
+References: <cover.1324456294.git.dvhart@linux.intel.com>
+	<2ad76233b10f9e4a61a6ecb5490f92fecdc1f1e1.1324456294.git.dvhart@linux.intel.com>
+	<20111221100909.GD12791@jama.jama.net>
+To: Martin Jansa <martin.jansa@gmail.com>
+X-Mailer: Apple Mail (2.1251.1)
+Cc: Yocto Project <yocto@yoctoproject.org>,
+	Darren Hart <dvhart@linux.intel.com>,
 	Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Subject: Re: opkg still breaks meta-toolchain-gmae
+Subject: Re: [yocto] [PATCH 5/9] task-core-boot: Allow DISTRO to disable keymaps
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -45,51 +42,78 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 21 Dec 2011 13:20:53 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Wed, 21 Dec 2011 13:26:19 -0000
+X-Groupsio-MsgNum: 14574
+Content-Type: multipart/signed;
+	boundary="Apple-Mail=_42064903-0414-4CB0-A829-73ECA91E422A";
+	protocol="application/pgp-signature"; micalg=pgp-sha1
+
+--Apple-Mail=_42064903-0414-4CB0-A829-73ECA91E422A
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain;
+	charset=us-ascii
+
+
+Op 21 dec. 2011, om 11:09 heeft Martin Jansa het volgende geschreven:
+
+> On Wed, Dec 21, 2011 at 01:02:51AM -0800, Darren Hart wrote:
+>> NOTE: I'm looking for a better way to do this.
+>>=20
+>> keymaps pulls in gettext, which can't build without wide character =
+support.
+>>=20
+>> Rather than have to add a -tiny variant of every MACHINE to drop =
+"keyboard" from
+>> the MACHINE_FEATURES, just enable the DISTRO to define what gets =
+added to
+>> RDEPENDS_task-core-boot when MACHINE_FEATURES includes keyboard. By =
+default,
+>> keep "keymaps", but use DISTRO_KEYMAPS if it is set (to "" for =
+example).
+>>=20
+>> Signed-off-by: Darren Hart <dvhart@linux.intel.com>
+>> ---
+>> meta/recipes-core/tasks/task-core-boot.bb |    7 ++++++-
+>> 1 files changed, 6 insertions(+), 1 deletions(-)
+>>=20
+>> diff --git a/meta/recipes-core/tasks/task-core-boot.bb =
+b/meta/recipes-core/tasks/task-core-boot.bb
+>> index 05c280d..e097836 100644
+>> --- a/meta/recipes-core/tasks/task-core-boot.bb
+>> +++ b/meta/recipes-core/tasks/task-core-boot.bb
+>> @@ -17,6 +17,11 @@ PR =3D "r9"
+>> MACHINE_ESSENTIAL_EXTRA_RDEPENDS ?=3D ""
+>> MACHINE_ESSENTIAL_EXTRA_RRECOMMENDS ?=3D ""
+>>=20
+>> +#
+>> +# Set by the distro configuration to empty if not supported
+>> +#
+>> +DISTRO_KEYMAPS ?=3D "keymaps"
+>=20
+> Why not VIRTUAL-RUNTIME_keymaps like everywhere else?
+
+Why not just create a proper task for -tiny instead of making the =
+already horrible task-core-boot even more horrible?
+
+Besided that: this patch needs to go to the oe-core list
+
+regards,
+
+Koen=
+
+--Apple-Mail=_42064903-0414-4CB0-A829-73ECA91E422A
 Content-Transfer-Encoding: 7bit
+Content-Disposition: inline;
+	filename=signature.asc
+Content-Type: application/pgp-signature;
+	name=signature.asc
+Content-Description: Message signed with OpenPGP using GPGMail
 
-On Wed, 2011-12-21 at 17:51 +0800, Cui, Dexuan wrote:
-> Richard Purdie wrote on 2011-12-21:
-> > On Wed, 2011-12-21 at 16:51 +0800, Cui, Dexuan wrote:
-> >> Cui, Dexuan wrote on 2011-12-21:
-> >>> Hi all,
-> >>> After I upgraded to the latest poky master (commit 4648aadf),
-> >>> core-image-sato-sdk can build file, but meta-toolchain-gmae (with
-> >>> ipk
-> >>> packaging) still doesn't work. Now the failure is:
-> >>> 
-> >>> | error: Failed dependencies:
-> >>> |   libsdl-nativesdk is needed by qemu-nativesdk-0.15.1-r1.x86_64
-> >>> NOTE: package meta-toolchain-gmae-1.0-r6: task do_populate_sdk:
-> >>> Failed
-> >> Sorry, I need to correct this above: It's actually rpm packaging(rpm
-> >> did work fine with the slightly older commit 45987c5135) rather than
-> >> ipk.
-> >> 
-> >> If I use ipk packaging, I get the similar mkdir failure: mkdir: cannot
-> >> create directory `/var/lib/opkg': Permission denied and, I finally got
-> >> a libsdl failure, too: | Collected errors: |  *
-> >> satisfy_dependencies_for: Cannot satisfy the following | dependencies
-> >> for task-sdk-host-nativesdk: |  *    libsdl-nativesdk * So I suppose
-> >> the libsdl patch(" fix packaging") is suspicious.
-> >> 
-> >> BTW, I use "MACHINE=qemux86".
-> > 
-> > I have a suspicion this is a missing PR bump on qemu after the libsdl change.
-> > Does rebuilding qemu-nativesdk help?
-> Yeah, it does help (for rpm packaging)!  Please make a patch to bump the PR. :-)
-> 
-> BTW, with ipk, I still got the below issue:
-> mkdir: cannot create directory `/var/lib/opkg': Permission denied
+-----BEGIN PGP SIGNATURE-----
 
-This is usually a non fatal error noise in the logs. I appreciate that
-we need to fix it but if your build is failing its likely due to
-something else.
+iEYEARECAAYFAk7x3M4ACgkQMkyGM64RGpGFzwCfcFktO3ieJUryhkrJobmB96rS
+4b0Anjv2L3BIMg/F94/UbHh+G/4qKMKb
+=RYRi
+-----END PGP SIGNATURE-----
 
-Cheers,
-
-Richard
-
-
-
+--Apple-Mail=_42064903-0414-4CB0-A829-73ECA91E422A--
