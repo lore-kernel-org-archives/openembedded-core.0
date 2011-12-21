@@ -1,27 +1,26 @@
-Received: from smtp2-g21.free.fr ([212.27.42.2])
+Received: from ecbiz66.inmotionhosting.com ([69.174.114.20])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <eric@eukrea.com>) id 1RdNC2-0002tC-0m
+	(envelope-from <juraj.hercek@jhksoftware.com>) id 1RdNhj-0003t9-LD
 	for openembedded-core@lists.openembedded.org;
-	Wed, 21 Dec 2011 15:30:54 +0100
-Received: from [192.168.1.15] (unknown [82.240.38.71])
-	by smtp2-g21.free.fr (Postfix) with ESMTP id 6B7AE4B051E;
-	Wed, 21 Dec 2011 15:23:46 +0100 (CET)
-Message-ID: <4EF1EBF1.4090509@eukrea.com>
-Date: Wed, 21 Dec 2011 15:23:45 +0100
-From: =?UTF-8?B?RXJpYyBCw6luYXJk?= <eric@eukrea.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:8.0) Gecko/20111105 Thunderbird/8.0
+	Wed, 21 Dec 2011 16:03:40 +0100
+Received: from mail.hck.sk ([87.197.106.197]:56818 helo=[192.168.66.35])
+	by ecbiz66.inmotionhosting.com with esmtpsa (TLSv1:AES256-SHA:256)
+	(Exim 4.69) (envelope-from <juraj.hercek@jhksoftware.com>)
+	id 1RdNar-0006kd-8p for openembedded-core@lists.openembedded.org;
+	Wed, 21 Dec 2011 09:56:33 -0500
+Message-ID: <4EF1F39E.60903@jhksoftware.com>
+Date: Wed, 21 Dec 2011 15:56:30 +0100
+From: Juraj Hercek <juraj.hercek@jhksoftware.com>
+User-Agent: Mozilla-Thunderbird 2.0.0.24 (X11/20100328)
 MIME-Version: 1.0
-To: Khem Raj <raj.khem@gmail.com>
-References: <1323851280-6342-1-git-send-email-raj.khem@gmail.com>
-	<1323856946.25491.31.camel@ted> <4EE8E607.5080207@emagii.com>
-	<CAMKF1sqgzc=RK4G2yMahvFrTAGSwH40fxjCy=tifrMU=isdO+w@mail.gmail.com>
-	<4EF02CDA.8070707@eukrea.com>
-	<CAMKF1soiqXt3dcJea5o=54bTaJNGUxRDHBoHe6TWa-hEx=AgHw@mail.gmail.com>
-In-Reply-To: <CAMKF1soiqXt3dcJea5o=54bTaJNGUxRDHBoHe6TWa-hEx=AgHw@mail.gmail.com>
-Cc: ulf@emagii.com, Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] gcc-4.6: Let G++ relocate gxx-include-dir when using --sysroot option
+To: openembedded-core@lists.openembedded.org
+X-AntiAbuse: This header was added to track abuse,
+	please include it with any abuse report
+X-AntiAbuse: Primary Hostname - ecbiz66.inmotionhosting.com
+X-AntiAbuse: Original Domain - lists.openembedded.org
+X-AntiAbuse: Originator/Caller UID/GID - [47 12] / [47 12]
+X-AntiAbuse: Sender Address Domain - jhksoftware.com
+Subject: meta-toolchain-qte and wrong paths to QT tools
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -36,44 +35,31 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 21 Dec 2011 14:30:54 -0000
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Wed, 21 Dec 2011 15:03:40 -0000
+Content-Type: text/plain; charset=ISO-8859-1; format=flowed
+Content-Transfer-Encoding: 7bit
 
-Hi Khem,
+Hello list,
 
-Le 20/12/2011 20:59, Khem Raj a =C3=A9crit :
-> On Mon, Dec 19, 2011 at 10:36 PM, Eric B=C3=A9nard<eric@eukrea.com>  wr=
-ote:
->> Hi, Khem,
->>
->> Le 14/12/2011 19:38, Khem Raj a =C3=A9crit :
->>
->>> On Wed, Dec 14, 2011 at 10:08 AM, Ulf Samuelsson
->>> <openembedded-core@emagii.com>    wrote:
->>>>>
->>>>>
->>>>>
->>>> Not familiar with gcc internals, but just want to reiterate the
->>>> point that the problem occured (the one I saw) only when I had
->>>> BB_NUMBER_THREADS at a high value, so WHEN things are done seems to
->>>> be important.
->>>
->>>
->> Seems more complicated than this. A customeer reproduced it with
->> BB_THREAD=3D2 and PARALLEL=3Dj3 ... (I never reproduced in with BB_THR=
-EAD<
->> 5)
->>
->
-> Can you see when gcc-runtime was finished building and staging w.r.t to=
- the
-> failing app
->
-rm_work on gcc-runtime was done far before do_configure on the failing ap=
-p
-(mysql in the present case).
+I've two questions:
 
-Eric
+1) When I build meta-toolchain-qte (c2de8d4 metadata revision) and 
+install the resulting sdk, I see two directories in /usr/local/: 
+oecore-i686-arm and oecore-i686-i686. What is a rationale behind having 
+these two directories instead of one i.e.: oecore-i686-arm?
+
+2) The oecore-i686-arm/environment-setup-armv5te-oe-linux-gnueabi script 
+sets paths to the QT tools which should be installed in oecore-i686-arm 
+directory, but they are not. These tools are installed under 
+oecore-i686-i686 directory. Changing the path in 
+environment-setup-armv5te-oe-linux-gnueabi after toolchain installation 
+is easy, but I do not consider it to be a correct fix (assuming that 
+oecore-i686-{arm,i686} directories represents proper toolchain 
+structure). What is a proper fix for this issue?
+
+Thank you in advance for your response(s).
+
+Cheers,
+Juraj
 
 
