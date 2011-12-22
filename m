@@ -1,24 +1,24 @@
 Received: from mga02.intel.com ([134.134.136.20])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <sgw@linux.intel.com>) id 1Rddbv-0005NF-F2
+	(envelope-from <sgw@linux.intel.com>) id 1Rddbv-0005N8-NW
 	for openembedded-core@lists.openembedded.org;
 	Thu, 22 Dec 2011 09:02:45 +0100
 Received: from orsmga001.jf.intel.com ([10.7.209.18])
 	by orsmga101.jf.intel.com with ESMTP; 21 Dec 2011 23:55:35 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.67,352,1309762800"; d="scan'208";a="89233730"
+X-IronPort-AV: E=Sophos;i="4.67,352,1309762800"; d="scan'208";a="89233733"
 Received: from unknown (HELO swold-mobl.bigsur.com) ([10.255.12.90])
-	by orsmga001.jf.intel.com with ESMTP; 21 Dec 2011 23:55:34 -0800
+	by orsmga001.jf.intel.com with ESMTP; 21 Dec 2011 23:55:35 -0800
 From: Saul Wold <sgw@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Wed, 21 Dec 2011 23:55:09 -0800
-Message-Id: <1a8bf09a07372c3518b692cbaa7c59ff5ec94719.1324540322.git.sgw@linux.intel.com>
+Date: Wed, 21 Dec 2011 23:55:10 -0800
+Message-Id: <37a5aea77feb1cb7fc49da533d895ac6f686ebaf.1324540322.git.sgw@linux.intel.com>
 X-Mailer: git-send-email 1.7.6.4
 In-Reply-To: <cover.1324540322.git.sgw@linux.intel.com>
 References: <cover.1324540322.git.sgw@linux.intel.com>
 In-Reply-To: <cover.1324540322.git.sgw@linux.intel.com>
 References: <cover.1324540322.git.sgw@linux.intel.com>
-Subject: [CONSOLIDATED PULL 03/26] augeas: Upgrade to 0.10.0
+Subject: [CONSOLIDATED PULL 04/26] libidn: Upgrade to 1.23
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -37,37 +37,29 @@ X-List-Received-Date: Thu, 22 Dec 2011 08:02:46 -0000
 
 Signed-off-by: Saul Wold <sgw@linux.intel.com>
 ---
- meta/recipes-extended/augeas/augeas_0.10.0.bb |    6 ++++++
- meta/recipes-extended/augeas/augeas_0.9.0.bb  |    7 -------
- 2 files changed, 6 insertions(+), 7 deletions(-)
- create mode 100644 meta/recipes-extended/augeas/augeas_0.10.0.bb
- delete mode 100644 meta/recipes-extended/augeas/augeas_0.9.0.bb
+ .../libidn/{libidn_1.22.bb => libidn_1.23.bb}      |    5 +++--
+ 1 files changed, 3 insertions(+), 2 deletions(-)
+ rename meta/recipes-extended/libidn/{libidn_1.22.bb => libidn_1.23.bb} (86%)
 
-diff --git a/meta/recipes-extended/augeas/augeas_0.10.0.bb b/meta/recipes-extended/augeas/augeas_0.10.0.bb
-new file mode 100644
-index 0000000..734d171
---- /dev/null
-+++ b/meta/recipes-extended/augeas/augeas_0.10.0.bb
-@@ -0,0 +1,6 @@
-+require augeas.inc
+diff --git a/meta/recipes-extended/libidn/libidn_1.22.bb b/meta/recipes-extended/libidn/libidn_1.23.bb
+similarity index 86%
+rename from meta/recipes-extended/libidn/libidn_1.22.bb
+rename to meta/recipes-extended/libidn/libidn_1.23.bb
+index 9bdb322..851b5fc 100644
+--- a/meta/recipes-extended/libidn/libidn_1.22.bb
++++ b/meta/recipes-extended/libidn/libidn_1.23.bb
+@@ -12,8 +12,9 @@ PR = "r0"
+ inherit pkgconfig autotools gettext
+ 
+ SRC_URI = "${GNU_MIRROR}/libidn/${BPN}-${PV}.tar.gz"
+-SRC_URI[md5sum] = "893a1df0cf3b28b72d248382eaeaca71"
+-SRC_URI[sha256sum] = "2f765e868795f5478900ec9f42cb0ecc6ca22e2a85a62763c0b13c7da2f588ed"
 +
-+PR = "r0"
-+
-+SRC_URI[md5sum] = "fe1834e90a066c3208ac0214622c7352"
-+SRC_URI[sha256sum] = "ec111af06186216930176ebe5ecccdf7bf528528aee9acde1d5d70088484afca"
-diff --git a/meta/recipes-extended/augeas/augeas_0.9.0.bb b/meta/recipes-extended/augeas/augeas_0.9.0.bb
-deleted file mode 100644
-index 4531560..0000000
---- a/meta/recipes-extended/augeas/augeas_0.9.0.bb
-+++ /dev/null
-@@ -1,7 +0,0 @@
--require augeas.inc
--
--PR = "r0"
--
--SRC_URI[md5sum] = "5ef0ce53ce4c75f59ab2523506731084"
--SRC_URI[sha256sum] = "55d2f482d02ac4cb38a80d95c53d2f73de435df7df1022827e7cba20bb4bb9b8"
--
++SRC_URI[md5sum] = "f9a417270cc9b6bf763ae1f88e60191c"
++SRC_URI[sha256sum] = "25b42d75851ebae52e1c969353b74eefd3d6817f41c8d2a6db258f5ec60c5e6a"
+ 
+ # command tool is under GPLv3+, while libidn itself is under LGPLv2.1+
+ # so package command into a separate package
 -- 
 1.7.6.4
 
