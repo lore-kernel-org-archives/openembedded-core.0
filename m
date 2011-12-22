@@ -1,35 +1,33 @@
-Received: from mail-yw0-f47.google.com ([209.85.213.47])
-	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <otavio.salvador@gmail.com>) id 1Rdi75-00026J-K5
-	for openembedded-core@lists.openembedded.org;
-	Thu, 22 Dec 2011 13:51:11 +0100
-Received: by mail-yw0-f47.google.com with SMTP id o47so5528251yho.6
+Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
+	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <richard.purdie@linuxfoundation.org>)
+	id 1Rdicv-0003tE-KZ for openembedded-core@lists.openembedded.org;
+	Thu, 22 Dec 2011 14:24:06 +0100
+Received: from localhost (localhost [127.0.0.1])
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id pBMDGxTT023711
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 22 Dec 2011 04:44:07 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
-	h=sender:from:to:subject:date:message-id:x-mailer:in-reply-to
-	:references:in-reply-to:references;
-	bh=TrQhpbEaeAw553fViRJyJf5sb53tB1/2X+rYoR3wB+c=;
-	b=jiCrqJX3Y/LM/tKezazw1/K/i3xHl00rawN8z/og+fnIL3u/bvyJlACz+uUDp9QlRh
-	HhLBKvKBpAyDOzdAwv0vSFIrEC5qkwaHOZaUBw7ijo4r2ObZ0ntZcLlq2qK7BsejencG
-	4sgMZb8EyWj4zYE+aMn5x9t+9+PrdkBSiwsNI=
-Received: by 10.236.91.84 with SMTP id g60mr14862971yhf.90.1324557847578;
-	Thu, 22 Dec 2011 04:44:07 -0800 (PST)
-Received: from localhost.localdomain ([189.114.111.55])
-	by mx.google.com with ESMTPS id i32sm23456497anm.6.2011.12.22.04.44.05
-	(version=TLSv1/SSLv3 cipher=OTHER);
-	Thu, 22 Dec 2011 04:44:06 -0800 (PST)
-Sender: Otavio Salvador <otavio.salvador@gmail.com>
-From: Otavio Salvador <otavio@ossystems.com.br>
-To: openembedded-core@lists.openembedded.org
-Date: Thu, 22 Dec 2011 12:43:29 +0000
-Message-Id: <156dff46c71683080a4e65a469ee62bc14900c45.1324557763.git.otavio@ossystems.com.br>
-X-Mailer: git-send-email 1.7.2.5
-In-Reply-To: <cover.1324557763.git.otavio@ossystems.com.br>
-References: <cover.1324557763.git.otavio@ossystems.com.br>
-In-Reply-To: <cover.1324557763.git.otavio@ossystems.com.br>
-References: <cover.1324557763.git.otavio@ossystems.com.br>
-Subject: [PATCH v2 9/9] udev: split utilities onto udev-utils
+	Thu, 22 Dec 2011 13:16:59 GMT
+Received: from tim.rpsys.net ([127.0.0.1])
+	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
+	port 10024) with LMTP
+	id 23492-01 for <openembedded-core@lists.openembedded.org>;
+	Thu, 22 Dec 2011 13:16:55 +0000 (GMT)
+Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id pBMDGqAR023705
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO)
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 22 Dec 2011 13:16:53 GMT
+Message-ID: <1324559814.24604.15.camel@ted>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Date: Thu, 22 Dec 2011 13:16:54 +0000
+In-Reply-To: <cover.1324534102.git.lei.mei@intel.com>
+References: <cover.1324534102.git.lei.mei@intel.com>
+X-Mailer: Evolution 3.2.1- 
+Mime-Version: 1.0
+X-Virus-Scanned: amavisd-new at rpsys.net
+Subject: Re: [PATCH 0/2]curl:upgrade from 7.22.0 to 7.23.1 and fix some typo issues.
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -44,59 +42,35 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 22 Dec 2011 12:51:12 -0000
+X-List-Received-Date: Thu, 22 Dec 2011 13:24:06 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-Signed-off-by: Otavio Salvador <otavio@ossystems.com.br>
----
- meta/recipes-core/udev/udev.inc    |    6 +++++-
- meta/recipes-core/udev/udev_164.bb |    2 +-
- 2 files changed, 6 insertions(+), 2 deletions(-)
+On Thu, 2011-12-22 at 14:17 +0800, Mei Lei wrote:
+> Hi all,
+> 	Upgrade curl from 7.22.0 to 7.23.1.
+> 	Some typo issues exist in distro_tracking_fields.inc reported by pkg-report system, so fix them in this patch.
+> 
+> Thanks,
+> Lei
+> 
+> The following changes since commit db446421933d640528328e46a29f828a36d6649b:
+>   Richard Purdie (1):
+>         multilib.conf: Enable shadow-sysroot and libffi
+> 
+> are available in the git repository at:
+> 
+>   git://git.pokylinux.org/poky-contrib lmei3/upgrade-12222
+>   http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=lmei3/upgrade-12222
+> 
+> Mei Lei (2):
+>   curl: Upgrade from 7.22.0 to 7.23.1
+>   distro_tracking_fields: Update curl info and fix other recipes' typo
+>     issues
 
-diff --git a/meta/recipes-core/udev/udev.inc b/meta/recipes-core/udev/udev.inc
-index 0fc418b..f0d066e 100644
---- a/meta/recipes-core/udev/udev.inc
-+++ b/meta/recipes-core/udev/udev.inc
-@@ -36,7 +36,7 @@ libexecdir = "${base_libdir}/udev"
- EXTRA_OECONF = "--disable-introspection --with-rootlibdir=${base_libdir} \
-                 --with-pci-ids-path=${datadir}/pci.ids"
- 
--PACKAGES =+ "udev-acl udev-consolekit"
-+PACKAGES =+ "udev-acl udev-consolekit udev-utils"
- PACKAGES =+ "udev-cache libudev libudev-dev libudev-dbg"
- PACKAGES =+ "libgudev libgudev-dev libgudev-dbg"
- 
-@@ -47,6 +47,8 @@ INITSCRIPT_NAME_udev-cache = "udev-cache"
- INITSCRIPT_PARAMS_udev-cache = "start 36 S ."
- 
- FILES_${PN} += "${libexecdir} ${libdir}/ConsoleKit"
-+RRECOMMENDS_${PN} += "udev-utils"
-+
- FILES_${PN}-dbg += "${libexecdir}/.debug"
- FILES_${PN}-dev = "${datadir}/pkgconfig/udev.pc"
- FILES_libudev = "${base_libdir}/libudev.so.*"
-@@ -61,6 +63,8 @@ FILES_udev-cache = "${sysconfdir}/init.d/udev-cache ${sysconfdir}/default/udev-c
- 
- FILES_udev-acl = "${base_libdir}/udev/udev-acl ${base_libdir}/udev/rules.d/70-acl.rules"
- 
-+FILES_udev-utils = "${bindir}/udevinfo ${bindir}/udevtest ${base_sbindir}/udevadm"
-+
- RDEPENDS_udev-consolekit += "udev-acl"
- FILES_udev-consolekit = "${libdir}/ConsoleKit"
- 
-diff --git a/meta/recipes-core/udev/udev_164.bb b/meta/recipes-core/udev/udev_164.bb
-index b993a13..d661044 100644
---- a/meta/recipes-core/udev/udev_164.bb
-+++ b/meta/recipes-core/udev/udev_164.bb
-@@ -1,6 +1,6 @@
- include udev.inc
- 
--PR = "r11"
-+PR = "r12"
- 
- SRC_URI += "file://udev-166-v4l1-1.patch"
- 
--- 
-1.7.2.5
+Merged to master, thanks.
+
+Richard
 
 
 
