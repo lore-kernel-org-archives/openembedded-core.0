@@ -1,31 +1,20 @@
-Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
-	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <richard.purdie@linuxfoundation.org>)
-	id 1Rdm3A-0003qA-Hm for openembedded-core@lists.openembedded.org;
-	Thu, 22 Dec 2011 18:03:24 +0100
-Received: from localhost (localhost [127.0.0.1])
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id pBMGuHXX025942;
-	Thu, 22 Dec 2011 16:56:17 GMT
-Received: from tim.rpsys.net ([127.0.0.1])
-	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
-	port 10024) with LMTP
-	id 25303-06; Thu, 22 Dec 2011 16:56:13 +0000 (GMT)
-Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id pBMGu8xB025936
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO);
-	Thu, 22 Dec 2011 16:56:10 GMT
-Message-ID: <1324572971.24604.25.camel@ted>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Date: Thu, 22 Dec 2011 16:56:11 +0000
-In-Reply-To: <1324571634-17144-1-git-send-email-koen@dominion.thruhere.net>
-References: <1324571634-17144-1-git-send-email-koen@dominion.thruhere.net>
-X-Mailer: Evolution 3.2.1- 
-Mime-Version: 1.0
-X-Virus-Scanned: amavisd-new at rpsys.net
-Cc: Koen Kooi <koen@dominion.thruhere.net>
-Subject: Re: [PATCH] connman-gnome: update SRC_URI to new repo
+Received: from mga02.intel.com ([134.134.136.20])
+	by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <paul.eggleton@linux.intel.com>) id 1RdmQX-0003fv-T6
+	for openembedded-core@lists.openembedded.org;
+	Thu, 22 Dec 2011 18:27:34 +0100
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+	by orsmga101.jf.intel.com with ESMTP; 22 Dec 2011 09:20:26 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.67,352,1309762800"; d="scan'208";a="89454775"
+Received: from unknown (HELO helios.ger.corp.intel.com) ([10.252.122.57])
+	by orsmga001.jf.intel.com with ESMTP; 22 Dec 2011 09:20:25 -0800
+From: Paul Eggleton <paul.eggleton@linux.intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Thu, 22 Dec 2011 17:20:22 +0000
+Message-Id: <cover.1324574345.git.paul.eggleton@linux.intel.com>
+X-Mailer: git-send-email 1.7.5.4
+Subject: [PATCH 0/1] Fix buildhistory issue with recommends and RPM
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -40,23 +29,24 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 22 Dec 2011 17:03:24 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Thu, 22 Dec 2011 17:27:34 -0000
 
-On Thu, 2011-12-22 at 17:33 +0100, Koen Kooi wrote:
-> 13:33 < koen> holtmann: any plans to repopulate the connman-gnome git repo on kernel.org?
-> 17:25 < holtmann> koen: We moved that to https://github.com/connectivity/connman-gnome
-> 17:26 < holtmann> Just have not gotten around to delete the other one.
-> 
-> Signed-off-by: Koen Kooi <koen@dominion.thruhere.net>
-> ---
->  .../connman/connman-gnome_0.5.bb                   |    4 ++--
->  1 files changed, 2 insertions(+), 2 deletions(-)
+The following changes since commit db446421933d640528328e46a29f828a36d6649b:
 
-Merged to master, thanks.
+  multilib.conf: Enable shadow-sysroot and libffi (2011-12-21 17:24:37 +0000)
 
-Richard
+are available in the git repository at:
+  git://git.openembedded.org/openembedded-core-contrib paule/rpm-suggests
+  http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=paule/rpm-suggests
+
+Paul Eggleton (1):
+  classes/rootfs_rpm: handle recommends in query functions
+
+ meta/classes/rootfs_rpm.bbclass |    6 ++++--
+ 1 files changed, 4 insertions(+), 2 deletions(-)
+
+-- 
+1.7.5.4
 
 
 
