@@ -1,33 +1,33 @@
-Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
-	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <richard.purdie@linuxfoundation.org>)
-	id 1Rdif3-0003z1-07 for openembedded-core@lists.openembedded.org;
-	Thu, 22 Dec 2011 14:26:17 +0100
-Received: from localhost (localhost [127.0.0.1])
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id pBMDJAUL023756
+Received: from lo.gmane.org ([80.91.229.12])
+	by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <gchoc-openembedded-core@m.gmane.org>)
+	id 1Rdj91-0004dv-E3 for openembedded-core@lists.openembedded.org;
+	Thu, 22 Dec 2011 14:57:15 +0100
+Received: from list by lo.gmane.org with local (Exim 4.69)
+	(envelope-from <gchoc-openembedded-core@m.gmane.org>)
+	id 1Rdj2B-0006WN-4S for openembedded-core@lists.openembedded.org;
+	Thu, 22 Dec 2011 14:50:11 +0100
+Received: from nat-rup.mentorg.com ([139.181.168.34])
+	by main.gmane.org with esmtp (Gmexim 0.1 (Debian))
+	id 1AlnuQ-0007hv-00 for <openembedded-core@lists.openembedded.org>;
+	Thu, 22 Dec 2011 14:50:11 +0100
+Received: from dbaryshkov by nat-rup.mentorg.com with local (Gmexim 0.1
+	(Debian)) id 1AlnuQ-0007hv-00
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 22 Dec 2011 13:19:10 GMT
-Received: from tim.rpsys.net ([127.0.0.1])
-	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
-	port 10024) with LMTP
-	id 23492-02 for <openembedded-core@lists.openembedded.org>;
-	Thu, 22 Dec 2011 13:19:05 +0000 (GMT)
-Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id pBMDJ3JR023750
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO)
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 22 Dec 2011 13:19:04 GMT
-Message-ID: <1324559945.24604.18.camel@ted>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Date: Thu, 22 Dec 2011 13:19:05 +0000
-In-Reply-To: <cover.1324540322.git.sgw@linux.intel.com>
-References: <cover.1324540322.git.sgw@linux.intel.com>
-X-Mailer: Evolution 3.2.1- 
+	Thu, 22 Dec 2011 14:50:11 +0100
+X-Injected-Via-Gmane: http://gmane.org/
+To: openembedded-core@lists.openembedded.org
+From: Dmitry Eremin-Solenikov <dbaryshkov@gmail.com>
+Date: Thu, 22 Dec 2011 17:48:23 +0400
+Message-ID: <jcvci7$nff$1@dough.gmane.org>
+References: <4EF1F39E.60903@jhksoftware.com> <jct88c$ajb$1@dough.gmane.org>
+	<4EF26D31.9050209@eukrea.com>
 Mime-Version: 1.0
-X-Virus-Scanned: amavisd-new at rpsys.net
-Subject: Re: [CONSOLIDATED PULL 00/26] Some Package Updates and Fixes
+X-Complaints-To: usenet@dough.gmane.org
+X-Gmane-NNTP-Posting-Host: nat-rup.mentorg.com
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:8.0) Gecko/20111109 Icedove/8.0
+In-Reply-To: <4EF26D31.9050209@eukrea.com>
+Subject: Re: meta-toolchain-qte and wrong paths to QT tools
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -42,62 +42,60 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 22 Dec 2011 13:26:17 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Thu, 22 Dec 2011 13:57:15 -0000
+Content-Type: text/plain; charset=ISO-8859-1; format=flowed
+Content-Transfer-Encoding: 8bit
 
-On Wed, 2011-12-21 at 23:55 -0800, Saul Wold wrote:
-> Dexuan Cui (2):
->   socat: add the latest stable version 1.7.2.0
->   wget: fix a host intrusion issue introduced by adding
->     --with-ssl=openssl.
-> 
-> H.J. Lu (1):
->   gmp: Don't check "$CC $CFLAGS" for x32 in gmp configure
-> 
-> Ilya Yanok (1):
->   arch-powerpc: set PACKAGE_EXTRA_ARCHS
-> 
-> Nitin A Kamble (3):
->   bitbake.conf multilib.conf: move the definition of baselib
+On 12/22/2011 03:35 AM, Eric Bénard wrote:
+> Hi Dmitry,
+>
+> Le 21/12/2011 19:22, Dmitry Eremin-Solenikov a écrit :
+>> On 12/21/2011 06:56 PM, Juraj Hercek wrote:
+>>> Hello list,
+>>>
+>>> I've two questions:
+>>>
+>>> 1) When I build meta-toolchain-qte (c2de8d4 metadata revision) and
+>>> install the resulting sdk, I see two directories in /usr/local/:
+>>> oecore-i686-arm and oecore-i686-i686. What is a rationale behind having
+>>> these two directories instead of one i.e.: oecore-i686-arm?
+>>
+>> Because oecore-i686-i686 holds files that are created on i686 to be
+>> used on
+>> i686. They will be common for arm meta-toolchain-qte, mips
+>> meta-toolchain-qte,
+>> powerpc meta-toolchain-qte, etc.
+>>
+>>> 2) The oecore-i686-arm/environment-setup-armv5te-oe-linux-gnueabi script
+>>> sets paths to the QT tools which should be installed in oecore-i686-arm
+>>> directory, but they are not. These tools are installed under
+>>> oecore-i686-i686 directory. Changing the path in
+>>> environment-setup-armv5te-oe-linux-gnueabi after toolchain installation
+>>> is easy, but I do not consider it to be a correct fix (assuming that
+>>> oecore-i686-{arm,i686} directories represents proper toolchain
+>>> structure). What is a proper fix for this issue?
+>>
+>> I have the attached patch in my patch queue. Hope this helps.
+>>
+> there seems to be something wrong here :
+>
+> - (cd ${SDK_OUTPUT}/${QT_TOOLS_PREFIX}/..; ln -s
+> ${SDKTARGETSYSROOT}/usr/share/qtopia/mkspecs mkspecs;)
+> + (cd ${SDK_NATIVE_OUTPUT}/${QT_TOOLS_PREFIX}/..; ln -s
+> ${SDKTARGETSYSROOT}/usr/share/qtopia/mkspecs mkspecs;)
+>
+>
+> ${SDK_NATIVE_OUTPUT} seems undefined.
 
-I didn't take the above, this is a major layout change for x86-64 but
-Nitin makes no comment on that in the commit :(
+My fault. I think you can ignore this part of the patch.
 
->   binutils: fix building on distros with matching binutils version
->   image-types: add btrfs as a supported fstype
-> 
-> Paul Eggleton (1):
->   libsync: move to git.yoctoproject.org
-> 
-> Saul Wold (10):
->   distro tracking: update man-pages, gts-plugin-bluetooth, usbutils,
->   python-pycairo: Upgrade to 1.10.0
->   augeas: Upgrade to 0.10.0
->   libidn: Upgrade to 1.23
->   mc: Add version 4.8.1 now GPLv3
->   texi2html: Upgrade to 5.0
->   libdrm: Upgrade to 2.4.29
->   distro_tracking: Mark Upgrade Info
->   zypper: add patch from libxml2
->   bash: Add SRC_URI Checksums for GPLv2
-> 
-> Scott Garman (8):
->   ncurses: move libraries to base_libdir
->   libcap: move library to base_libdir
->   util-linux: move libraries to base_libdir
->   e2fsprogs: move libraries to base_libdir
->   libusb1: move libraries to base_libdir
->   libusb-compat: move libraries to base_libdir
->   prelink: update to latest git version
->   insane.bbclass: add QA tests for unsafe references to exec_prefix
+>
+> Eric
 
-Were Scott's changes tested with prefix == exec_prefix == base_prefix?
-We need to verify this doesn't break in that case.
 
-Cheers,
-
-Richard
+-- 
+With best wishes
+Dmitry
 
 
 
