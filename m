@@ -1,46 +1,35 @@
-Received: from tx2ehsobe004.messaging.microsoft.com ([65.55.88.14]
-	helo=TX2EHSOBE009.bigfish.com)
+Received: from mail-wi0-f175.google.com ([209.85.212.175])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <B19537@freescale.com>) id 1Rdg6u-0002J9-4k
+	(envelope-from <slapinid@gmail.com>) id 1Rdgd8-0003Uq-2g
 	for openembedded-core@lists.openembedded.org;
-	Thu, 22 Dec 2011 11:42:52 +0100
-Received: from mail191-tx2-R.bigfish.com (10.9.14.250) by
-	TX2EHSOBE009.bigfish.com (10.9.40.29) with Microsoft SMTP Server id
-	14.1.225.23; Thu, 22 Dec 2011 10:20:26 +0000
-Received: from mail191-tx2 (localhost [127.0.0.1])	by
-	mail191-tx2-R.bigfish.com (Postfix) with ESMTP id BDE232C014D	for
-	<openembedded-core@lists.openembedded.org>;
-	Thu, 22 Dec 2011 10:21:01 +0000 (UTC)
-X-SpamScore: -5
-X-BigFish: VS-5(zz1432Nzz1202hzz8275bhz2dh2a8h668h839hb79i61h)
-X-Spam-TCS-SCL: 0:0
-X-Forefront-Antispam-Report: CIP:70.37.183.190; KIP:(null); UIP:(null); IPV:NLI;
-	H:mail.freescale.net; RD:none; EFVD:NLI
-X-FB-SS: 0,
-Received: from mail191-tx2 (localhost.localdomain [127.0.0.1]) by mail191-tx2
-	(MessageSwitch) id 1324549261663159_16399;
-	Thu, 22 Dec 2011 10:21:01 +0000 (UTC)
-Received: from TX2EHSMHS032.bigfish.com (unknown [10.9.14.235])	by
-	mail191-tx2.bigfish.com (Postfix) with ESMTP id 90F71680046	for
-	<openembedded-core@lists.openembedded.org>;
-	Thu, 22 Dec 2011 10:21:01 +0000 (UTC)
-Received: from mail.freescale.net (70.37.183.190) by TX2EHSMHS032.bigfish.com
-	(10.9.99.132) with Microsoft SMTP Server (TLS) id 14.1.225.23;
-	Thu, 22 Dec 2011 10:20:25 +0000
-Received: from az33smr01.freescale.net (10.64.34.199) by
-	039-SN1MMR1-003.039d.mgd.msft.net (10.84.1.16) with Microsoft SMTP
-	Server id 14.1.355.3; Thu, 22 Dec 2011 04:20:36 -0600
-Received: from localhost.localdomain (bjsimics-desktop.ap.freescale.net
-	[10.192.208.197])	by az33smr01.freescale.net (8.13.1/8.13.0) with ESMTP
-	id pBMAKXFp004827;	Thu, 22 Dec 2011 04:20:34 -0600 (CST)
-From: <b19537@freescale.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Thu, 22 Dec 2011 18:23:48 +0800
-Message-ID: <1324549428-22664-1-git-send-email-b19537@freescale.com>
-X-Mailer: git-send-email 1.7.0.4
+	Thu, 22 Dec 2011 12:16:10 +0100
+Received: by wibhq7 with SMTP id hq7so2498903wib.6
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 22 Dec 2011 03:09:04 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
+	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
+	:content-type:content-transfer-encoding;
+	bh=MeqyKzKgvn5Of3cUmqVy8a1N/Df/ok3cNGGzSv9ctqM=;
+	b=mcSE4hwxtf4iN2R9BKNyreQdfViQR6iZwvOXSgb6txNHDeWaARmQpkgJ7L1WG9+EkV
+	mh+nJDfJbp7S6QoRaoN14rF/qQ3c4pbJL2vOU+rw0dsvYOXPY3pWCcXLi2tLqBJd3wHC
+	0NWS5be1Sz01vmEMJ8NBjxP8WtaXoItiPzNL4=
 MIME-Version: 1.0
-X-OriginatorOrg: freescale.com
-Subject: [PATCH oe-core] linux-dtb: add dtb into deploy cache package
+Received: by 10.180.81.72 with SMTP id y8mr22371675wix.14.1324552144228; Thu,
+	22 Dec 2011 03:09:04 -0800 (PST)
+Received: by 10.216.167.69 with HTTP; Thu, 22 Dec 2011 03:09:04 -0800 (PST)
+In-Reply-To: <1324487225.18348.11.camel@ted>
+References: <1324289521-10140-1-git-send-email-b19537@freescale.com>
+	<C27D8181-0988-4BF7-A858-BC873D7C47F8@dominion.thruhere.net>
+	<CA452391058F6D4E9715FB2C29D9312A010B915F@039-SN2MPN1-023.039d.mgd.msft.net>
+	<1324297600.4568.170.camel@ted>
+	<CA452391058F6D4E9715FB2C29D9312A010B9EEF@039-SN2MPN1-023.039d.mgd.msft.net>
+	<1324487225.18348.11.camel@ted>
+Date: Thu, 22 Dec 2011 14:09:04 +0300
+Message-ID: <CAFZPMobmLhrHoPo9devpvdgw_OSWXbR0_aiLc7bp5-ce+QG0yQ@mail.gmail.com>
+From: Sergey Lapin <slapinid@gmail.com>
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH oe-core] valgrind: add powerpc into the compatible host list
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -55,36 +44,20 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 22 Dec 2011 10:42:52 -0000
-Content-Type: text/plain
+X-List-Received-Date: Thu, 22 Dec 2011 11:16:10 -0000
+Content-Type: text/plain; charset=ISO-8859-1
+Content-Transfer-Encoding: quoted-printable
 
-From: Zhenhua Luo <b19537@freescale.com>
+On Wed, Dec 21, 2011 at 9:07 PM, Richard Purdie
+<richard.purdie@linuxfoundation.org> wrote:
+> On Wed, 2011-12-21 at 06:21 +0000, Luo Zhenhua-B19537 wrote:
+>> Since nobody confirm that it works on mips, I will create a new patch to=
+ define COMPATIBLE_HOST as following, does it make sense?
+>> =A0 =A0 =A0 COMPATIBLE_HOST =3D '(i.86|x86_64|powerpc|powerpc64|ppc|ppc6=
+4|arm).*-linux'
 
-    > current dtb is not included in the deploy cache package, dtb is missing
-      when build kernel from caches
+Does it really work on armv4/v5?
 
-Signed-off-by: Zhenhua Luo <b19537@freescale.com>
----
- meta/recipes-kernel/linux/linux-dtb.inc |    6 ++++++
- 1 files changed, 6 insertions(+), 0 deletions(-)
-
-diff --git a/meta/recipes-kernel/linux/linux-dtb.inc b/meta/recipes-kernel/linux/linux-dtb.inc
-index 7ec7584..f6f5f81 100644
---- a/meta/recipes-kernel/linux/linux-dtb.inc
-+++ b/meta/recipes-kernel/linux/linux-dtb.inc
-@@ -25,3 +25,9 @@ do_install_append() {
-     fi
- }
- 
-+do_deploy_append() {
-+    install -d ${DEPLOYDIR}
-+    install -m 0644 ${DEPLOY_DIR_IMAGE}/${KERNEL_IMAGE_BASE_NAME}.dtb ${DEPLOYDIR}/${KERNEL_IMAGE_BASE_NAME}.dtb
-+    cd ${DEPLOYDIR}
-+    ln -sf ${KERNEL_IMAGE_BASE_NAME}.dtb ${KERNEL_IMAGE_SYMLINK_NAME}.dtb
-+}
--- 
-1.7.0.4
-
-
+S.
 
 
