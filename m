@@ -1,42 +1,26 @@
-Received: from mailbackup.inode.at ([213.229.60.24])
+Received: from mga11.intel.com ([192.55.52.93])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <Bernhard.Guillon@hale.at>) id 1RdffE-0001cO-1e
+	(envelope-from <paul.eggleton@linux.intel.com>) id 1RdfpV-0001r2-Gp
 	for openembedded-core@lists.openembedded.org;
-	Thu, 22 Dec 2011 11:14:16 +0100
-Received: from [62.99.145.8] (port=44520 helo=mx.inode.at)
-	by mailbackup.inode.at with esmtp (Exim 4.76)
-	(envelope-from <Bernhard.Guillon@hale.at>) id 1RdfYI-0005Ms-Fr
-	for openembedded-core@lists.openembedded.org;
-	Thu, 22 Dec 2011 11:07:06 +0100
-Received: from [83.64.51.210] (port=10566 helo=gateway1.hale)
-	by smartmx-08.inode.at with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
-	(Exim 4.69) (envelope-from <Bernhard.Guillon@hale.at>)
-	id 1RdfYC-0000Mn-Co for openembedded-core@lists.openembedded.org;
-	Thu, 22 Dec 2011 11:07:00 +0100
-Received: from mail1.hale.at (mail2.hale [192.168.100.12])
-	by gateway1.hale (8.13.8/8.13.7) with ESMTP id pBMA6tnZ024603
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 22 Dec 2011 11:06:56 +0100
-Received: from entw48 ([192.168.100.138]) by hale.at with MailEnable ESMTP;
-	Thu, 22 Dec 2011 11:06:45 +0100
-Date: Thu, 22 Dec 2011 11:06:29 +0100 (CET)
-From: Bernhard Guillon <Bernhard.Guillon@hale.at>
-X-X-Sender: guib@entw48
+	Thu, 22 Dec 2011 11:24:53 +0100
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+	by fmsmga102.fm.intel.com with ESMTP; 22 Dec 2011 02:17:45 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="99185943"
+Received: from unknown (HELO helios.localnet) ([10.252.122.57])
+	by fmsmga001.fm.intel.com with ESMTP; 22 Dec 2011 02:17:44 -0800
+From: Paul Eggleton <paul.eggleton@linux.intel.com>
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-In-Reply-To: <20111222091041.GI12791@jama.jama.net>
-Message-ID: <alpine.DEB.2.00.1112221104060.26143@entw48>
-References: <alpine.DEB.2.00.1112220939580.26143@entw48>
-	<20111222091041.GI12791@jama.jama.net>
-User-Agent: Alpine 2.00 (DEB 1167 2008-08-23)
+Date: Thu, 22 Dec 2011 10:17:43 +0000
+Message-ID: <1965049.NZCOpGhGnY@helios>
+Organization: Intel Corporation
+User-Agent: KMail/4.7.4 (Linux/3.0.0-14-generic-pae; KDE/4.7.4; i686; ; )
+In-Reply-To: <4EF22C79.7080906@windriver.com>
+References: <cover.1324441819.git.shane.wang@intel.com>
+	<4EF228C9.6070606@linux.intel.com> <4EF22C79.7080906@windriver.com>
 MIME-Version: 1.0
-X-HALE-MailScanner-Information: Please contact the ISP for more information
-X-MailScanner-ID: pBMA6tnZ024603
-X-HALE-MailScanner: Found to be clean
-X-HALE-MailScanner-From: bernhard.guillon@hale.at
-MailScanner-NULL-Check: 1325153218.20248@ku8ux3yVxFMJ3FbL+caGVQ
-X-Spam-Status: No
-Subject: Re: Regression bug: dbus messagebus user generation is wrong
+Subject: Re: [PATCH 0/1] [RESEND]Create a script for SUMMARY audit in recipes
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -51,47 +35,33 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 22 Dec 2011 10:14:16 -0000
-Content-Type: TEXT/PLAIN; charset=US-ASCII; format=flowed
+X-List-Received-Date: Thu, 22 Dec 2011 10:24:53 -0000
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
 
+On Wednesday 21 December 2011 12:59:05 Mark Hatle wrote:
+> On 12/21/11 12:43 PM, Saul Wold wrote:
+> > Which is why I think this issue is cropping up. So, then the proposal
+> > should really be to add SUMMARY to all recipes and initially make it a
+> > warning for now if non-existent SUMMARY as with DESCRIPTION and then
+> > remove the existing SUMMARY = ${PN}-${PV} ...??
+> > 
+> > The audit would then be the list of warnings which later becomes error
+> 
+> I agree, this should become some kind of an audit warning, so we can improve
+> the quality of the recipe information.  I'm not sure I want it to be an
+> error though as it may impact folks with existing OE recipes...
 
+Do we want to be showing this warning to everyone or should it just be part of 
+a class you can enable (e.g. oelint.bbclass - which needs some work by the 
+looks of it)?
 
-On Thu, 22 Dec 2011, Martin Jansa wrote:
+Cheers,
+Paul
 
-> See http://bugzilla.pokylinux.org/show_bug.cgi?id=1711
-> but it's still broken in some cases (on my buildhost 3 from 5 machines
-> are broken, 2 are working after last opkg changes).
->
-> Good test is to enable testlab and run this in your deploy/images directory
-> find . ! -type l -name \*tar.gz`; do
->  echo $i;
->  tar -tvf $i | grep dbus-daemon-launch;
->  tar --numeric-owner -tvf $i | grep dbus-daemon-launch;
->  tar xzvpf $i ./etc/group;
->  grep messagebus ./etc/group;
-> done | tee -a image.test
->
-> And working image needs to have not only messagebus as owner but also
-> matching GID in 2nd line and last line from packaged /etc/group. With
-> latest opkg fixes it seems to work, but only if there is messagebus in
-> packaged /etc/group at all, reported here:
-> http://lists.linuxtogo.org/pipermail/openembedded-core/2011-December/014619.html
-> but probably got lost in other issues with new opkg, like this one
-> http://lists.linuxtogo.org/pipermail/openembedded-core/2011-December/014654.html
-> (if D is not needed to be set from opkg then why was offlineroot_varname.patch
-> added in first place? and I have updated this after
-> offlineroot_varname.patch removal and new version is in shr branch)
+-- 
 
-
-Thanks, for the detailed description. I will try to dig deeper and use a 
-bbappend as a hotfix.
-
-Best regards,
-Bernhard
-
-
---
-Scanned by MailScanner.
-
+Paul Eggleton
+Intel Open Source Technology Centre
 
 
