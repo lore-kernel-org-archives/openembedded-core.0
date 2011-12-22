@@ -1,24 +1,24 @@
 Received: from mga02.intel.com ([134.134.136.20])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <sgw@linux.intel.com>) id 1Rddc6-0005NF-IA
+	(envelope-from <sgw@linux.intel.com>) id 1Rddc7-0005NT-Pa
 	for openembedded-core@lists.openembedded.org;
-	Thu, 22 Dec 2011 09:02:55 +0100
+	Thu, 22 Dec 2011 09:02:56 +0100
 Received: from orsmga001.jf.intel.com ([10.7.209.18])
 	by orsmga101.jf.intel.com with ESMTP; 21 Dec 2011 23:55:41 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.67,352,1309762800"; d="scan'208";a="89233769"
+X-IronPort-AV: E=Sophos;i="4.67,352,1309762800"; d="scan'208";a="89233774"
 Received: from unknown (HELO swold-mobl.bigsur.com) ([10.255.12.90])
-	by orsmga001.jf.intel.com with ESMTP; 21 Dec 2011 23:55:40 -0800
+	by orsmga001.jf.intel.com with ESMTP; 21 Dec 2011 23:55:41 -0800
 From: Saul Wold <sgw@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Wed, 21 Dec 2011 23:55:24 -0800
-Message-Id: <fbc18c31c97636c2dc11dd41390c5c6beaeaaea0.1324540323.git.sgw@linux.intel.com>
+Date: Wed, 21 Dec 2011 23:55:26 -0800
+Message-Id: <c82275652d1346b8f7e0e145b04295ac27fdd94e.1324540323.git.sgw@linux.intel.com>
 X-Mailer: git-send-email 1.7.6.4
 In-Reply-To: <cover.1324540322.git.sgw@linux.intel.com>
 References: <cover.1324540322.git.sgw@linux.intel.com>
 In-Reply-To: <cover.1324540322.git.sgw@linux.intel.com>
 References: <cover.1324540322.git.sgw@linux.intel.com>
-Subject: [CONSOLIDATED PULL 18/26] prelink: update to latest git version
+Subject: [CONSOLIDATED PULL 20/26] gmp: Don't check "$CC $CFLAGS" for x32 in gmp configure
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -35,58 +35,67 @@ List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedde
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Thu, 22 Dec 2011 08:02:56 -0000
 
-From: Scott Garman <scott.a.garman@intel.com>
+From: "H.J. Lu" <hjl.tools@gmail.com>
 
-New version includes:
+There is no need to check "$CC $CFLAGS" for x32 in gmp configure.  The
+way GMP works is that it makes all the ABIs available for the user to
+pick from based on the target, but the final ABI is selected based on
+the $ABI variable or if compiler passes the ABI test.  The test for
+x32 ABI is
 
-2011-12-08 Mark Hatle <mark.hatle@windriver.com>
-    * rtld/rtld.c: Fix an issue where missing objects would trigger
-      an assert in dl-version.c
-    * rtld/rtld.h: Add _dl_new_object prototype
-    * rtld/rtld.c: Add support for $ORIGIN, $PLATFORM and $LIB.
-      Note: $PLATFORM = ""
+any_x32_testlist="sizeof-long-4"
 
-These fixes are needed to prevent prelink-rtld from crashing when
-running the new unsafe-references-in-binaries QA test.
+GMP will select x32 ABI only if long is 4byte, which will only be set
+to 4 by -mx32 passed in "$CC $CFLAGS".
 
-Signed-off-by: Scott Garman <scott.a.garman@intel.com>
+Signed-off-by: H.J. Lu <hjl.tools@gmail.com>
+Signed-off-by: Nitin A Kamble <nitin.a.kamble@intel.com>
 ---
- .../conf/distro/include/distro_tracking_fields.inc |    8 ++++----
- meta/recipes-devtools/prelink/prelink_git.bb       |    2 +-
- 2 files changed, 5 insertions(+), 5 deletions(-)
+ meta/recipes-support/gmp/gmp/gmp_fix_for_x32.patch |   24 ++++++++-----------
+ 1 files changed, 10 insertions(+), 14 deletions(-)
 
-diff --git a/meta/conf/distro/include/distro_tracking_fields.inc b/meta/conf/distro/include/distro_tracking_fields.inc
-index 3c4eca4..0346ea3 100644
---- a/meta/conf/distro/include/distro_tracking_fields.inc
-+++ b/meta/conf/distro/include/distro_tracking_fields.inc
-@@ -3068,10 +3068,10 @@ RECIPE_LAST_UPDATE_pn-perl = "Oct 22, 2011"
- RECIPE_MANUAL_CHECK_DATE_pn-perl = "Nov 16, 2011"
- RECIPE_MAINTAINER_pn-perl = "Nitin A Kamble <nitin.a.kamble@intel.com>"
+diff --git a/meta/recipes-support/gmp/gmp/gmp_fix_for_x32.patch b/meta/recipes-support/gmp/gmp/gmp_fix_for_x32.patch
+index b8e22aa..76d3a00 100644
+--- a/meta/recipes-support/gmp/gmp/gmp_fix_for_x32.patch
++++ b/meta/recipes-support/gmp/gmp/gmp_fix_for_x32.patch
+@@ -8,7 +8,7 @@ Signed Off By: Nitin A Kamble <nitin.a.kamble@intel.com> 2011/11/21
  
--RECIPE_STATUS_pn-prelink="red" 
--RECIPE_LATEST_VERSION_pn-prelink="1.0+git0+0x909470ee441237563d6236c505cb2d02ddc48704"
--RECIPE_LAST_UPDATE_pn-prelink = "Jul 23, 2010"
--RECIPE_MANUAL_CHECK_DATE_pn-prelink = "Dec 01, 2011"
-+RECIPE_STATUS_pn-prelink="green" 
-+RECIPE_LATEST_VERSION_pn-prelink="1.0+git0+0xbb1b660c5e3859b6c5a2ac8d739713e9989a4dd7"
-+RECIPE_LAST_UPDATE_pn-prelink = "Dec 15, 2011"
-+RECIPE_MANUAL_CHECK_DATE_pn-prelink = "Dec 15, 2011"
- RECIPE_MAINTAINER_pn-prelink = "Mark Hatle <mark.hatle@windriver.com>"
- 
- RECIPE_STATUS_pn-python-dbus="green" 
-diff --git a/meta/recipes-devtools/prelink/prelink_git.bb b/meta/recipes-devtools/prelink/prelink_git.bb
-index af6de8e..31c22ef 100644
---- a/meta/recipes-devtools/prelink/prelink_git.bb
-+++ b/meta/recipes-devtools/prelink/prelink_git.bb
-@@ -8,7 +8,7 @@ and executables, so that far fewer relocations need to be resolved at \
- runtime and thus programs come up faster."
- LICENSE = "GPLv2"
- LIC_FILES_CHKSUM = "file://COPYING;md5=c93c0550bd3173f4504b2cbd8991e50b"
--SRCREV = "3e3f9b0876aa5ac83a783a95b8bab52cb38ed785"
-+SRCREV = "bb1b660c5e3859b6c5a2ac8d739713e9989a4dd7"
- PV = "1.0+git${SRCPV}"
- PR = "r7"
- 
+ --- gmp-4.3.2/configure.in.x32	2011-08-12 15:03:06.143548291 -0700
+ +++ gmp-4.3.2/configure.in	2011-08-12 15:06:20.580595316 -0700
+-@@ -1499,6 +1499,25 @@ case $host in
++@@ -1499,6 +1499,21 @@ case $host in
+  	    path_64="x86_64/atom x86_64"
+  	    ;;
+  	esac
+@@ -16,19 +16,15 @@ Signed Off By: Nitin A Kamble <nitin.a.kamble@intel.com> 2011/11/21
+ +	# X32 support.
+ +	case x"$path_64" in
+ +	  xx86_64*)
+-+	    case x"$CC $CFLAGS" in
+-+	      x*-mx32*)
+-+		abilist="x32 64 32"
+-+		path_x32="$path_64"
+-+		limb_x32=longlong
+-+		cclist_x32="gcc"
+-+		gcc_x32_cflags="-O2 -mx32"
+-+		any_x32_testlist="sizeof-long-4"
+-+		CALLING_CONVENTIONS_OBJS_x32='amd64call.lo amd64check$U.lo'
+-+		SPEED_CYCLECOUNTER_OBJ_x32=x86_64.lo
+-+		cyclecounter_size_x32=2
+-+		;;
+-+	    esac
+++	    abilist="x32 64 32"
+++	    path_x32="$path_64"
+++	    limb_x32=longlong
+++	    cclist_x32="gcc"
+++	    gcc_x32_cflags="-O2 -mx32"
+++	    any_x32_testlist="sizeof-long-4"
+++	    CALLING_CONVENTIONS_OBJS_x32='amd64call.lo amd64check$U.lo'
+++	    SPEED_CYCLECOUNTER_OBJ_x32=x86_64.lo
+++	    cyclecounter_size_x32=2
+ +	    ;;
+ +	esac
+  	;;
 -- 
 1.7.6.4
 
