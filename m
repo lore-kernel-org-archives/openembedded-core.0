@@ -1,25 +1,31 @@
-Received: from mail-we0-f175.google.com ([74.125.82.175])
-	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <koen@dominion.thruhere.net>) id 1RdlhY-00033T-Jw
-	for openembedded-core@lists.openembedded.org;
-	Thu, 22 Dec 2011 17:41:04 +0100
-Received: by werm13 with SMTP id m13so3782439wer.6
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 22 Dec 2011 08:33:58 -0800 (PST)
-Received: by 10.216.132.204 with SMTP id o54mr6206508wei.27.1324571638316;
-	Thu, 22 Dec 2011 08:33:58 -0800 (PST)
-Received: from localhost (ip545070eb.adsl-surfen.hetnet.nl. [84.80.112.235])
-	by mx.google.com with ESMTPS id
-	fw16sm10313522wbb.13.2011.12.22.08.33.57
-	(version=TLSv1/SSLv3 cipher=OTHER);
-	Thu, 22 Dec 2011 08:33:57 -0800 (PST)
-From: Koen Kooi <koen@dominion.thruhere.net>
-To: openembedded-core@lists.openembedded.org
-Date: Thu, 22 Dec 2011 17:33:54 +0100
-Message-Id: <1324571634-17144-1-git-send-email-koen@dominion.thruhere.net>
-X-Mailer: git-send-email 1.7.2.5
+Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
+	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <richard.purdie@linuxfoundation.org>)
+	id 1Rdm3A-0003qA-Hm for openembedded-core@lists.openembedded.org;
+	Thu, 22 Dec 2011 18:03:24 +0100
+Received: from localhost (localhost [127.0.0.1])
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id pBMGuHXX025942;
+	Thu, 22 Dec 2011 16:56:17 GMT
+Received: from tim.rpsys.net ([127.0.0.1])
+	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
+	port 10024) with LMTP
+	id 25303-06; Thu, 22 Dec 2011 16:56:13 +0000 (GMT)
+Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id pBMGu8xB025936
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO);
+	Thu, 22 Dec 2011 16:56:10 GMT
+Message-ID: <1324572971.24604.25.camel@ted>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Date: Thu, 22 Dec 2011 16:56:11 +0000
+In-Reply-To: <1324571634-17144-1-git-send-email-koen@dominion.thruhere.net>
+References: <1324571634-17144-1-git-send-email-koen@dominion.thruhere.net>
+X-Mailer: Evolution 3.2.1- 
+Mime-Version: 1.0
+X-Virus-Scanned: amavisd-new at rpsys.net
 Cc: Koen Kooi <koen@dominion.thruhere.net>
-Subject: [PATCH] connman-gnome: update SRC_URI to new repo
+Subject: Re: [PATCH] connman-gnome: update SRC_URI to new repo
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -34,36 +40,23 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 22 Dec 2011 16:41:04 -0000
+X-List-Received-Date: Thu, 22 Dec 2011 17:03:24 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-13:33 < koen> holtmann: any plans to repopulate the connman-gnome git repo on kernel.org?
-17:25 < holtmann> koen: We moved that to https://github.com/connectivity/connman-gnome
-17:26 < holtmann> Just have not gotten around to delete the other one.
+On Thu, 2011-12-22 at 17:33 +0100, Koen Kooi wrote:
+> 13:33 < koen> holtmann: any plans to repopulate the connman-gnome git repo on kernel.org?
+> 17:25 < holtmann> koen: We moved that to https://github.com/connectivity/connman-gnome
+> 17:26 < holtmann> Just have not gotten around to delete the other one.
+> 
+> Signed-off-by: Koen Kooi <koen@dominion.thruhere.net>
+> ---
+>  .../connman/connman-gnome_0.5.bb                   |    4 ++--
+>  1 files changed, 2 insertions(+), 2 deletions(-)
 
-Signed-off-by: Koen Kooi <koen@dominion.thruhere.net>
----
- .../connman/connman-gnome_0.5.bb                   |    4 ++--
- 1 files changed, 2 insertions(+), 2 deletions(-)
+Merged to master, thanks.
 
-diff --git a/meta/recipes-connectivity/connman/connman-gnome_0.5.bb b/meta/recipes-connectivity/connman/connman-gnome_0.5.bb
-index 9c78186..3fde66d 100644
---- a/meta/recipes-connectivity/connman/connman-gnome_0.5.bb
-+++ b/meta/recipes-connectivity/connman/connman-gnome_0.5.bb
-@@ -8,10 +8,10 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=eb723b61539feef013de476e68b5c50a \
- 
- DEPENDS = "gtk+ dbus"
- 
--PR = "r7"
-+PR = "r8"
- 
- SRCREV = "78d3c39db6f3f7977b466305110faa8ca5f74ec8"
--SRC_URI = "git://git.kernel.org/pub/scm/network/connman/connman-gnome.git;protocol=git \
-+SRC_URI = "git://github.com/connectivity/connman-gnome.git;protocol=git \
-            file://3g.patch \
-            file://security-type.patch"
- 
--- 
-1.7.2.5
+Richard
 
 
 
