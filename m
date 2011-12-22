@@ -1,24 +1,25 @@
-Received: from mga02.intel.com ([134.134.136.20])
+Received: from mga03.intel.com ([143.182.124.21])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <paul.eggleton@linux.intel.com>) id 1RdmQZ-0003fv-61
+	(envelope-from <paul.eggleton@linux.intel.com>) id 1Rdmp6-000492-0R
 	for openembedded-core@lists.openembedded.org;
-	Thu, 22 Dec 2011 18:27:35 +0100
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-	by orsmga101.jf.intel.com with ESMTP; 22 Dec 2011 09:20:28 -0800
+	Thu, 22 Dec 2011 18:52:56 +0100
+Received: from azsmga001.ch.intel.com ([10.2.17.19])
+	by azsmga101.ch.intel.com with ESMTP; 22 Dec 2011 09:45:45 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.67,352,1309762800"; d="scan'208";a="89454791"
-Received: from unknown (HELO helios.ger.corp.intel.com) ([10.252.122.57])
-	by orsmga001.jf.intel.com with ESMTP; 22 Dec 2011 09:20:27 -0800
+X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="88642209"
+Received: from unknown (HELO helios.localnet) ([10.252.122.57])
+	by azsmga001.ch.intel.com with ESMTP; 22 Dec 2011 09:45:43 -0800
 From: Paul Eggleton <paul.eggleton@linux.intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Thu, 22 Dec 2011 17:20:23 +0000
-Message-Id: <c87d0a54bb0e9eeea2395f4a2ee1f4d038d2b855.1324574345.git.paul.eggleton@linux.intel.com>
-X-Mailer: git-send-email 1.7.5.4
-In-Reply-To: <cover.1324574345.git.paul.eggleton@linux.intel.com>
-References: <cover.1324574345.git.paul.eggleton@linux.intel.com>
-In-Reply-To: <cover.1324574345.git.paul.eggleton@linux.intel.com>
-References: <cover.1324574345.git.paul.eggleton@linux.intel.com>
-Subject: [PATCH 1/1] classes/rootfs_rpm: handle recommends in query functions
+To: mohamed basith <mdbasith87@gmail.com>
+Date: Thu, 22 Dec 2011 17:45:41 +0000
+Message-ID: <7748813.XYBXSBkenD@helios>
+Organization: Intel Corporation
+User-Agent: KMail/4.7.4 (Linux/3.0.0-14-generic-pae; KDE/4.7.4; i686; ; )
+In-Reply-To: <CAE=MDVN_3QBq_tr=-xfSrJr-5u4-azhrWytzpugzr+nzcxkJ_g@mail.gmail.com>
+References: <CAE=MDVN_3QBq_tr=-xfSrJr-5u4-azhrWytzpugzr+nzcxkJ_g@mail.gmail.com>
+MIME-Version: 1.0
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: Architecture mismatch QA issue
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -33,47 +34,34 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 22 Dec 2011 17:27:35 -0000
+X-List-Received-Date: Thu, 22 Dec 2011 17:52:56 -0000
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
 
-Implement list_package_recommends() for rpm, and filter out the
-"suggests" (RPM's equivalent of recommends) in list_package_depends().
+On Wednesday 21 December 2011 04:49:00 mohamed basith wrote:
+> | ERROR: QA Issue: Architecture did not match (40 to 3) on
+> 
+> /work/armv5te-angstrom-linux-gnueabi/qt4-embedded-4.7.4-r39.5/packages-split
+> /qt4-embedded-tools/usr/bin/rcc
+> | ERROR: QA Issue: Architecture did not match (40 to 3) on
+> 
+> /work/armv5te-angstrom-linux-gnueabi/qt4-embedded-4.7.4-r39.5/packages-split
+> /qt4-embedded-tools/usr/bin/moc
+> | ERROR: QA Issue: Architecture did not match (40 to 3) on
 
-Respectively, these changes fix buildhistory handling of recommends for
-RPM (so that they are included in the image graphs) and also prevents
-failures during do_rootfs with buildhistory enabled if a recommend is
-unsatisfied.
+If you or someone else who experienced this problem could test the patch at 
+the HEAD of the following branch to verify that this fixes it that would be 
+great:
 
-Signed-off-by: Paul Eggleton <paul.eggleton@linux.intel.com>
----
- meta/classes/rootfs_rpm.bbclass |    6 ++++--
- 1 files changed, 4 insertions(+), 2 deletions(-)
+http://cgit.openembedded.org/openembedded-core-contrib/log/?h=paule/qt4-arch-
+fix
 
-diff --git a/meta/classes/rootfs_rpm.bbclass b/meta/classes/rootfs_rpm.bbclass
-index 5fd45d7..966b074 100644
---- a/meta/classes/rootfs_rpm.bbclass
-+++ b/meta/classes/rootfs_rpm.bbclass
-@@ -174,7 +174,9 @@ get_package_filename() {
- list_package_depends() {
- 	pkglist=`list_installed_packages`
- 
--	for req in `${RPM_QUERY_CMD} -q --qf "[%{REQUIRES}\n]" $1`; do
-+	# REQUIRE* lists "soft" requirements (which we know as recommends and RPM refers to
-+	# as "suggests") so filter these out with the help of awk
-+	for req in `${RPM_QUERY_CMD} -q --qf "[%{REQUIRENAME} %{REQUIREFLAGS}\n]" $1 | awk '{ if( and($2, 0x80000) == 0) print $1 }'`; do
- 		if echo "$req" | grep -q "^rpmlib" ; then continue ; fi
- 
- 		realpkg=""
-@@ -193,7 +195,7 @@ list_package_depends() {
- }
- 
- list_package_recommends() {
--	:
-+	${RPM_QUERY_CMD} -q --suggests $1
- }
- 
- install_all_locales() {
+Thanks,
+Paul
+
 -- 
-1.7.5.4
 
+Paul Eggleton
+Intel Open Source Technology Centre
 
 
