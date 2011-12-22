@@ -1,30 +1,25 @@
-Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
-	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <richard.purdie@linuxfoundation.org>)
-	id 1Rdmrw-0004Hv-U2 for openembedded-core@lists.openembedded.org;
-	Thu, 22 Dec 2011 18:55:53 +0100
-Received: from localhost (localhost [127.0.0.1])
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id pBMHmitH026696
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 22 Dec 2011 17:48:44 GMT
-Received: from tim.rpsys.net ([127.0.0.1])
-	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
-	port 10024) with LMTP
-	id 26256-04 for <openembedded-core@lists.openembedded.org>;
-	Thu, 22 Dec 2011 17:48:38 +0000 (GMT)
-Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id pBMHmakU026690
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO)
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 22 Dec 2011 17:48:37 GMT
-Message-ID: <1324576119.24604.28.camel@ted>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: openembedded-core <openembedded-core@lists.openembedded.org>
-Date: Thu, 22 Dec 2011 17:48:39 +0000
-X-Mailer: Evolution 3.2.1- 
-Mime-Version: 1.0
-X-Virus-Scanned: amavisd-new at rpsys.net
-Subject: [PATCH] which: Disable iberty since its not listed in DEPENDS
+Received: from mga01.intel.com ([192.55.52.88])
+	by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <sgw@linux.intel.com>) id 1Rdn25-0004t3-S7
+	for openembedded-core@lists.openembedded.org;
+	Thu, 22 Dec 2011 19:06:22 +0100
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+	by fmsmga101.fm.intel.com with ESMTP; 22 Dec 2011 09:59:04 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="99375487"
+Received: from unknown (HELO [10.255.12.90]) ([10.255.12.90])
+	by fmsmga001.fm.intel.com with ESMTP; 22 Dec 2011 09:59:04 -0800
+Message-ID: <4EF36FE8.9050002@linux.intel.com>
+Date: Thu, 22 Dec 2011 09:59:04 -0800
+From: Saul Wold <sgw@linux.intel.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:7.0) Gecko/20110927 Thunderbird/7.0
+MIME-Version: 1.0
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+References: <cover.1323831034.git.raj.khem@gmail.com>
+In-Reply-To: <cover.1323831034.git.raj.khem@gmail.com>
+Subject: Re: [PATCH 0/2] Introduce cross testing driver for gcc-cross
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -39,28 +34,42 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 22 Dec 2011 17:55:53 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Thu, 22 Dec 2011 18:06:22 -0000
+Content-Type: text/plain; charset=ISO-8859-1; format=flowed
 Content-Transfer-Encoding: 7bit
 
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
----
-diff --git a/meta/recipes-extended/which/which_2.20.bb b/meta/recipes-extended/which/which_2.20.bb
-index 07a5d31..a4e860b 100644
---- a/meta/recipes-extended/which/which_2.20.bb
-+++ b/meta/recipes-extended/which/which_2.20.bb
-@@ -8,7 +8,9 @@ DEPENDS     = "cwautomacros-native"
- 
- inherit autotools update-alternatives
- 
--PR = "r1"
-+PR = "r2"
-+
-+EXTRA_OECONF = "--disable-iberty"
- 
- SRC_URI = "${GNU_MIRROR}/which/which-${PV}.tar.gz \
-            file://remove-declaration.patch"
+On 12/13/2011 06:54 PM, Khem Raj wrote:
+> Hi
+>
+> One patch makes the eglibc testing driver a bit more informative
+> and cleans the tests before running
+>
+> Second patch introduces generating a script which will drive
+> cross testing of gcc. This script is generated as part of do_compile
+> task and virtually one can test bootstrapping versions of gcc as
+> well if need be but mostly gcc-cross makes most sense since thats
+> the one we use all the time.
+>
+> The following changes since commit b9dfccc018f32a47fc045f35d5f53d7269d791ed:
+>
+>    gdk-pixbuf: Ensure the binaries can be relocated (2011-12-13 18:00:18 +0000)
+>
+> are available in the git repository at:
+>    git://git.openembedded.org/openembedded-core-contrib kraj/gcc-cross-testing
+>    http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=kraj/gcc-cross-testing
+>
+> Khem Raj (2):
+>    eglibc-testing: Clean the test before running them
+>    gcc-cross: Add cross testing driver for running regression testsuites
+>
+>   meta/recipes-core/eglibc/eglibc-testing.inc |   36 ++++++++++-
+>   meta/recipes-devtools/gcc/gcc-cross.inc     |   91 ++++++++++++++++++++++++++-
+>   2 files changed, 125 insertions(+), 2 deletions(-)
+>
 
+Merged to OE-Core
 
+Thanks
+	Sau!
 
 
