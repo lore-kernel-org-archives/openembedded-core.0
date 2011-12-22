@@ -1,24 +1,24 @@
 Received: from mga02.intel.com ([134.134.136.20])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <sgw@linux.intel.com>) id 1Rddc0-0005NF-Ai
+	(envelope-from <sgw@linux.intel.com>) id 1Rddc0-0005NT-GG
 	for openembedded-core@lists.openembedded.org;
 	Thu, 22 Dec 2011 09:02:48 +0100
 Received: from orsmga001.jf.intel.com ([10.7.209.18])
-	by orsmga101.jf.intel.com with ESMTP; 21 Dec 2011 23:55:37 -0800
+	by orsmga101.jf.intel.com with ESMTP; 21 Dec 2011 23:55:38 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.67,352,1309762800"; d="scan'208";a="89233752"
+X-IronPort-AV: E=Sophos;i="4.67,352,1309762800"; d="scan'208";a="89233756"
 Received: from unknown (HELO swold-mobl.bigsur.com) ([10.255.12.90])
 	by orsmga001.jf.intel.com with ESMTP; 21 Dec 2011 23:55:37 -0800
 From: Saul Wold <sgw@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Wed, 21 Dec 2011 23:55:15 -0800
-Message-Id: <9917aca0a559453dee6fd7c544e3cf54333215cb.1324540323.git.sgw@linux.intel.com>
+Date: Wed, 21 Dec 2011 23:55:17 -0800
+Message-Id: <5f9851f609f503aec098778ef59c27e5f5dd9579.1324540323.git.sgw@linux.intel.com>
 X-Mailer: git-send-email 1.7.6.4
 In-Reply-To: <cover.1324540322.git.sgw@linux.intel.com>
 References: <cover.1324540322.git.sgw@linux.intel.com>
 In-Reply-To: <cover.1324540322.git.sgw@linux.intel.com>
 References: <cover.1324540322.git.sgw@linux.intel.com>
-Subject: [CONSOLIDATED PULL 09/26] libsync: move to git.yoctoproject.org
+Subject: [CONSOLIDATED PULL 11/26] wget: fix a host intrusion issue introduced by adding --with-ssl=openssl.
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -35,48 +35,43 @@ List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedde
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Thu, 22 Dec 2011 08:02:48 -0000
 
-From: Paul Eggleton <paul.eggleton@linux.intel.com>
+From: Dexuan Cui <dexuan.cui@intel.com>
 
-* Repositories on svn.o-hand.com have been converted to Git and are now
-  hosted on git.yoctoproject.org.
-* Set LICENSE to LGPLv2 as there is an LGPLv2 COPYING file but no notice
-  with "or later" in the source code
+On my x86-64 Ubuntu 11.04, with MACHINE=qemux86, "bitbake wget" fails. The
+config.log shows:
 
-Signed-off-by: Paul Eggleton <paul.eggleton@linux.intel.com>
+configure:30072: i586-poky-linux-gcc  -m32   -march=i586
+ --sysroot=/distro/dcui/1212/p1/build/tmp/sysroots/qemux86 -o conftest -O2
+ -pipe -g -feliminate-unused-debug-types  -Wl,-O1 -Wl,--hash-style=gnu
+ -Wl,--as-needed conftest.c -ldl -lz  /usr/lib/libssl.so /usr/lib/libcrypto.so
+ -lz >&5
+/usr/lib/libssl.so: could not read symbols: File in wrong format
+
+The patch fixes the issue by specifying libssl-prefix.
+
+Signed-off-by: Dexuan Cui <dexuan.cui@intel.com>
 ---
- .../opensync/{libsync_svn.bb => libsync_git.bb}    |    9 +++++----
- 1 files changed, 5 insertions(+), 4 deletions(-)
- rename meta-demoapps/recipes-connectivity/opensync/{libsync_svn.bb => libsync_git.bb} (72%)
+ meta/recipes-extended/wget/wget.inc |    4 ++--
+ 1 files changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/meta-demoapps/recipes-connectivity/opensync/libsync_svn.bb b/meta-demoapps/recipes-connectivity/opensync/libsync_git.bb
-similarity index 72%
-rename from meta-demoapps/recipes-connectivity/opensync/libsync_svn.bb
-rename to meta-demoapps/recipes-connectivity/opensync/libsync_git.bb
-index 34115ff..4986206 100644
---- a/meta-demoapps/recipes-connectivity/opensync/libsync_svn.bb
-+++ b/meta-demoapps/recipes-connectivity/opensync/libsync_git.bb
-@@ -1,16 +1,17 @@
- SUMMARY = "GObject-based sync library"
- DESCRIPTION = "LibSync is a GObject-based framework for more convenient use of \
- OpenSync in GLib applications."
--LICENSE = "LGPL"
-+LICENSE = "LGPLv2"
- SECTION = "x11"
- DEPENDS = "glib-2.0 gtk+ libglade libopensync avahi"
- RRECOMMENDS_${PN} = "\
- 	libopensync-plugin-file \
- 	"
--PV = "0.0+svnr${SRCPV}"
--PR = "r1"
-+SRCREV = "3f375969d56028505db97cd25ef1679a167cfc59"
-+PV = "0.0+gitr${SRCPV}"
-+PR = "r2"
+diff --git a/meta/recipes-extended/wget/wget.inc b/meta/recipes-extended/wget/wget.inc
+index 7083569..25f36c8 100644
+--- a/meta/recipes-extended/wget/wget.inc
++++ b/meta/recipes-extended/wget/wget.inc
+@@ -4,11 +4,11 @@ LICENSE = "GPL"
+ LIC_FILES_CHKSUM = "file://COPYING;md5=d32239bcb673463ab874e80d47fae504"
+ DEPENDS = "openssl"
  
--SRC_URI = "svn://svn.o-hand.com/repos/sync/trunk;module=sync;proto=http"
-+SRC_URI = "git://git.yoctoproject.org/sync;protocol=git"
+-INC_PR = "r12"
++INC_PR = "r13"
  
- inherit autotools pkgconfig
+ inherit autotools gettext update-alternatives
  
+-EXTRA_OECONF = "--with-libc --enable-ipv6 --with-ssl=openssl"
++EXTRA_OECONF = "--with-libc --enable-ipv6 --with-libssl-prefix=${STAGING_DIR_HOST} --with-ssl=openssl"
+ 
+ do_install_append () {
+ 	mv ${D}${bindir}/wget ${D}${bindir}/wget.${PN}
 -- 
 1.7.6.4
 
