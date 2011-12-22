@@ -1,29 +1,45 @@
-Received: from ecbiz66.inmotionhosting.com ([69.174.114.20])
+Received: from dgate20.ts.fujitsu.com ([80.70.172.51])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <juraj.hercek@jhksoftware.com>) id 1RdjGQ-00059a-TZ
+	(envelope-from <Rainer.Koenig@ts.fujitsu.com>) id 1RdjHN-0005Ce-Gj
 	for openembedded-core@lists.openembedded.org;
-	Thu, 22 Dec 2011 15:04:57 +0100
-Received: from mail.hck.sk ([87.197.106.197]:62494 helo=[192.168.66.35])
-	by ecbiz66.inmotionhosting.com with esmtpsa (TLSv1:AES256-SHA:256)
-	(Exim 4.69) (envelope-from <juraj.hercek@jhksoftware.com>)
-	id 1Rdj9Q-0005XO-8H for openembedded-core@lists.openembedded.org;
-	Thu, 22 Dec 2011 08:57:40 -0500
-Message-ID: <4EF33750.3030305@jhksoftware.com>
-Date: Thu, 22 Dec 2011 14:57:36 +0100
-From: Juraj Hercek <juraj.hercek@jhksoftware.com>
-User-Agent: Mozilla-Thunderbird 2.0.0.24 (X11/20100328)
+	Thu, 22 Dec 2011 15:05:53 +0100
+DomainKey-Signature: s=s1536a; d=ts.fujitsu.com; c=nofws; q=dns;
+	h=X-SBRSScore:X-IronPort-AV:Received:X-IronPort-AV:
+	Received:Message-ID:Date:From:User-Agent:MIME-Version:To:
+	Subject:X-Enigmail-Version:Content-Type:
+	Content-Transfer-Encoding;
+	b=HefNfbwqPDMYU/t05jq6bqXUfBmbe284wkYShQXn4htnfl80bqd1w1j/
+	l4mqLX4oozhJS3x3rkiJigBJlU0TXGWYoXp3Yyw5dZ2sabRsA/jq1qs5O
+	WomfelpwTqxsMvQOGYO7tRH/QYhxKj8vXXQ4CU/4yElO7U/7p2D7L10wL
+	fskXY6NUTThh9jKBAHHrSWprNmqyc795ZF1qtpsHGsIAGoOVAnoNJW78z
+	635p8qeYvEx9ge4XHCompu4KTgORz;
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
+	d=ts.fujitsu.com; i=Rainer.Koenig@ts.fujitsu.com;
+	q=dns/txt; s=s1536b; t=1324562329; x=1356098329;
+	h=message-id:date:from:mime-version:to:subject:
+	content-transfer-encoding;
+	bh=zhCh7GqgM84gvywrT5cUVPhCEXitrx8zeh4m4QVQcac=;
+	b=j5vmvX4KboIgIFkpaNMRa66S7vfTD1/KdXR61p2TRUuTHs4ebBI96/A5
+	LzjV1xlokZ+lacYIxbtMwlGBv63u1ic+j+gIAUqyPErUbiFNwfJ1QbvJU
+	7FK/PlI5TcVExIb1i+xBX573Is5cmUM8/bpu3/TDmkIRfbT6xTwdOTgY6
+	mJl/ZOeX9X/aarcQbu9DdGmgRIhUOHojhSh4DEWKJd3k6XbEi6TLpSbrd
+	wBn9C0egG5jXunPo/GtwbKgN5lD0v;
+X-SBRSScore: None
+X-IronPort-AV: E=Sophos;i="4.71,392,1320620400"; d="scan'208";a="81967549"
+Received: from abgdgate40u.abg.fsc.net ([172.25.138.90])
+	by dgate20u.abg.fsc.net with ESMTP; 22 Dec 2011 14:58:46 +0100
+X-IronPort-AV: E=Sophos;i="4.71,392,1320620400"; d="scan'208";a="125857756"
+Received: from abg3595c.abg.fsc.net (HELO [172.25.145.158]) ([172.25.145.158])
+	by abgdgate40u.abg.fsc.net with ESMTP; 22 Dec 2011 14:58:45 +0100
+Message-ID: <4EF33795.6080605@ts.fujitsu.com>
+Date: Thu, 22 Dec 2011 14:58:45 +0100
+From: Rainer Koenig <Rainer.Koenig@ts.fujitsu.com>
+User-Agent: Mozilla/5.0 (X11; U; Linux x86_64; en-US;
+	rv:1.9.1.16) Gecko/20111110 Icedove/3.0.11
 MIME-Version: 1.0
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-References: <4EF1F39E.60903@jhksoftware.com> <jct88c$ajb$1@dough.gmane.org>
-In-Reply-To: <jct88c$ajb$1@dough.gmane.org>
-X-AntiAbuse: This header was added to track abuse,
-	please include it with any abuse report
-X-AntiAbuse: Primary Hostname - ecbiz66.inmotionhosting.com
-X-AntiAbuse: Original Domain - lists.openembedded.org
-X-AntiAbuse: Originator/Caller UID/GID - [47 12] / [47 12]
-X-AntiAbuse: Sender Address Domain - jhksoftware.com
-Subject: Re: meta-toolchain-qte and wrong paths to QT tools
+To: openembedded-core@lists.openembedded.org
+X-Enigmail-Version: 1.0.1
+Subject: How do I work with CodeSourcery Lite 2009q1?
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -38,53 +54,18 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 22 Dec 2011 14:04:57 -0000
-Content-Type: text/plain; charset=ISO-8859-1; format=flowed
+X-List-Received-Date: Thu, 22 Dec 2011 14:05:53 -0000
+Content-Type: text/plain; charset=ISO-8859-15
 Content-Transfer-Encoding: 7bit
 
-On 12/21/2011 07:22 PM, Dmitry Eremin-Solenikov wrote:
-> On 12/21/2011 06:56 PM, Juraj Hercek wrote:
->> Hello list,
->>
->> I've two questions:
->>
->> 1) When I build meta-toolchain-qte (c2de8d4 metadata revision) and
->> install the resulting sdk, I see two directories in /usr/local/:
->> oecore-i686-arm and oecore-i686-i686. What is a rationale behind having
->> these two directories instead of one i.e.: oecore-i686-arm?
-> 
-> Because oecore-i686-i686 holds files that are created on i686 to be used 
-> on i686. They will be common for arm meta-toolchain-qte, mips 
-> meta-toolchain-qte, powerpc meta-toolchain-qte, etc.
+Hi,
 
-This makes perfect sense. Thank you.
+what do I need to do if I want to use the latest Codesourcery toolchain,
+that is 2009q1-203 in my case? I saw there are recipes for the 2008 and
+2005 releases, but what is with the 2009 release of CSL?
 
->> 2) The oecore-i686-arm/environment-setup-armv5te-oe-linux-gnueabi script
->> sets paths to the QT tools which should be installed in oecore-i686-arm
->> directory, but they are not. These tools are installed under
->> oecore-i686-i686 directory. Changing the path in
->> environment-setup-armv5te-oe-linux-gnueabi after toolchain installation
->> is easy, but I do not consider it to be a correct fix (assuming that
->> oecore-i686-{arm,i686} directories represents proper toolchain
->> structure). What is a proper fix for this issue?
-> 
-> I have the attached patch in my patch queue. Hope this helps.
+Regards
+Rainer
 
----8<---
--    (cd ${SDK_OUTPUT}/${QT_TOOLS_PREFIX}/..; ln -s 
-${SDKTARGETSYSROOT}/usr/share/qtopia/mkspecs mkspecs;)
-+    (cd ${SDK_NATIVE_OUTPUT}/${QT_TOOLS_PREFIX}/..; ln -s 
-${SDKTARGETSYSROOT}/usr/share/qtopia/mkspecs mkspecs;)
-  }
---->8---
-
-I've applied patch but as Eric pointed out earlier, SDK_NATIVE_OUTPUT 
-(from the snip above) is not defined anywhere (I've searched the string 
-throughout whole oe-core).
-
-Anyways, this snip of code deals with mkspecs, and I am not sure if 
-mkspecs should be installed in "i686-arm". My gut feeling would expect 
-mkspecs to be in "i686-i686" along with the other QT tools which are 
-already in "i686-i686" part.
 
 
