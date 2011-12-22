@@ -1,31 +1,20 @@
-Received: from mail-lpp01m010-f47.google.com ([209.85.215.47])
+Received: from mail.windriver.com ([147.11.1.11])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <raj.khem@gmail.com>) id 1Rdn6Q-000561-Tf
+	(envelope-from <bruce.ashfield@windriver.com>) id 1Rdn8u-0005AI-9C
 	for openembedded-core@lists.openembedded.org;
-	Thu, 22 Dec 2011 19:10:50 +0100
-Received: by lami14 with SMTP id i14so3297748lam.6
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 22 Dec 2011 10:03:40 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc:content-type;
-	bh=vkTKb+tafOjrz19XGZ68CxItPQbyvl3AbdlZAopIG58=;
-	b=EPrNi0uLdIaOchY1t4dY3uboBIxHF1afbccnluk/XeQgg2bAdxNSXOUGkdEM8FYbHk
-	hAMrFiSIfEw9JqfiJtvMPPs/rNZNdB3ZG1LZnCLdivufzz/ovsUiRbHkewGvxMMb96or
-	HZJ0ODypnQzuplEJETSd2WcJwDjK1Xmp1Bnto=
-Received: by 10.152.113.131 with SMTP id iy3mr9606276lab.39.1324577019632;
-	Thu, 22 Dec 2011 10:03:39 -0800 (PST)
-MIME-Version: 1.0
-Received: by 10.152.10.3 with HTTP; Thu, 22 Dec 2011 10:03:08 -0800 (PST)
-In-Reply-To: <5001068.cY7vLDoi1Z@helios>
-References: <CAMKF1so8it8VVhVeidcpfmxd-5dgfXvrsX_w3z1U7WbrVpoRqQ@mail.gmail.com>
-	<5001068.cY7vLDoi1Z@helios>
-From: Khem Raj <raj.khem@gmail.com>
-Date: Thu, 22 Dec 2011 10:03:08 -0800
-Message-ID: <CAMKF1so7M25uv0Rc4YugNnD5h9xKmWjLSN_jbUh_KVpGXma8=w@mail.gmail.com>
-To: Paul Eggleton <paul.eggleton@linux.intel.com>
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: Fetch errors from projects.o-hand.com
+	Thu, 22 Dec 2011 19:13:24 +0100
+Received: from yow-bashfiel-l1.corp.ad.wrs.com
+	(dhcp-145-187.ottawa.windriver.com [128.224.145.187])
+	by mail.windriver.com (8.14.3/8.14.3) with ESMTP id pBMI6DQM013678;
+	Thu, 22 Dec 2011 10:06:13 -0800 (PST)
+From: Bruce Ashfield <bruce.ashfield@windriver.com>
+To: richard.purdie@linuxfoundation.org
+Date: Thu, 22 Dec 2011 13:05:56 -0500
+Message-Id: <cover.1324576164.git.bruce.ashfield@windriver.com>
+X-Mailer: git-send-email 1.7.4.1
+Cc: dvhart@linux.intel.com, openembedded-core@lists.openembedded.org,
+	saul.wold@intel.com
+Subject: [PATCH 0/4] linux-yocto: consolidated pull request
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -40,27 +29,51 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 22 Dec 2011 18:10:51 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Thu, 22 Dec 2011 18:13:24 -0000
 
-On Thu, Dec 22, 2011 at 3:25 AM, Paul Eggleton
-<paul.eggleton@linux.intel.com> wrote:
-> Hi Khem,
->
-> On Sunday 20 November 2011 08:18:47 Khem Raj wrote:
->> My build of core-image-sato is failing to fetch tars from
->> projects.o-hand.com
->>
->>...
->>
->> I dont have yocto project mirror in my fallback list.
->>
->> Should these files be fetched from these urls or should urls be
->> updated to fetch them from elsewhere ?
->
-> All references to *.o-hand.com in SRC_URI have now been fixed. Thanks for
-> pointing this out and sorry for the delay in fixing it!
+Richard/Saul,
 
-Thanks for fixing it much appreciated.
+Here's a consolidated pull request that adds the cedartrail, and 
+updates some remaining reference platforms to 3.0.x, including
+updated -rt support.
+
+There are also a couple of minor bug fixes that I found when working
+on M2 functionality.
+
+Built and boot tested everywhere that I could.
+
+The bulk of my changes are pending on the patch refactoring changes
+that have been proposed, and will follow once something merges for
+that, and I can re-test.
+
+Cheers,
+
+Bruce
+
+cc: Darren Hart <dvhart@linux.intel.com>
+
+The following changes since commit dee0fc1462ba18551571c3b2d0f2b443a2feca18:
+
+  multilib.conf: Enable shadow-sysroot and libffi (2011-12-21 17:24:44 +0000)
+
+are available in the git repository at:
+  git://git.pokylinux.org/poky-contrib zedd/kernel-oe
+  http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=zedd/kernel-oe
+
+Bruce Ashfield (4):
+  linux-yocto: add cedartrail BSP support
+  linux-yocto: update hardware reference boards to 3.0.12
+  kern-tools: update SRCREV to pickup git operation fixes
+  linux-yocto: use PATH to locate kconf_check
+
+ meta/classes/kernel-yocto.bbclass                  |    4 ++--
+ .../kern-tools/kern-tools-native_git.bb            |    2 +-
+ meta/recipes-kernel/linux/linux-yocto-rt_3.0.bb    |    2 +-
+ meta/recipes-kernel/linux/linux-yocto_3.0.bb       |    2 +-
+ 4 files changed, 5 insertions(+), 5 deletions(-)
+
+-- 
+1.7.4.1
+
 
 
