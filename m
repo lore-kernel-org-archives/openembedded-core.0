@@ -1,16 +1,16 @@
 Received: from mail.windriver.com ([147.11.1.11])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <bruce.ashfield@windriver.com>) id 1Rdn8v-0005AL-U8
+	(envelope-from <bruce.ashfield@windriver.com>) id 1Rdn8x-0005AY-Eh
 	for openembedded-core@lists.openembedded.org;
-	Thu, 22 Dec 2011 19:13:26 +0100
+	Thu, 22 Dec 2011 19:13:28 +0100
 Received: from yow-bashfiel-l1.corp.ad.wrs.com
 	(dhcp-145-187.ottawa.windriver.com [128.224.145.187])
-	by mail.windriver.com (8.14.3/8.14.3) with ESMTP id pBMI6DQQ013678;
-	Thu, 22 Dec 2011 10:06:16 -0800 (PST)
+	by mail.windriver.com (8.14.3/8.14.3) with ESMTP id pBMI6DQO013678;
+	Thu, 22 Dec 2011 10:06:15 -0800 (PST)
 From: Bruce Ashfield <bruce.ashfield@windriver.com>
 To: richard.purdie@linuxfoundation.org
-Date: Thu, 22 Dec 2011 13:06:00 -0500
-Message-Id: <906567682d06d8de1915b78ddf6128cd7bda6adc.1324576164.git.bruce.ashfield@windriver.com>
+Date: Thu, 22 Dec 2011 13:05:58 -0500
+Message-Id: <ce817a23ab753fa95739e39f0d49bbad32547ab7.1324576164.git.bruce.ashfield@windriver.com>
 X-Mailer: git-send-email 1.7.4.1
 In-Reply-To: <cover.1324576164.git.bruce.ashfield@windriver.com>
 References: <cover.1324576164.git.bruce.ashfield@windriver.com>
@@ -18,7 +18,7 @@ In-Reply-To: <cover.1324576164.git.bruce.ashfield@windriver.com>
 References: <cover.1324576164.git.bruce.ashfield@windriver.com>
 Cc: dvhart@linux.intel.com, openembedded-core@lists.openembedded.org,
 	saul.wold@intel.com
-Subject: [PATCH 4/4] linux-yocto: use PATH to locate kconf_check
+Subject: [PATCH 2/4] linux-yocto: update hardware reference boards to 3.0.12
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -33,33 +33,43 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 22 Dec 2011 18:13:26 -0000
+X-List-Received-Date: Thu, 22 Dec 2011 18:13:28 -0000
 
-The changes made to prefer in-tree kernel tools forced the location
-of kconf_check prematurely. For maximum flexibility, locating it
-on the PATH is ideal, since the transition to in-tree tools will be
-completely transparent.
+Updating the meta SRCREV to pickup 3.0.12 support for the remaining
+non-x86 boards (routerstation and pandaboard).
 
 Signed-off-by: Bruce Ashfield <bruce.ashfield@windriver.com>
 ---
- meta/classes/kernel-yocto.bbclass |    4 ++--
- 1 files changed, 2 insertions(+), 2 deletions(-)
+ meta/recipes-kernel/linux/linux-yocto-rt_3.0.bb |    2 +-
+ meta/recipes-kernel/linux/linux-yocto_3.0.bb    |    2 +-
+ 2 files changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/meta/classes/kernel-yocto.bbclass b/meta/classes/kernel-yocto.bbclass
-index 79f82e3..f78caaf 100644
---- a/meta/classes/kernel-yocto.bbclass
-+++ b/meta/classes/kernel-yocto.bbclass
-@@ -124,8 +124,8 @@ python do_kernel_configcheck() {
+diff --git a/meta/recipes-kernel/linux/linux-yocto-rt_3.0.bb b/meta/recipes-kernel/linux/linux-yocto-rt_3.0.bb
+index b854ab5..81d22d0 100644
+--- a/meta/recipes-kernel/linux/linux-yocto-rt_3.0.bb
++++ b/meta/recipes-kernel/linux/linux-yocto-rt_3.0.bb
+@@ -16,7 +16,7 @@ LINUX_KERNEL_TYPE = "preempt-rt"
  
-     bb.plain("NOTE: validating kernel configuration")
+ SRCREV_machine ?= "6e96ccbbf19a4a7b67d98fdcd74d2c9da2c7c463"
+ SRCREV_machine_qemuppc ?= "8ea61de7fd201ff0001a039f2fda8ec2e4a562a1"
+-SRCREV_meta ?= "44ce39d43d1c7f98ab7aaa01c1bdf87498fb2253"
++SRCREV_meta ?= "c979f1365b1eb74e882b2cbbc8407ec536ab6eb8"
  
--    pathprefix = "export PATH=%s; " % d.getVar('PATH', True)
--    cmd = bb.data.expand("cd ${B}/..; ${S}/scripts/util/kconf_check -config- ${B} ${S} ${B} ${KBRANCH}",d )
-+    pathprefix = "export PATH=%s:%s; " % (d.getVar('PATH', True), "${S}/scripts/util/")
-+    cmd = bb.data.expand("cd ${B}/..; kconf_check -config- ${B} ${S} ${B} ${KBRANCH}",d )
-     ret, result = commands.getstatusoutput("%s%s" % (pathprefix, cmd))
+ PR = "r1"
+ PV = "${LINUX_VERSION}+git${SRCPV}"
+diff --git a/meta/recipes-kernel/linux/linux-yocto_3.0.bb b/meta/recipes-kernel/linux/linux-yocto_3.0.bb
+index cc1fe83..b650c84 100644
+--- a/meta/recipes-kernel/linux/linux-yocto_3.0.bb
++++ b/meta/recipes-kernel/linux/linux-yocto_3.0.bb
+@@ -18,7 +18,7 @@ SRCREV_machine_qemuppc ?= "7ecece328c5987112de2959f8f998dfcedaf7210"
+ SRCREV_machine_qemux86 ?= "a611ba462ac51b2bfdac1c5c6538dac95ad9b4dd"
+ SRCREV_machine_qemux86-64 ?= "b15a9b67089e31ef9780fdbd0481f48ef7facdba"
+ SRCREV_machine ?= "f389d310965a56091f688b28ea8be6d9cbb7fbbe"
+-SRCREV_meta ?= "44ce39d43d1c7f98ab7aaa01c1bdf87498fb2253"
++SRCREV_meta ?= "c979f1365b1eb74e882b2cbbc8407ec536ab6eb8"
  
-     bb.plain( "%s" % result )
+ PR = "r2"
+ PV = "${LINUX_VERSION}+git${SRCPV}"
 -- 
 1.7.4.1
 
