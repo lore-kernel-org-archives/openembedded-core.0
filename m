@@ -1,24 +1,24 @@
 Received: from mga02.intel.com ([134.134.136.20])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <sgw@linux.intel.com>) id 1Rddc0-0005NT-GG
+	(envelope-from <sgw@linux.intel.com>) id 1Rddc1-0005NT-9h
 	for openembedded-core@lists.openembedded.org;
-	Thu, 22 Dec 2011 09:02:48 +0100
+	Thu, 22 Dec 2011 09:02:49 +0100
 Received: from orsmga001.jf.intel.com ([10.7.209.18])
 	by orsmga101.jf.intel.com with ESMTP; 21 Dec 2011 23:55:38 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.67,352,1309762800"; d="scan'208";a="89233756"
+X-IronPort-AV: E=Sophos;i="4.67,352,1309762800"; d="scan'208";a="89233759"
 Received: from unknown (HELO swold-mobl.bigsur.com) ([10.255.12.90])
-	by orsmga001.jf.intel.com with ESMTP; 21 Dec 2011 23:55:37 -0800
+	by orsmga001.jf.intel.com with ESMTP; 21 Dec 2011 23:55:38 -0800
 From: Saul Wold <sgw@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Wed, 21 Dec 2011 23:55:17 -0800
-Message-Id: <5f9851f609f503aec098778ef59c27e5f5dd9579.1324540323.git.sgw@linux.intel.com>
+Date: Wed, 21 Dec 2011 23:55:19 -0800
+Message-Id: <cf9cbb89a8ac62b7ac244da2e3c0935f7d7511fb.1324540323.git.sgw@linux.intel.com>
 X-Mailer: git-send-email 1.7.6.4
 In-Reply-To: <cover.1324540322.git.sgw@linux.intel.com>
 References: <cover.1324540322.git.sgw@linux.intel.com>
 In-Reply-To: <cover.1324540322.git.sgw@linux.intel.com>
 References: <cover.1324540322.git.sgw@linux.intel.com>
-Subject: [CONSOLIDATED PULL 11/26] wget: fix a host intrusion issue introduced by adding --with-ssl=openssl.
+Subject: [CONSOLIDATED PULL 13/26] libcap: move library to base_libdir
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -33,45 +33,64 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 22 Dec 2011 08:02:48 -0000
+X-List-Received-Date: Thu, 22 Dec 2011 08:02:49 -0000
 
-From: Dexuan Cui <dexuan.cui@intel.com>
+From: Scott Garman <scott.a.garman@intel.com>
 
-On my x86-64 Ubuntu 11.04, with MACHINE=qemux86, "bitbake wget" fails. The
-config.log shows:
+ls from coreutils links to libcap, so move the libcap library
+from libdir (/usr/lib) to base_libdir (/lib).
 
-configure:30072: i586-poky-linux-gcc  -m32   -march=i586
- --sysroot=/distro/dcui/1212/p1/build/tmp/sysroots/qemux86 -o conftest -O2
- -pipe -g -feliminate-unused-debug-types  -Wl,-O1 -Wl,--hash-style=gnu
- -Wl,--as-needed conftest.c -ldl -lz  /usr/lib/libssl.so /usr/lib/libcrypto.so
- -lz >&5
-/usr/lib/libssl.so: could not read symbols: File in wrong format
-
-The patch fixes the issue by specifying libssl-prefix.
-
-Signed-off-by: Dexuan Cui <dexuan.cui@intel.com>
+Signed-off-by: Scott Garman <scott.a.garman@intel.com>
 ---
- meta/recipes-extended/wget/wget.inc |    4 ++--
- 1 files changed, 2 insertions(+), 2 deletions(-)
+ meta/recipes-support/libcap/libcap.inc     |   15 +++++++++++++--
+ meta/recipes-support/libcap/libcap_2.22.bb |    2 +-
+ 2 files changed, 14 insertions(+), 3 deletions(-)
 
-diff --git a/meta/recipes-extended/wget/wget.inc b/meta/recipes-extended/wget/wget.inc
-index 7083569..25f36c8 100644
---- a/meta/recipes-extended/wget/wget.inc
-+++ b/meta/recipes-extended/wget/wget.inc
-@@ -4,11 +4,11 @@ LICENSE = "GPL"
- LIC_FILES_CHKSUM = "file://COPYING;md5=d32239bcb673463ab874e80d47fae504"
- DEPENDS = "openssl"
+diff --git a/meta/recipes-support/libcap/libcap.inc b/meta/recipes-support/libcap/libcap.inc
+index 184b58a..9418abf 100644
+--- a/meta/recipes-support/libcap/libcap.inc
++++ b/meta/recipes-support/libcap/libcap.inc
+@@ -21,6 +21,8 @@ do_configure() {
+ 	sed -e 's,BUILD_CFLAGS ?=,BUILD_CFLAGS := $(BUILD_CFLAGS),' -i Make.Rules
+ }
  
--INC_PR = "r12"
-+INC_PR = "r13"
++BUILD_LDFLAGS_virtclass_native += "-Wl,rpath=${base_libdir}"
++
+ EXTRA_OEMAKE = " \
+   LIBATTR=yes \
+   PAM_CAP=${@base_contains('DISTRO_FEATURES', 'pam', 'yes', 'no', d)} \
+@@ -42,8 +44,17 @@ do_install() {
+ 	oe_runmake install DESTDIR="${D}" prefix="${prefix}"
+ }
  
- inherit autotools gettext update-alternatives
++do_install_append() {
++	# Move the library to base_libdir
++	install -d ${D}${base_libdir}
++	mv ${D}${libdir}/* ${D}${base_libdir}
++	rmdir ${D}${libdir}
++}
++
++FILES_${PN}-dev += "${base_libdir}/*.so"
++
+ # pam files
+-FILES_${PN} += "${libdir}/security/*.so"
+-FILES_${PN}-dbg += "${libdir}/security/.debug/*.so"
++FILES_${PN} += "${base_libdir}/security/*.so"
++FILES_${PN}-dbg += "${base_libdir}/security/.debug/*.so"
  
--EXTRA_OECONF = "--with-libc --enable-ipv6 --with-ssl=openssl"
-+EXTRA_OECONF = "--with-libc --enable-ipv6 --with-libssl-prefix=${STAGING_DIR_HOST} --with-ssl=openssl"
+ BBCLASSEXTEND = "native"
+diff --git a/meta/recipes-support/libcap/libcap_2.22.bb b/meta/recipes-support/libcap/libcap_2.22.bb
+index dd63d9e..be1df54 100644
+--- a/meta/recipes-support/libcap/libcap_2.22.bb
++++ b/meta/recipes-support/libcap/libcap_2.22.bb
+@@ -1,6 +1,6 @@
+ require libcap.inc
  
- do_install_append () {
- 	mv ${D}${bindir}/wget ${D}${bindir}/wget.${PN}
+-PR = "r2"
++PR = "r3"
+ 
+ SRC_URI[md5sum] = "ce64058bdb3f086ddbfca8ce6c919845"
+ SRC_URI[sha256sum] = "73ebbd4877b5f69dd28b72098e510c5b318bc480f8201c4061ac98b78c04050f"
 -- 
 1.7.6.4
 
