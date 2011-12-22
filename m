@@ -1,31 +1,31 @@
 Received: from mga06.intel.com ([134.134.136.21] helo=orsmga101.jf.intel.com)
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <scott.a.garman@intel.com>) id 1RdlMf-0008Pp-0C
+	(envelope-from <scott.a.garman@intel.com>) id 1RdlQD-00007L-DJ
 	for openembedded-core@lists.openembedded.org;
-	Thu, 22 Dec 2011 17:19:29 +0100
-Received: from mail-gx0-f180.google.com ([209.85.161.180])
-	by mga02.intel.com with ESMTP/TLS/RC4-SHA; 22 Dec 2011 08:12:20 -0800
-Received: by ggnq1 with SMTP id q1so6108629ggn.25
+	Thu, 22 Dec 2011 17:23:09 +0100
+Received: from mail-gy0-f180.google.com ([209.85.160.180])
+	by mga02.intel.com with ESMTP/TLS/RC4-SHA; 22 Dec 2011 08:16:02 -0800
+Received: by ghrr20 with SMTP id r20so2580955ghr.25
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 22 Dec 2011 08:12:19 -0800 (PST)
-Received: by 10.50.15.161 with SMTP id y1mr11065230igc.4.1324570339476;
-	Thu, 22 Dec 2011 08:12:19 -0800 (PST)
+	Thu, 22 Dec 2011 08:16:01 -0800 (PST)
+Received: by 10.50.180.130 with SMTP id do2mr9585626igc.23.1324570561342;
+	Thu, 22 Dec 2011 08:16:01 -0800 (PST)
 Received: from [192.168.1.12] (c-76-115-40-64.hsd1.or.comcast.net.
 	[76.115.40.64])
-	by mx.google.com with ESMTPS id g34sm30448562ibk.10.2011.12.22.08.12.17
-	(version=SSLv3 cipher=OTHER); Thu, 22 Dec 2011 08:12:18 -0800 (PST)
-Message-ID: <4EF356EF.7080703@intel.com>
-Date: Thu, 22 Dec 2011 08:12:31 -0800
+	by mx.google.com with ESMTPS id l28sm30543456ibc.3.2011.12.22.08.16.00
+	(version=SSLv3 cipher=OTHER); Thu, 22 Dec 2011 08:16:00 -0800 (PST)
+Message-ID: <4EF357D0.3030005@intel.com>
+Date: Thu, 22 Dec 2011 08:16:16 -0800
 From: Scott Garman <scott.a.garman@intel.com>
 User-Agent: Mozilla/5.0 (X11; Linux x86_64;
 	rv:8.0) Gecko/20111124 Thunderbird/8.0
 MIME-Version: 1.0
 To: openembedded-core@lists.openembedded.org
 References: <cover.1324540322.git.sgw@linux.intel.com>
-	<be1461e4a665328a3f97fb6e516cfce663b1c48d.1324540323.git.sgw@linux.intel.com>
-	<1324543857.4492.15.camel@lenovo.internal.reciva.com>
-In-Reply-To: <1324543857.4492.15.camel@lenovo.internal.reciva.com>
-Subject: Re: [CONSOLIDATED PULL 12/26] ncurses: move libraries to base_libdir
+	<d4299e7c7d0c584cc0b1a0663111a9b328a73266.1324540323.git.sgw@linux.intel.com>
+	<1324544544.4492.16.camel@lenovo.internal.reciva.com>
+In-Reply-To: <1324544544.4492.16.camel@lenovo.internal.reciva.com>
+Subject: Re: [CONSOLIDATED PULL 19/26] insane.bbclass: add QA tests for unsafe references to exec_prefix
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -40,24 +40,41 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 22 Dec 2011 16:19:29 -0000
+X-List-Received-Date: Thu, 22 Dec 2011 16:23:09 -0000
 Content-Type: text/plain; charset=ISO-8859-1; format=flowed
 Content-Transfer-Encoding: 7bit
 
-On 12/22/2011 12:50 AM, Phil Blundell wrote:
+On 12/22/2011 01:02 AM, Phil Blundell wrote:
 > On Wed, 2011-12-21 at 23:55 -0800, Saul Wold wrote:
->> +BUILD_LDFLAGS += "-Wl,-rpath,${base_libdir}"
+>> +		exec_prefix = d.getVar('exec_prefix', True)
+>> +		sysroot_path = d.getVar('STAGING_DIR_TARGET', True)
+>> +		sysroot_path_usr = sysroot_path + exec_prefix
+>> +
+>> +		try:
+>> +			ldd_output = sub.check_output(["prelink-rtld", "--root", sysroot_path, path])
+>> +		except sub.CalledProcessError as e:
+>> +			if e.returncode != 127:
+>> +				error_msg = pn + ": prelink-rtld aborted when processing %s" % path
+>> +				package_qa_handle_error("unsafe-references-in-binaries", error_msg, d)
+>> +				return False
+>> +			else:
+>> +				# Sometimes this is done deliberately (e.g, e2fsprogs), so only warn
+>> +				bb.warn("%s has missing library dependencies" % path)
+>> +				return
+>> +		if sysroot_path_usr in ldd_output:
+>> +			error_msg = pn + ": %s links to something under exec_prefix" % path
+>> +			package_qa_handle_error("unsafe-references-in-binaries", error_msg, d)
+>> +			error_msg = "ldd reports: %s" % ldd_output
+>> +			package_qa_handle_error("unsafe-references-in-binaries", error_msg, d)
+>> +			return False
 >
-> Why is that required?
+> Is that going to do the right thing if ${prefix} == ${exec_prefix}?
+> It's not obvious to me that it will handle that case correctly.
 
-It's actually needed only for the -native case, so that the tic command 
-(and possibly others) can be run.
-
-I take it I should have done:
-
-BUILD_LDFLAGS_virtclass_native +=
-
-instead?
+The function unsafe_references_skippable checks if exec_prefix == "" and 
+also if base_bindir == bindir and base_sbindir == sbindir and 
+base_libdir == libdir. Would that cover this case, or should this check 
+be made explicit?
 
 Scott
 
