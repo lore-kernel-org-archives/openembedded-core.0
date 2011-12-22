@@ -1,35 +1,25 @@
-Received: from mail-wi0-f175.google.com ([209.85.212.175])
+Received: from mga03.intel.com ([143.182.124.21])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <slapinid@gmail.com>) id 1Rdgd8-0003Uq-2g
+	(envelope-from <paul.eggleton@linux.intel.com>) id 1RdgtX-0003pJ-9H
 	for openembedded-core@lists.openembedded.org;
-	Thu, 22 Dec 2011 12:16:10 +0100
-Received: by wibhq7 with SMTP id hq7so2498903wib.6
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 22 Dec 2011 03:09:04 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
-	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
-	:content-type:content-transfer-encoding;
-	bh=MeqyKzKgvn5Of3cUmqVy8a1N/Df/ok3cNGGzSv9ctqM=;
-	b=mcSE4hwxtf4iN2R9BKNyreQdfViQR6iZwvOXSgb6txNHDeWaARmQpkgJ7L1WG9+EkV
-	mh+nJDfJbp7S6QoRaoN14rF/qQ3c4pbJL2vOU+rw0dsvYOXPY3pWCcXLi2tLqBJd3wHC
-	0NWS5be1Sz01vmEMJ8NBjxP8WtaXoItiPzNL4=
+	Thu, 22 Dec 2011 12:33:07 +0100
+Received: from azsmga002.ch.intel.com ([10.2.17.35])
+	by azsmga101.ch.intel.com with ESMTP; 22 Dec 2011 03:26:00 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="49720108"
+Received: from unknown (HELO helios.localnet) ([10.252.122.57])
+	by AZSMGA002.ch.intel.com with ESMTP; 22 Dec 2011 03:25:59 -0800
+From: Paul Eggleton <paul.eggleton@linux.intel.com>
+To: Khem Raj <raj.khem@gmail.com>
+Date: Thu, 22 Dec 2011 11:25:57 +0000
+Message-ID: <5001068.cY7vLDoi1Z@helios>
+Organization: Intel Corporation
+User-Agent: KMail/4.7.4 (Linux/3.0.0-14-generic-pae; KDE/4.7.4; i686; ; )
+In-Reply-To: <CAMKF1so8it8VVhVeidcpfmxd-5dgfXvrsX_w3z1U7WbrVpoRqQ@mail.gmail.com>
+References: <CAMKF1so8it8VVhVeidcpfmxd-5dgfXvrsX_w3z1U7WbrVpoRqQ@mail.gmail.com>
 MIME-Version: 1.0
-Received: by 10.180.81.72 with SMTP id y8mr22371675wix.14.1324552144228; Thu,
-	22 Dec 2011 03:09:04 -0800 (PST)
-Received: by 10.216.167.69 with HTTP; Thu, 22 Dec 2011 03:09:04 -0800 (PST)
-In-Reply-To: <1324487225.18348.11.camel@ted>
-References: <1324289521-10140-1-git-send-email-b19537@freescale.com>
-	<C27D8181-0988-4BF7-A858-BC873D7C47F8@dominion.thruhere.net>
-	<CA452391058F6D4E9715FB2C29D9312A010B915F@039-SN2MPN1-023.039d.mgd.msft.net>
-	<1324297600.4568.170.camel@ted>
-	<CA452391058F6D4E9715FB2C29D9312A010B9EEF@039-SN2MPN1-023.039d.mgd.msft.net>
-	<1324487225.18348.11.camel@ted>
-Date: Thu, 22 Dec 2011 14:09:04 +0300
-Message-ID: <CAFZPMobmLhrHoPo9devpvdgw_OSWXbR0_aiLc7bp5-ce+QG0yQ@mail.gmail.com>
-From: Sergey Lapin <slapinid@gmail.com>
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH oe-core] valgrind: add powerpc into the compatible host list
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: Fetch errors from projects.o-hand.com
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -44,20 +34,32 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 22 Dec 2011 11:16:10 -0000
-Content-Type: text/plain; charset=ISO-8859-1
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Thu, 22 Dec 2011 11:33:07 -0000
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
 
-On Wed, Dec 21, 2011 at 9:07 PM, Richard Purdie
-<richard.purdie@linuxfoundation.org> wrote:
-> On Wed, 2011-12-21 at 06:21 +0000, Luo Zhenhua-B19537 wrote:
->> Since nobody confirm that it works on mips, I will create a new patch to=
- define COMPATIBLE_HOST as following, does it make sense?
->> =A0 =A0 =A0 COMPATIBLE_HOST =3D '(i.86|x86_64|powerpc|powerpc64|ppc|ppc6=
-4|arm).*-linux'
+Hi Khem,
 
-Does it really work on armv4/v5?
+On Sunday 20 November 2011 08:18:47 Khem Raj wrote:
+> My build of core-image-sato is failing to fetch tars from
+> projects.o-hand.com
+> 
+>...
+>
+> I dont have yocto project mirror in my fallback list.
+> 
+> Should these files be fetched from these urls or should urls be
+> updated to fetch them from elsewhere ?
 
-S.
+All references to *.o-hand.com in SRC_URI have now been fixed. Thanks for 
+pointing this out and sorry for the delay in fixing it!
+
+Cheers,
+Paul
+
+-- 
+
+Paul Eggleton
+Intel Open Source Technology Centre
 
 
