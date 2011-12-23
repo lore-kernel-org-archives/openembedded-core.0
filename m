@@ -1,24 +1,24 @@
-Received: from mga02.intel.com ([134.134.136.20])
+Received: from mga01.intel.com ([192.55.52.88])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <shane.wang@intel.com>) id 1Re7y7-0004Mo-IS
+	(envelope-from <shane.wang@intel.com>) id 1Re7yA-0004O6-4j
 	for openembedded-core@lists.openembedded.org;
-	Fri, 23 Dec 2011 17:27:39 +0100
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-	by orsmga101.jf.intel.com with ESMTP; 23 Dec 2011 08:20:31 -0800
+	Fri, 23 Dec 2011 17:27:42 +0100
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+	by fmsmga101.fm.intel.com with ESMTP; 23 Dec 2011 08:20:34 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.67,351,1309762800"; d="scan'208";a="90911073"
+X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="99722906"
 Received: from yocto-build5.sh.intel.com (HELO localhost) ([10.239.48.2])
-	by orsmga002.jf.intel.com with ESMTP; 23 Dec 2011 08:20:30 -0800
+	by fmsmga001.fm.intel.com with ESMTP; 23 Dec 2011 08:20:33 -0800
 From: Shane Wang <shane.wang@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Sat, 24 Dec 2011 00:35:17 +0800
-Message-Id: <7252a7660c6a9703c7fca5153f87d9dbaaa347e5.1324657801.git.shane.wang@intel.com>
+Date: Sat, 24 Dec 2011 00:35:18 +0800
+Message-Id: <730a89487990ac89b5cf86063d083d23a5501188.1324657801.git.shane.wang@intel.com>
 X-Mailer: git-send-email 1.7.6
 In-Reply-To: <b3dad82177ad19a44f06edc4b857cb9697fa3950.1324657801.git.shane.wang@intel.com>
 References: <b3dad82177ad19a44f06edc4b857cb9697fa3950.1324657801.git.shane.wang@intel.com>
 In-Reply-To: <cover.1324657801.git.shane.wang@intel.com>
 References: <cover.1324657801.git.shane.wang@intel.com>
-Subject: [PATCH 07/14] glib-2.0: upgrade to 2.30.2
+Subject: [PATCH 08/14] dbus: upgrade to 1.5.8
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -33,42 +33,51 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 23 Dec 2011 16:27:39 -0000
+X-List-Received-Date: Fri, 23 Dec 2011 16:27:42 -0000
 
 Signed-off-by: Shane Wang <shane.wang@intel.com>
 ---
- .../{glib-2.0_2.30.1.bb => glib-2.0_2.30.2.bb}     |    7 +++----
- 1 files changed, 3 insertions(+), 4 deletions(-)
- rename meta/recipes-core/glib-2.0/{glib-2.0_2.30.1.bb => glib-2.0_2.30.2.bb} (88%)
+ .../dbus/{dbus-1.4.16 => dbus-1.5.8}/dbus-1.init   |    0
+ .../dbus/{dbus-1.4.16 => dbus-1.5.8}/tmpdir.patch  |    0
+ meta/recipes-core/dbus/dbus_1.4.16.bb              |    5 -----
+ meta/recipes-core/dbus/dbus_1.5.8.bb               |    6 ++++++
+ 4 files changed, 6 insertions(+), 5 deletions(-)
+ rename meta/recipes-core/dbus/{dbus-1.4.16 => dbus-1.5.8}/dbus-1.init (100%)
+ rename meta/recipes-core/dbus/{dbus-1.4.16 => dbus-1.5.8}/tmpdir.patch (100%)
+ delete mode 100644 meta/recipes-core/dbus/dbus_1.4.16.bb
+ create mode 100644 meta/recipes-core/dbus/dbus_1.5.8.bb
 
-diff --git a/meta/recipes-core/glib-2.0/glib-2.0_2.30.1.bb b/meta/recipes-core/glib-2.0/glib-2.0_2.30.2.bb
-similarity index 88%
-rename from meta/recipes-core/glib-2.0/glib-2.0_2.30.1.bb
-rename to meta/recipes-core/glib-2.0/glib-2.0_2.30.2.bb
-index bf415a1..62f7dc6 100644
---- a/meta/recipes-core/glib-2.0/glib-2.0_2.30.1.bb
-+++ b/meta/recipes-core/glib-2.0/glib-2.0_2.30.2.bb
-@@ -1,6 +1,6 @@
- require glib.inc
- 
--PR = "r1"
-+PR = "r0"
- PE = "1"
- 
- DEPENDS += "libffi python-argparse-native"
-@@ -13,10 +13,9 @@ SRC_URI = "${GNOME_MIRROR}/glib/${SHRT_VER}/glib-${PV}.tar.bz2 \
-            file://configure-libtool.patch \
-            file://60_wait-longer-for-threads-to-die.patch \
-            file://g_once_init_enter.patch \
--           file://glib-2.0_fix_for_x32.patch \
-           "
--SRC_URI[md5sum] = "921ef2e86e911feb5e21f656f1ac305b"
--SRC_URI[sha256sum] = "4e560319450f31d85b6cdb2b530c3324a510ca04817e360943d0774327d21804"
-+SRC_URI[md5sum] = "b40f3889e8d24e1b367763673ca6deb5"
-+SRC_URI[sha256sum] = "94b1f1a1456c67060ca868d299bef3f7268a2c1c5c360aabb7149d4d9b2fdcd3"
- 
- # Only apply this patch for target recipe on uclibc
- SRC_URI_append_libc-uclibc = " ${@['', 'file://no-iconv.patch']['${PN}' == '${BPN}']}"
+diff --git a/meta/recipes-core/dbus/dbus-1.4.16/dbus-1.init b/meta/recipes-core/dbus/dbus-1.5.8/dbus-1.init
+similarity index 100%
+rename from meta/recipes-core/dbus/dbus-1.4.16/dbus-1.init
+rename to meta/recipes-core/dbus/dbus-1.5.8/dbus-1.init
+diff --git a/meta/recipes-core/dbus/dbus-1.4.16/tmpdir.patch b/meta/recipes-core/dbus/dbus-1.5.8/tmpdir.patch
+similarity index 100%
+rename from meta/recipes-core/dbus/dbus-1.4.16/tmpdir.patch
+rename to meta/recipes-core/dbus/dbus-1.5.8/tmpdir.patch
+diff --git a/meta/recipes-core/dbus/dbus_1.4.16.bb b/meta/recipes-core/dbus/dbus_1.4.16.bb
+deleted file mode 100644
+index f87f266..0000000
+--- a/meta/recipes-core/dbus/dbus_1.4.16.bb
++++ /dev/null
+@@ -1,5 +0,0 @@
+-include dbus.inc
+-
+-SRC_URI[md5sum] = "44a2a10678e7e50460879c3eb4453a65"
+-SRC_URI[sha256sum] = "1d8ee6262f8cc2148f06578eee522c755ba0896206b3464ca9bdc84f411b29c6"
+-
+diff --git a/meta/recipes-core/dbus/dbus_1.5.8.bb b/meta/recipes-core/dbus/dbus_1.5.8.bb
+new file mode 100644
+index 0000000..d50999e
+--- /dev/null
++++ b/meta/recipes-core/dbus/dbus_1.5.8.bb
+@@ -0,0 +1,6 @@
++include dbus.inc
++
++SRC_URI[md5sum] = "87fee7d4de53d88abf93d4915a77a2c1"
++SRC_URI[sha256sum] = "6e1cd5248562b5362e9a1ad8314459fe2f60ee3b9622ce0afd68cc9df8ae7c5e"
++
++
 -- 
 1.7.6
 
