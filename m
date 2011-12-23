@@ -1,24 +1,24 @@
-Received: from mga14.intel.com ([143.182.124.37])
+Received: from mga01.intel.com ([192.55.52.88])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <shane.wang@intel.com>) id 1Re7yG-0004Rq-0O
+	(envelope-from <shane.wang@intel.com>) id 1Re7yC-0004O6-Ca
 	for openembedded-core@lists.openembedded.org;
-	Fri, 23 Dec 2011 17:27:48 +0100
-Received: from azsmga001.ch.intel.com ([10.2.17.19])
-	by azsmga102.ch.intel.com with ESMTP; 23 Dec 2011 08:20:39 -0800
+	Fri, 23 Dec 2011 17:27:49 +0100
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+	by fmsmga101.fm.intel.com with ESMTP; 23 Dec 2011 08:20:36 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="88971277"
+X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="105499132"
 Received: from yocto-build5.sh.intel.com (HELO localhost) ([10.239.48.2])
-	by azsmga001.ch.intel.com with ESMTP; 23 Dec 2011 08:20:39 -0800
+	by fmsmga002.fm.intel.com with ESMTP; 23 Dec 2011 08:20:36 -0800
 From: Shane Wang <shane.wang@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Sat, 24 Dec 2011 00:35:20 +0800
-Message-Id: <f4d948b417c0d1c7d7d7098ccd7a81278cea5328.1324657801.git.shane.wang@intel.com>
+Date: Sat, 24 Dec 2011 00:35:19 +0800
+Message-Id: <197dd30dae0dc4fb844a63c00447dcce3fc9315e.1324657801.git.shane.wang@intel.com>
 X-Mailer: git-send-email 1.7.6
 In-Reply-To: <b3dad82177ad19a44f06edc4b857cb9697fa3950.1324657801.git.shane.wang@intel.com>
 References: <b3dad82177ad19a44f06edc4b857cb9697fa3950.1324657801.git.shane.wang@intel.com>
 In-Reply-To: <cover.1324657801.git.shane.wang@intel.com>
 References: <cover.1324657801.git.shane.wang@intel.com>
-Subject: [PATCH 10/14] valgrind: upgrade to 3.7.0
+Subject: [PATCH 09/14] mtd-utils: upgrade to 1.4.9
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -33,97 +33,42 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 23 Dec 2011 16:27:48 -0000
+X-List-Received-Date: Fri, 23 Dec 2011 16:27:49 -0000
 
 Signed-off-by: Shane Wang <shane.wang@intel.com>
 ---
- .../valgrind/valgrind-3.7.0/configure-fix.patch    |   23 ++++++++++++++++++++
- .../fix_issue_caused_by_ccache.patch               |    0
- .../fix_unsupporting_kernel_3.patch                |    0
- .../fixed-perl-path.patch                          |    0
- .../{valgrind_3.6.1.bb => valgrind_3.7.0.bb}       |   13 ++++++-----
- 5 files changed, 30 insertions(+), 6 deletions(-)
- create mode 100644 meta/recipes-devtools/valgrind/valgrind-3.7.0/configure-fix.patch
- rename meta/recipes-devtools/valgrind/{valgrind-3.6.1 => valgrind-3.7.0}/fix_issue_caused_by_ccache.patch (100%)
- rename meta/recipes-devtools/valgrind/{valgrind-3.6.1 => valgrind-3.7.0}/fix_unsupporting_kernel_3.patch (100%)
- rename meta/recipes-devtools/valgrind/{valgrind-3.6.1 => valgrind-3.7.0}/fixed-perl-path.patch (100%)
- rename meta/recipes-devtools/valgrind/{valgrind_3.6.1.bb => valgrind_3.7.0.bb} (71%)
+ .../add-exclusion-to-mkfs-jffs2-git-2.patch        |    0
+ .../add-exclusion-to-mkfs-jffs2-git-2.patch        |    0
+ .../mtd/{mtd-utils_1.4.6.bb => mtd-utils_1.4.9.bb} |    2 +-
+ 3 files changed, 1 insertions(+), 1 deletions(-)
+ rename meta/recipes-devtools/mtd/{mtd-utils-1.4.6 => mtd-utils-1.4.9}/add-exclusion-to-mkfs-jffs2-git-2.patch (100%)
+ rename meta/recipes-devtools/mtd/{mtd-utils-1.4.6 => mtd-utils-1.4.9}/mtd-utils-1.4.1/add-exclusion-to-mkfs-jffs2-git-2.patch (100%)
+ rename meta/recipes-devtools/mtd/{mtd-utils_1.4.6.bb => mtd-utils_1.4.9.bb} (95%)
 
-diff --git a/meta/recipes-devtools/valgrind/valgrind-3.7.0/configure-fix.patch b/meta/recipes-devtools/valgrind/valgrind-3.7.0/configure-fix.patch
-new file mode 100644
-index 0000000..f57897c
---- /dev/null
-+++ b/meta/recipes-devtools/valgrind/valgrind-3.7.0/configure-fix.patch
-@@ -0,0 +1,23 @@
-+To recognize gcc version from poky in configure.in
-+
-+Upstream-Status: Inappropriate [configuration]
-+
-+Signed-off-by: Shane Wang <shane.wang@intel.com>
-+
-+diff -r 91a8df96084a configure.in
-+--- a/configure.in	Fri Dec 23 20:57:01 2011 +0800
-++++ b/configure.in	Fri Dec 23 20:59:21 2011 +0800
-+@@ -104,11 +104,13 @@
-+ # 
-+ # i686-apple-darwin10-gcc-4.2.1 (GCC) 4.2.1 (Apple Inc. build 5666) (dot 3)
-+ # i686-apple-darwin11-llvm-gcc-4.2 (GCC) 4.2.1 (Based on Apple Inc. build 5658) (LLVM build 2335.15.00)
-++# i586-poky-linux-gcc (GCC) 4.6.3 (prerelease) Copyright
-+ #
-+ [gcc_version=`${CC} --version \
-+              | head -n 1 \
-+              | $SED 's/i686-apple-darwin10//' \
-+              | $SED 's/i686-apple-darwin11//' \
-++             | $SED 's/.*poky[^0-9]*//' \
-+              | $SED 's/^[^0-9]*\([0-9.]*\).*$/\1/'`]
-+ 
-+ is_clang="notclang"
-diff --git a/meta/recipes-devtools/valgrind/valgrind-3.6.1/fix_issue_caused_by_ccache.patch b/meta/recipes-devtools/valgrind/valgrind-3.7.0/fix_issue_caused_by_ccache.patch
+diff --git a/meta/recipes-devtools/mtd/mtd-utils-1.4.6/add-exclusion-to-mkfs-jffs2-git-2.patch b/meta/recipes-devtools/mtd/mtd-utils-1.4.9/add-exclusion-to-mkfs-jffs2-git-2.patch
 similarity index 100%
-rename from meta/recipes-devtools/valgrind/valgrind-3.6.1/fix_issue_caused_by_ccache.patch
-rename to meta/recipes-devtools/valgrind/valgrind-3.7.0/fix_issue_caused_by_ccache.patch
-diff --git a/meta/recipes-devtools/valgrind/valgrind-3.6.1/fix_unsupporting_kernel_3.patch b/meta/recipes-devtools/valgrind/valgrind-3.7.0/fix_unsupporting_kernel_3.patch
+rename from meta/recipes-devtools/mtd/mtd-utils-1.4.6/add-exclusion-to-mkfs-jffs2-git-2.patch
+rename to meta/recipes-devtools/mtd/mtd-utils-1.4.9/add-exclusion-to-mkfs-jffs2-git-2.patch
+diff --git a/meta/recipes-devtools/mtd/mtd-utils-1.4.6/mtd-utils-1.4.1/add-exclusion-to-mkfs-jffs2-git-2.patch b/meta/recipes-devtools/mtd/mtd-utils-1.4.9/mtd-utils-1.4.1/add-exclusion-to-mkfs-jffs2-git-2.patch
 similarity index 100%
-rename from meta/recipes-devtools/valgrind/valgrind-3.6.1/fix_unsupporting_kernel_3.patch
-rename to meta/recipes-devtools/valgrind/valgrind-3.7.0/fix_unsupporting_kernel_3.patch
-diff --git a/meta/recipes-devtools/valgrind/valgrind-3.6.1/fixed-perl-path.patch b/meta/recipes-devtools/valgrind/valgrind-3.7.0/fixed-perl-path.patch
-similarity index 100%
-rename from meta/recipes-devtools/valgrind/valgrind-3.6.1/fixed-perl-path.patch
-rename to meta/recipes-devtools/valgrind/valgrind-3.7.0/fixed-perl-path.patch
-diff --git a/meta/recipes-devtools/valgrind/valgrind_3.6.1.bb b/meta/recipes-devtools/valgrind/valgrind_3.7.0.bb
-similarity index 71%
-rename from meta/recipes-devtools/valgrind/valgrind_3.6.1.bb
-rename to meta/recipes-devtools/valgrind/valgrind_3.7.0.bb
-index 021caa8..03cdd28 100644
---- a/meta/recipes-devtools/valgrind/valgrind_3.6.1.bb
-+++ b/meta/recipes-devtools/valgrind/valgrind_3.7.0.bb
-@@ -3,19 +3,20 @@ HOMEPAGE = "http://valgrind.org/"
- BUGTRACKER = "http://valgrind.org/support/bug_reports.html"
- LICENSE = "GPLv2 & GPLv2+ & BSD"
- LIC_FILES_CHKSUM = "file://COPYING;md5=c46082167a314d785d012a244748d803 \
--                    file://include/pub_tool_basics.h;beginline=1;endline=29;md5=b4765f122b7672cdf9b2e8fd75a33172 \
--                    file://include/valgrind.h;beginline=1;endline=56;md5=13a71cedba99112334d8596162aec37e \
-+                    file://include/pub_tool_basics.h;beginline=1;endline=29;md5=0ef036a7ddce4cdc738d65d63b3e8153 \
-+                    file://include/valgrind.h;beginline=1;endline=56;md5=aee56014c1dd64260a59fd4df38752f6 \
-                     file://COPYING.DOCS;md5=8fdeb5abdb235a08e76835f8f3260215"
- DEPENDS = "virtual/libx11"
--PR = "r1"
-+PR = "r0"
+rename from meta/recipes-devtools/mtd/mtd-utils-1.4.6/mtd-utils-1.4.1/add-exclusion-to-mkfs-jffs2-git-2.patch
+rename to meta/recipes-devtools/mtd/mtd-utils-1.4.9/mtd-utils-1.4.1/add-exclusion-to-mkfs-jffs2-git-2.patch
+diff --git a/meta/recipes-devtools/mtd/mtd-utils_1.4.6.bb b/meta/recipes-devtools/mtd/mtd-utils_1.4.9.bb
+similarity index 95%
+rename from meta/recipes-devtools/mtd/mtd-utils_1.4.6.bb
+rename to meta/recipes-devtools/mtd/mtd-utils_1.4.9.bb
+index 79f4f15..519472c 100644
+--- a/meta/recipes-devtools/mtd/mtd-utils_1.4.6.bb
++++ b/meta/recipes-devtools/mtd/mtd-utils_1.4.9.bb
+@@ -6,7 +6,7 @@ LICENSE = "GPLv2+"
+ LIC_FILES_CHKSUM = "file://COPYING;md5=0636e73ff0215e8d672dc4c32c317bb3 \
+                     file://include/common.h;beginline=1;endline=17;md5=ba05b07912a44ea2bf81ce409380049c"
  
- SRC_URI = "http://www.valgrind.org/downloads/valgrind-${PV}.tar.bz2 \
- 	   file://fix_issue_caused_by_ccache.patch \
-            file://fix_unsupporting_kernel_3.patch \
--           file://fixed-perl-path.patch"
-+           file://fixed-perl-path.patch \
-+           file://configure-fix.patch"
+-SRC_URI = "git://git.infradead.org/mtd-utils.git;protocol=git;tag=baafd8ace3301e9d2ba314a376bad008314b34ff \
++SRC_URI = "git://git.infradead.org/mtd-utils.git;protocol=git;tag=995cfe51b0a3cf32f381c140bf72b21bf91cef1b \
+ 		file://add-exclusion-to-mkfs-jffs2-git-2.patch"
  
--SRC_URI[md5sum] = "2c3aa122498baecc9d69194057ca88f5"
--SRC_URI[sha256sum] = "49bdcc4fbcf060049b5f0dcfd8a187a6e90e0b0e57309f633b64e44430726a0e"
-+SRC_URI[md5sum] = "a855fda56edf05614f099dca316d1775"
-+SRC_URI[sha256sum] = "5d62c0330f1481fe2c593249192fa68ff454c19c34343978cc9ce91aa324cbf6"
- 
- COMPATIBLE_HOST = '(i.86|x86_64).*-linux'
- 
+ S = "${WORKDIR}/git/"
 -- 
 1.7.6
 
