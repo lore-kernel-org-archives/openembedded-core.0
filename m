@@ -1,26 +1,24 @@
-Received: from sanddollar.geekisp.com ([216.168.135.167])
+Received: from mail.windriver.com ([147.11.1.11])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <philip@balister.org>) id 1RdsfX-0007Av-Gj
+	(envelope-from <mark.hatle@windriver.com>) id 1RdtWX-0008Dr-I2
 	for openembedded-core@lists.openembedded.org;
-	Fri, 23 Dec 2011 01:07:27 +0100
-Received: (qmail 3342 invoked by uid 1003); 23 Dec 2011 00:00:18 -0000
-Received: from unknown (HELO ?192.168.1.104?) (philip@opensdr.com@96.240.172.5)
-	by mail.geekisp.com with (DHE-RSA-AES256-SHA encrypted) SMTP;
-	23 Dec 2011 00:00:18 -0000
-Message-ID: <4EF3C491.8080903@balister.org>
-Date: Thu, 22 Dec 2011 19:00:17 -0500
-From: Philip Balister <philip@balister.org>
-User-Agent: Mozilla/5.0 (X11; U; Linux x86_64; en-US;
-	rv:1.9.2.24) Gecko/20111108 Fedora/3.1.16-1.fc14 Thunderbird/3.1.16
+	Fri, 23 Dec 2011 02:02:13 +0100
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca [147.11.189.40])
+	by mail.windriver.com (8.14.3/8.14.3) with ESMTP id pBN0t5TO004353
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 22 Dec 2011 16:55:05 -0800 (PST)
+Received: from localhost.localdomain (172.25.34.61) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server (TLS) id 14.1.255.0;
+	Thu, 22 Dec 2011 16:55:05 -0800
+From: Mark Hatle <mark.hatle@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Thu, 22 Dec 2011 19:01:34 -0600
+Message-ID: <cover.1324601996.git.mark.hatle@windriver.com>
+X-Mailer: git-send-email 1.7.3.4
 MIME-Version: 1.0
-To: Paul Eggleton <paul.eggleton@linux.intel.com>
-References: <cover.1324316137.git.paul.eggleton@linux.intel.com>
-	<3289178.cJ7bor4PPM@helios> <4EF0AA68.7070501@balister.org>
-	<2148975.ysQ11QrYeT@helios>
-In-Reply-To: <2148975.ysQ11QrYeT@helios>
-X-Enigmail-Version: 1.1.2
-Cc: openembedded-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 0/2] psplash fixes
+X-Originating-IP: [172.25.34.61]
+Subject: [PATCH 0/7] Misc fixes and cleanups
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -35,29 +33,41 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 23 Dec 2011 00:07:27 -0000
-Content-Type: text/plain; charset=ISO-8859-1
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Fri, 23 Dec 2011 01:02:13 -0000
+Content-Type: text/plain
 
-On 12/21/2011 10:15 AM, Paul Eggleton wrote:
-> On Tuesday 20 December 2011 10:31:52 Philip Balister wrote:
->> I can see people taking an existing image, adding a few packages to
->> customize it for their application, and changing the splash image to a
->> product specific one.
-> 
-> I'm not entirely convinced this workflow makes sense when you're interested in 
-> getting reproducible product images. This is basically the "take some existing 
-> distro and hack it up until it fits" approach which taken past a certain point 
-> leads to an unmaintainable mess, or at the very least regressions.
-> 
-> People really ought to be able to produce their final images from the metadata 
-> with no additional post-build changes (or at least none that are manual). If 
-> that's too difficult, that's the problem I think is most worthwhile to attack, 
-> even if it requires more work on our part.
+Misc fixes and cleanups that affect various parts of the system...
 
-Well, I can see people wanting to do this. It falls into the case of the
-customer is always right, even when he is wrong :)
+The following changes since commit c38693f78c968ab5f4bb557c20d1c8c55393ed6b:
 
-Philip
+  opkg: Fix installation order in feeds with mutiple providers of packages (2011-12-22 22:38:09 +0000)
+
+are available in the git repository at:
+  git://git.pokylinux.org/poky-contrib mhatle/misc-fixes
+  http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=mhatle/misc-fixes
+
+Mark Hatle (7):
+  package.bbclass: Adjust RPM call to use dynamic location for magic
+    files
+  package_rpm.bbclass:  Add RPMSPEC_PREAMBLE
+  rpm_5.4.0: Fix configuration issue with native/nativesdk
+  udev: Remove linux-libc-headers dependency
+  gperf: Add missing SRC checksum
+  which: Add missing SRC checksums
+  base.bbclass: Allow buildstats to be optionally supplied
+
+ meta/classes/base.bbclass                  |    1 -
+ meta/classes/package.bbclass               |    2 +-
+ meta/classes/package_rpm.bbclass           |    8 +++++++-
+ meta/conf/local.conf.sample                |    3 ++-
+ meta/recipes-core/udev/udev-new.inc        |    2 +-
+ meta/recipes-devtools/rpm/rpm_5.4.0.bb     |    3 ++-
+ meta/recipes-extended/gperf/gperf_3.0.3.bb |    3 +++
+ meta/recipes-extended/which/which_2.18.bb  |    3 +++
+ 8 files changed, 19 insertions(+), 6 deletions(-)
+
+-- 
+1.7.3.4
+
 
 
