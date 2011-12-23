@@ -1,29 +1,29 @@
 Received: from mail-we0-f175.google.com ([74.125.82.175])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <koen@dominion.thruhere.net>) id 1Re8Hg-00054x-LU
+	(envelope-from <koen@dominion.thruhere.net>) id 1Re8I2-00054x-TM
 	for openembedded-core@lists.openembedded.org;
-	Fri, 23 Dec 2011 17:47:53 +0100
-Received: by werm13 with SMTP id m13so4443031wer.6
+	Fri, 23 Dec 2011 17:48:14 +0100
+Received: by mail-we0-f175.google.com with SMTP id m13so4443031wer.6
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 23 Dec 2011 08:40:41 -0800 (PST)
-Received: by 10.216.139.94 with SMTP id b72mr8538596wej.38.1324658441377;
-	Fri, 23 Dec 2011 08:40:41 -0800 (PST)
+	Fri, 23 Dec 2011 08:41:09 -0800 (PST)
+Received: by 10.216.133.74 with SMTP id p52mr14012735wei.39.1324658469399;
+	Fri, 23 Dec 2011 08:41:09 -0800 (PST)
 Received: from [172.20.1.19] (ip545070eb.adsl-surfen.hetnet.nl.
 	[84.80.112.235])
-	by mx.google.com with ESMTPS id p2sm14249045wbh.22.2011.12.23.08.40.40
+	by mx.google.com with ESMTPS id p2sm14249045wbh.22.2011.12.23.08.41.07
 	(version=TLSv1/SSLv3 cipher=OTHER);
-	Fri, 23 Dec 2011 08:40:40 -0800 (PST)
+	Fri, 23 Dec 2011 08:41:08 -0800 (PST)
 From: Koen Kooi <koen@dominion.thruhere.net>
 Mime-Version: 1.0 (Apple Message framework v1251.1)
-Date: Fri, 23 Dec 2011 17:40:36 +0100
-In-Reply-To: <b3dad82177ad19a44f06edc4b857cb9697fa3950.1324657801.git.shane.wang@intel.com>
+Date: Fri, 23 Dec 2011 17:41:07 +0100
+In-Reply-To: <6a425c8c138a3eddc3c2b01eb350e3277f9eb888.1324657801.git.shane.wang@intel.com>
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-References: <cover.1324657801.git.shane.wang@intel.com>
-	<b3dad82177ad19a44f06edc4b857cb9697fa3950.1324657801.git.shane.wang@intel.com>
-Message-Id: <3D030A85-C2B2-4487-AB24-FA0A48A6408D@dominion.thruhere.net>
+References: <b3dad82177ad19a44f06edc4b857cb9697fa3950.1324657801.git.shane.wang@intel.com>
+	<6a425c8c138a3eddc3c2b01eb350e3277f9eb888.1324657801.git.shane.wang@intel.com>
+Message-Id: <E52DB641-01B4-4DB4-AFEC-395E8A780D16@dominion.thruhere.net>
 X-Mailer: Apple Mail (2.1251.1)
-Subject: Re: [PATCH 01/14] polkit: upgrade to 0.103
+Subject: Re: [PATCH 03/14] gst-plugins-bad: upgrade to 0.10.22
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -38,13 +38,13 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 23 Dec 2011 16:47:53 -0000
-X-Groupsio-MsgNum: 14755
+X-List-Received-Date: Fri, 23 Dec 2011 16:48:15 -0000
+X-Groupsio-MsgNum: 14756
 Content-Type: multipart/signed;
-	boundary="Apple-Mail=_CAB41779-9154-4295-A340-7B4D6974E3E7";
+	boundary="Apple-Mail=_D3134536-326A-4970-8F3B-4DEA67356D9F";
 	protocol="application/pgp-signature"; micalg=pgp-sha1
 
---Apple-Mail=_CAB41779-9154-4295-A340-7B4D6974E3E7
+--Apple-Mail=_D3134536-326A-4970-8F3B-4DEA67356D9F
 Content-Transfer-Encoding: quoted-printable
 Content-Type: text/plain;
 	charset=us-ascii
@@ -54,73 +54,36 @@ Op 23 dec. 2011, om 17:35 heeft Shane Wang het volgende geschreven:
 
 > Signed-off-by: Shane Wang <shane.wang@intel.com>
 > ---
-> .../introspection.patch                            |    0
-> .../polkit-1_pam.patch                             |    0
-> .../polkit/{polkit_0.102.bb =3D> polkit_0.103.bb}    |    6 +++---
-> 3 files changed, 3 insertions(+), 3 deletions(-)
-> rename meta/recipes-extended/polkit/{polkit-0.102 =3D> =
-polkit-0.103}/introspection.patch (100%)
-> rename meta/recipes-extended/polkit/{polkit-0.102 =3D> =
-polkit-0.103}/polkit-1_pam.patch (100%)
-> rename meta/recipes-extended/polkit/{polkit_0.102.bb =3D> =
-polkit_0.103.bb} (84%)
+> ...s-bad_0.10.21.bb =3D> gst-plugins-bad_0.10.22.bb} |    7 +++----
+> 1 files changed, 3 insertions(+), 4 deletions(-)
+> rename meta/recipes-multimedia/gstreamer/{gst-plugins-bad_0.10.21.bb =
+=3D> gst-plugins-bad_0.10.22.bb} (76%)
 >=20
 > diff --git =
-a/meta/recipes-extended/polkit/polkit-0.102/introspection.patch =
-b/meta/recipes-extended/polkit/polkit-0.103/introspection.patch
-> similarity index 100%
+a/meta/recipes-multimedia/gstreamer/gst-plugins-bad_0.10.21.bb =
+b/meta/recipes-multimedia/gstreamer/gst-plugins-bad_0.10.22.bb
+> similarity index 76%
 > rename from =
-meta/recipes-extended/polkit/polkit-0.102/introspection.patch
-> rename to =
-meta/recipes-extended/polkit/polkit-0.103/introspection.patch
-> diff --git =
-a/meta/recipes-extended/polkit/polkit-0.102/polkit-1_pam.patch =
-b/meta/recipes-extended/polkit/polkit-0.103/polkit-1_pam.patch
-> similarity index 100%
-> rename from =
-meta/recipes-extended/polkit/polkit-0.102/polkit-1_pam.patch
-> rename to meta/recipes-extended/polkit/polkit-0.103/polkit-1_pam.patch
-> diff --git a/meta/recipes-extended/polkit/polkit_0.102.bb =
-b/meta/recipes-extended/polkit/polkit_0.103.bb
-> similarity index 84%
-> rename from meta/recipes-extended/polkit/polkit_0.102.bb
-> rename to meta/recipes-extended/polkit/polkit_0.103.bb
-> index 714aa8e..0498494 100644
-> --- a/meta/recipes-extended/polkit/polkit_0.102.bb
-> +++ b/meta/recipes-extended/polkit/polkit_0.103.bb
-> @@ -4,7 +4,7 @@ HOMEPAGE =3D "http://code.google.com/p/polkit/"
-> LICENSE =3D "LGPLv2+"
+meta/recipes-multimedia/gstreamer/gst-plugins-bad_0.10.21.bb
+> rename to meta/recipes-multimedia/gstreamer/gst-plugins-bad_0.10.22.bb
+> index a7023e3..ec067b8 100644
+> --- a/meta/recipes-multimedia/gstreamer/gst-plugins-bad_0.10.21.bb
+> +++ b/meta/recipes-multimedia/gstreamer/gst-plugins-bad_0.10.22.bb
+> @@ -4,12 +4,11 @@ LICENSE =3D "GPLv2+ & LGPLv2+ & LGPLv2.1+ "
 > LIC_FILES_CHKSUM =3D =
-"file://COPYING;md5=3D155db86cdbafa7532b41f390409283eb \
+"file://COPYING;md5=3D0636e73ff0215e8d672dc4c32c317bb3 \
 >                     =
-file://src/polkit/polkit.h;beginline=3D1;endilne=3D20;md5=3D9f797b8912dac8=
-a806be820c14e783f8 \
+file://gst/tta/filters.h;beginline=3D12;endline=3D29;md5=3D629b0c7a665d155=
+a6677778f4460ec06 \
+>                     =
+file://COPYING.LIB;md5=3D55ca817ccb7d5b5b66355690e9abc605 \
 > -                    =
-file://docs/polkit/html/license.html;md5=3D570dd8c794dc8df913cb03b86e78d93=
-6"
-> +                    =
-file://docs/polkit/html/license.html;md5=3Dd85a36709a446c10f4ee123f9dda0e3=
-8"
+file://gst/qtmux/gstqtmuxmap.h;beginline=3D1;endline=3D19;md5=3D2da8f56a44=
+697c1527c5a4bcf8d5d69b \
 
-What changed?
+Why is that removed?=
 
->=20
-> SRC_URI =3D "http://hal.freedesktop.org/releases/polkit-${PV}.tar.gz \
->            file://introspection.patch \
-> @@ -28,5 +28,5 @@ do_install_append() {
-> 	rm -f ${D}${libdir}/${PN}-1/extensions/*.a
-> }
->=20
-> -SRC_URI[md5sum] =3D "a3726bdb9728c103e58f62131e26693a"
-> -SRC_URI[sha256sum] =3D =
-"0a6573da841c6f5c428218f1456aed45724a0127932af0de563d568bb9058641"
-> +SRC_URI[md5sum] =3D "aaacf2ef18774ea8a825a426a7cfe763"
-> +SRC_URI[sha256sum] =3D =
-"36607c8ce576980ee55bd12bab1944f13217eb8e9d04ab56022545861ece3bc5"
-
-These should go next to SRC_URI, not at the bottom=
-
---Apple-Mail=_CAB41779-9154-4295-A340-7B4D6974E3E7
+--Apple-Mail=_D3134536-326A-4970-8F3B-4DEA67356D9F
 Content-Transfer-Encoding: 7bit
 Content-Disposition: inline;
 	filename=signature.asc
@@ -130,9 +93,9 @@ Content-Description: Message signed with OpenPGP using GPGMail
 
 -----BEGIN PGP SIGNATURE-----
 
-iEYEARECAAYFAk70rwYACgkQMkyGM64RGpG8/QCfZ5In9FNV/p5m/QnR9xXpySYQ
-FTgAoKZcNF0pWhkEuA6lDYkNq3bxFNo9
-=q98o
+iEYEARECAAYFAk70ryMACgkQMkyGM64RGpG/6gCgt9Zskr5hHCHpM/SiKly/rT7n
+vkYAnjMEMpTtmqGwxoqBCGLNVVc5TfNJ
+=kPvf
 -----END PGP SIGNATURE-----
 
---Apple-Mail=_CAB41779-9154-4295-A340-7B4D6974E3E7--
+--Apple-Mail=_D3134536-326A-4970-8F3B-4DEA67356D9F--
