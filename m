@@ -1,20 +1,22 @@
-Received: from mga11.intel.com ([192.55.52.93])
+Received: from mga03.intel.com ([143.182.124.21])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <shane.wang@intel.com>) id 1Re7xX-0004BS-AW
+	(envelope-from <shane.wang@intel.com>) id 1Re7xl-0004DI-Oi
 	for openembedded-core@lists.openembedded.org;
-	Fri, 23 Dec 2011 17:27:03 +0100
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-	by fmsmga102.fm.intel.com with ESMTP; 23 Dec 2011 08:19:53 -0800
+	Fri, 23 Dec 2011 17:27:18 +0100
+Received: from azsmga001.ch.intel.com ([10.2.17.19])
+	by azsmga101.ch.intel.com with ESMTP; 23 Dec 2011 08:20:08 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="99722697"
+X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="88971136"
 Received: from yocto-build5.sh.intel.com (HELO localhost) ([10.239.48.2])
-	by fmsmga001.fm.intel.com with ESMTP; 23 Dec 2011 08:19:53 -0800
+	by azsmga001.ch.intel.com with ESMTP; 23 Dec 2011 08:20:08 -0800
 From: Shane Wang <shane.wang@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Sat, 24 Dec 2011 00:35:07 +0800
-Message-Id: <cover.1324657801.git.shane.wang@intel.com>
+Date: Sat, 24 Dec 2011 00:35:11 +0800
+Message-Id: <b3dad82177ad19a44f06edc4b857cb9697fa3950.1324657801.git.shane.wang@intel.com>
 X-Mailer: git-send-email 1.7.6
-Subject: [PATCH 00/14] Upgrade Packages, Dec 23, 2011
+In-Reply-To: <cover.1324657801.git.shane.wang@intel.com>
+References: <cover.1324657801.git.shane.wang@intel.com>
+Subject: [PATCH 01/14] polkit: upgrade to 0.103
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -29,97 +31,50 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 23 Dec 2011 16:27:03 -0000
+X-List-Received-Date: Fri, 23 Dec 2011 16:27:18 -0000
 
-All,
-
-These are recipe upgrading for polkit, gst-plugins-ugly, gst-plugins-bad, gst-fluendo-mp3, gst-fluendo-mpegdemux, gst-ffmpeg, glib-2.0, dbus, mtd-utils, valgrind, telepathy-glib, ofono, and libpcap. Please review and pull.
-
-The following changes since commit d350b3168bab234e326c8cf1609d13803e6aba9e:
-
-  opkg: Fix installation order in feeds with mutiple providers of packages (2011-12-22 22:38:18 +0000)
-
-are available in the git repository at:
-  git://git.pokylinux.org/poky-contrib shane/upgrade
-  http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=shane/upgrade
-
-Shane Wang (14):
-  polkit: upgrade to 0.103
-  gst-plugins-ugly: upgrade to 0.10.18
-  gst-plugins-bad: upgrade to 0.10.22
-  gst-fluendo-mp3: upgrade to 0.10.16
-  gst-fluendo-mpegdemux: upgrade to 0.10.69
-  gst-ffmpeg: upgrade to 0.10.13
-  glib-2.0: upgrade to 2.30.2
-  dbus: upgrade to 1.5.8
-  mtd-utils: upgrade to 1.4.9
-  valgrind: upgrade to 3.7.0
-  telepathy-glib: upgrade to 0.17.4
-  ofono: upgrade to 1.0
-  libpcap: upgrade to 1.2.0
-  distro_tracking_fields: update the info for recipe upgrading
-
- .../conf/distro/include/distro_tracking_fields.inc |   89 ++++++++++----------
- .../{libpcap-1.1.1 => libpcap-1.2.0}/aclocal.patch |    0
- .../ieee80215-arphrd.patch                         |    4 +-
- meta/recipes-connectivity/libpcap/libpcap.inc      |    2 +-
- .../libpcap/{libpcap_1.1.1.bb => libpcap_1.2.0.bb} |    4 +-
- meta/recipes-connectivity/ofono/ofono.inc          |    2 +-
- .../ofono/{ofono_0.50.bb => ofono_1.0.bb}          |    6 +-
- ...thy-glib_0.17.0.bb => telepathy-glib_0.17.4.bb} |    4 +-
- .../dbus/{dbus-1.4.16 => dbus-1.5.8}/dbus-1.init   |    0
- .../dbus/{dbus-1.4.16 => dbus-1.5.8}/tmpdir.patch  |    0
- meta/recipes-core/dbus/dbus_1.4.16.bb              |    5 -
- meta/recipes-core/dbus/dbus_1.5.8.bb               |    6 ++
- .../{glib-2.0_2.30.1.bb => glib-2.0_2.30.2.bb}     |    7 +-
- .../add-exclusion-to-mkfs-jffs2-git-2.patch        |    0
- .../add-exclusion-to-mkfs-jffs2-git-2.patch        |    0
- .../mtd/{mtd-utils_1.4.6.bb => mtd-utils_1.4.9.bb} |    2 +-
- .../valgrind/valgrind-3.7.0/configure-fix.patch    |   23 +++++
- .../fix_issue_caused_by_ccache.patch               |    0
- .../fix_unsupporting_kernel_3.patch                |    0
- .../fixed-perl-path.patch                          |    0
- .../{valgrind_3.6.1.bb => valgrind_3.7.0.bb}       |   13 ++--
+Signed-off-by: Shane Wang <shane.wang@intel.com>
+---
  .../introspection.patch                            |    0
  .../polkit-1_pam.patch                             |    0
- .../polkit/{polkit_0.102.bb => polkit_0.103.bb}    |    6 +-
- .../gst-ffmpeg-0.10.13/configure-fix.patch         |   20 +++++
- .../lower-rank.diff                                |    0
- ...gst-ffmpeg_0.10.11.bb => gst-ffmpeg_0.10.13.bb} |   19 +++--
- ...o-mp3_0.10.15.bb => gst-fluendo-mp3_0.10.16.bb} |    4 +-
- ...0.10.67.bb => gst-fluendo-mpegdemux_0.10.69.bb} |    4 +-
- ...s-bad_0.10.21.bb => gst-plugins-bad_0.10.22.bb} |    7 +-
- ...ugly_0.10.17.bb => gst-plugins-ugly_0.10.18.bb} |    6 +-
- 31 files changed, 142 insertions(+), 91 deletions(-)
- rename meta/recipes-connectivity/libpcap/{libpcap-1.1.1 => libpcap-1.2.0}/aclocal.patch (100%)
- rename meta/recipes-connectivity/libpcap/{libpcap-1.1.1 => libpcap-1.2.0}/ieee80215-arphrd.patch (91%)
- rename meta/recipes-connectivity/libpcap/{libpcap_1.1.1.bb => libpcap_1.2.0.bb} (73%)
- rename meta/recipes-connectivity/ofono/{ofono_0.50.bb => ofono_1.0.bb} (63%)
- rename meta/recipes-connectivity/telepathy/{telepathy-glib_0.17.0.bb => telepathy-glib_0.17.4.bb} (80%)
- rename meta/recipes-core/dbus/{dbus-1.4.16 => dbus-1.5.8}/dbus-1.init (100%)
- rename meta/recipes-core/dbus/{dbus-1.4.16 => dbus-1.5.8}/tmpdir.patch (100%)
- delete mode 100644 meta/recipes-core/dbus/dbus_1.4.16.bb
- create mode 100644 meta/recipes-core/dbus/dbus_1.5.8.bb
- rename meta/recipes-core/glib-2.0/{glib-2.0_2.30.1.bb => glib-2.0_2.30.2.bb} (88%)
- rename meta/recipes-devtools/mtd/{mtd-utils-1.4.6 => mtd-utils-1.4.9}/add-exclusion-to-mkfs-jffs2-git-2.patch (100%)
- rename meta/recipes-devtools/mtd/{mtd-utils-1.4.6 => mtd-utils-1.4.9}/mtd-utils-1.4.1/add-exclusion-to-mkfs-jffs2-git-2.patch (100%)
- rename meta/recipes-devtools/mtd/{mtd-utils_1.4.6.bb => mtd-utils_1.4.9.bb} (95%)
- create mode 100644 meta/recipes-devtools/valgrind/valgrind-3.7.0/configure-fix.patch
- rename meta/recipes-devtools/valgrind/{valgrind-3.6.1 => valgrind-3.7.0}/fix_issue_caused_by_ccache.patch (100%)
- rename meta/recipes-devtools/valgrind/{valgrind-3.6.1 => valgrind-3.7.0}/fix_unsupporting_kernel_3.patch (100%)
- rename meta/recipes-devtools/valgrind/{valgrind-3.6.1 => valgrind-3.7.0}/fixed-perl-path.patch (100%)
- rename meta/recipes-devtools/valgrind/{valgrind_3.6.1.bb => valgrind_3.7.0.bb} (71%)
+ .../polkit/{polkit_0.102.bb => polkit_0.103.bb}    |    6 +++---
+ 3 files changed, 3 insertions(+), 3 deletions(-)
  rename meta/recipes-extended/polkit/{polkit-0.102 => polkit-0.103}/introspection.patch (100%)
  rename meta/recipes-extended/polkit/{polkit-0.102 => polkit-0.103}/polkit-1_pam.patch (100%)
  rename meta/recipes-extended/polkit/{polkit_0.102.bb => polkit_0.103.bb} (84%)
- create mode 100644 meta/recipes-multimedia/gstreamer/gst-ffmpeg-0.10.13/configure-fix.patch
- rename meta/recipes-multimedia/gstreamer/{gst-ffmpeg-0.10.11 => gst-ffmpeg-0.10.13}/lower-rank.diff (100%)
- rename meta/recipes-multimedia/gstreamer/{gst-ffmpeg_0.10.11.bb => gst-ffmpeg_0.10.13.bb} (58%)
- rename meta/recipes-multimedia/gstreamer/{gst-fluendo-mp3_0.10.15.bb => gst-fluendo-mp3_0.10.16.bb} (61%)
- rename meta/recipes-multimedia/gstreamer/{gst-fluendo-mpegdemux_0.10.67.bb => gst-fluendo-mpegdemux_0.10.69.bb} (71%)
- rename meta/recipes-multimedia/gstreamer/{gst-plugins-bad_0.10.21.bb => gst-plugins-bad_0.10.22.bb} (76%)
- rename meta/recipes-multimedia/gstreamer/{gst-plugins-ugly_0.10.17.bb => gst-plugins-ugly_0.10.18.bb} (84%)
 
+diff --git a/meta/recipes-extended/polkit/polkit-0.102/introspection.patch b/meta/recipes-extended/polkit/polkit-0.103/introspection.patch
+similarity index 100%
+rename from meta/recipes-extended/polkit/polkit-0.102/introspection.patch
+rename to meta/recipes-extended/polkit/polkit-0.103/introspection.patch
+diff --git a/meta/recipes-extended/polkit/polkit-0.102/polkit-1_pam.patch b/meta/recipes-extended/polkit/polkit-0.103/polkit-1_pam.patch
+similarity index 100%
+rename from meta/recipes-extended/polkit/polkit-0.102/polkit-1_pam.patch
+rename to meta/recipes-extended/polkit/polkit-0.103/polkit-1_pam.patch
+diff --git a/meta/recipes-extended/polkit/polkit_0.102.bb b/meta/recipes-extended/polkit/polkit_0.103.bb
+similarity index 84%
+rename from meta/recipes-extended/polkit/polkit_0.102.bb
+rename to meta/recipes-extended/polkit/polkit_0.103.bb
+index 714aa8e..0498494 100644
+--- a/meta/recipes-extended/polkit/polkit_0.102.bb
++++ b/meta/recipes-extended/polkit/polkit_0.103.bb
+@@ -4,7 +4,7 @@ HOMEPAGE = "http://code.google.com/p/polkit/"
+ LICENSE = "LGPLv2+"
+ LIC_FILES_CHKSUM = "file://COPYING;md5=155db86cdbafa7532b41f390409283eb \
+                     file://src/polkit/polkit.h;beginline=1;endilne=20;md5=9f797b8912dac8a806be820c14e783f8 \
+-                    file://docs/polkit/html/license.html;md5=570dd8c794dc8df913cb03b86e78d936"
++                    file://docs/polkit/html/license.html;md5=d85a36709a446c10f4ee123f9dda0e38"
+ 
+ SRC_URI = "http://hal.freedesktop.org/releases/polkit-${PV}.tar.gz \
+            file://introspection.patch \
+@@ -28,5 +28,5 @@ do_install_append() {
+ 	rm -f ${D}${libdir}/${PN}-1/extensions/*.a
+ }
+ 
+-SRC_URI[md5sum] = "a3726bdb9728c103e58f62131e26693a"
+-SRC_URI[sha256sum] = "0a6573da841c6f5c428218f1456aed45724a0127932af0de563d568bb9058641"
++SRC_URI[md5sum] = "aaacf2ef18774ea8a825a426a7cfe763"
++SRC_URI[sha256sum] = "36607c8ce576980ee55bd12bab1944f13217eb8e9d04ab56022545861ece3bc5"
 -- 
 1.7.6
 
