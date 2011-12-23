@@ -1,24 +1,24 @@
-Received: from mga14.intel.com ([143.182.124.37])
+Received: from mga11.intel.com ([192.55.52.93])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <shane.wang@intel.com>) id 1Re81V-0004dR-FF
+	(envelope-from <shane.wang@intel.com>) id 1Re81Y-0004da-S0
 	for openembedded-core@lists.openembedded.org;
-	Fri, 23 Dec 2011 17:31:09 +0100
-Received: from azsmga001.ch.intel.com ([10.2.17.19])
-	by azsmga102.ch.intel.com with ESMTP; 23 Dec 2011 08:24:01 -0800
+	Fri, 23 Dec 2011 17:31:13 +0100
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+	by fmsmga102.fm.intel.com with ESMTP; 23 Dec 2011 08:24:04 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="88971999"
+X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="99723943"
 Received: from yocto-build5.sh.intel.com (HELO localhost) ([10.239.48.2])
-	by azsmga001.ch.intel.com with ESMTP; 23 Dec 2011 08:24:00 -0800
+	by fmsmga001.fm.intel.com with ESMTP; 23 Dec 2011 08:24:03 -0800
 From: Shane Wang <shane.wang@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Sat, 24 Dec 2011 00:35:22 +0800
-Message-Id: <2b93d58b4e30b6327ddbe7b1d594399f64f2e926.1324657801.git.shane.wang@intel.com>
+Date: Sat, 24 Dec 2011 00:35:23 +0800
+Message-Id: <babc6269b1200702107e6c239b72f7891b6b7304.1324657801.git.shane.wang@intel.com>
 X-Mailer: git-send-email 1.7.6
 In-Reply-To: <b3dad82177ad19a44f06edc4b857cb9697fa3950.1324657801.git.shane.wang@intel.com>
 References: <b3dad82177ad19a44f06edc4b857cb9697fa3950.1324657801.git.shane.wang@intel.com>
 In-Reply-To: <cover.1324657801.git.shane.wang@intel.com>
 References: <cover.1324657801.git.shane.wang@intel.com>
-Subject: [PATCH 12/14] ofono: upgrade to 1.0
+Subject: [PATCH 13/14] libpcap: upgrade to 1.2.0
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -33,51 +33,74 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 23 Dec 2011 16:31:09 -0000
+X-List-Received-Date: Fri, 23 Dec 2011 16:31:13 -0000
 
 Signed-off-by: Shane Wang <shane.wang@intel.com>
 ---
- meta/recipes-connectivity/ofono/ofono.inc          |    2 +-
- .../ofono/{ofono_0.50.bb => ofono_1.0.bb}          |    6 +++---
- 2 files changed, 4 insertions(+), 4 deletions(-)
- rename meta/recipes-connectivity/ofono/{ofono_0.50.bb => ofono_1.0.bb} (63%)
+ .../{libpcap-1.1.1 => libpcap-1.2.0}/aclocal.patch |    0
+ .../ieee80215-arphrd.patch                         |    4 ++--
+ meta/recipes-connectivity/libpcap/libpcap.inc      |    2 +-
+ .../libpcap/{libpcap_1.1.1.bb => libpcap_1.2.0.bb} |    4 ++--
+ 4 files changed, 5 insertions(+), 5 deletions(-)
+ rename meta/recipes-connectivity/libpcap/{libpcap-1.1.1 => libpcap-1.2.0}/aclocal.patch (100%)
+ rename meta/recipes-connectivity/libpcap/{libpcap-1.1.1 => libpcap-1.2.0}/ieee80215-arphrd.patch (91%)
+ rename meta/recipes-connectivity/libpcap/{libpcap_1.1.1.bb => libpcap_1.2.0.bb} (73%)
 
-diff --git a/meta/recipes-connectivity/ofono/ofono.inc b/meta/recipes-connectivity/ofono/ofono.inc
-index 0cc58ae..bf6f6a5 100644
---- a/meta/recipes-connectivity/ofono/ofono.inc
-+++ b/meta/recipes-connectivity/ofono/ofono.inc
-@@ -3,7 +3,7 @@ SUMMARY  = "open source telephony"
- DESCRIPTION = "oFono is a stack for mobile telephony devices on Linux. oFono supports speaking to telephony devices through specific drivers, or with generic AT commands."
- LICENSE  = "GPLv2"
- LIC_FILES_CHKSUM = "file://COPYING;md5=eb723b61539feef013de476e68b5c50a \
--                    file://src/ofono.h;beginline=1;endline=20;md5=85d349dd8ec342c8f40d90e520f22779"
-+                    file://src/ofono.h;beginline=1;endline=20;md5=3ce17d5978ef3445def265b98899c2ee"
+diff --git a/meta/recipes-connectivity/libpcap/libpcap-1.1.1/aclocal.patch b/meta/recipes-connectivity/libpcap/libpcap-1.2.0/aclocal.patch
+similarity index 100%
+rename from meta/recipes-connectivity/libpcap/libpcap-1.1.1/aclocal.patch
+rename to meta/recipes-connectivity/libpcap/libpcap-1.2.0/aclocal.patch
+diff --git a/meta/recipes-connectivity/libpcap/libpcap-1.1.1/ieee80215-arphrd.patch b/meta/recipes-connectivity/libpcap/libpcap-1.2.0/ieee80215-arphrd.patch
+similarity index 91%
+rename from meta/recipes-connectivity/libpcap/libpcap-1.1.1/ieee80215-arphrd.patch
+rename to meta/recipes-connectivity/libpcap/libpcap-1.2.0/ieee80215-arphrd.patch
+index 8041d7a..2f5cd21 100644
+--- a/meta/recipes-connectivity/libpcap/libpcap-1.1.1/ieee80215-arphrd.patch
++++ b/meta/recipes-connectivity/libpcap/libpcap-1.2.0/ieee80215-arphrd.patch
+@@ -9,10 +9,10 @@ Index: libpcap-1.0.0/pcap-linux.c
+  		//handle->md.cooked = 1;
+  		break;
+ +#ifndef ARPHRD_IEEE80215
+-+#define ARPHRD_IEEE80215 804
+++#define ARPHRD_IEEE80215 805
+ +#endif
+ +#ifndef ARPHRD_IEEE80215_PHY
+-+#define ARPHRD_IEEE80215_PHY 805
+++#define ARPHRD_IEEE80215_PHY 806
+ +#endif
+ +
+ +    case ARPHRD_IEEE80215:
+diff --git a/meta/recipes-connectivity/libpcap/libpcap.inc b/meta/recipes-connectivity/libpcap/libpcap.inc
+index 84001e5..6051bbc 100644
+--- a/meta/recipes-connectivity/libpcap/libpcap.inc
++++ b/meta/recipes-connectivity/libpcap/libpcap.inc
+@@ -10,7 +10,7 @@ LIC_FILES_CHKSUM = "file://LICENSE;md5=1d4b0366557951c84a94fabe3529f867 \
+                     file://pcap.h;beginline=1;endline=34;md5=8d6cf7e17d5745010d633e30bc529ea9"
+ DEPENDS = "flex-native bison-native"
  
- inherit autotools pkgconfig update-rc.d
+-INC_PR = "r1"
++INC_PR = "r0"
  
-diff --git a/meta/recipes-connectivity/ofono/ofono_0.50.bb b/meta/recipes-connectivity/ofono/ofono_1.0.bb
-similarity index 63%
-rename from meta/recipes-connectivity/ofono/ofono_0.50.bb
-rename to meta/recipes-connectivity/ofono/ofono_1.0.bb
-index b4ef413..276efdb 100644
---- a/meta/recipes-connectivity/ofono/ofono_0.50.bb
-+++ b/meta/recipes-connectivity/ofono/ofono_1.0.bb
-@@ -1,6 +1,6 @@
- require ofono.inc
+ SRC_URI = "http://www.tcpdump.org/release/libpcap-${PV}.tar.gz"
  
--PR = "r2"
-+PR = "r0"
+diff --git a/meta/recipes-connectivity/libpcap/libpcap_1.1.1.bb b/meta/recipes-connectivity/libpcap/libpcap_1.2.0.bb
+similarity index 73%
+rename from meta/recipes-connectivity/libpcap/libpcap_1.1.1.bb
+rename to meta/recipes-connectivity/libpcap/libpcap_1.2.0.bb
+index 2700bb7..bc7c03b 100644
+--- a/meta/recipes-connectivity/libpcap/libpcap_1.1.1.bb
++++ b/meta/recipes-connectivity/libpcap/libpcap_1.2.0.bb
+@@ -5,8 +5,8 @@ PR = "${INC_PR}.0"
+ SRC_URI += "file://aclocal.patch \
+             file://ieee80215-arphrd.patch"
  
- SRC_URI  = "${KERNELORG_MIRROR}/linux/network/ofono/${BPN}-${PV}.tar.bz2 \
- 	          file://ofono"
-@@ -10,5 +10,5 @@ EXTRA_OECONF += "\
-     ${@base_contains('DISTRO_FEATURES', 'bluetooth','--enable-bluetooth', '--disable-bluetooth', d)} \
- "
+-SRC_URI[md5sum] = "1bca27d206970badae248cfa471bbb47"
+-SRC_URI[sha256sum] = "508cca15547e55d1318498b838456a21770c450beb2dc7d7d4a96d90816e5a85"
++SRC_URI[md5sum] = "dfb8aa690b7a29821bfa183025436569"
++SRC_URI[sha256sum] = "702ac51cfaa5c17d6b92771b22835d58eda4dc9e1f596c80a0b031e4c45c07d6"
  
--SRC_URI[md5sum] = "b2656fd0bbf33f926fc86c1e8915d697"
--SRC_URI[sha256sum] = "f8f8dd917847a007e4d441b949efc4d28dc3644526d5293016844c2536c65ff9"
-+SRC_URI[md5sum] = "09a36c923c8c0f491899aa7eebe92193"
-+SRC_URI[sha256sum] = "7733e1628fac6ef4d8aa3e536a5c284c3ba8e76277fc7e28b7e146c3c5ddebfa"
+ #
+ # make install doesn't cover the shared lib
 -- 
 1.7.6
 
