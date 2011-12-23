@@ -1,25 +1,29 @@
-Received: from mga14.intel.com ([143.182.124.37])
+Received: from mail-ww0-f43.google.com ([74.125.82.43])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <paul.eggleton@linux.intel.com>) id 1Re8Kx-0005Gh-Pc
+	(envelope-from <koen@dominion.thruhere.net>) id 1Re8Lp-0005Jp-EH
 	for openembedded-core@lists.openembedded.org;
-	Fri, 23 Dec 2011 17:51:16 +0100
-Received: from azsmga002.ch.intel.com ([10.2.17.35])
-	by azsmga102.ch.intel.com with ESMTP; 23 Dec 2011 08:44:07 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="50133568"
-Received: from unknown (HELO helios.localnet) ([10.252.122.71])
-	by AZSMGA002.ch.intel.com with ESMTP; 23 Dec 2011 08:44:06 -0800
-From: Paul Eggleton <paul.eggleton@linux.intel.com>
-To: "Flanagan, Elizabeth" <elizabeth.flanagan@intel.com>
-Date: Fri, 23 Dec 2011 16:44:04 +0000
-Message-ID: <1661045.RyWPXMxtTU@helios>
-Organization: Intel Corporation
-User-Agent: KMail/4.7.4 (Linux/3.0.0-14-generic-pae; KDE/4.7.4; i686; ; )
-In-Reply-To: <CAPhnLPByP_W+1La9svcgud_yc9WAsP3U9_oCVBGiarZu_YKkdA@mail.gmail.com>
-References: <CAPhnLPByP_W+1La9svcgud_yc9WAsP3U9_oCVBGiarZu_YKkdA@mail.gmail.com>
-MIME-Version: 1.0
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [RFC] LICENSE Standards
+	Fri, 23 Dec 2011 17:52:09 +0100
+Received: by wgbds11 with SMTP id ds11so15206555wgb.24
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 23 Dec 2011 08:44:57 -0800 (PST)
+Received: by 10.227.203.131 with SMTP id fi3mr18798185wbb.17.1324658697603;
+	Fri, 23 Dec 2011 08:44:57 -0800 (PST)
+Received: from [172.20.1.19] (ip545070eb.adsl-surfen.hetnet.nl.
+	[84.80.112.235])
+	by mx.google.com with ESMTPS id di5sm33089991wib.3.2011.12.23.08.44.56
+	(version=TLSv1/SSLv3 cipher=OTHER);
+	Fri, 23 Dec 2011 08:44:56 -0800 (PST)
+From: Koen Kooi <koen@dominion.thruhere.net>
+Mime-Version: 1.0 (Apple Message framework v1251.1)
+Date: Fri, 23 Dec 2011 17:44:54 +0100
+In-Reply-To: <730a89487990ac89b5cf86063d083d23a5501188.1324657801.git.shane.wang@intel.com>
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+References: <b3dad82177ad19a44f06edc4b857cb9697fa3950.1324657801.git.shane.wang@intel.com>
+	<730a89487990ac89b5cf86063d083d23a5501188.1324657801.git.shane.wang@intel.com>
+Message-Id: <BBCD5BBE-CFB6-4C49-A37C-AEC57D4A86B3@dominion.thruhere.net>
+X-Mailer: Apple Mail (2.1251.1)
+Subject: Re: [PATCH 08/14] dbus: upgrade to 1.5.8
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -34,150 +38,49 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 23 Dec 2011 16:51:16 -0000
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
+X-List-Received-Date: Fri, 23 Dec 2011 16:52:09 -0000
+X-Groupsio-MsgNum: 14760
+Content-Type: multipart/signed;
+	boundary="Apple-Mail=_8C1A2C21-3AEF-4C99-959C-1A567A280267";
+	protocol="application/pgp-signature"; micalg=pgp-sha1
 
-Hi Beth,
-
-Great work on this. A few comments below:
-
-On Tuesday 20 December 2011 08:17:22 Flanagan, Elizabeth wrote:
-> - In most cases, LICENSE is set for the recipe, however, a recipe that
-> contains multiple packages, all of whom may have a distinct LICENSE,
-> would throw an inaccurate LICENSE into the manifest. We've seen a few
-> examples of LICENSE_<package_name>, but it is a rare occurrence.
-
-Do you have a feeling as to how common this is? I've not done any 
-comprehensive study but presumably this is the exception rather than the rule?
-(Perhaps this is only a matter of wording in the above.)
-
-> - The LICENSE operands need to be dealt with through a license
-> priority map. The plan is to implement this within the next few weeks.
-
-Could you elaborate on what the license priority map is?
-
-> Proposed Solutions
-> ================
-> 
-> Decide on a standard.
-> ------------------------------
-> 
-> I would suggest that new recipes follow the SPDX naming convention
-> with support for the OE convention maintained for a period of time (my
-> suggestions is 24 months to enable layer maintainers to update with
-> warnings turned on if this RFC is adopted). LICENSE fields not
-> following SPDX should be corrected as they are audited.
-
-Sounds reasonable, I think that we additionally ought to put in warnings for 
-mapped licenses now if we go ahead with this - perhaps if we're going to 
-update oelint.bbclass (something I came across recently) it could be extended 
-to understand and report mappings?
-
-> Adopting SPDX will do a few things for us:
-> 
-> - This will allow us to support an open source project dedicated to
-> license standards, allowing us to leverage their work and expertise.
-> 
-> - It will also allow us to support recipes that use (or are planning
-> to use) the SPDX standard .
-> 
-> - It gets us out of the business of maintaining a licensing standard.
-
-I think OE history has shown we're not great at this by ourselves so this 
-definitely sounds good.
-
-> LICENSE audit
-> ----------------------
-> Some LICENSE fields are either unparsable, have no version when one is
-> required (GPL/GPL-2.0), or are factually wrong. I would suggest we
-> spend time auditing these fields over the next few months using the
-> following guidelines
-> 
-> - All LICENSE fields must be ast parsable.
-> 
-> - All LICENSE fields should be updated to whatever standard is decided
-> upon and documented, with mapping for other conventions for a period
-> of time
-> 
-> - All LICENSE fields should support
-
-Should support ... ?
-
-> - If a LICENSE field references a non-existent common-license, we
-> either add the common-license or ask the author if we may be permitted
-> to license under a generic (see less for an example).
-
-I'm wondering about another possibility - for those pieces of software where 
-we cannot get permission for a generic license, have a mechanism for the 
-recipe to point to the license file within the source that should be copied to 
-the output, thus avoiding "uncommon" licenses being copied into the common 
-license dir. It could even be as simple as an additional flag for one of the 
-files listed in LIC_FILES_CHKSUM. Would that work and be worthwhile?
-
-> - We should actually split common-licenses into spdx-licenses and
-> alternative-licenses. This will allow us to pull license text from
-> SPDX and maintain spdx-licenses as a pure form of the provided
-> licenses. There is already a bug opened with the SPDX group to provide
-> some sore of repository for this. Additional licenses that are non-OSI
-> compliant (like Adobe's free license) should be moved to
-> alternative-licenses. Licenses that are OSI compliant should be
-> upstreamed to SPDX.
-
-Unless "alternative" is a term SPDX uses I would suggest using "other" or some 
-other word since "alternative" implies some form of choice. Otherwise this 
-sounds reasonable.
-
-> For licenses that are non-OSI compliant, I would suggest we use the SPDX
-> format:
-> 
-> Where there is a specified version of the license:
-> <LICENSE_ABBREVIATION>-<VERSION>
-> Example: AFL-1.3
-> 
-> Where no specified version of the license exists:
-> <LICENSE_ABBREVIATION>
-> Example: Adobe
-
-Clearly this is just an example, but I imagine we would want to be more 
-specific as I'm sure like many commercial vendors, Adobe has many licenses 
-under which they have released software.
-
-> Field Operators
-> ----------------------
-> The LICENSE parser currently does not act upon Field Operators. It
-> grabs all licenses mentioned within the LICENSE field. The plan is to
-> implement LICENSE priority, which will utilize field these operators
-> and decides on the correct license based on priority. For example, if
-> we were to weight BSD as a higher priority than GPL-2.0, when the
-> parser hit "BSD | GPL-2.0" it would use BSD for the package. However,
-> there seems to be no clear definition around how field operators are
-> used.
-> 
-> I would suggest the following:
-> 
-> & : This package/recipe includes multiple files with different
-> licenses. These licenses must be included together
-> 
-> | : This package/recipe is dual licensed.
-> 
-> + : This package/recipe has a voluntary upgrade path
-> 
-> () : Used to group licenses decision parameters.
-
-Sounds like it should cover all the bases.
-
-> I've seen reference to "/" and "&&" and ",". I don't see a purpose for these
-> operators and short of a clear need, I would suggest their removal.
-
-Definitely agreed.
-
-Cheers,
-Paul
-
--- 
-
-Paul Eggleton
-Intel Open Source Technology Centre
+--Apple-Mail=_8C1A2C21-3AEF-4C99-959C-1A567A280267
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain;
+	charset=us-ascii
 
 
+Op 23 dec. 2011, om 17:35 heeft Shane Wang het volgende geschreven:
+
+> Signed-off-by: Shane Wang <shane.wang@intel.com>
+> ---
+>=20
+> delete mode 100644 meta/recipes-core/dbus/dbus_1.4.16.bb
+> create mode 100644 meta/recipes-core/dbus/dbus_1.5.8.bb
+
+=46rom the dbus website:
+
+The current stable branch is 1.4.x, and the latest stable release is =
+D-Bus 1.4.16 (2011-09-21). See the 1.4.16 release announcement.
+[..]
+The current development branch is 1.5.x, and the latest development =
+release is D-Bus 1.5.8 (2011-09-21). See the 1.5.8 release announcement.
+
+Why is this switching dbus to the unstable branch?=
+
+--Apple-Mail=_8C1A2C21-3AEF-4C99-959C-1A567A280267
+Content-Transfer-Encoding: 7bit
+Content-Disposition: inline;
+	filename=signature.asc
+Content-Type: application/pgp-signature;
+	name=signature.asc
+Content-Description: Message signed with OpenPGP using GPGMail
+
+-----BEGIN PGP SIGNATURE-----
+
+iEYEARECAAYFAk70sAYACgkQMkyGM64RGpHA/wCfS+oSIrk5MVW5Yfgug51lSsrp
+/HkAn1TdP6vyhT853I+UBabevdEDAFXa
+=tx+c
+-----END PGP SIGNATURE-----
+
+--Apple-Mail=_8C1A2C21-3AEF-4C99-959C-1A567A280267--
