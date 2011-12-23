@@ -1,16 +1,26 @@
-Received: from smtp209.alice.it ([82.57.200.105])
+Received: from sanddollar.geekisp.com ([216.168.135.167])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <andrea.adami@gmail.com>) id 1RdsXm-0006g6-G6
+	(envelope-from <philip@balister.org>) id 1RdsfX-0007Av-Gj
 	for openembedded-core@lists.openembedded.org;
-	Fri, 23 Dec 2011 00:59:26 +0100
-Received: from mizar.localdomain (79.30.254.40) by smtp209.alice.it
-	(8.6.023.02) id 4EF08A630059B8AE; Fri, 23 Dec 2011 00:46:21 +0100
-From: Andrea Adami <andrea.adami@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Date: Fri, 23 Dec 2011 00:46:12 +0100
-Message-Id: <1324597572-10548-1-git-send-email-andrea.adami@gmail.com>
-X-Mailer: git-send-email 1.7.3.4
-Subject: [PATCH] kernel.bbclass: fix pkg_postinst and pkg_postrm
+	Fri, 23 Dec 2011 01:07:27 +0100
+Received: (qmail 3342 invoked by uid 1003); 23 Dec 2011 00:00:18 -0000
+Received: from unknown (HELO ?192.168.1.104?) (philip@opensdr.com@96.240.172.5)
+	by mail.geekisp.com with (DHE-RSA-AES256-SHA encrypted) SMTP;
+	23 Dec 2011 00:00:18 -0000
+Message-ID: <4EF3C491.8080903@balister.org>
+Date: Thu, 22 Dec 2011 19:00:17 -0500
+From: Philip Balister <philip@balister.org>
+User-Agent: Mozilla/5.0 (X11; U; Linux x86_64; en-US;
+	rv:1.9.2.24) Gecko/20111108 Fedora/3.1.16-1.fc14 Thunderbird/3.1.16
+MIME-Version: 1.0
+To: Paul Eggleton <paul.eggleton@linux.intel.com>
+References: <cover.1324316137.git.paul.eggleton@linux.intel.com>
+	<3289178.cJ7bor4PPM@helios> <4EF0AA68.7070501@balister.org>
+	<2148975.ysQ11QrYeT@helios>
+In-Reply-To: <2148975.ysQ11QrYeT@helios>
+X-Enigmail-Version: 1.1.2
+Cc: openembedded-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 0/2] psplash fixes
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -25,38 +35,29 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 22 Dec 2011 23:59:26 -0000
+X-List-Received-Date: Fri, 23 Dec 2011 00:07:27 -0000
+Content-Type: text/plain; charset=ISO-8859-1
+Content-Transfer-Encoding: 7bit
 
-* Symptom: kernel symlink in /boot is not created.
-* Rename in order to create the expected files:
-* /var/lib/opkg/info/kernel-3.1.4.postinst
-* /var/lib/opkg/info/kernel-3.1.4.postrm
+On 12/21/2011 10:15 AM, Paul Eggleton wrote:
+> On Tuesday 20 December 2011 10:31:52 Philip Balister wrote:
+>> I can see people taking an existing image, adding a few packages to
+>> customize it for their application, and changing the splash image to a
+>> product specific one.
+> 
+> I'm not entirely convinced this workflow makes sense when you're interested in 
+> getting reproducible product images. This is basically the "take some existing 
+> distro and hack it up until it fits" approach which taken past a certain point 
+> leads to an unmaintainable mess, or at the very least regressions.
+> 
+> People really ought to be able to produce their final images from the metadata 
+> with no additional post-build changes (or at least none that are manual). If 
+> that's too difficult, that's the problem I think is most worthwhile to attack, 
+> even if it requires more work on our part.
 
-Signed-off-by: Andrea Adami <andrea.adami@gmail.com>
----
- meta/classes/kernel.bbclass |    4 ++--
- 1 files changed, 2 insertions(+), 2 deletions(-)
+Well, I can see people wanting to do this. It falls into the case of the
+customer is always right, even when he is wrong :)
 
-diff --git a/meta/classes/kernel.bbclass b/meta/classes/kernel.bbclass
-index 120a524..ec5d65e 100644
---- a/meta/classes/kernel.bbclass
-+++ b/meta/classes/kernel.bbclass
-@@ -223,11 +223,11 @@ do_savedefconfig() {
- do_savedefconfig[nostamp] = "1"
- addtask savedefconfig after do_configure
- 
--pkg_postinst_kernel () {
-+pkg_postinst_kernel-base () {
- 	cd /${KERNEL_IMAGEDEST}; update-alternatives --install /${KERNEL_IMAGEDEST}/${KERNEL_IMAGETYPE} ${KERNEL_IMAGETYPE} ${KERNEL_IMAGETYPE}-${KERNEL_VERSION} ${KERNEL_PRIORITY} || true
- }
- 
--pkg_postrm_kernel () {
-+pkg_postrm_kernel-base () {
- 	cd /${KERNEL_IMAGEDEST}; update-alternatives --remove ${KERNEL_IMAGETYPE} ${KERNEL_IMAGETYPE}-${KERNEL_VERSION} || true
- }
- 
--- 
-1.7.3.4
-
+Philip
 
 
