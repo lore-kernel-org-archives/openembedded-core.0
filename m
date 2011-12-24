@@ -1,24 +1,24 @@
-Received: from mga02.intel.com ([134.134.136.20])
+Received: from mga03.intel.com ([143.182.124.21])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <shane.wang@intel.com>) id 1ReNQz-00049J-48
+	(envelope-from <shane.wang@intel.com>) id 1ReNQz-00049N-Pw
 	for openembedded-core@lists.openembedded.org;
-	Sat, 24 Dec 2011 09:58:29 +0100
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-	by orsmga101.jf.intel.com with ESMTP; 24 Dec 2011 00:51:21 -0800
+	Sat, 24 Dec 2011 09:58:30 +0100
+Received: from azsmga001.ch.intel.com ([10.2.17.19])
+	by azsmga101.ch.intel.com with ESMTP; 24 Dec 2011 00:51:20 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.67,352,1309762800"; d="scan'208";a="89951658"
+X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="89136822"
 Received: from yocto-build5.sh.intel.com (HELO localhost) ([10.239.48.2])
-	by orsmga001.jf.intel.com with ESMTP; 24 Dec 2011 00:51:21 -0800
+	by azsmga001.ch.intel.com with ESMTP; 24 Dec 2011 00:51:19 -0800
 From: Shane Wang <shane.wang@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Sat, 24 Dec 2011 17:06:25 +0800
-Message-Id: <100daa853c8d0ffd2d4bbb2333ece531f9eabba0.1324717264.git.shane.wang@intel.com>
+Date: Sat, 24 Dec 2011 17:06:24 +0800
+Message-Id: <58f7e9826aef32e75d02c4ae4cb2105f47e5a2ce.1324717264.git.shane.wang@intel.com>
 X-Mailer: git-send-email 1.7.6
 In-Reply-To: <b24a112a399a16e8cde104f43faa567a0963bb30.1324717264.git.shane.wang@intel.com>
 References: <b24a112a399a16e8cde104f43faa567a0963bb30.1324717264.git.shane.wang@intel.com>
 In-Reply-To: <cover.1324717264.git.shane.wang@intel.com>
 References: <cover.1324717264.git.shane.wang@intel.com>
-Subject: [PATCH 04/13] gst-fluendo-mp3: upgrade to 0.10.16
+Subject: [PATCH 03/13] gst-plugins-bad: upgrade to 0.10.22
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -33,29 +33,43 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 24 Dec 2011 08:58:29 -0000
+X-List-Received-Date: Sat, 24 Dec 2011 08:58:30 -0000
 
 Signed-off-by: Shane Wang <shane.wang@intel.com>
 ---
- ...o-mp3_0.10.15.bb => gst-fluendo-mp3_0.10.16.bb} |    4 ++--
- 1 files changed, 2 insertions(+), 2 deletions(-)
- rename meta/recipes-multimedia/gstreamer/{gst-fluendo-mp3_0.10.15.bb => gst-fluendo-mp3_0.10.16.bb} (61%)
+ ...s-bad_0.10.21.bb => gst-plugins-bad_0.10.22.bb} |    7 +++----
+ 1 files changed, 3 insertions(+), 4 deletions(-)
+ rename meta/recipes-multimedia/gstreamer/{gst-plugins-bad_0.10.21.bb => gst-plugins-bad_0.10.22.bb} (76%)
 
-diff --git a/meta/recipes-multimedia/gstreamer/gst-fluendo-mp3_0.10.15.bb b/meta/recipes-multimedia/gstreamer/gst-fluendo-mp3_0.10.16.bb
-similarity index 61%
-rename from meta/recipes-multimedia/gstreamer/gst-fluendo-mp3_0.10.15.bb
-rename to meta/recipes-multimedia/gstreamer/gst-fluendo-mp3_0.10.16.bb
-index da9cb2b..5975513 100644
---- a/meta/recipes-multimedia/gstreamer/gst-fluendo-mp3_0.10.15.bb
-+++ b/meta/recipes-multimedia/gstreamer/gst-fluendo-mp3_0.10.16.bb
-@@ -9,5 +9,5 @@ PR = "r0"
+diff --git a/meta/recipes-multimedia/gstreamer/gst-plugins-bad_0.10.21.bb b/meta/recipes-multimedia/gstreamer/gst-plugins-bad_0.10.22.bb
+similarity index 76%
+rename from meta/recipes-multimedia/gstreamer/gst-plugins-bad_0.10.21.bb
+rename to meta/recipes-multimedia/gstreamer/gst-plugins-bad_0.10.22.bb
+index a7023e3..ec067b8 100644
+--- a/meta/recipes-multimedia/gstreamer/gst-plugins-bad_0.10.21.bb
++++ b/meta/recipes-multimedia/gstreamer/gst-plugins-bad_0.10.22.bb
+@@ -4,12 +4,11 @@ LICENSE = "GPLv2+ & LGPLv2+ & LGPLv2.1+ "
+ LIC_FILES_CHKSUM = "file://COPYING;md5=0636e73ff0215e8d672dc4c32c317bb3 \
+                     file://gst/tta/filters.h;beginline=12;endline=29;md5=629b0c7a665d155a6677778f4460ec06 \
+                     file://COPYING.LIB;md5=55ca817ccb7d5b5b66355690e9abc605 \
+-                    file://gst/qtmux/gstqtmuxmap.h;beginline=1;endline=19;md5=2da8f56a44697c1527c5a4bcf8d5d69b \
+                     file://gst/tta/crc32.h;beginline=12;endline=29;md5=71a904d99ce7ae0c1cf129891b98145c"
  
- DESCRIPTION = "Fluendo closed-format mp3 GStreamer plug-in"
+ DEPENDS += "gst-plugins-base libmusicbrainz tremor librsvg"
  
--SRC_URI[md5sum] = "dac7a9fa988650ec1be6c4c743a86cd4"
--SRC_URI[sha256sum] = "b444e6f3f87f5b819c1327ff3ed1afe9c09c195ba79ecf7e7409b375fa81cb06"
-+SRC_URI[md5sum] = "33df57590e3f21f945fe7bace6146fa0"
-+SRC_URI[sha256sum] = "12dbd307b25fed502a52666a9c956230da09ee140a18d987452492393340f442"
+-PR = "r1"
++PR = "r0"
+ 
+ inherit gettext
+ 
+@@ -23,5 +22,5 @@ do_configure_prepend() {
+ 	rm ${S}/m4/lib-link.m4 || true
+ }
+ 
+-SRC_URI[md5sum] = "f501336ab1d18d2565f47c36ce653a82"
+-SRC_URI[sha256sum] = "422badacbda37ac33cb446c6751dabcd0b223c308dbb01024a34ded682fa47e3"
++SRC_URI[md5sum] = "9a2acee1f386f71247003d0d7090fb1c"
++SRC_URI[sha256sum] = "d8f7102f43ffea076646427115ffdccb3975954f1e9367bd304f7ee01e12070c"
 -- 
 1.7.6
 
