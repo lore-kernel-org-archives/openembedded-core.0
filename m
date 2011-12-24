@@ -1,24 +1,24 @@
 Received: from mga02.intel.com ([134.134.136.20])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <shane.wang@intel.com>) id 1ReNQy-00049J-Dy
+	(envelope-from <shane.wang@intel.com>) id 1ReNQz-00049J-48
 	for openembedded-core@lists.openembedded.org;
-	Sat, 24 Dec 2011 09:58:28 +0100
+	Sat, 24 Dec 2011 09:58:29 +0100
 Received: from orsmga001.jf.intel.com ([10.7.209.18])
-	by orsmga101.jf.intel.com with ESMTP; 24 Dec 2011 00:51:19 -0800
+	by orsmga101.jf.intel.com with ESMTP; 24 Dec 2011 00:51:21 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.67,352,1309762800"; d="scan'208";a="89951655"
+X-IronPort-AV: E=Sophos;i="4.67,352,1309762800"; d="scan'208";a="89951658"
 Received: from yocto-build5.sh.intel.com (HELO localhost) ([10.239.48.2])
-	by orsmga001.jf.intel.com with ESMTP; 24 Dec 2011 00:51:18 -0800
+	by orsmga001.jf.intel.com with ESMTP; 24 Dec 2011 00:51:21 -0800
 From: Shane Wang <shane.wang@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Sat, 24 Dec 2011 17:06:23 +0800
-Message-Id: <20f1a22f530458ea146c9d0801044c741486543c.1324717264.git.shane.wang@intel.com>
+Date: Sat, 24 Dec 2011 17:06:25 +0800
+Message-Id: <100daa853c8d0ffd2d4bbb2333ece531f9eabba0.1324717264.git.shane.wang@intel.com>
 X-Mailer: git-send-email 1.7.6
 In-Reply-To: <b24a112a399a16e8cde104f43faa567a0963bb30.1324717264.git.shane.wang@intel.com>
 References: <b24a112a399a16e8cde104f43faa567a0963bb30.1324717264.git.shane.wang@intel.com>
 In-Reply-To: <cover.1324717264.git.shane.wang@intel.com>
 References: <cover.1324717264.git.shane.wang@intel.com>
-Subject: [PATCH 02/13] gst-plugins-ugly: upgrade to 0.10.18
+Subject: [PATCH 04/13] gst-fluendo-mp3: upgrade to 0.10.16
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -33,38 +33,29 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 24 Dec 2011 08:58:28 -0000
+X-List-Received-Date: Sat, 24 Dec 2011 08:58:29 -0000
 
 Signed-off-by: Shane Wang <shane.wang@intel.com>
 ---
- ...ugly_0.10.17.bb => gst-plugins-ugly_0.10.18.bb} |    6 +++---
- 1 files changed, 3 insertions(+), 3 deletions(-)
- rename meta/recipes-multimedia/gstreamer/{gst-plugins-ugly_0.10.17.bb => gst-plugins-ugly_0.10.18.bb} (84%)
+ ...o-mp3_0.10.15.bb => gst-fluendo-mp3_0.10.16.bb} |    4 ++--
+ 1 files changed, 2 insertions(+), 2 deletions(-)
+ rename meta/recipes-multimedia/gstreamer/{gst-fluendo-mp3_0.10.15.bb => gst-fluendo-mp3_0.10.16.bb} (61%)
 
-diff --git a/meta/recipes-multimedia/gstreamer/gst-plugins-ugly_0.10.17.bb b/meta/recipes-multimedia/gstreamer/gst-plugins-ugly_0.10.18.bb
-similarity index 84%
-rename from meta/recipes-multimedia/gstreamer/gst-plugins-ugly_0.10.17.bb
-rename to meta/recipes-multimedia/gstreamer/gst-plugins-ugly_0.10.18.bb
-index 26bc0ba..2d7fa91 100644
---- a/meta/recipes-multimedia/gstreamer/gst-plugins-ugly_0.10.17.bb
-+++ b/meta/recipes-multimedia/gstreamer/gst-plugins-ugly_0.10.18.bb
-@@ -7,7 +7,7 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=a6f89e2100d9b6cdffcea4f398e37343 \
-                     file://gst/mpegstream/gstmpegparse.h;beginline=1;endline=18;md5=ff65467b0c53cdfa98d0684c1bc240a9"
+diff --git a/meta/recipes-multimedia/gstreamer/gst-fluendo-mp3_0.10.15.bb b/meta/recipes-multimedia/gstreamer/gst-fluendo-mp3_0.10.16.bb
+similarity index 61%
+rename from meta/recipes-multimedia/gstreamer/gst-fluendo-mp3_0.10.15.bb
+rename to meta/recipes-multimedia/gstreamer/gst-fluendo-mp3_0.10.16.bb
+index da9cb2b..5975513 100644
+--- a/meta/recipes-multimedia/gstreamer/gst-fluendo-mp3_0.10.15.bb
++++ b/meta/recipes-multimedia/gstreamer/gst-fluendo-mp3_0.10.16.bb
+@@ -9,5 +9,5 @@ PR = "r0"
  
- DEPENDS += "gst-plugins-base libid3tag libmad mpeg2dec liba52 lame"
--PR = "r2"
-+PR = "r0"
+ DESCRIPTION = "Fluendo closed-format mp3 GStreamer plug-in"
  
- inherit gettext
- 
-@@ -18,5 +18,5 @@ do_configure_prepend() {
- 	rm ${S}/m4/lib-link.m4 || true
- }
- 
--SRC_URI[md5sum] = "504ed6508c3a8f035a2002ed69d68506"
--SRC_URI[sha256sum] = "0cbd4aa8dceafea21ddd547dfde686a8836f68ba547afa5575a52b64cfa0b369"
-+SRC_URI[md5sum] = "04a7009a4efea2844075949c111f5e4d"
-+SRC_URI[sha256sum] = "f9c16748cd9269fae86422d8254a579fa6db073797a5a19a9dc5c72cd66c8e14"
+-SRC_URI[md5sum] = "dac7a9fa988650ec1be6c4c743a86cd4"
+-SRC_URI[sha256sum] = "b444e6f3f87f5b819c1327ff3ed1afe9c09c195ba79ecf7e7409b375fa81cb06"
++SRC_URI[md5sum] = "33df57590e3f21f945fe7bace6146fa0"
++SRC_URI[sha256sum] = "12dbd307b25fed502a52666a9c956230da09ee140a18d987452492393340f442"
 -- 
 1.7.6
 
