@@ -1,24 +1,37 @@
-Received: from mga09.intel.com ([134.134.136.24])
+Received: from mga01.intel.com ([192.55.52.88])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <shane.wang@intel.com>) id 1ReLFh-0001Vh-US
+	(envelope-from <shane.wang@intel.com>) id 1ReLpz-0002OO-69
 	for openembedded-core@lists.openembedded.org;
-	Sat, 24 Dec 2011 07:38:42 +0100
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-	by orsmga102.jf.intel.com with ESMTP; 23 Dec 2011 22:31:33 -0800
+	Sat, 24 Dec 2011 08:16:11 +0100
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+	by fmsmga101.fm.intel.com with ESMTP; 23 Dec 2011 23:08:14 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.67,352,1309762800"; d="scan'208";a="89935791"
-Received: from yocto-build5.sh.intel.com (HELO localhost) ([10.239.48.2])
-	by orsmga001.jf.intel.com with ESMTP; 23 Dec 2011 22:31:32 -0800
-From: Shane Wang <shane.wang@intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Sat, 24 Dec 2011 14:43:04 +0800
-Message-Id: <c71b8517abcf226e50d6d9e99739429469ecacb7.1324708839.git.shane.wang@intel.com>
-X-Mailer: git-send-email 1.7.6
-In-Reply-To: <c3b9de5db58158113dda43a0dcb9e6c24817d547.1324708839.git.shane.wang@intel.com>
-References: <c3b9de5db58158113dda43a0dcb9e6c24817d547.1324708839.git.shane.wang@intel.com>
-In-Reply-To: <cover.1324708839.git.shane.wang@intel.com>
-References: <cover.1324708839.git.shane.wang@intel.com>
-Subject: [PATCH 2/2] distro_tracking_fields: take the ownership of Mei Lei's
+X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="105653790"
+Received: from pgsmsx601.gar.corp.intel.com ([10.221.43.69])
+	by fmsmga002.fm.intel.com with ESMTP; 23 Dec 2011 23:08:13 -0800
+Received: from shsmsx151.ccr.corp.intel.com (10.239.6.50) by
+	pgsmsx601.gar.corp.intel.com (10.221.43.69) with Microsoft SMTP Server
+	(TLS) id 8.2.255.0; Sat, 24 Dec 2011 15:07:56 +0800
+Received: from shsmsx102.ccr.corp.intel.com ([169.254.2.199]) by
+	SHSMSX151.ccr.corp.intel.com ([169.254.3.223]) with mapi id
+	14.01.0355.002; Sat, 24 Dec 2011 15:07:55 +0800
+From: "Wang, Shane" <shane.wang@intel.com>
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Thread-Topic: [OE-core] [PATCH 01/14] polkit: upgrade to 0.103
+Thread-Index: AQHMwZGtvTrIR3d5iUaSeb9WTFGgXpXqkJ4Q
+Date: Sat, 24 Dec 2011 07:07:54 +0000
+Message-ID: <3AB6CE7F274E534CAFD089D127A8A1FC01046A@SHSMSX102.ccr.corp.intel.com>
+References: <cover.1324657801.git.shane.wang@intel.com>
+	<b3dad82177ad19a44f06edc4b857cb9697fa3950.1324657801.git.shane.wang@intel.com>
+	<3D030A85-C2B2-4487-AB24-FA0A48A6408D@dominion.thruhere.net>
+In-Reply-To: <3D030A85-C2B2-4487-AB24-FA0A48A6408D@dominion.thruhere.net>
+Accept-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [10.239.127.40]
+MIME-Version: 1.0
+Subject: Re: [PATCH 01/14] polkit: upgrade to 0.103
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -33,118 +46,91 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 24 Dec 2011 06:38:42 -0000
+X-List-Received-Date: Sat, 24 Dec 2011 07:16:11 -0000
+Content-Language: en-US
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 
-Signed-off-by: Shane Wang <shane.wang@intel.com>
+> Op 23 dec. 2011, om 17:35 heeft Shane Wang het volgende geschreven:
+>=20
+>> Signed-off-by: Shane Wang <shane.wang@intel.com> ---
+>> .../introspection.patch                            |    0
+>> .../polkit-1_pam.patch                             |    0
+>> .../polkit/{polkit_0.102.bb =3D> polkit_0.103.bb}    |    6 +++--- 3
+>> files changed, 3 insertions(+), 3 deletions(-) rename
+>> meta/recipes-extended/polkit/{polkit-0.102 =3D>
+>> polkit-0.103}/introspection.patch (100%) rename
+>> meta/recipes-extended/polkit/{polkit-0.102 =3D>
+>> polkit-0.103}/polkit-1_pam.patch (100%) rename
+>> meta/recipes-extended/polkit/{polkit_0.102.bb =3D> polkit_0.103.bb} (84%=
+)
+>>=20
+>> diff --git
+>> a/meta/recipes-extended/polkit/polkit-0.102/introspection.patch
+>> b/meta/recipes-extended/polkit/polkit-0.103/introspection.patch
+>> similarity index 100% rename from
+>> meta/recipes-extended/polkit/polkit-0.102/introspection.patch rename to
+>> meta/recipes-extended/polkit/polkit-0.103/introspection.patch diff
+>> --git a/meta/recipes-extended/polkit/polkit-0.102/polkit-1_pam.patch
+>> b/meta/recipes-extended/polkit/polkit-0.103/polkit-1_pam.patch
+>> similarity index 100% rename from
+>> meta/recipes-extended/polkit/polkit-0.102/polkit-1_pam.patch rename to
+>> meta/recipes-extended/polkit/polkit-0.103/polkit-1_pam.patch diff --git
+>> a/meta/recipes-extended/polkit/polkit_0.102.bb
+>> b/meta/recipes-extended/polkit/polkit_0.103.bb similarity index 84%
+>> rename from meta/recipes-extended/polkit/polkit_0.102.bb rename to
+>> meta/recipes-extended/polkit/polkit_0.103.bb index 714aa8e..0498494
+>> 100644 --- a/meta/recipes-extended/polkit/polkit_0.102.bb +++
+>> b/meta/recipes-extended/polkit/polkit_0.103.bb @@ -4,7 +4,7 @@ HOMEPAGE
+>> =3D "http://code.google.com/p/polkit/" LICENSE =3D "LGPLv2+"
+>> LIC_FILES_CHKSUM =3D "file://COPYING;md5=3D155db86cdbafa7532b41f39040928=
+3eb
+>> \
+>>=20
+> file://src/polkit/polkit.h;beginline=3D1;endilne=3D20;md5=3D9f797b8912dac=
+8a806b
+> e820c14e783f8 \
+>> -
+> file://docs/polkit/html/license.html;md5=3D570dd8c794dc8df913cb03b86e78d
+> 936"
+>> +
+> file://docs/polkit/html/license.html;md5=3Dd85a36709a446c10f4ee123f9dda0
+> e38"
+>=20
+> What changed?
+>=20
+
+The diff is trivial:
+
+< <meta name=3D"generator" content=3D"GTK-Doc V1.17 (XML mode)">
 ---
- .../conf/distro/include/distro_tracking_fields.inc |   22 ++++++++++----------
- 1 files changed, 11 insertions(+), 11 deletions(-)
+> <meta name=3D"generator" content=3D"GTK-Doc V1.18 (XML mode)">
+514c514
+<           Generated by GTK-Doc V1.17</div>
+---
+>           Generated by GTK-Doc V1.18</div>
 
-diff --git a/meta/conf/distro/include/distro_tracking_fields.inc b/meta/conf/distro/include/distro_tracking_fields.inc
-index ae12d7c..28670e4 100644
---- a/meta/conf/distro/include/distro_tracking_fields.inc
-+++ b/meta/conf/distro/include/distro_tracking_fields.inc
-@@ -2,7 +2,7 @@ RECIPE_STATUS_pn-diffutils = "green"
- RECIPE_LATEST_VERSION_pn-diffutils = "3.2"
- RECIPE_LAST_UPDATE_pn-diffutils = "Sep 30, 2011"
- RECIPE_NO_UPDATE_REASON_pn-diffutils = "3.2 is the latest version"
--RECIPE_MAINTAINER_pn-diffutils = "Mei Lei <lei.mei@intel.com>"
-+RECIPE_MAINTAINER_pn-diffutils = "Shane Wang <shane.wang@intel.com>"
- 
- RECIPE_STATUS_pn-epdfview = "red"
- RECIPE_LATEST_VERSION_pn-epdfview = "check"
-@@ -1080,7 +1080,7 @@ DISTRO_PN_ALIAS_pn-shadow-sysroot = "Ubuntu=shadow Fedora=shadow"
- 
- RECIPE_STATUS_pn-coreutils = "green"
- RECIPE_LAST_UPDATE_pn-coreutils = "Jul 2, 2011"
--RECIPE_MAINTAINER_pn-coreutils = "Mei Lei <lei.mei@intel.com>"
-+RECIPE_MAINTAINER_pn-coreutils = "Shane Wang <shane.wang@intel.com>"
- RECIPE_INTEL_SECTION_pn-coreutils = "base utils"
- RECIPE_LATEST_VERSION_pn-coreutils = "8.12"
- RECIPE_LATEST_RELEASE_DATE_pn-coreutils = "Apr 01, 2011"
-@@ -1385,7 +1385,7 @@ RECIPE_COMMENTS_pn-time = ""
- 
- RECIPE_STATUS_pn-bzip2 = "yellow"  # local config scripts
- RECIPE_LAST_UPDATE_pn-bzip2 = "Nov 3, 2010"
--RECIPE_MAINTAINER_pn-bzip2 = "Mei Lei <lei.mei@intel.com>"
-+RECIPE_MAINTAINER_pn-bzip2 = "Shane Wang <shane.wang@intel.com>"
- RECIPE_DEPENDENCY_CHECK_pn-bzip2 = "not done"
- RECIPE_LATEST_VERSION_pn-bzip2 = "1.0.6"
- RECIPE_PATCH_pn-bzip2+configure.ac = "override default build method"
-@@ -1498,7 +1498,7 @@ RECIPE_MAINTAINER_pn-sysfsutils = "Saul Wold <sgw@linux.intel.com>"
- 
- RECIPE_STATUS_pn-curl = "green"
- RECIPE_LAST_UPDATE_pn-curl = "Dec 22, 2011"
--RECIPE_MAINTAINER_pn-curl = "Mei Lei <lei.mei@intel.com>"
-+RECIPE_MAINTAINER_pn-curl = "Shane Wang <shane.wang@intel.com>"
- RECIPE_DEPENDENCY_CHECK_pn-curl = "not done"
- RECIPE_LATEST_VERSION_pn-curl = "7.23.1"
- RECIPE_PATCH_pn-curl+noldlibpath = "no bother set LD_LIBRARY_PATH since we are cross compiling"
-@@ -1522,7 +1522,7 @@ RECIPE_MANUAL_CHECK_DATE_pn-gconf-dbus = "Jul 01, 2011"
- 
- RECIPE_STATUS_pn-elfutils ="green" # no update needed
- RECIPE_LAST_UPDATE_pn-elfutils = "Jul 16, 2010"
--RECIPE_MAINTAINER_pn-elfutils = "Mei Lei <lei.mei@intel.com>"
-+RECIPE_MAINTAINER_pn-elfutils = "Shane Wang <shane.wang@intel.com>"
- RECIPE_DEPENDENCY_CHECK_pn-gconf-dbus = "not done"
- RECIPE_LATEST_VERSION_pn-elfutils="0.148"
- RECIPE_INTEL_SECTION_pn-gconf-dbus = "base utils"
-@@ -1564,7 +1564,7 @@ RECIPE_COMMENTS_pn-genext2fs = ""
- 
- RECIPE_STATUS_pn-findutils = "green"
- RECIPE_LAST_UPDATE_pn-findutils = "Jul 8, 2010"
--RECIPE_MAINTAINER_pn-findutils = "Mei Lei <lei.mei@intel.com>"
-+RECIPE_MAINTAINER_pn-findutils = "Shane Wang <shane.wang@intel.com>"
- RECIPE_DEPENDENCY_CHECK_pn-findutils = "not done"
- RECIPE_PATCH_pn-findutils_01-27017 = "upstream patch"
- RECIPE_PATCH_pn-findutils_01-28824 = "upstream patch"
-@@ -1615,7 +1615,7 @@ RECIPE_COMMENTS_pn-nfs-utils = ""
- RECIPE_STATUS_pn-dropbear = "green"
- DISTRO_PN_ALIAS_pn-dropbear = "Debian=dropbear Ubuntu=dropbear"
- RECIPE_LAST_UPDATE_pn-dropbear = "Nov 29, 2011"
--RECIPE_MAINTAINER_pn-dropbear = "Mei Lei <lei.mei@intel.com>"
-+RECIPE_MAINTAINER_pn-dropbear = "Shane Wang <shane.wang@intel.com>"
- RECIPE_DEPENDENCY_CHECK_pn-dropbear = "not done"
- RECIPE_LATEST_VERSION_pn-dropbear = "2011.54"
- RECIPE_PATCH_pn-dropbear+urandom-xauth-changes-to-options.h = "xauth path change"
-@@ -1826,7 +1826,7 @@ RECIPE_COMMENTS_pn-pciutils = ""
- 
- RECIPE_STATUS_pn-gamin = "green"
- RECIPE_LAST_UPDATE_pn-gamin = "Aug 12, 2010"
--RECIPE_MAINTAINER_pn-gamin = "Mei Lei <lei.mei@intel.com>"
-+RECIPE_MAINTAINER_pn-gamin = "Shane Wang <shane.wang@intel.com>"
- RECIPE_DEPENDENCY_CHECK_pn-gamin = "done"
- RECIPE_LATEST_VERSION_pn-gamin = "0.1.10"
- RECIPE_PATCH_pn-gamin+no-abstract-socket = "disable abstract socket support"
-@@ -1858,7 +1858,7 @@ RECIPE_LATEST_VERSION_pn-sysklogd = "1.5"
- 
- RECIPE_STATUS_pn-gawk = "red"    # need upgrade
- RECIPE_LAST_UPDATE_pn-gawk = "Jul 5, 2011"
--RECIPE_MAINTAINER_pn-gawk = "Mei Lei <lei.mei@intel.com>"
-+RECIPE_MAINTAINER_pn-gawk = "Shane Wang <shane.wang@intel.com>"
- RECIPE_LATEST_VERSION_pn-gawk = "4.0.0"
- 
- RECIPE_STATUS_pn-mktemp="red"
-@@ -1903,7 +1903,7 @@ RECIPE_COMMENTS_pn-sed = "xxx maintains GPLv2 sed, while Dongxiao maintains GPLv
- RECIPE_STATUS_pn-aspell = "red"
- RECIPE_LATEST_VERSION_pn-aspell = "0.60.6"
- RECIPE_LAST_UPDATE_pn-aspell = "Aug 16, 2010"
--RECIPE_MAINTAINER_pn-aspell = "Mei Lei <lei.mei@intel.com>"
-+RECIPE_MAINTAINER_pn-aspell = "Shane Wang <shane.wang@intel.com>"
- 
- RECIPE_STATUS_pn-parted = "green"
- RECIPE_LATEST_VERSION_pn-parted = "3.0"
-@@ -2202,7 +2202,7 @@ RECIPE_NO_OF_PATCHES_pn-gupnp= "1"
- RECIPE_LATEST_RELEASE_DATE_pn-gupnp= "Apr 30, 2011"
- RECIPE_TIME_BETWEEN_LAST_TWO_RELEASES_pn-gupnp= "1 month"
- RECIPE_LAST_UPDATE_pn-gupnp = "Jul 4, 2011"
--RECIPE_MAINTAINER_pn-gupnp= "Mei Lei <lei.mei@intel.com>"
-+RECIPE_MAINTAINER_pn-gupnp= "Shane Wang <shane.wang@intel.com>"
- 
- RECIPE_STATUS_pn-gupnp-av = "green"
- RECIPE_LATEST_VERSION_pn-gupnp-av = "0.8.0"
--- 
-1.7.6
 
+>>=20
+>> SRC_URI =3D "http://hal.freedesktop.org/releases/polkit-${PV}.tar.gz \
+>>            file://introspection.patch \
+>> @@ -28,5 +28,5 @@ do_install_append() {
+>> 	rm -f ${D}${libdir}/${PN}-1/extensions/*.a
+>> }
+>>=20
+>> -SRC_URI[md5sum] =3D "a3726bdb9728c103e58f62131e26693a"
+>> -SRC_URI[sha256sum] =3D
+> "0a6573da841c6f5c428218f1456aed45724a0127932af0de563d568bb90586
+> 41"
+>> +SRC_URI[md5sum] =3D "aaacf2ef18774ea8a825a426a7cfe763"
+>> +SRC_URI[sha256sum] =3D
+> "36607c8ce576980ee55bd12bab1944f13217eb8e9d04ab56022545861ece3b c5"
+>=20
+> These should go next to SRC_URI, not at the bottom
+
+Will update
+
+--
+Shane
 
 
