@@ -1,40 +1,37 @@
 Received: from mga11.intel.com ([192.55.52.93])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <shane.wang@intel.com>) id 1ReMPJ-0002uO-0j
+	(envelope-from <shane.wang@intel.com>) id 1ReMoo-0003Zc-8b
 	for openembedded-core@lists.openembedded.org;
-	Sat, 24 Dec 2011 08:52:41 +0100
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-	by fmsmga102.fm.intel.com with ESMTP; 23 Dec 2011 23:45:32 -0800
+	Sat, 24 Dec 2011 09:19:02 +0100
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+	by fmsmga102.fm.intel.com with ESMTP; 24 Dec 2011 00:11:51 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="99898252"
+X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="105662813"
 Received: from pgsmsx602.gar.corp.intel.com ([10.221.43.81])
-	by fmsmga001.fm.intel.com with ESMTP; 23 Dec 2011 23:45:31 -0800
-Received: from pgsmsx103.gar.corp.intel.com (10.221.44.82) by
-	pgsmsx602.gar.corp.intel.com (10.221.43.81) with Microsoft SMTP Server
-	(TLS) id 8.2.255.0; Sat, 24 Dec 2011 15:45:30 +0800
+	by fmsmga002.fm.intel.com with ESMTP; 24 Dec 2011 00:11:51 -0800
 Received: from shsmsx151.ccr.corp.intel.com (10.239.6.50) by
-	PGSMSX103.gar.corp.intel.com (10.221.44.82) with Microsoft SMTP Server
-	(TLS) id 14.1.355.2; Sat, 24 Dec 2011 15:45:30 +0800
+	pgsmsx602.gar.corp.intel.com (10.221.43.81) with Microsoft SMTP Server
+	(TLS) id 8.2.255.0; Sat, 24 Dec 2011 16:11:50 +0800
 Received: from shsmsx102.ccr.corp.intel.com ([169.254.2.199]) by
 	SHSMSX151.ccr.corp.intel.com ([169.254.3.223]) with mapi id
-	14.01.0355.002; Sat, 24 Dec 2011 15:45:29 +0800
+	14.01.0355.002; Sat, 24 Dec 2011 16:11:49 +0800
 From: "Wang, Shane" <shane.wang@intel.com>
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Thread-Topic: [OE-core] [PATCH 07/14] glib-2.0: upgrade to 2.30.2
-Thread-Index: AQHMwZJQBlcJAJunPkKdmuzcpZiK5JXqnM5Q
-Date: Sat, 24 Dec 2011 07:45:28 +0000
-Message-ID: <3AB6CE7F274E534CAFD089D127A8A1FC0104C6@SHSMSX102.ccr.corp.intel.com>
+Thread-Topic: [OE-core] [PATCH 10/14] valgrind: upgrade to 3.7.0
+Thread-Index: AQHMwZKFpOEHBlmArUOeO8Smy+VHtpXqpCfA
+Date: Sat, 24 Dec 2011 08:11:48 +0000
+Message-ID: <3AB6CE7F274E534CAFD089D127A8A1FC0104D9@SHSMSX102.ccr.corp.intel.com>
 References: <b3dad82177ad19a44f06edc4b857cb9697fa3950.1324657801.git.shane.wang@intel.com>
-	<7252a7660c6a9703c7fca5153f87d9dbaaa347e5.1324657801.git.shane.wang@intel.com>
-	<CE503E09-2FAB-407C-8A54-77A62A480595@dominion.thruhere.net>
-In-Reply-To: <CE503E09-2FAB-407C-8A54-77A62A480595@dominion.thruhere.net>
+	<f4d948b417c0d1c7d7d7098ccd7a81278cea5328.1324657801.git.shane.wang@intel.com>
+	<72958AC8-1096-4668-8255-A1CE75DF4BDD@dominion.thruhere.net>
+In-Reply-To: <72958AC8-1096-4668-8255-A1CE75DF4BDD@dominion.thruhere.net>
 Accept-Language: en-US
 X-MS-Has-Attach: 
 X-MS-TNEF-Correlator: 
 x-originating-ip: [10.239.127.40]
 MIME-Version: 1.0
-Subject: Re: [PATCH 07/14] glib-2.0: upgrade to 2.30.2
+Subject: Re: [PATCH 10/14] valgrind: upgrade to 3.7.0
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -49,7 +46,7 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 24 Dec 2011 07:52:41 -0000
+X-List-Received-Date: Sat, 24 Dec 2011 08:19:02 -0000
 Content-Language: en-US
 Content-Type: text/plain; charset="iso-8859-1"
 Content-Transfer-Encoding: quoted-printable
@@ -60,34 +57,47 @@ Koen Kooi wrote on=A02011-12-24:
 > Op 23 dec. 2011, om 17:35 heeft Shane Wang het volgende geschreven:
 >=20
 >> Signed-off-by: Shane Wang <shane.wang@intel.com> ---
->> .../{glib-2.0_2.30.1.bb =3D> glib-2.0_2.30.2.bb}     |    7 +++---- 1
->> files changed, 3 insertions(+), 4 deletions(-) rename
->> meta/recipes-core/glib-2.0/{glib-2.0_2.30.1.bb =3D> glib-2.0_2.30.2.bb}
->> (88%)
+>> .../valgrind/valgrind-3.7.0/configure-fix.patch    |   23
+>> ++++++++++++++++++++ .../fix_issue_caused_by_ccache.patch             =20
+>> |    0 .../fix_unsupporting_kernel_3.patch                |    0
+>> .../fixed-perl-path.patch                          |    0
+>> .../{valgrind_3.6.1.bb =3D> valgrind_3.7.0.bb}       |   13 ++++++----- =
+5
+>> files changed, 30 insertions(+), 6 deletions(-) create mode 100644
+>> meta/recipes-devtools/valgrind/valgrind-3.7.0/configure-fix.patch
+>> rename meta/recipes-devtools/valgrind/{valgrind-3.6.1 =3D>
+>> valgrind-3.7.0}/fix_issue_caused_by_ccache.patch (100%) rename
+>> meta/recipes-devtools/valgrind/{valgrind-3.6.1 =3D>
+>> valgrind-3.7.0}/fix_unsupporting_kernel_3.patch (100%) rename
+>> meta/recipes-devtools/valgrind/{valgrind-3.6.1 =3D>
+>> valgrind-3.7.0}/fixed-perl-path.patch (100%) rename
+>> meta/recipes-devtools/valgrind/{valgrind_3.6.1.bb =3D> valgrind_3.7.0.bb=
+}
+>> (71%)
 >>=20
->> diff --git a/meta/recipes-core/glib-2.0/glib-2.0_2.30.1.bb
->> b/meta/recipes-core/glib-2.0/glib-2.0_2.30.2.bb similarity index 88%
->> rename from meta/recipes-core/glib-2.0/glib-2.0_2.30.1.bb rename to
->> meta/recipes-core/glib-2.0/glib-2.0_2.30.2.bb index bf415a1..62f7dc6
->> 100644 --- a/meta/recipes-core/glib-2.0/glib-2.0_2.30.1.bb +++
->> b/meta/recipes-core/glib-2.0/glib-2.0_2.30.2.bb @@ -1,6 +1,6 @@ require
->> glib.inc
->>=20
->> -PR =3D "r1"
->> +PR =3D "r0"
->> PE =3D "1"
->>=20
->> DEPENDS +=3D "libffi python-argparse-native"
->> @@ -13,10 +13,9 @@ SRC_URI =3D
-> "${GNOME_MIRROR}/glib/${SHRT_VER}/glib-${PV}.tar.bz2 \
->>            file://configure-libtool.patch \
->>            file://60_wait-longer-for-threads-to-die.patch \
->>            file://g_once_init_enter.patch \
->> -           file://glib-2.0_fix_for_x32.patch \
+>> diff --git
+> a/meta/recipes-devtools/valgrind/valgrind-3.7.0/configure-fix.patch
+> b/meta/recipes-devtools/valgrind/valgrind-3.7.0/configure-fix.patch
+>> new file mode 100644 index 0000000..f57897c --- /dev/null +++
+>> b/meta/recipes-devtools/valgrind/valgrind-3.7.0/configure-fix.patch @@
+>> -0,0 +1,23 @@ +To recognize gcc version from poky in configure.in +
+>> +Upstream-Status: Inappropriate [configuration] + +Signed-off-by: Shane
+>> Wang <shane.wang@intel.com> + +diff -r 91a8df96084a configure.in +---
+>> a/configure.in	Fri Dec 23 20:57:01 2011 +0800 ++++ b/configure.in	Fri
+>> Dec 23 20:59:21 2011 +0800 +@@ -104,11 +104,13 @@ + # + #
+>> i686-apple-darwin10-gcc-4.2.1 (GCC) 4.2.1 (Apple Inc. build 5666) (dot
+>> 3) + # i686-apple-darwin11-llvm-gcc-4.2 (GCC) 4.2.1 (Based on Apple
+>> Inc. build 5658) (LLVM build 2335.15.00) ++# i586-poky-linux-gcc (GCC)
+>> 4.6.3 (prerelease) Copyright + # + [gcc_version=3D`${CC} --version \ +  =
+=20
+>>           | head -n 1 \ +              | $SED 's/i686-apple-darwin10//'
+>> \ +              | $SED 's/i686-apple-darwin11//' \ ++             |
+>> $SED 's/.*poky[^0-9]*//' \
 >=20
-> Please delete the patch file as well when removing it from SRC_URI
+> Either change this to work with every TARGET_VENDOR or put it in the poky
+> layer as bbappend.
 
-OK.
+Understood.
 
 --
 Shane
