@@ -1,36 +1,20 @@
-Received: from mga14.intel.com ([143.182.124.37])
+Received: from mga02.intel.com ([134.134.136.20])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <nitin.a.kamble@intel.com>) id 1ReAmu-0001yk-BU
+	(envelope-from <shane.wang@intel.com>) id 1ReLBs-0001QZ-Mt
 	for openembedded-core@lists.openembedded.org;
-	Fri, 23 Dec 2011 20:28:16 +0100
-Received: from azsmga002.ch.intel.com ([10.2.17.35])
-	by azsmga102.ch.intel.com with ESMTP; 23 Dec 2011 11:21:07 -0800
+	Sat, 24 Dec 2011 07:34:44 +0100
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+	by orsmga101.jf.intel.com with ESMTP; 23 Dec 2011 22:27:35 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="50168142"
-Received: from orsmsx603.amr.corp.intel.com ([10.22.226.49])
-	by AZSMGA002.ch.intel.com with ESMTP; 23 Dec 2011 11:21:07 -0800
-Received: from orsmsx606.amr.corp.intel.com (10.22.226.128) by
-	orsmsx603.amr.corp.intel.com (10.22.226.49) with Microsoft SMTP Server
-	(TLS) id 8.2.255.0; Fri, 23 Dec 2011 11:21:06 -0800
-Received: from orsmsx504.amr.corp.intel.com ([10.22.226.207]) by
-	orsmsx606.amr.corp.intel.com ([10.22.226.128]) with mapi;
-	Fri, 23 Dec 2011 11:21:06 -0800
-From: "Kamble, Nitin A" <nitin.a.kamble@intel.com>
-To: Paul Eggleton <paul.eggleton@linux.intel.com>,
-	"openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Date: Fri, 23 Dec 2011 11:21:06 -0800
-Thread-Topic: Internal compiler error
-Thread-Index: AczA2CdU1zZeArllQR6xCFvPUSwDhAAz8Vxw
-Message-ID: <9DA5872FEF993D41B7173F58FCF6BE94E7922CF6@orsmsx504.amr.corp.intel.com>
-References: <2359656.ub2hYRIHg6@helios>
-In-Reply-To: <2359656.ub2hYRIHg6@helios>
-Accept-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-acceptlanguage: en-US
-MIME-Version: 1.0
-Subject: Re: Internal compiler error
+X-IronPort-AV: E=Sophos;i="4.67,352,1309762800"; d="scan'208";a="89935390"
+Received: from yocto-build5.sh.intel.com (HELO localhost) ([10.239.48.2])
+	by orsmga001.jf.intel.com with ESMTP; 23 Dec 2011 22:27:34 -0800
+From: Shane Wang <shane.wang@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Sat, 24 Dec 2011 14:42:51 +0800
+Message-Id: <cover.1324708839.git.shane.wang@intel.com>
+X-Mailer: git-send-email 1.7.6
+Subject: [PATCH 0/2] Check Manual List, Dec 24, 2011
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -45,50 +29,31 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 23 Dec 2011 19:28:16 -0000
-Content-Language: en-US
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Sat, 24 Dec 2011 06:34:45 -0000
 
-Khem had fixed this in the oecore, I just sent a pull request for that comm=
-it for edison branch.
+All,
 
-Thanks
-Nitin
+update the information for manual-check list after checking upstream.
+And take the ownership of Mei Lei's in distro_tracking_fields.inc.
 
+The following changes since commit d350b3168bab234e326c8cf1609d13803e6aba9e:
 
-> -----Original Message-----
-> From: Paul Eggleton [mailto:paul.eggleton@linux.intel.com]
-> Sent: Thursday, December 22, 2011 10:33 AM
-> To: openembedded-core@lists.openembedded.org
-> Cc: Kamble, Nitin A; Khem Raj
-> Subject: Internal compiler error
->=20
-> Hi Nitin/Khem/all,
->=20
-> We saw a failure on the Yocto Project autobuilder recently which
-> appears to be
-> the result of an internal compiler error [1] (note this is with the
-> edison
-> branch of Yocto, so it's somewhat older than what we have in master).
-> Some
-> searching brought up a Linaro gcc bug that looks remarkably similar
-> [2].
->=20
-> Do you guys know anything about this? Do we need to bring in the fix
-> from the
-> bug report above?
->=20
-> Cheers,
-> Paul
->=20
-> [1] http://autobuilder.yoctoproject.org:8010/builders/nightly-
-> arm/builds/232/steps/shell_81/logs/stdio
-> [2] https://bugs.launchpad.net/gcc-linaro/+bug/723185
->=20
-> --
->=20
-> Paul Eggleton
-> Intel Open Source Technology Centre
+  opkg: Fix installation order in feeds with mutiple providers of packages (2011-12-22 22:38:18 +0000)
+
+are available in the git repository at:
+  git://git.pokylinux.org/poky-contrib shane/manualchecking
+  http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=shane/manualchecking
+
+Shane Wang (2):
+  distro_tracking_fields: update the info for the manual check list
+    (2011/12/24)
+  distro_tracking_fields: take the ownership of Mei Lei's
+
+ .../conf/distro/include/distro_tracking_fields.inc |  145 +++++++++++---------
+ 1 files changed, 79 insertions(+), 66 deletions(-)
+
+-- 
+1.7.6
+
 
 
