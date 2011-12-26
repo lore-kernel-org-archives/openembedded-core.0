@@ -1,24 +1,30 @@
-Received: from mga02.intel.com ([134.134.136.20])
+Received: from mga07.intel.com ([143.182.124.22] helo=azsmga101.ch.intel.com)
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <shane.wang@intel.com>) id 1RfE72-00016p-Ek
+	(envelope-from <scott.a.garman@intel.com>) id 1RfLlW-0006jN-Pk
 	for openembedded-core@lists.openembedded.org;
-	Mon, 26 Dec 2011 18:13:24 +0100
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-	by orsmga101.jf.intel.com with ESMTP; 26 Dec 2011 09:06:12 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.67,351,1309762800"; d="scan'208";a="91638842"
-Received: from yocto-build5.sh.intel.com (HELO localhost) ([10.239.48.2])
-	by orsmga002.jf.intel.com with ESMTP; 26 Dec 2011 09:06:11 -0800
-From: Shane Wang <shane.wang@intel.com>
+	Tue, 27 Dec 2011 02:23:43 +0100
+Received: from mail-qy0-f180.google.com ([209.85.216.180])
+	by mga03.intel.com with ESMTP/TLS/RC4-SHA; 26 Dec 2011 17:16:28 -0800
+Received: by qcse1 with SMTP id e1so6932774qcs.25
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 26 Dec 2011 17:16:27 -0800 (PST)
+Received: by 10.229.75.147 with SMTP id y19mr9938982qcj.33.1324948587783;
+	Mon, 26 Dec 2011 17:16:27 -0800 (PST)
+Received: from [192.168.1.107] (c-75-67-44-171.hsd1.nh.comcast.net.
+	[75.67.44.171])
+	by mx.google.com with ESMTPS id z1sm47806838qao.1.2011.12.26.17.16.26
+	(version=SSLv3 cipher=OTHER); Mon, 26 Dec 2011 17:16:26 -0800 (PST)
+Message-ID: <4EF8E344.2020800@intel.com>
+Date: Mon, 26 Dec 2011 16:12:36 -0500
+From: Scott Garman <scott.a.garman@intel.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:8.0) Gecko/20111124 Thunderbird/8.0
+MIME-Version: 1.0
 To: openembedded-core@lists.openembedded.org
-Date: Tue, 27 Dec 2011 01:12:02 +0800
-Message-Id: <19d83a0b3a40cdce88a518db0fddbe7d5b5548ec.1324918959.git.shane.wang@intel.com>
-X-Mailer: git-send-email 1.7.6
-In-Reply-To: <dab83815d71c52b28747493c70011a39a0004015.1324918959.git.shane.wang@intel.com>
-References: <dab83815d71c52b28747493c70011a39a0004015.1324918959.git.shane.wang@intel.com>
-In-Reply-To: <cover.1324918958.git.shane.wang@intel.com>
-References: <cover.1324918958.git.shane.wang@intel.com>
-Subject: [PATCH 5/5] distro_tracking_fields: update the info for recipe upgrade.
+References: <cover.1324661415.git.scott.a.garman@intel.com>
+	<4EF4BDA1.2060906@intel.com>
+In-Reply-To: <4EF4BDA1.2060906@intel.com>
+Subject: Re: [PATCH 0/2] Upgrade chrpath and libevent
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -33,60 +39,44 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 26 Dec 2011 17:13:24 -0000
+X-List-Received-Date: Tue, 27 Dec 2011 01:23:43 -0000
+Content-Type: text/plain; charset=ISO-8859-1; format=flowed
+Content-Transfer-Encoding: 7bit
 
-Signed-off-by: Shane Wang <shane.wang@intel.com>
----
- .../conf/distro/include/distro_tracking_fields.inc |   10 +++++-----
- 1 files changed, 5 insertions(+), 5 deletions(-)
+On 12/23/2011 12:42 PM, Scott Garman wrote:
+> On 12/23/2011 09:31 AM, Scott Garman wrote:
+>> Hello,
+>>
+>> This pull request upgrades the chrpath and libevent recipes. It has
+>> been build-tested on all 5 of our qemu architectures.
+>
+> Please hold off on accepting this pull request. I forgot to include the
+> distro tracking field updates, and when I just went to do so, I noticed
+> that libevent had a NO_UPDATE_REASON field suggesting that libevent2 was
+> not compatible. Which means I have to do a lot more testing on this
+> before I can feel comfortable submitting it.
+>
+> I will likely not get to this until I return on January 2.
 
-diff --git a/meta/conf/distro/include/distro_tracking_fields.inc b/meta/conf/distro/include/distro_tracking_fields.inc
-index ab18e12..e0df61f 100644
---- a/meta/conf/distro/include/distro_tracking_fields.inc
-+++ b/meta/conf/distro/include/distro_tracking_fields.inc
-@@ -87,7 +87,7 @@ RECIPE_LATEST_VERSION_pn-minicom = "2.5"
- RECIPE_NO_OF_PATCHES_pn-minicom = "1"
- RECIPE_LATEST_RELEASE_DATE_pn-minicom = "Dec 20, 2010"
- RECIPE_TIME_BETWEEN_LAST_TWO_RELEASES_pn-minicom = "22 months"
--RECIPE_LAST_UPDATE_pn-minicom = "Nov 24, 2010"
-+RECIPE_LAST_UPDATE_pn-minicom = "Dec 27, 2011"
- RECIPE_MANUAL_CHECK_DATE_pn-minicom = "Nov 22, 2011"
- RECIPE_MAINTAINER_pn-minicom = "Dongxiao Xu <dongxiao.xu@intel.com>"
- 
-@@ -2379,11 +2379,11 @@ RECIPE_LAST_UPDATE_pn-orinoco-conf = "Jul 21, 2006"
- RECIPE_MAINTAINER_pn-orinoco-conf = "Dongxiao Xu <dongxiao.xu@intel.com>"
- 
- RECIPE_STATUS_pn-libical="green"
--RECIPE_LATEST_VERSION_pn-libical = "0.47"
-+RECIPE_LATEST_VERSION_pn-libical = "0.48"
- RECIPE_NO_OF_PATCHES_pn-libical = "0"
- RECIPE_LATEST_RELEASE_DATE_pn-libical = "Oct 12, 2011"
- RECIPE_TIME_BETWEEN_LAST_TWO_RELEASES_pn-libical = "11 months"
--RECIPE_LAST_UPDATE_pn-libical = "Nov 16, 2010"
-+RECIPE_LAST_UPDATE_pn-libical = "Dec 26, 2011"
- RECIPE_MANUAL_CHECK_DATE_pn-libical = "Nov 22, 2011"
- RECIPE_MAINTAINER_pn-libical = "Dongxiao Xu <dongxiao.xu@intel.com>"
- 
-@@ -2795,7 +2795,7 @@ DISTRO_PN_ALIAS_pn-libomxil = "OSPDT upstream=http://omxil.sourceforge.net/"
- RECIPE_STATUS_pn-libsamplerate0 = "green"
- DISTRO_PN_ALIAS_pn-libsamplerate0 = "Meego=libsamplerate Fedora=libsamplerate OpenSuSE=libsamplerate Ubuntu=libsamplerate Mandriva=libsamplerate Debian=libsamplerate"
- RECIPE_LATEST_VERSION_pn-libsamplerate0 = "0.1.8"
--RECIPE_LAST_UPDATE_pn-libsamplerate0 = "Apr 26, 2011"
-+RECIPE_LAST_UPDATE_pn-libsamplerate0 = "Dec 27, 2011"
- RECIPE_MANUAL_CHECK_DATE_pn-libsamplerate0 = "Nov 22, 2011"
- RECIPE_MAINTAINER_pn-libsamplerate0 = "Dongxiao Xu <dongxiao.xu@intel.com>"
- 
-@@ -4632,7 +4632,7 @@ RECIPE_INTEL_SECTION_pn-freetype = "libs"
- RECIPE_TIME_BETWEEN_LAST_TWO_RELEASES_pn-freetype = "1+ months"
- RECIPE_LATEST_RELEASE_DATE_pn-freetype = "Jul 29, 2011"
- RECIPE_COMMENTS_pn-freetype = ""
--RECIPE_LAST_UPDATE_pn-freetype = "Aug 16, 2011"
-+RECIPE_LAST_UPDATE_pn-freetype = "Dec 27, 2011"
- RECIPE_MANUAL_CHECK_DATE_pn-freetype = "Nov 17, 2011"
- RECIPE_MAINTAINER_pn-freetype = "Dexuan Cui <dexuan.cui@intel.com>"
- 
+Just a note:
+
+I did a grep for DEPENDS references to libevent in our tree and 
+nfs-utils is the only recipe that lists it. I have tested building 
+nfs-utils with the new libevent and there were no build errors.
+
+Can anyone tell me if there are other applications known to use libevent 
+that we include which I could do some runtime testing? If there are 
+none, then I think in fact it should be safe to take this pull request.
+
+If nothing else, the chrpath recipe upgrade commit is safe.
+
+Thanks,
+
+Scott
+
 -- 
-1.7.6
-
+Scott Garman
+Embedded Linux Engineer - Yocto Project
+Intel Open Source Technology Center
 
 
