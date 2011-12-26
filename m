@@ -1,48 +1,39 @@
-Received: from va3ehsobe004.messaging.microsoft.com ([216.32.180.14]
-	helo=VA3EHSOBE004.bigfish.com)
+Received: from mga03.intel.com ([143.182.124.21])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <B28495@freescale.com>) id 1Rf2R6-0004OW-Op
+	(envelope-from <dongxiao.xu@intel.com>) id 1Rf495-0002Dd-4J
 	for openembedded-core@lists.openembedded.org;
-	Mon, 26 Dec 2011 05:45:21 +0100
-Received: from mail52-va3-R.bigfish.com (10.7.14.253) by
-	VA3EHSOBE004.bigfish.com (10.7.40.24) with Microsoft SMTP Server id
-	14.1.225.23; Mon, 26 Dec 2011 04:22:50 +0000
-Received: from mail52-va3 (localhost [127.0.0.1])	by mail52-va3-R.bigfish.com
-	(Postfix) with ESMTP id 1648B20281	for
-	<openembedded-core@lists.openembedded.org>;
-	Mon, 26 Dec 2011 04:22:28 +0000 (UTC)
-X-SpamScore: -1
-X-BigFish: VS-1(zzc85fh14ffOzz1202hzz8275bh8275dhz2dh2a8h668h839h8e2h8e3hbe9n)
-X-Forefront-Antispam-Report: CIP:70.37.183.190; KIP:(null); UIP:(null); IPV:NLI;
-	H:mail.freescale.net; RD:none; EFVD:NLI
-Received: from mail52-va3 (localhost.localdomain [127.0.0.1]) by mail52-va3
-	(MessageSwitch) id 1324873346342835_25768;
-	Mon, 26 Dec 2011 04:22:26 +0000 (UTC)
-Received: from VA3EHSMHS011.bigfish.com (unknown [10.7.14.254])	by
-	mail52-va3.bigfish.com (Postfix) with ESMTP id 4F16A240044	for
-	<openembedded-core@lists.openembedded.org>;
-	Mon, 26 Dec 2011 04:22:26 +0000 (UTC)
-Received: from mail.freescale.net (70.37.183.190) by VA3EHSMHS011.bigfish.com
-	(10.7.99.21) with Microsoft SMTP Server (TLS) id 14.1.225.22;
-	Mon, 26 Dec 2011 04:22:45 +0000
-Received: from 039-SN2MPN1-023.039d.mgd.msft.net ([169.254.3.213]) by
-	039-SN1MMR1-003.039d.mgd.msft.net ([10.84.1.16]) with mapi id
-	14.01.0355.003; Sun, 25 Dec 2011 22:23:01 -0600
-From: Liu Ting-B28495 <B28495@freescale.com>
-To: "openembedded-core@lists.openembedded.org"
+	Mon, 26 Dec 2011 07:34:51 +0100
+Received: from azsmga002.ch.intel.com ([10.2.17.35])
+	by azsmga101.ch.intel.com with ESMTP; 25 Dec 2011 22:27:38 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208,217";a="50598675"
+Received: from pgsmsx601.gar.corp.intel.com ([10.221.43.69])
+	by AZSMGA002.ch.intel.com with ESMTP; 25 Dec 2011 22:27:37 -0800
+Received: from pgsmsx104.gar.corp.intel.com (10.221.44.91) by
+	pgsmsx601.gar.corp.intel.com (10.221.43.69) with Microsoft SMTP Server
+	(TLS) id 8.2.255.0; Mon, 26 Dec 2011 14:26:32 +0800
+Received: from shsmsx151.ccr.corp.intel.com (10.239.6.50) by
+	PGSMSX104.gar.corp.intel.com (10.221.44.91) with Microsoft SMTP Server
+	(TLS) id 14.1.355.2; Mon, 26 Dec 2011 14:26:32 +0800
+Received: from shsmsx102.ccr.corp.intel.com ([169.254.2.199]) by
+	SHSMSX151.ccr.corp.intel.com ([169.254.3.223]) with mapi id
+	14.01.0355.002; Mon, 26 Dec 2011 14:25:50 +0800
+From: "Xu, Dongxiao" <dongxiao.xu@intel.com>
+To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
 Thread-Topic: HOB: which host packages are needed
-Thread-Index: AczDhgsn8fqmjRdCTYqkR2J7iMKDQg==
-Date: Mon, 26 Dec 2011 04:23:01 +0000
-Message-ID: <AF604684617F454390621992F367F169010C2CE6@039-SN2MPN1-023.039d.mgd.msft.net>
+Thread-Index: AczDhgsn8fqmjRdCTYqkR2J7iMKDQgAEMISQ
+Date: Mon, 26 Dec 2011 06:25:49 +0000
+Message-ID: <40776A41FC278F40B59438AD47D147A9BCE2@SHSMSX102.ccr.corp.intel.com>
+References: <AF604684617F454390621992F367F169010C2CE6@039-SN2MPN1-023.039d.mgd.msft.net>
+In-Reply-To: <AF604684617F454390621992F367F169010C2CE6@039-SN2MPN1-023.039d.mgd.msft.net>
 Accept-Language: en-US
 X-MS-Has-Attach: 
 X-MS-TNEF-Correlator: 
-x-originating-ip: [10.192.208.20]
+x-originating-ip: [10.239.127.40]
 MIME-Version: 1.0
-X-OriginatorOrg: freescale.com
 Cc: Zang Roy-R61911 <r61911@freescale.com>
-Subject: HOB: which host packages are needed
+Subject: Re: HOB: which host packages are needed
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -57,14 +48,30 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 26 Dec 2011 04:45:21 -0000
+X-List-Received-Date: Mon, 26 Dec 2011 06:34:52 -0000
 Content-Language: en-US
 Content-Type: multipart/alternative;
-	boundary="_000_AF604684617F454390621992F367F169010C2CE6039SN2MPN102303_"
+	boundary="_000_40776A41FC278F40B59438AD47D147A9BCE2SHSMSX102ccrcorpint_"
 
---_000_AF604684617F454390621992F367F169010C2CE6039SN2MPN102303_
+--_000_40776A41FC278F40B59438AD47D147A9BCE2SHSMSX102ccrcorpint_
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: quoted-printable
+
+Could you install the following packages in your host and have a try again?
+
+python
+python-pygobject
+pygtk
+
+Thanks,
+Dongxiao
+
+From: openembedded-core-bounces@lists.openembedded.org [mailto:openembedded=
+-core-bounces@lists.openembedded.org] On Behalf Of Liu Ting-B28495
+Sent: Monday, December 26, 2011 12:23 PM
+To: openembedded-core@lists.openembedded.org
+Cc: Zang Roy-R61911
+Subject: [OE-core] HOB: which host packages are needed
 
 Hi all,
 
@@ -96,10 +103,10 @@ ith FC9.
 
 My question is:
 
-(1)     Besides the glib module, what else is needed?
+(1)    Besides the glib module, what else is needed?
 
-(2)     Is there a list of distro that hob was tested on, or which host pac=
-kages are needed to run "hob"?
+(2)    Is there a list of distro that hob was tested on, or which host pack=
+ages are needed to run "hob"?
 
 Any help will be appreciated. Thanks.
 
@@ -107,54 +114,18 @@ Best Regards,
 Ting
 
 
---_000_AF604684617F454390621992F367F169010C2CE6039SN2MPN102303_
+--_000_40776A41FC278F40B59438AD47D147A9BCE2SHSMSX102ccrcorpint_
 Content-Type: text/html; charset="us-ascii"
 Content-Transfer-Encoding: quoted-printable
 
 <html xmlns:v=3D"urn:schemas-microsoft-com:vml" xmlns:o=3D"urn:schemas-micr=
 osoft-com:office:office" xmlns:w=3D"urn:schemas-microsoft-com:office:word" =
-xmlns:x=3D"urn:schemas-microsoft-com:office:excel" xmlns:p=3D"urn:schemas-m=
-icrosoft-com:office:powerpoint" xmlns:a=3D"urn:schemas-microsoft-com:office=
-:access" xmlns:dt=3D"uuid:C2F41010-65B3-11d1-A29F-00AA00C14882" xmlns:s=3D"=
-uuid:BDC6E3F0-6DA3-11d1-A2A3-00AA00C14882" xmlns:rs=3D"urn:schemas-microsof=
-t-com:rowset" xmlns:z=3D"#RowsetSchema" xmlns:b=3D"urn:schemas-microsoft-co=
-m:office:publisher" xmlns:ss=3D"urn:schemas-microsoft-com:office:spreadshee=
-t" xmlns:c=3D"urn:schemas-microsoft-com:office:component:spreadsheet" xmlns=
-:odc=3D"urn:schemas-microsoft-com:office:odc" xmlns:oa=3D"urn:schemas-micro=
-soft-com:office:activation" xmlns:html=3D"http://www.w3.org/TR/REC-html40" =
-xmlns:q=3D"http://schemas.xmlsoap.org/soap/envelope/" xmlns:rtc=3D"http://m=
-icrosoft.com/officenet/conferencing" xmlns:D=3D"DAV:" xmlns:Repl=3D"http://=
-schemas.microsoft.com/repl/" xmlns:mt=3D"http://schemas.microsoft.com/share=
-point/soap/meetings/" xmlns:x2=3D"http://schemas.microsoft.com/office/excel=
-/2003/xml" xmlns:ppda=3D"http://www.passport.com/NameSpace.xsd" xmlns:ois=
-=3D"http://schemas.microsoft.com/sharepoint/soap/ois/" xmlns:dir=3D"http://=
-schemas.microsoft.com/sharepoint/soap/directory/" xmlns:ds=3D"http://www.w3=
-.org/2000/09/xmldsig#" xmlns:dsp=3D"http://schemas.microsoft.com/sharepoint=
-/dsp" xmlns:udc=3D"http://schemas.microsoft.com/data/udc" xmlns:xsd=3D"http=
-://www.w3.org/2001/XMLSchema" xmlns:sub=3D"http://schemas.microsoft.com/sha=
-repoint/soap/2002/1/alerts/" xmlns:ec=3D"http://www.w3.org/2001/04/xmlenc#"=
- xmlns:sp=3D"http://schemas.microsoft.com/sharepoint/" xmlns:sps=3D"http://=
-schemas.microsoft.com/sharepoint/soap/" xmlns:xsi=3D"http://www.w3.org/2001=
-/XMLSchema-instance" xmlns:udcs=3D"http://schemas.microsoft.com/data/udc/so=
-ap" xmlns:udcxf=3D"http://schemas.microsoft.com/data/udc/xmlfile" xmlns:udc=
-p2p=3D"http://schemas.microsoft.com/data/udc/parttopart" xmlns:wf=3D"http:/=
-/schemas.microsoft.com/sharepoint/soap/workflow/" xmlns:dsss=3D"http://sche=
-mas.microsoft.com/office/2006/digsig-setup" xmlns:dssi=3D"http://schemas.mi=
-crosoft.com/office/2006/digsig" xmlns:mdssi=3D"http://schemas.openxmlformat=
-s.org/package/2006/digital-signature" xmlns:mver=3D"http://schemas.openxmlf=
-ormats.org/markup-compatibility/2006" xmlns:m=3D"http://schemas.microsoft.c=
-om/office/2004/12/omml" xmlns:mrels=3D"http://schemas.openxmlformats.org/pa=
-ckage/2006/relationships" xmlns:spwp=3D"http://microsoft.com/sharepoint/web=
-partpages" xmlns:ex12t=3D"http://schemas.microsoft.com/exchange/services/20=
-06/types" xmlns:ex12m=3D"http://schemas.microsoft.com/exchange/services/200=
-6/messages" xmlns:pptsl=3D"http://schemas.microsoft.com/sharepoint/soap/Sli=
-deLibrary/" xmlns:spsl=3D"http://microsoft.com/webservices/SharePointPortal=
-Server/PublishedLinksService" xmlns:Z=3D"urn:schemas-microsoft-com:" xmlns:=
-st=3D"&#1;" xmlns=3D"http://www.w3.org/TR/REC-html40">
+xmlns:m=3D"http://schemas.microsoft.com/office/2004/12/omml" xmlns=3D"http:=
+//www.w3.org/TR/REC-html40">
 <head>
 <meta http-equiv=3D"Content-Type" content=3D"text/html; charset=3Dus-ascii"=
 >
-<meta name=3D"Generator" content=3D"Microsoft Word 12 (filtered medium)">
+<meta name=3D"Generator" content=3D"Microsoft Word 14 (filtered medium)">
 <style><!--
 /* Font Definitions */
 @font-face
@@ -167,11 +138,14 @@ st=3D"&#1;" xmlns=3D"http://www.w3.org/TR/REC-html40">
 	{font-family:Calibri;
 	panose-1:2 15 5 2 2 2 4 3 2 4;}
 @font-face
+	{font-family:Tahoma;
+	panose-1:2 11 6 4 3 5 4 4 2 4;}
+@font-face
 	{font-family:SimSun;
 	panose-1:2 1 6 0 3 1 1 1 1 1;}
 /* Style Definitions */
 p.MsoNormal, li.MsoNormal, div.MsoNormal
-	{margin:0in;
+	{margin:0cm;
 	margin-bottom:.0001pt;
 	font-size:11.0pt;
 	font-family:"Calibri","sans-serif";}
@@ -185,22 +159,30 @@ a:visited, span.MsoHyperlinkFollowed
 	text-decoration:underline;}
 p.MsoListParagraph, li.MsoListParagraph, div.MsoListParagraph
 	{mso-style-priority:34;
-	margin-top:0in;
-	margin-right:0in;
-	margin-bottom:0in;
-	margin-left:.5in;
+	margin-top:0cm;
+	margin-right:0cm;
+	margin-bottom:0cm;
+	margin-left:36.0pt;
 	margin-bottom:.0001pt;
 	font-size:11.0pt;
 	font-family:"Calibri","sans-serif";}
-span.EmailStyle17
-	{mso-style-type:personal-compose;
+span.EmailStyle18
+	{mso-style-type:personal;
 	font-family:"Calibri","sans-serif";
 	color:windowtext;}
+span.EmailStyle19
+	{mso-style-type:personal-reply;
+	font-family:"Courier New";
+	color:blue;
+	font-weight:normal;
+	font-style:normal;
+	text-decoration:none none;}
 .MsoChpDefault
-	{mso-style-type:export-only;}
+	{mso-style-type:export-only;
+	font-size:10.0pt;}
 @page WordSection1
-	{size:8.5in 11.0in;
-	margin:1.0in 1.25in 1.0in 1.25in;}
+	{size:612.0pt 792.0pt;
+	margin:72.0pt 90.0pt 72.0pt 90.0pt;}
 div.WordSection1
 	{page:WordSection1;}
 /* List Definitions */
@@ -213,11 +195,43 @@ div.WordSection1
 	{mso-level-text:"\(%1\)";
 	mso-level-tab-stop:none;
 	mso-level-number-position:left;
-	text-indent:-.25in;}
+	text-indent:-18.0pt;}
+@list l0:level2
+	{mso-level-tab-stop:72.0pt;
+	mso-level-number-position:left;
+	text-indent:-18.0pt;}
+@list l0:level3
+	{mso-level-tab-stop:108.0pt;
+	mso-level-number-position:left;
+	text-indent:-18.0pt;}
+@list l0:level4
+	{mso-level-tab-stop:144.0pt;
+	mso-level-number-position:left;
+	text-indent:-18.0pt;}
+@list l0:level5
+	{mso-level-tab-stop:180.0pt;
+	mso-level-number-position:left;
+	text-indent:-18.0pt;}
+@list l0:level6
+	{mso-level-tab-stop:216.0pt;
+	mso-level-number-position:left;
+	text-indent:-18.0pt;}
+@list l0:level7
+	{mso-level-tab-stop:252.0pt;
+	mso-level-number-position:left;
+	text-indent:-18.0pt;}
+@list l0:level8
+	{mso-level-tab-stop:288.0pt;
+	mso-level-number-position:left;
+	text-indent:-18.0pt;}
+@list l0:level9
+	{mso-level-tab-stop:324.0pt;
+	mso-level-number-position:left;
+	text-indent:-18.0pt;}
 ol
-	{margin-bottom:0in;}
+	{margin-bottom:0cm;}
 ul
-	{margin-bottom:0in;}
+	{margin-bottom:0cm;}
 --></style><!--[if gte mso 9]><xml>
 <o:shapedefaults v:ext=3D"edit" spidmax=3D"1026" />
 </xml><![endif]--><!--[if gte mso 9]><xml>
@@ -225,132 +239,184 @@ ul
 <o:idmap v:ext=3D"edit" data=3D"1" />
 </o:shapelayout></xml><![endif]-->
 </head>
-<body lang=3D"EN-US" link=3D"blue" vlink=3D"purple">
+<body lang=3D"ZH-CN" link=3D"blue" vlink=3D"purple">
 <div class=3D"WordSection1">
+<p class=3D"MsoNormal"><span lang=3D"EN-US" style=3D"font-size:10.0pt;font-=
+family:&quot;Courier New&quot;;color:blue">Could you install the following =
+packages in your host and have a try again?<o:p></o:p></span></p>
+<p class=3D"MsoNormal"><span lang=3D"EN-US" style=3D"font-size:10.0pt;font-=
+family:&quot;Courier New&quot;;color:blue"><o:p>&nbsp;</o:p></span></p>
+<p class=3D"MsoNormal"><span lang=3D"EN-US" style=3D"font-size:10.0pt;font-=
+family:&quot;Courier New&quot;;color:blue">python<o:p></o:p></span></p>
+<p class=3D"MsoNormal"><span lang=3D"EN-US" style=3D"font-size:10.0pt;font-=
+family:&quot;Courier New&quot;;color:blue">python-pygobject<o:p></o:p></spa=
+n></p>
+<p class=3D"MsoNormal"><span lang=3D"EN-US" style=3D"font-size:10.0pt;font-=
+family:&quot;Courier New&quot;;color:blue">pygtk<o:p></o:p></span></p>
+<p class=3D"MsoNormal"><span lang=3D"EN-US" style=3D"font-size:10.0pt;font-=
+family:&quot;Courier New&quot;;color:blue"><o:p>&nbsp;</o:p></span></p>
+<p class=3D"MsoNormal"><span lang=3D"EN-US" style=3D"font-size:10.0pt;font-=
+family:&quot;Courier New&quot;;color:blue">Thanks,<o:p></o:p></span></p>
+<p class=3D"MsoNormal"><span lang=3D"EN-US" style=3D"font-size:10.0pt;font-=
+family:&quot;Courier New&quot;;color:blue">Dongxiao<o:p></o:p></span></p>
+<p class=3D"MsoNormal"><span lang=3D"EN-US" style=3D"font-size:10.0pt;font-=
+family:&quot;Courier New&quot;;color:blue"><o:p>&nbsp;</o:p></span></p>
+<div style=3D"border:none;border-left:solid blue 1.5pt;padding:0cm 0cm 0cm =
+4.0pt">
+<div>
+<div style=3D"border:none;border-top:solid #B5C4DF 1.0pt;padding:3.0pt 0cm =
+0cm 0cm">
+<p class=3D"MsoNormal"><b><span lang=3D"EN-US" style=3D"font-size:10.0pt;fo=
+nt-family:&quot;Tahoma&quot;,&quot;sans-serif&quot;">From:</span></b><span =
+lang=3D"EN-US" style=3D"font-size:10.0pt;font-family:&quot;Tahoma&quot;,&qu=
+ot;sans-serif&quot;"> openembedded-core-bounces@lists.openembedded.org [mai=
+lto:openembedded-core-bounces@lists.openembedded.org]
+<b>On Behalf Of </b>Liu Ting-B28495<br>
+<b>Sent:</b> Monday, December 26, 2011 12:23 PM<br>
+<b>To:</b> openembedded-core@lists.openembedded.org<br>
+<b>Cc:</b> Zang Roy-R61911<br>
+<b>Subject:</b> [OE-core] HOB: which host packages are needed<o:p></o:p></s=
+pan></p>
+</div>
+</div>
+<p class=3D"MsoNormal"><span lang=3D"EN-US"><o:p>&nbsp;</o:p></span></p>
 <p class=3D"MsoNormal" style=3D"margin-right:.9pt;text-autospace:none"><spa=
-n style=3D"font-size:10.0pt;font-family:&quot;Arial&quot;,&quot;sans-serif&=
-quot;;color:black">Hi all,<o:p></o:p></span></p>
-<p class=3D"MsoNormal" style=3D"mso-margin-top-alt:0in;margin-right:.9pt;ma=
-rgin-bottom:0in;margin-left:13.6pt;margin-bottom:.0001pt;text-indent:-7.5pt=
+n lang=3D"EN-US" style=3D"font-size:10.0pt;font-family:&quot;Arial&quot;,&q=
+uot;sans-serif&quot;;color:black">Hi all,<o:p></o:p></span></p>
+<p class=3D"MsoNormal" style=3D"mso-margin-top-alt:0cm;margin-right:.9pt;ma=
+rgin-bottom:0cm;margin-left:13.6pt;margin-bottom:.0001pt;text-indent:-7.5pt=
 ;text-autospace:none">
-<span style=3D"font-size:10.0pt;font-family:&quot;Arial&quot;,&quot;sans-se=
-rif&quot;;color:black"><o:p>&nbsp;</o:p></span></p>
+<span lang=3D"EN-US" style=3D"font-size:10.0pt;font-family:&quot;Arial&quot=
+;,&quot;sans-serif&quot;;color:black"><o:p>&nbsp;</o:p></span></p>
 <p class=3D"MsoNormal" style=3D"margin-right:.9pt;text-autospace:none"><spa=
-n style=3D"font-size:10.0pt;font-family:&quot;Arial&quot;,&quot;sans-serif&=
-quot;;color:black">We try to use poky in FC9. When trying to use HOB, the f=
-ollowing ImportError appeared:<o:p></o:p></span></p>
+n lang=3D"EN-US" style=3D"font-size:10.0pt;font-family:&quot;Arial&quot;,&q=
+uot;sans-serif&quot;;color:black">We try to use poky in FC9. When trying to=
+ use HOB, the following ImportError appeared:<o:p></o:p></span></p>
 <p class=3D"MsoNormal" style=3D"margin-right:.9pt;text-autospace:none"><spa=
-n style=3D"font-size:10.0pt;font-family:&quot;Arial&quot;,&quot;sans-serif&=
-quot;;color:black"><o:p>&nbsp;</o:p></span></p>
+n lang=3D"EN-US" style=3D"font-size:10.0pt;font-family:&quot;Arial&quot;,&q=
+uot;sans-serif&quot;;color:black"><o:p>&nbsp;</o:p></span></p>
 <p class=3D"MsoNormal" style=3D"margin-right:.9pt;text-autospace:none"><spa=
-n style=3D"font-size:10.0pt;font-family:&quot;Arial&quot;,&quot;sans-serif&=
-quot;;color:black">NOTE: Running setscene task 18 of 18 (/home/roy/CVS/poky=
-/meta/recipes-devtools/quilt/quilt-native_0.48.bbo_populate_sysroot_setscen=
-e)<o:p></o:p></span></p>
-<p class=3D"MsoNormal" style=3D"mso-margin-top-alt:0in;margin-right:.9pt;ma=
-rgin-bottom:0in;margin-left:13.6pt;margin-bottom:.0001pt;text-autospace:non=
+n lang=3D"EN-US" style=3D"font-size:10.0pt;font-family:&quot;Arial&quot;,&q=
+uot;sans-serif&quot;;color:black">NOTE: Running setscene task 18 of 18 (/ho=
+me/roy/CVS/poky/meta/recipes-devtools/quilt/quilt-native_0.48.bbo_populate_=
+sysroot_setscene)<o:p></o:p></span></p>
+<p class=3D"MsoNormal" style=3D"mso-margin-top-alt:0cm;margin-right:.9pt;ma=
+rgin-bottom:0cm;margin-left:13.6pt;margin-bottom:.0001pt;text-autospace:non=
 e">
-<span style=3D"font-size:10.0pt;font-family:&quot;Arial&quot;,&quot;sans-se=
-rif&quot;;color:black">NOTE: package quilt-native-0.48-r0: task do_populate=
-_sysroot_setscene: Started<o:p></o:p></span></p>
-<p class=3D"MsoNormal" style=3D"mso-margin-top-alt:0in;margin-right:.9pt;ma=
-rgin-bottom:0in;margin-left:13.6pt;margin-bottom:.0001pt;text-autospace:non=
+<span lang=3D"EN-US" style=3D"font-size:10.0pt;font-family:&quot;Arial&quot=
+;,&quot;sans-serif&quot;;color:black">NOTE: package quilt-native-0.48-r0: t=
+ask do_populate_sysroot_setscene: Started<o:p></o:p></span></p>
+<p class=3D"MsoNormal" style=3D"mso-margin-top-alt:0cm;margin-right:.9pt;ma=
+rgin-bottom:0cm;margin-left:13.6pt;margin-bottom:.0001pt;text-autospace:non=
 e">
-<span style=3D"font-size:10.0pt;font-family:&quot;Arial&quot;,&quot;sans-se=
-rif&quot;;color:black">NOTE: package quilt-native-0.48-r0: task do_populate=
-_sysroot_setscene: Succeeded<o:p></o:p></span></p>
-<p class=3D"MsoNormal" style=3D"mso-margin-top-alt:0in;margin-right:.9pt;ma=
-rgin-bottom:0in;margin-left:13.6pt;margin-bottom:.0001pt;text-autospace:non=
+<span lang=3D"EN-US" style=3D"font-size:10.0pt;font-family:&quot;Arial&quot=
+;,&quot;sans-serif&quot;;color:black">NOTE: package quilt-native-0.48-r0: t=
+ask do_populate_sysroot_setscene: Succeeded<o:p></o:p></span></p>
+<p class=3D"MsoNormal" style=3D"mso-margin-top-alt:0cm;margin-right:.9pt;ma=
+rgin-bottom:0cm;margin-left:13.6pt;margin-bottom:.0001pt;text-autospace:non=
 e">
-<span style=3D"font-size:10.0pt;font-family:&quot;Arial&quot;,&quot;sans-se=
-rif&quot;;color:black">NOTE: Executing RunQueue Tasks<o:p></o:p></span></p>
-<p class=3D"MsoNormal" style=3D"mso-margin-top-alt:0in;margin-right:.9pt;ma=
-rgin-bottom:0in;margin-left:13.6pt;margin-bottom:.0001pt;text-autospace:non=
+<span lang=3D"EN-US" style=3D"font-size:10.0pt;font-family:&quot;Arial&quot=
+;,&quot;sans-serif&quot;;color:black">NOTE: Executing RunQueue Tasks<o:p></=
+o:p></span></p>
+<p class=3D"MsoNormal" style=3D"mso-margin-top-alt:0cm;margin-right:.9pt;ma=
+rgin-bottom:0cm;margin-left:13.6pt;margin-bottom:.0001pt;text-autospace:non=
 e">
-<span style=3D"font-size:10.0pt;font-family:&quot;Arial&quot;,&quot;sans-se=
-rif&quot;;color:black">NOTE: Tasks Summary: Attempted 126 tasks of which 12=
-6 didn't need to be rerun and 0 failed.<o:p></o:p></span></p>
-<p class=3D"MsoNormal" style=3D"mso-margin-top-alt:0in;margin-right:.9pt;ma=
-rgin-bottom:0in;margin-left:13.6pt;margin-bottom:.0001pt;text-autospace:non=
+<span lang=3D"EN-US" style=3D"font-size:10.0pt;font-family:&quot;Arial&quot=
+;,&quot;sans-serif&quot;;color:black">NOTE: Tasks Summary: Attempted 126 ta=
+sks of which 126 didn't need to be rerun and 0 failed.<o:p></o:p></span></p=
+>
+<p class=3D"MsoNormal" style=3D"mso-margin-top-alt:0cm;margin-right:.9pt;ma=
+rgin-bottom:0cm;margin-left:13.6pt;margin-bottom:.0001pt;text-autospace:non=
 e">
-<span style=3D"font-size:10.0pt;font-family:&quot;Arial&quot;,&quot;sans-se=
-rif&quot;;color:black">Traceback (most recent call last):<o:p></o:p></span>=
-</p>
-<p class=3D"MsoNormal" style=3D"mso-margin-top-alt:0in;margin-right:.9pt;ma=
-rgin-bottom:0in;margin-left:13.6pt;margin-bottom:.0001pt;text-autospace:non=
+<span lang=3D"EN-US" style=3D"font-size:10.0pt;font-family:&quot;Arial&quot=
+;,&quot;sans-serif&quot;;color:black">Traceback (most recent call last):<o:=
+p></o:p></span></p>
+<p class=3D"MsoNormal" style=3D"mso-margin-top-alt:0cm;margin-right:.9pt;ma=
+rgin-bottom:0cm;margin-left:13.6pt;margin-bottom:.0001pt;text-autospace:non=
 e">
-<span style=3D"font-size:10.0pt;font-family:&quot;Arial&quot;,&quot;sans-se=
-rif&quot;;color:black">&nbsp; File &quot;/home/roy/CVS/poky/bitbake/bin/bit=
-bake&quot;, line 238, in &lt;module&gt;<o:p></o:p></span></p>
-<p class=3D"MsoNormal" style=3D"mso-margin-top-alt:0in;margin-right:.9pt;ma=
-rgin-bottom:0in;margin-left:13.6pt;margin-bottom:.0001pt;text-autospace:non=
+<span lang=3D"EN-US" style=3D"font-size:10.0pt;font-family:&quot;Arial&quot=
+;,&quot;sans-serif&quot;;color:black">&nbsp; File &quot;/home/roy/CVS/poky/=
+bitbake/bin/bitbake&quot;, line 238, in &lt;module&gt;<o:p></o:p></span></p=
+>
+<p class=3D"MsoNormal" style=3D"mso-margin-top-alt:0cm;margin-right:.9pt;ma=
+rgin-bottom:0cm;margin-left:13.6pt;margin-bottom:.0001pt;text-autospace:non=
 e">
-<span style=3D"font-size:10.0pt;font-family:&quot;Arial&quot;,&quot;sans-se=
-rif&quot;;color:black">&nbsp;&nbsp;&nbsp; ret =3D main()<o:p></o:p></span><=
-/p>
-<p class=3D"MsoNormal" style=3D"mso-margin-top-alt:0in;margin-right:.9pt;ma=
-rgin-bottom:0in;margin-left:13.6pt;margin-bottom:.0001pt;text-autospace:non=
+<span lang=3D"EN-US" style=3D"font-size:10.0pt;font-family:&quot;Arial&quot=
+;,&quot;sans-serif&quot;;color:black">&nbsp;&nbsp;&nbsp; ret =3D main()<o:p=
+></o:p></span></p>
+<p class=3D"MsoNormal" style=3D"mso-margin-top-alt:0cm;margin-right:.9pt;ma=
+rgin-bottom:0cm;margin-left:13.6pt;margin-bottom:.0001pt;text-autospace:non=
 e">
-<span style=3D"font-size:10.0pt;font-family:&quot;Arial&quot;,&quot;sans-se=
-rif&quot;;color:black">&nbsp; File &quot;/home/roy/CVS/poky/bitbake/bin/bit=
-bake&quot;, line 173, in main<o:p></o:p></span></p>
-<p class=3D"MsoNormal" style=3D"mso-margin-top-alt:0in;margin-right:.9pt;ma=
-rgin-bottom:0in;margin-left:13.6pt;margin-bottom:.0001pt;text-autospace:non=
+<span lang=3D"EN-US" style=3D"font-size:10.0pt;font-family:&quot;Arial&quot=
+;,&quot;sans-serif&quot;;color:black">&nbsp; File &quot;/home/roy/CVS/poky/=
+bitbake/bin/bitbake&quot;, line 173, in main<o:p></o:p></span></p>
+<p class=3D"MsoNormal" style=3D"mso-margin-top-alt:0cm;margin-right:.9pt;ma=
+rgin-bottom:0cm;margin-left:13.6pt;margin-bottom:.0001pt;text-autospace:non=
 e">
-<span style=3D"font-size:10.0pt;font-family:&quot;Arial&quot;,&quot;sans-se=
-rif&quot;;color:black">&nbsp;&nbsp;&nbsp; ui_main =3D get_ui(configuration)=
-<o:p></o:p></span></p>
-<p class=3D"MsoNormal" style=3D"mso-margin-top-alt:0in;margin-right:.9pt;ma=
-rgin-bottom:0in;margin-left:13.6pt;margin-bottom:.0001pt;text-autospace:non=
+<span lang=3D"EN-US" style=3D"font-size:10.0pt;font-family:&quot;Arial&quot=
+;,&quot;sans-serif&quot;;color:black">&nbsp;&nbsp;&nbsp; ui_main =3D get_ui=
+(configuration)<o:p></o:p></span></p>
+<p class=3D"MsoNormal" style=3D"mso-margin-top-alt:0cm;margin-right:.9pt;ma=
+rgin-bottom:0cm;margin-left:13.6pt;margin-bottom:.0001pt;text-autospace:non=
 e">
-<span style=3D"font-size:10.0pt;font-family:&quot;Arial&quot;,&quot;sans-se=
-rif&quot;;color:black">&nbsp; File &quot;/home/roy/CVS/poky/bitbake/bin/bit=
-bake&quot;, line 68, in get_ui<o:p></o:p></span></p>
-<p class=3D"MsoNormal" style=3D"mso-margin-top-alt:0in;margin-right:.9pt;ma=
-rgin-bottom:0in;margin-left:13.6pt;margin-bottom:.0001pt;text-autospace:non=
+<span lang=3D"EN-US" style=3D"font-size:10.0pt;font-family:&quot;Arial&quot=
+;,&quot;sans-serif&quot;;color:black">&nbsp; File &quot;/home/roy/CVS/poky/=
+bitbake/bin/bitbake&quot;, line 68, in get_ui<o:p></o:p></span></p>
+<p class=3D"MsoNormal" style=3D"mso-margin-top-alt:0cm;margin-right:.9pt;ma=
+rgin-bottom:0cm;margin-left:13.6pt;margin-bottom:.0001pt;text-autospace:non=
 e">
-<span style=3D"font-size:10.0pt;font-family:&quot;Arial&quot;,&quot;sans-se=
-rif&quot;;color:black">&nbsp;&nbsp;&nbsp; module =3D __import__(&quot;bb.ui=
-&quot;, fromlist =3D [interface])<o:p></o:p></span></p>
-<p class=3D"MsoNormal" style=3D"mso-margin-top-alt:0in;margin-right:.9pt;ma=
-rgin-bottom:0in;margin-left:13.6pt;margin-bottom:.0001pt;text-autospace:non=
+<span lang=3D"EN-US" style=3D"font-size:10.0pt;font-family:&quot;Arial&quot=
+;,&quot;sans-serif&quot;;color:black">&nbsp;&nbsp;&nbsp; module =3D __impor=
+t__(&quot;bb.ui&quot;, fromlist =3D [interface])<o:p></o:p></span></p>
+<p class=3D"MsoNormal" style=3D"mso-margin-top-alt:0cm;margin-right:.9pt;ma=
+rgin-bottom:0cm;margin-left:13.6pt;margin-bottom:.0001pt;text-autospace:non=
 e">
-<span style=3D"font-size:10.0pt;font-family:&quot;Arial&quot;,&quot;sans-se=
-rif&quot;;color:black">&nbsp; File &quot;/home/roy/CVS/poky/bitbake/lib/bb/=
-ui/hob.py&quot;, line 21, in &lt;module&gt;<o:p></o:p></span></p>
-<p class=3D"MsoNormal" style=3D"mso-margin-top-alt:0in;margin-right:.9pt;ma=
-rgin-bottom:0in;margin-left:13.6pt;margin-bottom:.0001pt;text-autospace:non=
+<span lang=3D"EN-US" style=3D"font-size:10.0pt;font-family:&quot;Arial&quot=
+;,&quot;sans-serif&quot;;color:black">&nbsp; File &quot;/home/roy/CVS/poky/=
+bitbake/lib/bb/ui/hob.py&quot;, line 21, in &lt;module&gt;<o:p></o:p></span=
+></p>
+<p class=3D"MsoNormal" style=3D"mso-margin-top-alt:0cm;margin-right:.9pt;ma=
+rgin-bottom:0cm;margin-left:13.6pt;margin-bottom:.0001pt;text-autospace:non=
 e">
-<span style=3D"font-size:10.0pt;font-family:&quot;Arial&quot;,&quot;sans-se=
-rif&quot;;color:black">&nbsp;&nbsp;&nbsp; import glib<o:p></o:p></span></p>
-<p class=3D"MsoNormal"><span style=3D"font-size:10.0pt;font-family:&quot;Ar=
-ial&quot;,&quot;sans-serif&quot;;color:black">ImportError: No module named =
-glib</span><o:p></o:p></p>
-<p class=3D"MsoNormal"><o:p>&nbsp;</o:p></p>
-<p class=3D"MsoNormal">We installed python 2.6 from the source since the ve=
-rsion 2.5 was shipped with FC9.<o:p></o:p></p>
-<p class=3D"MsoNormal"><o:p>&nbsp;</o:p></p>
-<p class=3D"MsoNormal">My question is:<o:p></o:p></p>
-<p class=3D"MsoListParagraph" style=3D"text-indent:-.25in;mso-list:l0 level=
-1 lfo1"><![if !supportLists]><span style=3D"mso-list:Ignore">(1)<span style=
-=3D"font:7.0pt &quot;Times New Roman&quot;">&nbsp;&nbsp;&nbsp;&nbsp;
-</span></span><![endif]>Besides the glib module, what else is needed?<o:p><=
-/o:p></p>
-<p class=3D"MsoListParagraph" style=3D"text-indent:-.25in;mso-list:l0 level=
-1 lfo1"><![if !supportLists]><span style=3D"mso-list:Ignore">(2)<span style=
-=3D"font:7.0pt &quot;Times New Roman&quot;">&nbsp;&nbsp;&nbsp;&nbsp;
-</span></span><![endif]>Is there a list of distro that hob was tested on, o=
-r which host packages are needed to run &#8220;hob&#8221;?<o:p></o:p></p>
-<p class=3D"MsoNormal"><o:p>&nbsp;</o:p></p>
-<p class=3D"MsoNormal">Any help will be appreciated. Thanks.<o:p></o:p></p>
-<p class=3D"MsoNormal"><o:p>&nbsp;</o:p></p>
-<p class=3D"MsoNormal"><span style=3D"font-size:10.0pt;font-family:&quot;Ar=
-ial&quot;,&quot;sans-serif&quot;">Best&nbsp;Regards,</span><o:p></o:p></p>
-<p class=3D"MsoNormal"><span style=3D"font-size:10.0pt;font-family:&quot;Ar=
-ial&quot;,&quot;sans-serif&quot;">Ting</span><o:p></o:p></p>
-<p class=3D"MsoNormal"><o:p>&nbsp;</o:p></p>
+<span lang=3D"EN-US" style=3D"font-size:10.0pt;font-family:&quot;Arial&quot=
+;,&quot;sans-serif&quot;;color:black">&nbsp;&nbsp;&nbsp; import glib<o:p></=
+o:p></span></p>
+<p class=3D"MsoNormal"><span lang=3D"EN-US" style=3D"font-size:10.0pt;font-=
+family:&quot;Arial&quot;,&quot;sans-serif&quot;;color:black">ImportError: N=
+o module named glib</span><span lang=3D"EN-US"><o:p></o:p></span></p>
+<p class=3D"MsoNormal"><span lang=3D"EN-US"><o:p>&nbsp;</o:p></span></p>
+<p class=3D"MsoNormal"><span lang=3D"EN-US">We installed python 2.6 from th=
+e source since the version 2.5 was shipped with FC9.<o:p></o:p></span></p>
+<p class=3D"MsoNormal"><span lang=3D"EN-US"><o:p>&nbsp;</o:p></span></p>
+<p class=3D"MsoNormal"><span lang=3D"EN-US">My question is:<o:p></o:p></spa=
+n></p>
+<p class=3D"MsoListParagraph" style=3D"text-indent:-18.0pt;mso-list:l0 leve=
+l1 lfo2"><![if !supportLists]><span lang=3D"EN-US"><span style=3D"mso-list:=
+Ignore">(1)<span style=3D"font:7.0pt &quot;Times New Roman&quot;">&nbsp;&nb=
+sp;&nbsp;
+</span></span></span><![endif]><span lang=3D"EN-US">Besides the glib module=
+, what else is needed?<o:p></o:p></span></p>
+<p class=3D"MsoListParagraph" style=3D"text-indent:-18.0pt;mso-list:l0 leve=
+l1 lfo2"><![if !supportLists]><span lang=3D"EN-US"><span style=3D"mso-list:=
+Ignore">(2)<span style=3D"font:7.0pt &quot;Times New Roman&quot;">&nbsp;&nb=
+sp;&nbsp;
+</span></span></span><![endif]><span lang=3D"EN-US">Is there a list of dist=
+ro that hob was tested on, or which host packages are needed to run &#8220;=
+hob&#8221;?<o:p></o:p></span></p>
+<p class=3D"MsoNormal"><span lang=3D"EN-US"><o:p>&nbsp;</o:p></span></p>
+<p class=3D"MsoNormal"><span lang=3D"EN-US">Any help will be appreciated. T=
+hanks.<o:p></o:p></span></p>
+<p class=3D"MsoNormal"><span lang=3D"EN-US"><o:p>&nbsp;</o:p></span></p>
+<p class=3D"MsoNormal"><span lang=3D"EN-US" style=3D"font-size:10.0pt;font-=
+family:&quot;Arial&quot;,&quot;sans-serif&quot;">Best&nbsp;Regards,</span><=
+span lang=3D"EN-US"><o:p></o:p></span></p>
+<p class=3D"MsoNormal"><span lang=3D"EN-US" style=3D"font-size:10.0pt;font-=
+family:&quot;Arial&quot;,&quot;sans-serif&quot;">Ting</span><span lang=3D"E=
+N-US"><o:p></o:p></span></p>
+<p class=3D"MsoNormal"><span lang=3D"EN-US"><o:p>&nbsp;</o:p></span></p>
+</div>
 </div>
 </body>
 </html>
 
---_000_AF604684617F454390621992F367F169010C2CE6039SN2MPN102303_--
+--_000_40776A41FC278F40B59438AD47D147A9BCE2SHSMSX102ccrcorpint_--
