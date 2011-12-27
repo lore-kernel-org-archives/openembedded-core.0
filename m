@@ -1,50 +1,45 @@
-Received: from tx2ehsobe004.messaging.microsoft.com ([65.55.88.14]
-	helo=TX2EHSOBE007.bigfish.com)
+Received: from ch1ehsobe005.messaging.microsoft.com ([216.32.181.185]
+	helo=ch1outboundpool.messaging.microsoft.com)
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <B19537@freescale.com>) id 1RfNmc-00021b-Pr
+	(envelope-from <B19537@freescale.com>) id 1RfO6A-0002X2-6N
 	for openembedded-core@lists.openembedded.org;
-	Tue, 27 Dec 2011 04:33:00 +0100
-Received: from mail146-tx2-R.bigfish.com (10.9.14.245) by
-	TX2EHSOBE007.bigfish.com (10.9.40.27) with Microsoft SMTP Server id
-	14.1.225.23; Tue, 27 Dec 2011 03:25:28 +0000
-Received: from mail146-tx2 (localhost [127.0.0.1])	by
-	mail146-tx2-R.bigfish.com (Postfix) with ESMTP id 471AB540125	for
+	Tue, 27 Dec 2011 04:53:11 +0100
+Received: from mail179-ch1-R.bigfish.com (10.43.68.253) by
+	CH1EHSOBE014.bigfish.com (10.43.70.64) with Microsoft SMTP Server id
+	14.1.225.23; Tue, 27 Dec 2011 03:30:30 +0000
+Received: from mail179-ch1 (localhost [127.0.0.1])	by
+	mail179-ch1-R.bigfish.com (Postfix) with ESMTP id 4532A26007B	for
 	<openembedded-core@lists.openembedded.org>;
-	Tue, 27 Dec 2011 03:26:55 +0000 (UTC)
-X-SpamScore: -6
-X-BigFish: VS-6(zz9371I542M1432Nzz1202hzz8275bh8275dhz2dh2a8h668h839h8e2h8e3h944hbe9n61h)
-X-Spam-TCS-SCL: 0:0
+	Tue, 27 Dec 2011 03:30:50 +0000 (UTC)
+X-SpamScore: 0
+X-BigFish: VS0(zzzz1202hzz8275bhz2dh2a8h668h839h)
 X-Forefront-Antispam-Report: CIP:70.37.183.190; KIP:(null); UIP:(null); IPV:NLI;
 	H:mail.freescale.net; RD:none; EFVD:NLI
-Received: from mail146-tx2 (localhost.localdomain [127.0.0.1]) by mail146-tx2
-	(MessageSwitch) id 1324956415132376_32349;
-	Tue, 27 Dec 2011 03:26:55 +0000 (UTC)
-Received: from TX2EHSMHS027.bigfish.com (unknown [10.9.14.252])	by
-	mail146-tx2.bigfish.com (Postfix) with ESMTP id 1746440046	for
-	<openembedded-core@lists.openembedded.org>;
-	Tue, 27 Dec 2011 03:26:55 +0000 (UTC)
-Received: from mail.freescale.net (70.37.183.190) by TX2EHSMHS027.bigfish.com
-	(10.9.99.127) with Microsoft SMTP Server (TLS) id 14.1.225.23;
-	Tue, 27 Dec 2011 03:25:48 +0000
-Received: from 039-SN2MPN1-023.039d.mgd.msft.net ([169.254.3.213]) by
-	039-SN1MMR1-001.039d.mgd.msft.net ([10.84.1.13]) with mapi id
-	14.01.0355.003; Mon, 26 Dec 2011 21:25:41 -0600
-From: Luo Zhenhua-B19537 <B19537@freescale.com>
-To: "openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Thread-Topic: [PATCH v2 oe-core] linux-dtb: add dtb into deploy cache package
-Thread-Index: AQHMwR6PlUqQYNfOokWUmTRVTd0HdZXvDA/A
-Date: Tue, 27 Dec 2011 03:25:41 +0000
-Message-ID: <CA452391058F6D4E9715FB2C29D9312A010BCCCD@039-SN2MPN1-023.039d.mgd.msft.net>
-References: <1324609224-28618-1-git-send-email-b19537@freescale.com>
-In-Reply-To: <1324609224-28618-1-git-send-email-b19537@freescale.com>
-Accept-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [10.192.208.114]
+Received: from mail179-ch1 (localhost.localdomain [127.0.0.1]) by mail179-ch1
+	(MessageSwitch) id 1324956647936667_7568;
+	Tue, 27 Dec 2011 03:30:47 +0000 (UTC)
+Received: from CH1EHSMHS030.bigfish.com (snatpool1.int.messaging.microsoft.com
+	[10.43.68.248])	by mail179-ch1.bigfish.com (Postfix) with ESMTP id
+	D8BEB180043	for <openembedded-core@lists.openembedded.org>;
+	Tue, 27 Dec 2011 03:30:47 +0000 (UTC)
+Received: from mail.freescale.net (70.37.183.190) by CH1EHSMHS030.bigfish.com
+	(10.43.70.30) with Microsoft SMTP Server (TLS) id 14.1.225.23;
+	Tue, 27 Dec 2011 03:30:27 +0000
+Received: from az33smr02.freescale.net (10.64.34.200) by
+	039-SN1MMR1-003.039d.mgd.msft.net (10.84.1.16) with Microsoft SMTP
+	Server id 14.1.355.3; Mon, 26 Dec 2011 21:30:45 -0600
+Received: from localhost.localdomain
+	(bjsimics-desktop-010192208197.ap.freescale.net [10.192.208.197])	by
+	az33smr02.freescale.net (8.13.1/8.13.0) with ESMTP id pBR3UgBd024920;
+	Mon, 26 Dec 2011 21:30:43 -0600 (CST)
+From: <b19537@freescale.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Tue, 27 Dec 2011 11:34:20 +0800
+Message-ID: <1324956860-6782-1-git-send-email-b19537@freescale.com>
+X-Mailer: git-send-email 1.7.0.4
 MIME-Version: 1.0
 X-OriginatorOrg: freescale.com
-Subject: Re: [PATCH v2 oe-core] linux-dtb: add dtb into deploy cache package
+Subject: [PATCH v3 oe-core] linux-dtb: add multi-dtb build support and keep dtb in deploy cache package
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -59,61 +54,67 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 27 Dec 2011 03:33:00 -0000
-Content-Language: en-US
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Tue, 27 Dec 2011 03:53:11 -0000
+Content-Type: text/plain
 
-Please ignore.=20
+From: Zhenhua Luo <b19537@freescale.com>
 
-A new version will be submitted.=20
+    1. add multiple dtb build support, define KERNEL_DEVICETREE as following:
+           KERNEL_DEVICETREE= "${S}/arch/powerpc/boot/dts/p3041ds.dts \
+                               ${S}/arch/powerpc/boot/dts/p3041ds-usdpaa.dts"
+    2. keep dtb files are included in the deploy cache package
 
+Signed-off-by: Zhenhua Luo <b19537@freescale.com>
+---
+ meta/recipes-kernel/linux/linux-dtb.inc |   33 ++++++++++++++++++++++++------
+ 1 files changed, 26 insertions(+), 7 deletions(-)
 
-Best Regards,
-
-Zhenhua
-
-
-> -----Original Message-----
-> From: Luo Zhenhua-B19537
-> Sent: Friday, December 23, 2011 11:00 AM
-> To: openembedded-core@lists.openembedded.org
-> Cc: Luo Zhenhua-B19537
-> Subject: [PATCH v2 oe-core] linux-dtb: add dtb into deploy cache package
->=20
-> From: Zhenhua Luo <b19537@freescale.com>
->=20
->     > current dtb is not included in the deploy cache package, dtb is mis=
-sing
->       when build kernel from caches
->=20
-> Signed-off-by: Zhenhua Luo <b19537@freescale.com>
-> ---
->  meta/recipes-kernel/linux/linux-dtb.inc |    8 ++++++++
->  1 files changed, 8 insertions(+), 0 deletions(-)
->=20
-> diff --git a/meta/recipes-kernel/linux/linux-dtb.inc b/meta/recipes-
-> kernel/linux/linux-dtb.inc
-> index 7ec7584..e537d86 100644
-> --- a/meta/recipes-kernel/linux/linux-dtb.inc
-> +++ b/meta/recipes-kernel/linux/linux-dtb.inc
-> @@ -25,3 +25,11 @@ do_install_append() {
->      fi
->  }
->=20
-> +do_deploy_append() {
-> +    if test -n "${KERNEL_DEVICETREE}"; then
-> +        install -d ${DEPLOYDIR}
-> +        install -m 0644 ${DEPLOY_DIR_IMAGE}/${KERNEL_IMAGE_BASE_NAME}.dt=
-b
-> ${DEPLOYDIR}/${KERNEL_IMAGE_BASE_NAME}.dtb
-> +        cd ${DEPLOYDIR}
-> +        ln -sf ${KERNEL_IMAGE_BASE_NAME}.dtb ${KERNEL_IMAGE_SYMLINK_NAME=
-}.dtb
-> +    fi
-> +}
-> --
-> 1.7.0.4
+diff --git a/meta/recipes-kernel/linux/linux-dtb.inc b/meta/recipes-kernel/linux/linux-dtb.inc
+index 7ec7584..de83e78 100644
+--- a/meta/recipes-kernel/linux/linux-dtb.inc
++++ b/meta/recipes-kernel/linux/linux-dtb.inc
+@@ -15,13 +15,32 @@ python __anonymous () {
+ 
+ do_install_append() {
+     if test -n "${KERNEL_DEVICETREE}"; then
+-	dtc -I dts -O dtb ${KERNEL_DEVICETREE_FLAGS} -o devicetree ${KERNEL_DEVICETREE}
+-	install -m 0644 devicetree ${D}/boot/devicetree-${KERNEL_VERSION}
+-	install -d ${DEPLOY_DIR_IMAGE}
+-	install -m 0644 devicetree ${DEPLOY_DIR_IMAGE}/${KERNEL_IMAGE_BASE_NAME}.dtb
+-	cd ${DEPLOY_DIR_IMAGE}
+-	rm -f ${KERNEL_IMAGE_SYMLINK_NAME}.dtb
+-	ln -sf ${KERNEL_IMAGE_BASE_NAME}.dtb ${KERNEL_IMAGE_SYMLINK_NAME}.dtb
++        for DTS_FILE in ${KERNEL_DEVICETREE}; do
++            DTS_BASE_NAME=`basename ${DTS_FILE} | awk -F "." '{print $1}'`
++            DTB_NAME=`echo ${KERNEL_IMAGE_BASE_NAME} | sed "s/${MACHINE}/${DTS_BASE_NAME}/g"`
++            DTB_SYMLINK_NAME=`echo ${KERNEL_IMAGE_SYMLINK_NAME} | sed "s/${MACHINE}/${DTS_BASE_NAME}/g"`
++            dtc -I dts -O dtb ${KERNEL_DEVICETREE_FLAGS} -o devicetree ${DTS_FILE}
++            install -m 0644 devicetree ${D}/boot/devicetree-${DTS_BASE_NAME}-${KERNEL_VERSION}
++            install -d ${DEPLOY_DIR_IMAGE}
++            install -m 0644 devicetree ${DEPLOY_DIR_IMAGE}/${DTB_NAME}.dtb
++            cd ${DEPLOY_DIR_IMAGE}
++            rm -f ${DTB_SYMLINK_NAME}.dtb
++            ln -sf ${DTB_NAME}.dtb ${DTB_SYMLINK_NAME}.dtb
++            cd -
++        done
+     fi
+ }
+ 
++do_deploy_append() {
++    if test -n "${KERNEL_DEVICETREE}"; then
++        for DTS_FILE in ${KERNEL_DEVICETREE}; do
++            DTS_BASE_NAME=`basename ${DTS_FILE} | awk -F "." '{print $1}'`
++            DTB_NAME=`echo ${KERNEL_IMAGE_BASE_NAME} | sed "s/${MACHINE}/${DTS_BASE_NAME}/g"`
++            DTB_SYMLINK_NAME=`echo ${KERNEL_IMAGE_SYMLINK_NAME} | sed "s/${MACHINE}/${DTS_BASE_NAME}/g"`
++            install -d ${DEPLOYDIR}
++            install -m 0644 ${DEPLOY_DIR_IMAGE}/${DTB_NAME}.dtb ${DEPLOYDIR}/${DTB_NAME}.dtb
++            cd ${DEPLOYDIR}
++            ln -sf ${DTB_NAME}.dtb ${DTB_SYMLINK_NAME=}.dtb
++        done
++    fi
++}
+-- 
+1.7.0.4
 
 
 
