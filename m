@@ -1,26 +1,27 @@
 Received: from mga09.intel.com ([134.134.136.24])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <sgw@linux.intel.com>) id 1Rfc62-0007GE-Iq
+	(envelope-from <sgw@linux.intel.com>) id 1RfcPc-0008FB-0Q
 	for openembedded-core@lists.openembedded.org;
-	Tue, 27 Dec 2011 19:49:58 +0100
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-	by orsmga102.jf.intel.com with ESMTP; 27 Dec 2011 10:42:45 -0800
+	Tue, 27 Dec 2011 20:10:14 +0100
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+	by orsmga102.jf.intel.com with ESMTP; 27 Dec 2011 11:02:55 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.67,352,1309762800"; d="scan'208";a="90729540"
+X-IronPort-AV: E=Sophos;i="4.67,351,1309762800"; d="scan'208";a="91989106"
 Received: from unknown (HELO [10.255.12.84]) ([10.255.12.84])
-	by orsmga001.jf.intel.com with ESMTP; 27 Dec 2011 10:42:45 -0800
-Message-ID: <4EFA11A4.8030205@linux.intel.com>
-Date: Tue, 27 Dec 2011 10:42:44 -0800
+	by orsmga002.jf.intel.com with ESMTP; 27 Dec 2011 11:02:55 -0800
+Message-ID: <4EFA165F.1060309@linux.intel.com>
+Date: Tue, 27 Dec 2011 11:02:55 -0800
 From: Saul Wold <sgw@linux.intel.com>
 User-Agent: Mozilla/5.0 (X11; Linux x86_64;
 	rv:7.0) Gecko/20110927 Thunderbird/7.0
 MIME-Version: 1.0
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-References: <cover.1324991041.git.edwin.zhai@intel.com>
-	<3bdd615755d7a911dbee7aaa2c86043c0caa351b.1324991041.git.edwin.zhai@intel.com>
-In-Reply-To: <3bdd615755d7a911dbee7aaa2c86043c0caa351b.1324991041.git.edwin.zhai@intel.com>
-Subject: Re: [PATCH 1/1] gnome-keyring: fix gsettings_data_convert seg fault
+References: <1318534968.3158.2.camel@lenovo.internal.reciva.com>
+	<1324505762-30279-1-git-send-email-victor.quicksilver@gmail.com>
+In-Reply-To: <1324505762-30279-1-git-send-email-victor.quicksilver@gmail.com>
+Cc: philb@gnu.org
+Subject: Re: [PATCH v2] conf: machine: includes: add armv6-novfp support
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -35,65 +36,94 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 27 Dec 2011 18:49:58 -0000
-Content-Type: text/plain; charset=ISO-8859-1; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Tue, 27 Dec 2011 19:10:14 -0000
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 
-On 12/27/2011 05:06 AM, edwin.zhai@intel.com wrote:
-> From: Zhai Edwin<edwin.zhai@intel.com>
+On 12/21/2011 02:16 PM, Víctor Enríquez wrote:
+> This work was made by Victor Enriquez and then modified by Denis Carikli who was helped by Mark Hatle comments (who is fray on
+> #yocto channel on Freenode).
 >
-> gsttings_data_convert cause seg fault as gnome-keyring's schema is not
-> installed properly. As a fix, running glib-compile-schemas from glib-utils to
-> made "gschemas.compiled".
+> The changes are for adding support to armv6-novfp, for building binaries for armv6 machines without vfp, for example the htc
+> dream.
 >
-> [YOCTO #1779] got fixed.
->
-> Signed-off-by: Zhai Edwin<edwin.zhai@intel.com>
+> Signed-off-by: Mark Hatle<mark.hatle@windriver.com>
+> Signed-off-by: Denis 'GNUtoo' Carikli<GNUtoo@no-log.org>
+> Signed-off-by: Víctor Enríquez<victor.quicksilver@gmail.com>
 > ---
->   meta/recipes-gnome/gnome/gnome-keyring_2.32.1.bb |   12 ++++++++++--
->   1 files changed, 10 insertions(+), 2 deletions(-)
+>   meta/conf/machine/include/arm/arch-armv6.inc      |   28 +++++++++++++-------
+>   meta/conf/machine/include/arm/feature-arm-vfp.inc |    4 ++-
+>   2 files changed, 21 insertions(+), 11 deletions(-)
 >
-> diff --git a/meta/recipes-gnome/gnome/gnome-keyring_2.32.1.bb b/meta/recipes-gnome/gnome/gnome-keyring_2.32.1.bb
-> index cc97225..a92ac4d 100644
-> --- a/meta/recipes-gnome/gnome/gnome-keyring_2.32.1.bb
-> +++ b/meta/recipes-gnome/gnome/gnome-keyring_2.32.1.bb
-> @@ -11,12 +11,12 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=94d55d512a9ba36caa9b7df079bae19f \
+> diff --git a/meta/conf/machine/include/arm/arch-armv6.inc b/meta/conf/machine/include/arm/arch-armv6.inc
+> index da8274e..f9c112e 100644
+> --- a/meta/conf/machine/include/arm/arch-armv6.inc
+> +++ b/meta/conf/machine/include/arm/arch-armv6.inc
+> @@ -10,24 +10,32 @@ MACHINEOVERRIDES .= "${@bb.utils.contains("TUNE_FEATURES", "armv6", ":armv6", ""
+>   require conf/machine/include/arm/arch-armv5-dsp.inc
 >
->   SECTION = "x11/gnome"
->
-> -PR = "r3"
-> +PR = "r4"
->
->   inherit autotools gnome pkgconfig
->
->   DEPENDS = "gtk+ libgcrypt libtasn1 libtasn1-native gconf ${@base_contains('DISTRO_FEATURES', 'pam', 'libpam', '', d)}"
-> -RDEPENDS_${PN} = "libgnome-keyring"
-> +RDEPENDS_${PN} = "libgnome-keyring glib-2.0-utils"
->
->   EXTRA_OECONF = "--disable-gtk-doc ${@base_contains('DISTRO_FEATURES', 'pam', '--enable-pam --with-pam-dir=${base_libdir}/security', '--disable-pam', d)}"
->
-> @@ -30,6 +30,14 @@ do_install_append () {
->   	install -m 0644 ${WORKDIR}/org.gnome.keyring.service ${D}${datadir}/dbus-1/services
->   }
->
-> +pkg_postinst_gnome-keyring () {
+>   # Little Endian
+> -AVAILTUNES += "armv6 armv6t armv6hf armv6thf"
+> +AVAILTUNES += "armv6-novfp armv6 armv6t armv6t-novfp armv6hf armv6thf"
+> +TUNE_FEATURES_tune-armv6-novfp ?= "armv6"
+>   TUNE_FEATURES_tune-armv6 ?= "armv6 vfp"
+> +TUNE_FEATURES_tune-armv6t-novfp ?= "armv6 thumb"
+>   TUNE_FEATURES_tune-armv6t ?= "armv6 vfp thumb"
+>   TUNE_FEATURES_tune-armv6hf ?= "${TUNE_FEATURES_tune-armv6} callconvention-hard"
+>   TUNE_FEATURES_tune-armv6thf ?= "${TUNE_FEATURES_tune-armv6t} callconvention-hard"
+> -PACKAGE_EXTRA_ARCHS_tune-armv6 = "${PACKAGE_EXTRA_ARCHS_tune-armv5e-vfp} armv6-vfp"
+> -PACKAGE_EXTRA_ARCHS_tune-armv6t = "${PACKAGE_EXTRA_ARCHS_tune-armv5te-vfp} armv6-vfp armv6t-vfp"
+> -PACKAGE_EXTRA_ARCHS_tune-armv6hf = "${PACKAGE_EXTRA_ARCHS_tune-armv5ehf-vfp} armv6hf-vfp"
+> -PACKAGE_EXTRA_ARCHS_tune-armv6thf = "${PACKAGE_EXTRA_ARCHS_tune-armv5tehf-vfp} armv6hf-vfp armv6thf-vfp"
+> +PACKAGE_EXTRA_ARCHS_tune-armv6-novfp = "${PACKAGE_EXTRA_ARCHS_tune-armv5e} armv6-novfp"
+> +PACKAGE_EXTRA_ARCHS_tune-armv6 = "${PACKAGE_EXTRA_ARCHS_tune-armv5e-vfp} armv6-novfp armv6"
+> +PACKAGE_EXTRA_ARCHS_tune-armv6t-novfp = "${PACKAGE_EXTRA_ARCHS_tune-armv5e} armv6-novfp armv6t-novfp"
+> +PACKAGE_EXTRA_ARCHS_tune-armv6t = "${PACKAGE_EXTRA_ARCHS_tune-armv5te-vfp} armv6-novfp armv6t-novfp armv6-vfp armv6t"
+I am not sure I fully understand the changes here, so this might be a 
+mis-understanding on my part, but should this and the tune-armv6 have 
+both -vfp and -novfp in it?
 
-I think you can use pkg_postinst_${PN}
+> +PACKAGE_EXTRA_ARCHS_tune-armv6hf = "${PACKAGE_EXTRA_ARCHS_tune-armv5ehf-vfp} armv6hf"
+> +PACKAGE_EXTRA_ARCHS_tune-armv6thf = "${PACKAGE_EXTRA_ARCHS_tune-armv5tehf-vfp} armv6hf-vfp armv6thf"
+>
+>   # Big Endian
+> -AVAILTUNES += "armv6b armv6tb armv6hfb armv6thfb"
+> +AVAILTUNES += "armv6b-novfp armv6b armv6tb-novfp armv6tb armv6hfb armv6thfb"
+> +TUNE_FEATURES_tune-armv6b-novfp ?= "${TUNE_FEATURES_tune-armv6-novfp} bigendian"
+>   TUNE_FEATURES_tune-armv6b ?= "${TUNE_FEATURES_tune-armv6} bigendian"
+> +TUNE_FEATURES_tune-armv6tb-novfp ?= "${TUNE_FEATURES_tune-armv6t-novfp} bigendian"
+>   TUNE_FEATURES_tune-armv6tb ?= "${TUNE_FEATURES_tune-armv6t} bigendian"
+>   TUNE_FEATURES_tune-armv6hfb ?= "${TUNE_FEATURES_tune-armv6b} callconvention-hard"
+>   TUNE_FEATURES_tune-armv6thfb ?= "${TUNE_FEATURES_tune-armv6tb} callconvention-hard"
+> -PACKAGE_EXTRA_ARCHS_tune-armv6b = "${PACKAGE_EXTRA_ARCHS_tune-armv5eb-vfp} armv6b-vfp"
+> -PACKAGE_EXTRA_ARCHS_tune-armv6tb = "${PACKAGE_EXTRA_ARCHS_tune-armv5teb-vfp} armv6b-vfp armv6tb-vfp"
+> -PACKAGE_EXTRA_ARCHS_tune-armv6hfb = "${PACKAGE_EXTRA_ARCHS_tune-armv5ehfb-vfp} armv6hfb-vfp"
+> -PACKAGE_EXTRA_ARCHS_tune-armv6thfb = "${PACKAGE_EXTRA_ARCHS_tune-armv5tehfb-vfp} armv6hfb-vfp armv6thfb-vfp"
+> +PACKAGE_EXTRA_ARCHS_tune-armv6b-novfp = "${PACKAGE_EXTRA_ARCHS_tune-armv5eb} armv6b-novfp"
+> +PACKAGE_EXTRA_ARCHS_tune-armv6b = "${PACKAGE_EXTRA_ARCHS_tune-armv5eb-vfp} armv6b"
+Why not like the armv6 above with -novfp (again, maybe my misunderstanding
 
-> +if [ "x$D" != "x" ]; then
-> +    exit 1
-> +fi
-> +
-> +test -x ${bindir}/glib-compile-schemas&&  glib-compile-schemas  ${datadir}/glib-2.0/schemas
-> +}
-> +
-I think you are missing tabs here, I believe the standard for script 
-functions is to have tabs not spaces also.
+> +PACKAGE_EXTRA_ARCHS_tune-armv6tb-novfp = "${PACKAGE_EXTRA_ARCHS_tune-armv5eb} armv6b-novfp armv6tb-novfp"
+> +PACKAGE_EXTRA_ARCHS_tune-armv6tb = "${PACKAGE_EXTRA_ARCHS_tune-armv5teb-vfp} armv6b-novfp armv6tb-novfp armv6b-vfp armv6tb"
+This seems to match armv6t above.
 
-Sau!
+> +PACKAGE_EXTRA_ARCHS_tune-armv6hfb = "${PACKAGE_EXTRA_ARCHS_tune-armv5ehfb-vfp} armv6hfb"
+> +PACKAGE_EXTRA_ARCHS_tune-armv6thfb = "${PACKAGE_EXTRA_ARCHS_tune-armv5tehfb-vfp} armv6hfb-vfp armv6thfb"
+>
+> diff --git a/meta/conf/machine/include/arm/feature-arm-vfp.inc b/meta/conf/machine/include/arm/feature-arm-vfp.inc
+> index 29a925c..78f453c 100644
+> --- a/meta/conf/machine/include/arm/feature-arm-vfp.inc
+> +++ b/meta/conf/machine/include/arm/feature-arm-vfp.inc
+> @@ -1,5 +1,7 @@
+>   TUNEVALID[vfp] = "Enable Vector Floating Point (vfp) unit."
+> -ARMPKGSFX_FPU .= "${@bb.utils.contains("TUNE_FEATURES", "vfp", "-vfp", "" ,d)}"
+> +TUNE_ARM_VFP = "${@bb.utils.contains("ARMPKGARCH", "armv6", "", "vfp" ,d)}"
+should this be -vfp?
 
->   FILES_${PN} += "${datadir}/dbus-1/services ${datadir}/gcr ${base_libdir}/security/*.so"
->   FILES_${PN}-dbg += "${libdir}/gnome-keyring/standalone/.debug/ ${base_libdir}/security/*.la"
->   FILES_${PN}-dbg += "${libdir}/gnome-keyring/devel/.debug/ ${base_libdir}/security/.debug"
+> +TUNE_ARM_NOVFP = "${@bb.utils.contains("ARMPKGARCH", "armv6", "-novfp", "" ,d)}"
+> +ARMPKGSFX_FPU .= "${@bb.utils.contains("TUNE_FEATURES", "vfp", "${TUNE_ARM_VFP}", "${TUNE_ARM_NOVFP}" ,d)}"
+>
+>   TUNEVALID[callconvention-hard] = "Enable EABI hard float call convention, requires VFP."
+>   TUNE_CCARGS += "${@bb.utils.contains("TUNE_FEATURES", "vfp", bb.utils.contains("TUNE_FEATURES", "callconvention-hard", "-mfloat-abi=hard", "-mfloat-abi=softfp", d), "" ,d)}"
 
 
