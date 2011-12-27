@@ -1,25 +1,26 @@
-Received: from mga03.intel.com ([143.182.124.21])
+Received: from mga09.intel.com ([134.134.136.24])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <sgw@linux.intel.com>) id 1Rfbvq-0006mD-H9
+	(envelope-from <sgw@linux.intel.com>) id 1Rfc62-0007GE-Iq
 	for openembedded-core@lists.openembedded.org;
-	Tue, 27 Dec 2011 19:39:27 +0100
-Received: from azsmga001.ch.intel.com ([10.2.17.19])
-	by azsmga101.ch.intel.com with ESMTP; 27 Dec 2011 10:32:13 -0800
+	Tue, 27 Dec 2011 19:49:58 +0100
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+	by orsmga102.jf.intel.com with ESMTP; 27 Dec 2011 10:42:45 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="89988013"
+X-IronPort-AV: E=Sophos;i="4.67,352,1309762800"; d="scan'208";a="90729540"
 Received: from unknown (HELO [10.255.12.84]) ([10.255.12.84])
-	by azsmga001.ch.intel.com with ESMTP; 27 Dec 2011 10:32:12 -0800
-Message-ID: <4EFA0F2C.30906@linux.intel.com>
-Date: Tue, 27 Dec 2011 10:32:12 -0800
+	by orsmga001.jf.intel.com with ESMTP; 27 Dec 2011 10:42:45 -0800
+Message-ID: <4EFA11A4.8030205@linux.intel.com>
+Date: Tue, 27 Dec 2011 10:42:44 -0800
 From: Saul Wold <sgw@linux.intel.com>
 User-Agent: Mozilla/5.0 (X11; Linux x86_64;
 	rv:7.0) Gecko/20110927 Thunderbird/7.0
 MIME-Version: 1.0
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-References: <cover.1324601996.git.mark.hatle@windriver.com>
-In-Reply-To: <cover.1324601996.git.mark.hatle@windriver.com>
-Subject: Re: [PATCH 0/7] Misc fixes and cleanups
+References: <cover.1324991041.git.edwin.zhai@intel.com>
+	<3bdd615755d7a911dbee7aaa2c86043c0caa351b.1324991041.git.edwin.zhai@intel.com>
+In-Reply-To: <3bdd615755d7a911dbee7aaa2c86043c0caa351b.1324991041.git.edwin.zhai@intel.com>
+Subject: Re: [PATCH 1/1] gnome-keyring: fix gsettings_data_convert seg fault
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -34,51 +35,65 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 27 Dec 2011 18:39:27 -0000
+X-List-Received-Date: Tue, 27 Dec 2011 18:49:58 -0000
 Content-Type: text/plain; charset=ISO-8859-1; format=flowed
 Content-Transfer-Encoding: 7bit
 
-On 12/22/2011 05:01 PM, Mark Hatle wrote:
-> Misc fixes and cleanups that affect various parts of the system...
+On 12/27/2011 05:06 AM, edwin.zhai@intel.com wrote:
+> From: Zhai Edwin<edwin.zhai@intel.com>
 >
-> The following changes since commit c38693f78c968ab5f4bb557c20d1c8c55393ed6b:
+> gsttings_data_convert cause seg fault as gnome-keyring's schema is not
+> installed properly. As a fix, running glib-compile-schemas from glib-utils to
+> made "gschemas.compiled".
 >
->    opkg: Fix installation order in feeds with mutiple providers of packages (2011-12-22 22:38:09 +0000)
+> [YOCTO #1779] got fixed.
 >
-> are available in the git repository at:
->    git://git.pokylinux.org/poky-contrib mhatle/misc-fixes
->    http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=mhatle/misc-fixes
+> Signed-off-by: Zhai Edwin<edwin.zhai@intel.com>
+> ---
+>   meta/recipes-gnome/gnome/gnome-keyring_2.32.1.bb |   12 ++++++++++--
+>   1 files changed, 10 insertions(+), 2 deletions(-)
 >
-> Mark Hatle (7):
->    package.bbclass: Adjust RPM call to use dynamic location for magic
->      files
->    package_rpm.bbclass:  Add RPMSPEC_PREAMBLE
->    rpm_5.4.0: Fix configuration issue with native/nativesdk
->    udev: Remove linux-libc-headers dependency
->    gperf: Add missing SRC checksum
->    which: Add missing SRC checksums
-The Above were all merged to OE-Core
+> diff --git a/meta/recipes-gnome/gnome/gnome-keyring_2.32.1.bb b/meta/recipes-gnome/gnome/gnome-keyring_2.32.1.bb
+> index cc97225..a92ac4d 100644
+> --- a/meta/recipes-gnome/gnome/gnome-keyring_2.32.1.bb
+> +++ b/meta/recipes-gnome/gnome/gnome-keyring_2.32.1.bb
+> @@ -11,12 +11,12 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=94d55d512a9ba36caa9b7df079bae19f \
+>
+>   SECTION = "x11/gnome"
+>
+> -PR = "r3"
+> +PR = "r4"
+>
+>   inherit autotools gnome pkgconfig
+>
+>   DEPENDS = "gtk+ libgcrypt libtasn1 libtasn1-native gconf ${@base_contains('DISTRO_FEATURES', 'pam', 'libpam', '', d)}"
+> -RDEPENDS_${PN} = "libgnome-keyring"
+> +RDEPENDS_${PN} = "libgnome-keyring glib-2.0-utils"
+>
+>   EXTRA_OECONF = "--disable-gtk-doc ${@base_contains('DISTRO_FEATURES', 'pam', '--enable-pam --with-pam-dir=${base_libdir}/security', '--disable-pam', d)}"
+>
+> @@ -30,6 +30,14 @@ do_install_append () {
+>   	install -m 0644 ${WORKDIR}/org.gnome.keyring.service ${D}${datadir}/dbus-1/services
+>   }
+>
+> +pkg_postinst_gnome-keyring () {
 
-Thanks
-	Sau!
+I think you can use pkg_postinst_${PN}
 
-
->    base.bbclass: Allow buildstats to be optionally supplied
->
-No sure about this, no comments, but RP did not take it yet.
+> +if [ "x$D" != "x" ]; then
+> +    exit 1
+> +fi
+> +
+> +test -x ${bindir}/glib-compile-schemas&&  glib-compile-schemas  ${datadir}/glib-2.0/schemas
+> +}
+> +
+I think you are missing tabs here, I believe the standard for script 
+functions is to have tabs not spaces also.
 
 Sau!
 
-
->   meta/classes/base.bbclass                  |    1 -
->   meta/classes/package.bbclass               |    2 +-
->   meta/classes/package_rpm.bbclass           |    8 +++++++-
->   meta/conf/local.conf.sample                |    3 ++-
->   meta/recipes-core/udev/udev-new.inc        |    2 +-
->   meta/recipes-devtools/rpm/rpm_5.4.0.bb     |    3 ++-
->   meta/recipes-extended/gperf/gperf_3.0.3.bb |    3 +++
->   meta/recipes-extended/which/which_2.18.bb  |    3 +++
->   8 files changed, 19 insertions(+), 6 deletions(-)
->
+>   FILES_${PN} += "${datadir}/dbus-1/services ${datadir}/gcr ${base_libdir}/security/*.so"
+>   FILES_${PN}-dbg += "${libdir}/gnome-keyring/standalone/.debug/ ${base_libdir}/security/*.la"
+>   FILES_${PN}-dbg += "${libdir}/gnome-keyring/devel/.debug/ ${base_libdir}/security/.debug"
 
 
