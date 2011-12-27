@@ -1,16 +1,16 @@
-Received: from mga09.intel.com ([134.134.136.24])
+Received: from mga11.intel.com ([192.55.52.93])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <sgw@linux.intel.com>) id 1RffAI-0005WD-Rj
+	(envelope-from <sgw@linux.intel.com>) id 1RffBh-0005ZL-GG
 	for openembedded-core@lists.openembedded.org;
-	Tue, 27 Dec 2011 23:06:35 +0100
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-	by orsmga102.jf.intel.com with ESMTP; 27 Dec 2011 13:59:21 -0800
+	Tue, 27 Dec 2011 23:08:03 +0100
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+	by fmsmga102.fm.intel.com with ESMTP; 27 Dec 2011 14:00:23 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.67,352,1309762800"; d="scan'208";a="90767280"
+X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="100773157"
 Received: from unknown (HELO [10.255.13.80]) ([10.255.13.80])
-	by orsmga001.jf.intel.com with ESMTP; 27 Dec 2011 13:59:19 -0800
-Message-ID: <4EFA3FB5.7030605@linux.intel.com>
-Date: Tue, 27 Dec 2011 13:59:17 -0800
+	by fmsmga001.fm.intel.com with ESMTP; 27 Dec 2011 14:00:19 -0800
+Message-ID: <4EFA3FEE.3090107@linux.intel.com>
+Date: Tue, 27 Dec 2011 14:00:14 -0800
 From: Saul Wold <sgw@linux.intel.com>
 User-Agent: Mozilla/5.0 (X11; Linux x86_64;
 	rv:7.0) Gecko/20110927 Thunderbird/7.0
@@ -18,9 +18,10 @@ MIME-Version: 1.0
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
 References: <1325018118-30223-1-git-send-email-fransmeulenbroeks@gmail.com>
-In-Reply-To: <1325018118-30223-1-git-send-email-fransmeulenbroeks@gmail.com>
+	<1325018118-30223-2-git-send-email-fransmeulenbroeks@gmail.com>
+In-Reply-To: <1325018118-30223-2-git-send-email-fransmeulenbroeks@gmail.com>
 Cc: Frans Meulenbroeks <fransmeulenbroeks@gmail.com>
-Subject: Re: [PATCH 1/2] u-boot: improved DESCRIPTION, fixed HOMEPAGE
+Subject: Re: [PATCH 2/2] u-boot: added generating the env utils (fixes bug 1800)
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -35,33 +36,168 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 27 Dec 2011 22:06:35 -0000
+X-List-Received-Date: Tue, 27 Dec 2011 22:08:03 -0000
 Content-Type: text/plain; charset=ISO-8859-1; format=flowed
 Content-Transfer-Encoding: 7bit
 
 On 12/27/2011 12:35 PM, Frans Meulenbroeks wrote:
-> HOMEPAGE pointed to an sf.net page that said that the
-> page did not exist any more and after that it redirected
-> to the denx.de page; updated HOMEPAGE to point to that page
-> Also improved the description to use the official capitalisation
+> This adds building the u-boot tools for target.
+> (fw_printenv, fw_setenv).
+> They are put into a separate package
+> With these files it becomes possible to modify
+> the u-boot environment when linux is booted
 >
+> The #ifdef's in fw_env.h were needed to avoid compilation issues
+> The constants have been changed to more meaningful defaults
+> (as 128k flash pages are much more common than 4k pages)
+> but can be overridden using a configuration file.
+>
+> This resolves bug 1800
+>
+Thanks for the fix, in the future please mark this as [YOCTO #1800]
+
+Reviewing and someone will test also.
+
+Thanks	
+	Sau!
 > Signed-off-by: Frans Meulenbroeks<fransmeulenbroeks@gmail.com>
-> ---
->   meta/recipes-bsp/u-boot/u-boot.inc |    2 ++
->   1 files changed, 2 insertions(+), 0 deletions(-)
 >
+> ---
+> Note: development and testing was done under openembedded classic.
+> I've tested it there quite heavily (for mpc8313 if that matters).
+> I was requested to provide a patch for oe-core too (to resolve bug 1800)
+> so here it is, although at the moment I am unable to test the patch for oe-core.
+> I suggest that this is carefully reviewed and tested before being merged.
+>
+> Frans.
+> ---
+>   meta/recipes-bsp/u-boot/files/tools_fwenv.patch |   48 +++++++++++++++++++++++
+>   meta/recipes-bsp/u-boot/u-boot.inc              |   21 ++++++++-
+>   meta/recipes-bsp/u-boot/u-boot_2011.03.bb       |    3 +-
+>   meta/recipes-bsp/u-boot/u-boot_2011.06.bb       |    3 +-
+>   4 files changed, 70 insertions(+), 5 deletions(-)
+>   create mode 100644 meta/recipes-bsp/u-boot/files/tools_fwenv.patch
+>
+> diff --git a/meta/recipes-bsp/u-boot/files/tools_fwenv.patch b/meta/recipes-bsp/u-boot/files/tools_fwenv.patch
+> new file mode 100644
+> index 0000000..8e87800
+> --- /dev/null
+> +++ b/meta/recipes-bsp/u-boot/files/tools_fwenv.patch
+> @@ -0,0 +1,48 @@
+> +Index: u-boot-2011.03/tools/env/fw_env.h
+> +===================================================================
+> +--- u-boot-2011.03.orig/tools/env/fw_env.h	2011-03-31 23:45:36.000000000 +0200
+> ++++ u-boot-2011.03/tools/env/fw_env.h	2011-12-02 13:55:24.667278362 +0100
+> +@@ -27,25 +27,35 @@
+> +  * See included "fw_env.config" sample file (TRAB board)
+> +  * for notes on configuration.
+> +  */
+> +-#define CONFIG_FILE     "/etc/fw_env.config"
+> ++//#define CONFIG_FILE     "/etc/fw_env.config"
+> ++
+> ++#include "config.h"
+> +
+> + #define HAVE_REDUND /* For systems with 2 env sectors */
+> +-#define DEVICE1_NAME      "/dev/mtd1"
+> +-#define DEVICE2_NAME      "/dev/mtd2"
+> ++#define DEVICE1_NAME      "/dev/mtd0"
+> ++#define DEVICE2_NAME      "/dev/mtd0"
+> + #define DEVICE1_OFFSET    0x0000
+> +-#define ENV1_SIZE         0x4000
+> +-#define DEVICE1_ESIZE     0x4000
+> +-#define DEVICE2_OFFSET    0x0000
+> +-#define ENV2_SIZE         0x4000
+> +-#define DEVICE2_ESIZE     0x4000
+> ++#define ENV1_SIZE         0x2000
+> ++#define DEVICE1_ESIZE     0x20000
+> ++#define DEVICE1_ENVSECTORS     1
+> ++#define DEVICE2_OFFSET    0x20000
+> ++#define ENV2_SIZE         0x2000
+> ++#define DEVICE2_ESIZE     0x20000
+> ++#define DEVICE2_ENVSECTORS     1
+> +
+> ++#ifndef CONFIG_BAUDRATE
+> + #define CONFIG_BAUDRATE		115200
+> ++#endif
+> ++#ifndef CONFIG_BOOTDELAY
+> + #define CONFIG_BOOTDELAY	5	/* autoboot after 5 seconds	*/
+> ++#endif
+> ++#ifndef CONFIG_BOOTCOMMAND
+> + #define CONFIG_BOOTCOMMAND							\
+> + 	"bootp; "								\
+> + 	"setenv bootargs root=/dev/nfs nfsroot=${serverip}:${rootpath} "	\
+> + 	"ip=${ipaddr}:${serverip}:${gatewayip}:${netmask}:${hostname}::off; "	\
+> + 	"bootm"
+> ++#endif
+> +
+> + extern int   fw_printenv(int argc, char *argv[]);
+> + extern char *fw_getenv  (char *name);
 > diff --git a/meta/recipes-bsp/u-boot/u-boot.inc b/meta/recipes-bsp/u-boot/u-boot.inc
-> index 544acd2..a3f50bc 100644
+> index a3f50bc..bbfc6d6 100644
 > --- a/meta/recipes-bsp/u-boot/u-boot.inc
 > +++ b/meta/recipes-bsp/u-boot/u-boot.inc
-> @@ -1,3 +1,5 @@
-> +DESCRIPTION = "U-Boot - the Universal Boot Loader"
-> +HOMEPAGE = "http://www.denx.de/wiki/U-Boot/WebHome"
->   DESCRIPTION = "U-boot bootloader"
->   HOMEPAGE = "http://u-boot.sf.net"
->   SECTION = "bootloaders"
-Should you be deleting the older DESCRIPTION and HOMEPAGE?
-
-Sau!
+> @@ -32,16 +32,31 @@ do_compile () {
+>   	unset CPPFLAGS
+>   	oe_runmake ${UBOOT_MACHINE}
+>   	oe_runmake ${UBOOT_MAKE_TARGET}
+> +	oe_runmake tools env HOSTCC="${CC}"
+>   }
+>
+>   do_install () {
+> -    install -d ${D}/boot
+> -    install ${S}/${UBOOT_BINARY} ${D}/boot/${UBOOT_IMAGE}
+> -    ln -sf ${UBOOT_IMAGE} ${D}/boot/${UBOOT_BINARY}
+> +	install -d ${D}/boot
+> +	install ${S}/${UBOOT_BINARY} ${D}/boot/${UBOOT_IMAGE}
+> +	ln -sf ${UBOOT_IMAGE} ${D}/boot/${UBOOT_BINARY}
+> +
+> +	if [ -e ${WORKDIR}/fw_env.config ] ; then
+> +		install -d ${D}${base_sbindir}
+> +		install -d ${D}${sysconfdir}
+> +		install -m 644 ${WORKDIR}/fw_env.config ${D}${sysconfdir}/fw_env.config
+> +		install -m 755 ${S}/tools/env/fw_printenv ${D}${base_sbindir}/fw_printenv
+> +		install -m 755 ${S}/tools/env/fw_printenv ${D}${base_sbindir}/fw_setenv
+> +	fi
+> +
+>   }
+>
+>   FILES_${PN} = "/boot"
+>
+> +PACKAGES += "${PN}-fw-utils"
+> +FILES_${PN}-fw-utils = "${sysconfdir} ${base_sbindir}"
+> +# u-boot doesn't use LDFLAGS for fw files, needs to get fixed, but until then:
+> +INSANE_SKIP_${PN}-fw-utils = True
+> +
+>   do_deploy () {
+>   	install ${S}/u-boot.bin ${DEPLOYDIR}/${UBOOT_IMAGE}
+>
+> diff --git a/meta/recipes-bsp/u-boot/u-boot_2011.03.bb b/meta/recipes-bsp/u-boot/u-boot_2011.03.bb
+> index 1ebdbea..fe10f58 100644
+> --- a/meta/recipes-bsp/u-boot/u-boot_2011.03.bb
+> +++ b/meta/recipes-bsp/u-boot/u-boot_2011.03.bb
+> @@ -19,7 +19,8 @@ SRCREV = "19b54a701811220221fc4d5089a2bb18892018ca"
+>   PV = "v2011.03+git${SRCPV}"
+>   PR = "r5"
+>
+> -SRC_URI = "git://git.denx.de/u-boot.git;branch=master;protocol=git"
+> +SRC_URI = "git://git.denx.de/u-boot.git;branch=master;protocol=git \
+> +           file://tools_fwenv.patch"
+>
+>   S = "${WORKDIR}/git"
+>
+> diff --git a/meta/recipes-bsp/u-boot/u-boot_2011.06.bb b/meta/recipes-bsp/u-boot/u-boot_2011.06.bb
+> index 8ebdbff..bfe5db7 100644
+> --- a/meta/recipes-bsp/u-boot/u-boot_2011.06.bb
+> +++ b/meta/recipes-bsp/u-boot/u-boot_2011.06.bb
+> @@ -19,7 +19,8 @@ SRCREV = "b1af6f532e0d348b153d5c148369229d24af361a"
+>   PV = "v2011.06+git${SRCPV}"
+>   PR = "r0"
+>
+> -SRC_URI = "git://git.denx.de/u-boot.git;branch=master;protocol=git"
+> +SRC_URI = "git://git.denx.de/u-boot.git;branch=master;protocol=git \
+> +           file://tools_fwenv.patch"
+>
+>   S = "${WORKDIR}/git"
+>
 
 
