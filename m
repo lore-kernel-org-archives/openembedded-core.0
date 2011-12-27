@@ -1,20 +1,24 @@
 Received: from mga02.intel.com ([134.134.136.20])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <edwin.zhai@intel.com>) id 1RfX0v-0005bU-Bq
+	(envelope-from <edwin.zhai@intel.com>) id 1RfX0w-0005bU-2m
 	for openembedded-core@lists.openembedded.org;
-	Tue, 27 Dec 2011 14:24:21 +0100
+	Tue, 27 Dec 2011 14:24:22 +0100
 Received: from orsmga001.jf.intel.com ([10.7.209.18])
 	by orsmga101.jf.intel.com with ESMTP; 27 Dec 2011 05:17:08 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.67,352,1309762800"; d="scan'208";a="90644482"
+X-IronPort-AV: E=Sophos;i="4.67,352,1309762800"; d="scan'208";a="90644485"
 Received: from yocto-build3.sh.intel.com ([10.239.48.58])
-	by orsmga001.jf.intel.com with ESMTP; 27 Dec 2011 05:17:07 -0800
+	by orsmga001.jf.intel.com with ESMTP; 27 Dec 2011 05:17:08 -0800
 From: edwin.zhai@intel.com
 To: openembedded-core@lists.openembedded.org
-Date: Tue, 27 Dec 2011 21:06:44 +0800
-Message-Id: <cover.1324991041.git.edwin.zhai@intel.com>
+Date: Tue, 27 Dec 2011 21:06:45 +0800
+Message-Id: <3bdd615755d7a911dbee7aaa2c86043c0caa351b.1324991041.git.edwin.zhai@intel.com>
 X-Mailer: git-send-email 1.7.1
-Subject: [PATCH 0/1] Fix gsettings-data-convert seg fault
+In-Reply-To: <cover.1324991041.git.edwin.zhai@intel.com>
+References: <cover.1324991041.git.edwin.zhai@intel.com>
+In-Reply-To: <cover.1324991041.git.edwin.zhai@intel.com>
+References: <cover.1324991041.git.edwin.zhai@intel.com>
+Subject: [PATCH 1/1] gnome-keyring: fix gsettings_data_convert seg fault
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -29,31 +33,57 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 27 Dec 2011 13:24:21 -0000
+X-List-Received-Date: Tue, 27 Dec 2011 13:24:22 -0000
 
 From: Zhai Edwin <edwin.zhai@intel.com>
 
-All,
-This is the fix for [YOCTO #1779]. Seg fault comes from missing of
-"gschemas.compiled" made by glib-compile-schemas.
+gsttings_data_convert cause seg fault as gnome-keyring's schema is not
+installed properly. As a fix, running glib-compile-schemas from glib-utils to
+made "gschemas.compiled".
 
-Pls. help to pull.
-Thanks,
-Edwin
+[YOCTO #1779] got fixed.
 
-The following changes since commit 0ef108a0152bb4893741ac95857525fc50b8d3a6:
-
-  self-hosted-image: Add builder user and mini X (2011-12-22 19:28:56 +0800)
-
-are available in the git repository at:
-  git://git.pokylinux.org/poky-contrib gzhai/build-appliance2
-  http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=gzhai/build-appliance2
-
-Zhai Edwin (1):
-  gnome-keyring: fix gsettings_data_convert seg fault
-
+Signed-off-by: Zhai Edwin <edwin.zhai@intel.com>
+---
  meta/recipes-gnome/gnome/gnome-keyring_2.32.1.bb |   12 ++++++++++--
  1 files changed, 10 insertions(+), 2 deletions(-)
+
+diff --git a/meta/recipes-gnome/gnome/gnome-keyring_2.32.1.bb b/meta/recipes-gnome/gnome/gnome-keyring_2.32.1.bb
+index cc97225..a92ac4d 100644
+--- a/meta/recipes-gnome/gnome/gnome-keyring_2.32.1.bb
++++ b/meta/recipes-gnome/gnome/gnome-keyring_2.32.1.bb
+@@ -11,12 +11,12 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=94d55d512a9ba36caa9b7df079bae19f \
+ 
+ SECTION = "x11/gnome"
+ 
+-PR = "r3"
++PR = "r4"
+ 
+ inherit autotools gnome pkgconfig
+ 
+ DEPENDS = "gtk+ libgcrypt libtasn1 libtasn1-native gconf ${@base_contains('DISTRO_FEATURES', 'pam', 'libpam', '', d)}"
+-RDEPENDS_${PN} = "libgnome-keyring"
++RDEPENDS_${PN} = "libgnome-keyring glib-2.0-utils"
+ 
+ EXTRA_OECONF = "--disable-gtk-doc ${@base_contains('DISTRO_FEATURES', 'pam', '--enable-pam --with-pam-dir=${base_libdir}/security', '--disable-pam', d)}"
+ 
+@@ -30,6 +30,14 @@ do_install_append () {
+ 	install -m 0644 ${WORKDIR}/org.gnome.keyring.service ${D}${datadir}/dbus-1/services
+ }
+ 
++pkg_postinst_gnome-keyring () {
++if [ "x$D" != "x" ]; then
++    exit 1
++fi
++
++test -x ${bindir}/glib-compile-schemas && glib-compile-schemas  ${datadir}/glib-2.0/schemas
++}
++
+ FILES_${PN} += "${datadir}/dbus-1/services ${datadir}/gcr ${base_libdir}/security/*.so"
+ FILES_${PN}-dbg += "${libdir}/gnome-keyring/standalone/.debug/ ${base_libdir}/security/*.la"
+ FILES_${PN}-dbg += "${libdir}/gnome-keyring/devel/.debug/ ${base_libdir}/security/.debug"
+-- 
+1.7.1
 
 
 
