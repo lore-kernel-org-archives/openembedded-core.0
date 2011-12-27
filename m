@@ -1,30 +1,25 @@
-Received: from mail-we0-f175.google.com ([74.125.82.175])
+Received: from mga03.intel.com ([143.182.124.21])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <kergoth@gmail.com>) id 1RfazU-0004Yy-BD
+	(envelope-from <sgw@linux.intel.com>) id 1Rfbvq-0006mD-H9
 	for openembedded-core@lists.openembedded.org;
-	Tue, 27 Dec 2011 18:39:08 +0100
-Received: by werm13 with SMTP id m13so5892246wer.6
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 27 Dec 2011 09:31:52 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:content-type:content-transfer-encoding;
-	bh=vGOkQiUUT/LtTZnfBbMLrbBeEMtmMH6bE1FZ2wmgnbs=;
-	b=OB+5HA/7e0kqNaK6WhCQtuhDrAZTMO9kxvW+dGbAsHF3Odx23zYQeZEHN8Z8JxNrqY
-	Kls+xLdGEeqldLw9lIOOZ56ZyS4ngXykF+rKxWOraFTUGtzazu469lx+4D0qyWUa+rYU
-	l+hPmS4CkiZqMGq8z9qLsSou7MfJ0QTenZKu0=
-Received: by 10.216.138.101 with SMTP id z79mr22034922wei.7.1325007112256;
-	Tue, 27 Dec 2011 09:31:52 -0800 (PST)
+	Tue, 27 Dec 2011 19:39:27 +0100
+Received: from azsmga001.ch.intel.com ([10.2.17.19])
+	by azsmga101.ch.intel.com with ESMTP; 27 Dec 2011 10:32:13 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="89988013"
+Received: from unknown (HELO [10.255.12.84]) ([10.255.12.84])
+	by azsmga001.ch.intel.com with ESMTP; 27 Dec 2011 10:32:12 -0800
+Message-ID: <4EFA0F2C.30906@linux.intel.com>
+Date: Tue, 27 Dec 2011 10:32:12 -0800
+From: Saul Wold <sgw@linux.intel.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:7.0) Gecko/20110927 Thunderbird/7.0
 MIME-Version: 1.0
-Received: by 10.216.162.208 with HTTP; Tue, 27 Dec 2011 09:31:31 -0800 (PST)
-In-Reply-To: <1324488253.19860.4.camel@ted>
-References: <4EF0C808.8060609@gmail.com> <1324488253.19860.4.camel@ted>
-From: Chris Larson <kergoth@gmail.com>
-Date: Tue, 27 Dec 2011 10:31:31 -0700
-Message-ID: <CABcZAN=tn0f=xNFepSeOMT--yvPX-UKCj0fa-0WMeuWsAAro5Q@mail.gmail.com>
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] patch.bbclass: abstract out logic that determines patches to apply
+References: <cover.1324601996.git.mark.hatle@windriver.com>
+In-Reply-To: <cover.1324601996.git.mark.hatle@windriver.com>
+Subject: Re: [PATCH 0/7] Misc fixes and cleanups
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -39,34 +34,51 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 27 Dec 2011 17:39:08 -0000
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Tue, 27 Dec 2011 18:39:27 -0000
+Content-Type: text/plain; charset=ISO-8859-1; format=flowed
+Content-Transfer-Encoding: 7bit
 
-On Wed, Dec 21, 2011 at 10:24 AM, Richard Purdie
-<richard.purdie@linuxfoundation.org> wrote:
-> On Tue, 2011-12-20 at 10:38 -0700, Christopher Larson wrote:
->> This is needed by the copyleft_compliance class, so it can emit series f=
-iles
->> for the patches, which greatly increases their usefulness to a user
->> trying to
->> reconstruct the sources outside of OE.
->>
->> Signed-off-by: Christopher Larson <chris_larson@mentor.com>
->> ---
->> =C2=A0 meta/classes/patch.bbclass | =C2=A0196
->> +++++++++++++++++++++++--------------------
->> =C2=A0 1 files changed, 105 insertions(+), 91 deletions(-)
+On 12/22/2011 05:01 PM, Mark Hatle wrote:
+> Misc fixes and cleanups that affect various parts of the system...
 >
-> I have no objection to the change but the patch seems to be mangled
-> somehow. Could you resend it or point me at a git tree please?
+> The following changes since commit c38693f78c968ab5f4bb557c20d1c8c55393ed6b:
+>
+>    opkg: Fix installation order in feeds with mutiple providers of packages (2011-12-22 22:38:09 +0000)
+>
+> are available in the git repository at:
+>    git://git.pokylinux.org/poky-contrib mhatle/misc-fixes
+>    http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=mhatle/misc-fixes
+>
+> Mark Hatle (7):
+>    package.bbclass: Adjust RPM call to use dynamic location for magic
+>      files
+>    package_rpm.bbclass:  Add RPMSPEC_PREAMBLE
+>    rpm_5.4.0: Fix configuration issue with native/nativesdk
+>    udev: Remove linux-libc-headers dependency
+>    gperf: Add missing SRC checksum
+>    which: Add missing SRC checksums
+The Above were all merged to OE-Core
 
-Sorry about that, my git send-email isn't working on my main dev
-machine at the moment, strange error from git that no one seems to
-recognize. used imap-send, and apparently tbird defaults to wrapping
-the same way the gmail UI does *eyeroll*. See
-https://github.com/kergoth/oe-core/compare/patch-refactor
---=20
-Christopher Larson
+Thanks
+	Sau!
+
+
+>    base.bbclass: Allow buildstats to be optionally supplied
+>
+No sure about this, no comments, but RP did not take it yet.
+
+Sau!
+
+
+>   meta/classes/base.bbclass                  |    1 -
+>   meta/classes/package.bbclass               |    2 +-
+>   meta/classes/package_rpm.bbclass           |    8 +++++++-
+>   meta/conf/local.conf.sample                |    3 ++-
+>   meta/recipes-core/udev/udev-new.inc        |    2 +-
+>   meta/recipes-devtools/rpm/rpm_5.4.0.bb     |    3 ++-
+>   meta/recipes-extended/gperf/gperf_3.0.3.bb |    3 +++
+>   meta/recipes-extended/which/which_2.18.bb  |    3 +++
+>   8 files changed, 19 insertions(+), 6 deletions(-)
+>
 
 
