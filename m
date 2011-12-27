@@ -1,30 +1,50 @@
-Received: from mga07.intel.com ([143.182.124.22] helo=azsmga101.ch.intel.com)
+Received: from tx2ehsobe004.messaging.microsoft.com ([65.55.88.14]
+	helo=TX2EHSOBE007.bigfish.com)
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <scott.a.garman@intel.com>) id 1RfLlW-0006jN-Pk
+	(envelope-from <B19537@freescale.com>) id 1RfNmc-00021b-Pr
 	for openembedded-core@lists.openembedded.org;
-	Tue, 27 Dec 2011 02:23:43 +0100
-Received: from mail-qy0-f180.google.com ([209.85.216.180])
-	by mga03.intel.com with ESMTP/TLS/RC4-SHA; 26 Dec 2011 17:16:28 -0800
-Received: by qcse1 with SMTP id e1so6932774qcs.25
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 26 Dec 2011 17:16:27 -0800 (PST)
-Received: by 10.229.75.147 with SMTP id y19mr9938982qcj.33.1324948587783;
-	Mon, 26 Dec 2011 17:16:27 -0800 (PST)
-Received: from [192.168.1.107] (c-75-67-44-171.hsd1.nh.comcast.net.
-	[75.67.44.171])
-	by mx.google.com with ESMTPS id z1sm47806838qao.1.2011.12.26.17.16.26
-	(version=SSLv3 cipher=OTHER); Mon, 26 Dec 2011 17:16:26 -0800 (PST)
-Message-ID: <4EF8E344.2020800@intel.com>
-Date: Mon, 26 Dec 2011 16:12:36 -0500
-From: Scott Garman <scott.a.garman@intel.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:8.0) Gecko/20111124 Thunderbird/8.0
+	Tue, 27 Dec 2011 04:33:00 +0100
+Received: from mail146-tx2-R.bigfish.com (10.9.14.245) by
+	TX2EHSOBE007.bigfish.com (10.9.40.27) with Microsoft SMTP Server id
+	14.1.225.23; Tue, 27 Dec 2011 03:25:28 +0000
+Received: from mail146-tx2 (localhost [127.0.0.1])	by
+	mail146-tx2-R.bigfish.com (Postfix) with ESMTP id 471AB540125	for
+	<openembedded-core@lists.openembedded.org>;
+	Tue, 27 Dec 2011 03:26:55 +0000 (UTC)
+X-SpamScore: -6
+X-BigFish: VS-6(zz9371I542M1432Nzz1202hzz8275bh8275dhz2dh2a8h668h839h8e2h8e3h944hbe9n61h)
+X-Spam-TCS-SCL: 0:0
+X-Forefront-Antispam-Report: CIP:70.37.183.190; KIP:(null); UIP:(null); IPV:NLI;
+	H:mail.freescale.net; RD:none; EFVD:NLI
+Received: from mail146-tx2 (localhost.localdomain [127.0.0.1]) by mail146-tx2
+	(MessageSwitch) id 1324956415132376_32349;
+	Tue, 27 Dec 2011 03:26:55 +0000 (UTC)
+Received: from TX2EHSMHS027.bigfish.com (unknown [10.9.14.252])	by
+	mail146-tx2.bigfish.com (Postfix) with ESMTP id 1746440046	for
+	<openembedded-core@lists.openembedded.org>;
+	Tue, 27 Dec 2011 03:26:55 +0000 (UTC)
+Received: from mail.freescale.net (70.37.183.190) by TX2EHSMHS027.bigfish.com
+	(10.9.99.127) with Microsoft SMTP Server (TLS) id 14.1.225.23;
+	Tue, 27 Dec 2011 03:25:48 +0000
+Received: from 039-SN2MPN1-023.039d.mgd.msft.net ([169.254.3.213]) by
+	039-SN1MMR1-001.039d.mgd.msft.net ([10.84.1.13]) with mapi id
+	14.01.0355.003; Mon, 26 Dec 2011 21:25:41 -0600
+From: Luo Zhenhua-B19537 <B19537@freescale.com>
+To: "openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+Thread-Topic: [PATCH v2 oe-core] linux-dtb: add dtb into deploy cache package
+Thread-Index: AQHMwR6PlUqQYNfOokWUmTRVTd0HdZXvDA/A
+Date: Tue, 27 Dec 2011 03:25:41 +0000
+Message-ID: <CA452391058F6D4E9715FB2C29D9312A010BCCCD@039-SN2MPN1-023.039d.mgd.msft.net>
+References: <1324609224-28618-1-git-send-email-b19537@freescale.com>
+In-Reply-To: <1324609224-28618-1-git-send-email-b19537@freescale.com>
+Accept-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [10.192.208.114]
 MIME-Version: 1.0
-To: openembedded-core@lists.openembedded.org
-References: <cover.1324661415.git.scott.a.garman@intel.com>
-	<4EF4BDA1.2060906@intel.com>
-In-Reply-To: <4EF4BDA1.2060906@intel.com>
-Subject: Re: [PATCH 0/2] Upgrade chrpath and libevent
+X-OriginatorOrg: freescale.com
+Subject: Re: [PATCH v2 oe-core] linux-dtb: add dtb into deploy cache package
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -39,44 +59,62 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 27 Dec 2011 01:23:43 -0000
-Content-Type: text/plain; charset=ISO-8859-1; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Tue, 27 Dec 2011 03:33:00 -0000
+Content-Language: en-US
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 
-On 12/23/2011 12:42 PM, Scott Garman wrote:
-> On 12/23/2011 09:31 AM, Scott Garman wrote:
->> Hello,
->>
->> This pull request upgrades the chrpath and libevent recipes. It has
->> been build-tested on all 5 of our qemu architectures.
->
-> Please hold off on accepting this pull request. I forgot to include the
-> distro tracking field updates, and when I just went to do so, I noticed
-> that libevent had a NO_UPDATE_REASON field suggesting that libevent2 was
-> not compatible. Which means I have to do a lot more testing on this
-> before I can feel comfortable submitting it.
->
-> I will likely not get to this until I return on January 2.
+Please ignore.=20
 
-Just a note:
+A new version will be submitted.=20
 
-I did a grep for DEPENDS references to libevent in our tree and 
-nfs-utils is the only recipe that lists it. I have tested building 
-nfs-utils with the new libevent and there were no build errors.
 
-Can anyone tell me if there are other applications known to use libevent 
-that we include which I could do some runtime testing? If there are 
-none, then I think in fact it should be safe to take this pull request.
+Best Regards,
 
-If nothing else, the chrpath recipe upgrade commit is safe.
+Zhenhua
 
-Thanks,
 
-Scott
+> -----Original Message-----
+> From: Luo Zhenhua-B19537
+> Sent: Friday, December 23, 2011 11:00 AM
+> To: openembedded-core@lists.openembedded.org
+> Cc: Luo Zhenhua-B19537
+> Subject: [PATCH v2 oe-core] linux-dtb: add dtb into deploy cache package
+>=20
+> From: Zhenhua Luo <b19537@freescale.com>
+>=20
+>     > current dtb is not included in the deploy cache package, dtb is mis=
+sing
+>       when build kernel from caches
+>=20
+> Signed-off-by: Zhenhua Luo <b19537@freescale.com>
+> ---
+>  meta/recipes-kernel/linux/linux-dtb.inc |    8 ++++++++
+>  1 files changed, 8 insertions(+), 0 deletions(-)
+>=20
+> diff --git a/meta/recipes-kernel/linux/linux-dtb.inc b/meta/recipes-
+> kernel/linux/linux-dtb.inc
+> index 7ec7584..e537d86 100644
+> --- a/meta/recipes-kernel/linux/linux-dtb.inc
+> +++ b/meta/recipes-kernel/linux/linux-dtb.inc
+> @@ -25,3 +25,11 @@ do_install_append() {
+>      fi
+>  }
+>=20
+> +do_deploy_append() {
+> +    if test -n "${KERNEL_DEVICETREE}"; then
+> +        install -d ${DEPLOYDIR}
+> +        install -m 0644 ${DEPLOY_DIR_IMAGE}/${KERNEL_IMAGE_BASE_NAME}.dt=
+b
+> ${DEPLOYDIR}/${KERNEL_IMAGE_BASE_NAME}.dtb
+> +        cd ${DEPLOYDIR}
+> +        ln -sf ${KERNEL_IMAGE_BASE_NAME}.dtb ${KERNEL_IMAGE_SYMLINK_NAME=
+}.dtb
+> +    fi
+> +}
+> --
+> 1.7.0.4
 
--- 
-Scott Garman
-Embedded Linux Engineer - Yocto Project
-Intel Open Source Technology Center
+
 
 
