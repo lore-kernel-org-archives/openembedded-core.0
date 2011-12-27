@@ -1,24 +1,30 @@
-Received: from mga02.intel.com ([134.134.136.20])
+Received: from mail-we0-f175.google.com ([74.125.82.175])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <edwin.zhai@intel.com>) id 1RfX0w-0005bU-2m
+	(envelope-from <kergoth@gmail.com>) id 1RfazU-0004Yy-BD
 	for openembedded-core@lists.openembedded.org;
-	Tue, 27 Dec 2011 14:24:22 +0100
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-	by orsmga101.jf.intel.com with ESMTP; 27 Dec 2011 05:17:08 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.67,352,1309762800"; d="scan'208";a="90644485"
-Received: from yocto-build3.sh.intel.com ([10.239.48.58])
-	by orsmga001.jf.intel.com with ESMTP; 27 Dec 2011 05:17:08 -0800
-From: edwin.zhai@intel.com
-To: openembedded-core@lists.openembedded.org
-Date: Tue, 27 Dec 2011 21:06:45 +0800
-Message-Id: <3bdd615755d7a911dbee7aaa2c86043c0caa351b.1324991041.git.edwin.zhai@intel.com>
-X-Mailer: git-send-email 1.7.1
-In-Reply-To: <cover.1324991041.git.edwin.zhai@intel.com>
-References: <cover.1324991041.git.edwin.zhai@intel.com>
-In-Reply-To: <cover.1324991041.git.edwin.zhai@intel.com>
-References: <cover.1324991041.git.edwin.zhai@intel.com>
-Subject: [PATCH 1/1] gnome-keyring: fix gsettings_data_convert seg fault
+	Tue, 27 Dec 2011 18:39:08 +0100
+Received: by werm13 with SMTP id m13so5892246wer.6
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 27 Dec 2011 09:31:52 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:content-type:content-transfer-encoding;
+	bh=vGOkQiUUT/LtTZnfBbMLrbBeEMtmMH6bE1FZ2wmgnbs=;
+	b=OB+5HA/7e0kqNaK6WhCQtuhDrAZTMO9kxvW+dGbAsHF3Odx23zYQeZEHN8Z8JxNrqY
+	Kls+xLdGEeqldLw9lIOOZ56ZyS4ngXykF+rKxWOraFTUGtzazu469lx+4D0qyWUa+rYU
+	l+hPmS4CkiZqMGq8z9qLsSou7MfJ0QTenZKu0=
+Received: by 10.216.138.101 with SMTP id z79mr22034922wei.7.1325007112256;
+	Tue, 27 Dec 2011 09:31:52 -0800 (PST)
+MIME-Version: 1.0
+Received: by 10.216.162.208 with HTTP; Tue, 27 Dec 2011 09:31:31 -0800 (PST)
+In-Reply-To: <1324488253.19860.4.camel@ted>
+References: <4EF0C808.8060609@gmail.com> <1324488253.19860.4.camel@ted>
+From: Chris Larson <kergoth@gmail.com>
+Date: Tue, 27 Dec 2011 10:31:31 -0700
+Message-ID: <CABcZAN=tn0f=xNFepSeOMT--yvPX-UKCj0fa-0WMeuWsAAro5Q@mail.gmail.com>
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] patch.bbclass: abstract out logic that determines patches to apply
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -33,57 +39,34 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 27 Dec 2011 13:24:22 -0000
+X-List-Received-Date: Tue, 27 Dec 2011 17:39:08 -0000
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
-From: Zhai Edwin <edwin.zhai@intel.com>
+On Wed, Dec 21, 2011 at 10:24 AM, Richard Purdie
+<richard.purdie@linuxfoundation.org> wrote:
+> On Tue, 2011-12-20 at 10:38 -0700, Christopher Larson wrote:
+>> This is needed by the copyleft_compliance class, so it can emit series f=
+iles
+>> for the patches, which greatly increases their usefulness to a user
+>> trying to
+>> reconstruct the sources outside of OE.
+>>
+>> Signed-off-by: Christopher Larson <chris_larson@mentor.com>
+>> ---
+>> =C2=A0 meta/classes/patch.bbclass | =C2=A0196
+>> +++++++++++++++++++++++--------------------
+>> =C2=A0 1 files changed, 105 insertions(+), 91 deletions(-)
+>
+> I have no objection to the change but the patch seems to be mangled
+> somehow. Could you resend it or point me at a git tree please?
 
-gsttings_data_convert cause seg fault as gnome-keyring's schema is not
-installed properly. As a fix, running glib-compile-schemas from glib-utils to
-made "gschemas.compiled".
-
-[YOCTO #1779] got fixed.
-
-Signed-off-by: Zhai Edwin <edwin.zhai@intel.com>
----
- meta/recipes-gnome/gnome/gnome-keyring_2.32.1.bb |   12 ++++++++++--
- 1 files changed, 10 insertions(+), 2 deletions(-)
-
-diff --git a/meta/recipes-gnome/gnome/gnome-keyring_2.32.1.bb b/meta/recipes-gnome/gnome/gnome-keyring_2.32.1.bb
-index cc97225..a92ac4d 100644
---- a/meta/recipes-gnome/gnome/gnome-keyring_2.32.1.bb
-+++ b/meta/recipes-gnome/gnome/gnome-keyring_2.32.1.bb
-@@ -11,12 +11,12 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=94d55d512a9ba36caa9b7df079bae19f \
- 
- SECTION = "x11/gnome"
- 
--PR = "r3"
-+PR = "r4"
- 
- inherit autotools gnome pkgconfig
- 
- DEPENDS = "gtk+ libgcrypt libtasn1 libtasn1-native gconf ${@base_contains('DISTRO_FEATURES', 'pam', 'libpam', '', d)}"
--RDEPENDS_${PN} = "libgnome-keyring"
-+RDEPENDS_${PN} = "libgnome-keyring glib-2.0-utils"
- 
- EXTRA_OECONF = "--disable-gtk-doc ${@base_contains('DISTRO_FEATURES', 'pam', '--enable-pam --with-pam-dir=${base_libdir}/security', '--disable-pam', d)}"
- 
-@@ -30,6 +30,14 @@ do_install_append () {
- 	install -m 0644 ${WORKDIR}/org.gnome.keyring.service ${D}${datadir}/dbus-1/services
- }
- 
-+pkg_postinst_gnome-keyring () {
-+if [ "x$D" != "x" ]; then
-+    exit 1
-+fi
-+
-+test -x ${bindir}/glib-compile-schemas && glib-compile-schemas  ${datadir}/glib-2.0/schemas
-+}
-+
- FILES_${PN} += "${datadir}/dbus-1/services ${datadir}/gcr ${base_libdir}/security/*.so"
- FILES_${PN}-dbg += "${libdir}/gnome-keyring/standalone/.debug/ ${base_libdir}/security/*.la"
- FILES_${PN}-dbg += "${libdir}/gnome-keyring/devel/.debug/ ${base_libdir}/security/.debug"
--- 
-1.7.1
-
+Sorry about that, my git send-email isn't working on my main dev
+machine at the moment, strange error from git that no one seems to
+recognize. used imap-send, and apparently tbird defaults to wrapping
+the same way the gmail UI does *eyeroll*. See
+https://github.com/kergoth/oe-core/compare/patch-refactor
+--=20
+Christopher Larson
 
 
