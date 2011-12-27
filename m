@@ -1,29 +1,26 @@
-Received: from mail-vx0-f175.google.com ([209.85.220.175])
+Received: from mga09.intel.com ([134.134.136.24])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <fransmeulenbroeks@gmail.com>) id 1RfdwP-0002lM-35
+	(envelope-from <sgw@linux.intel.com>) id 1RffAI-0005WD-Rj
 	for openembedded-core@lists.openembedded.org;
-	Tue, 27 Dec 2011 21:48:09 +0100
-Received: by vcbf1 with SMTP id f1so8705370vcb.6
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 27 Dec 2011 12:40:51 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
-	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
-	:content-type; bh=e0SyD8v/u0ZeTGqckOlsE3rzj1F5lflzMZqXKUpsp3w=;
-	b=KRYuUWjDGYKL4Rb81pLvSGVd+n6iV+DHolNZHEAtlPQGND3+VmgQ44WDpIPu+hLocc
-	USGe2CIaijsw0vuN6pFlI/SBCXjRQHehhyn962oznINzUbrlGNZPxAPUjPfhJAksn4lI
-	th0DIkM6ZcMWbl1mWqWw1An8QUwPo3WH8phAI=
+	Tue, 27 Dec 2011 23:06:35 +0100
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+	by orsmga102.jf.intel.com with ESMTP; 27 Dec 2011 13:59:21 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.67,352,1309762800"; d="scan'208";a="90767280"
+Received: from unknown (HELO [10.255.13.80]) ([10.255.13.80])
+	by orsmga001.jf.intel.com with ESMTP; 27 Dec 2011 13:59:19 -0800
+Message-ID: <4EFA3FB5.7030605@linux.intel.com>
+Date: Tue, 27 Dec 2011 13:59:17 -0800
+From: Saul Wold <sgw@linux.intel.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:7.0) Gecko/20110927 Thunderbird/7.0
 MIME-Version: 1.0
-Received: by 10.220.149.205 with SMTP id u13mr16974735vcv.45.1325018451034;
-	Tue, 27 Dec 2011 12:40:51 -0800 (PST)
-Received: by 10.52.160.137 with HTTP; Tue, 27 Dec 2011 12:40:50 -0800 (PST)
-In-Reply-To: <1325018118-30223-2-git-send-email-fransmeulenbroeks@gmail.com>
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
 References: <1325018118-30223-1-git-send-email-fransmeulenbroeks@gmail.com>
-	<1325018118-30223-2-git-send-email-fransmeulenbroeks@gmail.com>
-Date: Tue, 27 Dec 2011 21:40:50 +0100
-Message-ID: <CACW_hTZCU6Wa7XjET3AbUUSbF_ZS95SFUx70gJybFkWSTmympA@mail.gmail.com>
-From: Frans Meulenbroeks <fransmeulenbroeks@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 2/2] u-boot: added generating the env utils (fixes bug 1800)
+In-Reply-To: <1325018118-30223-1-git-send-email-fransmeulenbroeks@gmail.com>
+Cc: Frans Meulenbroeks <fransmeulenbroeks@gmail.com>
+Subject: Re: [PATCH 1/2] u-boot: improved DESCRIPTION, fixed HOMEPAGE
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -38,35 +35,33 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 27 Dec 2011 20:48:09 -0000
-Content-Type: multipart/alternative; boundary=f46d043c822c18428f04b518e686
+X-List-Received-Date: Tue, 27 Dec 2011 22:06:35 -0000
+Content-Type: text/plain; charset=ISO-8859-1; format=flowed
+Content-Transfer-Encoding: 7bit
 
---f46d043c822c18428f04b518e686
-Content-Type: text/plain; charset=ISO-8859-1
+On 12/27/2011 12:35 PM, Frans Meulenbroeks wrote:
+> HOMEPAGE pointed to an sf.net page that said that the
+> page did not exist any more and after that it redirected
+> to the denx.de page; updated HOMEPAGE to point to that page
+> Also improved the description to use the official capitalisation
+>
+> Signed-off-by: Frans Meulenbroeks<fransmeulenbroeks@gmail.com>
+> ---
+>   meta/recipes-bsp/u-boot/u-boot.inc |    2 ++
+>   1 files changed, 2 insertions(+), 0 deletions(-)
+>
+> diff --git a/meta/recipes-bsp/u-boot/u-boot.inc b/meta/recipes-bsp/u-boot/u-boot.inc
+> index 544acd2..a3f50bc 100644
+> --- a/meta/recipes-bsp/u-boot/u-boot.inc
+> +++ b/meta/recipes-bsp/u-boot/u-boot.inc
+> @@ -1,3 +1,5 @@
+> +DESCRIPTION = "U-Boot - the Universal Boot Loader"
+> +HOMEPAGE = "http://www.denx.de/wiki/U-Boot/WebHome"
+>   DESCRIPTION = "U-boot bootloader"
+>   HOMEPAGE = "http://u-boot.sf.net"
+>   SECTION = "bootloaders"
+Should you be deleting the older DESCRIPTION and HOMEPAGE?
 
-Forgot to mention this but it could be decided to make a separate recipe
-for the env utils (like there is for mkimage).
+Sau!
 
-And if you are interested in the reason why HOSTCC is being used to compile
-fw_printenv and friends:
-read this thread:
-http://old.nabble.com/-U-Boot---PATCH-1-4--tools%3A-enable-img2srec-for-%22all%22-target-td29440508.html#a29440510
 
-Enjoy!
-Frans
-
---f46d043c822c18428f04b518e686
-Content-Type: text/html; charset=ISO-8859-1
-Content-Transfer-Encoding: quoted-printable
-
-Forgot to mention this but it could be decided to make a separate recipe fo=
-r the env utils (like there is for mkimage).<br><br>And if you are interest=
-ed in the reason why HOSTCC is being used to compile fw_printenv and friend=
-s:<br>
-read this thread: <a href=3D"http://old.nabble.com/-U-Boot---PATCH-1-4--too=
-ls%3A-enable-img2srec-for-%22all%22-target-td29440508.html#a29440510">http:=
-//old.nabble.com/-U-Boot---PATCH-1-4--tools%3A-enable-img2srec-for-%22all%2=
-2-target-td29440508.html#a29440510</a><br>
-<br>Enjoy!<br>Frans<br>
-
---f46d043c822c18428f04b518e686--
