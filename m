@@ -1,29 +1,32 @@
-Received: from mga14.intel.com ([143.182.124.37])
+Received: from mail-vx0-f175.google.com ([209.85.220.175])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <paul.eggleton@linux.intel.com>) id 1Rfqhp-00064r-4O
+	(envelope-from <fransmeulenbroeks@gmail.com>) id 1Rfqln-0006Do-3T
 	for openembedded-core@lists.openembedded.org;
-	Wed, 28 Dec 2011 11:25:57 +0100
-Received: from azsmga001.ch.intel.com ([10.2.17.19])
-	by azsmga102.ch.intel.com with ESMTP; 28 Dec 2011 02:18:43 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="90178777"
-Received: from unknown (HELO helios.localnet) ([10.252.122.71])
-	by azsmga001.ch.intel.com with ESMTP; 28 Dec 2011 02:18:41 -0800
-From: Paul Eggleton <paul.eggleton@linux.intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Wed, 28 Dec 2011 10:18:40 +0000
-Message-ID: <2295923.3R0Nmqr59V@helios>
-Organization: Intel Corporation
-User-Agent: KMail/4.7.3 (Linux/3.0.0-14-generic-pae; KDE/4.7.4; i686; ; )
-In-Reply-To: <CA452391058F6D4E9715FB2C29D9312A010BD589@039-SN2MPN1-023.039d.mgd.msft.net>
-References: <1325055308-17731-1-git-send-email-b19537@freescale.com>
-	<8285067.9cfZeAKmYZ@helios>
-	<CA452391058F6D4E9715FB2C29D9312A010BD589@039-SN2MPN1-023.039d.mgd.msft.net>
+	Wed, 28 Dec 2011 11:30:04 +0100
+Received: by vcbf1 with SMTP id f1so8994619vcb.6
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 28 Dec 2011 02:22:49 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
+	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
+	:cc:content-type;
+	bh=0GK/hBdbEdPvGBJrYVEh+MFQutpc3mEgkrYsNye7oH8=;
+	b=AnDfMe+i2c3+ckC8Jcwi9Jy184e5WPGyvxw7VoYuX5VmxtprXuVssOfG2mJB0LOQgC
+	BDRqKpGelAeLI5KsAy5sqBx2GEiJq78xjkozmt9EcoxWeqi6p7qTcDP1DulUI/xXKs54
+	IAJGRJJD2z2QiFzBFir/VKu7+iYxVGV1EGvJc=
 MIME-Version: 1.0
-Cc: McClintock Matthew-B29882 <B29882@freescale.com>,
-	Garg Vakul-B16394 <B16394@freescale.com>,
-	Luo Zhenhua-B19537 <B19537@freescale.com>
-Subject: Re: [PATCH oe-core] valgrind: add powerpc to the compatible host and add eglibc-dbg in rdepends
+Received: by 10.220.106.138 with SMTP id x10mr8926996vco.64.1325067769352;
+	Wed, 28 Dec 2011 02:22:49 -0800 (PST)
+Received: by 10.52.160.137 with HTTP; Wed, 28 Dec 2011 02:22:49 -0800 (PST)
+In-Reply-To: <1325033289.4637.23.camel@localhost.localdomain>
+References: <1325018118-30223-1-git-send-email-fransmeulenbroeks@gmail.com>
+	<1325033289.4637.23.camel@localhost.localdomain>
+Date: Wed, 28 Dec 2011 11:22:49 +0100
+Message-ID: <CACW_hTa517Yi=BoPmrfEk6=T1+pnc2kXEg59CEFZBt9XykKrKg@mail.gmail.com>
+From: Frans Meulenbroeks <fransmeulenbroeks@gmail.com>
+To: niqingliang@insigma.com.cn
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 1/2] u-boot: improved DESCRIPTION, fixed HOMEPAGE
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -38,32 +41,77 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 28 Dec 2011 10:25:57 -0000
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
+X-List-Received-Date: Wed, 28 Dec 2011 10:30:04 -0000
+Content-Type: multipart/alternative; boundary=f46d042fd88ab2121a04b52461fd
 
-On Wednesday 28 December 2011 10:01:13 Luo Zhenhua-B19537 wrote:
-> May I know what's the concern with eglibc instead of uclibc?
+--f46d042fd88ab2121a04b52461fd
+Content-Type: text/plain; charset=GB2312
+Content-Transfer-Encoding: 7bit
 
-So my concern is, if you add a runtime dependency on eglibc-dbg to valgrind 
-and you've selected uclibc instead, it will force installation of eglibc when 
-you install valgrind (not to mention building it when you build valgrind); 
-this is almost certainly not what you want.
+2011/12/28 Ni Qingliang <niqingliang@insigma.com.cn>
 
-If a dependency on the libc debug packages is really needed you could do 
-something this instead:
+> I have just done a seperate env tools bb for my project, but use the
+> config file to assign the env size and address (which is generated on
+> booting from /proc/mtd).
+>
+> in the fdt, the u-boot env has a seperate partition identified by it's
+> name "u-boot environment"
+>
+> and have some problem:
+> 1. the fw_printenv will exit with 0 even though can't read the env (CRC
+> error).
+>
 
-RRECOMMENDS_${PN} += "${TCLIBC}-dbg"
-
-(I suggest using RRECOMMENDS here rather than RDEPENDS in case here is no such 
-debug package for the user's selected libc.)
-
-Cheers,
-Paul
-
--- 
-
-Paul Eggleton
-Intel Open Source Technology Centre
+Apparently the author of the program did not consider this as an error.
+See tools/env/fw_env.c
 
 
+>
+> 2. the default env vars in fw_printenv(used when CRC error) are not same
+> as it in the u-boot.
+>
+
+If I recall correctly this is addressed in the 2nd patch I posted.
+From memory:
+Issue is that fw_env.h redefines CONFIG_BOOTCOMMAND. This gives you a
+different boot command.
+By putting #ifdef's around it the default one is taken
+
+Enjoy!
+Frans
+
+--f46d042fd88ab2121a04b52461fd
+Content-Type: text/html; charset=GB2312
+Content-Transfer-Encoding: quoted-printable
+
+<br><br><div class=3D"gmail_quote">2011/12/28 Ni Qingliang <span dir=3D"ltr=
+">&lt;<a href=3D"mailto:niqingliang@insigma.com.cn">niqingliang@insigma.com=
+.cn</a>&gt;</span><br><blockquote class=3D"gmail_quote" style=3D"margin:0 0=
+ 0 .8ex;border-left:1px #ccc solid;padding-left:1ex">
+I have just done a seperate env tools bb for my project, but use the<br>
+config file to assign the env size and address (which is generated on<br>
+booting from /proc/mtd).<br>
+<br>
+in the fdt, the u-boot env has a seperate partition identified by it&#39;s<=
+br>
+name &quot;u-boot environment&quot;<br>
+<br>
+and have some problem:<br>
+1. the fw_printenv will exit with 0 even though can&#39;t read the env (CRC=
+<br>
+error).<br></blockquote><div><br>Apparently the author of the program did n=
+ot consider this as an error.<br>See tools/env/fw_env.c<br>&nbsp;</div><blo=
+ckquote class=3D"gmail_quote" style=3D"margin:0pt 0pt 0pt 0.8ex;border-left=
+:1px solid rgb(204,204,204);padding-left:1ex">
+
+<br>
+2. the default env vars in fw_printenv(used when CRC error) are not same<br=
+>
+as it in the u-boot.<br></blockquote></div><br>If I recall correctly this i=
+s addressed in the 2nd patch I posted.<br>From memory:<br>Issue is that fw_=
+env.h redefines CONFIG_BOOTCOMMAND. This gives you a different boot command=
+.<br>
+By putting #ifdef&#39;s around it the default one is taken<br><br>Enjoy!<br=
+>Frans<br><br>
+
+--f46d042fd88ab2121a04b52461fd--
