@@ -1,26 +1,24 @@
-Received: from mga01.intel.com ([192.55.52.88])
+Received: from mga03.intel.com ([143.182.124.21])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <sgw@linux.intel.com>) id 1Rg38v-0006IP-Mz
+	(envelope-from <dvhart@linux.intel.com>) id 1Rg3C1-0006PG-Tn
 	for openembedded-core@lists.openembedded.org;
-	Thu, 29 Dec 2011 00:42:45 +0100
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-	by fmsmga101.fm.intel.com with ESMTP; 28 Dec 2011 15:35:29 -0800
+	Thu, 29 Dec 2011 00:45:58 +0100
+Received: from azsmga001.ch.intel.com ([10.2.17.19])
+	by azsmga101.ch.intel.com with ESMTP; 28 Dec 2011 15:38:42 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="101133483"
-Received: from unknown (HELO [10.255.13.80]) ([10.255.13.80])
-	by fmsmga001.fm.intel.com with ESMTP; 28 Dec 2011 15:35:29 -0800
-Message-ID: <4EFBA7C1.6060405@linux.intel.com>
-Date: Wed, 28 Dec 2011 15:35:29 -0800
-From: Saul Wold <sgw@linux.intel.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:7.0) Gecko/20110927 Thunderbird/7.0
-MIME-Version: 1.0
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-References: <cover.1325099430.git.sgw@linux.intel.com>
-	<a51df51291f928ba8250fb05c6b596017d400fc4.1325099431.git.sgw@linux.intel.com>
-In-Reply-To: <a51df51291f928ba8250fb05c6b596017d400fc4.1325099431.git.sgw@linux.intel.com>
-Subject: Re: [PATCH 3/6] python: add md5module support
+X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="90362008"
+Received: from unknown (HELO localhost) ([10.255.13.53])
+	by azsmga001.ch.intel.com with ESMTP; 28 Dec 2011 15:38:41 -0800
+From: Darren Hart <dvhart@linux.intel.com>
+To: openembedded-core@lists.openembedded.org, raj.khem@gmail.com,
+	koen@dominion.thruhere.net, kergoth@gmail.com, martin.jansa@gmail.com,
+	Bruce Ashfield <bruce.ashfield@windriver.com>,
+	Tom Zanussi <tom.zanussi@intel.com>,
+	Richard Purdie <richard.purdie@linuxfoundation.org>
+Date: Wed, 28 Dec 2011 15:38:08 -0800
+Message-Id: <cover.1325115066.git.dvhart@linux.intel.com>
+X-Mailer: git-send-email 1.7.6.4
+Subject: [PATCH 0/4] Fixes for tiny distros and linux-yocto-tiny
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -35,89 +33,85 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 28 Dec 2011 23:42:46 -0000
-Content-Type: text/plain; charset=ISO-8859-1; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Wed, 28 Dec 2011 23:45:58 -0000
 
-On 12/28/2011 11:12 AM, Saul Wold wrote:
-> The internal md5 module is needed for using "waf" to install
-> other python packages such as pycairo.
->
+In preparation for defining a poky-tiny distribution for meta-yocto, I found
+I needed the following patches. They mostly enable finer grained configuration
+of dependencies and allow for building without widechar support.
 
-I grabbed the wrong patch here, I need to add a patch here, v2 out soon!
 
-Sau!
+The linux-yocVto-tiny recipe isn't poky-tiny specific and could be of use to
+others, so I opted to keep it with the other linux-yocto recipes. It is a
+placeholder until the linux-yocto_3.2 recipes are ready for oe-core. At that
+time, linux-yocto-tiny will drop all config fragments in favor of the
+to-be-in-tree versions and make use of a new yocto/standard/tiny/base branch.
+For now, this recipe allows us to build a reasonably small kernel with fewer
+dependencies.
 
-> Signed-off-by: Saul Wold<sgw@linux.intel.com>
-> ---
->   .../recipes-devtools/python/python-native_2.7.2.bb |    6 ++++--
->   .../python/python/add-md5module-support.patch      |   13 +++++++++++++
->   meta/recipes-devtools/python/python_2.7.2.bb       |    3 ++-
->   3 files changed, 19 insertions(+), 3 deletions(-)
->   create mode 100644 meta/recipes-devtools/python/python/add-md5module-support.patch
->
-> diff --git a/meta/recipes-devtools/python/python-native_2.7.2.bb b/meta/recipes-devtools/python/python-native_2.7.2.bb
-> index d036eca..7d8c597 100644
-> --- a/meta/recipes-devtools/python/python-native_2.7.2.bb
-> +++ b/meta/recipes-devtools/python/python-native_2.7.2.bb
-> @@ -1,6 +1,6 @@
->   require python.inc
->   DEPENDS = "openssl-native bzip2-full-native zlib-native readline-native sqlite3-native"
-> -PR = "${INC_PR}.1"
-> +PR = "${INC_PR}.2"
->
->   SRC_URI += "file://04-default-is-optimized.patch \
->              file://05-enable-ctypes-cross-build.patch \
-> @@ -11,7 +11,9 @@ SRC_URI += "file://04-default-is-optimized.patch \
->              file://debug.patch \
->              file://unixccompiler.patch \
->              file://nohostlibs.patch \
-> -           file://multilib.patch "
-> +           file://multilib.patch \
-> +           file://add-md5module-support.patch \
-> +           "
->   S = "${WORKDIR}/Python-${PV}"
->
->   inherit native
-> diff --git a/meta/recipes-devtools/python/python/add-md5module-support.patch b/meta/recipes-devtools/python/python/add-md5module-support.patch
-> new file mode 100644
-> index 0000000..f715f40
-> --- /dev/null
-> +++ b/meta/recipes-devtools/python/python/add-md5module-support.patch
-> @@ -0,0 +1,13 @@
-> +Index: Python-2.7.2/Modules/Setup.dist
-> +===================================================================
-> +--- Python-2.7.2.orig/Modules/Setup.dist	2011-06-11 08:46:26.000000000 -0700
-> ++++ Python-2.7.2/Modules/Setup.dist	2011-12-27 15:51:41.244623219 -0800
-> +@@ -248,7 +248,7 @@
-> + # Message-Digest Algorithm, described in RFC 1321.  The necessary files
-> + # md5.c and md5.h are included here.
-> +
-> +-#_md5 md5module.c md5.c
-> ++_md5 md5module.c md5.c
-> +
-> +
-> + # The _sha module implements the SHA checksum algorithms.
-> diff --git a/meta/recipes-devtools/python/python_2.7.2.bb b/meta/recipes-devtools/python/python_2.7.2.bb
-> index 5e8e0d7..654c850 100644
-> --- a/meta/recipes-devtools/python/python_2.7.2.bb
-> +++ b/meta/recipes-devtools/python/python_2.7.2.bb
-> @@ -1,7 +1,7 @@
->   require python.inc
->   DEPENDS = "python-native db gdbm openssl readline sqlite3 zlib"
->   DEPENDS_sharprom = "python-native db readline zlib gdbm openssl"
-> -PR = "${INC_PR}.4"
-> +PR = "${INC_PR}.5"
->
->   DISTRO_SRC_URI ?= "file://sitecustomize.py"
->   DISTRO_SRC_URI_linuxstdbase = ""
-> @@ -19,6 +19,7 @@ SRC_URI += "\
->     file://cgi_py.patch \
->     file://remove_sqlite_rpath.patch \
->     file://setup_py_skip_cross_import_check.patch \
-> +  file://add-md5module-support.patch \
->   "
->
->   S = "${WORKDIR}/Python-${PV}"
+Thanks,
+
+Darren
+
+
+The following changes since commit 8f348ccad083d6c02c200652ff6295e701e88f0d:
+
+  coreutils: ensure --color works so DEPEND on libcap (2011-12-24 10:05:35 +0000)
+
+are available in the git repository at:
+  git://git.yoctoproject.org/user-contrib/dvhart/oe-core dvhart/tiny
+  http://git.yoctoproject.org/cgit.cgi/user-contrib/dvhart/oe-core/log/?h=dvhart/tiny
+
+Darren Hart (3):
+  eglibc: Only add eglibc-utils to PACKAGES if wchar is supported
+  linux-yocto-tiny: New kernel recipe for tiny distros
+  task-core-boot: Allow DISTRO to disable keymaps via VIRTUAL-RUNTIME_keymaps
+
+Richard Purdie (1):
+  native.bbclass: Fix variable remapping coverage
+
+ meta/classes/native.bbclass                        |    2 +-
+ meta/recipes-core/eglibc/eglibc-package.inc        |    6 +-
+ meta/recipes-core/tasks/task-core-boot.bb          |    8 +-
+ meta/recipes-devtools/autoconf/autoconf.inc        |    2 +
+ meta/recipes-devtools/autoconf/autoconf_2.68.bb    |    8 -
+ meta/recipes-devtools/automake/automake_1.11.1.bb  |    4 +-
+ .../recipes-devtools/python/python-native_2.7.2.bb |    2 +
+ meta/recipes-gnome/gnome/gconf_3.2.3.bb            |    1 +
+ meta/recipes-kernel/linux/linux-yocto-tiny/ata.cfg |    9 +
+ .../recipes-kernel/linux/linux-yocto-tiny/core.cfg |   19 +
+ .../linux/linux-yocto-tiny/debug.cfg               |    5 +
+ .../linux/linux-yocto-tiny/devtmpfs.cfg            |    6 +
+ .../linux/linux-yocto-tiny/e1000.cfg               |    7 +
+ .../recipes-kernel/linux/linux-yocto-tiny/ext2.cfg |    1 +
+ .../recipes-kernel/linux/linux-yocto-tiny/ext3.cfg |    2 +
+ .../recipes-kernel/linux/linux-yocto-tiny/lzma.cfg |    3 +
+ meta/recipes-kernel/linux/linux-yocto-tiny/net.cfg |   26 +
+ .../linux/linux-yocto-tiny/qemux86/defconfig       |  613 ++++++++++++++++++++
+ .../linux/linux-yocto-tiny/ramfs.cfg               |    6 +
+ .../linux/linux-yocto-tiny/rtc-pc.cfg              |   13 +
+ .../linux/linux-yocto-tiny/serial.cfg              |    7 +
+ meta/recipes-kernel/linux/linux-yocto-tiny/smp.cfg |    7 +
+ meta/recipes-kernel/linux/linux-yocto-tiny_3.0.bb  |   36 ++
+ meta/recipes-support/boost/boost.inc               |    1 +
+ 24 files changed, 777 insertions(+), 17 deletions(-)
+ create mode 100644 meta/recipes-kernel/linux/linux-yocto-tiny/ata.cfg
+ create mode 100644 meta/recipes-kernel/linux/linux-yocto-tiny/core.cfg
+ create mode 100644 meta/recipes-kernel/linux/linux-yocto-tiny/debug.cfg
+ create mode 100644 meta/recipes-kernel/linux/linux-yocto-tiny/devtmpfs.cfg
+ create mode 100644 meta/recipes-kernel/linux/linux-yocto-tiny/e1000.cfg
+ create mode 100644 meta/recipes-kernel/linux/linux-yocto-tiny/ext2.cfg
+ create mode 100644 meta/recipes-kernel/linux/linux-yocto-tiny/ext3.cfg
+ create mode 100644 meta/recipes-kernel/linux/linux-yocto-tiny/lzma.cfg
+ create mode 100644 meta/recipes-kernel/linux/linux-yocto-tiny/net.cfg
+ create mode 100644 meta/recipes-kernel/linux/linux-yocto-tiny/qemux86/defconfig
+ create mode 100644 meta/recipes-kernel/linux/linux-yocto-tiny/ramfs.cfg
+ create mode 100644 meta/recipes-kernel/linux/linux-yocto-tiny/rtc-pc.cfg
+ create mode 100644 meta/recipes-kernel/linux/linux-yocto-tiny/serial.cfg
+ create mode 100644 meta/recipes-kernel/linux/linux-yocto-tiny/smp.cfg
+ create mode 100644 meta/recipes-kernel/linux/linux-yocto-tiny_3.0.bb
+
+-- 
+1.7.6.4
+
 
 
