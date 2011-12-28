@@ -1,24 +1,32 @@
-Received: from mga02.intel.com ([134.134.136.20])
+Received: from stoexhub03.domain01.net ([83.145.59.144])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <paul.eggleton@linux.intel.com>) id 1RftuS-0002o4-2c
+	(envelope-from <anders@chargestorm.se>) id 1RfyBD-0004Do-5K
 	for openembedded-core@lists.openembedded.org;
-	Wed, 28 Dec 2011 14:51:12 +0100
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-	by orsmga101.jf.intel.com with ESMTP; 28 Dec 2011 05:43:40 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.67,352,1309762800"; d="scan'208";a="90955816"
-Received: from unknown (HELO helios.ger.corp.intel.com) ([10.252.122.71])
-	by orsmga001.jf.intel.com with ESMTP; 28 Dec 2011 05:43:38 -0800
-From: Paul Eggleton <paul.eggleton@linux.intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Wed, 28 Dec 2011 13:43:34 +0000
-Message-Id: <21ae4b515afcc1139bbf663679ac6dc45d33e7e4.1325079532.git.paul.eggleton@linux.intel.com>
-X-Mailer: git-send-email 1.7.5.4
-In-Reply-To: <cover.1325079532.git.paul.eggleton@linux.intel.com>
-References: <cover.1325079532.git.paul.eggleton@linux.intel.com>
-In-Reply-To: <cover.1325079532.git.paul.eggleton@linux.intel.com>
-References: <cover.1325079532.git.paul.eggleton@linux.intel.com>
-Subject: [RFC PATCH 1/1] classes/image: implement generic locale package installation
+	Wed, 28 Dec 2011 19:24:47 +0100
+Received: from STOEXMBXC01.domain01.net
+	([fe80:0000:0000:0000:8caa:b43d:115.41.221.224]) by
+	stoexhub03.domain01.net
+	([10.12.10.3]) with mapi; Wed, 28 Dec 2011 19:17:30 +0100
+From: Anders Darander <anders@chargestorm.se>
+To: Frans Meulenbroeks <fransmeulenbroeks@gmail.com>
+Date: Wed, 28 Dec 2011 19:17:19 +0100
+Thread-Topic: [OE-core] [PATCH 2/2] u-boot: added generating the env utils
+	(fixes bug 1800)
+Thread-Index: AczFjPXGJ41ivcH+TdG0Vcsw6AzvGw==
+Message-ID: <FCF8E2EA-669F-4D3E-89D9-4193AABE3344@chargestorm.se>
+References: <1325018118-30223-1-git-send-email-fransmeulenbroeks@gmail.com>
+	<1325018118-30223-2-git-send-email-fransmeulenbroeks@gmail.com>
+	<38A62FB9-6B22-4DC6-AC66-23F5806ED8BA@chargestorm.se>
+	<CACW_hTZ=5dzL6g2BOUnjjbWr+_kjU3RDjAGfMDs0NaMTpUffHg@mail.gmail.com>
+In-Reply-To: <CACW_hTZ=5dzL6g2BOUnjjbWr+_kjU3RDjAGfMDs0NaMTpUffHg@mail.gmail.com>
+Accept-Language: en-US, sv-SE
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+acceptlanguage: en-US, sv-SE
+MIME-Version: 1.0
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 2/2] u-boot: added generating the env utils (fixes bug 1800)
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -33,260 +41,221 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 28 Dec 2011 13:51:12 -0000
+X-List-Received-Date: Wed, 28 Dec 2011 18:24:47 -0000
+Content-Language: en-US
+Content-Type: multipart/alternative;
+	boundary="_000_FCF8E2EA669F4D3E89D94193AABE3344chargestormse_"
 
-Let each package-specific rootfs implementation provide basic functions
-to query the existence of a package and install a list of packages and
-then have a generic install function so this logic is in one place.
+--_000_FCF8E2EA669F4D3E89D94193AABE3344chargestormse_
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 
-Note: unlike previous versions of this code in OE-Core this uses the
-IMAGE_LINGUAS variable and not IMAGE_LOCALES - note that IMAGE_LINGUAS
-was what was used in OE-Classic and it is already used in OE-Core in
-order to install locale-base-*. This will mean that if IMAGE_LINGUAS is
-left at the default you will now get more packages installed. If you
-don't want these language support packages then you should set
-IMAGE_LINGUAS explicitly.
+DQoNCk9uIDI4IGRlYyAyMDExLCBhdCAxNDozNiwgIkZyYW5zIE1ldWxlbmJyb2VrcyIgPGZyYW5z
+bWV1bGVuYnJvZWtzQGdtYWlsLmNvbTxtYWlsdG86ZnJhbnNtZXVsZW5icm9la3NAZ21haWwuY29t
+Pj4gd3JvdGU6DQoNCjIwMTEvMTIvMjggQW5kZXJzIERhcmFuZGVyIDxhbmRlcnNAY2hhcmdlc3Rv
+cm0uc2U8bWFpbHRvOmFuZGVyc0BjaGFyZ2VzdG9ybS5zZT4+DQoNCk9uIDI3IGRlYyAyMDExLCBh
+dCAyMTozNSwgIkZyYW5zIE1ldWxlbmJyb2VrcyIgPGZyYW5zbWV1bGVuYnJvZWtzQGdtYWlsLmNv
+bTxtYWlsdG86ZnJhbnNtZXVsZW5icm9la3NAZ21haWwuY29tPj4gd3JvdGU6DQoNCj4gVGhpcyBh
+ZGRzIGJ1aWxkaW5nIHRoZSB1LWJvb3QgdG9vbHMgZm9yIHRhcmdldC4NCj4gKGZ3X3ByaW50ZW52
+LCBmd19zZXRlbnYpLg0KPiBUaGV5IGFyZSBwdXQgaW50byBhIHNlcGFyYXRlIHBhY2thZ2UNCj4g
+V2l0aCB0aGVzZSBmaWxlcyBpdCBiZWNvbWVzIHBvc3NpYmxlIHRvIG1vZGlmeQ0KPiB0aGUgdS1i
+b290IGVudmlyb25tZW50IHdoZW4gbGludXggaXMgYm9vdGVkDQo+DQo+IFRoZSAjaWZkZWYncyBp
+biBmd19lbnYuaCB3ZXJlIG5lZWRlZCB0byBhdm9pZCBjb21waWxhdGlvbiBpc3N1ZXMNCj4gVGhl
+IGNvbnN0YW50cyBoYXZlIGJlZW4gY2hhbmdlZCB0byBtb3JlIG1lYW5pbmdmdWwgZGVmYXVsdHMN
+Cj4gKGFzIDEyOGsgZmxhc2ggcGFnZXMgYXJlIG11Y2ggbW9yZSBjb21tb24gdGhhbiA0ayBwYWdl
+cykNCj4gYnV0IGNhbiBiZSBvdmVycmlkZGVuIHVzaW5nIGEgY29uZmlndXJhdGlvbiBmaWxlLg0K
+Pg0KPiBUaGlzIHJlc29sdmVzIGJ1ZyAxODAwDQo+DQo+IFNpZ25lZC1vZmYtYnk6IEZyYW5zIE1l
+dWxlbmJyb2VrcyA8ZnJhbnNtZXVsZW5icm9la3NAZ21haWwuY29tPG1haWx0bzpmcmFuc21ldWxl
+bmJyb2Vrc0BnbWFpbC5jb20+Pg0KPg0KPiAtLS0NCj4gTm90ZTogZGV2ZWxvcG1lbnQgYW5kIHRl
+c3Rpbmcgd2FzIGRvbmUgdW5kZXIgb3BlbmVtYmVkZGVkIGNsYXNzaWMuDQo+IEkndmUgdGVzdGVk
+IGl0IHRoZXJlIHF1aXRlIGhlYXZpbHkgKGZvciBtcGM4MzEzIGlmIHRoYXQgbWF0dGVycykuDQo+
+IEkgd2FzIHJlcXVlc3RlZCB0byBwcm92aWRlIGEgcGF0Y2ggZm9yIG9lLWNvcmUgdG9vICh0byBy
+ZXNvbHZlIGJ1ZyAxODAwKQ0KPiBzbyBoZXJlIGl0IGlzLCBhbHRob3VnaCBhdCB0aGUgbW9tZW50
+IEkgYW0gdW5hYmxlIHRvIHRlc3QgdGhlIHBhdGNoIGZvciBvZS1jb3JlLg0KPiBJIHN1Z2dlc3Qg
+dGhhdCB0aGlzIGlzIGNhcmVmdWxseSByZXZpZXdlZCBhbmQgdGVzdGVkIGJlZm9yZSBiZWluZyBt
+ZXJnZWQuDQoNCg0KPiBjcmVhdGUgbW9kZSAxMDA2NDQgbWV0YS9yZWNpcGVzLWJzcC91LWJvb3Qv
+ZmlsZXMvdG9vbHNfZndlbnYucGF0Y2gNCj4NCj4gZGlmZiAtLWdpdCBhL21ldGEvcmVjaXBlcy1i
+c3AvdS1ib290L2ZpbGVzL3Rvb2xzX2Z3ZW52LnBhdGNoIGIvbWV0YS9yZWNpcGVzLWJzcC91LWJv
+b3QvZmlsZXMvdG9vbHNfZndlbnYucGF0Y2gNCj4gbmV3IGZpbGUgbW9kZSAxMDA2NDQNCj4gaW5k
+ZXggMDAwMDAwMC4uOGU4NzgwMA0KPiAtLS0gL2Rldi9udWxsDQo+ICsrKyBiL21ldGEvcmVjaXBl
+cy1ic3AvdS1ib290L2ZpbGVzL3Rvb2xzX2Z3ZW52LnBhdGNoLg0KDQo+ICsrDQo+ICsrI2luY2x1
+ZGUgImNvbmZpZy5oIg0KPiArDQo+ICsgI2RlZmluZSBIQVZFX1JFRFVORCAvKiBGb3Igc3lzdGVt
+cyB3aXRoIDIgZW52IHNlY3RvcnMgKi8NCj4gKy0jZGVmaW5lIERFVklDRTFfTkFNRSAgICAgICIv
+ZGV2L210ZDEiDQo+ICstI2RlZmluZSBERVZJQ0UyX05BTUUgICAgICAiL2Rldi9tdGQyIg0KPiAr
+KyNkZWZpbmUgREVWSUNFMV9OQU1FICAgICAgIi9kZXYvbXRkMCINCj4gKysjZGVmaW5lIERFVklD
+RTJfTkFNRSAgICAgICIvZGV2L210ZDAiDQoNCldvdWxkIHRoaXMgcmVhbGx5IGJlIGEgbW9yZSBj
+b21tYW4gY2FzZSB0aGFuIGhlIG9yaWdpbmFsIGRlZmluZXM/IChQZXJzb25hbGx5LCBJJ20gdXN1
+YWxseSB1c2luZyB0aGUgY29uZmlnIGZpbGUsIHNvIHRoaXMgZG9lc24ndCByZWFsbHkgbWF0dGVy
+LiBCdXQgSSdkIHN0aWxsIHF1ZXN0aW9uIGNoYW5naW5nIHRoZXNlIHRvIG10ZDAuLi4pDQpJIGNh
+biBsaXZlIHdpdGggZWl0aGVyIHZhbHVlLiBUaGlzIHdhcyB3aGF0IHdhcyB1c2VkIGluIG91ciBw
+cm9qZWN0Lg0KUGVyc29uYWxseSBJJ20gc29tZXdoYXQgaW5jbGluZWQgdG8ga2VlcCB0aGUgIyBv
+ZiBwYXJ0aXRpb25zIHNtYWxsLCBzbyBJIGFtIGxlc3MgaW5jbGluZWQgdG8gbWFrZSB0d28gcGFy
+dGl0aW9ucyBmb3IgdGhlIGVudi4NCg0KSSdtIHBlcnNvbmFsbHkgZmluZSB3aXRoIGVpdGhlciwg
+YXMgSSdtIG9mdGVuIHVzaW5nIGNvbmZpZy1maWxlcywgb3Igb3RoZXJ3aXNlIHRoZXJlJ3MgbGlr
+ZWx5IG1vcmUgY3VzdG9taXphdGlvbiBhbnl3YXkuDQoNClRob3VnaCwgSSdkIHByb2JhYmx5IGFy
+Z3VlIHRoYXQgaWYgd2UgYXJlIHRvIGNoYW5nZSB0aGUgZGVmYXVsdHMgaW4gdGhpcyBjYXNlIGNv
+bXBhcmVkIHRvIHVwc3RyZWFtLCBpdCBzaG91bGQgYmUgZHVlIHRvIGEgZWl0aGVyIHRoYXQgbW9z
+dC9hIGxhZ2UgbnVtYmVyIG9mIGJvYXJkcyBhcmUgdXNpbmcgdGhhdCBzY2hlbWUsIG9yIHRoYXQg
+dGhlIG5ldyBzZWVtIGlzIGF0IGxlYXN0IHVzZWQgYnkgcmVmZXJlbmNlIGJvYXJkcyBmb3IgT0Ut
+Q29yZSBhbmQgeW9jdG8gKGFsdGhvdWdoLCBJIGRvbid0IGtub3cgd2hpY2ggcmVmZXJlbmNlIGJv
+YXJkcyB1c2VzIG5hbmRmbGFzaCwgYW5kIGhvdyB0aGV5IGFyZSBjb25maWd1cmVkKS4NCg0KDQo+
+ICsgI2RlZmluZSBERVZJQ0UxX09GRlNFVCAgICAweDAwMDANCj4gKy0jZGVmaW5lIEVOVjFfU0la
+RSAgICAgICAgIDB4NDAwMA0KPiArLSNkZWZpbmUgREVWSUNFMV9FU0laRSAgICAgMHg0MDAwDQo+
+ICstI2RlZmluZSBERVZJQ0UyX09GRlNFVCAgICAweDAwMDANCj4gKy0jZGVmaW5lIEVOVjJfU0la
+RSAgICAgICAgIDB4NDAwMA0KPiArLSNkZWZpbmUgREVWSUNFMl9FU0laRSAgICAgMHg0MDAwDQo+
+ICsrI2RlZmluZSBFTlYxX1NJWkUgICAgICAgICAweDIwMDANCj4gKysjZGVmaW5lIERFVklDRTFf
+RVNJWkUgICAgIDB4MjAwMDANCj4gKysjZGVmaW5lIERFVklDRTFfRU5WU0VDVE9SUyAgICAgMQ0K
+PiArKyNkZWZpbmUgREVWSUNFMl9PRkZTRVQgICAgMHgyMDAwMA0KPiArKyNkZWZpbmUgRU5WMl9T
+SVpFICAgICAgICAgMHgyMDAwDQo+ICsrI2RlZmluZSBERVZJQ0UyX0VTSVpFICAgICAweDIwMDAw
+DQo+ICsrI2RlZmluZSBERVZJQ0UyX0VOVlNFQ1RPUlMgICAgIDENCg0KT2ssIEkgY2FuIGFncmVl
+IHdpdGggeW91IHRoYXQgMTI4ayBwYWdlcyBhcmUgbW9yZSBjb21tb24sIHRodXMgdGhhdCBjb3Vs
+ZCBiZSBhIHNlbnNpYmxlIGRlZmF1bHQuDQoNCkkgY2FuIGFsc28gc2VlIGEgZmV3IHJlYXNvbnMg
+Zm9yIGNoYW5naW5nIHRoZSBzaXplIG9mIHRoZSBlbnZpcm9ubWVudHMsIEVOVjFfU0laRSBhbmQg
+RU5WMl9TSVpFLCBidXQgdGhlcmUgaXMgbm8gcmVhc29uIGdpdmVuIGluIHRoZSBjb21taXQgbG9n
+Lg0KDQpBZ2FpbiBwcm9iYWJseSBhIHBlcnNvbmFsIHByZWZlcmVuY2UgdGhhdCBjcmVwdCBpbi4N
+CkkgZGlkIGEgcXVpY2sgZ3JlcDogaW4gdS1ib290L2luY2x1ZGUvY29uZmlncyAxNDYgYm9hcmRz
+IGhhdmUgYSBzaXplIG9mIDB4MjAwMCwgYW5kIDc4IGhhdmUgYSBzaXplIG9mIDB4NDAwMCwgc28g
+aXQgc2VlbXMgMHgyMDAwIGlzIG1vcmUgdXNlZC4NClRIZW4gYWdhaW4gcGVyaGFwcyB0aGUgY29k
+ZSBzaG91bGQgYmUgbW9kaWZpZWQgdG8gbWFrZSB1c2Ugb2Ygd2hhdGV2ZXIgY29uZmlnL2luY2x1
+ZGUgc2F5cy4NCg0KSWYgdGhlIG51bWJlcnMgcXVvdGVkIGFib3ZlIGFyZSB0aGUgc2FtZS9zaW1p
+bGFyIGlmIHlvdSBvbmx5IGxvb2sgYXQgYm9hcmRzIHdpdGggMTI4ayBwYWdlcywgdGhlbiB3ZSBz
+aG91bGQga2VlcCB5b3VyIHBhdGNoLg0KDQpJJ2xsIHNlZSBpZiBJIGNhbiBjb21lIHVwIHdpdGgg
+YW4gdXBkYXRlLg0KQnV0IGFjdHVhbGx5IHRoZSBtb3N0IGltcG9ydGFudCBwYXJ0IG9mIHRoaXMg
+cGF0Y2ggaXMgdG8gYWRkIHRoZSBjb2RlIGluIC5pbmMgYW5kIC5iYiB0byBjb21waWxlIHRoZSB0
+b29scy4NCg0KWWVzLCBJIGFncmVlIHRoYXQgdGhhdCdzIHRoZSBtb3N0IGltcG9ydGFudCBwYXJ0
+IG9mIHRoZSBwYXRjaC4gQW5kIGEgd2VsY29tZWQgcGF0Y2guIChJJ3ZlIGEgbG9jYWwgcGF0Y2gg
+ZG9pbmcgc29tZXRoaW5nIHNpbWlsYXIsIHRoYXQgSSd2ZSBuZXZlciBnb3QgYXJvdW5kIHRvIHN1
+Ym1pdCkuDQoNCkNoZWVycywNCkFuZGVycw0KDQpCZXN0IHJlZ2FyZHMsIEZyYW5zDQoNClBTOiBp
+dCBjb3VsZCBhbHNvIGJlIGRlY2lkZWQgdG8gbWFrZSBhIHNlcGFyYXRlIHUtYm9vdC1lbnYgcmVj
+aXBlLg0KUFBTOiBpZiBpbnRlcmVzdGVkIGluIHdoeSBmd19wcm50ZW52IGlzIGNvbXBpbGVkIHdp
+dGggSE9TVENDOiBzZWUgdGhpcyB0aHJlYWQ6IGh0dHA6Ly9vbGQubmFiYmxlLmNvbS8tVS1Cb290
+LS0tUEFUQ0gtMS00LS10b29scyUzQS1lbmFibGUtaW1nMnNyZWMtZm9yLSUyMmFsbCUyMi10YXJn
+ZXQtdGQyOTQ0MDUwOC5odG1sI2EyOTQ0MDUxMA0KZGlzY3Vzc2lvbiBzdGFydHMgc29tZXdoZXJl
+IGhhbGZ3YXkgdGhlIHRocmVhZC4NCg0K
 
-This restores locale installation to the same state as OE-Classic, only
-we now support all the packaging backends.
+--_000_FCF8E2EA669F4D3E89D94193AABE3344chargestormse_
+Content-Type: text/html; charset="utf-8"
+Content-Transfer-Encoding: base64
 
-Signed-off-by: Paul Eggleton <paul.eggleton@linux.intel.com>
----
- meta/classes/image.bbclass      |   37 +++++++++++++++++++++++++++++++++++++
- meta/classes/rootfs_deb.bbclass |   37 +++++++++++++++++++++++++++----------
- meta/classes/rootfs_ipk.bbclass |   30 +++++++++---------------------
- meta/classes/rootfs_rpm.bbclass |   35 +++++++++++------------------------
- 4 files changed, 84 insertions(+), 55 deletions(-)
+PGh0bWw+PGhlYWQ+PC9oZWFkPjxib2R5IGJnY29sb3I9IiNGRkZGRkYiPjxkaXY+PGJyPjwvZGl2
+PjxkaXY+PGJyPk9uIDI4IGRlYyAyMDExLCBhdCAxNDozNiwgIkZyYW5zIE1ldWxlbmJyb2VrcyIg
+Jmx0OzxhIGhyZWY9Im1haWx0bzpmcmFuc21ldWxlbmJyb2Vrc0BnbWFpbC5jb20iPmZyYW5zbWV1
+bGVuYnJvZWtzQGdtYWlsLmNvbTwvYT4mZ3Q7IHdyb3RlOjxicj48L2Rpdj48YmxvY2txdW90ZSB0
+eXBlPSJjaXRlIj48ZGl2Pjxicj48ZGl2IGNsYXNzPSJnbWFpbF9xdW90ZSI+MjAxMS8xMi8yOCBB
+bmRlcnMgRGFyYW5kZXIgPHNwYW4gZGlyPSJsdHIiPiZsdDs8YSBocmVmPSJtYWlsdG86YW5kZXJz
+QGNoYXJnZXN0b3JtLnNlIiB0YXJnZXQ9Il9ibGFuayI+YW5kZXJzQGNoYXJnZXN0b3JtLnNlPC9h
+PiZndDs8L3NwYW4+PGJyPjxibG9ja3F1b3RlIGNsYXNzPSJnbWFpbF9xdW90ZSIgc3R5bGU9Im1h
+cmdpbjowIDAgMCAuOGV4O2JvcmRlci1sZWZ0OjFweCAjY2NjIHNvbGlkO3BhZGRpbmctbGVmdDox
+ZXgiPg0KDQo8ZGl2Pjxicj4NCk9uIDI3IGRlYyAyMDExLCBhdCAyMTozNSwgIkZyYW5zIE1ldWxl
+bmJyb2VrcyIgJmx0OzxhIGhyZWY9Im1haWx0bzpmcmFuc21ldWxlbmJyb2Vrc0BnbWFpbC5jb20i
+IHRhcmdldD0iX2JsYW5rIj5mcmFuc21ldWxlbmJyb2Vrc0BnbWFpbC5jb208L2E+Jmd0OyB3cm90
+ZTo8YnI+DQo8YnI+DQomZ3Q7IFRoaXMgYWRkcyBidWlsZGluZyB0aGUgdS1ib290IHRvb2xzIGZv
+ciB0YXJnZXQuPGJyPg0KJmd0OyAoZndfcHJpbnRlbnYsIGZ3X3NldGVudikuPGJyPg0KJmd0OyBU
+aGV5IGFyZSBwdXQgaW50byBhIHNlcGFyYXRlIHBhY2thZ2U8YnI+DQomZ3Q7IFdpdGggdGhlc2Ug
+ZmlsZXMgaXQgYmVjb21lcyBwb3NzaWJsZSB0byBtb2RpZnk8YnI+DQomZ3Q7IHRoZSB1LWJvb3Qg
+ZW52aXJvbm1lbnQgd2hlbiBsaW51eCBpcyBib290ZWQ8YnI+DQomZ3Q7PGJyPg0KJmd0OyBUaGUg
+I2lmZGVmJ3MgaW4gZndfZW52Lmggd2VyZSBuZWVkZWQgdG8gYXZvaWQgY29tcGlsYXRpb24gaXNz
+dWVzPGJyPg0KJmd0OyBUaGUgY29uc3RhbnRzIGhhdmUgYmVlbiBjaGFuZ2VkIHRvIG1vcmUgbWVh
+bmluZ2Z1bCBkZWZhdWx0czxicj4NCiZndDsgKGFzIDEyOGsgZmxhc2ggcGFnZXMgYXJlIG11Y2gg
+bW9yZSBjb21tb24gdGhhbiA0ayBwYWdlcyk8YnI+DQomZ3Q7IGJ1dCBjYW4gYmUgb3ZlcnJpZGRl
+biB1c2luZyBhIGNvbmZpZ3VyYXRpb24gZmlsZS48YnI+DQomZ3Q7PGJyPg0KJmd0OyBUaGlzIHJl
+c29sdmVzIGJ1ZyAxODAwPGJyPg0KJmd0Ozxicj4NCiZndDsgU2lnbmVkLW9mZi1ieTogRnJhbnMg
+TWV1bGVuYnJvZWtzICZsdDs8YSBocmVmPSJtYWlsdG86ZnJhbnNtZXVsZW5icm9la3NAZ21haWwu
+Y29tIiB0YXJnZXQ9Il9ibGFuayI+ZnJhbnNtZXVsZW5icm9la3NAZ21haWwuY29tPC9hPiZndDs8
+YnI+DQomZ3Q7PGJyPg0KJmd0OyAtLS08YnI+DQomZ3Q7IE5vdGU6IGRldmVsb3BtZW50IGFuZCB0
+ZXN0aW5nIHdhcyBkb25lIHVuZGVyIG9wZW5lbWJlZGRlZCBjbGFzc2ljLjxicj4NCiZndDsgSSd2
+ZSB0ZXN0ZWQgaXQgdGhlcmUgcXVpdGUgaGVhdmlseSAoZm9yIG1wYzgzMTMgaWYgdGhhdCBtYXR0
+ZXJzKS48YnI+DQomZ3Q7IEkgd2FzIHJlcXVlc3RlZCB0byBwcm92aWRlIGEgcGF0Y2ggZm9yIG9l
+LWNvcmUgdG9vICh0byByZXNvbHZlIGJ1ZyAxODAwKTxicj4NCiZndDsgc28gaGVyZSBpdCBpcywg
+YWx0aG91Z2ggYXQgdGhlIG1vbWVudCBJIGFtIHVuYWJsZSB0byB0ZXN0IHRoZSBwYXRjaCBmb3Ig
+b2UtY29yZS48YnI+DQomZ3Q7IEkgc3VnZ2VzdCB0aGF0IHRoaXMgaXMgY2FyZWZ1bGx5IHJldmll
+d2VkIGFuZCB0ZXN0ZWQgYmVmb3JlIGJlaW5nIG1lcmdlZC48YnI+DQo8YnI+DQo8YnI+DQo8L2Rp
+dj48ZGl2PiZndDsgY3JlYXRlIG1vZGUgMTAwNjQ0IG1ldGEvcmVjaXBlcy1ic3AvdS1ib290L2Zp
+bGVzL3Rvb2xzX2Z3ZW52LnBhdGNoPGJyPg0KJmd0Ozxicj4NCiZndDsgZGlmZiAtLWdpdCBhL21l
+dGEvcmVjaXBlcy1ic3AvdS1ib290L2ZpbGVzL3Rvb2xzX2Z3ZW52LnBhdGNoIGIvbWV0YS9yZWNp
+cGVzLWJzcC91LWJvb3QvZmlsZXMvdG9vbHNfZndlbnYucGF0Y2g8YnI+DQomZ3Q7IG5ldyBmaWxl
+IG1vZGUgMTAwNjQ0PGJyPg0KJmd0OyBpbmRleCAwMDAwMDAwLi44ZTg3ODAwPGJyPg0KJmd0OyAt
+LS0gL2Rldi9udWxsPGJyPg0KJmd0OyArKysgYi9tZXRhL3JlY2lwZXMtYnNwL3UtYm9vdC9maWxl
+cy90b29sc19md2Vudi5wYXRjaDxzcGFuIGNsYXNzPSJBcHBsZS1zdHlsZS1zcGFuIiBzdHlsZT0i
+LXdlYmtpdC10YXAtaGlnaGxpZ2h0LWNvbG9yOiByZ2JhKDI2LCAyNiwgMjYsIDAuMjk2ODc1KTsg
+LXdlYmtpdC1jb21wb3NpdGlvbi1maWxsLWNvbG9yOiByZ2JhKDE3NSwgMTkyLCAyMjcsIDAuMjMw
+NDY5KTsgLXdlYmtpdC1jb21wb3NpdGlvbi1mcmFtZS1jb2xvcjogcmdiYSg3NywgMTI4LCAxODAs
+IDAuMjMwNDY5KTsgIj4uPC9zcGFuPjwvZGl2PjwvYmxvY2txdW90ZT48L2Rpdj48L2Rpdj48L2Js
+b2NrcXVvdGU+PGJyPjxibG9ja3F1b3RlIHR5cGU9ImNpdGUiPjxkaXY+PGRpdiBjbGFzcz0iZ21h
+aWxfcXVvdGUiPjxibG9ja3F1b3RlIGNsYXNzPSJnbWFpbF9xdW90ZSIgc3R5bGU9Im1hcmdpbjow
+cHQgMHB0IDBwdCAwLjhleDtib3JkZXItbGVmdDoxcHggc29saWQgcmdiKDIwNCwyMDQsMjA0KTtw
+YWRkaW5nLWxlZnQ6MWV4Ij48ZGl2Pg0KJmd0OyArKzxicj4NCiZndDsgKysjaW5jbHVkZSAiY29u
+ZmlnLmgiPGJyPg0KJmd0OyArPGJyPg0KJmd0OyArICNkZWZpbmUgSEFWRV9SRURVTkQgLyogRm9y
+IHN5c3RlbXMgd2l0aCAyIGVudiBzZWN0b3JzICovPGJyPg0KJmd0OyArLSNkZWZpbmUgREVWSUNF
+MV9OQU1FICZuYnNwOyAmbmJzcDsgJm5ic3A7Ii9kZXYvbXRkMSI8YnI+DQomZ3Q7ICstI2RlZmlu
+ZSBERVZJQ0UyX05BTUUgJm5ic3A7ICZuYnNwOyAmbmJzcDsiL2Rldi9tdGQyIjxicj4NCiZndDsg
+KysjZGVmaW5lIERFVklDRTFfTkFNRSAmbmJzcDsgJm5ic3A7ICZuYnNwOyIvZGV2L210ZDAiPGJy
+Pg0KJmd0OyArKyNkZWZpbmUgREVWSUNFMl9OQU1FICZuYnNwOyAmbmJzcDsgJm5ic3A7Ii9kZXYv
+bXRkMCI8YnI+DQo8YnI+DQo8L2Rpdj5Xb3VsZCB0aGlzIHJlYWxseSBiZSBhIG1vcmUgY29tbWFu
+IGNhc2UgdGhhbiBoZSBvcmlnaW5hbCBkZWZpbmVzPyAoUGVyc29uYWxseSwgSSdtIHVzdWFsbHkg
+dXNpbmcgdGhlIGNvbmZpZyBmaWxlLCBzbyB0aGlzIGRvZXNuJ3QgcmVhbGx5IG1hdHRlci4gQnV0
+IEknZCBzdGlsbCBxdWVzdGlvbiBjaGFuZ2luZyB0aGVzZSB0byBtdGQwLi4uKTxicj48L2Jsb2Nr
+cXVvdGU+DQoNCjxkaXY+SSBjYW4gbGl2ZSB3aXRoIGVpdGhlciB2YWx1ZS4gVGhpcyB3YXMgd2hh
+dCB3YXMgdXNlZCBpbiBvdXIgcHJvamVjdC4gPGJyPlBlcnNvbmFsbHkgSSdtIHNvbWV3aGF0IGlu
+Y2xpbmVkIHRvIGtlZXAgdGhlICMgb2YgcGFydGl0aW9ucyBzbWFsbCwgc28gSSBhbSBsZXNzIGlu
+Y2xpbmVkIHRvIG1ha2UgdHdvIHBhcnRpdGlvbnMgZm9yIHRoZSBlbnYuPGJyPjwvZGl2PjwvZGl2
+PjwvZGl2PjwvYmxvY2txdW90ZT48ZGl2Pjxicj48L2Rpdj48ZGl2PkknbSBwZXJzb25hbGx5IGZp
+bmUgd2l0aCBlaXRoZXIsIGFzIEknbSBvZnRlbiB1c2luZyBjb25maWctZmlsZXMsIG9yIG90aGVy
+d2lzZSB0aGVyZSdzIGxpa2VseSBtb3JlIGN1c3RvbWl6YXRpb24gYW55d2F5LjwvZGl2PjxkaXY+
+PGJyPjwvZGl2PjxkaXY+VGhvdWdoLCBJJ2QgcHJvYmFibHkgYXJndWUgdGhhdCBpZiB3ZSBhcmUg
+dG8gY2hhbmdlIHRoZSBkZWZhdWx0cyBpbiB0aGlzIGNhc2UgY29tcGFyZWQgdG8gdXBzdHJlYW0s
+IGl0IHNob3VsZCBiZSBkdWUgdG8gYSBlaXRoZXIgdGhhdCBtb3N0L2EgbGFnZSBudW1iZXIgb2Yg
+Ym9hcmRzIGFyZSB1c2luZyB0aGF0IHNjaGVtZSwgb3IgdGhhdCB0aGUgbmV3IHNlZW0gaXMgYXQg
+bGVhc3QgdXNlZCBieSByZWZlcmVuY2UgYm9hcmRzIGZvciBPRS1Db3JlIGFuZCB5b2N0byAoYWx0
+aG91Z2gsIEkgZG9uJ3Qga25vdyB3aGljaCByZWZlcmVuY2UgYm9hcmRzIHVzZXMgbmFuZGZsYXNo
+LCBhbmQgaG93IHRoZXkgYXJlIGNvbmZpZ3VyZWQpLjwvZGl2Pjxicj48YmxvY2txdW90ZSB0eXBl
+PSJjaXRlIj48ZGl2PjxkaXYgY2xhc3M9ImdtYWlsX3F1b3RlIj48YmxvY2txdW90ZSBjbGFzcz0i
+Z21haWxfcXVvdGUiIHN0eWxlPSJtYXJnaW46MHB0IDBwdCAwcHQgMC44ZXg7Ym9yZGVyLWxlZnQ6
+MXB4IHNvbGlkIHJnYigyMDQsMjA0LDIwNCk7cGFkZGluZy1sZWZ0OjFleCI+DQoNCg0KPGRpdj48
+YnI+DQomZ3Q7ICsgI2RlZmluZSBERVZJQ0UxX09GRlNFVCAmbmJzcDsgJm5ic3A7MHgwMDAwPGJy
+Pg0KJmd0OyArLSNkZWZpbmUgRU5WMV9TSVpFICZuYnNwOyAmbmJzcDsgJm5ic3A7ICZuYnNwOyAw
+eDQwMDA8YnI+DQomZ3Q7ICstI2RlZmluZSBERVZJQ0UxX0VTSVpFICZuYnNwOyAmbmJzcDsgMHg0
+MDAwPGJyPg0KJmd0OyArLSNkZWZpbmUgREVWSUNFMl9PRkZTRVQgJm5ic3A7ICZuYnNwOzB4MDAw
+MDxicj4NCiZndDsgKy0jZGVmaW5lIEVOVjJfU0laRSAmbmJzcDsgJm5ic3A7ICZuYnNwOyAmbmJz
+cDsgMHg0MDAwPGJyPg0KJmd0OyArLSNkZWZpbmUgREVWSUNFMl9FU0laRSAmbmJzcDsgJm5ic3A7
+IDB4NDAwMDxicj4NCiZndDsgKysjZGVmaW5lIEVOVjFfU0laRSAmbmJzcDsgJm5ic3A7ICZuYnNw
+OyAmbmJzcDsgMHgyMDAwPGJyPg0KJmd0OyArKyNkZWZpbmUgREVWSUNFMV9FU0laRSAmbmJzcDsg
+Jm5ic3A7IDB4MjAwMDA8YnI+DQomZ3Q7ICsrI2RlZmluZSBERVZJQ0UxX0VOVlNFQ1RPUlMgJm5i
+c3A7ICZuYnNwOyAxPGJyPg0KJmd0OyArKyNkZWZpbmUgREVWSUNFMl9PRkZTRVQgJm5ic3A7ICZu
+YnNwOzB4MjAwMDA8YnI+DQomZ3Q7ICsrI2RlZmluZSBFTlYyX1NJWkUgJm5ic3A7ICZuYnNwOyAm
+bmJzcDsgJm5ic3A7IDB4MjAwMDxicj4NCiZndDsgKysjZGVmaW5lIERFVklDRTJfRVNJWkUgJm5i
+c3A7ICZuYnNwOyAweDIwMDAwPGJyPg0KJmd0OyArKyNkZWZpbmUgREVWSUNFMl9FTlZTRUNUT1JT
+ICZuYnNwOyAmbmJzcDsgMTxicj4NCjxicj4NCjwvZGl2Pk9rLCBJIGNhbiBhZ3JlZSB3aXRoIHlv
+dSB0aGF0IDEyOGsgcGFnZXMgYXJlIG1vcmUgY29tbW9uLCB0aHVzIHRoYXQgY291bGQgYmUgYSBz
+ZW5zaWJsZSBkZWZhdWx0Ljxicj4NCjxicj4NCkkgY2FuIGFsc28gc2VlIGEgZmV3IHJlYXNvbnMg
+Zm9yIGNoYW5naW5nIHRoZSBzaXplIG9mIHRoZSBlbnZpcm9ubWVudHMsIEVOVjFfU0laRSBhbmQg
+RU5WMl9TSVpFLCBidXQgdGhlcmUgaXMgbm8gcmVhc29uIGdpdmVuIGluIHRoZSBjb21taXQgbG9n
+Ljxicj4NCjxicj48L2Jsb2NrcXVvdGU+PGRpdj5BZ2FpbiBwcm9iYWJseSBhIHBlcnNvbmFsIHBy
+ZWZlcmVuY2UgdGhhdCBjcmVwdCBpbi4gPGJyPkkgZGlkIGEgcXVpY2sgZ3JlcDogaW4gdS1ib290
+L2luY2x1ZGUvY29uZmlncyAxNDYgYm9hcmRzIGhhdmUgYSBzaXplIG9mIDB4MjAwMCwgYW5kIDc4
+IGhhdmUgYSBzaXplIG9mIDB4NDAwMCwgc28gaXQgc2VlbXMgMHgyMDAwIGlzIG1vcmUgdXNlZC48
+YnI+DQoNClRIZW4gYWdhaW4gcGVyaGFwcyB0aGUgY29kZSBzaG91bGQgYmUgbW9kaWZpZWQgdG8g
+bWFrZSB1c2Ugb2Ygd2hhdGV2ZXIgY29uZmlnL2luY2x1ZGUgc2F5cy48L2Rpdj48L2Rpdj48L2Rp
+dj48L2Jsb2NrcXVvdGU+PGRpdj48YnI+PC9kaXY+PGRpdj5JZiB0aGUgbnVtYmVycyBxdW90ZWQg
+YWJvdmUgYXJlIHRoZSBzYW1lL3NpbWlsYXIgaWYgeW91IG9ubHkgbG9vayBhdCBib2FyZHMgd2l0
+aCAxMjhrIHBhZ2VzLCB0aGVuIHdlIHNob3VsZCBrZWVwIHlvdXIgcGF0Y2guPC9kaXY+PGJyPjxi
+bG9ja3F1b3RlIHR5cGU9ImNpdGUiPjxkaXY+SSdsbCBzZWUgaWYgSSBjYW4gY29tZSB1cCB3aXRo
+IGFuIHVwZGF0ZS48YnI+QnV0IGFjdHVhbGx5IHRoZSBtb3N0IGltcG9ydGFudCBwYXJ0IG9mIHRo
+aXMgcGF0Y2ggaXMgdG8gYWRkIHRoZSBjb2RlIGluIC5pbmMgYW5kIC5iYiB0byBjb21waWxlIHRo
+ZSB0b29scy48YnI+PC9kaXY+PC9ibG9ja3F1b3RlPjxkaXY+PGJyPjwvZGl2PjxkaXY+WWVzLCBJ
+IGFncmVlIHRoYXQgdGhhdCdzIHRoZSBtb3N0IGltcG9ydGFudCBwYXJ0IG9mIHRoZSBwYXRjaC4g
+QW5kIGEgd2VsY29tZWQgcGF0Y2guIChJJ3ZlIGEgbG9jYWwgcGF0Y2ggZG9pbmcgc29tZXRoaW5n
+IHNpbWlsYXIsIHRoYXQgSSd2ZSBuZXZlciBnb3QgYXJvdW5kIHRvIHN1Ym1pdCkuPC9kaXY+PGRp
+dj48YnI+PC9kaXY+PGRpdj5DaGVlcnMsPC9kaXY+PGRpdj5BbmRlcnM8L2Rpdj48YnI+PGJsb2Nr
+cXVvdGUgdHlwZT0iY2l0ZSI+PGRpdj5CZXN0IHJlZ2FyZHMsIEZyYW5zPGJyPjxicj5QUzogaXQg
+Y291bGQgYWxzbyBiZSBkZWNpZGVkIHRvIG1ha2UgYSBzZXBhcmF0ZSB1LWJvb3QtZW52IHJlY2lw
+ZS48YnI+UFBTOiBpZiBpbnRlcmVzdGVkIGluIHdoeSBmd19wcm50ZW52IGlzIGNvbXBpbGVkIHdp
+dGggSE9TVENDOiBzZWUgdGhpcyB0aHJlYWQ6IDxhIGhyZWY9Imh0dHA6Ly9vbGQubmFiYmxlLmNv
+bS8tVS1Cb290LS0tUEFUQ0gtMS00LS10b29scyUzQS1lbmFibGUtaW1nMnNyZWMtZm9yLSUyMmFs
+bCUyMi10YXJnZXQtdGQyOTQ0MDUwOC5odG1sI2EyOTQ0MDUxMCI+aHR0cDovL29sZC5uYWJibGUu
+Y29tLy1VLUJvb3QtLS1QQVRDSC0xLTQtLXRvb2xzJTNBLWVuYWJsZS1pbWcyc3JlYy1mb3ItJTIy
+YWxsJTIyLXRhcmdldC10ZDI5NDQwNTA4Lmh0bWwjYTI5NDQwNTEwPC9hPjxicj4NCmRpc2N1c3Np
+b24gc3RhcnRzIHNvbWV3aGVyZSBoYWxmd2F5IHRoZSB0aHJlYWQuPGJyPjxicj4NCjwvZGl2Pjwv
+YmxvY2txdW90ZT48L2JvZHk+PC9odG1sPg==
 
-diff --git a/meta/classes/image.bbclass b/meta/classes/image.bbclass
-index 865d430..275b28f 100644
---- a/meta/classes/image.bbclass
-+++ b/meta/classes/image.bbclass
-@@ -255,6 +255,43 @@ multilib_sanity_check() {
-   echo $@ | python ${MULTILIB_CHECK_FILE}
- }
- 
-+get_split_linguas() {
-+    for translation in ${IMAGE_LINGUAS}; do
-+        translation_split=$(echo ${translation} | awk -F '-' '{print $1}')
-+        echo ${translation}
-+        echo ${translation_split}
-+    done | sort | uniq
-+}
-+
-+rootfs_install_all_locales() {
-+    # Generate list of installed packages for which additional locale packages might be available
-+    INSTALLED_PACKAGES=`list_installed_packages | egrep -v -- "(-locale-|^locale-base-|-dev$|-doc$|^kernel|^glibc|^ttf|^task|^perl|^python)"`
-+
-+    # Generate a list of locale packages that exist
-+    SPLIT_LINGUAS=`get_split_linguas`
-+    PACKAGES_TO_INSTALL=""
-+    for lang in $SPLIT_LINGUAS; do
-+        for pkg in $INSTALLED_PACKAGES; do
-+            existing_pkg=`rootfs_check_package_exists $pkg-locale-$lang`
-+            if [ "$existing_pkg" != "" ]; then
-+                PACKAGES_TO_INSTALL="$PACKAGES_TO_INSTALL $existing_pkg"
-+            fi
-+        done
-+    done
-+
-+    # Install the packages, if any
-+    if [ "$PACKAGES_TO_INSTALL" != "" ]; then
-+        rootfs_install_packages $PACKAGES_TO_INSTALL
-+    fi
-+
-+    # Workaround for broken shell function dependencies
-+    if false ; then
-+        get_split_linguas
-+        list_installed_packages
-+        rootfs_check_package_exists
-+    fi
-+}
-+
- # set '*' as the root password so the images
- # can decide if they want it or not
- zap_root_password () {
-diff --git a/meta/classes/rootfs_deb.bbclass b/meta/classes/rootfs_deb.bbclass
-index bef055c..b6c706c 100644
---- a/meta/classes/rootfs_deb.bbclass
-+++ b/meta/classes/rootfs_deb.bbclass
-@@ -8,8 +8,18 @@ ROOTFS_PKGMANAGE_BOOTSTRAP  = "run-postinsts"
- do_rootfs[depends] += "dpkg-native:do_populate_sysroot apt-native:do_populate_sysroot"
- do_rootfs[recrdeptask] += "do_package_write_deb"
- 
-+DEB_POSTPROCESS_COMMANDS = "rootfs_install_all_locales; "
-+
- opkglibdir = "${localstatedir}/lib/opkg"
- 
-+deb_package_setflag() {
-+	sed -i -e "/^Package: $2\$/{n; s/Status: install ok .*/Status: install ok $1/;}" ${IMAGE_ROOTFS}/var/lib/dpkg/status
-+}
-+
-+deb_package_getflag() {
-+	cat ${IMAGE_ROOTFS}/var/lib/dpkg/status | sed -n -e "/^Package: $2\$/{n; s/Status: install ok .*/$1/; p}"
-+}
-+
- fakeroot rootfs_deb_do_rootfs () {
- 	set +e
- 
-@@ -28,25 +38,18 @@ fakeroot rootfs_deb_do_rootfs () {
- 	export INSTALL_TASK_DEB="rootfs"
- 
- 	package_install_internal_deb
--
-+	${DEB_POSTPROCESS_COMMANDS}
- 
- 	export D=${IMAGE_ROOTFS}
- 	export OFFLINE_ROOT=${IMAGE_ROOTFS}
- 	export IPKG_OFFLINE_ROOT=${IMAGE_ROOTFS}
- 	export OPKG_OFFLINE_ROOT=${IMAGE_ROOTFS}
- 
--	_flag () {
--		sed -i -e "/^Package: $2\$/{n; s/Status: install ok .*/Status: install ok $1/;}" ${IMAGE_ROOTFS}/var/lib/dpkg/status
--	}
--	_getflag () {
--		cat ${IMAGE_ROOTFS}/var/lib/dpkg/status | sed -n -e "/^Package: $2\$/{n; s/Status: install ok .*/$1/; p}"
--	}
--
- 	# Attempt to run preinsts
- 	# Mark packages with preinst failures as unpacked
- 	for i in ${IMAGE_ROOTFS}/var/lib/dpkg/info/*.preinst; do
- 		if [ -f $i ] && ! sh $i; then
--			_flag unpacked `basename $i .preinst`
-+			deb_package_setflag unpacked `basename $i .preinst`
- 		fi
- 	done
- 
-@@ -54,7 +57,7 @@ fakeroot rootfs_deb_do_rootfs () {
- 	# Mark packages with postinst failures as unpacked
- 	for i in ${IMAGE_ROOTFS}/var/lib/dpkg/info/*.postinst; do
- 		if [ -f $i ] && ! sh $i configure; then
--			_flag unpacked `basename $i .postinst`
-+			deb_package_setflag unpacked `basename $i .postinst`
- 		fi
- 	done
- 
-@@ -104,3 +107,17 @@ list_package_depends() {
- list_package_recommends() {
- 	${DPKG_QUERY_COMMAND} -s $1 | grep ^Recommends | sed -e 's/^Recommends: //' -e 's/,//g' -e 's:([=<>]* [0-9a-zA-Z.~\-]*)::g'
- }
-+
-+rootfs_check_package_exists() {
-+	if [ `apt-cache showpkg $1 | wc -l` -gt 2 ]; then
-+		echo $1
-+	fi
-+}
-+
-+rootfs_install_packages() {
-+	${STAGING_BINDIR_NATIVE}/apt-get install $@ --force-yes --allow-unauthenticated
-+
-+	for pkg in $@ ; do
-+		deb_package_setflag installed $pkg
-+	done
-+}
-diff --git a/meta/classes/rootfs_ipk.bbclass b/meta/classes/rootfs_ipk.bbclass
-index b5556fa..48fb2fb 100644
---- a/meta/classes/rootfs_ipk.bbclass
-+++ b/meta/classes/rootfs_ipk.bbclass
-@@ -16,7 +16,7 @@ IPKG_ARGS = "-f ${IPKGCONF_TARGET} -o ${IMAGE_ROOTFS} --force-overwrite"
- 
- OPKG_PREPROCESS_COMMANDS = "package_update_index_ipk; package_generate_ipkg_conf"
- 
--OPKG_POSTPROCESS_COMMANDS = "ipk_insert_feed_uris"
-+OPKG_POSTPROCESS_COMMANDS = "ipk_insert_feed_uris; rootfs_install_all_locales; "
- 
- opkglibdir = "${localstatedir}/lib/opkg"
- 
-@@ -148,26 +148,14 @@ list_package_recommends() {
- 	opkg-cl ${IPKG_ARGS} info $1 | grep ^Recommends | sed -e 's/^Recommends: //' -e 's/,//g' -e 's:([=<>]* [0-9a-zA-Z.~\-]*)::g'
- }
- 
--install_all_locales() {
--
--    PACKAGES_TO_INSTALL=""
--
--    INSTALLED_PACKAGES=`list_installed_packages | egrep -v -- "(-locale-|-dev$|-doc$|^kernel|^glibc|^ttf|^task|^perl|^python)"`
--
--    for pkg in $INSTALLED_PACKAGES
--    do
--        for lang in ${IMAGE_LOCALES}
--        do
--            if [ `opkg-cl ${IPKG_ARGS} info $pkg-locale-$lang | wc -l` -gt 2 ]
--            then
--                    PACKAGES_TO_INSTALL="$PACKAGES_TO_INSTALL $pkg-locale-$lang"
--            fi
--        done
--    done
--    if [ "$PACKAGES_TO_INSTALL" != "" ]
--    then
--        opkg-cl ${IPKG_ARGS} install $PACKAGES_TO_INSTALL
--    fi
-+rootfs_check_package_exists() {
-+	if [ `opkg-cl ${IPKG_ARGS} info $1 | wc -l` -gt 2 ]; then
-+		echo $1
-+	fi
-+}
-+
-+rootfs_install_packages() {
-+	opkg-cl ${IPKG_ARGS} install $PACKAGES_TO_INSTALL
- }
- 
- ipk_insert_feed_uris () {
-diff --git a/meta/classes/rootfs_rpm.bbclass b/meta/classes/rootfs_rpm.bbclass
-index 5fd45d7..b74e8a6 100644
---- a/meta/classes/rootfs_rpm.bbclass
-+++ b/meta/classes/rootfs_rpm.bbclass
-@@ -21,12 +21,7 @@ do_rootfs[depends] += "opkg-native:do_populate_sysroot"
- do_rootfs[recrdeptask] += "do_package_write_rpm"
- 
- RPM_PREPROCESS_COMMANDS = "package_update_index_rpm; package_generate_rpm_conf; "
--RPM_POSTPROCESS_COMMANDS = ""
--
--# To test the install_all_locales.. enable the following...
--#RPM_POSTPROCESS_COMMANDS = "install_all_locales; "
--#
--#IMAGE_LOCALES="en-gb"
-+RPM_POSTPROCESS_COMMANDS = "rootfs_install_all_locales; "
- 
- # 
- # Allow distributions to alter when [postponed] package install scripts are run
-@@ -196,24 +191,16 @@ list_package_recommends() {
- 	:
- }
- 
--install_all_locales() {
--	PACKAGES_TO_INSTALL=""
--
--	# Generate list of installed packages...
--	INSTALLED_PACKAGES=`list_installed_packages | egrep -v -- "(-locale-|-dev$|-doc$|^kernel|^glibc|^ttf|^task|^perl|^python)"`
--
--	# This would likely be faster if we did it in one transaction
--	# but this should be good enough for the few users of this function...
--	for pkg in $INSTALLED_PACKAGES; do
--		for lang in ${IMAGE_LOCALES}; do
--			pkg_name=$(resolve_package_rpm $pkg-locale-$lang ${RPMCONF_TARGET_BASE}.conf)
--			if [ -n "$pkg_name" ]; then
--				${RPM} --root ${IMAGE_ROOTFS} -D "_dbpath ${rpmlibdir}" \
--					-D "__dbi_txn create nofsync private" \
--					--noscripts --notriggers --noparentdirs --nolinktos \
--					-Uhv $pkg_name || true
--			fi
--		done
-+rootfs_check_package_exists() {
-+	resolve_package_rpm ${RPMCONF_TARGET_BASE}-base_archs.conf $1
-+}
-+
-+rootfs_install_packages() {
-+	for pkg in $@; do
-+		${RPM} --root ${IMAGE_ROOTFS} -D "_dbpath ${rpmlibdir}" \
-+			-D "__dbi_txn create nofsync private" \
-+			--noscripts --notriggers --noparentdirs --nolinktos \
-+			-Uhv $pkg || true
- 	done
- }
- 
--- 
-1.7.5.4
-
-
-
+--_000_FCF8E2EA669F4D3E89D94193AABE3344chargestormse_--
