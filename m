@@ -1,34 +1,31 @@
-Received: from mail-wi0-f175.google.com ([209.85.212.175])
+Received: from mx.insigma.com.cn ([115.236.48.170] helo=WX-Edge.insigma.com.cn)
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <koen@dominion.thruhere.net>) id 1RffLQ-0005o1-VF
+	(envelope-from <niqingliang@insigma.com.cn>) id 1RfhpG-0001Rg-Gq
 	for openembedded-core@lists.openembedded.org;
-	Tue, 27 Dec 2011 23:18:05 +0100
-Received: by wibhq7 with SMTP id hq7so5292003wib.6
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 27 Dec 2011 14:10:49 -0800 (PST)
-Received: by 10.180.96.72 with SMTP id dq8mr64779848wib.10.1325023848933;
-	Tue, 27 Dec 2011 14:10:48 -0800 (PST)
-Received: from [172.20.1.36] (ip545070eb.adsl-surfen.hetnet.nl.
-	[84.80.112.235])
-	by mx.google.com with ESMTPS id dd4sm69134821wib.1.2011.12.27.14.10.47
-	(version=TLSv1/SSLv3 cipher=OTHER);
-	Tue, 27 Dec 2011 14:10:48 -0800 (PST)
-From: Koen Kooi <koen@dominion.thruhere.net>
-Mime-Version: 1.0 (Apple Message framework v1251.1)
-Date: Tue, 27 Dec 2011 23:10:46 +0100
-In-Reply-To: <4EFA3FEE.3090107@linux.intel.com>
+	Wed, 28 Dec 2011 01:57:02 +0100
+Received: from WX-EXCHMB2.insigma.com.cn (10.0.1.203) by
+	WX-Edge.insigma.com.cn (10.0.1.205) with Microsoft SMTP Server (TLS) id
+	8.1.436.0; Wed, 28 Dec 2011 08:49:40 +0800
+Received: from [192.168.0.98] (122.224.76.38) by Wx-ExchMB2.insigma.com.cn
+	(10.0.1.203) with Microsoft SMTP Server id 8.1.436.0; Wed, 28 Dec 2011
+	08:49:33 +0800
+Message-ID: <1325033289.4637.23.camel@localhost.localdomain>
+From: Ni Qingliang <niqingliang@insigma.com.cn>
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
+Date: Wed, 28 Dec 2011 08:48:09 +0800
+In-Reply-To: <1325018118-30223-1-git-send-email-fransmeulenbroeks@gmail.com>
 References: <1325018118-30223-1-git-send-email-fransmeulenbroeks@gmail.com>
-	<1325018118-30223-2-git-send-email-fransmeulenbroeks@gmail.com>
-	<4EFA3FEE.3090107@linux.intel.com>
-Message-Id: <3524D1BF-B35F-41D9-94E2-53978FC8ABC8@dominion.thruhere.net>
-X-Mailer: Apple Mail (2.1251.1)
-Subject: Re: [PATCH 2/2] u-boot: added generating the env utils (fixes bug 1800)
+Organization: Insigma
+X-Mailer: Evolution 3.2.2 
+MIME-Version: 1.0
+Cc: Frans Meulenbroeks <fransmeulenbroeks@gmail.com>
+Subject: Re: [PATCH 1/2] u-boot: improved DESCRIPTION, fixed HOMEPAGE
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
-Reply-To: Patches and discussions about the oe-core layer
+Reply-To: niqingliang@insigma.com.cn,
+	Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
 List-Id: Patches and discussions about the oe-core layer
 	<openembedded-core.lists.openembedded.org>
@@ -39,55 +36,58 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 27 Dec 2011 22:18:05 -0000
-X-Groupsio-MsgNum: 14837
-Content-Type: multipart/signed;
-	boundary="Apple-Mail=_75722699-0DA8-4E76-A85B-9E27B8BD93C7";
-	protocol="application/pgp-signature"; micalg=pgp-sha1
-
---Apple-Mail=_75722699-0DA8-4E76-A85B-9E27B8BD93C7
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain;
-	charset=us-ascii
-
-
-Op 27 dec. 2011, om 23:00 heeft Saul Wold het volgende geschreven:
-
-> On 12/27/2011 12:35 PM, Frans Meulenbroeks wrote:
->> This adds building the u-boot tools for target.
->> (fw_printenv, fw_setenv).
->> They are put into a separate package
->> With these files it becomes possible to modify
->> the u-boot environment when linux is booted
->>=20
->> The #ifdef's in fw_env.h were needed to avoid compilation issues
->> The constants have been changed to more meaningful defaults
->> (as 128k flash pages are much more common than 4k pages)
->> but can be overridden using a configuration file.
->>=20
->> This resolves bug 1800
->>=20
-> Thanks for the fix, in the future please mark this as [YOCTO #1800]
->=20
-> Reviewing and someone will test also.
-
-This seems to be copying =
-http://cgit.openembedded.org/openembedded/commit/?id=3Dfde321de556abd8ce66=
-e494ab21bc4a2d4e28699 without credit=
-
---Apple-Mail=_75722699-0DA8-4E76-A85B-9E27B8BD93C7
+X-List-Received-Date: Wed, 28 Dec 2011 00:57:02 -0000
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
-Content-Disposition: inline;
-	filename=signature.asc
-Content-Type: application/pgp-signature;
-	name=signature.asc
-Content-Description: Message signed with OpenPGP using GPGMail
 
------BEGIN PGP SIGNATURE-----
+I have just done a seperate env tools bb for my project, but use the
+config file to assign the env size and address (which is generated on
+booting from /proc/mtd). 
 
-iEYEARECAAYFAk76QmgACgkQMkyGM64RGpHOYgCeIenNRlT3QLNzKb6mv9kez9tk
-/H0AoKOd0ycOmPV/IQiYEuQseZ7SYh9L
-=fVXu
------END PGP SIGNATURE-----
+in the fdt, the u-boot env has a seperate partition identified by it's
+name "u-boot environment"
 
---Apple-Mail=_75722699-0DA8-4E76-A85B-9E27B8BD93C7--
+and have some problem:
+1. the fw_printenv will exit with 0 even though can't read the env (CRC
+error).
+
+2. the default env vars in fw_printenv(used when CRC error) are not same
+as it in the u-boot.
+
+On Wed, 2011-12-28 at 04:35 +0800, Frans Meulenbroeks wrote:
+> HOMEPAGE pointed to an sf.net page that said that the
+> page did not exist any more and after that it redirected
+> to the denx.de page; updated HOMEPAGE to point to that page
+> Also improved the description to use the official capitalisation
+> 
+> Signed-off-by: Frans Meulenbroeks <fransmeulenbroeks@gmail.com>
+> ---
+>  meta/recipes-bsp/u-boot/u-boot.inc |    2 ++
+>  1 files changed, 2 insertions(+), 0 deletions(-)
+> 
+> diff --git a/meta/recipes-bsp/u-boot/u-boot.inc b/meta/recipes-bsp/u-boot/u-boot.inc
+> index 544acd2..a3f50bc 100644
+> --- a/meta/recipes-bsp/u-boot/u-boot.inc
+> +++ b/meta/recipes-bsp/u-boot/u-boot.inc
+> @@ -1,3 +1,5 @@
+> +DESCRIPTION = "U-Boot - the Universal Boot Loader"
+> +HOMEPAGE = "http://www.denx.de/wiki/U-Boot/WebHome"
+>  DESCRIPTION = "U-boot bootloader"
+>  HOMEPAGE = "http://u-boot.sf.net"
+>  SECTION = "bootloaders"
+> --
+> 1.7.8.1
+> 
+> 
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
+
+-- 
+Yi Qingliang
+niqingliang@insigma.com.cn
+https://niqingliang2003.wordpress.com
+
+
+
