@@ -1,41 +1,30 @@
-Received: from mail-ee0-f47.google.com ([74.125.83.47])
+Received: from stoexhubfe02.domain01.net ([83.145.59.141])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <martin.jansa@gmail.com>) id 1RfsWm-0000tM-6E
+	(envelope-from <anders@chargestorm.se>) id 1RfsYE-0000w5-OF
 	for openembedded-core@lists.openembedded.org;
-	Wed, 28 Dec 2011 13:22:40 +0100
-Received: by eeit10 with SMTP id t10so7498920eei.6
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 28 Dec 2011 04:15:26 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
-	h=date:from:to:cc:subject:message-id:references:mime-version
-	:content-type:content-disposition:in-reply-to:user-agent;
-	bh=mznedOEgkXZoXFN6JYP9gqwI5/qMq0+X5EE+8BxO6vo=;
-	b=PZLQd5MbjawNFNmePLvsUWQJZAIsRBUwQefllQBSgKLpBcsm0rPhTXLGLLwkCTSV5o
-	mQ3t0+ipi/I0/YYUN4CQ0zMYRcUKljugEuaz/VGMHDJwdFf8xGTjXNiuLnK2uJifiAFC
-	eV3yqbvQpFATODRhgB2fso6C/UAL0bG+WZO3o=
-Received: by 10.213.7.11 with SMTP id b11mr5061248ebb.26.1325074526008;
-	Wed, 28 Dec 2011 04:15:26 -0800 (PST)
-Received: from localhost ([94.230.152.246])
-	by mx.google.com with ESMTPS id u53sm71736084eeu.6.2011.12.28.04.15.24
-	(version=TLSv1/SSLv3 cipher=OTHER);
-	Wed, 28 Dec 2011 04:15:24 -0800 (PST)
-Date: Wed, 28 Dec 2011 13:15:12 +0100
-From: Martin Jansa <martin.jansa@gmail.com>
+	Wed, 28 Dec 2011 13:24:10 +0100
+Received: from STOEXMBXC01.domain01.net
+	([fe80:0000:0000:0000:8caa:b43d:115.41.221.224]) by
+	stoexhubfe02.domain01.net
+	([10.12.10.7]) with mapi; Wed, 28 Dec 2011 13:16:56 +0100
+From: Anders Darander <anders@chargestorm.se>
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Message-ID: <20111228121512.GB3995@jama.jama.net>
-References: <1325055308-17731-1-git-send-email-b19537@freescale.com>
-	<8285067.9cfZeAKmYZ@helios>
-	<CA452391058F6D4E9715FB2C29D9312A010BD589@039-SN2MPN1-023.039d.mgd.msft.net>
-	<2295923.3R0Nmqr59V@helios>
-	<80E8B5C9-63CE-4BFA-8C5F-39ABA85736C7@dominion.thruhere.net>
+Date: Wed, 28 Dec 2011 13:16:24 +0100
+Thread-Topic: [OE-core] [PATCH 2/2] u-boot: added generating the env utils
+	(fixes	bug 1800)
+Thread-Index: AczFWpbL1rmV97BJQbaoXm3My25onw==
+Message-ID: <38A62FB9-6B22-4DC6-AC66-23F5806ED8BA@chargestorm.se>
+References: <1325018118-30223-1-git-send-email-fransmeulenbroeks@gmail.com>
+	<1325018118-30223-2-git-send-email-fransmeulenbroeks@gmail.com>
+In-Reply-To: <1325018118-30223-2-git-send-email-fransmeulenbroeks@gmail.com>
+Accept-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+acceptlanguage: en-US
 MIME-Version: 1.0
-In-Reply-To: <80E8B5C9-63CE-4BFA-8C5F-39ABA85736C7@dominion.thruhere.net>
-User-Agent: Mutt/1.5.21 (2010-09-15)
-Cc: McClintock Matthew-B29882 <B29882@freescale.com>,
-	Garg Vakul-B16394 <B16394@freescale.com>,
-	Luo Zhenhua-B19537 <B19537@freescale.com>
-Subject: Re: [PATCH oe-core] valgrind: add powerpc to the compatible host and add eglibc-dbg in rdepends
+Cc: Frans Meulenbroeks <fransmeulenbroeks@gmail.com>
+Subject: Re: [PATCH 2/2] u-boot: added generating the env utils (fixes	bug 1800)
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -50,75 +39,101 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 28 Dec 2011 12:22:40 -0000
-X-Groupsio-MsgNum: 14852
-Content-Type: multipart/signed; micalg=pgp-sha1;
-	protocol="application/pgp-signature"; boundary="QKdGvSO+nmPlgiQ/"
-Content-Disposition: inline
-
---QKdGvSO+nmPlgiQ/
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+X-List-Received-Date: Wed, 28 Dec 2011 12:24:10 -0000
+Content-Language: en-US
+Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: quoted-printable
 
-On Wed, Dec 28, 2011 at 11:32:13AM +0100, Koen Kooi wrote:
+
+On 27 dec 2011, at 21:35, "Frans Meulenbroeks" <fransmeulenbroeks@gmail.com=
+> wrote:
+
+> This adds building the u-boot tools for target.
+> (fw_printenv, fw_setenv).
+> They are put into a separate package
+> With these files it becomes possible to modify
+> the u-boot environment when linux is booted
 >=20
-> Op 28 dec. 2011, om 11:18 heeft Paul Eggleton het volgende geschreven:
+> The #ifdef's in fw_env.h were needed to avoid compilation issues
+> The constants have been changed to more meaningful defaults
+> (as 128k flash pages are much more common than 4k pages)
+> but can be overridden using a configuration file.
 >=20
-> > On Wednesday 28 December 2011 10:01:13 Luo Zhenhua-B19537 wrote:
-> >> May I know what's the concern with eglibc instead of uclibc?
-> >=20
-> > So my concern is, if you add a runtime dependency on eglibc-dbg to valg=
-rind=20
-> > and you've selected uclibc instead, it will force installation of eglib=
-c when=20
-> > you install valgrind (not to mention building it when you build valgrin=
-d);=20
-> > this is almost certainly not what you want.
-> >=20
-> > If a dependency on the libc debug packages is really needed you could d=
-o=20
-> > something this instead:
-> >=20
-> > RRECOMMENDS_${PN} +=3D "${TCLIBC}-dbg"
+> This resolves bug 1800
 >=20
-> Or:
+> Signed-off-by: Frans Meulenbroeks <fransmeulenbroeks@gmail.com>
 >=20
-> RECOMMENDS_libc-glibc =3D "glibc-dbg"
+> ---
+> Note: development and testing was done under openembedded classic.
+> I've tested it there quite heavily (for mpc8313 if that matters).
+> I was requested to provide a patch for oe-core too (to resolve bug 1800)
+> so here it is, although at the moment I am unable to test the patch for o=
+e-core.
+> I suggest that this is carefully reviewed and tested before being merged.
 
-with extra R and PN, right?
-RRECOMMENDS_${PN}_libc-glibc =3D "glibc-dbg"
 
-Regards,
-
-> I'm not sure which one is better, but I wanted to point out the libc over=
-rides :)
+> create mode 100644 meta/recipes-bsp/u-boot/files/tools_fwenv.patch
 >=20
-> regards,
->=20
-> Koen
+> diff --git a/meta/recipes-bsp/u-boot/files/tools_fwenv.patch b/meta/recip=
+es-bsp/u-boot/files/tools_fwenv.patch
+> new file mode 100644
+> index 0000000..8e87800
+> --- /dev/null
+> +++ b/meta/recipes-bsp/u-boot/files/tools_fwenv.patch
+> @@ -0,0 +1,48 @@
+> +Index: u-boot-2011.03/tools/env/fw_env.h
+> +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+> +--- u-boot-2011.03.orig/tools/env/fw_env.h    2011-03-31 23:45:36.000000=
+000 +0200++++ u-boot-2011.03/tools/env/fw_env.h    2011-12-02 13:55:24.6672=
+78362 +0100
+> +@@ -27,25 +27,35 @@
+> +  * See included "fw_env.config" sample file (TRAB board)
+> +  * for notes on configuration.
+> +  */
+> +-#define CONFIG_FILE     "/etc/fw_env.config"
+> ++//#define CONFIG_FILE     "/etc/fw_env.config"
+
+Why do you remove the default for CONFIG_FILE?
+I haven't the u-boot code here, but isn't there a check for the configurati=
+on file in the code? Thus, you would still get compiled in defaults if no c=
+onfig file is found?
+
+> ++
+> ++#include "config.h"
+> +=20
+> + #define HAVE_REDUND /* For systems with 2 env sectors */
+> +-#define DEVICE1_NAME      "/dev/mtd1"
+> +-#define DEVICE2_NAME      "/dev/mtd2"
+> ++#define DEVICE1_NAME      "/dev/mtd0"
+> ++#define DEVICE2_NAME      "/dev/mtd0"
+
+Would this really be a more comman case than he original defines? (Personal=
+ly, I'm usually using the config file, so this doesn't really matter. But I=
+'d still question changing these to mtd0...)
+
+> + #define DEVICE1_OFFSET    0x0000
+> +-#define ENV1_SIZE         0x4000
+> +-#define DEVICE1_ESIZE     0x4000
+> +-#define DEVICE2_OFFSET    0x0000
+> +-#define ENV2_SIZE         0x4000
+> +-#define DEVICE2_ESIZE     0x4000
+> ++#define ENV1_SIZE         0x2000
+> ++#define DEVICE1_ESIZE     0x20000
+> ++#define DEVICE1_ENVSECTORS     1
+> ++#define DEVICE2_OFFSET    0x20000
+> ++#define ENV2_SIZE         0x2000
+> ++#define DEVICE2_ESIZE     0x20000
+> ++#define DEVICE2_ENVSECTORS     1
+
+Ok, I can agree with you that 128k pages are more common, thus that could b=
+e a sensible default.
+
+I can also see a few reasons for changing the size of the environments, ENV=
+1_SIZE and ENV2_SIZE, but there is no reason given in the commit log.
+
+Cheers,
+Anders=
 
 
-
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
-
-
---=20
-Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
-
---QKdGvSO+nmPlgiQ/
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: Digital signature
-
------BEGIN PGP SIGNATURE-----
-Version: GnuPG v2.0.18 (GNU/Linux)
-
-iEYEARECAAYFAk77CFAACgkQN1Ujt2V2gByGogCgjh8HAs2l5Nj2XA0Emou4WITq
-x4sAoJunJIhdSgOEpAL+O6HBrcQvxiKi
-=vtAE
------END PGP SIGNATURE-----
-
---QKdGvSO+nmPlgiQ/--
