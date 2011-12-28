@@ -1,28 +1,26 @@
-Received: from mga02.intel.com ([134.134.136.20])
+Received: from mga01.intel.com ([192.55.52.88])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <dvhart@linux.intel.com>) id 1Rg3CE-0006Wh-JY
+	(envelope-from <darren.hart@intel.com>) id 1Rg3TT-0007V3-2f
 	for openembedded-core@lists.openembedded.org;
-	Thu, 29 Dec 2011 00:46:11 +0100
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-	by orsmga101.jf.intel.com with ESMTP; 28 Dec 2011 15:38:43 -0800
+	Thu, 29 Dec 2011 01:03:59 +0100
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+	by fmsmga101.fm.intel.com with ESMTP; 28 Dec 2011 15:55:30 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.67,351,1309762800"; d="scan'208";a="92399867"
-Received: from unknown (HELO localhost) ([10.255.13.53])
-	by orsmga002.jf.intel.com with ESMTP; 28 Dec 2011 15:38:42 -0800
-From: Darren Hart <dvhart@linux.intel.com>
-To: openembedded-core@lists.openembedded.org, raj.khem@gmail.com,
-	koen@dominion.thruhere.net, kergoth@gmail.com, martin.jansa@gmail.com,
-	Bruce Ashfield <bruce.ashfield@windriver.com>,
-	Tom Zanussi <tom.zanussi@intel.com>,
-	Richard Purdie <richard.purdie@linuxfoundation.org>
-Date: Wed, 28 Dec 2011 15:38:09 -0800
-Message-Id: <73271c07c302befbf3c46eeb0161a069f6e4471b.1325115066.git.dvhart@linux.intel.com>
-X-Mailer: git-send-email 1.7.6.4
-In-Reply-To: <cover.1325115066.git.dvhart@linux.intel.com>
-References: <cover.1325115066.git.dvhart@linux.intel.com>
-In-Reply-To: <cover.1325115066.git.dvhart@linux.intel.com>
-References: <cover.1325115066.git.dvhart@linux.intel.com>
-Subject: [PATCH 1/4] native.bbclass: Fix variable remapping coverage
+X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="101137456"
+Received: from unknown (HELO envy.home) ([10.255.13.53])
+	by fmsmga001.fm.intel.com with ESMTP; 28 Dec 2011 15:55:30 -0800
+Message-ID: <4EFBAC18.3040909@intel.com>
+Date: Wed, 28 Dec 2011 15:54:00 -0800
+From: Darren Hart <darren.hart@intel.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:7.0) Gecko/20110927 Thunderbird/7.0
+MIME-Version: 1.0
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+References: <fbed4e9f94ed9bd1bb5a9c8fa37113e325f89371.1325115602.git.dvhart@linux.intel.com>
+In-Reply-To: <fbed4e9f94ed9bd1bb5a9c8fa37113e325f89371.1325115602.git.dvhart@linux.intel.com>
+X-Forwarded-Message-Id: <fbed4e9f94ed9bd1bb5a9c8fa37113e325f89371.1325115602.git.dvhart@linux.intel.com>
+Subject: [PATCH] image_types: Ensure /init exists for cpio rootfs archives
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -37,150 +35,51 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 28 Dec 2011 23:46:11 -0000
+X-List-Received-Date: Thu, 29 Dec 2011 00:03:59 -0000
+Content-Type: text/plain; charset=ISO-8859-1
+Content-Transfer-Encoding: 7bit
 
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
+<I sent this to the yocto list by mistake, forwarding here for comment>
 
-When looking for RDEPENDS to process, bitbake iterates through PACKAGES
-*and* PN. Since native.bbclass sets PACKAGES to be empty, its pointless
-remapping the list of PACKAGES since this does nothing. There is a problem
-since *_${PN} are used by bitbake but not remapped by the native.bbclass
-class extension code.
+In order for the kernel to accept an initramfs as a rootfs,
+it must have /init - even if it is an empty file. Touch /init
+to ensure it exists for cpio and cpio.gz image types.
 
-This changes the code to remap _${PN} in both expanded and unexpanded
-forms. We use the unexpanded form since d.expandkeys() has not been called
-at the point this code executes. Remapping the expanded form is belt and braces
-to cover any case where the unexpanded key form may not be present.
+When used with initrd and rootfs=/dev/ram0, this allows the
+cpio and cpio.gz images to be used as the rootfs.
 
-As a result of this, various surprising dependencies are uncovered
-and the patch rectifies those. These are real bugs since they're injecting
-unneeded (unremapped) dependencies into the dependency chain. Workarounds
-for this kind of problem in autoconf are removed.
-
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+Signed-off-by: Darren Hart <dvhart@linux.intel.com>
 ---
- meta/classes/native.bbclass                        |    2 +-
- meta/recipes-devtools/autoconf/autoconf.inc        |    2 ++
- meta/recipes-devtools/autoconf/autoconf_2.68.bb    |    8 --------
- meta/recipes-devtools/automake/automake_1.11.1.bb  |    4 ++--
- .../recipes-devtools/python/python-native_2.7.2.bb |    2 ++
- meta/recipes-gnome/gnome/gconf_3.2.3.bb            |    1 +
- meta/recipes-support/boost/boost.inc               |    1 +
- 7 files changed, 9 insertions(+), 11 deletions(-)
+ meta/classes/image_types.bbclass |   10 ++++++++--
+ 1 files changed, 8 insertions(+), 2 deletions(-)
 
-diff --git a/meta/classes/native.bbclass b/meta/classes/native.bbclass
-index 49823d6..00196ba 100644
---- a/meta/classes/native.bbclass
-+++ b/meta/classes/native.bbclass
-@@ -127,7 +127,7 @@ python native_virtclass_handler () {
-         d.setVar(varname, " ".join(newdeps))
+diff --git a/meta/classes/image_types.bbclass b/meta/classes/image_types.bbclass
+index 6893e38..ebff0ba 100644
+--- a/meta/classes/image_types.bbclass
++++ b/meta/classes/image_types.bbclass
+@@ -110,8 +110,14 @@ IMAGE_CMD_tar = "cd ${IMAGE_ROOTFS} && tar -cvf ${DEPLOY_DIR_IMAGE}/${IMAGE_NAME
+ IMAGE_CMD_tar.gz = "cd ${IMAGE_ROOTFS} && tar -zcvf ${DEPLOY_DIR_IMAGE}/${IMAGE_NAME}.rootfs.tar.gz ."
+ IMAGE_CMD_tar.bz2 = "cd ${IMAGE_ROOTFS} && tar -jcvf ${DEPLOY_DIR_IMAGE}/${IMAGE_NAME}.rootfs.tar.bz2 ."
+ IMAGE_CMD_tar.xz = "cd ${IMAGE_ROOTFS} && tar --xz -cvf ${DEPLOY_DIR_IMAGE}/${IMAGE_NAME}.rootfs.tar.xz ."
+-IMAGE_CMD_cpio = "cd ${IMAGE_ROOTFS} && (find . | cpio -o -H newc >${DEPLOY_DIR_IMAGE}/${IMAGE_NAME}.rootfs.cpio)"
+-IMAGE_CMD_cpio.gz = "cd ${IMAGE_ROOTFS} && (find . | cpio -o -H newc | gzip -c -9 >${DEPLOY_DIR_IMAGE}/${IMAGE_NAME}.rootfs.cpio.gz)"
++IMAGE_CMD_cpio () {
++	touch ${IMAGE_ROOTFS}/init
++	cd ${IMAGE_ROOTFS} && (find . | cpio -o -H newc >${DEPLOY_DIR_IMAGE}/${IMAGE_NAME}.rootfs.cpio)
++}
++IMAGE_CMD_cpio.gz () {
++	touch ${IMAGE_ROOTFS}/init
++	cd ${IMAGE_ROOTFS} && (find . | cpio -o -H newc | gzip -c -9 >${DEPLOY_DIR_IMAGE}/${IMAGE_NAME}.rootfs.cpio.gz)
++}
+ IMAGE_CMD_cpio.xz = "type cpio >/dev/null; cd ${IMAGE_ROOTFS} && (find . | cpio -o -H newc | xz -c ${XZ_COMPRESSION_LEVEL} --check=${XZ_INTEGRITY_CHECK} > ${DEPLOY_DIR_IMAGE}/${IMAGE_NAME}.rootfs.cpio.xz) ${EXTRA_IMAGECMD}"
+ IMAGE_CMD_cpio.lzma = "type cpio >/dev/null; cd ${IMAGE_ROOTFS} && (find . | cpio -o -H newc | xz --format=lzma -c ${XZ_COMPRESSION_LEVEL} --check=${XZ_INTEGRITY_CHECK} >${DEPLOY_DIR_IMAGE}/${IMAGE_NAME}.rootfs.cpio.lzma) ${EXTRA_IMAGECMD}"
  
-     map_dependencies("DEPENDS", e.data)
--    for pkg in (e.data.getVar("PACKAGES", True).split() + [""]):
-+    for pkg in [e.data.getVar("PN", True), "", "${PN}"]:
-         map_dependencies("RDEPENDS", e.data, pkg)
-         map_dependencies("RRECOMMENDS", e.data, pkg)
-         map_dependencies("RSUGGESTS", e.data, pkg)
-diff --git a/meta/recipes-devtools/autoconf/autoconf.inc b/meta/recipes-devtools/autoconf/autoconf.inc
-index 08a1b02..1d0cf90 100644
---- a/meta/recipes-devtools/autoconf/autoconf.inc
-+++ b/meta/recipes-devtools/autoconf/autoconf.inc
-@@ -6,6 +6,8 @@ LICENSE = "GPLv3"
- HOMEPAGE = "http://www.gnu.org/software/autoconf/"
- SECTION = "devel"
- DEPENDS += "m4-native"
-+DEPENDS_virtclass-native = "m4-native gnu-config-native"
-+DEPENDS_virtclass-nativesdk = "m4-nativesdk gnu-config-nativesdk"
- RDEPENDS_${PN} = "m4 gnu-config"
- 
- SRC_URI = "${GNU_MIRROR}/autoconf/autoconf-${PV}.tar.bz2 \
-diff --git a/meta/recipes-devtools/autoconf/autoconf_2.68.bb b/meta/recipes-devtools/autoconf/autoconf_2.68.bb
-index 9028e83..84eb182 100644
---- a/meta/recipes-devtools/autoconf/autoconf_2.68.bb
-+++ b/meta/recipes-devtools/autoconf/autoconf_2.68.bb
-@@ -4,8 +4,6 @@ PR = "r4"
- 
- PARALLEL_MAKE = ""
- 
--DEPENDS += "m4-native"
--RDEPENDS_${PN} = "m4 gnu-config"
- LICENSE = "GPLv2 & GPLv3"
- LIC_FILES_CHKSUM = "file://COPYING;md5=751419260aa954499f7abaabaa882bbe \
- 		    file://COPYINGv3;md5=d32239bcb673463ab874e80d47fae504"
-@@ -22,12 +20,6 @@ SRC_URI += "file://autoreconf-include.patch \
- SRC_URI[md5sum] = "864d785215aa60d627c91fcb21b05b07"
- SRC_URI[sha256sum] = "c491fb273fd6d4ca925e26ceed3d177920233c76d542b150ff35e571454332c8"
- 
--DEPENDS_virtclass-native = "m4-native gnu-config-native"
--RDEPENDS_${PN}_virtclass-native = "m4-native gnu-config-native"
--
--DEPENDS_virtclass-nativesdk = "m4-nativesdk gnu-config-nativesdk"
--RDEPENDS_${PN}_virtclass-nativesdk = "m4-nativesdk gnu-config-nativesdk"
--
- SRC_URI_append_virtclass-native = " file://fix_path_xtra.patch"
- 
- EXTRA_OECONF += "ac_cv_path_M4=m4"
-diff --git a/meta/recipes-devtools/automake/automake_1.11.1.bb b/meta/recipes-devtools/automake/automake_1.11.1.bb
-index ff8353f..6bffecf 100644
---- a/meta/recipes-devtools/automake/automake_1.11.1.bb
-+++ b/meta/recipes-devtools/automake/automake_1.11.1.bb
-@@ -3,7 +3,7 @@ LICENSE="GPLv2"
- LIC_FILES_CHKSUM = "file://COPYING;md5=751419260aa954499f7abaabaa882bbe" 
- DEPENDS_virtclass-native = "autoconf-native"
- 
--RDEPENDS_automake += "\
-+RDEPENDS_${PN} += "\
-     autoconf \
-     perl \
-     perl-module-bytes \
-@@ -27,7 +27,7 @@ RDEPENDS_automake += "\
-     perl-module-text-parsewords \
-     perl-module-vars "
- 
--RDEPENDS_automake-native = "autoconf-native perl-native-runtime"
-+RDEPENDS_${PN}_virtclass-native = "autoconf-native perl-native-runtime"
- 
- PATHFIXPATCH = "file://path_prog_fixes.patch"
- PATHFIXPATCH_virtclass-native = ""
-diff --git a/meta/recipes-devtools/python/python-native_2.7.2.bb b/meta/recipes-devtools/python/python-native_2.7.2.bb
-index d036eca..10bfa6c 100644
---- a/meta/recipes-devtools/python/python-native_2.7.2.bb
-+++ b/meta/recipes-devtools/python/python-native_2.7.2.bb
-@@ -16,6 +16,8 @@ S = "${WORKDIR}/Python-${PV}"
- 
- inherit native
- 
-+RPROVIDES += "python-distutils-native python-compression-native python-textutils-native"
-+
- EXTRA_OEMAKE = '\
-   BUILD_SYS="" \
-   HOST_SYS="" \
-diff --git a/meta/recipes-gnome/gnome/gconf_3.2.3.bb b/meta/recipes-gnome/gnome/gconf_3.2.3.bb
-index 9d327fc..f7d3594 100644
---- a/meta/recipes-gnome/gnome/gconf_3.2.3.bb
-+++ b/meta/recipes-gnome/gnome/gconf_3.2.3.bb
-@@ -39,6 +39,7 @@ do_install_append() {
- 
- # disable dbus-x11 when x11 isn't in DISTRO_FEATURES
- RDEPENDS_${PN} += "${@base_contains('DISTRO_FEATURES', 'x11', 'dbus-x11', '', d)}"
-+RDEPENDS_${PN}_virtclass-native = ""
- 
- FILES_${PN} += "${libdir}/GConf/* \
- 	        ${libdir}/gio/*/*.so \
-diff --git a/meta/recipes-support/boost/boost.inc b/meta/recipes-support/boost/boost.inc
-index aa577b3..fc417c9 100644
---- a/meta/recipes-support/boost/boost.inc
-+++ b/meta/recipes-support/boost/boost.inc
-@@ -74,6 +74,7 @@ FILES_${PN}-dev = "${includedir} ${libdir}/libboost_*.so ${libdir}/libboost_*.a"
- # "boost" is a metapackage which pulls in all boost librabries
- PACKAGES += "${PN}"
- RRECOMMENDS_${PN} += "${BOOST_PACKAGES}"
-+RRECOMMENDS_${PN}_virtclass-native = ""
- ALLOW_EMPTY_${PN} = "1"
- 
- # to avoid GNU_HASH QA errors added LDFLAGS to ARCH; a little bit dirty but at least it works
 -- 
 1.7.6.4
 
+_______________________________________________
+yocto mailing list
+yocto@yoctoproject.org
+https://lists.yoctoproject.org/listinfo/yocto
 
 
