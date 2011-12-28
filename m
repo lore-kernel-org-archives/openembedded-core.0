@@ -1,28 +1,63 @@
-Received: from mga14.intel.com ([143.182.124.37])
+Received: from ch1ehsobe003.messaging.microsoft.com ([216.32.181.183]
+	helo=ch1outboundpool.messaging.microsoft.com)
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <sgw@linux.intel.com>) id 1Rfz2V-0005ij-6G
+	(envelope-from <B29882@freescale.com>) id 1Rfz6G-00060p-Pf
 	for openembedded-core@lists.openembedded.org;
-	Wed, 28 Dec 2011 20:19:51 +0100
-Received: from azsmga001.ch.intel.com ([10.2.17.19])
-	by azsmga102.ch.intel.com with ESMTP; 28 Dec 2011 11:12:36 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="90309411"
-Received: from unknown (HELO swold-mobl.bigsur.com) ([10.255.13.80])
-	by azsmga001.ch.intel.com with ESMTP; 28 Dec 2011 11:12:35 -0800
-From: Saul Wold <sgw@linux.intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Wed, 28 Dec 2011 11:12:27 -0800
-Message-Id: <d4a3faa28c452eaedcb913d8fd933786fd18d509.1325099431.git.sgw@linux.intel.com>
-X-Mailer: git-send-email 1.7.6.4
-In-Reply-To: <cover.1325099430.git.sgw@linux.intel.com>
-References: <cover.1325099430.git.sgw@linux.intel.com>
-In-Reply-To: <cover.1325099430.git.sgw@linux.intel.com>
-References: <cover.1325099430.git.sgw@linux.intel.com>
-Subject: [PATCH 6/6] distro_tracking: Update Manual Check Dates
+	Wed, 28 Dec 2011 20:23:45 +0100
+Received: from mail53-ch1-R.bigfish.com (10.43.68.242) by
+	CH1EHSOBE004.bigfish.com (10.43.70.54) with Microsoft SMTP Server id
+	14.1.225.23; Wed, 28 Dec 2011 19:16:06 +0000
+Received: from mail53-ch1 (localhost [127.0.0.1])	by mail53-ch1-R.bigfish.com
+	(Postfix) with ESMTP id 14AD1C010E	for
+	<openembedded-core@lists.openembedded.org>;
+	Wed, 28 Dec 2011 19:16:08 +0000 (UTC)
+X-SpamScore: -7
+X-BigFish: VS-7(zz9371I1432N98dKzz1202hzz8275bhz2dh2a8h668h839h8e2h8e3hbe9k)
+X-Forefront-Antispam-Report: CIP:70.37.183.190; KIP:(null); UIP:(null); IPV:NLI;
+	H:mail.freescale.net; RD:none; EFVD:NLI
+Received: from mail53-ch1 (localhost.localdomain [127.0.0.1]) by mail53-ch1
+	(MessageSwitch) id 13250997669190_29856; Wed, 28 Dec 2011 19:16:06 +0000
+	(UTC)
+Received: from CH1EHSMHS006.bigfish.com (snatpool1.int.messaging.microsoft.com
+	[10.43.68.250])	by mail53-ch1.bigfish.com (Postfix) with ESMTP id
+	EE453200048 for <openembedded-core@lists.openembedded.org>;
+	Wed, 28 Dec 2011 19:16:05 +0000 (UTC)
+Received: from mail.freescale.net (70.37.183.190) by CH1EHSMHS006.bigfish.com
+	(10.43.70.6) with Microsoft SMTP Server (TLS) id 14.1.225.23;
+	Wed, 28 Dec 2011 19:16:03 +0000
+Received: from 039-SN1MPN1-002.039d.mgd.msft.net ([169.254.2.86]) by
+	039-SN1MMR1-001.039d.mgd.msft.net ([10.84.1.13]) with mapi id
+	14.01.0355.003; Wed, 28 Dec 2011 13:16:24 -0600
+From: McClintock Matthew-B29882 <B29882@freescale.com>
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Thread-Topic: [OE-core] [PATCH oe-core] valgrind: add powerpc to the
+	compatible host and add eglibc-dbg in rdepends
+Thread-Index: AQHMxS0fRftJ7JTB3UGUwYEWT6pqiJXxXI6A//+nkuCAAGo+AIAAA8mAgAAcxgCAAHOJgA==
+Date: Wed, 28 Dec 2011 19:16:23 +0000
+Message-ID: <CAEsOVNc2qwW-Tz4MCmnpAA99qWirtu=SWwBUqLdMRHbsj2MLow@mail.gmail.com>
+References: <1325055308-17731-1-git-send-email-b19537@freescale.com>
+	<8285067.9cfZeAKmYZ@helios>
+	<CA452391058F6D4E9715FB2C29D9312A010BD589@039-SN2MPN1-023.039d.mgd.msft.net>
+	<2295923.3R0Nmqr59V@helios>
+	<80E8B5C9-63CE-4BFA-8C5F-39ABA85736C7@dominion.thruhere.net>
+	<20111228121512.GB3995@jama.jama.net>
+In-Reply-To: <20111228121512.GB3995@jama.jama.net>
+Accept-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [99.47.177.27]
+MIME-Version: 1.0
+X-OriginatorOrg: freescale.com
+Cc: McClintock Matthew-B29882 <B29882@freescale.com>,
+	Garg Vakul-B16394 <B16394@freescale.com>,
+	Luo Zhenhua-B19537 <B19537@freescale.com>
+Subject: Re: [PATCH oe-core] valgrind: add powerpc to the compatible host and add eglibc-dbg in rdepends
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
-Reply-To: Patches and discussions about the oe-core layer
+Reply-To: McClintock Matthew-B29882 <B29882@freescale.com>,
+	Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
 List-Id: Patches and discussions about the oe-core layer
 	<openembedded-core.lists.openembedded.org>
@@ -33,197 +68,34 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 28 Dec 2011 19:19:51 -0000
+X-List-Received-Date: Wed, 28 Dec 2011 19:23:45 -0000
+Content-Language: en-US
+Content-Type: text/plain; charset="iso-8859-1"
+Content-ID: <C2ACE427D2447E4994302E7EEF1E56CB@freescale.net>
+Content-Transfer-Encoding: quoted-printable
 
-Signed-off-by: Saul Wold <sgw@linux.intel.com>
----
- .../conf/distro/include/distro_tracking_fields.inc |   42 ++++++++++----------
- 1 files changed, 21 insertions(+), 21 deletions(-)
+On Wed, Dec 28, 2011 at 6:15 AM, Martin Jansa <martin.jansa@gmail.com> wrot=
+e:
+>> > If a dependency on the libc debug packages is really needed you could =
+do
+>> > something this instead:
+>> >
+>> > RRECOMMENDS_${PN} +=3D "${TCLIBC}-dbg"
 
-diff --git a/meta/conf/distro/include/distro_tracking_fields.inc b/meta/conf/distro/include/distro_tracking_fields.inc
-index ab18e12..bcf9cc9 100644
---- a/meta/conf/distro/include/distro_tracking_fields.inc
-+++ b/meta/conf/distro/include/distro_tracking_fields.inc
-@@ -504,7 +504,7 @@ RECIPE_LATEST_RELEASE_DATE_pn-popt = "May 01, 2010"
- RECIPE_STATUS_pn-sqlite3 = "green"   # need upgrade
- RECIPE_LATEST_VERSION_pn-sqlite3 = "3.7.9"
- RECIPE_LATEST_RELEASE_DATE_pn-sqlite3 = "Nov 01, 2011"
--RECIPE_LAST_UPDATE_pn-sqlite3 = "Dec 01, 2011"
-+RECIPE_LAST_UPDATE_pn-sqlite3 = "Dec 27, 2011"
- RECIPE_MANUAL_CHECK_DATE_pn-sqlite3= "Dec 01, 2011"
- RECIPE_MAINTAINER_pn-sqlite3 = "Saul Wold <sgw@linux.intel.com>"
- RECIPE_DEPENDENCY_CHECK_pn-sqlite3 = "not done"
-@@ -533,7 +533,7 @@ RECIPE_STATUS_pn-libcap = "yellow"   # hand crafted Makefiles
- RECIPE_LATEST_VERSION_pn-libcap = "2.22"
- RECIPE_LATEST_RELEASE_DATE_pn-libcap = "Jan 01, 2010"
- RECIPE_LAST_UPDATE_pn-libcap = "Jul 25, 2011"
--RECIPE_MANUAL_CHECK_DATE_pn-libcap = "Dec 15, 2011"
-+RECIPE_MANUAL_CHECK_DATE_pn-libcap = "Dec 27, 2011"
- RECIPE_MAINTAINER_pn-libcap = "Saul Wold <sgw@linux.intel.com>"
- RECIPE_DEPENDENCY_CHECK_pn-libcap = "done"
- RECIPE_INTEL_SECTION_pn-libcap = "base libs"
-@@ -591,7 +591,7 @@ RECIPE_DEPENDENCY_CHECK_pn-libcheck = "done"
- RECIPE_LATEST_VERSION_pn-libcheck = "0.9.8"
- RECIPE_LATEST_RELEASE_DATE_pn-libcheck = "Sep 23, 2009"
- RECIPE_LAST_UPDATE_pn-libcheck = "Aug 20, 2010"
--RECIPE_MANUAL_CHECK_DATE_pn-libcheck = "Dec 01, 2011"
-+RECIPE_MANUAL_CHECK_DATE_pn-libcheck = "Dec 27, 2011"
- RECIPE_MAINTAINER_pn-libcheck = "Saul Wold <sgw@linux.intel.com>"
- RECIPE_INTEL_SECTION_pn-libcheck = "base libs"
- RECIPE_TIME_BETWEEN_LAST_TWO_RELEASES_pn-libcheck = "9 months"
-@@ -1293,7 +1293,7 @@ RECIPE_LATEST_VERSION_pn-console-tools = "0.3.2"
- RECIPE_LAST_UPDATE_pn-console-tools = "Jul 21, 2006"
- RECIPE_MAINTAINER_pn-console-tools = "Saul Wold <sgw@linux.intel.com>"
- DISTRO_PN_ALIAS_pn-console-tools = "Debian=console-tools Ubuntu=console-tools"
--RECIPE_MANUAL_CHECK_DATE_pn-console-tools= "Dec 01, 2011"
-+RECIPE_MANUAL_CHECK_DATE_pn-console-tools= "Dec 27, 2011"
- 
- RECIPE_STATUS_pn-fuse = "red"
- RECIPE_LATEST_VERSION_pn-fuse = "2.8.4"
-@@ -1334,7 +1334,7 @@ RECIPE_MAINTAINER_pn-pm-utils = "Dongxiao Xu <dongxiao.xu@intel.com>"
- RECIPE_STATUS_pn-psmisc = "red"
- RECIPE_LATEST_VERSION_pn-psmisc = "22.14"
- RECIPE_LATEST_RELEASE_DATE_pn-psmisc = "Jun 20, 2011"
--RECIPE_LAST_UPDATE_pn-psmisc = "Dec 01, 2011"
-+RECIPE_LAST_UPDATE_pn-psmisc = "Dec 27, 2011"
- RECIPE_MANUAL_CHECK_DATE_pn-psmisc = "Dec 01, 2011"
- RECIPE_MAINTAINER_pn-psmisc = "Saul Wold <sgw@linux.intel.com>"
- 
-@@ -1342,7 +1342,7 @@ RECIPE_STATUS_pn-boost = "yellow"
- RECIPE_LATEST_VERSION_pn-boost = "1.47.0"
- RECIPE_LATEST_RELEASE_DATE_pn-boost = "Jul 12, 2011"
- RECIPE_LAST_UPDATE_pn-boost = "Aug 19, 2010"
--RECIPE_MANUAL_CHECK_DATE_pn-boost = "Dec 01, 2011"
-+RECIPE_MANUAL_CHECK_DATE_pn-boost = "Dec 27, 2011"
- RECIPE_MAINTAINER_pn-boost = "Saul Wold <sgw@linux.intel.com>"
- 
- RECIPE_STATUS_pn-boost-jam-native = "green"
-@@ -1489,8 +1489,8 @@ RECIPE_LAST_UPDATE_pn-sysfsutils = "Jun 18, 2010"
- RECIPE_DEPENDENCY_CHECK_pn-sysfsutils = "not done"
- RECIPE_INTEL_SECTION_pn-sysfsutils = "base utils"
- RECIPE_TIME_BETWEEN_LAST_TWO_RELEASES_pn-sysfsutils = "n/a"
--RECIPE_MANUAL_CHECK_DATE_pn-sysfsutils = "Dec 01, 2011"
--RECIPE_COMMENTS_pn-sysfsutils = ""
-+RECIPE_MANUAL_CHECK_DATE_pn-sysfsutils = "Dec 27, 2011"
-+RECIPE_COMMENTS_pn-sysfsutils = "No update on kernel.org"
- RECIPE_MAINTAINER_pn-sysfsutils = "Saul Wold <sgw@linux.intel.com>"
- 
- RECIPE_STATUS_pn-curl = "green"
-@@ -1542,7 +1542,7 @@ RECIPE_STATUS_pn-less = "green"
- RECIPE_LATEST_VERSION_pn-less = "444"
- RECIPE_LATEST_RELEASE_DATE_pn-less = "Jun 9, 2011"
- RECIPE_LAST_UPDATE_pn-less = "Dec 01, 2011"
--RECIPE_MANUAL_CHECK_DATE_pn-less = "Dec 01, 2011"
-+RECIPE_MANUAL_CHECK_DATE_pn-less = "Dec 27, 2011"
- RECIPE_MAINTAINER_pn-less = "Saul Wold <sgw@linux.intel.com>"
- RECIPE_DEPENDENCY_CHECK_pn-less = "done"
- RECIPE_INTEL_SECTION_pn-less = "base utils"
-@@ -1700,7 +1700,7 @@ RECIPE_MAINTAINER_pn-zip = "Saul Wold <sgw@linux.intel.com>"
- RECIPE_DEPENDENCY_CHECK_pn-zip = "not done"
- RECIPE_INTEL_SECTION_pn-zip = "base utils"
- RECIPE_TIME_BETWEEN_LAST_TWO_RELEASES_pn-zip = "21 months"
--RECIPE_MANUAL_CHECK_DATE_pn-zip = "Dec 01, 2011"
-+RECIPE_MANUAL_CHECK_DATE_pn-zip = "Dec 27, 2011"
- RECIPE_COMMENTS_pn-zip = ""
- 
- RECIPE_STATUS_pn-strace = "green"
-@@ -1789,7 +1789,7 @@ RECIPE_LATEST_RELEASE_DATE_pn-shared-mime-info = "Feb 01, 2010"
- RECIPE_STATUS_pn-util-linux = "green"
- RECIPE_LATEST_VERSION_pn-util-linux = "2.20.1"
- RECIPE_LATEST_RELEASE_DATE_pn-util-linux = "Nov 07, 2011"
--RECIPE_LAST_UPDATE_pn-util-linux = "Dec 01, 2011"
-+RECIPE_LAST_UPDATE_pn-util-linux = "Dec 27, 2011"
- RECIPE_MAINTAINER_pn-util-linux = "Saul Wold <sgw@linux.intel.com>"
- RECIPE_INTEL_SECTION_pn-util-linux = "base utils"
- RECIPE_MANUAL_CHECK_DATE_pn-util-linux = "Dec 01, 2011"
-@@ -1799,12 +1799,12 @@ RECIPE_STATUS_pn-usbutils = "green"
- RECIPE_LATEST_VERSION_pn-usbutils = "0.91"
- RECIPE_LATEST_RELEASE_DATE_pn-usbutils = "Oct 22, 2010"
- RECIPE_LAST_UPDATE_pn-usbutils = "May 20, 2011"
--RECIPE_MANUAL_CHECK_DATE_pn-usbutils = "May 24, 2011"
-+RECIPE_MANUAL_CHECK_DATE_pn-usbutils = "Dec 27, 2011"
- RECIPE_MAINTAINER_pn-usbutils = "Saul Wold <sgw@linux.intel.com>"
- RECIPE_DEPENDENCY_CHECK_pn-usbutils = "done"
- RECIPE_INTEL_SECTION_pn-usbutils = "base utils"
- RECIPE_TIME_BETWEEN_LAST_TWO_RELEASES_pn-usbutils = "2 months"
--RECIPE_COMMENTS_pn-usbutils = ""
-+RECIPE_COMMENTS_pn-usbutils = "No update on kernel.org"
- 
- RECIPE_STATUS_pn-pciutils = "yellow"    # custom build system, several hacks
- RECIPE_LAST_UPDATE_pn-pciutils = "Nov 10, 2010"
-@@ -1843,7 +1843,7 @@ DISTRO_PN_ALIAS_pn-zypper = "OpenSuse=zypper Meego=zypper"
- RECIPE_STATUS_pn-sysstat = "green"
- RECIPE_LATEST_VERSION_pn-sysstat = "10.0.3"
- RECIPE_LATEST_RELEASE_DATE_pn-sysstat = "Nov 27, 2011"
--RECIPE_LAST_UPDATE_pn-sysstat = "Dec 01, 2011"
-+RECIPE_LAST_UPDATE_pn-sysstat = "Dec 27, 2011"
- RECIPE_MANUAL_CHECK_DATE_pn-sysstat = "Dec 01, 2011"
- RECIPE_MAINTAINER_pn-sysstat = "Saul Wold <sgw@linux.intel.com>"
- 
-@@ -1877,7 +1877,7 @@ RECIPE_STATUS_pn-cracklib="green"
- RECIPE_LATEST_VERSION_pn-cracklib="2.8.18"
- RECIPE_LATEST_RELEASE_DATE_pn-cracklib = "Aug 29, 2010"
- RECIPE_LAST_UPDATE_pn-cracklib = "Nov 13, 2010"
--RECIPE_MANUAL_CHECK_DATE_pn-cracklib = "Dec 01, 2011"
-+RECIPE_MANUAL_CHECK_DATE_pn-cracklib = "Dec 27, 2011"
- RECIPE_MAINTAINER_pn-cracklib="Saul Wold <sgw@linux.intel.com>"
- 
- RECIPE_STATUS_pn-openobex = "red"
-@@ -1963,7 +1963,7 @@ RECIPE_STATUS_pn-libexif = "green"
- RECIPE_LATEST_VERSION_pn-libexif = "0.6.20"
- RECIPE_LATEST_RELEASE_DATE_pn-libexif = "Dec 12, 2010"
- RECIPE_LAST_UPDATE_pn-libexif = "Apr 15, 2011"
--RECIPE_MANUAL_CHECK_DATE_pn-libexif = "Dec 01, 2011"
-+RECIPE_MANUAL_CHECK_DATE_pn-libexif = "Dec 27, 2011"
- RECIPE_MAINTAINER_pn-libexif = "Saul Wold <sgw@linux.intel.com>"
- 
- RECIPE_STATUS_pn-setserial = "red"
-@@ -3481,7 +3481,7 @@ RECIPE_INTEL_SECTION_pn-qemugl="graphic app"
- RECIPE_LAST_UPDATE_pn-qemugl = "Nov 28, 2010"
- RECIPE_NO_UPDATE_REASON_pn-qemugl = "Do not upgrade to version: 33466cd8 because the upstream is broken in x86_64 build"
- RECIPE_MAINTAINER_pn-qemugl="Saul Wold <sgw@linux.intel.com>"
--RECIPE_MANUAL_CHECK_DATE_pn-qemugl= "Dec 01, 2011"
-+RECIPE_MANUAL_CHECK_DATE_pn-qemugl= "Dec 27, 2011"
- 
- RECIPE_STATUS_pn-fotowall="green" # no update needed
- RECIPE_LATEST_VERSION_pn-fotowall="0.9"
-@@ -5763,7 +5763,7 @@ RECIPE_MAINTAINER_pn-glew = "Saul Wold <sgw@linux.intel.com>"
- RECIPE_LATEST_VERSION_pn-squashfs-tools = "4.2"
- RECIPE_LATEST_RELEASE_DATE_pn-squashfs-tools = "Feb 28, 2011"
- RECIPE_LAST_UPDATE_pn-squashfs-tools = "Oct 21, 2011"
--RECIPE_MANUAL_CHECK_DATE_pn-squashfs-tools = "Dec 01, 2011"
-+RECIPE_MANUAL_CHECK_DATE_pn-squashfs-tools = "Dec 27, 2011"
- RECIPE_MAINTAINER_pn-squashfs-tools = "Saul Wold <sgw@linux.intel.com>"
- 
- RECIPE_LATEST_VERSION_pn-mpeg2dec = "0.5.1"
-@@ -5774,14 +5774,14 @@ RECIPE_MAINTAINER_pn-squashfs-tools = "Saul Wold <sgw@linux.intel.com>"
- RECIPE_LATEST_VERSION_pn-lame = "3.99.3"
- RECIPE_LATEST_RELEASE_DATE_pn-lame = "Nov 26, 2011"
- RECIPE_LAST_UPDATE_pn-lame = "Nov 28, 2011"
--RECIPE_MANUAL_CHECK_DATE_pn-lame = "Dec 01, 2011"
-+RECIPE_MANUAL_CHECK_DATE_pn-lame = "Dec 27, 2011"
- DISTRO_PN_ALIAS_pn-lame = "Debian=lame Ubuntu=lame"
- RECIPE_MAINTAINER_pn-lame = "Saul Wold <sgw@linux.intel.com>"
- 
- RECIPE_LATEST_VERSION_pn-libmad = "0.15.1b"
- RECIPE_LATEST_RELEASE_DATE_pn-libmad = "Feb 18, 2004"
- RECIPE_LAST_UPDATE_pn-libmad = "Jul 04, 2006"
--RECIPE_MANUAL_CHECK_DATE_pn-libmad = "Dec 01, 2011"
-+RECIPE_MANUAL_CHECK_DATE_pn-libmad = "Dec 27, 2011"
- RECIPE_MAINTAINER_pn-libmad = "Saul Wold <sgw@linux.intel.com>"
- 
- RECIPE_LATEST_VERSION_pn-libxml-perl = "0.08"
-@@ -5789,7 +5789,7 @@ RECIPE_LATEST_VERSION_pn-libxml-perl = "0.08"
- RECIPE_LATEST_VERSION_pn-lsb = "1.4"
- RECIPE_LAST_UPDATE_pn-lsb = "Nov 04, 2010"
- RECIPE_LATEST_RELEASE_DATE_pn-lsb = "Jan 04, 2001"
--RECIPE_MANUAL_CHECK_DATE_pn-lsb = "Dec 01, 2011"
-+RECIPE_MANUAL_CHECK_DATE_pn-lsb = "Dec 27, 2011"
- RECIPE_NO_UPDATE_REASON_pn-lsb = "1.4 is fixed version of LSB Test"
- RECIPE_MAINTAINER_pn-lsb = "Saul Wold <sgw@linux.intel.com>"
- 
--- 
-1.7.6.4
+This seems better since it include uclibc if that was selected...
+
+>>
+>> Or:
+>>
+>> RECOMMENDS_libc-glibc =3D "glibc-dbg"
+>
+> with extra R and PN, right?
+> RRECOMMENDS_${PN}_libc-glibc =3D "glibc-dbg"
+
+This is only provided by eglibc now, so it leaves out uclibc... I think...
+
+
+-M=
 
 
 
