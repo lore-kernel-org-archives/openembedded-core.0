@@ -1,63 +1,40 @@
-Received: from ch1ehsobe004.messaging.microsoft.com ([216.32.181.184]
-	helo=ch1outboundpool.messaging.microsoft.com)
+Received: from mail-iy0-f175.google.com ([209.85.210.175])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <B29882@freescale.com>) id 1RfiXy-00031a-KT
+	(envelope-from <kergoth@gmail.com>) id 1Rfk91-0006Ek-Mo
 	for openembedded-core@lists.openembedded.org;
-	Wed, 28 Dec 2011 02:43:14 +0100
-Received: from mail61-ch1-R.bigfish.com (10.43.68.246) by
-	CH1EHSOBE002.bigfish.com (10.43.70.52) with Microsoft SMTP Server id
-	14.1.225.23; Wed, 28 Dec 2011 01:35:40 +0000
-Received: from mail61-ch1 (localhost [127.0.0.1])	by mail61-ch1-R.bigfish.com
-	(Postfix) with ESMTP id 06F154A0134	for
-	<openembedded-core@lists.openembedded.org>;
-	Wed, 28 Dec 2011 01:34:51 +0000 (UTC)
-X-SpamScore: 2
-X-BigFish: VS2(zz9371I98dKzz1202hzz8275bhz2dh2a8h668h839h8e2h8e3hbe9n61h)
-X-Spam-TCS-SCL: 0:0
-X-Forefront-Antispam-Report: CIP:70.37.183.190; KIP:(null); UIP:(null); IPV:NLI;
-	H:mail.freescale.net; RD:none; EFVD:NLI
-Received: from mail61-ch1 (localhost.localdomain [127.0.0.1]) by mail61-ch1
-	(MessageSwitch) id 1325036090699648_6013;
-	Wed, 28 Dec 2011 01:34:50 +0000 (UTC)
-Received: from CH1EHSMHS021.bigfish.com (snatpool1.int.messaging.microsoft.com
-	[10.43.68.252])	by mail61-ch1.bigfish.com (Postfix) with ESMTP id
-	A6B201000D6 for <openembedded-core@lists.openembedded.org>;
-	Wed, 28 Dec 2011 01:34:50 +0000 (UTC)
-Received: from mail.freescale.net (70.37.183.190) by CH1EHSMHS021.bigfish.com
-	(10.43.70.21) with Microsoft SMTP Server (TLS) id 14.1.225.23;
-	Wed, 28 Dec 2011 01:35:39 +0000
-Received: from 039-SN1MPN1-002.039d.mgd.msft.net ([169.254.2.86]) by
-	039-SN1MMR1-001.039d.mgd.msft.net ([10.84.1.13]) with mapi id
-	14.01.0355.003; Tue, 27 Dec 2011 19:35:58 -0600
-From: McClintock Matthew-B29882 <B29882@freescale.com>
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Thread-Topic: [OE-core] [PATCH oe-core] valgrind: add powerpc into the
-	compatible host list
-Thread-Index: AQHMxQEM1g9NzChUwEWpt1f5LT79qA==
-Date: Wed, 28 Dec 2011 01:35:57 +0000
-Message-ID: <CAEsOVNctAnsG-Jg3VETQcPLLt7+KV14ra_d81je1P4FGWWpG4g@mail.gmail.com>
-References: <1324289521-10140-1-git-send-email-b19537@freescale.com>
-	<C27D8181-0988-4BF7-A858-BC873D7C47F8@dominion.thruhere.net>
-	<CA452391058F6D4E9715FB2C29D9312A010B915F@039-SN2MPN1-023.039d.mgd.msft.net>
-	<1324297600.4568.170.camel@ted>
-	<CA452391058F6D4E9715FB2C29D9312A010B9EEF@039-SN2MPN1-023.039d.mgd.msft.net>
-	<1324487225.18348.11.camel@ted>
-	<CAFZPMobmLhrHoPo9devpvdgw_OSWXbR0_aiLc7bp5-ce+QG0yQ@mail.gmail.com>
-	<CA452391058F6D4E9715FB2C29D9312A010BBDB0@039-SN2MPN1-023.039d.mgd.msft.net>
-In-Reply-To: <CA452391058F6D4E9715FB2C29D9312A010BBDB0@039-SN2MPN1-023.039d.mgd.msft.net>
-Accept-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [99.47.177.27]
+	Wed, 28 Dec 2011 04:25:35 +0100
+Received: by iakh37 with SMTP id h37so17754920iak.6
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 27 Dec 2011 19:18:13 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
+	h=date:from:to:cc:message-id:in-reply-to:references:subject:x-mailer
+	:mime-version:content-type;
+	bh=jc69/lFLcA0cXiUXX+JmxaTt0OVqmAc+wA/HKwuEGA8=;
+	b=wQQ8GhQ8QxKhRAcDyjQOPHsMU/KYlLSAaeH4b+ubR2A7+sAxSzCaOGdjTzetnPAyBL
+	+Gi5znYoLZ4nteizCVyTuDdoD2HaJq+ry/zypug+Ue2/wSbznZ6u0n+q60hDrm8NYKik
+	5skJKe287okbTb9i8DyH8XMtFmXrdxKSHQNN8=
+Received: by 10.50.161.135 with SMTP id xs7mr28828713igb.15.1325042292170;
+	Tue, 27 Dec 2011 19:18:12 -0800 (PST)
+Received: from frey.local (ip24-251-167-38.ph.ph.cox.net. [24.251.167.38])
+	by mx.google.com with ESMTPS id xu6sm4079764igb.7.2011.12.27.19.18.09
+	(version=TLSv1/SSLv3 cipher=OTHER);
+	Tue, 27 Dec 2011 19:18:10 -0800 (PST)
+Date: Tue, 27 Dec 2011 20:18:07 -0700
+From: Christopher Larson <kergoth@gmail.com>
+To: Saul Wold <sgw@linux.intel.com>
+Message-ID: <C912F71A353F438184732085CC1952DC@gmail.com>
+In-Reply-To: <CABcZAN=kQT-imznF0wRWW_Nazs+YefcC2YY-yk+ckp6gjV757w@mail.gmail.com>
+References: <4EF0C808.8060609@gmail.com> <4EFA2B81.4090405@linux.intel.com>
+	<CABcZAN=kQT-imznF0wRWW_Nazs+YefcC2YY-yk+ckp6gjV757w@mail.gmail.com>
+X-Mailer: sparrow 1.5 (build 1043.1)
 MIME-Version: 1.0
-X-OriginatorOrg: freescale.com
-Subject: Re: [PATCH oe-core] valgrind: add powerpc into the compatible host list
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] patch.bbclass: abstract out logic that determines patches to apply
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
-Reply-To: McClintock Matthew-B29882 <B29882@freescale.com>,
-	Patches and discussions about the oe-core layer
+Reply-To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
 List-Id: Patches and discussions about the oe-core layer
 	<openembedded-core.lists.openembedded.org>
@@ -68,19 +45,61 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 28 Dec 2011 01:43:14 -0000
-Content-Language: en-US
-Content-Type: text/plain; charset="iso-8859-1"
-Content-ID: <93E6DDC81CBC764499A433059036158C@freescale.net>
+X-List-Received-Date: Wed, 28 Dec 2011 03:25:35 -0000
+Content-Type: multipart/alternative; boundary="4efa8a6f_721da317_14e4d"
+
+--4efa8a6f_721da317_14e4d
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Content-Disposition: inline
+
+Pushed an updated version of the patch-refactor commit that should fix this.
+-- 
+Christopher Larson
+
+
+On Tuesday, December 27, 2011 at 1:38 PM, Chris Larson wrote:
+
+> On Tue, Dec 27, 2011 at 1:33 PM, Saul Wold <sgw@linux.intel.com (mailto:sgw@linux.intel.com)> wrote:
+> > Do you need to pass d here?
+> > 
+> > I am seeing errors (see
+> > http://autobuilder.yoctoproject.org:8010/builders/nightly-x86/builds/295/steps/shell_14/logs/stdio)
+> > 
+> 
+> 
+> Bah, indeed, apparently my testing didn't hit any recipes using
+> minrev/maxrev/notrev. Will rework the patch. Grr.
+> 
+> 
+
+
+--4efa8a6f_721da317_14e4d
+Content-Type: text/html; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
-
-On Thu, Dec 22, 2011 at 9:15 PM, Luo Zhenhua-B19537
-<B19537@freescale.com> wrote:
-> Can somebody confirm whether valgrind works for armv4/v5, please?
-
-We should probably ask this on a valgrind list...
-
--M=
+Content-Disposition: inline
 
 
+                <div>
+                    Pushed an updated version of the patch-refactor commi=
+t that should fix this.</div><div><div>--&nbsp;</div><div>Christopher Lar=
+son</div><div><br></div></div>
+                =20
+                <p style=3D=22color: =23A0A0A8;=22>On Tuesday, December 2=
+7, 2011 at 1:38 PM, Chris Larson wrote:</p>
+                <blockquote type=3D=22cite=22 style=3D=22border-left-styl=
+e:solid;border-width:1px;margin-left:0px;padding-left:10px;=22>
+                    <span><div><div><div>On Tue, Dec 27, 2011 at 1:33 PM,=
+ Saul Wold &lt;<a href=3D=22mailto:sgw=40linux.intel.com=22>sgw=40linux.i=
+ntel.com</a>&gt; wrote:</div><blockquote type=3D=22cite=22><div><div>Do y=
+ou need to pass d here=3F</div><div><br></div><div>I am seeing errors (se=
+e</div><div><a href=3D=22http://autobuilder.yoctoproject.org:8010/builder=
+s/nightly-x86/builds/295/steps/shell=5F14/logs/stdio=22>http://autobuilde=
+r.yoctoproject.org:8010/builders/nightly-x86/builds/295/steps/shell=5F14/=
+logs/stdio</a>)</div></div></blockquote><div><br></div><div>Bah, indeed, =
+apparently my testing didn't hit any recipes using</div><div>minrev/maxre=
+v/notrev. Will rework the patch. Grr.</div></div></div></span></blockquot=
+e>
+            
 
+--4efa8a6f_721da317_14e4d--
