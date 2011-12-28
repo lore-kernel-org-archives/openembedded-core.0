@@ -1,34 +1,26 @@
-Received: from mail-lpp01m010-f47.google.com ([209.85.215.47])
+Received: from mail-vx0-f175.google.com ([209.85.220.175])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <koen@dominion.thruhere.net>) id 1Rfquy-0006W0-Rn
-	for openembedded-core@lists.openembedded.org;
-	Wed, 28 Dec 2011 11:39:33 +0100
-Received: by lami14 with SMTP id i14so4483637lam.6
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 28 Dec 2011 02:32:15 -0800 (PST)
-Received: by 10.152.146.99 with SMTP id tb3mr15120384lab.7.1325068335893;
-	Wed, 28 Dec 2011 02:32:15 -0800 (PST)
-Received: from [172.20.1.36] (ip545070eb.adsl-surfen.hetnet.nl.
-	[84.80.112.235])
-	by mx.google.com with ESMTPS id s13sm24366188lad.8.2011.12.28.02.32.14
-	(version=TLSv1/SSLv3 cipher=OTHER);
-	Wed, 28 Dec 2011 02:32:15 -0800 (PST)
-Mime-Version: 1.0 (Apple Message framework v1251.1)
-From: Koen Kooi <koen@dominion.thruhere.net>
-In-Reply-To: <2295923.3R0Nmqr59V@helios>
-Date: Wed, 28 Dec 2011 11:32:13 +0100
-Message-Id: <80E8B5C9-63CE-4BFA-8C5F-39ABA85736C7@dominion.thruhere.net>
-References: <1325055308-17731-1-git-send-email-b19537@freescale.com>
-	<8285067.9cfZeAKmYZ@helios>
-	<CA452391058F6D4E9715FB2C29D9312A010BD589@039-SN2MPN1-023.039d.mgd.msft.net>
-	<2295923.3R0Nmqr59V@helios>
-To: Patches and discussions about the oe-core layer
+	(envelope-from <fransmeulenbroeks@gmail.com>)
+	id 1Rfqvw-0006Zy-IC; Wed, 28 Dec 2011 11:40:33 +0100
+Received: by vcbf1 with SMTP id f1so8998448vcb.6
+	for <multiple recipients>; Wed, 28 Dec 2011 02:33:15 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
+	h=mime-version:date:message-id:subject:from:to:content-type;
+	bh=Y+rLOm0fqAH16d1PHNL74Vwvjrt55cQVHH4H4lp3jn4=;
+	b=VywR5PO+RPQTjmAgMtl6hRQEg36CPMO0L74cGz9T6Ep9UYHWqNa9Tb85mLd9FyEz4q
+	CXXb22xQ5RUeXGIv1P8FojQqxAXQM9ZJjutP8Oczb0I6PuWKgY2b3HTi1y1H8FZXQkBo
+	Baowd6KSI8rxlJWqGCcmrDuerxcv4EfZof8eY=
+MIME-Version: 1.0
+Received: by 10.52.178.195 with SMTP id da3mr15253626vdc.20.1325068395786;
+	Wed, 28 Dec 2011 02:33:15 -0800 (PST)
+Received: by 10.52.160.137 with HTTP; Wed, 28 Dec 2011 02:33:15 -0800 (PST)
+Date: Wed, 28 Dec 2011 11:33:15 +0100
+Message-ID: <CACW_hTbBoB4yaN0W+H3WuW9GXYFGD6+FxQ5BMbKe+a2-pqc_Hw@mail.gmail.com>
+From: Frans Meulenbroeks <fransmeulenbroeks@gmail.com>
+To: openembedded-devel <openembedded-devel@lists.openembedded.org>, 
+	Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-X-Mailer: Apple Mail (2.1251.1)
-Cc: McClintock Matthew-B29882 <B29882@freescale.com>,
-	Garg Vakul-B16394 <B16394@freescale.com>,
-	Luo Zhenhua-B19537 <B19537@freescale.com>
-Subject: Re: [PATCH oe-core] valgrind: add powerpc to the compatible host and add eglibc-dbg in rdepends
+Subject: non-fetching recipes
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -43,61 +35,46 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 28 Dec 2011 10:39:33 -0000
-X-Groupsio-MsgNum: 14849
-Content-Type: multipart/signed;
-	boundary="Apple-Mail=_8A41AA8A-86EB-4750-A20F-605E356DF031";
-	protocol="application/pgp-signature"; micalg=pgp-sha1
+X-List-Received-Date: Wed, 28 Dec 2011 10:40:33 -0000
+Content-Type: multipart/alternative; boundary=bcaec51a7d5a08b17f04b52487e4
 
---Apple-Mail=_8A41AA8A-86EB-4750-A20F-605E356DF031
+--bcaec51a7d5a08b17f04b52487e4
+Content-Type: text/plain; charset=ISO-8859-1
+
+Hi,
+
+I noticed that several recipes are non-fetchers. These are mostly the ones
+with sources hosted on kernel.org.
+Is there an issue with kernel.org again?
+
+I noticed this for oe classic where libpam and util-linux-ng did not fetch
+(as well as opkg-utils but that one is from openmoko).
+oe maintenance branch seems to have the same problems as well as using
+binutils 2.21 which is not available any more. master does not have this as
+it has been moved to 2.21a.
+
+I'm crossposting this to oe-core, because I noticed it uses the same
+location for libpam (and probably util-linux).
+
+Someone might want to run some fetchalls.
+
+Frans.
+
+--bcaec51a7d5a08b17f04b52487e4
+Content-Type: text/html; charset=ISO-8859-1
 Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain;
-	charset=us-ascii
 
+Hi,<br><br>I noticed that several recipes are non-fetchers. These are mostl=
+y the ones with sources hosted on <a href=3D"http://kernel.org">kernel.org<=
+/a>. <br>Is there an issue with <a href=3D"http://kernel.org">kernel.org</a=
+> again?<br>
+<br>I noticed this for oe classic where libpam and util-linux-ng did not fe=
+tch (as well as opkg-utils but that one is from openmoko).<br>oe maintenanc=
+e branch seems to have the same problems as well as using binutils 2.21 whi=
+ch is not available any more. master does not have this as it has been move=
+d to 2.21a.<br>
+<br>I&#39;m crossposting this to oe-core, because I noticed it uses the sam=
+e location for libpam (and probably util-linux).<br><br>Someone might want =
+to run some fetchalls.<br><br>Frans.<br>
 
-Op 28 dec. 2011, om 11:18 heeft Paul Eggleton het volgende geschreven:
-
-> On Wednesday 28 December 2011 10:01:13 Luo Zhenhua-B19537 wrote:
->> May I know what's the concern with eglibc instead of uclibc?
->=20
-> So my concern is, if you add a runtime dependency on eglibc-dbg to =
-valgrind=20
-> and you've selected uclibc instead, it will force installation of =
-eglibc when=20
-> you install valgrind (not to mention building it when you build =
-valgrind);=20
-> this is almost certainly not what you want.
->=20
-> If a dependency on the libc debug packages is really needed you could =
-do=20
-> something this instead:
->=20
-> RRECOMMENDS_${PN} +=3D "${TCLIBC}-dbg"
-
-Or:
-
-RECOMMENDS_libc-glibc =3D "glibc-dbg"
-
-I'm not sure which one is better, but I wanted to point out the libc =
-overrides :)
-
-regards,
-
-Koen=
-
---Apple-Mail=_8A41AA8A-86EB-4750-A20F-605E356DF031
-Content-Transfer-Encoding: 7bit
-Content-Disposition: inline;
-	filename=signature.asc
-Content-Type: application/pgp-signature;
-	name=signature.asc
-Content-Description: Message signed with OpenPGP using GPGMail
-
------BEGIN PGP SIGNATURE-----
-
-iEYEARECAAYFAk768C0ACgkQMkyGM64RGpHPGACggRHoD2onHQq2myaj9S6dbV3U
-W/IAmgOKPw3O8OYLhj5aV3wuHFhIkzx4
-=l5EL
------END PGP SIGNATURE-----
-
---Apple-Mail=_8A41AA8A-86EB-4750-A20F-605E356DF031--
+--bcaec51a7d5a08b17f04b52487e4--
