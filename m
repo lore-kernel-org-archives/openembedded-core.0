@@ -1,33 +1,26 @@
-Received: from mail-qw0-f54.google.com ([209.85.216.54])
+Received: from mga02.intel.com ([134.134.136.20])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <kergoth@gmail.com>) id 1RgOAs-0001l5-Hc
+	(envelope-from <paul.eggleton@linux.intel.com>) id 1RgOEr-0001u0-Ts
 	for openembedded-core@lists.openembedded.org;
-	Thu, 29 Dec 2011 23:10:10 +0100
-Received: by qabg14 with SMTP id g14so9446213qab.6
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 29 Dec 2011 14:02:55 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc:content-type:content-transfer-encoding;
-	bh=X1YOBvnzUJT9x1uHx76Bjgf0d+93X6qy+mOn/qMy7L0=;
-	b=mL401O7dXyOhmSgzKdW1bVLwBomtBE5+tJfu8nWZ36fuQ6Il+7d4oAntts2Tx9Co+v
-	zASA08xtfXWbBP63jAxsS3GHkChp5vhZAtP8e278Ut3b+EVUOP3+IGcqtgCVU5OJ6vx/
-	qtIItrQsAZ7GH2P/OIndjJhnCjXvnv7YtjyVE=
-Received: by 10.224.34.202 with SMTP id m10mr44088016qad.62.1325196175251;
-	Thu, 29 Dec 2011 14:02:55 -0800 (PST)
+	Thu, 29 Dec 2011 23:14:18 +0100
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+	by orsmga101.jf.intel.com with ESMTP; 29 Dec 2011 14:07:02 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.67,351,1309762800"; d="scan'208";a="92712349"
+Received: from unknown (HELO helios.localnet) ([10.252.122.61])
+	by orsmga002.jf.intel.com with ESMTP; 29 Dec 2011 14:07:01 -0800
+From: Paul Eggleton <paul.eggleton@linux.intel.com>
+To: Scott Garman <scott.a.garman@intel.com>
+Date: Thu, 29 Dec 2011 22:06:59 +0000
+Message-ID: <3173273.Kh9LKRsTpP@helios>
+Organization: Intel Corporation
+User-Agent: KMail/4.7.3 (Linux/3.0.0-14-generic-pae; KDE/4.7.4; i686; ; )
+In-Reply-To: <4EFCD0B5.6080702@intel.com>
+References: <cover.1324661415.git.scott.a.garman@intel.com>
+	<2928272.ngRFCSvnHg@helios> <4EFCD0B5.6080702@intel.com>
 MIME-Version: 1.0
-Received: by 10.229.187.141 with HTTP; Thu, 29 Dec 2011 14:02:34 -0800 (PST)
-In-Reply-To: <4EFCE30A.80203@linux.intel.com>
-References: <1325117322-27695-1-git-send-email-kergoth@gmail.com>
-	<4EFCE30A.80203@linux.intel.com>
-From: Chris Larson <kergoth@gmail.com>
-Date: Thu, 29 Dec 2011 15:02:34 -0700
-Message-ID: <CABcZANkzpk+UFJcsGgQMYHoVh=p-dCPBpmQvWG07rz23W43xxw@mail.gmail.com>
-To: Saul Wold <sgw@linux.intel.com>
-Cc: Christopher Larson <chris_larson@mentor.com>,
-	Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 1/2] elfutils: fix for dso link change in recent ld
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH 0/2] Upgrade chrpath and libevent
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -42,38 +35,43 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 29 Dec 2011 22:10:10 -0000
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Thu, 29 Dec 2011 22:14:18 -0000
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
 
-On Thu, Dec 29, 2011 at 3:00 PM, Saul Wold <sgw@linux.intel.com> wrote:
-> On 12/28/2011 04:08 PM, Christopher Larson wrote:
->>
->> From: Christopher Larson<chris_larson@mentor.com>
->>
->> This patch makes the link to the dependencies of libdw explicit, as rece=
-nt
->> ld
->> no longer implicitly links them. See
->> http://lists.fedoraproject.org/pipermail/devel/2010-March/133601.html as
->> a similar example of the error message you can encounter without this
->> patch,
->> and https://fedoraproject.org/wiki/UnderstandingDSOLinkChange and
->> https://fedoraproject.org/wiki/Features/ChangeInImplicitDSOLinking for
->> more
->> details.
->>
->> Signed-off-by: Christopher Larson<chris_larson@mentor.com>
->> ---
->> =C2=A0.../elfutils/dso-link-change.patch =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 | =C2=A0 32
->> ++++++++++++++++++++
->
->
-> Shouldn't this be delivered into the elfutils/elfutils sub-directory?
+On Thursday 29 December 2011 15:42:29 Scott Garman wrote:
+> On 12/29/2011 10:28 AM, Paul Eggleton wrote:
+> > On Thursday 29 December 2011 10:05:52 Scott Garman wrote:
+> >> On 12/28/2011 01:37 PM, Saul Wold wrote:
+> >>> This will probably require a PR bump for nfs-utils then.
+> >> 
+> >> Are you sure? I thought this was handled automatically as long as the
+> >> recipe in question includes the build dependency in DEPENDS, as
+> >> nfs-utils does for libevent.
+> > 
+> > Yes, if you want nfs-utils to be rebuilt you'll need to bump its PR.
+> > When we eventually move over to the PR server that won't be necessary.
+> 
+> Wow, this is really surprising to me. In all of the recipe upgrades I've
+> ever previously done, I've *never* bumped the PR for all other recipes
+> that list it in DEPENDS. Is this a new procedure we'll have to adopt for
+> the core metadata team?
 
-Erm, yes. Ignore, will resend.
---=20
-Christopher Larson
+It's a judgement call. If there is an ABI being provided which has changed 
+incompatibly then you definitely should bump PRs of those recipes that depend 
+on it. Thinking about it, it probably wouldn't be too hard to detect when the 
+ABI has been broken if we wanted to put some safeguards in place.
+
+I don't think we've been vigilant about this in the past but because people 
+try not to change ABIs we get away with it most of the time. Not sure if it 
+warrants any change in procedure but extra care at least can't hurt.
+
+Cheers,
+Paul
+
+-- 
+
+Paul Eggleton
+Intel Open Source Technology Centre
 
 
