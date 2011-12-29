@@ -1,26 +1,31 @@
-Received: from mga01.intel.com ([192.55.52.88])
+Received: from mail-gx0-f175.google.com ([209.85.161.175])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <darren.hart@intel.com>) id 1Rg3TT-0007V3-2f
+	(envelope-from <kergoth@gmail.com>) id 1Rg3f5-0007wQ-IP
 	for openembedded-core@lists.openembedded.org;
-	Thu, 29 Dec 2011 01:03:59 +0100
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-	by fmsmga101.fm.intel.com with ESMTP; 28 Dec 2011 15:55:30 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="101137456"
-Received: from unknown (HELO envy.home) ([10.255.13.53])
-	by fmsmga001.fm.intel.com with ESMTP; 28 Dec 2011 15:55:30 -0800
-Message-ID: <4EFBAC18.3040909@intel.com>
-Date: Wed, 28 Dec 2011 15:54:00 -0800
-From: Darren Hart <darren.hart@intel.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:7.0) Gecko/20110927 Thunderbird/7.0
-MIME-Version: 1.0
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-References: <fbed4e9f94ed9bd1bb5a9c8fa37113e325f89371.1325115602.git.dvhart@linux.intel.com>
-In-Reply-To: <fbed4e9f94ed9bd1bb5a9c8fa37113e325f89371.1325115602.git.dvhart@linux.intel.com>
-X-Forwarded-Message-Id: <fbed4e9f94ed9bd1bb5a9c8fa37113e325f89371.1325115602.git.dvhart@linux.intel.com>
-Subject: [PATCH] image_types: Ensure /init exists for cpio rootfs archives
+	Thu, 29 Dec 2011 01:15:59 +0100
+Received: by ggnh1 with SMTP id h1so8460709ggn.6
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 28 Dec 2011 16:08:42 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
+	h=from:to:cc:subject:date:message-id:x-mailer;
+	bh=so0X4jFYXqvZd6LtQPG5ymOYKaPjWmWZ+mXNe2KfUfU=;
+	b=uBVYGh5MbZ1wOMQ+xtRZDavaNFH7jlQWTwudZ7RAmZB1VsYjn0xRPP1gQsFghiFqaF
+	gKdnLrtTLMfAsHRzql2fIX0UBSOpmvf+5oPaGqRPeoqCYjiW9qk8+6dhSq8Yqb+P67Ow
+	eFZjXwCoaohb36GyQfiJiSqZ2HPx0zcW6Wx/k=
+Received: by 10.236.181.136 with SMTP id l8mr44907265yhm.103.1325117322068;
+	Wed, 28 Dec 2011 16:08:42 -0800 (PST)
+Received: from sb-u1004lts-64bit.alm.mentorg.com (hsvwanfw1-nat.mentorg.com.
+	[139.181.24.34])
+	by mx.google.com with ESMTPS id e66sm46252510yhk.6.2011.12.28.16.08.41
+	(version=TLSv1/SSLv3 cipher=OTHER);
+	Wed, 28 Dec 2011 16:08:41 -0800 (PST)
+From: Christopher Larson <kergoth@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Date: Wed, 28 Dec 2011 18:08:41 -0600
+Message-Id: <1325117322-27695-1-git-send-email-kergoth@gmail.com>
+X-Mailer: git-send-email 1.7.8.rc4
+Cc: Christopher Larson <chris_larson@mentor.com>
+Subject: [PATCH 1/2] elfutils: fix for dso link change in recent ld
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -35,51 +40,88 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 29 Dec 2011 00:03:59 -0000
-Content-Type: text/plain; charset=ISO-8859-1
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Thu, 29 Dec 2011 00:15:59 -0000
 
-<I sent this to the yocto list by mistake, forwarding here for comment>
+From: Christopher Larson <chris_larson@mentor.com>
 
-In order for the kernel to accept an initramfs as a rootfs,
-it must have /init - even if it is an empty file. Touch /init
-to ensure it exists for cpio and cpio.gz image types.
+This patch makes the link to the dependencies of libdw explicit, as recent ld
+no longer implicitly links them. See
+http://lists.fedoraproject.org/pipermail/devel/2010-March/133601.html as
+a similar example of the error message you can encounter without this patch,
+and https://fedoraproject.org/wiki/UnderstandingDSOLinkChange and
+https://fedoraproject.org/wiki/Features/ChangeInImplicitDSOLinking for more
+details.
 
-When used with initrd and rootfs=/dev/ram0, this allows the
-cpio and cpio.gz images to be used as the rootfs.
-
-Signed-off-by: Darren Hart <dvhart@linux.intel.com>
+Signed-off-by: Christopher Larson <chris_larson@mentor.com>
 ---
- meta/classes/image_types.bbclass |   10 ++++++++--
- 1 files changed, 8 insertions(+), 2 deletions(-)
+ .../elfutils/dso-link-change.patch                 |   32 ++++++++++++++++++++
+ meta/recipes-devtools/elfutils/elfutils_0.148.bb   |    5 ++-
+ 2 files changed, 35 insertions(+), 2 deletions(-)
+ create mode 100644 meta/recipes-devtools/elfutils/dso-link-change.patch
 
-diff --git a/meta/classes/image_types.bbclass b/meta/classes/image_types.bbclass
-index 6893e38..ebff0ba 100644
---- a/meta/classes/image_types.bbclass
-+++ b/meta/classes/image_types.bbclass
-@@ -110,8 +110,14 @@ IMAGE_CMD_tar = "cd ${IMAGE_ROOTFS} && tar -cvf ${DEPLOY_DIR_IMAGE}/${IMAGE_NAME
- IMAGE_CMD_tar.gz = "cd ${IMAGE_ROOTFS} && tar -zcvf ${DEPLOY_DIR_IMAGE}/${IMAGE_NAME}.rootfs.tar.gz ."
- IMAGE_CMD_tar.bz2 = "cd ${IMAGE_ROOTFS} && tar -jcvf ${DEPLOY_DIR_IMAGE}/${IMAGE_NAME}.rootfs.tar.bz2 ."
- IMAGE_CMD_tar.xz = "cd ${IMAGE_ROOTFS} && tar --xz -cvf ${DEPLOY_DIR_IMAGE}/${IMAGE_NAME}.rootfs.tar.xz ."
--IMAGE_CMD_cpio = "cd ${IMAGE_ROOTFS} && (find . | cpio -o -H newc >${DEPLOY_DIR_IMAGE}/${IMAGE_NAME}.rootfs.cpio)"
--IMAGE_CMD_cpio.gz = "cd ${IMAGE_ROOTFS} && (find . | cpio -o -H newc | gzip -c -9 >${DEPLOY_DIR_IMAGE}/${IMAGE_NAME}.rootfs.cpio.gz)"
-+IMAGE_CMD_cpio () {
-+	touch ${IMAGE_ROOTFS}/init
-+	cd ${IMAGE_ROOTFS} && (find . | cpio -o -H newc >${DEPLOY_DIR_IMAGE}/${IMAGE_NAME}.rootfs.cpio)
-+}
-+IMAGE_CMD_cpio.gz () {
-+	touch ${IMAGE_ROOTFS}/init
-+	cd ${IMAGE_ROOTFS} && (find . | cpio -o -H newc | gzip -c -9 >${DEPLOY_DIR_IMAGE}/${IMAGE_NAME}.rootfs.cpio.gz)
-+}
- IMAGE_CMD_cpio.xz = "type cpio >/dev/null; cd ${IMAGE_ROOTFS} && (find . | cpio -o -H newc | xz -c ${XZ_COMPRESSION_LEVEL} --check=${XZ_INTEGRITY_CHECK} > ${DEPLOY_DIR_IMAGE}/${IMAGE_NAME}.rootfs.cpio.xz) ${EXTRA_IMAGECMD}"
- IMAGE_CMD_cpio.lzma = "type cpio >/dev/null; cd ${IMAGE_ROOTFS} && (find . | cpio -o -H newc | xz --format=lzma -c ${XZ_COMPRESSION_LEVEL} --check=${XZ_INTEGRITY_CHECK} >${DEPLOY_DIR_IMAGE}/${IMAGE_NAME}.rootfs.cpio.lzma) ${EXTRA_IMAGECMD}"
+diff --git a/meta/recipes-devtools/elfutils/dso-link-change.patch b/meta/recipes-devtools/elfutils/dso-link-change.patch
+new file mode 100644
+index 0000000..d0cd3ed
+--- /dev/null
++++ b/meta/recipes-devtools/elfutils/dso-link-change.patch
+@@ -0,0 +1,32 @@
++Upstream-Status: Pending
++
++# This patch makes the link to the dependencies of libdw explicit, as recent
++# ld no longer implicitly links them. See
++# http://lists.fedoraproject.org/pipermail/devel/2010-March/133601.html as
++# a similar example of the error message you can encounter without this patch,
++# and https://fedoraproject.org/wiki/UnderstandingDSOLinkChange and
++# https://fedoraproject.org/wiki/Features/ChangeInImplicitDSOLinking for more
++# details.
++
++--- elfutils-0.148.orig/src/Makefile.am
+++++ elfutils-0.148/src/Makefile.am
++@@ -86,7 +86,7 @@ libdw = ../libdw/libdw.a $(zip_LIBS) $(l
++ libelf = ../libelf/libelf.a
++ else
++ libasm = ../libasm/libasm.so
++-libdw = ../libdw/libdw.so
+++libdw = ../libdw/libdw.so $(zip_LIBS) $(libelf) $(libebl) -ldl
++ libelf = ../libelf/libelf.so
++ endif
++ libebl = ../libebl/libebl.a
++--- elfutils-0.148.orig/tests/Makefile.am
+++++ elfutils-0.148/tests/Makefile.am
++@@ -172,7 +172,7 @@ libdw = ../libdw/libdw.a $(zip_LIBS) $(l
++ libelf = ../libelf/libelf.a
++ libasm = ../libasm/libasm.a
++ else
++-libdw = ../libdw/libdw.so
+++libdw = ../libdw/libdw.so $(zip_LIBS) $(libelf) $(libebl) -ldl
++ libelf = ../libelf/libelf.so
++ libasm = ../libasm/libasm.so
++ endif
+diff --git a/meta/recipes-devtools/elfutils/elfutils_0.148.bb b/meta/recipes-devtools/elfutils/elfutils_0.148.bb
+index 0f4e8ca..710959a 100644
+--- a/meta/recipes-devtools/elfutils/elfutils_0.148.bb
++++ b/meta/recipes-devtools/elfutils/elfutils_0.148.bb
+@@ -6,7 +6,7 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=0636e73ff0215e8d672dc4c32c317bb3\
+                     file://EXCEPTION;md5=570adcb0c1218ab57f2249c67d0ce417"
+ DEPENDS = "libtool bzip2 zlib"
  
+-PR = "r4"
++PR = "r5"
+ 
+ SRC_URI = "https://fedorahosted.org/releases/e/l/elfutils/elfutils-${PV}.tar.bz2"
+ 
+@@ -29,7 +29,8 @@ SRC_URI += "\
+ 	file://elfutils-fsize.patch \
+ 	file://remove-unused.patch \
+ 	file://mempcpy.patch \
+-	file://fix_for_gcc-4.7.patch\
++	file://fix_for_gcc-4.7.patch \
++	file://dso-link-change.patch \
+ "
+ # Only apply when building uclibc based target recipe
+ SRC_URI_append_libc-uclibc = " ${@['', 'file://uclibc-support.patch']['${PN}' == '${BPN}']}"
 -- 
-1.7.6.4
+1.7.8.rc4
 
-_______________________________________________
-yocto mailing list
-yocto@yoctoproject.org
-https://lists.yoctoproject.org/listinfo/yocto
 
 
