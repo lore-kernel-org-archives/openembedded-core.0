@@ -1,25 +1,20 @@
-Received: from mail.windriver.com ([147.11.1.11])
+Received: from mga02.intel.com ([134.134.136.20])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <Liezhi.Yang@windriver.com>) id 1RgB1O-0000II-Az
+	(envelope-from <edwin.zhai@intel.com>) id 1RgBKb-0000pz-7e
 	for openembedded-core@lists.openembedded.org;
-	Thu, 29 Dec 2011 09:07:30 +0100
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca [147.11.189.40])
-	by mail.windriver.com (8.14.3/8.14.3) with ESMTP id pBT71f0Y008351
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 28 Dec 2011 23:01:41 -0800 (PST)
-Received: from build-PowerEdge-T100.corp.ad.wrs.com (128.224.163.66) by
-	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server id
-	14.1.255.0; Wed, 28 Dec 2011 23:01:40 -0800
-From: Robert Yang <liezhi.yang@windriver.com>
-To: <mark.hatle@windriver.com>, <openembedded-core@lists.openembedded.org>
-Date: Thu, 29 Dec 2011 15:00:12 +0800
-Message-ID: <47d6afe044383d6ca97c3972a25663eda145a56c.1325141432.git.liezhi.yang@windriver.com>
-X-Mailer: git-send-email 1.7.4.1
-In-Reply-To: <cover.1325141432.git.liezhi.yang@windriver.com>
-References: <cover.1325141432.git.liezhi.yang@windriver.com>
-MIME-Version: 1.0
-Subject: [PATCH 1/2] Incremental image generation(rpm based rootfs)
+	Thu, 29 Dec 2011 09:27:21 +0100
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+	by orsmga101.jf.intel.com with ESMTP; 29 Dec 2011 00:20:06 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.67,352,1309762800"; d="scan'208";a="91185450"
+Received: from yocto-build3.sh.intel.com ([10.239.48.58])
+	by orsmga001.jf.intel.com with ESMTP; 29 Dec 2011 00:20:05 -0800
+From: edwin.zhai@intel.com
+To: openembedded-core@lists.openembedded.org
+Date: Thu, 29 Dec 2011 16:09:17 +0800
+Message-Id: <cover.1325145929.git.edwin.zhai@intel.com>
+X-Mailer: git-send-email 1.7.1
+Subject: [PATCH 0/2] Bug fixes
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -34,166 +29,30 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 29 Dec 2011 08:07:30 -0000
-Content-Type: text/plain
+X-List-Received-Date: Thu, 29 Dec 2011 08:27:21 -0000
 
-Incremental image generation, the rootfs would be totally removed and
-re-created in the second generation by default, but with INC_IMAGE_GEN =
-"1", the rootfs would be kept, and will do update(remove/add some pkgs)
-on it.
-NOTE: This is not suggested when you want to create a productive rootfs
+From: Zhai Edwin <edwin.zhai@intel.com>
 
-For example:
-  1) Add the follow config option to a conf file:
-     INC_IMAGE_GEN = "1"
+All,
+Patch of gnome-keyring to fix gsettings-data-convert seg fault, modified according to Saul's comments.
+Another patch of matchbox-wm to remove the dependence between window manager and X session.
 
-  2) bitbake core-image-sato
-     modify a package
-     bitbake core-image-sato
+The following changes since commit 6a1b5c28f22bb07a0b7102eb88441d05768ec52e:
 
-The rootfs would not be totally removed and re-created in the second
-generation, it would be simply updated based on the "package".
+  self-hosted-image: Add builder user and mini X (2011-12-29 10:42:07 +0800)
 
-Implatation:
-1) Figure out the pkg which need to be removed or re-installed, then use
-'rpm -e to remove the old one. Use the rpm's BUILDTIME to determine
-which pkg has been rebuilt.
+are available in the git repository at:
+  git://git.pokylinux.org/poky-contrib gzhai/build-appliance2
+  http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=gzhai/build-appliance2
 
-2) Figure out the pkg which is newly added, and use 'rpm -U' to install
-it.
+Zhai Edwin (2):
+  gnome-keyring: fix gsettings_data_convert seg fault
+  matchbox-wm: Remove x-session-manager handling
 
-This only for the rpm based rootfs, I don't know whether we also need
-this for ipk or deb  based rootfs.
-
-[YOCTO #1651]
-
-Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
----
- meta/classes/image.bbclass       |   11 +++++-
- meta/classes/package_rpm.bbclass |   72 ++++++++++++++++++++++++++++++++-----
- 2 files changed, 71 insertions(+), 12 deletions(-)
-
-diff --git a/meta/classes/image.bbclass b/meta/classes/image.bbclass
-index 865d430..71b60f3 100644
---- a/meta/classes/image.bbclass
-+++ b/meta/classes/image.bbclass
-@@ -134,15 +134,22 @@ do_rootfs[umask] = 022
- 
- fakeroot do_rootfs () {
- 	#set -x
--	rm -rf ${IMAGE_ROOTFS}
-+    # When use the incremental image generation, don't remove the rootfs
-+    if [ "${INC_IMAGE_GEN}" != "1" ]; then
-+        rm -rf ${IMAGE_ROOTFS}
-+    fi
- 	rm -rf ${MULTILIB_TEMP_ROOTFS}
- 	mkdir -p ${IMAGE_ROOTFS}
- 	mkdir -p ${DEPLOY_DIR_IMAGE}
- 
- 	cp ${COREBASE}/meta/files/deploydir_readme.txt ${DEPLOY_DIR_IMAGE}/README_-_DO_NOT_DELETE_FILES_IN_THIS_DIRECTORY.txt
- 
--	if [ "${USE_DEVFS}" != "1" ]; then
-+    # If "${IMAGE_ROOTFS}/dev" exists, then the device had been made by
-+    # the previous build
-+	if [ "${USE_DEVFS}" != "1" -a ! -r "${IMAGE_ROOTFS}/dev" ]; then
- 		for devtable in ${@get_devtable_list(d)}; do
-+            # Always return ture since there maybe already one when use the
-+            # incremental image generation
- 			makedevs -r ${IMAGE_ROOTFS} -D $devtable
- 		done
- 	fi
-diff --git a/meta/classes/package_rpm.bbclass b/meta/classes/package_rpm.bbclass
-index d03dc3f..541d351 100644
---- a/meta/classes/package_rpm.bbclass
-+++ b/meta/classes/package_rpm.bbclass
-@@ -147,6 +147,66 @@ resolve_package_rpm () {
- 	echo $pkg_name
- }
- 
-+# rpm common command and options
-+rpm_common_comand () {
-+
-+    local target_rootfs="${INSTALL_ROOTFS_RPM}"
-+    local extra_args="$@"
-+
-+    ${RPM} --root ${target_rootfs} \
-+        --predefine "_rpmds_sysinfo_path ${target_rootfs}/etc/rpm/sysinfo" \
-+        --predefine "_rpmrc_platform_path ${target_rootfs}/etc/rpm/platform" \
-+        -D "_var ${localstatedir}" \
-+        -D "_dbpath ${rpmlibdir}" \
-+        --noparentdirs --nolinktos \
-+        -D "__dbi_txn create nofsync private" \
-+        -D "_cross_scriptlet_wrapper ${WORKDIR}/scriptlet_wrapper" $extra_args
-+}
-+
-+# install or remove the pkg
-+rpm_update_pkg () {
-+
-+    local target_rootfs="${INSTALL_ROOTFS_RPM}"
-+
-+    # Save the rpm's build time for incremental image generation, and the file
-+    # would be moved to ${T}
-+    rm -f ${target_rootfs}/install/total_solution_bt.manifest
-+    for i in `cat ${target_rootfs}/install/total_solution.manifest`; do
-+        # Use "rpm" rather than "${RPM}" here, since we don't need the
-+        # '--dbpath' option
-+        echo "$i `rpm -qp --qf '%{BUILDTIME}\n' $i`" >> \
-+            ${target_rootfs}/install/total_solution_bt.manifest
-+    done
-+
-+    # Only install the different pkgs if incremental image generation is set
-+    if [ "${INC_IMAGE_GEN}" = "1" -a -f ${T}/total_solution_bt.manifest ]; then
-+        cur_list="${target_rootfs}/install/total_solution_bt.manifest"
-+        pre_list="${T}/total_solution_bt.manifest"
-+        sort -u $cur_list -o $cur_list
-+        sort -u $pre_list -o $pre_list
-+        comm -1 -3 $cur_list $pre_list | sed 's#.*/\(.*\)\.rpm .*#\1#' > \
-+            ${target_rootfs}/install/remove.manifest
-+        comm -2 -3 $cur_list $pre_list | awk '{print $1}' > \
-+            ${target_rootfs}/install/incremental.manifest
-+
-+        # Attempt to remove unwanted pkgs, the scripts(pre, post, etc.) has not
-+        # been run by now, so don't have to run them(preun, postun, etc.) when
-+        # erase the pkg
-+        if [ -s ${target_rootfs}/install/remove.manifest ]; then
-+            rpm_common_comand --noscripts --nodeps \
-+                -e `cat ${target_rootfs}/install/remove.manifest`
-+        fi
-+
-+        # Attempt to install the incremental pkgs
-+        rpm_common_comand --nodeps --replacefiles --replacepkgs \
-+            -Uvh ${target_rootfs}/install/incremental.manifest
-+    else
-+        # Attempt to install
-+        rpm_common_comand --replacepkgs \
-+            -Uhv ${target_rootfs}/install/total_solution.manifest
-+    fi
-+}
-+
- #
- # install a bunch of packages using rpm
- # the following shell variables needs to be set before calling this func:
-@@ -406,16 +466,8 @@ EOF
- 
- 	chmod 0755 ${WORKDIR}/scriptlet_wrapper
- 
--	# Attempt install
--	${RPM} --root ${target_rootfs} \
--		--predefine "_rpmds_sysinfo_path ${target_rootfs}/etc/rpm/sysinfo" \
--		--predefine "_rpmrc_platform_path ${target_rootfs}/etc/rpm/platform" \
--		-D "_var ${localstatedir}" \
--		-D "_dbpath ${rpmlibdir}" \
--		--noparentdirs --nolinktos --replacepkgs \
--		-D "__dbi_txn create nofsync private" \
--		-D "_cross_scriptlet_wrapper ${WORKDIR}/scriptlet_wrapper" \
--		-Uhv ${target_rootfs}/install/total_solution.manifest
-+    rpm_update_pkg
-+
- }
- 
- python write_specfile () {
--- 
-1.7.4.1
+ meta/recipes-gnome/gnome/gnome-keyring_2.32.1.bb   |   12 ++++++++++--
+ .../matchbox-wm/matchbox-wm_1.2.bb                 |    9 ++-------
+ .../matchbox-wm/matchbox-wm_git.bb                 |    9 ++-------
+ 3 files changed, 14 insertions(+), 16 deletions(-)
 
 
 
