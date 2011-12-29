@@ -1,24 +1,25 @@
-Received: from mga02.intel.com ([134.134.136.20])
+Received: from mail-vw0-f47.google.com ([209.85.212.47])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <edwin.zhai@intel.com>) id 1RgBKb-0000pz-UW
+	(envelope-from <andrei@gherzan.ro>) id 1RgDD3-00048o-UB
 	for openembedded-core@lists.openembedded.org;
-	Thu, 29 Dec 2011 09:27:25 +0100
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-	by orsmga101.jf.intel.com with ESMTP; 29 Dec 2011 00:20:06 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.67,352,1309762800"; d="scan'208";a="91185455"
-Received: from yocto-build3.sh.intel.com ([10.239.48.58])
-	by orsmga001.jf.intel.com with ESMTP; 29 Dec 2011 00:20:06 -0800
-From: edwin.zhai@intel.com
+	Thu, 29 Dec 2011 11:27:43 +0100
+Received: by vbbfc21 with SMTP id fc21so10348019vbb.6
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 29 Dec 2011 02:20:27 -0800 (PST)
+Received: by 10.52.24.35 with SMTP id r3mr16012325vdf.81.1325154027306;
+	Thu, 29 Dec 2011 02:20:27 -0800 (PST)
+Received: from localhost.localdomain ([89.121.200.106])
+	by mx.google.com with ESMTPS id ic3sm23101707vdb.6.2011.12.29.02.20.25
+	(version=TLSv1/SSLv3 cipher=OTHER);
+	Thu, 29 Dec 2011 02:20:26 -0800 (PST)
+From: Andrei Gherzan <andrei@gherzan.ro>
 To: openembedded-core@lists.openembedded.org
-Date: Thu, 29 Dec 2011 16:09:18 +0800
-Message-Id: <5bb86b44a3c34b39ee2e34c6d8f5ca15335a2d2f.1325145929.git.edwin.zhai@intel.com>
-X-Mailer: git-send-email 1.7.1
-In-Reply-To: <cover.1325145929.git.edwin.zhai@intel.com>
-References: <cover.1325145929.git.edwin.zhai@intel.com>
-In-Reply-To: <cover.1325145929.git.edwin.zhai@intel.com>
-References: <cover.1325145929.git.edwin.zhai@intel.com>
-Subject: [PATCH 1/2] gnome-keyring: fix gsettings_data_convert seg fault
+Date: Thu, 29 Dec 2011 12:20:15 +0200
+Message-Id: <1325154015-3328-1-git-send-email-andrei@gherzan.ro>
+X-Mailer: git-send-email 1.7.5.4
+Cc: Andrei Gherzan <andrei@gherzan.ro>,
+	Andrei Gherzan <andrei.gherzan@windriver.com>
+Subject: [PATCH] meta/classes/base.bbclass: base.bbclass should check for multiple (or) licenses in bb files
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -33,57 +34,50 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 29 Dec 2011 08:27:25 -0000
+X-List-Received-Date: Thu, 29 Dec 2011 10:27:43 -0000
 
-From: Zhai Edwin <edwin.zhai@intel.com>
+From: Andrei Gherzan <andrei.gherzan@windriver.com>
 
-gsttings_data_convert cause seg fault as gnome-keyring's schema is not
-installed properly. As a fix, running glib-compile-schemas from glib-utils to
-made "gschemas.compiled".
+base.bbclass modified in order to check if there is an "or" operand, and if it is,
+should check further if there are other non-excluded licenses.
 
-[YOCTO #1779] got fixed.
+[YOCTO #1844]
 
-Signed-off-by: Zhai Edwin <edwin.zhai@intel.com>
+Signed-off-by: Andrei Gherzan <andrei@gherzan.ro>
 ---
- meta/recipes-gnome/gnome/gnome-keyring_2.32.1.bb |   12 ++++++++++--
- 1 files changed, 10 insertions(+), 2 deletions(-)
+ meta/classes/base.bbclass |   17 +++++++++++++++--
+ 1 files changed, 15 insertions(+), 2 deletions(-)
 
-diff --git a/meta/recipes-gnome/gnome/gnome-keyring_2.32.1.bb b/meta/recipes-gnome/gnome/gnome-keyring_2.32.1.bb
-index cc97225..c40044f 100644
---- a/meta/recipes-gnome/gnome/gnome-keyring_2.32.1.bb
-+++ b/meta/recipes-gnome/gnome/gnome-keyring_2.32.1.bb
-@@ -11,12 +11,12 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=94d55d512a9ba36caa9b7df079bae19f \
+diff --git a/meta/classes/base.bbclass b/meta/classes/base.bbclass
+index fbcaefb..1010b5a 100644
+--- a/meta/classes/base.bbclass
++++ b/meta/classes/base.bbclass
+@@ -402,8 +402,21 @@ python () {
+                 import re
+                 this_license = d.getVar('LICENSE', 1)
+                 if this_license and re.search(dont_want_license, this_license):
+-                    bb.note("SKIPPING %s because it's %s" % (pn, this_license))
+-                    raise bb.parse.SkipPackage("incompatible with license %s" % this_license)
++		    this_license_no_spaces = re.sub(r'\s', '', this_license)
++		    licenses = re.split('[|]', this_license_no_spaces)
++		    if len(licenses) != 0:
++			good_license=""
++		        for onelicense in licenses:
++			    if not re.search(dont_want_license, onelicense):
++				good_license = onelicense
++			if good_license == "":
++			    bb.note("SKIPPING %s because it's %s" % (pn, this_license))
++			    raise bb.parse.SkipPackage("incompatible with license %s" % this_license)
++			else:
++			    bb.note("NOT SKIPPING %s because it's %s which contains %s" % (pn, this_license, good_license))
++		    else:
++			bb.note("SKIPPING %s because it's %s" % (pn, this_license))
++			raise bb.parse.SkipPackage("incompatible with license %s" % this_license)
  
- SECTION = "x11/gnome"
- 
--PR = "r3"
-+PR = "r4"
- 
- inherit autotools gnome pkgconfig
- 
- DEPENDS = "gtk+ libgcrypt libtasn1 libtasn1-native gconf ${@base_contains('DISTRO_FEATURES', 'pam', 'libpam', '', d)}"
--RDEPENDS_${PN} = "libgnome-keyring"
-+RDEPENDS_${PN} = "libgnome-keyring glib-2.0-utils"
- 
- EXTRA_OECONF = "--disable-gtk-doc ${@base_contains('DISTRO_FEATURES', 'pam', '--enable-pam --with-pam-dir=${base_libdir}/security', '--disable-pam', d)}"
- 
-@@ -30,6 +30,14 @@ do_install_append () {
- 	install -m 0644 ${WORKDIR}/org.gnome.keyring.service ${D}${datadir}/dbus-1/services
- }
- 
-+pkg_postinst_${PN} () {
-+	if [ "x$D" != "x" ]; then
-+		exit 1
-+	fi
-+
-+	test -x ${bindir}/glib-compile-schemas && glib-compile-schemas  ${datadir}/glib-2.0/schemas
-+}
-+
- FILES_${PN} += "${datadir}/dbus-1/services ${datadir}/gcr ${base_libdir}/security/*.so"
- FILES_${PN}-dbg += "${libdir}/gnome-keyring/standalone/.debug/ ${base_libdir}/security/*.la"
- FILES_${PN}-dbg += "${libdir}/gnome-keyring/devel/.debug/ ${base_libdir}/security/.debug"
+     srcuri = d.getVar('SRC_URI', 1)
+     # Svn packages should DEPEND on subversion-native
 -- 
-1.7.1
+1.7.5.4
 
 
 
