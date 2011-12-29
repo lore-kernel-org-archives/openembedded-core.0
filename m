@@ -1,26 +1,33 @@
-Received: from mga02.intel.com ([134.134.136.20])
+Received: from mail-qy0-f175.google.com ([209.85.216.175])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <sgw@linux.intel.com>) id 1RgJyA-0007Sp-3R
+	(envelope-from <kergoth@gmail.com>) id 1RgK4g-0007gq-D9
 	for openembedded-core@lists.openembedded.org;
-	Thu, 29 Dec 2011 18:40:46 +0100
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-	by orsmga101.jf.intel.com with ESMTP; 29 Dec 2011 09:33:30 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.67,352,1309762800"; d="scan'208";a="91314183"
-Received: from unknown (HELO [10.255.13.80]) ([10.255.13.80])
-	by orsmga001.jf.intel.com with ESMTP; 29 Dec 2011 09:33:30 -0800
-Message-ID: <4EFCA469.8020607@linux.intel.com>
-Date: Thu, 29 Dec 2011 09:33:29 -0800
-From: Saul Wold <sgw@linux.intel.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:7.0) Gecko/20110927 Thunderbird/7.0
+	Thu, 29 Dec 2011 18:47:30 +0100
+Received: by qcqw6 with SMTP id w6so7592099qcq.6
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 29 Dec 2011 09:40:11 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
+	h=mime-version:sender:in-reply-to:references:from:date
+	:x-google-sender-auth:message-id:subject:to:content-type;
+	bh=tNEiDKU+HrHaq2RxXNVJrF9Y0EYvfKkxhAtdm0z6fbY=;
+	b=f0+6sYkBMw8X5mCA0hjbfM/Svd86eeZlPbxl3hurBz4SLO4uED2vZcQzPtK+UwQRKC
+	J/5wdWdggSu8oR25gPrIeSfStvHfYLDHgn5ex5U6aZOeu9hD7qEtbbB9gsbhRKrmRkPC
+	9oYM7ev/VqY99w74rYOU7xeGe71ZD4n3Y2p3E=
+Received: by 10.229.77.69 with SMTP id f5mr13434826qck.107.1325180411255; Thu,
+	29 Dec 2011 09:40:11 -0800 (PST)
 MIME-Version: 1.0
+Sender: kergoth@gmail.com
+Received: by 10.229.187.141 with HTTP; Thu, 29 Dec 2011 09:39:49 -0800 (PST)
+In-Reply-To: <4EFBAC18.3040909@intel.com>
+References: <fbed4e9f94ed9bd1bb5a9c8fa37113e325f89371.1325115602.git.dvhart@linux.intel.com>
+	<4EFBAC18.3040909@intel.com>
+From: Chris Larson <clarson@kergoth.com>
+Date: Thu, 29 Dec 2011 10:39:49 -0700
+X-Google-Sender-Auth: ofHZ4aweMjxoLdjMzVHt-hCKrvY
+Message-ID: <CABcZANmyyS0UQJ04L3N1Cv4k1M7kfyC_tTOkHu00wpOLOwr64Q@mail.gmail.com>
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-References: <cover.1325141432.git.liezhi.yang@windriver.com>
-	<b77e4e9e630e0ae691e6f524c356745e0c42ffb2.1325141432.git.liezhi.yang@windriver.com>
-In-Reply-To: <b77e4e9e630e0ae691e6f524c356745e0c42ffb2.1325141432.git.liezhi.yang@windriver.com>
-Subject: Re: [PATCH 2/2] Incremental image generation(Add config sample)
+Subject: Re: [PATCH] image_types: Ensure /init exists for cpio rootfs archives
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -35,39 +42,14 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 29 Dec 2011 17:40:46 -0000
-Content-Type: text/plain; charset=ISO-8859-1; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Thu, 29 Dec 2011 17:47:30 -0000
+Content-Type: text/plain; charset=UTF-8
 
-On 12/28/2011 11:00 PM, Robert Yang wrote:
-> Add the config sample for incremental image generation to
-> meta-yocto/conf/local.conf.sample
->
-> [YOCTO #1651]
->
-> Signed-off-by: Robert Yang<liezhi.yang@windriver.com>
-> ---
->   meta-yocto/conf/local.conf.sample |    7 +++++++
->   1 files changed, 7 insertions(+), 0 deletions(-)
->
-> diff --git a/meta-yocto/conf/local.conf.sample b/meta-yocto/conf/local.conf.sample
-> index ca8636c..e33ffd9 100644
-> --- a/meta-yocto/conf/local.conf.sample
-> +++ b/meta-yocto/conf/local.conf.sample
-> @@ -222,3 +222,10 @@ PATCHRESOLVE = "noop"
->   # track the version of this file when it was generated. This can safely be ignored if
->   # this doesn't mean anything to you.
->   CONF_VERSION = "1"
-> +
-> +# Incremental image generation(only for rpm based rootfs currently), the rootfs
-> +# would be totally removed and re-created in the second generation by default,
-> +# but with INC_IMAGE_GEN = "1", the rootfs would be kept, and will do
-> +# update(remove/add some pkgs) on it.
-> +# NOTE: This is not suggested when you want to create a productive rootfs
-> +#INC_IMAGE_GEN = "1"
+On Wed, Dec 28, 2011 at 4:54 PM, Darren Hart <darren.hart@intel.com> wrote:
+> <I sent this to the yocto list by mistake, forwarding here for comment>
 
-This should probably belong in the local.conf.sample.extended file.
-
-Sau!
+Seems sane to me.
+-- 
+Christopher Larson
 
 
