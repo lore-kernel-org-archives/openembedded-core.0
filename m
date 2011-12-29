@@ -1,25 +1,32 @@
-Received: from mga14.intel.com ([143.182.124.37])
+Received: from mail-qw0-f54.google.com ([209.85.216.54])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <sgw@linux.intel.com>) id 1RgO8l-0001fR-J1
+	(envelope-from <kergoth@gmail.com>) id 1RgOAs-0001l5-Hc
 	for openembedded-core@lists.openembedded.org;
-	Thu, 29 Dec 2011 23:08:00 +0100
-Received: from azsmga002.ch.intel.com ([10.2.17.35])
-	by azsmga102.ch.intel.com with ESMTP; 29 Dec 2011 14:00:43 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="51699671"
-Received: from unknown (HELO [10.255.13.92]) ([10.255.13.92])
-	by AZSMGA002.ch.intel.com with ESMTP; 29 Dec 2011 14:00:43 -0800
-Message-ID: <4EFCE30A.80203@linux.intel.com>
-Date: Thu, 29 Dec 2011 14:00:42 -0800
-From: Saul Wold <sgw@linux.intel.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:7.0) Gecko/20110927 Thunderbird/7.0
+	Thu, 29 Dec 2011 23:10:10 +0100
+Received: by qabg14 with SMTP id g14so9446213qab.6
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 29 Dec 2011 14:02:55 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc:content-type:content-transfer-encoding;
+	bh=X1YOBvnzUJT9x1uHx76Bjgf0d+93X6qy+mOn/qMy7L0=;
+	b=mL401O7dXyOhmSgzKdW1bVLwBomtBE5+tJfu8nWZ36fuQ6Il+7d4oAntts2Tx9Co+v
+	zASA08xtfXWbBP63jAxsS3GHkChp5vhZAtP8e278Ut3b+EVUOP3+IGcqtgCVU5OJ6vx/
+	qtIItrQsAZ7GH2P/OIndjJhnCjXvnv7YtjyVE=
+Received: by 10.224.34.202 with SMTP id m10mr44088016qad.62.1325196175251;
+	Thu, 29 Dec 2011 14:02:55 -0800 (PST)
 MIME-Version: 1.0
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
+Received: by 10.229.187.141 with HTTP; Thu, 29 Dec 2011 14:02:34 -0800 (PST)
+In-Reply-To: <4EFCE30A.80203@linux.intel.com>
 References: <1325117322-27695-1-git-send-email-kergoth@gmail.com>
-In-Reply-To: <1325117322-27695-1-git-send-email-kergoth@gmail.com>
-Cc: Christopher Larson <chris_larson@mentor.com>
+	<4EFCE30A.80203@linux.intel.com>
+From: Chris Larson <kergoth@gmail.com>
+Date: Thu, 29 Dec 2011 15:02:34 -0700
+Message-ID: <CABcZANkzpk+UFJcsGgQMYHoVh=p-dCPBpmQvWG07rz23W43xxw@mail.gmail.com>
+To: Saul Wold <sgw@linux.intel.com>
+Cc: Christopher Larson <chris_larson@mentor.com>,
+	Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
 Subject: Re: [PATCH 1/2] elfutils: fix for dso link change in recent ld
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
@@ -35,94 +42,38 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 29 Dec 2011 22:08:00 -0000
-Content-Type: text/plain; charset=ISO-8859-1; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Thu, 29 Dec 2011 22:10:10 -0000
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
-On 12/28/2011 04:08 PM, Christopher Larson wrote:
-> From: Christopher Larson<chris_larson@mentor.com>
+On Thu, Dec 29, 2011 at 3:00 PM, Saul Wold <sgw@linux.intel.com> wrote:
+> On 12/28/2011 04:08 PM, Christopher Larson wrote:
+>>
+>> From: Christopher Larson<chris_larson@mentor.com>
+>>
+>> This patch makes the link to the dependencies of libdw explicit, as rece=
+nt
+>> ld
+>> no longer implicitly links them. See
+>> http://lists.fedoraproject.org/pipermail/devel/2010-March/133601.html as
+>> a similar example of the error message you can encounter without this
+>> patch,
+>> and https://fedoraproject.org/wiki/UnderstandingDSOLinkChange and
+>> https://fedoraproject.org/wiki/Features/ChangeInImplicitDSOLinking for
+>> more
+>> details.
+>>
+>> Signed-off-by: Christopher Larson<chris_larson@mentor.com>
+>> ---
+>> =C2=A0.../elfutils/dso-link-change.patch =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 | =C2=A0 32
+>> ++++++++++++++++++++
 >
-> This patch makes the link to the dependencies of libdw explicit, as recent ld
-> no longer implicitly links them. See
-> http://lists.fedoraproject.org/pipermail/devel/2010-March/133601.html as
-> a similar example of the error message you can encounter without this patch,
-> and https://fedoraproject.org/wiki/UnderstandingDSOLinkChange and
-> https://fedoraproject.org/wiki/Features/ChangeInImplicitDSOLinking for more
-> details.
 >
-> Signed-off-by: Christopher Larson<chris_larson@mentor.com>
-> ---
->   .../elfutils/dso-link-change.patch                 |   32 ++++++++++++++++++++
+> Shouldn't this be delivered into the elfutils/elfutils sub-directory?
 
-Shouldn't this be delivered into the elfutils/elfutils sub-directory?
-
-
-Sau!
-
->   meta/recipes-devtools/elfutils/elfutils_0.148.bb   |    5 ++-
->   2 files changed, 35 insertions(+), 2 deletions(-)
->   create mode 100644 meta/recipes-devtools/elfutils/dso-link-change.patch
->
-> diff --git a/meta/recipes-devtools/elfutils/dso-link-change.patch b/meta/recipes-devtools/elfutils/dso-link-change.patch
-> new file mode 100644
-> index 0000000..d0cd3ed
-> --- /dev/null
-> +++ b/meta/recipes-devtools/elfutils/dso-link-change.patch
-> @@ -0,0 +1,32 @@
-> +Upstream-Status: Pending
-> +
-> +# This patch makes the link to the dependencies of libdw explicit, as recent
-> +# ld no longer implicitly links them. See
-> +# http://lists.fedoraproject.org/pipermail/devel/2010-March/133601.html as
-> +# a similar example of the error message you can encounter without this patch,
-> +# and https://fedoraproject.org/wiki/UnderstandingDSOLinkChange and
-> +# https://fedoraproject.org/wiki/Features/ChangeInImplicitDSOLinking for more
-> +# details.
-> +
-> +--- elfutils-0.148.orig/src/Makefile.am
-> ++++ elfutils-0.148/src/Makefile.am
-> +@@ -86,7 +86,7 @@ libdw = ../libdw/libdw.a $(zip_LIBS) $(l
-> + libelf = ../libelf/libelf.a
-> + else
-> + libasm = ../libasm/libasm.so
-> +-libdw = ../libdw/libdw.so
-> ++libdw = ../libdw/libdw.so $(zip_LIBS) $(libelf) $(libebl) -ldl
-> + libelf = ../libelf/libelf.so
-> + endif
-> + libebl = ../libebl/libebl.a
-> +--- elfutils-0.148.orig/tests/Makefile.am
-> ++++ elfutils-0.148/tests/Makefile.am
-> +@@ -172,7 +172,7 @@ libdw = ../libdw/libdw.a $(zip_LIBS) $(l
-> + libelf = ../libelf/libelf.a
-> + libasm = ../libasm/libasm.a
-> + else
-> +-libdw = ../libdw/libdw.so
-> ++libdw = ../libdw/libdw.so $(zip_LIBS) $(libelf) $(libebl) -ldl
-> + libelf = ../libelf/libelf.so
-> + libasm = ../libasm/libasm.so
-> + endif
-> diff --git a/meta/recipes-devtools/elfutils/elfutils_0.148.bb b/meta/recipes-devtools/elfutils/elfutils_0.148.bb
-> index 0f4e8ca..710959a 100644
-> --- a/meta/recipes-devtools/elfutils/elfutils_0.148.bb
-> +++ b/meta/recipes-devtools/elfutils/elfutils_0.148.bb
-> @@ -6,7 +6,7 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=0636e73ff0215e8d672dc4c32c317bb3\
->                       file://EXCEPTION;md5=570adcb0c1218ab57f2249c67d0ce417"
->   DEPENDS = "libtool bzip2 zlib"
->
-> -PR = "r4"
-> +PR = "r5"
->
->   SRC_URI = "https://fedorahosted.org/releases/e/l/elfutils/elfutils-${PV}.tar.bz2"
->
-> @@ -29,7 +29,8 @@ SRC_URI += "\
->   	file://elfutils-fsize.patch \
->   	file://remove-unused.patch \
->   	file://mempcpy.patch \
-> -	file://fix_for_gcc-4.7.patch\
-> +	file://fix_for_gcc-4.7.patch \
-> +	file://dso-link-change.patch \
->   "
->   # Only apply when building uclibc based target recipe
->   SRC_URI_append_libc-uclibc = " ${@['', 'file://uclibc-support.patch']['${PN}' == '${BPN}']}"
+Erm, yes. Ignore, will resend.
+--=20
+Christopher Larson
 
 
