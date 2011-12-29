@@ -1,46 +1,50 @@
-Received: from tx2ehsobe002.messaging.microsoft.com ([65.55.88.12]
-	helo=TX2EHSOBE004.bigfish.com)
+Received: from tx2ehsobe001.messaging.microsoft.com ([65.55.88.11]
+	helo=TX2EHSOBE001.bigfish.com)
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <B19537@freescale.com>) id 1Rg5hO-0003Rl-Lk
+	(envelope-from <B19537@freescale.com>) id 1Rg5iK-0003Ui-AS
 	for openembedded-core@lists.openembedded.org;
-	Thu, 29 Dec 2011 03:26:31 +0100
-Received: from mail35-tx2-R.bigfish.com (10.9.14.238) by
-	TX2EHSOBE004.bigfish.com (10.9.40.24) with Microsoft SMTP Server id
-	14.1.225.23; Thu, 29 Dec 2011 02:18:45 +0000
-Received: from mail35-tx2 (localhost [127.0.0.1])	by mail35-tx2-R.bigfish.com
-	(Postfix) with ESMTP id E0A055C00ED	for
+	Thu, 29 Dec 2011 03:27:28 +0100
+Received: from mail78-tx2-R.bigfish.com (10.9.14.237) by
+	TX2EHSOBE001.bigfish.com (10.9.40.21) with Microsoft SMTP Server id
+	14.1.225.23; Thu, 29 Dec 2011 02:19:52 +0000
+Received: from mail78-tx2 (localhost [127.0.0.1])	by mail78-tx2-R.bigfish.com
+	(Postfix) with ESMTP id 16F78C01FF	for
 	<openembedded-core@lists.openembedded.org>;
-	Thu, 29 Dec 2011 02:18:51 +0000 (UTC)
-X-SpamScore: -15
-X-BigFish: VS-15(zz9371I936eK542M1432N98dKzz1202hzz8275bh8275dhz2dh2a8h668h839h8e2h8e3h944hbe9k62h)
-X-Spam-TCS-SCL: 1:0
+	Thu, 29 Dec 2011 02:20:25 +0000 (UTC)
+X-SpamScore: -17
+X-BigFish: VS-17(zz9371I1447M542M1432N98dKzz1202hzz8275bhz2dh2a8h668h839h8e2h8e3h944hbe9k61h)
+X-Spam-TCS-SCL: 0:0
 X-Forefront-Antispam-Report: CIP:70.37.183.190; KIP:(null); UIP:(null); IPV:NLI;
 	H:mail.freescale.net; RD:none; EFVD:NLI
-Received: from mail35-tx2 (localhost.localdomain [127.0.0.1]) by mail35-tx2
-	(MessageSwitch) id 1325125131642832_9339;
-	Thu, 29 Dec 2011 02:18:51 +0000 (UTC)
-Received: from TX2EHSMHS046.bigfish.com (unknown [10.9.14.252])	by
-	mail35-tx2.bigfish.com (Postfix) with ESMTP id 967A83C0045	for
+Received: from mail78-tx2 (localhost.localdomain [127.0.0.1]) by mail78-tx2
+	(MessageSwitch) id 1325125224897059_2592;
+	Thu, 29 Dec 2011 02:20:24 +0000 (UTC)
+Received: from TX2EHSMHS042.bigfish.com (unknown [10.9.14.238])	by
+	mail78-tx2.bigfish.com (Postfix) with ESMTP id D3FD040042	for
 	<openembedded-core@lists.openembedded.org>;
-	Thu, 29 Dec 2011 02:18:51 +0000 (UTC)
-Received: from mail.freescale.net (70.37.183.190) by TX2EHSMHS046.bigfish.com
-	(10.9.99.146) with Microsoft SMTP Server (TLS) id 14.1.225.23;
-	Thu, 29 Dec 2011 02:18:44 +0000
+	Thu, 29 Dec 2011 02:20:24 +0000 (UTC)
+Received: from mail.freescale.net (70.37.183.190) by TX2EHSMHS042.bigfish.com
+	(10.9.99.142) with Microsoft SMTP Server (TLS) id 14.1.225.23;
+	Thu, 29 Dec 2011 02:20:16 +0000
 Received: from 039-SN2MPN1-023.039d.mgd.msft.net ([169.254.3.213]) by
-	039-SN1MMR1-002.039d.mgd.msft.net ([10.84.1.15]) with mapi id
-	14.01.0355.003; Wed, 28 Dec 2011 20:19:06 -0600
+	039-SN1MMR1-001.039d.mgd.msft.net ([10.84.1.13]) with mapi id
+	14.01.0355.003; Wed, 28 Dec 2011 20:20:13 -0600
 From: Luo Zhenhua-B19537 <B19537@freescale.com>
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
 Thread-Topic: [OE-core] [PATCH oe-core] valgrind: add powerpc to the
 	compatible host and add eglibc-dbg in rdepends
-Thread-Index: AQHMxS0fRftJ7JTB3UGUwYEWT6pqiJXxXI6AgAC57QD///6vEA==
-Date: Thu, 29 Dec 2011 02:19:05 +0000
-Message-ID: <CA452391058F6D4E9715FB2C29D9312A010BD995@039-SN2MPN1-023.039d.mgd.msft.net>
+Thread-Index: AQHMxS0fRftJ7JTB3UGUwYEWT6pqiJXxXI6A//+nkuCAAGo+AIAAA8mAgAAcxgCAAHOJgIAAE7lw
+Date: Thu, 29 Dec 2011 02:20:12 +0000
+Message-ID: <CA452391058F6D4E9715FB2C29D9312A010BD9A2@039-SN2MPN1-023.039d.mgd.msft.net>
 References: <1325055308-17731-1-git-send-email-b19537@freescale.com>
 	<8285067.9cfZeAKmYZ@helios>
-	<1325103622.3089.8.camel@lenovo.internal.reciva.com>
-In-Reply-To: <1325103622.3089.8.camel@lenovo.internal.reciva.com>
+	<CA452391058F6D4E9715FB2C29D9312A010BD589@039-SN2MPN1-023.039d.mgd.msft.net>
+	<2295923.3R0Nmqr59V@helios>
+	<80E8B5C9-63CE-4BFA-8C5F-39ABA85736C7@dominion.thruhere.net>
+	<20111228121512.GB3995@jama.jama.net>
+	<CAEsOVNc2qwW-Tz4MCmnpAA99qWirtu=SWwBUqLdMRHbsj2MLow@mail.gmail.com>
+In-Reply-To: <CAEsOVNc2qwW-Tz4MCmnpAA99qWirtu=SWwBUqLdMRHbsj2MLow@mail.gmail.com>
 Accept-Language: en-US
 X-MS-Has-Attach: 
 X-MS-TNEF-Correlator: 
@@ -64,33 +68,50 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 29 Dec 2011 02:26:31 -0000
+X-List-Received-Date: Thu, 29 Dec 2011 02:27:28 -0000
 Content-Language: en-US
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: quoted-printable
 
-> -----Original Message-----
-> From: openembedded-core-bounces@lists.openembedded.org [mailto:openembedd=
-ed-
-> core-bounces@lists.openembedded.org] On Behalf Of Phil Blundell
-> Sent: Thursday, December 29, 2011 4:20 AM
->=20
-> On Wed, 2011-12-28 at 09:14 +0000, Paul Eggleton wrote:
-> > On Wednesday 28 December 2011 14:55:08 b19537@freescale.com wrote:
-> > > +RDEPENDS +=3D "eglibc-dbg"
-> >
-> > So I might be completely off-base here having never tried it, but what
-> > if you're using uclibc?
->=20
-> I don't really understand why valgrind is doing that at all. =20
-[Luo Zhenhua-B19537] The reason is that valgrind requires non-stripped libr=
-aries of glibc during running.=20
+Thanks for the good suggestions, a new version will be submitted.=20
 
 
 Best Regards,
 
 Zhenhua
 
+
+> -----Original Message-----
+> From: McClintock Matthew-B29882
+> Sent: Thursday, December 29, 2011 3:39 AM
+> To: Patches and discussions about the oe-core layer
+> Cc: McClintock Matthew-B29882; Garg Vakul-B16394; Luo Zhenhua-B19537
+> Subject: Re: [OE-core] [PATCH oe-core] valgrind: add powerpc to the compa=
+tible
+> host and add eglibc-dbg in rdepends
+>=20
+> On Wed, Dec 28, 2011 at 6:15 AM, Martin Jansa <martin.jansa@gmail.com> wr=
+ote:
+> >> > If a dependency on the libc debug packages is really needed you
+> >> > could do something this instead:
+> >> >
+> >> > RRECOMMENDS_${PN} +=3D "${TCLIBC}-dbg"
+>=20
+> This seems better since it include uclibc if that was selected...
+>=20
+> >>
+> >> Or:
+> >>
+> >> RECOMMENDS_libc-glibc =3D "glibc-dbg"
+> >
+> > with extra R and PN, right?
+> > RRECOMMENDS_${PN}_libc-glibc =3D "glibc-dbg"
+>=20
+> This is only provided by eglibc now, so it leaves out uclibc... I think..=
+.
+>=20
+>=20
+> -M
 
 
 
