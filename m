@@ -1,24 +1,31 @@
-Received: from mga01.intel.com ([192.55.52.88])
+Received: from mail-pw0-f47.google.com ([209.85.160.47])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <edwin.zhai@intel.com>) id 1RgXrN-0006zj-L4
+	(envelope-from <andrea.adami@gmail.com>) id 1RgXsy-00079N-U5
 	for openembedded-core@lists.openembedded.org;
-	Fri, 30 Dec 2011 09:30:41 +0100
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-	by fmsmga101.fm.intel.com with ESMTP; 30 Dec 2011 00:22:21 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="101588792"
-Received: from yocto-build3.sh.intel.com ([10.239.48.58])
-	by fmsmga001.fm.intel.com with ESMTP; 30 Dec 2011 00:22:21 -0800
-From: edwin.zhai@intel.com
-To: openembedded-core@lists.openembedded.org
-Date: Fri, 30 Dec 2011 16:11:21 +0800
-Message-Id: <0b9676edd92395a4160b9742ad5002316af8239d.1325232608.git.edwin.zhai@intel.com>
-X-Mailer: git-send-email 1.7.1
-In-Reply-To: <cover.1325232608.git.edwin.zhai@intel.com>
-References: <cover.1325232608.git.edwin.zhai@intel.com>
-In-Reply-To: <cover.1325232608.git.edwin.zhai@intel.com>
-References: <cover.1325232608.git.edwin.zhai@intel.com>
-Subject: [PATCH 3/3] libassuan: Upgrade to 2.0.3
+	Fri, 30 Dec 2011 09:32:22 +0100
+Received: by pbcc11 with SMTP id c11so7185690pbc.6
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 30 Dec 2011 00:25:03 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
+	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
+	:content-type:content-transfer-encoding;
+	bh=l48peR3aDHa7tjCWm2s+5unq5QX3iNltfi+CZ7ZHgjE=;
+	b=c9TxUNAiHIFyBtT/Ouyr6QZI/tH4JywXBwPT+XpuZjInL9RHH/4KJJvQ+t+gSw5/3b
+	T4nCGOugxegE6JOPL1vOPDC0Sf3tnPm999cFX7rzjGOZBHlrgkVo4tcPY+1/8EMX9Y7p
+	Rr8LAXFqDo5kMUR7QI/0eiBYJbCjw5LEZsF3g=
+MIME-Version: 1.0
+Received: by 10.68.213.228 with SMTP id nv4mr25883481pbc.52.1325233503470;
+	Fri, 30 Dec 2011 00:25:03 -0800 (PST)
+Received: by 10.142.213.7 with HTTP; Fri, 30 Dec 2011 00:25:03 -0800 (PST)
+In-Reply-To: <4EFBAC18.3040909@intel.com>
+References: <fbed4e9f94ed9bd1bb5a9c8fa37113e325f89371.1325115602.git.dvhart@linux.intel.com>
+	<4EFBAC18.3040909@intel.com>
+Date: Fri, 30 Dec 2011 09:25:03 +0100
+Message-ID: <CAAQYJAuj6x3qt+w5TXSesgAaz8i1sqXbWMSTZJOGbQEAqsuFjQ@mail.gmail.com>
+From: Andrea Adami <andrea.adami@gmail.com>
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] image_types: Ensure /init exists for cpio rootfs archives
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -33,35 +40,84 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 30 Dec 2011 08:30:41 -0000
+X-List-Received-Date: Fri, 30 Dec 2011 08:32:22 -0000
+Content-Type: text/plain; charset=ISO-8859-1
+Content-Transfer-Encoding: quoted-printable
 
-From: Zhai Edwin <edwin.zhai@intel.com>
+On Thu, Dec 29, 2011 at 12:54 AM, Darren Hart <darren.hart@intel.com> wrote=
+:
+> <I sent this to the yocto list by mistake, forwarding here for comment>
+>
+> In order for the kernel to accept an initramfs as a rootfs,
+> it must have /init - even if it is an empty file. Touch /init
+> to ensure it exists for cpio and cpio.gz image types.
 
-Signed-off-by: Zhai Edwin <edwin.zhai@intel.com>
----
- .../{libassuan_2.0.2.bb => libassuan_2.0.3.bb}     |    4 ++--
- 1 files changed, 2 insertions(+), 2 deletions(-)
- rename meta/recipes-support/libassuan/{libassuan_2.0.2.bb => libassuan_2.0.3.bb} (82%)
+Why didn't you add the init to cpio.xz and cpio.lzma?
+Any special reason?
 
-diff --git a/meta/recipes-support/libassuan/libassuan_2.0.2.bb b/meta/recipes-support/libassuan/libassuan_2.0.3.bb
-similarity index 82%
-rename from meta/recipes-support/libassuan/libassuan_2.0.2.bb
-rename to meta/recipes-support/libassuan/libassuan_2.0.3.bb
-index 53c1230..2a8963e 100644
---- a/meta/recipes-support/libassuan/libassuan_2.0.2.bb
-+++ b/meta/recipes-support/libassuan/libassuan_2.0.3.bb
-@@ -12,7 +12,7 @@ DEPENDS = "libgpg-error"
- 
- SRC_URI = "ftp://ftp.gnupg.org/gcrypt/libassuan/libassuan-${PV}.tar.bz2"
- 
--SRC_URI[md5sum] = "3e7d00fd2ee8a0b9c51ac7616ef3f1ec"
--SRC_URI[sha256sum] = "61e0cba33dcbade2dce953b95f06b843af2a73de875303f2585227ecd475b4d8"
-+SRC_URI[md5sum] = "179d1918325fdb928c7bd90b8a514fc7"
-+SRC_URI[sha256sum] = "bad5682374c76bcc0abb1a7a34c9557af6874a477500748e64a7d3def79cac1b"
- 
- inherit autotools binconfig
--- 
-1.7.1
+>
+> When used with initrd and rootfs=3D/dev/ram0, this allows the
+> cpio and cpio.gz images to be used as the rootfs.
 
+Sure, and "...If all else fails, rdinit=3D/bin/sh "
+
+>
+> Signed-off-by: Darren Hart <dvhart@linux.intel.com>
+> ---
+> =A0meta/classes/image_types.bbclass | =A0 10 ++++++++--
+> =A01 files changed, 8 insertions(+), 2 deletions(-)
+>
+> diff --git a/meta/classes/image_types.bbclass b/meta/classes/image_types.=
+bbclass
+> index 6893e38..ebff0ba 100644
+> --- a/meta/classes/image_types.bbclass
+> +++ b/meta/classes/image_types.bbclass
+> @@ -110,8 +110,14 @@ IMAGE_CMD_tar =3D "cd ${IMAGE_ROOTFS} && tar -cvf ${=
+DEPLOY_DIR_IMAGE}/${IMAGE_NAME
+> =A0IMAGE_CMD_tar.gz =3D "cd ${IMAGE_ROOTFS} && tar -zcvf ${DEPLOY_DIR_IMA=
+GE}/${IMAGE_NAME}.rootfs.tar.gz ."
+> =A0IMAGE_CMD_tar.bz2 =3D "cd ${IMAGE_ROOTFS} && tar -jcvf ${DEPLOY_DIR_IM=
+AGE}/${IMAGE_NAME}.rootfs.tar.bz2 ."
+> =A0IMAGE_CMD_tar.xz =3D "cd ${IMAGE_ROOTFS} && tar --xz -cvf ${DEPLOY_DIR=
+_IMAGE}/${IMAGE_NAME}.rootfs.tar.xz ."
+> -IMAGE_CMD_cpio =3D "cd ${IMAGE_ROOTFS} && (find . | cpio -o -H newc >${D=
+EPLOY_DIR_IMAGE}/${IMAGE_NAME}.rootfs.cpio)"
+> -IMAGE_CMD_cpio.gz =3D "cd ${IMAGE_ROOTFS} && (find . | cpio -o -H newc |=
+ gzip -c -9 >${DEPLOY_DIR_IMAGE}/${IMAGE_NAME}.rootfs.cpio.gz)"
+> +IMAGE_CMD_cpio () {
+> + =A0 =A0 =A0 touch ${IMAGE_ROOTFS}/init
+> + =A0 =A0 =A0 cd ${IMAGE_ROOTFS} && (find . | cpio -o -H newc >${DEPLOY_D=
+IR_IMAGE}/${IMAGE_NAME}.rootfs.cpio)
+> +}
+> +IMAGE_CMD_cpio.gz () {
+> + =A0 =A0 =A0 touch ${IMAGE_ROOTFS}/init
+> + =A0 =A0 =A0 cd ${IMAGE_ROOTFS} && (find . | cpio -o -H newc | gzip -c -=
+9 >${DEPLOY_DIR_IMAGE}/${IMAGE_NAME}.rootfs.cpio.gz)
+> +}
+> =A0IMAGE_CMD_cpio.xz =3D "type cpio >/dev/null; cd ${IMAGE_ROOTFS} && (fi=
+nd . | cpio -o -H newc | xz -c ${XZ_COMPRESSION_LEVEL} --check=3D${XZ_INTEG=
+RITY_CHECK} > ${DEPLOY_DIR_IMAGE}/${IMAGE_NAME}.rootfs.cpio.xz) ${EXTRA_IMA=
+GECMD}"
+> =A0IMAGE_CMD_cpio.lzma =3D "type cpio >/dev/null; cd ${IMAGE_ROOTFS} && (=
+find . | cpio -o -H newc | xz --format=3Dlzma -c ${XZ_COMPRESSION_LEVEL} --=
+check=3D${XZ_INTEGRITY_CHECK} >${DEPLOY_DIR_IMAGE}/${IMAGE_NAME}.rootfs.cpi=
+o.lzma) ${EXTRA_IMAGECMD}"
+>
+> --
+> 1.7.6.4
+>
+> _______________________________________________
+> yocto mailing list
+> yocto@yoctoproject.org
+> https://lists.yoctoproject.org/listinfo/yocto
+>
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
+
+Regards
+
+Andrea Adami
 
 
