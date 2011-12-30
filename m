@@ -1,24 +1,24 @@
 Received: from mga02.intel.com ([134.134.136.20])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <shane.wang@intel.com>) id 1RgdXa-0001sS-3Z
+	(envelope-from <shane.wang@intel.com>) id 1RgdXb-0001sS-0k
 	for openembedded-core@lists.openembedded.org;
-	Fri, 30 Dec 2011 15:34:38 +0100
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-	by orsmga101.jf.intel.com with ESMTP; 30 Dec 2011 06:27:21 -0800
+	Fri, 30 Dec 2011 15:34:39 +0100
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+	by orsmga101.jf.intel.com with ESMTP; 30 Dec 2011 06:27:23 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.67,351,1309762800"; d="scan'208";a="92902402"
+X-IronPort-AV: E=Sophos;i="4.67,352,1309762800"; d="scan'208";a="91550936"
 Received: from yocto-build5.sh.intel.com (HELO localhost) ([10.239.48.2])
-	by orsmga002.jf.intel.com with ESMTP; 30 Dec 2011 06:27:21 -0800
+	by orsmga001.jf.intel.com with ESMTP; 30 Dec 2011 06:27:22 -0800
 From: Shane Wang <shane.wang@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Fri, 30 Dec 2011 22:33:12 +0800
-Message-Id: <49153bb710a7cb68512127468c5e319e79231e39.1325252646.git.shane.wang@intel.com>
+Date: Fri, 30 Dec 2011 22:33:13 +0800
+Message-Id: <52275463768fee2368982c3ffb5bfbab2f451f01.1325252646.git.shane.wang@intel.com>
 X-Mailer: git-send-email 1.7.6
 In-Reply-To: <174bd926e4a4e00426eb92a2147cd0169e5cd515.1325252646.git.shane.wang@intel.com>
 References: <174bd926e4a4e00426eb92a2147cd0169e5cd515.1325252646.git.shane.wang@intel.com>
 In-Reply-To: <cover.1325252645.git.shane.wang@intel.com>
 References: <cover.1325252645.git.shane.wang@intel.com>
-Subject: [PATCH 11/14] quota: upgrade to 4.00
+Subject: [PATCH 12/14] watchdog: upgrade to 5.11
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -33,44 +33,34 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 30 Dec 2011 14:34:38 -0000
-
-The license change in rquota_server.c is the following two lines have been removed:
-11a12,13
->  * Version: $Id: rquota_server.c,v 1.22 2010/01/05 16:04:57 jkar8572 Exp $
->  *
+X-List-Received-Date: Fri, 30 Dec 2011 14:34:39 -0000
 
 Signed-off-by: Shane Wang <shane.wang@intel.com>
 ---
- .../quota/{quota_4.00-pre1.bb => quota_4.00.bb}    |    8 ++++----
- 1 files changed, 4 insertions(+), 4 deletions(-)
- rename meta/recipes-extended/quota/{quota_4.00-pre1.bb => quota_4.00.bb} (78%)
+ .../watchdog/{watchdog_5.9.bb => watchdog_5.11.bb} |    6 +++---
+ 1 files changed, 3 insertions(+), 3 deletions(-)
+ rename meta/recipes-extended/watchdog/{watchdog_5.9.bb => watchdog_5.11.bb} (70%)
 
-diff --git a/meta/recipes-extended/quota/quota_4.00-pre1.bb b/meta/recipes-extended/quota/quota_4.00.bb
-similarity index 78%
-rename from meta/recipes-extended/quota/quota_4.00-pre1.bb
-rename to meta/recipes-extended/quota/quota_4.00.bb
-index 00cdd5e..6b04fd9 100644
---- a/meta/recipes-extended/quota/quota_4.00-pre1.bb
-+++ b/meta/recipes-extended/quota/quota_4.00.bb
-@@ -4,14 +4,14 @@ HOMEPAGE = "http://sourceforge.net/projects/linuxquota/"
- BUGTRACKER = "http://sourceforge.net/tracker/?group_id=18136&atid=118136"
- LICENSE = "BSD & GPLv2+ & LGPLv2.1+"
- LIC_FILES_CHKSUM = "file://quota.c;beginline=1;endline=33;md5=331c7d77744bfe0ad24027f0651028ec \
--                    file://rquota_server.c;beginline=1;endline=20;md5=d509328bb71c3438b9c737774b4132a2 \
-+                    file://rquota_server.c;beginline=1;endline=20;md5=fe7e0d7e11c6f820f8fa62a5af71230f \
-                     file://svc_socket.c;beginline=1;endline=17;md5=24d5a8792da45910786eeac750be8ceb"
--PR = "r1"
-+PR = "r0"
+diff --git a/meta/recipes-extended/watchdog/watchdog_5.9.bb b/meta/recipes-extended/watchdog/watchdog_5.11.bb
+similarity index 70%
+rename from meta/recipes-extended/watchdog/watchdog_5.9.bb
+rename to meta/recipes-extended/watchdog/watchdog_5.11.bb
+index 96aa1f0..0b88c1f 100644
+--- a/meta/recipes-extended/watchdog/watchdog_5.9.bb
++++ b/meta/recipes-extended/watchdog/watchdog_5.11.bb
+@@ -10,10 +10,10 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=8a7258c60a71a2f04b67fb01f495889c"
  
- SRC_URI = "${SOURCEFORGE_MIRROR}/project/linuxquota/quota-tools/${PV}/quota-${PV}.tar.gz"
+ PR = "r0"
  
--SRC_URI[md5sum] = "ef9d66e8a968ecffd2d9df648fa8ada2"
--SRC_URI[sha256sum] = "181a9b90b10bbffaaf9a18e7fef96a5752ab20f7b72d81c472166ab32e415994"
-+SRC_URI[md5sum] = "975f587ff761a60ac25dbe6c00865925"
-+SRC_URI[sha256sum] = "eb2b045f58b98299edc568b8607b95b10735b4a131fa5196f41c89b51fb409ba"
+-SRC_URI = "${SOURCEFORGE_MIRROR}/watchdog/watchdog-${PV}.tar.gz"
++SRC_URI = "${SOURCEFORGE_MIRROR}/watchdog/watchdog_${PV}.tar.gz"
  
- S = ${WORKDIR}/quota-tools
+-SRC_URI[md5sum] = "d7cae3c9829f5d9a680764f314234867"
+-SRC_URI[sha256sum] = "60d8e9180b8800e1b2386553a9f63a026bddad4997d21790f7c5dde7e77065ec"
++SRC_URI[md5sum] = "02c764219b3bdb2373091cbd67109eb6"
++SRC_URI[sha256sum] = "723a7966e0c3d58e3f4df20943a5c9aa1553381f46aa0dbcf832016756e62792"
+ 
+ inherit autotools
  
 -- 
 1.7.6
