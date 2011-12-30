@@ -1,24 +1,24 @@
 Received: from mga03.intel.com ([143.182.124.21])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <nitin.a.kamble@intel.com>) id 1RgQUH-0005y9-F7
+	(envelope-from <nitin.a.kamble@intel.com>) id 1RgQUL-0005yk-GI
 	for openembedded-core@lists.openembedded.org;
-	Fri, 30 Dec 2011 01:38:24 +0100
+	Fri, 30 Dec 2011 01:38:25 +0100
 Received: from azsmga001.ch.intel.com ([10.2.17.19])
 	by azsmga101.ch.intel.com with ESMTP; 29 Dec 2011 16:31:07 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="90690840"
+X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="90690843"
 Received: from nbuild0.sc.intel.com ([172.25.110.36])
 	by azsmga001.ch.intel.com with ESMTP; 29 Dec 2011 16:31:07 -0800
 From: nitin.a.kamble@intel.com
 To: openembedded-core@lists.openembedded.org
-Date: Thu, 29 Dec 2011 16:30:47 -0800
-Message-Id: <da10bf059752328feae76bf62e14849ddd9d6765.1325204775.git.nitin.a.kamble@intel.com>
+Date: Thu, 29 Dec 2011 16:30:50 -0800
+Message-Id: <21d356ed1d289c8faec190f1ba12d32644be65a5.1325204775.git.nitin.a.kamble@intel.com>
 X-Mailer: git-send-email 1.7.6.4
 In-Reply-To: <0a113cb0a2defae38913df19d2bd3d6e378e370f.1325204775.git.nitin.a.kamble@intel.com>
 References: <0a113cb0a2defae38913df19d2bd3d6e378e370f.1325204775.git.nitin.a.kamble@intel.com>
 In-Reply-To: <cover.1325204775.git.nitin.a.kamble@intel.com>
 References: <cover.1325204775.git.nitin.a.kamble@intel.com>
-Subject: [PATCH 02/14] byacc: upgrade from 20110908 to 20111219
+Subject: [PATCH 05/14] autotools.bbclass: fix cp error for empty dir
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -33,37 +33,40 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 30 Dec 2011 00:38:24 -0000
+X-List-Received-Date: Fri, 30 Dec 2011 00:38:25 -0000
 
 From: Nitin A Kamble <nitin.a.kamble@intel.com>
 
+the .../usr/share/aclocal is empty for build from scratch. so avoid cp
+error if the directory is empty.
+
+Fixes this error, which is thrown before pseudo is built:
+
+| cp: cannot stat
+`/builddisk/build/build0/tmp/sysroots/x86_64-linux/usr/share/aclocal/*':
+No such file or directory
+NOTE: package libtool-native-2.4.2-r0.0: task do_configure: Failed
+
 Signed-off-by: Nitin A Kamble <nitin.a.kamble@intel.com>
 ---
- .../byacc/{byacc_20110908.bb => byacc_20111219.bb} |    6 +++---
- 1 files changed, 3 insertions(+), 3 deletions(-)
- rename meta/recipes-extended/byacc/{byacc_20110908.bb => byacc_20111219.bb} (73%)
+ meta/classes/autotools.bbclass |    4 +++-
+ 1 files changed, 3 insertions(+), 1 deletions(-)
 
-diff --git a/meta/recipes-extended/byacc/byacc_20110908.bb b/meta/recipes-extended/byacc/byacc_20111219.bb
-similarity index 73%
-rename from meta/recipes-extended/byacc/byacc_20110908.bb
-rename to meta/recipes-extended/byacc/byacc_20111219.bb
-index 5e01c25..4b317c4 100644
---- a/meta/recipes-extended/byacc/byacc_20110908.bb
-+++ b/meta/recipes-extended/byacc/byacc_20111219.bb
-@@ -1,4 +1,4 @@
--PR = "r1"
-+PR = "r0"
- 
- # Sigh. This is one of those places where everyone licenses it differently. Someone
- # even apply UCB to it (Free/Net/OpenBSD). The maintainer states that:
-@@ -9,5 +9,5 @@ LICENSE="PD"
- LIC_FILES_CHKSUM = "file://package/debian/copyright;md5=4dc4c30f840a7203fb6edf20b3db849e"
- require byacc.inc
- 
--SRC_URI[md5sum] = "5665ee1f2ca482d57eef9591a2fe4768"
--SRC_URI[sha256sum] = "70a3e491ddfae9da04646abe769fa0ecb9cbf003e2a09c5732907e3e8b478fb0"
-+SRC_URI[md5sum] = "c17542fd9df6e392d495a64f883e29f1"
-+SRC_URI[sha256sum] = "ca37eb3702a02efe4a4dd09e0ef26fc91e4c22c36d8d52e45d2f76923fbd99d9"
+diff --git a/meta/classes/autotools.bbclass b/meta/classes/autotools.bbclass
+index 7536bac..2f462ff 100644
+--- a/meta/classes/autotools.bbclass
++++ b/meta/classes/autotools.bbclass
+@@ -122,7 +122,9 @@ autotools_do_configure() {
+ 			# We avoid this by taking a copy here and then files cannot disappear.
+ 			if [ -d ${STAGING_DATADIR}/aclocal ]; then
+ 				mkdir -p ${B}/aclocal-copy/
+-				cp ${STAGING_DATADIR}/aclocal/* ${B}/aclocal-copy/
++				# for scratch build this directory can be empty
++				# so avoid cp's no files to copy error
++				cp -r ${STAGING_DATADIR}/aclocal/. ${B}/aclocal-copy/
+ 				acpaths="$acpaths -I ${B}/aclocal-copy/"
+ 			fi
+ 			# autoreconf is too shy to overwrite aclocal.m4 if it doesn't look
 -- 
 1.7.6.4
 
