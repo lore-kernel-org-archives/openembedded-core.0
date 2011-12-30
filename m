@@ -1,24 +1,24 @@
-Received: from mga02.intel.com ([134.134.136.20])
+Received: from mga01.intel.com ([192.55.52.88])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <shane.wang@intel.com>) id 1RgdRK-0001Sb-Bf
+	(envelope-from <shane.wang@intel.com>) id 1RgdUR-0001db-Dz
 	for openembedded-core@lists.openembedded.org;
-	Fri, 30 Dec 2011 15:28:10 +0100
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-	by orsmga101.jf.intel.com with ESMTP; 30 Dec 2011 06:20:53 -0800
+	Fri, 30 Dec 2011 15:31:23 +0100
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+	by fmsmga101.fm.intel.com with ESMTP; 30 Dec 2011 06:24:07 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.67,352,1309762800"; d="scan'208";a="91549729"
+X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="101661507"
 Received: from yocto-build5.sh.intel.com (HELO localhost) ([10.239.48.2])
-	by orsmga001.jf.intel.com with ESMTP; 30 Dec 2011 06:20:53 -0800
+	by fmsmga001.fm.intel.com with ESMTP; 30 Dec 2011 06:24:06 -0800
 From: Shane Wang <shane.wang@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Fri, 30 Dec 2011 22:33:05 +0800
-Message-Id: <88c3b4dfd308870c823799ece2c0fbc72f836cf0.1325252646.git.shane.wang@intel.com>
+Date: Fri, 30 Dec 2011 22:33:08 +0800
+Message-Id: <80d17a6b3a9c2bb074dcd81b21372b39705e6b15.1325252646.git.shane.wang@intel.com>
 X-Mailer: git-send-email 1.7.6
 In-Reply-To: <174bd926e4a4e00426eb92a2147cd0169e5cd515.1325252646.git.shane.wang@intel.com>
 References: <174bd926e4a4e00426eb92a2147cd0169e5cd515.1325252646.git.shane.wang@intel.com>
 In-Reply-To: <cover.1325252645.git.shane.wang@intel.com>
 References: <cover.1325252645.git.shane.wang@intel.com>
-Subject: [PATCH 04/14] libsamplerate0: upgrade to 0.1.8
+Subject: [PATCH 07/14] oprofileui: upgrade to 82ecf8c6b53b84f80682a8312f9defa83a95f2a3
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -33,75 +33,289 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 30 Dec 2011 14:28:10 -0000
+X-List-Received-Date: Fri, 30 Dec 2011 14:31:24 -0000
 
-This patch is to upgrade libsamplerate0 to 0.1.8 and remove the patch for 0.1.7.
-In the new code, the fix is there in M4/endian.m4 (which is part of acinclude.m4 in 0.1.7)
-The license is changed from "Copyright (C) 2002-2008 Erik de Castro Lopo <erikd@mega-nerd.com>" to "Copyright (C) 2002-2011 Erik de Castro Lopo <erikd@mega-nerd.com>".
+This patch removed two patches because those are there in the upstream.
 
 Signed-off-by: Shane Wang <shane.wang@intel.com>
 ---
- .../libsamplerate-0.1.7-macro-quoting.patch        |   22 --------------------
- ...amplerate0_0.1.7.bb => libsamplerate0_0.1.8.bb} |    9 +++----
- 2 files changed, 4 insertions(+), 27 deletions(-)
- delete mode 100644 meta/recipes-multimedia/libsamplerate/libsamplerate0-0.1.7/libsamplerate-0.1.7-macro-quoting.patch
- rename meta/recipes-multimedia/libsamplerate/{libsamplerate0_0.1.7.bb => libsamplerate0_0.1.8.bb} (61%)
+ .../oprofileui/dso_linking_change_build_fix.patch  |   27 ---
+ .../oprofileui/migrate-from-gnomevfs-to-gio.patch  |  219 --------------------
+ meta/recipes-kernel/oprofile/oprofileui_git.bb     |    2 +-
+ 3 files changed, 1 insertions(+), 247 deletions(-)
+ delete mode 100644 meta/recipes-kernel/oprofile/oprofileui/dso_linking_change_build_fix.patch
+ delete mode 100644 meta/recipes-kernel/oprofile/oprofileui/migrate-from-gnomevfs-to-gio.patch
 
-diff --git a/meta/recipes-multimedia/libsamplerate/libsamplerate0-0.1.7/libsamplerate-0.1.7-macro-quoting.patch b/meta/recipes-multimedia/libsamplerate/libsamplerate0-0.1.7/libsamplerate-0.1.7-macro-quoting.patch
+diff --git a/meta/recipes-kernel/oprofile/oprofileui/dso_linking_change_build_fix.patch b/meta/recipes-kernel/oprofile/oprofileui/dso_linking_change_build_fix.patch
 deleted file mode 100644
-index 1518d7e..0000000
---- a/meta/recipes-multimedia/libsamplerate/libsamplerate0-0.1.7/libsamplerate-0.1.7-macro-quoting.patch
+index 39ceb22..0000000
+--- a/meta/recipes-kernel/oprofile/oprofileui/dso_linking_change_build_fix.patch
 +++ /dev/null
-@@ -1,22 +0,0 @@
+@@ -1,27 +0,0 @@
+-With dso linking change in gcc, all the libraries are needed to be explicitely specified to linker now. It breaks this package in following way. The libm library needs to be specified explicitely.
+-
+-| make[2]: Entering directory `/disk0/pokybuild/build1/tmp/work/i586-poky-linux/oprofileui-0.0+svnr197-r0/trunk/src'^M
+-| ccache i586-poky-linux-gcc -march=i586 --sysroot=/disk0/pokybuild/build1/tmp/sysroots/i586-poky-linux -Wall -g -std=gnu99 -DPKG_DATA_DIR=\""/usr/share/oprofileui"\"  -fexpensive-optimizations -fomit-frame-pointer -frename-registers -O2 -ggdb -feliminate-unused-debug-types  -Wl,-O1 -Wl,--hash-style=gnu -Wl,--as-needed -o oprofile-viewer main.o client.o archive.o archive_window.o archive_save_window.o view.o report.o parser.o image.o symbol.o module.o symbol_instance.o module_instance.o callee_symbol_instance.o caller_symbol_instance.o state-util.o -pthread -lglade-2.0 -lgtk-x11-2.0 -lgdk-x11-2.0 -latk-1.0 -lgio-2.0 -lpangoft2-1.0 -lgdk_pixbuf-2.0 -lpangocairo-1.0 -lcairo -lpango-1.0 -lfreetype -lfontconfig -lxml2 -lgnomevfs-2 -lgmodule-2.0 -lgconf-2 -ldbus-glib-1 -ldbus-1 -lpthread -lgobject-2.0 -lgthread-2.0 -lrt -lglib-2.0   -pthread -lavahi-ui -lgtk-x11-2.0 -lavahi-common -lavahi-client -lavahi-glib -lgdk-x11-2.0 -latk-1.0 -lgio-2.0 -lpangoft2-1.0 -lgdk_pixbuf-2.0 -lpangocairo-1.0 -lcairo -lpango-1.0 -lfreetype -lfontconfig -lgobject-2.0 -lgmodule-2.0 -lgthread-2.0 -lrt -lglib-2.0   ../protocol/libop.a^M
+-| /disk0/pokybuild/build1/tmp/sysroots/x86_64-linux/usr/libexec/i586-poky-linux/gcc/i586-poky-linux/4.5.1/ld: ^X^B: invalid DSO for symbol `log@@GLIBC_2.0' definition^M
+-| /disk0/pokybuild/build1/tmp/sysroots/i586-poky-linux/lib/libm.so.6: could not read symbols: Bad value^M
+-| collect2: ld returned 1 exit status^M
+-| make[2]: *** [oprofile-viewer] Error 1^M
+-
 -Upstream-Status: Inappropriate [configuration]
 -
--diff -ruN libsamplerate-0.1.7-orig//acinclude.m4 libsamplerate-0.1.7/acinclude.m4
----- libsamplerate-0.1.7-orig//acinclude.m4	2011-04-20 15:04:25.147664992 +0800
--+++ libsamplerate-0.1.7/acinclude.m4	2011-04-20 15:04:45.397665029 +0800
--@@ -135,7 +135,6 @@
-- 	fi
+-Nitin A Kamble <nitin.a.kamble@intel.com>
+-Date: 2011/01/11
+-
+-Index: trunk/src/Makefile.am
+-===================================================================
+---- trunk.orig/src/Makefile.am
+-+++ trunk/src/Makefile.am
+-@@ -56,7 +56,7 @@ oprofile_viewer_SOURCES = \
 - 
-- )
---]
+- oprofile_viewer_LDFLAGS = 
 - 
-- if test $ac_cv_c_byte_order = big ; then
-- 	ac_cv_c_big_endian=1
--@@ -154,7 +153,7 @@
-- 	AC_MSG_WARN([[*****************************************************************]])
-- 	fi
+--oprofile_viewer_LDADD = $(OPROFILEUI_LIBS) $(AVAHI_LIBS) $(top_builddir)/protocol/libop.a
+-+oprofile_viewer_LDADD = $(OPROFILEUI_LIBS) -lm $(AVAHI_LIBS) $(top_builddir)/protocol/libop.a
 - 
---)# AC_C_FIND_ENDIAN
--+])# AC_C_FIND_ENDIAN
+- testparser_SOURCES = \
+- 	parser.c \
+diff --git a/meta/recipes-kernel/oprofile/oprofileui/migrate-from-gnomevfs-to-gio.patch b/meta/recipes-kernel/oprofile/oprofileui/migrate-from-gnomevfs-to-gio.patch
+deleted file mode 100644
+index bf3979f..0000000
+--- a/meta/recipes-kernel/oprofile/oprofileui/migrate-from-gnomevfs-to-gio.patch
++++ /dev/null
+@@ -1,219 +0,0 @@
+-migrate from gnome-vfs to gio, as gnome-vfs is obsolete.
+-
+-Signed-off-by: Zhai Edwin <edwin.zhai@intel.com>
+-
+-Upstream-Status: Pending
+-
+-Index: git/src/main.c
+-===================================================================
+---- git.orig/src/main.c	2011-06-21 10:35:31.000000000 +0800
+-+++ git/src/main.c	2011-06-21 10:44:12.000000000 +0800
+-@@ -44,7 +44,6 @@
+- #include <gtk/gtk.h>
+- #include <glade/glade.h>
+- #include <glib.h>
+--#include <libgnomevfs/gnome-vfs.h>
+- #include <gconf/gconf-client.h>
+- #include <glib/gi18n.h>
 - 
+-@@ -1005,8 +1004,7 @@
+-   /* Cleanup the old archive */
+-   archive_full_cleanup ();
 - 
+--  if (gnome_vfs_initialized())
+--    gnome_vfs_shutdown ();
+-+  g_type_init();
 - 
-diff --git a/meta/recipes-multimedia/libsamplerate/libsamplerate0_0.1.7.bb b/meta/recipes-multimedia/libsamplerate/libsamplerate0_0.1.8.bb
-similarity index 61%
-rename from meta/recipes-multimedia/libsamplerate/libsamplerate0_0.1.7.bb
-rename to meta/recipes-multimedia/libsamplerate/libsamplerate0_0.1.8.bb
-index d08640f..949b3d0 100644
---- a/meta/recipes-multimedia/libsamplerate/libsamplerate0_0.1.7.bb
-+++ b/meta/recipes-multimedia/libsamplerate/libsamplerate0_0.1.8.bb
-@@ -2,15 +2,14 @@ DESCRIPTION = "An audio Sample Rate Conversion library"
- SECTION = "libs"
- LICENSE = "GPLv2+"
- LIC_FILES_CHKSUM = "file://COPYING;md5=94d55d512a9ba36caa9b7df079bae19f \
--                    file://src/samplerate.c;beginline=1;endline=17;md5=ed4dfdaa3bdf0f817ebc70cee0cccc88"
-+                    file://src/samplerate.c;beginline=1;endline=17;md5=d0807c35fc906466d24a50463534815a"
- DEPENDS = "flac"
+-   g_free(opui_config->host);
+-   g_free(opui_config->opcontrol_params);
+-Index: git/src/archive.c
+-===================================================================
+---- git.orig/src/archive.c	2011-06-21 10:38:57.000000000 +0800
+-+++ git/src/archive.c	2011-06-21 10:54:16.000000000 +0800
+-@@ -45,7 +45,6 @@
+- #include <glade/glade.h>
+- #include <glib.h>
+- #include <glib/gstdio.h>
+--#include <libgnomevfs/gnome-vfs.h>
+- 
+- #include "oprofileui.h"
+- #include "response.h"
+-@@ -86,56 +85,113 @@
+- 
+-   if (ret < 0)
+-     {
+--      /* Use gnomevfs to copy the file as a fallback */
+--      GnomeVFSURI *src_uri, *dst_uri;
+--      GnomeVFSResult res;
+--
+--      src_uri = gnome_vfs_uri_new (gnome_vfs_get_uri_from_local_path(src));
+--      dst_uri = gnome_vfs_uri_new (gnome_vfs_get_uri_from_local_path(dest));
+--      res = gnome_vfs_xfer_uri (src_uri, dst_uri,
+--          GNOME_VFS_XFER_DEFAULT |
+--          GNOME_VFS_XFER_NEW_UNIQUE_DIRECTORY, 
+--          GNOME_VFS_XFER_ERROR_MODE_ABORT,
+--          GNOME_VFS_XFER_OVERWRITE_MODE_REPLACE,
+--          NULL, NULL);
+--      if (res != GNOME_VFS_OK)
+-+      /* Use gio to copy the file as a fallback */
+-+      GFile *src_file, *dst_file;
+-+      gboolean res;
+-+      GError *error = NULL;
+-+
+-+      src_file = g_file_new_for_path (src);
+-+      dst_file = g_file_new_for_path (dest);
+-+
+-+      res = g_file_copy(src_file, dst_file,
+-+                        G_FILE_COPY_NOFOLLOW_SYMLINKS |
+-+                        G_FILE_COPY_OVERWRITE,
+-+                        NULL,
+-+                        NULL,
+-+                        NULL,
+-+                        &error);
+-+
+-+      if (!res && error)
+-         {
+--          const gchar *err_string = gnome_vfs_result_to_string (res);
+-+          printf ("GIO: error %s (%s to %s)\n", error->message, src, dest);
+- 
+--          printf ("GNOME-VFS: error %s (%s to %s)\n", err_string, src, dest);
+-+          g_error_free(error);
+-         }
+-+
+-+      g_object_unref(src_file);
+-+      g_object_unref(dst_file);
+-+
+-+    }
+-+}
+-+
+-+#define IS_IO_ERROR(__error, KIND) (((__error)->domain == G_IO_ERROR && (__error)->code == G_IO_ERROR_ ## KIND))
+-+
+-+static gboolean
+-+remove_target_recursively(GFile *file)
+-+{
+-+  GFileEnumerator *enumerator;
+-+  GError *error = NULL;
+-+  GFile *child;
+-+  GFileInfo *info;
+-+  gboolean stop = FALSE;
+-+
+-+  enumerator = g_file_enumerate_children(file,
+-+                                         G_FILE_ATTRIBUTE_STANDARD_NAME,
+-+                                         G_FILE_QUERY_INFO_NOFOLLOW_SYMLINKS,
+-+                                         NULL,
+-+                                         &error);
+-+
+-+  if (enumerator)
+-+    {
+-+      error = NULL;
+-+
+-+      while ( (info = g_file_enumerator_next_file(enumerator, NULL, &error))
+-+               != NULL ) {
+-+
+-+        child = g_file_get_child(file, g_file_info_get_name(info));
+-+        if (!remove_target_recursively(child))
+-+          {
+-+              stop = TRUE;
+-+              break;
+-+          }
+-+        g_object_unref(child);
+-+        g_object_unref(info);
+-+      }
+-+
+-+      g_object_unref(enumerator);
+-+    }
+-+  else if (IS_IO_ERROR(error, NOT_DIRECTORY))
+-+    {
+-+      g_error_free(error);
+-     }
+-+  else
+-+    {
+-+      g_error_free(error);
+-+      stop = TRUE;
+-+    }
+-+
+-+  if (stop)
+-+    return FALSE;
+-+
+-+  error = NULL;
+-+  if (!g_file_delete(file, NULL, &error))
+-+    {
+-+      char *path = g_file_get_path(file);
+-+      printf ("GIO: error %s when deleteing file %s.\n", error->message, path);
+-+      g_free(path);
+-+
+-+      g_error_free(error);
+-+      return FALSE;
+-+    }
+-+
+-+  return TRUE;
+-+
+- }
+- 
+- /* Delete the directory specified by path */
+- static void
+- archive_removedir(gchar *path)
+- {
+--  GnomeVFSResult res;
+--  GnomeVFSURI *src_uri;
+--  GList uri_list;
+-+  GFile *src_file;
+- 
+-   if (path == NULL)
+-     return;
+- 
+--  gnome_vfs_init ();
+--
+--  src_uri = gnome_vfs_uri_new (gnome_vfs_get_uri_from_local_path(path));
+--
+--  uri_list.data = src_uri;
+--  uri_list.next = NULL;
+--  uri_list.prev = NULL;
+-+  src_file = g_file_new_for_path (path);
+- 
+--  res = gnome_vfs_xfer_delete_list (&uri_list,
+--      GNOME_VFS_XFER_ERROR_MODE_ABORT,
+--      GNOME_VFS_XFER_EMPTY_DIRECTORIES,
+--      NULL, NULL);
+--
+--  if (res != GNOME_VFS_OK)
+-+  if (! remove_target_recursively(src_file))
+-     {
+--      const gchar *err_string = gnome_vfs_result_to_string (res);
+--
+--      printf ("GNOME-VFS: error %s\n", err_string);
+-+      printf ("GIO:remove %s failed", path);
+-     }
+- }
+- 
+-@@ -242,8 +298,6 @@
+-   gchar **tmp;
+-   int i;
+- 
+--  gnome_vfs_init ();
+--
+-   tmp = g_strsplit (reply->payload, "\n", 0);
+- 
+-   for (i=0; i < g_strv_length (tmp); i++)
+-@@ -436,8 +490,6 @@
+- {
+-   gint counter;
+- 
+--  gnome_vfs_init ();
+--
+-   downloaded_files = g_slist_append (downloaded_files, g_strdup("/var/lib/oprofile/.converted"));
+- 
+-   archive_save_window_show (g_slist_length (downloaded_files) +
+-Index: git/configure.ac
+-===================================================================
+---- git.orig/configure.ac	2011-06-21 10:49:40.000000000 +0800
+-+++ git/configure.ac	2011-06-21 10:49:58.000000000 +0800
+-@@ -29,7 +29,7 @@
+- AM_CONDITIONAL(ENABLE_SERVER, test x$enable_server = xyes)
+- AM_CONDITIONAL(ENABLE_CLIENT, test x$enable_client = xyes)
+- 
+--PKG_CHECK_MODULES(OPROFILEUI, [glib-2.0 libglade-2.0 gtk+-2.0 libxml-2.0 gnome-vfs-2.0 gconf-2.0])
+-+PKG_CHECK_MODULES(OPROFILEUI, [glib-2.0 libglade-2.0 gtk+-2.0 libxml-2.0 gconf-2.0])
+- AC_SUBST(OPROFILEUI_CFLAGS)
+- AC_SUBST(OPROFILEUI_LIBS)
+- 
+diff --git a/meta/recipes-kernel/oprofile/oprofileui_git.bb b/meta/recipes-kernel/oprofile/oprofileui_git.bb
+index 2b56981..3fe9bb4 100644
+--- a/meta/recipes-kernel/oprofile/oprofileui_git.bb
++++ b/meta/recipes-kernel/oprofile/oprofileui_git.bb
+@@ -1,6 +1,6 @@
+ require oprofileui.inc
+ 
+-SRCREV = "b3116a4f80ae64bd280e6434d66f33ed492d449a"
++SRCREV = "82ecf8c6b53b84f80682a8312f9defa83a95f2a3"
+ PV = "0.0+git${SRCPV}"
  PR = "r0"
  
--SRC_URI = "http://www.mega-nerd.com/SRC/libsamplerate-${PV}.tar.gz \
--           file://libsamplerate-0.1.7-macro-quoting.patch"
-+SRC_URI = "http://www.mega-nerd.com/SRC/libsamplerate-${PV}.tar.gz"
- 
--SRC_URI[md5sum] = "6731a81cb0c622c483b28c0d7f90867d"
--SRC_URI[sha256sum] = "78ed5d9ff1bf162c4a078f6a3e7432a537dd2f22dc58872b081fb01156027fcc"
-+SRC_URI[md5sum] = "1c7fb25191b4e6e3628d198a66a84f47"
-+SRC_URI[sha256sum] = "93b54bdf46d5e6d2354b7034395fe329c222a966790de34520702bb9642f1c06"
- S = "${WORKDIR}/libsamplerate-${PV}"
- 
- inherit autotools pkgconfig
 -- 
 1.7.6
 
