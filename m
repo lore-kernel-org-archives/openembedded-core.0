@@ -1,24 +1,24 @@
-Received: from mga01.intel.com ([192.55.52.88])
+Received: from mga11.intel.com ([192.55.52.93])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <shane.wang@intel.com>) id 1RgdUR-0001db-Dz
+	(envelope-from <shane.wang@intel.com>) id 1RgdUS-0001dc-Mq
 	for openembedded-core@lists.openembedded.org;
-	Fri, 30 Dec 2011 15:31:23 +0100
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-	by fmsmga101.fm.intel.com with ESMTP; 30 Dec 2011 06:24:07 -0800
+	Fri, 30 Dec 2011 15:31:25 +0100
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+	by fmsmga102.fm.intel.com with ESMTP; 30 Dec 2011 06:24:08 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="101661507"
+X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="107289516"
 Received: from yocto-build5.sh.intel.com (HELO localhost) ([10.239.48.2])
-	by fmsmga001.fm.intel.com with ESMTP; 30 Dec 2011 06:24:06 -0800
+	by fmsmga002.fm.intel.com with ESMTP; 30 Dec 2011 06:24:07 -0800
 From: Shane Wang <shane.wang@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Fri, 30 Dec 2011 22:33:08 +0800
-Message-Id: <80d17a6b3a9c2bb074dcd81b21372b39705e6b15.1325252646.git.shane.wang@intel.com>
+Date: Fri, 30 Dec 2011 22:33:09 +0800
+Message-Id: <7139556295f1da3de065d4bedcf1e15cc121ae4d.1325252646.git.shane.wang@intel.com>
 X-Mailer: git-send-email 1.7.6
 In-Reply-To: <174bd926e4a4e00426eb92a2147cd0169e5cd515.1325252646.git.shane.wang@intel.com>
 References: <174bd926e4a4e00426eb92a2147cd0169e5cd515.1325252646.git.shane.wang@intel.com>
 In-Reply-To: <cover.1325252645.git.shane.wang@intel.com>
 References: <cover.1325252645.git.shane.wang@intel.com>
-Subject: [PATCH 07/14] oprofileui: upgrade to 82ecf8c6b53b84f80682a8312f9defa83a95f2a3
+Subject: [PATCH 08/14] libomxil: upgrade to 0.9.3
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -33,289 +33,227 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 30 Dec 2011 14:31:24 -0000
+X-List-Received-Date: Fri, 30 Dec 2011 14:31:25 -0000
 
-This patch removed two patches because those are there in the upstream.
+This patch is to upgrade libomxil from 0.3.3 to 0.9.3.
+The following is the licence change:
+
+2c2
+<   @file src/omxcore.h
+---
+>   src/omxcore.h
+4c4
+<   OpenMax Integration Layer Core. This library implements the OpenMAX core
+---
+>   OpenMAX Integration Layer Core. This library implements the OpenMAX core
+7c7,8
+<   Copyright (C) 2007  STMicroelectronics and Nokia
+---
+>   Copyright (C) 2007-2009 STMicroelectronics
+>   Copyright (C) 2007-2009 Nokia Corporation and/or its subsidiary(-ies).
+24,26d24
+<   $Date: 2007-05-22 16:48:41 +0200 (Tue, 22 May 2007) $
+<   Revision $Rev: 239 $
+<   Author $Author: gsent $
+34d31
+<
+36d32
 
 Signed-off-by: Shane Wang <shane.wang@intel.com>
 ---
- .../oprofileui/dso_linking_change_build_fix.patch  |   27 ---
- .../oprofileui/migrate-from-gnomevfs-to-gio.patch  |  219 --------------------
- meta/recipes-kernel/oprofile/oprofileui_git.bb     |    2 +-
- 3 files changed, 1 insertions(+), 247 deletions(-)
- delete mode 100644 meta/recipes-kernel/oprofile/oprofileui/dso_linking_change_build_fix.patch
- delete mode 100644 meta/recipes-kernel/oprofile/oprofileui/migrate-from-gnomevfs-to-gio.patch
+ .../libomxil/libomxil-0.9.3/configure-fix.patch    |   58 ++++++++++++++++++++
+ .../libomxil-0.9.3/makefile-docdir-fix.patch       |   19 +++++++
+ .../libomxil/libomxil-0.9.3/parallel-make.patch    |   18 ++++++
+ meta/recipes-multimedia/libomxil/libomxil_0.3.3.bb |   23 --------
+ meta/recipes-multimedia/libomxil/libomxil_0.9.3.bb |   33 +++++++++++
+ 5 files changed, 128 insertions(+), 23 deletions(-)
+ create mode 100644 meta/recipes-multimedia/libomxil/libomxil-0.9.3/configure-fix.patch
+ create mode 100644 meta/recipes-multimedia/libomxil/libomxil-0.9.3/makefile-docdir-fix.patch
+ create mode 100644 meta/recipes-multimedia/libomxil/libomxil-0.9.3/parallel-make.patch
+ delete mode 100644 meta/recipes-multimedia/libomxil/libomxil_0.3.3.bb
+ create mode 100644 meta/recipes-multimedia/libomxil/libomxil_0.9.3.bb
 
-diff --git a/meta/recipes-kernel/oprofile/oprofileui/dso_linking_change_build_fix.patch b/meta/recipes-kernel/oprofile/oprofileui/dso_linking_change_build_fix.patch
+diff --git a/meta/recipes-multimedia/libomxil/libomxil-0.9.3/configure-fix.patch b/meta/recipes-multimedia/libomxil/libomxil-0.9.3/configure-fix.patch
+new file mode 100644
+index 0000000..876e80e
+--- /dev/null
++++ b/meta/recipes-multimedia/libomxil/libomxil-0.9.3/configure-fix.patch
+@@ -0,0 +1,58 @@
++To enable --disable-Werror for libomxil to avoid some compilers which check code strictly.
++
++For example, at least the following errors happened to some compilers:
++
++1) OMX_INDEXTYPE in include/OMX_Index.h IS NOT OMX_INDEXVENDORTYPE in src/base/omx_base_component.h
++| i586-poky-linux-libtool: compile:  i586-poky-linux-gcc -m32 -march=i586 --sysroot=/home/yocto-build5/poky/build/tmp/sysroots/qemux86 -DHAVE_Climinate-unused-debug-types -Wall -Werror -DCONFIG_DEBUG_LEVEL=0 -c OMXComponentRMExt.c  -fPIC -DPIC -o .libs/libomxbase_la-OMXComponentRMExt.o
++| omx_base_component.c: In function 'omx_base_component_GetParameter':
++| omx_base_component.c:991:3: error: case value '2130706435' not in enumerated type 'OMX_INDEXTYPE' [-Werror=switch]
++| omx_base_component.c:918:3: error: case value '2130706436' not in enumerated type 'OMX_INDEXTYPE' [-Werror=switch]
++
++2)
++| i586-poky-linux-gcc  -m32   -march=i586 --sysroot=/home/yocto-build5/poky/build/tmp/sysroots/qemux86 -DHAVE_CONFIG_H -I. -I..    -DOMXILCOMPOminate-unused-debug-types -Wall -Werror -DCONFIG_DEBUG_LEVEL=0 -c -o omxregister_bellagio-omxregister.o `test -f 'omxregister.c' || echo './'`o
++| omxregister.c: In function 'buildComponentsList':
++| omxregister.c:175:7: error: variable 'err' set but not used [-Werror=unused-but-set-variable]
++| cc1: all warnings being treated as errors
++
++Upstream-Status: Inappropriate [configuration]
++
++Signed-off-by: Shane Wang <shane.wang@intel.com>
++
++diff -r 82d742d3ea90 configure.ac
++--- a/configure.ac	Tue Dec 27 15:30:35 2011 +0800
+++++ b/configure.ac	Tue Dec 27 16:26:03 2011 +0800
++@@ -5,7 +5,7 @@
++ AC_PREREQ([2.59])
++ 
++ AC_CONFIG_HEADERS([config.h])
++-CFLAGS="${CFLAGS} -Wall -Werror"
+++CFLAGS="${CFLAGS} -Wall"
++ 
++ ################################################################################
++ # Set the shared versioning info, according to section 6.3 of the libtool info #
++@@ -122,6 +122,14 @@
++     [with_android=$enableval],
++     [with_android=no])
++ 
+++AC_ARG_ENABLE(
+++    [Werror],
+++    [AC_HELP_STRING(
+++        [--disable-Werror],
+++        [whether to diable treating gcc warnings as errors])],
+++    [with_Werror=$enableval],
+++    [with_Werror=yes])
+++
++ ################################################################################
++ # Check for programs                                                           #
++ ################################################################################
++@@ -193,6 +201,10 @@
++  CFG_DEBUG_LEVEL=255
++ fi
++ 
+++if test "x$with_Werror" = "xyes"; then
+++ CFLAGS="${CFLAGS} -Werror"
+++fi
+++
++ AC_SUBST(CFG_DEBUG_LEVEL)
++ CFLAGS="${CFLAGS} -DCONFIG_DEBUG_LEVEL=$CFG_DEBUG_LEVEL"
++ 
+diff --git a/meta/recipes-multimedia/libomxil/libomxil-0.9.3/makefile-docdir-fix.patch b/meta/recipes-multimedia/libomxil/libomxil-0.9.3/makefile-docdir-fix.patch
+new file mode 100644
+index 0000000..dbe8c41
+--- /dev/null
++++ b/meta/recipes-multimedia/libomxil/libomxil-0.9.3/makefile-docdir-fix.patch
+@@ -0,0 +1,19 @@
++This patch is to remove DESTDIR in docdir.
++Otherwise, when users install by running `make install DESTDIR=/alternate/directory' specified in the file INSTALL, the doc will go into /alternate/directory/alternate/directory, which is not expected.
++
++Upstream-Status: Pending
++
++Signed-off-by: Shane Wang <shane.wang@intel.com>
++
++diff -r 30b597e4e70d Makefile.am
++--- a/Makefile.am	Wed Dec 28 15:38:35 2011 +0800
+++++ b/Makefile.am	Wed Dec 28 15:39:25 2011 +0800
++@@ -7,7 +7,7 @@
++ pkgconfigdir = $(libdir)/pkgconfig
++ pkgconfig_DATA = libomxil-bellagio.pc
++ 
++-docdir = $(DESTDIR)$(prefix)/share/doc/@PACKAGE@
+++docdir = $(prefix)/share/doc/@PACKAGE@
++ doc_DATA = README \
++ 	   ChangeLog \
++ 	   TODO
+diff --git a/meta/recipes-multimedia/libomxil/libomxil-0.9.3/parallel-make.patch b/meta/recipes-multimedia/libomxil/libomxil-0.9.3/parallel-make.patch
+new file mode 100644
+index 0000000..483ca13
+--- /dev/null
++++ b/meta/recipes-multimedia/libomxil/libomxil-0.9.3/parallel-make.patch
+@@ -0,0 +1,18 @@
++This patch is to make libomxil Makefile support "make -jN".
++The omxregister_bellagio stuffs depend on libomxil_bellagio library.
++
++Upstream-Status: Pending
++
++Signed-off-by: Shane Wang <shane.wang@intel.com>
++
++diff -r f59d077d3dd5 Makefile.am
++--- a/src/Makefile.am	Wed Dec 28 10:54:36 2011 +0800
+++++ b/src/Makefile.am	Wed Dec 28 10:55:46 2011 +0800
++@@ -7,6 +7,7 @@
++ omxregister_bellagio_SOURCES = omxregister.c common.c common.h
++ omxregister_bellagio_CFLAGS = -DOMXILCOMPONENTSPATH=\"$(plugindir)/\" \
++ 			      -I$(top_srcdir)/include
+++omxregister_bellagio_LDADD = $(lib_LTLIBRARIES)
++ omxregister_bellagio_LDFLAGS = -lomxil-bellagio -L$(builddir)
++ 
++ lib_LTLIBRARIES = libomxil-bellagio.la
+diff --git a/meta/recipes-multimedia/libomxil/libomxil_0.3.3.bb b/meta/recipes-multimedia/libomxil/libomxil_0.3.3.bb
 deleted file mode 100644
-index 39ceb22..0000000
---- a/meta/recipes-kernel/oprofile/oprofileui/dso_linking_change_build_fix.patch
+index da3ddde..0000000
+--- a/meta/recipes-multimedia/libomxil/libomxil_0.3.3.bb
 +++ /dev/null
-@@ -1,27 +0,0 @@
--With dso linking change in gcc, all the libraries are needed to be explicitely specified to linker now. It breaks this package in following way. The libm library needs to be specified explicitely.
+@@ -1,23 +0,0 @@
+-DESCRIPTION = "Bellagio OpenMAX Integration Layer"
+-HOMEPAGE = "http://omxil.sourceforge.net/"
+-LICENSE = "LGPLv2.1+"
+-LIC_FILES_CHKSUM = "file://COPYING;md5=ae6f0f4dbc7ac193b50f323a6ae191cb \
+-                    file://src/omxcore.h;beginline=1;endline=27;md5=c2e37f68ba9652ca9b2431f466944174"
+-DEPENDS = "libvorbis libogg alsa-lib libmad"
 -
--| make[2]: Entering directory `/disk0/pokybuild/build1/tmp/work/i586-poky-linux/oprofileui-0.0+svnr197-r0/trunk/src'^M
--| ccache i586-poky-linux-gcc -march=i586 --sysroot=/disk0/pokybuild/build1/tmp/sysroots/i586-poky-linux -Wall -g -std=gnu99 -DPKG_DATA_DIR=\""/usr/share/oprofileui"\"  -fexpensive-optimizations -fomit-frame-pointer -frename-registers -O2 -ggdb -feliminate-unused-debug-types  -Wl,-O1 -Wl,--hash-style=gnu -Wl,--as-needed -o oprofile-viewer main.o client.o archive.o archive_window.o archive_save_window.o view.o report.o parser.o image.o symbol.o module.o symbol_instance.o module_instance.o callee_symbol_instance.o caller_symbol_instance.o state-util.o -pthread -lglade-2.0 -lgtk-x11-2.0 -lgdk-x11-2.0 -latk-1.0 -lgio-2.0 -lpangoft2-1.0 -lgdk_pixbuf-2.0 -lpangocairo-1.0 -lcairo -lpango-1.0 -lfreetype -lfontconfig -lxml2 -lgnomevfs-2 -lgmodule-2.0 -lgconf-2 -ldbus-glib-1 -ldbus-1 -lpthread -lgobject-2.0 -lgthread-2.0 -lrt -lglib-2.0   -pthread -lavahi-ui -lgtk-x11-2.0 -lavahi-common -lavahi-client -lavahi-glib -lgdk-x11-2.0 -latk-1.0 -lgio-2.0 -lpangoft2-1.0 -lgdk_pixbuf-2.0 -lpangocairo-1.0 -lcairo -lpango-1.0 -lfreetype -lfontconfig -lgobject-2.0 -lgmodule-2.0 -lgthread-2.0 -lrt -lglib-2.0   ../protocol/libop.a^M
--| /disk0/pokybuild/build1/tmp/sysroots/x86_64-linux/usr/libexec/i586-poky-linux/gcc/i586-poky-linux/4.5.1/ld: ^X^B: invalid DSO for symbol `log@@GLIBC_2.0' definition^M
--| /disk0/pokybuild/build1/tmp/sysroots/i586-poky-linux/lib/libm.so.6: could not read symbols: Bad value^M
--| collect2: ld returned 1 exit status^M
--| make[2]: *** [oprofile-viewer] Error 1^M
+-PR = "r1"
 -
--Upstream-Status: Inappropriate [configuration]
+-SRC_URI = "${SOURCEFORGE_MIRROR}/omxil/libomxil-B-${PV}.tar.gz"
 -
--Nitin A Kamble <nitin.a.kamble@intel.com>
--Date: 2011/01/11
+-S = "${WORKDIR}/${BPN}-B-${PV}"
 -
--Index: trunk/src/Makefile.am
--===================================================================
----- trunk.orig/src/Makefile.am
--+++ trunk/src/Makefile.am
--@@ -56,7 +56,7 @@ oprofile_viewer_SOURCES = \
-- 
-- oprofile_viewer_LDFLAGS = 
-- 
---oprofile_viewer_LDADD = $(OPROFILEUI_LIBS) $(AVAHI_LIBS) $(top_builddir)/protocol/libop.a
--+oprofile_viewer_LDADD = $(OPROFILEUI_LIBS) -lm $(AVAHI_LIBS) $(top_builddir)/protocol/libop.a
-- 
-- testparser_SOURCES = \
-- 	parser.c \
-diff --git a/meta/recipes-kernel/oprofile/oprofileui/migrate-from-gnomevfs-to-gio.patch b/meta/recipes-kernel/oprofile/oprofileui/migrate-from-gnomevfs-to-gio.patch
-deleted file mode 100644
-index bf3979f..0000000
---- a/meta/recipes-kernel/oprofile/oprofileui/migrate-from-gnomevfs-to-gio.patch
-+++ /dev/null
-@@ -1,219 +0,0 @@
--migrate from gnome-vfs to gio, as gnome-vfs is obsolete.
+-inherit autotools
 -
--Signed-off-by: Zhai Edwin <edwin.zhai@intel.com>
+-EXTRA_OECONF += "--disable-ffmpegcomponents"
 -
--Upstream-Status: Pending
--
--Index: git/src/main.c
--===================================================================
----- git.orig/src/main.c	2011-06-21 10:35:31.000000000 +0800
--+++ git/src/main.c	2011-06-21 10:44:12.000000000 +0800
--@@ -44,7 +44,6 @@
-- #include <gtk/gtk.h>
-- #include <glade/glade.h>
-- #include <glib.h>
---#include <libgnomevfs/gnome-vfs.h>
-- #include <gconf/gconf-client.h>
-- #include <glib/gi18n.h>
-- 
--@@ -1005,8 +1004,7 @@
--   /* Cleanup the old archive */
--   archive_full_cleanup ();
-- 
---  if (gnome_vfs_initialized())
---    gnome_vfs_shutdown ();
--+  g_type_init();
-- 
--   g_free(opui_config->host);
--   g_free(opui_config->opcontrol_params);
--Index: git/src/archive.c
--===================================================================
----- git.orig/src/archive.c	2011-06-21 10:38:57.000000000 +0800
--+++ git/src/archive.c	2011-06-21 10:54:16.000000000 +0800
--@@ -45,7 +45,6 @@
-- #include <glade/glade.h>
-- #include <glib.h>
-- #include <glib/gstdio.h>
---#include <libgnomevfs/gnome-vfs.h>
-- 
-- #include "oprofileui.h"
-- #include "response.h"
--@@ -86,56 +85,113 @@
-- 
--   if (ret < 0)
--     {
---      /* Use gnomevfs to copy the file as a fallback */
---      GnomeVFSURI *src_uri, *dst_uri;
---      GnomeVFSResult res;
---
---      src_uri = gnome_vfs_uri_new (gnome_vfs_get_uri_from_local_path(src));
---      dst_uri = gnome_vfs_uri_new (gnome_vfs_get_uri_from_local_path(dest));
---      res = gnome_vfs_xfer_uri (src_uri, dst_uri,
---          GNOME_VFS_XFER_DEFAULT |
---          GNOME_VFS_XFER_NEW_UNIQUE_DIRECTORY, 
---          GNOME_VFS_XFER_ERROR_MODE_ABORT,
---          GNOME_VFS_XFER_OVERWRITE_MODE_REPLACE,
---          NULL, NULL);
---      if (res != GNOME_VFS_OK)
--+      /* Use gio to copy the file as a fallback */
--+      GFile *src_file, *dst_file;
--+      gboolean res;
--+      GError *error = NULL;
--+
--+      src_file = g_file_new_for_path (src);
--+      dst_file = g_file_new_for_path (dest);
--+
--+      res = g_file_copy(src_file, dst_file,
--+                        G_FILE_COPY_NOFOLLOW_SYMLINKS |
--+                        G_FILE_COPY_OVERWRITE,
--+                        NULL,
--+                        NULL,
--+                        NULL,
--+                        &error);
--+
--+      if (!res && error)
--         {
---          const gchar *err_string = gnome_vfs_result_to_string (res);
--+          printf ("GIO: error %s (%s to %s)\n", error->message, src, dest);
-- 
---          printf ("GNOME-VFS: error %s (%s to %s)\n", err_string, src, dest);
--+          g_error_free(error);
--         }
--+
--+      g_object_unref(src_file);
--+      g_object_unref(dst_file);
--+
--+    }
--+}
--+
--+#define IS_IO_ERROR(__error, KIND) (((__error)->domain == G_IO_ERROR && (__error)->code == G_IO_ERROR_ ## KIND))
--+
--+static gboolean
--+remove_target_recursively(GFile *file)
--+{
--+  GFileEnumerator *enumerator;
--+  GError *error = NULL;
--+  GFile *child;
--+  GFileInfo *info;
--+  gboolean stop = FALSE;
--+
--+  enumerator = g_file_enumerate_children(file,
--+                                         G_FILE_ATTRIBUTE_STANDARD_NAME,
--+                                         G_FILE_QUERY_INFO_NOFOLLOW_SYMLINKS,
--+                                         NULL,
--+                                         &error);
--+
--+  if (enumerator)
--+    {
--+      error = NULL;
--+
--+      while ( (info = g_file_enumerator_next_file(enumerator, NULL, &error))
--+               != NULL ) {
--+
--+        child = g_file_get_child(file, g_file_info_get_name(info));
--+        if (!remove_target_recursively(child))
--+          {
--+              stop = TRUE;
--+              break;
--+          }
--+        g_object_unref(child);
--+        g_object_unref(info);
--+      }
--+
--+      g_object_unref(enumerator);
--+    }
--+  else if (IS_IO_ERROR(error, NOT_DIRECTORY))
--+    {
--+      g_error_free(error);
--     }
--+  else
--+    {
--+      g_error_free(error);
--+      stop = TRUE;
--+    }
--+
--+  if (stop)
--+    return FALSE;
--+
--+  error = NULL;
--+  if (!g_file_delete(file, NULL, &error))
--+    {
--+      char *path = g_file_get_path(file);
--+      printf ("GIO: error %s when deleteing file %s.\n", error->message, path);
--+      g_free(path);
--+
--+      g_error_free(error);
--+      return FALSE;
--+    }
--+
--+  return TRUE;
--+
-- }
-- 
-- /* Delete the directory specified by path */
-- static void
-- archive_removedir(gchar *path)
-- {
---  GnomeVFSResult res;
---  GnomeVFSURI *src_uri;
---  GList uri_list;
--+  GFile *src_file;
-- 
--   if (path == NULL)
--     return;
-- 
---  gnome_vfs_init ();
---
---  src_uri = gnome_vfs_uri_new (gnome_vfs_get_uri_from_local_path(path));
---
---  uri_list.data = src_uri;
---  uri_list.next = NULL;
---  uri_list.prev = NULL;
--+  src_file = g_file_new_for_path (path);
-- 
---  res = gnome_vfs_xfer_delete_list (&uri_list,
---      GNOME_VFS_XFER_ERROR_MODE_ABORT,
---      GNOME_VFS_XFER_EMPTY_DIRECTORIES,
---      NULL, NULL);
---
---  if (res != GNOME_VFS_OK)
--+  if (! remove_target_recursively(src_file))
--     {
---      const gchar *err_string = gnome_vfs_result_to_string (res);
---
---      printf ("GNOME-VFS: error %s\n", err_string);
--+      printf ("GIO:remove %s failed", path);
--     }
-- }
-- 
--@@ -242,8 +298,6 @@
--   gchar **tmp;
--   int i;
-- 
---  gnome_vfs_init ();
---
--   tmp = g_strsplit (reply->payload, "\n", 0);
-- 
--   for (i=0; i < g_strv_length (tmp); i++)
--@@ -436,8 +490,6 @@
-- {
--   gint counter;
-- 
---  gnome_vfs_init ();
---
--   downloaded_files = g_slist_append (downloaded_files, g_strdup("/var/lib/oprofile/.converted"));
-- 
--   archive_save_window_show (g_slist_length (downloaded_files) +
--Index: git/configure.ac
--===================================================================
----- git.orig/configure.ac	2011-06-21 10:49:40.000000000 +0800
--+++ git/configure.ac	2011-06-21 10:49:58.000000000 +0800
--@@ -29,7 +29,7 @@
-- AM_CONDITIONAL(ENABLE_SERVER, test x$enable_server = xyes)
-- AM_CONDITIONAL(ENABLE_CLIENT, test x$enable_client = xyes)
-- 
---PKG_CHECK_MODULES(OPROFILEUI, [glib-2.0 libglade-2.0 gtk+-2.0 libxml-2.0 gnome-vfs-2.0 gconf-2.0])
--+PKG_CHECK_MODULES(OPROFILEUI, [glib-2.0 libglade-2.0 gtk+-2.0 libxml-2.0 gconf-2.0])
-- AC_SUBST(OPROFILEUI_CFLAGS)
-- AC_SUBST(OPROFILEUI_LIBS)
-- 
-diff --git a/meta/recipes-kernel/oprofile/oprofileui_git.bb b/meta/recipes-kernel/oprofile/oprofileui_git.bb
-index 2b56981..3fe9bb4 100644
---- a/meta/recipes-kernel/oprofile/oprofileui_git.bb
-+++ b/meta/recipes-kernel/oprofile/oprofileui_git.bb
-@@ -1,6 +1,6 @@
- require oprofileui.inc
- 
--SRCREV = "b3116a4f80ae64bd280e6434d66f33ed492d449a"
-+SRCREV = "82ecf8c6b53b84f80682a8312f9defa83a95f2a3"
- PV = "0.0+git${SRCPV}"
- PR = "r0"
- 
+-FILES_${PN} += "${libdir}/omxilcomponents/*${SOLIBS} \
+-                ${datadir}/libomxil-B"
+-FILES_${PN}-staticdev += "${libdir}/omxilcomponents/*.a"
+-FILES_${PN}-dev += "${libdir}/omxilcomponents/*.la \
+-                    ${libdir}/omxilcomponents/*${SOLIBSDEV}"
+-FILES_${PN}-dbg += "${libdir}/omxilcomponents/.debug/"
+diff --git a/meta/recipes-multimedia/libomxil/libomxil_0.9.3.bb b/meta/recipes-multimedia/libomxil/libomxil_0.9.3.bb
+new file mode 100644
+index 0000000..bb31c56
+--- /dev/null
++++ b/meta/recipes-multimedia/libomxil/libomxil_0.9.3.bb
+@@ -0,0 +1,33 @@
++DESCRIPTION = "Bellagio OpenMAX Integration Layer"
++HOMEPAGE = "http://omxil.sourceforge.net/"
++LICENSE = "LGPLv2.1+"
++LIC_FILES_CHKSUM = "file://COPYING;md5=ae6f0f4dbc7ac193b50f323a6ae191cb \
++                    file://src/omxcore.h;beginline=1;endline=27;md5=806b1e5566c06486fe8e42b461e03a90"
++DEPENDS = "libvorbis libogg alsa-lib libmad"
++
++PR = "r0"
++
++SRC_URI = "${SOURCEFORGE_MIRROR}/omxil/libomxil-bellagio-${PV}.tar.gz \
++           file://configure-fix.patch \
++           file://parallel-make.patch \
++           file://makefile-docdir-fix.patch"
++
++SRC_URI[md5sum] = "a1de827fdb75c02c84e55f740ca27cb8"
++SRC_URI[sha256sum] = "593c0729c8ef8c1467b3bfefcf355ec19a46dd92e31bfc280e17d96b0934d74c"
++
++S = "${WORKDIR}/${BPN}-bellagio-${PV}"
++
++inherit autotools
++
++EXTRA_OECONF += "--disable-ffmpegcomponents --disable-Werror"
++
++FILES_${PN} += "${libdir}/bellagio/*${SOLIBS} \
++                ${libdir}/omxloaders/*${SOLIBS}"
++FILES_${PN}-staticdev += "${libdir}/bellagio/*.a \
++                          ${libdir}/omxloaders/*.a"
++FILES_${PN}-dev += "${libdir}/bellagio/*.la \
++                    ${libdir}/bellagio/*${SOLIBSDEV} \
++                    ${libdir}/omxloaders/*.la \
++                    ${libdir}/omxloaders/*${SOLIBSDEV}"
++FILES_${PN}-dbg += "${libdir}/bellagio/.debug/ \
++                    ${libdir}/omxloaders/.debug/"
 -- 
 1.7.6
 
