@@ -1,31 +1,20 @@
-Received: from mail-yx0-f175.google.com ([209.85.213.175])
+Received: from mga03.intel.com ([143.182.124.21])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <kergoth@gmail.com>) id 1RgOMJ-000279-8t
+	(envelope-from <nitin.a.kamble@intel.com>) id 1RgQUB-0005y9-VW
 	for openembedded-core@lists.openembedded.org;
-	Thu, 29 Dec 2011 23:21:59 +0100
-Received: by yenm12 with SMTP id m12so7205448yen.6
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 29 Dec 2011 14:14:40 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
-	h=from:to:cc:subject:date:message-id:x-mailer;
-	bh=yrKaa+GVtkrrjgne6jFI9fZ8IaXtjEJ4ND5/QMzb3oU=;
-	b=Q+v1KZg6xHv1z+l4ZiII2sinbgvEH+vPWihPyuHhSPVt45MuGYjnhiDW16vOYkG1vB
-	sW3uhrxm4FiHS+1171tgANrK/cJS9fKW25IWy4XEbLkaiAFppAgIgYXcAv6VqH5xHiJ4
-	00zOAEs3/kyNyhhpa5cpXyAR3/xGPQOIacEw8=
-Received: by 10.236.190.137 with SMTP id e9mr48867896yhn.36.1325196880321;
-	Thu, 29 Dec 2011 14:14:40 -0800 (PST)
-Received: from sb-u1004lts-64bit.alm.mentorg.com (hsvwanfw1-nat.mentorg.com.
-	[139.181.24.34])
-	by mx.google.com with ESMTPS id y58sm51985542yhi.17.2011.12.29.14.14.39
-	(version=TLSv1/SSLv3 cipher=OTHER);
-	Thu, 29 Dec 2011 14:14:39 -0800 (PST)
-From: Christopher Larson <kergoth@gmail.com>
+	Fri, 30 Dec 2011 01:38:17 +0100
+Received: from azsmga001.ch.intel.com ([10.2.17.19])
+	by azsmga101.ch.intel.com with ESMTP; 29 Dec 2011 16:30:59 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="90690822"
+Received: from nbuild0.sc.intel.com ([172.25.110.36])
+	by azsmga001.ch.intel.com with ESMTP; 29 Dec 2011 16:30:59 -0800
+From: nitin.a.kamble@intel.com
 To: openembedded-core@lists.openembedded.org
-Date: Thu, 29 Dec 2011 16:14:39 -0600
-Message-Id: <1325196879-11092-1-git-send-email-kergoth@gmail.com>
-X-Mailer: git-send-email 1.7.8.rc4
-Cc: Christopher Larson <chris_larson@mentor.com>
-Subject: [PATCH v2] elfutils: fix for dso link change in recent ld
+Date: Thu, 29 Dec 2011 16:30:55 -0800
+Message-Id: <cover.1325204775.git.nitin.a.kamble@intel.com>
+X-Mailer: git-send-email 1.7.6.4
+Subject: [PATCH 00/14] Recipes upgrades and fixes
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -40,88 +29,140 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 29 Dec 2011 22:21:59 -0000
+X-List-Received-Date: Fri, 30 Dec 2011 00:38:17 -0000
 
-From: Christopher Larson <chris_larson@mentor.com>
+From: Nitin A Kamble <nitin.a.kamble@intel.com>
 
-This patch makes the link to the dependencies of libdw explicit, as recent ld
-no longer implicitly links them. See
-http://lists.fedoraproject.org/pipermail/devel/2010-March/133601.html as
-a similar example of the error message you can encounter without this patch,
-and https://fedoraproject.org/wiki/UnderstandingDSOLinkChange and
-https://fedoraproject.org/wiki/Features/ChangeInImplicitDSOLinking for more
-details.
+Major part here is automake upgrade to 1.11.2. It broke few recipes
+as automake-1.11.2 has some deprications for some usages.
+  I fixed all the breakages for core-image-sato-sdk. Also checked that
+these fixes continue to work with older automake 1.11.1.
 
-Signed-off-by: Christopher Larson <chris_larson@mentor.com>
----
- .../elfutils/elfutils/dso-link-change.patch        |   32 ++++++++++++++++++++
- meta/recipes-devtools/elfutils/elfutils_0.148.bb   |    5 ++-
- 2 files changed, 35 insertions(+), 2 deletions(-)
- create mode 100644 meta/recipes-devtools/elfutils/elfutils/dso-link-change.patch
+Thanks,
+Nitin
 
-diff --git a/meta/recipes-devtools/elfutils/elfutils/dso-link-change.patch b/meta/recipes-devtools/elfutils/elfutils/dso-link-change.patch
-new file mode 100644
-index 0000000..d0cd3ed
---- /dev/null
-+++ b/meta/recipes-devtools/elfutils/elfutils/dso-link-change.patch
-@@ -0,0 +1,32 @@
-+Upstream-Status: Pending
-+
-+# This patch makes the link to the dependencies of libdw explicit, as recent
-+# ld no longer implicitly links them. See
-+# http://lists.fedoraproject.org/pipermail/devel/2010-March/133601.html as
-+# a similar example of the error message you can encounter without this patch,
-+# and https://fedoraproject.org/wiki/UnderstandingDSOLinkChange and
-+# https://fedoraproject.org/wiki/Features/ChangeInImplicitDSOLinking for more
-+# details.
-+
-+--- elfutils-0.148.orig/src/Makefile.am
-++++ elfutils-0.148/src/Makefile.am
-+@@ -86,7 +86,7 @@ libdw = ../libdw/libdw.a $(zip_LIBS) $(l
-+ libelf = ../libelf/libelf.a
-+ else
-+ libasm = ../libasm/libasm.so
-+-libdw = ../libdw/libdw.so
-++libdw = ../libdw/libdw.so $(zip_LIBS) $(libelf) $(libebl) -ldl
-+ libelf = ../libelf/libelf.so
-+ endif
-+ libebl = ../libebl/libebl.a
-+--- elfutils-0.148.orig/tests/Makefile.am
-++++ elfutils-0.148/tests/Makefile.am
-+@@ -172,7 +172,7 @@ libdw = ../libdw/libdw.a $(zip_LIBS) $(l
-+ libelf = ../libelf/libelf.a
-+ libasm = ../libasm/libasm.a
-+ else
-+-libdw = ../libdw/libdw.so
-++libdw = ../libdw/libdw.so $(zip_LIBS) $(libelf) $(libebl) -ldl
-+ libelf = ../libelf/libelf.so
-+ libasm = ../libasm/libasm.so
-+ endif
-diff --git a/meta/recipes-devtools/elfutils/elfutils_0.148.bb b/meta/recipes-devtools/elfutils/elfutils_0.148.bb
-index 0f4e8ca..710959a 100644
---- a/meta/recipes-devtools/elfutils/elfutils_0.148.bb
-+++ b/meta/recipes-devtools/elfutils/elfutils_0.148.bb
-@@ -6,7 +6,7 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=0636e73ff0215e8d672dc4c32c317bb3\
-                     file://EXCEPTION;md5=570adcb0c1218ab57f2249c67d0ce417"
- DEPENDS = "libtool bzip2 zlib"
- 
--PR = "r4"
-+PR = "r5"
- 
- SRC_URI = "https://fedorahosted.org/releases/e/l/elfutils/elfutils-${PV}.tar.bz2"
- 
-@@ -29,7 +29,8 @@ SRC_URI += "\
- 	file://elfutils-fsize.patch \
- 	file://remove-unused.patch \
- 	file://mempcpy.patch \
--	file://fix_for_gcc-4.7.patch\
-+	file://fix_for_gcc-4.7.patch \
-+	file://dso-link-change.patch \
- "
- # Only apply when building uclibc based target recipe
- SRC_URI_append_libc-uclibc = " ${@['', 'file://uclibc-support.patch']['${PN}' == '${BPN}']}"
+The following changes since commit f5aa3bbda623c8fae3a761d72fddc95631ad0706:
+
+  coreutils: ensure --color works so DEPEND on libcap (2011-12-24 10:05:47 +0000)
+
+are available in the git repository at:
+  git://git.pokylinux.org/poky-contrib nitin/upgrades+fixes
+  http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=nitin/upgrades+fixes
+
+Nitin A Kamble (14):
+  btrfs-tools: add attr as dependency to fix compilation
+  byacc: upgrade from 20110908 to 20111219
+  quilt upgreade from 0.48 to 0.50
+  rpm: fix build with automake-1.11.2
+  autotools.bbclass: fix cp error for empty dir
+  jpeg: fix configure with automake 1.11.2
+  avahi: fix configure with automake 1.11.2
+  misc patches: fix patch headers
+  perl: mark upstream status for all patches
+  gcc: mark upstream status for all patches
+  avahi-ui: fix build with automake-1.11.2
+  vte: upgrade from 0.24.3 to 0.28.2
+  systemtap: fix configure with automake 1.11.2
+  automake: upgrade from 1.11.1 to 1.11.2
+
+ meta/classes/autotools.bbclass                     |    4 +-
+ .../libacpi/files/libacpi_fix_for_x32.patch        |    2 +-
+ .../use_correct_strip_in_cross_environment.patch   |    2 +-
+ meta/recipes-connectivity/avahi/avahi-ui_0.6.30.bb |    3 +-
+ meta/recipes-connectivity/avahi/avahi.inc          |    5 +-
+ .../avahi/files/fix_for_automake_1.11.2.patch      |   44 ++++++++++++++++
+ .../openssl-1.0.0e/openssl_fix_for_x32.patch       |    2 +-
+ .../glib-2.0/glib-2.0/glib-2.0_fix_for_x32.patch   |    2 +-
+ .../jpeg/jpeg-8c/fix_for_automake_1.11.2.patch     |   28 ++++++++++
+ meta/recipes-core/jpeg/jpeg_8c.bb                  |    5 +-
+ meta/recipes-devtools/automake/automake.inc        |    1 -
+ .../{automake_1.11.1.bb => automake_1.11.2.bb}     |    5 +-
+ .../btrfs-tools/btrfs-tools_git.bb                 |    4 +-
+ .../dosfstools/fix_populated_dosfs_creation.patch  |    2 +-
+ .../gcc/gcc-4.6/gcc-arm-set-cost.patch             |    1 +
+ meta/recipes-devtools/gcc/gcc-4.6/pr32219.patch    |    1 +
+ meta/recipes-devtools/gcc/gcc-4.6/pr46934.patch    |    1 +
+ meta/recipes-devtools/gcc/gcc-4.6/pr47551.patch    |    1 +
+ .../debian/arm_thread_stress_timeout.diff          |    1 +
+ .../perl-5.14.2/debian/cpan_definstalldirs.diff    |    1 +
+ .../perl-5.14.2/debian/cpanplus_config_path.diff   |    1 +
+ .../debian/cpanplus_definstalldirs.diff            |    1 +
+ .../perl/perl-5.14.2/debian/db_file_ver.diff       |    1 +
+ .../perl-5.14.2/debian/deprecate-with-apt.diff     |    1 +
+ .../perl-5.14.2/debian/disable-zlib-bundling.diff  |    1 +
+ .../perl/perl-5.14.2/debian/doc_info.diff          |    1 +
+ .../perl/perl-5.14.2/debian/enc2xs_inc.diff        |    1 +
+ .../perl/perl-5.14.2/debian/errno_ver.diff         |    1 +
+ .../debian/extutils_set_libperl_path.diff          |    1 +
+ .../perl/perl-5.14.2/debian/fakeroot.diff          |    1 +
+ .../perl/perl-5.14.2/debian/find_html2text.diff    |    1 +
+ .../debian/fixes/document_makemaker_ccflags.diff   |    1 +
+ .../debian/fixes/extutils-cbuilder-cflags.diff     |    1 +
+ .../perl-5.14.2/debian/fixes/h2ph-multiarch.diff   |    1 +
+ .../perl-5.14.2/debian/fixes/hurd-ccflags.diff     |    1 +
+ .../perl/perl-5.14.2/debian/fixes/hurd-hints.diff  |    1 +
+ .../perl-5.14.2/debian/fixes/index-tainting.diff   |    1 +
+ .../debian/fixes/module-build-home-directory.diff  |    1 +
+ .../perl-5.14.2/debian/fixes/net_smtp_docs.diff    |    1 +
+ .../perl/perl-5.14.2/debian/fixes/pod_fixes.diff   |    1 +
+ .../perl-5.14.2/debian/fixes/respect_umask.diff    |    1 +
+ .../fixes/sys-syslog-socket-timeout-kfreebsd.patch |    1 +
+ .../perl/perl-5.14.2/debian/instmodsh_doc.diff     |    1 +
+ .../perl/perl-5.14.2/debian/ld_run_path.diff       |    1 +
+ .../perl-5.14.2/debian/libnet_config_path.diff     |    1 +
+ .../perl/perl-5.14.2/debian/libperl_embed_doc.diff |    1 +
+ .../perl-5.14.2/debian/m68k_thread_stress.diff     |    1 +
+ .../perl/perl-5.14.2/debian/mod_paths.diff         |    1 +
+ .../debian/module_build_man_extensions.diff        |    1 +
+ .../perl-5.14.2/debian/no_packlist_perllocal.diff  |    1 +
+ .../perl/perl-5.14.2/debian/patchlevel.diff        |    1 +
+ .../perl/perl-5.14.2/debian/perlivp.diff           |    1 +
+ .../perl/perl-5.14.2/debian/prefix_changes.diff    |    1 +
+ .../perl/perl-5.14.2/debian/prune_libs.diff        |    1 +
+ .../perl-5.14.2/debian/skip-kfreebsd-crash.diff    |    1 +
+ .../debian/skip-upstream-git-tests.diff            |    1 +
+ .../debian/squelch-locale-warnings.diff            |    1 +
+ .../perl-5.14.2/debian/writable_site_dirs.diff     |    1 +
+ .../quilt/{quilt.inc => quilt-0.50.inc}            |    6 ++-
+ meta/recipes-devtools/quilt/quilt-native_0.48.bb   |    7 ---
+ meta/recipes-devtools/quilt/quilt-native_0.50.bb   |    4 ++
+ .../quilt/quilt/gnu_patch_test_fix.patch           |   21 --------
+ meta/recipes-devtools/quilt/quilt_0.48.bb          |   13 -----
+ meta/recipes-devtools/quilt/quilt_0.50.bb          |    7 +++
+ .../rpm/rpm/fix_for_automake_1.11.2.patch          |   54 ++++++++++++++++++++
+ meta/recipes-devtools/rpm/rpm_5.4.0.bb             |    3 +-
+ .../byacc/{byacc_20110908.bb => byacc_20111219.bb} |    6 +-
+ .../findutils-4.4.2/findutils_fix_for_x32.patch    |    2 +-
+ .../mdadm/files/mdadm-3.2.2_fix_for_x32.patch      |    2 +-
+ .../pax/pax/pax-3.4_fix_for_x32.patch              |    2 +-
+ .../mesa/mesa/mesa_fix_for_x32.patch               |    2 +-
+ .../xorg-lib/libxt/libxt_fix_for_x32.patch         |    2 +-
+ .../xorg-proto/xproto/xproto_fix_for_x32.patch     |    2 +-
+ .../systemtap/fix_for_automake_1.11.2.patch        |   46 +++++++++++++++++
+ meta/recipes-kernel/systemtap/systemtap_git.bb     |    3 +-
+ .../pulseaudio/pulseaudo_fix_for_x32.patch         |    2 +-
+ meta/recipes-support/gmp/gmp/gmp_bugfix.patch      |    2 +-
+ meta/recipes-support/vte/vte.inc                   |    2 +-
+ meta/recipes-support/vte/vte_0.24.3.bb             |    8 ---
+ meta/recipes-support/vte/vte_0.28.2.bb             |   10 ++++
+ 80 files changed, 277 insertions(+), 82 deletions(-)
+ create mode 100644 meta/recipes-connectivity/avahi/files/fix_for_automake_1.11.2.patch
+ create mode 100644 meta/recipes-core/jpeg/jpeg-8c/fix_for_automake_1.11.2.patch
+ rename meta/recipes-devtools/automake/{automake_1.11.1.bb => automake_1.11.2.bb} (88%)
+ rename meta/recipes-devtools/quilt/{quilt.inc => quilt-0.50.inc} (82%)
+ delete mode 100644 meta/recipes-devtools/quilt/quilt-native_0.48.bb
+ create mode 100644 meta/recipes-devtools/quilt/quilt-native_0.50.bb
+ delete mode 100644 meta/recipes-devtools/quilt/quilt/gnu_patch_test_fix.patch
+ delete mode 100644 meta/recipes-devtools/quilt/quilt_0.48.bb
+ create mode 100644 meta/recipes-devtools/quilt/quilt_0.50.bb
+ create mode 100644 meta/recipes-devtools/rpm/rpm/fix_for_automake_1.11.2.patch
+ rename meta/recipes-extended/byacc/{byacc_20110908.bb => byacc_20111219.bb} (73%)
+ create mode 100644 meta/recipes-kernel/systemtap/systemtap/fix_for_automake_1.11.2.patch
+ delete mode 100644 meta/recipes-support/vte/vte_0.24.3.bb
+ create mode 100644 meta/recipes-support/vte/vte_0.28.2.bb
+
 -- 
-1.7.8.rc4
+1.7.6.4
 
 
 
