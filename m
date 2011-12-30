@@ -1,24 +1,24 @@
 Received: from mga09.intel.com ([134.134.136.24])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <dexuan.cui@intel.com>) id 1RgYKi-00080E-AG
+	(envelope-from <dexuan.cui@intel.com>) id 1RgYKk-00080E-6e
 	for openembedded-core@lists.openembedded.org;
-	Fri, 30 Dec 2011 10:01:01 +0100
+	Fri, 30 Dec 2011 10:01:02 +0100
 Received: from orsmga001.jf.intel.com ([10.7.209.18])
-	by orsmga102.jf.intel.com with ESMTP; 30 Dec 2011 00:53:43 -0800
+	by orsmga102.jf.intel.com with ESMTP; 30 Dec 2011 00:53:45 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.67,352,1309762800"; d="scan'208";a="91490720"
+X-IronPort-AV: E=Sophos;i="4.67,352,1309762800"; d="scan'208";a="91490726"
 Received: from dcui-desktop.sh.intel.com (HELO localhost) ([10.239.36.50])
-	by orsmga001.jf.intel.com with ESMTP; 30 Dec 2011 00:53:43 -0800
+	by orsmga001.jf.intel.com with ESMTP; 30 Dec 2011 00:53:44 -0800
 From: Dexuan Cui <dexuan.cui@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Fri, 30 Dec 2011 16:53:38 +0800
-Message-Id: <dc1c05f590ebbced2f1f2fd87464b5b6441a1de1.1325234092.git.dexuan.cui@intel.com>
+Date: Fri, 30 Dec 2011 16:53:39 +0800
+Message-Id: <0523a2776cb8fe022fd3b51c31cd03c90b14550b.1325234092.git.dexuan.cui@intel.com>
 X-Mailer: git-send-email 1.7.6
 In-Reply-To: <cover.1325234092.git.dexuan.cui@intel.com>
 References: <cover.1325234092.git.dexuan.cui@intel.com>
 In-Reply-To: <cover.1325234092.git.dexuan.cui@intel.com>
 References: <cover.1325234092.git.dexuan.cui@intel.com>
-Subject: [PATCH 4/6] libpciaccess: upgrade from 0.12.1 to 0.12.902
+Subject: [PATCH 5/6] util-macros: upgrade from 1.15.0 to the latest 1.16.0
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -33,106 +33,29 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 30 Dec 2011 09:01:01 -0000
-
-According to http://cgit.freedesktop.org/xorg/lib/libpciaccess/log/, 0.12.902
-does fix some bugs, so let's upgrade to it.
-
-Moreover, I pulled a patch from upstream git repo.
-
-I also updated the COPYING's chksum since there is a minor change to the
-Copyright header.
+X-List-Received-Date: Fri, 30 Dec 2011 09:01:02 -0000
 
 Signed-off-by: Dexuan Cui <dexuan.cui@intel.com>
 ---
- .../fix_deletion_of_last_handle.patch              |   51 ++++++++++++++++++++
- ...ciaccess_0.12.1.bb => libpciaccess_0.12.902.bb} |    8 ++-
- 2 files changed, 56 insertions(+), 3 deletions(-)
- create mode 100644 meta/recipes-graphics/xorg-lib/libpciaccess-0.12.902/fix_deletion_of_last_handle.patch
- rename meta/recipes-graphics/xorg-lib/{libpciaccess_0.12.1.bb => libpciaccess_0.12.902.bb} (50%)
+ ...util-macros_1.15.0.bb => util-macros_1.16.0.bb} |    4 ++--
+ 1 files changed, 2 insertions(+), 2 deletions(-)
+ rename meta/recipes-graphics/xorg-util/{util-macros_1.15.0.bb => util-macros_1.16.0.bb} (75%)
 
-diff --git a/meta/recipes-graphics/xorg-lib/libpciaccess-0.12.902/fix_deletion_of_last_handle.patch b/meta/recipes-graphics/xorg-lib/libpciaccess-0.12.902/fix_deletion_of_last_handle.patch
-new file mode 100644
-index 0000000..1933f45
---- /dev/null
-+++ b/meta/recipes-graphics/xorg-lib/libpciaccess-0.12.902/fix_deletion_of_last_handle.patch
-@@ -0,0 +1,51 @@
-+Upstream-Status: Backport
-+
-+The below patch is from
-+http://cgit.freedesktop.org/xorg/lib/libpciaccess/commit/?id=a798395a1bfd9d06d40e2d8d14377a156c94429a
-+It would appear in the next .tar.bz2 release.
-+
-+------------------------------
-+
-+commit a798395a1bfd9d06d40e2d8d14377a156c94429a
-+Author: Daniel Drake <dsd@laptop.org>
-+Date:   Fri Nov 25 12:28:48 2011 -0600
-+
-+    delete_io_handle: fix deletion of last handle
-+    
-+    When num_ios goes from 1 to 0, a realloc(ios, 0); call is made.
-+    This is equivalent to free(ios) and NULL is returned.
-+    
-+    However, the previous logic in the code incorrectly discards this NULL
-+    return value. When we next call new_io_handle(), realloc(ios, X) is
-+    called with "ios" pointing to freed memory. This causes glibc to abort.
-+    
-+    Correct this logic to detect the 1-to-0 case and handle it correctly.
-+    Other cases are unchanged; there is still value in checking the
-+    return value from realloc() as it also returns NULL on error.
-+    
-+    Signed-off-by: Daniel Drake <dsd@laptop.org>
-+    Reviewed-by: Alan Coopersmith <alan.coopersmith@oracle.com>
-+
-+diff --git a/src/common_io.c b/src/common_io.c
-+index f1319f8..5b35e07 100644
-+--- a/src/common_io.c
-++++ b/src/common_io.c
-+@@ -64,10 +64,15 @@ delete_io_handle(struct pci_io_handle *handle)
-+         }
-+     }
-+ 
-+-    new = realloc(ios, sizeof(struct pci_io_handle) * (num_ios - 1));
-+-    if (new)
-+-        ios = new;
-+     num_ios--;
-++    if (num_ios) {
-++        new = realloc(ios, sizeof(struct pci_io_handle) * num_ios);
-++        if (new)
-++            ios = new;
-++    } else {
-++        free(ios);
-++        ios = NULL;
-++    }
-+ }
-+ 
-+ _pci_hidden void
-diff --git a/meta/recipes-graphics/xorg-lib/libpciaccess_0.12.1.bb b/meta/recipes-graphics/xorg-lib/libpciaccess_0.12.902.bb
-similarity index 50%
-rename from meta/recipes-graphics/xorg-lib/libpciaccess_0.12.1.bb
-rename to meta/recipes-graphics/xorg-lib/libpciaccess_0.12.902.bb
-index b3091fd..5043634 100644
---- a/meta/recipes-graphics/xorg-lib/libpciaccess_0.12.1.bb
-+++ b/meta/recipes-graphics/xorg-lib/libpciaccess_0.12.902.bb
-@@ -5,12 +5,14 @@ PCI bus and devices in a platform-independant way."
+diff --git a/meta/recipes-graphics/xorg-util/util-macros_1.15.0.bb b/meta/recipes-graphics/xorg-util/util-macros_1.16.0.bb
+similarity index 75%
+rename from meta/recipes-graphics/xorg-util/util-macros_1.15.0.bb
+rename to meta/recipes-graphics/xorg-util/util-macros_1.16.0.bb
+index d2b04bf..da9c31d 100644
+--- a/meta/recipes-graphics/xorg-util/util-macros_1.15.0.bb
++++ b/meta/recipes-graphics/xorg-util/util-macros_1.16.0.bb
+@@ -16,5 +16,5 @@ RRECOMMENDS_${PN}-dbg = "${PN}-dev (= ${EXTENDPKGV})"
  
- require xorg-lib-common.inc
+ BBCLASSEXTEND = "native nativesdk"
  
-+SRC_URI += "file://fix_deletion_of_last_handle.patch"
-+
- LICENSE = "MIT & MIT-style"
--LIC_FILES_CHKSUM = "file://COPYING;md5=2c765efe1e0722c1badff5e54429b102"
-+LIC_FILES_CHKSUM = "file://COPYING;md5=de01cb89a769dc657d4c321c209ce4fc"
- 
- PR = "r0"
- 
- DEPENDS += "xproto virtual/libx11"
- 
--SRC_URI[md5sum] = "d6363ee9f4df79f6fc47cba7c67b0d35"
--SRC_URI[sha256sum] = "cc47d7f0e48cf4eed972916b536fdc97788d7521915e3ae1cc92d540776d7344"
-+SRC_URI[md5sum] = "f1db198398a8a1143822acc230843e8c"
-+SRC_URI[sha256sum] = "0861d5bf68b598baa307e5c9b06dfd38ae03096b46e36b236106517bcd14b63a"
+-SRC_URI[md5sum] = "c7f0c94126443f6744328a92d2b94cff"
+-SRC_URI[sha256sum] = "db05c59c0e7843c398ed2847ba4b5bf54292499e5fcadbb7c38a445bf4347ab8"
++SRC_URI[md5sum] = "3f77f0b6452c677d4b5ce9feaea7d15e"
++SRC_URI[sha256sum] = "1387cec5c2e655811e9a60afee7bda1652f8cd97be6c89418566bcf934ff6935"
 -- 
 1.7.6
 
