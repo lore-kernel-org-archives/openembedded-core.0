@@ -1,24 +1,24 @@
-Received: from mga09.intel.com ([134.134.136.24])
+Received: from mga11.intel.com ([192.55.52.93])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <dexuan.cui@intel.com>) id 1RgYKk-00080E-6e
+	(envelope-from <dexuan.cui@intel.com>) id 1RgYKj-00080K-U4
 	for openembedded-core@lists.openembedded.org;
 	Fri, 30 Dec 2011 10:01:02 +0100
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-	by orsmga102.jf.intel.com with ESMTP; 30 Dec 2011 00:53:45 -0800
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+	by fmsmga102.fm.intel.com with ESMTP; 30 Dec 2011 00:53:42 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.67,352,1309762800"; d="scan'208";a="91490726"
+X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="107224809"
 Received: from dcui-desktop.sh.intel.com (HELO localhost) ([10.239.36.50])
-	by orsmga001.jf.intel.com with ESMTP; 30 Dec 2011 00:53:44 -0800
+	by fmsmga002.fm.intel.com with ESMTP; 30 Dec 2011 00:53:42 -0800
 From: Dexuan Cui <dexuan.cui@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Fri, 30 Dec 2011 16:53:39 +0800
-Message-Id: <0523a2776cb8fe022fd3b51c31cd03c90b14550b.1325234092.git.dexuan.cui@intel.com>
+Date: Fri, 30 Dec 2011 16:53:37 +0800
+Message-Id: <232312ca4ae8e4cea9248a49611eb1d6439f6787.1325234092.git.dexuan.cui@intel.com>
 X-Mailer: git-send-email 1.7.6
 In-Reply-To: <cover.1325234092.git.dexuan.cui@intel.com>
 References: <cover.1325234092.git.dexuan.cui@intel.com>
 In-Reply-To: <cover.1325234092.git.dexuan.cui@intel.com>
 References: <cover.1325234092.git.dexuan.cui@intel.com>
-Subject: [PATCH 5/6] util-macros: upgrade from 1.15.0 to the latest 1.16.0
+Subject: [PATCH 3/6] lttng-ust: upgrade from 0.15 to the latest 0.16
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -37,25 +37,68 @@ X-List-Received-Date: Fri, 30 Dec 2011 09:01:02 -0000
 
 Signed-off-by: Dexuan Cui <dexuan.cui@intel.com>
 ---
- ...util-macros_1.15.0.bb => util-macros_1.16.0.bb} |    4 ++--
- 1 files changed, 2 insertions(+), 2 deletions(-)
- rename meta/recipes-graphics/xorg-util/{util-macros_1.15.0.bb => util-macros_1.16.0.bb} (75%)
+ meta/recipes-kernel/lttng/fix-powerpc64.patch      |   17 -----------------
+ .../lttng/{lttng-ust_0.15.bb => lttng-ust_0.16.bb} |    9 ++++-----
+ 2 files changed, 4 insertions(+), 22 deletions(-)
+ delete mode 100644 meta/recipes-kernel/lttng/fix-powerpc64.patch
+ rename meta/recipes-kernel/lttng/{lttng-ust_0.15.bb => lttng-ust_0.16.bb} (79%)
 
-diff --git a/meta/recipes-graphics/xorg-util/util-macros_1.15.0.bb b/meta/recipes-graphics/xorg-util/util-macros_1.16.0.bb
-similarity index 75%
-rename from meta/recipes-graphics/xorg-util/util-macros_1.15.0.bb
-rename to meta/recipes-graphics/xorg-util/util-macros_1.16.0.bb
-index d2b04bf..da9c31d 100644
---- a/meta/recipes-graphics/xorg-util/util-macros_1.15.0.bb
-+++ b/meta/recipes-graphics/xorg-util/util-macros_1.16.0.bb
-@@ -16,5 +16,5 @@ RRECOMMENDS_${PN}-dbg = "${PN}-dev (= ${EXTENDPKGV})"
+diff --git a/meta/recipes-kernel/lttng/fix-powerpc64.patch b/meta/recipes-kernel/lttng/fix-powerpc64.patch
+deleted file mode 100644
+index 3c3484c..0000000
+--- a/meta/recipes-kernel/lttng/fix-powerpc64.patch
++++ /dev/null
+@@ -1,17 +0,0 @@
+-Upstream-Status: Submitted
+-
+-Add bit to detect if we are running on powerpc64 and treat it the
+-same as ppc64
+-
+-Index: ust-0.15/configure.ac
+-===================================================================
+---- ust-0.15.orig/configure.ac
+-+++ ust-0.15/configure.ac
+-@@ -111,6 +111,7 @@ changequote([,])dnl
+- 	x86_64) LIBFORMAT="elf64-x86-64" ;;
+- 	powerpc) LIBFORMAT="elf32-powerpc" ;;
+- 	ppc64) LIBFORMAT="elf64-powerpc" ;;
+-+	powerpc64) LIBFORMAT="elf64-powerpc" ;;
+- 	s390) LIBFORMAT="elf32-s390" ;;
+- 	s390x) LIBFORMAT="elf64-s390" ;;
+-         armv5) LIBFORMAT="elf32-littlearm"; NO_UNALIGNED_ACCESS=1 ;;
+diff --git a/meta/recipes-kernel/lttng/lttng-ust_0.15.bb b/meta/recipes-kernel/lttng/lttng-ust_0.16.bb
+similarity index 79%
+rename from meta/recipes-kernel/lttng/lttng-ust_0.15.bb
+rename to meta/recipes-kernel/lttng/lttng-ust_0.16.bb
+index 9dd4658..701bda9 100644
+--- a/meta/recipes-kernel/lttng/lttng-ust_0.15.bb
++++ b/meta/recipes-kernel/lttng/lttng-ust_0.16.bb
+@@ -1,7 +1,7 @@
+ SUMMARY = "Linux Trace Toolkit Userspace Tracer"
+ DESCRIPTION = "The LTTng Userspace Tracer (UST) is a library accompanied by a set of tools to trace userspace code"
+ HOMEPAGE = "http://lttng.org/ust"
+-BUGTRACKER = "n/a"
++BUGTRACKER = "http://lttng.org/project/issues"
  
- BBCLASSEXTEND = "native nativesdk"
+ LICENSE = "LGPLv2.1+ & BSD"
+ LIC_FILES_CHKSUM = "file://COPYING;md5=e647752e045a8c45b6f583771bd561ef \
+@@ -10,13 +10,12 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=e647752e045a8c45b6f583771bd561ef \
  
--SRC_URI[md5sum] = "c7f0c94126443f6744328a92d2b94cff"
--SRC_URI[sha256sum] = "db05c59c0e7843c398ed2847ba4b5bf54292499e5fcadbb7c38a445bf4347ab8"
-+SRC_URI[md5sum] = "3f77f0b6452c677d4b5ce9feaea7d15e"
-+SRC_URI[sha256sum] = "1387cec5c2e655811e9a60afee7bda1652f8cd97be6c89418566bcf934ff6935"
+ DEPENDS = "liburcu"
+ 
+-PR = "r3"
++PR = "r0"
+ 
+ SRC_URI = "http://lttng.org/files/ust/releases/ust-${PV}.tar.gz"
+-SRC_URI_append_powerpc64 = " file://fix-powerpc64.patch"
+ 
+-SRC_URI[md5sum] = "86c71486a70695dc0b2171ad16fc82b3" 
+-SRC_URI[sha256sum] = "7ff7ecdc051c0649d5fd21b5ceff4895ca95dc34f14cdc04e50de13cfd1903c5"
++SRC_URI[md5sum] = "8e5d5de47bfff29f50439d192ad1e478"
++SRC_URI[sha256sum] = "88167741b1fbf335e006f0208d8c41784705e28adac84df71d3d9f6c58191dab"
+ 
+ 
+ S = "${WORKDIR}/ust-${PV}"
 -- 
 1.7.6
 
