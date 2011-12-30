@@ -1,22 +1,24 @@
 Received: from mga09.intel.com ([134.134.136.24])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <lianhao.lu@intel.com>) id 1RgTe4-0004Pp-SC
+	(envelope-from <lianhao.lu@intel.com>) id 1RgTe6-0004Pp-3i
 	for openembedded-core@lists.openembedded.org;
-	Fri, 30 Dec 2011 05:00:41 +0100
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-	by orsmga102.jf.intel.com with ESMTP; 29 Dec 2011 19:52:20 -0800
+	Fri, 30 Dec 2011 05:00:42 +0100
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+	by orsmga102.jf.intel.com with ESMTP; 29 Dec 2011 19:52:24 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.67,351,1309762800"; d="scan'208";a="92778548"
+X-IronPort-AV: E=Sophos;i="4.67,352,1309762800"; d="scan'208";a="91435394"
 Received: from llu-piketon.sh.intel.com (HELO localhost) ([10.239.36.146])
-	by orsmga002.jf.intel.com with ESMTP; 29 Dec 2011 19:52:19 -0800
+	by orsmga001.jf.intel.com with ESMTP; 29 Dec 2011 19:52:23 -0800
 From: Lianhao Lu <lianhao.lu@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Fri, 30 Dec 2011 11:50:51 +0800
-Message-Id: <6ad22f9852cfd011244b3e511f5e563007f7ac5c.1325215668.git.lianhao.lu@intel.com>
+Date: Fri, 30 Dec 2011 11:50:52 +0800
+Message-Id: <50cb9121e9ded46657e7466d192029eb88a1d6d9.1325215668.git.lianhao.lu@intel.com>
 X-Mailer: git-send-email 1.7.0.4
+In-Reply-To: <6ad22f9852cfd011244b3e511f5e563007f7ac5c.1325215668.git.lianhao.lu@intel.com>
+References: <6ad22f9852cfd011244b3e511f5e563007f7ac5c.1325215668.git.lianhao.lu@intel.com>
 In-Reply-To: <cover.1325215668.git.lianhao.lu@intel.com>
 References: <cover.1325215668.git.lianhao.lu@intel.com>
-Subject: [PRService/meta 1/3] meta/PRService: Added export/import fuctions.
+Subject: [PRService/meta 2/3] package.bbclass: per recipe PRSERV_HOST support
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -31,415 +33,58 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 30 Dec 2011 04:00:41 -0000
+X-List-Received-Date: Fri, 30 Dec 2011 04:00:42 -0000
 
-[YOCTO #1556]
-- Modified meta/class/package.bbclass and prserv.bbclass according to
-the change in PR service by adding PACKAGE_ARCH into the query tuple.
-
-- Added new bitbake tasks export/import AUTOPR values from/to the PR
-service.
-
-- Supported reading the AUTOPR values from the exported .inc file
-instead of reading it from remote PR service.
-
-- Created a new script bitbake-prserv-tool to export/import the AUTOPR
-values from/to the PR service.
-
-Typical usage scenario of the export/import is:
-1. bitbake-prserv-tool export <file> to export the AUTOPR values from
-the current PR service into an exported .inc file.
-
-2. Others may use that exported .inc file(to be included in the
-local.conf) to lockdown and reproduce the same AUTOPR when generating
-package feeds.
-
-3. Others may "bitbake-prserv-tool import <file>" to import the AUTOPR
-values into their own PR service and the AUTOPR values will be
-incremented from there.
+[YOCTO #1126]
+Added per recipe PRSERV_HOST PRSERV_PORT support.
 
 Signed-off-by: Lianhao Lu <lianhao.lu@intel.com>
 ---
- meta/classes/package.bbclass          |   15 +++-
- meta/classes/prserv.bbclass           |  167 ++++++++++++++++++++++++++++++---
- meta/conf/bitbake.conf                |    4 +-
- meta/recipes-core/meta/prserv-misc.bb |   69 ++++++++++++++
- scripts/bitbake-prserv-tool           |   53 +++++++++++
- 5 files changed, 290 insertions(+), 18 deletions(-)
- create mode 100644 meta/recipes-core/meta/prserv-misc.bb
- create mode 100755 scripts/bitbake-prserv-tool
+ meta/classes/package.bbclass |   10 +++++++++-
+ meta/conf/bitbake.conf       |    2 +-
+ 2 files changed, 10 insertions(+), 2 deletions(-)
 
 diff --git a/meta/classes/package.bbclass b/meta/classes/package.bbclass
-index 9040eb4..07d6f9a 100644
+index 07d6f9a..4fb7cc1 100644
 --- a/meta/classes/package.bbclass
 +++ b/meta/classes/package.bbclass
-@@ -351,10 +351,19 @@ def runtime_mapping_rename (varname, d):
+@@ -350,6 +350,14 @@ def runtime_mapping_rename (varname, d):
+ #
  
  python package_get_auto_pr() {
++	# per recipe PRSERV_HOST PRSERV_PORT
++	pn = d.getVar('PN', True)
++	host = d.getVar("PRSERV_HOST_" + pn, True)
++	port = d.getVar("PRSERV_PORT_" + pn, True)
++	if not (host is None):
++		d.setVar("PRSERV_HOST", host)
++	if not (port is None):
++		d.setVar("PRSERV_PORT", port)
  	if d.getVar('USE_PR_SERV', True) != "0":
--		auto_pr=prserv_get_pr_auto(d)
--		if auto_pr is None:
--			bb.fatal("Can NOT get auto PR revision from remote PR service")
-+		try:
-+			auto_pr=prserv_get_pr_auto(d)
-+		except Exception as e:
-+			bb.error(str(e))
-+			raise bb.build.FuncFailed(e)
- 			return
-+		if auto_pr is None:
-+			if d.getVar('PRSERV_LOCKDOWN', True):
-+				bb.error("Can NOT get auto PRAUTO from lockdown exported file")
-+			else:
-+				bb.error("Can NOT get auto PRAUTO from remote PR service")
-+			raise bb.build.FuncFailed(e)
-+			return 
+ 		try:
+ 			auto_pr=prserv_get_pr_auto(d)
+@@ -362,7 +370,7 @@ python package_get_auto_pr() {
+ 				bb.error("Can NOT get auto PRAUTO from lockdown exported file")
+ 			else:
+ 				bb.error("Can NOT get auto PRAUTO from remote PR service")
+-			raise bb.build.FuncFailed(e)
++			raise bb.build.FuncFailed()
+ 			return 
  		d.setVar('PRAUTO',str(auto_pr))
  }
- 
-diff --git a/meta/classes/prserv.bbclass b/meta/classes/prserv.bbclass
-index 18b8589..15b61be 100644
---- a/meta/classes/prserv.bbclass
-+++ b/meta/classes/prserv.bbclass
-@@ -1,29 +1,170 @@
- def prserv_make_conn(d):
-     import prserv.serv
--    host=d.getVar("PRSERV_HOST",True)
--    port=d.getVar("PRSERV_PORT",True)
-+    host = d.getVar("PRSERV_HOST",True)
-+    port = d.getVar("PRSERV_PORT",True)
-     try:
--        conn=None
--        conn=prserv.serv.PRServerConnection(host,int(port))
-+        conn = None
-+        conn = prserv.serv.PRServerConnection(host,int(port))
-         d.setVar("__PRSERV_CONN",conn)
-     except Exception, exc:
--        bb.fatal("Connecting to PR service %s:%s failed: %s" % (host, port, str(exc)))
-+        bb.error("Connecting to PR service %s:%s failed: %s" % (host, port, str(exc)))
- 
-     return conn
- 
- def prserv_get_pr_auto(d):
--    if d.getVar('USE_PR_SERV', True) != "0":
-+    if d.getVar('USE_PR_SERV', True) != "1":
-         bb.warn("Not using network based PR service")
-         return None
- 
--    conn=d.getVar("__PRSERV_CONN", True)
-+    version = d.getVar("PRAUTOINX", True)
-+    pkgarch = d.getVar("PACKAGE_ARCH", True)
-+    checksum = d.getVar("BB_TASKHASH", True)
-+
-+    if d.getVar('PRSERV_LOCKDOWN', True):
-+        auto_rev = d.getVar('PRAUTO_' + version + '_' + pkgarch, True) or d.getVar('PRAUTO_' + version, True) or None
-+    else:
-+        conn = d.getVar("__PRSERV_CONN", True)
-+        if conn is None:
-+            conn = prserv_make_conn(d)
-+            if conn is None:
-+                return None
-+        auto_rev = conn.getPR(version, pkgarch, checksum)
-+
-+    return auto_rev
-+
-+PRSERV_DUMPOPT_VERSION = "${PRAUTOINX}"
-+PRSERV_DUMPOPT_PKGARCH  = ""
-+PRSERV_DUMPOPT_CHECKSUM = ""
-+PRSERV_DUMPOPT_COL = "0"
-+
-+def prserv_dump_db(d):
-+    if d.getVar('USE_PR_SERV', True) != "1":
-+        bb.error("Not using network based PR service")
-+        return None
-+
-+    conn = d.getVar("__PRSERV_CONN", True)
-     if conn is None:
--        conn=prserv_make_conn(d)
-+        conn = prserv_make_conn(d)
-         if conn is None:
-+            bb.error("Making connection failed to remote PR service")
-             return None
- 
--    version=d.getVar("PF", True)
--    checksum=d.getVar("BB_TASKHASH", True)
--    auto_rev=conn.getPR(version,checksum)
--    bb.debug(1,"prserv_get_pr_auto: version: %s checksum: %s result %d" % (version, checksum, auto_rev))
--    return auto_rev
-+    #dump db
-+    opt_version = d.getVar('PRSERV_DUMPOPT_VERSION', True)
-+    opt_pkgarch = d.getVar('PRSERV_DUMPOPT_PKGARCH', True)
-+    opt_checksum = d.getVar('PRSERV_DUMPOPT_CHECKSUM', True)
-+    opt_col = ("1" == d.getVar('PRSERV_DUMPOPT_COL', True))
-+    return conn.export(opt_version, opt_pkgarch, opt_checksum, opt_col)
-+
-+def prserv_import_db(d, filter_version=None, filter_pkgarch=None, filter_checksum=None):
-+    if d.getVar('USE_PR_SERV', True) != "1":
-+        bb.error("Not using network based PR service")
-+        return None
-+
-+    conn = d.getVar("__PRSERV_CONN", True)
-+    if conn is None:
-+        conn = prserv_make_conn(d)
-+        if conn is None:
-+            bb.error("Making connection failed to remote PR service")
-+            return None
-+    #get the entry values
-+    imported = []
-+    prefix = "PRAUTO$"
-+    for v in d.keys():
-+        if v.startswith(prefix):
-+            (remain, sep, checksum) = v.rpartition('$')
-+            (remain, sep, pkgarch) = remain.rpartition('$')
-+            (remain, sep, version) = remain.rpartition('$')
-+            if (remain + '$' != prefix) or \
-+               (filter_version and filter_version != version) or \
-+               (filter_pkgarch and filter_pkgarch != pkgarch) or \
-+               (filter_checksum and filter_checksum != checksum):
-+               continue
-+            try:
-+                value = int(d.getVar(remain + '$' + version + '$' + pkgarch + '$' + checksum, True))
-+            except BaseException as exc:
-+                bb.debug("Not valid value of %s:%s" % (v,str(exc)))
-+                continue
-+            ret = conn.importone(version,pkgarch,checksum,value)
-+            if ret != value:
-+                bb.error("importing(%s,%s,%s,%d) failed. DB may have larger value %d" % (version,pkgarch,checksum,value,ret))
-+            else:
-+               imported.append((version,pkgarch,checksum,value))
-+    return imported
-+
-+PRSERV_DUMPDIR ??= "${LOG_DIR}/db"
-+PRSERV_DUMPFILE ??= "${PRSERV_DUMPDIR}/prserv.inc"
-+
-+def prserv_export_tofile(d, metainfo, datainfo, lockdown, nomax=False):
-+    #initilize the output file
-+    bb.utils.mkdirhier(d.getVar('PRSERV_DUMPDIR', True))
-+    df = d.getVar('PRSERV_DUMPFILE', True)
-+    #write data
-+    lf = bb.utils.lockfile("%s.lock" % df)
-+    f = open(df, "a")
-+    if metainfo:
-+        #dump column info 
-+        f.write("#PR_core_ver = \"%s\"\n\n" % metainfo['core_ver']);
-+        f.write("#Table: %s\n" % metainfo['tbl_name'])
-+        f.write("#Columns:\n")
-+        f.write("#name      \t type    \t notn    \t dflt    \t pk\n")
-+        f.write("#----------\t --------\t --------\t --------\t ----\n")
-+        for i in range(len(metainfo['col_info'])):
-+            f.write("#%10s\t %8s\t %8s\t %8s\t %4s\n" % 
-+                    (metainfo['col_info'][i]['name'], 
-+                     metainfo['col_info'][i]['type'], 
-+                     metainfo['col_info'][i]['notnull'], 
-+                     metainfo['col_info'][i]['dflt_value'], 
-+                     metainfo['col_info'][i]['pk']))
-+        f.write("\n")
-+
-+    if lockdown:
-+        f.write("PRSERV_LOCKDOWN = \"1\"\n\n")
-+
-+    if datainfo:
-+        idx = {}
-+        for i in range(len(datainfo)):
-+            pkgarch = datainfo[i]['pkgarch']
-+            value = datainfo[i]['value']
-+            if not idx.has_key(pkgarch):
-+                idx[pkgarch] = i
-+            elif value > datainfo[idx[pkgarch]]['value']:
-+                idx[pkgarch] = i
-+            f.write("PRAUTO$%s$%s$%s = \"%s\"\n" % 
-+                (str(datainfo[i]['version']), pkgarch, str(datainfo[i]['checksum']), str(value)))
-+        if not nomax:
-+            for i in idx:
-+                f.write("PRAUTO_%s_%s = \"%s\"\n" % (str(datainfo[idx[i]]['version']),str(datainfo[idx[i]]['pkgarch']),str(datainfo[idx[i]]['value'])))
-+    f.close()
-+    bb.utils.unlockfile(lf)
-+
-+addtask prservdump
-+do_prservdump[nostamp] = "1"
-+python do_prservdump() {
-+    #get all PR values for the current PRAUTOINX
-+    ver = d.getVar('PRSERV_DUMPOPT_VERSION', True)
-+    ver = ver.replace('%','-')
-+    retval = prserv_dump_db(d)
-+    if not retval:
-+        bb.error("export failed!")
-+        raise bb.build.FuncFailed("do_prservdump")
-+
-+    (metainfo, datainfo) = retval
-+    if not datainfo:
-+        bb.error("prservdump %s: No AUROPR values found" % ver)
-+        return
-+    prserv_export_tofile(d, None, datainfo, False) 
-+}
-+
-+addtask prservimport
-+do_prservimport[nostamp] = "1"
-+python do_prservimport() {
-+    #import PR values for current PRAUTOINX
-+    imported = prserv_import_db(d, filter_version=d.getVar('PRAUTOINX',True))
-+    if imported is None:
-+        bb.error("import failed!")
-+        raise bb.build.FuncFailed("do_prservimport")
-+
-+    for (version, pkgarch, checksum, value) in imported:
-+        bb.note("imported (%s,%s,%s,%d)" % (version, pkgarch, checksum, value))
-+}
 diff --git a/meta/conf/bitbake.conf b/meta/conf/bitbake.conf
-index 1c21616..31a722e 100644
+index 31a722e..6b1744f 100644
 --- a/meta/conf/bitbake.conf
 +++ b/meta/conf/bitbake.conf
 @@ -190,7 +190,7 @@ BP = "${BPN}-${PV}"
  #
  # network based PR service
  #
--USE_PR_SERV = "${@[1,0][(d.getVar('PRSERV_HOST',1) is None) or (d.getVar('PRSERV_PORT',1) is None)]}"
-+USE_PR_SERV = "${@[1,0][((d.getVar('PRSERV_HOST',1) is None) or (d.getVar('PRSERV_PORT',1) is None)) and (d.getVar('PRSERV_LOCKDOWN',1) is None)]}"
+-USE_PR_SERV = "${@[1,0][((d.getVar('PRSERV_HOST',1) is None) or (d.getVar('PRSERV_PORT',1) is None)) and (d.getVar('PRSERV_LOCKDOWN',1) is None)]}"
++USE_PR_SERV = "${@[1,0][((d.getVar('PRSERV_HOST',1) is None) or (d.getVar('PRSERV_HOST',1) == "") or (d.getVar('PRSERV_PORT',1) is None) or (d.getVar('PRSERV_PORT',1) == "")) and (d.getVar('PRSERV_LOCKDOWN',1) is None)]}"
  
  # Package info.
  
-@@ -740,7 +740,7 @@ BB_CONSOLELOG = "${TMPDIR}/cooker.log.${DATETIME}"
- # Setup our default hash policy
- BB_SIGNATURE_HANDLER ?= "basic"
- BB_HASHTASK_WHITELIST ?= "(.*-cross$|.*-native$|.*-cross-initial$|.*-cross-intermediate$|^virtual:native:.*|^virtual:nativesdk:.*)"
--BB_HASHBASE_WHITELIST ?= "TMPDIR FILE PATH PWD BB_TASKHASH BBPATH DL_DIR SSTATE_DIR THISDIR FILESEXTRAPATHS FILE_DIRNAME HOME LOGNAME SHELL TERM USER FILESPATH STAGING_DIR_HOST STAGING_DIR_TARGET COREBASE"
-+BB_HASHBASE_WHITELIST ?= "TMPDIR FILE PATH PWD BB_TASKHASH BBPATH DL_DIR SSTATE_DIR THISDIR FILESEXTRAPATHS FILE_DIRNAME HOME LOGNAME SHELL TERM USER FILESPATH STAGING_DIR_HOST STAGING_DIR_TARGET COREBASE PRSERV_HOST PRSERV_PORT PRSERV_DUMPDIR PRSERV_DUMPFILE PRSERV_LOCKDOWN"
- 
- MLPREFIX ??= ""
- MULTILIB_VARIANTS ??= ""
-diff --git a/meta/recipes-core/meta/prserv-misc.bb b/meta/recipes-core/meta/prserv-misc.bb
-new file mode 100644
-index 0000000..cd11665
---- /dev/null
-+++ b/meta/recipes-core/meta/prserv-misc.bb
-@@ -0,0 +1,69 @@
-+DESCRIPTION = "Misc tasks for PR service"
-+LICENSE = "MIT"
-+EXCLUDE_FROM_WORLD = "1"
-+
-+INHIBIT_DEFAULT_DEPS = "1"
-+ALLOW_EMPTY = "1"
-+PACKAGES = ""
-+
-+do_fetch[noexec] = "1"
-+do_unpack[noexec] = "1"
-+do_patch[noexec] = "1"
-+do_configure[noexec] = "1"
-+do_compile[noexec] = "1"
-+do_install[noexec] = "1"
-+do_package[noexec] = "1"
-+do_package_write[noexec] = "1"
-+do_package_write_ipk[noexec] = "1"
-+do_package_write_rpm[noexec] = "1"
-+do_package_write_deb[noexec] = "1"
-+do_populate_sysroot[noexec] = "1"
-+
-+addtask dbexport_clean
-+do_dbexport_clean[nostamp] = "1"
-+do_dbexport_clean() {
-+    rm -f ${PRSERV_DUMPFILE}
-+}
-+
-+addtask dbexport_metainfo
-+do_dbexport_metainfo[nostamp] = "1"
-+python do_dbexport_metainfo() {
-+    d.setVar('PRSERV_DUMPOPT_COL', "1")
-+    retval = prserv_dump_db(d)
-+
-+    if not retval:
-+        bb.error("export failed!")
-+        return
-+
-+    (metainfo, datainfo) = retval
-+    prserv_export_tofile(d, metainfo, None, True)
-+}
-+
-+addtask dbexport_all after do_dbexport_clean
-+do_dbexport_all[nostamp] = "1"
-+python do_dbexport_all() {
-+    d.setVar('PRSERV_DUMPOPT_VERSION', "")
-+    d.setVar('PRSERV_DUMPOPT_CHECKSUM', "")
-+    d.setVar('PRSERV_DUMPOPT_COL', "1")
-+    #get all PR values for the current PRAUTOINX
-+    retval = prserv_dump_db(d)
-+    if not retval:
-+        bb.error("export failed!")
-+        raise bb.build.FuncFailed("do_dbexport_all")
-+
-+    (metainfo, datainfo) = retval
-+    prserv_export_tofile(d, metainfo, datainfo, True, True)
-+}
-+
-+addtask dbimport_all
-+do_dbimport_all[nostamp] = "1"
-+python do_dbimport_all() {
-+    #import PR values for all
-+    imported = prserv_import_db(d)
-+    if imported is None:
-+        bb.error("import failed!")
-+        raise bb.build.FuncFailed("do_dbimport_all")
-+
-+    for (version, pkgarch, checksum, value) in imported:
-+        bb.note("imported (%s,%s,%s,%d)" % (version, pkgarch, checksum, value))
-+}
-diff --git a/scripts/bitbake-prserv-tool b/scripts/bitbake-prserv-tool
-new file mode 100755
-index 0000000..c543d8b
---- /dev/null
-+++ b/scripts/bitbake-prserv-tool
-@@ -0,0 +1,53 @@
-+#!/usr/bin/env bash
-+
-+help ()
-+{
-+    base=`basename $0`
-+    echo -e "Usage: $base command"
-+    echo "Avaliable commands:"
-+    echo -e "\texport <file>: export and lock down the AUTOPR values from the PR service into a file for release."
-+    echo -e "\timport <file>: import the AUTOPR values from the exported file into the PR service."
-+}
-+
-+export ()
-+{
-+    file=$1
-+    [ "x${file}" == "x" ] && help && exit 1
-+    rm -f ${file}
-+
-+    bitbake prserv-misc -c dbexport_clean && bitbake prserv-misc -c dbexport_metainfo && bitbake -k universe -c prservdump
-+    s=`bitbake prserv-misc -e | grep ^PRSERV_DUMPFILE= | cut -f2 -d\"`
-+    if [ "x${s}" != "x" ];
-+    then
-+       [ -e $s ] && mv -f $s $file && echo "Exporting to file $file succeeded!"
-+       return 0
-+    fi
-+    echo "Exporting to file $file failed!"
-+    return 1
-+}
-+
-+import ()
-+{
-+    file=$1
-+    [ "x${file}" == "x" ] && help && exit 1
-+
-+    bitbake prserv-misc -c dbimport_all -R $file
-+    ret=$?
-+    [ $ret -eq 0 ] && echo "Importing from file $file succeeded!" || echo "Importing from file $file failed!"
-+    return $ret
-+}
-+
-+[ $# -eq 0 ] && help  && exit 1
-+
-+case $1 in
-+export)
-+    export $2
-+    ;;
-+import)
-+    import $2
-+    ;;
-+*)
-+    help
-+    exit 1
-+    ;;
-+esac
 -- 
 1.7.0.4
 
