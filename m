@@ -1,24 +1,24 @@
 Received: from mga03.intel.com ([143.182.124.21])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <nitin.a.kamble@intel.com>) id 1RgQUL-0005y9-HY
+	(envelope-from <nitin.a.kamble@intel.com>) id 1RgQUL-0005yW-HA
 	for openembedded-core@lists.openembedded.org;
 	Fri, 30 Dec 2011 01:38:25 +0100
 Received: from azsmga001.ch.intel.com ([10.2.17.19])
 	by azsmga101.ch.intel.com with ESMTP; 29 Dec 2011 16:31:08 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="90690845"
+X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="90690844"
 Received: from nbuild0.sc.intel.com ([172.25.110.36])
 	by azsmga001.ch.intel.com with ESMTP; 29 Dec 2011 16:31:07 -0800
 From: nitin.a.kamble@intel.com
 To: openembedded-core@lists.openembedded.org
-Date: Thu, 29 Dec 2011 16:30:52 -0800
-Message-Id: <a1abeca9799e8c4ccb6e4f80317d4bf7be14595b.1325204775.git.nitin.a.kamble@intel.com>
+Date: Thu, 29 Dec 2011 16:30:51 -0800
+Message-Id: <f75641d812561ea8a8ae85a6b9b5f9128737448f.1325204775.git.nitin.a.kamble@intel.com>
 X-Mailer: git-send-email 1.7.6.4
 In-Reply-To: <0a113cb0a2defae38913df19d2bd3d6e378e370f.1325204775.git.nitin.a.kamble@intel.com>
 References: <0a113cb0a2defae38913df19d2bd3d6e378e370f.1325204775.git.nitin.a.kamble@intel.com>
 In-Reply-To: <cover.1325204775.git.nitin.a.kamble@intel.com>
 References: <cover.1325204775.git.nitin.a.kamble@intel.com>
-Subject: [PATCH 07/14] avahi: fix configure with automake 1.11.2
+Subject: [PATCH 06/14] jpeg: fix configure with automake 1.11.2
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -37,96 +37,74 @@ X-List-Received-Date: Fri, 30 Dec 2011 00:38:25 -0000
 
 From: Nitin A Kamble <nitin.a.kamble@intel.com>
 
-automake version 1.11.2 has made use of dir variables more strict.
-use of pkglibdir with DATA var results in automake errors.
-  This commits uses pkgdatadir var instead of pkglibdir to avoid
-the strict check errors.
+The support for automatic de-ANSI-fication has been deprecated in
+automake 1.11.2, and will be removed altogether in automake 1.12
 
-Fixes this error:
-service-type-database/Makefile.am:21: `pkglibdir' is not a legitimate
-directory for `DATA'
-autoreconf: automake failed with exit status: 1
-ERROR: autoreconf execution failed.
+This avoids this error:
+| configure.ac:24: automatic de-ANSI-fication support is deprecated
+| autoreconf: automake failed with exit status: 1
+| ERROR: autoreconf execution failed.
+NOTE: package jpeg-native-8c-r2: task do_configure: Failed
 
 Signed-off-by: Nitin A Kamble <nitin.a.kamble@intel.com>
 ---
- meta/recipes-connectivity/avahi/avahi.inc          |    5 +-
- .../avahi/files/fix_for_automake_1.11.2.patch      |   44 ++++++++++++++++++++
- 2 files changed, 47 insertions(+), 2 deletions(-)
- create mode 100644 meta/recipes-connectivity/avahi/files/fix_for_automake_1.11.2.patch
+ .../jpeg/jpeg-8c/fix_for_automake_1.11.2.patch     |   28 ++++++++++++++++++++
+ meta/recipes-core/jpeg/jpeg_8c.bb                  |    5 ++-
+ 2 files changed, 31 insertions(+), 2 deletions(-)
+ create mode 100644 meta/recipes-core/jpeg/jpeg-8c/fix_for_automake_1.11.2.patch
 
-diff --git a/meta/recipes-connectivity/avahi/avahi.inc b/meta/recipes-connectivity/avahi/avahi.inc
-index deebbd6..3cee1a4 100644
---- a/meta/recipes-connectivity/avahi/avahi.inc
-+++ b/meta/recipes-connectivity/avahi/avahi.inc
-@@ -14,14 +14,15 @@ SECTION = "network"
- # python scripts are under GPLv2+
- LICENSE = "GPLv2+ & LGPLv2.1+"
- 
--INC_PR = "r10"
-+INC_PR = "r11"
- 
- DEPENDS = "expat libcap libdaemon dbus glib-2.0"
- 
- SRC_URI = "http://avahi.org/download/avahi-${PV}.tar.gz \
-           file://00avahi-autoipd \
-           file://99avahi-autoipd \
--          file://initscript.patch"
-+          file://initscript.patch \
-+          file://fix_for_automake_1.11.2.patch"
- 
- USERADD_PACKAGES = "avahi-daemon"
- USERADD_PARAM_avahi-daemon = "--system --home /var/run/avahi-daemon \
-diff --git a/meta/recipes-connectivity/avahi/files/fix_for_automake_1.11.2.patch b/meta/recipes-connectivity/avahi/files/fix_for_automake_1.11.2.patch
+diff --git a/meta/recipes-core/jpeg/jpeg-8c/fix_for_automake_1.11.2.patch b/meta/recipes-core/jpeg/jpeg-8c/fix_for_automake_1.11.2.patch
 new file mode 100644
-index 0000000..e7a1908
+index 0000000..c0d7f3e
 --- /dev/null
-+++ b/meta/recipes-connectivity/avahi/files/fix_for_automake_1.11.2.patch
-@@ -0,0 +1,44 @@
++++ b/meta/recipes-core/jpeg/jpeg-8c/fix_for_automake_1.11.2.patch
+@@ -0,0 +1,28 @@
 +Upstream-Status: Pending
 +
-+automake version 1.11.2 has made use of dir variables more strict.
-+the use of pkglibdir with DATA var results in automake errors.
-+  This commits uses pkgdatadir var instead of pkglibdir to avoid 
-+the strict check errors.
++The support for automatic de-ANSI-fication has been deprecated in
++automake 1.11.2, and will be removed altogether in automake 1.12
 +
-+Fixes this error:
-+service-type-database/Makefile.am:21: `pkglibdir' is not a legitimate directory for `DATA'
-+autoreconf: automake failed with exit status: 1
-+ERROR: autoreconf execution failed.
++This avoids this error:
++| configure.ac:24: automatic de-ANSI-fication support is deprecated
++| autoreconf: automake failed with exit status: 1
++| ERROR: autoreconf execution failed.
++NOTE: package jpeg-native-8c-r2: task do_configure: Failed
 +
 +Signed-Off-By: Nitin A Kamble <nitin.a.kamble@intel.com>
 +2011/12/28
 +
 +
-+Index: avahi-0.6.30/service-type-database/Makefile.am
++Index: jpeg-8c/configure.ac
 +===================================================================
-+--- avahi-0.6.30.orig/service-type-database/Makefile.am
-++++ avahi-0.6.30/service-type-database/Makefile.am
-+@@ -18,13 +18,12 @@
-+ EXTRA_DIST=build-db.in service-types
++--- jpeg-8c.orig/configure.ac
+++++ jpeg-8c/configure.ac
++@@ -21,7 +21,7 @@ AC_CANONICAL_TARGET
 + 
-+ pkgdata_DATA=service-types
-+-pkglib_DATA=
++ # Initialize Automake
++ # Don't require all the GNU mandated files
++-AM_INIT_AUTOMAKE([-Wall -Werror ansi2knr no-dist foreign])
+++AM_INIT_AUTOMAKE([-Wall -Werror no-dist foreign])
 + 
-+ if HAVE_PYTHON
-+ if HAVE_GDBM
-+ 
-+ noinst_SCRIPTS=build-db
-+-pkglib_DATA+=service-types.db
-++pkgdata_DATA+=service-types.db
-+ 
-+ build-db: build-db.in
-+ 	$(AM_V_GEN)sed -e 's,@PYTHON\@,$(PYTHON),g' \
-+@@ -41,7 +40,7 @@ endif
-+ if HAVE_DBM
-+ 
-+ noinst_SCRIPTS=build-db
-+-pkglib_DATA+=service-types.db.pag service-types.db.dir
-++pkgdata_DATA+=service-types.db.pag service-types.db.dir
-+ 
-+ build-db: build-db.in
-+ 	$(AM_V_GEN)sed -e 's,@PYTHON\@,$(PYTHON),g' \
++ # Make --enable-silent-rules the default.
++ # To get verbose build output you may configure
+diff --git a/meta/recipes-core/jpeg/jpeg_8c.bb b/meta/recipes-core/jpeg/jpeg_8c.bb
+index 1c242d1..6aeaeaa 100644
+--- a/meta/recipes-core/jpeg/jpeg_8c.bb
++++ b/meta/recipes-core/jpeg/jpeg_8c.bb
+@@ -13,10 +13,11 @@ SECTION = "libs"
+ DEPENDS = "libtool-cross"
+ DEPENDS_virtclass-native = "libtool-native"
+ 
+-PR = "r2"
++PR = "r3"
+ 
+ SRC_URI = "http://www.ijg.org/files/jpegsrc.v${PV}.tar.gz \
+-	   file://debian-libjpeg7_7-1.diff;"
++	   file://debian-libjpeg7_7-1.diff \
++           file://fix_for_automake_1.11.2.patch"
+ 
+ SRC_URI[md5sum] = "a2c10c04f396a9ce72894beb18b4e1f9"
+ SRC_URI[sha256sum] = "edfc0b3e004b2fe58ffeeec89f96e3a3c28972c46725ec127d01edf8a1cc7c9a"
 -- 
 1.7.6.4
 
