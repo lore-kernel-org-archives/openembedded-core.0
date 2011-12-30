@@ -1,31 +1,20 @@
-Received: from mail-pw0-f47.google.com ([209.85.160.47])
+Received: from mga14.intel.com ([143.182.124.37])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <andrea.adami@gmail.com>) id 1RgXsy-00079N-U5
+	(envelope-from <dexuan.cui@intel.com>) id 1RgYKd-0007zx-Uw
 	for openembedded-core@lists.openembedded.org;
-	Fri, 30 Dec 2011 09:32:22 +0100
-Received: by pbcc11 with SMTP id c11so7185690pbc.6
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 30 Dec 2011 00:25:03 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
-	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
-	:content-type:content-transfer-encoding;
-	bh=l48peR3aDHa7tjCWm2s+5unq5QX3iNltfi+CZ7ZHgjE=;
-	b=c9TxUNAiHIFyBtT/Ouyr6QZI/tH4JywXBwPT+XpuZjInL9RHH/4KJJvQ+t+gSw5/3b
-	T4nCGOugxegE6JOPL1vOPDC0Sf3tnPm999cFX7rzjGOZBHlrgkVo4tcPY+1/8EMX9Y7p
-	Rr8LAXFqDo5kMUR7QI/0eiBYJbCjw5LEZsF3g=
-MIME-Version: 1.0
-Received: by 10.68.213.228 with SMTP id nv4mr25883481pbc.52.1325233503470;
-	Fri, 30 Dec 2011 00:25:03 -0800 (PST)
-Received: by 10.142.213.7 with HTTP; Fri, 30 Dec 2011 00:25:03 -0800 (PST)
-In-Reply-To: <4EFBAC18.3040909@intel.com>
-References: <fbed4e9f94ed9bd1bb5a9c8fa37113e325f89371.1325115602.git.dvhart@linux.intel.com>
-	<4EFBAC18.3040909@intel.com>
-Date: Fri, 30 Dec 2011 09:25:03 +0100
-Message-ID: <CAAQYJAuj6x3qt+w5TXSesgAaz8i1sqXbWMSTZJOGbQEAqsuFjQ@mail.gmail.com>
-From: Andrea Adami <andrea.adami@gmail.com>
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] image_types: Ensure /init exists for cpio rootfs archives
+	Fri, 30 Dec 2011 10:00:56 +0100
+Received: from azsmga002.ch.intel.com ([10.2.17.35])
+	by azsmga102.ch.intel.com with ESMTP; 30 Dec 2011 00:53:39 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="51820955"
+Received: from dcui-desktop.sh.intel.com (HELO localhost) ([10.239.36.50])
+	by AZSMGA002.ch.intel.com with ESMTP; 30 Dec 2011 00:53:38 -0800
+From: Dexuan Cui <dexuan.cui@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Fri, 30 Dec 2011 16:53:34 +0800
+Message-Id: <cover.1325234092.git.dexuan.cui@intel.com>
+X-Mailer: git-send-email 1.7.6
+Subject: [PATCH 0/6] upgrading from Dexuan: Dec 30, 2011
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -40,84 +29,45 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 30 Dec 2011 08:32:22 -0000
-Content-Type: text/plain; charset=ISO-8859-1
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Fri, 30 Dec 2011 09:00:56 -0000
 
-On Thu, Dec 29, 2011 at 12:54 AM, Darren Hart <darren.hart@intel.com> wrote=
-:
-> <I sent this to the yocto list by mistake, forwarding here for comment>
->
-> In order for the kernel to accept an initramfs as a rootfs,
-> it must have /init - even if it is an empty file. Touch /init
-> to ensure it exists for cpio and cpio.gz image types.
+The following changes since commit 9fc755cdb528f0913baf1f2d86ef62ee4cae92f2:
 
-Why didn't you add the init to cpio.xz and cpio.lzma?
-Any special reason?
+  Add Upstream-Status to patches (2011-12-29 13:58:12 -0800)
 
->
-> When used with initrd and rootfs=3D/dev/ram0, this allows the
-> cpio and cpio.gz images to be used as the rootfs.
+are available in the git repository at:
+  git://git.pokylinux.org/poky-contrib dcui/stage/master_under_test
+  http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=dcui/stage/master_under_test
 
-Sure, and "...If all else fails, rdinit=3D/bin/sh "
+Dexuan Cui (6):
+  mdadm: upgrade to the latest version 3.2.3
+  liburcu: upgrade from 0.6.4 to the latest 0.6.7
+  lttng-ust: upgrade from 0.15 to the latest 0.16
+  libpciaccess: upgrade from 0.12.1 to 0.12.902
+  util-macros: upgrade from 1.15.0 to the latest 1.16.0
+  distro_tracking_fields.inc: update the info
 
->
-> Signed-off-by: Darren Hart <dvhart@linux.intel.com>
-> ---
-> =A0meta/classes/image_types.bbclass | =A0 10 ++++++++--
-> =A01 files changed, 8 insertions(+), 2 deletions(-)
->
-> diff --git a/meta/classes/image_types.bbclass b/meta/classes/image_types.=
-bbclass
-> index 6893e38..ebff0ba 100644
-> --- a/meta/classes/image_types.bbclass
-> +++ b/meta/classes/image_types.bbclass
-> @@ -110,8 +110,14 @@ IMAGE_CMD_tar =3D "cd ${IMAGE_ROOTFS} && tar -cvf ${=
-DEPLOY_DIR_IMAGE}/${IMAGE_NAME
-> =A0IMAGE_CMD_tar.gz =3D "cd ${IMAGE_ROOTFS} && tar -zcvf ${DEPLOY_DIR_IMA=
-GE}/${IMAGE_NAME}.rootfs.tar.gz ."
-> =A0IMAGE_CMD_tar.bz2 =3D "cd ${IMAGE_ROOTFS} && tar -jcvf ${DEPLOY_DIR_IM=
-AGE}/${IMAGE_NAME}.rootfs.tar.bz2 ."
-> =A0IMAGE_CMD_tar.xz =3D "cd ${IMAGE_ROOTFS} && tar --xz -cvf ${DEPLOY_DIR=
-_IMAGE}/${IMAGE_NAME}.rootfs.tar.xz ."
-> -IMAGE_CMD_cpio =3D "cd ${IMAGE_ROOTFS} && (find . | cpio -o -H newc >${D=
-EPLOY_DIR_IMAGE}/${IMAGE_NAME}.rootfs.cpio)"
-> -IMAGE_CMD_cpio.gz =3D "cd ${IMAGE_ROOTFS} && (find . | cpio -o -H newc |=
- gzip -c -9 >${DEPLOY_DIR_IMAGE}/${IMAGE_NAME}.rootfs.cpio.gz)"
-> +IMAGE_CMD_cpio () {
-> + =A0 =A0 =A0 touch ${IMAGE_ROOTFS}/init
-> + =A0 =A0 =A0 cd ${IMAGE_ROOTFS} && (find . | cpio -o -H newc >${DEPLOY_D=
-IR_IMAGE}/${IMAGE_NAME}.rootfs.cpio)
-> +}
-> +IMAGE_CMD_cpio.gz () {
-> + =A0 =A0 =A0 touch ${IMAGE_ROOTFS}/init
-> + =A0 =A0 =A0 cd ${IMAGE_ROOTFS} && (find . | cpio -o -H newc | gzip -c -=
-9 >${DEPLOY_DIR_IMAGE}/${IMAGE_NAME}.rootfs.cpio.gz)
-> +}
-> =A0IMAGE_CMD_cpio.xz =3D "type cpio >/dev/null; cd ${IMAGE_ROOTFS} && (fi=
-nd . | cpio -o -H newc | xz -c ${XZ_COMPRESSION_LEVEL} --check=3D${XZ_INTEG=
-RITY_CHECK} > ${DEPLOY_DIR_IMAGE}/${IMAGE_NAME}.rootfs.cpio.xz) ${EXTRA_IMA=
-GECMD}"
-> =A0IMAGE_CMD_cpio.lzma =3D "type cpio >/dev/null; cd ${IMAGE_ROOTFS} && (=
-find . | cpio -o -H newc | xz --format=3Dlzma -c ${XZ_COMPRESSION_LEVEL} --=
-check=3D${XZ_INTEGRITY_CHECK} >${DEPLOY_DIR_IMAGE}/${IMAGE_NAME}.rootfs.cpi=
-o.lzma) ${EXTRA_IMAGECMD}"
->
-> --
-> 1.7.6.4
->
-> _______________________________________________
-> yocto mailing list
-> yocto@yoctoproject.org
-> https://lists.yoctoproject.org/listinfo/yocto
->
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
+ .../conf/distro/include/distro_tracking_fields.inc |  107 +++++++++++---------
+ .../0001-mdadm-fix-build-failures-ppc64.patch      |   52 ----------
+ .../mdadm/{mdadm_3.2.2.bb => mdadm_3.2.3.bb}       |   13 +--
+ .../fix_deletion_of_last_handle.patch              |   51 +++++++++
+ ...ciaccess_0.12.1.bb => libpciaccess_0.12.902.bb} |    8 +-
+ ...util-macros_1.15.0.bb => util-macros_1.16.0.bb} |    4 +-
+ meta/recipes-kernel/lttng/fix-powerpc64.patch      |   17 ---
+ .../lttng/{lttng-ust_0.15.bb => lttng-ust_0.16.bb} |    9 +-
+ .../liburcu/{liburcu_0.6.4.bb => liburcu_0.6.7.bb} |    6 +-
+ 9 files changed, 128 insertions(+), 139 deletions(-)
+ delete mode 100644 meta/recipes-extended/mdadm/files/0001-mdadm-fix-build-failures-ppc64.patch
+ rename meta/recipes-extended/mdadm/{mdadm_3.2.2.bb => mdadm_3.2.3.bb} (65%)
+ create mode 100644 meta/recipes-graphics/xorg-lib/libpciaccess-0.12.902/fix_deletion_of_last_handle.patch
+ rename meta/recipes-graphics/xorg-lib/{libpciaccess_0.12.1.bb => libpciaccess_0.12.902.bb} (50%)
+ rename meta/recipes-graphics/xorg-util/{util-macros_1.15.0.bb => util-macros_1.16.0.bb} (75%)
+ delete mode 100644 meta/recipes-kernel/lttng/fix-powerpc64.patch
+ rename meta/recipes-kernel/lttng/{lttng-ust_0.15.bb => lttng-ust_0.16.bb} (79%)
+ rename meta/recipes-support/liburcu/{liburcu_0.6.4.bb => liburcu_0.6.7.bb} (80%)
 
-Regards
+-- 
+1.7.6
 
-Andrea Adami
 
 
