@@ -1,24 +1,24 @@
-Received: from mga03.intel.com ([143.182.124.21])
+Received: from mga02.intel.com ([134.134.136.20])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <shane.wang@intel.com>) id 1RgdUV-0001dl-AG
+	(envelope-from <shane.wang@intel.com>) id 1RgdUd-0001l7-To
 	for openembedded-core@lists.openembedded.org;
-	Fri, 30 Dec 2011 15:31:27 +0100
-Received: from azsmga001.ch.intel.com ([10.2.17.19])
-	by azsmga101.ch.intel.com with ESMTP; 30 Dec 2011 06:24:10 -0800
+	Fri, 30 Dec 2011 15:31:36 +0100
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+	by orsmga101.jf.intel.com with ESMTP; 30 Dec 2011 06:24:04 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="90858481"
+X-IronPort-AV: E=Sophos;i="4.67,351,1309762800"; d="scan'208";a="92901740"
 Received: from yocto-build5.sh.intel.com (HELO localhost) ([10.239.48.2])
-	by azsmga001.ch.intel.com with ESMTP; 30 Dec 2011 06:24:10 -0800
+	by orsmga002.jf.intel.com with ESMTP; 30 Dec 2011 06:24:04 -0800
 From: Shane Wang <shane.wang@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Fri, 30 Dec 2011 22:33:11 +0800
-Message-Id: <342b642339d1804798cbfb2edf93d806c9a85afa.1325252646.git.shane.wang@intel.com>
+Date: Fri, 30 Dec 2011 22:33:06 +0800
+Message-Id: <feb9ada1e81882c9b7b3b0d59dd3ab8c7686f0e0.1325252646.git.shane.wang@intel.com>
 X-Mailer: git-send-email 1.7.6
 In-Reply-To: <174bd926e4a4e00426eb92a2147cd0169e5cd515.1325252646.git.shane.wang@intel.com>
 References: <174bd926e4a4e00426eb92a2147cd0169e5cd515.1325252646.git.shane.wang@intel.com>
 In-Reply-To: <cover.1325252645.git.shane.wang@intel.com>
 References: <cover.1325252645.git.shane.wang@intel.com>
-Subject: [PATCH 10/14] matchbox-wm-2: ugrade to 01fa5465743c9ee43d040350f4405d35293e4869
+Subject: [PATCH 05/14] distro_tracking_fields: update the info for recipe upgrade.
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -33,25 +33,53 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 30 Dec 2011 14:31:27 -0000
+X-List-Received-Date: Fri, 30 Dec 2011 14:31:36 -0000
 
 Signed-off-by: Shane Wang <shane.wang@intel.com>
 ---
- .../matchbox-wm-2/matchbox-wm-2_git.bb             |    2 +-
- 1 files changed, 1 insertions(+), 1 deletions(-)
+ .../conf/distro/include/distro_tracking_fields.inc |    8 ++++----
+ 1 files changed, 4 insertions(+), 4 deletions(-)
 
-diff --git a/meta/recipes-graphics/matchbox-wm-2/matchbox-wm-2_git.bb b/meta/recipes-graphics/matchbox-wm-2/matchbox-wm-2_git.bb
-index c9498f7..9961728 100644
---- a/meta/recipes-graphics/matchbox-wm-2/matchbox-wm-2_git.bb
-+++ b/meta/recipes-graphics/matchbox-wm-2/matchbox-wm-2_git.bb
-@@ -5,7 +5,7 @@ LIC_FILES_CHKSUM = "file://matchbox/core/mb-wm.h;endline=21;md5=1b1d328a52790635
+diff --git a/meta/conf/distro/include/distro_tracking_fields.inc b/meta/conf/distro/include/distro_tracking_fields.inc
+index 28670e4..e8215b7 100644
+--- a/meta/conf/distro/include/distro_tracking_fields.inc
++++ b/meta/conf/distro/include/distro_tracking_fields.inc
+@@ -87,7 +87,7 @@ RECIPE_LATEST_VERSION_pn-minicom = "2.5"
+ RECIPE_NO_OF_PATCHES_pn-minicom = "1"
+ RECIPE_LATEST_RELEASE_DATE_pn-minicom = "Jan 29, 2011"
+ RECIPE_TIME_BETWEEN_LAST_TWO_RELEASES_pn-minicom = "22 months"
+-RECIPE_LAST_UPDATE_pn-minicom = "Nov 24, 2010"
++RECIPE_LAST_UPDATE_pn-minicom = "Dec 27, 2011"
+ RECIPE_MANUAL_CHECK_DATE_pn-minicom = "Dec 24, 2011"
+ RECIPE_MAINTAINER_pn-minicom = "Dongxiao Xu <dongxiao.xu@intel.com>"
  
- DEPENDS = "virtual/libx11 libxext libxrender startup-notification expat gconf pango libxdamage libxcomposite gtk+"
+@@ -2392,7 +2392,7 @@ RECIPE_LATEST_VERSION_pn-libical = "0.48"
+ RECIPE_NO_OF_PATCHES_pn-libical = "0"
+ RECIPE_LATEST_RELEASE_DATE_pn-libical = "Dec 13, 2011"
+ RECIPE_TIME_BETWEEN_LAST_TWO_RELEASES_pn-libical = "2 months"
+-RECIPE_LAST_UPDATE_pn-libical = "Nov 16, 2010"
++RECIPE_LAST_UPDATE_pn-libical = "Dec 26, 2011"
+ RECIPE_MANUAL_CHECK_DATE_pn-libical = "Dec 24, 2011"
+ RECIPE_MAINTAINER_pn-libical = "Dongxiao Xu <dongxiao.xu@intel.com>"
  
--SRCREV = "18ab9c7e4ffcb066b25281172ea82947bd56cb86"
-+SRCREV = "01fa5465743c9ee43d040350f4405d35293e4869"
- PV = "0.1+git${SRCPV}"
- PR = "r0"
+@@ -2806,8 +2806,8 @@ RECIPE_STATUS_pn-libsamplerate0 = "green"
+ DISTRO_PN_ALIAS_pn-libsamplerate0 = "Meego=libsamplerate Fedora=libsamplerate OpenSuSE=libsamplerate Ubuntu=libsamplerate Mandriva=libsamplerate Debian=libsamplerate"
+ RECIPE_LATEST_VERSION_pn-libsamplerate0 = "0.1.8"
+ RECIPE_LATEST_RELEASE_DATE_pn-libsamplerate0 = "Aug 15, 2011"
+-RECIPE_LAST_UPDATE_pn-libsamplerate0 = "Apr 26, 2011"
+ RECIPE_MANUAL_CHECK_DATE_pn-libsamplerate0 = "Dec 24, 2011"
++RECIPE_LAST_UPDATE_pn-libsamplerate0 = "Dec 27, 2011"
+ RECIPE_MAINTAINER_pn-libsamplerate0 = "Dongxiao Xu <dongxiao.xu@intel.com>"
+ 
+ RECIPE_STATUS_pn-oprofileui = "green"
+@@ -4645,7 +4645,7 @@ RECIPE_INTEL_SECTION_pn-freetype = "libs"
+ RECIPE_TIME_BETWEEN_LAST_TWO_RELEASES_pn-freetype = "1+ months"
+ RECIPE_LATEST_RELEASE_DATE_pn-freetype = "Nov 15, 2011"
+ RECIPE_COMMENTS_pn-freetype = ""
+-RECIPE_LAST_UPDATE_pn-freetype = "Aug 16, 2011"
++RECIPE_LAST_UPDATE_pn-freetype = "Dec 27, 2011"
+ RECIPE_MANUAL_CHECK_DATE_pn-freetype = "Dec 24, 2011"
+ RECIPE_MAINTAINER_pn-freetype = "Dexuan Cui <dexuan.cui@intel.com>"
  
 -- 
 1.7.6
