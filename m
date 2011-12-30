@@ -1,37 +1,20 @@
-Received: from mga01.intel.com ([192.55.52.88])
+Received: from mga14.intel.com ([143.182.124.37])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <lianhao.lu@intel.com>) id 1RgZNe-0001v6-41
+	(envelope-from <shane.wang@intel.com>) id 1RgchV-0008Df-FJ
 	for openembedded-core@lists.openembedded.org;
-	Fri, 30 Dec 2011 11:08:06 +0100
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-	by fmsmga101.fm.intel.com with ESMTP; 30 Dec 2011 01:59:40 -0800
+	Fri, 30 Dec 2011 14:40:50 +0100
+Received: from azsmga001.ch.intel.com ([10.2.17.19])
+	by azsmga102.ch.intel.com with ESMTP; 30 Dec 2011 05:33:32 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="101607653"
-Received: from pgsmsx603.gar.corp.intel.com ([10.221.43.87])
-	by fmsmga001.fm.intel.com with ESMTP; 30 Dec 2011 01:59:40 -0800
-Received: from shsmsx101.ccr.corp.intel.com (10.239.4.153) by
-	pgsmsx603.gar.corp.intel.com (10.221.43.87) with Microsoft SMTP Server
-	(TLS) id 8.2.255.0; Fri, 30 Dec 2011 17:59:38 +0800
-Received: from shsmsx102.ccr.corp.intel.com ([169.254.2.199]) by
-	SHSMSX101.ccr.corp.intel.com ([169.254.1.38]) with mapi id
-	14.01.0355.002; Fri, 30 Dec 2011 17:59:36 +0800
-From: "Lu, Lianhao" <lianhao.lu@intel.com>
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Thread-Topic: [OE-core] can't install eclipse plugin
-Thread-Index: AQHMw7NTQQakbQZPZUSFhuEdCBBAPJXvjCGAgAQVLwCAAIo2EA==
-Date: Fri, 30 Dec 2011 09:59:35 +0000
-Message-ID: <857BE142E5399E46B20FD45B9DB8A7BC010BD1@SHSMSX102.ccr.corp.intel.com>
-References: <1324892695.4637.10.camel@localhost.localdomain>
-	<C6510F6D410BB64A8C15398EDC6B847C2401E62B@ORSMSX102.amr.corp.intel.com>
-	<1325238178.4637.61.camel@localhost.localdomain>
-In-Reply-To: <1325238178.4637.61.camel@localhost.localdomain>
-Accept-Language: zh-CN, en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [10.239.127.40]
-MIME-Version: 1.0
-Subject: Re: can't install eclipse plugin
+X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="90847420"
+Received: from yocto-build5.sh.intel.com (HELO localhost) ([10.239.48.2])
+	by azsmga001.ch.intel.com with ESMTP; 30 Dec 2011 05:33:31 -0800
+From: Shane Wang <shane.wang@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Fri, 30 Dec 2011 21:49:06 +0800
+Message-Id: <cover.1325252645.git.shane.wang@intel.com>
+X-Mailer: git-send-email 1.7.6
+Subject: [PATCH 00/14] [V2] Upgrade 12 more packages, Dec 30, 2011
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -46,119 +29,93 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 30 Dec 2011 10:08:06 -0000
-Content-Language: en-US
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Fri, 30 Dec 2011 13:40:50 -0000
 
+This is the second version of the patch set which I sent out with the title "[V1] Upgrade 4 more packages, Dec 27, 2011",
+I upgrade 8 more packages. So, totally 12 for this round, it includes freetype, minicom, libical, libsamplerate0, hdparm, oprofileui, libomxil, linux-firmware, matchbox-wm-2, quota, watchdog, and puzzles.
+So, the previous patchset "[V1] Upgrade 4 more packages, Dec 27, 2011" can be skipped.
 
-Qinliang,
+Please review.
 
-You might need to update the lttng to 0.4.0 in Eclipse through http://downl=
-oad.eclipse.org/technology/linuxtools/update first.
+The following changes since commit d107ab4a11db3df9018d7795aef31e3484367607:
 
-Best Regards,
-Lianhao
+  coreutils: ensure --color works so DEPEND on libcap (2011-12-30 14:22:50 +0800)
 
-> -----Original Message-----
-> From: openembedded-core-bounces@lists.openembedded.org [mailto:openembedd=
-ed-core-bounces@lists.openembedded.org] On Behalf
-> Of Ni Qingliang
-> Sent: Friday, December 30, 2011 5:43 PM
-> To: Zhang, Jessica
-> Cc: Patches and discussions about the oe-core layer
-> Subject: Re: [OE-core] can't install eclipse plugin
->=20
-> no luck:(
->=20
-> my lttng is 0.3.1, where is the 0.4.0?
-> the error is :
->=20
-> Cannot complete the install because one or more required items could not
-> be found.
->   Software being installed: Yocto Plugin for Eclipse 1.1.0.201112291418
-> (org.yocto.sdk.feature.group 1.1.0.201112291418)
->   Missing requirement: Yocto Project Plugin Remote Tools
-> 1.1.0.201112291418 (org.yocto.sdk.remotetools 1.1.0.201112291418)
-> requires 'bundle org.eclipse.linuxtools.tmf.core 0.4.0' but it could not
-> be found
->   Cannot satisfy dependency:
->     From: Yocto Plugin for Eclipse 1.1.0.201112291418
-> (org.yocto.sdk.feature.group 1.1.0.201112291418)
->     To: org.yocto.sdk.remotetools 0.0.0
->=20
->=20
-> On Wed, 2011-12-28 at 03:22 +0800, Zhang, Jessica wrote:
-> > Hi Qingliang,
-> >
-> > How did you install the LinuxTools?  For the latest Eclipse plug-in, it=
- uses the built-in Lttng-viewer so the dependency is introduced.  You
-> just need to go under Help->install new software Select the Indigo update=
- site: http://download.eclipse.org/releases.indigo, and select its
-> Linux Tracing Toolkit Integration, that should bring in all the dependenc=
-y.
-> >
-> > Also, you need to install the Lttng parser library and start eclipse wi=
-th LD_LIBRARY_PATH by following the direction from the Lttng wiki
-> http://wiki.eclipse.org/Linux_Tools_Project/LTTng.
-> >
-> > - Jessica
-> >
-> > -----Original Message-----
-> > From: openembedded-core-bounces@lists.openembedded.org [mailto:openembe=
-dded-core-bounces@lists.openembedded.org] On
-> Behalf Of Ni Qingliang
-> > Sent: Monday, December 26, 2011 1:45 AM
-> > To: openembedded-core@lists.openembedded.org
-> > Subject: [OE-core] can't install eclipse plugin
-> >
-> > hello, all:
-> > I have update yocto plugin to 20111224 current version, but can't
-> > install it correctly.
-> >
-> > I don't know where to find linuxtools.tmf.core, I have installed
-> > linuxtools totaly, but can't work.
-> >
-> > who can help me? thanks!
-> >
-> >
-> >
-> > Cannot complete the install because one or more required items could no=
-t
-> > be found.
-> >   Software being installed: Yocto Plugin for Eclipse 1.1.0.201112240640
-> > (org.yocto.sdk.feature.group 1.1.0.201112240640)
-> >   Missing requirement: Yocto Project Plugin Remote Tools
-> > 1.1.0.201112240640 (org.yocto.sdk.remotetools 1.1.0.201112240640)
-> > requires 'bundle org.eclipse.linuxtools.tmf.core 0.4.0' but it could no=
-t
-> > be found
-> >   Cannot satisfy dependency:
-> >     From: Yocto Plugin for Eclipse 1.1.0.201112240640
-> > (org.yocto.sdk.feature.group 1.1.0.201112240640)
-> >     To: org.yocto.sdk.remotetools 0.0.0
-> >
-> >
-> > --
-> > Yi Qingliang
-> > niqingliang@insigma.com.cn
-> > https://niqingliang2003.wordpress.com
-> >
-> >
-> > _______________________________________________
-> > Openembedded-core mailing list
-> > Openembedded-core@lists.openembedded.org
-> > http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
->=20
-> --
-> Yi Qingliang
-> niqingliang@insigma.com.cn
-> https://niqingliang2003.wordpress.com
->=20
->=20
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
+are available in the git repository at:
+  git://git.pokylinux.org/poky-contrib shane/upgrade2
+  http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=shane/upgrade2
+
+Shane Wang (14):
+  freetype: upgrade to 2.4.8
+  minicom: upgrade to 2.5
+  libical: upgrade to 0.48
+  libsamplerate0: upgrade to 0.1.8
+  distro_tracking_fields: update the info for recipe upgrade.
+  hdparm: upgrade to 9.37
+  oprofileui: upgrade to 82ecf8c6b53b84f80682a8312f9defa83a95f2a3
+  libomxil: upgrade to 0.9.3
+  linux-firmware: upgrade to 15888a2eab052ac3d3f49334e4f6f05f347a516e
+  matchbox-wm-2: ugrade to 01fa5465743c9ee43d040350f4405d35293e4869
+  quota: upgrade to 4.00
+  watchdog: upgrade to 5.11
+  puzzles: upgrade to r9375.
+  distro_tracking_fields: update the info for this round of package
+    upgrade
+
+ .../conf/distro/include/distro_tracking_fields.inc |   53 +++---
+ .../recipes-extended/hdparm/hdparm-6.3/bswap.patch |   37 ----
+ .../hdparm/hdparm-6.3/uclibc.patch                 |   34 ---
+ meta/recipes-extended/hdparm/hdparm_6.3.bb         |   18 --
+ meta/recipes-extended/hdparm/hdparm_9.37.bb        |   35 +++
+ .../{minicom-2.4 => minicom-2.5}/gcc4-scope.patch  |    0
+ .../rename-conflicting-functions.patch             |    0
+ .../minicom/{minicom_2.4.bb => minicom_2.5.bb}     |    6 +-
+ .../quota/{quota_4.00-pre1.bb => quota_4.00.bb}    |    8 +-
+ meta/recipes-extended/stat/stat_3.3.bb             |   27 +++
+ .../watchdog/{watchdog_5.9.bb => watchdog_5.11.bb} |    6 +-
+ .../no-hardcode.patch                              |    0
+ .../{freetype_2.4.6.bb => freetype_2.4.8.bb}       |    6 +-
+ .../matchbox-wm-2/matchbox-wm-2_git.bb             |    2 +-
+ .../linux-firmware/linux-firmware_git.bb           |    4 +-
+ .../oprofileui/dso_linking_change_build_fix.patch  |   27 ---
+ .../oprofileui/migrate-from-gnomevfs-to-gio.patch  |  219 --------------------
+ meta/recipes-kernel/oprofile/oprofileui_git.bb     |    2 +-
+ .../libomxil/libomxil-0.9.3/configure-fix.patch    |   58 +++++
+ .../libomxil-0.9.3/makefile-docdir-fix.patch       |   19 ++
+ .../libomxil/libomxil-0.9.3/parallel-make.patch    |   18 ++
+ meta/recipes-multimedia/libomxil/libomxil_0.3.3.bb |   23 --
+ meta/recipes-multimedia/libomxil/libomxil_0.9.3.bb |   33 +++
+ .../libsamplerate-0.1.7-macro-quoting.patch        |   22 --
+ ...amplerate0_0.1.7.bb => libsamplerate0_0.1.8.bb} |    9 +-
+ .../libical/{libical_0.47.bb => libical_0.48.bb}   |    6 +-
+ .../puzzles/{puzzles_r9306.bb => puzzles_r9375.bb} |    6 +-
+ 27 files changed, 246 insertions(+), 432 deletions(-)
+ delete mode 100644 meta/recipes-extended/hdparm/hdparm-6.3/bswap.patch
+ delete mode 100644 meta/recipes-extended/hdparm/hdparm-6.3/uclibc.patch
+ delete mode 100644 meta/recipes-extended/hdparm/hdparm_6.3.bb
+ create mode 100644 meta/recipes-extended/hdparm/hdparm_9.37.bb
+ rename meta/recipes-extended/minicom/{minicom-2.4 => minicom-2.5}/gcc4-scope.patch (100%)
+ rename meta/recipes-extended/minicom/{minicom-2.4 => minicom-2.5}/rename-conflicting-functions.patch (100%)
+ rename meta/recipes-extended/minicom/{minicom_2.4.bb => minicom_2.5.bb} (75%)
+ rename meta/recipes-extended/quota/{quota_4.00-pre1.bb => quota_4.00.bb} (78%)
+ create mode 100644 meta/recipes-extended/stat/stat_3.3.bb
+ rename meta/recipes-extended/watchdog/{watchdog_5.9.bb => watchdog_5.11.bb} (70%)
+ rename meta/recipes-graphics/freetype/{freetype-2.4.6 => freetype-2.4.8}/no-hardcode.patch (100%)
+ rename meta/recipes-graphics/freetype/{freetype_2.4.6.bb => freetype_2.4.8.bb} (91%)
+ delete mode 100644 meta/recipes-kernel/oprofile/oprofileui/dso_linking_change_build_fix.patch
+ delete mode 100644 meta/recipes-kernel/oprofile/oprofileui/migrate-from-gnomevfs-to-gio.patch
+ create mode 100644 meta/recipes-multimedia/libomxil/libomxil-0.9.3/configure-fix.patch
+ create mode 100644 meta/recipes-multimedia/libomxil/libomxil-0.9.3/makefile-docdir-fix.patch
+ create mode 100644 meta/recipes-multimedia/libomxil/libomxil-0.9.3/parallel-make.patch
+ delete mode 100644 meta/recipes-multimedia/libomxil/libomxil_0.3.3.bb
+ create mode 100644 meta/recipes-multimedia/libomxil/libomxil_0.9.3.bb
+ delete mode 100644 meta/recipes-multimedia/libsamplerate/libsamplerate0-0.1.7/libsamplerate-0.1.7-macro-quoting.patch
+ rename meta/recipes-multimedia/libsamplerate/{libsamplerate0_0.1.7.bb => libsamplerate0_0.1.8.bb} (61%)
+ rename meta/recipes-sato/libical/{libical_0.47.bb => libical_0.48.bb} (78%)
+ rename meta/recipes-sato/puzzles/{puzzles_r9306.bb => puzzles_r9375.bb} (91%)
+
+-- 
+1.7.6
+
 
 
