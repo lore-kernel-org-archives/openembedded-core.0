@@ -1,35 +1,20 @@
-Received: from mail-ee0-f47.google.com ([74.125.83.47])
+Received: from mga01.intel.com ([192.55.52.88])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <martin.jansa@gmail.com>) id 1RgWId-00046h-8k
+	(envelope-from <edwin.zhai@intel.com>) id 1RgXrL-0006zj-Ns
 	for openembedded-core@lists.openembedded.org;
-	Fri, 30 Dec 2011 07:50:43 +0100
-Received: by eeit10 with SMTP id t10so8516205eei.6
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 29 Dec 2011 22:43:28 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
-	h=date:from:to:subject:message-id:references:mime-version
-	:content-type:content-disposition:in-reply-to:user-agent;
-	bh=LRzAqHSPN93ICZzJiV/UXq91Un0gwmupOMw8dV2bRKs=;
-	b=g99Nsq8R/ZeJPnj5j4QqEIPEF1sWSnYXZhaM+ZHfINM5JbMDxxN4cisWCNjtVHq/t2
-	KoGu2SVebWSD4iU+V/EO0nc11HO8IBh5yTSD5fX7Th0bCB9UwKns+ZWxAgHJ4+EgXJbI
-	yDiZ+RMAm3bZblbzvv+vL+ycRQeCv1CLKGCqM=
-Received: by 10.213.32.204 with SMTP id e12mr2297792ebd.128.1325227408013;
-	Thu, 29 Dec 2011 22:43:28 -0800 (PST)
-Received: from localhost ([94.230.152.246])
-	by mx.google.com with ESMTPS id s16sm143963888eef.2.2011.12.29.22.43.26
-	(version=TLSv1/SSLv3 cipher=OTHER);
-	Thu, 29 Dec 2011 22:43:27 -0800 (PST)
-Date: Fri, 30 Dec 2011 07:43:25 +0100
-From: Martin Jansa <martin.jansa@gmail.com>
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Message-ID: <20111230064325.GD16885@jama.jama.net>
-References: <cover.1325215668.git.lianhao.lu@intel.com>
-	<3ee0f9a266596ef833e9d64990cbd77b3dd84462.1325215668.git.lianhao.lu@intel.com>
-MIME-Version: 1.0
-In-Reply-To: <3ee0f9a266596ef833e9d64990cbd77b3dd84462.1325215668.git.lianhao.lu@intel.com>
-User-Agent: Mutt/1.5.21 (2010-09-15)
-Subject: Re: [PRService/meta 3/3] conf/bitbake.conf: basichash as default signature.
+	Fri, 30 Dec 2011 09:30:39 +0100
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+	by fmsmga101.fm.intel.com with ESMTP; 30 Dec 2011 00:22:19 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="101588785"
+Received: from yocto-build3.sh.intel.com ([10.239.48.58])
+	by fmsmga001.fm.intel.com with ESMTP; 30 Dec 2011 00:22:19 -0800
+From: edwin.zhai@intel.com
+To: openembedded-core@lists.openembedded.org
+Date: Fri, 30 Dec 2011 16:11:18 +0800
+Message-Id: <cover.1325232608.git.edwin.zhai@intel.com>
+X-Mailer: git-send-email 1.7.1
+Subject: [PATCH 0/3] Package upgrade, Dec30, 2011
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -44,76 +29,36 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 30 Dec 2011 06:50:43 -0000
-X-Groupsio-MsgNum: 14942
-Content-Type: multipart/signed; micalg=pgp-sha1;
-	protocol="application/pgp-signature"; boundary="yudcn1FV7Hsu/q59"
-Content-Disposition: inline
+X-List-Received-Date: Fri, 30 Dec 2011 08:30:39 -0000
 
---yudcn1FV7Hsu/q59
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+From: Zhai Edwin <edwin.zhai@intel.com>
 
-On Fri, Dec 30, 2011 at 11:50:53AM +0800, Lianhao Lu wrote:
-> [YOCTO #1555]
-> Make basichash as default signature handler
+Packages upgrade for lighttpd, libassuan and apr-util.
 
-I hope someone have tried to do incremental builds for some bigger image
-(not just core-*) for multiple machines over few weeks, because my
-observation
-http://www.mail-archive.com/openembedded-core@lists.openembedded.org/msg114=
-38.html
-still holds.
+Thanks,
+Edwin
 
-Regards,
+The following changes since commit 429d3c9adae8b4bb166df22e70cc29aba41d6867:
 
->=20
-> Signed-off-by: Lianhao Lu <lianhao.lu@intel.com>
-> ---
->  meta/conf/bitbake.conf |    2 +-
->  1 files changed, 1 insertions(+), 1 deletions(-)
->=20
-> diff --git a/meta/conf/bitbake.conf b/meta/conf/bitbake.conf
-> index 6b1744f..eca37e5 100644
-> --- a/meta/conf/bitbake.conf
-> +++ b/meta/conf/bitbake.conf
-> @@ -738,7 +738,7 @@ TRANSLATED_TARGET_ARCH ??=3D "${@d.getVar('TARGET_ARC=
-H', True).replace("_", "-")}"
->  BB_CONSOLELOG =3D "${TMPDIR}/cooker.log.${DATETIME}"
-> =20
->  # Setup our default hash policy
-> -BB_SIGNATURE_HANDLER ?=3D "basic"
-> +BB_SIGNATURE_HANDLER ?=3D "basichash"
->  BB_HASHTASK_WHITELIST ?=3D "(.*-cross$|.*-native$|.*-cross-initial$|.*-c=
-ross-intermediate$|^virtual:native:.*|^virtual:nativesdk:.*)"
->  BB_HASHBASE_WHITELIST ?=3D "TMPDIR FILE PATH PWD BB_TASKHASH BBPATH DL_D=
-IR SSTATE_DIR THISDIR FILESEXTRAPATHS FILE_DIRNAME HOME LOGNAME SHELL TERM =
-USER FILESPATH STAGING_DIR_HOST STAGING_DIR_TARGET COREBASE PRSERV_HOST PRS=
-ERV_PORT PRSERV_DUMPDIR PRSERV_DUMPFILE PRSERV_LOCKDOWN"
-> =20
-> --=20
-> 1.7.0.4
->=20
->=20
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
+  matchbox-wm: Remove x-session-manager handling (2011-12-29 10:42:08 +0800)
 
---=20
-Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
+are available in the git repository at:
+  git://git.pokylinux.org/poky-contrib gzhai/build-appliance2
+  http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=gzhai/build-appliance2
 
---yudcn1FV7Hsu/q59
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: Digital signature
+Zhai Edwin (3):
+  lighttpd: Upgrade to 1.4.30
+  apr-util: Upgrade to 1.4.1
+  libassuan: Upgrade to 2.0.3
 
------BEGIN PGP SIGNATURE-----
-Version: GnuPG v2.0.18 (GNU/Linux)
+ .../{lighttpd_1.4.29.bb => lighttpd_1.4.30.bb}     |    6 +++---
+ .../apr/apr-util/configure_fixes.patch             |   10 ++++++----
+ .../apr/{apr-util_1.3.12.bb => apr-util_1.4.1.bb}  |    6 +++---
+ .../{libassuan_2.0.2.bb => libassuan_2.0.3.bb}     |    4 ++--
+ 4 files changed, 14 insertions(+), 12 deletions(-)
+ rename meta/recipes-extended/lighttpd/{lighttpd_1.4.29.bb => lighttpd_1.4.30.bb} (92%)
+ rename meta/recipes-support/apr/{apr-util_1.3.12.bb => apr-util_1.4.1.bb} (91%)
+ rename meta/recipes-support/libassuan/{libassuan_2.0.2.bb => libassuan_2.0.3.bb} (82%)
 
-iEYEARECAAYFAk79XY0ACgkQN1Ujt2V2gBxloACgoA45AZVvu4h6dYgYorDxtpzr
-bH4An1KArv1Bn4b4CDeeRqlOz2sUBtJc
-=GMEW
------END PGP SIGNATURE-----
 
---yudcn1FV7Hsu/q59--
+
