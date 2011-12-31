@@ -1,25 +1,25 @@
 Received: from mail.windriver.com ([147.11.1.11])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <Liezhi.Yang@windriver.com>) id 1Rgu9X-0004Hi-KR
+	(envelope-from <Liezhi.Yang@windriver.com>) id 1Rgu9Y-0004Hm-AP
 	for openembedded-core@lists.openembedded.org;
-	Sat, 31 Dec 2011 09:18:55 +0100
+	Sat, 31 Dec 2011 09:18:56 +0100
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca [147.11.189.40])
-	by mail.windriver.com (8.14.3/8.14.3) with ESMTP id pBV8Bax1018059
+	by mail.windriver.com (8.14.3/8.14.3) with ESMTP id pBV8BcfE018065
 	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
-	Sat, 31 Dec 2011 00:11:36 -0800 (PST)
+	Sat, 31 Dec 2011 00:11:38 -0800 (PST)
 Received: from build-PowerEdge-T100.corp.ad.wrs.com (128.224.163.66) by
 	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server id
-	14.1.255.0; Sat, 31 Dec 2011 00:11:36 -0800
+	14.1.255.0; Sat, 31 Dec 2011 00:11:38 -0800
 From: Robert Yang <liezhi.yang@windriver.com>
 To: <mark.hatle@windriver.com>, <sgw@linux.intel.com>,
 	<openembedded-core@lists.openembedded.org>
-Date: Sat, 31 Dec 2011 16:10:04 +0800
-Message-ID: <47d6afe044383d6ca97c3972a25663eda145a56c.1325318523.git.liezhi.yang@windriver.com>
+Date: Sat, 31 Dec 2011 16:10:05 +0800
+Message-ID: <26dd7af58a4b5ec08f03aa36f5e23399ae964419.1325318523.git.liezhi.yang@windriver.com>
 X-Mailer: git-send-email 1.7.4.1
 In-Reply-To: <cover.1325318523.git.liezhi.yang@windriver.com>
 References: <cover.1325318523.git.liezhi.yang@windriver.com>
 MIME-Version: 1.0
-Subject: [PATCH 1/2] V2 Incremental image generation(rpm based rootfs)
+Subject: [PATCH 2/2] V2 Incremental image generation(Add config sample)
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -37,161 +37,31 @@ List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedde
 X-List-Received-Date: Sat, 31 Dec 2011 08:18:56 -0000
 Content-Type: text/plain
 
-Incremental image generation, the rootfs would be totally removed and
-re-created in the second generation by default, but with INC_IMAGE_GEN =
-"1", the rootfs would be kept, and will do update(remove/add some pkgs)
-on it.
-NOTE: This is not suggested when you want to create a productive rootfs
-
-For example:
-  1) Add the follow config option to a conf file:
-     INC_IMAGE_GEN = "1"
-
-  2) bitbake core-image-sato
-     modify a package
-     bitbake core-image-sato
-
-The rootfs would not be totally removed and re-created in the second
-generation, it would be simply updated based on the "package".
-
-Implatation:
-1) Figure out the pkg which need to be removed or re-installed, then use
-'rpm -e to remove the old one. Use the rpm's BUILDTIME to determine
-which pkg has been rebuilt.
-
-2) Figure out the pkg which is newly added, and use 'rpm -U' to install
-it.
-
-This only for the rpm based rootfs, I don't know whether we also need
-this for ipk or deb  based rootfs.
+Add the config sample for incremental image generation to
+meta-yocto/conf/local.conf.sample.extended
 
 [YOCTO #1651]
 
 Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
 ---
- meta/classes/image.bbclass       |   11 +++++-
- meta/classes/package_rpm.bbclass |   72 ++++++++++++++++++++++++++++++++-----
- 2 files changed, 71 insertions(+), 12 deletions(-)
+ meta-yocto/conf/local.conf.sample.extended |    7 +++++++
+ 1 files changed, 7 insertions(+), 0 deletions(-)
 
-diff --git a/meta/classes/image.bbclass b/meta/classes/image.bbclass
-index 865d430..71b60f3 100644
---- a/meta/classes/image.bbclass
-+++ b/meta/classes/image.bbclass
-@@ -134,15 +134,22 @@ do_rootfs[umask] = 022
- 
- fakeroot do_rootfs () {
- 	#set -x
--	rm -rf ${IMAGE_ROOTFS}
-+    # When use the incremental image generation, don't remove the rootfs
-+    if [ "${INC_IMAGE_GEN}" != "1" ]; then
-+        rm -rf ${IMAGE_ROOTFS}
-+    fi
- 	rm -rf ${MULTILIB_TEMP_ROOTFS}
- 	mkdir -p ${IMAGE_ROOTFS}
- 	mkdir -p ${DEPLOY_DIR_IMAGE}
- 
- 	cp ${COREBASE}/meta/files/deploydir_readme.txt ${DEPLOY_DIR_IMAGE}/README_-_DO_NOT_DELETE_FILES_IN_THIS_DIRECTORY.txt
- 
--	if [ "${USE_DEVFS}" != "1" ]; then
-+    # If "${IMAGE_ROOTFS}/dev" exists, then the device had been made by
-+    # the previous build
-+	if [ "${USE_DEVFS}" != "1" -a ! -r "${IMAGE_ROOTFS}/dev" ]; then
- 		for devtable in ${@get_devtable_list(d)}; do
-+            # Always return ture since there maybe already one when use the
-+            # incremental image generation
- 			makedevs -r ${IMAGE_ROOTFS} -D $devtable
- 		done
- 	fi
-diff --git a/meta/classes/package_rpm.bbclass b/meta/classes/package_rpm.bbclass
-index d03dc3f..541d351 100644
---- a/meta/classes/package_rpm.bbclass
-+++ b/meta/classes/package_rpm.bbclass
-@@ -147,6 +147,66 @@ resolve_package_rpm () {
- 	echo $pkg_name
- }
- 
-+# rpm common command and options
-+rpm_common_comand () {
+diff --git a/meta-yocto/conf/local.conf.sample.extended b/meta-yocto/conf/local.conf.sample.extended
+index 7c26572..64efaa0 100644
+--- a/meta-yocto/conf/local.conf.sample.extended
++++ b/meta-yocto/conf/local.conf.sample.extended
+@@ -123,3 +123,10 @@
+ # The following is a list of classes to import to use in the generation of images
+ # currently an example class is image_types_uboot
+ # IMAGE_CLASSES = " image_types_uboot"
 +
-+    local target_rootfs="${INSTALL_ROOTFS_RPM}"
-+    local extra_args="$@"
-+
-+    ${RPM} --root ${target_rootfs} \
-+        --predefine "_rpmds_sysinfo_path ${target_rootfs}/etc/rpm/sysinfo" \
-+        --predefine "_rpmrc_platform_path ${target_rootfs}/etc/rpm/platform" \
-+        -D "_var ${localstatedir}" \
-+        -D "_dbpath ${rpmlibdir}" \
-+        --noparentdirs --nolinktos \
-+        -D "__dbi_txn create nofsync private" \
-+        -D "_cross_scriptlet_wrapper ${WORKDIR}/scriptlet_wrapper" $extra_args
-+}
-+
-+# install or remove the pkg
-+rpm_update_pkg () {
-+
-+    local target_rootfs="${INSTALL_ROOTFS_RPM}"
-+
-+    # Save the rpm's build time for incremental image generation, and the file
-+    # would be moved to ${T}
-+    rm -f ${target_rootfs}/install/total_solution_bt.manifest
-+    for i in `cat ${target_rootfs}/install/total_solution.manifest`; do
-+        # Use "rpm" rather than "${RPM}" here, since we don't need the
-+        # '--dbpath' option
-+        echo "$i `rpm -qp --qf '%{BUILDTIME}\n' $i`" >> \
-+            ${target_rootfs}/install/total_solution_bt.manifest
-+    done
-+
-+    # Only install the different pkgs if incremental image generation is set
-+    if [ "${INC_IMAGE_GEN}" = "1" -a -f ${T}/total_solution_bt.manifest ]; then
-+        cur_list="${target_rootfs}/install/total_solution_bt.manifest"
-+        pre_list="${T}/total_solution_bt.manifest"
-+        sort -u $cur_list -o $cur_list
-+        sort -u $pre_list -o $pre_list
-+        comm -1 -3 $cur_list $pre_list | sed 's#.*/\(.*\)\.rpm .*#\1#' > \
-+            ${target_rootfs}/install/remove.manifest
-+        comm -2 -3 $cur_list $pre_list | awk '{print $1}' > \
-+            ${target_rootfs}/install/incremental.manifest
-+
-+        # Attempt to remove unwanted pkgs, the scripts(pre, post, etc.) has not
-+        # been run by now, so don't have to run them(preun, postun, etc.) when
-+        # erase the pkg
-+        if [ -s ${target_rootfs}/install/remove.manifest ]; then
-+            rpm_common_comand --noscripts --nodeps \
-+                -e `cat ${target_rootfs}/install/remove.manifest`
-+        fi
-+
-+        # Attempt to install the incremental pkgs
-+        rpm_common_comand --nodeps --replacefiles --replacepkgs \
-+            -Uvh ${target_rootfs}/install/incremental.manifest
-+    else
-+        # Attempt to install
-+        rpm_common_comand --replacepkgs \
-+            -Uhv ${target_rootfs}/install/total_solution.manifest
-+    fi
-+}
-+
- #
- # install a bunch of packages using rpm
- # the following shell variables needs to be set before calling this func:
-@@ -406,16 +466,8 @@ EOF
- 
- 	chmod 0755 ${WORKDIR}/scriptlet_wrapper
- 
--	# Attempt install
--	${RPM} --root ${target_rootfs} \
--		--predefine "_rpmds_sysinfo_path ${target_rootfs}/etc/rpm/sysinfo" \
--		--predefine "_rpmrc_platform_path ${target_rootfs}/etc/rpm/platform" \
--		-D "_var ${localstatedir}" \
--		-D "_dbpath ${rpmlibdir}" \
--		--noparentdirs --nolinktos --replacepkgs \
--		-D "__dbi_txn create nofsync private" \
--		-D "_cross_scriptlet_wrapper ${WORKDIR}/scriptlet_wrapper" \
--		-Uhv ${target_rootfs}/install/total_solution.manifest
-+    rpm_update_pkg
-+
- }
- 
- python write_specfile () {
++# Incremental image generation(only for rpm based rootfs currently), the rootfs
++# would be totally removed and re-created in the second generation by default,
++# but with INC_IMAGE_GEN = "1", the rootfs would be kept, and will do
++# update(remove/add some pkgs) on it.
++# NOTE: This is not suggested when you want to create a productive rootfs
++#INC_IMAGE_GEN = "1"
 -- 
 1.7.4.1
 
