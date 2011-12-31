@@ -1,24 +1,23 @@
-Received: from mga02.intel.com ([134.134.136.20])
+Received: from mail.windriver.com ([147.11.1.11])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <lianhao.lu@intel.com>) id 1RgppF-0000oA-II
+	(envelope-from <Liezhi.Yang@windriver.com>) id 1Rgu9X-0004Hh-Jk
 	for openembedded-core@lists.openembedded.org;
-	Sat, 31 Dec 2011 04:41:41 +0100
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-	by orsmga101.jf.intel.com with ESMTP; 30 Dec 2011 19:33:20 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.67,351,1309762800"; d="scan'208";a="93029784"
-Received: from llu-piketon.sh.intel.com (HELO localhost) ([10.239.36.146])
-	by orsmga002.jf.intel.com with ESMTP; 30 Dec 2011 19:33:19 -0800
-From: Lianhao Lu <lianhao.lu@intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Sat, 31 Dec 2011 11:31:44 +0800
-Message-Id: <b4bcc78b8a956f92fde49174274a90c46854bdc8.1325302234.git.lianhao.lu@intel.com>
-X-Mailer: git-send-email 1.7.0.4
-In-Reply-To: <03140960a07a85cb0549d0cb8fab4ee09281ba6a.1325302234.git.lianhao.lu@intel.com>
-References: <03140960a07a85cb0549d0cb8fab4ee09281ba6a.1325302234.git.lianhao.lu@intel.com>
-In-Reply-To: <cover.1325302234.git.lianhao.lu@intel.com>
-References: <cover.1325302234.git.lianhao.lu@intel.com>
-Subject: [PRService/meta V2 3/3] conf/bitbake.conf: basichash as default signature.
+	Sat, 31 Dec 2011 09:18:55 +0100
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca [147.11.189.40])
+	by mail.windriver.com (8.14.3/8.14.3) with ESMTP id pBV8BYnt018056
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
+	Sat, 31 Dec 2011 00:11:34 -0800 (PST)
+Received: from build-PowerEdge-T100.corp.ad.wrs.com (128.224.163.66) by
+	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server id
+	14.1.255.0; Sat, 31 Dec 2011 00:11:34 -0800
+From: Robert Yang <liezhi.yang@windriver.com>
+To: <mark.hatle@windriver.com>, <sgw@linux.intel.com>,
+	<openembedded-core@lists.openembedded.org>
+Date: Sat, 31 Dec 2011 16:10:03 +0800
+Message-ID: <cover.1325318523.git.liezhi.yang@windriver.com>
+X-Mailer: git-send-email 1.7.4.1
+MIME-Version: 1.0
+Subject: [PATCH 0/2] V2 Incremental image generation(rpm based rootfs)
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -33,31 +32,74 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 31 Dec 2011 03:41:41 -0000
+X-List-Received-Date: Sat, 31 Dec 2011 08:18:56 -0000
+Content-Type: text/plain
 
-[YOCTO #1555]
-Make basichash as default signature handler
+Changes of V2:
 
-Signed-off-by: Lianhao Lu <lianhao.lu@intel.com>
----
- meta/conf/bitbake.conf |    2 +-
- 1 files changed, 1 insertions(+), 1 deletions(-)
+* Move the config sample from meta-yocto/conf/local.conf.sample to
+  meta-yocto/conf/local.conf.sample.extended as Saul suggested.
 
-diff --git a/meta/conf/bitbake.conf b/meta/conf/bitbake.conf
-index 6b1744f..eca37e5 100644
---- a/meta/conf/bitbake.conf
-+++ b/meta/conf/bitbake.conf
-@@ -738,7 +738,7 @@ TRANSLATED_TARGET_ARCH ??= "${@d.getVar('TARGET_ARCH', True).replace("_", "-")}"
- BB_CONSOLELOG = "${TMPDIR}/cooker.log.${DATETIME}"
- 
- # Setup our default hash policy
--BB_SIGNATURE_HANDLER ?= "basic"
-+BB_SIGNATURE_HANDLER ?= "basichash"
- BB_HASHTASK_WHITELIST ?= "(.*-cross$|.*-native$|.*-cross-initial$|.*-cross-intermediate$|^virtual:native:.*|^virtual:nativesdk:.*)"
- BB_HASHBASE_WHITELIST ?= "TMPDIR FILE PATH PWD BB_TASKHASH BBPATH DL_DIR SSTATE_DIR THISDIR FILESEXTRAPATHS FILE_DIRNAME HOME LOGNAME SHELL TERM USER FILESPATH STAGING_DIR_HOST STAGING_DIR_TARGET COREBASE PRSERV_HOST PRSERV_PORT PRSERV_DUMPDIR PRSERV_DUMPFILE PRSERV_LOCKDOWN"
- 
+Testing:
+1) Enable INC_IMAGE_GEN = "1" in conf/local.conf
+2) $ bitbake core-image-sato
+
+   * Test when remove some pkgs
+     a) Save the modify time of file which is in
+        tmp/work/qemux86_64-poky-linux/core-image-sato-1.0-r0/rootfs/dev/.
+     b) Edit meta/recipes-sato/images/core-image-sato.bb, remove
+        ${SATO_IMAGE_FEATURES} from IMAGE_FEATURES.
+     c) bitbake core-image-sato
+
+     Result: The project built well, check the modify time of the file
+     which is in
+     tmp/work/qemux86_64-poky-linux/core-image-sato-1.0-r0/rootfs/dev/,
+     They should be the same to step a)'s, which means that these files
+     were note newly created.
+
+   * Testh when add some pkgs
+     a) Save the modify time of file which is in
+        tmp/work/qemux86_64-poky-linux/core-image-sato-1.0-r0/rootfs/dev/.
+     b) Edit meta/recipes-sato/images/core-image-sato.bb, add the
+        ${SATO_IMAGE_FEATURES} back to IMAGE_FEATURES.
+     c) bitbake core-image-sato
+
+     Result: The project built well, check the modify time of the file
+     which is in
+     tmp/work/qemux86_64-poky-linux/core-image-sato-1.0-r0/rootfs/dev/,
+     They should be the same to step a)'s, which means that these files
+     were note newly created.
+
+   * Test when edit a pkg
+     a) bitbake bzip2 -cclean
+     b) rm -f rm -f sstate-cache/sstate-bzip2-*
+     c) Edit meta/recipes-extended/bzip2/bzip2_1.0.6.bb
+     d) bitbake core-image-sato
+     Result: The project built well, and check:
+        tmp/work/qemux86-poky-linux/core-image-sato-1.0-r0/temp/log.do_rootfs
+     Only the bzip2 has been re-installed
+
+// Robert
+
+The following changes since commit f5aa3bbda623c8fae3a761d72fddc95631ad0706:
+
+  coreutils: ensure --color works so DEPEND on libcap (2011-12-24 10:05:47 +0000)
+
+are available in the git repository at:
+  git://git.pokylinux.org/poky-contrib robert/inc_image_gen
+  http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=robert/inc_image_gen
+
+Robert Yang (2):
+  Incremental image generation(rpm based rootfs)
+  Incremental image generation(Add config sample)
+
+ meta-yocto/conf/local.conf.sample.extended |    7 +++
+ meta/classes/image.bbclass                 |   11 ++++-
+ meta/classes/package_rpm.bbclass           |   72 ++++++++++++++++++++++++----
+ 3 files changed, 78 insertions(+), 12 deletions(-)
+
 -- 
-1.7.0.4
+1.7.4.1
 
 
 
