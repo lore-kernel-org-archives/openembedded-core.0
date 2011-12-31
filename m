@@ -1,24 +1,33 @@
-Received: from mail-ww0-f43.google.com ([74.125.82.43])
+Received: from mail-ey0-f175.google.com ([209.85.215.175])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <koen@dominion.thruhere.net>) id 1Rh1fC-0002Pd-Qk
+	(envelope-from <otavio.salvador@gmail.com>) id 1Rh5Pm-0001DN-Az
 	for openembedded-core@lists.openembedded.org;
-	Sat, 31 Dec 2011 17:20:06 +0100
-Received: by wgbds11 with SMTP id ds11so21494687wgb.24
+	Sat, 31 Dec 2011 21:20:26 +0100
+Received: by eaal1 with SMTP id l1so13232860eaa.6
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 31 Dec 2011 08:12:49 -0800 (PST)
-Received: by 10.227.208.13 with SMTP id ga13mr52883240wbb.4.1325347504149;
-	Sat, 31 Dec 2011 08:05:04 -0800 (PST)
-Received: from localhost ([84.80.112.235])
-	by mx.google.com with ESMTPS id di5sm101784673wib.3.2011.12.31.08.05.02
-	(version=TLSv1/SSLv3 cipher=OTHER);
-	Sat, 31 Dec 2011 08:05:03 -0800 (PST)
-From: Koen Kooi <koen@dominion.thruhere.net>
-To: openembedded-core@lists.openembedded.org
-Date: Sat, 31 Dec 2011 17:04:56 +0100
-Message-Id: <1325347496-9980-1-git-send-email-koen@dominion.thruhere.net>
-X-Mailer: git-send-email 1.7.2.5
+	Sat, 31 Dec 2011 12:13:09 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
+	h=mime-version:sender:in-reply-to:references:date
+	:x-google-sender-auth:message-id:subject:from:to:cc:content-type;
+	bh=0nAgZMC+o5zIgaOxBtm5BQsWPzDG4fv6P2wK1zF8b0I=;
+	b=M67/eX6Aq6WAdiK9P7fcITfHmZhBmdwlZOGq32OBuFGRy/Z72cAlYl7ZV7PQEgsSO6
+	b/1nmVdoskHxylBc6uwN5WrX7iMnpXeSn32FcirTNVnvjJgSjiIzervVGHcK1JkR3qca
+	xxe4b73TSnKHjeWJ32/U7Pfu7KJ8echVNrijE=
+MIME-Version: 1.0
+Received: by 10.205.136.205 with SMTP id il13mr10075791bkc.37.1325362387888;
+	Sat, 31 Dec 2011 12:13:07 -0800 (PST)
+Sender: otavio.salvador@gmail.com
+Received: by 10.204.78.79 with HTTP; Sat, 31 Dec 2011 12:13:07 -0800 (PST)
+In-Reply-To: <1325347496-9980-1-git-send-email-koen@dominion.thruhere.net>
+References: <1325347496-9980-1-git-send-email-koen@dominion.thruhere.net>
+Date: Sat, 31 Dec 2011 18:13:07 -0200
+X-Google-Sender-Auth: A7MhGv0JdcaTmUqFEDx4yHLVUbw
+Message-ID: <CAP9ODKodP5Da+4yZWt=fQ+OySszKSoUHvr4aoZHT_mX=ih2W4g@mail.gmail.com>
+From: Otavio Salvador <otavio@ossystems.com.br>
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
 Cc: Koen Kooi <koen@dominion.thruhere.net>
-Subject: [PATCH] procps: raise update-alternatives priority
+Subject: Re: [PATCH] procps: raise update-alternatives priority
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -33,45 +42,44 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 31 Dec 2011 16:20:06 -0000
+X-List-Received-Date: Sat, 31 Dec 2011 20:20:26 -0000
+Content-Type: multipart/alternative; boundary=000e0cdfd24a542b1104b568faf8
 
-This fixes a problem with the uptime utility:
+--000e0cdfd24a542b1104b568faf8
+Content-Type: text/plain; charset=ISO-8859-1
 
-root@beagleboneA3-0088:/var/lib/cloud9# busybox uptime
- 16:00:17 up 2 days,  6:46,  load average: 0.14, 0.04, 0.05
-root@beagleboneA3-0088:/var/lib/cloud9# uptime.procps
- 16:00:22 up 2 days,  6:46,  1 user,  load average: 0.14, 0.05, 0.06
-root@beagleboneA3-0088:/var/lib/cloud9# uptime.coreutils
- 16:00pm  up 4382 days 15:58,  1 user,  load average: 0.13, 0.05, 0.05
-root@beagleboneA3-0088:/var/lib/cloud9# ls /usr/bin/uptime -la
-lrwxrwxrwx 1 root root 16 Dec 26 08:56 /usr/bin/uptime -> uptime.coreutils
+On Sat, Dec 31, 2011 at 14:04, Koen Kooi <koen@dominion.thruhere.net> wrote:
 
-Signed-off-by: Koen Kooi <koen@dominion.thruhere.net>
----
- meta/recipes-extended/procps/procps_3.2.8.bb |    4 ++--
- 1 files changed, 2 insertions(+), 2 deletions(-)
+> This fixes a problem with the uptime utility:
+>
 
-diff --git a/meta/recipes-extended/procps/procps_3.2.8.bb b/meta/recipes-extended/procps/procps_3.2.8.bb
-index d989955..6a41ccd 100644
---- a/meta/recipes-extended/procps/procps_3.2.8.bb
-+++ b/meta/recipes-extended/procps/procps_3.2.8.bb
-@@ -1,12 +1,12 @@
- require procps.inc
- 
--PR = "r3"
-+PR = "r4"
- 
- inherit update-alternatives
- 
- ALTERNATIVE_LINKS = "${bindir}/top ${bindir}/uptime ${bindir}/free ${bindir}/pkill ${bindir}/pmap \
-                      ${base_bindir}/kill ${base_sbindir}/sysctl ${base_bindir}/ps"
--ALTERNATIVE_PRIORITY = "90"
-+ALTERNATIVE_PRIORITY = "110"
- 
- SRC_URI += "file://procmodule.patch \
-             file://psmodule.patch \
+This fixes nothing; this is a workaround.
+
+It would be better to find why this fails instead of changing it.
+
 -- 
-1.7.2.5
+Otavio Salvador                             O.S. Systems
+E-mail: otavio@ossystems.com.br  http://www.ossystems.com.br
+Mobile: +55 53 9981-7854              http://projetos.ossystems.com.br
 
+--000e0cdfd24a542b1104b568faf8
+Content-Type: text/html; charset=ISO-8859-1
+Content-Transfer-Encoding: quoted-printable
 
+<div class=3D"gmail_quote">On Sat, Dec 31, 2011 at 14:04, Koen Kooi <span d=
+ir=3D"ltr">&lt;<a href=3D"mailto:koen@dominion.thruhere.net">koen@dominion.=
+thruhere.net</a>&gt;</span> wrote:<br><blockquote class=3D"gmail_quote" sty=
+le=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex">
+This fixes a problem with the uptime utility:<br></blockquote><div><br></di=
+v><div>This fixes nothing; this is a workaround.</div><div><br></div><div>I=
+t would be better to find why this fails instead of changing it.</div><div>
+=A0</div></div>-- <br>Otavio Salvador=A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =
+=A0 =A0 =A0 =A0 =A0 =A0O.S. Systems<br>E-mail: <a href=3D"mailto:otavio@oss=
+ystems.com.br" target=3D"_blank">otavio@ossystems.com.br</a>=A0 <a href=3D"=
+http://www.ossystems.com.br" target=3D"_blank">http://www.ossystems.com.br<=
+/a><br>
+Mobile: +55 53 9981-7854=A0 =A0 =A0 =A0=A0 =A0 =A0 =A0<a href=3D"http://pro=
+jetos.ossystems.com.br" target=3D"_blank">http://projetos.ossystems.com.br<=
+/a><br><br>
 
+--000e0cdfd24a542b1104b568faf8--
