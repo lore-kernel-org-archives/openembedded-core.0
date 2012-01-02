@@ -1,36 +1,21 @@
-Received: from mail-ee0-f47.google.com ([74.125.83.47])
+Received: from mga09.intel.com ([134.134.136.24])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <martin.jansa@gmail.com>) id 1RhmtB-0007gH-8v
+	(envelope-from <tom.zanussi@intel.com>) id 1Rhnga-0001Ra-Uq
 	for openembedded-core@lists.openembedded.org;
-	Mon, 02 Jan 2012 19:45:41 +0100
-Received: by eeit10 with SMTP id t10so10195674eei.6
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 02 Jan 2012 10:38:21 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
-	h=date:from:to:subject:message-id:references:mime-version
-	:content-type:content-disposition:in-reply-to:user-agent;
-	bh=BIRH73WXxOZgxRm92YSgFY2ZDTobCa/mqjcEmmtaMVg=;
-	b=sxvmVuDpVC0BnRJQVJ7dMgTefYQ6t5p5xsH6AGYgiY4qMH3wns6XHson0OANSPZb0O
-	g9kYMNfF8uP5OtYPRA8CvLb5ci0+Z4vh34IhqZ337QRsRwBj1m8UApQe47TUvLYqd5MQ
-	w0S9B/EHZUNE5Lj0P6mpy8NuNSpmM4BdLytKk=
-Received: by 10.213.13.66 with SMTP id b2mr9002484eba.87.1325529501414;
-	Mon, 02 Jan 2012 10:38:21 -0800 (PST)
-Received: from localhost ([94.230.152.246])
-	by mx.google.com with ESMTPS id t1sm194764310eeb.3.2012.01.02.10.38.20
-	(version=TLSv1/SSLv3 cipher=OTHER);
-	Mon, 02 Jan 2012 10:38:20 -0800 (PST)
-Date: Mon, 2 Jan 2012 19:38:08 +0100
-From: Martin Jansa <martin.jansa@gmail.com>
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Message-ID: <20120102183808.GB3749@jama.jama.net>
-References: <cover.1325101673.git.otavio@ossystems.com.br>
-	<fde24903e4f56091470e1e7f2fc00a63a8b86f22.1325101673.git.otavio@ossystems.com.br>
-	<4F01F60D.4000304@linux.intel.com>
-MIME-Version: 1.0
-In-Reply-To: <4F01F60D.4000304@linux.intel.com>
-User-Agent: Mutt/1.5.21 (2010-09-15)
-Subject: Re: [PATCH 01/16] qt4-graphics-system: add
+	Mon, 02 Jan 2012 20:36:45 +0100
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+	by orsmga102.jf.intel.com with ESMTP; 02 Jan 2012 11:29:24 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.67,352,1309762800"; d="scan'208";a="92237800"
+Received: from unknown (HELO localhost) ([10.255.13.35])
+	by orsmga001.jf.intel.com with ESMTP; 02 Jan 2012 11:29:23 -0800
+From: tom.zanussi@intel.com
+To: openembedded-core@lists.openembedded.org,
+	sgw@linux.intel.com
+Date: Mon,  2 Jan 2012 13:29:24 -0600
+Message-Id: <cover.1325526807.git.tom.zanussi@intel.com>
+X-Mailer: git-send-email 1.7.0.4
+Subject: [PATCH 0/5][RFC] LICENSE_FLAGS, a replacement for COMMERCIAL_LICENSE
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -45,99 +30,129 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 02 Jan 2012 18:45:41 -0000
-X-Groupsio-MsgNum: 15003
-Content-Type: multipart/signed; micalg=pgp-sha1;
-	protocol="application/pgp-signature"; boundary="MW5yreqqjyrRcusr"
-Content-Disposition: inline
+X-List-Received-Date: Mon, 02 Jan 2012 19:36:45 -0000
 
---MW5yreqqjyrRcusr
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+From: Tom Zanussi <tom.zanussi@intel.com>
 
-On Mon, Jan 02, 2012 at 10:23:09AM -0800, Saul Wold wrote:
-> On 12/28/2011 11:55 AM, Otavio Salvador wrote:
-> > Allow setting default runtime graphics system engine for Qt4
-> > applications per machine.
-> >
->=20
->=20
->=20
-> > Depending on the GPU and Xorg driver, this can boost and impact
-> > significantly the drawing performance. The default setting is to
-> > 'raster' as this offer best performance for most machines GPUs.
-> >
-> > Signed-off-by: Otavio Salvador<otavio@ossystems.com.br>
-> > ---
-> >   .../qt4-graphics-system/qt4-graphics-system_1.0.bb |   24 +++++++++++=
-+++++++++
-> >   1 files changed, 24 insertions(+), 0 deletions(-)
-> >   create mode 100644 meta/recipes-qt/qt4-graphics-system/qt4-graphics-s=
-ystem_1.0.bb
-> >
-> > diff --git a/meta/recipes-qt/qt4-graphics-system/qt4-graphics-system_1.=
-0.bb b/meta/recipes-qt/qt4-graphics-system/qt4-graphics-system_1.0.bb
-> > new file mode 100644
-> > index 0000000..e3a3a1d
-> > --- /dev/null
-> > +++ b/meta/recipes-qt/qt4-graphics-system/qt4-graphics-system_1.0.bb
-> > @@ -0,0 +1,24 @@
-> > +DESCRIPTION =3D "Set default Qt4 Graphics System to ${QT_GRAPHICS_SYST=
-EM}"
-> > +SECTION =3D "x11/base"
-> > +LICENSE =3D "MIT-X"
-> > +LIC_FILES_CHKSUM =3D "file://${COREBASE}/meta/COPYING.MIT;md5=3D3da9cf=
-bcb788c80a0384361b4de20420"
-> > +
-> > +QT_GRAPHICS_SYSTEM ?=3D "raster"
-> > +
-> > +def _get_extra_rdepends(d):
-> > +    gs =3D d.getVar('QT_GRAPHICS_SYSTEM', 1)
-> > +    if gs =3D=3D "opengl":
-> > +        return "qt4-plugin-graphicssystems-glgraphicssystem"
-> > +
-> > +    return ""
-> > +
-> > +do_install () {
-> > +	install -d ${D}/${sysconfdir}/X11/Xsession.d/
-> > +	cfg_file=3D${D}/${sysconfdir}/X11/Xsession.d/85xqt-graphicssystem
-> > +	echo "export QT_GRAPHICSSYSTEM=3D${QT_GRAPHICS_SYSTEM}">  $cfg_file
-> > +	chmod +x $cfg_file
-> > +}
-> > +
-> > +RDEPENDS_${PN} =3D "xserver-common ${@_get_extra_rdepends(d)}"
-> > +
-> We don't have an xserver-common in oe-core, what does it provide?
+Hi,
 
-that's x11-common equivalent in meta-oe, VIRTUAL_RUNTIME should be used
-here like in meta/recipes-sato/tasks/task-core-x11.bb
+This patchset is a first cut at a replacement for COMMERCIAL_LICENSE
+called LICENSE_FLAGS.  The original proposal was drafted by Saul Wold
+and is copied below:
 
-# xserver-common, x11-common
-VIRTUAL-RUNTIME_xserver_common ?=3D "x11-common"
+***
 
-> Is this something that we need to merge over?
+There has been some issues raised with the initial implementation of 
+COMMERCIAL_LICENSE and we are looking for ways to address this. 
+Currently COMMERCIAL_LICENSE (C_L) is defined in default-distrovars.conf 
+to contain a list of packages that have additional license requirements 
+when used commercially (such as royalty requirements, or acknowledging 
+some type of commercial T&Cs). These packages are skipped during parsing.
 
-xserver-common added functionality (like xinput-calibrator) should be merge=
-d=20
-to x11-common and then xserver-common dropped from meta-oe, but I'm
-still busy with other stuff and daywork..
+It currently contains a number of Audio and Video packages that require 
+additional licensing terms when used commercially. As we add additional 
+layers, some of these layers want to add additional package to the C_L 
+list, but how to easily enable them.
 
-Cheers,
+Since local.conf, where you would normally override things like this, is 
+read in before base.bbclass, which contains tools like oe_filter_out() 
+to modify lists, we can't use that mechanism.
 
---=20
-Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
+That's the background, now for the proposal.
 
---MW5yreqqjyrRcusr
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: Digital signature
+Do away with C_L and C_*_PLUGINS, move to a "Named Bit Flag" list in 
+LICENSE_FLAGS, each recipe can then maintain their flags directly, 
+instead of in a shared location like default-distrovars.conf.
 
------BEGIN PGP SIGNATURE-----
-Version: GnuPG v2.0.18 (GNU/Linux)
+LICENSE_FLAGS would be set in local.conf with the values that are 
+acceptable to include in this image, by default it would be blank.
 
-iEYEARECAAYFAk8B+ZAACgkQN1Ujt2V2gBwiygCgolGw6pe0JsYzHfDjhwIzKO2M
-oUQAnAvxjGLAgG3mnlIdXel2EzuiZRid
-=YQk8
------END PGP SIGNATURE-----
+Possible values for LICENSE_FLAGS could be:
+- Binary - provides some kind of binary with no source
+- Patent - provides a potential infringing item, that some may not want
+- Commercial - include recipes that may have commercial T&C
+- Commercial_${PN} - commercial licenses specific to ${PN}
+- License_${PN} - include a recipe that has a specific license
+                 - maybe similar or different than Commercial_${PN}
+- Click-Through_${PN} - Future requirement to have a click-through 
+acknowledged before continuing to use ${PN} recipe
 
---MW5yreqqjyrRcusr--
+***
+
+[T&C = Terms and Conditions]
+
+So Saul's draft describes the LICENSE_FLAGS themselves; the only thing
+missing is a description of how the user specifies which LICENSE_FLAGS
+are OK to use in an image.  For that, the LICENSE_FLAGS_WHITELIST variable
+is introduced, which simply lists the LICENSE_FLAGS that are OK.
+
+This version converts all the existing packages listed in COMMERCIAL_LICENSE
+to the equivalent "Commercial" LICENSE_FLAGS.
+
+So to get the same functionality you'd currently get by setting
+COMMERCIAL_LICENSE = "", you'd add this to your local.conf:
+
+LICENSE_FLAGS_WHITELIST = "Commercial"
+
+Similarly, if there was a package that included only binaries with no source
+and additionally required a specific license, it could specify LICENSE_FLAGS as:
+
+LICENSE_FLAGS = "License_${PN}_${PV} Binary"
+
+In this case for the foo_1.4.bb package to be built and included in the image,
+the expanded LICENSE_FLAGS for the package would be added to the whitelist:
+
+LICENSE_FLAGS_WHITELIST = "Commercial License_foo_1.4 Binary"
+
+Note that there's no policy attached to any of the above license types - this is
+simply string-matching that can be used for the purpose of screening packages - if
+the strings match, the recipe gets in, if not, it doesn't i.e. during parsing, we
+would inspect the recipe'ss data for LICENSE_FLAGS and if it has a value then try
+to match against the WHITELIST - if it matches it gets added to the parsed list, if
+there is no match then it gets Skip_Package()'ed.
+
+This RFC patchset implements the above, with the exception of whatever
+would need to be implemented for the 'Click-Through' variant, which I'll
+be thinking about for the next version of the patchset.  In the case of a
+click-through license, the check needs to deferred until after download and
+unpacking, since the EULA that needs to be clicked-through can't be executed
+until after that, and additionally that typically only needs to happen the
+first time - subsequent runs don't need the click-through, so it should be
+automatically promoted to the same license Type but with the Click-Through
+part removed.  Any ideas on how to implement that would be welcome...
+
+In addition to the "Commercial" license replacement above, this version has
+also been tested with a recipe that uses a "License_${PN}_${PV}" string, and
+multiple flags.
+
+The following changes since commit f5aa3bbda623c8fae3a761d72fddc95631ad0706:
+  Saul Wold (1):
+        coreutils: ensure --color works so DEPEND on libcap
+
+are available in the git repository at:
+
+  git://git.yoctoproject.org/poky-contrib.git tzanussi/license-flags.v0
+  http://git.yoctoproject.org/cgit.cgi//log/?h=tzanussi/license-flags.v0
+
+Tom Zanussi (5):
+  base.bbclass: add support for LICENSE_FLAGS
+  Add LICENSE_FLAGS to packages mentioned in COMMERCIAL_LICENSE
+  base.bbclass: remove COMMERCIAL_LICENSE code
+  default-distrovars.inc: remove COMMERCIAL_LICENSE et al
+  documentation-audit.sh: remove COMMERCIAL_LICENSE warning
+
+ meta/classes/base.bbclass                          |   24 +++++++++++++++-----
+ meta/conf/distro/include/default-distrovars.inc    |    5 ----
+ .../gstreamer/gst-fluendo-mp3_0.10.15.bb           |    1 +
+ .../gstreamer/gst-openmax_0.10.1.bb                |    1 +
+ .../gstreamer/gst-plugins-ugly_0.10.17.bb          |    1 +
+ meta/recipes-multimedia/lame/lame_3.99.3.bb        |    1 +
+ meta/recipes-multimedia/libmad/libmad_0.15.1b.bb   |    1 +
+ meta/recipes-multimedia/libomxil/libomxil_0.3.3.bb |    1 +
+ meta/recipes-multimedia/mpeg2dec/mpeg2dec_0.4.1.bb |    1 +
+ meta/recipes-qt/qt-apps/qmmp_0.5.2.bb              |    1 +
+ scripts/contrib/documentation-audit.sh             |    1 -
+ 11 files changed, 26 insertions(+), 12 deletions(-)
+
+
+
