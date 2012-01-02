@@ -1,25 +1,20 @@
-Received: from mga02.intel.com ([134.134.136.20])
+Received: from mga11.intel.com ([192.55.52.93])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <tom.zanussi@intel.com>) id 1Rhngl-0001SR-Uu
+	(envelope-from <nitin.a.kamble@intel.com>) id 1RholE-0008H2-Ao
 	for openembedded-core@lists.openembedded.org;
-	Mon, 02 Jan 2012 20:36:57 +0100
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-	by orsmga101.jf.intel.com with ESMTP; 02 Jan 2012 11:29:33 -0800
+	Mon, 02 Jan 2012 21:45:37 +0100
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+	by fmsmga102.fm.intel.com with ESMTP; 02 Jan 2012 12:38:11 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.67,351,1309762800"; d="scan'208";a="93685220"
-Received: from unknown (HELO localhost) ([10.255.13.35])
-	by orsmga002.jf.intel.com with ESMTP; 02 Jan 2012 11:29:32 -0800
-From: tom.zanussi@intel.com
-To: openembedded-core@lists.openembedded.org,
-	sgw@linux.intel.com
-Date: Mon,  2 Jan 2012 13:29:27 -0600
-Message-Id: <a3e699470bceb6d2b274e396fef1b92a5d263c18.1325526807.git.tom.zanussi@intel.com>
-X-Mailer: git-send-email 1.7.0.4
-In-Reply-To: <6f382ab47a126d96637ba3581f11bf1f2093b5a0.1325526807.git.tom.zanussi@intel.com>
-References: <6f382ab47a126d96637ba3581f11bf1f2093b5a0.1325526807.git.tom.zanussi@intel.com>
-In-Reply-To: <cover.1325526807.git.tom.zanussi@intel.com>
-References: <cover.1325526807.git.tom.zanussi@intel.com>
-Subject: [PATCH 4/5] default-distrovars.inc: remove COMMERCIAL_LICENSE et al
+X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="108039281"
+Received: from nbuild0.sc.intel.com ([172.25.110.36])
+	by fmsmga002.fm.intel.com with ESMTP; 02 Jan 2012 12:38:11 -0800
+From: nitin.a.kamble@intel.com
+To: openembedded-core@lists.openembedded.org
+Date: Mon,  2 Jan 2012 12:38:04 -0800
+Message-Id: <cover.1325536389.git.nitin.a.kamble@intel.com>
+X-Mailer: git-send-email 1.7.6.4
+Subject: [PATCH v2 00/15] recipe Upgrades & Fixes
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -34,36 +29,146 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 02 Jan 2012 19:36:57 -0000
+X-List-Received-Date: Mon, 02 Jan 2012 20:45:37 -0000
 
-From: Tom Zanussi <tom.zanussi@intel.com>
+From: Nitin A Kamble <nitin.a.kamble@intel.com>
 
-The global COMMERCIAL_LICENSE mechanism has been obsoleted by
-per-recipe LICENSE_FLAGS, so remove the related variables.
 
-Signed-off-by: Tom Zanussi <tom.zanussi@intel.com>
----
- meta/conf/distro/include/default-distrovars.inc |    5 -----
- 1 files changed, 0 insertions(+), 5 deletions(-)
+This is version 2 of pull request with following changes.
 
-diff --git a/meta/conf/distro/include/default-distrovars.inc b/meta/conf/distro/include/default-distrovars.inc
-index e1594f3..16b3108 100644
---- a/meta/conf/distro/include/default-distrovars.inc
-+++ b/meta/conf/distro/include/default-distrovars.inc
-@@ -26,11 +26,6 @@ HOSTTOOLS_WHITELIST_GPLv3 ?= ""
- WHITELIST_GPLv3 ?= "less"
- LGPLv2_WHITELIST_GPLv3 ?= "libassuan gnutls libtasn1 libidn libgcc gcc-runtime" 
- 
--# This is a list of packages that require a commercial license to ship
--# product. If shipped as part of an image these packages may have 
--# implications so they are disabled by default
--COMMERCIAL_LICENSE ?= "lame gst-fluendo-mp3 libmad mpeg2dec ffmpeg qmmp ${COMMERCIAL_LICENSE_DEPENDEES}"
--COMMERCIAL_LICENSE_DEPENDEES ?= "gst-plugins-ugly libomxil gst-openmax"
- COMMERCIAL_AUDIO_PLUGINS ?= ""
- # COMMERCIAL_AUDIO_PLUGINS ?= "gst-plugins-ugly-mad gst-plugins-ugly-mpegaudioparse"
- COMMERCIAL_VIDEO_PLUGINS ?= ""
+The commit of automake is redone to fix the styling.
+The commit of quilt is redone to avoid packaging warnings.
+A new commit for fixing "make -j" of btrfs-tools.
+
+
+Thanks,
+Nitin
+
+The following changes since commit f5aa3bbda623c8fae3a761d72fddc95631ad0706:
+
+  coreutils: ensure --color works so DEPEND on libcap (2011-12-24 10:05:47 +0000)
+
+are available in the git repository at:
+  git://git.pokylinux.org/poky-contrib nitin/upgrades+fixes
+  http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=nitin/upgrades+fixes
+
+Nitin A Kamble (15):
+  btrfs-tools: add attr as dependency to fix compilation
+  byacc: upgrade from 20110908 to 20111219
+  quilt upgreade from 0.48 to 0.50
+  rpm: fix build with automake-1.11.2
+  autotools.bbclass: fix cp error for empty dir
+  jpeg: fix configure with automake 1.11.2
+  avahi: fix configure with automake 1.11.2
+  misc patches: fix patch headers
+  perl: mark upstream status for all patches
+  gcc: mark upstream status for all patches
+  avahi-ui: fix build with automake-1.11.2
+  vte: upgrade from 0.24.3 to 0.28.2
+  systemtap: fix configure with automake 1.11.2
+  automake: upgrade from 1.11.1 to 1.11.2
+  btrfs-tools:Fix multithreaded building
+
+ meta/classes/autotools.bbclass                     |    4 +-
+ .../libacpi/files/libacpi_fix_for_x32.patch        |    2 +-
+ .../use_correct_strip_in_cross_environment.patch   |    2 +-
+ meta/recipes-connectivity/avahi/avahi-ui_0.6.30.bb |    3 +-
+ meta/recipes-connectivity/avahi/avahi.inc          |    5 +-
+ .../avahi/files/fix_for_automake_1.11.2.patch      |   44 ++++++++++++++++
+ .../openssl-1.0.0e/openssl_fix_for_x32.patch       |    2 +-
+ .../glib-2.0/glib-2.0/glib-2.0_fix_for_x32.patch   |    2 +-
+ .../jpeg/jpeg-8c/fix_for_automake_1.11.2.patch     |   28 ++++++++++
+ meta/recipes-core/jpeg/jpeg_8c.bb                  |    5 +-
+ meta/recipes-devtools/automake/automake.inc        |    1 -
+ .../{automake_1.11.1.bb => automake_1.11.2.bb}     |    5 +-
+ ...ix_race_condition_with_multithreaded_make.patch |   36 +++++++++++++
+ .../btrfs-tools/btrfs-tools_git.bb                 |    8 ++-
+ .../dosfstools/fix_populated_dosfs_creation.patch  |    2 +-
+ .../gcc/gcc-4.6/gcc-arm-set-cost.patch             |    1 +
+ meta/recipes-devtools/gcc/gcc-4.6/pr32219.patch    |    1 +
+ meta/recipes-devtools/gcc/gcc-4.6/pr46934.patch    |    1 +
+ meta/recipes-devtools/gcc/gcc-4.6/pr47551.patch    |    1 +
+ .../debian/arm_thread_stress_timeout.diff          |    1 +
+ .../perl-5.14.2/debian/cpan_definstalldirs.diff    |    1 +
+ .../perl-5.14.2/debian/cpanplus_config_path.diff   |    1 +
+ .../debian/cpanplus_definstalldirs.diff            |    1 +
+ .../perl/perl-5.14.2/debian/db_file_ver.diff       |    1 +
+ .../perl-5.14.2/debian/deprecate-with-apt.diff     |    1 +
+ .../perl-5.14.2/debian/disable-zlib-bundling.diff  |    1 +
+ .../perl/perl-5.14.2/debian/doc_info.diff          |    1 +
+ .../perl/perl-5.14.2/debian/enc2xs_inc.diff        |    1 +
+ .../perl/perl-5.14.2/debian/errno_ver.diff         |    1 +
+ .../debian/extutils_set_libperl_path.diff          |    1 +
+ .../perl/perl-5.14.2/debian/fakeroot.diff          |    1 +
+ .../perl/perl-5.14.2/debian/find_html2text.diff    |    1 +
+ .../debian/fixes/document_makemaker_ccflags.diff   |    1 +
+ .../debian/fixes/extutils-cbuilder-cflags.diff     |    1 +
+ .../perl-5.14.2/debian/fixes/h2ph-multiarch.diff   |    1 +
+ .../perl-5.14.2/debian/fixes/hurd-ccflags.diff     |    1 +
+ .../perl/perl-5.14.2/debian/fixes/hurd-hints.diff  |    1 +
+ .../perl-5.14.2/debian/fixes/index-tainting.diff   |    1 +
+ .../debian/fixes/module-build-home-directory.diff  |    1 +
+ .../perl-5.14.2/debian/fixes/net_smtp_docs.diff    |    1 +
+ .../perl/perl-5.14.2/debian/fixes/pod_fixes.diff   |    1 +
+ .../perl-5.14.2/debian/fixes/respect_umask.diff    |    1 +
+ .../fixes/sys-syslog-socket-timeout-kfreebsd.patch |    1 +
+ .../perl/perl-5.14.2/debian/instmodsh_doc.diff     |    1 +
+ .../perl/perl-5.14.2/debian/ld_run_path.diff       |    1 +
+ .../perl-5.14.2/debian/libnet_config_path.diff     |    1 +
+ .../perl/perl-5.14.2/debian/libperl_embed_doc.diff |    1 +
+ .../perl-5.14.2/debian/m68k_thread_stress.diff     |    1 +
+ .../perl/perl-5.14.2/debian/mod_paths.diff         |    1 +
+ .../debian/module_build_man_extensions.diff        |    1 +
+ .../perl-5.14.2/debian/no_packlist_perllocal.diff  |    1 +
+ .../perl/perl-5.14.2/debian/patchlevel.diff        |    1 +
+ .../perl/perl-5.14.2/debian/perlivp.diff           |    1 +
+ .../perl/perl-5.14.2/debian/prefix_changes.diff    |    1 +
+ .../perl/perl-5.14.2/debian/prune_libs.diff        |    1 +
+ .../perl-5.14.2/debian/skip-kfreebsd-crash.diff    |    1 +
+ .../debian/skip-upstream-git-tests.diff            |    1 +
+ .../debian/squelch-locale-warnings.diff            |    1 +
+ .../perl-5.14.2/debian/writable_site_dirs.diff     |    1 +
+ .../quilt/{quilt.inc => quilt-0.50.inc}            |   10 +++-
+ meta/recipes-devtools/quilt/quilt-native_0.48.bb   |    7 ---
+ meta/recipes-devtools/quilt/quilt-native_0.50.bb   |    4 ++
+ .../quilt/quilt/gnu_patch_test_fix.patch           |   21 --------
+ meta/recipes-devtools/quilt/quilt_0.48.bb          |   13 -----
+ meta/recipes-devtools/quilt/quilt_0.50.bb          |    7 +++
+ .../rpm/rpm/fix_for_automake_1.11.2.patch          |   54 ++++++++++++++++++++
+ meta/recipes-devtools/rpm/rpm_5.4.0.bb             |    3 +-
+ .../byacc/{byacc_20110908.bb => byacc_20111219.bb} |    6 +-
+ .../findutils-4.4.2/findutils_fix_for_x32.patch    |    2 +-
+ .../mdadm/files/mdadm-3.2.2_fix_for_x32.patch      |    2 +-
+ .../pax/pax/pax-3.4_fix_for_x32.patch              |    2 +-
+ .../mesa/mesa/mesa_fix_for_x32.patch               |    2 +-
+ .../xorg-lib/libxt/libxt_fix_for_x32.patch         |    2 +-
+ .../xorg-proto/xproto/xproto_fix_for_x32.patch     |    2 +-
+ .../systemtap/fix_for_automake_1.11.2.patch        |   46 +++++++++++++++++
+ meta/recipes-kernel/systemtap/systemtap_git.bb     |    3 +-
+ .../pulseaudio/pulseaudo_fix_for_x32.patch         |    2 +-
+ meta/recipes-support/gmp/gmp/gmp_bugfix.patch      |    2 +-
+ meta/recipes-support/vte/vte.inc                   |    2 +-
+ meta/recipes-support/vte/vte_0.24.3.bb             |    8 ---
+ meta/recipes-support/vte/vte_0.28.2.bb             |   10 ++++
+ 81 files changed, 319 insertions(+), 84 deletions(-)
+ create mode 100644 meta/recipes-connectivity/avahi/files/fix_for_automake_1.11.2.patch
+ create mode 100644 meta/recipes-core/jpeg/jpeg-8c/fix_for_automake_1.11.2.patch
+ rename meta/recipes-devtools/automake/{automake_1.11.1.bb => automake_1.11.2.bb} (88%)
+ create mode 100644 meta/recipes-devtools/btrfs-tools/btrfs-tools/fix_race_condition_with_multithreaded_make.patch
+ rename meta/recipes-devtools/quilt/{quilt.inc => quilt-0.50.inc} (74%)
+ delete mode 100644 meta/recipes-devtools/quilt/quilt-native_0.48.bb
+ create mode 100644 meta/recipes-devtools/quilt/quilt-native_0.50.bb
+ delete mode 100644 meta/recipes-devtools/quilt/quilt/gnu_patch_test_fix.patch
+ delete mode 100644 meta/recipes-devtools/quilt/quilt_0.48.bb
+ create mode 100644 meta/recipes-devtools/quilt/quilt_0.50.bb
+ create mode 100644 meta/recipes-devtools/rpm/rpm/fix_for_automake_1.11.2.patch
+ rename meta/recipes-extended/byacc/{byacc_20110908.bb => byacc_20111219.bb} (73%)
+ create mode 100644 meta/recipes-kernel/systemtap/systemtap/fix_for_automake_1.11.2.patch
+ delete mode 100644 meta/recipes-support/vte/vte_0.24.3.bb
+ create mode 100644 meta/recipes-support/vte/vte_0.28.2.bb
+
 -- 
-1.7.0.4
+1.7.6.4
 
 
 
