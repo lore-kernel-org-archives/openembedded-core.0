@@ -1,24 +1,24 @@
-Received: from mga11.intel.com ([192.55.52.93])
+Received: from mga01.intel.com ([192.55.52.88])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <nitin.a.kamble@intel.com>) id 1RholJ-0008H9-IT
+	(envelope-from <nitin.a.kamble@intel.com>) id 1RholJ-0008Hb-Nb
 	for openembedded-core@lists.openembedded.org;
 	Mon, 02 Jan 2012 21:45:41 +0100
 Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-	by fmsmga102.fm.intel.com with ESMTP; 02 Jan 2012 12:38:15 -0800
+	by fmsmga101.fm.intel.com with ESMTP; 02 Jan 2012 12:38:16 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="108039311"
+X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="108039321"
 Received: from nbuild0.sc.intel.com ([172.25.110.36])
-	by fmsmga002.fm.intel.com with ESMTP; 02 Jan 2012 12:38:15 -0800
+	by fmsmga002.fm.intel.com with ESMTP; 02 Jan 2012 12:38:16 -0800
 From: nitin.a.kamble@intel.com
 To: openembedded-core@lists.openembedded.org
-Date: Mon,  2 Jan 2012 12:38:01 -0800
-Message-Id: <3dfd63a9d3cd981ee53a5f56a4ff2733fa721f76.1325536389.git.nitin.a.kamble@intel.com>
+Date: Mon,  2 Jan 2012 12:38:10 -0800
+Message-Id: <87c498c76a8c2bc58177a0e4ea69258bd98bdbf7.1325536389.git.nitin.a.kamble@intel.com>
 X-Mailer: git-send-email 1.7.6.4
 In-Reply-To: <0a113cb0a2defae38913df19d2bd3d6e378e370f.1325536389.git.nitin.a.kamble@intel.com>
 References: <0a113cb0a2defae38913df19d2bd3d6e378e370f.1325536389.git.nitin.a.kamble@intel.com>
 In-Reply-To: <cover.1325536389.git.nitin.a.kamble@intel.com>
 References: <cover.1325536389.git.nitin.a.kamble@intel.com>
-Subject: [PATCH v2 05/15] autotools.bbclass: fix cp error for empty dir
+Subject: [PATCH v2 14/15] automake: upgrade from 1.11.1 to 1.11.2
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -33,40 +33,48 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 02 Jan 2012 20:45:41 -0000
+X-List-Received-Date: Mon, 02 Jan 2012 20:45:42 -0000
 
 From: Nitin A Kamble <nitin.a.kamble@intel.com>
 
-the .../usr/share/aclocal is empty for build from scratch. so avoid cp
-error if the directory is empty.
-
-Fixes this error, which is thrown before pseudo is built:
-
-| cp: cannot stat
-`/builddisk/build/build0/tmp/sysroots/x86_64-linux/usr/share/aclocal/*':
-No such file or directory
-NOTE: package libtool-native-2.4.2-r0.0: task do_configure: Failed
-
 Signed-off-by: Nitin A Kamble <nitin.a.kamble@intel.com>
 ---
- meta/classes/autotools.bbclass |    4 +++-
- 1 files changed, 3 insertions(+), 1 deletions(-)
+ meta/recipes-devtools/automake/automake.inc        |    1 -
+ .../{automake_1.11.1.bb => automake_1.11.2.bb}     |    5 +++--
+ 2 files changed, 3 insertions(+), 3 deletions(-)
+ rename meta/recipes-devtools/automake/{automake_1.11.1.bb => automake_1.11.2.bb} (88%)
 
-diff --git a/meta/classes/autotools.bbclass b/meta/classes/autotools.bbclass
-index 7536bac..2f462ff 100644
---- a/meta/classes/autotools.bbclass
-+++ b/meta/classes/autotools.bbclass
-@@ -122,7 +122,9 @@ autotools_do_configure() {
- 			# We avoid this by taking a copy here and then files cannot disappear.
- 			if [ -d ${STAGING_DATADIR}/aclocal ]; then
- 				mkdir -p ${B}/aclocal-copy/
--				cp ${STAGING_DATADIR}/aclocal/* ${B}/aclocal-copy/
-+				# for scratch build this directory can be empty
-+				# so avoid cp's no files to copy error
-+				cp -r ${STAGING_DATADIR}/aclocal/. ${B}/aclocal-copy/
- 				acpaths="$acpaths -I ${B}/aclocal-copy/"
- 			fi
- 			# autoreconf is too shy to overwrite aclocal.m4 if it doesn't look
+diff --git a/meta/recipes-devtools/automake/automake.inc b/meta/recipes-devtools/automake/automake.inc
+index 25b0c0e..c259673 100644
+--- a/meta/recipes-devtools/automake/automake.inc
++++ b/meta/recipes-devtools/automake/automake.inc
+@@ -4,7 +4,6 @@ Standards. Automake requires the use of Autoconf."
+ LICENSE = "GPLv2"
+ HOMEPAGE = "http://www.gnu.org/software/automake/"
+ SECTION = "devel"
+-PR = "r5"
+ 
+ SRC_URI = "${GNU_MIRROR}/automake/automake-${PV}.tar.bz2 "
+ 
+diff --git a/meta/recipes-devtools/automake/automake_1.11.1.bb b/meta/recipes-devtools/automake/automake_1.11.2.bb
+similarity index 88%
+rename from meta/recipes-devtools/automake/automake_1.11.1.bb
+rename to meta/recipes-devtools/automake/automake_1.11.2.bb
+index ff8353f..b455edf 100644
+--- a/meta/recipes-devtools/automake/automake_1.11.1.bb
++++ b/meta/recipes-devtools/automake/automake_1.11.2.bb
+@@ -37,8 +37,9 @@ SRC_URI += "${PATHFIXPATCH} \
+ 	    file://prefer-cpio-over-pax-for-ustar-archives.patch \
+ 	    file://python-libdir.patch"
+ 
+-SRC_URI[md5sum] = "c2972c4d9b3e29c03d5f2af86249876f"
+-SRC_URI[sha256sum] = "5b159d3c0e0a1f87de71b68bcb9f1a1c49e9e71749c9b723f17e2e1e0295c7ae"
++PR = "r0"
++SRC_URI[md5sum] = "18194e804d415767bae8f703c963d456"
++SRC_URI[sha256sum] = "4f46d1f9380c8a3506280750f630e9fc915cb1a435b724be56b499d016368718"
+ 
+ do_install () {
+ 	oe_runmake 'DESTDIR=${D}' install
 -- 
 1.7.6.4
 
