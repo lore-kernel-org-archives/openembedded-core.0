@@ -1,24 +1,24 @@
 Received: from mga01.intel.com ([192.55.52.88])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <sgw@linux.intel.com>) id 1Rhlcx-0000w7-FF
+	(envelope-from <sgw@linux.intel.com>) id 1Rhld4-0000xz-6f
 	for openembedded-core@lists.openembedded.org;
-	Mon, 02 Jan 2012 18:24:52 +0100
+	Mon, 02 Jan 2012 18:24:59 +0100
 Received: from fmsmga001.fm.intel.com ([10.253.24.23])
 	by fmsmga101.fm.intel.com with ESMTP; 02 Jan 2012 09:16:54 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="102388503"
+X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="102388497"
 Received: from unknown (HELO swold-mobl.bigsur.com) ([10.255.13.112])
 	by fmsmga001.fm.intel.com with ESMTP; 02 Jan 2012 09:16:54 -0800
 From: Saul Wold <sgw@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Mon,  2 Jan 2012 09:06:14 -0800
-Message-Id: <f62ac916432a42bd33c0f126541f24939496f9b5.1325523894.git.sgw@linux.intel.com>
+Date: Mon,  2 Jan 2012 09:06:11 -0800
+Message-Id: <08e5d4bc280d826c5488b90a1e9bd5d0e7ba5db9.1325523894.git.sgw@linux.intel.com>
 X-Mailer: git-send-email 1.7.6.4
 In-Reply-To: <cover.1325523894.git.sgw@linux.intel.com>
 References: <cover.1325523894.git.sgw@linux.intel.com>
 In-Reply-To: <cover.1325523894.git.sgw@linux.intel.com>
 References: <cover.1325523894.git.sgw@linux.intel.com>
-Subject: [PATCH 7/9] rxvt-unicode: Update to 9.14
+Subject: [PATCH 4/9] python: add md5module support
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -33,70 +33,87 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 02 Jan 2012 17:24:52 -0000
+X-List-Received-Date: Mon, 02 Jan 2012 17:24:59 -0000
 
-COPYING file has been reformatted whites space changes
+The internal md5 module is needed for using "waf" to install
+other python packages such as pycairo.
 
 Signed-off-by: Saul Wold <sgw@linux.intel.com>
 ---
- .../rxvt.desktop                                   |    0
- .../rxvt.png                                       |  Bin 2847 -> 2847 bytes
- .../xwc.patch                                      |    0
- .../{rxvt-unicode_9.12.bb => rxvt-unicode_9.14.bb} |    9 +++++----
- 4 files changed, 5 insertions(+), 4 deletions(-)
- rename meta/recipes-sato/rxvt-unicode/{rxvt-unicode-9.12 => rxvt-unicode-9.14}/rxvt.desktop (100%)
- rename meta/recipes-sato/rxvt-unicode/{rxvt-unicode-9.12 => rxvt-unicode-9.14}/rxvt.png (100%)
- rename meta/recipes-sato/rxvt-unicode/{rxvt-unicode-9.12 => rxvt-unicode-9.14}/xwc.patch (100%)
- rename meta/recipes-sato/rxvt-unicode/{rxvt-unicode_9.12.bb => rxvt-unicode_9.14.bb} (88%)
+ .../recipes-devtools/python/python-native_2.7.2.bb |    6 ++++--
+ .../python/python/add-md5module-support.patch      |   18 ++++++++++++++++++
+ meta/recipes-devtools/python/python_2.7.2.bb       |    3 ++-
+ 3 files changed, 24 insertions(+), 3 deletions(-)
+ create mode 100644 meta/recipes-devtools/python/python/add-md5module-support.patch
 
-diff --git a/meta/recipes-sato/rxvt-unicode/rxvt-unicode-9.12/rxvt.desktop b/meta/recipes-sato/rxvt-unicode/rxvt-unicode-9.14/rxvt.desktop
-similarity index 100%
-rename from meta/recipes-sato/rxvt-unicode/rxvt-unicode-9.12/rxvt.desktop
-rename to meta/recipes-sato/rxvt-unicode/rxvt-unicode-9.14/rxvt.desktop
-diff --git a/meta/recipes-sato/rxvt-unicode/rxvt-unicode-9.12/rxvt.png b/meta/recipes-sato/rxvt-unicode/rxvt-unicode-9.14/rxvt.png
-similarity index 100%
-rename from meta/recipes-sato/rxvt-unicode/rxvt-unicode-9.12/rxvt.png
-rename to meta/recipes-sato/rxvt-unicode/rxvt-unicode-9.14/rxvt.png
-diff --git a/meta/recipes-sato/rxvt-unicode/rxvt-unicode-9.12/xwc.patch b/meta/recipes-sato/rxvt-unicode/rxvt-unicode-9.14/xwc.patch
-similarity index 100%
-rename from meta/recipes-sato/rxvt-unicode/rxvt-unicode-9.12/xwc.patch
-rename to meta/recipes-sato/rxvt-unicode/rxvt-unicode-9.14/xwc.patch
-diff --git a/meta/recipes-sato/rxvt-unicode/rxvt-unicode_9.12.bb b/meta/recipes-sato/rxvt-unicode/rxvt-unicode_9.14.bb
-similarity index 88%
-rename from meta/recipes-sato/rxvt-unicode/rxvt-unicode_9.12.bb
-rename to meta/recipes-sato/rxvt-unicode/rxvt-unicode_9.14.bb
-index 5625245..c349249 100644
---- a/meta/recipes-sato/rxvt-unicode/rxvt-unicode_9.12.bb
-+++ b/meta/recipes-sato/rxvt-unicode/rxvt-unicode_9.14.bb
-@@ -1,14 +1,15 @@
- SECTION = "x11/utils"
--DEPENDS = "virtual/libx11 libxt libxft"
- DESCRIPTION = "rxvt-unicode is a clone of the well known \
- terminal emulator rxvt, modified to store text in Unicode \
- (either UCS-2 or UCS-4) and to use locale-correct input and \
- output. It also supports mixing multiple fonts at the \
- same time, including Xft fonts."
- LICENSE = "GPLv2+"
--LIC_FILES_CHKSUM = "file://COPYING;md5=59530bdf33659b29e73d4adb9f9f6552 \
-+LIC_FILES_CHKSUM = "file://COPYING;md5=b234ee4d69f5fce4486a80fdaf4a4263 \
-                     file://src/main.C;beginline=1;endline=31;md5=775485398a09fa7aee6f90464af88432"
+diff --git a/meta/recipes-devtools/python/python-native_2.7.2.bb b/meta/recipes-devtools/python/python-native_2.7.2.bb
+index d036eca..7d8c597 100644
+--- a/meta/recipes-devtools/python/python-native_2.7.2.bb
++++ b/meta/recipes-devtools/python/python-native_2.7.2.bb
+@@ -1,6 +1,6 @@
+ require python.inc
+ DEPENDS = "openssl-native bzip2-full-native zlib-native readline-native sqlite3-native"
+-PR = "${INC_PR}.1"
++PR = "${INC_PR}.2"
  
-+DEPENDS = "virtual/libx11 libxt libxft gdk-pixbuf"
+ SRC_URI += "file://04-default-is-optimized.patch \
+            file://05-enable-ctypes-cross-build.patch \
+@@ -11,7 +11,9 @@ SRC_URI += "file://04-default-is-optimized.patch \
+            file://debug.patch \
+            file://unixccompiler.patch \
+            file://nohostlibs.patch \
+-           file://multilib.patch "
++           file://multilib.patch \
++           file://add-md5module-support.patch \
++           "
+ S = "${WORKDIR}/Python-${PV}"
+ 
+ inherit native
+diff --git a/meta/recipes-devtools/python/python/add-md5module-support.patch b/meta/recipes-devtools/python/python/add-md5module-support.patch
+new file mode 100644
+index 0000000..33fea77
+--- /dev/null
++++ b/meta/recipes-devtools/python/python/add-md5module-support.patch
+@@ -0,0 +1,18 @@
 +
- PR = "r0"
++Upstream-Status: Inappropriate [configuration]
++
++Signed-off-by: Saul Wold <sgw@linux.intel.com>
++
++Index: Python-2.7.2/Modules/Setup.dist
++===================================================================
++--- Python-2.7.2.orig/Modules/Setup.dist	2011-06-11 08:46:26.000000000 -0700
+++++ Python-2.7.2/Modules/Setup.dist	2011-12-27 15:51:41.244623219 -0800
++@@ -248,7 +248,7 @@
++ # Message-Digest Algorithm, described in RFC 1321.  The necessary files
++ # md5.c and md5.h are included here.
++ 
++-#_md5 md5module.c md5.c
+++_md5 md5module.c md5.c
++ 
++ 
++ # The _sha module implements the SHA checksum algorithms.
+diff --git a/meta/recipes-devtools/python/python_2.7.2.bb b/meta/recipes-devtools/python/python_2.7.2.bb
+index 5e8e0d7..654c850 100644
+--- a/meta/recipes-devtools/python/python_2.7.2.bb
++++ b/meta/recipes-devtools/python/python_2.7.2.bb
+@@ -1,7 +1,7 @@
+ require python.inc
+ DEPENDS = "python-native db gdbm openssl readline sqlite3 zlib"
+ DEPENDS_sharprom = "python-native db readline zlib gdbm openssl"
+-PR = "${INC_PR}.4"
++PR = "${INC_PR}.5"
  
- SRC_URI = "http://dist.schmorp.de/rxvt-unicode/Attic/rxvt-unicode-${PV}.tar.bz2 \
-@@ -16,8 +17,8 @@ SRC_URI = "http://dist.schmorp.de/rxvt-unicode/Attic/rxvt-unicode-${PV}.tar.bz2
- 	   file://rxvt.desktop \
- 	   file://rxvt.png"
+ DISTRO_SRC_URI ?= "file://sitecustomize.py"
+ DISTRO_SRC_URI_linuxstdbase = ""
+@@ -19,6 +19,7 @@ SRC_URI += "\
+   file://cgi_py.patch \
+   file://remove_sqlite_rpath.patch \
+   file://setup_py_skip_cross_import_check.patch \
++  file://add-md5module-support.patch \
+ "
  
--SRC_URI[md5sum] = "945af37d661c8c45a7cac292160e7c70"
--SRC_URI[sha256sum] = "1db334204bfb264b3134e01d9d3cf446c5ac7d47514909435f914f3906f37e7e"
-+SRC_URI[md5sum] = "022235a9a8b012c29e72c49177be6ce4"
-+SRC_URI[sha256sum] = "29928a33be6b3fb0edd126df2c3d35e1900f8268b546ce54430780c550fa1d52"
- 
- inherit autotools update-alternatives
- 
+ S = "${WORKDIR}/Python-${PV}"
 -- 
 1.7.6.4
 
