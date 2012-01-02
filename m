@@ -1,24 +1,24 @@
-Received: from mga11.intel.com ([192.55.52.93])
+Received: from mga01.intel.com ([192.55.52.88])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <nitin.a.kamble@intel.com>) id 1RholK-0008H9-9Q
+	(envelope-from <nitin.a.kamble@intel.com>) id 1RholK-0008Hb-EW
 	for openembedded-core@lists.openembedded.org;
 	Mon, 02 Jan 2012 21:45:42 +0100
 Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-	by fmsmga102.fm.intel.com with ESMTP; 02 Jan 2012 12:38:16 -0800
+	by fmsmga101.fm.intel.com with ESMTP; 02 Jan 2012 12:38:16 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="108039314"
+X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="108039322"
 Received: from nbuild0.sc.intel.com ([172.25.110.36])
-	by fmsmga002.fm.intel.com with ESMTP; 02 Jan 2012 12:38:15 -0800
+	by fmsmga002.fm.intel.com with ESMTP; 02 Jan 2012 12:38:16 -0800
 From: nitin.a.kamble@intel.com
 To: openembedded-core@lists.openembedded.org
-Date: Mon,  2 Jan 2012 12:38:03 -0800
-Message-Id: <05025150fb80328cf257363966f599ea25a89aa8.1325536389.git.nitin.a.kamble@intel.com>
+Date: Mon,  2 Jan 2012 12:38:11 -0800
+Message-Id: <e34303681f226a63703619353b0e035a7ad812bb.1325536389.git.nitin.a.kamble@intel.com>
 X-Mailer: git-send-email 1.7.6.4
 In-Reply-To: <0a113cb0a2defae38913df19d2bd3d6e378e370f.1325536389.git.nitin.a.kamble@intel.com>
 References: <0a113cb0a2defae38913df19d2bd3d6e378e370f.1325536389.git.nitin.a.kamble@intel.com>
 In-Reply-To: <cover.1325536389.git.nitin.a.kamble@intel.com>
 References: <cover.1325536389.git.nitin.a.kamble@intel.com>
-Subject: [PATCH v2 07/15] avahi: fix configure with automake 1.11.2
+Subject: [PATCH v2 15/15] btrfs-tools:Fix multithreaded building
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -37,96 +37,88 @@ X-List-Received-Date: Mon, 02 Jan 2012 20:45:42 -0000
 
 From: Nitin A Kamble <nitin.a.kamble@intel.com>
 
-automake version 1.11.2 has made use of dir variables more strict.
-use of pkglibdir with DATA var results in automake errors.
-  This commits uses pkgdatadir var instead of pkglibdir to avoid
-the strict check errors.
+Fixes bug: [YOCTO #1524]
 
-Fixes this error:
-service-type-database/Makefile.am:21: `pkglibdir' is not a legitimate
-directory for `DATA'
-autoreconf: automake failed with exit status: 1
-ERROR: autoreconf execution failed.
+Fixes this error with make -j:
+btrfsctl.c
+| i586-poky-linux-gcc  -m32   -march=i586
+--sysroot=/intel/poky/builds/world/tmp/sysroots/qemux86
+-Wp,-MMD,./.btrfsctl.o.d,-MT,btrfsctl.o -Wall -D_FILE_OFFSET_BITS=64
+-D_FORTIFY_SOURCE=2 -O2 -pipe -g -feliminate-unused-debug-types -c
+btrfsctl.c
+| btrfsctl.c:37:21: fatal error: version.h: No such file or directory
+| compilation terminated.
+| btrfslabel.c:40:21: fatal error: version.h: No such file or directory
+| compilation terminated.
 
 Signed-off-by: Nitin A Kamble <nitin.a.kamble@intel.com>
 ---
- meta/recipes-connectivity/avahi/avahi.inc          |    5 +-
- .../avahi/files/fix_for_automake_1.11.2.patch      |   44 ++++++++++++++++++++
- 2 files changed, 47 insertions(+), 2 deletions(-)
- create mode 100644 meta/recipes-connectivity/avahi/files/fix_for_automake_1.11.2.patch
+ ...ix_race_condition_with_multithreaded_make.patch |   36 ++++++++++++++++++++
+ .../btrfs-tools/btrfs-tools_git.bb                 |    6 ++-
+ 2 files changed, 40 insertions(+), 2 deletions(-)
+ create mode 100644 meta/recipes-devtools/btrfs-tools/btrfs-tools/fix_race_condition_with_multithreaded_make.patch
 
-diff --git a/meta/recipes-connectivity/avahi/avahi.inc b/meta/recipes-connectivity/avahi/avahi.inc
-index deebbd6..3cee1a4 100644
---- a/meta/recipes-connectivity/avahi/avahi.inc
-+++ b/meta/recipes-connectivity/avahi/avahi.inc
-@@ -14,14 +14,15 @@ SECTION = "network"
- # python scripts are under GPLv2+
- LICENSE = "GPLv2+ & LGPLv2.1+"
- 
--INC_PR = "r10"
-+INC_PR = "r11"
- 
- DEPENDS = "expat libcap libdaemon dbus glib-2.0"
- 
- SRC_URI = "http://avahi.org/download/avahi-${PV}.tar.gz \
-           file://00avahi-autoipd \
-           file://99avahi-autoipd \
--          file://initscript.patch"
-+          file://initscript.patch \
-+          file://fix_for_automake_1.11.2.patch"
- 
- USERADD_PACKAGES = "avahi-daemon"
- USERADD_PARAM_avahi-daemon = "--system --home /var/run/avahi-daemon \
-diff --git a/meta/recipes-connectivity/avahi/files/fix_for_automake_1.11.2.patch b/meta/recipes-connectivity/avahi/files/fix_for_automake_1.11.2.patch
+diff --git a/meta/recipes-devtools/btrfs-tools/btrfs-tools/fix_race_condition_with_multithreaded_make.patch b/meta/recipes-devtools/btrfs-tools/btrfs-tools/fix_race_condition_with_multithreaded_make.patch
 new file mode 100644
-index 0000000..e7a1908
+index 0000000..40175b8
 --- /dev/null
-+++ b/meta/recipes-connectivity/avahi/files/fix_for_automake_1.11.2.patch
-@@ -0,0 +1,44 @@
++++ b/meta/recipes-devtools/btrfs-tools/btrfs-tools/fix_race_condition_with_multithreaded_make.patch
+@@ -0,0 +1,36 @@
 +Upstream-Status: Pending
 +
-+automake version 1.11.2 has made use of dir variables more strict.
-+the use of pkglibdir with DATA var results in automake errors.
-+  This commits uses pkgdatadir var instead of pkglibdir to avoid 
-+the strict check errors.
++Fix makefile for multithreaded (make -j ) building.
 +
-+Fixes this error:
-+service-type-database/Makefile.am:21: `pkglibdir' is not a legitimate directory for `DATA'
-+autoreconf: automake failed with exit status: 1
-+ERROR: autoreconf execution failed.
++btrfsctl.c
++| i586-poky-linux-gcc  -m32   -march=i586 --sysroot=/intel/poky/builds/world/tmp/sysroots/qemux86 -Wp,-MMD,./.btrfsctl.o.d,-MT,btrfsctl.o -Wall -D_FILE_OFFSET_BITS=64 -D_FORTIFY_SOURCE=2 -O2 -pipe -g -feliminate-unused-debug-types -c btrfsctl.c
++| btrfsctl.c:37:21: fatal error: version.h: No such file or directory
++| compilation terminated.
++| btrfslabel.c:40:21: fatal error: version.h: No such file or directory
++| compilation terminated.
 +
 +Signed-Off-By: Nitin A Kamble <nitin.a.kamble@intel.com>
-+2011/12/28
++2012/01/02
 +
-+
-+Index: avahi-0.6.30/service-type-database/Makefile.am
++Index: git/Makefile
 +===================================================================
-+--- avahi-0.6.30.orig/service-type-database/Makefile.am
-++++ avahi-0.6.30/service-type-database/Makefile.am
-+@@ -18,13 +18,12 @@
-+ EXTRA_DIST=build-db.in service-types
++--- git.orig/Makefile
+++++ git/Makefile
++@@ -26,14 +26,13 @@ else
++ 	check = ls
++ endif
 + 
-+ pkgdata_DATA=service-types
-+-pkglib_DATA=
++-.c.o:
+++%.o: %.c version.h
++ 	$(check) $<
++ 	$(CC) $(DEPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c $<
 + 
-+ if HAVE_PYTHON
-+ if HAVE_GDBM
+++all: $(progs) manpages
 + 
-+ noinst_SCRIPTS=build-db
-+-pkglib_DATA+=service-types.db
-++pkgdata_DATA+=service-types.db
++-all: version $(progs) manpages
++-
++-version:
+++version.h: version.sh
++ 	bash version.sh
 + 
-+ build-db: build-db.in
-+ 	$(AM_V_GEN)sed -e 's,@PYTHON\@,$(PYTHON),g' \
-+@@ -41,7 +40,7 @@ endif
-+ if HAVE_DBM
-+ 
-+ noinst_SCRIPTS=build-db
-+-pkglib_DATA+=service-types.db.pag service-types.db.dir
-++pkgdata_DATA+=service-types.db.pag service-types.db.dir
-+ 
-+ build-db: build-db.in
-+ 	$(AM_V_GEN)sed -e 's,@PYTHON\@,$(PYTHON),g' \
++ btrfs: $(objects) btrfs.o btrfs_cmds.o scrub.o
+diff --git a/meta/recipes-devtools/btrfs-tools/btrfs-tools_git.bb b/meta/recipes-devtools/btrfs-tools/btrfs-tools_git.bb
+index b2e503b..58049e5 100644
+--- a/meta/recipes-devtools/btrfs-tools/btrfs-tools_git.bb
++++ b/meta/recipes-devtools/btrfs-tools/btrfs-tools_git.bb
+@@ -16,10 +16,12 @@ SRC_URI = "git://git.kernel.org/pub/scm/linux/kernel/git/mason/btrfs-progs.git;p
+ 
+ S = "${WORKDIR}/git"
+ 
+-PR = "r4"
++PR = "r5"
+ 
+ SRC_URI += " file://fix_use_of_gcc.patch \
+-	 file://weak-defaults.patch "
++	 file://weak-defaults.patch \
++	 file://fix_race_condition_with_multithreaded_make.patch "
++
+ SRC_URI[md5sum] = "78b1700d318de8518abfaab71f99a885"
+ SRC_URI[sha256sum] = "1285774e0cb72984fac158dd046c8d405324754febd30320cd31e459253e4b65"
+ 
 -- 
 1.7.6.4
 
