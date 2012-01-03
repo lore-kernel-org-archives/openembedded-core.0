@@ -1,38 +1,22 @@
-Received: from mail-ee0-f47.google.com ([74.125.83.47])
+Received: from mail.pbcl.net ([88.198.119.4] helo=hetzner.pbcl.net)
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <martin.jansa@gmail.com>) id 1Ri8KW-0006w7-NV
+	(envelope-from <philb@gnu.org>) id 1Ri8Rq-00078i-Sx
 	for openembedded-core@lists.openembedded.org;
-	Tue, 03 Jan 2012 18:39:21 +0100
-Received: by eeit10 with SMTP id t10so10772478eei.6
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 03 Jan 2012 09:31:56 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
-	h=date:from:to:subject:message-id:references:mime-version
-	:content-type:content-disposition:in-reply-to:user-agent;
-	bh=WjPRZZNkn5iTVe/Rat9HDQhnHrj/nUFR84oP/a8sHik=;
-	b=BzlSvYZf1YMarYL1B8Miv69U2yYt+Z1C0am8Qsu7rSQ9yfYC36LMXOlNUZscxKXlcr
-	S8sIdpnT8qnizcSVNqk6sPb6byGEIMg36M7hlHB1i4Oi7YW/U1J794r+RmFBYoWYhy1R
-	yXnT+JXO1Yu5MK/WJ1NsOFwB8y5Qhxcw4nj1E=
-Received: by 10.213.2.84 with SMTP id 20mr537794ebi.83.1325611916355;
-	Tue, 03 Jan 2012 09:31:56 -0800 (PST)
-Received: from localhost ([94.230.152.246])
-	by mx.google.com with ESMTPS id t1sm208240310eeb.3.2012.01.03.09.31.54
-	(version=TLSv1/SSLv3 cipher=OTHER);
-	Tue, 03 Jan 2012 09:31:55 -0800 (PST)
-Date: Tue, 3 Jan 2012 18:31:43 +0100
-From: Martin Jansa <martin.jansa@gmail.com>
-To: McClintock Matthew-B29882 <B29882@freescale.com>,
-	Patches and discussions about the oe-core layer
+	Tue, 03 Jan 2012 18:46:54 +0100
+Received: from elite.brightsigndigital.co.uk ([81.142.160.137]
+	helo=[172.30.1.145])
+	by hetzner.pbcl.net with esmtpsa (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+	(Exim 4.72) (envelope-from <philb@gnu.org>) id 1Ri8Km-00018T-Hu
+	for openembedded-core@lists.openembedded.org;
+	Tue, 03 Jan 2012 18:39:36 +0100
+From: Phil Blundell <philb@gnu.org>
+To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Message-ID: <20120103173143.GG3958@jama.jama.net>
-References: <1325541916-22423-1-git-send-email-msm@freescale.com>
-	<20120102232228.GA3958@jama.jama.net>
-	<20120102232521.GB3958@jama.jama.net>
-	<CAEsOVNcUdhic5Wt=r9XEb1SRmWw7+8Tn+4pWyB4Xdj4Mmv7+Lg@mail.gmail.com>
-MIME-Version: 1.0
-In-Reply-To: <CAEsOVNcUdhic5Wt=r9XEb1SRmWw7+8Tn+4pWyB4Xdj4Mmv7+Lg@mail.gmail.com>
-User-Agent: Mutt/1.5.21 (2010-09-15)
-Subject: Re: [PATCH] libxml2: add shared library version info to libxml shared libraries
+Date: Tue, 03 Jan 2012 17:39:35 +0000
+X-Mailer: Evolution 3.0.2- 
+Message-ID: <1325612376.28005.14.camel@phil-desktop>
+Mime-Version: 1.0
+Subject: [PATCH] python-native: correct prefix handling for oe-core sysroot layout
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -47,86 +31,100 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 03 Jan 2012 17:39:21 -0000
-X-Groupsio-MsgNum: 15166
-Content-Type: multipart/signed; micalg=pgp-sha1;
-	protocol="application/pgp-signature"; boundary="2E/hm+v6kSLEYT3h"
-Content-Disposition: inline
+X-List-Received-Date: Tue, 03 Jan 2012 17:46:55 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
---2E/hm+v6kSLEYT3h
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Don't try to guess a path based on ${HOST_SYS} since this is not where the
+files in the sysroot are likely to be.  Instead, just use the "plat_specific"
+approach of taking STAGING_INCDIR and knocking off the trailing "/include" for
+all cases.  This is still evidently suboptimal but does at least seem to give
+the correct results.
 
-On Tue, Jan 03, 2012 at 04:21:16PM +0000, McClintock Matthew-B29882 wrote:
-> On Mon, Jan 2, 2012 at 5:25 PM, Martin Jansa <martin.jansa@gmail.com> wro=
-te:
-> > On Tue, Jan 03, 2012 at 12:22:28AM +0100, Martin Jansa wrote:
-> >> On Mon, Jan 02, 2012 at 04:05:16PM -0600, Matthew McClintock wrote:
-> >> > This fixes an issue with RPM where it checks version imformation for
-> >> > binaries linked against libxml and fails because it's missing info
-> >> >
-> >> > | error: Failed dependencies:
-> >> > | =A0 =A0 =A0 =A0 =A0 =A0 =A0libxml2.so.2(LIBXML2_2.6.0) is needed b=
-y fmc-0.9.7+2-r2.1.ppce500mc
-> >> > | =A0 =A0 =A0 =A0 =A0 =A0 =A0libxml2.so.2(LIBXML2_2.4.30) is needed =
-by fmc-0.9.7+2-r2.1.ppce500mc
-> >> > | ERROR: Function 'do_rootfs' failed (see
-> >> >
-> >> > Note: fmc is just an example recipe/name
-> >>
-> >> Weird that I haven't noticed this in oe-core before, but probably
-> >> because in oe-core it was always without version. But it looks the same
-> >> as this
-> >> http://git.openembedded.org/openembedded/commit/?id=3D50ed401cdaaefb1f=
-5ac33de2838af259a52b1c3a
-> >> so
->=20
-> You won't see this when building against oe-core stuff from source.
-> This issue is seen when we bring in a prebuilt binary and link against
-> libxml2 in the system.
+Signed-off-by: Phil Blundell <philb@gnu.org>
+---
+ ...2-distutils-prefix-is-inside-staging-area.patch |   22 ++++++++-----------
+ .../recipes-devtools/python/python-native_2.6.6.bb |    2 +-
+ 2 files changed, 10 insertions(+), 14 deletions(-)
 
-what about all binaries built before this change which are already
-available in binary feed created with OE?
-=20
-> >> Acked-by: Martin Jansa <Martin.Jansa@gmail.com>
-> >
-> > but also double check if all recipes depending on it needs PR bump too,
-> > I've expected that it's needed only for transition from versioned to not
-> > versioned symbols, but according to:
-> > http://git.openembedded.org/openembedded/commit/?id=3D4373bc4d0cde98dfa=
-188d9a06266afa06f970bfe
-> > http://git.openembedded.org/openembedded/commit/?id=3D7e673ab79c7d76ffc=
-2b733fb32d0b41514eb0db0
-> > it was needed also other way around
->=20
-> Because of the reason above, I don't think we need to bump PR's for
-> all these recipes. People just should not normally be seeing this
-> issue. If they are well, then they won't be able to make an RPM based
-> rfs (maybe others)
->=20
-> Let me know if that seems reasonable...
->=20
-> -M
->=20
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
+diff --git a/meta/recipes-devtools/python/python-native/12-distutils-prefix-is-inside-staging-area.patch b/meta/recipes-devtools/python/python-native/12-distutils-prefix-is-inside-staging-area.patch
+index 8e721fe..b46caf6 100644
+--- a/meta/recipes-devtools/python/python-native/12-distutils-prefix-is-inside-staging-area.patch
++++ b/meta/recipes-devtools/python/python-native/12-distutils-prefix-is-inside-staging-area.patch
+@@ -2,12 +2,11 @@ Upstream-Status: Inappropriate [embedded specific]
+ 
+ # The proper prefix is inside our staging area.
+ # Signed-Off: Michael 'Mickey' Lauer <mickey@vanille-media.de>
++# Signed-off-by: Phil Blundell <philb@gnu.org>
+ 
+-Index: Python-2.6.6/Lib/distutils/sysconfig.py
+-===================================================================
+---- Python-2.6.6.orig/Lib/distutils/sysconfig.py
+-+++ Python-2.6.6/Lib/distutils/sysconfig.py
+-@@ -19,8 +19,8 @@ import sys
++--- Python-2.6.6/Lib/distutils/sysconfig.py.orig	2012-01-03 14:02:03.027005296 +0000
+++++ Python-2.6.6/Lib/distutils/sysconfig.py	2012-01-03 14:02:31.517601081 +0000
++@@ -19,8 +19,8 @@
+  from distutils.errors import DistutilsPlatformError
+  
+  # These are needed in a couple of spots, so just compute them once.
+@@ -18,19 +17,16 @@ Index: Python-2.6.6/Lib/distutils/sysconfig.py
+  
+  # Path to the base directory of the project. On Windows the binary may
+  # live in project/PCBuild9.  If we're dealing with an x64 Windows build,
+-@@ -70,7 +70,10 @@ def get_python_inc(plat_specific=0, pref
++@@ -70,7 +70,7 @@
+      sys.exec_prefix -- i.e., ignore 'plat_specific'.
+      """
+      if prefix is None:
+ -        prefix = plat_specific and EXEC_PREFIX or PREFIX
+-+        if plat_specific:
+-+            prefix = plat_specific and os.environ['STAGING_INCDIR'].rstrip('include')
+-+        else:
+-+            prefix = plat_specific and EXEC_PREFIX or PREFIX
+++        prefix = os.environ['STAGING_INCDIR'].rstrip('include')
+  
+      if os.name == "posix":
+          if python_build:
+-@@ -115,12 +118,16 @@ def get_python_lib(plat_specific=0, stan
++@@ -115,12 +115,16 @@
+      If 'prefix' is supplied, use it instead of sys.prefix or
+      sys.exec_prefix -- i.e., ignore 'plat_specific'.
+      """
+@@ -49,7 +45,7 @@ Index: Python-2.6.6/Lib/distutils/sysconfig.py
+          if standard_lib:
+              return libpython
+          else:
+-@@ -216,7 +223,7 @@ def get_config_h_filename():
++@@ -216,7 +220,7 @@
+      else:
+          # The name of the config.h file changed in 2.2
+          config_h = 'pyconfig.h'
+@@ -58,7 +54,7 @@ Index: Python-2.6.6/Lib/distutils/sysconfig.py
+  
+  
+  def get_makefile_filename():
+-@@ -225,7 +232,7 @@ def get_makefile_filename():
++@@ -225,7 +229,7 @@
+          return os.path.join(os.path.dirname(os.path.realpath(sys.executable)),
+                              "Makefile")
+      lib_dir = get_python_lib(plat_specific=1, standard_lib=1)
+diff --git a/meta/recipes-devtools/python/python-native_2.6.6.bb b/meta/recipes-devtools/python/python-native_2.6.6.bb
+index e0a4fb3..9293f03 100644
+--- a/meta/recipes-devtools/python/python-native_2.6.6.bb
++++ b/meta/recipes-devtools/python/python-native_2.6.6.bb
+@@ -1,6 +1,6 @@
+ require python.inc
+ DEPENDS = "openssl-native bzip2-full-native zlib-native readline-native sqlite3-native"
+-PR = "${INC_PR}.4"
++PR = "${INC_PR}.5"
+ 
+ LIC_FILES_CHKSUM = "file://LICENSE;md5=38fdd546420fab09ac6bd3d8a1c83eb6"
+ 
+-- 
+1.7.4.1
 
---=20
-Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
 
---2E/hm+v6kSLEYT3h
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: Digital signature
 
------BEGIN PGP SIGNATURE-----
-Version: GnuPG v2.0.18 (GNU/Linux)
 
-iEYEARECAAYFAk8DO38ACgkQN1Ujt2V2gBx8uQCfVBvxmdTXIeGqi3svQ/a7onCx
-NcIAn36UXsb91JM25u5kmJ7DY7ccq6gi
-=JV+B
------END PGP SIGNATURE-----
 
---2E/hm+v6kSLEYT3h--
