@@ -1,25 +1,28 @@
-Received: from mga11.intel.com ([192.55.52.93])
+Received: from stoexhub03.domain01.net ([83.145.59.144])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <sgw@linux.intel.com>) id 1Ri9Nz-0000iV-Ug
+	(envelope-from <anders@chargestorm.se>) id 1RiAkK-0003OO-6Z
 	for openembedded-core@lists.openembedded.org;
-	Tue, 03 Jan 2012 19:47:59 +0100
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-	by fmsmga102.fm.intel.com with ESMTP; 03 Jan 2012 10:39:37 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="102778906"
-Received: from unknown (HELO [10.255.13.127]) ([10.255.13.127])
-	by fmsmga001.fm.intel.com with ESMTP; 03 Jan 2012 10:39:36 -0800
-Message-ID: <4F034B68.6080103@linux.intel.com>
-Date: Tue, 03 Jan 2012 10:39:36 -0800
-From: Saul Wold <sgw@linux.intel.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:7.0) Gecko/20110927 Thunderbird/7.0
-MIME-Version: 1.0
+	Tue, 03 Jan 2012 21:14:08 +0100
+Received: from STOEXMBXC01.domain01.net
+	([fe80:0000:0000:0000:8caa:b43d:115.41.221.224]) by
+	stoexhub03.domain01.net
+	([10.12.10.3]) with mapi; Tue, 3 Jan 2012 21:06:43 +0100
+From: Anders Darander <anders@chargestorm.se>
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-References: <cover.1325613367.git.sgw@linux.intel.com>
-In-Reply-To: <cover.1325613367.git.sgw@linux.intel.com>
-Subject: Re: [PATCH 0/1] v2 - POKY -> COREIMAGE
+Date: Tue, 3 Jan 2012 21:06:47 +0100
+Thread-Topic: [OE-core] [PATCH] busybox: rename syslog.conf to
+	syslog-startup.conf
+Thread-Index: AczKUzaWLsqORqfRQsqfCPK2Gs+i3w==
+Message-ID: <94352630-4FE3-472F-BFC8-2959AB572AC8@chargestorm.se>
+References: <1325541032-29837-1-git-send-email-josh@linux.intel.com>
+In-Reply-To: <1325541032-29837-1-git-send-email-josh@linux.intel.com>
+Accept-Language: en-US, sv-SE
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+acceptlanguage: en-US, sv-SE
+MIME-Version: 1.0
+Subject: Re: [PATCH] busybox: rename syslog.conf to syslog-startup.conf
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -34,42 +37,49 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 03 Jan 2012 18:47:59 -0000
-Content-Type: text/plain; charset=ISO-8859-1; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Tue, 03 Jan 2012 20:14:08 -0000
+Content-Language: en-US
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 
-On 01/03/2012 09:57 AM, Saul Wold wrote:
-> Thanks to Phil for pointing out my Dyslexic COER
->
-> Sau!
->
-Please hold off on this patch until we get 1.1.1 completed, due to issue 
-with the Autobuilder that will take longer to deal with.
 
-Sau!
 
->
-> The following changes since commit de679a3036ebef1c7d7b8ee23f05590c95e498d9:
->
->    pseudo: ensure libs are included in package (2012-01-03 12:10:59 +0000)
->
-> are available in the git repository at:
->    git://git.openembedded.org/openembedded-core-contrib sgw/fix
->    http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=sgw/fix
->
-> Saul Wold (1):
->    Rename references from POKY_*_INSTALL to COREIMAGE_*_INSTALL
->
->   meta/classes/core-image.bbclass                    |    8 ++++----
->   meta/recipes-core/images/core-image-minimal.bb     |    2 +-
->   meta/recipes-core/images/self-hosted-image.bb      |    2 +-
->   meta/recipes-extended/images/core-image-basic.bb   |    2 +-
->   meta/recipes-extended/images/core-image-lsb-dev.bb |    2 +-
->   meta/recipes-extended/images/core-image-lsb-sdk.bb |    2 +-
->   meta/recipes-extended/images/core-image-lsb.bb     |    2 +-
->   meta/recipes-graphics/images/core-image-clutter.bb |    2 +-
->   meta/recipes-qt/images/qt4e-demo-image.bb          |    2 +-
->   9 files changed, 12 insertions(+), 12 deletions(-)
->
+On 2 jan 2012, at 22:51, "Joshua Lock" <josh@linux.intel.com> wrote:
+
+> Busybox 1.19 introduced basic support for an rsyslog inspired syslog.conf
+> whereas we've been shipping syslog.conf as a file to be sourced by the
+> syslog init script in order to configure which options busybox's syslog i=
+s
+> started with.
+>=20
+> Busybox 1.19 in syslog mode chokes on our syslog.conf and doesn't start.
+>=20
+> This patch renames the syslog.conf we ship to syslog-startup.conf in orde=
+r
+> to prevent busybox trying to parse the file as an rsyslog style syslog.co=
+nf
+>=20
+> Fixes [YOCTO #1848]
+>=20
+> Signed-off-by: Joshua Lock <josh@linux.intel.com>
+
+Acked-by: Anders Darander <anders@chargestorm.se>
+
+My not comment is that it would have been nice to have had the patch genera=
+ted with rename detection enabled in git.
+
+Cheers,
+Anders
+
+> ---
+> meta/recipes-core/busybox/busybox.inc              |   10 +++++-----
+> meta/recipes-core/busybox/busybox_1.19.3.bb        |    4 ++--
+> meta/recipes-core/busybox/files/syslog             |    4 ++--
+> .../recipes-core/busybox/files/syslog-startup.conf |   12 ++++++++++++
+> meta/recipes-core/busybox/files/syslog.conf        |    9 ---------
+> 5 files changed, 21 insertions(+), 18 deletions(-)
+> create mode 100644 meta/recipes-core/busybox/files/syslog-startup.conf
+> delete mode 100644 meta/recipes-core/busybox/files/syslog.conf
+>=20
 
 
