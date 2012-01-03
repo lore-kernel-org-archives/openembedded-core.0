@@ -1,24 +1,24 @@
-Received: from mga03.intel.com ([143.182.124.21])
+Received: from mga14.intel.com ([143.182.124.37])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <sgw@linux.intel.com>) id 1RhxrP-0004O6-D1
+	(envelope-from <sgw@linux.intel.com>) id 1RhxrP-0004fO-Ov
 	for openembedded-core@lists.openembedded.org;
-	Tue, 03 Jan 2012 07:28:35 +0100
+	Tue, 03 Jan 2012 07:28:36 +0100
 Received: from azsmga001.ch.intel.com ([10.2.17.19])
-	by azsmga101.ch.intel.com with ESMTP; 02 Jan 2012 22:21:16 -0800
+	by azsmga102.ch.intel.com with ESMTP; 02 Jan 2012 22:21:08 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="91752303"
+X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="91752259"
 Received: from unknown (HELO swold-mobl.bigsur.com) ([10.255.13.112])
-	by azsmga001.ch.intel.com with ESMTP; 02 Jan 2012 22:21:16 -0800
+	by azsmga001.ch.intel.com with ESMTP; 02 Jan 2012 22:21:08 -0800
 From: Saul Wold <sgw@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Mon,  2 Jan 2012 22:20:26 -0800
-Message-Id: <d2b6a21c95344f53676f4d37f0e627f8e5034e2e.1325571069.git.sgw@linux.intel.com>
+Date: Mon,  2 Jan 2012 22:20:02 -0800
+Message-Id: <a6c1b2c365dd8b576941b2946af2b76450baac19.1325571069.git.sgw@linux.intel.com>
 X-Mailer: git-send-email 1.7.6.4
 In-Reply-To: <cover.1325571068.git.sgw@linux.intel.com>
 References: <cover.1325571068.git.sgw@linux.intel.com>
 In-Reply-To: <cover.1325571068.git.sgw@linux.intel.com>
 References: <cover.1325571068.git.sgw@linux.intel.com>
-Subject: [CONSOLIDATED PULL 100/113] lighttpd: Upgrade to 1.4.30
+Subject: [CONSOLIDATED PULL 076/113] avahi: fix configure with automake 1.11.2
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -33,43 +33,100 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 03 Jan 2012 06:28:35 -0000
+X-List-Received-Date: Tue, 03 Jan 2012 06:28:37 -0000
 
-From: Zhai Edwin <edwin.zhai@intel.com>
+From: Nitin A Kamble <nitin.a.kamble@intel.com>
 
-Signed-off-by: Zhai Edwin <edwin.zhai@intel.com>
+automake version 1.11.2 has made use of dir variables more strict.
+use of pkglibdir with DATA var results in automake errors.
+  This commits uses pkgdatadir var instead of pkglibdir to avoid
+the strict check errors.
+
+Fixes this error:
+service-type-database/Makefile.am:21: `pkglibdir' is not a legitimate
+directory for `DATA'
+autoreconf: automake failed with exit status: 1
+ERROR: autoreconf execution failed.
+
+Signed-off-by: Nitin A Kamble <nitin.a.kamble@intel.com>
 ---
- .../{lighttpd_1.4.29.bb => lighttpd_1.4.30.bb}     |    6 +++---
- 1 files changed, 3 insertions(+), 3 deletions(-)
- rename meta/recipes-extended/lighttpd/{lighttpd_1.4.29.bb => lighttpd_1.4.30.bb} (92%)
+ meta/recipes-connectivity/avahi/avahi.inc          |    5 +-
+ .../avahi/files/fix_for_automake_1.11.2.patch      |   44 ++++++++++++++++++++
+ 2 files changed, 47 insertions(+), 2 deletions(-)
+ create mode 100644 meta/recipes-connectivity/avahi/files/fix_for_automake_1.11.2.patch
 
-diff --git a/meta/recipes-extended/lighttpd/lighttpd_1.4.29.bb b/meta/recipes-extended/lighttpd/lighttpd_1.4.30.bb
-similarity index 92%
-rename from meta/recipes-extended/lighttpd/lighttpd_1.4.29.bb
-rename to meta/recipes-extended/lighttpd/lighttpd_1.4.30.bb
-index 9fdb5f6..2c247f0 100644
---- a/meta/recipes-extended/lighttpd/lighttpd_1.4.29.bb
-+++ b/meta/recipes-extended/lighttpd/lighttpd_1.4.30.bb
-@@ -16,7 +16,7 @@ RDEPENDS_${PN} += " \
-                lighttpd-module-staticfile \
- "
+diff --git a/meta/recipes-connectivity/avahi/avahi.inc b/meta/recipes-connectivity/avahi/avahi.inc
+index deebbd6..3cee1a4 100644
+--- a/meta/recipes-connectivity/avahi/avahi.inc
++++ b/meta/recipes-connectivity/avahi/avahi.inc
+@@ -14,14 +14,15 @@ SECTION = "network"
+ # python scripts are under GPLv2+
+ LICENSE = "GPLv2+ & LGPLv2.1+"
  
--PR = "r1"
-+PR = "r0"
+-INC_PR = "r10"
++INC_PR = "r11"
  
- SRC_URI = "http://download.lighttpd.net/lighttpd/releases-1.4.x/lighttpd-${PV}.tar.bz2 \
-         file://index.html.lighttpd \
-@@ -24,8 +24,8 @@ SRC_URI = "http://download.lighttpd.net/lighttpd/releases-1.4.x/lighttpd-${PV}.t
-         file://lighttpd \
- "
+ DEPENDS = "expat libcap libdaemon dbus glib-2.0"
  
--SRC_URI[md5sum] = "e6e67b09986cb504db630b5a86b2dd76"
--SRC_URI[sha256sum] = "afd8af213e65afb48b397d004696c6620a7ae7f3d4f162ec46a04b9b9dbfd599"
-+SRC_URI[md5sum] = "63f9df52dcae0ab5689a95c99c54e48a"
-+SRC_URI[sha256sum] = "0d795597e4666dbf6ffe44b4a42f388ddb44736ddfab0b1ac091e5bb35212c2d"
+ SRC_URI = "http://avahi.org/download/avahi-${PV}.tar.gz \
+           file://00avahi-autoipd \
+           file://99avahi-autoipd \
+-          file://initscript.patch"
++          file://initscript.patch \
++          file://fix_for_automake_1.11.2.patch"
  
- EXTRA_OECONF = " \
-              --without-bzip2 \
+ USERADD_PACKAGES = "avahi-daemon"
+ USERADD_PARAM_avahi-daemon = "--system --home /var/run/avahi-daemon \
+diff --git a/meta/recipes-connectivity/avahi/files/fix_for_automake_1.11.2.patch b/meta/recipes-connectivity/avahi/files/fix_for_automake_1.11.2.patch
+new file mode 100644
+index 0000000..e7a1908
+--- /dev/null
++++ b/meta/recipes-connectivity/avahi/files/fix_for_automake_1.11.2.patch
+@@ -0,0 +1,44 @@
++Upstream-Status: Pending
++
++automake version 1.11.2 has made use of dir variables more strict.
++the use of pkglibdir with DATA var results in automake errors.
++  This commits uses pkgdatadir var instead of pkglibdir to avoid 
++the strict check errors.
++
++Fixes this error:
++service-type-database/Makefile.am:21: `pkglibdir' is not a legitimate directory for `DATA'
++autoreconf: automake failed with exit status: 1
++ERROR: autoreconf execution failed.
++
++Signed-Off-By: Nitin A Kamble <nitin.a.kamble@intel.com>
++2011/12/28
++
++
++Index: avahi-0.6.30/service-type-database/Makefile.am
++===================================================================
++--- avahi-0.6.30.orig/service-type-database/Makefile.am
+++++ avahi-0.6.30/service-type-database/Makefile.am
++@@ -18,13 +18,12 @@
++ EXTRA_DIST=build-db.in service-types
++ 
++ pkgdata_DATA=service-types
++-pkglib_DATA=
++ 
++ if HAVE_PYTHON
++ if HAVE_GDBM
++ 
++ noinst_SCRIPTS=build-db
++-pkglib_DATA+=service-types.db
+++pkgdata_DATA+=service-types.db
++ 
++ build-db: build-db.in
++ 	$(AM_V_GEN)sed -e 's,@PYTHON\@,$(PYTHON),g' \
++@@ -41,7 +40,7 @@ endif
++ if HAVE_DBM
++ 
++ noinst_SCRIPTS=build-db
++-pkglib_DATA+=service-types.db.pag service-types.db.dir
+++pkgdata_DATA+=service-types.db.pag service-types.db.dir
++ 
++ build-db: build-db.in
++ 	$(AM_V_GEN)sed -e 's,@PYTHON\@,$(PYTHON),g' \
 -- 
 1.7.6.4
 
