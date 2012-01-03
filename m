@@ -1,20 +1,24 @@
 Received: from mga14.intel.com ([143.182.124.37])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <sgw@linux.intel.com>) id 1Ri7Yj-0005C8-S0
+	(envelope-from <sgw@linux.intel.com>) id 1Ri7Yl-0005C8-R5
 	for openembedded-core@lists.openembedded.org;
-	Tue, 03 Jan 2012 17:49:59 +0100
+	Tue, 03 Jan 2012 17:50:00 +0100
 Received: from azsmga002.ch.intel.com ([10.2.17.35])
 	by azsmga102.ch.intel.com with ESMTP; 03 Jan 2012 08:42:36 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="52847172"
+X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="52847173"
 Received: from unknown (HELO swold-mobl.bigsur.com) ([10.255.13.127])
-	by AZSMGA002.ch.intel.com with ESMTP; 03 Jan 2012 08:42:35 -0800
+	by AZSMGA002.ch.intel.com with ESMTP; 03 Jan 2012 08:42:36 -0800
 From: Saul Wold <sgw@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Tue,  3 Jan 2012 08:40:08 -0800
-Message-Id: <cover.1325608510.git.sgw@linux.intel.com>
+Date: Tue,  3 Jan 2012 08:40:09 -0800
+Message-Id: <5ddaf71a4148625744ed202bfb80c99583bae056.1325608510.git.sgw@linux.intel.com>
 X-Mailer: git-send-email 1.7.6.4
-Subject: [PATCH 0/1] Change POKY_*_INSTALL to COREIMAGE_*_INSTALL
+In-Reply-To: <cover.1325608510.git.sgw@linux.intel.com>
+References: <cover.1325608510.git.sgw@linux.intel.com>
+In-Reply-To: <cover.1325608510.git.sgw@linux.intel.com>
+References: <cover.1325608510.git.sgw@linux.intel.com>
+Subject: [PATCH 1/1] Rename references from POKY_*_INSTALL to COREIMAGE_*_INSTALL
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -29,25 +33,15 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 03 Jan 2012 16:49:59 -0000
+X-List-Received-Date: Tue, 03 Jan 2012 16:50:00 -0000
 
-This will require a coordinated change with meta-qt3 and will cause
-issues with the Autobuilder for 1.1.1 builds since we will need to 
-the AB tagging working.
+The names POKY_BASE_INSTALL and POKY_EXTRA_INSTALL have been renamed to
+COREIMAGE_BASE_INSTALL and COREIMAGE_EXTRA_INSTALL
 
-Sau!
+Based on Mark Hatle's original work.
 
-The following changes since commit de679a3036ebef1c7d7b8ee23f05590c95e498d9:
-
-  pseudo: ensure libs are included in package (2012-01-03 12:10:59 +0000)
-
-are available in the git repository at:
-  git://git.openembedded.org/openembedded-core-contrib sgw/fix
-  http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=sgw/fix
-
-Saul Wold (1):
-  Rename references from POKY_*_INSTALL to COREIMAGE_*_INSTALL
-
+Signed-off-by: Saul Wold <sgw@linux.intel.com>
+---
  meta/classes/core-image.bbclass                    |    8 ++++----
  meta/recipes-core/images/core-image-minimal.bb     |    2 +-
  meta/recipes-core/images/self-hosted-image.bb      |    2 +-
@@ -59,6 +53,135 @@ Saul Wold (1):
  meta/recipes-qt/images/qt4e-demo-image.bb          |    2 +-
  9 files changed, 12 insertions(+), 12 deletions(-)
 
+diff --git a/meta/classes/core-image.bbclass b/meta/classes/core-image.bbclass
+index c08895f..0216aaa 100644
+--- a/meta/classes/core-image.bbclass
++++ b/meta/classes/core-image.bbclass
+@@ -47,18 +47,18 @@ PACKAGE_GROUP_ssh-server-openssh = "task-core-ssh-openssh"
+ PACKAGE_GROUP_package-management = "${ROOTFS_PKGMANAGE}"
+ PACKAGE_GROUP_qt4-pkgs = "task-core-qt-demos"
+ 
+-POKY_BASE_INSTALL = '\
++COERIMAGE_BASE_INSTALL = '\
+     task-core-boot \
+     task-base-extended \
+     \
+     ${@base_contains("IMAGE_FEATURES", "package-management", "", "${ROOTFS_PKGMANAGE_BOOTSTRAP}",d)} \
+     \
+-    ${POKY_EXTRA_INSTALL} \
++    ${COERIMAGE_EXTRA_INSTALL} \
+     '
+ 
+-POKY_EXTRA_INSTALL ?= ""
++COERIMAGE_EXTRA_INSTALL ?= ""
+ 
+-IMAGE_INSTALL ?= "${POKY_BASE_INSTALL}"
++IMAGE_INSTALL ?= "${COERIMAGE_BASE_INSTALL}"
+ 
+ X11_IMAGE_FEATURES  = "x11-base apps-x11-core package-management"
+ ENHANCED_IMAGE_FEATURES = "${X11_IMAGE_FEATURES} apps-x11-games apps-x11-pimlico package-management"
+diff --git a/meta/recipes-core/images/core-image-minimal.bb b/meta/recipes-core/images/core-image-minimal.bb
+index 56fc20c..9ec3c18 100644
+--- a/meta/recipes-core/images/core-image-minimal.bb
++++ b/meta/recipes-core/images/core-image-minimal.bb
+@@ -1,7 +1,7 @@
+ #
+ # Copyright (C) 2007 OpenedHand Ltd.
+ #
+-IMAGE_INSTALL = "task-core-boot ${ROOTFS_PKGMANAGE_BOOTSTRAP} ${POKY_EXTRA_INSTALL}"
++IMAGE_INSTALL = "task-core-boot ${ROOTFS_PKGMANAGE_BOOTSTRAP} ${COERIMAGE_EXTRA_INSTALL}"
+ 
+ IMAGE_LINGUAS = " "
+ 
+diff --git a/meta/recipes-core/images/self-hosted-image.bb b/meta/recipes-core/images/self-hosted-image.bb
+index 111c057..278b79e 100644
+--- a/meta/recipes-core/images/self-hosted-image.bb
++++ b/meta/recipes-core/images/self-hosted-image.bb
+@@ -1,6 +1,6 @@
+ IMAGE_INSTALL = "task-core-boot task-core-apps-console task-core-ssh-openssh task-self-hosted"
+ 
+-POKY_EXTRA_INSTALL = "\
++COERIMAGE_EXTRA_INSTALL = "\
+     task-self-hosted \
+     "
+ 
+diff --git a/meta/recipes-extended/images/core-image-basic.bb b/meta/recipes-extended/images/core-image-basic.bb
+index ba71cd0..ef27e06 100644
+--- a/meta/recipes-extended/images/core-image-basic.bb
++++ b/meta/recipes-extended/images/core-image-basic.bb
+@@ -5,6 +5,6 @@ IMAGE_INSTALL = "\
+     task-core-basic \
+     "
+ 
+-#    ${POKY_BASE_INSTALL} 
++#    ${COREIMAGE_BASE_INSTALL} 
+ 
+ inherit core-image
+diff --git a/meta/recipes-extended/images/core-image-lsb-dev.bb b/meta/recipes-extended/images/core-image-lsb-dev.bb
+index 9ef85ff..40787bb 100644
+--- a/meta/recipes-extended/images/core-image-lsb-dev.bb
++++ b/meta/recipes-extended/images/core-image-lsb-dev.bb
+@@ -1,7 +1,7 @@
+ IMAGE_FEATURES += "apps-console-core dev-pkgs ssh-server-openssh"
+ 
+ IMAGE_INSTALL = "\
+-    ${POKY_BASE_INSTALL} \
++    ${COREIMAGE_BASE_INSTALL} \
+     task-core-basic \
+     task-core-lsb \
+     "
+diff --git a/meta/recipes-extended/images/core-image-lsb-sdk.bb b/meta/recipes-extended/images/core-image-lsb-sdk.bb
+index 5e0e7ae..6a17de5 100644
+--- a/meta/recipes-extended/images/core-image-lsb-sdk.bb
++++ b/meta/recipes-extended/images/core-image-lsb-sdk.bb
+@@ -3,7 +3,7 @@ EXTRA_IMAGE_FEATURES = "tools-debug tools-profile tools-testapps debug-tweaks"
+ 
+ 
+ IMAGE_INSTALL = "\
+-    ${POKY_BASE_INSTALL} \
++    ${COREIMAGE_BASE_INSTALL} \
+     task-core-basic \
+     task-core-lsb \
+     "
+diff --git a/meta/recipes-extended/images/core-image-lsb.bb b/meta/recipes-extended/images/core-image-lsb.bb
+index 22eb7f4..d80954b 100644
+--- a/meta/recipes-extended/images/core-image-lsb.bb
++++ b/meta/recipes-extended/images/core-image-lsb.bb
+@@ -1,7 +1,7 @@
+ IMAGE_FEATURES += "apps-console-core ssh-server-openssh"
+ 
+ IMAGE_INSTALL = "\
+-    ${POKY_BASE_INSTALL} \
++    ${COREIMAGE_BASE_INSTALL} \
+     task-core-basic \
+     task-core-lsb \
+     "
+diff --git a/meta/recipes-graphics/images/core-image-clutter.bb b/meta/recipes-graphics/images/core-image-clutter.bb
+index 7d50405..194748a 100644
+--- a/meta/recipes-graphics/images/core-image-clutter.bb
++++ b/meta/recipes-graphics/images/core-image-clutter.bb
+@@ -3,7 +3,7 @@ IMAGE_FEATURES += "apps-console-core ${SATO_IMAGE_FEATURES}"
+ LICENSE = "MIT"
+ 
+ IMAGE_INSTALL = "\
+-    ${POKY_BASE_INSTALL} \
++    ${COREIMAGE_BASE_INSTALL} \
+     task-core-clutter-core \
+     task-core-clutter-tests \
+     task-core-clutter-apps"
+diff --git a/meta/recipes-qt/images/qt4e-demo-image.bb b/meta/recipes-qt/images/qt4e-demo-image.bb
+index 6523379..01c7921 100644
+--- a/meta/recipes-qt/images/qt4e-demo-image.bb
++++ b/meta/recipes-qt/images/qt4e-demo-image.bb
+@@ -11,7 +11,7 @@ RDEPENDS_${PN} += " \
+ 	"
+ 
+ IMAGE_INSTALL += "\
+-	${POKY_BASE_INSTALL} \
++	${COREIMAGE_BASE_INSTALL} \
+ 	module-init-tools \
+ 	task-qt4e-base \
+ "
 -- 
 1.7.6.4
 
