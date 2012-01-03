@@ -1,24 +1,24 @@
 Received: from mga03.intel.com ([143.182.124.21])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <sgw@linux.intel.com>) id 1Rhxr0-0004L1-4N
+	(envelope-from <sgw@linux.intel.com>) id 1Rhxqy-0004L2-4F
 	for openembedded-core@lists.openembedded.org;
 	Tue, 03 Jan 2012 07:28:11 +0100
 Received: from azsmga001.ch.intel.com ([10.2.17.19])
 	by azsmga101.ch.intel.com with ESMTP; 02 Jan 2012 22:20:44 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="91752122"
+X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="91752121"
 Received: from unknown (HELO swold-mobl.bigsur.com) ([10.255.13.112])
-	by azsmga001.ch.intel.com with ESMTP; 02 Jan 2012 22:20:44 -0800
+	by azsmga001.ch.intel.com with ESMTP; 02 Jan 2012 22:20:43 -0800
 From: Saul Wold <sgw@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Mon,  2 Jan 2012 22:18:54 -0800
-Message-Id: <43c2d366622ea52cba8a5b727d723c8ec30bd44b.1325571069.git.sgw@linux.intel.com>
+Date: Mon,  2 Jan 2012 22:18:53 -0800
+Message-Id: <68684b4903261cc5d3f48355f7cc6671484bb546.1325571069.git.sgw@linux.intel.com>
 X-Mailer: git-send-email 1.7.6.4
 In-Reply-To: <cover.1325571068.git.sgw@linux.intel.com>
 References: <cover.1325571068.git.sgw@linux.intel.com>
 In-Reply-To: <cover.1325571068.git.sgw@linux.intel.com>
 References: <cover.1325571068.git.sgw@linux.intel.com>
-Subject: [CONSOLIDATED PULL 008/113] mini-x-session: Add this recipe as the session file for mini X
+Subject: [CONSOLIDATED PULL 007/113] linux-yocto: use PATH to locate kconf_check
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -35,87 +35,33 @@ List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedde
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Tue, 03 Jan 2012 06:28:11 -0000
 
-From: Zhai Edwin <edwin.zhai@intel.com>
+From: Bruce Ashfield <bruce.ashfield@windriver.com>
 
-mini-x-session runs session files on behalf of file owner, so that no rootless X
-required.
+The changes made to prefer in-tree kernel tools forced the location
+of kconf_check prematurely. For maximum flexibility, locating it
+on the PATH is ideal, since the transition to in-tree tools will be
+completely transparent.
 
-Signed-off-by: Zhai Edwin <edwin.zhai@intel.com>
+Signed-off-by: Bruce Ashfield <bruce.ashfield@windriver.com>
 ---
- .../mini-x-session/files/mini-x-session            |   32 ++++++++++++++++++++
- .../mini-x-session/mini-x-session_0.1.bb           |   24 +++++++++++++++
- 2 files changed, 56 insertions(+), 0 deletions(-)
- create mode 100644 meta/recipes-graphics/mini-x-session/files/mini-x-session
- create mode 100644 meta/recipes-graphics/mini-x-session/mini-x-session_0.1.bb
+ meta/classes/kernel-yocto.bbclass |    4 ++--
+ 1 files changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/meta/recipes-graphics/mini-x-session/files/mini-x-session b/meta/recipes-graphics/mini-x-session/files/mini-x-session
-new file mode 100644
-index 0000000..1940e27
---- /dev/null
-+++ b/meta/recipes-graphics/mini-x-session/files/mini-x-session
-@@ -0,0 +1,32 @@
-+#!/bin/sh
-+#
-+# Very simple session manager for Mini X
-+#
-+
-+# Uncomment below to enable parsing of debian menu entrys
-+# export MB_USE_DEB_MENUS=1 
-+
-+if [ -e $HOME/.mini_x/session ]
-+then
-+exec $HOME/.mini_x/session
-+fi
-+
-+if [ -e /etc/mini_x/session ]
-+then
-+exec /etc/mini_x/session
-+fi
-+
-+MINI_X_SESSION_DIR=/etc/mini_x/session.d
-+
-+# Execute session file on behalf of file owner
-+for SESSIONFILE in $MINI_X_SESSION_DIR/*; do
-+    set +e
-+    USERNAME=`stat -c %U $SESSIONFILE`
-+    sudo -b -i -u $USERNAME $SESSIONFILE& 
-+    set -e
-+done
-+# Default files to run if $HOME/.mini_x/session or /etc/mini_x/session
-+# dont exist. 
-+
-+matchbox-terminal&
-+exec matchbox-window-manager
-diff --git a/meta/recipes-graphics/mini-x-session/mini-x-session_0.1.bb b/meta/recipes-graphics/mini-x-session/mini-x-session_0.1.bb
-new file mode 100644
-index 0000000..3818d16
---- /dev/null
-+++ b/meta/recipes-graphics/mini-x-session/mini-x-session_0.1.bb
-@@ -0,0 +1,24 @@
-+DESCRIPTION = "Mini X session files for poky"
-+HOMEPAGE = "http://www.yoctoproject.org"
-+BUGTRACKER = "http://bugzilla.pokylinux.org"
-+
-+LICENSE = "GPLv2"
-+LIC_FILES_CHKSUM = "file://mini-x-session;endline=5;md5=b6430bffbcf05f9760e72938826b7487"
-+
-+SECTION = "x11"
-+RCONFLICTS = "matchbox-common"
-+
-+SRC_URI = "file://mini-x-session"
-+S = "${WORKDIR}"
-+
-+inherit update-alternatives
-+
-+ALTERNATIVE_NAME = "x-session-manager"
-+ALTERNATIVE_LINK = "${bindir}/x-session-manager"
-+ALTERNATIVE_PATH = "${bindir}/mini-x-session"
-+ALTERNATIVE_PRIORITY = "10"
-+
-+do_install() {
-+	install -d ${D}/${bindir}
-+	install -m 0755 ${S}/mini-x-session ${D}/${bindir}
-+}
+diff --git a/meta/classes/kernel-yocto.bbclass b/meta/classes/kernel-yocto.bbclass
+index 79f82e3..f78caaf 100644
+--- a/meta/classes/kernel-yocto.bbclass
++++ b/meta/classes/kernel-yocto.bbclass
+@@ -124,8 +124,8 @@ python do_kernel_configcheck() {
+ 
+     bb.plain("NOTE: validating kernel configuration")
+ 
+-    pathprefix = "export PATH=%s; " % d.getVar('PATH', True)
+-    cmd = bb.data.expand("cd ${B}/..; ${S}/scripts/util/kconf_check -config- ${B} ${S} ${B} ${KBRANCH}",d )
++    pathprefix = "export PATH=%s:%s; " % (d.getVar('PATH', True), "${S}/scripts/util/")
++    cmd = bb.data.expand("cd ${B}/..; kconf_check -config- ${B} ${S} ${B} ${KBRANCH}",d )
+     ret, result = commands.getstatusoutput("%s%s" % (pathprefix, cmd))
+ 
+     bb.plain( "%s" % result )
 -- 
 1.7.6.4
 
