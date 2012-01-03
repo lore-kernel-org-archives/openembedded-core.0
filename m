@@ -1,24 +1,24 @@
-Received: from mga14.intel.com ([143.182.124.37])
+Received: from mga03.intel.com ([143.182.124.21])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <sgw@linux.intel.com>) id 1RhxrW-0004Y7-TY
+	(envelope-from <sgw@linux.intel.com>) id 1RhxrI-0004Kv-27
 	for openembedded-core@lists.openembedded.org;
-	Tue, 03 Jan 2012 07:28:45 +0100
+	Tue, 03 Jan 2012 07:28:28 +0100
 Received: from azsmga001.ch.intel.com ([10.2.17.19])
-	by azsmga102.ch.intel.com with ESMTP; 02 Jan 2012 22:21:15 -0800
+	by azsmga101.ch.intel.com with ESMTP; 02 Jan 2012 22:20:56 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="91752297"
+X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="91752197"
 Received: from unknown (HELO swold-mobl.bigsur.com) ([10.255.13.112])
-	by azsmga001.ch.intel.com with ESMTP; 02 Jan 2012 22:21:14 -0800
+	by azsmga001.ch.intel.com with ESMTP; 02 Jan 2012 22:20:56 -0800
 From: Saul Wold <sgw@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Mon,  2 Jan 2012 22:20:21 -0800
-Message-Id: <199c64582f73be3706afc26cde6e5c8b879833cb.1325571069.git.sgw@linux.intel.com>
+Date: Mon,  2 Jan 2012 22:19:29 -0800
+Message-Id: <abde2a045a39a70a6247a7ae591a131120ab8ed3.1325571069.git.sgw@linux.intel.com>
 X-Mailer: git-send-email 1.7.6.4
 In-Reply-To: <cover.1325571068.git.sgw@linux.intel.com>
 References: <cover.1325571068.git.sgw@linux.intel.com>
 In-Reply-To: <cover.1325571068.git.sgw@linux.intel.com>
 References: <cover.1325571068.git.sgw@linux.intel.com>
-Subject: [CONSOLIDATED PULL 095/113] liburcu: upgrade from 0.6.4 to the latest 0.6.7
+Subject: [CONSOLIDATED PULL 043/113] udev: reorganize files of 164 version
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -35,40 +35,99 @@ List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedde
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Tue, 03 Jan 2012 06:29:37 -0000
 
-From: Dexuan Cui <dexuan.cui@intel.com>
+From: Otavio Salvador <otavio@ossystems.com.br>
 
-Signed-off-by: Dexuan Cui <dexuan.cui@intel.com>
+We merged both files and udev-164 directory onto a single directory
+and renamed udev-new.inc onto udev.inc as we have a single version of
+udev now.
+
+Signed-off-by: Otavio Salvador <otavio@ossystems.com.br>
 ---
- .../liburcu/{liburcu_0.6.4.bb => liburcu_0.6.7.bb} |    6 +++---
- 1 files changed, 3 insertions(+), 3 deletions(-)
- rename meta/recipes-support/liburcu/{liburcu_0.6.4.bb => liburcu_0.6.7.bb} (80%)
+ meta/recipes-core/udev/{udev-new.inc => udev.inc}  |    0
+ .../udev/{files => udev}/devfs-udev.rules          |    0
+ meta/recipes-core/udev/{udev-164 => udev}/init     |    0
+ meta/recipes-core/udev/{files => udev}/links.conf  |    0
+ .../udev/{udev-164 => udev}/local.rules            |    0
+ meta/recipes-core/udev/{files => udev}/mount.sh    |    0
+ meta/recipes-core/udev/{files => udev}/network.sh  |    0
+ .../udev/{udev-164 => udev}/permissions.rules      |    0
+ .../recipes-core/udev/{udev-164 => udev}/run.rules |    0
+ .../udev/{files => udev}/udev-166-v4l1-1.patch     |    0
+ meta/recipes-core/udev/{files => udev}/udev-cache  |    0
+ .../udev/{udev-164 => udev}/udev.rules             |    0
+ meta/recipes-core/udev/udev_164.bb                 |    2 +-
+ 13 files changed, 1 insertions(+), 1 deletions(-)
+ rename meta/recipes-core/udev/{udev-new.inc => udev.inc} (100%)
+ rename meta/recipes-core/udev/{files => udev}/devfs-udev.rules (100%)
+ rename meta/recipes-core/udev/{udev-164 => udev}/init (100%)
+ rename meta/recipes-core/udev/{files => udev}/links.conf (100%)
+ rename meta/recipes-core/udev/{udev-164 => udev}/local.rules (100%)
+ rename meta/recipes-core/udev/{files => udev}/mount.sh (100%)
+ rename meta/recipes-core/udev/{files => udev}/network.sh (100%)
+ rename meta/recipes-core/udev/{udev-164 => udev}/permissions.rules (100%)
+ rename meta/recipes-core/udev/{udev-164 => udev}/run.rules (100%)
+ rename meta/recipes-core/udev/{files => udev}/udev-166-v4l1-1.patch (100%)
+ rename meta/recipes-core/udev/{files => udev}/udev-cache (100%)
+ rename meta/recipes-core/udev/{udev-164 => udev}/udev.rules (100%)
 
-diff --git a/meta/recipes-support/liburcu/liburcu_0.6.4.bb b/meta/recipes-support/liburcu/liburcu_0.6.7.bb
-similarity index 80%
-rename from meta/recipes-support/liburcu/liburcu_0.6.4.bb
-rename to meta/recipes-support/liburcu/liburcu_0.6.7.bb
-index 3f0596e..be73856 100644
---- a/meta/recipes-support/liburcu/liburcu_0.6.4.bb
-+++ b/meta/recipes-support/liburcu/liburcu_0.6.7.bb
-@@ -1,6 +1,6 @@
- DESCRIPTION = "The userspace read-copy update library by Mathieu Desnoyers"
- HOMEPAGE = "http://lttng.org/urcu"
--BUGTRACKER = "n/a"
-+BUGTRACKER = "http://lttng.org/project/issues"
+diff --git a/meta/recipes-core/udev/udev-new.inc b/meta/recipes-core/udev/udev.inc
+similarity index 100%
+rename from meta/recipes-core/udev/udev-new.inc
+rename to meta/recipes-core/udev/udev.inc
+diff --git a/meta/recipes-core/udev/files/devfs-udev.rules b/meta/recipes-core/udev/udev/devfs-udev.rules
+similarity index 100%
+rename from meta/recipes-core/udev/files/devfs-udev.rules
+rename to meta/recipes-core/udev/udev/devfs-udev.rules
+diff --git a/meta/recipes-core/udev/udev-164/init b/meta/recipes-core/udev/udev/init
+similarity index 100%
+rename from meta/recipes-core/udev/udev-164/init
+rename to meta/recipes-core/udev/udev/init
+diff --git a/meta/recipes-core/udev/files/links.conf b/meta/recipes-core/udev/udev/links.conf
+similarity index 100%
+rename from meta/recipes-core/udev/files/links.conf
+rename to meta/recipes-core/udev/udev/links.conf
+diff --git a/meta/recipes-core/udev/udev-164/local.rules b/meta/recipes-core/udev/udev/local.rules
+similarity index 100%
+rename from meta/recipes-core/udev/udev-164/local.rules
+rename to meta/recipes-core/udev/udev/local.rules
+diff --git a/meta/recipes-core/udev/files/mount.sh b/meta/recipes-core/udev/udev/mount.sh
+similarity index 100%
+rename from meta/recipes-core/udev/files/mount.sh
+rename to meta/recipes-core/udev/udev/mount.sh
+diff --git a/meta/recipes-core/udev/files/network.sh b/meta/recipes-core/udev/udev/network.sh
+similarity index 100%
+rename from meta/recipes-core/udev/files/network.sh
+rename to meta/recipes-core/udev/udev/network.sh
+diff --git a/meta/recipes-core/udev/udev-164/permissions.rules b/meta/recipes-core/udev/udev/permissions.rules
+similarity index 100%
+rename from meta/recipes-core/udev/udev-164/permissions.rules
+rename to meta/recipes-core/udev/udev/permissions.rules
+diff --git a/meta/recipes-core/udev/udev-164/run.rules b/meta/recipes-core/udev/udev/run.rules
+similarity index 100%
+rename from meta/recipes-core/udev/udev-164/run.rules
+rename to meta/recipes-core/udev/udev/run.rules
+diff --git a/meta/recipes-core/udev/files/udev-166-v4l1-1.patch b/meta/recipes-core/udev/udev/udev-166-v4l1-1.patch
+similarity index 100%
+rename from meta/recipes-core/udev/files/udev-166-v4l1-1.patch
+rename to meta/recipes-core/udev/udev/udev-166-v4l1-1.patch
+diff --git a/meta/recipes-core/udev/files/udev-cache b/meta/recipes-core/udev/udev/udev-cache
+similarity index 100%
+rename from meta/recipes-core/udev/files/udev-cache
+rename to meta/recipes-core/udev/udev/udev-cache
+diff --git a/meta/recipes-core/udev/udev-164/udev.rules b/meta/recipes-core/udev/udev/udev.rules
+similarity index 100%
+rename from meta/recipes-core/udev/udev-164/udev.rules
+rename to meta/recipes-core/udev/udev/udev.rules
+diff --git a/meta/recipes-core/udev/udev_164.bb b/meta/recipes-core/udev/udev_164.bb
+index d487add..3e4e402 100644
+--- a/meta/recipes-core/udev/udev_164.bb
++++ b/meta/recipes-core/udev/udev_164.bb
+@@ -1,4 +1,4 @@
+-include udev-new.inc
++include udev.inc
  
- LICENSE = "LGPLv2.1+ & MIT-style"
- LIC_FILES_CHKSUM = "file://LICENSE;md5=b472dc110d38774921e1d5ccb0065fff \
-@@ -11,8 +11,8 @@ PR = "r0"
+ PR = "r7"
  
- SRC_URI = "http://lttng.org/files/urcu/userspace-rcu-${PV}.tar.bz2"
- 
--SRC_URI[md5sum] = "39ec317ef5af3ea167429f3eb2a93081"
--SRC_URI[sha256sum] = "2914637c60027ea52974aa7fa8ee7f2a3a0067502bbaebe01de14d6988aa8882"
-+SRC_URI[md5sum] = "2705dadd65beda8e8960472c082e44b3"
-+SRC_URI[sha256sum] = "b0b09aead6fbcb4d5efb4270e12f84ffd115b99b55b2c745e052b2d87a47e75f"
- 
- S = "${WORKDIR}/userspace-rcu-${PV}"
- CFLAGS_append_libc-uclibc = " -D_GNU_SOURCE"
 -- 
 1.7.6.4
 
