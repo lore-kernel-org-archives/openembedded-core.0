@@ -1,24 +1,24 @@
-Received: from mga03.intel.com ([143.182.124.21])
+Received: from mga14.intel.com ([143.182.124.37])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <sgw@linux.intel.com>) id 1Rhxr9-0004O6-Vs
+	(envelope-from <sgw@linux.intel.com>) id 1RhxrA-0004Y7-3A
 	for openembedded-core@lists.openembedded.org;
-	Tue, 03 Jan 2012 07:28:20 +0100
+	Tue, 03 Jan 2012 07:28:21 +0100
 Received: from azsmga001.ch.intel.com ([10.2.17.19])
-	by azsmga101.ch.intel.com with ESMTP; 02 Jan 2012 22:20:49 -0800
+	by azsmga102.ch.intel.com with ESMTP; 02 Jan 2012 22:20:59 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="91752157"
+X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="91752207"
 Received: from unknown (HELO swold-mobl.bigsur.com) ([10.255.13.112])
-	by azsmga001.ch.intel.com with ESMTP; 02 Jan 2012 22:20:49 -0800
+	by azsmga001.ch.intel.com with ESMTP; 02 Jan 2012 22:20:58 -0800
 From: Saul Wold <sgw@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Mon,  2 Jan 2012 22:19:10 -0800
-Message-Id: <0b206b4458aa04562d52e8cd089e06fc65e999b3.1325571069.git.sgw@linux.intel.com>
+Date: Mon,  2 Jan 2012 22:19:36 -0800
+Message-Id: <d55adc43cbddafcd989141466a78ab55660c71e8.1325571069.git.sgw@linux.intel.com>
 X-Mailer: git-send-email 1.7.6.4
 In-Reply-To: <cover.1325571068.git.sgw@linux.intel.com>
 References: <cover.1325571068.git.sgw@linux.intel.com>
 In-Reply-To: <cover.1325571068.git.sgw@linux.intel.com>
 References: <cover.1325571068.git.sgw@linux.intel.com>
-Subject: [CONSOLIDATED PULL 024/113] telepathy-glib: upgrade to 0.17.4
+Subject: [CONSOLIDATED PULL 050/113] udev: split utilities onto udev-utils
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -33,33 +33,58 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 03 Jan 2012 06:28:20 -0000
+X-List-Received-Date: Tue, 03 Jan 2012 06:28:23 -0000
 
-From: Shane Wang <shane.wang@intel.com>
+From: Otavio Salvador <otavio@ossystems.com.br>
 
-Signed-off-by: Shane Wang <shane.wang@intel.com>
+Signed-off-by: Otavio Salvador <otavio@ossystems.com.br>
 ---
- ...thy-glib_0.17.0.bb => telepathy-glib_0.17.4.bb} |    4 ++--
- 1 files changed, 2 insertions(+), 2 deletions(-)
- rename meta/recipes-connectivity/telepathy/{telepathy-glib_0.17.0.bb => telepathy-glib_0.17.4.bb} (80%)
+ meta/recipes-core/udev/udev.inc    |    6 +++++-
+ meta/recipes-core/udev/udev_164.bb |    2 +-
+ 2 files changed, 6 insertions(+), 2 deletions(-)
 
-diff --git a/meta/recipes-connectivity/telepathy/telepathy-glib_0.17.0.bb b/meta/recipes-connectivity/telepathy/telepathy-glib_0.17.4.bb
-similarity index 80%
-rename from meta/recipes-connectivity/telepathy/telepathy-glib_0.17.0.bb
-rename to meta/recipes-connectivity/telepathy/telepathy-glib_0.17.4.bb
-index db5fd41..1ad91b2 100644
---- a/meta/recipes-connectivity/telepathy/telepathy-glib_0.17.0.bb
-+++ b/meta/recipes-connectivity/telepathy/telepathy-glib_0.17.4.bb
-@@ -7,8 +7,8 @@ PR = "r0"
+diff --git a/meta/recipes-core/udev/udev.inc b/meta/recipes-core/udev/udev.inc
+index a228e5f..c5d969b 100644
+--- a/meta/recipes-core/udev/udev.inc
++++ b/meta/recipes-core/udev/udev.inc
+@@ -36,7 +36,7 @@ libexecdir = "${base_libdir}/udev"
+ EXTRA_OECONF = "--disable-introspection --with-rootlibdir=${base_libdir} \
+                 --with-pci-ids-path=${datadir}/pci.ids"
  
- SRC_URI = "http://telepathy.freedesktop.org/releases/telepathy-glib/${BPN}-${PV}.tar.gz"
+-PACKAGES =+ "udev-acl udev-consolekit"
++PACKAGES =+ "udev-acl udev-consolekit udev-utils"
+ PACKAGES =+ "udev-cache libudev libudev-dev libudev-dbg"
+ PACKAGES =+ "libgudev libgudev-dev libgudev-dbg"
  
--SRC_URI[md5sum] = "5ea748c581db611b097c4926f0467c1e"
--SRC_URI[sha256sum] = "06f61e9a8b12e55ac8c62cad29baa5b14f2b75118a9b01f0874f8048ec33d845"
-+SRC_URI[md5sum] = "2e1d583af92e7e88bd5478eab1755696"
-+SRC_URI[sha256sum] = "bd9395178d2e11e6caaf14100bbfcb8bf3ceeb574538c670dbef68750dd24b3c"
+@@ -47,6 +47,8 @@ INITSCRIPT_NAME_udev-cache = "udev-cache"
+ INITSCRIPT_PARAMS_udev-cache = "start 36 S ."
  
- LIC_FILES_CHKSUM = "file://COPYING;md5=e413d83db6ee8f2c8e6055719096a48e"
+ FILES_${PN} += "${libexecdir} ${libdir}/ConsoleKit"
++RRECOMMENDS_${PN} += "udev-utils"
++
+ FILES_${PN}-dbg += "${libexecdir}/.debug"
+ FILES_${PN}-dev = "${datadir}/pkgconfig/udev.pc"
+ FILES_libudev = "${base_libdir}/libudev.so.*"
+@@ -61,6 +63,8 @@ FILES_udev-cache = "${sysconfdir}/init.d/udev-cache ${sysconfdir}/default/udev-c
+ 
+ FILES_udev-acl = "${base_libdir}/udev/udev-acl ${base_libdir}/udev/rules.d/70-acl.rules"
+ 
++FILES_udev-utils = "${bindir}/udevinfo ${bindir}/udevtest ${base_sbindir}/udevadm"
++
+ RDEPENDS_udev-consolekit += "udev-acl"
+ FILES_udev-consolekit = "${libdir}/ConsoleKit"
+ 
+diff --git a/meta/recipes-core/udev/udev_164.bb b/meta/recipes-core/udev/udev_164.bb
+index b993a13..d661044 100644
+--- a/meta/recipes-core/udev/udev_164.bb
++++ b/meta/recipes-core/udev/udev_164.bb
+@@ -1,6 +1,6 @@
+ include udev.inc
+ 
+-PR = "r11"
++PR = "r12"
+ 
+ SRC_URI += "file://udev-166-v4l1-1.patch"
  
 -- 
 1.7.6.4
