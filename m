@@ -1,24 +1,30 @@
-Received: from mga09.intel.com ([134.134.136.24])
+Received: from mail-wi0-f175.google.com ([209.85.212.175])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <nitin.a.kamble@intel.com>) id 1RiDRW-0000GM-PJ
+	(envelope-from <koen@dominion.thruhere.net>) id 1RiDhy-0000jY-5y
 	for openembedded-core@lists.openembedded.org;
-	Wed, 04 Jan 2012 00:06:55 +0100
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-	by orsmga102.jf.intel.com with ESMTP; 03 Jan 2012 14:59:34 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.67,352,1309762800"; d="scan'208";a="92638327"
-Received: from nbuild2.sc.intel.com ([172.25.110.37])
-	by orsmga001.jf.intel.com with ESMTP; 03 Jan 2012 14:59:34 -0800
-From: nitin.a.kamble@intel.com
-To: openembedded-core@lists.openembedded.org
-Date: Tue,  3 Jan 2012 14:59:31 -0800
-Message-Id: <401da554f087f2abb836bdf67ff5b98c28a65b3d.1325631444.git.nitin.a.kamble@intel.com>
-X-Mailer: git-send-email 1.7.4.4
-In-Reply-To: <d0c80f038de8f7c0f53b759503611aefa28c536b.1325631444.git.nitin.a.kamble@intel.com>
-References: <d0c80f038de8f7c0f53b759503611aefa28c536b.1325631444.git.nitin.a.kamble@intel.com>
-In-Reply-To: <cover.1325631444.git.nitin.a.kamble@intel.com>
-References: <cover.1325631444.git.nitin.a.kamble@intel.com>
-Subject: [PATCH 2/2] vte: upgrade from 0.24.3 to 0.28.2
+	Wed, 04 Jan 2012 00:23:54 +0100
+Received: by wibhq7 with SMTP id hq7so9716354wib.6
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 03 Jan 2012 15:16:33 -0800 (PST)
+Received: by 10.181.12.43 with SMTP id en11mr117955988wid.6.1325632593105;
+	Tue, 03 Jan 2012 15:16:33 -0800 (PST)
+Received: from [172.20.0.96] (ip545070eb.adsl-surfen.hetnet.nl.
+	[84.80.112.235])
+	by mx.google.com with ESMTPS id f19sm36147636wbo.13.2012.01.03.15.16.31
+	(version=TLSv1/SSLv3 cipher=OTHER);
+	Tue, 03 Jan 2012 15:16:32 -0800 (PST)
+Mime-Version: 1.0 (Apple Message framework v1251.1)
+From: Koen Kooi <koen@dominion.thruhere.net>
+In-Reply-To: <4F037FA2.4050705@linux.intel.com>
+Date: Wed, 4 Jan 2012 00:16:31 +0100
+Message-Id: <59A8742A-65EA-4D16-A74D-ABEEFC62488C@dominion.thruhere.net>
+References: <1325347496-9980-1-git-send-email-koen@dominion.thruhere.net>
+	<4F037FA2.4050705@linux.intel.com>
+To: Saul Wold <sgw@linux.intel.com>
+X-Mailer: Apple Mail (2.1251.1)
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] procps: raise update-alternatives priority
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -33,212 +39,83 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 03 Jan 2012 23:06:55 -0000
+X-List-Received-Date: Tue, 03 Jan 2012 23:23:54 -0000
+X-Groupsio-MsgNum: 15189
+Content-Type: multipart/signed;
+	boundary="Apple-Mail=_C8D9A96C-0EE0-4B89-8D61-B45524B0A31C";
+	protocol="application/pgp-signature"; micalg=pgp-sha1
 
-From: Nitin A Kamble <nitin.a.kamble@intel.com>
-
-Added a patch to add introspection.m4 to avoid the following
-configure error:
-
-| src/Makefile.am:168: HAVE_INTROSPECTION does not appear in
-AM_CONDITIONAL
-| autoreconf: automake failed with exit status: 1
-| ERROR: autoreconf execution failed.
-NOTE: package vte-0.28.2-r0: task do_configure: Failed
-
-This upgrade avoids configure issues with automake version 1.11.2
-seen on the earlier version of vte:
-
-| src/Makefile.am:155: `pkglibdir' is not a legitimate directory for
-`PROGRAMS'
-| src/Makefile.am:156: `pkglibdir' is not a legitimate directory for
-`SCRIPTS'
-| src/Makefile.am:178: variable `interpret_SOURCES' is defined but no
-program or
-| src/Makefile.am:178: library has `interpret' as canonical name
-(possible typo)
-| src/Makefile.am:229: variable `slowcat_SOURCES' is defined but no
-program or
-| src/Makefile.am:229: library has `slowcat' as canonical name (possible
-typo)
-| src/Makefile.am:203: variable `interpret_LDADD' is defined but no
-program or
-| src/Makefile.am:203: library has `interpret' as canonical name
-(possible typo)
-| autoreconf: automake failed with exit status: 1
-| ERROR: autoreconf execution failed.
-NOTE: package vte-0.24.3-r0: task do_configure: Failed
-
-Did not upgrade to the latest version 0.31.0.
-0.28.2 is the last version supporting gtk+ 2. Next versions have
-dropped support for gtk+ 2, and they require gtk+ 3. It would be
-more appropriate to move to next version after gtk+ 3 recipe is
-available.
-
-Signed-off-by: Nitin A Kamble <nitin.a.kamble@intel.com>
----
- meta/recipes-support/vte/vte.inc                 |    6 +-
- meta/recipes-support/vte/vte/introspection.patch |   99 ++++++++++++++++++++++
- meta/recipes-support/vte/vte_0.24.3.bb           |    8 --
- meta/recipes-support/vte/vte_0.28.2.bb           |    8 ++
- 4 files changed, 111 insertions(+), 10 deletions(-)
- create mode 100644 meta/recipes-support/vte/vte/introspection.patch
- delete mode 100644 meta/recipes-support/vte/vte_0.24.3.bb
- create mode 100644 meta/recipes-support/vte/vte_0.28.2.bb
-
-diff --git a/meta/recipes-support/vte/vte.inc b/meta/recipes-support/vte/vte.inc
-index 6138f8c..54bd8ae 100644
---- a/meta/recipes-support/vte/vte.inc
-+++ b/meta/recipes-support/vte/vte.inc
-@@ -6,9 +6,11 @@ RDEPENDS_libvte = "vte-termcap"
- 
- inherit gnome
- 
--EXTRA_OECONF = "--disable-gtk-doc --disable-python"
-+SRC_URI += "file://introspection.patch"
-+
-+EXTRA_OECONF = "--disable-gtk-doc --disable-python --disable-introspection"
- 
- PACKAGES =+ "libvte vte-termcap"
- FILES_libvte = "${libdir}/*.so.* ${libexecdir}/gnome-pty-helper"
- FILES_vte-dbg =+ ${libexecdir}/.debug"
--FILES_vte-termcap = "${datadir}/vte/termcap"
-+FILES_vte-termcap = "${datadir}/vte/termcap-0.0"
-diff --git a/meta/recipes-support/vte/vte/introspection.patch b/meta/recipes-support/vte/vte/introspection.patch
-new file mode 100644
-index 0000000..76a841c
---- /dev/null
-+++ b/meta/recipes-support/vte/vte/introspection.patch
-@@ -0,0 +1,99 @@
-+Index: vte-0.28.2/m4/introspection.m4
-+===================================================================
-+--- /dev/null
-++++ vte-0.28.2/m4/introspection.m4
-+@@ -0,0 +1,94 @@
-++dnl -*- mode: autoconf -*-
-++dnl Copyright 2009 Johan Dahlin
-++dnl
-++dnl This file is free software; the author(s) gives unlimited
-++dnl permission to copy and/or distribute it, with or without
-++dnl modifications, as long as this notice is preserved.
-++dnl
-++
-++# serial 1
-++
-++m4_define([_GOBJECT_INTROSPECTION_CHECK_INTERNAL],
-++[
-++    AC_BEFORE([AC_PROG_LIBTOOL],[$0])dnl setup libtool first
-++    AC_BEFORE([AM_PROG_LIBTOOL],[$0])dnl setup libtool first
-++    AC_BEFORE([LT_INIT],[$0])dnl setup libtool first
-++
-++    dnl enable/disable introspection
-++    m4_if([$2], [require],
-++    [dnl
-++        enable_introspection=yes
-++    ],[dnl
-++        AC_ARG_ENABLE(introspection,
-++                  AS_HELP_STRING([--enable-introspection[=@<:@no/auto/yes@:>@]],
-++                                 [Enable introspection for this build]),,
-++                                 [enable_introspection=auto])
-++    ])dnl
-++
-++    AC_MSG_CHECKING([for gobject-introspection])
-++
-++    dnl presence/version checking
-++    AS_CASE([$enable_introspection],
-++    [no], [dnl
-++        found_introspection="no (disabled, use --enable-introspection to enable)"
-++    ],dnl
-++    [yes],[dnl
-++        PKG_CHECK_EXISTS([gobject-introspection-1.0],,
-++                         AC_MSG_ERROR([gobject-introspection-1.0 is not installed]))
-++        PKG_CHECK_EXISTS([gobject-introspection-1.0 >= $1],
-++                         found_introspection=yes,
-++                         AC_MSG_ERROR([You need to have gobject-introspection >= $1 installed to build AC_PACKAGE_NAME]))
-++    ],dnl
-++    [auto],[dnl
-++        PKG_CHECK_EXISTS([gobject-introspection-1.0 >= $1], found_introspection=yes, found_introspection=no)
-++    ],dnl
-++    [dnl
-++        AC_MSG_ERROR([invalid argument passed to --enable-introspection, should be one of @<:@no/auto/yes@:>@])
-++    ])dnl
-++
-++    AC_MSG_RESULT([$found_introspection])
-++
-++    INTROSPECTION_SCANNER=
-++    INTROSPECTION_COMPILER=
-++    INTROSPECTION_GENERATE=
-++    INTROSPECTION_GIRDIR=
-++    INTROSPECTION_TYPELIBDIR=
-++    if test "x$found_introspection" = "xyes"; then
-++       INTROSPECTION_SCANNER=`$PKG_CONFIG --variable=g_ir_scanner gobject-introspection-1.0`
-++       INTROSPECTION_COMPILER=`$PKG_CONFIG --variable=g_ir_compiler gobject-introspection-1.0`
-++       INTROSPECTION_GENERATE=`$PKG_CONFIG --variable=g_ir_generate gobject-introspection-1.0`
-++       INTROSPECTION_GIRDIR=`$PKG_CONFIG --variable=girdir gobject-introspection-1.0`
-++       INTROSPECTION_TYPELIBDIR="$($PKG_CONFIG --variable=typelibdir gobject-introspection-1.0)"
-++       INTROSPECTION_CFLAGS=`$PKG_CONFIG --cflags gobject-introspection-1.0`
-++       INTROSPECTION_LIBS=`$PKG_CONFIG --libs gobject-introspection-1.0`
-++       INTROSPECTION_MAKEFILE=`$PKG_CONFIG --variable=datadir gobject-introspection-1.0`/gobject-introspection-1.0/Makefile.introspection
-++    fi
-++    AC_SUBST(INTROSPECTION_SCANNER)
-++    AC_SUBST(INTROSPECTION_COMPILER)
-++    AC_SUBST(INTROSPECTION_GENERATE)
-++    AC_SUBST(INTROSPECTION_GIRDIR)
-++    AC_SUBST(INTROSPECTION_TYPELIBDIR)
-++    AC_SUBST(INTROSPECTION_CFLAGS)
-++    AC_SUBST(INTROSPECTION_LIBS)
-++    AC_SUBST(INTROSPECTION_MAKEFILE)
-++
-++    AM_CONDITIONAL(HAVE_INTROSPECTION, test "x$found_introspection" = "xyes")
-++])
-++
-++
-++dnl Usage:
-++dnl   GOBJECT_INTROSPECTION_CHECK([minimum-g-i-version])
-++
-++AC_DEFUN([GOBJECT_INTROSPECTION_CHECK],
-++[
-++  _GOBJECT_INTROSPECTION_CHECK_INTERNAL([$1])
-++])
-++
-++dnl Usage:
-++dnl   GOBJECT_INTROSPECTION_REQUIRE([minimum-g-i-version])
-++
-++
-++AC_DEFUN([GOBJECT_INTROSPECTION_REQUIRE],
-++[
-++  _GOBJECT_INTROSPECTION_CHECK_INTERNAL([$1], [require])
-++])
-diff --git a/meta/recipes-support/vte/vte_0.24.3.bb b/meta/recipes-support/vte/vte_0.24.3.bb
-deleted file mode 100644
-index c06dd53..0000000
---- a/meta/recipes-support/vte/vte_0.24.3.bb
-+++ /dev/null
-@@ -1,8 +0,0 @@
--require vte.inc
--
--LIC_FILES_CHKSUM = "file://COPYING;md5=3bf50002aefd002f49e7bb854063f7e7"
--
--PR = "r0"
--
--SRC_URI[archive.md5sum] = "3eba555eab7ccbbe5ca056bb203a14ab"
--SRC_URI[archive.sha256sum] = "fe7d01178976b17ca809e41d0e6dbbcb28e2af5e2f5aa857f9df65affac17d01"
-diff --git a/meta/recipes-support/vte/vte_0.28.2.bb b/meta/recipes-support/vte/vte_0.28.2.bb
-new file mode 100644
-index 0000000..c74419a
---- /dev/null
-+++ b/meta/recipes-support/vte/vte_0.28.2.bb
-@@ -0,0 +1,8 @@
-+require vte.inc
-+
-+LIC_FILES_CHKSUM = "file://COPYING;md5=3bf50002aefd002f49e7bb854063f7e7"
-+
-+PR = "r0"
-+
-+SRC_URI[archive.md5sum] = "f07a4bf943194f94b7f142db8f7f36dc"
-+SRC_URI[archive.sha256sum] = "8d04e202b617373dfb47689e5e628febe2c58840b34cccc4af4feb88c48df903"
--- 
-1.7.4.4
+--Apple-Mail=_C8D9A96C-0EE0-4B89-8D61-B45524B0A31C
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain;
+	charset=iso-8859-1
 
 
+Op 3 jan. 2012, om 23:22 heeft Saul Wold het volgende geschreven:
 
+> On 12/31/2011 08:04 AM, Koen Kooi wrote:
+>> This fixes a problem with the uptime utility:
+>>=20
+>> root@beagleboneA3-0088:/var/lib/cloud9# busybox uptime
+>>  16:00:17 up 2 days,  6:46,  load average: 0.14, 0.04, 0.05
+>> root@beagleboneA3-0088:/var/lib/cloud9# uptime.procps
+>>  16:00:22 up 2 days,  6:46,  1 user,  load average: 0.14, 0.05, 0.06
+>> root@beagleboneA3-0088:/var/lib/cloud9# uptime.coreutils
+>>  16:00pm  up 4382 days 15:58,  1 user,  load average: 0.13, 0.05, =
+0.05
+>> root@beagleboneA3-0088:/var/lib/cloud9# ls /usr/bin/uptime -la
+>> lrwxrwxrwx 1 root root 16 Dec 26 08:56 /usr/bin/uptime ->  =
+uptime.coreutils
+>>=20
+>> Signed-off-by: Koen Kooi<koen@dominion.thruhere.net>
+>> ---
+>>  meta/recipes-extended/procps/procps_3.2.8.bb |    4 ++--
+>>  1 files changed, 2 insertions(+), 2 deletions(-)
+>>=20
+>> diff --git a/meta/recipes-extended/procps/procps_3.2.8.bb =
+b/meta/recipes-extended/procps/procps_3.2.8.bb
+>> index d989955..6a41ccd 100644
+>> --- a/meta/recipes-extended/procps/procps_3.2.8.bb
+>> +++ b/meta/recipes-extended/procps/procps_3.2.8.bb
+>> @@ -1,12 +1,12 @@
+>>  require procps.inc
+>>=20
+>> -PR =3D "r3"
+>> +PR =3D "r4"
+>>=20
+>>  inherit update-alternatives
+>>=20
+>>  ALTERNATIVE_LINKS =3D "${bindir}/top ${bindir}/uptime ${bindir}/free =
+${bindir}/pkill ${bindir}/pmap \
+>>                       ${base_bindir}/kill ${base_sbindir}/sysctl =
+${base_bindir}/ps"
+>> -ALTERNATIVE_PRIORITY =3D "90"
+>> +ALTERNATIVE_PRIORITY =3D "110"
+>>=20
+>>  SRC_URI +=3D "file://procmodule.patch \
+>>              file://psmodule.patch \
+>=20
+> Merged to OE-Core.
+>=20
+> Is there a bug filed against coreutils uptime?
+
+Not yet, but systemd suffers from the same, I'm going to look into it =
+after the holidays and pester Karel and Lennart, they are both in =
+#systemd :)=
+
+--Apple-Mail=_C8D9A96C-0EE0-4B89-8D61-B45524B0A31C
+Content-Transfer-Encoding: 7bit
+Content-Disposition: inline;
+	filename=signature.asc
+Content-Type: application/pgp-signature;
+	name=signature.asc
+Content-Description: Message signed with OpenPGP using GPGMail
+
+-----BEGIN PGP SIGNATURE-----
+
+iEYEARECAAYFAk8DjE8ACgkQMkyGM64RGpFb/ACgizBryRzmwbyP8I9+8G/XmSSC
+IL4AoJrXQ4v/re109M/QIdgkyiosac1P
+=wFF8
+-----END PGP SIGNATURE-----
+
+--Apple-Mail=_C8D9A96C-0EE0-4B89-8D61-B45524B0A31C--
