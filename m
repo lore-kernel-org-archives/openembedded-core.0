@@ -1,33 +1,57 @@
-Received: from hermes.mlbassoc.com ([64.234.241.98] helo=mail.chez-thomas.org)
+Received: from ch1ehsobe002.messaging.microsoft.com ([216.32.181.182]
+	helo=ch1outboundpool.messaging.microsoft.com)
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <gary@mlbassoc.com>) id 1Ri76Q-0004T0-FA
+	(envelope-from <B29882@freescale.com>) id 1Ri7E9-0004h6-CD
 	for openembedded-core@lists.openembedded.org;
-	Tue, 03 Jan 2012 17:20:42 +0100
-Received: by mail.chez-thomas.org (Postfix, from userid 1998)
-	id F2D11F8120B; Tue,  3 Jan 2012 09:13:20 -0700 (MST)
-X-Spam-Checker-Version: SpamAssassin 3.3.2 (2011-06-06) on
-	hermes.chez-thomas.org
-X-Spam-Level: 
-X-Spam-Status: No, score=-2.9 required=4.0 tests=ALL_TRUSTED,BAYES_00
-	autolearn=unavailable version=3.3.2
-Received: from hermes.chez-thomas.org (localhost.localdomain [127.0.0.1])
-	by mail.chez-thomas.org (Postfix) with ESMTP id 656BFF8120A;
-	Tue,  3 Jan 2012 09:13:10 -0700 (MST)
-Message-ID: <4F032916.6010604@mlbassoc.com>
-Date: Tue, 03 Jan 2012 09:13:10 -0700
-From: Gary Thomas <gary@mlbassoc.com>
-User-Agent: Mozilla/5.0 (X11; Linux i686;
-	rv:8.0) Gecko/20111115 Thunderbird/8.0
-MIME-Version: 1.0
+	Tue, 03 Jan 2012 17:28:42 +0100
+Received: from mail1-ch1-R.bigfish.com (10.43.68.249) by
+	CH1EHSOBE010.bigfish.com (10.43.70.60) with Microsoft SMTP Server id
+	14.1.225.23; Tue, 3 Jan 2012 16:21:20 +0000
+Received: from mail1-ch1 (localhost [127.0.0.1])	by mail1-ch1-R.bigfish.com
+	(Postfix) with ESMTP id 14D354C02EC	for
+	<openembedded-core@lists.openembedded.org>;
+	Tue,  3 Jan 2012 16:21:20 +0000 (UTC)
+X-SpamScore: -10
+X-BigFish: VS-10(zz9371I3b49K1432N98dKzz1202hzz8275bh8275dhz2dh2a8h668h839h8e2h8e3hbe9k)
+X-Forefront-Antispam-Report: CIP:70.37.183.190; KIP:(null); UIP:(null); IPV:NLI;
+	H:mail.freescale.net; RD:none; EFVD:NLI
+Received: from mail1-ch1 (localhost.localdomain [127.0.0.1]) by mail1-ch1
+	(MessageSwitch) id 1325607677974280_5223;
+	Tue,  3 Jan 2012 16:21:17 +0000 (UTC)
+Received: from CH1EHSMHS005.bigfish.com (snatpool1.int.messaging.microsoft.com
+	[10.43.68.245])	by mail1-ch1.bigfish.com (Postfix) with ESMTP id
+	DFFE8280048 for <openembedded-core@lists.openembedded.org>;
+	Tue,  3 Jan 2012 16:21:17 +0000 (UTC)
+Received: from mail.freescale.net (70.37.183.190) by CH1EHSMHS005.bigfish.com
+	(10.43.70.5) with Microsoft SMTP Server (TLS) id 14.1.225.23;
+	Tue, 3 Jan 2012 16:21:17 +0000
+Received: from 039-SN1MPN1-002.039d.mgd.msft.net ([169.254.2.86]) by
+	039-SN1MMR1-003.039d.mgd.msft.net ([10.84.1.16]) with mapi id
+	14.01.0355.003; Tue, 3 Jan 2012 10:21:16 -0600
+From: McClintock Matthew-B29882 <B29882@freescale.com>
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-References: <4ED61F56.8050409@mlbassoc.com>
-In-Reply-To: <4ED61F56.8050409@mlbassoc.com>
-Subject: Re: [PATCH] Alter order of file systems tried by mount
+Thread-Topic: [OE-core] [PATCH] libxml2: add shared library version info to
+	libxml shared libraries
+Thread-Index: AQHMyjO3mZh1rlZoh0i2AKZGEAsoTg==
+Date: Tue, 3 Jan 2012 16:21:16 +0000
+Message-ID: <CAEsOVNcUdhic5Wt=r9XEb1SRmWw7+8Tn+4pWyB4Xdj4Mmv7+Lg@mail.gmail.com>
+References: <1325541916-22423-1-git-send-email-msm@freescale.com>
+	<20120102232228.GA3958@jama.jama.net>
+	<20120102232521.GB3958@jama.jama.net>
+In-Reply-To: <20120102232521.GB3958@jama.jama.net>
+Accept-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [99.47.177.27]
+MIME-Version: 1.0
+X-OriginatorOrg: freescale.com
+Subject: Re: [PATCH] libxml2: add shared library version info to libxml shared libraries
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
-Reply-To: Patches and discussions about the oe-core layer
+Reply-To: McClintock Matthew-B29882 <B29882@freescale.com>,
+	Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
 List-Id: Patches and discussions about the oe-core layer
 	<openembedded-core.lists.openembedded.org>
@@ -38,63 +62,58 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 03 Jan 2012 16:20:42 -0000
-Content-Type: text/plain; charset=KOI8-R; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Tue, 03 Jan 2012 16:28:42 -0000
+Content-Language: en-US
+Content-Type: text/plain; charset="iso-8859-1"
+Content-ID: <31A24D4DF6407645BA77F24BD1B5EBD3@freescale.net>
+Content-Transfer-Encoding: quoted-printable
 
-On 2011-11-30 05:19, Gary Thomas wrote:
-> The file /etc/filesystems is used by busybox 'mount' when
-> attempting to mount a file system when the type is not
-> specified. This change alters the order so that more
-> capable systems are tried first. Without this change, an
-> EXT3 system will mount as EXT2 which disables many of the
-> EXT3 features. With the change, EXT3 systems are mounted
-> properly.
+On Mon, Jan 2, 2012 at 5:25 PM, Martin Jansa <martin.jansa@gmail.com> wrote=
+:
+> On Tue, Jan 03, 2012 at 12:22:28AM +0100, Martin Jansa wrote:
+>> On Mon, Jan 02, 2012 at 04:05:16PM -0600, Matthew McClintock wrote:
+>> > This fixes an issue with RPM where it checks version imformation for
+>> > binaries linked against libxml and fails because it's missing info
+>> >
+>> > | error: Failed dependencies:
+>> > | =A0 =A0 =A0 =A0 =A0 =A0 =A0libxml2.so.2(LIBXML2_2.6.0) is needed by =
+fmc-0.9.7+2-r2.1.ppce500mc
+>> > | =A0 =A0 =A0 =A0 =A0 =A0 =A0libxml2.so.2(LIBXML2_2.4.30) is needed by=
+ fmc-0.9.7+2-r2.1.ppce500mc
+>> > | ERROR: Function 'do_rootfs' failed (see
+>> >
+>> > Note: fmc is just an example recipe/name
+>>
+>> Weird that I haven't noticed this in oe-core before, but probably
+>> because in oe-core it was always without version. But it looks the same
+>> as this
+>> http://git.openembedded.org/openembedded/commit/?id=3D50ed401cdaaefb1f5a=
+c33de2838af259a52b1c3a
+>> so
+
+You won't see this when building against oe-core stuff from source.
+This issue is seen when we bring in a prebuilt binary and link against
+libxml2 in the system.
+
+>> Acked-by: Martin Jansa <Martin.Jansa@gmail.com>
 >
-> Signed-off-by: Gary Thomas <gary@mlbassoc.com>
-> ---
-> .../recipes-core/base-files/base-files/filesystems | 8 ++++----
-> meta/recipes-core/base-files/base-files_3.0.14.bb | 2 +-
-> 2 files changed, 5 insertions(+), 5 deletions(-)
->
-> diff --git a/meta/recipes-core/base-files/base-files/filesystems b/meta/recipes-core/base-files/base-files/filesystems
-> index 2af6a7e..14f5abb 100644
-> --- a/meta/recipes-core/base-files/base-files/filesystems
-> +++ b/meta/recipes-core/base-files/base-files/filesystems
-> @@ -1,7 +1,7 @@
-> -minix
-> -fat
-> -vfat
-> -ext2
-> ext3
-> +ext2
-> +vfat
-> +fat
-> btrfs
-> +minix
-> *
-> diff --git a/meta/recipes-core/base-files/base-files_3.0.14.bb b/meta/recipes-core/base-files/base-files_3.0.14.bb
-> index 8f5313b..c860d70 100644
-> --- a/meta/recipes-core/base-files/base-files_3.0.14.bb
-> +++ b/meta/recipes-core/base-files/base-files_3.0.14.bb
-> @@ -1,7 +1,7 @@
-> SUMMARY = "Miscellaneous files for the base system."
-> DESCRIPTION = "The base-files package creates the basic system directory structure and provides a small set of key configuration files for the system."
-> SECTION = "base"
-> -PR = "r69"
-> +PR = "r70"
-> LICENSE = "GPLv2"
-> LIC_FILES_CHKSUM = "file://licenses/GPL-2;md5=94d55d512a9ba36caa9b7df079bae19f"
-> SRC_URI = "file://rotation \
+> but also double check if all recipes depending on it needs PR bump too,
+> I've expected that it's needed only for transition from versioned to not
+> versioned symbols, but according to:
+> http://git.openembedded.org/openembedded/commit/?id=3D4373bc4d0cde98dfa18=
+8d9a06266afa06f970bfe
+> http://git.openembedded.org/openembedded/commit/?id=3D7e673ab79c7d76ffc2b=
+733fb32d0b41514eb0db0
+> it was needed also other way around
 
-What about this patch (now 1 month old, with no action or discussion)?
+Because of the reason above, I don't think we need to bump PR's for
+all these recipes. People just should not normally be seeing this
+issue. If they are well, then they won't be able to make an RPM based
+rfs (maybe others)
 
-Thanks
+Let me know if that seems reasonable...
 
--- 
-------------------------------------------------------------
-Gary Thomas                 |  Consulting for the
-MLB Associates              |    Embedded world
-------------------------------------------------------------
+-M=
+
 
 
