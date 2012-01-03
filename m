@@ -1,24 +1,24 @@
 Received: from mga03.intel.com ([143.182.124.21])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <sgw@linux.intel.com>) id 1Rhxqx-0004Kv-H4
+	(envelope-from <sgw@linux.intel.com>) id 1Rhxr1-0004Kv-QL
 	for openembedded-core@lists.openembedded.org;
-	Tue, 03 Jan 2012 07:28:11 +0100
+	Tue, 03 Jan 2012 07:28:12 +0100
 Received: from azsmga001.ch.intel.com ([10.2.17.19])
-	by azsmga101.ch.intel.com with ESMTP; 02 Jan 2012 22:20:43 -0800
+	by azsmga101.ch.intel.com with ESMTP; 02 Jan 2012 22:20:45 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="91752120"
+X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="91752126"
 Received: from unknown (HELO swold-mobl.bigsur.com) ([10.255.13.112])
-	by azsmga001.ch.intel.com with ESMTP; 02 Jan 2012 22:20:43 -0800
+	by azsmga001.ch.intel.com with ESMTP; 02 Jan 2012 22:20:45 -0800
 From: Saul Wold <sgw@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Mon,  2 Jan 2012 22:18:52 -0800
-Message-Id: <015cb39ccf490de07bfd007fafc6d75c6c152add.1325571069.git.sgw@linux.intel.com>
+Date: Mon,  2 Jan 2012 22:18:57 -0800
+Message-Id: <0ae387e529cd875c9070f7316ae05c6943533008.1325571069.git.sgw@linux.intel.com>
 X-Mailer: git-send-email 1.7.6.4
 In-Reply-To: <cover.1325571068.git.sgw@linux.intel.com>
 References: <cover.1325571068.git.sgw@linux.intel.com>
 In-Reply-To: <cover.1325571068.git.sgw@linux.intel.com>
 References: <cover.1325571068.git.sgw@linux.intel.com>
-Subject: [CONSOLIDATED PULL 006/113] kern-tools: update SRCREV to pickup git operation fixes
+Subject: [CONSOLIDATED PULL 011/113] self-hosted-image: Add builder user and mini X
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -33,48 +33,49 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 03 Jan 2012 06:28:11 -0000
+X-List-Received-Date: Tue, 03 Jan 2012 06:28:12 -0000
 
-From: Bruce Ashfield <bruce.ashfield@windriver.com>
+From: Zhai Edwin <edwin.zhai@intel.com>
 
-Updating the kern-tools SRCREV to pickup the following commit:
-
-[
-    kgit-meta: add error checking and autoconfiguration to git commands
-
-    When git commands are embedded into feature descriptions, they can
-    fail for a variety of reasons. The current meta series processing does
-    not trap errors, and will continue to process potentially failing
-    commands. All git commands are now checked for their return code, and
-    in case of error, the error code is passed up via early exit.
-
-    A second common git issue is on a new machine that has not been
-    configured with a username/email for commits. This is now detected
-    by checking for a global user.name. If one is not found, a local
-    user name of "Auto Configured" and email of "auto.configured" is
-    created to allow git operations to succeed.
-]
-
-Fixes [YOCTO #1838]
-
-Signed-off-by: Bruce Ashfield <bruce.ashfield@windriver.com>
+Signed-off-by: Zhai Edwin <edwin.zhai@intel.com>
 ---
- .../kern-tools/kern-tools-native_git.bb            |    2 +-
- 1 files changed, 1 insertions(+), 1 deletions(-)
+ meta/recipes-core/images/self-hosted-image.bb |    4 +++-
+ meta/recipes-core/tasks/task-self-hosted.bb   |    3 ++-
+ 2 files changed, 5 insertions(+), 2 deletions(-)
 
-diff --git a/meta/recipes-kernel/kern-tools/kern-tools-native_git.bb b/meta/recipes-kernel/kern-tools/kern-tools-native_git.bb
-index fb66211..6bb9c85 100644
---- a/meta/recipes-kernel/kern-tools/kern-tools-native_git.bb
-+++ b/meta/recipes-kernel/kern-tools/kern-tools-native_git.bb
-@@ -4,7 +4,7 @@ LIC_FILES_CHKSUM = "file://git/tools/kgit;beginline=5;endline=9;md5=e2bf4415f3d8
+diff --git a/meta/recipes-core/images/self-hosted-image.bb b/meta/recipes-core/images/self-hosted-image.bb
+index 53bd989..111c057 100644
+--- a/meta/recipes-core/images/self-hosted-image.bb
++++ b/meta/recipes-core/images/self-hosted-image.bb
+@@ -4,6 +4,8 @@ POKY_EXTRA_INSTALL = "\
+     task-self-hosted \
+     "
  
- DEPENDS = "git-native guilt-native"
++IMAGE_FEATURES += "x11-mini"
++
+ inherit core-image
  
--SRCREV = "eb3ed64cea80d23ffb28dfeaeb02cdfe3fb29340"
-+SRCREV = "806f1452eeced0bbd05433456ac0d6786d5362dc"
- PR = r12
- PV = "0.1+git${SRCPV}"
+-PR = "r1"
++PR = "r2"
+diff --git a/meta/recipes-core/tasks/task-self-hosted.bb b/meta/recipes-core/tasks/task-self-hosted.bb
+index 077193b..ebf8a01 100644
+--- a/meta/recipes-core/tasks/task-self-hosted.bb
++++ b/meta/recipes-core/tasks/task-self-hosted.bb
+@@ -3,7 +3,7 @@
+ #
  
+ DESCRIPTION = "Create Basic Image Tasks"
+-PR = "r2"
++PR = "r3"
+ LICENSE = "MIT"
+ LIC_FILES_CHKSUM = "file://${COREBASE}/LICENSE;md5=3f40d7994397109285ec7b81fdeb3b58 \
+                     file://${COREBASE}/meta/COPYING.MIT;md5=3da9cfbcb788c80a0384361b4de20420"
+@@ -190,4 +190,5 @@ RDEPENDS_task-self-hosted-graphics = "\
+     libsdl \
+     libsdl-dev \
+     libx11-dev \
++    builder \
+     "
 -- 
 1.7.6.4
 
