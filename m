@@ -1,24 +1,24 @@
-Received: from mga03.intel.com ([143.182.124.21])
+Received: from mga14.intel.com ([143.182.124.37])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <sgw@linux.intel.com>) id 1RhxrD-0004Vr-LH
+	(envelope-from <sgw@linux.intel.com>) id 1RhxrD-0004iK-Uk
 	for openembedded-core@lists.openembedded.org;
 	Tue, 03 Jan 2012 07:28:24 +0100
 Received: from azsmga001.ch.intel.com ([10.2.17.19])
-	by azsmga101.ch.intel.com with ESMTP; 02 Jan 2012 22:20:53 -0800
+	by azsmga102.ch.intel.com with ESMTP; 02 Jan 2012 22:21:00 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="91752172"
+X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="91752213"
 Received: from unknown (HELO swold-mobl.bigsur.com) ([10.255.13.112])
-	by azsmga001.ch.intel.com with ESMTP; 02 Jan 2012 22:20:52 -0800
+	by azsmga001.ch.intel.com with ESMTP; 02 Jan 2012 22:21:00 -0800
 From: Saul Wold <sgw@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Mon,  2 Jan 2012 22:19:19 -0800
-Message-Id: <8d3d8d743b74e55a2cc29b6b0f2d5b670e8a0a01.1325571069.git.sgw@linux.intel.com>
+Date: Mon,  2 Jan 2012 22:19:39 -0800
+Message-Id: <8c603e5fe18d1bc4c10bf10662caaaa0ac5aa335.1325571069.git.sgw@linux.intel.com>
 X-Mailer: git-send-email 1.7.6.4
 In-Reply-To: <cover.1325571068.git.sgw@linux.intel.com>
 References: <cover.1325571068.git.sgw@linux.intel.com>
 In-Reply-To: <cover.1325571068.git.sgw@linux.intel.com>
 References: <cover.1325571068.git.sgw@linux.intel.com>
-Subject: [CONSOLIDATED PULL 033/113] distro_tracking_fields: update the info for recipe upgrade.
+Subject: [CONSOLIDATED PULL 053/113] eglibc: Only add eglibc-utils to PACKAGES if wchar is supported
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -35,73 +35,37 @@ List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedde
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Tue, 03 Jan 2012 06:28:25 -0000
 
-From: Shane Wang <shane.wang@intel.com>
+From: Darren Hart <dvhart@linux.intel.com>
 
-Signed-off-by: Shane Wang <shane.wang@intel.com>
+eglibc-utils RDEPENDS on bash which requires gettext which requires
+wchar support. If wchar support is not included in DISTRO_FEATURES,
+gettext will fail to compile.
+
+By removing eglibc-utils from the PACKAGES listing, bitbake doesn't
+try to build the dependency chain.
+
+Signed-off-by: Darren Hart <dvhart@linux.intel.com>
 ---
- .../conf/distro/include/distro_tracking_fields.inc |   19 ++++++++++++++++++-
- 1 files changed, 18 insertions(+), 1 deletions(-)
+ meta/recipes-core/eglibc/eglibc-package.inc |    6 +++++-
+ 1 files changed, 5 insertions(+), 1 deletions(-)
 
-diff --git a/meta/conf/distro/include/distro_tracking_fields.inc b/meta/conf/distro/include/distro_tracking_fields.inc
-index 5669e83..9c871d5 100644
---- a/meta/conf/distro/include/distro_tracking_fields.inc
-+++ b/meta/conf/distro/include/distro_tracking_fields.inc
-@@ -87,7 +87,7 @@ RECIPE_LATEST_VERSION_pn-minicom = "2.5"
- RECIPE_NO_OF_PATCHES_pn-minicom = "1"
- RECIPE_LATEST_RELEASE_DATE_pn-minicom = "Jan 29, 2011"
- RECIPE_TIME_BETWEEN_LAST_TWO_RELEASES_pn-minicom = "22 months"
--RECIPE_LAST_UPDATE_pn-minicom = "Nov 24, 2010"
-+RECIPE_LAST_UPDATE_pn-minicom = "Dec 27, 2011"
- RECIPE_MANUAL_CHECK_DATE_pn-minicom = "Dec 24, 2011"
- RECIPE_MAINTAINER_pn-minicom = "Dongxiao Xu <dongxiao.xu@intel.com>"
+diff --git a/meta/recipes-core/eglibc/eglibc-package.inc b/meta/recipes-core/eglibc/eglibc-package.inc
+index 020f558..ab62654 100644
+--- a/meta/recipes-core/eglibc/eglibc-package.inc
++++ b/meta/recipes-core/eglibc/eglibc-package.inc
+@@ -20,7 +20,11 @@ USE_LDCONFIG ?= "1"
+ PKGSUFFIX = ""
+ PKGSUFFIX_virtclass-nativesdk = "-nativesdk"
  
-@@ -2392,10 +2392,17 @@ RECIPE_MAINTAINER_pn-orinoco-conf = "Dongxiao Xu <dongxiao.xu@intel.com>"
- RECIPE_STATUS_pn-libical="green"
- RECIPE_LATEST_VERSION_pn-libical = "0.48"
- RECIPE_NO_OF_PATCHES_pn-libical = "0"
-+<<<<<<< HEAD
- RECIPE_LATEST_RELEASE_DATE_pn-libical = "Dec 13, 2011"
- RECIPE_TIME_BETWEEN_LAST_TWO_RELEASES_pn-libical = "2 months"
- RECIPE_LAST_UPDATE_pn-libical = "Nov 16, 2010"
- RECIPE_MANUAL_CHECK_DATE_pn-libical = "Dec 24, 2011"
-+=======
-+RECIPE_LATEST_RELEASE_DATE_pn-libical = "Oct 12, 2011"
-+RECIPE_TIME_BETWEEN_LAST_TWO_RELEASES_pn-libical = "11 months"
-+RECIPE_LAST_UPDATE_pn-libical = "Dec 26, 2011"
-+RECIPE_MANUAL_CHECK_DATE_pn-libical = "Nov 22, 2011"
-+>>>>>>> 19d83a0... distro_tracking_fields: update the info for recipe upgrade.
- RECIPE_MAINTAINER_pn-libical = "Dongxiao Xu <dongxiao.xu@intel.com>"
+-PACKAGES = "${PN}-dbg ${PN} catchsegv${PKGSUFFIX} sln${PKGSUFFIX} nscd${PKGSUFFIX} ldd${PKGSUFFIX} ${PN}-utils eglibc-extra-nss${PKGSUFFIX} eglibc-thread-db${PKGSUFFIX} ${PN}-pic ${PN}-dev ${PN}-doc libcidn${PKGSUFFIX} libmemusage${PKGSUFFIX} libsegfault${PKGSUFFIX} ${PN}-pcprofile libsotruss${PKGSUFFIX}"
++PACKAGES = "${PN}-dbg ${PN} catchsegv${PKGSUFFIX} sln${PKGSUFFIX} nscd${PKGSUFFIX} ldd${PKGSUFFIX} eglibc-extra-nss${PKGSUFFIX} eglibc-thread-db${PKGSUFFIX} ${PN}-pic ${PN}-dev ${PN}-doc libcidn${PKGSUFFIX} libmemusage${PKGSUFFIX} libsegfault${PKGSUFFIX} ${PN}-pcprofile libsotruss${PKGSUFFIX}"
++
++# eglibc-utils rdepends on bash which depends on gettext which requires wchar
++# support. Only include it in the PACKAGES list if we can build the RDEPENDS.
++PACKAGES += ${@base_contains('DISTRO_FEATURES', 'libc-posix-clang-wchar', '${PN}-utils', '', d)}
  
- RECIPE_STATUS_pn-task-base="green"
-@@ -2809,9 +2816,14 @@ DISTRO_PN_ALIAS_pn-libomxil = "OSPDT upstream=http://omxil.sourceforge.net/"
- RECIPE_STATUS_pn-libsamplerate0 = "green"
- DISTRO_PN_ALIAS_pn-libsamplerate0 = "Meego=libsamplerate Fedora=libsamplerate OpenSuSE=libsamplerate Ubuntu=libsamplerate Mandriva=libsamplerate Debian=libsamplerate"
- RECIPE_LATEST_VERSION_pn-libsamplerate0 = "0.1.8"
-+<<<<<<< HEAD
- RECIPE_LATEST_RELEASE_DATE_pn-libsamplerate0 = "Aug 15, 2011"
- RECIPE_LAST_UPDATE_pn-libsamplerate0 = "Apr 26, 2011"
- RECIPE_MANUAL_CHECK_DATE_pn-libsamplerate0 = "Dec 24, 2011"
-+=======
-+RECIPE_LAST_UPDATE_pn-libsamplerate0 = "Dec 27, 2011"
-+RECIPE_MANUAL_CHECK_DATE_pn-libsamplerate0 = "Nov 22, 2011"
-+>>>>>>> 19d83a0... distro_tracking_fields: update the info for recipe upgrade.
- RECIPE_MAINTAINER_pn-libsamplerate0 = "Dongxiao Xu <dongxiao.xu@intel.com>"
- 
- RECIPE_STATUS_pn-oprofileui = "green"
-@@ -4649,8 +4661,13 @@ RECIPE_INTEL_SECTION_pn-freetype = "libs"
- RECIPE_TIME_BETWEEN_LAST_TWO_RELEASES_pn-freetype = "1+ months"
- RECIPE_LATEST_RELEASE_DATE_pn-freetype = "Nov 15, 2011"
- RECIPE_COMMENTS_pn-freetype = ""
-+<<<<<<< HEAD
- RECIPE_LAST_UPDATE_pn-freetype = "Aug 16, 2011"
- RECIPE_MANUAL_CHECK_DATE_pn-freetype = "Dec 24, 2011"
-+=======
-+RECIPE_LAST_UPDATE_pn-freetype = "Dec 27, 2011"
-+RECIPE_MANUAL_CHECK_DATE_pn-freetype = "Nov 17, 2011"
-+>>>>>>> 19d83a0... distro_tracking_fields: update the info for recipe upgrade.
- RECIPE_MAINTAINER_pn-freetype = "Dexuan Cui <dexuan.cui@intel.com>"
- 
- RECIPE_STATUS_pn-librsvg = "green"
+ # The ld.so in this eglibc supports the GNU_HASH
+ RPROVIDES_${PN} = "glibc${PKGSUFFIX} rtld(GNU_HASH)"
 -- 
 1.7.6.4
 
