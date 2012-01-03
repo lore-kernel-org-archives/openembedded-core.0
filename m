@@ -1,24 +1,24 @@
-Received: from mga03.intel.com ([143.182.124.21])
+Received: from mga14.intel.com ([143.182.124.37])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <sgw@linux.intel.com>) id 1RhxrA-0004L2-Ta
+	(envelope-from <sgw@linux.intel.com>) id 1RhxrC-0004fO-RZ
 	for openembedded-core@lists.openembedded.org;
-	Tue, 03 Jan 2012 07:28:22 +0100
+	Tue, 03 Jan 2012 07:28:23 +0100
 Received: from azsmga001.ch.intel.com ([10.2.17.19])
-	by azsmga101.ch.intel.com with ESMTP; 02 Jan 2012 22:20:50 -0800
+	by azsmga102.ch.intel.com with ESMTP; 02 Jan 2012 22:21:00 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="91752163"
+X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="91752212"
 Received: from unknown (HELO swold-mobl.bigsur.com) ([10.255.13.112])
-	by azsmga001.ch.intel.com with ESMTP; 02 Jan 2012 22:20:50 -0800
+	by azsmga001.ch.intel.com with ESMTP; 02 Jan 2012 22:20:59 -0800
 From: Saul Wold <sgw@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Mon,  2 Jan 2012 22:19:13 -0800
-Message-Id: <9a2c4d9c4efef92818f4e4be8c020805ff1bbdc7.1325571069.git.sgw@linux.intel.com>
+Date: Mon,  2 Jan 2012 22:19:38 -0800
+Message-Id: <b4898b0c434fba2944ebf54db0ae8c420c722b2e.1325571069.git.sgw@linux.intel.com>
 X-Mailer: git-send-email 1.7.6.4
 In-Reply-To: <cover.1325571068.git.sgw@linux.intel.com>
 References: <cover.1325571068.git.sgw@linux.intel.com>
 In-Reply-To: <cover.1325571068.git.sgw@linux.intel.com>
 References: <cover.1325571068.git.sgw@linux.intel.com>
-Subject: [CONSOLIDATED PULL 027/113] distro_tracking_fields: update the info for recipe upgrading
+Subject: [CONSOLIDATED PULL 052/113] native.bbclass: Fix variable remapping coverage
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -35,233 +35,146 @@ List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedde
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Tue, 03 Jan 2012 06:28:25 -0000
 
-From: Shane Wang <shane.wang@intel.com>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
 
-Signed-off-by: Shane Wang <shane.wang@intel.com>
+When looking for RDEPENDS to process, bitbake iterates through PACKAGES
+*and* PN. Since native.bbclass sets PACKAGES to be empty, its pointless
+remapping the list of PACKAGES since this does nothing. There is a problem
+since *_${PN} are used by bitbake but not remapped by the native.bbclass
+class extension code.
+
+This changes the code to remap _${PN} in both expanded and unexpanded
+forms. We use the unexpanded form since d.expandkeys() has not been called
+at the point this code executes. Remapping the expanded form is belt and braces
+to cover any case where the unexpanded key form may not be present.
+
+As a result of this, various surprising dependencies are uncovered
+and the patch rectifies those. These are real bugs since they're injecting
+unneeded (unremapped) dependencies into the dependency chain. Workarounds
+for this kind of problem in autoconf are removed.
+
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 ---
- .../conf/distro/include/distro_tracking_fields.inc |   90 ++++++++++---------
- 1 files changed, 47 insertions(+), 43 deletions(-)
+ meta/classes/native.bbclass                        |    2 +-
+ meta/recipes-devtools/autoconf/autoconf.inc        |    2 ++
+ meta/recipes-devtools/autoconf/autoconf_2.68.bb    |    8 --------
+ meta/recipes-devtools/automake/automake_1.11.1.bb  |    4 ++--
+ .../recipes-devtools/python/python-native_2.7.2.bb |    2 ++
+ meta/recipes-gnome/gnome/gconf_3.2.3.bb            |    1 +
+ meta/recipes-support/boost/boost.inc               |    1 +
+ 7 files changed, 9 insertions(+), 11 deletions(-)
 
-diff --git a/meta/conf/distro/include/distro_tracking_fields.inc b/meta/conf/distro/include/distro_tracking_fields.inc
-index 000b7ba..5669e83 100644
---- a/meta/conf/distro/include/distro_tracking_fields.inc
-+++ b/meta/conf/distro/include/distro_tracking_fields.inc
-@@ -169,15 +169,15 @@ RECIPE_MAINTAINER_pn-libdaemon = "Saul Wold <sgw@linux.intel.com>"
- RECIPE_STATUS_pn-glib-2.0 = "green"
- DISTRO_PN_ALIAS_pn-glib-2.0 = "Meego=glib2 Fedora=glib2 OpenSuSE=glib2 Ubuntu=glib2.0 Mandriva=glib2.0 Debian=glib2.0"
- RECIPE_DEPENDENCY_CHECK_pn-glib-2.0 = "not done"
--RECIPE_LATEST_VERSION_pn-glib-2.0 = "2.30.1"
-+RECIPE_LATEST_VERSION_pn-glib-2.0 = "2.30.2"
- RECIPE_PATCH_pn-glib-2.0+60_wait-longer-for-threads-to-die = "to be pushed upstream"
- RECIPE_PATCH_pn-glib-2.0+configure-libtool = "local"
- RECIPE_PATCH_pn-glib-2.0+glib-gettextize-dir = "marked as REMOVAL"
- RECIPE_INTEL_SECTION_pn-glib-2.0 = "base libs"
- RECIPE_TIME_BETWEEN_LAST_TWO_RELEASES_pn-glib-2.0 = "20 days"
--RECIPE_LATEST_RELEASE_DATE_pn-glib-2.0 = "Oct 14, 2011"
-+RECIPE_LATEST_RELEASE_DATE_pn-glib-2.0 = "Nov 11, 2011"
- RECIPE_COMMENTS_pn-glib-2.0 = ""
--RECIPE_LAST_UPDATE_pn-glib-2.0 = "Dec 1, 2011"
-+RECIPE_LAST_UPDATE_pn-glib-2.0 = "Dec 23, 2011"
- RECIPE_MAINTAINER_pn-glib-2.0 = "Dongxiao Xu <dongxiao.xu@intel.com>"
+diff --git a/meta/classes/native.bbclass b/meta/classes/native.bbclass
+index 49823d6..00196ba 100644
+--- a/meta/classes/native.bbclass
++++ b/meta/classes/native.bbclass
+@@ -127,7 +127,7 @@ python native_virtclass_handler () {
+         d.setVar(varname, " ".join(newdeps))
  
- RECIPE_STATUS_pn-libpam = "green"
-@@ -227,10 +227,12 @@ RECIPE_MANUAL_CHECK_DATE_pn-expat = "Nov 14, 2011"
- RECIPE_MAINTAINER_pn-expat = "Scott Garman <scott.a.garman@intel.com>"
+     map_dependencies("DEPENDS", e.data)
+-    for pkg in (e.data.getVar("PACKAGES", True).split() + [""]):
++    for pkg in [e.data.getVar("PN", True), "", "${PN}"]:
+         map_dependencies("RDEPENDS", e.data, pkg)
+         map_dependencies("RRECOMMENDS", e.data, pkg)
+         map_dependencies("RSUGGESTS", e.data, pkg)
+diff --git a/meta/recipes-devtools/autoconf/autoconf.inc b/meta/recipes-devtools/autoconf/autoconf.inc
+index 08a1b02..1d0cf90 100644
+--- a/meta/recipes-devtools/autoconf/autoconf.inc
++++ b/meta/recipes-devtools/autoconf/autoconf.inc
+@@ -6,6 +6,8 @@ LICENSE = "GPLv3"
+ HOMEPAGE = "http://www.gnu.org/software/autoconf/"
+ SECTION = "devel"
+ DEPENDS += "m4-native"
++DEPENDS_virtclass-native = "m4-native gnu-config-native"
++DEPENDS_virtclass-nativesdk = "m4-nativesdk gnu-config-nativesdk"
+ RDEPENDS_${PN} = "m4 gnu-config"
  
- RECIPE_STATUS_pn-dbus = "green"
--RECIPE_LATEST_VERSION_pn-dbus = "1.4.1"
-+RECIPE_LATEST_VERSION_pn-dbus = "1.4.16"
-+RECIPE_NO_UPDATE_REASON_pn-dbus = "the odd 1.5.8 is not stable version, 1.4.16 is the latest stable version."
- RECIPE_INTEL_SECTION_pn-dbus = "base libs"
--RECIPE_LATEST_RELEASE_DATE_pn-dbus = "Dec 01, 2010"
--RECIPE_LAST_UPDATE_pn-dbus = "Jan 20, 2011"
-+RECIPE_TIME_BETWEEN_LAST_TWO_RELEASES_pn-dbus = "2 months"
-+RECIPE_LATEST_RELEASE_DATE_pn-dbus = "Sep 21, 2011"
-+RECIPE_LAST_UPDATE_pn-dbus = "Sep 21, 2011"
- RECIPE_MAINTAINER_pn-dbus = "Dongxiao Xu <dongxiao.xu@intel.com>"
+ SRC_URI = "${GNU_MIRROR}/autoconf/autoconf-${PV}.tar.bz2 \
+diff --git a/meta/recipes-devtools/autoconf/autoconf_2.68.bb b/meta/recipes-devtools/autoconf/autoconf_2.68.bb
+index 9028e83..84eb182 100644
+--- a/meta/recipes-devtools/autoconf/autoconf_2.68.bb
++++ b/meta/recipes-devtools/autoconf/autoconf_2.68.bb
+@@ -4,8 +4,6 @@ PR = "r4"
  
- RECIPE_STATUS_pn-dbus-glib = "green"
-@@ -795,12 +797,12 @@ DISTRO_PN_ALIAS_pn-opkg-utils = "OSPDT upstream=http://svn.openmoko.org/trunk/sr
+ PARALLEL_MAKE = ""
  
- RECIPE_STATUS_pn-polkit = "green"
- RECIPE_DEPENDENCY_CHECK_pn-polkit = "not done"
--RECIPE_LATEST_VERSION_pn-polkit = "0.102"
-+RECIPE_LATEST_VERSION_pn-polkit = "0.103"
- RECIPE_INTEL_SECTION_pn-polkit = "base utils"
--RECIPE_TIME_BETWEEN_LAST_TWO_RELEASES_pn-polkit = "5 months"
--RECIPE_LATEST_RELEASE_DATE_pn-polkit = "Aug 01, 2011"
-+RECIPE_TIME_BETWEEN_LAST_TWO_RELEASES_pn-polkit = "4 months"
-+RECIPE_LATEST_RELEASE_DATE_pn-polkit = "Dec 06, 2011"
- RECIPE_COMMENTS_pn-polkit = ""
--RECIPE_LAST_UPDATE_pn-polkit = "Oct 28, 2011"
-+RECIPE_LAST_UPDATE_pn-polkit = "Dec 23, 2011"
- RECIPE_MAINTAINER_pn-polkit = "Dongxiao Xu <dongxiao.xu@intel.com>"
+-DEPENDS += "m4-native"
+-RDEPENDS_${PN} = "m4 gnu-config"
+ LICENSE = "GPLv2 & GPLv3"
+ LIC_FILES_CHKSUM = "file://COPYING;md5=751419260aa954499f7abaabaa882bbe \
+ 		    file://COPYINGv3;md5=d32239bcb673463ab874e80d47fae504"
+@@ -22,12 +20,6 @@ SRC_URI += "file://autoreconf-include.patch \
+ SRC_URI[md5sum] = "864d785215aa60d627c91fcb21b05b07"
+ SRC_URI[sha256sum] = "c491fb273fd6d4ca925e26ceed3d177920233c76d542b150ff35e571454332c8"
  
- RECIPE_STATUS_pn-psplash = "not done"
-@@ -954,12 +956,12 @@ RECIPE_MAINTAINER_pn-gperf = "Scott Garman <scott.a.garman@intel.com>"
+-DEPENDS_virtclass-native = "m4-native gnu-config-native"
+-RDEPENDS_${PN}_virtclass-native = "m4-native gnu-config-native"
+-
+-DEPENDS_virtclass-nativesdk = "m4-nativesdk gnu-config-nativesdk"
+-RDEPENDS_${PN}_virtclass-nativesdk = "m4-nativesdk gnu-config-nativesdk"
+-
+ SRC_URI_append_virtclass-native = " file://fix_path_xtra.patch"
  
- RECIPE_STATUS_pn-valgrind = "green"
- RECIPE_DEPENDENCY_CHECK_pn-valgrind = "not done"
--RECIPE_LATEST_VERSION_pn-valgrind = "3.6.1"
-+RECIPE_LATEST_VERSION_pn-valgrind = "3.7.0"
- RECIPE_INTEL_SECTION_pn-valgrind = "base utils"
- RECIPE_TIME_BETWEEN_LAST_TWO_RELEASES_pn-valgrind = "4 months"
--RECIPE_LATEST_RELEASE_DATE_pn-valgrind = "Feb 16, 2011"
-+RECIPE_LATEST_RELEASE_DATE_pn-valgrind = "Nov 05, 2011"
- RECIPE_COMMENTS_pn-valgrind = ""
--RECIPE_LAST_UPDATE_pn-valgrind = "Apr 26, 2011"
-+RECIPE_LAST_UPDATE_pn-valgrind = "Dec 23, 2011"
- RECIPE_MAINTAINER_pn-valgrind = "Dongxiao Xu <dongxiao.xu@intel.com>"
+ EXTRA_OECONF += "ac_cv_path_M4=m4"
+diff --git a/meta/recipes-devtools/automake/automake_1.11.1.bb b/meta/recipes-devtools/automake/automake_1.11.1.bb
+index ff8353f..6bffecf 100644
+--- a/meta/recipes-devtools/automake/automake_1.11.1.bb
++++ b/meta/recipes-devtools/automake/automake_1.11.1.bb
+@@ -3,7 +3,7 @@ LICENSE="GPLv2"
+ LIC_FILES_CHKSUM = "file://COPYING;md5=751419260aa954499f7abaabaa882bbe" 
+ DEPENDS_virtclass-native = "autoconf-native"
  
- RECIPE_STATUS_pn-formfactor = "green"
-@@ -1243,12 +1245,12 @@ RECIPE_MAINTAINER_pn-modutils-collateral = "Saul Wold <sgw@linux.intel.com>"
+-RDEPENDS_automake += "\
++RDEPENDS_${PN} += "\
+     autoconf \
+     perl \
+     perl-module-bytes \
+@@ -27,7 +27,7 @@ RDEPENDS_automake += "\
+     perl-module-text-parsewords \
+     perl-module-vars "
  
- RECIPE_STATUS_pn-mtd-utils = "green"
- RECIPE_DEPENDENCY_CHECK_pn-mtd-utils = "not done"
--RECIPE_LATEST_VERSION_pn-mtd-utils = "1.4.1"
-+RECIPE_LATEST_VERSION_pn-mtd-utils = "1.4.9"
- RECIPE_INTEL_SECTION_pn-mtd-utils = "base utils"
- RECIPE_TIME_BETWEEN_LAST_TWO_RELEASES_pn-mtd-utils = "1 months"
--RECIPE_LATEST_RELEASE_DATE_pn-mtd-utils = "Oct 15, 2010"
-+RECIPE_LATEST_RELEASE_DATE_pn-mtd-utils = "Dec 17, 2011"
- RECIPE_COMMENTS_pn-mtd-utils = ""
--RECIPE_LAST_UPDATE_pn-mtd-utils = "Nov 18, 2010"
-+RECIPE_LAST_UPDATE_pn-mtd-utils = "Dec 23, 2011"
- RECIPE_MAINTAINER_pn-mtd-utils = "Dongxiao Xu <dongxiao.xu@intel.com>"
+-RDEPENDS_automake-native = "autoconf-native perl-native-runtime"
++RDEPENDS_${PN}_virtclass-native = "autoconf-native perl-native-runtime"
  
- RECIPE_STATUS_pn-procps = "red"
-@@ -2138,11 +2140,11 @@ RECIPE_MANUAL_CHECK_DATE_pn-bluez4 = "Dec 24, 2011"
- RECIPE_MAINTAINER_pn-bluez4 = "Dongxiao Xu <dongxiao.xu@intel.com>"
+ PATHFIXPATCH = "file://path_prog_fixes.patch"
+ PATHFIXPATCH_virtclass-native = ""
+diff --git a/meta/recipes-devtools/python/python-native_2.7.2.bb b/meta/recipes-devtools/python/python-native_2.7.2.bb
+index d036eca..10bfa6c 100644
+--- a/meta/recipes-devtools/python/python-native_2.7.2.bb
++++ b/meta/recipes-devtools/python/python-native_2.7.2.bb
+@@ -16,6 +16,8 @@ S = "${WORKDIR}/Python-${PV}"
  
- RECIPE_STATUS_pn-libpcap="green"
--RECIPE_LATEST_VERSION_pn-libpcap="1.1.1"
-+RECIPE_LATEST_VERSION_pn-libpcap="1.2.0"
- RECIPE_NO_OF_PATCHES_pn-libpcap="2"
--RECIPE_LATEST_RELEASE_DATE_pn-libpcap="Apr 05, 2010"
--RECIPE_TIME_BETWEEN_LAST_TWO_RELEASES_pn-libpcap="2 months"
--RECIPE_LAST_UPDATE_pn-libpcap = "Jun 30, 2010"
-+RECIPE_LATEST_RELEASE_DATE_pn-libpcap="Jul 24, 2011"
-+RECIPE_TIME_BETWEEN_LAST_TWO_RELEASES_pn-libpcap="15 months"
-+RECIPE_LAST_UPDATE_pn-libpcap = "Dec 23, 2011"
- RECIPE_MAINTAINER_pn-libpcap = "Dongxiao Xu <dongxiao.xu@intel.com>"
+ inherit native
  
- RECIPE_STATUS_pn-wpa-supplicant="green"
-@@ -2247,11 +2249,11 @@ RECIPE_LAST_UPDATE_pn-libopensync-plugin-syncml = "Jul 31, 2009"
- RECIPE_MAINTAINER_pn-libopensync-plugin-syncml = "Dongxiao Xu <dongxiao.xu@intel.com>"
++RPROVIDES += "python-distutils-native python-compression-native python-textutils-native"
++
+ EXTRA_OEMAKE = '\
+   BUILD_SYS="" \
+   HOST_SYS="" \
+diff --git a/meta/recipes-gnome/gnome/gconf_3.2.3.bb b/meta/recipes-gnome/gnome/gconf_3.2.3.bb
+index 9d327fc..f7d3594 100644
+--- a/meta/recipes-gnome/gnome/gconf_3.2.3.bb
++++ b/meta/recipes-gnome/gnome/gconf_3.2.3.bb
+@@ -39,6 +39,7 @@ do_install_append() {
  
- RECIPE_STATUS_pn-ofono = "green"
--RECIPE_LATEST_VERSION_pn-ofono = "0.45"
-+RECIPE_LATEST_VERSION_pn-ofono = "1.0"
- RECIPE_NO_OF_PATCHES_pn-ofono="0"
--RECIPE_LATEST_RELEASE_DATE_pn-ofono="Mar 15, 2011"
-+RECIPE_LATEST_RELEASE_DATE_pn-ofono="Dec 22, 2011"
- RECIPE_TIME_BETWEEN_LAST_TWO_RELEASES_pn-ofono="15 days"
--RECIPE_LAST_UPDATE_pn-ofono = "Apr 15, 2011"
-+RECIPE_LAST_UPDATE_pn-ofono = "Dec 23, 2011"
- RECIPE_MAINTAINER_pn-ofono = "Dongxiao Xu <dongxiao.xu@intel.com>"
- DISTRO_PN_ALIAS_pn-ofono = "Debian=ofono Ubuntu=ofono"
+ # disable dbus-x11 when x11 isn't in DISTRO_FEATURES
+ RDEPENDS_${PN} += "${@base_contains('DISTRO_FEATURES', 'x11', 'dbus-x11', '', d)}"
++RDEPENDS_${PN}_virtclass-native = ""
  
-@@ -2273,10 +2275,10 @@ RECIPE_MAINTAINER_pn-telepathy-gabble = "Dongxiao Xu <dongxiao.xu@intel.com>"
+ FILES_${PN} += "${libdir}/GConf/* \
+ 	        ${libdir}/gio/*/*.so \
+diff --git a/meta/recipes-support/boost/boost.inc b/meta/recipes-support/boost/boost.inc
+index aa577b3..fc417c9 100644
+--- a/meta/recipes-support/boost/boost.inc
++++ b/meta/recipes-support/boost/boost.inc
+@@ -74,6 +74,7 @@ FILES_${PN}-dev = "${includedir} ${libdir}/libboost_*.so ${libdir}/libboost_*.a"
+ # "boost" is a metapackage which pulls in all boost librabries
+ PACKAGES += "${PN}"
+ RRECOMMENDS_${PN} += "${BOOST_PACKAGES}"
++RRECOMMENDS_${PN}_virtclass-native = ""
+ ALLOW_EMPTY_${PN} = "1"
  
- RECIPE_STATUS_pn-telepathy-glib = "green"
- RECIPE_NO_OF_PATCHES_pn-telepathy-glib ="0"
--RECIPE_LATEST_RELEASE_DATE_pn-telepathy-glib = "Nov 8, 2011"
--RECIPE_LATEST_VERSION_pn-telepathy-glib = "0.17.0"
-+RECIPE_LATEST_RELEASE_DATE_pn-telepathy-glib = "Dec 19, 2011"
-+RECIPE_LATEST_VERSION_pn-telepathy-glib = "0.17.4"
- RECIPE_TIME_BETWEEN_LAST_TWO_RELEASES_pn-telepathy-glib = "10 days"
--RECIPE_LAST_UPDATE_pn-telepathy-glib = "Dec 1, 2011"
-+RECIPE_LAST_UPDATE_pn-telepathy-glib = "Dec 23, 2011"
- RECIPE_MAINTAINER_pn-telepathy-glib = "Dongxiao Xu <dongxiao.xu@intel.com>"
- 
- RECIPE_STATUS_pn-telepathy-idle = "green"
-@@ -2624,6 +2626,7 @@ RECIPE_STATUS_pn-gstreamer="green"
- RECIPE_LATEST_VERSION_pn-gstreamer="0.10.32"
- RECIPE_NO_OF_PATCHES_pn-gstreamer="2"
- RECIPE_LATEST_RELEASE_DATE_pn-gstreamer="Jan 31, 2011"
-+RECIPE_NO_UPDATE_REASON_pn-gstreamer="upgrading to 0.11.1 causes gst-fluendo-mpegdemux compilation failure due to API conflicts. Probably 0.11 is not stable enough for some gst-* recipes"
- RECIPE_TIME_BETWEEN_LAST_TWO_RELEASES_pn-gstreamer="2 month"
- RECIPE_LAST_UPDATE_pn-gstreamer = "Apr 15, 2011"
- RECIPE_MAINTAINER_pn-gstreamer = "Dongxiao Xu <dongxiao.xu@intel.com>"
-@@ -2631,6 +2634,7 @@ RECIPE_MAINTAINER_pn-gstreamer = "Dongxiao Xu <dongxiao.xu@intel.com>"
- RECIPE_STATUS_pn-gst-plugins-base="green"
- DISTRO_PN_ALIAS_pn-gst-plugins-base = "Meego=gst-plugins-base Fedora=gstreamer-plugins-base OpenSuSE=gstreamer-plugins-base Ubuntu=gst-plugins-base0.10 Mandriva=gstreamer0.10-plugins-base Debian=gst-plugins-base0.10"
- RECIPE_LATEST_VERSION_pn-gst-plugins-base="0.10.32"
-+RECIPE_NO_UPDATE_REASON_pn-gst-plugins-base="gstreamer can not be upgraded to 0.11 and gst-plugins-base depends on gstreamer"
- RECIPE_NO_OF_PATCHES_pn-gst-plugins-base="0"
- RECIPE_LATEST_RELEASE_DATE_pn-gst-plugins-base="Jan 21, 2011"
- RECIPE_TIME_BETWEEN_LAST_TWO_RELEASES_pn-gst-plugins-base="2 months"
-@@ -2648,20 +2652,20 @@ RECIPE_MAINTAINER_pn-gst-plugins-good = "Dongxiao Xu <dongxiao.xu@intel.com>"
- 
- RECIPE_STATUS_pn-gst-plugins-ugly="green"
- DISTRO_PN_ALIAS_pn-gst-plugins-ugly = "OpenSuSE=gstreamer-plugins-ugly Mandriva=gstreamer0.10-plugins-ugly Debian=gst-plugins-ugly0.10"
--RECIPE_LATEST_VERSION_pn-gst-plugins-ugly="0.10.17"
-+RECIPE_LATEST_VERSION_pn-gst-plugins-ugly="0.10.18"
- RECIPE_NO_OF_PATCHES_pn-gst-plugins-ugly="0"
--RECIPE_LATEST_RELEASE_DATE_pn-gst-plugins-ugly="Jan 21, 2011"
-+RECIPE_LATEST_RELEASE_DATE_pn-gst-plugins-ugly="May 10, 2011"
- RECIPE_TIME_BETWEEN_LAST_TWO_RELEASES_pn-gst-plugins-ugly="4 months"
--RECIPE_LAST_UPDATE_pn-gst-plugins-ugly = "Apr 15, 2011"
-+RECIPE_LAST_UPDATE_pn-gst-plugins-ugly = "Dec 23, 2011"
- RECIPE_MAINTAINER_pn-gst-plugins-ugly = "Dongxiao Xu <dongxiao.xu@intel.com>"
- 
- RECIPE_STATUS_pn-gst-plugins-bad="green"
- DISTRO_PN_ALIAS_pn-gst-plugins-bad = "Fedora=gstreamer-plugins-bad-free OpenSuSE=gstreamer-plugins-bad Debian=gst-plugins-bad0.10"
--RECIPE_LATEST_VERSION_pn-gst-plugins-bad="0.10.21"
-+RECIPE_LATEST_VERSION_pn-gst-plugins-bad="0.10.22"
- RECIPE_NO_OF_PATCHES_pn-gst-plugins-bad="0"
--RECIPE_LATEST_RELEASE_DATE_pn-gst-plugins-bad="Jan 21, 2011"
-+RECIPE_LATEST_RELEASE_DATE_pn-gst-plugins-bad="May 10, 2011"
- RECIPE_TIME_BETWEEN_LAST_TWO_RELEASES_pn-gst-plugins-bad="4 months"
--RECIPE_LAST_UPDATE_pn-gst-plugins-bad = "Apr 15, 2011"
-+RECIPE_LAST_UPDATE_pn-gst-plugins-bad = "Dec 23, 2011"
- RECIPE_MAINTAINER_pn-gst-plugins-bad = "Dongxiao Xu <dongxiao.xu@intel.com>"
- 
- RECIPE_STATUS_pn-alsa-utils="green"
-@@ -2738,11 +2742,11 @@ DISTRO_PN_ALIAS_pn-gst-openmax="OSPDT upstream=http://cgit.freedesktop.org/gstre
- 
- RECIPE_STATUS_pn-gst-ffmpeg = "green"
- DISTRO_PN_ALIAS_pn-gst-ffmpeg = "Mandriva=gstreamer0.10-ffmpeg Debian=gstreamer0.10-ffmpeg"
--RECIPE_LATEST_VERSION_pn-gst-ffmpeg = "0.10.11"
-+RECIPE_LATEST_VERSION_pn-gst-ffmpeg = "0.10.13"
- RECIPE_NO_OF_PATCHES_pn-gst-ffmpeg = "1"
--RECIPE_LATEST_RELEASE_DATE_pn-gst-ffmpeg = "Jul 15, 2010"
-+RECIPE_LATEST_RELEASE_DATE_pn-gst-ffmpeg = "Nov 02, 2011"
- RECIPE_TIME_BETWEEN_LAST_TWO_RELEASES_pn-gst-ffmpeg = "4 months"
--RECIPE_LAST_UPDATE_pn-gst-ffmpeg = "Dec 14, 2010"
-+RECIPE_LAST_UPDATE_pn-gst-ffmpeg = "Dec 23, 2011"
- RECIPE_MAINTAINER_pn-gst-ffmpeg = "Dongxiao Xu <dongxiao.xu@intel.com>"
- 
- RECIPE_STATUS_pn-libsndfile1 = "green"
-@@ -2777,20 +2781,20 @@ RECIPE_LAST_UPDATE_pn-libnice = "Aug 19, 2009"
- RECIPE_MAINTAINER_pn-libnice = "Dongxiao Xu <dongxiao.xu@intel.com>"
- 
- RECIPE_STATUS_pn-gst-fluendo-mp3 = "green"
--RECIPE_LATEST_VERSION_pn-gst-fluendo-mp3 = "0.10.15"
-+RECIPE_LATEST_VERSION_pn-gst-fluendo-mp3 = "0.10.16"
- RECIPE_NO_OF_PATCHES_pn-gst-fluendo-mp3 = "1"
--RECIPE_LATEST_RELEASE_DATE_pn-gst-fluendo-mp3 = "Oct 21, 2010"
--RECIPE_TIME_BETWEEN_LAST_TWO_RELEASES_pn-gst-fluendo-mp3 = "3 months"
--RECIPE_LAST_UPDATE_pn-gst-fluendo-mp3 = "Dec 7, 2010"
-+RECIPE_LATEST_RELEASE_DATE_pn-gst-fluendo-mp3 = "Dec 5, 2011"
-+RECIPE_TIME_BETWEEN_LAST_TWO_RELEASES_pn-gst-fluendo-mp3 = "14 months"
-+RECIPE_LAST_UPDATE_pn-gst-fluendo-mp3 = "Dec 23, 2011"
- RECIPE_MAINTAINER_pn-gst-fluendo-mp3 = "Dongxiao Xu <dongxiao.xu@intel.com>"
- DISTRO_PN_ALIAS_pn-gst-fluendo-mp3 = "Debian=gstreamer0.10-fluendo-mp3 Ubuntu=gstreamer0.10-fluendo-mp3"
- 
- RECIPE_STATUS_pn-gst-fluendo-mpegdemux = "green"
--RECIPE_LATEST_VERSION_pn-gst-fluendo-mpegdemux = "0.10.67"
-+RECIPE_LATEST_VERSION_pn-gst-fluendo-mpegdemux = "0.10.69"
- RECIPE_NO_OF_PATCHES_pn-gst-fluendo-mpegdemux = "0"
--RECIPE_LATEST_RELEASE_DATE_pn-gst-fluendo-mpegdemux = "Mar 17, 2011"
--RECIPE_TIME_BETWEEN_LAST_TWO_RELEASES_pn-gst-fluendo-mpegdemux = "6 days"
--RECIPE_LAST_UPDATE_pn-gst-fluendo-mpegdemux = "Apr 26, 2011"
-+RECIPE_LATEST_RELEASE_DATE_pn-gst-fluendo-mpegdemux = "Oct 19, 2011"
-+RECIPE_TIME_BETWEEN_LAST_TWO_RELEASES_pn-gst-fluendo-mpegdemux = "3 months"
-+RECIPE_LAST_UPDATE_pn-gst-fluendo-mpegdemux = "Dec 23, 2011"
- RECIPE_MAINTAINER_pn-gst-fluendo-mpegdemux = "Dongxiao Xu <dongxiao.xu@intel.com>"
- DISTRO_PN_ALIAS_pn-gst-fluendo-mpegdemux = "Ubuntu=gstreamer0.10-fluendo-mpegdemux Debian=gstreamer0.10-fluendo-mpegdemux"
- 
+ # to avoid GNU_HASH QA errors added LDFLAGS to ARCH; a little bit dirty but at least it works
 -- 
 1.7.6.4
 
