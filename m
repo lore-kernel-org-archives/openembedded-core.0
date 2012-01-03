@@ -1,24 +1,24 @@
 Received: from mga03.intel.com ([143.182.124.21])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <sgw@linux.intel.com>) id 1RhxrM-0004L1-IV
+	(envelope-from <sgw@linux.intel.com>) id 1RhxrA-0004Kv-Dr
 	for openembedded-core@lists.openembedded.org;
-	Tue, 03 Jan 2012 07:28:33 +0100
+	Tue, 03 Jan 2012 07:28:20 +0100
 Received: from azsmga001.ch.intel.com ([10.2.17.19])
-	by azsmga101.ch.intel.com with ESMTP; 02 Jan 2012 22:20:58 -0800
+	by azsmga101.ch.intel.com with ESMTP; 02 Jan 2012 22:20:50 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="91752204"
+X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="91752162"
 Received: from unknown (HELO swold-mobl.bigsur.com) ([10.255.13.112])
-	by azsmga001.ch.intel.com with ESMTP; 02 Jan 2012 22:20:58 -0800
+	by azsmga001.ch.intel.com with ESMTP; 02 Jan 2012 22:20:50 -0800
 From: Saul Wold <sgw@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Mon,  2 Jan 2012 22:19:34 -0800
-Message-Id: <01a8069743160a7cdaef674db759ad7c7ebc9e4f.1325571069.git.sgw@linux.intel.com>
+Date: Mon,  2 Jan 2012 22:19:12 -0800
+Message-Id: <2a76f0731f5e2ad4b941197bdf59c66d52ec9131.1325571069.git.sgw@linux.intel.com>
 X-Mailer: git-send-email 1.7.6.4
 In-Reply-To: <cover.1325571068.git.sgw@linux.intel.com>
 References: <cover.1325571068.git.sgw@linux.intel.com>
 In-Reply-To: <cover.1325571068.git.sgw@linux.intel.com>
 References: <cover.1325571068.git.sgw@linux.intel.com>
-Subject: [CONSOLIDATED PULL 048/113] udev: use 'echo' instead of 'echo -n' in init script
+Subject: [CONSOLIDATED PULL 026/113] libpcap: upgrade to 1.2.0
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -35,48 +35,77 @@ List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedde
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Tue, 03 Jan 2012 06:29:42 -0000
 
-From: Otavio Salvador <otavio@ossystems.com.br>
+From: Shane Wang <shane.wang@intel.com>
 
-Avoid using two stage progress output to avoid text garbage during
-parallel boot.
+This patch is to upgrade libpcap to 1.2.0.
+The values of the macro definitions are duplicated with the new code, so change them into other values.
 
-Signed-off-by: Otavio Salvador <otavio@ossystems.com.br>
+Signed-off-by: Shane Wang <shane.wang@intel.com>
 ---
- meta/recipes-core/udev/udev/init   |    3 +--
- meta/recipes-core/udev/udev_164.bb |    2 +-
- 2 files changed, 2 insertions(+), 3 deletions(-)
+ .../{libpcap-1.1.1 => libpcap-1.2.0}/aclocal.patch |    0
+ .../ieee80215-arphrd.patch                         |    4 ++--
+ meta/recipes-connectivity/libpcap/libpcap.inc      |    2 +-
+ .../libpcap/{libpcap_1.1.1.bb => libpcap_1.2.0.bb} |    4 ++--
+ 4 files changed, 5 insertions(+), 5 deletions(-)
+ rename meta/recipes-connectivity/libpcap/{libpcap-1.1.1 => libpcap-1.2.0}/aclocal.patch (100%)
+ rename meta/recipes-connectivity/libpcap/{libpcap-1.1.1 => libpcap-1.2.0}/ieee80215-arphrd.patch (91%)
+ rename meta/recipes-connectivity/libpcap/{libpcap_1.1.1.bb => libpcap_1.2.0.bb} (73%)
 
-diff --git a/meta/recipes-core/udev/udev/init b/meta/recipes-core/udev/udev/init
-index 5468bd9..322e7e7 100644
---- a/meta/recipes-core/udev/udev/init
-+++ b/meta/recipes-core/udev/udev/init
-@@ -26,7 +26,7 @@ kill_udevd() {
+diff --git a/meta/recipes-connectivity/libpcap/libpcap-1.1.1/aclocal.patch b/meta/recipes-connectivity/libpcap/libpcap-1.2.0/aclocal.patch
+similarity index 100%
+rename from meta/recipes-connectivity/libpcap/libpcap-1.1.1/aclocal.patch
+rename to meta/recipes-connectivity/libpcap/libpcap-1.2.0/aclocal.patch
+diff --git a/meta/recipes-connectivity/libpcap/libpcap-1.1.1/ieee80215-arphrd.patch b/meta/recipes-connectivity/libpcap/libpcap-1.2.0/ieee80215-arphrd.patch
+similarity index 91%
+rename from meta/recipes-connectivity/libpcap/libpcap-1.1.1/ieee80215-arphrd.patch
+rename to meta/recipes-connectivity/libpcap/libpcap-1.2.0/ieee80215-arphrd.patch
+index 8041d7a..2f5cd21 100644
+--- a/meta/recipes-connectivity/libpcap/libpcap-1.1.1/ieee80215-arphrd.patch
++++ b/meta/recipes-connectivity/libpcap/libpcap-1.2.0/ieee80215-arphrd.patch
+@@ -9,10 +9,10 @@ Index: libpcap-1.0.0/pcap-linux.c
+  		//handle->md.cooked = 1;
+  		break;
+ +#ifndef ARPHRD_IEEE80215
+-+#define ARPHRD_IEEE80215 804
+++#define ARPHRD_IEEE80215 805
+ +#endif
+ +#ifndef ARPHRD_IEEE80215_PHY
+-+#define ARPHRD_IEEE80215_PHY 805
+++#define ARPHRD_IEEE80215_PHY 806
+ +#endif
+ +
+ +    case ARPHRD_IEEE80215:
+diff --git a/meta/recipes-connectivity/libpcap/libpcap.inc b/meta/recipes-connectivity/libpcap/libpcap.inc
+index 84001e5..6051bbc 100644
+--- a/meta/recipes-connectivity/libpcap/libpcap.inc
++++ b/meta/recipes-connectivity/libpcap/libpcap.inc
+@@ -10,7 +10,7 @@ LIC_FILES_CHKSUM = "file://LICENSE;md5=1d4b0366557951c84a94fabe3529f867 \
+                     file://pcap.h;beginline=1;endline=34;md5=8d6cf7e17d5745010d633e30bc529ea9"
+ DEPENDS = "flex-native bison-native"
  
- export ACTION=add
- # propagate /dev from /sys
--echo -n "Starting udev"
-+echo "Starting udev"
+-INC_PR = "r1"
++INC_PR = "r0"
  
- # mount the tmpfs on /dev, if not already done
- LANG=C awk '$2 == "/dev" && ($3 == "tmpfs" || $3 == "devtmpfs") { exit 1 }' /proc/mounts && {
-@@ -68,5 +68,4 @@ else
- 	/sbin/udevadm settle
- fi
+ SRC_URI = "http://www.tcpdump.org/release/libpcap-${PV}.tar.gz"
  
--echo
- exit 0
-diff --git a/meta/recipes-core/udev/udev_164.bb b/meta/recipes-core/udev/udev_164.bb
-index c89eab4..6d71f4d 100644
---- a/meta/recipes-core/udev/udev_164.bb
-+++ b/meta/recipes-core/udev/udev_164.bb
-@@ -1,6 +1,6 @@
- include udev.inc
+diff --git a/meta/recipes-connectivity/libpcap/libpcap_1.1.1.bb b/meta/recipes-connectivity/libpcap/libpcap_1.2.0.bb
+similarity index 73%
+rename from meta/recipes-connectivity/libpcap/libpcap_1.1.1.bb
+rename to meta/recipes-connectivity/libpcap/libpcap_1.2.0.bb
+index 2700bb7..bc7c03b 100644
+--- a/meta/recipes-connectivity/libpcap/libpcap_1.1.1.bb
++++ b/meta/recipes-connectivity/libpcap/libpcap_1.2.0.bb
+@@ -5,8 +5,8 @@ PR = "${INC_PR}.0"
+ SRC_URI += "file://aclocal.patch \
+             file://ieee80215-arphrd.patch"
  
--PR = "r9"
-+PR = "r10"
+-SRC_URI[md5sum] = "1bca27d206970badae248cfa471bbb47"
+-SRC_URI[sha256sum] = "508cca15547e55d1318498b838456a21770c450beb2dc7d7d4a96d90816e5a85"
++SRC_URI[md5sum] = "dfb8aa690b7a29821bfa183025436569"
++SRC_URI[sha256sum] = "702ac51cfaa5c17d6b92771b22835d58eda4dc9e1f596c80a0b031e4c45c07d6"
  
- SRC_URI += "file://udev-166-v4l1-1.patch"
- 
+ #
+ # make install doesn't cover the shared lib
 -- 
 1.7.6.4
 
