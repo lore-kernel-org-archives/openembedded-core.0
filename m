@@ -1,24 +1,24 @@
 Received: from mga03.intel.com ([143.182.124.21])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <sgw@linux.intel.com>) id 1Rhxr7-0004Kv-Qv
+	(envelope-from <sgw@linux.intel.com>) id 1Rhxr8-0004L2-Jb
 	for openembedded-core@lists.openembedded.org;
 	Tue, 03 Jan 2012 07:28:19 +0100
 Received: from azsmga001.ch.intel.com ([10.2.17.19])
-	by azsmga101.ch.intel.com with ESMTP; 02 Jan 2012 22:20:48 -0800
+	by azsmga101.ch.intel.com with ESMTP; 02 Jan 2012 22:20:49 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="91752147"
+X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="91752154"
 Received: from unknown (HELO swold-mobl.bigsur.com) ([10.255.13.112])
 	by azsmga001.ch.intel.com with ESMTP; 02 Jan 2012 22:20:48 -0800
 From: Saul Wold <sgw@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Mon,  2 Jan 2012 22:19:06 -0800
-Message-Id: <c532a8cf75e8a078c7e0bdf365f90deeb795d6ab.1325571069.git.sgw@linux.intel.com>
+Date: Mon,  2 Jan 2012 22:19:08 -0800
+Message-Id: <33e0cdbfe8ef9e8901badbd8bce1fcdab5f8b841.1325571069.git.sgw@linux.intel.com>
 X-Mailer: git-send-email 1.7.6.4
 In-Reply-To: <cover.1325571068.git.sgw@linux.intel.com>
 References: <cover.1325571068.git.sgw@linux.intel.com>
 In-Reply-To: <cover.1325571068.git.sgw@linux.intel.com>
 References: <cover.1325571068.git.sgw@linux.intel.com>
-Subject: [CONSOLIDATED PULL 020/113] gst-fluendo-mpegdemux: upgrade to 0.10.69
+Subject: [CONSOLIDATED PULL 022/113] mtd-utils: upgrade to 1.4.9
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -33,31 +33,44 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 03 Jan 2012 06:28:19 -0000
+X-List-Received-Date: Tue, 03 Jan 2012 06:28:20 -0000
 
 From: Shane Wang <shane.wang@intel.com>
 
 Signed-off-by: Shane Wang <shane.wang@intel.com>
 ---
- ...0.10.67.bb => gst-fluendo-mpegdemux_0.10.69.bb} |    4 ++--
- 1 files changed, 2 insertions(+), 2 deletions(-)
- rename meta/recipes-multimedia/gstreamer/{gst-fluendo-mpegdemux_0.10.67.bb => gst-fluendo-mpegdemux_0.10.69.bb} (71%)
+ .../add-exclusion-to-mkfs-jffs2-git-2.patch        |    0
+ .../add-exclusion-to-mkfs-jffs2-git-2.patch        |    0
+ .../mtd/{mtd-utils_1.4.6.bb => mtd-utils_1.4.9.bb} |    2 +-
+ 3 files changed, 1 insertions(+), 1 deletions(-)
+ rename meta/recipes-devtools/mtd/{mtd-utils-1.4.6 => mtd-utils-1.4.9}/add-exclusion-to-mkfs-jffs2-git-2.patch (100%)
+ rename meta/recipes-devtools/mtd/{mtd-utils-1.4.6 => mtd-utils-1.4.9}/mtd-utils-1.4.1/add-exclusion-to-mkfs-jffs2-git-2.patch (100%)
+ rename meta/recipes-devtools/mtd/{mtd-utils_1.4.6.bb => mtd-utils_1.4.9.bb} (95%)
 
-diff --git a/meta/recipes-multimedia/gstreamer/gst-fluendo-mpegdemux_0.10.67.bb b/meta/recipes-multimedia/gstreamer/gst-fluendo-mpegdemux_0.10.69.bb
-similarity index 71%
-rename from meta/recipes-multimedia/gstreamer/gst-fluendo-mpegdemux_0.10.67.bb
-rename to meta/recipes-multimedia/gstreamer/gst-fluendo-mpegdemux_0.10.69.bb
-index 85ebb43..d5a3a95 100644
---- a/meta/recipes-multimedia/gstreamer/gst-fluendo-mpegdemux_0.10.67.bb
-+++ b/meta/recipes-multimedia/gstreamer/gst-fluendo-mpegdemux_0.10.69.bb
-@@ -9,5 +9,5 @@ acpaths = "-I ${S}/common/m4 -I ${S}/m4"
+diff --git a/meta/recipes-devtools/mtd/mtd-utils-1.4.6/add-exclusion-to-mkfs-jffs2-git-2.patch b/meta/recipes-devtools/mtd/mtd-utils-1.4.9/add-exclusion-to-mkfs-jffs2-git-2.patch
+similarity index 100%
+rename from meta/recipes-devtools/mtd/mtd-utils-1.4.6/add-exclusion-to-mkfs-jffs2-git-2.patch
+rename to meta/recipes-devtools/mtd/mtd-utils-1.4.9/add-exclusion-to-mkfs-jffs2-git-2.patch
+diff --git a/meta/recipes-devtools/mtd/mtd-utils-1.4.6/mtd-utils-1.4.1/add-exclusion-to-mkfs-jffs2-git-2.patch b/meta/recipes-devtools/mtd/mtd-utils-1.4.9/mtd-utils-1.4.1/add-exclusion-to-mkfs-jffs2-git-2.patch
+similarity index 100%
+rename from meta/recipes-devtools/mtd/mtd-utils-1.4.6/mtd-utils-1.4.1/add-exclusion-to-mkfs-jffs2-git-2.patch
+rename to meta/recipes-devtools/mtd/mtd-utils-1.4.9/mtd-utils-1.4.1/add-exclusion-to-mkfs-jffs2-git-2.patch
+diff --git a/meta/recipes-devtools/mtd/mtd-utils_1.4.6.bb b/meta/recipes-devtools/mtd/mtd-utils_1.4.9.bb
+similarity index 95%
+rename from meta/recipes-devtools/mtd/mtd-utils_1.4.6.bb
+rename to meta/recipes-devtools/mtd/mtd-utils_1.4.9.bb
+index 79f4f15..519472c 100644
+--- a/meta/recipes-devtools/mtd/mtd-utils_1.4.6.bb
++++ b/meta/recipes-devtools/mtd/mtd-utils_1.4.9.bb
+@@ -6,7 +6,7 @@ LICENSE = "GPLv2+"
+ LIC_FILES_CHKSUM = "file://COPYING;md5=0636e73ff0215e8d672dc4c32c317bb3 \
+                     file://include/common.h;beginline=1;endline=17;md5=ba05b07912a44ea2bf81ce409380049c"
  
- PR = "r0"
+-SRC_URI = "git://git.infradead.org/mtd-utils.git;protocol=git;tag=baafd8ace3301e9d2ba314a376bad008314b34ff \
++SRC_URI = "git://git.infradead.org/mtd-utils.git;protocol=git;tag=995cfe51b0a3cf32f381c140bf72b21bf91cef1b \
+ 		file://add-exclusion-to-mkfs-jffs2-git-2.patch"
  
--SRC_URI[md5sum] = "4ee0353eaa386f9b1c5570298d204357"
--SRC_URI[sha256sum] = "410897527f8bd8f007c9915c9450113c9e73c76f89aee3d36da825422a83a621"
-+SRC_URI[md5sum] = "098105ecb68779f34097faf35214fc97"
-+SRC_URI[sha256sum] = "a62a1249f05c5b6d9d0ab31a0d5cb15f2682587dec0050fc57c1102a6d76b32d"
+ S = "${WORKDIR}/git/"
 -- 
 1.7.6.4
 
