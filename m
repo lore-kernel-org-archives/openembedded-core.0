@@ -1,30 +1,25 @@
-Received: from hermes.mlbassoc.com ([64.234.241.98] helo=mail.chez-thomas.org)
+Received: from mga11.intel.com ([192.55.52.93])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <gary@mlbassoc.com>) id 1Ri8sL-0008MZ-I3
+	(envelope-from <sgw@linux.intel.com>) id 1Ri9Nz-0000iV-Ug
 	for openembedded-core@lists.openembedded.org;
-	Tue, 03 Jan 2012 19:14:17 +0100
-Received: by mail.chez-thomas.org (Postfix, from userid 1998)
-	id 41B0AF8120E; Tue,  3 Jan 2012 11:06:58 -0700 (MST)
-X-Spam-Checker-Version: SpamAssassin 3.3.2 (2011-06-06) on
-	hermes.chez-thomas.org
-X-Spam-Level: 
-X-Spam-Status: No, score=-2.9 required=4.0 tests=ALL_TRUSTED,BAYES_00
-	autolearn=unavailable version=3.3.2
-Received: from hermes.chez-thomas.org (localhost.localdomain [127.0.0.1])
-	by mail.chez-thomas.org (Postfix) with ESMTP id 107B6F8120B;
-	Tue,  3 Jan 2012 11:06:57 -0700 (MST)
-Message-ID: <4F0343C1.8080407@mlbassoc.com>
-Date: Tue, 03 Jan 2012 11:06:57 -0700
-From: Gary Thomas <gary@mlbassoc.com>
-User-Agent: Mozilla/5.0 (X11; Linux i686;
-	rv:8.0) Gecko/20111115 Thunderbird/8.0
+	Tue, 03 Jan 2012 19:47:59 +0100
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+	by fmsmga102.fm.intel.com with ESMTP; 03 Jan 2012 10:39:37 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="102778906"
+Received: from unknown (HELO [10.255.13.127]) ([10.255.13.127])
+	by fmsmga001.fm.intel.com with ESMTP; 03 Jan 2012 10:39:36 -0800
+Message-ID: <4F034B68.6080103@linux.intel.com>
+Date: Tue, 03 Jan 2012 10:39:36 -0800
+From: Saul Wold <sgw@linux.intel.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:7.0) Gecko/20110927 Thunderbird/7.0
 MIME-Version: 1.0
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-References: <4ED61F56.8050409@mlbassoc.com> <4F032916.6010604@mlbassoc.com>
-	<4F034238.8080105@linux.intel.com>
-In-Reply-To: <4F034238.8080105@linux.intel.com>
-Subject: Re: [PATCH] Alter order of file systems tried by mount
+References: <cover.1325613367.git.sgw@linux.intel.com>
+In-Reply-To: <cover.1325613367.git.sgw@linux.intel.com>
+Subject: Re: [PATCH 0/1] v2 - POKY -> COREIMAGE
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -39,72 +34,42 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 03 Jan 2012 18:14:17 -0000
+X-List-Received-Date: Tue, 03 Jan 2012 18:47:59 -0000
 Content-Type: text/plain; charset=ISO-8859-1; format=flowed
 Content-Transfer-Encoding: 7bit
 
-On 2012-01-03 11:00, Saul Wold wrote:
-> On 01/03/2012 08:13 AM, Gary Thomas wrote:
->> On 2011-11-30 05:19, Gary Thomas wrote:
->>> The file /etc/filesystems is used by busybox 'mount' when
->>> attempting to mount a file system when the type is not
->>> specified. This change alters the order so that more
->>> capable systems are tried first. Without this change, an
->>> EXT3 system will mount as EXT2 which disables many of the
->>> EXT3 features. With the change, EXT3 systems are mounted
->>> properly.
->>>
->>> Signed-off-by: Gary Thomas <gary@mlbassoc.com>
->>> ---
->>> .../recipes-core/base-files/base-files/filesystems | 8 ++++----
->>> meta/recipes-core/base-files/base-files_3.0.14.bb | 2 +-
->>> 2 files changed, 5 insertions(+), 5 deletions(-)
->>>
->>> diff --git a/meta/recipes-core/base-files/base-files/filesystems
->>> b/meta/recipes-core/base-files/base-files/filesystems
->>> index 2af6a7e..14f5abb 100644
->>> --- a/meta/recipes-core/base-files/base-files/filesystems
->>> +++ b/meta/recipes-core/base-files/base-files/filesystems
->>> @@ -1,7 +1,7 @@
->>> -minix
->>> -fat
->>> -vfat
->>> -ext2
->>> ext3
->>> +ext2
->>> +vfat
->>> +fat
->>> btrfs
->>> +minix
->>> *
->>> diff --git a/meta/recipes-core/base-files/base-files_3.0.14.bb
->>> b/meta/recipes-core/base-files/base-files_3.0.14.bb
->>> index 8f5313b..c860d70 100644
->>> --- a/meta/recipes-core/base-files/base-files_3.0.14.bb
->>> +++ b/meta/recipes-core/base-files/base-files_3.0.14.bb
->>> @@ -1,7 +1,7 @@
->>> SUMMARY = "Miscellaneous files for the base system."
->>> DESCRIPTION = "The base-files package creates the basic system
->>> directory structure and provides a small set of key configuration
->>> files for the system."
->>> SECTION = "base"
->>> -PR = "r69"
->>> +PR = "r70"
->>> LICENSE = "GPLv2"
->>> LIC_FILES_CHKSUM =
->>> "file://licenses/GPL-2;md5=94d55d512a9ba36caa9b7df079bae19f"
->>> SRC_URI = "file://rotation \
->>
->> What about this patch (now 1 month old, with no action or discussion)?
->>
-> Looks like there were some comments between you and Stefan about adding ext4, so I was waiting for an updated version.
+On 01/03/2012 09:57 AM, Saul Wold wrote:
+> Thanks to Phil for pointing out my Dyslexic COER
+>
+> Sau!
+>
+Please hold off on this patch until we get 1.1.1 completed, due to issue 
+with the Autobuilder that will take longer to deal with.
 
-OK, I'll add that and send a new patch once I can test it.
+Sau!
 
--- 
-------------------------------------------------------------
-Gary Thomas                 |  Consulting for the
-MLB Associates              |    Embedded world
-------------------------------------------------------------
+>
+> The following changes since commit de679a3036ebef1c7d7b8ee23f05590c95e498d9:
+>
+>    pseudo: ensure libs are included in package (2012-01-03 12:10:59 +0000)
+>
+> are available in the git repository at:
+>    git://git.openembedded.org/openembedded-core-contrib sgw/fix
+>    http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=sgw/fix
+>
+> Saul Wold (1):
+>    Rename references from POKY_*_INSTALL to COREIMAGE_*_INSTALL
+>
+>   meta/classes/core-image.bbclass                    |    8 ++++----
+>   meta/recipes-core/images/core-image-minimal.bb     |    2 +-
+>   meta/recipes-core/images/self-hosted-image.bb      |    2 +-
+>   meta/recipes-extended/images/core-image-basic.bb   |    2 +-
+>   meta/recipes-extended/images/core-image-lsb-dev.bb |    2 +-
+>   meta/recipes-extended/images/core-image-lsb-sdk.bb |    2 +-
+>   meta/recipes-extended/images/core-image-lsb.bb     |    2 +-
+>   meta/recipes-graphics/images/core-image-clutter.bb |    2 +-
+>   meta/recipes-qt/images/qt4e-demo-image.bb          |    2 +-
+>   9 files changed, 12 insertions(+), 12 deletions(-)
+>
 
 
