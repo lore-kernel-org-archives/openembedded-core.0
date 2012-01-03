@@ -1,24 +1,24 @@
-Received: from mga03.intel.com ([143.182.124.21])
+Received: from mga14.intel.com ([143.182.124.37])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <sgw@linux.intel.com>) id 1RhxrM-0004L2-H6
+	(envelope-from <sgw@linux.intel.com>) id 1RhxrM-0004fO-Np
 	for openembedded-core@lists.openembedded.org;
 	Tue, 03 Jan 2012 07:28:33 +0100
 Received: from azsmga001.ch.intel.com ([10.2.17.19])
-	by azsmga101.ch.intel.com with ESMTP; 02 Jan 2012 22:20:58 -0800
+	by azsmga102.ch.intel.com with ESMTP; 02 Jan 2012 22:21:04 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="91752203"
+X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="91752235"
 Received: from unknown (HELO swold-mobl.bigsur.com) ([10.255.13.112])
-	by azsmga001.ch.intel.com with ESMTP; 02 Jan 2012 22:20:57 -0800
+	by azsmga001.ch.intel.com with ESMTP; 02 Jan 2012 22:21:04 -0800
 From: Saul Wold <sgw@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Mon,  2 Jan 2012 22:19:33 -0800
-Message-Id: <a0239d76fc42ef1f7814f8e24bc2e435bada7a4d.1325571069.git.sgw@linux.intel.com>
+Date: Mon,  2 Jan 2012 22:19:51 -0800
+Message-Id: <40608dc059120208bcadf0d6f38e419c2f77bd31.1325571069.git.sgw@linux.intel.com>
 X-Mailer: git-send-email 1.7.6.4
 In-Reply-To: <cover.1325571068.git.sgw@linux.intel.com>
 References: <cover.1325571068.git.sgw@linux.intel.com>
 In-Reply-To: <cover.1325571068.git.sgw@linux.intel.com>
 References: <cover.1325571068.git.sgw@linux.intel.com>
-Subject: [CONSOLIDATED PULL 047/113] udev: improve udev-cache robustness
+Subject: [CONSOLIDATED PULL 065/113] dropbear: fix CRYPTLIB patch
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -35,152 +35,104 @@ List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedde
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Tue, 03 Jan 2012 06:28:33 -0000
 
-From: Otavio Salvador <otavio@ossystems.com.br>
-
- * allow udev-cache to be disabled at runtime (using
-   /etc/default/udev-cache);
-
- * make cache invalidated if kernel, bootparams or device list
-   changes;
-
-Signed-off-by: Otavio Salvador <otavio@ossystems.com.br>
+Signed-off-by: Saul Wold <sgw@linux.intel.com>
 ---
- meta/recipes-core/udev/udev.inc                |   11 ++++++++++-
- meta/recipes-core/udev/udev/init               |   18 +++++++++++++++---
- meta/recipes-core/udev/udev/udev-cache         |   20 +++++++++++++++++---
- meta/recipes-core/udev/udev/udev-cache.default |    4 ++++
- meta/recipes-core/udev/udev_164.bb             |    2 +-
- 5 files changed, 47 insertions(+), 8 deletions(-)
- create mode 100644 meta/recipes-core/udev/udev/udev-cache.default
+ .../dropbear-0.53.1-static_build_fix.patch         |   67 ++++++++++++++------
+ meta/recipes-core/dropbear/dropbear_2011.54.bb     |    2 +-
+ 2 files changed, 49 insertions(+), 20 deletions(-)
 
-diff --git a/meta/recipes-core/udev/udev.inc b/meta/recipes-core/udev/udev.inc
-index 198336b..a228e5f 100644
---- a/meta/recipes-core/udev/udev.inc
-+++ b/meta/recipes-core/udev/udev.inc
-@@ -25,6 +25,7 @@ SRC_URI = "${KERNELORG_MIRROR}/linux/utils/kernel/hotplug/udev-${PV}.tar.gz \
-            file://network.sh \
-            file://local.rules \
-            file://udev-cache \
-+           file://udev-cache.default \
-            file://init"
+diff --git a/meta/recipes-core/dropbear/dropbear/dropbear-0.53.1-static_build_fix.patch b/meta/recipes-core/dropbear/dropbear/dropbear-0.53.1-static_build_fix.patch
+index 14a8770..d125616 100644
+--- a/meta/recipes-core/dropbear/dropbear/dropbear-0.53.1-static_build_fix.patch
++++ b/meta/recipes-core/dropbear/dropbear/dropbear-0.53.1-static_build_fix.patch
+@@ -1,29 +1,58 @@
+-Upstream-Status: Inappropriate [Pending]
+-Get this patch from  buildroot maillist.
++Upstream-Status: Submitted
  
- inherit autotools pkgconfig update-rc.d
-@@ -56,7 +57,7 @@ FILES_libgudev = "${base_libdir}/libgudev*.so.* ${libdir}/libgudev*.so.*"
- FILES_libgudev-dbg = "${base_libdir}/.debug/libgudev*.so.* ${libdir}/.debug/libgudev*.so.*"
- FILES_libgudev-dev = "${includedir}/gudev* ${libdir}/libgudev*.so ${libdir}/libgudev*.la \
-                      ${libdir}/libgudev*.a ${libdir}/pkgconfig/gudev*.pc"
--FILES_udev-cache = "${sysconfdir}/init.d/udev-cache"
-+FILES_udev-cache = "${sysconfdir}/init.d/udev-cache ${sysconfdir}/default/udev-cache"
+-dropbear: fix static build
  
- FILES_udev-acl = "${base_libdir}/udev/udev-acl ${base_libdir}/udev/rules.d/70-acl.rules"
+-The latest release 0.53.1 change: lcrypt needs to be before object files for static linking
++dropbear: fix static build
  
-@@ -68,6 +69,14 @@ do_install_append () {
- 	install -m 0755 ${WORKDIR}/init ${D}${sysconfdir}/init.d/udev
- 	install -m 0755 ${WORKDIR}/udev-cache ${D}${sysconfdir}/init.d/udev-cache
+-the -lcrypt is missing during the link
++A more appropriate fix is to remove @CRYPTLIB@ from the objs
++line, since it will cause problems with target checking,
++this change also meets the goals of the orignal change which
++was to not link libcrypt to all binaries.
  
-+	install -d ${D}${sysconfdir}/default
-+	install -m 0755 ${WORKDIR}/udev-cache.default ${D}${sysconfdir}/default/udev-cache
-+
-+	touch ${D}${sysconfdir}/udev/saved.uname
-+	touch ${D}${sysconfdir}/udev/saved.cmdline
-+	touch ${D}${sysconfdir}/udev/saved.devices
-+	touch ${D}${sysconfdir}/udev/saved.atags
-+
- 	install -d ${D}${sysconfdir}/udev/rules.d/
+ svr-authpasswd.o: In function `svr_auth_password':
+ svr-authpasswd.c:(.text+0xfc): undefined reference to `crypt'
+ collect2: ld returned 1 exit status
  
- 	install -m 0644 ${WORKDIR}/local.rules         ${D}${sysconfdir}/udev/rules.d/local.rules
-diff --git a/meta/recipes-core/udev/udev/init b/meta/recipes-core/udev/udev/init
-index c2b491e..5468bd9 100644
---- a/meta/recipes-core/udev/udev/init
-+++ b/meta/recipes-core/udev/udev/init
-@@ -14,6 +14,7 @@ export TZ=/etc/localtime
- [ -d /sys/class ] || exit 1
- [ -r /proc/mounts ] || exit 1
- [ -x /sbin/udevd ] || exit 1
-+[ -f /etc/default/udev-cache ] && . /etc/default/udev-cache
- [ -f /etc/udev/udev.conf ] && . /etc/udev/udev.conf
+-Signed-off-by: Jean-Christophe PLAGNIOL-VILLARD <plagnioj at jcrosoft.com>
+-Signed-off-by: Mei Lei <lei.mei@intel.com>
++Signed-off-by: Saul Wold <sgw@linux.intel.com>
  
- kill_udevd() {
-@@ -35,9 +36,20 @@ mkdir -p -m 0755 /dev/pts
- mkdir -p -m 1777 /dev/shm
+-diff --git a/Makefile.in b/Makefile.in
+-index 8d81647..0b9b769 100644
+---- a/Makefile.in
+-+++ b/Makefile.in
+-@@ -77,7 +77,7 @@ STRIP=@STRIP@
+- INSTALL=@INSTALL@
+- CPPFLAGS=@CPPFLAGS@
+- CFLAGS+=-I. -I$(srcdir) $(CPPFLAGS) @CFLAGS@
+--LIBS+=@LIBS@
+-+LIBS+=@CRYPTLIB@ @LIBS@
+- LDFLAGS=@LDFLAGS@
++Index: dropbear-2011.54/Makefile.in
++===================================================================
++--- dropbear-2011.54.orig/Makefile.in	2011-11-08 04:48:15.000000000 -0800
+++++ dropbear-2011.54/Makefile.in	2011-12-27 13:44:41.644354442 -0800
++@@ -56,7 +56,7 @@
++ 		loginrec.h atomicio.h x11fwd.h agentfwd.h tcpfwd.h compat.h \
++ 		listener.h fake-rfc2553.h
++ 
++-dropbearobjs=$(COMMONOBJS) $(CLISVROBJS) $(SVROBJS) @CRYPTLIB@ 
+++dropbearobjs=$(COMMONOBJS) $(CLISVROBJS) $(SVROBJS)
++ dbclientobjs=$(COMMONOBJS) $(CLISVROBJS) $(CLIOBJS)
++ dropbearkeyobjs=$(COMMONOBJS) $(KEYOBJS)
++ dropbearconvertobjs=$(COMMONOBJS) $(CONVERTOBJS)
++@@ -158,7 +158,10 @@
++ dropbearkey: $(dropbearkeyobjs)
++ dropbearconvert: $(dropbearconvertobjs)
++ 
++-dropbear dbclient dropbearkey dropbearconvert: $(HEADERS) $(LIBTOM_DEPS) Makefile
+++dropbear: $(HEADERS) $(LIBTOM_DEPS) Makefile
+++	$(CC) $(LDFLAGS) -o $@$(EXEEXT) $($@objs) $(LIBS) @CRYPTLIB@
+++
+++dbclient dropbearkey dropbearconvert: $(HEADERS) $(LIBTOM_DEPS) Makefile
++ 	$(CC) $(LDFLAGS) -o $@$(EXEEXT) $($@objs) $(LIBS)
++ 
++ # scp doesn't use the libs so is special.
++@@ -169,14 +172,14 @@
++ # multi-binary compilation.
++ MULTIOBJS=
++ ifeq ($(MULTI),1)
++-	MULTIOBJS=dbmulti.o $(sort $(foreach prog, $(PROGRAMS), $($(prog)objs))) @CRYPTLIB@ 
+++	MULTIOBJS=dbmulti.o $(sort $(foreach prog, $(PROGRAMS), $($(prog)objs)))
++ 	CFLAGS+=$(addprefix -DDBMULTI_, $(PROGRAMS)) -DDROPBEAR_MULTI
++ endif
++ 
++ dropbearmulti: multilink 
++ 
++ multibinary: $(HEADERS) $(MULTIOBJS) $(LIBTOM_DEPS) Makefile
++-	$(CC) $(LDFLAGS) -o dropbearmulti$(EXEEXT) $(MULTIOBJS) $(LIBS)
+++	$(CC) $(LDFLAGS) -o dropbearmulti$(EXEEXT) $(MULTIOBJS) $(LIBS) @CRYPTLIB@
++ 
++ multilink: multibinary $(addprefix link, $(PROGRAMS))
+  
+- EXEEXT=@EXEEXT@
+diff --git a/meta/recipes-core/dropbear/dropbear_2011.54.bb b/meta/recipes-core/dropbear/dropbear_2011.54.bb
+index b7b4b83..1bd8bda 100644
+--- a/meta/recipes-core/dropbear/dropbear_2011.54.bb
++++ b/meta/recipes-core/dropbear/dropbear_2011.54.bb
+@@ -3,4 +3,4 @@ require dropbear.inc
+ SRC_URI[md5sum] = "ce1e236c4a8df0cb95253defee6716b5"
+ SRC_URI[sha256sum] = "a5fe60fa9c11e7b0f6a21ef6e86a53ce3d55236548901905070ff1c1716fbf47"
  
- 
--if [ -e /etc/dev.tar ]; then
--	(cd /; tar xf /etc/dev.tar 2>&1 | grep -v 'time stamp' || true)
--	not_first_boot=1
-+if [ "$DEVCACHE" != "" ]; then
-+	# Invalidate udev cache if the kernel or its bootargs/cmdline have changed
-+	[ -x /bin/uname ] && /bin/uname -mrspv > /dev/shm/uname || touch /dev/shm/uname
-+	[ -r /proc/cmdline ] && cat /proc/cmdline > /dev/shm/cmdline || touch /dev/shm/cmdline
-+	[ -r /proc/devices ] && cat /proc/devices > /dev/shm/devices || touch /dev/shm/devices
-+	[ -r /proc/atags ] && cat /proc/atags > /dev/shm/atags || touch /dev/shm/atags
-+	if [ -e $DEVCACHE ] && \
-+		cmp -s /dev/shm/uname /etc/udev/saved.uname && \
-+		cmp -s /dev/shm/cmdline /etc/udev/saved.cmdline && \
-+		cmp -s /dev/shm/devices /etc/udev/saved.devices && \
-+		cmp -s /dev/shm/atags /etc/udev/saved.atags; then
-+		(cd /; tar xf $DEVCACHE > /dev/null 2>&1)
-+		not_first_boot=1
-+	fi
- fi
- 
- # make_extra_nodes
-diff --git a/meta/recipes-core/udev/udev/udev-cache b/meta/recipes-core/udev/udev/udev-cache
-index 77bbda6..d3a7dee 100644
---- a/meta/recipes-core/udev/udev/udev-cache
-+++ b/meta/recipes-core/udev/udev/udev-cache
-@@ -9,12 +9,26 @@
- # Short-Description: cache /dev to speedup the udev next boot
- ### END INIT INFO
- 
--[ -d /sys/class ] || exit 1
-+export TZ=/etc/localtime
-+
- [ -r /proc/mounts ] || exit 1
- [ -x /sbin/udevd ] || exit 1
-+[ -d /sys/class ] || exit 1
-+
-+[ -f /etc/default/udev-cache ] && . /etc/default/udev-cache
- 
--if [ ! -e /etc/dev.tar ]; then
--	(cd /; tar cf /etc/dev.tar dev)
-+if [ "$DEVCACHE" != "" ]; then
-+	echo "Populating dev cache"
-+	(cd /; tar cf $DEVCACHE dev)
-+	mv /dev/shm/uname /etc/udev/saved.uname
-+	mv /dev/shm/cmdline /etc/udev/saved.cmdline
-+	mv /dev/shm/devices /etc/udev/saved.devices
-+	mv /dev/shm/atags /etc/udev/saved.atags
-+else
-+	rm -f /dev/shm/uname
-+	rm -f /dev/shm/cmdline
-+	rm -f /dev/shm/devices
-+	rm -f /dev/shm/atags
- fi
- 
- exit 0
-diff --git a/meta/recipes-core/udev/udev/udev-cache.default b/meta/recipes-core/udev/udev/udev-cache.default
-new file mode 100644
-index 0000000..5c4937a
---- /dev/null
-+++ b/meta/recipes-core/udev/udev/udev-cache.default
-@@ -0,0 +1,4 @@
-+# Default for /etc/init.d/udev
-+
-+# Comment this out to disable device cache
-+DEVCACHE="/etc/dev.tar"
-diff --git a/meta/recipes-core/udev/udev_164.bb b/meta/recipes-core/udev/udev_164.bb
-index f952c90..c89eab4 100644
---- a/meta/recipes-core/udev/udev_164.bb
-+++ b/meta/recipes-core/udev/udev_164.bb
-@@ -1,6 +1,6 @@
- include udev.inc
- 
--PR = "r8"
-+PR = "r9"
- 
- SRC_URI += "file://udev-166-v4l1-1.patch"
- 
+-PR = "r0"
++PR = "r1"
 -- 
 1.7.6.4
 
