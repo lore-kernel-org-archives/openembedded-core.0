@@ -1,24 +1,24 @@
-Received: from mga03.intel.com ([143.182.124.21])
+Received: from mga14.intel.com ([143.182.124.37])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <sgw@linux.intel.com>) id 1RhxrK-0004O6-Ma
+	(envelope-from <sgw@linux.intel.com>) id 1RhxrM-0004Y7-CQ
 	for openembedded-core@lists.openembedded.org;
-	Tue, 03 Jan 2012 07:28:31 +0100
+	Tue, 03 Jan 2012 07:28:32 +0100
 Received: from azsmga001.ch.intel.com ([10.2.17.19])
-	by azsmga101.ch.intel.com with ESMTP; 02 Jan 2012 22:20:56 -0800
+	by azsmga102.ch.intel.com with ESMTP; 02 Jan 2012 22:21:03 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="91752196"
+X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="91752231"
 Received: from unknown (HELO swold-mobl.bigsur.com) ([10.255.13.112])
-	by azsmga001.ch.intel.com with ESMTP; 02 Jan 2012 22:20:56 -0800
+	by azsmga001.ch.intel.com with ESMTP; 02 Jan 2012 22:21:03 -0800
 From: Saul Wold <sgw@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Mon,  2 Jan 2012 22:19:28 -0800
-Message-Id: <bb7644b1e59fcffd0944b4f408dd90cfae7aa7a0.1325571069.git.sgw@linux.intel.com>
+Date: Mon,  2 Jan 2012 22:19:49 -0800
+Message-Id: <f0f21b0738cdbb6236f4c78c0f55c0efdb1d20c0.1325571069.git.sgw@linux.intel.com>
 X-Mailer: git-send-email 1.7.6.4
 In-Reply-To: <cover.1325571068.git.sgw@linux.intel.com>
 References: <cover.1325571068.git.sgw@linux.intel.com>
 In-Reply-To: <cover.1325571068.git.sgw@linux.intel.com>
 References: <cover.1325571068.git.sgw@linux.intel.com>
-Subject: [CONSOLIDATED PULL 042/113] udev-extraconf: move mount.blacklist to udev-extraconf dir
+Subject: [CONSOLIDATED PULL 063/113] resolvconf: Update to 1.63
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -35,18 +35,30 @@ List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedde
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Tue, 03 Jan 2012 06:28:32 -0000
 
-From: Otavio Salvador <otavio@ossystems.com.br>
-
-Signed-off-by: Otavio Salvador <otavio@ossystems.com.br>
+Signed-off-by: Saul Wold <sgw@linux.intel.com>
 ---
- .../udev/{files => udev-extraconf}/mount.blacklist |    0
- 1 files changed, 0 insertions(+), 0 deletions(-)
- rename meta/recipes-core/udev/{files => udev-extraconf}/mount.blacklist (100%)
+ .../{resolvconf_1.62.bb => resolvconf_1.63.bb}     |    4 ++--
+ 1 files changed, 2 insertions(+), 2 deletions(-)
+ rename meta/recipes-connectivity/resolvconf/{resolvconf_1.62.bb => resolvconf_1.63.bb} (88%)
 
-diff --git a/meta/recipes-core/udev/files/mount.blacklist b/meta/recipes-core/udev/udev-extraconf/mount.blacklist
-similarity index 100%
-rename from meta/recipes-core/udev/files/mount.blacklist
-rename to meta/recipes-core/udev/udev-extraconf/mount.blacklist
+diff --git a/meta/recipes-connectivity/resolvconf/resolvconf_1.62.bb b/meta/recipes-connectivity/resolvconf/resolvconf_1.63.bb
+similarity index 88%
+rename from meta/recipes-connectivity/resolvconf/resolvconf_1.62.bb
+rename to meta/recipes-connectivity/resolvconf/resolvconf_1.63.bb
+index af72199..61f4309 100644
+--- a/meta/recipes-connectivity/resolvconf/resolvconf_1.62.bb
++++ b/meta/recipes-connectivity/resolvconf/resolvconf_1.63.bb
+@@ -14,8 +14,8 @@ PR = "r0"
+ 
+ SRC_URI = "${DEBIAN_MIRROR}/main/r/resolvconf/resolvconf_${PV}.tar.gz"
+ 
+-SRC_URI[md5sum] = "5d9656c9d7a2e1304d9d41ed13cf54a4"
+-SRC_URI[sha256sum] = "cd00b3757fc73d2729be6e2532ca033ddd5542c4deff451929695bcc3af97c61"
++SRC_URI[md5sum] = "4a62b7ce617518a5567c9e8c47fa7a41"
++SRC_URI[sha256sum] = "5299a5d7a44b8e09fca31fe246aa199cd6938195e597762c1cc97c1f9d93ad38"
+ 
+ inherit allarch
+ 
 -- 
 1.7.6.4
 
