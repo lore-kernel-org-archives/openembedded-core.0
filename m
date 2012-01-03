@@ -1,24 +1,24 @@
 Received: from mga14.intel.com ([143.182.124.37])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <sgw@linux.intel.com>) id 1RhxrI-0004Y7-LR
+	(envelope-from <sgw@linux.intel.com>) id 1RhxrH-0004fO-Ss
 	for openembedded-core@lists.openembedded.org;
 	Tue, 03 Jan 2012 07:28:28 +0100
 Received: from azsmga001.ch.intel.com ([10.2.17.19])
-	by azsmga102.ch.intel.com with ESMTP; 02 Jan 2012 22:21:02 -0800
+	by azsmga102.ch.intel.com with ESMTP; 02 Jan 2012 22:21:01 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="91752225"
+X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="91752222"
 Received: from unknown (HELO swold-mobl.bigsur.com) ([10.255.13.112])
-	by azsmga001.ch.intel.com with ESMTP; 02 Jan 2012 22:21:02 -0800
+	by azsmga001.ch.intel.com with ESMTP; 02 Jan 2012 22:21:01 -0800
 From: Saul Wold <sgw@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Mon,  2 Jan 2012 22:19:45 -0800
-Message-Id: <2e333602ccbf7be437a09c5f3bb9164db3af476d.1325571069.git.sgw@linux.intel.com>
+Date: Mon,  2 Jan 2012 22:19:43 -0800
+Message-Id: <edca1102896a67b068622f3cedd6f9f53f1890dc.1325571069.git.sgw@linux.intel.com>
 X-Mailer: git-send-email 1.7.6.4
 In-Reply-To: <cover.1325571068.git.sgw@linux.intel.com>
 References: <cover.1325571068.git.sgw@linux.intel.com>
 In-Reply-To: <cover.1325571068.git.sgw@linux.intel.com>
 References: <cover.1325571068.git.sgw@linux.intel.com>
-Subject: [CONSOLIDATED PULL 059/113] matchbox-wm: Remove x-session-manager handling
+Subject: [CONSOLIDATED PULL 057/113] glib-2.0: we need zlib
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -35,78 +35,26 @@ List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedde
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Tue, 03 Jan 2012 06:28:31 -0000
 
-From: Zhai Edwin <edwin.zhai@intel.com>
+From: Christopher Larson <chris_larson@mentor.com>
 
-Windows manager should be independent on session manager, especially when we
-have multiple session manager like mini-x and matchbox session.
-
-Signed-off-by: Zhai Edwin <edwin.zhai@intel.com>
+Signed-off-by: Christopher Larson <chris_larson@mentor.com>
 ---
- .../matchbox-wm/matchbox-wm_1.2.bb                 |    9 ++-------
- .../matchbox-wm/matchbox-wm_git.bb                 |    9 ++-------
- 2 files changed, 4 insertions(+), 14 deletions(-)
+ meta/recipes-core/glib-2.0/glib-2.0_2.30.2.bb |    2 +-
+ 1 files changed, 1 insertions(+), 1 deletions(-)
 
-diff --git a/meta/recipes-graphics/matchbox-wm/matchbox-wm_1.2.bb b/meta/recipes-graphics/matchbox-wm/matchbox-wm_1.2.bb
-index 84b966a..2628326 100644
---- a/meta/recipes-graphics/matchbox-wm/matchbox-wm_1.2.bb
-+++ b/meta/recipes-graphics/matchbox-wm/matchbox-wm_1.2.bb
-@@ -2,7 +2,7 @@ SECTION = "x11/wm"
- DESCRIPTION = "Matchbox window manager"
- LICENSE = "GPLv2.0+"
- DEPENDS = "libmatchbox virtual/libx11 libxext libxcomposite libxfixes xdamage libxrender startup-notification expat"
--PR = "r4"
-+PR = "r5"
+diff --git a/meta/recipes-core/glib-2.0/glib-2.0_2.30.2.bb b/meta/recipes-core/glib-2.0/glib-2.0_2.30.2.bb
+index eff43c9..aa6ee3a 100644
+--- a/meta/recipes-core/glib-2.0/glib-2.0_2.30.2.bb
++++ b/meta/recipes-core/glib-2.0/glib-2.0_2.30.2.bb
+@@ -3,7 +3,7 @@ require glib.inc
+ PR = "r0"
+ PE = "1"
  
- SRC_URI = "http://matchbox-project.org/sources/matchbox-window-manager/1.2/matchbox-window-manager-${PV}.tar.bz2 \
-            file://configure_fix.patch \
-@@ -11,7 +11,7 @@ SRC_URI = "http://matchbox-project.org/sources/matchbox-window-manager/1.2/match
+-DEPENDS += "libffi python-argparse-native"
++DEPENDS += "libffi python-argparse-native zlib"
+ DEPENDS_virtclass-native += "libffi-native python-argparse-native"
+ DEPENDS_virtclass-nativesdk += "libffi-nativesdk python-argparse-native zlib-nativesdk"
  
- S = "${WORKDIR}/matchbox-window-manager-${PV}"
- 
--inherit autotools pkgconfig update-alternatives
-+inherit autotools pkgconfig
- 
- FILES_${PN} = "${bindir}/* \
- 	       ${datadir}/matchbox \
-@@ -20,11 +20,6 @@ FILES_${PN} = "${bindir}/* \
- 	       ${datadir}/themes/Default/matchbox \
- 	       ${datadir}/themes/MBOpus/matchbox"
- 
--ALTERNATIVE_NAME = "x-session-manager"
--ALTERNATIVE_LINK = "${bindir}/x-session-manager"
--ALTERNATIVE_PATH = "${bindir}/matchbox-session"
--ALTERNATIVE_PRIORITY = "10"
--
- EXTRA_OECONF = " --enable-startup-notification \
-                  --disable-xrm \
-                  --enable-expat \
-diff --git a/meta/recipes-graphics/matchbox-wm/matchbox-wm_git.bb b/meta/recipes-graphics/matchbox-wm/matchbox-wm_git.bb
-index 5550dc2..ef9cf76 100644
---- a/meta/recipes-graphics/matchbox-wm/matchbox-wm_git.bb
-+++ b/meta/recipes-graphics/matchbox-wm/matchbox-wm_git.bb
-@@ -12,7 +12,7 @@ DEPENDS = "libmatchbox virtual/libx11 libxext libxrender startup-notification ex
- 
- SRCREV = "f4394eaed475de6e627d373c5b35ee2cf87072e3"
- PV = "1.2+git${SRCPV}"
--PR = "r0"
-+PR = "r1"
- 
- SRC_URI = "git://git.yoctoproject.org/matchbox-window-manager;protocol=git \
-            file://configure_fix.patch;maxrev=1818 \
-@@ -20,12 +20,7 @@ SRC_URI = "git://git.yoctoproject.org/matchbox-window-manager;protocol=git \
- 
- S = "${WORKDIR}/git"
- 
--inherit autotools pkgconfig update-alternatives
--
--ALTERNATIVE_NAME = "x-session-manager"
--ALTERNATIVE_LINK = "${bindir}/x-session-manager"
--ALTERNATIVE_PATH = "${bindir}/matchbox-session"
--ALTERNATIVE_PRIORITY = "10"
-+inherit autotools pkgconfig
- 
- FILES_${PN} = "${bindir}/* \
-                ${datadir}/matchbox \
 -- 
 1.7.6.4
 
