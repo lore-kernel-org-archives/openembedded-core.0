@@ -1,18 +1,18 @@
 Received: from masterfoo.zenlinux.com ([207.192.74.254])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <scott.a.garman@intel.com>) id 1RiI5E-0001ZO-Ja
+	(envelope-from <scott.a.garman@intel.com>) id 1RiI5I-0001dJ-Cw
 	for openembedded-core@lists.openembedded.org;
-	Wed, 04 Jan 2012 05:04:12 +0100
+	Wed, 04 Jan 2012 05:04:16 +0100
 Received: from localhost (c-76-115-40-64.hsd1.or.comcast.net [76.115.40.64])
 	(using TLSv1 with cipher DHE-RSA-AES128-SHA (128/128 bits))
 	(No client certificate requested)
-	by masterfoo.zenlinux.com (Postfix) with ESMTP id D9CEA30227
+	by masterfoo.zenlinux.com (Postfix) with ESMTP id BE61230228
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  3 Jan 2012 22:56:47 -0500 (EST)
+	Tue,  3 Jan 2012 22:56:50 -0500 (EST)
 From: Scott Garman <scott.a.garman@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Tue,  3 Jan 2012 19:56:53 -0800
-Message-Id: <45fe78157535d824f80a41fbb4165567fa71854a.1325649220.git.scott.a.garman@intel.com>
+Date: Tue,  3 Jan 2012 19:56:54 -0800
+Message-Id: <a78a94d233ddb44e385a15b8a86356fb7f21afd5.1325649220.git.scott.a.garman@intel.com>
 X-Mailer: git-send-email 1.7.5.4
 In-Reply-To: <cover.1325649220.git.scott.a.garman@intel.com>
 References: <cover.1325649220.git.scott.a.garman@intel.com>
@@ -20,12 +20,12 @@ In-Reply-To: <cover.1325649220.git.scott.a.garman@intel.com>
 References: <cover.1325649220.git.scott.a.garman@intel.com>
 X-MasterFoo-MailScanner-Information: Please contact the ISP for more
 	information
-X-MailScanner-ID: D9CEA30227.B7E55
+X-MailScanner-ID: BE61230228.0C089
 X-MasterFoo-MailScanner: Found to be clean
 X-MasterFoo-MailScanner-SpamCheck: not spam
 X-MasterFoo-MailScanner-From: scott.a.garman@intel.com
 X-Spam-Status: No
-Subject: [PATCH 3/7] util-linux: move libraries to base_libdir
+Subject: [PATCH 4/7] e2fsprogs: move libraries to base_libdir
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -40,75 +40,77 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 04 Jan 2012 04:04:12 -0000
+X-List-Received-Date: Wed, 04 Jan 2012 04:04:16 -0000
 
-Various util-linux programs in base_sbindir (/sbin) linked to libraries
-located under exec_prefix (/usr). Since this is not safe, move these
-libraries from libdir (/usr/lib) to base_libdir (/lib).
+The e2fsprogs utilities are installed into base_sbindir (/sbin)
+and should not link to libraries under exec_prefix (/usr). So move
+these libraries from libdir (/usr/lib) to base_libdir (/lib).
 
 Signed-off-by: Scott Garman <scott.a.garman@intel.com>
 ---
- meta/recipes-core/util-linux/util-linux.inc       |   20 +++++++++++---------
- meta/recipes-core/util-linux/util-linux_2.20.1.bb |    2 +-
- 2 files changed, 12 insertions(+), 10 deletions(-)
+ .../e2fsprogs/e2fsprogs_1.41.14.bb                 |   29 ++++++++++++-------
+ 1 files changed, 18 insertions(+), 11 deletions(-)
 
-diff --git a/meta/recipes-core/util-linux/util-linux.inc b/meta/recipes-core/util-linux/util-linux.inc
-index 5445f4f..6e568a4 100644
---- a/meta/recipes-core/util-linux/util-linux.inc
-+++ b/meta/recipes-core/util-linux/util-linux.inc
-@@ -17,7 +17,6 @@ inherit autotools gettext pkgconfig
- DEPENDS = "zlib ncurses"
- DEPENDS_virtclass-native = " lzo-native"
+diff --git a/meta/recipes-devtools/e2fsprogs/e2fsprogs_1.41.14.bb b/meta/recipes-devtools/e2fsprogs/e2fsprogs_1.41.14.bb
+index a26d89a..a956247 100644
+--- a/meta/recipes-devtools/e2fsprogs/e2fsprogs_1.41.14.bb
++++ b/meta/recipes-devtools/e2fsprogs/e2fsprogs_1.41.14.bb
+@@ -1,6 +1,6 @@
+ require e2fsprogs.inc
  
--
- SRC_URI = "ftp://ftp.infradead.org/pub/util-linux/v${MAJOR_VERSION}/util-linux-${PV}.tar.bz2 \
-            file://MCONFIG \
-            file://swapargs.h \
-@@ -30,11 +29,14 @@ PACKAGES =+ "util-linux-agetty util-linux-fdisk util-linux-cfdisk util-linux-sfd
-              util-linux-mount util-linux-readprofile util-linux-libblkid \
-              util-linux-libblkid-dev util-linux-libuuid util-linux-libuuid-dev \
-              util-linux-uuidgen util-linux-lscpu util-linux-fsck util-linux-blkid \
--	     util-linux-chkdupexe util-linux-mkfs util-linux-mcookie"
-+             util-linux-chkdupexe util-linux-mkfs util-linux-mcookie"
+-PR = "r3"
++PR = "r4"
  
--EXTRA_OECONF = "--disable-use-tty-group --disable-makeinstall-chown --enable-elvtune --enable-init --enable-kill --enable-last \
-- --enable-mesg --enable-partx --enable-raw --enable-rdev --enable-reset \
--  --disable-login-utils --enable-write --enable-arch --enable-mount --with-fsprobe=builtin --enable-libuuid --enable-libblkid --enable-fsck"
-+EXTRA_OECONF = "--libdir=${base_libdir} --disable-use-tty-group \
-+                --disable-makeinstall-chown --enable-elvtune --enable-init \
-+                --enable-kill --enable-last --enable-mesg --enable-partx \
-+                --enable-raw --enable-rdev --enable-reset --disable-login-utils \
-+                --enable-write --enable-arch --enable-mount --with-fsprobe=builtin \
-+                --enable-libuuid --enable-libblkid --enable-fsck"
+ SRC_URI += "file://quotefix.patch \
+             file://acinclude.m4"
+@@ -11,9 +11,9 @@ SRC_URI[sha256sum] = "3f8ac1fedd7c4bec480afcbe4acabdd4ac59ec0446a0fd50c8975cd0aa
  
- FILES_${PN}-doc += "${datadir}/getopt/getopt-*.*"
+ PARALLEL_MAKE = ""
  
-@@ -50,10 +52,10 @@ FILES_util-linux-umount = "${base_bindir}/umount.${PN}"
- FILES_util-linux-readprofile = "${base_sbindir}/readprofile.${PN}"
- FILES_util-linux-uuidgen = "${bindir}/uuidgen"
+-EXTRA_OECONF += " --sbindir=${base_sbindir} --enable-elf-shlibs --disable-libuuid --disable-uuidd"
+-EXTRA_OECONF_darwin = "--sbindir=${base_sbindir} --enable-bsd-shlibs"
+-EXTRA_OECONF_darwin8 = "--sbindir=${base_sbindir} --enable-bsd-shlibs"
++EXTRA_OECONF += "--libdir=${base_libdir} --sbindir=${base_sbindir} --enable-elf-shlibs --disable-libuuid --disable-uuidd"
++EXTRA_OECONF_darwin = "--libdir=${base_libdir} --sbindir=${base_sbindir} --enable-bsd-shlibs"
++EXTRA_OECONF_darwin8 = "--libdir=${base_libdir} --sbindir=${base_sbindir} --enable-bsd-shlibs"
  
--FILES_util-linux-libblkid = "${libdir}/libblkid.so.*"
--FILES_util-linux-libblkid-dev = "${libdir}/libblkid.so ${libdir}/libblkid.a ${libdir}/libblkid.la ${includedir}/blkid"
--FILES_util-linux-libuuid = "${libdir}/libuuid.so.*"
--FILES_util-linux-libuuid-dev = "${libdir}/libuuid.so ${libdir}/libuuid.a ${libdir}/libuuid.la ${includedir}/uuid"
-+FILES_util-linux-libblkid = "${base_libdir}/libblkid.so.*"
-+FILES_util-linux-libblkid-dev = "${base_libdir}/libblkid.so ${base_libdir}/libblkid.a ${base_libdir}/libblkid.la ${includedir}/blkid"
-+FILES_util-linux-libuuid = "${base_libdir}/libuuid.so.*"
-+FILES_util-linux-libuuid-dev = "${base_libdir}/libuuid.so ${base_libdir}/libuuid.a ${base_libdir}/libuuid.la ${includedir}/uuid"
- FILES_util-linux-lscpu = "${bindir}/lscpu"
+ do_configure_prepend () {
+ 	cp ${WORKDIR}/acinclude.m4 ${S}/
+@@ -28,9 +28,16 @@ do_install () {
+ 	oe_runmake 'DESTDIR=${D}' install
+ 	oe_runmake 'DESTDIR=${D}' install-libs
+ 	# We use blkid from util-linux now so remove from here
+-	rm -f ${D}${libdir}/libblkid*
++	rm -f ${D}${base_libdir}/libblkid*
+ 	rm -rf ${D}${includedir}/blkid
+-	rm -f ${D}${libdir}/pkgconfig/blkid.pc
++	rm -f ${D}${base_libdir}/pkgconfig/blkid.pc
++}
++
++do_install_append () {
++	# e2initrd_helper and the pkgconfig files belong in libdir
++	install -d ${D}${libdir}
++	mv ${D}${base_libdir}/e2initrd_helper ${D}${libdir}
++	mv ${D}${base_libdir}/pkgconfig ${D}${libdir}
+ }
  
- FILES_util-linux-fsck = "${base_sbindir}/fsck*"
-diff --git a/meta/recipes-core/util-linux/util-linux_2.20.1.bb b/meta/recipes-core/util-linux/util-linux_2.20.1.bb
-index a569131..aa2c6ff 100644
---- a/meta/recipes-core/util-linux/util-linux_2.20.1.bb
-+++ b/meta/recipes-core/util-linux/util-linux_2.20.1.bb
-@@ -1,5 +1,5 @@
- MAJOR_VERSION = "2.20"
--PR = "r0"
-+PR = "r1"
- require util-linux.inc
+ # blkid used to be part of e2fsprogs but is useful outside, add it
+@@ -47,10 +54,10 @@ FILES_e2fsprogs-e2fsck = "${base_sbindir}/e2fsck ${base_sbindir}/fsck.ext*"
+ FILES_e2fsprogs-mke2fs = "${base_sbindir}/mke2fs ${base_sbindir}/mkfs.ext* ${sysconfdir}/mke2fs.conf"
+ FILES_e2fsprogs-tune2fs = "${base_sbindir}/tune2fs ${base_sbindir}/e2label ${base_sbindir}/findfs"
+ FILES_e2fsprogs-badblocks = "${base_sbindir}/badblocks"
+-FILES_libcomerr = "${libdir}/libcom_err.so.*"
+-FILES_libss = "${libdir}/libss.so.*"
+-FILES_libe2p = "${libdir}/libe2p.so.*"
+-FILES_libext2fs = "${libdir}/e2initrd_helper ${libdir}/libext2fs.so.*"
+-FILES_${PN}-dev += "${datadir}/*/*.awk ${datadir}/*/*.sed"
++FILES_libcomerr = "${base_libdir}/libcom_err.so.*"
++FILES_libss = "${base_libdir}/libss.so.*"
++FILES_libe2p = "${base_libdir}/libe2p.so.*"
++FILES_libext2fs = "${base_libdir}/e2initrd_helper ${libdir}/libext2fs.so.*"
++FILES_${PN}-dev += "${datadir}/*/*.awk ${datadir}/*/*.sed ${base_libdir}/*.so"
  
- # note that `lscpu' is under GPLv3+
+ BBCLASSEXTEND = "native"
 -- 
 1.7.5.4
 
