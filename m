@@ -1,34 +1,59 @@
-Received: from mail-gx0-f175.google.com ([209.85.161.175])
+Received: from db3ehsobe005.messaging.microsoft.com ([213.199.154.143]
+	helo=DB3EHSOBE005.bigfish.com)
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <kergoth@gmail.com>) id 1RiVF9-0007kA-O0
+	(envelope-from <B29882@freescale.com>) id 1RiVGp-0007oD-Uf
 	for openembedded-core@lists.openembedded.org;
-	Wed, 04 Jan 2012 19:07:19 +0100
-Received: by ggnh1 with SMTP id h1so10411996ggn.6
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 04 Jan 2012 09:59:57 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
-	h=from:to:subject:date:message-id:x-mailer;
-	bh=hyEavl/Fr5FhgixqeQuRlT9B2xEo1qIrDfJfMRUTteU=;
-	b=W0A1NAscBjfkpC9/+o2wNJ6tNmz86WfX2oUSuZK0VoHbveHKH/2j0coIVBNZ3Mo37+
-	z0p88miVSYsBIGTYOdxe07GFvYrDz/VpU1MoQbYFHMg9/D5ZYZBTHj6Cq/SFEbkzcQUg
-	g+q4CwTuIBR37PdzJW/IL/SL5vAuYggo+lWAE=
-Received: by 10.50.214.39 with SMTP id nx7mr7661199igc.6.1325699997358;
-	Wed, 04 Jan 2012 09:59:57 -0800 (PST)
-Received: from localhost.localdomain (ip24-251-167-38.ph.ph.cox.net.
-	[24.251.167.38])
-	by mx.google.com with ESMTPS id r5sm83084319igl.3.2012.01.04.09.59.55
-	(version=TLSv1/SSLv3 cipher=OTHER);
-	Wed, 04 Jan 2012 09:59:56 -0800 (PST)
-From: Christopher Larson <kergoth@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Date: Wed,  4 Jan 2012 11:00:00 -0700
-Message-Id: <1325700000-7646-1-git-send-email-kergoth@gmail.com>
-X-Mailer: git-send-email 1.7.8.1
-Subject: [PATCH] opkg-utils: use /usr/bin/env python
+	Wed, 04 Jan 2012 19:09:04 +0100
+Received: from mail89-db3-R.bigfish.com (10.3.81.250) by
+	DB3EHSOBE005.bigfish.com (10.3.84.25) with Microsoft SMTP Server id
+	14.1.225.23; Wed, 4 Jan 2012 17:46:31 +0000
+Received: from mail89-db3 (localhost [127.0.0.1])	by mail89-db3-R.bigfish.com
+	(Postfix) with ESMTP id 83150260271	for
+	<openembedded-core@lists.openembedded.org>;
+	Wed,  4 Jan 2012 17:46:31 +0000 (UTC)
+X-SpamScore: -10
+X-BigFish: VS-10(zz9371I936eK1432N98dKzz1202hzz8275bh8275dhz2dh2a8h668h839h8e2h8e3hbe9k)
+X-Forefront-Antispam-Report: CIP:70.37.183.190; KIP:(null); UIP:(null); IPV:NLI;
+	H:mail.freescale.net; RD:none; EFVD:NLI
+X-FB-SS: 0,13,
+Received: from mail89-db3 (localhost.localdomain [127.0.0.1]) by mail89-db3
+	(MessageSwitch) id 1325699191384625_28278;
+	Wed,  4 Jan 2012 17:46:31 +0000 (UTC)
+Received: from DB3EHSMHS001.bigfish.com (unknown [10.3.81.247])	by
+	mail89-db3.bigfish.com (Postfix) with ESMTP id 58FEB80047	for
+	<openembedded-core@lists.openembedded.org>;
+	Wed,  4 Jan 2012 17:46:31 +0000 (UTC)
+Received: from mail.freescale.net (70.37.183.190) by DB3EHSMHS001.bigfish.com
+	(10.3.87.101) with Microsoft SMTP Server (TLS) id 14.1.225.23;
+	Wed, 4 Jan 2012 17:46:30 +0000
+Received: from 039-SN1MPN1-002.039d.mgd.msft.net ([169.254.2.86]) by
+	039-SN1MMR1-003.039d.mgd.msft.net ([10.84.1.16]) with mapi id
+	14.01.0355.003; Wed, 4 Jan 2012 11:46:17 -0600
+From: McClintock Matthew-B29882 <B29882@freescale.com>
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Thread-Topic: [OE-core] [PATCH 1/2] linux-tools: add binutils to perf DEPENDS
+Thread-Index: AQHMyv56pd2mJyYhX06Wx9EAgv0xIZX82TAAgAAG0QA=
+Date: Wed, 4 Jan 2012 17:46:16 +0000
+Message-ID: <CAEsOVNf8Zz6jkvnHefTqtpX4idf3R8AsOucRz6stqz9Uk2XcOA@mail.gmail.com>
+References: <cover.1325640149.git.josh@linux.intel.com>
+	<a8eea7c83f33f5d5eab1e2758a88f3ee140e68a1.1325640149.git.josh@linux.intel.com>
+	<CAEsOVNdi_no+UZ9uigiM_U8BLwUDES=02bwdPKT7A+YGH7KqNg@mail.gmail.com>
+	<1325697690.20759.41.camel@ted>
+In-Reply-To: <1325697690.20759.41.camel@ted>
+Accept-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [99.47.177.27]
+MIME-Version: 1.0
+X-OriginatorOrg: freescale.com
+Cc: McClintock Matthew-B29882 <B29882@freescale.com>
+Subject: Re: [PATCH 1/2] linux-tools: add binutils to perf DEPENDS
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
-Reply-To: Patches and discussions about the oe-core layer
+Reply-To: McClintock Matthew-B29882 <B29882@freescale.com>,
+	Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
 List-Id: Patches and discussions about the oe-core layer
 	<openembedded-core.lists.openembedded.org>
@@ -39,89 +64,54 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 04 Jan 2012 18:07:19 -0000
+X-List-Received-Date: Wed, 04 Jan 2012 18:09:04 -0000
+Content-Language: en-US
+Content-Type: text/plain; charset="iso-8859-1"
+Content-ID: <F05564F6DEA9BD4EBE35317BCE68A281@freescale.net>
+Content-Transfer-Encoding: quoted-printable
 
-Signed-off-by: Christopher Larson <kergoth@gmail.com>
----
- .../opkg-utils/opkg-utils/shebang.patch            |   46 ++++++++++++++++++++
- meta/recipes-devtools/opkg-utils/opkg-utils_svn.bb |    3 +-
- 2 files changed, 48 insertions(+), 1 deletions(-)
- create mode 100644 meta/recipes-devtools/opkg-utils/opkg-utils/shebang.patch
+On Wed, Jan 4, 2012 at 11:21 AM, Richard Purdie
+<richard.purdie@linuxfoundation.org> wrote:
+> On Wed, 2012-01-04 at 16:32 +0000, McClintock Matthew-B29882 wrote:
+>> On Tue, Jan 3, 2012 at 7:31 PM, Joshua Lock <josh@linux.intel.com> wrote=
+:
+>> > We have witnessed non-deterministic failures of perf for some platform=
+s
+>> > whilst looking for bfd.h, a header provided by binutils.
+>> >
+>> > Signed-off-by: Joshua Lock <josh@linux.intel.com>
+>> > ---
+>> > =A0meta/recipes-kernel/linux/linux-tools.inc | =A0 =A02 +-
+>> > =A01 files changed, 1 insertions(+), 1 deletions(-)
+>> >
+>> > diff --git a/meta/recipes-kernel/linux/linux-tools.inc b/meta/recipes-=
+kernel/linux/linux-tools.inc
+>> > index 950f197..aa45dba 100644
+>> > --- a/meta/recipes-kernel/linux/linux-tools.inc
+>> > +++ b/meta/recipes-kernel/linux/linux-tools.inc
+>> > @@ -22,7 +22,7 @@ addtask install_perf after do_install before do_pack=
+age
+>> > =A0do_compile_perf[umask] =3D 022
+>> > =A0do_install_perf[umask] =3D 022
+>> >
+>> > -PERFDEPENDS =3D "virtual/${MLPREFIX}libc:do_populate_sysroot ${MLPREF=
+IX}elfutils:do_populate_sysroot"
+>> > +PERFDEPENDS =3D "virtual/${MLPREFIX}libc:do_populate_sysroot ${MLPREF=
+IX}elfutils:do_populate_sysroot ${MLPREFIX}binutils:do_populate_sysroot"
+>>
+>> Does this build the rpm for binutils too? I've seen the following
+>> error recently when creating the rfs:
+>>
+>> | error: Failed dependencies:
+>> | =A0 =A0 binutils >=3D 2.21.1a is needed by perf-3.0.6-r2.p3060qds
+>> | =A0 =A0 libbfd-2.21.1.so is needed by perf-3.0.6-r2.p3060qds
+>
+> I suspect the patch is not enough to fix this...
 
-diff --git a/meta/recipes-devtools/opkg-utils/opkg-utils/shebang.patch b/meta/recipes-devtools/opkg-utils/opkg-utils/shebang.patch
-new file mode 100644
-index 0000000..f6a2ef9
---- /dev/null
-+++ b/meta/recipes-devtools/opkg-utils/opkg-utils/shebang.patch
-@@ -0,0 +1,46 @@
-+Use python via the PATH, rather than hardcoding /usr/bin/python
-+
-+Upstream-Status: Pending
-+
-+Signed-off-by: Christopher Larson <kergoth@gmail.com>
-+
-+--- opkg-utils.orig/opkg-list-fields
-++++ opkg-utils/opkg-list-fields
-+@@ -1,4 +1,4 @@
-+-#!/usr/bin/python
-++#!/usr/bin/env python
-+ 
-+ import sys, opkg
-+ 
-+--- opkg-utils.orig/opkg-make-index
-++++ opkg-utils/opkg-make-index
-+@@ -1,4 +1,4 @@
-+-#!/usr/bin/python
-++#!/usr/bin/env python
-+ 
-+ import sys, os, posixpath
-+ from glob import glob
-+--- opkg-utils.orig/opkg-show-deps
-++++ opkg-utils/opkg-show-deps
-+@@ -1,4 +1,4 @@
-+-#!/usr/bin/python
-++#!/usr/bin/env python
-+ 
-+ import sys, os, posixpath
-+ from glob import glob
-+--- opkg-utils.orig/opkg-unbuild
-++++ opkg-utils/opkg-unbuild
-+@@ -1,4 +1,4 @@
-+-#!/usr/bin/python
-++#!/usr/bin/env python
-+ 
-+ import sys, os, re
-+ 
-+--- opkg-utils.orig/opkg-update-index
-++++ opkg-utils/opkg-update-index
-+@@ -1,4 +1,4 @@
-+-#!/usr/bin/env python2.1
-++#!/usr/bin/env python
-+ 
-+ import sys, os
-+ from glob import glob
-diff --git a/meta/recipes-devtools/opkg-utils/opkg-utils_svn.bb b/meta/recipes-devtools/opkg-utils/opkg-utils_svn.bb
-index 9b94aff..9702131 100644
---- a/meta/recipes-devtools/opkg-utils/opkg-utils_svn.bb
-+++ b/meta/recipes-devtools/opkg-utils/opkg-utils_svn.bb
-@@ -8,13 +8,14 @@ RDEPENDS_${PN} = "python"
- RDEPENDS_${PN}_virtclass-native = ""
- SRCREV = "4747"
- PV = "0.1.8+svnr${SRCPV}"
--PR = "r6"
-+PR = "r7"
- 
- SRC_URI = "svn://svn.openmoko.org/trunk/src/host/;module=opkg-utils;proto=http \
-            file://index-ignore-filenotfound.patch \
-            file://mtime-int.patch \
-            file://add-license-field.patch \
-            file://arfile_header_split.patch \
-+           file://shebang.patch \
-            "
- 
- S = "${WORKDIR}/opkg-utils"
--- 
-1.7.8.1
+The error went away after adding this, but I'm not 100% the rpm's
+where not available the next time regardless of this patch.
+
+-M=
 
 
 
