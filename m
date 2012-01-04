@@ -1,39 +1,22 @@
-Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
-	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <richard.purdie@linuxfoundation.org>)
-	id 1RiUIC-0005s4-PD for openembedded-core@lists.openembedded.org;
-	Wed, 04 Jan 2012 18:06:27 +0100
-Received: from localhost (localhost [127.0.0.1])
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q04Gx3Jd021921
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 4 Jan 2012 16:59:03 GMT
-Received: from tim.rpsys.net ([127.0.0.1])
-	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
-	port 10024) with LMTP
-	id 21648-05 for <openembedded-core@lists.openembedded.org>;
-	Wed,  4 Jan 2012 16:58:59 +0000 (GMT)
-Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q04Gwuqk021913
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO)
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 4 Jan 2012 16:58:57 GMT
-Message-ID: <1325696336.20759.37.camel@ted>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
+Received: from mail.pbcl.net ([88.198.119.4] helo=hetzner.pbcl.net)
+	by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <philb@gnu.org>) id 1RiUSu-00066n-L9
+	for openembedded-core@lists.openembedded.org;
+	Wed, 04 Jan 2012 18:17:28 +0100
+Received: from elite.brightsigndigital.co.uk ([81.142.160.137]
+	helo=[172.30.1.145])
+	by hetzner.pbcl.net with esmtpsa (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+	(Exim 4.72) (envelope-from <philb@gnu.org>) id 1RiULo-0002Pf-Vc
+	for openembedded-core@lists.openembedded.org;
+	Wed, 04 Jan 2012 18:10:09 +0100
+From: Phil Blundell <philb@gnu.org>
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Date: Wed, 04 Jan 2012 16:58:56 +0000
-In-Reply-To: <1325696004.28005.80.camel@phil-desktop>
-References: <1325689535.28005.59.camel@phil-desktop>
-	<1325691189.20759.14.camel@ted>
-	<CAEsOVNcsY-dNYBz1Y6BVAQ-N7hVyaxOMcsniev9z455m9GYh5A@mail.gmail.com>
-	<CABcZANmEZ6Oy6q7gL2WCCtphSA7fEHJsM0dre0tNpXvPdn2crQ@mail.gmail.com>
-	<1325695277.28005.76.camel@phil-desktop>
-	<1325695637.20759.32.camel@ted>
-	<1325696004.28005.80.camel@phil-desktop>
-X-Mailer: Evolution 3.2.2- 
+Date: Wed, 04 Jan 2012 17:10:08 +0000
+X-Mailer: Evolution 3.0.2- 
+Message-ID: <1325697008.28005.84.camel@phil-desktop>
 Mime-Version: 1.0
-X-Virus-Scanned: amavisd-new at rpsys.net
-Subject: Re: sstate compression
+Subject: Re: [PATCH] python-native: correct prefix handling for oe-core sysroot layout
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -48,40 +31,102 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 04 Jan 2012 17:06:27 -0000
+X-List-Received-Date: Wed, 04 Jan 2012 17:17:28 -0000
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 
-On Wed, 2012-01-04 at 16:53 +0000, Phil Blundell wrote:
-> On Wed, 2012-01-04 at 16:47 +0000, Richard Purdie wrote:
-> > Just to note that looking for multiple versions can cause a fair bit of
-> > network traffic as for http:// mirror urls it will have to wget each in
-> > turn.
-> 
-> True, though I suppose if the fetching was to be moved into python
-> (rather than an external wget) then it would just be repeated GETs over
-> a single persistent connection which wouldn't be all that much overhead.
-> And, even with non-persistent connections, the amount of data involved
-> in establishing an extra TCP connection and sending a GET is fairly
-> negligible compared to the size of the download you're going to end up
-> doing.
+Don't try to guess a path based on ${HOST_SYS} since this is not where the
+files in the sysroot are likely to be.  Instead, just use the "plat_specific"
+approach of taking STAGING_INCDIR and knocking off the trailing "/include" for
+all cases.  This is still evidently suboptimal but does at least seem to give
+the correct results.
 
-The sstate code currently calls into the fetcher code so this would be
-best as a fetcher enhancement but it complicates it as it would have the
-be general code.
+Signed-off-by: Phil Blundell <philb@gnu.org>
+---
+v2: python 2.7.2 not python 2.6.6
 
-> >Better would be one file name and dynamic detection of the
-> >compression format I guess.
-> 
-> Yes, or that.  It's a shame that "tar -a" doesn't have the capability to
-> determine the compression method using magic numbers instead of the
-> filename.
+ ...2-distutils-prefix-is-inside-staging-area.patch |   22 ++++++++-----------
+ .../recipes-devtools/python/python-native_2.7.2.bb |    2 +-
+ 2 files changed, 10 insertions(+), 14 deletions(-)
 
-Indeed...
+diff --git a/meta/recipes-devtools/python/python-native/12-distutils-prefix-is-inside-staging-area.patch b/meta/recipes-devtools/python/python-native/12-distutils-prefix-is-inside-staging-area.patch
+index 8e721fe..b46caf6 100644
+--- a/meta/recipes-devtools/python/python-native/12-distutils-prefix-is-inside-staging-area.patch
++++ b/meta/recipes-devtools/python/python-native/12-distutils-prefix-is-inside-staging-area.patch
+@@ -2,12 +2,11 @@ Upstream-Status: Inappropriate [embedded specific]
+ 
+ # The proper prefix is inside our staging area.
+ # Signed-Off: Michael 'Mickey' Lauer <mickey@vanille-media.de>
++# Signed-off-by: Phil Blundell <philb@gnu.org>
+ 
+-Index: Python-2.6.6/Lib/distutils/sysconfig.py
+-===================================================================
+---- Python-2.6.6.orig/Lib/distutils/sysconfig.py
+-+++ Python-2.6.6/Lib/distutils/sysconfig.py
+-@@ -19,8 +19,8 @@ import sys
++--- Python-2.6.6/Lib/distutils/sysconfig.py.orig	2012-01-03 14:02:03.027005296 +0000
+++++ Python-2.6.6/Lib/distutils/sysconfig.py	2012-01-03 14:02:31.517601081 +0000
++@@ -19,8 +19,8 @@
+  from distutils.errors import DistutilsPlatformError
+  
+  # These are needed in a couple of spots, so just compute them once.
+@@ -18,19 +17,16 @@ Index: Python-2.6.6/Lib/distutils/sysconfig.py
+  
+  # Path to the base directory of the project. On Windows the binary may
+  # live in project/PCBuild9.  If we're dealing with an x64 Windows build,
+-@@ -70,7 +70,10 @@ def get_python_inc(plat_specific=0, pref
++@@ -70,7 +70,7 @@
+      sys.exec_prefix -- i.e., ignore 'plat_specific'.
+      """
+      if prefix is None:
+ -        prefix = plat_specific and EXEC_PREFIX or PREFIX
+-+        if plat_specific:
+-+            prefix = plat_specific and os.environ['STAGING_INCDIR'].rstrip('include')
+-+        else:
+-+            prefix = plat_specific and EXEC_PREFIX or PREFIX
+++        prefix = os.environ['STAGING_INCDIR'].rstrip('include')
+  
+      if os.name == "posix":
+          if python_build:
+-@@ -115,12 +118,16 @@ def get_python_lib(plat_specific=0, stan
++@@ -115,12 +115,16 @@
+      If 'prefix' is supplied, use it instead of sys.prefix or
+      sys.exec_prefix -- i.e., ignore 'plat_specific'.
+      """
+@@ -49,7 +45,7 @@ Index: Python-2.6.6/Lib/distutils/sysconfig.py
+          if standard_lib:
+              return libpython
+          else:
+-@@ -216,7 +223,7 @@ def get_config_h_filename():
++@@ -216,7 +220,7 @@
+      else:
+          # The name of the config.h file changed in 2.2
+          config_h = 'pyconfig.h'
+@@ -58,7 +54,7 @@ Index: Python-2.6.6/Lib/distutils/sysconfig.py
+  
+  
+  def get_makefile_filename():
+-@@ -225,7 +232,7 @@ def get_makefile_filename():
++@@ -225,7 +229,7 @@
+          return os.path.join(os.path.dirname(os.path.realpath(sys.executable)),
+                              "Makefile")
+      lib_dir = get_python_lib(plat_specific=1, standard_lib=1)
+diff --git a/meta/recipes-devtools/python/python-native_2.7.2.bb b/meta/recipes-devtools/python/python-native_2.7.2.bb
+index 7d8c597..8bf736d 100644
+--- a/meta/recipes-devtools/python/python-native_2.7.2.bb
++++ b/meta/recipes-devtools/python/python-native_2.7.2.bb
+@@ -1,6 +1,6 @@
+ require python.inc
+ DEPENDS = "openssl-native bzip2-full-native zlib-native readline-native sqlite3-native"
+-PR = "${INC_PR}.2"
++PR = "${INC_PR}.3"
+ 
+ SRC_URI += "file://04-default-is-optimized.patch \
+            file://05-enable-ctypes-cross-build.patch \
+-- 
+1.7.4.1
 
-Cheers,
 
-Richard
 
 
 
