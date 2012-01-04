@@ -1,56 +1,36 @@
-Received: from am1ehsobe004.messaging.microsoft.com ([213.199.154.207]
-	helo=AM1EHSOBE004.bigfish.com)
-	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <B29882@freescale.com>) id 1RiTsl-0004WY-9M
-	for openembedded-core@lists.openembedded.org;
-	Wed, 04 Jan 2012 17:40:07 +0100
-Received: from mail37-am1-R.bigfish.com (10.3.201.247) by
-	AM1EHSOBE004.bigfish.com (10.3.204.24) with Microsoft SMTP Server id
-	14.1.225.23; Wed, 4 Jan 2012 16:32:45 +0000
-Received: from mail37-am1 (localhost [127.0.0.1])	by mail37-am1-R.bigfish.com
-	(Postfix) with ESMTP id 689954401E8	for
-	<openembedded-core@lists.openembedded.org>;
-	Wed,  4 Jan 2012 16:32:45 +0000 (UTC)
-X-SpamScore: -7
-X-BigFish: VS-7(zz9371I1432N98dKzz1202hzz8275bhz2dh2a8h668h839h8e2h8e3hbe9k)
-X-Forefront-Antispam-Report: CIP:70.37.183.190; KIP:(null); UIP:(null); IPV:NLI;
-	H:mail.freescale.net; RD:none; EFVD:NLI
-X-FB-SS: 13,
-Received: from mail37-am1 (localhost.localdomain [127.0.0.1]) by mail37-am1
-	(MessageSwitch) id 1325694765249673_5095;
-	Wed,  4 Jan 2012 16:32:45 +0000 (UTC)
-Received: from AM1EHSMHS014.bigfish.com (unknown [10.3.201.248])	by
-	mail37-am1.bigfish.com (Postfix) with ESMTP id 375AF300054	for
-	<openembedded-core@lists.openembedded.org>;
-	Wed,  4 Jan 2012 16:32:45 +0000 (UTC)
-Received: from mail.freescale.net (70.37.183.190) by AM1EHSMHS014.bigfish.com
-	(10.3.207.152) with Microsoft SMTP Server (TLS) id 14.1.225.23;
-	Wed, 4 Jan 2012 16:32:43 +0000
-Received: from 039-SN1MPN1-002.039d.mgd.msft.net ([169.254.2.86]) by
-	039-SN1MMR1-003.039d.mgd.msft.net ([10.84.1.16]) with mapi id
-	14.01.0355.003; Wed, 4 Jan 2012 10:32:42 -0600
-From: McClintock Matthew-B29882 <B29882@freescale.com>
+Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
+	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <richard.purdie@linuxfoundation.org>)
+	id 1RiTt6-0004Yf-CD for openembedded-core@lists.openembedded.org;
+	Wed, 04 Jan 2012 17:40:28 +0100
+Received: from localhost (localhost [127.0.0.1])
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q04GX5Qn021201;
+	Wed, 4 Jan 2012 16:33:05 GMT
+Received: from tim.rpsys.net ([127.0.0.1])
+	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
+	port 10024) with LMTP
+	id 20732-08; Wed,  4 Jan 2012 16:32:56 +0000 (GMT)
+Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q04GWn4j021137
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO);
+	Wed, 4 Jan 2012 16:32:50 GMT
+Message-ID: <1325694769.20759.27.camel@ted>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Thread-Topic: [OE-core] [PATCH 1/2] linux-tools: add binutils to perf DEPENDS
-Thread-Index: AQHMyv56pd2mJyYhX06Wx9EAgv0xIQ==
-Date: Wed, 4 Jan 2012 16:32:41 +0000
-Message-ID: <CAEsOVNdi_no+UZ9uigiM_U8BLwUDES=02bwdPKT7A+YGH7KqNg@mail.gmail.com>
-References: <cover.1325640149.git.josh@linux.intel.com>
-	<a8eea7c83f33f5d5eab1e2758a88f3ee140e68a1.1325640149.git.josh@linux.intel.com>
-In-Reply-To: <a8eea7c83f33f5d5eab1e2758a88f3ee140e68a1.1325640149.git.josh@linux.intel.com>
-Accept-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [99.47.177.27]
-MIME-Version: 1.0
-X-OriginatorOrg: freescale.com
-Subject: Re: [PATCH 1/2] linux-tools: add binutils to perf DEPENDS
+Date: Wed, 04 Jan 2012 16:32:49 +0000
+In-Reply-To: <4F047D08.6040900@linux.intel.com>
+References: <cover.1325115066.git.dvhart@linux.intel.com>
+	<4F039FA4.6000709@linux.intel.com> <4F047D08.6040900@linux.intel.com>
+X-Mailer: Evolution 3.2.2- 
+Mime-Version: 1.0
+X-Virus-Scanned: amavisd-new at rpsys.net
+Cc: koen@dominion.thruhere.net, martin.jansa@gmail.com
+Subject: Re: [PATCH 0/4] Fixes for tiny distros and linux-yocto-tiny
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
-Reply-To: McClintock Matthew-B29882 <B29882@freescale.com>,
-	Patches and discussions about the oe-core layer
+Reply-To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
 List-Id: Patches and discussions about the oe-core layer
 	<openembedded-core.lists.openembedded.org>
@@ -61,43 +41,73 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 04 Jan 2012 16:40:07 -0000
-Content-Language: en-US
-Content-Type: text/plain; charset="iso-8859-1"
-Content-ID: <A892ACBCEDF0474CBF6564D8A9C59A99@freescale.net>
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Wed, 04 Jan 2012 16:40:28 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-On Tue, Jan 3, 2012 at 7:31 PM, Joshua Lock <josh@linux.intel.com> wrote:
-> We have witnessed non-deterministic failures of perf for some platforms
-> whilst looking for bfd.h, a header provided by binutils.
->
-> Signed-off-by: Joshua Lock <josh@linux.intel.com>
-> ---
-> =A0meta/recipes-kernel/linux/linux-tools.inc | =A0 =A02 +-
-> =A01 files changed, 1 insertions(+), 1 deletions(-)
->
-> diff --git a/meta/recipes-kernel/linux/linux-tools.inc b/meta/recipes-ker=
-nel/linux/linux-tools.inc
-> index 950f197..aa45dba 100644
-> --- a/meta/recipes-kernel/linux/linux-tools.inc
-> +++ b/meta/recipes-kernel/linux/linux-tools.inc
-> @@ -22,7 +22,7 @@ addtask install_perf after do_install before do_package
-> =A0do_compile_perf[umask] =3D 022
-> =A0do_install_perf[umask] =3D 022
->
-> -PERFDEPENDS =3D "virtual/${MLPREFIX}libc:do_populate_sysroot ${MLPREFIX}=
-elfutils:do_populate_sysroot"
-> +PERFDEPENDS =3D "virtual/${MLPREFIX}libc:do_populate_sysroot ${MLPREFIX}=
-elfutils:do_populate_sysroot ${MLPREFIX}binutils:do_populate_sysroot"
+On Wed, 2012-01-04 at 08:23 -0800, Darren Hart wrote:
+> 
+> On 01/03/2012 04:39 PM, Saul Wold wrote:
+> > On 12/28/2011 03:38 PM, Darren Hart wrote:
+> >> In preparation for defining a poky-tiny distribution for meta-yocto, I found
+> >> I needed the following patches. They mostly enable finer grained configuration
+> >> of dependencies and allow for building without widechar support.
+> >>
+> >>
+> >> The linux-yocVto-tiny recipe isn't poky-tiny specific and could be of use to
+> >> others, so I opted to keep it with the other linux-yocto recipes. It is a
+> >> placeholder until the linux-yocto_3.2 recipes are ready for oe-core. At that
+> >> time, linux-yocto-tiny will drop all config fragments in favor of the
+> >> to-be-in-tree versions and make use of a new yocto/standard/tiny/base branch.
+> >> For now, this recipe allows us to build a reasonably small kernel with fewer
+> >> dependencies.
+> >>
+> >> Thanks,
+> >>
+> >> Darren
+> >>
+> >>
+> >> The following changes since commit 8f348ccad083d6c02c200652ff6295e701e88f0d:
+> >>
+> >>    coreutils: ensure --color works so DEPEND on libcap (2011-12-24 10:05:35 +0000)
+> >>
+> >> are available in the git repository at:
+> >>    git://git.yoctoproject.org/user-contrib/dvhart/oe-core dvhart/tiny
+> >>    http://git.yoctoproject.org/cgit.cgi/user-contrib/dvhart/oe-core/log/?h=dvhart/tiny
+> >>
+> >> Darren Hart (3):
+> >>    eglibc: Only add eglibc-utils to PACKAGES if wchar is supported
+> > This patch was not taken at this time due to the comment on the Mailing List
+> > 
+> >>    linux-yocto-tiny: New kernel recipe for tiny distros
+> >>    task-core-boot: Allow DISTRO to disable keymaps via VIRTUAL-RUNTIME_keymaps
+> > These two were merged into OE-Core
+> > 
+> > 
+> >>
+> > 
+> >> Richard Purdie (1):
+> >>    native.bbclass: Fix variable remapping coverage
+> >>
+> > Richard rejected his own patch as being too much of WIP.
+> > 
+> 
+> OK, just so everyone understands, poky-tiny (merged to meta-yocto) will
+> not build until we come up with alternatives to the two patches above.
 
-Does this build the rpm for binutils too? I've seen the following
-error recently when creating the rfs:
+I rejected my own patch as it results in other build failures. I'm
+working on addressing that but fixing one thing properly is breaking
+other things and its a mess with changes like:
 
-| error: Failed dependencies:
-| 	binutils >=3D 2.21.1a is needed by perf-3.0.6-r2.p3060qds
-| 	libbfd-2.21.1.so is needed by perf-3.0.6-r2.p3060qds
+http://git.yoctoproject.org/cgit.cgi/poky-contrib/commit/?h=rpurdie/useradd5&id=3177faee7859f416da72d7d49ae05db5356fbdbd
 
--M=
+The first patch is a harder problem, I'm still trying to find something
+better way to address it. I did wonder if we could just disable nls
+entirely for tiny...
+
+Cheers,
+
+Richard
 
 
 
