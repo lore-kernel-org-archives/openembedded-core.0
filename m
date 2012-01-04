@@ -1,36 +1,31 @@
-Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
-	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <richard.purdie@linuxfoundation.org>)
-	id 1Ria02-000351-Jg for openembedded-core@lists.openembedded.org;
-	Thu, 05 Jan 2012 00:12:02 +0100
-Received: from localhost (localhost [127.0.0.1])
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q04N4dPc025654
+Received: from mail-pw0-f47.google.com ([209.85.160.47])
+	by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <andrea.adami@gmail.com>) id 1Riah7-00044O-S3
+	for openembedded-core@lists.openembedded.org;
+	Thu, 05 Jan 2012 00:56:34 +0100
+Received: by pbcc11 with SMTP id c11so680pbc.6
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 4 Jan 2012 23:04:39 GMT
-Received: from tim.rpsys.net ([127.0.0.1])
-	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
-	port 10024) with LMTP
-	id 25623-01 for <openembedded-core@lists.openembedded.org>;
-	Wed,  4 Jan 2012 23:04:35 +0000 (GMT)
-Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q04N4W2S025648
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO)
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 4 Jan 2012 23:04:33 GMT
-Message-ID: <1325718273.20759.49.camel@ted>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
+	Wed, 04 Jan 2012 15:49:07 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
+	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
+	:content-type:content-transfer-encoding;
+	bh=fUrFXK8clULsKMoADV/cCgwlxQNTFFpaTpln8mBFR/A=;
+	b=aNB6xRUzPKBJtDtWRRe/8mngF1rKiXgL7k/8v4+ZEaRo9bmZQb8+2UWaOYJOq4OsUc
+	H5rxWX5FsI55IJUX7W3mwW0i0BgheLM/JIw+MCC8hs1q78aRce28oIH1YOQGKT/E9NQD
+	fytzwPRB8rDWjqAuQE40iYOAJ3Y++HP03GpZo=
+MIME-Version: 1.0
+Received: by 10.68.189.163 with SMTP id gj3mr145102030pbc.86.1325720945963;
+	Wed, 04 Jan 2012 15:49:05 -0800 (PST)
+Received: by 10.142.213.7 with HTTP; Wed, 4 Jan 2012 15:49:05 -0800 (PST)
+In-Reply-To: <4F03982D.1080601@linux.intel.com>
+References: <fbed4e9f94ed9bd1bb5a9c8fa37113e325f89371.1325115602.git.dvhart@linux.intel.com>
+	<4EFBAC18.3040909@intel.com> <4F03982D.1080601@linux.intel.com>
+Date: Thu, 5 Jan 2012 00:49:05 +0100
+Message-ID: <CAAQYJAtWXeBqnf5OPWE4bpo87Uo454X8qDE7C_QEL7Pu3_k+_w@mail.gmail.com>
+From: Andrea Adami <andrea.adami@gmail.com>
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Date: Wed, 04 Jan 2012 23:04:33 +0000
-In-Reply-To: <45F2E71B-A037-400A-9B76-01700C2030D0@dominion.thruhere.net>
-References: <cover.1325101673.git.otavio@ossystems.com.br>
-	<a4ffb960e298bf423adcda013c5b58c1db2f6b48.1325101675.git.otavio@ossystems.com.br>
-	<1325697336.20759.40.camel@ted>
-	<45F2E71B-A037-400A-9B76-01700C2030D0@dominion.thruhere.net>
-X-Mailer: Evolution 3.2.2- 
-Mime-Version: 1.0
-X-Virus-Scanned: amavisd-new at rpsys.net
-Subject: Re: [PATCH 14/16] udev: run depmod if modules.dep doesn't exist
+Subject: Re: [PATCH] image_types: Ensure /init exists for cpio rootfs archives
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -45,47 +40,92 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 04 Jan 2012 23:12:02 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Wed, 04 Jan 2012 23:56:34 -0000
+Content-Type: text/plain; charset=ISO-8859-1
+Content-Transfer-Encoding: quoted-printable
 
-On Wed, 2012-01-04 at 19:51 +0100, Koen Kooi wrote:
-> Op 4 jan. 2012, om 18:15 heeft Richard Purdie het volgende geschreven:
-> 
-> > On Wed, 2011-12-28 at 19:55 +0000, Otavio Salvador wrote:
-> >> Signed-off-by: Otavio Salvador <otavio@ossystems.com.br>
-> >> ---
-> >> meta/recipes-core/udev/udev/init   |    5 +++++
-> >> meta/recipes-core/udev/udev_164.bb |    2 +-
-> >> 2 files changed, 6 insertions(+), 1 deletions(-)
-> >> 
-> >> diff --git a/meta/recipes-core/udev/udev/init b/meta/recipes-core/udev/udev/init
-> >> index 322e7e7..8d89d51 100644
-> >> --- a/meta/recipes-core/udev/udev/init
-> >> +++ b/meta/recipes-core/udev/udev/init
-> >> @@ -52,6 +52,11 @@ if [ "$DEVCACHE" != "" ]; then
-> >> 	fi
-> >> fi
-> >> 
-> >> +if [ -x /sbin/depmod ] && [ ! -e "/lib/modules/$(uname -r)"/modules.dep ]; then
-> >> +	mkdir -p /lib/modules/$(uname -r)
-> >> +	depmod -ae
-> >> +fi
-> >> +
-> >> # make_extra_nodes
-> >> kill_udevd > "/dev/null" 2>&1
-> > 
-> > Why does udev need to do this instead of the kernel module postinstalls?
-> > This strikes me as the wrong thing to be doing here...
-> 
-> Udev runs before those installs get run on first boot.
+On Wed, Jan 4, 2012 at 1:07 AM, Saul Wold <sgw@linux.intel.com> wrote:
+> On 12/28/2011 03:54 PM, Darren Hart wrote:
+>>
+>> <I sent this to the yocto list by mistake, forwarding here for comment>
+>>
+>> In order for the kernel to accept an initramfs as a rootfs,
+>> it must have /init - even if it is an empty file. Touch /init
+>> to ensure it exists for cpio and cpio.gz image types.
+>>
+>> When used with initrd and rootfs=3D/dev/ram0, this allows the
+>> cpio and cpio.gz images to be used as the rootfs.
+>>
+>> Signed-off-by: Darren Hart<dvhart@linux.intel.com>
+>> ---
+>> =A0meta/classes/image_types.bbclass | =A0 10 ++++++++--
+>> =A01 files changed, 8 insertions(+), 2 deletions(-)
+>>
+>> diff --git a/meta/classes/image_types.bbclass
+>> b/meta/classes/image_types.bbclass
+>> index 6893e38..ebff0ba 100644
+>> --- a/meta/classes/image_types.bbclass
+>> +++ b/meta/classes/image_types.bbclass
+>> @@ -110,8 +110,14 @@ IMAGE_CMD_tar =3D "cd ${IMAGE_ROOTFS}&& =A0tar -cvf
+>> ${DEPLOY_DIR_IMAGE}/${IMAGE_NAME
+>> =A0IMAGE_CMD_tar.gz =3D "cd ${IMAGE_ROOTFS}&& =A0tar -zcvf
+>> ${DEPLOY_DIR_IMAGE}/${IMAGE_NAME}.rootfs.tar.gz ."
+>> =A0IMAGE_CMD_tar.bz2 =3D "cd ${IMAGE_ROOTFS}&& =A0tar -jcvf
+>> ${DEPLOY_DIR_IMAGE}/${IMAGE_NAME}.rootfs.tar.bz2 ."
+>> =A0IMAGE_CMD_tar.xz =3D "cd ${IMAGE_ROOTFS}&& =A0tar --xz -cvf
+>> ${DEPLOY_DIR_IMAGE}/${IMAGE_NAME}.rootfs.tar.xz ."
+>> -IMAGE_CMD_cpio =3D "cd ${IMAGE_ROOTFS}&& =A0(find . | cpio -o -H
+>> newc>${DEPLOY_DIR_IMAGE}/${IMAGE_NAME}.rootfs.cpio)"
+>> -IMAGE_CMD_cpio.gz =3D "cd ${IMAGE_ROOTFS}&& =A0(find . | cpio -o -H new=
+c |
+>> gzip -c -9>${DEPLOY_DIR_IMAGE}/${IMAGE_NAME}.rootfs.cpio.gz)"
+>> +IMAGE_CMD_cpio () {
+>> + =A0 =A0 =A0 touch ${IMAGE_ROOTFS}/init
+>> + =A0 =A0 =A0 cd ${IMAGE_ROOTFS}&& =A0(find . | cpio -o -H
+>> newc>${DEPLOY_DIR_IMAGE}/${IMAGE_NAME}.rootfs.cpio)
+>> +}
+>> +IMAGE_CMD_cpio.gz () {
+>> + =A0 =A0 =A0 touch ${IMAGE_ROOTFS}/init
+>> + =A0 =A0 =A0 cd ${IMAGE_ROOTFS}&& =A0(find . | cpio -o -H newc | gzip -=
+c
+>> -9>${DEPLOY_DIR_IMAGE}/${IMAGE_NAME}.rootfs.cpio.gz)
+>> +}
+>> =A0IMAGE_CMD_cpio.xz =3D "type cpio>/dev/null; cd ${IMAGE_ROOTFS}&& =A0(=
+find . |
+>> cpio -o -H newc | xz -c ${XZ_COMPRESSION_LEVEL}
+>> --check=3D${XZ_INTEGRITY_CHECK}>
+>> =A0${DEPLOY_DIR_IMAGE}/${IMAGE_NAME}.rootfs.cpio.xz) ${EXTRA_IMAGECMD}"
+>> =A0IMAGE_CMD_cpio.lzma =3D "type cpio>/dev/null; cd ${IMAGE_ROOTFS}&& =
+=A0(find .
+>> | cpio -o -H newc | xz --format=3Dlzma -c ${XZ_COMPRESSION_LEVEL}
+>> --check=3D${XZ_INTEGRITY_CHECK}>${DEPLOY_DIR_IMAGE}/${IMAGE_NAME}.rootfs=
+.cpio.lzma)
+>> ${EXTRA_IMAGECMD}"
+>>
+>
+> This merged as is to OE-Core.
+>
+> Based on other emails, I will expect some update patch to address Andrea'=
+s
+> comments.
+>
+> Thanks
+> =A0 =A0 =A0 =A0Sau!
+>
+>
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
 
-but pkg_postinst_kernel-image from kernel.bbclass should be creating
-this at rootfs creation time?
+hm.. something is going wrong... permission denied
 
-Cheers,
 
-Richard
+touch: cannot touch
+`/oe/oe-core/build/tmp-eglibc/work/poodle-oe-linux-gnueabi/initramfs-kexecb=
+oot-klibc-image-1.0-r0/rootfs/init':
+Permission denied
 
+Andrea
 
 
