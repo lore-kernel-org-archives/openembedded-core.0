@@ -1,33 +1,39 @@
-Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
-	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <richard.purdie@linuxfoundation.org>)
-	id 1RiUe5-0006Sm-Kk for openembedded-core@lists.openembedded.org;
-	Wed, 04 Jan 2012 18:29:01 +0100
-Received: from localhost (localhost [127.0.0.1])
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q04HLcFq022384;
-	Wed, 4 Jan 2012 17:21:38 GMT
-Received: from tim.rpsys.net ([127.0.0.1])
-	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
-	port 10024) with LMTP
-	id 22223-03; Wed,  4 Jan 2012 17:21:34 +0000 (GMT)
-Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q04HLUGQ022378
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO);
-	Wed, 4 Jan 2012 17:21:31 GMT
-Message-ID: <1325697690.20759.41.camel@ted>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: McClintock Matthew-B29882 <B29882@freescale.com>, Patches and
-	discussions about the oe-core layer
+Received: from mail-iy0-f175.google.com ([209.85.210.175])
+	by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <raj.khem@gmail.com>) id 1RiUkR-0006dO-4N
+	for openembedded-core@lists.openembedded.org;
+	Wed, 04 Jan 2012 18:35:35 +0100
+Received: by iakh37 with SMTP id h37so29002278iak.6
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 04 Jan 2012 09:28:12 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
+	h=date:from:to:subject:message-id:references:mime-version
+	:content-type:content-disposition:in-reply-to:user-agent;
+	bh=bTqsLbJ/djcNLKRTqigkdQh6Gy4WDRV2ejw59FlBGqA=;
+	b=c5bq+DcG5X11OvI7Yq5CmDdBeS+bpp7aq8yildzrX6Y2PT/RaxTviQAF0W3eNOTxW0
+	6HFazmiO7GfIu1d3jAJpqAEH1XE4qY7N5Q5XO0WdT2Jk04IYCp68Q81hduJPOlF/F0Tb
+	72qEHkB1vQjgntjgdYSW+f8w+TJ1FDDZpzObg=
+Received: by 10.42.151.65 with SMTP id d1mr57590563icw.18.1325698092695;
+	Wed, 04 Jan 2012 09:28:12 -0800 (PST)
+Received: from sakrah.homelinux.org
+	(99-57-141-118.lightspeed.sntcca.sbcglobal.net. [99.57.141.118])
+	by mx.google.com with ESMTPS id h9sm191421672ibh.11.2012.01.04.09.28.09
+	(version=TLSv1/SSLv3 cipher=OTHER);
+	Wed, 04 Jan 2012 09:28:10 -0800 (PST)
+Date: Wed, 4 Jan 2012 09:28:28 -0800
+From: Khem Raj <raj.khem@gmail.com>
+To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Date: Wed, 04 Jan 2012 17:21:30 +0000
-In-Reply-To: <CAEsOVNdi_no+UZ9uigiM_U8BLwUDES=02bwdPKT7A+YGH7KqNg@mail.gmail.com>
-References: <cover.1325640149.git.josh@linux.intel.com>
-	<a8eea7c83f33f5d5eab1e2758a88f3ee140e68a1.1325640149.git.josh@linux.intel.com>
-	<CAEsOVNdi_no+UZ9uigiM_U8BLwUDES=02bwdPKT7A+YGH7KqNg@mail.gmail.com>
-X-Mailer: Evolution 3.2.2- 
-Mime-Version: 1.0
-X-Virus-Scanned: amavisd-new at rpsys.net
-Subject: Re: [PATCH 1/2] linux-tools: add binutils to perf DEPENDS
+Message-ID: <20120104172828.GA32676@sakrah.homelinux.org>
+References: <1324044340-21898-1-git-send-email-eric@eukrea.com>
+	<4EF19E06.6030004@eukrea.com>
+	<C6510F6D410BB64A8C15398EDC6B847C2401D155@ORSMSX102.amr.corp.intel.com>
+	<4EF266E0.8040302@eukrea.com>
+	<C6510F6D410BB64A8C15398EDC6B847C2401D1A6@ORSMSX102.amr.corp.intel.com>
+MIME-Version: 1.0
+In-Reply-To: <C6510F6D410BB64A8C15398EDC6B847C2401D1A6@ORSMSX102.amr.corp.intel.com>
+User-Agent: Mutt/1.5.20 (2009-06-14)
+Subject: Re: [PATCH] gdb-cross-canadian: build gdb with	python support
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -42,43 +48,18 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 04 Jan 2012 17:29:01 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Wed, 04 Jan 2012 17:35:35 -0000
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-On Wed, 2012-01-04 at 16:32 +0000, McClintock Matthew-B29882 wrote:
-> On Tue, Jan 3, 2012 at 7:31 PM, Joshua Lock <josh@linux.intel.com> wrote:
-> > We have witnessed non-deterministic failures of perf for some platforms
-> > whilst looking for bfd.h, a header provided by binutils.
-> >
-> > Signed-off-by: Joshua Lock <josh@linux.intel.com>
-> > ---
-> >  meta/recipes-kernel/linux/linux-tools.inc |    2 +-
-> >  1 files changed, 1 insertions(+), 1 deletions(-)
-> >
-> > diff --git a/meta/recipes-kernel/linux/linux-tools.inc b/meta/recipes-kernel/linux/linux-tools.inc
-> > index 950f197..aa45dba 100644
-> > --- a/meta/recipes-kernel/linux/linux-tools.inc
-> > +++ b/meta/recipes-kernel/linux/linux-tools.inc
-> > @@ -22,7 +22,7 @@ addtask install_perf after do_install before do_package
-> >  do_compile_perf[umask] = 022
-> >  do_install_perf[umask] = 022
-> >
-> > -PERFDEPENDS = "virtual/${MLPREFIX}libc:do_populate_sysroot ${MLPREFIX}elfutils:do_populate_sysroot"
-> > +PERFDEPENDS = "virtual/${MLPREFIX}libc:do_populate_sysroot ${MLPREFIX}elfutils:do_populate_sysroot ${MLPREFIX}binutils:do_populate_sysroot"
+On (21/12/11 23:52), Zhang, Jessica wrote:
+> Hi Eric,
 > 
-> Does this build the rpm for binutils too? I've seen the following
-> error recently when creating the rfs:
+> Yes, understand the usage and advantage, but still think apply the patch in meta-oe first then if later on there's strong demand for this feature we can pull into oe-core is the right approach.
 > 
-> | error: Failed dependencies:
-> | 	binutils >= 2.21.1a is needed by perf-3.0.6-r2.p3060qds
-> | 	libbfd-2.21.1.so is needed by perf-3.0.6-r2.p3060qds
 
-I suspect the patch is not enough to fix this...
-
-Cheers,
-
-Richard
-
+what are your reasons for it to not be in oe-core/master ?
+python support is useful in gdb even on commandline
+Or are you aware of any bugs that will destabilize gdb ?
 
 
