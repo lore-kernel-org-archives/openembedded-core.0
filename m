@@ -1,33 +1,56 @@
-Received: from mga09.intel.com ([134.134.136.24])
+Received: from tx2ehsobe004.messaging.microsoft.com ([65.55.88.14]
+	helo=TX2EHSOBE009.bigfish.com)
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <dvhart@linux.intel.com>) id 1RiTpU-0004Oi-K5
+	(envelope-from <B29882@freescale.com>) id 1RiTrK-0004SY-1P
 	for openembedded-core@lists.openembedded.org;
-	Wed, 04 Jan 2012 17:36:44 +0100
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-	by orsmga102.jf.intel.com with ESMTP; 04 Jan 2012 08:29:04 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.67,352,1309762800"; d="scan'208";a="92893963"
-Received: from vtippara-mobl.amr.corp.intel.com (HELO envy.home)
-	([10.19.147.145])
-	by orsmga001.jf.intel.com with ESMTP; 04 Jan 2012 08:29:04 -0800
-Message-ID: <4F047E3F.3090809@linux.intel.com>
-Date: Wed, 04 Jan 2012 08:28:47 -0800
-From: Darren Hart <dvhart@linux.intel.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:7.0) Gecko/20110927 Thunderbird/7.0
-MIME-Version: 1.0
+	Wed, 04 Jan 2012 17:38:38 +0100
+Received: from mail74-tx2-R.bigfish.com (10.9.14.246) by
+	TX2EHSOBE009.bigfish.com (10.9.40.29) with Microsoft SMTP Server id
+	14.1.225.23; Wed, 4 Jan 2012 16:31:15 +0000
+Received: from mail74-tx2 (localhost [127.0.0.1])	by mail74-tx2-R.bigfish.com
+	(Postfix) with ESMTP id 8D0454E01D6	for
+	<openembedded-core@lists.openembedded.org>;
+	Wed,  4 Jan 2012 16:31:15 +0000 (UTC)
+X-SpamScore: -1
+X-BigFish: VS-1(zz9371I98dKzz1202hzz8275dhz2dh2a8h668h839h8e2h8e3hbe9k)
+X-Forefront-Antispam-Report: CIP:70.37.183.190; KIP:(null); UIP:(null); IPV:NLI;
+	H:mail.freescale.net; RD:none; EFVD:NLI
+X-FB-SS: 0,
+Received: from mail74-tx2 (localhost.localdomain [127.0.0.1]) by mail74-tx2
+	(MessageSwitch) id 1325694674464569_32035;
+	Wed,  4 Jan 2012 16:31:14 +0000 (UTC)
+Received: from TX2EHSMHS034.bigfish.com (unknown [10.9.14.236])	by
+	mail74-tx2.bigfish.com (Postfix) with ESMTP id 6097322004A	for
+	<openembedded-core@lists.openembedded.org>;
+	Wed,  4 Jan 2012 16:31:14 +0000 (UTC)
+Received: from mail.freescale.net (70.37.183.190) by TX2EHSMHS034.bigfish.com
+	(10.9.99.134) with Microsoft SMTP Server (TLS) id 14.1.225.23;
+	Wed, 4 Jan 2012 16:31:13 +0000
+Received: from 039-SN1MPN1-002.039d.mgd.msft.net ([169.254.2.86]) by
+	039-SN1MMR1-001.039d.mgd.msft.net ([10.84.1.13]) with mapi id
+	14.01.0355.003; Wed, 4 Jan 2012 10:31:13 -0600
+From: McClintock Matthew-B29882 <B29882@freescale.com>
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-References: <cover.1325115066.git.dvhart@linux.intel.com>
-	<4F039FA4.6000709@linux.intel.com>
-In-Reply-To: <4F039FA4.6000709@linux.intel.com>
-X-Enigmail-Version: 1.3.3
-Cc: koen@dominion.thruhere.net, martin.jansa@gmail.com
-Subject: Re: [PATCH 0/4] Fixes for tiny distros and linux-yocto-tiny
+Thread-Topic: [OE-core] sstate compression
+Thread-Index: AQHMyv5Fqkh967iiIk6cPo9OF6fMgw==
+Date: Wed, 4 Jan 2012 16:31:12 +0000
+Message-ID: <CAEsOVNcsY-dNYBz1Y6BVAQ-N7hVyaxOMcsniev9z455m9GYh5A@mail.gmail.com>
+References: <1325689535.28005.59.camel@phil-desktop>
+	<1325691189.20759.14.camel@ted>
+In-Reply-To: <1325691189.20759.14.camel@ted>
+Accept-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [99.47.177.27]
+MIME-Version: 1.0
+X-OriginatorOrg: freescale.com
+Subject: Re: sstate compression
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
-Reply-To: Patches and discussions about the oe-core layer
+Reply-To: McClintock Matthew-B29882 <B29882@freescale.com>,
+	Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
 List-Id: Patches and discussions about the oe-core layer
 	<openembedded-core.lists.openembedded.org>
@@ -38,26 +61,23 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 04 Jan 2012 16:36:44 -0000
-Content-Type: text/plain; charset=ISO-8859-1
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Wed, 04 Jan 2012 16:38:38 -0000
+Content-Language: en-US
+Content-Type: text/plain; charset="iso-8859-1"
+Content-ID: <EE815DF81D0784469C36AB3A0BD6690E@freescale.net>
+Content-Transfer-Encoding: quoted-printable
 
-On 01/03/2012 04:39 PM, Saul Wold wrote:
-> On 12/28/2011 03:38 PM, Darren Hart wrote:
-> 
->>
-> 
->> Richard Purdie (1):
->>    native.bbclass: Fix variable remapping coverage
->>
-> Richard rejected his own patch as being too much of WIP.
+On Wed, Jan 4, 2012 at 9:33 AM, Richard Purdie
+<richard.purdie@linuxfoundation.org> wrote:
+> There has already been a patch allowing different compression mechanisms
+> from Matthew posted on this mailing list. Its not been merged yet as I'd
+> really prefer one format and we didn't (and still don't) have good
+> statistics about what the tradeoffs are.
 
-Richard, what's next here? Do you want me to work on finishing this
-patch off? Can you comment on what about it is a WIP?
+I think there will always be size/speed tradeoffs and we should keep
+multiple types available.
 
--- 
-Darren Hart
-Intel Open Source Technology Center
-Yocto Project - Linux Kernel
+-M=
+
 
 
