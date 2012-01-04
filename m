@@ -1,37 +1,50 @@
-Received: from out5.smtp.messagingengine.com ([66.111.4.29])
+Received: from db3ehsobe005.messaging.microsoft.com ([213.199.154.143]
+	helo=DB3EHSOBE005.bigfish.com)
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <walters@verbum.org>) id 1RiGfd-00076G-9L
+	(envelope-from <B19537@freescale.com>) id 1RiHe9-0000Sl-H7
 	for openembedded-core@lists.openembedded.org;
-	Wed, 04 Jan 2012 03:33:41 +0100
-Received: from compute5.internal (compute5.nyi.mail.srv.osa [10.202.2.45])
-	by gateway1.nyi.mail.srv.osa (Postfix) with ESMTP id 4878320E62
-	for <openembedded-core@lists.openembedded.org>;
-	Tue,  3 Jan 2012 21:20:45 -0500 (EST)
-Received: from frontend2.nyi.mail.srv.osa ([10.202.2.161])
-	by compute5.internal (MEProxy); Tue, 03 Jan 2012 21:20:45 -0500
-DKIM-Signature: v=1; a=rsa-sha1; c=relaxed/relaxed; d=
-	messagingengine.com; h=subject:from:to:cc:date:in-reply-to
-	:references:content-type:content-transfer-encoding:message-id
-	:mime-version; s=smtpout; bh=eUMejAfFHWk/WtrcdPnikw636Z8=; b=ev+
-	jH8xF1ZaaX8nHrcbH8QxbL+vTHcpTV2Kd5pdrHxb3kr0RXp3hv3l8jwEimBbgktt
-	O9wdpMZcWWfdY6RZp+g7KoUkguCqXGWeGlpmeLWEvSPtYc2yOeQN8OaWC8iKzQuH
-	HIRaa3X8HNPPFe+ufZ9Rw0vROnjQY4ED4/P97Yek=
-X-Sasl-enc: W1njpsTqtsGZ4bmH91wdhyP9eky4SZpl1ud9ow9A2zSu 1325643645
-Received: from [192.168.1.6] (c-65-96-60-117.hsd1.ct.comcast.net
-	[65.96.60.117])
-	by mail.messagingengine.com (Postfix) with ESMTPA id 0AAC948255E;
-	Tue,  3 Jan 2012 21:20:45 -0500 (EST)
-From: Colin Walters <walters@verbum.org>
-To: Saul Wold <sgw@linux.intel.com>
-Date: Tue, 03 Jan 2012 21:20:27 -0500
-In-Reply-To: <4F03A316.2070305@linux.intel.com>
-References: <1325634627.24646.0.camel@lenny> <4F03A316.2070305@linux.intel.com>
-X-Mailer: Evolution 3.0.3 (3.0.3-1.fc15) 
-Message-ID: <1325643628.24646.13.camel@lenny>
-Mime-Version: 1.0
-Cc: poky <poky@yoctoproject.org>,
-	openembedded-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [poky] [PATCH] flex/bison: Don't hardcode M4 path
+	Wed, 04 Jan 2012 04:36:13 +0100
+Received: from mail55-db3-R.bigfish.com (10.3.81.245) by
+	DB3EHSOBE005.bigfish.com (10.3.84.25) with Microsoft SMTP Server id
+	14.1.225.23; Wed, 4 Jan 2012 03:28:28 +0000
+Received: from mail55-db3 (localhost [127.0.0.1])	by mail55-db3-R.bigfish.com
+	(Postfix) with ESMTP id 0B6F2480174	for
+	<openembedded-core@lists.openembedded.org>;
+	Wed,  4 Jan 2012 03:28:28 +0000 (UTC)
+X-SpamScore: -9
+X-BigFish: VS-9(zz9371I542M1432Nzz1202hzz8275bh8275dhz2dh2a8h668h839h8e2h8e3h944hbe9k)
+X-Forefront-Antispam-Report: CIP:70.37.183.190; KIP:(null); UIP:(null); IPV:NLI;
+	H:mail.freescale.net; RD:none; EFVD:NLI
+Received: from mail55-db3 (localhost.localdomain [127.0.0.1]) by mail55-db3
+	(MessageSwitch) id 1325647707933060_4023;
+	Wed,  4 Jan 2012 03:28:27 +0000 (UTC)
+Received: from DB3EHSMHS012.bigfish.com (unknown [10.3.81.241])	by
+	mail55-db3.bigfish.com (Postfix) with ESMTP id D52E94C0046	for
+	<openembedded-core@lists.openembedded.org>;
+	Wed,  4 Jan 2012 03:28:27 +0000 (UTC)
+Received: from mail.freescale.net (70.37.183.190) by DB3EHSMHS012.bigfish.com
+	(10.3.87.112) with Microsoft SMTP Server (TLS) id 14.1.225.23;
+	Wed, 4 Jan 2012 03:28:25 +0000
+Received: from 039-SN2MPN1-023.039d.mgd.msft.net ([169.254.3.213]) by
+	039-SN1MMR1-003.039d.mgd.msft.net ([10.84.1.16]) with mapi id
+	14.01.0355.003; Tue, 3 Jan 2012 21:28:24 -0600
+From: Luo Zhenhua-B19537 <B19537@freescale.com>
+To: "openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+Thread-Topic: [PATCH v2 oe-core] valgrind: add powerpc to the compatible
+	host and add ${TCLIBC}-dbg in RRECOMMENDS
+Thread-Index: AQHMxdKGE2OsE6NTI0e/k+5dsBO+L5X7lfYg
+Date: Wed, 4 Jan 2012 03:28:23 +0000
+Message-ID: <CA452391058F6D4E9715FB2C29D9312A010C74B0@039-SN2MPN1-023.039d.mgd.msft.net>
+References: <1325126350-1560-1-git-send-email-b19537@freescale.com>
+In-Reply-To: <1325126350-1560-1-git-send-email-b19537@freescale.com>
+Accept-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [10.192.208.114]
+MIME-Version: 1.0
+X-OriginatorOrg: freescale.com
+Subject: Re: [PATCH v2 oe-core] valgrind: add powerpc to the compatible host and add ${TCLIBC}-dbg in RRECOMMENDS
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -46,41 +59,80 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 04 Jan 2012 02:33:41 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Wed, 04 Jan 2012 03:36:14 -0000
+Content-Language: en-US
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 
-On Tue, 2012-01-03 at 16:53 -0800, Saul Wold wrote:
-> > The flex and bison configure scripts use AC_PATH_PROG to get a
-> > full path to m4 and embed this in config.h (and then to the
-> > generated binary), but this blows up when the m4 binary is in a
-> > temporary staging directory.
-> >
-> > Since we are always shipping GNU m4, just set M4=m4 at configure
-> > time so we don't use a hardcoded path.
-> >
-> > This is an equivalent to what already exists in autoconf.bb.
-> >
-> >
-> This should really be posted to openembedded-core@lists.openembedded.org.
+Since valgrind has been upgraded to 3.7.0, a new patch to add powerpc suppo=
+rt will be submitted, please ignore this one.=20
 
-I CC'd, hopefully won't be rejected as I'm not yet a subscriber.
 
-> Don't you loose the setting of BISON_PKGDATADIR in this case?  Does that 
-> need to be poart of the EXTRA_OECONF?
+Best Regards,
 
-Good catch - I'll double check, but I doubt it's necessary.  From the
-bison source:
+Zhenhua
 
-char const *
-compute_pkgdatadir (void)
-{
-  char const *pkgdatadir = getenv ("BISON_PKGDATADIR");
-  return pkgdatadir ? pkgdatadir : PKGDATADIR;
-}
 
-For us though PKGDATADIR should be enough I think.
-
+> -----Original Message-----
+> From: Luo Zhenhua-B19537
+> Sent: Thursday, December 29, 2011 10:39 AM
+> To: openembedded-core@lists.openembedded.org
+> Cc: Luo Zhenhua-B19537
+> Subject: [PATCH v2 oe-core] valgrind: add powerpc to the compatible host =
+and add
+> ${TCLIBC}-dbg in RRECOMMENDS
+>=20
+> From: Zhenhua Luo <b19537@freescale.com>
+>=20
+>     1. add powerpc into the compatible host list
+>     2. valgrind requires the non-stripped libraries of ${TCLIBC}, so add
+>        ${TCLIBC}-dbg into RRECOMMENDS_valgrind
+>=20
+> Signed-off-by: Zhenhua Luo <b19537@freescale.com>
+> ---
+>  meta/recipes-devtools/valgrind/valgrind_3.6.1.bb |    6 ++++--
+>  1 files changed, 4 insertions(+), 2 deletions(-)
+>=20
+> diff --git a/meta/recipes-devtools/valgrind/valgrind_3.6.1.bb b/meta/reci=
+pes-
+> devtools/valgrind/valgrind_3.6.1.bb
+> index 021caa8..2abe173 100644
+> --- a/meta/recipes-devtools/valgrind/valgrind_3.6.1.bb
+> +++ b/meta/recipes-devtools/valgrind/valgrind_3.6.1.bb
+> @@ -7,7 +7,7 @@ LIC_FILES_CHKSUM =3D
+> "file://COPYING;md5=3Dc46082167a314d785d012a244748d803 \
+>=20
+> file://include/valgrind.h;beginline=3D1;endline=3D56;md5=3D13a71cedba9911=
+2334d8596162a
+> ec37e \
+>                      file://COPYING.DOCS;md5=3D8fdeb5abdb235a08e76835f8f3=
+260215"
+>  DEPENDS =3D "virtual/libx11"
+> -PR =3D "r1"
+> +PR =3D "r2"
+>=20
+>  SRC_URI =3D "http://www.valgrind.org/downloads/valgrind-${PV}.tar.bz2 \
+>  	   file://fix_issue_caused_by_ccache.patch \ @@ -17,7 +17,7 @@ SRC_URI =
+=3D
+> "http://www.valgrind.org/downloads/valgrind-${PV}.tar.bz2 \  SRC_URI[md5s=
+um] =3D
+> "2c3aa122498baecc9d69194057ca88f5"
+>  SRC_URI[sha256sum] =3D
+> "49bdcc4fbcf060049b5f0dcfd8a187a6e90e0b0e57309f633b64e44430726a0e"
+>=20
+> -COMPATIBLE_HOST =3D '(i.86|x86_64).*-linux'
+> +COMPATIBLE_HOST =3D '(i.86|x86_64|powerpc|ppc|powerpc64|ppc64).*-linux'
+>=20
+>  inherit autotools
+>=20
+> @@ -26,3 +26,5 @@ EXTRA_OEMAKE =3D "-w"
+>  PARALLEL_MAKE =3D ""
+>=20
+>  FILES_${PN}-dbg +=3D "${libdir}/${PN}/*/.debug/*"
+> +
+> +RRECOMMENDS_${PN} +=3D "${TCLIBC}-dbg"
+> --
+> 1.7.0.4
 
 
 
