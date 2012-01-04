@@ -1,24 +1,37 @@
-Received: from mga14.intel.com ([143.182.124.37])
+Received: from out5.smtp.messagingengine.com ([66.111.4.29])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <josh@linux.intel.com>) id 1RiFoY-0005H0-8P
+	(envelope-from <walters@verbum.org>) id 1RiGfd-00076G-9L
 	for openembedded-core@lists.openembedded.org;
-	Wed, 04 Jan 2012 02:38:51 +0100
-Received: from azsmga002.ch.intel.com ([10.2.17.35])
-	by azsmga102.ch.intel.com with ESMTP; 03 Jan 2012 17:31:24 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="53000796"
-Received: from unknown (HELO shamshir.amr.corp.intel.com) ([10.255.13.115])
-	by AZSMGA002.ch.intel.com with ESMTP; 03 Jan 2012 17:31:23 -0800
-From: Joshua Lock <josh@linux.intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Tue,  3 Jan 2012 17:31:20 -0800
-Message-Id: <e4e9b594d8dc715c38ddcfa770e3bdee09641c1d.1325640149.git.josh@linux.intel.com>
-X-Mailer: git-send-email 1.7.7.5
-In-Reply-To: <cover.1325640149.git.josh@linux.intel.com>
-References: <cover.1325640149.git.josh@linux.intel.com>
-In-Reply-To: <cover.1325640149.git.josh@linux.intel.com>
-References: <cover.1325640149.git.josh@linux.intel.com>
-Subject: [PATCH 2/2] cogl: ensure we can build on armv4
+	Wed, 04 Jan 2012 03:33:41 +0100
+Received: from compute5.internal (compute5.nyi.mail.srv.osa [10.202.2.45])
+	by gateway1.nyi.mail.srv.osa (Postfix) with ESMTP id 4878320E62
+	for <openembedded-core@lists.openembedded.org>;
+	Tue,  3 Jan 2012 21:20:45 -0500 (EST)
+Received: from frontend2.nyi.mail.srv.osa ([10.202.2.161])
+	by compute5.internal (MEProxy); Tue, 03 Jan 2012 21:20:45 -0500
+DKIM-Signature: v=1; a=rsa-sha1; c=relaxed/relaxed; d=
+	messagingengine.com; h=subject:from:to:cc:date:in-reply-to
+	:references:content-type:content-transfer-encoding:message-id
+	:mime-version; s=smtpout; bh=eUMejAfFHWk/WtrcdPnikw636Z8=; b=ev+
+	jH8xF1ZaaX8nHrcbH8QxbL+vTHcpTV2Kd5pdrHxb3kr0RXp3hv3l8jwEimBbgktt
+	O9wdpMZcWWfdY6RZp+g7KoUkguCqXGWeGlpmeLWEvSPtYc2yOeQN8OaWC8iKzQuH
+	HIRaa3X8HNPPFe+ufZ9Rw0vROnjQY4ED4/P97Yek=
+X-Sasl-enc: W1njpsTqtsGZ4bmH91wdhyP9eky4SZpl1ud9ow9A2zSu 1325643645
+Received: from [192.168.1.6] (c-65-96-60-117.hsd1.ct.comcast.net
+	[65.96.60.117])
+	by mail.messagingengine.com (Postfix) with ESMTPA id 0AAC948255E;
+	Tue,  3 Jan 2012 21:20:45 -0500 (EST)
+From: Colin Walters <walters@verbum.org>
+To: Saul Wold <sgw@linux.intel.com>
+Date: Tue, 03 Jan 2012 21:20:27 -0500
+In-Reply-To: <4F03A316.2070305@linux.intel.com>
+References: <1325634627.24646.0.camel@lenny> <4F03A316.2070305@linux.intel.com>
+X-Mailer: Evolution 3.0.3 (3.0.3-1.fc15) 
+Message-ID: <1325643628.24646.13.camel@lenny>
+Mime-Version: 1.0
+Cc: poky <poky@yoctoproject.org>,
+	openembedded-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [poky] [PATCH] flex/bison: Don't hardcode M4 path
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -33,88 +46,42 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 04 Jan 2012 01:38:51 -0000
+X-List-Received-Date: Wed, 04 Jan 2012 02:33:41 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-Without this patch cogl will not build for armv4 as it uses an
-unsupported instruction. This changeset adds a patch from Wolfgang
-Denk to add an extra guard around armv5 or above code.
+On Tue, 2012-01-03 at 16:53 -0800, Saul Wold wrote:
+> > The flex and bison configure scripts use AC_PATH_PROG to get a
+> > full path to m4 and embed this in config.h (and then to the
+> > generated binary), but this blows up when the m4 binary is in a
+> > temporary staging directory.
+> >
+> > Since we are always shipping GNU m4, just set M4=m4 at configure
+> > time so we don't use a hardcoded path.
+> >
+> > This is an equivalent to what already exists in autoconf.bb.
+> >
+> >
+> This should really be posted to openembedded-core@lists.openembedded.org.
 
-Signed-off-by: Joshua Lock <josh@linux.intel.com>
----
- .../clutter/cogl/build_for_armv4t.patch            |   23 ++++++++++++++++++++
- meta/recipes-graphics/clutter/cogl_1.8.2.bb        |    5 +++-
- meta/recipes-graphics/clutter/cogl_git.bb          |    5 ++-
- 3 files changed, 30 insertions(+), 3 deletions(-)
- create mode 100644 meta/recipes-graphics/clutter/cogl/build_for_armv4t.patch
+I CC'd, hopefully won't be rejected as I'm not yet a subscriber.
 
-diff --git a/meta/recipes-graphics/clutter/cogl/build_for_armv4t.patch b/meta/recipes-graphics/clutter/cogl/build_for_armv4t.patch
-new file mode 100644
-index 0000000..3635085
---- /dev/null
-+++ b/meta/recipes-graphics/clutter/cogl/build_for_armv4t.patch
-@@ -0,0 +1,23 @@
-+GCC will define __ARM_ARCH_4T__ when building with "-march=armv4t" so we can
-+check this to turn off the use of 'clz' instructions, which otherwise would
-+cause compile errors like "selected processor does not support ARM mode 
-+`clz r3,r0'". 
-+
-+Upstream-Status: Submitted
-+
-+Signed-off-by: Wolfgang Denk <wd@denx.de>
-+Signed-off-by: Joshua Lock <josh@linux.intel.com>
-+
-+Index: cogl-1.8.2/cogl/cogl-fixed.c
-+===================================================================
-+--- cogl-1.8.2.orig/cogl/cogl-fixed.c
-++++ cogl-1.8.2/cogl/cogl-fixed.c
-+@@ -626,7 +626,7 @@ cogl_fixed_sqrt (CoglFixed x)
-+ 	/*
-+ 	 * Find the highest bit set
-+ 	 */
-+-#if defined (__arm__)
-++#if defined (__arm__) && !defined(__ARM_ARCH_4T__)
-+ 	/* This actually requires at least arm v5, but gcc does not seem
-+ 	 * to set the architecture defines correctly, and it is I think
-+ 	 * very unlikely that anyone will want to use clutter on anything
-diff --git a/meta/recipes-graphics/clutter/cogl_1.8.2.bb b/meta/recipes-graphics/clutter/cogl_1.8.2.bb
-index d99c443..25875f3 100644
---- a/meta/recipes-graphics/clutter/cogl_1.8.2.bb
-+++ b/meta/recipes-graphics/clutter/cogl_1.8.2.bb
-@@ -1,9 +1,12 @@
- require cogl.inc
- 
-+PR = "r1"
-+
- LIC_FILES_CHKSUM = "file://COPYING;md5=4fbd65380cdd255951079008b364516c"
- 
- SRC_URI = "http://source.clutter-project.org/sources/cogl/1.8/${BPN}-${PV}.tar.bz2 \
--	   file://macro-versions.patch"
-+	   file://macro-versions.patch \
-+	   file://build_for_armv4t.patch"
- 
- SRC_URI[md5sum] = "3145cbf7ff162c33065ea4421c047e2f"
- SRC_URI[sha256sum] = "8b647b51a4fa93034fcd74ffe86b3d4c919b0e54789108f6d065414e6162ab73"
-diff --git a/meta/recipes-graphics/clutter/cogl_git.bb b/meta/recipes-graphics/clutter/cogl_git.bb
-index 7a10dd8..689b965 100644
---- a/meta/recipes-graphics/clutter/cogl_git.bb
-+++ b/meta/recipes-graphics/clutter/cogl_git.bb
-@@ -5,11 +5,12 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=4fbd65380cdd255951079008b364516c"
- # the 1.8.2 tag
- SRCREV = "e398e374e2ff0e88bc1d63577a192f8ca04a1cb5"
- PV = "1.8.2+git${SRCPV}"
--PR = "r0"
-+PR = "r1"
- 
- DEFAULT_PREFERENCE = "-1"
- 
--SRC_URI = "git://git.gnome.org/cogl;protocol=git;branch=master"
-+SRC_URI = "git://git.gnome.org/cogl;protocol=git;branch=master \
-+	   file://build_for_armv4t.patch"
- S = "${WORKDIR}/git"
- 
- AUTOTOOLS_AUXDIR = "${S}/build"
--- 
-1.7.7.5
+> Don't you loose the setting of BISON_PKGDATADIR in this case?  Does that 
+> need to be poart of the EXTRA_OECONF?
+
+Good catch - I'll double check, but I doubt it's necessary.  From the
+bison source:
+
+char const *
+compute_pkgdatadir (void)
+{
+  char const *pkgdatadir = getenv ("BISON_PKGDATADIR");
+  return pkgdatadir ? pkgdatadir : PKGDATADIR;
+}
+
+For us though PKGDATADIR should be enough I think.
+
+
 
 
 
