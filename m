@@ -1,29 +1,21 @@
-Received: from mail.windriver.com ([147.11.1.11])
+Received: from mga03.intel.com ([143.182.124.21])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <Xiaofeng.Yan@windriver.com>) id 1RiMGG-0004v4-9N
+	(envelope-from <dexuan.cui@intel.com>) id 1RiNKr-0006xF-2R
 	for openembedded-core@lists.openembedded.org;
-	Wed, 04 Jan 2012 09:31:52 +0100
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca [147.11.189.40])
-	by mail.windriver.com (8.14.3/8.14.3) with ESMTP id q048OTu5028445
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 4 Jan 2012 00:24:29 -0800 (PST)
-Received: from [128.224.162.146] (128.224.162.146) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server (TLS) id 14.1.255.0;
-	Wed, 4 Jan 2012 00:24:29 -0800
-Message-ID: <4F040CC7.7070500@windriver.com>
-Date: Wed, 4 Jan 2012 16:24:39 +0800
-From: Xiaofeng Yan <xiaofeng.yan@windriver.com>
-User-Agent: Mozilla/5.0 (X11; U; Linux i686; en-US;
-	rv:1.9.2.23) Gecko/20110921 Thunderbird/3.1.15
-MIME-Version: 1.0
-To: <openembedded-core@lists.openembedded.org>
-References: <4F03FFB2.8040606@linux.intel.com>
-In-Reply-To: <4F03FFB2.8040606@linux.intel.com>
-X-Originating-IP: [128.224.162.146]
-X-MIME-Autoconverted: from 8bit to quoted-printable by mail.windriver.com id
-	q048OTu5028445
-Subject: Re: Recent xserver-kdrive failure and util-macros update
+	Wed, 04 Jan 2012 10:40:41 +0100
+Received: from azsmga001.ch.intel.com ([10.2.17.19])
+	by azsmga101.ch.intel.com with ESMTP; 04 Jan 2012 01:33:18 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="92188281"
+Received: from dcui-desktop.sh.intel.com (HELO localhost) ([10.239.36.50])
+	by azsmga001.ch.intel.com with ESMTP; 04 Jan 2012 01:33:17 -0800
+From: Dexuan Cui <dexuan.cui@intel.com>
+To: openembedded-core@lists.openembedded.org,
+	nitin.a.kamble@intel.com
+Date: Wed,  4 Jan 2012 17:33:17 +0800
+Message-Id: <cover.1325669461.git.dexuan.cui@intel.com>
+X-Mailer: git-send-email 1.7.6
+Subject: [PATCH 0/1] mc: fix configure with automake 1.11.2
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -38,40 +30,26 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 04 Jan 2012 08:31:52 -0000
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Wed, 04 Jan 2012 09:40:41 -0000
 
-On 2012=E5=B9=B401=E6=9C=8804=E6=97=A5 15:28, Saul Wold wrote:
->
-> We seem to have a relatively new failure in xserver-kdrive, which=20
-> appeared in the last set of change. I tried to run though a bisect but=20
-> was not able to find the problem.
->
-> The problem seems to be related to configure.ac setting of=20
-> XSERVER_CFLAGS=3D'$(CWARNFLAGS)' and then using -Werror=3Daddress, whic=
-h=20
-> is what causes the failure.
->
-> This seems to be related to the util-macros update to 1.16, which adds=20
-> more warnings to errors. Since we are still using the older=20
-> xserver-kdrive, there are warnings that are now errors with the update.
->
-> We could patch the current xserver-kdrive, revert the 1.16 update to=20
-> util-macros or update xserver-kdrive (which is in the works, but I=20
-> think had some issues). This also seems to affect the libxp package on=20
-> x86-64.
->
-> Thoughts, I know we don't like to revert, but we may have to in this=20
-> case as we don't have the kdrive update yet and would need to further=20
-> investigate the libxp failure.
->
-Hi Saul,
+The following changes since commit 0ff1d667dc23b0cc903c18f1b5e032c2b6630aae:
 
-Do you have any suggestion my previous patches to update xserver-kdrive ?
+  distro: Add poky-tiny distro definition (2012-01-03 21:33:15 +0000)
 
-  http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=3Dxiaofeng/update
+are available in the git repository at:
+  git://git.pokylinux.org/poky-contrib dcui/mc
+  http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=dcui/mc
 
+Dexuan Cui (1):
+  mc:  fix configure with automake 1.11.2
+
+ .../mc/files/fix_for_automake_1.11.2.patch         |   69 ++++++++++++++++++++
+ meta/recipes-extended/mc/mc_4.8.1.bb               |    3 +-
+ 2 files changed, 71 insertions(+), 1 deletions(-)
+ create mode 100644 meta/recipes-extended/mc/files/fix_for_automake_1.11.2.patch
+
+-- 
+1.7.6
 
 
 
