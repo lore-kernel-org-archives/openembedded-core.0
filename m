@@ -1,25 +1,35 @@
-Received: from mga09.intel.com ([134.134.136.24])
+Received: from mga11.intel.com ([192.55.52.93])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <dexuan.cui@intel.com>) id 1RiNKr-0006xI-Vl
+	(envelope-from <dexuan.cui@intel.com>) id 1RiO2p-000249-49
 	for openembedded-core@lists.openembedded.org;
-	Wed, 04 Jan 2012 10:40:42 +0100
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-	by orsmga102.jf.intel.com with ESMTP; 04 Jan 2012 01:33:19 -0800
+	Wed, 04 Jan 2012 11:26:08 +0100
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+	by fmsmga102.fm.intel.com with ESMTP; 04 Jan 2012 02:18:44 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.67,352,1309762800"; d="scan'208";a="92779834"
-Received: from dcui-desktop.sh.intel.com (HELO localhost) ([10.239.36.50])
-	by orsmga001.jf.intel.com with ESMTP; 04 Jan 2012 01:33:18 -0800
-From: Dexuan Cui <dexuan.cui@intel.com>
-To: openembedded-core@lists.openembedded.org,
-	nitin.a.kamble@intel.com
-Date: Wed,  4 Jan 2012 17:33:18 +0800
-Message-Id: <338da10abcd744ab75dfb184f8f81370727e5653.1325669461.git.dexuan.cui@intel.com>
-X-Mailer: git-send-email 1.7.6
-In-Reply-To: <cover.1325669461.git.dexuan.cui@intel.com>
-References: <cover.1325669461.git.dexuan.cui@intel.com>
-In-Reply-To: <cover.1325669461.git.dexuan.cui@intel.com>
-References: <cover.1325669461.git.dexuan.cui@intel.com>
-Subject: [PATCH 1/1] mc: fix configure with automake 1.11.2
+X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="103206884"
+Received: from pgsmsx603.gar.corp.intel.com ([10.221.43.87])
+	by fmsmga001.fm.intel.com with ESMTP; 04 Jan 2012 02:18:43 -0800
+Received: from shsmsx151.ccr.corp.intel.com (10.239.6.50) by
+	pgsmsx603.gar.corp.intel.com (10.221.43.87) with Microsoft SMTP Server
+	(TLS) id 8.2.255.0; Wed, 4 Jan 2012 18:18:42 +0800
+Received: from shsmsx102.ccr.corp.intel.com ([169.254.2.199]) by
+	SHSMSX151.ccr.corp.intel.com ([169.254.3.223]) with mapi id
+	14.01.0355.002; Wed, 4 Jan 2012 18:18:41 +0800
+From: "Cui, Dexuan" <dexuan.cui@intel.com>
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Thread-Topic: [OE-core] Recent xserver-kdrive failure and util-macros update
+Thread-Index: AQHMyrpV9iIcebyvSES4ckrFYb9QSpX7/XTA
+Date: Wed, 4 Jan 2012 10:18:40 +0000
+Message-ID: <A25F549E4D43CD42B4C02DF47A191323DAD1@SHSMSX102.ccr.corp.intel.com>
+References: <4F03FFB2.8040606@linux.intel.com> <4F040CC7.7070500@windriver.com>
+In-Reply-To: <4F040CC7.7070500@windriver.com>
+Accept-Language: zh-CN, en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [10.239.127.40]
+MIME-Version: 1.0
+Subject: Re: Recent xserver-kdrive failure and util-macros update
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -34,117 +44,39 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 04 Jan 2012 09:40:42 -0000
+X-List-Received-Date: Wed, 04 Jan 2012 10:26:08 -0000
+Content-Language: en-US
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 
-As Nitin said, "automake version 1.11.2 has made use of dir variables
-more strict, the pkglibexec var can not have SCRIPTS suffix. Using pkgdata
-instead."
-
-Fixes this error:
-| contrib/Makefile.am:10: `pkglibexecdir' is not a legitimate directory for `SCRIPTS'
-| autoreconf: automake failed with exit status: 1
-NOTE: package mc-4.8.1-r0: task do_configure: Failed
-
-Signed-off-by: Dexuan Cui <dexuan.cui@intel.com>
----
- .../mc/files/fix_for_automake_1.11.2.patch         |   69 ++++++++++++++++++++
- meta/recipes-extended/mc/mc_4.8.1.bb               |    3 +-
- 2 files changed, 71 insertions(+), 1 deletions(-)
- create mode 100644 meta/recipes-extended/mc/files/fix_for_automake_1.11.2.patch
-
-diff --git a/meta/recipes-extended/mc/files/fix_for_automake_1.11.2.patch b/meta/recipes-extended/mc/files/fix_for_automake_1.11.2.patch
-new file mode 100644
-index 0000000..9b610ca
---- /dev/null
-+++ b/meta/recipes-extended/mc/files/fix_for_automake_1.11.2.patch
-@@ -0,0 +1,69 @@
-+Upstream-Status: Pending
-+
-+As Nitin said, "automake version 1.11.2 has made use of dir variables
-+more strict, the pkglibexec var can not have SCRIPTS suffix. Using pkgdata
-+instead."
-+
-+Fixes this error:
-+| contrib/Makefile.am:10: `pkglibexecdir' is not a legitimate directory for `SCRIPTS'
-+| autoreconf: automake failed with exit status: 1
-+NOTE: package mc-4.8.1-r0: task do_configure: Failed
-+
-+Signed-off-by: Dexuan Cui <dexuan.cui@intel.com>
-+Wed Jan  4 17:04:47 CST 2012
-+
-+diff -Nru mc-4.8.1.orig//contrib/Makefile.am mc-4.8.1/contrib/Makefile.am
-+--- mc-4.8.1.orig//contrib/Makefile.am	2011-11-30 15:44:40.000000000 +0800
-++++ mc-4.8.1/contrib/Makefile.am	2012-01-04 17:03:16.926911680 +0800
-+@@ -7,7 +7,7 @@
-+ SCRIPTS_IN = mc.csh.in mc.sh.in mc-wrapper.csh.in mc-wrapper.sh.in
-+ SCRIPTS_OUT = mc.csh mc.sh mc-wrapper.csh mc-wrapper.sh
-+ 
-+-pkglibexec_SCRIPTS = $(SCRIPTS_OUT)
-++pkgdata_SCRIPTS = $(SCRIPTS_OUT)
-+ pkglibexecdir =		$(libexecdir)/@PACKAGE@
-+ 
-+ cfgdir = $(sysconfdir)/@PACKAGE@
-+diff -Nru mc-4.8.1.orig//contrib/Makefile.in mc-4.8.1/contrib/Makefile.in
-+--- mc-4.8.1.orig//contrib/Makefile.in	2011-12-13 18:10:52.000000000 +0800
-++++ mc-4.8.1/contrib/Makefile.in	2012-01-04 17:03:16.926911680 +0800
-+@@ -112,7 +112,7 @@
-+   sed '$$!N;$$!N;$$!N;$$!N;$$!N;$$!N;$$!N;s/\n/ /g' | \
-+   sed '$$!N;$$!N;$$!N;$$!N;s/\n/ /g'
-+ am__installdirs = "$(DESTDIR)$(pkglibexecdir)" "$(DESTDIR)$(cfgdir)"
-+-SCRIPTS = $(pkglibexec_SCRIPTS)
-++SCRIPTS = $(pkgdata_SCRIPTS)
-+ AM_V_GEN = $(am__v_GEN_$(V))
-+ am__v_GEN_ = $(am__v_GEN_$(AM_DEFAULT_VERBOSITY))
-+ am__v_GEN_0 = @echo "  GEN   " $@;
-+@@ -372,7 +372,7 @@
-+ noinst_DATA = README.xterm
-+ SCRIPTS_IN = mc.csh.in mc.sh.in mc-wrapper.csh.in mc-wrapper.sh.in
-+ SCRIPTS_OUT = mc.csh mc.sh mc-wrapper.csh mc-wrapper.sh
-+-pkglibexec_SCRIPTS = $(SCRIPTS_OUT)
-++pkgdata_SCRIPTS = $(SCRIPTS_OUT)
-+ cfgdir = $(sysconfdir)/@PACKAGE@
-+ cfg_DATA = \
-+ 	$(LIBFILES_ADD)
-+@@ -417,10 +417,10 @@
-+ $(ACLOCAL_M4): @MAINTAINER_MODE_TRUE@ $(am__aclocal_m4_deps)
-+ 	cd $(top_builddir) && $(MAKE) $(AM_MAKEFLAGS) am--refresh
-+ $(am__aclocal_m4_deps):
-+-install-pkglibexecSCRIPTS: $(pkglibexec_SCRIPTS)
-++install-pkglibexecSCRIPTS: $(pkgdata_SCRIPTS)
-+ 	@$(NORMAL_INSTALL)
-+ 	test -z "$(pkglibexecdir)" || $(MKDIR_P) "$(DESTDIR)$(pkglibexecdir)"
-+-	@list='$(pkglibexec_SCRIPTS)'; test -n "$(pkglibexecdir)" || list=; \
-++	@list='$(pkgdata_SCRIPTS)'; test -n "$(pkglibexecdir)" || list=; \
-+ 	for p in $$list; do \
-+ 	  if test -f "$$p"; then d=; else d="$(srcdir)/"; fi; \
-+ 	  if test -f "$$d$$p"; then echo "$$d$$p"; echo "$$p"; else :; fi; \
-+@@ -445,7 +445,7 @@
-+ 
-+ uninstall-pkglibexecSCRIPTS:
-+ 	@$(NORMAL_UNINSTALL)
-+-	@list='$(pkglibexec_SCRIPTS)'; test -n "$(pkglibexecdir)" || exit 0; \
-++	@list='$(pkgdata_SCRIPTS)'; test -n "$(pkglibexecdir)" || exit 0; \
-+ 	files=`for p in $$list; do echo "$$p"; done | \
-+ 	       sed -e 's,.*/,,;$(transform)'`; \
-+ 	test -n "$$list" || exit 0; \
-diff --git a/meta/recipes-extended/mc/mc_4.8.1.bb b/meta/recipes-extended/mc/mc_4.8.1.bb
-index de7fe7a..b66c170 100644
---- a/meta/recipes-extended/mc/mc_4.8.1.bb
-+++ b/meta/recipes-extended/mc/mc_4.8.1.bb
-@@ -6,9 +6,10 @@ SECTION = "console/utils"
- DEPENDS = "ncurses glib-2.0"
- RDEPENDS_${PN} = "ncurses-terminfo"
- 
--PR = "r0"
-+PR = "r1"
- 
- SRC_URI = "http://www.midnight-commander.org/downloads/${BPN}-${PV}.tar.bz2"
-+SRC_URI += "file://fix_for_automake_1.11.2.patch"
- 
- SRC_URI[md5sum] = "7d60c87d87b359831d976fa28034935e"
- SRC_URI[sha256sum] = "8f9bd09750c65a7786197a8f7e5a10a6dabf8c8737c564079ca393d8ecaf944d"
--- 
-1.7.6
-
+WGlhb2ZlbmcgWWFuIHdyb3RlIG9uIDIwMTItMDEtMDQ6DQo+IE9uIDIwMTLlubQwMeaciDA05pel
+IDE1OjI4LCBTYXVsIFdvbGQgd3JvdGU6DQo+PiANCj4+IFdlIHNlZW0gdG8gaGF2ZSBhIHJlbGF0
+aXZlbHkgbmV3IGZhaWx1cmUgaW4geHNlcnZlci1rZHJpdmUsIHdoaWNoDQo+PiBhcHBlYXJlZCBp
+biB0aGUgbGFzdCBzZXQgb2YgY2hhbmdlLiBJIHRyaWVkIHRvIHJ1biB0aG91Z2ggYSBiaXNlY3QN
+Cj4+IGJ1dCB3YXMgbm90IGFibGUgdG8gZmluZCB0aGUgcHJvYmxlbS4NCj4+IA0KPj4gVGhlIHBy
+b2JsZW0gc2VlbXMgdG8gYmUgcmVsYXRlZCB0byBjb25maWd1cmUuYWMgc2V0dGluZyBvZg0KPj4g
+WFNFUlZFUl9DRkxBR1M9JyQoQ1dBUk5GTEFHUyknIGFuZCB0aGVuIHVzaW5nIC1XZXJyb3I9YWRk
+cmVzcywgd2hpY2ggaXMNCj4+IHdoYXQgY2F1c2VzIHRoZSBmYWlsdXJlLg0KSGkgU2F1bCwNCkNh
+biB3ZSBwYXRjaCB0aGlzIHRvIG1ha2UgaXQgbm90IGZhaWw/DQpJJ2xsIHRyeSB0byBsb29rIGlu
+dG8gdGhpcy4uLg0KDQo+PiBUaGlzIHNlZW1zIHRvIGJlIHJlbGF0ZWQgdG8gdGhlIHV0aWwtbWFj
+cm9zIHVwZGF0ZSB0byAxLjE2LCB3aGljaA0KPj4gYWRkcyBtb3JlIHdhcm5pbmdzIHRvIGVycm9y
+cy4gU2luY2Ugd2UgYXJlIHN0aWxsIHVzaW5nIHRoZSBvbGRlcg0KPj4geHNlcnZlci1rZHJpdmUs
+IHRoZXJlIGFyZSB3YXJuaW5ncyB0aGF0IGFyZSBub3cgZXJyb3JzIHdpdGggdGhlIHVwZGF0ZS4N
+Cj4+IA0KPj4gV2UgY291bGQgcGF0Y2ggdGhlIGN1cnJlbnQgeHNlcnZlci1rZHJpdmUsIHJldmVy
+dCB0aGUgMS4xNiB1cGRhdGUgdG8NCj4+IHV0aWwtbWFjcm9zIG9yIHVwZGF0ZSB4c2VydmVyLWtk
+cml2ZSAod2hpY2ggaXMgaW4gdGhlIHdvcmtzLCBidXQgSQ0KPj4gdGhpbmsgaGFkIHNvbWUgaXNz
+dWVzKS4gVGhpcyBhbHNvIHNlZW1zIHRvIGFmZmVjdCB0aGUgbGlieHAgcGFja2FnZQ0KPj4gb24g
+eDg2LTY0Lg0KSSBkb24ndCBzZWUgYW55IGxpYnhwIGZhaWx1cmUoSSBidWlsZCBsaWJ4cCB3aXRo
+IE1BQ0hJTkU9cWVtdXg4NiBvbiBhbiANClg4Ni02NCBob3N0KS4gQnkgc2F5aW5nICJvbiB4ODYt
+NjQiLCBkaWQgeW91IG1lYW4gInFlbXV4ODYtNjQiPw0KDQo+PiANCj4+IFRob3VnaHRzLCBJIGtu
+b3cgd2UgZG9uJ3QgbGlrZSB0byByZXZlcnQsIGJ1dCB3ZSBtYXkgaGF2ZSB0byBpbiB0aGlzDQo+
+PiBjYXNlIGFzIHdlIGRvbid0IGhhdmUgdGhlIGtkcml2ZSB1cGRhdGUgeWV0IGFuZCB3b3VsZCBu
+ZWVkIHRvDQo+PiBmdXJ0aGVyIGludmVzdGlnYXRlIHRoZSBsaWJ4cCBmYWlsdXJlLg0KPiBIaSBT
+YXVsLA0KPiBEbyB5b3UgaGF2ZSBhbnkgc3VnZ2VzdGlvbiBteSBwcmV2aW91cyBwYXRjaGVzIHRv
+IHVwZGF0ZQ0KPiB4c2VydmVyLWtkcml2ZSA/DQo+IGh0dHA6Ly9naXQucG9reWxpbnV4Lm9yZy9j
+Z2l0LmNnaS9wb2t5LWNvbnRyaWIvbG9nLz9oPXhpYW9mZW5nL3VwZGF0ZQ0KSSBjYW4gYnVpbGQg
+WGlhb2ZlbmcncyB4c2VydmVyLWtkcml2ZSAxLjExLjIgZmluZSB3aXRoIHV0aWwtbWFjcm9fMS4x
+Ni4NCkNhbiB3ZSB1c2UgdGhlIG5ldyB4c2VydmVyLWtkcml2ZXIgYW5kIHJlbW92ZSB0aGUgb2xk
+IG9uZT8NCg0KVGhhbmtzLA0KLS0gRGV4dWFuDQoNCg==
 
 
