@@ -1,29 +1,28 @@
-Received: from mail-lpp01m010-f47.google.com ([209.85.215.47])
+Received: from vms173017pub.verizon.net ([206.46.173.17])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <raj.khem@gmail.com>) id 1RiZb1-0001rk-5i
-	for openembedded-core@lists.openembedded.org;
-	Wed, 04 Jan 2012 23:46:11 +0100
-Received: by lami14 with SMTP id i14so6376625lam.6
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 04 Jan 2012 14:38:45 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:content-type; bh=zl4tTRhia/m1I+sEsl9wZfcIcLmktUWXNUuD+CAwwPk=;
-	b=jUsFqCeAGY7DUwtVuwD9OUMas4Ve1rahDbco0T829jPIdS6aWp3lM/PBXY9TqaZkFT
-	lP6jd65Ur8+JMMNR1/heuzTmoBfVFzj+gq2R8DgD2Siz+FFFbyIwyscXOCiZX0Tj881A
-	SYgLlQm0q2A7xzvxM/qfoxFsKVGSUHzGX/Df4=
-Received: by 10.112.24.4 with SMTP id q4mr328069lbf.80.1325716725285; Wed, 04
-	Jan 2012 14:38:45 -0800 (PST)
-MIME-Version: 1.0
-Received: by 10.152.115.1 with HTTP; Wed, 4 Jan 2012 14:38:14 -0800 (PST)
-In-Reply-To: <CAMvUbCzvVSiLqKPsMx1PyLHnaErKwd2R+nRZqbmLPtRfpoF=YQ@mail.gmail.com>
-References: <CAMvUbCzvVSiLqKPsMx1PyLHnaErKwd2R+nRZqbmLPtRfpoF=YQ@mail.gmail.com>
-From: Khem Raj <raj.khem@gmail.com>
-Date: Wed, 4 Jan 2012 14:38:14 -0800
-Message-ID: <CAMKF1sqTpGDnzM=L3k25ipw1wCJGFRttbpVrMXF=ASDH5iXweA@mail.gmail.com>
-To: Patches and discussions about the oe-core layer
+	(envelope-from <denis@denix.org>)
+	id 1RiZyh-0002wO-Db; Thu, 05 Jan 2012 00:10:39 +0100
+Received: from gandalf.denix.org ([unknown] [71.163.124.23])
+	by vms173017.mailsrvcs.net
+	(Sun Java(tm) System Messaging Server 7u2-7.02 32bit (built Apr 16
+	2009))
+	with ESMTPA id <0LXA008UBNWLY284@vms173017.mailsrvcs.net>; Wed,
+	04 Jan 2012 16:02:46 -0600 (CST)
+Received: by gandalf.denix.org (Postfix, from userid 1000)	id 72371202C2; Wed,
+	04 Jan 2012 17:02:45 -0500 (EST)
+Date: Wed, 04 Jan 2012 17:02:45 -0500
+From: Denys Dmytriyenko <denis@denix.org>
+To: openembedded-devel@lists.openembedded.org
+Message-id: <20120104220245.GE587@denix.org>
+References: <20120104181400.GD587@denix.org>
+	<CABcZAN=i6H+G_=v2KreWhzrOKe=fgVHv-vvrMhVMzKcefrXf2w@mail.gmail.com>
+	<CAMKF1sqCETomiuAx=9zQf2kLYCO8SMxi5=UUwOQ3LGj4RRJXTg@mail.gmail.com>
+MIME-version: 1.0
+In-reply-to: <CAMKF1sqCETomiuAx=9zQf2kLYCO8SMxi5=UUwOQ3LGj4RRJXTg@mail.gmail.com>
+User-Agent: Mutt/1.5.20 (2009-06-14)
+Cc: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Subject: Re: meta-openembedded: avahi-ui-0.6.30: 'Fetcher failure for URL: 'file://fix_for_automake_1.11.2.patch'
+Subject: Re: [oe] BlueZ old releases have new checksums
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -38,15 +37,32 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 04 Jan 2012 22:46:11 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Wed, 04 Jan 2012 23:10:39 -0000
+Content-type: text/plain; charset=us-ascii
+Content-disposition: inline
 
-On Wed, Jan 4, 2012 at 1:26 PM, Leon Woestenberg
-<sidebranch.openembedded@gmail.com> wrote:
->
-> I cannot spot the error, other than that the patch exists in oe-core, but it
-> required from meta-oe. That should work, shouldn't it?
+On Wed, Jan 04, 2012 at 12:53:25PM -0800, Khem Raj wrote:
+> On Wed, Jan 4, 2012 at 12:14 PM, Chris Larson <clarson@kergoth.com> wrote:
+> > On Wed, Jan 4, 2012 at 11:14 AM, Denys Dmytriyenko <denis@denix.org> wrote:
+> >> The main archive of BlueZ/obexd/hcidump releases on kernel.org[1] finally
+> >> re-appeared after missing for long time since kernel.org compromise.
+> >> Unfortunately, all previous tarballs have new checksums, breaking builds for
+> >> anyone w/o previous copy cached. Old copies were also extensively mirrored,
+> >> so you never know which one you fetch next time...
+> >
+> > Heh, checksums changing after a security compromise, that's worrisome
+> > :) should diff their contents to see what's going on, or whether its
+> > just a gzip timestamp change or something.
+> 
+> exactly. Make sure the tars are sane
 
-I dont think so unless you have the oe-core locations in FILESPATH
+Well, according to BlueZ maintainer[1], he gave the correct tarballs to 
+kernel.org people, but for some reason they untarred and re-packed them. 
+There's only 4 bytes difference, presumably timestamp...
+
+[1] http://thread.gmane.org/gmane.linux.bluez.kernel/20040/focus=20041
+
+-- 
+Denys
 
 
