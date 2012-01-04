@@ -1,28 +1,27 @@
-Received: from mail.windriver.com ([147.11.1.11])
+Received: from mail.pbcl.net ([88.198.119.4] helo=hetzner.pbcl.net)
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <mark.hatle@windriver.com>) id 1RiU0E-0004u0-SG
+	(envelope-from <philb@gnu.org>) id 1RiU0y-0004x5-JD
 	for openembedded-core@lists.openembedded.org;
-	Wed, 04 Jan 2012 17:47:51 +0100
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca [147.11.189.40])
-	by mail.windriver.com (8.14.3/8.14.3) with ESMTP id q04GeRPq000372
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 4 Jan 2012 08:40:27 -0800 (PST)
-Received: from Macintosh-5.local (172.25.36.228) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server id 14.1.255.0;
-	Wed, 4 Jan 2012 08:40:27 -0800
-Message-ID: <4F0480FA.2020809@windriver.com>
-Date: Wed, 4 Jan 2012 10:40:26 -0600
-From: Mark Hatle <mark.hatle@windriver.com>
-Organization: Wind River Systems
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.6;
-	rv:8.0) Gecko/20111105 Thunderbird/8.0
-MIME-Version: 1.0
-To: <openembedded-core@lists.openembedded.org>
-References: <1325642890.24646.8.camel@lenny> <1325694194.20759.23.camel@ted>
-	<CABcZANkD1Dik9YDK82UJ72wMV4jLnczCKtDrPYH9gJchqjH=sQ@mail.gmail.com>
-In-Reply-To: <CABcZANkD1Dik9YDK82UJ72wMV4jLnczCKtDrPYH9gJchqjH=sQ@mail.gmail.com>
-Subject: Re: [poky] -dev RPM packages Require:ing all of their bitbake build dependences
+	Wed, 04 Jan 2012 17:48:36 +0100
+Received: from elite.brightsigndigital.co.uk ([81.142.160.137]
+	helo=[172.30.1.145])
+	by hetzner.pbcl.net with esmtpsa (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+	(Exim 4.72) (envelope-from <philb@gnu.org>) id 1RiTtt-0002P2-20
+	for openembedded-core@lists.openembedded.org;
+	Wed, 04 Jan 2012 17:41:17 +0100
+From: Phil Blundell <philb@gnu.org>
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Date: Wed, 04 Jan 2012 16:41:16 +0000
+In-Reply-To: <CABcZANmEZ6Oy6q7gL2WCCtphSA7fEHJsM0dre0tNpXvPdn2crQ@mail.gmail.com>
+References: <1325689535.28005.59.camel@phil-desktop>
+	<1325691189.20759.14.camel@ted>
+	<CAEsOVNcsY-dNYBz1Y6BVAQ-N7hVyaxOMcsniev9z455m9GYh5A@mail.gmail.com>
+	<CABcZANmEZ6Oy6q7gL2WCCtphSA7fEHJsM0dre0tNpXvPdn2crQ@mail.gmail.com>
+X-Mailer: Evolution 3.0.2- 
+Message-ID: <1325695277.28005.76.camel@phil-desktop>
+Mime-Version: 1.0
+Subject: Re: sstate compression
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -37,46 +36,31 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 04 Jan 2012 16:47:51 -0000
-Content-Type: text/plain; charset="UTF-8"; format=flowed
+X-List-Received-Date: Wed, 04 Jan 2012 16:48:36 -0000
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 
-On 1/4/12 10:34 AM, Chris Larson wrote:
-> On Wed, Jan 4, 2012 at 9:23 AM, Richard Purdie
-> <richard.purdie@linuxfoundation.org>  wrote:
->>> Another approach would be to stop injecting -dev Requires by default.  I
->>> imagine this was done to handle the case of library A whose headers
->>> require library B.  However, a saner way to handle this I think is
->>> simply to push people to use pkg-config; IIRC a script exists to extract
->>> pkg-config dependencies from the .pc files and use that for the RPM
->>> auto-dependency phase.  That would ensure that e.g. gtk+-dev Requires:
->>> glib-dev.  This doesn't help non-pkg-config libraries, but those people
->>> should be shamed anyways =)
->>
->> I think these dependencies are wrong and need revisiting. Currently,
->> -dev and -dbg packages share the same code and its tilted more in favour
->> of -dbg than it is for -dev.
->>
->> I think the -dev packages make sense if you want to build X but not
->> build something that just depends on X. We should therefore move the
->> dependencies to a new package (need a good name) and rethink the -dev
->> package dependencies.
->
->
-> I'm inclined to say let the user install the deps needed to build X
-> themselves, or build it with bitbake, and let -dev work the way it
-> does in other distros, the bits needed to build against X.
+On Wed, 2012-01-04 at 09:32 -0700, Chris Larson wrote:
+> Agreed. Sstate can get truly massive, being able to opt-into xz or
+> something would be lovely for us as well.
 
-Ya, that seems to be the best solution for a more modern system.
+Yes, that would be nice.  xz does seem to compress nearly twice as well
+as "gzip -9", though it takes about six times as long to do it.  (16M
+and 55 seconds vs 28M and 9.5 seconds for my webkit testcase.)
+Personally I don't care about the disk space as much as the build time,
+but I can see that sstate could start to become quite unwieldy if you
+have a lot of packages in there.
 
-This will require a combination of additional automatic dependency detection and 
-also manual intervention when that detection isn't complete.
+Alternatively, maybe we could have sstate.bbclass accept multiple
+compression types when reading (i.e. look for .tar.xz, .tar.gz, .tar.lzo
+etc in turn), make it use the fastest reasonable compression when
+generating the archives in the first place, and then folks who want to
+either put them into long-term storage or send them over slow links can
+post-process the sstate-cache by transcoding them into .xz or whatever
+format.
 
-The complications with the automatic detection are around the header files... 
-we'll need to detect when one header includes another, and then translate that 
-to an associated -dev file.  But I know there are intentionally broken includes 
-(wrapped in #if's etc..)
+p.
 
---Mark
+
 
 
