@@ -1,19 +1,31 @@
-Received: from mail.windriver.com ([147.11.1.11])
+Received: from mail-qy0-f175.google.com ([209.85.216.175])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <bruce.ashfield@windriver.com>) id 1RiXKC-000525-Gn
-	for openembedded-core@lists.openembedded.org;
-	Wed, 04 Jan 2012 21:20:42 +0100
-Received: from yow-bashfiel-l1.corp.ad.wrs.com
-	(yow-bashfiel-d3.ottawa.windriver.com [128.224.147.67])
-	by mail.windriver.com (8.14.3/8.14.3) with ESMTP id q04KDE7n001257;
-	Wed, 4 Jan 2012 12:13:14 -0800 (PST)
-From: Bruce Ashfield <bruce.ashfield@windriver.com>
-To: richard.purdie@linuxfoundation.org
-Date: Wed,  4 Jan 2012 15:12:59 -0500
-Message-Id: <cover.1325706838.git.bruce.ashfield@windriver.com>
-X-Mailer: git-send-email 1.7.4.1
-Cc: openembedded-core@lists.openembedded.org, saul.wold@intel.com
-Subject: [PATCH 0/3] linux-yocto: consolidated pull request
+	(envelope-from <kergoth@gmail.com>)
+	id 1RiXLh-0005B5-6A; Wed, 04 Jan 2012 21:22:13 +0100
+Received: by qcqw6 with SMTP id w6so10072341qcq.6
+	for <multiple recipients>; Wed, 04 Jan 2012 12:14:47 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
+	h=mime-version:sender:in-reply-to:references:from:date
+	:x-google-sender-auth:message-id:subject:to:cc:content-type;
+	bh=oax1KxhVP5ycVlX7w5qLYeek6gJGud+kdIqSHUwljc8=;
+	b=Nsq3cOxNEYMpr75xNIVpmaM364+mp0FWzbXGKdafJGfC1AqPV6mVm+lay/FXdj2B51
+	ejfIPiBB4GL0xrYmeegvSzBeFWrbvmNyhh0yXcfJC5F31dLCnlO81/cMs4h3vyvaBR79
+	VIiqXKAgL/99Xe8HgdjhaxYqOTLIc/fx8FPSc=
+Received: by 10.224.42.10 with SMTP id q10mr52704828qae.26.1325708087221; Wed,
+	04 Jan 2012 12:14:47 -0800 (PST)
+MIME-Version: 1.0
+Sender: kergoth@gmail.com
+Received: by 10.229.187.141 with HTTP; Wed, 4 Jan 2012 12:14:26 -0800 (PST)
+In-Reply-To: <20120104181400.GD587@denix.org>
+References: <20120104181400.GD587@denix.org>
+From: Chris Larson <clarson@kergoth.com>
+Date: Wed, 4 Jan 2012 13:14:26 -0700
+X-Google-Sender-Auth: tH8gD76j3bEgjUWPV4-C8IGCocc
+Message-ID: <CABcZAN=i6H+G_=v2KreWhzrOKe=fgVHv-vvrMhVMzKcefrXf2w@mail.gmail.com>
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Cc: openembedded-devel@lists.openembedded.org
+Subject: Re: BlueZ old releases have new checksums
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -28,57 +40,20 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 04 Jan 2012 20:20:42 -0000
+X-List-Received-Date: Wed, 04 Jan 2012 20:22:13 -0000
+Content-Type: text/plain; charset=UTF-8
 
-Richard/Saul,
+On Wed, Jan 4, 2012 at 11:14 AM, Denys Dmytriyenko <denis@denix.org> wrote:
+> The main archive of BlueZ/obexd/hcidump releases on kernel.org[1] finally
+> re-appeared after missing for long time since kernel.org compromise.
+> Unfortunately, all previous tarballs have new checksums, breaking builds for
+> anyone w/o previous copy cached. Old copies were also extensively mirrored,
+> so you never know which one you fetch next time...
 
-Here's a 3pack of kernel changes. The breakdown is as follows:
-
-1) kern-tools: import flexible branching support
-
-This fixes an issue that Saul found with the Intel boards that
-use the yocto/emgd, yocto/eg20t graphics branches. We need to
-be able to have features that allow a branch to be tested via
-multiple creations. So these changes allow that again.
-
-2) linux-yocto: bump kernel version to v3.0.14
-
-Normal maintainance here. Bumping the version to pickup 3.0.14 fixes.
-  
-3) linux-yocto: use src_patches for out of tree kernel feature support
-
-This is to fix some issue we found in 1.1 and was on the M2
-feature schedule. This sets the stage for Tom's BSP scripts and
-out of tree development. 
-
-At the least, you want #1 right away to fix potential breakage.
-
-Cheers,
-
-Bruce
-
-
-The following changes since commit 021848be9eeb71de8acfba6c66c11645b01523b8:
-
-  valgrind: Fix for automake update (2012-01-04 16:04:08 +0000)
-
-are available in the git repository at:
-  git://git.pokylinux.org/poky-contrib zedd/kernel
-  http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=zedd/kernel
-
-Bruce Ashfield (3):
-  kern-tools: import flexible branching support
-  linux-yocto: bump kernel version to v3.0.14
-  linux-yocto: use src_patches for out of tree kernel feature support
-
- meta/classes/kernel-yocto.bbclass                  |   67 +++++++++++++++++++-
- .../kern-tools/kern-tools-native_git.bb            |    2 +-
- meta/recipes-kernel/linux/linux-yocto-rt_3.0.bb    |    8 +-
- meta/recipes-kernel/linux/linux-yocto_3.0.bb       |   19 +++---
- 4 files changed, 80 insertions(+), 16 deletions(-)
-
+Heh, checksums changing after a security compromise, that's worrisome
+:) should diff their contents to see what's going on, or whether its
+just a gzip timestamp change or something.
 -- 
-1.7.4.1
-
+Christopher Larson
 
 
