@@ -1,30 +1,25 @@
-Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
-	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <richard.purdie@linuxfoundation.org>)
-	id 1RiPtf-0004d1-KA for openembedded-core@lists.openembedded.org;
-	Wed, 04 Jan 2012 13:24:47 +0100
-Received: from localhost (localhost [127.0.0.1])
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q04CHQVJ018643
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 4 Jan 2012 12:17:26 GMT
-Received: from tim.rpsys.net ([127.0.0.1])
-	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
-	port 10024) with LMTP
-	id 17912-09 for <openembedded-core@lists.openembedded.org>;
-	Wed,  4 Jan 2012 12:17:22 +0000 (GMT)
-Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q04CHJVS018637
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO)
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 4 Jan 2012 12:17:21 GMT
-Message-ID: <1325679439.3555.137.camel@ted>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: openembedded-core <openembedded-core@lists.openembedded.org>
-Date: Wed, 04 Jan 2012 12:17:19 +0000
-X-Mailer: Evolution 3.2.2- 
+Received: from mail.pbcl.net ([88.198.119.4] helo=hetzner.pbcl.net)
+	by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <philb@gnu.org>) id 1RiQ0L-0004on-PF
+	for openembedded-core@lists.openembedded.org;
+	Wed, 04 Jan 2012 13:31:41 +0100
+Received: from elite.brightsigndigital.co.uk ([81.142.160.137]
+	helo=[172.30.1.145])
+	by hetzner.pbcl.net with esmtpsa (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+	(Exim 4.72) (envelope-from <philb@gnu.org>)
+	id 1RiPtG-00029r-6I; Wed, 04 Jan 2012 13:24:22 +0100
+From: Phil Blundell <philb@gnu.org>
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>, Paul Eggleton
+	<paul.eggleton@linux.intel.com>
+Date: Wed, 04 Jan 2012 12:24:21 +0000
+In-Reply-To: <1325678787.3555.134.camel@ted>
+References: <1325612539.28005.16.camel@phil-desktop>
+	<1325678787.3555.134.camel@ted>
+X-Mailer: Evolution 3.0.2- 
+Message-ID: <1325679862.28005.44.camel@phil-desktop>
 Mime-Version: 1.0
-X-Virus-Scanned: amavisd-new at rpsys.net
-Subject: [PATCH] populate_sdk_ipk.bbclass: Ensure the correct environment is setup for postinstalls
+Subject: Re: weird exports in bitbake.conf
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -39,35 +34,40 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 04 Jan 2012 12:24:47 -0000
+X-List-Received-Date: Wed, 04 Jan 2012 12:31:41 -0000
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 
-Without this, various postinstalls get run with incorrect environments
-leading to various failures when building the toolchains.
+On Wed, 2012-01-04 at 12:06 +0000, Richard Purdie wrote:
+> On Tue, 2012-01-03 at 17:42 +0000, Phil Blundell wrote:
+> > Does anybody know why these vars are exported (or, in the case of
+> > STAGING_IDLDIR, there at all)?
+> > 
+> > export QMAKE_MKSPEC_PATH = "${STAGING_DATADIR_NATIVE}/qmake"
+> > export STAGING_SIPDIR = "${STAGING_DATADIR_NATIVE}/sip"
+> > export STAGING_IDLDIR = "${STAGING_DATADIR}/idl"
+> 
+> These are very old, I remember looking at them at various times but
+> there was always something else to distract me. I'd be happy to take a
+> patch removing them. If anything does break, there are better ways to
+> fix it.
 
-This adds some duplication and some variables we'd be better off
-removing. It does unbreak the SDK ipk code for now though. This needs
-revisiting.
+Okay, I'll send a patch for that presently.
 
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
----
-diff --git a/meta/classes/populate_sdk_ipk.bbclass b/meta/classes/populate_sdk_ipk.bbclass
-index 8a0c268..c256c69 100644
---- a/meta/classes/populate_sdk_ipk.bbclass
-+++ b/meta/classes/populate_sdk_ipk.bbclass
-@@ -20,6 +20,11 @@ populate_sdk_ipk() {
- 	export INSTALL_CONF_IPK="${IPKGCONF_TARGET}"
- 	export INSTALL_PACKAGES_IPK="${TOOLCHAIN_TARGET_TASK}"
- 
-+	export D=${INSTALL_ROOTFS_IPK}
-+	export OFFLINE_ROOT=${INSTALL_ROOTFS_IPK}
-+	export IPKG_OFFLINE_ROOT=${INSTALL_ROOTFS_IPK}
-+	export OPKG_OFFLINE_ROOT=${IPKG_OFFLINE_ROOT}
-+
- 	package_install_internal_ipk
- 
- 	#install host
+There's also a bunch of historical Opie stuff which is currently getting
+exported globally:
+
+export QTDIR = "${STAGING_DIR_HOST}/qt2"
+export QPEDIR = "${STAGING_DIR_HOST}"
+export OPIEDIR = "${STAGING_DIR_HOST}"
+export palmtopdir = "${libdir}/opie"
+export palmqtdir = "${palmtopdir}"
+
+Paul, do you know if these variables are still necessary, whether they
+all need to be exported, and/or whether they could go in some opie class
+rather than bitbake.conf?
+
+p.
 
 
 
