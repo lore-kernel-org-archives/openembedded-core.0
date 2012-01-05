@@ -1,35 +1,35 @@
-Received: from mail-yx0-f175.google.com ([209.85.213.175])
+Received: from mail-gy0-f175.google.com ([209.85.160.175])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <otavio.salvador@gmail.com>) id 1RitG2-00086v-Fu
+	(envelope-from <otavio.salvador@gmail.com>) id 1RitG4-00087E-OR
 	for openembedded-core@lists.openembedded.org;
-	Thu, 05 Jan 2012 20:45:50 +0100
-Received: by mail-yx0-f175.google.com with SMTP id m12so373860yen.6
+	Thu, 05 Jan 2012 20:45:53 +0100
+Received: by mail-gy0-f175.google.com with SMTP id r17so368633ghr.6
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 05 Jan 2012 11:38:29 -0800 (PST)
+	Thu, 05 Jan 2012 11:38:31 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
 	h=sender:from:to:subject:date:message-id:x-mailer:in-reply-to
 	:references:in-reply-to:references;
-	bh=OsMHKnGu432GzdjKbGxnoL/NaWzsa/CAayC4PqoJxz4=;
-	b=iDfYTPg2XMdUii/Sn2ZzBd0ChmTAdtH3td1NxnRyoQHZymbmVOWhrzJDz3rUNvFlHR
-	K3xIkMdwCbPZv+LM515MPivhXah5uXihbJ4beIqCiy0oe/Ifa/spqJJeP34I5BO2El4r
-	gCG93pWp64mq3baHZo6G2GOa1h281I1VnNMjI=
-Received: by 10.236.128.207 with SMTP id f55mr3717539yhi.83.1325792309532;
-	Thu, 05 Jan 2012 11:38:29 -0800 (PST)
+	bh=ZJxdSy2impaqSX2XT15sGhwEZSOxgYnGixNyQQZAIAg=;
+	b=KYCz1hOgZt94twZX8FKHdHD1kpQ7KQtlqh2WZ4Jd1WieyN6WgIrzmwzhrJ8oOJfQKV
+	l5+EJaeIEAmllQXwSFPI65FiB4wiC93zDlouA9CX/owvPZG/l72BlESMRCVReqCuaM3z
+	oALW0Pet37i+5PoHs0kOXa3beL05tljE0uUsY=
+Received: by 10.236.184.8 with SMTP id r8mr3719419yhm.110.1325792311809;
+	Thu, 05 Jan 2012 11:38:31 -0800 (PST)
 Received: from localhost.localdomain ([189.114.111.55])
-	by mx.google.com with ESMTPS id n5sm83398402yhk.1.2012.01.05.11.38.27
+	by mx.google.com with ESMTPS id n5sm83398402yhk.1.2012.01.05.11.38.29
 	(version=TLSv1/SSLv3 cipher=OTHER);
-	Thu, 05 Jan 2012 11:38:28 -0800 (PST)
+	Thu, 05 Jan 2012 11:38:30 -0800 (PST)
 Sender: Otavio Salvador <otavio.salvador@gmail.com>
 From: Otavio Salvador <otavio@ossystems.com.br>
 To: openembedded-core@lists.openembedded.org
-Date: Thu,  5 Jan 2012 19:37:54 +0000
-Message-Id: <eea6cc4bf36151b09972954b13be160ffa53aafc.1325792209.git.otavio@ossystems.com.br>
+Date: Thu,  5 Jan 2012 19:37:55 +0000
+Message-Id: <cd96e27b6190f693edde388733211b82d688328d.1325792209.git.otavio@ossystems.com.br>
 X-Mailer: git-send-email 1.7.2.5
 In-Reply-To: <cover.1325792209.git.otavio@ossystems.com.br>
 References: <cover.1325792209.git.otavio@ossystems.com.br>
 In-Reply-To: <cover.1325792209.git.otavio@ossystems.com.br>
 References: <cover.1325792209.git.otavio@ossystems.com.br>
-Subject: [PATCH 04/10] qt4-embedded.inc: use QT_BASE_NAME from qt4e.bbclass
+Subject: [PATCH 05/10] qt4-x11-free.inc: use QT_BASE_NAME from qt4x11.bbclass
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -44,28 +44,32 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 05 Jan 2012 19:45:50 -0000
+X-List-Received-Date: Thu, 05 Jan 2012 19:45:53 -0000
 
 Signed-off-by: Otavio Salvador <otavio@ossystems.com.br>
 ---
- meta/recipes-qt/qt4/qt4-embedded.inc |    3 +--
+ meta/recipes-qt/qt4/qt4-x11-free.inc |    3 +--
  1 files changed, 1 insertions(+), 2 deletions(-)
 
-diff --git a/meta/recipes-qt/qt4/qt4-embedded.inc b/meta/recipes-qt/qt4/qt4-embedded.inc
-index 39f7398..e472af5 100644
---- a/meta/recipes-qt/qt4/qt4-embedded.inc
-+++ b/meta/recipes-qt/qt4/qt4-embedded.inc
-@@ -2,9 +2,8 @@ DESCRIPTION = "Qt is a versatile cross-platform application framework -- this is
- SECTION = "libs"
- HOMEPAGE = "http://qt.nokia.com"
- DEPENDS += "directfb tslib"
--INC_PR = "r39"
-+INC_PR = "r40"
+diff --git a/meta/recipes-qt/qt4/qt4-x11-free.inc b/meta/recipes-qt/qt4/qt4-x11-free.inc
+index 5b93a98..40939de 100644
+--- a/meta/recipes-qt/qt4/qt4-x11-free.inc
++++ b/meta/recipes-qt/qt4/qt4-x11-free.inc
+@@ -5,13 +5,12 @@ HOMEPAGE = "http://qt.nokia.com"
+ SECTION = "x11/libs"
+ DEPENDS += "virtual/libgl virtual/libx11 fontconfig libxft libxext libxrender libxrandr libxcursor"
  
--QT_BASE_NAME ?= "qt4-embedded"
- QT_BASE_LIB  ?= "libqt-embedded"
+-INC_PR = "r36"
++INC_PR = "r37"
  
- # Set necessary variables in the profile
+ QT_GLFLAGS ?= "${@base_contains('DISTRO_FEATURES', 'opengl', '-opengl', '-no-opengl', d)} "
+ QT_GLFLAGS_qemux86 = "-opengl"
+ QT_GLFLAGS_qemuppc = "-opengl"
+ QT_CONFIG_FLAGS += "-no-xinerama -no-xkb"
+-QT_BASE_NAME ?= "qt4"
+ QT_BASE_LIB  ?= "libqt"
+ 
+ inherit qt4x11
 -- 
 1.7.2.5
 
