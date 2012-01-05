@@ -1,24 +1,24 @@
 Received: from mga09.intel.com ([134.134.136.24])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <sgw@linux.intel.com>) id 1Rigxy-0001EI-CR
+	(envelope-from <sgw@linux.intel.com>) id 1Rigxy-0001EK-KJ
 	for openembedded-core@lists.openembedded.org;
 	Thu, 05 Jan 2012 07:38:22 +0100
 Received: from orsmga002.jf.intel.com ([10.7.209.21])
-	by orsmga102.jf.intel.com with ESMTP; 04 Jan 2012 22:30:57 -0800
+	by orsmga102.jf.intel.com with ESMTP; 04 Jan 2012 22:30:58 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.67,351,1309762800"; d="scan'208";a="94663905"
+X-IronPort-AV: E=Sophos;i="4.67,351,1309762800"; d="scan'208";a="94663906"
 Received: from unknown (HELO swold-mobl.bigsur.com) ([10.255.13.127])
 	by orsmga002.jf.intel.com with ESMTP; 04 Jan 2012 22:30:57 -0800
 From: Saul Wold <sgw@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Wed,  4 Jan 2012 22:30:36 -0800
-Message-Id: <701b2b52c54cc79bd8991f054fe266d403313b90.1325744640.git.sgw@linux.intel.com>
+Date: Wed,  4 Jan 2012 22:30:37 -0800
+Message-Id: <fd8f785db698b6b4fe706175220285ff7c8d31c1.1325744640.git.sgw@linux.intel.com>
 X-Mailer: git-send-email 1.7.6.4
 In-Reply-To: <cover.1325744640.git.sgw@linux.intel.com>
 References: <cover.1325744640.git.sgw@linux.intel.com>
 In-Reply-To: <cover.1325744640.git.sgw@linux.intel.com>
 References: <cover.1325744640.git.sgw@linux.intel.com>
-Subject: [CONSOLIDATED PULL 11/28] python-native: correct prefix handling for oe-core sysroot layout
+Subject: [CONSOLIDATED PULL 12/28] opkg-utils: use /usr/bin/env python
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -35,94 +35,87 @@ List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedde
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Thu, 05 Jan 2012 06:38:22 -0000
 
-From: Phil Blundell <philb@gnu.org>
+From: Christopher Larson <kergoth@gmail.com>
 
-Don't try to guess a path based on ${HOST_SYS} since this is not where the
-files in the sysroot are likely to be.  Instead, just use the "plat_specific"
-approach of taking STAGING_INCDIR and knocking off the trailing "/include" for
-all cases.  This is still evidently suboptimal but does at least seem to give
-the correct results.
-
-Signed-off-by: Phil Blundell <philb@gnu.org>
+Signed-off-by: Christopher Larson <kergoth@gmail.com>
 ---
- ...2-distutils-prefix-is-inside-staging-area.patch |   22 ++++++++-----------
- .../recipes-devtools/python/python-native_2.7.2.bb |    2 +-
- 2 files changed, 10 insertions(+), 14 deletions(-)
+ .../opkg-utils/opkg-utils/shebang.patch            |   46 ++++++++++++++++++++
+ meta/recipes-devtools/opkg-utils/opkg-utils_svn.bb |    3 +-
+ 2 files changed, 48 insertions(+), 1 deletions(-)
+ create mode 100644 meta/recipes-devtools/opkg-utils/opkg-utils/shebang.patch
 
-diff --git a/meta/recipes-devtools/python/python-native/12-distutils-prefix-is-inside-staging-area.patch b/meta/recipes-devtools/python/python-native/12-distutils-prefix-is-inside-staging-area.patch
-index 8e721fe..b46caf6 100644
---- a/meta/recipes-devtools/python/python-native/12-distutils-prefix-is-inside-staging-area.patch
-+++ b/meta/recipes-devtools/python/python-native/12-distutils-prefix-is-inside-staging-area.patch
-@@ -2,12 +2,11 @@ Upstream-Status: Inappropriate [embedded specific]
+diff --git a/meta/recipes-devtools/opkg-utils/opkg-utils/shebang.patch b/meta/recipes-devtools/opkg-utils/opkg-utils/shebang.patch
+new file mode 100644
+index 0000000..f6a2ef9
+--- /dev/null
++++ b/meta/recipes-devtools/opkg-utils/opkg-utils/shebang.patch
+@@ -0,0 +1,46 @@
++Use python via the PATH, rather than hardcoding /usr/bin/python
++
++Upstream-Status: Pending
++
++Signed-off-by: Christopher Larson <kergoth@gmail.com>
++
++--- opkg-utils.orig/opkg-list-fields
+++++ opkg-utils/opkg-list-fields
++@@ -1,4 +1,4 @@
++-#!/usr/bin/python
+++#!/usr/bin/env python
++ 
++ import sys, opkg
++ 
++--- opkg-utils.orig/opkg-make-index
+++++ opkg-utils/opkg-make-index
++@@ -1,4 +1,4 @@
++-#!/usr/bin/python
+++#!/usr/bin/env python
++ 
++ import sys, os, posixpath
++ from glob import glob
++--- opkg-utils.orig/opkg-show-deps
+++++ opkg-utils/opkg-show-deps
++@@ -1,4 +1,4 @@
++-#!/usr/bin/python
+++#!/usr/bin/env python
++ 
++ import sys, os, posixpath
++ from glob import glob
++--- opkg-utils.orig/opkg-unbuild
+++++ opkg-utils/opkg-unbuild
++@@ -1,4 +1,4 @@
++-#!/usr/bin/python
+++#!/usr/bin/env python
++ 
++ import sys, os, re
++ 
++--- opkg-utils.orig/opkg-update-index
+++++ opkg-utils/opkg-update-index
++@@ -1,4 +1,4 @@
++-#!/usr/bin/env python2.1
+++#!/usr/bin/env python
++ 
++ import sys, os
++ from glob import glob
+diff --git a/meta/recipes-devtools/opkg-utils/opkg-utils_svn.bb b/meta/recipes-devtools/opkg-utils/opkg-utils_svn.bb
+index 9b94aff..9702131 100644
+--- a/meta/recipes-devtools/opkg-utils/opkg-utils_svn.bb
++++ b/meta/recipes-devtools/opkg-utils/opkg-utils_svn.bb
+@@ -8,13 +8,14 @@ RDEPENDS_${PN} = "python"
+ RDEPENDS_${PN}_virtclass-native = ""
+ SRCREV = "4747"
+ PV = "0.1.8+svnr${SRCPV}"
+-PR = "r6"
++PR = "r7"
  
- # The proper prefix is inside our staging area.
- # Signed-Off: Michael 'Mickey' Lauer <mickey@vanille-media.de>
-+# Signed-off-by: Phil Blundell <philb@gnu.org>
+ SRC_URI = "svn://svn.openmoko.org/trunk/src/host/;module=opkg-utils;proto=http \
+            file://index-ignore-filenotfound.patch \
+            file://mtime-int.patch \
+            file://add-license-field.patch \
+            file://arfile_header_split.patch \
++           file://shebang.patch \
+            "
  
--Index: Python-2.6.6/Lib/distutils/sysconfig.py
--===================================================================
----- Python-2.6.6.orig/Lib/distutils/sysconfig.py
--+++ Python-2.6.6/Lib/distutils/sysconfig.py
--@@ -19,8 +19,8 @@ import sys
-+--- Python-2.6.6/Lib/distutils/sysconfig.py.orig	2012-01-03 14:02:03.027005296 +0000
-++++ Python-2.6.6/Lib/distutils/sysconfig.py	2012-01-03 14:02:31.517601081 +0000
-+@@ -19,8 +19,8 @@
-  from distutils.errors import DistutilsPlatformError
-  
-  # These are needed in a couple of spots, so just compute them once.
-@@ -18,19 +17,16 @@ Index: Python-2.6.6/Lib/distutils/sysconfig.py
-  
-  # Path to the base directory of the project. On Windows the binary may
-  # live in project/PCBuild9.  If we're dealing with an x64 Windows build,
--@@ -70,7 +70,10 @@ def get_python_inc(plat_specific=0, pref
-+@@ -70,7 +70,7 @@
-      sys.exec_prefix -- i.e., ignore 'plat_specific'.
-      """
-      if prefix is None:
- -        prefix = plat_specific and EXEC_PREFIX or PREFIX
--+        if plat_specific:
--+            prefix = plat_specific and os.environ['STAGING_INCDIR'].rstrip('include')
--+        else:
--+            prefix = plat_specific and EXEC_PREFIX or PREFIX
-++        prefix = os.environ['STAGING_INCDIR'].rstrip('include')
-  
-      if os.name == "posix":
-          if python_build:
--@@ -115,12 +118,16 @@ def get_python_lib(plat_specific=0, stan
-+@@ -115,12 +115,16 @@
-      If 'prefix' is supplied, use it instead of sys.prefix or
-      sys.exec_prefix -- i.e., ignore 'plat_specific'.
-      """
-@@ -49,7 +45,7 @@ Index: Python-2.6.6/Lib/distutils/sysconfig.py
-          if standard_lib:
-              return libpython
-          else:
--@@ -216,7 +223,7 @@ def get_config_h_filename():
-+@@ -216,7 +220,7 @@
-      else:
-          # The name of the config.h file changed in 2.2
-          config_h = 'pyconfig.h'
-@@ -58,7 +54,7 @@ Index: Python-2.6.6/Lib/distutils/sysconfig.py
-  
-  
-  def get_makefile_filename():
--@@ -225,7 +232,7 @@ def get_makefile_filename():
-+@@ -225,7 +229,7 @@
-          return os.path.join(os.path.dirname(os.path.realpath(sys.executable)),
-                              "Makefile")
-      lib_dir = get_python_lib(plat_specific=1, standard_lib=1)
-diff --git a/meta/recipes-devtools/python/python-native_2.7.2.bb b/meta/recipes-devtools/python/python-native_2.7.2.bb
-index 7d8c597..8bf736d 100644
---- a/meta/recipes-devtools/python/python-native_2.7.2.bb
-+++ b/meta/recipes-devtools/python/python-native_2.7.2.bb
-@@ -1,6 +1,6 @@
- require python.inc
- DEPENDS = "openssl-native bzip2-full-native zlib-native readline-native sqlite3-native"
--PR = "${INC_PR}.2"
-+PR = "${INC_PR}.3"
- 
- SRC_URI += "file://04-default-is-optimized.patch \
-            file://05-enable-ctypes-cross-build.patch \
+ S = "${WORKDIR}/opkg-utils"
 -- 
 1.7.6.4
 
