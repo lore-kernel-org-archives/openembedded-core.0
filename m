@@ -1,30 +1,25 @@
-Received: from mail-pz0-f47.google.com ([209.85.210.47])
+Received: from mga01.intel.com ([192.55.52.88])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <bruce.ashfield@gmail.com>) id 1Ritns-0000Ag-4X
+	(envelope-from <sgw@linux.intel.com>) id 1Ritnt-0000Ai-0V
 	for openembedded-core@lists.openembedded.org;
-	Thu, 05 Jan 2012 21:20:48 +0100
-Received: by dake40 with SMTP id e40so442416dak.6
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 05 Jan 2012 12:13:24 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
-	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
-	:content-type:content-transfer-encoding;
-	bh=hmTrmIN4eODF94SylmtrFaO6k9jF/+q+XsuCusu4/tE=;
-	b=IVRV4PQ9b5pnKBNWomBjbD70runWg0qkJfVhazs7ldDaGEpkSNx8nGch+oslC/mAKw
-	gb1ifBR+vEGEiDENzVJpJFk5UjcXs+FHqpY1lAMYVqcn3nFmJK1WJVBk8m1CROfxfgRK
-	sJBqug2CMXA6Mz1y4+qfG1bHox6jKK/erys8w=
+	Thu, 05 Jan 2012 21:20:50 +0100
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+	by fmsmga101.fm.intel.com with ESMTP; 05 Jan 2012 12:13:25 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="103941905"
+Received: from unknown (HELO [10.255.13.127]) ([10.255.13.127])
+	by fmsmga001.fm.intel.com with ESMTP; 05 Jan 2012 12:13:24 -0800
+Message-ID: <4F060464.9030302@linux.intel.com>
+Date: Thu, 05 Jan 2012 12:13:24 -0800
+From: Saul Wold <sgw@linux.intel.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:7.0) Gecko/20110927 Thunderbird/7.0
 MIME-Version: 1.0
-Received: by 10.68.192.5 with SMTP id hc5mr8359483pbc.62.1325794403987; Thu,
-	05 Jan 2012 12:13:23 -0800 (PST)
-Received: by 10.143.30.20 with HTTP; Thu, 5 Jan 2012 12:13:23 -0800 (PST)
-In-Reply-To: <1325793967-13002-1-git-send-email-raj.khem@gmail.com>
-References: <1325793967-13002-1-git-send-email-raj.khem@gmail.com>
-Date: Thu, 5 Jan 2012 15:13:23 -0500
-Message-ID: <CADkTA4PFLMdSNM47+__79NXwuocFb7Y70o1qwP=+ft2aS4jd1A@mail.gmail.com>
-From: Bruce Ashfield <bruce.ashfield@gmail.com>
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] linux-yocto-3.0: Fix compile failure in perf
+References: <1325700000-7646-1-git-send-email-kergoth@gmail.com>
+In-Reply-To: <1325700000-7646-1-git-send-email-kergoth@gmail.com>
+Subject: Re: [PATCH] opkg-utils: use /usr/bin/env python
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -39,130 +34,95 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 05 Jan 2012 20:20:48 -0000
-Content-Type: text/plain; charset=ISO-8859-1
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Thu, 05 Jan 2012 20:20:52 -0000
+Content-Type: text/plain; charset=ISO-8859-1; format=flowed
+Content-Transfer-Encoding: 7bit
 
-On Thu, Jan 5, 2012 at 3:06 PM, Khem Raj <raj.khem@gmail.com> wrote:
-> Signed-off-by: Khem Raj <raj.khem@gmail.com>
+On 01/04/2012 10:00 AM, Christopher Larson wrote:
+> Signed-off-by: Christopher Larson<kergoth@gmail.com>
 > ---
-> =A0...Undef-before-redefining-__attribute_const.patch | =A0 33 ++++++++++=
-++++++++++
-> =A0meta/recipes-kernel/linux/linux-yocto_3.0.bb =A0 =A0 =A0 | =A0 =A04 ++=
--
-> =A02 files changed, 36 insertions(+), 1 deletions(-)
-> =A0create mode 100644 meta/recipes-kernel/linux/linux-yocto/0001-compiler=
-.h-Undef-before-redefining-__attribute_const.patch
-
-Khem,
-
-I just built multiple linux-yocto kernels, for all the qemu targets
-and haven't seen this
-error at all. Do you have any special configuration that would be
-triggering this ?
-
-The change itself looks sane, and in fact makes sense, since the rest
-of the file
-has the same protection for the new defines. Nothing has changed that
-should have triggered
-this to become an issue. I'm just trying to figure out why it has
-popped up now.
-
-I also checked and the 3.2 kernel still has the same issue, so pushing
-it upstream makes
-sense as well.
-
-And I see you asked on IRC, so I'll answer here. Submit a patch to the
-kernel like
-any upstream kernel change. Simply send the patch right from your
-linux working tree,
-and I'll pickup the change, merge it into the tree, push it out and
-send a pull request
-with updated SRCREVs that collect all the queued changes.
-
-Cheers,
-
-Bruce
-
+>   .../opkg-utils/opkg-utils/shebang.patch            |   46 ++++++++++++++++++++
+>   meta/recipes-devtools/opkg-utils/opkg-utils_svn.bb |    3 +-
+>   2 files changed, 48 insertions(+), 1 deletions(-)
+>   create mode 100644 meta/recipes-devtools/opkg-utils/opkg-utils/shebang.patch
 >
-> diff --git a/meta/recipes-kernel/linux/linux-yocto/0001-compiler.h-Undef-=
-before-redefining-__attribute_const.patch b/meta/recipes-kernel/linux/linux=
--yocto/0001-compiler.h-Undef-before-redefining-__attribute_const.patch
+Merged into OE-Core
+
+Thanks
+	Sau!
+
+
+> diff --git a/meta/recipes-devtools/opkg-utils/opkg-utils/shebang.patch b/meta/recipes-devtools/opkg-utils/opkg-utils/shebang.patch
 > new file mode 100644
-> index 0000000..b85cc97
+> index 0000000..f6a2ef9
 > --- /dev/null
-> +++ b/meta/recipes-kernel/linux/linux-yocto/0001-compiler.h-Undef-before-=
-redefining-__attribute_const.patch
-> @@ -0,0 +1,33 @@
-> +From 6f92ab6de9d8daeb575949bbbcbc7bcdcebc60af Mon Sep 17 00:00:00 2001
-> +From: Khem Raj <raj.khem@gmail.com>
-> +Date: Thu, 5 Jan 2012 11:42:35 -0800
-> +Subject: [PATCH] compiler.h: Undef before redefining __attribute_const__
+> +++ b/meta/recipes-devtools/opkg-utils/opkg-utils/shebang.patch
+> @@ -0,0 +1,46 @@
+> +Use python via the PATH, rather than hardcoding /usr/bin/python
 > +
-> +This is required to avoid warnings like
-> +util/include/linux/compiler.h:8:0: error: "__attribute_const__" redefine=
-d [-Werror]
+> +Upstream-Status: Pending
 > +
-> +Signed-off-by: Khem Raj <raj.khem@gmail.com>
-> +---
-> + tools/perf/util/include/linux/compiler.h | =A0 =A04 +++-
-> + 1 files changed, 3 insertions(+), 1 deletions(-)
+> +Signed-off-by: Christopher Larson<kergoth@gmail.com>
 > +
-> +diff --git a/tools/perf/util/include/linux/compiler.h b/tools/perf/util/=
-include/linux/compiler.h
-> +index 791f9dd..f17ecef 100644
-> +--- a/tools/perf/util/include/linux/compiler.h
-> ++++ b/tools/perf/util/include/linux/compiler.h
-> +@@ -4,9 +4,11 @@
-> + #ifndef __always_inline
-> + #define __always_inline =A0 =A0 =A0 inline
-> + #endif
-> ++#undef __user
-> + #define __user
-> ++#undef __attribute_const__
-> + #define __attribute_const__
-> +-
-> ++#undef __used
-> + #define __used =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0__attribute__((__unused__=
-))
+> +--- opkg-utils.orig/opkg-list-fields
+> ++++ opkg-utils/opkg-list-fields
+> +@@ -1,4 +1,4 @@
+> +-#!/usr/bin/python
+> ++#!/usr/bin/env python
 > +
-> + #endif
-> +--
-> +1.7.5.4
+> + import sys, opkg
 > +
-> diff --git a/meta/recipes-kernel/linux/linux-yocto_3.0.bb b/meta/recipes-=
-kernel/linux/linux-yocto_3.0.bb
-> index b650c84..2e87f7f 100644
-> --- a/meta/recipes-kernel/linux/linux-yocto_3.0.bb
-> +++ b/meta/recipes-kernel/linux/linux-yocto_3.0.bb
-> @@ -23,7 +23,9 @@ SRCREV_meta ?=3D "c979f1365b1eb74e882b2cbbc8407ec536ab6=
-eb8"
-> =A0PR =3D "r2"
-> =A0PV =3D "${LINUX_VERSION}+git${SRCPV}"
+> +--- opkg-utils.orig/opkg-make-index
+> ++++ opkg-utils/opkg-make-index
+> +@@ -1,4 +1,4 @@
+> +-#!/usr/bin/python
+> ++#!/usr/bin/env python
+> +
+> + import sys, os, posixpath
+> + from glob import glob
+> +--- opkg-utils.orig/opkg-show-deps
+> ++++ opkg-utils/opkg-show-deps
+> +@@ -1,4 +1,4 @@
+> +-#!/usr/bin/python
+> ++#!/usr/bin/env python
+> +
+> + import sys, os, posixpath
+> + from glob import glob
+> +--- opkg-utils.orig/opkg-unbuild
+> ++++ opkg-utils/opkg-unbuild
+> +@@ -1,4 +1,4 @@
+> +-#!/usr/bin/python
+> ++#!/usr/bin/env python
+> +
+> + import sys, os, re
+> +
+> +--- opkg-utils.orig/opkg-update-index
+> ++++ opkg-utils/opkg-update-index
+> +@@ -1,4 +1,4 @@
+> +-#!/usr/bin/env python2.1
+> ++#!/usr/bin/env python
+> +
+> + import sys, os
+> + from glob import glob
+> diff --git a/meta/recipes-devtools/opkg-utils/opkg-utils_svn.bb b/meta/recipes-devtools/opkg-utils/opkg-utils_svn.bb
+> index 9b94aff..9702131 100644
+> --- a/meta/recipes-devtools/opkg-utils/opkg-utils_svn.bb
+> +++ b/meta/recipes-devtools/opkg-utils/opkg-utils_svn.bb
+> @@ -8,13 +8,14 @@ RDEPENDS_${PN} = "python"
+>   RDEPENDS_${PN}_virtclass-native = ""
+>   SRCREV = "4747"
+>   PV = "0.1.8+svnr${SRCPV}"
+> -PR = "r6"
+> +PR = "r7"
 >
-> -SRC_URI =3D "git://git.yoctoproject.org/linux-yocto-3.0;protocol=3Dgit;n=
-ocheckout=3D1;branch=3D${KBRANCH},meta;name=3Dmachine,meta"
-> +SRC_URI =3D "git://git.yoctoproject.org/linux-yocto-3.0;protocol=3Dgit;n=
-ocheckout=3D1;branch=3D${KBRANCH},meta;name=3Dmachine,meta \
-> + =A0 =A0 =A0 =A0 =A0 file://0001-compiler.h-Undef-before-redefining-__at=
-tribute_const.patch \
-> + =A0 =A0 =A0 =A0 =A0 "
+>   SRC_URI = "svn://svn.openmoko.org/trunk/src/host/;module=opkg-utils;proto=http \
+>              file://index-ignore-filenotfound.patch \
+>              file://mtime-int.patch \
+>              file://add-license-field.patch \
+>              file://arfile_header_split.patch \
+> +           file://shebang.patch \
+>              "
 >
-> =A0COMPATIBLE_MACHINE =3D "(qemuarm|qemux86|qemuppc|qemumips|qemux86-64)"
->
-> --
-> 1.7.5.4
->
->
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
-
-
-
---=20
-"Thou shalt not follow the NULL pointer, for chaos and madness await
-thee at its end"
+>   S = "${WORKDIR}/opkg-utils"
 
 
