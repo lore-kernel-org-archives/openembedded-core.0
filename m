@@ -1,32 +1,31 @@
 Received: from mail-lpp01m010-f47.google.com ([209.85.215.47])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <raj.khem@gmail.com>) id 1RiuMV-0001KD-I6
+	(envelope-from <raj.khem@gmail.com>) id 1RiuSt-0001vp-DA
 	for openembedded-core@lists.openembedded.org;
-	Thu, 05 Jan 2012 21:56:36 +0100
-Received: by lami14 with SMTP id i14so291555lam.6
+	Thu, 05 Jan 2012 22:03:11 +0100
+Received: by lami14 with SMTP id i14so293526lam.6
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 05 Jan 2012 12:49:11 -0800 (PST)
+	Thu, 05 Jan 2012 12:55:48 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
 	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
 	:content-type:content-transfer-encoding;
-	bh=iNki181262wFoXk0gHPGjzBgnx9GGuGrAhSxUA/9lj0=;
-	b=ue8exevqhKMjgVsEtGwyiLkYFYOGIXRO3rabefVeVyMoEV2SO4EQsfkZsItPpxX67I
-	Dm1CYbnWLIb3g+rtFIJt4Pm0sr5Mq3a9anA1tHiKlGaLOqk6/evRVeVPj91dX9R8/90J
-	NnDTNeZO9juuri88OwFSpLYVt7uUCy4w23eNQ=
-Received: by 10.112.36.8 with SMTP id m8mr719099lbj.54.1325796551303; Thu, 05
-	Jan 2012 12:49:11 -0800 (PST)
+	bh=bT1hU7BIIARoJG8uY30ayXHAD1cbP9FwWgYpIkrWZik=;
+	b=BxCFHyG7PouBjIyKdMWHMjOzaQVU77Pulkv2txOp6xQvQ22IsgVhKn1XJNfJB0WW53
+	2V/YRnd2Gh4jYysgPMOPW++0aUuRoPycytG+Uw3fLwm03akPn6JcjWzUBz6TKLBeOBYI
+	5UGfyb9iYhSgYbS0opowz4nQtbRcg3OY8Nipk=
+Received: by 10.112.43.41 with SMTP id t9mr721666lbl.93.1325796948301; Thu, 05
+	Jan 2012 12:55:48 -0800 (PST)
 MIME-Version: 1.0
-Received: by 10.152.115.1 with HTTP; Thu, 5 Jan 2012 12:48:40 -0800 (PST)
-In-Reply-To: <521a1d1e78e4e797ce9c1787c83d8e0b2020281e.1325725256.git.nitin.a.kamble@intel.com>
-References: <cover.1325725256.git.nitin.a.kamble@intel.com>
-	<aa69250b08b446ad0408357587a0271a66684f12.1325725256.git.nitin.a.kamble@intel.com>
-	<521a1d1e78e4e797ce9c1787c83d8e0b2020281e.1325725256.git.nitin.a.kamble@intel.com>
+Received: by 10.152.115.1 with HTTP; Thu, 5 Jan 2012 12:55:17 -0800 (PST)
+In-Reply-To: <CADkTA4PFLMdSNM47+__79NXwuocFb7Y70o1qwP=+ft2aS4jd1A@mail.gmail.com>
+References: <1325793967-13002-1-git-send-email-raj.khem@gmail.com>
+	<CADkTA4PFLMdSNM47+__79NXwuocFb7Y70o1qwP=+ft2aS4jd1A@mail.gmail.com>
 From: Khem Raj <raj.khem@gmail.com>
-Date: Thu, 5 Jan 2012 12:48:40 -0800
-Message-ID: <CAMKF1srE2FO8iY0x0UvzYCKEosWV79VomhkovmLUUjXgU19dew@mail.gmail.com>
+Date: Thu, 5 Jan 2012 12:55:17 -0800
+Message-ID: <CAMKF1spvGpZbV0T_vKbzc4UiBt2bmpj520ymZ5-AA66VwKOOsw@mail.gmail.com>
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 3/4] libxxf86dga: fix compilation with x32 toolchain
+Subject: Re: [PATCH] linux-yocto-3.0: Fix compile failure in perf
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -41,121 +40,148 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 05 Jan 2012 20:56:36 -0000
+X-List-Received-Date: Thu, 05 Jan 2012 21:03:11 -0000
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
 
-On Wed, Jan 4, 2012 at 5:02 PM,  <nitin.a.kamble@intel.com> wrote:
-> From: Nitin A Kamble <nitin.a.kamble@intel.com>
+On Thu, Jan 5, 2012 at 12:13 PM, Bruce Ashfield
+<bruce.ashfield@gmail.com> wrote:
+> On Thu, Jan 5, 2012 at 3:06 PM, Khem Raj <raj.khem@gmail.com> wrote:
+>> Signed-off-by: Khem Raj <raj.khem@gmail.com>
+>> ---
+>> =C2=A0...Undef-before-redefining-__attribute_const.patch | =C2=A0 33 +++=
++++++++++++++++++
+>> =C2=A0meta/recipes-kernel/linux/linux-yocto_3.0.bb =C2=A0 =C2=A0 =C2=A0 =
+| =C2=A0 =C2=A04 ++-
+>> =C2=A02 files changed, 36 insertions(+), 1 deletions(-)
+>> =C2=A0create mode 100644 meta/recipes-kernel/linux/linux-yocto/0001-comp=
+iler.h-Undef-before-redefining-__attribute_const.patch
 >
-> Fix type conversion for x32. For x32 the off_t is 64bit and pointers are
-> 32bit.
-> so the conversion of pointer to off_t was resulting into this error:
+> Khem,
 >
-> | XF86DGA2.c:931:24: error: cast from pointer to integer of different
-> size [-Werror=3Dpointer-to-int-cast]
-> | cc1: some warnings being treated as errors
-> |
-> | make[2]: *** [XF86DGA2.lo] Error 1
->
-> Fixed it by typecasting pointer into unsigned long 1st and then again
-> typecasting unsigned long to off_t.
->
-> Signed-off-by: Nitin A Kamble <nitin.a.kamble@intel.com>
-> ---
-> =C2=A0.../libxxf86dga-1.1.2_fix_for_x32.patch =C2=A0 =C2=A0 =C2=A0 =C2=A0=
- =C2=A0 =C2=A0| =C2=A0 30 ++++++++++++++++++++
-> =C2=A0.../recipes-graphics/xorg-lib/libxxf86dga_1.1.2.bb | =C2=A0 =C2=A05=
- ++-
-> =C2=A02 files changed, 34 insertions(+), 1 deletions(-)
-> =C2=A0create mode 100644 meta/recipes-graphics/xorg-lib/libxxf86dga/libxx=
-f86dga-1.1.2_fix_for_x32.patch
->
-> diff --git a/meta/recipes-graphics/xorg-lib/libxxf86dga/libxxf86dga-1.1.2=
-_fix_for_x32.patch b/meta/recipes-graphics/xorg-lib/libxxf86dga/libxxf86dga=
--1.1.2_fix_for_x32.patch
-> new file mode 100644
-> index 0000000..30692ad
-> --- /dev/null
-> +++ b/meta/recipes-graphics/xorg-lib/libxxf86dga/libxxf86dga-1.1.2_fix_fo=
-r_x32.patch
-> @@ -0,0 +1,30 @@
-> +Upstream-Status: pending
-> +
-> +Fix type conversion for x32. For x32 the off_t is 64bit and pointers are=
- 32bit.
-> +so the conversion of pointer to off_t was resulting into this error:
-> +
-> +| XF86DGA2.c:931:24: error: cast from pointer to integer of different si=
-ze [-Werror=3Dpointer-to-int-cast]
-> +| cc1: some warnings being treated as errors
-> +|
-> +| make[2]: *** [XF86DGA2.lo] Error 1
-> +
-> +Fixed it by typecasting pointer into unsigned long 1st and then again ty=
-pecasting
-> +unsigned long to off_t.
+> I just built multiple linux-yocto kernels, for all the qemu targets
+> and haven't seen this
+> error at all. Do you have any special configuration that would be
+> triggering this ?
 
-where is pointer here ?
-http://cvsweb.xfree86.org/cvsweb/xc/lib/Xxf86dga/XF86DGA2.c?rev=3D1.30&cont=
-ent-type=3Dtext/vnd.viewcvs-markup
-shows that base is of type mmapOffset which is
+yes I am building with eglibc 2.15 ( recipes I have not posted yet)
+and this defines is reported to be defined in usr/include/sys/cdefs.h
+which is a header from libc.
 
-#if !defined(_LP64) && defined(_FILE_OFFSET_BITS) && (_FILE_OFFSET_BITS =3D=
-=3D 64)
-typedef unsigned long long mmapOffset;
-#else
-typedef unsigned long      mmapOffset;
-#endif
-
-and off_t is typedef'ed to long int
-
-> +
-> +Signed-Off-by: Nitin A Kamble <nitin.a.kamble@intel.com>
-> +2012/01/04
-> +
-> +
-> +Index: libXxf86dga-1.1.2/src/XF86DGA2.c
-> +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-> +--- libXxf86dga-1.1.2.orig/src/XF86DGA2.c =C2=A0 =C2=A0 =C2=A02010-10-06=
- 21:17:11.000000000 -0700
-> ++++ libXxf86dga-1.1.2/src/XF86DGA2.c =C2=A0 2012-01-04 14:21:36.27597117=
-2 -0800
-> +@@ -928,7 +928,7 @@ DGAMapPhysical(
-> + =C2=A0 =C2=A0 if ((pMap->fd =3D open(name, O_RDWR)) < 0)
-> + =C2=A0 =C2=A0 =C2=A0 return False;
-> + =C2=A0 =C2=A0 pMap->virtual =3D mmap(NULL, size, PROT_READ | PROT_WRITE=
-,
-> +- =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0MAP_FILE | MAP_SHARED, pMap->fd, (off_t)base);
-> ++ =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0MAP_FILE | MAP_SHARED, pMap->fd, (off_t)(unsigned long)base);
-> + =C2=A0 =C2=A0 if (pMap->virtual =3D=3D (void *)-1)
-> + =C2=A0 =C2=A0 =C2=A0 return False;
-> + =C2=A0 =C2=A0 mprotect(pMap->virtual, size, PROT_READ | PROT_WRITE);
-> diff --git a/meta/recipes-graphics/xorg-lib/libxxf86dga_1.1.2.bb b/meta/r=
-ecipes-graphics/xorg-lib/libxxf86dga_1.1.2.bb
-> index 8e777c3..9a1c96f 100644
-> --- a/meta/recipes-graphics/xorg-lib/libxxf86dga_1.1.2.bb
-> +++ b/meta/recipes-graphics/xorg-lib/libxxf86dga_1.1.2.bb
-> @@ -8,7 +8,10 @@ allows relative mouse reporting, et al. =C2=A0It is main=
-ly used by games and \
-> =C2=A0emulators for games."
 >
-> =C2=A0DEPENDS +=3D "libxext xf86dgaproto"
-> -PR =3D "r1"
-> +PR =3D "r2"
-> +
-> +SRC_URI +=3D "file://libxxf86dga-1.1.2_fix_for_x32.patch"
-> +
-> =C2=A0PE =3D "1"
+> The change itself looks sane, and in fact makes sense, since the rest
+> of the file
+> has the same protection for the new defines. Nothing has changed that
+> should have triggered
+> this to become an issue. I'm just trying to figure out why it has
+> popped up now.
 >
-> =C2=A0XORG_PN =3D "libXxf86dga"
+> I also checked and the 3.2 kernel still has the same issue, so pushing
+> it upstream makes
+> sense as well.
+>
+> And I see you asked on IRC, so I'll answer here. Submit a patch to the
+> kernel like
+> any upstream kernel change. Simply send the patch right from your
+> linux working tree,
+
+You mean send to oe-core ml here right ?
+
+> and I'll pickup the change, merge it into the tree, push it out and
+> send a pull request
+> with updated SRCREVs that collect all the queued changes.
+>
+
+Will you be able to bean this patch out from the one I sent or should
+I resend it ?
+the patch itself should be git am'able
+
+> Cheers,
+>
+> Bruce
+>
+>>
+>> diff --git a/meta/recipes-kernel/linux/linux-yocto/0001-compiler.h-Undef=
+-before-redefining-__attribute_const.patch b/meta/recipes-kernel/linux/linu=
+x-yocto/0001-compiler.h-Undef-before-redefining-__attribute_const.patch
+>> new file mode 100644
+>> index 0000000..b85cc97
+>> --- /dev/null
+>> +++ b/meta/recipes-kernel/linux/linux-yocto/0001-compiler.h-Undef-before=
+-redefining-__attribute_const.patch
+>> @@ -0,0 +1,33 @@
+>> +From 6f92ab6de9d8daeb575949bbbcbc7bcdcebc60af Mon Sep 17 00:00:00 2001
+>> +From: Khem Raj <raj.khem@gmail.com>
+>> +Date: Thu, 5 Jan 2012 11:42:35 -0800
+>> +Subject: [PATCH] compiler.h: Undef before redefining __attribute_const_=
+_
+>> +
+>> +This is required to avoid warnings like
+>> +util/include/linux/compiler.h:8:0: error: "__attribute_const__" redefin=
+ed [-Werror]
+>> +
+>> +Signed-off-by: Khem Raj <raj.khem@gmail.com>
+>> +---
+>> + tools/perf/util/include/linux/compiler.h | =C2=A0 =C2=A04 +++-
+>> + 1 files changed, 3 insertions(+), 1 deletions(-)
+>> +
+>> +diff --git a/tools/perf/util/include/linux/compiler.h b/tools/perf/util=
+/include/linux/compiler.h
+>> +index 791f9dd..f17ecef 100644
+>> +--- a/tools/perf/util/include/linux/compiler.h
+>> ++++ b/tools/perf/util/include/linux/compiler.h
+>> +@@ -4,9 +4,11 @@
+>> + #ifndef __always_inline
+>> + #define __always_inline =C2=A0 =C2=A0 =C2=A0 inline
+>> + #endif
+>> ++#undef __user
+>> + #define __user
+>> ++#undef __attribute_const__
+>> + #define __attribute_const__
+>> +-
+>> ++#undef __used
+>> + #define __used =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
+__attribute__((__unused__))
+>> +
+>> + #endif
+>> +--
+>> +1.7.5.4
+>> +
+>> diff --git a/meta/recipes-kernel/linux/linux-yocto_3.0.bb b/meta/recipes=
+-kernel/linux/linux-yocto_3.0.bb
+>> index b650c84..2e87f7f 100644
+>> --- a/meta/recipes-kernel/linux/linux-yocto_3.0.bb
+>> +++ b/meta/recipes-kernel/linux/linux-yocto_3.0.bb
+>> @@ -23,7 +23,9 @@ SRCREV_meta ?=3D "c979f1365b1eb74e882b2cbbc8407ec536ab=
+6eb8"
+>> =C2=A0PR =3D "r2"
+>> =C2=A0PV =3D "${LINUX_VERSION}+git${SRCPV}"
+>>
+>> -SRC_URI =3D "git://git.yoctoproject.org/linux-yocto-3.0;protocol=3Dgit;=
+nocheckout=3D1;branch=3D${KBRANCH},meta;name=3Dmachine,meta"
+>> +SRC_URI =3D "git://git.yoctoproject.org/linux-yocto-3.0;protocol=3Dgit;=
+nocheckout=3D1;branch=3D${KBRANCH},meta;name=3Dmachine,meta \
+>> + =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 file://0001-compiler.h-Undef-before=
+-redefining-__attribute_const.patch \
+>> + =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 "
+>>
+>> =C2=A0COMPATIBLE_MACHINE =3D "(qemuarm|qemux86|qemuppc|qemumips|qemux86-=
+64)"
+>>
+>> --
+>> 1.7.5.4
+>>
+>>
+>> _______________________________________________
+>> Openembedded-core mailing list
+>> Openembedded-core@lists.openembedded.org
+>> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
+>
+>
+>
 > --
-> 1.7.6.4
->
+> "Thou shalt not follow the NULL pointer, for chaos and madness await
+> thee at its end"
 >
 > _______________________________________________
 > Openembedded-core mailing list
