@@ -1,34 +1,20 @@
-Received: from mail-qw0-f54.google.com ([209.85.216.54])
+Received: from mga01.intel.com ([192.55.52.88])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <kergoth@gmail.com>)
-	id 1Rib8H-00056i-KM; Thu, 05 Jan 2012 01:24:37 +0100
-Received: by qabg14 with SMTP id g14so14555qab.6
-	for <multiple recipients>; Wed, 04 Jan 2012 16:17:15 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
-	h=mime-version:sender:in-reply-to:references:from:date
-	:x-google-sender-auth:message-id:subject:to:cc:content-type;
-	bh=f+vCXR8JNFT82hnGvFHpcNlgIBvW5B3n6FqVMpKoDKs=;
-	b=gTljYBwjgZ246lKBrx4iIpxW58EflJskRRJILFPOpJouZ6OZMW20ADdgzliojj/hEW
-	zYr7XIGHKVs9clEeMsOWJiSEi0yUlVzDD6HH84UoAaK2Rfj5N1e++EyiqLK1J44vGwMS
-	UpO7xv5r019Xn71rGCyhsYuQvr4vl0GmqC+is=
-Received: by 10.224.34.202 with SMTP id m10mr70117943qad.62.1325722633208;
-	Wed, 04 Jan 2012 16:17:13 -0800 (PST)
-MIME-Version: 1.0
-Sender: kergoth@gmail.com
-Received: by 10.229.187.141 with HTTP; Wed, 4 Jan 2012 16:16:51 -0800 (PST)
-In-Reply-To: <20120104220245.GE587@denix.org>
-References: <20120104181400.GD587@denix.org>
-	<CABcZAN=i6H+G_=v2KreWhzrOKe=fgVHv-vvrMhVMzKcefrXf2w@mail.gmail.com>
-	<CAMKF1sqCETomiuAx=9zQf2kLYCO8SMxi5=UUwOQ3LGj4RRJXTg@mail.gmail.com>
-	<20120104220245.GE587@denix.org>
-From: Chris Larson <clarson@kergoth.com>
-Date: Wed, 4 Jan 2012 17:16:51 -0700
-X-Google-Sender-Auth: sMHFIGG7U-_K1uu2GAfhtN2KH6E
-Message-ID: <CABcZAN=vt=z-wCTaYkEPJ_CjAmizE9_Qd-oXFUqR_+vVG5YdUQ@mail.gmail.com>
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Cc: openembedded-devel@lists.openembedded.org
-Subject: Re: [oe] BlueZ old releases have new checksums
+	(envelope-from <sgw@linux.intel.com>) id 1Ribaa-0005n3-ED
+	for openembedded-core@lists.openembedded.org;
+	Thu, 05 Jan 2012 01:53:52 +0100
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+	by fmsmga101.fm.intel.com with ESMTP; 04 Jan 2012 16:46:29 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="103611999"
+Received: from unknown (HELO swold-mobl.bigsur.com) ([10.255.13.127])
+	by fmsmga001.fm.intel.com with ESMTP; 04 Jan 2012 16:46:28 -0800
+From: Saul Wold <sgw@linux.intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Wed,  4 Jan 2012 16:46:24 -0800
+Message-Id: <cover.1325724295.git.sgw@linux.intel.com>
+X-Mailer: git-send-email 1.7.6.4
+Subject: [PATCH 0/3] Build Fixes
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -43,33 +29,38 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 05 Jan 2012 00:24:37 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Thu, 05 Jan 2012 00:53:52 -0000
 
-On Wed, Jan 4, 2012 at 3:02 PM, Denys Dmytriyenko <denis@denix.org> wrote:
-> On Wed, Jan 04, 2012 at 12:53:25PM -0800, Khem Raj wrote:
->> On Wed, Jan 4, 2012 at 12:14 PM, Chris Larson <clarson@kergoth.com> wrote:
->> > On Wed, Jan 4, 2012 at 11:14 AM, Denys Dmytriyenko <denis@denix.org> wrote:
->> >> The main archive of BlueZ/obexd/hcidump releases on kernel.org[1] finally
->> >> re-appeared after missing for long time since kernel.org compromise.
->> >> Unfortunately, all previous tarballs have new checksums, breaking builds for
->> >> anyone w/o previous copy cached. Old copies were also extensively mirrored,
->> >> so you never know which one you fetch next time...
->> >
->> > Heh, checksums changing after a security compromise, that's worrisome
->> > :) should diff their contents to see what's going on, or whether its
->> > just a gzip timestamp change or something.
->>
->> exactly. Make sure the tars are sane
->
-> Well, according to BlueZ maintainer[1], he gave the correct tarballs to
-> kernel.org people, but for some reason they untarred and re-packed them.
-> There's only 4 bytes difference, presumably timestamp...
+Richard,
 
-/me thinks maintainers should tar -cvO | gzip -n if they're going to use gzip ;)
+This set fixes various know build failures on the Autobuilder.
 
-But then, we see it from a rather different perspective than upstreams tend to..
+Sau!
+
+The following changes since commit f309769d10cb3d8b72b8c7c4f7f418dcb8422c61:
+
+  valgrind: Fix for automake update (2012-01-04 16:03:59 +0000)
+
+are available in the git repository at:
+  git://git.openembedded.org/openembedded-core-contrib sgw/fix
+  http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=sgw/fix
+
+Saul Wold (3):
+  image_types: Fix rootfs size calcuation
+  glib-2.0: ensure dtrace is diabled for all distro options and fix
+    packaging
+  libxp: fix cast error
+
+ meta/classes/image_types.bbclass                   |    2 +-
+ meta/recipes-core/glib-2.0/glib-2.0_2.30.2.bb      |    2 +-
+ meta/recipes-core/glib-2.0/glib.inc                |    9 +++-
+ .../xorg-lib/libxp/fix-cast-error.patch            |   42 ++++++++++++++++++++
+ meta/recipes-graphics/xorg-lib/libxp_1.0.1.bb      |    4 +-
+ 5 files changed, 53 insertions(+), 6 deletions(-)
+ create mode 100644 meta/recipes-graphics/xorg-lib/libxp/fix-cast-error.patch
+
 -- 
-Christopher Larson
+1.7.6.4
+
 
 
