@@ -1,24 +1,20 @@
-Received: from mga02.intel.com ([134.134.136.20])
+Received: from mga03.intel.com ([143.182.124.21])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <edwin.zhai@intel.com>) id 1RigdE-0000hJ-Vd
+	(envelope-from <sgw@linux.intel.com>) id 1RigkH-0000w2-KN
 	for openembedded-core@lists.openembedded.org;
-	Thu, 05 Jan 2012 07:16:57 +0100
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-	by orsmga101.jf.intel.com with ESMTP; 04 Jan 2012 22:09:28 -0800
+	Thu, 05 Jan 2012 07:24:13 +0100
+Received: from azsmga001.ch.intel.com ([10.2.17.19])
+	by azsmga101.ch.intel.com with ESMTP; 04 Jan 2012 22:16:50 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.67,351,1309762800"; d="scan'208";a="94658968"
-Received: from yocto-build3.sh.intel.com ([10.239.48.58])
-	by orsmga002.jf.intel.com with ESMTP; 04 Jan 2012 22:09:26 -0800
-From: edwin.zhai@intel.com
+X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="92571713"
+Received: from unknown (HELO swold-mobl.bigsur.com) ([10.255.13.127])
+	by azsmga001.ch.intel.com with ESMTP; 04 Jan 2012 22:16:49 -0800
+From: Saul Wold <sgw@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Thu,  5 Jan 2012 13:57:05 +0800
-Message-Id: <e25598cf10b34bf543be921db9fc2f297b404621.1325742856.git.edwin.zhai@intel.com>
-X-Mailer: git-send-email 1.7.1
-In-Reply-To: <cover.1325742856.git.edwin.zhai@intel.com>
-References: <cover.1325742856.git.edwin.zhai@intel.com>
-In-Reply-To: <cover.1325742856.git.edwin.zhai@intel.com>
-References: <cover.1325742856.git.edwin.zhai@intel.com>
-Subject: [PATCH 1/1] matchbox-wm: Remove x-session-manager handling
+Date: Wed,  4 Jan 2012 22:16:31 -0800
+Message-Id: <cover.1325743881.git.sgw@linux.intel.com>
+X-Mailer: git-send-email 1.7.6.4
+Subject: [PATCH 0/3] Patch Status and non-GPLv3 fixes
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -33,100 +29,46 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 05 Jan 2012 06:16:57 -0000
+X-List-Received-Date: Thu, 05 Jan 2012 06:24:13 -0000
 
-From: Zhai Edwin <edwin.zhai@intel.com>
+Richard,
 
-Windows manager should be independent on session manager, especially when we
-have multiple session manager like mini-x and matchbox session.
+A few non-GPLv3 fixes for updated packages and more Patch
+Status updates.
 
-This commit remove session-manager stuff in matchbox-wm, as matchbox-session
-already has duplicated code. Also adjust alternative priority for mini-X to
-make it higher priority over matchbox-session.
+Sau!
 
-Signed-off-by: Zhai Edwin <edwin.zhai@intel.com>
----
- .../matchbox-wm/matchbox-wm_1.2.bb                 |    9 ++-------
- .../matchbox-wm/matchbox-wm_git.bb                 |    9 ++-------
- .../mini-x-session/mini-x-session_0.1.bb           |    2 +-
- 3 files changed, 5 insertions(+), 15 deletions(-)
+The following changes since commit f309769d10cb3d8b72b8c7c4f7f418dcb8422c61:
 
-diff --git a/meta/recipes-graphics/matchbox-wm/matchbox-wm_1.2.bb b/meta/recipes-graphics/matchbox-wm/matchbox-wm_1.2.bb
-index 84b966a..2628326 100644
---- a/meta/recipes-graphics/matchbox-wm/matchbox-wm_1.2.bb
-+++ b/meta/recipes-graphics/matchbox-wm/matchbox-wm_1.2.bb
-@@ -2,7 +2,7 @@ SECTION = "x11/wm"
- DESCRIPTION = "Matchbox window manager"
- LICENSE = "GPLv2.0+"
- DEPENDS = "libmatchbox virtual/libx11 libxext libxcomposite libxfixes xdamage libxrender startup-notification expat"
--PR = "r4"
-+PR = "r5"
- 
- SRC_URI = "http://matchbox-project.org/sources/matchbox-window-manager/1.2/matchbox-window-manager-${PV}.tar.bz2 \
-            file://configure_fix.patch \
-@@ -11,7 +11,7 @@ SRC_URI = "http://matchbox-project.org/sources/matchbox-window-manager/1.2/match
- 
- S = "${WORKDIR}/matchbox-window-manager-${PV}"
- 
--inherit autotools pkgconfig update-alternatives
-+inherit autotools pkgconfig
- 
- FILES_${PN} = "${bindir}/* \
- 	       ${datadir}/matchbox \
-@@ -20,11 +20,6 @@ FILES_${PN} = "${bindir}/* \
- 	       ${datadir}/themes/Default/matchbox \
- 	       ${datadir}/themes/MBOpus/matchbox"
- 
--ALTERNATIVE_NAME = "x-session-manager"
--ALTERNATIVE_LINK = "${bindir}/x-session-manager"
--ALTERNATIVE_PATH = "${bindir}/matchbox-session"
--ALTERNATIVE_PRIORITY = "10"
--
- EXTRA_OECONF = " --enable-startup-notification \
-                  --disable-xrm \
-                  --enable-expat \
-diff --git a/meta/recipes-graphics/matchbox-wm/matchbox-wm_git.bb b/meta/recipes-graphics/matchbox-wm/matchbox-wm_git.bb
-index 5550dc2..ef9cf76 100644
---- a/meta/recipes-graphics/matchbox-wm/matchbox-wm_git.bb
-+++ b/meta/recipes-graphics/matchbox-wm/matchbox-wm_git.bb
-@@ -12,7 +12,7 @@ DEPENDS = "libmatchbox virtual/libx11 libxext libxrender startup-notification ex
- 
- SRCREV = "f4394eaed475de6e627d373c5b35ee2cf87072e3"
- PV = "1.2+git${SRCPV}"
--PR = "r0"
-+PR = "r1"
- 
- SRC_URI = "git://git.yoctoproject.org/matchbox-window-manager;protocol=git \
-            file://configure_fix.patch;maxrev=1818 \
-@@ -20,12 +20,7 @@ SRC_URI = "git://git.yoctoproject.org/matchbox-window-manager;protocol=git \
- 
- S = "${WORKDIR}/git"
- 
--inherit autotools pkgconfig update-alternatives
--
--ALTERNATIVE_NAME = "x-session-manager"
--ALTERNATIVE_LINK = "${bindir}/x-session-manager"
--ALTERNATIVE_PATH = "${bindir}/matchbox-session"
--ALTERNATIVE_PRIORITY = "10"
-+inherit autotools pkgconfig
- 
- FILES_${PN} = "${bindir}/* \
-                ${datadir}/matchbox \
-diff --git a/meta/recipes-graphics/mini-x-session/mini-x-session_0.1.bb b/meta/recipes-graphics/mini-x-session/mini-x-session_0.1.bb
-index 3818d16..9818650 100644
---- a/meta/recipes-graphics/mini-x-session/mini-x-session_0.1.bb
-+++ b/meta/recipes-graphics/mini-x-session/mini-x-session_0.1.bb
-@@ -16,7 +16,7 @@ inherit update-alternatives
- ALTERNATIVE_NAME = "x-session-manager"
- ALTERNATIVE_LINK = "${bindir}/x-session-manager"
- ALTERNATIVE_PATH = "${bindir}/mini-x-session"
--ALTERNATIVE_PRIORITY = "10"
-+ALTERNATIVE_PRIORITY = "50"
- 
- do_install() {
- 	install -d ${D}/${bindir}
+  valgrind: Fix for automake update (2012-01-04 16:03:59 +0000)
+
+are available in the git repository at:
+  git://git.openembedded.org/openembedded-core-contrib sgw/fix2
+  http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=sgw/fix2
+
+Saul Wold (3):
+  Patch Upstream-Status Update
+  util-linux: Update patch for non-GPLv3
+  gnutls: remove gettext patch for non-GPLv3
+
+ .../util-linux-2.20.1/remove-lscpu.patch           |   94 +------------------
+ meta/recipes-devtools/guilt/files/guilt-bash.patch |    2 +
+ .../guilt/files/guilt-import-commit.patch          |    2 +
+ meta/recipes-devtools/guilt/files/guilt-init.patch |    2 +
+ meta/recipes-devtools/guilt/files/guilt-pop.patch  |    2 +
+ .../guilt/files/guilt-push-no-series.patch         |    2 +
+ meta/recipes-devtools/guilt/files/guilt-push.patch |    2 +
+ .../guilt/files/guilt-set-git_exec_path.patch      |    2 +
+ meta/recipes-devtools/guilt/files/guilt.patch      |    2 +
+ .../guilt/files/improve_auto_header_gen.patch      |    2 +
+ .../files/make_git_commands_conditional.patch      |    2 +
+ .../guilt/files/optional_head_check.patch          |    2 +
+ .../guilt/files/uninstall_force.patch              |    2 +
+ meta/recipes-support/gnutls/gnutls_2.12.14.bb      |   13 ++-
+ 14 files changed, 39 insertions(+), 92 deletions(-)
+
 -- 
-1.7.1
+1.7.6.4
 
 
 
