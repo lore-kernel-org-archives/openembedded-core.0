@@ -1,20 +1,22 @@
 Received: from mga14.intel.com ([143.182.124.37])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <nitin.a.kamble@intel.com>) id 1RirGV-0007x6-9V
+	(envelope-from <nitin.a.kamble@intel.com>) id 1RirGW-0007x6-3Y
 	for openembedded-core@lists.openembedded.org;
-	Thu, 05 Jan 2012 18:38:11 +0100
-Received: from azsmga002.ch.intel.com ([10.2.17.35])
-	by azsmga102.ch.intel.com with ESMTP; 05 Jan 2012 09:30:47 -0800
+	Thu, 05 Jan 2012 18:38:12 +0100
+Received: from azsmga001.ch.intel.com ([10.2.17.19])
+	by azsmga102.ch.intel.com with ESMTP; 05 Jan 2012 09:30:50 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="53624334"
+X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="92761353"
 Received: from nbuild0.sc.intel.com ([172.25.110.36])
-	by AZSMGA002.ch.intel.com with ESMTP; 05 Jan 2012 09:30:47 -0800
+	by azsmga001.ch.intel.com with ESMTP; 05 Jan 2012 09:30:49 -0800
 From: nitin.a.kamble@intel.com
 To: openembedded-core@lists.openembedded.org
-Date: Thu,  5 Jan 2012 09:30:44 -0800
-Message-Id: <cover.1325784550.git.nitin.a.kamble@intel.com>
+Date: Thu,  5 Jan 2012 09:30:41 -0800
+Message-Id: <b34432a20f8269f81bc541aa4ca06aa4425f4a76.1325784550.git.nitin.a.kamble@intel.com>
 X-Mailer: git-send-email 1.7.6.4
-Subject: [PATCH 0/7] Misc Fixes
+In-Reply-To: <cover.1325784550.git.nitin.a.kamble@intel.com>
+References: <cover.1325784550.git.nitin.a.kamble@intel.com>
+Subject: [PATCH 1/7] python-pycairo: fix for x32
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -29,52 +31,46 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 05 Jan 2012 17:38:11 -0000
+X-List-Received-Date: Thu, 05 Jan 2012 17:38:12 -0000
 
 From: Nitin A Kamble <nitin.a.kamble@intel.com>
 
+Add the libdir to configure so that path like /usr/libx32 can work.
 
-Here are fixes related to x32 & automake-1.11.2.
+Also passing parallel make flags to the building process.
 
-Thanks,
-Nitin
+Signed-off-by: Nitin A Kamble <nitin.a.kamble@intel.com>
+---
+ .../python/python-pycairo_1.10.0.bb                |    6 +++---
+ 1 files changed, 3 insertions(+), 3 deletions(-)
 
-The following changes since commit 7f837eb05f924996c89283ec8b74e46f6b5cd343:
-
-  bitbake/runqueue: Improve the setscene logging (2012-01-05 13:04:19 +0000)
-
-are available in the git repository at:
-  git://git.pokylinux.org/poky-contrib nitin/work
-  http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=nitin/work
-
-Nitin A Kamble (7):
-  python-pycairo: fix for x32
-  libevent: fix compilation for x32
-  libxxf86dga: fix compilation with x32 toolchain
-  vte: update patch header
-  automake-1.11.2: backport pkglibexec_SCRIPTS fix
-  mc: remove not needed fix for automake 1.11.2
-  systemtap: remove not needed fix for automake 1.11.2
-
- ...utomake_1.11.2_fix_for_pkglibexec_SCRIPTS.patch |  118 ++++++++++++++++++++
- meta/recipes-devtools/automake/automake_1.11.2.bb  |    5 +-
- .../python/python-pycairo_1.10.0.bb                |    6 +-
- .../mc/files/fix_for_automake_1.11.2.patch         |   69 ------------
- meta/recipes-extended/mc/mc_4.8.1.bb               |    3 +-
- .../libxxf86dga-1.1.2_fix_for_x32.patch            |   30 +++++
- .../recipes-graphics/xorg-lib/libxxf86dga_1.1.2.bb |    5 +-
- .../systemtap/fix_for_automake_1.11.2.patch        |   46 --------
- meta/recipes-kernel/systemtap/systemtap_git.bb     |    6 +-
- .../libevent/libevent-2.0.16_fix_for_x32.patch     |   47 ++++++++
- meta/recipes-support/libevent/libevent_2.0.16.bb   |    5 +-
- meta/recipes-support/vte/vte/introspection.patch   |    8 ++
- 12 files changed, 219 insertions(+), 129 deletions(-)
- create mode 100644 meta/recipes-devtools/automake/automake/automake_1.11.2_fix_for_pkglibexec_SCRIPTS.patch
- delete mode 100644 meta/recipes-extended/mc/files/fix_for_automake_1.11.2.patch
- create mode 100644 meta/recipes-graphics/xorg-lib/libxxf86dga/libxxf86dga-1.1.2_fix_for_x32.patch
- delete mode 100644 meta/recipes-kernel/systemtap/systemtap/fix_for_automake_1.11.2.patch
- create mode 100644 meta/recipes-support/libevent/libevent/libevent-2.0.16_fix_for_x32.patch
-
+diff --git a/meta/recipes-devtools/python/python-pycairo_1.10.0.bb b/meta/recipes-devtools/python/python-pycairo_1.10.0.bb
+index 812acfb..7d1b6c1 100644
+--- a/meta/recipes-devtools/python/python-pycairo_1.10.0.bb
++++ b/meta/recipes-devtools/python/python-pycairo_1.10.0.bb
+@@ -9,7 +9,7 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=f2e071ab72978431b294a0d696327421 \
+ 
+ # cairo >= 1.8.8
+ DEPENDS = "cairo"
+-PR = "r0"
++PR = "r1"
+ 
+ SRC_URI = "http://cairographics.org/releases/py2cairo-${PV}.tar.bz2"
+ 
+@@ -21,11 +21,11 @@ S = "${WORKDIR}/py2cairo-${PV}"
+ inherit distutils pkgconfig
+ 
+ do_configure() {
+-	BUILD_SYS=${BUILD_SYS} HOST_SYS=${HOST_SYS} ./waf configure --prefix=${D}${prefix}
++	BUILD_SYS=${BUILD_SYS} HOST_SYS=${HOST_SYS} ./waf configure --prefix=${D}${prefix} --libdir=${D}${libdir}
+ }
+ 
+ do_compile() {
+-	./waf build
++	./waf build ${PARALLEL_MAKE}
+ }
+ 
+ do_install() {
 -- 
 1.7.6.4
 
