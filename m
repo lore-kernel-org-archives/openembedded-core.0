@@ -1,25 +1,36 @@
-Received: from mail.windriver.com ([147.11.1.11])
-	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <liming.wang@windriver.com>) id 1RimAO-0003kd-G5
-	for openembedded-core@lists.openembedded.org;
-	Thu, 05 Jan 2012 13:11:32 +0100
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca [147.11.189.40])
-	by mail.windriver.com (8.14.3/8.14.3) with ESMTP id q058c8Y8019032
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
-	Thu, 5 Jan 2012 00:38:08 -0800 (PST)
-Received: from pek-yocto-build2.corp.ad.wrs.com (128.224.163.150) by
-	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server id
-	14.1.255.0; Thu, 5 Jan 2012 00:38:08 -0800
-From: Liming Wang <liming.wang@windriver.com>
-To: <richard.purdie@linuxfoundation.org>, <sgw@linux.intel.com>
-Date: Thu, 5 Jan 2012 16:37:43 +0800
-Message-ID: <1325752666-28560-2-git-send-email-liming.wang@windriver.com>
-X-Mailer: git-send-email 1.7.5.4
-In-Reply-To: <1325752666-28560-1-git-send-email-liming.wang@windriver.com>
-References: <1325752666-28560-1-git-send-email-liming.wang@windriver.com>
-MIME-Version: 1.0
-Cc: openembedded-core@lists.openembedded.org
-Subject: [PATCH 1/4] qemuppc: replace emulation of qemuppc from prep to mac99
+Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
+	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <richard.purdie@linuxfoundation.org>)
+	id 1RimZl-0006rO-8E for openembedded-core@lists.openembedded.org;
+	Thu, 05 Jan 2012 13:37:45 +0100
+Received: from localhost (localhost [127.0.0.1])
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q05CUNdV004806
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 5 Jan 2012 12:30:23 GMT
+Received: from tim.rpsys.net ([127.0.0.1])
+	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
+	port 10024) with LMTP
+	id 04675-01 for <openembedded-core@lists.openembedded.org>;
+	Thu,  5 Jan 2012 12:30:20 +0000 (GMT)
+Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q05CUFBY004800
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO)
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 5 Jan 2012 12:30:17 GMT
+Message-ID: <1325766615.20759.67.camel@ted>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Date: Thu, 05 Jan 2012 12:30:15 +0000
+In-Reply-To: <CAAQYJAvu-n9eyXV8kj3=34_wzhdfec5Nit9uUy_ar=jFK1tFaQ@mail.gmail.com>
+References: <fbed4e9f94ed9bd1bb5a9c8fa37113e325f89371.1325115602.git.dvhart@linux.intel.com>
+	<4EFBAC18.3040909@intel.com> <4F03982D.1080601@linux.intel.com>
+	<CAAQYJAtWXeBqnf5OPWE4bpo87Uo454X8qDE7C_QEL7Pu3_k+_w@mail.gmail.com>
+	<CAAQYJAvu-n9eyXV8kj3=34_wzhdfec5Nit9uUy_ar=jFK1tFaQ@mail.gmail.com>
+X-Mailer: Evolution 3.2.2- 
+Mime-Version: 1.0
+X-Virus-Scanned: amavisd-new at rpsys.net
+Subject: Re: [PATCH] image_types: Ensure /init exists for cpio rootfs archives
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -34,95 +45,28 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 05 Jan 2012 12:11:32 -0000
-Content-Type: text/plain
+X-List-Received-Date: Thu, 05 Jan 2012 12:37:45 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-With this new emulation, qemuppc can support framebuffer
-and the nfs booting works well.
+On Thu, 2012-01-05 at 01:05 +0100, Andrea Adami wrote:
+> I'd say we have to test for the in-existence of the file instead of
+> blindly touching it.
+> Smthg like
+> 
+> if [! -e ${IMAGE_ROOTFS}/init]; then
+> touch ${IMAGE_ROOTFS}/init
+> fi
+> 
+> 
+> Now, repeating that block for all 4 cpio images is a bit ugly... better ideas?
 
-Signed-off-by: Liming Wang <liming.wang@windriver.com>
-Signed-off-by: Bruce Ashfield <bruce.ashfield@windriver.com>
----
- meta/conf/machine/qemuppc.conf |    2 +-
- scripts/runqemu                |    7 +------
- scripts/runqemu-internal       |   16 ++++++++--------
- 3 files changed, 10 insertions(+), 15 deletions(-)
+Make it a shell function we call? I'd also check for
+${base_sbindir}/init first too?
 
-diff --git a/meta/conf/machine/qemuppc.conf b/meta/conf/machine/qemuppc.conf
-index bcc408f..48eecb7 100644
---- a/meta/conf/machine/qemuppc.conf
-+++ b/meta/conf/machine/qemuppc.conf
-@@ -5,7 +5,7 @@
- require conf/machine/include/qemu.inc
- require conf/machine/include/tune-ppc603e.inc
- 
--KERNEL_IMAGETYPE = "zImage"
-+KERNEL_IMAGETYPE = "vmlinux"
- 
- SERIAL_CONSOLE = "115200 ttyS0"
- 
-diff --git a/scripts/runqemu b/scripts/runqemu
-index bed6a29..ac5facf 100755
---- a/scripts/runqemu
-+++ b/scripts/runqemu
-@@ -262,7 +262,7 @@ QEMUARM_DEFAULT_FSTYPE=ext3
- QEMUMIPS_DEFAULT_KERNEL=vmlinux-qemumips.bin
- QEMUMIPS_DEFAULT_FSTYPE=ext3
- 
--QEMUPPC_DEFAULT_KERNEL=zImage-qemuppc.bin
-+QEMUPPC_DEFAULT_KERNEL=vmlinux-qemuppc.bin
- QEMUPPC_DEFAULT_FSTYPE=ext3
- 
- AKITA_DEFAULT_KERNEL=zImage-akita.bin
-@@ -365,11 +365,6 @@ if [ -z "$FSTYPE" ]; then
-     fi
- fi
- 
--if [ "$FSTYPE" = "nfs" -a "$MACHINE" = "qemuppc" ]; then
--    echo "Error: usermode NFS boot is not available for qemuppc."
--    exit 1
--fi
--
- # FSTYPE is now set for all cases
- 
- # Handle cases where a ROOTFS type is given instead of a filename, e.g.
-diff --git a/scripts/runqemu-internal b/scripts/runqemu-internal
-index 2968ed9..c55619b 100755
---- a/scripts/runqemu-internal
-+++ b/scripts/runqemu-internal
-@@ -389,13 +389,13 @@ fi
- 
- if [ "$MACHINE" = "qemuppc" ]; then
-     QEMU=qemu-system-ppc
--    MACHINE_SUBTYPE=prep
--    CPU_SUBTYPE=603e
--    BIOS=powerpc_rom.bin
--    QEMU_UI_OPTIONS="$QEMU_UI_OPTIONS -nographic"
-+    MACHINE_SUBTYPE=mac99
-+    CPU_SUBTYPE=G4
-+    QEMU_UI_OPTIONS="$QEMU_UI_OPTIONS"
-+    QEMU_NETWORK_CMD="-net nic,model=pcnet $QEMU_TAP_CMD"
-     if [ "$FSTYPE" = "ext3" -o "$FSTYPE" = "btrfs" ]; then
--        KERNCMDLINE="root=/dev/hda rw console=ttyS0 3 $KERNEL_NETWORK_CMD mem=$QEMU_MEMORY"
--        QEMUOPTIONS="$QEMU_NETWORK_CMD -cpu $CPU_SUBTYPE -M $MACHINE_SUBTYPE -bios $BIOS -hda $ROOTFS -no-reboot $QEMU_UI_OPTIONS"
-+        KERNCMDLINE="root=/dev/hda rw console=ttyS0 $KERNEL_NETWORK_CMD mem=$QEMU_MEMORY"
-+        QEMUOPTIONS="$QEMU_NETWORK_CMD -cpu $CPU_SUBTYPE -M $MACHINE_SUBTYPE -hda $ROOTFS -no-reboot $QEMU_UI_OPTIONS"
-     fi
-     if [ "$FSTYPE" = "nfs" ]; then
-         if [ "$NFS_SERVER" = "192.168.7.1" -a ! -d "$NFS_DIR" ]; then
-@@ -403,8 +403,8 @@ if [ "$MACHINE" = "qemuppc" ]; then
-             cleanup
-             return
-         fi
--        KERNCMDLINE="root=/dev/nfs console=ttyS0 3 nfsroot=$NFS_SERVER:$NFS_DIR,$UNFS_OPTS rw $KERNEL_NETWORK_CMD mem=$QEMU_MEMORY"
--        QEMUOPTIONS="$QEMU_NETWORK_CMD -cpu $CPU_SUBTYPE -M $MACHINE_SUBTYPE -bios $BIOS -no-reboot $QEMU_UI_OPTIONS"
-+        KERNCMDLINE="root=/dev/nfs console=ttyS0 nfsroot=$NFS_SERVER:$NFS_DIR,$UNFS_OPTS rw $KERNEL_NETWORK_CMD mem=$QEMU_MEMORY"
-+        QEMUOPTIONS="$QEMU_NETWORK_CMD -cpu $CPU_SUBTYPE -M $MACHINE_SUBTYPE -no-reboot $QEMU_UI_OPTIONS"
-     fi
- fi
- 
--- 
-1.7.5.4
+Cheers,
+
+Richard
 
 
 
