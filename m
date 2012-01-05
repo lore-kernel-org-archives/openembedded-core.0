@@ -1,24 +1,25 @@
-Received: from mga11.intel.com ([192.55.52.93])
+Received: from mail.pbcl.net ([88.198.119.4] helo=hetzner.pbcl.net)
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <paul.eggleton@linux.intel.com>) id 1RijlL-0002PA-BG
+	(envelope-from <philb@gnu.org>) id 1RikkW-0006hA-Pv
 	for openembedded-core@lists.openembedded.org;
-	Thu, 05 Jan 2012 10:37:31 +0100
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-	by fmsmga102.fm.intel.com with ESMTP; 05 Jan 2012 01:30:04 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="108992571"
-Received: from unknown (HELO helios.ger.corp.intel.com) ([10.252.122.94])
-	by fmsmga002.fm.intel.com with ESMTP; 05 Jan 2012 01:30:03 -0800
-From: Paul Eggleton <paul.eggleton@linux.intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Thu,  5 Jan 2012 09:29:49 +0000
-Message-Id: <f4bed494ab3b3047aad45ff31efcfd59b90e3822.1325755613.git.paul.eggleton@linux.intel.com>
-X-Mailer: git-send-email 1.7.5.4
-In-Reply-To: <cover.1325755613.git.paul.eggleton@linux.intel.com>
-References: <cover.1325755613.git.paul.eggleton@linux.intel.com>
-In-Reply-To: <cover.1325755613.git.paul.eggleton@linux.intel.com>
-References: <cover.1325755613.git.paul.eggleton@linux.intel.com>
-Subject: [PATCH 4/4] qt4: add Upstream-Status to recently added qt-4.8.0 patch
+	Thu, 05 Jan 2012 11:40:45 +0100
+Received: from elite.brightsigndigital.co.uk ([81.142.160.137]
+	helo=[172.30.1.145])
+	by hetzner.pbcl.net with esmtpsa (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+	(Exim 4.72) (envelope-from <philb@gnu.org>) id 1RikdQ-00036J-7G
+	for openembedded-core@lists.openembedded.org;
+	Thu, 05 Jan 2012 11:33:24 +0100
+From: Phil Blundell <philb@gnu.org>
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Date: Thu, 05 Jan 2012 10:33:22 +0000
+In-Reply-To: <ebf8434d5efd76b8a10a8f1107ab5199856f7319.1325744640.git.sgw@linux.intel.com>
+References: <cover.1325744640.git.sgw@linux.intel.com>
+	<ebf8434d5efd76b8a10a8f1107ab5199856f7319.1325744640.git.sgw@linux.intel.com>
+X-Mailer: Evolution 3.0.2- 
+Message-ID: <1325759604.28005.94.camel@phil-desktop>
+Mime-Version: 1.0
+Subject: Re: [CONSOLIDATED PULL 23/28] udev: split utilities onto udev-utils
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -33,30 +34,18 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 05 Jan 2012 09:37:31 -0000
+X-List-Received-Date: Thu, 05 Jan 2012 10:40:45 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-Add Upstream-Status to qmake_cxx_eval.patch.
+On Wed, 2012-01-04 at 22:30 -0800, Saul Wold wrote:
+> -PR = "r10"
+> +PR = "r9"
 
-Signed-off-by: Paul Eggleton <paul.eggleton@linux.intel.com>
----
- meta/recipes-qt/qt4/qt-4.8.0/qmake_cxx_eval.patch |    2 ++
- 1 files changed, 2 insertions(+), 0 deletions(-)
+Er, really?
 
-diff --git a/meta/recipes-qt/qt4/qt-4.8.0/qmake_cxx_eval.patch b/meta/recipes-qt/qt4/qt-4.8.0/qmake_cxx_eval.patch
-index a82f0ff..d5eac6b 100644
---- a/meta/recipes-qt/qt4/qt-4.8.0/qmake_cxx_eval.patch
-+++ b/meta/recipes-qt/qt4/qt-4.8.0/qmake_cxx_eval.patch
-@@ -4,6 +4,8 @@ which allows WebKit to be enabled.
- 
- Signed-off-by: Paul Eggleton <paul.eggleton@linux.intel.com>
- 
-+Upstream-Status: Pending
-+
- Index: qt-everywhere-opensource-src-4.8.0/configure
- ===================================================================
- --- qt-everywhere-opensource-src-4.8.0.orig/configure
--- 
-1.7.5.4
+p.
+
 
 
 
