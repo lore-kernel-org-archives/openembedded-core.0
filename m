@@ -1,34 +1,32 @@
-Received: from mail-bk0-f47.google.com ([209.85.214.47])
+Received: from mail-qw0-f54.google.com ([209.85.216.54])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <otavio.salvador@gmail.com>) id 1Riqst-0007P7-Mm
+	(envelope-from <andrei@gherzan.ro>) id 1RiqwD-0007VF-Hw
 	for openembedded-core@lists.openembedded.org;
-	Thu, 05 Jan 2012 18:13:47 +0100
-Received: by bkbzt4 with SMTP id zt4so121818bkb.6
+	Thu, 05 Jan 2012 18:17:14 +0100
+Received: by qabg14 with SMTP id g14so532135qab.6
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 05 Jan 2012 09:06:25 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
-	h=mime-version:sender:in-reply-to:references:date
-	:x-google-sender-auth:message-id:subject:from:to:content-type;
-	bh=lm4DPIPHa+OgeMbgU+0v8hV+ieRObbnLBRTDp5wHo0g=;
-	b=H9Pr5Rc1ZQ2Gb63bHf2Za/pX4fs/CRutdalo+H9MmdM0QvJfbUw8+hLts+318i37N8
-	mhNU+EZCsKj2j8hAdQqpR8bTKuiJFo2IuDuV0Uf8rQ4CIJxA3dDfic6aTnEmUS+35yjD
-	j0kc4lzWZ69mmlxZRxoMSvpFqF4Y4OzCl+K1w=
+	Thu, 05 Jan 2012 09:09:49 -0800 (PST)
+Received: by 10.224.220.14 with SMTP id hw14mr3770460qab.42.1325783389880;
+	Thu, 05 Jan 2012 09:09:49 -0800 (PST)
+Received: from [128.224.170.134] ([89.121.200.106])
+	by mx.google.com with ESMTPS id co15sm20179321qab.1.2012.01.05.09.09.48
+	(version=SSLv3 cipher=OTHER); Thu, 05 Jan 2012 09:09:49 -0800 (PST)
+Message-ID: <4F05D95B.5090604@gherzan.ro>
+Date: Thu, 05 Jan 2012 19:09:47 +0200
+From: Andrei Gherzan <andrei@gherzan.ro>
+User-Agent: Mozilla/5.0 (X11; Linux i686;
+	rv:8.0) Gecko/20111124 Thunderbird/8.0
 MIME-Version: 1.0
-Received: by 10.204.151.195 with SMTP id d3mr1087305bkw.73.1325783184687; Thu,
-	05 Jan 2012 09:06:24 -0800 (PST)
-Sender: otavio.salvador@gmail.com
-Received: by 10.204.78.79 with HTTP; Thu, 5 Jan 2012 09:06:23 -0800 (PST)
-In-Reply-To: <1325697252.20759.39.camel@ted>
-References: <cover.1325101673.git.otavio@ossystems.com.br>
-	<434061cd08c919cbabd78bf875d5f3e24233ef84.1325101674.git.otavio@ossystems.com.br>
-	<1325697252.20759.39.camel@ted>
-Date: Thu, 5 Jan 2012 15:06:23 -0200
-X-Google-Sender-Auth: i5Xy6SL3n85T6wAOI7qPfprieOA
-Message-ID: <CAP9ODKrRum6EK1iv_=eJSgoz9sd9AahpfJ=OB1b3Ubkxj6i4NA@mail.gmail.com>
-From: Otavio Salvador <otavio@ossystems.com.br>
-To: Patches and discussions about the oe-core layer
+To: Phil Blundell <philb@gnu.org>
+References: <1325781559-18967-1-git-send-email-andrei@gherzan.ro>
+	<1325781698.28005.132.camel@phil-desktop>
+	<4F05D5CB.2070404@windriver.com>
+	<1325782829.28005.136.camel@phil-desktop>
+In-Reply-To: <1325782829.28005.136.camel@phil-desktop>
+Cc: Andrei Gherzan <andrei.gherzan@windriver.com>,
+	Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 12/16] udev: improve udev-cache robustness
+Subject: Re: [PATCH] wpa-supplicant: Patch this recipe order to remove a duplicate defconfig file
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -43,56 +41,51 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 05 Jan 2012 17:13:47 -0000
-Content-Type: multipart/alternative; boundary=0015175cae4ec5c2e504b5caf32f
+X-List-Received-Date: Thu, 05 Jan 2012 17:17:14 -0000
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
---0015175cae4ec5c2e504b5caf32f
-Content-Type: text/plain; charset=ISO-8859-1
-
-On Wed, Jan 4, 2012 at 15:14, Richard Purdie <
-richard.purdie@linuxfoundation.org> wrote:
-
-> You're adding a ton of exec calls into the boot process here :(
+On 01/05/2012 07:00 PM, Phil Blundell wrote:
+> On Thu, 2012-01-05 at 18:54 +0200, Andrei Gherzan wrote:
+>> On 01/05/2012 06:41 PM, Phil Blundell wrote:
+>>> On Thu, 2012-01-05 at 18:39 +0200, Andrei Gherzan wrote:
+>>>> From: Andrei Gherzan<andrei.gherzan@windriver.com>
+>>>>
+>>>> Instead of having two defconfigs we can have only one and append this file with de specific
+>>>> CONFIG if GPLv3 packages are allowed.
+>>> As I said the other day, I think it would be better to just have one
+>>> defconfig and turn off the GPLv3 stuff entirely.  Do you know of anybody
+>>> who actually wants to use it?
+>>>
+>>> p.
+>>>
+>>>
+>> Now about that extra config. The idea of having it into a a build were
+>> gplv3 are allowed,was support for TLS/IA which was designed to be used
+>> in the EAP-TTLSv1
+>> https://lists.yoctoproject.org/pipermail/poky/2011-December/007386.html
+> Well, right.  But the point I was making in my previous email
 >
-> Please can we find some better way to do this without all the exec()
-> calls?
+> http://lists.linuxtogo.org/pipermail/openembedded-core/2012-January/015375.html
+>
+> is that nobody seems to be using TLS/IA, the code in wpa-supplicant was
+> apparently never all that well tested, and support for it has been
+> removed entirely in the latest versions of all the relevant software
+> (and hence, barring heroic efforts, we will lose it anyway next time
+> wpa-supplicant is upgraded).
+>
+> So, unless you know of anybody who actually has a requirement for that
+> protocol today, I would be inclined to just turn it off unconditionally
+> rather than adding some mechanism to turn it on and off based on
+> INCOMPATIBLE_LICENSE.
+>
+> p.
+>
 >
 
-I really don't want to waste too much time on this as I don't use it; I did
-a brief look and it might be put onto a sub directory and use diff to
-compare avoiding the use of multiple cmp calls but I can't test it myself
-as I am working at newer udev updating.
+I didn't see that message of yours. And actually you are right. I 
+haven't seen any req for that protocol and never heard of any. So in my 
+opinion a complete removal of this option would remain the best 
+approach. I can undo all the changes and add this config disabled.
 
--- 
-Otavio Salvador                             O.S. Systems
-E-mail: otavio@ossystems.com.br  http://www.ossystems.com.br
-Mobile: +55 53 9981-7854              http://projetos.ossystems.com.br
 
---0015175cae4ec5c2e504b5caf32f
-Content-Type: text/html; charset=ISO-8859-1
-Content-Transfer-Encoding: quoted-printable
-
-<div class=3D"gmail_quote">On Wed, Jan 4, 2012 at 15:14, Richard Purdie <sp=
-an dir=3D"ltr">&lt;<a href=3D"mailto:richard.purdie@linuxfoundation.org">ri=
-chard.purdie@linuxfoundation.org</a>&gt;</span> wrote:<br><blockquote class=
-=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padd=
-ing-left:1ex">
-<div class=3D"HOEnZb"><div class=3D"h5">You&#39;re adding a ton of exec cal=
-ls into the boot process here :(</div></div>
-<br>
-Please can we find some better way to do this without all the exec()<br>
-calls?<br></blockquote><div><br></div><div>I really don&#39;t want to waste=
- too much time on this as I don&#39;t use it; I did a brief look and it mig=
-ht be put onto a sub directory and use diff to compare avoiding the use of =
-multiple cmp calls but I can&#39;t test it myself as I am working at newer =
-udev updating.</div>
-<div>=A0</div></div>-- <br>Otavio Salvador=A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =
-=A0 =A0 =A0 =A0 =A0 =A0 =A0O.S. Systems<br>E-mail: <a href=3D"mailto:otavio=
-@ossystems.com.br" target=3D"_blank">otavio@ossystems.com.br</a>=A0 <a href=
-=3D"http://www.ossystems.com.br" target=3D"_blank">http://www.ossystems.com=
-.br</a><br>
-Mobile: +55 53 9981-7854=A0 =A0 =A0 =A0=A0 =A0 =A0 =A0<a href=3D"http://pro=
-jetos.ossystems.com.br" target=3D"_blank">http://projetos.ossystems.com.br<=
-/a><br><br>
-
---0015175cae4ec5c2e504b5caf32f--
