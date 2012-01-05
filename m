@@ -1,24 +1,24 @@
 Received: from mga03.intel.com ([143.182.124.21])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <nitin.a.kamble@intel.com>) id 1Ribpt-0006e0-8w
+	(envelope-from <nitin.a.kamble@intel.com>) id 1Ribpu-0006e0-2h
 	for openembedded-core@lists.openembedded.org;
-	Thu, 05 Jan 2012 02:09:41 +0100
+	Thu, 05 Jan 2012 02:09:42 +0100
 Received: from azsmga002.ch.intel.com ([10.2.17.35])
 	by azsmga101.ch.intel.com with ESMTP; 04 Jan 2012 17:02:16 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="53380096"
+X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="53380097"
 Received: from nbuild0.sc.intel.com ([172.25.110.36])
 	by AZSMGA002.ch.intel.com with ESMTP; 04 Jan 2012 17:02:16 -0800
 From: nitin.a.kamble@intel.com
 To: openembedded-core@lists.openembedded.org
-Date: Wed,  4 Jan 2012 17:02:10 -0800
-Message-Id: <96d294f59de63eac495f973aca051f7a361ca4b3.1325725256.git.nitin.a.kamble@intel.com>
+Date: Wed,  4 Jan 2012 17:02:11 -0800
+Message-Id: <521a1d1e78e4e797ce9c1787c83d8e0b2020281e.1325725256.git.nitin.a.kamble@intel.com>
 X-Mailer: git-send-email 1.7.6.4
 In-Reply-To: <aa69250b08b446ad0408357587a0271a66684f12.1325725256.git.nitin.a.kamble@intel.com>
 References: <aa69250b08b446ad0408357587a0271a66684f12.1325725256.git.nitin.a.kamble@intel.com>
 In-Reply-To: <cover.1325725256.git.nitin.a.kamble@intel.com>
 References: <cover.1325725256.git.nitin.a.kamble@intel.com>
-Subject: [PATCH 2/4] libevent: fix compilation for x32
+Subject: [PATCH 3/4] libxxf86dga: fix compilation with x32 toolchain
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -33,90 +33,82 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 05 Jan 2012 01:09:41 -0000
+X-List-Received-Date: Thu, 05 Jan 2012 01:09:42 -0000
 
 From: Nitin A Kamble <nitin.a.kamble@intel.com>
 
-Pull a patch from gentoo to avoid sysctl syscall which is not
-defined for x32.
+Fix type conversion for x32. For x32 the off_t is 64bit and pointers are
+32bit.
+so the conversion of pointer to off_t was resulting into this error:
+
+| XF86DGA2.c:931:24: error: cast from pointer to integer of different
+size [-Werror=pointer-to-int-cast]
+| cc1: some warnings being treated as errors
+|
+| make[2]: *** [XF86DGA2.lo] Error 1
+
+Fixed it by typecasting pointer into unsigned long 1st and then again
+typecasting unsigned long to off_t.
 
 Signed-off-by: Nitin A Kamble <nitin.a.kamble@intel.com>
 ---
- .../libevent/libevent-2.0.16_fix_for_x32.patch     |   47 ++++++++++++++++++++
- meta/recipes-support/libevent/libevent_2.0.16.bb   |    5 +-
- 2 files changed, 50 insertions(+), 2 deletions(-)
- create mode 100644 meta/recipes-support/libevent/libevent/libevent-2.0.16_fix_for_x32.patch
+ .../libxxf86dga-1.1.2_fix_for_x32.patch            |   30 ++++++++++++++++++++
+ .../recipes-graphics/xorg-lib/libxxf86dga_1.1.2.bb |    5 ++-
+ 2 files changed, 34 insertions(+), 1 deletions(-)
+ create mode 100644 meta/recipes-graphics/xorg-lib/libxxf86dga/libxxf86dga-1.1.2_fix_for_x32.patch
 
-diff --git a/meta/recipes-support/libevent/libevent/libevent-2.0.16_fix_for_x32.patch b/meta/recipes-support/libevent/libevent/libevent-2.0.16_fix_for_x32.patch
+diff --git a/meta/recipes-graphics/xorg-lib/libxxf86dga/libxxf86dga-1.1.2_fix_for_x32.patch b/meta/recipes-graphics/xorg-lib/libxxf86dga/libxxf86dga-1.1.2_fix_for_x32.patch
 new file mode 100644
-index 0000000..ef42863
+index 0000000..30692ad
 --- /dev/null
-+++ b/meta/recipes-support/libevent/libevent/libevent-2.0.16_fix_for_x32.patch
-@@ -0,0 +1,47 @@
++++ b/meta/recipes-graphics/xorg-lib/libxxf86dga/libxxf86dga-1.1.2_fix_for_x32.patch
+@@ -0,0 +1,30 @@
 +Upstream-Status: pending
 +
-+Pulled the patch from gentoo: from here:
-+http://sources2.gentoo.org/cgi-bin/viewvc.cgi/gentoo-x86/dev-libs/libevent/files/libevent-2.0.16-sysctl.patch?revision=1.1
++Fix type conversion for x32. For x32 the off_t is 64bit and pointers are 32bit.
++so the conversion of pointer to off_t was resulting into this error:
 +
-+Signed-Off-By: Nitin A Kamble <nitin.a.kamble@intel.com>
++| XF86DGA2.c:931:24: error: cast from pointer to integer of different size [-Werror=pointer-to-int-cast]
++| cc1: some warnings being treated as errors
++| 
++| make[2]: *** [XF86DGA2.lo] Error 1
++
++Fixed it by typecasting pointer into unsigned long 1st and then again typecasting 
++unsigned long to off_t.
++
++Signed-Off-by: Nitin A Kamble <nitin.a.kamble@intel.com>
 +2012/01/04
 +
-+From 358c745e5432f7648b6f8b3188f32b5551cbf9d6 Mon Sep 17 00:00:00 2001
-+From: Mike Frysinger <vapier@gentoo.org>
-+Date: Thu, 8 Dec 2011 11:39:48 -0500
-+Subject: [PATCH] check for sysctl before we use it
 +
-+Not all C libraries under Linux support the sysctl() func.
-+---
-+ arc4random.c |    2 +-
-+ configure.in |    2 +-
-+ 2 files changed, 2 insertions(+), 2 deletions(-)
++Index: libXxf86dga-1.1.2/src/XF86DGA2.c
++===================================================================
++--- libXxf86dga-1.1.2.orig/src/XF86DGA2.c	2010-10-06 21:17:11.000000000 -0700
+++++ libXxf86dga-1.1.2/src/XF86DGA2.c	2012-01-04 14:21:36.275971172 -0800
++@@ -928,7 +928,7 @@ DGAMapPhysical(
++     if ((pMap->fd = open(name, O_RDWR)) < 0)
++ 	return False;
++     pMap->virtual = mmap(NULL, size, PROT_READ | PROT_WRITE, 
++-			MAP_FILE | MAP_SHARED, pMap->fd, (off_t)base);
+++			MAP_FILE | MAP_SHARED, pMap->fd, (off_t)(unsigned long)base);
++     if (pMap->virtual == (void *)-1)
++ 	return False;
++     mprotect(pMap->virtual, size, PROT_READ | PROT_WRITE);
+diff --git a/meta/recipes-graphics/xorg-lib/libxxf86dga_1.1.2.bb b/meta/recipes-graphics/xorg-lib/libxxf86dga_1.1.2.bb
+index 8e777c3..9a1c96f 100644
+--- a/meta/recipes-graphics/xorg-lib/libxxf86dga_1.1.2.bb
++++ b/meta/recipes-graphics/xorg-lib/libxxf86dga_1.1.2.bb
+@@ -8,7 +8,10 @@ allows relative mouse reporting, et al.  It is mainly used by games and \
+ emulators for games."
+ 
+ DEPENDS += "libxext xf86dgaproto"
+-PR = "r1"
++PR = "r2"
 +
-+diff --git a/arc4random.c b/arc4random.c
-+index 4833169..ef10fa8 100644
-+--- a/arc4random.c
-++++ b/arc4random.c
-+@@ -166,7 +166,7 @@ arc4_seed_win32(void)
-+ }
-+ #endif
-+ 
-+-#if defined(_EVENT_HAVE_SYS_SYSCTL_H)
-++#if defined(_EVENT_HAVE_SYS_SYSCTL_H) && defined(_EVENT_HAVE_SYSCTL)
-+ #if _EVENT_HAVE_DECL_CTL_KERN && _EVENT_HAVE_DECL_KERN_RANDOM && _EVENT_HAVE_DECL_RANDOM_UUID
-+ #define TRY_SEED_SYSCTL_LINUX
-+ static int
-+diff --git a/configure.in b/configure.in
-+index da08cf4..4e24444 100644
-+--- a/configure.in
-++++ b/configure.in
-+@@ -267,7 +267,7 @@ AC_HEADER_TIME
-+ 
-+ dnl Checks for library functions.
-+ AC_CHECK_FUNCS([gettimeofday vasprintf fcntl clock_gettime strtok_r strsep])
-+-AC_CHECK_FUNCS([getnameinfo strlcpy inet_ntop inet_pton signal sigaction strtoll inet_aton pipe eventfd sendfile mmap splice arc4random arc4random_buf issetugid geteuid getegid getprotobynumber setenv unsetenv putenv])
-++AC_CHECK_FUNCS([getnameinfo strlcpy inet_ntop inet_pton signal sigaction strtoll inet_aton pipe eventfd sendfile mmap splice arc4random arc4random_buf issetugid geteuid getegid getprotobynumber setenv unsetenv putenv sysctl])
-+ 
-+ AC_CACHE_CHECK(
-+     [for getaddrinfo],
-+-- 
-+1.7.6.1
-diff --git a/meta/recipes-support/libevent/libevent_2.0.16.bb b/meta/recipes-support/libevent/libevent_2.0.16.bb
-index 6da3d94..38d42f0 100644
---- a/meta/recipes-support/libevent/libevent_2.0.16.bb
-+++ b/meta/recipes-support/libevent/libevent_2.0.16.bb
-@@ -7,9 +7,10 @@ SECTION = "libs"
- LICENSE = "BSD"
- LIC_FILES_CHKSUM = "file://LICENSE;md5=50aad300de703db62baae12146832b45"
++SRC_URI += "file://libxxf86dga-1.1.2_fix_for_x32.patch"
++
+ PE = "1"
  
--PR = "r0"
-+PR = "r1"
- 
--SRC_URI = "http://github.com/downloads/libevent/libevent/${BPN}-${PV}-stable.tar.gz"
-+SRC_URI = "http://github.com/downloads/libevent/libevent/${BPN}-${PV}-stable.tar.gz \
-+           file://libevent-2.0.16_fix_for_x32.patch"
- 
- SRC_URI[md5sum] = "899efcffccdb3d5111419df76e7dc8df"
- SRC_URI[sha256sum] = "a578c7bcaf3bab1cc7924bd4d219f2ea621ab8c51dfc4f886e234b6ef4d38295"
+ XORG_PN = "libXxf86dga"
 -- 
 1.7.6.4
 
