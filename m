@@ -1,36 +1,24 @@
-Received: from mail-we0-f175.google.com ([74.125.82.175])
-	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <otavio.salvador@gmail.com>) id 1Rivoj-00055Z-EW
+Received: from mailout-de.gmx.net ([213.165.64.23])
+	by linuxtogo.org with smtp (Exim 4.72)
+	(envelope-from <schnitzeltony@gmx.de>) id 1Riwqu-0006zM-Uw
 	for openembedded-core@lists.openembedded.org;
-	Thu, 05 Jan 2012 23:29:50 +0100
-Received: by werm13 with SMTP id m13so808937wer.6
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 05 Jan 2012 14:22:26 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
-	h=mime-version:sender:in-reply-to:references:date
-	:x-google-sender-auth:message-id:subject:from:to:cc:content-type;
-	bh=PlSnDfkoald/Y8dtEtO2O8XQOOEI6GxaGm0YO+X4Qps=;
-	b=rr2n1f8JoQw0Daq9IcOfq6JZaU9xSKhJqTH/2DSicqES66z8iuHPfH96shen04zeOb
-	3OoajGQOzJszULU9T8cos9YiRiIAh1QKFbhUjMf7YhePMvR+A5HSgRCmymzXTAPVEsu+
-	UlnU9CNJB4As55RvBGakkXKpEQA8+DC847W08=
+	Fri, 06 Jan 2012 00:36:11 +0100
+Received: (qmail invoked by alias); 05 Jan 2012 23:28:44 -0000
+Received: from p4FDF0BFB.dip.t-dialin.net (EHLO localhost.localdomain)
+	[79.223.11.251]
+	by mail.gmx.net (mp029) with SMTP; 06 Jan 2012 00:28:44 +0100
+X-Authenticated: #62780362
+X-Provags-ID: V01U2FsdGVkX1+5tk0v+/C5kqpC0vMk9tMM6ZeCzEfN81dMSr+Jbv
+	17TS7t+FqW1S3j
+From: Andreas =?iso-8859-1?q?M=FCller?= <schnitzeltony@gmx.de>
+To: openembedded-core@lists.openembedded.org
+Date: Fri, 6 Jan 2012 00:29:44 +0100
+User-Agent: KMail/1.13.7 (Linux/2.6.35.14-106.fc14.x86_64; KDE/4.6.5; x86_64; ;
+	)
 MIME-Version: 1.0
-Received: by 10.216.137.195 with SMTP id y45mr2077569wei.45.1325802146369;
-	Thu, 05 Jan 2012 14:22:26 -0800 (PST)
-Sender: otavio.salvador@gmail.com
-Received: by 10.216.73.67 with HTTP; Thu, 5 Jan 2012 14:22:26 -0800 (PST)
-In-Reply-To: <CAP9ODKqjJLh-UwZLv0pmKdqO-3=safuqnnJk7UcEStW1x1=DPg@mail.gmail.com>
-References: <cover.1325792209.git.otavio@ossystems.com.br>
-	<6d7ee007b25cc878d07163fcc6be964781f68ca6.1325792209.git.otavio@ossystems.com.br>
-	<4F061F34.9000606@linux.intel.com>
-	<CAP9ODKqjJLh-UwZLv0pmKdqO-3=safuqnnJk7UcEStW1x1=DPg@mail.gmail.com>
-Date: Thu, 5 Jan 2012 20:22:26 -0200
-X-Google-Sender-Auth: fg7xt_quB0UDmhT7k53aRyDScXU
-Message-ID: <CAP9ODKqgerRSVQMHh1=3XvkOip5YAd7om6qJMpS1pFG2Kr4Etg@mail.gmail.com>
-From: Otavio Salvador <otavio@ossystems.com.br>
-To: Saul Wold <sgw@linux.intel.com>
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 10/10] udev: drop depmod handling code as it ought to be done in kernel postinst
+Message-Id: <201201060029.45032.schnitzeltony@gmx.de>
+X-Y-GMX-Trusted: 0
+Subject: libs transition /usr/lib -> /lib questions
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -45,55 +33,50 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 05 Jan 2012 22:29:50 -0000
-Content-Type: multipart/alternative; boundary=0016e6d7efc8fa125804b5cf5db8
+X-List-Received-Date: Thu, 05 Jan 2012 23:36:11 -0000
+Content-Type: Text/Plain;
+  charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 
---0016e6d7efc8fa125804b5cf5db8
-Content-Type: text/plain; charset=ISO-8859-1
+Hi
 
-On Thu, Jan 5, 2012 at 20:09, Otavio Salvador <otavio@ossystems.com.br>wrote:
+currently some libs are moving from $libdir (/usr/lib) -> $base_libdir (/lib). I 
+have the following questions:
 
-> On Thu, Jan 5, 2012 at 20:07, Saul Wold <sgw@linux.intel.com> wrote:
->
->> Just a PR Bump?
->>
->
-> Sure not; I must have done something wrong when sending the patches to
-> github. I'll check it and send it again.
->
+* can sombody explain a bit more what is it for and how the decision is made to 
+transit libs? I read the commit messages but still have no idea what this 
+enhances / fixes. What is 'not safe' or - I guess the insane.bbclass modification 
+deals same issue - 'system recovery'. Is that something I (should) have? :)
+* can somebody please take care what I see with meta-oe / obexd:
 
-I messed it up; ignore this one :-)
+| ./arm-angstrom-linux-gnueabi-libtool  --tag=CC   --mode=link ccache arm-
+angstrom-linux-gnueabi-gcc  -march=armv7-a -fno-tree-vectorize      -mthumb-
+interwork -mfloat-abi=softfp -mfpu=neon -mtune=cortex-a8 -mthumb-interwork -mno-
+thumb --sysroot=/home/Superandy/tmp/oe-core-eglibc/sysroots/overo -
+I/home/Superandy/tmp/oe-core-eglibc/sysroots/overo/usr/include/glib-2.0 -
+I/home/Superandy/tmp/oe-core-eglibc/sysroots/overo/usr/lib/glib-2.0/include   -
+I/home/Superandy/tmp/oe-core-eglibc/sysroots/overo/usr/include/dbus-1.0 -
+I/home/Superandy/tmp/oe-core-eglibc/sysroots/overo/usr/lib/dbus-1.0/include -
+D_FILE_OFFSET_BITS=64 -DOBEX_PLUGIN_BUILTIN -
+DPLUGINDIR=\""/usr/lib/obex/plugins"\" -O -fno-omit-frame-pointer -g -
+feliminate-unused-debug-types -pipe -O0 -Wl,--export-dynamic -Wl,-O1 -Wl,--hash-
+style=gnu -Wl,--as-needed -o src/obexd gdbus/mainloop.o gdbus/watch.o 
+gdbus/object.o gdbus/polkit.o plugins/bluetooth.o  plugins/filesystem.o  
+plugins/opp.o plugins/ftp.o plugins/pbap.o plugins/vcard.o plugins/mas.o 
+plugins/irmc.o plugins/syncevolution.o btio/btio.o src/main.o src/plugin.o 
+src/log.o src/manager.o src/obex.o src/mimetype.o src/service.o src/transport.o 
+src/server.o plugins/phonebook.o plugins/messages.o -ldbus-1 -lpthread -lrt   -
+lglib-2.0 -lopenobex -lbluetooth   -lical -licalss -licalvcal -lpthread -ldl
+| arm-angstrom-linux-gnueabi-libtool: link: cannot find the library 
+`/home/Superandy/tmp/oe-core-eglibc/sysroots/overo/lib/libusb-1.0.la' or 
+unhandled argument `=/lib/libusb-1.0.la'
+| make[1]: *** [src/obexd] Error 1
 
--- 
-Otavio Salvador                             O.S. Systems
-E-mail: otavio@ossystems.com.br  http://www.ossystems.com.br
-Mobile: +55 53 9981-7854              http://projetos.ossystems.com.br
+libusb-1.0.la still resides in .../sysroots/overo/usr/lib. Maybe it needs 
+transition too? If yes: Are there also others which need libtool-lib transition?
 
---0016e6d7efc8fa125804b5cf5db8
-Content-Type: text/html; charset=ISO-8859-1
-Content-Transfer-Encoding: quoted-printable
+Thanks
 
-<div class=3D"gmail_quote">On Thu, Jan 5, 2012 at 20:09, Otavio Salvador <s=
-pan dir=3D"ltr">&lt;<a href=3D"mailto:otavio@ossystems.com.br">otavio@ossys=
-tems.com.br</a>&gt;</span> wrote:<br><blockquote class=3D"gmail_quote" styl=
-e=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex">
-<div class=3D"gmail_quote">On Thu, Jan 5, 2012 at 20:07, Saul Wold <span di=
-r=3D"ltr">&lt;<a href=3D"mailto:sgw@linux.intel.com" target=3D"_blank">sgw@=
-linux.intel.com</a>&gt;</span> wrote:<br><blockquote class=3D"gmail_quote" =
-style=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex">
+Andreas
 
-<div><div>Just a PR Bump?</div></div>
-</blockquote></div><div><br></div><div>Sure not; I must have done something=
- wrong when sending the patches to github. I&#39;ll check it and send it ag=
-ain.</div></blockquote><div><br></div><div>I messed it up; ignore this one =
-:-)=A0</div>
-</div><div><br></div>-- <br>Otavio Salvador=A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =
-=A0 =A0 =A0 =A0 =A0 =A0 =A0O.S. Systems<br>E-mail: <a href=3D"mailto:otavio=
-@ossystems.com.br" target=3D"_blank">otavio@ossystems.com.br</a>=A0 <a href=
-=3D"http://www.ossystems.com.br" target=3D"_blank">http://www.ossystems.com=
-.br</a><br>
-Mobile: +55 53 9981-7854=A0 =A0 =A0 =A0=A0 =A0 =A0 =A0<a href=3D"http://pro=
-jetos.ossystems.com.br" target=3D"_blank">http://projetos.ossystems.com.br<=
-/a><br><br>
 
---0016e6d7efc8fa125804b5cf5db8--
