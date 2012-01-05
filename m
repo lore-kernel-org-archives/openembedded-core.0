@@ -1,29 +1,20 @@
-Received: from mail-pw0-f47.google.com ([209.85.160.47])
+Received: from mga01.intel.com ([192.55.52.88])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <andrea.adami@gmail.com>) id 1Riihe-00052J-1q
+	(envelope-from <paul.eggleton@linux.intel.com>) id 1RijlB-0002Ob-Lh
 	for openembedded-core@lists.openembedded.org;
-	Thu, 05 Jan 2012 09:29:38 +0100
-Received: by pbcc11 with SMTP id c11so148387pbc.6
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 05 Jan 2012 00:22:14 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
-	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
-	:content-type:content-transfer-encoding;
-	bh=ebEVI09BjwF1GSPg0eJkMs2XSzojrwfZ4NtEbAQwC0Q=;
-	b=uYb4fUjrc09rTe7eE0MCsHKNctMCYBnO3/9gVBqq8odoH3fpXZafgxT449/zz4tcW3
-	vg1VbgWvPuM/f6Y/ea/3xWARXL0ln1O3FJGWXZYwab9LbRYHxLkniDhGzOKsJ8aNzgXH
-	0W6lk25OyXd67ALxpq1JjRag6OOou8SQQ0Qak=
-MIME-Version: 1.0
-Received: by 10.68.201.136 with SMTP id ka8mr3043949pbc.1.1325751734649; Thu,
-	05 Jan 2012 00:22:14 -0800 (PST)
-Received: by 10.142.213.7 with HTTP; Thu, 5 Jan 2012 00:22:14 -0800 (PST)
-In-Reply-To: <CAAQYJAtDd7SefbyUGJTwbvPErrZ3t8n=Jvf=vN1FW4_CO5eSkw@mail.gmail.com>
-References: <CAAQYJAtDd7SefbyUGJTwbvPErrZ3t8n=Jvf=vN1FW4_CO5eSkw@mail.gmail.com>
-Date: Thu, 5 Jan 2012 09:22:14 +0100
-Message-ID: <CAAQYJAvKF8fGu0cXkPLehpHV9XgYqS4ajpsMQsd3k7Mq5Z3Cfg@mail.gmail.com>
-From: Andrea Adami <andrea.adami@gmail.com>
+	Thu, 05 Jan 2012 10:37:21 +0100
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+	by fmsmga101.fm.intel.com with ESMTP; 05 Jan 2012 01:29:58 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="108992542"
+Received: from unknown (HELO helios.ger.corp.intel.com) ([10.252.122.94])
+	by fmsmga002.fm.intel.com with ESMTP; 05 Jan 2012 01:29:56 -0800
+From: Paul Eggleton <paul.eggleton@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Subject: Re: rootfs_ipk.bbclass: : [: -eq: unary operator expected
+Date: Thu,  5 Jan 2012 09:29:45 +0000
+Message-Id: <cover.1325755613.git.paul.eggleton@linux.intel.com>
+X-Mailer: git-send-email 1.7.5.4
+Subject: [PATCH 0/4] Minor fixes
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -38,39 +29,33 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 05 Jan 2012 08:29:38 -0000
-Content-Type: text/plain; charset=ISO-8859-1
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Thu, 05 Jan 2012 09:37:21 -0000
 
-On Thu, Jan 5, 2012 at 12:56 AM, Andrea Adami <andrea.adami@gmail.com> wrot=
-e:
-> Checking the logs I noticed this note:
->
-> /oe/oe-core/build/tmp-eglibc/work/poodle-oe-linux-gnueabi/initramfs-kexec=
-boot-klibc-image-1.0-r0/temp/run.do_rootfs.22017:
-> line 271: [: -eq: unary operator expected
->
-> The line in question is in rootfs_ipk.bbclass
->
-> rootfs_ipk_do_rootfs()
-> ...
->
-> =A0if [ $runtime_script_required -eq 0 ]; then
->
->
-> IMHO the test should be refined.
->
-> Regards
->
-> Andrea
+Fix an omitted Upstream-Status in a recent patch I added, plus some text
+changes in a few other places.
 
-I think it comes from the recent commit
-"2feba313c991170747381c7cf821a45c2cd04632 opkg: Update svn 625 -> 633
-and fix preinst issues"
+The following changes since commit f309769d10cb3d8b72b8c7c4f7f418dcb8422c61:
 
+  valgrind: Fix for automake update (2012-01-04 16:03:59 +0000)
 
-Regards
+are available in the git repository at:
+  git://git.openembedded.org/openembedded-core-contrib paule/fixes9
+  http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=paule/fixes9
 
-Andrea
+Paul Eggleton (4):
+  classes/update-alternatives: fix typos and grammar
+  README: add short description of OE-Core
+  conf/local.conf.sample: fix typos/grammar/formatting
+  qt4: add Upstream-Status to recently added qt-4.8.0 patch
+
+ README                                            |    6 +++-
+ meta/classes/update-alternatives.bbclass          |   12 +++---
+ meta/conf/local.conf.sample                       |   35 +++++++++++----------
+ meta/recipes-qt/qt4/qt-4.8.0/qmake_cxx_eval.patch |    2 +
+ 4 files changed, 31 insertions(+), 24 deletions(-)
+
+-- 
+1.7.5.4
+
 
 
