@@ -1,33 +1,25 @@
-Received: from mail-lpp01m010-f47.google.com ([209.85.215.47])
+Received: from mail-ee0-f47.google.com ([74.125.83.47])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <raj.khem@gmail.com>) id 1Riur9-0002iQ-GO
+	(envelope-from <andrei@gherzan.ro>) id 1Riv0t-00030p-Q0
 	for openembedded-core@lists.openembedded.org;
-	Thu, 05 Jan 2012 22:28:15 +0100
-Received: by lami14 with SMTP id i14so300395lam.6
+	Thu, 05 Jan 2012 22:38:19 +0100
+Received: by eeit10 with SMTP id t10so604998eei.6
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 05 Jan 2012 13:20:52 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:content-type:content-transfer-encoding;
-	bh=D0XBf3+RHO/Zzvqi/uQXzB+bgRPNEb4UoAkGKXdMxyo=;
-	b=xxyMbHnwxF3+qrEtivTRrXsVWiQc9TNgNLtrogsDT/IFJiHw3qTivRKnxS55La91Cu
-	rA4pdhDyzZ+ltZnBAbxBOGan0oYjngExCczIe06Cn5ZZ5vkOSch5sF9lCasXdqic0qeG
-	//r/PhMt9Wz+p7/mJfuPUzFwEGk7RhKlWHCsA=
-Received: by 10.112.24.4 with SMTP id q4mr735186lbf.80.1325798452293; Thu, 05
-	Jan 2012 13:20:52 -0800 (PST)
-MIME-Version: 1.0
-Received: by 10.152.115.1 with HTTP; Thu, 5 Jan 2012 13:20:21 -0800 (PST)
-In-Reply-To: <CADkTA4MvYECL=7vxz24PSO8zqw+7Gm-oZ_eqMCJFp1S61ny7jQ@mail.gmail.com>
-References: <1325793967-13002-1-git-send-email-raj.khem@gmail.com>
-	<CADkTA4PFLMdSNM47+__79NXwuocFb7Y70o1qwP=+ft2aS4jd1A@mail.gmail.com>
-	<CAMKF1spvGpZbV0T_vKbzc4UiBt2bmpj520ymZ5-AA66VwKOOsw@mail.gmail.com>
-	<CADkTA4MvYECL=7vxz24PSO8zqw+7Gm-oZ_eqMCJFp1S61ny7jQ@mail.gmail.com>
-From: Khem Raj <raj.khem@gmail.com>
-Date: Thu, 5 Jan 2012 13:20:21 -0800
-Message-ID: <CAMKF1sr481YYkPK-Cn=nb0PAyJXPwOkROvk31mF1+kmwqJXynQ@mail.gmail.com>
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] linux-yocto-3.0: Fix compile failure in perf
+	Thu, 05 Jan 2012 13:30:53 -0800 (PST)
+Received: by 10.14.149.135 with SMTP id x7mr1383489eej.27.1325799053127;
+	Thu, 05 Jan 2012 13:30:53 -0800 (PST)
+Received: from localhost.localdomain ([79.117.113.250])
+	by mx.google.com with ESMTPS id b49sm207668679eec.9.2012.01.05.13.30.52
+	(version=TLSv1/SSLv3 cipher=OTHER);
+	Thu, 05 Jan 2012 13:30:52 -0800 (PST)
+From: Andrei Gherzan <andrei@gherzan.ro>
+To: openembedded-core@lists.openembedded.org
+Date: Thu,  5 Jan 2012 23:30:41 +0200
+Message-Id: <1325799041-3640-1-git-send-email-andrei@gherzan.ro>
+X-Mailer: git-send-email 1.7.5.4
+Cc: Andrei Gherzan <andrei@gherzan.ro>,
+	Andrei Gherzan <andrei.gherzan@windriver.com>
+Subject: [PATCH] wpa-supplicant: Compile without CONFIG_GNUTLS_EXTRA
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -42,202 +34,491 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 05 Jan 2012 21:28:15 -0000
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Thu, 05 Jan 2012 21:38:20 -0000
 
-On Thu, Jan 5, 2012 at 12:59 PM, Bruce Ashfield
-<bruce.ashfield@gmail.com> wrote:
-> On Thu, Jan 5, 2012 at 3:55 PM, Khem Raj <raj.khem@gmail.com> wrote:
->> On Thu, Jan 5, 2012 at 12:13 PM, Bruce Ashfield
->> <bruce.ashfield@gmail.com> wrote:
->>> On Thu, Jan 5, 2012 at 3:06 PM, Khem Raj <raj.khem@gmail.com> wrote:
->>>> Signed-off-by: Khem Raj <raj.khem@gmail.com>
->>>> ---
->>>> =C2=A0...Undef-before-redefining-__attribute_const.patch | =C2=A0 33 +=
-+++++++++++++++++++
->>>> =C2=A0meta/recipes-kernel/linux/linux-yocto_3.0.bb =C2=A0 =C2=A0 =C2=
-=A0 | =C2=A0 =C2=A04 ++-
->>>> =C2=A02 files changed, 36 insertions(+), 1 deletions(-)
->>>> =C2=A0create mode 100644 meta/recipes-kernel/linux/linux-yocto/0001-co=
-mpiler.h-Undef-before-redefining-__attribute_const.patch
->>>
->>> Khem,
->>>
->>> I just built multiple linux-yocto kernels, for all the qemu targets
->>> and haven't seen this
->>> error at all. Do you have any special configuration that would be
->>> triggering this ?
->>
->> yes I am building with eglibc 2.15 ( recipes I have not posted yet)
->> and this defines is reported to be defined in usr/include/sys/cdefs.h
->> which is a header from libc.
->
-> Aha. Perfect. This explains it completely.
->
->>
->>>
->>> The change itself looks sane, and in fact makes sense, since the rest
->>> of the file
->>> has the same protection for the new defines. Nothing has changed that
->>> should have triggered
->>> this to become an issue. I'm just trying to figure out why it has
->>> popped up now.
->>>
->>> I also checked and the 3.2 kernel still has the same issue, so pushing
->>> it upstream makes
->>> sense as well.
+From: Andrei Gherzan <andrei.gherzan@windriver.com>
 
-btw. I made the change thinking that perf utils want it that way to I undef=
-ine
-the previous definitions before redefining. But if it was a placeholder whe=
-re
-it was defined because something needed it and there was no definitions fro=
-m
-standard include headers then I think right fix would be to check if its de=
-fined
-before redefining it. In both cases the warning will go away
+CONFIG_GNUTLS_EXTRA is needed as support for TLS/IA which was designed to be used
+in the EAP-TTLSv1. As we don't see any requirement for that protocol today we decided
+to remove it from wpa-supplicant .config file.
 
-However with current patch the behaviour remains same as it was but if we c=
-heck
-for definition before redefining then that may change.
+[YOCTO #1845]
 
->>>
->>> And I see you asked on IRC, so I'll answer here. Submit a patch to the
->>> kernel like
->>> any upstream kernel change. Simply send the patch right from your
->>> linux working tree,
->>
->> You mean send to oe-core ml here right ?
->
-> Yep!
->
->>
->>> and I'll pickup the change, merge it into the tree, push it out and
->>> send a pull request
->>> with updated SRCREVs that collect all the queued changes.
->>>
->>
->> Will you be able to bean this patch out from the one I sent or should
->> I resend it ?
->> the patch itself should be git am'able
->
-> I'll grab it, no need to resend. I'm doing 3.0.16 merging right now,
-> so I can collect
-> it with that set of changes.
->
-> Cheers,
->
-> Bruce
->
->>
->>> Cheers,
->>>
->>> Bruce
->>>
->>>>
->>>> diff --git a/meta/recipes-kernel/linux/linux-yocto/0001-compiler.h-Und=
-ef-before-redefining-__attribute_const.patch b/meta/recipes-kernel/linux/li=
-nux-yocto/0001-compiler.h-Undef-before-redefining-__attribute_const.patch
->>>> new file mode 100644
->>>> index 0000000..b85cc97
->>>> --- /dev/null
->>>> +++ b/meta/recipes-kernel/linux/linux-yocto/0001-compiler.h-Undef-befo=
-re-redefining-__attribute_const.patch
->>>> @@ -0,0 +1,33 @@
->>>> +From 6f92ab6de9d8daeb575949bbbcbc7bcdcebc60af Mon Sep 17 00:00:00 200=
-1
->>>> +From: Khem Raj <raj.khem@gmail.com>
->>>> +Date: Thu, 5 Jan 2012 11:42:35 -0800
->>>> +Subject: [PATCH] compiler.h: Undef before redefining __attribute_cons=
-t__
->>>> +
->>>> +This is required to avoid warnings like
->>>> +util/include/linux/compiler.h:8:0: error: "__attribute_const__" redef=
-ined [-Werror]
->>>> +
->>>> +Signed-off-by: Khem Raj <raj.khem@gmail.com>
->>>> +---
->>>> + tools/perf/util/include/linux/compiler.h | =C2=A0 =C2=A04 +++-
->>>> + 1 files changed, 3 insertions(+), 1 deletions(-)
->>>> +
->>>> +diff --git a/tools/perf/util/include/linux/compiler.h b/tools/perf/ut=
-il/include/linux/compiler.h
->>>> +index 791f9dd..f17ecef 100644
->>>> +--- a/tools/perf/util/include/linux/compiler.h
->>>> ++++ b/tools/perf/util/include/linux/compiler.h
->>>> +@@ -4,9 +4,11 @@
->>>> + #ifndef __always_inline
->>>> + #define __always_inline =C2=A0 =C2=A0 =C2=A0 inline
->>>> + #endif
->>>> ++#undef __user
->>>> + #define __user
->>>> ++#undef __attribute_const__
->>>> + #define __attribute_const__
->>>> +-
->>>> ++#undef __used
->>>> + #define __used =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0__attribute__((__unused__))
->>>> +
->>>> + #endif
->>>> +--
->>>> +1.7.5.4
->>>> +
->>>> diff --git a/meta/recipes-kernel/linux/linux-yocto_3.0.bb b/meta/recip=
-es-kernel/linux/linux-yocto_3.0.bb
->>>> index b650c84..2e87f7f 100644
->>>> --- a/meta/recipes-kernel/linux/linux-yocto_3.0.bb
->>>> +++ b/meta/recipes-kernel/linux/linux-yocto_3.0.bb
->>>> @@ -23,7 +23,9 @@ SRCREV_meta ?=3D "c979f1365b1eb74e882b2cbbc8407ec536=
-ab6eb8"
->>>> =C2=A0PR =3D "r2"
->>>> =C2=A0PV =3D "${LINUX_VERSION}+git${SRCPV}"
->>>>
->>>> -SRC_URI =3D "git://git.yoctoproject.org/linux-yocto-3.0;protocol=3Dgi=
-t;nocheckout=3D1;branch=3D${KBRANCH},meta;name=3Dmachine,meta"
->>>> +SRC_URI =3D "git://git.yoctoproject.org/linux-yocto-3.0;protocol=3Dgi=
-t;nocheckout=3D1;branch=3D${KBRANCH},meta;name=3Dmachine,meta \
->>>> + =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 file://0001-compiler.h-Undef-befo=
-re-redefining-__attribute_const.patch \
->>>> + =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 "
->>>>
->>>> =C2=A0COMPATIBLE_MACHINE =3D "(qemuarm|qemux86|qemuppc|qemumips|qemux8=
-6-64)"
->>>>
->>>> --
->>>> 1.7.5.4
->>>>
->>>>
->>>> _______________________________________________
->>>> Openembedded-core mailing list
->>>> Openembedded-core@lists.openembedded.org
->>>> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
->>>
->>>
->>>
->>> --
->>> "Thou shalt not follow the NULL pointer, for chaos and madness await
->>> thee at its end"
->>>
->>> _______________________________________________
->>> Openembedded-core mailing list
->>> Openembedded-core@lists.openembedded.org
->>> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
->>
->> _______________________________________________
->> Openembedded-core mailing list
->> Openembedded-core@lists.openembedded.org
->> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
->
->
->
-> --
-> "Thou shalt not follow the NULL pointer, for chaos and madness await
-> thee at its end"
->
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
+Signed-off-by: Andrei Gherzan <andrei@gherzan.ro>
+---
+ .../wpa-supplicant/defconfig.inc                   |    4 -
+ .../wpa-supplicant-0.7.3/defconfig-gnutls          |    2 +-
+ .../wpa-supplicant-0.7.3/defconfig-gnutls-nogplv3  |  409 --------------------
+ .../wpa-supplicant/wpa-supplicant-0.7.inc          |    7 +-
+ 4 files changed, 3 insertions(+), 419 deletions(-)
+ delete mode 100644 meta/recipes-connectivity/wpa-supplicant/defconfig.inc
+ delete mode 100644 meta/recipes-connectivity/wpa-supplicant/wpa-supplicant-0.7.3/defconfig-gnutls-nogplv3
+
+diff --git a/meta/recipes-connectivity/wpa-supplicant/defconfig.inc b/meta/recipes-connectivity/wpa-supplicant/defconfig.inc
+deleted file mode 100644
+index fdcbb43..0000000
+--- a/meta/recipes-connectivity/wpa-supplicant/defconfig.inc
++++ /dev/null
+@@ -1,4 +0,0 @@
+-def get_defconfig(bb, d):
+-	if d.getVar('INCOMPATIBLE_LICENSE', 1) in [ 'GPLv3' ]:
+-		return "-nogplv3"
+-	return ""
+diff --git a/meta/recipes-connectivity/wpa-supplicant/wpa-supplicant-0.7.3/defconfig-gnutls b/meta/recipes-connectivity/wpa-supplicant/wpa-supplicant-0.7.3/defconfig-gnutls
+index c679e00..e03338f 100644
+--- a/meta/recipes-connectivity/wpa-supplicant/wpa-supplicant-0.7.3/defconfig-gnutls
++++ b/meta/recipes-connectivity/wpa-supplicant/wpa-supplicant-0.7.3/defconfig-gnutls
+@@ -404,6 +404,6 @@ CONFIG_PEERKEY=y
+ #LIBS_p += -lbfd -liberty -lz
+ #LIBS_c += -lbfd -liberty -lz
+ CONFIG_TLS = gnutls
+-CONFIG_GNUTLS_EXTRA=y
++#CONFIG_GNUTLS_EXTRA=y
+ CONFIG_CTRL_IFACE_DBUS=y
+ CONFIG_CTRL_IFACE_DBUS_NEW=y
+diff --git a/meta/recipes-connectivity/wpa-supplicant/wpa-supplicant-0.7.3/defconfig-gnutls-nogplv3 b/meta/recipes-connectivity/wpa-supplicant/wpa-supplicant-0.7.3/defconfig-gnutls-nogplv3
+deleted file mode 100644
+index e03338f..0000000
+--- a/meta/recipes-connectivity/wpa-supplicant/wpa-supplicant-0.7.3/defconfig-gnutls-nogplv3
++++ /dev/null
+@@ -1,409 +0,0 @@
+-# Example wpa_supplicant build time configuration
+-#
+-# This file lists the configuration options that are used when building the
+-# hostapd binary. All lines starting with # are ignored. Configuration option
+-# lines must be commented out complete, if they are not to be included, i.e.,
+-# just setting VARIABLE=n is not disabling that variable.
+-#
+-# This file is included in Makefile, so variables like CFLAGS and LIBS can also
+-# be modified from here. In most cases, these lines should use += in order not
+-# to override previous values of the variables.
+-
+-
+-# Uncomment following two lines and fix the paths if you have installed OpenSSL
+-# or GnuTLS in non-default location
+-#CFLAGS += -I/usr/local/openssl/include
+-#LIBS += -L/usr/local/openssl/lib
+-
+-# Some Red Hat versions seem to include kerberos header files from OpenSSL, but
+-# the kerberos files are not in the default include path. Following line can be
+-# used to fix build issues on such systems (krb5.h not found).
+-#CFLAGS += -I/usr/include/kerberos
+-
+-# Example configuration for various cross-compilation platforms
+-
+-#### sveasoft (e.g., for Linksys WRT54G) ######################################
+-#CC=mipsel-uclibc-gcc
+-#CC=/opt/brcm/hndtools-mipsel-uclibc/bin/mipsel-uclibc-gcc
+-#CFLAGS += -Os
+-#CPPFLAGS += -I../src/include -I../../src/router/openssl/include
+-#LIBS += -L/opt/brcm/hndtools-mipsel-uclibc-0.9.19/lib -lssl
+-###############################################################################
+-
+-#### openwrt (e.g., for Linksys WRT54G) #######################################
+-#CC=mipsel-uclibc-gcc
+-#CC=/opt/brcm/hndtools-mipsel-uclibc/bin/mipsel-uclibc-gcc
+-#CFLAGS += -Os
+-#CPPFLAGS=-I../src/include -I../openssl-0.9.7d/include \
+-#	-I../WRT54GS/release/src/include
+-#LIBS = -lssl
+-###############################################################################
+-
+-
+-# Driver interface for Host AP driver
+-CONFIG_DRIVER_HOSTAP=y
+-
+-# Driver interface for Agere driver
+-#CONFIG_DRIVER_HERMES=y
+-# Change include directories to match with the local setup
+-#CFLAGS += -I../../hcf -I../../include -I../../include/hcf
+-#CFLAGS += -I../../include/wireless
+-
+-# Driver interface for madwifi driver
+-# Deprecated; use CONFIG_DRIVER_WEXT=y instead.
+-#CONFIG_DRIVER_MADWIFI=y
+-# Set include directory to the madwifi source tree
+-#CFLAGS += -I../../madwifi
+-
+-# Driver interface for ndiswrapper
+-# Deprecated; use CONFIG_DRIVER_WEXT=y instead.
+-#CONFIG_DRIVER_NDISWRAPPER=y
+-
+-# Driver interface for Atmel driver
+-# CONFIG_DRIVER_ATMEL=y
+-
+-# Driver interface for old Broadcom driver
+-# Please note that the newer Broadcom driver ("hybrid Linux driver") supports
+-# Linux wireless extensions and does not need (or even work) with the old
+-# driver wrapper. Use CONFIG_DRIVER_WEXT=y with that driver.
+-#CONFIG_DRIVER_BROADCOM=y
+-# Example path for wlioctl.h; change to match your configuration
+-#CFLAGS += -I/opt/WRT54GS/release/src/include
+-
+-# Driver interface for Intel ipw2100/2200 driver
+-# Deprecated; use CONFIG_DRIVER_WEXT=y instead.
+-#CONFIG_DRIVER_IPW=y
+-
+-# Driver interface for Ralink driver
+-#CONFIG_DRIVER_RALINK=y
+-
+-# Driver interface for generic Linux wireless extensions
+-CONFIG_DRIVER_WEXT=y
+-
+-# Driver interface for Linux drivers using the nl80211 kernel interface
+-CONFIG_LIBNL20=y
+-CONFIG_DRIVER_NL80211=y
+-
+-# Driver interface for FreeBSD net80211 layer (e.g., Atheros driver)
+-#CONFIG_DRIVER_BSD=y
+-#CFLAGS += -I/usr/local/include
+-#LIBS += -L/usr/local/lib
+-#LIBS_p += -L/usr/local/lib
+-#LIBS_c += -L/usr/local/lib
+-
+-# Driver interface for Windows NDIS
+-#CONFIG_DRIVER_NDIS=y
+-#CFLAGS += -I/usr/include/w32api/ddk
+-#LIBS += -L/usr/local/lib
+-# For native build using mingw
+-#CONFIG_NATIVE_WINDOWS=y
+-# Additional directories for cross-compilation on Linux host for mingw target
+-#CFLAGS += -I/opt/mingw/mingw32/include/ddk
+-#LIBS += -L/opt/mingw/mingw32/lib
+-#CC=mingw32-gcc
+-# By default, driver_ndis uses WinPcap for low-level operations. This can be
+-# replaced with the following option which replaces WinPcap calls with NDISUIO.
+-# However, this requires that WZC is disabled (net stop wzcsvc) before starting
+-# wpa_supplicant.
+-# CONFIG_USE_NDISUIO=y
+-
+-# Driver interface for development testing
+-#CONFIG_DRIVER_TEST=y
+-
+-# Include client MLME (management frame processing) for test driver
+-# This can be used to test MLME operations in hostapd with the test interface.
+-# space.
+-#CONFIG_CLIENT_MLME=y
+-
+-# Driver interface for wired Ethernet drivers
+-CONFIG_DRIVER_WIRED=y
+-
+-# Driver interface for the Broadcom RoboSwitch family
+-#CONFIG_DRIVER_ROBOSWITCH=y
+-
+-# Driver interface for no driver (e.g., WPS ER only)
+-#CONFIG_DRIVER_NONE=y
+-
+-# Enable IEEE 802.1X Supplicant (automatically included if any EAP method is
+-# included)
+-CONFIG_IEEE8021X_EAPOL=y
+-
+-# EAP-MD5
+-CONFIG_EAP_MD5=y
+-
+-# EAP-MSCHAPv2
+-CONFIG_EAP_MSCHAPV2=y
+-
+-# EAP-TLS
+-CONFIG_EAP_TLS=y
+-
+-# EAL-PEAP
+-CONFIG_EAP_PEAP=y
+-
+-# EAP-TTLS
+-CONFIG_EAP_TTLS=y
+-
+-# EAP-FAST
+-# Note: Default OpenSSL package does not include support for all the
+-# functionality needed for EAP-FAST. If EAP-FAST is enabled with OpenSSL,
+-# the OpenSSL library must be patched (openssl-0.9.8d-tls-extensions.patch)
+-# to add the needed functions.
+-#CONFIG_EAP_FAST=y
+-
+-# EAP-GTC
+-CONFIG_EAP_GTC=y
+-
+-# EAP-OTP
+-CONFIG_EAP_OTP=y
+-
+-# EAP-SIM (enable CONFIG_PCSC, if EAP-SIM is used)
+-#CONFIG_EAP_SIM=y
+-
+-# EAP-PSK (experimental; this is _not_ needed for WPA-PSK)
+-#CONFIG_EAP_PSK=y
+-
+-# EAP-PAX
+-#CONFIG_EAP_PAX=y
+-
+-# LEAP
+-CONFIG_EAP_LEAP=y
+-
+-# EAP-AKA (enable CONFIG_PCSC, if EAP-AKA is used)
+-#CONFIG_EAP_AKA=y
+-
+-# EAP-AKA' (enable CONFIG_PCSC, if EAP-AKA' is used).
+-# This requires CONFIG_EAP_AKA to be enabled, too.
+-#CONFIG_EAP_AKA_PRIME=y
+-
+-# Enable USIM simulator (Milenage) for EAP-AKA
+-#CONFIG_USIM_SIMULATOR=y
+-
+-# EAP-SAKE
+-#CONFIG_EAP_SAKE=y
+-
+-# EAP-GPSK
+-#CONFIG_EAP_GPSK=y
+-# Include support for optional SHA256 cipher suite in EAP-GPSK
+-#CONFIG_EAP_GPSK_SHA256=y
+-
+-# EAP-TNC and related Trusted Network Connect support (experimental)
+-#CONFIG_EAP_TNC=y
+-
+-# Wi-Fi Protected Setup (WPS)
+-#CONFIG_WPS=y
+-
+-# EAP-IKEv2
+-#CONFIG_EAP_IKEV2=y
+-
+-# PKCS#12 (PFX) support (used to read private key and certificate file from
+-# a file that usually has extension .p12 or .pfx)
+-CONFIG_PKCS12=y
+-
+-# Smartcard support (i.e., private key on a smartcard), e.g., with openssl
+-# engine.
+-CONFIG_SMARTCARD=y
+-
+-# PC/SC interface for smartcards (USIM, GSM SIM)
+-# Enable this if EAP-SIM or EAP-AKA is included
+-#CONFIG_PCSC=y
+-
+-# Development testing
+-#CONFIG_EAPOL_TEST=y
+-
+-# Select control interface backend for external programs, e.g, wpa_cli:
+-# unix = UNIX domain sockets (default for Linux/*BSD)
+-# udp = UDP sockets using localhost (127.0.0.1)
+-# named_pipe = Windows Named Pipe (default for Windows)
+-# y = use default (backwards compatibility)
+-# If this option is commented out, control interface is not included in the
+-# build.
+-CONFIG_CTRL_IFACE=y
+-
+-# Include support for GNU Readline and History Libraries in wpa_cli.
+-# When building a wpa_cli binary for distribution, please note that these
+-# libraries are licensed under GPL and as such, BSD license may not apply for
+-# the resulting binary.
+-#CONFIG_READLINE=y
+-
+-# Remove debugging code that is printing out debug message to stdout.
+-# This can be used to reduce the size of the wpa_supplicant considerably
+-# if debugging code is not needed. The size reduction can be around 35%
+-# (e.g., 90 kB).
+-#CONFIG_NO_STDOUT_DEBUG=y
+-
+-# Remove WPA support, e.g., for wired-only IEEE 802.1X supplicant, to save
+-# 35-50 kB in code size.
+-#CONFIG_NO_WPA=y
+-
+-# Remove WPA2 support. This allows WPA to be used, but removes WPA2 code to
+-# save about 1 kB in code size when building only WPA-Personal (no EAP support)
+-# or 6 kB if building for WPA-Enterprise.
+-#CONFIG_NO_WPA2=y
+-
+-# Remove IEEE 802.11i/WPA-Personal ASCII passphrase support
+-# This option can be used to reduce code size by removing support for
+-# converting ASCII passphrases into PSK. If this functionality is removed, the
+-# PSK can only be configured as the 64-octet hexstring (e.g., from
+-# wpa_passphrase). This saves about 0.5 kB in code size.
+-#CONFIG_NO_WPA_PASSPHRASE=y
+-
+-# Disable scan result processing (ap_mode=1) to save code size by about 1 kB.
+-# This can be used if ap_scan=1 mode is never enabled.
+-#CONFIG_NO_SCAN_PROCESSING=y
+-
+-# Select configuration backend:
+-# file = text file (e.g., wpa_supplicant.conf; note: the configuration file
+-#	path is given on command line, not here; this option is just used to
+-#	select the backend that allows configuration files to be used)
+-# winreg = Windows registry (see win_example.reg for an example)
+-CONFIG_BACKEND=file
+-
+-# Remove configuration write functionality (i.e., to allow the configuration
+-# file to be updated based on runtime configuration changes). The runtime
+-# configuration can still be changed, the changes are just not going to be
+-# persistent over restarts. This option can be used to reduce code size by
+-# about 3.5 kB.
+-#CONFIG_NO_CONFIG_WRITE=y
+-
+-# Remove support for configuration blobs to reduce code size by about 1.5 kB.
+-#CONFIG_NO_CONFIG_BLOBS=y
+-
+-# Select program entry point implementation:
+-# main = UNIX/POSIX like main() function (default)
+-# main_winsvc = Windows service (read parameters from registry)
+-# main_none = Very basic example (development use only)
+-#CONFIG_MAIN=main
+-
+-# Select wrapper for operatins system and C library specific functions
+-# unix = UNIX/POSIX like systems (default)
+-# win32 = Windows systems
+-# none = Empty template
+-#CONFIG_OS=unix
+-
+-# Select event loop implementation
+-# eloop = select() loop (default)
+-# eloop_win = Windows events and WaitForMultipleObject() loop
+-# eloop_none = Empty template
+-#CONFIG_ELOOP=eloop
+-
+-# Select layer 2 packet implementation
+-# linux = Linux packet socket (default)
+-# pcap = libpcap/libdnet/WinPcap
+-# freebsd = FreeBSD libpcap
+-# winpcap = WinPcap with receive thread
+-# ndis = Windows NDISUIO (note: requires CONFIG_USE_NDISUIO=y)
+-# none = Empty template
+-#CONFIG_L2_PACKET=linux
+-
+-# PeerKey handshake for Station to Station Link (IEEE 802.11e DLS)
+-CONFIG_PEERKEY=y
+-
+-# IEEE 802.11w (management frame protection)
+-# This version is an experimental implementation based on IEEE 802.11w/D1.0
+-# draft and is subject to change since the standard has not yet been finalized.
+-# Driver support is also needed for IEEE 802.11w.
+-#CONFIG_IEEE80211W=y
+-
+-# Select TLS implementation
+-# openssl = OpenSSL (default)
+-# gnutls = GnuTLS (needed for TLS/IA, see also CONFIG_GNUTLS_EXTRA)
+-# internal = Internal TLSv1 implementation (experimental)
+-# none = Empty template
+-#CONFIG_TLS=openssl
+-
+-# Whether to enable TLS/IA support, which is required for EAP-TTLSv1.
+-# You need CONFIG_TLS=gnutls for this to have any effect. Please note that
+-# even though the core GnuTLS library is released under LGPL, this extra
+-# library uses GPL and as such, the terms of GPL apply to the combination
+-# of wpa_supplicant and GnuTLS if this option is enabled. BSD license may not
+-# apply for distribution of the resulting binary.
+-#CONFIG_GNUTLS_EXTRA=y
+-
+-# If CONFIG_TLS=internal is used, additional library and include paths are
+-# needed for LibTomMath. Alternatively, an integrated, minimal version of
+-# LibTomMath can be used. See beginning of libtommath.c for details on benefits
+-# and drawbacks of this option.
+-#CONFIG_INTERNAL_LIBTOMMATH=y
+-#ifndef CONFIG_INTERNAL_LIBTOMMATH
+-#LTM_PATH=/usr/src/libtommath-0.39
+-#CFLAGS += -I$(LTM_PATH)
+-#LIBS += -L$(LTM_PATH)
+-#LIBS_p += -L$(LTM_PATH)
+-#endif
+-# At the cost of about 4 kB of additional binary size, the internal LibTomMath
+-# can be configured to include faster routines for exptmod, sqr, and div to
+-# speed up DH and RSA calculation considerably
+-#CONFIG_INTERNAL_LIBTOMMATH_FAST=y
+-
+-# Include NDIS event processing through WMI into wpa_supplicant/wpasvc.
+-# This is only for Windows builds and requires WMI-related header files and
+-# WbemUuid.Lib from Platform SDK even when building with MinGW.
+-#CONFIG_NDIS_EVENTS_INTEGRATED=y
+-#PLATFORMSDKLIB="/opt/Program Files/Microsoft Platform SDK/Lib"
+-
+-# Add support for old DBus control interface
+-# (fi.epitest.hostap.WPASupplicant)
+-#CONFIG_CTRL_IFACE_DBUS=y
+-
+-# Add support for new DBus control interface
+-# (fi.w1.hostap.wpa_supplicant1)
+-#CONFIG_CTRL_IFACE_DBUS_NEW=y
+-
+-# Add introspection support for new DBus control interface
+-#CONFIG_CTRL_IFACE_DBUS_INTRO=y
+-
+-# Add support for loading EAP methods dynamically as shared libraries.
+-# When this option is enabled, each EAP method can be either included
+-# statically (CONFIG_EAP_<method>=y) or dynamically (CONFIG_EAP_<method>=dyn).
+-# Dynamic EAP methods are build as shared objects (eap_*.so) and they need to
+-# be loaded in the beginning of the wpa_supplicant configuration file
+-# (see load_dynamic_eap parameter in the example file) before being used in
+-# the network blocks.
+-#
+-# Note that some shared parts of EAP methods are included in the main program
+-# and in order to be able to use dynamic EAP methods using these parts, the
+-# main program must have been build with the EAP method enabled (=y or =dyn).
+-# This means that EAP-TLS/PEAP/TTLS/FAST cannot be added as dynamic libraries
+-# unless at least one of them was included in the main build to force inclusion
+-# of the shared code. Similarly, at least one of EAP-SIM/AKA must be included
+-# in the main build to be able to load these methods dynamically.
+-#
+-# Please also note that using dynamic libraries will increase the total binary
+-# size. Thus, it may not be the best option for targets that have limited
+-# amount of memory/flash.
+-#CONFIG_DYNAMIC_EAP_METHODS=y
+-
+-# IEEE Std 802.11r-2008 (Fast BSS Transition)
+-#CONFIG_IEEE80211R=y
+-
+-# Add support for writing debug log to a file (/tmp/wpa_supplicant-log-#.txt)
+-#CONFIG_DEBUG_FILE=y
+-
+-# Enable privilege separation (see README 'Privilege separation' for details)
+-#CONFIG_PRIVSEP=y
+-
+-# Enable mitigation against certain attacks against TKIP by delaying Michael
+-# MIC error reports by a random amount of time between 0 and 60 seconds
+-#CONFIG_DELAYED_MIC_ERROR_REPORT=y
+-
+-# Enable tracing code for developer debugging
+-# This tracks use of memory allocations and other registrations and reports
+-# incorrect use with a backtrace of call (or allocation) location.
+-#CONFIG_WPA_TRACE=y
+-# For BSD, comment out these.
+-#LIBS += -lexecinfo
+-#LIBS_p += -lexecinfo
+-#LIBS_c += -lexecinfo
+-
+-# Use libbfd to get more details for developer debugging
+-# This enables use of libbfd to get more detailed symbols for the backtraces
+-# generated by CONFIG_WPA_TRACE=y.
+-#CONFIG_WPA_TRACE_BFD=y
+-# For BSD, comment out these.
+-#LIBS += -lbfd -liberty -lz
+-#LIBS_p += -lbfd -liberty -lz
+-#LIBS_c += -lbfd -liberty -lz
+-CONFIG_TLS = gnutls
+-#CONFIG_GNUTLS_EXTRA=y
+-CONFIG_CTRL_IFACE_DBUS=y
+-CONFIG_CTRL_IFACE_DBUS_NEW=y
+diff --git a/meta/recipes-connectivity/wpa-supplicant/wpa-supplicant-0.7.inc b/meta/recipes-connectivity/wpa-supplicant/wpa-supplicant-0.7.inc
+index c2e3294..ccdc4c3 100644
+--- a/meta/recipes-connectivity/wpa-supplicant/wpa-supplicant-0.7.inc
++++ b/meta/recipes-connectivity/wpa-supplicant/wpa-supplicant-0.7.inc
+@@ -9,11 +9,8 @@ LIC_FILES_CHKSUM = "file://../COPYING;md5=c54ce9345727175ff66d17b67ff51f58 \
+ DEPENDS = "gnutls dbus libnl"
+ RRECOMMENDS_${PN} = "wpa-supplicant-passphrase wpa-supplicant-cli"
+ 
+-# Check if GPLv3 build and select the correct file in configure
+-require defconfig.inc
+-
+ SRC_URI = "http://hostap.epitest.fi/releases/wpa_supplicant-${PV}.tar.gz \
+-           file://defconfig-gnutls${@get_defconfig(bb, d)} \
++           file://defconfig-gnutls \
+            file://defaults-sane \
+            file://wpa-supplicant.sh \
+            file://wpa_supplicant.conf \
+@@ -28,7 +25,7 @@ FILES_wpa-supplicant-cli = "${sbindir}/wpa_cli"
+ FILES_${PN} += " ${datadir}/dbus-1/system-services/*
+ 
+ do_configure () {
+-	install -m 0755 ${WORKDIR}/defconfig-gnutls${@get_defconfig(bb, d)} .config
++	install -m 0755 ${WORKDIR}/defconfig-gnutls .config
+ }
+ 
+ export EXTRA_CFLAGS = "${CFLAGS}"
+-- 
+1.7.5.4
+
 
 
