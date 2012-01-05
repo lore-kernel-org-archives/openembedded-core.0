@@ -1,34 +1,27 @@
-Received: from mail-ey0-f175.google.com ([209.85.215.175])
+Received: from mail.pbcl.net ([88.198.119.4] helo=hetzner.pbcl.net)
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <otavio.salvador@gmail.com>) id 1RiqmL-0007Da-0f
+	(envelope-from <philb@gnu.org>) id 1Riqn8-0007Gc-My
 	for openembedded-core@lists.openembedded.org;
-	Thu, 05 Jan 2012 18:07:01 +0100
-Received: by eaal1 with SMTP id l1so498435eaa.6
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 05 Jan 2012 08:59:38 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
-	h=mime-version:sender:in-reply-to:references:date
-	:x-google-sender-auth:message-id:subject:from:to:content-type;
-	bh=/FsJ7JVFVEz9iT+0DVaHqnFeffLyr9KyXzkZYP9aEVY=;
-	b=iaZqsRcU/7b4LSA3wEPk0syBM1utWFEQ9wYpgaG8XoRvZBNW1ArWFnyzBN2h96zi5w
-	jVSvFgszIz8is7FZaaIev3GdPpe+QzDewn7xKG8zn5uIHOn7ouUsXr9IKcOZJBFKOqNx
-	mcdDu3OcSJHfotBifBkaO86tlcdSWYGvfwRSA=
-MIME-Version: 1.0
-Received: by 10.205.136.205 with SMTP id il13mr1090264bkc.37.1325782776878;
-	Thu, 05 Jan 2012 08:59:36 -0800 (PST)
-Sender: otavio.salvador@gmail.com
-Received: by 10.204.78.79 with HTTP; Thu, 5 Jan 2012 08:59:36 -0800 (PST)
-In-Reply-To: <1325697179.20759.38.camel@ted>
-References: <cover.1325101673.git.otavio@ossystems.com.br>
-	<595333f997b8f8f2ecfbb361ad8a7ccfb33a993e.1325101674.git.otavio@ossystems.com.br>
-	<1325697179.20759.38.camel@ted>
-Date: Thu, 5 Jan 2012 14:59:36 -0200
-X-Google-Sender-Auth: mprjTXYirk1p0NmFQPfye4S7dBc
-Message-ID: <CAP9ODKrDPSWzJ9oNrpfNqRB2mhO82LCgDOGPxuWbhRVXo--Pqw@mail.gmail.com>
-From: Otavio Salvador <otavio@ossystems.com.br>
-To: Patches and discussions about the oe-core layer
+	Thu, 05 Jan 2012 18:07:50 +0100
+Received: from elite.brightsigndigital.co.uk ([81.142.160.137]
+	helo=[172.30.1.145])
+	by hetzner.pbcl.net with esmtpsa (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+	(Exim 4.72) (envelope-from <philb@gnu.org>)
+	id 1Riqg1-0003KO-Dp; Thu, 05 Jan 2012 18:00:29 +0100
+From: Phil Blundell <philb@gnu.org>
+To: Andrei Gherzan <andrei.gherzan@windriver.com>
+Date: Thu, 05 Jan 2012 17:00:28 +0000
+In-Reply-To: <4F05D5CB.2070404@windriver.com>
+References: <1325781559-18967-1-git-send-email-andrei@gherzan.ro>
+	<1325781698.28005.132.camel@phil-desktop>
+	<4F05D5CB.2070404@windriver.com>
+X-Mailer: Evolution 3.0.2- 
+Message-ID: <1325782829.28005.136.camel@phil-desktop>
+Mime-Version: 1.0
+Cc: Andrei Gherzan <andrei@gherzan.ro>,
+	Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 11/16] udev: ensure /dev/pts and /dev/shm does exists
+Subject: Re: [PATCH] wpa-supplicant: Patch this recipe order to remove a duplicate defconfig file
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -43,45 +36,46 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 05 Jan 2012 17:07:01 -0000
-Content-Type: multipart/alternative; boundary=000e0cdfd24a77160504b5cadb0d
+X-List-Received-Date: Thu, 05 Jan 2012 17:07:50 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
---000e0cdfd24a77160504b5cadb0d
-Content-Type: text/plain; charset=ISO-8859-1
+On Thu, 2012-01-05 at 18:54 +0200, Andrei Gherzan wrote:
+> On 01/05/2012 06:41 PM, Phil Blundell wrote: 
+> > On Thu, 2012-01-05 at 18:39 +0200, Andrei Gherzan wrote:
+> > > From: Andrei Gherzan <andrei.gherzan@windriver.com>
+> > > 
+> > > Instead of having two defconfigs we can have only one and append this file with de specific
+> > > CONFIG if GPLv3 packages are allowed.
+> > As I said the other day, I think it would be better to just have one
+> > defconfig and turn off the GPLv3 stuff entirely.  Do you know of anybody
+> > who actually wants to use it?
+> > 
+> > p.
+> > 
+> > 
+> Now about that extra config. The idea of having it into a a build were
+> gplv3 are allowed,was support for TLS/IA which was designed to be used
+> in the EAP-TTLSv1
+> https://lists.yoctoproject.org/pipermail/poky/2011-December/007386.html
 
-On Wed, Jan 4, 2012 at 15:12, Richard Purdie <
-richard.purdie@linuxfoundation.org> wrote:
+Well, right.  But the point I was making in my previous email
 
-> Please put an if [ -e ] around these since its a couple of exec calls we
-> could do without if they already exist...
->
+http://lists.linuxtogo.org/pipermail/openembedded-core/2012-January/015375.html
 
-Done locally, will send it soon.
+is that nobody seems to be using TLS/IA, the code in wpa-supplicant was
+apparently never all that well tested, and support for it has been
+removed entirely in the latest versions of all the relevant software
+(and hence, barring heroic efforts, we will lose it anyway next time
+wpa-supplicant is upgraded).  
 
--- 
-Otavio Salvador                             O.S. Systems
-E-mail: otavio@ossystems.com.br  http://www.ossystems.com.br
-Mobile: +55 53 9981-7854              http://projetos.ossystems.com.br
+So, unless you know of anybody who actually has a requirement for that
+protocol today, I would be inclined to just turn it off unconditionally
+rather than adding some mechanism to turn it on and off based on
+INCOMPATIBLE_LICENSE.
 
---000e0cdfd24a77160504b5cadb0d
-Content-Type: text/html; charset=ISO-8859-1
-Content-Transfer-Encoding: quoted-printable
+p.
 
-<div class=3D"gmail_quote">On Wed, Jan 4, 2012 at 15:12, Richard Purdie <sp=
-an dir=3D"ltr">&lt;<a href=3D"mailto:richard.purdie@linuxfoundation.org">ri=
-chard.purdie@linuxfoundation.org</a>&gt;</span> wrote:<br><blockquote class=
-=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padd=
-ing-left:1ex">
-<div class=3D"im">Please put an if [ -e ] around these since its a couple o=
-f exec calls we</div>
-could do without if they already exist...<br></blockquote><div><br></div><d=
-iv>Done locally, will send it soon.</div><div>=A0</div></div>-- <br>Otavio =
-Salvador=A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0O.S. Sys=
-tems<br>E-mail: <a href=3D"mailto:otavio@ossystems.com.br" target=3D"_blank=
-">otavio@ossystems.com.br</a>=A0 <a href=3D"http://www.ossystems.com.br" ta=
-rget=3D"_blank">http://www.ossystems.com.br</a><br>
-Mobile: +55 53 9981-7854=A0 =A0 =A0 =A0=A0 =A0 =A0 =A0<a href=3D"http://pro=
-jetos.ossystems.com.br" target=3D"_blank">http://projetos.ossystems.com.br<=
-/a><br><br>
 
---000e0cdfd24a77160504b5cadb0d--
+
+
