@@ -1,24 +1,24 @@
 Received: from mga09.intel.com ([134.134.136.24])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <sgw@linux.intel.com>) id 1Rigy1-0001EI-5C
+	(envelope-from <sgw@linux.intel.com>) id 1Rigy2-0001EK-H3
 	for openembedded-core@lists.openembedded.org;
-	Thu, 05 Jan 2012 07:38:25 +0100
+	Thu, 05 Jan 2012 07:38:27 +0100
 Received: from orsmga002.jf.intel.com ([10.7.209.21])
-	by orsmga102.jf.intel.com with ESMTP; 04 Jan 2012 22:31:00 -0800
+	by orsmga102.jf.intel.com with ESMTP; 04 Jan 2012 22:31:01 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.67,351,1309762800"; d="scan'208";a="94663922"
+X-IronPort-AV: E=Sophos;i="4.67,351,1309762800"; d="scan'208";a="94663925"
 Received: from unknown (HELO swold-mobl.bigsur.com) ([10.255.13.127])
 	by orsmga002.jf.intel.com with ESMTP; 04 Jan 2012 22:31:00 -0800
 From: Saul Wold <sgw@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Wed,  4 Jan 2012 22:30:45 -0800
-Message-Id: <768cebbfd2566596bfe860b3a0953e22bd9b4d14.1325744640.git.sgw@linux.intel.com>
+Date: Wed,  4 Jan 2012 22:30:48 -0800
+Message-Id: <ebf8434d5efd76b8a10a8f1107ab5199856f7319.1325744640.git.sgw@linux.intel.com>
 X-Mailer: git-send-email 1.7.6.4
 In-Reply-To: <cover.1325744640.git.sgw@linux.intel.com>
 References: <cover.1325744640.git.sgw@linux.intel.com>
 In-Reply-To: <cover.1325744640.git.sgw@linux.intel.com>
 References: <cover.1325744640.git.sgw@linux.intel.com>
-Subject: [CONSOLIDATED PULL 20/28] xserver-kdrive: work around issues with -Werror=address
+Subject: [CONSOLIDATED PULL 23/28] udev: split utilities onto udev-utils
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -35,410 +35,57 @@ List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedde
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Thu, 05 Jan 2012 06:38:27 -0000
 
-From: Gary Thomas <gary@mlbassoc.com>
+From: Otavio Salvador <otavio@ossystems.com.br>
 
-A number of calls to REGION_INIT() use a static box which is flagged
-as an error with -Werror=address.  This patch works around the problem,
-but should not be considered a final solution.
-
-Upstream-Status: Inappropriate
-
-Signed-off-by: Gary Thomas <gary@mlbassoc.com>
+Signed-off-by: Otavio Salvador <otavio@ossystems.com.br>
 ---
- .../error-address-work-around.patch                |  362 ++++++++++++++++++++
- .../xorg-xserver/xserver-kdrive_1.7.99.2.bb        |    3 +-
- 2 files changed, 364 insertions(+), 1 deletions(-)
- create mode 100644 meta/recipes-graphics/xorg-xserver/xserver-kdrive-1.7.99.2/error-address-work-around.patch
+ meta/recipes-core/udev/udev.inc    |    6 +++++-
+ meta/recipes-core/udev/udev_164.bb |    2 +-
+ 2 files changed, 6 insertions(+), 2 deletions(-)
 
-diff --git a/meta/recipes-graphics/xorg-xserver/xserver-kdrive-1.7.99.2/error-address-work-around.patch b/meta/recipes-graphics/xorg-xserver/xserver-kdrive-1.7.99.2/error-address-work-around.patch
-new file mode 100644
-index 0000000..3052372
---- /dev/null
-+++ b/meta/recipes-graphics/xorg-xserver/xserver-kdrive-1.7.99.2/error-address-work-around.patch
-@@ -0,0 +1,362 @@
-+diff -ur --exclude='*.lo' --exclude='config*' --exclude='Make*' --exclude='ac*' xorg-server-1.7.99.2.ORIG/dix/window.c xorg-server-1.7.99.2/dix/window.c
-+--- xorg-server-1.7.99.2.ORIG/dix/window.c	2012-01-04 13:12:40.417640130 -0700
-++++ xorg-server-1.7.99.2/dix/window.c	2012-01-04 12:13:20.678605493 -0700
-+@@ -559,10 +559,10 @@
-+     box.y1 = 0;
-+     box.x2 = pScreen->width;
-+     box.y2 = pScreen->height;
-+-    REGION_INIT(pScreen, &pWin->clipList, &box, 1);
-+-    REGION_INIT(pScreen, &pWin->winSize, &box, 1);
-+-    REGION_INIT(pScreen, &pWin->borderSize, &box, 1);
-+-    REGION_INIT(pScreen, &pWin->borderClip, &box, 1);
-++    REGION_INIT2(pScreen, &pWin->clipList, &box, 1);
-++    REGION_INIT2(pScreen, &pWin->winSize, &box, 1);
-++    REGION_INIT2(pScreen, &pWin->borderSize, &box, 1);
-++    REGION_INIT2(pScreen, &pWin->borderClip, &box, 1);
-+ 
-+     pWin->drawable.class = InputOutput;
-+     pWin->optional->visual = pScreen->rootVisual;
-+diff -ur --exclude='*.lo' --exclude='config*' --exclude='Make*' --exclude='ac*' xorg-server-1.7.99.2.ORIG/exa/exa_accel.c xorg-server-1.7.99.2/exa/exa_accel.c
-+--- xorg-server-1.7.99.2.ORIG/exa/exa_accel.c	2009-12-11 11:20:48.000000000 -0700
-++++ xorg-server-1.7.99.2/exa/exa_accel.c	2012-01-04 12:58:11.218616328 -0700
-+@@ -1275,7 +1275,7 @@
-+ 	Box.x2 = Box.x1 + w;
-+ 	Box.y2 = Box.y1 + h;
-+ 
-+-	REGION_INIT(pScreen, &Reg, &Box, 1);
-++	REGION_INIT2(pScreen, &Reg, &Box, 1);
-+ 
-+ 	pixmaps[0].as_dst = FALSE;
-+ 	pixmaps[0].as_src = TRUE;
-+diff -ur --exclude='*.lo' --exclude='config*' --exclude='Make*' --exclude='ac*' xorg-server-1.7.99.2.ORIG/exa/exa.c xorg-server-1.7.99.2/exa/exa.c
-+--- xorg-server-1.7.99.2.ORIG/exa/exa.c	2009-12-11 11:20:48.000000000 -0700
-++++ xorg-server-1.7.99.2/exa/exa.c	2012-01-04 12:56:30.592593427 -0700
-+@@ -161,7 +161,7 @@
-+     if (box.x1 >= box.x2 || box.y1 >= box.y2)
-+ 	return;
-+ 
-+-    REGION_INIT(pScreen, &region, &box, 1);
-++    REGION_INIT2(pScreen, &region, &box, 1);
-+     DamageRegionAppend(&pPix->drawable, &region);
-+     DamageRegionProcessPending(&pPix->drawable);
-+     REGION_UNINIT(pScreen, &region);
-+diff -ur --exclude='*.lo' --exclude='config*' --exclude='Make*' --exclude='ac*' xorg-server-1.7.99.2.ORIG/exa/exa_classic.c xorg-server-1.7.99.2/exa/exa_classic.c
-+--- xorg-server-1.7.99.2.ORIG/exa/exa_classic.c	2009-11-28 13:44:58.000000000 -0700
-++++ xorg-server-1.7.99.2/exa/exa_classic.c	2012-01-04 12:54:50.586576675 -0700
-+@@ -131,8 +131,8 @@
-+     box.y1 = 0;
-+     box.x2 = w;
-+     box.y2 = h;
-+-    REGION_INIT(pScreen, &pExaPixmap->validSys, &box, 0);
-+-    REGION_INIT(pScreen, &pExaPixmap->validFB, &box, 0);
-++    REGION_INIT2(pScreen, &pExaPixmap->validSys, &box, 0);
-++    REGION_INIT2(pScreen, &pExaPixmap->validFB, &box, 0);
-+ 
-+     exaSetAccelBlock(pExaScr, pExaPixmap,
-+                      w, h, bpp);
-+diff -ur --exclude='*.lo' --exclude='config*' --exclude='Make*' --exclude='ac*' xorg-server-1.7.99.2.ORIG/exa/exa_migration_classic.c xorg-server-1.7.99.2/exa/exa_migration_classic.c
-+--- xorg-server-1.7.99.2.ORIG/exa/exa_migration_classic.c	2009-11-28 13:44:58.000000000 -0700
-++++ xorg-server-1.7.99.2/exa/exa_migration_classic.c	2012-01-04 12:54:43.077500333 -0700
-+@@ -177,7 +177,7 @@
-+ 		box.x2 = max(pValidExt->x2, pDamageExt->x2);
-+ 		box.y2 = max(pValidExt->y2, pDamageExt->y2);
-+ 
-+-		REGION_INIT(pScreen, &closure, &box, 0);
-++		REGION_INIT2(pScreen, &closure, &box, 0);
-+ 		REGION_INTERSECT(pScreen, &CopyReg, &CopyReg, &closure);
-+ 	    } else
-+ 		REGION_INTERSECT(pScreen, &CopyReg, &CopyReg, pending_damage);
-+diff -ur --exclude='*.lo' --exclude='config*' --exclude='Make*' --exclude='ac*' xorg-server-1.7.99.2.ORIG/exa/exa_render.c xorg-server-1.7.99.2/exa/exa_render.c
-+--- xorg-server-1.7.99.2.ORIG/exa/exa_render.c	2009-11-28 13:44:58.000000000 -0700
-++++ xorg-server-1.7.99.2/exa/exa_render.c	2012-01-04 12:59:18.234297490 -0700
-+@@ -576,7 +576,7 @@
-+ 	 * (see use of DamagePendingRegion in exaCopyDirty)
-+ 	 */
-+ 
-+-	REGION_INIT(pScreen, &region, &box, 1);
-++	REGION_INIT2(pScreen, &region, &box, 1);
-+     
-+ 	DamageRegionAppend(pDst->pDrawable, &region);
-+ 
-+diff -ur --exclude='*.lo' --exclude='config*' --exclude='Make*' --exclude='ac*' xorg-server-1.7.99.2.ORIG/exa/exa_unaccel.c xorg-server-1.7.99.2/exa/exa_unaccel.c
-+--- xorg-server-1.7.99.2.ORIG/exa/exa_unaccel.c	2009-12-11 11:20:48.000000000 -0700
-++++ xorg-server-1.7.99.2/exa/exa_unaccel.c	2012-01-04 12:59:25.915375559 -0700
-+@@ -344,7 +344,7 @@
-+ 	Box.x2 = Box.x1 + w;
-+ 	Box.y2 = Box.y1 + h;
-+ 
-+-	REGION_INIT(pScreen, &Reg, &Box, 1);
-++	REGION_INIT2(pScreen, &Reg, &Box, 1);
-+ 
-+ 	pExaScr->prepare_access_reg(pPix, EXA_PREPARE_SRC, &Reg);
-+     } else
-+diff -ur --exclude='*.lo' --exclude='config*' --exclude='Make*' --exclude='ac*' xorg-server-1.7.99.2.ORIG/fb/fboverlay.c xorg-server-1.7.99.2/fb/fboverlay.c
-+--- xorg-server-1.7.99.2.ORIG/fb/fboverlay.c	2009-11-04 09:25:50.000000000 -0700
-++++ xorg-server-1.7.99.2/fb/fboverlay.c	2012-01-04 12:24:43.855400893 -0700
-+@@ -147,7 +147,7 @@
-+ 					    pbits))
-+ 	    return FALSE;
-+ 	pScrPriv->layer[i].u.run.pixmap = pPixmap;
-+-	REGION_INIT(pScreen, &pScrPriv->layer[i].u.run.region, &box, 0);
-++	REGION_INIT2(pScreen, &pScrPriv->layer[i].u.run.region, &box, 0);
-+     }
-+     pScreen->devPrivate = pScrPriv->layer[0].u.run.pixmap;
-+     return TRUE;
-+diff -ur --exclude='*.lo' --exclude='config*' --exclude='Make*' --exclude='ac*' xorg-server-1.7.99.2.ORIG/hw/kdrive/src/kdrive.c xorg-server-1.7.99.2/hw/kdrive/src/kdrive.c
-+--- xorg-server-1.7.99.2.ORIG/hw/kdrive/src/kdrive.c	2012-01-04 13:12:40.418640141 -0700
-++++ xorg-server-1.7.99.2/hw/kdrive/src/kdrive.c	2012-01-04 13:05:08.771897914 -0700
-+@@ -144,8 +144,8 @@
-+ 	box.y2 = pScreen->height;
-+ 	pWin->drawable.width = pScreen->width;
-+ 	pWin->drawable.height = pScreen->height;
-+-	REGION_INIT (pScreen, &pWin->winSize, &box, 1);
-+-	REGION_INIT (pScreen, &pWin->borderSize, &box, 1);
-++	REGION_INIT2 (pScreen, &pWin->winSize, &box, 1);
-++	REGION_INIT2 (pScreen, &pWin->borderSize, &box, 1);
-+ 	REGION_RESET(pScreen, &pWin->borderClip, &box);
-+ 	REGION_BREAK (pWin->drawable.pScreen, &pWin->clipList);
-+     }
-+diff -ur --exclude='*.lo' --exclude='config*' --exclude='Make*' --exclude='ac*' xorg-server-1.7.99.2.ORIG/hw/kdrive/src/kxv.c xorg-server-1.7.99.2/hw/kdrive/src/kxv.c
-+--- xorg-server-1.7.99.2.ORIG/hw/kdrive/src/kxv.c	2008-11-14 14:27:05.000000000 -0700
-++++ xorg-server-1.7.99.2/hw/kdrive/src/kxv.c	2012-01-04 13:07:32.625411023 -0700
-+@@ -674,7 +674,7 @@
-+   WinBox.y2 = WinBox.y1 + portPriv->drw_h;
-+   
-+   /* clip to the window composite clip */
-+-  REGION_INIT(portPriv->pDraw->pScreen, &WinRegion, &WinBox, 1);
-++  REGION_INIT2(portPriv->pDraw->pScreen, &WinRegion, &WinBox, 1);
-+   REGION_INIT(portPriv->pDraw->pScreen, &ClipRegion, NullBox, 1);
-+   REGION_INTERSECT(portPriv->pDraw->pScreen, &ClipRegion, &WinRegion, portPriv->pCompositeClip); 
-+   
-+@@ -738,7 +738,7 @@
-+   WinBox.y2 = WinBox.y1 + portPriv->drw_h;
-+   
-+   /* clip to the window composite clip */
-+-  REGION_INIT(pScreen, &WinRegion, &WinBox, 1);
-++  REGION_INIT2(pScreen, &WinRegion, &WinBox, 1);
-+   REGION_INIT(pScreen, &ClipRegion, NullBox, 1);
-+   REGION_INTERSECT(Screen, &ClipRegion, &WinRegion, portPriv->pCompositeClip); 
-+ 
-+@@ -752,7 +752,7 @@
-+      VPBox.x2 = screen->width;
-+      VPBox.y2 = screen->height;
-+ 
-+-     REGION_INIT(pScreen, &VPReg, &VPBox, 1);
-++     REGION_INIT2(pScreen, &VPReg, &VPBox, 1);
-+      REGION_INTERSECT(Screen, &ClipRegion, &ClipRegion, &VPReg); 
-+      REGION_UNINIT(pScreen, &VPReg);
-+   }
-+@@ -827,7 +827,7 @@
-+   WinBox.y2 = WinBox.y1 + portPriv->drw_h;
-+   
-+   /* clip to the window composite clip */
-+-  REGION_INIT(pScreen, &WinRegion, &WinBox, 1);
-++  REGION_INIT2(pScreen, &WinRegion, &WinBox, 1);
-+   REGION_INIT(pScreen, &ClipRegion, NullBox, 1);
-+   REGION_INTERSECT(Screen, &ClipRegion, &WinRegion, portPriv->pCompositeClip); 
-+ 
-+@@ -841,7 +841,7 @@
-+      VPBox.x2 = screen->width;
-+      VPBox.y2 = screen->height;
-+ 
-+-     REGION_INIT(pScreen, &VPReg, &VPBox, 1);
-++     REGION_INIT2(pScreen, &VPReg, &VPBox, 1);
-+      REGION_INTERSECT(Screen, &ClipRegion, &ClipRegion, &VPReg); 
-+      REGION_UNINIT(pScreen, &VPReg);
-+   }
-+@@ -1337,7 +1337,7 @@
-+   WinBox.x2 = WinBox.x1 + drw_w;
-+   WinBox.y2 = WinBox.y1 + drw_h;
-+   
-+-  REGION_INIT(pScreen, &WinRegion, &WinBox, 1);
-++  REGION_INIT2(pScreen, &WinRegion, &WinBox, 1);
-+   REGION_INIT(pScreen, &ClipRegion, NullBox, 1);
-+   REGION_INTERSECT(pScreen, &ClipRegion, &WinRegion, pGC->pCompositeClip);   
-+ 
-+@@ -1350,7 +1350,7 @@
-+      VPBox.x2 = screen->width;
-+      VPBox.y2 = screen->height;
-+ 
-+-     REGION_INIT(pScreen, &VPReg, &VPBox, 1);
-++     REGION_INIT2(pScreen, &VPReg, &VPBox, 1);
-+      REGION_INTERSECT(Screen, &ClipRegion, &ClipRegion, &VPReg); 
-+      REGION_UNINIT(pScreen, &VPReg);
-+   }
-+@@ -1490,7 +1490,7 @@
-+   WinBox.x2 = WinBox.x1 + drw_w;
-+   WinBox.y2 = WinBox.y1 + drw_h;
-+   
-+-  REGION_INIT(pScreen, &WinRegion, &WinBox, 1);
-++  REGION_INIT2(pScreen, &WinRegion, &WinBox, 1);
-+   REGION_INIT(pScreen, &ClipRegion, NullBox, 1);
-+   REGION_INTERSECT(pScreen, &ClipRegion, &WinRegion, pGC->pCompositeClip);   
-+ 
-+@@ -1637,7 +1637,7 @@
-+   WinBox.x2 = WinBox.x1 + drw_w;
-+   WinBox.y2 = WinBox.y1 + drw_h;
-+   
-+-  REGION_INIT(pScreen, &WinRegion, &WinBox, 1);
-++  REGION_INIT2(pScreen, &WinRegion, &WinBox, 1);
-+   REGION_INIT(pScreen, &ClipRegion, NullBox, 1);
-+   REGION_INTERSECT(pScreen, &ClipRegion, &WinRegion, pGC->pCompositeClip);   
-+ 
-+@@ -1650,7 +1650,7 @@
-+      VPBox.x2 = pScreen->width;
-+      VPBox.y2 = pScreen->height;
-+ 
-+-     REGION_INIT(pScreen, &VPReg, &VPBox, 1);
-++     REGION_INIT2(pScreen, &VPReg, &VPBox, 1);
-+      REGION_INTERSECT(Screen, &ClipRegion, &ClipRegion, &VPReg); 
-+      REGION_UNINIT(pScreen, &VPReg);
-+   }
-+diff -ur --exclude='*.lo' --exclude='config*' --exclude='Make*' --exclude='ac*' xorg-server-1.7.99.2.ORIG/include/regionstr.h xorg-server-1.7.99.2/include/regionstr.h
-+--- xorg-server-1.7.99.2.ORIG/include/regionstr.h	2009-11-04 09:25:50.000000000 -0700
-++++ xorg-server-1.7.99.2/include/regionstr.h	2012-01-04 12:13:06.174461574 -0700
-+@@ -152,6 +152,12 @@
-+     } \
-+  }
-+ 
-++#define REGION_INIT2(_pScreen, _pReg, _rect, _size) \
-++{ \
-++        (_pReg)->extents = *(_rect); \
-++        (_pReg)->data = (RegDataPtr)NULL; \
-++ }
-++
-+ 
-+ #define REGION_UNINIT(_pScreen, _pReg) \
-+ { \
-+diff -ur --exclude='*.lo' --exclude='config*' --exclude='Make*' --exclude='ac*' xorg-server-1.7.99.2.ORIG/mi/micopy.c xorg-server-1.7.99.2/mi/micopy.c
-+--- xorg-server-1.7.99.2.ORIG/mi/micopy.c	2009-11-04 09:25:50.000000000 -0700
-++++ xorg-server-1.7.99.2/mi/micopy.c	2012-01-04 12:44:17.003144611 -0700
-+@@ -315,7 +315,7 @@
-+ 	box.y1 = box_y1;
-+ 	box.x2 = box_x2;
-+ 	box.y2 = box_y2;
-+-	REGION_INIT(pGC->pScreen, &rgnDst, &box, 1);
-++	REGION_INIT2(pGC->pScreen, &rgnDst, &box, 1);
-+     }
-+     
-+     /* Clip against complex source if needed */
-+diff -ur --exclude='*.lo' --exclude='config*' --exclude='Make*' --exclude='ac*' xorg-server-1.7.99.2.ORIG/mi/miexpose.c xorg-server-1.7.99.2/mi/miexpose.c
-+--- xorg-server-1.7.99.2.ORIG/mi/miexpose.c	2009-11-04 09:25:50.000000000 -0700
-++++ xorg-server-1.7.99.2/mi/miexpose.c	2012-01-04 12:46:29.400478668 -0700
-+@@ -206,7 +206,7 @@
-+ 	box.x2 = pSrcDrawable->width;
-+ 	box.y2 = pSrcDrawable->height;
-+ 	prgnSrcClip = &rgnSrcRec;
-+-	REGION_INIT(pscr, prgnSrcClip, &box, 1);
-++	REGION_INIT2(pscr, prgnSrcClip, &box, 1);
-+ 	pSrcWin = NULL;
-+     }
-+ 
-+@@ -239,11 +239,11 @@
-+ 	box.x2 = pDstDrawable->width;
-+ 	box.y2 = pDstDrawable->height;
-+ 	prgnDstClip = &rgnDstRec;
-+-	REGION_INIT(pscr, prgnDstClip, &box, 1);
-++	REGION_INIT2(pscr, prgnDstClip, &box, 1);
-+     }
-+ 
-+     /* drawable-relative source region */
-+-    REGION_INIT(pscr, &rgnExposed, &srcBox, 1);
-++    REGION_INIT2(pscr, &rgnExposed, &srcBox, 1);
-+ 
-+     /* now get the hidden parts of the source box*/
-+     REGION_SUBTRACT(pscr, &rgnExposed, &rgnExposed, prgnSrcClip);
-+@@ -491,7 +491,7 @@
-+ 	    box = *REGION_EXTENTS( pWin->drawable.pScreen, exposures);
-+ 	    if (exposures == prgn) {
-+ 		exposures = &expRec;
-+-		REGION_INIT( pWin->drawable.pScreen, exposures, &box, 1);
-++		REGION_INIT2( pWin->drawable.pScreen, exposures, &box, 1);
-+ 		REGION_RESET( pWin->drawable.pScreen, prgn, &box);
-+ 	    } else {
-+ 		REGION_RESET( pWin->drawable.pScreen, exposures, &box);
-+diff -ur --exclude='*.lo' --exclude='config*' --exclude='Make*' --exclude='ac*' xorg-server-1.7.99.2.ORIG/mi/mioverlay.c xorg-server-1.7.99.2/mi/mioverlay.c
-+--- xorg-server-1.7.99.2.ORIG/mi/mioverlay.c	2009-11-04 09:25:50.000000000 -0700
-++++ xorg-server-1.7.99.2/mi/mioverlay.c	2012-01-04 12:47:50.114300224 -0700
-+@@ -209,8 +209,8 @@
-+ 		fullBox.y1 = 0;
-+ 		fullBox.x2 = pScreen->width;
-+ 		fullBox.y2 = pScreen->height;
-+-		REGION_INIT(pScreen, &(pTree->borderClip), &fullBox, 1);
-+-		REGION_INIT(pScreen, &(pTree->clipList), &fullBox, 1);
-++		REGION_INIT2(pScreen, &(pTree->borderClip), &fullBox, 1);
-++		REGION_INIT2(pScreen, &(pTree->clipList), &fullBox, 1);
-+ 	    }
-+ 	} else xfree(pTree);
-+     }
-+@@ -1027,7 +1027,7 @@
-+ 	    box = *REGION_EXTENTS(pScreen, exposures);
-+ 	    if (exposures == prgn) {
-+ 		exposures = &expRec;
-+-		REGION_INIT(pScreen, exposures, &box, 1);
-++		REGION_INIT2(pScreen, exposures, &box, 1);
-+ 		REGION_RESET(pScreen, prgn, &box);
-+ 	    } else {
-+ 		REGION_RESET(pScreen, exposures, &box);
-+@@ -1672,7 +1672,7 @@
-+     box.x1 = x1; box.x2 = x2;
-+     box.y1 = y1; box.y2 = y2;
-+ 
-+-    REGION_INIT(pScreen, &reg, &box, 1);
-++    REGION_INIT2(pScreen, &reg, &box, 1);
-+ 
-+     REGION_INTERSECT(pScreen, &reg, &reg, clipList);
-+     if (generateExposures)
-+diff -ur --exclude='*.lo' --exclude='config*' --exclude='Make*' --exclude='ac*' xorg-server-1.7.99.2.ORIG/mi/miwindow.c xorg-server-1.7.99.2/mi/miwindow.c
-+--- xorg-server-1.7.99.2.ORIG/mi/miwindow.c	2009-11-04 09:25:50.000000000 -0700
-++++ xorg-server-1.7.99.2/mi/miwindow.c	2012-01-04 12:48:38.055787835 -0700
-+@@ -111,7 +111,7 @@
-+     box.y2 = y2;
-+ 
-+     pScreen = pWin->drawable.pScreen;
-+-    REGION_INIT(pScreen, &reg, &box, 1);
-++    REGION_INIT2(pScreen, &reg, &box, 1);
-+ 
-+     REGION_INTERSECT(pScreen, &reg, &reg, &pWin->clipList);
-+     if (generateExposures)
-+diff -ur --exclude='*.lo' --exclude='config*' --exclude='Make*' --exclude='ac*' xorg-server-1.7.99.2.ORIG/miext/damage/damage.c xorg-server-1.7.99.2/miext/damage/damage.c
-+--- xorg-server-1.7.99.2.ORIG/miext/damage/damage.c	2009-11-04 09:25:50.000000000 -0700
-++++ xorg-server-1.7.99.2/miext/damage/damage.c	2012-01-04 12:51:04.883281430 -0700
-+@@ -324,7 +324,7 @@
-+ 		box.y1 = draw_y;
-+ 		box.x2 = draw_x + pDamage->pDrawable->width;
-+ 		box.y2 = draw_y + pDamage->pDrawable->height;
-+-		REGION_INIT(pScreen, &pixClip, &box, 1);
-++		REGION_INIT2(pScreen, &pixClip, &box, 1);
-+ 		REGION_INTERSECT (pScreen, pDamageRegion, pRegion, &pixClip);
-+ 		REGION_UNINIT(pScreen, &pixClip);
-+ 	    }
-+@@ -2085,7 +2085,7 @@
-+ 	    box.y1 = pDrawable->y;
-+ 	    box.x2 = pDrawable->x + pDrawable->width;
-+ 	    box.y2 = pDrawable->y + pDrawable->height;
-+-	    REGION_INIT (pDrawable->pScreen, &pixmapClip, &box, 1);
-++	    REGION_INIT2 (pDrawable->pScreen, &pixmapClip, &box, 1);
-+ 	    pClip = &pixmapClip;
-+ 	}
-+ 	REGION_TRANSLATE (pDrawable->pScreen, &pDamage->damage, pDrawable->x, pDrawable->y);
-+diff -ur --exclude='*.lo' --exclude='config*' --exclude='Make*' --exclude='ac*' xorg-server-1.7.99.2.ORIG/Xext/xace.c xorg-server-1.7.99.2/Xext/xace.c
-+--- xorg-server-1.7.99.2.ORIG/Xext/xace.c	2009-11-04 09:25:50.000000000 -0700
-++++ xorg-server-1.7.99.2/Xext/xace.c	2012-01-04 12:49:36.850385965 -0700
-+@@ -255,7 +255,7 @@
-+     imageBox.y1 = y;
-+     imageBox.x2 = x + w;
-+     imageBox.y2 = y + h;
-+-    REGION_INIT(pScreen, &imageRegion, &imageBox, 1);
-++    REGION_INIT2(pScreen, &imageRegion, &imageBox, 1);
-+     REGION_NULL(pScreen, &censorRegion);
-+ 
-+     /* censorRegion = imageRegion - visibleRegion */
-+--- xorg-server-1.7.99.2.ORIG/mi/mibank.c	2009-11-04 09:25:50.000000000 -0700
-++++ xorg-server-1.7.99.2/mi/mibank.c	2012-01-04 12:37:42.251184747 -0700
-+@@ -772,7 +772,7 @@
-+         }
-+         else
-+         {
-+-            REGION_INIT(pScreen, &rgnDst, &fastBox, 1);
-++            REGION_INIT2(pScreen, &rgnDst, &fastBox, 1);
-+             REGION_INTERSECT(pScreen, &rgnDst, &rgnDst, prgnSrcClip);
-+             pBox = REGION_RECTS(&rgnDst);
-+             nBox = REGION_NUM_RECTS(&rgnDst);
-diff --git a/meta/recipes-graphics/xorg-xserver/xserver-kdrive_1.7.99.2.bb b/meta/recipes-graphics/xorg-xserver/xserver-kdrive_1.7.99.2.bb
-index c810e1b..3b3a004 100644
---- a/meta/recipes-graphics/xorg-xserver/xserver-kdrive_1.7.99.2.bb
-+++ b/meta/recipes-graphics/xorg-xserver/xserver-kdrive_1.7.99.2.bb
-@@ -7,7 +7,7 @@ RDEPENDS_${PN} += "xkeyboard-config"
- EXTRA_OECONF += "--disable-glx"
+diff --git a/meta/recipes-core/udev/udev.inc b/meta/recipes-core/udev/udev.inc
+index 198336b..2ced534 100644
+--- a/meta/recipes-core/udev/udev.inc
++++ b/meta/recipes-core/udev/udev.inc
+@@ -35,7 +35,7 @@ libexecdir = "${base_libdir}/udev"
+ EXTRA_OECONF = "--disable-introspection --with-rootlibdir=${base_libdir} \
+                 --with-pci-ids-path=${datadir}/pci.ids"
  
- PE = "1"
--PR = "r27"
-+PR = "r28"
+-PACKAGES =+ "udev-acl udev-consolekit"
++PACKAGES =+ "udev-acl udev-consolekit udev-utils"
+ PACKAGES =+ "udev-cache libudev libudev-dev libudev-dbg"
+ PACKAGES =+ "libgudev libgudev-dev libgudev-dbg"
  
- SRC_URI = "${XORG_MIRROR}/individual/xserver/xorg-server-${PV}.tar.bz2 \
- 	file://extra-kmodes.patch \
-@@ -19,6 +19,7 @@ SRC_URI = "${XORG_MIRROR}/individual/xserver/xorg-server-${PV}.tar.bz2 \
- 	file://fbdev_xrandr_ioctl.patch \
- 	file://fix-newer-xorg-headers.patch \
- 	file://crosscompile.patch \
-+	file://error-address-work-around.patch \
- 	file://nodolt.patch"
- #	file://kdrive-evdev.patch
- #	file://kdrive-use-evdev.patch
+@@ -46,6 +46,8 @@ INITSCRIPT_NAME_udev-cache = "udev-cache"
+ INITSCRIPT_PARAMS_udev-cache = "start 36 S ."
+ 
+ FILES_${PN} += "${libexecdir} ${libdir}/ConsoleKit"
++RRECOMMENDS_${PN} += "udev-utils"
++
+ FILES_${PN}-dbg += "${libexecdir}/.debug"
+ FILES_${PN}-dev = "${datadir}/pkgconfig/udev.pc"
+ FILES_libudev = "${base_libdir}/libudev.so.*"
+@@ -60,6 +62,8 @@ FILES_udev-cache = "${sysconfdir}/init.d/udev-cache"
+ 
+ FILES_udev-acl = "${base_libdir}/udev/udev-acl ${base_libdir}/udev/rules.d/70-acl.rules"
+ 
++FILES_udev-utils = "${bindir}/udevinfo ${bindir}/udevtest ${base_sbindir}/udevadm"
++
+ RDEPENDS_udev-consolekit += "udev-acl"
+ FILES_udev-consolekit = "${libdir}/ConsoleKit"
+ 
+diff --git a/meta/recipes-core/udev/udev_164.bb b/meta/recipes-core/udev/udev_164.bb
+index 6d71f4d..c89eab4 100644
+--- a/meta/recipes-core/udev/udev_164.bb
++++ b/meta/recipes-core/udev/udev_164.bb
+@@ -1,6 +1,6 @@
+ include udev.inc
+ 
+-PR = "r10"
++PR = "r9"
+ 
+ SRC_URI += "file://udev-166-v4l1-1.patch"
+ 
 -- 
 1.7.6.4
 
