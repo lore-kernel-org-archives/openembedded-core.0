@@ -1,26 +1,26 @@
 Received: from mga14.intel.com ([143.182.124.37])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <sgw@linux.intel.com>) id 1RityE-0000XX-OC
+	(envelope-from <sgw@linux.intel.com>) id 1Ritzw-0000bw-N1
 	for openembedded-core@lists.openembedded.org;
-	Thu, 05 Jan 2012 21:31:31 +0100
+	Thu, 05 Jan 2012 21:33:17 +0100
 Received: from azsmga001.ch.intel.com ([10.2.17.19])
-	by azsmga102.ch.intel.com with ESMTP; 05 Jan 2012 12:24:06 -0800
+	by azsmga102.ch.intel.com with ESMTP; 05 Jan 2012 12:25:52 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="92826247"
+X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="92826622"
 Received: from unknown (HELO [10.255.13.127]) ([10.255.13.127])
-	by azsmga001.ch.intel.com with ESMTP; 05 Jan 2012 12:24:06 -0800
-Message-ID: <4F0606E6.5060609@linux.intel.com>
-Date: Thu, 05 Jan 2012 12:24:06 -0800
+	by azsmga001.ch.intel.com with ESMTP; 05 Jan 2012 12:25:52 -0800
+Message-ID: <4F060750.5010108@linux.intel.com>
+Date: Thu, 05 Jan 2012 12:25:52 -0800
 From: Saul Wold <sgw@linux.intel.com>
 User-Agent: Mozilla/5.0 (X11; Linux x86_64;
 	rv:7.0) Gecko/20110927 Thunderbird/7.0
 MIME-Version: 1.0
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-References: <1325697008.28005.84.camel@phil-desktop>
-In-Reply-To: <1325697008.28005.84.camel@phil-desktop>
-Cc: Phil Blundell <philb@gnu.org>
-Subject: Re: [PATCH] python-native: correct prefix handling for oe-core sysroot layout
+References: <cover.1325101673.git.otavio@ossystems.com.br>
+	<4F039C51.4030407@linux.intel.com>
+In-Reply-To: <4F039C51.4030407@linux.intel.com>
+Subject: Re: [PATCH 00/16] Misc Qt4 and udev changes pending from O.S. Systems
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -35,103 +35,156 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 05 Jan 2012 20:31:31 -0000
+X-List-Received-Date: Thu, 05 Jan 2012 20:33:17 -0000
 Content-Type: text/plain; charset=ISO-8859-1; format=flowed
 Content-Transfer-Encoding: 7bit
 
-On 01/04/2012 09:10 AM, Phil Blundell wrote:
-> Don't try to guess a path based on ${HOST_SYS} since this is not where the
-> files in the sysroot are likely to be.  Instead, just use the "plat_specific"
-> approach of taking STAGING_INCDIR and knocking off the trailing "/include" for
-> all cases.  This is still evidently suboptimal but does at least seem to give
-> the correct results.
+On 01/03/2012 04:24 PM, Saul Wold wrote:
+> On 12/28/2011 11:55 AM, Otavio Salvador wrote:
+>> This patchset includes our pending changes for Qt4 and udev. The udev
+>> patchset does a great cleanup on the udev package reducing a lot the
+>> delta between OE-Core and Meta-OE. Am working at updating the udev to
+>> 175 but those patches are the basis for this.
+>>
+>> Those has been tested under imx53qsb and O.S. Systems' x86 based
+>> machine definition using internal images running Qt4, Qt4-Embedded,
+>> SysV and SystemD.
+>>
+>> The following changes since commit
+>> 8f348ccad083d6c02c200652ff6295e701e88f0d:
+>>
+>> coreutils: ensure --color works so DEPEND on libcap (2011-12-24
+>> 10:05:35 +0000)
+>>
+>> are available in the git repository at:
+>> git://github.com/OSSystems/oe-core master
+>> https://github.com/OSSystems/oe-core/tree/HEAD
+>>
+>> Otavio Salvador (16):
+>> qt4-graphics-system: add
+>> qt4e.bbclass: add QT_BASE_NAME for use in recipes
+>> qt4x11.bbclass: add QT_BASE_NAME for use in recipes
+>> qt4-embedded.inc: use QT_BASE_NAME from qt4e.bbclass
+>> qt4-x11-free.inc: use QT_BASE_NAME from qt4x11.bbclass
 >
-> Signed-off-by: Phil Blundell<philb@gnu.org>
-> ---
-> v2: python 2.7.2 not python 2.6.6
+> I already commented on these with xserver-common
 >
->   ...2-distutils-prefix-is-inside-staging-area.patch |   22 ++++++++-----------
->   .../recipes-devtools/python/python-native_2.7.2.bb |    2 +-
->   2 files changed, 10 insertions(+), 14 deletions(-)
+>> udev: drop 145 version
+>> udev-extraconf: move mount.blacklist to udev-extraconf dir
+>> udev: reorganize files of 164 version
+>> udev: use tabs for init script (no code changes)
+>> udev: skip mounting /dev on tmpfs if it is on devtmpfs
+> These first 5 were merged into OE-Core
 >
-Merged into OE-Core
+>> udev: ensure /dev/pts and /dev/shm does exists
+>> udev: improve udev-cache robustness
+>> udev: use 'echo' instead of 'echo -n' in init script
+Merged
+>> udev: run depmod if modules.dep doesn't exist
+>> udev: split utilities onto udev-utils
+>> udev: remove commented code from init script (no code changes)
+Merged these last 2.
+>>
+> Richard is reviewing this in more detail.
+>
+Merged 3 more of these into OE-Core
 
 Thanks
 	Sau!
 
-> diff --git a/meta/recipes-devtools/python/python-native/12-distutils-prefix-is-inside-staging-area.patch b/meta/recipes-devtools/python/python-native/12-distutils-prefix-is-inside-staging-area.patch
-> index 8e721fe..b46caf6 100644
-> --- a/meta/recipes-devtools/python/python-native/12-distutils-prefix-is-inside-staging-area.patch
-> +++ b/meta/recipes-devtools/python/python-native/12-distutils-prefix-is-inside-staging-area.patch
-> @@ -2,12 +2,11 @@ Upstream-Status: Inappropriate [embedded specific]
->
->   # The proper prefix is inside our staging area.
->   # Signed-Off: Michael 'Mickey' Lauer<mickey@vanille-media.de>
-> +# Signed-off-by: Phil Blundell<philb@gnu.org>
->
-> -Index: Python-2.6.6/Lib/distutils/sysconfig.py
-> -===================================================================
-> ---- Python-2.6.6.orig/Lib/distutils/sysconfig.py
-> -+++ Python-2.6.6/Lib/distutils/sysconfig.py
-> -@@ -19,8 +19,8 @@ import sys
-> +--- Python-2.6.6/Lib/distutils/sysconfig.py.orig	2012-01-03 14:02:03.027005296 +0000
-> ++++ Python-2.6.6/Lib/distutils/sysconfig.py	2012-01-03 14:02:31.517601081 +0000
-> +@@ -19,8 +19,8 @@
->    from distutils.errors import DistutilsPlatformError
->
->    # These are needed in a couple of spots, so just compute them once.
-> @@ -18,19 +17,16 @@ Index: Python-2.6.6/Lib/distutils/sysconfig.py
->
->    # Path to the base directory of the project. On Windows the binary may
->    # live in project/PCBuild9.  If we're dealing with an x64 Windows build,
-> -@@ -70,7 +70,10 @@ def get_python_inc(plat_specific=0, pref
-> +@@ -70,7 +70,7 @@
->        sys.exec_prefix -- i.e., ignore 'plat_specific'.
->        """
->        if prefix is None:
->   -        prefix = plat_specific and EXEC_PREFIX or PREFIX
-> -+        if plat_specific:
-> -+            prefix = plat_specific and os.environ['STAGING_INCDIR'].rstrip('include')
-> -+        else:
-> -+            prefix = plat_specific and EXEC_PREFIX or PREFIX
-> ++        prefix = os.environ['STAGING_INCDIR'].rstrip('include')
->
->        if os.name == "posix":
->            if python_build:
-> -@@ -115,12 +118,16 @@ def get_python_lib(plat_specific=0, stan
-> +@@ -115,12 +115,16 @@
->        If 'prefix' is supplied, use it instead of sys.prefix or
->        sys.exec_prefix -- i.e., ignore 'plat_specific'.
->        """
-> @@ -49,7 +45,7 @@ Index: Python-2.6.6/Lib/distutils/sysconfig.py
->            if standard_lib:
->                return libpython
->            else:
-> -@@ -216,7 +223,7 @@ def get_config_h_filename():
-> +@@ -216,7 +220,7 @@
->        else:
->            # The name of the config.h file changed in 2.2
->            config_h = 'pyconfig.h'
-> @@ -58,7 +54,7 @@ Index: Python-2.6.6/Lib/distutils/sysconfig.py
+> Thanks
+> Sau!
 >
 >
->    def get_makefile_filename():
-> -@@ -225,7 +232,7 @@ def get_makefile_filename():
-> +@@ -225,7 +229,7 @@
->            return os.path.join(os.path.dirname(os.path.realpath(sys.executable)),
->                                "Makefile")
->        lib_dir = get_python_lib(plat_specific=1, standard_lib=1)
-> diff --git a/meta/recipes-devtools/python/python-native_2.7.2.bb b/meta/recipes-devtools/python/python-native_2.7.2.bb
-> index 7d8c597..8bf736d 100644
-> --- a/meta/recipes-devtools/python/python-native_2.7.2.bb
-> +++ b/meta/recipes-devtools/python/python-native_2.7.2.bb
-> @@ -1,6 +1,6 @@
->   require python.inc
->   DEPENDS = "openssl-native bzip2-full-native zlib-native readline-native sqlite3-native"
-> -PR = "${INC_PR}.2"
-> +PR = "${INC_PR}.3"
+>> meta/classes/qt4e.bbclass | 1 +
+>> meta/classes/qt4x11.bbclass | 1 +
+>> meta/recipes-core/udev/files/fix-alignment.patch | 26 -
+>> meta/recipes-core/udev/files/init | 212 ------
+>> meta/recipes-core/udev/files/local.rules | 22 -
+>> meta/recipes-core/udev/files/noasmlinkage.patch | 39 -
+>> meta/recipes-core/udev/files/permissions.rules | 81 --
+>> meta/recipes-core/udev/files/tmpfs.patch | 17 -
+>> meta/recipes-core/udev/files/udev-cache | 20 -
+>> meta/recipes-core/udev/files/udev.rules | 98 ---
+>> meta/recipes-core/udev/files/udev_network_queue.sh | 35 -
+>> meta/recipes-core/udev/files/udevsynthesize.patch | 778
+>> --------------------
+>> meta/recipes-core/udev/files/udevsynthesize.sh | 51 --
+>> meta/recipes-core/udev/udev-145/enable-gudev.patch | 50 --
+>> meta/recipes-core/udev/udev-145/init | 59 --
+>> meta/recipes-core/udev/udev-145/local.rules | 33 -
+>> meta/recipes-core/udev/udev-145/noasmlinkage.patch | 50 --
+>> meta/recipes-core/udev/udev-145/unbreak.patch | 26 -
+>> meta/recipes-core/udev/udev-164/init | 59 --
+>> meta/recipes-core/udev/udev-164/permissions.rules | 131 ----
+>> meta/recipes-core/udev/udev-164/run.rules | 14 -
+>> meta/recipes-core/udev/udev-164/udev.rules | 116 ---
+>> .../udev/{files => udev-extraconf}/mount.blacklist | 0
+>> meta/recipes-core/udev/udev-new.inc | 91 ---
+>> meta/recipes-core/udev/udev.inc | 108 ++--
+>> .../udev/{files => udev}/devfs-udev.rules | 0
+>> meta/recipes-core/udev/udev/init | 76 ++
+>> meta/recipes-core/udev/{files => udev}/links.conf | 0
+>> .../udev/{udev-164 => udev}/local.rules | 0
+>> meta/recipes-core/udev/{files => udev}/mount.sh | 0
+>> meta/recipes-core/udev/{files => udev}/network.sh | 0
+>> .../udev/{udev-145 => udev}/permissions.rules | 0
+>> .../recipes-core/udev/{udev-145 => udev}/run.rules | 0
+>> .../udev/{files => udev}/udev-166-v4l1-1.patch | 0
+>> meta/recipes-core/udev/udev/udev-cache | 34 +
+>> meta/recipes-core/udev/udev/udev-cache.default | 4 +
+>> .../udev/{udev-145 => udev}/udev.rules | 0
+>> meta/recipes-core/udev/udev_145.bb | 55 --
+>> meta/recipes-core/udev/udev_164.bb | 4 +-
+>> .../qt4-graphics-system/qt4-graphics-system_1.0.bb | 24 +
+>> meta/recipes-qt/qt4/qt4-embedded.inc | 3 +-
+>> meta/recipes-qt/qt4/qt4-x11-free.inc | 3 +-
+>> 42 files changed, 208 insertions(+), 2113 deletions(-)
+>> delete mode 100644 meta/recipes-core/udev/files/fix-alignment.patch
+>> delete mode 100755 meta/recipes-core/udev/files/init
+>> delete mode 100644 meta/recipes-core/udev/files/local.rules
+>> delete mode 100644 meta/recipes-core/udev/files/noasmlinkage.patch
+>> delete mode 100644 meta/recipes-core/udev/files/permissions.rules
+>> delete mode 100644 meta/recipes-core/udev/files/tmpfs.patch
+>> delete mode 100644 meta/recipes-core/udev/files/udev-cache
+>> delete mode 100644 meta/recipes-core/udev/files/udev.rules
+>> delete mode 100644 meta/recipes-core/udev/files/udev_network_queue.sh
+>> delete mode 100644 meta/recipes-core/udev/files/udevsynthesize.patch
+>> delete mode 100644 meta/recipes-core/udev/files/udevsynthesize.sh
+>> delete mode 100644 meta/recipes-core/udev/udev-145/enable-gudev.patch
+>> delete mode 100644 meta/recipes-core/udev/udev-145/init
+>> delete mode 100644 meta/recipes-core/udev/udev-145/local.rules
+>> delete mode 100644 meta/recipes-core/udev/udev-145/noasmlinkage.patch
+>> delete mode 100644 meta/recipes-core/udev/udev-145/unbreak.patch
+>> delete mode 100644 meta/recipes-core/udev/udev-164/init
+>> delete mode 100644 meta/recipes-core/udev/udev-164/permissions.rules
+>> delete mode 100644 meta/recipes-core/udev/udev-164/run.rules
+>> delete mode 100644 meta/recipes-core/udev/udev-164/udev.rules
+>> rename meta/recipes-core/udev/{files =>
+>> udev-extraconf}/mount.blacklist (100%)
+>> delete mode 100644 meta/recipes-core/udev/udev-new.inc
+>> rename meta/recipes-core/udev/{files => udev}/devfs-udev.rules (100%)
+>> create mode 100644 meta/recipes-core/udev/udev/init
+>> rename meta/recipes-core/udev/{files => udev}/links.conf (100%)
+>> rename meta/recipes-core/udev/{udev-164 => udev}/local.rules (100%)
+>> rename meta/recipes-core/udev/{files => udev}/mount.sh (100%)
+>> rename meta/recipes-core/udev/{files => udev}/network.sh (100%)
+>> rename meta/recipes-core/udev/{udev-145 => udev}/permissions.rules (100%)
+>> rename meta/recipes-core/udev/{udev-145 => udev}/run.rules (100%)
+>> rename meta/recipes-core/udev/{files => udev}/udev-166-v4l1-1.patch
+>> (100%)
+>> create mode 100644 meta/recipes-core/udev/udev/udev-cache
+>> create mode 100644 meta/recipes-core/udev/udev/udev-cache.default
+>> rename meta/recipes-core/udev/{udev-145 => udev}/udev.rules (100%)
+>> delete mode 100644 meta/recipes-core/udev/udev_145.bb
+>> create mode 100644
+>> meta/recipes-qt/qt4-graphics-system/qt4-graphics-system_1.0.bb
+>>
 >
->   SRC_URI += "file://04-default-is-optimized.patch \
->              file://05-enable-ctypes-cross-build.patch \
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
+>
 
 
