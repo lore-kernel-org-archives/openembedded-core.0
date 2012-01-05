@@ -1,24 +1,24 @@
 Received: from mga09.intel.com ([134.134.136.24])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <sgw@linux.intel.com>) id 1Rigxx-0001EK-QO
+	(envelope-from <sgw@linux.intel.com>) id 1Rigxy-0001EP-7q
 	for openembedded-core@lists.openembedded.org;
 	Thu, 05 Jan 2012 07:38:22 +0100
 Received: from orsmga002.jf.intel.com ([10.7.209.21])
 	by orsmga102.jf.intel.com with ESMTP; 04 Jan 2012 22:30:57 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.67,351,1309762800"; d="scan'208";a="94663902"
+X-IronPort-AV: E=Sophos;i="4.67,351,1309762800"; d="scan'208";a="94663903"
 Received: from unknown (HELO swold-mobl.bigsur.com) ([10.255.13.127])
-	by orsmga002.jf.intel.com with ESMTP; 04 Jan 2012 22:30:56 -0800
+	by orsmga002.jf.intel.com with ESMTP; 04 Jan 2012 22:30:57 -0800
 From: Saul Wold <sgw@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Wed,  4 Jan 2012 22:30:34 -0800
-Message-Id: <723e436c72169af831995e90a6f2f6f99beb4bc3.1325744640.git.sgw@linux.intel.com>
+Date: Wed,  4 Jan 2012 22:30:35 -0800
+Message-Id: <59d7b1fc25a7930d1fb86afe20e6bdd938cb3fe5.1325744640.git.sgw@linux.intel.com>
 X-Mailer: git-send-email 1.7.6.4
 In-Reply-To: <cover.1325744640.git.sgw@linux.intel.com>
 References: <cover.1325744640.git.sgw@linux.intel.com>
 In-Reply-To: <cover.1325744640.git.sgw@linux.intel.com>
 References: <cover.1325744640.git.sgw@linux.intel.com>
-Subject: [CONSOLIDATED PULL 09/28] libusb-compat: move libraries to base_libdir
+Subject: [CONSOLIDATED PULL 10/28] insane.bbclass: add QA tests for unsafe references to exec_prefix
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -37,41 +37,171 @@ X-List-Received-Date: Thu, 05 Jan 2012 06:38:22 -0000
 
 From: Scott Garman <scott.a.garman@intel.com>
 
-udev links to libusb-compat, and so this library needs to be in
-base_libdir (/lib) instead of libdir (/usr/lib).
+Files under exec_prefix (commonly /usr) may not be available during
+system recovery. exec_prefix may also be kept on a separate partition
+that is mounted late in the boot process.
+
+This QA test throws an warning if a binary in base_[bindir|sbindir|libdir]
+is dynamically linked to a file under exec_prefix. The intention is to
+turn this into an error in the near future.
+
+It also checks executable non-binaries (e.g, shell scripts) in the above
+base directories with a simple grep test to look for references to
+exec_prefix. This test only produces a warning, since false positives
+are likely.
+
+This fixes [YOCTO #1008]
 
 Signed-off-by: Scott Garman <scott.a.garman@intel.com>
 ---
- meta/recipes-support/libusb/libusb-compat_0.1.3.bb |   12 +++++++++++-
- 1 files changed, 11 insertions(+), 1 deletions(-)
+ meta/classes/insane.bbclass |  111 ++++++++++++++++++++++++++++++++++++++++++-
+ 1 files changed, 109 insertions(+), 2 deletions(-)
 
-diff --git a/meta/recipes-support/libusb/libusb-compat_0.1.3.bb b/meta/recipes-support/libusb/libusb-compat_0.1.3.bb
-index ef8552b..e070463 100644
---- a/meta/recipes-support/libusb/libusb-compat_0.1.3.bb
-+++ b/meta/recipes-support/libusb/libusb-compat_0.1.3.bb
-@@ -15,7 +15,7 @@ DEPENDS = "libusb1"
- PROVIDES = "libusb"
+diff --git a/meta/classes/insane.bbclass b/meta/classes/insane.bbclass
+index 5726e69..b8d4507 100644
+--- a/meta/classes/insane.bbclass
++++ b/meta/classes/insane.bbclass
+@@ -11,6 +11,10 @@
+ #  -Check if packages contains .debug directories or .so files
+ #   where they should be in -dev or -dbg
+ #  -Check if config.log contains traces to broken autoconf tests
++#  -Ensure that binaries in base_[bindir|sbindir|libdir] do not link
++#   into exec_prefix
++#  -Check that scripts in base_[bindir|sbindir|libdir] do not reference
++#   files under exec_prefix
  
- PE = "1"
--PR = "r0"
-+PR = "r1"
  
- SRC_URI = "${SOURCEFORGE_MIRROR}/libusb/libusb-compat-${PV}.tar.bz2 \
-            file://0.1.0-beta1-gcc3.4-fix.patch"
-@@ -24,3 +24,13 @@ SRC_URI[md5sum] = "570ac2ea085b80d1f74ddc7c6a93c0eb"
- SRC_URI[sha256sum] = "a590a03b6188030ee1ca1a0af55685fcde005ca807b963970f839be776031d94"
+ #
+@@ -19,9 +23,14 @@
+ # The package.bbclass can help us here.
+ #
+ inherit package
+-PACKAGE_DEPENDS += "pax-utils-native desktop-file-utils-native"
++PACKAGE_DEPENDS += "pax-utils-native desktop-file-utils-native ${QADEPENDS}"
+ PACKAGEFUNCS += " do_package_qa "
  
- inherit autotools pkgconfig binconfig
++# unsafe-references-in-binaries requires prelink-rtld from
++# prelink-native, but we don't want this DEPENDS for -native builds
++QADEPENDS = "prelink-native"
++QADEPENDS_virtclass-native = ""
++QADEPENDS_virtclass-nativesdk = ""
+ 
+ #
+ # dictionary for elf headers
+@@ -100,7 +109,7 @@ def package_qa_get_machine_dict():
+ 
+ 
+ # Currently not being used by default "desktop"
+-WARN_QA ?= "ldflags useless-rpaths rpaths"
++WARN_QA ?= "ldflags useless-rpaths rpaths unsafe-references-in-binaries unsafe-references-in-scripts"
+ ERROR_QA ?= "dev-so debug-deps dev-deps debug-files arch la2 pkgconfig la perms"
+ 
+ def package_qa_clean_path(path,d):
+@@ -201,6 +210,104 @@ def package_qa_check_perm(path,name,d, elf, messages):
+     """
+     return
+ 
++QAPATHTEST[unsafe-references-in-binaries] = "package_qa_check_unsafe_references_in_binaries"
++def package_qa_check_unsafe_references_in_binaries(path, name, d, elf, messages):
++	"""
++	Ensure binaries in base_[bindir|sbindir|libdir] do not link to files under exec_prefix
++	"""
++	if unsafe_references_skippable(path, name, d):
++		return
 +
-+EXTRA_OECONF = "--libdir=${base_libdir}"
++	if elf:
++		import subprocess as sub
++		pn = d.getVar('PN', True)
 +
-+do_install_append() {
-+	install -d ${D}${libdir}
-+	mv ${D}${base_libdir}/*.la ${D}${libdir}
-+	mv ${D}${base_libdir}/pkgconfig ${D}${libdir}
-+}
++		exec_prefix = d.getVar('exec_prefix', True)
++		sysroot_path = d.getVar('STAGING_DIR_TARGET', True)
++		sysroot_path_usr = sysroot_path + exec_prefix
 +
-+FILES_${PN}-dev += "${base_libdir}/*.so"
++		try:
++			ldd_output = sub.check_output(["prelink-rtld", "--root", sysroot_path, path])
++		except sub.CalledProcessError as e:
++			if e.returncode != 127:
++				error_msg = pn + ": prelink-rtld aborted when processing %s" % path
++				package_qa_handle_error("unsafe-references-in-binaries", error_msg, d)
++				return False
++			else:
++				# Sometimes this is done deliberately (e.g, e2fsprogs), so only warn
++				bb.warn("%s has missing library dependencies" % path)
++				return
++		if sysroot_path_usr in ldd_output:
++			error_msg = pn + ": %s links to something under exec_prefix" % path
++			package_qa_handle_error("unsafe-references-in-binaries", error_msg, d)
++			error_msg = "ldd reports: %s" % ldd_output
++			package_qa_handle_error("unsafe-references-in-binaries", error_msg, d)
++			return False
++
++QAPATHTEST[unsafe-references-in-scripts] = "package_qa_check_unsafe_references_in_scripts"
++def package_qa_check_unsafe_references_in_scripts(path, name, d, elf, messages):
++	"""
++	Warn if scripts in base_[bindir|sbindir|libdir] reference files under exec_prefix
++	"""
++	if unsafe_references_skippable(path, name, d):
++		return
++
++	if not elf:
++		import stat
++		pn = d.getVar('PN', True)
++
++		# Ensure we're checking an executable script
++		statinfo = os.stat(path)
++		if bool(statinfo.st_mode & stat.S_IXUSR):
++			# grep shell scripts for possible references to /exec_prefix/
++			exec_prefix = d.getVar('exec_prefix', True)
++			statement = "grep -e '%s/' %s > /dev/null" % (exec_prefix, path)
++			if os.system(statement) == 0:
++				error_msg = pn + ": Found a reference to %s/ in %s" % (exec_prefix, path)
++				package_qa_handle_error("unsafe-references-in-scripts", error_msg, d)
++				error_msg = "Shell scripts in base_bindir and base_sbindir should not reference anything in exec_prefix"
++				package_qa_handle_error("unsafe-references-in-scripts", error_msg, d)
++
++def unsafe_references_skippable(path, name, d):
++	if bb.data.inherits_class('native', d) or bb.data.inherits_class('nativesdk', d):
++		return True
++
++	if "-dbg" in name or "-dev" in name:
++		return True
++
++	# Other package names to skip:
++	if name.startswith("kernel-module-"):
++		return True
++
++	# Skip symlinks
++	if os.path.islink(path):
++		return True
++
++	# Skip unusual rootfs layouts which make these tests irrelevant
++	exec_prefix = d.getVar('exec_prefix', True)
++	if exec_prefix == "":
++		return True
++
++	pkgdest = d.getVar('PKGDEST', True)
++	pkgdest = pkgdest + "/" + name
++	pkgdest = os.path.abspath(pkgdest)
++	base_bindir = pkgdest + d.getVar('base_bindir', True)
++	base_sbindir = pkgdest + d.getVar('base_sbindir', True)
++	base_libdir = pkgdest + d.getVar('base_libdir', True)
++	bindir = pkgdest + d.getVar('bindir', True)
++	sbindir = pkgdest + d.getVar('sbindir', True)
++	libdir = pkgdest + d.getVar('libdir', True)
++
++	if base_bindir == bindir and base_sbindir == sbindir and base_libdir == libdir:
++		return True
++
++	# Skip files not in base_[bindir|sbindir|libdir]
++	path = os.path.abspath(path)
++	if not (base_bindir in path or base_sbindir in path or base_libdir in path):
++		return True
++
++	return False
++
+ QAPATHTEST[arch] = "package_qa_check_arch"
+ def package_qa_check_arch(path,name,d, elf, messages):
+     """
 -- 
 1.7.6.4
 
