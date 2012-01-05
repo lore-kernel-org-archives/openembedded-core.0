@@ -1,32 +1,20 @@
-Received: from mail-qw0-f54.google.com ([209.85.216.54])
+Received: from mga14.intel.com ([143.182.124.37])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <andrei@gherzan.ro>) id 1RiqwD-0007VF-Hw
+	(envelope-from <nitin.a.kamble@intel.com>) id 1RirGV-0007x6-9V
 	for openembedded-core@lists.openembedded.org;
-	Thu, 05 Jan 2012 18:17:14 +0100
-Received: by qabg14 with SMTP id g14so532135qab.6
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 05 Jan 2012 09:09:49 -0800 (PST)
-Received: by 10.224.220.14 with SMTP id hw14mr3770460qab.42.1325783389880;
-	Thu, 05 Jan 2012 09:09:49 -0800 (PST)
-Received: from [128.224.170.134] ([89.121.200.106])
-	by mx.google.com with ESMTPS id co15sm20179321qab.1.2012.01.05.09.09.48
-	(version=SSLv3 cipher=OTHER); Thu, 05 Jan 2012 09:09:49 -0800 (PST)
-Message-ID: <4F05D95B.5090604@gherzan.ro>
-Date: Thu, 05 Jan 2012 19:09:47 +0200
-From: Andrei Gherzan <andrei@gherzan.ro>
-User-Agent: Mozilla/5.0 (X11; Linux i686;
-	rv:8.0) Gecko/20111124 Thunderbird/8.0
-MIME-Version: 1.0
-To: Phil Blundell <philb@gnu.org>
-References: <1325781559-18967-1-git-send-email-andrei@gherzan.ro>
-	<1325781698.28005.132.camel@phil-desktop>
-	<4F05D5CB.2070404@windriver.com>
-	<1325782829.28005.136.camel@phil-desktop>
-In-Reply-To: <1325782829.28005.136.camel@phil-desktop>
-Cc: Andrei Gherzan <andrei.gherzan@windriver.com>,
-	Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] wpa-supplicant: Patch this recipe order to remove a duplicate defconfig file
+	Thu, 05 Jan 2012 18:38:11 +0100
+Received: from azsmga002.ch.intel.com ([10.2.17.35])
+	by azsmga102.ch.intel.com with ESMTP; 05 Jan 2012 09:30:47 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="53624334"
+Received: from nbuild0.sc.intel.com ([172.25.110.36])
+	by AZSMGA002.ch.intel.com with ESMTP; 05 Jan 2012 09:30:47 -0800
+From: nitin.a.kamble@intel.com
+To: openembedded-core@lists.openembedded.org
+Date: Thu,  5 Jan 2012 09:30:44 -0800
+Message-Id: <cover.1325784550.git.nitin.a.kamble@intel.com>
+X-Mailer: git-send-email 1.7.6.4
+Subject: [PATCH 0/7] Misc Fixes
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -41,51 +29,54 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 05 Jan 2012 17:17:14 -0000
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Thu, 05 Jan 2012 17:38:11 -0000
 
-On 01/05/2012 07:00 PM, Phil Blundell wrote:
-> On Thu, 2012-01-05 at 18:54 +0200, Andrei Gherzan wrote:
->> On 01/05/2012 06:41 PM, Phil Blundell wrote:
->>> On Thu, 2012-01-05 at 18:39 +0200, Andrei Gherzan wrote:
->>>> From: Andrei Gherzan<andrei.gherzan@windriver.com>
->>>>
->>>> Instead of having two defconfigs we can have only one and append this file with de specific
->>>> CONFIG if GPLv3 packages are allowed.
->>> As I said the other day, I think it would be better to just have one
->>> defconfig and turn off the GPLv3 stuff entirely.  Do you know of anybody
->>> who actually wants to use it?
->>>
->>> p.
->>>
->>>
->> Now about that extra config. The idea of having it into a a build were
->> gplv3 are allowed,was support for TLS/IA which was designed to be used
->> in the EAP-TTLSv1
->> https://lists.yoctoproject.org/pipermail/poky/2011-December/007386.html
-> Well, right.  But the point I was making in my previous email
->
-> http://lists.linuxtogo.org/pipermail/openembedded-core/2012-January/015375.html
->
-> is that nobody seems to be using TLS/IA, the code in wpa-supplicant was
-> apparently never all that well tested, and support for it has been
-> removed entirely in the latest versions of all the relevant software
-> (and hence, barring heroic efforts, we will lose it anyway next time
-> wpa-supplicant is upgraded).
->
-> So, unless you know of anybody who actually has a requirement for that
-> protocol today, I would be inclined to just turn it off unconditionally
-> rather than adding some mechanism to turn it on and off based on
-> INCOMPATIBLE_LICENSE.
->
-> p.
->
->
+From: Nitin A Kamble <nitin.a.kamble@intel.com>
 
-I didn't see that message of yours. And actually you are right. I 
-haven't seen any req for that protocol and never heard of any. So in my 
-opinion a complete removal of this option would remain the best 
-approach. I can undo all the changes and add this config disabled.
+
+Here are fixes related to x32 & automake-1.11.2.
+
+Thanks,
+Nitin
+
+The following changes since commit 7f837eb05f924996c89283ec8b74e46f6b5cd343:
+
+  bitbake/runqueue: Improve the setscene logging (2012-01-05 13:04:19 +0000)
+
+are available in the git repository at:
+  git://git.pokylinux.org/poky-contrib nitin/work
+  http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=nitin/work
+
+Nitin A Kamble (7):
+  python-pycairo: fix for x32
+  libevent: fix compilation for x32
+  libxxf86dga: fix compilation with x32 toolchain
+  vte: update patch header
+  automake-1.11.2: backport pkglibexec_SCRIPTS fix
+  mc: remove not needed fix for automake 1.11.2
+  systemtap: remove not needed fix for automake 1.11.2
+
+ ...utomake_1.11.2_fix_for_pkglibexec_SCRIPTS.patch |  118 ++++++++++++++++++++
+ meta/recipes-devtools/automake/automake_1.11.2.bb  |    5 +-
+ .../python/python-pycairo_1.10.0.bb                |    6 +-
+ .../mc/files/fix_for_automake_1.11.2.patch         |   69 ------------
+ meta/recipes-extended/mc/mc_4.8.1.bb               |    3 +-
+ .../libxxf86dga-1.1.2_fix_for_x32.patch            |   30 +++++
+ .../recipes-graphics/xorg-lib/libxxf86dga_1.1.2.bb |    5 +-
+ .../systemtap/fix_for_automake_1.11.2.patch        |   46 --------
+ meta/recipes-kernel/systemtap/systemtap_git.bb     |    6 +-
+ .../libevent/libevent-2.0.16_fix_for_x32.patch     |   47 ++++++++
+ meta/recipes-support/libevent/libevent_2.0.16.bb   |    5 +-
+ meta/recipes-support/vte/vte/introspection.patch   |    8 ++
+ 12 files changed, 219 insertions(+), 129 deletions(-)
+ create mode 100644 meta/recipes-devtools/automake/automake/automake_1.11.2_fix_for_pkglibexec_SCRIPTS.patch
+ delete mode 100644 meta/recipes-extended/mc/files/fix_for_automake_1.11.2.patch
+ create mode 100644 meta/recipes-graphics/xorg-lib/libxxf86dga/libxxf86dga-1.1.2_fix_for_x32.patch
+ delete mode 100644 meta/recipes-kernel/systemtap/systemtap/fix_for_automake_1.11.2.patch
+ create mode 100644 meta/recipes-support/libevent/libevent/libevent-2.0.16_fix_for_x32.patch
+
+-- 
+1.7.6.4
+
 
 
