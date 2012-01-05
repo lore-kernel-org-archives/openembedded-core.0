@@ -1,24 +1,24 @@
 Received: from mga09.intel.com ([134.134.136.24])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <sgw@linux.intel.com>) id 1Rigy1-0001EK-8K
+	(envelope-from <sgw@linux.intel.com>) id 1Rigy1-0001EP-Co
 	for openembedded-core@lists.openembedded.org;
 	Thu, 05 Jan 2012 07:38:25 +0100
 Received: from orsmga002.jf.intel.com ([10.7.209.21])
 	by orsmga102.jf.intel.com with ESMTP; 04 Jan 2012 22:31:00 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.67,351,1309762800"; d="scan'208";a="94663923"
+X-IronPort-AV: E=Sophos;i="4.67,351,1309762800"; d="scan'208";a="94663924"
 Received: from unknown (HELO swold-mobl.bigsur.com) ([10.255.13.127])
 	by orsmga002.jf.intel.com with ESMTP; 04 Jan 2012 22:31:00 -0800
 From: Saul Wold <sgw@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Wed,  4 Jan 2012 22:30:46 -0800
-Message-Id: <f0cf6b492d89f0b23087744c3dcaed7532f9f13e.1325744640.git.sgw@linux.intel.com>
+Date: Wed,  4 Jan 2012 22:30:47 -0800
+Message-Id: <ed8e19734fb21a8443b77a7e9c43fbbd33fb5fea.1325744640.git.sgw@linux.intel.com>
 X-Mailer: git-send-email 1.7.6.4
 In-Reply-To: <cover.1325744640.git.sgw@linux.intel.com>
 References: <cover.1325744640.git.sgw@linux.intel.com>
 In-Reply-To: <cover.1325744640.git.sgw@linux.intel.com>
 References: <cover.1325744640.git.sgw@linux.intel.com>
-Subject: [CONSOLIDATED PULL 21/28] libxp: fix cast error
+Subject: [CONSOLIDATED PULL 22/28] udev: use 'echo' instead of 'echo -n' in init script
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -33,83 +33,50 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 05 Jan 2012 06:38:26 -0000
+X-List-Received-Date: Thu, 05 Jan 2012 06:38:27 -0000
 
-Signed-off-by: Saul Wold <sgw@linux.intel.com>
+From: Otavio Salvador <otavio@ossystems.com.br>
+
+Avoid using two stage progress output to avoid text garbage during
+parallel boot.
+
+Signed-off-by: Otavio Salvador <otavio@ossystems.com.br>
 ---
- .../xorg-lib/libxp/fix-cast-error.patch            |   42 ++++++++++++++++++++
- meta/recipes-graphics/xorg-lib/libxp_1.0.1.bb      |    4 +-
- 2 files changed, 45 insertions(+), 1 deletions(-)
- create mode 100644 meta/recipes-graphics/xorg-lib/libxp/fix-cast-error.patch
+ meta/recipes-core/udev/udev/init   |    3 +--
+ meta/recipes-core/udev/udev_164.bb |    2 +-
+ 2 files changed, 2 insertions(+), 3 deletions(-)
 
-diff --git a/meta/recipes-graphics/xorg-lib/libxp/fix-cast-error.patch b/meta/recipes-graphics/xorg-lib/libxp/fix-cast-error.patch
-new file mode 100644
-index 0000000..fea18cf
---- /dev/null
-+++ b/meta/recipes-graphics/xorg-lib/libxp/fix-cast-error.patch
-@@ -0,0 +1,42 @@
-+This patch fixes these new errors:
-+
-+| XpNotifyPdm.c:234:10: error: cast from pointer to integer of different size [-Werror=pointer-to-int-cast]
-+| XpNotifyPdm.c:271:10: error: cast from pointer to integer of different size [-Werror=pointer-to-int-cast]
-+| XpNotifyPdm.c:286:10: error: cast from pointer to integer of different size [-Werror=pointer-to-int-cast]
-+
-+
-+Upstream-Status: Pending
-+
-+Signed-off-by: Saul Wold <sgw@linux.intel.com>
-+
-+Index: libXp-1.0.1/src/XpNotifyPdm.c
-+===================================================================
-+--- libXp-1.0.1.orig/src/XpNotifyPdm.c
-++++ libXp-1.0.1/src/XpNotifyPdm.c
-+@@ -231,7 +231,7 @@ XpGetPdmStartParams (
-+ 	/*
-+ 	 * Error - cannot determine or establish a selection_display.
-+ 	 */
-+-	return( (Status) NULL );
-++	return( (Status) 0 );
-+     }
-+ 
-+     /*
-+@@ -268,7 +268,7 @@ XpGetPdmStartParams (
-+ 	    XCloseDisplay( *selection_display );
-+ 	    *selection_display = (Display *) NULL;
-+ 	}
-+-	return( (Status) NULL );
-++	return( (Status) 0 );
-+     }
-+ 
-+     status = XmbTextListToTextProperty( *selection_display, list, 6,
-+@@ -283,7 +283,7 @@ XpGetPdmStartParams (
-+ 	    XCloseDisplay( *selection_display );
-+ 	    *selection_display = (Display *) NULL;
-+ 	}
-+-	return( (Status) NULL );
-++	return( (Status) 0 );
-+     }
-+ 
-+     *type              = text_prop.encoding;
-diff --git a/meta/recipes-graphics/xorg-lib/libxp_1.0.1.bb b/meta/recipes-graphics/xorg-lib/libxp_1.0.1.bb
-index a19f561..349dad1 100644
---- a/meta/recipes-graphics/xorg-lib/libxp_1.0.1.bb
-+++ b/meta/recipes-graphics/xorg-lib/libxp_1.0.1.bb
-@@ -10,12 +10,14 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=9504a1264f5ddd4949254a57c0f8d6bb \
-                     file://src/XpPage.c;beginline=2;endline=35;md5=2b7d3d2ba5505b19271cf31b6918997e"
+diff --git a/meta/recipes-core/udev/udev/init b/meta/recipes-core/udev/udev/init
+index d0d7e5d..bfbac0d 100644
+--- a/meta/recipes-core/udev/udev/init
++++ b/meta/recipes-core/udev/udev/init
+@@ -25,7 +25,7 @@ kill_udevd() {
  
- DEPENDS += "libxext libxau printproto"
--PR = "r0"
-+PR = "r1"
- PE = "1"
+ export ACTION=add
+ # propagate /dev from /sys
+-echo -n "Starting udev"
++echo "Starting udev"
  
- XORG_PN = "libXp"
+ # mount the tmpfs on /dev, if not already done
+ LANG=C awk '$2 == "/dev" && ($3 == "tmpfs" || $3 == "devtmpfs") { exit 1 }' /proc/mounts && {
+@@ -55,5 +55,4 @@ else
+ 	/sbin/udevadm settle
+ fi
  
- CFLAGS_append += " -I ${S}/include/X11/XprintUtil -I ${S}/include/X11/extensions"
+-echo
+ exit 0
+diff --git a/meta/recipes-core/udev/udev_164.bb b/meta/recipes-core/udev/udev_164.bb
+index f952c90..6d71f4d 100644
+--- a/meta/recipes-core/udev/udev_164.bb
++++ b/meta/recipes-core/udev/udev_164.bb
+@@ -1,6 +1,6 @@
+ include udev.inc
  
-+SRC_URI += "file://fix-cast-error.patch"
-+
- SRC_URI[md5sum] = "7ae1d63748e79086bd51a633da1ff1a9"
- SRC_URI[sha256sum] = "71d1f260005616d646b8c8788365f2b7d93911dac57bb53b65753d9f9e6443d2"
+-PR = "r8"
++PR = "r10"
+ 
+ SRC_URI += "file://udev-166-v4l1-1.patch"
+ 
 -- 
 1.7.6.4
 
