@@ -1,33 +1,34 @@
 Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
 	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
 	(envelope-from <richard.purdie@linuxfoundation.org>)
-	id 1Riviy-0004p8-1r for openembedded-core@lists.openembedded.org;
-	Thu, 05 Jan 2012 23:23:54 +0100
+	id 1Rivnf-00051r-NH for openembedded-core@lists.openembedded.org;
+	Thu, 05 Jan 2012 23:28:46 +0100
 Received: from localhost (localhost [127.0.0.1])
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q05MGQWK011532;
-	Thu, 5 Jan 2012 22:16:26 GMT
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q05MLLGU011643
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 5 Jan 2012 22:21:21 GMT
 Received: from tim.rpsys.net ([127.0.0.1])
 	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
 	port 10024) with LMTP
-	id 10664-09; Thu,  5 Jan 2012 22:16:22 +0000 (GMT)
+	id 11487-02 for <openembedded-core@lists.openembedded.org>;
+	Thu,  5 Jan 2012 22:21:17 +0000 (GMT)
 Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q05MGJJ8011526
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO);
-	Thu, 5 Jan 2012 22:16:21 GMT
-Message-ID: <1325801780.20759.77.camel@ted>
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q05MLFoa011637
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO)
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 5 Jan 2012 22:21:15 GMT
+Message-ID: <1325802075.20759.78.camel@ted>
 From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: McClintock Matthew-B29882 <B29882@freescale.com>, Patches and
-	discussions about the oe-core layer
+To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Date: Thu, 05 Jan 2012 22:16:20 +0000
-In-Reply-To: <CAEsOVNcVXE+hTNMBzHnVS_x9zs_Gp+_VKaop90n8h=-_Y_RJPQ@mail.gmail.com>
-References: <cover.1325744640.git.sgw@linux.intel.com>
-	<1325763002.20759.62.camel@ted>
-	<CAEsOVNcVXE+hTNMBzHnVS_x9zs_Gp+_VKaop90n8h=-_Y_RJPQ@mail.gmail.com>
+Date: Thu, 05 Jan 2012 22:21:15 +0000
+In-Reply-To: <7583e732bc226f24befcad605b4bfa0536a1ae3c.1325797875.git.scott.a.garman@intel.com>
+References: <cover.1325797875.git.scott.a.garman@intel.com>
+	<7583e732bc226f24befcad605b4bfa0536a1ae3c.1325797875.git.scott.a.garman@intel.com>
 X-Mailer: Evolution 3.2.2- 
 Mime-Version: 1.0
 X-Virus-Scanned: amavisd-new at rpsys.net
-Subject: Re: [CONSOLIDATED PULL 00/28] Build Fixes and Updates
+Subject: Re: [PATCH 1/1] insane.bbclass: use bb.process.Popen instead of subprocess.check_output
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -42,36 +43,34 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 05 Jan 2012 22:23:54 -0000
+X-List-Received-Date: Thu, 05 Jan 2012 22:28:46 -0000
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 
-On Thu, 2012-01-05 at 15:57 +0000, McClintock Matthew-B29882 wrote:
-> On Thu, Jan 5, 2012 at 5:30 AM, Richard Purdie
-> <richard.purdie@linuxfoundation.org> wrote:
-> >> Zhenhua Luo (1):
-> >>   linux-dtb: add multi-dtb build support and keep dtb in deploy cache
-> >>     package
-> >
-> > This looks like it should be done in do_deploy and doesn't fix the real
-> > problem just adding some races in.
+On Thu, 2012-01-05 at 13:12 -0800, Scott Garman wrote:
+> subprocess.check_output was only introduced in Python v2.7, so we
+> cannot use it. This refactors the QA test to use bb.process.Popen
+> instead.
 > 
-> Can you add a bit more info here? Should we be building all the device
-> trees in do_deploy? What races are added?
+> This fixes the error:
+> 
+> AttributeError: 'module' object has no attribute 'check_output'
+> 
+> It no longer checks the return status of prelink-rtld, as that
+> case was simply adding noise. This QA test is intended to only
+> warn about specific paths that binaries could be linking to, not
+> handle the case where there is a missing library.
+> 
+> Signed-off-by: Scott Garman <scott.a.garman@intel.com>
+> ---
+>  meta/classes/insane.bbclass |   16 ++++++----------
+>  1 files changed, 6 insertions(+), 10 deletions(-)
 
-I guess what I'm asking is why this isn't happening in kernel_do_deploy
-(with an append) and installing the files into ${DEPLOYDIR}? It seems to
-be appending to do_install instead and this confuses the purposes of the
-different tasks.
-
-If the files were placed into ${DEPLOYDIR} as part of do_deploy, things
-would be much more consistent.
+Merged to master, thanks for the quick fix!
 
 Cheers,
 
 Richard
-
-
 
 
 
