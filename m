@@ -1,26 +1,27 @@
-Received: from mga14.intel.com ([143.182.124.37])
+Received: from vms173001pub.verizon.net ([206.46.173.1])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <sgw@linux.intel.com>) id 1Ritzw-0000bw-N1
+	(envelope-from <denis@denix.org>) id 1Riu7u-0000rI-K7
 	for openembedded-core@lists.openembedded.org;
-	Thu, 05 Jan 2012 21:33:17 +0100
-Received: from azsmga001.ch.intel.com ([10.2.17.19])
-	by azsmga102.ch.intel.com with ESMTP; 05 Jan 2012 12:25:52 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="92826622"
-Received: from unknown (HELO [10.255.13.127]) ([10.255.13.127])
-	by azsmga001.ch.intel.com with ESMTP; 05 Jan 2012 12:25:52 -0800
-Message-ID: <4F060750.5010108@linux.intel.com>
-Date: Thu, 05 Jan 2012 12:25:52 -0800
-From: Saul Wold <sgw@linux.intel.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:7.0) Gecko/20110927 Thunderbird/7.0
-MIME-Version: 1.0
+	Thu, 05 Jan 2012 21:41:53 +0100
+Received: from gandalf.denix.org ([unknown] [71.163.124.23])
+	by vms173001.mailsrvcs.net
+	(Sun Java(tm) System Messaging Server 7u2-7.02 32bit (built Apr 16
+	2009)) with ESMTPA id <0LXC00KE9BOLBMC5@vms173001.mailsrvcs.net> for
+	openembedded-core@lists.openembedded.org;
+	Thu, 05 Jan 2012 13:33:58 -0600 (CST)
+Received: by gandalf.denix.org (Postfix, from userid 1000)	id CF10C2028E; Thu,
+	05 Jan 2012 14:33:57 -0500 (EST)
+Date: Thu, 05 Jan 2012 14:33:57 -0500
+From: Denys Dmytriyenko <denis@denix.org>
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-References: <cover.1325101673.git.otavio@ossystems.com.br>
-	<4F039C51.4030407@linux.intel.com>
-In-Reply-To: <4F039C51.4030407@linux.intel.com>
-Subject: Re: [PATCH 00/16] Misc Qt4 and udev changes pending from O.S. Systems
+Message-id: <20120105193357.GE28075@denix.org>
+References: <cover.1325788605.git.sgw@linux.intel.com>
+	<024ef12e7ae22df2e8468ccdf1d78d6657905cd6.1325788605.git.sgw@linux.intel.com>
+MIME-version: 1.0
+In-reply-to: <024ef12e7ae22df2e8468ccdf1d78d6657905cd6.1325788605.git.sgw@linux.intel.com>
+User-Agent: Mutt/1.5.20 (2009-06-14)
+Subject: Re: [PATCH 2/2] gnutls: remove gettext patch for non-GPLv3
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -35,156 +36,62 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 05 Jan 2012 20:33:17 -0000
-Content-Type: text/plain; charset=ISO-8859-1; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Thu, 05 Jan 2012 20:41:53 -0000
+Content-type: text/plain; charset=us-ascii
+Content-disposition: inline
 
-On 01/03/2012 04:24 PM, Saul Wold wrote:
-> On 12/28/2011 11:55 AM, Otavio Salvador wrote:
->> This patchset includes our pending changes for Qt4 and udev. The udev
->> patchset does a great cleanup on the udev package reducing a lot the
->> delta between OE-Core and Meta-OE. Am working at updating the udev to
->> 175 but those patches are the basis for this.
->>
->> Those has been tested under imx53qsb and O.S. Systems' x86 based
->> machine definition using internal images running Qt4, Qt4-Embedded,
->> SysV and SystemD.
->>
->> The following changes since commit
->> 8f348ccad083d6c02c200652ff6295e701e88f0d:
->>
->> coreutils: ensure --color works so DEPEND on libcap (2011-12-24
->> 10:05:35 +0000)
->>
->> are available in the git repository at:
->> git://github.com/OSSystems/oe-core master
->> https://github.com/OSSystems/oe-core/tree/HEAD
->>
->> Otavio Salvador (16):
->> qt4-graphics-system: add
->> qt4e.bbclass: add QT_BASE_NAME for use in recipes
->> qt4x11.bbclass: add QT_BASE_NAME for use in recipes
->> qt4-embedded.inc: use QT_BASE_NAME from qt4e.bbclass
->> qt4-x11-free.inc: use QT_BASE_NAME from qt4x11.bbclass
->
-> I already commented on these with xserver-common
->
->> udev: drop 145 version
->> udev-extraconf: move mount.blacklist to udev-extraconf dir
->> udev: reorganize files of 164 version
->> udev: use tabs for init script (no code changes)
->> udev: skip mounting /dev on tmpfs if it is on devtmpfs
-> These first 5 were merged into OE-Core
->
->> udev: ensure /dev/pts and /dev/shm does exists
->> udev: improve udev-cache robustness
->> udev: use 'echo' instead of 'echo -n' in init script
-Merged
->> udev: run depmod if modules.dep doesn't exist
->> udev: split utilities onto udev-utils
->> udev: remove commented code from init script (no code changes)
-Merged these last 2.
->>
-> Richard is reviewing this in more detail.
->
-Merged 3 more of these into OE-Core
+On Thu, Jan 05, 2012 at 10:38:37AM -0800, Saul Wold wrote:
+> GPLv2 version of gnutls does not need the gettext 0.18 patch
+> since it still uses the over version of gettext that is also
 
-Thanks
-	Sau!
+"uses the older version", I guess, not "over"...
 
-> Thanks
-> Sau!
->
->
->> meta/classes/qt4e.bbclass | 1 +
->> meta/classes/qt4x11.bbclass | 1 +
->> meta/recipes-core/udev/files/fix-alignment.patch | 26 -
->> meta/recipes-core/udev/files/init | 212 ------
->> meta/recipes-core/udev/files/local.rules | 22 -
->> meta/recipes-core/udev/files/noasmlinkage.patch | 39 -
->> meta/recipes-core/udev/files/permissions.rules | 81 --
->> meta/recipes-core/udev/files/tmpfs.patch | 17 -
->> meta/recipes-core/udev/files/udev-cache | 20 -
->> meta/recipes-core/udev/files/udev.rules | 98 ---
->> meta/recipes-core/udev/files/udev_network_queue.sh | 35 -
->> meta/recipes-core/udev/files/udevsynthesize.patch | 778
->> --------------------
->> meta/recipes-core/udev/files/udevsynthesize.sh | 51 --
->> meta/recipes-core/udev/udev-145/enable-gudev.patch | 50 --
->> meta/recipes-core/udev/udev-145/init | 59 --
->> meta/recipes-core/udev/udev-145/local.rules | 33 -
->> meta/recipes-core/udev/udev-145/noasmlinkage.patch | 50 --
->> meta/recipes-core/udev/udev-145/unbreak.patch | 26 -
->> meta/recipes-core/udev/udev-164/init | 59 --
->> meta/recipes-core/udev/udev-164/permissions.rules | 131 ----
->> meta/recipes-core/udev/udev-164/run.rules | 14 -
->> meta/recipes-core/udev/udev-164/udev.rules | 116 ---
->> .../udev/{files => udev-extraconf}/mount.blacklist | 0
->> meta/recipes-core/udev/udev-new.inc | 91 ---
->> meta/recipes-core/udev/udev.inc | 108 ++--
->> .../udev/{files => udev}/devfs-udev.rules | 0
->> meta/recipes-core/udev/udev/init | 76 ++
->> meta/recipes-core/udev/{files => udev}/links.conf | 0
->> .../udev/{udev-164 => udev}/local.rules | 0
->> meta/recipes-core/udev/{files => udev}/mount.sh | 0
->> meta/recipes-core/udev/{files => udev}/network.sh | 0
->> .../udev/{udev-145 => udev}/permissions.rules | 0
->> .../recipes-core/udev/{udev-145 => udev}/run.rules | 0
->> .../udev/{files => udev}/udev-166-v4l1-1.patch | 0
->> meta/recipes-core/udev/udev/udev-cache | 34 +
->> meta/recipes-core/udev/udev/udev-cache.default | 4 +
->> .../udev/{udev-145 => udev}/udev.rules | 0
->> meta/recipes-core/udev/udev_145.bb | 55 --
->> meta/recipes-core/udev/udev_164.bb | 4 +-
->> .../qt4-graphics-system/qt4-graphics-system_1.0.bb | 24 +
->> meta/recipes-qt/qt4/qt4-embedded.inc | 3 +-
->> meta/recipes-qt/qt4/qt4-x11-free.inc | 3 +-
->> 42 files changed, 208 insertions(+), 2113 deletions(-)
->> delete mode 100644 meta/recipes-core/udev/files/fix-alignment.patch
->> delete mode 100755 meta/recipes-core/udev/files/init
->> delete mode 100644 meta/recipes-core/udev/files/local.rules
->> delete mode 100644 meta/recipes-core/udev/files/noasmlinkage.patch
->> delete mode 100644 meta/recipes-core/udev/files/permissions.rules
->> delete mode 100644 meta/recipes-core/udev/files/tmpfs.patch
->> delete mode 100644 meta/recipes-core/udev/files/udev-cache
->> delete mode 100644 meta/recipes-core/udev/files/udev.rules
->> delete mode 100644 meta/recipes-core/udev/files/udev_network_queue.sh
->> delete mode 100644 meta/recipes-core/udev/files/udevsynthesize.patch
->> delete mode 100644 meta/recipes-core/udev/files/udevsynthesize.sh
->> delete mode 100644 meta/recipes-core/udev/udev-145/enable-gudev.patch
->> delete mode 100644 meta/recipes-core/udev/udev-145/init
->> delete mode 100644 meta/recipes-core/udev/udev-145/local.rules
->> delete mode 100644 meta/recipes-core/udev/udev-145/noasmlinkage.patch
->> delete mode 100644 meta/recipes-core/udev/udev-145/unbreak.patch
->> delete mode 100644 meta/recipes-core/udev/udev-164/init
->> delete mode 100644 meta/recipes-core/udev/udev-164/permissions.rules
->> delete mode 100644 meta/recipes-core/udev/udev-164/run.rules
->> delete mode 100644 meta/recipes-core/udev/udev-164/udev.rules
->> rename meta/recipes-core/udev/{files =>
->> udev-extraconf}/mount.blacklist (100%)
->> delete mode 100644 meta/recipes-core/udev/udev-new.inc
->> rename meta/recipes-core/udev/{files => udev}/devfs-udev.rules (100%)
->> create mode 100644 meta/recipes-core/udev/udev/init
->> rename meta/recipes-core/udev/{files => udev}/links.conf (100%)
->> rename meta/recipes-core/udev/{udev-164 => udev}/local.rules (100%)
->> rename meta/recipes-core/udev/{files => udev}/mount.sh (100%)
->> rename meta/recipes-core/udev/{files => udev}/network.sh (100%)
->> rename meta/recipes-core/udev/{udev-145 => udev}/permissions.rules (100%)
->> rename meta/recipes-core/udev/{udev-145 => udev}/run.rules (100%)
->> rename meta/recipes-core/udev/{files => udev}/udev-166-v4l1-1.patch
->> (100%)
->> create mode 100644 meta/recipes-core/udev/udev/udev-cache
->> create mode 100644 meta/recipes-core/udev/udev/udev-cache.default
->> rename meta/recipes-core/udev/{udev-145 => udev}/udev.rules (100%)
->> delete mode 100644 meta/recipes-core/udev/udev_145.bb
->> create mode 100644
->> meta/recipes-qt/qt4-graphics-system/qt4-graphics-system_1.0.bb
->>
->
+Thanks for the patch! Have you looked at gnutls-extras by any chance? Do you 
+have any details about its GPLv2/v3 licensing?
+
+-- 
+Denys
+
+
+> GPLv2.
+> 
+> Signed-off-by: Saul Wold <sgw@linux.intel.com>
+> ---
+>  meta/recipes-support/gnutls/gnutls_2.12.14.bb |   13 ++++++++++---
+>  1 files changed, 10 insertions(+), 3 deletions(-)
+> 
+> diff --git a/meta/recipes-support/gnutls/gnutls_2.12.14.bb b/meta/recipes-support/gnutls/gnutls_2.12.14.bb
+> index 045ba69..21fd187 100644
+> --- a/meta/recipes-support/gnutls/gnutls_2.12.14.bb
+> +++ b/meta/recipes-support/gnutls/gnutls_2.12.14.bb
+> @@ -1,10 +1,17 @@
+>  require gnutls.inc
+>  
+> -PR = "${INC_PR}.3"
+> +PR = "${INC_PR}.4"
+>  
+>  SRC_URI += "file://gnutls-openssl.patch \
+> -            file://configure-fix.patch \
+> -            file://fix-gettext-version.patch"
+> +            file://configure-fix.patch"
+> +
+> +python() {
+> +    if not ((d.getVar("INCOMPATIBLE_LICENSE", True) or "").find("GPLv3") != -1):
+> +        # if GPLv3 add patch
+> +        src_uri = (d.getVar("SRC_URI", False) or "").split()
+> +        src_uri.append("file://fix-gettext-version.patch")
+> +        d.setVar("SRC_URI", " ".join(src_uri))
+> +}
+>  
+>  SRC_URI[md5sum] = "555687a7ffefba0bd9de1e71cb61402c"
+>  SRC_URI[sha256sum] = "5ee72ba6de7a23cf315792561954451e022dac8730149ca95f93c61e95be2ce3"
+> -- 
+> 1.7.6.4
+> 
+> 
 > _______________________________________________
 > Openembedded-core mailing list
 > Openembedded-core@lists.openembedded.org
 > http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
->
 
 
