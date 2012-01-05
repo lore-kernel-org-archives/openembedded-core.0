@@ -1,24 +1,24 @@
 Received: from mga09.intel.com ([134.134.136.24])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <sgw@linux.intel.com>) id 1Rigxy-0001EP-7q
+	(envelope-from <sgw@linux.intel.com>) id 1Rigxy-0001EI-CR
 	for openembedded-core@lists.openembedded.org;
 	Thu, 05 Jan 2012 07:38:22 +0100
 Received: from orsmga002.jf.intel.com ([10.7.209.21])
 	by orsmga102.jf.intel.com with ESMTP; 04 Jan 2012 22:30:57 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.67,351,1309762800"; d="scan'208";a="94663903"
+X-IronPort-AV: E=Sophos;i="4.67,351,1309762800"; d="scan'208";a="94663905"
 Received: from unknown (HELO swold-mobl.bigsur.com) ([10.255.13.127])
 	by orsmga002.jf.intel.com with ESMTP; 04 Jan 2012 22:30:57 -0800
 From: Saul Wold <sgw@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Wed,  4 Jan 2012 22:30:35 -0800
-Message-Id: <59d7b1fc25a7930d1fb86afe20e6bdd938cb3fe5.1325744640.git.sgw@linux.intel.com>
+Date: Wed,  4 Jan 2012 22:30:36 -0800
+Message-Id: <701b2b52c54cc79bd8991f054fe266d403313b90.1325744640.git.sgw@linux.intel.com>
 X-Mailer: git-send-email 1.7.6.4
 In-Reply-To: <cover.1325744640.git.sgw@linux.intel.com>
 References: <cover.1325744640.git.sgw@linux.intel.com>
 In-Reply-To: <cover.1325744640.git.sgw@linux.intel.com>
 References: <cover.1325744640.git.sgw@linux.intel.com>
-Subject: [CONSOLIDATED PULL 10/28] insane.bbclass: add QA tests for unsafe references to exec_prefix
+Subject: [CONSOLIDATED PULL 11/28] python-native: correct prefix handling for oe-core sysroot layout
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -35,173 +35,94 @@ List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedde
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Thu, 05 Jan 2012 06:38:22 -0000
 
-From: Scott Garman <scott.a.garman@intel.com>
+From: Phil Blundell <philb@gnu.org>
 
-Files under exec_prefix (commonly /usr) may not be available during
-system recovery. exec_prefix may also be kept on a separate partition
-that is mounted late in the boot process.
+Don't try to guess a path based on ${HOST_SYS} since this is not where the
+files in the sysroot are likely to be.  Instead, just use the "plat_specific"
+approach of taking STAGING_INCDIR and knocking off the trailing "/include" for
+all cases.  This is still evidently suboptimal but does at least seem to give
+the correct results.
 
-This QA test throws an warning if a binary in base_[bindir|sbindir|libdir]
-is dynamically linked to a file under exec_prefix. The intention is to
-turn this into an error in the near future.
-
-It also checks executable non-binaries (e.g, shell scripts) in the above
-base directories with a simple grep test to look for references to
-exec_prefix. This test only produces a warning, since false positives
-are likely.
-
-This fixes [YOCTO #1008]
-
-Signed-off-by: Scott Garman <scott.a.garman@intel.com>
+Signed-off-by: Phil Blundell <philb@gnu.org>
 ---
- meta/classes/insane.bbclass |  111 ++++++++++++++++++++++++++++++++++++++++++-
- 1 files changed, 109 insertions(+), 2 deletions(-)
+ ...2-distutils-prefix-is-inside-staging-area.patch |   22 ++++++++-----------
+ .../recipes-devtools/python/python-native_2.7.2.bb |    2 +-
+ 2 files changed, 10 insertions(+), 14 deletions(-)
 
-diff --git a/meta/classes/insane.bbclass b/meta/classes/insane.bbclass
-index 5726e69..b8d4507 100644
---- a/meta/classes/insane.bbclass
-+++ b/meta/classes/insane.bbclass
-@@ -11,6 +11,10 @@
- #  -Check if packages contains .debug directories or .so files
- #   where they should be in -dev or -dbg
- #  -Check if config.log contains traces to broken autoconf tests
-+#  -Ensure that binaries in base_[bindir|sbindir|libdir] do not link
-+#   into exec_prefix
-+#  -Check that scripts in base_[bindir|sbindir|libdir] do not reference
-+#   files under exec_prefix
+diff --git a/meta/recipes-devtools/python/python-native/12-distutils-prefix-is-inside-staging-area.patch b/meta/recipes-devtools/python/python-native/12-distutils-prefix-is-inside-staging-area.patch
+index 8e721fe..b46caf6 100644
+--- a/meta/recipes-devtools/python/python-native/12-distutils-prefix-is-inside-staging-area.patch
++++ b/meta/recipes-devtools/python/python-native/12-distutils-prefix-is-inside-staging-area.patch
+@@ -2,12 +2,11 @@ Upstream-Status: Inappropriate [embedded specific]
  
+ # The proper prefix is inside our staging area.
+ # Signed-Off: Michael 'Mickey' Lauer <mickey@vanille-media.de>
++# Signed-off-by: Phil Blundell <philb@gnu.org>
  
- #
-@@ -19,9 +23,14 @@
- # The package.bbclass can help us here.
- #
- inherit package
--PACKAGE_DEPENDS += "pax-utils-native desktop-file-utils-native"
-+PACKAGE_DEPENDS += "pax-utils-native desktop-file-utils-native ${QADEPENDS}"
- PACKAGEFUNCS += " do_package_qa "
+-Index: Python-2.6.6/Lib/distutils/sysconfig.py
+-===================================================================
+---- Python-2.6.6.orig/Lib/distutils/sysconfig.py
+-+++ Python-2.6.6/Lib/distutils/sysconfig.py
+-@@ -19,8 +19,8 @@ import sys
++--- Python-2.6.6/Lib/distutils/sysconfig.py.orig	2012-01-03 14:02:03.027005296 +0000
+++++ Python-2.6.6/Lib/distutils/sysconfig.py	2012-01-03 14:02:31.517601081 +0000
++@@ -19,8 +19,8 @@
+  from distutils.errors import DistutilsPlatformError
+  
+  # These are needed in a couple of spots, so just compute them once.
+@@ -18,19 +17,16 @@ Index: Python-2.6.6/Lib/distutils/sysconfig.py
+  
+  # Path to the base directory of the project. On Windows the binary may
+  # live in project/PCBuild9.  If we're dealing with an x64 Windows build,
+-@@ -70,7 +70,10 @@ def get_python_inc(plat_specific=0, pref
++@@ -70,7 +70,7 @@
+      sys.exec_prefix -- i.e., ignore 'plat_specific'.
+      """
+      if prefix is None:
+ -        prefix = plat_specific and EXEC_PREFIX or PREFIX
+-+        if plat_specific:
+-+            prefix = plat_specific and os.environ['STAGING_INCDIR'].rstrip('include')
+-+        else:
+-+            prefix = plat_specific and EXEC_PREFIX or PREFIX
+++        prefix = os.environ['STAGING_INCDIR'].rstrip('include')
+  
+      if os.name == "posix":
+          if python_build:
+-@@ -115,12 +118,16 @@ def get_python_lib(plat_specific=0, stan
++@@ -115,12 +115,16 @@
+      If 'prefix' is supplied, use it instead of sys.prefix or
+      sys.exec_prefix -- i.e., ignore 'plat_specific'.
+      """
+@@ -49,7 +45,7 @@ Index: Python-2.6.6/Lib/distutils/sysconfig.py
+          if standard_lib:
+              return libpython
+          else:
+-@@ -216,7 +223,7 @@ def get_config_h_filename():
++@@ -216,7 +220,7 @@
+      else:
+          # The name of the config.h file changed in 2.2
+          config_h = 'pyconfig.h'
+@@ -58,7 +54,7 @@ Index: Python-2.6.6/Lib/distutils/sysconfig.py
+  
+  
+  def get_makefile_filename():
+-@@ -225,7 +232,7 @@ def get_makefile_filename():
++@@ -225,7 +229,7 @@
+          return os.path.join(os.path.dirname(os.path.realpath(sys.executable)),
+                              "Makefile")
+      lib_dir = get_python_lib(plat_specific=1, standard_lib=1)
+diff --git a/meta/recipes-devtools/python/python-native_2.7.2.bb b/meta/recipes-devtools/python/python-native_2.7.2.bb
+index 7d8c597..8bf736d 100644
+--- a/meta/recipes-devtools/python/python-native_2.7.2.bb
++++ b/meta/recipes-devtools/python/python-native_2.7.2.bb
+@@ -1,6 +1,6 @@
+ require python.inc
+ DEPENDS = "openssl-native bzip2-full-native zlib-native readline-native sqlite3-native"
+-PR = "${INC_PR}.2"
++PR = "${INC_PR}.3"
  
-+# unsafe-references-in-binaries requires prelink-rtld from
-+# prelink-native, but we don't want this DEPENDS for -native builds
-+QADEPENDS = "prelink-native"
-+QADEPENDS_virtclass-native = ""
-+QADEPENDS_virtclass-nativesdk = ""
- 
- #
- # dictionary for elf headers
-@@ -100,7 +109,7 @@ def package_qa_get_machine_dict():
- 
- 
- # Currently not being used by default "desktop"
--WARN_QA ?= "ldflags useless-rpaths rpaths"
-+WARN_QA ?= "ldflags useless-rpaths rpaths unsafe-references-in-binaries unsafe-references-in-scripts"
- ERROR_QA ?= "dev-so debug-deps dev-deps debug-files arch la2 pkgconfig la perms"
- 
- def package_qa_clean_path(path,d):
-@@ -201,6 +210,104 @@ def package_qa_check_perm(path,name,d, elf, messages):
-     """
-     return
- 
-+QAPATHTEST[unsafe-references-in-binaries] = "package_qa_check_unsafe_references_in_binaries"
-+def package_qa_check_unsafe_references_in_binaries(path, name, d, elf, messages):
-+	"""
-+	Ensure binaries in base_[bindir|sbindir|libdir] do not link to files under exec_prefix
-+	"""
-+	if unsafe_references_skippable(path, name, d):
-+		return
-+
-+	if elf:
-+		import subprocess as sub
-+		pn = d.getVar('PN', True)
-+
-+		exec_prefix = d.getVar('exec_prefix', True)
-+		sysroot_path = d.getVar('STAGING_DIR_TARGET', True)
-+		sysroot_path_usr = sysroot_path + exec_prefix
-+
-+		try:
-+			ldd_output = sub.check_output(["prelink-rtld", "--root", sysroot_path, path])
-+		except sub.CalledProcessError as e:
-+			if e.returncode != 127:
-+				error_msg = pn + ": prelink-rtld aborted when processing %s" % path
-+				package_qa_handle_error("unsafe-references-in-binaries", error_msg, d)
-+				return False
-+			else:
-+				# Sometimes this is done deliberately (e.g, e2fsprogs), so only warn
-+				bb.warn("%s has missing library dependencies" % path)
-+				return
-+		if sysroot_path_usr in ldd_output:
-+			error_msg = pn + ": %s links to something under exec_prefix" % path
-+			package_qa_handle_error("unsafe-references-in-binaries", error_msg, d)
-+			error_msg = "ldd reports: %s" % ldd_output
-+			package_qa_handle_error("unsafe-references-in-binaries", error_msg, d)
-+			return False
-+
-+QAPATHTEST[unsafe-references-in-scripts] = "package_qa_check_unsafe_references_in_scripts"
-+def package_qa_check_unsafe_references_in_scripts(path, name, d, elf, messages):
-+	"""
-+	Warn if scripts in base_[bindir|sbindir|libdir] reference files under exec_prefix
-+	"""
-+	if unsafe_references_skippable(path, name, d):
-+		return
-+
-+	if not elf:
-+		import stat
-+		pn = d.getVar('PN', True)
-+
-+		# Ensure we're checking an executable script
-+		statinfo = os.stat(path)
-+		if bool(statinfo.st_mode & stat.S_IXUSR):
-+			# grep shell scripts for possible references to /exec_prefix/
-+			exec_prefix = d.getVar('exec_prefix', True)
-+			statement = "grep -e '%s/' %s > /dev/null" % (exec_prefix, path)
-+			if os.system(statement) == 0:
-+				error_msg = pn + ": Found a reference to %s/ in %s" % (exec_prefix, path)
-+				package_qa_handle_error("unsafe-references-in-scripts", error_msg, d)
-+				error_msg = "Shell scripts in base_bindir and base_sbindir should not reference anything in exec_prefix"
-+				package_qa_handle_error("unsafe-references-in-scripts", error_msg, d)
-+
-+def unsafe_references_skippable(path, name, d):
-+	if bb.data.inherits_class('native', d) or bb.data.inherits_class('nativesdk', d):
-+		return True
-+
-+	if "-dbg" in name or "-dev" in name:
-+		return True
-+
-+	# Other package names to skip:
-+	if name.startswith("kernel-module-"):
-+		return True
-+
-+	# Skip symlinks
-+	if os.path.islink(path):
-+		return True
-+
-+	# Skip unusual rootfs layouts which make these tests irrelevant
-+	exec_prefix = d.getVar('exec_prefix', True)
-+	if exec_prefix == "":
-+		return True
-+
-+	pkgdest = d.getVar('PKGDEST', True)
-+	pkgdest = pkgdest + "/" + name
-+	pkgdest = os.path.abspath(pkgdest)
-+	base_bindir = pkgdest + d.getVar('base_bindir', True)
-+	base_sbindir = pkgdest + d.getVar('base_sbindir', True)
-+	base_libdir = pkgdest + d.getVar('base_libdir', True)
-+	bindir = pkgdest + d.getVar('bindir', True)
-+	sbindir = pkgdest + d.getVar('sbindir', True)
-+	libdir = pkgdest + d.getVar('libdir', True)
-+
-+	if base_bindir == bindir and base_sbindir == sbindir and base_libdir == libdir:
-+		return True
-+
-+	# Skip files not in base_[bindir|sbindir|libdir]
-+	path = os.path.abspath(path)
-+	if not (base_bindir in path or base_sbindir in path or base_libdir in path):
-+		return True
-+
-+	return False
-+
- QAPATHTEST[arch] = "package_qa_check_arch"
- def package_qa_check_arch(path,name,d, elf, messages):
-     """
+ SRC_URI += "file://04-default-is-optimized.patch \
+            file://05-enable-ctypes-cross-build.patch \
 -- 
 1.7.6.4
 
