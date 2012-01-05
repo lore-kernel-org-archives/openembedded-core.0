@@ -1,23 +1,30 @@
-Received: from mail.windriver.com ([147.11.1.11])
+Received: from mail-iy0-f175.google.com ([209.85.210.175])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <bruce.ashfield@windriver.com>) id 1RitR1-0000qZ-Ja
+	(envelope-from <raj.khem@gmail.com>) id 1RithA-0001np-SM
 	for openembedded-core@lists.openembedded.org;
-	Thu, 05 Jan 2012 20:57:12 +0100
-Received: from yow-bashfiel-l1.corp.ad.wrs.com
-	(yow-bashfiel-d3.ottawa.windriver.com [128.224.147.67])
-	by mail.windriver.com (8.14.3/8.14.3) with ESMTP id q05Jnf1Z029208;
-	Thu, 5 Jan 2012 11:49:43 -0800 (PST)
-From: Bruce Ashfield <bruce.ashfield@windriver.com>
-To: richard.purdie@linuxfoundation.org
-Date: Thu,  5 Jan 2012 14:49:28 -0500
-Message-Id: <661d1503208af417ea9a46e5d2d8889c0b49bcc1.1325792752.git.bruce.ashfield@windriver.com>
-X-Mailer: git-send-email 1.7.4.1
-In-Reply-To: <cover.1325792752.git.bruce.ashfield@windriver.com>
-References: <cover.1325792752.git.bruce.ashfield@windriver.com>
-In-Reply-To: <cover.1325792752.git.bruce.ashfield@windriver.com>
-References: <cover.1325792752.git.bruce.ashfield@windriver.com>
-Cc: openembedded-core@lists.openembedded.org, saul.wold@intel.com
-Subject: [PATCH 3/3] linux-yocto: use src_patches for out of tree kernel feature support
+	Thu, 05 Jan 2012 21:13:55 +0100
+Received: by iakh37 with SMTP id h37so1415534iak.6
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 05 Jan 2012 12:06:28 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
+	h=from:to:cc:subject:date:message-id:x-mailer;
+	bh=zRMWFSQR7QGE/HGGk9keVFwJH/f+DvD2b4AMr/RqcvA=;
+	b=io3Fu7miDrhPO+I+kyGGCXWwsf4aTHzMUdLkGR+7MQk82DYiVbcEVQH8b94BQPv1s7
+	U5A1OizpjzMPxpPluNzosvapTaTBFUVwgpMOBUgC/RmwaHdMVxyFvPZ25KrBCV2TCBmh
+	swKbSYCW5ZAMzQ83PTX2sy8vSKD1AWOR8nQK0=
+Received: by 10.50.193.229 with SMTP id hr5mr4247749igc.15.1325793987913;
+	Thu, 05 Jan 2012 12:06:27 -0800 (PST)
+Received: from localhost.localdomain (oldbuilder.nslu2-linux.org.
+	[140.211.169.168])
+	by mx.google.com with ESMTPS id gh9sm125208225igb.3.2012.01.05.12.06.25
+	(version=TLSv1/SSLv3 cipher=OTHER);
+	Thu, 05 Jan 2012 12:06:26 -0800 (PST)
+From: Khem Raj <raj.khem@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Date: Thu,  5 Jan 2012 12:06:07 -0800
+Message-Id: <1325793967-13002-1-git-send-email-raj.khem@gmail.com>
+X-Mailer: git-send-email 1.7.5.4
+Subject: [PATCH] linux-yocto-3.0: Fix compile failure in perf
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -32,113 +39,71 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 05 Jan 2012 19:57:12 -0000
+X-List-Received-Date: Thu, 05 Jan 2012 20:13:55 -0000
 
-To support larger out of tree kernel features and enhanced patching schemes,
-this changeset modifies the linux-yocto patching routines to call the
-recently factored out 'src_patches' routine. Using the returned list of local
-URIs for all valid patches, the logic can then determine whether or not
-patches can be used in place, or need to be migrated and have re-usable
-kernel features created. The results are then fed to the existing
-infrastructure to be applied and commited to the tree.
-
-Signed-off-by: Bruce Ashfield <bruce.ashfield@windriver.com>
+Signed-off-by: Khem Raj <raj.khem@gmail.com>
 ---
- meta/classes/kernel-yocto.bbclass |   67 +++++++++++++++++++++++++++++++++++-
- 1 files changed, 65 insertions(+), 2 deletions(-)
+ ...Undef-before-redefining-__attribute_const.patch |   33 ++++++++++++++++++++
+ meta/recipes-kernel/linux/linux-yocto_3.0.bb       |    4 ++-
+ 2 files changed, 36 insertions(+), 1 deletions(-)
+ create mode 100644 meta/recipes-kernel/linux/linux-yocto/0001-compiler.h-Undef-before-redefining-__attribute_const.patch
 
-diff --git a/meta/classes/kernel-yocto.bbclass b/meta/classes/kernel-yocto.bbclass
-index f78caaf..1b73e6e 100644
---- a/meta/classes/kernel-yocto.bbclass
-+++ b/meta/classes/kernel-yocto.bbclass
-@@ -1,5 +1,15 @@
- S = "${WORKDIR}/linux"
+diff --git a/meta/recipes-kernel/linux/linux-yocto/0001-compiler.h-Undef-before-redefining-__attribute_const.patch b/meta/recipes-kernel/linux/linux-yocto/0001-compiler.h-Undef-before-redefining-__attribute_const.patch
+new file mode 100644
+index 0000000..b85cc97
+--- /dev/null
++++ b/meta/recipes-kernel/linux/linux-yocto/0001-compiler.h-Undef-before-redefining-__attribute_const.patch
+@@ -0,0 +1,33 @@
++From 6f92ab6de9d8daeb575949bbbcbc7bcdcebc60af Mon Sep 17 00:00:00 2001
++From: Khem Raj <raj.khem@gmail.com>
++Date: Thu, 5 Jan 2012 11:42:35 -0800
++Subject: [PATCH] compiler.h: Undef before redefining __attribute_const__
++
++This is required to avoid warnings like
++util/include/linux/compiler.h:8:0: error: "__attribute_const__" redefined [-Werror]
++
++Signed-off-by: Khem Raj <raj.khem@gmail.com>
++---
++ tools/perf/util/include/linux/compiler.h |    4 +++-
++ 1 files changed, 3 insertions(+), 1 deletions(-)
++
++diff --git a/tools/perf/util/include/linux/compiler.h b/tools/perf/util/include/linux/compiler.h
++index 791f9dd..f17ecef 100644
++--- a/tools/perf/util/include/linux/compiler.h
+++++ b/tools/perf/util/include/linux/compiler.h
++@@ -4,9 +4,11 @@
++ #ifndef __always_inline
++ #define __always_inline	inline
++ #endif
+++#undef __user
++ #define __user
+++#undef __attribute_const__
++ #define __attribute_const__
++-
+++#undef __used
++ #define __used		__attribute__((__unused__))
++ 
++ #endif
++-- 
++1.7.5.4
++
+diff --git a/meta/recipes-kernel/linux/linux-yocto_3.0.bb b/meta/recipes-kernel/linux/linux-yocto_3.0.bb
+index b650c84..2e87f7f 100644
+--- a/meta/recipes-kernel/linux/linux-yocto_3.0.bb
++++ b/meta/recipes-kernel/linux/linux-yocto_3.0.bb
+@@ -23,7 +23,9 @@ SRCREV_meta ?= "c979f1365b1eb74e882b2cbbc8407ec536ab6eb8"
+ PR = "r2"
+ PV = "${LINUX_VERSION}+git${SRCPV}"
  
-+
-+def find_patches(d):
-+	patches=src_patches(d)
-+	patch_list=[]
-+	for p in patches:
-+	    _, _, local, _, _, _ = bb.decodeurl(p)
-+ 	    patch_list.append(local)
-+
-+	return patch_list
-+
- do_patch() {
- 	cd ${S}
- 	if [ -f ${WORKDIR}/defconfig ]; then
-@@ -31,14 +41,67 @@ do_patch() {
- 		exit 1
- 	fi
+-SRC_URI = "git://git.yoctoproject.org/linux-yocto-3.0;protocol=git;nocheckout=1;branch=${KBRANCH},meta;name=machine,meta"
++SRC_URI = "git://git.yoctoproject.org/linux-yocto-3.0;protocol=git;nocheckout=1;branch=${KBRANCH},meta;name=machine,meta \
++           file://0001-compiler.h-Undef-before-redefining-__attribute_const.patch \
++           "
  
--	# updates or generates the target description
-+	patches="${@" ".join(find_patches(d))}"
-+
-+	# This loops through all patches, and looks for directories that do
-+	# not already have feature descriptions. If a directory doesn't have
-+	# a feature description, we switch to the ${WORKDIR} variant of the
-+	# feature (so we can write to it) and generate a feature for those
-+	# patches. The generated feature will respect the patch order.
-+	#
-+	# By leaving source patch directories that already have .scc files
-+	# as-is it means that a SRC_URI can only contain a .scc file, and all
-+	# patches that the .scc references will be picked up, without having
-+	# to be repeated on the SRC_URI line .. which is more intutive
-+	set +e
-+	patch_dirs=
-+	for p in ${patches}; do
-+		pdir=`dirname ${p}`
-+		pname=`basename ${p}`
-+		scc=`find ${pdir} -maxdepth 1 -name '*.scc'`
-+		if [ -z "${scc}" ]; then
-+			# there is no scc file. We need to switch to someplace that we know
-+		        # we can create content (the workdir)
-+			workdir_subdir=`echo ${pdir} | sed "s%^.*/${PN}%%" | sed 's%^/%%'`
-+			suggested_dir="${WORKDIR}/${workdir_subdir}"
-+			echo ${gen_feature_dirs} | grep -q ${suggested_dir}
-+			if [ $? -ne 0 ]; then
-+				gen_feature_dirs="${gen_feature_dirs} ${suggested_dir}"
-+			fi
-+			# we call the file *.scc_tmp, so the test above will continue to find
-+			# that patches from a common subdirectory don't have a scc file and 
-+			# they'll be placed in order, into this file. We'll rename it later.
-+			echo "patch ${pname}" >> ${suggested_dir}/gen_${workdir_subdir}_desc.scc_tmp
-+		else
-+			suggested_dir="${pdir}"
-+		fi
-+		echo ${patch_dirs} | grep -q ${suggested_dir}
-+		if [ $? -ne 0 ]; then
-+			patch_dirs="${patch_dirs} ${suggested_dir}"
-+		fi
-+	done
-+
-+	# go through the patch directories and look for any scc feature files
-+	# that were constructed above. If one is found, rename it to ".scc" so
-+	# the kernel patching can see it.
-+	for pdir in ${patch_dirs}; do
-+		scc=`find ${pdir} -maxdepth 1 -name '*.scc_tmp'`
-+                if [ -n "${scc}" ]; then
-+			new_scc=`echo ${scc} | sed 's/_tmp//'`
-+			mv -f ${scc} ${new_scc}
-+		fi
-+	done
-+
-+	# add any explicitly referenced features onto the end of the feature
-+	# list that is passed to the kernel build scripts.
- 	if [ -n "${KERNEL_FEATURES}" ]; then
- 		for feat in ${KERNEL_FEATURES}; do
- 			addon_features="$addon_features --feature $feat"
- 		done
- 	fi
-+	# updates or generates the target description
- 	updateme --branch ${kbranch} -DKDESC=${KMACHINE}:${LINUX_KERNEL_TYPE} \
--                         ${addon_features} ${ARCH} ${KMACHINE} ${WORKDIR}
-+                           ${addon_features} ${ARCH} ${KMACHINE} ${patch_dirs}
- 	if [ $? -ne 0 ]; then
- 		echo "ERROR. Could not update ${kbranch}"
- 		exit 1
+ COMPATIBLE_MACHINE = "(qemuarm|qemux86|qemuppc|qemumips|qemux86-64)"
+ 
 -- 
-1.7.4.1
+1.7.5.4
 
 
 
