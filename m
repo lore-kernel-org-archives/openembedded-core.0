@@ -1,20 +1,24 @@
 Received: from mga02.intel.com ([134.134.136.20])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <edwin.zhai@intel.com>) id 1RigdE-0000hJ-7R
+	(envelope-from <edwin.zhai@intel.com>) id 1RigdE-0000hJ-Vd
 	for openembedded-core@lists.openembedded.org;
-	Thu, 05 Jan 2012 07:16:56 +0100
+	Thu, 05 Jan 2012 07:16:57 +0100
 Received: from orsmga002.jf.intel.com ([10.7.209.21])
-	by orsmga101.jf.intel.com with ESMTP; 04 Jan 2012 22:09:27 -0800
+	by orsmga101.jf.intel.com with ESMTP; 04 Jan 2012 22:09:28 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.67,351,1309762800"; d="scan'208";a="94658957"
+X-IronPort-AV: E=Sophos;i="4.67,351,1309762800"; d="scan'208";a="94658968"
 Received: from yocto-build3.sh.intel.com ([10.239.48.58])
-	by orsmga002.jf.intel.com with ESMTP; 04 Jan 2012 22:09:20 -0800
+	by orsmga002.jf.intel.com with ESMTP; 04 Jan 2012 22:09:26 -0800
 From: edwin.zhai@intel.com
 To: openembedded-core@lists.openembedded.org
-Date: Thu,  5 Jan 2012 13:57:04 +0800
-Message-Id: <cover.1325742856.git.edwin.zhai@intel.com>
+Date: Thu,  5 Jan 2012 13:57:05 +0800
+Message-Id: <e25598cf10b34bf543be921db9fc2f297b404621.1325742856.git.edwin.zhai@intel.com>
 X-Mailer: git-send-email 1.7.1
-Subject: [PATCH 0/1] matchbox-wm: remove x-session-manager handling
+In-Reply-To: <cover.1325742856.git.edwin.zhai@intel.com>
+References: <cover.1325742856.git.edwin.zhai@intel.com>
+In-Reply-To: <cover.1325742856.git.edwin.zhai@intel.com>
+References: <cover.1325742856.git.edwin.zhai@intel.com>
+Subject: [PATCH 1/1] matchbox-wm: Remove x-session-manager handling
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -29,33 +33,100 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 05 Jan 2012 06:16:56 -0000
+X-List-Received-Date: Thu, 05 Jan 2012 06:16:57 -0000
 
 From: Zhai Edwin <edwin.zhai@intel.com>
 
-This is V2 version that made clear commit mesg and adjust alternative priority
-to make mini-x has high priority over matchbox-session according to Saul's
-suggestion.
+Windows manager should be independent on session manager, especially when we
+have multiple session manager like mini-x and matchbox session.
 
-Thanks,
-Edwin
+This commit remove session-manager stuff in matchbox-wm, as matchbox-session
+already has duplicated code. Also adjust alternative priority for mini-X to
+make it higher priority over matchbox-session.
 
-
-The following changes since commit 021848be9eeb71de8acfba6c66c11645b01523b8:
-
-  valgrind: Fix for automake update (2012-01-04 16:04:08 +0000)
-
-are available in the git repository at:
-  git://git.pokylinux.org/poky-contrib gzhai/master2
-  http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=gzhai/master2
-
-Zhai Edwin (1):
-  matchbox-wm: Remove x-session-manager handling
-
+Signed-off-by: Zhai Edwin <edwin.zhai@intel.com>
+---
  .../matchbox-wm/matchbox-wm_1.2.bb                 |    9 ++-------
  .../matchbox-wm/matchbox-wm_git.bb                 |    9 ++-------
  .../mini-x-session/mini-x-session_0.1.bb           |    2 +-
  3 files changed, 5 insertions(+), 15 deletions(-)
+
+diff --git a/meta/recipes-graphics/matchbox-wm/matchbox-wm_1.2.bb b/meta/recipes-graphics/matchbox-wm/matchbox-wm_1.2.bb
+index 84b966a..2628326 100644
+--- a/meta/recipes-graphics/matchbox-wm/matchbox-wm_1.2.bb
++++ b/meta/recipes-graphics/matchbox-wm/matchbox-wm_1.2.bb
+@@ -2,7 +2,7 @@ SECTION = "x11/wm"
+ DESCRIPTION = "Matchbox window manager"
+ LICENSE = "GPLv2.0+"
+ DEPENDS = "libmatchbox virtual/libx11 libxext libxcomposite libxfixes xdamage libxrender startup-notification expat"
+-PR = "r4"
++PR = "r5"
+ 
+ SRC_URI = "http://matchbox-project.org/sources/matchbox-window-manager/1.2/matchbox-window-manager-${PV}.tar.bz2 \
+            file://configure_fix.patch \
+@@ -11,7 +11,7 @@ SRC_URI = "http://matchbox-project.org/sources/matchbox-window-manager/1.2/match
+ 
+ S = "${WORKDIR}/matchbox-window-manager-${PV}"
+ 
+-inherit autotools pkgconfig update-alternatives
++inherit autotools pkgconfig
+ 
+ FILES_${PN} = "${bindir}/* \
+ 	       ${datadir}/matchbox \
+@@ -20,11 +20,6 @@ FILES_${PN} = "${bindir}/* \
+ 	       ${datadir}/themes/Default/matchbox \
+ 	       ${datadir}/themes/MBOpus/matchbox"
+ 
+-ALTERNATIVE_NAME = "x-session-manager"
+-ALTERNATIVE_LINK = "${bindir}/x-session-manager"
+-ALTERNATIVE_PATH = "${bindir}/matchbox-session"
+-ALTERNATIVE_PRIORITY = "10"
+-
+ EXTRA_OECONF = " --enable-startup-notification \
+                  --disable-xrm \
+                  --enable-expat \
+diff --git a/meta/recipes-graphics/matchbox-wm/matchbox-wm_git.bb b/meta/recipes-graphics/matchbox-wm/matchbox-wm_git.bb
+index 5550dc2..ef9cf76 100644
+--- a/meta/recipes-graphics/matchbox-wm/matchbox-wm_git.bb
++++ b/meta/recipes-graphics/matchbox-wm/matchbox-wm_git.bb
+@@ -12,7 +12,7 @@ DEPENDS = "libmatchbox virtual/libx11 libxext libxrender startup-notification ex
+ 
+ SRCREV = "f4394eaed475de6e627d373c5b35ee2cf87072e3"
+ PV = "1.2+git${SRCPV}"
+-PR = "r0"
++PR = "r1"
+ 
+ SRC_URI = "git://git.yoctoproject.org/matchbox-window-manager;protocol=git \
+            file://configure_fix.patch;maxrev=1818 \
+@@ -20,12 +20,7 @@ SRC_URI = "git://git.yoctoproject.org/matchbox-window-manager;protocol=git \
+ 
+ S = "${WORKDIR}/git"
+ 
+-inherit autotools pkgconfig update-alternatives
+-
+-ALTERNATIVE_NAME = "x-session-manager"
+-ALTERNATIVE_LINK = "${bindir}/x-session-manager"
+-ALTERNATIVE_PATH = "${bindir}/matchbox-session"
+-ALTERNATIVE_PRIORITY = "10"
++inherit autotools pkgconfig
+ 
+ FILES_${PN} = "${bindir}/* \
+                ${datadir}/matchbox \
+diff --git a/meta/recipes-graphics/mini-x-session/mini-x-session_0.1.bb b/meta/recipes-graphics/mini-x-session/mini-x-session_0.1.bb
+index 3818d16..9818650 100644
+--- a/meta/recipes-graphics/mini-x-session/mini-x-session_0.1.bb
++++ b/meta/recipes-graphics/mini-x-session/mini-x-session_0.1.bb
+@@ -16,7 +16,7 @@ inherit update-alternatives
+ ALTERNATIVE_NAME = "x-session-manager"
+ ALTERNATIVE_LINK = "${bindir}/x-session-manager"
+ ALTERNATIVE_PATH = "${bindir}/mini-x-session"
+-ALTERNATIVE_PRIORITY = "10"
++ALTERNATIVE_PRIORITY = "50"
+ 
+ do_install() {
+ 	install -d ${D}/${bindir}
+-- 
+1.7.1
 
 
 
