@@ -1,24 +1,27 @@
-Received: from mga14.intel.com ([143.182.124.37])
+Received: from mga02.intel.com ([134.134.136.20])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <paul.eggleton@linux.intel.com>) id 1Rirfq-0004n0-Ag
+	(envelope-from <sgw@linux.intel.com>) id 1RisEn-0005we-6c
 	for openembedded-core@lists.openembedded.org;
-	Thu, 05 Jan 2012 19:04:22 +0100
-Received: from azsmga002.ch.intel.com ([10.2.17.35])
-	by azsmga102.ch.intel.com with ESMTP; 05 Jan 2012 09:56:59 -0800
+	Thu, 05 Jan 2012 19:40:29 +0100
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+	by orsmga101.jf.intel.com with ESMTP; 05 Jan 2012 10:33:05 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="53632760"
-Received: from unknown (HELO helios.ger.corp.intel.com) ([10.252.122.73])
-	by AZSMGA002.ch.intel.com with ESMTP; 05 Jan 2012 09:56:58 -0800
-From: Paul Eggleton <paul.eggleton@linux.intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Thu,  5 Jan 2012 17:56:27 +0000
-Message-Id: <cfbaa2ce71dd7112b80469a4ca11450ac08a490e.1325785538.git.paul.eggleton@linux.intel.com>
-X-Mailer: git-send-email 1.7.5.4
-In-Reply-To: <cover.1325785538.git.paul.eggleton@linux.intel.com>
-References: <cover.1325785538.git.paul.eggleton@linux.intel.com>
-In-Reply-To: <cover.1325785538.git.paul.eggleton@linux.intel.com>
-References: <cover.1325785538.git.paul.eggleton@linux.intel.com>
-Subject: [PATCH 4/4] classes/buildhistory: remove redundant package history checking stub
+X-IronPort-AV: E=Sophos;i="4.67,351,1309762800"; d="scan'208";a="94882409"
+Received: from unknown (HELO [10.255.13.127]) ([10.255.13.127])
+	by orsmga002.jf.intel.com with ESMTP; 05 Jan 2012 10:33:04 -0800
+Message-ID: <4F05ECE0.9010506@linux.intel.com>
+Date: Thu, 05 Jan 2012 10:33:04 -0800
+From: Saul Wold <sgw@linux.intel.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:7.0) Gecko/20110927 Thunderbird/7.0
+MIME-Version: 1.0
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+References: <1325780866-18679-1-git-send-email-andrei@gherzan.ro>
+In-Reply-To: <1325780866-18679-1-git-send-email-andrei@gherzan.ro>
+Cc: Andrei Gherzan <andrei@gherzan.ro>,
+	Andrei Gherzan <andrei.gherzan@windriver.com>
+Subject: Re: [PATCH] meta/recipes-core/util-linux/util-linux-2.20.1: remove-lscpu.patch rewrote for util-linux 2.20.1
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -33,46 +36,191 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 05 Jan 2012 18:04:22 -0000
+X-List-Received-Date: Thu, 05 Jan 2012 18:40:29 -0000
+Content-Type: text/plain; charset=ISO-8859-1; format=flowed
+Content-Transfer-Encoding: 7bit
 
-The code that would have gone here has been superseded by the
-buildhistory analysis functionality implemented in
-meta/lib/oe/buildhistory_analysis.py and scripts/buildhistory-diff, so
-remove it.
+On 01/05/2012 08:27 AM, Andrei Gherzan wrote:
+> From: Andrei Gherzan<andrei.gherzan@windriver.com>
+>
+> The patch was modified in order to apply on 2.20.1 successfully.
+>
+> [YOCTO #1875]
+>
+I already had a patch for this out last night!
 
-Signed-off-by: Paul Eggleton <paul.eggleton@linux.intel.com>
----
- meta/classes/buildhistory.bbclass |   11 -----------
- 1 files changed, 0 insertions(+), 11 deletions(-)
+Actually, turns out to be simpler, since the Makefile.am should 
+correctly generate the Makefile.in there should be no need to patch 
+Makefile.in.
 
-diff --git a/meta/classes/buildhistory.bbclass b/meta/classes/buildhistory.bbclass
-index f618903..34cc297 100644
---- a/meta/classes/buildhistory.bbclass
-+++ b/meta/classes/buildhistory.bbclass
-@@ -182,21 +182,10 @@ python buildhistory_emit_pkghistory() {
- 
- 		write_pkghistory(pkginfo, d)
- 
--		if lastversion:
--			check_pkghistory(pkginfo, lastversion)
--
- 		write_latestlink(pkg, pe, pv, pr, d)
- }
- 
- 
--def check_pkghistory(pkginfo, lastversion):
--
--	bb.debug(2, "Checking package history")
--	# RDEPENDS removed?
--	# PKG changed?
--	# Each file list of each package for file removals?
--
--
- def write_recipehistory(rcpinfo, d):
- 	bb.debug(2, "Writing recipe history")
- 
--- 
-1.7.5.4
+Sau!
 
+> Signed-off-by: Andrei Gherzan<andrei@gherzan.ro>
+> ---
+>   .../util-linux-2.20.1/remove-lscpu.patch           |   92 +++++++++++---------
+>   1 files changed, 49 insertions(+), 43 deletions(-)
+>
+> diff --git a/meta/recipes-core/util-linux/util-linux-2.20.1/remove-lscpu.patch b/meta/recipes-core/util-linux/util-linux-2.20.1/remove-lscpu.patch
+> index afa50f4..830d016 100644
+> --- a/meta/recipes-core/util-linux/util-linux-2.20.1/remove-lscpu.patch
+> +++ b/meta/recipes-core/util-linux/util-linux-2.20.1/remove-lscpu.patch
+> @@ -2,108 +2,114 @@ Upstream-Status: Inappropriate [distribution]
+>
+>   Take out lscpu stuff from the code
+>
+> +2012/01/05
+> +Andrei Gherzan<andrei@gherzan.ro>
+> +
+>   2011/03/17
+>   Saul Wold<saul.wold@intel.com>
+>   Nitin A Kamble<nitin.a.kamble@intel.com>
+>
+> -Index: util-linux-2.19.1/sys-utils/Makefile.am
+> +Index: util-linux-2.20.1/sys-utils/Makefile.am
+>   ===================================================================
+> ---- util-linux-2.19.1.orig/sys-utils/Makefile.am	2011-04-05 03:43:02.000000000 -0700
+> -+++ util-linux-2.19.1/sys-utils/Makefile.am	2011-06-29 12:08:24.187440334 -0700
+> +--- util-linux-2.20.1.orig/sys-utils/Makefile.am	2012-01-05 17:35:54.256629191 +0200
+> ++++ util-linux-2.20.1/sys-utils/Makefile.am	2012-01-05 17:37:04.032628555 +0200
+>   @@ -17,12 +17,6 @@
+>    dist_man_MANS += dmesg.1 ctrlaltdel.8 cytune.8 setarch.8 \
+>    		ldattach.8 tunelp.8 rtcwake.8 fsfreeze.8 fstrim.8
+>
+>   -if HAVE_CPU_SET_T
+>   -usrbin_exec_PROGRAMS += lscpu
+> --lscpu_SOURCES = lscpu.c $(top_srcdir)/lib/cpuset.c
+> +-lscpu_SOURCES = lscpu.c $(top_srcdir)/lib/cpuset.c $(top_srcdir)/lib/strutils.c
+>   -dist_man_MANS += lscpu.1
+>   -endif
+>   -
+>    endif
+>
+>    cytune_SOURCES = cytune.c cyclades.h
+> -Index: util-linux-2.19.1/sys-utils/Makefile.in
+> +Index: util-linux-2.20.1/sys-utils/Makefile.in
+>   ===================================================================
+> ---- util-linux-2.19.1.orig/sys-utils/Makefile.in	2011-05-02 02:49:19.000000000 -0700
+> -+++ util-linux-2.19.1/sys-utils/Makefile.in	2011-06-29 12:10:47.647440371 -0700
+> +--- util-linux-2.20.1.orig/sys-utils/Makefile.in	2012-01-05 16:54:49.692651653 +0200
+> ++++ util-linux-2.20.1/sys-utils/Makefile.in	2012-01-05 17:01:12.868648159 +0200
+>   @@ -51,8 +51,6 @@
+>    @LINUX_TRUE@am__append_5 = dmesg.1 ctrlaltdel.8 cytune.8 setarch.8 \
+>    @LINUX_TRUE@		ldattach.8 tunelp.8 rtcwake.8 fsfreeze.8 fstrim.8
+>
+>   -@HAVE_CPU_SET_T_TRUE@@LINUX_TRUE@am__append_6 = lscpu
+>   -@HAVE_CPU_SET_T_TRUE@@LINUX_TRUE@am__append_7 = lscpu.1
+> - @BUILD_FALLOCATE_TRUE@am__append_8 = fallocate
+> - @BUILD_FALLOCATE_TRUE@am__append_9 = fallocate.1
+> - @BUILD_PIVOT_ROOT_TRUE@am__append_10 = pivot_root
+> -@@ -98,7 +96,6 @@
+> - @BUILD_PIVOT_ROOT_TRUE@am__EXEEXT_4 = pivot_root$(EXEEXT)
+> - @BUILD_SWITCH_ROOT_TRUE@am__EXEEXT_5 = switch_root$(EXEEXT)
+> - @LINUX_TRUE@am__EXEEXT_6 = cytune$(EXEEXT) setarch$(EXEEXT)
+> --@HAVE_CPU_SET_T_TRUE@@LINUX_TRUE@am__EXEEXT_7 = lscpu$(EXEEXT)
+> - @BUILD_FALLOCATE_TRUE@am__EXEEXT_8 = fallocate$(EXEEXT)
+> - @BUILD_UNSHARE_TRUE@am__EXEEXT_9 = unshare$(EXEEXT)
+> - @LINUX_TRUE@am__EXEEXT_10 = ldattach$(EXEEXT) tunelp$(EXEEXT) \
+> -@@ -146,11 +143,6 @@
+> + @BUILD_MOUNTPOINT_TRUE@am__append_8 = mountpoint
+> + @BUILD_MOUNTPOINT_TRUE@am__append_9 = mountpoint.1
+> + @BUILD_FALLOCATE_TRUE@am__append_10 = fallocate
+> +@@ -93,7 +91,6 @@
+> + @BUILD_PIVOT_ROOT_TRUE@am__EXEEXT_5 = pivot_root$(EXEEXT)
+> + @BUILD_SWITCH_ROOT_TRUE@am__EXEEXT_6 = switch_root$(EXEEXT)
+> + @LINUX_TRUE@am__EXEEXT_7 = cytune$(EXEEXT) setarch$(EXEEXT)
+> +-@HAVE_CPU_SET_T_TRUE@@LINUX_TRUE@am__EXEEXT_8 = lscpu$(EXEEXT)
+> + @BUILD_FALLOCATE_TRUE@am__EXEEXT_9 = fallocate$(EXEEXT)
+> + @BUILD_UNSHARE_TRUE@am__EXEEXT_10 = unshare$(EXEEXT)
+> + @LINUX_TRUE@am__EXEEXT_11 = ldattach$(EXEEXT) tunelp$(EXEEXT) \
+> +@@ -141,13 +138,6 @@
+>    ldattach_SOURCES = ldattach.c
+>    ldattach_OBJECTS = ldattach.$(OBJEXT)
+>    ldattach_LDADD = $(LDADD)
+> --am__lscpu_SOURCES_DIST = lscpu.c $(top_srcdir)/lib/cpuset.c
+> +-am__lscpu_SOURCES_DIST = lscpu.c $(top_srcdir)/lib/cpuset.c \
+> +-	$(top_srcdir)/lib/strutils.c
+>   -@HAVE_CPU_SET_T_TRUE@@LINUX_TRUE@am_lscpu_OBJECTS = lscpu.$(OBJEXT) \
+> --@HAVE_CPU_SET_T_TRUE@@LINUX_TRUE@	cpuset.$(OBJEXT)
+> +-@HAVE_CPU_SET_T_TRUE@@LINUX_TRUE@	cpuset.$(OBJEXT) \
+> +-@HAVE_CPU_SET_T_TRUE@@LINUX_TRUE@	strutils.$(OBJEXT)
+>   -lscpu_OBJECTS = $(am_lscpu_OBJECTS)
+>   -lscpu_LDADD = $(LDADD)
+> - pivot_root_SOURCES = pivot_root.c
+> - pivot_root_OBJECTS = pivot_root.$(OBJEXT)
+> - pivot_root_LDADD = $(LDADD)
+> -@@ -206,13 +198,13 @@
+> + mountpoint_SOURCES = mountpoint.c
+> + mountpoint_OBJECTS = mountpoint-mountpoint.$(OBJEXT)
+> + @BUILD_MOUNTPOINT_TRUE@mountpoint_DEPENDENCIES = $(ul_libmount_la)
+> +@@ -209,14 +199,14 @@
+>    am__v_GEN_0 = @echo "  GEN   " $@;
+>    SOURCES = arch.c ctrlaltdel.c $(cytune_SOURCES) $(dmesg_SOURCES) \
+>    	$(fallocate_SOURCES) flock.c fsfreeze.c $(fstrim_SOURCES) \
+>   -	ipcmk.c ipcrm.c ipcs.c ldattach.c $(lscpu_SOURCES) \
+>   +	ipcmk.c ipcrm.c ipcs.c ldattach.c \
+> - 	pivot_root.c readprofile.c renice.c $(rtcwake_SOURCES) \
+> - 	setarch.c setsid.c switch_root.c $(tunelp_SOURCES) unshare.c
+> + 	mountpoint.c pivot_root.c readprofile.c renice.c \
+> + 	$(rtcwake_SOURCES) setarch.c setsid.c switch_root.c \
+> + 	$(tunelp_SOURCES) unshare.c
+>    DIST_SOURCES = arch.c ctrlaltdel.c $(cytune_SOURCES) $(dmesg_SOURCES) \
+>    	$(am__fallocate_SOURCES_DIST) flock.c fsfreeze.c \
+>    	$(fstrim_SOURCES) ipcmk.c ipcrm.c ipcs.c ldattach.c \
+> --	$(am__lscpu_SOURCES_DIST) pivot_root.c readprofile.c renice.c \
+> -+	pivot_root.c readprofile.c renice.c \
+> - 	$(rtcwake_SOURCES) setarch.c setsid.c switch_root.c \
+> - 	$(tunelp_SOURCES) unshare.c
+> +-	$(am__lscpu_SOURCES_DIST) mountpoint.c pivot_root.c \
+> ++	mountpoint.c pivot_root.c \
+> + 	readprofile.c renice.c $(rtcwake_SOURCES) setarch.c setsid.c \
+> + 	switch_root.c $(tunelp_SOURCES) unshare.c
+>    am__vpath_adj_setup = srcdirstrip=`echo "$(srcdir)" | sed 's|.|.|g'`;
+> -@@ -242,7 +234,7 @@
+> +@@ -252,7 +242,7 @@
+>    MANS = $(dist_man_MANS) $(man_MANS)
+>    am__dist_noinst_DATA_DIST = flock.1 ipcrm.1 ipcs.1 ipcmk.1 renice.1 \
+>    	setsid.1 readprofile.1 dmesg.1 ctrlaltdel.8 cytune.8 setarch.8 \
+>   -	ldattach.8 tunelp.8 rtcwake.8 fsfreeze.8 fstrim.8 lscpu.1 \
+>   +	ldattach.8 tunelp.8 rtcwake.8 fsfreeze.8 fstrim.8 \
+> - 	fallocate.1 pivot_root.8 switch_root.8 unshare.1 arch.1
+> + 	mountpoint.1 fallocate.1 pivot_root.8 switch_root.8 unshare.1 \
+> + 	arch.1
+>    DATA = $(dist_noinst_DATA)
+> - ETAGS = etags
+> -@@ -438,7 +430,6 @@
+> +@@ -447,7 +437,6 @@
+>    	readprofile.1 $(am__append_5) $(am__append_7) $(am__append_9) \
+>    	$(am__append_11) $(am__append_13) $(am__append_15) \
+> - 	$(am__append_17)
+> --@HAVE_CPU_SET_T_TRUE@@LINUX_TRUE@lscpu_SOURCES = lscpu.c $(top_srcdir)/lib/cpuset.c
+> + 	$(am__append_17) $(am__append_19)
+> +-@HAVE_CPU_SET_T_TRUE@@LINUX_TRUE@lscpu_SOURCES = lscpu.c $(top_srcdir)/lib/cpuset.c $(top_srcdir)/lib/strutils.c
+>    cytune_SOURCES = cytune.c cyclades.h
+>    tunelp_SOURCES = tunelp.c lp.h
+>    fstrim_SOURCES = fstrim.c $(top_srcdir)/lib/strutils.c
+> -@@ -693,9 +684,6 @@
+> +@@ -704,9 +693,6 @@
+>    ldattach$(EXEEXT): $(ldattach_OBJECTS) $(ldattach_DEPENDENCIES)
+>    	@rm -f ldattach$(EXEEXT)
+>    	$(AM_V_CCLD)$(LINK) $(ldattach_OBJECTS) $(ldattach_LDADD) $(LIBS)
+>   -lscpu$(EXEEXT): $(lscpu_OBJECTS) $(lscpu_DEPENDENCIES)
+>   -	@rm -f lscpu$(EXEEXT)
+>   -	$(AM_V_CCLD)$(LINK) $(lscpu_OBJECTS) $(lscpu_LDADD) $(LIBS)
+> - pivot_root$(EXEEXT): $(pivot_root_OBJECTS) $(pivot_root_DEPENDENCIES)
+> - 	@rm -f pivot_root$(EXEEXT)
+> - 	$(AM_V_CCLD)$(LINK) $(pivot_root_OBJECTS) $(pivot_root_LDADD) $(LIBS)
+> -@@ -743,7 +731,6 @@
+> + mountpoint$(EXEEXT): $(mountpoint_OBJECTS) $(mountpoint_DEPENDENCIES)
+> + 	@rm -f mountpoint$(EXEEXT)
+> + 	$(AM_V_CCLD)$(mountpoint_LINK) $(mountpoint_OBJECTS) $(mountpoint_LDADD) $(LIBS)
+> +@@ -757,7 +743,6 @@
+>    @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/ipcrm.Po@am__quote@
+>    @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/ipcs.Po@am__quote@
+>    @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/ldattach.Po@am__quote@
+>   -@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/lscpu.Po@am__quote@
+> + @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/mountpoint-mountpoint.Po@am__quote@
+>    @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/pivot_root.Po@am__quote@
+>    @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/readprofile.Po@am__quote@
+> - @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/renice.Po@am__quote@
 
 
