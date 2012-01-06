@@ -1,30 +1,50 @@
-Received: from mail-lpp01m010-f47.google.com ([209.85.215.47])
+Received: from va3ehsobe001.messaging.microsoft.com ([216.32.180.11]
+	helo=VA3EHSOBE008.bigfish.com)
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <raj.khem@gmail.com>) id 1Rj4EZ-0005Xe-7v
+	(envelope-from <B19537@freescale.com>) id 1Rj4b3-0003eb-7k
 	for openembedded-core@lists.openembedded.org;
-	Fri, 06 Jan 2012 08:29:03 +0100
-Received: by lami14 with SMTP id i14so401719lam.6
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 05 Jan 2012 23:21:39 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:content-type; bh=L/bf/AqgT/zlK8cpm0vlkreP9Mj2kMoK1QUnauYDa/E=;
-	b=pCwN8X4KkZr5xGCve/XwbtsyqG2iciYNzoR8IDLocGxRg1TFAoy6F7pqNoGami5Mqx
-	hfYTWjJ7oHTGzib9jsevld83aXaF26gbMB060JjRwVC0MthojXOLaCGKaN1jD4N48/H+
-	4uZG3N1sdUZbFI/JxPZ0nP6Sm7/3h1l2clHKw=
-Received: by 10.112.43.41 with SMTP id t9mr975506lbl.93.1325834499446; Thu, 05
-	Jan 2012 23:21:39 -0800 (PST)
+	Fri, 06 Jan 2012 08:52:18 +0100
+Received: from mail30-va3-R.bigfish.com (10.7.14.248) by
+	VA3EHSOBE008.bigfish.com (10.7.40.28) with Microsoft SMTP Server id
+	14.1.225.23; Fri, 6 Jan 2012 07:29:44 +0000
+Received: from mail30-va3 (localhost [127.0.0.1])	by mail30-va3-R.bigfish.com
+	(Postfix) with ESMTP id D5C60660089;
+	Fri,  6 Jan 2012 07:29:44 +0000 (UTC)
+X-SpamScore: -13
+X-BigFish: VS-13(zzbb2dI9371I542M1432N98dKzz1202hzz8275bhz2dh2a8h668h839h8e2h8e3h944hbe9k)
+X-Forefront-Antispam-Report: CIP:70.37.183.190; KIP:(null); UIP:(null); IPV:NLI;
+	H:mail.freescale.net; RD:none; EFVD:NLI
+Received: from mail30-va3 (localhost.localdomain [127.0.0.1]) by mail30-va3
+	(MessageSwitch) id 1325834983171449_8074;
+	Fri,  6 Jan 2012 07:29:43 +0000 (UTC)
+Received: from VA3EHSMHS010.bigfish.com (unknown [10.7.14.235])	by
+	mail30-va3.bigfish.com (Postfix) with ESMTP id 27490140053;
+	Fri,  6 Jan 2012 07:29:43 +0000 (UTC)
+Received: from mail.freescale.net (70.37.183.190) by VA3EHSMHS010.bigfish.com
+	(10.7.99.20) with Microsoft SMTP Server (TLS) id 14.1.225.22;
+	Fri, 6 Jan 2012 07:29:42 +0000
+Received: from 039-SN2MPN1-023.039d.mgd.msft.net ([169.254.3.213]) by
+	039-SN1MMR1-002.039d.mgd.msft.net ([10.84.1.15]) with mapi id
+	14.01.0355.003; Fri, 6 Jan 2012 01:29:41 -0600
+From: Luo Zhenhua-B19537 <B19537@freescale.com>
+To: Saul Wold <sgw@linux.intel.com>
+Thread-Topic: [OE-core] [PATCH oe-core v4] linux-dtb: add multi-dtb build
+	support and keep dtb in deploy cache package
+Thread-Index: AQHMzDdwz7mIAz01tEKUo06diIblb5X/T5EA//+glRA=
+Date: Fri, 6 Jan 2012 07:29:41 +0000
+Message-ID: <CA452391058F6D4E9715FB2C29D9312A010C9020@039-SN2MPN1-023.039d.mgd.msft.net>
+References: <1325829439-848-1-git-send-email-b19537@freescale.com>
+	<4F069D74.9080509@linux.intel.com>
+In-Reply-To: <4F069D74.9080509@linux.intel.com>
+Accept-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [10.192.208.114]
 MIME-Version: 1.0
-Received: by 10.152.115.1 with HTTP; Thu, 5 Jan 2012 23:21:08 -0800 (PST)
-In-Reply-To: <ADD6A3980E8C39419A432FF422031B4C014BC2@ORSMSX106.amr.corp.intel.com>
-References: <1325821207-2843-1-git-send-email-raj.khem@gmail.com>
-	<ADD6A3980E8C39419A432FF422031B4C014BC2@ORSMSX106.amr.corp.intel.com>
-From: Khem Raj <raj.khem@gmail.com>
-Date: Thu, 5 Jan 2012 23:21:08 -0800
-Message-ID: <CAMKF1sobkDF3QFoEHXfAjkwB8OoYGQPFGbZJNfb8kJQ3U0meow@mail.gmail.com>
-To: Patches and discussions about the oe-core layer
+X-OriginatorOrg: freescale.com
+Cc: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] eglibc: Upgrade recipes 2.14 -> 2.15
+Subject: Re: [PATCH oe-core v4] linux-dtb: add multi-dtb build support and keep dtb in deploy cache package
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -39,20 +59,97 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 06 Jan 2012 07:29:03 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Fri, 06 Jan 2012 07:52:18 -0000
+Content-Language: en-US
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 
-Nitin
+"=3D" is needless, I will fix the error. Seems it doesn't impact the result=
+. :)
 
-On Thu, Jan 5, 2012 at 8:59 PM, Kamble, Nitin A
-<nitin.a.kamble@intel.com> wrote:
-> Can this be done without removing eglibc 2.14 recipe files ?
->
-> X32 layer is depending on the eglibc-2.14 recipe.
 
-I have tested it on all qemu architectures and seems to be ok. if x32
-does not have hard
-dependency on 2.14 give it a try if you see fallouts for x32
-I will redo to preserve 2.14
+Best Regards,
+
+Zhenhua
+
+
+> -----Original Message-----
+> From: Saul Wold [mailto:sgw@linux.intel.com]
+> Sent: Friday, January 06, 2012 3:06 PM
+> To: Patches and discussions about the oe-core layer
+> Cc: Luo Zhenhua-B19537
+> Subject: Re: [OE-core] [PATCH oe-core v4] linux-dtb: add multi-dtb build =
+support
+> and keep dtb in deploy cache package
+>=20
+> On 01/05/2012 09:57 PM, b19537@freescale.com wrote:
+> > From: Zhenhua Luo<b19537@freescale.com>
+> >
+> > Signed-off-by: Zhenhua Luo<b19537@freescale.com>
+> > ---
+> >   meta/recipes-kernel/linux/linux-dtb.inc |   30 +++++++++++++++++++++-=
+-------
+> -
+> >   1 files changed, 21 insertions(+), 9 deletions(-)
+> >
+> > diff --git a/meta/recipes-kernel/linux/linux-dtb.inc b/meta/recipes-
+> kernel/linux/linux-dtb.inc
+> > index 7ec7584..5439810 100644
+> > --- a/meta/recipes-kernel/linux/linux-dtb.inc
+> > +++ b/meta/recipes-kernel/linux/linux-dtb.inc
+> > @@ -13,15 +13,27 @@ python __anonymous () {
+> >   	d.setVar("PACKAGES", "%s kernel-devicetree" % packages)
+> >   }
+> >
+> > -do_install_append() {
+> > +kernel_do_deploy_append() {
+> >       if test -n "${KERNEL_DEVICETREE}"; then
+> > -	dtc -I dts -O dtb ${KERNEL_DEVICETREE_FLAGS} -o devicetree
+> ${KERNEL_DEVICETREE}
+> > -	install -m 0644 devicetree ${D}/boot/devicetree-${KERNEL_VERSION}
+> > -	install -d ${DEPLOY_DIR_IMAGE}
+> > -	install -m 0644 devicetree
+> ${DEPLOY_DIR_IMAGE}/${KERNEL_IMAGE_BASE_NAME}.dtb
+> > -	cd ${DEPLOY_DIR_IMAGE}
+> > -	rm -f ${KERNEL_IMAGE_SYMLINK_NAME}.dtb
+> > -	ln -sf ${KERNEL_IMAGE_BASE_NAME}.dtb ${KERNEL_IMAGE_SYMLINK_NAME}.dtb
+> > +        for DTS_FILE in ${KERNEL_DEVICETREE}; do
+> > +            DTS_BASE_NAME=3D`basename ${DTS_FILE} | awk -F "." '{print=
+ $1}'`
+> > +            DTB_NAME=3D`echo ${KERNEL_IMAGE_BASE_NAME} | sed
+> "s/${MACHINE}/${DTS_BASE_NAME}/g"`
+> > +            DTB_SYMLINK_NAME=3D`echo ${KERNEL_IMAGE_SYMLINK_NAME} | se=
+d
+> "s/${MACHINE}/${DTS_BASE_NAME}/g"`
+> > +            dtc -I dts -O dtb ${KERNEL_DEVICETREE_FLAGS} -o devicetree
+> ${DTS_FILE}
+> > +            install -m 0644 devicetree ${D}/boot/devicetree-${DTS_BASE=
+_NAME}-
+> ${KERNEL_VERSION}
+> > +            install -d ${DEPLOY_DIR_IMAGE}
+> > +            install -m 0644 devicetree ${DEPLOY_DIR_IMAGE}/${DTB_NAME}=
+.dtb
+> > +            rm -f devicetree
+> > +            cd ${DEPLOY_DIR_IMAGE}
+> > +            rm -f ${DTB_SYMLINK_NAME}.dtb
+> > +            ln -sf ${DTB_NAME}.dtb ${DTB_SYMLINK_NAME}.dtb
+> > +            cd -
+> > +
+> > +            install -d ${DEPLOYDIR}
+> > +            install -m 0644 ${DEPLOY_DIR_IMAGE}/${DTB_NAME}.dtb
+> ${DEPLOYDIR}/${DTB_NAME}.dtb
+> > +            cd ${DEPLOYDIR}
+> > +            ln -sf ${DTB_NAME}.dtb ${DTB_SYMLINK_NAME=3D}.dtb
+> Should there be an '=3D' at the end of this?
+>=20
+> Sau!
+>=20
+> > +            cd -
+> > +        done
+> >       fi
+> >   }
+> > -
+
+
 
 
