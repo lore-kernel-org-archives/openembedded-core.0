@@ -1,25 +1,34 @@
-Received: from mga11.intel.com ([192.55.52.93])
+Received: from mail.dream-property.net ([82.149.226.172])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <sgw@linux.intel.com>) id 1Rixr8-0000YM-9j
+	(envelope-from <obi@opendreambox.org>) id 1Riy3n-0000vH-U9
 	for openembedded-core@lists.openembedded.org;
-	Fri, 06 Jan 2012 01:40:29 +0100
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-	by fmsmga102.fm.intel.com with ESMTP; 05 Jan 2012 16:32:53 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="104020432"
-Received: from unknown (HELO [10.255.13.127]) ([10.255.13.127])
-	by fmsmga001.fm.intel.com with ESMTP; 05 Jan 2012 16:32:53 -0800
-Message-ID: <4F064135.8060406@linux.intel.com>
-Date: Thu, 05 Jan 2012 16:32:53 -0800
-From: Saul Wold <sgw@linux.intel.com>
+	Fri, 06 Jan 2012 01:53:32 +0100
+Received: from localhost (localhost [127.0.0.1])
+	by mail.dream-property.net (Postfix) with ESMTP id 1351E31577D0
+	for <openembedded-core@lists.openembedded.org>;
+	Fri,  6 Jan 2012 01:39:30 +0100 (CET)
+X-Virus-Scanned: Debian amavisd-new at mail.dream-property.net
+Received: from mail.dream-property.net ([127.0.0.1])
+	by localhost (mail.dream-property.net [127.0.0.1]) (amavisd-new,
+	port 10024) with LMTP id HA9xKRv60j61
+	for <openembedded-core@lists.openembedded.org>;
+	Fri,  6 Jan 2012 01:39:23 +0100 (CET)
+Received: from [172.22.22.61] (drms-590c57d9.pool.mediaWays.net [89.12.87.217])
+	(using TLSv1 with cipher DHE-RSA-AES256-SHA (256/256 bits))
+	(No client certificate requested)
+	by mail.dream-property.net (Postfix) with ESMTPSA id 9EE4931577CD
+	for <openembedded-core@lists.openembedded.org>;
+	Fri,  6 Jan 2012 01:39:23 +0100 (CET)
+Message-ID: <4F0642B9.20104@opendreambox.org>
+Date: Fri, 06 Jan 2012 01:39:21 +0100
+From: Andreas Oberritter <obi@opendreambox.org>
 User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:7.0) Gecko/20110927 Thunderbird/7.0
+	rv:9.0) Gecko/20111229 Thunderbird/9.0
 MIME-Version: 1.0
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-References: <cover.1325742856.git.edwin.zhai@intel.com>
-In-Reply-To: <cover.1325742856.git.edwin.zhai@intel.com>
-Subject: Re: [PATCH 0/1] matchbox-wm: remove x-session-manager handling
+To: openembedded-core@lists.openembedded.org
+References: <1325799041-3640-1-git-send-email-andrei@gherzan.ro>
+In-Reply-To: <1325799041-3640-1-git-send-email-andrei@gherzan.ro>
+Subject: Re: [PATCH] wpa-supplicant: Compile without CONFIG_GNUTLS_EXTRA
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -34,47 +43,22 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 06 Jan 2012 00:40:30 -0000
-Content-Type: text/plain; charset=ISO-8859-1; format=flowed
+X-List-Received-Date: Fri, 06 Jan 2012 00:53:32 -0000
+Content-Type: text/plain; charset=ISO-8859-1
 Content-Transfer-Encoding: 7bit
 
-On 01/04/2012 09:57 PM, edwin.zhai@intel.com wrote:
-> From: Zhai Edwin<edwin.zhai@intel.com>
->
-> This is V2 version that made clear commit mesg and adjust alternative priority
-> to make mini-x has high priority over matchbox-session according to Saul's
-> suggestion.
->
-> Thanks,
-> Edwin
->
->
-> The following changes since commit 021848be9eeb71de8acfba6c66c11645b01523b8:
->
->    valgrind: Fix for automake update (2012-01-04 16:04:08 +0000)
->
-> are available in the git repository at:
->    git://git.pokylinux.org/poky-contrib gzhai/master2
->    http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=gzhai/master2
->
-> Zhai Edwin (1):
->    matchbox-wm: Remove x-session-manager handling
->
->   .../matchbox-wm/matchbox-wm_1.2.bb                 |    9 ++-------
->   .../matchbox-wm/matchbox-wm_git.bb                 |    9 ++-------
->   .../mini-x-session/mini-x-session_0.1.bb           |    2 +-
->   3 files changed, 5 insertions(+), 15 deletions(-)
->
->
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
->
+On 05.01.2012 22:30, Andrei Gherzan wrote:
+> From: Andrei Gherzan <andrei.gherzan@windriver.com>
+> 
+> CONFIG_GNUTLS_EXTRA is needed as support for TLS/IA which was designed to be used
+> in the EAP-TTLSv1. As we don't see any requirement for that protocol today we decided
+> to remove it from wpa-supplicant .config file.
 
-Merged into OE-Core
+With this option removed, is there any reason to prefer GnuTLS over
+OpenSSL? OpenSSL is wpa-supplicant's default, and at least Ubuntu uses
+OpenSSL with it, too. I guess it's tested more thoroughly than GnuTLS.
 
-Thanks
-	Sau!
+Regards,
+Andreas
 
 
