@@ -1,24 +1,24 @@
 Received: from mga14.intel.com ([143.182.124.37])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <sgw@linux.intel.com>) id 1Rj4mW-0004Le-TG
+	(envelope-from <sgw@linux.intel.com>) id 1Rj4mX-0004Lc-3Z
 	for openembedded-core@lists.openembedded.org;
 	Fri, 06 Jan 2012 09:04:11 +0100
 Received: from azsmga001.ch.intel.com ([10.2.17.19])
 	by azsmga102.ch.intel.com with ESMTP; 05 Jan 2012 23:56:43 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="93004481"
+X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="93004483"
 Received: from unknown (HELO swold-mobl.bigsur.com) ([10.255.13.127])
 	by azsmga001.ch.intel.com with ESMTP; 05 Jan 2012 23:56:43 -0800
 From: Saul Wold <sgw@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Thu,  5 Jan 2012 23:56:26 -0800
-Message-Id: <4ae99224e235ee760923ce7a781bb1a6dd8a7cb9.1325836241.git.sgw@linux.intel.com>
+Date: Thu,  5 Jan 2012 23:56:27 -0800
+Message-Id: <57fc3c14753e9edc13323fe848aba9f919088f4a.1325836241.git.sgw@linux.intel.com>
 X-Mailer: git-send-email 1.7.6.4
 In-Reply-To: <cover.1325836241.git.sgw@linux.intel.com>
 References: <cover.1325836241.git.sgw@linux.intel.com>
 In-Reply-To: <cover.1325836241.git.sgw@linux.intel.com>
 References: <cover.1325836241.git.sgw@linux.intel.com>
-Subject: [CONSOLIDATED PULL 15/25] initscripts: avoid mounting /sys if it is already mounted
+Subject: [CONSOLIDATED PULL 16/25] udev: ensure /dev/pts and /dev/shm does exists
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -37,38 +37,27 @@ X-List-Received-Date: Fri, 06 Jan 2012 08:04:12 -0000
 
 From: Otavio Salvador <otavio@ossystems.com.br>
 
-Signed-off-by: Otavio Salvador <otavio@ossystems.com.br>
 ---
- .../initscripts/initscripts-1.0/sysfs.sh           |    4 ++--
- meta/recipes-core/initscripts/initscripts_1.0.bb   |    2 +-
- 2 files changed, 3 insertions(+), 3 deletions(-)
+ meta/recipes-core/udev/udev/init |    5 +++--
+ 1 files changed, 3 insertions(+), 2 deletions(-)
 
-diff --git a/meta/recipes-core/initscripts/initscripts-1.0/sysfs.sh b/meta/recipes-core/initscripts/initscripts-1.0/sysfs.sh
-index be28bb3..bd87dcd 100644
---- a/meta/recipes-core/initscripts/initscripts-1.0/sysfs.sh
-+++ b/meta/recipes-core/initscripts/initscripts-1.0/sysfs.sh
-@@ -14,6 +14,6 @@ if [ -e /proc ] && ! [ -e /proc/mounts ]; then
-   mount -t proc proc /proc
- fi
+diff --git a/meta/recipes-core/udev/udev/init b/meta/recipes-core/udev/udev/init
+index bfbac0d..6a4464c 100644
+--- a/meta/recipes-core/udev/udev/init
++++ b/meta/recipes-core/udev/udev/init
+@@ -30,9 +30,10 @@ echo "Starting udev"
+ # mount the tmpfs on /dev, if not already done
+ LANG=C awk '$2 == "/dev" && ($3 == "tmpfs" || $3 == "devtmpfs") { exit 1 }' /proc/mounts && {
+ 	mount -n -o mode=0755 -t tmpfs none "/dev"
+-	mkdir -m 0755 /dev/pts
+-	mkdir -m 1777 /dev/shm
+ }
++[ -e /dev/pts ] || mkdir -m 0755 /dev/pts
++[ -e /dev/shm ] || mkdir -m 1777 /dev/shm
++
  
--if [ -e /sys ] && grep -q sysfs /proc/filesystems; then
--  mount sysfs /sys -t sysfs
-+if [ -e /sys ] && grep -q sysfs /proc/filesystems && ! [ -e /sys/class ]; then
-+  mount -t sysfs sysfs /sys
- fi
-diff --git a/meta/recipes-core/initscripts/initscripts_1.0.bb b/meta/recipes-core/initscripts/initscripts_1.0.bb
-index ffca817..98f5e9b 100644
---- a/meta/recipes-core/initscripts/initscripts_1.0.bb
-+++ b/meta/recipes-core/initscripts/initscripts_1.0.bb
-@@ -3,7 +3,7 @@ DESCRIPTION = "Initscripts provide the basic system startup initialization scrip
- SECTION = "base"
- LICENSE = "GPLv2"
- LIC_FILES_CHKSUM = "file://COPYING;md5=751419260aa954499f7abaabaa882bbe"
--PR = "r127"
-+PR = "r128"
- 
- INHIBIT_DEFAULT_DEPS = "1"
- 
+ if [ -e /etc/dev.tar ]; then
+ 	(cd /; tar xf /etc/dev.tar 2>&1 | grep -v 'time stamp' || true)
 -- 
 1.7.6.4
 
