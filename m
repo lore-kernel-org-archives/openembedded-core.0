@@ -1,34 +1,24 @@
-Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
-	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <richard.purdie@linuxfoundation.org>)
-	id 1Rj9de-000216-41 for openembedded-core@lists.openembedded.org;
-	Fri, 06 Jan 2012 14:15:19 +0100
-Received: from localhost (localhost [127.0.0.1])
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q06D7sHC020682
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 6 Jan 2012 13:07:54 GMT
-Received: from tim.rpsys.net ([127.0.0.1])
-	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
-	port 10024) with LMTP
-	id 20193-04 for <openembedded-core@lists.openembedded.org>;
-	Fri,  6 Jan 2012 13:07:50 +0000 (GMT)
-Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q06D7mIK020676
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO)
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 6 Jan 2012 13:07:48 GMT
-Message-ID: <1325855269.20759.100.camel@ted>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
+Received: from mail.pbcl.net ([88.198.119.4] helo=hetzner.pbcl.net)
+	by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <philb@gnu.org>) id 1Rj9v6-0002VC-IN
+	for openembedded-core@lists.openembedded.org;
+	Fri, 06 Jan 2012 14:33:20 +0100
+Received: from elite.brightsigndigital.co.uk ([81.142.160.137]
+	helo=[172.30.1.145])
+	by hetzner.pbcl.net with esmtpsa (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+	(Exim 4.72) (envelope-from <philb@gnu.org>) id 1Rj9ny-0003jA-ST
+	for openembedded-core@lists.openembedded.org;
+	Fri, 06 Jan 2012 14:25:58 +0100
+From: Phil Blundell <philb@gnu.org>
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Date: Fri, 06 Jan 2012 13:07:49 +0000
-In-Reply-To: <93c736cc566ed205d532bea9390d64bec86f8dae.1325302234.git.lianhao.lu@intel.com>
-References: <cover.1325302234.git.lianhao.lu@intel.com>
-	<93c736cc566ed205d532bea9390d64bec86f8dae.1325302234.git.lianhao.lu@intel.com>
-X-Mailer: Evolution 3.2.2- 
+Date: Fri, 06 Jan 2012 13:25:58 +0000
+In-Reply-To: <4F05CAB9.4020001@windriver.com>
+References: <4F05CAB9.4020001@windriver.com>
+X-Mailer: Evolution 3.0.2- 
+Message-ID: <1325856358.28005.179.camel@phil-desktop>
 Mime-Version: 1.0
-X-Virus-Scanned: amavisd-new at rpsys.net
-Subject: Re: [PRService/meta V2 2/3] package.bbclass: per recipe PRSERV_HOST support
+Subject: Re: MIPS Prelinker problem -- possible fix
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -43,66 +33,23 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 06 Jan 2012 13:15:19 -0000
+X-List-Received-Date: Fri, 06 Jan 2012 13:33:20 -0000
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 
-On Sat, 2011-12-31 at 11:31 +0800, Lianhao Lu wrote:
-> [YOCTO #1126]
-> Added per recipe PRSERV_HOST PRSERV_PORT support.
+On Thu, 2012-01-05 at 10:07 -0600, Mark Hatle wrote:
+> I have created a patch (with help from Khem Raj) to resolve a long standing 
+> issue w/ the MIPS prelinker.  The prelinker was detecting a error condition 
+> based on what appears to be some incomplete math calculations.
 > 
-> Signed-off-by: Lianhao Lu <lianhao.lu@intel.com>
-> ---
->  meta/classes/package.bbclass |    8 ++++++++
->  meta/conf/bitbake.conf       |    2 +-
->  2 files changed, 9 insertions(+), 1 deletions(-)
-> 
-> diff --git a/meta/classes/package.bbclass b/meta/classes/package.bbclass
-> index 65e6571..f8f0a12 100644
-> --- a/meta/classes/package.bbclass
-> +++ b/meta/classes/package.bbclass
-> @@ -350,6 +350,14 @@ def runtime_mapping_rename (varname, d):
->  #
->  
->  python package_get_auto_pr() {
-> +	# per recipe PRSERV_HOST PRSERV_PORT
-> +	pn = d.getVar('PN', True)
-> +	host = d.getVar("PRSERV_HOST_" + pn, True)
-> +	port = d.getVar("PRSERV_PORT_" + pn, True)
-> +	if not (host is None):
-> +		d.setVar("PRSERV_HOST", host)
-> +	if not (port is None):
-> +		d.setVar("PRSERV_PORT", port)
->  	if d.getVar('USE_PR_SERV', True) != "0":
->  		try:
->  			auto_pr=prserv_get_pr_auto(d)
-> diff --git a/meta/conf/bitbake.conf b/meta/conf/bitbake.conf
-> index 31a722e..6b1744f 100644
-> --- a/meta/conf/bitbake.conf
-> +++ b/meta/conf/bitbake.conf
-> @@ -190,7 +190,7 @@ BP = "${BPN}-${PV}"
->  #
->  # network based PR service
->  #
-> -USE_PR_SERV = "${@[1,0][((d.getVar('PRSERV_HOST',1) is None) or (d.getVar('PRSERV_PORT',1) is None)) and (d.getVar('PRSERV_LOCKDOWN',1) is None)]}"
-> +USE_PR_SERV = "${@[1,0][((d.getVar('PRSERV_HOST',1) is None) or (d.getVar('PRSERV_HOST',1) == "") or (d.getVar('PRSERV_PORT',1) is None) or (d.getVar('PRSERV_PORT',1) == "")) and (d.getVar('PRSERV_LOCKDOWN',1) is None)]}"
+> Attached is a patch that I believe will fix the problem, but I would like folks 
+> on both MIPS and non MIPS system to try it out.
 
-Instead of:
+Thanks.  I tried this out last night and it does seem to solve the
+problem for me.  (I was previously using a hack in image-prelink.bbclass
+which just deleted all the .mdebug.abi32 sections before prelinking.)
 
-(d.getVar('PRSERV_HOST',1) is None) or (d.getVar('PRSERV_HOST',1) == "")
-
-you should just be able to say
-
-(not d.getVar('PRSERV_HOST', True))
-
-since both None and "" evaluate to False.
-
-Please also use True instead of 1 and False instead of 0. I appreciate
-there are bad examples around but we're trying to clean them up.
-
-Cheers,
-
-Richard
+p.
 
 
 
