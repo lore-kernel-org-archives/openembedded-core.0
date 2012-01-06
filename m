@@ -1,34 +1,28 @@
-Received: from mail.dream-property.net ([82.149.226.172])
-	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <obi@opendreambox.org>) id 1Riy3n-0000vH-U9
+Received: from mailout-de.gmx.net ([213.165.64.22])
+	by linuxtogo.org with smtp (Exim 4.72)
+	(envelope-from <schnitzeltony@gmx.de>) id 1Riy9R-00014d-2X
 	for openembedded-core@lists.openembedded.org;
-	Fri, 06 Jan 2012 01:53:32 +0100
-Received: from localhost (localhost [127.0.0.1])
-	by mail.dream-property.net (Postfix) with ESMTP id 1351E31577D0
-	for <openembedded-core@lists.openembedded.org>;
-	Fri,  6 Jan 2012 01:39:30 +0100 (CET)
-X-Virus-Scanned: Debian amavisd-new at mail.dream-property.net
-Received: from mail.dream-property.net ([127.0.0.1])
-	by localhost (mail.dream-property.net [127.0.0.1]) (amavisd-new,
-	port 10024) with LMTP id HA9xKRv60j61
-	for <openembedded-core@lists.openembedded.org>;
-	Fri,  6 Jan 2012 01:39:23 +0100 (CET)
-Received: from [172.22.22.61] (drms-590c57d9.pool.mediaWays.net [89.12.87.217])
-	(using TLSv1 with cipher DHE-RSA-AES256-SHA (256/256 bits))
-	(No client certificate requested)
-	by mail.dream-property.net (Postfix) with ESMTPSA id 9EE4931577CD
-	for <openembedded-core@lists.openembedded.org>;
-	Fri,  6 Jan 2012 01:39:23 +0100 (CET)
-Message-ID: <4F0642B9.20104@opendreambox.org>
-Date: Fri, 06 Jan 2012 01:39:21 +0100
-From: Andreas Oberritter <obi@opendreambox.org>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:9.0) Gecko/20111229 Thunderbird/9.0
+	Fri, 06 Jan 2012 01:59:21 +0100
+Received: (qmail invoked by alias); 06 Jan 2012 00:51:57 -0000
+Received: from p4FDF0BFB.dip.t-dialin.net (EHLO localhost.localdomain)
+	[79.223.11.251]
+	by mail.gmx.net (mp006) with SMTP; 06 Jan 2012 01:51:57 +0100
+X-Authenticated: #62780362
+X-Provags-ID: V01U2FsdGVkX18XS0N7MHcXp/QViiKgm5boCMkTh32TTb5JwrihXa
+	L3m/zHrfDT+9zK
+From: Andreas =?iso-8859-1?q?M=FCller?= <schnitzeltony@gmx.de>
+To: "Patches and discussions about the oe-core layer"
+	<openembedded-core@lists.openembedded.org>
+Date: Fri, 6 Jan 2012 01:52:57 +0100
+User-Agent: KMail/1.13.7 (Linux/2.6.35.14-106.fc14.x86_64; KDE/4.6.5; x86_64; ;
+	)
+References: <cover.1325649220.git.scott.a.garman@intel.com>
+	<4F0640F7.50903@linux.intel.com>
+In-Reply-To: <4F0640F7.50903@linux.intel.com>
 MIME-Version: 1.0
-To: openembedded-core@lists.openembedded.org
-References: <1325799041-3640-1-git-send-email-andrei@gherzan.ro>
-In-Reply-To: <1325799041-3640-1-git-send-email-andrei@gherzan.ro>
-Subject: Re: [PATCH] wpa-supplicant: Compile without CONFIG_GNUTLS_EXTRA
+Message-Id: <201201060152.57498.schnitzeltony@gmx.de>
+X-Y-GMX-Trusted: 0
+Subject: Re: [PATCH 0/7] New QA tests for unsafe references to exec_prefix [v2]
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -43,22 +37,48 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 06 Jan 2012 00:53:32 -0000
-Content-Type: text/plain; charset=ISO-8859-1
+X-List-Received-Date: Fri, 06 Jan 2012 00:59:21 -0000
+Content-Type: Text/Plain;
+  charset="iso-8859-1"
 Content-Transfer-Encoding: 7bit
 
-On 05.01.2012 22:30, Andrei Gherzan wrote:
-> From: Andrei Gherzan <andrei.gherzan@windriver.com>
-> 
-> CONFIG_GNUTLS_EXTRA is needed as support for TLS/IA which was designed to be used
-> in the EAP-TTLSv1. As we don't see any requirement for that protocol today we decided
-> to remove it from wpa-supplicant .config file.
+On Friday, January 06, 2012 01:31:51 AM Saul Wold wrote:
+> On 01/03/2012 07:56 PM, Scott Garman wrote:
+> > Hello,
+> > 
+> > This is a P2 feature for Yocto 1.2. It adds two new QA tests to check
+> > files in base_bindir, base_sbindir, and base_libdir for references to
+> > files under exec_prefix (e.g, dynamic linking for binaries and
+> > references to exec_prefix in scripts).
+> > 
+> > The reason for these tests is that exec_prefix (typically /usr) can
+> > be kept on a separate partition that may be mounted late in the boot
+> > process, or may not be mounted at all during system recovery
+> > operations.
+> > 
+> > It was my original goal to make the dynamic linking test a QA error
+> > upon failure, but it turned out the amount of recipe work needed was
+> > much larger than I expected. So for the time being they have been
+> > changed to generate QA warmings.
+> > 
+> > The libraries I've moved to base_libdir in this pull request should
+> > take care of all binaries in /bin and /sbin for packages we include
+> > in core-image-minimal and -sato.
+> > 
+> > I would like to ask recipe maintainers to look for these QA warnings
+> > and fix them ASAP, as I believe we'll be changing this to a QA error
+> > before the release of 1.2.
+> > 
+> > This is a second pull request that is rebased against the latest
+> > master with merge conflicts resolved, and only sets BUILD_LDFLAGS
+> > in ncurses.inc for virtclass-native.
+> > 
+I missed that and it explains first part of [1]. Wondering how long this will us 
+take...
 
-With this option removed, is there any reason to prefer GnuTLS over
-OpenSSL? OpenSSL is wpa-supplicant's default, and at least Ubuntu uses
-OpenSSL with it, too. I guess it's tested more thoroughly than GnuTLS.
-
-Regards,
 Andreas
+
+[1] http://lists.linuxtogo.org/pipermail/openembedded-core/2012-
+January/015667.html
 
 
