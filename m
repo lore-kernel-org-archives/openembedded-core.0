@@ -1,27 +1,27 @@
-Received: from mail-vx0-f175.google.com ([209.85.220.175])
+Received: from mail-vw0-f47.google.com ([209.85.212.47])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <sakoman@gmail.com>) id 1RjJbA-0002P4-3t
+	(envelope-from <sakoman@gmail.com>) id 1RjJdG-0002Tt-7E
 	for openembedded-core@lists.openembedded.org;
-	Sat, 07 Jan 2012 00:53:24 +0100
-Received: by vcbf1 with SMTP id f1so1665921vcb.6
+	Sat, 07 Jan 2012 00:55:34 +0100
+Received: by vbbfc21 with SMTP id fc21so1595570vbb.6
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 06 Jan 2012 15:45:48 -0800 (PST)
+	Fri, 06 Jan 2012 15:48:09 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
 	h=mime-version:date:message-id:subject:from:to:content-type;
-	bh=nKq3xpwH4s0yGOq8nfat50uwZT+DO71TafYPKcP1po0=;
-	b=Wm86auIIKQvpzTjwI33HrFgpmvtgBWTzjTTSIWYaQJLFd1m4icW8FRIMac0hGcqmi+
-	pWnnPN8MSERoE/OGBw6cj8RNu2eLyM2emCblzSOwanYKNQHyLztz29+GaRzruwnXGZld
-	4auFSKaAiPXEit0xt0gxdppwQcIyNApMhfZvw=
+	bh=+sL6RRJOoK+YKCXHYxB54PYsCKHXuEUEcDwJf0ftg/Y=;
+	b=CeKNQN7yPa63B1xrhhHv2d90AXp5f+8XYKsGCkAigaQYHGSgiB3dZEjJmwca/iXGj9
+	Flwgkgh74KzFV/SX8kLfdRLH0r0q0N85d/14VGNSeNoQ8hK2lKNV64rM/DtUfy48IaQ7
+	gvw/ZMiLWbVfU5nIMED8D8UfrszR1brtkAMQI=
 MIME-Version: 1.0
-Received: by 10.220.229.200 with SMTP id jj8mr2043544vcb.53.1325893548102;
-	Fri, 06 Jan 2012 15:45:48 -0800 (PST)
-Received: by 10.52.95.211 with HTTP; Fri, 6 Jan 2012 15:45:48 -0800 (PST)
-Date: Fri, 6 Jan 2012 15:45:48 -0800
-Message-ID: <CAGDS+nm0tC4ZXPcL-VRGvA0qy+9WOU36+85Jhon6Dwq948pfqQ@mail.gmail.com>
+Received: by 10.52.173.211 with SMTP id bm19mr4044625vdc.2.1325893689240; Fri,
+	06 Jan 2012 15:48:09 -0800 (PST)
+Received: by 10.52.95.211 with HTTP; Fri, 6 Jan 2012 15:48:09 -0800 (PST)
+Date: Fri, 6 Jan 2012 15:48:09 -0800
+Message-ID: <CAGDS+nkZd0MJ2BdGd5sH7OZeQHWJs_a43FHWjsL6RC3iZbnOTw@mail.gmail.com>
 From: Steve Sakoman <sakoman@gmail.com>
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Subject: [PATCH] Remove last remnants of kernel26 MACHINE_FEATURES
+Subject: [PATCH] dbus: change permissions of dbus-daemon-launch-helper to 4755
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -36,60 +36,44 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 06 Jan 2012 23:53:24 -0000
+X-List-Received-Date: Fri, 06 Jan 2012 23:55:34 -0000
 Content-Type: text/plain; charset=ISO-8859-1
 
-There is really no reason to continue to carry this feature
+With current permissions of 4754 on systemd systems various services
+will fail to
+activate with "helpful" error messages of the type:
+
+2000-01-01T00:00:25+00:00 omap3-multi dbus[178]: [system] Activated service
+'org.freedesktop.nm_dispatcher' failed: Failed to execute program
+/usr/libexec/dbus-daemon-launch-helper: Success
 
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
-Note: bsp layer maintainers may want to remove kernel26 references
-from their machine.conf files
 
-diff --git a/meta/conf/bitbake.conf b/meta/conf/bitbake.conf
-index 1c21616..5f75ddf 100644
---- a/meta/conf/bitbake.conf
-+++ b/meta/conf/bitbake.conf
-@@ -692,7 +692,6 @@ OES_BITBAKE_CONF = "1"
- # Machine properties and task-base stuff
- ##################################################################
+diff --git a/meta/recipes-core/dbus/dbus.inc b/meta/recipes-core/dbus/dbus.inc
+index 99b2fc7..2a25256 100644
+--- a/meta/recipes-core/dbus/dbus.inc
++++ b/meta/recipes-core/dbus/dbus.inc
+@@ -10,6 +10,8 @@ DEPENDS = "expat virtual/libintl
+${@base_contains('DISTRO_FEATURES', 'x11', '${X
+ DEPENDS_virtclass-native = "expat-native virtual/libintl-native"
+ DEPENDS_virtclass-nativesdk = "expat-nativesdk
+virtual/libintl-nativesdk virtual/libx11"
 
--MACHINE_FEATURES ?= "kernel26"
- DISTRO_FEATURES ?= ""
++INC_PR = "r1"
++
+ SRC_URI = "http://dbus.freedesktop.org/releases/dbus/dbus-${PV}.tar.gz \
+            file://tmpdir.patch; \
+            file://dbus-1.init"
+@@ -84,7 +86,7 @@ do_install() {
+ 	chown messagebus:messagebus ${D}${localstatedir}/run/dbus
+${D}${localstatedir}/lib/dbus
 
- # This is used to limit what packages goes into images built, so set
-big by default
-diff --git a/meta/conf/machine/include/qemu.inc
-b/meta/conf/machine/include/qemu.inc
-index 3cebfab..10ab76e 100644
---- a/meta/conf/machine/include/qemu.inc
-+++ b/meta/conf/machine/include/qemu.inc
-@@ -1,7 +1,7 @@
- PCMCIA_MANAGER = "pcmciautils"
- PREFERRED_PROVIDER_virtual/xserver ?= "xserver-kdrive"
+ 	chown root:messagebus ${D}${libexecdir}/dbus-daemon-launch-helper
+-	chmod 4754 ${D}${libexecdir}/dbus-daemon-launch-helper
++	chmod 4755 ${D}${libexecdir}/dbus-daemon-launch-helper
 
--MACHINE_FEATURES = "kernel26 apm alsa pcmcia bluetooth irda usbgadget screen"
-+MACHINE_FEATURES = "apm alsa pcmcia bluetooth irda usbgadget screen"
-
- IMAGE_FSTYPES ?= "tar.bz2 ext3"
-
-diff --git a/meta/recipes-kernel/update-modules/update-modules_1.0.bb
-b/meta/recipes-kernel/update-modules/update-modules_1.0.bb
-index 1ea97a8..dc44965 100644
---- a/meta/recipes-kernel/update-modules/update-modules_1.0.bb
-+++ b/meta/recipes-kernel/update-modules/update-modules_1.0.bb
-@@ -3,8 +3,8 @@ SECTION = "base"
- LICENSE = "GPLv2"
- LIC_FILES_CHKSUM =
-"file://${WORKDIR}/COPYING.GPL;md5=751419260aa954499f7abaabaa882bbe"
-
--RDEPENDS_${PN} = "${@base_contains("MACHINE_FEATURES", "kernel26",
-"module-init-tools-depmod","modutils-depmod",d)} "
--PR = "r10"
-+RDEPENDS_${PN} = "module-init-tools-depmod"
-+PR = "r11"
-
- SRC_URI = "file://update-modules \
-            file://COPYING.GPL"
+ 	# Remove Red Hat initscript
+ 	rm -rf ${D}${sysconfdir}/rc.d
 
 
