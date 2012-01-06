@@ -1,27 +1,33 @@
-Received: from mail-we0-f175.google.com ([74.125.82.175])
+Received: from mail.cvg.de ([62.153.82.30])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <koen@dominion.thruhere.net>) id 1Rj7Ek-00050J-En
+	(envelope-from <enrico.scholz@sigma-chemnitz.de>) id 1Rj7T5-0005KU-Ha
 	for openembedded-core@lists.openembedded.org;
-	Fri, 06 Jan 2012 11:41:28 +0100
-Received: by werm13 with SMTP id m13so1111227wer.6
+	Fri, 06 Jan 2012 11:56:15 +0100
+Received: from ensc-virt.intern.sigma-chemnitz.de
+	(ensc-virt.intern.sigma-chemnitz.de [192.168.3.24])
+	by mail.cvg.de (8.14.4/8.14.4) with SMTP id q06AmlVf027027
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO)
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 06 Jan 2012 02:34:02 -0800 (PST)
-Received: by 10.216.137.216 with SMTP id y66mr2814064wei.43.1325846042487;
-	Fri, 06 Jan 2012 02:34:02 -0800 (PST)
-Received: from [172.20.1.36] (ip545070eb.adsl-surfen.hetnet.nl.
-	[84.80.112.235])
-	by mx.google.com with ESMTPS id eu3sm37849101wib.6.2012.01.06.02.34.01
-	(version=TLSv1/SSLv3 cipher=OTHER);
-	Fri, 06 Jan 2012 02:34:01 -0800 (PST)
-Mime-Version: 1.0 (Apple Message framework v1251.1)
-From: Koen Kooi <koen@dominion.thruhere.net>
-In-Reply-To: <20120106100934.GA3879@jama.jama.net>
-Date: Fri, 6 Jan 2012 11:34:00 +0100
-Message-Id: <77ADD6E7-5632-4B1A-ABC3-6E4DAEEAE3B6@dominion.thruhere.net>
-References: <20120106100934.GA3879@jama.jama.net>
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-X-Mailer: Apple Mail (2.1251.1)
+	Fri, 6 Jan 2012 11:48:47 +0100
+Received: by ensc-virt.intern.sigma-chemnitz.de (sSMTP sendmail emulation);
+	Fri,  6 Jan 2012 11:48:47 +0100
+From: Enrico Scholz <enrico.scholz@sigma-chemnitz.de>
+To: openembedded-core@lists.openembedded.org
+References: <201201060029.45032.schnitzeltony@gmx.de>
+Date: Fri, 06 Jan 2012 11:48:47 +0100
+In-Reply-To: <201201060029.45032.schnitzeltony@gmx.de> ("Andreas
+	=?iso-8859-1?Q?M=FCller=22's?=
+	message of "Fri, 6 Jan 2012 00:29:44 +0100")
+Message-ID: <ly7h1585tc.fsf@ensc-virt.intern.sigma-chemnitz.de>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/23.3 (gnu/linux)
+MIME-Version: 1.0
+X-DSPAM-Result: Innocent
+X-DSPAM-Probability: 0
+X-DSPAM-Confidence: 1
+X-Spam-Score: -5.8
+X-Spam-Level: -----
+X-Spam-Tests: AWL,BAYES_00,SPF_NEUTRAL,T_RP_MATCHES_RCVD,DSPAM_INNOCENT
+X-Scanned-By: MIMEDefang 2.72 on 62.153.82.30
 Subject: Re: libs transition /usr/lib -> /lib questions
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
@@ -37,20 +43,20 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 06 Jan 2012 10:41:28 -0000
-Content-Type: text/plain; charset=us-ascii
+X-List-Received-Date: Fri, 06 Jan 2012 10:56:15 -0000
+Content-Type: text/plain; charset=iso-8859-1
 Content-Transfer-Encoding: quoted-printable
 
+Andreas M=FCller <schnitzeltony-Mmb7MZpHnFY@public.gmane.org> writes:
 
-Op 6 jan. 2012, om 11:09 heeft Martin Jansa het volgende geschreven:
+> currently some libs are moving from $libdir (/usr/lib) -> $base_libdir
+> (/lib).
 
-> FWIW today I've noticed that systemd is going other way around
-> =
-http://www.freedesktop.org/wiki/Software/systemd/separate-usr-is-broken
+Parts of these changes are wrong resp. require adaptations in the build
+system. Devel .so files can stay in /usr/lib; moving them to /lib breaks
+builds because /lib is not in the 'ld' search path.
 
-And http://fedoraproject.org/wiki/Features/UsrMove
 
-I guess it's time to publish my angstrom branch doing that after the =
-holidays :)=
+Enrico
 
 
