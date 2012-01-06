@@ -1,24 +1,24 @@
 Received: from mga14.intel.com ([143.182.124.37])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <sgw@linux.intel.com>) id 1Rj4mX-0004Ld-DE
+	(envelope-from <sgw@linux.intel.com>) id 1Rj4mW-0004Le-TG
 	for openembedded-core@lists.openembedded.org;
 	Fri, 06 Jan 2012 09:04:11 +0100
 Received: from azsmga001.ch.intel.com ([10.2.17.19])
 	by azsmga102.ch.intel.com with ESMTP; 05 Jan 2012 23:56:43 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="93004484"
+X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="93004481"
 Received: from unknown (HELO swold-mobl.bigsur.com) ([10.255.13.127])
 	by azsmga001.ch.intel.com with ESMTP; 05 Jan 2012 23:56:43 -0800
 From: Saul Wold <sgw@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Thu,  5 Jan 2012 23:56:28 -0800
-Message-Id: <00b5db24487ea0206bd82e332006ee0af6c0f21a.1325836241.git.sgw@linux.intel.com>
+Date: Thu,  5 Jan 2012 23:56:26 -0800
+Message-Id: <4ae99224e235ee760923ce7a781bb1a6dd8a7cb9.1325836241.git.sgw@linux.intel.com>
 X-Mailer: git-send-email 1.7.6.4
 In-Reply-To: <cover.1325836241.git.sgw@linux.intel.com>
 References: <cover.1325836241.git.sgw@linux.intel.com>
 In-Reply-To: <cover.1325836241.git.sgw@linux.intel.com>
 References: <cover.1325836241.git.sgw@linux.intel.com>
-Subject: [CONSOLIDATED PULL 17/25] udev: improve udev-cache robustness
+Subject: [CONSOLIDATED PULL 15/25] initscripts: avoid mounting /sys if it is already mounted
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -37,137 +37,38 @@ X-List-Received-Date: Fri, 06 Jan 2012 08:04:12 -0000
 
 From: Otavio Salvador <otavio@ossystems.com.br>
 
- * allow udev-cache to be disabled at runtime (using
-   /etc/default/udev-cache);
-
- * make cache invalidated if kernel, bootparams or device list
-   changes;
-
 Signed-off-by: Otavio Salvador <otavio@ossystems.com.br>
 ---
- meta/recipes-core/udev/udev.inc                |   11 ++++++++++-
- meta/recipes-core/udev/udev/init               |   18 +++++++++++++++---
- meta/recipes-core/udev/udev/udev-cache         |   20 +++++++++++++++++---
- meta/recipes-core/udev/udev/udev-cache.default |    4 ++++
- 4 files changed, 46 insertions(+), 7 deletions(-)
- create mode 100644 meta/recipes-core/udev/udev/udev-cache.default
+ .../initscripts/initscripts-1.0/sysfs.sh           |    4 ++--
+ meta/recipes-core/initscripts/initscripts_1.0.bb   |    2 +-
+ 2 files changed, 3 insertions(+), 3 deletions(-)
 
-diff --git a/meta/recipes-core/udev/udev.inc b/meta/recipes-core/udev/udev.inc
-index 0e571d6..65000b7 100644
---- a/meta/recipes-core/udev/udev.inc
-+++ b/meta/recipes-core/udev/udev.inc
-@@ -25,6 +25,7 @@ SRC_URI = "${KERNELORG_MIRROR}/linux/utils/kernel/hotplug/udev-${PV}.tar.gz \
-            file://network.sh \
-            file://local.rules \
-            file://udev-cache \
-+           file://udev-cache.default \
-            file://init"
- 
- inherit autotools pkgconfig update-rc.d
-@@ -58,7 +59,7 @@ FILES_libgudev = "${base_libdir}/libgudev*.so.* ${libdir}/libgudev*.so.*"
- FILES_libgudev-dbg = "${base_libdir}/.debug/libgudev*.so.* ${libdir}/.debug/libgudev*.so.*"
- FILES_libgudev-dev = "${includedir}/gudev* ${libdir}/libgudev*.so ${libdir}/libgudev*.la \
-                      ${libdir}/libgudev*.a ${libdir}/pkgconfig/gudev*.pc"
--FILES_udev-cache = "${sysconfdir}/init.d/udev-cache"
-+FILES_udev-cache = "${sysconfdir}/init.d/udev-cache ${sysconfdir}/default/udev-cache"
- 
- FILES_udev-acl = "${base_libdir}/udev/udev-acl ${base_libdir}/udev/rules.d/70-acl.rules"
- 
-@@ -72,6 +73,14 @@ do_install_append () {
- 	install -m 0755 ${WORKDIR}/init ${D}${sysconfdir}/init.d/udev
- 	install -m 0755 ${WORKDIR}/udev-cache ${D}${sysconfdir}/init.d/udev-cache
- 
-+	install -d ${D}${sysconfdir}/default
-+	install -m 0755 ${WORKDIR}/udev-cache.default ${D}${sysconfdir}/default/udev-cache
-+
-+	touch ${D}${sysconfdir}/udev/saved.uname
-+	touch ${D}${sysconfdir}/udev/saved.cmdline
-+	touch ${D}${sysconfdir}/udev/saved.devices
-+	touch ${D}${sysconfdir}/udev/saved.atags
-+
- 	install -d ${D}${sysconfdir}/udev/rules.d/
- 
- 	install -m 0644 ${WORKDIR}/local.rules         ${D}${sysconfdir}/udev/rules.d/local.rules
-diff --git a/meta/recipes-core/udev/udev/init b/meta/recipes-core/udev/udev/init
-index 6a4464c..3e6e062 100644
---- a/meta/recipes-core/udev/udev/init
-+++ b/meta/recipes-core/udev/udev/init
-@@ -14,6 +14,7 @@ export TZ=/etc/localtime
- [ -d /sys/class ] || exit 1
- [ -r /proc/mounts ] || exit 1
- [ -x /sbin/udevd ] || exit 1
-+[ -f /etc/default/udev-cache ] && . /etc/default/udev-cache
- [ -f /etc/udev/udev.conf ] && . /etc/udev/udev.conf
- 
- kill_udevd() {
-@@ -35,9 +36,20 @@ LANG=C awk '$2 == "/dev" && ($3 == "tmpfs" || $3 == "devtmpfs") { exit 1 }' /pro
- [ -e /dev/shm ] || mkdir -m 1777 /dev/shm
- 
- 
--if [ -e /etc/dev.tar ]; then
--	(cd /; tar xf /etc/dev.tar 2>&1 | grep -v 'time stamp' || true)
--	not_first_boot=1
-+if [ "$DEVCACHE" != "" ]; then
-+	# Invalidate udev cache if the kernel or its bootargs/cmdline have changed
-+	[ -x /bin/uname ] && /bin/uname -mrspv > /dev/shm/uname || touch /dev/shm/uname
-+	[ -r /proc/cmdline ] && cat /proc/cmdline > /dev/shm/cmdline || touch /dev/shm/cmdline
-+	[ -r /proc/devices ] && cat /proc/devices > /dev/shm/devices || touch /dev/shm/devices
-+	[ -r /proc/atags ] && cat /proc/atags > /dev/shm/atags || touch /dev/shm/atags
-+	if [ -e $DEVCACHE ] && \
-+		cmp -s /dev/shm/uname /etc/udev/saved.uname && \
-+		cmp -s /dev/shm/cmdline /etc/udev/saved.cmdline && \
-+		cmp -s /dev/shm/devices /etc/udev/saved.devices && \
-+		cmp -s /dev/shm/atags /etc/udev/saved.atags; then
-+		(cd /; tar xf $DEVCACHE > /dev/null 2>&1)
-+		not_first_boot=1
-+	fi
+diff --git a/meta/recipes-core/initscripts/initscripts-1.0/sysfs.sh b/meta/recipes-core/initscripts/initscripts-1.0/sysfs.sh
+index be28bb3..bd87dcd 100644
+--- a/meta/recipes-core/initscripts/initscripts-1.0/sysfs.sh
++++ b/meta/recipes-core/initscripts/initscripts-1.0/sysfs.sh
+@@ -14,6 +14,6 @@ if [ -e /proc ] && ! [ -e /proc/mounts ]; then
+   mount -t proc proc /proc
  fi
  
- # make_extra_nodes
-diff --git a/meta/recipes-core/udev/udev/udev-cache b/meta/recipes-core/udev/udev/udev-cache
-index 77bbda6..d3a7dee 100644
---- a/meta/recipes-core/udev/udev/udev-cache
-+++ b/meta/recipes-core/udev/udev/udev-cache
-@@ -9,12 +9,26 @@
- # Short-Description: cache /dev to speedup the udev next boot
- ### END INIT INFO
- 
--[ -d /sys/class ] || exit 1
-+export TZ=/etc/localtime
-+
- [ -r /proc/mounts ] || exit 1
- [ -x /sbin/udevd ] || exit 1
-+[ -d /sys/class ] || exit 1
-+
-+[ -f /etc/default/udev-cache ] && . /etc/default/udev-cache
- 
--if [ ! -e /etc/dev.tar ]; then
--	(cd /; tar cf /etc/dev.tar dev)
-+if [ "$DEVCACHE" != "" ]; then
-+	echo "Populating dev cache"
-+	(cd /; tar cf $DEVCACHE dev)
-+	mv /dev/shm/uname /etc/udev/saved.uname
-+	mv /dev/shm/cmdline /etc/udev/saved.cmdline
-+	mv /dev/shm/devices /etc/udev/saved.devices
-+	mv /dev/shm/atags /etc/udev/saved.atags
-+else
-+	rm -f /dev/shm/uname
-+	rm -f /dev/shm/cmdline
-+	rm -f /dev/shm/devices
-+	rm -f /dev/shm/atags
+-if [ -e /sys ] && grep -q sysfs /proc/filesystems; then
+-  mount sysfs /sys -t sysfs
++if [ -e /sys ] && grep -q sysfs /proc/filesystems && ! [ -e /sys/class ]; then
++  mount -t sysfs sysfs /sys
  fi
+diff --git a/meta/recipes-core/initscripts/initscripts_1.0.bb b/meta/recipes-core/initscripts/initscripts_1.0.bb
+index ffca817..98f5e9b 100644
+--- a/meta/recipes-core/initscripts/initscripts_1.0.bb
++++ b/meta/recipes-core/initscripts/initscripts_1.0.bb
+@@ -3,7 +3,7 @@ DESCRIPTION = "Initscripts provide the basic system startup initialization scrip
+ SECTION = "base"
+ LICENSE = "GPLv2"
+ LIC_FILES_CHKSUM = "file://COPYING;md5=751419260aa954499f7abaabaa882bbe"
+-PR = "r127"
++PR = "r128"
  
- exit 0
-diff --git a/meta/recipes-core/udev/udev/udev-cache.default b/meta/recipes-core/udev/udev/udev-cache.default
-new file mode 100644
-index 0000000..5c4937a
---- /dev/null
-+++ b/meta/recipes-core/udev/udev/udev-cache.default
-@@ -0,0 +1,4 @@
-+# Default for /etc/init.d/udev
-+
-+# Comment this out to disable device cache
-+DEVCACHE="/etc/dev.tar"
+ INHIBIT_DEFAULT_DEPS = "1"
+ 
 -- 
 1.7.6.4
 
