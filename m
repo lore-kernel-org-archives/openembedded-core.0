@@ -1,24 +1,24 @@
 Received: from mga14.intel.com ([143.182.124.37])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <sgw@linux.intel.com>) id 1Rj4mf-0004Le-5z
+	(envelope-from <sgw@linux.intel.com>) id 1Rj4mi-0004Ld-5w
 	for openembedded-core@lists.openembedded.org;
-	Fri, 06 Jan 2012 09:04:21 +0100
+	Fri, 06 Jan 2012 09:04:22 +0100
 Received: from azsmga001.ch.intel.com ([10.2.17.19])
 	by azsmga102.ch.intel.com with ESMTP; 05 Jan 2012 23:56:46 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="93004498"
+X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="93004499"
 Received: from unknown (HELO swold-mobl.bigsur.com) ([10.255.13.127])
 	by azsmga001.ch.intel.com with ESMTP; 05 Jan 2012 23:56:46 -0800
 From: Saul Wold <sgw@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Thu,  5 Jan 2012 23:56:35 -0800
-Message-Id: <a3b3d950ecf34c98b6802642effacec6d9845169.1325836241.git.sgw@linux.intel.com>
+Date: Thu,  5 Jan 2012 23:56:36 -0800
+Message-Id: <1c90f3e4162eb53a1d207c590eab11d817c69abc.1325836241.git.sgw@linux.intel.com>
 X-Mailer: git-send-email 1.7.6.4
 In-Reply-To: <cover.1325836241.git.sgw@linux.intel.com>
 References: <cover.1325836241.git.sgw@linux.intel.com>
 In-Reply-To: <cover.1325836241.git.sgw@linux.intel.com>
 References: <cover.1325836241.git.sgw@linux.intel.com>
-Subject: [CONSOLIDATED PULL 24/25] xorg-driver: add xf86-video-fbdev from meta-openembedded
+Subject: [CONSOLIDATED PULL 25/25] x11-common: remove extraneous BSP customizations
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -39,24 +39,51 @@ From: Andrea Adami <andrea.adami@gmail.com>
 
 Signed-off-by: Andrea Adami <andrea.adami@gmail.com>
 ---
- .../xorg-driver/xf86-video-fbdev_0.4.2.bb          |    8 ++++++++
- 1 files changed, 8 insertions(+), 0 deletions(-)
- create mode 100644 meta/recipes-graphics/xorg-driver/xf86-video-fbdev_0.4.2.bb
+ .../x11-common/x11-common/etc/X11/Xserver          |   24 --------------------
+ 1 files changed, 0 insertions(+), 24 deletions(-)
 
-diff --git a/meta/recipes-graphics/xorg-driver/xf86-video-fbdev_0.4.2.bb b/meta/recipes-graphics/xorg-driver/xf86-video-fbdev_0.4.2.bb
-new file mode 100644
-index 0000000..a3a4796
---- /dev/null
-+++ b/meta/recipes-graphics/xorg-driver/xf86-video-fbdev_0.4.2.bb
-@@ -0,0 +1,8 @@
-+require xorg-driver-video.inc
-+LIC_FILES_CHKSUM = "file://COPYING;md5=d8cbd99fff773f92e844948f74ef0df8"
-+
-+DESCRIPTION = "X.Org X server -- fbdev display driver"
-+PR = "${INC_PR}.0"
-+
-+SRC_URI[md5sum] = "53a533d9e0c2da50962282526bace074"
-+SRC_URI[sha256sum] = "93b271b4b41d7e5ca108849a583b9523e96c51813d046282285355b7001f82d5"
+diff --git a/meta/recipes-graphics/x11-common/x11-common/etc/X11/Xserver b/meta/recipes-graphics/x11-common/x11-common/etc/X11/Xserver
+index 57923e6..cea733e 100644
+--- a/meta/recipes-graphics/x11-common/x11-common/etc/X11/Xserver
++++ b/meta/recipes-graphics/x11-common/x11-common/etc/X11/Xserver
+@@ -18,14 +18,6 @@ fi
+ 
+ . /etc/profile
+ 
+-module_id() {
+-    ## used to read from assets, but sometimes assets is corrupted
+-    # grep "Module ID" /proc/hal/assets | sed "s/.*://"
+-    ## used to read from /proc/hal/model, but that is removed in 2.6
+-    # echo ' iPAQ' `cat /proc/hal/model`
+-    awk 'BEGIN { FS=": " } /Hardware/ { print $2 } ' </proc/cpuinfo
+-}
+-
+ ARGS=" -br -pn"
+ 
+ if [ "$XSERVER" != "/usr/bin/Xorg" ]; then
+@@ -44,22 +36,6 @@ if [ "$XSERVER" != "/usr/bin/Xorg" ]; then
+           ARGS="$ARGS -mouse tslib"
+         fi
+ 
+-        # start off server in conventional location.
+-        case `module_id` in
+-                "Generic OMAP1510/1610/1710")
+-                        ARGS="$ARGS -mouse /dev/input/event0" ;;
+-                "Compulab CM-x270")
+-                        #modprobe mbxfb
+-                        #ARGS="$ARGS -fb /dev/fb1"
+-                        ;;
+-                "Nokia N800")
+-                        ARGS="$ARGS -mouse tslib" ;;
+-                "Nokia 770")
+-                        ARGS="$ARGS -mouse tslib" ;;
+-                *)
+-                        ;;
+-        esac
+-
+         ARGS="$ARGS -screen ${DISPLAY_WIDTH_PIXELS}x${DISPLAY_HEIGHT_PIXELS}@${DISPLAY_ORIENTATION}x${DISPLAY_BPP}"
+ 
+         if [ ! -z "$DISPLAY_DPI" ]; then
 -- 
 1.7.6.4
 
