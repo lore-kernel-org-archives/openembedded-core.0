@@ -1,34 +1,32 @@
-Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
-	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <richard.purdie@linuxfoundation.org>)
-	id 1Rj683-0008Nd-61 for openembedded-core@lists.openembedded.org;
-	Fri, 06 Jan 2012 10:30:27 +0100
-Received: from localhost (localhost [127.0.0.1])
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q069N3f3018575
+Received: from mail-ee0-f47.google.com ([74.125.83.47])
+	by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <martin.jansa@gmail.com>) id 1Rj6rK-0004MO-Uj
+	for openembedded-core@lists.openembedded.org;
+	Fri, 06 Jan 2012 11:17:16 +0100
+Received: by eeit10 with SMTP id t10so829920eei.6
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 6 Jan 2012 09:23:03 GMT
-Received: from tim.rpsys.net ([127.0.0.1])
-	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
-	port 10024) with LMTP
-	id 18063-07 for <openembedded-core@lists.openembedded.org>;
-	Fri,  6 Jan 2012 09:22:59 +0000 (GMT)
-Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q069Msgv018567
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO)
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 6 Jan 2012 09:22:55 GMT
-Message-ID: <1325841774.20759.79.camel@ted>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
+	Fri, 06 Jan 2012 02:09:47 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
+	h=date:from:to:subject:message-id:mime-version:content-type
+	:content-disposition:user-agent;
+	bh=DM2+/FARadMjjpUr1XoU8hhw18epU2j9jOZoGTb9xBY=;
+	b=XhZh3fzzDhvv8KN2FQdvlHCeGVrOLyMShTrQqOrpuNFL1Eopy3Yu7xwsNmmBt3G1By
+	wvNsFBg633TQjCAYHCvAD0uKbj+XIiEge9A2pVcwsbcx+IYk0EEkMeSLCVzdxWcyIJzL
+	4cwneYW4EtrNrXwiOl3bnzTZvbvJk4+FszONA=
+Received: by 10.213.17.210 with SMTP id t18mr1145155eba.7.1325844587767;
+	Fri, 06 Jan 2012 02:09:47 -0800 (PST)
+Received: from localhost ([94.230.152.246])
+	by mx.google.com with ESMTPS id u53sm197707928eeu.6.2012.01.06.02.09.46
+	(version=TLSv1/SSLv3 cipher=OTHER);
+	Fri, 06 Jan 2012 02:09:46 -0800 (PST)
+Date: Fri, 6 Jan 2012 11:09:34 +0100
+From: Martin Jansa <martin.jansa@gmail.com>
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Date: Fri, 06 Jan 2012 09:22:54 +0000
-In-Reply-To: <87b36a8c64f96232ffbcef6b6de086ad9779067a.1325817957.git.nitin.a.kamble@intel.com>
-References: <cover.1325817957.git.nitin.a.kamble@intel.com>
-	<87b36a8c64f96232ffbcef6b6de086ad9779067a.1325817957.git.nitin.a.kamble@intel.com>
-X-Mailer: Evolution 3.2.2- 
-Mime-Version: 1.0
-X-Virus-Scanned: amavisd-new at rpsys.net
-Subject: Re: [PATCH 1/1] autoconf: fix nativesdk rdepends
+Message-ID: <20120106100934.GA3879@jama.jama.net>
+MIME-Version: 1.0
+User-Agent: Mutt/1.5.21 (2010-09-15)
+Subject: Re: libs transition /usr/lib -> /lib questions
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -43,31 +41,29 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 06 Jan 2012 09:30:27 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Fri, 06 Jan 2012 10:17:16 -0000
+X-Groupsio-MsgNum: 15512
+Content-Type: multipart/signed; micalg=pgp-sha1;
+	protocol="application/pgp-signature"; boundary="IJpNTDwzlM2Ie8A6"
+Content-Disposition: inline
 
-On Thu, 2012-01-05 at 18:47 -0800, nitin.a.kamble@intel.com wrote:
-> From: Nitin A Kamble <nitin.a.kamble@intel.com>
-> 
-> Fixes this build error:
-> 
-> | error: Failed dependencies:
-> | 	m4 is needed by autoconf-nativesdk-2.68-r4.x86_64
-> | 	gnu-config is needed by autoconf-nativesdk-2.68-r4.x86_64
-> NOTE: package meta-toolchain-1.0-r6: task do_populate_sdk: Failed
-> ERROR: Task 8 (.../meta/recipes-core/meta/meta-toolchain.bb,
-> do_populate_sdk) failed with exit code '1'
-> 
-> Signed-off-by: Nitin A Kamble <nitin.a.kamble@intel.com>
-> ---
->  meta/recipes-devtools/autoconf/autoconf.inc     |    2 ++
->  meta/recipes-devtools/autoconf/autoconf_2.68.bb |    2 +-
->  2 files changed, 3 insertions(+), 1 deletions(-)
+--IJpNTDwzlM2Ie8A6
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-Merged to master, thanks.
+FWIW today I've noticed that systemd is going other way around
+http://www.freedesktop.org/wiki/Software/systemd/separate-usr-is-broken
 
-Richard
+--IJpNTDwzlM2Ie8A6
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: Digital signature
 
+-----BEGIN PGP SIGNATURE-----
+Version: GnuPG v2.0.18 (GNU/Linux)
 
+iEYEARECAAYFAk8GyF4ACgkQN1Ujt2V2gByadQCeMxw/FWx2TActRb+yGMPn7RIt
+DRsAoLpWgan/GLyiUFd5XYFoptPHjenX
+=XD6U
+-----END PGP SIGNATURE-----
 
+--IJpNTDwzlM2Ie8A6--
