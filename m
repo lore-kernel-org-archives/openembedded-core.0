@@ -1,39 +1,27 @@
-Received: from mga09.intel.com ([134.134.136.24])
+Received: from mail.pbcl.net ([88.198.119.4] helo=hetzner.pbcl.net)
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <nitin.a.kamble@intel.com>) id 1RjEdG-0006pr-0R
+	(envelope-from <philb@gnu.org>) id 1RjG1V-00023g-Uw
 	for openembedded-core@lists.openembedded.org;
-	Fri, 06 Jan 2012 19:35:14 +0100
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-	by orsmga102.jf.intel.com with ESMTP; 06 Jan 2012 10:27:48 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.67,352,1309762800"; d="scan'208";a="93725703"
-Received: from orsmsx603.amr.corp.intel.com ([10.22.226.49])
-	by orsmga001.jf.intel.com with ESMTP; 06 Jan 2012 10:27:48 -0800
-Received: from orsmsx104.amr.corp.intel.com (10.22.225.131) by
-	orsmsx603.amr.corp.intel.com (10.22.226.49) with Microsoft SMTP Server
-	(TLS) id 8.2.255.0; Fri, 6 Jan 2012 10:27:48 -0800
-Received: from orsmsx106.amr.corp.intel.com ([169.254.5.229]) by
-	ORSMSX104.amr.corp.intel.com ([169.254.3.219]) with mapi id
-	14.01.0355.002; Fri, 6 Jan 2012 10:27:48 -0800
-From: "Kamble, Nitin A" <nitin.a.kamble@intel.com>
+	Fri, 06 Jan 2012 21:04:22 +0100
+Received: from blundell.swaffham-prior.co.uk ([91.216.112.25]
+	helo=[192.168.114.3])
+	by hetzner.pbcl.net with esmtpsa (TLS1.0:RSA_AES_256_CBC_SHA1:32)
+	(Exim 4.72) (envelope-from <philb@gnu.org>) id 1RjFuN-00041J-Ha
+	for openembedded-core@lists.openembedded.org;
+	Fri, 06 Jan 2012 20:56:59 +0100
+From: Phil Blundell <philb@gnu.org>
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Thread-Topic: [OE-core] [PATCH 3/4] libxxf86dga: fix compilation with x32
-	toolchain
-Thread-Index: AQHMy0XC+GRkfXEwzkqIoShDfk+SQpX+xl8AgADglUA=
-Date: Fri, 6 Jan 2012 18:27:47 +0000
-Message-ID: <ADD6A3980E8C39419A432FF422031B4C014F9D@ORSMSX106.amr.corp.intel.com>
-References: <cover.1325725256.git.nitin.a.kamble@intel.com>
-	<aa69250b08b446ad0408357587a0271a66684f12.1325725256.git.nitin.a.kamble@intel.com>
-	<521a1d1e78e4e797ce9c1787c83d8e0b2020281e.1325725256.git.nitin.a.kamble@intel.com>
-	<CAMKF1srE2FO8iY0x0UvzYCKEosWV79VomhkovmLUUjXgU19dew@mail.gmail.com>
-In-Reply-To: <CAMKF1srE2FO8iY0x0UvzYCKEosWV79VomhkovmLUUjXgU19dew@mail.gmail.com>
-Accept-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [10.22.254.140]
-MIME-Version: 1.0
-Subject: Re: [PATCH 3/4] libxxf86dga: fix compilation with x32	toolchain
+In-Reply-To: <1325873019.15053.40.camel@elmorro>
+References: <4c91ccffa882d1c01bd7abc18b662dce388192be.1325867350.git.tom.zanussi@intel.com>
+	<e0e076a614e96c92eb02758f77bfab293509be92.1325867350.git.tom.zanussi@intel.com>
+	<1325870130.12160.10.camel@phil-desktop>
+	<1325873019.15053.40.camel@elmorro>
+Date: Fri, 06 Jan 2012 19:20:12 +0000
+Message-ID: <1325877612.3234.1.camel@lenovo.internal.reciva.com>
+Mime-Version: 1.0
+X-Mailer: Evolution 2.32.3 
+Subject: Re: [PATCH 2/5] Add LICENSE_FLAGS to packages mentioned in COMMERCIAL_LICENSE
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -48,102 +36,34 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 06 Jan 2012 18:35:14 -0000
-Content-Language: en-US
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+X-List-Received-Date: Fri, 06 Jan 2012 20:04:22 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-DQoNCj4gLS0tLS1PcmlnaW5hbCBNZXNzYWdlLS0tLS0NCj4gRnJvbTogb3BlbmVtYmVkZGVkLWNv
-cmUtYm91bmNlc0BsaXN0cy5vcGVuZW1iZWRkZWQub3JnDQo+IFttYWlsdG86b3BlbmVtYmVkZGVk
-LWNvcmUtYm91bmNlc0BsaXN0cy5vcGVuZW1iZWRkZWQub3JnXSBPbiBCZWhhbGYgT2YNCj4gS2hl
-bSBSYWoNCj4gU2VudDogVGh1cnNkYXksIEphbnVhcnkgMDUsIDIwMTIgMTI6NDkgUE0NCj4gVG86
-IFBhdGNoZXMgYW5kIGRpc2N1c3Npb25zIGFib3V0IHRoZSBvZS1jb3JlIGxheWVyDQo+IFN1Ympl
-Y3Q6IFJlOiBbT0UtY29yZV0gW1BBVENIIDMvNF0gbGlieHhmODZkZ2E6IGZpeCBjb21waWxhdGlv
-biB3aXRoDQo+IHgzMiB0b29sY2hhaW4NCj4gDQo+IE9uIFdlZCwgSmFuIDQsIDIwMTIgYXQgNTow
-MiBQTSwgIDxuaXRpbi5hLmthbWJsZUBpbnRlbC5jb20+IHdyb3RlOg0KPiA+IEZyb206IE5pdGlu
-IEEgS2FtYmxlIDxuaXRpbi5hLmthbWJsZUBpbnRlbC5jb20+DQo+ID4NCj4gPiBGaXggdHlwZSBj
-b252ZXJzaW9uIGZvciB4MzIuIEZvciB4MzIgdGhlIG9mZl90IGlzIDY0Yml0IGFuZCBwb2ludGVy
-cw0KPiBhcmUNCj4gPiAzMmJpdC4NCj4gPiBzbyB0aGUgY29udmVyc2lvbiBvZiBwb2ludGVyIHRv
-IG9mZl90IHdhcyByZXN1bHRpbmcgaW50byB0aGlzIGVycm9yOg0KPiA+DQo+ID4gfCBYRjg2REdB
-Mi5jOjkzMToyNDogZXJyb3I6IGNhc3QgZnJvbSBwb2ludGVyIHRvIGludGVnZXIgb2YgZGlmZmVy
-ZW50DQo+ID4gc2l6ZSBbLVdlcnJvcj1wb2ludGVyLXRvLWludC1jYXN0XQ0KPiA+IHwgY2MxOiBz
-b21lIHdhcm5pbmdzIGJlaW5nIHRyZWF0ZWQgYXMgZXJyb3JzDQo+ID4gfA0KPiA+IHwgbWFrZVsy
-XTogKioqIFtYRjg2REdBMi5sb10gRXJyb3IgMQ0KPiA+DQo+ID4gRml4ZWQgaXQgYnkgdHlwZWNh
-c3RpbmcgcG9pbnRlciBpbnRvIHVuc2lnbmVkIGxvbmcgMXN0IGFuZCB0aGVuIGFnYWluDQo+ID4g
-dHlwZWNhc3RpbmcgdW5zaWduZWQgbG9uZyB0byBvZmZfdC4NCj4gPg0KPiA+IFNpZ25lZC1vZmYt
-Ynk6IE5pdGluIEEgS2FtYmxlIDxuaXRpbi5hLmthbWJsZUBpbnRlbC5jb20+DQo+ID4gLS0tDQo+
-ID4gwqAuLi4vbGlieHhmODZkZ2EtMS4xLjJfZml4X2Zvcl94MzIucGF0Y2ggwqAgwqAgwqAgwqAg
-wqAgwqB8IMKgIDMwDQo+ICsrKysrKysrKysrKysrKysrKysrDQo+ID4gwqAuLi4vcmVjaXBlcy1n
-cmFwaGljcy94b3JnLWxpYi9saWJ4eGY4NmRnYV8xLjEuMi5iYiB8IMKgIMKgNSArKy0NCj4gPiDC
-oDIgZmlsZXMgY2hhbmdlZCwgMzQgaW5zZXJ0aW9ucygrKSwgMSBkZWxldGlvbnMoLSkNCj4gPiDC
-oGNyZWF0ZSBtb2RlIDEwMDY0NCBtZXRhL3JlY2lwZXMtZ3JhcGhpY3MveG9yZy0NCj4gbGliL2xp
-Ynh4Zjg2ZGdhL2xpYnh4Zjg2ZGdhLTEuMS4yX2ZpeF9mb3JfeDMyLnBhdGNoDQo+ID4NCj4gPiBk
-aWZmIC0tZ2l0IGEvbWV0YS9yZWNpcGVzLWdyYXBoaWNzL3hvcmctbGliL2xpYnh4Zjg2ZGdhL2xp
-Ynh4Zjg2ZGdhLQ0KPiAxLjEuMl9maXhfZm9yX3gzMi5wYXRjaCBiL21ldGEvcmVjaXBlcy1ncmFw
-aGljcy94b3JnLQ0KPiBsaWIvbGlieHhmODZkZ2EvbGlieHhmODZkZ2EtMS4xLjJfZml4X2Zvcl94
-MzIucGF0Y2gNCj4gPiBuZXcgZmlsZSBtb2RlIDEwMDY0NA0KPiA+IGluZGV4IDAwMDAwMDAuLjMw
-NjkyYWQNCj4gPiAtLS0gL2Rldi9udWxsDQo+ID4gKysrIGIvbWV0YS9yZWNpcGVzLWdyYXBoaWNz
-L3hvcmctbGliL2xpYnh4Zjg2ZGdhL2xpYnh4Zjg2ZGdhLQ0KPiAxLjEuMl9maXhfZm9yX3gzMi5w
-YXRjaA0KPiA+IEBAIC0wLDAgKzEsMzAgQEANCj4gPiArVXBzdHJlYW0tU3RhdHVzOiBwZW5kaW5n
-DQo+ID4gKw0KPiA+ICtGaXggdHlwZSBjb252ZXJzaW9uIGZvciB4MzIuIEZvciB4MzIgdGhlIG9m
-Zl90IGlzIDY0Yml0IGFuZCBwb2ludGVycw0KPiBhcmUgMzJiaXQuDQo+ID4gK3NvIHRoZSBjb252
-ZXJzaW9uIG9mIHBvaW50ZXIgdG8gb2ZmX3Qgd2FzIHJlc3VsdGluZyBpbnRvIHRoaXMgZXJyb3I6
-DQo+ID4gKw0KPiA+ICt8IFhGODZER0EyLmM6OTMxOjI0OiBlcnJvcjogY2FzdCBmcm9tIHBvaW50
-ZXIgdG8gaW50ZWdlciBvZg0KPiBkaWZmZXJlbnQgc2l6ZSBbLVdlcnJvcj1wb2ludGVyLXRvLWlu
-dC1jYXN0XQ0KPiA+ICt8IGNjMTogc29tZSB3YXJuaW5ncyBiZWluZyB0cmVhdGVkIGFzIGVycm9y
-cw0KPiA+ICt8DQo+ID4gK3wgbWFrZVsyXTogKioqIFtYRjg2REdBMi5sb10gRXJyb3IgMQ0KPiA+
-ICsNCj4gPiArRml4ZWQgaXQgYnkgdHlwZWNhc3RpbmcgcG9pbnRlciBpbnRvIHVuc2lnbmVkIGxv
-bmcgMXN0IGFuZCB0aGVuDQo+IGFnYWluIHR5cGVjYXN0aW5nDQo+ID4gK3Vuc2lnbmVkIGxvbmcg
-dG8gb2ZmX3QuDQo+IA0KPiB3aGVyZSBpcyBwb2ludGVyIGhlcmUgPw0KPiBodHRwOi8vY3Zzd2Vi
-LnhmcmVlODYub3JnL2N2c3dlYi94Yy9saWIvWHhmODZkZ2EvWEY4NkRHQTIuYz9yZXY9MS4zMCZj
-bw0KPiBudGVudC10eXBlPXRleHQvdm5kLnZpZXdjdnMtbWFya3VwDQo+IHNob3dzIHRoYXQgYmFz
-ZSBpcyBvZiB0eXBlIG1tYXBPZmZzZXQgd2hpY2ggaXMNCj4gDQo+ICNpZiAhZGVmaW5lZChfTFA2
-NCkgJiYgZGVmaW5lZChfRklMRV9PRkZTRVRfQklUUykgJiYgKF9GSUxFX09GRlNFVF9CSVRTDQo+
-ID09IDY0KQ0KPiB0eXBlZGVmIHVuc2lnbmVkIGxvbmcgbG9uZyBtbWFwT2Zmc2V0Ow0KPiAjZWxz
-ZQ0KPiB0eXBlZGVmIHVuc2lnbmVkIGxvbmcgICAgICBtbWFwT2Zmc2V0Ow0KPiAjZW5kaWYNCj4g
-DQo+IGFuZCBvZmZfdCBpcyB0eXBlZGVmJ2VkIHRvIGxvbmcgaW50DQo+IA0KS2hlbSwNCmJhc2Ug
-aXMgY2hhciAqIGFzIHNlZW4gaW4gdGhlIGNoYW5nZWQgZmlsZSBzcmMvWEY4NkRHQTIuYzoNCnN0
-YXRpYyBCb29sDQpER0FNYXBQaHlzaWNhbCgNCiAgIGludCBzY3JlZW4sDQogICBjaGFyICpuYW1l
-LCAgICAgICAgICAgICAgICAgIC8qIG9wdGlvbmFsIGRldmljZSBuYW1lICovDQogICB1bnNpZ25l
-ZCBjaGFyKiBiYXNlLCAgICAgICAgIC8qIHBoeXNpY2FsIG1lbW9yeSAqLw0KICAgQ0FSRDMyIHNp
-emUsICAgICAgICAgICAgICAgICAvKiBzaXplICovDQogICBDQVJEMzIgb2Zmc2V0LCAgICAgICAg
-ICAgICAgIC8qIG9wdGlvbmFsIG9mZnNldCAqLw0KICAgQ0FSRDMyIGV4dHJhLCAgICAgICAgICAg
-ICAgICAvKiBvcHRpb25hbCBleHRyYSBkYXRhICovDQogICBER0FNYXBQdHIgcE1hcA0KKSB7DQoN
-Ck5pdGluDQoNCj4gPiArDQo+ID4gK1NpZ25lZC1PZmYtYnk6IE5pdGluIEEgS2FtYmxlIDxuaXRp
-bi5hLmthbWJsZUBpbnRlbC5jb20+DQo+ID4gKzIwMTIvMDEvMDQNCj4gPiArDQo+ID4gKw0KPiA+
-ICtJbmRleDogbGliWHhmODZkZ2EtMS4xLjIvc3JjL1hGODZER0EyLmMNCj4gPiArPT09PT09PT09
-PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09
-PQ0KPiA+ICstLS0gbGliWHhmODZkZ2EtMS4xLjIub3JpZy9zcmMvWEY4NkRHQTIuYyDCoCDCoCDC
-oDIwMTAtMTAtMDYNCj4gMjE6MTc6MTEuMDAwMDAwMDAwIC0wNzAwDQo+ID4gKysrKyBsaWJYeGY4
-NmRnYS0xLjEuMi9zcmMvWEY4NkRHQTIuYyDCoCAyMDEyLTAxLTA0IDE0OjIxOjM2LjI3NTk3MTE3
-Mg0KPiAtMDgwMA0KPiA+ICtAQCAtOTI4LDcgKzkyOCw3IEBAIERHQU1hcFBoeXNpY2FsKA0KPiA+
-ICsgwqAgwqAgaWYgKChwTWFwLT5mZCA9IG9wZW4obmFtZSwgT19SRFdSKSkgPCAwKQ0KPiA+ICsg
-wqAgwqAgwqAgcmV0dXJuIEZhbHNlOw0KPiA+ICsgwqAgwqAgcE1hcC0+dmlydHVhbCA9IG1tYXAo
-TlVMTCwgc2l6ZSwgUFJPVF9SRUFEIHwgUFJPVF9XUklURSwNCj4gPiArLSDCoCDCoCDCoCDCoCDC
-oCDCoCDCoCDCoCDCoCDCoCDCoE1BUF9GSUxFIHwgTUFQX1NIQVJFRCwgcE1hcC0+ZmQsDQo+IChv
-ZmZfdCliYXNlKTsNCj4gPiArKyDCoCDCoCDCoCDCoCDCoCDCoCDCoCDCoCDCoCDCoCDCoE1BUF9G
-SUxFIHwgTUFQX1NIQVJFRCwgcE1hcC0+ZmQsDQo+IChvZmZfdCkodW5zaWduZWQgbG9uZyliYXNl
-KTsNCj4gPiArIMKgIMKgIGlmIChwTWFwLT52aXJ0dWFsID09ICh2b2lkICopLTEpDQo+ID4gKyDC
-oCDCoCDCoCByZXR1cm4gRmFsc2U7DQo+ID4gKyDCoCDCoCBtcHJvdGVjdChwTWFwLT52aXJ0dWFs
-LCBzaXplLCBQUk9UX1JFQUQgfCBQUk9UX1dSSVRFKTsNCj4gPiBkaWZmIC0tZ2l0IGEvbWV0YS9y
-ZWNpcGVzLWdyYXBoaWNzL3hvcmctbGliL2xpYnh4Zjg2ZGdhXzEuMS4yLmJiDQo+IGIvbWV0YS9y
-ZWNpcGVzLWdyYXBoaWNzL3hvcmctbGliL2xpYnh4Zjg2ZGdhXzEuMS4yLmJiDQo+ID4gaW5kZXgg
-OGU3NzdjMy4uOWExYzk2ZiAxMDA2NDQNCj4gPiAtLS0gYS9tZXRhL3JlY2lwZXMtZ3JhcGhpY3Mv
-eG9yZy1saWIvbGlieHhmODZkZ2FfMS4xLjIuYmINCj4gPiArKysgYi9tZXRhL3JlY2lwZXMtZ3Jh
-cGhpY3MveG9yZy1saWIvbGlieHhmODZkZ2FfMS4xLjIuYmINCj4gPiBAQCAtOCw3ICs4LDEwIEBA
-IGFsbG93cyByZWxhdGl2ZSBtb3VzZSByZXBvcnRpbmcsIGV0IGFsLiDCoEl0IGlzDQo+IG1haW5s
-eSB1c2VkIGJ5IGdhbWVzIGFuZCBcDQo+ID4gwqBlbXVsYXRvcnMgZm9yIGdhbWVzLiINCj4gPg0K
-PiA+IMKgREVQRU5EUyArPSAibGlieGV4dCB4Zjg2ZGdhcHJvdG8iDQo+ID4gLVBSID0gInIxIg0K
-PiA+ICtQUiA9ICJyMiINCj4gPiArDQo+ID4gK1NSQ19VUkkgKz0gImZpbGU6Ly9saWJ4eGY4NmRn
-YS0xLjEuMl9maXhfZm9yX3gzMi5wYXRjaCINCj4gPiArDQo+ID4gwqBQRSA9ICIxIg0KPiA+DQo+
-ID4gwqBYT1JHX1BOID0gImxpYlh4Zjg2ZGdhIg0KPiA+IC0tDQo+ID4gMS43LjYuNA0KPiA+DQo+
-ID4NCj4gPiBfX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fXw0K
-PiA+IE9wZW5lbWJlZGRlZC1jb3JlIG1haWxpbmcgbGlzdA0KPiA+IE9wZW5lbWJlZGRlZC1jb3Jl
-QGxpc3RzLm9wZW5lbWJlZGRlZC5vcmcNCj4gPiBodHRwOi8vbGlzdHMubGludXh0b2dvLm9yZy9j
-Z2ktYmluL21haWxtYW4vbGlzdGluZm8vb3BlbmVtYmVkZGVkLWNvcmUNCj4gDQo+IF9fX19fX19f
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fDQo+IE9wZW5lbWJlZGRlZC1j
-b3JlIG1haWxpbmcgbGlzdA0KPiBPcGVuZW1iZWRkZWQtY29yZUBsaXN0cy5vcGVuZW1iZWRkZWQu
-b3JnDQo+IGh0dHA6Ly9saXN0cy5saW51eHRvZ28ub3JnL2NnaS1iaW4vbWFpbG1hbi9saXN0aW5m
-by9vcGVuZW1iZWRkZWQtY29yZQ0K
+On Fri, 2012-01-06 at 12:03 -0600, Tom Zanussi wrote:
+> On Fri, 2012-01-06 at 17:15 +0000, Phil Blundell wrote:
+> > If I'm understanding the mechanism correctly then just setting all of
+> > these to "Commercial" seems like a bit of a retrograde step.  Is there
+> > an easy way in this new world for me to say that (for the sake of
+> > argument) gst-fluendo-mp3 is acceptable for inclusion but libomixl
+> > isn't?
+> > 
+> 
+> Hmm, I don't think it's retrograde - it's true, this patchset simply
+> replaces the existing functionality, where those particular packages
+> previously were all essentially marked "COMMERCIAL" by virtue of all
+> existing within the one-and-all COMMERCIAL_LICENSE variable, whereas now
+> they're all marked as "Commercial" instead.
+
+Well, the sense in which it seems retrograde to me is that, previously,
+COMMERCIAL_LICENSE named a list of packages and I could add or remove
+things as I saw fit depending on my distro policy requirements.  Now,
+they're all just marked "Commercial" in an undifferentiated way and
+there doesn't seem to be any easy mechanism for me to take some but not
+all of them.
+
+p.
+
+
 
 
