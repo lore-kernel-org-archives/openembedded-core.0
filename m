@@ -1,24 +1,24 @@
 Received: from mga14.intel.com ([143.182.124.37])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <sgw@linux.intel.com>) id 1Rj4mc-0004Le-4V
+	(envelope-from <sgw@linux.intel.com>) id 1Rj4mc-0004Lc-AU
 	for openembedded-core@lists.openembedded.org;
-	Fri, 06 Jan 2012 09:04:14 +0100
+	Fri, 06 Jan 2012 09:04:16 +0100
 Received: from azsmga001.ch.intel.com ([10.2.17.19])
 	by azsmga102.ch.intel.com with ESMTP; 05 Jan 2012 23:56:45 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="93004494"
+X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="93004496"
 Received: from unknown (HELO swold-mobl.bigsur.com) ([10.255.13.127])
 	by azsmga001.ch.intel.com with ESMTP; 05 Jan 2012 23:56:45 -0800
 From: Saul Wold <sgw@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Thu,  5 Jan 2012 23:56:32 -0800
-Message-Id: <14360bf32e4bc377c06ccfd8c4a5d96508752de3.1325836241.git.sgw@linux.intel.com>
+Date: Thu,  5 Jan 2012 23:56:34 -0800
+Message-Id: <abb8a2c4f198ae1c2d52bdf181c1e99c13467e0b.1325836241.git.sgw@linux.intel.com>
 X-Mailer: git-send-email 1.7.6.4
 In-Reply-To: <cover.1325836241.git.sgw@linux.intel.com>
 References: <cover.1325836241.git.sgw@linux.intel.com>
 In-Reply-To: <cover.1325836241.git.sgw@linux.intel.com>
 References: <cover.1325836241.git.sgw@linux.intel.com>
-Subject: [CONSOLIDATED PULL 21/25] automake-1.11.2: backport pkglibexec_SCRIPTS fix
+Subject: [CONSOLIDATED PULL 23/25] systemtap: remove not needed fix for automake 1.11.2
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -37,160 +37,88 @@ X-List-Received-Date: Fri, 06 Jan 2012 08:04:22 -0000
 
 From: Nitin A Kamble <nitin.a.kamble@intel.com>
 
-automake-1.11.2 made variable libexec_SCRIPTS valid while
-pkglibexec_SCRIPTS invalid. Both should be either allowed
-or not allowed. This issue is fixed in the automake
-developement branch, and now backported into our automake
-1.11.2 recipe.
+The pkglibexec_SCRIPTS pair is valid. the 1.11.2 introduced an bug
+to make it invalid. Now the automake 1.11.2 recipe is fixed, so
+no need for this fix for systemtap recipe.
 
 Signed-off-by: Nitin A Kamble <nitin.a.kamble@intel.com>
 ---
- ...utomake_1.11.2_fix_for_pkglibexec_SCRIPTS.patch |  118 ++++++++++++++++++++
- meta/recipes-devtools/automake/automake_1.11.2.bb  |    5 +-
- 2 files changed, 121 insertions(+), 2 deletions(-)
- create mode 100644 meta/recipes-devtools/automake/automake/automake_1.11.2_fix_for_pkglibexec_SCRIPTS.patch
+ .../systemtap/fix_for_automake_1.11.2.patch        |   46 --------------------
+ meta/recipes-kernel/systemtap/systemtap_git.bb     |    6 +--
+ 2 files changed, 2 insertions(+), 50 deletions(-)
+ delete mode 100644 meta/recipes-kernel/systemtap/systemtap/fix_for_automake_1.11.2.patch
 
-diff --git a/meta/recipes-devtools/automake/automake/automake_1.11.2_fix_for_pkglibexec_SCRIPTS.patch b/meta/recipes-devtools/automake/automake/automake_1.11.2_fix_for_pkglibexec_SCRIPTS.patch
-new file mode 100644
-index 0000000..f06dfe3
---- /dev/null
-+++ b/meta/recipes-devtools/automake/automake/automake_1.11.2_fix_for_pkglibexec_SCRIPTS.patch
-@@ -0,0 +1,118 @@
-+Upstream-Status: Backport
-+
-+Backporting this patch from automake devel git tree.
-+
-+Signed-Off-By: Nitin A Kamble <nitin.a.kamble@intel.com>
-+2012/01/05
-+
-+
-+From 4e4dae500390d2ace681e4e4bc4c590ecdca38c6 Mon Sep 17 00:00:00 2001
-+From: Stefano Lattarini <stefano.lattarini@gmail.com>
-+Date: Tue, 03 Jan 2012 08:06:09 +0000
-+Subject: install: pkglibexec_SCRIPTS is a valid prefix/primary combination
-+
-+It makes little sense for `libexec_SCRIPTS' to be accepted as valid
-+while `pkglibexec_SCRIPTS' is not.  So fix this inconsistency by
-+explicitly allowing `pkglibexec_SCRIPTS' as well.  It is worth
-+noting that the inconsistency has been there for a long time,
-+but only the quite recent commit `v1.11-373-g9ca6326' "Warnings
-+about primary/prefix mismatch fixed and extended" has made it
-+noisy enough to be noticed.
-+
-+* automake.in (handle_scripts): Also list `pkglibexec' among the
-+prefixes valid for the `SCRIPTS' primary.
-+* doc/automake.texi (Scripts): Likewise.
-+* tests/primary-prefix-valid-couples.test: Update.
-+* THANKS: Likewise.
-+* NEWS: Likewise.
-+
-+Reported by Dennis Schridde on the automake list:
-+<http://lists.gnu.org/archive/html/automake/2012-01/msg00002.html>
-+---
-+diff --git a/NEWS b/NEWS
-+index 599f19f..2e572e4 100644
-+--- a/NEWS
-++++ b/NEWS
-+@@ -82,6 +82,11 @@ New in 1.11.0a:
-+ 
-+ Bugs fixed in 1.11.0a:
-+ 
-++* Bugs introduced by 1.11.2:
-++
-++  - Automake now correctly recognizes the prefix/primary combination
-++   `pkglibexec_SCRIPTS' as valid.
-++
-+ * Bugs introduced by 1.11:
-+ 
-+   - The `parallel-tests' test driver works around a GNU make 3.80 bug with
-+diff --git a/THANKS b/THANKS
-+index e9da06c..e9c6db8 100644
-+--- a/THANKS
-++++ b/THANKS
-+@@ -78,6 +78,7 @@ David Pashley		david@davidpashley.com
-+ David Zaroski		cz253@cleveland.Freenet.Edu
-+ Dean Povey		dpovey@wedgetail.com
-+ Dennis J. Linse		Dennis.J.Linse@SAIC.com
-++Dennis Schridde		devurandom@gmx.net
-+ Derek R. Price		derek.price@openavenue.com
-+ Diab Jerius		djerius@cfa.harvard.edu
-+ Didier Cassirame	faded@free.fr
-+diff --git a/automake.in b/automake.in
-+index a852195..a689b63 100644
-+--- a/automake.in
-++++ b/automake.in
-+@@ -3091,7 +3091,7 @@ sub handle_scripts
-+     # useful to sometimes distribute scripts verbatim.  This happens
-+     # e.g. in Automake itself.
-+     &am_install_var ('-candist', 'scripts', 'SCRIPTS',
-+-		     'bin', 'sbin', 'libexec', 'pkgdata',
-++		     'bin', 'sbin', 'libexec', 'pkglibexec', 'pkgdata',
-+ 		     'noinst', 'check');
-+ }
-+ 
-+diff --git a/doc/automake.texi b/doc/automake.texi
-+index cebe084..0c4dc01 100644
-+--- a/doc/automake.texi
-++++ b/doc/automake.texi
-+@@ -7099,11 +7099,12 @@ prefix as with other primaries.
-+ @vindex sbin_SCRIPTS
-+ @vindex libexec_SCRIPTS
-+ @vindex pkgdata_SCRIPTS
-++@vindex pkglibexec_SCRIPTS
-+ @vindex noinst_SCRIPTS
-+ @vindex check_SCRIPTS
-+ 
-+ Scripts can be installed in @code{bindir}, @code{sbindir},
-+-@code{libexecdir}, or @code{pkgdatadir}.
-++@code{libexecdir}, @code{pkglibexecdir}, or @code{pkgdatadir}.
-+ 
-+ Scripts that need not be installed can be listed in
-+ @code{noinst_SCRIPTS}, and among them, those which are needed only by
-+diff --git a/tests/primary-prefix-invalid-couples.test b/tests/primary-prefix-invalid-couples.test
-+index 88e0817..c3d6471 100755
-+--- a/tests/primary-prefix-invalid-couples.test
-++++ b/tests/primary-prefix-invalid-couples.test
-+@@ -79,7 +79,7 @@ for primary in $primaries; do
-+       prefixes_ok='bin sbin libexec pkglibexec'
-+       ;;
-+     SCRIPTS)
-+-      prefixes_ok='bin sbin libexec pkgdata'
-++      prefixes_ok='bin sbin libexec pkglibexec pkgdata'
-+       ;;
-+     DATA)
-+       prefixes_ok='data dataroot pkgdata doc html dvi pdf ps
-+diff --git a/tests/primary-prefix-valid-couples.test b/tests/primary-prefix-valid-couples.test
-+index 36ff5d8..6eb4149 100755
-+--- a/tests/primary-prefix-valid-couples.test
-++++ b/tests/primary-prefix-valid-couples.test
-+@@ -57,7 +57,7 @@ for p in lib pkglib; do
-+   echo "${p}_LTLIBRARIES = libd-$p.la" >> Makefile.am
-+ done
-+ 
-+-for p in bin sbin libexec pkgdata; do
-++for p in bin sbin libexec pkglibexec pkgdata; do
-+   echo "${p}_SCRIPTS = $p.sh" >> Makefile.am
-+ done
-+ 
-+--
-+cgit v0.9.0.2
-diff --git a/meta/recipes-devtools/automake/automake_1.11.2.bb b/meta/recipes-devtools/automake/automake_1.11.2.bb
-index 0a65f24..4534c39 100644
---- a/meta/recipes-devtools/automake/automake_1.11.2.bb
-+++ b/meta/recipes-devtools/automake/automake_1.11.2.bb
-@@ -36,9 +36,10 @@ PATHFIXPATCH_virtclass-nativesdk = ""
+diff --git a/meta/recipes-kernel/systemtap/systemtap/fix_for_automake_1.11.2.patch b/meta/recipes-kernel/systemtap/systemtap/fix_for_automake_1.11.2.patch
+deleted file mode 100644
+index 99e72b2..0000000
+--- a/meta/recipes-kernel/systemtap/systemtap/fix_for_automake_1.11.2.patch
++++ /dev/null
+@@ -1,46 +0,0 @@
+-Upstream-Status: Pending
+-
+-automake version 1.11.2 has made use of dir variables more strict.
+-The pkglibexec var can not have SCRIPTS suffix. Using pkgdata
+-instead.
+-
+-Fixes this error:
+-| Makefile.am:25: `pkglibexecdir' is not a legitimate directory for `SCRIPTS'
+-| autoreconf: automake failed with exit status: 1
+-| ERROR: autoreconf execution failed.
+-NOTE: package systemtap-1.6+git1+820f2d22fc47fad6e09ba886efb9b91e1247cb39-r0: task do_configure: Failed
+-
+-Signed-Off-By: Nitin A Kamble <nitin.a.kamble@intel.com>
+-2011/12/29
+-
+-Index: git/Makefile.am
+-===================================================================
+---- git.orig/Makefile.am
+-+++ git/Makefile.am
+-@@ -22,7 +22,7 @@ dtrace.1 stap-merge.1\
+- stappaths.7
+- 
+- bin_SCRIPTS = stap-report
+--pkglibexec_SCRIPTS = stap-env
+-+pkgdata_SCRIPTS = stap-env
+- oldinclude_HEADERS = includes/sys/sdt.h includes/sys/sdt-config.h
+- 
+- bin_PROGRAMS =
+-@@ -41,7 +41,7 @@ if BUILD_SERVER
+- man_MANS += stap-server.8
+- pkglibexec_PROGRAMS += stap-serverd stap-gen-cert
+- bin_SCRIPTS += stap-server
+--pkglibexec_SCRIPTS += stap-start-server stap-stop-server
+-+pkgdata_SCRIPTS += stap-start-server stap-stop-server
+- endif
+- endif
+- 
+-@@ -127,7 +127,7 @@ install-scripts: install-binSCRIPTS inst
+- 	for f in $(bin_SCRIPTS); do \
+- 	   sed -i -e "s,\$${PKGLIBEXECDIR},$(pkglibexecdir)/," $(DESTDIR)$(bindir)/$$f; \
+- 	done
+--	for f in $(pkglibexec_SCRIPTS); do \
+-+	for f in $(pkgdata_SCRIPTS); do \
+- 	   sed -i -e "/INSTALL-HOOK/d;s,sysconfdir=.*,sysconfdir=$(sysconfdir),;s,pkglibexecdir=.*,pkglibexecdir=$(pkglibexecdir)/,;s,localstatedir=.*,localstatedir=$(localstatedir),;s,\$${PKGLIBEXECDIR},$(pkglibexecdir)/," $(DESTDIR)$(pkglibexecdir)/$$f; \
+- 	done
+- endif
+diff --git a/meta/recipes-kernel/systemtap/systemtap_git.bb b/meta/recipes-kernel/systemtap/systemtap_git.bb
+index 1c64be6..ebacc43 100644
+--- a/meta/recipes-kernel/systemtap/systemtap_git.bb
++++ b/meta/recipes-kernel/systemtap/systemtap_git.bb
+@@ -5,12 +5,10 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=b234ee4d69f5fce4486a80fdaf4a4263"
+ DEPENDS = "elfutils sqlite3"
  
- SRC_URI += "${PATHFIXPATCH} \
- 	    file://prefer-cpio-over-pax-for-ustar-archives.patch \
--	    file://python-libdir.patch"
-+	    file://python-libdir.patch \
-+            file://automake_1.11.2_fix_for_pkglibexec_SCRIPTS.patch"
+ SRCREV = "820f2d22fc47fad6e09ba886efb9b91e1247cb39"
+-PR = "r1"
++PR = "r2"
+ PV = "1.6+git${SRCPV}"
  
--PR = "r0"
-+PR = "r1"
- SRC_URI[md5sum] = "18194e804d415767bae8f703c963d456"
- SRC_URI[sha256sum] = "4f46d1f9380c8a3506280750f630e9fc915cb1a435b724be56b499d016368718"
+-SRC_URI = "git://sources.redhat.com/git/systemtap.git;protocol=git \
+-           file://fix_for_automake_1.11.2.patch \
+-          "
++SRC_URI = "git://sources.redhat.com/git/systemtap.git;protocol=git"
  
+ EXTRA_OECONF += "--with-libelf=${STAGING_DIR_TARGET} --without-rpm \
+ 	     ac_cv_file__usr_include_nss=no \
 -- 
 1.7.6.4
 
