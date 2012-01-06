@@ -1,32 +1,34 @@
-Received: from mail-ee0-f47.google.com ([74.125.83.47])
+Received: from mail.cvg.de ([62.153.82.30])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <martin.jansa@gmail.com>) id 1Rj6rK-0004MO-Uj
+	(envelope-from <enrico.scholz@sigma-chemnitz.de>) id 1Rj79z-0004pT-0l
 	for openembedded-core@lists.openembedded.org;
-	Fri, 06 Jan 2012 11:17:16 +0100
-Received: by eeit10 with SMTP id t10so829920eei.6
+	Fri, 06 Jan 2012 11:36:33 +0100
+Received: from ensc-virt.intern.sigma-chemnitz.de
+	(ensc-virt.intern.sigma-chemnitz.de [192.168.3.24])
+	by mail.cvg.de (8.14.4/8.14.4) with SMTP id q06AT0sE024921
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO)
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 06 Jan 2012 02:09:47 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
-	h=date:from:to:subject:message-id:mime-version:content-type
-	:content-disposition:user-agent;
-	bh=DM2+/FARadMjjpUr1XoU8hhw18epU2j9jOZoGTb9xBY=;
-	b=XhZh3fzzDhvv8KN2FQdvlHCeGVrOLyMShTrQqOrpuNFL1Eopy3Yu7xwsNmmBt3G1By
-	wvNsFBg633TQjCAYHCvAD0uKbj+XIiEge9A2pVcwsbcx+IYk0EEkMeSLCVzdxWcyIJzL
-	4cwneYW4EtrNrXwiOl3bnzTZvbvJk4+FszONA=
-Received: by 10.213.17.210 with SMTP id t18mr1145155eba.7.1325844587767;
-	Fri, 06 Jan 2012 02:09:47 -0800 (PST)
-Received: from localhost ([94.230.152.246])
-	by mx.google.com with ESMTPS id u53sm197707928eeu.6.2012.01.06.02.09.46
-	(version=TLSv1/SSLv3 cipher=OTHER);
-	Fri, 06 Jan 2012 02:09:46 -0800 (PST)
-Date: Fri, 6 Jan 2012 11:09:34 +0100
-From: Martin Jansa <martin.jansa@gmail.com>
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Message-ID: <20120106100934.GA3879@jama.jama.net>
+	Fri, 6 Jan 2012 11:29:02 +0100
+Received: by ensc-virt.intern.sigma-chemnitz.de (sSMTP sendmail emulation);
+	Fri,  6 Jan 2012 11:29:00 +0100
+From: Enrico Scholz <enrico.scholz@sigma-chemnitz.de>
+To: openembedded-core@lists.openembedded.org
+References: <cover.1325744640.git.sgw@linux.intel.com>
+	<04bb0f6bbd41ec9c2234df49130dba2346d9a3bf.1325744640.git.sgw@linux.intel.com>
+Date: Fri, 06 Jan 2012 11:29:00 +0100
+In-Reply-To: <04bb0f6bbd41ec9c2234df49130dba2346d9a3bf.1325744640.git.sgw@linux.intel.com>
+	(Saul Wold's message of "Wed, 4 Jan 2012 22:30:29 -0800")
+Message-ID: <lyboqh86qb.fsf@ensc-virt.intern.sigma-chemnitz.de>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/23.3 (gnu/linux)
 MIME-Version: 1.0
-User-Agent: Mutt/1.5.21 (2010-09-15)
-Subject: Re: libs transition /usr/lib -> /lib questions
+X-DSPAM-Result: Innocent
+X-DSPAM-Probability: 0
+X-DSPAM-Confidence: 1
+X-Spam-Score: -5.8
+X-Spam-Level: -----
+X-Spam-Tests: AWL,BAYES_00,SPF_NEUTRAL,T_RP_MATCHES_RCVD,DSPAM_INNOCENT
+X-Scanned-By: MIMEDefang 2.72 on 62.153.82.30
+Subject: Re: [CONSOLIDATED PULL 04/28] ncurses: move libraries to base_libdir
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -41,29 +43,23 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 06 Jan 2012 10:17:16 -0000
-X-Groupsio-MsgNum: 15512
-Content-Type: multipart/signed; micalg=pgp-sha1;
-	protocol="application/pgp-signature"; boundary="IJpNTDwzlM2Ie8A6"
-Content-Disposition: inline
-
---IJpNTDwzlM2Ie8A6
+X-List-Received-Date: Fri, 06 Jan 2012 10:36:33 -0000
 Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
 
-FWIW today I've noticed that systemd is going other way around
-http://www.freedesktop.org/wiki/Software/systemd/separate-usr-is-broken
+Saul Wold <sgw-VuQAYsv1563Yd54FQh9/CA@public.gmane.org> writes:
 
---IJpNTDwzlM2Ie8A6
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: Digital signature
+> -		f=${D}${libdir}/$i.so
+> +                f=${D}${base_libdir}/$i.so
 
------BEGIN PGP SIGNATURE-----
-Version: GnuPG v2.0.18 (GNU/Linux)
+this breaks builds because 'ld' does not search ${base_libdir}:
 
-iEYEARECAAYFAk8GyF4ACgkQN1Ujt2V2gByadQCeMxw/FWx2TActRb+yGMPn7RIt
-DRsAoLpWgan/GLyiUFd5XYFoptPHjenX
-=XD6U
------END PGP SIGNATURE-----
+| gcc -shared ... -ltermcap
+| /usr/bin/ld: cannot find -ltermcap
+| ERROR: Task 216 (virtual:native:.../readline/readline_6.2.bb, do_install) failed with exit code '1'
+| ERROR: 'virtual:native:.../readline/readline_6.2.bb' failed
 
---IJpNTDwzlM2Ie8A6--
+
+
+Enrico
+
+
