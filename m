@@ -1,24 +1,27 @@
-Received: from mail.pbcl.net ([88.198.119.4] helo=hetzner.pbcl.net)
+Received: from hermes.mlbassoc.com ([64.234.241.98] helo=mail.chez-thomas.org)
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <philb@gnu.org>) id 1Rj9v6-0002VC-IN
+	(envelope-from <gary@mlbassoc.com>) id 1Rj9vE-0002XI-WF
 	for openembedded-core@lists.openembedded.org;
-	Fri, 06 Jan 2012 14:33:20 +0100
-Received: from elite.brightsigndigital.co.uk ([81.142.160.137]
-	helo=[172.30.1.145])
-	by hetzner.pbcl.net with esmtpsa (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
-	(Exim 4.72) (envelope-from <philb@gnu.org>) id 1Rj9ny-0003jA-ST
-	for openembedded-core@lists.openembedded.org;
-	Fri, 06 Jan 2012 14:25:58 +0100
-From: Phil Blundell <philb@gnu.org>
+	Fri, 06 Jan 2012 14:33:30 +0100
+Received: by mail.chez-thomas.org (Postfix, from userid 1998)
+	id 1F9D1F81263; Fri,  6 Jan 2012 06:26:06 -0700 (MST)
+X-Spam-Checker-Version: SpamAssassin 3.3.2 (2011-06-06) on
+	hermes.chez-thomas.org
+X-Spam-Level: 
+X-Spam-Status: No, score=-2.9 required=4.0 tests=ALL_TRUSTED,BAYES_00
+	autolearn=ham version=3.3.2
+Received: from hermes.chez-thomas.org (localhost.localdomain [127.0.0.1])
+	by mail.chez-thomas.org (Postfix) with ESMTP id 21132F81261;
+	Fri,  6 Jan 2012 06:26:05 -0700 (MST)
+Message-ID: <4F06F66D.8030703@mlbassoc.com>
+Date: Fri, 06 Jan 2012 06:26:05 -0700
+From: Gary Thomas <gary@mlbassoc.com>
+User-Agent: Mozilla/5.0 (X11; Linux i686;
+	rv:9.0) Gecko/20111222 Thunderbird/9.0
+MIME-Version: 1.0
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Date: Fri, 06 Jan 2012 13:25:58 +0000
-In-Reply-To: <4F05CAB9.4020001@windriver.com>
-References: <4F05CAB9.4020001@windriver.com>
-X-Mailer: Evolution 3.0.2- 
-Message-ID: <1325856358.28005.179.camel@phil-desktop>
-Mime-Version: 1.0
-Subject: Re: MIPS Prelinker problem -- possible fix
+Subject: [PATCH] webkit-gtk: Fix build
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -33,24 +36,48 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 06 Jan 2012 13:33:20 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Fri, 06 Jan 2012 13:33:30 -0000
+X-Groupsio-MsgNum: 15530
+Content-Type: multipart/mixed; boundary="------------090502080209010802030406"
+
+--------------090502080209010802030406
+Content-Type: text/plain; charset=ISO-8859-1; format=flowed
 Content-Transfer-Encoding: 7bit
 
-On Thu, 2012-01-05 at 10:07 -0600, Mark Hatle wrote:
-> I have created a patch (with help from Khem Raj) to resolve a long standing 
-> issue w/ the MIPS prelinker.  The prelinker was detecting a error condition 
-> based on what appears to be some incomplete math calculations.
-> 
-> Attached is a patch that I believe will fix the problem, but I would like folks 
-> on both MIPS and non MIPS system to try it out.
+This version (introduced in commit 663c893b084333ea9703079a9b056d74ffa5e2a3)
+can only build if GL support is present.  This change enables that support
+explicitly.
 
-Thanks.  I tried this out last night and it does seem to solve the
-problem for me.  (I was previously using a hack in image-prelink.bbclass
-which just deleted all the .mdebug.abi32 sections before prelinking.)
+Signed-off-by: Gary Thomas <gary@mlbassoc.com>
+---
+  meta/recipes-sato/webkit/webkit-gtk_svn.bb |    5 ++++-
+  1 files changed, 4 insertions(+), 1 deletions(-)
 
-p.
+diff --git a/meta/recipes-sato/webkit/webkit-gtk_svn.bb b/meta/recipes-sato/webkit/webkit-gtk_svn.bb
+index 9652953..6fcf3f1 100644
+--- a/meta/recipes-sato/webkit/webkit-gtk_svn.bb
++++ b/meta/recipes-sato/webkit/webkit-gtk_svn.bb
+@@ -7,7 +7,10 @@ LIC_FILES_CHKSUM = "file://Source/WebCore/rendering/RenderApplet.h;endline=22;md
+                      file://Source/WebKit/gtk/webkit/webkit.h;endline=21;md5=b4fbe9f4a944f1d071dba1d2c76b3351 \
+                      file://Source/JavaScriptCore/parser/Parser.h;endline=23;md5=2f3cff0ad0a9c486da5a376928973a90"
+  -DEPENDS = "zlib enchant gnome-keyring libsoup-2.4 curl icu libxml2 cairo libxslt libxt libidn gnutls gtk+ gstreamer gst-plugins-base flex-native gperf-native perl-native-runtime 
+sqlite3"
++DEPENDS = "virtual/libgl zlib enchant gnome-keyring libsoup-2.4 curl icu libxml2 \
++           cairo libxslt libxt libidn gnutls gtk+ gstreamer gst-plugins-base \
++           flex-native gperf-native perl-native-runtime sqlite3 \
++"
+  DEPENDS_darwin8 = "curl icu libxml2 cairo libxslt libidn gnutls gtk+ gstreamer flex-native gperf-native perl-native-runtime sqlite3"
+   SRCREV_FORMAT = "source"
+-- 
+1.7.7.5
+
+--------------090502080209010802030406
+Content-Type: text/plain;
+ name="Attached Message Part"
+Content-Transfer-Encoding: base64
+Content-Disposition: attachment;
+ filename="Attached Message Part"
 
 
 
-
+--------------090502080209010802030406--
