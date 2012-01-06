@@ -1,33 +1,31 @@
-Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
-	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <richard.purdie@linuxfoundation.org>)
-	id 1Rj8xb-0003wJ-29 for openembedded-core@lists.openembedded.org;
-	Fri, 06 Jan 2012 13:31:51 +0100
-Received: from localhost (localhost [127.0.0.1])
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q06COR7s020254
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 6 Jan 2012 12:24:27 GMT
-Received: from tim.rpsys.net ([127.0.0.1])
-	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
-	port 10024) with LMTP
-	id 20193-01 for <openembedded-core@lists.openembedded.org>;
-	Fri,  6 Jan 2012 12:24:23 +0000 (GMT)
-Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q06COJ5A020248
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO)
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 6 Jan 2012 12:24:20 GMT
-Message-ID: <1325852659.20759.95.camel@ted>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
+Received: from mail.pbcl.net ([88.198.119.4] helo=hetzner.pbcl.net)
+	by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <philb@gnu.org>) id 1Rj9Ay-0004hE-JL
+	for openembedded-core@lists.openembedded.org;
+	Fri, 06 Jan 2012 13:45:40 +0100
+Received: from elite.brightsigndigital.co.uk ([81.142.160.137]
+	helo=[172.30.1.145])
+	by hetzner.pbcl.net with esmtpsa (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+	(Exim 4.72) (envelope-from <philb@gnu.org>) id 1Rj93q-0003iG-QM
+	for openembedded-core@lists.openembedded.org;
+	Fri, 06 Jan 2012 13:38:18 +0100
+From: Phil Blundell <philb@gnu.org>
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Date: Fri, 06 Jan 2012 12:24:19 +0000
-In-Reply-To: <1325831602-1623-1-git-send-email-b19537@freescale.com>
-References: <1325831602-1623-1-git-send-email-b19537@freescale.com>
-X-Mailer: Evolution 3.2.2- 
+Date: Fri, 06 Jan 2012 12:38:17 +0000
+In-Reply-To: <1325852434.20759.92.camel@ted>
+References: <cover.1325744640.git.sgw@linux.intel.com>
+	<04bb0f6bbd41ec9c2234df49130dba2346d9a3bf.1325744640.git.sgw@linux.intel.com>
+	<lyboqh86qb.fsf@ensc-virt.intern.sigma-chemnitz.de>
+	<1325848065.20759.84.camel@ted>
+	<1325849632.28005.151.camel@phil-desktop>
+	<1325851561.20759.90.camel@ted>
+	<1325851670.28005.154.camel@phil-desktop>
+	<1325852434.20759.92.camel@ted>
+X-Mailer: Evolution 3.0.2- 
+Message-ID: <1325853498.28005.162.camel@phil-desktop>
 Mime-Version: 1.0
-X-Virus-Scanned: amavisd-new at rpsys.net
-Subject: Re: [PATCH oe-core v2] valgrind: add powerpc to the compatible host and add ${TCLIBC}-dbg in RRECOMMENDS-powerpc
+Subject: Re: [CONSOLIDATED PULL 04/28] ncurses: move libraries to base_libdir
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -42,26 +40,22 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 06 Jan 2012 12:31:51 -0000
+X-List-Received-Date: Fri, 06 Jan 2012 12:45:40 -0000
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 
-On Fri, 2012-01-06 at 14:33 +0800, b19537@freescale.com wrote:
-> From: Zhenhua Luo <b19537@freescale.com>
+On Fri, 2012-01-06 at 12:20 +0000, Richard Purdie wrote:
+> $ ./i586-poky-linux-ld --verbose | grep SEARCH
+> SEARCH_DIR("/media/build1/poky/build/tmp/sysroots/x86_64-linux/usr/i586-poky-linux/lib32"); SEARCH_DIR("=/usr/local/lib32"); SEARCH_DIR("=/lib32"); SEARCH_DIR("=/usr/lib32"); SEARCH_DIR("=/usr/local/lib"); SEARCH_DIR("=/lib"); SEARCH_DIR("=/usr/lib");
 > 
->     1. add powerpc/powerpc64 into the compatible host list
->     2. valgrind requires the non-stripped libraries of ${TCLIBC}, so add
->        ${TCLIBC}-dbg into RRECOMMENDS for powerpc
-> 
-> Signed-off-by: Zhenhua Luo <b19537@freescale.com>
-> ---
->  meta/recipes-devtools/valgrind/valgrind_3.7.0.bb |    6 ++++--
->  1 files changed, 4 insertions(+), 2 deletions(-)
+> which makes sense since the builds are all still working...
 
+Oh, right, fair enough.  I guess it does need to search /lib for NEEDED
+libs, at least, and maybe it just uses the same search path for .so
+links.  Anyway, yeah, that seems fine then.
 
-Merged to master, thanks.
+p.
 
-Richard
 
 
 
