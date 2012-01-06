@@ -1,24 +1,24 @@
 Received: from mga14.intel.com ([143.182.124.37])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <sgw@linux.intel.com>) id 1Rj4mS-0004Ld-0t
+	(envelope-from <sgw@linux.intel.com>) id 1Rj4mS-0004Ld-QJ
 	for openembedded-core@lists.openembedded.org;
-	Fri, 06 Jan 2012 09:04:04 +0100
+	Fri, 06 Jan 2012 09:04:05 +0100
 Received: from azsmga001.ch.intel.com ([10.2.17.19])
-	by azsmga102.ch.intel.com with ESMTP; 05 Jan 2012 23:56:38 -0800
+	by azsmga102.ch.intel.com with ESMTP; 05 Jan 2012 23:56:39 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="93004459"
+X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="93004462"
 Received: from unknown (HELO swold-mobl.bigsur.com) ([10.255.13.127])
-	by azsmga001.ch.intel.com with ESMTP; 05 Jan 2012 23:56:38 -0800
+	by azsmga001.ch.intel.com with ESMTP; 05 Jan 2012 23:56:39 -0800
 From: Saul Wold <sgw@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Thu,  5 Jan 2012 23:56:13 -0800
-Message-Id: <2b38b62490d564d910c0c2f69937f1b06da9a8d4.1325836241.git.sgw@linux.intel.com>
+Date: Thu,  5 Jan 2012 23:56:15 -0800
+Message-Id: <8c99b1f6d761910417912300443a99c38a8db9dd.1325836241.git.sgw@linux.intel.com>
 X-Mailer: git-send-email 1.7.6.4
 In-Reply-To: <cover.1325836241.git.sgw@linux.intel.com>
 References: <cover.1325836241.git.sgw@linux.intel.com>
 In-Reply-To: <cover.1325836241.git.sgw@linux.intel.com>
 References: <cover.1325836241.git.sgw@linux.intel.com>
-Subject: [CONSOLIDATED PULL 02/25] gnutls: remove gettext patch for non-GPLv3
+Subject: [CONSOLIDATED PULL 04/25] classes/buildhistory: add hostname to commit message
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -33,42 +33,32 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 06 Jan 2012 08:04:04 -0000
+X-List-Received-Date: Fri, 06 Jan 2012 08:04:05 -0000
 
-GPLv2 version of gnutls does not need the gettext 0.18 patch
-since it still uses the over version of gettext that is also
-GPLv2.
+From: Paul Eggleton <paul.eggleton@linux.intel.com>
 
-Signed-off-by: Saul Wold <sgw@linux.intel.com>
+If we're building on multiple hosts then it's useful to have the
+hostname in the commit message.
+
+Signed-off-by: Paul Eggleton <paul.eggleton@linux.intel.com>
 ---
- meta/recipes-support/gnutls/gnutls_2.12.14.bb |   13 ++++++++++---
- 1 files changed, 10 insertions(+), 3 deletions(-)
+ meta/classes/buildhistory.bbclass |    3 ++-
+ 1 files changed, 2 insertions(+), 1 deletions(-)
 
-diff --git a/meta/recipes-support/gnutls/gnutls_2.12.14.bb b/meta/recipes-support/gnutls/gnutls_2.12.14.bb
-index 045ba69..21fd187 100644
---- a/meta/recipes-support/gnutls/gnutls_2.12.14.bb
-+++ b/meta/recipes-support/gnutls/gnutls_2.12.14.bb
-@@ -1,10 +1,17 @@
- require gnutls.inc
- 
--PR = "${INC_PR}.3"
-+PR = "${INC_PR}.4"
- 
- SRC_URI += "file://gnutls-openssl.patch \
--            file://configure-fix.patch \
--            file://fix-gettext-version.patch"
-+            file://configure-fix.patch"
-+
-+python() {
-+    if not ((d.getVar("INCOMPATIBLE_LICENSE", True) or "").find("GPLv3") != -1):
-+        # if GPLv3 add patch
-+        src_uri = (d.getVar("SRC_URI", False) or "").split()
-+        src_uri.append("file://fix-gettext-version.patch")
-+        d.setVar("SRC_URI", " ".join(src_uri))
-+}
- 
- SRC_URI[md5sum] = "555687a7ffefba0bd9de1e71cb61402c"
- SRC_URI[sha256sum] = "5ee72ba6de7a23cf315792561954451e022dac8730149ca95f93c61e95be2ce3"
+diff --git a/meta/classes/buildhistory.bbclass b/meta/classes/buildhistory.bbclass
+index 06d3510..ba20914 100644
+--- a/meta/classes/buildhistory.bbclass
++++ b/meta/classes/buildhistory.bbclass
+@@ -356,7 +356,8 @@ buildhistory_commit() {
+ 		repostatus=`git status --porcelain`
+ 		if [ "$repostatus" != "" ] ; then
+ 			git add ${BUILDHISTORY_DIR}/*
+-			git commit ${BUILDHISTORY_DIR}/ -m "Build ${BUILDNAME} for machine ${MACHINE} configured for ${DISTRO} ${DISTRO_VERSION}" --author "${BUILDHISTORY_COMMIT_AUTHOR}" > /dev/null
++			HOSTNAME=`cat /etc/hostname 2>/dev/null || echo unknown`
++			git commit ${BUILDHISTORY_DIR}/ -m "Build ${BUILDNAME} of ${DISTRO} ${DISTRO_VERSION} for machine ${MACHINE} on $HOSTNAME" --author "${BUILDHISTORY_COMMIT_AUTHOR}" > /dev/null
+ 			if [ "${BUILDHISTORY_PUSH_REPO}" != "" ] ; then
+ 				git push -q ${BUILDHISTORY_PUSH_REPO}
+ 			fi
 -- 
 1.7.6.4
 
