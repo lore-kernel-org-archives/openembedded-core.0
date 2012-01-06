@@ -1,29 +1,33 @@
-Received: from mail-ww0-f43.google.com ([74.125.82.43])
-	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <koen@dominion.thruhere.net>) id 1RjB4x-0006hf-Gk
-	for openembedded-core@lists.openembedded.org;
-	Fri, 06 Jan 2012 15:47:36 +0100
-Received: by wgbds11 with SMTP id ds11so1515597wgb.24
+Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
+	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <richard.purdie@linuxfoundation.org>)
+	id 1RjB7R-0004pi-VZ for openembedded-core@lists.openembedded.org;
+	Fri, 06 Jan 2012 15:50:47 +0100
+Received: from localhost (localhost [127.0.0.1])
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q06EgkBs021784
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 06 Jan 2012 06:40:08 -0800 (PST)
-Received: by 10.180.85.4 with SMTP id d4mr11733045wiz.0.1325860808273;
-	Fri, 06 Jan 2012 06:40:08 -0800 (PST)
-Received: from [172.20.1.36] (ip545070eb.adsl-surfen.hetnet.nl.
-	[84.80.112.235])
-	by mx.google.com with ESMTPS id bl10sm2993371wib.0.2012.01.06.06.40.07
-	(version=TLSv1/SSLv3 cipher=OTHER);
-	Fri, 06 Jan 2012 06:40:07 -0800 (PST)
-Mime-Version: 1.0 (Apple Message framework v1251.1)
-From: Koen Kooi <koen@dominion.thruhere.net>
-In-Reply-To: <1325852541.20759.94.camel@ted>
-Date: Fri, 6 Jan 2012 15:40:06 +0100
-Message-Id: <09E4C051-91F1-4F9F-93BC-152E0EC5059C@dominion.thruhere.net>
-References: <cover.1325836241.git.sgw@linux.intel.com>
-	<1325852541.20759.94.camel@ted>
+	Fri, 6 Jan 2012 14:42:46 GMT
+Received: from tim.rpsys.net ([127.0.0.1])
+	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
+	port 10024) with LMTP
+	id 21013-07 for <openembedded-core@lists.openembedded.org>;
+	Fri,  6 Jan 2012 14:42:42 +0000 (GMT)
+Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q06Egdci021778
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO)
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 6 Jan 2012 14:42:40 GMT
+Message-ID: <1325860960.20759.123.camel@ted>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-X-Mailer: Apple Mail (2.1251.1)
-Subject: Re: [CONSOLIDATED PULL 00/25] Various Patches
+Date: Fri, 06 Jan 2012 14:42:40 +0000
+In-Reply-To: <4F06F8BA.8010700@mlbassoc.com>
+References: <4F06F8BA.8010700@mlbassoc.com>
+X-Mailer: Evolution 3.2.2- 
+Mime-Version: 1.0
+X-Virus-Scanned: amavisd-new at rpsys.net
+Subject: Re: [PATCH v2] filesystems: fix mount order
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -38,25 +42,37 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 06 Jan 2012 14:47:36 -0000
-Content-Type: text/plain; charset=us-ascii
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Fri, 06 Jan 2012 14:51:17 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
+On Fri, 2012-01-06 at 06:35 -0700, Gary Thomas wrote:
+> This changes the order that file system [types] are tried
+> when using 'mount' in busybox when the file system type is
+> not explictly specified.  The pervious ordering is
+> incorrect in that less capable file system types are tried
+> first, e.g. ext2 before ext3, which will cause an ext3 file
+> system to be mounted as ext2, disabling some of the ext3
+> features such as journaling.
+> 
+> The change also moves infrequently used file system types to
+> the end as checking for them is just a waste of effort in
+> most cases.  The list now also includes ext4.
+> 
+> Signed-off-by: Gary Thomas <gary@mlbassoc.com>
+> ---
+>   .../recipes-core/base-files/base-files/filesystems |    9 +++++----
+>   1 files changed, 5 insertions(+), 4 deletions(-)
 
-Op 6 jan. 2012, om 13:22 heeft Richard Purdie het volgende geschreven:
+Merged to master, thanks.
 
->=20
->=20
->> udev: improve udev-cache robustness
->=20
-> but I didn't take this. We need a better solution.
+I had to add a PR bump, mention base-files in the commit summary and for
+some reason the patch was corrupt and wouldn't apply either so I had to
+do so manually.
 
-Is the cache actually still needed? I'm not using it in angstrom and =
-udev only takes a few milliseconds to do its thing. But I'm not using =
-sysvinit anymore either.
+Cheers,
 
-regards,
+Richard
 
-Koen=
 
 
