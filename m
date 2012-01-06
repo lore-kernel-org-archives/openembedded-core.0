@@ -1,37 +1,39 @@
-Received: from mga03.intel.com ([143.182.124.21])
+Received: from mga09.intel.com ([134.134.136.24])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <nitin.a.kamble@intel.com>) id 1RjEJX-0006GI-KT
+	(envelope-from <nitin.a.kamble@intel.com>) id 1RjEdG-0006pr-0R
 	for openembedded-core@lists.openembedded.org;
-	Fri, 06 Jan 2012 19:14:52 +0100
-Received: from azsmga001.ch.intel.com ([10.2.17.19])
-	by azsmga101.ch.intel.com with ESMTP; 06 Jan 2012 10:07:26 -0800
+	Fri, 06 Jan 2012 19:35:14 +0100
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+	by orsmga102.jf.intel.com with ESMTP; 06 Jan 2012 10:27:48 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="93165284"
+X-IronPort-AV: E=Sophos;i="4.67,352,1309762800"; d="scan'208";a="93725703"
 Received: from orsmsx603.amr.corp.intel.com ([10.22.226.49])
-	by azsmga001.ch.intel.com with ESMTP; 06 Jan 2012 10:07:26 -0800
-Received: from orsmsx102.amr.corp.intel.com (10.22.225.129) by
+	by orsmga001.jf.intel.com with ESMTP; 06 Jan 2012 10:27:48 -0800
+Received: from orsmsx104.amr.corp.intel.com (10.22.225.131) by
 	orsmsx603.amr.corp.intel.com (10.22.226.49) with Microsoft SMTP Server
-	(TLS) id 8.2.255.0; Fri, 6 Jan 2012 10:07:25 -0800
+	(TLS) id 8.2.255.0; Fri, 6 Jan 2012 10:27:48 -0800
 Received: from orsmsx106.amr.corp.intel.com ([169.254.5.229]) by
-	ORSMSX102.amr.corp.intel.com ([169.254.1.40]) with mapi id
-	14.01.0355.002; Fri, 6 Jan 2012 10:07:25 -0800
+	ORSMSX104.amr.corp.intel.com ([169.254.3.219]) with mapi id
+	14.01.0355.002; Fri, 6 Jan 2012 10:27:48 -0800
 From: "Kamble, Nitin A" <nitin.a.kamble@intel.com>
-To: Saul Wold <sgw@linux.intel.com>, Patches and discussions about the oe-core
-	layer <openembedded-core@lists.openembedded.org>
-Thread-Topic: [OE-core] [PATCH] eglibc: Upgrade recipes 2.14 -> 2.15
-Thread-Index: AQHMzCUG3QQ9CEymOE63C0FLBhqCf5X+x1nQgACqywCAADDtQA==
-Date: Fri, 6 Jan 2012 18:07:25 +0000
-Message-ID: <ADD6A3980E8C39419A432FF422031B4C014F82@ORSMSX106.amr.corp.intel.com>
-References: <1325821207-2843-1-git-send-email-raj.khem@gmail.com>
-	<ADD6A3980E8C39419A432FF422031B4C014BC2@ORSMSX106.amr.corp.intel.com>
-	<4F069E36.7000600@linux.intel.com>
-In-Reply-To: <4F069E36.7000600@linux.intel.com>
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Thread-Topic: [OE-core] [PATCH 3/4] libxxf86dga: fix compilation with x32
+	toolchain
+Thread-Index: AQHMy0XC+GRkfXEwzkqIoShDfk+SQpX+xl8AgADglUA=
+Date: Fri, 6 Jan 2012 18:27:47 +0000
+Message-ID: <ADD6A3980E8C39419A432FF422031B4C014F9D@ORSMSX106.amr.corp.intel.com>
+References: <cover.1325725256.git.nitin.a.kamble@intel.com>
+	<aa69250b08b446ad0408357587a0271a66684f12.1325725256.git.nitin.a.kamble@intel.com>
+	<521a1d1e78e4e797ce9c1787c83d8e0b2020281e.1325725256.git.nitin.a.kamble@intel.com>
+	<CAMKF1srE2FO8iY0x0UvzYCKEosWV79VomhkovmLUUjXgU19dew@mail.gmail.com>
+In-Reply-To: <CAMKF1srE2FO8iY0x0UvzYCKEosWV79VomhkovmLUUjXgU19dew@mail.gmail.com>
 Accept-Language: en-US
 X-MS-Has-Attach: 
 X-MS-TNEF-Correlator: 
 x-originating-ip: [10.22.254.140]
 MIME-Version: 1.0
-Subject: Re: [PATCH] eglibc: Upgrade recipes 2.14 -> 2.15
+Subject: Re: [PATCH 3/4] libxxf86dga: fix compilation with x32	toolchain
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -46,400 +48,102 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 06 Jan 2012 18:14:52 -0000
+X-List-Received-Date: Fri, 06 Jan 2012 18:35:14 -0000
 Content-Language: en-US
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 
-
-
-> -----Original Message-----
-> From: Saul Wold [mailto:sgw@linux.intel.com]
-> Sent: Thursday, January 05, 2012 11:10 PM
-> To: Patches and discussions about the oe-core layer
-> Cc: Kamble, Nitin A
-> Subject: Re: [OE-core] [PATCH] eglibc: Upgrade recipes 2.14 -> 2.15
->=20
-> On 01/05/2012 08:59 PM, Kamble, Nitin A wrote:
-> > Can this be done without removing eglibc 2.14 recipe files ?
-> >
-> > X32 layer is depending on the eglibc-2.14 recipe.
-> >
-> Can this 2.15 recipe be updated for x32?
-
-
-That is a big change for x32, It may work out or not, last time x32 + eglib=
-c-2.15 was causing some issues which were I think actually more eglibc-2.15=
- issues. The worst case is I can move the eglibc-2.14 recipe into the meta-=
-x32 layer.
-
-Thanks,
-Nitin
-
-
-
->=20
-> Sau!
-> > Thanks,
-> > Nitin
-> >
-> >
-> >> -----Original Message-----
-> >> From: openembedded-core-bounces@lists.openembedded.org
-> >> [mailto:openembedded-core-bounces@lists.openembedded.org] On Behalf
-> Of
-> >> Khem Raj
-> >> Sent: Thursday, January 05, 2012 7:40 PM
-> >> To: openembedded-core@lists.openembedded.org
-> >> Subject: [OE-core] [PATCH] eglibc: Upgrade recipes 2.14 ->  2.15
-> >>
-> >> Signed-off-by: Khem Raj<raj.khem@gmail.com>
-> >> ---
-> >>   ...tive_2.14.bb =3D>  cross-localedef-native_2.15.bb} |    0
-> >>   .../IO-acquire-lock-fix.patch                      |    0
-> >>   .../armv4-eabi-compile-fix.patch                   |    0
-> >>   .../eglibc-rpc-export-again.patch                  |    0
-> >>   .../eglibc-svn-arm-lowlevellock-include-tls.patch  |    0
-> >>   .../{eglibc-2.14 =3D>  eglibc-2.15}/etc/ld.so.conf    |    0
-> >>   .../generate-supported.mk                          |    0
-> >>   .../glibc-2.14-libdl-crash.patch                   |    0
-> >>   .../ld-search-order.patch                          |    0
-> >>   .../mips-rld-map-check.patch                       |    0
-> >>   .../multilib_readlib.patch                         |    0
-> >>   .../{eglibc-2.14 =3D>  eglibc-2.15}/ppc-sqrt.patch    |    0
-> >>   .../stack-protector-test.patch                     |    0
-> >>   .../use-sysroot-cxx-headers.patch                  |   30
-> >> ++++++++++++--------
-> >>   .../recipes-core/eglibc/eglibc-2.15/x86_fenv.patch |   29
-> >> +++++++++++++++++++
-> >>   ...libc-initial_2.14.bb =3D>  eglibc-initial_2.15.bb} |    0
-> >>   ...eglibc-locale_2.14.bb =3D>  eglibc-locale_2.15.bb} |    0
-> >>   .../eglibc/{eglibc_2.14.bb =3D>  eglibc_2.15.bb}      |   15
-> ++++++++--
-> >>   18 files changed, 59 insertions(+), 15 deletions(-)
-> >>   rename meta/recipes-core/eglibc/{cross-localedef-native_2.14.bb =3D>
-> >> cross-localedef-native_2.15.bb} (100%)
-> >>   rename meta/recipes-core/eglibc/{eglibc-2.14 =3D>  eglibc-2.15}/IO-
-> >> acquire-lock-fix.patch (100%)
-> >>   rename meta/recipes-core/eglibc/{eglibc-2.14 =3D>  eglibc-
-> 2.15}/armv4-
-> >> eabi-compile-fix.patch (100%)
-> >>   rename meta/recipes-core/eglibc/{eglibc-2.14 =3D>  eglibc-
-> 2.15}/eglibc-
-> >> rpc-export-again.patch (100%)
-> >>   rename meta/recipes-core/eglibc/{eglibc-2.14 =3D>  eglibc-
-> 2.15}/eglibc-
-> >> svn-arm-lowlevellock-include-tls.patch (100%)
-> >>   rename meta/recipes-core/eglibc/{eglibc-2.14 =3D>  eglibc-
-> >> 2.15}/etc/ld.so.conf (100%)
-> >>   rename meta/recipes-core/eglibc/{eglibc-2.14 =3D>  eglibc-
-> 2.15}/generate-
-> >> supported.mk (100%)
-> >>   rename meta/recipes-core/eglibc/{eglibc-2.14 =3D>  eglibc-
-> 2.15}/glibc-
-> >> 2.14-libdl-crash.patch (100%)
-> >>   rename meta/recipes-core/eglibc/{eglibc-2.14 =3D>  eglibc-2.15}/ld-
-> >> search-order.patch (100%)
-> >>   rename meta/recipes-core/eglibc/{eglibc-2.14 =3D>  eglibc-
-> 2.15}/mips-rld-
-> >> map-check.patch (100%)
-> >>   rename meta/recipes-core/eglibc/{eglibc-2.14 =3D>  eglibc-
-> >> 2.15}/multilib_readlib.patch (100%)
-> >>   rename meta/recipes-core/eglibc/{eglibc-2.14 =3D>  eglibc-2.15}/ppc-
-> >> sqrt.patch (100%)
-> >>   rename meta/recipes-core/eglibc/{eglibc-2.14 =3D>  eglibc-
-> 2.15}/stack-
-> >> protector-test.patch (100%)
-> >>   rename meta/recipes-core/eglibc/{eglibc-2.14 =3D>  eglibc-2.15}/use-
-> >> sysroot-cxx-headers.patch (51%)
-> >>   create mode 100644 meta/recipes-core/eglibc/eglibc-
-> 2.15/x86_fenv.patch
-> >>   rename meta/recipes-core/eglibc/{eglibc-initial_2.14.bb =3D>
-> eglibc-
-> >> initial_2.15.bb} (100%)
-> >>   rename meta/recipes-core/eglibc/{eglibc-locale_2.14.bb =3D>  eglibc-
-> >> locale_2.15.bb} (100%)
-> >>   rename meta/recipes-core/eglibc/{eglibc_2.14.bb =3D>
-> eglibc_2.15.bb}
-> >> (95%)
-> >>
-> >> diff --git a/meta/recipes-core/eglibc/cross-localedef-native_2.14.bb
-> >> b/meta/recipes-core/eglibc/cross-localedef-native_2.15.bb
-> >> similarity index 100%
-> >> rename from meta/recipes-core/eglibc/cross-localedef-native_2.14.bb
-> >> rename to meta/recipes-core/eglibc/cross-localedef-native_2.15.bb
-> >> diff --git a/meta/recipes-core/eglibc/eglibc-2.14/IO-acquire-lock-
-> >> fix.patch b/meta/recipes-core/eglibc/eglibc-2.15/IO-acquire-lock-
-> >> fix.patch
-> >> similarity index 100%
-> >> rename from meta/recipes-core/eglibc/eglibc-2.14/IO-acquire-lock-
-> >> fix.patch
-> >> rename to meta/recipes-core/eglibc/eglibc-2.15/IO-acquire-lock-
-> >> fix.patch
-> >> diff --git a/meta/recipes-core/eglibc/eglibc-2.14/armv4-eabi-
-> compile-
-> >> fix.patch b/meta/recipes-core/eglibc/eglibc-2.15/armv4-eabi-compile-
-> >> fix.patch
-> >> similarity index 100%
-> >> rename from meta/recipes-core/eglibc/eglibc-2.14/armv4-eabi-compile-
-> >> fix.patch
-> >> rename to meta/recipes-core/eglibc/eglibc-2.15/armv4-eabi-compile-
-> >> fix.patch
-> >> diff --git a/meta/recipes-core/eglibc/eglibc-2.14/eglibc-rpc-export-
-> >> again.patch b/meta/recipes-core/eglibc/eglibc-2.15/eglibc-rpc-
-> export-
-> >> again.patch
-> >> similarity index 100%
-> >> rename from meta/recipes-core/eglibc/eglibc-2.14/eglibc-rpc-export-
-> >> again.patch
-> >> rename to meta/recipes-core/eglibc/eglibc-2.15/eglibc-rpc-export-
-> >> again.patch
-> >> diff --git a/meta/recipes-core/eglibc/eglibc-2.14/eglibc-svn-arm-
-> >> lowlevellock-include-tls.patch b/meta/recipes-core/eglibc/eglibc-
-> >> 2.15/eglibc-svn-arm-lowlevellock-include-tls.patch
-> >> similarity index 100%
-> >> rename from meta/recipes-core/eglibc/eglibc-2.14/eglibc-svn-arm-
-> >> lowlevellock-include-tls.patch
-> >> rename to meta/recipes-core/eglibc/eglibc-2.15/eglibc-svn-arm-
-> >> lowlevellock-include-tls.patch
-> >> diff --git a/meta/recipes-core/eglibc/eglibc-2.14/etc/ld.so.conf
-> >> b/meta/recipes-core/eglibc/eglibc-2.15/etc/ld.so.conf
-> >> similarity index 100%
-> >> rename from meta/recipes-core/eglibc/eglibc-2.14/etc/ld.so.conf
-> >> rename to meta/recipes-core/eglibc/eglibc-2.15/etc/ld.so.conf
-> >> diff --git a/meta/recipes-core/eglibc/eglibc-2.14/generate-
-> supported.mk
-> >> b/meta/recipes-core/eglibc/eglibc-2.15/generate-supported.mk
-> >> similarity index 100%
-> >> rename from meta/recipes-core/eglibc/eglibc-2.14/generate-
-> supported.mk
-> >> rename to meta/recipes-core/eglibc/eglibc-2.15/generate-supported.mk
-> >> diff --git a/meta/recipes-core/eglibc/eglibc-2.14/glibc-2.14-libdl-
-> >> crash.patch b/meta/recipes-core/eglibc/eglibc-2.15/glibc-2.14-libdl-
-> >> crash.patch
-> >> similarity index 100%
-> >> rename from meta/recipes-core/eglibc/eglibc-2.14/glibc-2.14-libdl-
-> >> crash.patch
-> >> rename to meta/recipes-core/eglibc/eglibc-2.15/glibc-2.14-libdl-
-> >> crash.patch
-> >> diff --git a/meta/recipes-core/eglibc/eglibc-2.14/ld-search-
-> order.patch
-> >> b/meta/recipes-core/eglibc/eglibc-2.15/ld-search-order.patch
-> >> similarity index 100%
-> >> rename from meta/recipes-core/eglibc/eglibc-2.14/ld-search-
-> order.patch
-> >> rename to meta/recipes-core/eglibc/eglibc-2.15/ld-search-order.patch
-> >> diff --git a/meta/recipes-core/eglibc/eglibc-2.14/mips-rld-map-
-> >> check.patch b/meta/recipes-core/eglibc/eglibc-2.15/mips-rld-map-
-> >> check.patch
-> >> similarity index 100%
-> >> rename from meta/recipes-core/eglibc/eglibc-2.14/mips-rld-map-
-> >> check.patch
-> >> rename to meta/recipes-core/eglibc/eglibc-2.15/mips-rld-map-
-> check.patch
-> >> diff --git a/meta/recipes-core/eglibc/eglibc-
-> >> 2.14/multilib_readlib.patch b/meta/recipes-core/eglibc/eglibc-
-> >> 2.15/multilib_readlib.patch
-> >> similarity index 100%
-> >> rename from meta/recipes-core/eglibc/eglibc-
-> 2.14/multilib_readlib.patch
-> >> rename to meta/recipes-core/eglibc/eglibc-
-> 2.15/multilib_readlib.patch
-> >> diff --git a/meta/recipes-core/eglibc/eglibc-2.14/ppc-sqrt.patch
-> >> b/meta/recipes-core/eglibc/eglibc-2.15/ppc-sqrt.patch
-> >> similarity index 100%
-> >> rename from meta/recipes-core/eglibc/eglibc-2.14/ppc-sqrt.patch
-> >> rename to meta/recipes-core/eglibc/eglibc-2.15/ppc-sqrt.patch
-> >> diff --git a/meta/recipes-core/eglibc/eglibc-2.14/stack-protector-
-> >> test.patch b/meta/recipes-core/eglibc/eglibc-2.15/stack-protector-
-> >> test.patch
-> >> similarity index 100%
-> >> rename from meta/recipes-core/eglibc/eglibc-2.14/stack-protector-
-> >> test.patch
-> >> rename to meta/recipes-core/eglibc/eglibc-2.15/stack-protector-
-> >> test.patch
-> >> diff --git a/meta/recipes-core/eglibc/eglibc-2.14/use-sysroot-cxx-
-> >> headers.patch b/meta/recipes-core/eglibc/eglibc-2.15/use-sysroot-
-> cxx-
-> >> headers.patch
-> >> similarity index 51%
-> >> rename from meta/recipes-core/eglibc/eglibc-2.14/use-sysroot-cxx-
-> >> headers.patch
-> >> rename to meta/recipes-core/eglibc/eglibc-2.15/use-sysroot-cxx-
-> >> headers.patch
-> >> index c06eebf..7f82253 100644
-> >> --- a/meta/recipes-core/eglibc/eglibc-2.14/use-sysroot-cxx-
-> >> headers.patch
-> >> +++ b/meta/recipes-core/eglibc/eglibc-2.15/use-sysroot-cxx-
-> >> headers.patch
-> >> @@ -10,27 +10,33 @@ Upstream-Status: Inappropriate [OE-specific]
-> >>
-> >>   --- a/configure.in
-> >>   +++ b/configure.in
-> >> -@@ -1118,9 +1118,8 @@ if test -n "$sysheaders"; then
-> >> -   SYSINCLUDES=3D"$SYSINCLUDES \
-> >> +@@ -1094,11 +1094,10 @@ if test -n "$sysheaders"; then
-> >>    -isystem `echo $sysheaders | sed 's/:/ -isystem /g'`"
-> >>      if test -n "$CXX"; then
-> >> +     CXX_SYSINCLUDES=3D
-> >>   -    cxxversion=3D`$CXX -dumpversion 2>&AS_MESSAGE_LOG_FD`&&
-> >>        cxxmachine=3D`$CXX -dumpmachine 2>&AS_MESSAGE_LOG_FD`&&
-> >> --    cxxheaders=3D`$CXX -print-file-
-> >> name=3D../../../../include/c++/`"$cxxversion"&&
-> >> -+    cxxheaders=3D`$CXX -print-sysroot`"$prefix/include/c++"&&
-> >> -     CXX_SYSINCLUDES=3D"-isystem $cxxheaders \
-> >> +     for d in include "$cxxmachine/include"; do
-> >> +-      i=3D../../../../$d/c++/$cxxversion
-> >> +-      cxxheaders=3D`$CXX -print-file-name=3D"$i"`&&
-> >> ++      i=3D"$prefix/$d/c++"
-> >> ++      cxxheaders=3D`$CXX -print-sysroot`"$i"&&
-> >> +       test "x$cxxheaders" !=3D x&&  test "x$i" !=3D "x$cxxheaders"&&
-> >> +       CXX_SYSINCLUDES=3D"$CXX_SYSINCLUDES -isystem $cxxheaders \
-> >>    -isystem $cxxheaders/$cxxmachine -isystem $cxxheaders/backward"
-> >> -   fi
-> >>   --- a/configure
-> >>   +++ b/configure
-> >> -@@ -5544,9 +5544,8 @@ if test -n "$sysheaders"; then
-> >> -   SYSINCLUDES=3D"$SYSINCLUDES \
-> >> +@@ -5618,11 +5618,10 @@ if test -n "$sysheaders"; then
-> >>    -isystem `echo $sysheaders | sed 's/:/ -isystem /g'`"
-> >>      if test -n "$CXX"; then
-> >> +     CXX_SYSINCLUDES=3D
-> >>   -    cxxversion=3D`$CXX -dumpversion 2>&5`&&
-> >>        cxxmachine=3D`$CXX -dumpmachine 2>&5`&&
-> >> --    cxxheaders=3D`$CXX -print-file-
-> >> name=3D../../../../include/c++/`"$cxxversion"&&
-> >> -+    cxxheaders=3D`$CXX -print-sysroot`"$prefix/include/c++"&&
-> >> -     CXX_SYSINCLUDES=3D"-isystem $cxxheaders \
-> >> +     for d in include "$cxxmachine/include"; do
-> >> +-      i=3D../../../../$d/c++/$cxxversion
-> >> +-      cxxheaders=3D`$CXX -print-file-name=3D"$i"`&&
-> >> ++      i=3D"$prefix/$d/c++"
-> >> ++      cxxheaders=3D`$CXX -print-sysroot`"$i"&&
-> >> +       test "x$cxxheaders" !=3D x&&  test "x$i" !=3D "x$cxxheaders"&&
-> >> +       CXX_SYSINCLUDES=3D"$CXX_SYSINCLUDES -isystem $cxxheaders \
-> >>    -isystem $cxxheaders/$cxxmachine -isystem $cxxheaders/backward"
-> >> -   fi
-> >> diff --git a/meta/recipes-core/eglibc/eglibc-2.15/x86_fenv.patch
-> >> b/meta/recipes-core/eglibc/eglibc-2.15/x86_fenv.patch
-> >> new file mode 100644
-> >> index 0000000..40c1c4d
-> >> --- /dev/null
-> >> +++ b/meta/recipes-core/eglibc/eglibc-2.15/x86_fenv.patch
-> >> @@ -0,0 +1,29 @@
-> >> +--- a/sysdeps/x86_64/fpu/bits/fenv.h
-> >> ++++ b/sysdeps/x86_64/fpu/bits/fenv.h
-> >> +@@ -112,16 +112,24 @@ __NTH (feraiseexcept (int __excepts))
-> >> + 	{
-> >> + 	  /* One example of a invalid operation is 0.0 / 0.0.  */
-> >> + 	  float __f =3D 0.0;
-> >> +-
-> >> ++# if defined __SSE_MATH__ || __WORDSIZE =3D=3D 64
-> >> + 	  __asm__ __volatile__ ("divss %0, %0 " : : "x" (__f));
-> >> ++# else
-> >> ++	 __asm__ __volatile__ ("fdiv %%st, %%st(0); fwait"
-> >> ++			       : "=3Dt" (__f) : "0" (__f));
-> >> ++# endif
-> >> + 	  (void)&__f;
-> >> + 	}
-> >> +       if ((FE_DIVBYZERO&  __excepts) !=3D 0)
-> >> + 	{
-> >> + 	  float __f =3D 1.0;
-> >> + 	  float __g =3D 0.0;
-> >> +-
-> >> ++# if defined __SSE_MATH__ || __WORDSIZE =3D=3D 64
-> >> + 	  __asm__ __volatile__ ("divss %1, %0" : : "x" (__f), "x" (__g));
-> >> ++# else
-> >> ++	  __asm__ __volatile__ ("fdivp %%st(1), %%st; fwait"
-> >> ++				: "=3Dt" (__f) : "0" (__f), "u" (__g) : "st(1)");
-> >> ++# endif
-> >> + 	  (void)&__f;
-> >> + 	}
-> >> +
-> >> diff --git a/meta/recipes-core/eglibc/eglibc-initial_2.14.bb
-> >> b/meta/recipes-core/eglibc/eglibc-initial_2.15.bb
-> >> similarity index 100%
-> >> rename from meta/recipes-core/eglibc/eglibc-initial_2.14.bb
-> >> rename to meta/recipes-core/eglibc/eglibc-initial_2.15.bb
-> >> diff --git a/meta/recipes-core/eglibc/eglibc-locale_2.14.bb
-> >> b/meta/recipes-core/eglibc/eglibc-locale_2.15.bb
-> >> similarity index 100%
-> >> rename from meta/recipes-core/eglibc/eglibc-locale_2.14.bb
-> >> rename to meta/recipes-core/eglibc/eglibc-locale_2.15.bb
-> >> diff --git a/meta/recipes-core/eglibc/eglibc_2.14.bb b/meta/recipes-
-> >> core/eglibc/eglibc_2.15.bb
-> >> similarity index 95%
-> >> rename from meta/recipes-core/eglibc/eglibc_2.14.bb
-> >> rename to meta/recipes-core/eglibc/eglibc_2.15.bb
-> >> index ad2161e..9c6354a 100644
-> >> --- a/meta/recipes-core/eglibc/eglibc_2.14.bb
-> >> +++ b/meta/recipes-core/eglibc/eglibc_2.15.bb
-> >> @@ -1,12 +1,11 @@
-> >>   require eglibc.inc
-> >>
-> >> -SRCREV =3D "15870"
-> >> +SRCREV =3D "16540"
-> >>
-> >>   DEPENDS +=3D "gperf-native"
-> >> -PR =3D "r3"
-> >>   PR_append =3D "+svnr${SRCPV}"
-> >>
-> >> -EGLIBC_BRANCH=3D"eglibc-2_14"
-> >> +EGLIBC_BRANCH=3D"eglibc-2_15"
-> >>   SRC_URI =3D
-> >>
-> "svn://www.eglibc.org/svn/branches/;module=3D${EGLIBC_BRANCH};proto=3Dhtt=
-p
-> >> \
-> >>              file://eglibc-svn-arm-lowlevellock-include-tls.patch \
-> >>              file://IO-acquire-lock-fix.patch \
-> >> @@ -20,6 +19,7 @@ SRC_URI =3D
-> >>
-> "svn://www.eglibc.org/svn/branches/;module=3D${EGLIBC_BRANCH};proto=3Dhtt=
-p
-> >>              file://eglibc-rpc-export-again.patch \
-> >>              file://glibc-2.14-libdl-crash.patch \
-> >>              file://use-sysroot-cxx-headers.patch \
-> >> +           file://x86_fenv.patch \
-> >>             "
-> >>   LIC_FILES_CHKSUM =3D
-> >> "file://LICENSES;md5=3D98a1128c4b58120182cbea3b1752d8b9 \
-> >>         file://COPYING;md5=3D393a5ca445f6965873eca0259a17f833 \
-> >> @@ -88,6 +88,15 @@ do_patch_append() {
-> >>   	bb.build.exec_func('do_fix_readlib_c', d)
-> >>   }
-> >>
-> >> +# for mips eglibc now builds syscall tables for all abi's
-> >> +# so we make sure that we choose right march option which is
-> >> +# compatible with o32,n32 and n64 abi's
-> >> +# e.g. -march=3Dmips32 is not compatible with n32 and n64 therefore
-> >> +# we filter it out in such case -march=3Dfrom-abi which will be
-> >> +# mips1 when using o32 and mips3 when using n32/n64
-> >> +
-> >> +TUNE_CCARGS_mips :=3D "${@oe_filter_out('-march=3Dmips32',
-> >> '${TUNE_CCARGS}', d)}"
-> >> +
-> >>   # We need to ensure that all of the i386 and x86_64 headers are
-> >> identical
-> >>   # to support the multilib case.  We do this by copying headers
-> from
-> >> x86_64
-> >>   # to i386 directories.  Normally when hand building eglibc or a
-> >> combined
-> >> --
-> >> 1.7.5.4
-> >>
-> >>
-> >> _______________________________________________
-> >> Openembedded-core mailing list
-> >> Openembedded-core@lists.openembedded.org
-> >> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-
-> core
-> >
-> > _______________________________________________
-> > Openembedded-core mailing list
-> > Openembedded-core@lists.openembedded.org
-> > http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
-> >
+DQoNCj4gLS0tLS1PcmlnaW5hbCBNZXNzYWdlLS0tLS0NCj4gRnJvbTogb3BlbmVtYmVkZGVkLWNv
+cmUtYm91bmNlc0BsaXN0cy5vcGVuZW1iZWRkZWQub3JnDQo+IFttYWlsdG86b3BlbmVtYmVkZGVk
+LWNvcmUtYm91bmNlc0BsaXN0cy5vcGVuZW1iZWRkZWQub3JnXSBPbiBCZWhhbGYgT2YNCj4gS2hl
+bSBSYWoNCj4gU2VudDogVGh1cnNkYXksIEphbnVhcnkgMDUsIDIwMTIgMTI6NDkgUE0NCj4gVG86
+IFBhdGNoZXMgYW5kIGRpc2N1c3Npb25zIGFib3V0IHRoZSBvZS1jb3JlIGxheWVyDQo+IFN1Ympl
+Y3Q6IFJlOiBbT0UtY29yZV0gW1BBVENIIDMvNF0gbGlieHhmODZkZ2E6IGZpeCBjb21waWxhdGlv
+biB3aXRoDQo+IHgzMiB0b29sY2hhaW4NCj4gDQo+IE9uIFdlZCwgSmFuIDQsIDIwMTIgYXQgNTow
+MiBQTSwgIDxuaXRpbi5hLmthbWJsZUBpbnRlbC5jb20+IHdyb3RlOg0KPiA+IEZyb206IE5pdGlu
+IEEgS2FtYmxlIDxuaXRpbi5hLmthbWJsZUBpbnRlbC5jb20+DQo+ID4NCj4gPiBGaXggdHlwZSBj
+b252ZXJzaW9uIGZvciB4MzIuIEZvciB4MzIgdGhlIG9mZl90IGlzIDY0Yml0IGFuZCBwb2ludGVy
+cw0KPiBhcmUNCj4gPiAzMmJpdC4NCj4gPiBzbyB0aGUgY29udmVyc2lvbiBvZiBwb2ludGVyIHRv
+IG9mZl90IHdhcyByZXN1bHRpbmcgaW50byB0aGlzIGVycm9yOg0KPiA+DQo+ID4gfCBYRjg2REdB
+Mi5jOjkzMToyNDogZXJyb3I6IGNhc3QgZnJvbSBwb2ludGVyIHRvIGludGVnZXIgb2YgZGlmZmVy
+ZW50DQo+ID4gc2l6ZSBbLVdlcnJvcj1wb2ludGVyLXRvLWludC1jYXN0XQ0KPiA+IHwgY2MxOiBz
+b21lIHdhcm5pbmdzIGJlaW5nIHRyZWF0ZWQgYXMgZXJyb3JzDQo+ID4gfA0KPiA+IHwgbWFrZVsy
+XTogKioqIFtYRjg2REdBMi5sb10gRXJyb3IgMQ0KPiA+DQo+ID4gRml4ZWQgaXQgYnkgdHlwZWNh
+c3RpbmcgcG9pbnRlciBpbnRvIHVuc2lnbmVkIGxvbmcgMXN0IGFuZCB0aGVuIGFnYWluDQo+ID4g
+dHlwZWNhc3RpbmcgdW5zaWduZWQgbG9uZyB0byBvZmZfdC4NCj4gPg0KPiA+IFNpZ25lZC1vZmYt
+Ynk6IE5pdGluIEEgS2FtYmxlIDxuaXRpbi5hLmthbWJsZUBpbnRlbC5jb20+DQo+ID4gLS0tDQo+
+ID4gwqAuLi4vbGlieHhmODZkZ2EtMS4xLjJfZml4X2Zvcl94MzIucGF0Y2ggwqAgwqAgwqAgwqAg
+wqAgwqB8IMKgIDMwDQo+ICsrKysrKysrKysrKysrKysrKysrDQo+ID4gwqAuLi4vcmVjaXBlcy1n
+cmFwaGljcy94b3JnLWxpYi9saWJ4eGY4NmRnYV8xLjEuMi5iYiB8IMKgIMKgNSArKy0NCj4gPiDC
+oDIgZmlsZXMgY2hhbmdlZCwgMzQgaW5zZXJ0aW9ucygrKSwgMSBkZWxldGlvbnMoLSkNCj4gPiDC
+oGNyZWF0ZSBtb2RlIDEwMDY0NCBtZXRhL3JlY2lwZXMtZ3JhcGhpY3MveG9yZy0NCj4gbGliL2xp
+Ynh4Zjg2ZGdhL2xpYnh4Zjg2ZGdhLTEuMS4yX2ZpeF9mb3JfeDMyLnBhdGNoDQo+ID4NCj4gPiBk
+aWZmIC0tZ2l0IGEvbWV0YS9yZWNpcGVzLWdyYXBoaWNzL3hvcmctbGliL2xpYnh4Zjg2ZGdhL2xp
+Ynh4Zjg2ZGdhLQ0KPiAxLjEuMl9maXhfZm9yX3gzMi5wYXRjaCBiL21ldGEvcmVjaXBlcy1ncmFw
+aGljcy94b3JnLQ0KPiBsaWIvbGlieHhmODZkZ2EvbGlieHhmODZkZ2EtMS4xLjJfZml4X2Zvcl94
+MzIucGF0Y2gNCj4gPiBuZXcgZmlsZSBtb2RlIDEwMDY0NA0KPiA+IGluZGV4IDAwMDAwMDAuLjMw
+NjkyYWQNCj4gPiAtLS0gL2Rldi9udWxsDQo+ID4gKysrIGIvbWV0YS9yZWNpcGVzLWdyYXBoaWNz
+L3hvcmctbGliL2xpYnh4Zjg2ZGdhL2xpYnh4Zjg2ZGdhLQ0KPiAxLjEuMl9maXhfZm9yX3gzMi5w
+YXRjaA0KPiA+IEBAIC0wLDAgKzEsMzAgQEANCj4gPiArVXBzdHJlYW0tU3RhdHVzOiBwZW5kaW5n
+DQo+ID4gKw0KPiA+ICtGaXggdHlwZSBjb252ZXJzaW9uIGZvciB4MzIuIEZvciB4MzIgdGhlIG9m
+Zl90IGlzIDY0Yml0IGFuZCBwb2ludGVycw0KPiBhcmUgMzJiaXQuDQo+ID4gK3NvIHRoZSBjb252
+ZXJzaW9uIG9mIHBvaW50ZXIgdG8gb2ZmX3Qgd2FzIHJlc3VsdGluZyBpbnRvIHRoaXMgZXJyb3I6
+DQo+ID4gKw0KPiA+ICt8IFhGODZER0EyLmM6OTMxOjI0OiBlcnJvcjogY2FzdCBmcm9tIHBvaW50
+ZXIgdG8gaW50ZWdlciBvZg0KPiBkaWZmZXJlbnQgc2l6ZSBbLVdlcnJvcj1wb2ludGVyLXRvLWlu
+dC1jYXN0XQ0KPiA+ICt8IGNjMTogc29tZSB3YXJuaW5ncyBiZWluZyB0cmVhdGVkIGFzIGVycm9y
+cw0KPiA+ICt8DQo+ID4gK3wgbWFrZVsyXTogKioqIFtYRjg2REdBMi5sb10gRXJyb3IgMQ0KPiA+
+ICsNCj4gPiArRml4ZWQgaXQgYnkgdHlwZWNhc3RpbmcgcG9pbnRlciBpbnRvIHVuc2lnbmVkIGxv
+bmcgMXN0IGFuZCB0aGVuDQo+IGFnYWluIHR5cGVjYXN0aW5nDQo+ID4gK3Vuc2lnbmVkIGxvbmcg
+dG8gb2ZmX3QuDQo+IA0KPiB3aGVyZSBpcyBwb2ludGVyIGhlcmUgPw0KPiBodHRwOi8vY3Zzd2Vi
+LnhmcmVlODYub3JnL2N2c3dlYi94Yy9saWIvWHhmODZkZ2EvWEY4NkRHQTIuYz9yZXY9MS4zMCZj
+bw0KPiBudGVudC10eXBlPXRleHQvdm5kLnZpZXdjdnMtbWFya3VwDQo+IHNob3dzIHRoYXQgYmFz
+ZSBpcyBvZiB0eXBlIG1tYXBPZmZzZXQgd2hpY2ggaXMNCj4gDQo+ICNpZiAhZGVmaW5lZChfTFA2
+NCkgJiYgZGVmaW5lZChfRklMRV9PRkZTRVRfQklUUykgJiYgKF9GSUxFX09GRlNFVF9CSVRTDQo+
+ID09IDY0KQ0KPiB0eXBlZGVmIHVuc2lnbmVkIGxvbmcgbG9uZyBtbWFwT2Zmc2V0Ow0KPiAjZWxz
+ZQ0KPiB0eXBlZGVmIHVuc2lnbmVkIGxvbmcgICAgICBtbWFwT2Zmc2V0Ow0KPiAjZW5kaWYNCj4g
+DQo+IGFuZCBvZmZfdCBpcyB0eXBlZGVmJ2VkIHRvIGxvbmcgaW50DQo+IA0KS2hlbSwNCmJhc2Ug
+aXMgY2hhciAqIGFzIHNlZW4gaW4gdGhlIGNoYW5nZWQgZmlsZSBzcmMvWEY4NkRHQTIuYzoNCnN0
+YXRpYyBCb29sDQpER0FNYXBQaHlzaWNhbCgNCiAgIGludCBzY3JlZW4sDQogICBjaGFyICpuYW1l
+LCAgICAgICAgICAgICAgICAgIC8qIG9wdGlvbmFsIGRldmljZSBuYW1lICovDQogICB1bnNpZ25l
+ZCBjaGFyKiBiYXNlLCAgICAgICAgIC8qIHBoeXNpY2FsIG1lbW9yeSAqLw0KICAgQ0FSRDMyIHNp
+emUsICAgICAgICAgICAgICAgICAvKiBzaXplICovDQogICBDQVJEMzIgb2Zmc2V0LCAgICAgICAg
+ICAgICAgIC8qIG9wdGlvbmFsIG9mZnNldCAqLw0KICAgQ0FSRDMyIGV4dHJhLCAgICAgICAgICAg
+ICAgICAvKiBvcHRpb25hbCBleHRyYSBkYXRhICovDQogICBER0FNYXBQdHIgcE1hcA0KKSB7DQoN
+Ck5pdGluDQoNCj4gPiArDQo+ID4gK1NpZ25lZC1PZmYtYnk6IE5pdGluIEEgS2FtYmxlIDxuaXRp
+bi5hLmthbWJsZUBpbnRlbC5jb20+DQo+ID4gKzIwMTIvMDEvMDQNCj4gPiArDQo+ID4gKw0KPiA+
+ICtJbmRleDogbGliWHhmODZkZ2EtMS4xLjIvc3JjL1hGODZER0EyLmMNCj4gPiArPT09PT09PT09
+PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09
+PQ0KPiA+ICstLS0gbGliWHhmODZkZ2EtMS4xLjIub3JpZy9zcmMvWEY4NkRHQTIuYyDCoCDCoCDC
+oDIwMTAtMTAtMDYNCj4gMjE6MTc6MTEuMDAwMDAwMDAwIC0wNzAwDQo+ID4gKysrKyBsaWJYeGY4
+NmRnYS0xLjEuMi9zcmMvWEY4NkRHQTIuYyDCoCAyMDEyLTAxLTA0IDE0OjIxOjM2LjI3NTk3MTE3
+Mg0KPiAtMDgwMA0KPiA+ICtAQCAtOTI4LDcgKzkyOCw3IEBAIERHQU1hcFBoeXNpY2FsKA0KPiA+
+ICsgwqAgwqAgaWYgKChwTWFwLT5mZCA9IG9wZW4obmFtZSwgT19SRFdSKSkgPCAwKQ0KPiA+ICsg
+wqAgwqAgwqAgcmV0dXJuIEZhbHNlOw0KPiA+ICsgwqAgwqAgcE1hcC0+dmlydHVhbCA9IG1tYXAo
+TlVMTCwgc2l6ZSwgUFJPVF9SRUFEIHwgUFJPVF9XUklURSwNCj4gPiArLSDCoCDCoCDCoCDCoCDC
+oCDCoCDCoCDCoCDCoCDCoCDCoE1BUF9GSUxFIHwgTUFQX1NIQVJFRCwgcE1hcC0+ZmQsDQo+IChv
+ZmZfdCliYXNlKTsNCj4gPiArKyDCoCDCoCDCoCDCoCDCoCDCoCDCoCDCoCDCoCDCoCDCoE1BUF9G
+SUxFIHwgTUFQX1NIQVJFRCwgcE1hcC0+ZmQsDQo+IChvZmZfdCkodW5zaWduZWQgbG9uZyliYXNl
+KTsNCj4gPiArIMKgIMKgIGlmIChwTWFwLT52aXJ0dWFsID09ICh2b2lkICopLTEpDQo+ID4gKyDC
+oCDCoCDCoCByZXR1cm4gRmFsc2U7DQo+ID4gKyDCoCDCoCBtcHJvdGVjdChwTWFwLT52aXJ0dWFs
+LCBzaXplLCBQUk9UX1JFQUQgfCBQUk9UX1dSSVRFKTsNCj4gPiBkaWZmIC0tZ2l0IGEvbWV0YS9y
+ZWNpcGVzLWdyYXBoaWNzL3hvcmctbGliL2xpYnh4Zjg2ZGdhXzEuMS4yLmJiDQo+IGIvbWV0YS9y
+ZWNpcGVzLWdyYXBoaWNzL3hvcmctbGliL2xpYnh4Zjg2ZGdhXzEuMS4yLmJiDQo+ID4gaW5kZXgg
+OGU3NzdjMy4uOWExYzk2ZiAxMDA2NDQNCj4gPiAtLS0gYS9tZXRhL3JlY2lwZXMtZ3JhcGhpY3Mv
+eG9yZy1saWIvbGlieHhmODZkZ2FfMS4xLjIuYmINCj4gPiArKysgYi9tZXRhL3JlY2lwZXMtZ3Jh
+cGhpY3MveG9yZy1saWIvbGlieHhmODZkZ2FfMS4xLjIuYmINCj4gPiBAQCAtOCw3ICs4LDEwIEBA
+IGFsbG93cyByZWxhdGl2ZSBtb3VzZSByZXBvcnRpbmcsIGV0IGFsLiDCoEl0IGlzDQo+IG1haW5s
+eSB1c2VkIGJ5IGdhbWVzIGFuZCBcDQo+ID4gwqBlbXVsYXRvcnMgZm9yIGdhbWVzLiINCj4gPg0K
+PiA+IMKgREVQRU5EUyArPSAibGlieGV4dCB4Zjg2ZGdhcHJvdG8iDQo+ID4gLVBSID0gInIxIg0K
+PiA+ICtQUiA9ICJyMiINCj4gPiArDQo+ID4gK1NSQ19VUkkgKz0gImZpbGU6Ly9saWJ4eGY4NmRn
+YS0xLjEuMl9maXhfZm9yX3gzMi5wYXRjaCINCj4gPiArDQo+ID4gwqBQRSA9ICIxIg0KPiA+DQo+
+ID4gwqBYT1JHX1BOID0gImxpYlh4Zjg2ZGdhIg0KPiA+IC0tDQo+ID4gMS43LjYuNA0KPiA+DQo+
+ID4NCj4gPiBfX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fXw0K
+PiA+IE9wZW5lbWJlZGRlZC1jb3JlIG1haWxpbmcgbGlzdA0KPiA+IE9wZW5lbWJlZGRlZC1jb3Jl
+QGxpc3RzLm9wZW5lbWJlZGRlZC5vcmcNCj4gPiBodHRwOi8vbGlzdHMubGludXh0b2dvLm9yZy9j
+Z2ktYmluL21haWxtYW4vbGlzdGluZm8vb3BlbmVtYmVkZGVkLWNvcmUNCj4gDQo+IF9fX19fX19f
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fDQo+IE9wZW5lbWJlZGRlZC1j
+b3JlIG1haWxpbmcgbGlzdA0KPiBPcGVuZW1iZWRkZWQtY29yZUBsaXN0cy5vcGVuZW1iZWRkZWQu
+b3JnDQo+IGh0dHA6Ly9saXN0cy5saW51eHRvZ28ub3JnL2NnaS1iaW4vbWFpbG1hbi9saXN0aW5m
+by9vcGVuZW1iZWRkZWQtY29yZQ0K
 
 
