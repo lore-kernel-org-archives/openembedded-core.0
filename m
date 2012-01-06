@@ -1,34 +1,29 @@
-Received: from mail-pz0-f47.google.com ([209.85.210.47])
+Received: from mail.windriver.com ([147.11.1.11])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <bruce.ashfield@gmail.com>) id 1RjC2O-0000UN-LV
+	(envelope-from <mark.hatle@windriver.com>) id 1RjC9Z-0000iw-S0
 	for openembedded-core@lists.openembedded.org;
-	Fri, 06 Jan 2012 16:49:01 +0100
-Received: by dake40 with SMTP id e40so829546dak.6
+	Fri, 06 Jan 2012 16:56:26 +0100
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca [147.11.189.40])
+	by mail.windriver.com (8.14.3/8.14.3) with ESMTP id q06Fn0gf012628
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 06 Jan 2012 07:41:35 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
-	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
-	:content-type:content-transfer-encoding;
-	bh=RmId1x+jsNLy/2pi1833VMjoK8+Z58sPqDOWj+9eAww=;
-	b=ePaDtkwGgOzp49igiCCyohsjPg/etZgjCXKoUjQeiXKeuJZ8PzgNRT9rDU15IYO/gQ
-	sZHew7gyl1mTh8NJVvDcHAUYz4AUitKSTnShB7CEg/2FyNJ1AlevLr7zZONQJXq7YvwJ
-	4FX1AOmBCQ4ckczmgDTYecZffJVJdgL8xMDlk=
+	Fri, 6 Jan 2012 07:49:00 -0800 (PST)
+Received: from Macintosh-5.local (172.25.36.228) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server id 14.1.255.0;
+	Fri, 6 Jan 2012 07:49:00 -0800
+Message-ID: <4F0717EB.7050807@windriver.com>
+Date: Fri, 6 Jan 2012 09:48:59 -0600
+From: Mark Hatle <mark.hatle@windriver.com>
+Organization: Wind River Systems
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.6;
+	rv:8.0) Gecko/20111105 Thunderbird/8.0
 MIME-Version: 1.0
-Received: by 10.68.191.195 with SMTP id ha3mr16237921pbc.130.1325864495559;
-	Fri, 06 Jan 2012 07:41:35 -0800 (PST)
-Received: by 10.143.30.20 with HTTP; Fri, 6 Jan 2012 07:41:35 -0800 (PST)
-In-Reply-To: <CAMKF1sr481YYkPK-Cn=nb0PAyJXPwOkROvk31mF1+kmwqJXynQ@mail.gmail.com>
-References: <1325793967-13002-1-git-send-email-raj.khem@gmail.com>
-	<CADkTA4PFLMdSNM47+__79NXwuocFb7Y70o1qwP=+ft2aS4jd1A@mail.gmail.com>
-	<CAMKF1spvGpZbV0T_vKbzc4UiBt2bmpj520ymZ5-AA66VwKOOsw@mail.gmail.com>
-	<CADkTA4MvYECL=7vxz24PSO8zqw+7Gm-oZ_eqMCJFp1S61ny7jQ@mail.gmail.com>
-	<CAMKF1sr481YYkPK-Cn=nb0PAyJXPwOkROvk31mF1+kmwqJXynQ@mail.gmail.com>
-Date: Fri, 6 Jan 2012 10:41:35 -0500
-Message-ID: <CADkTA4NU1Pkoinqa792acoC0c9UL6HVotV_-eLY8NFaKh_AueQ@mail.gmail.com>
-From: Bruce Ashfield <bruce.ashfield@gmail.com>
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] linux-yocto-3.0: Fix compile failure in perf
+To: <openembedded-core@lists.openembedded.org>
+References: <201201060029.45032.schnitzeltony@gmx.de>
+In-Reply-To: <201201060029.45032.schnitzeltony@gmx.de>
+X-MIME-Autoconverted: from 8bit to quoted-printable by mail.windriver.com id
+	q06Fn0gf012628
+Subject: Re: libs transition /usr/lib -> /lib questions
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -43,225 +38,138 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 06 Jan 2012 15:49:01 -0000
-Content-Type: text/plain; charset=ISO-8859-1
+X-List-Received-Date: Fri, 06 Jan 2012 15:56:26 -0000
+Content-Type: text/plain; charset="ISO-8859-1"; format=flowed
 Content-Transfer-Encoding: quoted-printable
 
-On Thu, Jan 5, 2012 at 4:20 PM, Khem Raj <raj.khem@gmail.com> wrote:
-> On Thu, Jan 5, 2012 at 12:59 PM, Bruce Ashfield
-> <bruce.ashfield@gmail.com> wrote:
->> On Thu, Jan 5, 2012 at 3:55 PM, Khem Raj <raj.khem@gmail.com> wrote:
->>> On Thu, Jan 5, 2012 at 12:13 PM, Bruce Ashfield
->>> <bruce.ashfield@gmail.com> wrote:
->>>> On Thu, Jan 5, 2012 at 3:06 PM, Khem Raj <raj.khem@gmail.com> wrote:
->>>>> Signed-off-by: Khem Raj <raj.khem@gmail.com>
->>>>> ---
->>>>> =A0...Undef-before-redefining-__attribute_const.patch | =A0 33 ++++++=
-++++++++++++++
->>>>> =A0meta/recipes-kernel/linux/linux-yocto_3.0.bb =A0 =A0 =A0 | =A0 =A0=
-4 ++-
->>>>> =A02 files changed, 36 insertions(+), 1 deletions(-)
->>>>> =A0create mode 100644 meta/recipes-kernel/linux/linux-yocto/0001-comp=
-iler.h-Undef-before-redefining-__attribute_const.patch
->>>>
->>>> Khem,
->>>>
->>>> I just built multiple linux-yocto kernels, for all the qemu targets
->>>> and haven't seen this
->>>> error at all. Do you have any special configuration that would be
->>>> triggering this ?
->>>
->>> yes I am building with eglibc 2.15 ( recipes I have not posted yet)
->>> and this defines is reported to be defined in usr/include/sys/cdefs.h
->>> which is a header from libc.
->>
->> Aha. Perfect. This explains it completely.
->>
->>>
->>>>
->>>> The change itself looks sane, and in fact makes sense, since the rest
->>>> of the file
->>>> has the same protection for the new defines. Nothing has changed that
->>>> should have triggered
->>>> this to become an issue. I'm just trying to figure out why it has
->>>> popped up now.
->>>>
->>>> I also checked and the 3.2 kernel still has the same issue, so pushing
->>>> it upstream makes
->>>> sense as well.
+On 1/5/12 5:29 PM, Andreas M=FCller wrote:
+> Hi
 >
-> btw. I made the change thinking that perf utils want it that way to I und=
-efine
-> the previous definitions before redefining. But if it was a placeholder w=
-here
-> it was defined because something needed it and there was no definitions f=
-rom
-> standard include headers then I think right fix would be to check if its =
-defined
-> before redefining it. In both cases the warning will go away
+> currently some libs are moving from $libdir (/usr/lib) ->  $base_libdir=
+ (/lib). I
+> have the following questions:
 >
-> However with current patch the behaviour remains same as it was but if we=
- check
-> for definition before redefining then that may change.
+> * can sombody explain a bit more what is it for and how the decision is=
+ made to
+> transit libs? I read the commit messages but still have no idea what th=
+is
+> enhances / fixes. What is 'not safe' or - I guess the insane.bbclass mo=
+dification
+> deals same issue - 'system recovery'. Is that something I (should) have=
+? :)
 
-Agreed. Let's keep the behaviour just as it was (just without warnings
-for now), and
-if it needs to change in the future, that's easy enough to do as well.
+The issue is based on the separation of the "root" (/) and "user" (/usr)=20
+partition.  It is reasonable, and in many cases advisable to breakup the =
+system=20
+into multiple partitions.  The FHS (and UNIX tradition) support the idea =
+of a=20
+small root filesystem w/ a /usr partition adding the majority of the=20
+functionality to the system.  (Note: in OE-Core the 'user' partition is=20
+equivalent to the exec_prefix, which some distributions make '/' in order=
+ to=20
+flatten the filesystem.  In this case the code will detect root and user =
+are the=20
+same and do nothing.)
 
-I'm grabbing this change now.
+The problem being identified, and resolved is that if a binary exists in =
+the=20
+root partition, then all of it's support libraries must also exist in the=
+ root=20
+partition.  I.e. "/bin/grep" can't refer to "/usr/lib/libncurses.so".  Be=
+cause=20
+during early boot a script may use grep for functionality, but if /usr is=
+ not=20
+yet mounted it will fail.  Detecting this is fairly simple -- correlate t=
+he=20
+libraries required by an executable in the root partition and verify they=
+ are=20
+not requiring anything located in the /usr partition.
 
-Cheers,
+Similarly if shell scripts require functionality that only exist in /usr,=
+ then=20
+they may also cause a failure condition if /usr is not yet mounted.  (Thi=
+s of=20
+course is much harder to detect, which is why this test is only a warning=
+ and=20
+likely to only ever be a warning as there will potentially be a lot of fa=
+lse=20
+positives.)
 
-Bruce
+When a QA situation is detected there are three common solutions to the p=
+roblem:
 
+*) Move the required library from the user partition to root
+
+*) Move the binary from the root partition to the user partition
+
+*) Change the options of the binary to no longer require the library in t=
+he user=20
+partition
+
+Each of the above should be evaluated based on the implicit goal that the=
+ root=20
+partition continue to be "small", with the rule of thumb that it needs to=
+=20
+contain enough to do early boot and mount of the user filesystem -- and=20
+potentially recovery activities in case of a failure.
+
+(I see Scott answered the question below already..)
+
+--Mark
+
+> * can somebody please take care what I see with meta-oe / obexd:
 >
->>>>
->>>> And I see you asked on IRC, so I'll answer here. Submit a patch to the
->>>> kernel like
->>>> any upstream kernel change. Simply send the patch right from your
->>>> linux working tree,
->>>
->>> You mean send to oe-core ml here right ?
->>
->> Yep!
->>
->>>
->>>> and I'll pickup the change, merge it into the tree, push it out and
->>>> send a pull request
->>>> with updated SRCREVs that collect all the queued changes.
->>>>
->>>
->>> Will you be able to bean this patch out from the one I sent or should
->>> I resend it ?
->>> the patch itself should be git am'able
->>
->> I'll grab it, no need to resend. I'm doing 3.0.16 merging right now,
->> so I can collect
->> it with that set of changes.
->>
->> Cheers,
->>
->> Bruce
->>
->>>
->>>> Cheers,
->>>>
->>>> Bruce
->>>>
->>>>>
->>>>> diff --git a/meta/recipes-kernel/linux/linux-yocto/0001-compiler.h-Un=
-def-before-redefining-__attribute_const.patch b/meta/recipes-kernel/linux/l=
-inux-yocto/0001-compiler.h-Undef-before-redefining-__attribute_const.patch
->>>>> new file mode 100644
->>>>> index 0000000..b85cc97
->>>>> --- /dev/null
->>>>> +++ b/meta/recipes-kernel/linux/linux-yocto/0001-compiler.h-Undef-bef=
-ore-redefining-__attribute_const.patch
->>>>> @@ -0,0 +1,33 @@
->>>>> +From 6f92ab6de9d8daeb575949bbbcbc7bcdcebc60af Mon Sep 17 00:00:00 20=
-01
->>>>> +From: Khem Raj <raj.khem@gmail.com>
->>>>> +Date: Thu, 5 Jan 2012 11:42:35 -0800
->>>>> +Subject: [PATCH] compiler.h: Undef before redefining __attribute_con=
-st__
->>>>> +
->>>>> +This is required to avoid warnings like
->>>>> +util/include/linux/compiler.h:8:0: error: "__attribute_const__" rede=
-fined [-Werror]
->>>>> +
->>>>> +Signed-off-by: Khem Raj <raj.khem@gmail.com>
->>>>> +---
->>>>> + tools/perf/util/include/linux/compiler.h | =A0 =A04 +++-
->>>>> + 1 files changed, 3 insertions(+), 1 deletions(-)
->>>>> +
->>>>> +diff --git a/tools/perf/util/include/linux/compiler.h b/tools/perf/u=
-til/include/linux/compiler.h
->>>>> +index 791f9dd..f17ecef 100644
->>>>> +--- a/tools/perf/util/include/linux/compiler.h
->>>>> ++++ b/tools/perf/util/include/linux/compiler.h
->>>>> +@@ -4,9 +4,11 @@
->>>>> + #ifndef __always_inline
->>>>> + #define __always_inline =A0 =A0 =A0 inline
->>>>> + #endif
->>>>> ++#undef __user
->>>>> + #define __user
->>>>> ++#undef __attribute_const__
->>>>> + #define __attribute_const__
->>>>> +-
->>>>> ++#undef __used
->>>>> + #define __used =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0__attribute__((__unus=
-ed__))
->>>>> +
->>>>> + #endif
->>>>> +--
->>>>> +1.7.5.4
->>>>> +
->>>>> diff --git a/meta/recipes-kernel/linux/linux-yocto_3.0.bb b/meta/reci=
-pes-kernel/linux/linux-yocto_3.0.bb
->>>>> index b650c84..2e87f7f 100644
->>>>> --- a/meta/recipes-kernel/linux/linux-yocto_3.0.bb
->>>>> +++ b/meta/recipes-kernel/linux/linux-yocto_3.0.bb
->>>>> @@ -23,7 +23,9 @@ SRCREV_meta ?=3D "c979f1365b1eb74e882b2cbbc8407ec53=
-6ab6eb8"
->>>>> =A0PR =3D "r2"
->>>>> =A0PV =3D "${LINUX_VERSION}+git${SRCPV}"
->>>>>
->>>>> -SRC_URI =3D "git://git.yoctoproject.org/linux-yocto-3.0;protocol=3Dg=
-it;nocheckout=3D1;branch=3D${KBRANCH},meta;name=3Dmachine,meta"
->>>>> +SRC_URI =3D "git://git.yoctoproject.org/linux-yocto-3.0;protocol=3Dg=
-it;nocheckout=3D1;branch=3D${KBRANCH},meta;name=3Dmachine,meta \
->>>>> + =A0 =A0 =A0 =A0 =A0 file://0001-compiler.h-Undef-before-redefining-=
-__attribute_const.patch \
->>>>> + =A0 =A0 =A0 =A0 =A0 "
->>>>>
->>>>> =A0COMPATIBLE_MACHINE =3D "(qemuarm|qemux86|qemuppc|qemumips|qemux86-=
-64)"
->>>>>
->>>>> --
->>>>> 1.7.5.4
->>>>>
->>>>>
->>>>> _______________________________________________
->>>>> Openembedded-core mailing list
->>>>> Openembedded-core@lists.openembedded.org
->>>>> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
->>>>
->>>>
->>>>
->>>> --
->>>> "Thou shalt not follow the NULL pointer, for chaos and madness await
->>>> thee at its end"
->>>>
->>>> _______________________________________________
->>>> Openembedded-core mailing list
->>>> Openembedded-core@lists.openembedded.org
->>>> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
->>>
->>> _______________________________________________
->>> Openembedded-core mailing list
->>> Openembedded-core@lists.openembedded.org
->>> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
->>
->>
->>
->> --
->> "Thou shalt not follow the NULL pointer, for chaos and madness await
->> thee at its end"
->>
->> _______________________________________________
->> Openembedded-core mailing list
->> Openembedded-core@lists.openembedded.org
->> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
+> | ./arm-angstrom-linux-gnueabi-libtool  --tag=3DCC   --mode=3Dlink ccac=
+he arm-
+> angstrom-linux-gnueabi-gcc  -march=3Darmv7-a -fno-tree-vectorize      -=
+mthumb-
+> interwork -mfloat-abi=3Dsoftfp -mfpu=3Dneon -mtune=3Dcortex-a8 -mthumb-=
+interwork -mno-
+> thumb --sysroot=3D/home/Superandy/tmp/oe-core-eglibc/sysroots/overo -
+> I/home/Superandy/tmp/oe-core-eglibc/sysroots/overo/usr/include/glib-2.0=
+ -
+> I/home/Superandy/tmp/oe-core-eglibc/sysroots/overo/usr/lib/glib-2.0/inc=
+lude   -
+> I/home/Superandy/tmp/oe-core-eglibc/sysroots/overo/usr/include/dbus-1.0=
+ -
+> I/home/Superandy/tmp/oe-core-eglibc/sysroots/overo/usr/lib/dbus-1.0/inc=
+lude -
+> D_FILE_OFFSET_BITS=3D64 -DOBEX_PLUGIN_BUILTIN -
+> DPLUGINDIR=3D\""/usr/lib/obex/plugins"\" -O -fno-omit-frame-pointer -g =
+-
+> feliminate-unused-debug-types -pipe -O0 -Wl,--export-dynamic -Wl,-O1 -W=
+l,--hash-
+> style=3Dgnu -Wl,--as-needed -o src/obexd gdbus/mainloop.o gdbus/watch.o
+> gdbus/object.o gdbus/polkit.o plugins/bluetooth.o  plugins/filesystem.o
+> plugins/opp.o plugins/ftp.o plugins/pbap.o plugins/vcard.o plugins/mas.=
+o
+> plugins/irmc.o plugins/syncevolution.o btio/btio.o src/main.o src/plugi=
+n.o
+> src/log.o src/manager.o src/obex.o src/mimetype.o src/service.o src/tra=
+nsport.o
+> src/server.o plugins/phonebook.o plugins/messages.o -ldbus-1 -lpthread =
+-lrt   -
+> lglib-2.0 -lopenobex -lbluetooth   -lical -licalss -licalvcal -lpthread=
+ -ldl
+> | arm-angstrom-linux-gnueabi-libtool: link: cannot find the library
+> `/home/Superandy/tmp/oe-core-eglibc/sysroots/overo/lib/libusb-1.0.la' o=
+r
+> unhandled argument `=3D/lib/libusb-1.0.la'
+> | make[1]: *** [src/obexd] Error 1
+>
+> libusb-1.0.la still resides in .../sysroots/overo/usr/lib. Maybe it nee=
+ds
+> transition too? If yes: Are there also others which need libtool-lib tr=
+ansition?
+>
+> Thanks
+>
+> Andreas
 >
 > _______________________________________________
 > Openembedded-core mailing list
 > Openembedded-core@lists.openembedded.org
 > http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
 
-
-
---=20
-"Thou shalt not follow the NULL pointer, for chaos and madness await
-thee at its end"
 
 
