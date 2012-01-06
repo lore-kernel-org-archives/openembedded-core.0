@@ -1,26 +1,27 @@
-Received: from mail-vw0-f47.google.com ([209.85.212.47])
+Received: from mail-vx0-f175.google.com ([209.85.220.175])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <muriani@gmail.com>) id 1RjJ6k-0000nK-4e
+	(envelope-from <sakoman@gmail.com>) id 1RjJbA-0002P4-3t
 	for openembedded-core@lists.openembedded.org;
-	Sat, 07 Jan 2012 00:21:58 +0100
-Received: by vbbfc21 with SMTP id fc21so1582487vbb.6
+	Sat, 07 Jan 2012 00:53:24 +0100
+Received: by vcbf1 with SMTP id f1so1665921vcb.6
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 06 Jan 2012 15:14:30 -0800 (PST)
+	Fri, 06 Jan 2012 15:45:48 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
 	h=mime-version:date:message-id:subject:from:to:content-type;
-	bh=SoIdrzb+gtJNkdDDbXmuXG8K4+DyAZN4Hnnw6uc3EM8=;
-	b=vWo6TDK1rX5i37frs2HV1lrGlEJssQeNE1Y2ANdm5DTEoB/A+I1bfQJdLLsNrk2uCZ
-	lrRw/3E2gPYDrNvJn/+M0gnbz6IyT4l2AiqcDFE446qRwAYmuy407GL3vKQaPD3CtCQP
-	CuiNNY75GtFmWtm9bjVU/HC6A0JNzK8KiQRLk=
+	bh=nKq3xpwH4s0yGOq8nfat50uwZT+DO71TafYPKcP1po0=;
+	b=Wm86auIIKQvpzTjwI33HrFgpmvtgBWTzjTTSIWYaQJLFd1m4icW8FRIMac0hGcqmi+
+	pWnnPN8MSERoE/OGBw6cj8RNu2eLyM2emCblzSOwanYKNQHyLztz29+GaRzruwnXGZld
+	4auFSKaAiPXEit0xt0gxdppwQcIyNApMhfZvw=
 MIME-Version: 1.0
-Received: by 10.52.22.193 with SMTP id g1mr3969797vdf.77.1325891670210; Fri,
-	06 Jan 2012 15:14:30 -0800 (PST)
-Received: by 10.52.37.98 with HTTP; Fri, 6 Jan 2012 15:14:30 -0800 (PST)
-Date: Fri, 6 Jan 2012 17:14:30 -0600
-Message-ID: <CAFu+fZeD2p2jTAtFQRWatF=PG=50NKR9EpG+a2PydZL-q8EFng@mail.gmail.com>
-From: James Baker <muriani@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Subject: libiconv_1.14.bb do_install failure
+Received: by 10.220.229.200 with SMTP id jj8mr2043544vcb.53.1325893548102;
+	Fri, 06 Jan 2012 15:45:48 -0800 (PST)
+Received: by 10.52.95.211 with HTTP; Fri, 6 Jan 2012 15:45:48 -0800 (PST)
+Date: Fri, 6 Jan 2012 15:45:48 -0800
+Message-ID: <CAGDS+nm0tC4ZXPcL-VRGvA0qy+9WOU36+85Jhon6Dwq948pfqQ@mail.gmail.com>
+From: Steve Sakoman <sakoman@gmail.com>
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: [PATCH] Remove last remnants of kernel26 MACHINE_FEATURES
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -35,94 +36,60 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 06 Jan 2012 23:21:58 -0000
-Content-Type: multipart/alternative; boundary=20cf307ac3fd0377fb04b5e436ae
-
---20cf307ac3fd0377fb04b5e436ae
+X-List-Received-Date: Fri, 06 Jan 2012 23:53:24 -0000
 Content-Type: text/plain; charset=ISO-8859-1
 
-Greetings folks,
+There is really no reason to continue to carry this feature
 
-I'm trying to build an OE system and the process stops at the do_install
-phase of building libiconv_1.14
+Signed-off-by: Steve Sakoman <steve@sakoman.com>
+---
+Note: bsp layer maintainers may want to remove kernel26 references
+from their machine.conf files
 
-Build system is Ubuntu 10.04 x86_64, plenty of HDD and ram to spare.
-Possibly pertinent log:
-| arm-oe-linux-gnueabi-libtool: link: arm-oe-linux-gnueabi-gcc
--march=armv7-a -fno-tree-vectorize -mthumb-interwork -mfloat-abi=softfp
--mfpu=neon -mtune=cortex-a8
---sysroot=/home/james/stuff/beagle/tmp-eglibc/sysroots/beagleboard -Wl,-O1
--Wl,--hash-style=gnu -Wl,--as-needed -O2 -pipe -g
--feliminate-unused-debug-types -Wl,-rpath -Wl,\$ORIGIN/../lib iconv.o -o
-iconv  ../srclib/libicrt.a
-/home/james/stuff/beagle/tmp-eglibc/work/armv7a-vfp-neon-oe-linux-gnueabi/libiconv-1.14-r0/image/usr/lib/libiconv.so
--Wl,-rpath
--Wl,/home/james/stuff/beagle/tmp-eglibc/work/armv7a-vfp-neon-oe-linux-gnueabi/libiconv-1.14-r0/image/usr/lib
-| iconv.o: In function `main':
-|
-/home/james/stuff/beagle/tmp-eglibc/work/armv7a-vfp-neon-oe-linux-gnueabi/libiconv-1.14-r0/libiconv-1.14/src/./iconv.c:861:
-undefined reference to `relocate'
-| ../srclib/libicrt.a(progreloc.o): In function `prepare_relocate':
-|
-/home/james/stuff/beagle/tmp-eglibc/work/armv7a-vfp-neon-oe-linux-gnueabi/libiconv-1.14-r0/libiconv-1.14/srclib/progreloc.c:297:
-undefined reference to `compute_curr_prefix'
-|
-/home/james/stuff/beagle/tmp-eglibc/work/armv7a-vfp-neon-oe-linux-gnueabi/libiconv-1.14-r0/libiconv-1.14/srclib/progreloc.c:302:
-undefined reference to `set_relocation_prefix'
-| collect2: ld returned 1 exit status
-| make[1]: *** [install] Error 1
-| make[1]: Leaving directory
-`/home/james/stuff/beagle/tmp-eglibc/work/armv7a-vfp-neon-oe-linux-gnueabi/libiconv-1.14-r0/libiconv-1.14/src'
+diff --git a/meta/conf/bitbake.conf b/meta/conf/bitbake.conf
+index 1c21616..5f75ddf 100644
+--- a/meta/conf/bitbake.conf
++++ b/meta/conf/bitbake.conf
+@@ -692,7 +692,6 @@ OES_BITBAKE_CONF = "1"
+ # Machine properties and task-base stuff
+ ##################################################################
+
+-MACHINE_FEATURES ?= "kernel26"
+ DISTRO_FEATURES ?= ""
+
+ # This is used to limit what packages goes into images built, so set
+big by default
+diff --git a/meta/conf/machine/include/qemu.inc
+b/meta/conf/machine/include/qemu.inc
+index 3cebfab..10ab76e 100644
+--- a/meta/conf/machine/include/qemu.inc
++++ b/meta/conf/machine/include/qemu.inc
+@@ -1,7 +1,7 @@
+ PCMCIA_MANAGER = "pcmciautils"
+ PREFERRED_PROVIDER_virtual/xserver ?= "xserver-kdrive"
+
+-MACHINE_FEATURES = "kernel26 apm alsa pcmcia bluetooth irda usbgadget screen"
++MACHINE_FEATURES = "apm alsa pcmcia bluetooth irda usbgadget screen"
+
+ IMAGE_FSTYPES ?= "tar.bz2 ext3"
+
+diff --git a/meta/recipes-kernel/update-modules/update-modules_1.0.bb
+b/meta/recipes-kernel/update-modules/update-modules_1.0.bb
+index 1ea97a8..dc44965 100644
+--- a/meta/recipes-kernel/update-modules/update-modules_1.0.bb
++++ b/meta/recipes-kernel/update-modules/update-modules_1.0.bb
+@@ -3,8 +3,8 @@ SECTION = "base"
+ LICENSE = "GPLv2"
+ LIC_FILES_CHKSUM =
+"file://${WORKDIR}/COPYING.GPL;md5=751419260aa954499f7abaabaa882bbe"
+
+-RDEPENDS_${PN} = "${@base_contains("MACHINE_FEATURES", "kernel26",
+"module-init-tools-depmod","modutils-depmod",d)} "
+-PR = "r10"
++RDEPENDS_${PN} = "module-init-tools-depmod"
++PR = "r11"
+
+ SRC_URI = "file://update-modules \
+            file://COPYING.GPL"
 
 
-This problem is present regardless of the target I've chosen, and has been
-tried with qemuarm (armv5) and beagleboard targets, as well as a netbookpro
-target I'm trying to build (gotta get some use out of the darned thing)
-
-According to git, my local repository is up to date. Any ideas?
-
-
-Thanks,
--James
-
---20cf307ac3fd0377fb04b5e436ae
-Content-Type: text/html; charset=ISO-8859-1
-Content-Transfer-Encoding: quoted-printable
-
-<div>Greetings folks,</div><div><br></div><div>I&#39;m trying to build an O=
-E system and the process stops at the do_install phase of building libiconv=
-_1.14</div><div><br></div><div>Build system is Ubuntu 10.04 x86_64, plenty =
-of HDD and ram to spare.</div>
-<div>Possibly pertinent log:</div><div>| arm-oe-linux-gnueabi-libtool: link=
-: arm-oe-linux-gnueabi-gcc -march=3Darmv7-a -fno-tree-vectorize -mthumb-int=
-erwork -mfloat-abi=3Dsoftfp -mfpu=3Dneon -mtune=3Dcortex-a8 --sysroot=3D/ho=
-me/james/stuff/beagle/tmp-eglibc/sysroots/beagleboard -Wl,-O1 -Wl,--hash-st=
-yle=3Dgnu -Wl,--as-needed -O2 -pipe -g -feliminate-unused-debug-types -Wl,-=
-rpath -Wl,\$ORIGIN/../lib iconv.o -o iconv =A0../srclib/libicrt.a /home/jam=
-es/stuff/beagle/tmp-eglibc/work/armv7a-vfp-neon-oe-linux-gnueabi/libiconv-1=
-.14-r0/image/usr/lib/libiconv.so -Wl,-rpath -Wl,/home/james/stuff/beagle/tm=
-p-eglibc/work/armv7a-vfp-neon-oe-linux-gnueabi/libiconv-1.14-r0/image/usr/l=
-ib</div>
-<div>| iconv.o: In function `main&#39;:</div><div>| /home/james/stuff/beagl=
-e/tmp-eglibc/work/armv7a-vfp-neon-oe-linux-gnueabi/libiconv-1.14-r0/libicon=
-v-1.14/src/./iconv.c:861: undefined reference to `relocate&#39;</div><div>
-| ../srclib/libicrt.a(progreloc.o): In function `prepare_relocate&#39;:</di=
-v><div>| /home/james/stuff/beagle/tmp-eglibc/work/armv7a-vfp-neon-oe-linux-=
-gnueabi/libiconv-1.14-r0/libiconv-1.14/srclib/progreloc.c:297: undefined re=
-ference to `compute_curr_prefix&#39;</div>
-<div>| /home/james/stuff/beagle/tmp-eglibc/work/armv7a-vfp-neon-oe-linux-gn=
-ueabi/libiconv-1.14-r0/libiconv-1.14/srclib/progreloc.c:302: undefined refe=
-rence to `set_relocation_prefix&#39;</div><div>| collect2: ld returned 1 ex=
-it status</div>
-<div>| make[1]: *** [install] Error 1</div><div>| make[1]: Leaving director=
-y `/home/james/stuff/beagle/tmp-eglibc/work/armv7a-vfp-neon-oe-linux-gnueab=
-i/libiconv-1.14-r0/libiconv-1.14/src&#39;</div><div><br></div><div><br>
-</div><div>This problem is present regardless of the target I&#39;ve chosen=
-, and has been tried with qemuarm (armv5) and beagleboard targets, as well =
-as a netbookpro target I&#39;m trying to build (gotta get some use out of t=
-he darned thing)</div>
-<div><br></div><div>According to git, my local repository is up to date. An=
-y ideas?</div><div><br></div><div><br></div><div>Thanks,</div><div>-James</=
-div>
-
---20cf307ac3fd0377fb04b5e436ae--
