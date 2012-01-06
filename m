@@ -1,27 +1,34 @@
-Received: from mail.windriver.com ([147.11.1.11])
+Received: from mail-qw0-f54.google.com ([209.85.216.54])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <mark.hatle@windriver.com>) id 1RjCJn-0001WF-Lo
+	(envelope-from <kergoth@gmail.com>) id 1RjCOQ-0001jW-Hc
 	for openembedded-core@lists.openembedded.org;
-	Fri, 06 Jan 2012 17:07:00 +0100
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca [147.11.189.40])
-	by mail.windriver.com (8.14.3/8.14.3) with ESMTP id q06FxYCK014636
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
+	Fri, 06 Jan 2012 17:11:46 +0100
+Received: by qabg14 with SMTP id g14so1143012qab.6
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 6 Jan 2012 07:59:34 -0800 (PST)
-Received: from Macintosh-5.local (172.25.36.228) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server id 14.1.255.0;
-	Fri, 6 Jan 2012 07:59:34 -0800
-Message-ID: <4F071A65.90708@windriver.com>
-Date: Fri, 6 Jan 2012 09:59:33 -0600
-From: Mark Hatle <mark.hatle@windriver.com>
-Organization: Wind River Systems
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.6;
-	rv:8.0) Gecko/20111105 Thunderbird/8.0
+	Fri, 06 Jan 2012 08:04:22 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
+	h=mime-version:sender:in-reply-to:references:from:date
+	:x-google-sender-auth:message-id:subject:to:content-type
+	:content-transfer-encoding;
+	bh=7r1EDn8Q0cS7GNFYz/N+pP3ECu5iIn/A9jNF1YZB0OM=;
+	b=G1RJZOu7su8UGcjm/kQZhDBPggjQGGfG6TthrWf9Kpb7BYHW8Y3m57h5JCKYFe/RmP
+	Ak+clGo9j2zWL02b6LIF2/1uGQMlZfeHC4MqpEZGA9QRNIF81px2nLiyJjjYcwbiRZb/
+	lZiBBrI/hg2bzpu/doDqFM+3S5YSCiSm6IspQ=
+Received: by 10.224.186.130 with SMTP id cs2mr8374901qab.82.1325865862240;
+	Fri, 06 Jan 2012 08:04:22 -0800 (PST)
 MIME-Version: 1.0
-To: <openembedded-core@lists.openembedded.org>
+Sender: kergoth@gmail.com
+Received: by 10.229.187.141 with HTTP; Fri, 6 Jan 2012 08:04:01 -0800 (PST)
+In-Reply-To: <4F071A65.90708@windriver.com>
 References: <20120106100934.GA3879@jama.jama.net>
 	<77ADD6E7-5632-4B1A-ABC3-6E4DAEEAE3B6@dominion.thruhere.net>
-In-Reply-To: <77ADD6E7-5632-4B1A-ABC3-6E4DAEEAE3B6@dominion.thruhere.net>
+	<4F071A65.90708@windriver.com>
+From: Chris Larson <clarson@kergoth.com>
+Date: Fri, 6 Jan 2012 09:04:01 -0700
+X-Google-Sender-Auth: F_FBloSJK7PlMD1i_fey7cQQfpU
+Message-ID: <CABcZANk=sg=oj+KyVcBF=UoC460EV-QtiW4B=wKXPBSLrV4HOQ@mail.gmail.com>
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
 Subject: Re: libs transition /usr/lib -> /lib questions
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
@@ -37,58 +44,54 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 06 Jan 2012 16:07:00 -0000
-Content-Type: text/plain; charset="ISO-8859-1"; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Fri, 06 Jan 2012 16:11:46 -0000
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
-On 1/6/12 4:34 AM, Koen Kooi wrote:
+On Fri, Jan 6, 2012 at 8:59 AM, Mark Hatle <mark.hatle@windriver.com> wrote=
+:
+> On 1/6/12 4:34 AM, Koen Kooi wrote:
+>>
+>>
+>> Op 6 jan. 2012, om 11:09 heeft Martin Jansa het volgende geschreven:
+>>
+>>> FWIW today I've noticed that systemd is going other way around
+>>> http://www.freedesktop.org/wiki/Software/systemd/separate-usr-is-broken
+>>
+>>
+>> And http://fedoraproject.org/wiki/Features/UsrMove
+>>
+>> I guess it's time to publish my angstrom branch doing that after the
+>> holidays :)
 >
-> Op 6 jan. 2012, om 11:09 heeft Martin Jansa het volgende geschreven:
 >
->> FWIW today I've noticed that systemd is going other way around
->> http://www.freedesktop.org/wiki/Software/systemd/separate-usr-is-broken
+> I respectfully disagree with both of the above URLs.
 >
-> And http://fedoraproject.org/wiki/Features/UsrMove
+> The root partition is still very useful as a "small" set of applications =
+and
+> libraries required for booting.
 >
-> I guess it's time to publish my angstrom branch doing that after the holidays :)
+> Most systems these days contain a combined root and usr partition, which =
+is
+> fine. =C2=A0However, there are a lot of systems that I've worked on in th=
+e past
+> and I expect in the future that, root being a small R/O system is necessa=
+ry.
+>
+> initramfs can solve some problems, but introduces other issues. =C2=A0Man=
+y of the
+> systems I've worked on simple don't have enough flash to be able to store
+> the bootloader, kernel and an initramfs [as well as other system items
+> required by the devices]. =C2=A0In this case a base rootfs makes the most=
+ sense.
 
-I respectfully disagree with both of the above URLs.
-
-The root partition is still very useful as a "small" set of applications and 
-libraries required for booting.
-
-Most systems these days contain a combined root and usr partition, which is 
-fine.  However, there are a lot of systems that I've worked on in the past and I 
-expect in the future that, root being a small R/O system is necessary.
-
-initramfs can solve some problems, but introduces other issues.  Many of the 
-systems I've worked on simple don't have enough flash to be able to store the 
-bootloader, kernel and an initramfs [as well as other system items required by 
-the devices].  In this case a base rootfs makes the most sense.
-
-So as I mentioned in my previous email -- there are really three options to 
-supporting this:
-
-*) Move the libraries from /usr to /
-
-*) Move the binaries from / to /usr
-
-*) Reconfigure the binaries to no longer need the library in /usr
-
----
-
-But with that said, we also should work on making it easier to generate an 
-initramfs that is capable of premounting all of the filesystems and doing other 
-actions for an "early boot" capability before handing off control to the real 
-system.  (And I do believe systemd is the future of initscripts within Linux and 
-OE-Core for the majority of non-simple systems!)
-
---Mark
-
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
-
+In my opinion, what's proposed in the two links is a good thing even
+for embedded. Not that we'd use that structure necessarily, but
+removing the usr vs non-usr separation for binaries and libs is a good
+thing regardless. Putting /usr in the rootfs still would still work
+fine, or you could drop usr entirely and move everything to / the way
+micro does.
+--=20
+Christopher Larson
 
 
