@@ -1,24 +1,45 @@
-Received: from mga14.intel.com ([143.182.124.37])
+Received: from am1ehsobe005.messaging.microsoft.com ([213.199.154.208]
+	helo=AM1EHSOBE005.bigfish.com)
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <sgw@linux.intel.com>) id 1Rj4mi-0004Ld-5w
+	(envelope-from <B19537@freescale.com>) id 1Rj4rO-0005Ei-L7
 	for openembedded-core@lists.openembedded.org;
-	Fri, 06 Jan 2012 09:04:22 +0100
-Received: from azsmga001.ch.intel.com ([10.2.17.19])
-	by azsmga102.ch.intel.com with ESMTP; 05 Jan 2012 23:56:46 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="93004499"
-Received: from unknown (HELO swold-mobl.bigsur.com) ([10.255.13.127])
-	by azsmga001.ch.intel.com with ESMTP; 05 Jan 2012 23:56:46 -0800
-From: Saul Wold <sgw@linux.intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Thu,  5 Jan 2012 23:56:36 -0800
-Message-Id: <1c90f3e4162eb53a1d207c590eab11d817c69abc.1325836241.git.sgw@linux.intel.com>
-X-Mailer: git-send-email 1.7.6.4
-In-Reply-To: <cover.1325836241.git.sgw@linux.intel.com>
-References: <cover.1325836241.git.sgw@linux.intel.com>
-In-Reply-To: <cover.1325836241.git.sgw@linux.intel.com>
-References: <cover.1325836241.git.sgw@linux.intel.com>
-Subject: [CONSOLIDATED PULL 25/25] x11-common: remove extraneous BSP customizations
+	Fri, 06 Jan 2012 09:09:10 +0100
+Received: from mail11-am1-R.bigfish.com (10.3.201.243) by
+	AM1EHSOBE005.bigfish.com (10.3.204.25) with Microsoft SMTP Server id
+	14.1.225.23; Fri, 6 Jan 2012 07:46:41 +0000
+Received: from mail11-am1 (localhost [127.0.0.1])	by mail11-am1-R.bigfish.com
+	(Postfix) with ESMTP id 8E7CC70011F	for
+	<openembedded-core@lists.openembedded.org>;
+	Fri,  6 Jan 2012 07:46:41 +0000 (UTC)
+X-SpamScore: 0
+X-BigFish: VS0(zzzz1202hzz8275bhz2dh2a8h668h839h)
+X-Forefront-Antispam-Report: CIP:70.37.183.190; KIP:(null); UIP:(null); IPV:NLI;
+	H:mail.freescale.net; RD:none; EFVD:NLI
+Received: from mail11-am1 (localhost.localdomain [127.0.0.1]) by mail11-am1
+	(MessageSwitch) id 1325836001464953_24420;
+	Fri,  6 Jan 2012 07:46:41 +0000 (UTC)
+Received: from AM1EHSMHS011.bigfish.com (unknown [10.3.201.248])	by
+	mail11-am1.bigfish.com (Postfix) with ESMTP id 6EFF7580042	for
+	<openembedded-core@lists.openembedded.org>;
+	Fri,  6 Jan 2012 07:46:41 +0000 (UTC)
+Received: from mail.freescale.net (70.37.183.190) by AM1EHSMHS011.bigfish.com
+	(10.3.207.111) with Microsoft SMTP Server (TLS) id 14.1.225.23;
+	Fri, 6 Jan 2012 07:46:41 +0000
+Received: from az33smr01.freescale.net (10.64.34.199) by
+	039-SN1MMR1-003.039d.mgd.msft.net (10.84.1.16) with Microsoft SMTP
+	Server id 14.1.355.3; Fri, 6 Jan 2012 01:46:38 -0600
+Received: from localhost.localdomain
+	(bjsimics-desktop-010192208197.ap.freescale.net [10.192.208.197])	by
+	az33smr01.freescale.net (8.13.1/8.13.0) with ESMTP id q067ka2n018093;
+	Fri, 6 Jan 2012 01:46:37 -0600 (CST)
+From: <b19537@freescale.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Fri, 6 Jan 2012 15:51:01 +0800
+Message-ID: <1325836261-4251-1-git-send-email-b19537@freescale.com>
+X-Mailer: git-send-email 1.7.0.4
+MIME-Version: 1.0
+X-OriginatorOrg: freescale.com
+Subject: [PATCH oe-core v5] linux-dtb: add multi-dtb build support and keep dtb in deploy cache package
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -33,59 +54,63 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 06 Jan 2012 08:04:22 -0000
+X-List-Received-Date: Fri, 06 Jan 2012 08:09:10 -0000
+Content-Type: text/plain
 
-From: Andrea Adami <andrea.adami@gmail.com>
+From: Zhenhua Luo <b19537@freescale.com>
 
-Signed-off-by: Andrea Adami <andrea.adami@gmail.com>
+    DEPLOY_DIR_IMAGE is the images deploy folder - tmp/deploy/images
+    DEPLOYDIR is the deploy folder of linux - deploy-linux-qoriq-sdk
+
+Signed-off-by: Zhenhua Luo <b19537@freescale.com>
 ---
- .../x11-common/x11-common/etc/X11/Xserver          |   24 --------------------
- 1 files changed, 0 insertions(+), 24 deletions(-)
+ meta/recipes-kernel/linux/linux-dtb.inc |   30 +++++++++++++++++++++---------
+ 1 files changed, 21 insertions(+), 9 deletions(-)
 
-diff --git a/meta/recipes-graphics/x11-common/x11-common/etc/X11/Xserver b/meta/recipes-graphics/x11-common/x11-common/etc/X11/Xserver
-index 57923e6..cea733e 100644
---- a/meta/recipes-graphics/x11-common/x11-common/etc/X11/Xserver
-+++ b/meta/recipes-graphics/x11-common/x11-common/etc/X11/Xserver
-@@ -18,14 +18,6 @@ fi
+diff --git a/meta/recipes-kernel/linux/linux-dtb.inc b/meta/recipes-kernel/linux/linux-dtb.inc
+index 7ec7584..f1bd2bf 100644
+--- a/meta/recipes-kernel/linux/linux-dtb.inc
++++ b/meta/recipes-kernel/linux/linux-dtb.inc
+@@ -13,15 +13,27 @@ python __anonymous () {
+ 	d.setVar("PACKAGES", "%s kernel-devicetree" % packages)
+ }
  
- . /etc/profile
- 
--module_id() {
--    ## used to read from assets, but sometimes assets is corrupted
--    # grep "Module ID" /proc/hal/assets | sed "s/.*://"
--    ## used to read from /proc/hal/model, but that is removed in 2.6
--    # echo ' iPAQ' `cat /proc/hal/model`
--    awk 'BEGIN { FS=": " } /Hardware/ { print $2 } ' </proc/cpuinfo
--}
+-do_install_append() {
++kernel_do_deploy_append() {
+     if test -n "${KERNEL_DEVICETREE}"; then
+-	dtc -I dts -O dtb ${KERNEL_DEVICETREE_FLAGS} -o devicetree ${KERNEL_DEVICETREE}
+-	install -m 0644 devicetree ${D}/boot/devicetree-${KERNEL_VERSION}
+-	install -d ${DEPLOY_DIR_IMAGE}
+-	install -m 0644 devicetree ${DEPLOY_DIR_IMAGE}/${KERNEL_IMAGE_BASE_NAME}.dtb
+-	cd ${DEPLOY_DIR_IMAGE}
+-	rm -f ${KERNEL_IMAGE_SYMLINK_NAME}.dtb
+-	ln -sf ${KERNEL_IMAGE_BASE_NAME}.dtb ${KERNEL_IMAGE_SYMLINK_NAME}.dtb
++        for DTS_FILE in ${KERNEL_DEVICETREE}; do
++            DTS_BASE_NAME=`basename ${DTS_FILE} | awk -F "." '{print $1}'`
++            DTB_NAME=`echo ${KERNEL_IMAGE_BASE_NAME} | sed "s/${MACHINE}/${DTS_BASE_NAME}/g"`
++            DTB_SYMLINK_NAME=`echo ${KERNEL_IMAGE_SYMLINK_NAME} | sed "s/${MACHINE}/${DTS_BASE_NAME}/g"`
++            dtc -I dts -O dtb ${KERNEL_DEVICETREE_FLAGS} -o devicetree ${DTS_FILE}
++            install -m 0644 devicetree ${D}/boot/devicetree-${DTS_BASE_NAME}-${KERNEL_VERSION}
++            install -d ${DEPLOY_DIR_IMAGE}
++            install -m 0644 devicetree ${DEPLOY_DIR_IMAGE}/${DTB_NAME}.dtb
++            rm -f devicetree
++            cd ${DEPLOY_DIR_IMAGE}
++            rm -f ${DTB_SYMLINK_NAME}.dtb
++            ln -sf ${DTB_NAME}.dtb ${DTB_SYMLINK_NAME}.dtb
++            cd -
++
++            install -d ${DEPLOYDIR}
++            install -m 0644 ${DEPLOY_DIR_IMAGE}/${DTB_NAME}.dtb ${DEPLOYDIR}/${DTB_NAME}.dtb
++            cd ${DEPLOYDIR}
++            ln -sf ${DTB_NAME}.dtb ${DTB_SYMLINK_NAME}.dtb
++            cd -
++        done
+     fi
+ }
 -
- ARGS=" -br -pn"
- 
- if [ "$XSERVER" != "/usr/bin/Xorg" ]; then
-@@ -44,22 +36,6 @@ if [ "$XSERVER" != "/usr/bin/Xorg" ]; then
-           ARGS="$ARGS -mouse tslib"
-         fi
- 
--        # start off server in conventional location.
--        case `module_id` in
--                "Generic OMAP1510/1610/1710")
--                        ARGS="$ARGS -mouse /dev/input/event0" ;;
--                "Compulab CM-x270")
--                        #modprobe mbxfb
--                        #ARGS="$ARGS -fb /dev/fb1"
--                        ;;
--                "Nokia N800")
--                        ARGS="$ARGS -mouse tslib" ;;
--                "Nokia 770")
--                        ARGS="$ARGS -mouse tslib" ;;
--                *)
--                        ;;
--        esac
--
-         ARGS="$ARGS -screen ${DISPLAY_WIDTH_PIXELS}x${DISPLAY_HEIGHT_PIXELS}@${DISPLAY_ORIENTATION}x${DISPLAY_BPP}"
- 
-         if [ ! -z "$DISPLAY_DPI" ]; then
 -- 
-1.7.6.4
+1.7.0.4
+
 
 
 
