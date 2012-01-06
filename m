@@ -1,20 +1,22 @@
-Received: from mga01.intel.com ([192.55.52.88])
+Received: from mga02.intel.com ([134.134.136.20])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <nitin.a.kamble@intel.com>) id 1RizxM-0004jr-CH
+	(envelope-from <nitin.a.kamble@intel.com>) id 1RizxN-0004jl-Fl
 	for openembedded-core@lists.openembedded.org;
-	Fri, 06 Jan 2012 03:55:00 +0100
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-	by fmsmga101.fm.intel.com with ESMTP; 05 Jan 2012 18:47:31 -0800
+	Fri, 06 Jan 2012 03:55:01 +0100
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+	by orsmga101.jf.intel.com with ESMTP; 05 Jan 2012 18:47:34 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="109297086"
+X-IronPort-AV: E=Sophos;i="4.67,351,1309762800"; d="scan'208";a="95035376"
 Received: from nbuild0.sc.intel.com ([172.25.110.36])
-	by fmsmga002.fm.intel.com with ESMTP; 05 Jan 2012 18:47:31 -0800
+	by orsmga002.jf.intel.com with ESMTP; 05 Jan 2012 18:47:33 -0800
 From: nitin.a.kamble@intel.com
 To: openembedded-core@lists.openembedded.org
-Date: Thu,  5 Jan 2012 18:47:30 -0800
-Message-Id: <cover.1325817957.git.nitin.a.kamble@intel.com>
+Date: Thu,  5 Jan 2012 18:47:31 -0800
+Message-Id: <87b36a8c64f96232ffbcef6b6de086ad9779067a.1325817957.git.nitin.a.kamble@intel.com>
 X-Mailer: git-send-email 1.7.6.4
-Subject: [PATCH 0/1] Fix for autoconf-nativesdk recipe
+In-Reply-To: <cover.1325817957.git.nitin.a.kamble@intel.com>
+References: <cover.1325817957.git.nitin.a.kamble@intel.com>
+Subject: [PATCH 1/1] autoconf: fix nativesdk rdepends
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -29,30 +31,50 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 06 Jan 2012 02:55:00 -0000
+X-List-Received-Date: Fri, 06 Jan 2012 02:55:02 -0000
 
 From: Nitin A Kamble <nitin.a.kamble@intel.com>
 
-This fixes dependency issue of autoconf-nativesdk 
+Fixes this build error:
 
-Thanks,
-Nitin
+| error: Failed dependencies:
+| 	m4 is needed by autoconf-nativesdk-2.68-r4.x86_64
+| 	gnu-config is needed by autoconf-nativesdk-2.68-r4.x86_64
+NOTE: package meta-toolchain-1.0-r6: task do_populate_sdk: Failed
+ERROR: Task 8 (.../meta/recipes-core/meta/meta-toolchain.bb,
+do_populate_sdk) failed with exit code '1'
 
-The following changes since commit 6f9b1a5b050174156e663aa8d692e7f9ac7b9018:
-
-  systemtap: remove not needed fix for automake 1.11.2 (2012-01-05 16:28:59 -0800)
-
-are available in the git repository at:
-  git://git.pokylinux.org/poky-contrib nitin/work
-  http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=nitin/work
-
-Nitin A Kamble (1):
-  autoconf: fix nativesdk rdepends
-
+Signed-off-by: Nitin A Kamble <nitin.a.kamble@intel.com>
+---
  meta/recipes-devtools/autoconf/autoconf.inc     |    2 ++
  meta/recipes-devtools/autoconf/autoconf_2.68.bb |    2 +-
  2 files changed, 3 insertions(+), 1 deletions(-)
 
+diff --git a/meta/recipes-devtools/autoconf/autoconf.inc b/meta/recipes-devtools/autoconf/autoconf.inc
+index 1d0cf90..e7ae339 100644
+--- a/meta/recipes-devtools/autoconf/autoconf.inc
++++ b/meta/recipes-devtools/autoconf/autoconf.inc
+@@ -9,6 +9,8 @@ DEPENDS += "m4-native"
+ DEPENDS_virtclass-native = "m4-native gnu-config-native"
+ DEPENDS_virtclass-nativesdk = "m4-nativesdk gnu-config-nativesdk"
+ RDEPENDS_${PN} = "m4 gnu-config"
++RDEPENDS_${PN}_virtclass-native = "m4-native gnu-config-native"
++RDEPENDS_${PN}_virtclass-nativesdk = "m4-nativesdk gnu-config-nativesdk"
+ 
+ SRC_URI = "${GNU_MIRROR}/autoconf/autoconf-${PV}.tar.bz2 \
+ 	   file://program_prefix.patch"
+diff --git a/meta/recipes-devtools/autoconf/autoconf_2.68.bb b/meta/recipes-devtools/autoconf/autoconf_2.68.bb
+index 84eb182..63db7d1 100644
+--- a/meta/recipes-devtools/autoconf/autoconf_2.68.bb
++++ b/meta/recipes-devtools/autoconf/autoconf_2.68.bb
+@@ -1,6 +1,6 @@
+ require autoconf.inc
+ 
+-PR = "r4"
++PR = "r5"
+ 
+ PARALLEL_MAKE = ""
+ 
 -- 
 1.7.6.4
 
