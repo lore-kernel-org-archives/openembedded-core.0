@@ -1,63 +1,34 @@
-Received: from tx2ehsobe004.messaging.microsoft.com ([65.55.88.14]
-	helo=TX2EHSOBE009.bigfish.com)
+Received: from mga11.intel.com ([192.55.52.93])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <B29882@freescale.com>) id 1RjDFe-0003zV-1T
+	(envelope-from <sgw@linux.intel.com>) id 1RjDKI-0004A0-Vo
 	for openembedded-core@lists.openembedded.org;
-	Fri, 06 Jan 2012 18:06:46 +0100
-Received: from mail155-tx2-R.bigfish.com (10.9.14.254) by
-	TX2EHSOBE009.bigfish.com (10.9.40.29) with Microsoft SMTP Server id
-	14.1.225.23; Fri, 6 Jan 2012 16:59:21 +0000
-Received: from mail155-tx2 (localhost [127.0.0.1])	by
-	mail155-tx2-R.bigfish.com (Postfix) with ESMTP id 3D6A34A02E8	for
-	<openembedded-core@lists.openembedded.org>;
-	Fri,  6 Jan 2012 16:59:21 +0000 (UTC)
-X-SpamScore: -7
-X-BigFish: VS-7(zz9371I1432N98dKzz1202hzz8275bh8275dhz2dh2a8h668h839h8e2h8e3hbe9k61h)
-X-Spam-TCS-SCL: 0:0
-X-Forefront-Antispam-Report: CIP:70.37.183.190; KIP:(null); UIP:(null); IPV:NLI;
-	H:mail.freescale.net; RD:none; EFVD:NLI
-X-FB-SS: 0,
-Received: from mail155-tx2 (localhost.localdomain [127.0.0.1]) by mail155-tx2
-	(MessageSwitch) id 1325869160854620_7305;
-	Fri,  6 Jan 2012 16:59:20 +0000 (UTC)
-Received: from TX2EHSMHS038.bigfish.com (unknown [10.9.14.250])	by
-	mail155-tx2.bigfish.com (Postfix) with ESMTP id BF88AC0056	for
-	<openembedded-core@lists.openembedded.org>;
-	Fri,  6 Jan 2012 16:59:20 +0000 (UTC)
-Received: from mail.freescale.net (70.37.183.190) by TX2EHSMHS038.bigfish.com
-	(10.9.99.138) with Microsoft SMTP Server (TLS) id 14.1.225.23;
-	Fri, 6 Jan 2012 16:59:19 +0000
-Received: from 039-SN1MPN1-002.039d.mgd.msft.net ([169.254.2.86]) by
-	039-SN1MMR1-001.039d.mgd.msft.net ([10.84.1.13]) with mapi id
-	14.01.0355.003; Fri, 6 Jan 2012 10:59:19 -0600
-From: McClintock Matthew-B29882 <B29882@freescale.com>
+	Fri, 06 Jan 2012 18:11:35 +0100
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+	by fmsmga102.fm.intel.com with ESMTP; 06 Jan 2012 09:04:10 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="104284796"
+Received: from unknown (HELO [10.255.13.127]) ([10.255.13.127])
+	by fmsmga001.fm.intel.com with ESMTP; 06 Jan 2012 09:04:10 -0800
+Message-ID: <4F072989.8060808@linux.intel.com>
+Date: Fri, 06 Jan 2012 09:04:09 -0800
+From: Saul Wold <sgw@linux.intel.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:7.0) Gecko/20110927 Thunderbird/7.0
+MIME-Version: 1.0
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Thread-Topic: [OE-core] [PATCH] libxml2: add shared library version info to
-	libxml shared libraries
-Thread-Index: AQHMyjO3mZh1rlZoh0i2AKZGEAsoTpX7S0yAgAA074CABHjmAA==
-Date: Fri, 6 Jan 2012 16:59:19 +0000
-Message-ID: <CAEsOVNdQigYYgGnxiv-wuDZDAOLQ4N==B3EYFgZtydxUNvUSGQ@mail.gmail.com>
-References: <1325541916-22423-1-git-send-email-msm@freescale.com>
-	<20120102232228.GA3958@jama.jama.net>
-	<20120102232521.GB3958@jama.jama.net>
-	<CAEsOVNcUdhic5Wt=r9XEb1SRmWw7+8Tn+4pWyB4Xdj4Mmv7+Lg@mail.gmail.com>
-	<20120103173143.GG3958@jama.jama.net>
-	<CAEsOVNckK45BqWw-xtKJ6ppVv2UoZNU6u3-SKb03RD1vKOou0Q@mail.gmail.com>
-In-Reply-To: <CAEsOVNckK45BqWw-xtKJ6ppVv2UoZNU6u3-SKb03RD1vKOou0Q@mail.gmail.com>
-Accept-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [99.47.177.27]
-MIME-Version: 1.0
-X-OriginatorOrg: freescale.com
-Cc: McClintock Matthew-B29882 <B29882@freescale.com>
-Subject: Re: [PATCH] libxml2: add shared library version info to libxml shared libraries
+References: <1325793967-13002-1-git-send-email-raj.khem@gmail.com>
+	<CADkTA4PFLMdSNM47+__79NXwuocFb7Y70o1qwP=+ft2aS4jd1A@mail.gmail.com>
+	<CAMKF1spvGpZbV0T_vKbzc4UiBt2bmpj520ymZ5-AA66VwKOOsw@mail.gmail.com>
+	<CADkTA4MvYECL=7vxz24PSO8zqw+7Gm-oZ_eqMCJFp1S61ny7jQ@mail.gmail.com>
+	<CAMKF1sr481YYkPK-Cn=nb0PAyJXPwOkROvk31mF1+kmwqJXynQ@mail.gmail.com>
+	<CADkTA4NU1Pkoinqa792acoC0c9UL6HVotV_-eLY8NFaKh_AueQ@mail.gmail.com>
+In-Reply-To: <CADkTA4NU1Pkoinqa792acoC0c9UL6HVotV_-eLY8NFaKh_AueQ@mail.gmail.com>
+Subject: Re: [PATCH] linux-yocto-3.0: Fix compile failure in perf
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
-Reply-To: McClintock Matthew-B29882 <B29882@freescale.com>,
-	Patches and discussions about the oe-core layer
+Reply-To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
 List-Id: Patches and discussions about the oe-core layer
 	<openembedded-core.lists.openembedded.org>
@@ -68,58 +39,210 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 06 Jan 2012 17:06:46 -0000
-Content-Language: en-US
-Content-Type: text/plain; charset="iso-8859-1"
-Content-ID: <2FE639125CA8824ABA1ECF857340D0E5@freescale.net>
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Fri, 06 Jan 2012 17:11:35 -0000
+Content-Type: text/plain; charset=ISO-8859-1; format=flowed
+Content-Transfer-Encoding: 7bit
 
-On Tue, Jan 3, 2012 at 2:41 PM, Matthew McClintock <msm@freescale.com> wrot=
-e:
-> On Tue, Jan 3, 2012 at 11:31 AM, Martin Jansa <martin.jansa@gmail.com> wr=
-ote:
->> On Tue, Jan 03, 2012 at 04:21:16PM +0000, McClintock Matthew-B29882 wrot=
-e:
->>> On Mon, Jan 2, 2012 at 5:25 PM, Martin Jansa <martin.jansa@gmail.com> w=
-rote:
->>> > On Tue, Jan 03, 2012 at 12:22:28AM +0100, Martin Jansa wrote:
->>> >> On Mon, Jan 02, 2012 at 04:05:16PM -0600, Matthew McClintock wrote:
->>> >> > This fixes an issue with RPM where it checks version imformation f=
-or
->>> >> > binaries linked against libxml and fails because it's missing info
->>> >> >
->>> >> > | error: Failed dependencies:
->>> >> > | =A0 =A0 =A0 =A0 =A0 =A0 =A0libxml2.so.2(LIBXML2_2.6.0) is needed=
- by fmc-0.9.7+2-r2.1.ppce500mc
->>> >> > | =A0 =A0 =A0 =A0 =A0 =A0 =A0libxml2.so.2(LIBXML2_2.4.30) is neede=
-d by fmc-0.9.7+2-r2.1.ppce500mc
->>> >> > | ERROR: Function 'do_rootfs' failed (see
->>> >> >
->>> >> > Note: fmc is just an example recipe/name
->>> >>
->>> >> Weird that I haven't noticed this in oe-core before, but probably
->>> >> because in oe-core it was always without version. But it looks the s=
-ame
->>> >> as this
->>> >> http://git.openembedded.org/openembedded/commit/?id=3D50ed401cdaaefb=
-1f5ac33de2838af259a52b1c3a
->>> >> so
+On 01/06/2012 07:41 AM, Bruce Ashfield wrote:
+> On Thu, Jan 5, 2012 at 4:20 PM, Khem Raj<raj.khem@gmail.com>  wrote:
+>> On Thu, Jan 5, 2012 at 12:59 PM, Bruce Ashfield
+>> <bruce.ashfield@gmail.com>  wrote:
+>>> On Thu, Jan 5, 2012 at 3:55 PM, Khem Raj<raj.khem@gmail.com>  wrote:
+>>>> On Thu, Jan 5, 2012 at 12:13 PM, Bruce Ashfield
+>>>> <bruce.ashfield@gmail.com>  wrote:
+>>>>> On Thu, Jan 5, 2012 at 3:06 PM, Khem Raj<raj.khem@gmail.com>  wrote:
+>>>>>> Signed-off-by: Khem Raj<raj.khem@gmail.com>
+>>>>>> ---
+>>>>>>   ...Undef-before-redefining-__attribute_const.patch |   33 ++++++++++++++++++++
+>>>>>>   meta/recipes-kernel/linux/linux-yocto_3.0.bb       |    4 ++-
+>>>>>>   2 files changed, 36 insertions(+), 1 deletions(-)
+>>>>>>   create mode 100644 meta/recipes-kernel/linux/linux-yocto/0001-compiler.h-Undef-before-redefining-__attribute_const.patch
+>>>>>
+>>>>> Khem,
+>>>>>
+>>>>> I just built multiple linux-yocto kernels, for all the qemu targets
+>>>>> and haven't seen this
+>>>>> error at all. Do you have any special configuration that would be
+>>>>> triggering this ?
+>>>>
+>>>> yes I am building with eglibc 2.15 ( recipes I have not posted yet)
+>>>> and this defines is reported to be defined in usr/include/sys/cdefs.h
+>>>> which is a header from libc.
 >>>
->>> You won't see this when building against oe-core stuff from source.
->>> This issue is seen when we bring in a prebuilt binary and link against
->>> libxml2 in the system.
+>>> Aha. Perfect. This explains it completely.
+>>>
+>>>>
+>>>>>
+>>>>> The change itself looks sane, and in fact makes sense, since the rest
+>>>>> of the file
+>>>>> has the same protection for the new defines. Nothing has changed that
+>>>>> should have triggered
+>>>>> this to become an issue. I'm just trying to figure out why it has
+>>>>> popped up now.
+>>>>>
+>>>>> I also checked and the 3.2 kernel still has the same issue, so pushing
+>>>>> it upstream makes
+>>>>> sense as well.
 >>
->> what about all binaries built before this change which are already
->> available in binary feed created with OE?
+>> btw. I made the change thinking that perf utils want it that way to I undefine
+>> the previous definitions before redefining. But if it was a placeholder where
+>> it was defined because something needed it and there was no definitions from
+>> standard include headers then I think right fix would be to check if its defined
+>> before redefining it. In both cases the warning will go away
+>>
+>> However with current patch the behaviour remains same as it was but if we check
+>> for definition before redefining then that may change.
 >
-> If you are building from source within oe-core everything is going to
-> link against the version built by oe-core. I see this issue when I
-> bring in some prebuilt binary and it's actually linked against an
-> older version of libxml2.
+> Agreed. Let's keep the behaviour just as it was (just without warnings
+> for now), and
+> if it needs to change in the future, that's easy enough to do as well.
+>
+> I'm grabbing this change now.
+>
+Just to confirm, with Bruce and Khem:
 
-ping? Anymore comments on this patch?
+If this change comes in from Bruce before we grab the 2.15 eglibc, we 
+won't need the patch, correct?
 
--M=
+I am going to hold off pulling this patch for now.
 
+Sau!
+
+> Cheers,
+>
+> Bruce
+>
+>>
+>>>>>
+>>>>> And I see you asked on IRC, so I'll answer here. Submit a patch to the
+>>>>> kernel like
+>>>>> any upstream kernel change. Simply send the patch right from your
+>>>>> linux working tree,
+>>>>
+>>>> You mean send to oe-core ml here right ?
+>>>
+>>> Yep!
+>>>
+>>>>
+>>>>> and I'll pickup the change, merge it into the tree, push it out and
+>>>>> send a pull request
+>>>>> with updated SRCREVs that collect all the queued changes.
+>>>>>
+>>>>
+>>>> Will you be able to bean this patch out from the one I sent or should
+>>>> I resend it ?
+>>>> the patch itself should be git am'able
+>>>
+>>> I'll grab it, no need to resend. I'm doing 3.0.16 merging right now,
+>>> so I can collect
+>>> it with that set of changes.
+>>>
+>>> Cheers,
+>>>
+>>> Bruce
+>>>
+>>>>
+>>>>> Cheers,
+>>>>>
+>>>>> Bruce
+>>>>>
+>>>>>>
+>>>>>> diff --git a/meta/recipes-kernel/linux/linux-yocto/0001-compiler.h-Undef-before-redefining-__attribute_const.patch b/meta/recipes-kernel/linux/linux-yocto/0001-compiler.h-Undef-before-redefining-__attribute_const.patch
+>>>>>> new file mode 100644
+>>>>>> index 0000000..b85cc97
+>>>>>> --- /dev/null
+>>>>>> +++ b/meta/recipes-kernel/linux/linux-yocto/0001-compiler.h-Undef-before-redefining-__attribute_const.patch
+>>>>>> @@ -0,0 +1,33 @@
+>>>>>> +From 6f92ab6de9d8daeb575949bbbcbc7bcdcebc60af Mon Sep 17 00:00:00 2001
+>>>>>> +From: Khem Raj<raj.khem@gmail.com>
+>>>>>> +Date: Thu, 5 Jan 2012 11:42:35 -0800
+>>>>>> +Subject: [PATCH] compiler.h: Undef before redefining __attribute_const__
+>>>>>> +
+>>>>>> +This is required to avoid warnings like
+>>>>>> +util/include/linux/compiler.h:8:0: error: "__attribute_const__" redefined [-Werror]
+>>>>>> +
+>>>>>> +Signed-off-by: Khem Raj<raj.khem@gmail.com>
+>>>>>> +---
+>>>>>> + tools/perf/util/include/linux/compiler.h |    4 +++-
+>>>>>> + 1 files changed, 3 insertions(+), 1 deletions(-)
+>>>>>> +
+>>>>>> +diff --git a/tools/perf/util/include/linux/compiler.h b/tools/perf/util/include/linux/compiler.h
+>>>>>> +index 791f9dd..f17ecef 100644
+>>>>>> +--- a/tools/perf/util/include/linux/compiler.h
+>>>>>> ++++ b/tools/perf/util/include/linux/compiler.h
+>>>>>> +@@ -4,9 +4,11 @@
+>>>>>> + #ifndef __always_inline
+>>>>>> + #define __always_inline       inline
+>>>>>> + #endif
+>>>>>> ++#undef __user
+>>>>>> + #define __user
+>>>>>> ++#undef __attribute_const__
+>>>>>> + #define __attribute_const__
+>>>>>> +-
+>>>>>> ++#undef __used
+>>>>>> + #define __used                __attribute__((__unused__))
+>>>>>> +
+>>>>>> + #endif
+>>>>>> +--
+>>>>>> +1.7.5.4
+>>>>>> +
+>>>>>> diff --git a/meta/recipes-kernel/linux/linux-yocto_3.0.bb b/meta/recipes-kernel/linux/linux-yocto_3.0.bb
+>>>>>> index b650c84..2e87f7f 100644
+>>>>>> --- a/meta/recipes-kernel/linux/linux-yocto_3.0.bb
+>>>>>> +++ b/meta/recipes-kernel/linux/linux-yocto_3.0.bb
+>>>>>> @@ -23,7 +23,9 @@ SRCREV_meta ?= "c979f1365b1eb74e882b2cbbc8407ec536ab6eb8"
+>>>>>>   PR = "r2"
+>>>>>>   PV = "${LINUX_VERSION}+git${SRCPV}"
+>>>>>>
+>>>>>> -SRC_URI = "git://git.yoctoproject.org/linux-yocto-3.0;protocol=git;nocheckout=1;branch=${KBRANCH},meta;name=machine,meta"
+>>>>>> +SRC_URI = "git://git.yoctoproject.org/linux-yocto-3.0;protocol=git;nocheckout=1;branch=${KBRANCH},meta;name=machine,meta \
+>>>>>> +           file://0001-compiler.h-Undef-before-redefining-__attribute_const.patch \
+>>>>>> +           "
+>>>>>>
+>>>>>>   COMPATIBLE_MACHINE = "(qemuarm|qemux86|qemuppc|qemumips|qemux86-64)"
+>>>>>>
+>>>>>> --
+>>>>>> 1.7.5.4
+>>>>>>
+>>>>>>
+>>>>>> _______________________________________________
+>>>>>> Openembedded-core mailing list
+>>>>>> Openembedded-core@lists.openembedded.org
+>>>>>> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
+>>>>>
+>>>>>
+>>>>>
+>>>>> --
+>>>>> "Thou shalt not follow the NULL pointer, for chaos and madness await
+>>>>> thee at its end"
+>>>>>
+>>>>> _______________________________________________
+>>>>> Openembedded-core mailing list
+>>>>> Openembedded-core@lists.openembedded.org
+>>>>> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
+>>>>
+>>>> _______________________________________________
+>>>> Openembedded-core mailing list
+>>>> Openembedded-core@lists.openembedded.org
+>>>> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
+>>>
+>>>
+>>>
+>>> --
+>>> "Thou shalt not follow the NULL pointer, for chaos and madness await
+>>> thee at its end"
+>>>
+>>> _______________________________________________
+>>> Openembedded-core mailing list
+>>> Openembedded-core@lists.openembedded.org
+>>> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
+>>
+>> _______________________________________________
+>> Openembedded-core mailing list
+>> Openembedded-core@lists.openembedded.org
+>> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
+>
+>
+>
 
 
