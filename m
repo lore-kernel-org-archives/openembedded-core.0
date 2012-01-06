@@ -1,32 +1,20 @@
-Received: from mail-ww0-f41.google.com ([74.125.82.41])
+Received: from mga03.intel.com ([143.182.124.21])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <koen@dominion.thruhere.net>) id 1RjD0H-0002wq-I8
+	(envelope-from <tom.zanussi@intel.com>) id 1RjD2W-00031q-KA
 	for openembedded-core@lists.openembedded.org;
-	Fri, 06 Jan 2012 17:50:53 +0100
-Received: by wgbdt12 with SMTP id dt12so1890407wgb.0
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 06 Jan 2012 08:43:26 -0800 (PST)
-Received: by 10.181.13.208 with SMTP id fa16mr8434954wid.12.1325868206086;
-	Fri, 06 Jan 2012 08:43:26 -0800 (PST)
-Received: from [172.20.1.36] (ip545070eb.adsl-surfen.hetnet.nl.
-	[84.80.112.235])
-	by mx.google.com with ESMTPS id f7sm3265712wiy.11.2012.01.06.08.43.21
-	(version=TLSv1/SSLv3 cipher=OTHER);
-	Fri, 06 Jan 2012 08:43:21 -0800 (PST)
-Mime-Version: 1.0 (Apple Message framework v1251.1)
-From: Koen Kooi <koen@dominion.thruhere.net>
-In-Reply-To: <1325866615.14746.4.camel@ted>
-Date: Fri, 6 Jan 2012 17:43:20 +0100
-Message-Id: <D1209EE7-DEDD-4F90-B98D-C185FE16578E@dominion.thruhere.net>
-References: <20120106100934.GA3879@jama.jama.net>
-	<77ADD6E7-5632-4B1A-ABC3-6E4DAEEAE3B6@dominion.thruhere.net>
-	<4F071A65.90708@windriver.com>
-	<CABcZANk=sg=oj+KyVcBF=UoC460EV-QtiW4B=wKXPBSLrV4HOQ@mail.gmail.com>
-	<1325866615.14746.4.camel@ted>
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-X-Mailer: Apple Mail (2.1251.1)
-Subject: Re: libs transition /usr/lib -> /lib questions
+	Fri, 06 Jan 2012 17:53:12 +0100
+Received: from azsmga002.ch.intel.com ([10.2.17.35])
+	by azsmga101.ch.intel.com with ESMTP; 06 Jan 2012 08:45:47 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="53952770"
+Received: from unknown (HELO localhost) ([10.255.13.145])
+	by AZSMGA002.ch.intel.com with ESMTP; 06 Jan 2012 08:45:46 -0800
+From: tom.zanussi@intel.com
+To: openembedded-core@lists.openembedded.org
+Date: Fri,  6 Jan 2012 10:45:22 -0600
+Message-Id: <cover.1325867350.git.tom.zanussi@intel.com>
+X-Mailer: git-send-email 1.7.0.4
+Subject: [PATCH 0/5] LICENSE_FLAGS, a replacement for COMMERCIAL_LICENSE
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -41,67 +29,51 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 06 Jan 2012 16:50:53 -0000
-Content-Type: text/plain; charset=us-ascii
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Fri, 06 Jan 2012 16:53:12 -0000
 
+From: Tom Zanussi <tom.zanussi@intel.com>
 
-Op 6 jan. 2012, om 17:16 heeft Richard Purdie het volgende geschreven:
+This patchset implements a replacement for COMMERCIAL_LICENSE called
+LICENSE_FLAGS.  Please see '[PATCH 1/5] base.bbclass: add support for
+LICENSE_FLAGS' for background and details.
 
-> On Fri, 2012-01-06 at 09:04 -0700, Chris Larson wrote:
->> On Fri, Jan 6, 2012 at 8:59 AM, Mark Hatle <mark.hatle@windriver.com> =
-wrote:
->>> On 1/6/12 4:34 AM, Koen Kooi wrote:
->>>>=20
->>>>=20
->>>> Op 6 jan. 2012, om 11:09 heeft Martin Jansa het volgende =
-geschreven:
->>>>=20
->>>>> FWIW today I've noticed that systemd is going other way around
->>>>> =
-http://www.freedesktop.org/wiki/Software/systemd/separate-usr-is-broken
->>>>=20
->>>>=20
->>>> And http://fedoraproject.org/wiki/Features/UsrMove
->>>>=20
->>>> I guess it's time to publish my angstrom branch doing that after =
-the
->>>> holidays :)
->>>=20
->>>=20
->>> I respectfully disagree with both of the above URLs.
->>>=20
->>> The root partition is still very useful as a "small" set of =
-applications and
->>> libraries required for booting.
->>>=20
->>> Most systems these days contain a combined root and usr partition, =
-which is
->>> fine.  However, there are a lot of systems that I've worked on in =
-the past
->>> and I expect in the future that, root being a small R/O system is =
-necessary.
->>>=20
->>> initramfs can solve some problems, but introduces other issues.  =
-Many of the
->>> systems I've worked on simple don't have enough flash to be able to =
-store
->>> the bootloader, kernel and an initramfs [as well as other system =
-items
->>> required by the devices].  In this case a base rootfs makes the most =
-sense.
->>=20
->> In my opinion, what's proposed in the two links is a good thing even
->> for embedded. Not that we'd use that structure necessarily, but
->> removing the usr vs non-usr separation for binaries and libs is a =
-good
->> thing regardless. Putting /usr in the rootfs still would still work
->> fine, or you could drop usr entirely and move everything to / the way
->> micro does.
->=20
-> The nice thing is we have a system which can actually support the
-> different options relatively easily and without much conflict.
+This patchset was posted earlier in the week and received no comments.
+The only changes since then have been to save the cover letter text
+describing the patchset as commentary for PATCH 1, and changing instead
+of removing the warning in documentation-audit.sh.
 
-Except that things like fs-perms.txt store hardcoded values :(=
+In addition to the "Commercial" license replacement for the existing
+recipes in COMMERCIAL_LICENSE, this version has also been tested with a
+recipe that uses a "License_${PN}_${PV}" string, and multiple flags.
+
+The following changes since commit 468998cddbe1a803096c9b357e1b5daa3b7e8c2e:
+  Dongxiao Xu (1):
+        command.py: add parseConfigurationFiles API
+
+are available in the git repository at:
+
+  git://git.yoctoproject.org/poky-contrib.git tzanussi/license-flags.v1
+  http://git.yoctoproject.org/cgit/cgit.cgi/poky-contrib/commit/?h=tzanussi/license-flags.v1
+
+Tom Zanussi (5):
+  base.bbclass: add support for LICENSE_FLAGS
+  Add LICENSE_FLAGS to packages mentioned in COMMERCIAL_LICENSE
+  base.bbclass: remove COMMERCIAL_LICENSE code
+  default-distrovars.inc: remove COMMERCIAL_LICENSE et al
+  documentation-audit.sh: remove COMMERCIAL_LICENSE warning
+
+ meta/classes/base.bbclass                          |   24 +++++++++++++++-----
+ meta/conf/distro/include/default-distrovars.inc    |    5 ----
+ .../gstreamer/gst-fluendo-mp3_0.10.16.bb           |    1 +
+ .../gstreamer/gst-openmax_0.10.1.bb                |    1 +
+ .../gstreamer/gst-plugins-ugly_0.10.18.bb          |    1 +
+ meta/recipes-multimedia/lame/lame_3.99.3.bb        |    1 +
+ meta/recipes-multimedia/libmad/libmad_0.15.1b.bb   |    1 +
+ meta/recipes-multimedia/libomxil/libomxil_0.9.3.bb |    1 +
+ meta/recipes-multimedia/mpeg2dec/mpeg2dec_0.4.1.bb |    1 +
+ meta/recipes-qt/qt-apps/qmmp_0.5.2.bb              |    1 +
+ scripts/contrib/documentation-audit.sh             |    3 +-
+ 11 files changed, 28 insertions(+), 12 deletions(-)
+
 
 
