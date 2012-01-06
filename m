@@ -1,27 +1,28 @@
-Received: from mail.windriver.com ([147.11.1.11])
+Received: from mail-ww0-f43.google.com ([74.125.82.43])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <mark.hatle@windriver.com>) id 1RjCuR-0002jd-F7
+	(envelope-from <koen@dominion.thruhere.net>) id 1RjCyl-0002s2-QL
 	for openembedded-core@lists.openembedded.org;
-	Fri, 06 Jan 2012 17:44:52 +0100
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca [147.11.189.40])
-	by mail.windriver.com (8.14.3/8.14.3) with ESMTP id q06GbQpn020956
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
+	Fri, 06 Jan 2012 17:49:19 +0100
+Received: by wgbds11 with SMTP id ds11so1624425wgb.24
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 6 Jan 2012 08:37:26 -0800 (PST)
-Received: from Macintosh-5.local (172.25.36.228) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server id 14.1.255.0;
-	Fri, 6 Jan 2012 08:37:26 -0800
-Message-ID: <4F072345.9050602@windriver.com>
-Date: Fri, 6 Jan 2012 10:37:25 -0600
-From: Mark Hatle <mark.hatle@windriver.com>
-Organization: Wind River Systems
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.6;
-	rv:8.0) Gecko/20111105 Thunderbird/8.0
-MIME-Version: 1.0
-To: <openembedded-core@lists.openembedded.org>
+	Fri, 06 Jan 2012 08:41:55 -0800 (PST)
+Received: by 10.180.101.35 with SMTP id fd3mr12383487wib.22.1325868115726;
+	Fri, 06 Jan 2012 08:41:55 -0800 (PST)
+Received: from [172.20.1.36] (ip545070eb.adsl-surfen.hetnet.nl.
+	[84.80.112.235])
+	by mx.google.com with ESMTPS id em4sm68874701wbb.20.2012.01.06.08.41.54
+	(version=TLSv1/SSLv3 cipher=OTHER);
+	Fri, 06 Jan 2012 08:41:55 -0800 (PST)
+Mime-Version: 1.0 (Apple Message framework v1251.1)
+From: Koen Kooi <koen@dominion.thruhere.net>
+In-Reply-To: <1325867267.14746.8.camel@ted>
+Date: Fri, 6 Jan 2012 17:41:52 +0100
+Message-Id: <A309F06A-FC39-48FD-BBCF-3AC53984B5FA@dominion.thruhere.net>
 References: <cover.1325840092.git.dongxiao.xu@intel.com>
 	<1325867267.14746.8.camel@ted>
-In-Reply-To: <1325867267.14746.8.camel@ted>
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+X-Mailer: Apple Mail (2.1251.1)
 Subject: Re: [PATCH 0/7][PULL] Hob2 related oe-core changes
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
@@ -37,73 +38,61 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 06 Jan 2012 16:44:52 -0000
-Content-Type: text/plain; charset="ISO-8859-1"; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Fri, 06 Jan 2012 16:49:19 -0000
+Content-Type: text/plain; charset=us-ascii
+Content-Transfer-Encoding: quoted-printable
 
-On 1/6/12 10:27 AM, Richard Purdie wrote:
+
+Op 6 jan. 2012, om 17:27 heeft Richard Purdie het volgende geschreven:
+
 > On Fri, 2012-01-06 at 17:04 +0800, Dongxiao Xu wrote:
 >> Hi Richard,
->>
+>>=20
 >> This pull request is the hob2 related oe-core changes.
 >> Please help to review and pull.
->>
->> Note that this pull request has dependency on the hob related bitbake changes.
->>
+>>=20
+>> Note that this pull request has dependency on the hob related bitbake =
+changes.
+>>=20
 >> Thanks,
 >> Dongxiao
->>
->> The following changes since commit 4a85312568a6bb052cc511c15b4ae842ff7f8e59:
->>    Richard Purdie (1):
->>          image-mklibs/package_ipk: Remove bashisms
->>
+>>=20
+>> The following changes since commit =
+4a85312568a6bb052cc511c15b4ae842ff7f8e59:
+>>  Richard Purdie (1):
+>>        image-mklibs/package_ipk: Remove bashisms
+>>=20
 >> are available in the git repository at:
->>
->>    git://git.pokylinux.org/poky-contrib dxu4/hob-oecore-changes
->>    http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=dxu4/hob-oecore-changes
->>
+>>=20
+>>  git://git.pokylinux.org/poky-contrib dxu4/hob-oecore-changes
+>>  =
+http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=3Ddxu4/hob-oecore-ch=
+anges
+>>=20
 >> Dongxiao Xu (6):
->>    bblayers.conf.sample: Use ?= to set BBLAYERS
->>    image.bbclass: Use ?= to set LINGUAS_INSTALL
->
+>>  bblayers.conf.sample: Use ?=3D to set BBLAYERS
+>>  image.bbclass: Use ?=3D to set LINGUAS_INSTALL
+>=20
 > I merged these.
->
->>    packageinfo.bbclass: add a new bbclass to pass package information
->
+>=20
+>>  packageinfo.bbclass: add a new bbclass to pass package information
+>=20
 > I still have quite a strong dislike of this code, its rather nasty to
-> require this and I wish we could come up with a less ugly way to collect
+> require this and I wish we could come up with a less ugly way to =
+collect
 > up this information.
->
->>    hob.bb: Add a empty image template
->>    hob-toolchain: add a new recipe hob-toolchain
->>    layers: add a new folder to put user added layers
->
+>=20
+>>  hob.bb: Add a empty image template
+>>  hob-toolchain: add a new recipe hob-toolchain
+>>  layers: add a new folder to put user added layers
+>=20
 > I don't like these three. They're horribly hob specific and IMO
-> shouldn't be in the general metadata. If there is no way to avoid them,
+> shouldn't be in the general metadata. If there is no way to avoid =
+them,
 > they should perhaps go into a meta-hob layer directory to keep them
 > separate from the rest of the system.
->
-> I'm still puzzled how the layers directory helps. We deliberately
-> support generic layer locations so forcing the user to place them in a
-> particular place seems like a bit of a backwards step? :/.
 
-I think the layer directory is useful for distributions based on oe-core.  But I 
-agree, it seems wrong to have it in OE-core itself -- unless there is a strong 
-demand from the users of a "standard place" to put layers in their tree.  (So 
-far I've not heard such a request.)
-
---Mark
-
-> Cheers,
->
-> Richard
->
->
->
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
-
+And I still don't get why hob can't load local.conf to load the defaults =
+instead of ignoring it completely.=20=
 
 
