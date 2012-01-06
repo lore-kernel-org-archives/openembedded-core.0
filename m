@@ -1,37 +1,45 @@
-Received: from mga03.intel.com ([143.182.124.21])
+Received: from tx2ehsobe001.messaging.microsoft.com ([65.55.88.11]
+	helo=TX2EHSOBE002.bigfish.com)
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <shane.wang@intel.com>) id 1Rj2Qd-0005Ak-Jq
+	(envelope-from <B19537@freescale.com>) id 1Rj2ql-0006f9-05
 	for openembedded-core@lists.openembedded.org;
-	Fri, 06 Jan 2012 06:33:24 +0100
-Received: from azsmga001.ch.intel.com ([10.2.17.19])
-	by azsmga101.ch.intel.com with ESMTP; 05 Jan 2012 21:25:59 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="92972226"
-Received: from pgsmsx602.gar.corp.intel.com ([10.221.43.81])
-	by azsmga001.ch.intel.com with ESMTP; 05 Jan 2012 21:25:58 -0800
-Received: from shsmsx101.ccr.corp.intel.com (10.239.4.153) by
-	pgsmsx602.gar.corp.intel.com (10.221.43.81) with Microsoft SMTP Server
-	(TLS) id 8.2.255.0; Fri, 6 Jan 2012 13:25:02 +0800
-Received: from shsmsx102.ccr.corp.intel.com ([169.254.2.199]) by
-	SHSMSX101.ccr.corp.intel.com ([169.254.1.38]) with mapi id
-	14.01.0355.002; Fri, 6 Jan 2012 13:25:00 +0800
-From: "Wang, Shane" <shane.wang@intel.com>
-To: Saul Wold <sgw@linux.intel.com>, Patches and discussions about the oe-core
-	layer <openembedded-core@lists.openembedded.org>
-Thread-Topic: [OE-core] [PATCH 00/14] [RESEND V2] Upgrade 12 more packages,
-	Dec 30, 2011
-Thread-Index: AQHMynfaMGYukz5dLUS9/f2rD0Bd/pX+0gFA
-Date: Fri, 6 Jan 2012 05:25:00 +0000
-Message-ID: <3AB6CE7F274E534CAFD089D127A8A1FC018406@SHSMSX102.ccr.corp.intel.com>
-References: <cover.1325252645.git.shane.wang@intel.com>
-	<4F039D49.5000605@linux.intel.com>
-In-Reply-To: <4F039D49.5000605@linux.intel.com>
-Accept-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [10.239.127.40]
+	Fri, 06 Jan 2012 07:00:23 +0100
+Received: from mail67-tx2-R.bigfish.com (10.9.14.240) by
+	TX2EHSOBE002.bigfish.com (10.9.40.22) with Microsoft SMTP Server id
+	14.1.225.23; Fri, 6 Jan 2012 05:52:58 +0000
+Received: from mail67-tx2 (localhost [127.0.0.1])	by mail67-tx2-R.bigfish.com
+	(Postfix) with ESMTP id 2DC04804AA	for
+	<openembedded-core@lists.openembedded.org>;
+	Fri,  6 Jan 2012 05:52:58 +0000 (UTC)
+X-SpamScore: 0
+X-BigFish: VS0(zzzz1202hzz8275bhz2dh2a8h668h839h62h)
+X-Spam-TCS-SCL: 1:0
+X-Forefront-Antispam-Report: CIP:70.37.183.190; KIP:(null); UIP:(null); IPV:NLI;
+	H:mail.freescale.net; RD:none; EFVD:NLI
+Received: from mail67-tx2 (localhost.localdomain [127.0.0.1]) by mail67-tx2
+	(MessageSwitch) id 132582917832067_29478;
+	Fri,  6 Jan 2012 05:52:58 +0000 (UTC)
+Received: from TX2EHSMHS040.bigfish.com (unknown [10.9.14.251])	by
+	mail67-tx2.bigfish.com (Postfix) with ESMTP id 0148C6E00DE	for
+	<openembedded-core@lists.openembedded.org>;
+	Fri,  6 Jan 2012 05:52:58 +0000 (UTC)
+Received: from mail.freescale.net (70.37.183.190) by TX2EHSMHS040.bigfish.com
+	(10.9.99.140) with Microsoft SMTP Server (TLS) id 14.1.225.23;
+	Fri, 6 Jan 2012 05:52:57 +0000
+Received: from az33smr02.freescale.net (10.64.34.200) by
+	039-SN1MMR1-001.039d.mgd.msft.net (10.84.1.13) with Microsoft SMTP
+	Server id 14.1.355.3; Thu, 5 Jan 2012 23:52:57 -0600
+Received: from localhost.localdomain (bjsimics-desktop.ap.freescale.net
+	[10.192.208.197])	by az33smr02.freescale.net (8.13.1/8.13.0) with ESMTP
+	id q065qtow024815;	Thu, 5 Jan 2012 23:52:56 -0600 (CST)
+From: <b19537@freescale.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Fri, 6 Jan 2012 13:57:19 +0800
+Message-ID: <1325829439-848-1-git-send-email-b19537@freescale.com>
+X-Mailer: git-send-email 1.7.0.4
 MIME-Version: 1.0
-Subject: Re: [PATCH 00/14] [RESEND V2] Upgrade 12 more packages, Dec 30, 2011
+X-OriginatorOrg: freescale.com
+Subject: [PATCH oe-core v4] linux-dtb: add multi-dtb build support and keep dtb in deploy cache package
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -46,124 +54,59 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 06 Jan 2012 05:33:24 -0000
-Content-Language: en-US
-Content-Type: text/plain; charset="iso-8859-1"
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Fri, 06 Jan 2012 06:00:23 -0000
+Content-Type: text/plain
 
-Thank you. Will refine hdparm asap.
+From: Zhenhua Luo <b19537@freescale.com>
 
---
-Shane
+Signed-off-by: Zhenhua Luo <b19537@freescale.com>
+---
+ meta/recipes-kernel/linux/linux-dtb.inc |   30 +++++++++++++++++++++---------
+ 1 files changed, 21 insertions(+), 9 deletions(-)
 
-Saul Wold wrote on=A02012-01-04:
-
-> On 12/30/2011 06:33 AM, Shane Wang wrote:
->> This is the second version of the patch set which I sent out with the
->> title "[V1] Upgrade 4 more packages, Dec 27, 2011", I upgrade 8 more
->> packages. So, totally 12 for this round, it includes
-> freetype, minicom, libical, libsamplerate0, hdparm, oprofileui, libomxil,
-> linux-firmware, matchbox-wm-2, quota, watchdog, and puzzles.
->> So, the previous patchset "[V1] Upgrade 4 more packages, Dec 27, 2011"
->> can be skipped.
->>=20
->> Please review.
->>=20
->> The following changes since commit
->> d107ab4a11db3df9018d7795aef31e3484367607:
->>=20
->>    coreutils: ensure --color works so DEPEND on libcap (2011-12-30
-> 14:22:50 +0800)
->>=20
->> are available in the git repository at:
->>    git://git.pokylinux.org/poky-contrib shane/upgrade2
->>    http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=3Dshane/upgrade=
-2
->> Shane Wang (14):
->>    freetype: upgrade to 2.4.8 minicom: upgrade to 2.5 libical: upgrade
->>    to 0.48 libsamplerate0: upgrade to 0.1.8 distro_tracking_fields:
->>    update the info for recipe upgrade. hdparm: upgrade to 9.37
->>    oprofileui: upgrade to 82ecf8c6b53b84f80682a8312f9defa83a95f2a3
->>    libomxil: upgrade to 0.9.3 linux-firmware: upgrade to
->>    15888a2eab052ac3d3f49334e4f6f05f347a516e matchbox-wm-2: ugrade to
->>    01fa5465743c9ee43d040350f4405d35293e4869 quota: upgrade to 4.00
->>    watchdog: upgrade to 5.11 puzzles: upgrade to r9375.
->>    distro_tracking_fields: update the info for this round of package
->>      upgrade
-> Merged all of this excpet for the hdparm due to the issues already in ema=
-il.
->=20
-> Thanks
-> 	Sau!
->=20
->>   .../conf/distro/include/distro_tracking_fields.inc |   53 +++---
->>   .../recipes-extended/hdparm/hdparm-6.3/bswap.patch |   37 ----
->>   .../hdparm/hdparm-6.3/uclibc.patch                 |   34 ---
->>   meta/recipes-extended/hdparm/hdparm_6.3.bb         |   18 --
->>   meta/recipes-extended/hdparm/hdparm_9.37.bb        |   35 +++
->>   .../{minicom-2.4 =3D>  minicom-2.5}/gcc4-scope.patch  |    0
->>   .../rename-conflicting-functions.patch             |    0
->>   .../minicom/{minicom_2.4.bb =3D>  minicom_2.5.bb}     |    6 +-
->>   .../quota/{quota_4.00-pre1.bb =3D>  quota_4.00.bb}    |    8 +-
->>   meta/recipes-extended/stat/stat_3.3.bb             |   27 +++
->>   .../watchdog/{watchdog_5.9.bb =3D>  watchdog_5.11.bb} |    6 +-
->>   .../no-hardcode.patch                              |    0
->>   .../{freetype_2.4.6.bb =3D>  freetype_2.4.8.bb}       |    6 +-
->>   .../matchbox-wm-2/matchbox-wm-2_git.bb             |    2 +-
->>   .../linux-firmware/linux-firmware_git.bb           |    4 +-
->>   .../oprofileui/dso_linking_change_build_fix.patch  |   27 ---
->>   .../oprofileui/migrate-from-gnomevfs-to-gio.patch  |  219
->>   -------------------- meta/recipes-kernel/oprofile/oprofileui_git.bb =20
->>     |    2 +- .../libomxil/libomxil-0.9.3/configure-fix.patch    |   58
->>   +++++ .../libomxil-0.9.3/makefile-docdir-fix.patch       |   19 ++
->>   .../libomxil/libomxil-0.9.3/parallel-make.patch    |   18 ++
->>   meta/recipes-multimedia/libomxil/libomxil_0.3.3.bb |   23 --
->>   meta/recipes-multimedia/libomxil/libomxil_0.9.3.bb |   33 +++
->>   .../libsamplerate-0.1.7-macro-quoting.patch        |   22 --
->>   ...amplerate0_0.1.7.bb =3D>  libsamplerate0_0.1.8.bb} |    9 +-
->>   .../libical/{libical_0.47.bb =3D>  libical_0.48.bb}   |    6 +-
->>   .../puzzles/{puzzles_r9306.bb =3D>  puzzles_r9375.bb} |    6 +- 27
->>   files changed, 246 insertions(+), 432 deletions(-) delete mode 100644
->>   meta/recipes-extended/hdparm/hdparm-6.3/bswap.patch delete mode
->>   100644 meta/recipes-extended/hdparm/hdparm-6.3/uclibc.patch delete
->>   mode 100644 meta/recipes-extended/hdparm/hdparm_6.3.bb create mode
->>   100644 meta/recipes-extended/hdparm/hdparm_9.37.bb rename
->>   meta/recipes-extended/minicom/{minicom-2.4 =3D>
->>   minicom-2.5}/gcc4-scope.patch (100%) rename
->>   meta/recipes-extended/minicom/{minicom-2.4 =3D>
->>   minicom-2.5}/rename-conflicting-functions.patch (100%) rename
->>   meta/recipes-extended/minicom/{minicom_2.4.bb =3D> minicom_2.5.bb}
->>   (75%) rename meta/recipes-extended/quota/{quota_4.00-pre1.bb =3D>
->>   quota_4.00.bb} (78%) create mode 100644
->>   meta/recipes-extended/stat/stat_3.3.bb rename
->>   meta/recipes-extended/watchdog/{watchdog_5.9.bb =3D> watchdog_5.11.bb}
->>   (70%) rename meta/recipes-graphics/freetype/{freetype-2.4.6 =3D>
->>   freetype-2.4.8}/no-hardcode.patch (100%) rename
->>   meta/recipes-graphics/freetype/{freetype_2.4.6.bb =3D>
->>   freetype_2.4.8.bb} (91%) delete mode 100644
->>   meta/recipes-kernel/oprofile/oprofileui/dso_linking_change_build_fix.p
->>   atch delete mode 100644
-> meta/recipes-kernel/oprofile/oprofileui/migrate-from-gnomevfs-to-gio.pat
-> ch
->>   create mode 100644
->>   meta/recipes-multimedia/libomxil/libomxil-0.9.3/configure-fix.patch
->>   create mode 100644
->>   meta/recipes-multimedia/libomxil/libomxil-0.9.3/makefile-docdir-fix.pa
->>   tch create mode 100644
->>   meta/recipes-multimedia/libomxil/libomxil-0.9.3/parallel-make.patch
->>   delete mode 100644 meta/recipes-multimedia/libomxil/libomxil_0.3.3.bb
->>   create mode 100644 meta/recipes-multimedia/libomxil/libomxil_0.9.3.bb
->>   delete mode 100644
-> meta/recipes-multimedia/libsamplerate/libsamplerate0-0.1.7/libsamplerate-
-> 0.1.7-macro-quoting.patch
->>   rename
-> meta/recipes-multimedia/libsamplerate/{libsamplerate0_0.1.7.bb =3D>
-> libsamplerate0_0.1.8.bb} (61%)
->>   rename meta/recipes-sato/libical/{libical_0.47.bb =3D>=20
->>   libical_0.48.bb} (78%) rename
->>   meta/recipes-sato/puzzles/{puzzles_r9306.bb =3D>
-> puzzles_r9375.bb} (91%)
->>
+diff --git a/meta/recipes-kernel/linux/linux-dtb.inc b/meta/recipes-kernel/linux/linux-dtb.inc
+index 7ec7584..5439810 100644
+--- a/meta/recipes-kernel/linux/linux-dtb.inc
++++ b/meta/recipes-kernel/linux/linux-dtb.inc
+@@ -13,15 +13,27 @@ python __anonymous () {
+ 	d.setVar("PACKAGES", "%s kernel-devicetree" % packages)
+ }
+ 
+-do_install_append() {
++kernel_do_deploy_append() {
+     if test -n "${KERNEL_DEVICETREE}"; then
+-	dtc -I dts -O dtb ${KERNEL_DEVICETREE_FLAGS} -o devicetree ${KERNEL_DEVICETREE}
+-	install -m 0644 devicetree ${D}/boot/devicetree-${KERNEL_VERSION}
+-	install -d ${DEPLOY_DIR_IMAGE}
+-	install -m 0644 devicetree ${DEPLOY_DIR_IMAGE}/${KERNEL_IMAGE_BASE_NAME}.dtb
+-	cd ${DEPLOY_DIR_IMAGE}
+-	rm -f ${KERNEL_IMAGE_SYMLINK_NAME}.dtb
+-	ln -sf ${KERNEL_IMAGE_BASE_NAME}.dtb ${KERNEL_IMAGE_SYMLINK_NAME}.dtb
++        for DTS_FILE in ${KERNEL_DEVICETREE}; do
++            DTS_BASE_NAME=`basename ${DTS_FILE} | awk -F "." '{print $1}'`
++            DTB_NAME=`echo ${KERNEL_IMAGE_BASE_NAME} | sed "s/${MACHINE}/${DTS_BASE_NAME}/g"`
++            DTB_SYMLINK_NAME=`echo ${KERNEL_IMAGE_SYMLINK_NAME} | sed "s/${MACHINE}/${DTS_BASE_NAME}/g"`
++            dtc -I dts -O dtb ${KERNEL_DEVICETREE_FLAGS} -o devicetree ${DTS_FILE}
++            install -m 0644 devicetree ${D}/boot/devicetree-${DTS_BASE_NAME}-${KERNEL_VERSION}
++            install -d ${DEPLOY_DIR_IMAGE}
++            install -m 0644 devicetree ${DEPLOY_DIR_IMAGE}/${DTB_NAME}.dtb
++            rm -f devicetree
++            cd ${DEPLOY_DIR_IMAGE}
++            rm -f ${DTB_SYMLINK_NAME}.dtb
++            ln -sf ${DTB_NAME}.dtb ${DTB_SYMLINK_NAME}.dtb
++            cd -
++
++            install -d ${DEPLOYDIR}
++            install -m 0644 ${DEPLOY_DIR_IMAGE}/${DTB_NAME}.dtb ${DEPLOYDIR}/${DTB_NAME}.dtb
++            cd ${DEPLOYDIR}
++            ln -sf ${DTB_NAME}.dtb ${DTB_SYMLINK_NAME=}.dtb
++            cd -
++        done
+     fi
+ }
+-
+-- 
+1.7.0.4
 
 
 
