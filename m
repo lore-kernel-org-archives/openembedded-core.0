@@ -1,24 +1,32 @@
-Received: from mga11.intel.com ([192.55.52.93])
+Received: from mail.windriver.com ([147.11.1.11])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <tom.zanussi@intel.com>) id 1RjD2e-00037c-Qu
+	(envelope-from <mark.hatle@windriver.com>) id 1RjD7i-0003Mj-25
 	for openembedded-core@lists.openembedded.org;
-	Fri, 06 Jan 2012 17:53:21 +0100
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-	by fmsmga102.fm.intel.com with ESMTP; 06 Jan 2012 08:45:56 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="109497145"
-Received: from unknown (HELO localhost) ([10.255.13.145])
-	by fmsmga002.fm.intel.com with ESMTP; 06 Jan 2012 08:45:55 -0800
-From: tom.zanussi@intel.com
-To: openembedded-core@lists.openembedded.org
-Date: Fri,  6 Jan 2012 10:45:25 -0600
-Message-Id: <6bf74d0672be1b7af78b7eeb5a6b6e0e4b858ac7.1325867350.git.tom.zanussi@intel.com>
-X-Mailer: git-send-email 1.7.0.4
-In-Reply-To: <4c91ccffa882d1c01bd7abc18b662dce388192be.1325867350.git.tom.zanussi@intel.com>
-References: <4c91ccffa882d1c01bd7abc18b662dce388192be.1325867350.git.tom.zanussi@intel.com>
-In-Reply-To: <cover.1325867350.git.tom.zanussi@intel.com>
-References: <cover.1325867350.git.tom.zanussi@intel.com>
-Subject: [PATCH 5/5] documentation-audit.sh: remove COMMERCIAL_LICENSE warning
+	Fri, 06 Jan 2012 17:58:34 +0100
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca [147.11.189.40])
+	by mail.windriver.com (8.14.3/8.14.3) with ESMTP id q06Gp8Re022798
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 6 Jan 2012 08:51:08 -0800 (PST)
+Received: from Macintosh-5.local (172.25.36.228) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server id 14.1.255.0;
+	Fri, 6 Jan 2012 08:51:08 -0800
+Message-ID: <4F07267B.9010708@windriver.com>
+Date: Fri, 6 Jan 2012 10:51:07 -0600
+From: Mark Hatle <mark.hatle@windriver.com>
+Organization: Wind River Systems
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.6;
+	rv:8.0) Gecko/20111105 Thunderbird/8.0
+MIME-Version: 1.0
+To: <openembedded-core@lists.openembedded.org>
+References: <20120106100934.GA3879@jama.jama.net>
+	<77ADD6E7-5632-4B1A-ABC3-6E4DAEEAE3B6@dominion.thruhere.net>
+	<4F071A65.90708@windriver.com>
+	<CABcZANk=sg=oj+KyVcBF=UoC460EV-QtiW4B=wKXPBSLrV4HOQ@mail.gmail.com>
+	<1325866615.14746.4.camel@ted>
+	<D1209EE7-DEDD-4F90-B98D-C185FE16578E@dominion.thruhere.net>
+In-Reply-To: <D1209EE7-DEDD-4F90-B98D-C185FE16578E@dominion.thruhere.net>
+Subject: Re: libs transition /usr/lib -> /lib questions
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -33,35 +41,77 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 06 Jan 2012 16:53:21 -0000
+X-List-Received-Date: Fri, 06 Jan 2012 16:58:34 -0000
+Content-Type: text/plain; charset="ISO-8859-1"; format=flowed
+Content-Transfer-Encoding: 7bit
 
-From: Tom Zanussi <tom.zanussi@intel.com>
+On 1/6/12 10:43 AM, Koen Kooi wrote:
+>
+> Op 6 jan. 2012, om 17:16 heeft Richard Purdie het volgende geschreven:
+>
+>> On Fri, 2012-01-06 at 09:04 -0700, Chris Larson wrote:
+>>> On Fri, Jan 6, 2012 at 8:59 AM, Mark Hatle<mark.hatle@windriver.com>  wrote:
+>>>> On 1/6/12 4:34 AM, Koen Kooi wrote:
+>>>>>
+>>>>>
+>>>>> Op 6 jan. 2012, om 11:09 heeft Martin Jansa het volgende geschreven:
+>>>>>
+>>>>>> FWIW today I've noticed that systemd is going other way around
+>>>>>> http://www.freedesktop.org/wiki/Software/systemd/separate-usr-is-broken
+>>>>>
+>>>>>
+>>>>> And http://fedoraproject.org/wiki/Features/UsrMove
+>>>>>
+>>>>> I guess it's time to publish my angstrom branch doing that after the
+>>>>> holidays :)
+>>>>
+>>>>
+>>>> I respectfully disagree with both of the above URLs.
+>>>>
+>>>> The root partition is still very useful as a "small" set of applications and
+>>>> libraries required for booting.
+>>>>
+>>>> Most systems these days contain a combined root and usr partition, which is
+>>>> fine.  However, there are a lot of systems that I've worked on in the past
+>>>> and I expect in the future that, root being a small R/O system is necessary.
+>>>>
+>>>> initramfs can solve some problems, but introduces other issues.  Many of the
+>>>> systems I've worked on simple don't have enough flash to be able to store
+>>>> the bootloader, kernel and an initramfs [as well as other system items
+>>>> required by the devices].  In this case a base rootfs makes the most sense.
+>>>
+>>> In my opinion, what's proposed in the two links is a good thing even
+>>> for embedded. Not that we'd use that structure necessarily, but
+>>> removing the usr vs non-usr separation for binaries and libs is a good
+>>> thing regardless. Putting /usr in the rootfs still would still work
+>>> fine, or you could drop usr entirely and move everything to / the way
+>>> micro does.
+>>
+>> The nice thing is we have a system which can actually support the
+>> different options relatively easily and without much conflict.
+>
+> Except that things like fs-perms.txt store hardcoded values :(
 
-COMMERCIAL_LICENSE no longer exists; the equivalent functionality is
-now has been replaced by LICENSE_FLAGS_WHITELIST, so replace the
-COMMERCIAL_LICENSE warning with a similarly equivalent warning.
+Yes "hard coded values" that include expandable variables:
 
-Signed-off-by: Tom Zanussi <tom.zanussi@intel.com>
----
- scripts/contrib/documentation-audit.sh |    3 ++-
- 1 files changed, 2 insertions(+), 1 deletions(-)
+# Documentation should always be corrected
+${mandir}               0755    root    root    true    0644    root    root
+${infodir}              0755    root    root    true    0644    root    root
+${docdir}               0755    root    root    true    0644    root    root
 
-diff --git a/scripts/contrib/documentation-audit.sh b/scripts/contrib/documentation-audit.sh
-index 5070fee..5b66f03 100755
---- a/scripts/contrib/documentation-audit.sh
-+++ b/scripts/contrib/documentation-audit.sh
-@@ -25,7 +25,8 @@ if [ -z "$BITBAKE" ]; then
- fi
- 
- echo "REMINDER: you need to build for MACHINE=qemux86 or you won't get useful results"
--echo "REMINDER: you need to have COMMERCIAL_LICENSE = \"\" in local.conf or you'll get false positives"
-+echo "REMINDER: you need to set LICENSE_FLAGS_WHITELIST appropriately in local.conf or "
-+echo " you'll get false positives.  For example, LICENSE_FLAGS_WHITELIST = \"Commercial\""
- 
- for pkg in `bitbake -s | awk '{ print \$1 }'`; do
- 	if [[ "$pkg" == "Loading" || "$pkg" == "Loaded" ||
--- 
-1.7.0.4
+etc..
+
+The format of this file was specifically setup to allow for people to adjust the 
+value of the exec_prefix, libdir, etc as necessary without having to change the 
+default fs-perms.txt.  (Also keep in mind the expectation for distributions to 
+add their own locations when necessary.)
+
+--Mark
+
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
 
 
 
