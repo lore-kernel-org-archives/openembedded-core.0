@@ -1,24 +1,22 @@
-Received: from mga03.intel.com ([143.182.124.21])
+Received: from mga09.intel.com ([134.134.136.24])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <tom.zanussi@intel.com>) id 1RjD2X-00031q-E3
+	(envelope-from <tom.zanussi@intel.com>) id 1RjD2Y-00031v-8v
 	for openembedded-core@lists.openembedded.org;
-	Fri, 06 Jan 2012 17:53:13 +0100
-Received: from azsmga002.ch.intel.com ([10.2.17.35])
-	by azsmga101.ch.intel.com with ESMTP; 06 Jan 2012 08:45:51 -0800
+	Fri, 06 Jan 2012 17:53:14 +0100
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+	by orsmga102.jf.intel.com with ESMTP; 06 Jan 2012 08:45:49 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="53952784"
+X-IronPort-AV: E=Sophos;i="4.67,352,1309762800"; d="scan'208";a="93695260"
 Received: from unknown (HELO localhost) ([10.255.13.145])
-	by AZSMGA002.ch.intel.com with ESMTP; 06 Jan 2012 08:45:50 -0800
+	by orsmga001.jf.intel.com with ESMTP; 06 Jan 2012 08:45:49 -0800
 From: tom.zanussi@intel.com
 To: openembedded-core@lists.openembedded.org
-Date: Fri,  6 Jan 2012 10:45:22 -0600
-Message-Id: <e0e076a614e96c92eb02758f77bfab293509be92.1325867350.git.tom.zanussi@intel.com>
+Date: Fri,  6 Jan 2012 10:45:21 -0600
+Message-Id: <4c91ccffa882d1c01bd7abc18b662dce388192be.1325867350.git.tom.zanussi@intel.com>
 X-Mailer: git-send-email 1.7.0.4
-In-Reply-To: <4c91ccffa882d1c01bd7abc18b662dce388192be.1325867350.git.tom.zanussi@intel.com>
-References: <4c91ccffa882d1c01bd7abc18b662dce388192be.1325867350.git.tom.zanussi@intel.com>
 In-Reply-To: <cover.1325867350.git.tom.zanussi@intel.com>
 References: <cover.1325867350.git.tom.zanussi@intel.com>
-Subject: [PATCH 2/5] Add LICENSE_FLAGS to packages mentioned in COMMERCIAL_LICENSE
+Subject: [PATCH 1/5] base.bbclass: add support for LICENSE_FLAGS
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -33,130 +31,135 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 06 Jan 2012 16:53:13 -0000
+X-List-Received-Date: Fri, 06 Jan 2012 16:53:14 -0000
 
 From: Tom Zanussi <tom.zanussi@intel.com>
 
-Per-recipe LICENSE_FLAGS replace the global COMMERCIAL_LICENSE list;
-add LICENSE_FLAGS varables to each the recipes mentioned in that list:
+LICENSE_FLAGS are a per-recipe replacement for COMMERCIAL_FLAGS.  Any
+flags listed in a recipe's LICENSE_FLAGS variable must have a match in
+the global LICENSE_FLAGS_WHITELIST variable.
 
-     - lame
-     - gst-fluendo-mp3
-     - gst-openmax
-     - gst-plugins-ugly
-     - libmad
-     - libomxil
-     - mpeg2dec
-     - qmmp
+For some background on these changes, the original proposal for the
+functionality covered by this replacement was drafted by Saul Wold -
+the relevant details of that proposal are copied below:
+
+***
+
+There has been some issues raised with the initial implementation of
+COMMERCIAL_LICENSE and we are looking for ways to address this.
+Currently COMMERCIAL_LICENSE (C_L) is defined in default-distrovars.conf
+to contain a list of packages that have additional license requirements
+when used commercially (such as royalty requirements, or acknowledging
+some type of commercial T&Cs). These packages are skipped during parsing.
+
+It currently contains a number of Audio and Video packages that require
+additional licensing terms when used commercially. As we add additional
+layers, some of these layers want to add additional package to the C_L
+list, but how to easily enable them.
+
+Since local.conf, where you would normally override things like this, is
+read in before base.bbclass, which contains tools like oe_filter_out()
+to modify lists, we can't use that mechanism.
+
+That's the background, now for the proposal.
+
+Do away with C_L and C_*_PLUGINS, move to a "Named Bit Flag" list in
+LICENSE_FLAGS, each recipe can then maintain their flags directly,
+instead of in a shared location like default-distrovars.conf.
+
+LICENSE_FLAGS_WHITELIST would be set in local.conf with the values
+that are acceptable to include in this image, by default it would be
+blank.
+
+Possible values for LICENSE_FLAGS could be:
+- Binary - provides some kind of binary with no source
+- Patent - provides a potential infringing item, that some may not want
+- Commercial - include recipes that may have commercial T&C
+- Commercial_${PN} - commercial licenses specific to ${PN}
+- License_${PN} - include a recipe that has a specific license
+                 - maybe similar or different than Commercial_${PN}
+
+***
+
+[T&C = Terms and Conditions]
+
+So Saul's draft describes the LICENSE_FLAGS themselves; the only thing
+missing is a description of how the user specifies which LICENSE_FLAGS
+are OK to use in an image.  For that, the LICENSE_FLAGS_WHITELIST variable
+is introduced, which simply lists the LICENSE_FLAGS that are OK.
+
+This version converts all the existing packages listed in COMMERCIAL_LICENSE
+to the equivalent "Commercial" LICENSE_FLAGS.
+
+So to get the same functionality you'd currently get by setting
+COMMERCIAL_LICENSE = "", you'd add this to your local.conf:
+
+LICENSE_FLAGS_WHITELIST = "Commercial"
+
+Similarly, as another example, if there was a package that included
+only binaries with no source and which additionally required a
+specific license, it could specify LICENSE_FLAGS as:
+
+LICENSE_FLAGS = "License_${PN}_${PV} Binary"
+
+Assuming there was a 1.4 version of a package called foo, in this case
+for the foo_1.4.bb package to be built and included in the image, the
+expanded LICENSE_FLAGS for that particular version of the foo package
+would be added to the whitelist:
+
+LICENSE_FLAGS_WHITELIST = "Commercial License_foo_1.4 Binary"
+
+Similarly, if a single license could be assumed to cover any foo
+package regardless of version, the recipe could simply specify license
+flags as:
+
+LICENSE_FLAGS = "License_${PN}"
+
+etc...
+
+Note that there's no policy attached to any of the above license types
+- this is simply string-matching that can be used for the purpose of
+screening packages - if the strings match, the recipe gets in, if not,
+it doesn't i.e. during parsing, we would inspect the recipe's data for
+LICENSE_FLAGS and if it has a value then try to match against the
+WHITELIST - if it matches it gets added to the parsed list, if there
+is no match then it gets Skip_Package()'ed.
 
 Signed-off-by: Tom Zanussi <tom.zanussi@intel.com>
 ---
- .../gstreamer/gst-fluendo-mp3_0.10.16.bb           |    1 +
- .../gstreamer/gst-openmax_0.10.1.bb                |    1 +
- .../gstreamer/gst-plugins-ugly_0.10.18.bb          |    1 +
- meta/recipes-multimedia/lame/lame_3.99.3.bb        |    1 +
- meta/recipes-multimedia/libmad/libmad_0.15.1b.bb   |    1 +
- meta/recipes-multimedia/libomxil/libomxil_0.9.3.bb |    1 +
- meta/recipes-multimedia/mpeg2dec/mpeg2dec_0.4.1.bb |    1 +
- meta/recipes-qt/qt-apps/qmmp_0.5.2.bb              |    1 +
- 8 files changed, 8 insertions(+), 0 deletions(-)
+ meta/classes/base.bbclass |   19 +++++++++++++++++++
+ 1 files changed, 19 insertions(+), 0 deletions(-)
 
-diff --git a/meta/recipes-multimedia/gstreamer/gst-fluendo-mp3_0.10.16.bb b/meta/recipes-multimedia/gstreamer/gst-fluendo-mp3_0.10.16.bb
-index 5975513..0a90f9c 100644
---- a/meta/recipes-multimedia/gstreamer/gst-fluendo-mp3_0.10.16.bb
-+++ b/meta/recipes-multimedia/gstreamer/gst-fluendo-mp3_0.10.16.bb
-@@ -2,6 +2,7 @@ require gst-fluendo.inc
+diff --git a/meta/classes/base.bbclass b/meta/classes/base.bbclass
+index e65a722..4aeba1b 100644
+--- a/meta/classes/base.bbclass
++++ b/meta/classes/base.bbclass
+@@ -349,6 +349,25 @@ python () {
+     if license == "INVALID":
+         bb.fatal('This recipe does not have the LICENSE field set (%s)' % pn)
  
- LICENSE = "MIT"
- LIC_FILES_CHKSUM = "file://COPYING;md5=98326cbb1723a5a97e9b1db62e9faa05"
-+LICENSE_FLAGS = "Commercial"
- 
- acpaths = "-I ${S}/common/m4 -I ${S}/m4"
- 
-diff --git a/meta/recipes-multimedia/gstreamer/gst-openmax_0.10.1.bb b/meta/recipes-multimedia/gstreamer/gst-openmax_0.10.1.bb
-index 776ed1c..aeb016d 100644
---- a/meta/recipes-multimedia/gstreamer/gst-openmax_0.10.1.bb
-+++ b/meta/recipes-multimedia/gstreamer/gst-openmax_0.10.1.bb
-@@ -1,6 +1,7 @@
- DEPENDS = "gstreamer"
- RDEPENDS_${PN} = "libomxil"
- LICENSE = "LGPLv2.1"
-+LICENSE_FLAGS = "Commercial"
- LIC_FILES_CHKSUM = "file://COPYING;md5=fbc093901857fcd118f065f900982c24 \
-                     file://util/sem.h;beginline=1;endline=20;md5=accce5550d5583b839b441a0623f09fc"
- 
-diff --git a/meta/recipes-multimedia/gstreamer/gst-plugins-ugly_0.10.18.bb b/meta/recipes-multimedia/gstreamer/gst-plugins-ugly_0.10.18.bb
-index 2d7fa91..8adee3e 100644
---- a/meta/recipes-multimedia/gstreamer/gst-plugins-ugly_0.10.18.bb
-+++ b/meta/recipes-multimedia/gstreamer/gst-plugins-ugly_0.10.18.bb
-@@ -1,6 +1,7 @@
- require gst-plugins.inc
- 
- LICENSE = "GPLv2+ & LGPLv2.1+ & LGPLv2+"
-+LICENSE_FLAGS = "Commercial"
- LIC_FILES_CHKSUM = "file://COPYING;md5=a6f89e2100d9b6cdffcea4f398e37343 \
-                     file://gst/synaesthesia/synaescope.h;beginline=1;endline=20;md5=99f301df7b80490c6ff8305fcc712838 \
-                     file://tests/check/elements/xingmux.c;beginline=1;endline=21;md5=4c771b8af188724855cb99cadd390068 \
-diff --git a/meta/recipes-multimedia/lame/lame_3.99.3.bb b/meta/recipes-multimedia/lame/lame_3.99.3.bb
-index 3c42cc7..aecd5f9 100644
---- a/meta/recipes-multimedia/lame/lame_3.99.3.bb
-+++ b/meta/recipes-multimedia/lame/lame_3.99.3.bb
-@@ -3,6 +3,7 @@ HOMEPAGE = "http://sourceforge.net/projects/lame/files/lame/"
- BUGTRACKER = "http://sourceforge.net/tracker/?group_id=290&atid=100290"
- SECTION = "console/utils"
- LICENSE = "LGPLv2+"
-+LICENSE_FLAGS = "Commercial"
- LIC_FILES_CHKSUM = "file://COPYING;md5=c46bda00ffbb0ba1dac22f8d087f54d9 \
-                     file://include/lame.h;beginline=1;endline=20;md5=a2258182c593c398d15a48262130a92b
- PR = "r0"
-diff --git a/meta/recipes-multimedia/libmad/libmad_0.15.1b.bb b/meta/recipes-multimedia/libmad/libmad_0.15.1b.bb
-index aec929c..5ab0f0c 100644
---- a/meta/recipes-multimedia/libmad/libmad_0.15.1b.bb
-+++ b/meta/recipes-multimedia/libmad/libmad_0.15.1b.bb
-@@ -2,6 +2,7 @@ DESCRIPTION = "MPEG Audio Decoder Library"
- HOMEPAGE = "http://sourceforge.net/projects/mad/"
- BUGTRACKER = "http://sourceforge.net/tracker/?group_id=12349&atid=112349"
- LICENSE = "GPLv2+"
-+LICENSE_FLAGS = "Commercial"
- LIC_FILES_CHKSUM = "file://COPYING;md5=94d55d512a9ba36caa9b7df079bae19f \
- 			file://COPYRIGHT;md5=8e55eb14894e782b84488d5a239bc23d \
- 			file://version.h;beginline=1;endline=8;md5=aa07311dd39288d4349f28e1de516454"
-diff --git a/meta/recipes-multimedia/libomxil/libomxil_0.9.3.bb b/meta/recipes-multimedia/libomxil/libomxil_0.9.3.bb
-index bb31c56..9173a59 100644
---- a/meta/recipes-multimedia/libomxil/libomxil_0.9.3.bb
-+++ b/meta/recipes-multimedia/libomxil/libomxil_0.9.3.bb
-@@ -1,6 +1,7 @@
- DESCRIPTION = "Bellagio OpenMAX Integration Layer"
- HOMEPAGE = "http://omxil.sourceforge.net/"
- LICENSE = "LGPLv2.1+"
-+LICENSE_FLAGS = "Commercial"
- LIC_FILES_CHKSUM = "file://COPYING;md5=ae6f0f4dbc7ac193b50f323a6ae191cb \
-                     file://src/omxcore.h;beginline=1;endline=27;md5=806b1e5566c06486fe8e42b461e03a90"
- DEPENDS = "libvorbis libogg alsa-lib libmad"
-diff --git a/meta/recipes-multimedia/mpeg2dec/mpeg2dec_0.4.1.bb b/meta/recipes-multimedia/mpeg2dec/mpeg2dec_0.4.1.bb
-index 351962f..b2cf5f8 100644
---- a/meta/recipes-multimedia/mpeg2dec/mpeg2dec_0.4.1.bb
-+++ b/meta/recipes-multimedia/mpeg2dec/mpeg2dec_0.4.1.bb
-@@ -2,6 +2,7 @@ DESCRIPTION = "Library and test program for decoding mpeg-2 and mpeg-1 video str
- HOMEPAGE = "http://libmpeg2.sourceforge.net/"
- SECTION = "libs"
- LICENSE = "GPLv2+"
-+LICENSE_FLAGS = "Commercial"
- LIC_FILES_CHKSUM = "file://COPYING;md5=94d55d512a9ba36caa9b7df079bae19f \
-                     file://include/mpeg2.h;beginline=1;endline=22;md5=ead62602d4638329d3b5b86a55803154"
- 
-diff --git a/meta/recipes-qt/qt-apps/qmmp_0.5.2.bb b/meta/recipes-qt/qt-apps/qmmp_0.5.2.bb
-index b3ecc45..a8d7fbd 100644
---- a/meta/recipes-qt/qt-apps/qmmp_0.5.2.bb
-+++ b/meta/recipes-qt/qt-apps/qmmp_0.5.2.bb
-@@ -1,6 +1,7 @@
- DESCRIPTION = "Qmmp (Qt-based Multimedia Player) is an audio-player, written with help of Qt library"
- HOMEPAGE = "http://qmmp.ylsoftware.com"
- LICENSE = "GPLv2"
-+LICENSE_FLAGS = "Commercial"
- LIC_FILES_CHKSUM = "file://COPYING;md5=393a5ca445f6965873eca0259a17f833"
- SECTION = "multimedia"
- 
++    def skip_package(pn, flag):
++        bb.debug(1, "Skipping %s because it has a restricted license (%s) not"
++             " whitelisted in LICENSE_FLAGS_WHITELIST" % (pn, flag))
++        raise bb.parse.SkipPackage("because it may require a special license"
++            " to ship in a product (listed in LICENSE_FLAGS)")
++
++    def all_license_flags_match(flags, whitelist):
++        for flag in flags.split():
++            if not flag in whitelist.split():
++                return False
++        return True
++
++    license_flags = d.getVar('LICENSE_FLAGS', True)
++    if license_flags:
++        license_flags_whitelist = d.getVar('LICENSE_FLAGS_WHITELIST', True)
++        if not license_flags_whitelist or not all_license_flags_match(
++                license_flags, license_flags_whitelist):
++            skip_package(pn, license_flags)
++
+     commercial_license = " %s " % d.getVar('COMMERCIAL_LICENSE', 1)
+     import re
+     pnr = "[ \t]%s[ \t]" % pn.replace('+', "\+")
 -- 
 1.7.0.4
 
