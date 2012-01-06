@@ -1,31 +1,25 @@
-Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
-	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <richard.purdie@linuxfoundation.org>)
-	id 1RjBkC-0008NV-RW for openembedded-core@lists.openembedded.org;
-	Fri, 06 Jan 2012 16:30:13 +0100
-Received: from localhost (localhost [127.0.0.1])
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q06FMlNA022155;
-	Fri, 6 Jan 2012 15:22:47 GMT
-Received: from tim.rpsys.net ([127.0.0.1])
-	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
-	port 10024) with LMTP
-	id 21013-10; Fri,  6 Jan 2012 15:22:44 +0000 (GMT)
-Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q06FMcWP022149
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO);
-	Fri, 6 Jan 2012 15:22:39 GMT
-Message-ID: <1325863359.20759.127.camel@ted>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Robert Yang <liezhi.yang@windriver.com>
-Date: Fri, 06 Jan 2012 15:22:39 +0000
-In-Reply-To: <47d6afe044383d6ca97c3972a25663eda145a56c.1325318523.git.liezhi.yang@windriver.com>
-References: <cover.1325318523.git.liezhi.yang@windriver.com>
-	<47d6afe044383d6ca97c3972a25663eda145a56c.1325318523.git.liezhi.yang@windriver.com>
-X-Mailer: Evolution 3.2.2- 
-Mime-Version: 1.0
-X-Virus-Scanned: amavisd-new at rpsys.net
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 1/2] V2 Incremental image generation(rpm based rootfs)
+Received: from mail-qy0-f175.google.com ([209.85.216.175])
+	by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <andrei@gherzan.ro>) id 1RjBvo-0000Gi-Ky
+	for openembedded-core@lists.openembedded.org;
+	Fri, 06 Jan 2012 16:42:12 +0100
+Received: by qcqw6 with SMTP id w6so888964qcq.6
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 06 Jan 2012 07:34:48 -0800 (PST)
+Received: by 10.229.106.35 with SMTP id v35mr2358250qco.84.1325864088109;
+	Fri, 06 Jan 2012 07:34:48 -0800 (PST)
+Received: from localhost.localdomain ([89.121.200.106])
+	by mx.google.com with ESMTPS id r10sm122940428qaz.7.2012.01.06.07.34.45
+	(version=TLSv1/SSLv3 cipher=OTHER);
+	Fri, 06 Jan 2012 07:34:47 -0800 (PST)
+From: Andrei Gherzan <andrei@gherzan.ro>
+To: openembedded-core@lists.openembedded.org
+Date: Fri,  6 Jan 2012 17:34:36 +0200
+Message-Id: <1325864076-24080-1-git-send-email-andrei@gherzan.ro>
+X-Mailer: git-send-email 1.7.5.4
+Cc: Andrei Gherzan <andrei@gherzan.ro>,
+	Andrei Gherzan <andrei.gherzan@windriver.com>
+Subject: [PATCH] wpa-supplicant: Compile without	CONFIG_GNUTLS_EXTRA (PR BUMP)
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -40,144 +34,505 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 06 Jan 2012 15:30:13 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Fri, 06 Jan 2012 15:42:12 -0000
 
-On Sat, 2011-12-31 at 16:10 +0800, Robert Yang wrote:
-> Incremental image generation, the rootfs would be totally removed and
-> re-created in the second generation by default, but with INC_IMAGE_GEN =
-> "1", the rootfs would be kept, and will do update(remove/add some pkgs)
-> on it.
-> NOTE: This is not suggested when you want to create a productive rootfs
-> 
-> For example:
->   1) Add the follow config option to a conf file:
->      INC_IMAGE_GEN = "1"
-> 
->   2) bitbake core-image-sato
->      modify a package
->      bitbake core-image-sato
-> 
-> The rootfs would not be totally removed and re-created in the second
-> generation, it would be simply updated based on the "package".
-> 
-> Implatation:
-> 1) Figure out the pkg which need to be removed or re-installed, then use
-> 'rpm -e to remove the old one. Use the rpm's BUILDTIME to determine
-> which pkg has been rebuilt.
-> 
-> 2) Figure out the pkg which is newly added, and use 'rpm -U' to install
-> it.
-> 
-> This only for the rpm based rootfs, I don't know whether we also need
-> this for ipk or deb  based rootfs.
+From: Andrei Gherzan <andrei.gherzan@windriver.com>
 
-As Koen points out, this should be called INC_RPM_IMAGE_GEN since it
-only works for rpm at present. It would be good to make this work on the
-other package backends. If we keep the generic variable name, the other
-package backends could error out saying they don't support it.
+CONFIG_GNUTLS_EXTRA is needed as support for TLS/IA which was designed to be used
+in the EAP-TTLSv1. As we don't see any requirement for that protocol today we decided
+to remove it from wpa-supplicant .config file.
+This change includes PR bump.
 
-> [YOCTO #1651]
-> 
-> Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
-> ---
->  meta/classes/image.bbclass       |   11 +++++-
->  meta/classes/package_rpm.bbclass |   72 ++++++++++++++++++++++++++++++++-----
->  2 files changed, 71 insertions(+), 12 deletions(-)
-> 
-> diff --git a/meta/classes/image.bbclass b/meta/classes/image.bbclass
-> index 865d430..71b60f3 100644
-> --- a/meta/classes/image.bbclass
-> +++ b/meta/classes/image.bbclass
-> @@ -134,15 +134,22 @@ do_rootfs[umask] = 022
->  
->  fakeroot do_rootfs () {
->  	#set -x
-> -	rm -rf ${IMAGE_ROOTFS}
-> +    # When use the incremental image generation, don't remove the rootfs
-> +    if [ "${INC_IMAGE_GEN}" != "1" ]; then
-> +        rm -rf ${IMAGE_ROOTFS}
-> +    fi
->  	rm -rf ${MULTILIB_TEMP_ROOTFS}
->  	mkdir -p ${IMAGE_ROOTFS}
->  	mkdir -p ${DEPLOY_DIR_IMAGE}
->  
->  	cp ${COREBASE}/meta/files/deploydir_readme.txt ${DEPLOY_DIR_IMAGE}/README_-_DO_NOT_DELETE_FILES_IN_THIS_DIRECTORY.txt
->  
-> -	if [ "${USE_DEVFS}" != "1" ]; then
-> +    # If "${IMAGE_ROOTFS}/dev" exists, then the device had been made by
-> +    # the previous build
-> +	if [ "${USE_DEVFS}" != "1" -a ! -r "${IMAGE_ROOTFS}/dev" ]; then
->  		for devtable in ${@get_devtable_list(d)}; do
-> +            # Always return ture since there maybe already one when use the
-> +            # incremental image generation
->  			makedevs -r ${IMAGE_ROOTFS} -D $devtable
->  		done
->  	fi
-> diff --git a/meta/classes/package_rpm.bbclass b/meta/classes/package_rpm.bbclass
-> index d03dc3f..541d351 100644
-> --- a/meta/classes/package_rpm.bbclass
-> +++ b/meta/classes/package_rpm.bbclass
-> @@ -147,6 +147,66 @@ resolve_package_rpm () {
->  	echo $pkg_name
->  }
->  
-> +# rpm common command and options
-> +rpm_common_comand () {
-> +
-> +    local target_rootfs="${INSTALL_ROOTFS_RPM}"
-> +    local extra_args="$@"
-> +
-> +    ${RPM} --root ${target_rootfs} \
-> +        --predefine "_rpmds_sysinfo_path ${target_rootfs}/etc/rpm/sysinfo" \
-> +        --predefine "_rpmrc_platform_path ${target_rootfs}/etc/rpm/platform" \
-> +        -D "_var ${localstatedir}" \
-> +        -D "_dbpath ${rpmlibdir}" \
-> +        --noparentdirs --nolinktos \
-> +        -D "__dbi_txn create nofsync private" \
-> +        -D "_cross_scriptlet_wrapper ${WORKDIR}/scriptlet_wrapper" $extra_args
-> +}
-> +
-> +# install or remove the pkg
-> +rpm_update_pkg () {
-> +
-> +    local target_rootfs="${INSTALL_ROOTFS_RPM}"
-> +
-> +    # Save the rpm's build time for incremental image generation, and the file
-> +    # would be moved to ${T}
-> +    rm -f ${target_rootfs}/install/total_solution_bt.manifest
-> +    for i in `cat ${target_rootfs}/install/total_solution.manifest`; do
-> +        # Use "rpm" rather than "${RPM}" here, since we don't need the
-> +        # '--dbpath' option
-> +        echo "$i `rpm -qp --qf '%{BUILDTIME}\n' $i`" >> \
-> +            ${target_rootfs}/install/total_solution_bt.manifest
-> +    done
-> +
-> +    # Only install the different pkgs if incremental image generation is set
-> +    if [ "${INC_IMAGE_GEN}" = "1" -a -f ${T}/total_solution_bt.manifest ]; then
-> +        cur_list="${target_rootfs}/install/total_solution_bt.manifest"
-> +        pre_list="${T}/total_solution_bt.manifest"
-> +        sort -u $cur_list -o $cur_list
-> +        sort -u $pre_list -o $pre_list
-> +        comm -1 -3 $cur_list $pre_list | sed 's#.*/\(.*\)\.rpm .*#\1#' > \
-> +            ${target_rootfs}/install/remove.manifest
-> +        comm -2 -3 $cur_list $pre_list | awk '{print $1}' > \
-> +            ${target_rootfs}/install/incremental.manifest
-> +
-> +        # Attempt to remove unwanted pkgs, the scripts(pre, post, etc.) has not
-> +        # been run by now, so don't have to run them(preun, postun, etc.) when
-> +        # erase the pkg
+[YOCTO #1845]
 
-Really? I'd have thought it possible the scripts have run during the
-previous do_rootfs?
+Signed-off-by: Andrei Gherzan <andrei@gherzan.ro>
+---
+ .../wpa-supplicant/defconfig.inc                   |    4 -
+ .../wpa-supplicant-0.7.3/defconfig-gnutls          |    2 +-
+ .../wpa-supplicant-0.7.3/defconfig-gnutls-nogplv3  |  409 --------------------
+ .../wpa-supplicant/wpa-supplicant-0.7.inc          |    7 +-
+ .../wpa-supplicant/wpa-supplicant_0.7.3.bb         |    2 +-
+ 5 files changed, 4 insertions(+), 420 deletions(-)
+ delete mode 100644 meta/recipes-connectivity/wpa-supplicant/defconfig.inc
+ delete mode 100644 meta/recipes-connectivity/wpa-supplicant/wpa-supplicant-0.7.3/defconfig-gnutls-nogplv3
 
-Otherwise the patch looks reasonable to me.
-
-Cheers,
-
-Richard
-
+diff --git a/meta/recipes-connectivity/wpa-supplicant/defconfig.inc b/meta/recipes-connectivity/wpa-supplicant/defconfig.inc
+deleted file mode 100644
+index fdcbb43..0000000
+--- a/meta/recipes-connectivity/wpa-supplicant/defconfig.inc
++++ /dev/null
+@@ -1,4 +0,0 @@
+-def get_defconfig(bb, d):
+-	if d.getVar('INCOMPATIBLE_LICENSE', 1) in [ 'GPLv3' ]:
+-		return "-nogplv3"
+-	return ""
+diff --git a/meta/recipes-connectivity/wpa-supplicant/wpa-supplicant-0.7.3/defconfig-gnutls b/meta/recipes-connectivity/wpa-supplicant/wpa-supplicant-0.7.3/defconfig-gnutls
+index c679e00..e03338f 100644
+--- a/meta/recipes-connectivity/wpa-supplicant/wpa-supplicant-0.7.3/defconfig-gnutls
++++ b/meta/recipes-connectivity/wpa-supplicant/wpa-supplicant-0.7.3/defconfig-gnutls
+@@ -404,6 +404,6 @@ CONFIG_PEERKEY=y
+ #LIBS_p += -lbfd -liberty -lz
+ #LIBS_c += -lbfd -liberty -lz
+ CONFIG_TLS = gnutls
+-CONFIG_GNUTLS_EXTRA=y
++#CONFIG_GNUTLS_EXTRA=y
+ CONFIG_CTRL_IFACE_DBUS=y
+ CONFIG_CTRL_IFACE_DBUS_NEW=y
+diff --git a/meta/recipes-connectivity/wpa-supplicant/wpa-supplicant-0.7.3/defconfig-gnutls-nogplv3 b/meta/recipes-connectivity/wpa-supplicant/wpa-supplicant-0.7.3/defconfig-gnutls-nogplv3
+deleted file mode 100644
+index e03338f..0000000
+--- a/meta/recipes-connectivity/wpa-supplicant/wpa-supplicant-0.7.3/defconfig-gnutls-nogplv3
++++ /dev/null
+@@ -1,409 +0,0 @@
+-# Example wpa_supplicant build time configuration
+-#
+-# This file lists the configuration options that are used when building the
+-# hostapd binary. All lines starting with # are ignored. Configuration option
+-# lines must be commented out complete, if they are not to be included, i.e.,
+-# just setting VARIABLE=n is not disabling that variable.
+-#
+-# This file is included in Makefile, so variables like CFLAGS and LIBS can also
+-# be modified from here. In most cases, these lines should use += in order not
+-# to override previous values of the variables.
+-
+-
+-# Uncomment following two lines and fix the paths if you have installed OpenSSL
+-# or GnuTLS in non-default location
+-#CFLAGS += -I/usr/local/openssl/include
+-#LIBS += -L/usr/local/openssl/lib
+-
+-# Some Red Hat versions seem to include kerberos header files from OpenSSL, but
+-# the kerberos files are not in the default include path. Following line can be
+-# used to fix build issues on such systems (krb5.h not found).
+-#CFLAGS += -I/usr/include/kerberos
+-
+-# Example configuration for various cross-compilation platforms
+-
+-#### sveasoft (e.g., for Linksys WRT54G) ######################################
+-#CC=mipsel-uclibc-gcc
+-#CC=/opt/brcm/hndtools-mipsel-uclibc/bin/mipsel-uclibc-gcc
+-#CFLAGS += -Os
+-#CPPFLAGS += -I../src/include -I../../src/router/openssl/include
+-#LIBS += -L/opt/brcm/hndtools-mipsel-uclibc-0.9.19/lib -lssl
+-###############################################################################
+-
+-#### openwrt (e.g., for Linksys WRT54G) #######################################
+-#CC=mipsel-uclibc-gcc
+-#CC=/opt/brcm/hndtools-mipsel-uclibc/bin/mipsel-uclibc-gcc
+-#CFLAGS += -Os
+-#CPPFLAGS=-I../src/include -I../openssl-0.9.7d/include \
+-#	-I../WRT54GS/release/src/include
+-#LIBS = -lssl
+-###############################################################################
+-
+-
+-# Driver interface for Host AP driver
+-CONFIG_DRIVER_HOSTAP=y
+-
+-# Driver interface for Agere driver
+-#CONFIG_DRIVER_HERMES=y
+-# Change include directories to match with the local setup
+-#CFLAGS += -I../../hcf -I../../include -I../../include/hcf
+-#CFLAGS += -I../../include/wireless
+-
+-# Driver interface for madwifi driver
+-# Deprecated; use CONFIG_DRIVER_WEXT=y instead.
+-#CONFIG_DRIVER_MADWIFI=y
+-# Set include directory to the madwifi source tree
+-#CFLAGS += -I../../madwifi
+-
+-# Driver interface for ndiswrapper
+-# Deprecated; use CONFIG_DRIVER_WEXT=y instead.
+-#CONFIG_DRIVER_NDISWRAPPER=y
+-
+-# Driver interface for Atmel driver
+-# CONFIG_DRIVER_ATMEL=y
+-
+-# Driver interface for old Broadcom driver
+-# Please note that the newer Broadcom driver ("hybrid Linux driver") supports
+-# Linux wireless extensions and does not need (or even work) with the old
+-# driver wrapper. Use CONFIG_DRIVER_WEXT=y with that driver.
+-#CONFIG_DRIVER_BROADCOM=y
+-# Example path for wlioctl.h; change to match your configuration
+-#CFLAGS += -I/opt/WRT54GS/release/src/include
+-
+-# Driver interface for Intel ipw2100/2200 driver
+-# Deprecated; use CONFIG_DRIVER_WEXT=y instead.
+-#CONFIG_DRIVER_IPW=y
+-
+-# Driver interface for Ralink driver
+-#CONFIG_DRIVER_RALINK=y
+-
+-# Driver interface for generic Linux wireless extensions
+-CONFIG_DRIVER_WEXT=y
+-
+-# Driver interface for Linux drivers using the nl80211 kernel interface
+-CONFIG_LIBNL20=y
+-CONFIG_DRIVER_NL80211=y
+-
+-# Driver interface for FreeBSD net80211 layer (e.g., Atheros driver)
+-#CONFIG_DRIVER_BSD=y
+-#CFLAGS += -I/usr/local/include
+-#LIBS += -L/usr/local/lib
+-#LIBS_p += -L/usr/local/lib
+-#LIBS_c += -L/usr/local/lib
+-
+-# Driver interface for Windows NDIS
+-#CONFIG_DRIVER_NDIS=y
+-#CFLAGS += -I/usr/include/w32api/ddk
+-#LIBS += -L/usr/local/lib
+-# For native build using mingw
+-#CONFIG_NATIVE_WINDOWS=y
+-# Additional directories for cross-compilation on Linux host for mingw target
+-#CFLAGS += -I/opt/mingw/mingw32/include/ddk
+-#LIBS += -L/opt/mingw/mingw32/lib
+-#CC=mingw32-gcc
+-# By default, driver_ndis uses WinPcap for low-level operations. This can be
+-# replaced with the following option which replaces WinPcap calls with NDISUIO.
+-# However, this requires that WZC is disabled (net stop wzcsvc) before starting
+-# wpa_supplicant.
+-# CONFIG_USE_NDISUIO=y
+-
+-# Driver interface for development testing
+-#CONFIG_DRIVER_TEST=y
+-
+-# Include client MLME (management frame processing) for test driver
+-# This can be used to test MLME operations in hostapd with the test interface.
+-# space.
+-#CONFIG_CLIENT_MLME=y
+-
+-# Driver interface for wired Ethernet drivers
+-CONFIG_DRIVER_WIRED=y
+-
+-# Driver interface for the Broadcom RoboSwitch family
+-#CONFIG_DRIVER_ROBOSWITCH=y
+-
+-# Driver interface for no driver (e.g., WPS ER only)
+-#CONFIG_DRIVER_NONE=y
+-
+-# Enable IEEE 802.1X Supplicant (automatically included if any EAP method is
+-# included)
+-CONFIG_IEEE8021X_EAPOL=y
+-
+-# EAP-MD5
+-CONFIG_EAP_MD5=y
+-
+-# EAP-MSCHAPv2
+-CONFIG_EAP_MSCHAPV2=y
+-
+-# EAP-TLS
+-CONFIG_EAP_TLS=y
+-
+-# EAL-PEAP
+-CONFIG_EAP_PEAP=y
+-
+-# EAP-TTLS
+-CONFIG_EAP_TTLS=y
+-
+-# EAP-FAST
+-# Note: Default OpenSSL package does not include support for all the
+-# functionality needed for EAP-FAST. If EAP-FAST is enabled with OpenSSL,
+-# the OpenSSL library must be patched (openssl-0.9.8d-tls-extensions.patch)
+-# to add the needed functions.
+-#CONFIG_EAP_FAST=y
+-
+-# EAP-GTC
+-CONFIG_EAP_GTC=y
+-
+-# EAP-OTP
+-CONFIG_EAP_OTP=y
+-
+-# EAP-SIM (enable CONFIG_PCSC, if EAP-SIM is used)
+-#CONFIG_EAP_SIM=y
+-
+-# EAP-PSK (experimental; this is _not_ needed for WPA-PSK)
+-#CONFIG_EAP_PSK=y
+-
+-# EAP-PAX
+-#CONFIG_EAP_PAX=y
+-
+-# LEAP
+-CONFIG_EAP_LEAP=y
+-
+-# EAP-AKA (enable CONFIG_PCSC, if EAP-AKA is used)
+-#CONFIG_EAP_AKA=y
+-
+-# EAP-AKA' (enable CONFIG_PCSC, if EAP-AKA' is used).
+-# This requires CONFIG_EAP_AKA to be enabled, too.
+-#CONFIG_EAP_AKA_PRIME=y
+-
+-# Enable USIM simulator (Milenage) for EAP-AKA
+-#CONFIG_USIM_SIMULATOR=y
+-
+-# EAP-SAKE
+-#CONFIG_EAP_SAKE=y
+-
+-# EAP-GPSK
+-#CONFIG_EAP_GPSK=y
+-# Include support for optional SHA256 cipher suite in EAP-GPSK
+-#CONFIG_EAP_GPSK_SHA256=y
+-
+-# EAP-TNC and related Trusted Network Connect support (experimental)
+-#CONFIG_EAP_TNC=y
+-
+-# Wi-Fi Protected Setup (WPS)
+-#CONFIG_WPS=y
+-
+-# EAP-IKEv2
+-#CONFIG_EAP_IKEV2=y
+-
+-# PKCS#12 (PFX) support (used to read private key and certificate file from
+-# a file that usually has extension .p12 or .pfx)
+-CONFIG_PKCS12=y
+-
+-# Smartcard support (i.e., private key on a smartcard), e.g., with openssl
+-# engine.
+-CONFIG_SMARTCARD=y
+-
+-# PC/SC interface for smartcards (USIM, GSM SIM)
+-# Enable this if EAP-SIM or EAP-AKA is included
+-#CONFIG_PCSC=y
+-
+-# Development testing
+-#CONFIG_EAPOL_TEST=y
+-
+-# Select control interface backend for external programs, e.g, wpa_cli:
+-# unix = UNIX domain sockets (default for Linux/*BSD)
+-# udp = UDP sockets using localhost (127.0.0.1)
+-# named_pipe = Windows Named Pipe (default for Windows)
+-# y = use default (backwards compatibility)
+-# If this option is commented out, control interface is not included in the
+-# build.
+-CONFIG_CTRL_IFACE=y
+-
+-# Include support for GNU Readline and History Libraries in wpa_cli.
+-# When building a wpa_cli binary for distribution, please note that these
+-# libraries are licensed under GPL and as such, BSD license may not apply for
+-# the resulting binary.
+-#CONFIG_READLINE=y
+-
+-# Remove debugging code that is printing out debug message to stdout.
+-# This can be used to reduce the size of the wpa_supplicant considerably
+-# if debugging code is not needed. The size reduction can be around 35%
+-# (e.g., 90 kB).
+-#CONFIG_NO_STDOUT_DEBUG=y
+-
+-# Remove WPA support, e.g., for wired-only IEEE 802.1X supplicant, to save
+-# 35-50 kB in code size.
+-#CONFIG_NO_WPA=y
+-
+-# Remove WPA2 support. This allows WPA to be used, but removes WPA2 code to
+-# save about 1 kB in code size when building only WPA-Personal (no EAP support)
+-# or 6 kB if building for WPA-Enterprise.
+-#CONFIG_NO_WPA2=y
+-
+-# Remove IEEE 802.11i/WPA-Personal ASCII passphrase support
+-# This option can be used to reduce code size by removing support for
+-# converting ASCII passphrases into PSK. If this functionality is removed, the
+-# PSK can only be configured as the 64-octet hexstring (e.g., from
+-# wpa_passphrase). This saves about 0.5 kB in code size.
+-#CONFIG_NO_WPA_PASSPHRASE=y
+-
+-# Disable scan result processing (ap_mode=1) to save code size by about 1 kB.
+-# This can be used if ap_scan=1 mode is never enabled.
+-#CONFIG_NO_SCAN_PROCESSING=y
+-
+-# Select configuration backend:
+-# file = text file (e.g., wpa_supplicant.conf; note: the configuration file
+-#	path is given on command line, not here; this option is just used to
+-#	select the backend that allows configuration files to be used)
+-# winreg = Windows registry (see win_example.reg for an example)
+-CONFIG_BACKEND=file
+-
+-# Remove configuration write functionality (i.e., to allow the configuration
+-# file to be updated based on runtime configuration changes). The runtime
+-# configuration can still be changed, the changes are just not going to be
+-# persistent over restarts. This option can be used to reduce code size by
+-# about 3.5 kB.
+-#CONFIG_NO_CONFIG_WRITE=y
+-
+-# Remove support for configuration blobs to reduce code size by about 1.5 kB.
+-#CONFIG_NO_CONFIG_BLOBS=y
+-
+-# Select program entry point implementation:
+-# main = UNIX/POSIX like main() function (default)
+-# main_winsvc = Windows service (read parameters from registry)
+-# main_none = Very basic example (development use only)
+-#CONFIG_MAIN=main
+-
+-# Select wrapper for operatins system and C library specific functions
+-# unix = UNIX/POSIX like systems (default)
+-# win32 = Windows systems
+-# none = Empty template
+-#CONFIG_OS=unix
+-
+-# Select event loop implementation
+-# eloop = select() loop (default)
+-# eloop_win = Windows events and WaitForMultipleObject() loop
+-# eloop_none = Empty template
+-#CONFIG_ELOOP=eloop
+-
+-# Select layer 2 packet implementation
+-# linux = Linux packet socket (default)
+-# pcap = libpcap/libdnet/WinPcap
+-# freebsd = FreeBSD libpcap
+-# winpcap = WinPcap with receive thread
+-# ndis = Windows NDISUIO (note: requires CONFIG_USE_NDISUIO=y)
+-# none = Empty template
+-#CONFIG_L2_PACKET=linux
+-
+-# PeerKey handshake for Station to Station Link (IEEE 802.11e DLS)
+-CONFIG_PEERKEY=y
+-
+-# IEEE 802.11w (management frame protection)
+-# This version is an experimental implementation based on IEEE 802.11w/D1.0
+-# draft and is subject to change since the standard has not yet been finalized.
+-# Driver support is also needed for IEEE 802.11w.
+-#CONFIG_IEEE80211W=y
+-
+-# Select TLS implementation
+-# openssl = OpenSSL (default)
+-# gnutls = GnuTLS (needed for TLS/IA, see also CONFIG_GNUTLS_EXTRA)
+-# internal = Internal TLSv1 implementation (experimental)
+-# none = Empty template
+-#CONFIG_TLS=openssl
+-
+-# Whether to enable TLS/IA support, which is required for EAP-TTLSv1.
+-# You need CONFIG_TLS=gnutls for this to have any effect. Please note that
+-# even though the core GnuTLS library is released under LGPL, this extra
+-# library uses GPL and as such, the terms of GPL apply to the combination
+-# of wpa_supplicant and GnuTLS if this option is enabled. BSD license may not
+-# apply for distribution of the resulting binary.
+-#CONFIG_GNUTLS_EXTRA=y
+-
+-# If CONFIG_TLS=internal is used, additional library and include paths are
+-# needed for LibTomMath. Alternatively, an integrated, minimal version of
+-# LibTomMath can be used. See beginning of libtommath.c for details on benefits
+-# and drawbacks of this option.
+-#CONFIG_INTERNAL_LIBTOMMATH=y
+-#ifndef CONFIG_INTERNAL_LIBTOMMATH
+-#LTM_PATH=/usr/src/libtommath-0.39
+-#CFLAGS += -I$(LTM_PATH)
+-#LIBS += -L$(LTM_PATH)
+-#LIBS_p += -L$(LTM_PATH)
+-#endif
+-# At the cost of about 4 kB of additional binary size, the internal LibTomMath
+-# can be configured to include faster routines for exptmod, sqr, and div to
+-# speed up DH and RSA calculation considerably
+-#CONFIG_INTERNAL_LIBTOMMATH_FAST=y
+-
+-# Include NDIS event processing through WMI into wpa_supplicant/wpasvc.
+-# This is only for Windows builds and requires WMI-related header files and
+-# WbemUuid.Lib from Platform SDK even when building with MinGW.
+-#CONFIG_NDIS_EVENTS_INTEGRATED=y
+-#PLATFORMSDKLIB="/opt/Program Files/Microsoft Platform SDK/Lib"
+-
+-# Add support for old DBus control interface
+-# (fi.epitest.hostap.WPASupplicant)
+-#CONFIG_CTRL_IFACE_DBUS=y
+-
+-# Add support for new DBus control interface
+-# (fi.w1.hostap.wpa_supplicant1)
+-#CONFIG_CTRL_IFACE_DBUS_NEW=y
+-
+-# Add introspection support for new DBus control interface
+-#CONFIG_CTRL_IFACE_DBUS_INTRO=y
+-
+-# Add support for loading EAP methods dynamically as shared libraries.
+-# When this option is enabled, each EAP method can be either included
+-# statically (CONFIG_EAP_<method>=y) or dynamically (CONFIG_EAP_<method>=dyn).
+-# Dynamic EAP methods are build as shared objects (eap_*.so) and they need to
+-# be loaded in the beginning of the wpa_supplicant configuration file
+-# (see load_dynamic_eap parameter in the example file) before being used in
+-# the network blocks.
+-#
+-# Note that some shared parts of EAP methods are included in the main program
+-# and in order to be able to use dynamic EAP methods using these parts, the
+-# main program must have been build with the EAP method enabled (=y or =dyn).
+-# This means that EAP-TLS/PEAP/TTLS/FAST cannot be added as dynamic libraries
+-# unless at least one of them was included in the main build to force inclusion
+-# of the shared code. Similarly, at least one of EAP-SIM/AKA must be included
+-# in the main build to be able to load these methods dynamically.
+-#
+-# Please also note that using dynamic libraries will increase the total binary
+-# size. Thus, it may not be the best option for targets that have limited
+-# amount of memory/flash.
+-#CONFIG_DYNAMIC_EAP_METHODS=y
+-
+-# IEEE Std 802.11r-2008 (Fast BSS Transition)
+-#CONFIG_IEEE80211R=y
+-
+-# Add support for writing debug log to a file (/tmp/wpa_supplicant-log-#.txt)
+-#CONFIG_DEBUG_FILE=y
+-
+-# Enable privilege separation (see README 'Privilege separation' for details)
+-#CONFIG_PRIVSEP=y
+-
+-# Enable mitigation against certain attacks against TKIP by delaying Michael
+-# MIC error reports by a random amount of time between 0 and 60 seconds
+-#CONFIG_DELAYED_MIC_ERROR_REPORT=y
+-
+-# Enable tracing code for developer debugging
+-# This tracks use of memory allocations and other registrations and reports
+-# incorrect use with a backtrace of call (or allocation) location.
+-#CONFIG_WPA_TRACE=y
+-# For BSD, comment out these.
+-#LIBS += -lexecinfo
+-#LIBS_p += -lexecinfo
+-#LIBS_c += -lexecinfo
+-
+-# Use libbfd to get more details for developer debugging
+-# This enables use of libbfd to get more detailed symbols for the backtraces
+-# generated by CONFIG_WPA_TRACE=y.
+-#CONFIG_WPA_TRACE_BFD=y
+-# For BSD, comment out these.
+-#LIBS += -lbfd -liberty -lz
+-#LIBS_p += -lbfd -liberty -lz
+-#LIBS_c += -lbfd -liberty -lz
+-CONFIG_TLS = gnutls
+-#CONFIG_GNUTLS_EXTRA=y
+-CONFIG_CTRL_IFACE_DBUS=y
+-CONFIG_CTRL_IFACE_DBUS_NEW=y
+diff --git a/meta/recipes-connectivity/wpa-supplicant/wpa-supplicant-0.7.inc b/meta/recipes-connectivity/wpa-supplicant/wpa-supplicant-0.7.inc
+index c2e3294..ccdc4c3 100644
+--- a/meta/recipes-connectivity/wpa-supplicant/wpa-supplicant-0.7.inc
++++ b/meta/recipes-connectivity/wpa-supplicant/wpa-supplicant-0.7.inc
+@@ -9,11 +9,8 @@ LIC_FILES_CHKSUM = "file://../COPYING;md5=c54ce9345727175ff66d17b67ff51f58 \
+ DEPENDS = "gnutls dbus libnl"
+ RRECOMMENDS_${PN} = "wpa-supplicant-passphrase wpa-supplicant-cli"
+ 
+-# Check if GPLv3 build and select the correct file in configure
+-require defconfig.inc
+-
+ SRC_URI = "http://hostap.epitest.fi/releases/wpa_supplicant-${PV}.tar.gz \
+-           file://defconfig-gnutls${@get_defconfig(bb, d)} \
++           file://defconfig-gnutls \
+            file://defaults-sane \
+            file://wpa-supplicant.sh \
+            file://wpa_supplicant.conf \
+@@ -28,7 +25,7 @@ FILES_wpa-supplicant-cli = "${sbindir}/wpa_cli"
+ FILES_${PN} += " ${datadir}/dbus-1/system-services/*
+ 
+ do_configure () {
+-	install -m 0755 ${WORKDIR}/defconfig-gnutls${@get_defconfig(bb, d)} .config
++	install -m 0755 ${WORKDIR}/defconfig-gnutls .config
+ }
+ 
+ export EXTRA_CFLAGS = "${CFLAGS}"
+diff --git a/meta/recipes-connectivity/wpa-supplicant/wpa-supplicant_0.7.3.bb b/meta/recipes-connectivity/wpa-supplicant/wpa-supplicant_0.7.3.bb
+index 98eba77..49f5482 100644
+--- a/meta/recipes-connectivity/wpa-supplicant/wpa-supplicant_0.7.3.bb
++++ b/meta/recipes-connectivity/wpa-supplicant/wpa-supplicant_0.7.3.bb
+@@ -1,6 +1,6 @@
+ require wpa-supplicant-0.7.inc
+ 
+-PR = "r5"
++PR = "r6"
+ 
+ SRC_URI[md5sum] = "f516f191384a9a546e3f5145c08addda"
+ SRC_URI[sha256sum] = "d0cd50caa85346ccc376dcda5ed3c258eef19a93b3cade39d25760118ad59443"
+-- 
+1.7.5.4
 
 
 
