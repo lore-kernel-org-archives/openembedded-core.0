@@ -1,26 +1,26 @@
-Received: from mail.windriver.com ([147.11.1.11])
+Received: from mga02.intel.com ([134.134.136.20])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <liming.wang@windriver.com>) id 1Rj5Lo-00069H-VR
+	(envelope-from <sgw@linux.intel.com>) id 1Rj5Yt-0006eX-0S
 	for openembedded-core@lists.openembedded.org;
-	Fri, 06 Jan 2012 09:40:37 +0100
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca [147.11.189.40])
-	by mail.windriver.com (8.14.3/8.14.3) with ESMTP id q068XC6k023118
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 6 Jan 2012 00:33:12 -0800 (PST)
-Received: from pek-yocto-build2.corp.ad.wrs.com (128.224.163.150) by
-	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server id
-	14.1.255.0; Fri, 6 Jan 2012 00:33:12 -0800
-From: Liming Wang <liming.wang@windriver.com>
-To: <bruce.ashfield@windriver.com>
-Date: Fri, 6 Jan 2012 16:32:56 +0800
-Message-ID: <1325838776-13150-2-git-send-email-liming.wang@windriver.com>
-X-Mailer: git-send-email 1.7.5.4
-In-Reply-To: <1325838776-13150-1-git-send-email-liming.wang@windriver.com>
-References: <1325838776-13150-1-git-send-email-liming.wang@windriver.com>
+	Fri, 06 Jan 2012 09:54:07 +0100
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+	by orsmga101.jf.intel.com with ESMTP; 06 Jan 2012 00:46:38 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.67,351,1309762800"; d="scan'208";a="95114094"
+Received: from unknown (HELO [10.255.13.127]) ([10.255.13.127])
+	by orsmga002.jf.intel.com with ESMTP; 06 Jan 2012 00:46:30 -0800
+Message-ID: <4F06B4E5.7090901@linux.intel.com>
+Date: Fri, 06 Jan 2012 00:46:29 -0800
+From: Saul Wold <sgw@linux.intel.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:7.0) Gecko/20110927 Thunderbird/7.0
 MIME-Version: 1.0
-Cc: openembedded-core@lists.openembedded.org
-Subject: [PATCH 1/1] meta/qemuppc: replace kernel config file of qemu-ppc32 with mac99
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+References: <cover.1325837822.git.wenzong.fan@windriver.com>
+	<b63c8a5a0cf70a797fd49844b7854151a58f579e.1325837822.git.wenzong.fan@windriver.com>
+In-Reply-To: <b63c8a5a0cf70a797fd49844b7854151a58f579e.1325837822.git.wenzong.fan@windriver.com>
+Subject: Re: [PATCH 1/1] archive.bbclass: archive work directory
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -35,107 +35,98 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 06 Jan 2012 08:40:37 -0000
-Content-Type: text/plain
+X-List-Received-Date: Fri, 06 Jan 2012 08:54:07 -0000
+Content-Type: text/plain; charset=ISO-8859-1; format=flowed
+Content-Transfer-Encoding: 7bit
 
-Repalce emulation of qemuppc from prep to mac99. Also add
-qemu-ppc32-gfx.cfg file to support framebuffer and touchscreen.
+On 01/06/2012 12:20 AM, wenzong.fan@windriver.com wrote:
+> From: Wenzong Fan<wenzong.fan@windriver.com>
+>
+> Some legal departments believe a complete archive of the work directory
+> is required for certain license compliance issues. We could therefore
+> do with a class which archives up the work directories in each build and
+> provide them so those legal departments can be happy.
+>
+> Implementations:
+>
+> Add a new class named 'archive.bbclass' to provide task 'do_archive',
+> and get it called after 'do_patch' before 'do_configure'.
+>
+> Following cases should be considered to the sources dirs:
+> 1) The sources dir is under $WORKDIR:
+> Just archive sources and temp/run.* up.
+>
+> 2) The sources dir is outside of $WORKDIR, the only package is gcc:
+> Copy its sources and temp/run.* to a temporary dir and then archive
+> them up.
+>
+> 3) The sources dir is equal to $WORKDIR:
+> Just archive whole work dir up.
+>
+> [YOCTO #1590]
+>
+> Signed-off-by: Wenzong Fan<wenzong.fan@windriver.com>
+> ---
+>   meta/classes/archive.bbclass |   42 ++++++++++++++++++++++++++++++++++++++++++
+>   1 files changed, 42 insertions(+), 0 deletions(-)
+>   create mode 100644 meta/classes/archive.bbclass
+>
+> diff --git a/meta/classes/archive.bbclass b/meta/classes/archive.bbclass
+> new file mode 100644
+> index 0000000..75ac090
+> --- /dev/null
+> +++ b/meta/classes/archive.bbclass
+> @@ -0,0 +1,42 @@
+> +# Archive the patched sources and build scripts to assist in license
+> +# compliance by the end user or legal departments.
+> +
+> +ARCHIVE_DIR = "${TMPDIR}/archives/${MULTIMACH_TARGET_SYS}/"
+> +do_archive[dirs] = "${ARCHIVE_DIR}"
+> +
+I see you set ARCHIVE_DIR, but I don' see you move or copy any files to 
+this directory, am I missing something?
 
-Signed-off-by: Liming Wang <liming.wang@windriver.com>
----
- .../kernel-cache/bsp/qemu-ppc32/qemu-ppc32-gfx.cfg |   11 +++++
- .../cfg/kernel-cache/bsp/qemu-ppc32/qemu-ppc32.cfg |   42 +++++++++++++++----
- .../cfg/kernel-cache/bsp/qemu-ppc32/qemu-ppc32.scc |    1 +
- 3 files changed, 45 insertions(+), 9 deletions(-)
- create mode 100644 meta/cfg/kernel-cache/bsp/qemu-ppc32/qemu-ppc32-gfx.cfg
+> +archive_do_archive() {
+> +    # In mostly scenarios the $S is under $WORKDIR and has a separate
+> +    # dir for storing the sources; but gcc is a special case, its sources
+> +    # had been moved to the shared location 'tmp/work-shared/'
+> +    if [[ -d ${S}&&  ${S} != ${WORKDIR} ]]; then
+> +        if [[ ${S} =~ "/work-shared/gcc" ]]; then
+> +            # Create temporary sources directory for gcc
+> +            mkdir -p ${PF}/temp
+> +            cp -r ${S} ${PF}
+> +            cp -r ${S}/../temp/* ${PF}/temp
+> +            cp -r ${WORKDIR}/temp/* ${PF}/temp
+> +            tarbase=`pwd`
+> +        else
+> +            tarbase=`dirname ${WORKDIR}`
+> +        fi
+> +
+> +        sourcedir=`basename ${S}`
+> +        tar -C $tarbase -cjf ${PF}.tar.bz2 ${PF}/$sourcedir \
+> +            ${PF}/temp --exclude log.do_*
+> +
+Also, do you want to name the tarball PF or BP, which deals with 
+removing any multilib naming issues if the build it multilib.
 
-diff --git a/meta/cfg/kernel-cache/bsp/qemu-ppc32/qemu-ppc32-gfx.cfg b/meta/cfg/kernel-cache/bsp/qemu-ppc32/qemu-ppc32-gfx.cfg
-new file mode 100644
-index 0000000..5fee67f
---- /dev/null
-+++ b/meta/cfg/kernel-cache/bsp/qemu-ppc32/qemu-ppc32-gfx.cfg
-@@ -0,0 +1,11 @@
-+CONFIG_VGA_ARB=y
-+CONFIG_FB=y
-+CONFIG_FB_CFB_FILLRECT=y
-+CONFIG_FB_CFB_COPYAREA=y
-+CONFIG_FB_CFB_IMAGEBLIT=y
-+CONFIG_FB_OF=y
-+CONFIG_FRAMEBUFFER_CONSOLE=y
-+
-+CONFIG_INPUT_TABLET=y
-+CONFIG_TABLET_USB_WACOM=y
-+CONFIG_INPUT_MISC=y
-diff --git a/meta/cfg/kernel-cache/bsp/qemu-ppc32/qemu-ppc32.cfg b/meta/cfg/kernel-cache/bsp/qemu-ppc32/qemu-ppc32.cfg
-index f6648f5..2b9d68d 100644
---- a/meta/cfg/kernel-cache/bsp/qemu-ppc32/qemu-ppc32.cfg
-+++ b/meta/cfg/kernel-cache/bsp/qemu-ppc32/qemu-ppc32.cfg
-@@ -11,20 +11,44 @@
- #.........................................................................
- # CONFIG_PPC_CHRP is not set
- # CONFIG_PPC_PMAC is not set
--CONFIG_PPC_QEMU=y
--CONFIG_ISA=y
-+CONFIG_PPC_PMAC=y
- # CONFIG_PNP is not set
- CONFIG_MII=y
--CONFIG_NET_ISA=y
--CONFIG_NE2000=y
--CONFIG_SERIAL_8250=y
--CONFIG_SERIAL_8250_CONSOLE=y
--CONFIG_SERIAL_8250_PCI=y
--CONFIG_SERIAL_8250_NR_UARTS=4
--CONFIG_SERIAL_8250_RUNTIME_UARTS=4
-+CONFIG_PCNET32=y
-+CONFIG_NE2K_PCI=y
-+CONFIG_MACE=y
-+CONFIG_BMAC=y
-+
-+CONFIG_SERIAL_CORE=y
-+CONFIG_SERIAL_CORE_CONSOLE=y
-+CONFIG_SERIAL_PMACZILOG=y
-+CONFIG_SERIAL_PMACZILOG_TTYS=y
-+CONFIG_SERIAL_PMACZILOG_CONSOLE=y
- 
- CONFIG_IDE=y
- CONFIG_IDE_GENERIC=y
-+CONFIG_BLK_DEV_IDEPCI=y
-+CONFIG_BLK_DEV_IDEDMA_PCI=y
-+CONFIG_BLK_DEV_IDE_PMAC=y
-+CONFIG_BLK_DEV_IDEDMA=y
-+
-+CONFIG_ADB=y
-+CONFIG_ADB_CUDA=y
-+CONFIG_INPUT_ADBHID=y
-+
-+CONFIG_INPUT_KEYBOARD=y
-+CONFIG_INPUT_MOUSE=y
-+
-+CONFIG_USB=y
-+CONFIG_USB_DEVICEFS=y
-+CONFIG_USB_MON=y
-+CONFIG_USB_OHCI_HCD=y
-+CONFIG_USB_STORAGE=m
-+
-+CONFIG_INPUT_EVDEV=y
-+CONFIG_SERIO=y
-+# CONFIG_SERIO_SERPORT is not set
-+
- 
- CONFIG_PROFILING=y
- CONFIG_OPROFILE=y
-diff --git a/meta/cfg/kernel-cache/bsp/qemu-ppc32/qemu-ppc32.scc b/meta/cfg/kernel-cache/bsp/qemu-ppc32/qemu-ppc32.scc
-index 859329d..43f9dc6 100644
---- a/meta/cfg/kernel-cache/bsp/qemu-ppc32/qemu-ppc32.scc
-+++ b/meta/cfg/kernel-cache/bsp/qemu-ppc32/qemu-ppc32.scc
-@@ -1,4 +1,5 @@
- kconf hardware qemu-ppc32.cfg
-+kconf hardware qemu-ppc32-gfx.cfg
- 
- include features/profiling/profiling.scc
- include features/latencytop/latencytop.scc
--- 
-1.7.5.4
+Note BP = ${BPN}-${PV} so it removes the ${PR} if that is important 
+(which it might be).
 
+> +        # Remove the temporary gcc sources directory
+> +        if [[ ${S} =~ "/work-shared/gcc"&&  -d ${PF} ]]; then
+> +            rm -rf ${PF}
+> +        fi
+> +    fi
+> +
+> +    # Just archive whole build directory up when $S is equal to $WORKDIR
+> +    if [[ -d ${S}&&  ${S} == ${WORKDIR} ]]; then
+> +        tarbase=`dirname ${WORKDIR}`
+> +        tar -C $tarbase -cjf ${PF}.tar.bz2 ${PF} --exclude log.do_*
+> +    fi
+> +}
+> +
+> +addtask do_archive after do_patch before do_configure
+> +
+> +EXPORT_FUNCTIONS do_archive
 
 
