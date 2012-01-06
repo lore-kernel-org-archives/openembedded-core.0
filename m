@@ -1,30 +1,26 @@
-Received: from mga07.intel.com ([143.182.124.22] helo=azsmga101.ch.intel.com)
+Received: from mga03.intel.com ([143.182.124.21])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <scott.a.garman@intel.com>) id 1RjEAY-0005zo-H6
+	(envelope-from <tom.zanussi@intel.com>) id 1RjEGG-00069C-Fe
 	for openembedded-core@lists.openembedded.org;
-	Fri, 06 Jan 2012 19:05:35 +0100
-Received: from mail-iy0-f180.google.com ([209.85.210.180])
-	by mga03.intel.com with ESMTP/TLS/RC4-SHA; 06 Jan 2012 09:58:08 -0800
-Received: by iazz13 with SMTP id z13so3086113iaz.25
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 06 Jan 2012 09:58:08 -0800 (PST)
-Received: by 10.42.73.138 with SMTP id s10mr6586819icj.38.1325872688105;
-	Fri, 06 Jan 2012 09:58:08 -0800 (PST)
-Received: from [127.0.0.1] (masterfoo.zenlinux.com. [207.192.74.254])
-	by mx.google.com with ESMTPS id 5sm38780968ibe.8.2012.01.06.09.58.05
-	(version=SSLv3 cipher=OTHER); Fri, 06 Jan 2012 09:58:07 -0800 (PST)
-Message-ID: <4F07361F.8000406@intel.com>
-Date: Fri, 06 Jan 2012 09:57:51 -0800
-From: Scott Garman <scott.a.garman@intel.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:8.0) Gecko/20111124 Thunderbird/8.0
-MIME-Version: 1.0
-To: openembedded-core@lists.openembedded.org
-References: <cover.1325744640.git.sgw@linux.intel.com>
-	<04bb0f6bbd41ec9c2234df49130dba2346d9a3bf.1325744640.git.sgw@linux.intel.com>
-	<lyboqh86qb.fsf@ensc-virt.intern.sigma-chemnitz.de>
-In-Reply-To: <lyboqh86qb.fsf@ensc-virt.intern.sigma-chemnitz.de>
-Subject: Re: [CONSOLIDATED PULL 04/28] ncurses: move libraries to base_libdir
+	Fri, 06 Jan 2012 19:11:28 +0100
+Received: from azsmga002.ch.intel.com ([10.2.17.35])
+	by azsmga101.ch.intel.com with ESMTP; 06 Jan 2012 10:04:03 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="53977224"
+Received: from unknown (HELO [10.255.13.145]) ([10.255.13.145])
+	by AZSMGA002.ch.intel.com with ESMTP; 06 Jan 2012 10:04:03 -0800
+From: Tom Zanussi <tom.zanussi@intel.com>
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+In-Reply-To: <1325870130.12160.10.camel@phil-desktop>
+References: <4c91ccffa882d1c01bd7abc18b662dce388192be.1325867350.git.tom.zanussi@intel.com>
+	<e0e076a614e96c92eb02758f77bfab293509be92.1325867350.git.tom.zanussi@intel.com>
+	<1325870130.12160.10.camel@phil-desktop>
+Date: Fri, 06 Jan 2012 12:03:39 -0600
+Message-ID: <1325873019.15053.40.camel@elmorro>
+Mime-Version: 1.0
+X-Mailer: Evolution 2.28.3 
+Subject: Re: [PATCH 2/5] Add LICENSE_FLAGS to packages mentioned in COMMERCIAL_LICENSE
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -39,41 +35,80 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 06 Jan 2012 18:05:35 -0000
-Content-Type: text/plain; charset=ISO-8859-1; format=flowed
+X-List-Received-Date: Fri, 06 Jan 2012 18:11:29 -0000
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 
-On 01/06/2012 02:29 AM, Enrico Scholz wrote:
-> Saul Wold<sgw-VuQAYsv1563Yd54FQh9/CA@public.gmane.org>  writes:
->
->> -		f=${D}${libdir}/$i.so
->> +                f=${D}${base_libdir}/$i.so
->
-> this breaks builds because 'ld' does not search ${base_libdir}:
->
-> | gcc -shared ... -ltermcap
-> | /usr/bin/ld: cannot find -ltermcap
-> | ERROR: Task 216 (virtual:native:.../readline/readline_6.2.bb, do_install) failed with exit code '1'
-> | ERROR: 'virtual:native:.../readline/readline_6.2.bb' failed
+On Fri, 2012-01-06 at 17:15 +0000, Phil Blundell wrote:
+> On Fri, 2012-01-06 at 10:45 -0600, tom.zanussi@intel.com wrote:
+> > diff --git a/meta/recipes-multimedia/gstreamer/gst-fluendo-mp3_0.10.16.bb b/meta/recipes-multimedia/gstreamer/gst-fluendo-mp3_0.10.16.bb
+> > index 5975513..0a90f9c 100644
+> > --- a/meta/recipes-multimedia/gstreamer/gst-fluendo-mp3_0.10.16.bb
+> > +++ b/meta/recipes-multimedia/gstreamer/gst-fluendo-mp3_0.10.16.bb
+> > @@ -2,6 +2,7 @@ require gst-fluendo.inc
+> >  
+> >  LICENSE = "MIT"
+> >  LIC_FILES_CHKSUM = "file://COPYING;md5=98326cbb1723a5a97e9b1db62e9faa05"
+> > +LICENSE_FLAGS = "Commercial"
+> 
+> If I'm understanding the mechanism correctly then just setting all of
+> these to "Commercial" seems like a bit of a retrograde step.  Is there
+> an easy way in this new world for me to say that (for the sake of
+> argument) gst-fluendo-mp3 is acceptable for inclusion but libomixl
+> isn't?
+> 
 
-Which is why I added:
+Hmm, I don't think it's retrograde - it's true, this patchset simply
+replaces the existing functionality, where those particular packages
+previously were all essentially marked "COMMERCIAL" by virtue of all
+existing within the one-and-all COMMERCIAL_LICENSE variable, whereas now
+they're all marked as "Commercial" instead.
 
-# tic from the -native build cannot run without setting this explicitly
-BUILD_LDFLAGS_virtclass-native += "-Wl,-rpath,${base_libdir}"
+But the new mechanism is much more flexible, since it now allows you to
+make the distinctions you're mentioning, which was impossible with the
+previous scheme.  So yeah, the idea is that you can use a string as
+specific as you want for any give recipe e.g. have gst-fluendo-mp3
+define LICENSE_FLAGS = "Commercial-gst-fluendo-mp3" and have something
+similar for libomixl, or you might decide that libomxl is just fine
+falling under the more general "Commercial" along with anything else
+that might fall in the same general category.
 
-to ncurses.inc
+I would expect whoever knows more about those particular packages to
+actually submit changes for those if applicable.  For now, this just
+replaces it all with a more flexible mechanism that allows you to do
+that, but doesn't make judgments about the particular packages, which I
+actually don't know much about wrt licensing. 
 
-Is this not working?
+> It seems to me that, for this feature to be much use, the LICENSE_FLAGS
+> need to be a bit more explicit about spelling out what the requirements
+> really are for each package.  So, if the issue here is that you need to
+> pay the MP3 decoder licence on each unit you ship, let's say something
+> like LICENSE_FLAGS = "mp3-decoder-royalties" rather than just
+> "Commercial".
 
-I build-tested this with our -minimal and -sato images, and readline is 
-built as a part of this. Not sure how I could have missed this, unless 
-some host contamination was creeping in.
+I think the new mechanism provides the ability do whatever's necessary,
+but as far as it goes, and as mentioned in the commentary for patch 1,
+these are just strings and matches between two sets of them,
+LICENSE_FLAGS and LICENSE_FLAGS_WHITELIST.  I'm afraid I don't know
+enough about the distinctions between the different license categories
+that might be needed.  To me defining those falls under the heading of
+'policy', and is something I'll have to leave for others.  I'm simply
+providing the mechanism with this patch.
 
-Scott
+Thanks,
 
--- 
-Scott Garman
-Embedded Linux Engineer - Yocto Project
-Intel Open Source Technology Center
+Tom
+
+> 
+> p.
+> 
+> 
+> 
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
+
+
 
 
