@@ -1,25 +1,25 @@
-Received: from mga09.intel.com ([134.134.136.24])
+Received: from mga11.intel.com ([192.55.52.93])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <tom.zanussi@intel.com>) id 1RjMFE-0008SM-TY
+	(envelope-from <tom.zanussi@intel.com>) id 1RjMFG-0008SR-G1
 	for openembedded-core@lists.openembedded.org;
-	Sat, 07 Jan 2012 03:42:57 +0100
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-	by orsmga102.jf.intel.com with ESMTP; 06 Jan 2012 18:35:31 -0800
+	Sat, 07 Jan 2012 03:42:58 +0100
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+	by fmsmga102.fm.intel.com with ESMTP; 06 Jan 2012 18:35:33 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.67,351,1309762800"; d="scan'208";a="95427724"
+X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="104448909"
 Received: from unknown (HELO localhost) ([10.255.13.210])
-	by orsmga002.jf.intel.com with ESMTP; 06 Jan 2012 18:35:30 -0800
+	by fmsmga001.fm.intel.com with ESMTP; 06 Jan 2012 18:35:32 -0800
 From: tom.zanussi@intel.com
 To: openembedded-core@lists.openembedded.org, philb@gnu.org,
 	paul.eggleton@linux.intel.com
-Date: Fri,  6 Jan 2012 20:34:57 -0600
-Message-Id: <46ecfa8b92f146e16e078cf90a04473ac16eeb4d.1325903501.git.tom.zanussi@intel.com>
+Date: Fri,  6 Jan 2012 20:34:58 -0600
+Message-Id: <2518b8a21e4a476e2eb3ff423de51905830aa08a.1325903501.git.tom.zanussi@intel.com>
 X-Mailer: git-send-email 1.7.0.4
 In-Reply-To: <cover.1325903501.git.tom.zanussi@intel.com>
 References: <cover.1325903501.git.tom.zanussi@intel.com>
 In-Reply-To: <cover.1325903501.git.tom.zanussi@intel.com>
 References: <cover.1325903501.git.tom.zanussi@intel.com>
-Subject: [PATCH 3/5] base.bbclass: remove COMMERCIAL_LICENSE code
+Subject: [PATCH 4/5] default-distrovars.inc: remove COMMERCIAL_LICENSE et al
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -34,36 +34,34 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 07 Jan 2012 02:42:57 -0000
+X-List-Received-Date: Sat, 07 Jan 2012 02:42:58 -0000
 
 From: Tom Zanussi <tom.zanussi@intel.com>
 
-The COMMERCIAL_LICENSE mechanism has been superseded by LICENSE_FLAGS
-so remove the code that implements COMMERCIAL_LICENSE.
+The global COMMERCIAL_LICENSE mechanism has been obsoleted by
+per-recipe LICENSE_FLAGS, so remove the related variables.
 
 Signed-off-by: Tom Zanussi <tom.zanussi@intel.com>
 ---
- meta/classes/base.bbclass |    7 -------
- 1 files changed, 0 insertions(+), 7 deletions(-)
+ meta/conf/distro/include/default-distrovars.inc |    5 -----
+ 1 files changed, 0 insertions(+), 5 deletions(-)
 
-diff --git a/meta/classes/base.bbclass b/meta/classes/base.bbclass
-index 4aeba1b..8a15a8b 100644
---- a/meta/classes/base.bbclass
-+++ b/meta/classes/base.bbclass
-@@ -368,13 +368,6 @@ python () {
-                 license_flags, license_flags_whitelist):
-             skip_package(pn, license_flags)
+diff --git a/meta/conf/distro/include/default-distrovars.inc b/meta/conf/distro/include/default-distrovars.inc
+index e1594f3..16b3108 100644
+--- a/meta/conf/distro/include/default-distrovars.inc
++++ b/meta/conf/distro/include/default-distrovars.inc
+@@ -26,11 +26,6 @@ HOSTTOOLS_WHITELIST_GPLv3 ?= ""
+ WHITELIST_GPLv3 ?= "less"
+ LGPLv2_WHITELIST_GPLv3 ?= "libassuan gnutls libtasn1 libidn libgcc gcc-runtime" 
  
--    commercial_license = " %s " % d.getVar('COMMERCIAL_LICENSE', 1)
--    import re
--    pnr = "[ \t]%s[ \t]" % pn.replace('+', "\+")
--    if commercial_license and re.search(pnr, commercial_license):
--        bb.debug(1, "Skipping %s because it's commercially licensed" % pn)
--        raise bb.parse.SkipPackage("because it may require a commercial license to ship in a product (listed in COMMERCIAL_LICENSE)")
--
-     # If we're building a target package we need to use fakeroot (pseudo)
-     # in order to capture permissions, owners, groups and special files
-     if not bb.data.inherits_class('native', d) and not bb.data.inherits_class('cross', d):
+-# This is a list of packages that require a commercial license to ship
+-# product. If shipped as part of an image these packages may have 
+-# implications so they are disabled by default
+-COMMERCIAL_LICENSE ?= "lame gst-fluendo-mp3 libmad mpeg2dec ffmpeg qmmp ${COMMERCIAL_LICENSE_DEPENDEES}"
+-COMMERCIAL_LICENSE_DEPENDEES ?= "gst-plugins-ugly libomxil gst-openmax"
+ COMMERCIAL_AUDIO_PLUGINS ?= ""
+ # COMMERCIAL_AUDIO_PLUGINS ?= "gst-plugins-ugly-mad gst-plugins-ugly-mpegaudioparse"
+ COMMERCIAL_VIDEO_PLUGINS ?= ""
 -- 
 1.7.0.4
 
