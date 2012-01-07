@@ -1,25 +1,25 @@
-Received: from mga03.intel.com ([143.182.124.21])
+Received: from mga02.intel.com ([134.134.136.20])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <tom.zanussi@intel.com>) id 1RjM8C-000861-CU
+	(envelope-from <tom.zanussi@intel.com>) id 1RjM8C-000869-OK
 	for openembedded-core@lists.openembedded.org;
-	Sat, 07 Jan 2012 03:35:40 +0100
-Received: from azsmga001.ch.intel.com ([10.2.17.19])
-	by azsmga101.ch.intel.com with ESMTP; 06 Jan 2012 18:28:17 -0800
+	Sat, 07 Jan 2012 03:35:43 +0100
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+	by orsmga101.jf.intel.com with ESMTP; 06 Jan 2012 18:28:18 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="93308208"
+X-IronPort-AV: E=Sophos;i="4.67,351,1309762800"; d="scan'208";a="95426155"
 Received: from unknown (HELO localhost) ([10.255.13.210])
-	by azsmga001.ch.intel.com with ESMTP; 06 Jan 2012 18:28:09 -0800
+	by orsmga002.jf.intel.com with ESMTP; 06 Jan 2012 18:28:17 -0800
 From: tom.zanussi@intel.com
 To: openembedded-core@lists.openembedded.org, philb@gnu.org,
 	paul.eggleton@linux.intel.com
-Date: Fri,  6 Jan 2012 20:27:37 -0600
-Message-Id: <49feaef666acf72a54fc2511a652541a9c865e37.1325902364.git.tom.zanussi@intel.com>
+Date: Fri,  6 Jan 2012 20:27:41 -0600
+Message-Id: <3a052c8736059227b4c90c61c72a982bafd9477a.1325902364.git.tom.zanussi@intel.com>
 X-Mailer: git-send-email 1.7.0.4
 In-Reply-To: <cover.1325902364.git.tom.zanussi@intel.com>
 References: <cover.1325902364.git.tom.zanussi@intel.com>
 In-Reply-To: <cover.1325902364.git.tom.zanussi@intel.com>
 References: <cover.1325902364.git.tom.zanussi@intel.com>
-Subject: [PATCH 1/5] base.bbclass: add support for LICENSE_FLAGS
+Subject: [PATCH 5/5] documentation-audit.sh: remove COMMERCIAL_LICENSE warning
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -34,106 +34,33 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 07 Jan 2012 02:35:40 -0000
+X-List-Received-Date: Sat, 07 Jan 2012 02:35:43 -0000
 
 From: Tom Zanussi <tom.zanussi@intel.com>
 
-LICENSE_FLAGS are a per-recipe replacement for the COMMERCIAL_LICENSE
-mechanism.
-
-In the COMMERCIAL_LICENSE mechanism, any package name mentioned in the
-global COMMERCIAL_LICENSE list is 'blacklisted' from being included in
-an image.  To allow the blacklisted package into the image, the
-corresponding packages need to be removed from the COMMERCIAL_LICENSE
-list.  This mechanism relies on a global list defined in
-default-distrovars.inc.
-
-The LICENSE_FLAGS mechanism essentially implements the same thing but
-turns the global blacklist into a per-recipe whitelist.  Any recipe
-can optionally define one or more 'license flags'; if defined, each of
-the license flags defined for a recipe must have matching entries in a
-global LICENSE_FLAGS_WHITELIST variable.  Typically a recipe will have
-a single license flag specific to itself, which allows it to be
-individually toggled on and off.  For example, a package named 'foo'
-might define a single license flag, 'commercial_foo':
-
-LICENSE_FLAGS = "commercial_foo"
-
-This says that in order for the foo package to be included in the
-image, the string 'commercial_foo' must appear in the
-LICENSE_FLAGS_WHITELIST variable:
-
-LICENSE_FLAGS_WHITELIST = "commercial_foo"
-
-Because the typical case is indeed to create LICENSE_FLAGS containing
-the package name, the LICENSE_FLAGS could just as well have been
-specified as:
-
-LICENSE_FLAGS = "commercial_${PN}
-
-which would pick up the package name automatically.
-
-The mechanism has the word 'flags' in the name because although the
-typical case is to specify a single string to match as above, the user
-can add additional strings that might be thought of additional
-'attributes' of a license that also need to be matched.  This allows
-for the creation and specification of license categories that could be
-used to flexibly match sets of packages that match certain attributes
-without forcing them to all be specified individually.  For example, a
-particular set of recipes that are typically used together might all
-contain a 'commercial_video' flag.  Additionally, some of them might
-specify an additional 'binary' flag meaning that it's not possible to
-get the source for those packages.  Specifying both 'commercial_video
-and binary' in the LICENSE_FLAGS_WHITELIST would allow them all to be
-pulled in, but if 'binary' was missing, it would only allow those
-packages that had source to be allowed in to the image.
-
-The current behavior of COMMERCIAL_LICENSE is replicated as mentioned
-above by having the current set of COMMERCIAL_LICENSE flags implement
-their using LICENSE_FLAGS = "commercial_${PN}.
-
-That being the case, the current COMMERCIAL_LICENSE can equivalently
-be specified in the new scheme by putting the below in local.conf:
-
-The above allows all of the current COMMERCIAL_LICENSE packages in -
-to disallow a particular package from appearing in the image, simply
-remove it from the whitelist.
+COMMERCIAL_LICENSE no longer exists; the equivalent functionality is
+now has been replaced by LICENSE_FLAGS_WHITELIST, so replace the
+COMMERCIAL_LICENSE warning with a similarly equivalent warning.
 
 Signed-off-by: Tom Zanussi <tom.zanussi@intel.com>
 ---
- meta/classes/base.bbclass |   19 +++++++++++++++++++
- 1 files changed, 19 insertions(+), 0 deletions(-)
+ scripts/contrib/documentation-audit.sh |    3 ++-
+ 1 files changed, 2 insertions(+), 1 deletions(-)
 
-diff --git a/meta/classes/base.bbclass b/meta/classes/base.bbclass
-index e65a722..4aeba1b 100644
---- a/meta/classes/base.bbclass
-+++ b/meta/classes/base.bbclass
-@@ -349,6 +349,25 @@ python () {
-     if license == "INVALID":
-         bb.fatal('This recipe does not have the LICENSE field set (%s)' % pn)
+diff --git a/scripts/contrib/documentation-audit.sh b/scripts/contrib/documentation-audit.sh
+index 5070fee..5b66f03 100755
+--- a/scripts/contrib/documentation-audit.sh
++++ b/scripts/contrib/documentation-audit.sh
+@@ -25,7 +25,8 @@ if [ -z "$BITBAKE" ]; then
+ fi
  
-+    def skip_package(pn, flag):
-+        bb.debug(1, "Skipping %s because it has a restricted license (%s) not"
-+             " whitelisted in LICENSE_FLAGS_WHITELIST" % (pn, flag))
-+        raise bb.parse.SkipPackage("because it may require a special license"
-+            " to ship in a product (listed in LICENSE_FLAGS)")
-+
-+    def all_license_flags_match(flags, whitelist):
-+        for flag in flags.split():
-+            if not flag in whitelist.split():
-+                return False
-+        return True
-+
-+    license_flags = d.getVar('LICENSE_FLAGS', True)
-+    if license_flags:
-+        license_flags_whitelist = d.getVar('LICENSE_FLAGS_WHITELIST', True)
-+        if not license_flags_whitelist or not all_license_flags_match(
-+                license_flags, license_flags_whitelist):
-+            skip_package(pn, license_flags)
-+
-     commercial_license = " %s " % d.getVar('COMMERCIAL_LICENSE', 1)
-     import re
-     pnr = "[ \t]%s[ \t]" % pn.replace('+', "\+")
+ echo "REMINDER: you need to build for MACHINE=qemux86 or you won't get useful results"
+-echo "REMINDER: you need to have COMMERCIAL_LICENSE = \"\" in local.conf or you'll get false positives"
++echo "REMINDER: you need to set LICENSE_FLAGS_WHITELIST appropriately in local.conf or "
++echo " you'll get false positives.  For example, LICENSE_FLAGS_WHITELIST = \"Commercial\""
+ 
+ for pkg in `bitbake -s | awk '{ print \$1 }'`; do
+ 	if [[ "$pkg" == "Loading" || "$pkg" == "Loaded" ||
 -- 
 1.7.0.4
 
