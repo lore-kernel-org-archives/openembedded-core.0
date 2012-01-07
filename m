@@ -1,24 +1,24 @@
 Received: from mail-iy0-f175.google.com ([209.85.210.175])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <steve@sakoman.com>) id 1RjONT-0004sE-OX
+	(envelope-from <steve@sakoman.com>) id 1RjONV-0004sJ-Gb
 	for openembedded-core@lists.openembedded.org;
-	Sat, 07 Jan 2012 05:59:35 +0100
-Received: by mail-iy0-f175.google.com with SMTP id h37so3665967iak.6
+	Sat, 07 Jan 2012 05:59:37 +0100
+Received: by mail-iy0-f175.google.com with SMTP id h37so3666004iak.6
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 06 Jan 2012 20:52:13 -0800 (PST)
-Received: by 10.43.133.9 with SMTP id hw9mr2819499icc.34.1325911932567;
-	Fri, 06 Jan 2012 20:52:12 -0800 (PST)
+	Fri, 06 Jan 2012 20:52:14 -0800 (PST)
+Received: by 10.50.156.130 with SMTP id we2mr9911341igb.10.1325911934852;
+	Fri, 06 Jan 2012 20:52:14 -0800 (PST)
 Received: from quadra.sakoman.net
 	(static-74-41-60-154.dsl1.pco.ca.frontiernet.net. [74.41.60.154])
-	by mx.google.com with ESMTPS id gh7sm109453857igb.1.2012.01.06.20.52.09
-	(version=SSLv3 cipher=OTHER); Fri, 06 Jan 2012 20:52:10 -0800 (PST)
+	by mx.google.com with ESMTPS id gh7sm109453857igb.1.2012.01.06.20.52.12
+	(version=SSLv3 cipher=OTHER); Fri, 06 Jan 2012 20:52:13 -0800 (PST)
 From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Date: Fri,  6 Jan 2012 20:51:54 -0800
-Message-Id: <1325911915-16001-4-git-send-email-steve@sakoman.com>
+Date: Fri,  6 Jan 2012 20:51:55 -0800
+Message-Id: <1325911915-16001-5-git-send-email-steve@sakoman.com>
 X-Mailer: git-send-email 1.7.1
 Cc: Steve Sakoman <steve@sakoman.com>
-Subject: [PATCH RFC v2] dhcp: package /var/lib/dhcp with dhcp-client rather than dhcp-server
+Subject: [PATCH] update-modules: don't run modutils.sh if systemd is installed
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -33,51 +33,44 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 07 Jan 2012 04:59:35 -0000
+X-List-Received-Date: Sat, 07 Jan 2012 04:59:37 -0000
 
-Otherwise dhclient encounters errors of this type:
-
-dhclient: can't create /var/lib/dhcp/dhclient-c0c60402-0bc5-4bd7-bc3b-49a27fa37d72-eth1.lease: No such file or directory
+systemd has its own mechanism for loading kernel modules at startup
 
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- meta/recipes-connectivity/dhcp/dhcp.inc      |    4 ++--
- meta/recipes-connectivity/dhcp/dhcp_4.2.0.bb |    2 +-
- 2 files changed, 3 insertions(+), 3 deletions(-)
+ .../update-modules-1.0/update-modules              |    3 ++-
+ .../update-modules/update-modules_1.0.bb           |    3 ++-
+ 2 files changed, 4 insertions(+), 2 deletions(-)
 
-diff --git a/meta/recipes-connectivity/dhcp/dhcp.inc b/meta/recipes-connectivity/dhcp/dhcp.inc
-index f9d80e7..be256ce 100644
---- a/meta/recipes-connectivity/dhcp/dhcp.inc
-+++ b/meta/recipes-connectivity/dhcp/dhcp.inc
-@@ -59,14 +59,14 @@ PACKAGES += "dhcp-server dhcp-server-config dhcp-client dhcp-relay dhcp-omshell"
+diff --git a/meta/recipes-kernel/update-modules/update-modules-1.0/update-modules b/meta/recipes-kernel/update-modules/update-modules-1.0/update-modules
+index 636fe1c..7ee7df8 100755
+--- a/meta/recipes-kernel/update-modules/update-modules-1.0/update-modules
++++ b/meta/recipes-kernel/update-modules/update-modules-1.0/update-modules
+@@ -181,7 +181,8 @@ fi
+ mv "$MODCONFTMPFILE" "$MODCONFFILE"
+ mv "$MODULESTMPFILE" "$MODULESFILE"
  
- FILES_${PN} = ""
+-if [ $first_time -eq 1 ]; then
++# Don't run modutils.sh if systemd is installed
++if [ $first_time -eq 1 ] && [ ! -e /bin/systemctl ]; then
+   /etc/init.d/modutils.sh || true
+ fi
  
--FILES_dhcp-server = "${sbindir}/dhcpd ${sysconfdir}/init.d/dhcp-server ${localstatedir}/lib/dhcp/"
-+FILES_dhcp-server = "${sbindir}/dhcpd ${sysconfdir}/init.d/dhcp-server"
- RRECOMMENDS_dhcp-server = "dhcp-server-config"
+diff --git a/meta/recipes-kernel/update-modules/update-modules_1.0.bb b/meta/recipes-kernel/update-modules/update-modules_1.0.bb
+index dc44965..d9697de 100644
+--- a/meta/recipes-kernel/update-modules/update-modules_1.0.bb
++++ b/meta/recipes-kernel/update-modules/update-modules_1.0.bb
+@@ -4,7 +4,8 @@ LICENSE = "GPLv2"
+ LIC_FILES_CHKSUM = "file://${WORKDIR}/COPYING.GPL;md5=751419260aa954499f7abaabaa882bbe"
  
- FILES_dhcp-server-config = "${sysconfdir}/default/dhcp-server ${sysconfdir}/dhcp/dhcpd.conf"
+ RDEPENDS_${PN} = "module-init-tools-depmod"
+-PR = "r11"
++
++PR = "r12"
  
- FILES_dhcp-relay = "${sbindir}/dhcrelay ${sysconfdir}/init.d/dhcp-relay ${sysconfdir}/default/dhcp-relay"
- 
--FILES_dhcp-client = "${base_sbindir}/dhclient ${base_sbindir}/dhclient-script ${sysconfdir}/dhcp/dhclient.conf"
-+FILES_dhcp-client = "${base_sbindir}/dhclient ${base_sbindir}/dhclient-script ${sysconfdir}/dhcp/dhclient.conf ${localstatedir}/lib/dhcp/"
- RDEPENDS_dhcp-client = "bash"
- 
- FILES_dhcp-omshell = "${bindir}/omshell"
-diff --git a/meta/recipes-connectivity/dhcp/dhcp_4.2.0.bb b/meta/recipes-connectivity/dhcp/dhcp_4.2.0.bb
-index 2471d61..a3a560b 100644
---- a/meta/recipes-connectivity/dhcp/dhcp_4.2.0.bb
-+++ b/meta/recipes-connectivity/dhcp/dhcp_4.2.0.bb
-@@ -1,6 +1,6 @@
- require dhcp.inc
- 
--PR = "r4"
-+PR = "r5"
- 
- SRC_URI += "file://fixincludes.patch \
-             file://dhcp-3.0.3-dhclient-dbus.patch;striplevel=0 \
+ SRC_URI = "file://update-modules \
+            file://COPYING.GPL"
 -- 
 1.7.1
 
