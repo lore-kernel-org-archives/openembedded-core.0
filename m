@@ -1,30 +1,24 @@
 Received: from mail-iy0-f175.google.com ([209.85.210.175])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <raj.khem@gmail.com>) id 1RjOCF-0004Xo-Pe
+	(envelope-from <steve@sakoman.com>) id 1RjONO-0004sE-3e
 	for openembedded-core@lists.openembedded.org;
-	Sat, 07 Jan 2012 05:48:00 +0100
-Received: by iakh37 with SMTP id h37so3655398iak.6
+	Sat, 07 Jan 2012 05:59:30 +0100
+Received: by iakh37 with SMTP id h37so3665967iak.6
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 06 Jan 2012 20:40:34 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
-	h=from:to:cc:subject:date:message-id:x-mailer;
-	bh=g02NcaTGACAEUwmqKVdCRg3hh1DN/CUBDPAz2aKECgk=;
-	b=TPhZMnz7LbfY4uQQbRT+1ZE2+rIuQgCyAuwNy+Fg+Vv/yuczjcYub/5iw1tNNe1pPy
-	I6eKO76iI+he0/ecxleUbpVpna99iRwtlv3M0hlWkkUsmXeIKNm1Vn/dOUBZR9jsJGTt
-	Fa1IVpb/WPLrKmO7TpB3SnicO/BUgzJ7a5TS4=
-Received: by 10.42.148.198 with SMTP id s6mr7887987icv.20.1325911234654;
-	Fri, 06 Jan 2012 20:40:34 -0800 (PST)
-Received: from localhost.localdomain (oldbuilder.nslu2-linux.org.
-	[140.211.169.168])
-	by mx.google.com with ESMTPS id l35sm221491784ibj.0.2012.01.06.20.40.33
-	(version=TLSv1/SSLv3 cipher=OTHER);
-	Fri, 06 Jan 2012 20:40:33 -0800 (PST)
-From: Khem Raj <raj.khem@gmail.com>
+	Fri, 06 Jan 2012 20:52:05 -0800 (PST)
+Received: by 10.43.43.130 with SMTP id uc2mr8076444icb.35.1325911924919;
+	Fri, 06 Jan 2012 20:52:04 -0800 (PST)
+Received: from quadra.sakoman.net
+	(static-74-41-60-154.dsl1.pco.ca.frontiernet.net. [74.41.60.154])
+	by mx.google.com with ESMTPS id gh7sm109453857igb.1.2012.01.06.20.52.02
+	(version=SSLv3 cipher=OTHER); Fri, 06 Jan 2012 20:52:03 -0800 (PST)
+From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Date: Fri,  6 Jan 2012 20:40:23 -0800
-Message-Id: <1325911223-21116-1-git-send-email-raj.khem@gmail.com>
-X-Mailer: git-send-email 1.7.5.4
-Subject: [PATCH V3] eglibc: Upgrade recipes 2.14 -> 2.15
+Date: Fri,  6 Jan 2012 20:51:51 -0800
+Message-Id: <1325911915-16001-1-git-send-email-steve@sakoman.com>
+X-Mailer: git-send-email 1.7.1
+Cc: Steve Sakoman <steve@sakoman.com>
+Subject: [PATCH v2] Remove last remnants of kernel26 MACHINE_FEATURES
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -39,367 +33,59 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 07 Jan 2012 04:48:00 -0000
+X-List-Received-Date: Sat, 07 Jan 2012 04:59:30 -0000
 
-Add patch to provide __finite_sqrt functions for ppc
+There is no reason to continue to carry this feature
 
-Signed-off-by: Khem Raj <raj.khem@gmail.com>
+Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- ...tive_2.14.bb => cross-localedef-native_2.15.bb} |    0
- .../IO-acquire-lock-fix.patch                      |    0
- .../armv4-eabi-compile-fix.patch                   |    0
- .../eglibc-rpc-export-again.patch                  |    0
- .../eglibc-svn-arm-lowlevellock-include-tls.patch  |    0
- .../{eglibc-2.14 => eglibc-2.15}/etc/ld.so.conf    |    0
- .../generate-supported.mk                          |    0
- .../glibc-2.14-libdl-crash.patch                   |    0
- .../ld-search-order.patch                          |    0
- .../mips-rld-map-check.patch                       |    0
- .../multilib_readlib.patch                         |    0
- .../{eglibc-2.14 => eglibc-2.15}/ppc-sqrt.patch    |    0
- .../eglibc/eglibc-2.15/ppc-sqrt_finite.patch       |  112 ++++++++++++++++++++
- .../stack-protector-test.patch                     |    0
- .../use-sysroot-cxx-headers.patch                  |   30 +++--
- .../recipes-core/eglibc/eglibc-2.15/x86_fenv.patch |   29 +++++
- ...libc-initial_2.14.bb => eglibc-initial_2.15.bb} |    0
- ...eglibc-locale_2.14.bb => eglibc-locale_2.15.bb} |    0
- .../eglibc/{eglibc_2.14.bb => eglibc_2.15.bb}      |   16 +++-
- 19 files changed, 172 insertions(+), 15 deletions(-)
- rename meta/recipes-core/eglibc/{cross-localedef-native_2.14.bb => cross-localedef-native_2.15.bb} (100%)
- rename meta/recipes-core/eglibc/{eglibc-2.14 => eglibc-2.15}/IO-acquire-lock-fix.patch (100%)
- rename meta/recipes-core/eglibc/{eglibc-2.14 => eglibc-2.15}/armv4-eabi-compile-fix.patch (100%)
- rename meta/recipes-core/eglibc/{eglibc-2.14 => eglibc-2.15}/eglibc-rpc-export-again.patch (100%)
- rename meta/recipes-core/eglibc/{eglibc-2.14 => eglibc-2.15}/eglibc-svn-arm-lowlevellock-include-tls.patch (100%)
- rename meta/recipes-core/eglibc/{eglibc-2.14 => eglibc-2.15}/etc/ld.so.conf (100%)
- rename meta/recipes-core/eglibc/{eglibc-2.14 => eglibc-2.15}/generate-supported.mk (100%)
- rename meta/recipes-core/eglibc/{eglibc-2.14 => eglibc-2.15}/glibc-2.14-libdl-crash.patch (100%)
- rename meta/recipes-core/eglibc/{eglibc-2.14 => eglibc-2.15}/ld-search-order.patch (100%)
- rename meta/recipes-core/eglibc/{eglibc-2.14 => eglibc-2.15}/mips-rld-map-check.patch (100%)
- rename meta/recipes-core/eglibc/{eglibc-2.14 => eglibc-2.15}/multilib_readlib.patch (100%)
- rename meta/recipes-core/eglibc/{eglibc-2.14 => eglibc-2.15}/ppc-sqrt.patch (100%)
- create mode 100644 meta/recipes-core/eglibc/eglibc-2.15/ppc-sqrt_finite.patch
- rename meta/recipes-core/eglibc/{eglibc-2.14 => eglibc-2.15}/stack-protector-test.patch (100%)
- rename meta/recipes-core/eglibc/{eglibc-2.14 => eglibc-2.15}/use-sysroot-cxx-headers.patch (51%)
- create mode 100644 meta/recipes-core/eglibc/eglibc-2.15/x86_fenv.patch
- rename meta/recipes-core/eglibc/{eglibc-initial_2.14.bb => eglibc-initial_2.15.bb} (100%)
- rename meta/recipes-core/eglibc/{eglibc-locale_2.14.bb => eglibc-locale_2.15.bb} (100%)
- rename meta/recipes-core/eglibc/{eglibc_2.14.bb => eglibc_2.15.bb} (95%)
+ meta/conf/bitbake.conf                             |    1 -
+ meta/conf/machine/include/qemu.inc                 |    2 +-
+ .../update-modules/update-modules_1.0.bb           |    4 ++--
+ 3 files changed, 3 insertions(+), 4 deletions(-)
 
-diff --git a/meta/recipes-core/eglibc/cross-localedef-native_2.14.bb b/meta/recipes-core/eglibc/cross-localedef-native_2.15.bb
-similarity index 100%
-rename from meta/recipes-core/eglibc/cross-localedef-native_2.14.bb
-rename to meta/recipes-core/eglibc/cross-localedef-native_2.15.bb
-diff --git a/meta/recipes-core/eglibc/eglibc-2.14/IO-acquire-lock-fix.patch b/meta/recipes-core/eglibc/eglibc-2.15/IO-acquire-lock-fix.patch
-similarity index 100%
-rename from meta/recipes-core/eglibc/eglibc-2.14/IO-acquire-lock-fix.patch
-rename to meta/recipes-core/eglibc/eglibc-2.15/IO-acquire-lock-fix.patch
-diff --git a/meta/recipes-core/eglibc/eglibc-2.14/armv4-eabi-compile-fix.patch b/meta/recipes-core/eglibc/eglibc-2.15/armv4-eabi-compile-fix.patch
-similarity index 100%
-rename from meta/recipes-core/eglibc/eglibc-2.14/armv4-eabi-compile-fix.patch
-rename to meta/recipes-core/eglibc/eglibc-2.15/armv4-eabi-compile-fix.patch
-diff --git a/meta/recipes-core/eglibc/eglibc-2.14/eglibc-rpc-export-again.patch b/meta/recipes-core/eglibc/eglibc-2.15/eglibc-rpc-export-again.patch
-similarity index 100%
-rename from meta/recipes-core/eglibc/eglibc-2.14/eglibc-rpc-export-again.patch
-rename to meta/recipes-core/eglibc/eglibc-2.15/eglibc-rpc-export-again.patch
-diff --git a/meta/recipes-core/eglibc/eglibc-2.14/eglibc-svn-arm-lowlevellock-include-tls.patch b/meta/recipes-core/eglibc/eglibc-2.15/eglibc-svn-arm-lowlevellock-include-tls.patch
-similarity index 100%
-rename from meta/recipes-core/eglibc/eglibc-2.14/eglibc-svn-arm-lowlevellock-include-tls.patch
-rename to meta/recipes-core/eglibc/eglibc-2.15/eglibc-svn-arm-lowlevellock-include-tls.patch
-diff --git a/meta/recipes-core/eglibc/eglibc-2.14/etc/ld.so.conf b/meta/recipes-core/eglibc/eglibc-2.15/etc/ld.so.conf
-similarity index 100%
-rename from meta/recipes-core/eglibc/eglibc-2.14/etc/ld.so.conf
-rename to meta/recipes-core/eglibc/eglibc-2.15/etc/ld.so.conf
-diff --git a/meta/recipes-core/eglibc/eglibc-2.14/generate-supported.mk b/meta/recipes-core/eglibc/eglibc-2.15/generate-supported.mk
-similarity index 100%
-rename from meta/recipes-core/eglibc/eglibc-2.14/generate-supported.mk
-rename to meta/recipes-core/eglibc/eglibc-2.15/generate-supported.mk
-diff --git a/meta/recipes-core/eglibc/eglibc-2.14/glibc-2.14-libdl-crash.patch b/meta/recipes-core/eglibc/eglibc-2.15/glibc-2.14-libdl-crash.patch
-similarity index 100%
-rename from meta/recipes-core/eglibc/eglibc-2.14/glibc-2.14-libdl-crash.patch
-rename to meta/recipes-core/eglibc/eglibc-2.15/glibc-2.14-libdl-crash.patch
-diff --git a/meta/recipes-core/eglibc/eglibc-2.14/ld-search-order.patch b/meta/recipes-core/eglibc/eglibc-2.15/ld-search-order.patch
-similarity index 100%
-rename from meta/recipes-core/eglibc/eglibc-2.14/ld-search-order.patch
-rename to meta/recipes-core/eglibc/eglibc-2.15/ld-search-order.patch
-diff --git a/meta/recipes-core/eglibc/eglibc-2.14/mips-rld-map-check.patch b/meta/recipes-core/eglibc/eglibc-2.15/mips-rld-map-check.patch
-similarity index 100%
-rename from meta/recipes-core/eglibc/eglibc-2.14/mips-rld-map-check.patch
-rename to meta/recipes-core/eglibc/eglibc-2.15/mips-rld-map-check.patch
-diff --git a/meta/recipes-core/eglibc/eglibc-2.14/multilib_readlib.patch b/meta/recipes-core/eglibc/eglibc-2.15/multilib_readlib.patch
-similarity index 100%
-rename from meta/recipes-core/eglibc/eglibc-2.14/multilib_readlib.patch
-rename to meta/recipes-core/eglibc/eglibc-2.15/multilib_readlib.patch
-diff --git a/meta/recipes-core/eglibc/eglibc-2.14/ppc-sqrt.patch b/meta/recipes-core/eglibc/eglibc-2.15/ppc-sqrt.patch
-similarity index 100%
-rename from meta/recipes-core/eglibc/eglibc-2.14/ppc-sqrt.patch
-rename to meta/recipes-core/eglibc/eglibc-2.15/ppc-sqrt.patch
-diff --git a/meta/recipes-core/eglibc/eglibc-2.15/ppc-sqrt_finite.patch b/meta/recipes-core/eglibc/eglibc-2.15/ppc-sqrt_finite.patch
-new file mode 100644
-index 0000000..5289051
---- /dev/null
-+++ b/meta/recipes-core/eglibc/eglibc-2.15/ppc-sqrt_finite.patch
-@@ -0,0 +1,112 @@
-+on ppc fixes the errors like below
-+| ./.libs/libpulsecore-1.1.so: undefined reference to `__sqrt_finite'
-+| collect2: ld returned 1 exit status
-+
-+Upstream-Status: Pending
-+
-+ChangeLog
-+
-+2012-01-06  Khem Raj  <raj.khem@gmail.com>
-+
-+	* sysdeps/powerpc/powerpc64/e5500/fpu/e_sqrtf.c: Add __*_finite alias.
-+	Remove cruft.
-+	* sysdeps/powerpc/powerpc64/e5500/fpu/e_sqrt.c: Ditto.
-+	* sysdeps/powerpc/powerpc32/603e/fpu/e_sqrt.c: Ditto.
-+	* sysdeps/powerpc/powerpc32/603e/fpu/e_sqrtf.c: Ditto.
-+ 
-+Index: libc/sysdeps/powerpc/powerpc32/603e/fpu/e_sqrt.c
-+===================================================================
-+--- libc.orig/sysdeps/powerpc/powerpc32/603e/fpu/e_sqrt.c	2012-01-06 18:07:42.296909187 -0800
-++++ libc/sysdeps/powerpc/powerpc32/603e/fpu/e_sqrt.c	2012-01-06 18:09:22.572914856 -0800
-+@@ -39,14 +39,8 @@
-+    We find the actual square root and half of its reciprocal
-+    simultaneously.  */
-+ 
-+-#ifdef __STDC__
-+ double
-+ __ieee754_sqrt (double b)
-+-#else
-+-double
-+-__ieee754_sqrt (b)
-+-     double b;
-+-#endif
-+ {
-+   if (__builtin_expect (b > 0, 1))
-+     {
-+@@ -132,3 +126,4 @@
-+     }
-+   return f_wash (b);
-+ }
-++strong_alias (__ieee754_sqrt, __sqrt_finite)
-+Index: libc/sysdeps/powerpc/powerpc32/603e/fpu/e_sqrtf.c
-+===================================================================
-+--- libc.orig/sysdeps/powerpc/powerpc32/603e/fpu/e_sqrtf.c	2012-01-06 18:10:37.068917644 -0800
-++++ libc/sysdeps/powerpc/powerpc32/603e/fpu/e_sqrtf.c	2012-01-06 18:11:33.408920635 -0800
-+@@ -37,14 +37,8 @@
-+    We find the reciprocal square root and use that to compute the actual
-+    square root.  */
-+ 
-+-#ifdef __STDC__
-+ float
-+ __ieee754_sqrtf (float b)
-+-#else
-+-float
-+-__ieee754_sqrtf (b)
-+-     float b;
-+-#endif
-+ {
-+   if (__builtin_expect (b > 0, 1))
-+     {
-+@@ -99,3 +93,4 @@
-+     }
-+   return f_washf (b);
-+ }
-++strong_alias (__ieee754_sqrtf, __sqrtf_finite)
-+Index: libc/sysdeps/powerpc/powerpc64/e5500/fpu/e_sqrt.c
-+===================================================================
-+--- libc.orig/sysdeps/powerpc/powerpc64/e5500/fpu/e_sqrt.c	2012-01-06 18:11:51.460925644 -0800
-++++ libc/sysdeps/powerpc/powerpc64/e5500/fpu/e_sqrt.c	2012-01-06 18:12:39.344924405 -0800
-+@@ -39,14 +39,8 @@
-+    We find the actual square root and half of its reciprocal
-+    simultaneously.  */
-+ 
-+-#ifdef __STDC__
-+ double
-+ __ieee754_sqrt (double b)
-+-#else
-+-double
-+-__ieee754_sqrt (b)
-+-     double b;
-+-#endif
-+ {
-+   if (__builtin_expect (b > 0, 1))
-+     {
-+@@ -132,3 +126,4 @@
-+     }
-+   return f_wash (b);
-+ }
-++strong_alias (__ieee754_sqrt, __sqrt_finite)
-+Index: libc/sysdeps/powerpc/powerpc64/e5500/fpu/e_sqrtf.c
-+===================================================================
-+--- libc.orig/sysdeps/powerpc/powerpc64/e5500/fpu/e_sqrtf.c	2012-01-06 18:13:00.892924586 -0800
-++++ libc/sysdeps/powerpc/powerpc64/e5500/fpu/e_sqrtf.c	2012-01-06 18:15:27.992931106 -0800
-+@@ -37,14 +37,8 @@
-+    We find the reciprocal square root and use that to compute the actual
-+    square root.  */
-+ 
-+-#ifdef __STDC__
-+ float
-+ __ieee754_sqrtf (float b)
-+-#else
-+-float
-+-__ieee754_sqrtf (b)
-+-     float b;
-+-#endif
-+ {
-+   if (__builtin_expect (b > 0, 1))
-+     {
-+@@ -99,3 +93,4 @@
-+     }
-+   return f_washf (b);
-+ }
-++strong_alias (__ieee754_sqrtf, __sqrtf_finite)
-diff --git a/meta/recipes-core/eglibc/eglibc-2.14/stack-protector-test.patch b/meta/recipes-core/eglibc/eglibc-2.15/stack-protector-test.patch
-similarity index 100%
-rename from meta/recipes-core/eglibc/eglibc-2.14/stack-protector-test.patch
-rename to meta/recipes-core/eglibc/eglibc-2.15/stack-protector-test.patch
-diff --git a/meta/recipes-core/eglibc/eglibc-2.14/use-sysroot-cxx-headers.patch b/meta/recipes-core/eglibc/eglibc-2.15/use-sysroot-cxx-headers.patch
-similarity index 51%
-rename from meta/recipes-core/eglibc/eglibc-2.14/use-sysroot-cxx-headers.patch
-rename to meta/recipes-core/eglibc/eglibc-2.15/use-sysroot-cxx-headers.patch
-index c06eebf..7f82253 100644
---- a/meta/recipes-core/eglibc/eglibc-2.14/use-sysroot-cxx-headers.patch
-+++ b/meta/recipes-core/eglibc/eglibc-2.15/use-sysroot-cxx-headers.patch
-@@ -10,27 +10,33 @@ Upstream-Status: Inappropriate [OE-specific]
+diff --git a/meta/conf/bitbake.conf b/meta/conf/bitbake.conf
+index b858364..336b1d7 100644
+--- a/meta/conf/bitbake.conf
++++ b/meta/conf/bitbake.conf
+@@ -685,7 +685,6 @@ OES_BITBAKE_CONF = "1"
+ # Machine properties and task-base stuff
+ ##################################################################
  
- --- a/configure.in
- +++ b/configure.in
--@@ -1118,9 +1118,8 @@ if test -n "$sysheaders"; then
--   SYSINCLUDES="$SYSINCLUDES \
-+@@ -1094,11 +1094,10 @@ if test -n "$sysheaders"; then
-  -isystem `echo $sysheaders | sed 's/:/ -isystem /g'`"
-    if test -n "$CXX"; then
-+     CXX_SYSINCLUDES=
- -    cxxversion=`$CXX -dumpversion 2>&AS_MESSAGE_LOG_FD` &&
-      cxxmachine=`$CXX -dumpmachine 2>&AS_MESSAGE_LOG_FD` &&
---    cxxheaders=`$CXX -print-file-name=../../../../include/c++/`"$cxxversion" &&
--+    cxxheaders=`$CXX -print-sysroot`"$prefix/include/c++" &&
--     CXX_SYSINCLUDES="-isystem $cxxheaders \
-+     for d in include "$cxxmachine/include"; do
-+-      i=../../../../$d/c++/$cxxversion
-+-      cxxheaders=`$CXX -print-file-name="$i"` &&
-++      i="$prefix/$d/c++"
-++      cxxheaders=`$CXX -print-sysroot`"$i" &&
-+       test "x$cxxheaders" != x && test "x$i" != "x$cxxheaders" &&
-+       CXX_SYSINCLUDES="$CXX_SYSINCLUDES -isystem $cxxheaders \
-  -isystem $cxxheaders/$cxxmachine -isystem $cxxheaders/backward"
--   fi
- --- a/configure
- +++ b/configure
--@@ -5544,9 +5544,8 @@ if test -n "$sysheaders"; then
--   SYSINCLUDES="$SYSINCLUDES \
-+@@ -5618,11 +5618,10 @@ if test -n "$sysheaders"; then
-  -isystem `echo $sysheaders | sed 's/:/ -isystem /g'`"
-    if test -n "$CXX"; then
-+     CXX_SYSINCLUDES=
- -    cxxversion=`$CXX -dumpversion 2>&5` &&
-      cxxmachine=`$CXX -dumpmachine 2>&5` &&
---    cxxheaders=`$CXX -print-file-name=../../../../include/c++/`"$cxxversion" &&
--+    cxxheaders=`$CXX -print-sysroot`"$prefix/include/c++" &&
--     CXX_SYSINCLUDES="-isystem $cxxheaders \
-+     for d in include "$cxxmachine/include"; do
-+-      i=../../../../$d/c++/$cxxversion
-+-      cxxheaders=`$CXX -print-file-name="$i"` &&
-++      i="$prefix/$d/c++"
-++      cxxheaders=`$CXX -print-sysroot`"$i" &&
-+       test "x$cxxheaders" != x && test "x$i" != "x$cxxheaders" &&
-+       CXX_SYSINCLUDES="$CXX_SYSINCLUDES -isystem $cxxheaders \
-  -isystem $cxxheaders/$cxxmachine -isystem $cxxheaders/backward"
--   fi
-diff --git a/meta/recipes-core/eglibc/eglibc-2.15/x86_fenv.patch b/meta/recipes-core/eglibc/eglibc-2.15/x86_fenv.patch
-new file mode 100644
-index 0000000..40c1c4d
---- /dev/null
-+++ b/meta/recipes-core/eglibc/eglibc-2.15/x86_fenv.patch
-@@ -0,0 +1,29 @@
-+--- a/sysdeps/x86_64/fpu/bits/fenv.h
-++++ b/sysdeps/x86_64/fpu/bits/fenv.h
-+@@ -112,16 +112,24 @@ __NTH (feraiseexcept (int __excepts))
-+ 	{
-+ 	  /* One example of a invalid operation is 0.0 / 0.0.  */
-+ 	  float __f = 0.0;
-+-
-++# if defined __SSE_MATH__ || __WORDSIZE == 64
-+ 	  __asm__ __volatile__ ("divss %0, %0 " : : "x" (__f));
-++# else
-++	 __asm__ __volatile__ ("fdiv %%st, %%st(0); fwait"
-++			       : "=t" (__f) : "0" (__f));
-++# endif
-+ 	  (void) &__f;
-+ 	}
-+       if ((FE_DIVBYZERO & __excepts) != 0)
-+ 	{
-+ 	  float __f = 1.0;
-+ 	  float __g = 0.0;
-+-
-++# if defined __SSE_MATH__ || __WORDSIZE == 64
-+ 	  __asm__ __volatile__ ("divss %1, %0" : : "x" (__f), "x" (__g));
-++# else
-++	  __asm__ __volatile__ ("fdivp %%st(1), %%st; fwait"
-++				: "=t" (__f) : "0" (__f), "u" (__g) : "st(1)");
-++# endif
-+ 	  (void) &__f;
-+ 	}
-+ 
-diff --git a/meta/recipes-core/eglibc/eglibc-initial_2.14.bb b/meta/recipes-core/eglibc/eglibc-initial_2.15.bb
-similarity index 100%
-rename from meta/recipes-core/eglibc/eglibc-initial_2.14.bb
-rename to meta/recipes-core/eglibc/eglibc-initial_2.15.bb
-diff --git a/meta/recipes-core/eglibc/eglibc-locale_2.14.bb b/meta/recipes-core/eglibc/eglibc-locale_2.15.bb
-similarity index 100%
-rename from meta/recipes-core/eglibc/eglibc-locale_2.14.bb
-rename to meta/recipes-core/eglibc/eglibc-locale_2.15.bb
-diff --git a/meta/recipes-core/eglibc/eglibc_2.14.bb b/meta/recipes-core/eglibc/eglibc_2.15.bb
-similarity index 95%
-rename from meta/recipes-core/eglibc/eglibc_2.14.bb
-rename to meta/recipes-core/eglibc/eglibc_2.15.bb
-index ad2161e..6d66342 100644
---- a/meta/recipes-core/eglibc/eglibc_2.14.bb
-+++ b/meta/recipes-core/eglibc/eglibc_2.15.bb
-@@ -1,12 +1,11 @@
- require eglibc.inc
+-MACHINE_FEATURES ?= "kernel26"
+ DISTRO_FEATURES ?= ""
  
--SRCREV = "15870"
-+SRCREV = "16540"
+ # This is used to limit what packages goes into images built, so set big by default
+diff --git a/meta/conf/machine/include/qemu.inc b/meta/conf/machine/include/qemu.inc
+index 3cebfab..10ab76e 100644
+--- a/meta/conf/machine/include/qemu.inc
++++ b/meta/conf/machine/include/qemu.inc
+@@ -1,7 +1,7 @@
+ PCMCIA_MANAGER = "pcmciautils"
+ PREFERRED_PROVIDER_virtual/xserver ?= "xserver-kdrive"
  
- DEPENDS += "gperf-native"
--PR = "r3"
- PR_append = "+svnr${SRCPV}"
+-MACHINE_FEATURES = "kernel26 apm alsa pcmcia bluetooth irda usbgadget screen"
++MACHINE_FEATURES = "apm alsa pcmcia bluetooth irda usbgadget screen"
  
--EGLIBC_BRANCH="eglibc-2_14"
-+EGLIBC_BRANCH="eglibc-2_15"
- SRC_URI = "svn://www.eglibc.org/svn/branches/;module=${EGLIBC_BRANCH};proto=http \
-            file://eglibc-svn-arm-lowlevellock-include-tls.patch \
-            file://IO-acquire-lock-fix.patch \
-@@ -20,6 +19,8 @@ SRC_URI = "svn://www.eglibc.org/svn/branches/;module=${EGLIBC_BRANCH};proto=http
-            file://eglibc-rpc-export-again.patch \
-            file://glibc-2.14-libdl-crash.patch \
-            file://use-sysroot-cxx-headers.patch \
-+           file://x86_fenv.patch \
-+           file://ppc-sqrt_finite.patch \
-           "
- LIC_FILES_CHKSUM = "file://LICENSES;md5=98a1128c4b58120182cbea3b1752d8b9 \
-       file://COPYING;md5=393a5ca445f6965873eca0259a17f833 \
-@@ -88,6 +89,15 @@ do_patch_append() {
- 	bb.build.exec_func('do_fix_readlib_c', d)
- }
+ IMAGE_FSTYPES ?= "tar.bz2 ext3"
  
-+# for mips eglibc now builds syscall tables for all abi's
-+# so we make sure that we choose right march option which is
-+# compatible with o32,n32 and n64 abi's
-+# e.g. -march=mips32 is not compatible with n32 and n64 therefore
-+# we filter it out in such case -march=from-abi which will be
-+# mips1 when using o32 and mips3 when using n32/n64
-+
-+TUNE_CCARGS_mips := "${@oe_filter_out('-march=mips32', '${TUNE_CCARGS}', d)}"
-+
- # We need to ensure that all of the i386 and x86_64 headers are identical
- # to support the multilib case.  We do this by copying headers from x86_64
- # to i386 directories.  Normally when hand building eglibc or a combined
+diff --git a/meta/recipes-kernel/update-modules/update-modules_1.0.bb b/meta/recipes-kernel/update-modules/update-modules_1.0.bb
+index 1ea97a8..dc44965 100644
+--- a/meta/recipes-kernel/update-modules/update-modules_1.0.bb
++++ b/meta/recipes-kernel/update-modules/update-modules_1.0.bb
+@@ -3,8 +3,8 @@ SECTION = "base"
+ LICENSE = "GPLv2"
+ LIC_FILES_CHKSUM = "file://${WORKDIR}/COPYING.GPL;md5=751419260aa954499f7abaabaa882bbe"
+ 
+-RDEPENDS_${PN} = "${@base_contains("MACHINE_FEATURES", "kernel26",  "module-init-tools-depmod","modutils-depmod",d)} "
+-PR = "r10"
++RDEPENDS_${PN} = "module-init-tools-depmod"
++PR = "r11"
+ 
+ SRC_URI = "file://update-modules \
+            file://COPYING.GPL"
 -- 
-1.7.5.4
+1.7.1
 
 
 
