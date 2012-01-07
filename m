@@ -1,18 +1,21 @@
-Received: from smtp207.alice.it ([82.57.200.103])
+Received: from mga09.intel.com ([134.134.136.24])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <andrea.adami@gmail.com>) id 1RjKEP-0004Cs-8t
+	(envelope-from <tom.zanussi@intel.com>) id 1RjM85-00085l-QZ
 	for openembedded-core@lists.openembedded.org;
-	Sat, 07 Jan 2012 01:33:57 +0100
-Received: from mizar.localdomain (79.16.253.172) by smtp207.alice.it
-	(8.6.023.02) id 4F05A6650018DE7F; Sat, 7 Jan 2012 01:21:02 +0100
-From: Andrea Adami <andrea.adami@gmail.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Sat,  7 Jan 2012 01:20:59 +0100
-Message-Id: <1325895659-23153-1-git-send-email-andrea.adami@gmail.com>
-X-Mailer: git-send-email 1.7.3.4
-In-Reply-To: <1325895236-22987-1-git-send-email-andrea.adami@gmail.com>
-References: <1325895236-22987-1-git-send-email-andrea.adami@gmail.com>
-Subject: [PATCH v2] kexec-tools: split packaging of kexec and kdump
+	Sat, 07 Jan 2012 03:35:34 +0100
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+	by orsmga102.jf.intel.com with ESMTP; 06 Jan 2012 18:28:08 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.67,352,1309762800"; d="scan'208";a="93853657"
+Received: from unknown (HELO localhost) ([10.255.13.210])
+	by orsmga001.jf.intel.com with ESMTP; 06 Jan 2012 18:28:07 -0800
+From: tom.zanussi@intel.com
+To: openembedded-core@lists.openembedded.org, philb@gnu.org,
+	paul.eggleton@linux.intel.com
+Date: Fri,  6 Jan 2012 20:27:36 -0600
+Message-Id: <cover.1325902364.git.tom.zanussi@intel.com>
+X-Mailer: git-send-email 1.7.0.4
+Subject: [PATCH 0/5] LICENSE_FLAGS, a replacement for COMMERCIAL_LICENSE
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -27,43 +30,113 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 07 Jan 2012 00:33:57 -0000
+X-List-Received-Date: Sat, 07 Jan 2012 02:35:34 -0000
 
-* from meta-oe (originally from org.openembedded.dev)
-* There are no reasons to install kdump when only kexec is needed.
-*
-* In oe-core/meta there are no references to kexec-tools so
-* the recipes inn external layers rdepending on kexec-tools should be
-* fixed and rdepend on kexec and/or kdump.
-*
-* Bump PR.
+From: Tom Zanussi <tom.zanussi@intel.com>
 
-Signed-off-by: Andrea Adami <andrea.adami@gmail.com>
----
- meta/recipes-kernel/kexec/kexec-tools_2.0.2.bb |    7 ++++++-
- 1 files changed, 6 insertions(+), 1 deletions(-)
+This patchset is a replacement for COMMERCIAL_LICENSE called LICENSE_FLAGS.
 
-diff --git a/meta/recipes-kernel/kexec/kexec-tools_2.0.2.bb b/meta/recipes-kernel/kexec/kexec-tools_2.0.2.bb
-index caed816..8d2e606 100644
---- a/meta/recipes-kernel/kexec/kexec-tools_2.0.2.bb
-+++ b/meta/recipes-kernel/kexec/kexec-tools_2.0.2.bb
-@@ -2,8 +2,13 @@ require kexec-tools.inc
- export LDFLAGS = "-L${STAGING_LIBDIR}"
- EXTRA_OECONF = " --with-zlib=yes"
- 
--PR = "r1"
-+PR = "r2"
- 
- SRC_URI += " file://fix_for_compiling_with_gcc-4.6.0.patch"
- SRC_URI[md5sum] = "bc401cf3262b25ff7c9a51fc76c8ab91"
- SRC_URI[sha256sum] = "549ab65c18a2229b6bf21b6875ca6bbe0e579bca08c3543ce6aaf8287a0b4188"
-+
-+PACKAGES =+ "kexec kdump"
-+
-+FILES_kexec = "${sbindir}/kexec"
-+FILES_kdump = "${sbindir}/kdump"
--- 
-1.7.3.4
+Please see the commit message for '[PATCH 1/5] base.bbclass: add support
+ for LICENSE_FLAGS' for an explanation of the LICENSE_FLAGS mechanism.
+
+v2 changes, reflecting comments from Phil Blundell and Paul Eggleton:
+
+- This version converts all the existing packages listed in COMMERCIAL_LICENSE
+to the equivalent "commercial_${PN}" LICENSE_FLAGS.  This allows each package
+to be added to or removed from the whitelist instead of the previously
+too-broad 'Commercial' flags for those packages.
+
+- Changes all values to lowercase.
+
+- The new commit message should explain the mechanism and how it can be
+used a little better.
+
+
+For some background on these changes, the original proposal for the
+functionality covered by this replacement was drafted by Saul Wold -
+the relevant details of that proposal are copied below:
+
+***
+
+There has been some issues raised with the initial implementation of
+COMMERCIAL_LICENSE and we are looking for ways to address this.
+Currently COMMERCIAL_LICENSE (C_L) is defined in default-distrovars.conf
+to contain a list of packages that have additional license requirements
+when used commercially (such as royalty requirements, or acknowledging
+some type of commercial T&Cs). These packages are skipped during parsing.
+
+It currently contains a number of Audio and Video packages that require
+additional licensing terms when used commercially. As we add additional
+layers, some of these layers want to add additional package to the C_L
+list, but how to easily enable them.
+
+Since local.conf, where you would normally override things like this, is
+read in before base.bbclass, which contains tools like oe_filter_out()
+to modify lists, we can't use that mechanism.
+
+That's the background, now for the proposal.
+
+Do away with C_L and C_*_PLUGINS, move to a "Named Bit Flag" list in
+LICENSE_FLAGS, each recipe can then maintain their flags directly,
+instead of in a shared location like default-distrovars.conf.
+
+LICENSE_FLAGS_WHITELIST would be set in local.conf with the values
+that are acceptable to include in this image, by default it would be
+blank.
+
+Possible values for LICENSE_FLAGS could be:
+- Binary - provides some kind of binary with no source
+- Patent - provides a potential infringing item, that some may not want
+- Commercial - include recipes that may have commercial T&C
+- Commercial_${PN} - commercial licenses specific to ${PN}
+- License_${PN} - include a recipe that has a specific license
+                 - maybe similar or different than Commercial_${PN}
+
+***
+
+[T&C = Terms and Conditions]
+
+[NOTE: the above are only 'possible values' that particular license
+flags could take.  The above are not proposals for specific flags
+that will be implemented - it's completely up to the package maintainers
+to define appropriate flags for their packages.]
+
+Note that there's no policy attached to any of the above license types
+- this is simply string-matching that can be used for the purpose of
+screening packages - if the strings match, the recipe gets in, if not,
+it doesn't i.e. during parsing, we would inspect the recipe's data for
+LICENSE_FLAGS and if it has a value then try to match against the
+WHITELIST - if it matches it gets added to the parsed list, if there
+is no match then it gets Skip_Package()'ed.
+
+The following changes since commit 468998cddbe1a803096c9b357e1b5daa3b7e8c2e:
+  Dongxiao Xu (1):
+        command.py: add parseConfigurationFiles API
+
+are available in the git repository at:
+
+  git://git.yoctoproject.org/poky-contrib.git tzanussi/license-flags.v2
+  http://git.yoctoproject.org/cgit/cgit.cgi/poky-contrib/commit/?h=tzanussi/license-flags.v2
+
+Tom Zanussi (5):
+  base.bbclass: add support for LICENSE_FLAGS
+  Add LICENSE_FLAGS to packages mentioned in COMMERCIAL_LICENSE
+  base.bbclass: remove COMMERCIAL_LICENSE code
+  default-distrovars.inc: remove COMMERCIAL_LICENSE et al
+  documentation-audit.sh: remove COMMERCIAL_LICENSE warning
+
+ meta/classes/base.bbclass                          |   24 +++++++++++++++-----
+ meta/conf/distro/include/default-distrovars.inc    |    5 ----
+ .../gstreamer/gst-fluendo-mp3_0.10.16.bb           |    1 +
+ .../gstreamer/gst-openmax_0.10.1.bb                |    1 +
+ .../gstreamer/gst-plugins-ugly_0.10.18.bb          |    1 +
+ meta/recipes-multimedia/lame/lame_3.99.3.bb        |    2 +
+ meta/recipes-multimedia/libmad/libmad_0.15.1b.bb   |    1 +
+ meta/recipes-multimedia/libomxil/libomxil_0.9.3.bb |    1 +
+ meta/recipes-multimedia/mpeg2dec/mpeg2dec_0.4.1.bb |    1 +
+ meta/recipes-qt/qt-apps/qmmp_0.5.2.bb              |    1 +
+ scripts/contrib/documentation-audit.sh             |    3 +-
+ 11 files changed, 29 insertions(+), 12 deletions(-)
 
 
 
