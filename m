@@ -1,24 +1,24 @@
 Received: from mail-iy0-f175.google.com ([209.85.210.175])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <steve@sakoman.com>) id 1RjONQ-0004sJ-9h
+	(envelope-from <steve@sakoman.com>) id 1RjONT-0004sE-OX
 	for openembedded-core@lists.openembedded.org;
-	Sat, 07 Jan 2012 05:59:32 +0100
-Received: by iakh37 with SMTP id h37so3666004iak.6
+	Sat, 07 Jan 2012 05:59:35 +0100
+Received: by mail-iy0-f175.google.com with SMTP id h37so3665967iak.6
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 06 Jan 2012 20:52:07 -0800 (PST)
-Received: by 10.50.182.199 with SMTP id eg7mr558717igc.22.1325911927204;
-	Fri, 06 Jan 2012 20:52:07 -0800 (PST)
+	Fri, 06 Jan 2012 20:52:13 -0800 (PST)
+Received: by 10.43.133.9 with SMTP id hw9mr2819499icc.34.1325911932567;
+	Fri, 06 Jan 2012 20:52:12 -0800 (PST)
 Received: from quadra.sakoman.net
 	(static-74-41-60-154.dsl1.pco.ca.frontiernet.net. [74.41.60.154])
-	by mx.google.com with ESMTPS id gh7sm109453857igb.1.2012.01.06.20.52.05
-	(version=SSLv3 cipher=OTHER); Fri, 06 Jan 2012 20:52:06 -0800 (PST)
+	by mx.google.com with ESMTPS id gh7sm109453857igb.1.2012.01.06.20.52.09
+	(version=SSLv3 cipher=OTHER); Fri, 06 Jan 2012 20:52:10 -0800 (PST)
 From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Date: Fri,  6 Jan 2012 20:51:52 -0800
-Message-Id: <1325911915-16001-2-git-send-email-steve@sakoman.com>
+Date: Fri,  6 Jan 2012 20:51:54 -0800
+Message-Id: <1325911915-16001-4-git-send-email-steve@sakoman.com>
 X-Mailer: git-send-email 1.7.1
 Cc: Steve Sakoman <steve@sakoman.com>
-Subject: [PATCH v2] dbus: change permissions of dbus-daemon-launch-helper to 4755
+Subject: [PATCH RFC v2] dhcp: package /var/lib/dhcp with dhcp-client rather than dhcp-server
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -33,42 +33,51 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 07 Jan 2012 04:59:32 -0000
+X-List-Received-Date: Sat, 07 Jan 2012 04:59:35 -0000
 
-With current permissions of 4754 on systemd systems various services will fail to
-activate with "helpful" error messages of the type:
+Otherwise dhclient encounters errors of this type:
 
-2000-01-01T00:00:25+00:00 omap3-multi dbus[178]: [system] Activated service
-'org.freedesktop.nm_dispatcher' failed: Failed to execute program
-/usr/libexec/dbus-daemon-launch-helper: Success
+dhclient: can't create /var/lib/dhcp/dhclient-c0c60402-0bc5-4bd7-bc3b-49a27fa37d72-eth1.lease: No such file or directory
 
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- meta/recipes-core/dbus/dbus.inc |    4 +++-
- 1 files changed, 3 insertions(+), 1 deletions(-)
+ meta/recipes-connectivity/dhcp/dhcp.inc      |    4 ++--
+ meta/recipes-connectivity/dhcp/dhcp_4.2.0.bb |    2 +-
+ 2 files changed, 3 insertions(+), 3 deletions(-)
 
-diff --git a/meta/recipes-core/dbus/dbus.inc b/meta/recipes-core/dbus/dbus.inc
-index 99b2fc7..2a25256 100644
---- a/meta/recipes-core/dbus/dbus.inc
-+++ b/meta/recipes-core/dbus/dbus.inc
-@@ -10,6 +10,8 @@ DEPENDS = "expat virtual/libintl ${@base_contains('DISTRO_FEATURES', 'x11', '${X
- DEPENDS_virtclass-native = "expat-native virtual/libintl-native"
- DEPENDS_virtclass-nativesdk = "expat-nativesdk virtual/libintl-nativesdk virtual/libx11"
+diff --git a/meta/recipes-connectivity/dhcp/dhcp.inc b/meta/recipes-connectivity/dhcp/dhcp.inc
+index f9d80e7..be256ce 100644
+--- a/meta/recipes-connectivity/dhcp/dhcp.inc
++++ b/meta/recipes-connectivity/dhcp/dhcp.inc
+@@ -59,14 +59,14 @@ PACKAGES += "dhcp-server dhcp-server-config dhcp-client dhcp-relay dhcp-omshell"
  
-+INC_PR = "r1"
-+
- SRC_URI = "http://dbus.freedesktop.org/releases/dbus/dbus-${PV}.tar.gz \
-            file://tmpdir.patch; \
-            file://dbus-1.init"
-@@ -84,7 +86,7 @@ do_install() {
- 	chown messagebus:messagebus ${D}${localstatedir}/run/dbus ${D}${localstatedir}/lib/dbus
+ FILES_${PN} = ""
  
- 	chown root:messagebus ${D}${libexecdir}/dbus-daemon-launch-helper
--	chmod 4754 ${D}${libexecdir}/dbus-daemon-launch-helper
-+	chmod 4755 ${D}${libexecdir}/dbus-daemon-launch-helper
+-FILES_dhcp-server = "${sbindir}/dhcpd ${sysconfdir}/init.d/dhcp-server ${localstatedir}/lib/dhcp/"
++FILES_dhcp-server = "${sbindir}/dhcpd ${sysconfdir}/init.d/dhcp-server"
+ RRECOMMENDS_dhcp-server = "dhcp-server-config"
  
- 	# Remove Red Hat initscript
- 	rm -rf ${D}${sysconfdir}/rc.d
+ FILES_dhcp-server-config = "${sysconfdir}/default/dhcp-server ${sysconfdir}/dhcp/dhcpd.conf"
+ 
+ FILES_dhcp-relay = "${sbindir}/dhcrelay ${sysconfdir}/init.d/dhcp-relay ${sysconfdir}/default/dhcp-relay"
+ 
+-FILES_dhcp-client = "${base_sbindir}/dhclient ${base_sbindir}/dhclient-script ${sysconfdir}/dhcp/dhclient.conf"
++FILES_dhcp-client = "${base_sbindir}/dhclient ${base_sbindir}/dhclient-script ${sysconfdir}/dhcp/dhclient.conf ${localstatedir}/lib/dhcp/"
+ RDEPENDS_dhcp-client = "bash"
+ 
+ FILES_dhcp-omshell = "${bindir}/omshell"
+diff --git a/meta/recipes-connectivity/dhcp/dhcp_4.2.0.bb b/meta/recipes-connectivity/dhcp/dhcp_4.2.0.bb
+index 2471d61..a3a560b 100644
+--- a/meta/recipes-connectivity/dhcp/dhcp_4.2.0.bb
++++ b/meta/recipes-connectivity/dhcp/dhcp_4.2.0.bb
+@@ -1,6 +1,6 @@
+ require dhcp.inc
+ 
+-PR = "r4"
++PR = "r5"
+ 
+ SRC_URI += "file://fixincludes.patch \
+             file://dhcp-3.0.3-dhclient-dbus.patch;striplevel=0 \
 -- 
 1.7.1
 
