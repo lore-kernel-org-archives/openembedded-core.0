@@ -1,25 +1,23 @@
-Received: from mail-ey0-f175.google.com ([209.85.215.175])
-	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <andrei@gherzan.ro>) id 1Rjs9G-00062x-B6
+Received: from mailout-de.gmx.net ([213.165.64.22])
+	by linuxtogo.org with smtp (Exim 4.72)
+	(envelope-from <schnitzeltony@gmx.de>) id 1RjxCU-000708-0O
 	for openembedded-core@lists.openembedded.org;
-	Sun, 08 Jan 2012 13:46:54 +0100
-Received: by eaal1 with SMTP id l1so1691173eaa.6
-	for <openembedded-core@lists.openembedded.org>;
-	Sun, 08 Jan 2012 04:39:28 -0800 (PST)
-Received: by 10.213.19.73 with SMTP id z9mr878058eba.41.1326026364314;
-	Sun, 08 Jan 2012 04:39:24 -0800 (PST)
-Received: from localhost.localdomain ([79.115.118.211])
-	by mx.google.com with ESMTPS id a60sm276181372eeb.4.2012.01.08.04.39.22
-	(version=TLSv1/SSLv3 cipher=OTHER);
-	Sun, 08 Jan 2012 04:39:23 -0800 (PST)
-From: Andrei Gherzan <andrei@gherzan.ro>
+	Sun, 08 Jan 2012 19:10:34 +0100
+Received: (qmail invoked by alias); 08 Jan 2012 18:03:07 -0000
+Received: from p4FDF1573.dip.t-dialin.net (EHLO localhost.localdomain)
+	[79.223.21.115]
+	by mail.gmx.net (mp034) with SMTP; 08 Jan 2012 19:03:07 +0100
+X-Authenticated: #62780362
+X-Provags-ID: V01U2FsdGVkX1/FX79RNl7F46FocT8JJoznYTFZYIGkeOds+VU2Fr
+	cXG8C9Ya+lIquy
+From: =?UTF-8?q?Andreas=20M=C3=BCller?= <schnitzeltony@gmx.de>
 To: openembedded-core@lists.openembedded.org
-Date: Sun,  8 Jan 2012 14:39:20 +0200
-Message-Id: <1326026360-27733-1-git-send-email-andrei@gherzan.ro>
-X-Mailer: git-send-email 1.7.5.4
-Cc: Andrei Gherzan <andrei@gherzan.ro>,
-	Andrei Gherzan <andrei.gherzan@windriver.com>
-Subject: [PATCH] gettext: License modify LICENSE to GPLv3 from GPL-3
+Date: Sun,  8 Jan 2012 19:04:07 +0100
+Message-Id: <1326045849-21938-1-git-send-email-schnitzeltony@gmx.de>
+X-Mailer: git-send-email 1.7.4.4
+MIME-Version: 1.0
+X-Y-GMX-Trusted: 0
+Subject: [PATCH 0/2] libusb1/libusb-compat keep *.la in base_libdir
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -34,32 +32,25 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 08 Jan 2012 12:46:54 -0000
+X-List-Received-Date: Sun, 08 Jan 2012 18:10:34 -0000
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-From: Andrei Gherzan <andrei.gherzan@windriver.com>
+libusb-compat did not yet cause a build error but it is motivated by the
+experience with libusb1.
 
-[YOCTO #1884]
+I will be out until 12. and can not respond on comments until then.
 
-Signed-off-by: Andrei Gherzan <andrei@gherzan.ro>
----
- meta/recipes-core/gettext/gettext_0.18.1.1.bb |    2 +-
- 1 files changed, 1 insertions(+), 1 deletions(-)
+Andreas Müller (2):
+  libusb1: keep *.la in base_libdir
+  libusb-compat: keep *.la in base_libdir
 
-diff --git a/meta/recipes-core/gettext/gettext_0.18.1.1.bb b/meta/recipes-core/gettext/gettext_0.18.1.1.bb
-index 615582e..1e8c952 100644
---- a/meta/recipes-core/gettext/gettext_0.18.1.1.bb
-+++ b/meta/recipes-core/gettext/gettext_0.18.1.1.bb
-@@ -2,7 +2,7 @@ SUMMARY = "Utilities and libraries for producing multi-lingual messages."
- DESCRIPTION = "Gettext offers to programmers, translators, and even users, a well integrated set of tools and documentation. Specifically, the GNU `gettext' utilities are a set of tools that provides a framework to help other GNU packages produce multi-lingual messages. These tools include a set of conventions about how programs should be written to support message catalogs, a directory and file naming organization for the message catalogs themselves, a runtime library supporting the retrieval of translated messages, and a few stand-alone programs to massage in various ways the sets of translatable strings, or already translated strings."
- HOMEPAGE = "http://www.gnu.org/software/gettext/gettext.html"
- SECTION = "libs"
--LICENSE = "GPL-3+ & LGPL-2.1+"
-+LICENSE = "GPLv3+ & LGPL-2.1+"
- LIC_FILES_CHKSUM = "file://COPYING;md5=d32239bcb673463ab874e80d47fae504"
- 
- PR = "r6"
+ meta/recipes-support/libusb/libusb-compat_0.1.3.bb |    3 +--
+ meta/recipes-support/libusb/libusb1_1.0.8.bb       |    3 +--
+ 2 files changed, 2 insertions(+), 4 deletions(-)
+
 -- 
-1.7.5.4
+1.7.4.4
 
 
 
