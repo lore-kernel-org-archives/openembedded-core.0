@@ -1,25 +1,33 @@
-Received: from mail-ee0-f47.google.com ([74.125.83.47])
+Received: from mail-pz0-f47.google.com ([209.85.210.47])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <andrei@gherzan.ro>) id 1RkHVI-00043U-Rm
+	(envelope-from <bruce.ashfield@gmail.com>) id 1RkHsO-00050z-Ha
 	for openembedded-core@lists.openembedded.org;
-	Mon, 09 Jan 2012 16:51:20 +0100
-Received: by eeit10 with SMTP id t10so1991491eei.6
+	Mon, 09 Jan 2012 17:15:12 +0100
+Received: by dadz13 with SMTP id z13so203081dad.6
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 09 Jan 2012 07:43:53 -0800 (PST)
-Received: by 10.213.34.203 with SMTP id m11mr1209903ebd.40.1326123832758;
-	Mon, 09 Jan 2012 07:43:52 -0800 (PST)
-Received: from localhost.localdomain ([89.121.200.106])
-	by mx.google.com with ESMTPS id t1sm292106243eeb.3.2012.01.09.07.43.50
-	(version=TLSv1/SSLv3 cipher=OTHER);
-	Mon, 09 Jan 2012 07:43:51 -0800 (PST)
-From: Andrei Gherzan <andrei@gherzan.ro>
-To: openembedded-core@lists.openembedded.org
-Date: Mon,  9 Jan 2012 17:43:44 +0200
-Message-Id: <1326123824-11738-1-git-send-email-andrei@gherzan.ro>
-X-Mailer: git-send-email 1.7.5.4
-Cc: Andrei Gherzan <andrei@gherzan.ro>,
-	Andrei Gherzan <andrei.gherzan@windriver.com>
-Subject: [PATCH] base.bbclass: support for or operand in LICENSE and for SPDX license names
+	Mon, 09 Jan 2012 08:07:44 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
+	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
+	:cc:content-type;
+	bh=BQIO78U+Vy52+d65V4O189bzTM0et6ucoT0x8EnM9Pc=;
+	b=LKregPgp9BLuz9RbPcry3MSnnMVmbz9QJVrYNjgCLUdI1PITb8nF8TcQ8cPhX49gyr
+	+e78jFlFuD06yeBcB14/83C3WxzvFuVb/iUdUopTkohqgl/Pp341J/hja0tMYfr8bGR3
+	JUFL9+9jbaw7WIwdiQfoKApG3EomAw4d4VhBY=
+MIME-Version: 1.0
+Received: by 10.68.130.201 with SMTP id og9mr24838098pbb.61.1326125263905;
+	Mon, 09 Jan 2012 08:07:43 -0800 (PST)
+Received: by 10.143.30.20 with HTTP; Mon, 9 Jan 2012 08:07:43 -0800 (PST)
+In-Reply-To: <1325860423.20759.122.camel@ted>
+References: <1325752666-28560-1-git-send-email-liming.wang@windriver.com>
+	<CADkTA4PYbE4gw8Rmwn8Xg6Ns9zajCLKQWJHLWo7qxX8rNbvPsQ@mail.gmail.com>
+	<1325860423.20759.122.camel@ted>
+Date: Mon, 9 Jan 2012 11:07:43 -0500
+Message-ID: <CADkTA4MztYpxfBOGghSqbi7_p+4rT1LMspLD_hxoW_xyp=E_jg@mail.gmail.com>
+From: Bruce Ashfield <bruce.ashfield@gmail.com>
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 0/4] qemuppc: replace emulation of qemuppc
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -34,67 +42,56 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 09 Jan 2012 15:51:20 -0000
+X-List-Received-Date: Mon, 09 Jan 2012 16:15:12 -0000
+Content-Type: text/plain; charset=ISO-8859-1
 
-From: Andrei Gherzan <andrei.gherzan@windriver.com>
+On Fri, Jan 6, 2012 at 9:33 AM, Richard Purdie
+<richard.purdie@linuxfoundation.org> wrote:
+> On Fri, 2012-01-06 at 09:29 -0500, Bruce Ashfield wrote:
+>> On Thu, Jan 5, 2012 at 3:37 AM, Liming Wang <liming.wang@windriver.com> wrote:
+>> > Hi Richard,
+>> >
+>> > These patches are aimed to replace emulation of qemuppc from prep to mac99.
+>> > With this new emulation, qemuppc now supports framebuffer and the network
+>> > works well.
+>> >
+>> > The kernel config also needs modification and I will let Bruce to review the
+>> > patches.
+>>
+>> I have the patches in my inbox now, I'm reviewing and merging them shortly.
+>> I'll pull these changes in to do some boot and runtime testing as well.
+>>
+>> Richard/Saul: if it works better for coordination purposes, I can do the kernel
+>> part, take this into my tree as well and then send a single coordinated pull
+>> request when everything is known to work together.
+>
+> Yes please.
+>
+> The userspace bits look reasonable to me but they need to be in step
+> with the kernel changes. I'm looking forward to working framebuffer
+> support :)
 
-base.bblass modfied in order to correctly exlude packages where OE-Style licence naming
-is used. In this way licenses as GPL-3, GPLv3, GPLv3.0 will be exluded from a non-GPLv3
-build.
-The second modification was to include in a non-GPLv3 build packages where LICENSE is
-GPLv3 or "something else". For example, qt4-embedded has LICENSE = "LGPLv2.1 | GPLv3".
-This package should be included in a non-GPLv3 build as it is LGPLv2.1 or GPLv3.
+In case anyone is wondering, I merged and started testing this on Friday. I'm
+working with Liming to hunt down a mouse grab/cusor and keyboard issue that I'm
+seeing. But other than that, everything worked nicely. If I can't
+resolve the two
+minor items quickly, I'll send the queue anyway and more eyes can be put on
+the problem.
 
-[YOCTO #1884]
-[YOCTO #1844]
+Cheers,
 
-Signed-off-by: Andrei Gherzan <andrei@gherzan.ro>
----
- meta/classes/base.bbclass |   22 ++++++++++++++++++----
- 1 files changed, 18 insertions(+), 4 deletions(-)
+Bruce
 
-diff --git a/meta/classes/base.bbclass b/meta/classes/base.bbclass
-index e65a722..568c5dd 100644
---- a/meta/classes/base.bbclass
-+++ b/meta/classes/base.bbclass
-@@ -392,6 +392,8 @@ python () {
- 
- 
-         dont_want_license = d.getVar('INCOMPATIBLE_LICENSE', 1)
-+        spdx_dont_want_license = d.getVarFlag('SPDXLICENSEMAP', dont_want_license)
-+
-         if dont_want_license and not pn.endswith("-native") and not pn.endswith("-cross") and not pn.endswith("-cross-initial") and not pn.endswith("-cross-intermediate") and not pn.endswith("-crosssdk-intermediate") and not pn.endswith("-crosssdk") and not pn.endswith("-crosssdk-initial"):
-             hosttools_whitelist = (d.getVar('HOSTTOOLS_WHITELIST_%s' % dont_want_license, 1) or "").split()
-             lgplv2_whitelist = (d.getVar('LGPLv2_WHITELIST_%s' % dont_want_license, 1) or "").split()
-@@ -400,10 +402,22 @@ python () {
- 
-                 import re
-                 this_license = d.getVar('LICENSE', 1)
--                if this_license and re.search(dont_want_license, this_license):
--                    bb.note("SKIPPING %s because it's %s" % (pn, this_license))
--                    raise bb.parse.SkipPackage("incompatible with license %s" % this_license)
--
-+                this_license_clean=re.sub(r'[+&()*]', '', this_license)
-+                or_licenses = re.split('[|]', this_license_clean)
-+
-+                for one_or_license in or_licenses:
-+		    licenses = re.split('[ ]', one_or_license)
-+		    good_license=one_or_license
-+		    for onelicense in licenses:
-+			spdx_onelicense = d.getVarFlag('SPDXLICENSEMAP', onelicense)
-+			if ( onelicense and re.search(dont_want_license, onelicense) ) or ( onelicense and re.search(spdx_dont_want_license, onelicense) ) or ( spdx_onelicense and re.search(dont_want_license, spdx_onelicense) ) or ( spdx_onelicense and re.search(spdx_dont_want_license, spdx_onelicense) ):
-+				good_license = ""
-+				break
-+		    if good_license != "":
-+			break
-+		if good_license == "":
-+		    bb.note("SKIPPING %s because it's %s" % (pn, this_license))
-+		    raise bb.parse.SkipPackage("incompatible with license %s" % this_license)
-     srcuri = d.getVar('SRC_URI', 1)
-     # Svn packages should DEPEND on subversion-native
-     if "svn://" in srcuri:
+>
+> Cheers,
+>
+> Richard
+>
+
+
+
 -- 
-1.7.5.4
-
+"Thou shalt not follow the NULL pointer, for chaos and madness await
+thee at its end"
 
 
