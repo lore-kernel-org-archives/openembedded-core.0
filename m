@@ -1,31 +1,39 @@
-Received: from mga07.intel.com ([143.182.124.22] helo=azsmga101.ch.intel.com)
+Received: from mga09.intel.com ([134.134.136.24])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <saul.wold@intel.com>) id 1Rk89k-0008Gm-UK
+	(envelope-from <nitin.a.kamble@intel.com>) id 1Rk8HZ-0000ND-9L
 	for openembedded-core@lists.openembedded.org;
-	Mon, 09 Jan 2012 06:52:29 +0100
-Received: from mail-iy0-f180.google.com ([209.85.210.180])
-	by mga03.intel.com with ESMTP/TLS/RC4-SHA; 08 Jan 2012 21:43:55 -0800
-Received: by iazz13 with SMTP id z13so6464252iaz.25
-	for <openembedded-core@lists.openembedded.org>;
-	Sun, 08 Jan 2012 21:43:55 -0800 (PST)
-Received: by 10.50.236.67 with SMTP id us3mr8138061igc.14.1326087834380;
-	Sun, 08 Jan 2012 21:43:54 -0800 (PST)
-Received: from [10.6.18.233] (c-71-193-189-117.hsd1.wa.comcast.net.
-	[71.193.189.117])
-	by mx.google.com with ESMTPS id he16sm37853229ibb.9.2012.01.08.21.43.52
-	(version=SSLv3 cipher=OTHER); Sun, 08 Jan 2012 21:43:53 -0800 (PST)
-Message-ID: <4F0A7E97.50904@intel.com>
-Date: Sun, 08 Jan 2012 21:43:51 -0800
-From: Saul Wold <saul.wold@intel.com>
-Organization: Intel
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:8.0) Gecko/20111115 Thunderbird/8.0
-MIME-Version: 1.0
+	Mon, 09 Jan 2012 07:00:33 +0100
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+	by orsmga102.jf.intel.com with ESMTP; 08 Jan 2012 21:53:05 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.67,352,1309762800"; d="scan'208";a="94283668"
+Received: from orsmsx603.amr.corp.intel.com ([10.22.226.49])
+	by orsmga001.jf.intel.com with ESMTP; 08 Jan 2012 21:53:05 -0800
+Received: from orsmsx151.amr.corp.intel.com (10.22.226.38) by
+	orsmsx603.amr.corp.intel.com (10.22.226.49) with Microsoft SMTP Server
+	(TLS) id 8.2.255.0; Sun, 8 Jan 2012 21:53:04 -0800
+Received: from orsmsx106.amr.corp.intel.com ([169.254.5.229]) by
+	ORSMSX151.amr.corp.intel.com ([169.254.7.170]) with mapi id
+	14.01.0355.002; Sun, 8 Jan 2012 21:53:04 -0800
+From: "Kamble, Nitin A" <nitin.a.kamble@intel.com>
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-References: <cover.1325792752.git.bruce.ashfield@windriver.com>
-In-Reply-To: <cover.1325792752.git.bruce.ashfield@windriver.com>
-Subject: Re: [v2 PATCH 0/3] linux-yocto: consolidated pull request
+Thread-Topic: [OE-core] [PATCH] eglibc: Upgrade recipes 2.14 -> 2.15
+Thread-Index: AQHMzCUG3QQ9CEymOE63C0FLBhqCf5X+x1nQgACqywCAADDtQIAA2yEAgADrUcA=
+Date: Mon, 9 Jan 2012 05:53:04 +0000
+Message-ID: <ADD6A3980E8C39419A432FF422031B4C01596D@ORSMSX106.amr.corp.intel.com>
+References: <1325821207-2843-1-git-send-email-raj.khem@gmail.com>
+	<ADD6A3980E8C39419A432FF422031B4C014BC2@ORSMSX106.amr.corp.intel.com>
+	<4F069E36.7000600@linux.intel.com>
+	<ADD6A3980E8C39419A432FF422031B4C014F82@ORSMSX106.amr.corp.intel.com>
+	<CAMKF1sqrrShTqFjoutMxgtNuU2n2u31wftB9n=Wsy6FGPyvngA@mail.gmail.com>
+In-Reply-To: <CAMKF1sqrrShTqFjoutMxgtNuU2n2u31wftB9n=Wsy6FGPyvngA@mail.gmail.com>
+Accept-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [10.22.254.138]
+MIME-Version: 1.0
+Subject: Re: [PATCH] eglibc: Upgrade recipes 2.14 -> 2.15
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -40,56 +48,44 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 09 Jan 2012 05:52:29 -0000
-Content-Type: text/plain; charset=ISO-8859-1; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Mon, 09 Jan 2012 06:00:33 -0000
+Content-Language: en-US
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 
-On 01/05/2012 11:49 AM, Bruce Ashfield wrote:
-> Richard/Saul,
->
-> This is a resend of my series from yesterday. Richard noted the
-> following two issues:
->
->   http://autobuilder.pokylinux.org:8010/builders/nightly-ppc/builds/210/steps/shell_67/logs/stdio
->   http://autobuilder.pokylinux.org:8010/builders/nightly-arm/builds/247/steps/shell_14/logs/stdio
->
-> The ARM build issue was introduced in 3.0.13, and has a mainline fix,
-> which I cherry picked into the kernel tree and pushed out. I'll likely
-> be able to drop it with 3.0.16 (assuming there is one).
->
-> The qemuppc one was due to stricter patch checking. I updated the meta
-> branch and that is now fixed.
->
-> Take all three as a unit, and the builds should be fine now.
->
-> Cheers,
->
-> Bruce
->
->
-> The following changes since commit 021848be9eeb71de8acfba6c66c11645b01523b8:
->
->    valgrind: Fix for automake update (2012-01-04 16:04:08 +0000)
->
-> are available in the git repository at:
->    git://git.pokylinux.org/poky-contrib zedd/kernel
->    http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=zedd/kernel
->
-> Bruce Ashfield (3):
->    kern-tools: import flexible branching support
->    linux-yocto: bump kernel version to v3.0.14
->    linux-yocto: use src_patches for out of tree kernel feature support
->
->   meta/classes/kernel-yocto.bbclass                  |   67 +++++++++++++++++++-
->   .../kern-tools/kern-tools-native_git.bb            |    2 +-
->   meta/recipes-kernel/linux/linux-yocto-rt_3.0.bb    |    8 +-
->   meta/recipes-kernel/linux/linux-yocto_3.0.bb       |   18 +++---
->   4 files changed, 79 insertions(+), 16 deletions(-)
->
 
-Merged into OE-Core
 
-Thanks
-	Sau!
+> -----Original Message-----
+> From: openembedded-core-bounces@lists.openembedded.org
+> [mailto:openembedded-core-bounces@lists.openembedded.org] On Behalf Of
+> Khem Raj
+> Sent: Friday, January 06, 2012 3:09 PM
+> To: Patches and discussions about the oe-core layer
+> Subject: Re: [OE-core] [PATCH] eglibc: Upgrade recipes 2.14 -> 2.15
+>=20
+> On Fri, Jan 6, 2012 at 10:07 AM, Kamble, Nitin A
+> <nitin.a.kamble@intel.com> wrote:
+> > That is a big change for x32, It may work out or not, last time x32 +
+> eglibc-2.15 was causing some issues which were I think actually more
+> eglibc-2.15 issues. The worst case is I can move the eglibc-2.14 recipe
+> into the meta-x32 layer.
+>=20
+> If you are not on a release trail I would suggest to try 2.15. You can
+> move the recipes to a
+> layer certainly but its better to keep less versions around for
+> maintenance sake. what problems do u envision that can happen with
+> 2.15 ?
+
+I do not remember all the issues now, but I was seeing more failures. I can=
+ give it a try with 2.15 and see how it goes.
+
+Thanks,
+Nitin
+
+>=20
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
 
 
