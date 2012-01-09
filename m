@@ -1,36 +1,25 @@
-Received: from mail.cvg.de ([62.153.82.30])
+Received: from mail-ee0-f47.google.com ([74.125.83.47])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <enrico.scholz@sigma-chemnitz.de>) id 1RkEAu-0005Lq-8p
+	(envelope-from <andrei@gherzan.ro>) id 1RkHVI-00043U-Rm
 	for openembedded-core@lists.openembedded.org;
-	Mon, 09 Jan 2012 13:18:04 +0100
-Received: from ensc-virt.intern.sigma-chemnitz.de
-	(ensc-virt.intern.sigma-chemnitz.de [192.168.3.24])
-	by mail.cvg.de (8.14.4/8.14.4) with SMTP id q09CASgW011247
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO)
+	Mon, 09 Jan 2012 16:51:20 +0100
+Received: by eeit10 with SMTP id t10so1991491eei.6
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 9 Jan 2012 13:10:29 +0100
-Received: by ensc-virt.intern.sigma-chemnitz.de (sSMTP sendmail emulation);
-	Mon,  9 Jan 2012 13:10:28 +0100
-From: Enrico Scholz <enrico.scholz@sigma-chemnitz.de>
+	Mon, 09 Jan 2012 07:43:53 -0800 (PST)
+Received: by 10.213.34.203 with SMTP id m11mr1209903ebd.40.1326123832758;
+	Mon, 09 Jan 2012 07:43:52 -0800 (PST)
+Received: from localhost.localdomain ([89.121.200.106])
+	by mx.google.com with ESMTPS id t1sm292106243eeb.3.2012.01.09.07.43.50
+	(version=TLSv1/SSLv3 cipher=OTHER);
+	Mon, 09 Jan 2012 07:43:51 -0800 (PST)
+From: Andrei Gherzan <andrei@gherzan.ro>
 To: openembedded-core@lists.openembedded.org
-References: <cover.1325744640.git.sgw@linux.intel.com>
-	<04bb0f6bbd41ec9c2234df49130dba2346d9a3bf.1325744640.git.sgw@linux.intel.com>
-	<lyboqh86qb.fsf@ensc-virt.intern.sigma-chemnitz.de>
-	<4F07361F.8000406@intel.com>
-Date: Mon, 09 Jan 2012 13:10:28 +0100
-In-Reply-To: <4F07361F.8000406@intel.com> (Scott Garman's message of "Fri, 06
-	Jan 2012 09:57:51 -0800")
-Message-ID: <lyd3atoz4b.fsf@ensc-virt.intern.sigma-chemnitz.de>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/23.3 (gnu/linux)
-MIME-Version: 1.0
-X-DSPAM-Result: Innocent
-X-DSPAM-Probability: 0
-X-DSPAM-Confidence: 1
-X-Spam-Score: -5.8
-X-Spam-Level: -----
-X-Spam-Tests: AWL,BAYES_00,SPF_NEUTRAL,T_RP_MATCHES_RCVD,DSPAM_INNOCENT
-X-Scanned-By: MIMEDefang 2.72 on 62.153.82.30
-Subject: Re: [CONSOLIDATED PULL 04/28] ncurses: move libraries to base_libdir
+Date: Mon,  9 Jan 2012 17:43:44 +0200
+Message-Id: <1326123824-11738-1-git-send-email-andrei@gherzan.ro>
+X-Mailer: git-send-email 1.7.5.4
+Cc: Andrei Gherzan <andrei@gherzan.ro>,
+	Andrei Gherzan <andrei.gherzan@windriver.com>
+Subject: [PATCH] base.bbclass: support for or operand in LICENSE and for SPDX license names
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -45,43 +34,67 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 09 Jan 2012 12:18:04 -0000
-Content-Type: text/plain; charset=us-ascii
+X-List-Received-Date: Mon, 09 Jan 2012 15:51:20 -0000
 
-Scott Garman <scott.a.garman-ral2JQCrhuEAvxtiuMwx3w@public.gmane.org>
-writes:
+From: Andrei Gherzan <andrei.gherzan@windriver.com>
 
->>> -		f=${D}${libdir}/$i.so
->>> +                f=${D}${base_libdir}/$i.so
->>
->> this breaks builds because 'ld' does not search ${base_libdir}:
->>
->> | gcc -shared ... -ltermcap
->> | /usr/bin/ld: cannot find -ltermcap
->> | ERROR: Task 216 (virtual:native:.../readline/readline_6.2.bb, do_install) failed with exit code '1'
->> | ERROR: 'virtual:native:.../readline/readline_6.2.bb' failed
->
-> Which is why I added:
->
-> # tic from the -native build cannot run without setting this explicitly
-> BUILD_LDFLAGS_virtclass-native += "-Wl,-rpath,${base_libdir}"
->
-> to ncurses.inc
->
-> Is this not working?
+base.bblass modfied in order to correctly exlude packages where OE-Style licence naming
+is used. In this way licenses as GPL-3, GPLv3, GPLv3.0 will be exluded from a non-GPLv3
+build.
+The second modification was to include in a non-GPLv3 build packages where LICENSE is
+GPLv3 or "something else". For example, qt4-embedded has LICENSE = "LGPLv2.1 | GPLv3".
+This package should be included in a non-GPLv3 build as it is LGPLv2.1 or GPLv3.
 
-no; error happens when building 'readline-native' (which does not read
-ncurses.inc). Build of 'ncurses(-native)' succeeded.
+[YOCTO #1884]
+[YOCTO #1844]
 
+Signed-off-by: Andrei Gherzan <andrei@gherzan.ro>
+---
+ meta/classes/base.bbclass |   22 ++++++++++++++++++----
+ 1 files changed, 18 insertions(+), 4 deletions(-)
 
-> I build-tested this with our -minimal and -sato images, and readline
-> is built as a part of this. Not sure how I could have missed this,
-> unless some host contamination was creeping in.
+diff --git a/meta/classes/base.bbclass b/meta/classes/base.bbclass
+index e65a722..568c5dd 100644
+--- a/meta/classes/base.bbclass
++++ b/meta/classes/base.bbclass
+@@ -392,6 +392,8 @@ python () {
+ 
+ 
+         dont_want_license = d.getVar('INCOMPATIBLE_LICENSE', 1)
++        spdx_dont_want_license = d.getVarFlag('SPDXLICENSEMAP', dont_want_license)
++
+         if dont_want_license and not pn.endswith("-native") and not pn.endswith("-cross") and not pn.endswith("-cross-initial") and not pn.endswith("-cross-intermediate") and not pn.endswith("-crosssdk-intermediate") and not pn.endswith("-crosssdk") and not pn.endswith("-crosssdk-initial"):
+             hosttools_whitelist = (d.getVar('HOSTTOOLS_WHITELIST_%s' % dont_want_license, 1) or "").split()
+             lgplv2_whitelist = (d.getVar('LGPLv2_WHITELIST_%s' % dont_want_license, 1) or "").split()
+@@ -400,10 +402,22 @@ python () {
+ 
+                 import re
+                 this_license = d.getVar('LICENSE', 1)
+-                if this_license and re.search(dont_want_license, this_license):
+-                    bb.note("SKIPPING %s because it's %s" % (pn, this_license))
+-                    raise bb.parse.SkipPackage("incompatible with license %s" % this_license)
+-
++                this_license_clean=re.sub(r'[+&()*]', '', this_license)
++                or_licenses = re.split('[|]', this_license_clean)
++
++                for one_or_license in or_licenses:
++		    licenses = re.split('[ ]', one_or_license)
++		    good_license=one_or_license
++		    for onelicense in licenses:
++			spdx_onelicense = d.getVarFlag('SPDXLICENSEMAP', onelicense)
++			if ( onelicense and re.search(dont_want_license, onelicense) ) or ( onelicense and re.search(spdx_dont_want_license, onelicense) ) or ( spdx_onelicense and re.search(dont_want_license, spdx_onelicense) ) or ( spdx_onelicense and re.search(spdx_dont_want_license, spdx_onelicense) ):
++				good_license = ""
++				break
++		    if good_license != "":
++			break
++		if good_license == "":
++		    bb.note("SKIPPING %s because it's %s" % (pn, this_license))
++		    raise bb.parse.SkipPackage("incompatible with license %s" % this_license)
+     srcuri = d.getVar('SRC_URI', 1)
+     # Svn packages should DEPEND on subversion-native
+     if "svn://" in srcuri:
+-- 
+1.7.5.4
 
-probably, the ncurses development files were installed on the host and
-'-ltermcap' linked against them and not against the oe ones..
-
-
-Enrico
 
 
