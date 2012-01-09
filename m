@@ -1,34 +1,56 @@
-Received: from mail-yw0-f47.google.com ([209.85.213.47])
+Received: from tx2ehsobe002.messaging.microsoft.com ([65.55.88.12]
+	helo=TX2EHSOBE003.bigfish.com)
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <raj.khem@gmail.com>) id 1Rk78r-0002sW-6k
+	(envelope-from <B29882@freescale.com>) id 1Rk7b8-0003d5-An
 	for openembedded-core@lists.openembedded.org;
-	Mon, 09 Jan 2012 05:47:29 +0100
-Received: by yhjj51 with SMTP id j51so74539yhj.6
-	for <openembedded-core@lists.openembedded.org>;
-	Sun, 08 Jan 2012 20:40:01 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
-	h=from:to:cc:subject:date:message-id:x-mailer;
-	bh=crsbrz1BJd6uyl3flY/OkWoTCGZGOTESTXu/Ipk7AYU=;
-	b=fSdO6VrjJr14X+zzHkyxMwoLH4eEXys1apkOHzrHuqpQCeoBje3U4zwUsBeIZX91Kq
-	x3qaiU7IqkdMw9/Fa2lVageoJLQyqUPbfvmwTXYIG9tWmaaqpCuqS2QVMZ0cfCCb1Lpw
-	eL5kF7ELH7uNSK0b4Bjwo5EVaou95gMuiXO9U=
-Received: by 10.236.123.37 with SMTP id u25mr3403664yhh.52.1326084001578;
-	Sun, 08 Jan 2012 20:40:01 -0800 (PST)
-Received: from localhost.localdomain (oldbuilder.nslu2-linux.org.
-	[140.211.169.168])
-	by mx.google.com with ESMTPS id a7sm179421777ana.5.2012.01.08.20.39.59
-	(version=TLSv1/SSLv3 cipher=OTHER);
-	Sun, 08 Jan 2012 20:40:00 -0800 (PST)
-From: Khem Raj <raj.khem@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Date: Sun,  8 Jan 2012 20:39:29 -0800
-Message-Id: <1326083969-28287-1-git-send-email-raj.khem@gmail.com>
-X-Mailer: git-send-email 1.7.5.4
-Subject: [PATCH] site/common-uclibc: Cache gl_cv_func_wcwidth_works
+	Mon, 09 Jan 2012 06:16:55 +0100
+Received: from mail63-tx2-R.bigfish.com (10.9.14.244) by
+	TX2EHSOBE003.bigfish.com (10.9.40.23) with Microsoft SMTP Server id
+	14.1.225.23; Mon, 9 Jan 2012 05:09:05 +0000
+Received: from mail63-tx2 (localhost [127.0.0.1])	by mail63-tx2-R.bigfish.com
+	(Postfix) with ESMTP id D355C404FE;
+	Mon,  9 Jan 2012 05:08:23 +0000 (UTC)
+X-SpamScore: -7
+X-BigFish: VS-7(zz9371I1432N98dKzz1202hzz8275bh8275dhz2dh2a8h668h839h8e2h8e3hbe9k61h)
+X-Spam-TCS-SCL: 0:0
+X-Forefront-Antispam-Report: CIP:70.37.183.190; KIP:(null); UIP:(null); IPV:NLI;
+	H:mail.freescale.net; RD:none; EFVD:NLI
+Received: from mail63-tx2 (localhost.localdomain [127.0.0.1]) by mail63-tx2
+	(MessageSwitch) id 1326085702362455_1094;
+	Mon,  9 Jan 2012 05:08:22 +0000 (UTC)
+Received: from TX2EHSMHS033.bigfish.com (unknown [10.9.14.243])	by
+	mail63-tx2.bigfish.com (Postfix) with ESMTP id 74C033E0067;
+	Mon,  9 Jan 2012 05:07:46 +0000 (UTC)
+Received: from mail.freescale.net (70.37.183.190) by TX2EHSMHS033.bigfish.com
+	(10.9.99.133) with Microsoft SMTP Server (TLS) id 14.1.225.23;
+	Mon, 9 Jan 2012 05:08:27 +0000
+Received: from 039-SN1MPN1-002.039d.mgd.msft.net ([169.254.2.86]) by
+	039-SN1MMR1-001.039d.mgd.msft.net ([10.84.1.13]) with mapi id
+	14.01.0355.003; Sun, 8 Jan 2012 23:08:27 -0600
+From: McClintock Matthew-B29882 <B29882@freescale.com>
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Thread-Topic: [OE-core] [PATCH] busybox: defconfig modified in order to
+	activate CONFIG_EXPR_MATH_SUPPORT_64
+Thread-Index: AQHMzoy4KGD2EjRW5Ee+0vNezSbBuw==
+Date: Mon, 9 Jan 2012 05:08:26 +0000
+Message-ID: <CAEsOVNeAuF5u2J_MhZg9tVezexCNyK2rGsZ2sUgBpTeJ90ZVqw@mail.gmail.com>
+References: <1326067422-30771-1-git-send-email-andrei@gherzan.ro>
+In-Reply-To: <1326067422-30771-1-git-send-email-andrei@gherzan.ro>
+Accept-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [99.47.177.27]
+MIME-Version: 1.0
+X-OriginatorOrg: freescale.com
+Cc: Andrei Gherzan <andrei@gherzan.ro>,
+	Andrei Gherzan <andrei.gherzan@windriver.com>
+Subject: Re: [PATCH] busybox: defconfig modified in order to activate CONFIG_EXPR_MATH_SUPPORT_64
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
-Reply-To: Patches and discussions about the oe-core layer
+Reply-To: McClintock Matthew-B29882 <B29882@freescale.com>,
+	Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
 List-Id: Patches and discussions about the oe-core layer
 	<openembedded-core.lists.openembedded.org>
@@ -39,37 +61,59 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 09 Jan 2012 04:47:29 -0000
+X-List-Received-Date: Mon, 09 Jan 2012 05:16:56 -0000
+Content-Language: en-US
+Content-Type: text/plain; charset="iso-8859-1"
+Content-ID: <8E38909E3F872B49ADD1C38214D57F0D@freescale.net>
+Content-Transfer-Encoding: quoted-printable
 
-Its not computed properly during configure and
-we configure uclibc with widechar support anyway
-so its fine to cache it. It fixes the errors like
+Is anyone working on more fine grained control of busybox? Some ideas inclu=
+de:
 
-| In file included from ./stdio.h:31:0,
-|                  from fpurge.h:20,
-|                  from fpurge.c:20:
-| /home/kraj/work/angstrom/sources/openembedded-core/build/tmp-uclibc/sysroots/qemux86/usr/include/stdio.h:662:40: error: expected declaration specifiers or '...' before '(' token
-| make[4]: *** [fpurge.o] Error 1
+1) configure via PACKAGECONFIG?
 
-Signed-off-by: Khem Raj <raj.khem@gmail.com>
----
- meta/site/common-uclibc |    1 +
- 1 files changed, 1 insertions(+), 0 deletions(-)
+2) supply a defconfig for busybox?
 
-diff --git a/meta/site/common-uclibc b/meta/site/common-uclibc
-index 331c2a2..c2ad42d 100644
---- a/meta/site/common-uclibc
-+++ b/meta/site/common-uclibc
-@@ -21,6 +21,7 @@ ac_cv_func_vsnprintf_c99=${ac_cv_func_vsnprintf_c99=yes}
- glib_cv_compliant_posix_memalign=${glib_cv_compliant_posix_memalign=1}
- glib_cv_long_long_format=${glib_cv_long_long_format=ll}
- glib_cv_have_qsort_r=${glib_cv_have_qsort_r=no}
-+gl_cv_func_wcwidth_works=${gl_cv_func_wcwidth_works=yes}
- 
- #dbus-glib
- ac_cv_have_abstract_sockets=${ac_cv_have_abstract_sockets=yes}
--- 
-1.7.5.4
+3) multiple busybox recipes?
+
+-M
+
+On Sun, Jan 8, 2012 at 6:03 PM, Andrei Gherzan <andrei@gherzan.ro> wrote:
+> From: Andrei Gherzan <andrei.gherzan@windriver.com>
+>
+> Enable 64-bit math support in the expr applet. This will make
+> the applet slightly larger, but will allow computation with very
+> large numbers.
+>
+> [YOCTO #1767]
+>
+> Signed-off-by: Andrei Gherzan <andrei@gherzan.ro>
+> ---
+> =A0meta/recipes-core/busybox/busybox-1.19.3/defconfig | =A0 =A02 +-
+> =A01 files changed, 1 insertions(+), 1 deletions(-)
+>
+> diff --git a/meta/recipes-core/busybox/busybox-1.19.3/defconfig b/meta/re=
+cipes-core/busybox/busybox-1.19.3/defconfig
+> index 1990f28..ebd751d 100644
+> --- a/meta/recipes-core/busybox/busybox-1.19.3/defconfig
+> +++ b/meta/recipes-core/busybox/busybox-1.19.3/defconfig
+> @@ -214,7 +214,7 @@ CONFIG_FEATURE_ENV_LONG_OPTIONS=3Dy
+> =A0# CONFIG_EXPAND is not set
+> =A0# CONFIG_FEATURE_EXPAND_LONG_OPTIONS is not set
+> =A0CONFIG_EXPR=3Dy
+> -# CONFIG_EXPR_MATH_SUPPORT_64 is not set
+> +CONFIG_EXPR_MATH_SUPPORT_64=3Dy
+> =A0CONFIG_FALSE=3Dy
+> =A0# CONFIG_FOLD is not set
+> =A0# CONFIG_FSYNC is not set
+> --
+> 1.7.5.4
+>
+>
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core=
 
 
 
