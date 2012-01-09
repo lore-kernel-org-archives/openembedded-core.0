@@ -1,34 +1,31 @@
-Received: from mx.insigma.com.cn ([115.236.48.170] helo=WX-Edge.insigma.com.cn)
+Received: from mail.pbcl.net ([88.198.119.4] helo=hetzner.pbcl.net)
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <niqingliang@insigma.com.cn>) id 1Rk8WT-0000gG-Dp
+	(envelope-from <philb@gnu.org>) id 1RkAPJ-0006dp-CN
 	for openembedded-core@lists.openembedded.org;
-	Mon, 09 Jan 2012 07:15:58 +0100
-Received: from WX-EXCHMB2.insigma.com.cn (10.0.1.203) by
-	WX-Edge.insigma.com.cn (10.0.1.205) with Microsoft SMTP Server (TLS) id
-	8.1.436.0; Mon, 9 Jan 2012 14:08:26 +0800
-Received: from [192.168.0.98] (122.224.76.38) by Wx-ExchMB2.insigma.com.cn
-	(10.0.1.203) with Microsoft SMTP Server id 8.1.436.0; Mon, 9 Jan 2012
-	14:08:24 +0800
-Message-ID: <1326089201.27569.10.camel@localhost.localdomain>
-From: Ni Qingliang <niqingliang@insigma.com.cn>
-To: McClintock Matthew-B29882 <B29882@freescale.com>, "Patches and
-	discussions about the oe-core layer"
+	Mon, 09 Jan 2012 09:16:41 +0100
+Received: from blundell.swaffham-prior.co.uk ([91.216.112.25]
+	helo=[192.168.114.3])
+	by hetzner.pbcl.net with esmtpsa (TLS1.0:RSA_AES_256_CBC_SHA1:32)
+	(Exim 4.72) (envelope-from <philb@gnu.org>)
+	id 1RkAI6-0006rT-Ni; Mon, 09 Jan 2012 09:09:14 +0100
+From: Phil Blundell <philb@gnu.org>
+To: McClintock Matthew-B29882 <B29882@freescale.com>, Patches and
+	discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Date: Mon, 9 Jan 2012 14:06:41 +0800
 In-Reply-To: <CAEsOVNeAuF5u2J_MhZg9tVezexCNyK2rGsZ2sUgBpTeJ90ZVqw@mail.gmail.com>
 References: <1326067422-30771-1-git-send-email-andrei@gherzan.ro>
 	<CAEsOVNeAuF5u2J_MhZg9tVezexCNyK2rGsZ2sUgBpTeJ90ZVqw@mail.gmail.com>
-Organization: Insigma
-X-Mailer: Evolution 3.2.2 
-MIME-Version: 1.0
+Date: Mon, 09 Jan 2012 08:09:08 +0000
+Message-ID: <1326096548.3234.3.camel@lenovo.internal.reciva.com>
+Mime-Version: 1.0
+X-Mailer: Evolution 2.32.3 
 Cc: Andrei Gherzan <andrei@gherzan.ro>,
 	Andrei Gherzan <andrei.gherzan@windriver.com>
 Subject: Re: [PATCH] busybox: defconfig modified in order to activate CONFIG_EXPR_MATH_SUPPORT_64
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
-Reply-To: niqingliang@insigma.com.cn,
-	Patches and discussions about the oe-core layer
+Reply-To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
 List-Id: Patches and discussions about the oe-core layer
 	<openembedded-core.lists.openembedded.org>
@@ -39,14 +36,17 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 09 Jan 2012 06:15:58 -0000
+X-List-Received-Date: Mon, 09 Jan 2012 08:16:41 -0000
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 
-indeed, I think maybe providing specific config file for specific
-machine is better, but not spliting the config to fragments.
+You could take a look at the busybox-config.inc stuff in oe-classic as a
+starting point.  It doesn't do PACKAGECONFIG (since oe-classic doesn't
+have that) but it can do the equivalent with DISTRO_FEATURES.
 
-On Mon, 2012-01-09 at 13:08 +0800, McClintock Matthew-B29882 wrote:
+p.
+
+On Mon, 2012-01-09 at 05:08 +0000, McClintock Matthew-B29882 wrote:
 > Is anyone working on more fine grained control of busybox? Some ideas include:
 > 
 > 1) configure via PACKAGECONFIG?
@@ -98,10 +98,6 @@ On Mon, 2012-01-09 at 13:08 +0800, McClintock Matthew-B29882 wrote:
 > Openembedded-core@lists.openembedded.org
 > http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
 
--- 
-Yi Qingliang
-niqingliang@insigma.com.cn
-https://niqingliang2003.wordpress.com
 
 
 
