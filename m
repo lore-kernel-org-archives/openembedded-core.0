@@ -1,45 +1,30 @@
-Received: from ch1ehsobe006.messaging.microsoft.com ([216.32.181.186]
-	helo=ch1outboundpool.messaging.microsoft.com)
+Received: from mail-yw0-f47.google.com ([209.85.213.47])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <B19537@freescale.com>) id 1Rk6L0-0001jD-QJ
+	(envelope-from <raj.khem@gmail.com>) id 1Rk78r-0002sW-6k
 	for openembedded-core@lists.openembedded.org;
-	Mon, 09 Jan 2012 04:56:01 +0100
-Received: from mail178-ch1-R.bigfish.com (10.43.68.248) by
-	CH1EHSOBE004.bigfish.com (10.43.70.54) with Microsoft SMTP Server id
-	14.1.225.23; Mon, 9 Jan 2012 03:33:21 +0000
-Received: from mail178-ch1 (localhost [127.0.0.1])	by
-	mail178-ch1-R.bigfish.com (Postfix) with ESMTP id 705C43E02E7	for
-	<openembedded-core@lists.openembedded.org>;
-	Mon,  9 Jan 2012 03:33:20 +0000 (UTC)
-X-SpamScore: 0
-X-BigFish: VS0(zzzz1202hzz8275bhz2dh2a8h668h839h)
-X-Forefront-Antispam-Report: CIP:70.37.183.190; KIP:(null); UIP:(null); IPV:NLI;
-	H:mail.freescale.net; RD:none; EFVD:NLI
-Received: from mail178-ch1 (localhost.localdomain [127.0.0.1]) by mail178-ch1
-	(MessageSwitch) id 1326079998354149_10686;
-	Mon,  9 Jan 2012 03:33:18 +0000 (UTC)
-Received: from CH1EHSMHS002.bigfish.com (snatpool1.int.messaging.microsoft.com
-	[10.43.68.241])	by mail178-ch1.bigfish.com (Postfix) with ESMTP id
-	52BA93A003F	for <openembedded-core@lists.openembedded.org>;
-	Mon,  9 Jan 2012 03:33:18 +0000 (UTC)
-Received: from mail.freescale.net (70.37.183.190) by CH1EHSMHS002.bigfish.com
-	(10.43.70.2) with Microsoft SMTP Server (TLS) id 14.1.225.23;
-	Mon, 9 Jan 2012 03:33:18 +0000
-Received: from az33smr02.freescale.net (10.64.34.200) by
-	039-SN1MMR1-003.039d.mgd.msft.net (10.84.1.16) with Microsoft SMTP
-	Server id 14.1.355.3; Sun, 8 Jan 2012 21:33:18 -0600
-Received: from localhost.localdomain
-	(bjsimics-desktop-010192208197.ap.freescale.net [10.192.208.197])	by
-	az33smr02.freescale.net (8.13.1/8.13.0) with ESMTP id q093XFjt026158;
-	Sun, 8 Jan 2012 21:33:16 -0600 (CST)
-From: <b19537@freescale.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Mon, 9 Jan 2012 11:37:54 +0800
-Message-ID: <1326080274-1998-1-git-send-email-b19537@freescale.com>
-X-Mailer: git-send-email 1.7.0.4
-MIME-Version: 1.0
-X-OriginatorOrg: freescale.com
-Subject: [PATCH oe-core v6] linux-dtb: add multi-dtb build support and keep dtb in deploy cache package
+	Mon, 09 Jan 2012 05:47:29 +0100
+Received: by yhjj51 with SMTP id j51so74539yhj.6
+	for <openembedded-core@lists.openembedded.org>;
+	Sun, 08 Jan 2012 20:40:01 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
+	h=from:to:cc:subject:date:message-id:x-mailer;
+	bh=crsbrz1BJd6uyl3flY/OkWoTCGZGOTESTXu/Ipk7AYU=;
+	b=fSdO6VrjJr14X+zzHkyxMwoLH4eEXys1apkOHzrHuqpQCeoBje3U4zwUsBeIZX91Kq
+	x3qaiU7IqkdMw9/Fa2lVageoJLQyqUPbfvmwTXYIG9tWmaaqpCuqS2QVMZ0cfCCb1Lpw
+	eL5kF7ELH7uNSK0b4Bjwo5EVaou95gMuiXO9U=
+Received: by 10.236.123.37 with SMTP id u25mr3403664yhh.52.1326084001578;
+	Sun, 08 Jan 2012 20:40:01 -0800 (PST)
+Received: from localhost.localdomain (oldbuilder.nslu2-linux.org.
+	[140.211.169.168])
+	by mx.google.com with ESMTPS id a7sm179421777ana.5.2012.01.08.20.39.59
+	(version=TLSv1/SSLv3 cipher=OTHER);
+	Sun, 08 Jan 2012 20:40:00 -0800 (PST)
+From: Khem Raj <raj.khem@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Date: Sun,  8 Jan 2012 20:39:29 -0800
+Message-Id: <1326083969-28287-1-git-send-email-raj.khem@gmail.com>
+X-Mailer: git-send-email 1.7.5.4
+Subject: [PATCH] site/common-uclibc: Cache gl_cv_func_wcwidth_works
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -54,54 +39,37 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 09 Jan 2012 03:56:01 -0000
-Content-Type: text/plain
+X-List-Received-Date: Mon, 09 Jan 2012 04:47:29 -0000
 
-From: Zhenhua Luo <b19537@freescale.com>
+Its not computed properly during configure and
+we configure uclibc with widechar support anyway
+so its fine to cache it. It fixes the errors like
 
-Signed-off-by: Zhenhua Luo <b19537@freescale.com>
+| In file included from ./stdio.h:31:0,
+|                  from fpurge.h:20,
+|                  from fpurge.c:20:
+| /home/kraj/work/angstrom/sources/openembedded-core/build/tmp-uclibc/sysroots/qemux86/usr/include/stdio.h:662:40: error: expected declaration specifiers or '...' before '(' token
+| make[4]: *** [fpurge.o] Error 1
+
+Signed-off-by: Khem Raj <raj.khem@gmail.com>
 ---
- meta/recipes-kernel/linux/linux-dtb.inc |   24 +++++++++++++++---------
- 1 files changed, 15 insertions(+), 9 deletions(-)
+ meta/site/common-uclibc |    1 +
+ 1 files changed, 1 insertions(+), 0 deletions(-)
 
-diff --git a/meta/recipes-kernel/linux/linux-dtb.inc b/meta/recipes-kernel/linux/linux-dtb.inc
-index 7ec7584..fc29d14 100644
---- a/meta/recipes-kernel/linux/linux-dtb.inc
-+++ b/meta/recipes-kernel/linux/linux-dtb.inc
-@@ -13,15 +13,21 @@ python __anonymous () {
- 	d.setVar("PACKAGES", "%s kernel-devicetree" % packages)
- }
+diff --git a/meta/site/common-uclibc b/meta/site/common-uclibc
+index 331c2a2..c2ad42d 100644
+--- a/meta/site/common-uclibc
++++ b/meta/site/common-uclibc
+@@ -21,6 +21,7 @@ ac_cv_func_vsnprintf_c99=${ac_cv_func_vsnprintf_c99=yes}
+ glib_cv_compliant_posix_memalign=${glib_cv_compliant_posix_memalign=1}
+ glib_cv_long_long_format=${glib_cv_long_long_format=ll}
+ glib_cv_have_qsort_r=${glib_cv_have_qsort_r=no}
++gl_cv_func_wcwidth_works=${gl_cv_func_wcwidth_works=yes}
  
--do_install_append() {
-+kernel_do_deploy_append() {
-     if test -n "${KERNEL_DEVICETREE}"; then
--	dtc -I dts -O dtb ${KERNEL_DEVICETREE_FLAGS} -o devicetree ${KERNEL_DEVICETREE}
--	install -m 0644 devicetree ${D}/boot/devicetree-${KERNEL_VERSION}
--	install -d ${DEPLOY_DIR_IMAGE}
--	install -m 0644 devicetree ${DEPLOY_DIR_IMAGE}/${KERNEL_IMAGE_BASE_NAME}.dtb
--	cd ${DEPLOY_DIR_IMAGE}
--	rm -f ${KERNEL_IMAGE_SYMLINK_NAME}.dtb
--	ln -sf ${KERNEL_IMAGE_BASE_NAME}.dtb ${KERNEL_IMAGE_SYMLINK_NAME}.dtb
-+        for DTS_FILE in ${KERNEL_DEVICETREE}; do
-+            DTS_BASE_NAME=`basename ${DTS_FILE} | awk -F "." '{print $1}'`
-+            DTB_NAME=`echo ${KERNEL_IMAGE_BASE_NAME} | sed "s/${MACHINE}/${DTS_BASE_NAME}/g"`
-+            DTB_SYMLINK_NAME=`echo ${KERNEL_IMAGE_SYMLINK_NAME} | sed "s/${MACHINE}/${DTS_BASE_NAME}/g"`
-+            dtc -I dts -O dtb ${KERNEL_DEVICETREE_FLAGS} -o devicetree ${DTS_FILE}
-+            install -m 0644 devicetree ${D}/boot/devicetree-${DTS_BASE_NAME}-${KERNEL_VERSION}
-+
-+            install -d ${DEPLOYDIR}
-+            install -m 0644 devicetree ${DEPLOYDIR}/${DTB_NAME}.dtb
-+            rm -f devicetree
-+            cd ${DEPLOYDIR}
-+            ln -sf ${DTB_NAME}.dtb ${DTB_SYMLINK_NAME}.dtb
-+            cd -
-+        done
-     fi
- }
--
+ #dbus-glib
+ ac_cv_have_abstract_sockets=${ac_cv_have_abstract_sockets=yes}
 -- 
-1.7.0.4
-
+1.7.5.4
 
 
 
