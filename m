@@ -1,26 +1,30 @@
-Received: from mga11.intel.com ([192.55.52.93])
+Received: from mail-iy0-f175.google.com ([209.85.210.175])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <sgw@linux.intel.com>) id 1RkJ4J-0007LV-Eh
+	(envelope-from <raj.khem@gmail.com>) id 1RkLkS-0002x9-3C
 	for openembedded-core@lists.openembedded.org;
-	Mon, 09 Jan 2012 18:31:35 +0100
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-	by fmsmga102.fm.intel.com with ESMTP; 09 Jan 2012 09:24:06 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="105133184"
-Received: from unknown (HELO [10.255.13.28]) ([10.255.13.28])
-	by fmsmga001.fm.intel.com with ESMTP; 09 Jan 2012 09:24:06 -0800
-Message-ID: <4F0B22B6.4010907@linux.intel.com>
-Date: Mon, 09 Jan 2012 09:24:06 -0800
-From: Saul Wold <sgw@linux.intel.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:8.0) Gecko/20111115 Thunderbird/8.0
-MIME-Version: 1.0
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-References: <1326026360-27733-1-git-send-email-andrei@gherzan.ro>
-	<4F0A7B43.2050309@linux.intel.com> <4F0B149D.1080105@windriver.com>
-In-Reply-To: <4F0B149D.1080105@windriver.com>
-Subject: Re: [PATCH] gettext: License modify LICENSE to GPLv3 from GPL-3
+	Mon, 09 Jan 2012 21:23:16 +0100
+Received: by iakh37 with SMTP id h37so7052792iak.6
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 09 Jan 2012 12:15:47 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
+	h=from:to:cc:subject:date:message-id:x-mailer;
+	bh=33NYCm75HE7d9miRhNhTr8zuH7h7b9uUBnRmNYROScg=;
+	b=mdj3YqLo133Y67x9iRuLaxDQPooKcD/ydW8qiuwMoZ6VS9AAKWRIbiOSOXbCeq7vIL
+	/6cVxjMLXwitn0DA5pVPlYwGahYIJdTANBoDWhf6Kps2pqgBhxyKOmq3+QzegGyVcP6h
+	TizbX0JdvKqrNYXTAPSC3el178f6Yn8rW2HCo=
+Received: by 10.42.157.133 with SMTP id d5mr19131836icx.46.1326140147380;
+	Mon, 09 Jan 2012 12:15:47 -0800 (PST)
+Received: from localhost.localdomain
+	(99-57-141-118.lightspeed.sntcca.sbcglobal.net. [99.57.141.118])
+	by mx.google.com with ESMTPS id z22sm254665834ibg.5.2012.01.09.12.15.45
+	(version=TLSv1/SSLv3 cipher=OTHER);
+	Mon, 09 Jan 2012 12:15:46 -0800 (PST)
+From: Khem Raj <raj.khem@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Date: Mon,  9 Jan 2012 12:15:24 -0800
+Message-Id: <cover.1326140011.git.raj.khem@gmail.com>
+X-Mailer: git-send-email 1.7.5.4
+Subject: [PATCH] eglibc upgrade and uclibc fixes
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -35,79 +39,80 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 09 Jan 2012 17:31:35 -0000
-Content-Type: text/plain; charset=ISO-8859-1; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Mon, 09 Jan 2012 20:23:16 -0000
 
-On 01/09/2012 08:23 AM, Mark Hatle wrote:
-> On 1/8/12 11:29 PM, Saul Wold wrote:
->> On 01/08/2012 04:39 AM, Andrei Gherzan wrote:
->>> From: Andrei Gherzan<andrei.gherzan@windriver.com>
->>>
->>> [YOCTO #1884]
->>>
->>> Signed-off-by: Andrei Gherzan<andrei@gherzan.ro>
->>> ---
->>> meta/recipes-core/gettext/gettext_0.18.1.1.bb | 2 +-
->>> 1 files changed, 1 insertions(+), 1 deletions(-)
->>>
->>> diff --git a/meta/recipes-core/gettext/gettext_0.18.1.1.bb
->>> b/meta/recipes-core/gettext/gettext_0.18.1.1.bb
->>> index 615582e..1e8c952 100644
->>> --- a/meta/recipes-core/gettext/gettext_0.18.1.1.bb
->>> +++ b/meta/recipes-core/gettext/gettext_0.18.1.1.bb
->>> @@ -2,7 +2,7 @@ SUMMARY = "Utilities and libraries for producing
->>> multi-lingual messages."
->>> DESCRIPTION = "Gettext offers to programmers, translators, and even
->>> users, a well integrated set of tools and documentation.
->>> Specifically, the GNU `gettext' utilities are a set of tools that
->>> provides a framework to help other GNU packages produce multi-lingual
->>> messages. These tools include a set of conventions about how programs
->>> should be written to support message catalogs, a directory and file
->>> naming organization for the message catalogs themselves, a runtime
->>> library supporting the retrieval of translated messages, and a few
->>> stand-alone programs to massage in various ways the sets of
->>> translatable strings, or already translated strings."
->>> HOMEPAGE = "http://www.gnu.org/software/gettext/gettext.html"
->>> SECTION = "libs"
->>> -LICENSE = "GPL-3+ & LGPL-2.1+"
->>> +LICENSE = "GPLv3+ & LGPL-2.1+"
->>> LIC_FILES_CHKSUM = "file://COPYING;md5=d32239bcb673463ab874e80d47fae504"
->>>
->> I think the correct fix is to change the INCOMPATIBLE_LICENSE code to
->> detect both GPLv3 and GPL-3, which is the SPDX standard name.
->
-> Both GPL-3+ and GPLv3+ are supposed to be equivalent. (There is still on
-> going debate which one is "preferred" for oe-core.. the GPL-3+ is the
-> SPDX name at least.)
->
-> There is a license compatibility table, but for some reason I'm failing
-> to current find it in the distribution. It may simply be that the
-> INCOMPATIBLE_LICENSE is not using the compatibility table.
->
-Mark,
 
-Looks like he addressed this in an updated patch, I am looking at his 
-updated change and also looking at what Tom has proposed for LICENSE_FLAGS.
+These patches address the build failures found when using uclibc
+It also has the already posted patch for eglibc-2.15 upgrade
 
-Sau!
+The following changes since commit fff18970706913e7fd7f4a119d798dddb44b388a:
 
-> --Mark
->
->> Sau!
->>
->>> PR = "r6"
->>
->> _______________________________________________
->> Openembedded-core mailing list
->> Openembedded-core@lists.openembedded.org
->> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
->
->
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
->
+  base-files: filesystems: fix mount order (2012-01-06 14:41:19 +0000)
+
+are available in the git repository at:
+  git://git.openembedded.org/openembedded-core-contrib kraj/misc-fixes
+  http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=kraj/misc-fixes
+
+Khem Raj (7):
+  eglibc: Upgrade recipes 2.14 -> 2.15
+  libiconv_1.14.bb: Fix build failure
+  autotools.bbclass: Introduce CACHED_CONFIGUREVARS
+  default-distrovars: Define DISTRO_FEATURES_LIBC for uclibc
+  uclibc: Configure UCLIBC_HAS_WCHAR based on libc-posix-clang-wchar
+    distro feature
+  findutils: Use CACHED_CONFIGUREVARS to specify cached configure vars
+  util-linux: Enable fallocate and use CACHED_CONFIGUREVARS
+
+ meta/classes/autotools.bbclass                     |    2 +-
+ meta/conf/distro/include/default-distrovars.inc    |    2 +
+ ...tive_2.14.bb => cross-localedef-native_2.15.bb} |    0
+ .../IO-acquire-lock-fix.patch                      |    0
+ .../armv4-eabi-compile-fix.patch                   |    0
+ .../eglibc-rpc-export-again.patch                  |    0
+ .../eglibc-svn-arm-lowlevellock-include-tls.patch  |    0
+ .../{eglibc-2.14 => eglibc-2.15}/etc/ld.so.conf    |    0
+ .../generate-supported.mk                          |    0
+ .../glibc-2.14-libdl-crash.patch                   |    0
+ .../ld-search-order.patch                          |    0
+ .../mips-rld-map-check.patch                       |    0
+ .../multilib_readlib.patch                         |    0
+ .../{eglibc-2.14 => eglibc-2.15}/ppc-sqrt.patch    |    0
+ .../eglibc/eglibc-2.15/ppc-sqrt_finite.patch       |  112 +
+ .../stack-protector-test.patch                     |    0
+ .../use-sysroot-cxx-headers.patch                  |   30 +-
+ .../recipes-core/eglibc/eglibc-2.15/x86_fenv.patch |   29 +
+ ...libc-initial_2.14.bb => eglibc-initial_2.15.bb} |    0
+ ...eglibc-locale_2.14.bb => eglibc-locale_2.15.bb} |    0
+ .../eglibc/{eglibc_2.14.bb => eglibc_2.15.bb}      |   16 +-
+ meta/recipes-core/uclibc/uclibc-config.inc         |    1 +
+ meta/recipes-core/util-linux/util-linux_2.20.1.bb  |    6 +-
+ meta/recipes-extended/findutils/findutils_4.4.2.bb |    4 +-
+ .../libiconv-1.14/add-relocatable-module.patch     | 5008 ++++++++++++++++++++
+ meta/recipes-support/libiconv/libiconv_1.14.bb     |    8 +-
+ 26 files changed, 5195 insertions(+), 23 deletions(-)
+ rename meta/recipes-core/eglibc/{cross-localedef-native_2.14.bb => cross-localedef-native_2.15.bb} (100%)
+ rename meta/recipes-core/eglibc/{eglibc-2.14 => eglibc-2.15}/IO-acquire-lock-fix.patch (100%)
+ rename meta/recipes-core/eglibc/{eglibc-2.14 => eglibc-2.15}/armv4-eabi-compile-fix.patch (100%)
+ rename meta/recipes-core/eglibc/{eglibc-2.14 => eglibc-2.15}/eglibc-rpc-export-again.patch (100%)
+ rename meta/recipes-core/eglibc/{eglibc-2.14 => eglibc-2.15}/eglibc-svn-arm-lowlevellock-include-tls.patch (100%)
+ rename meta/recipes-core/eglibc/{eglibc-2.14 => eglibc-2.15}/etc/ld.so.conf (100%)
+ rename meta/recipes-core/eglibc/{eglibc-2.14 => eglibc-2.15}/generate-supported.mk (100%)
+ rename meta/recipes-core/eglibc/{eglibc-2.14 => eglibc-2.15}/glibc-2.14-libdl-crash.patch (100%)
+ rename meta/recipes-core/eglibc/{eglibc-2.14 => eglibc-2.15}/ld-search-order.patch (100%)
+ rename meta/recipes-core/eglibc/{eglibc-2.14 => eglibc-2.15}/mips-rld-map-check.patch (100%)
+ rename meta/recipes-core/eglibc/{eglibc-2.14 => eglibc-2.15}/multilib_readlib.patch (100%)
+ rename meta/recipes-core/eglibc/{eglibc-2.14 => eglibc-2.15}/ppc-sqrt.patch (100%)
+ create mode 100644 meta/recipes-core/eglibc/eglibc-2.15/ppc-sqrt_finite.patch
+ rename meta/recipes-core/eglibc/{eglibc-2.14 => eglibc-2.15}/stack-protector-test.patch (100%)
+ rename meta/recipes-core/eglibc/{eglibc-2.14 => eglibc-2.15}/use-sysroot-cxx-headers.patch (51%)
+ create mode 100644 meta/recipes-core/eglibc/eglibc-2.15/x86_fenv.patch
+ rename meta/recipes-core/eglibc/{eglibc-initial_2.14.bb => eglibc-initial_2.15.bb} (100%)
+ rename meta/recipes-core/eglibc/{eglibc-locale_2.14.bb => eglibc-locale_2.15.bb} (100%)
+ rename meta/recipes-core/eglibc/{eglibc_2.14.bb => eglibc_2.15.bb} (95%)
+ create mode 100644 meta/recipes-support/libiconv/libiconv-1.14/add-relocatable-module.patch
+
+-- 
+1.7.5.4
+
 
 
