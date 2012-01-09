@@ -1,24 +1,36 @@
-Received: from mail.pbcl.net ([88.198.119.4] helo=hetzner.pbcl.net)
+Received: from mail.cvg.de ([62.153.82.30])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <philb@gnu.org>) id 1RkCPQ-0002mT-Mk
+	(envelope-from <enrico.scholz@sigma-chemnitz.de>) id 1RkEAu-0005Lq-8p
 	for openembedded-core@lists.openembedded.org;
-	Mon, 09 Jan 2012 11:24:56 +0100
-Received: from elite.brightsigndigital.co.uk ([81.142.160.137]
-	helo=[172.30.1.145])
-	by hetzner.pbcl.net with esmtpsa (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
-	(Exim 4.72) (envelope-from <philb@gnu.org>) id 1RkCIF-0006uI-6m
-	for openembedded-core@lists.openembedded.org;
-	Mon, 09 Jan 2012 11:17:31 +0100
-From: Phil Blundell <philb@gnu.org>
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Date: Mon, 09 Jan 2012 10:17:30 +0000
-In-Reply-To: <1326083969-28287-1-git-send-email-raj.khem@gmail.com>
-References: <1326083969-28287-1-git-send-email-raj.khem@gmail.com>
-X-Mailer: Evolution 3.0.2- 
-Message-ID: <1326104251.12160.16.camel@phil-desktop>
-Mime-Version: 1.0
-Subject: Re: [PATCH] site/common-uclibc: Cache gl_cv_func_wcwidth_works
+	Mon, 09 Jan 2012 13:18:04 +0100
+Received: from ensc-virt.intern.sigma-chemnitz.de
+	(ensc-virt.intern.sigma-chemnitz.de [192.168.3.24])
+	by mail.cvg.de (8.14.4/8.14.4) with SMTP id q09CASgW011247
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO)
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 9 Jan 2012 13:10:29 +0100
+Received: by ensc-virt.intern.sigma-chemnitz.de (sSMTP sendmail emulation);
+	Mon,  9 Jan 2012 13:10:28 +0100
+From: Enrico Scholz <enrico.scholz@sigma-chemnitz.de>
+To: openembedded-core@lists.openembedded.org
+References: <cover.1325744640.git.sgw@linux.intel.com>
+	<04bb0f6bbd41ec9c2234df49130dba2346d9a3bf.1325744640.git.sgw@linux.intel.com>
+	<lyboqh86qb.fsf@ensc-virt.intern.sigma-chemnitz.de>
+	<4F07361F.8000406@intel.com>
+Date: Mon, 09 Jan 2012 13:10:28 +0100
+In-Reply-To: <4F07361F.8000406@intel.com> (Scott Garman's message of "Fri, 06
+	Jan 2012 09:57:51 -0800")
+Message-ID: <lyd3atoz4b.fsf@ensc-virt.intern.sigma-chemnitz.de>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/23.3 (gnu/linux)
+MIME-Version: 1.0
+X-DSPAM-Result: Innocent
+X-DSPAM-Probability: 0
+X-DSPAM-Confidence: 1
+X-Spam-Score: -5.8
+X-Spam-Level: -----
+X-Spam-Tests: AWL,BAYES_00,SPF_NEUTRAL,T_RP_MATCHES_RCVD,DSPAM_INNOCENT
+X-Scanned-By: MIMEDefang 2.72 on 62.153.82.30
+Subject: Re: [CONSOLIDATED PULL 04/28] ncurses: move libraries to base_libdir
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -33,22 +45,43 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 09 Jan 2012 10:24:56 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Mon, 09 Jan 2012 12:18:04 -0000
+Content-Type: text/plain; charset=us-ascii
 
-On Sun, 2012-01-08 at 20:39 -0800, Khem Raj wrote:
-> Its not computed properly during configure and
-> we configure uclibc with widechar support anyway
-> so its fine to cache it. It fixes the errors like
+Scott Garman <scott.a.garman-ral2JQCrhuEAvxtiuMwx3w@public.gmane.org>
+writes:
 
-Is this really a good idea?  Wide character support is already
-configurable for eglibc (via libc-posix-clang-wchar or whatever in
-DISTRO_FEATURES) and it seems as though making uclibc respect that as
-well would be a desirable plan for the future. 
+>>> -		f=${D}${libdir}/$i.so
+>>> +                f=${D}${base_libdir}/$i.so
+>>
+>> this breaks builds because 'ld' does not search ${base_libdir}:
+>>
+>> | gcc -shared ... -ltermcap
+>> | /usr/bin/ld: cannot find -ltermcap
+>> | ERROR: Task 216 (virtual:native:.../readline/readline_6.2.bb, do_install) failed with exit code '1'
+>> | ERROR: 'virtual:native:.../readline/readline_6.2.bb' failed
+>
+> Which is why I added:
+>
+> # tic from the -native build cannot run without setting this explicitly
+> BUILD_LDFLAGS_virtclass-native += "-Wl,-rpath,${base_libdir}"
+>
+> to ncurses.inc
+>
+> Is this not working?
 
-p.
+no; error happens when building 'readline-native' (which does not read
+ncurses.inc). Build of 'ncurses(-native)' succeeded.
 
 
+> I build-tested this with our -minimal and -sato images, and readline
+> is built as a part of this. Not sure how I could have missed this,
+> unless some host contamination was creeping in.
+
+probably, the ncurses development files were installed on the host and
+'-ltermcap' linked against them and not against the oe ones..
+
+
+Enrico
 
 
