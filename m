@@ -1,18 +1,18 @@
 Received: from mail.windriver.com ([147.11.1.11])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <mark.hatle@windriver.com>) id 1RkI1T-0005MQ-JV
+	(envelope-from <mark.hatle@windriver.com>) id 1RkI4g-0005Rs-1V
 	for openembedded-core@lists.openembedded.org;
-	Mon, 09 Jan 2012 17:24:36 +0100
+	Mon, 09 Jan 2012 17:27:54 +0100
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca [147.11.189.40])
-	by mail.windriver.com (8.14.3/8.14.3) with ESMTP id q09GH7bT027886
+	by mail.windriver.com (8.14.3/8.14.3) with ESMTP id q09GKPHp028344
 	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 9 Jan 2012 08:17:07 -0800 (PST)
+	Mon, 9 Jan 2012 08:20:25 -0800 (PST)
 Received: from Macintosh-5.local (172.25.36.233) by ALA-HCA.corp.ad.wrs.com
 	(147.11.189.50) with Microsoft SMTP Server id 14.1.255.0;
-	Mon, 9 Jan 2012 08:17:06 -0800
-Message-ID: <4F0B1302.9020901@windriver.com>
-Date: Mon, 9 Jan 2012 10:17:06 -0600
+	Mon, 9 Jan 2012 08:20:25 -0800
+Message-ID: <4F0B13C9.6090703@windriver.com>
+Date: Mon, 9 Jan 2012 10:20:25 -0600
 From: Mark Hatle <mark.hatle@windriver.com>
 Organization: Wind River Systems
 User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.6;
@@ -20,10 +20,10 @@ User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.6;
 MIME-Version: 1.0
 To: Xiaofeng Yan <xiaofeng.yan@windriver.com>
 References: <cover.1326003199.git.xiaofeng.yan@windriver.com>
-	<8e1e0bb2a8e876e37c2de9d84eb747c66d0ec750.1326003199.git.xiaofeng.yan@windriver.com>
-In-Reply-To: <8e1e0bb2a8e876e37c2de9d84eb747c66d0ec750.1326003199.git.xiaofeng.yan@windriver.com>
+	<6161b957ee773a9a5b293ac9373ca0be07bb5665.1326003199.git.xiaofeng.yan@windriver.com>
+In-Reply-To: <6161b957ee773a9a5b293ac9373ca0be07bb5665.1326003199.git.xiaofeng.yan@windriver.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 1/2] package_rpm.bbclass: add srpm function in spec file
+Subject: Re: [PATCH 2/2] tar_archive.bbclass: Package source codes and log files to tar package
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -38,200 +38,106 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 09 Jan 2012 16:24:36 -0000
+X-List-Received-Date: Mon, 09 Jan 2012 16:27:54 -0000
 Content-Type: text/plain; charset="ISO-8859-1"; format=flowed
 Content-Transfer-Encoding: 7bit
 
 On 1/8/12 1:11 AM, Xiaofeng Yan wrote:
 > From: Xiaofeng Yan<xiaofeng.yan@windriver.com>
 >
-> For packaging source codes to source rpm package, adding Sources,\
->   Patches and prep stage in spec file.
-> "Sources" include source codes (type of tar.gz) and \
-> log files including log.do_patch and log.do_configure (type of tar.gz)
-> "Patches" include all patches called in bb file.
-> "prep" is for user viewing the result in the stage of doing patch and configuration
-> for example:
-> User can use the following command to run the stage of prep.
-> $rpmbuild -bp package.spec
-> <show the result of log.do_patch and log.configure>
+> Source rpm package needs tar package as its source codes. log files \
+> are required as a part of source (description in bug 1655).
+> So log files need be packaged as tar package too.
+> User can select two types of package, the first is tar package and the second is src.rpm package.
+> The option item is defined in conf/local.conf.(ARCHIVE_TYPE ?= "SRPM"(default) or ARCHIVE_TYPE ?= "TARGZ")
+> if the option is the first type, then tar_archive.bbclass should be inherited in an suitable position.
+> The tar packages(sources.tar.gz and log.tar.gz) will be created in workdir.
+> if the option is the second type, then tar_archive.bbclass shoud be inherited in package_rpm.bbclass.
+> The sources rpm packages will be created in workdir/deploy-srpm when building.
+> The following command can ship all of source packages(src.rpm or tar.gz) to build/tmp/deploy/sources
+> $bitbake core-image-sato -c copysources
 >
 > [YOCTO #1655]
 >
 > Signed-off-by: Xiaofeng Yan<xiaofeng.yan@windriver.com>
 > ---
->   meta/classes/package_rpm.bbclass |   65 ++++++++++++++++++++++++++++++++------
->   1 files changed, 55 insertions(+), 10 deletions(-)
+>   meta/classes/tar_archive.bbclass |  216 ++++++++++++++++++++++++++++++++++++++
+>   1 files changed, 216 insertions(+), 0 deletions(-)
+>   create mode 100644 meta/classes/tar_archive.bbclass
 >
-> diff --git a/meta/classes/package_rpm.bbclass b/meta/classes/package_rpm.bbclass
-> index d03dc3f..3e0ca15 100644
-> --- a/meta/classes/package_rpm.bbclass
-> +++ b/meta/classes/package_rpm.bbclass
-> @@ -6,6 +6,7 @@ RPM="rpm"
->   RPMBUILD="rpmbuild"
->
->   PKGWRITEDIRRPM = "${WORKDIR}/deploy-rpms"
-> +PKGWRITEDIRSRPM = "${WORKDIR}/deploy-srpm"
->
->   python package_rpm_fn () {
->   	d.setVar('PKGFN', d.getVar('PKG'))
-> @@ -422,6 +423,19 @@ python write_specfile () {
->   	import textwrap
->   	import oe.packagedata
->
-> +	def add_prep(spec_files_bottom):
-> +		bb.build.exec_func('not_srpm', d)
-> +		if not d.getVar('NOTSRPM', True) and d.getVar('ARCHIVE_TYPE', True) == 'SRPM':
-> +			spec_files_bottom.append('%%prep -n %s' % d.getVar('PN', True) )
-> +			spec_files_bottom.append('%s' % "set +x")
-> +			spec_files_bottom.append('%s' % "cd $RPM_SOURCE_BUILD")
-> +			spec_files_bottom.append('%s' % "tar zxvf $RPM_SOURCE_DIR/log.tar.gz")
-> +			spec_files_bottom.append('%s' % "echo \"============ do patch ==============\"")
-> +			spec_files_bottom.append('%s' % "cat log.do_patch*")
-> +			spec_files_bottom.append('%s' % "echo \"============ do configure ==========\"")
-> +			spec_files_bottom.append('%s' % "cat log.do_configure*")
-> +			spec_files_bottom.append('')
 
-The above will simply print the output of the do_patch and do_configure steps. 
-It would probably be better to simply include the steps themselves... but with 
-the python based steps I'm not sure that is possible.  So returning the log 
-entries is likely the next best thing.
+...
 
-Note, you don't need the wild cards in this, you should simply cat out the 
-version log.do_patch instead of log.do_patch* -- bitbake ensures that the last 
-log file is always the one with the symbolic link.
+> +addtask do_logarchive after do_install before do_package
+> +
+> +# This is used for fixing the "Bad owner/group: ..."
+> +# Set owner and group for patches, log.tar.gz and ${PF}.tar.gz to "root"
+> +do_setowngroup[dirs] = "${WORKDIR}"
+> +fakeroot python do_setowngroup(){
+> +	import os
+> +	
+> +	if not d.getVar('ARCHIVE_TYPE', True):
+> +		return
+> +	bb.build.exec_func('not_srpm', d)	
+> +	if d.getVar('NOTSRPM', True):
+> +		return
+> +	bb.build.exec_func('get_patches', d)
+> +        srcpatches = d.getVar('PLIST',True)
+> +	for patch in srcpatches:
+> +		os.system('chown root.root' + ' ' + patch)
+> +	os.system('chown root.root' + ' ' + "log.tar.gz")
+> +	os.system('chown root.root' + ' ' + d.getVar('PF', True) + ".tar.gz")
+> +}
 
---Mark
+Instead of the above during the creation of the tar archive, you should be able 
+to pass in --owner=root  --group=root and tar will ignore the on-disk 
+permissions and set it based on the arguments.
 
+> +addtask do_setowngroup after do_logarchive before do_package
 > +
->   	# We need a simple way to remove the MLPREFIX from the package name,
->   	# and dependency information...
->   	def strip_multilib(name, d):
-> @@ -533,6 +547,13 @@ python write_specfile () {
->   	srcmaintainer  = d.getVar('MAINTAINER', True)
->   	srchomepage    = d.getVar('HOMEPAGE', True)
->   	srcdescription = d.getVar('DESCRIPTION', True) or "."
+> +# Copy source package to build/tmp/deploy/sources
+> +do_copysources[dirs] = "${PWD}/tmp/work"
+> +python do_copysources (){
+> +	import os
 > +	
-> +	bb.build.exec_func('not_srpm', d)
-> +	if not d.getVar('NOTSRPM', True) and d.getVar('ARCHIVE_TYPE', True) == 'SRPM':
-> +		tpkg_name = d.getVar('PF',True)
-> +		srctargz  = tpkg_name + ".tar.gz"
-> +		logtargz = "log.tar.gz"
+> +	archive_type = d.getVar('ARCHIVE_TYPE', True)
+> +	pwd = d.getVar('PWD', True)
+> +	machine = d.getVar('MACHINE', True)
+> +	target_sys = d.getVar('TARGET_SYS', True)
+> +	target_os = d.getVar('TARGET_OS', True)
+> +	target_vendor = d.getVar('TARGET_VENDOR', True)
+> +	tune_pkgarch = d.getVar('TUNE_PKGARCH', True)
+> +	multimach_host_sys = d.getVar('MULTIMACH_HOST_SYS', True)
+> +	all = 'all' + target_vendor + '-' + 'linux'
+> +	target = tune_pkgarch + target_vendor + '-' + target_os
+> +	srpmdir=pwd + '/tmp/deploy/' + 'sources' + '/' + machine
+> +	
+> +	if not os.path.exists(srpmdir):
+> +		os.makedirs(srpmdir)
+> +	global_work = pwd + '/tmp' + '/work'
+> +	os.chdir(global_work)
+> +	for dirs in multimach_host_sys, all, target:
+> +		localdir = srpmdir + '/' + dirs
+> +		if not os.path.exists(localdir):
+> +			os.mkdir(localdir)
+> +		os.chdir(dirs)
+> +		if archive_type == 'SRPM':
+> +			os.system('cp */deploy-srpm/*/*.src.rpm ' + localdir)
+> +		elif archive_type == 'TARGZ':
+> +			for dir in os.listdir('.'):
+> +				if os.path.isdir(dir):
+> +					os.chdir(dir)
+> +					if not os.path.exists(dir):
+> +						os.mkdir(localdir + '/' + dir)
+> +					os.system('cp *.gz ' + localdir + '/' + dir)
+> +					os.chdir('../')
+> +		else:
+> +			return
+> +		os.chdir(global_work)
+> +}
+> +addtask do_copysources  after do_rootfs
 > +
->
->   	srcdepends     = strip_multilib(d.getVar('DEPENDS', True), d)
->   	srcrdepends    = []
-> @@ -557,6 +578,11 @@ python write_specfile () {
->   	spec_files_top = []
->   	spec_files_bottom = []
->
-> +	if not d.getVar('NOTSRPM', True) and d.getVar('ARCHIVE_TYPE', True) == 'SRPM':
-> +		srcpatches = []	
-> +		bb.build.exec_func('get_patches', d)
-> +		srcpatches = d.getVar('PLIST',True)
-> +	
->   	for pkg in packages.split():
->   		localdata = bb.data.createCopy(d)
->
-> @@ -637,7 +663,7 @@ python write_specfile () {
->   				else:
->   					bb.note("Creating EMPTY RPM Package for %s" % splitname)
->   				spec_files_top.append('')
-> -
-> +				
->   			bb.utils.unlockfile(lf)
->   			continue
->
-> @@ -714,7 +740,7 @@ python write_specfile () {
->   			spec_scriptlets_bottom.append('# %s - %s' % (splitname, script))
->   			spec_scriptlets_bottom.append(scriptvar)
->   			spec_scriptlets_bottom.append('')
-> -
-> +		
->   		# Now process files
->   		file_list = []
->   		walk_files(root, file_list, conffiles)
-> @@ -732,7 +758,8 @@ python write_specfile () {
->
->   		del localdata
->   		bb.utils.unlockfile(lf)
-> -
-> +	
-> +	add_prep(spec_files_bottom)
->   	spec_preamble_top.append('Summary: %s' % srcsummary)
->   	spec_preamble_top.append('Name: %s' % srcname)
->   	spec_preamble_top.append('Version: %s' % srcversion)
-> @@ -743,6 +770,11 @@ python write_specfile () {
->   	spec_preamble_top.append('Group: %s' % srcsection)
->   	spec_preamble_top.append('Packager: %s' % srcmaintainer)
->   	spec_preamble_top.append('URL: %s' % srchomepage)
-> +	
-> +	if not d.getVar('NOTSRPM', True) and d.getVar('ARCHIVE_TYPE', True) == 'SRPM':
-> +		spec_preamble_top.append('Source: %s' % srctargz)
-> +		spec_preamble_top.append('Source1: %s' % logtargz)
-> +
->
->   	# Replaces == Obsoletes&&  Provides
->   	if srcrreplaces and srcrreplaces.strip() != "":
-> @@ -764,6 +796,11 @@ python write_specfile () {
->   	print_deps(srcrsuggests, 	"Recommends", spec_preamble_top, d)
->   	print_deps(srcrprovides, 	"Provides", spec_preamble_top, d)
->   	print_deps(srcrobsoletes, 	"Obsoletes", spec_preamble_top, d)
-> +	if not d.getVar('NOTSRPM', True) and d.getVar('ARCHIVE_TYPE', True) == 'SRPM':
-> +		numid = 1
-> +		for patch in srcpatches:
-> +			print_deps(patch, "Patch" + str(numid), spec_preamble_top, d)
-> +			numid += 1
->
->   	# conflicts can not be in a provide!  We will need to filter it.
->   	if srcrconflicts:
-> @@ -817,12 +854,6 @@ python write_specfile () {
->   	except OSError:
->   		raise bb.build.FuncFailed("unable to open spec file for writing.")
->
-> -	# RPMSPEC_PREAMBLE is a way to add arbitrary text to the top
-> -	# of the generated spec file
-> -	external_preamble = d.getVar("RPMSPEC_PREAMBLE", True)
-> -	if external_preamble:
-> -		specfile.write(external_preamble + "\n")
-> -
->   	for line in spec_preamble_top:
->   		specfile.write(line + "\n")
->
-> @@ -947,9 +978,14 @@ python do_package_rpm () {
->   		d.setVar('PACKAGE_ARCH_EXTEND', package_arch)
->   	pkgwritedir = bb.data.expand('${PKGWRITEDIRRPM}/${PACKAGE_ARCH_EXTEND}', d)
->   	pkgarch = bb.data.expand('${PACKAGE_ARCH_EXTEND}${TARGET_VENDOR}-${TARGET_OS}', d)
-> -	magicfile = bb.data.expand('${STAGING_DIR_NATIVE}${datadir_native}/misc/magic.mgc', d)
-> +	magicfile = bb.data.expand('${STAGING_DIR_NATIVE}/usr/share/misc/magic.mgc', d)
->   	bb.mkdirhier(pkgwritedir)
->   	os.chmod(pkgwritedir, 0755)
-> +	if not d.getVar('NOTSRPM', True) and d.getVar('ARCHIVE_TYPE', True):
-> +		pkgwritesrpmdir = bb.data.expand('${PKGWRITEDIRSRPM}/${PACKAGE_ARCH_EXTEND}', d)
-> +		bb.mkdirhier(pkgwritesrpmdir)
-> +		os.chmod(pkgwritesrpmdir, 0755)
-> +	
->
->   	cmd = rpmbuild
->   	cmd = cmd + " --nodeps --short-circuit --target " + pkgarch + " --buildroot " + pkgd
-> @@ -962,8 +998,17 @@ python do_package_rpm () {
->   	cmd = cmd + " --define 'debug_package %{nil}'"
->   	cmd = cmd + " --define '_rpmfc_magic_path " + magicfile + "'"
->   	cmd = cmd + " --define '_tmppath " + workdir + "'"
-> +	if not d.getVar('NOTSRPM', True) and d.getVar('ARCHIVE_TYPE', True) == 'SRPM':
-> +		cmdsrpm = cmd + " --define '_sourcedir " + workdir + "' --define '_srcrpmdir " + pkgwritesrpmdir + "'"
-> +		cmdsrpm = cmdsrpm + " -bs " + outspecfile
->   	cmd = cmd + " -bb " + outspecfile
->
-> +	# Build the source rpm package !
-> +	if not d.getVar('NOTSRPM', True) and d.getVar('ARCHIVE_TYPE', True) == 'SRPM':
-> +		d.setVar('SBUILDSPEC', cmdsrpm + "\n")
-> +		d.setVarFlag('SBUILDSPEC', 'func', '1')
-> +		bb.build.exec_func('SBUILDSPEC', d)
-> +
->   	# Build the rpm package!
->   	d.setVar('BUILDSPEC', cmd + "\n")
->   	d.setVarFlag('BUILDSPEC', 'func', '1')
+> +EXPORT_FUNCTIONS do_archive do_logarchive do_setowngroup do_copysources
 
 
 
