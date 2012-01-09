@@ -1,39 +1,25 @@
-Received: from mga09.intel.com ([134.134.136.24])
+Received: from mga11.intel.com ([192.55.52.93])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <nitin.a.kamble@intel.com>) id 1Rk8HZ-0000ND-9L
+	(envelope-from <sgw@linux.intel.com>) id 1Rk8Od-0000Wi-Uk
 	for openembedded-core@lists.openembedded.org;
-	Mon, 09 Jan 2012 07:00:33 +0100
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-	by orsmga102.jf.intel.com with ESMTP; 08 Jan 2012 21:53:05 -0800
+	Mon, 09 Jan 2012 07:07:52 +0100
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+	by fmsmga102.fm.intel.com with ESMTP; 08 Jan 2012 22:00:23 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.67,352,1309762800"; d="scan'208";a="94283668"
-Received: from orsmsx603.amr.corp.intel.com ([10.22.226.49])
-	by orsmga001.jf.intel.com with ESMTP; 08 Jan 2012 21:53:05 -0800
-Received: from orsmsx151.amr.corp.intel.com (10.22.226.38) by
-	orsmsx603.amr.corp.intel.com (10.22.226.49) with Microsoft SMTP Server
-	(TLS) id 8.2.255.0; Sun, 8 Jan 2012 21:53:04 -0800
-Received: from orsmsx106.amr.corp.intel.com ([169.254.5.229]) by
-	ORSMSX151.amr.corp.intel.com ([169.254.7.170]) with mapi id
-	14.01.0355.002; Sun, 8 Jan 2012 21:53:04 -0800
-From: "Kamble, Nitin A" <nitin.a.kamble@intel.com>
+X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="110137104"
+Received: from unknown (HELO [10.255.13.28]) ([10.255.13.28])
+	by fmsmga002.fm.intel.com with ESMTP; 08 Jan 2012 22:00:23 -0800
+Message-ID: <4F0A8276.6050204@linux.intel.com>
+Date: Sun, 08 Jan 2012 22:00:22 -0800
+From: Saul Wold <sgw@linux.intel.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:8.0) Gecko/20111115 Thunderbird/8.0
+MIME-Version: 1.0
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Thread-Topic: [OE-core] [PATCH] eglibc: Upgrade recipes 2.14 -> 2.15
-Thread-Index: AQHMzCUG3QQ9CEymOE63C0FLBhqCf5X+x1nQgACqywCAADDtQIAA2yEAgADrUcA=
-Date: Mon, 9 Jan 2012 05:53:04 +0000
-Message-ID: <ADD6A3980E8C39419A432FF422031B4C01596D@ORSMSX106.amr.corp.intel.com>
-References: <1325821207-2843-1-git-send-email-raj.khem@gmail.com>
-	<ADD6A3980E8C39419A432FF422031B4C014BC2@ORSMSX106.amr.corp.intel.com>
-	<4F069E36.7000600@linux.intel.com>
-	<ADD6A3980E8C39419A432FF422031B4C014F82@ORSMSX106.amr.corp.intel.com>
-	<CAMKF1sqrrShTqFjoutMxgtNuU2n2u31wftB9n=Wsy6FGPyvngA@mail.gmail.com>
-In-Reply-To: <CAMKF1sqrrShTqFjoutMxgtNuU2n2u31wftB9n=Wsy6FGPyvngA@mail.gmail.com>
-Accept-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [10.22.254.138]
-MIME-Version: 1.0
-Subject: Re: [PATCH] eglibc: Upgrade recipes 2.14 -> 2.15
+References: <cover.1325792209.git.otavio@ossystems.com.br>
+In-Reply-To: <cover.1325792209.git.otavio@ossystems.com.br>
+Subject: Re: [PATCH 00/10] Pending patches from O.S. Systems tree
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -48,44 +34,63 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 09 Jan 2012 06:00:33 -0000
-Content-Language: en-US
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Mon, 09 Jan 2012 06:07:53 -0000
+Content-Type: text/plain; charset=ISO-8859-1; format=flowed
+Content-Transfer-Encoding: 7bit
+
+On 01/05/2012 11:37 AM, Otavio Salvador wrote:
+> The following changes since commit 563828bad19a242bba9ce3db461bb5807037dfdf:
+>
+>    multilib: Abstract class extension code into classextend.py (2012-01-05 12:36:08 +0000)
+>
+> are available in the git repository at:
+>    git://github.com/OSSystems/oe-core master
+>    https://github.com/OSSystems/oe-core/tree/HEAD
+>
+> Otavio Salvador (10):
+>    qt4-graphics-system: add
+>    qt4e.bbclass: add QT_BASE_NAME for use in recipes
+>    qt4x11.bbclass: add QT_BASE_NAME for use in recipes
+>    qt4-embedded.inc: use QT_BASE_NAME from qt4e.bbclass
+>    qt4-x11-free.inc: use QT_BASE_NAME from qt4x11.bbclass
+Merged these into OE-COre
+
+>    initscripts: avoid mounting /sys if it is already mounted
+Merged
+>    busybox: disable syslogd configuration file support
+We talked about this one on #yocto, already fixed in master (differently)
+
+>    udev: ensure /dev/pts and /dev/shm does exists
+Merged
+>    udev: improve udev-cache robustnes
+I guess you are looking into improvements.
 
 
+>    udev: drop depmod handling code as it ought to be done in kernel
+>      postinst
+Dropped per your request
 
-> -----Original Message-----
-> From: openembedded-core-bounces@lists.openembedded.org
-> [mailto:openembedded-core-bounces@lists.openembedded.org] On Behalf Of
-> Khem Raj
-> Sent: Friday, January 06, 2012 3:09 PM
-> To: Patches and discussions about the oe-core layer
-> Subject: Re: [OE-core] [PATCH] eglibc: Upgrade recipes 2.14 -> 2.15
->=20
-> On Fri, Jan 6, 2012 at 10:07 AM, Kamble, Nitin A
-> <nitin.a.kamble@intel.com> wrote:
-> > That is a big change for x32, It may work out or not, last time x32 +
-> eglibc-2.15 was causing some issues which were I think actually more
-> eglibc-2.15 issues. The worst case is I can move the eglibc-2.14 recipe
-> into the meta-x32 layer.
->=20
-> If you are not on a release trail I would suggest to try 2.15. You can
-> move the recipes to a
-> layer certainly but its better to keep less versions around for
-> maintenance sake. what problems do u envision that can happen with
-> 2.15 ?
+Thanks
+	Sau!
 
-I do not remember all the issues now, but I was seeing more failures. I can=
- give it a try with 2.15 and see how it goes.
-
-Thanks,
-Nitin
-
->=20
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
+>
+>   meta/classes/qt4e.bbclass                          |    1 +
+>   meta/classes/qt4x11.bbclass                        |    1 +
+>   meta/recipes-core/busybox/busybox-1.19.3/defconfig |    2 +-
+>   meta/recipes-core/busybox/busybox_1.19.3.bb        |    2 +-
+>   .../initscripts/initscripts-1.0/sysfs.sh           |    4 +-
+>   meta/recipes-core/initscripts/initscripts_1.0.bb   |    2 +-
+>   meta/recipes-core/udev/udev.inc                    |   11 +++++++-
+>   meta/recipes-core/udev/udev/init                   |   23 +++++++++++++---
+>   meta/recipes-core/udev/udev/udev-cache             |   20 ++++++++++++--
+>   meta/recipes-core/udev/udev/udev-cache.default     |    4 +++
+>   meta/recipes-core/udev/udev_164.bb                 |    2 +-
+>   .../qt4-graphics-system/qt4-graphics-system_1.0.bb |   27 ++++++++++++++++++++
+>   meta/recipes-qt/qt4/qt4-embedded.inc               |    3 +-
+>   meta/recipes-qt/qt4/qt4-x11-free.inc               |    3 +-
+>   14 files changed, 86 insertions(+), 19 deletions(-)
+>   create mode 100644 meta/recipes-core/udev/udev/udev-cache.default
+>   create mode 100644 meta/recipes-qt/qt4-graphics-system/qt4-graphics-system_1.0.bb
+>
 
 
