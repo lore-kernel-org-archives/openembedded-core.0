@@ -1,28 +1,34 @@
-Received: from mail1.windriver.com ([147.11.146.13])
+Received: from mail-lpp01m010-f47.google.com ([209.85.215.47])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <mark.hatle@windriver.com>) id 1RkIAf-0005ah-Jh
+	(envelope-from <otavio.salvador@gmail.com>) id 1RkIZM-00065D-W1
 	for openembedded-core@lists.openembedded.org;
-	Mon, 09 Jan 2012 17:34:05 +0100
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca [147.11.189.40])
-	by mail1.windriver.com (8.14.3/8.14.3) with ESMTP id q09GQbMQ025059
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
+	Mon, 09 Jan 2012 17:59:38 +0100
+Received: by lami14 with SMTP id i14so1411846lam.6
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 9 Jan 2012 08:26:37 -0800 (PST)
-Received: from Macintosh-5.local (172.25.36.233) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server id 14.1.255.0;
-	Mon, 9 Jan 2012 08:26:37 -0800
-Message-ID: <4F0B153D.4000602@windriver.com>
-Date: Mon, 9 Jan 2012 10:26:37 -0600
-From: Mark Hatle <mark.hatle@windriver.com>
-Organization: Wind River Systems
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.6;
-	rv:8.0) Gecko/20111105 Thunderbird/8.0
+	Mon, 09 Jan 2012 08:52:09 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
+	h=mime-version:sender:in-reply-to:references:date
+	:x-google-sender-auth:message-id:subject:from:to:content-type;
+	bh=EKavOVAFJiEtanWmBPsC5LuacvSdqEr1r1QL1dIMlqc=;
+	b=sapS5NskMkUG80cmd6yAgIocUTv8++DLEqLZlU+oT2mvP3/9oP8CQl8mbRDYI85+ZF
+	vllIcabLk1f/QwR1UehhhEBk+CddR6sjqncfku6FD9WqfwfGVN5ccTIZJLiYftsW32o7
+	LscxkiobMm+cqvvwrqQPshN9h9ieHEONwdYIw=
 MIME-Version: 1.0
-To: <openembedded-core@lists.openembedded.org>
+Received: by 10.112.101.163 with SMTP id fh3mr3529777lbb.97.1326127928023;
+	Mon, 09 Jan 2012 08:52:08 -0800 (PST)
+Sender: otavio.salvador@gmail.com
+Received: by 10.112.54.104 with HTTP; Mon, 9 Jan 2012 08:52:07 -0800 (PST)
+In-Reply-To: <4F0B153D.4000602@windriver.com>
 References: <1326067422-30771-1-git-send-email-andrei@gherzan.ro>
 	<CAEsOVNeAuF5u2J_MhZg9tVezexCNyK2rGsZ2sUgBpTeJ90ZVqw@mail.gmail.com>
 	<1326096548.3234.3.camel@lenovo.internal.reciva.com>
-In-Reply-To: <1326096548.3234.3.camel@lenovo.internal.reciva.com>
+	<4F0B153D.4000602@windriver.com>
+Date: Mon, 9 Jan 2012 14:52:07 -0200
+X-Google-Sender-Auth: NB8cReUBgeRYpzeDEW_YZxKbdTg
+Message-ID: <CAP9ODKqGRj3DyZwwxCQrAGPX8mufX4NDAaMr2LiEHy1w6tHfPA@mail.gmail.com>
+From: Otavio Salvador <otavio@ossystems.com.br>
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
 Subject: Re: [PATCH] busybox: defconfig modified in order to activate CONFIG_EXPR_MATH_SUPPORT_64
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
@@ -38,88 +44,89 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 09 Jan 2012 16:34:06 -0000
-Content-Type: text/plain; charset="ISO-8859-1"; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Mon, 09 Jan 2012 16:59:40 -0000
+Content-Type: multipart/alternative; boundary=f46d04016b0f139beb04b61b38ea
 
-On 1/9/12 2:09 AM, Phil Blundell wrote:
-> You could take a look at the busybox-config.inc stuff in oe-classic as a
-> starting point.  It doesn't do PACKAGECONFIG (since oe-classic doesn't
-> have that) but it can do the equivalent with DISTRO_FEATURES.
+--f46d04016b0f139beb04b61b38ea
+Content-Type: text/plain; charset=ISO-8859-1
 
-At Wind River we've discussed using the kernel configuration fragment patching 
-process as a way to control busybox.  This would allow the recipe to provide a 
-default fragment (configuration), with machines, architectures, and other 
-configurations providing additional fragments -- that together would produce the 
-busybox that the end use wants.
+On Mon, Jan 9, 2012 at 14:26, Mark Hatle <mark.hatle@windriver.com> wrote:
 
-I think this is a better long term approach then hacking the defconfig file each 
-time it's not quite right for a system.  (We may still need to modify it over 
-time, but the modifications need to be considered "generic" based on the use of 
-busybox in say core-image-minimal...)
-
---Mark
-
-> p.
+> On 1/9/12 2:09 AM, Phil Blundell wrote:
 >
-> On Mon, 2012-01-09 at 05:08 +0000, McClintock Matthew-B29882 wrote:
->> Is anyone working on more fine grained control of busybox? Some ideas include:
+>> You could take a look at the busybox-config.inc stuff in oe-classic as a
+>> starting point.  It doesn't do PACKAGECONFIG (since oe-classic doesn't
+>> have that) but it can do the equivalent with DISTRO_FEATURES.
 >>
->> 1) configure via PACKAGECONFIG?
->>
->> 2) supply a defconfig for busybox?
->>
->> 3) multiple busybox recipes?
->>
->> -M
->>
->> On Sun, Jan 8, 2012 at 6:03 PM, Andrei Gherzan<andrei@gherzan.ro>  wrote:
->>> From: Andrei Gherzan<andrei.gherzan@windriver.com>
->>>
->>> Enable 64-bit math support in the expr applet. This will make
->>> the applet slightly larger, but will allow computation with very
->>> large numbers.
->>>
->>> [YOCTO #1767]
->>>
->>> Signed-off-by: Andrei Gherzan<andrei@gherzan.ro>
->>> ---
->>>   meta/recipes-core/busybox/busybox-1.19.3/defconfig |    2 +-
->>>   1 files changed, 1 insertions(+), 1 deletions(-)
->>>
->>> diff --git a/meta/recipes-core/busybox/busybox-1.19.3/defconfig b/meta/recipes-core/busybox/busybox-1.19.3/defconfig
->>> index 1990f28..ebd751d 100644
->>> --- a/meta/recipes-core/busybox/busybox-1.19.3/defconfig
->>> +++ b/meta/recipes-core/busybox/busybox-1.19.3/defconfig
->>> @@ -214,7 +214,7 @@ CONFIG_FEATURE_ENV_LONG_OPTIONS=y
->>>   # CONFIG_EXPAND is not set
->>>   # CONFIG_FEATURE_EXPAND_LONG_OPTIONS is not set
->>>   CONFIG_EXPR=y
->>> -# CONFIG_EXPR_MATH_SUPPORT_64 is not set
->>> +CONFIG_EXPR_MATH_SUPPORT_64=y
->>>   CONFIG_FALSE=y
->>>   # CONFIG_FOLD is not set
->>>   # CONFIG_FSYNC is not set
->>> --
->>> 1.7.5.4
->>>
->>>
->>> _______________________________________________
->>> Openembedded-core mailing list
->>> Openembedded-core@lists.openembedded.org
->>> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
->>
->> _______________________________________________
->> Openembedded-core mailing list
->> Openembedded-core@lists.openembedded.org
->> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
 >
+> At Wind River we've discussed using the kernel configuration fragment
+> patching process as a way to control busybox.  This would allow the recipe
+> to provide a default fragment (configuration), with machines,
+> architectures, and other configurations providing additional fragments --
+> that together would produce the busybox that the end use wants.
 >
->
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
+> I think this is a better long term approach then hacking the defconfig
+> file each time it's not quite right for a system.  (We may still need to
+> modify it over time, but the modifications need to be considered "generic"
+> based on the use of busybox in say core-image-minimal...)
 
 
+I agree with the concept of the idea and long term solution however I also
+think it needs to be well documented otherwise it is going to be a problem,
+instead of a solution.
 
+When I tried to use the kernel configuration fragment from Yocto I couldn't
+figure it out by myself and it seems very undocumented thus its learn curve
+is not as good as I'd hope for...
+
+-- 
+Otavio Salvador                             O.S. Systems
+E-mail: otavio@ossystems.com.br  http://www.ossystems.com.br
+Mobile: +55 53 9981-7854              http://projetos.ossystems.com.br
+
+--f46d04016b0f139beb04b61b38ea
+Content-Type: text/html; charset=ISO-8859-1
+Content-Transfer-Encoding: quoted-printable
+
+<div class=3D"gmail_quote">On Mon, Jan 9, 2012 at 14:26, Mark Hatle <span d=
+ir=3D"ltr">&lt;<a href=3D"mailto:mark.hatle@windriver.com">mark.hatle@windr=
+iver.com</a>&gt;</span> wrote:<br><blockquote class=3D"gmail_quote" style=
+=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex">
+<div class=3D"im">On 1/9/12 2:09 AM, Phil Blundell wrote:<br>
+<blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1p=
+x #ccc solid;padding-left:1ex">
+You could take a look at the busybox-config.inc stuff in oe-classic as a<br=
+>
+starting point. =A0It doesn&#39;t do PACKAGECONFIG (since oe-classic doesn&=
+#39;t<br>
+have that) but it can do the equivalent with DISTRO_FEATURES.<br>
+</blockquote>
+<br></div>
+At Wind River we&#39;ve discussed using the kernel configuration fragment p=
+atching process as a way to control busybox. =A0This would allow the recipe=
+ to provide a default fragment (configuration), with machines, architecture=
+s, and other configurations providing additional fragments -- that together=
+ would produce the busybox that the end use wants.<br>
+
+<br>
+I think this is a better long term approach then hacking the defconfig file=
+ each time it&#39;s not quite right for a system. =A0(We may still need to =
+modify it over time, but the modifications need to be considered &quot;gene=
+ric&quot; based on the use of busybox in say core-image-minimal...)</blockq=
+uote>
+<div><br></div><div>I agree with the concept of the idea and long term solu=
+tion however I also think it needs to be well documented otherwise it is go=
+ing to be a problem, instead of a solution.</div><div><br></div><div>When I=
+ tried to use the kernel configuration fragment from Yocto I couldn&#39;t f=
+igure it out by myself and it seems very undocumented thus its learn curve =
+is not as good as I&#39;d hope for...</div>
+<div>=A0</div></div>-- <br>Otavio Salvador=A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =
+=A0 =A0 =A0 =A0 =A0 =A0 =A0O.S. Systems<br>E-mail: <a href=3D"mailto:otavio=
+@ossystems.com.br" target=3D"_blank">otavio@ossystems.com.br</a>=A0 <a href=
+=3D"http://www.ossystems.com.br" target=3D"_blank">http://www.ossystems.com=
+.br</a><br>
+Mobile: +55 53 9981-7854=A0 =A0 =A0 =A0=A0 =A0 =A0 =A0<a href=3D"http://pro=
+jetos.ossystems.com.br" target=3D"_blank">http://projetos.ossystems.com.br<=
+/a><br><br>
+
+--f46d04016b0f139beb04b61b38ea--
