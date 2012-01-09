@@ -1,33 +1,31 @@
-Received: from mail-pz0-f47.google.com ([209.85.210.47])
+Received: from mail-lpp01m010-f47.google.com ([209.85.215.47])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <bruce.ashfield@gmail.com>) id 1RkHsO-00050z-Ha
+	(envelope-from <raj.khem@gmail.com>) id 1RkHyD-0005Gk-5H
 	for openembedded-core@lists.openembedded.org;
-	Mon, 09 Jan 2012 17:15:12 +0100
-Received: by dadz13 with SMTP id z13so203081dad.6
+	Mon, 09 Jan 2012 17:21:13 +0100
+Received: by lami14 with SMTP id i14so1390909lam.6
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 09 Jan 2012 08:07:44 -0800 (PST)
+	Mon, 09 Jan 2012 08:13:42 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
-	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
-	:cc:content-type;
-	bh=BQIO78U+Vy52+d65V4O189bzTM0et6ucoT0x8EnM9Pc=;
-	b=LKregPgp9BLuz9RbPcry3MSnnMVmbz9QJVrYNjgCLUdI1PITb8nF8TcQ8cPhX49gyr
-	+e78jFlFuD06yeBcB14/83C3WxzvFuVb/iUdUopTkohqgl/Pp341J/hja0tMYfr8bGR3
-	JUFL9+9jbaw7WIwdiQfoKApG3EomAw4d4VhBY=
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:content-type:content-transfer-encoding;
+	bh=O3h8xJqCyxmq0vela/lmKqBDmr9Uyy3lkWanlAeNNQY=;
+	b=V6kU/NeoPQ4J3uiG7VX+4uj0Ph24v/+5SeFB59/iC5aRSrLz9L91kIE2ZTpX5PaIbp
+	DxuzmoQ4/fw4KkS64XVkswzY7zTLhWthBdt4FQz/zV2Og9guoYOwVASIpUWQV7lpcDLT
+	LCz3URxuZdhb7Kk6f7g2UAe0digyIBYJKhFMg=
+Received: by 10.152.132.133 with SMTP id ou5mr7101593lab.46.1326125622283;
+	Mon, 09 Jan 2012 08:13:42 -0800 (PST)
 MIME-Version: 1.0
-Received: by 10.68.130.201 with SMTP id og9mr24838098pbb.61.1326125263905;
-	Mon, 09 Jan 2012 08:07:43 -0800 (PST)
-Received: by 10.143.30.20 with HTTP; Mon, 9 Jan 2012 08:07:43 -0800 (PST)
-In-Reply-To: <1325860423.20759.122.camel@ted>
-References: <1325752666-28560-1-git-send-email-liming.wang@windriver.com>
-	<CADkTA4PYbE4gw8Rmwn8Xg6Ns9zajCLKQWJHLWo7qxX8rNbvPsQ@mail.gmail.com>
-	<1325860423.20759.122.camel@ted>
-Date: Mon, 9 Jan 2012 11:07:43 -0500
-Message-ID: <CADkTA4MztYpxfBOGghSqbi7_p+4rT1LMspLD_hxoW_xyp=E_jg@mail.gmail.com>
-From: Bruce Ashfield <bruce.ashfield@gmail.com>
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-Cc: Patches and discussions about the oe-core layer
+Received: by 10.152.115.1 with HTTP; Mon, 9 Jan 2012 08:13:10 -0800 (PST)
+In-Reply-To: <1326104251.12160.16.camel@phil-desktop>
+References: <1326083969-28287-1-git-send-email-raj.khem@gmail.com>
+	<1326104251.12160.16.camel@phil-desktop>
+From: Khem Raj <raj.khem@gmail.com>
+Date: Mon, 9 Jan 2012 08:13:10 -0800
+Message-ID: <CAMKF1sr9BPHgaesEnZKmPkqav9sJQR3CPRcgxXK9bz-RsGhfCA@mail.gmail.com>
+To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 0/4] qemuppc: replace emulation of qemuppc
+Subject: Re: [PATCH] site/common-uclibc: Cache gl_cv_func_wcwidth_works
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -42,56 +40,32 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 09 Jan 2012 16:15:12 -0000
-Content-Type: text/plain; charset=ISO-8859-1
+X-List-Received-Date: Mon, 09 Jan 2012 16:21:13 -0000
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
-On Fri, Jan 6, 2012 at 9:33 AM, Richard Purdie
-<richard.purdie@linuxfoundation.org> wrote:
-> On Fri, 2012-01-06 at 09:29 -0500, Bruce Ashfield wrote:
->> On Thu, Jan 5, 2012 at 3:37 AM, Liming Wang <liming.wang@windriver.com> wrote:
->> > Hi Richard,
->> >
->> > These patches are aimed to replace emulation of qemuppc from prep to mac99.
->> > With this new emulation, qemuppc now supports framebuffer and the network
->> > works well.
->> >
->> > The kernel config also needs modification and I will let Bruce to review the
->> > patches.
->>
->> I have the patches in my inbox now, I'm reviewing and merging them shortly.
->> I'll pull these changes in to do some boot and runtime testing as well.
->>
->> Richard/Saul: if it works better for coordination purposes, I can do the kernel
->> part, take this into my tree as well and then send a single coordinated pull
->> request when everything is known to work together.
+On Mon, Jan 9, 2012 at 2:17 AM, Phil Blundell <philb@gnu.org> wrote:
+> On Sun, 2012-01-08 at 20:39 -0800, Khem Raj wrote:
+>> Its not computed properly during configure and
+>> we configure uclibc with widechar support anyway
+>> so its fine to cache it. It fixes the errors like
 >
-> Yes please.
->
-> The userspace bits look reasonable to me but they need to be in step
-> with the kernel changes. I'm looking forward to working framebuffer
-> support :)
+> Is this really a good idea? =C2=A0Wide character support is already
+> configurable for eglibc (via libc-posix-clang-wchar or whatever in
+> DISTRO_FEATURES) and it seems as though making uclibc respect that as
+> well would be a desirable plan for the future.
 
-In case anyone is wondering, I merged and started testing this on Friday. I'm
-working with Liming to hunt down a mouse grab/cusor and keyboard issue that I'm
-seeing. But other than that, everything worked nicely. If I can't
-resolve the two
-minor items quickly, I'll send the queue anyway and more eyes can be put on
-the problem.
-
-Cheers,
-
-Bruce
+hmm indeed I think I should have used that instead of this.
+I will redo it.
 
 >
-> Cheers,
+> p.
 >
-> Richard
 >
-
-
-
--- 
-"Thou shalt not follow the NULL pointer, for chaos and madness await
-thee at its end"
+>
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
 
 
