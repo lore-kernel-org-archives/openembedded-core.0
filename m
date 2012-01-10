@@ -1,49 +1,20 @@
-Received: from db3ehsobe006.messaging.microsoft.com ([213.199.154.144]
-	helo=DB3EHSOBE006.bigfish.com)
+Received: from mga01.intel.com ([192.55.52.88])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <B19537@freescale.com>) id 1RkVGu-0005TA-Vp
+	(envelope-from <dongxiao.xu@intel.com>) id 1RkWaA-0007LG-VL
 	for openembedded-core@lists.openembedded.org;
-	Tue, 10 Jan 2012 07:33:25 +0100
-Received: from mail62-db3-R.bigfish.com (10.3.81.250) by
-	DB3EHSOBE006.bigfish.com (10.3.84.26) with Microsoft SMTP Server id
-	14.1.225.23; Tue, 10 Jan 2012 06:25:54 +0000
-Received: from mail62-db3 (localhost [127.0.0.1])	by mail62-db3-R.bigfish.com
-	(Postfix) with ESMTP id DD5DD480180;
-	Tue, 10 Jan 2012 06:25:54 +0000 (UTC)
-X-SpamScore: -11
-X-BigFish: VS-11(zz9371I168aJ542M1432Nzz1202hzzz2dhc1ahc1bh2a8h668h839h8e2h8e3h944hbe9k)
-X-Forefront-Antispam-Report: CIP:70.37.183.190; KIP:(null); UIP:(null); IPV:NLI;
-	H:mail.freescale.net; RD:none; EFVD:NLI
-Received: from mail62-db3 (localhost.localdomain [127.0.0.1]) by mail62-db3
-	(MessageSwitch) id 1326176754831096_22526;
-	Tue, 10 Jan 2012 06:25:54 +0000 (UTC)
-Received: from DB3EHSMHS001.bigfish.com (unknown [10.3.81.242])	by
-	mail62-db3.bigfish.com (Postfix) with ESMTP id C70A8680045;
-	Tue, 10 Jan 2012 06:25:54 +0000 (UTC)
-Received: from mail.freescale.net (70.37.183.190) by DB3EHSMHS001.bigfish.com
-	(10.3.87.101) with Microsoft SMTP Server (TLS) id 14.1.225.23;
-	Tue, 10 Jan 2012 06:25:54 +0000
-Received: from 039-SN2MPN1-023.039d.mgd.msft.net ([169.254.3.213]) by
-	039-SN1MMR1-002.039d.mgd.msft.net ([10.84.1.15]) with mapi id
-	14.01.0355.003; Tue, 10 Jan 2012 00:25:53 -0600
-From: Luo Zhenhua-B19537 <B19537@freescale.com>
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Thread-Topic: [OE-core] [PATCH oe-core v6] linux-dtb: add multi-dtb build
-	support and keep dtb in deploy cache package
-Thread-Index: AQHMzn9tDrr0qwwVYki24aA62itX3pYFfRCA//+mzlA=
-Date: Tue, 10 Jan 2012 06:25:52 +0000
-Message-ID: <CA452391058F6D4E9715FB2C29D9312A010CB0EA@039-SN2MPN1-023.039d.mgd.msft.net>
-References: <1326080274-1998-1-git-send-email-b19537@freescale.com>
-	<4F0BCFEF.7000207@linux.intel.com>
-In-Reply-To: <4F0BCFEF.7000207@linux.intel.com>
-Accept-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [10.192.208.114]
-MIME-Version: 1.0
-X-OriginatorOrg: freescale.com
-Subject: Re: [PATCH oe-core v6] linux-dtb: add multi-dtb build support and keep dtb in deploy cache package
+	Tue, 10 Jan 2012 08:57:23 +0100
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+	by fmsmga101.fm.intel.com with ESMTP; 09 Jan 2012 23:49:53 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="105395060"
+Received: from dongxiao-desktop.sh.intel.com (HELO localhost) ([10.239.36.108])
+	by fmsmga001.fm.intel.com with ESMTP; 09 Jan 2012 23:49:52 -0800
+From: Dongxiao Xu <dongxiao.xu@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Tue, 10 Jan 2012 15:52:05 +0800
+Message-Id: <cover.1326181827.git.dongxiao.xu@intel.com>
+X-Mailer: git-send-email 1.7.0.4
+Subject: [PATCH 0/1][PULL] distro_tracking: update manual check information
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -58,36 +29,30 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 10 Jan 2012 06:33:25 -0000
-Content-Language: en-US
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Tue, 10 Jan 2012 07:57:23 -0000
 
-> -----Original Message-----
-> From: Saul Wold [mailto:sgw@linux.intel.com]
-> Sent: Tuesday, January 10, 2012 1:43 PM
-> > @@ -13,15 +13,21 @@ python __anonymous () {
-> >   	d.setVar("PACKAGES", "%s kernel-devicetree" % packages)
-> >   }
-> >
-> I am not sure how this worked, I am seeing a problem with building rootfs=
-.
-> |
->=20
-> kernel-devicetree is needed by
-> kernel-modules-
-> 3.0.14+git1+6ae3d992cf546184010e87a0349810198f1d167c_1+58ffdb8000e34d2ba7=
-c3ef278
-> b26680b0886e8b5-r2.mpc8315e_rdb
->=20
-> This might be a PR Bump issue?
-[Luo Zhenhua-B19537] I didn't meet such issue during my build, do we need t=
-o add a PR in linux-dtb.inc to solve this issue?
+Hi Saul,
 
+This pull request updated the manual check information for kexec-tools.
+Please help to review and pull.
 
-Best Regards,
+Thanks,
+Dongxiao
 
-Zhenhua
+The following changes since commit 468998cddbe1a803096c9b357e1b5daa3b7e8c2e:
+  Dongxiao Xu (1):
+        command.py: add parseConfigurationFiles API
+
+are available in the git repository at:
+
+  git://git.pokylinux.org/poky-contrib dxu4/distro_tracking
+  http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=dxu4/distro_tracking
+
+Dongxiao Xu (1):
+  distro_tracking: update manual check info
+
+ .../conf/distro/include/distro_tracking_fields.inc |    1 +
+ 1 files changed, 1 insertions(+), 0 deletions(-)
 
 
 
