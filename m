@@ -1,31 +1,36 @@
-Received: from mail-yx0-f175.google.com ([209.85.213.175])
+Received: from mail-yw0-f47.google.com ([209.85.213.47])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <kergoth@gmail.com>) id 1Rkej9-0007Bn-EB
+	(envelope-from <kergoth@gmail.com>) id 1RkejA-0007E1-Qc
 	for openembedded-core@lists.openembedded.org;
-	Tue, 10 Jan 2012 17:39:12 +0100
-Received: by yenm12 with SMTP id m12so2085631yen.6
+	Tue, 10 Jan 2012 17:39:13 +0100
+Received: by yhjj51 with SMTP id j51so847244yhj.6
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 10 Jan 2012 08:31:42 -0800 (PST)
+	Tue, 10 Jan 2012 08:31:43 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
-	h=from:to:cc:subject:date:message-id:x-mailer;
-	bh=j1FnHvSbn90xRAqonwhAkplEWFO1qubb6TQqpXZvitQ=;
-	b=IduXfuso+mK/mYTea1Po6v6FK73Xmvk2YbjcT4+5UWE3kolO3lKC2+3WTchETQmYaN
-	fITifCcKpMuJeZi63YfQmdSuUaHqI/gIFbjtHowcGgKslcnSHCPhY7ilpcPosTse/kMz
-	dHtG3NVt2zEHBON045WQkl0s3WBQJXBDgMTHI=
-Received: by 10.236.9.106 with SMTP id 70mr27444157yhs.118.1326213102355;
-	Tue, 10 Jan 2012 08:31:42 -0800 (PST)
+	h=from:to:cc:subject:date:message-id:x-mailer:in-reply-to:references
+	:in-reply-to:references;
+	bh=sTjQlhtwj1qvQeNOJxQ4kJam0cej/jrp1manyMd9UQQ=;
+	b=vymu70YKh8aJkiBvWjs51g4vtbDGt+IdsiIrmfpUbNUcxQ9yTotmydoCoGP4ZOdNww
+	b+kzOaeb33aGZNzP58N57jXYcnbQvgZShf+EmpN7Kcn2dxqrE+DawNj8lw/3ugL7qZqz
+	1oocwV0KIanVp9w/240k2q9TptRb/c390YXxU=
+Received: by 10.236.186.9 with SMTP id v9mr28007170yhm.32.1326213103436;
+	Tue, 10 Jan 2012 08:31:43 -0800 (PST)
 Received: from sb-u1004lts-64bit.alm.mentorg.com (hsvwanfw1-nat.mentorg.com.
 	[139.181.24.34])
-	by mx.google.com with ESMTPS id j11sm133124022anl.8.2012.01.10.08.31.40
+	by mx.google.com with ESMTPS id j11sm133124022anl.8.2012.01.10.08.31.42
 	(version=TLSv1/SSLv3 cipher=OTHER);
-	Tue, 10 Jan 2012 08:31:41 -0800 (PST)
+	Tue, 10 Jan 2012 08:31:42 -0800 (PST)
 From: Christopher Larson <kergoth@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Tue, 10 Jan 2012 10:31:43 -0600
-Message-Id: <cover.1326213043.git.chris_larson@mentor.com>
+Date: Tue, 10 Jan 2012 10:31:44 -0600
+Message-Id: <4d98cd368431bc99b9947106b064629970d3ba2b.1326213043.git.chris_larson@mentor.com>
 X-Mailer: git-send-email 1.7.8.rc4
+In-Reply-To: <cover.1326213043.git.chris_larson@mentor.com>
+References: <cover.1326213043.git.chris_larson@mentor.com>
+In-Reply-To: <cover.1326213043.git.chris_larson@mentor.com>
+References: <cover.1326213043.git.chris_larson@mentor.com>
 Cc: Christopher Larson <chris_larson@mentor.com>
-Subject: [PATCH 0/4] copyleft/license bits
+Subject: [PATCH 1/4] copyleft_compliance: add control of recipe types to include
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -44,37 +49,54 @@ X-List-Received-Date: Tue, 10 Jan 2012 16:39:13 -0000
 
 From: Christopher Larson <chris_larson@mentor.com>
 
-The following changes since commit fff18970706913e7fd7f4a119d798dddb44b388a:
+In this context, recipe "type" refers to whether it is 'target', 'native',
+'cross', etc. COPYLEFT_RECIPE_TYPES is a space separated list of types to
+include. It defaults to 'target'.
 
-  base-files: filesystems: fix mount order (2012-01-06 14:41:19 +0000)
+Signed-off-by: Christopher Larson <chris_larson@mentor.com>
+---
+ meta/classes/copyleft_compliance.bbclass |   21 ++++++++++++++++++---
+ 1 files changed, 18 insertions(+), 3 deletions(-)
 
-are available in the git repository at:
-  https://github.com/kergoth/oe-core license-bits
-
-Christopher Larson (4):
-      copyleft_compliance: add control of recipe types to include
-      copyleft_compliance: add debug message with the reason for exclusion
-      oe.license: add is_included convenience function
-      oe.license: avoid the need to catch SyntaxError
-
- meta/classes/copyleft_compliance.bbclass |   56 ++++++++++++++++------------
- meta/lib/oe/license.py                   |   59 ++++++++++++++++++++++++++++--
- meta/lib/test.py                         |    3 ++
- 3 files changed, 90 insertions(+), 28 deletions(-)
- create mode 100644 meta/lib/test.py
-
-Christopher Larson (4):
-  copyleft_compliance: add control of recipe types to include
-  copyleft_compliance: add debug message with the reason for exclusion
-  oe.license: add is_included convenience function
-  oe.license: avoid the need to catch SyntaxError
-
- meta/classes/copyleft_compliance.bbclass |   56 ++++++++++++++++------------
- meta/lib/oe/license.py                   |   59 ++++++++++++++++++++++++++++--
- meta/lib/test.py                         |    3 ++
- 3 files changed, 90 insertions(+), 28 deletions(-)
- create mode 100644 meta/lib/test.py
-
+diff --git a/meta/classes/copyleft_compliance.bbclass b/meta/classes/copyleft_compliance.bbclass
+index 2fe524b..37ed09e 100644
+--- a/meta/classes/copyleft_compliance.bbclass
++++ b/meta/classes/copyleft_compliance.bbclass
+@@ -16,6 +16,22 @@ COPYLEFT_LICENSE_EXCLUDE ?= 'CLOSED Proprietary'
+ COPYLEFT_LICENSE_EXCLUDE[type] = 'list'
+ COPYLEFT_LICENSE_INCLUDE[doc] = 'Space separated list of globs which exclude licenses'
+ 
++COPYLEFT_RECIPE_TYPE ?= '${@copyleft_recipe_type(d)}'
++COPYLEFT_RECIPE_TYPE[doc] = 'The "type" of the current recipe (e.g. target, native, cross)'
++
++COPYLEFT_RECIPE_TYPES ?= 'target'
++COPYLEFT_RECIPE_TYPES[type] = 'list'
++COPYLEFT_RECIPE_TYPES[doc] = 'Space separated list of recipe types to include'
++
++COPYLEFT_AVAILABLE_RECIPE_TYPES = 'target native nativesdk cross crosssdk cross-canadian'
++COPYLEFT_AVAILABLE_RECIPE_TYPES[type] = 'list'
++COPYLEFT_AVAILABLE_RECIPE_TYPES[doc] = 'Space separated list of available recipe types'
++
++def copyleft_recipe_type(d):
++    for recipe_type in oe.data.typed_value('COPYLEFT_AVAILABLE_RECIPE_TYPES', d):
++        if oe.utils.inherits(d, recipe_type):
++            return recipe_type
++    return 'target'
+ 
+ def copyleft_should_include(d):
+     """Determine if this recipe's sources should be deployed for compliance"""
+@@ -23,9 +39,8 @@ def copyleft_should_include(d):
+     import oe.license
+     from fnmatch import fnmatchcase as fnmatch
+ 
+-    if oe.utils.inherits(d, 'native', 'nativesdk', 'cross', 'crossdk'):
+-        # not a target recipe
+-        return
++    if d.getVar('COPYLEFT_RECIPE_TYPE', True) not in oe.data.typed_value('COPYLEFT_RECIPE_TYPES', d):
++        return False
+ 
+     include = oe.data.typed_value('COPYLEFT_LICENSE_INCLUDE', d)
+     exclude = oe.data.typed_value('COPYLEFT_LICENSE_EXCLUDE', d)
 -- 
 1.7.8.rc4
 
