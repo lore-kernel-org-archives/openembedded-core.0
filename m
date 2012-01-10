@@ -1,35 +1,39 @@
-Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
-	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <richard.purdie@linuxfoundation.org>)
-	id 1RkgwJ-0008SM-LX for openembedded-core@lists.openembedded.org;
-	Tue, 10 Jan 2012 20:00:56 +0100
-Received: from localhost (localhost [127.0.0.1])
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q0AIrQht013774
+Received: from mail-qy0-f175.google.com ([209.85.216.175])
+	by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <kergoth@gmail.com>) id 1Rkgxc-0008W5-Fd
+	for openembedded-core@lists.openembedded.org;
+	Tue, 10 Jan 2012 20:02:16 +0100
+Received: by qcqw6 with SMTP id w6so2700125qcq.6
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 10 Jan 2012 18:53:26 GMT
-Received: from tim.rpsys.net ([127.0.0.1])
-	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
-	port 10024) with LMTP
-	id 13053-07 for <openembedded-core@lists.openembedded.org>;
-	Tue, 10 Jan 2012 18:53:22 +0000 (GMT)
-Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q0AIrI89013768
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO)
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 10 Jan 2012 18:53:19 GMT
-Message-ID: <1326221600.23315.9.camel@ted>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
+	Tue, 10 Jan 2012 10:54:42 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
+	h=mime-version:sender:in-reply-to:references:from:date
+	:x-google-sender-auth:message-id:subject:to:content-type
+	:content-transfer-encoding;
+	bh=87pzb2ToqNaolcpemLA1kjmMhQ2YM64iX66RN5ZPEF4=;
+	b=dytvbeMhGEHQst/JZvr891RgPslzaDbHtKNUvdAZS76J2yy8BnE1OlgN3gLlw3Vsgb
+	s8hkIaIYYZTM//QrZNsZu870+gjXVhGYmPd8XAG3kPHx/6HayZ8vJhZqJHaIQ9vF5gmh
+	0Vjxh0cZhLopMbT60WJohyj1xvqlqoOu9dHZI=
+Received: by 10.229.78.211 with SMTP id m19mr7917926qck.156.1326221682241;
+	Tue, 10 Jan 2012 10:54:42 -0800 (PST)
+MIME-Version: 1.0
+Sender: kergoth@gmail.com
+Received: by 10.229.187.141 with HTTP; Tue, 10 Jan 2012 10:54:21 -0800 (PST)
+In-Reply-To: <CAK18fxF_iQADUWaASY=O4JcFfjrd3MRYHw+ooSOyXWNydV16XA@mail.gmail.com>
+References: <1326208678-17244-1-git-send-email-andrei@gherzan.ro>
+	<CABcZANnzU_5LTeRV=UjPiUWn6rqnZS6RR_yhsUKE_C_ap-PZ9g@mail.gmail.com>
+	<4F0C623B.7050209@gherzan.ro>
+	<CABcZANmcdGtOa+K9=6Ei_vAF=BVQwa6BYAYTjpeEuCDcqPcPnQ@mail.gmail.com>
+	<4F0C637E.8050704@gherzan.ro>
+	<CABcZANnXksgwqbgU_mhD4ptgEx_0=M9MUHV2uagi3owEU2yrrg@mail.gmail.com>
+	<CAK18fxF_iQADUWaASY=O4JcFfjrd3MRYHw+ooSOyXWNydV16XA@mail.gmail.com>
+From: Chris Larson <clarson@kergoth.com>
+Date: Tue, 10 Jan 2012 11:54:21 -0700
+X-Google-Sender-Auth: -40RmvoPFphtmwqq35H_mwp8TbU
+Message-ID: <CABcZANn5ChCcuT2SkQy-xSNWJC4B30P3vMS9roNdi-j4YVKsDg@mail.gmail.com>
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Date: Tue, 10 Jan 2012 18:53:20 +0000
-In-Reply-To: <1326219470.12160.107.camel@phil-desktop>
-References: <cover.1326174744.git.sgw@linux.intel.com>
-	<1326218233.23315.6.camel@ted>
-	<1326219470.12160.107.camel@phil-desktop>
-X-Mailer: Evolution 3.2.2- 
-Mime-Version: 1.0
-X-Virus-Scanned: amavisd-new at rpsys.net
-Subject: Re: [CONSOLIDATED PULL 00/22] Patches and Updates for M2
+Subject: Re: [PATCH] license.bbclass base.bbclass: support for 'or' operand in LICENSE and for SPDX license names
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -44,32 +48,26 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 10 Jan 2012 19:00:56 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Tue, 10 Jan 2012 19:02:16 -0000
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
-On Tue, 2012-01-10 at 18:17 +0000, Phil Blundell wrote:
-> On Tue, 2012-01-10 at 17:57 +0000, Richard Purdie wrote:
-> > > Khem Raj (8):
-> > >   site/common-uclibc: Cache gl_cv_func_wcwidth_works
-> >
-> > I merged these apart from:
-> >    default-distrovars: Define DISTRO_FEATURES_LIBC for uclibc
-> 
-> I think the consensus on that common-uclibc patch (see previous
-> discussion on this list) was that it oughtn't to be merged.  Certainly
-> not if:
-> 
-> >   uclibc: Configure UCLIBC_HAS_WCHAR based on libc-posix-clang-wchar
-> >     distro feature
-> 
-> is in, since the latter will make the value in the site file wrong.
+On Tue, Jan 10, 2012 at 11:13 AM, Andrei Gherzan <andrei@gherzan.ro> wrote:
+> Christopher's=C2=A0solution crossed my mind as well. Actually i tried som=
+ething
+> like this but i didn't want to modify more from this patch and i didn't
+> really know how to define those expansions.
+> Another problem here that i faced and dropped the idea for, was the the
+> scenario where a developer wants to exclude only GPLv3+. This case needed=
+ a
+> another couple of "if"s and so on.
+>
+> So my solution seemed to deal most of the situations even if it looks a
+> little... childish.
 
-Indeed, sorry. I've reverted the former change.
-
-Cheers,
-
-Richard
-
+I wouldn't put it that way. It's just something we may want to improve
+in the longer term to cover more cases.
+--=20
+Christopher Larson
 
 
