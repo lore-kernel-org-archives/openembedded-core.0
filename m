@@ -1,23 +1,27 @@
-Received: from mail.gw90.de ([188.40.100.199])
+Received: from stoexhubfe02.domain01.net ([83.145.59.141])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <paulepanter@users.sourceforge.net>)
-	id 1RkY57-0001Yn-JZ for openembedded-core@lists.openembedded.org;
-	Tue, 10 Jan 2012 10:33:26 +0100
-Received: from f053046173.adsl.alicedsl.de ([78.53.46.173]
-	helo=[192.168.178.21])
-	by mail.gw90.de with esmtpsa (TLS1.0:RSA_AES_256_CBC_SHA1:32)
-	(Exim 4.69) (envelope-from <paulepanter@users.sourceforge.net>)
-	id 1RkXxv-0007eA-Sr; Tue, 10 Jan 2012 09:26:00 +0000
-Message-ID: <1326187552.15840.65.camel@mattotaupa>
-From: Paul Menzel <paulepanter@users.sourceforge.net>
-To: openembedded-core@lists.openembedded.org
-Date: Tue, 10 Jan 2012 10:25:52 +0100
-In-Reply-To: <d3d9ba1a5582d4d62e728a866ccafd2ae7c2da23.1326181827.git.dongxiao.xu@intel.com>
-References: <cover.1326181827.git.dongxiao.xu@intel.com>
-	<d3d9ba1a5582d4d62e728a866ccafd2ae7c2da23.1326181827.git.dongxiao.xu@intel.com>
-X-Mailer: Evolution 3.2.2-1 
-Mime-Version: 1.0
-Subject: Re: [PATCH 1/1] distro_tracking: update manual check info
+	(envelope-from <anders@chargestorm.se>) id 1RkYf6-0002a5-3L
+	for openembedded-core@lists.openembedded.org;
+	Tue, 10 Jan 2012 11:10:36 +0100
+Received: from ad.chargestorm.se (193.235.91.228) by stoexhubfe02.domain01.net
+	(10.12.10.7) with Microsoft SMTP Server (TLS) id 8.3.213.0;
+	Tue, 10 Jan 2012 11:03:07 +0100
+Date: Tue, 10 Jan 2012 11:03:06 +0100
+From: Anders Darander <anders@chargestorm.se>
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Message-ID: <20120110100306.GB3664@ad.chargestorm.se>
+Mail-Followup-To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+MIME-Version: 1.0
+X-Accept-Language: sv, en, de
+X-GPG-Fingerprint: 5AF0 B2E9 78FE 9D75 D110  6F8F 3E31 84D7 920E 938C
+X-GPG-Key-Id: 0x920E938C
+X-GPG-Keyserver: hkp://keys.gnupg.net
+Organization: ChargeStorm AB
+User-Agent: Mutt/1.5.21 (2010-09-15)
+X-GFI-SMTP-Submission: 1
+Subject: Preventing RRECOMMENDS from installing
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -32,66 +36,32 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 10 Jan 2012 09:33:26 -0000
-X-Groupsio-MsgNum: 15712
-Content-Type: multipart/signed; micalg="pgp-sha1";
-	protocol="application/pgp-signature"; 
-	boundary="=-QcM9n2peTyjWCQcwfyfE"
-
---=-QcM9n2peTyjWCQcwfyfE
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-Dear Dongxiao,
+X-List-Received-Date: Tue, 10 Jan 2012 10:10:36 -0000
+Content-Type: text/plain; charset="us-ascii"
+Content-Disposition: inline
 
 
-Am Dienstag, den 10.01.2012, 15:52 +0800 schrieb Dongxiao Xu:
-> updated kexec-tools manual check information
+Is there a simple way, in a bbappend-file to prevent packages in an
+RRECOMMENDS from being installed? E.g. if package foo has:
+RRECOMMENDS_${PN} += "bar"
 
-this is mostly the same as the commit summary. So just merge it.
+I'd reluctant to rewrite RRECOMMENDS_${PN} completely, as foo sets
+RRECOMMENDS using += (or =+), thus I'd like not to remove other packages
+from RRECOMMENDS. 
 
-distro_tracking_fields: kexec-tools: Add manual check info
+If possible, I'd like to avoid patching the foo.bb-file, and just have a
+foo.bbappend in my own layer.
 
-> Signed-off-by: Dongxiao Xu <dongxiao.xu@intel.com>
-> ---
->  .../conf/distro/include/distro_tracking_fields.inc |    1 +
->  1 files changed, 1 insertions(+), 0 deletions(-)
->=20
-> diff --git a/meta/conf/distro/include/distro_tracking_fields.inc b/meta/c=
-onf/distro/include/distro_tracking_fields.inc
-> index cc87d5c..6a8463f 100644
-> --- a/meta/conf/distro/include/distro_tracking_fields.inc
-> +++ b/meta/conf/distro/include/distro_tracking_fields.inc
-> @@ -2384,6 +2384,7 @@ RECIPE_NO_OF_PATCHES_pn-kexec-tools=3D"1"
->  RECIPE_LATEST_RELEASE_DATE_pn-kexec-tools=3D"Jul 29, 2010"
->  RECIPE_TIME_BETWEEN_LAST_TWO_RELEASES_pn-kexec-tools=3D"1 year"
->  RECIPE_LAST_UPDATE_pn-kexec-tools =3D "Nov 16, 2010"
-> +RECIPE_MANUAL_CHECK_DATE_pn-kexec-tools =3D "Jan 10, 2012"
->  RECIPE_MAINTAINER_pn-kexec-tools =3D "Dongxiao Xu <dongxiao.xu@intel.com=
->"
-> =20
->  RECIPE_STATUS_pn-hostap-conf =3D "red"
+I've unsuccesfully tried different variants using oe_filter_out, but
+they don't seems to prevent bar from being installed.
 
-Otherwise very trivial. So
+Thanks in advance for any hints!
 
-Acked-by: Paul Menzel <paulepanter@users.sourceforge.net>
+Cheers,
+Anders
+
+-- 
+Anders Darander
+ChargeStorm AB / eStorm AB
 
 
-Thanks,
-
-Paul
-
---=-QcM9n2peTyjWCQcwfyfE
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: This is a digitally signed message part
-Content-Transfer-Encoding: 7bit
-
------BEGIN PGP SIGNATURE-----
-Version: GnuPG v1.4.11 (GNU/Linux)
-
-iEYEABECAAYFAk8MBCIACgkQPX1aK2wOHVgwHwCgjOaucYDmM2+jxE91k9WffZ3s
-FlwAnj68WtsjOJmGkwhRBJ83NFOQhHFH
-=zqk9
------END PGP SIGNATURE-----
-
---=-QcM9n2peTyjWCQcwfyfE--
