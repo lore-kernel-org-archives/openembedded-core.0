@@ -1,25 +1,33 @@
-Received: from mga02.intel.com ([134.134.136.20])
+Received: from relay1.mentorg.com ([192.94.38.131])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <sgw@linux.intel.com>) id 1RlR0g-0001Y5-JV
-	for openembedded-core@lists.openembedded.org;
-	Thu, 12 Jan 2012 21:12:31 +0100
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-	by orsmga101.jf.intel.com with ESMTP; 12 Jan 2012 12:04:55 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.67,352,1309762800"; d="scan'208";a="95844206"
-Received: from unknown (HELO [10.255.13.168]) ([10.255.13.168])
-	by orsmga001.jf.intel.com with ESMTP; 12 Jan 2012 12:04:55 -0800
-Message-ID: <4F0F3CE6.3020707@linux.intel.com>
-Date: Thu, 12 Jan 2012 12:04:54 -0800
-From: Saul Wold <sgw@linux.intel.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:8.0) Gecko/20111115 Thunderbird/8.0
+	(envelope-from <Sean_Hudson@mentor.com>) id 1RkQzw-00031a-Kh
+	for Openembedded-core@lists.openembedded.org;
+	Tue, 10 Jan 2012 02:59:36 +0100
+Received: from svr-orw-exc-10.mgc.mentorg.com ([147.34.98.58])
+	by relay1.mentorg.com with esmtp 
+	id 1RkQqE-0000xE-94 from Sean_Hudson@mentor.com ;
+	Mon, 09 Jan 2012 17:49:34 -0800
+Received: from SVR-ORW-FEM-03.mgc.mentorg.com ([147.34.97.39]) by
+	SVR-ORW-EXC-10.mgc.mentorg.com with Microsoft
+	SMTPSVC(6.0.3790.4675); Mon, 9 Jan 2012 17:49:16 -0800
+Received: from NA-MBX-02.mgc.mentorg.com ([169.254.2.234]) by
+	SVR-ORW-FEM-03.mgc.mentorg.com ([147.34.97.39]) with mapi id
+	14.01.0289.001; Mon, 9 Jan 2012 17:49:33 -0800
+From: "Hudson, Sean" <Sean_Hudson@mentor.com>
+Thread-Topic: RFC: Joint, monthly, and online forum for developer discussion
+Thread-Index: AczPD/muMXj6cRkkQUqmouq75fS35Q==
+Date: Tue, 10 Jan 2012 01:49:32 +0000
+Message-ID: <289CD940EE567444BB43E62E0C3028F328F52A19@NA-MBX-02.mgc.mentorg.com>
+Accept-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [147.34.91.1]
 MIME-Version: 1.0
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-References: <cover.1326003199.git.xiaofeng.yan@windriver.com>
-In-Reply-To: <cover.1326003199.git.xiaofeng.yan@windriver.com>
-Subject: Re: [PATCH 0/2] Add function to package source codes tree to source rpm and tar packages
+Bcc: 
+X-OriginalArrivalTime: 10 Jan 2012 01:49:16.0684 (UTC)
+	FILETIME=[0FC9D4C0:01CCCF3A]
+X-Mailman-Approved-At: Thu, 12 Jan 2012 21:37:12 +0100
+Subject: RFC: Joint, monthly, and online forum for developer discussion
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -34,140 +42,85 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 12 Jan 2012 20:12:31 -0000
-Content-Type: text/plain; charset=windows-1252; format=flowed
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Tue, 10 Jan 2012 01:59:36 -0000
+Content-Language: en-US
+Content-Type: multipart/alternative;
+	boundary="_000_289CD940EE567444BB43E62E0C3028F328F52A19NAMBX02mgcmento_"
 
-On 01/07/2012 11:11 PM, Xiaofeng Yan wrote:
-> From: Xiaofeng Yan<xiaofeng.yan@windriver.com>
->
-> Add file "tar_archive.bbclass" and modify file "package_rpm.bbclass" for packaging source codes tree to source rpm and tar packages.
-> After adding srpm function in file "package_rpm.bbclass", user can get source rpm packages beside rpm package.
-> User also get tar packages of source codes tree according to the requirement from bug 1655. The final result is as follow:
-> Take qemux86 for an example:
-> Get source rpm pakcages
-> 1 Inherit tar_archive.bbclass in package_rpm.bbclass.
-> 2 Select the type of packaging source code tree in conf/local.conf(ARCHIVE_TYPE ?= "SRPM")
-> 3 Run the following command
->    $ bitbake core-image-sato -c copysources
-> 4 Get source rpm packages:
->    $ tree build/tmp/deploy/sources
->    build/tmp/deploy/sources/
->    └── qemux86
->      ├── all-poky-linux
->      │� �  ├── encodings-1.0.4-r2.1.src.rpm
->          ......
->      ├── i586-poky-linux
->      │� �  ├── acl-2.2.51-r2.src.rpm
->          ......
->      └── qemux86-poky-linux
->          ├── base-files-3.0.14-r70.src.rpm
->          ......
-> Get tar packages:
-> 1 Inherit tar_archive.bbclass in an suitable position (for example, package_rpm.bbclass).
-> 2 Select the type of packaging source code tree in conf/local.conf(ARCHIVE_TYPE ?= "TARGZ")
-> 3 Run the following command
->    $ bitbake core-image-sato -c copysources
-> 4 Get tar packages:
->    $ tree build/tmp/deploy/sources
->    buildx86/tmp/deploy/sources
->    └── qemux86
->      ├── all-poky-linux
->      │� �  ├── encodings-1_1.0.4-r2.1
->      │� �  │� �  ├── encodings-1_1.0.4-r2.1.tar.gz
->      │� �  │� �  └── log.tar.gz
->              ......
->      ├── i586-poky-linux
->      │� �  ├── acl-2.2.51-r2
->      │� �  │� �  ├── acl-2.2.51-r2.tar.gz
->              └── log.tar.gz
->              ......
->      └── qemux86-poky-linux
->          ├── core-image-sato-1.0-r0
->          ├── libzypp-0.0-git1+15b6c52260bbc52b3d8e585e271b67e10cc7c433-r17
->          │� �  ├── libzypp-0.0-git1+15b6c52260bbc52b3d8e585e271b67e10cc7c433-r17.tar.gz
->          │� �  └── log.tar.gz
->              ......
->
-> if inheriting tar_archive.bbclass in one bb file, then only package source codes tree of this file.
-> Take zlib for an example:
-> Get source rpm pakcage of zlib
-> 1 Inherit tar_archive.bbclass in zlib_1.2.5.bb.
-> 2 Select the type of packaging source code tree in conf/local.conf(ARCHIVE_TYPE ?= "SRPM")
-> 3 Run the following command
->    $ bitbake zlib
-> 4 Get source rpm package:
->    $ ls build/tmp/work/i586-poky-linux/zlib-1.2.5-r3/deploy-srpm/i586/
->      zlib-1.2.5-r3.src.rpm
->
->
-> Get tar package of zlib
-> 1 Inherit tar_archive.bbclass in zlib_1.2.5.bb.
-> 2 Select the type of packaging source code tree in conf/local.conf(ARCHIVE_TYPE ?= "TARGZ")
-> 3 Run the following command
->    $ bitbake zlib
-> 4 Get tar package:
->    $ ls build/tmp/work/i586-poky-linux/zlib-1.2.5-r3/
->      zlib-1.2.5-r3.tar.gz log.tar.gz ......
->
->
-> Pull URL: git://git.pokylinux.org/poky-contrib.git
->    Branch: xiaofeng/1655
->    Browse: http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=xiaofeng/1655
->
-> Thanks,
->      Xiaofeng Yan<xiaofeng.yan@windriver.com>
-> ---
->
->
-> Xiaofeng Yan (2):
->    package_rpm.bbclass: add srpm function in spec file
->    tar_archive.bbclass: Package source codes and log files to tar
->      package
->
->   meta/classes/package_rpm.bbclass |   65 ++++++++++--
->   meta/classes/tar_archive.bbclass |  216 ++++++++++++++++++++++++++++++++++++++
->   2 files changed, 271 insertions(+), 10 deletions(-)
->   create mode 100644 meta/classes/tar_archive.bbclass
->
->
-Xiaofeng, Wenzong:
+--_000_289CD940EE567444BB43E62E0C3028F328F52A19NAMBX02mgcmento_
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 
-We are going to put a hold on both this patchset and Wenzong's patch 
-set, due to the similarity of what is trying to be done. Both of these 
-patches are creating tar archives of source and temp directories. While 
-it is being done differently, we need to consolidate these changes.
+I propose having a monthly, online developer forum that promotes discussion=
+ on longer term technical issues that impact both Yocto and OpenEmbedded.  =
+This would supplement the already existing mailing list and irc communicati=
+on channels.  In order to facilitate this, I'd like to propose a telephone/=
+web conference, which my employer has agreed to host.
 
-The SRPM work can use the consolidated version.  As I mentioned in a 
-prior email to Wenzong, there are also other classes such as 
-copyleft_complaince.bbclass and src_distrbute.bbclass that we should 
-look at and determine if they can be modified or extended.
+This forum would help provide an additional way for the community to discus=
+s technical issues and share information about planned work and works in pr=
+ogress.
 
-Wenzong pointed out that copyleft does license checking, it can work for 
-all sources depending on the settings of the INCLUDE/EXCLUDE variables, 
-so it can be reused, it creates a source + patchset directory.
+Initial Topics for Discussion might include:
+1.      layering definitions - discussion on what exists today and how to m=
+ake it better
+2.      discussions on techniques to make working with oe/yocto better
+3.      oe/yocto disconnects (opportunities for better alignment)
+4.      common new user issues
+5.      documentation (standards, lacks, etc)
+6.      ?
 
-The sourcepgk.bbclass seems to be doing something different in creating 
-a diff file (among other) of a given package between the unpack and 
-post-patch, including the python functions and environmnet variables.
+Regards,
+     Sean
 
-I (with Mark's help) will craft and updated document to address what we 
-are want to accomplish, which is simplifing what we currently have with 
-the goal to meet the commercial vendor's needs of supplying the source 
-either patched or with a patchset that can be applied along with the 
-configuration and build scripts for various license compliance.
-
-Thanks for your initial work in this area, but we need to find a better 
-overall approach without duplicating code/effort.
-
-Sau!
+Sean Hudson | Embedded Linux Architect for Mentor Embedded Linux
+Mentor Graphics - Embedded Software Division(tm)
 
 
->
->
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
 
+--_000_289CD940EE567444BB43E62E0C3028F328F52A19NAMBX02mgcmento_
+Content-Type: text/html; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 
+<html>
+<head>
+<meta http-equiv=3D"Content-Type" content=3D"text/html; charset=3Dus-ascii"=
+>
+<meta name=3D"Generator" content=3D"Microsoft Exchange Server">
+<!-- converted from rtf -->
+<style><!-- .EmailQuote { margin-left: 1pt; padding-left: 4pt; border-left:=
+ #800000 2px solid; } --></style>
+</head>
+<body>
+<font face=3D"Tahoma" size=3D"2"><span style=3D"font-size:10pt;">
+<div>I propose having a monthly, online developer forum that promotes discu=
+ssion on longer term technical issues that impact both Yocto and OpenEmbedd=
+ed.&nbsp; This would supplement the already existing mailing list and irc c=
+ommunication channels.&nbsp; In order to facilitate
+this, I&#8217;d like to propose a telephone/web conference, which my employ=
+er has agreed to host.</div>
+<div>&nbsp;</div>
+<div>This forum would help provide an additional way for the community to d=
+iscuss technical issues and share information about planned work and works =
+in progress.</div>
+<div>&nbsp;</div>
+<div>Initial Topics for Discussion might include:</div>
+<ol style=3D"margin:0;padding-left:36pt;">
+<li>layering definitions &#8211; discussion on what exists today and how to=
+ make it better</li><li>discussions on techniques to make working with oe/y=
+octo better</li><li>oe/yocto disconnects (opportunities for better alignmen=
+t)</li><li>common new user issues</li><li>documentation (standards, lacks, =
+etc)</li><li>?</li></ol>
+<div>&nbsp;</div>
+<div>Regards,</div>
+<div>&nbsp;&nbsp;&nbsp;&nbsp; Sean</div>
+<div>&nbsp;</div>
+<div>Sean Hudson | Embedded Linux Architect for Mentor Embedded Linux</div>
+<div>Mentor Graphics &#8211; Embedded Software Division&#8482;</div>
+<div>&nbsp;</div>
+<div>&nbsp;</div>
+</span></font>
+</body>
+</html>
+
+--_000_289CD940EE567444BB43E62E0C3028F328F52A19NAMBX02mgcmento_--
