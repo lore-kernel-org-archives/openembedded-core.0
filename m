@@ -1,24 +1,25 @@
 Received: from mga01.intel.com ([192.55.52.88])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <dexuan.cui@intel.com>) id 1RkTLX-0006WX-Nw
+	(envelope-from <sgw@linux.intel.com>) id 1RkUbZ-0003Wg-6X
 	for openembedded-core@lists.openembedded.org;
-	Tue, 10 Jan 2012 05:30:05 +0100
+	Tue, 10 Jan 2012 06:50:41 +0100
 Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-	by fmsmga101.fm.intel.com with ESMTP; 09 Jan 2012 20:22:34 -0800
+	by fmsmga101.fm.intel.com with ESMTP; 09 Jan 2012 21:43:12 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="105343488"
-Received: from dcui-desktop.sh.intel.com (HELO localhost) ([10.239.36.50])
-	by fmsmga001.fm.intel.com with ESMTP; 09 Jan 2012 20:22:33 -0800
-From: Dexuan Cui <dexuan.cui@intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Tue, 10 Jan 2012 12:22:33 +0800
-Message-Id: <6bf0833652d572e4de886d0e7f2725ad8da0ff84.1326169288.git.dexuan.cui@intel.com>
-X-Mailer: git-send-email 1.7.6
-In-Reply-To: <cover.1326169288.git.dexuan.cui@intel.com>
-References: <cover.1326169288.git.dexuan.cui@intel.com>
-In-Reply-To: <cover.1326169288.git.dexuan.cui@intel.com>
-References: <cover.1326169288.git.dexuan.cui@intel.com>
-Subject: [PATCH 1/1] distro_tracking_fields.inc: upgrade tcf-agent
+X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="105361338"
+Received: from unknown (HELO [10.255.13.28]) ([10.255.13.28])
+	by fmsmga001.fm.intel.com with ESMTP; 09 Jan 2012 21:43:11 -0800
+Message-ID: <4F0BCFEF.7000207@linux.intel.com>
+Date: Mon, 09 Jan 2012 21:43:11 -0800
+From: Saul Wold <sgw@linux.intel.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:8.0) Gecko/20111115 Thunderbird/8.0
+MIME-Version: 1.0
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+References: <1326080274-1998-1-git-send-email-b19537@freescale.com>
+In-Reply-To: <1326080274-1998-1-git-send-email-b19537@freescale.com>
+Subject: Re: [PATCH oe-core v6] linux-dtb: add multi-dtb build support and keep dtb in deploy cache package
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -33,33 +34,62 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 10 Jan 2012 04:30:05 -0000
+X-List-Received-Date: Tue, 10 Jan 2012 05:50:41 -0000
+Content-Type: text/plain; charset=ISO-8859-1; format=flowed
+Content-Transfer-Encoding: 7bit
 
-Upgraded the field RECIPE_MANUAL_CHECK_DATE.
-Also changed the MAINTAINER to Lianhao who volunteered to take the recipe.
+On 01/08/2012 07:37 PM, b19537@freescale.com wrote:
+> From: Zhenhua Luo<b19537@freescale.com>
+>
+> Signed-off-by: Zhenhua Luo<b19537@freescale.com>
+> ---
+>   meta/recipes-kernel/linux/linux-dtb.inc |   24 +++++++++++++++---------
+>   1 files changed, 15 insertions(+), 9 deletions(-)
+>
+> diff --git a/meta/recipes-kernel/linux/linux-dtb.inc b/meta/recipes-kernel/linux/linux-dtb.inc
+> index 7ec7584..fc29d14 100644
+> --- a/meta/recipes-kernel/linux/linux-dtb.inc
+> +++ b/meta/recipes-kernel/linux/linux-dtb.inc
+> @@ -13,15 +13,21 @@ python __anonymous () {
+>   	d.setVar("PACKAGES", "%s kernel-devicetree" % packages)
+>   }
+>
+I am not sure how this worked, I am seeing a problem with building rootfs.
+| 	
 
-Signed-off-by: Dexuan Cui <dexuan.cui@intel.com>
----
- .../conf/distro/include/distro_tracking_fields.inc |    4 ++--
- 1 files changed, 2 insertions(+), 2 deletions(-)
+kernel-devicetree is needed by 
+kernel-modules-3.0.14+git1+6ae3d992cf546184010e87a0349810198f1d167c_1+58ffdb8000e34d2ba7c3ef278b26680b0886e8b5-r2.mpc8315e_rdb
 
-diff --git a/meta/conf/distro/include/distro_tracking_fields.inc b/meta/conf/distro/include/distro_tracking_fields.inc
-index cc87d5c..d1f0c82 100644
---- a/meta/conf/distro/include/distro_tracking_fields.inc
-+++ b/meta/conf/distro/include/distro_tracking_fields.inc
-@@ -2891,8 +2891,8 @@ RECIPE_TIME_BETWEEN_LAST_TWO_RELEASES_pn-tcf-agent = "1+ years"
- RECIPE_LATEST_RELEASE_DATE_pn-tcf-agent = "Jul 07, 2011"
- RECIPE_COMMENTS_pn-tcf-agent = ""
- RECIPE_LAST_UPDATE_pn-tcf-agent = "Jul 21, 2011"
--RECIPE_MANUAL_CHECK_DATE_pn-tcf-agent = "Nov 17, 2011"
--RECIPE_MAINTAINER_pn-tcf-agent = "Dexuan Cui <dexuan.cui@intel.com>"
-+RECIPE_MANUAL_CHECK_DATE_pn-tcf-agent = "Jan 10, 2011"
-+RECIPE_MAINTAINER_pn-tcf-agent = "Lianhao Lu <lianhao.lu@intel.com>"
- 
- RECIPE_STATUS_pn-liburcu = "green"
- DISTRO_PN_ALIAS_pn-liburcu = "Fedora=userspace-rcu Ubuntu=liburcu0"
--- 
-1.7.6
+This might be a PR Bump issue?
 
+Sau!
+
+> -do_install_append() {
+> +kernel_do_deploy_append() {
+>       if test -n "${KERNEL_DEVICETREE}"; then
+> -	dtc -I dts -O dtb ${KERNEL_DEVICETREE_FLAGS} -o devicetree ${KERNEL_DEVICETREE}
+> -	install -m 0644 devicetree ${D}/boot/devicetree-${KERNEL_VERSION}
+> -	install -d ${DEPLOY_DIR_IMAGE}
+> -	install -m 0644 devicetree ${DEPLOY_DIR_IMAGE}/${KERNEL_IMAGE_BASE_NAME}.dtb
+> -	cd ${DEPLOY_DIR_IMAGE}
+> -	rm -f ${KERNEL_IMAGE_SYMLINK_NAME}.dtb
+> -	ln -sf ${KERNEL_IMAGE_BASE_NAME}.dtb ${KERNEL_IMAGE_SYMLINK_NAME}.dtb
+> +        for DTS_FILE in ${KERNEL_DEVICETREE}; do
+> +            DTS_BASE_NAME=`basename ${DTS_FILE} | awk -F "." '{print $1}'`
+> +            DTB_NAME=`echo ${KERNEL_IMAGE_BASE_NAME} | sed "s/${MACHINE}/${DTS_BASE_NAME}/g"`
+> +            DTB_SYMLINK_NAME=`echo ${KERNEL_IMAGE_SYMLINK_NAME} | sed "s/${MACHINE}/${DTS_BASE_NAME}/g"`
+> +            dtc -I dts -O dtb ${KERNEL_DEVICETREE_FLAGS} -o devicetree ${DTS_FILE}
+> +            install -m 0644 devicetree ${D}/boot/devicetree-${DTS_BASE_NAME}-${KERNEL_VERSION}
+> +
+> +            install -d ${DEPLOYDIR}
+> +            install -m 0644 devicetree ${DEPLOYDIR}/${DTB_NAME}.dtb
+> +            rm -f devicetree
+> +            cd ${DEPLOYDIR}
+> +            ln -sf ${DTB_NAME}.dtb ${DTB_SYMLINK_NAME}.dtb
+> +            cd -
+> +        done
+>       fi
+>   }
+> -
 
 
