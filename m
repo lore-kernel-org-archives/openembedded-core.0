@@ -1,34 +1,20 @@
-Received: from relay1.mentorg.com ([192.94.38.131])
+Received: from mga03.intel.com ([143.182.124.21])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <Sean_Hudson@mentor.com>) id 1RkfYP-0004qP-Fz
+	(envelope-from <josh@linux.intel.com>) id 1Rkg0m-0006J8-OM
 	for openembedded-core@lists.openembedded.org;
-	Tue, 10 Jan 2012 18:32:09 +0100
-Received: from svr-orw-fem-01.mgc.mentorg.com ([147.34.98.93])
-	by relay1.mentorg.com with esmtp 
-	id 1RkfR9-000506-Hb from Sean_Hudson@mentor.com 
-	for openembedded-core@lists.openembedded.org;
-	Tue, 10 Jan 2012 09:24:39 -0800
-Received: from SVR-ORW-FEM-02.mgc.mentorg.com ([147.34.96.206]) by
-	svr-orw-fem-01.mgc.mentorg.com over TLS secured channel with
-	Microsoft SMTPSVC(6.0.3790.4675); Tue, 10 Jan 2012 09:24:39 -0800
-Received: from NA-MBX-02.mgc.mentorg.com ([169.254.2.234]) by
-	SVR-ORW-FEM-02.mgc.mentorg.com ([147.34.96.168]) with mapi id
-	14.01.0289.001; Tue, 10 Jan 2012 09:24:38 -0800
-From: "Hudson, Sean" <Sean_Hudson@mentor.com>
-To: "openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Thread-Topic: RFC: Joint, monthly, and online forum for developer discussion
-Thread-Index: AczPus/aF+QsHJWhRgaYS5qd2Oz1qg==
-Date: Tue, 10 Jan 2012 17:24:38 +0000
-Message-ID: <289CD940EE567444BB43E62E0C3028F328F52F10@NA-MBX-02.mgc.mentorg.com>
-Accept-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [147.34.91.1]
-MIME-Version: 1.0
-X-OriginalArrivalTime: 10 Jan 2012 17:24:39.0499 (UTC)
-	FILETIME=[BB97C9B0:01CCCFBC]
-Subject: RFC: Joint, monthly, and online forum for developer discussion
+	Tue, 10 Jan 2012 19:01:29 +0100
+Received: from azsmga001.ch.intel.com ([10.2.17.19])
+	by azsmga101.ch.intel.com with ESMTP; 10 Jan 2012 09:39:18 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="94381672"
+Received: from unknown (HELO shamshir.amr.corp.intel.com) ([10.255.14.3])
+	by azsmga001.ch.intel.com with ESMTP; 10 Jan 2012 09:39:17 -0800
+From: Joshua Lock <josh@linux.intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Tue, 10 Jan 2012 09:39:13 -0800
+Message-Id: <cover.1326216024.git.josh@linux.intel.com>
+X-Mailer: git-send-email 1.7.7.5
+Subject: [PATCH 0/3] Add alsa-state from OE Classic v2
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -43,241 +29,49 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 10 Jan 2012 17:32:09 -0000
-Content-Language: en-US
-Content-Type: multipart/alternative;
-	boundary="_000_289CD940EE567444BB43E62E0C3028F328F52F10NAMBX02mgcmento_"
+X-List-Received-Date: Tue, 10 Jan 2012 18:01:29 -0000
 
---_000_289CD940EE567444BB43E62E0C3028F328F52F10NAMBX02mgcmento_
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+The small series following introduces the alsa-state recipe from oe-classic.
+The reason for doing so is to remove the requirement for recipes like the
+beagleboard-audio recipe in meta-yocto, which ensures the beagleboards sound
+device has the volume turned up.
 
-I propose having a monthly, online developer forum that promotes discussion=
- on longer term technical issues that impact both Yocto and OpenEmbedded.  =
-This would supplement the already existing mailing list and irc communicati=
-on channels.  In order to facilitate this, I'd like to propose a telephone/=
-web conference, which my employer has agreed to host.
+Long term I'd like to implement something more generic for handling device
+quirks, but alsa-state is a simple fix for an immediate need that should
+standardise how alsa configuration is handled in layers.
 
+Since v1 I've added an extra commit which:
+a) defaults to /var/lib/alsa/ for state files, as this is the directory
+alsactl writes to by default.
+b) sed's the path to the state files into the init script, rather than hard
+codes them.
 
+The following changes since commit fff18970706913e7fd7f4a119d798dddb44b388a:
 
-This forum would help provide an additional way for the community to discus=
-s technical issues and share information about planned work and works in pr=
-ogress.
+  base-files: filesystems: fix mount order (2012-01-06 14:41:19 +0000)
 
+are available in the git repository at:
+  git://git.openembedded.org/openembedded-core-contrib josh/devices
+  http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=josh/devices
 
+Joshua Lock (3):
+  alsa-state: add alsa-state from oe classic
+  alsa-state: move state files to localstatedir
+  task-base: add alsa-state to task-base-alsa
 
-Initial Topics for Discussion might include:
+ meta/recipes-bsp/alsa-state/alsa-state.bb          |   59 ++++++++++++++++++++
+ meta/recipes-bsp/alsa-state/alsa-state/alsa-state  |   29 ++++++++++
+ meta/recipes-bsp/alsa-state/alsa-state/asound.conf |   12 ++++
+ .../recipes-bsp/alsa-state/alsa-state/asound.state |    1 +
+ meta/recipes-core/tasks/task-base.bb               |    5 +-
+ 5 files changed, 104 insertions(+), 2 deletions(-)
+ create mode 100644 meta/recipes-bsp/alsa-state/alsa-state.bb
+ create mode 100755 meta/recipes-bsp/alsa-state/alsa-state/alsa-state
+ create mode 100644 meta/recipes-bsp/alsa-state/alsa-state/asound.conf
+ create mode 100644 meta/recipes-bsp/alsa-state/alsa-state/asound.state
 
-1.     layering definitions - discussion on what exists today and how to ma=
-ke it better
-
-2.     discussions on techniques to make working with oe/yocto better
-
-3.     oe/yocto disconnects (opportunities for better alignment)
-
-4.     common new user issues
-
-5.     documentation (standards, lacks, etc)
-
-6.     ?
-
-
-
-Regards,
-
-     Sean
-
-Sean Hudson | Embedded Linux Architect for Mentor Embedded Linux
-
-Mentor Graphics - Embedded Software Division(tm)
+-- 
+1.7.7.5
 
 
 
---_000_289CD940EE567444BB43E62E0C3028F328F52F10NAMBX02mgcmento_
-Content-Type: text/html; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
-
-<html xmlns:v=3D"urn:schemas-microsoft-com:vml" xmlns:o=3D"urn:schemas-micr=
-osoft-com:office:office" xmlns:w=3D"urn:schemas-microsoft-com:office:word" =
-xmlns:m=3D"http://schemas.microsoft.com/office/2004/12/omml" xmlns=3D"http:=
-//www.w3.org/TR/REC-html40">
-<head>
-<meta http-equiv=3D"Content-Type" content=3D"text/html; charset=3Dus-ascii"=
->
-<meta name=3D"Generator" content=3D"Microsoft Word 14 (filtered medium)">
-<style><!--
-/* Font Definitions */
-@font-face
-	{font-family:Tahoma;
-	panose-1:2 11 6 4 3 5 4 4 2 4;}
-/* Style Definitions */
-p.MsoNormal, li.MsoNormal, div.MsoNormal
-	{margin:0in;
-	margin-bottom:.0001pt;
-	font-size:11.0pt;
-	font-family:"Calibri","sans-serif";}
-a:link, span.MsoHyperlink
-	{mso-style-priority:99;
-	color:blue;
-	text-decoration:underline;}
-a:visited, span.MsoHyperlinkFollowed
-	{mso-style-priority:99;
-	color:purple;
-	text-decoration:underline;}
-p.MsoPlainText, li.MsoPlainText, div.MsoPlainText
-	{mso-style-priority:99;
-	mso-style-link:"Plain Text Char";
-	margin:0in;
-	margin-bottom:.0001pt;
-	font-size:10.0pt;
-	font-family:"Tahoma","sans-serif";}
-span.EmailStyle17
-	{mso-style-type:personal-compose;
-	font-family:"Tahoma","sans-serif";
-	color:windowtext;
-	font-weight:normal;
-	font-style:normal;}
-span.PlainTextChar
-	{mso-style-name:"Plain Text Char";
-	mso-style-priority:99;
-	mso-style-link:"Plain Text";
-	font-family:"Tahoma","sans-serif";}
-.MsoChpDefault
-	{mso-style-type:export-only;
-	font-family:"Calibri","sans-serif";}
-@page WordSection1
-	{size:8.5in 11.0in;
-	margin:1.0in 1.0in 1.0in 1.0in;}
-div.WordSection1
-	{page:WordSection1;}
-/* List Definitions */
-@list l0
-	{mso-list-id:1326933496;
-	mso-list-type:hybrid;
-	mso-list-template-ids:777545062 67698703 67698713 67698715 67698703 676987=
-13 67698715 67698703 67698713 67698715;}
-@list l0:level1
-	{mso-level-tab-stop:none;
-	mso-level-number-position:left;
-	text-indent:-.25in;
-	mso-bidi-font-family:"Times New Roman";}
-@list l0:level2
-	{mso-level-number-format:alpha-lower;
-	mso-level-tab-stop:none;
-	mso-level-number-position:left;
-	text-indent:-.25in;
-	mso-bidi-font-family:"Times New Roman";}
-@list l0:level3
-	{mso-level-number-format:roman-lower;
-	mso-level-tab-stop:none;
-	mso-level-number-position:right;
-	text-indent:-9.0pt;
-	mso-bidi-font-family:"Times New Roman";}
-@list l0:level4
-	{mso-level-tab-stop:none;
-	mso-level-number-position:left;
-	text-indent:-.25in;
-	mso-bidi-font-family:"Times New Roman";}
-@list l0:level5
-	{mso-level-number-format:alpha-lower;
-	mso-level-tab-stop:none;
-	mso-level-number-position:left;
-	text-indent:-.25in;
-	mso-bidi-font-family:"Times New Roman";}
-@list l0:level6
-	{mso-level-number-format:roman-lower;
-	mso-level-tab-stop:none;
-	mso-level-number-position:right;
-	text-indent:-9.0pt;
-	mso-bidi-font-family:"Times New Roman";}
-@list l0:level7
-	{mso-level-tab-stop:none;
-	mso-level-number-position:left;
-	text-indent:-.25in;
-	mso-bidi-font-family:"Times New Roman";}
-@list l0:level8
-	{mso-level-number-format:alpha-lower;
-	mso-level-tab-stop:none;
-	mso-level-number-position:left;
-	text-indent:-.25in;
-	mso-bidi-font-family:"Times New Roman";}
-@list l0:level9
-	{mso-level-number-format:roman-lower;
-	mso-level-tab-stop:none;
-	mso-level-number-position:right;
-	text-indent:-9.0pt;
-	mso-bidi-font-family:"Times New Roman";}
-ol
-	{margin-bottom:0in;}
-ul
-	{margin-bottom:0in;}
---></style><!--[if gte mso 9]><xml>
-<o:shapedefaults v:ext=3D"edit" spidmax=3D"1026" />
-</xml><![endif]--><!--[if gte mso 9]><xml>
-<o:shapelayout v:ext=3D"edit">
-<o:idmap v:ext=3D"edit" data=3D"1" />
-</o:shapelayout></xml><![endif]-->
-</head>
-<body lang=3D"EN-US" link=3D"blue" vlink=3D"purple">
-<div class=3D"WordSection1">
-<p class=3D"MsoPlainText">I propose having a monthly, online developer foru=
-m that promotes discussion on longer term technical issues that impact both=
- Yocto and OpenEmbedded.&nbsp; This would supplement the already existing m=
-ailing list and irc communication channels.&nbsp;
- In order to facilitate this, I&#8217;d like to propose a telephone/web con=
-ference, which my employer has agreed to host.<o:p></o:p></p>
-<p class=3D"MsoPlainText"><o:p>&nbsp;</o:p></p>
-<p class=3D"MsoPlainText">This forum would help provide an additional way f=
-or the community to discuss technical issues and share information about pl=
-anned work and works in progress.<o:p></o:p></p>
-<p class=3D"MsoPlainText"><o:p>&nbsp;</o:p></p>
-<p class=3D"MsoPlainText">Initial Topics for Discussion might include:<o:p>=
-</o:p></p>
-<p class=3D"MsoPlainText" style=3D"margin-left:.5in;text-indent:-.25in;mso-=
-list:l0 level1 lfo1">
-<![if !supportLists]><span style=3D"mso-list:Ignore">1.<span style=3D"font:=
-7.0pt &quot;Times New Roman&quot;">&nbsp;&nbsp;&nbsp;&nbsp;
-</span></span><![endif]>layering definitions &#8211; discussion on what exi=
-sts today and how to make it better<o:p></o:p></p>
-<p class=3D"MsoPlainText" style=3D"margin-left:.5in;text-indent:-.25in;mso-=
-list:l0 level1 lfo1">
-<![if !supportLists]><span style=3D"mso-list:Ignore">2.<span style=3D"font:=
-7.0pt &quot;Times New Roman&quot;">&nbsp;&nbsp;&nbsp;&nbsp;
-</span></span><![endif]>discussions on techniques to make working with oe/y=
-octo better<o:p></o:p></p>
-<p class=3D"MsoPlainText" style=3D"margin-left:.5in;text-indent:-.25in;mso-=
-list:l0 level1 lfo1">
-<![if !supportLists]><span style=3D"mso-list:Ignore">3.<span style=3D"font:=
-7.0pt &quot;Times New Roman&quot;">&nbsp;&nbsp;&nbsp;&nbsp;
-</span></span><![endif]>oe/yocto disconnects (opportunities for better alig=
-nment)<o:p></o:p></p>
-<p class=3D"MsoPlainText" style=3D"margin-left:.5in;text-indent:-.25in;mso-=
-list:l0 level1 lfo1">
-<![if !supportLists]><span style=3D"mso-list:Ignore">4.<span style=3D"font:=
-7.0pt &quot;Times New Roman&quot;">&nbsp;&nbsp;&nbsp;&nbsp;
-</span></span><![endif]>common new user issues<o:p></o:p></p>
-<p class=3D"MsoPlainText" style=3D"margin-left:.5in;text-indent:-.25in;mso-=
-list:l0 level1 lfo1">
-<![if !supportLists]><span style=3D"mso-list:Ignore">5.<span style=3D"font:=
-7.0pt &quot;Times New Roman&quot;">&nbsp;&nbsp;&nbsp;&nbsp;
-</span></span><![endif]>documentation (standards, lacks, etc)<o:p></o:p></p=
->
-<p class=3D"MsoPlainText" style=3D"margin-left:.5in;text-indent:-.25in;mso-=
-list:l0 level1 lfo1">
-<![if !supportLists]><span style=3D"mso-list:Ignore">6.<span style=3D"font:=
-7.0pt &quot;Times New Roman&quot;">&nbsp;&nbsp;&nbsp;&nbsp;
-</span></span><![endif]>?<o:p></o:p></p>
-<p class=3D"MsoPlainText"><o:p>&nbsp;</o:p></p>
-<p class=3D"MsoPlainText">Regards,<o:p></o:p></p>
-<p class=3D"MsoPlainText">&nbsp;&nbsp;&nbsp;&nbsp; Sean<o:p></o:p></p>
-<p class=3D"MsoPlainText"><o:p></o:p></p>
-<p class=3D"MsoPlainText">Sean Hudson | Embedded Linux Architect for Mentor=
- Embedded Linux<o:p></o:p></p>
-<p class=3D"MsoPlainText">Mentor Graphics &#8211; Embedded Software Divisio=
-n&#8482;<o:p></o:p></p>
-<p class=3D"MsoPlainText"><o:p>&nbsp;</o:p></p>
-</div>
-</body>
-</html>
-
---_000_289CD940EE567444BB43E62E0C3028F328F52F10NAMBX02mgcmento_--
