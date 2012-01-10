@@ -1,24 +1,24 @@
 Received: from mga01.intel.com ([192.55.52.88])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <sgw@linux.intel.com>) id 1RkUmm-00042N-36
+	(envelope-from <sgw@linux.intel.com>) id 1RkUma-00042N-RF
 	for openembedded-core@lists.openembedded.org;
-	Tue, 10 Jan 2012 07:02:16 +0100
+	Tue, 10 Jan 2012 07:02:05 +0100
 Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-	by fmsmga101.fm.intel.com with ESMTP; 09 Jan 2012 21:54:23 -0800
+	by fmsmga101.fm.intel.com with ESMTP; 09 Jan 2012 21:54:21 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="110535270"
+X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="110535259"
 Received: from unknown (HELO swold-mobl.bigsur.com) ([10.255.13.28])
-	by fmsmga002.fm.intel.com with ESMTP; 09 Jan 2012 21:54:23 -0800
+	by fmsmga002.fm.intel.com with ESMTP; 09 Jan 2012 21:54:21 -0800
 From: Saul Wold <sgw@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Mon,  9 Jan 2012 21:54:16 -0800
-Message-Id: <306378b612418ba777b34f3c903b8053a27b47df.1326174744.git.sgw@linux.intel.com>
+Date: Mon,  9 Jan 2012 21:54:07 -0800
+Message-Id: <e48fd42e047f46399828a074c5125a0ce9c3f56f.1326174744.git.sgw@linux.intel.com>
 X-Mailer: git-send-email 1.7.6.5
 In-Reply-To: <cover.1326174744.git.sgw@linux.intel.com>
 References: <cover.1326174744.git.sgw@linux.intel.com>
 In-Reply-To: <cover.1326174744.git.sgw@linux.intel.com>
 References: <cover.1326174744.git.sgw@linux.intel.com>
-Subject: [CONSOLIDATED PULL 22/22] distro_tracking_fields.inc: upgrade tcf-agent
+Subject: [CONSOLIDATED PULL 13/22] autotools.bbclass: Introduce CACHED_CONFIGUREVARS
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -35,31 +35,37 @@ List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedde
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Tue, 10 Jan 2012 06:04:36 -0000
 
-From: Dexuan Cui <dexuan.cui@intel.com>
+From: Khem Raj <raj.khem@gmail.com>
 
-Upgraded the field RECIPE_MANUAL_CHECK_DATE.
-Also changed the MAINTAINER to Lianhao who volunteered to take the recipe.
+This variable is for holding the cached configure variables
+to be specified in recipes. e.g.
 
-Signed-off-by: Dexuan Cui <dexuan.cui@intel.com>
+CACHED_CONFIGUREVARS += "ac_cv_foo=yes ac_cv_bar=no"
+
+This will make sure that the variables are not detected
+by configure. This is useful in cross builds where
+some features can not be detected correctly by configure
+and having it as a variables gives us capability to
+override it
+
+Signed-off-by: Khem Raj <raj.khem@gmail.com>
 ---
- .../conf/distro/include/distro_tracking_fields.inc |    4 ++--
- 1 files changed, 2 insertions(+), 2 deletions(-)
+ meta/classes/autotools.bbclass |    2 +-
+ 1 files changed, 1 insertions(+), 1 deletions(-)
 
-diff --git a/meta/conf/distro/include/distro_tracking_fields.inc b/meta/conf/distro/include/distro_tracking_fields.inc
-index bc61353..c0bfe8a 100644
---- a/meta/conf/distro/include/distro_tracking_fields.inc
-+++ b/meta/conf/distro/include/distro_tracking_fields.inc
-@@ -2891,8 +2891,8 @@ RECIPE_TIME_BETWEEN_LAST_TWO_RELEASES_pn-tcf-agent = "1+ years"
- RECIPE_LATEST_RELEASE_DATE_pn-tcf-agent = "Jul 07, 2011"
- RECIPE_COMMENTS_pn-tcf-agent = ""
- RECIPE_LAST_UPDATE_pn-tcf-agent = "Jul 21, 2011"
--RECIPE_MANUAL_CHECK_DATE_pn-tcf-agent = "Nov 17, 2011"
--RECIPE_MAINTAINER_pn-tcf-agent = "Dexuan Cui <dexuan.cui@intel.com>"
-+RECIPE_MANUAL_CHECK_DATE_pn-tcf-agent = "Jan 10, 2012"
-+RECIPE_MAINTAINER_pn-tcf-agent = "Lianhao Lu <lianhao.lu@intel.com>"
- 
- RECIPE_STATUS_pn-liburcu = "green"
- DISTRO_PN_ALIAS_pn-liburcu = "Fedora=userspace-rcu Ubuntu=liburcu0"
+diff --git a/meta/classes/autotools.bbclass b/meta/classes/autotools.bbclass
+index 2f462ff..5d74333 100644
+--- a/meta/classes/autotools.bbclass
++++ b/meta/classes/autotools.bbclass
+@@ -73,7 +73,7 @@ oe_runconf () {
+ 	cfgscript="${S}/configure"
+ 	if [ -x "$cfgscript" ] ; then
+ 		bbnote "Running $cfgscript ${CONFIGUREOPTS} ${EXTRA_OECONF} $@"
+-		$cfgscript ${CONFIGUREOPTS} ${EXTRA_OECONF} "$@" || bbfatal "oe_runconf failed"
++		${CACHED_CONFIGUREVARS} $cfgscript ${CONFIGUREOPTS} ${EXTRA_OECONF} "$@" || bbfatal "oe_runconf failed"
+ 	else
+ 		bbfatal "no configure script found at $cfgscript"
+ 	fi
 -- 
 1.7.6.5
 
