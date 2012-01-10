@@ -1,25 +1,20 @@
-Received: from mga09.intel.com ([134.134.136.24])
+Received: from mga11.intel.com ([192.55.52.93])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <paul.eggleton@linux.intel.com>) id 1RkZ1f-00035z-GT
+	(envelope-from <shane.wang@intel.com>) id 1RkZCm-0003TG-SB
 	for openembedded-core@lists.openembedded.org;
-	Tue, 10 Jan 2012 11:33:55 +0100
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-	by orsmga102.jf.intel.com with ESMTP; 10 Jan 2012 02:26:26 -0800
+	Tue, 10 Jan 2012 11:45:25 +0100
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+	by fmsmga102.fm.intel.com with ESMTP; 10 Jan 2012 02:37:55 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.67,351,1309762800"; d="scan'208";a="96450338"
-Received: from unknown (HELO helios.localnet) ([10.252.122.95])
-	by orsmga002.jf.intel.com with ESMTP; 10 Jan 2012 02:26:25 -0800
-From: Paul Eggleton <paul.eggleton@linux.intel.com>
+X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="110605095"
+Received: from yocto-build5.sh.intel.com (HELO localhost) ([10.239.48.2])
+	by fmsmga002.fm.intel.com with ESMTP; 10 Jan 2012 02:37:55 -0800
+From: Shane Wang <shane.wang@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Tue, 10 Jan 2012 10:26:23 +0000
-Message-ID: <1326195469.B1rBFhU1YM@helios>
-Organization: Intel Corporation
-User-Agent: KMail/4.7.3 (Linux/3.0.0-14-generic-pae; KDE/4.7.4; i686; ; )
-In-Reply-To: <1326190107.12160.45.camel@phil-desktop>
-References: <20120110100306.GB3664@ad.chargestorm.se>
-	<1326190107.12160.45.camel@phil-desktop>
-MIME-Version: 1.0
-Subject: Re: Preventing RRECOMMENDS from installing
+Date: Tue, 10 Jan 2012 18:53:59 +0800
+Message-Id: <cover.1326192666.git.shane.wang@intel.com>
+X-Mailer: git-send-email 1.7.6
+Subject: [PATCH 0/1] hdparm: upgrade to 9.37
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -34,28 +29,36 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 10 Jan 2012 10:33:55 -0000
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
+X-List-Received-Date: Tue, 10 Jan 2012 10:45:25 -0000
 
-On Tuesday 10 January 2012 10:08:24 Phil Blundell wrote:
-> On Tue, 2012-01-10 at 11:03 +0100, Anders Darander wrote:
-> > Is there a simple way, in a bbappend-file to prevent packages in an
-> > RRECOMMENDS from being installed? E.g. if package foo has:
-> > RRECOMMENDS_${PN} += "bar"
-> 
-> If you mean you just want to stop them getting installed during rootfs
-> construction, you can achieve that by declaring them to be
-> BAD_RECOMMENDATIONS.
+This patch is to upgrade hdparm to 9.37 and bring its new dependency stat.
+Please review.
 
-FWIW, it should be noted that this currently works for ipk packaging only.
+The following changes since commit 468998cddbe1a803096c9b357e1b5daa3b7e8c2e:
 
-Cheers,
-Paul
+  command.py: add parseConfigurationFiles API (2012-01-06 16:01:44 +0000)
+
+are available in the git repository at:
+  git://git.pokylinux.org/poky-contrib shane/upgrade3
+  http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=shane/upgrade3
+
+Shane Wang (1):
+  hdparm: upgrade to 9.37
+
+ .../recipes-extended/hdparm/hdparm-6.3/bswap.patch |   37 --------------------
+ .../hdparm/hdparm-6.3/uclibc.patch                 |   34 ------------------
+ meta/recipes-extended/hdparm/hdparm_6.3.bb         |   18 ---------
+ meta/recipes-extended/hdparm/hdparm_9.37.bb        |   36 +++++++++++++++++++
+ meta/recipes-extended/stat/stat_3.3.bb             |   27 ++++++++++++++
+ 5 files changed, 63 insertions(+), 89 deletions(-)
+ delete mode 100644 meta/recipes-extended/hdparm/hdparm-6.3/bswap.patch
+ delete mode 100644 meta/recipes-extended/hdparm/hdparm-6.3/uclibc.patch
+ delete mode 100644 meta/recipes-extended/hdparm/hdparm_6.3.bb
+ create mode 100644 meta/recipes-extended/hdparm/hdparm_9.37.bb
+ create mode 100644 meta/recipes-extended/stat/stat_3.3.bb
 
 -- 
+1.7.6
 
-Paul Eggleton
-Intel Open Source Technology Centre
 
 
