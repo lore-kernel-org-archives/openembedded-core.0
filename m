@@ -1,29 +1,25 @@
-Received: from stoexhubfe02.domain01.net ([83.145.59.141])
+Received: from mail.pbcl.net ([88.198.119.4] helo=hetzner.pbcl.net)
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <anders@chargestorm.se>) id 1RkZHV-0003j4-GU
+	(envelope-from <philb@gnu.org>) id 1RkZZK-0004Y2-7y
 	for openembedded-core@lists.openembedded.org;
-	Tue, 10 Jan 2012 11:50:18 +0100
-Received: from ad.chargestorm.se (193.235.91.228) by stoexhubfe02.domain01.net
-	(10.12.10.7) with Microsoft SMTP Server (TLS) id 8.3.213.0;
-	Tue, 10 Jan 2012 11:42:39 +0100
-Date: Tue, 10 Jan 2012 11:42:39 +0100
-From: Anders Darander <anders@chargestorm.se>
-To: <openembedded-core@lists.openembedded.org>
-Message-ID: <20120110104238.GC3664@ad.chargestorm.se>
-Mail-Followup-To: openembedded-core@lists.openembedded.org
-References: <20120110100306.GB3664@ad.chargestorm.se>
-	<1326190107.12160.45.camel@phil-desktop>
-	<1326195469.B1rBFhU1YM@helios>
-MIME-Version: 1.0
-In-Reply-To: <1326195469.B1rBFhU1YM@helios>
-X-Accept-Language: sv, en, de
-X-GPG-Fingerprint: 5AF0 B2E9 78FE 9D75 D110  6F8F 3E31 84D7 920E 938C
-X-GPG-Key-Id: 0x920E938C
-X-GPG-Keyserver: hkp://keys.gnupg.net
-Organization: ChargeStorm AB
-User-Agent: Mutt/1.5.21 (2010-09-15)
-X-GFI-SMTP-Submission: 1
-Subject: Re: Preventing RRECOMMENDS from installing
+	Tue, 10 Jan 2012 12:08:42 +0100
+Received: from elite.brightsigndigital.co.uk ([81.142.160.137]
+	helo=[172.30.1.145])
+	by hetzner.pbcl.net with esmtpsa (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+	(Exim 4.72) (envelope-from <philb@gnu.org>) id 1RkZS7-0007T0-SW
+	for openembedded-core@lists.openembedded.org;
+	Tue, 10 Jan 2012 12:01:15 +0100
+From: Phil Blundell <philb@gnu.org>
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Date: Tue, 10 Jan 2012 11:01:15 +0000
+In-Reply-To: <b93626c9cd63c844f1836dc7baed7254dc171e74.1326174744.git.sgw@linux.intel.com>
+References: <cover.1326174744.git.sgw@linux.intel.com>
+	<b93626c9cd63c844f1836dc7baed7254dc171e74.1326174744.git.sgw@linux.intel.com>
+X-Mailer: Evolution 3.0.2- 
+Message-ID: <1326193275.12160.65.camel@phil-desktop>
+Mime-Version: 1.0
+Subject: Re: [CONSOLIDATED PULL 14/22] default-distrovars: Define DISTRO_FEATURES_LIBC for uclibc
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -38,37 +34,33 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 10 Jan 2012 10:50:18 -0000
-Content-Type: text/plain; charset="us-ascii"
-Content-Disposition: inline
+X-List-Received-Date: Tue, 10 Jan 2012 11:08:42 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-* Paul Eggleton <paul.eggleton@linux.intel.com> [120110 11:26]:
+On Mon, 2012-01-09 at 21:54 -0800, Saul Wold wrote:
+> diff --git a/meta/conf/distro/include/default-distrovars.inc b/meta/conf/distro/include/default-distrovars.inc
+> index e1594f3..0b515e5 100644
+> --- a/meta/conf/distro/include/default-distrovars.inc
+> +++ b/meta/conf/distro/include/default-distrovars.inc
+> @@ -10,6 +10,8 @@ LIMIT_BUILT_LOCALES ?= "POSIX en_US en_GB"
+>  ENABLE_BINARY_LOCALE_GENERATION ?= "1"
+>  LOCALE_UTF8_ONLY ?= "0"
+>  
+> +DISTRO_FEATURES_LIBC_libc-uclibc ?= "ipv4 ipv6 largefile libc-posix-clang-wchar"
+> +
+>  DISTRO_FEATURES_LIBC ?= "ipv4 ipv6 libc-backtrace libc-big-macros libc-bsd libc-cxx-tests libc-catgets libc-charsets libc-crypt \
+>  					libc-crypt-ufc libc-db-aliases libc-envz libc-fcvt libc-fmtmsg libc-fstab libc-ftraverse \
+>  					libc-getlogin libc-idn libc-inet-anl libc-libm libc-libm-big libc-locales libc-locale-code \
 
-> On Tuesday 10 January 2012 10:08:24 Phil Blundell wrote:
-> > On Tue, 2012-01-10 at 11:03 +0100, Anders Darander wrote:
-> > > Is there a simple way, in a bbappend-file to prevent packages in an
-> > > RRECOMMENDS from being installed? E.g. if package foo has:
-> > > RRECOMMENDS_${PN} += "bar"
+This looks like a bad idea to me.  I think that override will cause
+potentially surprising behaviour for folks who are trying to set
+DISTRO_FEATURES_LIBC by hand.  And, as far as I can tell, this patch
+won't make any functional difference since uclibc will just ignore the
+features it doesn't understand.
 
-> > If you mean you just want to stop them getting installed during rootfs
-> > construction, you can achieve that by declaring them to be
-> > BAD_RECOMMENDATIONS.
+p.
 
-> FWIW, it should be noted that this currently works for ipk packaging only.
 
-Ah, good to know...
-I was just about to start a new round of tests, but as we're currently
-using rpm packaging, there probably is no need...
-
-For the beginning, I'll have to stay with the local patch approach then,
-and later on, investigate what it would take to implement this for rpm
-packaging.
-
-Cheers,
-Anders
-
--- 
-Anders Darander
-ChargeStorm AB / eStorm AB
 
 
