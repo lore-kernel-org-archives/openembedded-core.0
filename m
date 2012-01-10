@@ -1,24 +1,24 @@
 Received: from mga01.intel.com ([192.55.52.88])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <sgw@linux.intel.com>) id 1RkUmd-00042N-6f
+	(envelope-from <sgw@linux.intel.com>) id 1RkUmm-00042N-36
 	for openembedded-core@lists.openembedded.org;
-	Tue, 10 Jan 2012 07:02:07 +0100
+	Tue, 10 Jan 2012 07:02:16 +0100
 Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-	by fmsmga101.fm.intel.com with ESMTP; 09 Jan 2012 21:54:22 -0800
+	by fmsmga101.fm.intel.com with ESMTP; 09 Jan 2012 21:54:23 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="110535262"
+X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="110535270"
 Received: from unknown (HELO swold-mobl.bigsur.com) ([10.255.13.28])
-	by fmsmga002.fm.intel.com with ESMTP; 09 Jan 2012 21:54:21 -0800
+	by fmsmga002.fm.intel.com with ESMTP; 09 Jan 2012 21:54:23 -0800
 From: Saul Wold <sgw@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Mon,  9 Jan 2012 21:54:10 -0800
-Message-Id: <5e658319ee7250329f026eb7c697fc3436375327.1326174744.git.sgw@linux.intel.com>
+Date: Mon,  9 Jan 2012 21:54:16 -0800
+Message-Id: <306378b612418ba777b34f3c903b8053a27b47df.1326174744.git.sgw@linux.intel.com>
 X-Mailer: git-send-email 1.7.6.5
 In-Reply-To: <cover.1326174744.git.sgw@linux.intel.com>
 References: <cover.1326174744.git.sgw@linux.intel.com>
 In-Reply-To: <cover.1326174744.git.sgw@linux.intel.com>
 References: <cover.1326174744.git.sgw@linux.intel.com>
-Subject: [CONSOLIDATED PULL 16/22] findutils: Use CACHED_CONFIGUREVARS to specify cached configure vars
+Subject: [CONSOLIDATED PULL 22/22] distro_tracking_fields.inc: upgrade tcf-agent
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -35,37 +35,31 @@ List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedde
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Tue, 10 Jan 2012 06:04:36 -0000
 
-From: Khem Raj <raj.khem@gmail.com>
+From: Dexuan Cui <dexuan.cui@intel.com>
 
-Since this feature is depending on wchar support we only
-cache is when we have libc-posix-clang-wchar enabled
+Upgraded the field RECIPE_MANUAL_CHECK_DATE.
+Also changed the MAINTAINER to Lianhao who volunteered to take the recipe.
 
-Signed-off-by: Khem Raj <raj.khem@gmail.com>
+Signed-off-by: Dexuan Cui <dexuan.cui@intel.com>
 ---
- meta/recipes-extended/findutils/findutils_4.4.2.bb |    4 ++--
+ .../conf/distro/include/distro_tracking_fields.inc |    4 ++--
  1 files changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/meta/recipes-extended/findutils/findutils_4.4.2.bb b/meta/recipes-extended/findutils/findutils_4.4.2.bb
-index c25ba4c..b2898ed 100644
---- a/meta/recipes-extended/findutils/findutils_4.4.2.bb
-+++ b/meta/recipes-extended/findutils/findutils_4.4.2.bb
-@@ -1,6 +1,6 @@
- require findutils.inc
+diff --git a/meta/conf/distro/include/distro_tracking_fields.inc b/meta/conf/distro/include/distro_tracking_fields.inc
+index bc61353..c0bfe8a 100644
+--- a/meta/conf/distro/include/distro_tracking_fields.inc
++++ b/meta/conf/distro/include/distro_tracking_fields.inc
+@@ -2891,8 +2891,8 @@ RECIPE_TIME_BETWEEN_LAST_TWO_RELEASES_pn-tcf-agent = "1+ years"
+ RECIPE_LATEST_RELEASE_DATE_pn-tcf-agent = "Jul 07, 2011"
+ RECIPE_COMMENTS_pn-tcf-agent = ""
+ RECIPE_LAST_UPDATE_pn-tcf-agent = "Jul 21, 2011"
+-RECIPE_MANUAL_CHECK_DATE_pn-tcf-agent = "Nov 17, 2011"
+-RECIPE_MAINTAINER_pn-tcf-agent = "Dexuan Cui <dexuan.cui@intel.com>"
++RECIPE_MANUAL_CHECK_DATE_pn-tcf-agent = "Jan 10, 2012"
++RECIPE_MAINTAINER_pn-tcf-agent = "Lianhao Lu <lianhao.lu@intel.com>"
  
--PR = "r1"
-+PR = "r2"
- 
- SRC_URI += "file://01-27017.patch \
-             file://02-28824.patch \
-@@ -11,7 +11,7 @@ SRC_URI[md5sum] = "351cc4adb07d54877fa15f75fb77d39f"
- SRC_URI[sha256sum] = "434f32d171cbc0a5e72cfc5372c6fc4cb0e681f8dce566a0de5b6fccd702b62a"
- 
- # http://savannah.gnu.org/bugs/?27299
--EXTRA_OECONF += "gl_cv_func_wcwidth_works=yes"
-+CACHED_CONFIGUREVARS += "${@base_contains('DISTRO_FEATURES', 'libc-posix-clang-wchar', 'gl_cv_func_wcwidth_works=yes', '', d)}"
- 
- do_install_append () {
-         if [ -e ${D}${bindir}/find ]; then
+ RECIPE_STATUS_pn-liburcu = "green"
+ DISTRO_PN_ALIAS_pn-liburcu = "Fedora=userspace-rcu Ubuntu=liburcu0"
 -- 
 1.7.6.5
 
