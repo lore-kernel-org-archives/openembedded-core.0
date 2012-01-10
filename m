@@ -1,25 +1,26 @@
-Received: from mail.pbcl.net ([88.198.119.4] helo=hetzner.pbcl.net)
+Received: from mail-we0-f175.google.com ([74.125.82.175])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <philb@gnu.org>) id 1RkZZK-0004Y2-7y
+	(envelope-from <andrei@gherzan.ro>) id 1RkbeS-0003g7-Md
 	for openembedded-core@lists.openembedded.org;
-	Tue, 10 Jan 2012 12:08:42 +0100
-Received: from elite.brightsigndigital.co.uk ([81.142.160.137]
-	helo=[172.30.1.145])
-	by hetzner.pbcl.net with esmtpsa (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
-	(Exim 4.72) (envelope-from <philb@gnu.org>) id 1RkZS7-0007T0-SW
-	for openembedded-core@lists.openembedded.org;
-	Tue, 10 Jan 2012 12:01:15 +0100
-From: Phil Blundell <philb@gnu.org>
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Date: Tue, 10 Jan 2012 11:01:15 +0000
-In-Reply-To: <b93626c9cd63c844f1836dc7baed7254dc171e74.1326174744.git.sgw@linux.intel.com>
-References: <cover.1326174744.git.sgw@linux.intel.com>
-	<b93626c9cd63c844f1836dc7baed7254dc171e74.1326174744.git.sgw@linux.intel.com>
-X-Mailer: Evolution 3.0.2- 
-Message-ID: <1326193275.12160.65.camel@phil-desktop>
-Mime-Version: 1.0
-Subject: Re: [CONSOLIDATED PULL 14/22] default-distrovars: Define DISTRO_FEATURES_LIBC for uclibc
+	Tue, 10 Jan 2012 14:22:08 +0100
+Received: by werm13 with SMTP id m13so3851507wer.6
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 10 Jan 2012 05:14:40 -0800 (PST)
+Received: by 10.216.132.98 with SMTP id n76mr9631035wei.36.1326201280140;
+	Tue, 10 Jan 2012 05:14:40 -0800 (PST)
+Received: from [128.224.170.207] ([89.121.200.106])
+	by mx.google.com with ESMTPS id gf8sm34519904wbb.11.2012.01.10.05.14.38
+	(version=SSLv3 cipher=OTHER); Tue, 10 Jan 2012 05:14:39 -0800 (PST)
+Message-ID: <4F0C39BE.80001@gherzan.ro>
+Date: Tue, 10 Jan 2012 15:14:38 +0200
+From: Andrei Gherzan <andrei@gherzan.ro>
+User-Agent: Mozilla/5.0 (X11; Linux i686;
+	rv:8.0) Gecko/20111124 Thunderbird/8.0
+MIME-Version: 1.0
+To: openembedded-core@lists.openembedded.org
+References: <CAPhnLPDYQgsjTEASEO_K582wxFfk=NRvwX+94etd85FuYxrWYw@mail.gmail.com>
+In-Reply-To: <CAPhnLPDYQgsjTEASEO_K582wxFfk=NRvwX+94etd85FuYxrWYw@mail.gmail.com>
+Subject: Re: [PATCH] base.bbclass: support for or operand in LICENSE and for SPDX license names
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -34,33 +35,57 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 10 Jan 2012 11:08:42 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Tue, 10 Jan 2012 13:22:08 -0000
+Content-Type: multipart/alternative;
+	boundary="------------070707050408040800040701"
+
+--------------070707050408040800040701
+Content-Type: text/plain; charset=ISO-8859-1; format=flowed
 Content-Transfer-Encoding: 7bit
 
-On Mon, 2012-01-09 at 21:54 -0800, Saul Wold wrote:
-> diff --git a/meta/conf/distro/include/default-distrovars.inc b/meta/conf/distro/include/default-distrovars.inc
-> index e1594f3..0b515e5 100644
-> --- a/meta/conf/distro/include/default-distrovars.inc
-> +++ b/meta/conf/distro/include/default-distrovars.inc
-> @@ -10,6 +10,8 @@ LIMIT_BUILT_LOCALES ?= "POSIX en_US en_GB"
->  ENABLE_BINARY_LOCALE_GENERATION ?= "1"
->  LOCALE_UTF8_ONLY ?= "0"
->  
-> +DISTRO_FEATURES_LIBC_libc-uclibc ?= "ipv4 ipv6 largefile libc-posix-clang-wchar"
-> +
->  DISTRO_FEATURES_LIBC ?= "ipv4 ipv6 libc-backtrace libc-big-macros libc-bsd libc-cxx-tests libc-catgets libc-charsets libc-crypt \
->  					libc-crypt-ufc libc-db-aliases libc-envz libc-fcvt libc-fmtmsg libc-fstab libc-ftraverse \
->  					libc-getlogin libc-idn libc-inet-anl libc-libm libc-libm-big libc-locales libc-locale-code \
+Elizabeth,
 
-This looks like a bad idea to me.  I think that override will cause
-potentially surprising behaviour for folks who are trying to set
-DISTRO_FEATURES_LIBC by hand.  And, as far as I can tell, this patch
-won't make any functional difference since uclibc will just ignore the
-features it doesn't understand.
+Thank you very much for you ideas upon base.bbclass: support for or 
+operand in LICENSE and for SPDX license names.
+I recoded this after your advices. Actually i didn't know about 
+oe.license and the idea of having it as a function in license.bbclass 
+sounds good to me.
 
-p.
+So i will upload this change soon.
+
+ag
 
 
 
+--------------070707050408040800040701
+Content-Type: text/html; charset=ISO-8859-1
+Content-Transfer-Encoding: 7bit
 
+<html>
+  <head>
+
+    <meta http-equiv="content-type" content="text/html; charset=ISO-8859-1">
+  </head>
+  <body bgcolor="#FFFFFF" text="#000000">
+    <font face="serif">Elizabeth,</font><br>
+    <br>
+    Thank you very much for you ideas upon
+    <meta http-equiv="content-type" content="text/html;
+      charset=ISO-8859-1">
+    base.bbclass: support for or operand in LICENSE and for SPDX license
+    names.<br>
+    I recoded this after your advices. Actually i didn't know about
+    oe.license and the idea of having it as a function in
+    license.bbclass sounds good to me.<br>
+    <br>
+    So i will upload this change soon.<br>
+    <br>
+    ag<br>
+    <br>
+    <br>
+    <meta http-equiv="content-type" content="text/html;
+      charset=ISO-8859-1">
+  </body>
+</html>
+
+--------------070707050408040800040701--
