@@ -1,32 +1,29 @@
-Received: from mail-lpp01m010-f47.google.com ([209.85.215.47])
+Received: from mail-ww0-f43.google.com ([74.125.82.43])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <raj.khem@gmail.com>) id 1RkgGx-0006oD-BL
+	(envelope-from <andrei@gherzan.ro>) id 1RkgJp-0006ul-II
 	for openembedded-core@lists.openembedded.org;
-	Tue, 10 Jan 2012 19:18:14 +0100
-Received: by lami14 with SMTP id i14so2050420lam.6
+	Tue, 10 Jan 2012 19:21:09 +0100
+Received: by wgbdt11 with SMTP id dt11so2912739wgb.24
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 10 Jan 2012 10:10:42 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:content-type:content-transfer-encoding;
-	bh=0KPnJG+QQYDioILAcS7G2rtt/9pViwkWwwJIp1mTtgU=;
-	b=SvWOB0dB+7KxRyqPNTBJZek9ka1FeTbeKmXJamc/oZW3NXIHYGutQ7/T2GvKqeTcau
-	bOD9YOWo0KiThpIHEfmrZteY6ADPJUZ3u5riWV0FWxbq0j4HlQqo7KxQCkHW1XXivLEF
-	Fp5F9HC5jWx2cUxMD8n7wjC5YqcjEOLK3JfIo=
-Received: by 10.112.87.226 with SMTP id bb2mr4676505lbb.67.1326219042392; Tue,
-	10 Jan 2012 10:10:42 -0800 (PST)
+	Tue, 10 Jan 2012 10:13:39 -0800 (PST)
+Received: by 10.180.76.8 with SMTP id g8mr17646519wiw.3.1326219219541; Tue, 10
+	Jan 2012 10:13:39 -0800 (PST)
 MIME-Version: 1.0
-Received: by 10.152.115.1 with HTTP; Tue, 10 Jan 2012 10:10:11 -0800 (PST)
-In-Reply-To: <1326218304.23315.8.camel@ted>
-References: <cover.1326174744.git.sgw@linux.intel.com>
-	<b93626c9cd63c844f1836dc7baed7254dc171e74.1326174744.git.sgw@linux.intel.com>
-	<1326193275.12160.65.camel@phil-desktop> <1326218304.23315.8.camel@ted>
-From: Khem Raj <raj.khem@gmail.com>
-Date: Tue, 10 Jan 2012 10:10:11 -0800
-Message-ID: <CAMKF1spRCUxVs+Tt=M2otMp9oBcX63zhv9Y=AyFDF8b9wT4ttA@mail.gmail.com>
+Received: by 10.227.100.82 with HTTP; Tue, 10 Jan 2012 10:13:17 -0800 (PST)
+X-Originating-IP: [79.115.118.211]
+In-Reply-To: <CABcZANnXksgwqbgU_mhD4ptgEx_0=M9MUHV2uagi3owEU2yrrg@mail.gmail.com>
+References: <1326208678-17244-1-git-send-email-andrei@gherzan.ro>
+	<CABcZANnzU_5LTeRV=UjPiUWn6rqnZS6RR_yhsUKE_C_ap-PZ9g@mail.gmail.com>
+	<4F0C623B.7050209@gherzan.ro>
+	<CABcZANmcdGtOa+K9=6Ei_vAF=BVQwa6BYAYTjpeEuCDcqPcPnQ@mail.gmail.com>
+	<4F0C637E.8050704@gherzan.ro>
+	<CABcZANnXksgwqbgU_mhD4ptgEx_0=M9MUHV2uagi3owEU2yrrg@mail.gmail.com>
+From: Andrei Gherzan <andrei@gherzan.ro>
+Date: Tue, 10 Jan 2012 20:13:17 +0200
+Message-ID: <CAK18fxF_iQADUWaASY=O4JcFfjrd3MRYHw+ooSOyXWNydV16XA@mail.gmail.com>
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Subject: Re: [CONSOLIDATED PULL 14/22] default-distrovars: Define DISTRO_FEATURES_LIBC for uclibc
+Subject: Re: [PATCH] license.bbclass base.bbclass: support for 'or' operand in LICENSE and for SPDX license names
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -41,60 +38,205 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 10 Jan 2012 18:18:14 -0000
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Tue, 10 Jan 2012 18:21:09 -0000
+Content-Type: multipart/alternative; boundary=f46d043893c5799d0904b630799c
 
-On Tue, Jan 10, 2012 at 9:58 AM, Richard Purdie
-<richard.purdie@linuxfoundation.org> wrote:
-> On Tue, 2012-01-10 at 11:01 +0000, Phil Blundell wrote:
->> On Mon, 2012-01-09 at 21:54 -0800, Saul Wold wrote:
->> > diff --git a/meta/conf/distro/include/default-distrovars.inc b/meta/co=
-nf/distro/include/default-distrovars.inc
->> > index e1594f3..0b515e5 100644
->> > --- a/meta/conf/distro/include/default-distrovars.inc
->> > +++ b/meta/conf/distro/include/default-distrovars.inc
->> > @@ -10,6 +10,8 @@ LIMIT_BUILT_LOCALES ?=3D "POSIX en_US en_GB"
->> > =C2=A0ENABLE_BINARY_LOCALE_GENERATION ?=3D "1"
->> > =C2=A0LOCALE_UTF8_ONLY ?=3D "0"
->> >
->> > +DISTRO_FEATURES_LIBC_libc-uclibc ?=3D "ipv4 ipv6 largefile libc-posix=
--clang-wchar"
->> > +
->> > =C2=A0DISTRO_FEATURES_LIBC ?=3D "ipv4 ipv6 libc-backtrace libc-big-mac=
-ros libc-bsd libc-cxx-tests libc-catgets libc-charsets libc-crypt \
->> > =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 libc-crypt-ufc libc=
--db-aliases libc-envz libc-fcvt libc-fmtmsg libc-fstab libc-ftraverse \
->> > =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 libc-getlogin libc-=
-idn libc-inet-anl libc-libm libc-libm-big libc-locales libc-locale-code \
->>
->> This looks like a bad idea to me. =C2=A0I think that override will cause
->> potentially surprising behaviour for folks who are trying to set
->> DISTRO_FEATURES_LIBC by hand. =C2=A0And, as far as I can tell, this patc=
-h
->> won't make any functional difference since uclibc will just ignore the
->> features it doesn't understand.
->
-> Agreed. If this really is an issue we could do something like:
->
-> DEFAULTLIBFEATURES =3D "xxx"
-> DEFAULTLIBFEATURES_libc-uclibc =3D "yyy"
-> DISTRO_FEATURES_LIBC ?=3D "${DEFAULTLIBCFEATURES}"
+--f46d043893c5799d0904b630799c
+Content-Type: text/plain; charset=ISO-8859-1
 
-I think its ok to drop it since OE-core is reference set of features and
-let users redefine them if need be.
+On Tue, Jan 10, 2012 at 18:34, Chris Larson <clarson@kergoth.com> wrote:
 
+> On Tue, Jan 10, 2012 at 9:12 AM, Andrei Gherzan <andrei@gherzan.ro> wrote:
+> > No worries. Anyway, you are right about the "+" mechanism but right now
+> this
+> > is a fast and complete solution.
 >
-> Cheers,
->
-> Richard
->
+> Indeed, nice work on this.
+> --
+> Christopher Larson
 >
 > _______________________________________________
 > Openembedded-core mailing list
 > Openembedded-core@lists.openembedded.org
 > http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
+>
+
+On Tue, Jan 10, 2012 at 19:05, Chris Larson <clarson@kergoth.com> wrote:
+
+> On Tue, Jan 10, 2012 at 9:55 AM, Flanagan, Elizabeth
+> <elizabeth.flanagan@intel.com> wrote:
+> > Agreed!
+>
+
+Thank you.
 
 
+
+On Tue, Jan 10, 2012 at 19:05, Chris Larson <clarson@kergoth.com> wrote:
+
+> On Tue, Jan 10, 2012 at 9:55 AM, Flanagan, Elizabeth
+> <elizabeth.flanagan@intel.com> wrote:
+> > Agreed! One note about "+". There is still a discussion about "or
+> > greater" licensing within the SPDX community about how "or greater"
+> > should be dealt with.
+> >
+> >
+> http://www.spdx.org/wiki/proposal-2010-11-16-1-or-later-version-licensing
+> > https://bugs.linuxfoundation.org/show_bug.cgi?id=591
+>
+> Interesting.
+>
+> > I'm partial to, as a stop gap, re-including L/GPL-x.0+ license files
+> > into common-licenses until they hash it out and treating "+" as just
+> > part of the license name. It's not a perfect solution but it should
+> > solve most "or greater" use cases.
+>
+> I've been thinking about something like this.
+>
+> LICENSE_EXPANSIONS += "GPL-2.0+:GPL-2.0,GPL-3.0"
+>
+> Then process the license, turning GPL-2.0+ into an OR operation.
+> Replace with (GPL-2.0 | GPL-3.0).
+>
+> Perhaps coupled with something like https://gist.github.com/1590028 to
+> express distributor preferences, we then get a sanitized, SDPX, flat
+> string with the licenses we're going to be using for this. Then we run
+> this against each binary package's LICENSE (if different than recipe)
+> and ensure our emitted binary packages match up with our license
+> choices.
+> --
+> Christopher Larson
+>
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
+>
+>
+Christopher's solution crossed my mind as well. Actually i tried something
+like this but i didn't want to modify more from this patch and i didn't
+really know how to define those expansions.
+Another problem here that i faced and dropped the idea for, was the the
+scenario where a developer wants to exclude only GPLv3+. This case needed a
+another couple of "if"s and so on.
+
+So my solution seemed to deal most of the situations even if it looks a
+little... childish.
+
+--f46d043893c5799d0904b630799c
+Content-Type: text/html; charset=ISO-8859-1
+Content-Transfer-Encoding: quoted-printable
+
+<div style=3D"text-align:center"><div align=3D"left" style=3D"font-family:&=
+#39;Times New Roman&#39;;font-size:medium"><br></div></div><div class=3D"gm=
+ail_quote">On Tue, Jan 10, 2012 at 18:34, Chris Larson <span dir=3D"ltr">&l=
+t;<a href=3D"mailto:clarson@kergoth.com" target=3D"_blank">clarson@kergoth.=
+com</a>&gt;</span> wrote:<br>
+
+
+<blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1p=
+x #ccc solid;padding-left:1ex"><div>On Tue, Jan 10, 2012 at 9:12 AM, Andrei=
+ Gherzan &lt;<a href=3D"mailto:andrei@gherzan.ro" target=3D"_blank">andrei@=
+gherzan.ro</a>&gt; wrote:<br>
+
+
+
+&gt; No worries. Anyway, you are right about the &quot;+&quot; mechanism bu=
+t right now this<br>
+&gt; is a fast and complete solution.<br>
+<br>
+</div>Indeed, nice work on this.<br>
+<span><font color=3D"#888888">--<br>
+Christopher Larson<br>
+<br>
+_______________________________________________<br>
+Openembedded-core mailing list<br>
+<a href=3D"mailto:Openembedded-core@lists.openembedded.org" target=3D"_blan=
+k">Openembedded-core@lists.openembedded.org</a><br>
+<a href=3D"http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded=
+-core" target=3D"_blank">http://lists.linuxtogo.org/cgi-bin/mailman/listinf=
+o/openembedded-core</a><br>
+</font></span></blockquote></div><div><br></div><div>On Tue, Jan 10, 2012 a=
+t 19:05, Chris Larson=A0<span dir=3D"ltr">&lt;<a href=3D"mailto:clarson@ker=
+goth.com" target=3D"_blank">clarson@kergoth.com</a>&gt;</span>=A0wrote:<br>=
+<blockquote class=3D"gmail_quote" style=3D"margin-top:0px;margin-right:0px;=
+margin-bottom:0px;margin-left:0.8ex;border-left-width:1px;border-left-color=
+:rgb(204,204,204);border-left-style:solid;padding-left:1ex">
+
+
+<div>On Tue, Jan 10, 2012 at 9:55 AM, Flanagan, Elizabeth<br>&lt;<a href=3D=
+"mailto:elizabeth.flanagan@intel.com" target=3D"_blank">elizabeth.flanagan@=
+intel.com</a>&gt; wrote:<br>&gt; Agreed!=A0</div></blockquote></div><br><di=
+v>
+
+Thank you.</div>
+<div><br></div><div><br><br><div class=3D"gmail_quote">On Tue, Jan 10, 2012=
+ at 19:05, Chris Larson=A0<span dir=3D"ltr">&lt;<a href=3D"mailto:clarson@k=
+ergoth.com" target=3D"_blank">clarson@kergoth.com</a>&gt;</span>=A0wrote:<b=
+r><blockquote class=3D"gmail_quote" style=3D"margin-top:0px;margin-right:0p=
+x;margin-bottom:0px;margin-left:0.8ex;border-left-width:1px;border-left-col=
+or:rgb(204,204,204);border-left-style:solid;padding-left:1ex">
+
+
+<div>On Tue, Jan 10, 2012 at 9:55 AM, Flanagan, Elizabeth<br>&lt;<a href=3D=
+"mailto:elizabeth.flanagan@intel.com" target=3D"_blank">elizabeth.flanagan@=
+intel.com</a>&gt; wrote:<br>&gt; Agreed! One note about &quot;+&quot;. Ther=
+e is still a discussion about &quot;or<br>
+
+
+&gt; greater&quot; licensing within the SPDX community about how &quot;or g=
+reater&quot;<br>&gt; should be dealt with.<br>&gt;<br>&gt;=A0<a href=3D"htt=
+p://www.spdx.org/wiki/proposal-2010-11-16-1-or-later-version-licensing" tar=
+get=3D"_blank">http://www.spdx.org/wiki/proposal-2010-11-16-1-or-later-vers=
+ion-licensing</a><br>
+
+
+&gt;=A0<a href=3D"https://bugs.linuxfoundation.org/show_bug.cgi?id=3D591" t=
+arget=3D"_blank">https://bugs.linuxfoundation.org/show_bug.cgi?id=3D591</a>=
+<br><br></div>Interesting.<br><div><br>&gt; I&#39;m partial to, as a stop g=
+ap, re-including L/GPL-x.0+ license files<br>
+
+
+&gt; into common-licenses until they hash it out and treating &quot;+&quot;=
+ as just<br>&gt; part of the license name. It&#39;s not a perfect solution =
+but it should<br>&gt; solve most &quot;or greater&quot; use cases.<br>
+
+<br>
+</div>I&#39;ve been thinking about something like this.<br><br>LICENSE_EXPA=
+NSIONS +=3D &quot;GPL-2.0+:GPL-2.0,GPL-3.0&quot;<br><br>Then process the li=
+cense, turning GPL-2.0+ into an OR operation.<br>Replace with (GPL-2.0 | GP=
+L-3.0).<br>
+
+
+<br>Perhaps coupled with something like=A0<a href=3D"https://gist.github.co=
+m/1590028" target=3D"_blank">https://gist.github.com/1590028</a>=A0to<br>ex=
+press distributor preferences, we then get a sanitized, SDPX, flat<br>strin=
+g with the licenses we&#39;re going to be using for this. Then we run<br>
+
+
+this against each binary package&#39;s LICENSE (if different than recipe)<b=
+r>and ensure our emitted binary packages match up with our license<br>choic=
+es.<br><div><div>--<br>Christopher Larson<br>
+<br>_______________________________________________<br>Openembedded-core ma=
+iling list<br><a href=3D"mailto:Openembedded-core@lists.openembedded.org" t=
+arget=3D"_blank">Openembedded-core@lists.openembedded.org</a><br><a href=3D=
+"http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core" tar=
+get=3D"_blank">http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembe=
+dded-core</a><br>
+
+
+</div><div><br></div></div></blockquote><div><br></div><div>Christopher&#39=
+;s=A0solution crossed my mind as well. Actually i tried something like this=
+ but i didn&#39;t want to modify more from this patch and i didn&#39;t real=
+ly know how to define those expansions.</div>
+
+
+<div>Another problem here that i faced and dropped the idea for, was the th=
+e scenario where a developer wants to exclude only GPLv3+. This case needed=
+ a another couple of &quot;if&quot;s and so on.</div><div><br></div><div>
+
+
+So my solution seemed to deal most of the situations even if it looks a lit=
+tle... childish.=A0</div></div></div>
+
+--f46d043893c5799d0904b630799c--
