@@ -1,20 +1,23 @@
-Received: from mga11.intel.com ([192.55.52.93])
+Received: from mail.windriver.com ([147.11.1.11])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <shane.wang@intel.com>) id 1RkZCm-0003TG-SB
+	(envelope-from <Liezhi.Yang@windriver.com>) id 1RkZEv-0003Wy-En
 	for openembedded-core@lists.openembedded.org;
-	Tue, 10 Jan 2012 11:45:25 +0100
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-	by fmsmga102.fm.intel.com with ESMTP; 10 Jan 2012 02:37:55 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="110605095"
-Received: from yocto-build5.sh.intel.com (HELO localhost) ([10.239.48.2])
-	by fmsmga002.fm.intel.com with ESMTP; 10 Jan 2012 02:37:55 -0800
-From: Shane Wang <shane.wang@intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Tue, 10 Jan 2012 18:53:59 +0800
-Message-Id: <cover.1326192666.git.shane.wang@intel.com>
-X-Mailer: git-send-email 1.7.6
-Subject: [PATCH 0/1] hdparm: upgrade to 9.37
+	Tue, 10 Jan 2012 11:47:37 +0100
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca [147.11.189.40])
+	by mail.windriver.com (8.14.3/8.14.3) with ESMTP id q0AAe7K2011768
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 10 Jan 2012 02:40:07 -0800 (PST)
+Received: from build-PowerEdge-T100.corp.ad.wrs.com (128.224.163.66) by
+	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server id
+	14.1.255.0; Tue, 10 Jan 2012 02:40:07 -0800
+From: Robert Yang <liezhi.yang@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Tue, 10 Jan 2012 18:38:24 +0800
+Message-ID: <cover.1326191431.git.liezhi.yang@windriver.com>
+X-Mailer: git-send-email 1.7.4.1
+MIME-Version: 1.0
+Subject: [PATCH 0/2 ] V3 Incremental rpm image generation
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -29,36 +32,82 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 10 Jan 2012 10:45:25 -0000
+X-List-Received-Date: Tue, 10 Jan 2012 10:47:37 -0000
+Content-Type: text/plain
 
-This patch is to upgrade hdparm to 9.37 and bring its new dependency stat.
-Please review.
+Changes of V3:
+* Change the name from INC_RPM_IMAGE_GEN to INC_RPM_IMAGE_GEN as Richard
+  suggested, and it will only work for rpm based rootfs, the deb and ipk
+  will be done in M3.
+
+* Update rootfs_rpm.bbclass since other developer has modified it since
+  V2.
+
+Changes of V2:
+* Move the config sample from meta-yocto/conf/local.conf.sample to
+  meta-yocto/conf/local.conf.sample.extended as Saul suggested.
+
+Testing:
+1) Add INC_RPM_IMAGE_GEN = "1" to conf/local.conf
+2) $ bitbake core-image-sato
+
+   * Test when remove some pkgs
+     a) Save the modify time of file which is in
+        tmp/work/qemux86_64-poky-linux/core-image-sato-1.0-r0/rootfs/dev/.
+     b) Edit meta/recipes-sato/images/core-image-sato.bb, remove
+        ${SATO_IMAGE_FEATURES} from IMAGE_FEATURES.
+     c) bitbake core-image-sato
+
+     Result: The project built well, check the modify time of the file
+     which is in
+     tmp/work/qemux86_64-poky-linux/core-image-sato-1.0-r0/rootfs/dev/,
+     They should be the same to step a)'s, which means that these files
+     were note newly created.
+
+   * Testh when add some pkgs
+     a) Save the modify time of file which is in
+        tmp/work/qemux86_64-poky-linux/core-image-sato-1.0-r0/rootfs/dev/.
+     b) Edit meta/recipes-sato/images/core-image-sato.bb, add the
+        ${SATO_IMAGE_FEATURES} back to IMAGE_FEATURES.
+     c) bitbake core-image-sato
+
+     Result: The project built well, check the modify time of the file
+     which is in
+     tmp/work/qemux86_64-poky-linux/core-image-sato-1.0-r0/rootfs/dev/,
+     They should be the same to step a)'s, which means that these files
+     were note newly created.
+
+   * Test when edit a pkg
+     a) bitbake bzip2 -cclean
+     b) rm -f rm -f sstate-cache/sstate-bzip2-*
+     c) Edit meta/recipes-extended/bzip2/bzip2_1.0.6.bb
+     d) bitbake core-image-sato
+     Result: The project built well, and check:
+        tmp/work/qemux86-poky-linux/core-image-sato-1.0-r0/temp/log.do_rootfs
+     Only the bzip2 has been re-installed
+
+
 
 The following changes since commit 468998cddbe1a803096c9b357e1b5daa3b7e8c2e:
 
   command.py: add parseConfigurationFiles API (2012-01-06 16:01:44 +0000)
 
 are available in the git repository at:
-  git://git.pokylinux.org/poky-contrib shane/upgrade3
-  http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=shane/upgrade3
+  git://git.pokylinux.org/poky-contrib robert/inc_image_gen
+  http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=robert/inc_image_gen
 
-Shane Wang (1):
-  hdparm: upgrade to 9.37
+Robert Yang (2):
+  Incremental rpm image generation
+  Incremental rpm image generation(Add config sample)
 
- .../recipes-extended/hdparm/hdparm-6.3/bswap.patch |   37 --------------------
- .../hdparm/hdparm-6.3/uclibc.patch                 |   34 ------------------
- meta/recipes-extended/hdparm/hdparm_6.3.bb         |   18 ---------
- meta/recipes-extended/hdparm/hdparm_9.37.bb        |   36 +++++++++++++++++++
- meta/recipes-extended/stat/stat_3.3.bb             |   27 ++++++++++++++
- 5 files changed, 63 insertions(+), 89 deletions(-)
- delete mode 100644 meta/recipes-extended/hdparm/hdparm-6.3/bswap.patch
- delete mode 100644 meta/recipes-extended/hdparm/hdparm-6.3/uclibc.patch
- delete mode 100644 meta/recipes-extended/hdparm/hdparm_6.3.bb
- create mode 100644 meta/recipes-extended/hdparm/hdparm_9.37.bb
- create mode 100644 meta/recipes-extended/stat/stat_3.3.bb
+ meta-yocto/conf/local.conf.sample.extended |    7 +++
+ meta/classes/image.bbclass                 |   11 ++++-
+ meta/classes/package_rpm.bbclass           |   73 ++++++++++++++++++++++++----
+ meta/classes/rootfs_rpm.bbclass            |    6 ++-
+ 4 files changed, 84 insertions(+), 13 deletions(-)
 
 -- 
-1.7.6
+1.7.4.1
 
 
 
