@@ -1,27 +1,38 @@
-Received: from mga14.intel.com ([143.182.124.37])
+Received: from mail-qw0-f54.google.com ([209.85.216.54])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <dvhart@linux.intel.com>) id 1Rkf9p-0004GJ-3m
+	(envelope-from <kergoth@gmail.com>) id 1RkfGX-0004Su-CO
 	for openembedded-core@lists.openembedded.org;
-	Tue, 10 Jan 2012 18:06:45 +0100
-Received: from azsmga002.ch.intel.com ([10.2.17.35])
-	by azsmga102.ch.intel.com with ESMTP; 10 Jan 2012 08:59:15 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="55127278"
-Received: from unknown (HELO envy.home) ([10.255.13.204])
-	by AZSMGA002.ch.intel.com with ESMTP; 10 Jan 2012 08:59:14 -0800
-Message-ID: <4F0C6E4F.8040108@linux.intel.com>
-Date: Tue, 10 Jan 2012 08:58:55 -0800
-From: Darren Hart <dvhart@linux.intel.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:7.0) Gecko/20110927 Thunderbird/7.0
+	Tue, 10 Jan 2012 18:13:41 +0100
+Received: by qabj40 with SMTP id j40so214725qab.6
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 10 Jan 2012 09:06:12 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
+	h=mime-version:sender:in-reply-to:references:from:date
+	:x-google-sender-auth:message-id:subject:to:content-type;
+	bh=eVAA8dpNW6BpOIS7+6hnOo5yz9/WV1FUsyOCtO+t8ik=;
+	b=T394dnO2wV+t4GfoUs2oz9kz0Yj9IAzaQoftv9wvAGvrHCOPoz3F7J+LZ47UqN4Gjy
+	wvEwMbm3l3lBQ0Tr97Ouc2vcC1eLAzxkZpWQsVsddEI6W7dbv6KEn5azwr2/mZt/y5mB
+	ZJ6J8rECH26GyodqAHv2KeA9HqeII2+O3aKxs=
+Received: by 10.224.175.2 with SMTP id v2mr25849054qaz.69.1326215172264; Tue,
+	10 Jan 2012 09:06:12 -0800 (PST)
 MIME-Version: 1.0
-To: Zumeng Chen <zumeng.chen@windriver.com>
-References: <cover.1326210673.git.zumeng.chen@windriver.com>
-	<f42f850e2c27a23f9e7b46bbebe977a6a19a6c54.1326210673.git.zumeng.chen@windriver.com>
-In-Reply-To: <f42f850e2c27a23f9e7b46bbebe977a6a19a6c54.1326210673.git.zumeng.chen@windriver.com>
-X-Enigmail-Version: 1.3.3
-Cc: yocto@yoctoproject.org, openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 1/4] lttng-ust: Integrate into yocto linux
+Sender: kergoth@gmail.com
+Received: by 10.229.187.141 with HTTP; Tue, 10 Jan 2012 09:05:51 -0800 (PST)
+In-Reply-To: <CAPhnLPB=UDp7P=G+TO7i0KBYhyDoZUw1g4ZSto4fFCm3ExsXLw@mail.gmail.com>
+References: <1326208678-17244-1-git-send-email-andrei@gherzan.ro>
+	<CABcZANnzU_5LTeRV=UjPiUWn6rqnZS6RR_yhsUKE_C_ap-PZ9g@mail.gmail.com>
+	<4F0C623B.7050209@gherzan.ro>
+	<CABcZANmcdGtOa+K9=6Ei_vAF=BVQwa6BYAYTjpeEuCDcqPcPnQ@mail.gmail.com>
+	<4F0C637E.8050704@gherzan.ro>
+	<CABcZANnXksgwqbgU_mhD4ptgEx_0=M9MUHV2uagi3owEU2yrrg@mail.gmail.com>
+	<CAPhnLPB=UDp7P=G+TO7i0KBYhyDoZUw1g4ZSto4fFCm3ExsXLw@mail.gmail.com>
+From: Chris Larson <clarson@kergoth.com>
+Date: Tue, 10 Jan 2012 10:05:51 -0700
+X-Google-Sender-Auth: mbee_ibCa9cz6VQWgtBRNzpHRLE
+Message-ID: <CABcZANmwANCzaYbWKg=YBTijdoPPUGthMv=4OZm-G46m57FiAQ@mail.gmail.com>
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] license.bbclass base.bbclass: support for 'or' operand in LICENSE and for SPDX license names
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -36,76 +47,39 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 10 Jan 2012 17:06:45 -0000
-Content-Type: text/plain; charset=ISO-8859-1
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Tue, 10 Jan 2012 17:13:41 -0000
+Content-Type: text/plain; charset=UTF-8
 
+On Tue, Jan 10, 2012 at 9:55 AM, Flanagan, Elizabeth
+<elizabeth.flanagan@intel.com> wrote:
+> Agreed! One note about "+". There is still a discussion about "or
+> greater" licensing within the SPDX community about how "or greater"
+> should be dealt with.
+>
+> http://www.spdx.org/wiki/proposal-2010-11-16-1-or-later-version-licensing
+> https://bugs.linuxfoundation.org/show_bug.cgi?id=591
 
+Interesting.
 
-On 01/10/2012 08:11 AM, Zumeng Chen wrote:
-> This patch intended to integrate the LTTng UST 2.0 package, which
-> contains the userspace tracer library to trace userspace codes.
-> 
-> Signed-off-by: Zumeng Chen <zumeng.chen@windriver.com>
-> ---
->  meta/recipes-kernel/lttng-2.0/lttng-ust_1.9.4.bb |   25 ++++++++++++++++++++++
->  1 files changed, 25 insertions(+), 0 deletions(-)
->  create mode 100644 meta/recipes-kernel/lttng-2.0/lttng-ust_1.9.4.bb
-> 
-> diff --git a/meta/recipes-kernel/lttng-2.0/lttng-ust_1.9.4.bb b/meta/recipes-kernel/lttng-2.0/lttng-ust_1.9.4.bb
-> new file mode 100644
-> index 0000000..846019e
-> --- /dev/null
-> +++ b/meta/recipes-kernel/lttng-2.0/lttng-ust_1.9.4.bb
-> @@ -0,0 +1,25 @@
-> +SUMMARY = "Linux Trace Toolkit Userspace Tracer 2.0"
-> +DESCRIPTION = "The LTTng UST 2.0 package contains the userspace tracer library to trace userspace codes."
-> +HOMEPAGE = "http://lttng.org/lttng2.0"
-> +BUGTRACKER = "n/a"
-> +
-> +LICENSE = "LGPLv2.1+ & BSD"
-> +LIC_FILES_CHKSUM = "file://COPYING;md5=e647752e045a8c45b6f583771bd561ef \
-> +                    file://snprintf/snprintf.c;endline=32;md5=d3d544959d8a3782b2e07451be0a903c \
-> +                    file://snprintf/various.h;endline=31;md5=89f2509b6b4682c4fc95255eec4abe44"
-> +
-> +inherit autotools
-> +
-> +DEPENDS = "liburcu util-linux"
-> +
-> +SRC_URI = "http://lttng.org/files/lttng-ust/lttng-ust-${PV}.tar.gz"
-> +
-> +SRC_URI[md5sum] = "0f09bb954c99cb99ab6997cd492953c1"
-> +SRC_URI[sha256sum] = "e9ec3c55c2251b3f3b512bfa1015b0f67e35d55793850ccea5134f7b24ee3ba1"
-> +
-> +S = "${WORKDIR}/lttng-ust-${PV}"
-> +
-> +# Due to liburcu not building on MIPS currently this recipe needs to
-> +# be limited also.
-> +# So here let us first suppport x86/arm/powerpc platforms now.
-> +COMPATIBLE_HOST = '(x86_64.*|i.86.*|arm.*|powerpc.*)-linux'
+> I'm partial to, as a stop gap, re-including L/GPL-x.0+ license files
+> into common-licenses until they hash it out and treating "+" as just
+> part of the license name. It's not a perfect solution but it should
+> solve most "or greater" use cases.
 
-We had discussed using a different comment that more clearly stated why
-this is necessary and use the same comment across all the patches
-implementing this.
+I've been thinking about something like this.
 
-This applies to all 4 patches. The suggestion was in my response to
-Patch 1/4 V1:
+LICENSE_EXPANSIONS += "GPL-2.0+:GPL-2.0,GPL-3.0"
 
-> Looking through documentation.conf and existing poky sources, I believe
-> this test is correct. HOST/TARGET are the same in this case. The comment
-> is a bit confusing however. I believe the comment should read:
-> 
-> # liburcu doesn't build for MIPS
-> COMPATIBLE_HOST = '(x86_64.*|i.86.*|arm.*|powerpc.*)-linux'
-> 
-> The key difference being "for" instead of "on". The rest of the comment
-> is redundant with the assignment itself. This applies to all 4 patches.
+Then process the license, turning GPL-2.0+ into an OR operation.
+Replace with (GPL-2.0 | GPL-3.0).
 
-Otherwise, things look good.
-
+Perhaps coupled with something like https://gist.github.com/1590028 to
+express distributor preferences, we then get a sanitized, SDPX, flat
+string with the licenses we're going to be using for this. Then we run
+this against each binary package's LICENSE (if different than recipe)
+and ensure our emitted binary packages match up with our license
+choices.
 -- 
-Darren Hart
-Intel Open Source Technology Center
-Yocto Project - Linux Kernel
+Christopher Larson
 
 
