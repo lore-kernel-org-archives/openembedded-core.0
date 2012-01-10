@@ -1,26 +1,28 @@
 Received: from mga02.intel.com ([134.134.136.20])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <tom.zanussi@intel.com>) id 1RkPMv-0000s6-J3
+	(envelope-from <tom.zanussi@intel.com>) id 1RkPSZ-00010r-I1
 	for openembedded-core@lists.openembedded.org;
-	Tue, 10 Jan 2012 01:15:14 +0100
+	Tue, 10 Jan 2012 01:21:04 +0100
 Received: from orsmga001.jf.intel.com ([10.7.209.18])
-	by orsmga101.jf.intel.com with ESMTP; 09 Jan 2012 16:07:44 -0800
+	by orsmga101.jf.intel.com with ESMTP; 09 Jan 2012 16:13:34 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.67,352,1309762800"; d="scan'208";a="94588476"
+X-IronPort-AV: E=Sophos;i="4.67,352,1309762800"; d="scan'208";a="94589827"
 Received: from unknown (HELO [10.255.13.234]) ([10.255.13.234])
-	by orsmga001.jf.intel.com with ESMTP; 09 Jan 2012 16:07:43 -0800
+	by orsmga001.jf.intel.com with ESMTP; 09 Jan 2012 16:13:34 -0800
 From: Tom Zanussi <tom.zanussi@intel.com>
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-In-Reply-To: <CAPhnLPCiG4ZERTt5kQYmg4f45yTote-ki=yxkVARNCizBuwj5g@mail.gmail.com>
+To: Saul Wold <sgw@linux.intel.com>
+In-Reply-To: <4F0B7FF0.9060904@linux.intel.com>
 References: <cover.1325903501.git.tom.zanussi@intel.com>
-	<CAPhnLPCiG4ZERTt5kQYmg4f45yTote-ki=yxkVARNCizBuwj5g@mail.gmail.com>
-Date: Mon, 09 Jan 2012 18:07:39 -0600
-Message-ID: <1326154059.2413.17.camel@elmorro>
+	<1d28eae1f497931d4a0a232a3390a9737a508aec.1325903501.git.tom.zanussi@intel.com>
+	<4F07D3CA.4090807@linux.intel.com> <1325913187.15053.83.camel@elmorro>
+	<4F0B7FF0.9060904@linux.intel.com>
+Date: Mon, 09 Jan 2012 18:13:30 -0600
+Message-ID: <1326154410.2413.22.camel@elmorro>
 Mime-Version: 1.0
 X-Mailer: Evolution 2.28.3 
-Cc: paul.eggleton@linux.intel.com, philb@gnu.org
-Subject: Re: [PATCH 0/5] LICENSE_FLAGS, a replacement for COMMERCIAL_LICENSE, v3
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 1/5] base.bbclass: add support for LICENSE_FLAGS
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -35,148 +37,178 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 10 Jan 2012 00:15:14 -0000
+X-List-Received-Date: Tue, 10 Jan 2012 00:21:04 -0000
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 
-On Mon, 2012-01-09 at 15:55 -0800, Flanagan, Elizabeth wrote:
-> On Fri, Jan 6, 2012 at 6:34 PM,  <tom.zanussi@intel.com> wrote:
-> > From: Tom Zanussi <tom.zanussi@intel.com>
+On Mon, 2012-01-09 at 16:01 -0800, Saul Wold wrote:
+> On 01/06/2012 09:13 PM, Tom Zanussi wrote:
+> > On Fri, 2012-01-06 at 21:10 -0800, Saul Wold wrote:
+> >> On 01/06/2012 06:34 PM, tom.zanussi@intel.com wrote:
+> >>> From: Tom Zanussi<tom.zanussi@intel.com>
+> >>>
+> >>> LICENSE_FLAGS are a per-recipe replacement for the COMMERCIAL_LICENSE
+> >>> mechanism.
+> >>>
+> >>> In the COMMERCIAL_LICENSE mechanism, any package name mentioned in the
+> >>> global COMMERCIAL_LICENSE list is 'blacklisted' from being included in
+> >>> an image.  To allow the blacklisted package into the image, the
+> >>> corresponding packages need to be removed from the COMMERCIAL_LICENSE
+> >>> list.  This mechanism relies on a global list defined in
+> >>> default-distrovars.inc.
+> >>>
+> >>> The LICENSE_FLAGS mechanism essentially implements the same thing but
+> >>> turns the global blacklist into a per-recipe whitelist.  Any recipe
+> >>> can optionally define one or more 'license flags'; if defined, each of
+> >>> the license flags defined for a recipe must have matching entries in a
+> >>> global LICENSE_FLAGS_WHITELIST variable.  Typically a recipe will have
+> >>> a single license flag specific to itself, which allows it to be
+> >>> individually toggled on and off.  For example, a package named 'foo'
+> >>> might define a single license flag, 'commercial_foo':
+> >>>
+> >>> LICENSE_FLAGS = "commercial_foo"
+> >>>
+> >>> This says that in order for the foo package to be included in the
+> >>> image, the string 'commercial_foo' must appear in the
+> >>> LICENSE_FLAGS_WHITELIST variable:
+> >>>
+> >>> LICENSE_FLAGS_WHITELIST = "commercial_foo"
+> >>>
+> >>> Because the typical case is indeed to create LICENSE_FLAGS containing
+> >>> the package name, the LICENSE_FLAGS could just as well have been
+> >>> specified as:
+> >>>
+> >>> LICENSE_FLAGS = "commercial_${PN}
+> >>>
+> >>> which would pick up the package name automatically.
+> >>>
+> >>> The mechanism has the word 'flags' in the name because although the
+> >>> typical case is to specify a single string to match as above, the user
+> >>> can add additional strings that might be thought of additional
+> >>> 'attributes' of a license that also need to be matched.  This allows
+> >>> for the creation and specification of license categories that could be
+> >>> used to flexibly match sets of packages that match certain attributes
+> >>> without forcing them to all be specified individually.  For example, a
+> >>> particular set of recipes that are typically used together might all
+> >>> contain a 'commercial_video' flag.  Additionally, some of them might
+> >>> specify an additional 'binary' flag meaning that it's not possible to
+> >>> get the source for those packages.  Specifying both 'commercial_video
+> >>> and binary' in the LICENSE_FLAGS_WHITELIST would allow them all to be
+> >>> pulled in, but if 'binary' was missing, it would only allow those
+> >>> packages that had source to be allowed in to the image.
+> >>>
+> >>> The current behavior of COMMERCIAL_LICENSE is replicated as mentioned
+> >>> above by having the current set of COMMERCIAL_LICENSE flags implement
+> >>> their using LICENSE_FLAGS = "commercial_${PN}.
+> >>>
+> >>> That being the case, the current COMMERCIAL_LICENSE can equivalently
+> >>> be specified in the new scheme by putting the below in local.conf:
+> >>>
+> >>>    # This is a list of packages that require a commercial license to ship
+> >>>    # product. If shipped as part of an image these packages may have
+> >>>    # implications so they are disabled by default.  To enable them,
+> >>>    # un-comment the below as appropriate.
+> >>>    #LICENSE_FLAGS_WHITELIST = "commercial_gst-fluendo-mp3 \
+> >>>    #                           commercial_gst-openmax \
+> >>>    #                           commercial_gst-plugins-ugly \
+> >>>    #                           commercial_lame \
+> >>>    #                           commercial_libmad \
+> >>>    #                           commercial_libomxil \
+> >>>    #                           commercial_mpeg2dec \
+> >>>    #                           commercial_qmmp"
+> >>>
+> >> Would it not make sense to add this to local.conf.sample.extended in
+> >> meta-yocto?
+> >>
 > >
-> > This patchset is a replacement for COMMERCIAL_LICENSE called LICENSE_FLAGS.
+> > Yes, I was going to do that, but didn't want to bother if it wasn't
+> > going anywhere.  I'll send a patch for it...
 > >
-> > Please see the commit message for '[PATCH 1/5] base.bbclass: add support
-> >  for LICENSE_FLAGS' for an explanation of the LICENSE_FLAGS mechanism.
+> > Tom
 > >
-> > v3 changes:
-> >
-> > - add back an accidentally-stripped comment in PATCH 1.
-> >
-> > v2 changes, reflecting comments from Phil Blundell and Paul Eggleton:
-> >
-> > - This version converts all the existing packages listed in COMMERCIAL_LICENSE
-> > to the equivalent "commercial_${PN}" LICENSE_FLAGS.  This allows each package
-> > to be added to or removed from the whitelist instead of the previously
-> > too-broad 'Commercial' flags for those packages.
-> >
-> > - Changes all values to lowercase.
-> >
-> > - The new commit message should explain the mechanism and how it can be
-> > used a little better.
-> >
-> >
-> > For some background on these changes, the original proposal for the
-> > functionality covered by this replacement was drafted by Saul Wold -
-> > the relevant details of that proposal are copied below:
-> >
-> > ***
-> >
-> > There has been some issues raised with the initial implementation of
-> > COMMERCIAL_LICENSE and we are looking for ways to address this.
-> > Currently COMMERCIAL_LICENSE (C_L) is defined in default-distrovars.conf
-> > to contain a list of packages that have additional license requirements
-> > when used commercially (such as royalty requirements, or acknowledging
-> > some type of commercial T&Cs). These packages are skipped during parsing.
-> >
-> > It currently contains a number of Audio and Video packages that require
-> > additional licensing terms when used commercially. As we add additional
-> > layers, some of these layers want to add additional package to the C_L
-> > list, but how to easily enable them.
-> >
-> > Since local.conf, where you would normally override things like this, is
-> > read in before base.bbclass, which contains tools like oe_filter_out()
-> > to modify lists, we can't use that mechanism.
-> >
-> > That's the background, now for the proposal.
-> >
-> > Do away with C_L and C_*_PLUGINS, move to a "Named Bit Flag" list in
-> > LICENSE_FLAGS, each recipe can then maintain their flags directly,
-> > instead of in a shared location like default-distrovars.conf.
-> >
-> > LICENSE_FLAGS_WHITELIST would be set in local.conf with the values
-> > that are acceptable to include in this image, by default it would be
-> > blank.
-> >
-> > Possible values for LICENSE_FLAGS could be:
-> > - Binary - provides some kind of binary with no source
-> > - Patent - provides a potential infringing item, that some may not want
-> > - Commercial - include recipes that may have commercial T&C
-> > - Commercial_${PN} - commercial licenses specific to ${PN}
-> > - License_${PN} - include a recipe that has a specific license
-> >                 - maybe similar or different than Commercial_${PN}
-> >
-> > ***
-> >
-> > [T&C = Terms and Conditions]
-> >
-> > [NOTE: the above are only 'possible values' that particular license
-> > flags could take.  The above are not proposals for specific flags
-> > that will be implemented - it's completely up to the package maintainers
-> > to define appropriate flags for their packages.]
-> 
-> Tom,
-> 
-> I know I would like to see a proposed group of flags. I can see this
-> being used elsewhere at a later date and the thought of no
-> standardization around this field worries me a bit.
+> >> This won't hold up this patch set.
+> >>
+> >> Sau!
+> >>
+> >>
+> >>> The above allows all of the current COMMERCIAL_LICENSE packages in -
+> >>> to disallow a particular package from appearing in the image, simply
+> >>> remove it from the whitelist.
+> >>>
+> >>> Signed-off-by: Tom Zanussi<tom.zanussi@intel.com>
+> >>> ---
+> >>>    meta/classes/base.bbclass |   19 +++++++++++++++++++
+> >>>    1 files changed, 19 insertions(+), 0 deletions(-)
+> >>>
+> >>> diff --git a/meta/classes/base.bbclass b/meta/classes/base.bbclass
+> >>> index e65a722..4aeba1b 100644
+> >>> --- a/meta/classes/base.bbclass
+> >>> +++ b/meta/classes/base.bbclass
+> >>> @@ -349,6 +349,25 @@ python () {
+> >>>        if license == "INVALID":
+> >>>            bb.fatal('This recipe does not have the LICENSE field set (%s)' % pn)
+> >>>
+> >>> +    def skip_package(pn, flag):
+> >>> +        bb.debug(1, "Skipping %s because it has a restricted license (%s) not"
+> >>> +             " whitelisted in LICENSE_FLAGS_WHITELIST" % (pn, flag))
+> >>> +        raise bb.parse.SkipPackage("because it may require a special license"
+> >>> +            " to ship in a product (listed in LICENSE_FLAGS)")
+> >>> +
+> >>> +    def all_license_flags_match(flags, whitelist):
+> >>> +        for flag in flags.split():
+> >>> +            if not flag in whitelist.split():
+> >>> +                return False
+> >>> +        return True
+> >>> +
+> >>> +    license_flags = d.getVar('LICENSE_FLAGS', True)
+> >>> +    if license_flags:
+> >>> +        license_flags_whitelist = d.getVar('LICENSE_FLAGS_WHITELIST', True)
+> >>> +        if not license_flags_whitelist or not all_license_flags_match(
+> >>> +                license_flags, license_flags_whitelist):
+> >>> +            skip_package(pn, license_flags)
+> >>> +
+> >>>        commercial_license = " %s " % d.getVar('COMMERCIAL_LICENSE', 1)
+> >>>        import re
+> >>>        pnr = "[ \t]%s[ \t]" % pn.replace('+', "\+")
+> >>
+> With all the discussion about License related stuff on the list and IRC, 
+> I think we should be creating a bbclass to define and hold these flags. 
+>   Then there is just a call from base.bbclass into check_license_flags 
+> and return True/False for the skip_package().
 > 
 
-The patchset essentially just provides the mechanism.  As far as
-concrete flags, it so far translates the existing COMMERCIAL type to
-commercial_${PN}.  I guess more would be defined as needed, but if there
-are requirements for specific groups now, please don't hesitate to
-propose them...
+So move this code into a separate .bbclass, ok.
+
+> And based on a comment from Chris L. on the IRC, will this handle 
+> package level LICENSE_FLAGS, this is recipe level currently, correct?
+> 
+
+Right.
+
+> It could be you have some recipe with multiple binaries (for example) 
+> some are OK and some are not and they are packaged separately. Can the 
+> LICENSE_FLAGS handle this?
+> 
+
+No, I don't think so, there's just the per-recipe LICENSE_FLAGS.  How
+would that be expanded to per-package?
 
 Tom
 
-> -b
+> Sau!
 > 
+> >> _______________________________________________
+> >> Openembedded-core mailing list
+> >> Openembedded-core@lists.openembedded.org
+> >> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
 > >
-> > Note that there's no policy attached to any of the above license types
-> > - this is simply string-matching that can be used for the purpose of
-> > screening packages - if the strings match, the recipe gets in, if not,
-> > it doesn't i.e. during parsing, we would inspect the recipe's data for
-> > LICENSE_FLAGS and if it has a value then try to match against the
-> > WHITELIST - if it matches it gets added to the parsed list, if there
-> > is no match then it gets Skip_Package()'ed.
-> >
-> > The following changes since commit 468998cddbe1a803096c9b357e1b5daa3b7e8c2e:
-> >  Dongxiao Xu (1):
-> >        command.py: add parseConfigurationFiles API
-> >
-> > are available in the git repository at:
-> >
-> >  git://git.yoctoproject.org/poky-contrib.git tzanussi/license-flags.v3
-> >  http://git.yoctoproject.org/cgit.cgi//log/?h=tzanussi/license-flags.v3
-> >
-> > Tom Zanussi (5):
-> >  base.bbclass: add support for LICENSE_FLAGS
-> >  Add LICENSE_FLAGS to packages mentioned in COMMERCIAL_LICENSE
-> >  base.bbclass: remove COMMERCIAL_LICENSE code
-> >  default-distrovars.inc: remove COMMERCIAL_LICENSE et al
-> >  documentation-audit.sh: remove COMMERCIAL_LICENSE warning
-> >
-> >  meta/classes/base.bbclass                          |   24 +++++++++++++++-----
-> >  meta/conf/distro/include/default-distrovars.inc    |    5 ----
-> >  .../gstreamer/gst-fluendo-mp3_0.10.16.bb           |    1 +
-> >  .../gstreamer/gst-openmax_0.10.1.bb                |    1 +
-> >  .../gstreamer/gst-plugins-ugly_0.10.18.bb          |    1 +
-> >  meta/recipes-multimedia/lame/lame_3.99.3.bb        |    2 +
-> >  meta/recipes-multimedia/libmad/libmad_0.15.1b.bb   |    1 +
-> >  meta/recipes-multimedia/libomxil/libomxil_0.9.3.bb |    1 +
-> >  meta/recipes-multimedia/mpeg2dec/mpeg2dec_0.4.1.bb |    1 +
-> >  meta/recipes-qt/qt-apps/qmmp_0.5.2.bb              |    1 +
-> >  scripts/contrib/documentation-audit.sh             |    3 +-
-> >  11 files changed, 29 insertions(+), 12 deletions(-)
 > >
 > >
 > > _______________________________________________
 > > Openembedded-core mailing list
 > > Openembedded-core@lists.openembedded.org
 > > http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
-> 
-> 
-> 
+> >
 
 
 
