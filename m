@@ -1,28 +1,20 @@
-Received: from mga02.intel.com ([134.134.136.20])
+Received: from mga03.intel.com ([143.182.124.21])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <tom.zanussi@intel.com>) id 1RkPSZ-00010r-I1
+	(envelope-from <sgw@linux.intel.com>) id 1RkPs8-0001Re-Ov
 	for openembedded-core@lists.openembedded.org;
-	Tue, 10 Jan 2012 01:21:04 +0100
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-	by orsmga101.jf.intel.com with ESMTP; 09 Jan 2012 16:13:34 -0800
+	Tue, 10 Jan 2012 01:47:29 +0100
+Received: from azsmga001.ch.intel.com ([10.2.17.19])
+	by azsmga101.ch.intel.com with ESMTP; 09 Jan 2012 16:39:59 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.67,352,1309762800"; d="scan'208";a="94589827"
-Received: from unknown (HELO [10.255.13.234]) ([10.255.13.234])
-	by orsmga001.jf.intel.com with ESMTP; 09 Jan 2012 16:13:34 -0800
-From: Tom Zanussi <tom.zanussi@intel.com>
-To: Saul Wold <sgw@linux.intel.com>
-In-Reply-To: <4F0B7FF0.9060904@linux.intel.com>
-References: <cover.1325903501.git.tom.zanussi@intel.com>
-	<1d28eae1f497931d4a0a232a3390a9737a508aec.1325903501.git.tom.zanussi@intel.com>
-	<4F07D3CA.4090807@linux.intel.com> <1325913187.15053.83.camel@elmorro>
-	<4F0B7FF0.9060904@linux.intel.com>
-Date: Mon, 09 Jan 2012 18:13:30 -0600
-Message-ID: <1326154410.2413.22.camel@elmorro>
-Mime-Version: 1.0
-X-Mailer: Evolution 2.28.3 
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 1/5] base.bbclass: add support for LICENSE_FLAGS
+X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="94085850"
+Received: from unknown (HELO swold-mobl.bigsur.com) ([10.255.13.28])
+	by azsmga001.ch.intel.com with ESMTP; 09 Jan 2012 16:39:59 -0800
+From: Saul Wold <sgw@linux.intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Mon,  9 Jan 2012 16:39:59 -0800
+Message-Id: <1326155999-29172-1-git-send-email-sgw@linux.intel.com>
+X-Mailer: git-send-email 1.7.6.5
+Subject: [PATCH] distro_tracking: Update Manual Checks
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -37,179 +29,207 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 10 Jan 2012 00:21:04 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Tue, 10 Jan 2012 00:47:29 -0000
 
-On Mon, 2012-01-09 at 16:01 -0800, Saul Wold wrote:
-> On 01/06/2012 09:13 PM, Tom Zanussi wrote:
-> > On Fri, 2012-01-06 at 21:10 -0800, Saul Wold wrote:
-> >> On 01/06/2012 06:34 PM, tom.zanussi@intel.com wrote:
-> >>> From: Tom Zanussi<tom.zanussi@intel.com>
-> >>>
-> >>> LICENSE_FLAGS are a per-recipe replacement for the COMMERCIAL_LICENSE
-> >>> mechanism.
-> >>>
-> >>> In the COMMERCIAL_LICENSE mechanism, any package name mentioned in the
-> >>> global COMMERCIAL_LICENSE list is 'blacklisted' from being included in
-> >>> an image.  To allow the blacklisted package into the image, the
-> >>> corresponding packages need to be removed from the COMMERCIAL_LICENSE
-> >>> list.  This mechanism relies on a global list defined in
-> >>> default-distrovars.inc.
-> >>>
-> >>> The LICENSE_FLAGS mechanism essentially implements the same thing but
-> >>> turns the global blacklist into a per-recipe whitelist.  Any recipe
-> >>> can optionally define one or more 'license flags'; if defined, each of
-> >>> the license flags defined for a recipe must have matching entries in a
-> >>> global LICENSE_FLAGS_WHITELIST variable.  Typically a recipe will have
-> >>> a single license flag specific to itself, which allows it to be
-> >>> individually toggled on and off.  For example, a package named 'foo'
-> >>> might define a single license flag, 'commercial_foo':
-> >>>
-> >>> LICENSE_FLAGS = "commercial_foo"
-> >>>
-> >>> This says that in order for the foo package to be included in the
-> >>> image, the string 'commercial_foo' must appear in the
-> >>> LICENSE_FLAGS_WHITELIST variable:
-> >>>
-> >>> LICENSE_FLAGS_WHITELIST = "commercial_foo"
-> >>>
-> >>> Because the typical case is indeed to create LICENSE_FLAGS containing
-> >>> the package name, the LICENSE_FLAGS could just as well have been
-> >>> specified as:
-> >>>
-> >>> LICENSE_FLAGS = "commercial_${PN}
-> >>>
-> >>> which would pick up the package name automatically.
-> >>>
-> >>> The mechanism has the word 'flags' in the name because although the
-> >>> typical case is to specify a single string to match as above, the user
-> >>> can add additional strings that might be thought of additional
-> >>> 'attributes' of a license that also need to be matched.  This allows
-> >>> for the creation and specification of license categories that could be
-> >>> used to flexibly match sets of packages that match certain attributes
-> >>> without forcing them to all be specified individually.  For example, a
-> >>> particular set of recipes that are typically used together might all
-> >>> contain a 'commercial_video' flag.  Additionally, some of them might
-> >>> specify an additional 'binary' flag meaning that it's not possible to
-> >>> get the source for those packages.  Specifying both 'commercial_video
-> >>> and binary' in the LICENSE_FLAGS_WHITELIST would allow them all to be
-> >>> pulled in, but if 'binary' was missing, it would only allow those
-> >>> packages that had source to be allowed in to the image.
-> >>>
-> >>> The current behavior of COMMERCIAL_LICENSE is replicated as mentioned
-> >>> above by having the current set of COMMERCIAL_LICENSE flags implement
-> >>> their using LICENSE_FLAGS = "commercial_${PN}.
-> >>>
-> >>> That being the case, the current COMMERCIAL_LICENSE can equivalently
-> >>> be specified in the new scheme by putting the below in local.conf:
-> >>>
-> >>>    # This is a list of packages that require a commercial license to ship
-> >>>    # product. If shipped as part of an image these packages may have
-> >>>    # implications so they are disabled by default.  To enable them,
-> >>>    # un-comment the below as appropriate.
-> >>>    #LICENSE_FLAGS_WHITELIST = "commercial_gst-fluendo-mp3 \
-> >>>    #                           commercial_gst-openmax \
-> >>>    #                           commercial_gst-plugins-ugly \
-> >>>    #                           commercial_lame \
-> >>>    #                           commercial_libmad \
-> >>>    #                           commercial_libomxil \
-> >>>    #                           commercial_mpeg2dec \
-> >>>    #                           commercial_qmmp"
-> >>>
-> >> Would it not make sense to add this to local.conf.sample.extended in
-> >> meta-yocto?
-> >>
-> >
-> > Yes, I was going to do that, but didn't want to bother if it wasn't
-> > going anywhere.  I'll send a patch for it...
-> >
-> > Tom
-> >
-> >> This won't hold up this patch set.
-> >>
-> >> Sau!
-> >>
-> >>
-> >>> The above allows all of the current COMMERCIAL_LICENSE packages in -
-> >>> to disallow a particular package from appearing in the image, simply
-> >>> remove it from the whitelist.
-> >>>
-> >>> Signed-off-by: Tom Zanussi<tom.zanussi@intel.com>
-> >>> ---
-> >>>    meta/classes/base.bbclass |   19 +++++++++++++++++++
-> >>>    1 files changed, 19 insertions(+), 0 deletions(-)
-> >>>
-> >>> diff --git a/meta/classes/base.bbclass b/meta/classes/base.bbclass
-> >>> index e65a722..4aeba1b 100644
-> >>> --- a/meta/classes/base.bbclass
-> >>> +++ b/meta/classes/base.bbclass
-> >>> @@ -349,6 +349,25 @@ python () {
-> >>>        if license == "INVALID":
-> >>>            bb.fatal('This recipe does not have the LICENSE field set (%s)' % pn)
-> >>>
-> >>> +    def skip_package(pn, flag):
-> >>> +        bb.debug(1, "Skipping %s because it has a restricted license (%s) not"
-> >>> +             " whitelisted in LICENSE_FLAGS_WHITELIST" % (pn, flag))
-> >>> +        raise bb.parse.SkipPackage("because it may require a special license"
-> >>> +            " to ship in a product (listed in LICENSE_FLAGS)")
-> >>> +
-> >>> +    def all_license_flags_match(flags, whitelist):
-> >>> +        for flag in flags.split():
-> >>> +            if not flag in whitelist.split():
-> >>> +                return False
-> >>> +        return True
-> >>> +
-> >>> +    license_flags = d.getVar('LICENSE_FLAGS', True)
-> >>> +    if license_flags:
-> >>> +        license_flags_whitelist = d.getVar('LICENSE_FLAGS_WHITELIST', True)
-> >>> +        if not license_flags_whitelist or not all_license_flags_match(
-> >>> +                license_flags, license_flags_whitelist):
-> >>> +            skip_package(pn, license_flags)
-> >>> +
-> >>>        commercial_license = " %s " % d.getVar('COMMERCIAL_LICENSE', 1)
-> >>>        import re
-> >>>        pnr = "[ \t]%s[ \t]" % pn.replace('+', "\+")
-> >>
-> With all the discussion about License related stuff on the list and IRC, 
-> I think we should be creating a bbclass to define and hold these flags. 
->   Then there is just a call from base.bbclass into check_license_flags 
-> and return True/False for the skip_package().
-> 
+Signed-off-by: Saul Wold <sgw@linux.intel.com>
+---
+ .../conf/distro/include/distro_tracking_fields.inc |   48 ++++++++++----------
+ 1 files changed, 24 insertions(+), 24 deletions(-)
 
-So move this code into a separate .bbclass, ok.
-
-> And based on a comment from Chris L. on the IRC, will this handle 
-> package level LICENSE_FLAGS, this is recipe level currently, correct?
-> 
-
-Right.
-
-> It could be you have some recipe with multiple binaries (for example) 
-> some are OK and some are not and they are packaged separately. Can the 
-> LICENSE_FLAGS handle this?
-> 
-
-No, I don't think so, there's just the per-recipe LICENSE_FLAGS.  How
-would that be expanded to per-package?
-
-Tom
-
-> Sau!
-> 
-> >> _______________________________________________
-> >> Openembedded-core mailing list
-> >> Openembedded-core@lists.openembedded.org
-> >> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
-> >
-> >
-> >
-> > _______________________________________________
-> > Openembedded-core mailing list
-> > Openembedded-core@lists.openembedded.org
-> > http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
-> >
-
+diff --git a/meta/conf/distro/include/distro_tracking_fields.inc b/meta/conf/distro/include/distro_tracking_fields.inc
+index cc87d5c..e3b29fe 100644
+--- a/meta/conf/distro/include/distro_tracking_fields.inc
++++ b/meta/conf/distro/include/distro_tracking_fields.inc
+@@ -508,7 +508,7 @@ RECIPE_STATUS_pn-sqlite3 = "green"   # need upgrade
+ RECIPE_LATEST_VERSION_pn-sqlite3 = "3.7.9"
+ RECIPE_LATEST_RELEASE_DATE_pn-sqlite3 = "Nov 01, 2011"
+ RECIPE_LAST_UPDATE_pn-sqlite3 = "Dec 27, 2011"
+-RECIPE_MANUAL_CHECK_DATE_pn-sqlite3= "Dec 01, 2011"
++RECIPE_MANUAL_CHECK_DATE_pn-sqlite3= "Jan 09, 2012"
+ RECIPE_MAINTAINER_pn-sqlite3 = "Saul Wold <sgw@linux.intel.com>"
+ RECIPE_DEPENDENCY_CHECK_pn-sqlite3 = "not done"
+ RECIPE_INTEL_SECTION_pn-sqlite3 = "base libs"
+@@ -536,7 +536,7 @@ RECIPE_STATUS_pn-libcap = "yellow"   # hand crafted Makefiles
+ RECIPE_LATEST_VERSION_pn-libcap = "2.22"
+ RECIPE_LATEST_RELEASE_DATE_pn-libcap = "Jan 01, 2010"
+ RECIPE_LAST_UPDATE_pn-libcap = "Jul 25, 2011"
+-RECIPE_MANUAL_CHECK_DATE_pn-libcap = "Dec 27, 2011"
++RECIPE_MANUAL_CHECK_DATE_pn-libcap = "Jan 09, 2012"
+ RECIPE_MAINTAINER_pn-libcap = "Saul Wold <sgw@linux.intel.com>"
+ RECIPE_DEPENDENCY_CHECK_pn-libcap = "done"
+ RECIPE_INTEL_SECTION_pn-libcap = "base libs"
+@@ -594,7 +594,7 @@ RECIPE_DEPENDENCY_CHECK_pn-libcheck = "done"
+ RECIPE_LATEST_VERSION_pn-libcheck = "0.9.8"
+ RECIPE_LATEST_RELEASE_DATE_pn-libcheck = "Sep 23, 2009"
+ RECIPE_LAST_UPDATE_pn-libcheck = "Aug 20, 2010"
+-RECIPE_MANUAL_CHECK_DATE_pn-libcheck = "Dec 27, 2011"
++RECIPE_MANUAL_CHECK_DATE_pn-libcheck = "Jan 09, 2012"
+ RECIPE_MAINTAINER_pn-libcheck = "Saul Wold <sgw@linux.intel.com>"
+ RECIPE_INTEL_SECTION_pn-libcheck = "base libs"
+ RECIPE_TIME_BETWEEN_LAST_TWO_RELEASES_pn-libcheck = "9 months"
+@@ -1300,7 +1300,7 @@ RECIPE_LATEST_VERSION_pn-console-tools = "0.3.2"
+ RECIPE_LAST_UPDATE_pn-console-tools = "Jul 21, 2006"
+ RECIPE_MAINTAINER_pn-console-tools = "Saul Wold <sgw@linux.intel.com>"
+ DISTRO_PN_ALIAS_pn-console-tools = "Debian=console-tools Ubuntu=console-tools"
+-RECIPE_MANUAL_CHECK_DATE_pn-console-tools= "Dec 27, 2011"
++RECIPE_MANUAL_CHECK_DATE_pn-console-tools= "Jan 09, 2012"
+ 
+ RECIPE_STATUS_pn-fuse = "red"
+ RECIPE_LATEST_VERSION_pn-fuse = "2.8.4"
+@@ -1342,14 +1342,14 @@ RECIPE_STATUS_pn-psmisc = "red"
+ RECIPE_LATEST_VERSION_pn-psmisc = "22.14"
+ RECIPE_LATEST_RELEASE_DATE_pn-psmisc = "Jun 20, 2011"
+ RECIPE_LAST_UPDATE_pn-psmisc = "Dec 27, 2011"
+-RECIPE_MANUAL_CHECK_DATE_pn-psmisc = "Dec 01, 2011"
++RECIPE_MANUAL_CHECK_DATE_pn-psmisc = "Jan 09, 2012"
+ RECIPE_MAINTAINER_pn-psmisc = "Saul Wold <sgw@linux.intel.com>"
+ 
+ RECIPE_STATUS_pn-boost = "yellow"
+-RECIPE_LATEST_VERSION_pn-boost = "1.47.0"
+-RECIPE_LATEST_RELEASE_DATE_pn-boost = "Jul 12, 2011"
+-RECIPE_LAST_UPDATE_pn-boost = "Aug 19, 2010"
+-RECIPE_MANUAL_CHECK_DATE_pn-boost = "Dec 27, 2011"
++RECIPE_LATEST_VERSION_pn-boost = "1.48.0"
++RECIPE_LATEST_RELEASE_DATE_pn-boost = "Nov 15, 2011"
++RECIPE_LAST_UPDATE_pn-boost = "Dec 27, 2011"
++RECIPE_MANUAL_CHECK_DATE_pn-boost = "Jan 09, 2012"
+ RECIPE_MAINTAINER_pn-boost = "Saul Wold <sgw@linux.intel.com>"
+ 
+ RECIPE_STATUS_pn-boost-jam-native = "green"
+@@ -1496,7 +1496,7 @@ RECIPE_LAST_UPDATE_pn-sysfsutils = "Jun 18, 2010"
+ RECIPE_DEPENDENCY_CHECK_pn-sysfsutils = "not done"
+ RECIPE_INTEL_SECTION_pn-sysfsutils = "base utils"
+ RECIPE_TIME_BETWEEN_LAST_TWO_RELEASES_pn-sysfsutils = "n/a"
+-RECIPE_MANUAL_CHECK_DATE_pn-sysfsutils = "Dec 27, 2011"
++RECIPE_MANUAL_CHECK_DATE_pn-sysfsutils = "Jan 09, 2012"
+ RECIPE_COMMENTS_pn-sysfsutils = "No update on kernel.org"
+ RECIPE_MAINTAINER_pn-sysfsutils = "Saul Wold <sgw@linux.intel.com>"
+ 
+@@ -1549,7 +1549,7 @@ RECIPE_STATUS_pn-less = "green"
+ RECIPE_LATEST_VERSION_pn-less = "444"
+ RECIPE_LATEST_RELEASE_DATE_pn-less = "Jun 9, 2011"
+ RECIPE_LAST_UPDATE_pn-less = "Dec 01, 2011"
+-RECIPE_MANUAL_CHECK_DATE_pn-less = "Dec 27, 2011"
++RECIPE_MANUAL_CHECK_DATE_pn-less = "Jan 09, 2012"
+ RECIPE_MAINTAINER_pn-less = "Saul Wold <sgw@linux.intel.com>"
+ RECIPE_DEPENDENCY_CHECK_pn-less = "done"
+ RECIPE_INTEL_SECTION_pn-less = "base utils"
+@@ -1696,7 +1696,7 @@ RECIPE_MAINTAINER_pn-unzip = "Saul Wold <sgw@linux.intel.com>"
+ RECIPE_DEPENDENCY_CHECK_pn-unzip = "not done"
+ RECIPE_INTEL_SECTION_pn-unzip = "base utils"
+ RECIPE_TIME_BETWEEN_LAST_TWO_RELEASES_pn-unzip = "49 months"
+-RECIPE_MANUAL_CHECK_DATE_pn-unzip = "Dec 01, 2011"
++RECIPE_MANUAL_CHECK_DATE_pn-unzip = "Jan 09, 2012"
+ RECIPE_COMMENTS_pn-unzip = "5.52 has a race condition vulnerability for Unix version"
+ 
+ RECIPE_STATUS_pn-zip = "green"
+@@ -1707,7 +1707,7 @@ RECIPE_MAINTAINER_pn-zip = "Saul Wold <sgw@linux.intel.com>"
+ RECIPE_DEPENDENCY_CHECK_pn-zip = "not done"
+ RECIPE_INTEL_SECTION_pn-zip = "base utils"
+ RECIPE_TIME_BETWEEN_LAST_TWO_RELEASES_pn-zip = "21 months"
+-RECIPE_MANUAL_CHECK_DATE_pn-zip = "Dec 27, 2011"
++RECIPE_MANUAL_CHECK_DATE_pn-zip = "Jan 09, 2012"
+ RECIPE_COMMENTS_pn-zip = ""
+ 
+ RECIPE_STATUS_pn-strace = "green"
+@@ -1807,7 +1807,7 @@ RECIPE_STATUS_pn-usbutils = "green"
+ RECIPE_LATEST_VERSION_pn-usbutils = "0.91"
+ RECIPE_LATEST_RELEASE_DATE_pn-usbutils = "Oct 22, 2010"
+ RECIPE_LAST_UPDATE_pn-usbutils = "May 20, 2011"
+-RECIPE_MANUAL_CHECK_DATE_pn-usbutils = "Dec 27, 2011"
++RECIPE_MANUAL_CHECK_DATE_pn-usbutils = "Jan 09, 2012"
+ RECIPE_MAINTAINER_pn-usbutils = "Saul Wold <sgw@linux.intel.com>"
+ RECIPE_DEPENDENCY_CHECK_pn-usbutils = "done"
+ RECIPE_INTEL_SECTION_pn-usbutils = "base utils"
+@@ -1852,7 +1852,7 @@ RECIPE_STATUS_pn-sysstat = "green"
+ RECIPE_LATEST_VERSION_pn-sysstat = "10.0.3"
+ RECIPE_LATEST_RELEASE_DATE_pn-sysstat = "Nov 27, 2011"
+ RECIPE_LAST_UPDATE_pn-sysstat = "Dec 27, 2011"
+-RECIPE_MANUAL_CHECK_DATE_pn-sysstat = "Dec 01, 2011"
++RECIPE_MANUAL_CHECK_DATE_pn-sysstat = "Jan 09, 2012"
+ RECIPE_MAINTAINER_pn-sysstat = "Saul Wold <sgw@linux.intel.com>"
+ 
+ RECIPE_STATUS_pn-sysklogd = "red"    # need upgrade
+@@ -1885,7 +1885,7 @@ RECIPE_STATUS_pn-cracklib="green"
+ RECIPE_LATEST_VERSION_pn-cracklib="2.8.18"
+ RECIPE_LATEST_RELEASE_DATE_pn-cracklib = "Aug 29, 2010"
+ RECIPE_LAST_UPDATE_pn-cracklib = "Nov 13, 2010"
+-RECIPE_MANUAL_CHECK_DATE_pn-cracklib = "Dec 27, 2011"
++RECIPE_MANUAL_CHECK_DATE_pn-cracklib = "Jan 09, 2012"
+ RECIPE_MAINTAINER_pn-cracklib="Saul Wold <sgw@linux.intel.com>"
+ 
+ RECIPE_STATUS_pn-openobex = "red"
+@@ -1971,7 +1971,7 @@ RECIPE_STATUS_pn-libexif = "green"
+ RECIPE_LATEST_VERSION_pn-libexif = "0.6.20"
+ RECIPE_LATEST_RELEASE_DATE_pn-libexif = "Dec 12, 2010"
+ RECIPE_LAST_UPDATE_pn-libexif = "Apr 15, 2011"
+-RECIPE_MANUAL_CHECK_DATE_pn-libexif = "Dec 27, 2011"
++RECIPE_MANUAL_CHECK_DATE_pn-libexif = "Jan 09, 2012"
+ RECIPE_MAINTAINER_pn-libexif = "Saul Wold <sgw@linux.intel.com>"
+ 
+ RECIPE_STATUS_pn-setserial = "red"
+@@ -3505,7 +3505,7 @@ RECIPE_INTEL_SECTION_pn-qemugl="graphic app"
+ RECIPE_LAST_UPDATE_pn-qemugl = "Nov 28, 2010"
+ RECIPE_NO_UPDATE_REASON_pn-qemugl = "Do not upgrade to version: 33466cd8 because the upstream is broken in x86_64 build"
+ RECIPE_MAINTAINER_pn-qemugl="Saul Wold <sgw@linux.intel.com>"
+-RECIPE_MANUAL_CHECK_DATE_pn-qemugl= "Dec 27, 2011"
++RECIPE_MANUAL_CHECK_DATE_pn-qemugl= "Jan 09, 2012"
+ 
+ RECIPE_STATUS_pn-fotowall="green" # no update needed
+ RECIPE_LATEST_VERSION_pn-fotowall="0.9"
+@@ -5787,13 +5787,13 @@ RECIPE_MAINTAINER_pn-adt-installer = "Jessica Zhang <jessica.zhang@intel.com>"
+ RECIPE_LATEST_VERSION_pn-glew = "1.7.0"
+ RECIPE_LATEST_RELEASE_DATE_pn-glew = "Aug 26, 2011"
+ RECIPE_LAST_UPDATE_pn-glew = "May 24, 2011"
+-RECIPE_MANUAL_CHECK_DATE_pn-glew = "Dec 01, 2011"
++RECIPE_MANUAL_CHECK_DATE_pn-glew = "Jan 09, 2012"
+ RECIPE_MAINTAINER_pn-glew = "Saul Wold <sgw@linux.intel.com>"
+ 
+ RECIPE_LATEST_VERSION_pn-squashfs-tools = "4.2"
+ RECIPE_LATEST_RELEASE_DATE_pn-squashfs-tools = "Feb 28, 2011"
+ RECIPE_LAST_UPDATE_pn-squashfs-tools = "Oct 21, 2011"
+-RECIPE_MANUAL_CHECK_DATE_pn-squashfs-tools = "Dec 27, 2011"
++RECIPE_MANUAL_CHECK_DATE_pn-squashfs-tools = "Jan 09, 2012"
+ RECIPE_MAINTAINER_pn-squashfs-tools = "Saul Wold <sgw@linux.intel.com>"
+ 
+ RECIPE_LATEST_VERSION_pn-mpeg2dec = "0.5.1"
+@@ -5804,14 +5804,14 @@ RECIPE_MAINTAINER_pn-squashfs-tools = "Saul Wold <sgw@linux.intel.com>"
+ RECIPE_LATEST_VERSION_pn-lame = "3.99.3"
+ RECIPE_LATEST_RELEASE_DATE_pn-lame = "Nov 26, 2011"
+ RECIPE_LAST_UPDATE_pn-lame = "Nov 28, 2011"
+-RECIPE_MANUAL_CHECK_DATE_pn-lame = "Dec 27, 2011"
++RECIPE_MANUAL_CHECK_DATE_pn-lame = "Jan 09, 2012"
+ DISTRO_PN_ALIAS_pn-lame = "Debian=lame Ubuntu=lame"
+ RECIPE_MAINTAINER_pn-lame = "Saul Wold <sgw@linux.intel.com>"
+ 
+ RECIPE_LATEST_VERSION_pn-libmad = "0.15.1b"
+ RECIPE_LATEST_RELEASE_DATE_pn-libmad = "Feb 18, 2004"
+ RECIPE_LAST_UPDATE_pn-libmad = "Jul 04, 2006"
+-RECIPE_MANUAL_CHECK_DATE_pn-libmad = "Dec 27, 2011"
++RECIPE_MANUAL_CHECK_DATE_pn-libmad = "Jan 09, 2012"
+ RECIPE_MAINTAINER_pn-libmad = "Saul Wold <sgw@linux.intel.com>"
+ 
+ RECIPE_LATEST_VERSION_pn-libxml-perl = "0.08"
+@@ -5819,7 +5819,7 @@ RECIPE_LATEST_VERSION_pn-libxml-perl = "0.08"
+ RECIPE_LATEST_VERSION_pn-lsb = "1.4"
+ RECIPE_LAST_UPDATE_pn-lsb = "Nov 04, 2010"
+ RECIPE_LATEST_RELEASE_DATE_pn-lsb = "Jan 04, 2001"
+-RECIPE_MANUAL_CHECK_DATE_pn-lsb = "Dec 27, 2011"
++RECIPE_MANUAL_CHECK_DATE_pn-lsb = "Jan 09, 2012"
+ RECIPE_NO_UPDATE_REASON_pn-lsb = "1.4 is fixed version of LSB Test"
+ RECIPE_MAINTAINER_pn-lsb = "Saul Wold <sgw@linux.intel.com>"
+ 
+@@ -5861,7 +5861,7 @@ RECIPE_STATUS_pn-man-pages = "red"
+ RECIPE_LATEST_VERSION_pn-man-pages = "3.32"
+ RECIPE_LATEST_RELEASE_DATE_pn-man-pages = "Dec 03, 2010"
+ RECIPE_LAST_UPDATE_pn-man-pages = "Dec 29, 2010"
+-RECIPE_MANUAL_CHECK_DATE_pn-man-pages = "Dec 15, 2011"
++RECIPE_MANUAL_CHECK_DATE_pn-man-pages = "Jan 09, 2012"
+ RECIPE_COMMENTS_pn-man-pages = "Kernel.org is down"
+ RECIPE_LATEST_VERSION_pn-sysprof = "6b5b8432711ef5c747f8375073cd9af88922d3c6"
+ RECIPE_LATEST_VERSION_pn-table = "d42a44938699ee30a998fc42bc149aebf69389db"
+-- 
+1.7.6.5
 
 
 
