@@ -1,36 +1,37 @@
-Received: from mail-pz0-f47.google.com ([209.85.210.47])
+Received: from mail-qw0-f47.google.com ([209.85.216.47])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <andrea.adami@gmail.com>) id 1Rkkty-0007An-Fw
+	(envelope-from <marc.ferland@gmail.com>) id 1RkkuQ-0007DB-3b
 	for openembedded-core@lists.openembedded.org;
-	Wed, 11 Jan 2012 00:14:46 +0100
-Received: by dadz13 with SMTP id z13so68788dad.6
+	Wed, 11 Jan 2012 00:15:14 +0100
+Received: by qadb17 with SMTP id b17so2070731qad.6
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 10 Jan 2012 15:07:11 -0800 (PST)
+	Tue, 10 Jan 2012 15:07:43 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
-	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
-	:content-type; bh=N4FC7sxY+udaF2bLgO5lgZTN0Smkq0VOBJxO9s9VSq0=;
-	b=WHkpo9Juid7WW3jOuf3jrzqz4C60RF1mdRFDzQOrZ5khp7xLjKYV6LpEQNNt2tpKOF
-	gbf3Uu5DOe5hlx2DJVx1LrLMpeCnlxiiKcQYqLzciFHWyRIszyvh7CRgrDxxBC7H3Jll
-	Vp9cPvv9W2nibpdfgq4jSj3YTxMF5vI9cfG/M=
-MIME-Version: 1.0
-Received: by 10.68.72.70 with SMTP id b6mr54346983pbv.58.1326236831006; Tue,
-	10 Jan 2012 15:07:11 -0800 (PST)
-Received: by 10.142.213.7 with HTTP; Tue, 10 Jan 2012 15:07:10 -0800 (PST)
-In-Reply-To: <CAAQYJAtSA1qXybLaVqjavWi7PeSy+q12iaAhJx39OK7YHcekrQ@mail.gmail.com>
-References: <fbed4e9f94ed9bd1bb5a9c8fa37113e325f89371.1325115602.git.dvhart@linux.intel.com>
-	<4EFBAC18.3040909@intel.com> <4F03982D.1080601@linux.intel.com>
-	<CAAQYJAtWXeBqnf5OPWE4bpo87Uo454X8qDE7C_QEL7Pu3_k+_w@mail.gmail.com>
-	<CAAQYJAvu-n9eyXV8kj3=34_wzhdfec5Nit9uUy_ar=jFK1tFaQ@mail.gmail.com>
-	<1325766615.20759.67.camel@ted> <4F0633EB.9030708@linux.intel.com>
-	<CAAQYJAtV9moez4thDcRtbm_0w=b+F_q2ag344PiUytRe_g-ysg@mail.gmail.com>
-	<1325847433.20759.80.camel@ted>
-	<CAAQYJAtSA1qXybLaVqjavWi7PeSy+q12iaAhJx39OK7YHcekrQ@mail.gmail.com>
-Date: Wed, 11 Jan 2012 00:07:10 +0100
-Message-ID: <CAAQYJAsq3MGREnnELjghEFpiL-veGNxupb=s3eHaauSHen3fCg@mail.gmail.com>
-From: Andrea Adami <andrea.adami@gmail.com>
+	h=sender:from:to:cc:subject:in-reply-to:date:message-id:mime-version
+	:content-type; bh=OMSBqlyQNZx30Z8l7jSDS1cGmf5tsKTfFMEf92XAZHc=;
+	b=gs0VjxNhcOI6ULiuuJeQd2M5d1ET/LCH2N5KbYUXP4uC7vEyIITUHAfaPacXUlLtRj
+	y+vepX+GE0BSj1ggtE9fj4tGVkKSGTb9azloRFU6xhZh8U52uyEPcV2c4CM36vwSt89T
+	e2FkgZQfHsJTyNNWU6ha/m34GKSsG7ebKekn4=
+Received: by 10.224.220.14 with SMTP id hw14mr27443968qab.42.1326236862522;
+	Tue, 10 Jan 2012 15:07:42 -0800 (PST)
+Received: from ferlandm@sonatest.com
+	(modemcable066.15-37-24.static.videotron.ca. [24.37.15.66])
+	by mx.google.com with ESMTPS id co15sm55558635qab.1.2012.01.10.15.07.40
+	(version=TLSv1/SSLv3 cipher=OTHER);
+	Tue, 10 Jan 2012 15:07:41 -0800 (PST)
+Sender: Marc Ferland <marc.ferland@gmail.com>
+Received: by ferlandm@sonatest.com (sSMTP sendmail emulation);
+	Tue, 10 Jan 2012 18:07:52 -0500
+From: Marc Ferland <ferlandm@sonatest.com>
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] image_types: Ensure /init exists for cpio rootfs archives
+Cc: openembedded-core@lists.openembedded.org
+In-Reply-To: <CAP9ODKprc01W9sStwMubMziZThj31C5Qn379AHA508rDJW9v9A@mail.gmail.com>
+	(message from Otavio Salvador on Tue, 10 Jan 2012 19:25:36 -0200)
+Date: Tue, 10 Jan 2012 18:07:52 -0500
+Message-ID: <87sjjnma0n.fsf@sonatest.com>
+MIME-Version: 1.0
+Subject: Re: [PATCH] Add grep to RDEPENDS to avoid command	failures.
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -45,89 +46,29 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 10 Jan 2012 23:14:46 -0000
-Content-Type: text/plain; charset=ISO-8859-1
+X-List-Received-Date: Tue, 10 Jan 2012 23:15:14 -0000
+Content-Type: text/plain; charset=us-ascii
 
-On Fri, Jan 6, 2012 at 11:58 PM, Andrea Adami <andrea.adami@gmail.com> wrote:
-> On Fri, Jan 6, 2012 at 11:57 AM, Richard Purdie
-> <richard.purdie@linuxfoundation.org> wrote:
->> On Fri, 2012-01-06 at 02:00 +0100, Andrea Adami wrote:
->>> On Fri, Jan 6, 2012 at 12:36 AM, Darren Hart <dvhart@linux.intel.com> wrote:
->>> >
->>> >
->>> > On 01/05/2012 04:30 AM, Richard Purdie wrote:
->>> >> On Thu, 2012-01-05 at 01:05 +0100, Andrea Adami wrote:
->>> >>> I'd say we have to test for the in-existence of the file instead of
->>> >>> blindly touching it.
->>> >>> Smthg like
->>> >>>
->>> >>> if [! -e ${IMAGE_ROOTFS}/init]; then
->>> >>> touch ${IMAGE_ROOTFS}/init
->>> >>> fi
->>> >
->>> > Why? Touch creates it if it doesn't exist and updates the modtime if it
->>> > does. It doesn't modify the content of the file if it exists. What is
->>> > the motivation for testing for it's existence?
->>> >
->>> touch fails with Permission denied because one package in my rootfs
->>> already created the symlink
->>>
->>> >>>
->>> >>>
->>> >>> Now, repeating that block for all 4 cpio images is a bit ugly... better ideas?
->>> >>
->>> >> Make it a shell function we call? I'd also check for
->>> >> ${base_sbindir}/init first too?
->>> >
->>> > Why check for that? So we can link to it instead of creating an empty file?
->>>
->>> Nonsense, kernel looks for /init
->>> ( http://www.kernel.org/doc/Documentation/filesystems/ramfs-rootfs-initramfs.txt
->>> )
->>
->> Yes, please ignore my comment about /sbin/init, I'm misremembering
->> something. We should deal with the symlink case though.
->>
->> Cheers,
->>
->> Richard
->>
->>
->> _______________________________________________
->> Openembedded-core mailing list
->> Openembedded-core@lists.openembedded.org
->> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
+Otavio Salvador <otavio@ossystems.com.br> writes:
+
+> [1:multipart/alternative Hide]
+> [1/1:text/plain Hide]
+> On Tue, Jan 10, 2012 at 19:14, Marc Ferland <ferlandm@sonatest.com> wrote:
 >
-> ok, I think the issue is the behavior of touch when trying to change
-> the timestamp of a symlink.
+>> I was having trouble running the pm-suspend command. See:
+>> http://bugzilla.pokylinux.org/show_bug.cgi?id=1887
+>>
+>> Basically the '-x' option is missing from busybox's grep.
 >
-> http://fossplanet.com/f13/bug-7122-touch-gnu-coreutils-7-4-no-way-touch-symlink-57418/
 >
-> Using 'touch -h' seems solving the issue and the image is built.
-> However, the timestamp of the /init symlink now differs from the
-> timestamp of the binary.
->
-> Regards
->
-> Andrea
+> Can't pm-suspend be patched to avoid using the -x option? Maybe making the
+> regexp more strict, for example?
 
+Looks like it uses grep to ignore some parameters that are specified in
+a separate file. A combination of 'sort' and 'uniq' would probably work,
+but we would loose the order of the parameters.
 
-Ok, now I think I understand the issue:
-
-the /init symlink in rootfs is absolute, being its path is pointing to
-/usr/bin/kexecboot in our case.
-Now, until this becomes the real rootfs, the symlink appears broken
-and that's why adding the -h (do not dereference) fixes the case of
-existent symlink.
-
-Unfortunately it appears touch -h fails if /init is a file and not a
-symlink (tested now).
-
-Afterall, I think it would be easier to add a guard around touch as
-initially proposed.
-
-Just my 2 cents
-
-Andrea
+Any idea?
+Marc
 
 
