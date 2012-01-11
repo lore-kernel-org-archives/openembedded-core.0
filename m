@@ -1,25 +1,20 @@
-Received: from mail1.windriver.com ([147.11.146.13])
+Received: from mga09.intel.com ([134.134.136.24])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <Zumeng.Chen@windriver.com>) id 1RknA6-0002VP-3h
+	(envelope-from <nitin.a.kamble@intel.com>) id 1Rko1W-0004H0-Vk
 	for openembedded-core@lists.openembedded.org;
-	Wed, 11 Jan 2012 02:39:37 +0100
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca [147.11.189.40])
-	by mail1.windriver.com (8.14.3/8.14.3) with ESMTP id q0B1W437008605
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 10 Jan 2012 17:32:04 -0800 (PST)
-Received: from pek-yocto-build2.corp.ad.wrs.com (128.224.163.150) by
-	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server id
-	14.1.255.0; Tue, 10 Jan 2012 17:32:04 -0800
-From: Zumeng Chen <zumeng.chen@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Wed, 11 Jan 2012 09:31:43 +0800
-Message-ID: <478626db2a0466a04df4bb024014e1943f8e4b40.1326244852.git.zumeng.chen@windriver.com>
-X-Mailer: git-send-email 1.7.5.4
-In-Reply-To: <cover.1326244852.git.zumeng.chen@windriver.com>
-References: <cover.1326244852.git.zumeng.chen@windriver.com>
-MIME-Version: 1.0
-Subject: [PATCH 3/4] lttng-modules: from lttng-modules 2.0 git repo.
+	Wed, 11 Jan 2012 03:34:47 +0100
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+	by orsmga102.jf.intel.com with ESMTP; 10 Jan 2012 18:27:15 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.67,352,1309762800"; d="scan'208";a="95050664"
+Received: from nbuild0.sc.intel.com ([172.25.110.36])
+	by orsmga001.jf.intel.com with ESMTP; 10 Jan 2012 18:27:15 -0800
+From: nitin.a.kamble@intel.com
+To: openembedded-core@lists.openembedded.org
+Date: Tue, 10 Jan 2012 18:27:13 -0800
+Message-Id: <cover.1326248768.git.nitin.a.kamble@intel.com>
+X-Mailer: git-send-email 1.7.6.4
+Subject: [PATCH 0/6] Misc recipe fixes & upgrades
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -34,112 +29,43 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 11 Jan 2012 01:39:37 -0000
-Content-Type: text/plain
+X-List-Received-Date: Wed, 11 Jan 2012 02:34:47 -0000
 
-This patch intended to integrate the lttng-modules 2.0 package
-containing the kernel tracer modules.
-LTTng-modules 2.0 is currently in pre-release (-pre11), so we
-have to update it when official released.
+From: Nitin A Kamble <nitin.a.kamble@intel.com>
 
-lttng-2.0 supports lttng-modules extra builds, which don't need
-any patches on Linux kernel vs the previous version of lttng.
-As described in README of lttng-modules-2.0, so far, it has been
-tested in the latest kernel on x86 32/64-bit, and powerpc 32-bit,
-, build tested on ARM. So does yocto kernel, the related tests
-on qemux86 and qemuppc has been validated and a build test on
-qemuarm passed too with this patcheset.
 
-Signed-off-by: Zumeng Chen <zumeng.chen@windriver.com>
----
- ...modules-replace-KERNELDIR-with-KERNEL_SRC.patch |   41 ++++++++++++++++++++
- .../lttng-2.0/lttng-modules_2.0.pre11.bb           |   27 +++++++++++++
- 2 files changed, 68 insertions(+), 0 deletions(-)
- create mode 100644 meta/recipes-kernel/lttng-2.0/lttng-modules-replace-KERNELDIR-with-KERNEL_SRC.patch
- create mode 100644 meta/recipes-kernel/lttng-2.0/lttng-modules_2.0.pre11.bb
+Thanks,
+Nitin
 
-diff --git a/meta/recipes-kernel/lttng-2.0/lttng-modules-replace-KERNELDIR-with-KERNEL_SRC.patch b/meta/recipes-kernel/lttng-2.0/lttng-modules-replace-KERNELDIR-with-KERNEL_SRC.patch
-new file mode 100644
-index 0000000..aa24171
---- /dev/null
-+++ b/meta/recipes-kernel/lttng-2.0/lttng-modules-replace-KERNELDIR-with-KERNEL_SRC.patch
-@@ -0,0 +1,41 @@
-+Upstream-Status: Inappropriate [embedded specific]
-+
-+lttng-modules: replace KERNELDIR with KERNEL_SRC
-+
-+Since lttng-modules uses the default way of module.bbclass to
-+build and install lttng-modules, we do this replacement for
-+it as-is.
-+
-+Signed-off-by: Zumeng Chen <zumeng.chen@windriver.com>
-+---
-+ Makefile |    7 +++----
-+ 1 files changed, 3 insertions(+), 4 deletions(-)
-+
-+diff --git a/Makefile b/Makefile
-+index 5ac13d7..25caad5 100644
-+--- a/Makefile
-++++ b/Makefile
-+@@ -38,17 +38,16 @@ obj-m += lib/
-+ endif
-+
-+ else
-+-	KERNELDIR ?= /lib/modules/$(shell uname -r)/build
-+ 	PWD := $(shell pwd)
-+ 	CFLAGS = $(EXTCFLAGS)
-+
-+ default:
-+-	$(MAKE) -C $(KERNELDIR) M=$(PWD) modules
-++	$(MAKE) -C $(KERNEL_SRC) M=$(PWD) modules
-+
-+ modules_install:
-+-	$(MAKE) -C $(KERNELDIR) M=$(PWD) modules_install
-++	$(MAKE) -C $(KERNEL_SRC) M=$(PWD) modules_install
-+
-+ clean:
-+-	$(MAKE) -C $(KERNELDIR) M=$(PWD) clean
-++	$(MAKE) -C $(KERNEL_SRC) M=$(PWD) clean
-+
-+ endif
-+-- 
-+1.7.5.4
-+
-diff --git a/meta/recipes-kernel/lttng-2.0/lttng-modules_2.0.pre11.bb b/meta/recipes-kernel/lttng-2.0/lttng-modules_2.0.pre11.bb
-new file mode 100644
-index 0000000..5d34c41
---- /dev/null
-+++ b/meta/recipes-kernel/lttng-2.0/lttng-modules_2.0.pre11.bb
-@@ -0,0 +1,27 @@
-+SECTION = "devel"
-+SUMMARY = "Linux Trace Toolkit KERNEL MODULE"
-+DESCRIPTION = "The lttng-modules 2.0 package contains the kernel tracer modules"
-+LICENSE = "LGPLv2.1 & GPLv2"
-+LIC_FILES_CHKSUM = "file://LICENSE;md5=1eb086682a7c65a45acd9bcdf6877b3e \
-+                    file://gpl-2.0.txt;md5=751419260aa954499f7abaabaa882bbe \
-+                    file://lgpl-2.1.txt;md5=243b725d71bb5df4a1e5920b344b86ad"
-+
-+DEPENDS = virtual/kernel
-+
-+inherit module
-+
-+SRCREV = "4d3e89e379fc66480d729abe8daa5c86eb585400"
-+PV = "2.0.pre11+git${SRCREV}"
-+PR = "r0"
-+
-+SRC_URI = "git://git.lttng.org/lttng-modules.git;protocol=git \
-+           file://lttng-modules-replace-KERNELDIR-with-KERNEL_SRC.patch"
-+
-+export INSTALL_MOD_DIR="kernel/lttng-modules"
-+
-+S = "${WORKDIR}/git"
-+
-+# Due to liburcu not building for MIPS currently this recipe needs to
-+# be limited also.
-+# So here let us first suppport x86/arm/powerpc platforms now.
-+COMPATIBLE_HOST = '(x86_64.*|i.86.*|arm.*|powerpc.*)-linux'
+The following changes since commit 4a8a3c503fd896593b787c26edbe46a7324e494e:
+
+  Revert "site/common-uclibc: Cache gl_cv_func_wcwidth_works" (2012-01-10 18:33:25 +0000)
+
+are available in the git repository at:
+  git://git.pokylinux.org/poky-contrib nitin/misc
+  http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=nitin/misc
+
+Nitin A Kamble (6):
+  locale: fix package's "provides" tag
+  diffstat: upgrade from 1.54 to 1.55
+  insane.bbclass: fix elf.arch not matching error for x32 kernel
+  libpcre: upgrade from 8.20 to 8.21
+  btrfs-tools: upgrade to newer git commit
+  distro_tracking: update manual_check_date fields
+
+ meta/classes/insane.bbclass                        |    3 +-
+ meta/classes/libc-package.bbclass                  |    3 --
+ .../conf/distro/include/distro_tracking_fields.inc |   36 +++++++++++---------
+ meta/recipes-core/eglibc/eglibc-locale.inc         |    2 +-
+ .../btrfs-tools/btrfs-tools_git.bb                 |    4 +-
+ .../{diffstat_1.54.bb => diffstat_1.55.bb}         |    6 ++--
+ .../libpcre/{libpcre_8.20.bb => libpcre_8.21.bb}   |    5 ++-
+ 7 files changed, 31 insertions(+), 28 deletions(-)
+ rename meta/recipes-devtools/diffstat/{diffstat_1.54.bb => diffstat_1.55.bb} (82%)
+ rename meta/recipes-support/libpcre/{libpcre_8.20.bb => libpcre_8.21.bb} (93%)
+
 -- 
-1.7.5.4
+1.7.6.4
 
 
 
