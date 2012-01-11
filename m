@@ -1,29 +1,23 @@
-Received: from mail-we0-f175.google.com ([74.125.82.175])
+Received: from mail.windriver.com ([147.11.1.11])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <koen@dominion.thruhere.net>) id 1Rl1kr-0002Lx-8G
+	(envelope-from <bruce.ashfield@windriver.com>) id 1Rl3Pi-0005A7-29
 	for openembedded-core@lists.openembedded.org;
-	Wed, 11 Jan 2012 18:14:29 +0100
-Received: by werm13 with SMTP id m13so779117wer.6
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 11 Jan 2012 09:06:59 -0800 (PST)
-Received: by 10.216.209.99 with SMTP id r77mr11536051weo.25.1326301617785;
-	Wed, 11 Jan 2012 09:06:57 -0800 (PST)
-Received: from [172.20.1.36] (ip545070eb.adsl-surfen.hetnet.nl.
-	[84.80.112.235])
-	by mx.google.com with ESMTPS id a6sm4957118wiy.6.2012.01.11.09.06.56
-	(version=TLSv1/SSLv3 cipher=OTHER);
-	Wed, 11 Jan 2012 09:06:56 -0800 (PST)
-Mime-Version: 1.0 (Apple Message framework v1251.1)
-From: Koen Kooi <koen@dominion.thruhere.net>
-In-Reply-To: <4F0DBCBC.2070007@linux.intel.com>
-Date: Wed, 11 Jan 2012 18:07:00 +0100
-Message-Id: <21E1FD3C-5539-48E3-8F4F-48600B33A0AA@dominion.thruhere.net>
-References: <cover.1326267271.git.sgw@linux.intel.com>
-	<1326278405.23315.16.camel@ted> <4F0DBCBC.2070007@linux.intel.com>
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-X-Mailer: Apple Mail (2.1251.1)
-Subject: Re: [CONSOLIDATED PULL 0/5] final items for M2 RC1
+	Wed, 11 Jan 2012 20:00:46 +0100
+Received: from yow-bashfiel-l1.corp.ad.wrs.com
+	(yow-bashfiel-d3.ottawa.windriver.com [128.224.147.67])
+	by mail.windriver.com (8.14.3/8.14.3) with ESMTP id q0BIqk2l020538;
+	Wed, 11 Jan 2012 10:52:50 -0800 (PST)
+From: Bruce Ashfield <bruce.ashfield@windriver.com>
+To: richard.purdie@linuxfoundation.org
+Date: Wed, 11 Jan 2012 13:52:22 -0500
+Message-Id: <4c600d9c5302f8db28e6af0190b41711f750b755.1326307011.git.bruce.ashfield@windriver.com>
+X-Mailer: git-send-email 1.7.4.1
+In-Reply-To: <cover.1326307011.git.bruce.ashfield@windriver.com>
+References: <cover.1326307011.git.bruce.ashfield@windriver.com>
+In-Reply-To: <cover.1326307011.git.bruce.ashfield@windriver.com>
+References: <cover.1326307011.git.bruce.ashfield@windriver.com>
+Cc: openembedded-core@lists.openembedded.org, saul.wold@intel.com
+Subject: [PATCH 4/5] tslib: enable big endian support for qemuppc
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -38,57 +32,31 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 11 Jan 2012 17:14:29 -0000
-Content-Type: text/plain; charset=us-ascii
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Wed, 11 Jan 2012 19:00:46 -0000
 
+From: Liming Wang <liming.wang@windriver.com>
 
-Op 11 jan. 2012, om 17:45 heeft Saul Wold het volgende geschreven:
+This enables wacom tablet/touchscreen support on qemuppc.
 
-> On 01/11/2012 02:40 AM, Richard Purdie wrote:
->> On Tue, 2012-01-10 at 23:36 -0800, Saul Wold wrote:
->>> Richard,
->>>=20
->>> Here are the final items we discussed yesterday, a succesful
->>> build finished, and we seem to be in good shape, please pull
->>> these early in your day and fire up AB Master is you can.
->>>=20
->>>=20
->>> Thanks
->>> 	Sau!
->>>=20
->>>=20
->>> The following changes since commit =
-9b944ae2f0e4dbac5a8f1f235f60730e56b26516:
->>>=20
->>>   Revert "site/common-uclibc: Cache gl_cv_func_wcwidth_works" =
-(2012-01-10 18:32:16 +0000)
->>>=20
->>> are available in the git repository at:
->>>   git://git.openembedded.org/openembedded-core-contrib sgw/stage
->>>   =
-http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=3Ds=
-gw/stage
->>>=20
->>> Lianhao Lu (2):
->>>   meta/PRService: Added export/import fuctions.
->>>   package.bbclass: per recipe PRSERV_HOST support
->>>=20
->>> Robert Yang (2):
->>>   Incremental rpm image generation
->>>   Incremental rpm image generation(Add config sample)
->>=20
->> I merged these, thanks.
->>=20
->>> Shane Wang (1):
->>>   hdparm: upgrade to 9.37
->>=20
->> This one needs to be split up as Paul points out...
->>=20
-> Ok, but one question about bisect-ability, if they are split and the =
-hdparm is in one side of a bisect without the new stat package, doesn't =
-that break the bisect ability "rule"?
+Signed-off-by: Liming Wang <liming.wang@windriver.com>
+---
+ meta/recipes-graphics/tslib/tslib_1.0.bb |    1 +
+ 1 files changed, 1 insertions(+), 0 deletions(-)
 
-That's why you add the stat recipe first.=
+diff --git a/meta/recipes-graphics/tslib/tslib_1.0.bb b/meta/recipes-graphics/tslib/tslib_1.0.bb
+index f47116f..54ff3d4 100644
+--- a/meta/recipes-graphics/tslib/tslib_1.0.bb
++++ b/meta/recipes-graphics/tslib/tslib_1.0.bb
+@@ -22,6 +22,7 @@ SRC_URI = "http://download.berlios.de/tslib/tslib-${PV}.tar.bz2 \
+ SRC_URI[md5sum] = "92b2eb55b1e4ef7e2c0347069389390e"
+ SRC_URI[sha256sum] = "9c40d914e4f6fe00bdd77137d671c7ce4f211686228f2eb8b2d3c2360bc249c8"
+ SRC_URI_append_qemumips += " file://32bitBE-support.patch"
++SRC_URI_append_qemuppc += " file://32bitBE-support.patch"
+ 
+ 
+ inherit autotools pkgconfig
+-- 
+1.7.4.1
+
 
 
