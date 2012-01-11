@@ -1,24 +1,24 @@
-Received: from mga14.intel.com ([143.182.124.37])
+Received: from mga02.intel.com ([134.134.136.20])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <dongxiao.xu@intel.com>) id 1RkoZF-0005eY-MR
+	(envelope-from <dongxiao.xu@intel.com>) id 1RkoZF-0005ej-HC
 	for openembedded-core@lists.openembedded.org;
 	Wed, 11 Jan 2012 04:09:39 +0100
-Received: from azsmga002.ch.intel.com ([10.2.17.35])
-	by azsmga102.ch.intel.com with ESMTP; 10 Jan 2012 19:02:05 -0800
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+	by orsmga101.jf.intel.com with ESMTP; 10 Jan 2012 19:02:08 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="55317259"
+X-IronPort-AV: E=Sophos;i="4.67,352,1309762800"; d="scan'208";a="95059534"
 Received: from dongxiao-desktop.sh.intel.com (HELO localhost) ([10.239.36.108])
-	by AZSMGA002.ch.intel.com with ESMTP; 10 Jan 2012 19:02:05 -0800
+	by orsmga001.jf.intel.com with ESMTP; 10 Jan 2012 19:02:07 -0800
 From: Dongxiao Xu <dongxiao.xu@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Wed, 11 Jan 2012 11:04:15 +0800
-Message-Id: <f5d2304b35f6442803be446aba966d5bf8f14ac4.1326249734.git.dongxiao.xu@intel.com>
+Date: Wed, 11 Jan 2012 11:04:17 +0800
+Message-Id: <04de28ff06e50515461c4475c87541126697a354.1326249734.git.dongxiao.xu@intel.com>
 X-Mailer: git-send-email 1.7.0.4
 In-Reply-To: <cover.1326249734.git.dongxiao.xu@intel.com>
 References: <cover.1326249734.git.dongxiao.xu@intel.com>
 In-Reply-To: <cover.1326249734.git.dongxiao.xu@intel.com>
 References: <cover.1326249734.git.dongxiao.xu@intel.com>
-Subject: [PATCH 3/5] dummy-image.bb: add an empty image template
+Subject: [PATCH 5/5] layers: add a new folder to put user added layers
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -35,21 +35,22 @@ List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedde
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Wed, 11 Jan 2012 03:09:39 -0000
 
-This recipe serves as the target when using Hob to generate image.
+This is helpful for remote users to find the available layers in the
+bitbake server machine.
 
 Signed-off-by: Dongxiao Xu <dongxiao.xu@intel.com>
 ---
- meta/recipes-core/images/dummy-image.bb |    1 +
+ layers/README |    1 +
  1 files changed, 1 insertions(+), 0 deletions(-)
- create mode 100644 meta/recipes-core/images/dummy-image.bb
+ create mode 100644 layers/README
 
-diff --git a/meta/recipes-core/images/dummy-image.bb b/meta/recipes-core/images/dummy-image.bb
+diff --git a/layers/README b/layers/README
 new file mode 100644
-index 0000000..c8d6f49
+index 0000000..88747f4
 --- /dev/null
-+++ b/meta/recipes-core/images/dummy-image.bb
++++ b/layers/README
 @@ -0,0 +1 @@
-+inherit image
++Please put extra layers (besides meta and meta-yocto) in this folder.
 -- 
 1.7.0.4
 
