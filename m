@@ -1,23 +1,25 @@
-Received: from mail1.windriver.com ([147.11.146.13])
+Received: from mail.windriver.com ([147.11.1.11])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <Zumeng.Chen@windriver.com>) id 1RknA2-0002V6-NS
+	(envelope-from <Zumeng.Chen@windriver.com>) id 1RknA3-0002VE-Ml
 	for openembedded-core@lists.openembedded.org;
-	Wed, 11 Jan 2012 02:39:31 +0100
+	Wed, 11 Jan 2012 02:39:32 +0100
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca [147.11.189.40])
-	by mail1.windriver.com (8.14.3/8.14.3) with ESMTP id q0B1W1a2008600
+	by mail.windriver.com (8.14.3/8.14.3) with ESMTP id q0B1W1qf016257
 	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
 	Tue, 10 Jan 2012 17:32:01 -0800 (PST)
 Received: from pek-yocto-build2.corp.ad.wrs.com (128.224.163.150) by
 	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server id
-	14.1.255.0; Tue, 10 Jan 2012 17:32:00 -0800
+	14.1.255.0; Tue, 10 Jan 2012 17:32:01 -0800
 From: Zumeng Chen <zumeng.chen@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Wed, 11 Jan 2012 09:31:40 +0800
-Message-ID: <1326245504-22965-1-git-send-email-zumeng.chen@windriver.com>
+Date: Wed, 11 Jan 2012 09:31:41 +0800
+Message-ID: <2b95052bfcb49e681e8e40dbdfabfd804febb845.1326244852.git.zumeng.chen@windriver.com>
 X-Mailer: git-send-email 1.7.5.4
+In-Reply-To: <cover.1326244852.git.zumeng.chen@windriver.com>
+References: <cover.1326244852.git.zumeng.chen@windriver.com>
 MIME-Version: 1.0
-Subject: [V4]lttng-2.0 new recipe
+Subject: [PATCH 1/4] lttng-ust: Integrate into yocto linux
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -32,41 +34,49 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 11 Jan 2012 01:39:31 -0000
+X-List-Received-Date: Wed, 11 Jan 2012 01:39:32 -0000
 Content-Type: text/plain
 
-Changes of V4:
-  Fixed all comments from Darrent;
-  To: OE-core.
+This patch intended to integrate the LTTng UST 2.0 package, which
+contains the userspace tracer library to trace userspace codes.
 
-The following changes since commit 4a8a3c503fd896593b787c26edbe46a7324e494e:
-
-  Revert "site/common-uclibc: Cache gl_cv_func_wcwidth_works" (2012-01-10 18:33:25 +0000)
-
-are available in the git repository at:
-  git://git.pokylinux.org/poky-contrib zumeng/lttng-2.0
-  http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=zumeng/lttng-2.0
-
-Zumeng Chen (4):
-  lttng-ust: Integrate into yocto linux
-  lttng-tools: Integrated from git repo.
-  lttng-modules: from lttng-modules 2.0 git repo.
-  babeltrace: Integrated from version 0.8
-
- meta/recipes-kernel/lttng-2.0/babeltrace_0.8.bb    |   28 +++++++++++++
- ...modules-replace-KERNELDIR-with-KERNEL_SRC.patch |   41 ++++++++++++++++++++
- .../lttng-2.0/lttng-modules_2.0.pre11.bb           |   27 +++++++++++++
- ...tools-fix-compiling-error-for-powerpc-arm.patch |   28 +++++++++++++
- .../lttng-2.0/lttng-tools_2.0-pre16.bb             |   30 ++++++++++++++
- meta/recipes-kernel/lttng-2.0/lttng-ust_1.9.4.bb   |   25 ++++++++++++
- 6 files changed, 179 insertions(+), 0 deletions(-)
- create mode 100644 meta/recipes-kernel/lttng-2.0/babeltrace_0.8.bb
- create mode 100644 meta/recipes-kernel/lttng-2.0/lttng-modules-replace-KERNELDIR-with-KERNEL_SRC.patch
- create mode 100644 meta/recipes-kernel/lttng-2.0/lttng-modules_2.0.pre11.bb
- create mode 100644 meta/recipes-kernel/lttng-2.0/lttng-tools-fix-compiling-error-for-powerpc-arm.patch
- create mode 100644 meta/recipes-kernel/lttng-2.0/lttng-tools_2.0-pre16.bb
+Signed-off-by: Zumeng Chen <zumeng.chen@windriver.com>
+---
+ meta/recipes-kernel/lttng-2.0/lttng-ust_1.9.4.bb |   25 ++++++++++++++++++++++
+ 1 files changed, 25 insertions(+), 0 deletions(-)
  create mode 100644 meta/recipes-kernel/lttng-2.0/lttng-ust_1.9.4.bb
 
+diff --git a/meta/recipes-kernel/lttng-2.0/lttng-ust_1.9.4.bb b/meta/recipes-kernel/lttng-2.0/lttng-ust_1.9.4.bb
+new file mode 100644
+index 0000000..32ec25b
+--- /dev/null
++++ b/meta/recipes-kernel/lttng-2.0/lttng-ust_1.9.4.bb
+@@ -0,0 +1,25 @@
++SUMMARY = "Linux Trace Toolkit Userspace Tracer 2.0"
++DESCRIPTION = "The LTTng UST 2.0 package contains the userspace tracer library to trace userspace codes."
++HOMEPAGE = "http://lttng.org/lttng2.0"
++BUGTRACKER = "n/a"
++
++LICENSE = "LGPLv2.1+ & BSD"
++LIC_FILES_CHKSUM = "file://COPYING;md5=e647752e045a8c45b6f583771bd561ef \
++                    file://snprintf/snprintf.c;endline=32;md5=d3d544959d8a3782b2e07451be0a903c \
++                    file://snprintf/various.h;endline=31;md5=89f2509b6b4682c4fc95255eec4abe44"
++
++inherit autotools
++
++DEPENDS = "liburcu util-linux"
++
++SRC_URI = "http://lttng.org/files/lttng-ust/lttng-ust-${PV}.tar.gz"
++
++SRC_URI[md5sum] = "0f09bb954c99cb99ab6997cd492953c1"
++SRC_URI[sha256sum] = "e9ec3c55c2251b3f3b512bfa1015b0f67e35d55793850ccea5134f7b24ee3ba1"
++
++S = "${WORKDIR}/lttng-ust-${PV}"
++
++# Due to liburcu not building for MIPS currently this recipe needs to
++# be limited also.
++# So here let us first suppport x86/arm/powerpc platforms now.
++COMPATIBLE_HOST = '(x86_64.*|i.86.*|arm.*|powerpc.*)-linux'
 -- 
 1.7.5.4
 
