@@ -1,24 +1,25 @@
-Received: from mga02.intel.com ([134.134.136.20])
+Received: from mail.windriver.com ([147.11.1.11])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <sgw@linux.intel.com>) id 1Rksqt-00005n-AX
+	(envelope-from <Wenzong.Fan@windriver.com>) id 1Rkszk-0000SE-No
 	for openembedded-core@lists.openembedded.org;
-	Wed, 11 Jan 2012 08:44:07 +0100
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-	by orsmga101.jf.intel.com with ESMTP; 10 Jan 2012 23:36:34 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.67,351,1309762800"; d="scan'208";a="96880547"
-Received: from unknown (HELO swold-mobl.bigsur.com) ([10.255.13.168])
-	by orsmga002.jf.intel.com with ESMTP; 10 Jan 2012 23:36:34 -0800
-From: Saul Wold <sgw@linux.intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Tue, 10 Jan 2012 23:36:30 -0800
-Message-Id: <cf1594bdb3a688577ad77bad0d70a0a7f4c629d1.1326267271.git.sgw@linux.intel.com>
-X-Mailer: git-send-email 1.7.6.5
-In-Reply-To: <cover.1326267271.git.sgw@linux.intel.com>
-References: <cover.1326267271.git.sgw@linux.intel.com>
-In-Reply-To: <cover.1326267271.git.sgw@linux.intel.com>
-References: <cover.1326267271.git.sgw@linux.intel.com>
-Subject: [CONSOLIDATED PULL 5/5] package.bbclass: per recipe PRSERV_HOST support
+	Wed, 11 Jan 2012 08:53:17 +0100
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca [147.11.189.40])
+	by mail.windriver.com (8.14.3/8.14.3) with ESMTP id q0B7jkM5021247
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 10 Jan 2012 23:45:46 -0800 (PST)
+Received: from localhost.localdomain (128.224.162.28) by
+	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server id
+	14.1.255.0; Tue, 10 Jan 2012 23:45:46 -0800
+From: <wenzong.fan@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Wed, 11 Jan 2012 15:34:11 +0800
+Message-ID: <feeb24c66e936652db78a7bc1c8ec42311ef94d6.1326266933.git.wenzong.fan@windriver.com>
+X-Mailer: git-send-email 1.7.0.4
+In-Reply-To: <cover.1326266933.git.wenzong.fan@windriver.com>
+References: <cover.1326266933.git.wenzong.fan@windriver.com>
+MIME-Version: 1.0
+Subject: [PATCH v2 1/1] archive.bbclass: archive work directory
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -33,39 +34,97 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 11 Jan 2012 07:44:07 -0000
+X-List-Received-Date: Wed, 11 Jan 2012 07:53:17 -0000
+Content-Type: text/plain
 
-From: Lianhao Lu <lianhao.lu@intel.com>
+From: Wenzong Fan <wenzong.fan@windriver.com>
 
-[YOCTO #1126]
-Added per recipe PRSERV_HOST PRSERV_PORT support.
+Some legal departments believe a complete archive of the work directory
+is required for certain license compliance issues. We could therefore
+do with a class which archives up the work directories in each build and
+provide them so those legal departments can be happy.
 
-Signed-off-by: Lianhao Lu <lianhao.lu@intel.com>
+Implementations:
+
+Add a new class named 'archive.bbclass' to provide task 'do_archive',
+and get it called after 'do_patch' before 'do_configure'.
+
+Following cases should be considered to the sources dirs:
+1) The sources dir is under $WORKDIR:
+Just archive sources and temp/run.* up.
+
+2) The sources dir is outside of $WORKDIR, such as gcc:
+Copy its sources and temp/run.* to a temporary dir and then archive
+them up.
+
+3) The sources dir is equal to $WORKDIR:
+Just archive whole work dir up.
+
+[YOCTO #1590]
+
+Signed-off-by: Wenzong Fan <wenzong.fan@windriver.com>
 ---
- meta/classes/package.bbclass |    8 ++++++++
- 1 files changed, 8 insertions(+), 0 deletions(-)
+ meta/classes/archive.bbclass |   49 ++++++++++++++++++++++++++++++++++++++++++
+ 1 files changed, 49 insertions(+), 0 deletions(-)
+ create mode 100644 meta/classes/archive.bbclass
 
-diff --git a/meta/classes/package.bbclass b/meta/classes/package.bbclass
-index 65e6571..f8f0a12 100644
---- a/meta/classes/package.bbclass
-+++ b/meta/classes/package.bbclass
-@@ -350,6 +350,14 @@ def runtime_mapping_rename (varname, d):
- #
- 
- python package_get_auto_pr() {
-+	# per recipe PRSERV_HOST PRSERV_PORT
-+	pn = d.getVar('PN', True)
-+	host = d.getVar("PRSERV_HOST_" + pn, True)
-+	port = d.getVar("PRSERV_PORT_" + pn, True)
-+	if not (host is None):
-+		d.setVar("PRSERV_HOST", host)
-+	if not (port is None):
-+		d.setVar("PRSERV_PORT", port)
- 	if d.getVar('USE_PR_SERV', True) != "0":
- 		try:
- 			auto_pr=prserv_get_pr_auto(d)
+diff --git a/meta/classes/archive.bbclass b/meta/classes/archive.bbclass
+new file mode 100644
+index 0000000..e529793
+--- /dev/null
++++ b/meta/classes/archive.bbclass
+@@ -0,0 +1,49 @@
++# Archive the patched sources and build scripts to assist in license
++# compliance by the end user or legal departments.
++
++ARCHIVE_DIR = "${TMPDIR}/archives/${MULTIMACH_TARGET_SYS}/"
++do_archive[dirs] = "${ARCHIVE_DIR}"
++
++archive_do_archive() {
++    # In mostly scenarios the $S is under $WORKDIR and has a separate
++    # dir for storing the sources; but sometimes we also put the same
++    # sources 'tmp/work-shared/' for sharing between different build.
++    if [ -d ${S} -a ${S} != ${WORKDIR} ]; then
++        sources_shared="0"
++
++        if echo ${S} | grep "${TMPDIR}/work-shared" > /dev/null; then
++            sources_shared="1"
++        fi
++
++        if [ x$sources_shared == "x1" ]; then
++            # Create temporary sources directory
++            mkdir -p ${PF}/temp
++            cp -r ${S} ${PF}
++            cp -r ${S}/../temp/* ${PF}/temp
++            cp -r ${WORKDIR}/temp/* ${PF}/temp
++            tarbase=`pwd`
++            sourcedir=`basename ${S}`
++        else
++            tarbase=`dirname ${WORKDIR}`
++            sourcedir=`echo ${S}|sed -e "s#${WORKDIR}/*##g"`
++        fi
++
++        tar -C $tarbase -cjf ${PF}.tar.bz2 ${PF}/$sourcedir \
++            ${PF}/temp --exclude log.do_*
++
++        # Remove the temporary sources directory
++        if [ x$sources_shared == "x1" -a -d ${PF} ]; then
++            rm -rf ${PF}
++        fi
++    fi
++
++    # Just archive whole build directory up when $S is equal to $WORKDIR
++    if [ -d ${S} -a ${S} == ${WORKDIR} ]; then
++        tarbase=`dirname ${WORKDIR}`
++        tar -C $tarbase -cjf ${PF}.tar.bz2 ${PF} --exclude log.do_*
++    fi
++}
++
++addtask do_archive after do_patch before do_configure
++
++EXPORT_FUNCTIONS do_archive
 -- 
-1.7.6.5
+1.7.0.4
 
 
 
