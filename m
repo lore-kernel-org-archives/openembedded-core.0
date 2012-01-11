@@ -1,24 +1,24 @@
-Received: from mga11.intel.com ([192.55.52.93])
+Received: from mga02.intel.com ([134.134.136.20])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <dongxiao.xu@intel.com>) id 1RkoZB-0005eO-HK
+	(envelope-from <dongxiao.xu@intel.com>) id 1RkoZC-0005eP-Jw
 	for openembedded-core@lists.openembedded.org;
-	Wed, 11 Jan 2012 04:09:33 +0100
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-	by fmsmga102.fm.intel.com with ESMTP; 10 Jan 2012 19:02:03 -0800
+	Wed, 11 Jan 2012 04:09:34 +0100
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+	by orsmga101.jf.intel.com with ESMTP; 10 Jan 2012 19:02:04 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="105790090"
+X-IronPort-AV: E=Sophos;i="4.67,352,1309762800"; d="scan'208";a="95059497"
 Received: from dongxiao-desktop.sh.intel.com (HELO localhost) ([10.239.36.108])
-	by fmsmga001.fm.intel.com with ESMTP; 10 Jan 2012 19:02:03 -0800
+	by orsmga001.jf.intel.com with ESMTP; 10 Jan 2012 19:02:03 -0800
 From: Dongxiao Xu <dongxiao.xu@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Wed, 11 Jan 2012 11:04:13 +0800
-Message-Id: <589f74c4c0832a3cc42daa656da2996764186463.1326249734.git.dongxiao.xu@intel.com>
+Date: Wed, 11 Jan 2012 11:04:14 +0800
+Message-Id: <5fb6ebfa61390b152d2ec7ab9775712e0e3aca40.1326249734.git.dongxiao.xu@intel.com>
 X-Mailer: git-send-email 1.7.0.4
 In-Reply-To: <cover.1326249734.git.dongxiao.xu@intel.com>
 References: <cover.1326249734.git.dongxiao.xu@intel.com>
 In-Reply-To: <cover.1326249734.git.dongxiao.xu@intel.com>
 References: <cover.1326249734.git.dongxiao.xu@intel.com>
-Subject: [PATCH 1/5] package.bbclass: set package size into pkgdata for hob2's use
+Subject: [PATCH 2/5] packageinfo.bbclass: add a new bbclass to pass package information
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -33,45 +33,53 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 11 Jan 2012 03:09:33 -0000
+X-List-Received-Date: Wed, 11 Jan 2012 03:09:34 -0000
 
-From: Shane Wang <shane.wang@intel.com>
+packageinfo.bbclass is to pass the accurate package information to
+clients (e.g. Hob), including PN, PV, RDEPENDS, PKGSIZE, etc.
 
-Write the size of a package into its pkgdata for hob2 to get the size
-and show on the UI for image making.
-
-Signed-off-by: Shane Wang <shane.wang@intel.com>
 Signed-off-by: Dongxiao Xu <dongxiao.xu@intel.com>
 ---
- meta/classes/package.bbclass |    8 ++++++++
- 1 files changed, 8 insertions(+), 0 deletions(-)
+ meta/classes/packageinfo.bbclass |   30 ++++++++++++++++++++++++++++++
+ 1 files changed, 30 insertions(+), 0 deletions(-)
+ create mode 100644 meta/classes/packageinfo.bbclass
 
-diff --git a/meta/classes/package.bbclass b/meta/classes/package.bbclass
-index 9040eb4..8bde0b3 100644
---- a/meta/classes/package.bbclass
-+++ b/meta/classes/package.bbclass
-@@ -1042,6 +1042,13 @@ python emit_pkgdata() {
- 			f.write('%s: %s\n' % (var, encode(val)))
- 		return
- 
-+	def get_directory_size(dir):
-+		if os.listdir(dir):
-+			size = int(os.popen('du -sk %s' % dir).readlines()[0].split('\t')[0])
-+		else:
-+			size = 0
-+		return size
+diff --git a/meta/classes/packageinfo.bbclass b/meta/classes/packageinfo.bbclass
+new file mode 100644
+index 0000000..4a99b51
+--- /dev/null
++++ b/meta/classes/packageinfo.bbclass
+@@ -0,0 +1,30 @@
++python packageinfo_handler () {
++    if isinstance(e, bb.event.TargetsTreeGenerated) or isinstance(e, bb.event.BuildCompleted):
++        import oe.packagedata
++        pkginfolist = []
++        tmpdir = e.data.getVar('TMPDIR', True)
++        target_vendor = e.data.getVar('TARGET_VENDOR', True)
++        target_os = e.data.getVar('TARGET_OS', True)
++        package_archs = e.data.getVar('PACKAGE_ARCHS', True)
++        packaging = e.data.getVar('PACKAGE_CLASSES', True).split()[0].split('_')[1]
++        deploy_dir = e.data.getVar('DEPLOY_DIR', True) + '/' + packaging
++        for arch in package_archs.split():
++            pkgdata_dir = tmpdir + '/pkgdata/' + arch + target_vendor + '-' + target_os + '/runtime/'
++            if os.path.exists(pkgdata_dir):
++                for root, dirs, files in os.walk(pkgdata_dir):
++                    for pkgname in files:
++                        if pkgname.endswith('.packaged'):
++                            continue
++                        sdata = oe.packagedata.read_pkgdatafile(root + pkgname)
++                        sdata['PKG'] = pkgname
++                        pkgrename = sdata['PKG_%s' % pkgname]
++                        pkgv = sdata['PKGV']
++                        pkgr = sdata['PKGR']
++                        pkgname_path = deploy_dir + '/' + arch + '/' + pkgname + '-' + pkgv + '-' + pkgr + '.' + arch + '.' + packaging
++                        pkgrename_path = deploy_dir + '/' + arch + '/' + pkgrename + '-' + pkgv + '-' + pkgr + '.' + arch + '.' + packaging
++                        if os.path.exists(pkgname_path) or os.path.exists(pkgrename_path):
++                            pkginfolist.append(sdata)
++        bb.event.fire(bb.event.PackageInfo(pkginfolist), e.data)
++}
 +
- 	packages = d.getVar('PACKAGES', True)
- 	pkgdest = d.getVar('PKGDEST', 1)
- 	pkgdatadir = d.getVar('PKGDESTWORK', True)
-@@ -1090,6 +1097,7 @@ python emit_pkgdata() {
- 		for dfile in (d.getVar('FILERDEPENDSFLIST_' + pkg, True) or "").split():
- 			write_if_exists(sf, pkg, 'FILERDEPENDS_' + dfile)
- 
-+		sf.write('%s_%s: %s\n' % ('PKGSIZE', pkg, get_directory_size(pkgdest + "/%s" % pkg)))
- 		sf.close()
- 
- 
++addhandler packageinfo_handler
 -- 
 1.7.0.4
 
