@@ -1,24 +1,24 @@
-Received: from mga11.intel.com ([192.55.52.93])
+Received: from mail-ww0-f43.google.com ([74.125.82.43])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <shane.wang@intel.com>) id 1Rkwgg-0005ed-BK
+	(envelope-from <andrei@gherzan.ro>) id 1RkxfU-0007KX-Mb
 	for openembedded-core@lists.openembedded.org;
-	Wed, 11 Jan 2012 12:49:51 +0100
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-	by fmsmga102.fm.intel.com with ESMTP; 11 Jan 2012 03:41:59 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="105939505"
-Received: from yocto-build5.sh.intel.com (HELO localhost) ([10.239.48.2])
-	by fmsmga001.fm.intel.com with ESMTP; 11 Jan 2012 03:41:58 -0800
-From: Shane Wang <shane.wang@intel.com>
+	Wed, 11 Jan 2012 13:52:40 +0100
+Received: by wgbdt11 with SMTP id dt11so666825wgb.24
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 11 Jan 2012 04:45:10 -0800 (PST)
+Received: by 10.180.24.198 with SMTP id w6mr23721205wif.19.1326285910102;
+	Wed, 11 Jan 2012 04:45:10 -0800 (PST)
+Received: from localhost.localdomain ([89.121.200.106])
+	by mx.google.com with ESMTPS id r1sm4266485wia.8.2012.01.11.04.45.08
+	(version=TLSv1/SSLv3 cipher=OTHER);
+	Wed, 11 Jan 2012 04:45:09 -0800 (PST)
+From: Andrei Gherzan <andrei@gherzan.ro>
 To: openembedded-core@lists.openembedded.org
-Date: Wed, 11 Jan 2012 19:53:25 +0800
-Message-Id: <09e734b7c35ecf77e57324e8e1067b9a3ad0480a.1326282692.git.shane.wang@intel.com>
-X-Mailer: git-send-email 1.7.6
-In-Reply-To: <cover.1326282692.git.shane.wang@intel.com>
-References: <cover.1326282692.git.shane.wang@intel.com>
-In-Reply-To: <cover.1326282692.git.shane.wang@intel.com>
-References: <cover.1326282692.git.shane.wang@intel.com>
-Subject: [PATCH 2/2] hdparm: upgrade to 9.37
+Date: Wed, 11 Jan 2012 14:45:02 +0200
+Message-Id: <1326285902-31525-1-git-send-email-andrei@gherzan.ro>
+X-Mailer: git-send-email 1.7.5.4
+Cc: flocirel@gmail.com, Andrei Gherzan <andrei.gherzan@windriver.com>
+Subject: [PATCH] license.py: remove duplicate '&' or '|' from LICENSE
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -33,178 +33,34 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 11 Jan 2012 11:49:51 -0000
+X-List-Received-Date: Wed, 11 Jan 2012 12:52:40 -0000
 
-The patch was imported from the OpenEmbedded server (http://git.openembedded.org/openembedded/tree/recipes/hdparm) as of commit id 4d2cb79dcecd056742f411a328f9f1f1113bf689.
+From: Andrei Gherzan <andrei.gherzan@windriver.com>
 
-And changes include:
-       - upgrade to the latest version 9.37 from 9.35.
-       - added license checksum.
-       - the license for wiper which is in hdparm is GPLv2.
+Some upstream layers (ex: meta-oe) use '&&' or '||' syntax in LICENSE
+variable. Because of my last commit, these bbfiles are failing as LICENSE
+is tested with oe.license where '&&' and '||' are the bug source.
+The fix is to replace multiple characters of '&' or '|' with a single one.
 
-Signed-off-by: Shane Wang <shane.wang@intel.com>
+Signed-off-by: Andrei Gherzan <andrei@gherzan.ro>
 ---
- .../recipes-extended/hdparm/hdparm-6.3/bswap.patch |   37 --------------------
- .../hdparm/hdparm-6.3/uclibc.patch                 |   34 ------------------
- meta/recipes-extended/hdparm/hdparm_6.3.bb         |   18 ---------
- meta/recipes-extended/hdparm/hdparm_9.37.bb        |   36 +++++++++++++++++++
- 4 files changed, 36 insertions(+), 89 deletions(-)
- delete mode 100644 meta/recipes-extended/hdparm/hdparm-6.3/bswap.patch
- delete mode 100644 meta/recipes-extended/hdparm/hdparm-6.3/uclibc.patch
- delete mode 100644 meta/recipes-extended/hdparm/hdparm_6.3.bb
- create mode 100644 meta/recipes-extended/hdparm/hdparm_9.37.bb
+ meta/lib/oe/license.py |    1 +
+ 1 files changed, 1 insertions(+), 0 deletions(-)
 
-diff --git a/meta/recipes-extended/hdparm/hdparm-6.3/bswap.patch b/meta/recipes-extended/hdparm/hdparm-6.3/bswap.patch
-deleted file mode 100644
-index 715886a..0000000
---- a/meta/recipes-extended/hdparm/hdparm-6.3/bswap.patch
-+++ /dev/null
-@@ -1,37 +0,0 @@
--Upstream-Status: Backport
--
--#
--# Patch managed by http://www.holgerschurig.de/patcher.html
--#
--
----- hdparm-5.8/hdparm.c~bswap
--+++ hdparm-5.8/hdparm.c
--@@ -20,7 +20,9 @@
-- #include <linux/types.h>
-- #include <linux/hdreg.h>
-- #include <linux/major.h>
---#include <asm/byteorder.h>
--+#include <byteswap.h>
--+
--+#define le16_to_cpus(x) bswap_16(htons(x))
-- 
-- #include "hdparm.h"
-- 
--@@ -1160,7 +1162,7 @@
-- 			}
-- 		} else {
-- 			for(i = 0; i < 0x100; ++i) {
---				__le16_to_cpus(&id[i]);
--+				le16_to_cpus(&id[i]);
-- 			}
-- 			identify((void *)id, NULL);
-- 		}
--@@ -1380,7 +1382,7 @@
-- 	}
-- 	for (i = 0; count >= 4; ++i) {
-- 		sbuf[i] = (fromhex(b[0]) << 12) | (fromhex(b[1]) << 8) | (fromhex(b[2]) << 4) | fromhex(b[3]);
---		__le16_to_cpus((__u16 *)(&sbuf[i]));
--+		le16_to_cpus((__u16 *)(&sbuf[i]));
-- 		b += 5;
-- 		count -= 5;
-- 	}
-diff --git a/meta/recipes-extended/hdparm/hdparm-6.3/uclibc.patch b/meta/recipes-extended/hdparm/hdparm-6.3/uclibc.patch
-deleted file mode 100644
-index d5f9298..0000000
---- a/meta/recipes-extended/hdparm/hdparm-6.3/uclibc.patch
-+++ /dev/null
-@@ -1,34 +0,0 @@
--Upstream-Status: Inappropriate [embedded specific]
--
----- hdparm-5.8/hdparm.c.ark	2005-05-22 19:48:34.000000000 +0000
--+++ hdparm-5.8/hdparm.c	2005-05-22 19:52:18.000000000 +0000
--@@ -17,7 +17,9 @@
-- #include <sys/times.h>
-- #include <sys/types.h>
-- #include <sys/mount.h>
--+#ifndef __UCLIBC__
-- #include <linux/types.h>
--+#endif
-- #include <linux/hdreg.h>
-- #include <linux/major.h>
-- #include <byteswap.h>
----- hdparm-5.8/hdparm.h.ark	2005-05-22 19:51:49.000000000 +0000
--+++ hdparm-5.8/hdparm.h	2005-05-22 19:54:54.000000000 +0000
--@@ -1,6 +1,6 @@
-- /* Some prototypes for extern functions. */
-- 
---#include <linux/types.h>	/* for __u16 */
--+#include <stdint.h>
-- 
-- #if !defined(__GNUC__) && !defined(__attribute__)
-- #define __attribute__(x)	/* if not using GCC, turn off the __attribute__
--@@ -11,7 +11,7 @@
--    others, though, were declared in hdparm.c with global scope; since other
--    functions in that file have static (file) scope, I assume the difference is
--    intentional. */
---extern void identify (__u16 *id_supplied, const char *devname);
--+extern void identify (uint16_t *id_supplied, const char *devname);
-- 
-- extern void usage_error(int out)    __attribute__((noreturn));
-- extern int main(int argc, char **argv) __attribute__((noreturn));
--
-diff --git a/meta/recipes-extended/hdparm/hdparm_6.3.bb b/meta/recipes-extended/hdparm/hdparm_6.3.bb
-deleted file mode 100644
-index 62ae4c0..0000000
---- a/meta/recipes-extended/hdparm/hdparm_6.3.bb
-+++ /dev/null
-@@ -1,18 +0,0 @@
--SUMMARY = "Utility for displaying and setting hard disk parameters"
--DESCRIPTION = "hdparm is a system utility for viewing \
--and manipulating various IDE drive and driver parameters."
--SECTION = "console/utils"
--LICENSE = "BSD"
--LIC_FILES_CHKSUM = "file://LICENSE.TXT;md5=910a8a42c962d238619c75fdb78bdb24"
--
--SRC_URI = "${SOURCEFORGE_MIRROR}/hdparm/hdparm-${PV}.tar.gz \
--	   file://bswap.patch \
--	   file://uclibc.patch"
--
--SRC_URI[md5sum] = "0c12672f3a09c14ad0b0882f15fc9389"
--SRC_URI[sha256sum] = "08688a6a46ba495494bf838f8f26103e797584c1888eca94e43a171e1b37246d"
--
--do_install () {
--	install -d ${D}/${sbindir} ${D}/${mandir}/man8
--	oe_runmake 'DESTDIR=${D}' install
--}
-diff --git a/meta/recipes-extended/hdparm/hdparm_9.37.bb b/meta/recipes-extended/hdparm/hdparm_9.37.bb
-new file mode 100644
-index 0000000..bfc64e7
---- /dev/null
-+++ b/meta/recipes-extended/hdparm/hdparm_9.37.bb
-@@ -0,0 +1,36 @@
-+DESCRIPTION = "hdparm is a Linux shell utility for viewing \
-+and manipulating various IDE drive and driver parameters."
-+SECTION = "console/utils"
-+PRIORITY = "optional"
-+LICENSE = "BSD"
-+LICENSE_wiper = "GPLv2"
-+LIC_FILES_CHKSUM = "file://LICENSE.TXT;md5=910a8a42c962d238619c75fdb78bdb24 \
-+                    file://debian/copyright;md5=a82d7ba3ade9e8ec902749db98c592f3 \
-+                    file://wiper/GPLv2.txt;md5=fcb02dc552a041dee27e4b85c7396067 \
-+                    file://wiper/wiper.sh;beginline=7;endline=31;md5=b7bc642addc152ea307505bf1a296f09"
-+
-+PACKAGES += "wiper"
-+
-+FILES_wiper = "${bindir}/wiper.sh"
-+FILES_${PN} = "${base_sbindir} ${mandir}"
-+
-+RDEPENDS_wiper = "bash gawk stat"
-+
-+SRC_URI = "${SOURCEFORGE_MIRROR}/hdparm/hdparm-${PV}.tar.gz "
-+SRC_URI[md5sum] = "0bb94ddd1bedd5c02b1ca62f1caaf6de"
-+SRC_URI[sha256sum] = "87ede0a7cb5b4de500748232e9d251b75acfccce078e1d42c8d125b9e5b4ccd3"
-+
-+do_install () {
-+	install -d ${D}/${base_sbindir} ${D}/${mandir}/man8 ${D}/${bindir}
-+	oe_runmake 'DESTDIR=${D}' 'sbindir=${base_sbindir}' install
-+	mv ${D}${base_sbindir}/hdparm ${D}${base_sbindir}/hdparm.${PN}
-+	cp ${S}/wiper/wiper.sh ${D}/${bindir}
-+}
-+
-+pkg_postinst_${PN} () {
-+	update-alternatives --install ${base_sbindir}/hdparm hdparm hdparm.${PN} 100
-+}
-+
-+pkg_prerm_${PN} () {
-+	update-alternatives --remove hdparm hdparm.${PN}
-+}
+diff --git a/meta/lib/oe/license.py b/meta/lib/oe/license.py
+index 7ab66e7..5b8d47c 100644
+--- a/meta/lib/oe/license.py
++++ b/meta/lib/oe/license.py
+@@ -18,6 +18,7 @@ license_pattern = re.compile('[a-zA-Z0-9.+_\-]+$')
+ class LicenseVisitor(ast.NodeVisitor):
+     """Syntax tree visitor which can accept OpenEmbedded license strings"""
+     def visit_string(self, licensestr):
++	licensestr = re.sub(r'([|&])\1+', r'\1', licensestr)
+         new_elements = []
+         elements = filter(lambda x: x.strip(), license_operator.split(licensestr))
+         for pos, element in enumerate(elements):
 -- 
-1.7.6
+1.7.5.4
 
 
 
