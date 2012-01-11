@@ -1,27 +1,27 @@
-Received: from mx.insigma.com.cn ([115.236.48.170] helo=WX-Edge.insigma.com.cn)
+Received: from mail1.windriver.com ([147.11.146.13])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <niqingliang@insigma.com.cn>) id 1RktQy-0001XX-LZ
+	(envelope-from <Wenzong.Fan@windriver.com>) id 1RktRz-0001bW-Sp
 	for openembedded-core@lists.openembedded.org;
-	Wed, 11 Jan 2012 09:21:24 +0100
-Received: from WX-EXCHMB2.insigma.com.cn (10.0.1.203) by
-	WX-Edge.insigma.com.cn (10.0.1.205) with Microsoft SMTP Server (TLS) id
-	8.1.436.0; Wed, 11 Jan 2012 16:13:43 +0800
-Received: from [192.168.0.98] (122.224.76.38) by Wx-ExchMB2.insigma.com.cn
-	(10.0.1.203) with Microsoft SMTP Server id 8.1.436.0; Wed, 11 Jan 2012
-	16:13:38 +0800
-Message-ID: <1326269523.12463.3.camel@localhost.localdomain>
-From: Ni Qingliang <niqingliang@insigma.com.cn>
+	Wed, 11 Jan 2012 09:22:28 +0100
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca [147.11.189.40])
+	by mail1.windriver.com (8.14.3/8.14.3) with ESMTP id q0B7jjKJ011894
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 10 Jan 2012 23:45:45 -0800 (PST)
+Received: from localhost.localdomain (128.224.162.28) by
+	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server id
+	14.1.255.0; Tue, 10 Jan 2012 23:45:45 -0800
+From: <wenzong.fan@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Wed, 11 Jan 2012 16:12:03 +0800
-Organization: Insigma
-X-Mailer: Evolution 3.2.3 
+Date: Wed, 11 Jan 2012 15:34:10 +0800
+Message-ID: <cover.1326266933.git.wenzong.fan@windriver.com>
+X-Mailer: git-send-email 1.7.0.4
 MIME-Version: 1.0
-Subject: does busybox 1.19 still support the arg `-m'?
+Subject: [PATCH v2 0/1] archive.bbclass: archive work directory
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
-Reply-To: niqingliang@insigma.com.cn,
-	Patches and discussions about the oe-core layer
+Reply-To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
 List-Id: Patches and discussions about the oe-core layer
 	<openembedded-core.lists.openembedded.org>
@@ -32,45 +32,35 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 11 Jan 2012 08:21:25 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Wed, 11 Jan 2012 08:22:28 -0000
+Content-Type: text/plain
 
-in file meta/recipes-core/busybox/files/syslog
-I found code section:
-	if [ -n "$MARKINT" ]; then
-		SYSLOG_ARGS="$SYSLOG_ARGS -m $MARKINT"
-	fi
-but I can't find `-m' in the help of syslogd.
+From: Wenzong Fan <wenzong.fan@windriver.com>
+
+v2 updates:
+
+1) Remove the special-casing for gcc, checking for any packages under
+'tmp/work-shared';
+
+2) Remove some bash-specific code, replase the '[[regular-expression]]'
+with isovalent 'grep' statement.
 
 
-syslogd --help                                                    
-BusyBox v1.19.3 (2012-01-11 12:34:06 CST) multi-call binary.
+The following changes since commit 4a8a3c503fd896593b787c26edbe46a7324e494e:
+  Richard Purdie (1):
+        Revert "site/common-uclibc: Cache gl_cv_func_wcwidth_works"
 
-Usage: syslogd [OPTIONS]
+are available in the git repository at:
 
-System logging utility
+  git://git.pokylinux.org/poky-contrib wenzong/1590
+  http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=wenzong/1590
 
-        -n              Run in foreground
-        -O FILE         Log to FILE (default:/var/log/messages)
-        -l N            Log only messages more urgent than prio N (1-8)
-        -S              Smaller output
-        -s SIZE         Max size (KB) before rotation (default:200KB,
-0=off)
-        -b N            N rotated logs to keep (default:1, max=99,
-0=purge)
-        -R HOST[:PORT]  Log to IP or hostname on PORT (default
-PORT=514/UDP)
-        -L              Log locally and via network (default is network
-only if)
-        -C[size_kb]     Log to shared mem buffer (use logread to read
-it)
-        -f FILE         Use FILE as config (default:/etc/syslog.conf)
+Wenzong Fan (1):
+  archive.bbclass: archive work directory
 
--- 
-Yi Qingliang
-niqingliang@insigma.com.cn
-https://niqingliang2003.wordpress.com
+ meta/classes/archive.bbclass |   49 ++++++++++++++++++++++++++++++++++++++++++
+ 1 files changed, 49 insertions(+), 0 deletions(-)
+ create mode 100644 meta/classes/archive.bbclass
 
 
 
