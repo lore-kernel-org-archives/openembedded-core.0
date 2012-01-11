@@ -1,24 +1,20 @@
-Received: from mga03.intel.com ([143.182.124.21])
+Received: from mga09.intel.com ([134.134.136.24])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <nitin.a.kamble@intel.com>) id 1Rko1j-0004HT-RR
+	(envelope-from <dongxiao.xu@intel.com>) id 1RkoZA-0005eK-50
 	for openembedded-core@lists.openembedded.org;
-	Wed, 11 Jan 2012 03:35:00 +0100
-Received: from azsmga002.ch.intel.com ([10.2.17.35])
-	by azsmga101.ch.intel.com with ESMTP; 10 Jan 2012 18:27:19 -0800
+	Wed, 11 Jan 2012 04:09:32 +0100
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+	by orsmga102.jf.intel.com with ESMTP; 10 Jan 2012 19:02:02 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="55308858"
-Received: from nbuild0.sc.intel.com ([172.25.110.36])
-	by AZSMGA002.ch.intel.com with ESMTP; 10 Jan 2012 18:27:19 -0800
-From: nitin.a.kamble@intel.com
+X-IronPort-AV: E=Sophos;i="4.67,351,1309762800"; d="scan'208";a="96814609"
+Received: from dongxiao-desktop.sh.intel.com (HELO localhost) ([10.239.36.108])
+	by orsmga002.jf.intel.com with ESMTP; 10 Jan 2012 19:02:01 -0800
+From: Dongxiao Xu <dongxiao.xu@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Tue, 10 Jan 2012 18:27:15 -0800
-Message-Id: <f626f1bc8fa0cc058a9cb7b015a71a6063448b02.1326248769.git.nitin.a.kamble@intel.com>
-X-Mailer: git-send-email 1.7.6.4
-In-Reply-To: <0068c70293f7b94561ecc2403103f54cc36e70c8.1326248768.git.nitin.a.kamble@intel.com>
-References: <0068c70293f7b94561ecc2403103f54cc36e70c8.1326248768.git.nitin.a.kamble@intel.com>
-In-Reply-To: <cover.1326248768.git.nitin.a.kamble@intel.com>
-References: <cover.1326248768.git.nitin.a.kamble@intel.com>
-Subject: [PATCH 6/6] distro_tracking: update manual_check_date fields
+Date: Wed, 11 Jan 2012 11:04:12 +0800
+Message-Id: <cover.1326249734.git.dongxiao.xu@intel.com>
+X-Mailer: git-send-email 1.7.0.4
+Subject: [PATCH 0/5 v2][PULL] Hob: oe-core related changes
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -33,122 +29,53 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 11 Jan 2012 02:35:00 -0000
+X-List-Received-Date: Wed, 11 Jan 2012 03:09:32 -0000
 
-From: Nitin A Kamble <nitin.a.kamble@intel.com>
+Hi Richard,
 
-Signed-off-by: Nitin A Kamble <nitin.a.kamble@intel.com>
----
- .../conf/distro/include/distro_tracking_fields.inc |   36 +++++++++++---------
- 1 files changed, 20 insertions(+), 16 deletions(-)
+This is the second pull request for Hob oe-core related changes.
 
-diff --git a/meta/conf/distro/include/distro_tracking_fields.inc b/meta/conf/distro/include/distro_tracking_fields.inc
-index 14eff32..dbcfd2b 100644
---- a/meta/conf/distro/include/distro_tracking_fields.inc
-+++ b/meta/conf/distro/include/distro_tracking_fields.inc
-@@ -31,9 +31,9 @@ RECIPE_MAINTAINER_pn-gtk-theme-torturer = "Zhai Edwin <edwin.zhai@intel.com>"
- DISTRO_PN_ALIAS_pn-gtk-theme-torturer = "OSPDT upstream=http://wiki.laptop.org/go/GTK_for_OLPC"
- 
- RECIPE_STATUS_pn-libpcre = "green"
--RECIPE_LATEST_VERSION_pn-libpcre = "8.20"
--RECIPE_LAST_UPDATE_pn-libpcre = "Nov 15, 2011"
--RECIPE_MANUAL_CHECK_DATE_pn-libpcre = "Nov 15, 2011"
-+RECIPE_LATEST_VERSION_pn-libpcre = "8.21"
-+RECIPE_LAST_UPDATE_pn-libpcre = "Jan 10, 2012"
-+RECIPE_MANUAL_CHECK_DATE_pn-libpcre = "Jan 10, 2012"
- RECIPE_MAINTAINER_pn-libpcre = "Nitin A Kamble <nitin.a.kamble@intel.com>"
- DISTRO_PN_ALIAS_pn-libpcre = "Mandriva=libpcre0 Fedora=pcre"
- 
-@@ -2979,13 +2979,20 @@ RECIPE_STATUS_pn-ldconfig-native = "red"
- RECIPE_LAST_UPDATE_pn-ldconfig-native = "Nov 23, 2007"
- DISTRO_PN_ALIAS_pn-ldconfig-native = "Ubuntu=libc-bin Fedora=glibc"
- 
--RECIPE_STATUS_pn-gcc="red" 
--RECIPE_LATEST_VERSION_pn-gcc="4.6.1"
-+RECIPE_LATEST_VERSION_pn-gcc="4.6.2+git"
- RECIPE_LAST_UPDATE_pn-gcc = "May 1, 2011"
--RECIPE_MANUAL_CHECK_DATE_pn-gcc = "Jul 06, 2011" 
-+RECIPE_MANUAL_CHECK_DATE_pn-gcc = "Jan 10, 2012" 
- RECIPE_MAINTAINER_pn-gcc = "Nitin A Kamble <nitin.a.kamble@intel.com>"
- DISTRO_PN_ALIAS_pn-gcc-runtime = "Ubuntu=gcc Fedora=gcc"
- 
-+RECIPE_LATEST_VERSION_pn-libgcc = "4.6.2+git"
-+RECIPE_LAST_UPDATE_pn-libgcc = "May 1, 2011"
-+RECIPE_MANUAL_CHECK_DATE_pn-libgcc = "Jan 10, 2012" 
-+DISTRO_PN_ALIAS_pn-libgcc = "Debian=libgcc4 Ubuntu=libgcc1 OpenSuSE=libgcc46"
-+
-+RECIPE_LATEST_VERSION_pn-gcc-runtime = "4.6.2+git"
-+RECIPE_LAST_UPDATE_pn-gcc-runtime = "May 1, 2011"
-+RECIPE_MANUAL_CHECK_DATE_pn-gcc-runtime = "Jan 10, 2012" 
- 
- RECIPE_STATUS_pn-autoconf="red" 
- RECIPE_LATEST_VERSION_pn-autoconf="2.68"
-@@ -3018,7 +3025,7 @@ DISTRO_PN_ALIAS_pn-distcc = "Debian=distcc Fedora=distcc"
- RECIPE_STATUS_pn-flex="green" 
- RECIPE_LATEST_VERSION_pn-flex="2.5.35"
- RECIPE_LAST_UPDATE_pn-flex = "Jun 20, 2010"
--RECIPE_MANUAL_CHECK_DATE_pn-flex = "Nov 16, 2011" 
-+RECIPE_MANUAL_CHECK_DATE_pn-flex = "Jan 10, 2012" 
- RECIPE_MAINTAINER_pn-flex = "Nitin A Kamble <nitin.a.kamble@intel.com>"
- 
- RECIPE_STATUS_pn-fstests="green"  
-@@ -3075,14 +3082,14 @@ RECIPE_MAINTAINER_pn-postinsts = "Nitin A Kamble <nitin.a.kamble@intel.com>"
- 
- RECIPE_STATUS_pn-nasm="green"
- RECIPE_LATEST_VERSION_pn-nasm="2.07"
--RECIPE_MANUAL_CHECK_DATE_pn-nasm = "Nov 16, 2011"
- RECIPE_LAST_UPDATE_pn-nasm = "Jun 23, 2010"
-+RECIPE_MANUAL_CHECK_DATE_pn-nasm = "Jan 10, 2012"
- RECIPE_MAINTAINER_pn-nasm = "Nitin A Kamble <nitin.a.kamble@intel.com>"
- 
- RECIPE_STATUS_pn-btrfs-tools="green"
- RECIPE_LATEST_VERSION_pn-btrfs-tools="git"
--RECIPE_MANUAL_CHECK_DATE_pn-btrfs-tools = "Oct 18, 2011"
--RECIPE_LAST_UPDATE_pn-btrfs-tools = "Jun 09, 2011"
-+RECIPE_MANUAL_CHECK_DATE_pn-btrfs-tools = "Jan 10, 2012"
-+RECIPE_LAST_UPDATE_pn-btrfs-tools = "Jan 10, 2012"
- RECIPE_MAINTAINER_pn-btrfs-tools = "Nitin A Kamble <nitin.a.kamble@intel.com>"
- DISTRO_PN_ALIAS_pn-btrfs-tools = "Debian=btrfs-tools Fedora=btrfs-progs"
- 
-@@ -3143,6 +3150,7 @@ DISTRO_PN_ALIAS_pn-python-pyrex = "Mandriva=python-pyrex Ubuntu=python-pyrex"
- RECIPE_STATUS_pn-python-scons="green"
- RECIPE_LATEST_VERSION_pn-python-scons="2.1.0"
- RECIPE_LAST_UPDATE_pn-python-scons = "Oct 18, 2011"
-+RECIPE_MANUAL_CHECK_DATE_pn-python-scons = "Jan 10, 2012"
- DISTRO_PN_ALIAS_pn-python-scons = "Fedora=scons OpenSuSE=scons Ubuntu=scons Mandriva=scons Debian=scons"
- RECIPE_MANUAL_CHECK_DATE_pn-python-scons = "Nov 16, 2011" 
- RECIPE_MAINTAINER_pn-python-scons = "Nitin A Kamble <nitin.a.kamble@intel.com>"
-@@ -3160,7 +3168,7 @@ RECIPE_MAINTAINER_pn-quilt = "Nitin A Kamble <nitin.a.kamble@intel.com>"
- RECIPE_STATUS_pn-tcl="green"
- RECIPE_LATEST_VERSION_pn-tcl="8.5.11"
- RECIPE_LAST_UPDATE_pn-tcl = "Nov 16, 2011"
--RECIPE_MANUAL_CHECK_DATE_pn-tcl = "Nov 16, 2011" 
-+RECIPE_MANUAL_CHECK_DATE_pn-tcl = "Jan 10, 2012" 
- RECIPE_MAINTAINER_pn-tcl = "Nitin A Kamble <nitin.a.kamble@intel.com>"
- 
- RECIPE_STATUS_pn-unifdef="green" # poky local source files
-@@ -3176,7 +3184,7 @@ RECIPE_MAINTAINER_pn-gnu-config = "Nitin A Kamble <nitin.a.kamble@intel.com>"
- 
- RECIPE_STATUS_pn-mpfr="green"
- RECIPE_LATEST_VERSION_pn-mpfr="3.1.0"
--RECIPE_MANUAL_CHECK_DATE_pn-mpfr = "Nov 15, 2011" 
-+RECIPE_MANUAL_CHECK_DATE_pn-mpfr = "Jan 10, 2012" 
- RECIPE_LAST_UPDATE_pn-mpfr = "Nov 15, 2011"
- RECIPE_MAINTAINER_pn-mpfr = "Nitin A Kamble <nitin.a.kamble@intel.com>"
- 
-@@ -5992,10 +6000,6 @@ RECIPE_LAST_UPDATE_pn-mailx = "Jul 1, 2011"
- RECIPE_MANUAL_CHECK_DATE_pn-mailx = "Jul 28, 2011"
- RECIPE_MAINTAINER_pn-mailx = "Kai Kang <kai.kang@windriver.com>"
- 
--RECIPE_LATEST_VERSION_pn-libgcc = "4.5.1"
--DISTRO_PN_ALIAS_pn-libgcc = "Debian=libgcc4 Ubuntu=libgcc1 OpenSuSE=libgcc45"
--RECIPE_MANUAL_CHECK_DATE_pn-libgcc = "Feb 28, 2011"
--
- RECIPE_STATUS_pn-transfig = "green"
- RECIPE_DEPENDENCY_CHECK_pn-transfig = "not done"
- RECIPE_LATEST_VERSION_pn-transfig = "3.2.5d"
--- 
-1.7.6.4
+Please help to review and pull.
+
+Note that this pull request has dependency on branch dxu4/hob-bitbake-changes-v2.
+
+Changes from v1:
+1. Change the way to pass package information to GUI.
+   In v1 we defined a do_packageinfo task to pass the package information of built recipes.
+   Here we use a new approach to pass all the available package information to the client GUI.
+2. Change the name for hob.bb and hob-toolchain.bb to dummy-image.bb and dummy-toolchain.bb.
+
+Thanks,
+Dongxiao
+
+The following changes since commit 9b944ae2f0e4dbac5a8f1f235f60730e56b26516:
+  Richard Purdie (1):
+        Revert "site/common-uclibc: Cache gl_cv_func_wcwidth_works"
+
+are available in the git repository at:
+
+  git://git.pokylinux.org/poky-contrib dxu4/hob-oecore-changes-v2
+  http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=dxu4/hob-oecore-changes-v2
+
+Dongxiao Xu (4):
+  packageinfo.bbclass: add a new bbclass to pass package information
+  dummy-image.bb: add an empty image template
+  dummy-toolchain: add a new recipe dummy-toolchain
+  layers: add a new folder to put user added layers
+
+Shane Wang (1):
+  package.bbclass: set package size into pkgdata for hob2's use
+
+ layers/README                             |    1 +
+ meta/classes/package.bbclass              |    8 +++++++
+ meta/classes/packageinfo.bbclass          |   30 +++++++++++++++++++++++++++++
+ meta/recipes-core/images/dummy-image.bb   |    1 +
+ meta/recipes-core/meta/dummy-toolchain.bb |   10 +++++++++
+ 5 files changed, 50 insertions(+), 0 deletions(-)
+ create mode 100644 layers/README
+ create mode 100644 meta/classes/packageinfo.bbclass
+ create mode 100644 meta/recipes-core/images/dummy-image.bb
+ create mode 100644 meta/recipes-core/meta/dummy-toolchain.bb
 
 
 
