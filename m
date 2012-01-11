@@ -1,24 +1,24 @@
 Received: from mga02.intel.com ([134.134.136.20])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <sgw@linux.intel.com>) id 1Rksqq-00005h-1Y
+	(envelope-from <sgw@linux.intel.com>) id 1Rksqr-00005h-6l
 	for openembedded-core@lists.openembedded.org;
-	Wed, 11 Jan 2012 08:44:04 +0100
+	Wed, 11 Jan 2012 08:44:06 +0100
 Received: from orsmga002.jf.intel.com ([10.7.209.21])
 	by orsmga101.jf.intel.com with ESMTP; 10 Jan 2012 23:36:33 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.67,351,1309762800"; d="scan'208";a="96880537"
+X-IronPort-AV: E=Sophos;i="4.67,351,1309762800"; d="scan'208";a="96880539"
 Received: from unknown (HELO swold-mobl.bigsur.com) ([10.255.13.168])
-	by orsmga002.jf.intel.com with ESMTP; 10 Jan 2012 23:36:32 -0800
+	by orsmga002.jf.intel.com with ESMTP; 10 Jan 2012 23:36:33 -0800
 From: Saul Wold <sgw@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Tue, 10 Jan 2012 23:36:26 -0800
-Message-Id: <2b7d423d06dc8f0b729715217d41b492bb86bdb6.1326267271.git.sgw@linux.intel.com>
+Date: Tue, 10 Jan 2012 23:36:27 -0800
+Message-Id: <306b38f368544636c5ecdf76763971351ece790c.1326267271.git.sgw@linux.intel.com>
 X-Mailer: git-send-email 1.7.6.5
 In-Reply-To: <cover.1326267271.git.sgw@linux.intel.com>
 References: <cover.1326267271.git.sgw@linux.intel.com>
 In-Reply-To: <cover.1326267271.git.sgw@linux.intel.com>
 References: <cover.1326267271.git.sgw@linux.intel.com>
-Subject: [CONSOLIDATED PULL 1/5] hdparm: upgrade to 9.37
+Subject: [CONSOLIDATED PULL 2/5] Incremental rpm image generation
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -33,216 +33,189 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 11 Jan 2012 07:44:04 -0000
+X-List-Received-Date: Wed, 11 Jan 2012 07:44:06 -0000
 
-From: Shane Wang <shane.wang@intel.com>
+From: Robert Yang <liezhi.yang@windriver.com>
 
-Because hdparm depends on stat, stat is brought into Yocto, and it is a new dependency.
+Incremental rpm image generation, the rootfs would be totally removed and
+re-created in the second generation by default, but with
+INC_RPM_IMAGE_GEN = "1", the rpm based rootfs would be kept, and will do
+update(remove/add some pkgs) on it.
 
-Part of this patch comes from oe
-http://git.openembedded.org/openembedded/tree/recipes/hdparm, and
-http://git.openembedded.org/openembedded/tree/recipes/stat.
-But, changes include:
-   - upgrade to the latest version 9.37 from 9.35.
-   - added license checksum for both recipes.
-   - for hdparm, the license for wiper which is in hdparm is GPLv2.
+NOTE: This is not suggested when you want to create a productive rootfs
 
-Signed-off-by: Shane Wang <shane.wang@intel.com>
+For example:
+  1) Add the follow config option to a conf file:
+     INC_RPM_IMAGE_GEN = "1"
+
+  2) bitbake core-image-sato
+     modify a package
+     bitbake core-image-sato
+
+The rootfs would not be totally removed and re-created in the second
+generation, it would be simply updated based on the "package".
+
+Implatation:
+1) Figure out the pkg which need to be removed or re-installed, then use
+'rpm -e to remove the old one. Use the rpm's BUILDTIME to determine
+which pkg has been rebuilt.
+
+2) Figure out the pkg which is newly added, and use 'rpm -U' to install
+it.
+
+This only for the rpm based rootfs, the deb and ipk based rootfs would
+be done later.
+
+[YOCTO #1651]
+
+Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
 ---
- .../recipes-extended/hdparm/hdparm-6.3/bswap.patch |   37 --------------------
- .../hdparm/hdparm-6.3/uclibc.patch                 |   34 ------------------
- meta/recipes-extended/hdparm/hdparm_6.3.bb         |   18 ---------
- meta/recipes-extended/hdparm/hdparm_9.37.bb        |   36 +++++++++++++++++++
- meta/recipes-extended/stat/stat_3.3.bb             |   27 ++++++++++++++
- 5 files changed, 63 insertions(+), 89 deletions(-)
- delete mode 100644 meta/recipes-extended/hdparm/hdparm-6.3/bswap.patch
- delete mode 100644 meta/recipes-extended/hdparm/hdparm-6.3/uclibc.patch
- delete mode 100644 meta/recipes-extended/hdparm/hdparm_6.3.bb
- create mode 100644 meta/recipes-extended/hdparm/hdparm_9.37.bb
- create mode 100644 meta/recipes-extended/stat/stat_3.3.bb
+ meta/classes/image.bbclass       |   11 +++++-
+ meta/classes/package_rpm.bbclass |   73 ++++++++++++++++++++++++++++++++-----
+ meta/classes/rootfs_rpm.bbclass  |    6 +++-
+ 3 files changed, 77 insertions(+), 13 deletions(-)
 
-diff --git a/meta/recipes-extended/hdparm/hdparm-6.3/bswap.patch b/meta/recipes-extended/hdparm/hdparm-6.3/bswap.patch
-deleted file mode 100644
-index 715886a..0000000
---- a/meta/recipes-extended/hdparm/hdparm-6.3/bswap.patch
-+++ /dev/null
-@@ -1,37 +0,0 @@
--Upstream-Status: Backport
--
--#
--# Patch managed by http://www.holgerschurig.de/patcher.html
--#
--
----- hdparm-5.8/hdparm.c~bswap
--+++ hdparm-5.8/hdparm.c
--@@ -20,7 +20,9 @@
-- #include <linux/types.h>
-- #include <linux/hdreg.h>
-- #include <linux/major.h>
---#include <asm/byteorder.h>
--+#include <byteswap.h>
--+
--+#define le16_to_cpus(x) bswap_16(htons(x))
-- 
-- #include "hdparm.h"
-- 
--@@ -1160,7 +1162,7 @@
-- 			}
-- 		} else {
-- 			for(i = 0; i < 0x100; ++i) {
---				__le16_to_cpus(&id[i]);
--+				le16_to_cpus(&id[i]);
-- 			}
-- 			identify((void *)id, NULL);
-- 		}
--@@ -1380,7 +1382,7 @@
-- 	}
-- 	for (i = 0; count >= 4; ++i) {
-- 		sbuf[i] = (fromhex(b[0]) << 12) | (fromhex(b[1]) << 8) | (fromhex(b[2]) << 4) | fromhex(b[3]);
---		__le16_to_cpus((__u16 *)(&sbuf[i]));
--+		le16_to_cpus((__u16 *)(&sbuf[i]));
-- 		b += 5;
-- 		count -= 5;
-- 	}
-diff --git a/meta/recipes-extended/hdparm/hdparm-6.3/uclibc.patch b/meta/recipes-extended/hdparm/hdparm-6.3/uclibc.patch
-deleted file mode 100644
-index d5f9298..0000000
---- a/meta/recipes-extended/hdparm/hdparm-6.3/uclibc.patch
-+++ /dev/null
-@@ -1,34 +0,0 @@
--Upstream-Status: Inappropriate [embedded specific]
--
----- hdparm-5.8/hdparm.c.ark	2005-05-22 19:48:34.000000000 +0000
--+++ hdparm-5.8/hdparm.c	2005-05-22 19:52:18.000000000 +0000
--@@ -17,7 +17,9 @@
-- #include <sys/times.h>
-- #include <sys/types.h>
-- #include <sys/mount.h>
--+#ifndef __UCLIBC__
-- #include <linux/types.h>
--+#endif
-- #include <linux/hdreg.h>
-- #include <linux/major.h>
-- #include <byteswap.h>
----- hdparm-5.8/hdparm.h.ark	2005-05-22 19:51:49.000000000 +0000
--+++ hdparm-5.8/hdparm.h	2005-05-22 19:54:54.000000000 +0000
--@@ -1,6 +1,6 @@
-- /* Some prototypes for extern functions. */
-- 
---#include <linux/types.h>	/* for __u16 */
--+#include <stdint.h>
-- 
-- #if !defined(__GNUC__) && !defined(__attribute__)
-- #define __attribute__(x)	/* if not using GCC, turn off the __attribute__
--@@ -11,7 +11,7 @@
--    others, though, were declared in hdparm.c with global scope; since other
--    functions in that file have static (file) scope, I assume the difference is
--    intentional. */
---extern void identify (__u16 *id_supplied, const char *devname);
--+extern void identify (uint16_t *id_supplied, const char *devname);
-- 
-- extern void usage_error(int out)    __attribute__((noreturn));
-- extern int main(int argc, char **argv) __attribute__((noreturn));
--
-diff --git a/meta/recipes-extended/hdparm/hdparm_6.3.bb b/meta/recipes-extended/hdparm/hdparm_6.3.bb
-deleted file mode 100644
-index 62ae4c0..0000000
---- a/meta/recipes-extended/hdparm/hdparm_6.3.bb
-+++ /dev/null
-@@ -1,18 +0,0 @@
--SUMMARY = "Utility for displaying and setting hard disk parameters"
--DESCRIPTION = "hdparm is a system utility for viewing \
--and manipulating various IDE drive and driver parameters."
--SECTION = "console/utils"
--LICENSE = "BSD"
--LIC_FILES_CHKSUM = "file://LICENSE.TXT;md5=910a8a42c962d238619c75fdb78bdb24"
--
--SRC_URI = "${SOURCEFORGE_MIRROR}/hdparm/hdparm-${PV}.tar.gz \
--	   file://bswap.patch \
--	   file://uclibc.patch"
--
--SRC_URI[md5sum] = "0c12672f3a09c14ad0b0882f15fc9389"
--SRC_URI[sha256sum] = "08688a6a46ba495494bf838f8f26103e797584c1888eca94e43a171e1b37246d"
--
--do_install () {
--	install -d ${D}/${sbindir} ${D}/${mandir}/man8
--	oe_runmake 'DESTDIR=${D}' install
--}
-diff --git a/meta/recipes-extended/hdparm/hdparm_9.37.bb b/meta/recipes-extended/hdparm/hdparm_9.37.bb
-new file mode 100644
-index 0000000..bfc64e7
---- /dev/null
-+++ b/meta/recipes-extended/hdparm/hdparm_9.37.bb
-@@ -0,0 +1,36 @@
-+DESCRIPTION = "hdparm is a Linux shell utility for viewing \
-+and manipulating various IDE drive and driver parameters."
-+SECTION = "console/utils"
-+PRIORITY = "optional"
-+LICENSE = "BSD"
-+LICENSE_wiper = "GPLv2"
-+LIC_FILES_CHKSUM = "file://LICENSE.TXT;md5=910a8a42c962d238619c75fdb78bdb24 \
-+                    file://debian/copyright;md5=a82d7ba3ade9e8ec902749db98c592f3 \
-+                    file://wiper/GPLv2.txt;md5=fcb02dc552a041dee27e4b85c7396067 \
-+                    file://wiper/wiper.sh;beginline=7;endline=31;md5=b7bc642addc152ea307505bf1a296f09"
+diff --git a/meta/classes/image.bbclass b/meta/classes/image.bbclass
+index 295b653..3034725 100644
+--- a/meta/classes/image.bbclass
++++ b/meta/classes/image.bbclass
+@@ -134,15 +134,22 @@ do_rootfs[umask] = 022
+ 
+ fakeroot do_rootfs () {
+ 	#set -x
+-	rm -rf ${IMAGE_ROOTFS}
++    # When use the rpm incremental image generation, don't remove the rootfs
++    if [ "${INC_RPM_IMAGE_GEN}" != "1" -o "${IMAGE_PKGTYPE}" != "rpm" ]; then
++        rm -rf ${IMAGE_ROOTFS}
++    fi
+ 	rm -rf ${MULTILIB_TEMP_ROOTFS}
+ 	mkdir -p ${IMAGE_ROOTFS}
+ 	mkdir -p ${DEPLOY_DIR_IMAGE}
+ 
+ 	cp ${COREBASE}/meta/files/deploydir_readme.txt ${DEPLOY_DIR_IMAGE}/README_-_DO_NOT_DELETE_FILES_IN_THIS_DIRECTORY.txt
+ 
+-	if [ "${USE_DEVFS}" != "1" ]; then
++    # If "${IMAGE_ROOTFS}/dev" exists, then the device had been made by
++    # the previous build
++	if [ "${USE_DEVFS}" != "1" -a ! -r "${IMAGE_ROOTFS}/dev" ]; then
+ 		for devtable in ${@get_devtable_list(d)}; do
++            # Always return ture since there maybe already one when use the
++            # incremental image generation
+ 			makedevs -r ${IMAGE_ROOTFS} -D $devtable
+ 		done
+ 	fi
+diff --git a/meta/classes/package_rpm.bbclass b/meta/classes/package_rpm.bbclass
+index d03dc3f..2d92efe 100644
+--- a/meta/classes/package_rpm.bbclass
++++ b/meta/classes/package_rpm.bbclass
+@@ -147,6 +147,67 @@ resolve_package_rpm () {
+ 	echo $pkg_name
+ }
+ 
++# rpm common command and options
++rpm_common_comand () {
 +
-+PACKAGES += "wiper"
++    local target_rootfs="${INSTALL_ROOTFS_RPM}"
++    local extra_args="$@"
 +
-+FILES_wiper = "${bindir}/wiper.sh"
-+FILES_${PN} = "${base_sbindir} ${mandir}"
-+
-+RDEPENDS_wiper = "bash gawk stat"
-+
-+SRC_URI = "${SOURCEFORGE_MIRROR}/hdparm/hdparm-${PV}.tar.gz "
-+SRC_URI[md5sum] = "0bb94ddd1bedd5c02b1ca62f1caaf6de"
-+SRC_URI[sha256sum] = "87ede0a7cb5b4de500748232e9d251b75acfccce078e1d42c8d125b9e5b4ccd3"
-+
-+do_install () {
-+	install -d ${D}/${base_sbindir} ${D}/${mandir}/man8 ${D}/${bindir}
-+	oe_runmake 'DESTDIR=${D}' 'sbindir=${base_sbindir}' install
-+	mv ${D}${base_sbindir}/hdparm ${D}${base_sbindir}/hdparm.${PN}
-+	cp ${S}/wiper/wiper.sh ${D}/${bindir}
++    ${RPM} --root ${target_rootfs} \
++        --predefine "_rpmds_sysinfo_path ${target_rootfs}/etc/rpm/sysinfo" \
++        --predefine "_rpmrc_platform_path ${target_rootfs}/etc/rpm/platform" \
++        -D "_var ${localstatedir}" \
++        -D "_dbpath ${rpmlibdir}" \
++        --noparentdirs --nolinktos \
++        -D "__dbi_txn create nofsync private" \
++        -D "_cross_scriptlet_wrapper ${WORKDIR}/scriptlet_wrapper" $extra_args
 +}
 +
-+pkg_postinst_${PN} () {
-+	update-alternatives --install ${base_sbindir}/hdparm hdparm hdparm.${PN} 100
++# install or remove the pkg
++rpm_update_pkg () {
++
++    local target_rootfs="${INSTALL_ROOTFS_RPM}"
++
++    # Save the rpm's build time for incremental image generation, and the file
++    # would be moved to ${T}
++    rm -f ${target_rootfs}/install/total_solution_bt.manifest
++    for i in `cat ${target_rootfs}/install/total_solution.manifest`; do
++        # Use "rpm" rather than "${RPM}" here, since we don't need the
++        # '--dbpath' option
++        echo "$i `rpm -qp --qf '%{BUILDTIME}\n' $i`" >> \
++            ${target_rootfs}/install/total_solution_bt.manifest
++    done
++
++    # Only install the different pkgs if incremental image generation is set
++    if [ "${INC_RPM_IMAGE_GEN}" = "1" -a -f ${T}/total_solution_bt.manifest -a \
++        "${IMAGE_PKGTYPE}" = "rpm" ]; then
++        cur_list="${target_rootfs}/install/total_solution_bt.manifest"
++        pre_list="${T}/total_solution_bt.manifest"
++        sort -u $cur_list -o $cur_list
++        sort -u $pre_list -o $pre_list
++        comm -1 -3 $cur_list $pre_list | sed 's#.*/\(.*\)\.rpm .*#\1#' > \
++            ${target_rootfs}/install/remove.manifest
++        comm -2 -3 $cur_list $pre_list | awk '{print $1}' > \
++            ${target_rootfs}/install/incremental.manifest
++
++        # Attempt to remove unwanted pkgs, the scripts(pre, post, etc.) has not
++        # been run by now, so don't have to run them(preun, postun, etc.) when
++        # erase the pkg
++        if [ -s ${target_rootfs}/install/remove.manifest ]; then
++            rpm_common_comand --noscripts --nodeps \
++                -e `cat ${target_rootfs}/install/remove.manifest`
++        fi
++
++        # Attempt to install the incremental pkgs
++        rpm_common_comand --nodeps --replacefiles --replacepkgs \
++            -Uvh ${target_rootfs}/install/incremental.manifest
++    else
++        # Attempt to install
++        rpm_common_comand --replacepkgs \
++            -Uhv ${target_rootfs}/install/total_solution.manifest
++    fi
 +}
 +
-+pkg_prerm_${PN} () {
-+	update-alternatives --remove hdparm hdparm.${PN}
-+}
-diff --git a/meta/recipes-extended/stat/stat_3.3.bb b/meta/recipes-extended/stat/stat_3.3.bb
-new file mode 100644
-index 0000000..aa21e75
---- /dev/null
-+++ b/meta/recipes-extended/stat/stat_3.3.bb
-@@ -0,0 +1,27 @@
-+SECTION = "console/utils"
-+DESCRIPTION = "Display all information about a file that the stat() call provides and all information a filesystem that statfs() provides."
-+LICENSE = "GPLv2"
-+LIC_FILES_CHKSUM = "file://COPYRIGHT;md5=39886b077fd072e876e5c4c16310b631 \
-+                    file://GPL;md5=94d55d512a9ba36caa9b7df079bae19f"
+ #
+ # install a bunch of packages using rpm
+ # the following shell variables needs to be set before calling this func:
+@@ -406,16 +467,8 @@ EOF
+ 
+ 	chmod 0755 ${WORKDIR}/scriptlet_wrapper
+ 
+-	# Attempt install
+-	${RPM} --root ${target_rootfs} \
+-		--predefine "_rpmds_sysinfo_path ${target_rootfs}/etc/rpm/sysinfo" \
+-		--predefine "_rpmrc_platform_path ${target_rootfs}/etc/rpm/platform" \
+-		-D "_var ${localstatedir}" \
+-		-D "_dbpath ${rpmlibdir}" \
+-		--noparentdirs --nolinktos --replacepkgs \
+-		-D "__dbi_txn create nofsync private" \
+-		-D "_cross_scriptlet_wrapper ${WORKDIR}/scriptlet_wrapper" \
+-		-Uhv ${target_rootfs}/install/total_solution.manifest
++    rpm_update_pkg
 +
-+BBCLASSEXTEND = "native"
-+
-+PR = "r1"
-+
-+SRC_URI = "ftp://metalab.unc.edu/pub/Linux/utils/file/stat-3.3.tar.gz"
-+SRC_URI[md5sum] = "37e247e8e400ad9205f1b0500b728fd3"
-+SRC_URI[sha256sum] = "7071f0384a423a938dd542c1f08547a02824f6359acd3ef3f944b2c4c2d1ee09"
-+
-+do_install() {
-+	install -d ${D}${bindir} ${D}${mandir}/man1
-+	install -m 755 stat ${D}${bindir}
-+	install -m 644 stat.1 ${D}${mandir}/man1
-+}
-+
-+#do_install_virtclass-native() {
-+#	install -d ${D}${bindir}
-+#	install -m 755 stat ${D}${bindir}
-+#}
-+
-+NATIVE_INSTALL_WORKS = "1"
-+
+ }
+ 
+ python write_specfile () {
+diff --git a/meta/classes/rootfs_rpm.bbclass b/meta/classes/rootfs_rpm.bbclass
+index 999b8a6..48133f0 100644
+--- a/meta/classes/rootfs_rpm.bbclass
++++ b/meta/classes/rootfs_rpm.bbclass
+@@ -201,11 +201,15 @@ rootfs_check_package_exists() {
+ }
+ 
+ rootfs_install_packages() {
++    # The pkg to be installed here is not controlled by the
++    # package_install_internal_rpm, so it may have already been
++    # installed(e.g, installed in the first time when generate the
++    # rootfs), use '--replacepkgs' to always install them
+ 	for pkg in $@; do
+ 		${RPM} --root ${IMAGE_ROOTFS} -D "_dbpath ${rpmlibdir}" \
+ 			-D "__dbi_txn create nofsync private" \
+ 			--noscripts --notriggers --noparentdirs --nolinktos \
+-			-Uhv $pkg || true
++			--replacepkgs -Uhv $pkg || true
+ 	done
+ }
+ 
 -- 
 1.7.6.5
 
