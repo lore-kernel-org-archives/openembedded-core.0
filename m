@@ -1,24 +1,30 @@
-Received: from mga11.intel.com ([192.55.52.93])
+Received: from mail-we0-f175.google.com ([74.125.82.175])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <edwin.zhai@intel.com>) id 1RlKYZ-0000KR-IW
+	(envelope-from <koen@dominion.thruhere.net>) id 1RlKuh-0000qQ-82
 	for openembedded-core@lists.openembedded.org;
-	Thu, 12 Jan 2012 14:19:03 +0100
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-	by fmsmga102.fm.intel.com with ESMTP; 12 Jan 2012 05:11:27 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="111506293"
-Received: from yocto-build3.sh.intel.com ([10.239.48.58])
-	by fmsmga002.fm.intel.com with ESMTP; 12 Jan 2012 05:11:27 -0800
-From: edwin.zhai@intel.com
-To: openembedded-core@lists.openembedded.org
-Date: Thu, 12 Jan 2012 20:57:37 +0800
-Message-Id: <0ffd87a287912fbfdc51ac9e139cbd4a089b7314.1326372828.git.edwin.zhai@intel.com>
-X-Mailer: git-send-email 1.7.1
-In-Reply-To: <cover.1326372828.git.edwin.zhai@intel.com>
-References: <cover.1326372828.git.edwin.zhai@intel.com>
-In-Reply-To: <cover.1326372828.git.edwin.zhai@intel.com>
-References: <cover.1326372828.git.edwin.zhai@intel.com>
-Subject: [PATCH 1/1] runqemu: Fix the wrong path of libGL.so in 64b Ubuntu 11.10
+	Thu, 12 Jan 2012 14:41:55 +0100
+Received: by werm13 with SMTP id m13so1506212wer.6
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 12 Jan 2012 05:34:24 -0800 (PST)
+Received: by 10.216.131.234 with SMTP id m84mr1593405wei.11.1326375264296;
+	Thu, 12 Jan 2012 05:34:24 -0800 (PST)
+Received: from [172.20.0.96] (ip545070eb.adsl-surfen.hetnet.nl.
+	[84.80.112.235])
+	by mx.google.com with ESMTPS id m13sm5774241wbh.0.2012.01.12.05.34.23
+	(version=TLSv1/SSLv3 cipher=OTHER);
+	Thu, 12 Jan 2012 05:34:23 -0800 (PST)
+Mime-Version: 1.0 (Apple Message framework v1251.1)
+From: Koen Kooi <koen@dominion.thruhere.net>
+In-Reply-To: <20120112121949.GB3452@jama.jama.net>
+Date: Thu, 12 Jan 2012 14:34:17 +0100
+Message-Id: <48CE4DDF-8D48-43D4-A294-0E69A6D64608@dominion.thruhere.net>
+References: <1326369146-4369-1-git-send-email-koen@dominion.thruhere.net>
+	<20120112121949.GB3452@jama.jama.net>
+To: Martin Jansa <martin.jansa@gmail.com>
+X-Mailer: Apple Mail (2.1251.1)
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] dbus.inc: s/INC_PR/PR/ to fix PR bump after dbus-launch-helper permission change
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -33,44 +39,64 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 12 Jan 2012 13:19:03 -0000
+X-List-Received-Date: Thu, 12 Jan 2012 13:41:55 -0000
+X-Groupsio-MsgNum: 15871
+Content-Type: multipart/signed;
+	boundary="Apple-Mail=_06F01411-69FD-4B7D-A199-69D2505EFE20";
+	protocol="application/pgp-signature"; micalg=pgp-sha1
 
-From: Zhai Edwin <edwin.zhai@intel.com>
-
-From 11.10, libGL.so is installed @ /usr/lib/x86_64-linux-gnu/ in 64b Ubuntu.
-
-[YOCTO #1885] got fixed
-
-Signed-off-by: Zhai Edwin <edwin.zhai@intel.com>
----
- scripts/runqemu-internal |   11 ++++++++++-
- 1 files changed, 10 insertions(+), 1 deletions(-)
-
-diff --git a/scripts/runqemu-internal b/scripts/runqemu-internal
-index 2968ed9..aaf776a 100755
---- a/scripts/runqemu-internal
-+++ b/scripts/runqemu-internal
-@@ -472,8 +472,17 @@ EOM
- # Automatically use Ubuntu system's mesa libGL, other distro can add its own path
-     if grep -i ubuntu /etc/lsb-release &> /dev/null
-     then
-+        GL_PATH=""
-+        if test -e /usr/lib/libGL.so
-+        then 
-+            GL_PATH="/usr/lib/libGL.so"
-+        elif test -e /usr/lib/x86_64-linux-gnu/libGL.so
-+        then
-+            GL_PATH="/usr/lib/x86_64-linux-gnu/libGL.so"
-+        fi
-+
-         echo "Skip nVidia's libGL on Ubuntu!"
--        GL_LD_PRELOAD="/usr/lib/libGL.so $LD_PRELOAD"
-+        GL_LD_PRELOAD="$GL_PATH $LD_PRELOAD"
-     fi
- fi
- 
--- 
-1.7.1
+--Apple-Mail=_06F01411-69FD-4B7D-A199-69D2505EFE20
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain;
+	charset=us-ascii
 
 
+Op 12 jan. 2012, om 13:19 heeft Martin Jansa het volgende geschreven:
 
+> On Thu, Jan 12, 2012 at 12:52:26PM +0100, Koen Kooi wrote:
+>> The dbus recipes don't use INC_PR so it didn't get rebuilt after the =
+previous commit to fix the launch helper permissions
+>>=20
+>> Signed-off-by: Koen Kooi <koen@dominion.thruhere.net>
+>> ---
+>> meta/recipes-core/dbus/dbus.inc |    2 +-
+>> 1 files changed, 1 insertions(+), 1 deletions(-)
+>>=20
+>> diff --git a/meta/recipes-core/dbus/dbus.inc =
+b/meta/recipes-core/dbus/dbus.inc
+>> index 2a25256..489e8db 100644
+>> --- a/meta/recipes-core/dbus/dbus.inc
+>> +++ b/meta/recipes-core/dbus/dbus.inc
+>> @@ -10,7 +10,7 @@ DEPENDS =3D "expat virtual/libintl =
+${@base_contains('DISTRO_FEATURES', 'x11', '${X
+>> DEPENDS_virtclass-native =3D "expat-native virtual/libintl-native"
+>> DEPENDS_virtclass-nativesdk =3D "expat-nativesdk =
+virtual/libintl-nativesdk virtual/libx11"
+>>=20
+>> -INC_PR =3D "r1"
+>> +PR =3D "r1"
+>=20
+> Can we move it to dbus_1.4.16.bb too? or change dbus_1.4.16.bb to use
+> INC_PR, I can imagine someone reusing meta/recipes-core/dbus/dbus.inc =
+in
+> his layer won't notice that there is PR now.
+
+I don't mind either way, I just want the fixed dbus package in the =
+binary feeds :)=
+
+--Apple-Mail=_06F01411-69FD-4B7D-A199-69D2505EFE20
+Content-Transfer-Encoding: 7bit
+Content-Disposition: inline;
+	filename=signature.asc
+Content-Type: application/pgp-signature;
+	name=signature.asc
+Content-Description: Message signed with OpenPGP using GPGMail
+
+-----BEGIN PGP SIGNATURE-----
+
+iEYEARECAAYFAk8O4VoACgkQMkyGM64RGpFHyQCggloRKCZRJsHBrczg3RjN2r80
+6QcAn0Bn+tDfy/WcFK3L+/YPVw4Af9Wm
+=4E5s
+-----END PGP SIGNATURE-----
+
+--Apple-Mail=_06F01411-69FD-4B7D-A199-69D2505EFE20--
