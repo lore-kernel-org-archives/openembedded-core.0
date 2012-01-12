@@ -1,34 +1,26 @@
-Received: from mail-iy0-f175.google.com ([209.85.210.175])
+Received: from mga09.intel.com ([134.134.136.24])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <sakoman@gmail.com>) id 1RlSkv-0004v7-D9
+	(envelope-from <sgw@linux.intel.com>) id 1RlSsz-00057G-0P
 	for openembedded-core@lists.openembedded.org;
-	Thu, 12 Jan 2012 23:04:21 +0100
-Received: by iafi7 with SMTP id i7so3468735iaf.6
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 12 Jan 2012 13:56:38 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
-	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
-	:cc:content-type:content-transfer-encoding;
-	bh=ZKje+z8R0NRaIw8AAI4fzgBUqWIVhQdkg1Y3XFrXDtc=;
-	b=BkUNUSYXNPVVZWqjUmqdZdv8ropGknc4anm5Dr59t8wDRUrtfuuhetCEqf6T0SsXEm
-	8LCHGcjMGYVYPW06U2buFGCOZb1lNK2EbuZ/15EZS+oFWxtq0SJm38dYTBMagJI2ZZLL
-	lrnUNIqBrW+eUwT9Erl8Mgon/pHcbhoix46x4=
+	Thu, 12 Jan 2012 23:12:41 +0100
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+	by orsmga102.jf.intel.com with ESMTP; 12 Jan 2012 14:04:58 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.67,352,1309762800"; d="scan'208";a="95883879"
+Received: from unknown (HELO [10.255.13.168]) ([10.255.13.168])
+	by orsmga001.jf.intel.com with ESMTP; 12 Jan 2012 14:04:57 -0800
+Message-ID: <4F0F5909.4080907@linux.intel.com>
+Date: Thu, 12 Jan 2012 14:04:57 -0800
+From: Saul Wold <sgw@linux.intel.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:8.0) Gecko/20111115 Thunderbird/8.0
 MIME-Version: 1.0
-Received: by 10.42.135.138 with SMTP id p10mr5360920ict.25.1326405398724; Thu,
-	12 Jan 2012 13:56:38 -0800 (PST)
-Received: by 10.60.34.138 with HTTP; Thu, 12 Jan 2012 13:56:38 -0800 (PST)
-In-Reply-To: <4F0F46E4.1040208@linux.intel.com>
-References: <1325911915-16001-4-git-send-email-steve@sakoman.com>
-	<20120107141410.3d35c503@eb-e6520>
-	<CAGDS+nm7EhwZUxJBiTkGa3x5R71effKqH29J2RzO81ff_kE7Rg@mail.gmail.com>
-	<4F0F46E4.1040208@linux.intel.com>
-Date: Thu, 12 Jan 2012 13:56:38 -0800
-Message-ID: <CAGDS+nmvBbqc-GN9j-TBBTvRCu_nX-bbhHSi+6Ghu1UNNDjWcA@mail.gmail.com>
-From: Steve Sakoman <sakoman@gmail.com>
-To: Saul Wold <sgw@linux.intel.com>
-Cc: Patches and discussions about the oe-core layer
+To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH RFC v2] dhcp: package /var/lib/dhcp with dhcp-client rather than dhcp-server
+References: <cover.1326337436.git.zumeng.chen@windriver.com>
+	<6466944f4fff355f13da46c47fc22a907f6eda60.1326337436.git.zumeng.chen@windriver.com>
+In-Reply-To: <6466944f4fff355f13da46c47fc22a907f6eda60.1326337436.git.zumeng.chen@windriver.com>
+Subject: Re: [PATCH 2/4] lttng-tools: Integrated from git repo.
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -43,51 +35,104 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 12 Jan 2012 22:04:21 -0000
-Content-Type: text/plain; charset=ISO-8859-1
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Thu, 12 Jan 2012 22:12:41 -0000
+Content-Type: text/plain; charset=ISO-8859-1; format=flowed
+Content-Transfer-Encoding: 7bit
 
-On Thu, Jan 12, 2012 at 12:47 PM, Saul Wold <sgw@linux.intel.com> wrote:
-> On 01/11/2012 11:00 AM, Steve Sakoman wrote:
->>
->> On Sat, Jan 7, 2012 at 5:14 AM, Eric B=E9nard<eric@eukrea.com> =A0wrote:
->>>
->>> Hi,
->>>
->>> Le Fri, =A06 Jan 2012 20:51:54 -0800,
->>> Steve Sakoman<steve@sakoman.com> =A0a =E9crit :
->>>>
->>>> -FILES_dhcp-server =3D "${sbindir}/dhcpd ${sysconfdir}/init.d/dhcp-ser=
-ver
->>>> ${localstatedir}/lib/dhcp/"
->>>> +FILES_dhcp-server =3D "${sbindir}/dhcpd ${sysconfdir}/init.d/dhcp-ser=
-ver"
->>>
->>>
->>> isn't this directory necessary for dhcp-server ?
->>
->>
->> Sorry for the delay in responding! =A0I missed seeing your comment.
->>
->> Yes, both packages need this directory. =A0But the dhcp-server package
->> init already creates it if it doesn't exist:
->>
-> You can still have it in the dhcp-server Package as long as the attribute=
-s
-> (ownership, perm, ...) are the same and it's not a symlink, so please
-> include it with the FILES-dhcp-server.
+On 01/11/2012 07:11 PM, Zumeng Chen wrote:
+> This patch intended to integrate the Linux trace toolkit, which
+> is a suite of tools designed to extract program execution details
+> from the Linux operating system and interpret them.
+>
+> lttng-tools 2.0 is currently in pre-release(-pre16), so we have to
+> update it when official released.
+>
+> Signed-off-by: Zumeng Chen<zumeng.chen@windriver.com>
+> ---
+>   ...tools-fix-compiling-error-for-powerpc-arm.patch |   28 ++++++++++++++++++
+>   .../lttng-2.0/lttng-tools_2.0-pre16.bb             |   30 ++++++++++++++++++++
+>   2 files changed, 58 insertions(+), 0 deletions(-)
+>   create mode 100644 meta/recipes-kernel/lttng-2.0/lttng-tools-fix-compiling-error-for-powerpc-arm.patch
+>   create mode 100644 meta/recipes-kernel/lttng-2.0/lttng-tools_2.0-pre16.bb
+>
+> diff --git a/meta/recipes-kernel/lttng-2.0/lttng-tools-fix-compiling-error-for-powerpc-arm.patch b/meta/recipes-kernel/lttng-2.0/lttng-tools-fix-compiling-error-for-powerpc-arm.patch
+> new file mode 100644
+> index 0000000..f8e144f
+> --- /dev/null
+> +++ b/meta/recipes-kernel/lttng-2.0/lttng-tools-fix-compiling-error-for-powerpc-arm.patch
+> @@ -0,0 +1,28 @@
+> +From 5d8d75ab0c7f9e0009d90a2e5ad6475034a5c859 Mon Sep 17 00:00:00 2001
+> +From: Zumeng Chen<zumeng.chen@windriver.com>
+> +Date: Tue, 10 Jan 2012 12:41:45 +0800
+> +Subject: [PATCH 1/1] Fix compiling error on powerpc and arm
+> +
 
-In my experience you can't add an item to more than one FILES spec.
+No Upstream-Status:
 
-I just did the experiment of including it in both client and server
-FILES, and the directory only shows up it the one that occurs first,
-server in this case.
 
-I added the directory to the client FILES in my patch because I saw
-that the server init creates the directory if it doesn't exist.
+> +For powerpc and arm, some MAP_ are defined asm/mman.h,
+> +so including it in header.
+> +
+> +Signed-off-by: Zumeng Chen<zumeng.chen@windriver.com>
+> +---
+> + common/runas.c |    1 +
+> + 1 files changed, 1 insertions(+), 0 deletions(-)
+> +
+> +diff --git a/common/runas.c b/common/runas.c
+> +index f612ccc..62a2791 100644
+> +--- a/common/runas.c
+> ++++ b/common/runas.c
+> +@@ -29,6 +29,7 @@
+> + #include<fcntl.h>
+> + #include<sched.h>
+> + #include<sys/mman.h>
+> ++#include<asm/mman.h>
+> +
+> + #include<lttngerr.h>
+> +
+> +--
+> +1.7.5.4
+> +
+> diff --git a/meta/recipes-kernel/lttng-2.0/lttng-tools_2.0-pre16.bb b/meta/recipes-kernel/lttng-2.0/lttng-tools_2.0-pre16.bb
+> new file mode 100644
+> index 0000000..cde57f7
+> --- /dev/null
+> +++ b/meta/recipes-kernel/lttng-2.0/lttng-tools_2.0-pre16.bb
+> @@ -0,0 +1,30 @@
+> +SECTION = "devel"
+> +SUMMARY = "Linux Trace Toolkit Control"
+> +DESCRIPTION = "The Linux trace toolkit is a suite of tools designed \
+> +to extract program execution details from the Linux operating system \
+> +and interpret them."
+> +
+> +LICENSE = "GPLv2.1"
 
-I still believe that the original patch is the best way to handle this.
+You have gpl-2.0  and lgpl-2.1 list below which is the correct LICENSE?
 
-Steve
+Sau!
+
+> +LIC_FILES_CHKSUM = "file://COPYING;md5=ab682a4729389c3f11913d758affe98e \
+> +                    file://gpl-2.0.txt;md5=b234ee4d69f5fce4486a80fdaf4a4263 \
+> +                    file://lgpl-2.1.txt;md5=0f0d71500e6a57fd24d825f33242b9ca"
+> +
+> +DEPENDS = "liburcu popt lttng-ust"
+> +
+> +SRCREV = "f2ca2e251d8f49b0dbbcca529dd61b3562c1147f"
+> +PV = "v2.0.pre16+git${SRCREV}"
+> +PR = "r0"
+> +
+> +SRC_URI = "git://git.lttng.org/lttng-tools.git;protocol=git\
+> +           file://lttng-tools-fix-compiling-error-for-powerpc-arm.patch"
+> +
+> +S = "${WORKDIR}/git"
+> +
+> +inherit autotools
+> +
+> +export KERNELDIR="${STAGING_KERNEL_DIR}"
+> +
+> +# Due to liburcu not building for MIPS currently this recipe needs to
+> +# be limited also.
+> +# So here let us first suppport x86/arm/powerpc platforms now.
+> +COMPATIBLE_HOST = '(x86_64.*|i.86.*|arm.*|powerpc.*)-linux'
 
 
