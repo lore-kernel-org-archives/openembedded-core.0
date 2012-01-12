@@ -1,33 +1,24 @@
-Received: from mail.cvg.de ([62.153.82.30])
+Received: from mail-ww0-f43.google.com ([74.125.82.43])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <enrico.scholz@sigma-chemnitz.de>) id 1RlLie-0002ki-PQ
+	(envelope-from <koen@dominion.thruhere.net>) id 1RlLzI-0005QH-Ac
 	for openembedded-core@lists.openembedded.org;
-	Thu, 12 Jan 2012 15:33:32 +0100
-Received: from ensc-virt.intern.sigma-chemnitz.de
-	(ensc-virt.intern.sigma-chemnitz.de [192.168.3.24])
-	by mail.cvg.de (8.14.4/8.14.4) with SMTP id q0CEPwAt017778
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO)
+	Thu, 12 Jan 2012 15:50:45 +0100
+Received: by wgbdt11 with SMTP id dt11so1891387wgb.24
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 12 Jan 2012 15:25:59 +0100
-Received: by ensc-virt.intern.sigma-chemnitz.de (sSMTP sendmail emulation);
-	Thu, 12 Jan 2012 15:25:58 +0100
-From: Enrico Scholz <enrico.scholz@sigma-chemnitz.de>
+	Thu, 12 Jan 2012 06:43:13 -0800 (PST)
+Received: by 10.180.103.2 with SMTP id fs2mr6497462wib.21.1326379393308;
+	Thu, 12 Jan 2012 06:43:13 -0800 (PST)
+Received: from localhost (ip545070eb.adsl-surfen.hetnet.nl. [84.80.112.235])
+	by mx.google.com with ESMTPS id fq7sm6023967wbb.1.2012.01.12.06.43.12
+	(version=TLSv1/SSLv3 cipher=OTHER);
+	Thu, 12 Jan 2012 06:43:12 -0800 (PST)
+From: Koen Kooi <koen@dominion.thruhere.net>
 To: openembedded-core@lists.openembedded.org
-References: <1326225078-18652-1-git-send-email-kergoth@gmail.com>
-Date: Thu, 12 Jan 2012 15:25:58 +0100
-In-Reply-To: <1326225078-18652-1-git-send-email-kergoth@gmail.com>
-	(Christopher Larson's message of "Tue, 10 Jan 2012 13:51:18 -0600")
-Message-ID: <lyty41ro95.fsf@ensc-virt.intern.sigma-chemnitz.de>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/23.3 (gnu/linux)
-MIME-Version: 1.0
-X-DSPAM-Result: Innocent
-X-DSPAM-Probability: 0
-X-DSPAM-Confidence: 1
-X-Spam-Score: -5.8
-X-Spam-Level: -----
-X-Spam-Tests: AWL,BAYES_00,SPF_NEUTRAL,T_RP_MATCHES_RCVD,DSPAM_INNOCENT
-X-Scanned-By: MIMEDefang 2.72 on 62.153.82.30
-Subject: Re: [PATCH] ncurses-native: install to libdir, not base_libdir
+Date: Thu, 12 Jan 2012 15:43:08 +0100
+Message-Id: <1326379388-30619-1-git-send-email-koen@dominion.thruhere.net>
+X-Mailer: git-send-email 1.7.2.5
+Cc: Koen Kooi <koen@dominion.thruhere.net>
+Subject: [Patch v2] gconf: enable gtk+ 2.0 support to build gconf-sanity-check-2
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -42,25 +33,66 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 12 Jan 2012 14:33:32 -0000
-Content-Type: text/plain; charset=us-ascii
+X-List-Received-Date: Thu, 12 Jan 2012 14:50:45 -0000
 
-Christopher Larson <kergoth-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-writes:
+This is needed for e.g. gnome-session:
 
-> --- a/meta/recipes-core/ncurses/ncurses.inc
-> +++ b/meta/recipes-core/ncurses/ncurses.inc
-> ...
-> +# natives don't generally look in base_libdir
-> +base_libdir_virtclass-native = "${libdir}"
+gnome-session[424]: WARNING: Failed to run gconf-sanity-check-2: Failed to execute child process "/usr/libexec/gconf-sanity-check-2" (No such file or directory)
 
-I do not think that this should be done per recipe (afais, at least
-libusb is affected by the same issue).
+Signed-off-by: Koen Kooi <koen@dominion.thruhere.net>
+---
+ meta/recipes-gnome/gnome/gconf_3.2.3.bb |   20 +++++++++++---------
+ 1 files changed, 11 insertions(+), 9 deletions(-)
 
-Adding '-L<baselibdir>' and the '-Wl,-rpath-link' + '-Wl,-rpath' options
-to BUILD_LDFLAGS would be a more general solution.
+diff --git a/meta/recipes-gnome/gnome/gconf_3.2.3.bb b/meta/recipes-gnome/gnome/gconf_3.2.3.bb
+index f7d3594..11d382d 100644
+--- a/meta/recipes-gnome/gnome/gconf_3.2.3.bb
++++ b/meta/recipes-gnome/gnome/gconf_3.2.3.bb
+@@ -3,10 +3,10 @@ SECTION = "x11/gnome"
+ LICENSE = "LGPLv2+"
+ LIC_FILES_CHKSUM = "file://COPYING;md5=55ca817ccb7d5b5b66355690e9abc605"
+ 
+-DEPENDS = "glib-2.0 dbus dbus-glib libxml2 intltool-native polkit"
++DEPENDS = "glib-2.0 gtk+ dbus dbus-glib libxml2 intltool-native polkit"
+ DEPENDS_virtclass-native = "glib-2.0-native dbus-native dbus-glib-native libxml2-native intltool-native gnome-common-native"
+ 
+-PR = "r3"
++PR = "r4"
+ 
+ inherit gnomebase
+ 
+@@ -21,8 +21,10 @@ S = "${WORKDIR}/GConf-${PV}"
+ 
+ POLKIT_OECONF = "--enable-defaults-service"
+ POLKIT_OECONF_virtclass-native = "--disable-defaults-service"
+-EXTRA_OECONF = "--disable-gtk-doc --disable-gtk --enable-shared --disable-static --enable-debug=yes \
+-                --disable-introspection --disable-orbit --with-openldap=no ${POLKIT_OECONF}"
++GTKOECONF = "--with-gtk=2.0 --enable-gtk"
++GTKOECONF_virtclass-native = "--disable-gtk"
++EXTRA_OECONF = "--disable-gtk-doc --enable-shared --disable-static --enable-debug=yes \
++                --disable-introspection --disable-orbit --with-openldap=no ${POLKIT_OECONF}i ${GTKOECONF}"
+ 
+ do_configure_prepend () {
+ 	touch gtk-doc.make
+@@ -42,11 +44,11 @@ RDEPENDS_${PN} += "${@base_contains('DISTRO_FEATURES', 'x11', 'dbus-x11', '', d)
+ RDEPENDS_${PN}_virtclass-native = ""
+ 
+ FILES_${PN} += "${libdir}/GConf/* \
+-	        ${libdir}/gio/*/*.so \
+-		${datadir}/polkit* \
+-	       	${datadir}/dbus-1/services/*.service \
+-	       	${datadir}/dbus-1/system-services/*.service \
+-	        "
++                ${libdir}/gio/*/*.so \
++                ${datadir}/polkit* \
++                ${datadir}/dbus-1/services/*.service \
++                ${datadir}/dbus-1/system-services/*.service \
++               "
+ FILES_${PN}-dbg += "${libdir}/*/*/.debug"
+ FILES_${PN}-dev += "${datadir}/sgml/gconf/gconf-1.0.dtd"
+ 
+-- 
+1.7.2.5
 
-
-Enrico
 
 
