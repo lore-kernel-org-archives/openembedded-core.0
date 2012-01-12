@@ -1,31 +1,33 @@
-Received: from mail-ee0-f47.google.com ([74.125.83.47])
+Received: from mail.cvg.de ([62.153.82.30])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <martin.jansa@gmail.com>) id 1RlLd2-0002Ty-Qj
+	(envelope-from <enrico.scholz@sigma-chemnitz.de>) id 1RlLie-0002ki-PQ
 	for openembedded-core@lists.openembedded.org;
-	Thu, 12 Jan 2012 15:27:44 +0100
-Received: by eekd17 with SMTP id d17so578826eek.6
+	Thu, 12 Jan 2012 15:33:32 +0100
+Received: from ensc-virt.intern.sigma-chemnitz.de
+	(ensc-virt.intern.sigma-chemnitz.de [192.168.3.24])
+	by mail.cvg.de (8.14.4/8.14.4) with SMTP id q0CEPwAt017778
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO)
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 12 Jan 2012 06:20:13 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
-	h=from:to:cc:subject:date:message-id:x-mailer:in-reply-to:references;
-	bh=llNeAwViFIk7rDYjSir9legBBo54gkWs14lKlZnhb+8=;
-	b=ZizszN1LmRIMfnjALXd4wUAM5t135+76LMbzEgglBcr6TPChMQTl6qVEOG5mEv43uK
-	zqVANZv1Sy4ALso03T1vr6rqbpI4D5jGyltqrAuaiQEQpPR5JxYp4W5PHajiuRgHSafX
-	172gvy4SEBOBvnKOyWDUWgQvz1n2IiLlnimBg=
-Received: by 10.14.126.202 with SMTP id b50mr1422175eei.66.1326378013676;
-	Thu, 12 Jan 2012 06:20:13 -0800 (PST)
-Received: from localhost ([94.230.152.246])
-	by mx.google.com with ESMTPS id t59sm19974878eeh.10.2012.01.12.06.20.11
-	(version=TLSv1/SSLv3 cipher=OTHER);
-	Thu, 12 Jan 2012 06:20:12 -0800 (PST)
-From: Martin Jansa <martin.jansa@gmail.com>
+	Thu, 12 Jan 2012 15:25:59 +0100
+Received: by ensc-virt.intern.sigma-chemnitz.de (sSMTP sendmail emulation);
+	Thu, 12 Jan 2012 15:25:58 +0100
+From: Enrico Scholz <enrico.scholz@sigma-chemnitz.de>
 To: openembedded-core@lists.openembedded.org
-Date: Thu, 12 Jan 2012 15:20:01 +0100
-Message-Id: <1326378001-11488-1-git-send-email-Martin.Jansa@gmail.com>
-X-Mailer: git-send-email 1.7.8.3
-In-Reply-To: <48CE4DDF-8D48-43D4-A294-0E69A6D64608@dominion.thruhere.net>
-References: <48CE4DDF-8D48-43D4-A294-0E69A6D64608@dominion.thruhere.net>
-Subject: [PATCH] dbus-1.4.16: use INC_PR from dbus.inc to fix PR bump after dbus-launch-helper permission change
+References: <1326225078-18652-1-git-send-email-kergoth@gmail.com>
+Date: Thu, 12 Jan 2012 15:25:58 +0100
+In-Reply-To: <1326225078-18652-1-git-send-email-kergoth@gmail.com>
+	(Christopher Larson's message of "Tue, 10 Jan 2012 13:51:18 -0600")
+Message-ID: <lyty41ro95.fsf@ensc-virt.intern.sigma-chemnitz.de>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/23.3 (gnu/linux)
+MIME-Version: 1.0
+X-DSPAM-Result: Innocent
+X-DSPAM-Probability: 0
+X-DSPAM-Confidence: 1
+X-Spam-Score: -5.8
+X-Spam-Level: -----
+X-Spam-Tests: AWL,BAYES_00,SPF_NEUTRAL,T_RP_MATCHES_RCVD,DSPAM_INNOCENT
+X-Scanned-By: MIMEDefang 2.72 on 62.153.82.30
+Subject: Re: [PATCH] ncurses-native: install to libdir, not base_libdir
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -40,27 +42,25 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 12 Jan 2012 14:27:44 -0000
+X-List-Received-Date: Thu, 12 Jan 2012 14:33:32 -0000
+Content-Type: text/plain; charset=us-ascii
 
-Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
----
- meta/recipes-core/dbus/dbus_1.4.16.bb |    2 ++
- 1 files changed, 2 insertions(+), 0 deletions(-)
+Christopher Larson <kergoth-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+writes:
 
-diff --git a/meta/recipes-core/dbus/dbus_1.4.16.bb b/meta/recipes-core/dbus/dbus_1.4.16.bb
-index f87f266..3cf8bb8 100644
---- a/meta/recipes-core/dbus/dbus_1.4.16.bb
-+++ b/meta/recipes-core/dbus/dbus_1.4.16.bb
-@@ -1,5 +1,7 @@
- include dbus.inc
- 
-+PR = "${INC_PR}.0"
-+
- SRC_URI[md5sum] = "44a2a10678e7e50460879c3eb4453a65"
- SRC_URI[sha256sum] = "1d8ee6262f8cc2148f06578eee522c755ba0896206b3464ca9bdc84f411b29c6"
- 
--- 
-1.7.8.3
+> --- a/meta/recipes-core/ncurses/ncurses.inc
+> +++ b/meta/recipes-core/ncurses/ncurses.inc
+> ...
+> +# natives don't generally look in base_libdir
+> +base_libdir_virtclass-native = "${libdir}"
 
+I do not think that this should be done per recipe (afais, at least
+libusb is affected by the same issue).
+
+Adding '-L<baselibdir>' and the '-Wl,-rpath-link' + '-Wl,-rpath' options
+to BUILD_LDFLAGS would be a more general solution.
+
+
+Enrico
 
 
