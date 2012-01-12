@@ -1,26 +1,29 @@
-Received: from mail.windriver.com ([147.11.1.11])
+Received: from mail-ee0-f47.google.com ([74.125.83.47])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <liming.wang@windriver.com>) id 1RlGM9-0004kn-KV
+	(envelope-from <martin.jansa@gmail.com>) id 1RlHAr-00079y-2k
 	for openembedded-core@lists.openembedded.org;
-	Thu, 12 Jan 2012 09:49:57 +0100
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca [147.11.189.40])
-	by mail.windriver.com (8.14.3/8.14.3) with ESMTP id q0C8gQu9020384
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
+	Thu, 12 Jan 2012 10:42:21 +0100
+Received: by eekd17 with SMTP id d17so493358eek.6
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 12 Jan 2012 00:42:26 -0800 (PST)
-Received: from pek-yocto-build2.corp.ad.wrs.com (128.224.163.150) by
-	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server id
-	14.1.255.0; Thu, 12 Jan 2012 00:42:26 -0800
-From: Liming Wang <liming.wang@windriver.com>
-To: <bruce.ashfield@windriver.com>
-Date: Thu, 12 Jan 2012 16:42:01 +0800
-Message-ID: <1326357721-19562-2-git-send-email-liming.wang@windriver.com>
-X-Mailer: git-send-email 1.7.5.4
-In-Reply-To: <1326357721-19562-1-git-send-email-liming.wang@windriver.com>
-References: <1326357721-19562-1-git-send-email-liming.wang@windriver.com>
-MIME-Version: 1.0
-Cc: openembedded-core@lists.openembedded.org
-Subject: [PATCH 1/1] V2 meta/qemuppc: replace kernel config file of qemu-ppc32 with mac99
+	Thu, 12 Jan 2012 01:34:49 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
+	h=from:to:cc:subject:date:message-id:x-mailer;
+	bh=J9nrEFmnSPbn2KIMskz4XeD/i4Ex518R8Yt6YUKLwNg=;
+	b=gWWr2X5jCwG+KJUqd+oYGbYHfW9fMW4SzhlPPmWRbW0EgIt+AziAv5yD46oH3oz76y
+	iOAPFDPqcNj8mvRtplzKRiiCRa/iSpE0UF1E5rY22uv54JafFdBTMCy0oVOFH8kH27gN
+	S5SAk1qTr4yXM4fQorS1ErEXrfG4QUMLmVsLs=
+Received: by 10.14.39.196 with SMTP id d44mr1033253eeb.108.1326360889109;
+	Thu, 12 Jan 2012 01:34:49 -0800 (PST)
+Received: from localhost ([94.230.152.246])
+	by mx.google.com with ESMTPS id x43sm17291873eef.8.2012.01.12.01.34.46
+	(version=TLSv1/SSLv3 cipher=OTHER);
+	Thu, 12 Jan 2012 01:34:46 -0800 (PST)
+From: Martin Jansa <martin.jansa@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Date: Thu, 12 Jan 2012 10:34:38 +0100
+Message-Id: <cover.1326360842.git.Martin.Jansa@gmail.com>
+X-Mailer: git-send-email 1.7.8.3
+Subject: [PATCH 0/2] Small fixes
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -35,110 +38,30 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 12 Jan 2012 08:49:58 -0000
-Content-Type: text/plain
+X-List-Received-Date: Thu, 12 Jan 2012 09:42:22 -0000
 
-Repalce emulation of qemuppc from prep to mac99. Also add
-qemu-ppc32-gfx.cfg file to support framebuffer and touchscreen.
+The following changes since commit 1d2697e6f00cc3771f39f5a7d4384a22d9696b16:
 
-Signed-off-by: Liming Wang <liming.wang@windriver.com>
-Signed-off-by: Bruce Ashfield <bruce.ashfield@windriver.com>
----
- .../kernel-cache/bsp/qemu-ppc32/qemu-ppc32-gfx.cfg |   11 +++++
- .../cfg/kernel-cache/bsp/qemu-ppc32/qemu-ppc32.cfg |   44 +++++++++++++++----
- .../cfg/kernel-cache/bsp/qemu-ppc32/qemu-ppc32.scc |    1 +
- 3 files changed, 46 insertions(+), 10 deletions(-)
- create mode 100644 meta/cfg/kernel-cache/bsp/qemu-ppc32/qemu-ppc32-gfx.cfg
+  multilib.conf: Clean up file and add missing entries for various dependencies (2012-01-11 23:53:21 +0000)
 
-diff --git a/meta/cfg/kernel-cache/bsp/qemu-ppc32/qemu-ppc32-gfx.cfg b/meta/cfg/kernel-cache/bsp/qemu-ppc32/qemu-ppc32-gfx.cfg
-new file mode 100644
-index 0000000..5fee67f
---- /dev/null
-+++ b/meta/cfg/kernel-cache/bsp/qemu-ppc32/qemu-ppc32-gfx.cfg
-@@ -0,0 +1,11 @@
-+CONFIG_VGA_ARB=y
-+CONFIG_FB=y
-+CONFIG_FB_CFB_FILLRECT=y
-+CONFIG_FB_CFB_COPYAREA=y
-+CONFIG_FB_CFB_IMAGEBLIT=y
-+CONFIG_FB_OF=y
-+CONFIG_FRAMEBUFFER_CONSOLE=y
-+
-+CONFIG_INPUT_TABLET=y
-+CONFIG_TABLET_USB_WACOM=y
-+CONFIG_INPUT_MISC=y
-diff --git a/meta/cfg/kernel-cache/bsp/qemu-ppc32/qemu-ppc32.cfg b/meta/cfg/kernel-cache/bsp/qemu-ppc32/qemu-ppc32.cfg
-index f6648f5..3917741 100644
---- a/meta/cfg/kernel-cache/bsp/qemu-ppc32/qemu-ppc32.cfg
-+++ b/meta/cfg/kernel-cache/bsp/qemu-ppc32/qemu-ppc32.cfg
-@@ -10,21 +10,45 @@
- #
- #.........................................................................
- # CONFIG_PPC_CHRP is not set
--# CONFIG_PPC_PMAC is not set
--CONFIG_PPC_QEMU=y
--CONFIG_ISA=y
-+CONFIG_PPC_PMAC=y
- # CONFIG_PNP is not set
-+# CONFIG_DEVTMPFS is not set
- CONFIG_MII=y
--CONFIG_NET_ISA=y
--CONFIG_NE2000=y
--CONFIG_SERIAL_8250=y
--CONFIG_SERIAL_8250_CONSOLE=y
--CONFIG_SERIAL_8250_PCI=y
--CONFIG_SERIAL_8250_NR_UARTS=4
--CONFIG_SERIAL_8250_RUNTIME_UARTS=4
-+CONFIG_PCNET32=y
-+CONFIG_NE2K_PCI=y
-+CONFIG_MACE=y
-+CONFIG_BMAC=y
-+
-+CONFIG_SERIAL_CORE=y
-+CONFIG_SERIAL_CORE_CONSOLE=y
-+CONFIG_SERIAL_PMACZILOG=y
-+CONFIG_SERIAL_PMACZILOG_TTYS=y
-+CONFIG_SERIAL_PMACZILOG_CONSOLE=y
- 
- CONFIG_IDE=y
- CONFIG_IDE_GENERIC=y
-+CONFIG_BLK_DEV_IDEPCI=y
-+CONFIG_BLK_DEV_IDEDMA_PCI=y
-+CONFIG_BLK_DEV_IDE_PMAC=y
-+CONFIG_BLK_DEV_IDEDMA=y
-+
-+CONFIG_ADB=y
-+CONFIG_ADB_CUDA=y
-+CONFIG_INPUT_ADBHID=y
-+
-+CONFIG_INPUT_KEYBOARD=y
-+CONFIG_INPUT_MOUSE=y
-+
-+CONFIG_USB=y
-+CONFIG_USB_DEVICEFS=y
-+CONFIG_USB_MON=y
-+CONFIG_USB_OHCI_HCD=y
-+CONFIG_USB_STORAGE=m
-+
-+CONFIG_INPUT_EVDEV=y
-+CONFIG_SERIO=y
-+# CONFIG_SERIO_SERPORT is not set
-+
- 
- CONFIG_PROFILING=y
- CONFIG_OPROFILE=y
-diff --git a/meta/cfg/kernel-cache/bsp/qemu-ppc32/qemu-ppc32.scc b/meta/cfg/kernel-cache/bsp/qemu-ppc32/qemu-ppc32.scc
-index 859329d..43f9dc6 100644
---- a/meta/cfg/kernel-cache/bsp/qemu-ppc32/qemu-ppc32.scc
-+++ b/meta/cfg/kernel-cache/bsp/qemu-ppc32/qemu-ppc32.scc
-@@ -1,4 +1,5 @@
- kconf hardware qemu-ppc32.cfg
-+kconf hardware qemu-ppc32-gfx.cfg
- 
- include features/profiling/profiling.scc
- include features/latencytop/latencytop.scc
+are available in the git repository at:
+  git://git.openembedded.org/openembedded-core-contrib jansa/pull
+  http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=jansa/pull
+
+Denis 'GNUtoo' Carikli (1):
+  alsa-utils: depend on libsamplerate0
+
+Martin Jansa (1):
+  xorg-*: disable xmlto where it was failing
+
+ meta/recipes-graphics/xorg-lib/xorg-lib-common.inc |    2 +-
+ .../xorg-proto/xorg-proto-common.inc               |    2 +-
+ .../recipes-graphics/xorg-xserver/xserver-xorg.inc |    1 +
+ .../recipes-multimedia/alsa/alsa-utils_1.0.24.2.bb |    4 ++--
+ 4 files changed, 5 insertions(+), 4 deletions(-)
+
 -- 
-1.7.5.4
+1.7.8.3
 
 
 
