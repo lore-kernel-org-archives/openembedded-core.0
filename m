@@ -1,28 +1,29 @@
-Received: from mga09.intel.com ([134.134.136.24])
+Received: from mail.cvg.de ([62.153.82.30])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <dvhart@linux.intel.com>) id 1RlNYS-0000jf-7t
+	(envelope-from <enrico.scholz@sigma-chemnitz.de>) id 1RlNf5-0000x9-1l
 	for openembedded-core@lists.openembedded.org;
-	Thu, 12 Jan 2012 17:31:08 +0100
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-	by orsmga102.jf.intel.com with ESMTP; 12 Jan 2012 08:23:36 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.67,352,1309762800"; d="scan'208";a="95749108"
-Received: from btwarden-mobl1.amr.corp.intel.com (HELO envy.home)
-	([10.7.199.156])
-	by orsmga001.jf.intel.com with ESMTP; 12 Jan 2012 08:23:36 -0800
-Message-ID: <4F0F08F4.4010505@linux.intel.com>
-Date: Thu, 12 Jan 2012 08:23:16 -0800
-From: Darren Hart <dvhart@linux.intel.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:8.0) Gecko/20111115 Thunderbird/8.0
-MIME-Version: 1.0
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-References: <cover.1326216024.git.josh@linux.intel.com>
-	<35eca064e6310d94b517b481beef5f5a5a3f395b.1326216024.git.josh@linux.intel.com>
-In-Reply-To: <35eca064e6310d94b517b481beef5f5a5a3f395b.1326216024.git.josh@linux.intel.com>
-X-Enigmail-Version: 1.3.4
-Subject: Re: [PATCH 3/3] task-base: add alsa-state to task-base-alsa
+	Thu, 12 Jan 2012 17:37:59 +0100
+Received: from ensc-virt.intern.sigma-chemnitz.de
+	(ensc-virt.intern.sigma-chemnitz.de [192.168.3.24])
+	by mail.cvg.de (8.14.4/8.14.4) with SMTP id q0CGUPEY032554
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO);
+	Thu, 12 Jan 2012 17:30:26 +0100
+Received: by ensc-virt.intern.sigma-chemnitz.de (sSMTP sendmail emulation);
+	Thu, 12 Jan 2012 17:30:25 +0100
+From: Enrico Scholz <enrico.scholz@sigma-chemnitz.de>
+To: openembedded-core@lists.openembedded.org
+Date: Thu, 12 Jan 2012 17:30:20 +0100
+Message-Id: <1326385824-32201-1-git-send-email-enrico.scholz@sigma-chemnitz.de>
+X-Mailer: git-send-email 1.7.7.5
+X-DSPAM-Result: Innocent
+X-DSPAM-Probability: 0
+X-DSPAM-Confidence: 1
+X-Spam-Score: -5.8
+X-Spam-Level: -----
+X-Spam-Tests: AWL,BAYES_00,SPF_NEUTRAL,T_RP_MATCHES_RCVD,DSPAM_INNOCENT
+X-Scanned-By: MIMEDefang 2.72 on 62.153.82.30
+Cc: Enrico Scholz <enrico.scholz@sigma-chemnitz.de>
+Subject: [PATCH] package.bbclass: quote pathname given to objdump
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -37,51 +38,40 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 12 Jan 2012 16:31:08 -0000
-Content-Type: text/plain; charset=ISO-8859-1
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Thu, 12 Jan 2012 16:37:59 -0000
 
+Packaging will fail with executable files containing spaces in their
+names. Patch quotes the parameter passed to 'objdump'.
 
+Signed-off-by: Enrico Scholz <enrico.scholz@sigma-chemnitz.de>
+---
+ meta/classes/package.bbclass |    4 ++--
+ 1 files changed, 2 insertions(+), 2 deletions(-)
 
-On 01/10/2012 09:39 AM, Joshua Lock wrote:
-> This enables automatic configuration setting and restoration on systems
-> with alsa.
-> 
-> Signed-off-by: Joshua Lock <josh@linux.intel.com>
-
-Acked-by: Darren Hart <dvhart@linux.intel.com>
-
-> ---
->  meta/recipes-core/tasks/task-base.bb |    5 +++--
->  1 files changed, 3 insertions(+), 2 deletions(-)
-> 
-> diff --git a/meta/recipes-core/tasks/task-base.bb b/meta/recipes-core/tasks/task-base.bb
-> index e0960b5..7460be4 100644
-> --- a/meta/recipes-core/tasks/task-base.bb
-> +++ b/meta/recipes-core/tasks/task-base.bb
-> @@ -2,7 +2,7 @@ DESCRIPTION = "Merge machine and distro options to create a basic machine task/p
->  LICENSE = "MIT"
->  LIC_FILES_CHKSUM = "file://${COREBASE}/LICENSE;md5=3f40d7994397109285ec7b81fdeb3b58 \
->                      file://${COREBASE}/meta/COPYING.MIT;md5=3da9cfbcb788c80a0384361b4de20420"
-> -PR = "r72"
-> +PR = "r73"
->  
->  inherit task
->  
-> @@ -183,7 +183,8 @@ RRECOMMENDS_task-base-vfat = "\
->  
->  RDEPENDS_task-base-alsa = "\
->      alsa-utils-alsactl \
-> -    alsa-utils-alsamixer"
-> +    alsa-utils-alsamixer \
-> +    alsa-state"
->  
->  RRECOMMENDS_task-base-alsa = "\
->      kernel-module-snd-mixer-oss \
-
+diff --git a/meta/classes/package.bbclass b/meta/classes/package.bbclass
+index f8f0a12..1088470 100644
+--- a/meta/classes/package.bbclass
++++ b/meta/classes/package.bbclass
+@@ -1205,7 +1205,7 @@ SHLIBSDIR = "${STAGING_DIR_HOST}/shlibs"
+ SHLIBSWORKDIR = "${WORKDIR}/shlibs"
+ 
+ python package_do_shlibs() {
+-	import re
++	import re, pipes
+ 
+ 	exclude_shlibs = d.getVar('EXCLUDE_FROM_SHLIBS', 0)
+ 	if exclude_shlibs:
+@@ -1234,7 +1234,7 @@ python package_do_shlibs() {
+ 	lf = bb.utils.lockfile(bb.data.expand("${PACKAGELOCK}", d))
+ 
+ 	def linux_so(root, path, file):
+-		cmd = d.getVar('OBJDUMP', True) + " -p " + os.path.join(root, file) + " 2>/dev/null"
++		cmd = d.getVar('OBJDUMP', True) + " -p " + pipes.quote(os.path.join(root, file)) + " 2>/dev/null"
+ 		cmd = "PATH=\"%s\" %s" % (d.getVar('PATH', True), cmd)
+ 		fd = os.popen(cmd)
+ 		lines = fd.readlines()
 -- 
-Darren Hart
-Intel Open Source Technology Center
-Yocto Project - Linux Kernel
+1.7.7.5
+
 
 
