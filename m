@@ -1,46 +1,31 @@
-Received: from tx2ehsobe003.messaging.microsoft.com ([65.55.88.13]
-	helo=TX2EHSOBE005.bigfish.com)
+Received: from mail-tul01m020-f175.google.com ([209.85.214.175])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <B29882@freescale.com>) id 1RlOLG-0003Qi-Nx
+	(envelope-from <sakoman@gmail.com>) id 1RlOZ9-0006Lf-1U
 	for openembedded-core@lists.openembedded.org;
-	Thu, 12 Jan 2012 18:21:35 +0100
-Received: from mail116-tx2-R.bigfish.com (10.9.14.250) by
-	TX2EHSOBE005.bigfish.com (10.9.40.25) with Microsoft SMTP Server id
-	14.1.225.23; Thu, 12 Jan 2012 17:14:03 +0000
-Received: from mail116-tx2 (localhost [127.0.0.1])	by
-	mail116-tx2-R.bigfish.com (Postfix) with ESMTP id E95A3700544	for
-	<openembedded-core@lists.openembedded.org>;
-	Thu, 12 Jan 2012 17:14:02 +0000 (UTC)
-X-SpamScore: 3
-X-BigFish: VS3(zzzz1202h1082kzz8275bhz2dhc1ahc1bh2a8h668h839h)
-X-Forefront-Antispam-Report: CIP:70.37.183.190; KIP:(null); UIP:(null); IPV:NLI;
-	H:mail.freescale.net; RD:none; EFVD:NLI
-X-FB-SS: 0,
-Received: from mail116-tx2 (localhost.localdomain [127.0.0.1]) by mail116-tx2
-	(MessageSwitch) id 1326388419333243_7070;
-	Thu, 12 Jan 2012 17:13:39 +0000 (UTC)
-Received: from TX2EHSMHS044.bigfish.com (unknown [10.9.14.247])	by
-	mail116-tx2.bigfish.com (Postfix) with ESMTP id 4A068100046	for
-	<openembedded-core@lists.openembedded.org>;
-	Thu, 12 Jan 2012 17:13:39 +0000 (UTC)
-Received: from mail.freescale.net (70.37.183.190) by TX2EHSMHS044.bigfish.com
-	(10.9.99.144) with Microsoft SMTP Server (TLS) id 14.1.225.23;
-	Thu, 12 Jan 2012 17:13:33 +0000
-Received: from az33smr01.freescale.net (10.64.34.199) by
-	039-SN1MMR1-001.039d.mgd.msft.net (10.84.1.13) with Microsoft SMTP
-	Server id 14.1.355.3; Thu, 12 Jan 2012 11:13:33 -0600
-Received: from right.am.freescale.net (right.am.freescale.net [10.82.193.13])
-	by az33smr01.freescale.net (8.13.1/8.13.0) with ESMTP id
-	q0CHDW2Z010677	for <openembedded-core@lists.openembedded.org>;
-	Thu, 12 Jan 2012 11:13:33 -0600 (CST)
-From: Matthew McClintock <msm@freescale.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Thu, 12 Jan 2012 11:13:31 -0600
-Message-ID: <1326388412-9899-1-git-send-email-msm@freescale.com>
-X-Mailer: git-send-email 1.7.6.1
+	Thu, 12 Jan 2012 18:36:02 +0100
+Received: by obbuo6 with SMTP id uo6so1136919obb.6
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 12 Jan 2012 09:28:23 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
+	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
+	:cc:content-type:content-transfer-encoding;
+	bh=sPIl01nrnHszRQs1pBBYqDO7U+w6xCk6k5fAlcptEvg=;
+	b=eLldRnv6a6xQm9j95M2e/CanF+Y0xj8s4WxBfkx97SVeuFB+Ubo62jkjz67ZTqHT53
+	OsbGuJ+e/XXlNyTEH92+vscicCM6K2oICXKmY//RYz841lNroGiDLD4pKE1RvaGq2bLx
+	wVc6SxtEVaRTwSwnpivr++4Qa+Z6Qm3wPviJE=
 MIME-Version: 1.0
-X-OriginatorOrg: freescale.com
-Subject: [PATCH 1/2] image_types.bbclass: Fix generating uncompressed ext2 images
+Received: by 10.182.59.13 with SMTP id v13mr3708728obq.74.1326389303373; Thu,
+	12 Jan 2012 09:28:23 -0800 (PST)
+Received: by 10.60.34.138 with HTTP; Thu, 12 Jan 2012 09:28:23 -0800 (PST)
+In-Reply-To: <1326379388-30619-1-git-send-email-koen@dominion.thruhere.net>
+References: <1326379388-30619-1-git-send-email-koen@dominion.thruhere.net>
+Date: Thu, 12 Jan 2012 09:28:23 -0800
+Message-ID: <CAGDS+n=F0307m3=DDA4bvXH=_QTLUk+ChsrM_SzMDGxcW84yQA@mail.gmail.com>
+From: Steve Sakoman <sakoman@gmail.com>
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Cc: Koen Kooi <koen@dominion.thruhere.net>
+Subject: Re: [Patch v2] gconf: enable gtk+ 2.0 support to build gconf-sanity-check-2
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -55,35 +40,61 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 12 Jan 2012 17:21:35 -0000
-Content-Type: text/plain
+X-List-Received-Date: Thu, 12 Jan 2012 17:36:04 -0000
+Content-Type: text/plain; charset=ISO-8859-1
+Content-Transfer-Encoding: quoted-printable
 
-Signed-off-by: Matthew McClintock <msm@freescale.com>
----
- meta/classes/image_types.bbclass |    7 ++++++-
- 1 files changed, 6 insertions(+), 1 deletions(-)
+On Thu, Jan 12, 2012 at 6:43 AM, Koen Kooi <koen@dominion.thruhere.net> wro=
+te:
+> This is needed for e.g. gnome-session:
+>
+> gnome-session[424]: WARNING: Failed to run gconf-sanity-check-2: Failed t=
+o execute child process "/usr/libexec/gconf-sanity-check-2" (No such file o=
+r directory)
+>
+> Signed-off-by: Koen Kooi <koen@dominion.thruhere.net>
+> ---
+> =A0meta/recipes-gnome/gnome/gconf_3.2.3.bb | =A0 20 +++++++++++---------
+> =A01 files changed, 11 insertions(+), 9 deletions(-)
+>
+> diff --git a/meta/recipes-gnome/gnome/gconf_3.2.3.bb b/meta/recipes-gnome=
+/gnome/gconf_3.2.3.bb
+> index f7d3594..11d382d 100644
+> --- a/meta/recipes-gnome/gnome/gconf_3.2.3.bb
+> +++ b/meta/recipes-gnome/gnome/gconf_3.2.3.bb
+> @@ -3,10 +3,10 @@ SECTION =3D "x11/gnome"
+> =A0LICENSE =3D "LGPLv2+"
+> =A0LIC_FILES_CHKSUM =3D "file://COPYING;md5=3D55ca817ccb7d5b5b66355690e9a=
+bc605"
+>
+> -DEPENDS =3D "glib-2.0 dbus dbus-glib libxml2 intltool-native polkit"
+> +DEPENDS =3D "glib-2.0 gtk+ dbus dbus-glib libxml2 intltool-native polkit=
+"
+> =A0DEPENDS_virtclass-native =3D "glib-2.0-native dbus-native dbus-glib-na=
+tive libxml2-native intltool-native gnome-common-native"
+>
+> -PR =3D "r3"
+> +PR =3D "r4"
+>
+> =A0inherit gnomebase
+>
+> @@ -21,8 +21,10 @@ S =3D "${WORKDIR}/GConf-${PV}"
+>
+> =A0POLKIT_OECONF =3D "--enable-defaults-service"
+> =A0POLKIT_OECONF_virtclass-native =3D "--disable-defaults-service"
+> -EXTRA_OECONF =3D "--disable-gtk-doc --disable-gtk --enable-shared --disa=
+ble-static --enable-debug=3Dyes \
+> - =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0--disable-introspection --disable-orbit =
+--with-openldap=3Dno ${POLKIT_OECONF}"
+> +GTKOECONF =3D "--with-gtk=3D2.0 --enable-gtk"
+> +GTKOECONF_virtclass-native =3D "--disable-gtk"
+> +EXTRA_OECONF =3D "--disable-gtk-doc --enable-shared --disable-static --e=
+nable-debug=3Dyes \
+> + =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0--disable-introspection --disable-orbit =
+--with-openldap=3Dno ${POLKIT_OECONF}i ${GTKOECONF}"
 
-diff --git a/meta/classes/image_types.bbclass b/meta/classes/image_types.bbclass
-index 3010549..4908ed9 100644
---- a/meta/classes/image_types.bbclass
-+++ b/meta/classes/image_types.bbclass
-@@ -40,7 +40,12 @@ IMAGE_CMD_sum.jffs2 = "${IMAGE_CMD_jffs2} && sumtool -i ${DEPLOY_DIR_IMAGE}/${IM
- 
- IMAGE_CMD_cramfs = "mkcramfs ${IMAGE_ROOTFS} ${DEPLOY_DIR_IMAGE}/${IMAGE_NAME}.rootfs.cramfs ${EXTRA_IMAGECMD}"
- 
--IMAGE_CMD_ext2 = "genext2fs -b $ROOTFS_SIZE -i 4096 -d ${IMAGE_ROOTFS} ${EXTRA_IMAGECMD} ${DEPLOY_DIR_IMAGE}/${IMAGE_NAME}.rootfs.ext2"
-+IMAGE_CMD_ext2 () {
-+	rm -rf ${DEPLOY_DIR_IMAGE}/tmp.gz-${PN} && mkdir ${DEPLOY_DIR_IMAGE}/tmp.gz-${PN}
-+	genext2fs -b $ROOTFS_SIZE -d ${IMAGE_ROOTFS} ${EXTRA_IMAGECMD} ${DEPLOY_DIR_IMAGE}/tmp.gz-${PN}/${IMAGE_NAME}.rootfs.ext2
-+	mv ${DEPLOY_DIR_IMAGE}/tmp.gz-${PN}/${IMAGE_NAME}.rootfs.ext2 ${DEPLOY_DIR_IMAGE}/${IMAGE_NAME}.rootfs.ext2
-+	rmdir ${DEPLOY_DIR_IMAGE}/tmp.gz-${PN}
-+}
- IMAGE_CMD_ext2.gz () {
- 	rm -rf ${DEPLOY_DIR_IMAGE}/tmp.gz-${PN} && mkdir ${DEPLOY_DIR_IMAGE}/tmp.gz-${PN}
- 	genext2fs -b $ROOTFS_SIZE -i 4096 -d ${IMAGE_ROOTFS} ${EXTRA_IMAGECMD} ${DEPLOY_DIR_IMAGE}/tmp.gz-${PN}/${IMAGE_NAME}.rootfs.ext2
--- 
-1.7.6.1
+Did you really intend to include the 'i' after ${POLKIT_OECONF} ?
 
-
+Steve
 
 
