@@ -1,35 +1,20 @@
-Received: from mail-ey0-f175.google.com ([209.85.215.175])
+Received: from mga11.intel.com ([192.55.52.93])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <martin.jansa@gmail.com>) id 1RlJkk-0004bX-Bu
+	(envelope-from <edwin.zhai@intel.com>) id 1RlKYY-0000KR-U8
 	for openembedded-core@lists.openembedded.org;
-	Thu, 12 Jan 2012 13:27:34 +0100
-Received: by eaao13 with SMTP id o13so564173eaa.6
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 12 Jan 2012 04:20:03 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
-	h=date:from:to:cc:subject:message-id:references:mime-version
-	:content-type:content-disposition:in-reply-to:user-agent;
-	bh=XL7JZoejx/DLu2IB9QgJWMpltjolfjpf0+DNc119EPQ=;
-	b=JlC35D1vQiJ/QVGvrhdWl4IG3lWdczKiEaa54ftICet9rm+PxyKCR+thyzBAt6Otit
-	fT27NFMe1wktPTjgpfSP0XSim5JnA2qykhNbZSjRx6Rf6KI+ExwvS2evP2b5uNUbxHi/
-	vhg/akmvVvKpF6V8Ou16GQv4UQ5dXAAWqMi2A=
-Received: by 10.213.14.71 with SMTP id f7mr1975066eba.61.1326370803011;
-	Thu, 12 Jan 2012 04:20:03 -0800 (PST)
-Received: from localhost ([94.230.152.246])
-	by mx.google.com with ESMTPS id t59sm18827397eeh.10.2012.01.12.04.20.01
-	(version=TLSv1/SSLv3 cipher=OTHER);
-	Thu, 12 Jan 2012 04:20:01 -0800 (PST)
-Date: Thu, 12 Jan 2012 13:19:49 +0100
-From: Martin Jansa <martin.jansa@gmail.com>
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Message-ID: <20120112121949.GB3452@jama.jama.net>
-References: <1326369146-4369-1-git-send-email-koen@dominion.thruhere.net>
-MIME-Version: 1.0
-In-Reply-To: <1326369146-4369-1-git-send-email-koen@dominion.thruhere.net>
-User-Agent: Mutt/1.5.21 (2010-09-15)
-Cc: Koen Kooi <koen@dominion.thruhere.net>
-Subject: Re: [PATCH] dbus.inc: s/INC_PR/PR/ to fix PR bump after dbus-launch-helper permission change
+	Thu, 12 Jan 2012 14:19:03 +0100
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+	by fmsmga102.fm.intel.com with ESMTP; 12 Jan 2012 05:11:27 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="111506290"
+Received: from yocto-build3.sh.intel.com ([10.239.48.58])
+	by fmsmga002.fm.intel.com with ESMTP; 12 Jan 2012 05:11:26 -0800
+From: edwin.zhai@intel.com
+To: openembedded-core@lists.openembedded.org
+Date: Thu, 12 Jan 2012 20:57:36 +0800
+Message-Id: <cover.1326372828.git.edwin.zhai@intel.com>
+X-Mailer: git-send-email 1.7.1
+Subject: [PATCH 0/1] Fix libGL path in 64b Ubuntu 11.10
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -44,72 +29,27 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 12 Jan 2012 12:27:34 -0000
-X-Groupsio-MsgNum: 15868
-Content-Type: multipart/signed; micalg=pgp-sha1;
-	protocol="application/pgp-signature"; boundary="+pHx0qQiF2pBVqBT"
-Content-Disposition: inline
+X-List-Received-Date: Thu, 12 Jan 2012 13:19:03 -0000
 
---+pHx0qQiF2pBVqBT
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+From: Zhai Edwin <edwin.zhai@intel.com>
 
-On Thu, Jan 12, 2012 at 12:52:26PM +0100, Koen Kooi wrote:
-> The dbus recipes don't use INC_PR so it didn't get rebuilt after the prev=
-ious commit to fix the launch helper permissions
->=20
-> Signed-off-by: Koen Kooi <koen@dominion.thruhere.net>
-> ---
->  meta/recipes-core/dbus/dbus.inc |    2 +-
->  1 files changed, 1 insertions(+), 1 deletions(-)
->=20
-> diff --git a/meta/recipes-core/dbus/dbus.inc b/meta/recipes-core/dbus/dbu=
-s.inc
-> index 2a25256..489e8db 100644
-> --- a/meta/recipes-core/dbus/dbus.inc
-> +++ b/meta/recipes-core/dbus/dbus.inc
-> @@ -10,7 +10,7 @@ DEPENDS =3D "expat virtual/libintl ${@base_contains('DI=
-STRO_FEATURES', 'x11', '${X
->  DEPENDS_virtclass-native =3D "expat-native virtual/libintl-native"
->  DEPENDS_virtclass-nativesdk =3D "expat-nativesdk virtual/libintl-natives=
-dk virtual/libx11"
-> =20
-> -INC_PR =3D "r1"
-> +PR =3D "r1"
+From 11.10, 64b Ubuntu has a new path for libGL.so. This patch fix it.
+Thanks,
+Edwin
 
-Can we move it to dbus_1.4.16.bb too? or change dbus_1.4.16.bb to use
-INC_PR, I can imagine someone reusing meta/recipes-core/dbus/dbus.inc in
-his layer won't notice that there is PR now.
+The following changes since commit 19241e7e2d88406c57613180dec9e7896c6674cc:
 
-Cheers,
+  distro-tracking: Update info for webkit-gtk, web-webkit (2012-01-11 11:01:32 +0800)
 
-> =20
->  SRC_URI =3D "http://dbus.freedesktop.org/releases/dbus/dbus-${PV}.tar.gz=
- \
->             file://tmpdir.patch; \
-> --=20
-> 1.7.2.5
->=20
->=20
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
+are available in the git repository at:
+  git://git.pokylinux.org/poky-contrib gzhai/master2
+  http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=gzhai/master2
 
---=20
-Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
+Zhai Edwin (1):
+  runqemu: Fix the wrong path of libGL.so in 64b Ubuntu 11.10
 
---+pHx0qQiF2pBVqBT
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: Digital signature
+ scripts/runqemu-internal |   11 ++++++++++-
+ 1 files changed, 10 insertions(+), 1 deletions(-)
 
------BEGIN PGP SIGNATURE-----
-Version: GnuPG v2.0.18 (GNU/Linux)
 
-iEYEARECAAYFAk8Oz+UACgkQN1Ujt2V2gBzoDQCfWAVC33DA4DVy/x5l0qUYIdhE
-PXoAniu8jyQ9BysY1+cvjqj5hBzBuI4y
-=baVl
------END PGP SIGNATURE-----
 
---+pHx0qQiF2pBVqBT--
