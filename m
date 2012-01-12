@@ -1,59 +1,28 @@
-Received: from va3ehsobe001.messaging.microsoft.com ([216.32.180.11]
-	helo=VA3EHSOBE008.bigfish.com)
+Received: from mga02.intel.com ([134.134.136.20])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <B29882@freescale.com>) id 1RlSyN-0005Fc-BU
+	(envelope-from <nitin.a.kamble@intel.com>) id 1RlTHS-0005hh-F8
 	for openembedded-core@lists.openembedded.org;
-	Thu, 12 Jan 2012 23:18:15 +0100
-Received: from mail132-va3-R.bigfish.com (10.7.14.244) by
-	VA3EHSOBE008.bigfish.com (10.7.40.28) with Microsoft SMTP Server id
-	14.1.225.23; Thu, 12 Jan 2012 22:10:43 +0000
-Received: from mail132-va3 (localhost [127.0.0.1])	by
-	mail132-va3-R.bigfish.com (Postfix) with ESMTP id E4FFC100099	for
-	<openembedded-core@lists.openembedded.org>;
-	Thu, 12 Jan 2012 22:10:41 +0000 (UTC)
-X-SpamScore: -14
-X-BigFish: VS-14(zz9371I168aJ542M1432N98dKzz1202hzz8275bhz2dhc1ahc1bh2a8h668h839h8e2h8e3hbe9k61h)
-X-Spam-TCS-SCL: 0:0
-X-Forefront-Antispam-Report: CIP:70.37.183.190; KIP:(null); UIP:(null); IPV:NLI;
-	H:mail.freescale.net; RD:none; EFVD:NLI
-X-FB-SS: 0,
-Received: from mail132-va3 (localhost.localdomain [127.0.0.1]) by mail132-va3
-	(MessageSwitch) id 132640618617836_29134;
-	Thu, 12 Jan 2012 22:09:46 +0000 (UTC)
-Received: from VA3EHSMHS007.bigfish.com (unknown [10.7.14.249])	by
-	mail132-va3.bigfish.com (Postfix) with ESMTP id F16E9200049	for
-	<openembedded-core@lists.openembedded.org>;
-	Thu, 12 Jan 2012 22:09:45 +0000 (UTC)
-Received: from mail.freescale.net (70.37.183.190) by VA3EHSMHS007.bigfish.com
-	(10.7.99.17) with Microsoft SMTP Server (TLS) id 14.1.225.23;
-	Thu, 12 Jan 2012 22:09:46 +0000
-Received: from 039-SN1MPN1-002.039d.mgd.msft.net ([169.254.2.86]) by
-	039-SN1MMR1-001.039d.mgd.msft.net ([10.84.1.13]) with mapi id
-	14.01.0355.003; Thu, 12 Jan 2012 16:09:45 -0600
-From: McClintock Matthew-B29882 <B29882@freescale.com>
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Thread-Topic: [OE-core] [PATCH oe-core v6] linux-dtb: add multi-dtb build
-	support and keep dtb in deploy cache package
-Thread-Index: AQHM0Xbj3yUzrRvQx0Oa5t70lGJmEA==
-Date: Thu, 12 Jan 2012 22:09:44 +0000
-Message-ID: <CAEsOVNeX47ZiDRue8wfLErf4kaTSHWrJTL8rmm070VHMjimP6Q@mail.gmail.com>
-References: <1326080274-1998-1-git-send-email-b19537@freescale.com>
-	<4F0BCFEF.7000207@linux.intel.com>
-	<CA452391058F6D4E9715FB2C29D9312A010CB0EA@039-SN2MPN1-023.039d.mgd.msft.net>
-In-Reply-To: <CA452391058F6D4E9715FB2C29D9312A010CB0EA@039-SN2MPN1-023.039d.mgd.msft.net>
-Accept-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [99.47.177.27]
-MIME-Version: 1.0
-X-OriginatorOrg: freescale.com
-Subject: Re: [PATCH oe-core v6] linux-dtb: add multi-dtb build support and keep dtb in deploy cache package
+	Thu, 12 Jan 2012 23:37:58 +0100
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+	by orsmga101.jf.intel.com with ESMTP; 12 Jan 2012 14:30:26 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.67,351,1309762800"; d="scan'208";a="97808823"
+Received: from nbuild0.sc.intel.com ([172.25.110.36])
+	by orsmga002.jf.intel.com with ESMTP; 12 Jan 2012 14:30:25 -0800
+From: nitin.a.kamble@intel.com
+To: openembedded-core@lists.openembedded.org
+Date: Thu, 12 Jan 2012 14:30:18 -0800
+Message-Id: <eba3057f651fab065aa053095e5d0bb0c53e1c41.1326406744.git.nitin.a.kamble@intel.com>
+X-Mailer: git-send-email 1.7.6.4
+In-Reply-To: <e7790b276b6dfce808bb6b70fe2847af657cd7b5.1326406744.git.nitin.a.kamble@intel.com>
+References: <e7790b276b6dfce808bb6b70fe2847af657cd7b5.1326406744.git.nitin.a.kamble@intel.com>
+In-Reply-To: <cover.1326406744.git.nitin.a.kamble@intel.com>
+References: <cover.1326406744.git.nitin.a.kamble@intel.com>
+Subject: [PATCH 4/7] libpcre: upgrade from 8.20 to 8.21
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
-Reply-To: McClintock Matthew-B29882 <B29882@freescale.com>,
-	Patches and discussions about the oe-core layer
+Reply-To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
 List-Id: Patches and discussions about the oe-core layer
 	<openembedded-core.lists.openembedded.org>
@@ -64,41 +33,37 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 12 Jan 2012 22:18:15 -0000
-Content-Language: en-US
-Content-Type: text/plain; charset="iso-8859-1"
-Content-ID: <C8F8C252384A7A4890BB2B0BB93885CC@freescale.net>
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Thu, 12 Jan 2012 22:37:58 -0000
 
-On Tue, Jan 10, 2012 at 12:25 AM, Luo Zhenhua-B19537
-<B19537@freescale.com> wrote:
->> -----Original Message-----
->> From: Saul Wold [mailto:sgw@linux.intel.com]
->> Sent: Tuesday, January 10, 2012 1:43 PM
->> > @@ -13,15 +13,21 @@ python __anonymous () {
->> > =A0 =A0 d.setVar("PACKAGES", "%s kernel-devicetree" % packages)
->> > =A0 }
->> >
->> I am not sure how this worked, I am seeing a problem with building rootf=
-s.
->> |
->>
->> kernel-devicetree is needed by
->> kernel-modules-
->> 3.0.14+git1+6ae3d992cf546184010e87a0349810198f1d167c_1+58ffdb8000e34d2ba=
-7c3ef278
->> b26680b0886e8b5-r2.mpc8315e_rdb
->>
->> This might be a PR Bump issue?
-> [Luo Zhenhua-B19537] I didn't meet such issue during my build, do we need=
- to add a PR in linux-dtb.inc to solve this issue?
+From: Nitin A Kamble <nitin.a.kamble@intel.com>
 
-Zhenhua,
+Signed-off-by: Nitin A Kamble <nitin.a.kamble@intel.com>
+---
+ .../libpcre/{libpcre_8.20.bb => libpcre_8.21.bb}   |    5 +++--
+ 1 files changed, 3 insertions(+), 2 deletions(-)
+ rename meta/recipes-support/libpcre/{libpcre_8.20.bb => libpcre_8.21.bb} (93%)
 
-I would suggest testing without our 'meta-fsl-ppc' layer and see what happe=
-ns.
-
--M=
+diff --git a/meta/recipes-support/libpcre/libpcre_8.20.bb b/meta/recipes-support/libpcre/libpcre_8.21.bb
+similarity index 93%
+rename from meta/recipes-support/libpcre/libpcre_8.20.bb
+rename to meta/recipes-support/libpcre/libpcre_8.21.bb
+index 58c6ecf..4eb65d7 100644
+--- a/meta/recipes-support/libpcre/libpcre_8.20.bb
++++ b/meta/recipes-support/libpcre/libpcre_8.21.bb
+@@ -12,8 +12,9 @@ SRC_URI = "${SOURCEFORGE_MIRROR}/pcre/pcre-${PV}.tar.bz2 \
+            file://pcre-cross.patch \
+            file://fix-pcre-name-collision.patch"
+ 
+-SRC_URI[md5sum] = "a1931c70e1273e3450d5036fe273d25c"
+-SRC_URI[sha256sum] = "e06b0943ce4b0f15324a20020d6086760a75b72f5ad7c23b9b2bfe690ed49acd"
++SRC_URI[md5sum] = "0a7b592bea64b7aa7f4011fc7171a730"
++SRC_URI[sha256sum] = "a4b8509d11fc2764fb4e1415b764ad2c214459edc011ce48aeeb6bbe1ac599e3"
++
+ S = "${WORKDIR}/pcre-${PV}"
+ 
+ PROVIDES = "pcre"
+-- 
+1.7.6.4
 
 
 
