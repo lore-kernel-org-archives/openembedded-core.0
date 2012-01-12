@@ -1,29 +1,26 @@
 Received: from mail.windriver.com ([147.11.1.11])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <Wenzong.Fan@windriver.com>) id 1RlG5W-0004Fp-7J
+	(envelope-from <liming.wang@windriver.com>) id 1RlGM9-0004kn-KV
 	for openembedded-core@lists.openembedded.org;
-	Thu, 12 Jan 2012 09:32:46 +0100
+	Thu, 12 Jan 2012 09:49:57 +0100
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca [147.11.189.40])
-	by mail.windriver.com (8.14.3/8.14.3) with ESMTP id q0C8PEBN018337
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
-	Thu, 12 Jan 2012 00:25:14 -0800 (PST)
-Received: from [128.224.162.188] (128.224.162.188) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server id 14.1.255.0;
-	Thu, 12 Jan 2012 00:25:14 -0800
-Message-ID: <4F0E98E5.3020302@windriver.com>
-Date: Thu, 12 Jan 2012 16:25:09 +0800
-From: wenzong fan <wenzong.fan@windriver.com>
-User-Agent: Mozilla/5.0 (X11; U; Linux x86_64; en-US;
-	rv:1.9.1.11) Gecko/20100713 Thunderbird/3.0.6
+	by mail.windriver.com (8.14.3/8.14.3) with ESMTP id q0C8gQu9020384
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 12 Jan 2012 00:42:26 -0800 (PST)
+Received: from pek-yocto-build2.corp.ad.wrs.com (128.224.163.150) by
+	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server id
+	14.1.255.0; Thu, 12 Jan 2012 00:42:26 -0800
+From: Liming Wang <liming.wang@windriver.com>
+To: <bruce.ashfield@windriver.com>
+Date: Thu, 12 Jan 2012 16:42:01 +0800
+Message-ID: <1326357721-19562-2-git-send-email-liming.wang@windriver.com>
+X-Mailer: git-send-email 1.7.5.4
+In-Reply-To: <1326357721-19562-1-git-send-email-liming.wang@windriver.com>
+References: <1326357721-19562-1-git-send-email-liming.wang@windriver.com>
 MIME-Version: 1.0
-To: Saul Wold <sgw@linux.intel.com>
-References: <cover.1326266933.git.wenzong.fan@windriver.com>	<4F0E8C3D.7040507@linux.intel.com>
-	<4F0E940D.9050904@windriver.com>
-In-Reply-To: <4F0E940D.9050904@windriver.com>
-Cc: "Yan, Xiaofeng" <Xiaofeng.Yan@windriver.com>,
-	Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH v2 0/1] archive.bbclass: archive work directory
+Cc: openembedded-core@lists.openembedded.org
+Subject: [PATCH 1/1] V2 meta/qemuppc: replace kernel config file of qemu-ppc32 with mac99
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -38,95 +35,110 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 12 Jan 2012 08:32:46 -0000
-Content-Type: text/plain; charset="ISO-8859-1"; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Thu, 12 Jan 2012 08:49:58 -0000
+Content-Type: text/plain
 
-On 01/12/2012 04:04 PM, wenzong fan wrote:
-> On 01/12/2012 03:31 PM, Saul Wold wrote:
->> On 01/10/2012 11:34 PM, wenzong.fan@windriver.com wrote:
->>> From: Wenzong Fan<wenzong.fan@windriver.com>
->>>
->>> v2 updates:
->>>
->>> 1) Remove the special-casing for gcc, checking for any packages under
->>> 'tmp/work-shared';
->>>
->>> 2) Remove some bash-specific code, replase the '[[regular-expression]]'
->>> with isovalent 'grep' statement.
->>>
->>>
->> So how is this work different than that of Xiaofeng's doing the 
->> tar_archive?  Can these two be merged somehow?  We also have 
->> something called copyleft complaince, is this similar or somehow 
->> different?
->
-> They are a little similar but mostly are different, #1655 (Xiaofeng's) 
-> will need to export the source packages (such as *.tar, *.rpm ...) for 
-> using, Mark also commented the details at:
->
-> http://bugzilla.pokylinux.org/show_bug.cgi?id=1655
->
-> But the #1590 (mine) only archive the patched sources/build_scripts up 
-> for later checking.
+Repalce emulation of qemuppc from prep to mac99. Also add
+qemu-ppc32-gfx.cfg file to support framebuffer and touchscreen.
 
-And I think both the 'archive.bbclass' and 'copyleft_complaince.bbclass' 
-were designed for some license related issues, but the 'archive.bbclass' 
-will create snapshot for all sources and 'copyleft_complaince.bbclass' 
-will do dynamic checking for the licenses.
+Signed-off-by: Liming Wang <liming.wang@windriver.com>
+Signed-off-by: Bruce Ashfield <bruce.ashfield@windriver.com>
+---
+ .../kernel-cache/bsp/qemu-ppc32/qemu-ppc32-gfx.cfg |   11 +++++
+ .../cfg/kernel-cache/bsp/qemu-ppc32/qemu-ppc32.cfg |   44 +++++++++++++++----
+ .../cfg/kernel-cache/bsp/qemu-ppc32/qemu-ppc32.scc |    1 +
+ 3 files changed, 46 insertions(+), 10 deletions(-)
+ create mode 100644 meta/cfg/kernel-cache/bsp/qemu-ppc32/qemu-ppc32-gfx.cfg
 
-Thanks
-Wenzong
->
-> Thanks
-> Wenzong
->
->>
->> We also have src_distribute.bbclass and sourcepkg.bbclass, seems like 
->> we have a more ways to package up source code than we know what to do 
->> with.
->>
->> Mark, we might want to sync up on this and figure out what we really 
->> have and what's really needed here.
->>
->> Thanks
->>     Sau!
->>
->>
->>
->>
->>> The following changes since commit 
->>> 4a8a3c503fd896593b787c26edbe46a7324e494e:
->>>    Richard Purdie (1):
->>>          Revert "site/common-uclibc: Cache gl_cv_func_wcwidth_works"
->>>
->>> are available in the git repository at:
->>>
->>>    git://git.pokylinux.org/poky-contrib wenzong/1590
->>>    http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=wenzong/1590
->>>
->>> Wenzong Fan (1):
->>>    archive.bbclass: archive work directory
->>>
->>>   meta/classes/archive.bbclass |   49 
->>> ++++++++++++++++++++++++++++++++++++++++++
->>>   1 files changed, 49 insertions(+), 0 deletions(-)
->>>   create mode 100644 meta/classes/archive.bbclass
->>>
->>>
->>> _______________________________________________
->>> Openembedded-core mailing list
->>> Openembedded-core@lists.openembedded.org
->>> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
->>>
->>
->
->
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
->
+diff --git a/meta/cfg/kernel-cache/bsp/qemu-ppc32/qemu-ppc32-gfx.cfg b/meta/cfg/kernel-cache/bsp/qemu-ppc32/qemu-ppc32-gfx.cfg
+new file mode 100644
+index 0000000..5fee67f
+--- /dev/null
++++ b/meta/cfg/kernel-cache/bsp/qemu-ppc32/qemu-ppc32-gfx.cfg
+@@ -0,0 +1,11 @@
++CONFIG_VGA_ARB=y
++CONFIG_FB=y
++CONFIG_FB_CFB_FILLRECT=y
++CONFIG_FB_CFB_COPYAREA=y
++CONFIG_FB_CFB_IMAGEBLIT=y
++CONFIG_FB_OF=y
++CONFIG_FRAMEBUFFER_CONSOLE=y
++
++CONFIG_INPUT_TABLET=y
++CONFIG_TABLET_USB_WACOM=y
++CONFIG_INPUT_MISC=y
+diff --git a/meta/cfg/kernel-cache/bsp/qemu-ppc32/qemu-ppc32.cfg b/meta/cfg/kernel-cache/bsp/qemu-ppc32/qemu-ppc32.cfg
+index f6648f5..3917741 100644
+--- a/meta/cfg/kernel-cache/bsp/qemu-ppc32/qemu-ppc32.cfg
++++ b/meta/cfg/kernel-cache/bsp/qemu-ppc32/qemu-ppc32.cfg
+@@ -10,21 +10,45 @@
+ #
+ #.........................................................................
+ # CONFIG_PPC_CHRP is not set
+-# CONFIG_PPC_PMAC is not set
+-CONFIG_PPC_QEMU=y
+-CONFIG_ISA=y
++CONFIG_PPC_PMAC=y
+ # CONFIG_PNP is not set
++# CONFIG_DEVTMPFS is not set
+ CONFIG_MII=y
+-CONFIG_NET_ISA=y
+-CONFIG_NE2000=y
+-CONFIG_SERIAL_8250=y
+-CONFIG_SERIAL_8250_CONSOLE=y
+-CONFIG_SERIAL_8250_PCI=y
+-CONFIG_SERIAL_8250_NR_UARTS=4
+-CONFIG_SERIAL_8250_RUNTIME_UARTS=4
++CONFIG_PCNET32=y
++CONFIG_NE2K_PCI=y
++CONFIG_MACE=y
++CONFIG_BMAC=y
++
++CONFIG_SERIAL_CORE=y
++CONFIG_SERIAL_CORE_CONSOLE=y
++CONFIG_SERIAL_PMACZILOG=y
++CONFIG_SERIAL_PMACZILOG_TTYS=y
++CONFIG_SERIAL_PMACZILOG_CONSOLE=y
+ 
+ CONFIG_IDE=y
+ CONFIG_IDE_GENERIC=y
++CONFIG_BLK_DEV_IDEPCI=y
++CONFIG_BLK_DEV_IDEDMA_PCI=y
++CONFIG_BLK_DEV_IDE_PMAC=y
++CONFIG_BLK_DEV_IDEDMA=y
++
++CONFIG_ADB=y
++CONFIG_ADB_CUDA=y
++CONFIG_INPUT_ADBHID=y
++
++CONFIG_INPUT_KEYBOARD=y
++CONFIG_INPUT_MOUSE=y
++
++CONFIG_USB=y
++CONFIG_USB_DEVICEFS=y
++CONFIG_USB_MON=y
++CONFIG_USB_OHCI_HCD=y
++CONFIG_USB_STORAGE=m
++
++CONFIG_INPUT_EVDEV=y
++CONFIG_SERIO=y
++# CONFIG_SERIO_SERPORT is not set
++
+ 
+ CONFIG_PROFILING=y
+ CONFIG_OPROFILE=y
+diff --git a/meta/cfg/kernel-cache/bsp/qemu-ppc32/qemu-ppc32.scc b/meta/cfg/kernel-cache/bsp/qemu-ppc32/qemu-ppc32.scc
+index 859329d..43f9dc6 100644
+--- a/meta/cfg/kernel-cache/bsp/qemu-ppc32/qemu-ppc32.scc
++++ b/meta/cfg/kernel-cache/bsp/qemu-ppc32/qemu-ppc32.scc
+@@ -1,4 +1,5 @@
+ kconf hardware qemu-ppc32.cfg
++kconf hardware qemu-ppc32-gfx.cfg
+ 
+ include features/profiling/profiling.scc
+ include features/latencytop/latencytop.scc
+-- 
+1.7.5.4
 
 
 
