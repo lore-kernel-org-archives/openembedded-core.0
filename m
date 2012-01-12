@@ -1,25 +1,29 @@
 Received: from mail.windriver.com ([147.11.1.11])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <Xiaofeng.Yan@windriver.com>) id 1RlG4u-00047T-Dz
+	(envelope-from <Wenzong.Fan@windriver.com>) id 1RlG5W-0004Fp-7J
 	for openembedded-core@lists.openembedded.org;
-	Thu, 12 Jan 2012 09:32:08 +0100
+	Thu, 12 Jan 2012 09:32:46 +0100
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca [147.11.189.40])
-	by mail.windriver.com (8.14.3/8.14.3) with ESMTP id q0C8Oaqc018217
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 12 Jan 2012 00:24:37 -0800 (PST)
-Received: from localhost (128.224.162.28) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server (TLS) id 14.1.255.0;
-	Thu, 12 Jan 2012 00:24:36 -0800
-Message-ID: <d3939f8f64b50aca9bf23e9c017160d32cd814f6.1326355020.git.xiaofeng.yan@windriver.com>
-In-Reply-To: <cover.1326355020.git.xiaofeng.yan@windriver.com>
-References: <cover.1326355020.git.xiaofeng.yan@windriver.com>
-Old-Date: Thu, 12 Jan 2012 15:39:57 +0800
-Date: Thu, 12 Jan 2012 16:12:50 +0800
-To: <openembedded-core@lists.openembedded.org>
-From: Xiaofeng Yan <xiaofeng.yan@windriver.com>
+	by mail.windriver.com (8.14.3/8.14.3) with ESMTP id q0C8PEBN018337
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
+	Thu, 12 Jan 2012 00:25:14 -0800 (PST)
+Received: from [128.224.162.188] (128.224.162.188) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server id 14.1.255.0;
+	Thu, 12 Jan 2012 00:25:14 -0800
+Message-ID: <4F0E98E5.3020302@windriver.com>
+Date: Thu, 12 Jan 2012 16:25:09 +0800
+From: wenzong fan <wenzong.fan@windriver.com>
+User-Agent: Mozilla/5.0 (X11; U; Linux x86_64; en-US;
+	rv:1.9.1.11) Gecko/20100713 Thunderbird/3.0.6
 MIME-Version: 1.0
-Subject: [PATCH 3/3] pango.inc: add directory "/etc/pango"
+To: Saul Wold <sgw@linux.intel.com>
+References: <cover.1326266933.git.wenzong.fan@windriver.com>	<4F0E8C3D.7040507@linux.intel.com>
+	<4F0E940D.9050904@windriver.com>
+In-Reply-To: <4F0E940D.9050904@windriver.com>
+Cc: "Yan, Xiaofeng" <Xiaofeng.Yan@windriver.com>,
+	Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH v2 0/1] archive.bbclass: archive work directory
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -34,48 +38,95 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 12 Jan 2012 08:32:08 -0000
-Content-Type: text/plain
+X-List-Received-Date: Thu, 12 Jan 2012 08:32:46 -0000
+Content-Type: text/plain; charset="ISO-8859-1"; format=flowed
+Content-Transfer-Encoding: 7bit
 
-From: Xiaofeng Yan <xiaofeng.yan@windriver.com>
+On 01/12/2012 04:04 PM, wenzong fan wrote:
+> On 01/12/2012 03:31 PM, Saul Wold wrote:
+>> On 01/10/2012 11:34 PM, wenzong.fan@windriver.com wrote:
+>>> From: Wenzong Fan<wenzong.fan@windriver.com>
+>>>
+>>> v2 updates:
+>>>
+>>> 1) Remove the special-casing for gcc, checking for any packages under
+>>> 'tmp/work-shared';
+>>>
+>>> 2) Remove some bash-specific code, replase the '[[regular-expression]]'
+>>> with isovalent 'grep' statement.
+>>>
+>>>
+>> So how is this work different than that of Xiaofeng's doing the 
+>> tar_archive?  Can these two be merged somehow?  We also have 
+>> something called copyleft complaince, is this similar or somehow 
+>> different?
+>
+> They are a little similar but mostly are different, #1655 (Xiaofeng's) 
+> will need to export the source packages (such as *.tar, *.rpm ...) for 
+> using, Mark also commented the details at:
+>
+> http://bugzilla.pokylinux.org/show_bug.cgi?id=1655
+>
+> But the #1590 (mine) only archive the patched sources/build_scripts up 
+> for later checking.
 
-Command "pango-querymodules > /etc/pango/pango.modules" can't work when \
-starting up yocto because of no directory "/etc/pango". It will cause \
-messy code when gtk-demo running.
+And I think both the 'archive.bbclass' and 'copyleft_complaince.bbclass' 
+were designed for some license related issues, but the 'archive.bbclass' 
+will create snapshot for all sources and 'copyleft_complaince.bbclass' 
+will do dynamic checking for the licenses.
 
-[YOCTO #1674]
-
-Signed-off-by: Xiaofeng Yan <xiaofeng.yan@windriver.com>
----
- meta/recipes-graphics/pango/pango.inc |    7 ++++++-
- 1 files changed, 6 insertions(+), 1 deletions(-)
-
-diff --git a/meta/recipes-graphics/pango/pango.inc b/meta/recipes-graphics/pango/pango.inc
-index b428b9d..e103fab 100644
---- a/meta/recipes-graphics/pango/pango.inc
-+++ b/meta/recipes-graphics/pango/pango.inc
-@@ -46,6 +46,11 @@ fi
- 
- }
- 
-+# Command "pango-querymodules > /etc/pango/pango.modules" needs this directory.
-+do_install_prepend() {
-+	install -d ${D}/${sysconfdir}/pango
-+}
-+
- python populate_packages_prepend () {
- 	prologue = d.getVar("postinst_prologue", 1)
- 
-@@ -54,6 +59,6 @@ python populate_packages_prepend () {
- 	do_split_packages(d, modules_root, '^pango-(.*)\.so$', 'pango-module-%s', 'Pango module %s', prologue + 'pango-querymodules > /etc/pango/pango.modules')
- }
- 
--FILES_${PN} = "/etc/pango/* ${bindir}/* ${libdir}/libpango*${SOLIBS}"
-+FILES_${PN} += "${syscondir}/* ${bindir}/* ${libdir}/libpango*${SOLIBS}"
- FILES_${PN}-dbg += "${libdir}/pango/${LIBV}/modules/.debug"
- FILES_${PN}-dev += "${libdir}/pango/${LIBV}/modules/*.la"
--- 
-1.7.0.4
+Thanks
+Wenzong
+>
+> Thanks
+> Wenzong
+>
+>>
+>> We also have src_distribute.bbclass and sourcepkg.bbclass, seems like 
+>> we have a more ways to package up source code than we know what to do 
+>> with.
+>>
+>> Mark, we might want to sync up on this and figure out what we really 
+>> have and what's really needed here.
+>>
+>> Thanks
+>>     Sau!
+>>
+>>
+>>
+>>
+>>> The following changes since commit 
+>>> 4a8a3c503fd896593b787c26edbe46a7324e494e:
+>>>    Richard Purdie (1):
+>>>          Revert "site/common-uclibc: Cache gl_cv_func_wcwidth_works"
+>>>
+>>> are available in the git repository at:
+>>>
+>>>    git://git.pokylinux.org/poky-contrib wenzong/1590
+>>>    http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=wenzong/1590
+>>>
+>>> Wenzong Fan (1):
+>>>    archive.bbclass: archive work directory
+>>>
+>>>   meta/classes/archive.bbclass |   49 
+>>> ++++++++++++++++++++++++++++++++++++++++++
+>>>   1 files changed, 49 insertions(+), 0 deletions(-)
+>>>   create mode 100644 meta/classes/archive.bbclass
+>>>
+>>>
+>>> _______________________________________________
+>>> Openembedded-core mailing list
+>>> Openembedded-core@lists.openembedded.org
+>>> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
+>>>
+>>
+>
+>
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
+>
 
 
 
