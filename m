@@ -1,25 +1,25 @@
-Received: from mail.windriver.com ([147.11.1.11])
+Received: from mga01.intel.com ([192.55.52.88])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <Zumeng.Chen@windriver.com>) id 1RlBBm-0004Zm-Mm
+	(envelope-from <sgw@linux.intel.com>) id 1RlEKy-0002Cb-2F
 	for openembedded-core@lists.openembedded.org;
-	Thu, 12 Jan 2012 04:18:55 +0100
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca [147.11.189.40])
-	by mail.windriver.com (8.14.3/8.14.3) with ESMTP id q0C3BN5L019858
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 11 Jan 2012 19:11:23 -0800 (PST)
-Received: from pek-yocto-build2.corp.ad.wrs.com (128.224.163.150) by
-	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server id
-	14.1.255.0; Wed, 11 Jan 2012 19:11:23 -0800
-From: Zumeng Chen <zumeng.chen@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Thu, 12 Jan 2012 11:11:03 +0800
-Message-ID: <7e296b4784e2043a1be8b47cd935bb3e06db1b12.1326337436.git.zumeng.chen@windriver.com>
-X-Mailer: git-send-email 1.7.5.4
-In-Reply-To: <cover.1326337436.git.zumeng.chen@windriver.com>
-References: <cover.1326337436.git.zumeng.chen@windriver.com>
+	Thu, 12 Jan 2012 07:40:37 +0100
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+	by fmsmga101.fm.intel.com with ESMTP; 11 Jan 2012 22:33:00 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="106270317"
+Received: from unknown (HELO [10.255.13.168]) ([10.255.13.168])
+	by fmsmga001.fm.intel.com with ESMTP; 11 Jan 2012 22:32:59 -0800
+Message-ID: <4F0E7E9B.8040805@linux.intel.com>
+Date: Wed, 11 Jan 2012 22:32:59 -0800
+From: Saul Wold <sgw@linux.intel.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:8.0) Gecko/20111115 Thunderbird/8.0
 MIME-Version: 1.0
-Subject: [PATCH 4/4] babeltrace: Integrated from version 0.8
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+References: <cover.1326176214.git.lianhao.lu@intel.com>
+In-Reply-To: <cover.1326176214.git.lianhao.lu@intel.com>
+Subject: Re: [PRService/meta V3 0/3] new PRService features in meta
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -34,53 +34,86 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 12 Jan 2012 03:18:55 -0000
-Content-Type: text/plain
+X-List-Received-Date: Thu, 12 Jan 2012 06:40:38 -0000
+Content-Type: text/plain; charset=ISO-8859-1; format=flowed
+Content-Transfer-Encoding: 7bit
 
-It provides trace read and write libraries, as well as a trace converter.
+On 01/09/2012 10:22 PM, Lianhao Lu wrote:
+> V3: Using event handler instead of new tasks to interfacing to bitbake.
+> V2: Using bb.fatal instead of bb.FuncFailed.
+>
+> NOTE: This set of patches added supporting for new features in meta layer.
+> It should work together with another branch of patches in bitbake.
+>      git://git.pokylinux.org/poky-contrib llu/PRService_bitbake
+>
+> It supports the export/import AUTOPR values from/to PRservice to lockdown
+> the PR values for release. The typical usage scenario is:
+>
+> 1. UserA enabled the PRService and run buildings. The PRService will
+> record the AUTOPR values(which will be included in the finale PKGR) for
+> different packages the userA builds.
+>
+> 2. UserA runs "bitbake-prserv-tool export<file>" to export the AUTOPR
+> values from the current PRService into an exported inc file.
+>
+> 3. UserB gets the exported inc file and runs the command
+> "bitbake -R<exported file>  target" to lockdown and reproduce the same AUTOPR
+> when generating packages.
+>
+> 4. UserB may run "bitbake-prserv-tool import<file>" to import the exported
+> AUTOPR values back into his own PRService. The AUTOPR values will be
+> incremented from there.
+>
+> This set of changes also supports the per-recipe based PRSERV_HOST and
+> PRSERV_PORT.
+>
+> This set of changes makes the basichash instead of the basic as the default
+> signature generator.
+>
+> The following changes since commit fff18970706913e7fd7f4a119d798dddb44b388a:
+>    Gary Thomas (1):
+>          base-files: filesystems: fix mount order
+>
+> are available in the git repository at:
+>
+>    git://git.yoctoproject.org/poky-contrib llu/PRService_oecore
+>    http://git.yoctoproject.org/cgit.cgi/poky-contrib/log/?h=llu/PRService_oecore
+>
+> Lianhao Lu (3):
+>    meta/PRService: Added export/import fuctions.
+>    package.bbclass: per recipe PRSERV_HOST support
+Merged these first 2 as infrastructure
 
-Signed-off-by: Zumeng Chen <zumeng.chen@windriver.com>
----
- meta/recipes-kernel/lttng-2.0/babeltrace_0.8.bb |   28 +++++++++++++++++++++++
- 1 files changed, 28 insertions(+), 0 deletions(-)
- create mode 100644 meta/recipes-kernel/lttng-2.0/babeltrace_0.8.bb
+>    conf/bitbake.conf: basichash as default signature.
+>
+Held off on this, please enable it in poky.conf first for more testing 
+in poky first.
 
-diff --git a/meta/recipes-kernel/lttng-2.0/babeltrace_0.8.bb b/meta/recipes-kernel/lttng-2.0/babeltrace_0.8.bb
-new file mode 100644
-index 0000000..76a76c3
---- /dev/null
-+++ b/meta/recipes-kernel/lttng-2.0/babeltrace_0.8.bb
-@@ -0,0 +1,28 @@
-+SUMMARY = "Babeltrace - Trace Format Babel Tower"
-+DESCRIPTION = "Babeltrace provides trace read and write libraries in host side, as well as a trace converter, which used to convert LTTng 2.0 traces into human-readable log."
-+HOMEPAGE = "http://www.efficios.com/babeltrace/"
-+BUGTRACKER = "n/a"
-+
-+LICENSE = "MIT & GPLV2"
-+LIC_FILES_CHKSUM = "file://LICENSE;md5=8d1a03b3c17bdd158b3cbb34813b1423"
-+
-+inherit autotools
-+
-+DEPENDS = "gtk+ util-linux"
-+
-+SRCREV = "31e670293588d7882a232bc14b93d5e956fa43f4"
-+PV = "0.8+git${SRCPV}"
-+PR = "r0"
-+
-+SRC_URI = "git://git.efficios.com/babeltrace.git;protocol=git"
-+
-+S = "${WORKDIR}/git"
-+
-+do_configure_prepend () {
-+	${S}/bootstrap
-+}
-+
-+# Due to liburcu not building for MIPS currently this recipe needs to
-+# be limited also.
-+# So here let us first suppport x86/arm/powerpc platforms now.
-+COMPATIBLE_HOST = '(x86_64.*|i.86.*|arm.*|powerpc.*)-linux'
--- 
-1.7.5.4
+Thanks
+	Sau!
 
+>   meta/classes/package.bbclass  |   21 +++++++-
+>   meta/classes/prexport.bbclass |   45 ++++++++++++++++
+>   meta/classes/primport.bbclass |   17 ++++++
+>   meta/classes/prserv.bbclass   |   36 +++++--------
+>   meta/conf/bitbake.conf        |    6 +-
+>   meta/conf/prexport.conf       |    1 +
+>   meta/conf/primport.conf       |    1 +
+>   meta/lib/oe/prservice.py      |  113 +++++++++++++++++++++++++++++++++++++++++
+>   scripts/bitbake-prserv-tool   |   57 +++++++++++++++++++++
+>   9 files changed, 269 insertions(+), 28 deletions(-)
+>   create mode 100644 meta/classes/prexport.bbclass
+>   create mode 100644 meta/classes/primport.bbclass
+>   create mode 100644 meta/conf/prexport.conf
+>   create mode 100644 meta/conf/primport.conf
+>   create mode 100644 meta/lib/oe/prservice.py
+>   create mode 100755 scripts/bitbake-prserv-tool
+>
+>
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
+>
 
 
