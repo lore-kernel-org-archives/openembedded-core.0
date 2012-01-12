@@ -1,34 +1,35 @@
 Received: from mail-ey0-f175.google.com ([209.85.215.175])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <martin.jansa@gmail.com>) id 1RlHB7-0007IP-T0
+	(envelope-from <martin.jansa@gmail.com>) id 1RlHDg-0002U2-17
 	for openembedded-core@lists.openembedded.org;
-	Thu, 12 Jan 2012 10:42:39 +0100
-Received: by eaao13 with SMTP id o13so519540eaa.6
+	Thu, 12 Jan 2012 10:45:16 +0100
+Received: by eaao13 with SMTP id o13so520252eaa.6
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 12 Jan 2012 01:35:07 -0800 (PST)
+	Thu, 12 Jan 2012 01:37:45 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
-	h=from:to:subject:date:message-id:x-mailer:in-reply-to:references
-	:in-reply-to:references;
-	bh=5uHf2iYo3eiS6dQ6eo0VmNVEGKVWFQpLXQk6XuDKki8=;
-	b=o8JxLA3FI8QHi34rFkjuJ4IFoPQTaZTxn1gBkmoNF0jlK99iuD3k4nRMwVe8R/6bnZ
-	R0E5daizoL1welmFJfb1eDHmOukZxPnJHdqmT6Ox6qiMtV0nbV+XrVzWwkJEJ3QaIWzF
-	gnJjx/1RyTUfV0DtYdvfBqvRS98H1uU7mQjg8=
-Received: by 10.213.110.16 with SMTP id l16mr1378217ebp.133.1326360907032;
-	Thu, 12 Jan 2012 01:35:07 -0800 (PST)
+	h=date:from:to:cc:subject:message-id:references:mime-version
+	:content-type:content-disposition:in-reply-to:user-agent;
+	bh=fDxg80ph/kZv0IiNuoC0smUlcCYr1urbLWx1DR7+RWE=;
+	b=fCHFWCVqXiKwSpQDbvpLAGJRoJD3YkjxgK0QEa9ThVu9VbJw38YxaAq0dvpN8TQFzs
+	4G2hTzCANWHv4Wwiju6N6qvZDqHWxibBlmTHrwWyz9X1ZguUXAOge3YQ5ZHJu2b4mzf6
+	CyDn3vdblgs+S7b3Q3F/HhFAdRdrxLAjHQyWc=
+Received: by 10.213.23.3 with SMTP id p3mr664491ebb.2.1326361065358;
+	Thu, 12 Jan 2012 01:37:45 -0800 (PST)
 Received: from localhost ([94.230.152.246])
-	by mx.google.com with ESMTPS id 15sm17366467eeu.1.2012.01.12.01.35.05
+	by mx.google.com with ESMTPS id x43sm17319500eef.8.2012.01.12.01.37.43
 	(version=TLSv1/SSLv3 cipher=OTHER);
-	Thu, 12 Jan 2012 01:35:06 -0800 (PST)
+	Thu, 12 Jan 2012 01:37:44 -0800 (PST)
+Date: Thu, 12 Jan 2012 10:37:32 +0100
 From: Martin Jansa <martin.jansa@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Date: Thu, 12 Jan 2012 10:34:51 +0100
-Message-Id: <1474b61c4f163d21b6ab7c639edee68f8e318696.1326360842.git.Martin.Jansa@gmail.com>
-X-Mailer: git-send-email 1.7.8.3
-In-Reply-To: <ac5832462cb17b7664c233dc815d761633f38e5f.1326360842.git.Martin.Jansa@gmail.com>
-References: <ac5832462cb17b7664c233dc815d761633f38e5f.1326360842.git.Martin.Jansa@gmail.com>
-In-Reply-To: <cover.1326360842.git.Martin.Jansa@gmail.com>
-References: <cover.1326360842.git.Martin.Jansa@gmail.com>
-Subject: [PATCH 2/2] xorg-*: disable xmlto where it was failing
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Message-ID: <20120112093732.GA3452@jama.jama.net>
+References: <1326225078-18652-1-git-send-email-kergoth@gmail.com>
+MIME-Version: 1.0
+In-Reply-To: <1326225078-18652-1-git-send-email-kergoth@gmail.com>
+User-Agent: Mutt/1.5.21 (2010-09-15)
+Cc: Christopher Larson <chris_larson@mentor.com>
+Subject: Re: [PATCH] ncurses-native: install to libdir, not base_libdir
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -43,57 +44,89 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 12 Jan 2012 09:42:39 -0000
+X-List-Received-Date: Thu, 12 Jan 2012 09:45:16 -0000
+X-Groupsio-MsgNum: 15862
+Content-Type: multipart/signed; micalg=pgp-sha1;
+	protocol="application/pgp-signature"; boundary="IJpNTDwzlM2Ie8A6"
+Content-Disposition: inline
 
-* meta-oe now provides xmlto-native
-  http://git.openembedded.org/meta-openembedded/commit/?id=ab8f876ca8fa223c183e3db2029cce88f3435a27
-  but not the stylesheets for buildhosts without them it's unusable and fails, because xorg macros
-  autodetecting xmlto available, see:
-  http://lists.linuxtogo.org/pipermail/openembedded-devel/2011-December/037066.html
-  after adding xmlto-native and stylesheets-native to DEPENDS we can enable it again
+--IJpNTDwzlM2Ie8A6
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
----
- meta/recipes-graphics/xorg-lib/xorg-lib-common.inc |    2 +-
- .../xorg-proto/xorg-proto-common.inc               |    2 +-
- .../recipes-graphics/xorg-xserver/xserver-xorg.inc |    1 +
- 3 files changed, 3 insertions(+), 2 deletions(-)
+On Tue, Jan 10, 2012 at 01:51:18PM -0600, Christopher Larson wrote:
+> From: Christopher Larson <chris_larson@mentor.com>
+>=20
+> For target, both base_libdir and libdir in sysroot can be used, as we pass
+> --sysroot to the toolchain. For native, we don't do this, and we also onl=
+y add
+> -L<sysroot>/${libdir}, not -L<sysroot>/${base_libdir}, resulting in other
+> native recipes (like readline-native) failing to find the ncurses librari=
+es.
+>=20
+> readline-native only built successfully on hosts where it could fall back=
+ to
+> their ncurses/termcap rather than the one in the sysroot.
 
-diff --git a/meta/recipes-graphics/xorg-lib/xorg-lib-common.inc b/meta/recipes-graphics/xorg-lib/xorg-lib-common.inc
-index d843d65..d106054 100644
---- a/meta/recipes-graphics/xorg-lib/xorg-lib-common.inc
-+++ b/meta/recipes-graphics/xorg-lib/xorg-lib-common.inc
-@@ -13,4 +13,4 @@ S = "${WORKDIR}/${XORG_PN}-${PV}"
- 
- inherit autotools pkgconfig
- 
--EXTRA_OECONF = "--enable-malloc0returnsnull --with-fop=no"
-+EXTRA_OECONF = "--enable-malloc0returnsnull --with-fop=no --without-xmlto"
-diff --git a/meta/recipes-graphics/xorg-proto/xorg-proto-common.inc b/meta/recipes-graphics/xorg-proto/xorg-proto-common.inc
-index 765e30a..856f4d8 100644
---- a/meta/recipes-graphics/xorg-proto/xorg-proto-common.inc
-+++ b/meta/recipes-graphics/xorg-proto/xorg-proto-common.inc
-@@ -14,7 +14,7 @@ S = "${WORKDIR}/${XORG_PN}-${PV}"
- DEPENDS = "util-macros"
- 
- inherit autotools pkgconfig
--EXTRA_OECONF = "--with-fop=no"
-+EXTRA_OECONF = "--with-fop=no --without-xmlto"
- 
- # ${PN} is empty so we need to tweak -dev and -dbg package dependencies
- RDEPENDS_${PN}-dev = ""
-diff --git a/meta/recipes-graphics/xorg-xserver/xserver-xorg.inc b/meta/recipes-graphics/xorg-xserver/xserver-xorg.inc
-index b387790..ca7d33a 100644
---- a/meta/recipes-graphics/xorg-xserver/xserver-xorg.inc
-+++ b/meta/recipes-graphics/xorg-xserver/xserver-xorg.inc
-@@ -9,4 +9,5 @@ EXTRA_OECONF += "\
-                  --enable-glx-tls \
-                  --with-pic \
-                  --with-int10=x86emu \
-+                 --without-xmlto \
- "
--- 
-1.7.8.3
+Fixes issues I'm seeing while rebuilding from scratch, thanks!
 
+Acked-by: Martin Jansa <Martin.Jansa@gmail.com>
 
+>=20
+> Signed-off-by: Christopher Larson <chris_larson@mentor.com>
+> ---
+>  meta/recipes-core/ncurses/ncurses.inc |    6 +++---
+>  1 files changed, 3 insertions(+), 3 deletions(-)
+>=20
+> diff --git a/meta/recipes-core/ncurses/ncurses.inc b/meta/recipes-core/nc=
+urses/ncurses.inc
+> index 8321d7b..43303b7 100644
+> --- a/meta/recipes-core/ncurses/ncurses.inc
+> +++ b/meta/recipes-core/ncurses/ncurses.inc
+> @@ -6,7 +6,7 @@ LIC_FILES_CHKSUM =3D "file://ncurses/base/version.c;begin=
+line=3D1;endline=3D27;md5=3Dcbc
+>  SECTION =3D "libs"
+>  DEPENDS =3D "ncurses-native"
+>  DEPENDS_virtclass-native =3D ""
+> -INC_PR =3D "r3"
+> +INC_PR =3D "r4"
+> =20
+>  inherit autotools binconfig multilib_header
+> =20
+> @@ -26,8 +26,8 @@ ENABLE_WIDEC ?=3D "true"
+>  # builds.
+>  BUILD_CPPFLAGS +=3D "-D_GNU_SOURCE"
+> =20
+> -# tic from the -native build cannot run without setting this explicitly
+> -BUILD_LDFLAGS_virtclass-native +=3D "-Wl,-rpath,${base_libdir}"
+> +# natives don't generally look in base_libdir
+> +base_libdir_virtclass-native =3D "${libdir}"
+> =20
+>  # Helper function for do_configure to allow multiple configurations
+>  # $1 the directory to run configure in
+> --=20
+> 1.7.8.rc4
+>=20
+>=20
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
 
+--=20
+Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
+
+--IJpNTDwzlM2Ie8A6
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: Digital signature
+
+-----BEGIN PGP SIGNATURE-----
+Version: GnuPG v2.0.18 (GNU/Linux)
+
+iEYEARECAAYFAk8OqdwACgkQN1Ujt2V2gByIdQCglmXQSkmrR9+N/VJvwgpyanLa
+3rMAn3PUxUOjf9QWvbRlhNQdqjC1s/gB
+=L1ZQ
+-----END PGP SIGNATURE-----
+
+--IJpNTDwzlM2Ie8A6--
