@@ -1,26 +1,26 @@
 Received: from mga14.intel.com ([143.182.124.37])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <sgw@linux.intel.com>) id 1RlTxJ-00088p-Rr
+	(envelope-from <sgw@linux.intel.com>) id 1RlTxK-00088p-Ls
 	for openembedded-core@lists.openembedded.org;
 	Fri, 13 Jan 2012 00:21:14 +0100
 Received: from azsmga001.ch.intel.com ([10.2.17.19])
-	by azsmga102.ch.intel.com with ESMTP; 11 Jan 2012 22:26:55 -0800
+	by azsmga102.ch.intel.com with ESMTP; 11 Jan 2012 22:28:26 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="95015028"
+X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="95015284"
 Received: from unknown (HELO [10.255.13.168]) ([10.255.13.168])
-	by azsmga001.ch.intel.com with ESMTP; 11 Jan 2012 22:26:55 -0800
-Message-ID: <4F0E7D2F.3020502@linux.intel.com>
-Date: Wed, 11 Jan 2012 22:26:55 -0800
+	by azsmga001.ch.intel.com with ESMTP; 11 Jan 2012 22:28:25 -0800
+Message-ID: <4F0E7D83.5050707@linux.intel.com>
+Date: Wed, 11 Jan 2012 22:28:19 -0800
 From: Saul Wold <sgw@linux.intel.com>
 User-Agent: Mozilla/5.0 (X11; Linux x86_64;
 	rv:8.0) Gecko/20111115 Thunderbird/8.0
 MIME-Version: 1.0
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-References: <1325911915-16001-1-git-send-email-steve@sakoman.com>
-In-Reply-To: <1325911915-16001-1-git-send-email-steve@sakoman.com>
+References: <1325911915-16001-3-git-send-email-steve@sakoman.com>
+In-Reply-To: <1325911915-16001-3-git-send-email-steve@sakoman.com>
 Cc: Steve Sakoman <steve@sakoman.com>
-Subject: Re: [PATCH v2] Remove last remnants of kernel26 MACHINE_FEATURES
+Subject: Re: [PATCH RFC v2] gtk-icon-cache.bbclass: add -f option to gtk-update-icon-cache in postinst
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -40,57 +40,32 @@ Content-Type: text/plain; charset=ISO-8859-1; format=flowed
 Content-Transfer-Encoding: 7bit
 
 On 01/06/2012 08:51 PM, Steve Sakoman wrote:
-> There is no reason to continue to carry this feature
+> The gtk-update-icon-cache utility does not create a cache file if
+> one does not already exist.  Since some packages (notably gnome-icon-theme)
+> do not ship a cache file by default, the results of the utility are
+> not saved.  Adding the force option writes out the cache even if there
+> wasn't a default cache in the package.
 >
 > Signed-off-by: Steve Sakoman<steve@sakoman.com>
 > ---
->   meta/conf/bitbake.conf                             |    1 -
->   meta/conf/machine/include/qemu.inc                 |    2 +-
->   .../update-modules/update-modules_1.0.bb           |    4 ++--
->   3 files changed, 3 insertions(+), 4 deletions(-)
+>   meta/classes/gtk-icon-cache.bbclass |    2 +-
+>   1 files changed, 1 insertions(+), 1 deletions(-)
 >
-> diff --git a/meta/conf/bitbake.conf b/meta/conf/bitbake.conf
-> index b858364..336b1d7 100644
-> --- a/meta/conf/bitbake.conf
-> +++ b/meta/conf/bitbake.conf
-> @@ -685,7 +685,6 @@ OES_BITBAKE_CONF = "1"
->   # Machine properties and task-base stuff
->   ##################################################################
+> diff --git a/meta/classes/gtk-icon-cache.bbclass b/meta/classes/gtk-icon-cache.bbclass
+> index eac3061..0204fd3 100644
+> --- a/meta/classes/gtk-icon-cache.bbclass
+> +++ b/meta/classes/gtk-icon-cache.bbclass
+> @@ -14,7 +14,7 @@ GDK_PIXBUF_MODULEDIR=${libdir}/gdk-pixbuf-2.0/2.10.0/loaders gdk-pixbuf-query-lo
 >
-> -MACHINE_FEATURES ?= "kernel26"
->   DISTRO_FEATURES ?= ""
->
->   # This is used to limit what packages goes into images built, so set big by default
-> diff --git a/meta/conf/machine/include/qemu.inc b/meta/conf/machine/include/qemu.inc
-> index 3cebfab..10ab76e 100644
-> --- a/meta/conf/machine/include/qemu.inc
-> +++ b/meta/conf/machine/include/qemu.inc
-> @@ -1,7 +1,7 @@
->   PCMCIA_MANAGER = "pcmciautils"
->   PREFERRED_PROVIDER_virtual/xserver ?= "xserver-kdrive"
->
-> -MACHINE_FEATURES = "kernel26 apm alsa pcmcia bluetooth irda usbgadget screen"
-> +MACHINE_FEATURES = "apm alsa pcmcia bluetooth irda usbgadget screen"
->
->   IMAGE_FSTYPES ?= "tar.bz2 ext3"
->
-> diff --git a/meta/recipes-kernel/update-modules/update-modules_1.0.bb b/meta/recipes-kernel/update-modules/update-modules_1.0.bb
-> index 1ea97a8..dc44965 100644
-> --- a/meta/recipes-kernel/update-modules/update-modules_1.0.bb
-> +++ b/meta/recipes-kernel/update-modules/update-modules_1.0.bb
-> @@ -3,8 +3,8 @@ SECTION = "base"
->   LICENSE = "GPLv2"
->   LIC_FILES_CHKSUM = "file://${WORKDIR}/COPYING.GPL;md5=751419260aa954499f7abaabaa882bbe"
->
-> -RDEPENDS_${PN} = "${@base_contains("MACHINE_FEATURES", "kernel26",  "module-init-tools-depmod","modutils-depmod",d)} "
-> -PR = "r10"
-> +RDEPENDS_${PN} = "module-init-tools-depmod"
-> +PR = "r11"
->
->   SRC_URI = "file://update-modules \
->              file://COPYING.GPL"
+>   for icondir in /usr/share/icons/* ; do
+>       if [ -d $icondir ] ; then
+> -        gtk-update-icon-cache -qt  $icondir
+> +        gtk-update-icon-cache -fqt  $icondir
+>       fi
+>   done
+>   }
 
-Merged into OE-Core
+Seemed reasonable, so merged into OE-Core
 
 Thanks
 	Sau!
