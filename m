@@ -1,24 +1,25 @@
-Received: from mail-wi0-f175.google.com ([209.85.212.175])
+Received: from mga02.intel.com ([134.134.136.20])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <koen@dominion.thruhere.net>) id 1RlQGV-0000LB-3Q
+	(envelope-from <sgw@linux.intel.com>) id 1RlR0g-0001Y5-JV
 	for openembedded-core@lists.openembedded.org;
-	Thu, 12 Jan 2012 20:24:47 +0100
-Received: by wibhm17 with SMTP id hm17so1563414wib.6
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 12 Jan 2012 11:17:16 -0800 (PST)
-Received: by 10.180.75.7 with SMTP id y7mr8716412wiv.2.1326395835777;
-	Thu, 12 Jan 2012 11:17:15 -0800 (PST)
-Received: from localhost (ip545070eb.adsl-surfen.hetnet.nl. [84.80.112.235])
-	by mx.google.com with ESMTPS id g11sm6948072wbo.6.2012.01.12.11.17.14
-	(version=TLSv1/SSLv3 cipher=OTHER);
-	Thu, 12 Jan 2012 11:17:15 -0800 (PST)
-From: Koen Kooi <koen@dominion.thruhere.net>
-To: openembedded-core@lists.openembedded.org
-Date: Thu, 12 Jan 2012 20:17:11 +0100
-Message-Id: <1326395831-5121-1-git-send-email-koen@dominion.thruhere.net>
-X-Mailer: git-send-email 1.7.2.5
-Cc: Koen Kooi <koen@dominion.thruhere.net>
-Subject: [Patch v3] gconf: enable gtk+ 2.0 support to build gconf-sanity-check-2
+	Thu, 12 Jan 2012 21:12:31 +0100
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+	by orsmga101.jf.intel.com with ESMTP; 12 Jan 2012 12:04:55 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.67,352,1309762800"; d="scan'208";a="95844206"
+Received: from unknown (HELO [10.255.13.168]) ([10.255.13.168])
+	by orsmga001.jf.intel.com with ESMTP; 12 Jan 2012 12:04:55 -0800
+Message-ID: <4F0F3CE6.3020707@linux.intel.com>
+Date: Thu, 12 Jan 2012 12:04:54 -0800
+From: Saul Wold <sgw@linux.intel.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:8.0) Gecko/20111115 Thunderbird/8.0
+MIME-Version: 1.0
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+References: <cover.1326003199.git.xiaofeng.yan@windriver.com>
+In-Reply-To: <cover.1326003199.git.xiaofeng.yan@windriver.com>
+Subject: Re: [PATCH 0/2] Add function to package source codes tree to source rpm and tar packages
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -33,66 +34,140 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 12 Jan 2012 19:24:47 -0000
+X-List-Received-Date: Thu, 12 Jan 2012 20:12:31 -0000
+Content-Type: text/plain; charset=windows-1252; format=flowed
+Content-Transfer-Encoding: 8bit
 
-This is needed for e.g. gnome-session:
+On 01/07/2012 11:11 PM, Xiaofeng Yan wrote:
+> From: Xiaofeng Yan<xiaofeng.yan@windriver.com>
+>
+> Add file "tar_archive.bbclass" and modify file "package_rpm.bbclass" for packaging source codes tree to source rpm and tar packages.
+> After adding srpm function in file "package_rpm.bbclass", user can get source rpm packages beside rpm package.
+> User also get tar packages of source codes tree according to the requirement from bug 1655. The final result is as follow:
+> Take qemux86 for an example:
+> Get source rpm pakcages
+> 1 Inherit tar_archive.bbclass in package_rpm.bbclass.
+> 2 Select the type of packaging source code tree in conf/local.conf(ARCHIVE_TYPE ?= "SRPM")
+> 3 Run the following command
+>    $ bitbake core-image-sato -c copysources
+> 4 Get source rpm packages:
+>    $ tree build/tmp/deploy/sources
+>    build/tmp/deploy/sources/
+>    └── qemux86
+>      ├── all-poky-linux
+>      │� �  ├── encodings-1.0.4-r2.1.src.rpm
+>          ......
+>      ├── i586-poky-linux
+>      │� �  ├── acl-2.2.51-r2.src.rpm
+>          ......
+>      └── qemux86-poky-linux
+>          ├── base-files-3.0.14-r70.src.rpm
+>          ......
+> Get tar packages:
+> 1 Inherit tar_archive.bbclass in an suitable position (for example, package_rpm.bbclass).
+> 2 Select the type of packaging source code tree in conf/local.conf(ARCHIVE_TYPE ?= "TARGZ")
+> 3 Run the following command
+>    $ bitbake core-image-sato -c copysources
+> 4 Get tar packages:
+>    $ tree build/tmp/deploy/sources
+>    buildx86/tmp/deploy/sources
+>    └── qemux86
+>      ├── all-poky-linux
+>      │� �  ├── encodings-1_1.0.4-r2.1
+>      │� �  │� �  ├── encodings-1_1.0.4-r2.1.tar.gz
+>      │� �  │� �  └── log.tar.gz
+>              ......
+>      ├── i586-poky-linux
+>      │� �  ├── acl-2.2.51-r2
+>      │� �  │� �  ├── acl-2.2.51-r2.tar.gz
+>              └── log.tar.gz
+>              ......
+>      └── qemux86-poky-linux
+>          ├── core-image-sato-1.0-r0
+>          ├── libzypp-0.0-git1+15b6c52260bbc52b3d8e585e271b67e10cc7c433-r17
+>          │� �  ├── libzypp-0.0-git1+15b6c52260bbc52b3d8e585e271b67e10cc7c433-r17.tar.gz
+>          │� �  └── log.tar.gz
+>              ......
+>
+> if inheriting tar_archive.bbclass in one bb file, then only package source codes tree of this file.
+> Take zlib for an example:
+> Get source rpm pakcage of zlib
+> 1 Inherit tar_archive.bbclass in zlib_1.2.5.bb.
+> 2 Select the type of packaging source code tree in conf/local.conf(ARCHIVE_TYPE ?= "SRPM")
+> 3 Run the following command
+>    $ bitbake zlib
+> 4 Get source rpm package:
+>    $ ls build/tmp/work/i586-poky-linux/zlib-1.2.5-r3/deploy-srpm/i586/
+>      zlib-1.2.5-r3.src.rpm
+>
+>
+> Get tar package of zlib
+> 1 Inherit tar_archive.bbclass in zlib_1.2.5.bb.
+> 2 Select the type of packaging source code tree in conf/local.conf(ARCHIVE_TYPE ?= "TARGZ")
+> 3 Run the following command
+>    $ bitbake zlib
+> 4 Get tar package:
+>    $ ls build/tmp/work/i586-poky-linux/zlib-1.2.5-r3/
+>      zlib-1.2.5-r3.tar.gz log.tar.gz ......
+>
+>
+> Pull URL: git://git.pokylinux.org/poky-contrib.git
+>    Branch: xiaofeng/1655
+>    Browse: http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=xiaofeng/1655
+>
+> Thanks,
+>      Xiaofeng Yan<xiaofeng.yan@windriver.com>
+> ---
+>
+>
+> Xiaofeng Yan (2):
+>    package_rpm.bbclass: add srpm function in spec file
+>    tar_archive.bbclass: Package source codes and log files to tar
+>      package
+>
+>   meta/classes/package_rpm.bbclass |   65 ++++++++++--
+>   meta/classes/tar_archive.bbclass |  216 ++++++++++++++++++++++++++++++++++++++
+>   2 files changed, 271 insertions(+), 10 deletions(-)
+>   create mode 100644 meta/classes/tar_archive.bbclass
+>
+>
+Xiaofeng, Wenzong:
 
-gnome-session[424]: WARNING: Failed to run gconf-sanity-check-2: Failed to execute child process "/usr/libexec/gconf-sanity-check-2" (No such file or directory)
+We are going to put a hold on both this patchset and Wenzong's patch 
+set, due to the similarity of what is trying to be done. Both of these 
+patches are creating tar archives of source and temp directories. While 
+it is being done differently, we need to consolidate these changes.
 
-Signed-off-by: Koen Kooi <koen@dominion.thruhere.net>
----
- meta/recipes-gnome/gnome/gconf_3.2.3.bb |   20 +++++++++++---------
- 1 files changed, 11 insertions(+), 9 deletions(-)
+The SRPM work can use the consolidated version.  As I mentioned in a 
+prior email to Wenzong, there are also other classes such as 
+copyleft_complaince.bbclass and src_distrbute.bbclass that we should 
+look at and determine if they can be modified or extended.
 
-diff --git a/meta/recipes-gnome/gnome/gconf_3.2.3.bb b/meta/recipes-gnome/gnome/gconf_3.2.3.bb
-index f7d3594..412f01c 100644
---- a/meta/recipes-gnome/gnome/gconf_3.2.3.bb
-+++ b/meta/recipes-gnome/gnome/gconf_3.2.3.bb
-@@ -3,10 +3,10 @@ SECTION = "x11/gnome"
- LICENSE = "LGPLv2+"
- LIC_FILES_CHKSUM = "file://COPYING;md5=55ca817ccb7d5b5b66355690e9abc605"
- 
--DEPENDS = "glib-2.0 dbus dbus-glib libxml2 intltool-native polkit"
-+DEPENDS = "glib-2.0 gtk+ dbus dbus-glib libxml2 intltool-native polkit"
- DEPENDS_virtclass-native = "glib-2.0-native dbus-native dbus-glib-native libxml2-native intltool-native gnome-common-native"
- 
--PR = "r3"
-+PR = "r5"
- 
- inherit gnomebase
- 
-@@ -21,8 +21,10 @@ S = "${WORKDIR}/GConf-${PV}"
- 
- POLKIT_OECONF = "--enable-defaults-service"
- POLKIT_OECONF_virtclass-native = "--disable-defaults-service"
--EXTRA_OECONF = "--disable-gtk-doc --disable-gtk --enable-shared --disable-static --enable-debug=yes \
--                --disable-introspection --disable-orbit --with-openldap=no ${POLKIT_OECONF}"
-+GTKOECONF = "--with-gtk=2.0 --enable-gtk"
-+GTKOECONF_virtclass-native = "--disable-gtk"
-+EXTRA_OECONF = "--disable-gtk-doc --enable-shared --disable-static --enable-debug=yes \
-+                --disable-introspection --disable-orbit --with-openldap=no ${POLKIT_OECONF} ${GTKOECONF}"
- 
- do_configure_prepend () {
- 	touch gtk-doc.make
-@@ -42,11 +44,11 @@ RDEPENDS_${PN} += "${@base_contains('DISTRO_FEATURES', 'x11', 'dbus-x11', '', d)
- RDEPENDS_${PN}_virtclass-native = ""
- 
- FILES_${PN} += "${libdir}/GConf/* \
--	        ${libdir}/gio/*/*.so \
--		${datadir}/polkit* \
--	       	${datadir}/dbus-1/services/*.service \
--	       	${datadir}/dbus-1/system-services/*.service \
--	        "
-+                ${libdir}/gio/*/*.so \
-+                ${datadir}/polkit* \
-+                ${datadir}/dbus-1/services/*.service \
-+                ${datadir}/dbus-1/system-services/*.service \
-+               "
- FILES_${PN}-dbg += "${libdir}/*/*/.debug"
- FILES_${PN}-dev += "${datadir}/sgml/gconf/gconf-1.0.dtd"
- 
--- 
-1.7.2.5
+Wenzong pointed out that copyleft does license checking, it can work for 
+all sources depending on the settings of the INCLUDE/EXCLUDE variables, 
+so it can be reused, it creates a source + patchset directory.
 
+The sourcepgk.bbclass seems to be doing something different in creating 
+a diff file (among other) of a given package between the unpack and 
+post-patch, including the python functions and environmnet variables.
+
+I (with Mark's help) will craft and updated document to address what we 
+are want to accomplish, which is simplifing what we currently have with 
+the goal to meet the commercial vendor's needs of supplying the source 
+either patched or with a patchset that can be applied along with the 
+configuration and build scripts for various license compliance.
+
+Thanks for your initial work in this area, but we need to find a better 
+overall approach without duplicating code/effort.
+
+Sau!
+
+
+>
+>
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
 
 
