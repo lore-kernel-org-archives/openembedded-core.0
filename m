@@ -1,30 +1,27 @@
-Received: from mail-we0-f175.google.com ([74.125.82.175])
+Received: from mail.windriver.com ([147.11.1.11])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <koen@dominion.thruhere.net>) id 1RlKuh-0000qQ-82
+	(envelope-from <Bruce.Ashfield@windriver.com>) id 1RlL5l-00015q-PE
 	for openembedded-core@lists.openembedded.org;
-	Thu, 12 Jan 2012 14:41:55 +0100
-Received: by werm13 with SMTP id m13so1506212wer.6
+	Thu, 12 Jan 2012 14:53:22 +0100
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca [147.11.189.40])
+	by mail.windriver.com (8.14.3/8.14.3) with ESMTP id q0CDjnl3028079
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 12 Jan 2012 05:34:24 -0800 (PST)
-Received: by 10.216.131.234 with SMTP id m84mr1593405wei.11.1326375264296;
-	Thu, 12 Jan 2012 05:34:24 -0800 (PST)
-Received: from [172.20.0.96] (ip545070eb.adsl-surfen.hetnet.nl.
-	[84.80.112.235])
-	by mx.google.com with ESMTPS id m13sm5774241wbh.0.2012.01.12.05.34.23
-	(version=TLSv1/SSLv3 cipher=OTHER);
-	Thu, 12 Jan 2012 05:34:23 -0800 (PST)
-Mime-Version: 1.0 (Apple Message framework v1251.1)
-From: Koen Kooi <koen@dominion.thruhere.net>
-In-Reply-To: <20120112121949.GB3452@jama.jama.net>
-Date: Thu, 12 Jan 2012 14:34:17 +0100
-Message-Id: <48CE4DDF-8D48-43D4-A294-0E69A6D64608@dominion.thruhere.net>
-References: <1326369146-4369-1-git-send-email-koen@dominion.thruhere.net>
-	<20120112121949.GB3452@jama.jama.net>
-To: Martin Jansa <martin.jansa@gmail.com>
-X-Mailer: Apple Mail (2.1251.1)
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] dbus.inc: s/INC_PR/PR/ to fix PR bump after dbus-launch-helper permission change
+	Thu, 12 Jan 2012 05:45:49 -0800 (PST)
+Received: from [128.224.146.67] (128.224.146.67) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server id 14.1.255.0;
+	Thu, 12 Jan 2012 05:45:49 -0800
+Message-ID: <4F0EE404.6020002@windriver.com>
+Date: Thu, 12 Jan 2012 08:45:40 -0500
+From: Bruce Ashfield <bruce.ashfield@windriver.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:8.0) Gecko/20111124 Thunderbird/8.0
+MIME-Version: 1.0
+To: Liming Wang <liming.wang@windriver.com>
+References: <1326357721-19562-1-git-send-email-liming.wang@windriver.com>
+In-Reply-To: <1326357721-19562-1-git-send-email-liming.wang@windriver.com>
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH 0/1] V2 qemuppc/kernel: replace emulation of qemuppc
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -39,64 +36,49 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 12 Jan 2012 13:41:55 -0000
-X-Groupsio-MsgNum: 15871
-Content-Type: multipart/signed;
-	boundary="Apple-Mail=_06F01411-69FD-4B7D-A199-69D2505EFE20";
-	protocol="application/pgp-signature"; micalg=pgp-sha1
-
---Apple-Mail=_06F01411-69FD-4B7D-A199-69D2505EFE20
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain;
-	charset=us-ascii
-
-
-Op 12 jan. 2012, om 13:19 heeft Martin Jansa het volgende geschreven:
-
-> On Thu, Jan 12, 2012 at 12:52:26PM +0100, Koen Kooi wrote:
->> The dbus recipes don't use INC_PR so it didn't get rebuilt after the =
-previous commit to fix the launch helper permissions
->>=20
->> Signed-off-by: Koen Kooi <koen@dominion.thruhere.net>
->> ---
->> meta/recipes-core/dbus/dbus.inc |    2 +-
->> 1 files changed, 1 insertions(+), 1 deletions(-)
->>=20
->> diff --git a/meta/recipes-core/dbus/dbus.inc =
-b/meta/recipes-core/dbus/dbus.inc
->> index 2a25256..489e8db 100644
->> --- a/meta/recipes-core/dbus/dbus.inc
->> +++ b/meta/recipes-core/dbus/dbus.inc
->> @@ -10,7 +10,7 @@ DEPENDS =3D "expat virtual/libintl =
-${@base_contains('DISTRO_FEATURES', 'x11', '${X
->> DEPENDS_virtclass-native =3D "expat-native virtual/libintl-native"
->> DEPENDS_virtclass-nativesdk =3D "expat-nativesdk =
-virtual/libintl-nativesdk virtual/libx11"
->>=20
->> -INC_PR =3D "r1"
->> +PR =3D "r1"
->=20
-> Can we move it to dbus_1.4.16.bb too? or change dbus_1.4.16.bb to use
-> INC_PR, I can imagine someone reusing meta/recipes-core/dbus/dbus.inc =
-in
-> his layer won't notice that there is PR now.
-
-I don't mind either way, I just want the fixed dbus package in the =
-binary feeds :)=
-
---Apple-Mail=_06F01411-69FD-4B7D-A199-69D2505EFE20
+X-List-Received-Date: Thu, 12 Jan 2012 13:53:22 -0000
+Content-Type: text/plain; charset="ISO-8859-1"; format=flowed
 Content-Transfer-Encoding: 7bit
-Content-Disposition: inline;
-	filename=signature.asc
-Content-Type: application/pgp-signature;
-	name=signature.asc
-Content-Description: Message signed with OpenPGP using GPGMail
 
------BEGIN PGP SIGNATURE-----
+On 12-01-12 03:42 AM, Liming Wang wrote:
+> v2 change log:
+> 	- disable CONFIG_DEVTMPFS option to avoid /dev/console
+> 	 pointing to serial. Otherwise, keyboard doesn't work well
+> 	 on X-windows.
 
-iEYEARECAAYFAk8O4VoACgkQMkyGM64RGpFHyQCggloRKCZRJsHBrczg3RjN2r80
-6QcAn0Bn+tDfy/WcFK3L+/YPVw4Af9Wm
-=4E5s
------END PGP SIGNATURE-----
+This looks fine to me, but can you resend it as an incremental on top
+of:
 
---Apple-Mail=_06F01411-69FD-4B7D-A199-69D2505EFE20--
+http://git.yoctoproject.org/cgit/cgit.cgi/linux-yocto-3.0/commit/?h=meta&id=73dafd44ea875df654129b32b2877f342d5573e4
+
+Since I pushed the core support yesterday (you won't see it in
+your local build unless you use AUTOREV or pull in my series
+from yesterday).
+
+Making it incremental will show the tweak more clearly, and I can
+merge it directly.
+
+Cheers,
+
+Bruce
+
+>
+> The following changes since commit a8ebc77767e034c589e8041406f4282136a2219b:
+>
+>    meta/qemu-ppc32: remove references to non-existent patches (2012-01-05 10:42:40 -0500)
+>
+> are available in the git repository at:
+>    git://128.224.163.150/linux-yocto-dev.git meta-qemuppc
+>
+> Liming Wang (1):
+>        meta/qemuppc: replace kernel config file of qemu-ppc32 with mac99
+>
+>   .../kernel-cache/bsp/qemu-ppc32/qemu-ppc32-gfx.cfg |   11 +++++
+>   .../cfg/kernel-cache/bsp/qemu-ppc32/qemu-ppc32.cfg |   44 +++++++++++++++----
+>   .../cfg/kernel-cache/bsp/qemu-ppc32/qemu-ppc32.scc |    1 +
+>   3 files changed, 46 insertions(+), 10 deletions(-)
+>   create mode 100644 meta/cfg/kernel-cache/bsp/qemu-ppc32/qemu-ppc32-gfx.cfg
+>
+
+
+
