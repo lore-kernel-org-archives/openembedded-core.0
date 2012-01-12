@@ -1,27 +1,24 @@
-Received: from mail.windriver.com ([147.11.1.11])
+Received: from mail-ww0-f43.google.com ([74.125.82.43])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <Bruce.Ashfield@windriver.com>) id 1RlL5l-00015q-PE
+	(envelope-from <koen@dominion.thruhere.net>) id 1RlLLL-0001wZ-DV
 	for openembedded-core@lists.openembedded.org;
-	Thu, 12 Jan 2012 14:53:22 +0100
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca [147.11.189.40])
-	by mail.windriver.com (8.14.3/8.14.3) with ESMTP id q0CDjnl3028079
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
+	Thu, 12 Jan 2012 15:09:27 +0100
+Received: by wgbdt11 with SMTP id dt11so1847054wgb.24
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 12 Jan 2012 05:45:49 -0800 (PST)
-Received: from [128.224.146.67] (128.224.146.67) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server id 14.1.255.0;
-	Thu, 12 Jan 2012 05:45:49 -0800
-Message-ID: <4F0EE404.6020002@windriver.com>
-Date: Thu, 12 Jan 2012 08:45:40 -0500
-From: Bruce Ashfield <bruce.ashfield@windriver.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:8.0) Gecko/20111124 Thunderbird/8.0
-MIME-Version: 1.0
-To: Liming Wang <liming.wang@windriver.com>
-References: <1326357721-19562-1-git-send-email-liming.wang@windriver.com>
-In-Reply-To: <1326357721-19562-1-git-send-email-liming.wang@windriver.com>
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 0/1] V2 qemuppc/kernel: replace emulation of qemuppc
+	Thu, 12 Jan 2012 06:01:56 -0800 (PST)
+Received: by 10.180.109.77 with SMTP id hq13mr515155wib.7.1326376916120;
+	Thu, 12 Jan 2012 06:01:56 -0800 (PST)
+Received: from localhost (ip545070eb.adsl-surfen.hetnet.nl. [84.80.112.235])
+	by mx.google.com with ESMTPS id ex2sm9180884wib.1.2012.01.12.06.01.55
+	(version=TLSv1/SSLv3 cipher=OTHER);
+	Thu, 12 Jan 2012 06:01:55 -0800 (PST)
+From: Koen Kooi <koen@dominion.thruhere.net>
+To: openembedded-core@lists.openembedded.org
+Date: Thu, 12 Jan 2012 15:01:47 +0100
+Message-Id: <1326376907-16030-1-git-send-email-koen@dominion.thruhere.net>
+X-Mailer: git-send-email 1.7.2.5
+Cc: Koen Kooi <koen@dominion.thruhere.net>
+Subject: [PATCH] gconf: enable gtk+ 2.0 support to build gconf-sanity-check-2
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -36,49 +33,62 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 12 Jan 2012 13:53:22 -0000
-Content-Type: text/plain; charset="ISO-8859-1"; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Thu, 12 Jan 2012 14:09:27 -0000
 
-On 12-01-12 03:42 AM, Liming Wang wrote:
-> v2 change log:
-> 	- disable CONFIG_DEVTMPFS option to avoid /dev/console
-> 	 pointing to serial. Otherwise, keyboard doesn't work well
-> 	 on X-windows.
+This is needed for e.g. gnome-session:
 
-This looks fine to me, but can you resend it as an incremental on top
-of:
+gnome-session[424]: WARNING: Failed to run gconf-sanity-check-2: Failed to execute child process "/usr/libexec/gconf-sanity-check-2" (No such file or directory)
 
-http://git.yoctoproject.org/cgit/cgit.cgi/linux-yocto-3.0/commit/?h=meta&id=73dafd44ea875df654129b32b2877f342d5573e4
+Signed-off-by: Koen Kooi <koen@dominion.thruhere.net>
+---
+ meta/recipes-gnome/gnome/gconf_3.2.3.bb |   16 ++++++++--------
+ 1 files changed, 8 insertions(+), 8 deletions(-)
 
-Since I pushed the core support yesterday (you won't see it in
-your local build unless you use AUTOREV or pull in my series
-from yesterday).
-
-Making it incremental will show the tweak more clearly, and I can
-merge it directly.
-
-Cheers,
-
-Bruce
-
->
-> The following changes since commit a8ebc77767e034c589e8041406f4282136a2219b:
->
->    meta/qemu-ppc32: remove references to non-existent patches (2012-01-05 10:42:40 -0500)
->
-> are available in the git repository at:
->    git://128.224.163.150/linux-yocto-dev.git meta-qemuppc
->
-> Liming Wang (1):
->        meta/qemuppc: replace kernel config file of qemu-ppc32 with mac99
->
->   .../kernel-cache/bsp/qemu-ppc32/qemu-ppc32-gfx.cfg |   11 +++++
->   .../cfg/kernel-cache/bsp/qemu-ppc32/qemu-ppc32.cfg |   44 +++++++++++++++----
->   .../cfg/kernel-cache/bsp/qemu-ppc32/qemu-ppc32.scc |    1 +
->   3 files changed, 46 insertions(+), 10 deletions(-)
->   create mode 100644 meta/cfg/kernel-cache/bsp/qemu-ppc32/qemu-ppc32-gfx.cfg
->
+diff --git a/meta/recipes-gnome/gnome/gconf_3.2.3.bb b/meta/recipes-gnome/gnome/gconf_3.2.3.bb
+index f7d3594..97892bc 100644
+--- a/meta/recipes-gnome/gnome/gconf_3.2.3.bb
++++ b/meta/recipes-gnome/gnome/gconf_3.2.3.bb
+@@ -3,10 +3,10 @@ SECTION = "x11/gnome"
+ LICENSE = "LGPLv2+"
+ LIC_FILES_CHKSUM = "file://COPYING;md5=55ca817ccb7d5b5b66355690e9abc605"
+ 
+-DEPENDS = "glib-2.0 dbus dbus-glib libxml2 intltool-native polkit"
++DEPENDS = "glib-2.0 gtk+ dbus dbus-glib libxml2 intltool-native polkit"
+ DEPENDS_virtclass-native = "glib-2.0-native dbus-native dbus-glib-native libxml2-native intltool-native gnome-common-native"
+ 
+-PR = "r3"
++PR = "r4"
+ 
+ inherit gnomebase
+ 
+@@ -21,7 +21,7 @@ S = "${WORKDIR}/GConf-${PV}"
+ 
+ POLKIT_OECONF = "--enable-defaults-service"
+ POLKIT_OECONF_virtclass-native = "--disable-defaults-service"
+-EXTRA_OECONF = "--disable-gtk-doc --disable-gtk --enable-shared --disable-static --enable-debug=yes \
++EXTRA_OECONF = "--disable-gtk-doc --with-gtk=2.0 --enable-gtk --enable-shared --disable-static --enable-debug=yes \
+                 --disable-introspection --disable-orbit --with-openldap=no ${POLKIT_OECONF}"
+ 
+ do_configure_prepend () {
+@@ -42,11 +42,11 @@ RDEPENDS_${PN} += "${@base_contains('DISTRO_FEATURES', 'x11', 'dbus-x11', '', d)
+ RDEPENDS_${PN}_virtclass-native = ""
+ 
+ FILES_${PN} += "${libdir}/GConf/* \
+-	        ${libdir}/gio/*/*.so \
+-		${datadir}/polkit* \
+-	       	${datadir}/dbus-1/services/*.service \
+-	       	${datadir}/dbus-1/system-services/*.service \
+-	        "
++                ${libdir}/gio/*/*.so \
++                ${datadir}/polkit* \
++                ${datadir}/dbus-1/services/*.service \
++                ${datadir}/dbus-1/system-services/*.service \
++               "
+ FILES_${PN}-dbg += "${libdir}/*/*/.debug"
+ FILES_${PN}-dev += "${datadir}/sgml/gconf/gconf-1.0.dtd"
+ 
+-- 
+1.7.2.5
 
 
 
