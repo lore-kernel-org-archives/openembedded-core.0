@@ -1,26 +1,27 @@
-Received: from mail.pbcl.net ([88.198.119.4] helo=hetzner.pbcl.net)
+Received: from mga01.intel.com ([192.55.52.88])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <philb@gnu.org>) id 1RlRSb-0002I0-B2
+	(envelope-from <sgw@linux.intel.com>) id 1RlRft-0002gv-0f
 	for openembedded-core@lists.openembedded.org;
-	Thu, 12 Jan 2012 21:41:21 +0100
-Received: from blundell.swaffham-prior.co.uk ([91.216.112.25]
-	helo=[192.168.114.3])
-	by hetzner.pbcl.net with esmtpsa (TLS1.0:RSA_AES_256_CBC_SHA1:32)
-	(Exim 4.72) (envelope-from <philb@gnu.org>) id 1RlRLM-0002BD-6P
-	for openembedded-core@lists.openembedded.org;
-	Thu, 12 Jan 2012 21:33:52 +0100
-From: Phil Blundell <philb@gnu.org>
+	Thu, 12 Jan 2012 21:55:05 +0100
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+	by fmsmga101.fm.intel.com with ESMTP; 12 Jan 2012 12:47:32 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="106550858"
+Received: from unknown (HELO [10.255.13.168]) ([10.255.13.168])
+	by fmsmga001.fm.intel.com with ESMTP; 12 Jan 2012 12:47:32 -0800
+Message-ID: <4F0F46E4.1040208@linux.intel.com>
+Date: Thu, 12 Jan 2012 12:47:32 -0800
+From: Saul Wold <sgw@linux.intel.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:8.0) Gecko/20111115 Thunderbird/8.0
+MIME-Version: 1.0
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-In-Reply-To: <4F0F42D9.4040501@linux.intel.com>
-References: <cover.1326355020.git.xiaofeng.yan@windriver.com>
-	<d3939f8f64b50aca9bf23e9c017160d32cd814f6.1326355020.git.xiaofeng.yan@windriver.com>
-	<4F0F42D9.4040501@linux.intel.com>
-Date: Thu, 12 Jan 2012 20:33:44 +0000
-Message-ID: <1326400424.3360.1.camel@lenovo.internal.reciva.com>
-Mime-Version: 1.0
-X-Mailer: Evolution 2.32.3 
-Subject: Re: [PATCH 3/3] pango.inc: add directory "/etc/pango"
+References: <1325911915-16001-4-git-send-email-steve@sakoman.com>
+	<20120107141410.3d35c503@eb-e6520>
+	<CAGDS+nm7EhwZUxJBiTkGa3x5R71effKqH29J2RzO81ff_kE7Rg@mail.gmail.com>
+In-Reply-To: <CAGDS+nm7EhwZUxJBiTkGa3x5R71effKqH29J2RzO81ff_kE7Rg@mail.gmail.com>
+Subject: Re: [PATCH RFC v2] dhcp: package /var/lib/dhcp with dhcp-client rather than dhcp-server
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -35,23 +36,46 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 12 Jan 2012 20:41:21 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Thu, 12 Jan 2012 20:55:05 -0000
+Content-Type: text/plain; charset=ISO-8859-1; format=flowed
+Content-Transfer-Encoding: 8bit
 
-On Thu, 2012-01-12 at 12:30 -0800, Saul Wold wrote:
-> On 01/12/2012 12:12 AM, Xiaofeng Yan wrote:
-> > -FILES_${PN} = "/etc/pango/* ${bindir}/* ${libdir}/libpango*${SOLIBS}"
-> > +FILES_${PN} += "${syscondir}/* ${bindir}/* ${libdir}/libpango*${SOLIBS}"
-> Is this too general?  Should it be ${sysconfdir}/pango?
+On 01/11/2012 11:00 AM, Steve Sakoman wrote:
+> On Sat, Jan 7, 2012 at 5:14 AM, Eric Bénard<eric@eukrea.com>  wrote:
+>> Hi,
+>>
+>> Le Fri,  6 Jan 2012 20:51:54 -0800,
+>> Steve Sakoman<steve@sakoman.com>  a écrit :
+>>> -FILES_dhcp-server = "${sbindir}/dhcpd ${sysconfdir}/init.d/dhcp-server ${localstatedir}/lib/dhcp/"
+>>> +FILES_dhcp-server = "${sbindir}/dhcpd ${sysconfdir}/init.d/dhcp-server"
+>>
+>> isn't this directory necessary for dhcp-server ?
+>
+> Sorry for the delay in responding!  I missed seeing your comment.
+>
+> Yes, both packages need this directory.  But the dhcp-server package
+> init already creates it if it doesn't exist:
+>
+You can still have it in the dhcp-server Package as long as the 
+attributes (ownership, perm, ...) are the same and it's not a symlink, 
+so please include it with the FILES-dhcp-server.
 
-"${sysconfdir}" is in the default FILES_${PN} anyway.  (Also,
-"${syscondir}/*" won't match anything since there is no such variable.)
+Sau!
 
-So this change is largely benign but it won't accomplish much.
-
-p.
-
-
+> case "$1" in
+> 	start)
+> 		echo -n "Starting DHCP server: "
+> 		test -d /var/lib/dhcp/ || mkdir -p /var/lib/dhcp/
+>
+> So it should be no issue moving the /var/lib/dhcp FILE spec to the
+> dhcp-client package.
+>
+> Steve
+>
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
+>
 
 
