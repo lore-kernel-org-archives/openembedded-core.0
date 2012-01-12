@@ -1,24 +1,35 @@
-Received: from mail1.windriver.com ([147.11.146.13])
+Received: from mail-ey0-f175.google.com ([209.85.215.175])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <liming.wang@windriver.com>) id 1RlJRM-0003u8-FM
+	(envelope-from <martin.jansa@gmail.com>) id 1RlJkk-0004bX-Bu
 	for openembedded-core@lists.openembedded.org;
-	Thu, 12 Jan 2012 13:07:32 +0100
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca [147.11.189.40])
-	by mail1.windriver.com (8.14.3/8.14.3) with ESMTP id q0C8gOtu021688
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
+	Thu, 12 Jan 2012 13:27:34 +0100
+Received: by eaao13 with SMTP id o13so564173eaa.6
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 12 Jan 2012 00:42:25 -0800 (PST)
-Received: from pek-yocto-build2.corp.ad.wrs.com (128.224.163.150) by
-	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server id
-	14.1.255.0; Thu, 12 Jan 2012 00:42:24 -0800
-From: Liming Wang <liming.wang@windriver.com>
-To: <bruce.ashfield@windriver.com>
-Date: Thu, 12 Jan 2012 16:42:00 +0800
-Message-ID: <1326357721-19562-1-git-send-email-liming.wang@windriver.com>
-X-Mailer: git-send-email 1.7.5.4
+	Thu, 12 Jan 2012 04:20:03 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
+	h=date:from:to:cc:subject:message-id:references:mime-version
+	:content-type:content-disposition:in-reply-to:user-agent;
+	bh=XL7JZoejx/DLu2IB9QgJWMpltjolfjpf0+DNc119EPQ=;
+	b=JlC35D1vQiJ/QVGvrhdWl4IG3lWdczKiEaa54ftICet9rm+PxyKCR+thyzBAt6Otit
+	fT27NFMe1wktPTjgpfSP0XSim5JnA2qykhNbZSjRx6Rf6KI+ExwvS2evP2b5uNUbxHi/
+	vhg/akmvVvKpF6V8Ou16GQv4UQ5dXAAWqMi2A=
+Received: by 10.213.14.71 with SMTP id f7mr1975066eba.61.1326370803011;
+	Thu, 12 Jan 2012 04:20:03 -0800 (PST)
+Received: from localhost ([94.230.152.246])
+	by mx.google.com with ESMTPS id t59sm18827397eeh.10.2012.01.12.04.20.01
+	(version=TLSv1/SSLv3 cipher=OTHER);
+	Thu, 12 Jan 2012 04:20:01 -0800 (PST)
+Date: Thu, 12 Jan 2012 13:19:49 +0100
+From: Martin Jansa <martin.jansa@gmail.com>
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Message-ID: <20120112121949.GB3452@jama.jama.net>
+References: <1326369146-4369-1-git-send-email-koen@dominion.thruhere.net>
 MIME-Version: 1.0
-Cc: openembedded-core@lists.openembedded.org
-Subject: [PATCH 0/1] V2 qemuppc/kernel: replace emulation of qemuppc
+In-Reply-To: <1326369146-4369-1-git-send-email-koen@dominion.thruhere.net>
+User-Agent: Mutt/1.5.21 (2010-09-15)
+Cc: Koen Kooi <koen@dominion.thruhere.net>
+Subject: Re: [PATCH] dbus.inc: s/INC_PR/PR/ to fix PR bump after dbus-launch-helper permission change
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -33,29 +44,72 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 12 Jan 2012 12:07:32 -0000
-Content-Type: text/plain
+X-List-Received-Date: Thu, 12 Jan 2012 12:27:34 -0000
+X-Groupsio-MsgNum: 15868
+Content-Type: multipart/signed; micalg=pgp-sha1;
+	protocol="application/pgp-signature"; boundary="+pHx0qQiF2pBVqBT"
+Content-Disposition: inline
 
-v2 change log:
-	- disable CONFIG_DEVTMPFS option to avoid /dev/console
-	 pointing to serial. Otherwise, keyboard doesn't work well
-	 on X-windows.
+--+pHx0qQiF2pBVqBT
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-The following changes since commit a8ebc77767e034c589e8041406f4282136a2219b:
+On Thu, Jan 12, 2012 at 12:52:26PM +0100, Koen Kooi wrote:
+> The dbus recipes don't use INC_PR so it didn't get rebuilt after the prev=
+ious commit to fix the launch helper permissions
+>=20
+> Signed-off-by: Koen Kooi <koen@dominion.thruhere.net>
+> ---
+>  meta/recipes-core/dbus/dbus.inc |    2 +-
+>  1 files changed, 1 insertions(+), 1 deletions(-)
+>=20
+> diff --git a/meta/recipes-core/dbus/dbus.inc b/meta/recipes-core/dbus/dbu=
+s.inc
+> index 2a25256..489e8db 100644
+> --- a/meta/recipes-core/dbus/dbus.inc
+> +++ b/meta/recipes-core/dbus/dbus.inc
+> @@ -10,7 +10,7 @@ DEPENDS =3D "expat virtual/libintl ${@base_contains('DI=
+STRO_FEATURES', 'x11', '${X
+>  DEPENDS_virtclass-native =3D "expat-native virtual/libintl-native"
+>  DEPENDS_virtclass-nativesdk =3D "expat-nativesdk virtual/libintl-natives=
+dk virtual/libx11"
+> =20
+> -INC_PR =3D "r1"
+> +PR =3D "r1"
 
-  meta/qemu-ppc32: remove references to non-existent patches (2012-01-05 10:42:40 -0500)
+Can we move it to dbus_1.4.16.bb too? or change dbus_1.4.16.bb to use
+INC_PR, I can imagine someone reusing meta/recipes-core/dbus/dbus.inc in
+his layer won't notice that there is PR now.
 
-are available in the git repository at:
-  git://128.224.163.150/linux-yocto-dev.git meta-qemuppc
+Cheers,
 
-Liming Wang (1):
-      meta/qemuppc: replace kernel config file of qemu-ppc32 with mac99
+> =20
+>  SRC_URI =3D "http://dbus.freedesktop.org/releases/dbus/dbus-${PV}.tar.gz=
+ \
+>             file://tmpdir.patch; \
+> --=20
+> 1.7.2.5
+>=20
+>=20
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
 
- .../kernel-cache/bsp/qemu-ppc32/qemu-ppc32-gfx.cfg |   11 +++++
- .../cfg/kernel-cache/bsp/qemu-ppc32/qemu-ppc32.cfg |   44 +++++++++++++++----
- .../cfg/kernel-cache/bsp/qemu-ppc32/qemu-ppc32.scc |    1 +
- 3 files changed, 46 insertions(+), 10 deletions(-)
- create mode 100644 meta/cfg/kernel-cache/bsp/qemu-ppc32/qemu-ppc32-gfx.cfg
+--=20
+Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
 
+--+pHx0qQiF2pBVqBT
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: Digital signature
 
+-----BEGIN PGP SIGNATURE-----
+Version: GnuPG v2.0.18 (GNU/Linux)
 
+iEYEARECAAYFAk8Oz+UACgkQN1Ujt2V2gBzoDQCfWAVC33DA4DVy/x5l0qUYIdhE
+PXoAniu8jyQ9BysY1+cvjqj5hBzBuI4y
+=baVl
+-----END PGP SIGNATURE-----
+
+--+pHx0qQiF2pBVqBT--
