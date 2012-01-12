@@ -1,26 +1,26 @@
-Received: from mail-wi0-f175.google.com ([209.85.212.175])
+Received: from mga01.intel.com ([192.55.52.88])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <andrei@gherzan.ro>) id 1RlRqA-0003Gg-Me
+	(envelope-from <sgw@linux.intel.com>) id 1RlRqS-0003Ie-AG
 	for openembedded-core@lists.openembedded.org;
-	Thu, 12 Jan 2012 22:05:42 +0100
-Received: by wibhm17 with SMTP id hm17so1655730wib.6
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 12 Jan 2012 12:58:11 -0800 (PST)
-Received: by 10.180.77.136 with SMTP id s8mr9360376wiw.0.1326401891174;
-	Thu, 12 Jan 2012 12:58:11 -0800 (PST)
-Received: from [192.168.1.2] ([79.115.118.211])
-	by mx.google.com with ESMTPS id q34sm7601067wbm.15.2012.01.12.12.58.09
-	(version=SSLv3 cipher=OTHER); Thu, 12 Jan 2012 12:58:10 -0800 (PST)
-Message-ID: <4F0F4961.2060702@gherzan.ro>
-Date: Thu, 12 Jan 2012 22:58:09 +0200
-From: Andrei Gherzan <andrei@gherzan.ro>
-User-Agent: Mozilla/5.0 (X11; Linux i686;
-	rv:8.0) Gecko/20111124 Thunderbird/8.0
+	Thu, 12 Jan 2012 22:06:00 +0100
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+	by fmsmga101.fm.intel.com with ESMTP; 12 Jan 2012 12:58:15 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="106553841"
+Received: from unknown (HELO [10.255.13.168]) ([10.255.13.168])
+	by fmsmga001.fm.intel.com with ESMTP; 12 Jan 2012 12:58:14 -0800
+Message-ID: <4F0F4966.9030109@linux.intel.com>
+Date: Thu, 12 Jan 2012 12:58:14 -0800
+From: Saul Wold <sgw@linux.intel.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:8.0) Gecko/20111115 Thunderbird/8.0
 MIME-Version: 1.0
-To: openembedded-core@lists.openembedded.org
-References: <289CD940EE567444BB43E62E0C3028F328F52A19@NA-MBX-02.mgc.mentorg.com>
-In-Reply-To: <289CD940EE567444BB43E62E0C3028F328F52A19@NA-MBX-02.mgc.mentorg.com>
-Subject: Re: RFC: Joint, monthly, and online forum for developer discussion
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+References: <1326385824-32201-2-git-send-email-enrico.scholz@sigma-chemnitz.de>
+In-Reply-To: <1326385824-32201-2-git-send-email-enrico.scholz@sigma-chemnitz.de>
+Cc: Enrico Scholz <enrico.scholz@sigma-chemnitz.de>
+Subject: Re: [PATCH] openssl: build always with -Wa,--noexecstack
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -35,104 +35,55 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 12 Jan 2012 21:05:43 -0000
-Content-Type: multipart/alternative;
-	boundary="------------020809000202060002050200"
-
---------------020809000202060002050200
+X-List-Received-Date: Thu, 12 Jan 2012 21:06:00 -0000
 Content-Type: text/plain; charset=ISO-8859-1; format=flowed
 Content-Transfer-Encoding: 7bit
 
-On 01/10/2012 03:49 AM, Hudson, Sean wrote:
-> I propose having a monthly, online developer forum that promotes 
-> discussion on longer term technical issues that impact both Yocto and 
-> OpenEmbedded.  This would supplement the already existing mailing list 
-> and irc communication channels.  In order to facilitate this, I'd like 
-> to propose a telephone/web conference, which my employer has agreed to 
-> host.
-> This forum would help provide an additional way for the community to 
-> discuss technical issues and share information about planned work and 
-> works in progress.
-> Initial Topics for Discussion might include:
+On 01/12/2012 08:30 AM, Enrico Scholz wrote:
+> There is no reason to disable exec-stack only for -native builds;
+> binaries on the target will suffer from the same SELinux ACLs.
 >
->  1. layering definitions -- discussion on what exists today and how to
->     make it better
->  2. discussions on techniques to make working with oe/yocto better
->  3. oe/yocto disconnects (opportunities for better alignment)
->  4. common new user issues
->  5. documentation (standards, lacks, etc)
->  6. ?
+> OpenSSL does not use executable stack so this option can be disabled
+> unconditionally.
 >
-> Regards,
->      Sean
-> Sean Hudson | Embedded Linux Architect for Mentor Embedded Linux
-> Mentor Graphics -- Embedded Software Division^(TM)
+> Signed-off-by: Enrico Scholz<enrico.scholz@sigma-chemnitz.de>
+> ---
+>   meta/recipes-connectivity/openssl/openssl.inc |    6 +-----
+>   1 files changed, 1 insertions(+), 5 deletions(-)
 >
-This was something i i wanted to propose as well. It would be a easier 
-way of communication.
+> diff --git a/meta/recipes-connectivity/openssl/openssl.inc b/meta/recipes-connectivity/openssl/openssl.inc
+> index 771f146..65bb671 100644
+> --- a/meta/recipes-connectivity/openssl/openssl.inc
+> +++ b/meta/recipes-connectivity/openssl/openssl.inc
+> @@ -19,11 +19,7 @@ S = "${WORKDIR}/openssl-${PV}"
+>
+>   AR_append = " r"
+>   CFLAG = "${@base_conditional('SITEINFO_ENDIANNESS', 'le', '-DL_ENDIAN', '-DB_ENDIAN', d)} \
+> -	-DTERMIO ${FULL_OPTIMIZATION} -Wall"
+> -
+> -# Avoid binaries being marked as requiring an executable stack (which causes
+> -# issues with SELinux on the host)
+> -CFLAG_append_virtclass-native = " -Wa,--noexecstack"
+> +	-DTERMIO ${FULL_OPTIMIZATION} -Wall -Wa,--noexecstack"
+>
+>   # -02 does not work on mipsel: ssh hangs when it tries to read /dev/urandom
+>   CFLAG_mtx-1 := "${@'${CFLAG}'.replace('-O2', '')}"
 
-@g
+Enrico,
 
---------------020809000202060002050200
-Content-Type: text/html; charset=ISO-8859-1
-Content-Transfer-Encoding: 7bit
+Thanks so much for these patches, the recipe changes such as this one, 
+binutils, perl, and x11 need to have PR bumps, can you please resubmit 
+them with PR increments.
 
-<html>
-  <head>
-    <meta content="text/html; charset=ISO-8859-1"
-      http-equiv="Content-Type">
-  </head>
-  <body bgcolor="#FFFFFF" text="#000000">
-    On 01/10/2012 03:49 AM, Hudson, Sean wrote:
-    <blockquote
-cite="mid:289CD940EE567444BB43E62E0C3028F328F52A19@NA-MBX-02.mgc.mentorg.com"
-      type="cite">
-      <meta http-equiv="Content-Type" content="text/html;
-        charset=ISO-8859-1">
-      <meta name="Generator" content="Microsoft Exchange Server">
-      <!-- converted from rtf -->
-      <style><!-- .EmailQuote { margin-left: 1pt; padding-left: 4pt; border-left: #800000 2px solid; } --></style>
-      <font face="Tahoma" size="2"><span style="font-size:10pt;">
-          <div>I propose having a monthly, online developer forum that
-            promotes discussion on longer term technical issues that
-            impact both Yocto and OpenEmbedded.&nbsp; This would supplement
-            the already existing mailing list and irc communication
-            channels.&nbsp; In order to facilitate
-            this, I&#8217;d like to propose a telephone/web conference, which
-            my employer has agreed to host.</div>
-          <div>&nbsp;</div>
-          <div>This forum would help provide an additional way for the
-            community to discuss technical issues and share information
-            about planned work and works in progress.</div>
-          <div>&nbsp;</div>
-          <div>Initial Topics for Discussion might include:</div>
-          <ol style="margin:0;padding-left:36pt;">
-            <li>layering definitions &#8211; discussion on what exists today
-              and how to make it better</li>
-            <li>discussions on techniques to make working with oe/yocto
-              better</li>
-            <li>oe/yocto disconnects (opportunities for better
-              alignment)</li>
-            <li>common new user issues</li>
-            <li>documentation (standards, lacks, etc)</li>
-            <li>?</li>
-          </ol>
-          <div>&nbsp;</div>
-          <div>Regards,</div>
-          <div>&nbsp;&nbsp;&nbsp;&nbsp; Sean</div>
-          <div>&nbsp;</div>
-          <div>Sean Hudson | Embedded Linux Architect for Mentor
-            Embedded Linux</div>
-          <div>Mentor Graphics &#8211; Embedded Software Division&#8482;</div>
-          <div>&nbsp;</div>
-        </span></font><br>
-    </blockquote>
-    <font size="2"><font face="Tahoma">This was something i i wanted to
-        propose as well. It would be a easier way of communication.</font></font>
-    <br>
-    <br>
-    @g<br>
-  </body>
-</html>
+Also, since you have so many could you use an oe-contrib branch to 
+submit them?
 
---------------020809000202060002050200--
+There may be other comments later.
+
+Thanks
+	Sau!
+
+Thanks
+	Sau!
+
+
