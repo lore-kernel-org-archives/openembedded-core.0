@@ -1,20 +1,48 @@
-Received: from mga03.intel.com ([143.182.124.21])
+Received: from db3ehsobe002.messaging.microsoft.com ([213.199.154.140]
+	helo=DB3EHSOBE002.bigfish.com)
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <nitin.a.kamble@intel.com>) id 1RlTdU-0007Y1-87
+	(envelope-from <B29882@freescale.com>) id 1RlTnX-0007vy-1M
 	for openembedded-core@lists.openembedded.org;
-	Fri, 13 Jan 2012 00:00:46 +0100
-Received: from azsmga002.ch.intel.com ([10.2.17.35])
-	by azsmga101.ch.intel.com with ESMTP; 12 Jan 2012 14:20:36 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="55951840"
-Received: from nbuild0.sc.intel.com ([172.25.110.36])
-	by AZSMGA002.ch.intel.com with ESMTP; 12 Jan 2012 14:20:36 -0800
-From: nitin.a.kamble@intel.com
-To: openembedded-core@lists.openembedded.org
-Date: Thu, 12 Jan 2012 14:20:33 -0800
-Message-Id: <cover.1326406744.git.nitin.a.kamble@intel.com>
-X-Mailer: git-send-email 1.7.6.4
-Subject: [PATCH 0/7] Misc recipe fixes and upgrades
+	Fri, 13 Jan 2012 00:11:07 +0100
+Received: from mail83-db3-R.bigfish.com (10.3.81.252) by
+	DB3EHSOBE002.bigfish.com (10.3.84.22) with Microsoft SMTP Server id
+	14.1.225.23; Thu, 12 Jan 2012 23:03:35 +0000
+Received: from mail83-db3 (localhost [127.0.0.1])	by mail83-db3-R.bigfish.com
+	(Postfix) with ESMTP id 964A420068B	for
+	<openembedded-core@lists.openembedded.org>;
+	Thu, 12 Jan 2012 23:03:35 +0000 (UTC)
+X-SpamScore: 3
+X-BigFish: VS3(zzzz1202h1082kzz8275bh8275dhz2dhc1ahc1bh2a8h668h839h)
+X-Forefront-Antispam-Report: CIP:70.37.183.190; KIP:(null); UIP:(null); IPV:NLI;
+	H:mail.freescale.net; RD:none; EFVD:NLI
+X-FB-SS: 13,
+Received: from mail83-db3 (localhost.localdomain [127.0.0.1]) by mail83-db3
+	(MessageSwitch) id 1326409415472272_4530;
+	Thu, 12 Jan 2012 23:03:35 +0000 (UTC)
+Received: from DB3EHSMHS018.bigfish.com (unknown [10.3.81.247])	by
+	mail83-db3.bigfish.com (Postfix) with ESMTP id 6DB4C3C006A	for
+	<openembedded-core@lists.openembedded.org>;
+	Thu, 12 Jan 2012 23:03:35 +0000 (UTC)
+Received: from mail.freescale.net (70.37.183.190) by DB3EHSMHS018.bigfish.com
+	(10.3.87.118) with Microsoft SMTP Server (TLS) id 14.1.225.23;
+	Thu, 12 Jan 2012 23:03:35 +0000
+Received: from az33smr02.freescale.net (10.64.34.200) by
+	039-SN1MMR1-002.039d.mgd.msft.net (10.84.1.15) with Microsoft SMTP
+	Server id 14.1.355.3; Thu, 12 Jan 2012 17:03:33 -0600
+Received: from right.am.freescale.net (right.am.freescale.net [10.82.193.13])
+	by az33smr02.freescale.net (8.13.1/8.13.0) with ESMTP id
+	q0CN3WOJ010820	for <openembedded-core@lists.openembedded.org>;
+	Thu, 12 Jan 2012 17:03:32 -0600 (CST)
+From: Matthew McClintock <msm@freescale.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Thu, 12 Jan 2012 17:03:32 -0600
+Message-ID: <1326409412-15507-2-git-send-email-msm@freescale.com>
+X-Mailer: git-send-email 1.7.6.1
+In-Reply-To: <1326409412-15507-1-git-send-email-msm@freescale.com>
+References: <1326409412-15507-1-git-send-email-msm@freescale.com>
+MIME-Version: 1.0
+X-OriginatorOrg: freescale.com
+Subject: [PATCH 2/2] bitbake/fetch2: add support for wrapper command
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -29,43 +57,44 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 12 Jan 2012 23:00:48 -0000
+X-List-Received-Date: Thu, 12 Jan 2012 23:11:07 -0000
+Content-Type: text/plain
 
-From: Nitin A Kamble <nitin.a.kamble@intel.com>
+This is for getting around things like CVS over SOCKS5 with authentication
+which does not seem to be supported by configuring CVS or some other means
+that I can find.
 
-The following changes since commit 0f4d99d207b224bb9ce23de00a48f795ae20b3a0:
+Signed-off-by: Matthew McClintock <msm@freescale.com>
+---
+ meta/conf/bitbake.conf       |    1 +
+ scripts/oe-buildenv-internal |    2 +-
+ 2 files changed, 2 insertions(+), 1 deletions(-)
 
-  multilib.conf: Clean up file and add missing entries for various dependencies (2012-01-11 23:53:32 +0000)
-
-are available in the git repository at:
-  git://git.pokylinux.org/poky-contrib nitin/misc
-  http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=nitin/misc
-
-Nitin A Kamble (7):
-  locale: fix package's "provides" tag
-  diffstat: upgrade from 1.54 to 1.55
-  insane.bbclass: fix elf.arch not matching error for x32 kernel
-  libpcre: upgrade from 8.20 to 8.21
-  btrfs-tools: upgrade to newer git commit
-  distro_tracking: update manual_check_date fields
-  grub-efi-native: fix errors with automake 1.11.2
-
- meta/classes/insane.bbclass                        |    3 +-
- meta/classes/libc-package.bbclass                  |    3 -
- .../conf/distro/include/distro_tracking_fields.inc |   36 +-
- .../files/grub-1.99_fix_for_automake_1.11.2.patch  | 5888 ++++++++++++++++++++
- meta/recipes-bsp/grub/grub-efi-native_1.99.bb      |    5 +-
- meta/recipes-core/eglibc/eglibc-locale.inc         |    2 +-
- .../btrfs-tools/btrfs-tools_git.bb                 |    4 +-
- .../{diffstat_1.54.bb => diffstat_1.55.bb}         |    6 +-
- .../libpcre/{libpcre_8.20.bb => libpcre_8.21.bb}   |    5 +-
- 9 files changed, 5922 insertions(+), 30 deletions(-)
- create mode 100644 meta/recipes-bsp/grub/files/grub-1.99_fix_for_automake_1.11.2.patch
- rename meta/recipes-devtools/diffstat/{diffstat_1.54.bb => diffstat_1.55.bb} (82%)
- rename meta/recipes-support/libpcre/{libpcre_8.20.bb => libpcre_8.21.bb} (93%)
-
+diff --git a/meta/conf/bitbake.conf b/meta/conf/bitbake.conf
+index b858364..5bb9430 100644
+--- a/meta/conf/bitbake.conf
++++ b/meta/conf/bitbake.conf
+@@ -553,6 +553,7 @@ XORG_MIRROR = "http://xorg.freedesktop.org/releases"
+ # You can use the mirror of your country to get faster downloads by putting
+ #  export DEBIAN_MIRROR = "ftp://ftp.de.debian.org/debian/pool"
+ #     into your local.conf
++BB_FETCH_WRAPPER ?= ""
+ 
+ FETCHCMD_svn = "/usr/bin/env svn"
+ FETCHCMD_cvs = "/usr/bin/env cvs"
+diff --git a/scripts/oe-buildenv-internal b/scripts/oe-buildenv-internal
+index 21b92b0..72fc458 100755
+--- a/scripts/oe-buildenv-internal
++++ b/scripts/oe-buildenv-internal
+@@ -70,4 +70,4 @@ unset BITBAKEDIR
+ # Used by the runqemu script
+ export BUILDDIR
+ export PATH
+-export BB_ENV_EXTRAWHITE="MACHINE DISTRO TCMODE TCLIBC http_proxy ftp_proxy https_proxy all_proxy ALL_PROXY no_proxy SSH_AGENT_PID SSH_AUTH_SOCK BB_SRCREV_POLICY SDKMACHINE BB_NUMBER_THREADS PARALLEL_MAKE GIT_PROXY_COMMAND GIT_PROXY_IGNORE SOCKS5_PASSWD SOCKS5_USER"
++export BB_ENV_EXTRAWHITE="MACHINE DISTRO TCMODE TCLIBC http_proxy ftp_proxy https_proxy all_proxy ALL_PROXY no_proxy SSH_AGENT_PID SSH_AUTH_SOCK BB_SRCREV_POLICY SDKMACHINE BB_NUMBER_THREADS PARALLEL_MAKE GIT_PROXY_COMMAND GIT_PROXY_IGNORE SOCKS5_PASSWD SOCKS5_USER BB_FETCH_WRAPPER"
 -- 
-1.7.6.4
+1.7.6.1
+
 
 
 
