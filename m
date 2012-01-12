@@ -1,24 +1,31 @@
-Received: from mail-ww0-f43.google.com ([74.125.82.43])
+Received: from mail-ee0-f47.google.com ([74.125.83.47])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <koen@dominion.thruhere.net>) id 1RlLLL-0001wZ-DV
+	(envelope-from <martin.jansa@gmail.com>) id 1RlLd2-0002Ty-Qj
 	for openembedded-core@lists.openembedded.org;
-	Thu, 12 Jan 2012 15:09:27 +0100
-Received: by wgbdt11 with SMTP id dt11so1847054wgb.24
+	Thu, 12 Jan 2012 15:27:44 +0100
+Received: by eekd17 with SMTP id d17so578826eek.6
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 12 Jan 2012 06:01:56 -0800 (PST)
-Received: by 10.180.109.77 with SMTP id hq13mr515155wib.7.1326376916120;
-	Thu, 12 Jan 2012 06:01:56 -0800 (PST)
-Received: from localhost (ip545070eb.adsl-surfen.hetnet.nl. [84.80.112.235])
-	by mx.google.com with ESMTPS id ex2sm9180884wib.1.2012.01.12.06.01.55
+	Thu, 12 Jan 2012 06:20:13 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
+	h=from:to:cc:subject:date:message-id:x-mailer:in-reply-to:references;
+	bh=llNeAwViFIk7rDYjSir9legBBo54gkWs14lKlZnhb+8=;
+	b=ZizszN1LmRIMfnjALXd4wUAM5t135+76LMbzEgglBcr6TPChMQTl6qVEOG5mEv43uK
+	zqVANZv1Sy4ALso03T1vr6rqbpI4D5jGyltqrAuaiQEQpPR5JxYp4W5PHajiuRgHSafX
+	172gvy4SEBOBvnKOyWDUWgQvz1n2IiLlnimBg=
+Received: by 10.14.126.202 with SMTP id b50mr1422175eei.66.1326378013676;
+	Thu, 12 Jan 2012 06:20:13 -0800 (PST)
+Received: from localhost ([94.230.152.246])
+	by mx.google.com with ESMTPS id t59sm19974878eeh.10.2012.01.12.06.20.11
 	(version=TLSv1/SSLv3 cipher=OTHER);
-	Thu, 12 Jan 2012 06:01:55 -0800 (PST)
-From: Koen Kooi <koen@dominion.thruhere.net>
+	Thu, 12 Jan 2012 06:20:12 -0800 (PST)
+From: Martin Jansa <martin.jansa@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Thu, 12 Jan 2012 15:01:47 +0100
-Message-Id: <1326376907-16030-1-git-send-email-koen@dominion.thruhere.net>
-X-Mailer: git-send-email 1.7.2.5
-Cc: Koen Kooi <koen@dominion.thruhere.net>
-Subject: [PATCH] gconf: enable gtk+ 2.0 support to build gconf-sanity-check-2
+Date: Thu, 12 Jan 2012 15:20:01 +0100
+Message-Id: <1326378001-11488-1-git-send-email-Martin.Jansa@gmail.com>
+X-Mailer: git-send-email 1.7.8.3
+In-Reply-To: <48CE4DDF-8D48-43D4-A294-0E69A6D64608@dominion.thruhere.net>
+References: <48CE4DDF-8D48-43D4-A294-0E69A6D64608@dominion.thruhere.net>
+Subject: [PATCH] dbus-1.4.16: use INC_PR from dbus.inc to fix PR bump after dbus-launch-helper permission change
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -33,62 +40,27 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 12 Jan 2012 14:09:27 -0000
+X-List-Received-Date: Thu, 12 Jan 2012 14:27:44 -0000
 
-This is needed for e.g. gnome-session:
-
-gnome-session[424]: WARNING: Failed to run gconf-sanity-check-2: Failed to execute child process "/usr/libexec/gconf-sanity-check-2" (No such file or directory)
-
-Signed-off-by: Koen Kooi <koen@dominion.thruhere.net>
+Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
 ---
- meta/recipes-gnome/gnome/gconf_3.2.3.bb |   16 ++++++++--------
- 1 files changed, 8 insertions(+), 8 deletions(-)
+ meta/recipes-core/dbus/dbus_1.4.16.bb |    2 ++
+ 1 files changed, 2 insertions(+), 0 deletions(-)
 
-diff --git a/meta/recipes-gnome/gnome/gconf_3.2.3.bb b/meta/recipes-gnome/gnome/gconf_3.2.3.bb
-index f7d3594..97892bc 100644
---- a/meta/recipes-gnome/gnome/gconf_3.2.3.bb
-+++ b/meta/recipes-gnome/gnome/gconf_3.2.3.bb
-@@ -3,10 +3,10 @@ SECTION = "x11/gnome"
- LICENSE = "LGPLv2+"
- LIC_FILES_CHKSUM = "file://COPYING;md5=55ca817ccb7d5b5b66355690e9abc605"
+diff --git a/meta/recipes-core/dbus/dbus_1.4.16.bb b/meta/recipes-core/dbus/dbus_1.4.16.bb
+index f87f266..3cf8bb8 100644
+--- a/meta/recipes-core/dbus/dbus_1.4.16.bb
++++ b/meta/recipes-core/dbus/dbus_1.4.16.bb
+@@ -1,5 +1,7 @@
+ include dbus.inc
  
--DEPENDS = "glib-2.0 dbus dbus-glib libxml2 intltool-native polkit"
-+DEPENDS = "glib-2.0 gtk+ dbus dbus-glib libxml2 intltool-native polkit"
- DEPENDS_virtclass-native = "glib-2.0-native dbus-native dbus-glib-native libxml2-native intltool-native gnome-common-native"
- 
--PR = "r3"
-+PR = "r4"
- 
- inherit gnomebase
- 
-@@ -21,7 +21,7 @@ S = "${WORKDIR}/GConf-${PV}"
- 
- POLKIT_OECONF = "--enable-defaults-service"
- POLKIT_OECONF_virtclass-native = "--disable-defaults-service"
--EXTRA_OECONF = "--disable-gtk-doc --disable-gtk --enable-shared --disable-static --enable-debug=yes \
-+EXTRA_OECONF = "--disable-gtk-doc --with-gtk=2.0 --enable-gtk --enable-shared --disable-static --enable-debug=yes \
-                 --disable-introspection --disable-orbit --with-openldap=no ${POLKIT_OECONF}"
- 
- do_configure_prepend () {
-@@ -42,11 +42,11 @@ RDEPENDS_${PN} += "${@base_contains('DISTRO_FEATURES', 'x11', 'dbus-x11', '', d)
- RDEPENDS_${PN}_virtclass-native = ""
- 
- FILES_${PN} += "${libdir}/GConf/* \
--	        ${libdir}/gio/*/*.so \
--		${datadir}/polkit* \
--	       	${datadir}/dbus-1/services/*.service \
--	       	${datadir}/dbus-1/system-services/*.service \
--	        "
-+                ${libdir}/gio/*/*.so \
-+                ${datadir}/polkit* \
-+                ${datadir}/dbus-1/services/*.service \
-+                ${datadir}/dbus-1/system-services/*.service \
-+               "
- FILES_${PN}-dbg += "${libdir}/*/*/.debug"
- FILES_${PN}-dev += "${datadir}/sgml/gconf/gconf-1.0.dtd"
++PR = "${INC_PR}.0"
++
+ SRC_URI[md5sum] = "44a2a10678e7e50460879c3eb4453a65"
+ SRC_URI[sha256sum] = "1d8ee6262f8cc2148f06578eee522c755ba0896206b3464ca9bdc84f411b29c6"
  
 -- 
-1.7.2.5
+1.7.8.3
 
 
 
