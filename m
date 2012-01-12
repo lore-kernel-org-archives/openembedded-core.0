@@ -1,25 +1,25 @@
-Received: from mail.windriver.com ([147.11.1.11])
+Received: from mail1.windriver.com ([147.11.146.13])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <Zumeng.Chen@windriver.com>) id 1RlBBk-0004Zf-FM
+	(envelope-from <Zumeng.Chen@windriver.com>) id 1RlBBl-0004Zg-Jr
 	for openembedded-core@lists.openembedded.org;
-	Thu, 12 Jan 2012 04:18:52 +0100
+	Thu, 12 Jan 2012 04:18:53 +0100
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca [147.11.189.40])
-	by mail.windriver.com (8.14.3/8.14.3) with ESMTP id q0C3BLad019852
+	by mail1.windriver.com (8.14.3/8.14.3) with ESMTP id q0C3BMed005271
 	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 11 Jan 2012 19:11:21 -0800 (PST)
+	Wed, 11 Jan 2012 19:11:22 -0800 (PST)
 Received: from pek-yocto-build2.corp.ad.wrs.com (128.224.163.150) by
 	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server id
-	14.1.255.0; Wed, 11 Jan 2012 19:11:21 -0800
+	14.1.255.0; Wed, 11 Jan 2012 19:11:22 -0800
 From: Zumeng Chen <zumeng.chen@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Thu, 12 Jan 2012 11:11:01 +0800
-Message-ID: <6466944f4fff355f13da46c47fc22a907f6eda60.1326337436.git.zumeng.chen@windriver.com>
+Date: Thu, 12 Jan 2012 11:11:02 +0800
+Message-ID: <5b843aae3dc5bc4b8c579cca3b0bdf398736fe9c.1326337436.git.zumeng.chen@windriver.com>
 X-Mailer: git-send-email 1.7.5.4
 In-Reply-To: <cover.1326337436.git.zumeng.chen@windriver.com>
 References: <cover.1326337436.git.zumeng.chen@windriver.com>
 MIME-Version: 1.0
-Subject: [PATCH 2/4] lttng-tools: Integrated from git repo.
+Subject: [PATCH 3/4] lttng-modules: from lttng-modules 2.0 git repo.
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -34,89 +34,105 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 12 Jan 2012 03:18:52 -0000
+X-List-Received-Date: Thu, 12 Jan 2012 03:18:54 -0000
 Content-Type: text/plain
 
-This patch intended to integrate the Linux trace toolkit, which
-is a suite of tools designed to extract program execution details
-from the Linux operating system and interpret them.
+This patch intended to integrate the lttng-modules 2.0 package
+containing the kernel tracer modules.
+LTTng-modules 2.0 is currently in pre-release (-pre11), so we
+have to update it when official released.
 
-lttng-tools 2.0 is currently in pre-release(-pre16), so we have to
-update it when official released.
+lttng-2.0 supports lttng-modules extra builds, which don't need
+any patches on Linux kernel vs the previous version of lttng.
+As described in README of lttng-modules-2.0, so far, it has been
+tested in the latest kernel on x86 32/64-bit, and powerpc 32-bit,
+, build tested on ARM. So does yocto kernel, the related tests
+on qemux86 and qemuppc has been validated and a build test on
+qemuarm passed too with this patcheset.
 
 Signed-off-by: Zumeng Chen <zumeng.chen@windriver.com>
 ---
- ...tools-fix-compiling-error-for-powerpc-arm.patch |   28 ++++++++++++++++++
- .../lttng-2.0/lttng-tools_2.0-pre16.bb             |   30 ++++++++++++++++++++
- 2 files changed, 58 insertions(+), 0 deletions(-)
- create mode 100644 meta/recipes-kernel/lttng-2.0/lttng-tools-fix-compiling-error-for-powerpc-arm.patch
- create mode 100644 meta/recipes-kernel/lttng-2.0/lttng-tools_2.0-pre16.bb
+ ...modules-replace-KERNELDIR-with-KERNEL_SRC.patch |   41 ++++++++++++++++++++
+ .../lttng-2.0/lttng-modules_2.0.pre11.bb           |   27 +++++++++++++
+ 2 files changed, 68 insertions(+), 0 deletions(-)
+ create mode 100644 meta/recipes-kernel/lttng-2.0/lttng-modules-replace-KERNELDIR-with-KERNEL_SRC.patch
+ create mode 100644 meta/recipes-kernel/lttng-2.0/lttng-modules_2.0.pre11.bb
 
-diff --git a/meta/recipes-kernel/lttng-2.0/lttng-tools-fix-compiling-error-for-powerpc-arm.patch b/meta/recipes-kernel/lttng-2.0/lttng-tools-fix-compiling-error-for-powerpc-arm.patch
+diff --git a/meta/recipes-kernel/lttng-2.0/lttng-modules-replace-KERNELDIR-with-KERNEL_SRC.patch b/meta/recipes-kernel/lttng-2.0/lttng-modules-replace-KERNELDIR-with-KERNEL_SRC.patch
 new file mode 100644
-index 0000000..f8e144f
+index 0000000..aa24171
 --- /dev/null
-+++ b/meta/recipes-kernel/lttng-2.0/lttng-tools-fix-compiling-error-for-powerpc-arm.patch
-@@ -0,0 +1,28 @@
-+From 5d8d75ab0c7f9e0009d90a2e5ad6475034a5c859 Mon Sep 17 00:00:00 2001
-+From: Zumeng Chen <zumeng.chen@windriver.com>
-+Date: Tue, 10 Jan 2012 12:41:45 +0800
-+Subject: [PATCH 1/1] Fix compiling error on powerpc and arm
++++ b/meta/recipes-kernel/lttng-2.0/lttng-modules-replace-KERNELDIR-with-KERNEL_SRC.patch
+@@ -0,0 +1,41 @@
++Upstream-Status: Inappropriate [embedded specific]
 +
-+For powerpc and arm, some MAP_ are defined asm/mman.h,
-+so including it in header.
++lttng-modules: replace KERNELDIR with KERNEL_SRC
++
++Since lttng-modules uses the default way of module.bbclass to
++build and install lttng-modules, we do this replacement for
++it as-is.
 +
 +Signed-off-by: Zumeng Chen <zumeng.chen@windriver.com>
 +---
-+ common/runas.c |    1 +
-+ 1 files changed, 1 insertions(+), 0 deletions(-)
++ Makefile |    7 +++----
++ 1 files changed, 3 insertions(+), 4 deletions(-)
 +
-+diff --git a/common/runas.c b/common/runas.c
-+index f612ccc..62a2791 100644
-+--- a/common/runas.c
-++++ b/common/runas.c
-+@@ -29,6 +29,7 @@
-+ #include <fcntl.h>
-+ #include <sched.h>
-+ #include <sys/mman.h>
-++#include <asm/mman.h>
++diff --git a/Makefile b/Makefile
++index 5ac13d7..25caad5 100644
++--- a/Makefile
+++++ b/Makefile
++@@ -38,17 +38,16 @@ obj-m += lib/
++ endif
 +
-+ #include <lttngerr.h>
++ else
++-	KERNELDIR ?= /lib/modules/$(shell uname -r)/build
++ 	PWD := $(shell pwd)
++ 	CFLAGS = $(EXTCFLAGS)
 +
++ default:
++-	$(MAKE) -C $(KERNELDIR) M=$(PWD) modules
+++	$(MAKE) -C $(KERNEL_SRC) M=$(PWD) modules
++
++ modules_install:
++-	$(MAKE) -C $(KERNELDIR) M=$(PWD) modules_install
+++	$(MAKE) -C $(KERNEL_SRC) M=$(PWD) modules_install
++
++ clean:
++-	$(MAKE) -C $(KERNELDIR) M=$(PWD) clean
+++	$(MAKE) -C $(KERNEL_SRC) M=$(PWD) clean
++
++ endif
 +-- 
 +1.7.5.4
 +
-diff --git a/meta/recipes-kernel/lttng-2.0/lttng-tools_2.0-pre16.bb b/meta/recipes-kernel/lttng-2.0/lttng-tools_2.0-pre16.bb
+diff --git a/meta/recipes-kernel/lttng-2.0/lttng-modules_2.0.pre11.bb b/meta/recipes-kernel/lttng-2.0/lttng-modules_2.0.pre11.bb
 new file mode 100644
-index 0000000..cde57f7
+index 0000000..5d34c41
 --- /dev/null
-+++ b/meta/recipes-kernel/lttng-2.0/lttng-tools_2.0-pre16.bb
-@@ -0,0 +1,30 @@
++++ b/meta/recipes-kernel/lttng-2.0/lttng-modules_2.0.pre11.bb
+@@ -0,0 +1,27 @@
 +SECTION = "devel"
-+SUMMARY = "Linux Trace Toolkit Control"
-+DESCRIPTION = "The Linux trace toolkit is a suite of tools designed \
-+to extract program execution details from the Linux operating system \
-+and interpret them."
++SUMMARY = "Linux Trace Toolkit KERNEL MODULE"
++DESCRIPTION = "The lttng-modules 2.0 package contains the kernel tracer modules"
++LICENSE = "LGPLv2.1 & GPLv2"
++LIC_FILES_CHKSUM = "file://LICENSE;md5=1eb086682a7c65a45acd9bcdf6877b3e \
++                    file://gpl-2.0.txt;md5=751419260aa954499f7abaabaa882bbe \
++                    file://lgpl-2.1.txt;md5=243b725d71bb5df4a1e5920b344b86ad"
 +
-+LICENSE = "GPLv2.1"
-+LIC_FILES_CHKSUM = "file://COPYING;md5=ab682a4729389c3f11913d758affe98e \
-+                    file://gpl-2.0.txt;md5=b234ee4d69f5fce4486a80fdaf4a4263 \
-+                    file://lgpl-2.1.txt;md5=0f0d71500e6a57fd24d825f33242b9ca"
++DEPENDS = virtual/kernel
 +
-+DEPENDS = "liburcu popt lttng-ust"
++inherit module
 +
-+SRCREV = "f2ca2e251d8f49b0dbbcca529dd61b3562c1147f"
-+PV = "v2.0.pre16+git${SRCREV}"
++SRCREV = "4d3e89e379fc66480d729abe8daa5c86eb585400"
++PV = "2.0.pre11+git${SRCREV}"
 +PR = "r0"
 +
-+SRC_URI = "git://git.lttng.org/lttng-tools.git;protocol=git\
-+           file://lttng-tools-fix-compiling-error-for-powerpc-arm.patch"
++SRC_URI = "git://git.lttng.org/lttng-modules.git;protocol=git \
++           file://lttng-modules-replace-KERNELDIR-with-KERNEL_SRC.patch"
++
++export INSTALL_MOD_DIR="kernel/lttng-modules"
 +
 +S = "${WORKDIR}/git"
-+
-+inherit autotools
-+
-+export KERNELDIR="${STAGING_KERNEL_DIR}"
 +
 +# Due to liburcu not building for MIPS currently this recipe needs to
 +# be limited also.
