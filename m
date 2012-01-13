@@ -1,24 +1,24 @@
 Received: from mga02.intel.com ([134.134.136.20])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <dongxiao.xu@intel.com>) id 1Rlcd2-0002XM-J7
+	(envelope-from <dongxiao.xu@intel.com>) id 1Rlcd3-0002XM-DT
 	for openembedded-core@lists.openembedded.org;
-	Fri, 13 Jan 2012 09:36:52 +0100
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-	by orsmga101.jf.intel.com with ESMTP; 13 Jan 2012 00:29:19 -0800
+	Fri, 13 Jan 2012 09:36:53 +0100
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+	by orsmga101.jf.intel.com with ESMTP; 13 Jan 2012 00:29:21 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.67,352,1309762800"; d="scan'208";a="96048991"
+X-IronPort-AV: E=Sophos;i="4.67,351,1309762800"; d="scan'208";a="98028555"
 Received: from dongxiao-desktop.sh.intel.com (HELO localhost) ([10.239.36.108])
-	by orsmga001.jf.intel.com with ESMTP; 13 Jan 2012 00:29:19 -0800
+	by orsmga002.jf.intel.com with ESMTP; 13 Jan 2012 00:29:20 -0800
 From: Dongxiao Xu <dongxiao.xu@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Fri, 13 Jan 2012 16:31:38 +0800
-Message-Id: <bc6335972ec83f47469f18ac973f057b3323b46d.1326443095.git.dongxiao.xu@intel.com>
+Date: Fri, 13 Jan 2012 16:31:39 +0800
+Message-Id: <643ac0f27f805d2d25c6642a54f84e7420a506f8.1326443095.git.dongxiao.xu@intel.com>
 X-Mailer: git-send-email 1.7.0.4
 In-Reply-To: <cover.1326443095.git.dongxiao.xu@intel.com>
 References: <cover.1326443095.git.dongxiao.xu@intel.com>
 In-Reply-To: <cover.1326443095.git.dongxiao.xu@intel.com>
 References: <cover.1326443095.git.dongxiao.xu@intel.com>
-Subject: [PATCH 2/3] packageinfo.bbclass: add a new bbclass to pass package information
+Subject: [PATCH 3/3] meta-hob: Add a new meta-hob layer
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -33,53 +33,84 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 13 Jan 2012 08:36:52 -0000
+X-List-Received-Date: Fri, 13 Jan 2012 08:36:53 -0000
 
-packageinfo.bbclass is to pass the accurate package information to
-clients (e.g. Hob), including PN, PV, RDEPENDS, PKGSIZE, etc.
+This new layer contains dummy-image.bb and dummy-toolchain.bb that
+are used by hob to build images or toolchain.
 
 Signed-off-by: Dongxiao Xu <dongxiao.xu@intel.com>
 ---
- meta/classes/packageinfo.bbclass |   30 ++++++++++++++++++++++++++++++
- 1 files changed, 30 insertions(+), 0 deletions(-)
- create mode 100644 meta/classes/packageinfo.bbclass
+ meta-hob/COPYING.MIT                          |   17 +++++++++++++++++
+ meta-hob/conf/layer.conf                      |    9 +++++++++
+ meta-hob/recipes-core/images/dummy-image.bb   |    1 +
+ meta-hob/recipes-core/meta/dummy-toolchain.bb |   10 ++++++++++
+ 4 files changed, 37 insertions(+), 0 deletions(-)
+ create mode 100644 meta-hob/COPYING.MIT
+ create mode 100644 meta-hob/conf/layer.conf
+ create mode 100644 meta-hob/recipes-core/images/dummy-image.bb
+ create mode 100644 meta-hob/recipes-core/meta/dummy-toolchain.bb
 
-diff --git a/meta/classes/packageinfo.bbclass b/meta/classes/packageinfo.bbclass
+diff --git a/meta-hob/COPYING.MIT b/meta-hob/COPYING.MIT
 new file mode 100644
-index 0000000..53551c4
+index 0000000..fb950dc
 --- /dev/null
-+++ b/meta/classes/packageinfo.bbclass
-@@ -0,0 +1,30 @@
-+python packageinfo_handler () {
-+    if isinstance(e, bb.event.RequestPackageInfo):
-+        import oe.packagedata
-+        pkginfolist = []
-+        tmpdir = e.data.getVar('TMPDIR', True)
-+        target_vendor = e.data.getVar('TARGET_VENDOR', True)
-+        target_os = e.data.getVar('TARGET_OS', True)
-+        package_archs = e.data.getVar('PACKAGE_ARCHS', True)
-+        packaging = e.data.getVar('PACKAGE_CLASSES', True).split()[0].split('_')[1]
-+        deploy_dir = e.data.getVar('DEPLOY_DIR', True) + '/' + packaging
-+        for arch in package_archs.split():
-+            pkgdata_dir = tmpdir + '/pkgdata/' + arch + target_vendor + '-' + target_os + '/runtime/'
-+            if os.path.exists(pkgdata_dir):
-+                for root, dirs, files in os.walk(pkgdata_dir):
-+                    for pkgname in files:
-+                        if pkgname.endswith('.packaged'):
-+                            continue
-+                        sdata = oe.packagedata.read_pkgdatafile(root + pkgname)
-+                        sdata['PKG'] = pkgname
-+                        pkgrename = sdata['PKG_%s' % pkgname]
-+                        pkgv = sdata['PKGV']
-+                        pkgr = sdata['PKGR']
-+                        pkgname_path = deploy_dir + '/' + arch + '/' + pkgname + '-' + pkgv + '-' + pkgr + '.' + arch + '.' + packaging
-+                        pkgrename_path = deploy_dir + '/' + arch + '/' + pkgrename + '-' + pkgv + '-' + pkgr + '.' + arch + '.' + packaging
-+                        if os.path.exists(pkgname_path) or os.path.exists(pkgrename_path):
-+                            pkginfolist.append(sdata)
-+        bb.event.fire(bb.event.PackageInfo(pkginfolist), e.data)
-+}
++++ b/meta-hob/COPYING.MIT
+@@ -0,0 +1,17 @@
++Permission is hereby granted, free of charge, to any person obtaining a copy 
++of this software and associated documentation files (the "Software"), to deal 
++in the Software without restriction, including without limitation the rights 
++to use, copy, modify, merge, publish, distribute, sublicense, and/or sell 
++copies of the Software, and to permit persons to whom the Software is 
++furnished to do so, subject to the following conditions:
 +
-+addhandler packageinfo_handler
++The above copyright notice and this permission notice shall be included in 
++all copies or substantial portions of the Software.
++
++THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR 
++IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, 
++FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE 
++AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER 
++LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, 
++OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN 
++THE SOFTWARE.
+diff --git a/meta-hob/conf/layer.conf b/meta-hob/conf/layer.conf
+new file mode 100644
+index 0000000..5f5eb82
+--- /dev/null
++++ b/meta-hob/conf/layer.conf
+@@ -0,0 +1,9 @@
++# We have a conf and classes directory, add to BBPATH
++BBPATH := "${BBPATH}:${LAYERDIR}"
++
++# We have a packages directory, add to BBFILES
++BBFILES := "${BBFILES} ${LAYERDIR}/recipes-*/*/*.bb"
++
++BBFILE_COLLECTIONS += "hob"
++BBFILE_PATTERN_hob := "^${LAYERDIR}/"
++BBFILE_PRIORITY_hob = "1"
+diff --git a/meta-hob/recipes-core/images/dummy-image.bb b/meta-hob/recipes-core/images/dummy-image.bb
+new file mode 100644
+index 0000000..c8d6f49
+--- /dev/null
++++ b/meta-hob/recipes-core/images/dummy-image.bb
+@@ -0,0 +1 @@
++inherit image
+diff --git a/meta-hob/recipes-core/meta/dummy-toolchain.bb b/meta-hob/recipes-core/meta/dummy-toolchain.bb
+new file mode 100644
+index 0000000..6535253
+--- /dev/null
++++ b/meta-hob/recipes-core/meta/dummy-toolchain.bb
+@@ -0,0 +1,10 @@
++DESCRIPTION = "dummy toolchain"
++LICENSE = "MIT"
++
++PR = "r0"
++
++LIC_FILES_CHKSUM = "file://${COREBASE}/LICENSE;md5=3f40d7994397109285ec7b81fdeb3b58 \
++                    file://${COREBASE}/meta/COPYING.MIT;md5=3da9cfbcb788c80a0384361b4de20420"
++
++IMAGETEST ?= "dummy"
++inherit populate_sdk imagetest-${IMAGETEST}
 -- 
 1.7.0.4
 
