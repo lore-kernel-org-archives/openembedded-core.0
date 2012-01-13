@@ -1,20 +1,24 @@
-Received: from mga02.intel.com ([134.134.136.20])
+Received: from mga09.intel.com ([134.134.136.24])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <tom.zanussi@intel.com>) id 1RlZeZ-0004cv-9B
+	(envelope-from <tom.zanussi@intel.com>) id 1RlZeb-0004d0-Vq
 	for openembedded-core@lists.openembedded.org;
-	Fri, 13 Jan 2012 06:26:15 +0100
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-	by orsmga101.jf.intel.com with ESMTP; 12 Jan 2012 21:18:42 -0800
+	Fri, 13 Jan 2012 06:26:19 +0100
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+	by orsmga102.jf.intel.com with ESMTP; 12 Jan 2012 21:18:45 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.67,351,1309762800"; d="scan'208";a="97965627"
+X-IronPort-AV: E=Sophos;i="4.67,352,1309762800"; d="scan'208";a="95997559"
 Received: from unknown (HELO localhost) ([10.255.13.225])
-	by orsmga002.jf.intel.com with ESMTP; 12 Jan 2012 21:18:41 -0800
+	by orsmga001.jf.intel.com with ESMTP; 12 Jan 2012 21:18:45 -0800
 From: tom.zanussi@intel.com
 To: openembedded-core@lists.openembedded.org
-Date: Thu, 12 Jan 2012 23:18:04 -0600
-Message-Id: <cover.1326431435.git.tom.zanussi@intel.com>
+Date: Thu, 12 Jan 2012 23:18:09 -0600
+Message-Id: <3a5c7577264bf89de7ac4161a9ce13cb5fa4c10c.1326431435.git.tom.zanussi@intel.com>
 X-Mailer: git-send-email 1.7.0.4
-Subject: [PATCH 0/5] LICENSE_FLAGS, a replacement for COMMERCIAL_LICENSE, v4
+In-Reply-To: <1c27c9814d62adcde5540d6cbbdab5e0417a484c.1326431435.git.tom.zanussi@intel.com>
+References: <1c27c9814d62adcde5540d6cbbdab5e0417a484c.1326431435.git.tom.zanussi@intel.com>
+In-Reply-To: <cover.1326431435.git.tom.zanussi@intel.com>
+References: <cover.1326431435.git.tom.zanussi@intel.com>
+Subject: [PATCH 2/5] Add LICENSE_FLAGS to packages mentioned in COMMERCIAL_LICENSE
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -29,123 +33,133 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 13 Jan 2012 05:26:15 -0000
+X-List-Received-Date: Fri, 13 Jan 2012 05:26:19 -0000
 
 From: Tom Zanussi <tom.zanussi@intel.com>
 
-This patchset is a replacement for COMMERCIAL_LICENSE called LICENSE_FLAGS.
+Per-recipe LICENSE_FLAGS replace the global COMMERCIAL_LICENSE list;
+add LICENSE_FLAGS varables to each the recipes mentioned in that list:
 
-Please see the commit message for '[PATCH 1/5] base.bbclass: add support
- for LICENSE_FLAGS' for an explanation of the LICENSE_FLAGS mechanism.
+     - lame
+     - gst-fluendo-mp3
+     - gst-openmax
+     - gst-plugins-ugly
+     - libmad
+     - libomxil
+     - mpeg2dec
+     - qmmp
 
-v4 changes, reflecting comments from Saul Wold:
-
-- move the main functionality to license.bbclass as check_license_flags()
-- keep the call to check_license_flags() in base.bbclass
-
-v3 changes:
-
-- add back an accidentally-stripped comment in PATCH 1.
-
-v2 changes, reflecting comments from Phil Blundell and Paul Eggleton:
-
-- This version converts all the existing packages listed in COMMERCIAL_LICENSE
-to the equivalent "commercial_${PN}" LICENSE_FLAGS.  This allows each package
-to be added to or removed from the whitelist instead of the previously
-too-broad 'Commercial' flags for those packages.
-
-- Changes all values to lowercase.
-
-- The new commit message should explain the mechanism and how it can be
-used a little better.
-
-
-For some background on these changes, the original proposal for the
-functionality covered by this replacement was drafted by Saul Wold -
-the relevant details of that proposal are copied below:
-
-***
-
-There has been some issues raised with the initial implementation of
-COMMERCIAL_LICENSE and we are looking for ways to address this.
-Currently COMMERCIAL_LICENSE (C_L) is defined in default-distrovars.conf
-to contain a list of packages that have additional license requirements
-when used commercially (such as royalty requirements, or acknowledging
-some type of commercial T&Cs). These packages are skipped during parsing.
-
-It currently contains a number of Audio and Video packages that require
-additional licensing terms when used commercially. As we add additional
-layers, some of these layers want to add additional package to the C_L
-list, but how to easily enable them.
-
-Since local.conf, where you would normally override things like this, is
-read in before base.bbclass, which contains tools like oe_filter_out()
-to modify lists, we can't use that mechanism.
-
-That's the background, now for the proposal.
-
-Do away with C_L and C_*_PLUGINS, move to a "Named Bit Flag" list in
-LICENSE_FLAGS, each recipe can then maintain their flags directly,
-instead of in a shared location like default-distrovars.conf.
-
-LICENSE_FLAGS_WHITELIST would be set in local.conf with the values
-that are acceptable to include in this image, by default it would be
-blank.
-
-Possible values for LICENSE_FLAGS could be:
-- binary - provides some kind of binary with no source
-- patent - provides a potential infringing item, that some may not want
-- commercial - include recipes that may have commercial T&C
-- commercial_${PN} - commercial licenses specific to ${PN}
-- license_${PN} - include a recipe that has a specific license
-                 - maybe similar or different than commercial_${PN}
-
-***
-
-[T&C = Terms and Conditions]
-
-[NOTE: the above are only 'possible values' that particular license
-flags could take.  The above are not proposals for specific flags
-that will be implemented - it's completely up to the package maintainers
-to define appropriate flags for their packages.]
-
-Note that there's no policy attached to any of the above license types
-- this is simply string-matching that can be used for the purpose of
-screening packages - if the strings match, the recipe gets in, if not,
-it doesn't i.e. during parsing, we would inspect the recipe's data for
-LICENSE_FLAGS and if it has a value then try to match against the
-WHITELIST - if it matches it gets added to the parsed list, if there
-is no match then it gets Skip_Package()'ed.
-
-The following changes since commit 0f4d99d207b224bb9ce23de00a48f795ae20b3a0:
-  Richard Purdie (1):
-        multilib.conf: Clean up file and add missing entries for various dependencies
-
-are available in the git repository at:
-
-  git://git.yoctoproject.org/poky-contrib.git tzanussi/license-flags.v4
-  http://git.yoctoproject.org/cgit/cgit.cgi/poky-contrib/log/?h=tzanussi/license-flags.v4
-
-Tom Zanussi (5):
-  base.bbclass: add support for LICENSE_FLAGS
-  Add LICENSE_FLAGS to packages mentioned in COMMERCIAL_LICENSE
-  base.bbclass: remove COMMERCIAL_LICENSE code
-  default-distrovars.inc: remove COMMERCIAL_LICENSE et al
-  documentation-audit.sh: remove COMMERCIAL_LICENSE warning
-
- meta/classes/base.bbclass                          |   12 ++++----
- meta/classes/license.bbclass                       |   30 ++++++++++++++++++++
- meta/conf/distro/include/default-distrovars.inc    |    5 ---
+Signed-off-by: Tom Zanussi <tom.zanussi@intel.com>
+---
  .../gstreamer/gst-fluendo-mp3_0.10.16.bb           |    1 +
  .../gstreamer/gst-openmax_0.10.1.bb                |    1 +
  .../gstreamer/gst-plugins-ugly_0.10.18.bb          |    1 +
- meta/recipes-multimedia/lame/lame_3.99.3.bb        |    2 +
+ meta/recipes-multimedia/lame/lame_3.99.3.bb        |    2 ++
  meta/recipes-multimedia/libmad/libmad_0.15.1b.bb   |    1 +
  meta/recipes-multimedia/libomxil/libomxil_0.9.3.bb |    1 +
  meta/recipes-multimedia/mpeg2dec/mpeg2dec_0.4.1.bb |    1 +
  meta/recipes-qt/qt-apps/qmmp_0.5.2.bb              |    1 +
- scripts/contrib/documentation-audit.sh             |    3 +-
- 12 files changed, 47 insertions(+), 12 deletions(-)
+ 8 files changed, 9 insertions(+), 0 deletions(-)
+
+diff --git a/meta/recipes-multimedia/gstreamer/gst-fluendo-mp3_0.10.16.bb b/meta/recipes-multimedia/gstreamer/gst-fluendo-mp3_0.10.16.bb
+index 5975513..2ce2993 100644
+--- a/meta/recipes-multimedia/gstreamer/gst-fluendo-mp3_0.10.16.bb
++++ b/meta/recipes-multimedia/gstreamer/gst-fluendo-mp3_0.10.16.bb
+@@ -2,6 +2,7 @@ require gst-fluendo.inc
+ 
+ LICENSE = "MIT"
+ LIC_FILES_CHKSUM = "file://COPYING;md5=98326cbb1723a5a97e9b1db62e9faa05"
++LICENSE_FLAGS = "commercial_${PN}"
+ 
+ acpaths = "-I ${S}/common/m4 -I ${S}/m4"
+ 
+diff --git a/meta/recipes-multimedia/gstreamer/gst-openmax_0.10.1.bb b/meta/recipes-multimedia/gstreamer/gst-openmax_0.10.1.bb
+index 776ed1c..d2a56ce 100644
+--- a/meta/recipes-multimedia/gstreamer/gst-openmax_0.10.1.bb
++++ b/meta/recipes-multimedia/gstreamer/gst-openmax_0.10.1.bb
+@@ -1,6 +1,7 @@
+ DEPENDS = "gstreamer"
+ RDEPENDS_${PN} = "libomxil"
+ LICENSE = "LGPLv2.1"
++LICENSE_FLAGS = "commercial_${PN}"
+ LIC_FILES_CHKSUM = "file://COPYING;md5=fbc093901857fcd118f065f900982c24 \
+                     file://util/sem.h;beginline=1;endline=20;md5=accce5550d5583b839b441a0623f09fc"
+ 
+diff --git a/meta/recipes-multimedia/gstreamer/gst-plugins-ugly_0.10.18.bb b/meta/recipes-multimedia/gstreamer/gst-plugins-ugly_0.10.18.bb
+index 2d7fa91..ff7e2d6 100644
+--- a/meta/recipes-multimedia/gstreamer/gst-plugins-ugly_0.10.18.bb
++++ b/meta/recipes-multimedia/gstreamer/gst-plugins-ugly_0.10.18.bb
+@@ -1,6 +1,7 @@
+ require gst-plugins.inc
+ 
+ LICENSE = "GPLv2+ & LGPLv2.1+ & LGPLv2+"
++LICENSE_FLAGS = "commercial_${PN}"
+ LIC_FILES_CHKSUM = "file://COPYING;md5=a6f89e2100d9b6cdffcea4f398e37343 \
+                     file://gst/synaesthesia/synaescope.h;beginline=1;endline=20;md5=99f301df7b80490c6ff8305fcc712838 \
+                     file://tests/check/elements/xingmux.c;beginline=1;endline=21;md5=4c771b8af188724855cb99cadd390068 \
+diff --git a/meta/recipes-multimedia/lame/lame_3.99.3.bb b/meta/recipes-multimedia/lame/lame_3.99.3.bb
+index 3c42cc7..1e64b68 100644
+--- a/meta/recipes-multimedia/lame/lame_3.99.3.bb
++++ b/meta/recipes-multimedia/lame/lame_3.99.3.bb
+@@ -3,6 +3,8 @@ HOMEPAGE = "http://sourceforge.net/projects/lame/files/lame/"
+ BUGTRACKER = "http://sourceforge.net/tracker/?group_id=290&atid=100290"
+ SECTION = "console/utils"
+ LICENSE = "LGPLv2+"
++LICENSE_FLAGS = "commercial_${PN}"
++
+ LIC_FILES_CHKSUM = "file://COPYING;md5=c46bda00ffbb0ba1dac22f8d087f54d9 \
+                     file://include/lame.h;beginline=1;endline=20;md5=a2258182c593c398d15a48262130a92b
+ PR = "r0"
+diff --git a/meta/recipes-multimedia/libmad/libmad_0.15.1b.bb b/meta/recipes-multimedia/libmad/libmad_0.15.1b.bb
+index aec929c..7678b32 100644
+--- a/meta/recipes-multimedia/libmad/libmad_0.15.1b.bb
++++ b/meta/recipes-multimedia/libmad/libmad_0.15.1b.bb
+@@ -2,6 +2,7 @@ DESCRIPTION = "MPEG Audio Decoder Library"
+ HOMEPAGE = "http://sourceforge.net/projects/mad/"
+ BUGTRACKER = "http://sourceforge.net/tracker/?group_id=12349&atid=112349"
+ LICENSE = "GPLv2+"
++LICENSE_FLAGS = "commercial_${PN}"
+ LIC_FILES_CHKSUM = "file://COPYING;md5=94d55d512a9ba36caa9b7df079bae19f \
+ 			file://COPYRIGHT;md5=8e55eb14894e782b84488d5a239bc23d \
+ 			file://version.h;beginline=1;endline=8;md5=aa07311dd39288d4349f28e1de516454"
+diff --git a/meta/recipes-multimedia/libomxil/libomxil_0.9.3.bb b/meta/recipes-multimedia/libomxil/libomxil_0.9.3.bb
+index bb31c56..ad11013 100644
+--- a/meta/recipes-multimedia/libomxil/libomxil_0.9.3.bb
++++ b/meta/recipes-multimedia/libomxil/libomxil_0.9.3.bb
+@@ -1,6 +1,7 @@
+ DESCRIPTION = "Bellagio OpenMAX Integration Layer"
+ HOMEPAGE = "http://omxil.sourceforge.net/"
+ LICENSE = "LGPLv2.1+"
++LICENSE_FLAGS = "commercial_${PN}"
+ LIC_FILES_CHKSUM = "file://COPYING;md5=ae6f0f4dbc7ac193b50f323a6ae191cb \
+                     file://src/omxcore.h;beginline=1;endline=27;md5=806b1e5566c06486fe8e42b461e03a90"
+ DEPENDS = "libvorbis libogg alsa-lib libmad"
+diff --git a/meta/recipes-multimedia/mpeg2dec/mpeg2dec_0.4.1.bb b/meta/recipes-multimedia/mpeg2dec/mpeg2dec_0.4.1.bb
+index 351962f..ef59a55 100644
+--- a/meta/recipes-multimedia/mpeg2dec/mpeg2dec_0.4.1.bb
++++ b/meta/recipes-multimedia/mpeg2dec/mpeg2dec_0.4.1.bb
+@@ -2,6 +2,7 @@ DESCRIPTION = "Library and test program for decoding mpeg-2 and mpeg-1 video str
+ HOMEPAGE = "http://libmpeg2.sourceforge.net/"
+ SECTION = "libs"
+ LICENSE = "GPLv2+"
++LICENSE_FLAGS = "commercial_${PN}"
+ LIC_FILES_CHKSUM = "file://COPYING;md5=94d55d512a9ba36caa9b7df079bae19f \
+                     file://include/mpeg2.h;beginline=1;endline=22;md5=ead62602d4638329d3b5b86a55803154"
+ 
+diff --git a/meta/recipes-qt/qt-apps/qmmp_0.5.2.bb b/meta/recipes-qt/qt-apps/qmmp_0.5.2.bb
+index b3ecc45..13a53c7 100644
+--- a/meta/recipes-qt/qt-apps/qmmp_0.5.2.bb
++++ b/meta/recipes-qt/qt-apps/qmmp_0.5.2.bb
+@@ -1,6 +1,7 @@
+ DESCRIPTION = "Qmmp (Qt-based Multimedia Player) is an audio-player, written with help of Qt library"
+ HOMEPAGE = "http://qmmp.ylsoftware.com"
+ LICENSE = "GPLv2"
++LICENSE_FLAGS = "commercial_${PN}"
+ LIC_FILES_CHKSUM = "file://COPYING;md5=393a5ca445f6965873eca0259a17f833"
+ SECTION = "multimedia"
+ 
+-- 
+1.7.0.4
 
 
 
