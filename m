@@ -1,27 +1,24 @@
-Received: from mail-ww0-f43.google.com ([74.125.82.43])
+Received: from mga14.intel.com ([143.182.124.37])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <andrei@gherzan.ro>) id 1RlcQU-00028r-SI
+	(envelope-from <dongxiao.xu@intel.com>) id 1Rlcd1-0002XL-Cm
 	for openembedded-core@lists.openembedded.org;
-	Fri, 13 Jan 2012 09:23:54 +0100
-Received: by wgbdt11 with SMTP id dt11so2708389wgb.24
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 13 Jan 2012 00:16:22 -0800 (PST)
-MIME-Version: 1.0
-Received: by 10.180.84.163 with SMTP id a3mr2605647wiz.3.1326442582871; Fri,
-	13 Jan 2012 00:16:22 -0800 (PST)
-Received: by 10.227.100.82 with HTTP; Fri, 13 Jan 2012 00:16:21 -0800 (PST)
-X-Originating-IP: [79.117.107.173]
-Received: by 10.227.100.82 with HTTP; Fri, 13 Jan 2012 00:16:21 -0800 (PST)
-In-Reply-To: <4F0FD82D.80405@bluegiga.com>
-References: <1326067422-30771-1-git-send-email-andrei@gherzan.ro>
-	<4F0FD82D.80405@bluegiga.com>
-Date: Fri, 13 Jan 2012 10:16:21 +0200
-Message-ID: <CAK18fxHmd-pLX_nXcP1OZ7yQKnBFgyq6qqZ4wB38rabMEKPQ0Q@mail.gmail.com>
-From: Andrei Gherzan <andrei@gherzan.ro>
-To: Lauri Hintsala <lauri.hintsala@bluegiga.com>
-Cc: Andrei Gherzan <andrei.gherzan@windriver.com>,
-	openembedded <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] busybox: defconfig modified in order to activate CONFIG_EXPR_MATH_SUPPORT_64
+	Fri, 13 Jan 2012 09:36:51 +0100
+Received: from azsmga002.ch.intel.com ([10.2.17.35])
+	by azsmga102.ch.intel.com with ESMTP; 13 Jan 2012 00:29:18 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="56075666"
+Received: from dongxiao-desktop.sh.intel.com (HELO localhost) ([10.239.36.108])
+	by AZSMGA002.ch.intel.com with ESMTP; 13 Jan 2012 00:29:18 -0800
+From: Dongxiao Xu <dongxiao.xu@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Fri, 13 Jan 2012 16:31:37 +0800
+Message-Id: <976bc7a0d816273809b4eb4c32eeec3a2678a798.1326443095.git.dongxiao.xu@intel.com>
+X-Mailer: git-send-email 1.7.0.4
+In-Reply-To: <cover.1326443095.git.dongxiao.xu@intel.com>
+References: <cover.1326443095.git.dongxiao.xu@intel.com>
+In-Reply-To: <cover.1326443095.git.dongxiao.xu@intel.com>
+References: <cover.1326443095.git.dongxiao.xu@intel.com>
+Subject: [PATCH 1/3] package.bbclass: set package size into pkgdata for hob2's use
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -36,80 +33,47 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 13 Jan 2012 08:23:54 -0000
-Content-Type: multipart/alternative; boundary=f46d043c06e0f7904004b6647a43
+X-List-Received-Date: Fri, 13 Jan 2012 08:36:51 -0000
 
---f46d043c06e0f7904004b6647a43
-Content-Type: text/plain; charset=ISO-8859-1
+From: Shane Wang <shane.wang@intel.com>
 
-As i could see that patch has nothing in common with this bug. Yes, it uses
-expr from busybox... but that is all. No fix for 64bit numbers support.
+Write the size of a package into its pkgdata for hob2 to get the size
+and show on the UI for image making.
 
-@g
-On Jan 13, 2012 9:07 AM, "Lauri Hintsala" <lauri.hintsala@bluegiga.com>
-wrote:
+Signed-off-by: Shane Wang <shane.wang@intel.com>
+Signed-off-by: Dongxiao Xu <dongxiao.xu@intel.com>
+---
+ meta/classes/package.bbclass |    8 ++++++++
+ 1 files changed, 8 insertions(+), 0 deletions(-)
 
-> Hello Andrei
->
-> On 01/09/2012 02:03 AM, Andrei Gherzan wrote:
->
->> From: Andrei Gherzan<andrei.gherzan@**windriver.com<andrei.gherzan@windriver.com>
->> >
->>
->> Enable 64-bit math support in the expr applet. This will make
->> the applet slightly larger, but will allow computation with very
->> large numbers.
->>
->> [YOCTO #1767]
->>
->
-> This bug should be fixed already:
-> http://lists.linuxtogo.org/**pipermail/openembedded-core/**
-> 2011-December/014487.html<http://lists.linuxtogo.org/pipermail/openembedded-core/2011-December/014487.html>
->
-> Please inform if my fix doesn't work.
->
-> BR,
-> Lauri
->
+diff --git a/meta/classes/package.bbclass b/meta/classes/package.bbclass
+index f8f0a12..19616bd 100644
+--- a/meta/classes/package.bbclass
++++ b/meta/classes/package.bbclass
+@@ -1057,6 +1057,13 @@ python emit_pkgdata() {
+ 			f.write('%s: %s\n' % (var, encode(val)))
+ 		return
+ 
++	def get_directory_size(dir):
++		if os.listdir(dir):
++			size = int(os.popen('du -sk %s' % dir).readlines()[0].split('\t')[0])
++		else:
++			size = 0
++		return size
++
+ 	packages = d.getVar('PACKAGES', True)
+ 	pkgdest = d.getVar('PKGDEST', 1)
+ 	pkgdatadir = d.getVar('PKGDESTWORK', True)
+@@ -1105,6 +1112,7 @@ python emit_pkgdata() {
+ 		for dfile in (d.getVar('FILERDEPENDSFLIST_' + pkg, True) or "").split():
+ 			write_if_exists(sf, pkg, 'FILERDEPENDS_' + dfile)
+ 
++		sf.write('%s_%s: %s\n' % ('PKGSIZE', pkg, get_directory_size(pkgdest + "/%s" % pkg)))
+ 		sf.close()
+ 
+ 
+-- 
+1.7.0.4
 
---f46d043c06e0f7904004b6647a43
-Content-Type: text/html; charset=ISO-8859-1
-Content-Transfer-Encoding: quoted-printable
 
-<p>As i could see that patch has nothing in common with this bug. Yes, it u=
-ses expr from busybox... but that is all. No fix for 64bit numbers support.=
-</p>
-<p>@g</p>
-<div class=3D"gmail_quote">On Jan 13, 2012 9:07 AM, &quot;Lauri Hintsala&qu=
-ot; &lt;<a href=3D"mailto:lauri.hintsala@bluegiga.com">lauri.hintsala@blueg=
-iga.com</a>&gt; wrote:<br type=3D"attribution"><blockquote class=3D"gmail_q=
-uote" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1e=
-x">
-Hello Andrei<br>
-<br>
-On 01/09/2012 02:03 AM, Andrei Gherzan wrote:<br>
-<blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1p=
-x #ccc solid;padding-left:1ex">
-From: Andrei Gherzan&lt;<a href=3D"mailto:andrei.gherzan@windriver.com" tar=
-get=3D"_blank">andrei.gherzan@<u></u>windriver.com</a>&gt;<br>
-<br>
-Enable 64-bit math support in the expr applet. This will make<br>
-the applet slightly larger, but will allow computation with very<br>
-large numbers.<br>
-<br>
-[YOCTO #1767]<br>
-</blockquote>
-<br>
-This bug should be fixed already:<br>
-<a href=3D"http://lists.linuxtogo.org/pipermail/openembedded-core/2011-Dece=
-mber/014487.html" target=3D"_blank">http://lists.linuxtogo.org/<u></u>piper=
-mail/openembedded-core/<u></u>2011-December/014487.html</a><br>
-<br>
-Please inform if my fix doesn&#39;t work.<br>
-<br>
-BR,<br>
-Lauri<br>
-</blockquote></div>
 
---f46d043c06e0f7904004b6647a43--
