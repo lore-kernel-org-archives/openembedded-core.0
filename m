@@ -1,24 +1,25 @@
-Received: from mail-wi0-f175.google.com ([209.85.212.175])
+Received: from bluegiga.fi ([194.100.31.45] helo=darkblue.bluegiga.com)
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <koen@dominion.thruhere.net>) id 1Rld8D-0004Mh-J1
+	(envelope-from <Lauri.Hintsala@bluegiga.com>) id 1Rldtw-0005qd-Nn
 	for openembedded-core@lists.openembedded.org;
-	Fri, 13 Jan 2012 10:09:05 +0100
-Received: by wibhm17 with SMTP id hm17so173528wib.6
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 13 Jan 2012 01:01:33 -0800 (PST)
-Received: by 10.180.104.5 with SMTP id ga5mr6848329wib.21.1326445293798;
-	Fri, 13 Jan 2012 01:01:33 -0800 (PST)
-Received: from localhost (ip545070eb.adsl-surfen.hetnet.nl. [84.80.112.235])
-	by mx.google.com with ESMTPS id g11sm10214651wbo.6.2012.01.13.01.01.32
-	(version=TLSv1/SSLv3 cipher=OTHER);
-	Fri, 13 Jan 2012 01:01:32 -0800 (PST)
-From: Koen Kooi <koen@dominion.thruhere.net>
-To: openembedded-core@lists.openembedded.org
-Date: Fri, 13 Jan 2012 10:01:27 +0100
-Message-Id: <1326445287-20422-1-git-send-email-koen@dominion.thruhere.net>
-X-Mailer: git-send-email 1.7.2.5
-Cc: Koen Kooi <koen@dominion.thruhere.net>
-Subject: [PATCH] cairo 1.10.2: enable tee backend
+	Fri, 13 Jan 2012 10:58:24 +0100
+Received: from [10.1.1.28] ([10.1.1.28]) by darkblue.bluegiga.com with
+	Microsoft SMTPSVC(6.0.3790.4675); Fri, 13 Jan 2012 11:50:53 +0200
+Message-ID: <4F0FFE7D.4060006@bluegiga.com>
+Date: Fri, 13 Jan 2012 11:50:53 +0200
+From: Lauri Hintsala <lauri.hintsala@bluegiga.com>
+User-Agent: Mozilla/5.0 (X11; U; Linux i686; en-US;
+	rv:1.9.2.24) Gecko/20111108 Lightning/1.0b2 Thunderbird/3.1.16
+MIME-Version: 1.0
+To: Andrei Gherzan <andrei@gherzan.ro>
+References: <1326067422-30771-1-git-send-email-andrei@gherzan.ro>	<4F0FD82D.80405@bluegiga.com>
+	<CAK18fxHmd-pLX_nXcP1OZ7yQKnBFgyq6qqZ4wB38rabMEKPQ0Q@mail.gmail.com>
+In-Reply-To: <CAK18fxHmd-pLX_nXcP1OZ7yQKnBFgyq6qqZ4wB38rabMEKPQ0Q@mail.gmail.com>
+X-OriginalArrivalTime: 13 Jan 2012 09:50:53.0628 (UTC)
+	FILETIME=[D6F2CFC0:01CCD1D8]
+Cc: Andrei Gherzan <andrei.gherzan@windriver.com>,
+	openembedded <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] busybox: defconfig modified in order to activate CONFIG_EXPR_MATH_SUPPORT_64
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -33,50 +34,21 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 13 Jan 2012 09:09:06 -0000
+X-List-Received-Date: Fri, 13 Jan 2012 09:58:24 -0000
+Content-Type: text/plain; charset=ISO-8859-1; format=flowed
+Content-Transfer-Encoding: 7bit
 
-This is needed for firefox:
+On 01/13/2012 10:16 AM, Andrei Gherzan wrote:
+> As i could see that patch has nothing in common with this bug. Yes, it
+> uses expr from busybox... but that is all. No fix for 64bit numbers support.
 
-| checking CAIRO_LIBS... -lcairo -lpixman-1 -lfreetype -lfontconfig
-| checking for cairo-tee >= 1.10... Package cairo-tee was not found in the pkg-config search path. Perhaps you should add the directory containing `cairo-tee.pc' to the PKG_CONFIG_PATH environment variable No package 'cairo-tee' found
-| configure: error: Library requirements (cairo-tee >= 1.10) not met; consider adjusting the PKG_CONFIG_PATH environment variable if your libraries are in a nonstandard prefix so pkg-config can find them.
+Sorry, my fingers were faster than my head. I thought this bug was 
+opened because of yocto time set issue:
+https://lists.yoctoproject.org/pipermail/yocto/2012-January/006437.html
 
-Signed-off-by: Koen Kooi <koen@dominion.thruhere.net>
----
- meta/recipes-graphics/cairo/cairo.inc       |    4 +++-
- meta/recipes-graphics/cairo/cairo_1.10.2.bb |    2 +-
- 2 files changed, 4 insertions(+), 2 deletions(-)
+I see this is general issue. You can forget my previous message.
 
-diff --git a/meta/recipes-graphics/cairo/cairo.inc b/meta/recipes-graphics/cairo/cairo.inc
-index 5f8f7b6..31e2ec9 100644
---- a/meta/recipes-graphics/cairo/cairo.inc
-+++ b/meta/recipes-graphics/cairo/cairo.inc
-@@ -19,7 +19,9 @@ PACKAGECONFIG[gtk-directfb] = "--enable-directfb=yes,,directfb"
- 
- #check for TARGET_FPU=soft and inform configure of the result so it can disable some floating points 
- require cairo-fpu.inc
--EXTRA_OECONF += "${@get_cairo_fpu_setting(bb, d)} "
-+EXTRA_OECONF += "${@get_cairo_fpu_setting(bb, d)} \
-+                 --enable-tee \
-+                "
- 
- 
- inherit autotools pkgconfig
-diff --git a/meta/recipes-graphics/cairo/cairo_1.10.2.bb b/meta/recipes-graphics/cairo/cairo_1.10.2.bb
-index 8202860..826681f 100644
---- a/meta/recipes-graphics/cairo/cairo_1.10.2.bb
-+++ b/meta/recipes-graphics/cairo/cairo_1.10.2.bb
-@@ -2,7 +2,7 @@ require cairo.inc
- 
- LIC_FILES_CHKSUM = "file://COPYING;md5=e73e999e0c72b5ac9012424fa157ad77"
- 
--PR = "r2"
-+PR = "r3"
- 
- SRC_URI = "http://cairographics.org/releases/cairo-${PV}.tar.gz"
- 
--- 
-1.7.2.5
-
+BR,
+Lauri
 
 
