@@ -1,24 +1,24 @@
 Received: from mga03.intel.com ([143.182.124.21])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <paul.eggleton@linux.intel.com>) id 1RllGv-0007aO-34
+	(envelope-from <paul.eggleton@linux.intel.com>) id 1RllGv-0007aO-TF
 	for openembedded-core@lists.openembedded.org;
-	Fri, 13 Jan 2012 18:50:37 +0100
+	Fri, 13 Jan 2012 18:50:38 +0100
 Received: from azsmga001.ch.intel.com ([10.2.17.19])
-	by azsmga101.ch.intel.com with ESMTP; 13 Jan 2012 09:43:03 -0800
+	by azsmga101.ch.intel.com with ESMTP; 13 Jan 2012 09:43:04 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="95565800"
+X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="95565804"
 Received: from unknown (HELO helios.ger.corp.intel.com) ([10.252.122.110])
-	by azsmga001.ch.intel.com with ESMTP; 13 Jan 2012 09:43:02 -0800
+	by azsmga001.ch.intel.com with ESMTP; 13 Jan 2012 09:43:03 -0800
 From: Paul Eggleton <paul.eggleton@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Fri, 13 Jan 2012 17:42:56 +0000
-Message-Id: <44c377326aa19c844ad48f3940f6976614d7365c.1326476501.git.paul.eggleton@linux.intel.com>
+Date: Fri, 13 Jan 2012 17:42:57 +0000
+Message-Id: <2654e02dfc8bb66bcca60ea3adc4e5d19a302330.1326476501.git.paul.eggleton@linux.intel.com>
 X-Mailer: git-send-email 1.7.5.4
 In-Reply-To: <cover.1326476501.git.paul.eggleton@linux.intel.com>
 References: <cover.1326476501.git.paul.eggleton@linux.intel.com>
 In-Reply-To: <cover.1326476501.git.paul.eggleton@linux.intel.com>
 References: <cover.1326476501.git.paul.eggleton@linux.intel.com>
-Subject: [PATCH 1/4] classes/base: note variable name in COMPATIBLE_* skip messages
+Subject: [PATCH 2/4] conf/bitbake.conf: allow wget to output error messages
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -33,38 +33,43 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 13 Jan 2012 17:50:37 -0000
+X-List-Received-Date: Fri, 13 Jan 2012 17:50:38 -0000
 
-When raising SkipPackage for COMPATIBLE_MACHINE and COMPATIBLE_HOST
-exceptions, include the name of the variable as a hint to the user.
+Use the -nv instead of -q command line option for wget so that if
+fetching from a URL that the wget fetcher handles (e.g. http) fails, we
+get a possibly useful error message (but it still remains relatively
+quiet when the fetch succeeds.)
 
 Signed-off-by: Paul Eggleton <paul.eggleton@linux.intel.com>
 ---
- meta/classes/base.bbclass |    4 ++--
- 1 files changed, 2 insertions(+), 2 deletions(-)
+ meta/conf/bitbake.conf |    6 +++---
+ 1 files changed, 3 insertions(+), 3 deletions(-)
 
-diff --git a/meta/classes/base.bbclass b/meta/classes/base.bbclass
-index f0c358e..091e965 100644
---- a/meta/classes/base.bbclass
-+++ b/meta/classes/base.bbclass
-@@ -379,7 +379,7 @@ python () {
-             import re
-             this_host = d.getVar('HOST_SYS', 1)
-             if not re.match(need_host, this_host):
--                raise bb.parse.SkipPackage("incompatible with host %s" % this_host)
-+                raise bb.parse.SkipPackage("incompatible with host %s (not in COMPATIBLE_HOST)" % this_host)
+diff --git a/meta/conf/bitbake.conf b/meta/conf/bitbake.conf
+index 43eedad..d047338 100644
+--- a/meta/conf/bitbake.conf
++++ b/meta/conf/bitbake.conf
+@@ -556,17 +556,17 @@ XORG_MIRROR = "http://xorg.freedesktop.org/releases"
  
-         need_machine = d.getVar('COMPATIBLE_MACHINE', 1)
-         if need_machine:
-@@ -388,7 +388,7 @@ python () {
-             if this_machine and not re.match(need_machine, this_machine):
-                 this_soc_family = d.getVar('SOC_FAMILY', 1)
-                 if (this_soc_family and not re.match(need_machine, this_soc_family)) or not this_soc_family:
--                    raise bb.parse.SkipPackage("incompatible with machine %s" % this_machine)
-+                    raise bb.parse.SkipPackage("incompatible with machine %s (not in COMPATIBLE_MACHINE)" % this_machine)
+ FETCHCMD_svn = "/usr/bin/env svn"
+ FETCHCMD_cvs = "/usr/bin/env cvs"
+-FETCHCMD_wget = "/usr/bin/env wget -t 5 -q --no-check-certificate"
++FETCHCMD_wget = "/usr/bin/env wget -t 5 -nv --no-check-certificate"
+ FETCHCMD_bzr = "/usr/bin/env bzr"
+ FETCHCMD_hg = "/usr/bin/env hg"
  
- 
-         dont_want_license = d.getVar('INCOMPATIBLE_LICENSE', 1)
+ FETCHCOMMAND = "ERROR, this must be a BitBake bug"
+-FETCHCOMMAND_wget = "/usr/bin/env wget -t 5 -q --passive-ftp --no-check-certificate -P ${DL_DIR} '${URI}'"
++FETCHCOMMAND_wget = "/usr/bin/env wget -t 5 -nv --passive-ftp --no-check-certificate -P ${DL_DIR} '${URI}'"
+ FETCHCOMMAND_cvs = "/usr/bin/env cvs '-d${CVSROOT}' co ${CVSCOOPTS} ${CVSMODULE}"
+ FETCHCOMMAND_svn = "/usr/bin/env svn co ${SVNCOOPTS} ${SVNROOT} ${SVNMODULE}"
+ CHECKCOMMAND_wget = "/usr/bin/env wget --spider -t 5 --passive-ftp --no-check-certificate -P ${DL_DIR} '${URI}'"
+ RESUMECOMMAND = "ERROR, this must be a BitBake bug"
+-RESUMECOMMAND_wget = "/usr/bin/env wget -c -t 5 -q --passive-ftp --no-check-certificate -P ${DL_DIR} '${URI}'"
++RESUMECOMMAND_wget = "/usr/bin/env wget -c -t 5 -nv --passive-ftp --no-check-certificate -P ${DL_DIR} '${URI}'"
+ UPDATECOMMAND = "ERROR, this must be a BitBake bug"
+ UPDATECOMMAND_cvs = "/usr/bin/env cvs -d${CVSROOT} update -d -P ${CVSCOOPTS}"
+ UPDATECOMMAND_svn = "/usr/bin/env svn update ${SVNCOOPTS}"
 -- 
 1.7.5.4
 
