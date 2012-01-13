@@ -1,25 +1,20 @@
-Received: from mail.windriver.com ([147.11.1.11])
+Received: from mga02.intel.com ([134.134.136.20])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <Zumeng.Chen@windriver.com>) id 1RlWJI-0003Wi-4V
+	(envelope-from <tom.zanussi@intel.com>) id 1RlZeZ-0004cv-9B
 	for openembedded-core@lists.openembedded.org;
-	Fri, 13 Jan 2012 02:52:04 +0100
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca [147.11.189.40])
-	by mail.windriver.com (8.14.3/8.14.3) with ESMTP id q0D1iTFZ001104
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 12 Jan 2012 17:44:31 -0800 (PST)
-Received: from pek-yocto-build2.corp.ad.wrs.com (128.224.163.150) by
-	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server id
-	14.1.255.0; Thu, 12 Jan 2012 17:44:29 -0800
-From: Zumeng Chen <zumeng.chen@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Fri, 13 Jan 2012 09:44:06 +0800
-Message-ID: <1d0a1c7a3cd3ddbf42102bf3611e2c4c77c95d5d.1326418292.git.zumeng.chen@windriver.com>
-X-Mailer: git-send-email 1.7.5.4
-In-Reply-To: <cover.1326418292.git.zumeng.chen@windriver.com>
-References: <cover.1326418292.git.zumeng.chen@windriver.com>
-MIME-Version: 1.0
-Subject: [PATCH 4/4] babeltrace: Integrated from version 0.8
+	Fri, 13 Jan 2012 06:26:15 +0100
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+	by orsmga101.jf.intel.com with ESMTP; 12 Jan 2012 21:18:42 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.67,351,1309762800"; d="scan'208";a="97965627"
+Received: from unknown (HELO localhost) ([10.255.13.225])
+	by orsmga002.jf.intel.com with ESMTP; 12 Jan 2012 21:18:41 -0800
+From: tom.zanussi@intel.com
+To: openembedded-core@lists.openembedded.org
+Date: Thu, 12 Jan 2012 23:18:04 -0600
+Message-Id: <cover.1326431435.git.tom.zanussi@intel.com>
+X-Mailer: git-send-email 1.7.0.4
+Subject: [PATCH 0/5] LICENSE_FLAGS, a replacement for COMMERCIAL_LICENSE, v4
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -34,53 +29,123 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 13 Jan 2012 01:52:04 -0000
-Content-Type: text/plain
+X-List-Received-Date: Fri, 13 Jan 2012 05:26:15 -0000
 
-It provides trace read and write libraries, as well as a trace converter.
+From: Tom Zanussi <tom.zanussi@intel.com>
 
-Signed-off-by: Zumeng Chen <zumeng.chen@windriver.com>
----
- meta/recipes-kernel/lttng-2.0/babeltrace_0.8.bb |   28 +++++++++++++++++++++++
- 1 files changed, 28 insertions(+), 0 deletions(-)
- create mode 100644 meta/recipes-kernel/lttng-2.0/babeltrace_0.8.bb
+This patchset is a replacement for COMMERCIAL_LICENSE called LICENSE_FLAGS.
 
-diff --git a/meta/recipes-kernel/lttng-2.0/babeltrace_0.8.bb b/meta/recipes-kernel/lttng-2.0/babeltrace_0.8.bb
-new file mode 100644
-index 0000000..259df0d
---- /dev/null
-+++ b/meta/recipes-kernel/lttng-2.0/babeltrace_0.8.bb
-@@ -0,0 +1,28 @@
-+SUMMARY = "Babeltrace - Trace Format Babel Tower"
-+DESCRIPTION = "Babeltrace provides trace read and write libraries in host side, as well as a trace converter, which used to convert LTTng 2.0 traces into human-readable log."
-+HOMEPAGE = "http://www.efficios.com/babeltrace/"
-+BUGTRACKER = "n/a"
-+
-+LICENSE = "MIT & GPLv2"
-+LIC_FILES_CHKSUM = "file://LICENSE;md5=8d1a03b3c17bdd158b3cbb34813b1423"
-+
-+inherit autotools
-+
-+DEPENDS = "gtk+ util-linux"
-+
-+SRCREV = "31e670293588d7882a232bc14b93d5e956fa43f4"
-+PV = "0.8+git${SRCPV}"
-+PR = "r0"
-+
-+SRC_URI = "git://git.efficios.com/babeltrace.git;protocol=git"
-+
-+S = "${WORKDIR}/git"
-+
-+do_configure_prepend () {
-+	${S}/bootstrap
-+}
-+
-+# Due to liburcu not building for MIPS currently this recipe needs to
-+# be limited also.
-+# So here let us first suppport x86/arm/powerpc platforms now.
-+COMPATIBLE_HOST = '(x86_64.*|i.86.*|arm.*|powerpc.*)-linux'
--- 
-1.7.5.4
+Please see the commit message for '[PATCH 1/5] base.bbclass: add support
+ for LICENSE_FLAGS' for an explanation of the LICENSE_FLAGS mechanism.
+
+v4 changes, reflecting comments from Saul Wold:
+
+- move the main functionality to license.bbclass as check_license_flags()
+- keep the call to check_license_flags() in base.bbclass
+
+v3 changes:
+
+- add back an accidentally-stripped comment in PATCH 1.
+
+v2 changes, reflecting comments from Phil Blundell and Paul Eggleton:
+
+- This version converts all the existing packages listed in COMMERCIAL_LICENSE
+to the equivalent "commercial_${PN}" LICENSE_FLAGS.  This allows each package
+to be added to or removed from the whitelist instead of the previously
+too-broad 'Commercial' flags for those packages.
+
+- Changes all values to lowercase.
+
+- The new commit message should explain the mechanism and how it can be
+used a little better.
+
+
+For some background on these changes, the original proposal for the
+functionality covered by this replacement was drafted by Saul Wold -
+the relevant details of that proposal are copied below:
+
+***
+
+There has been some issues raised with the initial implementation of
+COMMERCIAL_LICENSE and we are looking for ways to address this.
+Currently COMMERCIAL_LICENSE (C_L) is defined in default-distrovars.conf
+to contain a list of packages that have additional license requirements
+when used commercially (such as royalty requirements, or acknowledging
+some type of commercial T&Cs). These packages are skipped during parsing.
+
+It currently contains a number of Audio and Video packages that require
+additional licensing terms when used commercially. As we add additional
+layers, some of these layers want to add additional package to the C_L
+list, but how to easily enable them.
+
+Since local.conf, where you would normally override things like this, is
+read in before base.bbclass, which contains tools like oe_filter_out()
+to modify lists, we can't use that mechanism.
+
+That's the background, now for the proposal.
+
+Do away with C_L and C_*_PLUGINS, move to a "Named Bit Flag" list in
+LICENSE_FLAGS, each recipe can then maintain their flags directly,
+instead of in a shared location like default-distrovars.conf.
+
+LICENSE_FLAGS_WHITELIST would be set in local.conf with the values
+that are acceptable to include in this image, by default it would be
+blank.
+
+Possible values for LICENSE_FLAGS could be:
+- binary - provides some kind of binary with no source
+- patent - provides a potential infringing item, that some may not want
+- commercial - include recipes that may have commercial T&C
+- commercial_${PN} - commercial licenses specific to ${PN}
+- license_${PN} - include a recipe that has a specific license
+                 - maybe similar or different than commercial_${PN}
+
+***
+
+[T&C = Terms and Conditions]
+
+[NOTE: the above are only 'possible values' that particular license
+flags could take.  The above are not proposals for specific flags
+that will be implemented - it's completely up to the package maintainers
+to define appropriate flags for their packages.]
+
+Note that there's no policy attached to any of the above license types
+- this is simply string-matching that can be used for the purpose of
+screening packages - if the strings match, the recipe gets in, if not,
+it doesn't i.e. during parsing, we would inspect the recipe's data for
+LICENSE_FLAGS and if it has a value then try to match against the
+WHITELIST - if it matches it gets added to the parsed list, if there
+is no match then it gets Skip_Package()'ed.
+
+The following changes since commit 0f4d99d207b224bb9ce23de00a48f795ae20b3a0:
+  Richard Purdie (1):
+        multilib.conf: Clean up file and add missing entries for various dependencies
+
+are available in the git repository at:
+
+  git://git.yoctoproject.org/poky-contrib.git tzanussi/license-flags.v4
+  http://git.yoctoproject.org/cgit/cgit.cgi/poky-contrib/log/?h=tzanussi/license-flags.v4
+
+Tom Zanussi (5):
+  base.bbclass: add support for LICENSE_FLAGS
+  Add LICENSE_FLAGS to packages mentioned in COMMERCIAL_LICENSE
+  base.bbclass: remove COMMERCIAL_LICENSE code
+  default-distrovars.inc: remove COMMERCIAL_LICENSE et al
+  documentation-audit.sh: remove COMMERCIAL_LICENSE warning
+
+ meta/classes/base.bbclass                          |   12 ++++----
+ meta/classes/license.bbclass                       |   30 ++++++++++++++++++++
+ meta/conf/distro/include/default-distrovars.inc    |    5 ---
+ .../gstreamer/gst-fluendo-mp3_0.10.16.bb           |    1 +
+ .../gstreamer/gst-openmax_0.10.1.bb                |    1 +
+ .../gstreamer/gst-plugins-ugly_0.10.18.bb          |    1 +
+ meta/recipes-multimedia/lame/lame_3.99.3.bb        |    2 +
+ meta/recipes-multimedia/libmad/libmad_0.15.1b.bb   |    1 +
+ meta/recipes-multimedia/libomxil/libomxil_0.9.3.bb |    1 +
+ meta/recipes-multimedia/mpeg2dec/mpeg2dec_0.4.1.bb |    1 +
+ meta/recipes-qt/qt-apps/qmmp_0.5.2.bb              |    1 +
+ scripts/contrib/documentation-audit.sh             |    3 +-
+ 12 files changed, 47 insertions(+), 12 deletions(-)
 
 
 
