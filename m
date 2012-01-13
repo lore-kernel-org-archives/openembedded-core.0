@@ -1,35 +1,30 @@
-Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
-	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <richard.purdie@linuxfoundation.org>)
-	id 1Rliu4-0003MK-3O for openembedded-core@lists.openembedded.org;
-	Fri, 13 Jan 2012 16:18:52 +0100
-Received: from localhost (localhost [127.0.0.1])
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q0DFBKWh022188
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 13 Jan 2012 15:11:20 GMT
-Received: from tim.rpsys.net ([127.0.0.1])
-	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
-	port 10024) with LMTP
-	id 21707-05 for <openembedded-core@lists.openembedded.org>;
-	Fri, 13 Jan 2012 15:11:16 +0000 (GMT)
-Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q0DFBDao022182
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO)
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 13 Jan 2012 15:11:14 GMT
-Message-ID: <1326467476.15389.37.camel@ted>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
+Received: from mga11.intel.com ([192.55.52.93])
+	by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <dvhart@linux.intel.com>) id 1RlivK-0003Qj-6S
+	for openembedded-core@lists.openembedded.org;
+	Fri, 13 Jan 2012 16:20:10 +0100
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+	by fmsmga102.fm.intel.com with ESMTP; 13 Jan 2012 07:12:33 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="106801738"
+Received: from unknown (HELO envy.home) ([10.255.13.179])
+	by fmsmga001.fm.intel.com with ESMTP; 13 Jan 2012 07:12:33 -0800
+Message-ID: <4F1049CD.7070101@linux.intel.com>
+Date: Fri, 13 Jan 2012 07:12:13 -0800
+From: Darren Hart <dvhart@linux.intel.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:8.0) Gecko/20111115 Thunderbird/8.0
+MIME-Version: 1.0
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Date: Fri, 13 Jan 2012 15:11:16 +0000
-In-Reply-To: <998E113C-60A0-4034-AEC7-57D61F41915C@dominion.thruhere.net>
-References: <cover.1326454446.git.dongxiao.xu@intel.com>
-	<bc6335972ec83f47469f18ac973f057b3323b46d.1326454446.git.dongxiao.xu@intel.com>
-	<998E113C-60A0-4034-AEC7-57D61F41915C@dominion.thruhere.net>
-X-Mailer: Evolution 3.2.2- 
-Mime-Version: 1.0
-X-Virus-Scanned: amavisd-new at rpsys.net
-Subject: Re: [PATCH 2/3] packageinfo.bbclass: add a new bbclass to pass package information
+References: <1326067422-30771-1-git-send-email-andrei@gherzan.ro>
+	<CAEsOVNeAuF5u2J_MhZg9tVezexCNyK2rGsZ2sUgBpTeJ90ZVqw@mail.gmail.com>
+	<1326096548.3234.3.camel@lenovo.internal.reciva.com>
+	<4F0B153D.4000602@windriver.com>
+	<CAP9ODKqGRj3DyZwwxCQrAGPX8mufX4NDAaMr2LiEHy1w6tHfPA@mail.gmail.com>
+In-Reply-To: <CAP9ODKqGRj3DyZwwxCQrAGPX8mufX4NDAaMr2LiEHy1w6tHfPA@mail.gmail.com>
+X-Enigmail-Version: 1.3.4
+Subject: Re: [PATCH] busybox: defconfig modified in order to activate CONFIG_EXPR_MATH_SUPPORT_64
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -44,40 +39,61 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 13 Jan 2012 15:18:52 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Fri, 13 Jan 2012 15:20:10 -0000
+Content-Type: text/plain; charset=ISO-8859-1
 Content-Transfer-Encoding: 7bit
 
-On Fri, 2012-01-13 at 13:05 +0100, Koen Kooi wrote:
-> Op 13 jan. 2012, om 12:38 heeft Dongxiao Xu het volgende geschreven:
+
+
+On 01/09/2012 08:52 AM, Otavio Salvador wrote:
+> On Mon, Jan 9, 2012 at 14:26, Mark Hatle <mark.hatle@windriver.com
+> <mailto:mark.hatle@windriver.com>> wrote:
 > 
-> > packageinfo.bbclass is to pass the accurate package information to
-> > clients (e.g. Hob), including PN, PV, RDEPENDS, PKGSIZE, etc.
+>     On 1/9/12 2:09 AM, Phil Blundell wrote:
 > 
-> How many classes for package/recipe info do we actually need?
+>         You could take a look at the busybox-config.inc stuff in
+>         oe-classic as a
+>         starting point.  It doesn't do PACKAGECONFIG (since oe-classic
+>         doesn't
+>         have that) but it can do the equivalent with DISTRO_FEATURES.
+> 
+> 
+>     At Wind River we've discussed using the kernel configuration
+>     fragment patching process as a way to control busybox.  This would
+>     allow the recipe to provide a default fragment (configuration), with
+>     machines, architectures, and other configurations providing
+>     additional fragments -- that together would produce the busybox that
+>     the end use wants.
+> 
+>     I think this is a better long term approach then hacking the
+>     defconfig file each time it's not quite right for a system.  (We may
+>     still need to modify it over time, but the modifications need to be
+>     considered "generic" based on the use of busybox in say
+>     core-image-minimal...)
+> 
+> 
+> I agree with the concept of the idea and long term solution however I
+> also think it needs to be well documented otherwise it is going to be a
+> problem, instead of a solution.
+> 
+> When I tried to use the kernel configuration fragment from Yocto I
+> couldn't figure it out by myself and it seems very undocumented thus its
+> learn curve is not as good as I'd hope for...
 
-I appreciate that the number of emails on the list on this topic make it
-look like we have a lot of overlap.
+The need for something like this was also highlighted during my
+poky-tiny work for Yocto. We need a config fragment manager for busybox,
+although the yocto-kernel tools may be overkill. We also need something
+that adjusts those fragments based on DISTRO_FEATURES, especially the
+libc bits.
 
-If you look carefully at this patch you'll see that what this code does
-is pull together information and generate a bitbake event containing
-that information.
+I can see the value of busybox "profiles", such as tiny and standard for
+a start. The yocto-kernel tooling might be a good fit for this, but it
+could also be accomplished with a couple busybox recipes and the
+PREFERRED_PROVIDER mechanism.
 
-This is not something any other existing code does. It takes the data
-from an existing data store and does not create any new one.
-
-This is IMO a vast improvement over some of the earlier versions of
-these patches so I'm planning to take this one.
-
-Longer term we do need to reconcile buildhistory and packagedata as two
-stores of very similar data but this patch doesn't complicate that
-issue.
-
-Cheers,
-
-Richard
-
-
-
+-- 
+Darren Hart
+Intel Open Source Technology Center
+Yocto Project - Linux Kernel
 
 
