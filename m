@@ -1,20 +1,20 @@
-Received: from mga03.intel.com ([143.182.124.21])
+Received: from mga11.intel.com ([192.55.52.93])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <dongxiao.xu@intel.com>) id 1RlcdS-0002f5-TS
+	(envelope-from <dongxiao.xu@intel.com>) id 1Rld0N-0003z2-HJ
 	for openembedded-core@lists.openembedded.org;
-	Fri, 13 Jan 2012 09:37:19 +0100
-Received: from azsmga001.ch.intel.com ([10.2.17.19])
-	by azsmga101.ch.intel.com with ESMTP; 13 Jan 2012 00:29:17 -0800
+	Fri, 13 Jan 2012 10:01:01 +0100
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+	by fmsmga102.fm.intel.com with ESMTP; 13 Jan 2012 00:53:27 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="95425368"
+X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="106721086"
 Received: from dongxiao-desktop.sh.intel.com (HELO localhost) ([10.239.36.108])
-	by azsmga001.ch.intel.com with ESMTP; 13 Jan 2012 00:29:16 -0800
+	by fmsmga001.fm.intel.com with ESMTP; 13 Jan 2012 00:53:26 -0800
 From: Dongxiao Xu <dongxiao.xu@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Fri, 13 Jan 2012 16:31:36 +0800
-Message-Id: <cover.1326443095.git.dongxiao.xu@intel.com>
+Date: Fri, 13 Jan 2012 16:55:47 +0800
+Message-Id: <cover.1326444791.git.dongxiao.xu@intel.com>
 X-Mailer: git-send-email 1.7.0.4
-Subject: [PATCH 0/3 v3][PULL] Hob: oe-core related changes
+Subject: [PATCH 0/2 v3-updated][PULL] Hob: oe-core related changes
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -29,11 +29,12 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 13 Jan 2012 08:37:19 -0000
+X-List-Received-Date: Fri, 13 Jan 2012 09:01:01 -0000
 
 Hi Richard,
 
-This is the third pull request for Hob oe-core related changes.
+This is the UPDATED third pull request for Hob oe-core related changes.
+meta-hob is NOT targeted to oe-core, so please ignore the previous one.
 
 Please help to review and pull.
 
@@ -41,8 +42,7 @@ Note that this pull request has dependency on branch dxu4/hob-bitbake-changes-v3
 
 Changes from v2:
 1. Remove the 'layers' from poky repo. We will have some indications in Hob GUI showing where to put new added layers.
-2. Move dummy-image.bb and dummy-toolchain.bb to meta-hob layer.
-3. Listen the specific event 'RequestPackageInfo' and then pass package information to GUI client.
+2. Listen the specific event 'RequestPackageInfo' and then pass package information to GUI client.
 
 Thanks,
 Dongxiao
@@ -56,24 +56,15 @@ are available in the git repository at:
   git://git.pokylinux.org/poky-contrib dxu4/hob-oecore-changes-v3
   http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=dxu4/hob-oecore-changes-v3
 
-Dongxiao Xu (2):
+Dongxiao Xu (1):
   packageinfo.bbclass: add a new bbclass to pass package information
-  meta-hob: Add a new meta-hob layer
 
 Shane Wang (1):
   package.bbclass: set package size into pkgdata for hob2's use
 
- meta-hob/COPYING.MIT                          |   17 ++++++++++++++
- meta-hob/conf/layer.conf                      |    9 +++++++
- meta-hob/recipes-core/images/dummy-image.bb   |    1 +
- meta-hob/recipes-core/meta/dummy-toolchain.bb |   10 ++++++++
- meta/classes/package.bbclass                  |    8 ++++++
- meta/classes/packageinfo.bbclass              |   30 +++++++++++++++++++++++++
- 6 files changed, 75 insertions(+), 0 deletions(-)
- create mode 100644 meta-hob/COPYING.MIT
- create mode 100644 meta-hob/conf/layer.conf
- create mode 100644 meta-hob/recipes-core/images/dummy-image.bb
- create mode 100644 meta-hob/recipes-core/meta/dummy-toolchain.bb
+ meta/classes/package.bbclass     |    8 ++++++++
+ meta/classes/packageinfo.bbclass |   30 ++++++++++++++++++++++++++++++
+ 2 files changed, 38 insertions(+), 0 deletions(-)
  create mode 100644 meta/classes/packageinfo.bbclass
 
 
