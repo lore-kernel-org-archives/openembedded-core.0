@@ -1,20 +1,24 @@
 Received: from mga03.intel.com ([143.182.124.21])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <josh@linux.intel.com>) id 1Rlmdz-0002rx-64
+	(envelope-from <josh@linux.intel.com>) id 1Rlme0-0002rx-2o
 	for openembedded-core@lists.openembedded.org;
-	Fri, 13 Jan 2012 20:18:31 +0100
+	Fri, 13 Jan 2012 20:18:32 +0100
 Received: from azsmga002.ch.intel.com ([10.2.17.35])
-	by azsmga101.ch.intel.com with ESMTP; 13 Jan 2012 11:10:57 -0800
+	by azsmga101.ch.intel.com with ESMTP; 13 Jan 2012 11:10:58 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="56230648"
+X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="56230652"
 Received: from unknown (HELO shamshir.amr.corp.intel.com) ([10.255.13.173])
 	by AZSMGA002.ch.intel.com with ESMTP; 13 Jan 2012 11:10:57 -0800
 From: Joshua Lock <josh@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Fri, 13 Jan 2012 11:10:51 -0800
-Message-Id: <cover.1326481387.git.josh@linux.intel.com>
+Date: Fri, 13 Jan 2012 11:10:52 -0800
+Message-Id: <ee6ade0fa1f107e4ccbac92c9f25550677c6f9b1.1326481387.git.josh@linux.intel.com>
 X-Mailer: git-send-email 1.7.7.5
-Subject: [PATCH 0/4] Add alsa-state from OE Classic v3
+In-Reply-To: <cover.1326481387.git.josh@linux.intel.com>
+References: <cover.1326481387.git.josh@linux.intel.com>
+In-Reply-To: <cover.1326481387.git.josh@linux.intel.com>
+References: <cover.1326481387.git.josh@linux.intel.com>
+Subject: [PATCH 1/4] task-base: move default definition of VIRTUAL-RUNTIME_apm
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -29,58 +33,42 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 13 Jan 2012 19:18:31 -0000
+X-List-Received-Date: Fri, 13 Jan 2012 19:18:32 -0000
 
-The small series which follows introduces the alsa-state recipe from oe-classic.
-The reason for doing so is to remove the requirement for recipes like the
-beagleboard-audio recipe in meta-yocto, which ensures the beagleboards sound
-device has the volume turned up.
+This belongs in default-providers.conf
 
-Long term I'd like to implement something more generic for handling device
-quirks, but alsa-state is a simple fix for an immediate need that should
-standardise how alsa configuration is handled in layers.
+Signed-off-by: Joshua Lock <josh@linux.intel.com>
+---
+ meta/conf/distro/include/default-providers.inc |    1 +
+ meta/recipes-core/tasks/task-base.bb           |    3 ---
+ 2 files changed, 1 insertions(+), 3 deletions(-)
 
-Since v1 I added an extra commit which:
-a) defaults to /var/lib/alsa/ for state files, as this is the directory
-alsactl writes to by default.
-b) sed's the path to the state files into the init script, rather than hard
-coding them.
-
-Since v2 I've modified the task-base commit to add VIRTUAL-RUNTIME_alsa-state
-rather than hard code the alsa-state recipe per suggestion from Martin Jansa
-and added an extra commit to move the defintion of VIRTUAL-RUNTIME_apm from
-task-base to default-providers.inc
-
-Cheers,
-
-Joshua
-
-The following changes since commit bd047935305c872b565f30b46c94b7077e5fb3a2:
-
-  patch.bbclass: Ensure the DATE and SRCDATE variable exclusions apply to the correct function (2012-01-13 16:56:20 +0000)
-
-are available in the git repository at:
-  git://git.openembedded.org/openembedded-core-contrib josh/devices
-  http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=josh/devices
-
-Joshua Lock (4):
-  task-base: move default definition of VIRTUAL-RUNTIME_apm
-  alsa-state: add alsa-state from oe classic
-  alsa-state: move state files to localstatedir
-  task-base: add VIRTUAL-RUNTIME_alsa-state to task-base-alsa
-
- meta/conf/distro/include/default-providers.inc     |    2 +
- meta/recipes-bsp/alsa-state/alsa-state.bb          |   59 ++++++++++++++++++++
- meta/recipes-bsp/alsa-state/alsa-state/alsa-state  |   29 ++++++++++
- meta/recipes-bsp/alsa-state/alsa-state/asound.conf |   12 ++++
- .../recipes-bsp/alsa-state/alsa-state/asound.state |    1 +
- meta/recipes-core/tasks/task-base.bb               |    8 +--
- 6 files changed, 106 insertions(+), 5 deletions(-)
- create mode 100644 meta/recipes-bsp/alsa-state/alsa-state.bb
- create mode 100755 meta/recipes-bsp/alsa-state/alsa-state/alsa-state
- create mode 100644 meta/recipes-bsp/alsa-state/alsa-state/asound.conf
- create mode 100644 meta/recipes-bsp/alsa-state/alsa-state/asound.state
-
+diff --git a/meta/conf/distro/include/default-providers.inc b/meta/conf/distro/include/default-providers.inc
+index afea5e7..2445049 100644
+--- a/meta/conf/distro/include/default-providers.inc
++++ b/meta/conf/distro/include/default-providers.inc
+@@ -15,6 +15,7 @@ PREFERRED_PROVIDER_xf86-video-intel ?= "xf86-video-intel"
+ # Default virtual runtime providers
+ #
+ VIRTUAL-RUNTIME_update-alternatives ?= "update-alternatives-cworth"
++VIRTUAL-RUNTIME_apm ?= "apm"
+ 
+ #
+ # Default recipe providers
+diff --git a/meta/recipes-core/tasks/task-base.bb b/meta/recipes-core/tasks/task-base.bb
+index e0960b5..12e171a 100644
+--- a/meta/recipes-core/tasks/task-base.bb
++++ b/meta/recipes-core/tasks/task-base.bb
+@@ -162,9 +162,6 @@ RDEPENDS_task-base-acpi = "\
+     acpid \
+     libacpi "
+ 
+-# Distro can override apm provider
+-VIRTUAL-RUNTIME_apm ?= "apm"
+-
+ RDEPENDS_task-base-apm = "\
+     ${VIRTUAL-RUNTIME_apm} \
+     apmd"
 -- 
 1.7.7.5
 
