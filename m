@@ -1,24 +1,23 @@
-Received: from bluegiga.fi ([194.100.31.45] helo=darkblue.bluegiga.com)
+Received: from mail1.windriver.com ([147.11.146.13])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <Lauri.Hintsala@bluegiga.com>) id 1RlbLj-0007rH-J6
+	(envelope-from <Xiaofeng.Yan@windriver.com>) id 1RlbWQ-00084S-OK
 	for openembedded-core@lists.openembedded.org;
-	Fri, 13 Jan 2012 08:14:55 +0100
-Received: from [10.1.1.28] ([10.1.1.28]) by darkblue.bluegiga.com with
-	Microsoft SMTPSVC(6.0.3790.4675); Fri, 13 Jan 2012 09:07:25 +0200
-Message-ID: <4F0FD82D.80405@bluegiga.com>
-Date: Fri, 13 Jan 2012 09:07:25 +0200
-From: Lauri Hintsala <lauri.hintsala@bluegiga.com>
-User-Agent: Mozilla/5.0 (X11; U; Linux i686; en-US;
-	rv:1.9.2.24) Gecko/20111108 Lightning/1.0b2 Thunderbird/3.1.16
+	Fri, 13 Jan 2012 08:25:59 +0100
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca [147.11.189.40])
+	by mail1.windriver.com (8.14.3/8.14.3) with ESMTP id q0D7IPbb006352
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 12 Jan 2012 23:18:25 -0800 (PST)
+Received: from localhost (128.224.162.28) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server (TLS) id 14.1.255.0;
+	Thu, 12 Jan 2012 23:18:25 -0800
+Message-ID: <cover.1326437644.git.xiaofeng.yan@windriver.com>
+Old-Date: Fri, 13 Jan 2012 14:54:04 +0800
+Date: Fri, 13 Jan 2012 15:06:27 +0800
+To: <openembedded-core@lists.openembedded.org>
+From: Xiaofeng Yan <xiaofeng.yan@windriver.com>
 MIME-Version: 1.0
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-References: <1326067422-30771-1-git-send-email-andrei@gherzan.ro>
-In-Reply-To: <1326067422-30771-1-git-send-email-andrei@gherzan.ro>
-X-OriginalArrivalTime: 13 Jan 2012 07:07:25.0102 (UTC)
-	FILETIME=[009C84E0:01CCD1C2]
-Cc: Andrei Gherzan <andrei.gherzan@windriver.com>
-Subject: Re: [PATCH] busybox: defconfig modified in order to activate CONFIG_EXPR_MATH_SUPPORT_64
+Subject: [PATCH 0/3]: Fix the error when building image "core-image-gtk-directfb"
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -33,27 +32,43 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 13 Jan 2012 07:14:55 -0000
-Content-Type: text/plain; charset=ISO-8859-1; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Fri, 13 Jan 2012 07:25:59 -0000
+Content-Type: text/plain
 
-Hello Andrei
+From: Xiaofeng Yan <xiaofeng.yan@windriver.com>
 
-On 01/09/2012 02:03 AM, Andrei Gherzan wrote:
-> From: Andrei Gherzan<andrei.gherzan@windriver.com>
->
-> Enable 64-bit math support in the expr applet. This will make
-> the applet slightly larger, but will allow computation with very
-> large numbers.
->
-> [YOCTO #1767]
+Hi Saul,
 
-This bug should be fixed already:
-http://lists.linuxtogo.org/pipermail/openembedded-core/2011-December/014487.html
+I remove ${sysconfdir}/* because bitbake will package this directory as default.
 
-Please inform if my fix doesn't work.
+The following part was previous description.
+---------------------------------------------- 
+Bitbake complain " No package 'cairo-xlib' found" when building image "core-image-gtk-directfb".
+Misconfiguration of directfb in PACKAGECONFIG causes this problem. I change directfb to gtk-directfb.
+Another problem is about messy code when running gtk-demo because of no "/etc/pango".
+I create this directory in pango.inc.
+ 
+Pull URL: git://git.pokylinux.org/poky-contrib.git
+  Branch: xiaofeng/gtk-directfb
+  Browse: http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=xiaofeng/gtk-directfb
 
-BR,
-Lauri
+Thanks,
+    Xiaofeng Yan <xiaofeng.yan@windriver.com>
+---
+
+
+Xiaofeng Yan (3):
+  gtk.inc: Change configuration of directfb to gtk-directfb
+  cairo.inc: Change configuration of directfb to gtk-directfb
+  pango.inc: add directory "/etc/pango"
+
+ meta/recipes-gnome/gtk+/gtk+.inc      |    2 +-
+ meta/recipes-graphics/cairo/cairo.inc |    2 +-
+ meta/recipes-graphics/pango/pango.inc |    7 ++++++-
+ 3 files changed, 8 insertions(+), 3 deletions(-)
+
+-- 
+1.7.7
+
 
 
