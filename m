@@ -1,30 +1,30 @@
-Received: from mga11.intel.com ([192.55.52.93])
-	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <dvhart@linux.intel.com>) id 1RlivK-0003Qj-6S
-	for openembedded-core@lists.openembedded.org;
-	Fri, 13 Jan 2012 16:20:10 +0100
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-	by fmsmga102.fm.intel.com with ESMTP; 13 Jan 2012 07:12:33 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="106801738"
-Received: from unknown (HELO envy.home) ([10.255.13.179])
-	by fmsmga001.fm.intel.com with ESMTP; 13 Jan 2012 07:12:33 -0800
-Message-ID: <4F1049CD.7070101@linux.intel.com>
-Date: Fri, 13 Jan 2012 07:12:13 -0800
-From: Darren Hart <dvhart@linux.intel.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:8.0) Gecko/20111115 Thunderbird/8.0
-MIME-Version: 1.0
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-References: <1326067422-30771-1-git-send-email-andrei@gherzan.ro>
-	<CAEsOVNeAuF5u2J_MhZg9tVezexCNyK2rGsZ2sUgBpTeJ90ZVqw@mail.gmail.com>
-	<1326096548.3234.3.camel@lenovo.internal.reciva.com>
-	<4F0B153D.4000602@windriver.com>
-	<CAP9ODKqGRj3DyZwwxCQrAGPX8mufX4NDAaMr2LiEHy1w6tHfPA@mail.gmail.com>
-In-Reply-To: <CAP9ODKqGRj3DyZwwxCQrAGPX8mufX4NDAaMr2LiEHy1w6tHfPA@mail.gmail.com>
-X-Enigmail-Version: 1.3.4
-Subject: Re: [PATCH] busybox: defconfig modified in order to activate CONFIG_EXPR_MATH_SUPPORT_64
+Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
+	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <richard.purdie@linuxfoundation.org>)
+	id 1Rlk5l-0000vh-BE for openembedded-core@lists.openembedded.org;
+	Fri, 13 Jan 2012 17:35:01 +0100
+Received: from localhost (localhost [127.0.0.1])
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q0DGRT14023177
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 13 Jan 2012 16:27:29 GMT
+Received: from tim.rpsys.net ([127.0.0.1])
+	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
+	port 10024) with LMTP
+	id 23039-01 for <openembedded-core@lists.openembedded.org>;
+	Fri, 13 Jan 2012 16:27:25 +0000 (GMT)
+Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q0DGRJB2023171
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO)
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 13 Jan 2012 16:27:21 GMT
+Message-ID: <1326472043.15389.42.camel@ted>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: openembedded-core <openembedded-core@lists.openembedded.org>
+Date: Fri, 13 Jan 2012 16:27:23 +0000
+X-Mailer: Evolution 3.2.2- 
+Mime-Version: 1.0
+X-Virus-Scanned: amavisd-new at rpsys.net
+Subject: [PATCH] patch.bbclass: Ensure the DATE and SRCDATE variable exclusions apply to the correct function
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -39,61 +39,40 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 13 Jan 2012 15:20:10 -0000
-Content-Type: text/plain; charset=ISO-8859-1
+X-List-Received-Date: Fri, 13 Jan 2012 16:35:01 -0000
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 
+People have noticed that sstate is now getting invalidated very readily. The
+issue is that the code using these variables was factored into a new function
+but the variable exclusion was not. This patch moves the variable exclusion
+to the correct place allowing the sstate checksums to work correctly.
+
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+---
+diff --git a/meta/classes/patch.bbclass b/meta/classes/patch.bbclass
+index 335d02e..471c32b 100644
+--- a/meta/classes/patch.bbclass
++++ b/meta/classes/patch.bbclass
+@@ -105,6 +105,8 @@ def should_apply(parm, d):
+ 
+ 	return True, None
+ 
++should_apply[vardepsexclude] = "DATE SRCDATE"
++
+ python patch_do_patch() {
+ 	import oe.patch
+ 
+@@ -155,7 +157,7 @@ python patch_do_patch() {
+ 			bb.fatal(str(exc))
+ 		resolver.Resolve()
+ }
+-patch_do_patch[vardepsexclude] = "DATE SRCDATE PATCHRESOLVE"
++patch_do_patch[vardepsexclude] = "PATCHRESOLVE"
+ 
+ addtask patch after do_unpack
+ do_patch[dirs] = "${WORKDIR}"
 
 
-On 01/09/2012 08:52 AM, Otavio Salvador wrote:
-> On Mon, Jan 9, 2012 at 14:26, Mark Hatle <mark.hatle@windriver.com
-> <mailto:mark.hatle@windriver.com>> wrote:
-> 
->     On 1/9/12 2:09 AM, Phil Blundell wrote:
-> 
->         You could take a look at the busybox-config.inc stuff in
->         oe-classic as a
->         starting point.  It doesn't do PACKAGECONFIG (since oe-classic
->         doesn't
->         have that) but it can do the equivalent with DISTRO_FEATURES.
-> 
-> 
->     At Wind River we've discussed using the kernel configuration
->     fragment patching process as a way to control busybox.  This would
->     allow the recipe to provide a default fragment (configuration), with
->     machines, architectures, and other configurations providing
->     additional fragments -- that together would produce the busybox that
->     the end use wants.
-> 
->     I think this is a better long term approach then hacking the
->     defconfig file each time it's not quite right for a system.  (We may
->     still need to modify it over time, but the modifications need to be
->     considered "generic" based on the use of busybox in say
->     core-image-minimal...)
-> 
-> 
-> I agree with the concept of the idea and long term solution however I
-> also think it needs to be well documented otherwise it is going to be a
-> problem, instead of a solution.
-> 
-> When I tried to use the kernel configuration fragment from Yocto I
-> couldn't figure it out by myself and it seems very undocumented thus its
-> learn curve is not as good as I'd hope for...
-
-The need for something like this was also highlighted during my
-poky-tiny work for Yocto. We need a config fragment manager for busybox,
-although the yocto-kernel tools may be overkill. We also need something
-that adjusts those fragments based on DISTRO_FEATURES, especially the
-libc bits.
-
-I can see the value of busybox "profiles", such as tiny and standard for
-a start. The yocto-kernel tooling might be a good fit for this, but it
-could also be accomplished with a couple busybox recipes and the
-PREFERRED_PROVIDER mechanism.
-
--- 
-Darren Hart
-Intel Open Source Technology Center
-Yocto Project - Linux Kernel
 
 
