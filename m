@@ -1,31 +1,31 @@
-Received: from mga14.intel.com ([143.182.124.37])
+Received: from mail1.windriver.com ([147.11.146.13])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <sgw@linux.intel.com>) id 1RlTxM-00088p-EJ
+	(envelope-from <Zumeng.Chen@windriver.com>) id 1RlVYB-0002TS-TF
 	for openembedded-core@lists.openembedded.org;
-	Fri, 13 Jan 2012 00:21:16 +0100
-Received: from azsmga002.ch.intel.com ([10.2.17.35])
-	by azsmga102.ch.intel.com with ESMTP; 12 Jan 2012 08:56:44 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="55866943"
-Received: from unknown (HELO [10.255.13.168]) ([10.255.13.168])
-	by AZSMGA002.ch.intel.com with ESMTP; 12 Jan 2012 08:56:44 -0800
-Message-ID: <4F0F10CC.9030704@linux.intel.com>
-Date: Thu, 12 Jan 2012 08:56:44 -0800
-From: Saul Wold <sgw@linux.intel.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:8.0) Gecko/20111115 Thunderbird/8.0
+	Fri, 13 Jan 2012 02:03:24 +0100
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca [147.11.189.40])
+	by mail1.windriver.com (8.14.3/8.14.3) with ESMTP id q0D0toGq003398
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
+	Thu, 12 Jan 2012 16:55:50 -0800 (PST)
+Received: from [128.224.16.106] (128.224.16.106) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server id 14.1.255.0;
+	Thu, 12 Jan 2012 16:55:50 -0800
+Message-ID: <4F0F8114.4010107@windriver.com>
+Date: Fri, 13 Jan 2012 08:55:48 +0800
+From: "zumeng.chen" <zchen@windriver.com>
+User-Agent: Mozilla/5.0 (X11; U; Linux x86_64; en-US;
+	rv:1.9.2.12) Gecko/20101027 Lightning/1.0b2 Thunderbird/3.1.6
 MIME-Version: 1.0
-To: Tom Zanussi <tom.zanussi@intel.com>
-References: <cover.1325903501.git.tom.zanussi@intel.com>
-	<1d28eae1f497931d4a0a232a3390a9737a508aec.1325903501.git.tom.zanussi@intel.com>
-	<4F07D3CA.4090807@linux.intel.com>
-	<1325913187.15053.83.camel@elmorro>
-	<4F0B7FF0.9060904@linux.intel.com>
-	<1326154410.2413.22.camel@elmorro>
-In-Reply-To: <1326154410.2413.22.camel@elmorro>
+To: Saul Wold <sgw@linux.intel.com>
+References: <cover.1326337436.git.zumeng.chen@windriver.com>
+	<6466944f4fff355f13da46c47fc22a907f6eda60.1326337436.git.zumeng.chen@windriver.com>
+	<4F0F5909.4080907@linux.intel.com>
+In-Reply-To: <4F0F5909.4080907@linux.intel.com>
+X-MIME-Autoconverted: from 8bit to quoted-printable by mail1.windriver.com id
+	q0D0toGq003398
 Cc: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 1/5] base.bbclass: add support for LICENSE_FLAGS
+Subject: Re: [PATCH 2/4] lttng-tools: Integrated from git repo.
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -40,73 +40,127 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 12 Jan 2012 23:21:16 -0000
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Fri, 13 Jan 2012 01:03:24 -0000
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: quoted-printable
 
-On 01/09/2012 04:13 PM, Tom Zanussi wrote:
-> On Mon, 2012-01-09 at 16:01 -0800, Saul Wold wrote:
->> On 01/06/2012 09:13 PM, Tom Zanussi wrote:
->>> On Fri, 2012-01-06 at 21:10 -0800, Saul Wold wrote:
->>>> On 01/06/2012 06:34 PM, tom.zanussi@intel.com wrote:
->>>>> From: Tom Zanussi<tom.zanussi@intel.com>
-
-<SNIP>
-
->>>>
->> With all the discussion about License related stuff on the list and IRC,
->> I think we should be creating a bbclass to define and hold these flags.
->>    Then there is just a call from base.bbclass into check_license_flags
->> and return True/False for the skip_package().
+On 2012=E5=B9=B401=E6=9C=8813=E6=97=A5 06:04, Saul Wold wrote:
+> On 01/11/2012 07:11 PM, Zumeng Chen wrote:
+>> This patch intended to integrate the Linux trace toolkit, which
+>> is a suite of tools designed to extract program execution details
+>> from the Linux operating system and interpret them.
 >>
->
-> So move this code into a separate .bbclass, ok.
->
-Move this code the license.bbclass or meta/lib/oe/licensee.py as 
-appropriate.
-
->> And based on a comment from Chris L. on the IRC, will this handle
->> package level LICENSE_FLAGS, this is recipe level currently, correct?
+>> lttng-tools 2.0 is currently in pre-release(-pre16), so we have to
+>> update it when official released.
 >>
->
-> Right.
->
->> It could be you have some recipe with multiple binaries (for example)
->> some are OK and some are not and they are packaged separately. Can the
->> LICENSE_FLAGS handle this?
+>> Signed-off-by: Zumeng Chen<zumeng.chen@windriver.com>
+>> ---
+>> ...tools-fix-compiling-error-for-powerpc-arm.patch | 28=20
+>> ++++++++++++++++++
+>> .../lttng-2.0/lttng-tools_2.0-pre16.bb | 30 ++++++++++++++++++++
+>> 2 files changed, 58 insertions(+), 0 deletions(-)
+>> create mode 100644=20
+>> meta/recipes-kernel/lttng-2.0/lttng-tools-fix-compiling-error-for-powe=
+rpc-arm.patch
+>> create mode 100644=20
+>> meta/recipes-kernel/lttng-2.0/lttng-tools_2.0-pre16.bb
 >>
->
-> No, I don't think so, there's just the per-recipe LICENSE_FLAGS.  How
-> would that be expanded to per-package?
->
-I verified with Richard, I thought we could do per-package, we can not 
-currently, so LICENSE_FLAGS will be per-recipe now.
-
-Possibly change in the future would be per-package.
-
-Thanks for your work on this, I you have had to do some reworks, we are 
-just trying to get it right.
-
-Sau!
-
-> Tom
->
->> Sau!
+>> diff --git=20
+>> a/meta/recipes-kernel/lttng-2.0/lttng-tools-fix-compiling-error-for-po=
+werpc-arm.patch=20
+>> b/meta/recipes-kernel/lttng-2.0/lttng-tools-fix-compiling-error-for-po=
+werpc-arm.patch=20
 >>
->>>> _______________________________________________
->>>> Openembedded-core mailing list
->>>> Openembedded-core@lists.openembedded.org
->>>> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
->>>
->>>
->>>
->>> _______________________________________________
->>> Openembedded-core mailing list
->>> Openembedded-core@lists.openembedded.org
->>> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
->>>
+>> new file mode 100644
+>> index 0000000..f8e144f
+>> --- /dev/null
+>> +++=20
+>> b/meta/recipes-kernel/lttng-2.0/lttng-tools-fix-compiling-error-for-po=
+werpc-arm.patch
+>> @@ -0,0 +1,28 @@
+>> +From 5d8d75ab0c7f9e0009d90a2e5ad6475034a5c859 Mon Sep 17 00:00:00 200=
+1
+>> +From: Zumeng Chen<zumeng.chen@windriver.com>
+>> +Date: Tue, 10 Jan 2012 12:41:45 +0800
+>> +Subject: [PATCH 1/1] Fix compiling error on powerpc and arm
+>> +
+>
+> No Upstream-Status:
+Upstream-Status: Pending
 >
 >
+>> +For powerpc and arm, some MAP_ are defined asm/mman.h,
+>> +so including it in header.
+>> +
+>> +Signed-off-by: Zumeng Chen<zumeng.chen@windriver.com>
+>> +---
+>> + common/runas.c | 1 +
+>> + 1 files changed, 1 insertions(+), 0 deletions(-)
+>> +
+>> +diff --git a/common/runas.c b/common/runas.c
+>> +index f612ccc..62a2791 100644
+>> +--- a/common/runas.c
+>> ++++ b/common/runas.c
+>> +@@ -29,6 +29,7 @@
+>> + #include<fcntl.h>
+>> + #include<sched.h>
+>> + #include<sys/mman.h>
+>> ++#include<asm/mman.h>
+>> +
+>> + #include<lttngerr.h>
+>> +
+>> +--
+>> +1.7.5.4
+>> +
+>> diff --git a/meta/recipes-kernel/lttng-2.0/lttng-tools_2.0-pre16.bb=20
+>> b/meta/recipes-kernel/lttng-2.0/lttng-tools_2.0-pre16.bb
+>> new file mode 100644
+>> index 0000000..cde57f7
+>> --- /dev/null
+>> +++ b/meta/recipes-kernel/lttng-2.0/lttng-tools_2.0-pre16.bb
+>> @@ -0,0 +1,30 @@
+>> +SECTION =3D "devel"
+>> +SUMMARY =3D "Linux Trace Toolkit Control"
+>> +DESCRIPTION =3D "The Linux trace toolkit is a suite of tools designed=
+ \
+>> +to extract program execution details from the Linux operating system =
+\
+>> +and interpret them."
+>> +
+>> +LICENSE =3D "GPLv2.1"
 >
+> You have gpl-2.0 and lgpl-2.1 list below which is the correct LICENSE?
+Yes, fixed, LICENSE =3D "GPLv2 & LGPLv2.1"
+
+Thanks,
+Zumeng
+>
+> Sau!
+>
+>> +LIC_FILES_CHKSUM =3D=20
+>> "file://COPYING;md5=3Dab682a4729389c3f11913d758affe98e \
+>> + file://gpl-2.0.txt;md5=3Db234ee4d69f5fce4486a80fdaf4a4263 \
+>> + file://lgpl-2.1.txt;md5=3D0f0d71500e6a57fd24d825f33242b9ca"
+>> +
+>> +DEPENDS =3D "liburcu popt lttng-ust"
+>> +
+>> +SRCREV =3D "f2ca2e251d8f49b0dbbcca529dd61b3562c1147f"
+>> +PV =3D "v2.0.pre16+git${SRCREV}"
+>> +PR =3D "r0"
+>> +
+>> +SRC_URI =3D "git://git.lttng.org/lttng-tools.git;protocol=3Dgit\
+>> + file://lttng-tools-fix-compiling-error-for-powerpc-arm.patch"
+>> +
+>> +S =3D "${WORKDIR}/git"
+>> +
+>> +inherit autotools
+>> +
+>> +export KERNELDIR=3D"${STAGING_KERNEL_DIR}"
+>> +
+>> +# Due to liburcu not building for MIPS currently this recipe needs to
+>> +# be limited also.
+>> +# So here let us first suppport x86/arm/powerpc platforms now.
+>> +COMPATIBLE_HOST =3D '(x86_64.*|i.86.*|arm.*|powerpc.*)-linux'
+
 
 
