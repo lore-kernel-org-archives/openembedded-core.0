@@ -1,30 +1,20 @@
-Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
-	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <richard.purdie@linuxfoundation.org>)
-	id 1Rlk5l-0000vh-BE for openembedded-core@lists.openembedded.org;
-	Fri, 13 Jan 2012 17:35:01 +0100
-Received: from localhost (localhost [127.0.0.1])
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q0DGRT14023177
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 13 Jan 2012 16:27:29 GMT
-Received: from tim.rpsys.net ([127.0.0.1])
-	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
-	port 10024) with LMTP
-	id 23039-01 for <openembedded-core@lists.openembedded.org>;
-	Fri, 13 Jan 2012 16:27:25 +0000 (GMT)
-Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q0DGRJB2023171
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO)
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 13 Jan 2012 16:27:21 GMT
-Message-ID: <1326472043.15389.42.camel@ted>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: openembedded-core <openembedded-core@lists.openembedded.org>
-Date: Fri, 13 Jan 2012 16:27:23 +0000
-X-Mailer: Evolution 3.2.2- 
-Mime-Version: 1.0
-X-Virus-Scanned: amavisd-new at rpsys.net
-Subject: [PATCH] patch.bbclass: Ensure the DATE and SRCDATE variable exclusions apply to the correct function
+Received: from mga03.intel.com ([143.182.124.21])
+	by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <paul.eggleton@linux.intel.com>) id 1RllGu-0007aO-99
+	for openembedded-core@lists.openembedded.org;
+	Fri, 13 Jan 2012 18:50:36 +0100
+Received: from azsmga001.ch.intel.com ([10.2.17.19])
+	by azsmga101.ch.intel.com with ESMTP; 13 Jan 2012 09:43:02 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="95565794"
+Received: from unknown (HELO helios.ger.corp.intel.com) ([10.252.122.110])
+	by azsmga001.ch.intel.com with ESMTP; 13 Jan 2012 09:43:01 -0800
+From: Paul Eggleton <paul.eggleton@linux.intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Fri, 13 Jan 2012 17:42:55 +0000
+Message-Id: <cover.1326476501.git.paul.eggleton@linux.intel.com>
+X-Mailer: git-send-email 1.7.5.4
+Subject: [PATCH 0/4] Error message fixes / cleanup
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -39,40 +29,35 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 13 Jan 2012 16:35:01 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Fri, 13 Jan 2012 17:50:36 -0000
 
-People have noticed that sstate is now getting invalidated very readily. The
-issue is that the code using these variables was factored into a new function
-but the variable exclusion was not. This patch moves the variable exclusion
-to the correct place allowing the sstate checksums to work correctly.
+A trio of of minor improvements to error messages as well as the removal
+of packagehistory.bbclass.
 
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
----
-diff --git a/meta/classes/patch.bbclass b/meta/classes/patch.bbclass
-index 335d02e..471c32b 100644
---- a/meta/classes/patch.bbclass
-+++ b/meta/classes/patch.bbclass
-@@ -105,6 +105,8 @@ def should_apply(parm, d):
- 
- 	return True, None
- 
-+should_apply[vardepsexclude] = "DATE SRCDATE"
-+
- python patch_do_patch() {
- 	import oe.patch
- 
-@@ -155,7 +157,7 @@ python patch_do_patch() {
- 			bb.fatal(str(exc))
- 		resolver.Resolve()
- }
--patch_do_patch[vardepsexclude] = "DATE SRCDATE PATCHRESOLVE"
-+patch_do_patch[vardepsexclude] = "PATCHRESOLVE"
- 
- addtask patch after do_unpack
- do_patch[dirs] = "${WORKDIR}"
+The following changes since commit bd047935305c872b565f30b46c94b7077e5fb3a2:
 
+  patch.bbclass: Ensure the DATE and SRCDATE variable exclusions apply to the correct function (2012-01-13 16:56:20 +0000)
+
+are available in the git repository at:
+  git://git.openembedded.org/openembedded-core-contrib paule/fixes10
+  http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=paule/fixes10
+
+Paul Eggleton (4):
+  classes/base: note variable name in COMPATIBLE_* skip messages
+  conf/bitbake.conf: allow wget to output error messages
+  classes/package: remove out-of-date notice referring to the OE
+    bugtracker
+  classes/packagehistory: remove now obsolete class
+
+ meta/classes/base.bbclass           |    4 +-
+ meta/classes/package.bbclass        |    3 -
+ meta/classes/packagehistory.bbclass |  249 -----------------------------------
+ meta/conf/bitbake.conf              |    6 +-
+ 4 files changed, 5 insertions(+), 257 deletions(-)
+ delete mode 100644 meta/classes/packagehistory.bbclass
+
+-- 
+1.7.5.4
 
 
 
