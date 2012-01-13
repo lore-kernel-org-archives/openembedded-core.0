@@ -1,25 +1,28 @@
-Received: from mga02.intel.com ([134.134.136.20])
+Received: from mail.windriver.com ([147.11.1.11])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <dvhart@linux.intel.com>) id 1RlZrw-00053a-8J
+	(envelope-from <liming.wang@windriver.com>) id 1RlaBd-0005sC-QF
 	for openembedded-core@lists.openembedded.org;
-	Fri, 13 Jan 2012 06:40:04 +0100
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-	by orsmga101.jf.intel.com with ESMTP; 12 Jan 2012 21:32:31 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.67,351,1309762800"; d="scan'208";a="97969887"
-Received: from unknown (HELO envy.home) ([10.255.13.219])
-	by orsmga002.jf.intel.com with ESMTP; 12 Jan 2012 21:32:31 -0800
-Message-ID: <4F0FC1DB.1040802@linux.intel.com>
-Date: Thu, 12 Jan 2012 21:32:11 -0800
-From: Darren Hart <dvhart@linux.intel.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:8.0) Gecko/20111115 Thunderbird/8.0
+	Fri, 13 Jan 2012 07:00:26 +0100
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca [147.11.189.40])
+	by mail.windriver.com (8.14.3/8.14.3) with ESMTP id q0D5qqGL022255
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 12 Jan 2012 21:52:52 -0800 (PST)
+Received: from [128.224.163.201] (128.224.163.201) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server id 14.1.255.0;
+	Thu, 12 Jan 2012 21:52:48 -0800
+Message-ID: <4F0FC6A6.70502@windriver.com>
+Date: Fri, 13 Jan 2012 13:52:38 +0800
+From: Liming Wang <liming.wang@windriver.com>
+User-Agent: Mozilla/5.0 (Windows NT 5.1; rv:8.0) Gecko/20111105 Thunderbird/8.0
 MIME-Version: 1.0
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-X-Enigmail-Version: 1.3.4
-Cc: "Wold, Saul" <saul.wold@intel.com>
-Subject: Variable expansion order: bootimg fails with MACHINE_FEATURES += "efi" in local.conf
+To: Bruce Ashfield <bruce.ashfield@windriver.com>
+References: <1326357721-19562-1-git-send-email-liming.wang@windriver.com>
+	<4F0EE404.6020002@windriver.com>
+In-Reply-To: <4F0EE404.6020002@windriver.com>
+X-Originating-IP: [128.224.163.201]
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH 0/1] V2 qemuppc/kernel: replace emulation of qemuppc
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -34,43 +37,78 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 13 Jan 2012 05:40:04 -0000
-Content-Type: text/plain; charset=ISO-8859-1
+X-List-Received-Date: Fri, 13 Jan 2012 06:00:26 -0000
+Content-Type: text/plain; charset="ISO-8859-1"; format=flowed
 Content-Transfer-Encoding: 7bit
 
-I find that if I want to build a live efi image for testing on qemu, and I add the following to my local.conf:
+On 2012-1-12 21:45, Bruce Ashfield wrote:
+> On 12-01-12 03:42 AM, Liming Wang wrote:
+>> v2 change log:
+>>     - disable CONFIG_DEVTMPFS option to avoid /dev/console
+>>      pointing to serial. Otherwise, keyboard doesn't work well
+>>      on X-windows.
+>
+> This looks fine to me, but can you resend it as an incremental on top
+> of:
+>
+> http://git.yoctoproject.org/cgit/cgit.cgi/linux-yocto-3.0/commit/?h=meta&id=73dafd44ea875df654129b32b2877f342d5573e4 
+>
+>
+> Since I pushed the core support yesterday (you won't see it in
+> your local build unless you use AUTOREV or pull in my series
+> from yesterday).
+>
+> Making it incremental will show the tweak more clearly, and I can
+> merge it directly.
 
-MACHINE_FEATURES_append_qemux86 = " efi"
-KERNEL_FEATURES_append_qemux86 = " cfg/efi-ext.scc"
-IMAGE_TYPES += "live"
+Is pull request is enough? BTW: I used linux-yocto-dev git tree in 
+previous pull request.
 
-And then try to build core-image-minimal, I'll get an error like the following during do_bootimg:
+The following changes since commit 73dafd44ea875df654129b32b2877f342d5573e4:
 
-| WARNING: Function build_grub_cfg doesn't exist
-| ERROR: Function 'build_hddimg' failed (see /build/poky/qemux86/tmp/work/qemux86-poky-linux/core-image-minimal-1.0-r0/temp/log.do_bootimg.16296 for further information)
+   meta/qemuppc: replace kernel config file of qemu-ppc32 with mac99 
+(2012-01-06 15:09:36 -0500)
 
-build_grub_cfg is defined in grub-efi.bbclass, which is inherited by bootimg.bbclass as follows:
+are available in the git repository at:
+   git://128.224.163.150/linux-yocto-3.0.git meta-qemuppc
 
-EFI = ${@base_contains("MACHINE_FEATURES", "efi", "1", "0", d)}
-EFI_CLASS = ${@base_contains("MACHINE_FEATURES", "efi", "grub-efi", "dummy", d)}
+Liming Wang (1):
+       meta/qemuppc: disable CONFIG_DEVTMPFS option
 
-inherit ${EFI_CLASS}
+  .../cfg/kernel-cache/bsp/qemu-ppc32/qemu-ppc32.cfg |    2 +-
+  1 files changed, 1 insertions(+), 1 deletions(-)
 
-Testing with -e reveals:
 
-$ bitbake -e core-image-minimal | grep EFI_CLASS=
-# EFI_CLASS=${@base_contains("MACHINE_FEATURES", "efi", "grub-efi", "dummy", d)}
-EFI_CLASS="grub-efi"
+Liming Wang
 
-However, if I add garbage to the grub-efi.bbclass file, the parser doesn't complain. Adding garbage to dummy does cause it to fail, but without pcbios in MACHINE_FEATURES, the PCBIOS_CLASS should cause dummy to be inherited, so this isn't definitive evidence that dummy is being inherited _instead_ of grub-efi.
+>
+> Cheers,
+>
+> Bruce
+>
+>>
+>> The following changes since commit 
+>> a8ebc77767e034c589e8041406f4282136a2219b:
+>>
+>>    meta/qemu-ppc32: remove references to non-existent patches 
+>> (2012-01-05 10:42:40 -0500)
+>>
+>> are available in the git repository at:
+>>    git://128.224.163.150/linux-yocto-dev.git meta-qemuppc
+>>
+>> Liming Wang (1):
+>>        meta/qemuppc: replace kernel config file of qemu-ppc32 with mac99
+>>
+>>   .../kernel-cache/bsp/qemu-ppc32/qemu-ppc32-gfx.cfg |   11 +++++
+>>   .../cfg/kernel-cache/bsp/qemu-ppc32/qemu-ppc32.cfg |   44 
+>> +++++++++++++++----
+>>   .../cfg/kernel-cache/bsp/qemu-ppc32/qemu-ppc32.scc |    1 +
+>>   3 files changed, 46 insertions(+), 10 deletions(-)
+>>   create mode 100644 
+>> meta/cfg/kernel-cache/bsp/qemu-ppc32/qemu-ppc32-gfx.cfg
+>>
+>
+>
 
-So, is there a problem with the inline python call to base_contains to get the grub-efi variable if MACHINE_FEATURES is modified in local.conf? Can anyone suggest some rule that I might be missing that would cause this behavior?
-
-Thanks,
-
--- 
-Darren Hart
-Intel Open Source Technology Center
-Yocto Project - Linux Kernel
 
 
