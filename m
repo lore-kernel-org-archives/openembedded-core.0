@@ -1,24 +1,24 @@
-Received: from mga09.intel.com ([134.134.136.24])
+Received: from mail-wi0-f175.google.com ([209.85.212.175])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <dongxiao.xu@intel.com>) id 1Rld0Q-0003z9-Bl
+	(envelope-from <koen@dominion.thruhere.net>) id 1Rld8D-0004Mh-J1
 	for openembedded-core@lists.openembedded.org;
-	Fri, 13 Jan 2012 10:01:02 +0100
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-	by orsmga102.jf.intel.com with ESMTP; 13 Jan 2012 00:53:29 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.67,352,1309762800"; d="scan'208";a="96055648"
-Received: from dongxiao-desktop.sh.intel.com (HELO localhost) ([10.239.36.108])
-	by orsmga001.jf.intel.com with ESMTP; 13 Jan 2012 00:53:28 -0800
-From: Dongxiao Xu <dongxiao.xu@intel.com>
+	Fri, 13 Jan 2012 10:09:05 +0100
+Received: by wibhm17 with SMTP id hm17so173528wib.6
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 13 Jan 2012 01:01:33 -0800 (PST)
+Received: by 10.180.104.5 with SMTP id ga5mr6848329wib.21.1326445293798;
+	Fri, 13 Jan 2012 01:01:33 -0800 (PST)
+Received: from localhost (ip545070eb.adsl-surfen.hetnet.nl. [84.80.112.235])
+	by mx.google.com with ESMTPS id g11sm10214651wbo.6.2012.01.13.01.01.32
+	(version=TLSv1/SSLv3 cipher=OTHER);
+	Fri, 13 Jan 2012 01:01:32 -0800 (PST)
+From: Koen Kooi <koen@dominion.thruhere.net>
 To: openembedded-core@lists.openembedded.org
-Date: Fri, 13 Jan 2012 16:55:49 +0800
-Message-Id: <bc6335972ec83f47469f18ac973f057b3323b46d.1326444791.git.dongxiao.xu@intel.com>
-X-Mailer: git-send-email 1.7.0.4
-In-Reply-To: <cover.1326444791.git.dongxiao.xu@intel.com>
-References: <cover.1326444791.git.dongxiao.xu@intel.com>
-In-Reply-To: <cover.1326444791.git.dongxiao.xu@intel.com>
-References: <cover.1326444791.git.dongxiao.xu@intel.com>
-Subject: [PATCH 2/2] packageinfo.bbclass: add a new bbclass to pass package information
+Date: Fri, 13 Jan 2012 10:01:27 +0100
+Message-Id: <1326445287-20422-1-git-send-email-koen@dominion.thruhere.net>
+X-Mailer: git-send-email 1.7.2.5
+Cc: Koen Kooi <koen@dominion.thruhere.net>
+Subject: [PATCH] cairo 1.10.2: enable tee backend
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -33,55 +33,50 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 13 Jan 2012 09:01:03 -0000
+X-List-Received-Date: Fri, 13 Jan 2012 09:09:06 -0000
 
-packageinfo.bbclass is to pass the accurate package information to
-clients (e.g. Hob), including PN, PV, RDEPENDS, PKGSIZE, etc.
+This is needed for firefox:
 
-Signed-off-by: Dongxiao Xu <dongxiao.xu@intel.com>
+| checking CAIRO_LIBS... -lcairo -lpixman-1 -lfreetype -lfontconfig
+| checking for cairo-tee >= 1.10... Package cairo-tee was not found in the pkg-config search path. Perhaps you should add the directory containing `cairo-tee.pc' to the PKG_CONFIG_PATH environment variable No package 'cairo-tee' found
+| configure: error: Library requirements (cairo-tee >= 1.10) not met; consider adjusting the PKG_CONFIG_PATH environment variable if your libraries are in a nonstandard prefix so pkg-config can find them.
+
+Signed-off-by: Koen Kooi <koen@dominion.thruhere.net>
 ---
- meta/classes/packageinfo.bbclass |   30 ++++++++++++++++++++++++++++++
- 1 files changed, 30 insertions(+), 0 deletions(-)
- create mode 100644 meta/classes/packageinfo.bbclass
+ meta/recipes-graphics/cairo/cairo.inc       |    4 +++-
+ meta/recipes-graphics/cairo/cairo_1.10.2.bb |    2 +-
+ 2 files changed, 4 insertions(+), 2 deletions(-)
 
-diff --git a/meta/classes/packageinfo.bbclass b/meta/classes/packageinfo.bbclass
-new file mode 100644
-index 0000000..53551c4
---- /dev/null
-+++ b/meta/classes/packageinfo.bbclass
-@@ -0,0 +1,30 @@
-+python packageinfo_handler () {
-+    if isinstance(e, bb.event.RequestPackageInfo):
-+        import oe.packagedata
-+        pkginfolist = []
-+        tmpdir = e.data.getVar('TMPDIR', True)
-+        target_vendor = e.data.getVar('TARGET_VENDOR', True)
-+        target_os = e.data.getVar('TARGET_OS', True)
-+        package_archs = e.data.getVar('PACKAGE_ARCHS', True)
-+        packaging = e.data.getVar('PACKAGE_CLASSES', True).split()[0].split('_')[1]
-+        deploy_dir = e.data.getVar('DEPLOY_DIR', True) + '/' + packaging
-+        for arch in package_archs.split():
-+            pkgdata_dir = tmpdir + '/pkgdata/' + arch + target_vendor + '-' + target_os + '/runtime/'
-+            if os.path.exists(pkgdata_dir):
-+                for root, dirs, files in os.walk(pkgdata_dir):
-+                    for pkgname in files:
-+                        if pkgname.endswith('.packaged'):
-+                            continue
-+                        sdata = oe.packagedata.read_pkgdatafile(root + pkgname)
-+                        sdata['PKG'] = pkgname
-+                        pkgrename = sdata['PKG_%s' % pkgname]
-+                        pkgv = sdata['PKGV']
-+                        pkgr = sdata['PKGR']
-+                        pkgname_path = deploy_dir + '/' + arch + '/' + pkgname + '-' + pkgv + '-' + pkgr + '.' + arch + '.' + packaging
-+                        pkgrename_path = deploy_dir + '/' + arch + '/' + pkgrename + '-' + pkgv + '-' + pkgr + '.' + arch + '.' + packaging
-+                        if os.path.exists(pkgname_path) or os.path.exists(pkgrename_path):
-+                            pkginfolist.append(sdata)
-+        bb.event.fire(bb.event.PackageInfo(pkginfolist), e.data)
-+}
-+
-+addhandler packageinfo_handler
+diff --git a/meta/recipes-graphics/cairo/cairo.inc b/meta/recipes-graphics/cairo/cairo.inc
+index 5f8f7b6..31e2ec9 100644
+--- a/meta/recipes-graphics/cairo/cairo.inc
++++ b/meta/recipes-graphics/cairo/cairo.inc
+@@ -19,7 +19,9 @@ PACKAGECONFIG[gtk-directfb] = "--enable-directfb=yes,,directfb"
+ 
+ #check for TARGET_FPU=soft and inform configure of the result so it can disable some floating points 
+ require cairo-fpu.inc
+-EXTRA_OECONF += "${@get_cairo_fpu_setting(bb, d)} "
++EXTRA_OECONF += "${@get_cairo_fpu_setting(bb, d)} \
++                 --enable-tee \
++                "
+ 
+ 
+ inherit autotools pkgconfig
+diff --git a/meta/recipes-graphics/cairo/cairo_1.10.2.bb b/meta/recipes-graphics/cairo/cairo_1.10.2.bb
+index 8202860..826681f 100644
+--- a/meta/recipes-graphics/cairo/cairo_1.10.2.bb
++++ b/meta/recipes-graphics/cairo/cairo_1.10.2.bb
+@@ -2,7 +2,7 @@ require cairo.inc
+ 
+ LIC_FILES_CHKSUM = "file://COPYING;md5=e73e999e0c72b5ac9012424fa157ad77"
+ 
+-PR = "r2"
++PR = "r3"
+ 
+ SRC_URI = "http://cairographics.org/releases/cairo-${PV}.tar.gz"
+ 
 -- 
-1.7.0.4
+1.7.2.5
 
 
 
