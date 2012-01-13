@@ -1,28 +1,35 @@
-Received: from mail.windriver.com ([147.11.1.11])
-	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <Bruce.Ashfield@windriver.com>) id 1RliUy-0002HW-QW
-	for openembedded-core@lists.openembedded.org;
-	Fri, 13 Jan 2012 15:52:57 +0100
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca [147.11.189.40])
-	by mail.windriver.com (8.14.3/8.14.3) with ESMTP id q0DEjNL6026823
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
+Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
+	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <richard.purdie@linuxfoundation.org>)
+	id 1Rliu4-0003MK-3O for openembedded-core@lists.openembedded.org;
+	Fri, 13 Jan 2012 16:18:52 +0100
+Received: from localhost (localhost [127.0.0.1])
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q0DFBKWh022188
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 13 Jan 2012 06:45:23 -0800 (PST)
-Received: from [128.224.146.67] (128.224.146.67) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server id 14.1.255.0;
-	Fri, 13 Jan 2012 06:45:23 -0800
-Message-ID: <4F10437A.3080500@windriver.com>
-Date: Fri, 13 Jan 2012 09:45:14 -0500
-From: Bruce Ashfield <bruce.ashfield@windriver.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:8.0) Gecko/20111124 Thunderbird/8.0
-MIME-Version: 1.0
-To: Liming Wang <liming.wang@windriver.com>
-References: <1326357721-19562-1-git-send-email-liming.wang@windriver.com>
-	<4F0EE404.6020002@windriver.com> <4F0FC6A6.70502@windriver.com>
-In-Reply-To: <4F0FC6A6.70502@windriver.com>
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 0/1] V2 qemuppc/kernel: replace emulation of qemuppc
+	Fri, 13 Jan 2012 15:11:20 GMT
+Received: from tim.rpsys.net ([127.0.0.1])
+	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
+	port 10024) with LMTP
+	id 21707-05 for <openembedded-core@lists.openembedded.org>;
+	Fri, 13 Jan 2012 15:11:16 +0000 (GMT)
+Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q0DFBDao022182
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO)
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 13 Jan 2012 15:11:14 GMT
+Message-ID: <1326467476.15389.37.camel@ted>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Date: Fri, 13 Jan 2012 15:11:16 +0000
+In-Reply-To: <998E113C-60A0-4034-AEC7-57D61F41915C@dominion.thruhere.net>
+References: <cover.1326454446.git.dongxiao.xu@intel.com>
+	<bc6335972ec83f47469f18ac973f057b3323b46d.1326454446.git.dongxiao.xu@intel.com>
+	<998E113C-60A0-4034-AEC7-57D61F41915C@dominion.thruhere.net>
+X-Mailer: Evolution 3.2.2- 
+Mime-Version: 1.0
+X-Virus-Scanned: amavisd-new at rpsys.net
+Subject: Re: [PATCH 2/3] packageinfo.bbclass: add a new bbclass to pass package information
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -37,91 +44,40 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 13 Jan 2012 14:52:57 -0000
-Content-Type: text/plain; charset="ISO-8859-1"; format=flowed
+X-List-Received-Date: Fri, 13 Jan 2012 15:18:52 -0000
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 
-On 12-01-13 12:52 AM, Liming Wang wrote:
-> On 2012-1-12 21:45, Bruce Ashfield wrote:
->> On 12-01-12 03:42 AM, Liming Wang wrote:
->>> v2 change log:
->>> - disable CONFIG_DEVTMPFS option to avoid /dev/console
->>> pointing to serial. Otherwise, keyboard doesn't work well
->>> on X-windows.
->>
->> This looks fine to me, but can you resend it as an incremental on top
->> of:
->>
->> http://git.yoctoproject.org/cgit/cgit.cgi/linux-yocto-3.0/commit/?h=meta&id=73dafd44ea875df654129b32b2877f342d5573e4
->>
->>
->> Since I pushed the core support yesterday (you won't see it in
->> your local build unless you use AUTOREV or pull in my series
->> from yesterday).
->>
->> Making it incremental will show the tweak more clearly, and I can
->> merge it directly.
->
-> Is pull request is enough? BTW: I used linux-yocto-dev git tree in
+On Fri, 2012-01-13 at 13:05 +0100, Koen Kooi wrote:
+> Op 13 jan. 2012, om 12:38 heeft Dongxiao Xu het volgende geschreven:
+> 
+> > packageinfo.bbclass is to pass the accurate package information to
+> > clients (e.g. Hob), including PN, PV, RDEPENDS, PKGSIZE, etc.
+> 
+> How many classes for package/recipe info do we actually need?
 
-This is fine. Using the dev tree is fine, I noticed a bit of
-fuzz in the patch, but fixed it up and merged it into both
-locations.
+I appreciate that the number of emails on the list on this topic make it
+look like we have a lot of overlap.
 
-> previous pull request.
->
-> The following changes since commit
-> 73dafd44ea875df654129b32b2877f342d5573e4:
->
-> meta/qemuppc: replace kernel config file of qemu-ppc32 with mac99
-> (2012-01-06 15:09:36 -0500)
->
-> are available in the git repository at:
-> git://128.224.163.150/linux-yocto-3.0.git meta-qemuppc
->
-> Liming Wang (1):
-> meta/qemuppc: disable CONFIG_DEVTMPFS option
+If you look carefully at this patch you'll see that what this code does
+is pull together information and generate a bitbake event containing
+that information.
 
-I'll pull this in later today, thanks!
+This is not something any other existing code does. It takes the data
+from an existing data store and does not create any new one.
 
-Bruce
+This is IMO a vast improvement over some of the earlier versions of
+these patches so I'm planning to take this one.
 
->
-> .../cfg/kernel-cache/bsp/qemu-ppc32/qemu-ppc32.cfg | 2 +-
-> 1 files changed, 1 insertions(+), 1 deletions(-)
->
->
-> Liming Wang
->
->>
->> Cheers,
->>
->> Bruce
->>
->>>
->>> The following changes since commit
->>> a8ebc77767e034c589e8041406f4282136a2219b:
->>>
->>> meta/qemu-ppc32: remove references to non-existent patches
->>> (2012-01-05 10:42:40 -0500)
->>>
->>> are available in the git repository at:
->>> git://128.224.163.150/linux-yocto-dev.git meta-qemuppc
->>>
->>> Liming Wang (1):
->>> meta/qemuppc: replace kernel config file of qemu-ppc32 with mac99
->>>
->>> .../kernel-cache/bsp/qemu-ppc32/qemu-ppc32-gfx.cfg | 11 +++++
->>> .../cfg/kernel-cache/bsp/qemu-ppc32/qemu-ppc32.cfg | 44
->>> +++++++++++++++----
->>> .../cfg/kernel-cache/bsp/qemu-ppc32/qemu-ppc32.scc | 1 +
->>> 3 files changed, 46 insertions(+), 10 deletions(-)
->>> create mode 100644
->>> meta/cfg/kernel-cache/bsp/qemu-ppc32/qemu-ppc32-gfx.cfg
->>>
->>
->>
->
+Longer term we do need to reconcile buildhistory and packagedata as two
+stores of very similar data but this patch doesn't complicate that
+issue.
+
+Cheers,
+
+Richard
+
+
 
 
 
