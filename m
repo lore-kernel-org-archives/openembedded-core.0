@@ -1,34 +1,28 @@
-Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
-	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <richard.purdie@linuxfoundation.org>)
-	id 1Rmq1c-0007OD-Iv for openembedded-core@lists.openembedded.org;
-	Mon, 16 Jan 2012 18:07:16 +0100
-Received: from localhost (localhost [127.0.0.1])
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q0GGxejL022344
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 16 Jan 2012 16:59:40 GMT
-Received: from tim.rpsys.net ([127.0.0.1])
-	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
-	port 10024) with LMTP
-	id 21654-06 for <openembedded-core@lists.openembedded.org>;
-	Mon, 16 Jan 2012 16:59:36 +0000 (GMT)
-Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q0GGxTli022338
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO)
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 16 Jan 2012 16:59:31 GMT
-Message-ID: <1326733174.2933.3.camel@ted>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
+Received: from mga14.intel.com ([143.182.124.37])
+	by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <sgw@linux.intel.com>) id 1RmqkF-0001Cp-2y
+	for openembedded-core@lists.openembedded.org;
+	Mon, 16 Jan 2012 18:53:23 +0100
+Received: from azsmga001.ch.intel.com ([10.2.17.19])
+	by azsmga102.ch.intel.com with ESMTP; 16 Jan 2012 09:45:46 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="96405340"
+Received: from unknown (HELO [10.255.14.6]) ([10.255.14.6])
+	by azsmga001.ch.intel.com with ESMTP; 16 Jan 2012 09:45:45 -0800
+Message-ID: <4F146249.6080905@linux.intel.com>
+Date: Mon, 16 Jan 2012 09:45:45 -0800
+From: Saul Wold <sgw@linux.intel.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:8.0) Gecko/20111115 Thunderbird/8.0
+MIME-Version: 1.0
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Date: Mon, 16 Jan 2012 16:59:34 +0000
-In-Reply-To: <2588490b8b8424c96da2824c604929baeb1c5c16.1326714004.git.lianhao.lu@intel.com>
-References: <cover.1326714004.git.lianhao.lu@intel.com>
-	<2588490b8b8424c96da2824c604929baeb1c5c16.1326714004.git.lianhao.lu@intel.com>
-X-Mailer: Evolution 3.2.2- 
-Mime-Version: 1.0
-X-Virus-Scanned: amavisd-new at rpsys.net
-Subject: Re: [PATCH 1/1] gcc-common.inc: Added shared source support for basichash.
+References: <1326225078-18652-1-git-send-email-kergoth@gmail.com>
+	<lyty41ro95.fsf@ensc-virt.intern.sigma-chemnitz.de>
+	<CABcZANkAfrhbi13Mr4jfVmNsfkMG7hVF2KYw-MXN9GZHbKfE9A@mail.gmail.com>
+In-Reply-To: <CABcZANkAfrhbi13Mr4jfVmNsfkMG7hVF2KYw-MXN9GZHbKfE9A@mail.gmail.com>
+Cc: Chris Larson <clarson@kergoth.com>
+Subject: Re: [PATCH] ncurses-native: install to libdir, not base_libdir
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -43,48 +37,36 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 16 Jan 2012 17:07:16 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Mon, 16 Jan 2012 17:53:23 -0000
+Content-Type: text/plain; charset=ISO-8859-1; format=flowed
 Content-Transfer-Encoding: 7bit
 
-On Mon, 2012-01-16 at 19:43 +0800, Lianhao Lu wrote:
-> [YOCTO #1555]
-> Adding new mechanism to allow multiple gcc related recipes sharing the
-> same src directory when using the basichash as the signature handler.
-> 
-> Using the same stamp file for multiple gcc related recipes to share the
-> same src directory is no longer working when using the basichash
-> signature.
-> 
-> Signed-off-by: Lianhao Lu <lianhao.lu@intel.com>
-> ---
->  meta/recipes-devtools/gcc/gcc-common.inc |   56 ++++++++++++++++++++++++++++++
->  1 files changed, 56 insertions(+), 0 deletions(-)
+On 01/16/2012 07:32 AM, Chris Larson wrote:
+> On Thu, Jan 12, 2012 at 7:25 AM, Enrico Scholz
+> <enrico.scholz@sigma-chemnitz.de>  wrote:
+>> Christopher Larson<kergoth-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+>> writes:
+>>
+>>> --- a/meta/recipes-core/ncurses/ncurses.inc
+>>> +++ b/meta/recipes-core/ncurses/ncurses.inc
+>>> ...
+>>> +# natives don't generally look in base_libdir
+>>> +base_libdir_virtclass-native = "${libdir}"
+>>
+>> I do not think that this should be done per recipe (afais, at least
+>> libusb is affected by the same issue).
+>>
+>> Adding '-L<baselibdir>' and the '-Wl,-rpath-link' + '-Wl,-rpath' options
+>> to BUILD_LDFLAGS would be a more general solution.
+>
+> Alternatively, could simplify the layout of the native sysroot and
+> adjust things in the native class. It could make a certain amount of
+> sense, as it makes more sense for our structure for native to match
+> the host than it does the target.
 
-Can you please check if this can be fixed by:
+So, Chris, are you going to implement this and do we drop the ncurses 
+patch for now?
 
-diff --git a/meta/recipes-devtools/gcc/gcc-configure-common.inc b/meta/recipes-devtools/gcc/gcc-configure-common.inc
-index d014980..3a82720 100644
---- a/meta/recipes-devtools/gcc/gcc-configure-common.inc
-+++ b/meta/recipes-devtools/gcc/gcc-configure-common.inc
-@@ -77,6 +77,9 @@ do_headerfix () {
- 
- addtask headerfix after do_unpack before do_patch
- 
-+CROSS_TARGET_SYS_DIR[vardepsexclude] = "PN"
-+CROSS_TARGET_SYS_DIR[vardepvalue] = "1"
-+
- do_configure_prepend () {
-        # teach gcc to find correct target includedir when checking libc ssp support
-        mkdir -p ${B}/gcc
-
-as discussed in the "sstate info" thread?
-
-Cheers,
-
-Richard
-
-
-
+Sau!
 
 
