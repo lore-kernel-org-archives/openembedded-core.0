@@ -1,22 +1,31 @@
-Received: from mga11.intel.com ([192.55.52.93])
-	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <lianhao.lu@intel.com>) id 1Rml7M-0005g7-Se
-	for openembedded-core@lists.openembedded.org;
-	Mon, 16 Jan 2012 12:52:53 +0100
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-	by fmsmga102.fm.intel.com with ESMTP; 16 Jan 2012 03:45:16 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="107539331"
-Received: from llu-piketon.sh.intel.com (HELO localhost) ([10.239.36.146])
-	by fmsmga001.fm.intel.com with ESMTP; 16 Jan 2012 03:45:15 -0800
-From: Lianhao Lu <lianhao.lu@intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Mon, 16 Jan 2012 19:43:10 +0800
-Message-Id: <2588490b8b8424c96da2824c604929baeb1c5c16.1326714004.git.lianhao.lu@intel.com>
-X-Mailer: git-send-email 1.7.0.4
-In-Reply-To: <cover.1326714004.git.lianhao.lu@intel.com>
-References: <cover.1326714004.git.lianhao.lu@intel.com>
-Subject: [PATCH 1/1] gcc-common.inc: Added shared source support for basichash.
+Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
+	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <richard.purdie@linuxfoundation.org>)
+	id 1RmlpX-00075y-FR for openembedded-core@lists.openembedded.org;
+	Mon, 16 Jan 2012 13:38:31 +0100
+Received: from localhost (localhost [127.0.0.1])
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q0GCUrUg019468;
+	Mon, 16 Jan 2012 12:30:53 GMT
+Received: from tim.rpsys.net ([127.0.0.1])
+	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
+	port 10024) with LMTP
+	id 19305-04; Mon, 16 Jan 2012 12:30:47 +0000 (GMT)
+Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q0GCUhLY019462
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO);
+	Mon, 16 Jan 2012 12:30:44 GMT
+Message-ID: <1326717048.532.0.camel@ted>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Date: Mon, 16 Jan 2012 12:30:48 +0000
+In-Reply-To: <1325911915-16001-4-git-send-email-steve@sakoman.com>
+References: <1325911915-16001-4-git-send-email-steve@sakoman.com>
+X-Mailer: Evolution 3.2.2- 
+Mime-Version: 1.0
+X-Virus-Scanned: amavisd-new at rpsys.net
+Cc: Steve Sakoman <steve@sakoman.com>
+Subject: Re: [PATCH RFC v2] dhcp: package /var/lib/dhcp with dhcp-client rather than dhcp-server
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -31,90 +40,24 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 16 Jan 2012 11:52:53 -0000
+X-List-Received-Date: Mon, 16 Jan 2012 12:38:31 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-[YOCTO #1555]
-Adding new mechanism to allow multiple gcc related recipes sharing the
-same src directory when using the basichash as the signature handler.
+On Fri, 2012-01-06 at 20:51 -0800, Steve Sakoman wrote:
+> Otherwise dhclient encounters errors of this type:
+> 
+> dhclient: can't create /var/lib/dhcp/dhclient-c0c60402-0bc5-4bd7-bc3b-49a27fa37d72-eth1.lease: No such file or directory
+> 
+> Signed-off-by: Steve Sakoman <steve@sakoman.com>
+> ---
+>  meta/recipes-connectivity/dhcp/dhcp.inc      |    4 ++--
+>  meta/recipes-connectivity/dhcp/dhcp_4.2.0.bb |    2 +-
+>  2 files changed, 3 insertions(+), 3 deletions(-)
 
-Using the same stamp file for multiple gcc related recipes to share the
-same src directory is no longer working when using the basichash
-signature.
+Merged to master, thanks.
 
-Signed-off-by: Lianhao Lu <lianhao.lu@intel.com>
----
- meta/recipes-devtools/gcc/gcc-common.inc |   56 ++++++++++++++++++++++++++++++
- 1 files changed, 56 insertions(+), 0 deletions(-)
-
-diff --git a/meta/recipes-devtools/gcc/gcc-common.inc b/meta/recipes-devtools/gcc/gcc-common.inc
-index fe112d9..4f8e18f 100644
---- a/meta/recipes-devtools/gcc/gcc-common.inc
-+++ b/meta/recipes-devtools/gcc/gcc-common.inc
-@@ -63,6 +63,62 @@ do_unpack[stamp-base] = "${SS}"
- do_headerfix[stamp-base] = "${SS}"
- do_patch[stamp-base] = "${SS}"
- 
-+# Shared source for basichash
-+def check_shared_taskdone(d, task):
-+    import os.path, bb.utils
-+    basedir = d.getVar('SW', True)
-+    bb.utils.mkdirhier(basedir)
-+    fn = os.path.join(basedir, "%s.done" % (task))
-+    return os.path.exists(fn)
-+
-+def mark_shared_taskdone(d, task):
-+    import os.path, bb.utils
-+    basedir = d.getVar('SW', True)
-+    bb.utils.mkdirhier(basedir)
-+    fn = os.path.join(basedir, "%s.done" % (task))
-+    f = open(fn, "w")
-+    f.close()
-+
-+do_fetch[lockfiles] = "${SW}.fetch.lock"
-+do_unpack[lockfiles] = "${SW}.unpack.lock"
-+do_headerfix[lockfiles] = "${SW}.headerfix.lock"
-+do_patch[lockfiles] = "${SW}.patch.lock"
-+
-+python do_fetch_prepend() {
-+	if check_shared_taskdone(d, 'fetch'):
-+		return
-+}
-+python do_fetch_append() {
-+	mark_shared_taskdone(d, 'fetch')
-+}
-+
-+python do_unpack_prepend() {
-+	if check_shared_taskdone(d, 'unpack'):
-+		return
-+}
-+python do_unpack_append() {
-+	mark_shared_taskdone(d, 'unpack')
-+}
-+
-+python do_patch_prepend() {
-+	if check_shared_taskdone(d, 'patch'):
-+		return
-+}
-+python do_patch_append() {
-+	mark_shared_taskdone(d, 'patch')
-+}
-+
-+do_headerfix_prepend() {
-+	if [ -e "${SW}/headerfix.done" ]; then
-+		return 0
-+	fi
-+}
-+
-+do_headerfix_append() {
-+	mkdir -p "${SW}"
-+	touch "${SW}/headerfix.done"
-+}
-+
- # SW means Shared Work directory
- SW = "${TMPDIR}/work-shared/gcc-${PV}-${PR}"
- WORKDIR_task-unpack = "${SW}"
--- 
-1.7.0.4
+Richard
 
 
 
