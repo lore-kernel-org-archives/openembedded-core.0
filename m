@@ -1,25 +1,34 @@
-Received: from mail.windriver.com ([147.11.1.11])
-	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <Zumeng.Chen@windriver.com>) id 1RmpCt-0006Eh-4R
-	for openembedded-core@lists.openembedded.org;
-	Mon, 16 Jan 2012 17:14:58 +0100
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca [147.11.189.40])
-	by mail.windriver.com (8.14.3/8.14.3) with ESMTP id q0GG7BnX020736
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
+Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
+	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <richard.purdie@linuxfoundation.org>)
+	id 1Rmq1c-0007OD-Iv for openembedded-core@lists.openembedded.org;
+	Mon, 16 Jan 2012 18:07:16 +0100
+Received: from localhost (localhost [127.0.0.1])
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q0GGxejL022344
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 16 Jan 2012 08:07:11 -0800 (PST)
-Received: from pek-yocto-build2.corp.ad.wrs.com (128.224.163.150) by
-	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server id
-	14.1.255.0; Mon, 16 Jan 2012 08:07:10 -0800
-From: Zumeng Chen <zumeng.chen@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Tue, 17 Jan 2012 00:06:50 +0800
-Message-ID: <4da82b6980a0eec9afb7ea916e458bf5f43a498d.1326729399.git.zumeng.chen@windriver.com>
-X-Mailer: git-send-email 1.7.5.4
-In-Reply-To: <cover.1326729399.git.zumeng.chen@windriver.com>
-References: <cover.1326729399.git.zumeng.chen@windriver.com>
-MIME-Version: 1.0
-Subject: [PATCH 2/4] lttng-tools: Update to 2.0-pre16
+	Mon, 16 Jan 2012 16:59:40 GMT
+Received: from tim.rpsys.net ([127.0.0.1])
+	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
+	port 10024) with LMTP
+	id 21654-06 for <openembedded-core@lists.openembedded.org>;
+	Mon, 16 Jan 2012 16:59:36 +0000 (GMT)
+Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q0GGxTli022338
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO)
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 16 Jan 2012 16:59:31 GMT
+Message-ID: <1326733174.2933.3.camel@ted>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Date: Mon, 16 Jan 2012 16:59:34 +0000
+In-Reply-To: <2588490b8b8424c96da2824c604929baeb1c5c16.1326714004.git.lianhao.lu@intel.com>
+References: <cover.1326714004.git.lianhao.lu@intel.com>
+	<2588490b8b8424c96da2824c604929baeb1c5c16.1326714004.git.lianhao.lu@intel.com>
+X-Mailer: Evolution 3.2.2- 
+Mime-Version: 1.0
+X-Virus-Scanned: amavisd-new at rpsys.net
+Subject: Re: [PATCH 1/1] gcc-common.inc: Added shared source support for basichash.
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -34,95 +43,48 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 16 Jan 2012 16:15:03 -0000
-Content-Type: text/plain
+X-List-Received-Date: Mon, 16 Jan 2012 17:07:16 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-This patch intended to integrate the Linux trace toolkit, which
-is a suite of tools designed to extract program execution details
-from the Linux operating system and interpret them.
+On Mon, 2012-01-16 at 19:43 +0800, Lianhao Lu wrote:
+> [YOCTO #1555]
+> Adding new mechanism to allow multiple gcc related recipes sharing the
+> same src directory when using the basichash as the signature handler.
+> 
+> Using the same stamp file for multiple gcc related recipes to share the
+> same src directory is no longer working when using the basichash
+> signature.
+> 
+> Signed-off-by: Lianhao Lu <lianhao.lu@intel.com>
+> ---
+>  meta/recipes-devtools/gcc/gcc-common.inc |   56 ++++++++++++++++++++++++++++++
+>  1 files changed, 56 insertions(+), 0 deletions(-)
 
-lttng-tools 2.0 is currently in pre-release(-pre16), so we have to
-update it when official released.
+Can you please check if this can be fixed by:
 
-Signed-off-by: Zumeng Chen <zumeng.chen@windriver.com>
----
- ...tools-fix-compiling-error-for-powerpc-arm.patch |   27 ++++++++++++++++++
- .../lttng-2.0/lttng-tools_2.0-pre16.bb             |   30 ++++++++++++++++++++
- 2 files changed, 57 insertions(+), 0 deletions(-)
- create mode 100644 meta/recipes-kernel/lttng-2.0/lttng-tools/lttng-tools-fix-compiling-error-for-powerpc-arm.patch
- create mode 100644 meta/recipes-kernel/lttng-2.0/lttng-tools_2.0-pre16.bb
+diff --git a/meta/recipes-devtools/gcc/gcc-configure-common.inc b/meta/recipes-devtools/gcc/gcc-configure-common.inc
+index d014980..3a82720 100644
+--- a/meta/recipes-devtools/gcc/gcc-configure-common.inc
++++ b/meta/recipes-devtools/gcc/gcc-configure-common.inc
+@@ -77,6 +77,9 @@ do_headerfix () {
+ 
+ addtask headerfix after do_unpack before do_patch
+ 
++CROSS_TARGET_SYS_DIR[vardepsexclude] = "PN"
++CROSS_TARGET_SYS_DIR[vardepvalue] = "1"
++
+ do_configure_prepend () {
+        # teach gcc to find correct target includedir when checking libc ssp support
+        mkdir -p ${B}/gcc
 
-diff --git a/meta/recipes-kernel/lttng-2.0/lttng-tools/lttng-tools-fix-compiling-error-for-powerpc-arm.patch b/meta/recipes-kernel/lttng-2.0/lttng-tools/lttng-tools-fix-compiling-error-for-powerpc-arm.patch
-new file mode 100644
-index 0000000..73253d1
---- /dev/null
-+++ b/meta/recipes-kernel/lttng-2.0/lttng-tools/lttng-tools-fix-compiling-error-for-powerpc-arm.patch
-@@ -0,0 +1,27 @@
-+Upstream-Status: Pending
-+
-+Fix compiling error on powerpc and arm
-+
-+For powerpc and arm, some MAP_ are defined asm/mman.h,
-+so including it in header.
-+
-+Signed-off-by: Zumeng Chen <zumeng.chen@windriver.com>
-+---
-+ common/runas.c |    1 +
-+ 1 files changed, 1 insertions(+), 0 deletions(-)
-+
-+diff --git a/common/runas.c b/common/runas.c
-+index f612ccc..62a2791 100644
-+--- a/common/runas.c
-++++ b/common/runas.c
-+@@ -29,6 +29,7 @@
-+ #include <fcntl.h>
-+ #include <sched.h>
-+ #include <sys/mman.h>
-++#include <asm/mman.h>
-+
-+ #include <lttngerr.h>
-+
-+-- 
-+1.7.5.4
-+
-diff --git a/meta/recipes-kernel/lttng-2.0/lttng-tools_2.0-pre16.bb b/meta/recipes-kernel/lttng-2.0/lttng-tools_2.0-pre16.bb
-new file mode 100644
-index 0000000..fdebc0e
---- /dev/null
-+++ b/meta/recipes-kernel/lttng-2.0/lttng-tools_2.0-pre16.bb
-@@ -0,0 +1,30 @@
-+SECTION = "devel"
-+SUMMARY = "Linux Trace Toolkit Control"
-+DESCRIPTION = "The Linux trace toolkit is a suite of tools designed \
-+to extract program execution details from the Linux operating system \
-+and interpret them."
-+
-+LICENSE = "GPLv2 & LGPLv2.1"
-+LIC_FILES_CHKSUM = "file://COPYING;md5=ab682a4729389c3f11913d758affe98e \
-+                    file://gpl-2.0.txt;md5=b234ee4d69f5fce4486a80fdaf4a4263 \
-+                    file://lgpl-2.1.txt;md5=0f0d71500e6a57fd24d825f33242b9ca"
-+
-+DEPENDS = "liburcu popt lttng-ust"
-+
-+SRCREV = "9beed4cb465347c778e4f982c330cef78f2628b7"
-+PV = "v2.0.pre16+git${SRCREV}"
-+PR = "r0"
-+
-+SRC_URI = "git://git.lttng.org/lttng-tools.git;protocol=git\
-+           file://lttng-tools-fix-compiling-error-for-powerpc-arm.patch"
-+
-+S = "${WORKDIR}/git"
-+
-+inherit autotools
-+
-+export KERNELDIR="${STAGING_KERNEL_DIR}"
-+
-+# Due to liburcu not building for MIPS currently this recipe needs to
-+# be limited also.
-+# So here let us first suppport x86/arm/powerpc platforms now.
-+COMPATIBLE_HOST = '(x86_64.*|i.86.*|arm.*|powerpc.*)-linux'
--- 
-1.7.5.4
+as discussed in the "sstate info" thread?
+
+Cheers,
+
+Richard
+
+
 
 
 
