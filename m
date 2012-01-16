@@ -1,31 +1,24 @@
-Received: from mail-tul01m020-f175.google.com ([209.85.214.175])
+Received: from mail-wi0-f175.google.com ([209.85.212.175])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <sakoman@gmail.com>) id 1RmrGc-0007Qp-7a
+	(envelope-from <andrei@gherzan.ro>) id 1RmrSU-00050C-RJ
 	for openembedded-core@lists.openembedded.org;
-	Mon, 16 Jan 2012 19:26:50 +0100
-Received: by obcwo8 with SMTP id wo8so2159991obc.6
+	Mon, 16 Jan 2012 19:39:18 +0100
+Received: by wibhq7 with SMTP id hq7so81888wib.6
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 16 Jan 2012 10:19:13 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
-	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
-	:content-type:content-transfer-encoding;
-	bh=miz1xLu5VzzpXkfzYzPwnhn2i/ANNYQSRJg3fC79MQQ=;
-	b=cpL7r9gkTpvC2Dc7bkH59mar/3qEnW7IQCkNc6rqJEVaGMb/yVCbePA/xkAiTV/PVp
-	FbyA2lYK1VW3D0Odfr5QRGRBhQgc2lUUy2bS4H88DegxicaQAIG6l9S8jvKxaWQ0dPsh
-	3gfecEgsXtWya872thkJPRSGVAoaFL4Q2Duh8=
-MIME-Version: 1.0
-Received: by 10.182.75.2 with SMTP id y2mr5472512obv.54.1326737953048; Mon, 16
-	Jan 2012 10:19:13 -0800 (PST)
-Received: by 10.60.34.138 with HTTP; Mon, 16 Jan 2012 10:19:12 -0800 (PST)
-In-Reply-To: <1326737165.2933.7.camel@ted>
-References: <1326395831-5121-1-git-send-email-koen@dominion.thruhere.net>
-	<1326737165.2933.7.camel@ted>
-Date: Mon, 16 Jan 2012 10:19:12 -0800
-Message-ID: <CAGDS+n=HwjOz-QKMDyGy6qKf74WESsUFR-mCUT1HV+qaOzcCfg@mail.gmail.com>
-From: Steve Sakoman <sakoman@gmail.com>
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [Patch v3] gconf: enable gtk+ 2.0 support to build gconf-sanity-check-2
+	Mon, 16 Jan 2012 10:31:30 -0800 (PST)
+Received: by 10.180.106.202 with SMTP id gw10mr21076165wib.3.1326738690134;
+	Mon, 16 Jan 2012 10:31:30 -0800 (PST)
+Received: from localhost.localdomain ([89.121.200.106])
+	by mx.google.com with ESMTPS id bj10sm12596544wib.9.2012.01.16.10.31.28
+	(version=TLSv1/SSLv3 cipher=OTHER);
+	Mon, 16 Jan 2012 10:31:29 -0800 (PST)
+From: Andrei Gherzan <andrei@gherzan.ro>
+To: openembedded-core@lists.openembedded.org
+Date: Mon, 16 Jan 2012 20:31:23 +0200
+Message-Id: <1326738683-20567-1-git-send-email-andrei@gherzan.ro>
+X-Mailer: git-send-email 1.7.5.4
+Cc: florcirel@gmail.com, Andrei Gherzan <andrei.gherzan@windriver.com>
+Subject: [PATCH] chkconfig: Update package from v1.3.55 to v1.3.57
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -40,42 +33,86 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 16 Jan 2012 18:26:50 -0000
-Content-Type: text/plain; charset=ISO-8859-1
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Mon, 16 Jan 2012 18:39:19 -0000
 
-On Mon, Jan 16, 2012 at 10:06 AM, Richard Purdie
-<richard.purdie@linuxfoundation.org> wrote:
-> On Thu, 2012-01-12 at 20:17 +0100, Koen Kooi wrote:
->> This is needed for e.g. gnome-session:
->>
->> gnome-session[424]: WARNING: Failed to run gconf-sanity-check-2:
->> Failed to execute child process
->> "/usr/libexec/gconf-sanity-check-2" (No such file or directory)
->>
->> Signed-off-by: Koen Kooi <koen@dominion.thruhere.net>
->> ---
->> =A0meta/recipes-gnome/gnome/gconf_3.2.3.bb | =A0 20 +++++++++++---------
->> =A01 files changed, 11 insertions(+), 9 deletions(-)
->
-> This broke OE-Core since gtk+ depends on pango, pango depends on gconf
-> and gconf depends on gtk+.
->
-> Why wasn't this tested? I can only assume there are things in meta-oe
-> masking pieces of OE-Core and this shows how harmful they can be.
+From: Andrei Gherzan <andrei.gherzan@windriver.com>
 
-My tested-by was indeed performed with the meta-oe layer enabled.
+Signed-off-by: Andrei Gherzan <andrei@gherzan.ro>
+---
+ .../recipes-extended/chkconfig/chkconfig_1.3.55.bb |   27 --------------------
+ .../recipes-extended/chkconfig/chkconfig_1.3.57.bb |   27 ++++++++++++++++++++
+ 2 files changed, 27 insertions(+), 27 deletions(-)
+ delete mode 100644 meta/recipes-extended/chkconfig/chkconfig_1.3.55.bb
+ create mode 100644 meta/recipes-extended/chkconfig/chkconfig_1.3.57.bb
 
-In the future I will make clear what layers were used in my testing.
+diff --git a/meta/recipes-extended/chkconfig/chkconfig_1.3.55.bb b/meta/recipes-extended/chkconfig/chkconfig_1.3.55.bb
+deleted file mode 100644
+index 0e50936..0000000
+--- a/meta/recipes-extended/chkconfig/chkconfig_1.3.55.bb
++++ /dev/null
+@@ -1,27 +0,0 @@
+-SUMMARY = "A system tool for maintaining the /etc/rc*.d hierarchy"
+-
+-DESCRIPTION = "Chkconfig is a basic system utility.  It updates and queries runlevel \
+-information for system services.  Chkconfig manipulates the numerous \
+-symbolic links in /etc/rc.d, to relieve system administrators of some \
+-of the drudgery of manually editing the symbolic links."
+-
+-HOMEPAGE = "http://fedorahosted.org/releases/c/h/chkconfig"
+-
+-LICENSE = "GPLv2"
+-LIC_FILES_CHKSUM = "file://COPYING;md5=5574c6965ae5f583e55880e397fbb018"
+-
+-DEPENDS = "libnewt popt"
+-
+-PR = "r0"
+-
+-SRC_URI = "http://fedorahosted.org/releases/c/h/chkconfig/${BPN}-${PV}.tar.bz2"
+-
+-SRC_URI[md5sum] = "de562d5bff5116d1acf2d3191603096b"
+-SRC_URI[sha256sum] = "ac5e8f6c5ed83f5b65a3dd9187f8c534f167193446082e6a6576a0d9f72ba968"
+-
+-inherit autotools gettext
+-
+-do_install_append() {
+-    mkdir -p ${D}/etc/chkconfig.d
+-    rm -f ${D}/usr/sbin/update-alternatives
+-}
+diff --git a/meta/recipes-extended/chkconfig/chkconfig_1.3.57.bb b/meta/recipes-extended/chkconfig/chkconfig_1.3.57.bb
+new file mode 100644
+index 0000000..b8ef2f6
+--- /dev/null
++++ b/meta/recipes-extended/chkconfig/chkconfig_1.3.57.bb
+@@ -0,0 +1,27 @@
++SUMMARY = "A system tool for maintaining the /etc/rc*.d hierarchy"
++
++DESCRIPTION = "Chkconfig is a basic system utility.  It updates and queries runlevel \
++information for system services.  Chkconfig manipulates the numerous \
++symbolic links in /etc/rc.d, to relieve system administrators of some \
++of the drudgery of manually editing the symbolic links."
++
++HOMEPAGE = "http://fedorahosted.org/releases/c/h/chkconfig"
++
++LICENSE = "GPLv2"
++LIC_FILES_CHKSUM = "file://COPYING;md5=5574c6965ae5f583e55880e397fbb018"
++
++DEPENDS = "libnewt popt"
++
++PR = "r0"
++
++SRC_URI = "http://fedorahosted.org/releases/c/h/chkconfig/${BPN}-${PV}.tar.bz2"
++
++SRC_URI[md5sum] = "35a2d0630f1cb5c251e749eefde70afd"
++SRC_URI[sha256sum] = "6a95472873984a0a8e99dca23ce9efe0ffe9db06d9990ce325575f8506babc1c"
++
++inherit autotools gettext
++
++do_install_append() {
++    mkdir -p ${D}/etc/chkconfig.d
++    rm -f ${D}/usr/sbin/update-alternatives
++}
+-- 
+1.7.5.4
 
-I fear that this kind of thing is going to bite us repeatedly :-(
-
-> Since this was breaking things for pretty much everyone who does use
-> OE-Core, I pushed a patch changing pango to inherit gnomebase instead of
-> gnome.bbclass which resolves the circular dependency.
-
-This seems like a reasonable fix.
-
-Steve
 
 
