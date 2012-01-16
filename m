@@ -1,35 +1,56 @@
-Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
-	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <richard.purdie@linuxfoundation.org>)
-	id 1RmnQ1-0001Yf-9J for openembedded-core@lists.openembedded.org;
-	Mon, 16 Jan 2012 15:20:17 +0100
-Received: from localhost (localhost [127.0.0.1])
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q0GECblS020394;
-	Mon, 16 Jan 2012 14:12:37 GMT
-Received: from tim.rpsys.net ([127.0.0.1])
-	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
-	port 10024) with LMTP
-	id 19305-10; Mon, 16 Jan 2012 14:12:32 +0000 (GMT)
-Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q0GECTi5020388
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO);
-	Mon, 16 Jan 2012 14:12:31 GMT
-Message-ID: <1326723154.532.4.camel@ted>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
+Received: from ch1ehsobe004.messaging.microsoft.com ([216.32.181.184]
+	helo=ch1outboundpool.messaging.microsoft.com)
+	by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <B29882@freescale.com>) id 1RmoFB-00032E-Tp
+	for openembedded-core@lists.openembedded.org;
+	Mon, 16 Jan 2012 16:13:10 +0100
+Received: from mail9-ch1-R.bigfish.com (10.43.68.241) by
+	CH1EHSOBE007.bigfish.com (10.43.70.57) with Microsoft SMTP Server id
+	14.1.225.23; Mon, 16 Jan 2012 15:05:29 +0000
+Received: from mail9-ch1 (localhost [127.0.0.1])	by mail9-ch1-R.bigfish.com
+	(Postfix) with ESMTP id 4F58E6805A0	for
+	<openembedded-core@lists.openembedded.org>;
+	Mon, 16 Jan 2012 15:05:30 +0000 (UTC)
+X-SpamScore: -7
+X-BigFish: VS-7(zz9371I1432N98dKzz1202hzz8275dhz2dhc1ahc1bh2a8h668h839h8e2h8e3hbe9k)
+X-Forefront-Antispam-Report: CIP:70.37.183.190; KIP:(null); UIP:(null); IPV:NLI;
+	H:mail.freescale.net; RD:none; EFVD:NLI
+Received: from mail9-ch1 (localhost.localdomain [127.0.0.1]) by mail9-ch1
+	(MessageSwitch) id 1326726328245696_5574;
+	Mon, 16 Jan 2012 15:05:28 +0000 (UTC)
+Received: from CH1EHSMHS004.bigfish.com (snatpool1.int.messaging.microsoft.com
+	[10.43.68.249])	by mail9-ch1.bigfish.com (Postfix) with ESMTP id
+	37542600133 for <openembedded-core@lists.openembedded.org>;
+	Mon, 16 Jan 2012 15:05:28 +0000 (UTC)
+Received: from mail.freescale.net (70.37.183.190) by CH1EHSMHS004.bigfish.com
+	(10.43.70.4) with Microsoft SMTP Server (TLS) id 14.1.225.23;
+	Mon, 16 Jan 2012 15:05:26 +0000
+Received: from 039-SN1MPN1-002.039d.mgd.msft.net ([169.254.2.86]) by
+	039-SN1MMR1-001.039d.mgd.msft.net ([10.84.1.13]) with mapi id
+	14.01.0355.003; Mon, 16 Jan 2012 09:05:29 -0600
+From: McClintock Matthew-B29882 <B29882@freescale.com>
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Date: Mon, 16 Jan 2012 14:12:34 +0000
-In-Reply-To: <1326395831-5121-1-git-send-email-koen@dominion.thruhere.net>
-References: <1326395831-5121-1-git-send-email-koen@dominion.thruhere.net>
-X-Mailer: Evolution 3.2.2- 
-Mime-Version: 1.0
-X-Virus-Scanned: amavisd-new at rpsys.net
-Cc: Koen Kooi <koen@dominion.thruhere.net>
-Subject: Re: [Patch v3] gconf: enable gtk+ 2.0 support to build gconf-sanity-check-2
+Thread-Topic: [OE-core] [PATCH 1/2] bitbake/fetch2: add support for wrapper
+	command
+Thread-Index: AQHM1ArD8I/p7sL3vkG3nDK8RN3fjJYPUl2AgAAqmAA=
+Date: Mon, 16 Jan 2012 15:05:29 +0000
+Message-ID: <CAEsOVNcpOujgBKFwF_Z7XOOXpKQ1MamA_AaP8MeJtmX-DDvwVA@mail.gmail.com>
+References: <1326409412-15507-1-git-send-email-msm@freescale.com>
+	<4F13AD3B.50902@linux.intel.com> <1326717159.532.2.camel@ted>
+In-Reply-To: <1326717159.532.2.camel@ted>
+Accept-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [99.47.177.27]
+MIME-Version: 1.0
+X-OriginatorOrg: freescale.com
+Subject: Re: [PATCH 1/2] bitbake/fetch2: add support for wrapper command
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
-Reply-To: Patches and discussions about the oe-core layer
+Reply-To: McClintock Matthew-B29882 <B29882@freescale.com>,
+	Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
 List-Id: Patches and discussions about the oe-core layer
 	<openembedded-core.lists.openembedded.org>
@@ -40,23 +61,28 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 16 Jan 2012 14:20:17 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Mon, 16 Jan 2012 15:13:10 -0000
+Content-Language: en-US
+Content-Type: text/plain; charset="iso-8859-1"
+Content-ID: <191EB5A9A2340F4F84B458EB7CF0794C@freescale.net>
+Content-Transfer-Encoding: quoted-printable
 
-On Thu, 2012-01-12 at 20:17 +0100, Koen Kooi wrote:
-> This is needed for e.g. gnome-session:
-> 
-> gnome-session[424]: WARNING: Failed to run gconf-sanity-check-2: Failed to execute child process "/usr/libexec/gconf-sanity-check-2" (No such file or directory)
-> 
-> Signed-off-by: Koen Kooi <koen@dominion.thruhere.net>
-> ---
->  meta/recipes-gnome/gnome/gconf_3.2.3.bb |   20 +++++++++++---------
->  1 files changed, 11 insertions(+), 9 deletions(-)
+On Mon, Jan 16, 2012 at 6:32 AM, Richard Purdie
+<richard.purdie@linuxfoundation.org> wrote:
+>> > + =A0 =A0cmd =3D "%s %s" % (bb.data.getVar("BB_FETCH_WRAPPER", d, True=
+), cmd)
+>> > +
+>> I am guessing you really want a check here if BB_FETCH_WRAPPER is set,
+>> otherwise I am not sure this will work correctly, did you test without
+>> this new variable set?
+>
+> We've had this conversation on the bitbake list. I think Matthew has an
+> alternative fix to use instead of this so we'll likely drop this patch
+> anyway.
 
-Merged to master, thanks.
+Yes, please drop this patch.
 
-Richard
+-M=
 
 
 
