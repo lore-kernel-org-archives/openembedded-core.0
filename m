@@ -1,26 +1,31 @@
-Received: from mail.pbcl.net ([88.198.119.4] helo=hetzner.pbcl.net)
+Received: from mail-tul01m020-f175.google.com ([209.85.214.175])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <philb@gnu.org>) id 1RmrAY-0002ga-TW
+	(envelope-from <sakoman@gmail.com>) id 1RmrGc-0007Qp-7a
 	for openembedded-core@lists.openembedded.org;
-	Mon, 16 Jan 2012 19:20:36 +0100
-Received: from 50-78-106-41-static.hfc.comcastbusiness.net ([50.78.106.41]
-	helo=[10.1.0.230])
-	by hetzner.pbcl.net with esmtpsa (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
-	(Exim 4.72) (envelope-from <philb@gnu.org>)
-	id 1Rmr3A-0006hn-Vn; Mon, 16 Jan 2012 19:12:57 +0100
-Message-ID: <1326737570.3367.19.camel@pb-ThinkPad-R50e>
-From: Phil Blundell <philb@gnu.org>
-To: Paul Eggleton <paul.eggleton@linux.intel.com>
-Date: Mon, 16 Jan 2012 18:12:50 +0000
-In-Reply-To: <1427429.26ZIzxQgNj@helios>
-References: <cover.1322061836.git.paul.eggleton@linux.intel.com>
-	<1322068148.15626.15.camel@ted> <1412695.vvBBPeJL4B@helios>
-	<1427429.26ZIzxQgNj@helios>
-X-Mailer: Evolution 3.2.1- 
-Mime-Version: 1.0
-Cc: Koen Kooi <koen@dominion.thruhere.net>,
-	openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 0/3] Make pulseaudio a DISTRO_FEATURE
+	Mon, 16 Jan 2012 19:26:50 +0100
+Received: by obcwo8 with SMTP id wo8so2159991obc.6
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 16 Jan 2012 10:19:13 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
+	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
+	:content-type:content-transfer-encoding;
+	bh=miz1xLu5VzzpXkfzYzPwnhn2i/ANNYQSRJg3fC79MQQ=;
+	b=cpL7r9gkTpvC2Dc7bkH59mar/3qEnW7IQCkNc6rqJEVaGMb/yVCbePA/xkAiTV/PVp
+	FbyA2lYK1VW3D0Odfr5QRGRBhQgc2lUUy2bS4H88DegxicaQAIG6l9S8jvKxaWQ0dPsh
+	3gfecEgsXtWya872thkJPRSGVAoaFL4Q2Duh8=
+MIME-Version: 1.0
+Received: by 10.182.75.2 with SMTP id y2mr5472512obv.54.1326737953048; Mon, 16
+	Jan 2012 10:19:13 -0800 (PST)
+Received: by 10.60.34.138 with HTTP; Mon, 16 Jan 2012 10:19:12 -0800 (PST)
+In-Reply-To: <1326737165.2933.7.camel@ted>
+References: <1326395831-5121-1-git-send-email-koen@dominion.thruhere.net>
+	<1326737165.2933.7.camel@ted>
+Date: Mon, 16 Jan 2012 10:19:12 -0800
+Message-ID: <CAGDS+n=HwjOz-QKMDyGy6qKf74WESsUFR-mCUT1HV+qaOzcCfg@mail.gmail.com>
+From: Steve Sakoman <sakoman@gmail.com>
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [Patch v3] gconf: enable gtk+ 2.0 support to build gconf-sanity-check-2
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -35,55 +40,42 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 16 Jan 2012 18:20:37 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Mon, 16 Jan 2012 18:26:50 -0000
+Content-Type: text/plain; charset=ISO-8859-1
+Content-Transfer-Encoding: quoted-printable
 
-On Mon, 2012-01-16 at 17:58 +0000, Paul Eggleton wrote:
-> On Thursday 29 December 2011 12:55:56 Paul Eggleton wrote:
-> > On Wednesday 23 November 2011 17:09:08 Richard Purdie wrote:
-> > > I'm wondering if we can do something in the core like:
-> > > 
-> > > DISTRO_FEATURES_BACKFILLOPTS = "pulseaudio"
-> > > 
-> > > and have the distro set:
-> > > 
-> > > DISTRO_FEATURES_BACKFILLCONSIDERED = ""
-> > > 
-> > > and then add some code which looks for anything in
-> > > DISTRO_FEATURES_BACKFILLOPTS but not in
-> > > DISTRO_FEATURES_BACKFILLCONSIDERED and adds it to DISTRO_FEATURES.
-> > > 
-> > > Distros can then opt out of a given feature by adding it to
-> > > DISTRO_FEATURES_BACKFILLCONSIDERED.
-> > > 
-> > > This would let us maintain compatibility but also move forward and
-> > > create new settings with names that make sense.
-> > 
-> > I'd like to try to move forward with this fix (although I prefer an
-> > alternative term to "backfill", perhaps "introduce" instead?) If this is
-> > what we want to do, should it be implemented by:
-> > 
-> > (a) modifying DISTRO_FEATURES directly (as I think Richard is suggesting),
-> > or
-> > 
-> > (b) a simple python call that the distro needs to add to their own
-> > DISTRO_FEATURES (i.e. "${@distro_features_introduce(d)}" ?
-> > 
-> > Option (a) is a little tidier but (b) makes it obvious where any introduced
-> > items in DISTRO_FEATURES are coming from.
-> 
-> This was brought up at the last TSC meeting, but we agreed to leave the 
-> discussion on the mailing list for the moment.
-> 
-> So, any thoughts?
+On Mon, Jan 16, 2012 at 10:06 AM, Richard Purdie
+<richard.purdie@linuxfoundation.org> wrote:
+> On Thu, 2012-01-12 at 20:17 +0100, Koen Kooi wrote:
+>> This is needed for e.g. gnome-session:
+>>
+>> gnome-session[424]: WARNING: Failed to run gconf-sanity-check-2:
+>> Failed to execute child process
+>> "/usr/libexec/gconf-sanity-check-2" (No such file or directory)
+>>
+>> Signed-off-by: Koen Kooi <koen@dominion.thruhere.net>
+>> ---
+>> =A0meta/recipes-gnome/gnome/gconf_3.2.3.bb | =A0 20 +++++++++++---------
+>> =A01 files changed, 11 insertions(+), 9 deletions(-)
+>
+> This broke OE-Core since gtk+ depends on pango, pango depends on gconf
+> and gconf depends on gtk+.
+>
+> Why wasn't this tested? I can only assume there are things in meta-oe
+> masking pieces of OE-Core and this shows how harmful they can be.
 
-Personally I prefer option (a) and Richard's terminology.  I think the
-"introduce" naming is a bit too vague and generic and doesn't really
-capture what's going on here.
+My tested-by was indeed performed with the meta-oe layer enabled.
 
-p.
+In the future I will make clear what layers were used in my testing.
 
+I fear that this kind of thing is going to bite us repeatedly :-(
 
+> Since this was breaking things for pretty much everyone who does use
+> OE-Core, I pushed a patch changing pango to inherit gnomebase instead of
+> gnome.bbclass which resolves the circular dependency.
+
+This seems like a reasonable fix.
+
+Steve
 
 
