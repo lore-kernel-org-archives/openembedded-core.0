@@ -1,25 +1,23 @@
-Received: from mail1.windriver.com ([147.11.146.13])
+Received: from mail.windriver.com ([147.11.1.11])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <Zumeng.Chen@windriver.com>) id 1RmpCt-0006HT-5D
+	(envelope-from <Zumeng.Chen@windriver.com>) id 1RmpCt-0006CR-5I
 	for openembedded-core@lists.openembedded.org;
 	Mon, 16 Jan 2012 17:14:58 +0100
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca [147.11.189.40])
-	by mail1.windriver.com (8.14.3/8.14.3) with ESMTP id q0GG7CM8013480
+	by mail.windriver.com (8.14.3/8.14.3) with ESMTP id q0GG79AE020728
 	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 16 Jan 2012 08:07:12 -0800 (PST)
+	Mon, 16 Jan 2012 08:07:09 -0800 (PST)
 Received: from pek-yocto-build2.corp.ad.wrs.com (128.224.163.150) by
 	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server id
-	14.1.255.0; Mon, 16 Jan 2012 08:07:11 -0800
+	14.1.255.0; Mon, 16 Jan 2012 08:07:08 -0800
 From: Zumeng Chen <zumeng.chen@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Tue, 17 Jan 2012 00:06:51 +0800
-Message-ID: <b3698ef35970ededb25cbc8b12f4ef1dbdcb606d.1326729399.git.zumeng.chen@windriver.com>
+Date: Tue, 17 Jan 2012 00:06:48 +0800
+Message-ID: <cover.1326729399.git.zumeng.chen@windriver.com>
 X-Mailer: git-send-email 1.7.5.4
-In-Reply-To: <cover.1326729399.git.zumeng.chen@windriver.com>
-References: <cover.1326729399.git.zumeng.chen@windriver.com>
 MIME-Version: 1.0
-Subject: [PATCH 3/4] lttng-modules: Update to 2.0
+Subject: [PATCH 0/4] [V6] lttng-2.0 new recipe
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -37,107 +35,43 @@ List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedde
 X-List-Received-Date: Mon, 16 Jan 2012 16:15:03 -0000
 Content-Type: text/plain
 
-This patch intended to integrate the lttng-modules 2.0 package
-containing the kernel tracer modules.
-LTTng-modules 2.0 is currently in pre-release (-pre11), so we
-have to update it when official released.
+Hi Saul,
 
-lttng-2.0 supports lttng-modules extra builds, which don't need
-any patches on Linux kernel vs the previous version of lttng.
-As described in README of lttng-modules-2.0, so far, it has been
-tested in the latest kernel on x86 32/64-bit, and powerpc 32-bit,
-, build tested on ARM. So does yocto kernel, the related tests
-on qemux86 and qemuppc has been validated and a build test on
-qemuarm passed too with this patcheset.
+Changes vs previous versions:
+ 1 ) Create directories for patches.
+ 2 ) Update the latest git HEAD for all, build passed.
 
-Signed-off-by: Zumeng Chen <zumeng.chen@windriver.com>
----
+Thanks,
+Zumeng
+
+The following changes since commit b02e7d45e06d1fbaf072deea9f3773ca14787e65:
+
+  gconf: enable gtk+ 2.0 support to build gconf-sanity-check-2 (2012-01-16 14:11:25 +0000)
+
+are available in the git repository at:
+  git://git.pokylinux.org/poky-contrib zumeng/lttng-2.0
+  http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=zumeng/lttng-2.0
+
+Zumeng Chen (4):
+  lttng-ust: Update to 2.0
+  lttng-tools: Update to 2.0-pre16
+  lttng-modules: Update to 2.0
+  babeltrace: Integrated from version 0.8
+
+ meta/recipes-kernel/lttng-2.0/babeltrace_0.8.bb    |   28 +++++++++++++
  ...modules-replace-KERNELDIR-with-KERNEL_SRC.patch |   41 ++++++++++++++++++++
  .../lttng-2.0/lttng-modules_2.0.pre11.bb           |   27 +++++++++++++
- 2 files changed, 68 insertions(+), 0 deletions(-)
+ ...tools-fix-compiling-error-for-powerpc-arm.patch |   27 +++++++++++++
+ .../lttng-2.0/lttng-tools_2.0-pre16.bb             |   30 ++++++++++++++
+ meta/recipes-kernel/lttng-2.0/lttng-ust_1.9.4.bb   |   30 ++++++++++++++
+ 6 files changed, 183 insertions(+), 0 deletions(-)
+ create mode 100644 meta/recipes-kernel/lttng-2.0/babeltrace_0.8.bb
  create mode 100644 meta/recipes-kernel/lttng-2.0/lttng-modules/lttng-modules-replace-KERNELDIR-with-KERNEL_SRC.patch
  create mode 100644 meta/recipes-kernel/lttng-2.0/lttng-modules_2.0.pre11.bb
+ create mode 100644 meta/recipes-kernel/lttng-2.0/lttng-tools/lttng-tools-fix-compiling-error-for-powerpc-arm.patch
+ create mode 100644 meta/recipes-kernel/lttng-2.0/lttng-tools_2.0-pre16.bb
+ create mode 100644 meta/recipes-kernel/lttng-2.0/lttng-ust_1.9.4.bb
 
-diff --git a/meta/recipes-kernel/lttng-2.0/lttng-modules/lttng-modules-replace-KERNELDIR-with-KERNEL_SRC.patch b/meta/recipes-kernel/lttng-2.0/lttng-modules/lttng-modules-replace-KERNELDIR-with-KERNEL_SRC.patch
-new file mode 100644
-index 0000000..aa24171
---- /dev/null
-+++ b/meta/recipes-kernel/lttng-2.0/lttng-modules/lttng-modules-replace-KERNELDIR-with-KERNEL_SRC.patch
-@@ -0,0 +1,41 @@
-+Upstream-Status: Inappropriate [embedded specific]
-+
-+lttng-modules: replace KERNELDIR with KERNEL_SRC
-+
-+Since lttng-modules uses the default way of module.bbclass to
-+build and install lttng-modules, we do this replacement for
-+it as-is.
-+
-+Signed-off-by: Zumeng Chen <zumeng.chen@windriver.com>
-+---
-+ Makefile |    7 +++----
-+ 1 files changed, 3 insertions(+), 4 deletions(-)
-+
-+diff --git a/Makefile b/Makefile
-+index 5ac13d7..25caad5 100644
-+--- a/Makefile
-++++ b/Makefile
-+@@ -38,17 +38,16 @@ obj-m += lib/
-+ endif
-+
-+ else
-+-	KERNELDIR ?= /lib/modules/$(shell uname -r)/build
-+ 	PWD := $(shell pwd)
-+ 	CFLAGS = $(EXTCFLAGS)
-+
-+ default:
-+-	$(MAKE) -C $(KERNELDIR) M=$(PWD) modules
-++	$(MAKE) -C $(KERNEL_SRC) M=$(PWD) modules
-+
-+ modules_install:
-+-	$(MAKE) -C $(KERNELDIR) M=$(PWD) modules_install
-++	$(MAKE) -C $(KERNEL_SRC) M=$(PWD) modules_install
-+
-+ clean:
-+-	$(MAKE) -C $(KERNELDIR) M=$(PWD) clean
-++	$(MAKE) -C $(KERNEL_SRC) M=$(PWD) clean
-+
-+ endif
-+-- 
-+1.7.5.4
-+
-diff --git a/meta/recipes-kernel/lttng-2.0/lttng-modules_2.0.pre11.bb b/meta/recipes-kernel/lttng-2.0/lttng-modules_2.0.pre11.bb
-new file mode 100644
-index 0000000..5d34c41
---- /dev/null
-+++ b/meta/recipes-kernel/lttng-2.0/lttng-modules_2.0.pre11.bb
-@@ -0,0 +1,27 @@
-+SECTION = "devel"
-+SUMMARY = "Linux Trace Toolkit KERNEL MODULE"
-+DESCRIPTION = "The lttng-modules 2.0 package contains the kernel tracer modules"
-+LICENSE = "LGPLv2.1 & GPLv2"
-+LIC_FILES_CHKSUM = "file://LICENSE;md5=1eb086682a7c65a45acd9bcdf6877b3e \
-+                    file://gpl-2.0.txt;md5=751419260aa954499f7abaabaa882bbe \
-+                    file://lgpl-2.1.txt;md5=243b725d71bb5df4a1e5920b344b86ad"
-+
-+DEPENDS = virtual/kernel
-+
-+inherit module
-+
-+SRCREV = "4d3e89e379fc66480d729abe8daa5c86eb585400"
-+PV = "2.0.pre11+git${SRCREV}"
-+PR = "r0"
-+
-+SRC_URI = "git://git.lttng.org/lttng-modules.git;protocol=git \
-+           file://lttng-modules-replace-KERNELDIR-with-KERNEL_SRC.patch"
-+
-+export INSTALL_MOD_DIR="kernel/lttng-modules"
-+
-+S = "${WORKDIR}/git"
-+
-+# Due to liburcu not building for MIPS currently this recipe needs to
-+# be limited also.
-+# So here let us first suppport x86/arm/powerpc platforms now.
-+COMPATIBLE_HOST = '(x86_64.*|i.86.*|arm.*|powerpc.*)-linux'
 -- 
 1.7.5.4
 
