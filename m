@@ -1,27 +1,36 @@
-Received: from mga09.intel.com ([134.134.136.24])
+Received: from mail-qy0-f175.google.com ([209.85.216.175])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <josh@linux.intel.com>) id 1Rms3e-0006LE-4i
+	(envelope-from <kergoth@gmail.com>) id 1RmuDM-00020V-1n
 	for openembedded-core@lists.openembedded.org;
-	Mon, 16 Jan 2012 20:17:30 +0100
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-	by orsmga102.jf.intel.com with ESMTP; 16 Jan 2012 11:09:53 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.67,351,1309762800"; d="scan'208";a="99205642"
-Received: from btwarden-mobl1.amr.corp.intel.com (HELO [10.7.199.167])
-	([10.7.199.167])
-	by orsmga002.jf.intel.com with ESMTP; 16 Jan 2012 11:09:53 -0800
-Message-ID: <4F147601.3070902@linux.intel.com>
-Date: Mon, 16 Jan 2012 11:09:53 -0800
-From: Joshua Lock <josh@linux.intel.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:9.0) Gecko/20111222 Thunderbird/9.0
+	Mon, 16 Jan 2012 22:35:40 +0100
+Received: by qcsp14 with SMTP id p14so1585711qcs.6
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 16 Jan 2012 13:28:03 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
+	h=mime-version:sender:in-reply-to:references:from:date
+	:x-google-sender-auth:message-id:subject:to:cc:content-type
+	:content-transfer-encoding;
+	bh=xHzaz0LbK3Wag0QbG4G4x3mQKmIcKlhVzhOzxRhBg0s=;
+	b=DSqIbl39bRj/PseB9mW869WYFnBojXMO8EQPZLGqlDPAF3seXLx326wH4SBqmTzIBX
+	rw5ZBLDygOTGtBSElFOldLVrs2v4lo80SDhR7tiZTXq4EM5UJam1zfzMnJdXt/F1RY7m
+	ddhC+hnC2AX9lKUGLcVJGvrZNF/r+pu+QvXUo=
+Received: by 10.229.102.149 with SMTP id g21mr2727657qco.116.1326749283348;
+	Mon, 16 Jan 2012 13:28:03 -0800 (PST)
 MIME-Version: 1.0
-To: openembedded-core@lists.openembedded.org
+Sender: kergoth@gmail.com
+Received: by 10.229.186.149 with HTTP; Mon, 16 Jan 2012 13:27:42 -0800 (PST)
+In-Reply-To: <4F146249.6080905@linux.intel.com>
 References: <1326225078-18652-1-git-send-email-kergoth@gmail.com>
 	<lyty41ro95.fsf@ensc-virt.intern.sigma-chemnitz.de>
 	<CABcZANkAfrhbi13Mr4jfVmNsfkMG7hVF2KYw-MXN9GZHbKfE9A@mail.gmail.com>
 	<4F146249.6080905@linux.intel.com>
-In-Reply-To: <4F146249.6080905@linux.intel.com>
+From: Chris Larson <clarson@kergoth.com>
+Date: Mon, 16 Jan 2012 14:27:42 -0700
+X-Google-Sender-Auth: snvp3LvrYGuRiYmS6WKkLiQJ2Vk
+Message-ID: <CABcZAN=WQnLKrr=nKO4GZ1wsWO3FHkfyBrSTcZ4rj+=d-9WP6w@mail.gmail.com>
+To: Saul Wold <sgw@linux.intel.com>
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
 Subject: Re: [PATCH] ncurses-native: install to libdir, not base_libdir
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
@@ -37,14 +46,16 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 16 Jan 2012 19:17:30 -0000
-Content-Type: text/plain; charset=ISO-8859-1; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Mon, 16 Jan 2012 21:35:40 -0000
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
-On 16/01/12 09:45, Saul Wold wrote:
+On Mon, Jan 16, 2012 at 10:45 AM, Saul Wold <sgw@linux.intel.com> wrote:
 > On 01/16/2012 07:32 AM, Chris Larson wrote:
+>>
 >> On Thu, Jan 12, 2012 at 7:25 AM, Enrico Scholz
->> <enrico.scholz@sigma-chemnitz.de> wrote:
+>> <enrico.scholz@sigma-chemnitz.de> =C2=A0wrote:
+>>>
 >>> Christopher Larson<kergoth-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
 >>> writes:
 >>>
@@ -52,31 +63,30 @@ On 16/01/12 09:45, Saul Wold wrote:
 >>>> +++ b/meta/recipes-core/ncurses/ncurses.inc
 >>>> ...
 >>>> +# natives don't generally look in base_libdir
->>>> +base_libdir_virtclass-native = "${libdir}"
+>>>> +base_libdir_virtclass-native =3D "${libdir}"
+>>>
 >>>
 >>> I do not think that this should be done per recipe (afais, at least
 >>> libusb is affected by the same issue).
 >>>
->>> Adding '-L<baselibdir>' and the '-Wl,-rpath-link' + '-Wl,-rpath' options
+>>> Adding '-L<baselibdir>' and the '-Wl,-rpath-link' + '-Wl,-rpath' option=
+s
 >>> to BUILD_LDFLAGS would be a more general solution.
+>>
 >>
 >> Alternatively, could simplify the layout of the native sysroot and
 >> adjust things in the native class. It could make a certain amount of
 >> sense, as it makes more sense for our structure for native to match
 >> the host than it does the target.
 >
-> So, Chris, are you going to implement this and do we drop the ncurses
-> patch for now?
+>
+> So, Chris, are you going to implement this and do we drop the ncurses pat=
+ch
+> for now?
 
-We need to merge something to resolve this issue sooner rather than 
-later, I had to apply this change in order to build on a system without 
-ncurses installed.
-
-Cheers,
-Joshua
--- 
-Joshua Lock
-         Yocto Project "Johannes factotum"
-         Intel Open Source Technology Centre
+Enrico sent his general change in a patch series already. Someone will
+need to make the call on the preferred long term solution.
+--=20
+Christopher Larson
 
 
