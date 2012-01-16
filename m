@@ -1,32 +1,30 @@
-Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
-	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <richard.purdie@linuxfoundation.org>)
-	id 1RmlrL-0007An-Qy for openembedded-core@lists.openembedded.org;
-	Mon, 16 Jan 2012 13:40:33 +0100
-Received: from localhost (localhost [127.0.0.1])
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q0GCWiqG019518;
-	Mon, 16 Jan 2012 12:32:44 GMT
-Received: from tim.rpsys.net ([127.0.0.1])
-	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
-	port 10024) with LMTP
-	id 19305-05; Mon, 16 Jan 2012 12:32:40 +0000 (GMT)
-Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q0GCWZ0N019512
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO);
-	Mon, 16 Jan 2012 12:32:36 GMT
-Message-ID: <1326717159.532.2.camel@ted>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
+Received: from mail-tul01m020-f175.google.com ([209.85.214.175])
+	by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <sakoman@gmail.com>) id 1RmnKZ-0001OC-JT
+	for openembedded-core@lists.openembedded.org;
+	Mon, 16 Jan 2012 15:14:39 +0100
+Received: by obcwo8 with SMTP id wo8so1802203obc.6
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 16 Jan 2012 06:07:03 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
+	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
+	:content-type; bh=CaRZI9FidTHq3BGU9oBm9Tg2yGxtUi/GRwk9kjjcs0Q=;
+	b=UDNXbtueGsaW+r4KQGQmb/7bsuWsZ1ZxhsEhLLKK4Xg4fwKHMuU/TZ8qkzgOK/YOJD
+	ZY3CCey57qMjhcKwFEQRBzUvHEsdhLrlST8sdtMbVcyvo6F6+sG8pZ+A7kPvYpw279DY
+	woY7oOsqMQJgFlGgWCLmzt8/PnGwRwoi1lc5Y=
+MIME-Version: 1.0
+Received: by 10.182.225.9 with SMTP id rg9mr11229315obc.4.1326722823099; Mon,
+	16 Jan 2012 06:07:03 -0800 (PST)
+Received: by 10.60.34.138 with HTTP; Mon, 16 Jan 2012 06:07:03 -0800 (PST)
+In-Reply-To: <1326395831-5121-1-git-send-email-koen@dominion.thruhere.net>
+References: <1326395831-5121-1-git-send-email-koen@dominion.thruhere.net>
+Date: Mon, 16 Jan 2012 06:07:03 -0800
+Message-ID: <CAGDS+nkBPfOKsw_w5UpEtk2h4QOqAAt7DocUcpA31BcupEpQ3A@mail.gmail.com>
+From: Steve Sakoman <sakoman@gmail.com>
 To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Date: Mon, 16 Jan 2012 12:32:39 +0000
-In-Reply-To: <4F13AD3B.50902@linux.intel.com>
-References: <1326409412-15507-1-git-send-email-msm@freescale.com>
-	<4F13AD3B.50902@linux.intel.com>
-X-Mailer: Evolution 3.2.2- 
-Mime-Version: 1.0
-X-Virus-Scanned: amavisd-new at rpsys.net
-Cc: Matthew McClintock <msm@freescale.com>
-Subject: Re: [PATCH 1/2] bitbake/fetch2: add support for wrapper command
+	<openembedded-core@lists.openembedded.org>, 
+	Koen Kooi <koen@dominion.thruhere.net>
+Subject: Re: [Patch v3] gconf: enable gtk+ 2.0 support to build gconf-sanity-check-2
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -41,39 +39,16 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 16 Jan 2012 12:40:33 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Mon, 16 Jan 2012 14:14:39 -0000
+Content-Type: text/plain; charset=ISO-8859-1
 
-On Sun, 2012-01-15 at 20:53 -0800, Saul Wold wrote:
-> On 01/12/2012 03:03 PM, Matthew McClintock wrote:
-> > cc: bitbake-devel@lists.openembedded.org
-> > Signed-off-by: Matthew McClintock<msm@freescale.com>
-> > ---
-> >   bitbake/lib/bb/fetch2/__init__.py |    2 ++
-> >   1 files changed, 2 insertions(+), 0 deletions(-)
-> >
-> > diff --git a/bitbake/lib/bb/fetch2/__init__.py b/bitbake/lib/bb/fetch2/__init__.py
-> > index 3af56e5..1d7d5c7 100644
-> > --- a/bitbake/lib/bb/fetch2/__init__.py
-> > +++ b/bitbake/lib/bb/fetch2/__init__.py
-> > @@ -389,6 +389,8 @@ def runfetchcmd(cmd, d, quiet = False, cleanup = []):
-> >       Optionally remove the files/directories listed in cleanup upon failure
-> >       """
-> >
-> > +    cmd = "%s %s" % (bb.data.getVar("BB_FETCH_WRAPPER", d, True), cmd)
-> > +
-> I am guessing you really want a check here if BB_FETCH_WRAPPER is set, 
-> otherwise I am not sure this will work correctly, did you test without 
-> this new variable set?
+On Thu, Jan 12, 2012 at 11:17 AM, Koen Kooi <koen@dominion.thruhere.net> wrote:
+> This is needed for e.g. gnome-session:
+>
+> gnome-session[424]: WARNING: Failed to run gconf-sanity-check-2: Failed to execute child process "/usr/libexec/gconf-sanity-check-2" (No such file or directory)
+>
+> Signed-off-by: Koen Kooi <koen@dominion.thruhere.net>
 
-We've had this conversation on the bitbake list. I think Matthew has an
-alternative fix to use instead of this so we'll likely drop this patch
-anyway.
-
-Cheers,
-
-Richard
-
+Tested-by: Steve Sakoman <steve@sakoman.com>
 
 
