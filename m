@@ -1,26 +1,20 @@
-Received: from mail-wi0-f175.google.com ([209.85.212.175])
+Received: from mga14.intel.com ([143.182.124.37])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <koen@dominion.thruhere.net>) id 1RnFYI-0003vt-B7
+	(envelope-from <nitin.a.kamble@intel.com>) id 1RnFlH-0006RS-Bp
 	for openembedded-core@lists.openembedded.org;
-	Tue, 17 Jan 2012 21:22:42 +0100
-Received: by wibhr14 with SMTP id hr14so8545wib.6
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 17 Jan 2012 12:15:05 -0800 (PST)
-Received: by 10.180.104.5 with SMTP id ga5mr25783864wib.21.1326831304731;
-	Tue, 17 Jan 2012 12:15:04 -0800 (PST)
-Received: from [172.20.1.36] (ip545070eb.adsl-surfen.hetnet.nl.
-	[84.80.112.235])
-	by mx.google.com with ESMTPS id d9sm18833975wiy.2.2012.01.17.12.15.03
-	(version=TLSv1/SSLv3 cipher=OTHER);
-	Tue, 17 Jan 2012 12:15:04 -0800 (PST)
-From: Koen Kooi <koen@dominion.thruhere.net>
-Date: Tue, 17 Jan 2012 21:14:59 +0100
-Message-Id: <0AB83639-9F7B-450B-9F50-5D1951F2F5C2@dominion.thruhere.net>
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Mime-Version: 1.0 (Apple Message framework v1251.1)
-X-Mailer: Apple Mail (2.1251.1)
-Subject: How to avoid spurious RPM dependencies?
+	Tue, 17 Jan 2012 21:36:07 +0100
+Received: from azsmga002.ch.intel.com ([10.2.17.35])
+	by azsmga102.ch.intel.com with ESMTP; 17 Jan 2012 12:28:08 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="57388565"
+Received: from nbuild0.sc.intel.com ([172.25.110.36])
+	by AZSMGA002.ch.intel.com with ESMTP; 17 Jan 2012 12:28:08 -0800
+From: nitin.a.kamble@intel.com
+To: openembedded-core@lists.openembedded.org
+Date: Tue, 17 Jan 2012 12:28:04 -0800
+Message-Id: <cover.1326831402.git.nitin.a.kamble@intel.com>
+X-Mailer: git-send-email 1.7.6.4
+Subject: [PATCH 0/5] Recipes for fixing the grub-efi issue properly
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -35,35 +29,54 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 17 Jan 2012 20:22:42 -0000
-Content-Type: text/plain; charset=us-ascii
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Tue, 17 Jan 2012 20:36:07 -0000
 
-Hi,
+From: Nitin A Kamble <nitin.a.kamble@intel.com>
 
-I'm running into a problem with vim that seems to be caused by overeager =
-rpmdeps:
+These commits fix the grub-efi building issue properly, so that it works on all distros.
 
-| error: Failed dependencies:
-|       /bin/csh is needed by vim-7.2.446-r10.3.armv7a
-|       /usr/local/bin/python is needed by =
-python-imaging-1.1.7-r0.armv7a
+Thanks,
+Nitin
 
-For vim I thing it's being caused by this:
+The following changes since commit 5724ee9c3a99519fea96446638910b727b89898d:
 
-./usr/share/vim/vim72/tools/vim132:1:#!/bin/csh
+  package_rpm.bbclass: Add support for filenames with spaces (2012-01-17 16:20:54 +0000)
 
-What's the best way to stop rpm from wanting csh? Python-imaging is =
-actually broken:
+are available in the git repository at:
+  git://git.pokylinux.org/poky-contrib nitin/misc
+  http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=nitin/misc
 
-./usr/bin/pilfile.py:1:#! /usr/local/bin/python
-./usr/bin/pilprint.py:1:#! /usr/local/bin/python
-./usr/bin/pilconvert.py:1:#! /usr/local/bin/python
+Nitin A Kamble (5):
+  bdwgc: new recipe for autogen
+  libunistring: new recipe for autogen
+  guile: new recipe for autogen
+  autogen-native: new recipe for grub-efi-native
+  grub-efi-native: fix errors with automake 1.11.2
 
-Is #!/usr/bin/env python still the preferred shebang?
+ .../files/grub-1.99_fix_for_automake_1.11.2.patch  | 5808 --------------------
+ meta/recipes-bsp/grub/grub-efi-native_1.99.bb      |    4 +-
+ .../autogen/autogen-native_5.12.bb                 |   24 +
+ ...01-Fix-the-SRFI-60-copy-bit-documentation.patch |   33 +
+ ..._GNU_SOURCE-to-fix-the-GNU-kFreeBSD-build.patch |   25 +
+ ...h-rather-than-gc-gc_version.h-in-pthread-.patch |   26 +
+ .../guile/files/opensuse/guile-64bit.patch         |   38 +
+ .../files/opensuse/guile-turn-off-gc-test.patch    |   48 +
+ meta/recipes-devtools/guile/guile_2.0.3.bb         |   42 +
+ meta/recipes-support/bdwgc/bdwgc_20110107.bb       |   38 +
+ .../libunistring/libunistring_0.9.3.bb             |   27 +
+ 11 files changed, 303 insertions(+), 5810 deletions(-)
+ create mode 100644 meta/recipes-devtools/autogen/autogen-native_5.12.bb
+ create mode 100644 meta/recipes-devtools/guile/files/debian/0001-Fix-the-SRFI-60-copy-bit-documentation.patch
+ create mode 100644 meta/recipes-devtools/guile/files/debian/0002-Define-_GNU_SOURCE-to-fix-the-GNU-kFreeBSD-build.patch
+ create mode 100644 meta/recipes-devtools/guile/files/debian/0003-Include-gc.h-rather-than-gc-gc_version.h-in-pthread-.patch
+ create mode 100644 meta/recipes-devtools/guile/files/opensuse/guile-64bit.patch
+ create mode 100644 meta/recipes-devtools/guile/files/opensuse/guile-turn-off-gc-test.patch
+ create mode 100644 meta/recipes-devtools/guile/guile_2.0.3.bb
+ create mode 100644 meta/recipes-support/bdwgc/bdwgc_20110107.bb
+ create mode 100644 meta/recipes-support/libunistring/libunistring_0.9.3.bb
 
-regards,
+-- 
+1.7.6.4
 
-Koen=
 
 
