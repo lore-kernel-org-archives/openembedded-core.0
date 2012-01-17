@@ -1,27 +1,26 @@
 Received: from mga03.intel.com ([143.182.124.21])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <sgw@linux.intel.com>) id 1RnEyX-0002Yp-EU
+	(envelope-from <sgw@linux.intel.com>) id 1RnEyk-0002as-RZ
 	for openembedded-core@lists.openembedded.org;
-	Tue, 17 Jan 2012 20:45:45 +0100
+	Tue, 17 Jan 2012 20:45:59 +0100
 Received: from azsmga002.ch.intel.com ([10.2.17.35])
-	by azsmga101.ch.intel.com with ESMTP; 17 Jan 2012 11:37:33 -0800
+	by azsmga101.ch.intel.com with ESMTP; 17 Jan 2012 11:38:02 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="57371363"
+X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="57371483"
 Received: from unknown (HELO [10.255.14.6]) ([10.255.14.6])
-	by AZSMGA002.ch.intel.com with ESMTP; 17 Jan 2012 11:37:33 -0800
-Message-ID: <4F15CDFD.8050204@linux.intel.com>
-Date: Tue, 17 Jan 2012 11:37:33 -0800
+	by AZSMGA002.ch.intel.com with ESMTP; 17 Jan 2012 11:38:00 -0800
+Message-ID: <4F15CE18.1080002@linux.intel.com>
+Date: Tue, 17 Jan 2012 11:38:00 -0800
 From: Saul Wold <sgw@linux.intel.com>
 User-Agent: Mozilla/5.0 (X11; Linux x86_64;
 	rv:8.0) Gecko/20111115 Thunderbird/8.0
 MIME-Version: 1.0
-To: Colin Walters <walters@verbum.org>
-References: <1326651241.9066.0.camel@lenny> <4F13A366.1010807@linux.intel.com>
-	<1326812944.3467.46.camel@lenny>
-In-Reply-To: <1326812944.3467.46.camel@lenny>
-Cc: Patches and discussions about the oe-core layer
+To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] libtool: Put all libltdl headers in the correct libltdl-dev package
+References: <1326385824-32201-1-git-send-email-enrico.scholz@sigma-chemnitz.de>
+In-Reply-To: <1326385824-32201-1-git-send-email-enrico.scholz@sigma-chemnitz.de>
+Cc: Enrico Scholz <enrico.scholz@sigma-chemnitz.de>
+Subject: Re: [PATCH] package.bbclass: quote pathname given to objdump
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -36,86 +35,45 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 17 Jan 2012 19:45:45 -0000
-Content-Type: text/plain; charset=UTF-8; format=flowed
+X-List-Received-Date: Tue, 17 Jan 2012 19:45:59 -0000
+Content-Type: text/plain; charset=ISO-8859-1; format=flowed
 Content-Transfer-Encoding: 7bit
 
-On 01/17/2012 07:09 AM, Colin Walters wrote:
-> On Sun, 2012-01-15 at 20:11 -0800, Saul Wold wrote:
->> On 01/15/2012 10:13 AM, Colin Walters wrote:
->>> See attached.
->>>
->>>
->> The current version is 2.4.2 and this requires a PR bump.
+On 01/12/2012 08:30 AM, Enrico Scholz wrote:
+> Packaging will fail with executable files containing spaces in their
+> names. Patch quotes the parameter passed to 'objdump'.
 >
-> Hm, do you want a new patch that bumps the PR?  What are the rules for
-> when a PR should be incremented?
->
-No, I updated your patch for 2.4.2.
-
-The PR bumps required if the output of a package is going to change or a 
-dependee needs to get rebuilt due to the change. Other than comments 
-changing it's commonly required.
-
->> Also, can you use "git send-email" directly instead of sending the patch
->> as an attachment, when sent that way, it requires extra steps to edit
->> the file before applying.
->
-> Ah...the problem is that I'd have to teach git-send-email how to
-> authenticate to my mail server which isn't trivial.  Would a workflow
-> where I paste the patch inline (thus creating whitespace damage), but
-> also link to my github mirror work?  Let's try it with a new patch:
->
-> https://github.com/cgwalters/poky/commit/0255ac2e95bb5230f7fdf1b861be0b97b01f2ecf
->
-Yes, this will work better in the future, let me know the github branch 
-that contains your patch against oe-core or poky master (which ever you 
-prefer).
-
-Thanks
-	Sau!
-
-
->> From 0255ac2e95bb5230f7fdf1b861be0b97b01f2ecf Mon Sep 17 00:00:00 2001
-> From: Colin Walters<walters@verbum.org>
-> Date: Tue, 17 Jan 2012 09:06:28 -0500
-> Subject: [PATCH] zlib: Build and install zlib.pc
->
-> Poky has a fork of the zlib build system which presently installs
-> headers and the shared library, but neglects the zlib.pc file.
-> Several components (e.g. glib, WebKitGtk) look for this, so let's
-> provide it.
+> Signed-off-by: Enrico Scholz<enrico.scholz@sigma-chemnitz.de>
 > ---
->   meta/recipes-core/zlib/files/Makefile.am  |    3 +++
->   meta/recipes-core/zlib/files/configure.ac |    3 ++-
->   2 files changed, 5 insertions(+), 1 deletions(-)
+>   meta/classes/package.bbclass |    4 ++--
+>   1 files changed, 2 insertions(+), 2 deletions(-)
 >
-> diff --git a/meta/recipes-core/zlib/files/Makefile.am
-> b/meta/recipes-core/zlib/files/Makefile.am
-> index b66d299..0458892 100644
-> --- a/meta/recipes-core/zlib/files/Makefile.am
-> +++ b/meta/recipes-core/zlib/files/Makefile.am
-> @@ -7,3 +7,6 @@ libz_la_SOURCES = adler32.c compress.c crc32.c gzlib.c
-> gzclose.c gzread.c \
->   libz_la_LDFLAGS = -version-number 1:2:5 --version-script zlib.map
+> diff --git a/meta/classes/package.bbclass b/meta/classes/package.bbclass
+> index f8f0a12..1088470 100644
+> --- a/meta/classes/package.bbclass
+> +++ b/meta/classes/package.bbclass
+> @@ -1205,7 +1205,7 @@ SHLIBSDIR = "${STAGING_DIR_HOST}/shlibs"
+>   SHLIBSWORKDIR = "${WORKDIR}/shlibs"
 >
->   include_HEADERS = zconf.h zlib.h zlibdefs.h
-> +
-> +pkgconfigdir = ${libdir}/pkgconfig
-> +pkgconfig_DATA = zlib.pc
-> diff --git a/meta/recipes-core/zlib/files/configure.ac
-> b/meta/recipes-core/zlib/files/configure.ac
-> index 4761b7e..5698175 100644
-> --- a/meta/recipes-core/zlib/files/configure.ac
-> +++ b/meta/recipes-core/zlib/files/configure.ac
-> @@ -43,6 +43,7 @@ cat>  zlibdefs.h<<  EOF
->   #endif
->   EOF
+>   python package_do_shlibs() {
+> -	import re
+> +	import re, pipes
 >
-> -AC_CONFIG_FILES([Makefile])
-> +AC_CONFIG_FILES([Makefile
-> +	         zlib.pc])
+>   	exclude_shlibs = d.getVar('EXCLUDE_FROM_SHLIBS', 0)
+>   	if exclude_shlibs:
+> @@ -1234,7 +1234,7 @@ python package_do_shlibs() {
+>   	lf = bb.utils.lockfile(bb.data.expand("${PACKAGELOCK}", d))
 >
->   AC_OUTPUT
+>   	def linux_so(root, path, file):
+> -		cmd = d.getVar('OBJDUMP', True) + " -p " + os.path.join(root, file) + " 2>/dev/null"
+> +		cmd = d.getVar('OBJDUMP', True) + " -p " + pipes.quote(os.path.join(root, file)) + " 2>/dev/null"
+>   		cmd = "PATH=\"%s\" %s" % (d.getVar('PATH', True), cmd)
+>   		fd = os.popen(cmd)
+>   		lines = fd.readlines()
+
+Merged into OE-Core
+
+Thanks	
+	Sau!
 
 
