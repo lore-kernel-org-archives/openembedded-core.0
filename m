@@ -1,24 +1,24 @@
 Received: from mga14.intel.com ([143.182.124.37])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <sgw@linux.intel.com>) id 1Rn4az-0006h6-Sj
+	(envelope-from <sgw@linux.intel.com>) id 1Rn4az-0006h2-Cg
 	for openembedded-core@lists.openembedded.org;
-	Tue, 17 Jan 2012 09:40:46 +0100
+	Tue, 17 Jan 2012 09:40:45 +0100
 Received: from azsmga001.ch.intel.com ([10.2.17.19])
 	by azsmga102.ch.intel.com with ESMTP; 17 Jan 2012 00:33:02 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="96632982"
+X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="96632977"
 Received: from unknown (HELO swold-mobl.bigsur.com) ([10.255.14.6])
-	by azsmga001.ch.intel.com with ESMTP; 17 Jan 2012 00:33:02 -0800
+	by azsmga001.ch.intel.com with ESMTP; 17 Jan 2012 00:33:01 -0800
 From: Saul Wold <sgw@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Tue, 17 Jan 2012 00:32:19 -0800
-Message-Id: <9a1996e4251ca66eb982f8aa1534adac04dec592.1326786990.git.sgw@linux.intel.com>
+Date: Tue, 17 Jan 2012 00:32:18 -0800
+Message-Id: <4f563970825b820059d273706be1b79517620372.1326786990.git.sgw@linux.intel.com>
 X-Mailer: git-send-email 1.7.6.5
 In-Reply-To: <cover.1326786989.git.sgw@linux.intel.com>
 References: <cover.1326786989.git.sgw@linux.intel.com>
 In-Reply-To: <cover.1326786989.git.sgw@linux.intel.com>
 References: <cover.1326786989.git.sgw@linux.intel.com>
-Subject: [CONSOLIDATED PULL 34/62] image_types_uboot.bbclass: Add uncompressed ext2 image option
+Subject: [CONSOLIDATED PULL 33/62] image_types.bbclass: Fix generating uncompressed ext2 images
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -39,30 +39,27 @@ From: Matthew McClintock <msm@freescale.com>
 
 Signed-off-by: Matthew McClintock <msm@freescale.com>
 ---
- meta/classes/image_types_uboot.bbclass |    6 +++++-
- 1 files changed, 5 insertions(+), 1 deletions(-)
+ meta/classes/image_types.bbclass |    7 ++++++-
+ 1 files changed, 6 insertions(+), 1 deletions(-)
 
-diff --git a/meta/classes/image_types_uboot.bbclass b/meta/classes/image_types_uboot.bbclass
-index 65dc91b..8d1081c 100644
---- a/meta/classes/image_types_uboot.bbclass
-+++ b/meta/classes/image_types_uboot.bbclass
-@@ -5,6 +5,10 @@ oe_mkimage () {
-         -d ${DEPLOY_DIR_IMAGE}/$1 ${DEPLOY_DIR_IMAGE}/$1.u-boot
- }
+diff --git a/meta/classes/image_types.bbclass b/meta/classes/image_types.bbclass
+index 3010549..4908ed9 100644
+--- a/meta/classes/image_types.bbclass
++++ b/meta/classes/image_types.bbclass
+@@ -40,7 +40,12 @@ IMAGE_CMD_sum.jffs2 = "${IMAGE_CMD_jffs2} && sumtool -i ${DEPLOY_DIR_IMAGE}/${IM
  
-+IMAGE_DEPENDS_ext2.u-boot = "genext2fs-native e2fsprogs-native u-boot-mkimage-native"
-+IMAGE_CMD_ext2.u-boot      = "${IMAGE_CMD_ext2} \
-+                                 oe_mkimage ${IMAGE_NAME}.rootfs.ext2 none"
-+
- IMAGE_DEPENDS_ext2.gz.u-boot = "genext2fs-native e2fsprogs-native u-boot-mkimage-native"
- IMAGE_CMD_ext2.gz.u-boot      = "${IMAGE_CMD_ext2.gz} \
-                                  oe_mkimage ${IMAGE_NAME}.rootfs.ext2.gz gzip"
-@@ -25,4 +29,4 @@ IMAGE_DEPENDS_ext4.gz.u-boot = "genext2fs-native e2fsprogs-native u-boot-mkimage
- IMAGE_CMD_ext4.gz.u-boot      = "${IMAGE_CMD_ext4.gz} \
-                                  oe_mkimage ${IMAGE_NAME}.rootfs.ext4.gz gzip"
+ IMAGE_CMD_cramfs = "mkcramfs ${IMAGE_ROOTFS} ${DEPLOY_DIR_IMAGE}/${IMAGE_NAME}.rootfs.cramfs ${EXTRA_IMAGECMD}"
  
--IMAGE_TYPES += "ext2.gz.u-boot ext2.bz2.u-boot ext2.lzma.u-boot ext3.gz.u-boot ext4.gz.u-boot"
-+IMAGE_TYPES += "ext2.u-boot ext2.gz.u-boot ext2.bz2.u-boot ext2.lzma.u-boot ext3.gz.u-boot ext4.gz.u-boot"
+-IMAGE_CMD_ext2 = "genext2fs -b $ROOTFS_SIZE -i 4096 -d ${IMAGE_ROOTFS} ${EXTRA_IMAGECMD} ${DEPLOY_DIR_IMAGE}/${IMAGE_NAME}.rootfs.ext2"
++IMAGE_CMD_ext2 () {
++	rm -rf ${DEPLOY_DIR_IMAGE}/tmp.gz-${PN} && mkdir ${DEPLOY_DIR_IMAGE}/tmp.gz-${PN}
++	genext2fs -b $ROOTFS_SIZE -d ${IMAGE_ROOTFS} ${EXTRA_IMAGECMD} ${DEPLOY_DIR_IMAGE}/tmp.gz-${PN}/${IMAGE_NAME}.rootfs.ext2
++	mv ${DEPLOY_DIR_IMAGE}/tmp.gz-${PN}/${IMAGE_NAME}.rootfs.ext2 ${DEPLOY_DIR_IMAGE}/${IMAGE_NAME}.rootfs.ext2
++	rmdir ${DEPLOY_DIR_IMAGE}/tmp.gz-${PN}
++}
+ IMAGE_CMD_ext2.gz () {
+ 	rm -rf ${DEPLOY_DIR_IMAGE}/tmp.gz-${PN} && mkdir ${DEPLOY_DIR_IMAGE}/tmp.gz-${PN}
+ 	genext2fs -b $ROOTFS_SIZE -i 4096 -d ${IMAGE_ROOTFS} ${EXTRA_IMAGECMD} ${DEPLOY_DIR_IMAGE}/tmp.gz-${PN}/${IMAGE_NAME}.rootfs.ext2
 -- 
 1.7.6.5
 
