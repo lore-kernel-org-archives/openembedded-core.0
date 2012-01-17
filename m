@@ -1,24 +1,24 @@
 Received: from mga14.intel.com ([143.182.124.37])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <sgw@linux.intel.com>) id 1Rn4ax-0006h2-3a
+	(envelope-from <sgw@linux.intel.com>) id 1Rn4ay-0006iI-21
 	for openembedded-core@lists.openembedded.org;
-	Tue, 17 Jan 2012 09:40:43 +0100
+	Tue, 17 Jan 2012 09:40:45 +0100
 Received: from azsmga001.ch.intel.com ([10.2.17.19])
-	by azsmga102.ch.intel.com with ESMTP; 17 Jan 2012 00:33:00 -0800
+	by azsmga102.ch.intel.com with ESMTP; 17 Jan 2012 00:33:01 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="96632956"
+X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="96632973"
 Received: from unknown (HELO swold-mobl.bigsur.com) ([10.255.14.6])
-	by azsmga001.ch.intel.com with ESMTP; 17 Jan 2012 00:33:00 -0800
+	by azsmga001.ch.intel.com with ESMTP; 17 Jan 2012 00:33:01 -0800
 From: Saul Wold <sgw@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Tue, 17 Jan 2012 00:32:14 -0800
-Message-Id: <840eb8c54b5025fea00cfedf849c3386be10e1ee.1326786990.git.sgw@linux.intel.com>
+Date: Tue, 17 Jan 2012 00:32:17 -0800
+Message-Id: <de20f91865bd7468994ce1a596fa93cc19663ee8.1326786990.git.sgw@linux.intel.com>
 X-Mailer: git-send-email 1.7.6.5
 In-Reply-To: <cover.1326786989.git.sgw@linux.intel.com>
 References: <cover.1326786989.git.sgw@linux.intel.com>
 In-Reply-To: <cover.1326786989.git.sgw@linux.intel.com>
 References: <cover.1326786989.git.sgw@linux.intel.com>
-Subject: [CONSOLIDATED PULL 29/62] xorg-*: disable xmlto where it was failing
+Subject: [CONSOLIDATED PULL 32/62] dbus-1.4.16: use INC_PR from dbus.inc to fix PR bump after dbus-launch-helper permission change
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -33,57 +33,27 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 17 Jan 2012 08:40:45 -0000
+X-List-Received-Date: Tue, 17 Jan 2012 08:40:46 -0000
 
-From: Martin Jansa <Martin.Jansa@gmail.com>
-
-* meta-oe now provides xmlto-native
-  http://git.openembedded.org/meta-openembedded/commit/?id=ab8f876ca8fa223c183e3db2029cce88f3435a27
-  but not the stylesheets for buildhosts without them it's unusable and fails, because xorg macros
-  autodetecting xmlto available, see:
-  http://lists.linuxtogo.org/pipermail/openembedded-devel/2011-December/037066.html
-  after adding xmlto-native and stylesheets-native to DEPENDS we can enable it again
+From: Martin Jansa <martin.jansa@gmail.com>
 
 Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
 ---
- meta/recipes-graphics/xorg-lib/xorg-lib-common.inc |    2 +-
- .../xorg-proto/xorg-proto-common.inc               |    2 +-
- .../recipes-graphics/xorg-xserver/xserver-xorg.inc |    1 +
- 3 files changed, 3 insertions(+), 2 deletions(-)
+ meta/recipes-core/dbus/dbus_1.4.16.bb |    2 ++
+ 1 files changed, 2 insertions(+), 0 deletions(-)
 
-diff --git a/meta/recipes-graphics/xorg-lib/xorg-lib-common.inc b/meta/recipes-graphics/xorg-lib/xorg-lib-common.inc
-index d843d65..d106054 100644
---- a/meta/recipes-graphics/xorg-lib/xorg-lib-common.inc
-+++ b/meta/recipes-graphics/xorg-lib/xorg-lib-common.inc
-@@ -13,4 +13,4 @@ S = "${WORKDIR}/${XORG_PN}-${PV}"
+diff --git a/meta/recipes-core/dbus/dbus_1.4.16.bb b/meta/recipes-core/dbus/dbus_1.4.16.bb
+index f87f266..3cf8bb8 100644
+--- a/meta/recipes-core/dbus/dbus_1.4.16.bb
++++ b/meta/recipes-core/dbus/dbus_1.4.16.bb
+@@ -1,5 +1,7 @@
+ include dbus.inc
  
- inherit autotools pkgconfig
++PR = "${INC_PR}.0"
++
+ SRC_URI[md5sum] = "44a2a10678e7e50460879c3eb4453a65"
+ SRC_URI[sha256sum] = "1d8ee6262f8cc2148f06578eee522c755ba0896206b3464ca9bdc84f411b29c6"
  
--EXTRA_OECONF = "--enable-malloc0returnsnull --with-fop=no"
-+EXTRA_OECONF = "--enable-malloc0returnsnull --with-fop=no --without-xmlto"
-diff --git a/meta/recipes-graphics/xorg-proto/xorg-proto-common.inc b/meta/recipes-graphics/xorg-proto/xorg-proto-common.inc
-index 765e30a..856f4d8 100644
---- a/meta/recipes-graphics/xorg-proto/xorg-proto-common.inc
-+++ b/meta/recipes-graphics/xorg-proto/xorg-proto-common.inc
-@@ -14,7 +14,7 @@ S = "${WORKDIR}/${XORG_PN}-${PV}"
- DEPENDS = "util-macros"
- 
- inherit autotools pkgconfig
--EXTRA_OECONF = "--with-fop=no"
-+EXTRA_OECONF = "--with-fop=no --without-xmlto"
- 
- # ${PN} is empty so we need to tweak -dev and -dbg package dependencies
- RDEPENDS_${PN}-dev = ""
-diff --git a/meta/recipes-graphics/xorg-xserver/xserver-xorg.inc b/meta/recipes-graphics/xorg-xserver/xserver-xorg.inc
-index b387790..ca7d33a 100644
---- a/meta/recipes-graphics/xorg-xserver/xserver-xorg.inc
-+++ b/meta/recipes-graphics/xorg-xserver/xserver-xorg.inc
-@@ -9,4 +9,5 @@ EXTRA_OECONF += "\
-                  --enable-glx-tls \
-                  --with-pic \
-                  --with-int10=x86emu \
-+                 --without-xmlto \
- "
 -- 
 1.7.6.5
 
