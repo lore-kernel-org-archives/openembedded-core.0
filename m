@@ -1,16 +1,33 @@
-Received: from smtp206.alice.it ([82.57.200.102])
-	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <andrea.adami@gmail.com>) id 1RnIGJ-0005T9-8k
-	for openembedded-core@lists.openembedded.org;
-	Wed, 18 Jan 2012 00:16:19 +0100
-Received: from mizar.localdomain (87.5.74.30) by smtp206.alice.it (8.6.023.02)
-	id 4ECA6079080343AF; Wed, 18 Jan 2012 00:03:37 +0100
-From: Andrea Adami <andrea.adami@gmail.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Wed, 18 Jan 2012 00:03:31 +0100
-Message-Id: <1326841411-6369-1-git-send-email-andrea.adami@gmail.com>
-X-Mailer: git-send-email 1.7.3.4
-Subject: [PATCH] xinput: add utility for configuring and testing XInput devices.
+Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
+	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <richard.purdie@linuxfoundation.org>)
+	id 1RnILg-0005ZJ-Fx for openembedded-core@lists.openembedded.org;
+	Wed, 18 Jan 2012 00:21:52 +0100
+Received: from localhost (localhost [127.0.0.1])
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q0HNE9bU013084;
+	Tue, 17 Jan 2012 23:14:09 GMT
+Received: from tim.rpsys.net ([127.0.0.1])
+	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
+	port 10024) with LMTP
+	id 12556-05; Tue, 17 Jan 2012 23:14:04 +0000 (GMT)
+Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q0HNDxj9013078
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO);
+	Tue, 17 Jan 2012 23:14:00 GMT
+Message-ID: <1326842038.2529.4.camel@ted>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Date: Tue, 17 Jan 2012 23:13:58 +0000
+In-Reply-To: <1427429.26ZIzxQgNj@helios>
+References: <cover.1322061836.git.paul.eggleton@linux.intel.com>
+	<1322068148.15626.15.camel@ted> <1412695.vvBBPeJL4B@helios>
+	<1427429.26ZIzxQgNj@helios>
+X-Mailer: Evolution 3.2.2- 
+Mime-Version: 1.0
+X-Virus-Scanned: amavisd-new at rpsys.net
+Cc: Koen Kooi <koen@dominion.thruhere.net>, Phil Blundell <philb@gnu.org>
+Subject: Process for New DISTRO_FEATURES (was: Re: [PATCH 0/3] Make pulseaudio a DISTRO_FEATURE)
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -25,40 +42,70 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 17 Jan 2012 23:16:19 -0000
+X-List-Received-Date: Tue, 17 Jan 2012 23:21:52 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-* from meta-openembedded with minor editings
-* added PE and reset PR
+On Mon, 2012-01-16 at 17:58 +0000, Paul Eggleton wrote:
+> On Thursday 29 December 2011 12:55:56 Paul Eggleton wrote:
+> > On Wednesday 23 November 2011 17:09:08 Richard Purdie wrote:
+> > > On Wed, 2011-11-23 at 16:48 +0000, Phil Blundell wrote:
+> > > > b) introduce some sort of concept of "feature epochs", where the
+> > > > DISTRO
+> > > > gets to declare what epoch it is expecting and the compatibility
+> > > > code
+> > > > then backfills DISTRO_FEATURES to take account of things that were
+> > > > enabled by default in past epochs but have since been removed.  This
+> > > > introduces a certain extra maintenance burden but it means that
+> > > > DISTROs
+> > > > will no longer get unpleasant surprises
+> > > 
+> > > I'm wondering if we can do something in the core like:
+> > > 
+> > > DISTRO_FEATURES_BACKFILLOPTS = "pulseaudio"
+> > > 
+> > > and have the distro set:
+> > > 
+> > > DISTRO_FEATURES_BACKFILLCONSIDERED = ""
+> > > 
+> > > and then add some code which looks for anything in
+> > > DISTRO_FEATURES_BACKFILLOPTS but not in
+> > > DISTRO_FEATURES_BACKFILLCONSIDERED and adds it to DISTRO_FEATURES.
+> > > 
+> > > Distros can then opt out of a given feature by adding it to
+> > > DISTRO_FEATURES_BACKFILLCONSIDERED.
+> > > 
+> > > This would let us maintain compatibility but also move forward and
+> > > create new settings with names that make sense.
+> > 
+> > I'd like to try to move forward with this fix (although I prefer an
+> > alternative term to "backfill", perhaps "introduce" instead?) If this is
+> > what we want to do, should it be implemented by:
+> > 
+> > (a) modifying DISTRO_FEATURES directly (as I think Richard is suggesting),
+> > or
+> > 
+> > (b) a simple python call that the distro needs to add to their own
+> > DISTRO_FEATURES (i.e. "${@distro_features_introduce(d)}" ?
+> > 
+> > Option (a) is a little tidier but (b) makes it obvious where any introduced
+> > items in DISTRO_FEATURES are coming from.
+> 
+> This was brought up at the last TSC meeting, but we agreed to leave the 
+> discussion on the mailing list for the moment.
+> 
+> So, any thoughts?
 
-Signed-off-by: Andrea Adami <andrea.adami@gmail.com>
----
- meta/recipes-graphics/xorg-app/xinput_1.5.3.bb |   15 +++++++++++++++
- 1 files changed, 15 insertions(+), 0 deletions(-)
- create mode 100644 meta/recipes-graphics/xorg-app/xinput_1.5.3.bb
+In the intervening time I haven't come up with anything better. I would
+like to move forward on this issue. I think the main thing is to
+document the variables clearly. The names aren't brilliant but with
+reasonable comments we should be ok...
 
-diff --git a/meta/recipes-graphics/xorg-app/xinput_1.5.3.bb b/meta/recipes-graphics/xorg-app/xinput_1.5.3.bb
-new file mode 100644
-index 0000000..c9925f1
---- /dev/null
-+++ b/meta/recipes-graphics/xorg-app/xinput_1.5.3.bb
-@@ -0,0 +1,15 @@
-+require xorg-app-common.inc
-+
-+SUMMARY = "Runtime configuration and test of XInput devices"
-+
-+DESCRIPTION = "Xinput is an utility for configuring and testing XInput devices"
-+
-+LIC_FILES_CHKSUM = "file://COPYING;md5=22c34ea36136407a77702a8b784f9bd0"
-+
-+DEPENDS += " libxi"
-+
-+PR = "r0"
-+PE = "1"
-+
-+SRC_URI[md5sum] = "1e2f0ad4f3fa833b65c568907f171d28"
-+SRC_URI[sha256sum] = "6aade131cecddaeefc39ddce1dd5e8473f6039c2e4efbfd9fbb5ee2a75885c76"
--- 
-1.7.3.4
+Cheers,
+
+Richard
+
+
 
 
 
