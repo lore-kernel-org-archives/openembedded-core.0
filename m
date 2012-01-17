@@ -1,31 +1,26 @@
-Received: from mga10.intel.com ([192.55.52.92] helo=fmsmga102.fm.intel.com)
+Received: from mga02.intel.com ([134.134.136.20])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <saul.wold@intel.com>) id 1RnEqZ-0002J3-Kv
+	(envelope-from <sgw@linux.intel.com>) id 1RnEqt-0002Lx-G0
 	for openembedded-core@lists.openembedded.org;
-	Tue, 17 Jan 2012 20:37:31 +0100
-Received: from mail-iy0-f180.google.com ([209.85.210.180])
-	by mga11.intel.com with ESMTP/TLS/RC4-SHA; 17 Jan 2012 11:28:47 -0800
-Received: by iaby26 with SMTP id y26so3913873iab.25
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 17 Jan 2012 11:28:47 -0800 (PST)
-Received: by 10.50.51.199 with SMTP id m7mr16327926igo.23.1326828527310;
-	Tue, 17 Jan 2012 11:28:47 -0800 (PST)
-Received: from [10.6.18.223] (c-71-193-189-117.hsd1.wa.comcast.net.
-	[71.193.189.117])
-	by mx.google.com with ESMTPS id l35sm80347407ibj.0.2012.01.17.11.28.45
-	(version=SSLv3 cipher=OTHER); Tue, 17 Jan 2012 11:28:45 -0800 (PST)
-Message-ID: <4F15CBEC.3080607@intel.com>
-Date: Tue, 17 Jan 2012 11:28:44 -0800
-From: Saul Wold <saul.wold@intel.com>
-Organization: Intel
+	Tue, 17 Jan 2012 20:37:51 +0100
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+	by orsmga101.jf.intel.com with ESMTP; 17 Jan 2012 11:30:12 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.67,352,1309762800"; d="scan'208";a="97530467"
+Received: from unknown (HELO [10.255.14.6]) ([10.255.14.6])
+	by orsmga001.jf.intel.com with ESMTP; 17 Jan 2012 11:30:11 -0800
+Message-ID: <4F15CC43.7090409@linux.intel.com>
+Date: Tue, 17 Jan 2012 11:30:11 -0800
+From: Saul Wold <sgw@linux.intel.com>
 User-Agent: Mozilla/5.0 (X11; Linux x86_64;
 	rv:8.0) Gecko/20111115 Thunderbird/8.0
 MIME-Version: 1.0
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-References: <cover.1326307011.git.bruce.ashfield@windriver.com>
-In-Reply-To: <cover.1326307011.git.bruce.ashfield@windriver.com>
-Subject: Re: [PATCH 0/5] linux-yocto: consolidated pull request
+References: <1326713895-6307-1-git-send-email-b39320@freescale.com>
+In-Reply-To: <1326713895-6307-1-git-send-email-b39320@freescale.com>
+Cc: Aneesh Bansal <aneesh.bansal@freescale.com>
+Subject: Re: [PATCH] add mfatbu/mfatbl instructions support in Valgrind
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -40,71 +35,141 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 17 Jan 2012 19:37:31 -0000
+X-List-Received-Date: Tue, 17 Jan 2012 19:37:51 -0000
 Content-Type: text/plain; charset=ISO-8859-1; format=flowed
 Content-Transfer-Encoding: 7bit
 
-On 01/11/2012 10:52 AM, Bruce Ashfield wrote:
-> Richard/Saul,
+On 01/16/2012 03:38 AM, b39320@freescale.com wrote:
+> From: Aneesh Bansal<aneesh.bansal@freescale.com>
 >
-> Since this is a stabilization week, this probably can't be merged
-> immediately, but I've been working with this enough to call it
-> good enough, and me sitting on them longer doesn't help.
+> Upstream Status : Pending
 >
-> The first change in this series is the switch of qemuppc from prep to
-> mac99. With this, we'll close a whole set of issues (slow bootup) and
-> close a feature gap that has existed for a while.
->
-> I'm seeing a bit of strangeness with the mouse in my sato testing,
-> but that's about it. Liming hasn't seen the same issues, so getting
-> this into the tree will allow us to incrementally improve and debug
-> this.
->
-> The second change is a SRCREV update pulls in the forward looking
-> fix from Khem and a fix from Zumeng that fixes a failed ltp/mm test
-> that was found on the routerstationpro.
->
-> Cheers,
->
-> Bruce
->
-> cc: Khem Raj<raj.khem@gmail.com>
-> cc: Zumeng Chen<zumeng.chen@windriver.com>
-> cc: Liming Wang<liming.wang@windriver.com>
->
-> The following changes since commit 18c88fcec85f96d2495457928be913807971aea7:
->
->    package.bbclass: per recipe PRSERV_HOST support (2012-01-11 10:37:43 +0000)
->
-> are available in the git repository at:
->    git://git.pokylinux.org/poky-contrib zedd/kernel
->    http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=zedd/kernel
->
-> Bruce Ashfield (1):
->    linux-yocto: consolidated fix SRCREV updates
->
-> Liming Wang (4):
->    qemuppc: replace emulation of qemuppc from prep to mac99
->    qemuppc: add pointercal file
->    qemuppc: add machconfig
->    tslib: enable big endian support for qemuppc
->
->   meta/conf/machine/qemuppc.conf                     |    2 +-
->   .../formfactor/files/qemuppc/machconfig            |   10 ++++++++++
->   .../pointercal/files/qemuppc/pointercal            |  Bin 0 ->  36 bytes
->   meta/recipes-graphics/tslib/tslib_1.0.bb           |    1 +
->   meta/recipes-kernel/linux/linux-yocto-rt_3.0.bb    |    6 +++---
->   meta/recipes-kernel/linux/linux-yocto_3.0.bb       |   15 ++++++++-------
->   scripts/runqemu                                    |    7 +------
->   scripts/runqemu-internal                           |   16 ++++++++--------
->   8 files changed, 32 insertions(+), 25 deletions(-)
->   create mode 100755 meta/recipes-bsp/formfactor/files/qemuppc/machconfig
->   create mode 100644 meta/recipes-bsp/pointercal/files/qemuppc/pointercal
->
-Merged into OE-Core
+Merged into OE-Core, as was noted the commit message was modified
+and the Upstream-Status: should be in the patch file itself not in the 
+git commit message
 
 Thanks
 	Sau!
 
+> ---
+>   ...upport-for-PPC-instructions-mfatbu-mfatbl.patch |   94 ++++++++++++++++++++
+>   meta/recipes-devtools/valgrind/valgrind_3.7.0.bb   |    3 +-
+>   2 files changed, 96 insertions(+), 1 deletions(-)
+>   create mode 100644 meta/recipes-devtools/valgrind/valgrind-3.7.0/Added-support-for-PPC-instructions-mfatbu-mfatbl.patch
+>
+> diff --git a/meta/recipes-devtools/valgrind/valgrind-3.7.0/Added-support-for-PPC-instructions-mfatbu-mfatbl.patch b/meta/recipes-devtools/valgrind/valgrind-3.7.0/Added-support-for-PPC-instructions-mfatbu-mfatbl.patch
+> new file mode 100644
+> index 0000000..ca66bc7
+> --- /dev/null
+> +++ b/meta/recipes-devtools/valgrind/valgrind-3.7.0/Added-support-for-PPC-instructions-mfatbu-mfatbl.patch
+> @@ -0,0 +1,94 @@
+> +From 0bf4b0ac18d1ea41b32ad781d214b295ca1998f3 Mon Sep 17 00:00:00 2001
+> +From: Aneesh Bansal<aneesh.bansal@freescale.com>
+> +Date: Mon, 21 Nov 2011 17:31:39 +0530
+> +Subject: [PATCH] Added support for PPC instructions mfatbu, mfatbl.
+> +
+> +Signed-off-by: Aneesh Bansal<aneesh.bansal@freescale.com>
+> +---
+> +Currently Valgrind 3.7.0 does not have support for PPC instructions mfatbu and mfatbl. When we run a USDPAA application with VALGRIND, the following error is given by valgrind :
+> +dis_proc_ctl(ppc)(mfspr,SPR)(0x20F)
+> +disInstr(ppc): unhandled instruction: 0x7C0F82A6
+> +
+> +
+> + VEX/priv/guest_ppc_defs.h    |    2 ++
+> + VEX/priv/guest_ppc_helpers.c |   18 ++++++++++++++++++
+> + VEX/priv/guest_ppc_toIR.c    |   22 ++++++++++++++++++++++
+> + 3 files changed, 42 insertions(+), 0 deletions(-)
+> +
+> +diff --git a/VEX/priv/guest_ppc_defs.h b/VEX/priv/guest_ppc_defs.h
+> +index dd3c62e..11a34aa 100644
+> +--- a/VEX/priv/guest_ppc_defs.h
+> ++++ b/VEX/priv/guest_ppc_defs.h
+> +@@ -146,6 +146,8 @@ extern UInt ppc32g_dirtyhelper_MFSPR_268_269 ( UInt );
+> +
+> + extern UInt ppc32g_dirtyhelper_MFSPR_287 ( void );
+> +
+> ++extern UInt ppc32g_dirtyhelper_MFSPR_526_527 ( UInt );
+> ++
+> + extern void ppc32g_dirtyhelper_LVS ( VexGuestPPC32State* gst,
+> +                                      UInt vD_idx, UInt sh,
+> +                                      UInt shift_right );
+> +diff --git a/VEX/priv/guest_ppc_helpers.c b/VEX/priv/guest_ppc_helpers.c
+> +index 11aa428..b49ea3f 100644
+> +--- a/VEX/priv/guest_ppc_helpers.c
+> ++++ b/VEX/priv/guest_ppc_helpers.c
+> +@@ -119,6 +119,24 @@ UInt ppc32g_dirtyhelper_MFSPR_287 ( void )
+> + #  endif
+> + }
+> +
+> ++/* CALLED FROM GENERATED CODE */
+> ++/* DIRTY HELPER (non-referentially transparent) */
+> ++UInt ppc32g_dirtyhelper_MFSPR_526_527 ( UInt r527 )
+> ++{
+> ++#  if defined(__powerpc__) || defined(_AIX)
+> ++   UInt spr;
+> ++   if (r527) {
+> ++      __asm__ __volatile__("mfspr %0,527" : "=b"(spr));
+> ++   } else {
+> ++      __asm__ __volatile__("mfspr %0,526" : "=b"(spr));
+> ++   }
+> ++   return spr;
+> ++#  else
+> ++   return 0;
+> ++#  endif
+> ++}
+> ++
+> ++
+> +
+> + /* CALLED FROM GENERATED CODE */
+> + /* DIRTY HELPER (reads guest state, writes guest mem) */
+> +diff --git a/VEX/priv/guest_ppc_toIR.c b/VEX/priv/guest_ppc_toIR.c
+> +index f8d220d..37c8974 100644
+> +--- a/VEX/priv/guest_ppc_toIR.c
+> ++++ b/VEX/priv/guest_ppc_toIR.c
+> +@@ -5657,6 +5657,28 @@ static Bool dis_proc_ctl ( VexAbiInfo* vbi, UInt theInstr )
+> +          break;
+> +       }
+> +
+> ++
+> ++      case 526 /* 0x20E */:
+> ++      case 527 /* 0x20F */: {
+> ++         UInt     arg  = SPR==526 ? 0 : 1;
+> ++         IRTemp   val  = newTemp(Ity_I32);
+> ++         IRExpr** args = mkIRExprVec_1( mkU32(arg) );
+> ++         IRDirty* d    = unsafeIRDirty_1_N(
+> ++                            val,
+> ++                            0/*regparms*/,
+> ++                            "ppc32g_dirtyhelper_MFSPR_526_527",
+> ++                            fnptr_to_fnentry
+> ++                               (vbi,&ppc32g_dirtyhelper_MFSPR_526_527),
+> ++                            args
+> ++                         );
+> ++         /* execute the dirty call, dumping the result in val. */
+> ++         stmt( IRStmt_Dirty(d) );
+> ++         putIReg( rD_addr,
+> ++                  mkWidenFrom32(ty, mkexpr(val), False/*unsigned*/) );
+> ++         DIP("mfspr r%u,%u", rD_addr, (UInt)SPR);
+> ++         break;
+> ++      }
+> ++
+> +       default:
+> +          vex_printf("dis_proc_ctl(ppc)(mfspr,SPR)(0x%x)\n", SPR);
+> +          return False;
+> +--
+> +1.7.0.4
+> diff --git a/meta/recipes-devtools/valgrind/valgrind_3.7.0.bb b/meta/recipes-devtools/valgrind/valgrind_3.7.0.bb
+> index d2c4467..858bf3d 100644
+> --- a/meta/recipes-devtools/valgrind/valgrind_3.7.0.bb
+> +++ b/meta/recipes-devtools/valgrind/valgrind_3.7.0.bb
+> @@ -14,7 +14,8 @@ SRC_URI = "http://www.valgrind.org/downloads/valgrind-${PV}.tar.bz2 \
+>              file://fix_unsupporting_kernel_3.patch \
+>              file://fixed-perl-path.patch \
+>              file://fix_for_automake_1.11.2.patch \
+> -           file://configure-fix.patch"
+> +           file://configure-fix.patch \
+> +           file://Added-support-for-PPC-instructions-mfatbu-mfatbl.patch"
+>
+>   SRC_URI[md5sum] = "a855fda56edf05614f099dca316d1775"
+>   SRC_URI[sha256sum] = "5d62c0330f1481fe2c593249192fa68ff454c19c34343978cc9ce91aa324cbf6"
 
 
