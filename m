@@ -1,26 +1,34 @@
-Received: from mail-we0-f175.google.com ([74.125.82.175])
-	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <koen@dominion.thruhere.net>) id 1RnAXE-0000AR-4g
-	for openembedded-core@lists.openembedded.org;
-	Tue, 17 Jan 2012 16:01:16 +0100
-Received: by werb12 with SMTP id b12so130443wer.6
+Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
+	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <richard.purdie@linuxfoundation.org>)
+	id 1RnAXs-0000Cj-PY for openembedded-core@lists.openembedded.org;
+	Tue, 17 Jan 2012 16:01:56 +0100
+Received: from localhost (localhost [127.0.0.1])
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q0HEsKDg005798
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 17 Jan 2012 06:53:39 -0800 (PST)
-Received: by 10.216.136.23 with SMTP id v23mr5976271wei.48.1326812019113;
-	Tue, 17 Jan 2012 06:53:39 -0800 (PST)
-Received: from [172.20.1.36] (ip545070eb.adsl-surfen.hetnet.nl.
-	[84.80.112.235])
-	by mx.google.com with ESMTPS id eb2sm17253604wib.0.2012.01.17.06.53.37
-	(version=TLSv1/SSLv3 cipher=OTHER);
-	Tue, 17 Jan 2012 06:53:38 -0800 (PST)
-From: Koen Kooi <koen@dominion.thruhere.net>
-Date: Tue, 17 Jan 2012 15:53:32 +0100
-Message-Id: <E37251D2-AC3E-44C0-BA37-7CD0579E6E3B@dominion.thruhere.net>
+	Tue, 17 Jan 2012 14:54:20 GMT
+Received: from tim.rpsys.net ([127.0.0.1])
+	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
+	port 10024) with LMTP
+	id 03805-09 for <openembedded-core@lists.openembedded.org>;
+	Tue, 17 Jan 2012 14:54:15 +0000 (GMT)
+Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q0HEsDqv005792
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO)
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 17 Jan 2012 14:54:14 GMT
+Message-ID: <1326812058.2933.69.camel@ted>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Mime-Version: 1.0 (Apple Message framework v1251.1)
-X-Mailer: Apple Mail (2.1251.1)
-Subject: RPM and spaces in filenames?
+Date: Tue, 17 Jan 2012 14:54:18 +0000
+In-Reply-To: <5e9bdd7a86b53c5462f17d4c62fa8d510ff82341.1326786990.git.sgw@linux.intel.com>
+References: <cover.1326786989.git.sgw@linux.intel.com>
+	<5e9bdd7a86b53c5462f17d4c62fa8d510ff82341.1326786990.git.sgw@linux.intel.com>
+X-Mailer: Evolution 3.2.2- 
+Mime-Version: 1.0
+X-Virus-Scanned: amavisd-new at rpsys.net
+Subject: Re: [CONSOLIDATED PULL 52/62] tcmode-eglibc: Fix PREFERRED_VERSION of eglibc
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -35,41 +43,37 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 17 Jan 2012 15:01:16 -0000
-Content-Type: text/plain; charset=us-ascii
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Tue, 17 Jan 2012 15:01:57 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-Hi,
+On Tue, 2012-01-17 at 00:32 -0800, Saul Wold wrote:
+> Signed-off-by: Saul Wold <sgw@linux.intel.com>
+> ---
+>  meta/conf/distro/include/tcmode-default.inc |    2 +-
+>  1 files changed, 1 insertions(+), 1 deletions(-)
+> 
+> diff --git a/meta/conf/distro/include/tcmode-default.inc b/meta/conf/distro/include/tcmode-default.inc
+> index 5bb253e..8de26ad 100644
+> --- a/meta/conf/distro/include/tcmode-default.inc
+> +++ b/meta/conf/distro/include/tcmode-default.inc
+> @@ -19,7 +19,7 @@ PREFERRED_PROVIDER_virtual/gettext ??= "gettext"
+>  GCCVERSION ?= "4.6%"
+>  SDKGCCVERSION ?= "4.6%"
+>  BINUVERSION ?= "2.22"
+> -EGLIBCVERSION ?= "2.13"
+> +EGLIBCVERSION ?= "2.15"
+>  UCLIBCVERSION ?= "0.9.32"
+>  LINUXLIBCVERSION ?= "3.1"
+>  
 
-With RPM packaging I'm getting these errors:
+We deliberately stayed on 2.13 for various reasons. Have those reasons
+changed now? If so I'd prefer to see this as a definite change rather
+than a "fix"...
 
-| Processing files: cloud9-0.5.1-r12.armv7a
-| error: Two files on one line: =
-/usr/share/cloud9/support/ace/tool/tmthemes/Slush
-| error: File must begin with "/": and
-| error: Two files on one line: =
-/usr/share/cloud9/support/ace/tool/tmthemes/Slush
-| error: File must begin with "/": Poppies.tmTheme
-| error: Two files on one line: =
-/usr/share/cloud9/support/ace/tool/tmthemes/Brilliance
-| error: File must begin with "/": Dull.tmTheme
-| error: Two files on one line: =
-/usr/share/cloud9/support/ace/tool/tmthemes/All
-| error: File must begin with "/": Hallows
-| error: Two files on one line: =
-/usr/share/cloud9/support/ace/tool/tmthemes/All
-| error: File must begin with "/": Eve.tmTheme
-| error: Two files on one line: =
-/usr/share/cloud9/support/ace/tool/tmthemes/Pastels
-| error: File must begin with "/": on
-| error: Two files on one line: =
-/usr/share/cloud9/support/ace/tool/tmthemes/Pastels
-| error: File must begin with "/": Dark.tmTheme
+Cheers,
 
-Does rpm break with spaces in filenames?
+Richard
 
-regards,
-
-Koen=
 
 
