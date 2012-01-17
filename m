@@ -1,24 +1,25 @@
 Received: from mga09.intel.com ([134.134.136.24])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <nitin.a.kamble@intel.com>) id 1RnFnu-0006aS-Sw
+	(envelope-from <sgw@linux.intel.com>) id 1RnFtx-0007FW-ND
 	for openembedded-core@lists.openembedded.org;
-	Tue, 17 Jan 2012 21:38:55 +0100
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-	by orsmga102.jf.intel.com with ESMTP; 17 Jan 2012 12:30:51 -0800
+	Tue, 17 Jan 2012 21:45:05 +0100
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+	by orsmga102.jf.intel.com with ESMTP; 17 Jan 2012 12:37:27 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.67,352,1309762800"; d="scan'208";a="97550607"
-Received: from nbuild0.sc.intel.com ([172.25.110.36])
-	by orsmga001.jf.intel.com with ESMTP; 17 Jan 2012 12:30:51 -0800
-From: nitin.a.kamble@intel.com
-To: openembedded-core@lists.openembedded.org
-Date: Tue, 17 Jan 2012 12:30:48 -0800
-Message-Id: <69207e920f28ad47e4106634c2a13ce530a7f1ee.1326831402.git.nitin.a.kamble@intel.com>
-X-Mailer: git-send-email 1.7.6.4
-In-Reply-To: <b042b10b86d6e28290a64e42e1e23de81621630b.1326831402.git.nitin.a.kamble@intel.com>
-References: <b042b10b86d6e28290a64e42e1e23de81621630b.1326831402.git.nitin.a.kamble@intel.com>
-In-Reply-To: <cover.1326831402.git.nitin.a.kamble@intel.com>
-References: <cover.1326831402.git.nitin.a.kamble@intel.com>
-Subject: [PATCH 4/5] autogen-native: new recipe for grub-efi-native
+X-IronPort-AV: E=Sophos;i="4.67,351,1309762800"; d="scan'208";a="99695893"
+Received: from unknown (HELO [10.255.14.6]) ([10.255.14.6])
+	by orsmga002.jf.intel.com with ESMTP; 17 Jan 2012 12:37:27 -0800
+Message-ID: <4F15DC07.6060001@linux.intel.com>
+Date: Tue, 17 Jan 2012 12:37:27 -0800
+From: Saul Wold <sgw@linux.intel.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:8.0) Gecko/20111115 Thunderbird/8.0
+MIME-Version: 1.0
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+References: <cover.1326437644.git.xiaofeng.yan@windriver.com>
+In-Reply-To: <cover.1326437644.git.xiaofeng.yan@windriver.com>
+Subject: Re: [PATCH 0/3]: Fix the error when building image "core-image-gtk-directfb"
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -33,57 +34,49 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 17 Jan 2012 20:38:55 -0000
+X-List-Received-Date: Tue, 17 Jan 2012 20:45:05 -0000
+Content-Type: text/plain; charset=ISO-8859-1; format=flowed
+Content-Transfer-Encoding: 7bit
 
-From: Nitin A Kamble <nitin.a.kamble@intel.com>
+On 01/12/2012 11:06 PM, Xiaofeng Yan wrote:
+> From: Xiaofeng Yan<xiaofeng.yan@windriver.com>
+>
+> Hi Saul,
+>
+> I remove ${sysconfdir}/* because bitbake will package this directory as default.
+>
+> The following part was previous description.
+> ----------------------------------------------
+> Bitbake complain " No package 'cairo-xlib' found" when building image "core-image-gtk-directfb".
+> Misconfiguration of directfb in PACKAGECONFIG causes this problem. I change directfb to gtk-directfb.
+> Another problem is about messy code when running gtk-demo because of no "/etc/pango".
+> I create this directory in pango.inc.
+>
+> Pull URL: git://git.pokylinux.org/poky-contrib.git
+>    Branch: xiaofeng/gtk-directfb
+>    Browse: http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=xiaofeng/gtk-directfb
+>
+> Thanks,
+>      Xiaofeng Yan<xiaofeng.yan@windriver.com>
+> ---
+>
+>
+> Xiaofeng Yan (3):
+>    gtk.inc: Change configuration of directfb to gtk-directfb
+>    cairo.inc: Change configuration of directfb to gtk-directfb
+These first 2 were merged into OE-Core
+>    pango.inc: add directory "/etc/pango"
+>
+This was also merged, but there where a couple of other changes to 
+pango.inc, I think that we need one more change to fix the /etc/pango -> 
+${sysconfdir} in the FILES_${PN}list.
 
-grub-efi-native build is failing due to missing autogen command.
-Hence created this recipe.
+Sau!
 
-The newer versions of autogen 5.13 & 5.14 both are dumping core while
-building from source, so going back to the working 5.12 version.
-
-Also noticed that no distro vendor has picked up 5.13 or 5.14 versions
-of automake yet.
-
-Signed-off-by: Nitin A Kamble <nitin.a.kamble@intel.com>
----
- .../autogen/autogen-native_5.12.bb                 |   24 ++++++++++++++++++++
- 1 files changed, 24 insertions(+), 0 deletions(-)
- create mode 100644 meta/recipes-devtools/autogen/autogen-native_5.12.bb
-
-diff --git a/meta/recipes-devtools/autogen/autogen-native_5.12.bb b/meta/recipes-devtools/autogen/autogen-native_5.12.bb
-new file mode 100644
-index 0000000..6db6afa
---- /dev/null
-+++ b/meta/recipes-devtools/autogen/autogen-native_5.12.bb
-@@ -0,0 +1,24 @@
-+SUMMARY = "AutoGen is a tool to manage programs that contain large amounts of repetitious text."
-+DESCRIPTION = "AutoGen is a tool designed to simplify the creation and\
-+ maintenance of programs that contain large amounts of repetitious text.\
-+ It is especially valuable in programs that have several blocks of text\
-+ that must be kept synchronized."
-+HOMEPAGE = "http://www.gnu.org/software/autogen/"
-+SECTION = "devel"
-+LICENSE = "GPLv3"
-+LIC_FILES_CHKSUM = "file://COPYING;md5=d32239bcb673463ab874e80d47fae504" 
-+
-+SRC_URI = "${GNU_MIRROR}/autogen/rel${PV}/autogen-${PV}.tar.gz"
-+
-+SRC_URI[md5sum] = "6c6671b76021fb30dd43b0d5fdb7180b"
-+SRC_URI[sha256sum] = "37e885d6c8a58f33ab198d38bb972fa4c14236f951d628161dde6e20527d0df2"
-+
-+PR = "r0"
-+
-+DEPENDS = "guile-native libtool-native libxml2-native"
-+RDEPENDS = "automake pkgconfig"
-+
-+inherit autotools native
-+
-+# Following line will be needed for the non-native target recipe.
-+#CFLAGS += "-L${STAGING_LIBDIR} -lguile-2.0 -lgc -pthread -I${STAGING_INCDIR}/guile/2.0 -I${STAGING_INCDIR}"
--- 
-1.7.6.4
-
+>   meta/recipes-gnome/gtk+/gtk+.inc      |    2 +-
+>   meta/recipes-graphics/cairo/cairo.inc |    2 +-
+>   meta/recipes-graphics/pango/pango.inc |    7 ++++++-
+>   3 files changed, 8 insertions(+), 3 deletions(-)
+>
 
 
