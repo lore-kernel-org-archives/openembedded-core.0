@@ -1,27 +1,22 @@
-Received: from mail.windriver.com ([147.11.1.11])
+Received: from mga09.intel.com ([134.134.136.24])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <mark.hatle@windriver.com>) id 1RnG6U-0007jo-Qw
+	(envelope-from <nitin.a.kamble@intel.com>) id 1RnGIr-0008Lj-TB
 	for openembedded-core@lists.openembedded.org;
-	Tue, 17 Jan 2012 21:58:03 +0100
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca [147.11.189.40])
-	by mail.windriver.com (8.14.3/8.14.3) with ESMTP id q0HKoO4S014381
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 17 Jan 2012 12:50:24 -0800 (PST)
-Received: from Macintosh-5.local (172.25.36.233) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server id 14.1.255.0;
-	Tue, 17 Jan 2012 12:50:23 -0800
-Message-ID: <4F15DF0E.4090100@windriver.com>
-Date: Tue, 17 Jan 2012 14:50:22 -0600
-From: Mark Hatle <mark.hatle@windriver.com>
-Organization: Wind River Systems
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.6;
-	rv:8.0) Gecko/20111105 Thunderbird/8.0
-MIME-Version: 1.0
-To: <openembedded-core@lists.openembedded.org>
-References: <0AB83639-9F7B-450B-9F50-5D1951F2F5C2@dominion.thruhere.net>
-In-Reply-To: <0AB83639-9F7B-450B-9F50-5D1951F2F5C2@dominion.thruhere.net>
-Subject: Re: How to avoid spurious RPM dependencies?
+	Tue, 17 Jan 2012 22:10:50 +0100
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+	by orsmga102.jf.intel.com with ESMTP; 17 Jan 2012 13:03:11 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.67,352,1309762800"; d="scan'208";a="97559479"
+Received: from nbuild0.sc.intel.com ([172.25.110.36])
+	by orsmga001.jf.intel.com with ESMTP; 17 Jan 2012 13:03:11 -0800
+From: nitin.a.kamble@intel.com
+To: openembedded-core@lists.openembedded.org
+Date: Tue, 17 Jan 2012 13:03:03 -0800
+Message-Id: <b042b10b86d6e28290a64e42e1e23de81621630b.1326834014.git.nitin.a.kamble@intel.com>
+X-Mailer: git-send-email 1.7.6.4
+In-Reply-To: <cover.1326834014.git.nitin.a.kamble@intel.com>
+References: <cover.1326834014.git.nitin.a.kamble@intel.com>
+Subject: [PATCHv2 1/6] bdwgc: new recipe for autogen
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -36,49 +31,65 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 17 Jan 2012 20:58:03 -0000
-Content-Type: text/plain; charset="ISO-8859-1"; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Tue, 17 Jan 2012 21:10:50 -0000
 
-On 1/17/12 2:14 PM, Koen Kooi wrote:
-> Hi,
->
-> I'm running into a problem with vim that seems to be caused by overeager rpmdeps:
->
-> | error: Failed dependencies:
-> |       /bin/csh is needed by vim-7.2.446-r10.3.armv7a
-> |       /usr/local/bin/python is needed by python-imaging-1.1.7-r0.armv7a
->
-> For vim I thing it's being caused by this:
+From: Nitin A Kamble <nitin.a.kamble@intel.com>
 
-The dependency scanner checks that a file is executable before scanning it.
+This recipe is needed by guile.
+And guile is needed for autogen.
 
-> ./usr/share/vim/vim72/tools/vim132:1:#!/bin/csh
->
-> What's the best way to stop rpm from wanting csh? Python-imaging is actually broken:
+Signed-off-by: Nitin A Kamble <nitin.a.kamble@intel.com>
+---
+ meta/recipes-support/bdwgc/bdwgc_20110107.bb |   38 ++++++++++++++++++++++++++
+ 1 files changed, 38 insertions(+), 0 deletions(-)
+ create mode 100644 meta/recipes-support/bdwgc/bdwgc_20110107.bb
 
-So in the csh case, if it's an example and not something people would normally 
-be executing simply remove the execute bit -- otherwise it's bug and should be 
-addressed in some way.  (My preference when I see csh scripts is to execute an 
-rm -f)  ;)
-
-> ./usr/bin/pilfile.py:1:#! /usr/local/bin/python
-> ./usr/bin/pilprint.py:1:#! /usr/local/bin/python
-> ./usr/bin/pilconvert.py:1:#! /usr/local/bin/python
->
-> Is #!/usr/bin/env python still the preferred shebang?
-
-Yes, that is the preferred way of referring to python.
-
---Mark
-
-> regards,
->
-> Koen
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
+diff --git a/meta/recipes-support/bdwgc/bdwgc_20110107.bb b/meta/recipes-support/bdwgc/bdwgc_20110107.bb
+new file mode 100644
+index 0000000..1aaa5b8
+--- /dev/null
++++ b/meta/recipes-support/bdwgc/bdwgc_20110107.bb
+@@ -0,0 +1,38 @@
++SUMMARY = "A garbage collector for C and C++"
++
++DESCRIPTION = "The Boehm-Demers-Weiser conservative garbage collector can be\
++ used as a garbage collecting replacement for C malloc or C++ new. It allows\
++ you to allocate memory basically as you normally would, without explicitly\
++ deallocating memory that is no longer useful. The collector automatically\
++ recycles memory when it determines that it can no longer be otherwise\
++ accessed.\
++  The collector is also used by a number of programming language\
++ implementations that either use C as intermediate code, want to facilitate\
++ easier interoperation with C libraries, or just prefer the simple collector\
++ interface.\
++  Alternatively, the garbage collector may be used as a leak detector for C\
++ or C++ programs, though that is not its primary goal.\
++  Empirically, this collector works with most unmodified C programs, simply\
++ by replacing malloc with GC_malloc calls, replacing realloc with GC_realloc\
++ calls, and removing free calls."
++
++HOMEPAGE = "http://www.hpl.hp.com/personal/Hans_Boehm/gc/"
++SECTION = "devel"
++LICENSE = "custom"
++LIC_FILES_CHKSUM = "file://README.QUICK;md5=9b9dd874f6940641b6ab19893ee8f1cc" 
++
++SRC_URI = "http://www.hpl.hp.com/personal/Hans_Boehm/gc/gc_source/bdwgc-7_2alpha5-20110107.tar.bz2"
++
++SRC_URI[md5sum] = "4f3c130fc71ff23584edaa19a37739ee"
++SRC_URI[sha256sum] = "1f57b959ae1144e1e5fa59d52d7cb4ed626fd74cf47da1c9c119b8b46ae2722d"
++
++PR = "r0"
++
++S = "${WORKDIR}/bdwgc"
++
++do_install_append (){
++	rm -f ${D}${datadir}/${PN}
++}
++
++inherit autotools
++BBCLASSEXTEND = "native nativesdk"
+-- 
+1.7.6.4
 
 
 
