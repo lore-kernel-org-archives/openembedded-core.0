@@ -1,34 +1,24 @@
-Received: from mail-ee0-f47.google.com ([74.125.83.47])
+Received: from mail-we0-f175.google.com ([74.125.82.175])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <martin.jansa@gmail.com>) id 1Rn6rS-0007Ia-RK
+	(envelope-from <andrei@gherzan.ro>) id 1Rn7Kp-0008U4-Qt
 	for openembedded-core@lists.openembedded.org;
-	Tue, 17 Jan 2012 12:05:54 +0100
-Received: by mail-ee0-f47.google.com with SMTP id d17so1792820eek.6
+	Tue, 17 Jan 2012 12:36:15 +0100
+Received: by werf1 with SMTP id f1so1853166wer.6
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 17 Jan 2012 02:58:20 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
-	h=from:to:subject:date:message-id:x-mailer:in-reply-to:references
-	:in-reply-to:references;
-	bh=Rx1ZIyxutJzwmZjHSE+sUuuwFkX1r3QFInfaLJs1FVI=;
-	b=DV2UdI/o8AQh7vXkuH8uJYROYQwP/M/ldWa8k3kxHk3i16uwbD0u5zLFhZfYqKB+oR
-	Jd8WbqOYiQVPoUvrq5GTCxFTO6XTUt1MttrtNHd8EZIbitjAix9JUb4JAfwkY527Dp7Z
-	FhxTbduSSi9h40EwwM39cySwZ6ZytiFQh1YXo=
-Received: by 10.213.13.214 with SMTP id d22mr4895962eba.148.1326797900023;
-	Tue, 17 Jan 2012 02:58:20 -0800 (PST)
-Received: from localhost ([94.230.152.246])
-	by mx.google.com with ESMTPS id 28sm19371077eed.0.2012.01.17.02.58.18
+	Tue, 17 Jan 2012 03:28:38 -0800 (PST)
+Received: by 10.216.135.162 with SMTP id u34mr6948596wei.1.1326799718726;
+	Tue, 17 Jan 2012 03:28:38 -0800 (PST)
+Received: from localhost.localdomain ([89.121.200.106])
+	by mx.google.com with ESMTPS id dr7sm13084936wib.3.2012.01.17.03.28.37
 	(version=TLSv1/SSLv3 cipher=OTHER);
-	Tue, 17 Jan 2012 02:58:19 -0800 (PST)
-From: Martin Jansa <martin.jansa@gmail.com>
+	Tue, 17 Jan 2012 03:28:37 -0800 (PST)
+From: Andrei Gherzan <andrei@gherzan.ro>
 To: openembedded-core@lists.openembedded.org
-Date: Tue, 17 Jan 2012 11:58:04 +0100
-Message-Id: <e95749ee595dd9ad32f4d2510fcd8e3f3a01a4ff.1326797712.git.Martin.Jansa@gmail.com>
-X-Mailer: git-send-email 1.7.8.3
-In-Reply-To: <3682400320558e3f7094330e4ed99683e3deec31.1326797712.git.Martin.Jansa@gmail.com>
-References: <3682400320558e3f7094330e4ed99683e3deec31.1326797712.git.Martin.Jansa@gmail.com>
-In-Reply-To: <cover.1326797712.git.Martin.Jansa@gmail.com>
-References: <cover.1326797712.git.Martin.Jansa@gmail.com>
-Subject: [PATCH 2/2] gnutls.inc: set libz prefix
+Date: Tue, 17 Jan 2012 13:28:31 +0200
+Message-Id: <1326799711-31142-1-git-send-email-andrei@gherzan.ro>
+X-Mailer: git-send-email 1.7.5.4
+Cc: flocirel@gmail.com, Andrei Gherzan <andrei.gherzan@windriver.com>
+Subject: [PATCH] busybox uglic: remove obsolete check for "kernel24"
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -43,50 +33,73 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 17 Jan 2012 11:05:55 -0000
+X-List-Received-Date: Tue, 17 Jan 2012 11:36:15 -0000
 
-* without this patch host's zlib is used, similar to issue with
-  libreadline it's important if host's zlib is compatible with MACHINE
-  and in this case zlib was in DEPENDS so header was always available in
-  sysroot
-  lib/config.log:
-  configure:18288: checking whether to include zlib compression support
-  configure:18291: result: yes
-  configure:18786: checking for libz
-  configure:18808: x86_64-oe-linux-gcc    -m64 --sysroot=/OE/shr-core/tmp-eglibc/sysroots/qemux86-64 -o conftest -O2 -pipe -g -feliminate-unused-debug-types -I/OE/shr-core/tmp-eglibc/sysroots/qemux86-64/usr/include -Wl,-O1 -Wl,--hash-style=gnu -Wl,--as-needed conftest.c /usr/lib/libz.so  >&5
-  configure:18808: $? = 0
-  configure:18818: result: yes
-  configure:18825: checking how to link with libz
-  configure:18827: result: /usr/lib/libz.so
+From: Andrei Gherzan <andrei.gherzan@windriver.com>
 
-Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
+Busybox checks if MACHINE_FEATURES contains "kernel24". If so, CONFIG_FEATURE_2_4_MODULES will be on "y".
+kernel24 is no longer present in any machine configuration. The same situation is in uglibc with a
+different CONFIG mapping.
+
+[YOCTO #1901]
+
+Signed-off-by: Andrei Gherzan <andrei@gherzan.ro>
 ---
- meta/recipes-support/gnutls/gnutls.inc |    3 ++-
- 1 files changed, 2 insertions(+), 1 deletions(-)
+ meta/recipes-core/busybox/busybox.inc      |    4 +---
+ meta/recipes-core/uclibc/uclibc-config.inc |    4 +---
+ 2 files changed, 2 insertions(+), 6 deletions(-)
 
-diff --git a/meta/recipes-support/gnutls/gnutls.inc b/meta/recipes-support/gnutls/gnutls.inc
-index 820faf6..5991540 100644
---- a/meta/recipes-support/gnutls/gnutls.inc
-+++ b/meta/recipes-support/gnutls/gnutls.inc
-@@ -3,7 +3,7 @@ HOMEPAGE = "http://www.gnu.org/software/gnutls/"
- BUGTRACKER = "https://savannah.gnu.org/support/?group=gnutls"
- DEPENDS = "zlib lzo libtasn1 libgcrypt (>= 1.4.2) libcap readline"
+diff --git a/meta/recipes-core/busybox/busybox.inc b/meta/recipes-core/busybox/busybox.inc
+index a107a02..f35779d 100644
+--- a/meta/recipes-core/busybox/busybox.inc
++++ b/meta/recipes-core/busybox/busybox.inc
+@@ -47,18 +47,16 @@ def busybox_cfg(feature, features, tokens, cnf, rem):
+ 	else:
+ 		cnf.extend(['# ' + token + ' is not set' for token in tokens])
  
--INC_PR = "r3"
-+INC_PR = "r4"
+-# Map distro and machine features to config settings
++# Map distro features to config settings
+ def features_to_busybox_settings(d):
+ 	cnf, rem = ([], [])
+ 	distro_features = d.getVar('DISTRO_FEATURES', True).split()
+-	machine_features = d.getVar('MACHINE_FEATURES', True).split()
+ 	busybox_cfg('ipv6', distro_features, 'CONFIG_FEATURE_IPV6', cnf, rem)
+ 	busybox_cfg('largefile', distro_features, 'CONFIG_LFS', cnf, rem)
+ 	busybox_cfg('largefile', distro_features, 'CONFIG_FDISK_SUPPORT_LARGE_DISKS', cnf, rem)
+ 	busybox_cfg('nls',  distro_features, 'CONFIG_LOCALE_SUPPORT', cnf, rem)
+ 	busybox_cfg('ipv4', distro_features, 'CONFIG_FEATURE_IFUPDOWN_IPV4', cnf, rem)
+ 	busybox_cfg('ipv6', distro_features, 'CONFIG_FEATURE_IFUPDOWN_IPV6', cnf, rem)
+-	busybox_cfg('kernel24', machine_features, 'CONFIG_FEATURE_2_4_MODULES', cnf, rem)
+ 	return "\n".join(cnf), "\n".join(rem)
  
- LICENSE = "GPLv3+ & LGPLv2.1+"
- LICENSE_${PN} = "LGPLv2.1+"
-@@ -25,6 +25,7 @@ EXTRA_OECONF="--with-included-opencdk --with-included-libcfg --disable-rpath \
-               --with-libdl-prefix=${STAGING_DIR_HOST}${prefix} \
-               --with-libpthread-prefix=${STAGING_DIR_HOST}${prefix} \
-               --with-libreadline-prefix=${STAGING_DIR_HOST}${prefix} \
-+              --with-libz-prefix=${STAGING_DIR_HOST}${prefix} \
-               --with-lzo --disable-guile \
-               --without-p11-kit \
-               "
+ # X, Y = ${@features_to_uclibc_settings(d)}
+diff --git a/meta/recipes-core/uclibc/uclibc-config.inc b/meta/recipes-core/uclibc/uclibc-config.inc
+index 3de3845..8bb0948 100644
+--- a/meta/recipes-core/uclibc/uclibc-config.inc
++++ b/meta/recipes-core/uclibc/uclibc-config.inc
+@@ -91,11 +91,10 @@ def uclibc_cfg(feature, features, tokens, cnf, rem):
+ 	else:
+ 		cnf.extend(['# ' + token + ' is not set' for token in tokens])
+ 
+-# Map distro and machine features to config settings
++# Map distro features to config settings
+ def features_to_uclibc_settings(d):
+ 	cnf, rem = ([], [])
+ 	distro_features = d.getVar('DISTRO_FEATURES', True).split()
+-	machine_features = d.getVar('MACHINE_FEATURES', True).split()
+ 	uclibc_cfg('ipv4',      distro_features, 'UCLIBC_HAS_IPV4', cnf, rem)
+ 	uclibc_cfg('ipv6',      distro_features, 'UCLIBC_HAS_IPV6', cnf, rem)
+ 	uclibc_cfg('largefile', distro_features, 'UCLIBC_HAS_LFS', cnf, rem)
+@@ -104,7 +103,6 @@ def features_to_uclibc_settings(d):
+ 	uclibc_cfg('xattr',     distro_features, 'UCLIBC_HAS_XATTR', cnf, rem)
+ 	uclibc_cfg('ssp',       distro_features, 'UCLIBC_HAS_SSP', cnf, rem)
+ 	uclibc_cfg('argp',       distro_features, 'UCLIBC_HAS_ARGP', cnf, rem)
+-	uclibc_cfg('kernel24',  machine_features,'UCLIBC_LINUX_MODULE_24', cnf, rem)
+ 	uclibc_cfg('libc-posix-clang-wchar',  distro_features,'UCLIBC_HAS_WCHAR', cnf, rem)
+ 	return "\n".join(cnf), "\n".join(rem)
+ # X, Y = ${@features_to_uclibc_settings(d)}
 -- 
-1.7.8.3
+1.7.5.4
 
 
 
