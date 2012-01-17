@@ -1,24 +1,24 @@
 Received: from mga03.intel.com ([143.182.124.21])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <sgw@linux.intel.com>) id 1Rn4b7-0006ye-3a
+	(envelope-from <sgw@linux.intel.com>) id 1Rn4bB-0006yu-W8
 	for openembedded-core@lists.openembedded.org;
-	Tue, 17 Jan 2012 09:40:56 +0100
+	Tue, 17 Jan 2012 09:40:59 +0100
 Received: from azsmga001.ch.intel.com ([10.2.17.19])
 	by azsmga101.ch.intel.com with ESMTP; 17 Jan 2012 00:33:13 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="96633117"
+X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="96633121"
 Received: from unknown (HELO swold-mobl.bigsur.com) ([10.255.14.6])
 	by azsmga001.ch.intel.com with ESMTP; 17 Jan 2012 00:33:13 -0800
 From: Saul Wold <sgw@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Tue, 17 Jan 2012 00:32:42 -0800
-Message-Id: <35edc33b4c89e312838eec7d6a5e5d9632a1afa8.1326786990.git.sgw@linux.intel.com>
+Date: Tue, 17 Jan 2012 00:32:43 -0800
+Message-Id: <5424af5b8a1dae39991998457ccedb992c7ddcf8.1326786990.git.sgw@linux.intel.com>
 X-Mailer: git-send-email 1.7.6.5
 In-Reply-To: <cover.1326786989.git.sgw@linux.intel.com>
 References: <cover.1326786989.git.sgw@linux.intel.com>
 In-Reply-To: <cover.1326786989.git.sgw@linux.intel.com>
 References: <cover.1326786989.git.sgw@linux.intel.com>
-Subject: [CONSOLIDATED PULL 57/62] add mfatbu/mfatbl instructions support in Valgrind
+Subject: [CONSOLIDATED PULL 58/62] valgrind: Update for eglibc 2.15
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -33,131 +33,70 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 17 Jan 2012 08:40:57 -0000
+X-List-Received-Date: Tue, 17 Jan 2012 08:40:59 -0000
 
-From: Aneesh Bansal <aneesh.bansal@freescale.com>
-
-Upstream Status : Pending
+Signed-off-by: Saul Wold <sgw@linux.intel.com>
 ---
- ...upport-for-PPC-instructions-mfatbu-mfatbl.patch |   94 ++++++++++++++++++++
- meta/recipes-devtools/valgrind/valgrind_3.7.0.bb   |    3 +-
- 2 files changed, 96 insertions(+), 1 deletions(-)
- create mode 100644 meta/recipes-devtools/valgrind/valgrind-3.7.0/Added-support-for-PPC-instructions-mfatbu-mfatbl.patch
+ .../valgrind/valgrind-3.7.0/configure-fix.patch    |   25 ++++++++++++++++---
+ meta/recipes-devtools/valgrind/valgrind_3.7.0.bb   |    2 +-
+ 2 files changed, 22 insertions(+), 5 deletions(-)
 
-diff --git a/meta/recipes-devtools/valgrind/valgrind-3.7.0/Added-support-for-PPC-instructions-mfatbu-mfatbl.patch b/meta/recipes-devtools/valgrind/valgrind-3.7.0/Added-support-for-PPC-instructions-mfatbu-mfatbl.patch
-new file mode 100644
-index 0000000..ca66bc7
---- /dev/null
-+++ b/meta/recipes-devtools/valgrind/valgrind-3.7.0/Added-support-for-PPC-instructions-mfatbu-mfatbl.patch
-@@ -0,0 +1,94 @@
-+From 0bf4b0ac18d1ea41b32ad781d214b295ca1998f3 Mon Sep 17 00:00:00 2001
-+From: Aneesh Bansal <aneesh.bansal@freescale.com>
-+Date: Mon, 21 Nov 2011 17:31:39 +0530
-+Subject: [PATCH] Added support for PPC instructions mfatbu, mfatbl.
-+
-+Signed-off-by: Aneesh Bansal <aneesh.bansal@freescale.com>
-+---
-+Currently Valgrind 3.7.0 does not have support for PPC instructions mfatbu and mfatbl. When we run a USDPAA application with VALGRIND, the following error is given by valgrind :
-+dis_proc_ctl(ppc)(mfspr,SPR)(0x20F)
-+disInstr(ppc): unhandled instruction: 0x7C0F82A6
-+
-+
-+ VEX/priv/guest_ppc_defs.h    |    2 ++
-+ VEX/priv/guest_ppc_helpers.c |   18 ++++++++++++++++++
-+ VEX/priv/guest_ppc_toIR.c    |   22 ++++++++++++++++++++++
-+ 3 files changed, 42 insertions(+), 0 deletions(-)
-+
-+diff --git a/VEX/priv/guest_ppc_defs.h b/VEX/priv/guest_ppc_defs.h
-+index dd3c62e..11a34aa 100644
-+--- a/VEX/priv/guest_ppc_defs.h
-++++ b/VEX/priv/guest_ppc_defs.h
-+@@ -146,6 +146,8 @@ extern UInt ppc32g_dirtyhelper_MFSPR_268_269 ( UInt );
-+ 
-+ extern UInt ppc32g_dirtyhelper_MFSPR_287 ( void );
-+ 
-++extern UInt ppc32g_dirtyhelper_MFSPR_526_527 ( UInt );
-++
-+ extern void ppc32g_dirtyhelper_LVS ( VexGuestPPC32State* gst,
-+                                      UInt vD_idx, UInt sh,
-+                                      UInt shift_right );
-+diff --git a/VEX/priv/guest_ppc_helpers.c b/VEX/priv/guest_ppc_helpers.c
-+index 11aa428..b49ea3f 100644
-+--- a/VEX/priv/guest_ppc_helpers.c
-++++ b/VEX/priv/guest_ppc_helpers.c
-+@@ -119,6 +119,24 @@ UInt ppc32g_dirtyhelper_MFSPR_287 ( void )
-+ #  endif
-+ }
-+ 
-++/* CALLED FROM GENERATED CODE */
-++/* DIRTY HELPER (non-referentially transparent) */
-++UInt ppc32g_dirtyhelper_MFSPR_526_527 ( UInt r527 )
-++{
-++#  if defined(__powerpc__) || defined(_AIX)
-++   UInt spr;
-++   if (r527) {
-++      __asm__ __volatile__("mfspr %0,527" : "=b"(spr));
-++   } else {
-++      __asm__ __volatile__("mfspr %0,526" : "=b"(spr));
-++   }
-++   return spr;
-++#  else
-++   return 0;
-++#  endif
-++}
-++
-++
-+ 
-+ /* CALLED FROM GENERATED CODE */
-+ /* DIRTY HELPER (reads guest state, writes guest mem) */
-+diff --git a/VEX/priv/guest_ppc_toIR.c b/VEX/priv/guest_ppc_toIR.c
-+index f8d220d..37c8974 100644
-+--- a/VEX/priv/guest_ppc_toIR.c
-++++ b/VEX/priv/guest_ppc_toIR.c
-+@@ -5657,6 +5657,28 @@ static Bool dis_proc_ctl ( VexAbiInfo* vbi, UInt theInstr )
-+          break;
-+       }
-+ 
-++
-++      case 526 /* 0x20E */:
-++      case 527 /* 0x20F */: {
-++         UInt     arg  = SPR==526 ? 0 : 1;
-++         IRTemp   val  = newTemp(Ity_I32);
-++         IRExpr** args = mkIRExprVec_1( mkU32(arg) );
-++         IRDirty* d    = unsafeIRDirty_1_N(
-++                            val,
-++                            0/*regparms*/,
-++                            "ppc32g_dirtyhelper_MFSPR_526_527",
-++                            fnptr_to_fnentry
-++                               (vbi, &ppc32g_dirtyhelper_MFSPR_526_527),
-++                            args
-++                         );
-++         /* execute the dirty call, dumping the result in val. */
-++         stmt( IRStmt_Dirty(d) );
-++         putIReg( rD_addr,
-++                  mkWidenFrom32(ty, mkexpr(val), False/*unsigned*/) );
-++         DIP("mfspr r%u,%u", rD_addr, (UInt)SPR);
-++         break;
-++      }
-++
-+       default:
-+          vex_printf("dis_proc_ctl(ppc)(mfspr,SPR)(0x%x)\n", SPR);
-+          return False;
-+-- 
-+1.7.0.4
+diff --git a/meta/recipes-devtools/valgrind/valgrind-3.7.0/configure-fix.patch b/meta/recipes-devtools/valgrind/valgrind-3.7.0/configure-fix.patch
+index a3fce84..1f4bd7e 100644
+--- a/meta/recipes-devtools/valgrind/valgrind-3.7.0/configure-fix.patch
++++ b/meta/recipes-devtools/valgrind/valgrind-3.7.0/configure-fix.patch
+@@ -1,13 +1,16 @@
+ To recognize gcc version from poky in configure.in
++Added GLIBC 2.15 stanza to supported GLIBCs
+ 
+ Upstream-Status: Inappropriate [configuration]
+ 
+ Signed-off-by: Shane Wang <shane.wang@intel.com>
++Signed-off-by: Saul Wold <sgw@linux.intel.com>
+ 
+-diff -r 91a8df96084a configure.in
+---- a/configure.in	Fri Dec 23 20:57:01 2011 +0800
+-+++ b/configure.in	Fri Dec 23 20:59:21 2011 +0800
+-@@ -104,11 +104,13 @@
++Index: valgrind-3.7.0/configure.in
++===================================================================
++--- valgrind-3.7.0.orig/configure.in
+++++ valgrind-3.7.0/configure.in
++@@ -104,11 +104,13 @@ AC_MSG_CHECKING([for a supported version
+  # 
+  # i686-apple-darwin10-gcc-4.2.1 (GCC) 4.2.1 (Apple Inc. build 5666) (dot 3)
+  # i686-apple-darwin11-llvm-gcc-4.2 (GCC) 4.2.1 (Based on Apple Inc. build 5658) (LLVM build 2335.15.00)
+@@ -21,3 +24,17 @@ diff -r 91a8df96084a configure.in
+               | $SED 's/^[^0-9]*\([0-9.]*\).*$/\1/'`]
+  
+  is_clang="notclang"
++@@ -779,6 +781,13 @@ case "${GLIBC_VERSION}" in
++ 	DEFAULT_SUPP="glibc-2.34567-NPTL-helgrind.supp ${DEFAULT_SUPP}"
++ 	DEFAULT_SUPP="glibc-2.X-drd.supp ${DEFAULT_SUPP}"
++ 	;;
+++     2.15)
+++	AC_MSG_RESULT(2.15 family)
+++	AC_DEFINE([GLIBC_2_15], 1, [Define to 1 if you're using glibc 2.15.x])
+++	DEFAULT_SUPP="glibc-2.X.supp ${DEFAULT_SUPP}"
+++	DEFAULT_SUPP="glibc-2.34567-NPTL-helgrind.supp ${DEFAULT_SUPP}"
+++	DEFAULT_SUPP="glibc-2.X-drd.supp ${DEFAULT_SUPP}"
+++	;;
++      darwin)
++ 	AC_MSG_RESULT(Darwin)
++ 	AC_DEFINE([DARWIN_LIBC], 1, [Define to 1 if you're using Darwin])
 diff --git a/meta/recipes-devtools/valgrind/valgrind_3.7.0.bb b/meta/recipes-devtools/valgrind/valgrind_3.7.0.bb
-index d2c4467..858bf3d 100644
+index 858bf3d..9c53262 100644
 --- a/meta/recipes-devtools/valgrind/valgrind_3.7.0.bb
 +++ b/meta/recipes-devtools/valgrind/valgrind_3.7.0.bb
-@@ -14,7 +14,8 @@ SRC_URI = "http://www.valgrind.org/downloads/valgrind-${PV}.tar.bz2 \
-            file://fix_unsupporting_kernel_3.patch \
-            file://fixed-perl-path.patch \
-            file://fix_for_automake_1.11.2.patch \
--           file://configure-fix.patch"
-+           file://configure-fix.patch \
-+           file://Added-support-for-PPC-instructions-mfatbu-mfatbl.patch"
+@@ -7,7 +7,7 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=c46082167a314d785d012a244748d803 \
+                     file://include/valgrind.h;beginline=1;endline=56;md5=aee56014c1dd64260a59fd4df38752f6 \
+                     file://COPYING.DOCS;md5=8fdeb5abdb235a08e76835f8f3260215"
+ DEPENDS = "virtual/libx11"
+-PR = "r2"
++PR = "r3"
  
- SRC_URI[md5sum] = "a855fda56edf05614f099dca316d1775"
- SRC_URI[sha256sum] = "5d62c0330f1481fe2c593249192fa68ff454c19c34343978cc9ce91aa324cbf6"
+ SRC_URI = "http://www.valgrind.org/downloads/valgrind-${PV}.tar.bz2 \
+ 	   file://fix_issue_caused_by_ccache.patch \
 -- 
 1.7.6.5
 
