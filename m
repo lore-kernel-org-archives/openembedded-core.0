@@ -1,25 +1,32 @@
-Received: from mga14.intel.com ([143.182.124.37])
+Received: from mail-qy0-f175.google.com ([209.85.216.175])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <sgw@linux.intel.com>) id 1RnF1F-0002jt-FE
+	(envelope-from <tom.rini@gmail.com>) id 1RnFM0-0003Xl-A9
 	for openembedded-core@lists.openembedded.org;
-	Tue, 17 Jan 2012 20:48:33 +0100
-Received: from azsmga002.ch.intel.com ([10.2.17.35])
-	by azsmga102.ch.intel.com with ESMTP; 17 Jan 2012 11:40:55 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="57372449"
-Received: from unknown (HELO [10.255.14.6]) ([10.255.14.6])
-	by AZSMGA002.ch.intel.com with ESMTP; 17 Jan 2012 11:40:54 -0800
-Message-ID: <4F15CEC6.3090700@linux.intel.com>
-Date: Tue, 17 Jan 2012 11:40:54 -0800
-From: Saul Wold <sgw@linux.intel.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:8.0) Gecko/20111115 Thunderbird/8.0
+	Tue, 17 Jan 2012 21:10:00 +0100
+Received: by qcsp14 with SMTP id p14so2139150qcs.6
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 17 Jan 2012 12:02:22 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
+	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
+	:content-type:content-transfer-encoding;
+	bh=4k4RhXFXp8cODjXabt5TyNagjBALOk/uyeAjaOBWEJQ=;
+	b=LUsbxkVs2Fhl68tlcSPtRxxxkMfhwwraQmS//QOzY5JoBVjPwyPHm6l6YdyPN7M3mo
+	5y7WirWvNUdS02eT3R6Xecol1ei2MRVgGxYiGqJG8hQtNcvbx5BmgDiaSTfqzipSmpNT
+	IGBcumLKZnBeIcVLG9d+BXgAAu1+rC6yv8+0g=
 MIME-Version: 1.0
+Received: by 10.229.136.11 with SMTP id p11mr6871382qct.4.1326830542482; Tue,
+	17 Jan 2012 12:02:22 -0800 (PST)
+Received: by 10.229.98.149 with HTTP; Tue, 17 Jan 2012 12:02:22 -0800 (PST)
+In-Reply-To: <1412695.vvBBPeJL4B@helios>
+References: <cover.1322061836.git.paul.eggleton@linux.intel.com>
+	<1322066940.26081.27.camel@phil-desktop>
+	<1322068148.15626.15.camel@ted> <1412695.vvBBPeJL4B@helios>
+Date: Tue, 17 Jan 2012 13:02:22 -0700
+Message-ID: <CA+M6bXmAt2xBmCpiXBXxtEB-ykB_4qwtZqF9FrgXf3AD7ranpg@mail.gmail.com>
+From: Tom Rini <tom.rini@gmail.com>
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-References: <cover.1326481387.git.josh@linux.intel.com>
-In-Reply-To: <cover.1326481387.git.josh@linux.intel.com>
-Subject: Re: [PATCH 0/4] Add alsa-state from OE Classic v3
+Subject: Re: [PATCH 0/3] Make pulseaudio a DISTRO_FEATURE
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -34,65 +41,62 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 17 Jan 2012 19:48:33 -0000
-Content-Type: text/plain; charset=ISO-8859-1; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Tue, 17 Jan 2012 20:10:00 -0000
+Content-Type: text/plain; charset=ISO-8859-1
+Content-Transfer-Encoding: quoted-printable
 
-On 01/13/2012 11:10 AM, Joshua Lock wrote:
-> The small series which follows introduces the alsa-state recipe from oe-classic.
-> The reason for doing so is to remove the requirement for recipes like the
-> beagleboard-audio recipe in meta-yocto, which ensures the beagleboards sound
-> device has the volume turned up.
+On Thu, Dec 29, 2011 at 5:55 AM, Paul Eggleton
+<paul.eggleton@linux.intel.com> wrote:
+> On Wednesday 23 November 2011 17:09:08 Richard Purdie wrote:
+>> On Wed, 2011-11-23 at 16:48 +0000, Phil Blundell wrote:
+>> > b) introduce some sort of concept of "feature epochs", where the DISTR=
+O
+>> > gets to declare what epoch it is expecting and the compatibility code
+>> > then backfills DISTRO_FEATURES to take account of things that were
+>> > enabled by default in past epochs but have since been removed. =A0This
+>> > introduces a certain extra maintenance burden but it means that DISTRO=
+s
+>> > will no longer get unpleasant surprises
+>>
+>> I'm wondering if we can do something in the core like:
+>>
+>> DISTRO_FEATURES_BACKFILLOPTS =3D "pulseaudio"
+>>
+>> and have the distro set:
+>>
+>> DISTRO_FEATURES_BACKFILLCONSIDERED =3D ""
+>>
+>> and then add some code which looks for anything in
+>> DISTRO_FEATURES_BACKFILLOPTS but not in
+>> DISTRO_FEATURES_BACKFILLCONSIDERED and adds it to DISTRO_FEATURES.
+>>
+>> Distros can then opt out of a given feature by adding it to
+>> DISTRO_FEATURES_BACKFILLCONSIDERED.
+>>
+>> This would let us maintain compatibility but also move forward and
+>> create new settings with names that make sense.
 >
-> Long term I'd like to implement something more generic for handling device
-> quirks, but alsa-state is a simple fix for an immediate need that should
-> standardise how alsa configuration is handled in layers.
+> I'd like to try to move forward with this fix (although I prefer an alter=
+native
+> term to "backfill", perhaps "introduce" instead?) If this is what we want=
+ to
+> do, should it be implemented by:
 >
-> Since v1 I added an extra commit which:
-> a) defaults to /var/lib/alsa/ for state files, as this is the directory
-> alsactl writes to by default.
-> b) sed's the path to the state files into the init script, rather than hard
-> coding them.
+> (a) modifying DISTRO_FEATURES directly (as I think Richard is suggesting)=
+, or
 >
-> Since v2 I've modified the task-base commit to add VIRTUAL-RUNTIME_alsa-state
-> rather than hard code the alsa-state recipe per suggestion from Martin Jansa
-> and added an extra commit to move the defintion of VIRTUAL-RUNTIME_apm from
-> task-base to default-providers.inc
+> (b) a simple python call that the distro needs to add to their own
+> DISTRO_FEATURES (i.e. "${@distro_features_introduce(d)}" ?
 >
-> Cheers,
->
-> Joshua
->
-> The following changes since commit bd047935305c872b565f30b46c94b7077e5fb3a2:
->
->    patch.bbclass: Ensure the DATE and SRCDATE variable exclusions apply to the correct function (2012-01-13 16:56:20 +0000)
->
-> are available in the git repository at:
->    git://git.openembedded.org/openembedded-core-contrib josh/devices
->    http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=josh/devices
->
-> Joshua Lock (4):
->    task-base: move default definition of VIRTUAL-RUNTIME_apm
->    alsa-state: add alsa-state from oe classic
->    alsa-state: move state files to localstatedir
->    task-base: add VIRTUAL-RUNTIME_alsa-state to task-base-alsa
->
->   meta/conf/distro/include/default-providers.inc     |    2 +
->   meta/recipes-bsp/alsa-state/alsa-state.bb          |   59 ++++++++++++++++++++
->   meta/recipes-bsp/alsa-state/alsa-state/alsa-state  |   29 ++++++++++
->   meta/recipes-bsp/alsa-state/alsa-state/asound.conf |   12 ++++
->   .../recipes-bsp/alsa-state/alsa-state/asound.state |    1 +
->   meta/recipes-core/tasks/task-base.bb               |    8 +--
->   6 files changed, 106 insertions(+), 5 deletions(-)
->   create mode 100644 meta/recipes-bsp/alsa-state/alsa-state.bb
->   create mode 100755 meta/recipes-bsp/alsa-state/alsa-state/alsa-state
->   create mode 100644 meta/recipes-bsp/alsa-state/alsa-state/asound.conf
->   create mode 100644 meta/recipes-bsp/alsa-state/alsa-state/asound.state
->
+> Option (a) is a little tidier but (b) makes it obvious where any introduc=
+ed
+> items in DISTRO_FEATURES are coming from.
 
-Merged into OE-Core
+I'm terrible at naming things so I guess backfill is as good as any (I
+agree with Phil about introduce).  Option a is clear so long as
+there's a good comment, so lets go that way.
 
-Thanks
-	Sau!
+--=20
+Tom
 
 
