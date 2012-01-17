@@ -1,24 +1,24 @@
 Received: from mga14.intel.com ([143.182.124.37])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <sgw@linux.intel.com>) id 1Rn4ar-0006gw-HV
+	(envelope-from <sgw@linux.intel.com>) id 1Rn4ar-0006h2-Jh
 	for openembedded-core@lists.openembedded.org;
 	Tue, 17 Jan 2012 09:40:37 +0100
 Received: from azsmga001.ch.intel.com ([10.2.17.19])
 	by azsmga102.ch.intel.com with ESMTP; 17 Jan 2012 00:32:56 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="96632899"
+X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="96632906"
 Received: from unknown (HELO swold-mobl.bigsur.com) ([10.255.14.6])
-	by azsmga001.ch.intel.com with ESMTP; 17 Jan 2012 00:32:55 -0800
+	by azsmga001.ch.intel.com with ESMTP; 17 Jan 2012 00:32:56 -0800
 From: Saul Wold <sgw@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Tue, 17 Jan 2012 00:32:02 -0800
-Message-Id: <2258e319a43c2369a90a25f3d0036a033d29a290.1326786989.git.sgw@linux.intel.com>
+Date: Tue, 17 Jan 2012 00:32:03 -0800
+Message-Id: <4fed8429bc31211a979aaa496d2af8c574b1140a.1326786989.git.sgw@linux.intel.com>
 X-Mailer: git-send-email 1.7.6.5
 In-Reply-To: <cover.1326786989.git.sgw@linux.intel.com>
 References: <cover.1326786989.git.sgw@linux.intel.com>
 In-Reply-To: <cover.1326786989.git.sgw@linux.intel.com>
 References: <cover.1326786989.git.sgw@linux.intel.com>
-Subject: [CONSOLIDATED PULL 17/62] hdparm: upgrade to 9.37
+Subject: [CONSOLIDATED PULL 18/62] qemuppc: replace emulation of qemuppc from prep to mac99
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -35,176 +35,121 @@ List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedde
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Tue, 17 Jan 2012 08:40:38 -0000
 
-From: Shane Wang <shane.wang@intel.com>
+From: Liming Wang <liming.wang@windriver.com>
 
-The patch was imported from the OpenEmbedded server (http://git.openembedded.org/openembedded/tree/recipes/hdparm) as of commit id 4d2cb79dcecd056742f411a328f9f1f1113bf689.
+With this new emulation, existing qemuppc functionality is maintained
+and other functionality such as framebuffer + sato and NFS boot are
+added.
 
-And changes include:
-       - upgrade to the latest version 9.37 from 9.35.
-       - added license checksum.
-       - the license for wiper which is in hdparm is GPLv2.
-
-Signed-off-by: Shane Wang <shane.wang@intel.com>
+Signed-off-by: Liming Wang <liming.wang@windriver.com>
+Signed-off-by: Bruce Ashfield <bruce.ashfield@windriver.com>
 ---
- .../recipes-extended/hdparm/hdparm-6.3/bswap.patch |   37 --------------------
- .../hdparm/hdparm-6.3/uclibc.patch                 |   34 ------------------
- meta/recipes-extended/hdparm/hdparm_6.3.bb         |   18 ---------
- meta/recipes-extended/hdparm/hdparm_9.37.bb        |   36 +++++++++++++++++++
- 4 files changed, 36 insertions(+), 89 deletions(-)
- delete mode 100644 meta/recipes-extended/hdparm/hdparm-6.3/bswap.patch
- delete mode 100644 meta/recipes-extended/hdparm/hdparm-6.3/uclibc.patch
- delete mode 100644 meta/recipes-extended/hdparm/hdparm_6.3.bb
- create mode 100644 meta/recipes-extended/hdparm/hdparm_9.37.bb
+ meta/conf/machine/qemuppc.conf                  |    2 +-
+ meta/recipes-kernel/linux/linux-yocto-rt_3.0.bb |    2 +-
+ meta/recipes-kernel/linux/linux-yocto_3.0.bb    |    2 +-
+ scripts/runqemu                                 |    7 +------
+ scripts/runqemu-internal                        |   16 ++++++++--------
+ 5 files changed, 12 insertions(+), 17 deletions(-)
 
-diff --git a/meta/recipes-extended/hdparm/hdparm-6.3/bswap.patch b/meta/recipes-extended/hdparm/hdparm-6.3/bswap.patch
-deleted file mode 100644
-index 715886a..0000000
---- a/meta/recipes-extended/hdparm/hdparm-6.3/bswap.patch
-+++ /dev/null
-@@ -1,37 +0,0 @@
--Upstream-Status: Backport
+diff --git a/meta/conf/machine/qemuppc.conf b/meta/conf/machine/qemuppc.conf
+index bcc408f..48eecb7 100644
+--- a/meta/conf/machine/qemuppc.conf
++++ b/meta/conf/machine/qemuppc.conf
+@@ -5,7 +5,7 @@
+ require conf/machine/include/qemu.inc
+ require conf/machine/include/tune-ppc603e.inc
+ 
+-KERNEL_IMAGETYPE = "zImage"
++KERNEL_IMAGETYPE = "vmlinux"
+ 
+ SERIAL_CONSOLE = "115200 ttyS0"
+ 
+diff --git a/meta/recipes-kernel/linux/linux-yocto-rt_3.0.bb b/meta/recipes-kernel/linux/linux-yocto-rt_3.0.bb
+index c8983c4..c6bf446 100644
+--- a/meta/recipes-kernel/linux/linux-yocto-rt_3.0.bb
++++ b/meta/recipes-kernel/linux/linux-yocto-rt_3.0.bb
+@@ -16,7 +16,7 @@ LINUX_KERNEL_TYPE = "preempt-rt"
+ 
+ SRCREV_machine ?= "bcf4107c7f22d10952618a2ad146e6149d240cd2"
+ SRCREV_machine_qemuppc ?= "1e5511ea2cb5f150ffce86071035a81c0499494b"
+-SRCREV_meta ?= "6ae3d992cf546184010e87a0349810198f1d167c"
++SRCREV_meta ?= "73dafd44ea875df654129b32b2877f342d5573e4"
+ 
+ PR = "r1"
+ PV = "${LINUX_VERSION}+git${SRCPV}"
+diff --git a/meta/recipes-kernel/linux/linux-yocto_3.0.bb b/meta/recipes-kernel/linux/linux-yocto_3.0.bb
+index 921c258..e624b48 100644
+--- a/meta/recipes-kernel/linux/linux-yocto_3.0.bb
++++ b/meta/recipes-kernel/linux/linux-yocto_3.0.bb
+@@ -18,7 +18,7 @@ SRCREV_machine_qemuppc ?= "10e808d1c304b14cf42903fd637f239766b78476"
+ SRCREV_machine_qemux86 ?= "e04f9f8e564c60b1ce907d64074c18730f8dab4e"
+ SRCREV_machine_qemux86-64 ?= "53c2fa060d34e9a0b59e19398aeebbe73f24d89b"
+ SRCREV_machine ?= "fe80c1e343bf8f038328a612cef7f821d7ec8dbf"
+-SRCREV_meta ?= "6ae3d992cf546184010e87a0349810198f1d167c"
++SRCREV_meta ?= "73dafd44ea875df654129b32b2877f342d5573e4"
+ 
+ PR = "r2"
+ PV = "${LINUX_VERSION}+git${SRCPV}"
+diff --git a/scripts/runqemu b/scripts/runqemu
+index bed6a29..ac5facf 100755
+--- a/scripts/runqemu
++++ b/scripts/runqemu
+@@ -262,7 +262,7 @@ QEMUARM_DEFAULT_FSTYPE=ext3
+ QEMUMIPS_DEFAULT_KERNEL=vmlinux-qemumips.bin
+ QEMUMIPS_DEFAULT_FSTYPE=ext3
+ 
+-QEMUPPC_DEFAULT_KERNEL=zImage-qemuppc.bin
++QEMUPPC_DEFAULT_KERNEL=vmlinux-qemuppc.bin
+ QEMUPPC_DEFAULT_FSTYPE=ext3
+ 
+ AKITA_DEFAULT_KERNEL=zImage-akita.bin
+@@ -365,11 +365,6 @@ if [ -z "$FSTYPE" ]; then
+     fi
+ fi
+ 
+-if [ "$FSTYPE" = "nfs" -a "$MACHINE" = "qemuppc" ]; then
+-    echo "Error: usermode NFS boot is not available for qemuppc."
+-    exit 1
+-fi
 -
--#
--# Patch managed by http://www.holgerschurig.de/patcher.html
--#
--
----- hdparm-5.8/hdparm.c~bswap
--+++ hdparm-5.8/hdparm.c
--@@ -20,7 +20,9 @@
-- #include <linux/types.h>
-- #include <linux/hdreg.h>
-- #include <linux/major.h>
---#include <asm/byteorder.h>
--+#include <byteswap.h>
--+
--+#define le16_to_cpus(x) bswap_16(htons(x))
-- 
-- #include "hdparm.h"
-- 
--@@ -1160,7 +1162,7 @@
-- 			}
-- 		} else {
-- 			for(i = 0; i < 0x100; ++i) {
---				__le16_to_cpus(&id[i]);
--+				le16_to_cpus(&id[i]);
-- 			}
-- 			identify((void *)id, NULL);
-- 		}
--@@ -1380,7 +1382,7 @@
-- 	}
-- 	for (i = 0; count >= 4; ++i) {
-- 		sbuf[i] = (fromhex(b[0]) << 12) | (fromhex(b[1]) << 8) | (fromhex(b[2]) << 4) | fromhex(b[3]);
---		__le16_to_cpus((__u16 *)(&sbuf[i]));
--+		le16_to_cpus((__u16 *)(&sbuf[i]));
-- 		b += 5;
-- 		count -= 5;
-- 	}
-diff --git a/meta/recipes-extended/hdparm/hdparm-6.3/uclibc.patch b/meta/recipes-extended/hdparm/hdparm-6.3/uclibc.patch
-deleted file mode 100644
-index d5f9298..0000000
---- a/meta/recipes-extended/hdparm/hdparm-6.3/uclibc.patch
-+++ /dev/null
-@@ -1,34 +0,0 @@
--Upstream-Status: Inappropriate [embedded specific]
--
----- hdparm-5.8/hdparm.c.ark	2005-05-22 19:48:34.000000000 +0000
--+++ hdparm-5.8/hdparm.c	2005-05-22 19:52:18.000000000 +0000
--@@ -17,7 +17,9 @@
-- #include <sys/times.h>
-- #include <sys/types.h>
-- #include <sys/mount.h>
--+#ifndef __UCLIBC__
-- #include <linux/types.h>
--+#endif
-- #include <linux/hdreg.h>
-- #include <linux/major.h>
-- #include <byteswap.h>
----- hdparm-5.8/hdparm.h.ark	2005-05-22 19:51:49.000000000 +0000
--+++ hdparm-5.8/hdparm.h	2005-05-22 19:54:54.000000000 +0000
--@@ -1,6 +1,6 @@
-- /* Some prototypes for extern functions. */
-- 
---#include <linux/types.h>	/* for __u16 */
--+#include <stdint.h>
-- 
-- #if !defined(__GNUC__) && !defined(__attribute__)
-- #define __attribute__(x)	/* if not using GCC, turn off the __attribute__
--@@ -11,7 +11,7 @@
--    others, though, were declared in hdparm.c with global scope; since other
--    functions in that file have static (file) scope, I assume the difference is
--    intentional. */
---extern void identify (__u16 *id_supplied, const char *devname);
--+extern void identify (uint16_t *id_supplied, const char *devname);
-- 
-- extern void usage_error(int out)    __attribute__((noreturn));
-- extern int main(int argc, char **argv) __attribute__((noreturn));
--
-diff --git a/meta/recipes-extended/hdparm/hdparm_6.3.bb b/meta/recipes-extended/hdparm/hdparm_6.3.bb
-deleted file mode 100644
-index 62ae4c0..0000000
---- a/meta/recipes-extended/hdparm/hdparm_6.3.bb
-+++ /dev/null
-@@ -1,18 +0,0 @@
--SUMMARY = "Utility for displaying and setting hard disk parameters"
--DESCRIPTION = "hdparm is a system utility for viewing \
--and manipulating various IDE drive and driver parameters."
--SECTION = "console/utils"
--LICENSE = "BSD"
--LIC_FILES_CHKSUM = "file://LICENSE.TXT;md5=910a8a42c962d238619c75fdb78bdb24"
--
--SRC_URI = "${SOURCEFORGE_MIRROR}/hdparm/hdparm-${PV}.tar.gz \
--	   file://bswap.patch \
--	   file://uclibc.patch"
--
--SRC_URI[md5sum] = "0c12672f3a09c14ad0b0882f15fc9389"
--SRC_URI[sha256sum] = "08688a6a46ba495494bf838f8f26103e797584c1888eca94e43a171e1b37246d"
--
--do_install () {
--	install -d ${D}/${sbindir} ${D}/${mandir}/man8
--	oe_runmake 'DESTDIR=${D}' install
--}
-diff --git a/meta/recipes-extended/hdparm/hdparm_9.37.bb b/meta/recipes-extended/hdparm/hdparm_9.37.bb
-new file mode 100644
-index 0000000..bfc64e7
---- /dev/null
-+++ b/meta/recipes-extended/hdparm/hdparm_9.37.bb
-@@ -0,0 +1,36 @@
-+DESCRIPTION = "hdparm is a Linux shell utility for viewing \
-+and manipulating various IDE drive and driver parameters."
-+SECTION = "console/utils"
-+PRIORITY = "optional"
-+LICENSE = "BSD"
-+LICENSE_wiper = "GPLv2"
-+LIC_FILES_CHKSUM = "file://LICENSE.TXT;md5=910a8a42c962d238619c75fdb78bdb24 \
-+                    file://debian/copyright;md5=a82d7ba3ade9e8ec902749db98c592f3 \
-+                    file://wiper/GPLv2.txt;md5=fcb02dc552a041dee27e4b85c7396067 \
-+                    file://wiper/wiper.sh;beginline=7;endline=31;md5=b7bc642addc152ea307505bf1a296f09"
-+
-+PACKAGES += "wiper"
-+
-+FILES_wiper = "${bindir}/wiper.sh"
-+FILES_${PN} = "${base_sbindir} ${mandir}"
-+
-+RDEPENDS_wiper = "bash gawk stat"
-+
-+SRC_URI = "${SOURCEFORGE_MIRROR}/hdparm/hdparm-${PV}.tar.gz "
-+SRC_URI[md5sum] = "0bb94ddd1bedd5c02b1ca62f1caaf6de"
-+SRC_URI[sha256sum] = "87ede0a7cb5b4de500748232e9d251b75acfccce078e1d42c8d125b9e5b4ccd3"
-+
-+do_install () {
-+	install -d ${D}/${base_sbindir} ${D}/${mandir}/man8 ${D}/${bindir}
-+	oe_runmake 'DESTDIR=${D}' 'sbindir=${base_sbindir}' install
-+	mv ${D}${base_sbindir}/hdparm ${D}${base_sbindir}/hdparm.${PN}
-+	cp ${S}/wiper/wiper.sh ${D}/${bindir}
-+}
-+
-+pkg_postinst_${PN} () {
-+	update-alternatives --install ${base_sbindir}/hdparm hdparm hdparm.${PN} 100
-+}
-+
-+pkg_prerm_${PN} () {
-+	update-alternatives --remove hdparm hdparm.${PN}
-+}
+ # FSTYPE is now set for all cases
+ 
+ # Handle cases where a ROOTFS type is given instead of a filename, e.g.
+diff --git a/scripts/runqemu-internal b/scripts/runqemu-internal
+index 2968ed9..c55619b 100755
+--- a/scripts/runqemu-internal
++++ b/scripts/runqemu-internal
+@@ -389,13 +389,13 @@ fi
+ 
+ if [ "$MACHINE" = "qemuppc" ]; then
+     QEMU=qemu-system-ppc
+-    MACHINE_SUBTYPE=prep
+-    CPU_SUBTYPE=603e
+-    BIOS=powerpc_rom.bin
+-    QEMU_UI_OPTIONS="$QEMU_UI_OPTIONS -nographic"
++    MACHINE_SUBTYPE=mac99
++    CPU_SUBTYPE=G4
++    QEMU_UI_OPTIONS="$QEMU_UI_OPTIONS"
++    QEMU_NETWORK_CMD="-net nic,model=pcnet $QEMU_TAP_CMD"
+     if [ "$FSTYPE" = "ext3" -o "$FSTYPE" = "btrfs" ]; then
+-        KERNCMDLINE="root=/dev/hda rw console=ttyS0 3 $KERNEL_NETWORK_CMD mem=$QEMU_MEMORY"
+-        QEMUOPTIONS="$QEMU_NETWORK_CMD -cpu $CPU_SUBTYPE -M $MACHINE_SUBTYPE -bios $BIOS -hda $ROOTFS -no-reboot $QEMU_UI_OPTIONS"
++        KERNCMDLINE="root=/dev/hda rw console=ttyS0 $KERNEL_NETWORK_CMD mem=$QEMU_MEMORY"
++        QEMUOPTIONS="$QEMU_NETWORK_CMD -cpu $CPU_SUBTYPE -M $MACHINE_SUBTYPE -hda $ROOTFS -no-reboot $QEMU_UI_OPTIONS"
+     fi
+     if [ "$FSTYPE" = "nfs" ]; then
+         if [ "$NFS_SERVER" = "192.168.7.1" -a ! -d "$NFS_DIR" ]; then
+@@ -403,8 +403,8 @@ if [ "$MACHINE" = "qemuppc" ]; then
+             cleanup
+             return
+         fi
+-        KERNCMDLINE="root=/dev/nfs console=ttyS0 3 nfsroot=$NFS_SERVER:$NFS_DIR,$UNFS_OPTS rw $KERNEL_NETWORK_CMD mem=$QEMU_MEMORY"
+-        QEMUOPTIONS="$QEMU_NETWORK_CMD -cpu $CPU_SUBTYPE -M $MACHINE_SUBTYPE -bios $BIOS -no-reboot $QEMU_UI_OPTIONS"
++        KERNCMDLINE="root=/dev/nfs console=ttyS0 nfsroot=$NFS_SERVER:$NFS_DIR,$UNFS_OPTS rw $KERNEL_NETWORK_CMD mem=$QEMU_MEMORY"
++        QEMUOPTIONS="$QEMU_NETWORK_CMD -cpu $CPU_SUBTYPE -M $MACHINE_SUBTYPE -no-reboot $QEMU_UI_OPTIONS"
+     fi
+ fi
+ 
 -- 
 1.7.6.5
 
