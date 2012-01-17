@@ -1,26 +1,26 @@
-Received: from mga03.intel.com ([143.182.124.21])
+Received: from mail-wi0-f175.google.com ([209.85.212.175])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <sgw@linux.intel.com>) id 1RnFVq-0003qr-7l
+	(envelope-from <koen@dominion.thruhere.net>) id 1RnFYI-0003vt-B7
 	for openembedded-core@lists.openembedded.org;
-	Tue, 17 Jan 2012 21:20:10 +0100
-Received: from azsmga002.ch.intel.com ([10.2.17.35])
-	by azsmga101.ch.intel.com with ESMTP; 17 Jan 2012 12:12:32 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="57383361"
-Received: from unknown (HELO [10.255.14.6]) ([10.255.14.6])
-	by AZSMGA002.ch.intel.com with ESMTP; 17 Jan 2012 12:12:29 -0800
-Message-ID: <4F15D62D.9090803@linux.intel.com>
-Date: Tue, 17 Jan 2012 12:12:29 -0800
-From: Saul Wold <sgw@linux.intel.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:8.0) Gecko/20111115 Thunderbird/8.0
-MIME-Version: 1.0
+	Tue, 17 Jan 2012 21:22:42 +0100
+Received: by wibhr14 with SMTP id hr14so8545wib.6
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 17 Jan 2012 12:15:05 -0800 (PST)
+Received: by 10.180.104.5 with SMTP id ga5mr25783864wib.21.1326831304731;
+	Tue, 17 Jan 2012 12:15:04 -0800 (PST)
+Received: from [172.20.1.36] (ip545070eb.adsl-surfen.hetnet.nl.
+	[84.80.112.235])
+	by mx.google.com with ESMTPS id d9sm18833975wiy.2.2012.01.17.12.15.03
+	(version=TLSv1/SSLv3 cipher=OTHER);
+	Tue, 17 Jan 2012 12:15:04 -0800 (PST)
+From: Koen Kooi <koen@dominion.thruhere.net>
+Date: Tue, 17 Jan 2012 21:14:59 +0100
+Message-Id: <0AB83639-9F7B-450B-9F50-5D1951F2F5C2@dominion.thruhere.net>
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-References: <cover.1326476501.git.paul.eggleton@linux.intel.com>
-In-Reply-To: <cover.1326476501.git.paul.eggleton@linux.intel.com>
-Cc: Paul Eggleton <paul.eggleton@linux.intel.com>
-Subject: Re: [PATCH 0/4] Error message fixes / cleanup
+Mime-Version: 1.0 (Apple Message framework v1251.1)
+X-Mailer: Apple Mail (2.1251.1)
+Subject: How to avoid spurious RPM dependencies?
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -35,40 +35,35 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 17 Jan 2012 20:20:10 -0000
-Content-Type: text/plain; charset=ISO-8859-1; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Tue, 17 Jan 2012 20:22:42 -0000
+Content-Type: text/plain; charset=us-ascii
+Content-Transfer-Encoding: quoted-printable
 
-On 01/13/2012 09:42 AM, Paul Eggleton wrote:
-> A trio of of minor improvements to error messages as well as the removal
-> of packagehistory.bbclass.
->
-> The following changes since commit bd047935305c872b565f30b46c94b7077e5fb3a2:
->
->    patch.bbclass: Ensure the DATE and SRCDATE variable exclusions apply to the correct function (2012-01-13 16:56:20 +0000)
->
-> are available in the git repository at:
->    git://git.openembedded.org/openembedded-core-contrib paule/fixes10
->    http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=paule/fixes10
->
-> Paul Eggleton (4):
->    classes/base: note variable name in COMPATIBLE_* skip messages
->    conf/bitbake.conf: allow wget to output error messages
->    classes/package: remove out-of-date notice referring to the OE
->      bugtracker
->    classes/packagehistory: remove now obsolete class
->
->   meta/classes/base.bbclass           |    4 +-
->   meta/classes/package.bbclass        |    3 -
->   meta/classes/packagehistory.bbclass |  249 -----------------------------------
->   meta/conf/bitbake.conf              |    6 +-
->   4 files changed, 5 insertions(+), 257 deletions(-)
->   delete mode 100644 meta/classes/packagehistory.bbclass
->
+Hi,
 
-Merged into OE-Core
+I'm running into a problem with vim that seems to be caused by overeager =
+rpmdeps:
 
-Thanks
-	Sau!
+| error: Failed dependencies:
+|       /bin/csh is needed by vim-7.2.446-r10.3.armv7a
+|       /usr/local/bin/python is needed by =
+python-imaging-1.1.7-r0.armv7a
+
+For vim I thing it's being caused by this:
+
+./usr/share/vim/vim72/tools/vim132:1:#!/bin/csh
+
+What's the best way to stop rpm from wanting csh? Python-imaging is =
+actually broken:
+
+./usr/bin/pilfile.py:1:#! /usr/local/bin/python
+./usr/bin/pilprint.py:1:#! /usr/local/bin/python
+./usr/bin/pilconvert.py:1:#! /usr/local/bin/python
+
+Is #!/usr/bin/env python still the preferred shebang?
+
+regards,
+
+Koen=
 
 
