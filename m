@@ -1,34 +1,24 @@
-Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
-	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <richard.purdie@linuxfoundation.org>)
-	id 1RnBWO-0003Ak-Uv for openembedded-core@lists.openembedded.org;
-	Tue, 17 Jan 2012 17:04:29 +0100
-Received: from localhost (localhost [127.0.0.1])
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q0HFuq5V006882
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 17 Jan 2012 15:56:52 GMT
-Received: from tim.rpsys.net ([127.0.0.1])
-	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
-	port 10024) with LMTP
-	id 06521-04 for <openembedded-core@lists.openembedded.org>;
-	Tue, 17 Jan 2012 15:56:48 +0000 (GMT)
-Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q0HFugXr006876
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO)
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 17 Jan 2012 15:56:43 GMT
-Message-ID: <1326815807.14640.1.camel@ted>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Date: Tue, 17 Jan 2012 15:56:47 +0000
-In-Reply-To: <4F159312.8020107@gherzan.ro>
-References: <1326799711-31142-1-git-send-email-andrei@gherzan.ro>
-	<1326813445.14640.0.camel@ted> <4F159312.8020107@gherzan.ro>
-X-Mailer: Evolution 3.2.2- 
-Mime-Version: 1.0
-X-Virus-Scanned: amavisd-new at rpsys.net
-Subject: Re: [PATCH] busybox uglic: remove obsolete check for "kernel24"
+Received: from mga02.intel.com ([134.134.136.20])
+	by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <josh@linux.intel.com>) id 1RnBrV-0003nZ-3v
+	for openembedded-core@lists.openembedded.org;
+	Tue, 17 Jan 2012 17:26:17 +0100
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+	by orsmga101.jf.intel.com with ESMTP; 17 Jan 2012 08:18:39 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.67,352,1309762800"; d="scan'208";a="97463266"
+Received: from unknown (HELO [10.255.13.216]) ([10.255.13.216])
+	by orsmga001.jf.intel.com with ESMTP; 17 Jan 2012 08:18:39 -0800
+Message-ID: <4F159F5E.5000103@linux.intel.com>
+Date: Tue, 17 Jan 2012 08:18:38 -0800
+From: Joshua Lock <josh@linux.intel.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:9.0) Gecko/20111222 Thunderbird/9.0
+MIME-Version: 1.0
+To: openembedded-core@lists.openembedded.org
+References: <cover.1326786989.git.sgw@linux.intel.com>
+In-Reply-To: <cover.1326786989.git.sgw@linux.intel.com>
+Subject: Re: [CONSOLIDATED PULL 00/62] Major set of Changes
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -43,39 +33,25 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 17 Jan 2012 16:04:29 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Tue, 17 Jan 2012 16:26:17 -0000
+Content-Type: text/plain; charset=ISO-8859-1; format=flowed
 Content-Transfer-Encoding: 7bit
 
-On Tue, 2012-01-17 at 17:26 +0200, Andrei Gherzan wrote:
-> On 01/17/2012 05:17 PM, Richard Purdie wrote:
-> > On Tue, 2012-01-17 at 13:28 +0200, Andrei Gherzan wrote:
-> >> From: Andrei Gherzan<andrei.gherzan@windriver.com>
-> >>
-> >> Busybox checks if MACHINE_FEATURES contains "kernel24". If so, CONFIG_FEATURE_2_4_MODULES will be on "y".
-> >> kernel24 is no longer present in any machine configuration. The same situation is in uglibc with a
-> >> different CONFIG mapping.
-> >>
-> >> [YOCTO #1901]
-> >>
-> >> Signed-off-by: Andrei Gherzan<andrei@gherzan.ro>
-> >> ---
-> >>   meta/recipes-core/busybox/busybox.inc      |    4 +---
-> >>   meta/recipes-core/uclibc/uclibc-config.inc |    4 +---
-> >>   2 files changed, 2 insertions(+), 6 deletions(-)
-> > Merged to master with minor tweaks to the commit shortlog, thanks.
-> After a "git pull" I can't see the change.
+On 17/01/12 00:31, Saul Wold wrote:
+> I have test build this grouping of changes and theyseem good to
+> me at this point. One issue is with the linux-yocto change set
+> from Bruce seems to introduce a problem with compile perf on some
+> hardware Machine settings.
+>
+> The openssl changes will need to be backported to 1.1.1, which
+> Joshua is aware of.
 
-Its in poky and OE-Core:
+Well, I am now...
 
-http://git.openembedded.org/openembedded-core/commit/?id=7257ded5355ffdc0fc169e7f34daeedb0b3dcd78
-http://git.yoctoproject.org/cgit.cgi/poky/commit/?id=e2a3695ad44935e8dba6fb4d6e631fc7af5ab754
-
-The mirror you're using mustn't have updated yet?
-
-Cheers,
-
-Richard
-
+Joshua
+-- 
+Joshua Lock
+         Yocto Project "Johannes factotum"
+         Intel Open Source Technology Centre
 
 
