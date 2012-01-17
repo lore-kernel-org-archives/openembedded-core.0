@@ -1,24 +1,24 @@
 Received: from mga14.intel.com ([143.182.124.37])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <sgw@linux.intel.com>) id 1Rn4au-0006h6-Co
+	(envelope-from <sgw@linux.intel.com>) id 1Rn4au-0006gw-9y
 	for openembedded-core@lists.openembedded.org;
 	Tue, 17 Jan 2012 09:40:41 +0100
 Received: from azsmga001.ch.intel.com ([10.2.17.19])
-	by azsmga102.ch.intel.com with ESMTP; 17 Jan 2012 00:33:00 -0800
+	by azsmga102.ch.intel.com with ESMTP; 17 Jan 2012 00:32:59 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="96632951"
+X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="96632941"
 Received: from unknown (HELO swold-mobl.bigsur.com) ([10.255.14.6])
 	by azsmga001.ch.intel.com with ESMTP; 17 Jan 2012 00:32:59 -0800
 From: Saul Wold <sgw@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Tue, 17 Jan 2012 00:32:13 -0800
-Message-Id: <9c56644349efa8ca0b15c26aeadd946fcc6bfab9.1326786990.git.sgw@linux.intel.com>
+Date: Tue, 17 Jan 2012 00:32:11 -0800
+Message-Id: <9ec2e13e3e552d3687b6fbd83177ea13581d3ff1.1326786989.git.sgw@linux.intel.com>
 X-Mailer: git-send-email 1.7.6.5
 In-Reply-To: <cover.1326786989.git.sgw@linux.intel.com>
 References: <cover.1326786989.git.sgw@linux.intel.com>
 In-Reply-To: <cover.1326786989.git.sgw@linux.intel.com>
 References: <cover.1326786989.git.sgw@linux.intel.com>
-Subject: [CONSOLIDATED PULL 28/62] alsa-utils: depend on libsamplerate0
+Subject: [CONSOLIDATED PULL 26/62] oe.license: avoid the need to catch SyntaxError
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -35,34 +35,75 @@ List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedde
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Tue, 17 Jan 2012 08:40:43 -0000
 
-From: Denis 'GNUtoo' Carikli <GNUtoo@no-log.org>
+From: Christopher Larson <chris_larson@mentor.com>
 
-We need to depend on libsamplerate0 because it's detected automatically
-  and if we configure without it we get that issue at runtime trying
-  to run the alsaloop program:
-    No libsamplerate support.
-
-Signed-off-by: Denis 'GNUtoo' Carikli <GNUtoo@no-log.org>
-Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
+Signed-off-by: Christopher Larson <chris_larson@mentor.com>
 ---
- .../recipes-multimedia/alsa/alsa-utils_1.0.24.2.bb |    4 ++--
- 1 files changed, 2 insertions(+), 2 deletions(-)
+ meta/classes/copyleft_compliance.bbclass |    4 +---
+ meta/lib/oe/license.py                   |   23 +++++++++++++++++++----
+ 2 files changed, 20 insertions(+), 7 deletions(-)
 
-diff --git a/meta/recipes-multimedia/alsa/alsa-utils_1.0.24.2.bb b/meta/recipes-multimedia/alsa/alsa-utils_1.0.24.2.bb
-index 9eee60a..196128e 100644
---- a/meta/recipes-multimedia/alsa/alsa-utils_1.0.24.2.bb
-+++ b/meta/recipes-multimedia/alsa/alsa-utils_1.0.24.2.bb
-@@ -5,8 +5,8 @@ SECTION = "console/utils"
- LICENSE = "GPLv2+"
- LIC_FILES_CHKSUM = "file://COPYING;md5=393a5ca445f6965873eca0259a17f833 \
-                     file://alsactl/utils.c;beginline=1;endline=20;md5=fe9526b055e246b5558809a5ae25c0b9"
--DEPENDS = "alsa-lib ncurses"
--PR = "r3"
-+DEPENDS = "alsa-lib ncurses libsamplerate0"
-+PR = "r4"
+diff --git a/meta/classes/copyleft_compliance.bbclass b/meta/classes/copyleft_compliance.bbclass
+index 6f058e0..2eb9ded 100644
+--- a/meta/classes/copyleft_compliance.bbclass
++++ b/meta/classes/copyleft_compliance.bbclass
+@@ -48,10 +48,8 @@ def copyleft_should_include(d):
  
- SRC_URI = "ftp://ftp.alsa-project.org/pub/utils/alsa-utils-${PV}.tar.bz2 \
-            file://ncursesfix.patch \
+     try:
+         is_included, excluded = oe.license.is_included(d.getVar('LICENSE', True), include, exclude)
+-    except oe.license.InvalidLicense as exc:
++    except oe.license.LicenseError as exc:
+         bb.fatal('%s: %s' % (d.getVar('PF', True), exc))
+-    except SyntaxError as exc:
+-        bb.warn('%s: error when parsing the LICENSE variable: %s' % (d.getVar('P', True), exc))
+     else:
+         if is_included:
+             return True, None
+diff --git a/meta/lib/oe/license.py b/meta/lib/oe/license.py
+index 3543cfe..5914506 100644
+--- a/meta/lib/oe/license.py
++++ b/meta/lib/oe/license.py
+@@ -5,13 +5,25 @@ import ast
+ import re
+ from fnmatch import fnmatchcase as fnmatch
+ 
+-class InvalidLicense(StandardError):
++class LicenseError(StandardError):
++    pass
++
++class LicenseSyntaxError(LicenseError):
++    def __init__(self, licensestr, exc):
++        self.licensestr = licensestr
++        self.exc = exc
++        LicenseError.__init__(self)
++
++    def __str__(self):
++        return "error in '%s': %s" % (self.licensestr, self.exc)
++
++class InvalidLicense(LicenseError):
+     def __init__(self, license):
+         self.license = license
+-        StandardError.__init__(self)
++        LicenseError.__init__(self)
+ 
+     def __str__(self):
+-        return "invalid license '%s'" % self.license
++        return "invalid characters in license '%s'" % self.license
+ 
+ license_operator = re.compile('([&|() ])')
+ license_pattern = re.compile('[a-zA-Z0-9.+_\-]+$')
+@@ -59,7 +71,10 @@ class FlattenVisitor(LicenseVisitor):
+ def flattened_licenses(licensestr, choose_licenses):
+     """Given a license string and choose_licenses function, return a flat list of licenses"""
+     flatten = FlattenVisitor(choose_licenses)
+-    flatten.visit_string(licensestr)
++    try:
++        flatten.visit_string(licensestr)
++    except SyntaxError as exc:
++        raise LicenseSyntaxError(licensestr, exc)
+     return flatten.licenses
+ 
+ def is_included(licensestr, whitelist=None, blacklist=None):
 -- 
 1.7.6.5
 
