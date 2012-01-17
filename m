@@ -1,26 +1,25 @@
-Received: from mga03.intel.com ([143.182.124.21])
+Received: from mga14.intel.com ([143.182.124.37])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <sgw@linux.intel.com>) id 1RnEzK-0002ei-E9
+	(envelope-from <sgw@linux.intel.com>) id 1RnF0V-0002hR-78
 	for openembedded-core@lists.openembedded.org;
-	Tue, 17 Jan 2012 20:46:34 +0100
+	Tue, 17 Jan 2012 20:47:47 +0100
 Received: from azsmga002.ch.intel.com ([10.2.17.35])
-	by azsmga101.ch.intel.com with ESMTP; 17 Jan 2012 11:38:51 -0800
+	by azsmga102.ch.intel.com with ESMTP; 17 Jan 2012 11:40:09 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="57371746"
+X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="57372189"
 Received: from unknown (HELO [10.255.14.6]) ([10.255.14.6])
-	by AZSMGA002.ch.intel.com with ESMTP; 17 Jan 2012 11:38:50 -0800
-Message-ID: <4F15CE4A.6030300@linux.intel.com>
-Date: Tue, 17 Jan 2012 11:38:50 -0800
+	by AZSMGA002.ch.intel.com with ESMTP; 17 Jan 2012 11:40:08 -0800
+Message-ID: <4F15CE98.2070900@linux.intel.com>
+Date: Tue, 17 Jan 2012 11:40:08 -0800
 From: Saul Wold <sgw@linux.intel.com>
 User-Agent: Mozilla/5.0 (X11; Linux x86_64;
 	rv:8.0) Gecko/20111115 Thunderbird/8.0
 MIME-Version: 1.0
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-References: <cover.1326480099.git.scott.a.garman@intel.com>
-In-Reply-To: <cover.1326480099.git.scott.a.garman@intel.com>
-Cc: Scott Garman <scott.a.garman@intel.com>
-Subject: Re: [PATCH 0/3] Recipe upgrades - e2fsprogs and libpam
+References: <1326184668-14332-1-git-send-email-james@digitalmatter.com.au>
+In-Reply-To: <1326184668-14332-1-git-send-email-james@digitalmatter.com.au>
+Subject: Re: [PATCH] ghostscript: build cups filters
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -35,58 +34,89 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 17 Jan 2012 19:46:34 -0000
+X-List-Received-Date: Tue, 17 Jan 2012 19:47:47 -0000
 Content-Type: text/plain; charset=ISO-8859-1; format=flowed
 Content-Transfer-Encoding: 7bit
 
-On 01/13/2012 03:29 PM, Scott Garman wrote:
-> Hello,
+On 01/10/2012 12:37 AM, James Limbouris wrote:
+> Cups filters are no longer built by default. Since ghostscript already depends
+> on cups, build the filters and package them as ghostscript-cups.
 >
-> NOTE: This pull request needs Enrico Scholz's bitbake.conf commit
-> (Subject: bitbake.conf: search /lib for -native builds) to work
-> properly. Otherwise tune2fs will complain about an unresolved
-> symbol when manipulating the rootfs journal during do_rootfs for
-> an ext3 rootfs).
+> Ghostscript uses the cups-config script from the oe sysroots to determine some
+> of the target install paths, as well as to determine the linker path. The config
+> script gives out paths pointing to the sysroot, so some of the paths needed to
+> be adjusted in the Makefile.
 >
-> This pull request includes two recipe upgrades, e2fsprogs and libpam.
-> They have been build-tested for all of our qemu architectures.
+> Signed-off-by: James Limbouris<james@digitalmatter.com.au>
+> ---
+>   .../ghostscript/ghostscript_9.04.bb                |   29 ++++++++++++++++---
+>   1 files changed, 24 insertions(+), 5 deletions(-)
 >
-> I've also included distro_tracking updates for chrpath and libevent,
-> which were upgraded about a week ago, but I had forgotten to include
-> with that pull request.
+> diff --git a/meta/recipes-extended/ghostscript/ghostscript_9.04.bb b/meta/recipes-extended/ghostscript/ghostscript_9.04.bb
+> index 7178524..80d363f 100644
+> --- a/meta/recipes-extended/ghostscript/ghostscript_9.04.bb
+> +++ b/meta/recipes-extended/ghostscript/ghostscript_9.04.bb
+> @@ -15,7 +15,7 @@ SECTION = "console/utils"
+>   LICENSE = "GPLv3"
+>   LIC_FILES_CHKSUM = "file://LICENSE;md5=d151214b3131251dfc9d858593acbd24"
 >
-> Finally, this also includes a distro_tracking manual check update for
-> expat.
+> -PR = "r2"
+> +PR = "r3"
 >
-> Scott
+>   DEPENDS = "ghostscript-native tiff jpeg fontconfig cups"
+>   DEPENDS_virtclass-native = ""
+> @@ -34,7 +34,8 @@ SRC_URI_virtclass-native = "${SRC_URI_BASE}"
+>   SRC_URI[md5sum] = "9c2fb4af1eb609d09dba5bb0fa76173a"
+>   SRC_URI[sha256sum] = "f1e333738c41c3bf2b47ceb9806abb8045bcdc7353002c32736150425a7c1ef4"
 >
-> The following changes since commit bd047935305c872b565f30b46c94b7077e5fb3a2:
+> -EXTRA_OECONF = "--without-x --with-system-libtiff --without-jbig2dec --without-jasper --with-fontpath=${datadir}/fonts"
+> +EXTRA_OECONF = "--without-x --with-system-libtiff --without-jbig2dec --without-jasper \
+> +                --with-fontpath=${datadir}/fonts --with-install-cups"
 >
->    patch.bbclass: Ensure the DATE and SRCDATE variable exclusions apply to the correct function (2012-01-13 16:56:20 +0000)
+>   # This has been fixed upstream but for now we need to subvert the check for time.h
+>   # http://bugs.ghostscript.com/show_bug.cgi?id=692443
+> @@ -60,6 +61,14 @@ do_configure_append () {
+>   			cp ${STAGING_BINDIR_NATIVE}/ghostscript-${PV}/$i obj/aux/$i
+>   		done
+>   	fi
+> +
+> +	# replace cups paths from sysroots/.../usr/bin/crossscripts/cups-config with target paths
+> +	# CUPSDATA is compiled into a utility, and CUPSSERVERBIN is used as an install path
+> +	CUPSSERVERBIN=${exec_prefix}/lib/cups          # /usr/lib NOT libdir
+> +	CUPSDATA=${datadir}/cups
+> +
+> +	sed -e "s#^CUPSSERVERBIN=.*#CUPSSERVERBIN=${CUPSSERVERBIN}#" -i Makefile
+> +	sed -e "s#^CUPSDATA=.*#CUPSDATA=${CUPSDATA}#" -i Makefile
+>   }
 >
-> are available in the git repository at:
->    git://git.pokylinux.org/poky-contrib sgarman/recipe-upgrades-jan-final
->    http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=sgarman/recipe-upgrades-jan-final
+>   do_install_append () {
+> @@ -67,9 +76,7 @@ do_install_append () {
+>       cp -r Resource ${D}${datadir}/ghostscript/${PV}/
+>       cp -r iccprofiles ${D}${datadir}/ghostscript/${PV}/
 >
-> Scott Garman (3):
->    libpam: upgrade to 1.1.5
->    e2fsprogs: upgrade to 1.42
->    distro_tracking: recipe upgrades and manual check info
+> -    if [ -f ${D}${sysconfdir}/cups ]; then
+> -        chown -R root:lp ${D}${sysconfdir}/cups
+> -    fi
+> +    chown -R root:lp ${D}${sysconfdir}/cups
+>   }
 >
->   .../conf/distro/include/distro_tracking_fields.inc |   40 ++++++++++--------
->   .../acinclude.m4                                   |    0
->   .../mkdir.patch                                    |    0
->   .../quotefix.patch                                 |   45 +++++++++----------
->   meta/recipes-devtools/e2fsprogs/e2fsprogs.inc      |    2 +-
->   .../{e2fsprogs_1.41.14.bb =>  e2fsprogs_1.42.bb}    |    7 +--
->   .../pam/{libpam_1.1.4.bb =>  libpam_1.1.5.bb}       |   27 ++++++------
->   7 files changed, 61 insertions(+), 60 deletions(-)
->   rename meta/recipes-devtools/e2fsprogs/{e2fsprogs-1.41.14 =>  e2fsprogs-1.42}/acinclude.m4 (100%)
->   rename meta/recipes-devtools/e2fsprogs/{e2fsprogs-1.41.14 =>  e2fsprogs-1.42}/mkdir.patch (100%)
->   rename meta/recipes-devtools/e2fsprogs/{e2fsprogs-1.41.14 =>  e2fsprogs-1.42}/quotefix.patch (40%)
->   rename meta/recipes-devtools/e2fsprogs/{e2fsprogs_1.41.14.bb =>  e2fsprogs_1.42.bb} (92%)
->   rename meta/recipes-extended/pam/{libpam_1.1.4.bb =>  libpam_1.1.5.bb} (85%)
->
+>   python do_patch_virtclass-native () {
+> @@ -95,3 +102,15 @@ BBCLASSEXTEND = "native"
+>   # Ghostscript install tool 'instcopy' tries to remove already created
+>   # directories during install and parallel make causes problems.
+>   PARALLEL_MAKEINST=""
+> +
+> +PACKAGES =+ "${PN}-cups"
+> +
+> +FILES_${PN}-dbg += "${exec_prefix}/lib/cups/filter/.debug"
+> +
+> +FILES_${PN}-cups += "${exec_prefix}/lib/cups/filter/gstoraster \
+> +                     ${exec_prefix}/lib/cups/filter/pstopxl \
+> +                     ${datadir}/cups \
+> +                     ${sysconfdir}/cups \
+> +                     "
+> +
+> +RDEPENDS_${PN}-cups = ${PN}
 
 Merged into OE-Core
 
