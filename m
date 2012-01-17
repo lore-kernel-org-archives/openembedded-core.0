@@ -1,24 +1,24 @@
 Received: from mga14.intel.com ([143.182.124.37])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <sgw@linux.intel.com>) id 1Rn4ar-0006h6-1S
+	(envelope-from <sgw@linux.intel.com>) id 1Rn4ar-0006gw-HV
 	for openembedded-core@lists.openembedded.org;
 	Tue, 17 Jan 2012 09:40:37 +0100
 Received: from azsmga001.ch.intel.com ([10.2.17.19])
-	by azsmga102.ch.intel.com with ESMTP; 17 Jan 2012 00:32:55 -0800
+	by azsmga102.ch.intel.com with ESMTP; 17 Jan 2012 00:32:56 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="96632888"
+X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="96632899"
 Received: from unknown (HELO swold-mobl.bigsur.com) ([10.255.14.6])
-	by azsmga001.ch.intel.com with ESMTP; 17 Jan 2012 00:32:54 -0800
+	by azsmga001.ch.intel.com with ESMTP; 17 Jan 2012 00:32:55 -0800
 From: Saul Wold <sgw@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Tue, 17 Jan 2012 00:32:00 -0800
-Message-Id: <e69a7b4c8f20b67426483e7f93ad63baa9c31b27.1326786989.git.sgw@linux.intel.com>
+Date: Tue, 17 Jan 2012 00:32:02 -0800
+Message-Id: <2258e319a43c2369a90a25f3d0036a033d29a290.1326786989.git.sgw@linux.intel.com>
 X-Mailer: git-send-email 1.7.6.5
 In-Reply-To: <cover.1326786989.git.sgw@linux.intel.com>
 References: <cover.1326786989.git.sgw@linux.intel.com>
 In-Reply-To: <cover.1326786989.git.sgw@linux.intel.com>
 References: <cover.1326786989.git.sgw@linux.intel.com>
-Subject: [CONSOLIDATED PULL 15/62] distro-tracking: Update info for webkit-gtk, web-webkit
+Subject: [CONSOLIDATED PULL 17/62] hdparm: upgrade to 9.37
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -33,40 +33,178 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 17 Jan 2012 08:40:37 -0000
+X-List-Received-Date: Tue, 17 Jan 2012 08:40:38 -0000
 
-From: Zhai Edwin <edwin.zhai@intel.com>
+From: Shane Wang <shane.wang@intel.com>
 
-Signed-off-by: Zhai Edwin <edwin.zhai@intel.com>
+The patch was imported from the OpenEmbedded server (http://git.openembedded.org/openembedded/tree/recipes/hdparm) as of commit id 4d2cb79dcecd056742f411a328f9f1f1113bf689.
+
+And changes include:
+       - upgrade to the latest version 9.37 from 9.35.
+       - added license checksum.
+       - the license for wiper which is in hdparm is GPLv2.
+
+Signed-off-by: Shane Wang <shane.wang@intel.com>
 ---
- .../conf/distro/include/distro_tracking_fields.inc |    7 ++++---
- 1 files changed, 4 insertions(+), 3 deletions(-)
+ .../recipes-extended/hdparm/hdparm-6.3/bswap.patch |   37 --------------------
+ .../hdparm/hdparm-6.3/uclibc.patch                 |   34 ------------------
+ meta/recipes-extended/hdparm/hdparm_6.3.bb         |   18 ---------
+ meta/recipes-extended/hdparm/hdparm_9.37.bb        |   36 +++++++++++++++++++
+ 4 files changed, 36 insertions(+), 89 deletions(-)
+ delete mode 100644 meta/recipes-extended/hdparm/hdparm-6.3/bswap.patch
+ delete mode 100644 meta/recipes-extended/hdparm/hdparm-6.3/uclibc.patch
+ delete mode 100644 meta/recipes-extended/hdparm/hdparm_6.3.bb
+ create mode 100644 meta/recipes-extended/hdparm/hdparm_9.37.bb
 
-diff --git a/meta/conf/distro/include/distro_tracking_fields.inc b/meta/conf/distro/include/distro_tracking_fields.inc
-index dbcfd2b..974f8f0 100644
---- a/meta/conf/distro/include/distro_tracking_fields.inc
-+++ b/meta/conf/distro/include/distro_tracking_fields.inc
-@@ -5250,8 +5250,8 @@ RECIPE_MAINTAINER_pn-gnome-common = "Zhai Edwin <edwin.zhai@intel.com>"
- RECIPE_STATUS_pn-webkit-gtk = "green"
- DISTRO_PN_ALIAS_pn-webkit-gtk = "Fedora=webkitgtk"
- RECIPE_DEPENDENCY_CHECK_pn-webkit-gtk = "not done"
--RECIPE_LATEST_VERSION_pn-webkit-gtk = "1.6.1+svnr101367"
--RECIPE_MANUAL_CHECK_DATE_pn-webkit-gtk = "Dec 2, 2011"
-+RECIPE_LATEST_VERSION_pn-webkit-gtk = "1.6.1+svnr104660"
-+RECIPE_MANUAL_CHECK_DATE_pn-webkit-gtk = "Jan 11, 2012"
- RECIPE_NO_OF_PATCHES_pn-webkit-gtk = "1"
- RECIPE_INTEL_SECTION_pn-webkit-gtk = "graphic UX"
- RECIPE_TIME_BETWEEN_LAST_TWO_RELEASES_pn-webkit-gtk = "1 month"
-@@ -5450,7 +5450,8 @@ RECIPE_MAINTAINER_pn-libgnome-keyring = "Zhai Edwin <edwin.zhai@intel.com>"
- 
- RECIPE_STATUS_pn-web-webkit = "green"
- RECIPE_DEPENDENCY_CHECK_pn-web-webkit = "not done"
--RECIPE_LATEST_VERSION_pn-web-webkit = "0.0+svnr110"
-+RECIPE_LATEST_VERSION_pn-web-webkit = "0.1+git0+0f7019acd9db5383c732d0524c7c3a5eaec9be2b"
-+RECIPE_MANUAL_CHECK_DATE_pn-web-webkit = "Jan 11, 2012"
- RECIPE_NO_OF_PATCHES_pn-web-webkit = "1"
- RECIPE_INTEL_SECTION_pn-web-webkit = "graphic UX"
- RECIPE_TIME_BETWEEN_LAST_TWO_RELEASES_pn-web-webkit = "n/a"
+diff --git a/meta/recipes-extended/hdparm/hdparm-6.3/bswap.patch b/meta/recipes-extended/hdparm/hdparm-6.3/bswap.patch
+deleted file mode 100644
+index 715886a..0000000
+--- a/meta/recipes-extended/hdparm/hdparm-6.3/bswap.patch
++++ /dev/null
+@@ -1,37 +0,0 @@
+-Upstream-Status: Backport
+-
+-#
+-# Patch managed by http://www.holgerschurig.de/patcher.html
+-#
+-
+---- hdparm-5.8/hdparm.c~bswap
+-+++ hdparm-5.8/hdparm.c
+-@@ -20,7 +20,9 @@
+- #include <linux/types.h>
+- #include <linux/hdreg.h>
+- #include <linux/major.h>
+--#include <asm/byteorder.h>
+-+#include <byteswap.h>
+-+
+-+#define le16_to_cpus(x) bswap_16(htons(x))
+- 
+- #include "hdparm.h"
+- 
+-@@ -1160,7 +1162,7 @@
+- 			}
+- 		} else {
+- 			for(i = 0; i < 0x100; ++i) {
+--				__le16_to_cpus(&id[i]);
+-+				le16_to_cpus(&id[i]);
+- 			}
+- 			identify((void *)id, NULL);
+- 		}
+-@@ -1380,7 +1382,7 @@
+- 	}
+- 	for (i = 0; count >= 4; ++i) {
+- 		sbuf[i] = (fromhex(b[0]) << 12) | (fromhex(b[1]) << 8) | (fromhex(b[2]) << 4) | fromhex(b[3]);
+--		__le16_to_cpus((__u16 *)(&sbuf[i]));
+-+		le16_to_cpus((__u16 *)(&sbuf[i]));
+- 		b += 5;
+- 		count -= 5;
+- 	}
+diff --git a/meta/recipes-extended/hdparm/hdparm-6.3/uclibc.patch b/meta/recipes-extended/hdparm/hdparm-6.3/uclibc.patch
+deleted file mode 100644
+index d5f9298..0000000
+--- a/meta/recipes-extended/hdparm/hdparm-6.3/uclibc.patch
++++ /dev/null
+@@ -1,34 +0,0 @@
+-Upstream-Status: Inappropriate [embedded specific]
+-
+---- hdparm-5.8/hdparm.c.ark	2005-05-22 19:48:34.000000000 +0000
+-+++ hdparm-5.8/hdparm.c	2005-05-22 19:52:18.000000000 +0000
+-@@ -17,7 +17,9 @@
+- #include <sys/times.h>
+- #include <sys/types.h>
+- #include <sys/mount.h>
+-+#ifndef __UCLIBC__
+- #include <linux/types.h>
+-+#endif
+- #include <linux/hdreg.h>
+- #include <linux/major.h>
+- #include <byteswap.h>
+---- hdparm-5.8/hdparm.h.ark	2005-05-22 19:51:49.000000000 +0000
+-+++ hdparm-5.8/hdparm.h	2005-05-22 19:54:54.000000000 +0000
+-@@ -1,6 +1,6 @@
+- /* Some prototypes for extern functions. */
+- 
+--#include <linux/types.h>	/* for __u16 */
+-+#include <stdint.h>
+- 
+- #if !defined(__GNUC__) && !defined(__attribute__)
+- #define __attribute__(x)	/* if not using GCC, turn off the __attribute__
+-@@ -11,7 +11,7 @@
+-    others, though, were declared in hdparm.c with global scope; since other
+-    functions in that file have static (file) scope, I assume the difference is
+-    intentional. */
+--extern void identify (__u16 *id_supplied, const char *devname);
+-+extern void identify (uint16_t *id_supplied, const char *devname);
+- 
+- extern void usage_error(int out)    __attribute__((noreturn));
+- extern int main(int argc, char **argv) __attribute__((noreturn));
+-
+diff --git a/meta/recipes-extended/hdparm/hdparm_6.3.bb b/meta/recipes-extended/hdparm/hdparm_6.3.bb
+deleted file mode 100644
+index 62ae4c0..0000000
+--- a/meta/recipes-extended/hdparm/hdparm_6.3.bb
++++ /dev/null
+@@ -1,18 +0,0 @@
+-SUMMARY = "Utility for displaying and setting hard disk parameters"
+-DESCRIPTION = "hdparm is a system utility for viewing \
+-and manipulating various IDE drive and driver parameters."
+-SECTION = "console/utils"
+-LICENSE = "BSD"
+-LIC_FILES_CHKSUM = "file://LICENSE.TXT;md5=910a8a42c962d238619c75fdb78bdb24"
+-
+-SRC_URI = "${SOURCEFORGE_MIRROR}/hdparm/hdparm-${PV}.tar.gz \
+-	   file://bswap.patch \
+-	   file://uclibc.patch"
+-
+-SRC_URI[md5sum] = "0c12672f3a09c14ad0b0882f15fc9389"
+-SRC_URI[sha256sum] = "08688a6a46ba495494bf838f8f26103e797584c1888eca94e43a171e1b37246d"
+-
+-do_install () {
+-	install -d ${D}/${sbindir} ${D}/${mandir}/man8
+-	oe_runmake 'DESTDIR=${D}' install
+-}
+diff --git a/meta/recipes-extended/hdparm/hdparm_9.37.bb b/meta/recipes-extended/hdparm/hdparm_9.37.bb
+new file mode 100644
+index 0000000..bfc64e7
+--- /dev/null
++++ b/meta/recipes-extended/hdparm/hdparm_9.37.bb
+@@ -0,0 +1,36 @@
++DESCRIPTION = "hdparm is a Linux shell utility for viewing \
++and manipulating various IDE drive and driver parameters."
++SECTION = "console/utils"
++PRIORITY = "optional"
++LICENSE = "BSD"
++LICENSE_wiper = "GPLv2"
++LIC_FILES_CHKSUM = "file://LICENSE.TXT;md5=910a8a42c962d238619c75fdb78bdb24 \
++                    file://debian/copyright;md5=a82d7ba3ade9e8ec902749db98c592f3 \
++                    file://wiper/GPLv2.txt;md5=fcb02dc552a041dee27e4b85c7396067 \
++                    file://wiper/wiper.sh;beginline=7;endline=31;md5=b7bc642addc152ea307505bf1a296f09"
++
++PACKAGES += "wiper"
++
++FILES_wiper = "${bindir}/wiper.sh"
++FILES_${PN} = "${base_sbindir} ${mandir}"
++
++RDEPENDS_wiper = "bash gawk stat"
++
++SRC_URI = "${SOURCEFORGE_MIRROR}/hdparm/hdparm-${PV}.tar.gz "
++SRC_URI[md5sum] = "0bb94ddd1bedd5c02b1ca62f1caaf6de"
++SRC_URI[sha256sum] = "87ede0a7cb5b4de500748232e9d251b75acfccce078e1d42c8d125b9e5b4ccd3"
++
++do_install () {
++	install -d ${D}/${base_sbindir} ${D}/${mandir}/man8 ${D}/${bindir}
++	oe_runmake 'DESTDIR=${D}' 'sbindir=${base_sbindir}' install
++	mv ${D}${base_sbindir}/hdparm ${D}${base_sbindir}/hdparm.${PN}
++	cp ${S}/wiper/wiper.sh ${D}/${bindir}
++}
++
++pkg_postinst_${PN} () {
++	update-alternatives --install ${base_sbindir}/hdparm hdparm hdparm.${PN} 100
++}
++
++pkg_prerm_${PN} () {
++	update-alternatives --remove hdparm hdparm.${PN}
++}
 -- 
 1.7.6.5
 
