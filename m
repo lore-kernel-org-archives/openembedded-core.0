@@ -1,24 +1,24 @@
 Received: from mga14.intel.com ([143.182.124.37])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <sgw@linux.intel.com>) id 1Rn4as-0006gw-Ua
+	(envelope-from <sgw@linux.intel.com>) id 1Rn4at-0006h6-88
 	for openembedded-core@lists.openembedded.org;
 	Tue, 17 Jan 2012 09:40:39 +0100
 Received: from azsmga001.ch.intel.com ([10.2.17.19])
 	by azsmga102.ch.intel.com with ESMTP; 17 Jan 2012 00:32:58 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="96632926"
+X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="96632932"
 Received: from unknown (HELO swold-mobl.bigsur.com) ([10.255.14.6])
-	by azsmga001.ch.intel.com with ESMTP; 17 Jan 2012 00:32:57 -0800
+	by azsmga001.ch.intel.com with ESMTP; 17 Jan 2012 00:32:58 -0800
 From: Saul Wold <sgw@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Tue, 17 Jan 2012 00:32:07 -0800
-Message-Id: <76a899d68d82fb6b26d524fd8bc0acb2da3b166b.1326786989.git.sgw@linux.intel.com>
+Date: Tue, 17 Jan 2012 00:32:08 -0800
+Message-Id: <924ea4dce7450c6c2ed5a4727c082cf290140056.1326786989.git.sgw@linux.intel.com>
 X-Mailer: git-send-email 1.7.6.5
 In-Reply-To: <cover.1326786989.git.sgw@linux.intel.com>
 References: <cover.1326786989.git.sgw@linux.intel.com>
 In-Reply-To: <cover.1326786989.git.sgw@linux.intel.com>
 References: <cover.1326786989.git.sgw@linux.intel.com>
-Subject: [CONSOLIDATED PULL 22/62] linux-yocto: consolidated fix SRCREV updates
+Subject: [CONSOLIDATED PULL 23/62] copyleft_compliance: add control of recipe types to include
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -35,59 +35,56 @@ List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedde
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Tue, 17 Jan 2012 08:40:39 -0000
 
-From: Bruce Ashfield <bruce.ashfield@windriver.com>
+From: Christopher Larson <chris_larson@mentor.com>
 
-Updating the SRCREVs to include the following fixes from Khem Raj and
-Zumeng Chen.
+In this context, recipe "type" refers to whether it is 'target', 'native',
+'cross', etc. COPYLEFT_RECIPE_TYPES is a space separated list of types to
+include. It defaults to 'target'.
 
- 6f5b118 compiler.h: Undef before redefining __attribute_const__
- fe80c1e oprofile, arm/sh: Fix oprofile_arch_exit() linkage issue
-
-Signed-off-by: Bruce Ashfield <bruce.ashfield@windriver.com>
+Signed-off-by: Christopher Larson <chris_larson@mentor.com>
 ---
- meta/recipes-kernel/linux/linux-yocto-rt_3.0.bb |    4 ++--
- meta/recipes-kernel/linux/linux-yocto_3.0.bb    |   13 +++++++------
- 2 files changed, 9 insertions(+), 8 deletions(-)
+ meta/classes/copyleft_compliance.bbclass |   21 ++++++++++++++++++---
+ 1 files changed, 18 insertions(+), 3 deletions(-)
 
-diff --git a/meta/recipes-kernel/linux/linux-yocto-rt_3.0.bb b/meta/recipes-kernel/linux/linux-yocto-rt_3.0.bb
-index c6bf446..145e548 100644
---- a/meta/recipes-kernel/linux/linux-yocto-rt_3.0.bb
-+++ b/meta/recipes-kernel/linux/linux-yocto-rt_3.0.bb
-@@ -14,8 +14,8 @@ KBRANCH_qemuppc = "yocto/standard/preempt-rt/qemu-ppc32"
- LINUX_VERSION ?= "3.0.14"
- LINUX_KERNEL_TYPE = "preempt-rt"
+diff --git a/meta/classes/copyleft_compliance.bbclass b/meta/classes/copyleft_compliance.bbclass
+index 2fe524b..37ed09e 100644
+--- a/meta/classes/copyleft_compliance.bbclass
++++ b/meta/classes/copyleft_compliance.bbclass
+@@ -16,6 +16,22 @@ COPYLEFT_LICENSE_EXCLUDE ?= 'CLOSED Proprietary'
+ COPYLEFT_LICENSE_EXCLUDE[type] = 'list'
+ COPYLEFT_LICENSE_INCLUDE[doc] = 'Space separated list of globs which exclude licenses'
  
--SRCREV_machine ?= "bcf4107c7f22d10952618a2ad146e6149d240cd2"
--SRCREV_machine_qemuppc ?= "1e5511ea2cb5f150ffce86071035a81c0499494b"
-+SRCREV_machine ?= "f1cc220f4ddf434bf254707c83a45794a63f117f"
-+SRCREV_machine_qemuppc ?= "8bd5b80cb3243dadc9d6c5c09482c49994dff1a8"
- SRCREV_meta ?= "73dafd44ea875df654129b32b2877f342d5573e4"
- 
- PR = "r1"
-diff --git a/meta/recipes-kernel/linux/linux-yocto_3.0.bb b/meta/recipes-kernel/linux/linux-yocto_3.0.bb
-index e624b48..0b79bee 100644
---- a/meta/recipes-kernel/linux/linux-yocto_3.0.bb
-+++ b/meta/recipes-kernel/linux/linux-yocto_3.0.bb
-@@ -12,12 +12,13 @@ KBRANCH = ${KMACHINE}
- 
- LINUX_VERSION ?= "3.0.14"
- 
--SRCREV_machine_qemuarm ?= "c498cc6e4b56784b3c2c547cb9a7af435b9412c1"
--SRCREV_machine_qemumips ?= "791c3f4124a238a798e2360340800f4989fad695"
--SRCREV_machine_qemuppc ?= "10e808d1c304b14cf42903fd637f239766b78476"
--SRCREV_machine_qemux86 ?= "e04f9f8e564c60b1ce907d64074c18730f8dab4e"
--SRCREV_machine_qemux86-64 ?= "53c2fa060d34e9a0b59e19398aeebbe73f24d89b"
--SRCREV_machine ?= "fe80c1e343bf8f038328a612cef7f821d7ec8dbf"
++COPYLEFT_RECIPE_TYPE ?= '${@copyleft_recipe_type(d)}'
++COPYLEFT_RECIPE_TYPE[doc] = 'The "type" of the current recipe (e.g. target, native, cross)'
 +
-+SRCREV_machine_qemuarm ?= "c0386e4195c685b0ff94b7e21581ec47008ab13b"
-+SRCREV_machine_qemumips ?= "56e4361a1bfc10042d83a7d8a5f96932056e3f35"
-+SRCREV_machine_qemuppc ?= "53e71af30e30162e17e32b2f57e4481f5bc0573e"
-+SRCREV_machine_qemux86 ?= "9e73573b6b227ab2c62e66e63470866d136f8d76"
-+SRCREV_machine_qemux86-64 ?= "3551fd0412965b1f6b0b2f6ba35f7fecdaddb58a"
-+SRCREV_machine ?= "6f5b11830deba4a6262c8c4abf67e608924f649e"
- SRCREV_meta ?= "73dafd44ea875df654129b32b2877f342d5573e4"
++COPYLEFT_RECIPE_TYPES ?= 'target'
++COPYLEFT_RECIPE_TYPES[type] = 'list'
++COPYLEFT_RECIPE_TYPES[doc] = 'Space separated list of recipe types to include'
++
++COPYLEFT_AVAILABLE_RECIPE_TYPES = 'target native nativesdk cross crosssdk cross-canadian'
++COPYLEFT_AVAILABLE_RECIPE_TYPES[type] = 'list'
++COPYLEFT_AVAILABLE_RECIPE_TYPES[doc] = 'Space separated list of available recipe types'
++
++def copyleft_recipe_type(d):
++    for recipe_type in oe.data.typed_value('COPYLEFT_AVAILABLE_RECIPE_TYPES', d):
++        if oe.utils.inherits(d, recipe_type):
++            return recipe_type
++    return 'target'
  
- PR = "r2"
+ def copyleft_should_include(d):
+     """Determine if this recipe's sources should be deployed for compliance"""
+@@ -23,9 +39,8 @@ def copyleft_should_include(d):
+     import oe.license
+     from fnmatch import fnmatchcase as fnmatch
+ 
+-    if oe.utils.inherits(d, 'native', 'nativesdk', 'cross', 'crossdk'):
+-        # not a target recipe
+-        return
++    if d.getVar('COPYLEFT_RECIPE_TYPE', True) not in oe.data.typed_value('COPYLEFT_RECIPE_TYPES', d):
++        return False
+ 
+     include = oe.data.typed_value('COPYLEFT_LICENSE_INCLUDE', d)
+     exclude = oe.data.typed_value('COPYLEFT_LICENSE_EXCLUDE', d)
 -- 
 1.7.6.5
 
