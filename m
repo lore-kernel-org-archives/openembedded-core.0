@@ -1,24 +1,24 @@
-Received: from mga03.intel.com ([143.182.124.21])
+Received: from mga14.intel.com ([143.182.124.37])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <sgw@linux.intel.com>) id 1Rn4b5-0006um-KN
+	(envelope-from <sgw@linux.intel.com>) id 1Rn4b6-0006iI-6P
 	for openembedded-core@lists.openembedded.org;
-	Tue, 17 Jan 2012 09:40:51 +0100
+	Tue, 17 Jan 2012 09:40:52 +0100
 Received: from azsmga001.ch.intel.com ([10.2.17.19])
-	by azsmga101.ch.intel.com with ESMTP; 17 Jan 2012 00:33:12 -0800
+	by azsmga102.ch.intel.com with ESMTP; 17 Jan 2012 00:33:10 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="96633101"
+X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="96633075"
 Received: from unknown (HELO swold-mobl.bigsur.com) ([10.255.14.6])
-	by azsmga001.ch.intel.com with ESMTP; 17 Jan 2012 00:33:11 -0800
+	by azsmga001.ch.intel.com with ESMTP; 17 Jan 2012 00:33:09 -0800
 From: Saul Wold <sgw@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Tue, 17 Jan 2012 00:32:38 -0800
-Message-Id: <35de435ebf8f318e4440e35d3738143e2761493d.1326786990.git.sgw@linux.intel.com>
+Date: Tue, 17 Jan 2012 00:32:33 -0800
+Message-Id: <3c1cf8bf830eee78854598866b63d0dc976257e0.1326786990.git.sgw@linux.intel.com>
 X-Mailer: git-send-email 1.7.6.5
 In-Reply-To: <cover.1326786989.git.sgw@linux.intel.com>
 References: <cover.1326786989.git.sgw@linux.intel.com>
 In-Reply-To: <cover.1326786989.git.sgw@linux.intel.com>
 References: <cover.1326786989.git.sgw@linux.intel.com>
-Subject: [CONSOLIDATED PULL 53/62] lttng-ust: Update to 2.0
+Subject: [CONSOLIDATED PULL 48/62] conf/bitbake.conf: allow wget to output error messages
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -35,53 +35,43 @@ List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedde
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Tue, 17 Jan 2012 08:40:52 -0000
 
-From: Zumeng Chen <zumeng.chen@windriver.com>
+From: Paul Eggleton <paul.eggleton@linux.intel.com>
 
-This patch intended to integrate the LTTng UST 2.0 package, which
-contains the userspace tracer library to trace userspace codes.
+Use the -nv instead of -q command line option for wget so that if
+fetching from a URL that the wget fetcher handles (e.g. http) fails, we
+get a possibly useful error message (but it still remains relatively
+quiet when the fetch succeeds.)
 
-Signed-off-by: Zumeng Chen <zumeng.chen@windriver.com>
+Signed-off-by: Paul Eggleton <paul.eggleton@linux.intel.com>
 ---
- meta/recipes-kernel/lttng-2.0/lttng-ust_1.9.4.bb |   30 ++++++++++++++++++++++
- 1 files changed, 30 insertions(+), 0 deletions(-)
- create mode 100644 meta/recipes-kernel/lttng-2.0/lttng-ust_1.9.4.bb
+ meta/conf/bitbake.conf |    6 +++---
+ 1 files changed, 3 insertions(+), 3 deletions(-)
 
-diff --git a/meta/recipes-kernel/lttng-2.0/lttng-ust_1.9.4.bb b/meta/recipes-kernel/lttng-2.0/lttng-ust_1.9.4.bb
-new file mode 100644
-index 0000000..87d866e
---- /dev/null
-+++ b/meta/recipes-kernel/lttng-2.0/lttng-ust_1.9.4.bb
-@@ -0,0 +1,30 @@
-+SUMMARY = "Linux Trace Toolkit Userspace Tracer 2.0"
-+DESCRIPTION = "The LTTng UST 2.0 package contains the userspace tracer library to trace userspace codes."
-+HOMEPAGE = "http://lttng.org/lttng2.0"
-+BUGTRACKER = "n/a"
-+
-+LICENSE = "LGPLv2.1+ & BSD"
-+LIC_FILES_CHKSUM = "file://COPYING;md5=e647752e045a8c45b6f583771bd561ef \
-+                    file://snprintf/snprintf.c;endline=32;md5=d3d544959d8a3782b2e07451be0a903c \
-+                    file://snprintf/various.h;endline=31;md5=89f2509b6b4682c4fc95255eec4abe44"
-+
-+inherit autotools
-+
-+DEPENDS = "liburcu util-linux"
-+
-+SRCREV = "eeee05f35f014a8c068e0d29b18629cafbfdfc1d"
-+PV = "1.9.4+git${SRCPV}"
-+PR = "r0"
-+
-+SRC_URI = "git://git.lttng.org/lttng-ust.git;protocol=git"
-+
-+S = "${WORKDIR}/git"
-+
-+do_configure_prepend () {
-+	${S}/bootstrap
-+}
-+
-+# Due to liburcu not building for MIPS currently this recipe needs to
-+# be limited also.
-+# So here let us first suppport x86/arm/powerpc platforms now.
-+COMPATIBLE_HOST = '(x86_64.*|i.86.*|arm.*|powerpc.*)-linux'
+diff --git a/meta/conf/bitbake.conf b/meta/conf/bitbake.conf
+index d051363..2eb4a05 100644
+--- a/meta/conf/bitbake.conf
++++ b/meta/conf/bitbake.conf
+@@ -562,17 +562,17 @@ XORG_MIRROR = "http://xorg.freedesktop.org/releases"
+ 
+ FETCHCMD_svn = "/usr/bin/env svn"
+ FETCHCMD_cvs = "/usr/bin/env cvs"
+-FETCHCMD_wget = "/usr/bin/env wget -t 5 -q --no-check-certificate"
++FETCHCMD_wget = "/usr/bin/env wget -t 5 -nv --no-check-certificate"
+ FETCHCMD_bzr = "/usr/bin/env bzr"
+ FETCHCMD_hg = "/usr/bin/env hg"
+ 
+ FETCHCOMMAND = "ERROR, this must be a BitBake bug"
+-FETCHCOMMAND_wget = "/usr/bin/env wget -t 5 -q --passive-ftp --no-check-certificate -P ${DL_DIR} '${URI}'"
++FETCHCOMMAND_wget = "/usr/bin/env wget -t 5 -nv --passive-ftp --no-check-certificate -P ${DL_DIR} '${URI}'"
+ FETCHCOMMAND_cvs = "/usr/bin/env cvs '-d${CVSROOT}' co ${CVSCOOPTS} ${CVSMODULE}"
+ FETCHCOMMAND_svn = "/usr/bin/env svn co ${SVNCOOPTS} ${SVNROOT} ${SVNMODULE}"
+ CHECKCOMMAND_wget = "/usr/bin/env wget --spider -t 5 --passive-ftp --no-check-certificate -P ${DL_DIR} '${URI}'"
+ RESUMECOMMAND = "ERROR, this must be a BitBake bug"
+-RESUMECOMMAND_wget = "/usr/bin/env wget -c -t 5 -q --passive-ftp --no-check-certificate -P ${DL_DIR} '${URI}'"
++RESUMECOMMAND_wget = "/usr/bin/env wget -c -t 5 -nv --passive-ftp --no-check-certificate -P ${DL_DIR} '${URI}'"
+ UPDATECOMMAND = "ERROR, this must be a BitBake bug"
+ UPDATECOMMAND_cvs = "/usr/bin/env cvs -d${CVSROOT} update -d -P ${CVSCOOPTS}"
+ UPDATECOMMAND_svn = "/usr/bin/env svn update ${SVNCOOPTS}"
 -- 
 1.7.6.5
 
