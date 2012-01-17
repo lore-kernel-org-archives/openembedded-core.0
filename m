@@ -1,24 +1,45 @@
-Received: from mail-we0-f175.google.com ([74.125.82.175])
+Received: from dgate10.ts.fujitsu.com ([80.70.172.49])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <andrei@gherzan.ro>) id 1Rn7Kp-0008U4-Qt
+	(envelope-from <Rainer.Koenig@ts.fujitsu.com>) id 1Rn82p-0002N9-Cx
 	for openembedded-core@lists.openembedded.org;
-	Tue, 17 Jan 2012 12:36:15 +0100
-Received: by werf1 with SMTP id f1so1853166wer.6
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 17 Jan 2012 03:28:38 -0800 (PST)
-Received: by 10.216.135.162 with SMTP id u34mr6948596wei.1.1326799718726;
-	Tue, 17 Jan 2012 03:28:38 -0800 (PST)
-Received: from localhost.localdomain ([89.121.200.106])
-	by mx.google.com with ESMTPS id dr7sm13084936wib.3.2012.01.17.03.28.37
-	(version=TLSv1/SSLv3 cipher=OTHER);
-	Tue, 17 Jan 2012 03:28:37 -0800 (PST)
-From: Andrei Gherzan <andrei@gherzan.ro>
-To: openembedded-core@lists.openembedded.org
-Date: Tue, 17 Jan 2012 13:28:31 +0200
-Message-Id: <1326799711-31142-1-git-send-email-andrei@gherzan.ro>
-X-Mailer: git-send-email 1.7.5.4
-Cc: flocirel@gmail.com, Andrei Gherzan <andrei.gherzan@windriver.com>
-Subject: [PATCH] busybox uglic: remove obsolete check for "kernel24"
+	Tue, 17 Jan 2012 13:21:43 +0100
+DomainKey-Signature: s=s1536a; d=ts.fujitsu.com; c=nofws; q=dns;
+	h=X-SBRSScore:X-IronPort-AV:Received:X-IronPort-AV:
+	Received:Message-ID:Date:From:User-Agent:MIME-Version:To:
+	Subject:X-Enigmail-Version:Content-Type:
+	Content-Transfer-Encoding;
+	b=U4wsBd0ntLlhYJKZJRhk4IDuZfnU+1kagPZXtkNMFci7XG1WPz6DvjRQ
+	4zdEG3MXocTpSRgbu5ORTtw/7WVJJVZRhbs/p4hzpgVwC7zLCP0BKR+3r
+	E+CPIcbAz3KO3g9WU8td+A8/eXTDEpl/h9uFnH7uF32gohG65iOMO3wKh
+	omf3aNbFB4KPlPu7rHWB6qd6PmzRQG9sHvGjl5lyeN+aRhQwK32/HnhIw
+	UR/xf1/BrywH1mp0Peh5mRK4RuPNN;
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
+	d=ts.fujitsu.com; i=Rainer.Koenig@ts.fujitsu.com;
+	q=dns/txt; s=s1536b; t=1326802448; x=1358338448;
+	h=message-id:date:from:mime-version:to:subject:
+	content-transfer-encoding;
+	bh=KWA5twL48lZkWkyA6l9o9XioW++G4Sk3nYFqL5YGcCg=;
+	b=SElSmRn+kI1KMbTTFLgSFKUywHdYLx3vlkoQb9Y02arwQGJ2BST3FUJk
+	4eatLCBk6aw9FIaYIhN00SfmTHGwlFxf0ZNQxVyt7OlXIGn7mJtPWrCqA
+	ubDzg42CZUgny2X7naQE3FjiqkDLok5sG9xtvA09l53+50OLgz5dDEXIE
+	x9csCVWzOt8/fb6DN3kUYm0lYL7kmLzQX7pUh4Dc266nh701KuQRYpNs/
+	mdDhocAPxr9FSjVxThItdub9dmCPB;
+X-SBRSScore: None
+X-IronPort-AV: E=Sophos;i="4.71,522,1320620400"; d="scan'208";a="98880739"
+Received: from abgdgate30u.abg.fsc.net ([172.25.138.66])
+	by dgate10u.abg.fsc.net with ESMTP; 17 Jan 2012 13:14:08 +0100
+X-IronPort-AV: E=Sophos;i="4.71,522,1320620400"; d="scan'208";a="126902830"
+Received: from abg3595c.abg.fsc.net (HELO [172.25.145.158]) ([172.25.145.158])
+	by abgdgate30u.abg.fsc.net with ESMTP; 17 Jan 2012 13:14:06 +0100
+Message-ID: <4F15660D.7000802@ts.fujitsu.com>
+Date: Tue, 17 Jan 2012 13:14:05 +0100
+From: Rainer Koenig <Rainer.Koenig@ts.fujitsu.com>
+User-Agent: Mozilla/5.0 (X11; U; Linux x86_64; en-US;
+	rv:1.9.1.16) Gecko/20111110 Icedove/3.0.11
+MIME-Version: 1.0
+To: Openembedded Core <openembedded-core@lists.openembedded.org>
+X-Enigmail-Version: 1.0.1
+Subject: Image build problem with own distro fork
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -33,73 +54,49 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 17 Jan 2012 11:36:15 -0000
+X-List-Received-Date: Tue, 17 Jan 2012 12:21:44 -0000
+Content-Type: text/plain; charset=ISO-8859-15
+Content-Transfer-Encoding: 8bit
 
-From: Andrei Gherzan <andrei.gherzan@windriver.com>
+Hi,
 
-Busybox checks if MACHINE_FEATURES contains "kernel24". If so, CONFIG_FEATURE_2_4_MODULES will be on "y".
-kernel24 is no longer present in any machine configuration. The same situation is in uglibc with a
-different CONFIG mapping.
+actually I tried to fork the angstrom distro into an own distro that
+comes again with System V init and less packages. All looks fine if I
+want to build my own Gnome-Image, but at the end I get these lines:
 
-[YOCTO #1901]
+Processing sysvinit...
+Processing task-gnome...
+Processing connman-plugin-wifi...
+Processing sysvinit-pidof...
+Processing connman-plugin-ethernet...
+Processing task-gnome-xserver-base...
+Processing shadow...
+Processing task-xserver...
+error: Failed dependencies:
 
-Signed-off-by: Andrei Gherzan <andrei@gherzan.ro>
----
- meta/recipes-core/busybox/busybox.inc      |    4 +---
- meta/recipes-core/uclibc/uclibc-config.inc |    4 +---
- 2 files changed, 2 insertions(+), 6 deletions(-)
+/srv/vcwork/setup-scripts/build/tmp-angstrom_2010_x-eglibc/sysroots/x86_64-linux/usr/bin/python
+is needed by gnome-panel-2.32.1-r5.armv7a
 
-diff --git a/meta/recipes-core/busybox/busybox.inc b/meta/recipes-core/busybox/busybox.inc
-index a107a02..f35779d 100644
---- a/meta/recipes-core/busybox/busybox.inc
-+++ b/meta/recipes-core/busybox/busybox.inc
-@@ -47,18 +47,16 @@ def busybox_cfg(feature, features, tokens, cnf, rem):
- 	else:
- 		cnf.extend(['# ' + token + ' is not set' for token in tokens])
- 
--# Map distro and machine features to config settings
-+# Map distro features to config settings
- def features_to_busybox_settings(d):
- 	cnf, rem = ([], [])
- 	distro_features = d.getVar('DISTRO_FEATURES', True).split()
--	machine_features = d.getVar('MACHINE_FEATURES', True).split()
- 	busybox_cfg('ipv6', distro_features, 'CONFIG_FEATURE_IPV6', cnf, rem)
- 	busybox_cfg('largefile', distro_features, 'CONFIG_LFS', cnf, rem)
- 	busybox_cfg('largefile', distro_features, 'CONFIG_FDISK_SUPPORT_LARGE_DISKS', cnf, rem)
- 	busybox_cfg('nls',  distro_features, 'CONFIG_LOCALE_SUPPORT', cnf, rem)
- 	busybox_cfg('ipv4', distro_features, 'CONFIG_FEATURE_IFUPDOWN_IPV4', cnf, rem)
- 	busybox_cfg('ipv6', distro_features, 'CONFIG_FEATURE_IFUPDOWN_IPV6', cnf, rem)
--	busybox_cfg('kernel24', machine_features, 'CONFIG_FEATURE_2_4_MODULES', cnf, rem)
- 	return "\n".join(cnf), "\n".join(rem)
- 
- # X, Y = ${@features_to_uclibc_settings(d)}
-diff --git a/meta/recipes-core/uclibc/uclibc-config.inc b/meta/recipes-core/uclibc/uclibc-config.inc
-index 3de3845..8bb0948 100644
---- a/meta/recipes-core/uclibc/uclibc-config.inc
-+++ b/meta/recipes-core/uclibc/uclibc-config.inc
-@@ -91,11 +91,10 @@ def uclibc_cfg(feature, features, tokens, cnf, rem):
- 	else:
- 		cnf.extend(['# ' + token + ' is not set' for token in tokens])
- 
--# Map distro and machine features to config settings
-+# Map distro features to config settings
- def features_to_uclibc_settings(d):
- 	cnf, rem = ([], [])
- 	distro_features = d.getVar('DISTRO_FEATURES', True).split()
--	machine_features = d.getVar('MACHINE_FEATURES', True).split()
- 	uclibc_cfg('ipv4',      distro_features, 'UCLIBC_HAS_IPV4', cnf, rem)
- 	uclibc_cfg('ipv6',      distro_features, 'UCLIBC_HAS_IPV6', cnf, rem)
- 	uclibc_cfg('largefile', distro_features, 'UCLIBC_HAS_LFS', cnf, rem)
-@@ -104,7 +103,6 @@ def features_to_uclibc_settings(d):
- 	uclibc_cfg('xattr',     distro_features, 'UCLIBC_HAS_XATTR', cnf, rem)
- 	uclibc_cfg('ssp',       distro_features, 'UCLIBC_HAS_SSP', cnf, rem)
- 	uclibc_cfg('argp',       distro_features, 'UCLIBC_HAS_ARGP', cnf, rem)
--	uclibc_cfg('kernel24',  machine_features,'UCLIBC_LINUX_MODULE_24', cnf, rem)
- 	uclibc_cfg('libc-posix-clang-wchar',  distro_features,'UCLIBC_HAS_WCHAR', cnf, rem)
- 	return "\n".join(cnf), "\n".join(rem)
- # X, Y = ${@features_to_uclibc_settings(d)}
+Strange thing is that python is at that place and working and I don't
+see a reason why gnome-panel would need python. Can someone explain this?
+
+Regards
+Rainer
 -- 
-1.7.5.4
+Dipl.-Inf. (FH) Rainer Koenig
+Project Manager Linux Clients
+Dept. PDG WPS R&D SW OSE
 
+Fujitsu Technology Solutions
+Bürgermeister-Ullrich-Str. 100
+86199 Augsburg
+Germany
+
+Telephone: +49-821-804-3321
+Telefax:   +49-821-804-2131
+Mail:      mailto:Rainer.Koenig@ts.fujitsu.com
+
+Internet         ts.fujtsu.com
+Company Details  ts.fujitsu.com/imprint.html
 
 
