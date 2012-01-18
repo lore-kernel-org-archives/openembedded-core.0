@@ -1,27 +1,40 @@
-Received: from mga02.intel.com ([134.134.136.20])
+Received: from mga01.intel.com ([192.55.52.88])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <dvhart@linux.intel.com>) id 1RnYYW-0007Fd-Rq
+	(envelope-from <nitin.a.kamble@intel.com>) id 1RnZ2I-0005GS-UQ
 	for openembedded-core@lists.openembedded.org;
-	Wed, 18 Jan 2012 17:40:14 +0100
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-	by orsmga101.jf.intel.com with ESMTP; 18 Jan 2012 08:32:33 -0800
+	Wed, 18 Jan 2012 18:10:59 +0100
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+	by fmsmga101.fm.intel.com with ESMTP; 18 Jan 2012 08:52:06 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.67,351,1309762800"; d="scan'208";a="100019256"
-Received: from unknown (HELO envy.home) ([10.255.13.210])
-	by orsmga002.jf.intel.com with ESMTP; 18 Jan 2012 08:32:33 -0800
-Message-ID: <4F16F40B.8080706@linux.intel.com>
-Date: Wed, 18 Jan 2012 08:32:11 -0800
-From: Darren Hart <dvhart@linux.intel.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:8.0) Gecko/20111115 Thunderbird/8.0
+X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="113641474"
+Received: from orsmsx603.amr.corp.intel.com ([10.22.226.49])
+	by fmsmga002.fm.intel.com with ESMTP; 18 Jan 2012 08:52:06 -0800
+Received: from orsmsx151.amr.corp.intel.com (10.22.226.38) by
+	orsmsx603.amr.corp.intel.com (10.22.226.49) with Microsoft SMTP Server
+	(TLS) id 8.2.255.0; Wed, 18 Jan 2012 08:52:05 -0800
+Received: from orsmsx106.amr.corp.intel.com ([169.254.5.13]) by
+	ORSMSX151.amr.corp.intel.com ([169.254.7.170]) with mapi id
+	14.01.0355.002; Wed, 18 Jan 2012 08:52:05 -0800
+From: "Kamble, Nitin A" <nitin.a.kamble@intel.com>
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Thread-Topic: [OE-core] [PATCH 1/5] bdwgc: new recipe for autogen
+Thread-Index: AQHM1VcBUBzdc4w0406ji+Trwlz3apYRuTsA//+c71CAAAFYkIAAzPUAgAAzlpA=
+Date: Wed, 18 Jan 2012 16:52:04 +0000
+Message-ID: <ADD6A3980E8C39419A432FF422031B4C0129FDF2@ORSMSX106.amr.corp.intel.com>
+References: <cover.1326831402.git.nitin.a.kamble@intel.com>
+	<b042b10b86d6e28290a64e42e1e23de81621630b.1326831402.git.nitin.a.kamble@intel.com>
+	<CAMKF1sriceDbz_scyB-TthDOWEzK+t9i0wgEJ_No=v_NF18JjA@mail.gmail.com>
+	<ADD6A3980E8C39419A432FF422031B4C0128E66B@ORSMSX105.amr.corp.intel.com>
+	<ADD6A3980E8C39419A432FF422031B4C0128F67C@ORSMSX105.amr.corp.intel.com>
+	<CAMKF1sq4Q7VjNkbLTbqdsmne+NQz-vE4vY58uipsL+kqKxz+-Q@mail.gmail.com>
+In-Reply-To: <CAMKF1sq4Q7VjNkbLTbqdsmne+NQz-vE4vY58uipsL+kqKxz+-Q@mail.gmail.com>
+Accept-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [10.22.254.139]
 MIME-Version: 1.0
-To: Dexuan Cui <dexuan.cui@intel.com>
-References: <cover.1326894448.git.dexuan.cui@intel.com>
-	<84776a87449ee57fcf3a568562cb0957da04f8bc.1326894448.git.dexuan.cui@intel.com>
-In-Reply-To: <84776a87449ee57fcf3a568562cb0957da04f8bc.1326894448.git.dexuan.cui@intel.com>
-X-Enigmail-Version: 1.3.4
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [RFC PATCH 1/1][v2] self-hosted-image: generate the .hdddirect and .vmdk image files
+Subject: Re: [PATCH 1/5] bdwgc: new recipe for autogen
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -36,124 +49,68 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 18 Jan 2012 16:40:14 -0000
-Content-Type: text/plain; charset=ISO-8859-1
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Wed, 18 Jan 2012 17:10:59 -0000
+Content-Language: en-US
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 
-
-
-On 01/18/2012 06:18 AM, Dexuan Cui wrote:
-> The self-hosted-image work needs a live-bootable and r/w-able image format.
-> The existing .iso isn't ok since it's readonly.
-> The existing .hddimg is not a good choice, since it has a two-option(boot,
-> install) syslinux function that we don't need: we don't hope a user to be
-> potentially able to "install", and I think it may be not suitble to hack
-> build_hddimg to hide the "install"?
-
-bootimg.bbclass should probably be renamed liveimg.bbclass to keep it's
-meaning clear.
-
-> Moreever, .hddimg is not that
-> compatibible with some devices and we hope to have the most compatibility.
-> 
-> So I think the .hdddirect format is a good choice and I made this patch to
-> adopt it and also enhanced boot-directdisk.bbclass to generate .vmdk image so
-> we can run it on vmware, too.
-> BTW, currently self-hosted-image is the only user of boot-directdisk.bbclass;
-> with the adoption of .hdddirect and .vmdk formats, a user can still use
-> "IMAGE_FSTYPES += 'live'" to generate the .iso and .hddimg format.
-> 
-> Signed-off-by: Dexuan Cui <dexuan.cui@intel.com>
-> ---
->  meta/classes/boot-directdisk.bbclass          |    8 ++++++++
->  meta/conf/machine/include/qemu.inc            |    2 ++
->  meta/recipes-core/images/self-hosted-image.bb |   11 +++++++++--
->  3 files changed, 19 insertions(+), 2 deletions(-)
-> 
-> diff --git a/meta/classes/boot-directdisk.bbclass b/meta/classes/boot-directdisk.bbclass
-> index 8879ba8..7f14225 100644
-> --- a/meta/classes/boot-directdisk.bbclass
-> +++ b/meta/classes/boot-directdisk.bbclass
-> @@ -24,6 +24,7 @@ do_bootdirectdisk[depends] += "dosfstools-native:do_populate_sysroot \
->                                 syslinux-native:do_populate_sysroot \
->                                 parted-native:do_populate_sysroot \
->                                 mtools-native:do_populate_sysroot "
-> +do_bootdirectdisk[depends] += "qemu-native:do_populate_sysroot"
-
-As a point of style, just add the new dependencies to the preceding
-assignment rather than creating a new assignment.
-
->  
->  PACKAGES = " "
->  EXCLUDE_FROM_WORLD = "1"
-> @@ -50,6 +51,7 @@ build_boot_dd() {
->  
->  	install -d ${HDDDIR}
->  	install -m 0644 ${STAGING_DIR_HOST}/kernel/bzImage ${HDDDIR}/vmlinuz
-> +	install -m 0644 ${S}/syslinux.cfg ${HDDDIR}/syslinux.cfg
->  	install -m 444 ${STAGING_LIBDIR}/syslinux/ldlinux.sys ${HDDDIR}/ldlinux.sys
->  
->  	BLOCKS=`du -bks ${HDDDIR} | cut -f 1`
-> @@ -83,6 +85,12 @@ build_boot_dd() {
->  	cd ${DEPLOY_DIR_IMAGE}
->  	rm -f ${DEPLOY_DIR_IMAGE}/${IMAGE_LINK_NAME}.hdddirect
->  	ln -s ${IMAGE_NAME}.hdddirect ${DEPLOY_DIR_IMAGE}/${IMAGE_LINK_NAME}.hdddirect
-> +
-> +	if [ "${NOVMDK}" != "1" ] ; then
-> +		${STAGING_BINDIR_NATIVE}/qemu-img convert -O vmdk   \
-> +			${DEPLOY_DIR_IMAGE}/${IMAGE_LINK_NAME}.hdddirect \
-> +			${DEPLOY_DIR_IMAGE}/${IMAGE_LINK_NAME}.vmdk
-> +	fi
->  } 
->  
->  python do_bootdirectdisk() {
-> diff --git a/meta/conf/machine/include/qemu.inc b/meta/conf/machine/include/qemu.inc
-> index 3cebfab..a5b563b 100644
-> --- a/meta/conf/machine/include/qemu.inc
-> +++ b/meta/conf/machine/include/qemu.inc
-> @@ -5,6 +5,8 @@ MACHINE_FEATURES = "kernel26 apm alsa pcmcia bluetooth irda usbgadget screen"
->  
->  IMAGE_FSTYPES ?= "tar.bz2 ext3"
->  
-> +APPEND_${MACHINE} = "root=/dev/hda2"
-> +
-
-This concerns me. How does this interact with other recipes and configs
-that may set this? What happens if the machine config adds a console
-parameter to the APPEND? For example, the meta-intel n450 does the
-following:
-
-APPEND += "console=ttyS0,115200 console=tty0"
-
-If I understand correctly, your assignment above will override this.
-
->  ROOT_FLASH_SIZE = "280"
->  
->  # Don't include kernels in standard images
-> diff --git a/meta/recipes-core/images/self-hosted-image.bb b/meta/recipes-core/images/self-hosted-image.bb
-> index 111c057..df6c81f 100644
-> --- a/meta/recipes-core/images/self-hosted-image.bb
-> +++ b/meta/recipes-core/images/self-hosted-image.bb
-> @@ -6,6 +6,13 @@ POKY_EXTRA_INSTALL = "\
->  
->  IMAGE_FEATURES += "x11-mini"
->  
-> -inherit core-image
-> +# Needed by boot-directdisk
-> +ROOTFS ?= "${DEPLOY_DIR_IMAGE}/${IMAGE_BASENAME}-${MACHINE}.ext3"
->  
-> -PR = "r2"
-> +inherit core-image boot-directdisk
-> +
-> +do_bootimg[depends] += "${INITRD_IMAGE}:do_rootfs"
-> +do_bootimg[depends] += "${IMAGE_BASENAME}:do_rootfs"
-> +do_bootdirectdisk[depends] += "${PN}:do_rootfs"
-> +
-> +PR = "r3"
-
--- 
-Darren Hart
-Intel Open Source Technology Center
-Yocto Project - Linux Kernel
+DQoNCj4gLS0tLS1PcmlnaW5hbCBNZXNzYWdlLS0tLS0NCj4gRnJvbTogb3BlbmVtYmVkZGVkLWNv
+cmUtYm91bmNlc0BsaXN0cy5vcGVuZW1iZWRkZWQub3JnDQo+IFttYWlsdG86b3BlbmVtYmVkZGVk
+LWNvcmUtYm91bmNlc0BsaXN0cy5vcGVuZW1iZWRkZWQub3JnXSBPbiBCZWhhbGYgT2YNCj4gS2hl
+bSBSYWoNCj4gU2VudDogVHVlc2RheSwgSmFudWFyeSAxNywgMjAxMiA5OjQ2IFBNDQo+IFRvOiBQ
+YXRjaGVzIGFuZCBkaXNjdXNzaW9ucyBhYm91dCB0aGUgb2UtY29yZSBsYXllcg0KPiBTdWJqZWN0
+OiBSZTogW09FLWNvcmVdIFtQQVRDSCAxLzVdIGJkd2djOiBuZXcgcmVjaXBlIGZvciBhdXRvZ2Vu
+DQo+IA0KPiBPbiBUdWUsIEphbiAxNywgMjAxMiBhdCA1OjMzIFBNLCBLYW1ibGUsIE5pdGluIEEN
+Cj4gPG5pdGluLmEua2FtYmxlQGludGVsLmNvbT4gd3JvdGU6DQo+ID4NCj4gPg0KPiA+PiAtLS0t
+LU9yaWdpbmFsIE1lc3NhZ2UtLS0tLQ0KPiA+PiBGcm9tOiBvcGVuZW1iZWRkZWQtY29yZS1ib3Vu
+Y2VzQGxpc3RzLm9wZW5lbWJlZGRlZC5vcmcNCj4gPj4gW21haWx0bzpvcGVuZW1iZWRkZWQtY29y
+ZS1ib3VuY2VzQGxpc3RzLm9wZW5lbWJlZGRlZC5vcmddIE9uIEJlaGFsZg0KPiBPZg0KPiA+PiBL
+YW1ibGUsIE5pdGluIEENCj4gPj4gU2VudDogVHVlc2RheSwgSmFudWFyeSAxNywgMjAxMiA1OjI5
+IFBNDQo+ID4+IFRvOiBQYXRjaGVzIGFuZCBkaXNjdXNzaW9ucyBhYm91dCB0aGUgb2UtY29yZSBs
+YXllcg0KPiA+PiBTdWJqZWN0OiBSZTogW09FLWNvcmVdIFtQQVRDSCAxLzVdIGJkd2djOiBuZXcg
+cmVjaXBlIGZvciBhdXRvZ2VuDQo+ID4+DQo+ID4+IEtoZW0sDQo+ID4+IEhlcmUgd2FzIHRoZSBj
+b25maWd1cmUgZXJyb3I6DQo+ID4+IHwgY29uZmlndXJlOiBlcnJvcjogUGFja2FnZSByZXF1aXJl
+bWVudHMgKGJkdy1nYykgd2VyZSBub3QgbWV0Og0KPiA+PiB8DQo+ID4+IHwgTm8gcGFja2FnZSAn
+YmR3LWdjJyBmb3VuZA0KPiA+PiB8DQo+ID4+IHwgQ29uc2lkZXIgYWRqdXN0aW5nIHRoZSBQS0df
+Q09ORklHX1BBVEggZW52aXJvbm1lbnQgdmFyaWFibGUgaWYgeW91DQo+ID4+IHwgaW5zdGFsbGVk
+IHNvZnR3YXJlIGluIGEgbm9uLXN0YW5kYXJkIHByZWZpeC4NCj4gPj4gfA0KPiA+PiB8IEFsdGVy
+bmF0aXZlbHksIHlvdSBtYXkgc2V0IHRoZSBlbnZpcm9ubWVudCB2YXJpYWJsZXMgQkRXX0dDX0NG
+TEFHUw0KPiA+PiB8IGFuZCBCRFdfR0NfTElCUyB0byBhdm9pZCB0aGUgbmVlZCB0byBjYWxsIHBr
+Zy1jb25maWcuDQo+ID4+IHwgU2VlIHRoZSBwa2ctY29uZmlnIG1hbiBwYWdlIGZvciBtb3JlIGRl
+dGFpbHMuDQo+ID4+IHwgRVJST1I6IG9lX3J1bmNvbmYgZmFpbGVkDQo+IA0KPiB5ZWFoIEkgc2Vl
+IGd1aWxlLTIgbmVlZHMgYSBnYXJiYWdlIGNvbGxlY3Rvci4gRGlkIHlvdSB0cnkgdGhlIG9yaWdp
+bmFsDQo+IGxpYmdjID8NCj4gaHR0cDovL2Fub25zY20uZGViaWFuLm9yZy9naXR3ZWIvP3A9Y29s
+bGFiLW1haW50L2xpYmdjLmdpdDthPXN1bW1hcnkNCj4gDQoNCktoZW0sDQogIEFzIHRoZSBiZHdn
+YyB3YXMgd29ya2luZyBhcyBleHBlY3RlZCwgSSBkaWQgbm90IHRyeSB0byBmaW5kIGFueSBhbHRl
+cm5hdGl2ZSB0aGVyZS4NCk5pdGluDQoNCj4gDQo+ID4+DQo+ID4+IE5pdGluDQo+ID4+DQo+ID4g
+QW5kIGl0IGlzIGJlaW5nIHVzZWQgaW4gdGhpcyBjIGZpbGU6IGxpYmd1aWxlL3RocmVhZHMuYw0K
+PiA+DQo+ID4gVGhhbmtzLA0KPiA+IE5pdGluDQo+ID4NCj4gPj4NCj4gPj4gPiAtLS0tLU9yaWdp
+bmFsIE1lc3NhZ2UtLS0tLQ0KPiA+PiA+IEZyb206IG9wZW5lbWJlZGRlZC1jb3JlLWJvdW5jZXNA
+bGlzdHMub3BlbmVtYmVkZGVkLm9yZw0KPiA+PiA+IFttYWlsdG86b3BlbmVtYmVkZGVkLWNvcmUt
+Ym91bmNlc0BsaXN0cy5vcGVuZW1iZWRkZWQub3JnXSBPbg0KPiBCZWhhbGYNCj4gPj4gT2YNCj4g
+Pj4gPiBLaGVtIFJhag0KPiA+PiA+IFNlbnQ6IFR1ZXNkYXksIEphbnVhcnkgMTcsIDIwMTIgMzoy
+MyBQTQ0KPiA+PiA+IFRvOiBQYXRjaGVzIGFuZCBkaXNjdXNzaW9ucyBhYm91dCB0aGUgb2UtY29y
+ZSBsYXllcg0KPiA+PiA+IFN1YmplY3Q6IFJlOiBbT0UtY29yZV0gW1BBVENIIDEvNV0gYmR3Z2M6
+IG5ldyByZWNpcGUgZm9yIGF1dG9nZW4NCj4gPj4gPg0KPiA+PiA+IE9uIFR1ZSwgSmFuIDE3LCAy
+MDEyIGF0IDEyOjMwIFBNLCDCoDxuaXRpbi5hLmthbWJsZUBpbnRlbC5jb20+DQo+IHdyb3RlOg0K
+PiA+PiA+ID4gVGhpcyByZWNpcGUgaXMgbmVlZGVkIGJ5IGd1aWxlLg0KPiA+PiA+ID4gQW5kIGd1
+aWxlIGlzIG5lZWRlZCBmb3IgYXV0b2dlbi4NCj4gPj4gPg0KPiA+PiA+IGlzIHRoaXMgcmVhbGx5
+IG5lZWRlZCBieSBndWlsZS4gaWYgeWVzIHdoYXQgcGFydCBvZiBndWlkZSBuZWVkIGl0DQo+ID8N
+Cj4gPj4gPg0KPiA+PiA+IF9fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
+X19fX19fDQo+ID4+ID4gT3BlbmVtYmVkZGVkLWNvcmUgbWFpbGluZyBsaXN0DQo+ID4+ID4gT3Bl
+bmVtYmVkZGVkLWNvcmVAbGlzdHMub3BlbmVtYmVkZGVkLm9yZw0KPiA+PiA+IGh0dHA6Ly9saXN0
+cy5saW51eHRvZ28ub3JnL2NnaS1iaW4vbWFpbG1hbi9saXN0aW5mby9vcGVuZW1iZWRkZWQtDQo+
+IGNvcmUNCj4gPj4NCj4gPj4gX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
+X19fX19fX18NCj4gPj4gT3BlbmVtYmVkZGVkLWNvcmUgbWFpbGluZyBsaXN0DQo+ID4+IE9wZW5l
+bWJlZGRlZC1jb3JlQGxpc3RzLm9wZW5lbWJlZGRlZC5vcmcNCj4gPj4gaHR0cDovL2xpc3RzLmxp
+bnV4dG9nby5vcmcvY2dpLWJpbi9tYWlsbWFuL2xpc3RpbmZvL29wZW5lbWJlZGRlZC0NCj4gY29y
+ZQ0KPiA+DQo+ID4gX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
+X18NCj4gPiBPcGVuZW1iZWRkZWQtY29yZSBtYWlsaW5nIGxpc3QNCj4gPiBPcGVuZW1iZWRkZWQt
+Y29yZUBsaXN0cy5vcGVuZW1iZWRkZWQub3JnDQo+ID4gaHR0cDovL2xpc3RzLmxpbnV4dG9nby5v
+cmcvY2dpLWJpbi9tYWlsbWFuL2xpc3RpbmZvL29wZW5lbWJlZGRlZC1jb3JlDQo+IA0KPiBfX19f
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fXw0KPiBPcGVuZW1iZWRk
+ZWQtY29yZSBtYWlsaW5nIGxpc3QNCj4gT3BlbmVtYmVkZGVkLWNvcmVAbGlzdHMub3BlbmVtYmVk
+ZGVkLm9yZw0KPiBodHRwOi8vbGlzdHMubGludXh0b2dvLm9yZy9jZ2ktYmluL21haWxtYW4vbGlz
+dGluZm8vb3BlbmVtYmVkZGVkLWNvcmUNCg==
 
 
