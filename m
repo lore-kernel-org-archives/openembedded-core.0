@@ -1,48 +1,21 @@
-Received: from dgate10.ts.fujitsu.com ([80.70.172.49])
+Received: from mga02.intel.com ([134.134.136.20])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <Rainer.Koenig@ts.fujitsu.com>) id 1RnWPv-00044z-5c
+	(envelope-from <dexuan.cui@intel.com>) id 1RnWSi-000487-UN
 	for openembedded-core@lists.openembedded.org;
-	Wed, 18 Jan 2012 15:23:11 +0100
-DomainKey-Signature: s=s1536a; d=ts.fujitsu.com; c=nofws; q=dns;
-	h=X-SBRSScore:X-IronPort-AV:Received:X-IronPort-AV:
-	Received:Message-ID:Date:From:User-Agent:MIME-Version:To:
-	Subject:References:In-Reply-To:X-Enigmail-Version:
-	Content-Type:Content-Transfer-Encoding;
-	b=oRG+zZA+gylUdNGJWpy4w39ZCIMiWk6yps7XzXoAUx9l5Az7i3Lw6n0q
-	MQo1opXQeZQnkG3M2oxAggfq40tkL1CuVgiwQNflnlybuyvhKA+8iVpEF
-	OfeZO1xCoqdBF53wskPbhtoqtFSGmXTHzXrFSrTqQxRcE8LCUD1aN32My
-	ncMNpLqfuPesJdSzH9/7FF+Y4eIRsKPrhly2pCFNSmfVZMzvtelm4D4Hf
-	/tKQEYxm6GScMD0aLMiFMQepxxVqo;
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
-	d=ts.fujitsu.com; i=Rainer.Koenig@ts.fujitsu.com;
-	q=dns/txt; s=s1536b; t=1326896136; x=1358432136;
-	h=message-id:date:from:mime-version:to:subject:references:
-	in-reply-to:content-transfer-encoding;
-	bh=CCBdvyYTW1k0GOOgOmfkJlr0GX5Y45WqzpMBZAohGSs=;
-	b=tsE6VIAfv/UMnfm3VWhoUNetX5GxtpCgeYX/Vax5GExbrgSKtr4ycSmz
-	lDwXxdeAmrn9J02MJmgdPGDGI5MOu8Jq2PCgAKGmYTJCEKYdnkscsPhDy
-	rFFYdSPT5xK/rt4ICqBeMsev1vVVYldBz7zk484eB67UaOX8d4jKRYRkI
-	ZHSNJ9bFUF4gZbkdJMVespbpxzOH4zExjvchFc3NAokE1rDE+H7h7dJL2
-	DSMS9tjtMPDxjgCPWOpQwWyslNb5h;
-X-SBRSScore: None
-X-IronPort-AV: E=Sophos;i="4.71,529,1320620400"; d="scan'208";a="99022073"
-Received: from abgdgate30u.abg.fsc.net ([172.25.138.66])
-	by dgate10u.abg.fsc.net with ESMTP; 18 Jan 2012 15:15:35 +0100
-X-IronPort-AV: E=Sophos;i="4.71,528,1320620400"; d="scan'208";a="126985006"
-Received: from abg3595c.abg.fsc.net (HELO [172.25.145.158]) ([172.25.145.158])
-	by abgdgate30u.abg.fsc.net with ESMTP; 18 Jan 2012 15:15:34 +0100
-Message-ID: <4F16D407.70801@ts.fujitsu.com>
-Date: Wed, 18 Jan 2012 15:15:35 +0100
-From: Rainer Koenig <Rainer.Koenig@ts.fujitsu.com>
-User-Agent: Mozilla/5.0 (X11; U; Linux x86_64; en-US;
-	rv:1.9.1.16) Gecko/20111110 Icedove/3.0.11
-MIME-Version: 1.0
-To: openembedded-core@lists.openembedded.org
-References: <4F16C61C.4020304@ts.fujitsu.com>
-	<965E9502-1313-4711-9FF9-49A01141319C@dominion.thruhere.net>
-In-Reply-To: <965E9502-1313-4711-9FF9-49A01141319C@dominion.thruhere.net>
-X-Enigmail-Version: 1.0.1
-Subject: Re: How do I get rid of systemd
+	Wed, 18 Jan 2012 15:26:05 +0100
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+	by orsmga101.jf.intel.com with ESMTP; 18 Jan 2012 06:18:25 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.67,352,1309762800"; d="scan'208";a="97839514"
+Received: from dcui-desktop.sh.intel.com (HELO localhost) ([10.239.36.50])
+	by orsmga001.jf.intel.com with ESMTP; 18 Jan 2012 06:18:25 -0800
+From: Dexuan Cui <dexuan.cui@intel.com>
+To: openembedded-core@lists.openembedded.org,
+	dvhart@linux.intel.com
+Date: Wed, 18 Jan 2012 22:18:20 +0800
+Message-Id: <cover.1326894448.git.dexuan.cui@intel.com>
+X-Mailer: git-send-email 1.7.6
+Subject: [RFC PATCH 0/1] [RFC][PATCH][v2] enhance boot-directdisk.bbclass to generate .vmdk image
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -57,41 +30,30 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 18 Jan 2012 14:23:11 -0000
-Content-Type: text/plain; charset=ISO-8859-1
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Wed, 18 Jan 2012 14:26:05 -0000
 
-Am 18.01.2012 14:28, schrieb Koen Kooi:
+Please review the following changes for suitability for inclusion. If you have
+any objections or suggestions for improvement, please respond to the patches. If
+you agree with the changes, please provide your Acked-by.
 
-> What's wrong with cgroups?
+The following changes since commit 468998cddbe1a803096c9b357e1b5daa3b7e8c2e:
 
-Probably nothing. But now I've got an image that has both systemd and
-systemv to boot up and that results in an endless loop with kernel
-messages about omap_i2c.
+  command.py: add parseConfigurationFiles API (2012-01-06 16:01:44 +0000)
 
-My idea was that OE is a toolchain that enables me to build a customized
-distribution, so I thought I have the choice to use
-systemd or systemv with a configuration setting. But it came out,
-that systemd is sort of mandatory nowadays and its not that easy to get
-rid of it.
+are available in the git repository at:
+  git://git.pokylinux.org/poky-contrib dcui/self-hosted-v7
+  http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=dcui/self-hosted-v7
 
-Regards
-Rainer
+Dexuan Cui (1):
+  self-hosted-image: generate the .hdddirect and .vmdk image files
+
+ meta/classes/boot-directdisk.bbclass          |    8 ++++++++
+ meta/conf/machine/include/qemu.inc            |    2 ++
+ meta/recipes-core/images/self-hosted-image.bb |   11 +++++++++--
+ 3 files changed, 19 insertions(+), 2 deletions(-)
+
 -- 
-Dipl.-Inf. (FH) Rainer Koenig
-Project Manager Linux Clients
-Dept. PDG WPS R&D SW OSE
+1.7.6
 
-Fujitsu Technology Solutions
-Bürgermeister-Ullrich-Str. 100
-86199 Augsburg
-Germany
-
-Telephone: +49-821-804-3321
-Telefax:   +49-821-804-2131
-Mail:      mailto:Rainer.Koenig@ts.fujitsu.com
-
-Internet         ts.fujtsu.com
-Company Details  ts.fujitsu.com/imprint.html
 
 
