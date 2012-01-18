@@ -1,30 +1,27 @@
-Received: from mail-wi0-f175.google.com ([209.85.212.175])
+Received: from mga02.intel.com ([134.134.136.20])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <koen@dominion.thruhere.net>) id 1RnXJr-0005hm-80
+	(envelope-from <sgw@linux.intel.com>) id 1RnYDJ-0006w4-Bh
 	for openembedded-core@lists.openembedded.org;
-	Wed, 18 Jan 2012 16:20:59 +0100
-Received: by wibhr14 with SMTP id hr14so625859wib.6
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 18 Jan 2012 07:13:21 -0800 (PST)
-Received: by 10.180.95.131 with SMTP id dk3mr26099271wib.6.1326899600960;
-	Wed, 18 Jan 2012 07:13:20 -0800 (PST)
-Received: from [172.20.1.36] (ip545070eb.adsl-surfen.hetnet.nl.
-	[84.80.112.235])
-	by mx.google.com with ESMTPS id l8sm41546330wiy.5.2012.01.18.07.13.19
-	(version=TLSv1/SSLv3 cipher=OTHER);
-	Wed, 18 Jan 2012 07:13:19 -0800 (PST)
-Mime-Version: 1.0 (Apple Message framework v1251.1)
-From: Koen Kooi <koen@dominion.thruhere.net>
-In-Reply-To: <4F16D85C.6020606@ts.fujitsu.com>
-Date: Wed, 18 Jan 2012 16:13:14 +0100
-Message-Id: <21FB7E6C-CF0B-4A0A-BFEF-B9B50A2E9148@dominion.thruhere.net>
-References: <4F16C61C.4020304@ts.fujitsu.com>	<20120118134322.GB5443@deadlock.dhs.org>
-	<F2C23BA4-EF14-44A5-A4B3-B50848CD0844@dominion.thruhere.net>
-	<4F16D85C.6020606@ts.fujitsu.com>
+	Wed, 18 Jan 2012 17:18:17 +0100
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+	by orsmga101.jf.intel.com with ESMTP; 18 Jan 2012 08:10:38 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.67,351,1309762800"; d="scan'208";a="100012009"
+Received: from unknown (HELO [10.255.14.6]) ([10.255.14.6])
+	by orsmga002.jf.intel.com with ESMTP; 18 Jan 2012 08:10:37 -0800
+Message-ID: <4F16EEFD.1020700@linux.intel.com>
+Date: Wed, 18 Jan 2012 08:10:37 -0800
+From: Saul Wold <sgw@linux.intel.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:8.0) Gecko/20111115 Thunderbird/8.0
+MIME-Version: 1.0
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-X-Mailer: Apple Mail (2.1251.1)
-Subject: Re: How do I get rid of systemd
+References: <cover.1326894448.git.dexuan.cui@intel.com>
+	<84776a87449ee57fcf3a568562cb0957da04f8bc.1326894448.git.dexuan.cui@intel.com>
+In-Reply-To: <84776a87449ee57fcf3a568562cb0957da04f8bc.1326894448.git.dexuan.cui@intel.com>
+Cc: dvhart@linux.intel.com
+Subject: Re: [RFC PATCH 1/1][v2] self-hosted-image: generate the .hdddirect and .vmdk image files
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -39,67 +36,108 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 18 Jan 2012 15:20:59 -0000
-Content-Type: text/plain; charset=iso-8859-1
+X-List-Received-Date: Wed, 18 Jan 2012 16:18:17 -0000
+Content-Type: text/plain; charset=ISO-8859-1; format=flowed
 Content-Transfer-Encoding: 7bit
 
+On 01/18/2012 06:18 AM, Dexuan Cui wrote:
+> The self-hosted-image work needs a live-bootable and r/w-able image format.
+> The existing .iso isn't ok since it's readonly.
+> The existing .hddimg is not a good choice, since it has a two-option(boot,
+> install) syslinux function that we don't need: we don't hope a user to be
+> potentially able to "install", and I think it may be not suitble to hack
+> build_hddimg to hide the "install"? Moreever, .hddimg is not that
+> compatibible with some devices and we hope to have the most compatibility.
+>
+Please use a spell checker here
+suitable
+Moreover
+compatible
 
-Op 18 jan. 2012, om 15:34 heeft Rainer Koenig het volgende geschreven:
+> So I think the .hdddirect format is a good choice and I made this patch to
+> adopt it and also enhanced boot-directdisk.bbclass to generate .vmdk image so
+> we can run it on vmware, too.
+> BTW, currently self-hosted-image is the only user of boot-directdisk.bbclass;
+> with the adoption of .hdddirect and .vmdk formats, a user can still use
+> "IMAGE_FSTYPES += 'live'" to generate the .iso and .hddimg format.
+>
+> Signed-off-by: Dexuan Cui<dexuan.cui@intel.com>
+> ---
+>   meta/classes/boot-directdisk.bbclass          |    8 ++++++++
+>   meta/conf/machine/include/qemu.inc            |    2 ++
+>   meta/recipes-core/images/self-hosted-image.bb |   11 +++++++++--
+>   3 files changed, 19 insertions(+), 2 deletions(-)
+>
+> diff --git a/meta/classes/boot-directdisk.bbclass b/meta/classes/boot-directdisk.bbclass
+> index 8879ba8..7f14225 100644
+> --- a/meta/classes/boot-directdisk.bbclass
+> +++ b/meta/classes/boot-directdisk.bbclass
+> @@ -24,6 +24,7 @@ do_bootdirectdisk[depends] += "dosfstools-native:do_populate_sysroot \
+>                                  syslinux-native:do_populate_sysroot \
+>                                  parted-native:do_populate_sysroot \
+>                                  mtools-native:do_populate_sysroot "
+> +do_bootdirectdisk[depends] += "qemu-native:do_populate_sysroot"
+>
+>   PACKAGES = " "
+>   EXCLUDE_FROM_WORLD = "1"
+> @@ -50,6 +51,7 @@ build_boot_dd() {
+>
+>   	install -d ${HDDDIR}
+>   	install -m 0644 ${STAGING_DIR_HOST}/kernel/bzImage ${HDDDIR}/vmlinuz
+> +	install -m 0644 ${S}/syslinux.cfg ${HDDDIR}/syslinux.cfg
+>   	install -m 444 ${STAGING_LIBDIR}/syslinux/ldlinux.sys ${HDDDIR}/ldlinux.sys
+>
+>   	BLOCKS=`du -bks ${HDDDIR} | cut -f 1`
+> @@ -83,6 +85,12 @@ build_boot_dd() {
+>   	cd ${DEPLOY_DIR_IMAGE}
+>   	rm -f ${DEPLOY_DIR_IMAGE}/${IMAGE_LINK_NAME}.hdddirect
+>   	ln -s ${IMAGE_NAME}.hdddirect ${DEPLOY_DIR_IMAGE}/${IMAGE_LINK_NAME}.hdddirect
+> +
+> +	if [ "${NOVMDK}" != "1" ] ; then
+Why make this a "double negative", Why not have a CREATE_VMDK check?
 
-> Am 18.01.2012 15:21, schrieb Koen Kooi:
-> 
->> It's really easy, create your own image, no patching needed.
->> The systemd dependencies are all in ${PN}-systemd, so just 
->> don't include those in your image. I you do include ${PN}-systemd
->> in your image you shouldn't be surprised that systemd ends up in it.
-> 
-> Ok. Got 2 files for my image:
-> 
-> ---------------------8<-snip---------------------
-> $ cat magna-base-image.bb
-> 
-> LICENSE = "MIT"
-> LIC_FILES_CHKSUM =
-> "file://${COREBASE}/LICENSE;md5=3f40d7994397109285ec7b81fdeb3b58"
-> 
-> IMAGE_PREPROCESS_COMMAND = "rootfs_update_timestamp"
-> 
-> IMAGE_INSTALL += " \
->        angstrom-task-boot \
->        task-basic \
->        ${CONMANPKGS} \
-> "
-> CONMANPKGS = "connman connman-plugin-loopback connman-plugin-ethernet"
-> CONMANPKGS_libc-uclibc = ""
-> 
-> IMAGE_DEV_MANAGER   = "udev"
-> IMAGE_INIT_MANAGER  = " "
-> IMAGE_INITSCRIPTS   = " "
-> IMAGE_LOGIN_MANAGER = "tinylogin shadow"
-> 
-> export IMAGE_BASENAME = "magna-base-image"
-> 
-> inherit image
-> 
-> $ cat magna-c-image.bb
-> 
-> #Angstrom bootstrap image
-> require magna-base-image.bb
-> 
-> DEPENDS += "task-base-extended \
->           "
-> 
-> IMAGE_INSTALL += "task-base-extended \
->            "
-> 
-> export IMAGE_BASENAME = "magna-c-image"
-> ---------------------8<-snip---------------------
-> 
-> Pretty much the same what Angstrom does, just changed the
-> IMAGE_INIT_MANAGER.
-> 
-> So where did I include ${PN}-systemd?
+> +		${STAGING_BINDIR_NATIVE}/qemu-img convert -O vmdk   \
+> +			${DEPLOY_DIR_IMAGE}/${IMAGE_LINK_NAME}.hdddirect \
+> +			${DEPLOY_DIR_IMAGE}/${IMAGE_LINK_NAME}.vmdk
+> +	fi
+>   }
+>
+>   python do_bootdirectdisk() {
+> diff --git a/meta/conf/machine/include/qemu.inc b/meta/conf/machine/include/qemu.inc
+> index 3cebfab..a5b563b 100644
+> --- a/meta/conf/machine/include/qemu.inc
+> +++ b/meta/conf/machine/include/qemu.inc
+> @@ -5,6 +5,8 @@ MACHINE_FEATURES = "kernel26 apm alsa pcmcia bluetooth irda usbgadget screen"
+>
+>   IMAGE_FSTYPES ?= "tar.bz2 ext3"
+>
+> +APPEND_${MACHINE} = "root=/dev/hda2"
+> +
+I thought this was to become ?=
 
-task-basic
+
+>   ROOT_FLASH_SIZE = "280"
+>
+>   # Don't include kernels in standard images
+> diff --git a/meta/recipes-core/images/self-hosted-image.bb b/meta/recipes-core/images/self-hosted-image.bb
+> index 111c057..df6c81f 100644
+> --- a/meta/recipes-core/images/self-hosted-image.bb
+> +++ b/meta/recipes-core/images/self-hosted-image.bb
+> @@ -6,6 +6,13 @@ POKY_EXTRA_INSTALL = "\
+>
+>   IMAGE_FEATURES += "x11-mini"
+>
+> -inherit core-image
+> +# Needed by boot-directdisk
+> +ROOTFS ?= "${DEPLOY_DIR_IMAGE}/${IMAGE_BASENAME}-${MACHINE}.ext3"
+>
+> -PR = "r2"
+> +inherit core-image boot-directdisk
+> +
+> +do_bootimg[depends] += "${INITRD_IMAGE}:do_rootfs"
+> +do_bootimg[depends] += "${IMAGE_BASENAME}:do_rootfs"
+> +do_bootdirectdisk[depends] += "${PN}:do_rootfs"
+> +
+> +PR = "r3"
 
 
