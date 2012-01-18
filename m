@@ -1,38 +1,30 @@
-Received: from mga14.intel.com ([143.182.124.37])
+Received: from mail-we0-f175.google.com ([74.125.82.175])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <nitin.a.kamble@intel.com>) id 1RnKWQ-0000X9-RX
+	(envelope-from <koen@dominion.thruhere.net>) id 1RnKja-0000in-40
 	for openembedded-core@lists.openembedded.org;
-	Wed, 18 Jan 2012 02:41:07 +0100
-Received: from azsmga002.ch.intel.com ([10.2.17.35])
-	by azsmga102.ch.intel.com with ESMTP; 17 Jan 2012 17:33:28 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="57471018"
-Received: from orsmsx603.amr.corp.intel.com ([10.22.226.49])
-	by AZSMGA002.ch.intel.com with ESMTP; 17 Jan 2012 17:33:28 -0800
-Received: from orsmsx106.amr.corp.intel.com (10.22.225.133) by
-	orsmsx603.amr.corp.intel.com (10.22.226.49) with Microsoft SMTP Server
-	(TLS) id 8.2.255.0; Tue, 17 Jan 2012 17:33:27 -0800
-Received: from orsmsx105.amr.corp.intel.com ([169.254.4.248]) by
-	ORSMSX106.amr.corp.intel.com ([169.254.5.13]) with mapi id
-	14.01.0355.002; Tue, 17 Jan 2012 17:33:27 -0800
-From: "Kamble, Nitin A" <nitin.a.kamble@intel.com>
+	Wed, 18 Jan 2012 02:54:42 +0100
+Received: by werb12 with SMTP id b12so662286wer.6
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 17 Jan 2012 17:47:01 -0800 (PST)
+Received: by 10.216.131.29 with SMTP id l29mr8356025wei.5.1326851221026;
+	Tue, 17 Jan 2012 17:47:01 -0800 (PST)
+Received: from [172.20.1.20] (ip545070eb.adsl-surfen.hetnet.nl.
+	[84.80.112.235])
+	by mx.google.com with ESMTPS id q7sm19952078wix.5.2012.01.17.17.46.59
+	(version=TLSv1/SSLv3 cipher=OTHER);
+	Tue, 17 Jan 2012 17:47:00 -0800 (PST)
+References: <1326841411-6369-1-git-send-email-andrea.adami@gmail.com>
+In-Reply-To: <1326841411-6369-1-git-send-email-andrea.adami@gmail.com>
+Mime-Version: 1.0 (1.0)
+Message-Id: <4E95A0DD-C978-4621-A624-8313A743CE56@dominion.thruhere.net>
+Cc: "<openembedded-core@lists.openembedded.org>"
+	<openembedded-core@lists.openembedded.org>
+X-Mailer: iPhone Mail (9A405)
+From: Koen Kooi <koen@dominion.thruhere.net>
+Date: Wed, 18 Jan 2012 02:46:54 +0100
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Thread-Topic: [OE-core] [PATCH 1/5] bdwgc: new recipe for autogen
-Thread-Index: AQHM1VcBUBzdc4w0406ji+Trwlz3apYRuTsA//+c71CAAAFYkA==
-Date: Wed, 18 Jan 2012 01:33:26 +0000
-Message-ID: <ADD6A3980E8C39419A432FF422031B4C0128F67C@ORSMSX105.amr.corp.intel.com>
-References: <cover.1326831402.git.nitin.a.kamble@intel.com>
-	<b042b10b86d6e28290a64e42e1e23de81621630b.1326831402.git.nitin.a.kamble@intel.com>
-	<CAMKF1sriceDbz_scyB-TthDOWEzK+t9i0wgEJ_No=v_NF18JjA@mail.gmail.com>
-	<ADD6A3980E8C39419A432FF422031B4C0128E66B@ORSMSX105.amr.corp.intel.com>
-In-Reply-To: <ADD6A3980E8C39419A432FF422031B4C0128E66B@ORSMSX105.amr.corp.intel.com>
-Accept-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [10.22.254.139]
-MIME-Version: 1.0
-Subject: Re: [PATCH 1/5] bdwgc: new recipe for autogen
+Subject: Re: [PATCH] xinput: add utility for configuring and testing XInput devices.
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -47,62 +39,61 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 18 Jan 2012 01:41:07 -0000
-Content-Language: en-US
-Content-Type: text/plain; charset="us-ascii"
+X-List-Received-Date: Wed, 18 Jan 2012 01:54:42 -0000
 Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain;
+	charset=us-ascii
 
 
 
-> -----Original Message-----
-> From: openembedded-core-bounces@lists.openembedded.org
-> [mailto:openembedded-core-bounces@lists.openembedded.org] On Behalf Of
-> Kamble, Nitin A
-> Sent: Tuesday, January 17, 2012 5:29 PM
-> To: Patches and discussions about the oe-core layer
-> Subject: Re: [OE-core] [PATCH 1/5] bdwgc: new recipe for autogen
->=20
-> Khem,
-> Here was the configure error:
-> | configure: error: Package requirements (bdw-gc) were not met:
-> |
-> | No package 'bdw-gc' found
-> |
-> | Consider adjusting the PKG_CONFIG_PATH environment variable if you
-> | installed software in a non-standard prefix.
-> |
-> | Alternatively, you may set the environment variables BDW_GC_CFLAGS
-> | and BDW_GC_LIBS to avoid the need to call pkg-config.
-> | See the pkg-config man page for more details.
-> | ERROR: oe_runconf failed
->=20
-> Nitin
->=20
-And it is being used in this c file: libguile/threads.c
+Op 18 jan. 2012 om 00:03 heeft Andrea Adami <andrea.adami@gmail.com> het vol=
+gende geschreven:
 
-Thanks,
-Nitin
+> * from meta-openembedded with minor editings
+> * added PE
+
+why?
+
+> and reset PR
+
+why?
+
 
 >=20
-> > -----Original Message-----
-> > From: openembedded-core-bounces@lists.openembedded.org
-> > [mailto:openembedded-core-bounces@lists.openembedded.org] On Behalf
-> Of
-> > Khem Raj
-> > Sent: Tuesday, January 17, 2012 3:23 PM
-> > To: Patches and discussions about the oe-core layer
-> > Subject: Re: [OE-core] [PATCH 1/5] bdwgc: new recipe for autogen
-> >
-> > On Tue, Jan 17, 2012 at 12:30 PM,  <nitin.a.kamble@intel.com> wrote:
-> > > This recipe is needed by guile.
-> > > And guile is needed for autogen.
-> >
-> > is this really needed by guile. if yes what part of guide need it ?
-> >
-> > _______________________________________________
-> > Openembedded-core mailing list
-> > Openembedded-core@lists.openembedded.org
-> > http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
+> Signed-off-by: Andrea Adami <andrea.adami@gmail.com>
+> ---
+> meta/recipes-graphics/xorg-app/xinput_1.5.3.bb |   15 +++++++++++++++
+> 1 files changed, 15 insertions(+), 0 deletions(-)
+> create mode 100644 meta/recipes-graphics/xorg-app/xinput_1.5.3.bb
+>=20
+> diff --git a/meta/recipes-graphics/xorg-app/xinput_1.5.3.bb b/meta/recipes=
+-graphics/xorg-app/xinput_1.5.3.bb
+> new file mode 100644
+> index 0000000..c9925f1
+> --- /dev/null
+> +++ b/meta/recipes-graphics/xorg-app/xinput_1.5.3.bb
+> @@ -0,0 +1,15 @@
+> +require xorg-app-common.inc
+> +
+> +SUMMARY =3D "Runtime configuration and test of XInput devices"
+> +
+> +DESCRIPTION =3D "Xinput is an utility for configuring and testing XInput d=
+evices"
+> +
+> +LIC_FILES_CHKSUM =3D "file://COPYING;md5=3D22c34ea36136407a77702a8b784f9b=
+d0"
+> +
+> +DEPENDS +=3D " libxi"
+> +
+> +PR =3D "r0"
+> +PE =3D "1"
+> +
+> +SRC_URI[md5sum] =3D "1e2f0ad4f3fa833b65c568907f171d28"
+> +SRC_URI[sha256sum] =3D "6aade131cecddaeefc39ddce1dd5e8473f6039c2e4efbfd9f=
+bb5ee2a75885c76"
+> --=20
+> 1.7.3.4
+>=20
 >=20
 > _______________________________________________
 > Openembedded-core mailing list
