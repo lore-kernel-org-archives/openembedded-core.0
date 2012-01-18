@@ -1,29 +1,35 @@
-Received: from mail-we0-f175.google.com ([74.125.82.175])
+Received: from mail-pw0-f47.google.com ([209.85.160.47])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <koen@dominion.thruhere.net>) id 1RnWVp-0004DV-2c
+	(envelope-from <bruce.ashfield@gmail.com>) id 1RnWW9-0004Fx-En
 	for openembedded-core@lists.openembedded.org;
-	Wed, 18 Jan 2012 15:29:17 +0100
-Received: by werb12 with SMTP id b12so1055469wer.6
+	Wed, 18 Jan 2012 15:29:37 +0100
+Received: by pbaa11 with SMTP id a11so750244pba.6
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 18 Jan 2012 06:21:36 -0800 (PST)
-Received: by 10.216.139.205 with SMTP id c55mr9233458wej.31.1326896495982;
-	Wed, 18 Jan 2012 06:21:35 -0800 (PST)
-Received: from [172.20.1.36] (ip545070eb.adsl-surfen.hetnet.nl.
-	[84.80.112.235])
-	by mx.google.com with ESMTPS id bj10sm22708897wib.9.2012.01.18.06.21.34
-	(version=TLSv1/SSLv3 cipher=OTHER);
-	Wed, 18 Jan 2012 06:21:35 -0800 (PST)
-Mime-Version: 1.0 (Apple Message framework v1251.1)
-From: Koen Kooi <koen@dominion.thruhere.net>
-In-Reply-To: <20120118134322.GB5443@deadlock.dhs.org>
-Date: Wed, 18 Jan 2012 15:21:28 +0100
-Message-Id: <F2C23BA4-EF14-44A5-A4B3-B50848CD0844@dominion.thruhere.net>
-References: <4F16C61C.4020304@ts.fujitsu.com>
-	<20120118134322.GB5443@deadlock.dhs.org>
-To: Patches and discussions about the oe-core layer
+	Wed, 18 Jan 2012 06:21:58 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
+	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
+	:cc:content-type:content-transfer-encoding;
+	bh=B1qPO8ZOI23La9VKA0QWAZzGVQl+t9MRmoq1gdx9DWg=;
+	b=gDO6jg/aB/S5+HGqNNxeVQCtIQcrIUgrJraKLIWgH++ovrprDJr+Ke/qfAecS4FS7/
+	RXg5TcSGTqW2/de0rjSq7hBdJ4HAek4tkg+UbvWOqJjJZheAHmgM6WjNqQDx3qNkqB9U
+	U7bQP9lHKmVuoEIdJyFbh3CwFU9uOpeYTLerc=
+MIME-Version: 1.0
+Received: by 10.68.190.169 with SMTP id gr9mr44454232pbc.5.1326896517624; Wed,
+	18 Jan 2012 06:21:57 -0800 (PST)
+Received: by 10.143.10.7 with HTTP; Wed, 18 Jan 2012 06:21:57 -0800 (PST)
+In-Reply-To: <4F169899.905@windriver.com>
+References: <cover.1326786989.git.sgw@linux.intel.com>
+	<4fed8429bc31211a979aaa496d2af8c574b1140a.1326786989.git.sgw@linux.intel.com>
+	<CAMKF1sp_bM8w=q9SO=ezssH9t-rZedZDMD06oByUHX06wVnomQ@mail.gmail.com>
+	<CADkTA4NEH+hMJnB1w+UK8ShZEQ+J1uCJw831F6f==YrZDzC+bA@mail.gmail.com>
+	<4F169899.905@windriver.com>
+Date: Wed, 18 Jan 2012 09:21:57 -0500
+Message-ID: <CADkTA4PZhiOYCgogBLqpNo_qQhUZve8iw9erXDf1H-PN6dPFeg@mail.gmail.com>
+From: Bruce Ashfield <bruce.ashfield@gmail.com>
+To: Liming Wang <liming.wang@windriver.com>
+Cc: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-X-Mailer: Apple Mail (2.1251.1)
-Subject: Re: How do I get rid of systemd
+Subject: Re: [CONSOLIDATED PULL 18/62] qemuppc: replace emulation of qemuppc from prep to mac99
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -38,37 +44,211 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 18 Jan 2012 14:29:17 -0000
-Content-Type: text/plain; charset=us-ascii
+X-List-Received-Date: Wed, 18 Jan 2012 14:29:37 -0000
+Content-Type: text/plain; charset=ISO-8859-1
 Content-Transfer-Encoding: quoted-printable
 
+On Wed, Jan 18, 2012 at 5:02 AM, Liming Wang <liming.wang@windriver.com> wr=
+ote:
+> On 2012-1-18 8:52, Bruce Ashfield wrote:
+>>
+>> On Tue, Jan 17, 2012 at 5:20 PM, Khem Raj<raj.khem@gmail.com> =A0wrote:
+>>>
+>>> On Tue, Jan 17, 2012 at 12:32 AM, Saul Wold<sgw@linux.intel.com> =A0wro=
+te:
+>>>>
+>>>> From: Liming Wang<liming.wang@windriver.com>
+>>>>
+>>>> With this new emulation, existing qemuppc functionality is maintained
+>>>> and other functionality such as framebuffer + sato and NFS boot are
+>>>> added.
+>>>>
+>>> We currently tune for 603e when we choose qemuppc machine is that still
+>>> valid
+>>> core for G4 cpu ? I think from gcc point of view it should now use -m74=
+00
+>>> so may be add another tune-file to oe-core
+>>
+>> That was the plan, to fix the tuning of this and the other PPC reference
+>> boards
+>> at the same time. Liming and I had discussed this before, and we wanted =
+to
+>> get
+>> this into the tree, and tweak it there.
+>>
+>> Liming: we can open a bug to track the update of the tuning .. just so w=
+e
+>> don't
+>> forget.
+>
+> OK, =A0Bug 1914 - modify the tune files of ppc targets is opened.
 
-Op 18 jan. 2012, om 14:43 heeft Sergey 'Jin' Bostandzhyan het volgende =
-geschreven:
+Thanks!
 
-> Hi Rainer,
->=20
-> On Wed, Jan 18, 2012 at 02:16:12PM +0100, Rainer Koenig wrote:
->> built my first basic customized console image (based on angstrom's
->> console-image.bb) and managed to get SystemV init pulled in by =
-deleting
->> the systemd entry for the init manager.
->>=20
->> But systemd is still pulled in via connman, dhcp, rsyslog and ntp. =
-How
->> can I get totally rid of systemd so that I don't need a kernel with =
-CGROUPS?
->=20
-> I also did not want systemd in my image, I had to create a layer and =
-patch
-> out systemd from each package that was pulling it in, one by one.
->=20
-> Surely not the nicest solution, but I did not find any other ways to =
-solve this.
+Bruce
 
-It's really easy, create your own image, no patching needed. The systemd =
-dependencies are all in ${PN}-systemd, so just don't include those in =
-your image. I you do include ${PN}-systemd in your image you shouldn't =
-be surprised that systemd ends up in it.=
+>
+> Liming Wang
+>
+>>
+>> Cheers,
+>>
+>> Bruce
+>>
+>>>> Signed-off-by: Liming Wang<liming.wang@windriver.com>
+>>>> Signed-off-by: Bruce Ashfield<bruce.ashfield@windriver.com>
+>>>> ---
+>>>> =A0meta/conf/machine/qemuppc.conf =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0|=
+ =A0 =A02 +-
+>>>> =A0meta/recipes-kernel/linux/linux-yocto-rt_3.0.bb | =A0 =A02 +-
+>>>> =A0meta/recipes-kernel/linux/linux-yocto_3.0.bb =A0 =A0| =A0 =A02 +-
+>>>> =A0scripts/runqemu =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0=
+ =A0 =A0 =A0 | =A0 =A07 +------
+>>>> =A0scripts/runqemu-internal =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =
+=A0 =A0| =A0 16 ++++++++--------
+>>>> =A05 files changed, 12 insertions(+), 17 deletions(-)
+>>>>
+>>>> diff --git a/meta/conf/machine/qemuppc.conf
+>>>> b/meta/conf/machine/qemuppc.conf
+>>>> index bcc408f..48eecb7 100644
+>>>> --- a/meta/conf/machine/qemuppc.conf
+>>>> +++ b/meta/conf/machine/qemuppc.conf
+>>>> @@ -5,7 +5,7 @@
+>>>> =A0require conf/machine/include/qemu.inc
+>>>> =A0require conf/machine/include/tune-ppc603e.inc
+>>>>
+>>>> -KERNEL_IMAGETYPE =3D "zImage"
+>>>> +KERNEL_IMAGETYPE =3D "vmlinux"
+>>>>
+>>>> =A0SERIAL_CONSOLE =3D "115200 ttyS0"
+>>>>
+>>>> diff --git a/meta/recipes-kernel/linux/linux-yocto-rt_3.0.bb
+>>>> b/meta/recipes-kernel/linux/linux-yocto-rt_3.0.bb
+>>>> index c8983c4..c6bf446 100644
+>>>> --- a/meta/recipes-kernel/linux/linux-yocto-rt_3.0.bb
+>>>> +++ b/meta/recipes-kernel/linux/linux-yocto-rt_3.0.bb
+>>>> @@ -16,7 +16,7 @@ LINUX_KERNEL_TYPE =3D "preempt-rt"
+>>>>
+>>>> =A0SRCREV_machine ?=3D "bcf4107c7f22d10952618a2ad146e6149d240cd2"
+>>>> =A0SRCREV_machine_qemuppc ?=3D "1e5511ea2cb5f150ffce86071035a81c049949=
+4b"
+>>>> -SRCREV_meta ?=3D "6ae3d992cf546184010e87a0349810198f1d167c"
+>>>> +SRCREV_meta ?=3D "73dafd44ea875df654129b32b2877f342d5573e4"
+>>>>
+>>>> =A0PR =3D "r1"
+>>>> =A0PV =3D "${LINUX_VERSION}+git${SRCPV}"
+>>>> diff --git a/meta/recipes-kernel/linux/linux-yocto_3.0.bb
+>>>> b/meta/recipes-kernel/linux/linux-yocto_3.0.bb
+>>>> index 921c258..e624b48 100644
+>>>> --- a/meta/recipes-kernel/linux/linux-yocto_3.0.bb
+>>>> +++ b/meta/recipes-kernel/linux/linux-yocto_3.0.bb
+>>>> @@ -18,7 +18,7 @@ SRCREV_machine_qemuppc ?=3D
+>>>> "10e808d1c304b14cf42903fd637f239766b78476"
+>>>> =A0SRCREV_machine_qemux86 ?=3D "e04f9f8e564c60b1ce907d64074c18730f8dab=
+4e"
+>>>> =A0SRCREV_machine_qemux86-64 ?=3D "53c2fa060d34e9a0b59e19398aeebbe73f2=
+4d89b"
+>>>> =A0SRCREV_machine ?=3D "fe80c1e343bf8f038328a612cef7f821d7ec8dbf"
+>>>> -SRCREV_meta ?=3D "6ae3d992cf546184010e87a0349810198f1d167c"
+>>>> +SRCREV_meta ?=3D "73dafd44ea875df654129b32b2877f342d5573e4"
+>>>>
+>>>> =A0PR =3D "r2"
+>>>> =A0PV =3D "${LINUX_VERSION}+git${SRCPV}"
+>>>> diff --git a/scripts/runqemu b/scripts/runqemu
+>>>> index bed6a29..ac5facf 100755
+>>>> --- a/scripts/runqemu
+>>>> +++ b/scripts/runqemu
+>>>> @@ -262,7 +262,7 @@ QEMUARM_DEFAULT_FSTYPE=3Dext3
+>>>> =A0QEMUMIPS_DEFAULT_KERNEL=3Dvmlinux-qemumips.bin
+>>>> =A0QEMUMIPS_DEFAULT_FSTYPE=3Dext3
+>>>>
+>>>> -QEMUPPC_DEFAULT_KERNEL=3DzImage-qemuppc.bin
+>>>> +QEMUPPC_DEFAULT_KERNEL=3Dvmlinux-qemuppc.bin
+>>>> =A0QEMUPPC_DEFAULT_FSTYPE=3Dext3
+>>>>
+>>>> =A0AKITA_DEFAULT_KERNEL=3DzImage-akita.bin
+>>>> @@ -365,11 +365,6 @@ if [ -z "$FSTYPE" ]; then
+>>>> =A0 =A0 fi
+>>>> =A0fi
+>>>>
+>>>> -if [ "$FSTYPE" =3D "nfs" -a "$MACHINE" =3D "qemuppc" ]; then
+>>>> - =A0 =A0echo "Error: usermode NFS boot is not available for qemuppc."
+>>>> - =A0 =A0exit 1
+>>>> -fi
+>>>> -
+>>>> =A0# FSTYPE is now set for all cases
+>>>>
+>>>> =A0# Handle cases where a ROOTFS type is given instead of a filename, =
+e.g.
+>>>> diff --git a/scripts/runqemu-internal b/scripts/runqemu-internal
+>>>> index 2968ed9..c55619b 100755
+>>>> --- a/scripts/runqemu-internal
+>>>> +++ b/scripts/runqemu-internal
+>>>> @@ -389,13 +389,13 @@ fi
+>>>>
+>>>> =A0if [ "$MACHINE" =3D "qemuppc" ]; then
+>>>> =A0 =A0 QEMU=3Dqemu-system-ppc
+>>>> - =A0 =A0MACHINE_SUBTYPE=3Dprep
+>>>> - =A0 =A0CPU_SUBTYPE=3D603e
+>>>> - =A0 =A0BIOS=3Dpowerpc_rom.bin
+>>>> - =A0 =A0QEMU_UI_OPTIONS=3D"$QEMU_UI_OPTIONS -nographic"
+>>>> + =A0 =A0MACHINE_SUBTYPE=3Dmac99
+>>>> + =A0 =A0CPU_SUBTYPE=3DG4
+>>>> + =A0 =A0QEMU_UI_OPTIONS=3D"$QEMU_UI_OPTIONS"
+>>>> + =A0 =A0QEMU_NETWORK_CMD=3D"-net nic,model=3Dpcnet $QEMU_TAP_CMD"
+>>>> =A0 =A0 if [ "$FSTYPE" =3D "ext3" -o "$FSTYPE" =3D "btrfs" ]; then
+>>>> - =A0 =A0 =A0 =A0KERNCMDLINE=3D"root=3D/dev/hda rw console=3DttyS0 3
+>>>> $KERNEL_NETWORK_CMD mem=3D$QEMU_MEMORY"
+>>>> - =A0 =A0 =A0 =A0QEMUOPTIONS=3D"$QEMU_NETWORK_CMD -cpu $CPU_SUBTYPE -M
+>>>> $MACHINE_SUBTYPE -bios $BIOS -hda $ROOTFS -no-reboot $QEMU_UI_OPTIONS"
+>>>> + =A0 =A0 =A0 =A0KERNCMDLINE=3D"root=3D/dev/hda rw console=3DttyS0 $KE=
+RNEL_NETWORK_CMD
+>>>> mem=3D$QEMU_MEMORY"
+>>>> + =A0 =A0 =A0 =A0QEMUOPTIONS=3D"$QEMU_NETWORK_CMD -cpu $CPU_SUBTYPE -M
+>>>> $MACHINE_SUBTYPE -hda $ROOTFS -no-reboot $QEMU_UI_OPTIONS"
+>>>> =A0 =A0 fi
+>>>> =A0 =A0 if [ "$FSTYPE" =3D "nfs" ]; then
+>>>> =A0 =A0 =A0 =A0 if [ "$NFS_SERVER" =3D "192.168.7.1" -a ! -d "$NFS_DIR=
+" ]; then
+>>>> @@ -403,8 +403,8 @@ if [ "$MACHINE" =3D "qemuppc" ]; then
+>>>> =A0 =A0 =A0 =A0 =A0 =A0 cleanup
+>>>> =A0 =A0 =A0 =A0 =A0 =A0 return
+>>>> =A0 =A0 =A0 =A0 fi
+>>>> - =A0 =A0 =A0 =A0KERNCMDLINE=3D"root=3D/dev/nfs console=3DttyS0 3
+>>>> nfsroot=3D$NFS_SERVER:$NFS_DIR,$UNFS_OPTS rw $KERNEL_NETWORK_CMD
+>>>> mem=3D$QEMU_MEMORY"
+>>>> - =A0 =A0 =A0 =A0QEMUOPTIONS=3D"$QEMU_NETWORK_CMD -cpu $CPU_SUBTYPE -M
+>>>> $MACHINE_SUBTYPE -bios $BIOS -no-reboot $QEMU_UI_OPTIONS"
+>>>> + =A0 =A0 =A0 =A0KERNCMDLINE=3D"root=3D/dev/nfs console=3DttyS0
+>>>> nfsroot=3D$NFS_SERVER:$NFS_DIR,$UNFS_OPTS rw $KERNEL_NETWORK_CMD
+>>>> mem=3D$QEMU_MEMORY"
+>>>> + =A0 =A0 =A0 =A0QEMUOPTIONS=3D"$QEMU_NETWORK_CMD -cpu $CPU_SUBTYPE -M
+>>>> $MACHINE_SUBTYPE -no-reboot $QEMU_UI_OPTIONS"
+>>>> =A0 =A0 fi
+>>>> =A0fi
+>>>>
+>>>> --
+>>>> 1.7.6.5
+>>>>
+>>>>
+>>>> _______________________________________________
+>>>> Openembedded-core mailing list
+>>>> Openembedded-core@lists.openembedded.org
+>>>> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
+>>>
+>>> _______________________________________________
+>>> Openembedded-core mailing list
+>>> Openembedded-core@lists.openembedded.org
+>>> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
+>>
+>>
+>>
+>
+
+
+
+--=20
+"Thou shalt not follow the NULL pointer, for chaos and madness await
+thee at its end"
 
 
