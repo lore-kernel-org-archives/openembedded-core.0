@@ -1,31 +1,45 @@
-Received: from mail-pz0-f47.google.com ([209.85.210.47])
+Received: from dgate10.ts.fujitsu.com ([80.70.172.49])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <andrea.adami@gmail.com>) id 1RnV3a-00020h-BH
+	(envelope-from <Rainer.Koenig@ts.fujitsu.com>) id 1RnVUU-0002dQ-NQ
 	for openembedded-core@lists.openembedded.org;
-	Wed, 18 Jan 2012 13:56:02 +0100
-Received: by dadw11 with SMTP id w11so1565159dad.6
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 18 Jan 2012 04:48:23 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
-	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
-	:content-type:content-transfer-encoding;
-	bh=VJ4zEU1vVe3EIRRZpgddzy0E1rkZ7IVPKXhJ4C58D5s=;
-	b=G5Im9DVk6GVvOy/u1mcDJVswsFv4ZLettAXqTrgzaCN2rDFxczPBW2wjCXlyriVhkG
-	i/9jAPt4wfE/1rw9gGXEAMUfJQmbJKcUCgT1hQzmTXKMlT37+jTXpeqN7P8Nm3UqeiUn
-	2q8IpMe5e4eefam7FpRGlNBK3zOylLk1NiAS4=
+	Wed, 18 Jan 2012 14:23:50 +0100
+DomainKey-Signature: s=s1536a; d=ts.fujitsu.com; c=nofws; q=dns;
+	h=X-SBRSScore:X-IronPort-AV:Received:X-IronPort-AV:
+	Received:Message-ID:Date:From:User-Agent:MIME-Version:To:
+	Subject:X-Enigmail-Version:Content-Type:
+	Content-Transfer-Encoding;
+	b=VkU8tqmJrTdiMaWf9Y4gu6KuT1a/MBJeI22ApGg/M4mMvnGDkmeriw85
+	pdpjFbiNb412Ggk+ipoeDvLyQDAv4ruhEjBAPpK5w3Ur01Qk1QjAyCAxS
+	d0kzURuV8+K2xJI68+FJnRoLikZkfrAPZ9Xc66QqU94hSIEQDnDtDj1Jj
+	07QQqo6eylCre8Mk2p6w6eigMXoqRVO66E2TlarV9JjFrpuRDyjBssFyc
+	nT4R1Fs/jPHlZOsWFAMqO+60LvdXr;
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
+	d=ts.fujitsu.com; i=Rainer.Koenig@ts.fujitsu.com;
+	q=dns/txt; s=s1536b; t=1326892575; x=1358428575;
+	h=message-id:date:from:mime-version:to:subject:
+	content-transfer-encoding;
+	bh=K7r8FNkfajg6RMDbpMFN9DKV0VVQLMUXbHF/DwGBZJE=;
+	b=kgyrUozrI0Mn9n51RQsbKgT/SYNW5OsfKEWTDxreTwzfKaAZSgMYmUGZ
+	aOuqfZGoTptcbFhwUlyAbpCMHDwSHKUAAHTHW8kgVd6Q24PBweWNQf8xN
+	bRqCbOF2DrXZFzVFqfm+3q81t12iHpLaAx1/46FQ8V4UbwuSBWIEFiEgA
+	IIBHqNJw/rFEHGkrGOCs2jqysavP/HYBEBaOANpmG7rneeIPEZj9KtZGj
+	soKY/QjSP4IxqGfdcqv/kHeQWZ0Xh;
+X-SBRSScore: None
+X-IronPort-AV: E=Sophos;i="4.71,529,1320620400"; d="scan'208";a="99012970"
+Received: from abgdgate40u.abg.fsc.net ([172.25.138.90])
+	by dgate10u.abg.fsc.net with ESMTP; 18 Jan 2012 14:16:13 +0100
+X-IronPort-AV: E=Sophos;i="4.71,529,1320620400"; d="scan'208";a="127314210"
+Received: from abg3595c.abg.fsc.net (HELO [172.25.145.158]) ([172.25.145.158])
+	by abgdgate40u.abg.fsc.net with ESMTP; 18 Jan 2012 14:16:12 +0100
+Message-ID: <4F16C61C.4020304@ts.fujitsu.com>
+Date: Wed, 18 Jan 2012 14:16:12 +0100
+From: Rainer Koenig <Rainer.Koenig@ts.fujitsu.com>
+User-Agent: Mozilla/5.0 (X11; U; Linux x86_64; en-US;
+	rv:1.9.1.16) Gecko/20111110 Icedove/3.0.11
 MIME-Version: 1.0
-Received: by 10.68.213.234 with SMTP id nv10mr43533226pbc.7.1326890443848;
-	Wed, 18 Jan 2012 04:40:43 -0800 (PST)
-Received: by 10.142.213.7 with HTTP; Wed, 18 Jan 2012 04:40:43 -0800 (PST)
-In-Reply-To: <4E95A0DD-C978-4621-A624-8313A743CE56@dominion.thruhere.net>
-References: <1326841411-6369-1-git-send-email-andrea.adami@gmail.com>
-	<4E95A0DD-C978-4621-A624-8313A743CE56@dominion.thruhere.net>
-Date: Wed, 18 Jan 2012 13:40:43 +0100
-Message-ID: <CAAQYJAvA40tv+9Avwxo736itjGM6yL4EZA98YnKYvw_XtZR-9A@mail.gmail.com>
-From: Andrea Adami <andrea.adami@gmail.com>
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] xinput: add utility for configuring and testing XInput devices.
+To: Openembedded Core <openembedded-core@lists.openembedded.org>
+X-Enigmail-Version: 1.0.1
+Subject: How do I get rid of systemd
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -40,88 +54,36 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 18 Jan 2012 12:56:02 -0000
-Content-Type: text/plain; charset=ISO-8859-1
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Wed, 18 Jan 2012 13:23:50 -0000
+Content-Type: text/plain; charset=ISO-8859-15
+Content-Transfer-Encoding: 8bit
 
-On Wed, Jan 18, 2012 at 2:46 AM, Koen Kooi <koen@dominion.thruhere.net> wro=
-te:
->
->
-> Op 18 jan. 2012 om 00:03 heeft Andrea Adami <andrea.adami@gmail.com> het =
-volgende geschreven:
->
->> * from meta-openembedded with minor editings
->> * added PE
->
-> why?
+Ok,
 
-Just because most oe-core's recipes in xorg-app set PE.
-I quickly inspected some and edited trying to normalize (fields order,
-summary, ...).
+built my first basic customized console image (based on angstrom's
+console-image.bb) and managed to get SystemV init pulled in by deleting
+the systemd entry for the init manager.
 
->
->> and reset PR
->
-> why?
-
-Because this revised version is committed for the first time in this layer.
-I see now this can break package management of distros using meta-oe
-and the recipe with higher PR...
-and I don't want to force another PE bump.Sorry.
-
-Would it be acceptable for you if I update the patch with PR =3D "r7" ?
-What about PE?
+But systemd is still pulled in via connman, dhcp, rsyslog and ntp. How
+can I get totally rid of systemd so that I don't need a kernel with CGROUPS?
 
 Regards
+Rainer
+-- 
+Dipl.-Inf. (FH) Rainer Koenig
+Project Manager Linux Clients
+Dept. PDG WPS R&D SW OSE
 
-Andrea
->
->
->>
->> Signed-off-by: Andrea Adami <andrea.adami@gmail.com>
->> ---
->> meta/recipes-graphics/xorg-app/xinput_1.5.3.bb | =A0 15 +++++++++++++++
->> 1 files changed, 15 insertions(+), 0 deletions(-)
->> create mode 100644 meta/recipes-graphics/xorg-app/xinput_1.5.3.bb
->>
->> diff --git a/meta/recipes-graphics/xorg-app/xinput_1.5.3.bb b/meta/recip=
-es-graphics/xorg-app/xinput_1.5.3.bb
->> new file mode 100644
->> index 0000000..c9925f1
->> --- /dev/null
->> +++ b/meta/recipes-graphics/xorg-app/xinput_1.5.3.bb
->> @@ -0,0 +1,15 @@
->> +require xorg-app-common.inc
->> +
->> +SUMMARY =3D "Runtime configuration and test of XInput devices"
->> +
->> +DESCRIPTION =3D "Xinput is an utility for configuring and testing XInpu=
-t devices"
->> +
->> +LIC_FILES_CHKSUM =3D "file://COPYING;md5=3D22c34ea36136407a77702a8b784f=
-9bd0"
->> +
->> +DEPENDS +=3D " libxi"
->> +
->> +PR =3D "r0"
->> +PE =3D "1"
->> +
->> +SRC_URI[md5sum] =3D "1e2f0ad4f3fa833b65c568907f171d28"
->> +SRC_URI[sha256sum] =3D "6aade131cecddaeefc39ddce1dd5e8473f6039c2e4efbfd=
-9fbb5ee2a75885c76"
->> --
->> 1.7.3.4
->>
->>
->> _______________________________________________
->> Openembedded-core mailing list
->> Openembedded-core@lists.openembedded.org
->> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
->
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
+Fujitsu Technology Solutions
+Bürgermeister-Ullrich-Str. 100
+86199 Augsburg
+Germany
+
+Telephone: +49-821-804-3321
+Telefax:   +49-821-804-2131
+Mail:      mailto:Rainer.Koenig@ts.fujitsu.com
+
+Internet         ts.fujtsu.com
+Company Details  ts.fujitsu.com/imprint.html
 
 
