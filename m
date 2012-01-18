@@ -1,30 +1,30 @@
-Received: from mail-we0-f175.google.com ([74.125.82.175])
+Received: from mail-yx0-f175.google.com ([209.85.213.175])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <koen@dominion.thruhere.net>) id 1RnKja-0000in-40
+	(envelope-from <raj.khem@gmail.com>) id 1RnLtj-0004dR-1a
 	for openembedded-core@lists.openembedded.org;
-	Wed, 18 Jan 2012 02:54:42 +0100
-Received: by werb12 with SMTP id b12so662286wer.6
+	Wed, 18 Jan 2012 04:09:15 +0100
+Received: by yenr5 with SMTP id r5so1933133yen.6
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 17 Jan 2012 17:47:01 -0800 (PST)
-Received: by 10.216.131.29 with SMTP id l29mr8356025wei.5.1326851221026;
-	Tue, 17 Jan 2012 17:47:01 -0800 (PST)
-Received: from [172.20.1.20] (ip545070eb.adsl-surfen.hetnet.nl.
-	[84.80.112.235])
-	by mx.google.com with ESMTPS id q7sm19952078wix.5.2012.01.17.17.46.59
+	Tue, 17 Jan 2012 19:01:36 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
+	h=from:to:cc:subject:date:message-id:x-mailer;
+	bh=KLaPJ5FupPI5FjP8qEI14fZIOJLd1GbzLU2whe6YXbk=;
+	b=P8o6nDfxLkHKfwMCcTmYvFjIspwxeY0i+XTYKt5z4U3UMVLaJ7JeXK/V33oIl3PVdZ
+	kBSu2u+krCj/StMXynsFn66vQ6vZkk6/JTLYiim8GcJ0iMQOFrPY9c8rgjTSeAc8E7B/
+	XuSWRLPE1qilACUhDTnprQZE0yiXMAuQHFUfY=
+Received: by 10.236.145.33 with SMTP id o21mr28001105yhj.56.1326855695973;
+	Tue, 17 Jan 2012 19:01:35 -0800 (PST)
+Received: from localhost.localdomain (oldbuilder.nslu2-linux.org.
+	[140.211.169.168])
+	by mx.google.com with ESMTPS id f47sm40216636yhh.8.2012.01.17.19.01.33
 	(version=TLSv1/SSLv3 cipher=OTHER);
-	Tue, 17 Jan 2012 17:47:00 -0800 (PST)
-References: <1326841411-6369-1-git-send-email-andrea.adami@gmail.com>
-In-Reply-To: <1326841411-6369-1-git-send-email-andrea.adami@gmail.com>
-Mime-Version: 1.0 (1.0)
-Message-Id: <4E95A0DD-C978-4621-A624-8313A743CE56@dominion.thruhere.net>
-Cc: "<openembedded-core@lists.openembedded.org>"
-	<openembedded-core@lists.openembedded.org>
-X-Mailer: iPhone Mail (9A405)
-From: Koen Kooi <koen@dominion.thruhere.net>
-Date: Wed, 18 Jan 2012 02:46:54 +0100
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] xinput: add utility for configuring and testing XInput devices.
+	Tue, 17 Jan 2012 19:01:35 -0800 (PST)
+From: Khem Raj <raj.khem@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Date: Tue, 17 Jan 2012 19:01:05 -0800
+Message-Id: <1326855665-11617-1-git-send-email-raj.khem@gmail.com>
+X-Mailer: git-send-email 1.7.5.4
+Subject: [PATCH] e2fsprogs_1.42.bb: Fix build fallout for uclibc
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -39,65 +39,67 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 18 Jan 2012 01:54:42 -0000
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain;
-	charset=us-ascii
+X-List-Received-Date: Wed, 18 Jan 2012 03:09:15 -0000
 
+e2fsprogs 1.42 onwards uses fallocate() which uclibc
+does not implement(yet). In most of places its use
+is controlled and it only used when configure detects
+fallocate being present but in this one case it missed
+to check for fallocate being available so here we
+add the check
 
+Signed-off-by: Khem Raj <raj.khem@gmail.com>
+---
+ .../e2fsprogs/e2fsprogs-1.42/fallocate.patch       |   22 ++++++++++++++++++++
+ meta/recipes-devtools/e2fsprogs/e2fsprogs_1.42.bb  |    3 +-
+ 2 files changed, 24 insertions(+), 1 deletions(-)
+ create mode 100644 meta/recipes-devtools/e2fsprogs/e2fsprogs-1.42/fallocate.patch
 
-Op 18 jan. 2012 om 00:03 heeft Andrea Adami <andrea.adami@gmail.com> het vol=
-gende geschreven:
+diff --git a/meta/recipes-devtools/e2fsprogs/e2fsprogs-1.42/fallocate.patch b/meta/recipes-devtools/e2fsprogs/e2fsprogs-1.42/fallocate.patch
+new file mode 100644
+index 0000000..4d952a5
+--- /dev/null
++++ b/meta/recipes-devtools/e2fsprogs/e2fsprogs-1.42/fallocate.patch
+@@ -0,0 +1,22 @@
++We assume that fallocate is supported somehow
++but we need to check if we have fallocate()
++this problem shows up on uclibc systems since
++uclibc does not have fallocate() implemented
++
++Signed-off-by: Khem Raj <raj.khem@gmail.com>
++
++Upstream-Status: Pending
++
++Index: e2fsprogs-1.42/lib/ext2fs/unix_io.c
++===================================================================
++--- e2fsprogs-1.42.orig/lib/ext2fs/unix_io.c	2012-01-17 17:24:34.290780625 -0800
+++++ e2fsprogs-1.42/lib/ext2fs/unix_io.c	2012-01-17 17:25:37.338783680 -0800
++@@ -895,7 +895,7 @@
++ 		goto unimplemented;
++ #endif
++ 	} else {
++-#ifdef FALLOC_FL_PUNCH_HOLE
+++#if defined FALLOC_FL_PUNCH_HOLE && defined HAVE_FALLOCATE
++ 		/*
++ 		 * If we are not on block device, try to use punch hole
++ 		 * to reclaim free space.
+diff --git a/meta/recipes-devtools/e2fsprogs/e2fsprogs_1.42.bb b/meta/recipes-devtools/e2fsprogs/e2fsprogs_1.42.bb
+index 9ff85a2..f6759aa7 100644
+--- a/meta/recipes-devtools/e2fsprogs/e2fsprogs_1.42.bb
++++ b/meta/recipes-devtools/e2fsprogs/e2fsprogs_1.42.bb
+@@ -1,8 +1,9 @@
+ require e2fsprogs.inc
+ 
+-PR = "r0"
++PR = "r1"
+ 
+ SRC_URI += "file://quotefix.patch \
++            file://fallocate.patch \
+             file://acinclude.m4"
+ 
+ SRC_URI[md5sum] = "a3c4ffd7352310ab5e9412965d575610"
+-- 
+1.7.5.4
 
-> * from meta-openembedded with minor editings
-> * added PE
-
-why?
-
-> and reset PR
-
-why?
-
-
->=20
-> Signed-off-by: Andrea Adami <andrea.adami@gmail.com>
-> ---
-> meta/recipes-graphics/xorg-app/xinput_1.5.3.bb |   15 +++++++++++++++
-> 1 files changed, 15 insertions(+), 0 deletions(-)
-> create mode 100644 meta/recipes-graphics/xorg-app/xinput_1.5.3.bb
->=20
-> diff --git a/meta/recipes-graphics/xorg-app/xinput_1.5.3.bb b/meta/recipes=
--graphics/xorg-app/xinput_1.5.3.bb
-> new file mode 100644
-> index 0000000..c9925f1
-> --- /dev/null
-> +++ b/meta/recipes-graphics/xorg-app/xinput_1.5.3.bb
-> @@ -0,0 +1,15 @@
-> +require xorg-app-common.inc
-> +
-> +SUMMARY =3D "Runtime configuration and test of XInput devices"
-> +
-> +DESCRIPTION =3D "Xinput is an utility for configuring and testing XInput d=
-evices"
-> +
-> +LIC_FILES_CHKSUM =3D "file://COPYING;md5=3D22c34ea36136407a77702a8b784f9b=
-d0"
-> +
-> +DEPENDS +=3D " libxi"
-> +
-> +PR =3D "r0"
-> +PE =3D "1"
-> +
-> +SRC_URI[md5sum] =3D "1e2f0ad4f3fa833b65c568907f171d28"
-> +SRC_URI[sha256sum] =3D "6aade131cecddaeefc39ddce1dd5e8473f6039c2e4efbfd9f=
-bb5ee2a75885c76"
-> --=20
-> 1.7.3.4
->=20
->=20
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
 
 
