@@ -1,18 +1,20 @@
-Received: from smtp206.alice.it ([82.57.200.102])
+Received: from mga11.intel.com ([192.55.52.93])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <andrea.adami@gmail.com>) id 1RnduD-00022X-CR
+	(envelope-from <nitin.a.kamble@intel.com>) id 1Rnf50-0003WC-M8
 	for openembedded-core@lists.openembedded.org;
-	Wed, 18 Jan 2012 23:22:57 +0100
-Received: from mizar.localdomain (87.0.248.69) by smtp206.alice.it (8.6.023.02)
-	id 4ECA607908246A14; Wed, 18 Jan 2012 23:15:18 +0100
-From: Andrea Adami <andrea.adami@gmail.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Wed, 18 Jan 2012 23:15:11 +0100
-Message-Id: <1326924911-3127-1-git-send-email-andrea.adami@gmail.com>
-X-Mailer: git-send-email 1.7.3.4
-In-Reply-To: <1326841411-6369-1-git-send-email-andrea.adami@gmail.com>
-References: <1326841411-6369-1-git-send-email-andrea.adami@gmail.com>
-Subject: [PATCH v2] xinput: add utility for configuring and testing XInput devices.
+	Thu, 19 Jan 2012 00:38:10 +0100
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+	by fmsmga102.fm.intel.com with ESMTP; 18 Jan 2012 15:30:27 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="113771645"
+Received: from nbuild0.sc.intel.com ([172.25.110.36])
+	by fmsmga002.fm.intel.com with ESMTP; 18 Jan 2012 15:30:27 -0800
+From: nitin.a.kamble@intel.com
+To: openembedded-core@lists.openembedded.org
+Date: Wed, 18 Jan 2012 15:30:25 -0800
+Message-Id: <cover.1326929307.git.nitin.a.kamble@intel.com>
+X-Mailer: git-send-email 1.7.6.4
+Subject: [PATCHv3 0/7] Commits to get grub-efi-native recipe working
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -27,39 +29,59 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 18 Jan 2012 22:22:57 -0000
+X-List-Received-Date: Wed, 18 Jan 2012 23:38:10 -0000
 
-* from meta-openembedded with minor editings
-* (fields reordering like other recipes in xorg-app)
+From: Nitin A Kamble <nitin.a.kamble@intel.com>
 
-Signed-off-by: Andrea Adami <andrea.adami@gmail.com>
----
- meta/recipes-graphics/xorg-app/xinput_1.5.3.bb |   14 ++++++++++++++
- 1 files changed, 14 insertions(+), 0 deletions(-)
- create mode 100644 meta/recipes-graphics/xorg-app/xinput_1.5.3.bb
 
-diff --git a/meta/recipes-graphics/xorg-app/xinput_1.5.3.bb b/meta/recipes-graphics/xorg-app/xinput_1.5.3.bb
-new file mode 100644
-index 0000000..8f17e9a
---- /dev/null
-+++ b/meta/recipes-graphics/xorg-app/xinput_1.5.3.bb
-@@ -0,0 +1,14 @@
-+require xorg-app-common.inc
-+
-+SUMMARY = "Runtime configuration and test of XInput devices"
-+
-+DESCRIPTION = "Xinput is an utility for configuring and testing XInput devices"
-+
-+LIC_FILES_CHKSUM = "file://COPYING;md5=22c34ea36136407a77702a8b784f9bd0"
-+
-+DEPENDS += " libxi"
-+
-+PR = "r7"
-+
-+SRC_URI[md5sum] = "1e2f0ad4f3fa833b65c568907f171d28"
-+SRC_URI[sha256sum] = "6aade131cecddaeefc39ddce1dd5e8473f6039c2e4efbfd9fbb5ee2a75885c76"
+This is same as version 2 pull request + site config fix + guile cross config enhancement + bdwgc packaging cleanup
+
+Thanks,
+Nitin
+
+The following changes since commit 5724ee9c3a99519fea96446638910b727b89898d:
+
+  package_rpm.bbclass: Add support for filenames with spaces (2012-01-17 16:20:54 +0000)
+
+are available in the git repository at:
+  git://git.pokylinux.org/poky-contrib nitin/misc
+  http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=nitin/misc
+
+Nitin A Kamble (7):
+  site/ix86-common: fix an error
+  bdwgc: new recipe for autogen
+  libunistring: new recipe for autogen
+  guile: new recipe for autogen
+  autogen-native: new recipe for grub-efi-native
+  grub-efi-native: fix errors with automake 1.11.2
+  distro-tracking: add data for newer recipes
+
+ .../conf/distro/include/distro_tracking_fields.inc |   21 +
+ .../files/grub-1.99_fix_for_automake_1.11.2.patch  | 5808 --------------------
+ meta/recipes-bsp/grub/grub-efi-native_1.99.bb      |    4 +-
+ .../autogen/autogen-native_5.12.bb                 |   24 +
+ ...01-Fix-the-SRFI-60-copy-bit-documentation.patch |   33 +
+ ..._GNU_SOURCE-to-fix-the-GNU-kFreeBSD-build.patch |   25 +
+ ...h-rather-than-gc-gc_version.h-in-pthread-.patch |   26 +
+ .../guile/files/opensuse/guile-64bit.patch         |   38 +
+ .../files/opensuse/guile-turn-off-gc-test.patch    |   48 +
+ meta/recipes-devtools/guile/guile_2.0.3.bb         |   79 +
+ meta/recipes-support/bdwgc/bdwgc_20110107.bb       |   40 +
+ .../libunistring/libunistring_0.9.3.bb             |   27 +
+ meta/site/ix86-common                              |    2 +-
+ 13 files changed, 364 insertions(+), 5811 deletions(-)
+ create mode 100644 meta/recipes-devtools/autogen/autogen-native_5.12.bb
+ create mode 100644 meta/recipes-devtools/guile/files/debian/0001-Fix-the-SRFI-60-copy-bit-documentation.patch
+ create mode 100644 meta/recipes-devtools/guile/files/debian/0002-Define-_GNU_SOURCE-to-fix-the-GNU-kFreeBSD-build.patch
+ create mode 100644 meta/recipes-devtools/guile/files/debian/0003-Include-gc.h-rather-than-gc-gc_version.h-in-pthread-.patch
+ create mode 100644 meta/recipes-devtools/guile/files/opensuse/guile-64bit.patch
+ create mode 100644 meta/recipes-devtools/guile/files/opensuse/guile-turn-off-gc-test.patch
+ create mode 100644 meta/recipes-devtools/guile/guile_2.0.3.bb
+ create mode 100644 meta/recipes-support/bdwgc/bdwgc_20110107.bb
+ create mode 100644 meta/recipes-support/libunistring/libunistring_0.9.3.bb
+
 -- 
-1.7.3.4
+1.7.6.4
 
 
 
