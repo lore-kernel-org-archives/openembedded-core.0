@@ -1,40 +1,37 @@
-Received: from out3-smtp.messagingengine.com ([66.111.4.27])
+Received: from mga03.intel.com ([143.182.124.21])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <walters@verbum.org>) id 1RncrJ-0000yk-3p
+	(envelope-from <nitin.a.kamble@intel.com>) id 1Rncsv-00011N-Ml
 	for openembedded-core@lists.openembedded.org;
-	Wed, 18 Jan 2012 22:15:54 +0100
-Received: from compute6.internal (compute6.nyi.mail.srv.osa [10.202.2.46])
-	by gateway1.nyi.mail.srv.osa (Postfix) with ESMTP id 2F4F921BE1
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 18 Jan 2012 16:08:16 -0500 (EST)
-Received: from frontend2.nyi.mail.srv.osa ([10.202.2.161])
-	by compute6.internal (MEProxy); Wed, 18 Jan 2012 16:08:16 -0500
-DKIM-Signature: v=1; a=rsa-sha1; c=relaxed/relaxed; d=
-	messagingengine.com; h=subject:from:to:cc:date:in-reply-to
-	:references:content-type:content-transfer-encoding:message-id
-	:mime-version; s=smtpout; bh=8xz7mKW+aOUkvPrLr1tK9l8/7tk=; b=ZTT
-	rDx+wKakl109mcsk7mKTiHYPll0KEcZrN5WavhGmBaQo12pI+OcDtWcFGENRuytO
-	8GrTodcVs7V1GixBEVX0qcDnb8t91Pfjnsfx396VY/GronnD7LxdgA1Z4RqJNzUe
-	2rx6XewOpcDj2Lg5Uic0i0JAH+WNhC6sPcEwuxCs=
-X-Sasl-enc: xGfX7odpmk82J4cgY0LrYZrYFOf6wArKp9wguXEVYu/v 1326920895
-Received: from [192.168.1.6] (c-65-96-60-117.hsd1.ct.comcast.net
-	[65.96.60.117])
-	by mail.messagingengine.com (Postfix) with ESMTPA id BF3E0483513;
-	Wed, 18 Jan 2012 16:08:15 -0500 (EST)
-From: Colin Walters <walters@verbum.org>
-To: Saul Wold <sgw@linux.intel.com>
-Date: Wed, 18 Jan 2012 16:07:54 -0500
-In-Reply-To: <4F172C5D.5020806@linux.intel.com>
-References: <1326651241.9066.0.camel@lenny>
-	<4F13A366.1010807@linux.intel.com> <1326812944.3467.46.camel@lenny>
-	<4F15CDFD.8050204@linux.intel.com> <1326916687.24335.4.camel@lenny>
-	<4F172C5D.5020806@linux.intel.com>
-X-Mailer: Evolution 3.0.3 (3.0.3-1.fc15) 
-Message-ID: <1326920874.24335.7.camel@lenny>
-Mime-Version: 1.0
-Cc: Patches and discussions about the oe-core layer
+	Wed, 18 Jan 2012 22:17:33 +0100
+Received: from azsmga001.ch.intel.com ([10.2.17.19])
+	by azsmga101.ch.intel.com with ESMTP; 18 Jan 2012 13:09:10 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="97284108"
+Received: from orsmsx602.amr.corp.intel.com ([10.22.226.211])
+	by azsmga001.ch.intel.com with ESMTP; 18 Jan 2012 13:09:09 -0800
+Received: from orsmsx102.amr.corp.intel.com (10.22.225.129) by
+	orsmsx602.amr.corp.intel.com (10.22.226.211) with Microsoft SMTP Server
+	(TLS) id 8.2.255.0; Wed, 18 Jan 2012 13:09:09 -0800
+Received: from orsmsx106.amr.corp.intel.com ([169.254.5.13]) by
+	ORSMSX102.amr.corp.intel.com ([169.254.1.7]) with mapi id
+	14.01.0355.002; Wed, 18 Jan 2012 13:09:09 -0800
+From: "Kamble, Nitin A" <nitin.a.kamble@intel.com>
+To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] libtool: Put all libltdl headers in the correct libltdl-dev package
+Thread-Topic: [OE-core] [PATCH 3/5] guile: new recipe for autogen
+Thread-Index: AQHM1VcCSAYx49LWRUWx61XcANBMzpYSabuAgAA1APA=
+Date: Wed, 18 Jan 2012 21:09:06 +0000
+Message-ID: <ADD6A3980E8C39419A432FF422031B4C012A36FC@ORSMSX106.amr.corp.intel.com>
+References: <b042b10b86d6e28290a64e42e1e23de81621630b.1326831402.git.nitin.a.kamble@intel.com>
+	<b8e0859cf0bc609d134ce75fc763ff305549a0c1.1326831402.git.nitin.a.kamble@intel.com>
+	<10DCD6A9-4386-4224-A1EE-F5C97CD71CD8@dominion.thruhere.net>
+In-Reply-To: <10DCD6A9-4386-4224-A1EE-F5C97CD71CD8@dominion.thruhere.net>
+Accept-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [10.22.254.139]
+MIME-Version: 1.0
+Subject: Re: [PATCH 3/5] guile: new recipe for autogen
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -49,25 +46,44 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 18 Jan 2012 21:15:54 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
-
-On Wed, 2012-01-18 at 12:32 -0800, Saul Wold wrote:
-
-> So are you asking that we pull all these changes into oe-core or this is 
-> the change set you have made for your system?  I guess I am alittle unclear.
-
-Not all of them; I have the hack-around to remove -dev dependency chain
-in there for example.  I've been sending here the ones that are pure
-bugfixes.
-
-> Also, if you want items into OE-Core, you should ensure they are based 
-> against oe-core master.
-
-Ok.  It'll take me a bit to set up a build/test environment for it.
+X-List-Received-Date: Wed, 18 Jan 2012 21:17:33 -0000
+Content-Language: en-US
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 
 
 
+> -----Original Message-----
+> From: openembedded-core-bounces@lists.openembedded.org
+> [mailto:openembedded-core-bounces@lists.openembedded.org] On Behalf Of
+> Koen Kooi
+> Sent: Wednesday, January 18, 2012 1:54 AM
+> To: Patches and discussions about the oe-core layer
+> Subject: Re: [OE-core] [PATCH 3/5] guile: new recipe for autogen
+>=20
+>=20
+> Op 17 jan. 2012, om 21:30 heeft nitin.a.kamble@intel.com het volgende
+> geschreven:
+>=20
+> > From: Nitin A Kamble <nitin.a.kamble@intel.com>
+> >
+> > guile recipe is needed by autogen.
+>=20
+> How much does this differ from the guile in meta-oe?
+
+Koen,
+  I could not get the guide-config-cross stuff working with this version.=20
+I don't understand guile that well to fix this.=20
+Who created the guilt recipes in meta-oe ?=20
+Other than that I don't see any functional differences other than newer
+Version.
+
+Nitin
+
+
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
 
 
