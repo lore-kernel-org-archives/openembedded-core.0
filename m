@@ -1,33 +1,28 @@
-Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
-	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <richard.purdie@linuxfoundation.org>)
-	id 1RntAc-0005un-FJ for openembedded-core@lists.openembedded.org;
-	Thu, 19 Jan 2012 15:40:54 +0100
-Received: from localhost (localhost [127.0.0.1])
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q0JEXGOZ002884
+Received: from mail-ww0-f43.google.com ([74.125.82.43])
+	by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <koen@dominion.thruhere.net>) id 1RntF1-00062b-0o
+	for openembedded-core@lists.openembedded.org;
+	Thu, 19 Jan 2012 15:45:27 +0100
+Received: by wgbdt11 with SMTP id dt11so208310wgb.24
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 19 Jan 2012 14:33:16 GMT
-Received: from tim.rpsys.net ([127.0.0.1])
-	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
-	port 10024) with LMTP
-	id 01991-08 for <openembedded-core@lists.openembedded.org>;
-	Thu, 19 Jan 2012 14:33:11 +0000 (GMT)
-Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q0JEX9Jx002878
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO)
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 19 Jan 2012 14:33:10 GMT
-Message-ID: <1326983589.2511.74.camel@ted>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
+	Thu, 19 Jan 2012 06:37:44 -0800 (PST)
+Received: by 10.180.99.225 with SMTP id et1mr44790506wib.2.1326983864589;
+	Thu, 19 Jan 2012 06:37:44 -0800 (PST)
+Received: from [172.20.1.36] (ip545070eb.adsl-surfen.hetnet.nl.
+	[84.80.112.235])
+	by mx.google.com with ESMTPS id eq5sm19079080wib.2.2012.01.19.06.37.43
+	(version=TLSv1/SSLv3 cipher=OTHER);
+	Thu, 19 Jan 2012 06:37:43 -0800 (PST)
+Mime-Version: 1.0 (Apple Message framework v1251.1)
+From: Koen Kooi <koen@dominion.thruhere.net>
+In-Reply-To: <1326978483.2511.68.camel@ted>
+Date: Thu, 19 Jan 2012 15:37:38 +0100
+Message-Id: <7BD299FF-ED9A-4C3C-9581-4EF9B8D89B25@dominion.thruhere.net>
+References: <1326978483.2511.68.camel@ted>
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Date: Thu, 19 Jan 2012 14:33:09 +0000
-In-Reply-To: <cover.1326968802.git.paul.eggleton@linux.intel.com>
-References: <cover.1326968802.git.paul.eggleton@linux.intel.com>
-X-Mailer: Evolution 3.2.2- 
-Mime-Version: 1.0
-X-Virus-Scanned: amavisd-new at rpsys.net
-Subject: Re: [PATCH 0/4] buildhistory analysis improvements
+X-Mailer: Apple Mail (2.1251.1)
+Subject: Re: Buildhistory in action
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -42,36 +37,61 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 19 Jan 2012 14:40:54 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Thu, 19 Jan 2012 14:45:27 -0000
+Content-Type: text/plain; charset=us-ascii
+Content-Transfer-Encoding: quoted-printable
 
-On Thu, 2012-01-19 at 10:32 +0000, Paul Eggleton wrote:
-> Collect and monitor some additional information about images, and
-> report other (possibly non-monitored) changes when a monitored item
-> changes to provide context.
-> 
-> Additionally a couple of minor issues where found in field handling for
-> the package info files.
-> 
-> The following changes since commit a0f5dd25a37fe3b8664c2133e80b6214559f93f6:
-> 
->   package_rpm.bbclass: Add support for filenames with spaces (2012-01-17 16:20:46 +0000)
-> 
-> are available in the git repository at:
->   git://git.openembedded.org/openembedded-core-contrib paule/buildhistory-imginfo
->   http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=paule/buildhistory-imginfo
-> 
-> Paul Eggleton (4):
->   buildhistory: record additional image info
->   buildhistory_analysis: correctly handle whitespace when splitting
->     lists
->   buildhistory_analysis: improve field handling robustness
->   buildhistory_analysis: include related fields in output
 
-Merged to master, thanks.
+Op 19 jan. 2012, om 14:08 heeft Richard Purdie het volgende geschreven:
 
-Richard
+> We've recently added the buildhistory class and I wanted to illustrate
+> how it can help us improve the quality of what we're doing. I =
+appreciate
+> elements of this have been around for a while as part of testlab
 
+About 4 years: =
+http://dominion.thruhere.net/koen/cms/the-testlab-strikes-again :D
+
+> but I
+> do want to raise the profile of these tools. I added:
+>=20
+> INHERIT +=3D "buildhistory"
+> BUILDHISTORY_COMMIT =3D "1"
+>=20
+> to my local.conf, then ran "bitbake gst-openmax liba52 js". I then
+> applied the staticdev patches from Saul, which should only move the .a
+> files to the -staticdev package. I then ran the bitbake command again.
+>=20
+> If I change into tmp/buildhistory and show the last commit the result =
+is
+> included below. Since the version changed, the diff isn't as readable =
+as
+> would be ideal, however reading through it clearly shows the .a files
+> moving to the staticdev packages with no unintended changes as far as =
+I
+> could tell.
+>=20
+> One of my big worries with the staticdev changes is any unintended
+> packaging changes. This lets me view the changes more precisely which
+> can only lead to higher quality regression spotting for the project. =
+I'd
+> like to suggest more people start enabling this and using it to check
+> the changes they're making.
+
+If you want to see a longer history, have a look at =
+https://github.com/Angstrom-distribution/buildhistory/commits/master, =
+I've been using it heavily today when working on udev 177 which changed =
+its default filesystem layout.=20
+One thing to keep in mind:
+
+$ du -hs /data/ssd/OE/buildhistory/=20
+548M	/data/ssd/OE/buildhistory/
+
+I keep it on an SSD to avoid needing to wait a few minutes after every =
+bitbake invocation.
+
+regards,
+
+Koen=
 
 
