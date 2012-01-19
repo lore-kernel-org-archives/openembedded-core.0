@@ -1,20 +1,20 @@
-Received: from mga01.intel.com ([192.55.52.88])
+Received: from mga14.intel.com ([143.182.124.37])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <paul.eggleton@linux.intel.com>) id 1Rnq01-00017W-Nk
+	(envelope-from <shane.wang@intel.com>) id 1Rnr7B-0002MA-EJ
 	for openembedded-core@lists.openembedded.org;
-	Thu, 19 Jan 2012 12:17:45 +0100
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-	by fmsmga101.fm.intel.com with ESMTP; 19 Jan 2012 02:32:20 -0800
+	Thu, 19 Jan 2012 13:29:13 +0100
+Received: from azsmga001.ch.intel.com ([10.2.17.19])
+	by azsmga102.ch.intel.com with ESMTP; 19 Jan 2012 04:21:33 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="113934454"
-Received: from unknown (HELO helios.ger.corp.intel.com) ([10.252.122.198])
-	by fmsmga002.fm.intel.com with ESMTP; 19 Jan 2012 02:32:19 -0800
-From: Paul Eggleton <paul.eggleton@linux.intel.com>
+X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="97520990"
+Received: from yocto-build5.sh.intel.com (HELO localhost) ([10.239.48.2])
+	by azsmga001.ch.intel.com with ESMTP; 19 Jan 2012 04:21:32 -0800
+From: Shane Wang <shane.wang@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Thu, 19 Jan 2012 10:32:08 +0000
-Message-Id: <cover.1326968802.git.paul.eggleton@linux.intel.com>
-X-Mailer: git-send-email 1.7.5.4
-Subject: [PATCH 0/4] buildhistory analysis improvements
+Date: Thu, 19 Jan 2012 20:38:04 +0800
+Message-Id: <cover.1326976547.git.shane.wang@intel.com>
+X-Mailer: git-send-email 1.7.6
+Subject: [PATCH 0/1] core-image-foo: add summary to each image bb file
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -29,36 +29,40 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 19 Jan 2012 11:17:45 -0000
+X-List-Received-Date: Thu, 19 Jan 2012 12:29:13 -0000
 
-Collect and monitor some additional information about images, and
-report other (possibly non-monitored) changes when a monitored item
-changes to provide context.
+This path is to add summary variable to each image bb file for Hob 2 use later, according to the poky reference manual.
+Please review.
 
-Additionally a couple of minor issues where found in field handling for
-the package info files.
+The following changes since commit 522c6b376d067243bff20c64a1f6f8700be8e586:
 
-The following changes since commit a0f5dd25a37fe3b8664c2133e80b6214559f93f6:
-
-  package_rpm.bbclass: Add support for filenames with spaces (2012-01-17 16:20:46 +0000)
+  gnutls: Fix configure issue wrt to rm (2012-01-19 11:34:13 +0000)
 
 are available in the git repository at:
-  git://git.openembedded.org/openembedded-core-contrib paule/buildhistory-imginfo
-  http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=paule/buildhistory-imginfo
+  git://git.pokylinux.org/poky-contrib shane/summary
+  http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=shane/summary
 
-Paul Eggleton (4):
-  buildhistory: record additional image info
-  buildhistory_analysis: correctly handle whitespace when splitting
-    lists
-  buildhistory_analysis: improve field handling robustness
-  buildhistory_analysis: include related fields in output
+Shane Wang (1):
+  core-image-foo: add summary to each image bb file
 
- meta/classes/buildhistory.bbclass    |   18 +++++
- meta/lib/oe/buildhistory_analysis.py |  127 ++++++++++++++++++++++++----------
- 2 files changed, 109 insertions(+), 36 deletions(-)
+ meta/recipes-core/images/core-image-base.bb        |    2 ++
+ meta/recipes-core/images/core-image-core.bb        |    2 ++
+ meta/recipes-core/images/core-image-minimal-dev.bb |    2 ++
+ .../images/core-image-minimal-initramfs.bb         |    3 +++
+ .../images/core-image-minimal-mtdutils.bb          |    4 ++++
+ meta/recipes-core/images/core-image-minimal.bb     |    2 ++
+ meta/recipes-extended/images/core-image-basic.bb   |    3 +++
+ meta/recipes-extended/images/core-image-lsb-dev.bb |    4 ++++
+ meta/recipes-extended/images/core-image-lsb-sdk.bb |    4 ++++
+ meta/recipes-extended/images/core-image-lsb.bb     |    3 +++
+ meta/recipes-graphics/images/core-image-clutter.bb |    3 +++
+ meta/recipes-sato/images/core-image-sato-dev.bb    |    3 +++
+ meta/recipes-sato/images/core-image-sato-sdk.bb    |    4 +++-
+ meta/recipes-sato/images/core-image-sato.bb        |    2 ++
+ 14 files changed, 40 insertions(+), 1 deletions(-)
 
 -- 
-1.7.5.4
+1.7.6
 
 
 
