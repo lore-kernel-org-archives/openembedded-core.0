@@ -1,24 +1,24 @@
 Received: from mga03.intel.com ([143.182.124.21])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <sgw@linux.intel.com>) id 1RnoKx-0004ka-7B
+	(envelope-from <sgw@linux.intel.com>) id 1RnoKy-0004cO-HI
 	for openembedded-core@lists.openembedded.org;
-	Thu, 19 Jan 2012 10:31:15 +0100
+	Thu, 19 Jan 2012 10:31:16 +0100
 Received: from azsmga001.ch.intel.com ([10.2.17.19])
-	by azsmga101.ch.intel.com with ESMTP; 19 Jan 2012 01:23:03 -0800
+	by azsmga101.ch.intel.com with ESMTP; 19 Jan 2012 01:23:04 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="97472126"
+X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="97472130"
 Received: from unknown (HELO swold-mobl.bigsur.com) ([10.255.14.6])
 	by azsmga001.ch.intel.com with ESMTP; 19 Jan 2012 01:23:03 -0800
 From: Saul Wold <sgw@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Thu, 19 Jan 2012 01:22:44 -0800
-Message-Id: <79ab4f6bf5f69b328cbda1482cb531abfcf48fd8.1326964778.git.sgw@linux.intel.com>
+Date: Thu, 19 Jan 2012 01:22:45 -0800
+Message-Id: <416b38834ff6436d8c6e6f73bb7e88d0c3ce0fa8.1326964778.git.sgw@linux.intel.com>
 X-Mailer: git-send-email 1.7.6.5
 In-Reply-To: <cover.1326964778.git.sgw@linux.intel.com>
 References: <cover.1326964778.git.sgw@linux.intel.com>
 In-Reply-To: <cover.1326964778.git.sgw@linux.intel.com>
 References: <cover.1326964778.git.sgw@linux.intel.com>
-Subject: [CONSOLIDATED PULL 23/33] adt-installer: install autoconf(/automake)-nativesdk
+Subject: [CONSOLIDATED PULL 24/33] e2fsprogs_1.42.bb: Fix build fallout for uclibc
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -35,59 +35,65 @@ List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedde
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Thu, 19 Jan 2012 09:31:16 -0000
 
-From: Lianhao Lu <lianhao.lu@intel.com>
+From: Khem Raj <raj.khem@gmail.com>
 
-[YOCTO #1909]
-Install autoconf-nativesdk and automake-nativesdk to host.
+e2fsprogs 1.42 onwards uses fallocate() which uclibc
+does not implement(yet). In most of places its use
+is controlled and it only used when configure detects
+fallocate being present but in this one case it missed
+to check for fallocate being available so here we
+add the check
 
-Signed-off-by: Lianhao Lu <lianhao.lu@intel.com>
+Signed-off-by: Khem Raj <raj.khem@gmail.com>
 ---
- .../adt-installer/scripts/adt_installer_internal   |   18 ++++++------------
- .../installer/adt-installer_1.0.bb                 |    2 +-
- 2 files changed, 7 insertions(+), 13 deletions(-)
+ .../e2fsprogs/e2fsprogs-1.42/fallocate.patch       |   22 ++++++++++++++++++++
+ meta/recipes-devtools/e2fsprogs/e2fsprogs_1.42.bb  |    3 +-
+ 2 files changed, 24 insertions(+), 1 deletions(-)
+ create mode 100644 meta/recipes-devtools/e2fsprogs/e2fsprogs-1.42/fallocate.patch
 
-diff --git a/meta/recipes-devtools/installer/adt-installer/scripts/adt_installer_internal b/meta/recipes-devtools/installer/adt-installer/scripts/adt_installer_internal
-index 870931e..6201095 100755
---- a/meta/recipes-devtools/installer/adt-installer/scripts/adt_installer_internal
-+++ b/meta/recipes-devtools/installer/adt-installer/scripts/adt_installer_internal
-@@ -91,18 +91,12 @@ check_result
- OPKG_INSTALL_CMD="$OPKG_CMD "
- OPKG_INSTALL_NATIVE_CMD="$OPKG_INSTALL_CMD  -f $OPKG_CONFIG_FILE -o $NATIVE_INSTALL_DIR install"
+diff --git a/meta/recipes-devtools/e2fsprogs/e2fsprogs-1.42/fallocate.patch b/meta/recipes-devtools/e2fsprogs/e2fsprogs-1.42/fallocate.patch
+new file mode 100644
+index 0000000..4d952a5
+--- /dev/null
++++ b/meta/recipes-devtools/e2fsprogs/e2fsprogs-1.42/fallocate.patch
+@@ -0,0 +1,22 @@
++We assume that fallocate is supported somehow
++but we need to check if we have fallocate()
++this problem shows up on uclibc systems since
++uclibc does not have fallocate() implemented
++
++Signed-off-by: Khem Raj <raj.khem@gmail.com>
++
++Upstream-Status: Pending
++
++Index: e2fsprogs-1.42/lib/ext2fs/unix_io.c
++===================================================================
++--- e2fsprogs-1.42.orig/lib/ext2fs/unix_io.c	2012-01-17 17:24:34.290780625 -0800
+++++ e2fsprogs-1.42/lib/ext2fs/unix_io.c	2012-01-17 17:25:37.338783680 -0800
++@@ -895,7 +895,7 @@
++ 		goto unimplemented;
++ #endif
++ 	} else {
++-#ifdef FALLOC_FL_PUNCH_HOLE
+++#if defined FALLOC_FL_PUNCH_HOLE && defined HAVE_FALLOCATE
++ 		/*
++ 		 * If we are not on block device, try to use punch hole
++ 		 * to reclaim free space.
+diff --git a/meta/recipes-devtools/e2fsprogs/e2fsprogs_1.42.bb b/meta/recipes-devtools/e2fsprogs/e2fsprogs_1.42.bb
+index 9ff85a2..f6759aa7 100644
+--- a/meta/recipes-devtools/e2fsprogs/e2fsprogs_1.42.bb
++++ b/meta/recipes-devtools/e2fsprogs/e2fsprogs_1.42.bb
+@@ -1,8 +1,9 @@
+ require e2fsprogs.inc
  
--echo_info "Installing pseudo nativesdk ...\n"
--$OPKG_INSTALL_NATIVE_CMD pseudo-nativesdk &>> $YOCTOADT_INSTALL_LOG_FILE
--check_result
--echo_info "Installing opkg nativesdk ...\n"
--$OPKG_INSTALL_NATIVE_CMD opkg-nativesdk &>> $YOCTOADT_INSTALL_LOG_FILE
--check_result
--echo_info "Installing pkgconfig nativesdk ...\n"
--$OPKG_INSTALL_NATIVE_CMD pkgconfig-nativesdk &>> $YOCTOADT_INSTALL_LOG_FILE
--check_result
--echo_info "Installing libtool nativesdk ...\n"
--$OPKG_INSTALL_NATIVE_CMD libtool-nativesdk &>> $YOCTOADT_INSTALL_LOG_FILE
--check_result
-+BASE_HOSTSDK_PKGNAMES="pseudo opkg pkgconfig libtool autoconf automake"
-+for pkg in $BASE_HOSTSDK_PKGNAMES; do
-+  echo_info "Installing ${pkg} nativesdk ...\n"
-+  $OPKG_INSTALL_NATIVE_CMD ${pkg}-nativesdk &>> $YOCTOADT_INSTALL_LOG_FILE
-+  check_result
-+done
+-PR = "r0"
++PR = "r1"
  
- for native_target_type in $YOCTOADT_TARGETS; do
-   native_target_type=`echo "$native_target_type" | sed -e 's/x86_64/x86-64/' -e 's/ppc/powerpc/'  -e 's/x86$/i586/'`
-diff --git a/meta/recipes-devtools/installer/adt-installer_1.0.bb b/meta/recipes-devtools/installer/adt-installer_1.0.bb
-index 53911b8..39e53c1 100644
---- a/meta/recipes-devtools/installer/adt-installer_1.0.bb
-+++ b/meta/recipes-devtools/installer/adt-installer_1.0.bb
-@@ -30,7 +30,7 @@ ALLOW_EMPTY = "1"
+ SRC_URI += "file://quotefix.patch \
++            file://fallocate.patch \
+             file://acinclude.m4"
  
- PACKAGES = ""
- 
--PR = "r4"
-+PR = "r5"
- 
- ADT_DEPLOY = "${TMPDIR}/deploy/sdk/"
- ADT_DIR = "${WORKDIR}/adt-installer/"
+ SRC_URI[md5sum] = "a3c4ffd7352310ab5e9412965d575610"
 -- 
 1.7.6.5
 
