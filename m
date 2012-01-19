@@ -1,24 +1,24 @@
 Received: from mga03.intel.com ([143.182.124.21])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <sgw@linux.intel.com>) id 1RnoKb-0004Cw-1h
+	(envelope-from <sgw@linux.intel.com>) id 1RnoKb-0004D6-04
 	for openembedded-core@lists.openembedded.org;
 	Thu, 19 Jan 2012 10:30:53 +0100
 Received: from azsmga001.ch.intel.com ([10.2.17.19])
 	by azsmga101.ch.intel.com with ESMTP; 19 Jan 2012 01:23:01 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="97472113"
+X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="97472111"
 Received: from unknown (HELO swold-mobl.bigsur.com) ([10.255.14.6])
 	by azsmga001.ch.intel.com with ESMTP; 19 Jan 2012 01:23:01 -0800
 From: Saul Wold <sgw@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Thu, 19 Jan 2012 01:22:38 -0800
-Message-Id: <d063acb87268532cb407518e17aba4d2324c4ac1.1326964778.git.sgw@linux.intel.com>
+Date: Thu, 19 Jan 2012 01:22:37 -0800
+Message-Id: <d68959610269b2cb4d639df93bd6b0a782a7a158.1326964778.git.sgw@linux.intel.com>
 X-Mailer: git-send-email 1.7.6.5
 In-Reply-To: <cover.1326964778.git.sgw@linux.intel.com>
 References: <cover.1326964778.git.sgw@linux.intel.com>
 In-Reply-To: <cover.1326964778.git.sgw@linux.intel.com>
 References: <cover.1326964778.git.sgw@linux.intel.com>
-Subject: [CONSOLIDATED PULL 17/33] js: refactor packages for staticdev
+Subject: [CONSOLIDATED PULL 16/33] db: refactor packages for staticdev
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -37,28 +37,33 @@ X-List-Received-Date: Thu, 19 Jan 2012 09:30:54 -0000
 
 Signed-off-by: Saul Wold <sgw@linux.intel.com>
 ---
- meta/recipes-support/js/js_1.7.0+1.8.0rc1.bb |    3 +--
- 1 files changed, 1 insertions(+), 2 deletions(-)
+ meta/recipes-support/db/db_5.1.19.bb |    6 +++---
+ 1 files changed, 3 insertions(+), 3 deletions(-)
 
-diff --git a/meta/recipes-support/js/js_1.7.0+1.8.0rc1.bb b/meta/recipes-support/js/js_1.7.0+1.8.0rc1.bb
-index a4423ab..adca44e 100644
---- a/meta/recipes-support/js/js_1.7.0+1.8.0rc1.bb
-+++ b/meta/recipes-support/js/js_1.7.0+1.8.0rc1.bb
-@@ -5,7 +5,7 @@ SECTION = "libs"
- # the package is licensed under either of the following
- LICENSE = "MPL-1 | GPLv2+ | LGPLv2.1+"
- LIC_FILES_CHKSUM = "file://jsapi.c;beginline=4;endline=39;md5=347c6bbf4fb4547de1fa5ad830030063"
--PR = "r2"
-+PR = "r3"
+diff --git a/meta/recipes-support/db/db_5.1.19.bb b/meta/recipes-support/db/db_5.1.19.bb
+index 2659826..7e84646 100644
+--- a/meta/recipes-support/db/db_5.1.19.bb
++++ b/meta/recipes-support/db/db_5.1.19.bb
+@@ -14,7 +14,7 @@ HOMEPAGE = "http://www.oracle.com/technology/products/berkeley-db/db/index.html"
+ LICENSE = "Sleepycat"
+ VIRTUAL_NAME ?= "virtual/db"
+ CONFLICTS = "db3"
+-PR = "r3"
++PR = "r4"
  
- SRC_URI = "http://ftp.mozilla.org/pub/mozilla.org/js/js-1.8.0-rc1.tar.gz \
-            file://link_with_gcc.patch \
-@@ -47,5 +47,4 @@ do_install() {
- }
+ SRC_URI = "http://download.oracle.com/berkeley-db/db-${PV}.tar.gz"
+ SRC_URI += "file://arm-thumb-mutex_db5.patch;patchdir=.."
+@@ -52,8 +52,8 @@ FILES_${PN} = "${libdir}/libdb-5*so*"
+ FILES_${PN}-bin = "${bindir}/*"
+ # The dev package has the .so link (as in db3) and the .a's -
+ # it is therefore incompatible (cannot be installed at the
+-# same time) as the db3 package
+-FILES_${PN}-dev = "${includedir} ${libdir}/*"
++# same time) as the db3 package, allow the default packaging
++# to sort out ${libdir}
  
- FILES_${PN} = "${libdir}/lib*.so"
--FILES_${PN}-dev = "${includedir} ${libdir}/lib*.a"
- 
+ #configuration - set in local.conf to override
+ # All the --disable-* options replace --enable-smallbuild, which breaks a bunch of stuff (eg. postfix)
 -- 
 1.7.6.5
 
