@@ -1,24 +1,24 @@
 Received: from mga03.intel.com ([143.182.124.21])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <sgw@linux.intel.com>) id 1RnoKb-0004D6-04
+	(envelope-from <sgw@linux.intel.com>) id 1RnoKc-0004Cz-Cp
 	for openembedded-core@lists.openembedded.org;
-	Thu, 19 Jan 2012 10:30:53 +0100
+	Thu, 19 Jan 2012 10:30:54 +0100
 Received: from azsmga001.ch.intel.com ([10.2.17.19])
 	by azsmga101.ch.intel.com with ESMTP; 19 Jan 2012 01:23:01 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="97472111"
+X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="97472114"
 Received: from unknown (HELO swold-mobl.bigsur.com) ([10.255.14.6])
 	by azsmga001.ch.intel.com with ESMTP; 19 Jan 2012 01:23:01 -0800
 From: Saul Wold <sgw@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Thu, 19 Jan 2012 01:22:37 -0800
-Message-Id: <d68959610269b2cb4d639df93bd6b0a782a7a158.1326964778.git.sgw@linux.intel.com>
+Date: Thu, 19 Jan 2012 01:22:39 -0800
+Message-Id: <f0406bd5201a439246a1101c0795e0aa273d0b62.1326964778.git.sgw@linux.intel.com>
 X-Mailer: git-send-email 1.7.6.5
 In-Reply-To: <cover.1326964778.git.sgw@linux.intel.com>
 References: <cover.1326964778.git.sgw@linux.intel.com>
 In-Reply-To: <cover.1326964778.git.sgw@linux.intel.com>
 References: <cover.1326964778.git.sgw@linux.intel.com>
-Subject: [CONSOLIDATED PULL 16/33] db: refactor packages for staticdev
+Subject: [CONSOLIDATED PULL 18/33] boost: refactor packages for staticdev
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -37,33 +37,34 @@ X-List-Received-Date: Thu, 19 Jan 2012 09:30:54 -0000
 
 Signed-off-by: Saul Wold <sgw@linux.intel.com>
 ---
- meta/recipes-support/db/db_5.1.19.bb |    6 +++---
- 1 files changed, 3 insertions(+), 3 deletions(-)
+ meta/recipes-support/boost/boost.inc |    7 ++++---
+ 1 files changed, 4 insertions(+), 3 deletions(-)
 
-diff --git a/meta/recipes-support/db/db_5.1.19.bb b/meta/recipes-support/db/db_5.1.19.bb
-index 2659826..7e84646 100644
---- a/meta/recipes-support/db/db_5.1.19.bb
-+++ b/meta/recipes-support/db/db_5.1.19.bb
-@@ -14,7 +14,7 @@ HOMEPAGE = "http://www.oracle.com/technology/products/berkeley-db/db/index.html"
- LICENSE = "Sleepycat"
- VIRTUAL_NAME ?= "virtual/db"
- CONFLICTS = "db3"
--PR = "r3"
-+PR = "r4"
+diff --git a/meta/recipes-support/boost/boost.inc b/meta/recipes-support/boost/boost.inc
+index 74f3e4b..09f61c0 100644
+--- a/meta/recipes-support/boost/boost.inc
++++ b/meta/recipes-support/boost/boost.inc
+@@ -16,7 +16,7 @@ BOOST_VER = "${@"_".join(d.getVar("PV",1).split("."))}"
+ BOOST_MAJ = "${@"_".join(d.getVar("PV",1).split(".")[0:2])}"
+ BOOST_P = "boost_${BOOST_VER}"
  
- SRC_URI = "http://download.oracle.com/berkeley-db/db-${PV}.tar.gz"
- SRC_URI += "file://arm-thumb-mutex_db5.patch;patchdir=.."
-@@ -52,8 +52,8 @@ FILES_${PN} = "${libdir}/libdb-5*so*"
- FILES_${PN}-bin = "${bindir}/*"
- # The dev package has the .so link (as in db3) and the .a's -
- # it is therefore incompatible (cannot be installed at the
--# same time) as the db3 package
--FILES_${PN}-dev = "${includedir} ${libdir}/*"
-+# same time) as the db3 package, allow the default packaging
-+# to sort out ${libdir}
+-INC_PR = "r0"
++INC_PR = "r1"
  
- #configuration - set in local.conf to override
- # All the --disable-* options replace --enable-smallbuild, which breaks a bunch of stuff (eg. postfix)
+ SRC_URI = "${SOURCEFORGE_MIRROR}/${BPN}/${BOOST_P}.tar.bz2"
+ 
+@@ -68,8 +68,9 @@ FILES_boost-test = "${libdir}/libboost_prg_exec_monitor*.so.* \
+ 	${libdir}/libboost_unit_test_framework*.so.*"
+ 
+ # -dev last to pick up the remaining stuff
+-PACKAGES += "${PN}-dev"
+-FILES_${PN}-dev = "${includedir} ${libdir}/libboost_*.so ${libdir}/libboost_*.a"
++PACKAGES += "${PN}-dev ${PN}-staticdev"
++FILES_${PN}-dev = "${includedir} ${libdir}/libboost_*.so"
++FILES_${PN}-staticdev = "${libdir}/libboost_*.a"
+ 
+ # "boost" is a metapackage which pulls in all boost librabries
+ PACKAGES += "${PN}"
 -- 
 1.7.6.5
 
