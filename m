@@ -1,24 +1,28 @@
-Received: from mga09.intel.com ([134.134.136.24])
+Received: from mail-ww0-f43.google.com ([74.125.82.43])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <paul.eggleton@linux.intel.com>) id 1RntMV-0006IY-AU
+	(envelope-from <koen@dominion.thruhere.net>) id 1RntaA-0006tA-Dk
 	for openembedded-core@lists.openembedded.org;
-	Thu, 19 Jan 2012 15:53:11 +0100
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-	by orsmga102.jf.intel.com with ESMTP; 19 Jan 2012 06:45:31 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.67,351,1309762800"; d="scan'208";a="100416047"
-Received: from unknown (HELO helios.localnet) ([10.252.122.198])
-	by orsmga002.jf.intel.com with ESMTP; 19 Jan 2012 06:45:30 -0800
-From: Paul Eggleton <paul.eggleton@linux.intel.com>
-To: Koen Kooi <koen@dominion.thruhere.net>
-Date: Thu, 19 Jan 2012 14:45:29 +0000
-Message-ID: <12179414.hR7YIgmyms@helios>
-Organization: Intel Corporation
-User-Agent: KMail/4.7.3 (Linux/3.0.0-14-generic-pae; KDE/4.7.4; i686; ; )
-In-Reply-To: <7BD299FF-ED9A-4C3C-9581-4EF9B8D89B25@dominion.thruhere.net>
+	Thu, 19 Jan 2012 16:07:18 +0100
+Received: by wgbdt11 with SMTP id dt11so232923wgb.24
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 19 Jan 2012 06:59:39 -0800 (PST)
+Received: by 10.180.19.97 with SMTP id d1mr44585976wie.12.1326985179119;
+	Thu, 19 Jan 2012 06:59:39 -0800 (PST)
+Received: from [172.20.1.36] (ip545070eb.adsl-surfen.hetnet.nl.
+	[84.80.112.235])
+	by mx.google.com with ESMTPS id g12sm66975230wiw.10.2012.01.19.06.59.37
+	(version=TLSv1/SSLv3 cipher=OTHER);
+	Thu, 19 Jan 2012 06:59:38 -0800 (PST)
+Mime-Version: 1.0 (Apple Message framework v1251.1)
+From: Koen Kooi <koen@dominion.thruhere.net>
+In-Reply-To: <12179414.hR7YIgmyms@helios>
+Date: Thu, 19 Jan 2012 15:59:32 +0100
+Message-Id: <EF1D907B-459E-4770-8B6A-A46D0379F0FD@dominion.thruhere.net>
 References: <1326978483.2511.68.camel@ted>
 	<7BD299FF-ED9A-4C3C-9581-4EF9B8D89B25@dominion.thruhere.net>
-MIME-Version: 1.0
+	<12179414.hR7YIgmyms@helios>
+To: Paul Eggleton <paul.eggleton@linux.intel.com>
+X-Mailer: Apple Mail (2.1251.1)
 Cc: openembedded-core@lists.openembedded.org
 Subject: Re: Buildhistory in action
 X-BeenThere: openembedded-core@lists.openembedded.org
@@ -35,36 +39,48 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 19 Jan 2012 14:53:11 -0000
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
+X-List-Received-Date: Thu, 19 Jan 2012 15:07:18 -0000
+Content-Type: text/plain; charset=us-ascii
+Content-Transfer-Encoding: quoted-printable
 
-On Thursday 19 January 2012 15:37:38 Koen Kooi wrote:
-> If you want to see a longer history, have a look at
-> https://github.com/Angstrom-distribution/buildhistory/commits/master, I've
-> been using it heavily today when working on udev 177 which changed its
-> default filesystem layout. One thing to keep in mind:
-> 
-> $ du -hs /data/ssd/OE/buildhistory/
-> 548M	/data/ssd/OE/buildhistory/
 
-Hmm, I wouldn't have expected it to be quite that large, but I guess it 
-depends what you're doing with it, and I'd imagine given the number of builds 
-you run you probably stress it more than most (which is good :). In the end 
-500M is just a drop in the bucket compared to the rest of TMPDIR...
+Op 19 jan. 2012, om 15:45 heeft Paul Eggleton het volgende geschreven:
 
-> I keep it on an SSD to avoid needing to wait a few minutes after every
-> bitbake invocation.
+> On Thursday 19 January 2012 15:37:38 Koen Kooi wrote:
+>> If you want to see a longer history, have a look at
+>> https://github.com/Angstrom-distribution/buildhistory/commits/master, =
+I've
+>> been using it heavily today when working on udev 177 which changed =
+its
+>> default filesystem layout. One thing to keep in mind:
+>>=20
+>> $ du -hs /data/ssd/OE/buildhistory/
+>> 548M	/data/ssd/OE/buildhistory/
+>=20
+> Hmm, I wouldn't have expected it to be quite that large, but I guess =
+it=20
+> depends what you're doing with it, and I'd imagine given the number of =
+builds=20
+> you run you probably stress it more than most (which is good :). In =
+the end=20
+> 500M is just a drop in the bucket compared to the rest of TMPDIR...
+>=20
+>> I keep it on an SSD to avoid needing to wait a few minutes after =
+every
+>> bitbake invocation.
+>=20
+> Good advice :) It's also worth noting it will noticeably increase the=20=
 
-Good advice :) It's also worth noting it will noticeably increase the 
-do_rootfs time (especially for RPM) and probably do_package as well.
+> do_rootfs time (especially for RPM) and probably do_package as well.
 
-Cheers,
-Paul
+The cloud9-image incremental build takes ~45 minutes with testlab and =
+~120 minutes with testlab + buildhistory. The base 45 minutes are ~10 =
+minutes redoing the opkg indices (as reported earlier) and the rest is =
+just mkfs.ext2 being stupid when it comes to using 4GB /dev/loopN files =
+for images.
 
--- 
+regards,
 
-Paul Eggleton
-Intel Open Source Technology Centre
+Koen=
 
 
