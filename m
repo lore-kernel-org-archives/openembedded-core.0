@@ -1,26 +1,30 @@
-Received: from mga14.intel.com ([143.182.124.37])
+Received: from mga05.intel.com ([192.55.52.89] helo=fmsmga101.fm.intel.com)
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <paul.eggleton@linux.intel.com>) id 1RnutF-0000qa-7I
+	(envelope-from <scott.a.garman@intel.com>) id 1RnvDT-0001NX-Pb
 	for openembedded-core@lists.openembedded.org;
-	Thu, 19 Jan 2012 17:31:05 +0100
-Received: from azsmga001.ch.intel.com ([10.2.17.19])
-	by azsmga102.ch.intel.com with ESMTP; 19 Jan 2012 08:23:01 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="97597025"
-Received: from unknown (HELO helios.localnet) ([10.252.122.198])
-	by azsmga001.ch.intel.com with ESMTP; 19 Jan 2012 08:23:00 -0800
-From: Paul Eggleton <paul.eggleton@linux.intel.com>
-To: Mark Hatle <mark.hatle@windriver.com>
-Date: Thu, 19 Jan 2012 16:22:59 +0000
-Message-ID: <3942902.xzUfbUZCA0@helios>
-Organization: Intel Corporation
-User-Agent: KMail/4.7.3 (Linux/3.0.0-14-generic-pae; KDE/4.7.4; i686; ; )
-In-Reply-To: <4F183F80.8060508@windriver.com>
-References: <1326978483.2511.68.camel@ted> <3069877.zIVnnZc8iy@helios>
-	<4F183F80.8060508@windriver.com>
+	Thu, 19 Jan 2012 17:52:01 +0100
+Received: from mail-iy0-f180.google.com ([209.85.210.180])
+	by mga01.intel.com with ESMTP/TLS/RC4-SHA; 19 Jan 2012 08:43:00 -0800
+Received: by iabz7 with SMTP id z7so123409iab.25
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 19 Jan 2012 08:42:59 -0800 (PST)
+Received: by 10.42.161.132 with SMTP id t4mr22473253icx.16.1326991379301;
+	Thu, 19 Jan 2012 08:42:59 -0800 (PST)
+Received: from [127.0.0.1] (masterfoo.zenlinux.com. [207.192.74.254])
+	by mx.google.com with ESMTPS id d15sm11659553ibf.7.2012.01.19.08.42.57
+	(version=SSLv3 cipher=OTHER); Thu, 19 Jan 2012 08:42:58 -0800 (PST)
+Message-ID: <4F184806.8040205@intel.com>
+Date: Thu, 19 Jan 2012 08:42:46 -0800
+From: Scott Garman <scott.a.garman@intel.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:8.0) Gecko/20111124 Thunderbird/8.0
 MIME-Version: 1.0
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: Buildhistory in action
+To: openembedded-core@lists.openembedded.org
+References: <1326855665-11617-1-git-send-email-raj.khem@gmail.com>
+	<182165EE-D546-4E80-932D-6409E234863B@dominion.thruhere.net>
+	<74FB388C-DFB3-42A8-AAA3-C92B74433F9A@dominion.thruhere.net>
+In-Reply-To: <74FB388C-DFB3-42A8-AAA3-C92B74433F9A@dominion.thruhere.net>
+Subject: Re: [PATCH] e2fsprogs_1.42.bb: Fix build fallout for uclibc
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -35,36 +39,40 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 19 Jan 2012 16:31:05 -0000
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
+X-List-Received-Date: Thu, 19 Jan 2012 16:52:01 -0000
+Content-Type: text/plain; charset=ISO-8859-1; format=flowed
+Content-Transfer-Encoding: 7bit
 
-On Thursday 19 January 2012 10:06:24 Mark Hatle wrote:
-> Does the build history due any scanning of either package or shared library
-> dependencies?
+On 01/18/2012 05:34 AM, Koen Kooi wrote:
+>
+> Op 18 jan. 2012, om 10:51 heeft Koen Kooi het volgende geschreven:
+>
+>>
+>> Op 18 jan. 2012, om 04:01 heeft Khem Raj het volgende geschreven:
+>>
+>>> e2fsprogs 1.42 onwards uses fallocate() which uclibc
+>>> does not implement(yet). In most of places its use
+>>> is controlled and it only used when configure detects
+>>> fallocate being present but in this one case it missed
+>>> to check for fallocate being available so here we
+>>> add the check
+>>
+>> FWIW, e2fsprogs(-native) also has problems with ASNEEDED:
+>>
+>> | tune2fs: symbol lookup error: tune2fs: undefined symbol: ext2fs_group_desc
+>
+> And that one suddenly went away!
 
-For packages, it relies on the output of do_package, however this includes the 
-final value of RDEPENDS which is influenced by shared library dependencies.
+That was fixed when the bitbake.conf change made it into master which 
+now adds base_libdir_native to the RPATH for native compiled binaries.
 
-> I hit a case recently working on a custom layer, where everything built
-> properly, I made a few changes and I happened to notice by accident that it
-> was no longer linking to the shared library, but instead the static
-> library.  This changed both the package (runtime) dependencies and the
-> shared library usage in the problem... the resulting binary suddenly jumped
-> in size as well.
+http://git.yoctoproject.org/cgit/cgit.cgi/poky/commit/?id=35759f977eec6ef81e125a509a7148d7e53a6515
 
-If the runtime package dependency doesn't change as a result then we wouldn't 
-notice the change the way it currently works; however for this specific issue 
-it did so we would have. We would also have picked up the jump in package size 
-if it was over a specified threshold (currently 20%, it's possible this value 
-may need some tweaking).
-
-Cheers,
-Paul
+Scott
 
 -- 
-
-Paul Eggleton
-Intel Open Source Technology Centre
+Scott Garman
+Embedded Linux Engineer - Yocto Project
+Intel Open Source Technology Center
 
 
