@@ -1,20 +1,26 @@
-Received: from mga09.intel.com ([134.134.136.24])
+Received: from mga01.intel.com ([192.55.52.88])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <josh@linux.intel.com>) id 1Rng1s-0005MB-Io
+	(envelope-from <sgw@linux.intel.com>) id 1RngiZ-0006Hk-Jn
 	for openembedded-core@lists.openembedded.org;
-	Thu, 19 Jan 2012 01:39:00 +0100
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-	by orsmga102.jf.intel.com with ESMTP; 18 Jan 2012 16:31:18 -0800
+	Thu, 19 Jan 2012 02:23:07 +0100
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+	by fmsmga101.fm.intel.com with ESMTP; 18 Jan 2012 17:15:27 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.67,351,1309762800"; d="scan'208";a="100183913"
-Received: from unknown (HELO shamshir.amr.corp.intel.com) ([10.255.14.73])
-	by orsmga002.jf.intel.com with ESMTP; 18 Jan 2012 16:31:17 -0800
-From: Joshua Lock <josh@linux.intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Wed, 18 Jan 2012 16:31:17 -0800
-Message-Id: <1326933077-24099-1-git-send-email-josh@linux.intel.com>
-X-Mailer: git-send-email 1.7.7.5
-Subject: [PATCH] distro-tracking-fields: claim responsibility for udev, dpkg, apt, v86d
+X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="113801663"
+Received: from unknown (HELO [10.255.14.6]) ([10.255.14.6])
+	by fmsmga002.fm.intel.com with ESMTP; 18 Jan 2012 17:15:24 -0800
+Message-ID: <4F176EAC.6090309@linux.intel.com>
+Date: Wed, 18 Jan 2012 17:15:24 -0800
+From: Saul Wold <sgw@linux.intel.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:8.0) Gecko/20111115 Thunderbird/8.0
+MIME-Version: 1.0
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+References: <f37166f3f48c2747fbcc4d9ca8e9c2ddbe9aa637.1326929307.git.nitin.a.kamble@intel.com>
+	<948a269f26b2705882e03fa636c947197feca97b.1326929307.git.nitin.a.kamble@intel.com>
+In-Reply-To: <948a269f26b2705882e03fa636c947197feca97b.1326929307.git.nitin.a.kamble@intel.com>
+Subject: Re: [PATCHv3 2/7] bdwgc: new recipe for autogen
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -29,112 +35,82 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 19 Jan 2012 00:39:01 -0000
+X-List-Received-Date: Thu, 19 Jan 2012 01:23:07 -0000
+Content-Type: text/plain; charset=ISO-8859-1; format=flowed
+Content-Transfer-Encoding: 7bit
 
-Nominate myself to be on the hook for updates to the udev, dpkg, apt and v86d
-recipes.
+On 01/18/2012 03:32 PM, nitin.a.kamble@intel.com wrote:
+> From: Nitin A Kamble<nitin.a.kamble@intel.com>
+>
+> This recipe is needed by guile.
+> And guile is needed for autogen.
+>
+> As per Beth's recommondation changed the license specification of the
+> recipe as
+>
+> LICENSE = "MIT&  FSF-Unlimited&  GPL-2.0"
+>
+> Signed-off-by: Nitin A Kamble<nitin.a.kamble@intel.com>
+> ---
+>   meta/recipes-support/bdwgc/bdwgc_20110107.bb |   40 ++++++++++++++++++++++++++
+>   1 files changed, 40 insertions(+), 0 deletions(-)
+>   create mode 100644 meta/recipes-support/bdwgc/bdwgc_20110107.bb
+>
+> diff --git a/meta/recipes-support/bdwgc/bdwgc_20110107.bb b/meta/recipes-support/bdwgc/bdwgc_20110107.bb
+> new file mode 100644
+> index 0000000..1e32681
+> --- /dev/null
+> +++ b/meta/recipes-support/bdwgc/bdwgc_20110107.bb
+> @@ -0,0 +1,40 @@
+> +SUMMARY = "A garbage collector for C and C++"
+> +
+> +DESCRIPTION = "The Boehm-Demers-Weiser conservative garbage collector can be\
+> + used as a garbage collecting replacement for C malloc or C++ new. It allows\
+> + you to allocate memory basically as you normally would, without explicitly\
+> + deallocating memory that is no longer useful. The collector automatically\
+> + recycles memory when it determines that it can no longer be otherwise\
+> + accessed.\
+> +  The collector is also used by a number of programming language\
+> + implementations that either use C as intermediate code, want to facilitate\
+> + easier interoperation with C libraries, or just prefer the simple collector\
+> + interface.\
+> +  Alternatively, the garbage collector may be used as a leak detector for C\
+> + or C++ programs, though that is not its primary goal.\
+> +  Empirically, this collector works with most unmodified C programs, simply\
+> + by replacing malloc with GC_malloc calls, replacing realloc with GC_realloc\
+> + calls, and removing free calls."
+> +
+> +HOMEPAGE = "http://www.hpl.hp.com/personal/Hans_Boehm/gc/"
+> +SECTION = "devel"
+> +LICENSE = "MIT&  FSF-Unlimited&  GPL-2.0"
+> +LIC_FILES_CHKSUM = "file://README.QUICK;md5=9b9dd874f6940641b6ab19893ee8f1cc \
+> +                    file://doc/README;md5=6d74ce18ff55d936a4d6bd35a98e9eb9 \
+> +                    file://libatomic_ops/doc/LICENSING.txt;md5=607073e04548eac7d1f763e480477bab"
+> +
+> +SRC_URI = "http://www.hpl.hp.com/personal/Hans_Boehm/gc/gc_source/bdwgc-7_2alpha5-20110107.tar.bz2"
+> +
+> +SRC_URI[md5sum] = "4f3c130fc71ff23584edaa19a37739ee"
+> +SRC_URI[sha256sum] = "1f57b959ae1144e1e5fa59d52d7cb4ed626fd74cf47da1c9c119b8b46ae2722d"
+> +
+> +PR = "r0"
+> +
+> +S = "${WORKDIR}/bdwgc"
+> +
+> +do_install_append (){
+> +	rm -rf ${D}${datadir}/gc
+> +}
+> +
+> +inherit autotools
+> +BBCLASSEXTEND = "native nativesdk"
 
-Add a copy of the clutter-1.8 metadata without the namespace to keep the
-tools happy when they find the clutter_git recipe.
+Nitin,
 
-Signed-off-by: Joshua Lock <josh@linux.intel.com>
----
- .../conf/distro/include/distro_tracking_fields.inc |   38 +++++++++++--------
- 1 files changed, 22 insertions(+), 16 deletions(-)
+I am seeing the following WARNING, can you please fix this
+WARNING: For recipe bdwgc, the following files/directories were 
+installed but not shipped in any package:
+WARNING:   /usr/share
 
-diff --git a/meta/conf/distro/include/distro_tracking_fields.inc b/meta/conf/distro/include/distro_tracking_fields.inc
-index a4aacfb..0aed343 100644
---- a/meta/conf/distro/include/distro_tracking_fields.inc
-+++ b/meta/conf/distro/include/distro_tracking_fields.inc
-@@ -778,13 +778,13 @@ DISTRO_PN_ALIAS_pn-opkg_nogpg = "OSPDT upstream=http://svn.openmoko.org/trunk/s
- 
- 
- RECIPE_STATUS_pn-dpkg = "green"
--RECIPE_LATEST_VERSION_pn-dpkg = "1.16.0.3"
-+RECIPE_LATEST_VERSION_pn-dpkg = "1.16.1.2"
- RECIPE_INTEL_SECTION_pn-dpkg = "base utils"
--RECIPE_LATEST_RELEASE_DATE_pn-dpkg = "May 04, 2011"
-+RECIPE_LATEST_RELEASE_DATE_pn-dpkg = "Nov 25, 2011"
- RECIPE_TIME_BETWEEN_LAST_TWO_RELEASES_pn-dpkg = "1 months"
- RECIPE_LAST_UPDATE_pn-dpkg = "Dec 30, 2010"
--RECIPE_MANUAL_CHECK_DATE_pn-dpkg = "Jun 29, 2011"
--RECIPE_MAINTAINER_pn-dpkg = "Dongxiao Xu <dongxiao.xu@intel.com"
-+RECIPE_MANUAL_CHECK_DATE_pn-dpkg = "Jan 18, 2012"
-+RECIPE_MAINTAINER_pn-dpkg = "Joshua Lock <josh@linux.intel.com"
- 
- RECIPE_STATUS_pn-opkg-utils = "green"
- RECIPE_DEPENDENCY_CHECK_pn-opkg-utils = "not done"
-@@ -1201,8 +1201,8 @@ RECIPE_STATUS_pn-apt = "red"
- RECIPE_LATEST_VERSION_pn-apt = "0.8.15.9"
- RECIPE_LATEST_RELEASE_DATE_pn-apt = "Oct 14, 2011"
- RECIPE_LAST_UPDATE_pn-apt = "Oct 6, 2011"
--RECIPE_MANUAL_CHECK_DATE_pn-apt = "Nov 08, 2011"
--RECIPE_NO_UPDATE_REASON_pn-apt="similar to zypper, defer the upgrading"
-+RECIPE_MANUAL_CHECK_DATE_pn-apt = "Jan 18, 2012"
-+RECIPE_MAINTAINER_pn-apt = "Joshua Lock <josh@linux.intel.com>"
- 
- RECIPE_STATUS_pn-chrpath = "red"
- RECIPE_DEPENDENCY_CHECK_pn-chrpath = "not done"
-@@ -1451,7 +1451,7 @@ RECIPE_COMMENTS_pn-update-modules = ""
- 
- RECIPE_STATUS_pn-udev-extraconf = "green"
- RECIPE_LAST_UPDATE_pn-udev-extraconf = "Jul 19, 2008"
--RECIPE_MAINTAINER_pn-udev-extraconf = "Saul Wold <sgw@linux.intel.com>"
-+RECIPE_MAINTAINER_pn-udev-extraconf = "Joshua Lock <josh@linux.intel.com>"
- RECIPE_DEPENDENCY_CHECK_pn-udev-extraconf = "not done"
- RECIPE_LATEST_VERSION_pn-udev-extraconf = "0.0"
- RECIPE_PATCH_pn-udev-extraconf+mount.blacklist = "add mount blacklist"
-@@ -1735,26 +1735,25 @@ RECIPE_INTEL_SECTION_pn-dhcp = "base utils"
- RECIPE_COMMENTS_pn-dhcp = "several major release, others are 3.1.3, 4.0.2-P1, need to identify"
- 
- RECIPE_STATUS_pn-v86d = "yellow"   # self written configure
--RECIPE_LAST_UPDATE_pn-udev = "Jul 6, 2010"
--RECIPE_MAINTAINER_pn-v86d = "Saul Wold <sgw@linux.intel.com>"
-+RECIPE_LAST_UPDATE_pn-v86d = "Oct 11, 2011"
-+RECIPE_MAINTAINER_pn-v86d = "Joshua Lock <josh@linux.intel.com>"
- RECIPE_DEPENDENCY_CHECK_pn-v86d = "not done"
--RECIPE_LATEST_VERSION_pn-v86d = "0.1.9"
-+RECIPE_LATEST_VERSION_pn-v86d = "0.1.10"
- RECIPE_PATCH_pn-v86d+fbsetup = "init script"
- RECIPE_INTEL_SECTION_pn-v86d = "base utils"
--RECIPE_TIME_BETWEEN_LAST_TWO_RELEASES_pn-v86d = "1 month"
--RECIPE_LATEST_RELEASE_DATE_pn-v86d = "Oct 01, 2008"
-+RECIPE_LATEST_RELEASE_DATE_pn-v86d = "Feb 25, 2011"
- RECIPE_COMMENTS_pn-v86d = "contains code under other licenses"
- DISTRO_PN_ALIAS_pn-v86d = "Debian=v86d Ubuntu=v86d"
- 
- RECIPE_STATUS_pn-udev = "yellow"   # needs to delete old versions
- RECIPE_LAST_UPDATE_pn-udev = "Dec 7, 2010"
--RECIPE_MAINTAINER_pn-udev = "Saul Wold <sgw@linux.intel.com>"
-+RECIPE_MAINTAINER_pn-udev = "Joshua Lock <josh@linux.intel.com>"
- RECIPE_DEPENDENCY_CHECK_pn-udev = "not done"
--RECIPE_LATEST_VERSION_pn-udev = "158"
-+RECIPE_LATEST_VERSION_pn-udev = "164"
- RECIPE_INTEL_SECTION_pn-udev = "base utils"
- RECIPE_TIME_BETWEEN_LAST_TWO_RELEASES_pn-udev = "<1 month"
--RECIPE_LATEST_RELEASE_DATE_pn-udev = "Jun 01, 2010"
--RECIPE_COMMENTS_pn-udev = "may need different versions for different kernels"
-+RECIPE_LATEST_RELEASE_DATE_pn-udev = "Jan 11, 2012"
-+RECIPE_COMMENTS_pn-udev = "udev updates will require extra testing in the transition to kmod, etc"
- 
- RECIPE_STATUS_pn-tzdata = "green"
- RECIPE_LATEST_VERSION_pn-tzdata = "2011n"
-@@ -5525,6 +5524,13 @@ RECIPE_LATEST_VERSION_pn-clutter-1.8 = "1.8.2"
- RECIPE_MANUAL_CHECK_DATE_pn-clutter-1.8 = "Dec 13, 2011"
- RECIPE_LAST_UPDATE_pn-clutter-1.8 = "Dec 13, 2011"
- RECIPE_MAINTAINER_pn-clutter-1.8 = "Joshua Lock <josh@linux.intel.com>"
-+# Non namespaced version for git recipe
-+RECIPE_STATUS_pn-clutter = "green"
-+DISTRO_PN_ALIAS_pn-clutter = "Fedora=clutter OpenSuse=clutter Ubuntu=clutter-1.0 Mandriva=clutter Debian=clutter"
-+RECIPE_LATEST_VERSION_pn-clutter = "1.8.2"
-+RECIPE_MANUAL_CHECK_DATE_pn-clutter = "Dec 13, 2011"
-+RECIPE_LAST_UPDATE_pn-clutter = "Dec 13, 2011"
-+RECIPE_MAINTAINER_pn-clutter = "Joshua Lock <josh@linux.intel.com>"
- 
- RECIPE_STATUS_pn-clutter-gtk-1.8 = "red"
- DISTRO_PN_ALIAS_pn-clutter-gtk-1.8 = "Fedora=clutter-gtk OpenSuSE=clutter-gtk Ubuntu=clutter-gtk-0.10 Mandriva=clutter-gtk Debian=clutter-gtk"
--- 
-1.7.7.5
-
+Thanks
+	Sau!
 
 
