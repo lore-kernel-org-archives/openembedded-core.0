@@ -1,30 +1,26 @@
-Received: from mga05.intel.com ([192.55.52.89] helo=fmsmga101.fm.intel.com)
+Received: from mga02.intel.com ([134.134.136.20])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <scott.a.garman@intel.com>) id 1RnvDT-0001NX-Pb
+	(envelope-from <sgw@linux.intel.com>) id 1Rnwt4-0004LH-QW
 	for openembedded-core@lists.openembedded.org;
-	Thu, 19 Jan 2012 17:52:01 +0100
-Received: from mail-iy0-f180.google.com ([209.85.210.180])
-	by mga01.intel.com with ESMTP/TLS/RC4-SHA; 19 Jan 2012 08:43:00 -0800
-Received: by iabz7 with SMTP id z7so123409iab.25
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 19 Jan 2012 08:42:59 -0800 (PST)
-Received: by 10.42.161.132 with SMTP id t4mr22473253icx.16.1326991379301;
-	Thu, 19 Jan 2012 08:42:59 -0800 (PST)
-Received: from [127.0.0.1] (masterfoo.zenlinux.com. [207.192.74.254])
-	by mx.google.com with ESMTPS id d15sm11659553ibf.7.2012.01.19.08.42.57
-	(version=SSLv3 cipher=OTHER); Thu, 19 Jan 2012 08:42:58 -0800 (PST)
-Message-ID: <4F184806.8040205@intel.com>
-Date: Thu, 19 Jan 2012 08:42:46 -0800
-From: Scott Garman <scott.a.garman@intel.com>
+	Thu, 19 Jan 2012 19:39:03 +0100
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+	by orsmga101.jf.intel.com with ESMTP; 19 Jan 2012 10:31:21 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.67,351,1309762800"; d="scan'208";a="100501072"
+Received: from unknown (HELO [10.255.14.6]) ([10.255.14.6])
+	by orsmga002.jf.intel.com with ESMTP; 19 Jan 2012 10:31:21 -0800
+Message-ID: <4F186179.3000900@linux.intel.com>
+Date: Thu, 19 Jan 2012 10:31:21 -0800
+From: Saul Wold <sgw@linux.intel.com>
 User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:8.0) Gecko/20111124 Thunderbird/8.0
+	rv:8.0) Gecko/20111115 Thunderbird/8.0
 MIME-Version: 1.0
-To: openembedded-core@lists.openembedded.org
-References: <1326855665-11617-1-git-send-email-raj.khem@gmail.com>
-	<182165EE-D546-4E80-932D-6409E234863B@dominion.thruhere.net>
-	<74FB388C-DFB3-42A8-AAA3-C92B74433F9A@dominion.thruhere.net>
-In-Reply-To: <74FB388C-DFB3-42A8-AAA3-C92B74433F9A@dominion.thruhere.net>
-Subject: Re: [PATCH] e2fsprogs_1.42.bb: Fix build fallout for uclibc
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+References: <1326067422-30771-1-git-send-email-andrei@gherzan.ro>
+In-Reply-To: <1326067422-30771-1-git-send-email-andrei@gherzan.ro>
+Cc: Andrei Gherzan <andrei.gherzan@windriver.com>
+Subject: Re: [PATCH] busybox: defconfig modified in order to activate CONFIG_EXPR_MATH_SUPPORT_64
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -39,40 +35,41 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 19 Jan 2012 16:52:01 -0000
+X-List-Received-Date: Thu, 19 Jan 2012 18:39:03 -0000
 Content-Type: text/plain; charset=ISO-8859-1; format=flowed
 Content-Transfer-Encoding: 7bit
 
-On 01/18/2012 05:34 AM, Koen Kooi wrote:
+On 01/08/2012 04:03 PM, Andrei Gherzan wrote:
+> From: Andrei Gherzan<andrei.gherzan@windriver.com>
 >
-> Op 18 jan. 2012, om 10:51 heeft Koen Kooi het volgende geschreven:
+> Enable 64-bit math support in the expr applet. This will make
+> the applet slightly larger, but will allow computation with very
+> large numbers.
 >
->>
->> Op 18 jan. 2012, om 04:01 heeft Khem Raj het volgende geschreven:
->>
->>> e2fsprogs 1.42 onwards uses fallocate() which uclibc
->>> does not implement(yet). In most of places its use
->>> is controlled and it only used when configure detects
->>> fallocate being present but in this one case it missed
->>> to check for fallocate being available so here we
->>> add the check
->>
->> FWIW, e2fsprogs(-native) also has problems with ASNEEDED:
->>
->> | tune2fs: symbol lookup error: tune2fs: undefined symbol: ext2fs_group_desc
+> [YOCTO #1767]
 >
-> And that one suddenly went away!
+> Signed-off-by: Andrei Gherzan<andrei@gherzan.ro>
+> ---
+>   meta/recipes-core/busybox/busybox-1.19.3/defconfig |    2 +-
+>   1 files changed, 1 insertions(+), 1 deletions(-)
+>
+> diff --git a/meta/recipes-core/busybox/busybox-1.19.3/defconfig b/meta/recipes-core/busybox/busybox-1.19.3/defconfig
+> index 1990f28..ebd751d 100644
+> --- a/meta/recipes-core/busybox/busybox-1.19.3/defconfig
+> +++ b/meta/recipes-core/busybox/busybox-1.19.3/defconfig
+> @@ -214,7 +214,7 @@ CONFIG_FEATURE_ENV_LONG_OPTIONS=y
+>   # CONFIG_EXPAND is not set
+>   # CONFIG_FEATURE_EXPAND_LONG_OPTIONS is not set
+>   CONFIG_EXPR=y
+> -# CONFIG_EXPR_MATH_SUPPORT_64 is not set
+> +CONFIG_EXPR_MATH_SUPPORT_64=y
+>   CONFIG_FALSE=y
+>   # CONFIG_FOLD is not set
+>   # CONFIG_FSYNC is not set
 
-That was fixed when the bitbake.conf change made it into master which 
-now adds base_libdir_native to the RPATH for native compiled binaries.
+Merged into OE-Core
 
-http://git.yoctoproject.org/cgit/cgit.cgi/poky/commit/?id=35759f977eec6ef81e125a509a7148d7e53a6515
-
-Scott
-
--- 
-Scott Garman
-Embedded Linux Engineer - Yocto Project
-Intel Open Source Technology Center
+Thanks
+	Sau!
 
 
