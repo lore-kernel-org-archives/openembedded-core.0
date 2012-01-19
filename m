@@ -1,25 +1,25 @@
-Received: from mga02.intel.com ([134.134.136.20])
+Received: from mga14.intel.com ([143.182.124.37])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <sgw@linux.intel.com>) id 1Rnwua-0004TJ-S2
+	(envelope-from <sgw@linux.intel.com>) id 1Rnx17-0004dV-PN
 	for openembedded-core@lists.openembedded.org;
-	Thu, 19 Jan 2012 19:40:37 +0100
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-	by orsmga101.jf.intel.com with ESMTP; 19 Jan 2012 10:32:56 -0800
+	Thu, 19 Jan 2012 19:47:22 +0100
+Received: from azsmga002.ch.intel.com ([10.2.17.35])
+	by azsmga102.ch.intel.com with ESMTP; 19 Jan 2012 10:39:41 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.67,351,1309762800"; d="scan'208";a="100502060"
+X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="58095058"
 Received: from unknown (HELO [10.255.14.6]) ([10.255.14.6])
-	by orsmga002.jf.intel.com with ESMTP; 19 Jan 2012 10:32:56 -0800
-Message-ID: <4F1861D8.2020606@linux.intel.com>
-Date: Thu, 19 Jan 2012 10:32:56 -0800
+	by AZSMGA002.ch.intel.com with ESMTP; 19 Jan 2012 10:39:40 -0800
+Message-ID: <4F18636C.8030407@linux.intel.com>
+Date: Thu, 19 Jan 2012 10:39:40 -0800
 From: Saul Wold <sgw@linux.intel.com>
 User-Agent: Mozilla/5.0 (X11; Linux x86_64;
 	rv:8.0) Gecko/20111115 Thunderbird/8.0
 MIME-Version: 1.0
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-References: <cover.1326826646.git.josh@linux.intel.com>
-In-Reply-To: <cover.1326826646.git.josh@linux.intel.com>
-Subject: Re: [PATCH 0/5] Busybox syslog tweaks
+References: <cover.1326834014.git.nitin.a.kamble@intel.com>
+In-Reply-To: <cover.1326834014.git.nitin.a.kamble@intel.com>
+Subject: Re: [PATCHv2 0/6] resend with typo fixes & distro tracking data
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -34,38 +34,59 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 19 Jan 2012 18:40:37 -0000
+X-List-Received-Date: Thu, 19 Jan 2012 18:47:22 -0000
 Content-Type: text/plain; charset=ISO-8859-1; format=flowed
 Content-Transfer-Encoding: 7bit
 
-On 01/17/2012 10:59 AM, Joshua Lock wrote:
-> The RFC version of this series didn't receive any C's..
+On 01/17/2012 01:03 PM, nitin.a.kamble@intel.com wrote:
+> From: Nitin A Kamble<nitin.a.kamble@intel.com>
 >
-> This set of changes makes some minor changes to the configuration of busybox's
-> syslog.
+> This is same as last pull requests + typo fixes + a commit for adding distro
+> tracking information for the new recipes.
 >
-> The following changes since commit a0f5dd25a37fe3b8664c2133e80b6214559f93f6:
+> Thanks,
+> Nitin
 >
->    package_rpm.bbclass: Add support for filenames with spaces (2012-01-17 16:20:46 +0000)
+> The following changes since commit 5724ee9c3a99519fea96446638910b727b89898d:
+>
+>    package_rpm.bbclass: Add support for filenames with spaces (2012-01-17 16:20:54 +0000)
 >
 > are available in the git repository at:
->    git://git.openembedded.org/openembedded-core-contrib josh/syslog
->    http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=josh/syslog
+>    git://git.pokylinux.org/poky-contrib nitin/misc
+>    http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=nitin/misc
 >
-> Joshua Lock (5):
->    busybox: drop MARKINT option from init script and syslog-startup.conf
->    busybox: remove incorrect comments from syslog-startup.conf
->    busybox: enable log level configuration in syslog-startup.conf and
->      script
->    busybox: change syslog default to log to a file
->    busybox: enable dropping of duplicates in syslog, off by default
+> Nitin A Kamble (6):
+>    bdwgc: new recipe for autogen
+>    libunistring: new recipe for autogen
+>    guile: new recipe for autogen
+>    autogen-native: new recipe for grub-efi-native
+>    grub-efi-native: fix errors with automake 1.11.2
+>    distro-tracking: add data for newer recipes
 >
->   meta/recipes-core/busybox/busybox-1.19.3/defconfig |    2 +-
->   meta/recipes-core/busybox/busybox_1.19.3.bb        |    2 +-
->   meta/recipes-core/busybox/files/syslog             |    9 ++++++---
->   .../recipes-core/busybox/files/syslog-startup.conf |    9 +++++----
->   4 files changed, 13 insertions(+), 9 deletions(-)
+>   .../conf/distro/include/distro_tracking_fields.inc |   21 +
+>   .../files/grub-1.99_fix_for_automake_1.11.2.patch  | 5808 --------------------
+>   meta/recipes-bsp/grub/grub-efi-native_1.99.bb      |    4 +-
+>   .../autogen/autogen-native_5.12.bb                 |   24 +
+>   ...01-Fix-the-SRFI-60-copy-bit-documentation.patch |   33 +
+>   ..._GNU_SOURCE-to-fix-the-GNU-kFreeBSD-build.patch |   25 +
+>   ...h-rather-than-gc-gc_version.h-in-pthread-.patch |   26 +
+>   .../guile/files/opensuse/guile-64bit.patch         |   38 +
+>   .../files/opensuse/guile-turn-off-gc-test.patch    |   48 +
+>   meta/recipes-devtools/guile/guile_2.0.3.bb         |   42 +
+>   meta/recipes-support/bdwgc/bdwgc_20110107.bb       |   38 +
+>   .../libunistring/libunistring_0.9.3.bb             |   27 +
+>   12 files changed, 324 insertions(+), 5810 deletions(-)
+>   create mode 100644 meta/recipes-devtools/autogen/autogen-native_5.12.bb
+>   create mode 100644 meta/recipes-devtools/guile/files/debian/0001-Fix-the-SRFI-60-copy-bit-documentation.patch
+>   create mode 100644 meta/recipes-devtools/guile/files/debian/0002-Define-_GNU_SOURCE-to-fix-the-GNU-kFreeBSD-build.patch
+>   create mode 100644 meta/recipes-devtools/guile/files/debian/0003-Include-gc.h-rather-than-gc-gc_version.h-in-pthread-.patch
+>   create mode 100644 meta/recipes-devtools/guile/files/opensuse/guile-64bit.patch
+>   create mode 100644 meta/recipes-devtools/guile/files/opensuse/guile-turn-off-gc-test.patch
+>   create mode 100644 meta/recipes-devtools/guile/guile_2.0.3.bb
+>   create mode 100644 meta/recipes-support/bdwgc/bdwgc_20110107.bb
+>   create mode 100644 meta/recipes-support/libunistring/libunistring_0.9.3.bb
 >
+
 Merged into OE-Core
 
 Thanks
