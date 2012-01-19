@@ -1,27 +1,25 @@
-Received: from mail-ww0-f43.google.com ([74.125.82.43])
+Received: from mga09.intel.com ([134.134.136.24])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <koen@dominion.thruhere.net>) id 1RntF1-00062b-0o
+	(envelope-from <paul.eggleton@linux.intel.com>) id 1RntMV-0006IY-AU
 	for openembedded-core@lists.openembedded.org;
-	Thu, 19 Jan 2012 15:45:27 +0100
-Received: by wgbdt11 with SMTP id dt11so208310wgb.24
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 19 Jan 2012 06:37:44 -0800 (PST)
-Received: by 10.180.99.225 with SMTP id et1mr44790506wib.2.1326983864589;
-	Thu, 19 Jan 2012 06:37:44 -0800 (PST)
-Received: from [172.20.1.36] (ip545070eb.adsl-surfen.hetnet.nl.
-	[84.80.112.235])
-	by mx.google.com with ESMTPS id eq5sm19079080wib.2.2012.01.19.06.37.43
-	(version=TLSv1/SSLv3 cipher=OTHER);
-	Thu, 19 Jan 2012 06:37:43 -0800 (PST)
-Mime-Version: 1.0 (Apple Message framework v1251.1)
-From: Koen Kooi <koen@dominion.thruhere.net>
-In-Reply-To: <1326978483.2511.68.camel@ted>
-Date: Thu, 19 Jan 2012 15:37:38 +0100
-Message-Id: <7BD299FF-ED9A-4C3C-9581-4EF9B8D89B25@dominion.thruhere.net>
+	Thu, 19 Jan 2012 15:53:11 +0100
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+	by orsmga102.jf.intel.com with ESMTP; 19 Jan 2012 06:45:31 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.67,351,1309762800"; d="scan'208";a="100416047"
+Received: from unknown (HELO helios.localnet) ([10.252.122.198])
+	by orsmga002.jf.intel.com with ESMTP; 19 Jan 2012 06:45:30 -0800
+From: Paul Eggleton <paul.eggleton@linux.intel.com>
+To: Koen Kooi <koen@dominion.thruhere.net>
+Date: Thu, 19 Jan 2012 14:45:29 +0000
+Message-ID: <12179414.hR7YIgmyms@helios>
+Organization: Intel Corporation
+User-Agent: KMail/4.7.3 (Linux/3.0.0-14-generic-pae; KDE/4.7.4; i686; ; )
+In-Reply-To: <7BD299FF-ED9A-4C3C-9581-4EF9B8D89B25@dominion.thruhere.net>
 References: <1326978483.2511.68.camel@ted>
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-X-Mailer: Apple Mail (2.1251.1)
+	<7BD299FF-ED9A-4C3C-9581-4EF9B8D89B25@dominion.thruhere.net>
+MIME-Version: 1.0
+Cc: openembedded-core@lists.openembedded.org
 Subject: Re: Buildhistory in action
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
@@ -37,61 +35,36 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 19 Jan 2012 14:45:27 -0000
-Content-Type: text/plain; charset=us-ascii
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Thu, 19 Jan 2012 14:53:11 -0000
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
 
+On Thursday 19 January 2012 15:37:38 Koen Kooi wrote:
+> If you want to see a longer history, have a look at
+> https://github.com/Angstrom-distribution/buildhistory/commits/master, I've
+> been using it heavily today when working on udev 177 which changed its
+> default filesystem layout. One thing to keep in mind:
+> 
+> $ du -hs /data/ssd/OE/buildhistory/
+> 548M	/data/ssd/OE/buildhistory/
 
-Op 19 jan. 2012, om 14:08 heeft Richard Purdie het volgende geschreven:
+Hmm, I wouldn't have expected it to be quite that large, but I guess it 
+depends what you're doing with it, and I'd imagine given the number of builds 
+you run you probably stress it more than most (which is good :). In the end 
+500M is just a drop in the bucket compared to the rest of TMPDIR...
 
-> We've recently added the buildhistory class and I wanted to illustrate
-> how it can help us improve the quality of what we're doing. I =
-appreciate
-> elements of this have been around for a while as part of testlab
+> I keep it on an SSD to avoid needing to wait a few minutes after every
+> bitbake invocation.
 
-About 4 years: =
-http://dominion.thruhere.net/koen/cms/the-testlab-strikes-again :D
+Good advice :) It's also worth noting it will noticeably increase the 
+do_rootfs time (especially for RPM) and probably do_package as well.
 
-> but I
-> do want to raise the profile of these tools. I added:
->=20
-> INHERIT +=3D "buildhistory"
-> BUILDHISTORY_COMMIT =3D "1"
->=20
-> to my local.conf, then ran "bitbake gst-openmax liba52 js". I then
-> applied the staticdev patches from Saul, which should only move the .a
-> files to the -staticdev package. I then ran the bitbake command again.
->=20
-> If I change into tmp/buildhistory and show the last commit the result =
-is
-> included below. Since the version changed, the diff isn't as readable =
-as
-> would be ideal, however reading through it clearly shows the .a files
-> moving to the staticdev packages with no unintended changes as far as =
-I
-> could tell.
->=20
-> One of my big worries with the staticdev changes is any unintended
-> packaging changes. This lets me view the changes more precisely which
-> can only lead to higher quality regression spotting for the project. =
-I'd
-> like to suggest more people start enabling this and using it to check
-> the changes they're making.
+Cheers,
+Paul
 
-If you want to see a longer history, have a look at =
-https://github.com/Angstrom-distribution/buildhistory/commits/master, =
-I've been using it heavily today when working on udev 177 which changed =
-its default filesystem layout.=20
-One thing to keep in mind:
+-- 
 
-$ du -hs /data/ssd/OE/buildhistory/=20
-548M	/data/ssd/OE/buildhistory/
-
-I keep it on an SSD to avoid needing to wait a few minutes after every =
-bitbake invocation.
-
-regards,
-
-Koen=
+Paul Eggleton
+Intel Open Source Technology Centre
 
 
