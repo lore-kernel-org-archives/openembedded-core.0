@@ -1,39 +1,37 @@
 Received: from mga01.intel.com ([192.55.52.88])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <dexuan.cui@intel.com>) id 1Rngyk-0006ag-Fc
+	(envelope-from <nitin.a.kamble@intel.com>) id 1RnhSZ-0007OY-Cz
 	for openembedded-core@lists.openembedded.org;
-	Thu, 19 Jan 2012 02:39:50 +0100
+	Thu, 19 Jan 2012 03:10:39 +0100
 Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-	by fmsmga101.fm.intel.com with ESMTP; 18 Jan 2012 17:32:11 -0800
+	by fmsmga101.fm.intel.com with ESMTP; 18 Jan 2012 17:43:50 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="113805328"
-Received: from pgsmsx602.gar.corp.intel.com ([10.221.43.81])
-	by fmsmga002.fm.intel.com with ESMTP; 18 Jan 2012 17:32:10 -0800
-Received: from shsmsx101.ccr.corp.intel.com (10.239.4.153) by
-	pgsmsx602.gar.corp.intel.com (10.221.43.81) with Microsoft SMTP Server
-	(TLS) id 8.2.255.0; Thu, 19 Jan 2012 09:30:09 +0800
-Received: from shsmsx102.ccr.corp.intel.com ([169.254.2.21]) by
-	SHSMSX101.ccr.corp.intel.com ([169.254.1.213]) with mapi id
-	14.01.0355.002; Thu, 19 Jan 2012 09:30:08 +0800
-From: "Cui, Dexuan" <dexuan.cui@intel.com>
+X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="113808639"
+Received: from orsmsx604.amr.corp.intel.com ([10.22.226.87])
+	by fmsmga002.fm.intel.com with ESMTP; 18 Jan 2012 17:43:50 -0800
+Received: from orsmsx101.amr.corp.intel.com (10.22.225.128) by
+	orsmsx604.amr.corp.intel.com (10.22.226.87) with Microsoft SMTP Server
+	(TLS) id 8.2.255.0; Wed, 18 Jan 2012 17:43:49 -0800
+Received: from orsmsx106.amr.corp.intel.com ([169.254.5.13]) by
+	ORSMSX101.amr.corp.intel.com ([169.254.8.49]) with mapi id
+	14.01.0355.002; Wed, 18 Jan 2012 17:43:49 -0800
+From: "Kamble, Nitin A" <nitin.a.kamble@intel.com>
 To: Saul Wold <sgw@linux.intel.com>, Patches and discussions about the oe-core
 	layer <openembedded-core@lists.openembedded.org>
-Thread-Topic: [OE-core] [RFC PATCH 1/1][v2] self-hosted-image: generate the
-	.hdddirect and .vmdk image files
-Thread-Index: AQHM1fu5qN+lC/AnZEi3c9lVtAWAJJYS5iDg
-Date: Thu, 19 Jan 2012 01:30:08 +0000
-Message-ID: <A25F549E4D43CD42B4C02DF47A1913230FCAC821@SHSMSX102.ccr.corp.intel.com>
-References: <cover.1326894448.git.dexuan.cui@intel.com>
-	<84776a87449ee57fcf3a568562cb0957da04f8bc.1326894448.git.dexuan.cui@intel.com>
-	<4F16EEFD.1020700@linux.intel.com>
-In-Reply-To: <4F16EEFD.1020700@linux.intel.com>
-Accept-Language: zh-CN, en-US
+Thread-Topic: [OE-core] [PATCHv3 3/7] libunistring: new recipe for autogen
+Thread-Index: AQHM1jl6Sbhl4S+TsUKEyW/BkYdxb5YTaYQA//+BIOA=
+Date: Thu, 19 Jan 2012 01:43:49 +0000
+Message-ID: <ADD6A3980E8C39419A432FF422031B4C012A40D2@ORSMSX106.amr.corp.intel.com>
+References: <f37166f3f48c2747fbcc4d9ca8e9c2ddbe9aa637.1326929307.git.nitin.a.kamble@intel.com>
+	<19d739c1ea85da2d374665924b8d004f06a2f30e.1326929307.git.nitin.a.kamble@intel.com>
+	<4F176EDA.2040305@linux.intel.com>
+In-Reply-To: <4F176EDA.2040305@linux.intel.com>
+Accept-Language: en-US
 X-MS-Has-Attach: 
 X-MS-TNEF-Correlator: 
-x-originating-ip: [10.239.127.40]
+x-originating-ip: [10.22.254.139]
 MIME-Version: 1.0
-Cc: "dvhart@linux.intel.com" <dvhart@linux.intel.com>
-Subject: Re: [RFC PATCH 1/1][v2] self-hosted-image: generate the .hdddirect and .vmdk image files
+Subject: Re: [PATCHv3 3/7] libunistring: new recipe for autogen
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -48,34 +46,98 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 19 Jan 2012 01:39:50 -0000
+X-List-Received-Date: Thu, 19 Jan 2012 02:10:40 -0000
 Content-Language: en-US
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 
-Saul Wold wrote on 2012-01-19:
->> +	if [ "${NOVMDK}" !=3D "1" ] ; then
-> Why make this a "double negative", Why not have a CREATE_VMDK check?
->=20
->> +		${STAGING_BINDIR_NATIVE}/qemu-img convert -O vmdk   \
->> +			${DEPLOY_DIR_IMAGE}/${IMAGE_LINK_NAME}.hdddirect \
->> +			${DEPLOY_DIR_IMAGE}/${IMAGE_LINK_NAME}.vmdk
->> +	fi
->>   }
-Hi Saul,
-I thought it's better to create .vmdk by default.
-So do you think this is better?
-if [ "${CREATE_VMDK}" =3D=3D "1" ] ; then
-  #create the .vmdk image.
-fi
-
-In this way we don't create .vmdk by default and I'll define
-CREATE_VMDK =3D "1"
-in self-hosted-image.bb to generate the .vmdk.
-
-Thanks,
--- Dexuan
-
-
+DQoNCj4gLS0tLS1PcmlnaW5hbCBNZXNzYWdlLS0tLS0NCj4gRnJvbTogU2F1bCBXb2xkIFttYWls
+dG86c2d3QGxpbnV4LmludGVsLmNvbV0NCj4gU2VudDogV2VkbmVzZGF5LCBKYW51YXJ5IDE4LCAy
+MDEyIDU6MTYgUE0NCj4gVG86IFBhdGNoZXMgYW5kIGRpc2N1c3Npb25zIGFib3V0IHRoZSBvZS1j
+b3JlIGxheWVyDQo+IENjOiBLYW1ibGUsIE5pdGluIEENCj4gU3ViamVjdDogUmU6IFtPRS1jb3Jl
+XSBbUEFUQ0h2MyAzLzddIGxpYnVuaXN0cmluZzogbmV3IHJlY2lwZSBmb3INCj4gYXV0b2dlbg0K
+PiANCj4gT24gMDEvMTgvMjAxMiAwMzozMiBQTSwgbml0aW4uYS5rYW1ibGVAaW50ZWwuY29tIHdy
+b3RlOg0KPiA+IEZyb206IE5pdGluIEEgS2FtYmxlPG5pdGluLmEua2FtYmxlQGludGVsLmNvbT4N
+Cj4gPg0KPiA+IGxpYnVuaXN0cmluZyByZWNpcGUgaXMgbmVlZGVkIGJ5IGd1aWxlLg0KPiA+IEFu
+ZCBndWlsZSBpcyBuZWVkZWQgYnkgYXV0b2dlbi4NCj4gPg0KPiA+IFNpZ25lZC1vZmYtYnk6IE5p
+dGluIEEgS2FtYmxlPG5pdGluLmEua2FtYmxlQGludGVsLmNvbT4NCj4gPiAtLS0NCj4gPiAgIC4u
+Li9saWJ1bmlzdHJpbmcvbGlidW5pc3RyaW5nXzAuOS4zLmJiICAgICAgICAgICAgIHwgICAyNw0K
+PiArKysrKysrKysrKysrKysrKysrKw0KPiA+ICAgMSBmaWxlcyBjaGFuZ2VkLCAyNyBpbnNlcnRp
+b25zKCspLCAwIGRlbGV0aW9ucygtKQ0KPiA+ICAgY3JlYXRlIG1vZGUgMTAwNjQ0IG1ldGEvcmVj
+aXBlcy0NCj4gc3VwcG9ydC9saWJ1bmlzdHJpbmcvbGlidW5pc3RyaW5nXzAuOS4zLmJiDQo+ID4N
+Cj4gPiBkaWZmIC0tZ2l0IGEvbWV0YS9yZWNpcGVzLXN1cHBvcnQvbGlidW5pc3RyaW5nL2xpYnVu
+aXN0cmluZ18wLjkuMy5iYg0KPiBiL21ldGEvcmVjaXBlcy1zdXBwb3J0L2xpYnVuaXN0cmluZy9s
+aWJ1bmlzdHJpbmdfMC45LjMuYmINCj4gPiBuZXcgZmlsZSBtb2RlIDEwMDY0NA0KPiA+IGluZGV4
+IDAwMDAwMDAuLjdkMDk3NjENCj4gPiAtLS0gL2Rldi9udWxsDQo+ID4gKysrIGIvbWV0YS9yZWNp
+cGVzLXN1cHBvcnQvbGlidW5pc3RyaW5nL2xpYnVuaXN0cmluZ18wLjkuMy5iYg0KPiA+IEBAIC0w
+LDAgKzEsMjcgQEANCj4gPiArU1VNTUFSWSA9ICJsaWJ1bmlzdHJpbmcgcHJvdmlkZXMgZnVuY3Rp
+b25zIGZvciBtYW5pcHVsYXRpbmcNCj4gYWNjb3JkaW5nIHRvIHRoZSBVbmljb2RlIHN0YW5kYXJk
+LiINCj4gPiArDQo+ID4gK0RFU0NSSVBUSU9OID0gIlRleHQgZmlsZXMgYXJlIG5vd2FkYXlzIHVz
+dWFsbHkgZW5jb2RlZCBpbiBVbmljb2RlLA0KPiBhbmQgbWF5IGNvbnNpc3Qgb2YgdmVyeVwNCj4g
+PiArIGRpZmZlcmVudCBzY3JpcHRzIOKAkyBmcm9tIExhdGluIGxldHRlcnMgdG8gQ2hpbmVzZSBI
+YW56aSDigJMsIHdpdGgNCj4gbWFueSBraW5kcyBvZiBzcGVjaWFsXA0KPiA+ICsgY2hhcmFjdGVy
+cyDigJMgYWNjZW50cywgcmlnaHQtdG8tbGVmdCB3cml0aW5nIG1hcmtzLCBoeXBoZW5zLCBSb21h
+bg0KPiBudW1iZXJzLCBhbmQgbXVjaFwNCj4gPiArIG1vcmUuIEJ1dCB0aGUgUE9TSVggcGxhdGZv
+cm0gQVBJcyBmb3IgdGV4dCBkbyBub3QgY29udGFpbiBhZGVxdWF0ZQ0KPiBmdW5jdGlvbnMgZm9y
+XA0KPiA+ICsgZGVhbGluZyB3aXRoIHBhcnRpY3VsYXIgcHJvcGVydGllcyBvZiBtYW55IFVuaWNv
+ZGUgY2hhcmFjdGVycy4gSW4NCj4gZmFjdCwgdGhlIFBPU0lYXA0KPiA+ICsgQVBJcyBmb3IgdGV4
+dCBoYXZlIHNldmVyYWwgYXNzdW1wdGlvbnMgYXQgdGhlaXIgYmFzZSB3aGljaCBkb24ndA0KPiBo
+b2xkIGZvciBVbmljb2RlXA0KPiA+ICsgdGV4dC4gXA0KPiA+ICsgVGhpcyBsaWJyYXJ5IHByb3Zp
+ZGVzIGZ1bmN0aW9ucyBmb3IgbWFuaXB1bGF0aW5nIFVuaWNvZGUgc3RyaW5ncw0KPiBhbmQgZm9y
+IG1hbmlwdWxhdGluZ1wNCj4gPiArIEMgc3RyaW5ncyBhY2NvcmRpbmcgdG8gdGhlIFVuaWNvZGUg
+c3RhbmRhcmQuIg0KPiA+ICsNCj4gPiArSE9NRVBBR0UgPSAiaHR0cDovL3d3dy5nbnUub3JnL3Nv
+ZnR3YXJlL2xpYnVuaXN0cmluZy8iDQo+ID4gK1NFQ1RJT04gPSAiZGV2ZWwiDQo+ID4gK0xJQ0VO
+U0UgPSAiR1BMdjMmTEdQTHYzIg0KPiA+ICtMSUNfRklMRVNfQ0hLU1VNID0NCj4gImZpbGU6Ly9D
+T1BZSU5HO21kNT1kMzIyMzliY2I2NzM0NjNhYjg3NGU4MGQ0N2ZhZTUwNCBcDQo+ID4gKw0KPiBm
+aWxlOi8vQ09QWUlORy5MSUI7bWQ1PTZhNmE4ZTAyMDgzOGIyMzQwNmM4MWIxOWMxZDQ2ZGY2Ig0K
+PiA+ICsNCj4gPiArU1JDX1VSSSA9ICIke0dOVV9NSVJST1J9L2xpYnVuaXN0cmluZy9saWJ1bmlz
+dHJpbmctJHtQVn0udGFyLmd6Ig0KPiA+ICsNCj4gPiArU1JDX1VSSVttZDVzdW1dID0gImRiOGVj
+YTNiNjQxNjNhYmFkZjhjNDBlNWNlY2MyNjFmIg0KPiA+ICtTUkNfVVJJW3NoYTI1NnN1bV0gPQ0K
+PiAiNjEwZDNlYzcyNGZiZGFhNjU0YWZlM2NmZjIwYjlmNGQ1MDRiZTNmZDI5NmZkZWQyZTBmN2Y3
+NjQwNDEwMDZhMyINCj4gPiArDQo+ID4gK1BSID0gInIwIg0KPiA+ICsNCj4gPiAraW5oZXJpdCBh
+dXRvdG9vbHMNCj4gPiArQkJDTEFTU0VYVEVORCA9ICJuYXRpdmUgbmF0aXZlc2RrIg0KPiANCj4g
+Tml0aW4sDQo+IA0KPiBTdGlsbCBzZWVpbmcsIHRoZSBmb2xsb3dpbmc6DQpSb290Y2F1c2VkIHRo
+aXMgYXMgc29tZSBVbmljb2RlIGNoYXJhY3RlcnMgcHJlc2VudCBpbiB0aGUgREVTQ1JJUFRJT04g
+ZmllbGQuIA0KRml4ZWQgaXQgYW4gdXBkYXRlZCB0aGUgY29udHJpYiBicmFuY2ggbml0aW4vbWlz
+YyBmb3IgdGhhdC4NCg0KTml0aW4NCg0KPiANCj4gTk9URTogcGFja2FnZSBsaWJ1bmlzdHJpbmct
+MC45LjMtcjE6IHRhc2sgZG9fcGFja2FnZV93cml0ZV9kZWI6IFN0YXJ0ZWQNCj4gRVJST1I6IEVy
+cm9yIGV4ZWN1dGluZyBhIHB5dGhvbiBmdW5jdGlvbiBpbg0KPiAvaW50ZWwvcG9reS9kaXN0cm8v
+bWV0YS9yZWNpcGVzLQ0KPiBzdXBwb3J0L2xpYnVuaXN0cmluZy9saWJ1bmlzdHJpbmdfMC45LjMu
+YmI6DQo+IFVuaWNvZGVEZWNvZGVFcnJvcjogJ2FzY2lpJyBjb2RlYyBjYW4ndCBkZWNvZGUgYnl0
+ZSAweGUyIGluIHBvc2l0aW9uDQo+IDk2Og0KPiBvcmRpbmFsIG5vdCBpbiByYW5nZSgxMjgpDQo+
+IA0KPiBFUlJPUjogVGhlIHN0YWNrIHRyYWNlIG9mIHB5dGhvbiBjYWxscyB0aGF0IHJlc3VsdGVk
+IGluIHRoaXMNCj4gZXhjZXB0aW9uL2ZhaWx1cmUgd2FzOg0KPiBFUlJPUjogICBGaWxlICJkb19w
+YWNrYWdlX2RlYiIsIGxpbmUgMTk0LCBpbiA8bW9kdWxlPg0KPiBFUlJPUjoNCj4gRVJST1I6ICAg
+RmlsZSAiZG9fcGFja2FnZV9kZWIiLCBsaW5lIDExOSwgaW4gZG9fcGFja2FnZV9kZWINCj4gRVJS
+T1I6DQo+IEVSUk9SOiBUaGUgY29kZSB0aGF0IHdhcyBiZWluZyBleGVjdXRlZCB3YXM6DQo+IEVS
+Uk9SOiAgICAgIDAxOTA6ICAgICAgICBiYi51dGlscy5wcnVuZWRpcihjb250cm9sZGlyKQ0KPiBF
+UlJPUjogICAgICAwMTkxOiAgICAgICAgYmIudXRpbHMudW5sb2NrZmlsZShsZikNCj4gRVJST1I6
+ICAgICAgMDE5MjoNCj4gRVJST1I6ICAgICAgMDE5MzoNCj4gRVJST1I6ICAqKiogMDE5NDpkb19w
+YWNrYWdlX2RlYihkKQ0KPiBFUlJPUjogICAgICAwMTk1Og0KPiBFUlJPUjogKGZpbGU6ICdkb19w
+YWNrYWdlX2RlYicsIGxpbmVubzogMTk0LCBmdW5jdGlvbjogPG1vZHVsZT4pDQo+IEVSUk9SOiAg
+ICAgIDAxMTU6ICAgICAgICAgICAgICAgICAgICAgc3VtbWFyeSA9DQo+IGxvY2FsZGF0YS5nZXRW
+YXIoJ1NVTU1BUlknLCBUcnVlKSBvciBsb2NhbGRhdGEuZ2V0VmFyKCdERVNDUklQVElPTicsDQo+
+IFRydWUpIG9yICIuIg0KPiBFUlJPUjogICAgICAwMTE2OiAgICAgICAgICAgICAgICAgICAgIGRl
+c2NyaXB0aW9uID0NCj4gbG9jYWxkYXRhLmdldFZhcignREVTQ1JJUFRJT04nLCBUcnVlKSBvciAi
+LiINCj4gRVJST1I6ICAgICAgMDExNzogICAgICAgICAgICAgICAgICAgICBkZXNjcmlwdGlvbiA9
+DQo+IHRleHR3cmFwLmRlZGVudChkZXNjcmlwdGlvbikuc3RyaXAoKQ0KPiBFUlJPUjogICAgICAw
+MTE4OiAgICAgICAgICAgICAgICAgICAgIGN0cmxmaWxlLndyaXRlKCdEZXNjcmlwdGlvbjoNCj4g
+JXNcbicNCj4gJSB1bmljb2RlKHN1bW1hcnkpKQ0KPiBFUlJPUjogICoqKiAwMTE5OiAgICAgICAg
+ICAgICAgICAgICAgIGN0cmxmaWxlLndyaXRlKCclc1xuJyAlDQo+IHVuaWNvZGUodGV4dHdyYXAu
+ZmlsbChkZXNjcmlwdGlvbiwgd2lkdGg9NzQsIGluaXRpYWxfaW5kZW50PScgJywNCj4gc3Vic2Vx
+dWVudF9pbmRlbnQ9JyAnKSkpDQo+IEVSUk9SOiAgICAgIDAxMjA6ICAgICAgICAgICAgICAgIGVs
+c2U6DQo+IEVSUk9SOiAgICAgIDAxMjE6ICAgICAgICAgICAgICAgICAgICAgY3RybGZpbGUud3Jp
+dGUodW5pY29kZShjICUNCj4gdHVwbGUocHVsbERhdGEoZnMsIGxvY2FsZGF0YSkpKSkNCj4gRVJS
+T1I6ICAgICAgMDEyMjogICAgICAgIGV4Y2VwdCBLZXlFcnJvcjoNCj4gRVJST1I6ICAgICAgMDEy
+MzogICAgICAgICAgICBpbXBvcnQgc3lzDQo+IEVSUk9SOiAoZmlsZTogJ2RvX3BhY2thZ2VfZGVi
+JywgbGluZW5vOiAxMTksIGZ1bmN0aW9uOiBkb19wYWNrYWdlX2RlYikNCj4gRVJST1I6IEZ1bmN0
+aW9uIGZhaWxlZDogZG9fcGFja2FnZV9kZWINCj4gRVJST1I6IExvZ2ZpbGUgb2YgZmFpbHVyZSBz
+dG9yZWQgaW46DQo+IC9pbnRlbC9wb2t5L2J1aWxkcy93b3JsZC90bXAvd29yay9pNTg2LXBva3kt
+bGludXgvbGlidW5pc3RyaW5nLTAuOS4zLQ0KPiByMS90ZW1wL2xvZy5kb19wYWNrYWdlX3dyaXRl
+X2RlYi4zMTc0NQ0KPiBOT1RFOiBwYWNrYWdlIGxpYnVuaXN0cmluZy0wLjkuMy1yMTogdGFzayBk
+b19wYWNrYWdlX3dyaXRlX2RlYjogRmFpbGVkDQo+IEVSUk9SOiBUYXNrIDY0Ng0KPiAoL2ludGVs
+L3Bva3kvZGlzdHJvL21ldGEvcmVjaXBlcy0NCj4gc3VwcG9ydC9saWJ1bmlzdHJpbmcvbGlidW5p
+c3RyaW5nXzAuOS4zLmJiLA0KPiBkb19wYWNrYWdlX3dyaXRlX2RlYikgZmFpbGVkIHdpdGggZXhp
+dCBjb2RlICcxJw0KDQo=
 
 
