@@ -1,24 +1,24 @@
 Received: from mga03.intel.com ([143.182.124.21])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <sgw@linux.intel.com>) id 1RnoKR-0004D6-4D
+	(envelope-from <sgw@linux.intel.com>) id 1RnoKV-0004Cz-Ej
 	for openembedded-core@lists.openembedded.org;
 	Thu, 19 Jan 2012 10:30:47 +0100
 Received: from azsmga001.ch.intel.com ([10.2.17.19])
 	by azsmga101.ch.intel.com with ESMTP; 19 Jan 2012 01:22:58 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="97472093"
+X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="97472095"
 Received: from unknown (HELO swold-mobl.bigsur.com) ([10.255.14.6])
 	by azsmga001.ch.intel.com with ESMTP; 19 Jan 2012 01:22:58 -0800
 From: Saul Wold <sgw@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Thu, 19 Jan 2012 01:22:29 -0800
-Message-Id: <0afa9a63a83ee128dac522af70e1f823b7d6a6df.1326964778.git.sgw@linux.intel.com>
+Date: Thu, 19 Jan 2012 01:22:30 -0800
+Message-Id: <28191449636ef2554e82459038a2d67915e9a022.1326964778.git.sgw@linux.intel.com>
 X-Mailer: git-send-email 1.7.6.5
 In-Reply-To: <cover.1326964778.git.sgw@linux.intel.com>
 References: <cover.1326964778.git.sgw@linux.intel.com>
 In-Reply-To: <cover.1326964778.git.sgw@linux.intel.com>
 References: <cover.1326964778.git.sgw@linux.intel.com>
-Subject: [CONSOLIDATED PULL 08/33] busybox: enable dropping of duplicates in syslog, off by default
+Subject: [CONSOLIDATED PULL 09/33] chkconfig: Update package from v1.3.55 to v1.3.57
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -33,74 +33,34 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 19 Jan 2012 09:30:47 -0000
+X-List-Received-Date: Thu, 19 Jan 2012 09:30:48 -0000
 
-From: Joshua Lock <josh@linux.intel.com>
+From: Andrei Gherzan <andrei.gherzan@windriver.com>
 
-Busybox syslog includes functionality to drop duplicated syslog entries,
-enable this feature in the defconfig yet disable it by default.
-
-Expose configuration of the feature through the syslog-startup.conf file
-and the syslog init script.
-
-Signed-off-by: Joshua Lock <josh@linux.intel.com>
+Signed-off-by: Andrei Gherzan <andrei@gherzan.ro>
 ---
- meta/recipes-core/busybox/busybox-1.19.3/defconfig |    2 +-
- meta/recipes-core/busybox/busybox_1.19.3.bb        |    2 +-
- meta/recipes-core/busybox/files/syslog             |    3 +++
- .../recipes-core/busybox/files/syslog-startup.conf |    1 +
- 4 files changed, 6 insertions(+), 2 deletions(-)
+ .../{chkconfig_1.3.55.bb => chkconfig_1.3.57.bb}   |    4 ++--
+ 1 files changed, 2 insertions(+), 2 deletions(-)
+ rename meta/recipes-extended/chkconfig/{chkconfig_1.3.55.bb => chkconfig_1.3.57.bb} (84%)
 
-diff --git a/meta/recipes-core/busybox/busybox-1.19.3/defconfig b/meta/recipes-core/busybox/busybox-1.19.3/defconfig
-index ebd751d..b474ad4 100644
---- a/meta/recipes-core/busybox/busybox-1.19.3/defconfig
-+++ b/meta/recipes-core/busybox/busybox-1.19.3/defconfig
-@@ -997,7 +997,7 @@ CONFIG_FEATURE_SH_HISTFILESIZE=y
- CONFIG_SYSLOGD=y
- CONFIG_FEATURE_ROTATE_LOGFILE=y
- CONFIG_FEATURE_REMOTE_LOG=y
--# CONFIG_FEATURE_SYSLOGD_DUP is not set
-+CONFIG_FEATURE_SYSLOGD_DUP=y
- CONFIG_FEATURE_SYSLOGD_CFG=y
- CONFIG_FEATURE_SYSLOGD_READ_BUFFER_SIZE=256
- CONFIG_FEATURE_IPC_SYSLOG=y
-diff --git a/meta/recipes-core/busybox/busybox_1.19.3.bb b/meta/recipes-core/busybox/busybox_1.19.3.bb
-index f591856..a075407 100644
---- a/meta/recipes-core/busybox/busybox_1.19.3.bb
-+++ b/meta/recipes-core/busybox/busybox_1.19.3.bb
-@@ -1,5 +1,5 @@
- require busybox.inc
--PR = "r2"
-+PR = "r3"
+diff --git a/meta/recipes-extended/chkconfig/chkconfig_1.3.55.bb b/meta/recipes-extended/chkconfig/chkconfig_1.3.57.bb
+similarity index 84%
+rename from meta/recipes-extended/chkconfig/chkconfig_1.3.55.bb
+rename to meta/recipes-extended/chkconfig/chkconfig_1.3.57.bb
+index 0e50936..b8ef2f6 100644
+--- a/meta/recipes-extended/chkconfig/chkconfig_1.3.55.bb
++++ b/meta/recipes-extended/chkconfig/chkconfig_1.3.57.bb
+@@ -16,8 +16,8 @@ PR = "r0"
  
- SRC_URI = "http://www.busybox.net/downloads/busybox-${PV}.tar.bz2;name=tarball \
-            file://udhcpscript.patch \
-diff --git a/meta/recipes-core/busybox/files/syslog b/meta/recipes-core/busybox/files/syslog
-index deeea8b..2944d3d 100644
---- a/meta/recipes-core/busybox/files/syslog
-+++ b/meta/recipes-core/busybox/files/syslog
-@@ -40,6 +40,9 @@ if [ -f /etc/syslog-startup.conf ]; then
- 	if [ "$REDUCE" = "yes" ]; then
- 		SYSLOG_ARGS="$SYSLOG_ARGS -S"
- 	fi
-+	if [ "$DROPDUPLICATES" = "yes" ]; then
-+	    SYSLOG_ARGS="$SYSLOG_ARGS -D"
-+	fi
- 	if [ -n "$LOGLEVEL" ]; then
- 	    SYSLOG_ARGS="$SYSLOG_ARGS -l $LOGLEVEL"
- 	fi
-diff --git a/meta/recipes-core/busybox/files/syslog-startup.conf b/meta/recipes-core/busybox/files/syslog-startup.conf
-index 553490b..fda450a 100644
---- a/meta/recipes-core/busybox/files/syslog-startup.conf
-+++ b/meta/recipes-core/busybox/files/syslog-startup.conf
-@@ -5,6 +5,7 @@ DESTINATION=file		# log destinations (buffer file remote)
- LOGFILE=/var/log/messages	# where to log (file)
- REMOTE=loghost:514		# where to log (syslog remote)
- REDUCE=no			# reduce-size logging
-+DROPDUPLICATES=no		# whether to drop duplicate log entries
- #ROTATESIZE=0			# rotate log if grown beyond X [kByte]
- #ROTATEGENS=3			# keep X generations of rotated logs
- BUFFERSIZE=64			# size of circular buffer [kByte]
+ SRC_URI = "http://fedorahosted.org/releases/c/h/chkconfig/${BPN}-${PV}.tar.bz2"
+ 
+-SRC_URI[md5sum] = "de562d5bff5116d1acf2d3191603096b"
+-SRC_URI[sha256sum] = "ac5e8f6c5ed83f5b65a3dd9187f8c534f167193446082e6a6576a0d9f72ba968"
++SRC_URI[md5sum] = "35a2d0630f1cb5c251e749eefde70afd"
++SRC_URI[sha256sum] = "6a95472873984a0a8e99dca23ce9efe0ffe9db06d9990ce325575f8506babc1c"
+ 
+ inherit autotools gettext
+ 
 -- 
 1.7.6.5
 
