@@ -1,24 +1,24 @@
 Received: from mga03.intel.com ([143.182.124.21])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <sgw@linux.intel.com>) id 1RnoKc-0004Cz-Cp
+	(envelope-from <sgw@linux.intel.com>) id 1RnoKc-0004Cw-El
 	for openembedded-core@lists.openembedded.org;
 	Thu, 19 Jan 2012 10:30:54 +0100
 Received: from azsmga001.ch.intel.com ([10.2.17.19])
-	by azsmga101.ch.intel.com with ESMTP; 19 Jan 2012 01:23:01 -0800
+	by azsmga101.ch.intel.com with ESMTP; 19 Jan 2012 01:23:02 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="97472114"
+X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="97472117"
 Received: from unknown (HELO swold-mobl.bigsur.com) ([10.255.14.6])
 	by azsmga001.ch.intel.com with ESMTP; 19 Jan 2012 01:23:01 -0800
 From: Saul Wold <sgw@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Thu, 19 Jan 2012 01:22:39 -0800
-Message-Id: <f0406bd5201a439246a1101c0795e0aa273d0b62.1326964778.git.sgw@linux.intel.com>
+Date: Thu, 19 Jan 2012 01:22:40 -0800
+Message-Id: <11de22a7b71c4956a2829086bbc7cff627c2c91b.1326964778.git.sgw@linux.intel.com>
 X-Mailer: git-send-email 1.7.6.5
 In-Reply-To: <cover.1326964778.git.sgw@linux.intel.com>
 References: <cover.1326964778.git.sgw@linux.intel.com>
 In-Reply-To: <cover.1326964778.git.sgw@linux.intel.com>
 References: <cover.1326964778.git.sgw@linux.intel.com>
-Subject: [CONSOLIDATED PULL 18/33] boost: refactor packages for staticdev
+Subject: [CONSOLIDATED PULL 19/33] enchant: refactor packages for staticdev
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -37,34 +37,31 @@ X-List-Received-Date: Thu, 19 Jan 2012 09:30:54 -0000
 
 Signed-off-by: Saul Wold <sgw@linux.intel.com>
 ---
- meta/recipes-support/boost/boost.inc |    7 ++++---
- 1 files changed, 4 insertions(+), 3 deletions(-)
+ meta/recipes-support/enchant/enchant_1.6.0.bb |    5 +++--
+ 1 files changed, 3 insertions(+), 2 deletions(-)
 
-diff --git a/meta/recipes-support/boost/boost.inc b/meta/recipes-support/boost/boost.inc
-index 74f3e4b..09f61c0 100644
---- a/meta/recipes-support/boost/boost.inc
-+++ b/meta/recipes-support/boost/boost.inc
-@@ -16,7 +16,7 @@ BOOST_VER = "${@"_".join(d.getVar("PV",1).split("."))}"
- BOOST_MAJ = "${@"_".join(d.getVar("PV",1).split(".")[0:2])}"
- BOOST_P = "boost_${BOOST_VER}"
+diff --git a/meta/recipes-support/enchant/enchant_1.6.0.bb b/meta/recipes-support/enchant/enchant_1.6.0.bb
+index a3ef379..25178f5 100644
+--- a/meta/recipes-support/enchant/enchant_1.6.0.bb
++++ b/meta/recipes-support/enchant/enchant_1.6.0.bb
+@@ -10,7 +10,7 @@ RDEPENDS_${PN}    = "aspell"
  
--INC_PR = "r0"
-+INC_PR = "r1"
+ inherit autotools pkgconfig
  
- SRC_URI = "${SOURCEFORGE_MIRROR}/${BPN}/${BOOST_P}.tar.bz2"
+-PR = "r1"
++PR = "r2"
  
-@@ -68,8 +68,9 @@ FILES_boost-test = "${libdir}/libboost_prg_exec_monitor*.so.* \
- 	${libdir}/libboost_unit_test_framework*.so.*"
+ SRC_URI = "http://www.abisource.com/downloads/enchant/${PV}/enchant-${PV}.tar.gz"
  
- # -dev last to pick up the remaining stuff
--PACKAGES += "${PN}-dev"
--FILES_${PN}-dev = "${includedir} ${libdir}/libboost_*.so ${libdir}/libboost_*.a"
-+PACKAGES += "${PN}-dev ${PN}-staticdev"
-+FILES_${PN}-dev = "${includedir} ${libdir}/libboost_*.so"
-+FILES_${PN}-staticdev = "${libdir}/libboost_*.a"
+@@ -20,6 +20,7 @@ SRC_URI[sha256sum] = "2fac9e7be7e9424b2c5570d8affe568db39f7572c10ed48d4e13cddf03
+ EXTRA_OECONF = "--with-aspell-prefix=${STAGING_DIR_HOST}${prefix} --enable-aspell --disable-binreloc"
  
- # "boost" is a metapackage which pulls in all boost librabries
- PACKAGES += "${PN}"
+ FILES_${PN} = "${bindir} ${libdir}/*${SOLIBS} ${datadir}/${PN} ${libdir}/${PN}/*.so"
+-FILES_${PN}-dev += "${libdir}/${PN}/*{SOLIBSDEV} ${libdir}/${PN}/*.la ${libdir}/${PN}/*.a" 
++FILES_${PN}-dev += "${libdir}/${PN}/*{SOLIBSDEV} ${libdir}/${PN}/*.la" 
++FILES_${PN}-staticdev += "${libdir}/${PN}/*.a" 
+ 
+ export CXXFLAGS += " -L${STAGING_LIBDIR} -lstdc++ "
 -- 
 1.7.6.5
 
