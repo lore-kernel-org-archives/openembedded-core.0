@@ -1,25 +1,30 @@
-Received: from mga03.intel.com ([143.182.124.21])
-	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <sgw@linux.intel.com>) id 1Rnx30-0004iq-9F
-	for openembedded-core@lists.openembedded.org;
-	Thu, 19 Jan 2012 19:49:18 +0100
-Received: from azsmga002.ch.intel.com ([10.2.17.35])
-	by azsmga101.ch.intel.com with ESMTP; 19 Jan 2012 10:40:48 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="58095471"
-Received: from unknown (HELO [10.255.14.6]) ([10.255.14.6])
-	by AZSMGA002.ch.intel.com with ESMTP; 19 Jan 2012 10:40:47 -0800
-Message-ID: <4F1863AF.4000406@linux.intel.com>
-Date: Thu, 19 Jan 2012 10:40:47 -0800
-From: Saul Wold <sgw@linux.intel.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:8.0) Gecko/20111115 Thunderbird/8.0
-MIME-Version: 1.0
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-References: <1326819016-7111-1-git-send-email-raj.khem@gmail.com>
-In-Reply-To: <1326819016-7111-1-git-send-email-raj.khem@gmail.com>
-Subject: Re: [PATCH 1/2] gnutls: Fix compilation on uclibc
+Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
+	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <richard.purdie@linuxfoundation.org>)
+	id 1RnxwJ-0000ts-M7 for openembedded-core@lists.openembedded.org;
+	Thu, 19 Jan 2012 20:46:27 +0100
+Received: from localhost (localhost [127.0.0.1])
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q0JJcm1F010231
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 19 Jan 2012 19:38:48 GMT
+Received: from tim.rpsys.net ([127.0.0.1])
+	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
+	port 10024) with LMTP
+	id 09626-07 for <openembedded-core@lists.openembedded.org>;
+	Thu, 19 Jan 2012 19:38:43 +0000 (GMT)
+Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q0JJceXS010225
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO)
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 19 Jan 2012 19:38:41 GMT
+Message-ID: <1327001920.23015.1.camel@ted>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: openembedded-core <openembedded-core@lists.openembedded.org>
+Date: Thu, 19 Jan 2012 19:38:40 +0000
+X-Mailer: Evolution 3.2.2- 
+Mime-Version: 1.0
+X-Virus-Scanned: amavisd-new at rpsys.net
+Subject: [PATCH] gcc: Ensure that the shared source directory shared the same sstate hashes
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -34,105 +39,105 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 19 Jan 2012 18:49:18 -0000
-Content-Type: text/plain; charset=ISO-8859-1; format=flowed
+X-List-Received-Date: Thu, 19 Jan 2012 19:46:27 -0000
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 
-On 01/17/2012 08:50 AM, Khem Raj wrote:
-> Examples do not compile correctly on latest uclibc
->
-> Signed-off-by: Khem Raj<raj.khem@gmail.com>
-> ---
->   .../correct_rpl_gettimeofday_signature.patch       |   57 ++++++++++++++++++++
->   meta/recipes-support/gnutls/gnutls_2.12.14.bb      |    6 ++-
->   2 files changed, 61 insertions(+), 2 deletions(-)
->   create mode 100644 meta/recipes-support/gnutls/gnutls-2.12.14/correct_rpl_gettimeofday_signature.patch
->
-> diff --git a/meta/recipes-support/gnutls/gnutls-2.12.14/correct_rpl_gettimeofday_signature.patch b/meta/recipes-support/gnutls/gnutls-2.12.14/correct_rpl_gettimeofday_signature.patch
-> new file mode 100644
-> index 0000000..b8f0d72
-> --- /dev/null
-> +++ b/meta/recipes-support/gnutls/gnutls-2.12.14/correct_rpl_gettimeofday_signature.patch
-> @@ -0,0 +1,57 @@
-> +Currently we fail on uclibc like below
-> +
-> +| In file included from /home/kraj/work/angstrom/sources/openembedded-core/build/tmp-uclibc/sysroots/qemuarm/usr/include/sys/procfs.h:32:0,
-> +|                  from /home/kraj/work/angstrom/sources/openembedded-core/build/tmp-uclibc/sysroots/qemuarm/usr/include/sys/ucontext.h:26,
-> +|                  from /home/kraj/work/angstrom/sources/openembedded-core/build/tmp-uclibc/sysroots/qemuarm/usr/include/signal.h:392,
-> +|                  from ../../gl/signal.h:52,
-> +|                  from ../../gl/sys/select.h:58,
-> +|                  from /home/kraj/work/angstrom/sources/openembedded-core/build/tmp-uclibc/sysroots/qemuarm/usr/include/sys/types.h:220,
-> +|                  from ../../gl/sys/types.h:28,
-> +|                  from ../../lib/includes/gnutls/gnutls.h:46,
-> +|                  from ex-cxx.cpp:3:
-> +| ../../gl/sys/time.h:396:66: error: conflicting declaration 'void* restrict'
-> +| ../../gl/sys/time.h:396:50: error: 'restrict' has a previous declaration as 'timeval* restrict'
-> +| make[4]: *** [ex-cxx.o] Error 1
-> +| make[4]: *** Waiting for unfinished jobs....
-> +
-> +
-> +GCC detects that we call 'restrict' as param name in function
-> +signatures and complains since both params are called 'restrict'
-> +therefore we use __restrict to denote the C99 keywork
-> +
-> +This only happens of uclibc since this code is not excercised with
-> +eglibc otherwise we will have same issue there too
-> +
-> +Signed-off-by: Khem Raj<raj.khem@gmail.com>
-> +
-> +Upstream-Status: Pending
-> +
-> +Index: gnutls-2.12.14/gl/sys_time.in.h
-> +===================================================================
-> +--- gnutls-2.12.14.orig/gl/sys_time.in.h	2012-01-15 10:54:39.517285351 -0800
-> ++++ gnutls-2.12.14/gl/sys_time.in.h	2012-01-15 10:59:23.773299108 -0800
-> +@@ -82,20 +82,20 @@
-> + #    define gettimeofday rpl_gettimeofday
-> + #   endif
-> + _GL_FUNCDECL_RPL (gettimeofday, int,
-> +-                  (struct timeval *restrict, void *restrict)
-> ++                  (struct timeval *__restrict, void *__restrict)
-> +                   _GL_ARG_NONNULL ((1)));
-> + _GL_CXXALIAS_RPL (gettimeofday, int,
-> +-                  (struct timeval *restrict, void *restrict));
-> ++                  (struct timeval *__restrict, void *__restrict));
-> + #  else
-> + #   if !@HAVE_GETTIMEOFDAY@
-> + _GL_FUNCDECL_SYS (gettimeofday, int,
-> +-                  (struct timeval *restrict, void *restrict)
-> ++                  (struct timeval *__restrict, void *__restrict)
-> +                   _GL_ARG_NONNULL ((1)));
-> + #   endif
-> + /* Need to cast, because on glibc systems, by default, the second argument is
-> +                                                   struct timezone *.  */
-> + _GL_CXXALIAS_SYS_CAST (gettimeofday, int,
-> +-                       (struct timeval *restrict, void *restrict));
-> ++                       (struct timeval *__restrict, void *__restrict));
-> + #  endif
-> + _GL_CXXALIASWARN (gettimeofday);
-> + # elif defined GNULIB_POSIXCHECK
-> diff --git a/meta/recipes-support/gnutls/gnutls_2.12.14.bb b/meta/recipes-support/gnutls/gnutls_2.12.14.bb
-> index 21fd187..6a50cec 100644
-> --- a/meta/recipes-support/gnutls/gnutls_2.12.14.bb
-> +++ b/meta/recipes-support/gnutls/gnutls_2.12.14.bb
-> @@ -1,9 +1,11 @@
->   require gnutls.inc
->
-> -PR = "${INC_PR}.4"
-> +PR = "${INC_PR}.5"
->
->   SRC_URI += "file://gnutls-openssl.patch \
-> -            file://configure-fix.patch"
-> +            file://correct_rpl_gettimeofday_signature.patch \
-> +            file://configure-fix.patch \
-> +           "
->
->   python() {
->       if not ((d.getVar("INCOMPATIBLE_LICENSE", True) or "").find("GPLv3") != -1):
+The fetch/unpack/patch/headerfix tasks are shared and hence their sstate hashes
+should also match. Sadly this is not the case since:
 
-Merged into OE-Core
+a) gcc-runtime applies an additional patch
+b) The do_headerfix task was missing from libgcc
+c) The do_headerfix task is a shell task and hence depends
+   on all exported variables which can vary between cross and target
+   recipes.
 
-Thanks
-	Sau!
+To fix this, the patch moves the patch to the common code, adds
+the headerfix task to a common include file and disabled shell
+dependencies on the do_headerfix task since its clear in this case
+we don't need thsoe dependencies since we just call sed.
+
+With this patch applied, all these recipes now share common sstate checksums.
+
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+---
+diff --git a/meta/recipes-devtools/gcc/gcc-4.6.inc b/meta/recipes-devtools/gcc/gcc-4.6.inc
+index 4bbb2d2..a76fa0b 100644
+--- a/meta/recipes-devtools/gcc/gcc-4.6.inc
++++ b/meta/recipes-devtools/gcc/gcc-4.6.inc
+@@ -73,6 +73,7 @@ SRC_URI = "svn://gcc.gnu.org/svn/gcc/branches;module=${BRANCH};proto=http \
+ 	   file://pr47551.patch \
+ 	   file://gcc-arm-set-cost.patch \
+ 	   file://GPLUSPLUS_INCLUDE_DIR_with_sysroot.patch \
++	   file://fortran-cross-compile-hack.patch \
+ 	  "
+ 
+ SRC_URI_append_sh3  = " file://sh3-installfix-fixheaders.patch "
+diff --git a/meta/recipes-devtools/gcc/gcc-common.inc b/meta/recipes-devtools/gcc/gcc-common.inc
+index fe112d9..ed41b0f 100644
+--- a/meta/recipes-devtools/gcc/gcc-common.inc
++++ b/meta/recipes-devtools/gcc/gcc-common.inc
+@@ -88,3 +88,20 @@ python workshared_clean () {
+ 	bb.note("Removing " + dir)
+ 	oe.path.remove(dir)
+ }
++
++do_headerfix () {
++	# Change the default dynamic linker path, in case $base_liddir is non-standard
++	# (e.g. in multilib or sdk cases)
++	#
++	# We want something like the following:
++	# 	#define GLIBC_DYNAMIC_LINKER64 "/lib64/ld-linux-x86-64.so.2"
++	# becomes
++	#	#define GLIBC_DYNAMIC_LINKER64 SYSTEMLIBS_DIR "ld-linux-x86-64.so.2"
++	#
++	sed -i ${S}/gcc/config/*/linux*.h -e \
++		's#\(GLIBC_DYNAMIC_LINKER[^ ]*\) \( *"/lib.*\)/\(.*\)#\1 SYSTEMLIBS_DIR "\3#'
++}
++
++addtask headerfix after do_unpack before do_patch
++
++do_headerfix[vardepvalue] = "PATH"
+diff --git a/meta/recipes-devtools/gcc/gcc-configure-common.inc b/meta/recipes-devtools/gcc/gcc-configure-common.inc
+index d014980..c4b6ac1 100644
+--- a/meta/recipes-devtools/gcc/gcc-configure-common.inc
++++ b/meta/recipes-devtools/gcc/gcc-configure-common.inc
+@@ -62,21 +62,6 @@ SYSTEMHEADERS = "${target_includedir}"
+ SYSTEMLIBS = "${target_base_libdir}/"
+ SYSTEMLIBS1 = "${target_libdir}/"
+ 
+-do_headerfix () {
+-	# Change the default dynamic linker path, in case $base_liddir is non-standard
+-	# (e.g. in multilib or sdk cases)
+-	#
+-	# We want something like the following:
+-	# 	#define GLIBC_DYNAMIC_LINKER64 "/lib64/ld-linux-x86-64.so.2"
+-	# becomes
+-	#	#define GLIBC_DYNAMIC_LINKER64 SYSTEMLIBS_DIR "ld-linux-x86-64.so.2"
+-	#
+-	sed -i ${S}/gcc/config/*/linux*.h -e \
+-		's#\(GLIBC_DYNAMIC_LINKER[^ ]*\) \( *"/lib.*\)/\(.*\)#\1 SYSTEMLIBS_DIR "\3#'
+-}
+-
+-addtask headerfix after do_unpack before do_patch
+-
+ do_configure_prepend () {
+ 	# teach gcc to find correct target includedir when checking libc ssp support
+ 	mkdir -p ${B}/gcc
+diff --git a/meta/recipes-devtools/gcc/gcc-runtime_4.6.bb b/meta/recipes-devtools/gcc/gcc-runtime_4.6.bb
+index 568b5af..97468db 100644
+--- a/meta/recipes-devtools/gcc/gcc-runtime_4.6.bb
++++ b/meta/recipes-devtools/gcc/gcc-runtime_4.6.bb
+@@ -2,8 +2,6 @@ require gcc-${PV}.inc
+ require gcc-configure-runtime.inc
+ require gcc-package-runtime.inc
+ 
+-SRC_URI_append = "file://fortran-cross-compile-hack.patch"
+-
+ ARCH_FLAGS_FOR_TARGET += "-isystem${STAGING_INCDIR}"
+ 
+ EXTRA_OECONF += "--disable-libunwind-exceptions"
+
+
 
 
