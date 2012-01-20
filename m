@@ -1,25 +1,25 @@
-Received: from mail1.windriver.com ([147.11.146.13])
+Received: from mga14.intel.com ([143.182.124.37])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <Zumeng.Chen@windriver.com>) id 1Ro8v7-0004Fi-Qu
+	(envelope-from <sgw@linux.intel.com>) id 1Ro9oF-0005tr-6H
 	for openembedded-core@lists.openembedded.org;
-	Fri, 20 Jan 2012 08:29:58 +0100
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca [147.11.189.40])
-	by mail1.windriver.com (8.14.3/8.14.3) with ESMTP id q0K7MGCk027779
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 19 Jan 2012 23:22:16 -0800 (PST)
-Received: from pek-yocto-build2.corp.ad.wrs.com (128.224.163.150) by
-	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server id
-	14.1.255.0; Thu, 19 Jan 2012 23:22:16 -0800
-From: Zumeng Chen <zumeng.chen@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Fri, 20 Jan 2012 15:21:56 +0800
-Message-ID: <1ec175b060ec79949989bbe4df546eff5a942e70.1327043851.git.zumeng.chen@windriver.com>
-X-Mailer: git-send-email 1.7.5.4
-In-Reply-To: <cover.1327043851.git.zumeng.chen@windriver.com>
-References: <cover.1327043851.git.zumeng.chen@windriver.com>
+	Fri, 20 Jan 2012 09:26:55 +0100
+Received: from azsmga002.ch.intel.com ([10.2.17.35])
+	by azsmga102.ch.intel.com with ESMTP; 20 Jan 2012 00:19:13 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="58312878"
+Received: from unknown (HELO [10.255.14.79]) ([10.255.14.79])
+	by AZSMGA002.ch.intel.com with ESMTP; 20 Jan 2012 00:19:13 -0800
+Message-ID: <4F192381.1020603@linux.intel.com>
+Date: Fri, 20 Jan 2012 00:19:13 -0800
+From: Saul Wold <sgw@linux.intel.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:8.0) Gecko/20111115 Thunderbird/8.0
 MIME-Version: 1.0
-Subject: [PATCH 1/1] rspro-conf: remove usbgadget from routerstationpro
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+References: <1327001920.23015.1.camel@ted>
+In-Reply-To: <1327001920.23015.1.camel@ted>
+Subject: Re: [PATCH] gcc: Ensure that the shared source directory shared the same sstate hashes
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -34,34 +34,144 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 20 Jan 2012 07:29:58 -0000
-Content-Type: text/plain
+X-List-Received-Date: Fri, 20 Jan 2012 08:26:55 -0000
+Content-Type: text/plain; charset=ISO-8859-1; format=flowed
+Content-Transfer-Encoding: 7bit
 
-Since the target doesn't have the related requirement
-to use USB slave hardware supporting usb gadget, so
-remove it from MACHINE_FEATURES.
+On 01/19/2012 11:38 AM, Richard Purdie wrote:
+> The fetch/unpack/patch/headerfix tasks are shared and hence their sstate hashes
+> should also match. Sadly this is not the case since:
+>
+> a) gcc-runtime applies an additional patch
+> b) The do_headerfix task was missing from libgcc
+> c) The do_headerfix task is a shell task and hence depends
+>     on all exported variables which can vary between cross and target
+>     recipes.
+>
+> To fix this, the patch moves the patch to the common code, adds
+> the headerfix task to a common include file and disabled shell
+> dependencies on the do_headerfix task since its clear in this case
+> we don't need thsoe dependencies since we just call sed.
+>
+> With this patch applied, all these recipes now share common sstate checksums.
+>
+Richard,
 
-Signed-off-by: Zumeng.chen@windriver.com>
-Acked-by: Bruce Ashfield <bruce.ashfield@windriver.com>
----
- meta-yocto/conf/machine/routerstationpro.conf |    2 +-
- 1 files changed, 1 insertions(+), 1 deletions(-)
+I tried both a sstate build with and existing tmp and a clean tmp, the 
+existing tmp seemed to work ok, but with a clean tmp (and sstate), I got 
+the following patch issue still.
 
-diff --git a/meta-yocto/conf/machine/routerstationpro.conf b/meta-yocto/conf/machine/routerstationpro.conf
-index 83c2f8a..a3d520d 100644
---- a/meta-yocto/conf/machine/routerstationpro.conf
-+++ b/meta-yocto/conf/machine/routerstationpro.conf
-@@ -5,7 +5,7 @@
- require conf/machine/include/tune-mips32.inc
- 
- MACHINE_FEATURES = "kernel26 screen keyboard pci usbhost ext2 ext3 \
--                    serial usbgadget"
-+                    serial"
- 
- KERNEL_IMAGETYPE = "vmlinux"
- KERNEL_ALT_IMAGETYPE = "vmlinux.bin"
--- 
-1.7.5.4
+This was with BB_SIGNATURE_HANDLER ?= 'basichash' set.
 
+ERROR: Command Error: exit status: 1  Output:
+Could not link file 
+`.pc/gcc-4.3.1-ARCH_FLAGS_FOR_TARGET.patch/configure' to `configure': No 
+such file or directory
+Applying patch gcc-4.3.1-ARCH_FLAGS_FOR_TARGET.patch
+patching file configure.ac
+Hunk #1 FAILED at 3073.
+1 out of 1 hunk FAILED -- rejects in file configure.ac
+patching file configure
+Hunk #1 FAILED at 7594.
+1 out of 1 hunk FAILED -- rejects in file configure
+Patch gcc-4.3.1-ARCH_FLAGS_FOR_TARGET.patch does not apply (enforce with -f)
+ERROR: Function failed: patch_do_patch
+ERROR: Logfile of failure stored in: 
+/intel/poky2/builds/binutils/tmp/work-shared/gcc-4.6.2+svnr181430-r20/temp/log.do_patch.15457
+NOTE: package libgcc-4.6.2+svnr181430-r20: task do_patch: Failed
+ERROR: Task 882 
+(/intel/poky2/distro/meta/recipes-devtools/gcc/libgcc_4.6.bb, do_patch) 
+failed with exit code '1'
+
+I have not tried a clean sstate / clean tmp.
+
+Sau!
+
+> Signed-off-by: Richard Purdie<richard.purdie@linuxfoundation.org>
+> ---
+> diff --git a/meta/recipes-devtools/gcc/gcc-4.6.inc b/meta/recipes-devtools/gcc/gcc-4.6.inc
+> index 4bbb2d2..a76fa0b 100644
+> --- a/meta/recipes-devtools/gcc/gcc-4.6.inc
+> +++ b/meta/recipes-devtools/gcc/gcc-4.6.inc
+> @@ -73,6 +73,7 @@ SRC_URI = "svn://gcc.gnu.org/svn/gcc/branches;module=${BRANCH};proto=http \
+>   	   file://pr47551.patch \
+>   	   file://gcc-arm-set-cost.patch \
+>   	   file://GPLUSPLUS_INCLUDE_DIR_with_sysroot.patch \
+> +	   file://fortran-cross-compile-hack.patch \
+>   	  "
+>
+>   SRC_URI_append_sh3  = " file://sh3-installfix-fixheaders.patch "
+> diff --git a/meta/recipes-devtools/gcc/gcc-common.inc b/meta/recipes-devtools/gcc/gcc-common.inc
+> index fe112d9..ed41b0f 100644
+> --- a/meta/recipes-devtools/gcc/gcc-common.inc
+> +++ b/meta/recipes-devtools/gcc/gcc-common.inc
+> @@ -88,3 +88,20 @@ python workshared_clean () {
+>   	bb.note("Removing " + dir)
+>   	oe.path.remove(dir)
+>   }
+> +
+> +do_headerfix () {
+> +	# Change the default dynamic linker path, in case $base_liddir is non-standard
+> +	# (e.g. in multilib or sdk cases)
+> +	#
+> +	# We want something like the following:
+> +	# 	#define GLIBC_DYNAMIC_LINKER64 "/lib64/ld-linux-x86-64.so.2"
+> +	# becomes
+> +	#	#define GLIBC_DYNAMIC_LINKER64 SYSTEMLIBS_DIR "ld-linux-x86-64.so.2"
+> +	#
+> +	sed -i ${S}/gcc/config/*/linux*.h -e \
+> +		's#\(GLIBC_DYNAMIC_LINKER[^ ]*\) \( *"/lib.*\)/\(.*\)#\1 SYSTEMLIBS_DIR "\3#'
+> +}
+> +
+> +addtask headerfix after do_unpack before do_patch
+> +
+> +do_headerfix[vardepvalue] = "PATH"
+> diff --git a/meta/recipes-devtools/gcc/gcc-configure-common.inc b/meta/recipes-devtools/gcc/gcc-configure-common.inc
+> index d014980..c4b6ac1 100644
+> --- a/meta/recipes-devtools/gcc/gcc-configure-common.inc
+> +++ b/meta/recipes-devtools/gcc/gcc-configure-common.inc
+> @@ -62,21 +62,6 @@ SYSTEMHEADERS = "${target_includedir}"
+>   SYSTEMLIBS = "${target_base_libdir}/"
+>   SYSTEMLIBS1 = "${target_libdir}/"
+>
+> -do_headerfix () {
+> -	# Change the default dynamic linker path, in case $base_liddir is non-standard
+> -	# (e.g. in multilib or sdk cases)
+> -	#
+> -	# We want something like the following:
+> -	# 	#define GLIBC_DYNAMIC_LINKER64 "/lib64/ld-linux-x86-64.so.2"
+> -	# becomes
+> -	#	#define GLIBC_DYNAMIC_LINKER64 SYSTEMLIBS_DIR "ld-linux-x86-64.so.2"
+> -	#
+> -	sed -i ${S}/gcc/config/*/linux*.h -e \
+> -		's#\(GLIBC_DYNAMIC_LINKER[^ ]*\) \( *"/lib.*\)/\(.*\)#\1 SYSTEMLIBS_DIR "\3#'
+> -}
+> -
+> -addtask headerfix after do_unpack before do_patch
+> -
+>   do_configure_prepend () {
+>   	# teach gcc to find correct target includedir when checking libc ssp support
+>   	mkdir -p ${B}/gcc
+> diff --git a/meta/recipes-devtools/gcc/gcc-runtime_4.6.bb b/meta/recipes-devtools/gcc/gcc-runtime_4.6.bb
+> index 568b5af..97468db 100644
+> --- a/meta/recipes-devtools/gcc/gcc-runtime_4.6.bb
+> +++ b/meta/recipes-devtools/gcc/gcc-runtime_4.6.bb
+> @@ -2,8 +2,6 @@ require gcc-${PV}.inc
+>   require gcc-configure-runtime.inc
+>   require gcc-package-runtime.inc
+>
+> -SRC_URI_append = "file://fortran-cross-compile-hack.patch"
+> -
+>   ARCH_FLAGS_FOR_TARGET += "-isystem${STAGING_INCDIR}"
+>
+>   EXTRA_OECONF += "--disable-libunwind-exceptions"
+>
+>
+>
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
+>
 
 
