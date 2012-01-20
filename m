@@ -1,24 +1,34 @@
-Received: from mga01.intel.com ([192.55.52.88])
-	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <shane.wang@intel.com>) id 1RoBxz-0001TR-8C
-	for openembedded-core@lists.openembedded.org;
-	Fri, 20 Jan 2012 11:45:07 +0100
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-	by fmsmga101.fm.intel.com with ESMTP; 20 Jan 2012 02:35:27 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="109029975"
-Received: from yocto-build5.sh.intel.com (HELO localhost) ([10.239.48.2])
-	by fmsmga001.fm.intel.com with ESMTP; 20 Jan 2012 02:35:27 -0800
-From: Shane Wang <shane.wang@intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Fri, 20 Jan 2012 18:52:00 +0800
-Message-Id: <69ff8f763687a58c4541f9d376c27de12e20ef25.1327056627.git.shane.wang@intel.com>
-X-Mailer: git-send-email 1.7.6
-In-Reply-To: <cover.1327056627.git.shane.wang@intel.com>
-References: <cover.1327056627.git.shane.wang@intel.com>
-In-Reply-To: <cover.1327056627.git.shane.wang@intel.com>
-References: <cover.1327056627.git.shane.wang@intel.com>
-Subject: [PATCH 1/1] core-image-foo: add description to each image bb file
+Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
+	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <richard.purdie@linuxfoundation.org>)
+	id 1RoEnj-0007dw-Ge for openembedded-core@lists.openembedded.org;
+	Fri, 20 Jan 2012 14:46:43 +0100
+Received: from localhost (localhost [127.0.0.1])
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q0KDd3xJ018662
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 20 Jan 2012 13:39:03 GMT
+Received: from tim.rpsys.net ([127.0.0.1])
+	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
+	port 10024) with LMTP
+	id 17073-10 for <openembedded-core@lists.openembedded.org>;
+	Fri, 20 Jan 2012 13:38:58 +0000 (GMT)
+Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q0KDcskX018656
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO)
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 20 Jan 2012 13:38:56 GMT
+Message-ID: <1327066733.4268.1.camel@ted>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Date: Fri, 20 Jan 2012 13:38:53 +0000
+In-Reply-To: <857BE142E5399E46B20FD45B9DB8A7BC0FCC088E@SHSMSX102.ccr.corp.intel.com>
+References: <1327001920.23015.1.camel@ted> <4F192381.1020603@linux.intel.com>
+	<857BE142E5399E46B20FD45B9DB8A7BC0FCC088E@SHSMSX102.ccr.corp.intel.com>
+X-Mailer: Evolution 3.2.2- 
+Mime-Version: 1.0
+X-Virus-Scanned: amavisd-new at rpsys.net
+Subject: Re: [PATCH] gcc: Ensure that the shared source directory shared the same sstate hashes
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -33,206 +43,77 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 20 Jan 2012 10:45:07 -0000
+X-List-Received-Date: Fri, 20 Jan 2012 13:46:43 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-Add DESCRIPTION to each image bb file according to poky reference manual for Hob2 use later.
+On Fri, 2012-01-20 at 08:49 +0000, Lu, Lianhao wrote:
+> > -----Original Message-----
+> > From: openembedded-core-bounces@lists.openembedded.org [mailto:openembedded-core-bounces@lists.openembedded.org] On Behalf
+> > Of Saul Wold
+> > Sent: Friday, January 20, 2012 4:19 PM
+> > To: Patches and discussions about the oe-core layer
+> > Subject: Re: [OE-core] [PATCH] gcc: Ensure that the shared source directory shared the same sstate hashes
+> > 
+> > On 01/19/2012 11:38 AM, Richard Purdie wrote:
+> > > The fetch/unpack/patch/headerfix tasks are shared and hence their sstate hashes
+> > > should also match. Sadly this is not the case since:
+> > >
+> > > a) gcc-runtime applies an additional patch
+> > > b) The do_headerfix task was missing from libgcc
+> > > c) The do_headerfix task is a shell task and hence depends
+> > >     on all exported variables which can vary between cross and target
+> > >     recipes.
+> > >
+> > > To fix this, the patch moves the patch to the common code, adds
+> > > the headerfix task to a common include file and disabled shell
+> > > dependencies on the do_headerfix task since its clear in this case
+> > > we don't need thsoe dependencies since we just call sed.
+> > >
+> > > With this patch applied, all these recipes now share common sstate checksums.
+> > >
+> > Richard,
+> > 
+> > I tried both a sstate build with and existing tmp and a clean tmp, the
+> > existing tmp seemed to work ok, but with a clean tmp (and sstate), I got
+> > the following patch issue still.
+> > 
+> > This was with BB_SIGNATURE_HANDLER ?= 'basichash' set.
+> > 
+> > ERROR: Command Error: exit status: 1  Output:
+> > Could not link file
+> > `.pc/gcc-4.3.1-ARCH_FLAGS_FOR_TARGET.patch/configure' to `configure': No
+> > such file or directory
+> > Applying patch gcc-4.3.1-ARCH_FLAGS_FOR_TARGET.patch
+> > patching file configure.ac
+> > Hunk #1 FAILED at 3073.
+> > 1 out of 1 hunk FAILED -- rejects in file configure.ac
+> > patching file configure
+> > Hunk #1 FAILED at 7594.
+> > 1 out of 1 hunk FAILED -- rejects in file configure
+> > Patch gcc-4.3.1-ARCH_FLAGS_FOR_TARGET.patch does not apply (enforce with -f)
+> > ERROR: Function failed: patch_do_patch
+> > ERROR: Logfile of failure stored in:
+> > /intel/poky2/builds/binutils/tmp/work-shared/gcc-4.6.2+svnr181430-r20/temp/log.do_patch.15457
+> > NOTE: package libgcc-4.6.2+svnr181430-r20: task do_patch: Failed
+> > ERROR: Task 882
+> > (/intel/poky2/distro/meta/recipes-devtools/gcc/libgcc_4.6.bb, do_patch)
+> > failed with exit code '1'
+> > 
+> > I have not tried a clean sstate / clean tmp.
+> > 
+> Well, using the poky-conrib/rpurdie/t1 branch, it seems that the libgcc still has different signature with 
+> gcc-cross-initial for task patch. But bitbake-diffsigs reports nothing. gcc-runtime seems to be ok now.
 
-Signed-off-by: Shane Wang <shane.wang@intel.com>
----
- meta/recipes-core/images/core-image-base.bb        |    2 ++
- meta/recipes-core/images/core-image-core.bb        |    2 ++
- meta/recipes-core/images/core-image-minimal-dev.bb |    2 ++
- .../images/core-image-minimal-initramfs.bb         |    3 +++
- .../images/core-image-minimal-mtdutils.bb          |    4 ++++
- meta/recipes-core/images/core-image-minimal.bb     |    2 ++
- meta/recipes-extended/images/core-image-basic.bb   |    3 +++
- meta/recipes-extended/images/core-image-lsb-dev.bb |    4 ++++
- meta/recipes-extended/images/core-image-lsb-sdk.bb |    4 ++++
- meta/recipes-extended/images/core-image-lsb.bb     |    3 +++
- meta/recipes-graphics/images/core-image-clutter.bb |    3 +++
- meta/recipes-sato/images/core-image-sato-dev.bb    |    3 +++
- meta/recipes-sato/images/core-image-sato-sdk.bb    |    4 +++-
- meta/recipes-sato/images/core-image-sato.bb        |    2 ++
- 14 files changed, 40 insertions(+), 1 deletions(-)
+I looked into this and the problem is that the quilt-native dependency
+is removed in the target cases (libgcc/gcc-runtime) but not in the cross
+cases thanks to BB_HASHTASK_WHITELIST. I'm trying to figure out how to
+solve that.
 
-diff --git a/meta/recipes-core/images/core-image-base.bb b/meta/recipes-core/images/core-image-base.bb
-index 13a7650..71ff3b9 100644
---- a/meta/recipes-core/images/core-image-base.bb
-+++ b/meta/recipes-core/images/core-image-base.bb
-@@ -1,6 +1,8 @@
- #
- # Copyright (C) 2007 OpenedHand Ltd.
- #
-+DESCRIPTION = "A console-only image that fully supports the target device \
-+hardware."
- 
- IMAGE_FEATURES += "apps-console-core"
- 
-diff --git a/meta/recipes-core/images/core-image-core.bb b/meta/recipes-core/images/core-image-core.bb
-index 57ff085..2d768e0 100644
---- a/meta/recipes-core/images/core-image-core.bb
-+++ b/meta/recipes-core/images/core-image-core.bb
-@@ -1,6 +1,8 @@
- #
- # Copyright (C) 2007 OpenedHand Ltd.
- #
-+DESCRIPTION = "An X11 image with simple applications such as terminal, editor \
-+and file manager."
- 
- IMAGE_FEATURES += "apps-console-core ${X11_IMAGE_FEATURES}"
- 
-diff --git a/meta/recipes-core/images/core-image-minimal-dev.bb b/meta/recipes-core/images/core-image-minimal-dev.bb
-index 89ec9f8..3a0a187 100644
---- a/meta/recipes-core/images/core-image-minimal-dev.bb
-+++ b/meta/recipes-core/images/core-image-minimal-dev.bb
-@@ -1,6 +1,8 @@
- #
- # Copyright (C) 2007 OpenedHand Ltd.
- #
-+DESCRIPTION = "A core-image-minimal image suitable for development work."
-+
- IMAGE_INSTALL = "task-core-boot ${ROOTFS_PKGMANAGE}"
- 
- IMAGE_FEATURES += "dev-pkgs"
-diff --git a/meta/recipes-core/images/core-image-minimal-initramfs.bb b/meta/recipes-core/images/core-image-minimal-initramfs.bb
-index 5149f31..85b9ff9 100644
---- a/meta/recipes-core/images/core-image-minimal-initramfs.bb
-+++ b/meta/recipes-core/images/core-image-minimal-initramfs.bb
-@@ -1,4 +1,7 @@
- # Simple initramfs image. Mostly used for live images.
-+DESCRIPTION = "A core-image-minimal image that has the Minimal RAM-based \
-+Initial Root Filesystem (initramfs) as part of the kernel, which allows the \
-+system to find the first 'init' program more efficiently."
- 
- IMAGE_INSTALL = "initramfs-live-boot initramfs-live-install busybox udev base-passwd"
- 
-diff --git a/meta/recipes-core/images/core-image-minimal-mtdutils.bb b/meta/recipes-core/images/core-image-minimal-mtdutils.bb
-index adabaa4..7b7f700 100644
---- a/meta/recipes-core/images/core-image-minimal-mtdutils.bb
-+++ b/meta/recipes-core/images/core-image-minimal-mtdutils.bb
-@@ -3,4 +3,8 @@
- #
- require core-image-minimal.bb
- 
-+DESCRIPTION = "A core-image-minimal image that has support the Minimal MTD \
-+Utilities, which let the user interact with the MTD subsystem in the kernel \
-+to perform operations on flash devices."
-+
- IMAGE_INSTALL += "mtd-utils"
-diff --git a/meta/recipes-core/images/core-image-minimal.bb b/meta/recipes-core/images/core-image-minimal.bb
-index 56fc20c..687f72a 100644
---- a/meta/recipes-core/images/core-image-minimal.bb
-+++ b/meta/recipes-core/images/core-image-minimal.bb
-@@ -1,6 +1,8 @@
- #
- # Copyright (C) 2007 OpenedHand Ltd.
- #
-+DESCRIPTION = "A small image just capable of allowing a device to boot."
-+
- IMAGE_INSTALL = "task-core-boot ${ROOTFS_PKGMANAGE_BOOTSTRAP} ${POKY_EXTRA_INSTALL}"
- 
- IMAGE_LINGUAS = " "
-diff --git a/meta/recipes-extended/images/core-image-basic.bb b/meta/recipes-extended/images/core-image-basic.bb
-index ba71cd0..5e58e60 100644
---- a/meta/recipes-extended/images/core-image-basic.bb
-+++ b/meta/recipes-extended/images/core-image-basic.bb
-@@ -1,3 +1,6 @@
-+DESCRIPTION = "A foundational basic image without support for X that can be \
-+reasonably used for customization."
-+
- IMAGE_FEATURES += "apps-console-core ssh-server-openssh"
- 
- IMAGE_INSTALL = "\
-diff --git a/meta/recipes-extended/images/core-image-lsb-dev.bb b/meta/recipes-extended/images/core-image-lsb-dev.bb
-index 9ef85ff..2d6f674 100644
---- a/meta/recipes-extended/images/core-image-lsb-dev.bb
-+++ b/meta/recipes-extended/images/core-image-lsb-dev.bb
-@@ -1,3 +1,7 @@
-+DESCRIPTION = "A core-image-lsb that includes everything in meta-toolchain \
-+but also includes development headers and libraries to form a complete \
-+standalone SDK."
-+
- IMAGE_FEATURES += "apps-console-core dev-pkgs ssh-server-openssh"
- 
- IMAGE_INSTALL = "\
-diff --git a/meta/recipes-extended/images/core-image-lsb-sdk.bb b/meta/recipes-extended/images/core-image-lsb-sdk.bb
-index 5e0e7ae..105c8db 100644
---- a/meta/recipes-extended/images/core-image-lsb-sdk.bb
-+++ b/meta/recipes-extended/images/core-image-lsb-sdk.bb
-@@ -1,3 +1,7 @@
-+DESCRIPTION = "A core-image-lsb that includes everything in meta-toolchain \
-+but also includes development headers and libraries to form a complete \
-+standalone SDK."
-+
- IMAGE_FEATURES += "apps-console-core tools-sdk dev-pkgs ssh-server-openssh"
- EXTRA_IMAGE_FEATURES = "tools-debug tools-profile tools-testapps debug-tweaks"
- 
-diff --git a/meta/recipes-extended/images/core-image-lsb.bb b/meta/recipes-extended/images/core-image-lsb.bb
-index 22eb7f4..f669618 100644
---- a/meta/recipes-extended/images/core-image-lsb.bb
-+++ b/meta/recipes-extended/images/core-image-lsb.bb
-@@ -1,3 +1,6 @@
-+DESCRIPTION = "A core-image-basic image suitable for implementations that \
-+conform to Linux Standard Base (LSB)."
-+
- IMAGE_FEATURES += "apps-console-core ssh-server-openssh"
- 
- IMAGE_INSTALL = "\
-diff --git a/meta/recipes-graphics/images/core-image-clutter.bb b/meta/recipes-graphics/images/core-image-clutter.bb
-index 7d50405..636238a 100644
---- a/meta/recipes-graphics/images/core-image-clutter.bb
-+++ b/meta/recipes-graphics/images/core-image-clutter.bb
-@@ -1,3 +1,6 @@
-+DESCRIPTION = "An image with support for the Open GL-based toolkit Clutter, \
-+which enables development of rich and animated graphical user interfaces."
-+
- IMAGE_FEATURES += "apps-console-core ${SATO_IMAGE_FEATURES}"
- 
- LICENSE = "MIT"
-diff --git a/meta/recipes-sato/images/core-image-sato-dev.bb b/meta/recipes-sato/images/core-image-sato-dev.bb
-index 7322b4a..b30447c 100644
---- a/meta/recipes-sato/images/core-image-sato-dev.bb
-+++ b/meta/recipes-sato/images/core-image-sato-dev.bb
-@@ -1,6 +1,9 @@
- #
- # Copyright (C) 2007 OpenedHand Ltd.
- #
-+DESCRIPTION = "A core-image-sato image suitable for development that also \
-+includes a native toolchain and libraries needed to build applications on the \
-+device itself."
- 
- IMAGE_FEATURES += "apps-console-core ${SATO_IMAGE_FEATURES} dev-pkgs"
- 
-diff --git a/meta/recipes-sato/images/core-image-sato-sdk.bb b/meta/recipes-sato/images/core-image-sato-sdk.bb
-index 6c2dc60..2cf8cad 100644
---- a/meta/recipes-sato/images/core-image-sato-sdk.bb
-+++ b/meta/recipes-sato/images/core-image-sato-sdk.bb
-@@ -1,7 +1,9 @@
- #
- # Copyright (C) 2007 OpenedHand Ltd.
- #
--
-+DESCRIPTION = "A core-image-sato image that includes everything in \
-+meta-toolchain. The image also includes development headers and libraries \
-+to form a complete standalone SDK."
- 
- IMAGE_FEATURES += "apps-console-core ${SATO_IMAGE_FEATURES} dev-pkgs tools-sdk qt4-pkgs"
- EXTRA_IMAGE_FEATURES += "tools-debug tools-profile tools-testapps debug-tweaks"
-diff --git a/meta/recipes-sato/images/core-image-sato.bb b/meta/recipes-sato/images/core-image-sato.bb
-index 3465174..11c3318 100644
---- a/meta/recipes-sato/images/core-image-sato.bb
-+++ b/meta/recipes-sato/images/core-image-sato.bb
-@@ -1,6 +1,8 @@
- #
- # Copyright (C) 2007 OpenedHand Ltd.
- #
-+DESCRIPTION = "An image with Sato support, a mobile environment and visual \
-+style that works well with mobile devices."
- 
- IMAGE_FEATURES += "apps-console-core ${SATO_IMAGE_FEATURES}"
- 
--- 
-1.7.6
+Cheers,
+
+Richard
+
 
 
 
