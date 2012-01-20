@@ -1,29 +1,33 @@
-Received: from mail-qw0-f47.google.com ([209.85.216.47])
-	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <kergoth@gmail.com>) id 1RoI6N-00055J-0X
-	for openembedded-core@lists.openembedded.org;
-	Fri, 20 Jan 2012 18:18:11 +0100
-Received: by qan41 with SMTP id 41so550588qan.6
+Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
+	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <richard.purdie@linuxfoundation.org>)
+	id 1RoJO2-0006yQ-Dw for openembedded-core@lists.openembedded.org;
+	Fri, 20 Jan 2012 19:40:30 +0100
+Received: from localhost (localhost [127.0.0.1])
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q0KIWnA0022000
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 20 Jan 2012 09:10:29 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:content-type; bh=x8O+lZcnR49LmbNJHy4LIQCTQ7brEV3jb+33Qx0bKW4=;
-	b=NbgoPkVCdU4qfEkdUCvOsggiR+/xbWJI3voJAz1AjcrTTgxRzwBdbsWQ/QbeTTS8k6
-	C5xPGIzdx+qj+mmeRIIpsoRAkni87GKGBVul/15dVcFmiA+wK4jAVDkYPvRWoB0sQOvg
-	HTiorXEnefIGrRDmV9EH++zGBPaAcUDPvBT9I=
-Received: by 10.224.97.135 with SMTP id l7mr24331637qan.54.1327079429710; Fri,
-	20 Jan 2012 09:10:29 -0800 (PST)
-MIME-Version: 1.0
-Received: by 10.229.235.211 with HTTP; Fri, 20 Jan 2012 09:10:08 -0800 (PST)
-In-Reply-To: <CAMKF1sqGt0FTbnhpuP9HCeJ6LpqJrRs8GVB6azdPGfcvYHSJSQ@mail.gmail.com>
-References: <CAMKF1sqGt0FTbnhpuP9HCeJ6LpqJrRs8GVB6azdPGfcvYHSJSQ@mail.gmail.com>
-From: Chris Larson <kergoth@gmail.com>
-Date: Fri, 20 Jan 2012 10:10:08 -0700
-Message-ID: <CABcZANn5zbXFwTuXwL2GM1FknKrY1OjBfDv=TTyH1=NRrqqDKw@mail.gmail.com>
+	Fri, 20 Jan 2012 18:32:49 GMT
+Received: from tim.rpsys.net ([127.0.0.1])
+	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
+	port 10024) with LMTP
+	id 21531-05 for <openembedded-core@lists.openembedded.org>;
+	Fri, 20 Jan 2012 18:32:45 +0000 (GMT)
+Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q0KIWh3V021994
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO)
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 20 Jan 2012 18:32:44 GMT
+Message-ID: <1327084362.8805.8.camel@ted>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Subject: Re: adding tools-debug to EXTRA_IMAGE_FEATURES pulls other tasks from same recipe
+Date: Fri, 20 Jan 2012 18:32:42 +0000
+In-Reply-To: <1327076359.4268.6.camel@ted>
+References: <1327076359.4268.6.camel@ted>
+X-Mailer: Evolution 3.2.2- 
+Mime-Version: 1.0
+X-Virus-Scanned: amavisd-new at rpsys.net
+Subject: Re: [PATCH] lib/oe: Add sstatesig, OE specific signature generator classes
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -38,31 +42,38 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 20 Jan 2012 17:18:11 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Fri, 20 Jan 2012 18:40:30 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-On Thu, Jan 19, 2012 at 11:28 PM, Khem Raj <raj.khem@gmail.com> wrote:
-> I added to local.conf
-> EXTRA_IMAGE_FEATURES += "tools-debug"
->
-> and now when I do bitbake -g I see that its wanting to build
-> "tools-testapp" and "tools-profile"
-> even though I did not ask them to be added to my image. all these
-> packages are coming from
-> single recipe task-core-tools.bb. If I divide this recipe into 3
-> different recipes where each provides
-> just one task, it then leaves the others out.
->
-> Since these are meta packages they pull in a lot of stuff. Would it be
-> ok to divide this recipe
-> into 3 individual recipes ? Ideally I would expect that the other
-> packages dont get build even
-> though they are in same recipe but that is not the case at present
+On Fri, 2012-01-20 at 16:19 +0000, Richard Purdie wrote:
+> +
+> +class SignatureGeneratorOEBasic(bb.siggen.SignatureGeneratorBasic):
+> +    name = "OEBasic"
+> +    def init_rundepcheck(self, data):
+> +        pass
+> +    def rundep_check(self, fn, recipename, task, dep, depname):
+> +        return sstate_rundepfilter(fn, recipename, task, dep, depname)
+> +
+> +class SignatureGeneratorOEBasicHash(bb.siggen.SignatureGeneratorBasicHash):
+> +    name = "OEBasicHash"
+> +    def init_rundepcheck(self, data):
+> +        pass
+> +    def rundep_check(self, fn, task, dep, dataCache):
 
+This should be:
 
-One option would be to avoid the task indirection and simply set
-PACKAGE_GROUP_tools-debug = "<list of debug tools>"
--- 
-Christopher Larson
+def rundep_check(self, fn, recipename, task, dep, depname):
+
+> +        return sstate_rundepfilter(fn, recipename, task, dep, depname)
+> +
+> +# Insert these classes into siggen's namespace so it can see and select them
+> +bb.siggen.SignatureGeneratorOEBasic = SignatureGeneratorOEBasic
+> +bb.siggen.SignatureGeneratorOEBasicHash = SignatureGeneratorOEBasicHash
+
+Cheers,
+
+Richard
+
 
 
