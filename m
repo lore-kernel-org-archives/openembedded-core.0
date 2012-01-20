@@ -1,24 +1,24 @@
 Received: from mga11.intel.com ([192.55.52.93])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <tom.zanussi@intel.com>) id 1RoJhp-0007jA-6u
+	(envelope-from <tom.zanussi@intel.com>) id 1RoJhs-0007jA-2v
 	for openembedded-core@lists.openembedded.org;
-	Fri, 20 Jan 2012 20:00:57 +0100
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-	by fmsmga102.fm.intel.com with ESMTP; 20 Jan 2012 10:53:15 -0800
+	Fri, 20 Jan 2012 20:01:00 +0100
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+	by fmsmga102.fm.intel.com with ESMTP; 20 Jan 2012 10:53:21 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="114501857"
+X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="109179050"
 Received: from unknown (HELO localhost) ([10.255.14.76])
-	by fmsmga002.fm.intel.com with ESMTP; 20 Jan 2012 10:53:15 -0800
+	by fmsmga001.fm.intel.com with ESMTP; 20 Jan 2012 10:53:20 -0800
 From: tom.zanussi@intel.com
 To: openembedded-core@lists.openembedded.org
-Date: Fri, 20 Jan 2012 12:52:53 -0600
-Message-Id: <e33d9744af1b0ab1c95930db23e3ee5d59b90624.1327084753.git.tom.zanussi@intel.com>
+Date: Fri, 20 Jan 2012 12:52:55 -0600
+Message-Id: <9fb63f95709ff31486fbd9cf39e7a7a55f8d97c9.1327084753.git.tom.zanussi@intel.com>
 X-Mailer: git-send-email 1.7.0.4
 In-Reply-To: <c6e9e1ecaf59db9149ce4570435f48c927acb29c.1327084753.git.tom.zanussi@intel.com>
 References: <c6e9e1ecaf59db9149ce4570435f48c927acb29c.1327084753.git.tom.zanussi@intel.com>
 In-Reply-To: <cover.1327084753.git.tom.zanussi@intel.com>
 References: <cover.1327084753.git.tom.zanussi@intel.com>
-Subject: [PATCH 3/5] base.bbclass: replace COMMERCIAL_LICENSE code with LICENSE_FLAGS code
+Subject: [PATCH 5/5] documentation-audit.sh: remove COMMERCIAL_LICENSE warning
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -33,42 +33,33 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 20 Jan 2012 19:00:57 -0000
+X-List-Received-Date: Fri, 20 Jan 2012 19:01:00 -0000
 
 From: Tom Zanussi <tom.zanussi@intel.com>
 
-The COMMERCIAL_LICENSE mechanism has been superseded by LICENSE_FLAGS
-so remove the code that implements COMMERCIAL_LICENSE and replace it
-with the corresponding LICENSE_FLAGS version.
+COMMERCIAL_LICENSE no longer exists; the equivalent functionality is
+now has been replaced by LICENSE_FLAGS_WHITELIST, so replace the
+COMMERCIAL_LICENSE warning with a similarly equivalent warning.
 
 Signed-off-by: Tom Zanussi <tom.zanussi@intel.com>
 ---
- meta/classes/base.bbclass |   12 ++++++------
- 1 files changed, 6 insertions(+), 6 deletions(-)
+ scripts/contrib/documentation-audit.sh |    3 ++-
+ 1 files changed, 2 insertions(+), 1 deletions(-)
 
-diff --git a/meta/classes/base.bbclass b/meta/classes/base.bbclass
-index 091e965..bb3c38d 100644
---- a/meta/classes/base.bbclass
-+++ b/meta/classes/base.bbclass
-@@ -349,12 +349,12 @@ python () {
-     if license == "INVALID":
-         bb.fatal('This recipe does not have the LICENSE field set (%s)' % pn)
+diff --git a/scripts/contrib/documentation-audit.sh b/scripts/contrib/documentation-audit.sh
+index 5070fee..5b66f03 100755
+--- a/scripts/contrib/documentation-audit.sh
++++ b/scripts/contrib/documentation-audit.sh
+@@ -25,7 +25,8 @@ if [ -z "$BITBAKE" ]; then
+ fi
  
--    commercial_license = " %s " % d.getVar('COMMERCIAL_LICENSE', 1)
--    import re
--    pnr = "[ \t]%s[ \t]" % pn.replace('+', "\+")
--    if commercial_license and re.search(pnr, commercial_license):
--        bb.debug(1, "Skipping %s because it's commercially licensed" % pn)
--        raise bb.parse.SkipPackage("because it may require a commercial license to ship in a product (listed in COMMERCIAL_LICENSE)")
-+    unmatched_license_flag = check_license_flags(d)
-+    if unmatched_license_flag:
-+        bb.debug(1, "Skipping %s because it has a restricted license not"
-+             " whitelisted in LICENSE_FLAGS_WHITELIST" % pn)
-+        raise bb.parse.SkipPackage("because it has a restricted license not"
-+             " whitelisted in LICENSE_FLAGS_WHITELIST")
+ echo "REMINDER: you need to build for MACHINE=qemux86 or you won't get useful results"
+-echo "REMINDER: you need to have COMMERCIAL_LICENSE = \"\" in local.conf or you'll get false positives"
++echo "REMINDER: you need to set LICENSE_FLAGS_WHITELIST appropriately in local.conf or "
++echo " you'll get false positives.  For example, LICENSE_FLAGS_WHITELIST = \"Commercial\""
  
-     # If we're building a target package we need to use fakeroot (pseudo)
-     # in order to capture permissions, owners, groups and special files
+ for pkg in `bitbake -s | awk '{ print \$1 }'`; do
+ 	if [[ "$pkg" == "Loading" || "$pkg" == "Loaded" ||
 -- 
 1.7.0.4
 
