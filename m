@@ -1,30 +1,30 @@
-Received: from mail-iy0-f175.google.com ([209.85.210.175])
+Received: from mail-lpp01m010-f47.google.com ([209.85.215.47])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <raj.khem@gmail.com>) id 1RoL9S-0001en-3I
+	(envelope-from <raj.khem@gmail.com>) id 1RoLGr-0001of-DR
 	for openembedded-core@lists.openembedded.org;
-	Fri, 20 Jan 2012 21:33:34 +0100
-Received: by iabz21 with SMTP id z21so1459116iab.6
+	Fri, 20 Jan 2012 21:41:13 +0100
+Received: by lags15 with SMTP id s15so543869lag.6
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 20 Jan 2012 12:25:52 -0800 (PST)
+	Fri, 20 Jan 2012 12:33:32 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
-	h=from:to:cc:subject:date:message-id:x-mailer;
-	bh=EWZw2FsqNYGm58LHxg9sWVb5ZNZD49Q6VuC53u/Eul0=;
-	b=LTyjq2h/wxeXezCDVF1OKxV0d9MNYVr6PkgEXtNNTAAwO8x7KHTZeF30E1YYmjQ2d9
-	sTLL3QXXtEOxu85IhYSY7RHk2qApOP5TrwDHf4Yg4nWUKNnwLMd9snuNKCyDOX7e1LID
-	fp9y4HLaHUp1rwDTGGLL1d1n/rXS4YYxa5cWc=
-Received: by 10.50.202.105 with SMTP id kh9mr18255igc.3.1327091152302;
-	Fri, 20 Jan 2012 12:25:52 -0800 (PST)
-Received: from localhost.localdomain (oldbuilder.nslu2-linux.org.
-	[140.211.169.168])
-	by mx.google.com with ESMTPS id h9sm13331717ibh.11.2012.01.20.12.25.50
-	(version=TLSv1/SSLv3 cipher=OTHER);
-	Fri, 20 Jan 2012 12:25:51 -0800 (PST)
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:content-type; bh=ybrEB7usGO5t6qk76334k4WVvEKE47SCL62XN5TbNiY=;
+	b=U6nkF64qc9CQKUYh1Suzauu8Jrh6RFSJpyxXdLnW3MqwqAScijYxxyKz0joBKnCxVy
+	WOC5V8WbrTc1s2S4YFfe7VdQP/eMeJ7xxgiNUpLuYWUIqZLeD6S/CNbrbDaM8MPtTale
+	u9Y4jl6gyrIHjJkhZRCjmbzoPpQCDUnqy8vzg=
+Received: by 10.152.131.40 with SMTP id oj8mr600855lab.24.1327091612314; Fri,
+	20 Jan 2012 12:33:32 -0800 (PST)
+MIME-Version: 1.0
+Received: by 10.152.22.233 with HTTP; Fri, 20 Jan 2012 12:33:01 -0800 (PST)
+In-Reply-To: <CABcZANn5zbXFwTuXwL2GM1FknKrY1OjBfDv=TTyH1=NRrqqDKw@mail.gmail.com>
+References: <CAMKF1sqGt0FTbnhpuP9HCeJ6LpqJrRs8GVB6azdPGfcvYHSJSQ@mail.gmail.com>
+	<CABcZANn5zbXFwTuXwL2GM1FknKrY1OjBfDv=TTyH1=NRrqqDKw@mail.gmail.com>
 From: Khem Raj <raj.khem@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Date: Fri, 20 Jan 2012 12:25:17 -0800
-Message-Id: <1327091117-27468-1-git-send-email-raj.khem@gmail.com>
-X-Mailer: git-send-email 1.7.5.4
-Subject: [PATCH] ltp: Update recipe and fix building on uclibc
+Date: Fri, 20 Jan 2012 12:33:01 -0800
+Message-ID: <CAMKF1soievYHSvbvqyvL0gROW+4v-5fU7FretdXyFfHWbOrJVA@mail.gmail.com>
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: adding tools-debug to EXTRA_IMAGE_FEATURES pulls other tasks from same recipe
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -39,134 +39,41 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 20 Jan 2012 20:33:34 -0000
+X-List-Received-Date: Fri, 20 Jan 2012 20:41:13 -0000
+Content-Type: text/plain; charset=UTF-8
 
-Signed-off-by: Khem Raj <raj.khem@gmail.com>
----
- .../ltp/ltp/uclibc-getcontext.patch                |   78 ++++++++++++++++++++
- .../ltp/{ltp_20110915.bb => ltp_20120104.bb}       |   10 +-
- 2 files changed, 83 insertions(+), 5 deletions(-)
- create mode 100644 meta/recipes-extended/ltp/ltp/uclibc-getcontext.patch
- rename meta/recipes-extended/ltp/{ltp_20110915.bb => ltp_20120104.bb} (93%)
+On Fri, Jan 20, 2012 at 9:10 AM, Chris Larson <kergoth@gmail.com> wrote:
+> On Thu, Jan 19, 2012 at 11:28 PM, Khem Raj <raj.khem@gmail.com> wrote:
+>> I added to local.conf
+>> EXTRA_IMAGE_FEATURES += "tools-debug"
+>>
+>> and now when I do bitbake -g I see that its wanting to build
+>> "tools-testapp" and "tools-profile"
+>> even though I did not ask them to be added to my image. all these
+>> packages are coming from
+>> single recipe task-core-tools.bb. If I divide this recipe into 3
+>> different recipes where each provides
+>> just one task, it then leaves the others out.
+>>
+>> Since these are meta packages they pull in a lot of stuff. Would it be
+>> ok to divide this recipe
+>> into 3 individual recipes ? Ideally I would expect that the other
+>> packages dont get build even
+>> though they are in same recipe but that is not the case at present
+>
+>
+> One option would be to avoid the task indirection and simply set
+> PACKAGE_GROUP_tools-debug = "<list of debug tools>"
 
-diff --git a/meta/recipes-extended/ltp/ltp/uclibc-getcontext.patch b/meta/recipes-extended/ltp/ltp/uclibc-getcontext.patch
-new file mode 100644
-index 0000000..310e2d4
---- /dev/null
-+++ b/meta/recipes-extended/ltp/ltp/uclibc-getcontext.patch
-@@ -0,0 +1,78 @@
-+Fix building disabled getcontext and profil01 tests for uclibc
-+
-+Signed-off-by: Khem Raj <raj.khem@gmail.com>
-+
-+Upstream-Status: Pending
-+
-+Index: ltp-20110915/testcases/kernel/syscalls/getcontext/getcontext01.c
-+===================================================================
-+--- ltp-20110915.orig/testcases/kernel/syscalls/getcontext/getcontext01.c	2012-01-19 16:39:24.391012507 -0800
-++++ ltp-20110915/testcases/kernel/syscalls/getcontext/getcontext01.c	2012-01-19 16:39:24.459012510 -0800
-+@@ -34,6 +34,10 @@
-+  **********************************************************/
-+ 
-+ #include <features.h>
-++#include "test.h"
-++#include "usctest.h"
-++char *TCID = "getcontext01";	/* Test program identifier.    */
-++
-+ #if !defined(__UCLIBC__)
-+ 
-+ #include <stdio.h>
-+@@ -41,13 +45,9 @@
-+ #include <errno.h>
-+ #include <ucontext.h>
-+ 
-+-#include "test.h"
-+-#include "usctest.h"
-+-
-+ void setup();
-+ void cleanup();
-+ 
-+-char *TCID = "getcontext01";	/* Test program identifier.    */
-+ int TST_TOTAL = 1;		/* Total number of test cases. */
-+ 
-+ int exp_enos[] = { 0 };		/* must be a 0 terminated list */
-+@@ -102,4 +102,4 @@
-+ {
-+ 	tst_brkm(TCONF, NULL, "system doesn't have getcontext support");
-+ }
-+-#endif
-+\ No newline at end of file
-++#endif
-+Index: ltp-20110915/testcases/kernel/syscalls/profil/profil01.c
-+===================================================================
-+--- ltp-20110915.orig/testcases/kernel/syscalls/profil/profil01.c	2012-01-19 16:39:55.975014036 -0800
-++++ ltp-20110915/testcases/kernel/syscalls/profil/profil01.c	2012-01-19 16:40:23.475015322 -0800
-+@@ -41,6 +41,8 @@
-+ #endif
-+ 
-+ #include <features.h>
-++#include "test.h"
-++char *TCID = "profil01";
-+ #ifndef __UCLIBC__
-+ 
-+ #ifdef __arm__
-+@@ -58,7 +60,6 @@
-+ #include <errno.h>
-+ #include <sys/types.h>
-+ #include <sys/wait.h>
-+-#include "test.h"
-+ #include "usctest.h"
-+ #define FAILED 0
-+ #define PASSED 1
-+@@ -73,7 +74,6 @@
-+ //char progname[]= "profil1()";
-+ 
-+ /*****	LTP Port	*****/
-+-char *TCID = "profil01";
-+ int local_flag = PASSED;
-+ int block_number;
-+ FILE *temp;
-+@@ -310,4 +310,4 @@
-+ 	/* uClibc does not have profiling support */
-+ 	tst_exit();
-+ }
-+-#endif
-+\ No newline at end of file
-++#endif
-diff --git a/meta/recipes-extended/ltp/ltp_20110915.bb b/meta/recipes-extended/ltp/ltp_20120104.bb
-similarity index 93%
-rename from meta/recipes-extended/ltp/ltp_20110915.bb
-rename to meta/recipes-extended/ltp/ltp_20120104.bb
-index dabc0f0..1d794a8 100644
---- a/meta/recipes-extended/ltp/ltp_20110915.bb
-+++ b/meta/recipes-extended/ltp/ltp_20120104.bb
-@@ -3,8 +3,6 @@ DESCRIPTION = "The Linux Test Project is a joint project with SGI, IBM, OSDL, an
- HOMEPAGE = "http://ltp.sourceforge.net"
- SECTION = "console/utils"
- 
--PR = "r0"
--
- LICENSE = "GPLv2 & GPLv2+ & LGPLv2+ & LGPLv2.1+ & BSD-2-Clause"
- LIC_FILES_CHKSUM = "file://COPYING;md5=0636e73ff0215e8d672dc4c32c317bb3 \
- 		    file://testcases/kernel/mce-test/COPYING;md5=0636e73ff0215e8d672dc4c32c317bb3 \
-@@ -21,10 +19,12 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=0636e73ff0215e8d672dc4c32c317bb3 \
- 		    file://utils/benchmark/kernbench-0.42/COPYING;md5=94d55d512a9ba36caa9b7df079bae19f \
- 		"
- 
--SRC_URI = "${SOURCEFORGE_MIRROR}/ltp/ltp-full-${PV}.bz2"
-+SRC_URI = "${SOURCEFORGE_MIRROR}/ltp/ltp-full-${PV}.bz2 \
-+           file://uclibc-getcontext.patch \
-+          "
- 
--SRC_URI[md5sum] = "582fb78d7bf78a624a4387f29327d166"
--SRC_URI[sha256sum] = "013f7f2f6fdf46b7d73216533c3d4c2d91f0a2cec522bf026f7c8920ede83d2c"
-+SRC_URI[md5sum] = "ac183bbdac67139f049b3755fda37179"
-+SRC_URI[sha256sum] = "11b149b821d709e3351ac66f028f1b0dd5337ee9073dc20019ccffdac42d5c2e"
- 
- export prefix = "/opt/ltp"
- export exec_prefix = "/opt/ltp"
--- 
-1.7.5.4
+we do lot of overriding in those tasks it would get
+a bit ugly I guess if we moved that info to image.bbclass
 
+> --
+> Christopher Larson
+>
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
 
 
