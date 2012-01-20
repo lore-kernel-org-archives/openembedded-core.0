@@ -1,27 +1,23 @@
-Received: from mail-lpp01m010-f47.google.com ([209.85.215.47])
+Received: from mail.windriver.com ([147.11.1.11])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <raj.khem@gmail.com>) id 1Ro85i-0003C9-OJ
+	(envelope-from <Zumeng.Chen@windriver.com>) id 1Ro8v7-0004Fe-21
 	for openembedded-core@lists.openembedded.org;
-	Fri, 20 Jan 2012 07:36:50 +0100
-Received: by lags15 with SMTP id s15so121523lag.6
+	Fri, 20 Jan 2012 08:29:57 +0100
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca [147.11.189.40])
+	by mail.windriver.com (8.14.3/8.14.3) with ESMTP id q0K7MFuf022406
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 19 Jan 2012 22:29:10 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
-	h=mime-version:from:date:message-id:subject:to:content-type;
-	bh=SoB6SxaACKGnMT9hX9uf5P8gyKWFY0LX9K+/M0m575Q=;
-	b=XfHYmLxyVAShPbCIOjHJkIrmKmFkfU/EFHL3vpzz1mW+jpgrGTZFVPDvujAsQGB3KS
-	NHezFU54xiXxia4Q7GVWw47Jpr/1XzC/tc5ummlZDpMlli+PxLPuJnscY2VqBMpjRI2D
-	hUqUtCrOAUiq2kH1iAQzM2AoZ6jA4qXB07MTA=
-Received: by 10.152.125.162 with SMTP id mr2mr14572557lab.24.1327040950287;
-	Thu, 19 Jan 2012 22:29:10 -0800 (PST)
+	Thu, 19 Jan 2012 23:22:15 -0800 (PST)
+Received: from pek-yocto-build2.corp.ad.wrs.com (128.224.163.150) by
+	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server id
+	14.1.255.0; Thu, 19 Jan 2012 23:22:15 -0800
+From: Zumeng Chen <zumeng.chen@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Fri, 20 Jan 2012 15:21:55 +0800
+Message-ID: <cover.1327043851.git.zumeng.chen@windriver.com>
+X-Mailer: git-send-email 1.7.5.4
 MIME-Version: 1.0
-Received: by 10.152.22.233 with HTTP; Thu, 19 Jan 2012 22:28:39 -0800 (PST)
-From: Khem Raj <raj.khem@gmail.com>
-Date: Thu, 19 Jan 2012 22:28:39 -0800
-Message-ID: <CAMKF1sqGt0FTbnhpuP9HCeJ6LpqJrRs8GVB6azdPGfcvYHSJSQ@mail.gmail.com>
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: adding tools-debug to EXTRA_IMAGE_FEATURES pulls other tasks from same recipe
+Subject: [PATCH 0/1] Bug 1834 rspro lacks the hardware for usbgadget defined in machine.conf
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -36,29 +32,38 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 20 Jan 2012 06:36:50 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Fri, 20 Jan 2012 07:29:57 -0000
+Content-Type: text/plain
 
-Hi
+Hi Saul,
 
-I added to local.conf
-EXTRA_IMAGE_FEATURES += "tools-debug"
+It seems usbgadget should not be supported by routerstationpro, we have to
+remove it from feature matrix due to the following reasons:
+  1 ) No mass storage needed to be accessed by usbgadget.
+  2 ) This is routerstation+switch, so it should not be taken as a USBNET too.
 
-and now when I do bitbake -g I see that its wanting to build
-"tools-testapp" and "tools-profile"
-even though I did not ask them to be added to my image. all these
-packages are coming from
-single recipe task-core-tools.bb. If I divide this recipe into 3
-different recipes where each provides
-just one task, it then leaves the others out.
+This fix has been acked by Bruce, which I forgot to send out the patch,
+Appologized for that Bruce and Saul.
 
-Since these are meta packages they pull in a lot of stuff. Would it be
-ok to divide this recipe
-into 3 individual recipes ? Ideally I would expect that the other
-packages dont get build even
-though they are in same recipe but that is not the case at present
+Thanks,
+Zumeng
 
-Thoughts?
--Khem
+The following changes since commit 967de59f35acef7fb258524973473f3d154e4a37:
+
+  buildhistory_analysis: include related fields in output (2012-01-19 14:59:23 +0000)
+
+are available in the git repository at:
+  git://git.pokylinux.org/poky-contrib zumeng/rspro-conf
+  http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=zumeng/rspro-conf
+
+Zumeng Chen (1):
+  rspro-conf: remove usbgadget from routerstationpro
+
+ meta-yocto/conf/machine/routerstationpro.conf |    2 +-
+ 1 files changed, 1 insertions(+), 1 deletions(-)
+
+-- 
+1.7.5.4
+
 
 
