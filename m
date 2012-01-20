@@ -1,20 +1,22 @@
-Received: from mga09.intel.com ([134.134.136.24])
+Received: from mga02.intel.com ([134.134.136.20])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <tom.zanussi@intel.com>) id 1RoJhg-0007hf-Ie
+	(envelope-from <tom.zanussi@intel.com>) id 1RoJhj-0007hk-O0
 	for openembedded-core@lists.openembedded.org;
-	Fri, 20 Jan 2012 20:00:48 +0100
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-	by orsmga102.jf.intel.com with ESMTP; 20 Jan 2012 10:53:06 -0800
+	Fri, 20 Jan 2012 20:00:52 +0100
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+	by orsmga101.jf.intel.com with ESMTP; 20 Jan 2012 10:53:10 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.67,352,1309762800"; d="scan'208";a="98832970"
+X-IronPort-AV: E=Sophos;i="4.67,351,1309762800"; d="scan'208";a="100948679"
 Received: from unknown (HELO localhost) ([10.255.14.76])
-	by orsmga001.jf.intel.com with ESMTP; 20 Jan 2012 10:53:06 -0800
+	by orsmga002.jf.intel.com with ESMTP; 20 Jan 2012 10:53:09 -0800
 From: tom.zanussi@intel.com
 To: openembedded-core@lists.openembedded.org
-Date: Fri, 20 Jan 2012 12:52:53 -0600
-Message-Id: <cover.1327084753.git.tom.zanussi@intel.com>
+Date: Fri, 20 Jan 2012 12:52:51 -0600
+Message-Id: <c6e9e1ecaf59db9149ce4570435f48c927acb29c.1327084753.git.tom.zanussi@intel.com>
 X-Mailer: git-send-email 1.7.0.4
-Subject: [PATCH 0/5] LICENSE_FLAGS, a replacement for COMMERCIAL_LICENSE, v5
+In-Reply-To: <cover.1327084753.git.tom.zanussi@intel.com>
+References: <cover.1327084753.git.tom.zanussi@intel.com>
+Subject: [PATCH 1/5] license.bbclass: add support for LICENSE_FLAGS
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -29,131 +31,171 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 20 Jan 2012 19:00:49 -0000
+X-List-Received-Date: Fri, 20 Jan 2012 19:00:52 -0000
 
 From: Tom Zanussi <tom.zanussi@intel.com>
 
-This patchset is a replacement for COMMERCIAL_LICENSE called LICENSE_FLAGS.
+LICENSE_FLAGS are a per-recipe replacement for the COMMERCIAL_LICENSE
+mechanism.
 
-Please see the commit message for '[PATCH 1/5] license.bbclass: add support
- for LICENSE_FLAGS' for an explanation of the LICENSE_FLAGS mechanism.
+In the COMMERCIAL_LICENSE mechanism, any package name mentioned in the
+global COMMERCIAL_LICENSE list is 'blacklisted' from being included in
+an image.  To allow the blacklisted package into the image, the
+corresponding packages need to be removed from the COMMERCIAL_LICENSE
+list.  This mechanism relies on a global list defined in
+default-distrovars.inc.
 
-v5 changes, reflecting comments from Richard Purdie:
+The LICENSE_FLAGS mechanism essentially implements the same thing but
+turns the global blacklist into a per-recipe whitelist.  Any recipe
+can optionally define one or more 'license flags'; if defined, each of
+the license flags defined for a recipe must have matching entries in a
+global LICENSE_FLAGS_WHITELIST variable.
 
-- instead of having each recipe add _{PN} to its license flags, have the
-  license code do that instead, and change the implementation to match
-- update the commit descriptions and comments in the code to match
+The definition of 'matching' is simple, but there are a couple things
+users need to know in order to correctly and effectively use it.
+Before we test a flag against the whitelist, we append _${PN} to it,
+thus automatically making each LICENSE_FLAG recipe-specific.  We then
+try to match that string against the whitelist.  So if the user
+specifies LICENSE_FLAGS = 'commercial' for recipe 'foo', the string
+'commercial_foo' should be specified in the whitelist in order for it
+to match.
 
-v4 changes, reflecting comments from Saul Wold:
+However, the user can also broaden the match by putting any
+'_'-separated beginning subset of a LICENSE_FLAG in the whitelist,
+which will also match e.g. simply specifying 'commercial' in the
+whitelist would match any expanded LICENSE_FLAG starting with
+'commercial' such as 'commercial_foo' and 'commercial_bar' which are
+the strings that would have been automatically generated if those
+recipes had simply specified LICENSE_FLAGS = 'commercial'
 
-- move the main functionality to license.bbclass as check_license_flags()
-- keep the call to check_license_flags() in base.bbclass
+This allows for a range of specificity for the items in the whitelist,
+from more general to perfectly specific.  So users have the choice of
+exhaustively enumerating each license flag in the whitelist to allow
+only those specific recipes into the image, or of using a more general
+string to pick up anything matching just the first component(s).
 
-v3 changes:
+Note that this scheme works even if the flag already has _pn appended
+- the extra _pn is redundant, but doesn't affect the outcome e.g. a
+license flag of 'commercial_1.2_foo' would turn into
+'commercial_1.2_foo_foo' and would match both the general 'commercial'
+and the specific 'commercial_1.2_foo' as expected (it would also match
+commercial_1.2_foo_foo' and 'commercial_1.2', which don't make much
+sense as far as something a user would think of specifying in the
+whitelist).  For a versioned string, the user could instead specify
+'commercial_foo_1.2', which would turn into 'commercial_foo_1.2_foo',
+but which would as expected allow the user to pick up this package
+along with anything else 'commercial' by specifying 'commercial' in
+the whitelist, or anything with a 'commercial_foo' license regardless
+of version by using 'commercial_foo' in the whitelist, or
+'commercial_foo_1.1' to be completely specific about package and
+version.
 
-- add back an accidentally-stripped comment in PATCH 1.
+The current behavior of COMMERCIAL_LICENSE is replicated as mentioned
+above by having the current set of COMMERCIAL_LICENSE flags
+implemented using LICENSE_FLAGS = "commercial".
 
-v2 changes, reflecting comments from Phil Blundell and Paul Eggleton:
+That being the case, the current COMMERCIAL_LICENSE can equivalently
+be specified in the new scheme by putting the below in local.conf:
 
-- This version converts all the existing packages listed in COMMERCIAL_LICENSE
-to the equivalent "commercial_${PN}" LICENSE_FLAGS.  This allows each package
-to be added to or removed from the whitelist instead of the previously
-too-broad 'Commercial' flags for those packages.
+ # This is a list of packages that require a commercial license to ship
+ # product. If shipped as part of an image these packages may have
+ # implications so they are disabled by default.  To enable them,
+ # un-comment the below as appropriate.
+ #LICENSE_FLAGS_WHITELIST = "commercial_gst-fluendo-mp3 \
+ #                           commercial_gst-openmax \
+ #                           commercial_gst-plugins-ugly \
+ #                           commercial_lame \
+ #                           commercial_libmad \
+ #                           commercial_libomxil \
+ #                           commercial_mpeg2dec \
+ #                           commercial_qmmp"
 
-- Changes all values to lowercase.
+The above allows all of the current COMMERCIAL_LICENSE packages in -
+to disallow a particular package from appearing in the image, simply
+remove it from the whitelist.  To allow them all in, you could also
+specify LICENSE_FLAGS_WHITELIST = "commercial".
 
-- The new commit message should explain the mechanism and how it can be
-used a little better.
+Signed-off-by: Tom Zanussi <tom.zanussi@intel.com>
+---
+ meta/classes/license.bbclass |   63 ++++++++++++++++++++++++++++++++++++++++++
+ 1 files changed, 63 insertions(+), 0 deletions(-)
 
-
-For some background on these changes, the original proposal for the
-functionality covered by this replacement was drafted by Saul Wold -
-the relevant details of that proposal are copied below:
-
-***
-
-There has been some issues raised with the initial implementation of
-COMMERCIAL_LICENSE and we are looking for ways to address this.
-Currently COMMERCIAL_LICENSE (C_L) is defined in default-distrovars.conf
-to contain a list of packages that have additional license requirements
-when used commercially (such as royalty requirements, or acknowledging
-some type of commercial T&Cs). These packages are skipped during parsing.
-
-It currently contains a number of Audio and Video packages that require
-additional licensing terms when used commercially. As we add additional
-layers, some of these layers want to add additional package to the C_L
-list, but how to easily enable them.
-
-Since local.conf, where you would normally override things like this, is
-read in before base.bbclass, which contains tools like oe_filter_out()
-to modify lists, we can't use that mechanism.
-
-That's the background, now for the proposal.
-
-Do away with C_L and C_*_PLUGINS, move to a "Named Bit Flag" list in
-LICENSE_FLAGS, each recipe can then maintain their flags directly,
-instead of in a shared location like default-distrovars.conf.
-
-LICENSE_FLAGS_WHITELIST would be set in local.conf with the values
-that are acceptable to include in this image, by default it would be
-blank.
-
-Possible values for LICENSE_FLAGS could be:
-- binary - provides some kind of binary with no source
-- patent - provides a potential infringing item, that some may not want
-- commercial - include recipes that may have commercial T&C
-- commercial_${PN} - commercial licenses specific to ${PN}
-- license_${PN} - include a recipe that has a specific license
-                 - maybe similar or different than commercial_${PN}
-
-***
-
-[T&C = Terms and Conditions]
-
-[NOTE: the above are only 'possible values' that particular license
-flags could take.  The above are not proposals for specific flags
-that will be implemented - it's completely up to the package maintainers
-to define appropriate flags for their packages.  Also the implementation
-now adds ${PN} automatically, so the specific potential values may be
-obsolete - the above is just for context.]
-
-Note that there's no policy attached to any of the above license types
-- this is simply string-matching that can be used for the purpose of
-screening packages - if the strings match, the recipe gets in, if not,
-it doesn't i.e. during parsing, we would inspect the recipe's data for
-LICENSE_FLAGS and if it has a value then try to match against the
-WHITELIST - if it matches it gets added to the parsed list, if there
-is no match then it gets Skip_Package()'ed.
-
-The following changes since commit 967de59f35acef7fb258524973473f3d154e4a37:
-  Paul Eggleton (1):
-        buildhistory_analysis: include related fields in output
-
-are available in the git repository at:
-
-  git://git.yoctoproject.org/poky-contrib.git tzanussi/license-flags.v5
-  http://git.yoctoproject.org/cgit/cgit.cgi/poky-contrib/log/?h=tzanussi/license-flags.v5
-
-Tom Zanussi (5):
-  license.bbclass: add support for LICENSE_FLAGS
-  Add LICENSE_FLAGS to packages mentioned in COMMERCIAL_LICENSE
-  base.bbclass: replace COMMERCIAL_LICENSE code with LICENSE_FLAGS code
-  default-distrovars.inc: remove COMMERCIAL_LICENSE et al
-  documentation-audit.sh: remove COMMERCIAL_LICENSE warning
-
- meta/classes/base.bbclass                          |   12 ++--
- meta/classes/license.bbclass                       |   63 ++++++++++++++++++++
- meta/conf/distro/include/default-distrovars.inc    |    5 --
- .../gstreamer/gst-fluendo-mp3_0.10.16.bb           |    1 +
- .../gstreamer/gst-openmax_0.10.1.bb                |    1 +
- .../gstreamer/gst-plugins-ugly_0.10.18.bb          |    1 +
- meta/recipes-multimedia/lame/lame_3.99.3.bb        |    2 +
- meta/recipes-multimedia/libmad/libmad_0.15.1b.bb   |    1 +
- meta/recipes-multimedia/libomxil/libomxil_0.9.3.bb |    1 +
- meta/recipes-multimedia/mpeg2dec/mpeg2dec_0.4.1.bb |    1 +
- meta/recipes-qt/qt-apps/qmmp_0.5.2.bb              |    1 +
- scripts/contrib/documentation-audit.sh             |    3 +-
- 12 files changed, 80 insertions(+), 12 deletions(-)
+diff --git a/meta/classes/license.bbclass b/meta/classes/license.bbclass
+index 4b98e29..10a937b 100644
+--- a/meta/classes/license.bbclass
++++ b/meta/classes/license.bbclass
+@@ -282,6 +282,69 @@ def incompatible_license(d,dont_want_license):
+ 		return True
+     return False
+ 
++
++def check_license_flags(d):
++    """
++    This function checks if a recipe has any LICENSE_FLAGs that
++    aren't whitelisted.
++
++    If it does, it returns the first LICENSE_FLAG missing from the
++    whitelist, or all the LICENSE_FLAGs if there is no whitelist.
++
++    If everything is is properly whitelisted, it returns None.
++    """
++
++    def license_flag_matches(flag, whitelist, pn):
++        """
++        Return True if flag matches something in whitelist, None if not.
++
++        Before we test a flag against the whitelist, we append _${PN}
++        to it.  We then try to match that string against the
++        whitelist.  This covers the normal case, where we expect
++        LICENSE_FLAGS to be a simple string like 'commercial', which
++        the user typically matches exactly in the whitelist by
++        explicitly appending the package name e.g 'commercial_foo'.
++        If we fail the match however, we then split the flag across
++        '_' and append each fragment and test until we either match or
++        run out of fragments.
++        """
++        flag_pn = ("%s_%s" % (flag, pn))
++        for candidate in whitelist:
++            if flag_pn == candidate:
++                    return True
++
++        flag_cur = ""
++        flagments = flag_pn.split("_")
++        flagments.pop() # we've already tested the full string
++        for flagment in flagments:
++            if flag_cur:
++                flag_cur += "_"
++            flag_cur += flagment
++            for candidate in whitelist:
++                if flag_cur == candidate:
++                    return True
++        return False
++
++    def all_license_flags_match(license_flags, whitelist):
++        """ Return first unmatched flag, None if all flags match """
++        pn = d.getVar('PN', True)
++        split_whitelist = whitelist.split()
++        for flag in license_flags.split():
++            if not license_flag_matches(flag, split_whitelist, pn):
++                return flag
++        return None
++
++    license_flags = d.getVar('LICENSE_FLAGS', True)
++    if license_flags:
++        whitelist = d.getVar('LICENSE_FLAGS_WHITELIST', True)
++        if not whitelist:
++            return license_flags
++        unmatched_flag = all_license_flags_match(license_flags, whitelist)
++        if unmatched_flag:
++            return unmatched_flag
++    return None
++
++
+ SSTATETASKS += "do_populate_lic"
+ do_populate_lic[sstate-name] = "populate-lic"
+ do_populate_lic[sstate-inputdirs] = "${LICSSTATEDIR}"
+-- 
+1.7.0.4
 
 
 
