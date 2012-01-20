@@ -1,24 +1,24 @@
-Received: from mga11.intel.com ([192.55.52.93])
+Received: from mga09.intel.com ([134.134.136.24])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <tom.zanussi@intel.com>) id 1RoJhs-0007jA-2v
+	(envelope-from <tom.zanussi@intel.com>) id 1RoJhs-0007lW-38
 	for openembedded-core@lists.openembedded.org;
 	Fri, 20 Jan 2012 20:01:00 +0100
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-	by fmsmga102.fm.intel.com with ESMTP; 20 Jan 2012 10:53:21 -0800
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+	by orsmga102.jf.intel.com with ESMTP; 20 Jan 2012 10:53:18 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="109179050"
+X-IronPort-AV: E=Sophos;i="4.67,352,1309762800"; d="scan'208";a="98833017"
 Received: from unknown (HELO localhost) ([10.255.14.76])
-	by fmsmga001.fm.intel.com with ESMTP; 20 Jan 2012 10:53:20 -0800
+	by orsmga001.jf.intel.com with ESMTP; 20 Jan 2012 10:53:18 -0800
 From: tom.zanussi@intel.com
 To: openembedded-core@lists.openembedded.org
-Date: Fri, 20 Jan 2012 12:52:55 -0600
-Message-Id: <9fb63f95709ff31486fbd9cf39e7a7a55f8d97c9.1327084753.git.tom.zanussi@intel.com>
+Date: Fri, 20 Jan 2012 12:52:54 -0600
+Message-Id: <57d222caa28c7c58a0a5524e7900bf56774deccb.1327084753.git.tom.zanussi@intel.com>
 X-Mailer: git-send-email 1.7.0.4
 In-Reply-To: <c6e9e1ecaf59db9149ce4570435f48c927acb29c.1327084753.git.tom.zanussi@intel.com>
 References: <c6e9e1ecaf59db9149ce4570435f48c927acb29c.1327084753.git.tom.zanussi@intel.com>
 In-Reply-To: <cover.1327084753.git.tom.zanussi@intel.com>
 References: <cover.1327084753.git.tom.zanussi@intel.com>
-Subject: [PATCH 5/5] documentation-audit.sh: remove COMMERCIAL_LICENSE warning
+Subject: [PATCH 4/5] default-distrovars.inc: remove COMMERCIAL_LICENSE et al
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -37,29 +37,30 @@ X-List-Received-Date: Fri, 20 Jan 2012 19:01:00 -0000
 
 From: Tom Zanussi <tom.zanussi@intel.com>
 
-COMMERCIAL_LICENSE no longer exists; the equivalent functionality is
-now has been replaced by LICENSE_FLAGS_WHITELIST, so replace the
-COMMERCIAL_LICENSE warning with a similarly equivalent warning.
+The global COMMERCIAL_LICENSE mechanism has been obsoleted by
+per-recipe LICENSE_FLAGS, so remove the related variables.
 
 Signed-off-by: Tom Zanussi <tom.zanussi@intel.com>
 ---
- scripts/contrib/documentation-audit.sh |    3 ++-
- 1 files changed, 2 insertions(+), 1 deletions(-)
+ meta/conf/distro/include/default-distrovars.inc |    5 -----
+ 1 files changed, 0 insertions(+), 5 deletions(-)
 
-diff --git a/scripts/contrib/documentation-audit.sh b/scripts/contrib/documentation-audit.sh
-index 5070fee..5b66f03 100755
---- a/scripts/contrib/documentation-audit.sh
-+++ b/scripts/contrib/documentation-audit.sh
-@@ -25,7 +25,8 @@ if [ -z "$BITBAKE" ]; then
- fi
+diff --git a/meta/conf/distro/include/default-distrovars.inc b/meta/conf/distro/include/default-distrovars.inc
+index e1594f3..16b3108 100644
+--- a/meta/conf/distro/include/default-distrovars.inc
++++ b/meta/conf/distro/include/default-distrovars.inc
+@@ -26,11 +26,6 @@ HOSTTOOLS_WHITELIST_GPLv3 ?= ""
+ WHITELIST_GPLv3 ?= "less"
+ LGPLv2_WHITELIST_GPLv3 ?= "libassuan gnutls libtasn1 libidn libgcc gcc-runtime" 
  
- echo "REMINDER: you need to build for MACHINE=qemux86 or you won't get useful results"
--echo "REMINDER: you need to have COMMERCIAL_LICENSE = \"\" in local.conf or you'll get false positives"
-+echo "REMINDER: you need to set LICENSE_FLAGS_WHITELIST appropriately in local.conf or "
-+echo " you'll get false positives.  For example, LICENSE_FLAGS_WHITELIST = \"Commercial\""
- 
- for pkg in `bitbake -s | awk '{ print \$1 }'`; do
- 	if [[ "$pkg" == "Loading" || "$pkg" == "Loaded" ||
+-# This is a list of packages that require a commercial license to ship
+-# product. If shipped as part of an image these packages may have 
+-# implications so they are disabled by default
+-COMMERCIAL_LICENSE ?= "lame gst-fluendo-mp3 libmad mpeg2dec ffmpeg qmmp ${COMMERCIAL_LICENSE_DEPENDEES}"
+-COMMERCIAL_LICENSE_DEPENDEES ?= "gst-plugins-ugly libomxil gst-openmax"
+ COMMERCIAL_AUDIO_PLUGINS ?= ""
+ # COMMERCIAL_AUDIO_PLUGINS ?= "gst-plugins-ugly-mad gst-plugins-ugly-mpegaudioparse"
+ COMMERCIAL_VIDEO_PLUGINS ?= ""
 -- 
 1.7.0.4
 
