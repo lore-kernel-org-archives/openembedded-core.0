@@ -1,28 +1,32 @@
-Received: from mail-ey0-f175.google.com ([209.85.215.175])
+Received: from mail-lpp01m010-f47.google.com ([209.85.215.47])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <andrei@gherzan.ro>) id 1Ro0DI-0001Dn-78
+	(envelope-from <otavio.salvador@gmail.com>) id 1Ro5ij-0005Ee-G4
 	for openembedded-core@lists.openembedded.org;
-	Thu, 19 Jan 2012 23:12:08 +0100
-Received: by eaah1 with SMTP id h1so138637eaa.6
+	Fri, 20 Jan 2012 05:04:57 +0100
+Received: by lags15 with SMTP id s15so80420lag.6
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 19 Jan 2012 14:04:28 -0800 (PST)
-Received: by 10.213.22.129 with SMTP id n1mr6253909ebb.12.1327010668254;
-	Thu, 19 Jan 2012 14:04:28 -0800 (PST)
-Received: from [192.168.1.2] ([79.117.107.69])
-	by mx.google.com with ESMTPS id u53sm3050677eeu.6.2012.01.19.14.04.26
-	(version=SSLv3 cipher=OTHER); Thu, 19 Jan 2012 14:04:26 -0800 (PST)
-Message-ID: <4F18936A.8050903@gherzan.ro>
-Date: Fri, 20 Jan 2012 00:04:26 +0200
-From: Andrei Gherzan <andrei@gherzan.ro>
-User-Agent: Mozilla/5.0 (X11; Linux i686;
-	rv:8.0) Gecko/20111124 Thunderbird/8.0
+	Thu, 19 Jan 2012 19:57:17 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
+	h=mime-version:sender:in-reply-to:references:date
+	:x-google-sender-auth:message-id:subject:from:to:content-type;
+	bh=z/v+AUBB9l21w0mARODE2v/Z1Ymb1B01x9R6miM+mjc=;
+	b=QSvELwhNL1/g87eDxEFjeixb5vZcw/7GTrxAqxHcl2dZvSlSk5RFgN3QT48JozCFht
+	l7gCNFVXLjtGn1qVQqF5fwllXMxWiz+toVfyZjraoSK3vTscrA6cHyJd2AhLYAENIm3G
+	COo7iczp+rQoebmAZz85h2h8526wDWh0sa2r8=
 MIME-Version: 1.0
-To: openembedded-core@lists.openembedded.org
-References: <cover.1326964778.git.sgw@linux.intel.com>
-	<5ab12509051b732944a5027750505fa860133f1b.1326964778.git.sgw@linux.intel.com>
-	<1A94A9A8-8B34-4B8F-AAB4-98C172E584E5@dominion.thruhere.net>
-In-Reply-To: <1A94A9A8-8B34-4B8F-AAB4-98C172E584E5@dominion.thruhere.net>
-Subject: Re: [CONSOLIDATED PULL 02/33] busybox: defconfig modified in order to activate CONFIG_EXPR_MATH_SUPPORT_64
+Received: by 10.152.136.16 with SMTP id pw16mr8431421lab.12.1327031837400;
+	Thu, 19 Jan 2012 19:57:17 -0800 (PST)
+Sender: otavio.salvador@gmail.com
+Received: by 10.112.30.135 with HTTP; Thu, 19 Jan 2012 19:57:17 -0800 (PST)
+In-Reply-To: <cover.1326826646.git.josh@linux.intel.com>
+References: <cover.1326826646.git.josh@linux.intel.com>
+Date: Fri, 20 Jan 2012 01:57:17 -0200
+X-Google-Sender-Auth: pRTdHCEWbsADokrv4IVrx_hy-2A
+Message-ID: <CAP9ODKrxHP9o_EK6FX6FOipp=L_ecDuuSnyNcH8RbRYBQ1iskA@mail.gmail.com>
+From: Otavio Salvador <otavio@ossystems.com.br>
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 0/5] Busybox syslog tweaks
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -37,25 +41,57 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 19 Jan 2012 22:12:08 -0000
-Content-Type: text/plain; charset=ISO-8859-1; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Fri, 20 Jan 2012 04:04:57 -0000
+Content-Type: multipart/alternative; boundary=f46d042f920c461d9304b6edad71
 
-On 01/19/2012 12:29 PM, Koen Kooi wrote:
-> Op 19 jan. 2012, om 10:22 heeft Saul Wold het volgende geschreven:
+--f46d042f920c461d9304b6edad71
+Content-Type: text/plain; charset=ISO-8859-1
+
+On Tue, Jan 17, 2012 at 16:59, Joshua Lock <josh@linux.intel.com> wrote:
+
+> This set of changes makes some minor changes to the configuration of
+> busybox's
+> syslog.
 >
->> From: Andrei Gherzan<andrei.gherzan@windriver.com>
->>
->> Enable 64-bit math support in the expr applet. This will make
->> the applet slightly larger, but will allow computation with very
->> large numbers.
-> So it finally supports yocto now?
->
-> ___________________
-Yes. Saul merged this commit.
-> ____________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
 
+I'd like to ask for you to think about a way of sharing the code that
+parses the conf file between sysv and systemd. My current proposal is:
 
+* move init code to parse the conf file onto a script (possibly
+/lib/busybox/busybox-syslogd or similar)
+* change init to use it
+* we change meta-oe to use it as well.
+
+Thoughts?
+
+-- 
+Otavio Salvador                             O.S. Systems
+E-mail: otavio@ossystems.com.br  http://www.ossystems.com.br
+Mobile: +55 53 9981-7854              http://projetos.ossystems.com.br
+
+--f46d042f920c461d9304b6edad71
+Content-Type: text/html; charset=ISO-8859-1
+Content-Transfer-Encoding: quoted-printable
+
+<div class=3D"gmail_quote">On Tue, Jan 17, 2012 at 16:59, Joshua Lock <span=
+ dir=3D"ltr">&lt;<a href=3D"mailto:josh@linux.intel.com">josh@linux.intel.c=
+om</a>&gt;</span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"marg=
+in:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex">
+This set of changes makes some minor changes to the configuration of busybo=
+x&#39;s<br>
+syslog.<br></blockquote><div><br></div><div>I&#39;d like to ask for you to =
+think about a way of sharing the code that parses the conf file between sys=
+v and systemd. My current proposal is:</div><div><br></div><div>* move init=
+ code to parse the conf file onto a script (possibly /lib/busybox/busybox-s=
+yslogd or similar)</div>
+<div>* change init to use it</div><div>* we change meta-oe to use it as wel=
+l.</div><div><br></div><div>Thoughts?</div><div>=A0</div></div>-- <br>Otavi=
+o Salvador=A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0O.S. S=
+ystems<br>E-mail: <a href=3D"mailto:otavio@ossystems.com.br" target=3D"_bla=
+nk">otavio@ossystems.com.br</a>=A0 <a href=3D"http://www.ossystems.com.br" =
+target=3D"_blank">http://www.ossystems.com.br</a><br>
+Mobile: +55 53 9981-7854=A0 =A0 =A0 =A0=A0 =A0 =A0 =A0<a href=3D"http://pro=
+jetos.ossystems.com.br" target=3D"_blank">http://projetos.ossystems.com.br<=
+/a><br><br>
+
+--f46d042f920c461d9304b6edad71--
