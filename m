@@ -1,32 +1,29 @@
-Received: from mail-lpp01m010-f47.google.com ([209.85.215.47])
+Received: from mail.windriver.com ([147.11.1.11])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <raj.khem@gmail.com>) id 1RoLhy-0002mi-7a
+	(envelope-from <Zumeng.Chen@windriver.com>) id 1RoRzl-00049L-VA
 	for openembedded-core@lists.openembedded.org;
-	Fri, 20 Jan 2012 22:09:14 +0100
-Received: by lags15 with SMTP id s15so555093lag.6
+	Sat, 21 Jan 2012 04:52:02 +0100
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca [147.11.189.40])
+	by mail.windriver.com (8.14.3/8.14.3) with ESMTP id q0L3iJfE005790
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 20 Jan 2012 13:01:33 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:content-type; bh=JZz76H9hIAZLgMoeVkcehRhNuMym/SxJ0ah5nNPZQyg=;
-	b=fjtE4icINH0on0laBsJOqUUkU1vzOHbG718nplEEhymr0hbrRhUo9peusiz10uKxRr
-	dJy9FCs/dIMvg/a9o68avw4SOk3nRSoIlF+Gf974trcZQwlDR66wMGVS00zogmJiIzcD
-	hJtUfVCI30mCpuSwLdw/3z0IzfKTbpWBJiCD8=
-Received: by 10.152.134.41 with SMTP id ph9mr15911679lab.17.1327093293266;
-	Fri, 20 Jan 2012 13:01:33 -0800 (PST)
+	Fri, 20 Jan 2012 19:44:19 -0800 (PST)
+Received: from [128.224.162.181] (128.224.162.181) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server id 14.1.255.0;
+	Fri, 20 Jan 2012 19:44:19 -0800
+Message-ID: <4F1A3402.6030501@windriver.com>
+Date: Sat, 21 Jan 2012 11:41:54 +0800
+From: Zumeng Chen <zumeng.chen@windriver.com>
+User-Agent: Mozilla/5.0 (X11; U; Linux i686; en-US;
+	rv:1.9.2.24) Gecko/20111108 Lightning/1.0b2 Thunderbird/3.1.16
 MIME-Version: 1.0
-Received: by 10.152.22.233 with HTTP; Fri, 20 Jan 2012 13:01:02 -0800 (PST)
-In-Reply-To: <F707AE0BFC9B4879966C68C90082DDFA@gmail.com>
-References: <CAMKF1sqGt0FTbnhpuP9HCeJ6LpqJrRs8GVB6azdPGfcvYHSJSQ@mail.gmail.com>
-	<CABcZANn5zbXFwTuXwL2GM1FknKrY1OjBfDv=TTyH1=NRrqqDKw@mail.gmail.com>
-	<CAMKF1soievYHSvbvqyvL0gROW+4v-5fU7FretdXyFfHWbOrJVA@mail.gmail.com>
-	<F707AE0BFC9B4879966C68C90082DDFA@gmail.com>
-From: Khem Raj <raj.khem@gmail.com>
-Date: Fri, 20 Jan 2012 13:01:02 -0800
-Message-ID: <CAMKF1soJHJ3KGWrVaK57crNefQskwa0XfKpiLPSfnafbCTtd+A@mail.gmail.com>
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: adding tools-debug to EXTRA_IMAGE_FEATURES pulls other tasks from same recipe
+To: <openembedded-core@lists.openembedded.org>
+References: <cover.1327043851.git.zumeng.chen@windriver.com>	<1ec175b060ec79949989bbe4df546eff5a942e70.1327043851.git.zumeng.chen@windriver.com>
+	<1327077129.4268.13.camel@ted>
+In-Reply-To: <1327077129.4268.13.camel@ted>
+X-MIME-Autoconverted: from 8bit to quoted-printable by mail.windriver.com id
+	q0L3iJfE005790
+Subject: Re: [PATCH 1/1] rspro-conf: remove usbgadget from routerstationpro
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -41,15 +38,39 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 20 Jan 2012 21:09:14 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Sat, 21 Jan 2012 03:52:02 -0000
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: quoted-printable
 
-On Fri, Jan 20, 2012 at 12:35 PM, Christopher Larson <kergoth@gmail.com> wrote:
+=E4=BA=8E 2012=E5=B9=B401=E6=9C=8821=E6=97=A5 00:32, Richard Purdie =E5=86=
+=99=E9=81=93:
+> On Fri, 2012-01-20 at 15:21 +0800, Zumeng Chen wrote:
+>> Since the target doesn't have the related requirement
+>> to use USB slave hardware supporting usb gadget, so
+>> remove it from MACHINE_FEATURES.
+>>
+>> Signed-off-by: Zumeng.chen@windriver.com>
+>> Acked-by: Bruce Ashfield<bruce.ashfield@windriver.com>
+>> ---
+>>   meta-yocto/conf/machine/routerstationpro.conf |    2 +-
+>>   1 files changed, 1 insertions(+), 1 deletions(-)
 >
-> Possibly, but note that it doesn't need to live in a class, either. At
-> mentor, our distro has a .inc that defines a variety of package groups for
-> our images.
+> Merged to poky thanks. meta-yocto specific patches should really be on
+> the yocto list.
+Many thanks for reminder, Richard, I'll send to yocto list
+next time :-)
 
-yeah may be define them in some of default .inc files we have
+Regards,
+Zumeng
+> Cheers,
+>
+> Richard
+>
+>
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
+
 
 
