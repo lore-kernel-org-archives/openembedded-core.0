@@ -1,40 +1,36 @@
 Received: from mail-iy0-f175.google.com ([209.85.210.175])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <raj.khem@gmail.com>) id 1RokRq-0003NF-NT
+	(envelope-from <raj.khem@gmail.com>) id 1Rokgm-0003cp-Ve
 	for openembedded-core@lists.openembedded.org;
-	Sun, 22 Jan 2012 00:34:15 +0100
-Received: by iabz21 with SMTP id z21so3032053iab.6
+	Sun, 22 Jan 2012 00:49:41 +0100
+Received: by iabz21 with SMTP id z21so3045330iab.6
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 21 Jan 2012 15:26:31 -0800 (PST)
+	Sat, 21 Jan 2012 15:41:58 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
 	h=date:from:to:subject:message-id:references:mime-version
-	:content-type:content-disposition:content-transfer-encoding
-	:in-reply-to:user-agent;
-	bh=yFZMoVZ9VkYlXpsxaQ5xWD28NOE+CZ3WeL1FeAdX8Vg=;
-	b=rLfAtFu9yIxW/6rHkcmcHDm6eHWZxDy3gYfqc/hg3zqxD19kXe5t7FRGUKqTHUw2gd
-	RBa6Zwyy2mdaJnQXDtwCtGtrWoV3lpVjfJtNcepD/fbB17fOvYndo3cAIiJYPCripnGL
-	qXrGg0Zxnr+A3E6eW21VoFbBciD7yIWytrRqs=
-Received: by 10.50.184.168 with SMTP id ev8mr3738859igc.29.1327188391417;
-	Sat, 21 Jan 2012 15:26:31 -0800 (PST)
+	:content-type:content-disposition:in-reply-to:user-agent;
+	bh=QJZVcXtBw/ceOpSi7kq2qhl5yxrCeT3/TlD6+UdBclg=;
+	b=d1ei7Ws/QgsTnj0axGer9KSk7Y6HbWt+ugLofB4DXNoyANLT8N8a8PY8kLxVd8jpnU
+	+nJDCCUlnIltcHDP5O8vdycAA+WEcOdoM8pspkvSMWM84xv/JgFWZTUBH6JZSjMvqCkM
+	aoiGcFjIqqp7vzld8KZGy7R+I8rHLii/bVxIo=
+Received: by 10.50.188.166 with SMTP id gb6mr3858811igc.18.1327189317360;
+	Sat, 21 Jan 2012 15:41:57 -0800 (PST)
 Received: from sakrah.homelinux.org
 	(99-57-141-118.lightspeed.sntcca.sbcglobal.net. [99.57.141.118])
-	by mx.google.com with ESMTPS id gh7sm13604016igb.1.2012.01.21.15.26.28
+	by mx.google.com with ESMTPS id d15sm27394449ibf.7.2012.01.21.15.41.54
 	(version=TLSv1/SSLv3 cipher=OTHER);
-	Sat, 21 Jan 2012 15:26:29 -0800 (PST)
-Date: Sat, 21 Jan 2012 15:26:25 -0800
+	Sat, 21 Jan 2012 15:41:55 -0800 (PST)
+Date: Sat, 21 Jan 2012 15:41:51 -0800
 From: Khem Raj <raj.khem@gmail.com>
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Message-ID: <20120121232625.GB12691@sakrah.homelinux.org>
-References: <cover.1325725256.git.nitin.a.kamble@intel.com>
-	<aa69250b08b446ad0408357587a0271a66684f12.1325725256.git.nitin.a.kamble@intel.com>
-	<521a1d1e78e4e797ce9c1787c83d8e0b2020281e.1325725256.git.nitin.a.kamble@intel.com>
-	<CAMKF1srE2FO8iY0x0UvzYCKEosWV79VomhkovmLUUjXgU19dew@mail.gmail.com>
-	<ADD6A3980E8C39419A432FF422031B4C014F9D@ORSMSX106.amr.corp.intel.com>
+Message-ID: <20120121234151.GC12691@sakrah.homelinux.org>
+References: <cover.1325744640.git.sgw@linux.intel.com>
+	<e9a450bd3b519373e02ba235ebf5ce7750dc9767.1325744640.git.sgw@linux.intel.com>
 MIME-Version: 1.0
-In-Reply-To: <ADD6A3980E8C39419A432FF422031B4C014F9D@ORSMSX106.amr.corp.intel.com>
+In-Reply-To: <e9a450bd3b519373e02ba235ebf5ce7750dc9767.1325744640.git.sgw@linux.intel.com>
 User-Agent: Mutt/1.5.21 (2010-09-15)
-Subject: Re: [PATCH 3/4] libxxf86dga: fix compilation with x32 toolchain
+Subject: Re: [CONSOLIDATED PULL 05/28] libcap: move library to base_libdir
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -49,159 +45,79 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 21 Jan 2012 23:34:15 -0000
-Content-Type: text/plain; charset=utf-8
+X-List-Received-Date: Sat, 21 Jan 2012 23:49:41 -0000
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
 
-On (06/01/12 18:27), Kamble, Nitin A wrote:
+On (04/01/12 22:30), Saul Wold wrote:
+> From: Scott Garman <scott.a.garman@intel.com>
 > 
-> 
-> > -----Original Message-----
-> > From: openembedded-core-bounces@lists.openembedded.org
-> > [mailto:openembedded-core-bounces@lists.openembedded.org] On Behalf Of
-> > Khem Raj
-> > Sent: Thursday, January 05, 2012 12:49 PM
-> > To: Patches and discussions about the oe-core layer
-> > Subject: Re: [OE-core] [PATCH 3/4] libxxf86dga: fix compilation with
-> > x32 toolchain
-> > 
-> > On Wed, Jan 4, 2012 at 5:02 PM,  <nitin.a.kamble@intel.com> wrote:
-> > > From: Nitin A Kamble <nitin.a.kamble@intel.com>
-> > >
-> > > Fix type conversion for x32. For x32 the off_t is 64bit and pointers
-> > are
-> > > 32bit.
-> > > so the conversion of pointer to off_t was resulting into this error:
-> > >
-> > > | XF86DGA2.c:931:24: error: cast from pointer to integer of different
-> > > size [-Werror=pointer-to-int-cast]
-> > > | cc1: some warnings being treated as errors
-> > > |
-> > > | make[2]: *** [XF86DGA2.lo] Error 1
-> > >
-> > > Fixed it by typecasting pointer into unsigned long 1st and then again
-> > > typecasting unsigned long to off_t.
-> > >
-> > > Signed-off-by: Nitin A Kamble <nitin.a.kamble@intel.com>
-> > > ---
-> > >  .../libxxf86dga-1.1.2_fix_for_x32.patch            |   30
-> > ++++++++++++++++++++
-> > >  .../recipes-graphics/xorg-lib/libxxf86dga_1.1.2.bb |    5 ++-
-> > >  2 files changed, 34 insertions(+), 1 deletions(-)
-> > >  create mode 100644 meta/recipes-graphics/xorg-
-> > lib/libxxf86dga/libxxf86dga-1.1.2_fix_for_x32.patch
-> > >
-> > > diff --git a/meta/recipes-graphics/xorg-lib/libxxf86dga/libxxf86dga-
-> > 1.1.2_fix_for_x32.patch b/meta/recipes-graphics/xorg-
-> > lib/libxxf86dga/libxxf86dga-1.1.2_fix_for_x32.patch
-> > > new file mode 100644
-> > > index 0000000..30692ad
-> > > --- /dev/null
-> > > +++ b/meta/recipes-graphics/xorg-lib/libxxf86dga/libxxf86dga-
-> > 1.1.2_fix_for_x32.patch
-> > > @@ -0,0 +1,30 @@
-> > > +Upstream-Status: pending
-> > > +
-> > > +Fix type conversion for x32. For x32 the off_t is 64bit and pointers
-> > are 32bit.
-> > > +so the conversion of pointer to off_t was resulting into this error:
-> > > +
-> > > +| XF86DGA2.c:931:24: error: cast from pointer to integer of
-> > different size [-Werror=pointer-to-int-cast]
-> > > +| cc1: some warnings being treated as errors
-> > > +|
-> > > +| make[2]: *** [XF86DGA2.lo] Error 1
-> > > +
-> > > +Fixed it by typecasting pointer into unsigned long 1st and then
-> > again typecasting
-> > > +unsigned long to off_t.
-> > 
-> > where is pointer here ?
-> > http://cvsweb.xfree86.org/cvsweb/xc/lib/Xxf86dga/XF86DGA2.c?rev=1.30&co
-> > ntent-type=text/vnd.viewcvs-markup
-> > shows that base is of type mmapOffset which is
-> > 
-> > #if !defined(_LP64) && defined(_FILE_OFFSET_BITS) && (_FILE_OFFSET_BITS
-> > == 64)
-> > typedef unsigned long long mmapOffset;
-> > #else
-> > typedef unsigned long      mmapOffset;
-> > #endif
-> > 
-> > and off_t is typedef'ed to long int
-> > 
-> Khem,
-> base is char * as seen in the changed file src/XF86DGA2.c:
-> static Bool
-> DGAMapPhysical(
->    int screen,
->    char *name,                  /* optional device name */
->    unsigned char* base,         /* physical memory */
->    CARD32 size,                 /* size */
->    CARD32 offset,               /* optional offset */
->    CARD32 extra,                /* optional extra data */
->    DGAMapPtr pMap
-> ) {
+> ls from coreutils links to libcap, so move the libcap library
+> from libdir (/usr/lib) to base_libdir (/lib).
 > 
 
-is that a local change ?
 
-> Nitin
+what is motivation behind this ? needless we are tweaking the default
+install mechanism that original package maintainer intended. This can
+be a maintenace hassle. Is there a very strong reason to make these kind
+of changes ?
+
+
+> Signed-off-by: Scott Garman <scott.a.garman@intel.com>
+> ---
+>  meta/recipes-support/libcap/libcap.inc     |   15 +++++++++++++--
+>  meta/recipes-support/libcap/libcap_2.22.bb |    2 +-
+>  2 files changed, 14 insertions(+), 3 deletions(-)
 > 
-> > > +
-> > > +Signed-Off-by: Nitin A Kamble <nitin.a.kamble@intel.com>
-> > > +2012/01/04
-> > > +
-> > > +
-> > > +Index: libXxf86dga-1.1.2/src/XF86DGA2.c
-> > > +===================================================================
-> > > +--- libXxf86dga-1.1.2.orig/src/XF86DGA2.c      2010-10-06
-> > 21:17:11.000000000 -0700
-> > > ++++ libXxf86dga-1.1.2/src/XF86DGA2.c   2012-01-04 14:21:36.275971172
-> > -0800
-> > > +@@ -928,7 +928,7 @@ DGAMapPhysical(
-> > > +     if ((pMap->fd = open(name, O_RDWR)) < 0)
-> > > +       return False;
-> > > +     pMap->virtual = mmap(NULL, size, PROT_READ | PROT_WRITE,
-> > > +-                      MAP_FILE | MAP_SHARED, pMap->fd,
-> > (off_t)base);
-> > > ++                      MAP_FILE | MAP_SHARED, pMap->fd,
-> > (off_t)(unsigned long)base);
-> > > +     if (pMap->virtual == (void *)-1)
-> > > +       return False;
-> > > +     mprotect(pMap->virtual, size, PROT_READ | PROT_WRITE);
-> > > diff --git a/meta/recipes-graphics/xorg-lib/libxxf86dga_1.1.2.bb
-> > b/meta/recipes-graphics/xorg-lib/libxxf86dga_1.1.2.bb
-> > > index 8e777c3..9a1c96f 100644
-> > > --- a/meta/recipes-graphics/xorg-lib/libxxf86dga_1.1.2.bb
-> > > +++ b/meta/recipes-graphics/xorg-lib/libxxf86dga_1.1.2.bb
-> > > @@ -8,7 +8,10 @@ allows relative mouse reporting, et al.  It is
-> > mainly used by games and \
-> > >  emulators for games."
-> > >
-> > >  DEPENDS += "libxext xf86dgaproto"
-> > > -PR = "r1"
-> > > +PR = "r2"
-> > > +
-> > > +SRC_URI += "file://libxxf86dga-1.1.2_fix_for_x32.patch"
-> > > +
-> > >  PE = "1"
-> > >
-> > >  XORG_PN = "libXxf86dga"
-> > > --
-> > > 1.7.6.4
-> > >
-> > >
-> > > _______________________________________________
-> > > Openembedded-core mailing list
-> > > Openembedded-core@lists.openembedded.org
-> > > http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
-> > 
-> > _______________________________________________
-> > Openembedded-core mailing list
-> > Openembedded-core@lists.openembedded.org
-> > http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
+> diff --git a/meta/recipes-support/libcap/libcap.inc b/meta/recipes-support/libcap/libcap.inc
+> index 184b58a..9418abf 100644
+> --- a/meta/recipes-support/libcap/libcap.inc
+> +++ b/meta/recipes-support/libcap/libcap.inc
+> @@ -21,6 +21,8 @@ do_configure() {
+>  	sed -e 's,BUILD_CFLAGS ?=,BUILD_CFLAGS := $(BUILD_CFLAGS),' -i Make.Rules
+>  }
+>  
+> +BUILD_LDFLAGS_virtclass_native += "-Wl,rpath=${base_libdir}"
+> +
+>  EXTRA_OEMAKE = " \
+>    LIBATTR=yes \
+>    PAM_CAP=${@base_contains('DISTRO_FEATURES', 'pam', 'yes', 'no', d)} \
+> @@ -42,8 +44,17 @@ do_install() {
+>  	oe_runmake install DESTDIR="${D}" prefix="${prefix}"
+>  }
+>  
+> +do_install_append() {
+> +	# Move the library to base_libdir
+> +	install -d ${D}${base_libdir}
+> +	mv ${D}${libdir}/* ${D}${base_libdir}
+> +	rmdir ${D}${libdir}
+> +}
+> +
+> +FILES_${PN}-dev += "${base_libdir}/*.so"
+> +
+>  # pam files
+> -FILES_${PN} += "${libdir}/security/*.so"
+> -FILES_${PN}-dbg += "${libdir}/security/.debug/*.so"
+> +FILES_${PN} += "${base_libdir}/security/*.so"
+> +FILES_${PN}-dbg += "${base_libdir}/security/.debug/*.so"
+>  
+>  BBCLASSEXTEND = "native"
+> diff --git a/meta/recipes-support/libcap/libcap_2.22.bb b/meta/recipes-support/libcap/libcap_2.22.bb
+> index dd63d9e..be1df54 100644
+> --- a/meta/recipes-support/libcap/libcap_2.22.bb
+> +++ b/meta/recipes-support/libcap/libcap_2.22.bb
+> @@ -1,6 +1,6 @@
+>  require libcap.inc
+>  
+> -PR = "r2"
+> +PR = "r3"
+>  
+>  SRC_URI[md5sum] = "ce64058bdb3f086ddbfca8ce6c919845"
+>  SRC_URI[sha256sum] = "73ebbd4877b5f69dd28b72098e510c5b318bc480f8201c4061ac98b78c04050f"
+> -- 
+> 1.7.6.4
+> 
+> 
 > _______________________________________________
 > Openembedded-core mailing list
 > Openembedded-core@lists.openembedded.org
