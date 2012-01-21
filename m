@@ -1,22 +1,20 @@
-Received: from mga14.intel.com ([143.182.124.37])
+Received: from mga11.intel.com ([192.55.52.93])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <nitin.a.kamble@intel.com>) id 1RoUVg-0003rF-S7
+	(envelope-from <nitin.a.kamble@intel.com>) id 1RoUVh-0003rI-Ik
 	for openembedded-core@lists.openembedded.org;
 	Sat, 21 Jan 2012 07:33:09 +0100
-Received: from azsmga001.ch.intel.com ([10.2.17.19])
-	by azsmga102.ch.intel.com with ESMTP; 20 Jan 2012 22:25:26 -0800
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+	by fmsmga102.fm.intel.com with ESMTP; 20 Jan 2012 22:25:23 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="98235462"
+X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="114669691"
 Received: from nbuild0.sc.intel.com ([172.25.110.36])
-	by azsmga001.ch.intel.com with ESMTP; 20 Jan 2012 22:25:26 -0800
+	by fmsmga002.fm.intel.com with ESMTP; 20 Jan 2012 22:25:23 -0800
 From: nitin.a.kamble@intel.com
 To: openembedded-core@lists.openembedded.org
 Date: Fri, 20 Jan 2012 22:25:21 -0800
-Message-Id: <ffc4c2baa9ed5116336b1d5c2d6110f7e4163c27.1327127051.git.nitin.a.kamble@intel.com>
+Message-Id: <cover.1327127051.git.nitin.a.kamble@intel.com>
 X-Mailer: git-send-email 1.7.6.4
-In-Reply-To: <cover.1327127051.git.nitin.a.kamble@intel.com>
-References: <cover.1327127051.git.nitin.a.kamble@intel.com>
-Subject: [PATCH 1/4] ltp: disable elf binary stripping
+Subject: [PATCH 0/4] Misc recipe fixes
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -35,39 +33,31 @@ X-List-Received-Date: Sat, 21 Jan 2012 06:33:09 -0000
 
 From: Nitin A Kamble <nitin.a.kamble@intel.com>
 
-Otherwise the ltp tests ldd01 & nm01 fail due to missing stripped
-information.
 
-This Fixes these bugs:
-[YOCTO #1922]
-[YOCTO #1923]
+These are misc fixes.
+Nitin
 
-Signed-off-by: Nitin A Kamble <nitin.a.kamble@intel.com>
----
- meta/recipes-extended/ltp/ltp_20110915.bb |    6 +++++-
- 1 files changed, 5 insertions(+), 1 deletions(-)
 
-diff --git a/meta/recipes-extended/ltp/ltp_20110915.bb b/meta/recipes-extended/ltp/ltp_20110915.bb
-index dabc0f0..fd0510e 100644
---- a/meta/recipes-extended/ltp/ltp_20110915.bb
-+++ b/meta/recipes-extended/ltp/ltp_20110915.bb
-@@ -3,7 +3,7 @@ DESCRIPTION = "The Linux Test Project is a joint project with SGI, IBM, OSDL, an
- HOMEPAGE = "http://ltp.sourceforge.net"
- SECTION = "console/utils"
- 
--PR = "r0"
-+PR = "r1"
- 
- LICENSE = "GPLv2 & GPLv2+ & LGPLv2+ & LGPLv2.1+ & BSD-2-Clause"
- LIC_FILES_CHKSUM = "file://COPYING;md5=0636e73ff0215e8d672dc4c32c317bb3 \
-@@ -66,3 +66,7 @@ do_install(){
- 	# We will add expect for enhancement in future
- 	find ${D} -type f -print | xargs grep "\!.*\/usr\/bin\/expect" | awk -F":" '{print $1}' | xargs rm -f
- }
-+
-+# Avoid geenrated binaries stripping. Otherwise some of the ltp tests such as ldd01 & nm fails
-+INHIBIT_PACKAGE_STRIP = "1"
-+
+The following changes since commit 3fe81df6400448b54b47a13f27e1389b1e824ab0:
+
+  distro_tracking: update libpng, libgdbus, opensp, nfs-utils manual check dates (2012-01-20 16:47:51 +0000)
+
+are available in the git repository at:
+  git://git.pokylinux.org/poky-contrib nitin/misc
+  http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=nitin/misc
+
+Nitin A Kamble (4):
+  ltp: disable elf binary stripping
+  guile: fix a quote in description
+  distutils: Bandaid against wrong libdir computation
+  python-pyrex: force recompilation
+
+ meta/classes/distutils.bbclass                     |    7 +++++++
+ meta/recipes-devtools/guile/guile_2.0.3.bb         |    4 ++--
+ meta/recipes-devtools/python/python-pyrex_0.9.9.bb |    2 +-
+ meta/recipes-extended/ltp/ltp_20110915.bb          |    6 +++++-
+ 4 files changed, 15 insertions(+), 4 deletions(-)
+
 -- 
 1.7.6.4
 
