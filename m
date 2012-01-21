@@ -1,33 +1,40 @@
-Received: from mail-pz0-f47.google.com ([209.85.210.47])
+Received: from mail-iy0-f175.google.com ([209.85.210.175])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <bruce.ashfield@gmail.com>) id 1Roc3x-0006UC-TV
+	(envelope-from <raj.khem@gmail.com>) id 1RokRq-0003NF-NT
 	for openembedded-core@lists.openembedded.org;
-	Sat, 21 Jan 2012 15:37:03 +0100
-Received: by dadw11 with SMTP id w11so689327dad.6
+	Sun, 22 Jan 2012 00:34:15 +0100
+Received: by iabz21 with SMTP id z21so3032053iab.6
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 21 Jan 2012 06:29:18 -0800 (PST)
+	Sat, 21 Jan 2012 15:26:31 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
-	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
-	:content-type:content-transfer-encoding;
-	bh=6c+HDWK5BBjIbNofGO3jobaaVsvmJdQyDzzdJ6zjnSQ=;
-	b=BAS+tjffNxCRtcR3siLXW8y4wrK6T8bZFWsZOUDY6eu/w5LSzWT2Uf0onxh8ldem3d
-	K+IFoyK+z6DZSu8OFD+5b+f/xGtd0Z/51XQpM8aZQXkJozVQrgGYWxtrsb4RDfT5sURz
-	DbvsC7pYEjG4LigXEyP4ByFja9dovmx0/ETWE=
-MIME-Version: 1.0
-Received: by 10.68.120.72 with SMTP id la8mr5243986pbb.56.1327156157556; Sat,
-	21 Jan 2012 06:29:17 -0800 (PST)
-Received: by 10.143.10.7 with HTTP; Sat, 21 Jan 2012 06:29:17 -0800 (PST)
-In-Reply-To: <1327146536.10079.16.camel@ted>
-References: <1325752666-28560-1-git-send-email-liming.wang@windriver.com>
-	<4F1A3608.70002@linux.intel.com>
-	<CADkTA4MWvSsScXymA1-3vStE4qrY6yR5p3-8QG8FkN+-rqaYvg@mail.gmail.com>
-	<1327146536.10079.16.camel@ted>
-Date: Sat, 21 Jan 2012 09:29:17 -0500
-Message-ID: <CADkTA4MdDYGV4EJa92h0yCwMJUy_36bSQobCAnPU==1PhuYM0Q@mail.gmail.com>
-From: Bruce Ashfield <bruce.ashfield@gmail.com>
+	h=date:from:to:subject:message-id:references:mime-version
+	:content-type:content-disposition:content-transfer-encoding
+	:in-reply-to:user-agent;
+	bh=yFZMoVZ9VkYlXpsxaQ5xWD28NOE+CZ3WeL1FeAdX8Vg=;
+	b=rLfAtFu9yIxW/6rHkcmcHDm6eHWZxDy3gYfqc/hg3zqxD19kXe5t7FRGUKqTHUw2gd
+	RBa6Zwyy2mdaJnQXDtwCtGtrWoV3lpVjfJtNcepD/fbB17fOvYndo3cAIiJYPCripnGL
+	qXrGg0Zxnr+A3E6eW21VoFbBciD7yIWytrRqs=
+Received: by 10.50.184.168 with SMTP id ev8mr3738859igc.29.1327188391417;
+	Sat, 21 Jan 2012 15:26:31 -0800 (PST)
+Received: from sakrah.homelinux.org
+	(99-57-141-118.lightspeed.sntcca.sbcglobal.net. [99.57.141.118])
+	by mx.google.com with ESMTPS id gh7sm13604016igb.1.2012.01.21.15.26.28
+	(version=TLSv1/SSLv3 cipher=OTHER);
+	Sat, 21 Jan 2012 15:26:29 -0800 (PST)
+Date: Sat, 21 Jan 2012 15:26:25 -0800
+From: Khem Raj <raj.khem@gmail.com>
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 0/4] qemuppc: replace emulation of qemuppc
+Message-ID: <20120121232625.GB12691@sakrah.homelinux.org>
+References: <cover.1325725256.git.nitin.a.kamble@intel.com>
+	<aa69250b08b446ad0408357587a0271a66684f12.1325725256.git.nitin.a.kamble@intel.com>
+	<521a1d1e78e4e797ce9c1787c83d8e0b2020281e.1325725256.git.nitin.a.kamble@intel.com>
+	<CAMKF1srE2FO8iY0x0UvzYCKEosWV79VomhkovmLUUjXgU19dew@mail.gmail.com>
+	<ADD6A3980E8C39419A432FF422031B4C014F9D@ORSMSX106.amr.corp.intel.com>
+MIME-Version: 1.0
+In-Reply-To: <ADD6A3980E8C39419A432FF422031B4C014F9D@ORSMSX106.amr.corp.intel.com>
+User-Agent: Mutt/1.5.21 (2010-09-15)
+Subject: Re: [PATCH 3/4] libxxf86dga: fix compilation with x32 toolchain
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -42,64 +49,165 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 21 Jan 2012 14:37:03 -0000
-Content-Type: text/plain; charset=ISO-8859-1
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Sat, 21 Jan 2012 23:34:15 -0000
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
 
-On Sat, Jan 21, 2012 at 6:48 AM, Richard Purdie
-<richard.purdie@linuxfoundation.org> wrote:
-> On Fri, 2012-01-20 at 23:12 -0500, Bruce Ashfield wrote:
->> On Fri, Jan 20, 2012 at 10:50 PM, Saul Wold <sgw@linux.intel.com> wrote:
->> > On 01/05/2012 12:37 AM, Liming Wang wrote:
->> >>
->> >> Hi Richard,
->> >>
->> >> These patches are aimed to replace emulation of qemuppc from prep to
->> >> mac99.
->> >> With this new emulation, qemuppc now supports framebuffer and the net=
-work
->> >> works well.
->> >>
->> > Is there anything that needs to be setup differently for the runqemu
->> > scripts? =A0Our sanity tests have failed after changing to the new ppc=
- code
->> > and I wonder if there is something for the command line or ???
->>
->> What type of failure ? boot ? I'm building and booting it all the time, =
-so I can
->> help there. Or are you talking about something in particular like the ne=
-twork ?
->> disk ?
->
-> I ran a test build and can confirm that whilst qemuppc can boot, there
-> is no network. We need to fix the network ASAP as our automated testing
-> depends on working network access...
+On (06/01/12 18:27), Kamble, Nitin A wrote:
+> 
+> 
+> > -----Original Message-----
+> > From: openembedded-core-bounces@lists.openembedded.org
+> > [mailto:openembedded-core-bounces@lists.openembedded.org] On Behalf Of
+> > Khem Raj
+> > Sent: Thursday, January 05, 2012 12:49 PM
+> > To: Patches and discussions about the oe-core layer
+> > Subject: Re: [OE-core] [PATCH 3/4] libxxf86dga: fix compilation with
+> > x32 toolchain
+> > 
+> > On Wed, Jan 4, 2012 at 5:02 PM,  <nitin.a.kamble@intel.com> wrote:
+> > > From: Nitin A Kamble <nitin.a.kamble@intel.com>
+> > >
+> > > Fix type conversion for x32. For x32 the off_t is 64bit and pointers
+> > are
+> > > 32bit.
+> > > so the conversion of pointer to off_t was resulting into this error:
+> > >
+> > > | XF86DGA2.c:931:24: error: cast from pointer to integer of different
+> > > size [-Werror=pointer-to-int-cast]
+> > > | cc1: some warnings being treated as errors
+> > > |
+> > > | make[2]: *** [XF86DGA2.lo] Error 1
+> > >
+> > > Fixed it by typecasting pointer into unsigned long 1st and then again
+> > > typecasting unsigned long to off_t.
+> > >
+> > > Signed-off-by: Nitin A Kamble <nitin.a.kamble@intel.com>
+> > > ---
+> > >  .../libxxf86dga-1.1.2_fix_for_x32.patch            |   30
+> > ++++++++++++++++++++
+> > >  .../recipes-graphics/xorg-lib/libxxf86dga_1.1.2.bb |    5 ++-
+> > >  2 files changed, 34 insertions(+), 1 deletions(-)
+> > >  create mode 100644 meta/recipes-graphics/xorg-
+> > lib/libxxf86dga/libxxf86dga-1.1.2_fix_for_x32.patch
+> > >
+> > > diff --git a/meta/recipes-graphics/xorg-lib/libxxf86dga/libxxf86dga-
+> > 1.1.2_fix_for_x32.patch b/meta/recipes-graphics/xorg-
+> > lib/libxxf86dga/libxxf86dga-1.1.2_fix_for_x32.patch
+> > > new file mode 100644
+> > > index 0000000..30692ad
+> > > --- /dev/null
+> > > +++ b/meta/recipes-graphics/xorg-lib/libxxf86dga/libxxf86dga-
+> > 1.1.2_fix_for_x32.patch
+> > > @@ -0,0 +1,30 @@
+> > > +Upstream-Status: pending
+> > > +
+> > > +Fix type conversion for x32. For x32 the off_t is 64bit and pointers
+> > are 32bit.
+> > > +so the conversion of pointer to off_t was resulting into this error:
+> > > +
+> > > +| XF86DGA2.c:931:24: error: cast from pointer to integer of
+> > different size [-Werror=pointer-to-int-cast]
+> > > +| cc1: some warnings being treated as errors
+> > > +|
+> > > +| make[2]: *** [XF86DGA2.lo] Error 1
+> > > +
+> > > +Fixed it by typecasting pointer into unsigned long 1st and then
+> > again typecasting
+> > > +unsigned long to off_t.
+> > 
+> > where is pointer here ?
+> > http://cvsweb.xfree86.org/cvsweb/xc/lib/Xxf86dga/XF86DGA2.c?rev=1.30&co
+> > ntent-type=text/vnd.viewcvs-markup
+> > shows that base is of type mmapOffset which is
+> > 
+> > #if !defined(_LP64) && defined(_FILE_OFFSET_BITS) && (_FILE_OFFSET_BITS
+> > == 64)
+> > typedef unsigned long long mmapOffset;
+> > #else
+> > typedef unsigned long      mmapOffset;
+> > #endif
+> > 
+> > and off_t is typedef'ed to long int
+> > 
+> Khem,
+> base is char * as seen in the changed file src/XF86DGA2.c:
+> static Bool
+> DGAMapPhysical(
+>    int screen,
+>    char *name,                  /* optional device name */
+>    unsigned char* base,         /* physical memory */
+>    CARD32 size,                 /* size */
+>    CARD32 offset,               /* optional offset */
+>    CARD32 extra,                /* optional extra data */
+>    DGAMapPtr pMap
+> ) {
+> 
 
-Liming is out for the next week or so, but I'll see what I can do on Monday=
-.
-He did report a properly working networking with his initial submission, so=
- it
-should just be a configuration issue.
+is that a local change ?
 
-Cheers,
-
-Bruce
-
->
-> Cheers,
->
-> Richard
->
->
+> Nitin
+> 
+> > > +
+> > > +Signed-Off-by: Nitin A Kamble <nitin.a.kamble@intel.com>
+> > > +2012/01/04
+> > > +
+> > > +
+> > > +Index: libXxf86dga-1.1.2/src/XF86DGA2.c
+> > > +===================================================================
+> > > +--- libXxf86dga-1.1.2.orig/src/XF86DGA2.c      2010-10-06
+> > 21:17:11.000000000 -0700
+> > > ++++ libXxf86dga-1.1.2/src/XF86DGA2.c   2012-01-04 14:21:36.275971172
+> > -0800
+> > > +@@ -928,7 +928,7 @@ DGAMapPhysical(
+> > > +     if ((pMap->fd = open(name, O_RDWR)) < 0)
+> > > +       return False;
+> > > +     pMap->virtual = mmap(NULL, size, PROT_READ | PROT_WRITE,
+> > > +-                      MAP_FILE | MAP_SHARED, pMap->fd,
+> > (off_t)base);
+> > > ++                      MAP_FILE | MAP_SHARED, pMap->fd,
+> > (off_t)(unsigned long)base);
+> > > +     if (pMap->virtual == (void *)-1)
+> > > +       return False;
+> > > +     mprotect(pMap->virtual, size, PROT_READ | PROT_WRITE);
+> > > diff --git a/meta/recipes-graphics/xorg-lib/libxxf86dga_1.1.2.bb
+> > b/meta/recipes-graphics/xorg-lib/libxxf86dga_1.1.2.bb
+> > > index 8e777c3..9a1c96f 100644
+> > > --- a/meta/recipes-graphics/xorg-lib/libxxf86dga_1.1.2.bb
+> > > +++ b/meta/recipes-graphics/xorg-lib/libxxf86dga_1.1.2.bb
+> > > @@ -8,7 +8,10 @@ allows relative mouse reporting, et al.  It is
+> > mainly used by games and \
+> > >  emulators for games."
+> > >
+> > >  DEPENDS += "libxext xf86dgaproto"
+> > > -PR = "r1"
+> > > +PR = "r2"
+> > > +
+> > > +SRC_URI += "file://libxxf86dga-1.1.2_fix_for_x32.patch"
+> > > +
+> > >  PE = "1"
+> > >
+> > >  XORG_PN = "libXxf86dga"
+> > > --
+> > > 1.7.6.4
+> > >
+> > >
+> > > _______________________________________________
+> > > Openembedded-core mailing list
+> > > Openembedded-core@lists.openembedded.org
+> > > http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
+> > 
+> > _______________________________________________
+> > Openembedded-core mailing list
+> > Openembedded-core@lists.openembedded.org
+> > http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
 > _______________________________________________
 > Openembedded-core mailing list
 > Openembedded-core@lists.openembedded.org
 > http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
 
-
-
---=20
-"Thou shalt not follow the NULL pointer, for chaos and madness await
-thee at its end"
+-- 
+-Khem
 
 
