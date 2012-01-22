@@ -1,25 +1,25 @@
 Received: from mail.pbcl.net ([88.198.119.4] helo=hetzner.pbcl.net)
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <philb@gnu.org>) id 1Rp4Az-0007IL-JK
+	(envelope-from <philb@gnu.org>) id 1Rp4KM-0007VS-Ph
 	for openembedded-core@lists.openembedded.org;
-	Sun, 22 Jan 2012 21:38:09 +0100
+	Sun, 22 Jan 2012 21:47:50 +0100
 Received: from blundell.swaffham-prior.co.uk ([91.216.112.25]
 	helo=[192.168.114.5])
 	by hetzner.pbcl.net with esmtpsa (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
-	(Exim 4.72) (envelope-from <philb@gnu.org>) id 1Rp43Y-0004mZ-H4
+	(Exim 4.72) (envelope-from <philb@gnu.org>) id 1Rp4Cv-0004nB-MX
 	for openembedded-core@lists.openembedded.org;
-	Sun, 22 Jan 2012 21:30:28 +0100
-Message-ID: <1327264221.2859.2.camel@pb-ThinkPad-R50e>
+	Sun, 22 Jan 2012 21:40:09 +0100
+Message-ID: <1327264803.2859.7.camel@pb-ThinkPad-R50e>
 From: Phil Blundell <philb@gnu.org>
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Date: Sun, 22 Jan 2012 20:30:21 +0000
-In-Reply-To: <4236e557f38c0e4c3e7088fd528face5b74f60a8.1327123057.git.sgw@linux.intel.com>
+Date: Sun, 22 Jan 2012 20:40:03 +0000
+In-Reply-To: <a6a863bec95ca8b6835a5515062fe8a48b6c3e06.1327123057.git.sgw@linux.intel.com>
 References: <cover.1327123057.git.sgw@linux.intel.com>
-	<4236e557f38c0e4c3e7088fd528face5b74f60a8.1327123057.git.sgw@linux.intel.com>
+	<a6a863bec95ca8b6835a5515062fe8a48b6c3e06.1327123057.git.sgw@linux.intel.com>
 X-Mailer: Evolution 3.2.1- 
 Mime-Version: 1.0
-Subject: Re: [PATCH 18/20] eglibc: refactor packages for staticdev
+Subject: Re: [PATCH 20/20] gcc: refactor packages for staticdev
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -34,23 +34,32 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 22 Jan 2012 20:38:09 -0000
+X-List-Received-Date: Sun, 22 Jan 2012 20:47:50 -0000
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 
 On Fri, 2012-01-20 at 21:18 -0800, Saul Wold wrote:
-> @@ -54,6 +56,7 @@ RDEPENDS_${PN}-utils += "bash"
->  FILES_${PN}-pcprofile = "${base_libdir}/libpcprofile.so"
->  FILES_eglibc-thread-db${PKGSUFFIX} = "${base_libdir}/libthread_db.so.* ${base_libdir}/libthread_db-*.so"
->  RPROVIDES_${PN}-dev += "libc-dev"
-> +RPROVIDES_${PN}-dev += "libc-staticdev"
+> Signed-off-by: Saul Wold <sgw@linux.intel.com>
+> ---
+>  meta/recipes-devtools/gcc/gcc-4.6.inc             |    2 +-
+>  meta/recipes-devtools/gcc/gcc-package-runtime.inc |    9 +++++++--
+>  meta/recipes-devtools/gcc/libgcc_4.6.bb           |    4 +++-
+>  3 files changed, 11 insertions(+), 4 deletions(-)
 
-Is that really what you wanted?
+This patch has no long commit message at all, and it seems to do
+something with "libgcov-dev" which I wouldn't have guessed from the
+terse summary in the subject line.  Can you add some more commentary
+about what is going on with that?
 
-More generally, I'm not very convinced that all these RPROVIDES in the
-eglibc recipes are serving any useful purpose anymore.  I think we
-should be trying to get rid of them, not adding new ones.  Does anybody
-know of anything which currently depends on them?
+Please see the guidance on the wiki:
+
+http://www.openembedded.org/wiki/Commit_Patch_Message_Guidelines#Patch_Headers_and_Commit_Messages
+
+which is quite explicit that "[i]t is not acceptable to have an empty or
+non-existent header, or just a single line message. The summary and
+description is required for all changes."
+
+thanks
 
 p.
 
