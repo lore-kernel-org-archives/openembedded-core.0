@@ -1,24 +1,24 @@
-Received: from mga11.intel.com ([192.55.52.93])
+Received: from mga01.intel.com ([192.55.52.88])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <shane.wang@intel.com>) id 1Rp1s7-0002gO-MV
+	(envelope-from <shane.wang@intel.com>) id 1Rp249-00033r-1r
 	for openembedded-core@lists.openembedded.org;
-	Sun, 22 Jan 2012 19:10:31 +0100
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-	by fmsmga102.fm.intel.com with ESMTP; 22 Jan 2012 10:02:35 -0800
+	Sun, 22 Jan 2012 19:22:57 +0100
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+	by fmsmga101.fm.intel.com with ESMTP; 22 Jan 2012 10:02:33 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="114995289"
+X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="109668922"
 Received: from yocto-build5.sh.intel.com (HELO localhost) ([10.239.48.2])
-	by fmsmga002.fm.intel.com with ESMTP; 22 Jan 2012 10:02:34 -0800
+	by fmsmga001.fm.intel.com with ESMTP; 22 Jan 2012 10:02:33 -0800
 From: Shane Wang <shane.wang@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Mon, 23 Jan 2012 02:06:19 +0800
-Message-Id: <34bf2a760dc28ee4106d912de3f57950a68aca89.1327255446.git.shane.wang@intel.com>
+Date: Mon, 23 Jan 2012 02:06:18 +0800
+Message-Id: <5508508491b90ad0747c9aa4a9817274ea88d378.1327255446.git.shane.wang@intel.com>
 X-Mailer: git-send-email 1.7.6
 In-Reply-To: <a3776c81de568353900eec28bb7f10372875e727.1327255445.git.shane.wang@intel.com>
 References: <a3776c81de568353900eec28bb7f10372875e727.1327255445.git.shane.wang@intel.com>
 In-Reply-To: <cover.1327255445.git.shane.wang@intel.com>
 References: <cover.1327255445.git.shane.wang@intel.com>
-Subject: [PATCH 14/18] ed: upgrade to 1.6
+Subject: [PATCH 13/18] ofono: upgrade to 1.3
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -33,71 +33,45 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 22 Jan 2012 18:10:31 -0000
+X-List-Received-Date: Sun, 22 Jan 2012 18:22:57 -0000
 
-This patch is to upgrade ed to 1.6, and the change of license checksum is because
-
-the diff between two ed.h files:
-
-3c3,4
-<     Copyright (C) 1993, 1994, 2006, 2007, 2008, 2009, 2010
----
->     Copyright (C) 1993, 1994 Andrew Moore, Talke Studio
->     Copyright (C) 2006, 2007, 2008, 2009, 2010, 2011, 2012
-
-the diff between two main.c files:
-
-2c2
-<     Copyright (C) 1993, 1994, 2006, 2007, 2008, 2009, 2010
----
->     Copyright (C) 2006, 2007, 2008, 2009, 2010, 2011, 2012
-46d45
+This patch is to upgrade ofono to 1.3 and the v1.3 ofono depends on mobile-broadband-provider-info.
 
 Signed-off-by: Shane Wang <shane.wang@intel.com>
 ---
- .../ed/{ed-1.5 => ed-1.6}/ed-1.2-build.patch       |    0
- meta/recipes-extended/ed/{ed_1.5.bb => ed_1.6.bb}  |   10 +++++-----
- 2 files changed, 5 insertions(+), 5 deletions(-)
- rename meta/recipes-extended/ed/{ed-1.5 => ed-1.6}/ed-1.2-build.patch (100%)
- rename meta/recipes-extended/ed/{ed_1.5.bb => ed_1.6.bb} (59%)
+ meta/recipes-connectivity/ofono/ofono.inc          |    2 +-
+ .../ofono/{ofono_1.0.bb => ofono_1.3.bb}           |    4 ++--
+ 2 files changed, 3 insertions(+), 3 deletions(-)
+ rename meta/recipes-connectivity/ofono/{ofono_1.0.bb => ofono_1.3.bb} (66%)
 
-diff --git a/meta/recipes-extended/ed/ed-1.5/ed-1.2-build.patch b/meta/recipes-extended/ed/ed-1.6/ed-1.2-build.patch
-similarity index 100%
-rename from meta/recipes-extended/ed/ed-1.5/ed-1.2-build.patch
-rename to meta/recipes-extended/ed/ed-1.6/ed-1.2-build.patch
-diff --git a/meta/recipes-extended/ed/ed_1.5.bb b/meta/recipes-extended/ed/ed_1.6.bb
-similarity index 59%
-rename from meta/recipes-extended/ed/ed_1.5.bb
-rename to meta/recipes-extended/ed/ed_1.6.bb
-index d4e8a81..cc72588 100644
---- a/meta/recipes-extended/ed/ed_1.5.bb
-+++ b/meta/recipes-extended/ed/ed_1.6.bb
-@@ -4,11 +4,11 @@ BUGTRACKER = ""
+diff --git a/meta/recipes-connectivity/ofono/ofono.inc b/meta/recipes-connectivity/ofono/ofono.inc
+index bf6f6a5..f6cd895 100644
+--- a/meta/recipes-connectivity/ofono/ofono.inc
++++ b/meta/recipes-connectivity/ofono/ofono.inc
+@@ -7,7 +7,7 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=eb723b61539feef013de476e68b5c50a \
  
- LICENSE = "GPLv3+"
- LIC_FILES_CHKSUM = "file://COPYING;md5=f27defe1e96c2e1ecd4e0c9be8967949 \
--                    file://ed.h;endline=20;md5=238781cd8e436dabb0e9f18443400066 \
--                    file://main.c;endline=24;md5=177fe82d0649e545591a13fdce5733e8"
-+                    file://ed.h;endline=20;md5=c708cda1b2e8d723d458690b7db03878 \
-+                    file://main.c;endline=24;md5=1bd039d59e04ee5f82adcc970144a2c3"
+ inherit autotools pkgconfig update-rc.d
  
- SECTION = "base"
--PR = "r1"
-+PR = "r0"
+-DEPENDS  = "dbus glib-2.0 udev ${@base_contains('DISTRO_FEATURES', 'bluetooth','bluez4', '', d)}"
++DEPENDS  = "dbus glib-2.0 udev mobile-broadband-provider-info ${@base_contains('DISTRO_FEATURES', 'bluetooth','bluez4', '', d)}"
  
- # LSB states that ed should be in /bin/
- bindir = "${base_bindir}"
-@@ -16,8 +16,8 @@ bindir = "${base_bindir}"
- SRC_URI = "${GNU_MIRROR}/ed/ed-${PV}.tar.gz \
-            file://ed-1.2-build.patch"
+ INITSCRIPT_NAME = "ofono"
+ INITSCRIPT_PARAMS = "defaults 22"
+diff --git a/meta/recipes-connectivity/ofono/ofono_1.0.bb b/meta/recipes-connectivity/ofono/ofono_1.3.bb
+similarity index 66%
+rename from meta/recipes-connectivity/ofono/ofono_1.0.bb
+rename to meta/recipes-connectivity/ofono/ofono_1.3.bb
+index 276efdb..ed664a2 100644
+--- a/meta/recipes-connectivity/ofono/ofono_1.0.bb
++++ b/meta/recipes-connectivity/ofono/ofono_1.3.bb
+@@ -10,5 +10,5 @@ EXTRA_OECONF += "\
+     ${@base_contains('DISTRO_FEATURES', 'bluetooth','--enable-bluetooth', '--disable-bluetooth', d)} \
+ "
  
--SRC_URI[md5sum] = "e66c03d7e4c67b025d5b6093ec678267"
--SRC_URI[sha256sum] = "97dd34a49ebc9c97e414b90a087d63eafc41377a340848c97e75a9cba187fba1"
-+SRC_URI[md5sum] = "9a78593decccaa889523aa4bb555ed4b"
-+SRC_URI[sha256sum] = "211c67b0c4aae277d34b1c5f842db1952e468e5905142868e4718ac838f08a65"
- 
- do_configure() {
- 	${S}/configure
+-SRC_URI[md5sum] = "09a36c923c8c0f491899aa7eebe92193"
+-SRC_URI[sha256sum] = "7733e1628fac6ef4d8aa3e536a5c284c3ba8e76277fc7e28b7e146c3c5ddebfa"
++SRC_URI[md5sum] = "dbe381b739c0e7830e6c075f81c8e168"
++SRC_URI[sha256sum] = "02a9f1f7c1b8eeb8868290d119fe5dc90b0b5c0b6199bed5293dc06a8bf7ebeb"
 -- 
 1.7.6
 
