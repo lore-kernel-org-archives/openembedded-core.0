@@ -1,24 +1,24 @@
 Received: from mga02.intel.com ([134.134.136.20])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <shane.wang@intel.com>) id 1Rp1rs-0002ZG-HJ
+	(envelope-from <shane.wang@intel.com>) id 1Rp1ru-0002ZG-N6
 	for openembedded-core@lists.openembedded.org;
-	Sun, 22 Jan 2012 19:10:16 +0100
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-	by orsmga101.jf.intel.com with ESMTP; 22 Jan 2012 10:02:32 -0800
+	Sun, 22 Jan 2012 19:10:18 +0100
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+	by orsmga101.jf.intel.com with ESMTP; 22 Jan 2012 10:02:37 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.67,351,1309762800"; d="scan'208";a="101467046"
+X-IronPort-AV: E=Sophos;i="4.67,352,1309762800"; d="scan'208";a="99362153"
 Received: from yocto-build5.sh.intel.com (HELO localhost) ([10.239.48.2])
-	by orsmga002.jf.intel.com with ESMTP; 22 Jan 2012 10:02:32 -0800
+	by orsmga001.jf.intel.com with ESMTP; 22 Jan 2012 10:02:36 -0800
 From: Shane Wang <shane.wang@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Mon, 23 Jan 2012 02:06:17 +0800
-Message-Id: <5045392bfa4ecc5f778e0f1889b6325dfc847f51.1327255446.git.shane.wang@intel.com>
+Date: Mon, 23 Jan 2012 02:06:21 +0800
+Message-Id: <afe31057ec245232918623b57194a06563d5a2a1.1327255446.git.shane.wang@intel.com>
 X-Mailer: git-send-email 1.7.6
 In-Reply-To: <a3776c81de568353900eec28bb7f10372875e727.1327255445.git.shane.wang@intel.com>
 References: <a3776c81de568353900eec28bb7f10372875e727.1327255445.git.shane.wang@intel.com>
 In-Reply-To: <cover.1327255445.git.shane.wang@intel.com>
 References: <cover.1327255445.git.shane.wang@intel.com>
-Subject: [PATCH 12/18] mobile-broadband-provider-info: bring a new recipe into poky
+Subject: [PATCH 16/18] strace: upgrade to 4.6
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -33,44 +33,50 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 22 Jan 2012 18:10:16 -0000
-
-This patch is to bring a new recipe mobile-broadband-provider-info into poky because the latest version ofono v1.3 depends on it.
-
-And the patch is imported from the OpenEmbedded server (http://git.openembedded.org/openembedded/tree/recipes/mobile-broadband-provider-info) as of commit ids
-
-commit 9d612c4bb9bef813bdef9e198efc5949d51905eb
-commit 84bf98dc6876ef6be8a4ee3744924e922253b53e
-commit 30a913149de95ecafe4ef87bd50cfdbd6737fe1e
-commit 7d2be53866d317bb032c63548f504f63107b4c2c
-
-And upgrade to the latest.
+X-List-Received-Date: Sun, 22 Jan 2012 18:10:19 -0000
 
 Signed-off-by: Shane Wang <shane.wang@intel.com>
 ---
- .../mobile-broadband-provider-info_git.bb          |   13 +++++++++++++
- 1 files changed, 13 insertions(+), 0 deletions(-)
- create mode 100644 meta/recipes-connectivity/mobile-broadband-provider-info/mobile-broadband-provider-info_git.bb
+ .../{strace-4.5.20 => strace-4.6}/sigmask.patch    |    0
+ .../strace/{strace_4.5.20.bb => strace_4.6.bb}     |    8 ++++----
+ 2 files changed, 4 insertions(+), 4 deletions(-)
+ rename meta/recipes-devtools/strace/{strace-4.5.20 => strace-4.6}/sigmask.patch (100%)
+ rename meta/recipes-devtools/strace/{strace_4.5.20.bb => strace_4.6.bb} (67%)
 
-diff --git a/meta/recipes-connectivity/mobile-broadband-provider-info/mobile-broadband-provider-info_git.bb b/meta/recipes-connectivity/mobile-broadband-provider-info/mobile-broadband-provider-info_git.bb
-new file mode 100644
-index 0000000..d1ca0f0
---- /dev/null
-+++ b/meta/recipes-connectivity/mobile-broadband-provider-info/mobile-broadband-provider-info_git.bb
-@@ -0,0 +1,13 @@
-+DESCRIPTION = "Mobile Broadband Service Provider Database"
-+SECTION = "network"
-+LICENSE = "CCPD"
-+LIC_FILES_CHKSUM = "file://COPYING;md5=87964579b2a8ece4bc6744d2dc9a8b04"
-+SRCREV = "d9995ef693cb1ea7237f928df18e03cccba96f16"
-+PV = "1.0.0+gitr${SRCPV}"
-+PE = "1"
+diff --git a/meta/recipes-devtools/strace/strace-4.5.20/sigmask.patch b/meta/recipes-devtools/strace/strace-4.6/sigmask.patch
+similarity index 100%
+rename from meta/recipes-devtools/strace/strace-4.5.20/sigmask.patch
+rename to meta/recipes-devtools/strace/strace-4.6/sigmask.patch
+diff --git a/meta/recipes-devtools/strace/strace_4.5.20.bb b/meta/recipes-devtools/strace/strace_4.6.bb
+similarity index 67%
+rename from meta/recipes-devtools/strace/strace_4.5.20.bb
+rename to meta/recipes-devtools/strace/strace_4.6.bb
+index 53df067..05f6d95 100644
+--- a/meta/recipes-devtools/strace/strace_4.5.20.bb
++++ b/meta/recipes-devtools/strace/strace_4.6.bb
+@@ -3,18 +3,18 @@ HOMEPAGE = "http://strace.sourceforge.net"
+ SECTION = "console/utils"
+ LICENSE = "BSD"
+ LIC_FILES_CHKSUM = "file://COPYRIGHT;md5=4535377ede62550fdeaf39f595fd550a"
+-PR = "r2"
 +PR = "r0"
-+
-+SRC_URI = "git://git.gnome.org/mobile-broadband-provider-info;protocol=git"
-+S = "${WORKDIR}/git"
-+
-+inherit autotools
+ 
+ PACKAGES =+ "${PN}-graph "
+ FILES_${PN}-graph = "${bindir}/strace-graph"
+ RDEPENDS_${PN}-graph = "perl"
+ 
+-SRC_URI = "${SOURCEFORGE_MIRROR}/strace/strace-${PV}.tar.bz2 \
++SRC_URI = "${SOURCEFORGE_MIRROR}/strace/strace-${PV}.tar.xz \
+            file://sigmask.patch \
+           "
+ 
+-SRC_URI[md5sum] = "64dfe10d9db0c1e34030891695ffca4b"
+-SRC_URI[sha256sum] = "ea8c059369eaa5ad90b246f34eab247d0ee48bfdee2670c7196320a4669ccabd"
++SRC_URI[md5sum] = "e537b2b1afeec70c0e6e27a0d0fd671e"
++SRC_URI[sha256sum] = "9ef9aa41b6118578e33ef4833b8a04209d6cc062546c28efd715f283b172c28a"
+ inherit autotools
+ 
+ export INCLUDES = "-I. -I./linux"
 -- 
 1.7.6
 
