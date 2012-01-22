@@ -1,24 +1,24 @@
-Received: from mga02.intel.com ([134.134.136.20])
+Received: from mga03.intel.com ([143.182.124.21])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <shane.wang@intel.com>) id 1Rp1lh-0002Jq-Pn
+	(envelope-from <shane.wang@intel.com>) id 1Rp1lj-0002Jt-8Y
 	for openembedded-core@lists.openembedded.org;
 	Sun, 22 Jan 2012 19:03:55 +0100
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-	by orsmga101.jf.intel.com with ESMTP; 22 Jan 2012 09:56:10 -0800
+Received: from azsmga001.ch.intel.com ([10.2.17.19])
+	by azsmga101.ch.intel.com with ESMTP; 22 Jan 2012 09:56:11 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.67,351,1309762800"; d="scan'208";a="101465954"
+X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="98550008"
 Received: from yocto-build5.sh.intel.com (HELO localhost) ([10.239.48.2])
-	by orsmga002.jf.intel.com with ESMTP; 22 Jan 2012 09:56:09 -0800
+	by azsmga001.ch.intel.com with ESMTP; 22 Jan 2012 09:56:10 -0800
 From: Shane Wang <shane.wang@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Mon, 23 Jan 2012 02:06:14 +0800
-Message-Id: <c63b70a63399881d6b8a5b08be961aef668422ba.1327255445.git.shane.wang@intel.com>
+Date: Mon, 23 Jan 2012 02:06:15 +0800
+Message-Id: <dd269ac336536e071c71ec0eb741cd5587d0a8f1.1327255446.git.shane.wang@intel.com>
 X-Mailer: git-send-email 1.7.6
 In-Reply-To: <a3776c81de568353900eec28bb7f10372875e727.1327255445.git.shane.wang@intel.com>
 References: <a3776c81de568353900eec28bb7f10372875e727.1327255445.git.shane.wang@intel.com>
 In-Reply-To: <cover.1327255445.git.shane.wang@intel.com>
 References: <cover.1327255445.git.shane.wang@intel.com>
-Subject: [PATCH 09/18] bluez-hcidump: upgrade to 2.2
+Subject: [PATCH 10/18] bluez4: upgrade to 4.98
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -37,28 +37,38 @@ X-List-Received-Date: Sun, 22 Jan 2012 18:03:55 -0000
 
 Signed-off-by: Shane Wang <shane.wang@intel.com>
 ---
- .../{bluez-hcidump_2.1.bb => bluez-hcidump_2.2.bb} |    4 ++--
- 1 files changed, 2 insertions(+), 2 deletions(-)
- rename meta/recipes-connectivity/bluez/{bluez-hcidump_2.1.bb => bluez-hcidump_2.2.bb} (83%)
+ .../{bluez4-4.96 => bluez4-4.98}/bluetooth.conf    |    0
+ .../bluez/{bluez4_4.96.bb => bluez4_4.98.bb}       |    6 +++---
+ 2 files changed, 3 insertions(+), 3 deletions(-)
+ rename meta/recipes-connectivity/bluez/{bluez4-4.96 => bluez4-4.98}/bluetooth.conf (100%)
+ rename meta/recipes-connectivity/bluez/{bluez4_4.96.bb => bluez4_4.98.bb} (86%)
 
-diff --git a/meta/recipes-connectivity/bluez/bluez-hcidump_2.1.bb b/meta/recipes-connectivity/bluez/bluez-hcidump_2.2.bb
-similarity index 83%
-rename from meta/recipes-connectivity/bluez/bluez-hcidump_2.1.bb
-rename to meta/recipes-connectivity/bluez/bluez-hcidump_2.2.bb
-index ce84f58..ba2d7de 100644
---- a/meta/recipes-connectivity/bluez/bluez-hcidump_2.1.bb
-+++ b/meta/recipes-connectivity/bluez/bluez-hcidump_2.2.bb
-@@ -11,8 +11,8 @@ PR = "r0"
+diff --git a/meta/recipes-connectivity/bluez/bluez4-4.96/bluetooth.conf b/meta/recipes-connectivity/bluez/bluez4-4.98/bluetooth.conf
+similarity index 100%
+rename from meta/recipes-connectivity/bluez/bluez4-4.96/bluetooth.conf
+rename to meta/recipes-connectivity/bluez/bluez4-4.98/bluetooth.conf
+diff --git a/meta/recipes-connectivity/bluez/bluez4_4.96.bb b/meta/recipes-connectivity/bluez/bluez4_4.98.bb
+similarity index 86%
+rename from meta/recipes-connectivity/bluez/bluez4_4.96.bb
+rename to meta/recipes-connectivity/bluez/bluez4_4.98.bb
+index 88ec7a4..62de1fe 100644
+--- a/meta/recipes-connectivity/bluez/bluez4_4.96.bb
++++ b/meta/recipes-connectivity/bluez/bluez4_4.98.bb
+@@ -1,11 +1,11 @@
+ require bluez4.inc
  
- SRC_URI = "http://www.kernel.org/pub/linux/bluetooth/bluez-hcidump-${PV}.tar.gz"
+-PR = "r4"
++PR = "r0"
  
--SRC_URI[md5sum] = "b160f0672276398344eebe9df1b37a2c"
--SRC_URI[sha256sum] = "a6cc20b95b6b1a28ff336aad91e124555231628689225c1155e8cd7aac1af86d"
-+SRC_URI[md5sum] = "3c298a8be67099fe227f3e4d9de539d5"
-+SRC_URI[sha256sum] = "073066d3ec1f7d1c52bb0fe27cde84ea273e1ab3097b27fa1fd45a5992e1a441"
- S = "${WORKDIR}/bluez-hcidump-${PV}"
+ SRC_URI += "file://bluetooth.conf"
  
- EXTRA_OECONF = "--with-bluez-libs=${STAGING_LIBDIR} --with-bluez-includes=${STAGING_INCDIR}"
+-SRC_URI[md5sum] = "296111afac49e3f9035085ac14daf518"
+-SRC_URI[sha256sum] = "c06fd50fd77909cad55e3181a42c6bce7cfcf7abb8cd87871c13d0d70f87fa99"
++SRC_URI[md5sum] = "362864b716950baa04797de735fc237b"
++SRC_URI[sha256sum] = "9a5b655bada7c7a1921cb3bac83b8a32bbe49893e4c7a1377cdc1b0d35f7d233"
+ 
+ do_install_append() {
+ 	install -m 0644 ${S}/audio/audio.conf ${D}/${sysconfdir}/bluetooth/
 -- 
 1.7.6
 
