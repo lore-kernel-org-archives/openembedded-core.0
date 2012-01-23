@@ -1,24 +1,26 @@
-Received: from mga03.intel.com ([143.182.124.21])
+Received: from hermes.mlbassoc.com ([64.234.241.98] helo=mail.chez-thomas.org)
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <sgw@linux.intel.com>) id 1RpOrX-0004vE-R1
+	(envelope-from <gary@mlbassoc.com>) id 1RpSFP-0003ta-UF
 	for openembedded-core@lists.openembedded.org;
-	Mon, 23 Jan 2012 19:43:28 +0100
-Received: from azsmga002.ch.intel.com ([10.2.17.35])
-	by azsmga101.ch.intel.com with ESMTP; 23 Jan 2012 10:34:44 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="59212270"
-Received: from unknown (HELO swold-mobl.lan) ([10.255.14.82])
-	by AZSMGA002.ch.intel.com with ESMTP; 23 Jan 2012 10:34:44 -0800
-From: Saul Wold <sgw@linux.intel.com>
+	Mon, 23 Jan 2012 23:20:20 +0100
+Received: by mail.chez-thomas.org (Postfix, from userid 1998)
+	id 03251F81249; Mon, 23 Jan 2012 15:12:35 -0700 (MST)
+X-Spam-Checker-Version: SpamAssassin 3.3.2 (2011-06-06) on
+	hermes.chez-thomas.org
+X-Spam-Level: 
+X-Spam-Status: No, score=-2.9 required=4.0 tests=ALL_TRUSTED,BAYES_00
+	autolearn=ham version=3.3.2
+Received: from hermes.chez-thomas.org (localhost.localdomain [127.0.0.1])
+	by mail.chez-thomas.org (Postfix) with ESMTP id 8DE2FF81247;
+	Mon, 23 Jan 2012 15:12:35 -0700 (MST)
+Message-ID: <4F1DDB53.2030502@mlbassoc.com>
+Date: Mon, 23 Jan 2012 15:12:35 -0700
+From: Gary Thomas <gary@mlbassoc.com>
+User-Agent: Mozilla/5.0 (X11; Linux i686;
+	rv:9.0) Gecko/20111222 Thunderbird/9.0
+MIME-Version: 1.0
 To: openembedded-core@lists.openembedded.org
-Date: Mon, 23 Jan 2012 10:34:25 -0800
-Message-Id: <c0605daae72a57da32b56cc9fef01b166d8eba15.1327343524.git.sgw@linux.intel.com>
-X-Mailer: git-send-email 1.7.6.5
-In-Reply-To: <cover.1327343523.git.sgw@linux.intel.com>
-References: <cover.1327343523.git.sgw@linux.intel.com>
-In-Reply-To: <cover.1327343523.git.sgw@linux.intel.com>
-References: <cover.1327343523.git.sgw@linux.intel.com>
-Subject: [PATCH v2 20/21] libgcc: Seperate out libgcov.a from libgcc-dev
+Subject: bitbake.lock?
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -33,53 +35,19 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 23 Jan 2012 18:43:29 -0000
+X-List-Received-Date: Mon, 23 Jan 2012 22:20:20 -0000
+Content-Type: text/plain; charset=ISO-8859-1; format=flowed
+Content-Transfer-Encoding: 7bit
 
-libgcov.a is moved to it's own libgcov-dev package, instead
-of being part of libgcc-dev.
+I've noticed that recent versions of bitbake leave this file
+in the build directory.
 
-Signed-off-by: Saul Wold <sgw@linux.intel.com>
----
- meta/recipes-devtools/gcc/gcc-4.6.inc   |    2 +-
- meta/recipes-devtools/gcc/libgcc_4.6.bb |    4 +++-
- 2 files changed, 4 insertions(+), 2 deletions(-)
+What is it for & why is it left around?
 
-diff --git a/meta/recipes-devtools/gcc/gcc-4.6.inc b/meta/recipes-devtools/gcc/gcc-4.6.inc
-index a76fa0b..ca0d41d 100644
---- a/meta/recipes-devtools/gcc/gcc-4.6.inc
-+++ b/meta/recipes-devtools/gcc/gcc-4.6.inc
-@@ -1,6 +1,6 @@
- require gcc-common.inc
- 
--PR = "r20"
-+PR = "r21"
- 
- # Third digit in PV should be incremented after a minor release
- # happens from this branch on gcc e.g. currently its 4.6.0
-diff --git a/meta/recipes-devtools/gcc/libgcc_4.6.bb b/meta/recipes-devtools/gcc/libgcc_4.6.bb
-index dd0a7be..0c50988 100644
---- a/meta/recipes-devtools/gcc/libgcc_4.6.bb
-+++ b/meta/recipes-devtools/gcc/libgcc_4.6.bb
-@@ -7,14 +7,16 @@ PACKAGES = "\
-   ${PN} \
-   ${PN}-dev \
-   ${PN}-dbg \
-+  libgcov-dev \
-   "
- 
- FILES_${PN} = "${base_libdir}/libgcc*.so.*"
- FILES_${PN}-dev = " \
-   ${base_libdir}/libgcc*.so \
-   ${libdir}/${TARGET_SYS}/${BINV}/crt* \
--  ${libdir}/${TARGET_SYS}/${BINV}/libgcov.a \
-   ${libdir}/${TARGET_SYS}/${BINV}/libgcc*"
-+FILES_libgcov-dev = " \
-+  ${libdir}/${TARGET_SYS}/${BINV}/libgcov.a \
- 
- FILES_${PN}-dbg += "${base_libdir}/.debug/"
- 
 -- 
-1.7.6.5
-
+------------------------------------------------------------
+Gary Thomas                 |  Consulting for the
+MLB Associates              |    Embedded world
+------------------------------------------------------------
 
 
