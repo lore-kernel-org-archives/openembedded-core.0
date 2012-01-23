@@ -1,20 +1,24 @@
 Received: from mga03.intel.com ([143.182.124.21])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <sgw@linux.intel.com>) id 1RpOrL-0004vA-2U
+	(envelope-from <sgw@linux.intel.com>) id 1RpOrL-0004vA-Sc
 	for openembedded-core@lists.openembedded.org;
-	Mon, 23 Jan 2012 19:43:15 +0100
+	Mon, 23 Jan 2012 19:43:16 +0100
 Received: from azsmga002.ch.intel.com ([10.2.17.35])
-	by azsmga101.ch.intel.com with ESMTP; 23 Jan 2012 10:34:30 -0800
+	by azsmga101.ch.intel.com with ESMTP; 23 Jan 2012 10:34:31 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="59212138"
+X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="59212142"
 Received: from unknown (HELO swold-mobl.lan) ([10.255.14.82])
-	by AZSMGA002.ch.intel.com with ESMTP; 23 Jan 2012 10:34:29 -0800
+	by AZSMGA002.ch.intel.com with ESMTP; 23 Jan 2012 10:34:30 -0800
 From: Saul Wold <sgw@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Mon, 23 Jan 2012 10:34:05 -0800
-Message-Id: <cover.1327343523.git.sgw@linux.intel.com>
+Date: Mon, 23 Jan 2012 10:34:06 -0800
+Message-Id: <bf9b76444fdc8cdff2d4ff059f2d6c0c15beb828.1327343524.git.sgw@linux.intel.com>
 X-Mailer: git-send-email 1.7.6.5
-Subject: [PATCH v2 00/21] Refactor -dev packages to move *.a to -staticdev packages
+In-Reply-To: <cover.1327343523.git.sgw@linux.intel.com>
+References: <cover.1327343523.git.sgw@linux.intel.com>
+In-Reply-To: <cover.1327343523.git.sgw@linux.intel.com>
+References: <cover.1327343523.git.sgw@linux.intel.com>
+Subject: [PATCH v2 01/21] Fix Upstream-Status entries
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -29,104 +33,128 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 23 Jan 2012 18:43:15 -0000
+X-List-Received-Date: Mon, 23 Jan 2012 18:43:16 -0000
 
-This patchset, move the remaining static *.a archives from their -dev
-packages to the appropriate -staticdev, I have reviewed these and also
-looked at the buildhistory output (very useful tool, thanks Paul E.)
-
-The following are the remaining libraries that need to remain in their 
--dev packages:
-
-libc6-dev                 /usr/lib/libc_nonshared.a
-libc6-dev                 /usr/lib/libpthread_nonshared.a
-libgcc-s-dev              /usr/lib/i586-poky-linux/4.6.3/libgcc.a
-libgcc-s-dev              /usr/lib/i586-poky-linux/4.6.3/libgcc_eh.a
-libgcov-dev               /usr/lib/i586-poky-linux/4.6.3/libgcov.a
-libssp-dev                /usr/lib/libssp_nonshared.a
-
-I think that now that we are completed, we might be able to write a QA 
-check of some form that can verify against the above as a whitelist as
-each package is created.
-
-v2:
-   Fixed RPROVIDES in eglibc and INC_PR in opkg
-   Fixed commit message for gcc and gcov (2 commits now)
-
-
-Sau!
-
-
-The following changes since commit 6708b3e908ae383922703390ac2d39f40348e1b3:
-
-  gcc-package-cross.inc: Mark do_package* tasks as noexec (2012-01-23 09:01:26 +0000)
-
-are available in the git repository at:
-  git://git.openembedded.org/openembedded-core-contrib sgw/fix
-  http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=sgw/fix
-
-Saul Wold (21):
-  Fix Upstream-Status entries
-  apmd: refactor packages for staticdev
-  avahi-ui: refactor packages for staticdev
-  augeas: refactor packages for staticdev
-  libsoup: refactor packages for staticdev
-  sysfsutils: refactor packages for staticdev
-  libxft: refactor packages for staticdev
-  sqlite3: refactor packages for staticdev
-  apr-util: refactor packages for staticdev
-  mpeg2dec: refactor packages for staticdev
-  tiff: refactor packages for staticdev
-  gstreamer: refactor packages for staticdev
-  libtool: refactor packages for staticdev
-  syslinux: refactor packages for staticdev
-  tcp-wrappers: refactor packages for staticdev
-  opkg: move common code & metadata into opkg.inc to reduce code
-    duplication
-  opkg: refactor packages for staticdev
-  eglibc: refactor packages for staticdev
-  binutils: refactor packages for staticdev
-  libgcc: Seperate out libgcov.a from libgcc-dev
-  gcc: move shared .a to their own package
-
- meta/recipes-bsp/apmd/apmd_3.2.2-14.bb             |    9 ++--
- meta/recipes-connectivity/avahi/avahi-ui_0.6.30.bb |    7 ++-
+Signed-off-by: Saul Wold <sgw@linux.intel.com>
+---
  .../busybox-1.19.3/busybox-1.19.3-getty.patch      |    2 +-
- meta/recipes-core/eglibc/eglibc-package.inc        |    9 +++-
- meta/recipes-core/sysfsutils/sysfsutils_2.1.0.bb   |    9 ++--
- meta/recipes-devtools/binutils/binutils.inc        |    1 -
- meta/recipes-devtools/binutils/binutils_2.22.bb    |    2 +-
- meta/recipes-devtools/gcc/gcc-4.6.inc              |    2 +-
- meta/recipes-devtools/gcc/gcc-package-runtime.inc  |    9 +++-
- meta/recipes-devtools/gcc/libgcc_4.6.bb            |    4 +-
- meta/recipes-devtools/libtool/libtool-2.4.2.inc    |    9 ++--
  .../libtool/libtool/fix-rpath.patch                |    2 +-
- meta/recipes-devtools/opkg/opkg.inc                |   44 +++++++++++++++++++-
- meta/recipes-devtools/opkg/opkg_0.1.8.bb           |   44 +-------------------
- meta/recipes-devtools/opkg/opkg_svn.bb             |   42 +------------------
  .../qemu/qemu-0.14.0/arm-bgr.patch                 |    2 +-
  .../qemu/qemu-0.15.1/arm-bgr.patch                 |    2 +-
- meta/recipes-devtools/syslinux/syslinux_4.03.bb    |    5 +-
- meta/recipes-extended/augeas/augeas.inc            |    7 ++-
- meta/recipes-extended/augeas/augeas_0.10.0.bb      |    2 +-
  .../libzypp/libzypp/libzypp-compatargs.patch       |    2 +-
- .../tcp-wrappers/tcp-wrappers_7.6.bb               |    9 ++--
- meta/recipes-graphics/xorg-lib/libxft_2.2.0.bb     |    7 +---
- .../error-address-work-around.patch                |    2 +
+ .../error-address-work-around.patch                |    2 ++
  ...-t-let-systemd-unit-restore-the-volume-wh.patch |    2 +-
- .../gstreamer/gst-ffmpeg_0.10.13.bb                |    5 +-
- .../gstreamer/gst-plugins-bad_0.10.22.bb           |    2 +-
- .../gstreamer/gst-plugins-package.inc              |    9 ++--
- meta/recipes-multimedia/libtiff/tiff_3.9.5.bb      |    7 ++-
- meta/recipes-multimedia/mpeg2dec/mpeg2dec_0.4.1.bb |   10 +++--
- meta/recipes-support/apr/apr-util_1.4.1.bb         |    4 +-
- .../dprintf_conflict_with_eglibc.patch             |    2 +
- meta/recipes-support/libsoup/libsoup_2.2.105.bb    |    8 ++--
+ .../dprintf_conflict_with_eglibc.patch             |    2 ++
  .../shared-mime-info/parallelmake.patch            |    2 +-
- meta/recipes-support/sqlite/sqlite3.inc            |    6 ++-
- meta/recipes-support/sqlite/sqlite3_3.7.9.bb       |    2 +-
- 36 files changed, 137 insertions(+), 155 deletions(-)
+ 9 files changed, 11 insertions(+), 7 deletions(-)
 
+diff --git a/meta/recipes-core/busybox/busybox-1.19.3/busybox-1.19.3-getty.patch b/meta/recipes-core/busybox/busybox-1.19.3/busybox-1.19.3-getty.patch
+index 137d095..0578d78 100644
+--- a/meta/recipes-core/busybox/busybox-1.19.3/busybox-1.19.3-getty.patch
++++ b/meta/recipes-core/busybox/busybox-1.19.3/busybox-1.19.3-getty.patch
+@@ -1,4 +1,4 @@
+-Upstream-status: Backport
++Upstream-Status: Backport
+ 
+ Patch is taken from upstream 
+ http://busybox.net/downloads/fixes-1.19.3/busybox-1.19.3-getty.patch
+diff --git a/meta/recipes-devtools/libtool/libtool/fix-rpath.patch b/meta/recipes-devtools/libtool/libtool/fix-rpath.patch
+index d35bac0..1571178 100644
+--- a/meta/recipes-devtools/libtool/libtool/fix-rpath.patch
++++ b/meta/recipes-devtools/libtool/libtool/fix-rpath.patch
+@@ -4,7 +4,7 @@ filters libtools list and removes the ones we don't need.
+ 
+ RP 23/9/2011
+ 
+-Upstream-status: Pending
++Upstream-Status: Pending
+ 
+ Index: libtool-2.4.2/libltdl/config/ltmain.m4sh
+ ===================================================================
+diff --git a/meta/recipes-devtools/qemu/qemu-0.14.0/arm-bgr.patch b/meta/recipes-devtools/qemu/qemu-0.14.0/arm-bgr.patch
+index 3b460d0..a8fe65a 100644
+--- a/meta/recipes-devtools/qemu/qemu-0.14.0/arm-bgr.patch
++++ b/meta/recipes-devtools/qemu/qemu-0.14.0/arm-bgr.patch
+@@ -9,7 +9,7 @@ doesn't support the BGR bit.
+ 
+ RP 16/9/2011
+ 
+-Upstream-status: Pending
++Upstream-Status: Pending
+ 
+ Index: qemu-0.14.0/hw/pl110.c
+ ===================================================================
+diff --git a/meta/recipes-devtools/qemu/qemu-0.15.1/arm-bgr.patch b/meta/recipes-devtools/qemu/qemu-0.15.1/arm-bgr.patch
+index 3b460d0..a8fe65a 100644
+--- a/meta/recipes-devtools/qemu/qemu-0.15.1/arm-bgr.patch
++++ b/meta/recipes-devtools/qemu/qemu-0.15.1/arm-bgr.patch
+@@ -9,7 +9,7 @@ doesn't support the BGR bit.
+ 
+ RP 16/9/2011
+ 
+-Upstream-status: Pending
++Upstream-Status: Pending
+ 
+ Index: qemu-0.14.0/hw/pl110.c
+ ===================================================================
+diff --git a/meta/recipes-extended/libzypp/libzypp/libzypp-compatargs.patch b/meta/recipes-extended/libzypp/libzypp/libzypp-compatargs.patch
+index 9cd7a36..8d24ab0 100644
+--- a/meta/recipes-extended/libzypp/libzypp/libzypp-compatargs.patch
++++ b/meta/recipes-extended/libzypp/libzypp/libzypp-compatargs.patch
+@@ -1,6 +1,6 @@
+ zypp/Arch.cc: Add room for additional architecture compatibilities
+ 
+-Upstream-status: Pending
++Upstream-Status: Pending
+ 
+ Increase the size of the compatibility table from 9 to 30.  There are already
+ existing checks within libzypp to ensure that we don't overflow the 64-bit
+diff --git a/meta/recipes-graphics/xorg-xserver/xserver-kdrive-1.7.99.2/error-address-work-around.patch b/meta/recipes-graphics/xorg-xserver/xserver-kdrive-1.7.99.2/error-address-work-around.patch
+index 3052372..98a946a 100644
+--- a/meta/recipes-graphics/xorg-xserver/xserver-kdrive-1.7.99.2/error-address-work-around.patch
++++ b/meta/recipes-graphics/xorg-xserver/xserver-kdrive-1.7.99.2/error-address-work-around.patch
+@@ -1,3 +1,5 @@
++Upstream-Status: Inappropriate
++
+ diff -ur --exclude='*.lo' --exclude='config*' --exclude='Make*' --exclude='ac*' xorg-server-1.7.99.2.ORIG/dix/window.c xorg-server-1.7.99.2/dix/window.c
+ --- xorg-server-1.7.99.2.ORIG/dix/window.c	2012-01-04 13:12:40.417640130 -0700
+ +++ xorg-server-1.7.99.2/dix/window.c	2012-01-04 12:13:20.678605493 -0700
+diff --git a/meta/recipes-multimedia/alsa/alsa-utils-1.0.24.2/0001-alsactl-don-t-let-systemd-unit-restore-the-volume-wh.patch b/meta/recipes-multimedia/alsa/alsa-utils-1.0.24.2/0001-alsactl-don-t-let-systemd-unit-restore-the-volume-wh.patch
+index 334c94e..55e180a 100644
+--- a/meta/recipes-multimedia/alsa/alsa-utils-1.0.24.2/0001-alsactl-don-t-let-systemd-unit-restore-the-volume-wh.patch
++++ b/meta/recipes-multimedia/alsa/alsa-utils-1.0.24.2/0001-alsactl-don-t-let-systemd-unit-restore-the-volume-wh.patch
+@@ -10,7 +10,7 @@ Signed-off-by: Koen Kooi <koen@dominion.thruhere.net>
+ 
+ Filed as https://bugtrack.alsa-project.org/alsa-bug/view.php?id=5459
+ 
+-Upstream-status: Pending
++Upstream-Status: Pending
+ 
+  alsactl/Makefile.am             |    2 +-
+  alsactl/alsa-restore.service.in |    1 +
+diff --git a/meta/recipes-support/libsoup/libsoup-2.2.105/dprintf_conflict_with_eglibc.patch b/meta/recipes-support/libsoup/libsoup-2.2.105/dprintf_conflict_with_eglibc.patch
+index ad13bbd..79e2ab8 100644
+--- a/meta/recipes-support/libsoup/libsoup-2.2.105/dprintf_conflict_with_eglibc.patch
++++ b/meta/recipes-support/libsoup/libsoup-2.2.105/dprintf_conflict_with_eglibc.patch
+@@ -1,3 +1,5 @@
++Upstream-Status: Pending
++
+ diff -rupN libsoup-2.2.105/tests/auth-test.c libsoup-2.2.105.new//tests/auth-test.c
+ --- libsoup-2.2.105/tests/auth-test.c	2007-12-05 00:13:27.000000000 +0200
+ +++ libsoup-2.2.105.new//tests/auth-test.c	2012-01-16 20:12:09.000000000 +0200
+diff --git a/meta/recipes-support/shared-mime-info/shared-mime-info/parallelmake.patch b/meta/recipes-support/shared-mime-info/shared-mime-info/parallelmake.patch
+index 9e86a71..8b6f9e5 100644
+--- a/meta/recipes-support/shared-mime-info/shared-mime-info/parallelmake.patch
++++ b/meta/recipes-support/shared-mime-info/shared-mime-info/parallelmake.patch
+@@ -8,7 +8,7 @@ dependencies and stop itself racing itself.
+ 
+ RP 10/10/2011
+ 
+-Upstream-status: Pending
++Upstream-Status: Pending
+ 
+ Index: shared-mime-info-0.91/Makefile.am
+ ===================================================================
 -- 
 1.7.6.5
 
