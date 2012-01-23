@@ -1,33 +1,34 @@
-Received: from mail-pz0-f47.google.com ([209.85.210.47])
+Received: from mail-pw0-f47.google.com ([209.85.160.47])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <andrea.adami@gmail.com>) id 1RpKtP-0005Bh-9S
+	(envelope-from <bruce.ashfield@gmail.com>) id 1RpMJS-0007Gl-6Z
 	for openembedded-core@lists.openembedded.org;
-	Mon, 23 Jan 2012 15:29:07 +0100
-Received: by dadw11 with SMTP id w11so1334879dad.6
+	Mon, 23 Jan 2012 17:00:07 +0100
+Received: by pbaa13 with SMTP id a13so42079pba.6
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 23 Jan 2012 06:21:21 -0800 (PST)
+	Mon, 23 Jan 2012 07:50:01 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
 	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
 	:content-type:content-transfer-encoding;
-	bh=pV7IR6o+a29aMmnXQeJg3hyQW9Z4Bb1MfD98QtXA7l0=;
-	b=BDnaQo6C6FRS9vh9Zm41i1xLW39YBp0STVxU4IeTKnQoJtxNWU3YOTjepypxMXc0CT
-	k8lQGRQ269jxPyVky7AI4jyK3j1MntyLTVZcSFqyrJ1QTIt5h5oDs2U1TlprOkIC3JqI
-	f2oJk3+yj7wX73cAOqF+ofqHiet+VcZXDxKFc=
+	bh=qgw/wuchbqD4BvIrkx7Djg33e38FvmahW4E8tYrtWwM=;
+	b=BGx5CkApRECFzKXkXDlKk5WAXtLWTRpdGt1G4l+iwMuYiGOkGao7drEVVjU6Lu9nt3
+	5O2DxIm2m2w1G2FFODCjMV/FNCyHOnSV1sfXvo1adKUIyrDXMhFEKN4Tljb3xZKZzadk
+	vtz2Tl/vCOLJ3WHWZ0P6qGvyrj8spbbsMioCw=
 MIME-Version: 1.0
-Received: by 10.68.83.46 with SMTP id n14mr22279220pby.97.1327328481615; Mon,
-	23 Jan 2012 06:21:21 -0800 (PST)
-Received: by 10.142.166.19 with HTTP; Mon, 23 Jan 2012 06:21:21 -0800 (PST)
-In-Reply-To: <15F6B012-1598-4434-8A1A-28E056BFFAE2@dominion.thruhere.net>
-References: <1326546473-26329-1-git-send-email-andrea.adami@gmail.com>
-	<C049B63B-A0B3-4FFF-85AF-C9ECEA3FAEF9@dominion.thruhere.net>
-	<CAAQYJAu_8aV4fs24bjJd-xCTc28QQ1nYtaSmbK04xzYDeuVqkw@mail.gmail.com>
-	<15F6B012-1598-4434-8A1A-28E056BFFAE2@dominion.thruhere.net>
-Date: Mon, 23 Jan 2012 15:21:21 +0100
-Message-ID: <CAAQYJAupcHBBUNQWGyoCXV1OMcSpHH0UT0AzJWCsz5yMCoA_bA@mail.gmail.com>
-From: Andrea Adami <andrea.adami@gmail.com>
+Received: by 10.68.118.136 with SMTP id km8mr23317840pbb.73.1327333445538;
+	Mon, 23 Jan 2012 07:44:05 -0800 (PST)
+Received: by 10.143.10.7 with HTTP; Mon, 23 Jan 2012 07:44:05 -0800 (PST)
+In-Reply-To: <CADkTA4MdDYGV4EJa92h0yCwMJUy_36bSQobCAnPU==1PhuYM0Q@mail.gmail.com>
+References: <1325752666-28560-1-git-send-email-liming.wang@windriver.com>
+	<4F1A3608.70002@linux.intel.com>
+	<CADkTA4MWvSsScXymA1-3vStE4qrY6yR5p3-8QG8FkN+-rqaYvg@mail.gmail.com>
+	<1327146536.10079.16.camel@ted>
+	<CADkTA4MdDYGV4EJa92h0yCwMJUy_36bSQobCAnPU==1PhuYM0Q@mail.gmail.com>
+Date: Mon, 23 Jan 2012 10:44:05 -0500
+Message-ID: <CADkTA4MyOivZ1=o8WWZmDx9mAj_TGErWNAqmm9HC7kAaZRSvkQ@mail.gmail.com>
+From: Bruce Ashfield <bruce.ashfield@gmail.com>
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] tzdata_2011n: provide pkg_postinst and timezone defaults
+Subject: Re: [PATCH 0/4] qemuppc: replace emulation of qemuppc
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -42,105 +43,92 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 23 Jan 2012 14:29:07 -0000
+X-List-Received-Date: Mon, 23 Jan 2012 16:00:07 -0000
 Content-Type: text/plain; charset=ISO-8859-1
 Content-Transfer-Encoding: quoted-printable
 
-On Sun, Jan 15, 2012 at 12:22 PM, Koen Kooi <koen@dominion.thruhere.net> wr=
-ote:
+On Sat, Jan 21, 2012 at 9:29 AM, Bruce Ashfield
+<bruce.ashfield@gmail.com> wrote:
+> On Sat, Jan 21, 2012 at 6:48 AM, Richard Purdie
+> <richard.purdie@linuxfoundation.org> wrote:
+>> On Fri, 2012-01-20 at 23:12 -0500, Bruce Ashfield wrote:
+>>> On Fri, Jan 20, 2012 at 10:50 PM, Saul Wold <sgw@linux.intel.com> wrote=
+:
+>>> > On 01/05/2012 12:37 AM, Liming Wang wrote:
+>>> >>
+>>> >> Hi Richard,
+>>> >>
+>>> >> These patches are aimed to replace emulation of qemuppc from prep to
+>>> >> mac99.
+>>> >> With this new emulation, qemuppc now supports framebuffer and the ne=
+twork
+>>> >> works well.
+>>> >>
+>>> > Is there anything that needs to be setup differently for the runqemu
+>>> > scripts? =A0Our sanity tests have failed after changing to the new pp=
+c code
+>>> > and I wonder if there is something for the command line or ???
+>>>
+>>> What type of failure ? boot ? I'm building and booting it all the time,=
+ so I can
+>>> help there. Or are you talking about something in particular like the n=
+etwork ?
+>>> disk ?
+>>
+>> I ran a test build and can confirm that whilst qemuppc can boot, there
+>> is no network. We need to fix the network ASAP as our automated testing
+>> depends on working network access...
 >
-> Op 15 jan. 2012, om 12:17 heeft Andrea Adami het volgende geschreven:
+> Liming is out for the next week or so, but I'll see what I can do on Mond=
+ay.
+> He did report a properly working networking with his initial submission, =
+so it
+> should just be a configuration issue.
+
+Does anyone have more details on this for me ? I just did a build and boot =
+into
+sato and everything worked here. Mouse was fine, opened the terminal, ifcon=
+fig
+reports and up and running ethernet, and I can ping and ssh out of qemppc t=
+o
+my host machine.
+
+So I've got nothing to test here, since it all worked.
+
+Note: there is one small change to runqemu that I can send along to enable =
+the
+keyboard in sato, but that's all that I have to go on.
+
+Cheers,
+
+Bruce
+
 >
->> On Sat, Jan 14, 2012 at 4:10 PM, Koen Kooi <koen@dominion.thruhere.net> =
-wrote:
->>>
->>> Op 14 jan. 2012, om 14:07 heeft Andrea Adami het volgende geschreven:
->>>
->>>> * Take the extra bits in do_install from meta-openembedded
->>>> * and add pkg_postinst script (adapted from Gentoo).
->>>> * Default to 'Universal' timezone, present in the base package
->>>> * and allow override using DEFAULT_TIMEZONE variable.
->>>> * /etc/localtime and /etc/timezone are purposedly not packaged.
->>>> * Bump PR
->>>>
->>>> Signed-off-by: Andrea Adami <andrea.adami@gmail.com>
->>>> ---
->>>> meta/recipes-extended/tzdata/tzdata_2011n.bb | =A0 55 ++++++++++++++++=
-+++++++++-
->>>> 1 files changed, 53 insertions(+), 2 deletions(-)
->>>>
->>>> diff --git a/meta/recipes-extended/tzdata/tzdata_2011n.bb b/meta/recip=
-es-extended/tzdata/tzdata_2011n.bb
->>>> index de9281a..862a196 100644
->>>> --- a/meta/recipes-extended/tzdata/tzdata_2011n.bb
->>>> +++ b/meta/recipes-extended/tzdata/tzdata_2011n.bb
->>>> @@ -5,7 +5,7 @@ LICENSE =3D "PD"
->>>> LIC_FILES_CHKSUM =3D "file://asia;beginline=3D2;endline=3D3;md5=3D0646=
-8c0e84ef4d4c97045a4a29b08234"
->>>> DEPENDS =3D "tzcode-native"
->>>>
->>>> -PR =3D "r0"
->>>> +PR =3D "r1"
->>>>
->>>> RCONFLICTS=3D "timezones timezone-africa timezone-america timezone-ant=
-arctica \
->>>> =A0 =A0 =A0 =A0 =A0 =A0 =A0timezone-arctic timezone-asia timezone-atla=
-ntic \
->>>> @@ -19,6 +19,8 @@ SRC_URI[tzdata.sha256sum] =3D "a343e542486b2b8ebdeca=
-474eed79f1c04f69420ca943c2b9bd
->>>>
->>>> S =3D "${WORKDIR}"
->>>>
->>>> +DEFAULT_TIMEZONE ?=3D "Universal"
->>>> +
->>>> TZONES=3D "africa antarctica asia australasia europe northamerica sout=
-hamerica =A0\
->>>> =A0 =A0 =A0 =A0 =A0factory solar87 solar88 solar89 etcetera backward s=
-ystemv \
->>>> =A0 =A0 =A0 =A0 "
->>>> @@ -41,7 +43,56 @@ do_install () {
->>>> =A0 =A0 =A0 =A0 # libc is removing zoneinfo files from package
->>>> =A0 =A0 =A0 =A0 cp -pP "${S}/zone.tab" ${D}${datadir}/zoneinfo
->>>> =A0 =A0 =A0 =A0 cp -pP "${S}/iso3166.tab" ${D}${datadir}/zoneinfo
->>>> - =A0 =A0 chown -R root:root ${D}
->>>> +
->>>> + =A0 =A0 =A0 =A0# Install defaults
->>>> + =A0 =A0 =A0 =A0install -d ${D}${sysconfdir}
->>>> + =A0 =A0 =A0 =A0echo ${DEFAULT_TIMEZONE} > ${D}${sysconfdir}/timezone
->>>> + =A0 =A0 =A0 =A0cp -pP ${S}/${datadir}/zoneinfo/${DEFAULT_TIMEZONE} $=
-{D}${sysconfdir}/localtime
->>>
->>> Shouldn't that be an 'ln -sf' instead of a 'cp'?
->>>
->> No, I don't think so.First reason is /usr may not be mounted, maybe
->> living on another device..
->> See first Google link about this:
->> http://www.redhat.com/archives/rhl-devel-list/2006-April/msg00017.html
->> Then, as you see, the postinst takes care of both cases.
+> Cheers,
 >
-> That only applies to non-UTC times in RTC, which we don't use. And furthe=
-rmore, no machine has /usr on a seperate partition since support for that i=
-s broken.
+> Bruce
+>
+>>
+>> Cheers,
+>>
+>> Richard
+>>
+>>
+>> _______________________________________________
+>> Openembedded-core mailing list
+>> Openembedded-core@lists.openembedded.org
+>> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
+>
+>
+>
+> --
+> "Thou shalt not follow the NULL pointer, for chaos and madness await
+> thee at its end"
 
-I try to bump the thread before the sources get renamed ;)
-
-About separation of exec_prefix, pls see
-
-http://lists.linuxtogo.org/pipermail/openembedded-core/2012-January/015672.=
-html
-http://lists.linuxtogo.org/pipermail/openembedded-core/2012-January/015771.=
-html
-
-So, what is the position to take?  Symlink or copy?
-
-Regards
-
-Andrea
 
 
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
+--=20
+"Thou shalt not follow the NULL pointer, for chaos and madness await
+thee at its end"
 
 
