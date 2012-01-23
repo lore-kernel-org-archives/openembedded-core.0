@@ -1,35 +1,20 @@
-Received: from mail-pz0-f47.google.com ([209.85.210.47])
+Received: from mga03.intel.com ([143.182.124.21])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <bruce.ashfield@gmail.com>) id 1RpOfx-0004eC-Hx
+	(envelope-from <sgw@linux.intel.com>) id 1RpOrL-0004vA-2U
 	for openembedded-core@lists.openembedded.org;
-	Mon, 23 Jan 2012 19:31:29 +0100
-Received: by dadw11 with SMTP id w11so1463388dad.6
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 23 Jan 2012 10:23:44 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
-	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
-	:content-type:content-transfer-encoding;
-	bh=u6Heowh6HUDaKGzXr3zjeR6V/aonbQI294uhw7/koFY=;
-	b=TgdlIS5FO5lzi3m8IUyirAFuIEU7l5Z6qjRtpfQfZ7A+naiB4GiD/VGuDLzMl5cf8P
-	tIBGdoK7kc05+pqdXu5L3VKMjJKaNsY2jgRkX+WbY8yXCK0c4YHGPrmgJy/eaRoY50Ph
-	rBACZhNIiwWcRzAcFq4HcdVIHx6jWUjYMXIuM=
-MIME-Version: 1.0
-Received: by 10.68.118.136 with SMTP id km8mr24065981pbb.73.1327341421859;
-	Mon, 23 Jan 2012 09:57:01 -0800 (PST)
-Received: by 10.143.10.7 with HTTP; Mon, 23 Jan 2012 09:57:01 -0800 (PST)
-In-Reply-To: <CADkTA4MyOivZ1=o8WWZmDx9mAj_TGErWNAqmm9HC7kAaZRSvkQ@mail.gmail.com>
-References: <1325752666-28560-1-git-send-email-liming.wang@windriver.com>
-	<4F1A3608.70002@linux.intel.com>
-	<CADkTA4MWvSsScXymA1-3vStE4qrY6yR5p3-8QG8FkN+-rqaYvg@mail.gmail.com>
-	<1327146536.10079.16.camel@ted>
-	<CADkTA4MdDYGV4EJa92h0yCwMJUy_36bSQobCAnPU==1PhuYM0Q@mail.gmail.com>
-	<CADkTA4MyOivZ1=o8WWZmDx9mAj_TGErWNAqmm9HC7kAaZRSvkQ@mail.gmail.com>
-Date: Mon, 23 Jan 2012 12:57:01 -0500
-Message-ID: <CADkTA4MXUAmHPMwxHpAJneus0X_yvNt1cXZEgnbfSa4Ub74nTw@mail.gmail.com>
-From: Bruce Ashfield <bruce.ashfield@gmail.com>
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 0/4] qemuppc: replace emulation of qemuppc
+	Mon, 23 Jan 2012 19:43:15 +0100
+Received: from azsmga002.ch.intel.com ([10.2.17.35])
+	by azsmga101.ch.intel.com with ESMTP; 23 Jan 2012 10:34:30 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="59212138"
+Received: from unknown (HELO swold-mobl.lan) ([10.255.14.82])
+	by AZSMGA002.ch.intel.com with ESMTP; 23 Jan 2012 10:34:29 -0800
+From: Saul Wold <sgw@linux.intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Mon, 23 Jan 2012 10:34:05 -0800
+Message-Id: <cover.1327343523.git.sgw@linux.intel.com>
+X-Mailer: git-send-email 1.7.6.5
+Subject: [PATCH v2 00/21] Refactor -dev packages to move *.a to -staticdev packages
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -44,108 +29,106 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 23 Jan 2012 18:31:29 -0000
-Content-Type: text/plain; charset=ISO-8859-1
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Mon, 23 Jan 2012 18:43:15 -0000
 
-On Mon, Jan 23, 2012 at 10:44 AM, Bruce Ashfield
-<bruce.ashfield@gmail.com> wrote:
-> On Sat, Jan 21, 2012 at 9:29 AM, Bruce Ashfield
-> <bruce.ashfield@gmail.com> wrote:
->> On Sat, Jan 21, 2012 at 6:48 AM, Richard Purdie
->> <richard.purdie@linuxfoundation.org> wrote:
->>> On Fri, 2012-01-20 at 23:12 -0500, Bruce Ashfield wrote:
->>>> On Fri, Jan 20, 2012 at 10:50 PM, Saul Wold <sgw@linux.intel.com> wrot=
-e:
->>>> > On 01/05/2012 12:37 AM, Liming Wang wrote:
->>>> >>
->>>> >> Hi Richard,
->>>> >>
->>>> >> These patches are aimed to replace emulation of qemuppc from prep t=
-o
->>>> >> mac99.
->>>> >> With this new emulation, qemuppc now supports framebuffer and the n=
-etwork
->>>> >> works well.
->>>> >>
->>>> > Is there anything that needs to be setup differently for the runqemu
->>>> > scripts? =A0Our sanity tests have failed after changing to the new p=
-pc code
->>>> > and I wonder if there is something for the command line or ???
->>>>
->>>> What type of failure ? boot ? I'm building and booting it all the time=
-, so I can
->>>> help there. Or are you talking about something in particular like the =
-network ?
->>>> disk ?
->>>
->>> I ran a test build and can confirm that whilst qemuppc can boot, there
->>> is no network. We need to fix the network ASAP as our automated testing
->>> depends on working network access...
->>
->> Liming is out for the next week or so, but I'll see what I can do on Mon=
-day.
->> He did report a properly working networking with his initial submission,=
- so it
->> should just be a configuration issue.
->
-> Does anyone have more details on this for me ? I just did a build and boo=
-t into
-> sato and everything worked here. Mouse was fine, opened the terminal, ifc=
-onfig
-> reports and up and running ethernet, and I can ping and ssh out of qemppc=
- to
-> my host machine.
->
-> So I've got nothing to test here, since it all worked.
->
-> Note: there is one small change to runqemu that I can send along to enabl=
-e the
-> keyboard in sato, but that's all that I have to go on.
+This patchset, move the remaining static *.a archives from their -dev
+packages to the appropriate -staticdev, I have reviewed these and also
+looked at the buildhistory output (very useful tool, thanks Paul E.)
 
-As was discussed on IRC, I was booting my 3.2 kernel .. where everything wo=
-rked.
-I've fixed this on 3.0 and sent a pull request.
+The following are the remaining libraries that need to remain in their 
+-dev packages:
 
-Bruce
+libc6-dev                 /usr/lib/libc_nonshared.a
+libc6-dev                 /usr/lib/libpthread_nonshared.a
+libgcc-s-dev              /usr/lib/i586-poky-linux/4.6.3/libgcc.a
+libgcc-s-dev              /usr/lib/i586-poky-linux/4.6.3/libgcc_eh.a
+libgcov-dev               /usr/lib/i586-poky-linux/4.6.3/libgcov.a
+libssp-dev                /usr/lib/libssp_nonshared.a
 
->
-> Cheers,
->
-> Bruce
->
->>
->> Cheers,
->>
->> Bruce
->>
->>>
->>> Cheers,
->>>
->>> Richard
->>>
->>>
->>> _______________________________________________
->>> Openembedded-core mailing list
->>> Openembedded-core@lists.openembedded.org
->>> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
->>
->>
->>
->> --
->> "Thou shalt not follow the NULL pointer, for chaos and madness await
->> thee at its end"
->
->
->
-> --
-> "Thou shalt not follow the NULL pointer, for chaos and madness await
-> thee at its end"
+I think that now that we are completed, we might be able to write a QA 
+check of some form that can verify against the above as a whitelist as
+each package is created.
+
+v2:
+   Fixed RPROVIDES in eglibc and INC_PR in opkg
+   Fixed commit message for gcc and gcov (2 commits now)
 
 
+Sau!
 
---=20
-"Thou shalt not follow the NULL pointer, for chaos and madness await
-thee at its end"
+
+The following changes since commit 6708b3e908ae383922703390ac2d39f40348e1b3:
+
+  gcc-package-cross.inc: Mark do_package* tasks as noexec (2012-01-23 09:01:26 +0000)
+
+are available in the git repository at:
+  git://git.openembedded.org/openembedded-core-contrib sgw/fix
+  http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=sgw/fix
+
+Saul Wold (21):
+  Fix Upstream-Status entries
+  apmd: refactor packages for staticdev
+  avahi-ui: refactor packages for staticdev
+  augeas: refactor packages for staticdev
+  libsoup: refactor packages for staticdev
+  sysfsutils: refactor packages for staticdev
+  libxft: refactor packages for staticdev
+  sqlite3: refactor packages for staticdev
+  apr-util: refactor packages for staticdev
+  mpeg2dec: refactor packages for staticdev
+  tiff: refactor packages for staticdev
+  gstreamer: refactor packages for staticdev
+  libtool: refactor packages for staticdev
+  syslinux: refactor packages for staticdev
+  tcp-wrappers: refactor packages for staticdev
+  opkg: move common code & metadata into opkg.inc to reduce code
+    duplication
+  opkg: refactor packages for staticdev
+  eglibc: refactor packages for staticdev
+  binutils: refactor packages for staticdev
+  libgcc: Seperate out libgcov.a from libgcc-dev
+  gcc: move shared .a to their own package
+
+ meta/recipes-bsp/apmd/apmd_3.2.2-14.bb             |    9 ++--
+ meta/recipes-connectivity/avahi/avahi-ui_0.6.30.bb |    7 ++-
+ .../busybox-1.19.3/busybox-1.19.3-getty.patch      |    2 +-
+ meta/recipes-core/eglibc/eglibc-package.inc        |    9 +++-
+ meta/recipes-core/sysfsutils/sysfsutils_2.1.0.bb   |    9 ++--
+ meta/recipes-devtools/binutils/binutils.inc        |    1 -
+ meta/recipes-devtools/binutils/binutils_2.22.bb    |    2 +-
+ meta/recipes-devtools/gcc/gcc-4.6.inc              |    2 +-
+ meta/recipes-devtools/gcc/gcc-package-runtime.inc  |    9 +++-
+ meta/recipes-devtools/gcc/libgcc_4.6.bb            |    4 +-
+ meta/recipes-devtools/libtool/libtool-2.4.2.inc    |    9 ++--
+ .../libtool/libtool/fix-rpath.patch                |    2 +-
+ meta/recipes-devtools/opkg/opkg.inc                |   44 +++++++++++++++++++-
+ meta/recipes-devtools/opkg/opkg_0.1.8.bb           |   44 +-------------------
+ meta/recipes-devtools/opkg/opkg_svn.bb             |   42 +------------------
+ .../qemu/qemu-0.14.0/arm-bgr.patch                 |    2 +-
+ .../qemu/qemu-0.15.1/arm-bgr.patch                 |    2 +-
+ meta/recipes-devtools/syslinux/syslinux_4.03.bb    |    5 +-
+ meta/recipes-extended/augeas/augeas.inc            |    7 ++-
+ meta/recipes-extended/augeas/augeas_0.10.0.bb      |    2 +-
+ .../libzypp/libzypp/libzypp-compatargs.patch       |    2 +-
+ .../tcp-wrappers/tcp-wrappers_7.6.bb               |    9 ++--
+ meta/recipes-graphics/xorg-lib/libxft_2.2.0.bb     |    7 +---
+ .../error-address-work-around.patch                |    2 +
+ ...-t-let-systemd-unit-restore-the-volume-wh.patch |    2 +-
+ .../gstreamer/gst-ffmpeg_0.10.13.bb                |    5 +-
+ .../gstreamer/gst-plugins-bad_0.10.22.bb           |    2 +-
+ .../gstreamer/gst-plugins-package.inc              |    9 ++--
+ meta/recipes-multimedia/libtiff/tiff_3.9.5.bb      |    7 ++-
+ meta/recipes-multimedia/mpeg2dec/mpeg2dec_0.4.1.bb |   10 +++--
+ meta/recipes-support/apr/apr-util_1.4.1.bb         |    4 +-
+ .../dprintf_conflict_with_eglibc.patch             |    2 +
+ meta/recipes-support/libsoup/libsoup_2.2.105.bb    |    8 ++--
+ .../shared-mime-info/parallelmake.patch            |    2 +-
+ meta/recipes-support/sqlite/sqlite3.inc            |    6 ++-
+ meta/recipes-support/sqlite/sqlite3_3.7.9.bb       |    2 +-
+ 36 files changed, 137 insertions(+), 155 deletions(-)
+
+-- 
+1.7.6.5
+
 
 
