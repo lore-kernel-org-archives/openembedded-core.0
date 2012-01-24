@@ -1,25 +1,20 @@
-Received: from mga02.intel.com ([134.134.136.20])
+Received: from mga14.intel.com ([143.182.124.37])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <josh@linux.intel.com>) id 1Rpphw-00080h-Rf
+	(envelope-from <josh@linux.intel.com>) id 1Rppse-0008Cn-TF
 	for openembedded-core@lists.openembedded.org;
-	Wed, 25 Jan 2012 00:23:21 +0100
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-	by orsmga101.jf.intel.com with ESMTP; 24 Jan 2012 15:15:34 -0800
+	Wed, 25 Jan 2012 00:34:25 +0100
+Received: from azsmga002.ch.intel.com ([10.2.17.35])
+	by azsmga102.ch.intel.com with ESMTP; 24 Jan 2012 15:26:38 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.67,352,1309762800"; d="scan'208";a="100191511"
-Received: from unknown (HELO [10.255.14.34]) ([10.255.14.34])
-	by orsmga001.jf.intel.com with ESMTP; 24 Jan 2012 15:15:33 -0800
-Message-ID: <4F1F3B95.4070105@linux.intel.com>
-Date: Tue, 24 Jan 2012 15:15:33 -0800
+X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="59668883"
+Received: from unknown (HELO shamshir.amr.corp.intel.com) ([10.255.14.34])
+	by AZSMGA002.ch.intel.com with ESMTP; 24 Jan 2012 15:26:37 -0800
 From: Joshua Lock <josh@linux.intel.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:9.0) Gecko/20111222 Thunderbird/9.0
-MIME-Version: 1.0
 To: openembedded-core@lists.openembedded.org
-References: <cover.1326481387.git.josh@linux.intel.com>
-	<09C174D7-2741-4099-BBA1-861E3608EB98@dominion.thruhere.net>
-In-Reply-To: <09C174D7-2741-4099-BBA1-861E3608EB98@dominion.thruhere.net>
-Subject: Re: [PATCH 0/4] Add alsa-state from OE Classic v3
+Date: Tue, 24 Jan 2012 15:26:32 -0800
+Message-Id: <cover.1327447344.git.josh@linux.intel.com>
+X-Mailer: git-send-email 1.7.7.6
+Subject: [PATCH 0/4] Various updates
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -34,43 +29,43 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 24 Jan 2012 23:23:21 -0000
-Content-Type: text/plain; charset=ISO-8859-1; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Tue, 24 Jan 2012 23:34:25 -0000
 
-On 24/01/12 07:02, Koen Kooi wrote:
->
-> Op 13 jan. 2012, om 20:10 heeft Joshua Lock het volgende geschreven:
->
->> The small series which follows introduces the alsa-state recipe from oe-classic.
->> The reason for doing so is to remove the requirement for recipes like the
->> beagleboard-audio recipe in meta-yocto, which ensures the beagleboards sound
->> device has the volume turned up.
->>
->> Long term I'd like to implement something more generic for handling device
->> quirks, but alsa-state is a simple fix for an immediate need that should
->> standardise how alsa configuration is handled in layers.
->
-> FWIW, alsa-lib itself includes initscripts to do this. I dropped asound.state in /var/lib/alsa and it just worked since alsactl also installs systemd units to handle this. So alsa-state can just hold the config files and drop the initscripts by the looks of it.
+The key patch in this series is the linux-tools change. With builds that don't 
+include GPLv3 licensed packages the linux-yocto kernel was being skipped due to
+it pulling in perf and perf requiring binutils.
 
-Thanks for raising this, I hadn't seen that alsa-utils provides some 
-extras with alsactl.
-
-Taking a quick look I see that they ship systemd units for state save 
-and restore and a udev rule for restoring the state.
-
-I can't see any initscript, so I think switching to what's provided by 
-alsa-utils would mean losing state saving for non-systemd folk but 
-systemd users can probably just set VIRTUAL-RUNTIME_alsa-state = 
-"alsa-utils-alsactl".
-
-I am an alsa newb so if I'm missing something please point me at it.
+The short-term fix is to not build perf if GPLv3 is in INCOMPATIBLE_LICENSE,
+long term there's a bug open to move perf to a separate package.
 
 Cheers,
 Joshua
+
+The following changes since commit a4a98b6d6273d4e716afbff0880d0ac2ff7be0a9:
+
+  gcc-common.inc: Fix comment (2012-01-24 14:38:31 +0000)
+
+are available in the git repository at:
+  git://git.openembedded.org/openembedded-core-contrib josh/stuff
+  http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=josh/stuff
+
+Joshua Lock (4):
+  clutter-gst: update to 1.4.6
+  linux-tools: don't build perf when GPLv3 in INCOMPATIBLE_LICENSE
+  cogl: update upstream status for build_for_armv4t.patch
+  distro-tracking-fields: update entries for clutter-gst-1.8
+
+ .../conf/distro/include/distro_tracking_fields.inc |    4 ++--
+ ...r-gst-1.8_1.4.4.bb => clutter-gst-1.8_1.4.6.bb} |    4 ++--
+ .../clutter/cogl/build_for_armv4t.patch            |    2 +-
+ meta/recipes-kernel/linux/linux-tools.inc          |   20 ++++++++++++++++++--
+ meta/recipes-kernel/linux/linux-yocto_2.6.37.bb    |    2 +-
+ meta/recipes-kernel/linux/linux-yocto_3.0.bb       |    2 +-
+ 6 files changed, 25 insertions(+), 9 deletions(-)
+ rename meta/recipes-graphics/clutter/{clutter-gst-1.8_1.4.4.bb => clutter-gst-1.8_1.4.6.bb} (80%)
+
 -- 
-Joshua Lock
-         Yocto Project "Johannes factotum"
-         Intel Open Source Technology Centre
+1.7.7.6
+
 
 
