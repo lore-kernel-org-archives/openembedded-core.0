@@ -1,34 +1,20 @@
-Received: from mail-ee0-f47.google.com ([74.125.83.47])
+Received: from mga02.intel.com ([134.134.136.20])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <martin.jansa@gmail.com>) id 1RpSpN-0004j6-1N
+	(envelope-from <sgw@linux.intel.com>) id 1RpVXg-000194-JJ
 	for openembedded-core@lists.openembedded.org;
-	Mon, 23 Jan 2012 23:57:29 +0100
-Received: by eekd41 with SMTP id d41so1166140eek.6
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 23 Jan 2012 14:49:44 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
-	h=date:from:to:subject:message-id:references:mime-version
-	:content-type:content-disposition:in-reply-to:user-agent;
-	bh=iFbesN1/VIYA0xz/V8aWzWOAjyO++BTa8EaedEaCFfU=;
-	b=LrKp4DTx1n7b2uAOD9KgkkzHrjmkNdPw4S/BqpnwQm3rCzh9csT8tZMe2SpLTeZPrT
-	Mhb3mkyDiaLzeARJjGxvMnGPuKijUUQhlKTFRO/N4UiXa0l8/TZL8pIJ8XjEUhpwrH/R
-	cetAfnfH5N2Yq3Ud8owyPsoYQ6FYFT39PTnZI=
-Received: by 10.14.135.140 with SMTP id u12mr3553943eei.73.1327358984056;
-	Mon, 23 Jan 2012 14:49:44 -0800 (PST)
-Received: from localhost ([94.230.152.246])
-	by mx.google.com with ESMTPS id x43sm59596371eef.8.2012.01.23.14.49.41
-	(version=TLSv1/SSLv3 cipher=OTHER);
-	Mon, 23 Jan 2012 14:49:42 -0800 (PST)
-Date: Mon, 23 Jan 2012 23:49:37 +0100
-From: Martin Jansa <martin.jansa@gmail.com>
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Message-ID: <20120123224937.GA3634@jama.jama.net>
-References: <4F1DDB53.2030502@mlbassoc.com>
-MIME-Version: 1.0
-In-Reply-To: <4F1DDB53.2030502@mlbassoc.com>
-User-Agent: Mutt/1.5.21 (2010-09-15)
-Subject: Re: bitbake.lock?
+	Tue, 24 Jan 2012 02:51:24 +0100
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+	by orsmga101.jf.intel.com with ESMTP; 23 Jan 2012 17:43:38 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.67,352,1309762800"; d="scan'208";a="99817350"
+Received: from unknown (HELO swold-mobl.lan) ([10.255.14.67])
+	by orsmga001.jf.intel.com with ESMTP; 23 Jan 2012 17:43:38 -0800
+From: Saul Wold <sgw@linux.intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Mon, 23 Jan 2012 17:43:35 -0800
+Message-Id: <1327369415-15572-1-git-send-email-sgw@linux.intel.com>
+X-Mailer: git-send-email 1.7.6.5
+Subject: [PATCH] qemuimage-testlib: rename qemuppc image
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -43,43 +29,34 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 23 Jan 2012 22:57:29 -0000
-X-Groupsio-MsgNum: 16481
-Content-Type: multipart/signed; micalg=pgp-sha1;
-	protocol="application/pgp-signature"; boundary="zYM0uCDKw75PZbzx"
-Content-Disposition: inline
+X-List-Received-Date: Tue, 24 Jan 2012 01:51:24 -0000
 
---zYM0uCDKw75PZbzx
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+A recent set of changes changed the kernel name from bzImage to vmlinux,
+this test needs to change also.
 
-On Mon, Jan 23, 2012 at 03:12:35PM -0700, Gary Thomas wrote:
-> I've noticed that recent versions of bitbake leave this file
-> in the build directory.
->=20
-> What is it for & why is it left around?
+Signed-off-by: Saul Wold <sgw@linux.intel.com>
+---
+ scripts/qemuimage-testlib |    4 ++--
+ 1 files changed, 2 insertions(+), 2 deletions(-)
 
-see
-http://git.openembedded.org/bitbake/commit/?id=3D6004cbf36c980c2574c1c9153d=
-f81a7c55317e17
+diff --git a/scripts/qemuimage-testlib b/scripts/qemuimage-testlib
+index d0d1b74..222e363 100755
+--- a/scripts/qemuimage-testlib
++++ b/scripts/qemuimage-testlib
+@@ -440,9 +440,9 @@ Test_Create_Qemu()
+ 	
+ 	if [ "$QEMUARCH" = "qemux86" -o "$QEMUARCH" = "qemux86-64" ]; then
+ 		KERNEL=$(Test_Find_Image -l ${DEPLOY_DIR}/images -k bzImage -a ${QEMUARCH})
+-	elif [ "$QEMUARCH" = "qemuarm" -o "$QEMUARCH" = "spitz" -o "$QEMUARCH" = "borzoi" -o "$QEMUARCH" = "akita" -o "$QEMUARCH" = "nokia800" -o "$QEMUARCH" = "qemuppc" ]; then
++	elif [ "$QEMUARCH" = "qemuarm" -o "$QEMUARCH" = "spitz" -o "$QEMUARCH" = "borzoi" -o "$QEMUARCH" = "akita" -o "$QEMUARCH" = "nokia800" ]; then
+ 		KERNEL=$(Test_Find_Image -l ${DEPLOY_DIR}/images -k zImage -a ${QEMUARCH})
+-	elif [ "$QEMUARCH" = "qemumips" ]; then
++	elif [ "$QEMUARCH" = "qemumips" -o "$QEMUARCH" = "qemuppc" ]; then
+ 		KERNEL=$(Test_Find_Image -l ${DEPLOY_DIR}/images -k vmlinux -a ${QEMUARCH})
+ 	fi
+ 
+-- 
+1.7.6.5
 
-and
-http://bugzilla.pokylinux.org/show_bug.cgi?id=3D1464
 
---=20
-Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
 
---zYM0uCDKw75PZbzx
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: Digital signature
-
------BEGIN PGP SIGNATURE-----
-Version: GnuPG v2.0.18 (GNU/Linux)
-
-iEYEARECAAYFAk8d5AEACgkQN1Ujt2V2gByabACgrqo+lZ4f9C9BgPbpWmir6XP0
-j94AoJVZ3smzjewTM795+c2r8KeQnZVH
-=Ve4A
------END PGP SIGNATURE-----
-
---zYM0uCDKw75PZbzx--
