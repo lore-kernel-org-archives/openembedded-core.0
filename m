@@ -1,20 +1,33 @@
-Received: from mga02.intel.com ([134.134.136.20])
-	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <sgw@linux.intel.com>) id 1RpVXg-000194-JJ
-	for openembedded-core@lists.openembedded.org;
-	Tue, 24 Jan 2012 02:51:24 +0100
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-	by orsmga101.jf.intel.com with ESMTP; 23 Jan 2012 17:43:38 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.67,352,1309762800"; d="scan'208";a="99817350"
-Received: from unknown (HELO swold-mobl.lan) ([10.255.14.67])
-	by orsmga001.jf.intel.com with ESMTP; 23 Jan 2012 17:43:38 -0800
-From: Saul Wold <sgw@linux.intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Mon, 23 Jan 2012 17:43:35 -0800
-Message-Id: <1327369415-15572-1-git-send-email-sgw@linux.intel.com>
-X-Mailer: git-send-email 1.7.6.5
-Subject: [PATCH] qemuimage-testlib: rename qemuppc image
+Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
+	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <richard.purdie@linuxfoundation.org>)
+	id 1RpeFk-0005Tz-P2 for openembedded-core@lists.openembedded.org;
+	Tue, 24 Jan 2012 12:09:29 +0100
+Received: from localhost (localhost [127.0.0.1])
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q0OB1inK027194
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 24 Jan 2012 11:01:44 GMT
+Received: from tim.rpsys.net ([127.0.0.1])
+	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
+	port 10024) with LMTP
+	id 23354-10 for <openembedded-core@lists.openembedded.org>;
+	Tue, 24 Jan 2012 11:01:40 +0000 (GMT)
+Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q0OB1ZVc027188
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO)
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 24 Jan 2012 11:01:37 GMT
+Message-ID: <1327402896.19643.85.camel@ted>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Date: Tue, 24 Jan 2012 11:01:36 +0000
+In-Reply-To: <1327369415-15572-1-git-send-email-sgw@linux.intel.com>
+References: <1327369415-15572-1-git-send-email-sgw@linux.intel.com>
+X-Mailer: Evolution 3.2.2- 
+Mime-Version: 1.0
+X-Virus-Scanned: amavisd-new at rpsys.net
+Subject: Re: [PATCH] qemuimage-testlib: rename qemuppc image
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -29,34 +42,22 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 24 Jan 2012 01:51:24 -0000
+X-List-Received-Date: Tue, 24 Jan 2012 11:09:29 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-A recent set of changes changed the kernel name from bzImage to vmlinux,
-this test needs to change also.
+On Mon, 2012-01-23 at 17:43 -0800, Saul Wold wrote:
+> A recent set of changes changed the kernel name from bzImage to vmlinux,
+> this test needs to change also.
+> 
+> Signed-off-by: Saul Wold <sgw@linux.intel.com>
+> ---
+>  scripts/qemuimage-testlib |    4 ++--
+>  1 files changed, 2 insertions(+), 2 deletions(-)
 
-Signed-off-by: Saul Wold <sgw@linux.intel.com>
----
- scripts/qemuimage-testlib |    4 ++--
- 1 files changed, 2 insertions(+), 2 deletions(-)
+Merged to master, thanks.
 
-diff --git a/scripts/qemuimage-testlib b/scripts/qemuimage-testlib
-index d0d1b74..222e363 100755
---- a/scripts/qemuimage-testlib
-+++ b/scripts/qemuimage-testlib
-@@ -440,9 +440,9 @@ Test_Create_Qemu()
- 	
- 	if [ "$QEMUARCH" = "qemux86" -o "$QEMUARCH" = "qemux86-64" ]; then
- 		KERNEL=$(Test_Find_Image -l ${DEPLOY_DIR}/images -k bzImage -a ${QEMUARCH})
--	elif [ "$QEMUARCH" = "qemuarm" -o "$QEMUARCH" = "spitz" -o "$QEMUARCH" = "borzoi" -o "$QEMUARCH" = "akita" -o "$QEMUARCH" = "nokia800" -o "$QEMUARCH" = "qemuppc" ]; then
-+	elif [ "$QEMUARCH" = "qemuarm" -o "$QEMUARCH" = "spitz" -o "$QEMUARCH" = "borzoi" -o "$QEMUARCH" = "akita" -o "$QEMUARCH" = "nokia800" ]; then
- 		KERNEL=$(Test_Find_Image -l ${DEPLOY_DIR}/images -k zImage -a ${QEMUARCH})
--	elif [ "$QEMUARCH" = "qemumips" ]; then
-+	elif [ "$QEMUARCH" = "qemumips" -o "$QEMUARCH" = "qemuppc" ]; then
- 		KERNEL=$(Test_Find_Image -l ${DEPLOY_DIR}/images -k vmlinux -a ${QEMUARCH})
- 	fi
- 
--- 
-1.7.6.5
+Richard
 
 
 
