@@ -1,29 +1,20 @@
-Received: from mail-we0-f175.google.com ([74.125.82.175])
+Received: from mga02.intel.com ([134.134.136.20])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <koen@dominion.thruhere.net>) id 1Rpi0V-0001e0-JU
+	(envelope-from <sgw@linux.intel.com>) id 1RpjUg-0005rb-0u
 	for openembedded-core@lists.openembedded.org;
-	Tue, 24 Jan 2012 16:09:59 +0100
-Received: by werc1 with SMTP id c1so1905122wer.6
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 24 Jan 2012 07:02:14 -0800 (PST)
-Received: by 10.180.109.198 with SMTP id hu6mr4241346wib.16.1327417334391;
-	Tue, 24 Jan 2012 07:02:14 -0800 (PST)
-Received: from [172.20.0.96] (ip545070eb.adsl-surfen.hetnet.nl.
-	[84.80.112.235])
-	by mx.google.com with ESMTPS id bj10sm19141917wib.9.2012.01.24.07.02.12
-	(version=TLSv1/SSLv3 cipher=OTHER);
-	Tue, 24 Jan 2012 07:02:13 -0800 (PST)
-From: Koen Kooi <koen@dominion.thruhere.net>
-Mime-Version: 1.0 (Apple Message framework v1251.1)
-Date: Tue, 24 Jan 2012 16:02:11 +0100
-In-Reply-To: <cover.1326481387.git.josh@linux.intel.com>
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-References: <cover.1326481387.git.josh@linux.intel.com>
-Message-Id: <09C174D7-2741-4099-BBA1-861E3608EB98@dominion.thruhere.net>
-X-Mailer: Apple Mail (2.1251.1)
-X-Gm-Message-State: ALoCoQka7Ksg1H8baqz/pAOokTEEacjdZjB6JLNOtUBXef7UxxfKMMjdCf3kbUPhor0j4Ve3lur/
-Subject: Re: [PATCH 0/4] Add alsa-state from OE Classic v3
+	Tue, 24 Jan 2012 17:45:14 +0100
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+	by orsmga101.jf.intel.com with ESMTP; 24 Jan 2012 08:37:01 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.67,352,1309762800"; d="scan'208";a="100029149"
+Received: from unknown (HELO swold-mobl.bigsur.com) ([10.255.14.96])
+	by orsmga001.jf.intel.com with ESMTP; 24 Jan 2012 08:37:01 -0800
+From: Saul Wold <sgw@linux.intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Tue, 24 Jan 2012 08:37:01 -0800
+Message-Id: <1327423021-4038-1-git-send-email-sgw@linux.intel.com>
+X-Mailer: git-send-email 1.7.6.5
+Subject: [PATCH] bitbake.conf: Add additional packages to WHITELIST
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -38,56 +29,32 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 24 Jan 2012 15:09:59 -0000
-X-Groupsio-MsgNum: 16489
-Content-Type: multipart/signed;
-	boundary="Apple-Mail=_22482B9D-2ACA-41BF-86EE-B8C00B63608F";
-	protocol="application/pgp-signature"; micalg=pgp-sha1
+X-List-Received-Date: Tue, 24 Jan 2012 16:45:14 -0000
 
---Apple-Mail=_22482B9D-2ACA-41BF-86EE-B8C00B63608F
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain;
-	charset=us-ascii
+These additional packages show up when building a Universe build
+since it includes all recipes unconditionally. Most are virtual,
+but opkg shows up also.
+
+Signed-off-by: Saul Wold <sgw@linux.intel.com>
+---
+ meta/conf/bitbake.conf |    2 +-
+ 1 files changed, 1 insertions(+), 1 deletions(-)
+
+diff --git a/meta/conf/bitbake.conf b/meta/conf/bitbake.conf
+index 2cc4b8f..7bf395c 100644
+--- a/meta/conf/bitbake.conf
++++ b/meta/conf/bitbake.conf
+@@ -240,7 +240,7 @@ PROVIDES = ""
+ PROVIDES_prepend = "${P} ${PF} ${PN} "
+ RPROVIDES = ""
+ 
+-MULTI_PROVIDER_WHITELIST = "virtual/libintl virtual/libintl-native virtual/libintl-nativesdk virtual/xserver virtual/update-alternatives-native virtual/update-alternatives"
++MULTI_PROVIDER_WHITELIST = "virtual/libintl virtual/libintl-native virtual/libintl-nativesdk virtual/xserver virtual/update-alternatives-native virtual/update-alternatives virtual/i586-poky-linux-gcc-initial virtual/linux-libc-headers virtual/libx11 virtual/i586-poky-linux-gcc virtual/i586-poky-linux-libc-for-gcc virtual/i586-poky-linux-gcc-intermediate virtual/libiconv virtual/update-alternatives-nativesdk virtual/libgl virtual/xserver-xf86 virtual/kernel virtual/i586-poky-linux-binutils virtual/libc linux-libc-headers linux-libc-headers-nativesdk opkg opkg-native opkg-nativesdk"
+ 
+ SOLIBS = ".so.*"
+ SOLIBS_darwin = ".*.dylib"
+-- 
+1.7.6.5
 
 
-Op 13 jan. 2012, om 20:10 heeft Joshua Lock het volgende geschreven:
 
-> The small series which follows introduces the alsa-state recipe from =
-oe-classic.
-> The reason for doing so is to remove the requirement for recipes like =
-the
-> beagleboard-audio recipe in meta-yocto, which ensures the beagleboards =
-sound
-> device has the volume turned up.
->=20
-> Long term I'd like to implement something more generic for handling =
-device
-> quirks, but alsa-state is a simple fix for an immediate need that =
-should
-> standardise how alsa configuration is handled in layers.
-
-FWIW, alsa-lib itself includes initscripts to do this. I dropped =
-asound.state in /var/lib/alsa and it just worked since alsactl also =
-installs systemd units to handle this. So alsa-state can just hold the =
-config files and drop the initscripts by the looks of it.
-
-regards,
-
-Koen=
-
---Apple-Mail=_22482B9D-2ACA-41BF-86EE-B8C00B63608F
-Content-Transfer-Encoding: 7bit
-Content-Disposition: inline;
-	filename=signature.asc
-Content-Type: application/pgp-signature;
-	name=signature.asc
-Content-Description: Message signed with OpenPGP using GPGMail
-
------BEGIN PGP SIGNATURE-----
-
-iEYEARECAAYFAk8ex/MACgkQMkyGM64RGpGqiACgirR95t4KLeZVZLdl22ygkV2f
-oSUAoK/KVasfZADkIj4VkXx8+OVoH8T+
-=u3uQ
------END PGP SIGNATURE-----
-
---Apple-Mail=_22482B9D-2ACA-41BF-86EE-B8C00B63608F--
