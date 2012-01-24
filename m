@@ -1,33 +1,28 @@
-Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
-	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <richard.purdie@linuxfoundation.org>)
-	id 1RpeJo-0005eq-Aw for openembedded-core@lists.openembedded.org;
-	Tue, 24 Jan 2012 12:13:41 +0100
-Received: from localhost (localhost [127.0.0.1])
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q0OB5tGC027277
+Received: from mail-ww0-f43.google.com ([74.125.82.43])
+	by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <s.stirtzel@googlemail.com>) id 1RpgZK-0006Am-DH
+	for openembedded-core@lists.openembedded.org;
+	Tue, 24 Jan 2012 14:37:50 +0100
+Received: by wgbdt11 with SMTP id dt11so3690960wgb.24
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 24 Jan 2012 11:05:55 GMT
-Received: from tim.rpsys.net ([127.0.0.1])
-	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
-	port 10024) with LMTP
-	id 25428-08 for <openembedded-core@lists.openembedded.org>;
-	Tue, 24 Jan 2012 11:05:51 +0000 (GMT)
-Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q0OB5lex027271
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO)
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 24 Jan 2012 11:05:47 GMT
-Message-ID: <1327403148.19643.87.camel@ted>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
+	Tue, 24 Jan 2012 05:30:05 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=googlemail.com; s=gamma;
+	h=mime-version:date:message-id:subject:from:to:content-type;
+	bh=SQ52xxUfj0LgbfKKz09W+CLauDgrZUC0GBJg760a17M=;
+	b=YZUi5YFeu/EhsOFOa8qj8EfpTWcNTr+p69NNc2PJwHDHc5EXZQNokInG2r1w7Uiatf
+	6a5kRkJpOvYY2XwoMWlJ2aiiB81k5iEgf3vC2kvO50xtuS1/R2IQMgLf8EZbcxWt/kj/
+	csL9/scSgUUBf9uHFRt4fcZVmfJc6weRb7W5c=
+MIME-Version: 1.0
+Received: by 10.180.95.199 with SMTP id dm7mr20764276wib.9.1327411805130; Tue,
+	24 Jan 2012 05:30:05 -0800 (PST)
+Received: by 10.223.117.72 with HTTP; Tue, 24 Jan 2012 05:30:05 -0800 (PST)
+Date: Tue, 24 Jan 2012 14:30:05 +0100
+Message-ID: <CAGiJk9dnE5PNX68AO8gXH+VseMS4LFG=1Bq+cQMekSgrVo1aXw@mail.gmail.com>
+From: Samuel Stirtzel <s.stirtzel@googlemail.com>
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Date: Tue, 24 Jan 2012 11:05:48 +0000
-In-Reply-To: <cover.1327309289.git.Martin.Jansa@gmail.com>
-References: <cover.1327309289.git.Martin.Jansa@gmail.com>
-X-Mailer: Evolution 3.2.2- 
-Mime-Version: 1.0
-X-Virus-Scanned: amavisd-new at rpsys.net
-Subject: Re: [PATCH 0/2] Initscripts cosmetics
+Subject: CMake error? CMAKE_AR-NOTFOUND
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -42,26 +37,28 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 24 Jan 2012 11:13:41 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Tue, 24 Jan 2012 13:37:50 -0000
+Content-Type: text/plain; charset=UTF-8
 
-On Mon, 2012-01-23 at 10:01 +0100, Martin Jansa wrote:
-> The following changes since commit ac162df288f6d8f68c1764fad0ab2d33b9cee281:
-> 
->   distro_tracking: update libpng, libgdbus, opensp, nfs-utils manual check dates (2012-01-20 16:35:08 +0000)
-> 
-> are available in the git repository at:
->   git://git.openembedded.org/openembedded-core-contrib jansa/pull
->   http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=jansa/pull
-> 
-> Martin Jansa (2):
->   initscripts: add shebang where it was missing completely
->   initscripts: remove space from shebang, just cosmetics
+Hi,
+currently I try to build a native software that needs CMake, it is a
+required tool to cross compile another software.
+An it seems that CMAKE_AR is set to an invalid value (CMAKE_AR-NOTFOUND).
+The cmake.bbclass has no entry about this.
 
-Merged to master, thanks.
+By searching the web, the only information found was that it can be
+set to ${GCC_PATH}/dld.
+As I am usually not working with CMake where can I find the native
+"ar" or "dld" executable in OpenEmbedded?
 
-Richard
+Using the archiver from my hosts /usr/bin/ar seems to be wrong since
+in cmake.bbclass "set( CMAKE_FIND_ROOT_PATH_MODE_PROGRAM ONLY )"
+prohibits it.
 
+Sorry for this stupid question.
+
+-- 
+Regards
+Samuel
 
 
