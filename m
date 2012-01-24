@@ -1,35 +1,33 @@
-Received: from mail-iy0-f175.google.com ([209.85.210.175])
-	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <raj.khem@gmail.com>) id 1RpkWV-0000Go-Ej
-	for openembedded-core@lists.openembedded.org;
-	Tue, 24 Jan 2012 18:51:11 +0100
-Received: by mail-iy0-f175.google.com with SMTP id z21so7118204iab.6
+Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
+	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <richard.purdie@linuxfoundation.org>)
+	id 1RpkbG-0000Zp-Nx for openembedded-core@lists.openembedded.org;
+	Tue, 24 Jan 2012 18:56:06 +0100
+Received: from localhost (localhost [127.0.0.1])
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q0OHmLJj031323
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 24 Jan 2012 09:43:27 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
-	h=from:to:subject:date:message-id:x-mailer:in-reply-to:references
-	:in-reply-to:references;
-	bh=FVU7fe+Vt3xdMPo6EFNJrcBuoiDGpPa63Y7WRokOYrI=;
-	b=A1Mx29bAtfWumNNo5FtgW1u/gINR6noixY/6HvOD2+5oR+yxY3Dh8ilB7a8ML5SgOC
-	0I4YU5n+RMj//M04JGWqK+3mQXE9FUzxK87XFF1mmR7jiDddt1mV8KmadAxg1Oko5Zcd
-	s+whCICXNzrx9EBjeDPJZUO/TN7IclbrCpp9U=
-Received: by 10.50.207.72 with SMTP id lu8mr15509894igc.0.1327427006845;
-	Tue, 24 Jan 2012 09:43:26 -0800 (PST)
-Received: from leto.gateway.2wire.net
-	(99-57-141-118.lightspeed.sntcca.sbcglobal.net. [99.57.141.118])
-	by mx.google.com with ESMTPS id wn6sm9360062igb.3.2012.01.24.09.43.24
-	(version=TLSv1/SSLv3 cipher=OTHER);
-	Tue, 24 Jan 2012 09:43:25 -0800 (PST)
-From: Khem Raj <raj.khem@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Date: Tue, 24 Jan 2012 09:43:01 -0800
-Message-Id: <36096dd5d3d5ed998495daa74164b0db22050fa5.1327426808.git.raj.khem@gmail.com>
-X-Mailer: git-send-email 1.7.8.3
-In-Reply-To: <e035a903e7718b712b60ed33807b9ead906cee2f.1327426808.git.raj.khem@gmail.com>
-References: <e035a903e7718b712b60ed33807b9ead906cee2f.1327426808.git.raj.khem@gmail.com>
-In-Reply-To: <cover.1327426808.git.raj.khem@gmail.com>
-References: <cover.1327426808.git.raj.khem@gmail.com>
-Subject: [PATCH 7/7] util-linux: Change SRC_URI to a fetchable location
+	Tue, 24 Jan 2012 17:48:21 GMT
+Received: from tim.rpsys.net ([127.0.0.1])
+	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
+	port 10024) with LMTP
+	id 31074-03 for <openembedded-core@lists.openembedded.org>;
+	Tue, 24 Jan 2012 17:48:17 +0000 (GMT)
+Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q0OHmEov031317
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO)
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 24 Jan 2012 17:48:15 GMT
+Message-ID: <1327427295.19643.118.camel@ted>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Date: Tue, 24 Jan 2012 17:48:15 +0000
+In-Reply-To: <CAGiJk9dnE5PNX68AO8gXH+VseMS4LFG=1Bq+cQMekSgrVo1aXw@mail.gmail.com>
+References: <CAGiJk9dnE5PNX68AO8gXH+VseMS4LFG=1Bq+cQMekSgrVo1aXw@mail.gmail.com>
+X-Mailer: Evolution 3.2.2- 
+Mime-Version: 1.0
+X-Virus-Scanned: amavisd-new at rpsys.net
+Subject: Re: CMake error? CMAKE_AR-NOTFOUND
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -44,28 +42,36 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 24 Jan 2012 17:51:12 -0000
+X-List-Received-Date: Tue, 24 Jan 2012 17:56:07 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-Signed-off-by: Khem Raj <raj.khem@gmail.com>
----
- meta/recipes-core/util-linux/util-linux.inc |    2 +-
- 1 files changed, 1 insertions(+), 1 deletions(-)
+On Tue, 2012-01-24 at 14:30 +0100, Samuel Stirtzel wrote:
+> Hi,
+> currently I try to build a native software that needs CMake, it is a
+> required tool to cross compile another software.
+> An it seems that CMAKE_AR is set to an invalid value (CMAKE_AR-NOTFOUND).
+> The cmake.bbclass has no entry about this.
+> 
+> By searching the web, the only information found was that it can be
+> set to ${GCC_PATH}/dld.
+> As I am usually not working with CMake where can I find the native
+> "ar" or "dld" executable in OpenEmbedded?
+> 
+> Using the archiver from my hosts /usr/bin/ar seems to be wrong since
+> in cmake.bbclass "set( CMAKE_FIND_ROOT_PATH_MODE_PROGRAM ONLY )"
+> prohibits it.
 
-diff --git a/meta/recipes-core/util-linux/util-linux.inc b/meta/recipes-core/util-linux/util-linux.inc
-index b6d44ab..f60f33b 100644
---- a/meta/recipes-core/util-linux/util-linux.inc
-+++ b/meta/recipes-core/util-linux/util-linux.inc
-@@ -17,7 +17,7 @@ inherit autotools gettext pkgconfig
- DEPENDS = "zlib ncurses"
- DEPENDS_virtclass-native = " lzo-native"
- 
--SRC_URI = "ftp://ftp.infradead.org/pub/util-linux/v${MAJOR_VERSION}/util-linux-${PV}.tar.bz2 \
-+SRC_URI = "${KERNELORG_MIRROR}/linux/utils/util-linux/v${MAJOR_VERSION}/util-linux-${PV}.tar.bz2 \
-            file://MCONFIG \
-            file://swapargs.h \
-            file://defines.h \
--- 
-1.7.8.3
+In the same way the class figures out OECMAKE_C_COMPILER from ${CC}, you
+probably need to figure out ar from ${AR} and pass it to the cmake
+configuration.
+
+Note I know very little about cmake so I'm of less help with that
+piece ;-).
+
+Cheers,
+
+Richard
 
 
 
