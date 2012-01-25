@@ -1,20 +1,22 @@
-Received: from mga01.intel.com ([192.55.52.88])
+Received: from mga02.intel.com ([134.134.136.20])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <sgw@linux.intel.com>) id 1Rps7J-0003Ix-NN
+	(envelope-from <dvhart@linux.intel.com>) id 1RpvPu-0003BG-8x
 	for openembedded-core@lists.openembedded.org;
-	Wed, 25 Jan 2012 02:57:41 +0100
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-	by fmsmga101.fm.intel.com with ESMTP; 24 Jan 2012 17:49:55 -0800
+	Wed, 25 Jan 2012 06:29:06 +0100
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+	by orsmga101.jf.intel.com with ESMTP; 24 Jan 2012 21:21:19 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="115810658"
-Received: from unknown (HELO swold-mobl.bigsur.com) ([10.255.14.96])
-	by fmsmga002.fm.intel.com with ESMTP; 24 Jan 2012 17:49:54 -0800
-From: Saul Wold <sgw@linux.intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Tue, 24 Jan 2012 17:49:54 -0800
-Message-Id: <1327456194-9871-1-git-send-email-sgw@linux.intel.com>
+X-IronPort-AV: E=Sophos;i="4.67,351,1309762800"; d="scan'208";a="102406644"
+Received: from unknown (HELO localhost) ([10.255.14.109])
+	by orsmga002.jf.intel.com with ESMTP; 24 Jan 2012 21:21:18 -0800
+From: Darren Hart <dvhart@linux.intel.com>
+To: openembedded-core@lists.openembedded.org,
+	Tom Zanussi <tom.zanussi@intel.com>
+Date: Tue, 24 Jan 2012 21:20:50 -0800
+Message-Id: <cover.1327468756.git.dvhart@linux.intel.com>
 X-Mailer: git-send-email 1.7.6.5
-Subject: [PATCH 1/2] insane.bbclass: Add test for static .a libraries in non-staticdev packages
+Cc: Darren Hart <dvhart@linux.intel.com>
+Subject: [PATCH 0/1] bootimg: Fix a math thinko in the block count calculation
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -29,61 +31,22 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 25 Jan 2012 01:57:41 -0000
+X-List-Received-Date: Wed, 25 Jan 2012 05:29:06 -0000
 
-This check verifies that non staticdev and non pic packages do not
-have static libraries in them. There are a few exceptions for the
-libgcc-dev and libgcov-dev packages which are whitelisted, also the
-*_nonshared.a need to be part of their respective -dev packages.
+The following changes since commit 6b2cb8280211d2e28ce75d6a107f99a3fa7868ae:
 
-This is currently a warning to work out any other issues in the upper
-layers but will be moved to ERROR at somepoint in the future.
+  gcc-common.inc: Fix comment (2012-01-24 14:38:39 +0000)
 
-[YOCTO #663]
+are available in the git repository at:
+  git://git.pokylinux.org/poky-contrib dvhart/bug/1852
+  http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=dvhart/bug/1852
 
-Signed-off-by: Saul Wold <sgw@linux.intel.com>
----
- meta/classes/insane.bbclass |   20 +++++++++++++++++++-
- 1 files changed, 19 insertions(+), 1 deletions(-)
+Darren Hart (1):
+  bootimg: Fix a math thinko in the block count calculation
 
-diff --git a/meta/classes/insane.bbclass b/meta/classes/insane.bbclass
-index ce21496..7aea73b 100644
---- a/meta/classes/insane.bbclass
-+++ b/meta/classes/insane.bbclass
-@@ -109,7 +109,7 @@ def package_qa_get_machine_dict():
- 
- 
- # Currently not being used by default "desktop"
--WARN_QA ?= "ldflags useless-rpaths rpaths unsafe-references-in-binaries unsafe-references-in-scripts"
-+WARN_QA ?= "ldflags useless-rpaths rpaths unsafe-references-in-binaries unsafe-references-in-scripts staticdev"
- ERROR_QA ?= "dev-so debug-deps dev-deps debug-files arch la2 pkgconfig la perms"
- 
- def package_qa_clean_path(path,d):
-@@ -192,6 +192,24 @@ def package_qa_check_dev(path, name, d, elf, messages):
-         messages.append("non -dev/-dbg/-nativesdk package contains symlink .so: %s path '%s'" % \
-                  (name, package_qa_clean_path(path,d)))
- 
-+QAPATHTEST[staticdev] = "package_qa_check_staticdev"
-+
-+# These 2 packages contain archive libraries that need to be in -dev
-+STATICDEV_WHITELIST = "libgcc-dev libgcov-dev"
-+def package_qa_check_staticdev(path, name, d, elf, messages):
-+    """
-+    Check for ".a" library in non-staticdev packages, use a STATICDEV_WHITELIST
-+    for exceptions
-+    """
-+
-+    import re
-+    staticdev_whitelist = d.getVar('STATICDEV_WHITELIST', True)
-+    if (staticdev_whitelist.find(name) != -1):
-+        return
-+    if not name.endswith("-pic") and not name.endswith("-staticdev") and path.endswith(".a") and not path.endswith("_nonshared.a"):
-+        messages.append("non -staticdev package contains static .a library: %s path '%s'" % \
-+                 (name, package_qa_clean_path(path,d)))
-+
- QAPATHTEST[debug-files] = "package_qa_check_dbg"
- def package_qa_check_dbg(path, name, d, elf, messages):
-     """
+ meta/classes/bootimg.bbclass |    2 +-
+ 1 files changed, 1 insertions(+), 1 deletions(-)
+
 -- 
 1.7.6.5
 
