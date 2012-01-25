@@ -1,32 +1,30 @@
-Received: from mail-we0-f175.google.com ([74.125.82.175])
+Received: from mail-ww0-f41.google.com ([74.125.82.41])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <s.stirtzel@googlemail.com>) id 1RpyNy-0007Sf-0c
+	(envelope-from <andrei@gherzan.ro>) id 1Rpzwa-0001pL-Au
 	for openembedded-core@lists.openembedded.org;
-	Wed, 25 Jan 2012 09:39:18 +0100
-Received: by werc1 with SMTP id c1so2573398wer.6
+	Wed, 25 Jan 2012 11:19:08 +0100
+Received: by wgbdt11 with SMTP id dt11so1405236wgb.0
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 25 Jan 2012 00:31:31 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=googlemail.com; s=gamma;
-	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
-	:content-type; bh=gqtzpNeGuYpOCJVTvl4/CCENDjzLnz2fbGKr5FJQayQ=;
-	b=MEgJKXAIrTEyU57DiVw1aJ7txe5ZJn93zdSQLXfDEyo8dYp90C+eIWlOf85fRRFg0a
-	4TDtgdwFVgd6q0NmfvMLvHbY+iZU56vjXrWnyrrOu2aAWJSEJ6a9m3vlUMuWxLnOycxy
-	pVG7SyMVLM+fQ5FyA6reJjKtMw24y8kxZQGvQ=
+	Wed, 25 Jan 2012 02:11:22 -0800 (PST)
+Received: by 10.180.19.130 with SMTP id f2mr10017430wie.12.1327486282128;
+	Wed, 25 Jan 2012 02:11:22 -0800 (PST)
+Received: from [128.224.170.214] ([89.121.200.106])
+	by mx.google.com with ESMTPS id eq5sm62012047wib.2.2012.01.25.02.11.21
+	(version=SSLv3 cipher=OTHER); Wed, 25 Jan 2012 02:11:21 -0800 (PST)
+Message-ID: <4F1FD549.7040708@gherzan.ro>
+Date: Wed, 25 Jan 2012 12:11:21 +0200
+From: Andrei Gherzan <andrei@gherzan.ro>
+User-Agent: Mozilla/5.0 (X11; Linux i686;
+	rv:8.0) Gecko/20111124 Thunderbird/8.0
 MIME-Version: 1.0
-Received: by 10.216.138.220 with SMTP id a70mr2995050wej.24.1327480291837;
-	Wed, 25 Jan 2012 00:31:31 -0800 (PST)
-Received: by 10.223.117.72 with HTTP; Wed, 25 Jan 2012 00:31:31 -0800 (PST)
-In-Reply-To: <CAGiJk9f+AwaG0F0P7sZJq=c6WKvioaQF0i9G0U8FMPfv__yc8A@mail.gmail.com>
-References: <CAGiJk9dnE5PNX68AO8gXH+VseMS4LFG=1Bq+cQMekSgrVo1aXw@mail.gmail.com>
-	<1327427295.19643.118.camel@ted>
-	<CAGiJk9f+AwaG0F0P7sZJq=c6WKvioaQF0i9G0U8FMPfv__yc8A@mail.gmail.com>
-Date: Wed, 25 Jan 2012 09:31:31 +0100
-Message-ID: <CAGiJk9eaBCxG=cGvw9PaOhLSwYtLKT+7r5y-=ehe5k2BUHd3+Q@mail.gmail.com>
-From: Samuel Stirtzel <s.stirtzel@googlemail.com>
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: CMake error? CMAKE_AR-NOTFOUND
+To: openembedded-core@lists.openembedded.org
+References: <cover.1327447344.git.josh@linux.intel.com>
+	<f7bd8523525f541676e8b2e416a4960b45cd7d7e.1327447344.git.josh@linux.intel.com>
+	<CAMKF1sq=xpgO=4Ne0YQdkhqXhh_+VcpA2Xyx_Cm3xccUcv3d2A@mail.gmail.com>
+	<4F1F45F0.208@linux.intel.com>
+In-Reply-To: <4F1F45F0.208@linux.intel.com>
+X-Gm-Message-State: ALoCoQlxBNFm+dzSwx3W6mshc3qWuL7lU7LCREksLwJA7hwsAFSJNCxITfCY02WPLFdv2DQmH5Ds
+Subject: Re: [PATCH 2/4] linux-tools: don't build perf when GPLv3 in INCOMPATIBLE_LICENSE
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -41,62 +39,38 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 25 Jan 2012 08:39:18 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Wed, 25 Jan 2012 10:19:08 -0000
+Content-Type: text/plain; charset=ISO-8859-1; format=flowed
+Content-Transfer-Encoding: 7bit
 
-2012/1/25 Samuel Stirtzel <s.stirtzel@googlemail.com>:
-> 2012/1/24 Richard Purdie <richard.purdie@linuxfoundation.org>:
->> On Tue, 2012-01-24 at 14:30 +0100, Samuel Stirtzel wrote:
->>> Hi,
->>> currently I try to build a native software that needs CMake, it is a
->>> required tool to cross compile another software.
->>> An it seems that CMAKE_AR is set to an invalid value (CMAKE_AR-NOTFOUND).
->>> The cmake.bbclass has no entry about this.
->>>
->>> By searching the web, the only information found was that it can be
->>> set to ${GCC_PATH}/dld.
->>> As I am usually not working with CMake where can I find the native
->>> "ar" or "dld" executable in OpenEmbedded?
->>>
->>> Using the archiver from my hosts /usr/bin/ar seems to be wrong since
->>> in cmake.bbclass "set( CMAKE_FIND_ROOT_PATH_MODE_PROGRAM ONLY )"
->>> prohibits it.
+On 01/25/2012 01:59 AM, Saul Wold wrote:
+> On 01/24/2012 03:42 PM, Khem Raj wrote:
+>> On Tue, Jan 24, 2012 at 3:26 PM, Joshua Lock<josh@linux.intel.com>  
+>> wrote:
+>>> Long term we should look at moving perf to a separate recipe but as a
+>>> short term solution this patch will ensure that when GPLv3 is in
 >>
->> In the same way the class figures out OECMAKE_C_COMPILER from ${CC}, you
->> probably need to figure out ar from ${AR} and pass it to the cmake
->> configuration.
+>> would I be asking too much to do that instead of this patch :)
+>> I think it will be good thing in general since other layers
+>> now have to define these tasks if they inherit from oe-core kernel 
+>> class.
 >>
->> Note I know very little about cmake so I'm of less help with that
->> piece ;-).
+> Khem,
 >
-> After looking around in all ends of OE-core it shows up that this
-> error is caused by binutils.inc.
-> Finding ar would be no problem itself, but if the binary is not
-> installed or gets deleted after building binutils-native it is
-> impossible to locate it.
+> The issue is timing and resources to do this work, it a larger task 
+> that may take more than a few days to refactor perf into it's own 
+> recipe and share the source area (ala work-shared/gcc).  We need to 
+> get the non-GPLv3 build working again and this seems like the most 
+> direct route to accomplish that.
 >
-> In binutils.inc do_install:
-> rm ${D}${bindir}/ar ${D}${bindir}/strings
-Sorry I pasted the wrong line, this was for cross compiling.
-From the do_install_virtclass-native:
-# We only want libiberty, libbfd and libopcodes
-rm -rf ${D}${bindir}
+> Sau!
+>
 
-but the effect is still the same..
->
-> Well I still wonder why my target sysroot has ar if it gets deleted here...
->
-> Anyone knows why ar is being removed in do_install?
->
->
-> --
-> Regards
-> Samuel
+This is a good workaround for this bug. Obviously a "refactor way" would 
+be a better one in my opinion too. But for now, as this bug breaks a 
+non-GPLv3 build, a fast solution, like this, is needed.
 
 
-
--- 
-Regards
-Samuel
+@g
 
 
