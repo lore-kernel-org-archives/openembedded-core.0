@@ -1,33 +1,38 @@
-Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
-	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <richard.purdie@linuxfoundation.org>)
-	id 1Rq59G-0000IF-MA for openembedded-core@lists.openembedded.org;
-	Wed, 25 Jan 2012 16:52:34 +0100
-Received: from localhost (localhost [127.0.0.1])
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q0PFimNm011631
+Received: from 1.mo2.mail-out.ovh.net ([46.105.63.121]
+	helo=mo2.mail-out.ovh.net) by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <eric@eukrea.com>) id 1Rq5PY-00018c-AE
+	for openembedded-core@lists.openembedded.org;
+	Wed, 25 Jan 2012 17:09:24 +0100
+Received: from mail190.ha.ovh.net (b7.ovh.net [213.186.33.57])
+	by mo2.mail-out.ovh.net (Postfix) with SMTP id 4895BDC332B
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 25 Jan 2012 15:44:48 GMT
-Received: from tim.rpsys.net ([127.0.0.1])
-	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
-	port 10024) with LMTP
-	id 10855-07 for <openembedded-core@lists.openembedded.org>;
-	Wed, 25 Jan 2012 15:44:44 +0000 (GMT)
-Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q0PFid4A011625
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO)
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 25 Jan 2012 15:44:39 GMT
-Message-ID: <1327506280.19643.255.camel@ted>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Date: Wed, 25 Jan 2012 15:44:40 +0000
-In-Reply-To: <1327456194-9871-1-git-send-email-sgw@linux.intel.com>
-References: <1327456194-9871-1-git-send-email-sgw@linux.intel.com>
-X-Mailer: Evolution 3.2.2- 
+	Wed, 25 Jan 2012 16:28:06 +0100 (CET)
+Received: from b0.ovh.net (HELO queueout) (213.186.33.50)
+	by b0.ovh.net with SMTP; 25 Jan 2012 17:26:23 +0200
+Received: from pac33-2-82-240-38-71.fbx.proxad.net (HELO eb-e6520)
+	(82.240.38.71) by ns0.ovh.net with SMTP; 25 Jan 2012 17:26:20 +0200
+Date: Wed, 25 Jan 2012 16:26:20 +0100
+From: Eric =?ISO-8859-1?B?QuluYXJk?= <eric@eukrea.com>
+To: openembedded-core@lists.openembedded.org
+X-Ovh-Mailout: 178.32.228.2 (mo2.mail-out.ovh.net)
+Message-ID: <20120125162620.33c601f1@eb-e6520>
+In-Reply-To: <A1F13823-5353-4D31-9614-C5C2317D122E@dominion.thruhere.net>
+References: <1327488436-28526-1-git-send-email-eric@eukrea.com>
+	<A1F13823-5353-4D31-9614-C5C2317D122E@dominion.thruhere.net>
+Organization: =?ISO-8859-1?B?RXVrculh?= Electromatique
+X-Mailer: Claws Mail 3.8.0 (GTK+ 2.24.8; x86_64-redhat-linux-gnu)
 Mime-Version: 1.0
-X-Virus-Scanned: amavisd-new at rpsys.net
-Subject: Re: [PATCH 1/2] insane.bbclass: Add test for static .a libraries in non-staticdev packages
+X-Ovh-Tracer-Id: 2241666715013787074
+X-Ovh-Remote: 82.240.38.71 (pac33-2-82-240-38-71.fbx.proxad.net)
+X-Ovh-Local: 213.186.33.20 (ns0.ovh.net)
+X-OVH-SPAMSTATE: OK
+X-OVH-SPAMSCORE: 0
+X-OVH-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrfeegtddrudejucetggdotefuucfrrhhofhhilhgvmecuqfggjfenuceurghilhhouhhtmecufedttdenucenucfhrhhomhepgfhrihgtuceurohnrghrugcuoegvrhhitgesvghukhhrvggrrdgtohhmqeenucfjughrpeffhffvuffkjghfohfogggtgfesthhqredtredtud
+X-Spam-Check: DONE|U 0.5/N
+X-VR-SPAMSTATE: OK
+X-VR-SPAMSCORE: 0
+X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrfeegtddrudejucetggdotefuucfrrhhofhhilhgvmecuqfggjfenuceurghilhhouhhtmecufedttdenucenucfhrhhomhepgfhrihgtuceurohnrghrugcuoegvrhhitgesvghukhhrvggrrdgtohhmqeenucfjughrpeffhffvuffkjghfohfogggtgfesthhqredtredtud
+Subject: Re: [PATCH] qt4-tools-nativesdk-4.8.0: fix build
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -42,75 +47,26 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 25 Jan 2012 15:52:34 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Wed, 25 Jan 2012 16:09:24 -0000
+Content-Type: text/plain; charset=ISO-8859-1
+Content-Transfer-Encoding: quoted-printable
 
-On Tue, 2012-01-24 at 17:49 -0800, Saul Wold wrote:
-> This check verifies that non staticdev and non pic packages do not
-> have static libraries in them. There are a few exceptions for the
-> libgcc-dev and libgcov-dev packages which are whitelisted, also the
-> *_nonshared.a need to be part of their respective -dev packages.
-> 
-> This is currently a warning to work out any other issues in the upper
-> layers but will be moved to ERROR at somepoint in the future.
-> 
-> [YOCTO #663]
-> 
-> Signed-off-by: Saul Wold <sgw@linux.intel.com>
-> ---
->  meta/classes/insane.bbclass |   20 +++++++++++++++++++-
->  1 files changed, 19 insertions(+), 1 deletions(-)
-> 
-> diff --git a/meta/classes/insane.bbclass b/meta/classes/insane.bbclass
-> index ce21496..7aea73b 100644
-> --- a/meta/classes/insane.bbclass
-> +++ b/meta/classes/insane.bbclass
-> @@ -109,7 +109,7 @@ def package_qa_get_machine_dict():
->  
-> 
->  # Currently not being used by default "desktop"
-> -WARN_QA ?= "ldflags useless-rpaths rpaths unsafe-references-in-binaries unsafe-references-in-scripts"
-> +WARN_QA ?= "ldflags useless-rpaths rpaths unsafe-references-in-binaries unsafe-references-in-scripts staticdev"
->  ERROR_QA ?= "dev-so debug-deps dev-deps debug-files arch la2 pkgconfig la perms"
->  
->  def package_qa_clean_path(path,d):
-> @@ -192,6 +192,24 @@ def package_qa_check_dev(path, name, d, elf, messages):
->          messages.append("non -dev/-dbg/-nativesdk package contains symlink .so: %s path '%s'" % \
->                   (name, package_qa_clean_path(path,d)))
->  
-> +QAPATHTEST[staticdev] = "package_qa_check_staticdev"
-> +
-> +# These 2 packages contain archive libraries that need to be in -dev
-> +STATICDEV_WHITELIST = "libgcc-dev libgcov-dev"
-> +def package_qa_check_staticdev(path, name, d, elf, messages):
-> +    """
-> +    Check for ".a" library in non-staticdev packages, use a STATICDEV_WHITELIST
-> +    for exceptions
-> +    """
-> +
-> +    import re
-> +    staticdev_whitelist = d.getVar('STATICDEV_WHITELIST', True)
-> +    if (staticdev_whitelist.find(name) != -1):
-> +        return
-> +    if not name.endswith("-pic") and not name.endswith("-staticdev") and path.endswith(".a") and not path.endswith("_nonshared.a"):
-> +        messages.append("non -staticdev package contains static .a library: %s path '%s'" % \
-> +                 (name, package_qa_clean_path(path,d)))
-> +
->  QAPATHTEST[debug-files] = "package_qa_check_dbg"
->  def package_qa_check_dbg(path, name, d, elf, messages):
->      """
+Hi Koen,
 
-Looks good but instead of adding STATICDEV_WHITELIST, could we set:
+Le Wed, 25 Jan 2012 13:01:26 +0100,
+Koen Kooi <koen@dominion.thruhere.net> a =E9crit :
 
-INSANE_SKIP_libgcc-dev = "staticdev"
-INSANE_SKIP_libgcov-dev = "staticdev"
+>=20
+> Op 25 jan. 2012, om 11:47 heeft Eric B=E9nard het volgende geschreven:
+>=20
+> > the build is actually failing because host g++ and ld are used to
+> > compile and link
+>=20
+> This is missing a PR bump in the affected recipes.
+>=20
+as the recipes don't actually build do you think the PR bump in
+necessary ?
 
-in the gcc recipe and use the existing code to handle that?
-
-Cheers,
-
-Richard
-
+Eric
 
 
