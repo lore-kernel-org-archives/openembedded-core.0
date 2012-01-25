@@ -1,21 +1,32 @@
-Received: from smtp2-g21.free.fr ([212.27.42.2])
+Received: from mail-lpp01m010-f47.google.com ([209.85.215.47])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <eric@eukrea.com>) id 1Rq6fv-0003Ka-LH
+	(envelope-from <raj.khem@gmail.com>) id 1Rq7cp-0005FI-8n
 	for openembedded-core@lists.openembedded.org;
-	Wed, 25 Jan 2012 18:30:24 +0100
-Received: from localhost.localdomain (unknown [82.240.38.71])
-	by smtp2-g21.free.fr (Postfix) with ESMTP id 100344B0749
+	Wed, 25 Jan 2012 19:31:15 +0100
+Received: by lags15 with SMTP id s15so3191430lag.6
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 25 Jan 2012 18:22:34 +0100 (CET)
-From: =?UTF-8?q?Eric=20B=C3=A9nard?= <eric@eukrea.com>
-To: openembedded-core@lists.openembedded.org
-Date: Wed, 25 Jan 2012 18:22:33 +0100
-Message-Id: <1327512153-30830-1-git-send-email-eric@eukrea.com>
-X-Mailer: git-send-email 1.7.7.5
-In-Reply-To: <77750FFE-A5A1-426D-A92E-775A8C95FF9A@dominion.thruhere.net>
-References: <77750FFE-A5A1-426D-A92E-775A8C95FF9A@dominion.thruhere.net>
+	Wed, 25 Jan 2012 10:23:28 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:content-type; bh=MjnQPu8pLj1KFWpO//2IvylqXQ7aK3VaCK3KzLsynG4=;
+	b=WHM+c92N/lCZkjEPjwq+jeWiTXMglvx8gUyWHt9Mc+BxVGJYG90Rr0aG18GOPBdfAr
+	soe8bE4sjP8bnW+Qe4ypLIAiXwU2e3PzuG9t++Smqfr7Ve5qX4OV4Pc1uPWvxr6eQZLv
+	LGxllMSfB+SDooiYUCG5E/88xRBOYXQay+Mww=
+Received: by 10.152.122.38 with SMTP id lp6mr9178769lab.13.1327515807980; Wed,
+	25 Jan 2012 10:23:27 -0800 (PST)
 MIME-Version: 1.0
-Subject: [PATCH v2] qt4-tools-nativesdk-4.8.0: fix build
+Received: by 10.152.5.201 with HTTP; Wed, 25 Jan 2012 10:22:56 -0800 (PST)
+In-Reply-To: <CAGiJk9eaBCxG=cGvw9PaOhLSwYtLKT+7r5y-=ehe5k2BUHd3+Q@mail.gmail.com>
+References: <CAGiJk9dnE5PNX68AO8gXH+VseMS4LFG=1Bq+cQMekSgrVo1aXw@mail.gmail.com>
+	<1327427295.19643.118.camel@ted>
+	<CAGiJk9f+AwaG0F0P7sZJq=c6WKvioaQF0i9G0U8FMPfv__yc8A@mail.gmail.com>
+	<CAGiJk9eaBCxG=cGvw9PaOhLSwYtLKT+7r5y-=ehe5k2BUHd3+Q@mail.gmail.com>
+From: Khem Raj <raj.khem@gmail.com>
+Date: Wed, 25 Jan 2012 10:22:56 -0800
+Message-ID: <CAMKF1sp41YHpyt+ihhq=9nzKNPqLEBtQWdr6BjupWBObkLeOeQ@mail.gmail.com>
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: CMake error? CMAKE_AR-NOTFOUND
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -30,190 +41,75 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 25 Jan 2012 17:30:24 -0000
+X-List-Received-Date: Wed, 25 Jan 2012 18:31:15 -0000
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
 
-the build is actually failing because host g++ and ld are used to
-compile and link
+On Wed, Jan 25, 2012 at 12:31 AM, Samuel Stirtzel
+<s.stirtzel@googlemail.com> wrote:
+> 2012/1/25 Samuel Stirtzel <s.stirtzel@googlemail.com>:
+>> 2012/1/24 Richard Purdie <richard.purdie@linuxfoundation.org>:
+>>> On Tue, 2012-01-24 at 14:30 +0100, Samuel Stirtzel wrote:
+>>>> Hi,
+>>>> currently I try to build a native software that needs CMake, it is a
+>>>> required tool to cross compile another software.
+>>>> An it seems that CMAKE_AR is set to an invalid value (CMAKE_AR-NOTFOUND).
+>>>> The cmake.bbclass has no entry about this.
+>>>>
+>>>> By searching the web, the only information found was that it can be
+>>>> set to ${GCC_PATH}/dld.
+>>>> As I am usually not working with CMake where can I find the native
+>>>> "ar" or "dld" executable in OpenEmbedded?
+>>>>
+>>>> Using the archiver from my hosts /usr/bin/ar seems to be wrong since
+>>>> in cmake.bbclass "set( CMAKE_FIND_ROOT_PATH_MODE_PROGRAM ONLY )"
+>>>> prohibits it.
+>>>
+>>> In the same way the class figures out OECMAKE_C_COMPILER from ${CC}, you
+>>> probably need to figure out ar from ${AR} and pass it to the cmake
+>>> configuration.
+>>>
+>>> Note I know very little about cmake so I'm of less help with that
+>>> piece ;-).
+>>
+>> After looking around in all ends of OE-core it shows up that this
+>> error is caused by binutils.inc.
+>> Finding ar would be no problem itself, but if the binary is not
+>> installed or gets deleted after building binutils-native it is
+>> impossible to locate it.
+>>
+>> In binutils.inc do_install:
+>> rm ${D}${bindir}/ar ${D}${bindir}/strings
+> Sorry I pasted the wrong line, this was for cross compiling.
+> From the do_install_virtclass-native:
+> # We only want libiberty, libbfd and libopcodes
+> rm -rf ${D}${bindir}
+>
+> but the effect is still the same..
+>>
+>> Well I still wonder why my target sysroot has ar if it gets deleted here...
+>>
 
-Signed-off-by: Eric B=C3=A9nard <eric@eukrea.com>
----
-v2 : increment INC_PR
- meta/recipes-qt/qt4/files/configure-lflags.patch   |   18 --------------=
-----
- .../recipes-qt/qt4/qt-4.7.4/configure-lflags.patch |   18 ++++++++++++++=
-++++
- .../recipes-qt/qt4/qt-4.8.0/configure-lflags.patch |   18 ++++++++++++++=
-++++
- meta/recipes-qt/qt4/qt4-tools-nativesdk.inc        |   10 +++++++---
- meta/recipes-qt/qt4/qt4-tools-nativesdk_4.7.4.bb   |    3 ++-
- 5 files changed, 45 insertions(+), 22 deletions(-)
- delete mode 100644 meta/recipes-qt/qt4/files/configure-lflags.patch
- create mode 100644 meta/recipes-qt/qt4/qt-4.7.4/configure-lflags.patch
- create mode 100644 meta/recipes-qt/qt4/qt-4.8.0/configure-lflags.patch
+because its installed using post_install script.
 
-diff --git a/meta/recipes-qt/qt4/files/configure-lflags.patch b/meta/reci=
-pes-qt/qt4/files/configure-lflags.patch
-deleted file mode 100644
-index a8e5945..0000000
---- a/meta/recipes-qt/qt4/files/configure-lflags.patch
-+++ /dev/null
-@@ -1,18 +0,0 @@
--qt4-tools-native: set LFLAGS to pick up zlib from staging
--
--Original Author: Jeremy Lain=C3=A9 <jeremy.laine@m4x.org>
--Upstream-Status: Pending
--
--Index: qtopia-core-opensource-src-4.3.3/configure
--=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
----- qtopia-core-opensource-src-4.3.3.orig/configure	2008-01-14 08:53:51.=
-000000000 +0000
--+++ qtopia-core-opensource-src-4.3.3/configure	2008-01-14 08:54:07.00000=
-0000 +0000
--@@ -447,7 +447,7 @@
-- # initalize variables
-- #----------------------------------------------------------------------=
----------
--=20
---SYSTEM_VARIABLES=3D"CC CXX CFLAGS CXXFLAGS LDFLAGS"
--+SYSTEM_VARIABLES=3D"CC CXX CFLAGS CXXFLAGS LDFLAGS LFLAGS"
-- for varname in $SYSTEM_VARIABLES; do
--     cmd=3D`echo \
-- 'if [ -n "\$'${varname}'" ]; then
-diff --git a/meta/recipes-qt/qt4/qt-4.7.4/configure-lflags.patch b/meta/r=
-ecipes-qt/qt4/qt-4.7.4/configure-lflags.patch
-new file mode 100644
-index 0000000..a8e5945
---- /dev/null
-+++ b/meta/recipes-qt/qt4/qt-4.7.4/configure-lflags.patch
-@@ -0,0 +1,18 @@
-+qt4-tools-native: set LFLAGS to pick up zlib from staging
-+
-+Original Author: Jeremy Lain=C3=A9 <jeremy.laine@m4x.org>
-+Upstream-Status: Pending
-+
-+Index: qtopia-core-opensource-src-4.3.3/configure
-+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-+--- qtopia-core-opensource-src-4.3.3.orig/configure	2008-01-14 08:53:51.=
-000000000 +0000
-++++ qtopia-core-opensource-src-4.3.3/configure	2008-01-14 08:54:07.00000=
-0000 +0000
-+@@ -447,7 +447,7 @@
-+ # initalize variables
-+ #----------------------------------------------------------------------=
----------
-+=20
-+-SYSTEM_VARIABLES=3D"CC CXX CFLAGS CXXFLAGS LDFLAGS"
-++SYSTEM_VARIABLES=3D"CC CXX CFLAGS CXXFLAGS LDFLAGS LFLAGS"
-+ for varname in $SYSTEM_VARIABLES; do
-+     cmd=3D`echo \
-+ 'if [ -n "\$'${varname}'" ]; then
-diff --git a/meta/recipes-qt/qt4/qt-4.8.0/configure-lflags.patch b/meta/r=
-ecipes-qt/qt4/qt-4.8.0/configure-lflags.patch
-new file mode 100644
-index 0000000..d74f7fd
---- /dev/null
-+++ b/meta/recipes-qt/qt4/qt-4.8.0/configure-lflags.patch
-@@ -0,0 +1,18 @@
-+qt4-tools-native: set LFLAGS to pick up zlib from staging
-+
-+Original Author: Jeremy Lain=C3=A9 <jeremy.laine@m4x.org>
-+Upstream-Status: Pending
-+
-+Index: qt-everywhere-opensource-src-4.8.0/configure
-+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-+--- qt-everywhere-opensource-src-4.8.0.orig/configure
-++++ qt-everywhere-opensource-src-4.8.0/configure
-+@@ -611,7 +611,7 @@ fi
-+ # initalize variables
-+ #----------------------------------------------------------------------=
----------
-+=20
-+-SYSTEM_VARIABLES=3D"RANLIB STRIP OBJDUMP LD CC CXX CFLAGS CXXFLAGS LDFL=
-AGS"
-++SYSTEM_VARIABLES=3D"RANLIB STRIP OBJDUMP LD CC CXX CFLAGS CXXFLAGS LDFL=
-AGS LFLAGS"
-+ for varname in $SYSTEM_VARIABLES; do
-+     qmakevarname=3D"${varname}"
-+     # use LDFLAGS for autoconf compat, but qmake uses QMAKE_LFLAGS
-diff --git a/meta/recipes-qt/qt4/qt4-tools-nativesdk.inc b/meta/recipes-q=
-t/qt4/qt4-tools-nativesdk.inc
-index 275fdcc..4b097cf 100644
---- a/meta/recipes-qt/qt4/qt4-tools-nativesdk.inc
-+++ b/meta/recipes-qt/qt4/qt4-tools-nativesdk.inc
-@@ -4,7 +4,7 @@ SECTION =3D "libs"
- HOMEPAGE =3D "http://qt.nokia.com"
- LICENSE =3D "LGPLv2.1 | GPLv3"
-=20
--INC_PR =3D "r7"
-+INC_PR =3D "r8"
-=20
- FILESEXTRAPATHS =3D. "${FILE_DIRNAME}/qt-${PV}:"
-=20
-@@ -12,7 +12,6 @@ inherit nativesdk qmake2
-=20
- SRC_URI =3D "http://get.qt.nokia.com/qt/source/qt-everywhere-opensource-=
-src-${PV}.tar.gz \
-            file://configure-lflags.patch \
--           file://compile.test-lflags.patch \
-            file://qt-config.patch \
-            file://qmake-exists-check.patch \
-            file://configure-paths.patch \
-@@ -51,12 +50,18 @@ EXTRA_OECONF =3D "-prefix ${prefix} \
- EXTRA_OEMAKE =3D " "
-=20
- do_configure() {
-+    # Avoid problems with Qt 4.8.0 configure setting QMAKE_LINK from LD =
-(since we want the linker to be g++)
-+    unset LD
-+
-     if [ ! -e mkspecs/${TARGET_OS}-oe-g++ ]; then
-         ln -sf linux-g++ mkspecs/${TARGET_OS}-oe-g++
-     fi
-=20
-     cp ../g++.conf mkspecs/common
-     cp ../linux.conf mkspecs/common
-+    # don't use host g++ even during configure
-+    sed -i -e "s#g++#${CXX}#" mkspecs/common/g++-base.conf
-+    sed -i -e "s#gcc#${CC}#" mkspecs/common/g++-base.conf
-=20
-     # first launch configure to get qmake compiled for the nativesdk
-     (echo o; echo yes) | CC=3D"${CC}" CXX=3D"${CXX}" ./configure ${EXTRA=
-_OECONF} || true
-@@ -66,7 +71,6 @@ do_configure() {
-     if [ ! -e bin/qmake ]; then
-         ln -sf ${STAGING_BINDIR_NATIVE}/qmake2 bin/qmake
-     fi
--
-     (echo o; echo yes) | CC=3D"${CC}" CXX=3D"${CXX}" ./configure ${EXTRA=
-_OECONF} || die "Configuring qt failed. EXTRA_OECONF was ${EXTRA_OECONF}"
- }
-=20
-diff --git a/meta/recipes-qt/qt4/qt4-tools-nativesdk_4.7.4.bb b/meta/reci=
-pes-qt/qt4/qt4-tools-nativesdk_4.7.4.bb
-index 4c90d57..ea5e13d 100644
---- a/meta/recipes-qt/qt4/qt4-tools-nativesdk_4.7.4.bb
-+++ b/meta/recipes-qt/qt4/qt4-tools-nativesdk_4.7.4.bb
-@@ -3,7 +3,8 @@ require qt4-tools-nativesdk.inc
- PR =3D "${INC_PR}.0"
-=20
- SRC_URI +=3D "file://blacklist-diginotar-certs.diff \
--            file://fix-qtbug-20925.patch"
-+            file://fix-qtbug-20925.patch \
-+            file://compile.test-lflags.patch "
-=20
- SRC_URI[md5sum] =3D "9831cf1dfa8d0689a06c2c54c5c65aaf"
- SRC_URI[sha256sum] =3D "97195ebce8a46f9929fb971d9ae58326d011c4d54425389e=
-6e936514f540221e"
---=20
-1.7.7.5
+>> Anyone knows why ar is being removed in do_install?
 
+since post_install will install it as a symlink
+
+>>
+>>
+>> --
+>> Regards
+>> Samuel
+>
+>
+>
+> --
+> Regards
+> Samuel
+>
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
 
 
