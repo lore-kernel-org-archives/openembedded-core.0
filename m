@@ -1,34 +1,33 @@
-Received: from mail-ee0-f47.google.com ([74.125.83.47])
-	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <martin.jansa@gmail.com>) id 1Rq3TX-0002aT-27
-	for openembedded-core@lists.openembedded.org;
-	Wed, 25 Jan 2012 15:05:23 +0100
-Received: by eekd41 with SMTP id d41so1693401eek.6
+Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
+	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <richard.purdie@linuxfoundation.org>)
+	id 1Rq43Y-0003T5-KK for openembedded-core@lists.openembedded.org;
+	Wed, 25 Jan 2012 15:42:36 +0100
+Received: from localhost (localhost [127.0.0.1])
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q0PEYo7q010781
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 25 Jan 2012 05:57:36 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
-	h=date:from:to:subject:message-id:references:mime-version
-	:content-type:content-disposition:in-reply-to:user-agent;
-	bh=AmXA7t/G6y93uI8sAucsZgUOogNl0COMWZVFYfrBtjU=;
-	b=HTLrzwmPLm7ACYy35bYo8VIrJoWeCjDM8yHciEjudLD1TtFY0uGxgkHQe05bMm4YdZ
-	TD+eHBT4ZpEH+22IPvQEa/QJCiBZIwWfga7O4Sk+X4sj1DRDTcHCHlG5eeZjvWmqHjDf
-	eybtpw3ayLkQvrSvxeGU+/lcpu0ZAwMp1srDg=
-Received: by 10.14.2.1 with SMTP id 1mr6187332eee.24.1327499856445;
-	Wed, 25 Jan 2012 05:57:36 -0800 (PST)
-Received: from localhost ([94.230.152.246])
-	by mx.google.com with ESMTPS id x4sm1960619eeb.4.2012.01.25.05.57.30
-	(version=TLSv1/SSLv3 cipher=OTHER);
-	Wed, 25 Jan 2012 05:57:31 -0800 (PST)
-Date: Wed, 25 Jan 2012 14:57:29 +0100
-From: Martin Jansa <martin.jansa@gmail.com>
+	Wed, 25 Jan 2012 14:34:50 GMT
+Received: from tim.rpsys.net ([127.0.0.1])
+	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
+	port 10024) with LMTP
+	id 09446-09 for <openembedded-core@lists.openembedded.org>;
+	Wed, 25 Jan 2012 14:34:47 +0000 (GMT)
+Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q0PEYhQf010775
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO)
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 25 Jan 2012 14:34:44 GMT
+Message-ID: <1327502084.19643.232.camel@ted>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Message-ID: <20120125135729.GD3843@jama.jama.net>
-References: <1327425074.19643.101.camel@ted>
-MIME-Version: 1.0
-In-Reply-To: <1327425074.19643.101.camel@ted>
-User-Agent: Mutt/1.5.21 (2010-09-15)
-Subject: Re: [PATCH] lib/oe/sstatesig.py: Exclude common machine specific dependencies from task signatures
+Date: Wed, 25 Jan 2012 14:34:44 +0000
+In-Reply-To: <cover.1327447344.git.josh@linux.intel.com>
+References: <cover.1327447344.git.josh@linux.intel.com>
+X-Mailer: Evolution 3.2.2- 
+Mime-Version: 1.0
+X-Virus-Scanned: amavisd-new at rpsys.net
+Subject: Re: [PATCH 0/4] Various updates
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -43,72 +42,41 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 25 Jan 2012 14:05:23 -0000
-X-Groupsio-MsgNum: 16541
-Content-Type: multipart/signed; micalg=pgp-sha1;
-	protocol="application/pgp-signature"; boundary="sgneBHv3152wZ8jf"
-Content-Disposition: inline
+X-List-Received-Date: Wed, 25 Jan 2012 14:42:36 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
---sgneBHv3152wZ8jf
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+On Tue, 2012-01-24 at 15:26 -0800, Joshua Lock wrote:
+> The key patch in this series is the linux-tools change. With builds that don't 
+> include GPLv3 licensed packages the linux-yocto kernel was being skipped due to
+> it pulling in perf and perf requiring binutils.
+> 
+> The short-term fix is to not build perf if GPLv3 is in INCOMPATIBLE_LICENSE,
+> long term there's a bug open to move perf to a separate package.
+> 
+> Cheers,
+> Joshua
+> 
+> The following changes since commit a4a98b6d6273d4e716afbff0880d0ac2ff7be0a9:
+> 
+>   gcc-common.inc: Fix comment (2012-01-24 14:38:31 +0000)
+> 
+> are available in the git repository at:
+>   git://git.openembedded.org/openembedded-core-contrib josh/stuff
+>   http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=josh/stuff
+> 
+> Joshua Lock (4):
+>   clutter-gst: update to 1.4.6
+>   linux-tools: don't build perf when GPLv3 in INCOMPATIBLE_LICENSE
+>   cogl: update upstream status for build_for_armv4t.patch
+>   distro-tracking-fields: update entries for clutter-gst-1.8
 
-On Tue, Jan 24, 2012 at 05:11:14PM +0000, Richard Purdie wrote:
-> Where we have machine specific recipes with well defined behaviour, it ma=
-kes
-> no sense to rebuild recipes with these as dependencies whenever the machi=
-ne
-> changes. This patch lists those well behaved recipes and excludes them fr=
-om
-> the task signatures so we can change MACHINE without invalidating existing
-> PACKAGE_ARCH binaries.
+Merged to master apart from linux-tools which I think can be improved
+slightly.
 
-Acked-by: Martin Jansa <Martin.Jansa@gmail.com>
+Cheers,
 
->=20
-> Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-> ---
-> diff --git a/meta/lib/oe/sstatesig.py b/meta/lib/oe/sstatesig.py
-> index 247f592..ee7cbad 100644
-> --- a/meta/lib/oe/sstatesig.py
-> +++ b/meta/lib/oe/sstatesig.py
-> @@ -26,6 +26,10 @@ def sstate_rundepfilter(fn, recipename, task, dep, dep=
-name):
->      if isNative(depname) or isCross(depname) or isNativeSDK(depname):
->          return False
-> =20
-> +    # Exclude well defined machine specific configurations which don't c=
-hange ABI
-> +    if depname in ['sysvinit-inittab', 'shadow-securetty', 'opkg-config-=
-base', 'netbase', 'formfactor', 'xserver-xf86-config', 'pointercal', 'base-=
-files']:
-> +        return False
-> +
->      # Default to keep dependencies
->      return True
-> =20
->=20
->=20
->=20
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
+Richard
 
---=20
-Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
 
---sgneBHv3152wZ8jf
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: Digital signature
 
------BEGIN PGP SIGNATURE-----
-Version: GnuPG v2.0.18 (GNU/Linux)
-
-iEYEARECAAYFAk8gCkkACgkQN1Ujt2V2gBwuGwCfbyJAKqSNugM4v6LT8U9Lg7V2
-pbEAnjNsQgqbA6Ip1hA2SQiLGlNHcMlf
-=HqN5
------END PGP SIGNATURE-----
-
---sgneBHv3152wZ8jf--
