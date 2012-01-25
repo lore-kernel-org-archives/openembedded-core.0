@@ -1,30 +1,26 @@
-Received: from mail-ww0-f41.google.com ([74.125.82.41])
+Received: from mga01.intel.com ([192.55.52.88])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <andrei@gherzan.ro>) id 1Rpzwa-0001pL-Au
+	(envelope-from <paul.eggleton@linux.intel.com>) id 1Rq0UJ-0002Od-Mg
 	for openembedded-core@lists.openembedded.org;
-	Wed, 25 Jan 2012 11:19:08 +0100
-Received: by wgbdt11 with SMTP id dt11so1405236wgb.0
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 25 Jan 2012 02:11:22 -0800 (PST)
-Received: by 10.180.19.130 with SMTP id f2mr10017430wie.12.1327486282128;
-	Wed, 25 Jan 2012 02:11:22 -0800 (PST)
-Received: from [128.224.170.214] ([89.121.200.106])
-	by mx.google.com with ESMTPS id eq5sm62012047wib.2.2012.01.25.02.11.21
-	(version=SSLv3 cipher=OTHER); Wed, 25 Jan 2012 02:11:21 -0800 (PST)
-Message-ID: <4F1FD549.7040708@gherzan.ro>
-Date: Wed, 25 Jan 2012 12:11:21 +0200
-From: Andrei Gherzan <andrei@gherzan.ro>
-User-Agent: Mozilla/5.0 (X11; Linux i686;
-	rv:8.0) Gecko/20111124 Thunderbird/8.0
-MIME-Version: 1.0
+	Wed, 25 Jan 2012 11:54:00 +0100
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+	by fmsmga101.fm.intel.com with ESMTP; 25 Jan 2012 02:20:28 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="110563478"
+Received: from unknown (HELO helios.localnet) ([10.252.122.219])
+	by fmsmga001.fm.intel.com with ESMTP; 25 Jan 2012 02:20:27 -0800
+From: Paul Eggleton <paul.eggleton@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-References: <cover.1327447344.git.josh@linux.intel.com>
-	<f7bd8523525f541676e8b2e416a4960b45cd7d7e.1327447344.git.josh@linux.intel.com>
-	<CAMKF1sq=xpgO=4Ne0YQdkhqXhh_+VcpA2Xyx_Cm3xccUcv3d2A@mail.gmail.com>
-	<4F1F45F0.208@linux.intel.com>
-In-Reply-To: <4F1F45F0.208@linux.intel.com>
-X-Gm-Message-State: ALoCoQlxBNFm+dzSwx3W6mshc3qWuL7lU7LCREksLwJA7hwsAFSJNCxITfCY02WPLFdv2DQmH5Ds
-Subject: Re: [PATCH 2/4] linux-tools: don't build perf when GPLv3 in INCOMPATIBLE_LICENSE
+Date: Wed, 25 Jan 2012 10:20:24 +0000
+Message-ID: <6813503.3IHFcKk1Mm@helios>
+Organization: Intel Corporation
+User-Agent: KMail/4.8 rc2 (Linux/3.0.0-15-generic-pae; KDE/4.7.97; i686; ; )
+In-Reply-To: <CAMKF1spYemYppOw6u1AOUZa5jceFygYPnoEUFo6fM=UZmhZs9Q@mail.gmail.com>
+References: <e035a903e7718b712b60ed33807b9ead906cee2f.1327426808.git.raj.khem@gmail.com>
+	<4F1F55F6.3080608@linux.intel.com>
+	<CAMKF1spYemYppOw6u1AOUZa5jceFygYPnoEUFo6fM=UZmhZs9Q@mail.gmail.com>
+MIME-Version: 1.0
+Subject: Re: [PATCH 3/7] task-core-tools: Divide it into 3 recipes
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -39,38 +35,50 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 25 Jan 2012 10:19:08 -0000
-Content-Type: text/plain; charset=ISO-8859-1; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Wed, 25 Jan 2012 10:54:00 -0000
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
 
-On 01/25/2012 01:59 AM, Saul Wold wrote:
-> On 01/24/2012 03:42 PM, Khem Raj wrote:
->> On Tue, Jan 24, 2012 at 3:26 PM, Joshua Lock<josh@linux.intel.com>  
->> wrote:
->>> Long term we should look at moving perf to a separate recipe but as a
->>> short term solution this patch will ensure that when GPLv3 is in
->>
->> would I be asking too much to do that instead of this patch :)
->> I think it will be good thing in general since other layers
->> now have to define these tasks if they inherit from oe-core kernel 
->> class.
->>
-> Khem,
->
-> The issue is timing and resources to do this work, it a larger task 
-> that may take more than a few days to refactor perf into it's own 
-> recipe and share the source area (ala work-shared/gcc).  We need to 
-> get the non-GPLv3 build working again and this seems like the most 
-> direct route to accomplish that.
->
-> Sau!
->
+On Tuesday 24 January 2012 17:26:42 Khem Raj wrote:
+> On Tue, Jan 24, 2012 at 5:08 PM, Saul Wold <sgw@linux.intel.com> wrote:
+> > On 01/24/2012 09:42 AM, Khem Raj wrote:
+> >> task-core-tools-debug, task-core-tools-profile, task-core-tools-testapps
+> >> otherwise if we choose one through PACKAGE_GROUPS all packages
+> >> are built since they are in same recipe.
+> >> 
+> >> Signed-off-by: Khem Raj<raj.khem@gmail.com>
+> >> ---
+> >>  .../conf/distro/include/distro_tracking_fields.inc |   26 +++++--
+> >>  meta/conf/multilib.conf                            |    4 +-
+> >>  meta/recipes-core/tasks/task-core-tools-debug.bb   |   26 ++++++
+> >>  ...sk-core-tools.bb =>  task-core-tools-profile.bb} |   81
+> >> ++++++--------------
+> >>  .../recipes-core/tasks/task-core-tools-testapps.bb |   46 +++++++++++
+> >>  5 files changed, 119 insertions(+), 64 deletions(-)
+> >>  create mode 100644 meta/recipes-core/tasks/task-core-tools-debug.bb
+> >>  rename meta/recipes-core/tasks/{task-core-tools.bb =>
+> >>  task-core-tools-profile.bb} (48%)
+> > 
+> > This breaks meta-yocto which has a task-core-tools.bbappend
+> 
+> that bbappend is redundant. You should just delete it anyway from meta-yocto
 
-This is a good workaround for this bug. Obviously a "refactor way" would 
-be a better one in my opinion too. But for now, as this bug breaks a 
-non-GPLv3 build, a fast solution, like this, is needed.
+Amusingly I was thinking "who the heck put that in there?" and, wouldn't you 
+know it, it turned out to be me... I think at the time I was concerned only 
+with moving pieces out of OE-Core that were hardware-specific without making 
+any judgements about whether they were worthwhile or not.
 
+I'd have to defer to someone who knows more about these tools, but if the 
+concern is that systemtap and lttng-ust might not be suitable for all 
+machines, we could simply use RRECOMMENDS in OE-Core and then set 
+COMPATIBLE_MACHINE for them in BSPs.
 
-@g
+Cheers,
+Paul
+
+-- 
+
+Paul Eggleton
+Intel Open Source Technology Centre
 
 
