@@ -1,26 +1,33 @@
-Received: from mail.pbcl.net ([88.198.119.4] helo=hetzner.pbcl.net)
+Received: from mail-qy0-f175.google.com ([209.85.216.175])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <philb@gnu.org>) id 1RqABZ-00045x-Gd
+	(envelope-from <marc.ferland@gmail.com>) id 1RqANl-0004JF-5C
 	for openembedded-core@lists.openembedded.org;
-	Wed, 25 Jan 2012 22:15:17 +0100
-Received: from blundell.swaffham-prior.co.uk ([91.216.112.25]
-	helo=[192.168.114.6])
-	by hetzner.pbcl.net with esmtpsa (TLS1.0:RSA_AES_256_CBC_SHA1:32)
-	(Exim 4.72) (envelope-from <philb@gnu.org>) id 1RqA44-0001oG-Py
-	for openembedded-core@lists.openembedded.org;
-	Wed, 25 Jan 2012 22:07:32 +0100
-Message-ID: <1327525645.2716.38.camel@x121e.pbcl.net>
-From: Phil Blundell <philb@gnu.org>
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Date: Wed, 25 Jan 2012 21:07:25 +0000
-In-Reply-To: <8762fzo5of.fsf@sonatest.com>
-References: <cover.1327519635.git.sgw@linux.intel.com>
-	<ae108b14ac3903401a784251e370aef987c99e25.1327519635.git.sgw@linux.intel.com>
-	<1327523312.2716.26.camel@x121e.pbcl.net> <8762fzo5of.fsf@sonatest.com>
-X-Mailer: Evolution 3.2.2-1 
-Mime-Version: 1.0
-Subject: Re: [PATCH 1/4] pm-utils: Add grep to RDEPENDS to avoid command failures.
+	Wed, 25 Jan 2012 22:28:12 +0100
+Received: by qcha6 with SMTP id a6so1025114qch.6
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 25 Jan 2012 13:18:40 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
+	h=sender:from:to:subject:date:message-id:x-mailer;
+	bh=BNknSrjo6KYMtgGNEcs3PlyoJ0pBUwcLrIFlgx/cli8=;
+	b=expauGrZygDw9LdMwsAa875u0DOzVeiVsPejSWFAYkVi3bQr+qWtbS6yW4waUYJcOh
+	DN3c4NZYkg+IEdn+WITDqcmtR+Kiu39A3xIei4p3XhMYQiT1lNCsq6UUmKm5SVSkBh+U
+	QpsrNRTDJXgJtsvwCO6y2KzCWMspLR9qQi6iA=
+Received: by 10.229.135.203 with SMTP id o11mr7037937qct.101.1327526320420;
+	Wed, 25 Jan 2012 13:18:40 -0800 (PST)
+Received: from ferlandm@sonatest.com
+	(modemcable066.15-37-24.static.videotron.ca. [24.37.15.66])
+	by mx.google.com with ESMTPS id d5sm3981456qaj.18.2012.01.25.13.18.38
+	(version=TLSv1/SSLv3 cipher=OTHER);
+	Wed, 25 Jan 2012 13:18:39 -0800 (PST)
+Sender: Marc Ferland <marc.ferland@gmail.com>
+Received: by ferlandm@sonatest.com (sSMTP sendmail emulation);
+	Wed, 25 Jan 2012 16:18:48 -0500
+From: Marc Ferland <ferlandm@sonatest.com>
+To: openembedded-core@lists.openembedded.org
+Date: Wed, 25 Jan 2012 16:18:48 -0500
+Message-Id: <1327526328-26365-1-git-send-email-ferlandm@sonatest.com>
+X-Mailer: git-send-email 1.7.5.4
+Subject: [PATCH] pm-utils: Add grep to RDEPENDS to avoid command failures.
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -35,28 +42,39 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 25 Jan 2012 21:15:17 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Wed, 25 Jan 2012 21:28:12 -0000
 
-On Wed, 2012-01-25 at 16:04 -0500, Marc Ferland wrote:
-> Phil Blundell <philb@gnu.org> writes:
-> 
-> > On Wed, 2012-01-25 at 11:29 -0800, Saul Wold wrote:
-> >> +RDEPENDS = "grep"
-> >
-> > Don't you get a QA error for that?
-> >
-> 
-> I didn't see any QA warnings when building with yocto (edison
-> branch). I'll resend the patch with some corrections.
-> 
-> Here's bitbake output on my machine (with RDEPENDS = "grep"):
+Second version of the patch that adds grep to RDEPENDS.
 
-Ah, hm.  Does yocto not use recipe_sanity by default?
+Fixes [YOCTO #1887]
 
-p.
+Signed-off-by: Marc Ferland <ferlandm@sonatest.com>
+---
+ meta/recipes-bsp/pm-utils/pm-utils_1.4.1.bb |    5 +++--
+ 1 files changed, 3 insertions(+), 2 deletions(-)
 
+diff --git a/meta/recipes-bsp/pm-utils/pm-utils_1.4.1.bb b/meta/recipes-bsp/pm-utils/pm-utils_1.4.1.bb
+index a4ac230..92d65c1 100644
+--- a/meta/recipes-bsp/pm-utils/pm-utils_1.4.1.bb
++++ b/meta/recipes-bsp/pm-utils/pm-utils_1.4.1.bb
+@@ -1,12 +1,13 @@
+ SECTION = "base"
+ SUMMARY = "Utilities and scripts for power management"
+-DESCRIPTION = "Simple shell command line toos to suspect and hibernate."
++DESCRIPTION = "Simple shell command line tools to suspend and hibernate."
+ HOMEPAGE = "http://pm-utils.freedesktop.org/wiki/"
+ LICENSE="GPLv2"
+ LIC_FILES_CHKSUM = "file://COPYING;md5=94d55d512a9ba36caa9b7df079bae19f \
+                     file://src/pm-pmu.c;beginline=1;endline=22;md5=3c1ddbc54e735fb4a0386e14c78a3147"
+ 
+-PR = "r0"
++PR = "r1"
++RDEPENDS_${PN} = "grep"
+ 
+ SRC_URI = "http://pm-utils.freedesktop.org/releases/pm-utils-${PV}.tar.gz"
+ 
+-- 
+1.7.5.4
 
 
 
