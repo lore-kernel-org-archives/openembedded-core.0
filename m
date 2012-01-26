@@ -1,31 +1,27 @@
-Received: from mail-lpp01m010-f47.google.com ([209.85.215.47])
+Received: from mail-vw0-f47.google.com ([209.85.212.47])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <raj.khem@gmail.com>) id 1RqEbG-0006su-22
+	(envelope-from <fransmeulenbroeks@gmail.com>) id 1RqJPU-0001Ct-DR
 	for openembedded-core@lists.openembedded.org;
-	Thu, 26 Jan 2012 02:58:06 +0100
-Received: by lags15 with SMTP id s15so42938lag.6
+	Thu, 26 Jan 2012 08:06:19 +0100
+Received: by vbnl22 with SMTP id l22so171149vbn.6
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 25 Jan 2012 17:50:18 -0800 (PST)
+	Wed, 25 Jan 2012 22:58:28 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:content-type; bh=H+u/OhbBQQZ1VoPn/O1a/XXx5rtWbt4kWzOkMu6vR80=;
-	b=diVYWr2AcX2pxZluWOH+d0av9w6XQxGHyHConNfpaAe2JKZy2xlyoth2e8N9f2qGf8
-	oCdT59Sw8V8BAVdHPh+DZmTTsyECQL1vSpTcYSOSKsRzmQWlcDC4JtPF/tJ+qDaEXnxI
-	ksejYzzNvjXvT366jZuZwd12Citm2CScix3YY=
-Received: by 10.152.112.41 with SMTP id in9mr34397lab.27.1327542618261; Wed,
-	25 Jan 2012 17:50:18 -0800 (PST)
+	h=mime-version:date:message-id:subject:from:to:content-type;
+	bh=yNpSoFaZwGkQC7K2sNE9gT4oJ+2qEzXfPFcGFfPqqdI=;
+	b=UqnreNofzzHKNL8AGogFzyoGzOTcFgiSby5o3fJOeqfs1HFT0GlYFfiziy44iaZByH
+	WS/gkv90iI5KjAUdUV+tQ1XgyLiGnzR9w6dNHmnHJnE9+oITSVfe5/tyPEHf1wbMA2OA
+	DxDTaggxE58I/NWVdGbPLJihVw043gjNNfcKs=
 MIME-Version: 1.0
-Received: by 10.152.5.201 with HTTP; Wed, 25 Jan 2012 17:49:48 -0800 (PST)
-In-Reply-To: <COL120-W40F98EF50F803A1509B3AFDD890@phx.gbl>
-References: <COL120-W51BE77DBA9D330FF475952DD880@phx.gbl>
-	<20120126003644.GA4973@sakrah.homelinux.org>
-	<COL120-W40F98EF50F803A1509B3AFDD890@phx.gbl>
-From: Khem Raj <raj.khem@gmail.com>
-Date: Wed, 25 Jan 2012 17:49:48 -0800
-Message-ID: <CAMKF1sotwjeYEqRot=aOiVMq4iGvOXfWcOocqFAXTFH=OTnozw@mail.gmail.com>
+Received: by 10.52.26.206 with SMTP id n14mr399713vdg.51.1327560742674; Wed,
+	25 Jan 2012 22:52:22 -0800 (PST)
+Received: by 10.52.67.171 with HTTP; Wed, 25 Jan 2012 22:52:22 -0800 (PST)
+Date: Thu, 26 Jan 2012 07:52:22 +0100
+Message-ID: <CACW_hTb9UZACKZ+acn2jp-PZzrk1YkbmohyFxoi2deJdRvJpKw@mail.gmail.com>
+From: Frans Meulenbroeks <fransmeulenbroeks@gmail.com>
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Subject: Re: Net::SSLeay perl extension OpenSSL
+Subject: should recipes be distro agnostic?
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -40,181 +36,110 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 26 Jan 2012 01:58:06 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Thu, 26 Jan 2012 07:06:19 -0000
+Content-Type: multipart/alternative; boundary=20cf3079bd4e7c200a04b768d20b
 
-On Wed, Jan 25, 2012 at 4:50 PM, simran singh <kyoonn@hotmail.com> wrote:
->
-> Hello Raj,
->
-> Thanks for the reply.
-> I do not have the file named "libnet-ssleay-license". Where can I obtain
-> this?
-> If I try to build without that file, I get the same error about command.pm.
+--20cf3079bd4e7c200a04b768d20b
+Content-Type: text/plain; charset=ISO-8859-1
 
-Did you apply the patch properly ?
+By coincidence I bumped into this in oe-core:
 
-save the patch and cd into openembedded-core
-and then git am <patchfile>
->
->
-> Date: Wed, 25 Jan 2012 16:36:44 -0800
-> From: raj.khem@gmail.com
-> To: openembedded-core@lists.openembedded.org
-> Subject: Re: [OE-core] Net::SSLeay perl extension OpenSSL
->
->
-> On (25/01/12 14:50), simran singh wrote:
->>
->> Hello,
->>
->> I am not sure if this is the right list.
->>
->> Trying to add Net::SSLeay perl module, I get the following error.
->>
->
-> Please try attached patch. I have not tested it
->
->
->
->>
->>
->>  NOTE: Running task 204 of 315 (ID: 11,
->>
->> /home/Simran/Freescale/QorIQ-DPAA-SDK-20111026-systembuilder/engage-blackcore-common/recipes/
->>
->> net-ssleay/net-ssleay_1.36.bb, do_compile)
->>
->> ERROR: TaskFailed event exception, aborting
->>
->> ERROR: Build of
->>
->> /home/Simran/Freescale/QorIQ-DPAA-SDK-20111026-systembuilder/engage-blackcore-common/recipes/net-ssleay/net-ssleay_1.36.bb
->>
->>  do_compile failed
->>
->> ERROR: Task 11
->>
->> (/home/Simran/Freescale/QorIQ-DPAA-SDK-20111026-systembuilder/engage-blackcore-common/recipes/net-ssleay/net-ssleay_1.36.bb,
->>
->>  do_compile) failed with 256
->>
->> ERROR:
->>
->> '/home/Simran/Freescale/QorIQ-DPAA-SDK-20111026-systembuilder/engage-blackcore-common/recipes/net-ssleay/net-ssleay_1.36.bb'
->>  failed
->>
->> NOTE: package net-ssleay-1.36-r0: task do_compile: Started
->>
->> ERROR: Function do_compile failed
->>
->> NOTE: Task failed: ('function do_compile failed',
->>
->> '/home/Simran/Freescale/QorIQ-DPAA-SDK-20111026-systembuilder/build_p4080ds_release/work/
->>
->> ppce500mc-linux/net-ssleay-1.36-r0/temp/log.do_compile.22680')
->>
->> ERROR: Logfile of failure stored in:
->>
->> /home/Simran/Freescale/QorIQ-DPAA-SDK-20111026-systembuilder/build_p4080ds_release/work/ppce500mc-
->>
->> linux/net-ssleay-1.36-r0/temp/log.do_compile.22680
->>
->> Log data follows:
->>
->> | NOTE: make -j 2 -e MAKEFLAGS= PASTHRU_INC= -fexpensive-optimizations
->> -frename-registers -fomit-frame-pointer -O2 -g0 CCFLAGS= -fexpensive
->>
->> -optimizations -frename-registers -fomit-frame-pointer -O2 -g0
->> LD=powerpc-linux-gnu-gcc -mcpu=e500mc -maix-struct-return
->> --sysroot=/home/Simran/
->>
->>
->> Freescale/QorIQ-DPAA-SDK-20111026-systembuilder/build_p4080ds_release/sysroots/ppce500mc-linux
->>
->> | Can't locate ExtUtils/Command.pm in @INC (@INC contains: inc
->>
->> /home/jenkins/jenkins/jobs/qoriq-dpaa-iso-step1/workspace/sb-dev.git/build_p1023rds_release
->>
->> /sysroots/i686-linux/usr/lib/perl/5.10.1
->>
->> /home/jenkins/jenkins/jobs/qoriq-dpaa-iso-step1/workspace/sb-dev.git/build_p1023rds_release/sysroots/i686-linux/usr/lib
->>
->> /perl/5.10.1
->>
->> /home/jenkins/jenkins/jobs/qoriq-dpaa-iso-step1/workspace/sb-dev.git/build_p1023rds_release/sysroots/i686-linux/usr/lib/perl/5.10.1
->>
->>  /home/
->>
->>
->> jenkins/jenkins/jobs/qoriq-dpaa-iso-step1/workspace/sb-dev.git/build_p1023rds_release/sysroots/i686-linux/usr/lib/perl
->> .).
->>
->> | BEGIN failed--compilation aborted.
->>
->> | make: *** [blib/lib/Net/.exists] Error 2
->>
->> | make: *** Waiting for unfinished jobs....
->>
->> | Can't locate ExtUtils/Command.pm in @INC (@INC contains: inc
->> /home/jenkins/jenkins/jobs/qoriq-dpaa-iso-step1/workspace/sb-dev.git/
->>
->> build_p1023rds_release/sysroots/i686-linux/usr/lib/perl/5.10.1
->>
->> /home/jenkins/jenkins/jobs/qoriq-dpaa-iso-step1/workspace/sb-dev.git/build_p1023rds_release
->>
->> /sysroots/i686-linux/usr/lib/perl/5.10.1
->>
->> /home/jenkins/jenkins/jobs/qoriq-dpaa-iso-step1/workspace/sb-dev.git/build_p1023rds_release/sysroots/i686-linux/usr
->>
->> /lib/perl/5.10.1
->>
->> /home/jenkins/jenkins/jobs/qoriq-dpaa-iso-step1/workspace/sb-dev.git/build_p1023rds_release/sysroots/i686-linux/usr/lib/perl
->>  .).
->>
->> | BEGIN failed--compilation aborted.
->>
->> | make: *** [blib/arch/.exists] Error 2
->>
->> | FATAL: oe_runmake failed
->>
->> | ERROR: Function do_compile failed
->>
->> NOTE: package net-ssleay-1.36-r0: task do_compile: Failed
->>
->> ERROR: TaskFailed event exception, aborting
->>
->>
->>
->>
->>
->> I used the libnet-ssleay-perl_1.36.bb, I found in the oe-commit archive.
->>
->> Please advice and thanks.
->>
->>
->>
->> Sim Gill 		 	   		   		 	   		
->
->
->> _______________________________________________
->> Openembedded-core mailing list
->> Openembedded-core@lists.openembedded.org
->> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
->
->
-> --
-> -Khem
->
->
-> _______________________________________________ Openembedded-core mailing
-> list Openembedded-core@lists.openembedded.org
-> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
->
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
->
+./meta/recipes-devtools/apt/apt.inc:EXTRA_OECONF_append_angstrom = "
+ac_cv_glibc_ver=libc6.4"
 
+That also triggered me to do this:
 
+frans@frans-desktop:~/workspace/openembedded-core$ grep -r _poky .
+./meta/recipes-sato/pcmanfm/pcmanfm_0.9.10.bb:DEPENDS_append_poky = "
+libowl"
+./meta/recipes-sato/pcmanfm/pcmanfm_0.9.10.bb:SRC_URI_append_poky = "
+file://owl-window-menu.patch"
+./meta/recipes-sato/leafpad/leafpad_0.8.18.1.bb:DEPENDS_append_poky = "
+libowl"
+./meta/recipes-sato/leafpad/leafpad_0.8.18.1.bb:SRC_URI_append_poky += "
+file://owl-menu.patch;apply=yes "
+./meta/recipes-sato/pimlico/dates.inc:OWL_poky = "--enable-owl
+--disable-dnd"
+./meta/recipes-sato/pimlico/dates.inc:DEPENDS_append_poky = " libowl"
+./meta/recipes-sato/pimlico/dates.inc:SRC_URI_append_poky = "
+file://dates-owl-window-menu.patch;apply=yes "
+./meta/recipes-sato/pimlico/tasks_0.19.bb:OWL_poky = "--with-owl"
+./meta/recipes-sato/pimlico/contacts.inc:DEPENDS_append_poky = " libowl"
+./meta/recipes-sato/pimlico/contacts.inc:OWL_poky = "--enable-owl"
+./meta/recipes-sato/pimlico/contacts.inc:SRC_URI_append_poky = "
+file://contacts-owl-window-menu.patch;apply=yes "
+./meta/recipes-sato/pimlico/tasks.inc:DEPENDS_append_poky = " libowl"
+./meta/recipes-sato/pimlico/tasks.inc:OWL_poky ?= "--enable-owl"
+./meta/recipes-sato/puzzles/oh-puzzles_git.bb:DEPENDS_append_poky = "
+libowl"
+./meta/recipes-sato/puzzles/oh-puzzles_git.bb:SRC_URI_append_poky = "
+file://oh-puzzles-owl-menu.patch;striplevel=0 "
+./meta/recipes-devtools/gcc/gcc-runtime_4.6.bb:EXTRA_OECONF_append_poky-lsb
+= " --enable-clocale=gnu"
+
+I'd hoped oe-core to be core and not know things about distro's etc.
+E.g. the first case with apt, this should probably be fixed with a
+.bbappend in the angstrom layer, shouldn't it.
+And the poky things in a poky layer.
+
+(at least that is what I expected/hoped)
+
+Btw did the same thing on meta-oe:
+no _poky's, two for _angstrom:
+./meta-oe/recipes-core/systemd/systemd_git.bb:SYSTEMDDISTRO_angstrom =
+"angstrom"
+./meta-gnome/recipes-gnome/system-tools/system-tools-backends_2.10.2.bb:SRC_URI_append_angstrom
+= " \
+
+In general I expected recipes to be without distro or hw suffixes (such a
+suffx is an indication that the recipe is probably not at the proper place)
+
+Best regards, Frans
+
+--20cf3079bd4e7c200a04b768d20b
+Content-Type: text/html; charset=ISO-8859-1
+Content-Transfer-Encoding: quoted-printable
+
+By coincidence I bumped into this in oe-core:<br><br>./meta/recipes-devtool=
+s/apt/apt.inc:EXTRA_OECONF_append_angstrom =3D &quot; ac_cv_glibc_ver=3Dlib=
+c6.4&quot;<br><br>That also triggered me to do this:<br><br>frans@frans-des=
+ktop:~/workspace/openembedded-core$ grep -r _poky .<br>
+./meta/recipes-sato/pcmanfm/pcmanfm_0.9.10.bb:DEPENDS_append_poky =3D &quot=
+; libowl&quot;<br>./meta/recipes-sato/pcmanfm/pcmanfm_0.9.10.bb:SRC_URI_app=
+end_poky =3D &quot; file://owl-window-menu.patch&quot;<br>./meta/recipes-sa=
+to/leafpad/leafpad_0.8.18.1.bb:DEPENDS_append_poky =3D &quot; libowl&quot;<=
+br>
+./meta/recipes-sato/leafpad/leafpad_0.8.18.1.bb:SRC_URI_append_poky +=3D &q=
+uot; file://owl-menu.patch;apply=3Dyes &quot;<br>./meta/recipes-sato/pimlic=
+o/dates.inc:OWL_poky =3D &quot;--enable-owl --disable-dnd&quot;<br>./meta/r=
+ecipes-sato/pimlico/dates.inc:DEPENDS_append_poky =3D &quot; libowl&quot;<b=
+r>
+./meta/recipes-sato/pimlico/dates.inc:SRC_URI_append_poky =3D &quot; file:/=
+/dates-owl-window-menu.patch;apply=3Dyes &quot;<br>./meta/recipes-sato/piml=
+ico/tasks_0.19.bb:OWL_poky =3D &quot;--with-owl&quot;<br>./meta/recipes-sat=
+o/pimlico/contacts.inc:DEPENDS_append_poky =3D &quot; libowl&quot;<br>
+./meta/recipes-sato/pimlico/contacts.inc:OWL_poky =3D &quot;--enable-owl&qu=
+ot;<br>./meta/recipes-sato/pimlico/contacts.inc:SRC_URI_append_poky =3D &qu=
+ot; file://contacts-owl-window-menu.patch;apply=3Dyes &quot;<br>./meta/reci=
+pes-sato/pimlico/tasks.inc:DEPENDS_append_poky =3D &quot; libowl&quot;<br>
+./meta/recipes-sato/pimlico/tasks.inc:OWL_poky ?=3D &quot;--enable-owl&quot=
+;<br>./meta/recipes-sato/puzzles/oh-puzzles_git.bb:DEPENDS_append_poky =3D =
+&quot; libowl&quot;<br>./meta/recipes-sato/puzzles/oh-puzzles_git.bb:SRC_UR=
+I_append_poky =3D &quot; file://oh-puzzles-owl-menu.patch;striplevel=3D0 &q=
+uot;<br>
+./meta/recipes-devtools/gcc/gcc-runtime_4.6.bb:EXTRA_OECONF_append_poky-lsb=
+ =3D &quot; --enable-clocale=3Dgnu&quot;<br><br>I&#39;d hoped oe-core to be=
+ core and not know things about distro&#39;s etc. <br>E.g. the first case w=
+ith apt, this should probably be fixed with a .bbappend in the angstrom lay=
+er, shouldn&#39;t it.<br>
+And the poky things in a poky layer.<br><br>(at least that is what I expect=
+ed/hoped)<br><br>Btw did the same thing on meta-oe:<br>no _poky&#39;s, two =
+for _angstrom:<br>./meta-oe/recipes-core/systemd/systemd_git.bb:SYSTEMDDIST=
+RO_angstrom =3D &quot;angstrom&quot;<br>
+./meta-gnome/recipes-gnome/system-tools/system-tools-backends_2.10.2.bb:SRC=
+_URI_append_angstrom =3D &quot; \<br><br>In general I expected recipes to b=
+e without distro or hw suffixes (such a suffx is an indication that the rec=
+ipe is probably not at the proper place)<br>
+<br>Best regards, Frans<br>
+
+--20cf3079bd4e7c200a04b768d20b--
