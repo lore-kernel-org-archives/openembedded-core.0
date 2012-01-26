@@ -1,25 +1,33 @@
-Received: from mga11.intel.com ([192.55.52.93])
-	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <sgw@linux.intel.com>) id 1RqYht-0007e9-PW
-	for openembedded-core@lists.openembedded.org;
-	Fri, 27 Jan 2012 00:26:18 +0100
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-	by fmsmga102.fm.intel.com with ESMTP; 26 Jan 2012 15:18:28 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="116751319"
-Received: from unknown (HELO [10.255.14.96]) ([10.255.14.96])
-	by fmsmga002.fm.intel.com with ESMTP; 26 Jan 2012 15:18:28 -0800
-Message-ID: <4F21DF44.1090408@linux.intel.com>
-Date: Thu, 26 Jan 2012 15:18:28 -0800
-From: Saul Wold <sgw@linux.intel.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:8.0) Gecko/20111115 Thunderbird/8.0
-MIME-Version: 1.0
-To: Patches and discussions about the oe-core layer
+Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
+	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <richard.purdie@linuxfoundation.org>)
+	id 1RqZEr-00009n-Bl for openembedded-core@lists.openembedded.org;
+	Fri, 27 Jan 2012 01:00:21 +0100
+Received: from localhost (localhost [127.0.0.1])
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q0QNqYUh002441;
+	Thu, 26 Jan 2012 23:52:34 GMT
+Received: from tim.rpsys.net ([127.0.0.1])
+	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
+	port 10024) with LMTP
+	id 30329-04; Thu, 26 Jan 2012 23:52:30 +0000 (GMT)
+Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q0QNqQYA002435
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO);
+	Thu, 26 Jan 2012 23:52:27 GMT
+Message-ID: <1327621946.19643.425.camel@ted>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Koen Kooi <koen@dominion.thruhere.net>
+Date: Thu, 26 Jan 2012 23:52:26 +0000
+In-Reply-To: <E55A8B17-3534-482A-8A69-CFE94D14F04D@dominion.thruhere.net>
+References: <1327597394-31990-1-git-send-email-koen@dominion.thruhere.net>
+	<1327611071.19643.405.camel@ted>
+	<E55A8B17-3534-482A-8A69-CFE94D14F04D@dominion.thruhere.net>
+X-Mailer: Evolution 3.2.2- 
+Mime-Version: 1.0
+X-Virus-Scanned: amavisd-new at rpsys.net
+Cc: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-References: <CAFZPMobN7nGs=J39VJUWYATHs2-8L8yVih6Et5eQdQQDt9NEsQ@mail.gmail.com>
-In-Reply-To: <CAFZPMobN7nGs=J39VJUWYATHs2-8L8yVih6Et5eQdQQDt9NEsQ@mail.gmail.com>
-Subject: Re: python-2.7.2 is broken
+Subject: Re: [PATCH] package bbclass: allow per package PRIVATE_LIBS
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -34,212 +42,58 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 26 Jan 2012 23:26:18 -0000
-Content-Type: text/plain; charset=ISO-8859-1; format=flowed
+X-List-Received-Date: Fri, 27 Jan 2012 00:00:21 -0000
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 
-On 01/26/2012 07:58 AM, Sergey Lapin wrote:
-> Hi,
->
-> oe-core build of python 2.7.2 is broken regarding the following modules:
->
-> Python build finished, but the necessary bits to build these modules
-> were not found:
-> _bsddb             _curses            _curses_panel
-> _tkinter           bsddb185           dbm
-> dl                 imageop            linuxaudiodev
-> ossaudiodev        sunaudiodev
-> To find the necessary bits, look in setup.py in detect_modules() for
-> the module's name.
->
-> This is 100% reproducible for more than 2 months with build from
-> scratch on my build system
-> at least. This results in almost NO C-based built in modules in python
-> rendering python
-> almost useless.
->
-Could you file a bug at bugzilla.yoctoproject.org please.
+On Fri, 2012-01-27 at 00:17 +0100, Koen Kooi wrote:
+> Op 26 jan. 2012, om 21:51 heeft Richard Purdie het volgende geschreven:
+> 
+> > On Thu, 2012-01-26 at 18:03 +0100, Koen Kooi wrote:
+> >> If a recipe packages multiple versions of shlib (e.g. powervr drivers) we only want the shlib code to pickup $PN, not $PN-foo subpackages.
+> >> This keeps backward compatibility with the global PRIVATE_LIBS usage if no per package PRIVATE_LIBS are set for a given package. In other words: this doesn't break the firefox recipe.
+> >> 
+> >> Signed-off-by: Koen Kooi <koen@dominion.thruhere.net>
+> >> ---
+> >> meta/classes/package.bbclass |    5 ++++-
+> >> 1 files changed, 4 insertions(+), 1 deletions(-)
+> >> 
+> >> diff --git a/meta/classes/package.bbclass b/meta/classes/package.bbclass
+> >> index 45447e3..22a76cf 100644
+> >> --- a/meta/classes/package.bbclass
+> >> +++ b/meta/classes/package.bbclass
+> >> @@ -1246,7 +1246,8 @@ python package_do_shlibs() {
+> >> 				if not this_soname in sonames:
+> >> 					# if library is private (only used by package) then do not build shlib for it
+> >> 					if not private_libs or -1 == private_libs.find(this_soname):
+> >> -						sonames.append(this_soname)
+> >> +						if not private_libs_pkg or -1 == private_libs_pkg.find(this_soname):
+> >> +							sonames.append(this_soname)
+> >> 				if libdir_re.match(root):
+> >> 					needs_ldconfig = True
+> >> 				if snap_symlinks and (file != this_soname):
+> >> @@ -1328,6 +1329,8 @@ python package_do_shlibs() {
+> >> 	shlib_provider = {}
+> >> 	private_libs = d.getVar('PRIVATE_LIBS', True)
+> >> 	for pkg in packages.split():
+> >> +		if not private_libs:
+> >> +			private_libs_pkg = d.getVar('PRIVATE_LIBS_' + pkg, True)
+> > 
+> > You might as well just put:
+> > 
+> >                         private_libs = d.getVar('PRIVATE_LIBS_' + pkg, True)
+> > 
+> > and drop the first bit of the patch.
+> 
+> Wouldn't that kill backward compatibility?
 
-Thanks
-	Sau!
+No, since it would only take effect if the plain PRIVATE_LIBS was not
+set...
 
-> resulting python-misc:
->
-> dpkg-deb -c ~/slave/angstrom_build/build/build/tmp-angstrom_2010_x-eglibc/deploy/ipk/armv5te/python-misc_2.7.2-r0.5_armv5te.ipk
-> drwxr-xr-x root/root         0 2012-01-26 19:23 ./
-> drwxr-xr-x root/root         0 2012-01-26 19:18 ./usr/
-> drwxr-xr-x root/root         0 2012-01-26 19:18 ./usr/lib/
-> drwxr-xr-x root/root         0 2012-01-26 19:18 ./usr/lib/python2.7/
-> -rw-r--r-- root/root      5467 2012-01-26 19:16 ./usr/lib/python2.7/macpath.pyo
-> -rw-r--r-- root/root     11805 2012-01-26 19:14 ./usr/lib/python2.7/ast.py
-> -rw-r--r-- root/root      1218 2012-01-26 19:16 ./usr/lib/python2.7/this.pyo
-> drwxr-xr-x root/root         0 2012-01-26 19:18 ./usr/lib/python2.7/importlib/
-> -rw-r--r-- root/root      1142 2012-01-26 19:16
-> ./usr/lib/python2.7/importlib/__init__.pyo
-> -rw-r--r-- root/root      1327 2012-01-26 19:16
-> ./usr/lib/python2.7/importlib/__init__.py
-> -rw-r--r-- root/root     87802 2012-01-26 19:14 ./usr/lib/python2.7/argparse.py
-> -rw-r--r-- root/root     17452 2012-01-26 19:16 ./usr/lib/python2.7/asyncore.pyo
-> drwxr-xr-x root/root         0 2012-01-26 19:18
-> ./usr/lib/python2.7/site-packages/
-> -rw-r--r-- root/root       119 2012-01-26 19:14
-> ./usr/lib/python2.7/site-packages/README
-> -rw-r--r-- root/root     24283 2012-01-26 19:14
-> ./usr/lib/python2.7/modulefinder.py
-> -rw-r--r-- root/root      3658 2012-01-26 19:16 ./usr/lib/python2.7/Bastion.pyo
-> -rw-r--r-- root/root      5968 2012-01-26 19:16 ./usr/lib/python2.7/timeit.pyo
-> -rw-r--r-- root/root     10698 2012-01-26 19:14 ./usr/lib/python2.7/runpy.py
-> -rw-r--r-- root/root     25764 2012-01-26 19:14 ./usr/lib/python2.7/imputil.py
-> -rw-r--r-- root/root      4603 2012-01-26 19:14
-> ./usr/lib/python2.7/os2emxpath.py
-> -rw-r--r-- root/root     18082 2012-01-26 19:14 ./usr/lib/python2.7/ntpath.py
-> -rw-r--r-- root/root      3572 2012-01-26 19:16
-> ./usr/lib/python2.7/os2emxpath.pyo
-> -rw-r--r-- root/root      2371 2012-01-26 19:14
-> ./usr/lib/python2.7/nturl2path.py
-> -rw-r--r-- root/root      7216 2012-01-26 19:16 ./usr/lib/python2.7/filecmp.pyo
-> -rw-r--r-- root/root        60 2012-01-26 19:14
-> ./usr/lib/python2.7/antigravity.py
-> -rw-r--r-- root/root      4576 2012-01-26 19:14 ./usr/lib/python2.7/netrc.py
-> -rw-r--r-- root/root     16392 2012-01-26 19:16 ./usr/lib/python2.7/plistlib.pyo
-> -rw-r--r-- root/root      6840 2012-01-26 19:16 ./usr/lib/python2.7/runpy.pyo
-> -rw-r--r-- root/root      8783 2012-01-26 19:16
-> ./usr/lib/python2.7/fileinput.pyo
-> -rw-r--r-- root/root     20650 2012-01-26 19:14 ./usr/lib/python2.7/asyncore.py
-> -rwxr-xr-x root/root     15021 2012-01-26 19:14 ./usr/lib/python2.7/mimify.py
-> -rw-r--r-- root/root      6733 2012-01-26 19:16 ./usr/lib/python2.7/pyclbr.pyo
-> -rw-r--r-- root/root      1477 2012-01-26 19:16
-> ./usr/lib/python2.7/nturl2path.pyo
-> -rw-r--r-- root/root     26782 2012-01-26 19:16 ./usr/lib/python2.7/mhlib.pyo
-> -rw-r--r-- root/root      6252 2012-01-26 19:14 ./usr/lib/python2.7/macpath.py
-> -rw-r--r-- root/root      7427 2012-01-26 19:14 ./usr/lib/python2.7/mailcap.py
-> -rw-r--r-- root/root      7518 2012-01-26 19:14 ./usr/lib/python2.7/symtable.py
-> -rw-r--r-- root/root     12293 2012-01-26 19:16
-> ./usr/lib/python2.7/fractions.pyo
-> -rw-r--r-- root/root     17500 2012-01-26 19:16 ./usr/lib/python2.7/ihooks.pyo
-> -rw-r--r-- root/root      2138 2012-01-26 19:16 ./usr/lib/python2.7/sched.pyo
-> -rw-r--r-- root/root       777 2012-01-26 19:16 ./usr/lib/python2.7/user.pyo
-> -rw-r--r-- root/root     14143 2012-01-26 19:14 ./usr/lib/python2.7/fileinput.py
-> -rw-r--r-- root/root       187 2012-01-26 19:14
-> ./usr/lib/python2.7/wsgiref.egg-info
-> drwxr-xr-x root/root         0 2012-01-26 19:18 ./usr/lib/python2.7/lib-dynload/
-> -rw-r--r-- root/root      1524 2012-01-26 19:14
-> ./usr/lib/python2.7/lib-dynload/Python-2.7.2-py2.7.egg-info
-> -rwxr-xr-x root/root     40428 2012-01-26 19:18
-> ./usr/lib/python2.7/lib-dynload/_testcapi.so
-> -rwxr-xr-x root/root      4900 2012-01-26 19:18
-> ./usr/lib/python2.7/lib-dynload/future_builtins.so
-> -rwxr-xr-x root/root      6960 2012-01-26 19:18
-> ./usr/lib/python2.7/lib-dynload/spwd.so
-> -rw-r--r-- root/root     15176 2012-01-26 19:14 ./usr/lib/python2.7/plistlib.py
-> drwxr-xr-x root/root         0 2012-01-26 19:18 ./usr/lib/python2.7/wsgiref/
-> -rw-r--r-- root/root      5224 2012-01-26 19:16
-> ./usr/lib/python2.7/wsgiref/simple_server.pyo
-> -rw-r--r-- root/root     13120 2012-01-26 19:16
-> ./usr/lib/python2.7/wsgiref/validate.pyo
-> -rw-r--r-- root/root      5879 2012-01-26 19:16
-> ./usr/lib/python2.7/wsgiref/headers.py
-> -rw-r--r-- root/root      5576 2012-01-26 19:16
-> ./usr/lib/python2.7/wsgiref/util.py
-> -rw-r--r-- root/root       127 2012-01-26 19:16
-> ./usr/lib/python2.7/wsgiref/__init__.pyo
-> -rw-r--r-- root/root     14731 2012-01-26 19:16
-> ./usr/lib/python2.7/wsgiref/validate.py
-> -rw-r--r-- root/root     15932 2012-01-26 19:16
-> ./usr/lib/python2.7/wsgiref/handlers.py
-> -rw-r--r-- root/root     10370 2012-01-26 19:16
-> ./usr/lib/python2.7/wsgiref/handlers.pyo
-> -rw-r--r-- root/root      4743 2012-01-26 19:16
-> ./usr/lib/python2.7/wsgiref/simple_server.py
-> -rw-r--r-- root/root       586 2012-01-26 19:16
-> ./usr/lib/python2.7/wsgiref/__init__.py
-> -rw-r--r-- root/root      4187 2012-01-26 19:16
-> ./usr/lib/python2.7/wsgiref/headers.pyo
-> -rw-r--r-- root/root      4372 2012-01-26 19:16
-> ./usr/lib/python2.7/wsgiref/util.pyo
-> -rw-r--r-- root/root     13282 2012-01-26 19:14 ./usr/lib/python2.7/pyclbr.py
-> -rw-r--r-- root/root      3052 2012-01-26 19:16
-> ./usr/lib/python2.7/contextlib.pyo
-> -rw-r--r-- root/root     33434 2012-01-26 19:14 ./usr/lib/python2.7/mhlib.py
-> -rw-r--r-- root/root      7297 2012-01-26 19:16 ./usr/lib/python2.7/ast.pyo
-> -rw-r--r-- root/root     16909 2012-01-26 19:16
-> ./usr/lib/python2.7/webbrowser.pyo
-> -rw-r--r-- root/root        64 2012-01-26 19:14
-> ./usr/lib/python2.7/__phello__.foo.py
-> -rw-r--r-- root/root      7264 2012-01-26 19:16 ./usr/lib/python2.7/tabnanny.pyo
-> -rw-r--r-- root/root      4699 2012-01-26 19:14 ./usr/lib/python2.7/fpformat.py
-> -rw-r--r-- root/root     14231 2012-01-26 19:16 ./usr/lib/python2.7/LICENSE.txt
-> -rw-r--r-- root/root      9252 2012-01-26 19:16 ./usr/lib/python2.7/ntpath.pyo
-> -rw-r--r-- root/root     21704 2012-01-26 19:14
-> ./usr/lib/python2.7/webbrowser.py
-> -rw-r--r-- root/root     23948 2012-01-26 19:16 ./usr/lib/python2.7/aifc.pyo
-> -rw-r--r-- root/root     22390 2012-01-26 19:14 ./usr/lib/python2.7/fractions.py
-> -rw-r--r-- root/root      3275 2012-01-26 19:14
-> ./usr/lib/python2.7/macurl2path.py
-> -rw-r--r-- root/root      5590 2012-01-26 19:16 ./usr/lib/python2.7/mailcap.pyo
-> -rw-r--r-- root/root       520 2012-01-26 19:16 ./usr/lib/python2.7/statvfs.pyo
-> -rw-r--r-- root/root       123 2012-01-26 19:16
-> ./usr/lib/python2.7/__phello__.foo.pyo
-> -rw-r--r-- root/root     12059 2012-01-26 19:14 ./usr/lib/python2.7/timeit.py
-> -rw-r--r-- root/root      9503 2012-01-26 19:14 ./usr/lib/python2.7/filecmp.py
-> -rw-r--r-- root/root      5091 2012-01-26 19:14 ./usr/lib/python2.7/sched.py
-> -rw-r--r-- root/root      4381 2012-01-26 19:16
-> ./usr/lib/python2.7/multifile.pyo
-> -rw-r--r-- root/root     14739 2012-01-26 19:16 ./usr/lib/python2.7/binhex.pyo
-> -rw-r--r-- root/root     10901 2012-01-26 19:16 ./usr/lib/python2.7/symtable.pyo
-> -rw-r--r-- root/root      3677 2012-01-26 19:16 ./usr/lib/python2.7/fpformat.pyo
-> -rw-r--r-- root/root     11402 2012-01-26 19:14 ./usr/lib/python2.7/asynchat.py
-> -rw-r--r-- root/root     12050 2012-01-26 19:16 ./usr/lib/python2.7/imputil.pyo
-> -rw-r--r-- root/root     12073 2012-01-26 19:14 ./usr/lib/python2.7/cgitb.py
-> -rw-r--r-- root/root     54799 2012-01-26 19:16 ./usr/lib/python2.7/argparse.pyo
-> -rw-r--r-- root/root     16353 2012-01-26 19:16 ./usr/lib/python2.7/rexec.pyo
-> -rw-r--r-- root/root     20184 2012-01-26 19:16 ./usr/lib/python2.7/trace.pyo
-> -rw-r--r-- root/root      2376 2012-01-26 19:16
-> ./usr/lib/python2.7/macurl2path.pyo
-> -rw-r--r-- root/root       498 2012-01-26 19:14 ./usr/lib/python2.7/dbhash.py
-> drwxr-xr-x root/root         0 2012-01-26 19:18 ./usr/lib/python2.7/plat-linux3/
-> -rw-r--r-- root/root       195 2012-01-26 19:16
-> ./usr/lib/python2.7/plat-linux3/regen
-> -rwxr-xr-x root/root     11336 2012-01-26 19:14 ./usr/lib/python2.7/tabnanny.py
-> -rw-r--r-- root/root       633 2012-01-26 19:16 ./usr/lib/python2.7/dbhash.pyo
-> -rw-r--r-- root/root     20148 2012-01-26 19:14 ./usr/lib/python2.7/rexec.py
-> -rw-r--r-- root/root       201 2012-01-26 19:16
-> ./usr/lib/python2.7/antigravity.pyo
-> -rw-r--r-- root/root     33246 2012-01-26 19:14 ./usr/lib/python2.7/aifc.py
-> -rw-r--r-- root/root      8003 2012-01-26 19:14 ./usr/lib/python2.7/posixfile.py
-> -rw-r--r-- root/root      4424 2012-01-26 19:14
-> ./usr/lib/python2.7/contextlib.py
-> -rw-r--r-- root/root      4820 2012-01-26 19:14 ./usr/lib/python2.7/multifile.py
-> -rw-r--r-- root/root       898 2012-01-26 19:14 ./usr/lib/python2.7/statvfs.py
-> -rw-r--r-- root/root      5549 2012-01-26 19:16
-> ./usr/lib/python2.7/posixfile.pyo
-> -rw-r--r-- root/root      1002 2012-01-26 19:14 ./usr/lib/python2.7/this.py
-> -rw-r--r-- root/root     17706 2012-01-26 19:16
-> ./usr/lib/python2.7/modulefinder.pyo
-> -rw-r--r-- root/root     10475 2012-01-26 19:16 ./usr/lib/python2.7/cgitb.pyo
-> -rw-r--r-- root/root      3649 2012-01-26 19:16 ./usr/lib/python2.7/netrc.pyo
-> -rw-r--r-- root/root     30156 2012-01-26 19:14 ./usr/lib/python2.7/trace.py
-> -rw-r--r-- root/root     18986 2012-01-26 19:14 ./usr/lib/python2.7/ihooks.py
-> -rw-r--r-- root/root      7200 2012-01-26 19:16 ./usr/lib/python2.7/asynchat.pyo
-> -rw-r--r-- root/root      1627 2012-01-26 19:14 ./usr/lib/python2.7/user.py
-> -rw-r--r-- root/root     14476 2012-01-26 19:14 ./usr/lib/python2.7/binhex.py
-> -rw-r--r-- root/root     10582 2012-01-26 19:16 ./usr/lib/python2.7/mimify.pyo
-> -rw-r--r-- root/root      5744 2012-01-26 19:14 ./usr/lib/python2.7/Bastion.py
->
-> so basic modules like IN, _curses, etc. are missing.
->
-> Logs for build are available at http://ossfans.org/py/ but I don't see
-> any errors there.
->
-> Any help is appreciated, I can't see where I can go from here.
->
-> All the best,
-> S.
->
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
->
+Cheers,
+
+Richard
+
+
 
 
