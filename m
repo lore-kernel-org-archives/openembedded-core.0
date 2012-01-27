@@ -1,33 +1,30 @@
-Received: from mail-ee0-f47.google.com ([74.125.83.47])
+Received: from mail-iy0-f175.google.com ([209.85.210.175])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <schnitzeltony@googlemail.com>) id 1RqZr5-0000pB-LC
+	(envelope-from <raj.khem@gmail.com>) id 1Rqdig-0006fa-Mj
 	for openembedded-core@lists.openembedded.org;
-	Fri, 27 Jan 2012 01:39:51 +0100
-Received: by eekd41 with SMTP id d41so318213eek.6
+	Fri, 27 Jan 2012 05:47:26 +0100
+Received: by iaby12 with SMTP id y12so710605iab.6
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 26 Jan 2012 16:32:00 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=googlemail.com; s=gamma;
-	h=from:to:subject:date:message-id:x-mailer:mime-version:content-type
-	:content-transfer-encoding;
-	bh=K0GQZ1GSyLmRLee/eqPfmAfy5T1Sa0nR5Mg1KhP9qMk=;
-	b=hHr+3EfAoOtzPS/gSgzRKGg855Tx9SQ8ZhrNJuM1/FeG+KewBUi0e9X3rPdULS80EO
-	xA0hZG1/EPssY8R8z1/3AUsZz3KzlcBTnI8jgPxPj2FNJj9UB79Mv9EY0EUCgV3uHKuN
-	mIhP+FSK4zyl9Gw7AflG/C9TK2xBzY8NGul/o=
-Received: by 10.14.50.206 with SMTP id z54mr1390444eeb.127.1327624319691;
-	Thu, 26 Jan 2012 16:31:59 -0800 (PST)
-Received: from localhost.localdomain (p5B0A28B8.dip.t-dialin.net.
-	[91.10.40.184])
-	by mx.google.com with ESMTPS id y12sm22086386eeb.11.2012.01.26.16.31.58
+	Thu, 26 Jan 2012 20:39:37 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
+	h=from:to:cc:subject:date:message-id:x-mailer;
+	bh=o+mAeErpXXdppxeQvHWETnqpheZtYPgfds4NexwrMPU=;
+	b=XzB21dAOD1up5eFPQu2obP1pqsVnTolUvB4nu8D3XXkKCl+opgny4oH+8eukc6bXWH
+	lIBIts0BEBmJAZCj8jEKVkawUXsMmCnP4NDkiIrnj6aMUEtS0s/dT3OszYJl0CcTSKr/
+	lCzefqNcDxyWe60tOaYn6ojEcnLSaLBvSNdKc=
+Received: by 10.42.180.9 with SMTP id bs9mr3978677icb.0.1327639176945;
+	Thu, 26 Jan 2012 20:39:36 -0800 (PST)
+Received: from leto.gateway.2wire.net
+	(99-57-141-118.lightspeed.sntcca.sbcglobal.net. [99.57.141.118])
+	by mx.google.com with ESMTPS id l35sm6448996ibj.0.2012.01.26.20.39.34
 	(version=TLSv1/SSLv3 cipher=OTHER);
-	Thu, 26 Jan 2012 16:31:59 -0800 (PST)
-From: =?UTF-8?q?Andreas=20M=C3=BCller?= <schnitzeltony@googlemail.com>
+	Thu, 26 Jan 2012 20:39:35 -0800 (PST)
+From: Khem Raj <raj.khem@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Fri, 27 Jan 2012 01:33:53 +0100
-Message-Id: <1327624433-27864-1-git-send-email-schnitzeltony@googlemail.com>
-X-Mailer: git-send-email 1.7.4.4
-MIME-Version: 1.0
-Subject: [PATCH] atk: add native support / disable introspection / merge atk.inc -> recipe
+Date: Thu, 26 Jan 2012 20:39:17 -0800
+Message-Id: <cover.1327638861.git.raj.khem@gmail.com>
+X-Mailer: git-send-email 1.7.8.3
+Subject: [PATCH 0/5] Fix arm/tune-features for thumb instruction set
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -42,79 +39,53 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 27 Jan 2012 00:39:51 -0000
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Fri, 27 Jan 2012 04:47:26 -0000
 
-Native support currently is appended in meta-oe. Native build failed with:
+There are three new patches addressing the issue where thumb was being
+added to OVERRIDES for thumb capable cores but not denoting if the mode
+used for code compliation was thumb. This was originally the case in oe.dev
+this patch make it behave in that way
 
-| /usr/share/gir-1.0/GLib-2.0.gir:9:1: error: Unsupported version '1.1'
-| /usr/share/gir-1.0/GLib-2.0.gir:9:39: error: Unsupported version '1.1'
-| error parsing file Atk-1.0.gir: Failed to parse included gir GLib-2.0
-| make[3]: *** [Atk-1.0.typelib] Error 1
+thumb-intework addition to OVERRIDES had a reverse logic fixed it
 
-build tested in meta-oe / angstrom environment
+now we dont need to have tune-thumb-arm.inc anymore. Distro's using
+it will have to delete it from there usage if they are depending on
+oe-core version of this file. Just setting ARM_INSTRUCTION_SET = "thumb"
+should be sufficient to change the mode.
 
-Signed-off-by: Andreas Müller <schnitzeltony@googlemail.com>
----
- meta/recipes-support/atk/atk.inc      |   13 -------------
- meta/recipes-support/atk/atk_2.2.0.bb |   17 +++++++++++++----
- 2 files changed, 13 insertions(+), 17 deletions(-)
- delete mode 100644 meta/recipes-support/atk/atk.inc
+The following changes since commit 6437e7315a0f2e077f9d69e4b65b48280ea8edbc:
 
-diff --git a/meta/recipes-support/atk/atk.inc b/meta/recipes-support/atk/atk.inc
-deleted file mode 100644
-index 6a4fef6..0000000
---- a/meta/recipes-support/atk/atk.inc
-+++ /dev/null
-@@ -1,13 +0,0 @@
--DESCRIPTION = "An accessibility toolkit for GNOME."
--HOMEPAGE = "http://live.gnome.org/GAP/"
--BUGTRACKER = "https://bugzilla.gnome.org/"
--
--LICENSE = "LGPLv2 & LGPLv2+"
--
--SECTION = "x11/libs"
--
--DEPENDS = "glib-2.0 gtk-doc-native"
--
--inherit autotools pkgconfig
--
--EXTRA_OECONF = "--disable-glibtest"
-diff --git a/meta/recipes-support/atk/atk_2.2.0.bb b/meta/recipes-support/atk/atk_2.2.0.bb
-index 0d657b5..daa7931 100644
---- a/meta/recipes-support/atk/atk_2.2.0.bb
-+++ b/meta/recipes-support/atk/atk_2.2.0.bb
-@@ -1,14 +1,23 @@
--require atk.inc
-+DESCRIPTION = "An accessibility toolkit for GNOME."
-+HOMEPAGE = "http://live.gnome.org/GAP/"
-+BUGTRACKER = "https://bugzilla.gnome.org/"
-+SECTION = "x11/libs"
- 
--PR = "r1"
-+LICENSE = "LGPLv2 & LGPLv2+"
- LIC_FILES_CHKSUM = "file://COPYING;md5=3bf50002aefd002f49e7bb854063f7e7 \
-                     file://atk/atkutil.c;endline=20;md5=db21b0bdbef9da4dc6eb122debc9f9bc \
-                     file://atk/atk.h;endline=20;md5=c58238d688c24387376d6c69d06248a7"
-+PR = "r2"
- 
--SRC_URI = "http://download.gnome.org/sources/atk/2.2/${BPN}-${PV}.tar.bz2"
-+DEPENDS = "glib-2.0 gtk-doc-native"
-+
-+inherit autotools pkgconfig
- 
-+SRC_URI = "http://download.gnome.org/sources/atk/2.2/${BPN}-${PV}.tar.bz2"
- SRC_URI[md5sum] = "4894e9b04f0a9f1c37a624a1e8d6d73f"
- SRC_URI[sha256sum] = "d201e3f5808aef0b1aec2277bfa61074f68863e405428adb57a73aab5c838450"
- 
-+BBCLASSEXTEND = "native"
- 
--
-+EXTRA_OECONF = "--disable-glibtest \
-+                --disable-introspection"
+  shadow-sysroot: Simplfy login.defs installation (2012-01-26 20:52:32 +0000)
+
+are available in the git repository at:
+  git://git.openembedded.org/openembedded-core-contrib kraj/misc-fixes
+  http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=kraj/misc-fixes
+
+Khem Raj (5):
+  gdb-common: Drop elfutils from DEPENDS
+  task-core-tools: Divide it into 3 recipes
+  arm/tune: Correct the logic which added thumb-interwork to OVERRIDES
+  tunearch/arm: Differentiate between thumb code generation and thumb
+    capability
+  tune-thumb.inc: Delete
+
+ .../conf/distro/include/distro_tracking_fields.inc |   26 +++++--
+ .../conf/machine/include/arm/feature-arm-thumb.inc |   20 ++++-
+ meta/conf/machine/include/tune-strongarm1100.inc   |    4 +-
+ meta/conf/machine/include/tune-thumb.inc           |   32 --------
+ meta/conf/multilib.conf                            |    4 +-
+ meta/recipes-core/tasks/task-core-tools-debug.bb   |   26 ++++++
+ ...sk-core-tools.bb => task-core-tools-profile.bb} |   81 ++++++--------------
+ .../recipes-core/tasks/task-core-tools-testapps.bb |   46 +++++++++++
+ meta/recipes-devtools/gdb/gdb-common.inc           |    6 +-
+ 9 files changed, 138 insertions(+), 107 deletions(-)
+ delete mode 100644 meta/conf/machine/include/tune-thumb.inc
+ create mode 100644 meta/recipes-core/tasks/task-core-tools-debug.bb
+ rename meta/recipes-core/tasks/{task-core-tools.bb => task-core-tools-profile.bb} (48%)
+ create mode 100644 meta/recipes-core/tasks/task-core-tools-testapps.bb
+
 -- 
-1.7.4.4
+1.7.8.3
 
 
 
