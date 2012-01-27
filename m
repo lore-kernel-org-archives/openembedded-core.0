@@ -1,31 +1,24 @@
 Received: from mail-we0-f175.google.com ([74.125.82.175])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <koen@dominion.thruhere.net>) id 1RqgrN-0006vs-Ls
+	(envelope-from <koen@dominion.thruhere.net>) id 1RqhBV-0007R0-Al
 	for openembedded-core@lists.openembedded.org;
-	Fri, 27 Jan 2012 09:08:37 +0100
-Received: by werc1 with SMTP id c1so1107043wer.6
+	Fri, 27 Jan 2012 09:29:25 +0100
+Received: by werc1 with SMTP id c1so1117432wer.6
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 27 Jan 2012 00:00:49 -0800 (PST)
-Received: by 10.216.133.71 with SMTP id p49mr3147416wei.8.1327651248917;
-	Fri, 27 Jan 2012 00:00:48 -0800 (PST)
-Received: from [172.20.1.36] (ip545070eb.adsl-surfen.hetnet.nl.
-	[84.80.112.235])
-	by mx.google.com with ESMTPS id df2sm9923071wib.4.2012.01.27.00.00.47
+	Fri, 27 Jan 2012 00:21:36 -0800 (PST)
+Received: by 10.216.139.222 with SMTP id c72mr2548456wej.42.1327652496751;
+	Fri, 27 Jan 2012 00:21:36 -0800 (PST)
+Received: from localhost (ip545070eb.adsl-surfen.hetnet.nl. [84.80.112.235])
+	by mx.google.com with ESMTPS id fv6sm20712591wib.8.2012.01.27.00.21.35
 	(version=TLSv1/SSLv3 cipher=OTHER);
-	Fri, 27 Jan 2012 00:00:47 -0800 (PST)
-Mime-Version: 1.0 (Apple Message framework v1251.1)
+	Fri, 27 Jan 2012 00:21:35 -0800 (PST)
 From: Koen Kooi <koen@dominion.thruhere.net>
-In-Reply-To: <CAP9ODKqEgTQ1aRLUU=Db9vc3PfR1L=hWsBnTcKKMuWUazrPSjg@mail.gmail.com>
-Date: Fri, 27 Jan 2012 09:00:42 +0100
-Message-Id: <E10B6388-7C66-4790-9666-A7C97D9EF238@dominion.thruhere.net>
-References: <cover.1326481387.git.josh@linux.intel.com>
-	<09C174D7-2741-4099-BBA1-861E3608EB98@dominion.thruhere.net>
-	<4F1F3B95.4070105@linux.intel.com>
-	<CAP9ODKqEgTQ1aRLUU=Db9vc3PfR1L=hWsBnTcKKMuWUazrPSjg@mail.gmail.com>
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-X-Mailer: Apple Mail (2.1251.1)
-Subject: Re: [PATCH 0/4] Add alsa-state from OE Classic v3
+To: openembedded-core@lists.openembedded.org
+Date: Fri, 27 Jan 2012 09:21:29 +0100
+Message-Id: <1327652489-9574-1-git-send-email-koen@dominion.thruhere.net>
+X-Mailer: git-send-email 1.7.2.5
+Cc: Koen Kooi <koen@dominion.thruhere.net>
+Subject: [PATCH] libtool 2.4.2: fix missing quote in FILES_libtldtl
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -40,31 +33,44 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 27 Jan 2012 08:08:37 -0000
-Content-Type: text/plain; charset=iso-8859-1
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Fri, 27 Jan 2012 08:29:25 -0000
 
+The missing quote prohibits OE from packaging it correctly, leading to:
 
-Op 27 jan. 2012, om 00:09 heeft Otavio Salvador het volgende geschreven:
+|  * satisfy_dependencies_for: Cannot satisfy the following dependencies for task-gnome:
+|  *    libltdl7 (>= 2.4.2) *   libltdl7 (>= 2.4.2) *   libltdl7 (>= 2.4.2) *   libltdl7 (>= 2.4.2) *   libltdl7 (>= 2.4.2) *   libltdl7 (>= 2.4.2) *   libltdl7 (>= 2.4.2) *
 
-> On Tue, Jan 24, 2012 at 21:15, Joshua Lock <josh@linux.intel.com> =
-wrote:
-> I can't see any initscript, so I think switching to what's provided by =
-alsa-utils would mean losing state saving for non-systemd folk but =
-systemd users can probably just set VIRTUAL-RUNTIME_alsa-state =3D =
-"alsa-utils-alsactl".
->=20
-> You still needs the state. So I think we'd need to have a specific =
--systemd version of it when the configs and the units.
+for incremental builds and binary feeds.
 
-I was thinking of splitting the existing recipe into alsa-state-conf for =
-the conf files and keep the init stuff in ${PN}. As a follow on patch we =
-can have alsa-utils-alsactl RRECOMMEND alsa-state-conf.
+Signed-off-by: Koen Kooi <koen@dominion.thruhere.net>
+---
+ meta/recipes-devtools/libtool/libtool-2.4.2.inc |    4 ++--
+ 1 files changed, 2 insertions(+), 2 deletions(-)
 
-thoughts?
+diff --git a/meta/recipes-devtools/libtool/libtool-2.4.2.inc b/meta/recipes-devtools/libtool/libtool-2.4.2.inc
+index d55b2bd..084062a 100644
+--- a/meta/recipes-devtools/libtool/libtool-2.4.2.inc
++++ b/meta/recipes-devtools/libtool/libtool-2.4.2.inc
+@@ -8,7 +8,7 @@ LICENSE = "GPLv2 & LGPLv2.1"
+ LIC_FILES_CHKSUM = "file://COPYING;md5=751419260aa954499f7abaabaa882bbe \
+     file://libltdl/COPYING.LIB;md5=e3eda01d9815f8d24aae2dbd89b68b06"
+ 
+-INC_PR = "r1"
++INC_PR = "r2"
+ 
+ SRC_URI = "${GNU_MIRROR}/libtool/libtool-${PV}.tar.gz \
+            file://trailingslash.patch \
+@@ -36,7 +36,7 @@ DEPENDS = "libtool-native"
+ 
+ PACKAGES =+ "libltdl libltdl-dev libltdl-dbg libltdl-staticdev"
+ FILES_${PN} += "${datadir}/aclocal*"
+-FILES_libltdl = "${libdir}/libltdl${SOLIBS}
++FILES_libltdl = "${libdir}/libltdl${SOLIBS}"
+ FILES_libltdl-dev = "${libdir}/libltdl${SOLIBSDEV} ${includedir}"
+ FILES_libltdl-staticdev = "${libdir}/libltdl.a"
+ FILES_libltdl-dbg = "${libdir}/.debug/"
+-- 
+1.7.2.5
 
-regards,
-
-Koen=
 
 
