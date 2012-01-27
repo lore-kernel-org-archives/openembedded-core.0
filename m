@@ -1,29 +1,35 @@
-Received: from mail-ww0-f43.google.com ([74.125.82.43])
+Received: from mail-pz0-f47.google.com ([209.85.210.47])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <koen@dominion.thruhere.net>) id 1RqhBm-0007U2-6y
+	(envelope-from <andrea.adami@gmail.com>) id 1Rqhj5-0002jV-C6
 	for openembedded-core@lists.openembedded.org;
-	Fri, 27 Jan 2012 09:29:42 +0100
-Received: by wgbdt11 with SMTP id dt11so1350180wgb.24
+	Fri, 27 Jan 2012 10:04:07 +0100
+Received: by dakf10 with SMTP id f10so1032090dak.6
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 27 Jan 2012 00:21:53 -0800 (PST)
-Received: by 10.180.101.161 with SMTP id fh1mr9190350wib.0.1327652513711;
-	Fri, 27 Jan 2012 00:21:53 -0800 (PST)
-Received: from [172.20.1.36] (ip545070eb.adsl-surfen.hetnet.nl.
-	[84.80.112.235])
-	by mx.google.com with ESMTPS id cb8sm10064909wib.0.2012.01.27.00.21.52
-	(version=TLSv1/SSLv3 cipher=OTHER);
-	Fri, 27 Jan 2012 00:21:52 -0800 (PST)
-Mime-Version: 1.0 (Apple Message framework v1251.1)
-From: Koen Kooi <koen@dominion.thruhere.net>
-In-Reply-To: <1b0c6306e6ea02b92ce5a1bac7ce21a31ad13204.1327123057.git.sgw@linux.intel.com>
-Date: Fri, 27 Jan 2012 09:21:48 +0100
-Message-Id: <868E40BB-6EA8-4C91-AFEA-5C8949A95616@dominion.thruhere.net>
-References: <cover.1327123057.git.sgw@linux.intel.com>
-	<1b0c6306e6ea02b92ce5a1bac7ce21a31ad13204.1327123057.git.sgw@linux.intel.com>
+	Fri, 27 Jan 2012 00:56:17 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
+	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
+	:content-type:content-transfer-encoding;
+	bh=baTU/J24X2ZuvEVPtxLXUUkVDfJe26H5NOIzXq4SK6Q=;
+	b=q9tTylTfpzxaCmmS8HJG+aJb1r7k9NVI7hf5/lNmCPGBjj1Obg4hI42YtnyvRwKh8z
+	gecXLFcEVRjiKEHmqkAZV5RalxfzUqI4u6pH4T0Yu7FHvOxw5tn6qB1NYSx2RFY7cLD2
+	9hGeYoEQ2EOn6cKB9vnLuPg4qPnzDEI9Ho6dM=
+MIME-Version: 1.0
+Received: by 10.68.83.46 with SMTP id n14mr12715120pby.97.1327654577703; Fri,
+	27 Jan 2012 00:56:17 -0800 (PST)
+Received: by 10.142.166.19 with HTTP; Fri, 27 Jan 2012 00:56:17 -0800 (PST)
+In-Reply-To: <4F1D8F89.2050806@windriver.com>
+References: <1326546473-26329-1-git-send-email-andrea.adami@gmail.com>
+	<C049B63B-A0B3-4FFF-85AF-C9ECEA3FAEF9@dominion.thruhere.net>
+	<CAAQYJAu_8aV4fs24bjJd-xCTc28QQ1nYtaSmbK04xzYDeuVqkw@mail.gmail.com>
+	<15F6B012-1598-4434-8A1A-28E056BFFAE2@dominion.thruhere.net>
+	<CAAQYJAupcHBBUNQWGyoCXV1OMcSpHH0UT0AzJWCsz5yMCoA_bA@mail.gmail.com>
+	<4F1D8F89.2050806@windriver.com>
+Date: Fri, 27 Jan 2012 09:56:17 +0100
+Message-ID: <CAAQYJAsUbgnrREyabxF6mLed5m+3a0mU_tMcSu_rPYF4DHSnnQ@mail.gmail.com>
+From: Andrea Adami <andrea.adami@gmail.com>
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-X-Mailer: Apple Mail (2.1251.1)
-Subject: Re: [PATCH 13/20] libtool: refactor packages for staticdev
+Subject: Re: [PATCH] tzdata_2011n: provide pkg_postinst and timezone defaults
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -38,57 +44,168 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 27 Jan 2012 08:29:42 -0000
-Content-Type: text/plain; charset=us-ascii
+X-List-Received-Date: Fri, 27 Jan 2012 09:04:07 -0000
+Content-Type: text/plain; charset=ISO-8859-1
 Content-Transfer-Encoding: quoted-printable
 
+On Mon, Jan 23, 2012 at 5:49 PM, Mark Hatle <mark.hatle@windriver.com> wrot=
+e:
+> On 1/23/12 8:21 AM, Andrea Adami wrote:
+>>
+>> On Sun, Jan 15, 2012 at 12:22 PM, Koen Kooi<koen@dominion.thruhere.net>
+>> =A0wrote:
+>>>
+>>>
+>>> Op 15 jan. 2012, om 12:17 heeft Andrea Adami het volgende geschreven:
+>>>
+>>>> On Sat, Jan 14, 2012 at 4:10 PM, Koen Kooi<koen@dominion.thruhere.net>
+>>>> =A0wrote:
+>>>>>
+>>>>>
+>>>>> Op 14 jan. 2012, om 14:07 heeft Andrea Adami het volgende geschreven:
+>>>>>
+>>>>>> * Take the extra bits in do_install from meta-openembedded
+>>>>>> * and add pkg_postinst script (adapted from Gentoo).
+>>>>>> * Default to 'Universal' timezone, present in the base package
+>>>>>> * and allow override using DEFAULT_TIMEZONE variable.
+>>>>>> * /etc/localtime and /etc/timezone are purposedly not packaged.
+>>>>>> * Bump PR
+>>>>>>
+>>>>>> Signed-off-by: Andrea Adami<andrea.adami@gmail.com>
+>>>>>> ---
+>>>>>> meta/recipes-extended/tzdata/tzdata_2011n.bb | =A0 55
+>>>>>> +++++++++++++++++++++++++-
+>>>>>> 1 files changed, 53 insertions(+), 2 deletions(-)
+>>>>>>
+>>>>>> diff --git a/meta/recipes-extended/tzdata/tzdata_2011n.bb
+>>>>>> b/meta/recipes-extended/tzdata/tzdata_2011n.bb
+>>>>>> index de9281a..862a196 100644
+>>>>>> --- a/meta/recipes-extended/tzdata/tzdata_2011n.bb
+>>>>>> +++ b/meta/recipes-extended/tzdata/tzdata_2011n.bb
+>>>>>> @@ -5,7 +5,7 @@ LICENSE =3D "PD"
+>>>>>> LIC_FILES_CHKSUM =3D
+>>>>>> "file://asia;beginline=3D2;endline=3D3;md5=3D06468c0e84ef4d4c97045a4=
+a29b08234"
+>>>>>> DEPENDS =3D "tzcode-native"
+>>>>>>
+>>>>>> -PR =3D "r0"
+>>>>>> +PR =3D "r1"
+>>>>>>
+>>>>>> RCONFLICTS=3D "timezones timezone-africa timezone-america
+>>>>>> timezone-antarctica \
+>>>>>> =A0 =A0 =A0 =A0 =A0 =A0 =A0timezone-arctic timezone-asia timezone-at=
+lantic \
+>>>>>> @@ -19,6 +19,8 @@ SRC_URI[tzdata.sha256sum] =3D
+>>>>>> "a343e542486b2b8ebdeca474eed79f1c04f69420ca943c2b9bd
+>>>>>>
+>>>>>> S =3D "${WORKDIR}"
+>>>>>>
+>>>>>> +DEFAULT_TIMEZONE ?=3D "Universal"
+>>>>>> +
+>>>>>> TZONES=3D "africa antarctica asia australasia europe northamerica
+>>>>>> southamerica =A0\
+>>>>>> =A0 =A0 =A0 =A0 =A0factory solar87 solar88 solar89 etcetera backward=
+ systemv \
+>>>>>> =A0 =A0 =A0 =A0 "
+>>>>>> @@ -41,7 +43,56 @@ do_install () {
+>>>>>> =A0 =A0 =A0 =A0 # libc is removing zoneinfo files from package
+>>>>>> =A0 =A0 =A0 =A0 cp -pP "${S}/zone.tab" ${D}${datadir}/zoneinfo
+>>>>>> =A0 =A0 =A0 =A0 cp -pP "${S}/iso3166.tab" ${D}${datadir}/zoneinfo
+>>>>>> - =A0 =A0 chown -R root:root ${D}
+>>>>>> +
+>>>>>> + =A0 =A0 =A0 =A0# Install defaults
+>>>>>> + =A0 =A0 =A0 =A0install -d ${D}${sysconfdir}
+>>>>>> + =A0 =A0 =A0 =A0echo ${DEFAULT_TIMEZONE}> =A0${D}${sysconfdir}/time=
+zone
+>>>>>> + =A0 =A0 =A0 =A0cp -pP ${S}/${datadir}/zoneinfo/${DEFAULT_TIMEZONE}
+>>>>>> ${D}${sysconfdir}/localtime
+>>>>>
+>>>>>
+>>>>> Shouldn't that be an 'ln -sf' instead of a 'cp'?
+>>>>>
+>>>> No, I don't think so.First reason is /usr may not be mounted, maybe
+>>>> living on another device..
+>>>> See first Google link about this:
+>>>> http://www.redhat.com/archives/rhl-devel-list/2006-April/msg00017.html
+>>>> Then, as you see, the postinst takes care of both cases.
+>>>
+>>>
+>>> That only applies to non-UTC times in RTC, which we don't use. And
+>>> furthermore, no machine has /usr on a seperate partition since support =
+for
+>>> that is broken.
+>>
+>>
+>> I try to bump the thread before the sources get renamed ;)
+>>
+>> About separation of exec_prefix, pls see
+>>
+>>
+>> http://lists.linuxtogo.org/pipermail/openembedded-core/2012-January/0156=
+72.html
+>>
+>> http://lists.linuxtogo.org/pipermail/openembedded-core/2012-January/0157=
+71.html
+>>
+>> So, what is the position to take? =A0Symlink or copy?
+>
+>
+> On other systems I've used.. the rule has been: hardlink (same disk) or
+> copy. Since the symlink would point into /usr and that should usually be
+> avoided (as mentioned above).
+>
+> I thought there used to be a tool that would do the hardlink, if possible
+> and then copy if not.. but I'm not sure if that is even reasonable with o=
+ur
+> image creation... (so copy is likely best answer then)
+>
+> --Mark
+>
+>
+>> Regards
+>>
+>> Andrea
+>>
+>>
+>>> _______________________________________________
+>>> Openembedded-core mailing list
+>>> Openembedded-core@lists.openembedded.org
+>>> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
+>>
+>>
+>> _______________________________________________
+>> Openembedded-core mailing list
+>> Openembedded-core@lists.openembedded.org
+>> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
+>
+>
+>
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
 
-Op 21 jan. 2012, om 06:18 heeft Saul Wold het volgende geschreven:
+Please take on hold this patch.
+Further inspection of do_rootfs logs reveals that the postinst is run
+during that task and the code tries to write /etc/localtime on host,
+fails and exits 1.
 
-> Signed-off-by: Saul Wold <sgw@linux.intel.com>
-> ---
-> meta/recipes-devtools/libtool/libtool-2.4.2.inc |    9 +++++----
-> 1 files changed, 5 insertions(+), 4 deletions(-)
->=20
-> diff --git a/meta/recipes-devtools/libtool/libtool-2.4.2.inc =
-b/meta/recipes-devtools/libtool/libtool-2.4.2.inc
-> index a8ea0ae..d55b2bd 100644
-> --- a/meta/recipes-devtools/libtool/libtool-2.4.2.inc
-> +++ b/meta/recipes-devtools/libtool/libtool-2.4.2.inc
-> @@ -8,7 +8,7 @@ LICENSE =3D "GPLv2 & LGPLv2.1"
-> LIC_FILES_CHKSUM =3D =
-"file://COPYING;md5=3D751419260aa954499f7abaabaa882bbe \
->     file://libltdl/COPYING.LIB;md5=3De3eda01d9815f8d24aae2dbd89b68b06"
->=20
-> -INC_PR =3D "r0"
-> +INC_PR =3D "r1"
->=20
-> SRC_URI =3D "${GNU_MIRROR}/libtool/libtool-${PV}.tar.gz \
->            file://trailingslash.patch \
-> @@ -34,10 +34,11 @@ EXTRA_AUTORECONF =3D "--exclude=3Dlibtoolize"
->=20
-> DEPENDS =3D "libtool-native"
->=20
-> -PACKAGES =3D+ "libltdl libltdl-dev libltdl-dbg"
-> +PACKAGES =3D+ "libltdl libltdl-dev libltdl-dbg libltdl-staticdev"
-> FILES_${PN} +=3D "${datadir}/aclocal*"
-> -FILES_libltdl =3D "${libdir}/libltdl.so.*"
-> -FILES_libltdl-dev =3D "${libdir}/libltdl.* ${includedir}/ltdl.h =
-${includedir}/libltdl/*.h"
-> +FILES_libltdl =3D "${libdir}/libltdl${SOLIBS}
+I'll add a check like
 
-The missing quote prohibits OE from packaging it correctly, leading to:
+pkg_postinst_${PN}() {
+if test "x$D" !=3D "x"; then
+	exit 1
+else
 
-|  * satisfy_dependencies_for: Cannot satisfy the following dependencies =
-for task-gnome:
-|  *    libltdl7 (>=3D 2.4.2) *   libltdl7 (>=3D 2.4.2) *   libltdl7 (>=3D=
- 2.4.2) *   libltdl7 (>=3D 2.4.2) *   libltdl7 (>=3D 2.4.2) *   libltdl7 =
-(>=3D 2.4.2) *   libltdl7 (>=3D 2.4.2) *
+and send a revised patch in a few hours.
 
-For incremental builds and binary feeds.
+Regards
 
-regards,
+Andrea
 
-Koen=
+P.S.
+This is a low hanging fruit wrt recipes duplication between oe-core and met=
+a-oe.
+Please add your review/comments, thanks.
 
 
