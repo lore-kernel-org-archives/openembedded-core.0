@@ -1,32 +1,29 @@
-Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
-	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <richard.purdie@linuxfoundation.org>)
-	id 1Rqvd9-0002Nc-TS for openembedded-core@lists.openembedded.org;
-	Sat, 28 Jan 2012 00:54:56 +0100
-Received: from localhost (localhost [127.0.0.1])
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q0RNl5sH025039
+Received: from mail-tul01m020-f175.google.com ([209.85.214.175])
+	by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <sakoman@gmail.com>) id 1RqvpF-0002u1-G7
+	for openembedded-core@lists.openembedded.org;
+	Sat, 28 Jan 2012 01:07:25 +0100
+Received: by obbuo9 with SMTP id uo9so2553063obb.6
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 27 Jan 2012 23:47:05 GMT
-Received: from tim.rpsys.net ([127.0.0.1])
-	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
-	port 10024) with LMTP
-	id 19527-07 for <openembedded-core@lists.openembedded.org>;
-	Fri, 27 Jan 2012 23:46:59 +0000 (GMT)
-Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q0RNkvrA025011
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO)
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 27 Jan 2012 23:46:58 GMT
-Message-ID: <1327708020.7307.4.camel@ted>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
+	Fri, 27 Jan 2012 15:59:35 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
+	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
+	:content-type; bh=NsEhRQN92SIqdvwpUlER2IMVl9as05n79cb1i2L4uwc=;
+	b=l/bWNxND6OMSdid4jyPIVGWhjv2tPe3f7crcGTkH+XoRPXJom7E74/NBoL7OF4VZlC
+	rd4Ko7vXDkDefy9yw5KnxOK1rhzlWW9OVbanwCYGglF3nxzTdIHBzz+Dp+ZSiDVlw3Kj
+	FowpOWaRJF/eohunVyDw25hqQbmJhaiUqzjEY=
+MIME-Version: 1.0
+Received: by 10.182.132.105 with SMTP id ot9mr8504451obb.34.1327708775489;
+	Fri, 27 Jan 2012 15:59:35 -0800 (PST)
+Received: by 10.60.3.228 with HTTP; Fri, 27 Jan 2012 15:59:35 -0800 (PST)
+In-Reply-To: <1327708020.7307.4.camel@ted>
+References: <CAGDS+nnPcnUFG5xGgZzPFHrxQ4Nd75RGVjcuK-ycVQzNEp3aXA@mail.gmail.com>
+	<1327708020.7307.4.camel@ted>
+Date: Fri, 27 Jan 2012 15:59:35 -0800
+Message-ID: <CAGDS+nmjhAND2YpuTor01EMvktPropb+r_oKr1SWEOxzAnG9Mw@mail.gmail.com>
+From: Steve Sakoman <sakoman@gmail.com>
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Date: Fri, 27 Jan 2012 23:47:00 +0000
-In-Reply-To: <CAGDS+nnPcnUFG5xGgZzPFHrxQ4Nd75RGVjcuK-ycVQzNEp3aXA@mail.gmail.com>
-References: <CAGDS+nnPcnUFG5xGgZzPFHrxQ4Nd75RGVjcuK-ycVQzNEp3aXA@mail.gmail.com>
-X-Mailer: Evolution 3.2.2- 
-Mime-Version: 1.0
-X-Virus-Scanned: amavisd-new at rpsys.net
 Subject: Re: polkit broken?
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
@@ -42,54 +39,33 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 27 Jan 2012 23:54:56 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Sat, 28 Jan 2012 00:07:25 -0000
+Content-Type: text/plain; charset=ISO-8859-1
 
-On Fri, 2012-01-27 at 11:33 -0800, Steve Sakoman wrote:
-> I find that polkit is failing after a pull this morning:
-> 
-> ERROR: Function failed: BUILDSPEC (see
-> /media/Work/yocto/tmp/work/armv7a-vfp-neon-poky-linux-gnueabi/polkit-0.104-r0/temp/log.do_package_write_rpm.25212
-> for further information)
-> ERROR: Logfile of failure stored in:
-> /media/Work/yocto/tmp/work/armv7a-vfp-neon-poky-linux-gnueabi/polkit-0.104-r0/temp/log.do_package_write_rpm.25212
-> Log data follows:
-> | NOTE: Creating RPM package for polkit-dbg
-> | NOTE: Creating RPM package for polkit
-> | NOTE: Creating RPM package for polkit
-> | NOTE: Creating RPM package for polkit-doc
-> | NOTE: Creating RPM package for polkit-dev
-> | NOTE: Creating RPM package for polkit-staticdev
-> | NOTE: Creating RPM package for polkit-locale-da
-> | DEBUG: SITE files ['endian-little', 'bit-32', 'arm-common',
-> 'common-linux', 'common-glibc', 'arm-linux', 'arm-linux-gnueabi',
-> 'common']
-> | ERROR: Function failed: BUILDSPEC (see
-> /media/Work/yocto/tmp/work/armv7a-vfp-neon-poky-linux-gnueabi/polkit-0.104-r0/temp/log.do_package_write_rpm.25212
-> for further information)
-> | error: line 24: Illegal char '-' in EVR: Requires: systemd >= v38-53-ga3f914b
-> | error: Package has no %description: polkit-0.104-r0.armv7a
-> | Building target platforms: armv7a-vfp-neon-poky-linux-gnueabi
-> NOTE: package polkit-0.104-r0: task do_package_write_rpm: Failed
-> ERROR: Task 1059
-> (/home/sakoman/source/yocto/poky/meta/recipes-extended/polkit/polkit_0.104.bb,
-> do_package_write_rpm) failed with exit code '1'
-> 
-> My image does include systemd from meta-openembedded so I suspect that
-> may be a factor.
+On Fri, Jan 27, 2012 at 3:47 PM, Richard Purdie
+<richard.purdie@linuxfoundation.org> wrote:
+>
+>> My image does include systemd from meta-openembedded so I suspect that
+>> may be a factor.
+>
+> I suspect so too.
+>
+>> For those who are building with sysvinti, do you see this issue?
+>
+> No, this looks like the version string for systemd is upsetting rpm
+> somehow, probably the inclusion of a "-". The rpm backend is supposed to
+> remap that character iirc...
 
-I suspect so too.
+I tested this on a second build machine and didn't encounter the error.
 
-> For those who are building with sysvinti, do you see this issue?
+I then went back to the first build machine, did a 'bitbake -c
+cleansstate avahi systemd' and then rebuilt the image.
 
-No, this looks like the version string for systemd is upsetting rpm
-somehow, probably the inclusion of a "-". The rpm backend is supposed to
-remap that character iirc...
+Of course it built with no problems, so I'm not really sure what was
+going on!  I'll try a clean build on another machine to see if it
+re-occurs.  If not, it will be yet another addition to my "mysteries
+of the universe" list :-)
 
-Cheers,
-
-Richard
-
+Steve
 
 
