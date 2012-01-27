@@ -1,31 +1,39 @@
 Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
 	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
 	(envelope-from <richard.purdie@linuxfoundation.org>)
-	id 1Rqic0-0004zb-Tm for openembedded-core@lists.openembedded.org;
-	Fri, 27 Jan 2012 11:00:53 +0100
+	id 1Rqii3-00059U-JP for openembedded-core@lists.openembedded.org;
+	Fri, 27 Jan 2012 11:07:07 +0100
 Received: from localhost (localhost [127.0.0.1])
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q0R9qwJo006604;
-	Fri, 27 Jan 2012 09:52:58 GMT
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q0R9xJI5006727
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 27 Jan 2012 09:59:19 GMT
 Received: from tim.rpsys.net ([127.0.0.1])
 	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
 	port 10024) with LMTP
-	id 05921-08; Fri, 27 Jan 2012 09:52:54 +0000 (GMT)
+	id 06380-05 for <openembedded-core@lists.openembedded.org>;
+	Fri, 27 Jan 2012 09:59:15 +0000 (GMT)
 Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q0R9qo01006598
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO);
-	Fri, 27 Jan 2012 09:52:51 GMT
-Message-ID: <1327657972.19643.441.camel@ted>
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q0R9xB9r006721
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO)
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 27 Jan 2012 09:59:12 GMT
+Message-ID: <1327658353.19643.443.camel@ted>
 From: Richard Purdie <richard.purdie@linuxfoundation.org>
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Date: Fri, 27 Jan 2012 09:52:52 +0000
-In-Reply-To: <1327652489-9574-1-git-send-email-koen@dominion.thruhere.net>
-References: <1327652489-9574-1-git-send-email-koen@dominion.thruhere.net>
+Date: Fri, 27 Jan 2012 09:59:13 +0000
+In-Reply-To: <CAAQYJAsUbgnrREyabxF6mLed5m+3a0mU_tMcSu_rPYF4DHSnnQ@mail.gmail.com>
+References: <1326546473-26329-1-git-send-email-andrea.adami@gmail.com>
+	<C049B63B-A0B3-4FFF-85AF-C9ECEA3FAEF9@dominion.thruhere.net>
+	<CAAQYJAu_8aV4fs24bjJd-xCTc28QQ1nYtaSmbK04xzYDeuVqkw@mail.gmail.com>
+	<15F6B012-1598-4434-8A1A-28E056BFFAE2@dominion.thruhere.net>
+	<CAAQYJAupcHBBUNQWGyoCXV1OMcSpHH0UT0AzJWCsz5yMCoA_bA@mail.gmail.com>
+	<4F1D8F89.2050806@windriver.com>
+	<CAAQYJAsUbgnrREyabxF6mLed5m+3a0mU_tMcSu_rPYF4DHSnnQ@mail.gmail.com>
 X-Mailer: Evolution 3.2.2- 
 Mime-Version: 1.0
 X-Virus-Scanned: amavisd-new at rpsys.net
-Cc: Koen Kooi <koen@dominion.thruhere.net>
-Subject: Re: [PATCH] libtool 2.4.2: fix missing quote in FILES_libtldtl
+Subject: Re: [PATCH] tzdata_2011n: provide pkg_postinst and timezone defaults
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -40,26 +48,33 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 27 Jan 2012 10:00:53 -0000
+X-List-Received-Date: Fri, 27 Jan 2012 10:07:07 -0000
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 
-On Fri, 2012-01-27 at 09:21 +0100, Koen Kooi wrote:
-> The missing quote prohibits OE from packaging it correctly, leading to:
+On Fri, 2012-01-27 at 09:56 +0100, Andrea Adami wrote:
+> Please take on hold this patch.
+> Further inspection of do_rootfs logs reveals that the postinst is run
+> during that task and the code tries to write /etc/localtime on host,
+> fails and exits 1.
 > 
-> |  * satisfy_dependencies_for: Cannot satisfy the following dependencies for task-gnome:
-> |  *    libltdl7 (>= 2.4.2) *   libltdl7 (>= 2.4.2) *   libltdl7 (>= 2.4.2) *   libltdl7 (>= 2.4.2) *   libltdl7 (>= 2.4.2) *   libltdl7 (>= 2.4.2) *   libltdl7 (>= 2.4.2) *
+> I'll add a check like
 > 
-> for incremental builds and binary feeds.
+> pkg_postinst_${PN}() {
+> if test "x$D" != "x"; then
+> 	exit 1
+> else
 > 
-> Signed-off-by: Koen Kooi <koen@dominion.thruhere.net>
-> ---
->  meta/recipes-devtools/libtool/libtool-2.4.2.inc |    4 ++--
->  1 files changed, 2 insertions(+), 2 deletions(-)
+> and send a revised patch in a few hours.
 
-Merged to master, thanks.
+How about prefixing the paths with $D instead of forcing this onto the
+target? (note, not ${D})
+
+Cheers,
 
 Richard
+
+
 
 
 
