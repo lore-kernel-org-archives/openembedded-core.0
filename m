@@ -1,27 +1,31 @@
-Received: from mga03.intel.com ([143.182.124.21])
+Received: from mail-lpp01m020-f175.google.com ([209.85.217.175])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <paul.eggleton@linux.intel.com>) id 1Rqknj-00086l-GP
-	for openembedded-core@lists.openembedded.org;
-	Fri, 27 Jan 2012 13:21:08 +0100
-Received: from azsmga002.ch.intel.com ([10.2.17.35])
-	by azsmga101.ch.intel.com with ESMTP; 27 Jan 2012 04:13:17 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="60535065"
-Received: from unknown (HELO helios.localnet) ([10.252.122.187])
-	by AZSMGA002.ch.intel.com with ESMTP; 27 Jan 2012 04:13:16 -0800
-From: Paul Eggleton <paul.eggleton@linux.intel.com>
-To: Samuel Stirtzel <s.stirtzel@googlemail.com>
-Date: Fri, 27 Jan 2012 12:13:15 +0000
-Message-ID: <2310484.775mZrL9pm@helios>
-Organization: Intel Corporation
-User-Agent: KMail/4.8 rc2 (Linux/3.0.0-15-generic-pae; KDE/4.7.97; i686; ; )
-In-Reply-To: <CAGiJk9dDm0KKcKZUhqrTFg9JLgKwbyn45K2Y4WgdiWoctskaEA@mail.gmail.com>
-References: <cover.1322061836.git.paul.eggleton@linux.intel.com>
-	<2153827.uieeAmS9LV@helios>
-	<CAGiJk9dDm0KKcKZUhqrTFg9JLgKwbyn45K2Y4WgdiWoctskaEA@mail.gmail.com>
+	(envelope-from <schnitzeltony@googlemail.com>)
+	id 1RqlMH-0001W6-6u; Fri, 27 Jan 2012 13:56:50 +0100
+Received: by lbol12 with SMTP id l12so80541lbo.6
+	for <multiple recipients>; Fri, 27 Jan 2012 04:48:57 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=googlemail.com; s=gamma;
+	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
+	:cc:content-type:content-transfer-encoding;
+	bh=NUwlnro1NLNW7VUcqtuV3UJCPao9XrE+OLp7yP4HXII=;
+	b=PIYzq1aozo121WVYlvuURI9AtEIiwL4VYgTkUJHhJGOqqLzgJq0STLNtkzaxD+HSWu
+	9EhtA+DV7CxkROBS+vLP4nCuocLN2s/BL93mywfiBMa6Jq+5QaExdwiY+lWTXEUEry2Y
+	r77amaJmzPPjqWrs6AmJwGt6YRrm8rs8fNWFs=
 MIME-Version: 1.0
+Received: by 10.112.83.197 with SMTP id s5mr1781215lby.9.1327668536972; Fri,
+	27 Jan 2012 04:48:56 -0800 (PST)
+Received: by 10.112.102.165 with HTTP; Fri, 27 Jan 2012 04:48:56 -0800 (PST)
+In-Reply-To: <CALbNGRQ0+FDE7QisckBOCXBUspQiumZFLjPJYgRf87a1mqtHaw@mail.gmail.com>
+References: <CALbNGRS-WsE45UakTV5VE2T5bAxb1C2iWgPeN+Ys+OTx-i48Rw@mail.gmail.com>
+	<4F21FDA2.5070803@linux.intel.com>
+	<CALbNGRQ0+FDE7QisckBOCXBUspQiumZFLjPJYgRf87a1mqtHaw@mail.gmail.com>
+Date: Fri, 27 Jan 2012 13:48:56 +0100
+Message-ID: <CALbNGRTqHJYvSzbman=ZPQ4D=Cyu8oX0F4JdTA7hrH4oMW_wbA@mail.gmail.com>
+From: =?ISO-8859-1?Q?Andreas_M=FCller?= <schnitzeltony@googlemail.com>
+To: openembedded-devel@lists.openembedded.org
 Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 0/3] Make pulseaudio a DISTRO_FEATURE
+Subject: Re: [oe] evince: who is responsible to pack all within usr/lib/evince/3/backends to ${PN}?
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -36,33 +40,48 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 27 Jan 2012 12:21:08 -0000
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
+X-List-Received-Date: Fri, 27 Jan 2012 12:56:50 -0000
+Content-Type: text/plain; charset=ISO-8859-1
+Content-Transfer-Encoding: quoted-printable
 
-On Friday 27 January 2012 12:34:59 Samuel Stirtzel wrote:
-> Oh ok, I thought just about Qt + Phonon +- Pulseaudio case.
-> If a user disables or enables Pulseaudio he would need to rebuild all
-> Qt stuff to make it work (and building Qt is time consuming).
-> With a separate phonon recipe he could just rebuild the libphonon
-> recipe instead.
+On Fri, Jan 27, 2012 at 9:43 AM, Andreas M=FCller
+<schnitzeltony@googlemail.com> wrote:
+> On Fri, Jan 27, 2012 at 2:28 AM, Saul Wold <sgw@linux.intel.com> wrote:
+>> On 01/26/2012 05:16 PM, Andreas M=FCller wrote:
+>>>
+>>> I checked: the complete contents of /usr/lib/evince/3/backends go to
+>>> evince package and I would like to move *.a to ${PN}-staticdev and
+>>> *.la to ${PN}-dev but I don't understand: who is responsible for
+>>> adding all this to ${PN}?
+>>>
+>> bitbake.conf defines where most files should go, but when you get files =
+in
+>> sub-directories, such as /usr/lib/evince/..., then the recipe needs to d=
+o a
+>> little more work. If you look at the evince_2.32.0.bb, there already is =
+a
+>> FILES_${PN}-staticdev that adds some extensions, you need to add this se=
+t of
+>> backends to that list, probably same with the .la to the -dev package.
+>>
+> Why I asked this: Maybe there is a chance to fix this more globally
+> instead of one by one in each recipe. But therefore I need to know
+> where the path is packed.
+>
+I looked around for this a bit: As Saul pointed out, in bitbake.conf we hav=
+e
+FILES_${PN} =3D ... ${libdir}/${BPN}/* ...
 
-Whilst this might seem attractive, I don't believe encouraging people to play 
-with DISTRO_FEATURES *after* they have built things is a good idea - these 
-should really be set beforehand and not changed without rebuilding everything. 
-Otherwise we're setting users up for unexpected and difficult to debug failures.
+This
+* drags in all below this directory ( e.g *.la / *.a )
+* Forces me to rewrite FILES_${PN} in evince ( e.g just adding
+${libdir}/${BPN}/*/backends/*.a to FILES_${PN}-staticdev fixes nothing
+). This is something I would like to avoid.
 
-(Of course that assumes the user knows and appreciates the implications of 
-items in DISTRO_FEATURES, and we may need to improve our tooling and 
-documentation such that they can, should they even need to change them that 
-is.)
+Suggestions?
 
-Cheers,
-Paul
+I guess others but evince are also affected.
 
--- 
-
-Paul Eggleton
-Intel Open Source Technology Centre
+Andreas
 
 
