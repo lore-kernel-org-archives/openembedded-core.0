@@ -1,36 +1,36 @@
-Received: from mail-yx0-f175.google.com ([209.85.213.175])
+Received: from mail-gy0-f175.google.com ([209.85.160.175])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <kergoth@gmail.com>) id 1RqpUY-0005Xi-DH
+	(envelope-from <kergoth@gmail.com>) id 1RqpUY-0005Wb-MB
 	for openembedded-core@lists.openembedded.org;
 	Fri, 27 Jan 2012 18:21:38 +0100
-Received: by yenr5 with SMTP id r5so841853yen.6
+Received: by mail-gy0-f175.google.com with SMTP id g19so802214ghb.6
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 27 Jan 2012 09:13:49 -0800 (PST)
+	Fri, 27 Jan 2012 09:13:51 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
 	h=from:to:cc:subject:date:message-id:x-mailer:in-reply-to:references
 	:in-reply-to:references;
-	bh=j5YEWH7NaJEItYyKLCL17KhlCI4Bzube5JFDQ38e1Q8=;
-	b=XSPMNXceRXswtR1HqOJ2DxJ88m29bUAhXYWzdUWC6veI8yAay0GhWNsZSlst0B05Ia
-	qEPUhg42+QO9a6BKrPU6YNN0E/D+0Opoi1KSri62B+dq2B5wlh3KzIxN3i134s7ATWIX
-	WFTCGeB314i2UIRF1L3W4P9pLpHDd9kFfNlC0=
-Received: by 10.236.128.140 with SMTP id f12mr11699635yhi.69.1327684429030;
-	Fri, 27 Jan 2012 09:13:49 -0800 (PST)
+	bh=kW4rRe8iaPbW6+49anKtC2gqrRVedKl1DYHMgTECiP4=;
+	b=rSUxvYm92l6ML1e8IohrFZnPCKwv/Gh5Wbh2COVovcZzt7XG5Q1ahvaraAkFsu44bt
+	AiZ6hvxBDTjE30QxKPhPYMYI0o/b1aHxSF2jnvjGJCl+SPytP7hAT1M8/kl50QblHIeg
+	W36NfhYf1rSjaI3ZO7fzeKPIpcxSXLwwjN5gg=
+Received: by 10.101.5.16 with SMTP id h16mr3577825ani.48.1327684431615;
+	Fri, 27 Jan 2012 09:13:51 -0800 (PST)
 Received: from sb-u1004lts-64bit.alm.mentorg.com (hsvwanfw1-nat.mentorg.com.
 	[139.181.24.34])
-	by mx.google.com with ESMTPS id f47sm14547996yhh.8.2012.01.27.09.13.47
+	by mx.google.com with ESMTPS id f47sm14547996yhh.8.2012.01.27.09.13.50
 	(version=TLSv1/SSLv3 cipher=OTHER);
-	Fri, 27 Jan 2012 09:13:48 -0800 (PST)
+	Fri, 27 Jan 2012 09:13:51 -0800 (PST)
 From: Christopher Larson <kergoth@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Fri, 27 Jan 2012 11:13:39 -0600
-Message-Id: <1200dada43c3e68e8a216994129eb516160ff82c.1327684024.git.chris_larson@mentor.com>
+Date: Fri, 27 Jan 2012 11:13:41 -0600
+Message-Id: <a36fa8d970d1a2eceb16774604e5b5b7aff0b2cb.1327684024.git.chris_larson@mentor.com>
 X-Mailer: git-send-email 1.7.8.rc4
 In-Reply-To: <cover.1327684024.git.chris_larson@mentor.com>
 References: <cover.1327684024.git.chris_larson@mentor.com>
 In-Reply-To: <cover.1327684024.git.chris_larson@mentor.com>
 References: <cover.1327684024.git.chris_larson@mentor.com>
 Cc: Christopher Larson <chris_larson@mentor.com>
-Subject: [PATCH 01/10] libc-package: fix typo in LOCALETREESRC default value
+Subject: [PATCH 03/10] binutils: fixes for build with an external csl toolchain
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -51,22 +51,35 @@ From: Christopher Larson <chris_larson@mentor.com>
 
 Signed-off-by: Christopher Larson <chris_larson@mentor.com>
 ---
- meta/classes/libc-package.bbclass |    2 +-
- 1 files changed, 1 insertions(+), 1 deletions(-)
+ meta/recipes-devtools/binutils/binutils.inc |    5 +++--
+ 1 files changed, 3 insertions(+), 2 deletions(-)
 
-diff --git a/meta/classes/libc-package.bbclass b/meta/classes/libc-package.bbclass
-index 8cd5fec..440218f 100644
---- a/meta/classes/libc-package.bbclass
-+++ b/meta/classes/libc-package.bbclass
-@@ -80,7 +80,7 @@ rm -rf ${TMP_LOCALE}
+diff --git a/meta/recipes-devtools/binutils/binutils.inc b/meta/recipes-devtools/binutils/binutils.inc
+index 6130ab4..e343242 100644
+--- a/meta/recipes-devtools/binutils/binutils.inc
++++ b/meta/recipes-devtools/binutils/binutils.inc
+@@ -51,6 +51,7 @@ B = "${S}/build.${HOST_SYS}.${TARGET_SYS}"
+ EXTRA_OECONF = "--program-prefix=${TARGET_PREFIX} \
+                 --enable-install-libbfd \
+                 --enable-shared \
++                --disable-werror \
+                 ${@base_contains('DISTRO_FEATURES', 'multiarch', '--enable-64-bit-bfd', '', d)}"
  
+ EXTRA_OECONF_virtclass-native = "--enable-target=all --enable-64-bit-bfd --enable-install-libbfd"
+@@ -113,11 +114,11 @@ do_install () {
+ 	cd ${D}${bindir}
  
- TMP_LOCALE="/tmp/locale${libdir}/locale"
--LOCALETREESRC ?= "{PKGD}"
-+LOCALETREESRC ?= "${PKGD}"
+ 	# Symlinks for ease of running these on the native target
+-	for p in ${TARGET_SYS}-* ; do
++	for p in ${TARGET_PREFIX}* ; do
+ 		ln -sf $p `echo $p | sed -e s,${TARGET_PREFIX},,`
+ 	done
  
- do_prep_locale_tree() {
- 	treedir=${WORKDIR}/locale-tree
+-	rm ${D}${bindir}/ar ${D}${bindir}/strings
++	rm -f ${D}${bindir}/ar ${D}${bindir}/strings
+ 
+ 	oe_multilib_header bfd.h
+ }
 -- 
 1.7.8.rc4
 
