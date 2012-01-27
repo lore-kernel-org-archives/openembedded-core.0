@@ -1,24 +1,24 @@
 Received: from mga11.intel.com ([192.55.52.93])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <sgw@linux.intel.com>) id 1RqpWY-0007HY-RS
+	(envelope-from <sgw@linux.intel.com>) id 1RqpWZ-0007HY-GW
 	for openembedded-core@lists.openembedded.org;
 	Fri, 27 Jan 2012 18:23:43 +0100
 Received: from fmsmga002.fm.intel.com ([10.253.24.26])
 	by fmsmga102.fm.intel.com with ESMTP; 27 Jan 2012 09:15:51 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="117133170"
+X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="117133172"
 Received: from unknown (HELO swold-mobl.bigsur.com) ([10.255.14.96])
 	by fmsmga002.fm.intel.com with ESMTP; 27 Jan 2012 09:15:51 -0800
 From: Saul Wold <sgw@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Fri, 27 Jan 2012 09:15:46 -0800
-Message-Id: <77edb307a9a6a7d5b203490a9535458131f0c071.1327684299.git.sgw@linux.intel.com>
+Date: Fri, 27 Jan 2012 09:15:47 -0800
+Message-Id: <e51f7ee26119578863aa92ca11482d96d92a4116.1327684299.git.sgw@linux.intel.com>
 X-Mailer: git-send-email 1.7.6.5
 In-Reply-To: <cover.1327684299.git.sgw@linux.intel.com>
 References: <cover.1327684299.git.sgw@linux.intel.com>
 In-Reply-To: <cover.1327684299.git.sgw@linux.intel.com>
 References: <cover.1327684299.git.sgw@linux.intel.com>
-Subject: [CONSOLIDATED PULL 3/6] rootfs_ipk: remove runtime_script_required usage
+Subject: [CONSOLIDATED PULL 4/6] image_types.bbclass: refactor cpio images generation.
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -35,31 +35,56 @@ List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedde
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Fri, 27 Jan 2012 17:23:43 -0000
 
-From: Martin Jansa <martin.jansa@gmail.com>
+From: Andrea Adami <andrea.adami@gmail.com>
 
-* it was introduced in 87780fc09b066525e47d0f50ee5497db54d304cd
-* then partially removed in 2feba313c991170747381c7cf821a45c2cd04632
-* so remove this use too as runtime_script_required is not initialized anymore and results in
-  run.do_rootfs.6328: line 235: [: -eq: unary operator expected
+* Add common check for the presence of an /init
+* symlink, being 'touch' would fail with it
+* and 'touch -h' is not yet generally supported
+* (depends on distro on build host).
 
-Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
+Signed-off-by: Andrea Adami <andrea.adami@gmail.com>
 ---
- meta/classes/rootfs_ipk.bbclass |    2 +-
- 1 files changed, 1 insertions(+), 1 deletions(-)
+ meta/classes/image_types.bbclass |   21 +++++++++++++++++----
+ 1 files changed, 17 insertions(+), 4 deletions(-)
 
-diff --git a/meta/classes/rootfs_ipk.bbclass b/meta/classes/rootfs_ipk.bbclass
-index 48fb2fb..5342035 100644
---- a/meta/classes/rootfs_ipk.bbclass
-+++ b/meta/classes/rootfs_ipk.bbclass
-@@ -90,7 +90,7 @@ fakeroot rootfs_ipk_do_rootfs () {
- 	rm -f ${IMAGE_ROOTFS}${opkglibdir}/lists/*
+diff --git a/meta/classes/image_types.bbclass b/meta/classes/image_types.bbclass
+index 4908ed9..eef554d 100644
+--- a/meta/classes/image_types.bbclass
++++ b/meta/classes/image_types.bbclass
+@@ -115,16 +115,29 @@ IMAGE_CMD_tar = "cd ${IMAGE_ROOTFS} && tar -cvf ${DEPLOY_DIR_IMAGE}/${IMAGE_NAME
+ IMAGE_CMD_tar.gz = "cd ${IMAGE_ROOTFS} && tar -zcvf ${DEPLOY_DIR_IMAGE}/${IMAGE_NAME}.rootfs.tar.gz ."
+ IMAGE_CMD_tar.bz2 = "cd ${IMAGE_ROOTFS} && tar -jcvf ${DEPLOY_DIR_IMAGE}/${IMAGE_NAME}.rootfs.tar.bz2 ."
+ IMAGE_CMD_tar.xz = "cd ${IMAGE_ROOTFS} && tar --xz -cvf ${DEPLOY_DIR_IMAGE}/${IMAGE_NAME}.rootfs.tar.xz ."
+-IMAGE_CMD_cpio () {
++
++CPIO_TOUCH_INIT () {
++	if [ ! -L ${IMAGE_ROOTFS}/init ]
++	then
+ 	touch ${IMAGE_ROOTFS}/init
++	fi
++}
++IMAGE_CMD_cpio () {
++	${CPIO_TOUCH_INIT}
+ 	cd ${IMAGE_ROOTFS} && (find . | cpio -o -H newc >${DEPLOY_DIR_IMAGE}/${IMAGE_NAME}.rootfs.cpio)
+ }
+ IMAGE_CMD_cpio.gz () {
+-	touch ${IMAGE_ROOTFS}/init
++	${CPIO_TOUCH_INIT}
+ 	cd ${IMAGE_ROOTFS} && (find . | cpio -o -H newc | gzip -c -9 >${DEPLOY_DIR_IMAGE}/${IMAGE_NAME}.rootfs.cpio.gz)
+ }
+-IMAGE_CMD_cpio.xz = "type cpio >/dev/null; cd ${IMAGE_ROOTFS} && (find . | cpio -o -H newc | xz -c ${XZ_COMPRESSION_LEVEL} --check=${XZ_INTEGRITY_CHECK} > ${DEPLOY_DIR_IMAGE}/${IMAGE_NAME}.rootfs.cpio.xz) ${EXTRA_IMAGECMD}"
+-IMAGE_CMD_cpio.lzma = "type cpio >/dev/null; cd ${IMAGE_ROOTFS} && (find . | cpio -o -H newc | xz --format=lzma -c ${XZ_COMPRESSION_LEVEL} --check=${XZ_INTEGRITY_CHECK} >${DEPLOY_DIR_IMAGE}/${IMAGE_NAME}.rootfs.cpio.lzma) ${EXTRA_IMAGECMD}"
++IMAGE_CMD_cpio.xz () {
++	${CPIO_TOUCH_INIT}
++	cd ${IMAGE_ROOTFS} && (find . | cpio -o -H newc | xz -c ${XZ_COMPRESSION_LEVEL} --check=${XZ_INTEGRITY_CHECK} > ${DEPLOY_DIR_IMAGE}/${IMAGE_NAME}.rootfs.cpio.xz) ${EXTRA_IMAGECMD}
++}
++IMAGE_CMD_cpio.lzma () {
++	${CPIO_TOUCH_INIT}
++	cd ${IMAGE_ROOTFS} && (find . | cpio -o -H newc | xz --format=lzma -c ${XZ_COMPRESSION_LEVEL} --check=${XZ_INTEGRITY_CHECK} >${DEPLOY_DIR_IMAGE}/${IMAGE_NAME}.rootfs.cpio.lzma) ${EXTRA_IMAGECMD}
++}
  
- 	if ${@base_contains("IMAGE_FEATURES", "package-management", "false", "true", d)}; then
--		if [ $runtime_script_required -eq 0 ]; then
-+		if ! grep Status:.install.ok.unpacked ${IMAGE_ROOTFS}${opkglibdir}status; then
- 			# All packages were successfully configured.
- 			# update-rc.d, base-passwd are no further use, remove them now
- 			opkg-cl ${IPKG_ARGS} --force-depends remove update-rc.d base-passwd || true
+ UBI_VOLNAME ?= "${MACHINE}-rootfs"
+ 
 -- 
 1.7.6.5
 
