@@ -1,36 +1,36 @@
-Received: from mail-gy0-f175.google.com ([209.85.160.175])
+Received: from mail-yx0-f175.google.com ([209.85.213.175])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <kergoth@gmail.com>) id 1RqpUg-0005Wb-GH
+	(envelope-from <kergoth@gmail.com>) id 1RqpUh-0005Xi-Rm
 	for openembedded-core@lists.openembedded.org;
-	Fri, 27 Jan 2012 18:21:47 +0100
-Received: by mail-gy0-f175.google.com with SMTP id g19so802214ghb.6
+	Fri, 27 Jan 2012 18:21:48 +0100
+Received: by mail-yx0-f175.google.com with SMTP id r5so841853yen.6
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 27 Jan 2012 09:13:59 -0800 (PST)
+	Fri, 27 Jan 2012 09:14:00 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
 	h=from:to:cc:subject:date:message-id:x-mailer:in-reply-to:references
 	:in-reply-to:references;
-	bh=/7xSL/AsHypSFYKcxp1qrPw/EUzYqsF1yA8N0V7AkMM=;
-	b=bxiimVC/T/NlwxUGiCE2HntGwGc7Gs+3SemJcE9tk7F7fSTgIh61otnlrw/pQu1Qyj
-	9q1UG+AAl7h1eGJe1LGtvfan0EUiPj2s/4lMfSXzTIwyyt3eidZZMvFRR2iirAWxvwoJ
-	i4Flu+bsbcbxybzkAWKUjV5+6FEpqDyh/LYkE=
-Received: by 10.101.18.12 with SMTP id v12mr3490308ani.59.1327684439449;
-	Fri, 27 Jan 2012 09:13:59 -0800 (PST)
+	bh=5GNCfSBRE32Ek/18RVRXji6LSLKJA/uvIIiKPaadEHE=;
+	b=uOMPdp/qcCC8IR3ZZAh2l/w93S5+MZwDB0CygfUXdBj/6+WbtX8u3Xp+qiS9TYFSGT
+	X2qL+uEc6hQ96FBcdYQKDYpbP7295uuj7VZIrDkC502ooHoLgJuM4qSb2x+13zyqyBQz
+	LCoDHmNYWDFvoQfZxxBjo4GYT+TbTTwZZQphg=
+Received: by 10.236.123.47 with SMTP id u35mr11632294yhh.115.1327684440672;
+	Fri, 27 Jan 2012 09:14:00 -0800 (PST)
 Received: from sb-u1004lts-64bit.alm.mentorg.com (hsvwanfw1-nat.mentorg.com.
 	[139.181.24.34])
-	by mx.google.com with ESMTPS id f47sm14547996yhh.8.2012.01.27.09.13.58
+	by mx.google.com with ESMTPS id f47sm14547996yhh.8.2012.01.27.09.13.59
 	(version=TLSv1/SSLv3 cipher=OTHER);
-	Fri, 27 Jan 2012 09:13:58 -0800 (PST)
+	Fri, 27 Jan 2012 09:13:59 -0800 (PST)
 From: Christopher Larson <kergoth@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Fri, 27 Jan 2012 11:13:46 -0600
-Message-Id: <11a449c2659341f946915682c39d04a6e4a43d1a.1327684024.git.chris_larson@mentor.com>
+Date: Fri, 27 Jan 2012 11:13:47 -0600
+Message-Id: <f1a2ee16dad51f938f38600808011569d7c2ac40.1327684024.git.chris_larson@mentor.com>
 X-Mailer: git-send-email 1.7.8.rc4
 In-Reply-To: <cover.1327684024.git.chris_larson@mentor.com>
 References: <cover.1327684024.git.chris_larson@mentor.com>
 In-Reply-To: <cover.1327684024.git.chris_larson@mentor.com>
 References: <cover.1327684024.git.chris_larson@mentor.com>
 Cc: Christopher Larson <chris_larson@mentor.com>
-Subject: [PATCH 08/10] external-csl-toolchain: support ia32
+Subject: [PATCH 09/10] external-csl-toolchain: leverage eglibc's packaging for more granular output
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -49,121 +49,95 @@ X-List-Received-Date: Fri, 27 Jan 2012 17:21:48 -0000
 
 From: Christopher Larson <chris_larson@mentor.com>
 
-Unfortunately, the CSL ia32 toolchain has non-prefixed binaries in its bindir
-(e.g. gcc, ld). To avoid this messing up our build, we avoid adding this
-bindir to our PATH, and instead add symlinks to the prefixed binaries to our
-staging toolchain bindir.
-
 Signed-off-by: Christopher Larson <chris_larson@mentor.com>
 ---
- meta/conf/distro/include/tcmode-external-csl.inc |   59 +++++++++++++++++++++-
- meta/recipes-core/meta/external-csl-toolchain.bb |    5 ++
- 2 files changed, 63 insertions(+), 1 deletions(-)
+ meta/recipes-core/meta/external-csl-toolchain.bb |   43 ++++++++++++++++++----
+ 1 files changed, 35 insertions(+), 8 deletions(-)
 
-diff --git a/meta/conf/distro/include/tcmode-external-csl.inc b/meta/conf/distro/include/tcmode-external-csl.inc
-index 1d82ca1..0135590 100644
---- a/meta/conf/distro/include/tcmode-external-csl.inc
-+++ b/meta/conf/distro/include/tcmode-external-csl.inc
-@@ -4,7 +4,8 @@
- 
- EXTERNAL_TOOLCHAIN ?= "/usr/local/csl/${TARGET_ARCH}"
- 
--PATH =. "${EXTERNAL_TOOLCHAIN}/bin:"
-+TOOLCHAIN_PATH_ADD = "${EXTERNAL_TOOLCHAIN}/bin:"
-+PATH =. "${TOOLCHAIN_PATH_ADD}"
- 
- CSL_TARGET_SYS_powerpc = "powerpc-linux-gnu"
- CSL_TARGET_SYS_powerpc64 = "powerpc-linux-gnu"
-@@ -12,6 +13,8 @@ CSL_TARGET_SYS_arm = "arm-none-linux-gnueabi"
- CSL_TARGET_SYS_mips = "mips-linux-gnu"
- CSL_TARGET_SYS_mipsel = "mips-linux-gnu"
- CSL_TARGET_SYS_mips64 = "mips-linux-gnu"
-+CSL_TARGET_SYS_i686 = "i686-pc-linux-gnu"
-+CSL_TARGET_SYS_i586 = "i686-pc-linux-gnu"
- CSL_TARGET_SYS = "${TARGET_SYS}"
- 
- TARGET_PREFIX = "${CSL_TARGET_SYS}-"
-@@ -41,6 +44,8 @@ TOOLCHAIN_OPTIONS = " --sysroot=${STAGING_DIR_HOST}"
- def csl_target_core(d):
-     coredata = {
-         'armv7a-vfp-neon': 'armv7-a-neon',
-+        'i586': 'sgxx-glibc',
-+        'i686': 'sgxx-glibc',
-         'mips': 'mips32',
-         'mipsel': 'el',
-         'ppce500': 'te500v1',
-@@ -51,3 +56,55 @@ def csl_target_core(d):
-     return coredata.get(d.getVar('TUNE_PKGARCH', True), '')
- 
- CSL_TARGET_CORE = "${@csl_target_core(d)}"
-+
-+# Unfortunately, the CSL ia32 toolchain has non-prefixed binaries in its
-+# bindir (e.g. gcc, ld). To avoid this messing up our build, we avoid adding
-+# this bindir to our PATH, and instead add symlinks to the prefixed binaries
-+# to our staging toolchain bindir.
-+
-+python toolchain_metadata_setup () {
-+    if not isinstance(e, bb.event.ConfigParsed):
-+        return
-+
-+    d = e.data
-+
-+    if d.getVar('TUNE_PKGARCH', True) in ('i586', 'i686'):
-+        d.setVar('TOOLCHAIN_PATH_ADD', '')
-+}
-+addhandler toolchain_metadata_setup
-+
-+python toolchain_setup () {
-+    if not isinstance(e, bb.event.BuildStarted):
-+        return
-+
-+    d = e.data
-+
-+    if d.getVar('TUNE_PKGARCH', True) in ('i586', 'i686'):
-+        populate_toolchain_links(d)
-+}
-+addhandler toolchain_setup
-+
-+def populate_toolchain_links(d):
-+    import errno
-+    import os
-+    from glob import glob
-+
-+    d = d.createCopy()
-+    d.finalize()
-+
-+    pattern = bb.data.expand('${EXTERNAL_TOOLCHAIN}/bin/${TARGET_PREFIX}*', d)
-+    files = glob(pattern)
-+    if not files:
-+        bb.fatal("Unable to populate toolchain binary symlinks")
-+
-+    bindir = d.getVar('STAGING_BINDIR_TOOLCHAIN', True)
-+    bb.mkdirhier(bindir)
-+    for f in files:
-+        base = os.path.basename(f)
-+        newpath = os.path.join(bindir, base)
-+        try:
-+            os.symlink(f, newpath)
-+        except OSError as exc:
-+            if exc.errno == errno.EEXIST:
-+                break
-+            bb.fatal("Unable to populate toolchain binary symlink for %s: %s" % (newpath, exc))
 diff --git a/meta/recipes-core/meta/external-csl-toolchain.bb b/meta/recipes-core/meta/external-csl-toolchain.bb
-index 37ea271..a866e3e 100644
+index a866e3e..8cf73da 100644
 --- a/meta/recipes-core/meta/external-csl-toolchain.bb
 +++ b/meta/recipes-core/meta/external-csl-toolchain.bb
-@@ -60,6 +60,11 @@ external_toolchain_sysroot_adjust() {
-                rm -f ${SYSROOT_DESTDIR}/${CSL_TARGET_CORE}
-                ln -s . ${SYSROOT_DESTDIR}/${CSL_TARGET_CORE}
-        fi
+@@ -1,5 +1,4 @@
+-inherit libc-common
+-inherit libc-package
++require recipes-core/eglibc/eglibc-package.inc
+ 
+ INHIBIT_DEFAULT_DEPS = "1"
+ 
+@@ -8,7 +7,7 @@ LICENSE = "MIT"
+ LIC_FILES_CHKSUM = "file://${COREBASE}/LICENSE;md5=3f40d7994397109285ec7b81fdeb3b58 \
+                     file://${COREBASE}/meta/COPYING.MIT;md5=3da9cfbcb788c80a0384361b4de20420"
+ 
+-PROVIDES = "\
++PROVIDES += "\
+ 	linux-libc-headers \
+ 	virtual/${TARGET_PREFIX}gcc \
+ 	virtual/${TARGET_PREFIX}g++ \
+@@ -22,9 +21,8 @@ PROVIDES = "\
+ 	virtual/libiconv \
+ 	glibc-thread-db \
+ 	libgcc \
+-	virtual/linux-libc-headers "
+-RPROVIDES = "glibc-utils libsegfault glibc-thread-db"
+-PACKAGES_DYNAMIC = "glibc-gconv-*"
++	virtual/linux-libc-headers \
++"
+ PR = "r3"
+ 
+ #SRC_URI = "http://www.codesourcery.com/public/gnu_toolchain/${CSL_TARGET_SYS}/arm-${PV}-${TARGET_PREFIX}i686-pc-linux-gnu.tar.bz2"
+@@ -50,10 +48,25 @@ do_install() {
+ 		cp -a ${EXTERNAL_TOOLCHAIN}/${CSL_TARGET_SYS}/libc/usr/.  ${D}/usr/
+ 	fi
+ 
++	if [ -e ${D}${prefix}/info ]; then
++		mv ${D}${prefix}/info ${D}${infodir}
++	fi
++	if [ -e ${D}${prefix}/man ]; then
++		mv ${D}${prefix}/man ${D}${mandir}
++	fi
 +
-+       if [ "${TUNE_PKGARCH}" = "i586" ]; then
-+               rm -f ${SYSROOT_DESTDIR}/system32
-+               ln -s . ${SYSROOT_DESTDIR}/system32
-+       fi
++	rm ${D}${sysconfdir}/rpc
++	rm -r ${D}${datadir}/zoneinfo
++	rm -r ${D}${libdir}/bin
++
+ 	sed -i -e "s# /lib# ../../lib#g" -e "s# /usr/lib# .#g" ${D}${libdir}/libc.so
+ 	sed -i -e "s# /lib# ../../lib#g" -e "s# /usr/lib# .#g" ${D}${libdir}/libpthread.so
  }
  
- GLIBC_INTERNAL_USE_BINARY_LOCALE ?= "compile"
++do_install_locale_append () {
++	rm -r ${D}${datadir}/locale ${D}${libdir}/locale
++}
++
+ SYSROOT_PREPROCESS_FUNCS += "external_toolchain_sysroot_adjust"
+ external_toolchain_sysroot_adjust() {
+        if [ -n "${CSL_TARGET_CORE}" ]; then
+@@ -67,9 +80,23 @@ external_toolchain_sysroot_adjust() {
+        fi
+ }
+ 
+-GLIBC_INTERNAL_USE_BINARY_LOCALE ?= "compile"
++PACKAGES =+ "libgcc libgcc-dev libstdc++ libstdc++-dev linux-libc-headers linux-libc-headers-dev"
++
++INSANE_SKIP_libgcc = "1"
++INSANE_SKIP_libstdc++ = "1"
++INSANE_SKIP_gdbserver = "1"
++
++PKG_${PN} = "eglibc"
++PKG_${PN}-dev = "eglibc-dev"
++PKG_${PN}-doc = "eglibc-doc"
++PKG_${PN}-dbg = "eglibc-dbg"
++PKG_${PN}-pic = "eglibc-pic"
++PKG_${PN}-utils = "eglibc-utils"
++PKG_${PN}-gconv = "eglibc-gconv"
++PKG_${PN}-extra-nss = "eglibc-extra-nss"
++PKG_${PN}-thread-db = "eglibc-thread-db"
++PKG_${PN}-pcprofile = "eglibc-pcprofile"
+ 
+-PACKAGES += "libgcc libgcc-dev libstdc++ libstdc++-dev linux-libc-headers linux-libc-headers-dev"
+ FILES_libgcc = "${base_libdir}/libgcc_s.so.1"
+ FILES_libgcc-dev = "${base_libdir}/libgcc_s.so"
+ FILES_libstdc++ = "${libdir}/libstdc++.so.*"
 -- 
 1.7.8.rc4
 
