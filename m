@@ -1,31 +1,39 @@
-Received: from mail-lpp01m020-f175.google.com ([209.85.217.175])
-	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <schnitzeltony@googlemail.com>)
-	id 1RqlMH-0001W6-6u; Fri, 27 Jan 2012 13:56:50 +0100
-Received: by lbol12 with SMTP id l12so80541lbo.6
-	for <multiple recipients>; Fri, 27 Jan 2012 04:48:57 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=googlemail.com; s=gamma;
-	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
-	:cc:content-type:content-transfer-encoding;
-	bh=NUwlnro1NLNW7VUcqtuV3UJCPao9XrE+OLp7yP4HXII=;
-	b=PIYzq1aozo121WVYlvuURI9AtEIiwL4VYgTkUJHhJGOqqLzgJq0STLNtkzaxD+HSWu
-	9EhtA+DV7CxkROBS+vLP4nCuocLN2s/BL93mywfiBMa6Jq+5QaExdwiY+lWTXEUEry2Y
-	r77amaJmzPPjqWrs6AmJwGt6YRrm8rs8fNWFs=
-MIME-Version: 1.0
-Received: by 10.112.83.197 with SMTP id s5mr1781215lby.9.1327668536972; Fri,
-	27 Jan 2012 04:48:56 -0800 (PST)
-Received: by 10.112.102.165 with HTTP; Fri, 27 Jan 2012 04:48:56 -0800 (PST)
-In-Reply-To: <CALbNGRQ0+FDE7QisckBOCXBUspQiumZFLjPJYgRf87a1mqtHaw@mail.gmail.com>
-References: <CALbNGRS-WsE45UakTV5VE2T5bAxb1C2iWgPeN+Ys+OTx-i48Rw@mail.gmail.com>
-	<4F21FDA2.5070803@linux.intel.com>
-	<CALbNGRQ0+FDE7QisckBOCXBUspQiumZFLjPJYgRf87a1mqtHaw@mail.gmail.com>
-Date: Fri, 27 Jan 2012 13:48:56 +0100
-Message-ID: <CALbNGRTqHJYvSzbman=ZPQ4D=Cyu8oX0F4JdTA7hrH4oMW_wbA@mail.gmail.com>
-From: =?ISO-8859-1?Q?Andreas_M=FCller?= <schnitzeltony@googlemail.com>
-To: openembedded-devel@lists.openembedded.org
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [oe] evince: who is responsible to pack all within usr/lib/evince/3/backends to ${PN}?
+Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
+	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <richard.purdie@linuxfoundation.org>)
+	id 1Rqleg-0002kI-G6 for openembedded-core@lists.openembedded.org;
+	Fri, 27 Jan 2012 14:15:50 +0100
+Received: from localhost (localhost [127.0.0.1])
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q0RD82av008758
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 27 Jan 2012 13:08:02 GMT
+Received: from tim.rpsys.net ([127.0.0.1])
+	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
+	port 10024) with LMTP
+	id 08484-05 for <openembedded-core@lists.openembedded.org>;
+	Fri, 27 Jan 2012 13:07:58 +0000 (GMT)
+Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q0RD7q02008752
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO)
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 27 Jan 2012 13:07:54 GMT
+Message-ID: <1327669675.19643.454.camel@ted>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Date: Fri, 27 Jan 2012 13:07:55 +0000
+In-Reply-To: <1A3FDA4B-424A-4C09-8DC9-9663BBC92D92@dominion.thruhere.net>
+References: <1327597394-31990-1-git-send-email-koen@dominion.thruhere.net>
+	<1327611071.19643.405.camel@ted>
+	<E55A8B17-3534-482A-8A69-CFE94D14F04D@dominion.thruhere.net>
+	<1327621946.19643.425.camel@ted>
+	<D7538C0B-CAE0-4043-BCF3-50C18B18781E@dominion.thruhere.net>
+	<1327657835.19643.439.camel@ted>
+	<1A3FDA4B-424A-4C09-8DC9-9663BBC92D92@dominion.thruhere.net>
+X-Mailer: Evolution 3.2.2- 
+Mime-Version: 1.0
+X-Virus-Scanned: amavisd-new at rpsys.net
+Subject: Re: [PATCH] package bbclass: allow per package PRIVATE_LIBS
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -40,48 +48,94 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 27 Jan 2012 12:56:50 -0000
-Content-Type: text/plain; charset=ISO-8859-1
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Fri, 27 Jan 2012 13:15:50 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-On Fri, Jan 27, 2012 at 9:43 AM, Andreas M=FCller
-<schnitzeltony@googlemail.com> wrote:
-> On Fri, Jan 27, 2012 at 2:28 AM, Saul Wold <sgw@linux.intel.com> wrote:
->> On 01/26/2012 05:16 PM, Andreas M=FCller wrote:
->>>
->>> I checked: the complete contents of /usr/lib/evince/3/backends go to
->>> evince package and I would like to move *.a to ${PN}-staticdev and
->>> *.la to ${PN}-dev but I don't understand: who is responsible for
->>> adding all this to ${PN}?
->>>
->> bitbake.conf defines where most files should go, but when you get files =
-in
->> sub-directories, such as /usr/lib/evince/..., then the recipe needs to d=
-o a
->> little more work. If you look at the evince_2.32.0.bb, there already is =
-a
->> FILES_${PN}-staticdev that adds some extensions, you need to add this se=
-t of
->> backends to that list, probably same with the .la to the -dev package.
->>
-> Why I asked this: Maybe there is a chance to fix this more globally
-> instead of one by one in each recipe. But therefore I need to know
-> where the path is packed.
->
-I looked around for this a bit: As Saul pointed out, in bitbake.conf we hav=
-e
-FILES_${PN} =3D ... ${libdir}/${BPN}/* ...
+On Fri, 2012-01-27 at 12:55 +0100, Koen Kooi wrote:
+> Op 27 jan. 2012, om 10:50 heeft Richard Purdie het volgende geschreven:
+> 
+> > On Fri, 2012-01-27 at 10:45 +0100, Koen Kooi wrote:
+> >> Op 27 jan. 2012, om 00:52 heeft Richard Purdie het volgende geschreven:
+> >> 
+> >>> On Fri, 2012-01-27 at 00:17 +0100, Koen Kooi wrote:
+> >>>> Op 26 jan. 2012, om 21:51 heeft Richard Purdie het volgende geschreven:
+> >>>> 
+> >>>>> On Thu, 2012-01-26 at 18:03 +0100, Koen Kooi wrote:
+> >>>>>> If a recipe packages multiple versions of shlib (e.g. powervr drivers) we only want the shlib code to pickup $PN, not $PN-foo subpackages.
+> >>>>>> This keeps backward compatibility with the global PRIVATE_LIBS usage if no per package PRIVATE_LIBS are set for a given package. In other words: this doesn't break the firefox recipe.
+> >>>>>> 
+> >>>>>> Signed-off-by: Koen Kooi <koen@dominion.thruhere.net>
+> >>>>>> ---
+> >>>>>> meta/classes/package.bbclass |    5 ++++-
+> >>>>>> 1 files changed, 4 insertions(+), 1 deletions(-)
+> >>>>>> 
+> >>>>>> diff --git a/meta/classes/package.bbclass b/meta/classes/package.bbclass
+> >>>>>> index 45447e3..22a76cf 100644
+> >>>>>> --- a/meta/classes/package.bbclass
+> >>>>>> +++ b/meta/classes/package.bbclass
+> >>>>>> @@ -1246,7 +1246,8 @@ python package_do_shlibs() {
+> >>>>>> 				if not this_soname in sonames:
+> >>>>>> 					# if library is private (only used by package) then do not build shlib for it
+> >>>>>> 					if not private_libs or -1 == private_libs.find(this_soname):
+> >>>>>> -						sonames.append(this_soname)
+> >>>>>> +						if not private_libs_pkg or -1 == private_libs_pkg.find(this_soname):
+> >>>>>> +							sonames.append(this_soname)
+> >>>>>> 				if libdir_re.match(root):
+> >>>>>> 					needs_ldconfig = True
+> >>>>>> 				if snap_symlinks and (file != this_soname):
+> >>>>>> @@ -1328,6 +1329,8 @@ python package_do_shlibs() {
+> >>>>>> 	shlib_provider = {}
+> >>>>>> 	private_libs = d.getVar('PRIVATE_LIBS', True)
+> >>>>>> 	for pkg in packages.split():
+> >>>>>> +		if not private_libs:
+> >>>>>> +			private_libs_pkg = d.getVar('PRIVATE_LIBS_' + pkg, True)
+> >>>>> 
+> >>>>> You might as well just put:
+> >>>>> 
+> >>>>>                       private_libs = d.getVar('PRIVATE_LIBS_' + pkg, True)
+> >>>>> 
+> >>>>> and drop the first bit of the patch.
+> >>>> 
+> >>>> Wouldn't that kill backward compatibility?
+> >>> 
+> >>> No, since it would only take effect if the plain PRIVATE_LIBS was not
+> >>> set...
+> >> 
+> >> The problem with the 'private_libs' var is that it's global and this needs a pkg local variable.
+> > 
+> > I see your point. How about just doing:
+> > 
+> > 	private_libs = d.getVar('PRIVATE_LIBS_' + pkg, True) or d.getVar('PRIVATE_LIBS', True)
+> > 
+> > ?
+> 
+> That would still set the global variable when it encounters a
+> subpackage with PRIVATE_LIBS set. And that would mean it will come
+> down to carefully ordering PACKAGES and hoping the class iterates them
+> in the same order.
+> 
+> > The code just looks more complex in your patch than I think it needs
+> to be.
+> 
+> I agree but I couldn't figure out a way that keeps both the old global
+> syntax working and enables the per-package one to work as well. But I
+> must admit that I lack the most basic python skills :)
 
-This
-* drags in all below this directory ( e.g *.la / *.a )
-* Forces me to rewrite FILES_${PN} in evince ( e.g just adding
-${libdir}/${BPN}/*/backends/*.a to FILES_${PN}-staticdev fixes nothing
-). This is something I would like to avoid.
+I was meaning to do:
 
-Suggestions?
+        shlib_provider = {}
+-       private_libs = d.getVar('PRIVATE_LIBS', True)
+        for pkg in packages.split():
++               private_libs = d.getVar('PRIVATE_LIBS_' + pkg, True) or d.getVar('PRIVATE_LIBS', True)
+                needs_ldconfig = False
+                bb.debug(2, "calculating shlib provides for %s" % pkg)
 
-I guess others but evince are also affected.
+so private_libs is reset each time to the correct value.
 
-Andreas
+Cheers,
+
+Richard
+
 
 
