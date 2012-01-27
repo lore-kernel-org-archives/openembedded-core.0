@@ -1,36 +1,36 @@
 Received: from mail-gy0-f175.google.com ([209.85.160.175])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <kergoth@gmail.com>) id 1RqpUY-0005Wb-MB
+	(envelope-from <kergoth@gmail.com>) id 1RqpUa-0005Wb-5u
 	for openembedded-core@lists.openembedded.org;
-	Fri, 27 Jan 2012 18:21:38 +0100
+	Fri, 27 Jan 2012 18:21:40 +0100
 Received: by mail-gy0-f175.google.com with SMTP id g19so802214ghb.6
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 27 Jan 2012 09:13:51 -0800 (PST)
+	Fri, 27 Jan 2012 09:13:53 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
 	h=from:to:cc:subject:date:message-id:x-mailer:in-reply-to:references
 	:in-reply-to:references;
-	bh=kW4rRe8iaPbW6+49anKtC2gqrRVedKl1DYHMgTECiP4=;
-	b=rSUxvYm92l6ML1e8IohrFZnPCKwv/Gh5Wbh2COVovcZzt7XG5Q1ahvaraAkFsu44bt
-	AiZ6hvxBDTjE30QxKPhPYMYI0o/b1aHxSF2jnvjGJCl+SPytP7hAT1M8/kl50QblHIeg
-	W36NfhYf1rSjaI3ZO7fzeKPIpcxSXLwwjN5gg=
-Received: by 10.101.5.16 with SMTP id h16mr3577825ani.48.1327684431615;
-	Fri, 27 Jan 2012 09:13:51 -0800 (PST)
+	bh=0VVrQbU2KwwzZ7SHzNhjF4HXCiUvUFzpuGu7t/WRFvc=;
+	b=BZUyIJCrYi1PkDVRARBqouzi0wC3ezIjDiN/a+uifoSmGHbsofSCN5/j6CFXXuRSpE
+	1FED5ys9Wd1BpSrnO4rSFOX5h/llwp5VB6G2kuHZ2XV3F2BwNrvGn8u1YCG7uqVLSF8v
+	1qxn0CCK/jegHnJlxNrD5c9k1EnCavVe5tRQY=
+Received: by 10.236.116.193 with SMTP id g41mr2594714yhh.104.1327684433070;
+	Fri, 27 Jan 2012 09:13:53 -0800 (PST)
 Received: from sb-u1004lts-64bit.alm.mentorg.com (hsvwanfw1-nat.mentorg.com.
 	[139.181.24.34])
-	by mx.google.com with ESMTPS id f47sm14547996yhh.8.2012.01.27.09.13.50
+	by mx.google.com with ESMTPS id f47sm14547996yhh.8.2012.01.27.09.13.51
 	(version=TLSv1/SSLv3 cipher=OTHER);
-	Fri, 27 Jan 2012 09:13:51 -0800 (PST)
+	Fri, 27 Jan 2012 09:13:52 -0800 (PST)
 From: Christopher Larson <kergoth@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Fri, 27 Jan 2012 11:13:41 -0600
-Message-Id: <a36fa8d970d1a2eceb16774604e5b5b7aff0b2cb.1327684024.git.chris_larson@mentor.com>
+Date: Fri, 27 Jan 2012 11:13:42 -0600
+Message-Id: <44da5e7cfcbee2ba1d95b993e97d4ebb20b15317.1327684024.git.chris_larson@mentor.com>
 X-Mailer: git-send-email 1.7.8.rc4
 In-Reply-To: <cover.1327684024.git.chris_larson@mentor.com>
 References: <cover.1327684024.git.chris_larson@mentor.com>
 In-Reply-To: <cover.1327684024.git.chris_larson@mentor.com>
 References: <cover.1327684024.git.chris_larson@mentor.com>
 Cc: Christopher Larson <chris_larson@mentor.com>
-Subject: [PATCH 03/10] binutils: fixes for build with an external csl toolchain
+Subject: [PATCH 04/10] external-csl-toolchain: fix critical PATH manipulation bug
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -45,41 +45,28 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 27 Jan 2012 17:21:38 -0000
+X-List-Received-Date: Fri, 27 Jan 2012 17:21:41 -0000
 
 From: Christopher Larson <chris_larson@mentor.com>
 
 Signed-off-by: Christopher Larson <chris_larson@mentor.com>
 ---
- meta/recipes-devtools/binutils/binutils.inc |    5 +++--
- 1 files changed, 3 insertions(+), 2 deletions(-)
+ .../distro/include/tcmode-external-csl2008q3.inc   |    2 +-
+ 1 files changed, 1 insertions(+), 1 deletions(-)
 
-diff --git a/meta/recipes-devtools/binutils/binutils.inc b/meta/recipes-devtools/binutils/binutils.inc
-index 6130ab4..e343242 100644
---- a/meta/recipes-devtools/binutils/binutils.inc
-+++ b/meta/recipes-devtools/binutils/binutils.inc
-@@ -51,6 +51,7 @@ B = "${S}/build.${HOST_SYS}.${TARGET_SYS}"
- EXTRA_OECONF = "--program-prefix=${TARGET_PREFIX} \
-                 --enable-install-libbfd \
-                 --enable-shared \
-+                --disable-werror \
-                 ${@base_contains('DISTRO_FEATURES', 'multiarch', '--enable-64-bit-bfd', '', d)}"
+diff --git a/meta/conf/distro/include/tcmode-external-csl2008q3.inc b/meta/conf/distro/include/tcmode-external-csl2008q3.inc
+index 93615b9..1586365 100644
+--- a/meta/conf/distro/include/tcmode-external-csl2008q3.inc
++++ b/meta/conf/distro/include/tcmode-external-csl2008q3.inc
+@@ -6,7 +6,7 @@ TARGET_VENDOR = "-none"
  
- EXTRA_OECONF_virtclass-native = "--enable-target=all --enable-64-bit-bfd --enable-install-libbfd"
-@@ -113,11 +114,11 @@ do_install () {
- 	cd ${D}${bindir}
+ EXTERNAL_TOOLCHAIN = "/usr/local/csl/arm-2008q3"
  
- 	# Symlinks for ease of running these on the native target
--	for p in ${TARGET_SYS}-* ; do
-+	for p in ${TARGET_PREFIX}* ; do
- 		ln -sf $p `echo $p | sed -e s,${TARGET_PREFIX},,`
- 	done
+-PATH =. ":${EXTERNAL_TOOLCHAIN}/bin:"
++PATH =. "${EXTERNAL_TOOLCHAIN}/bin:"
  
--	rm ${D}${bindir}/ar ${D}${bindir}/strings
-+	rm -f ${D}${bindir}/ar ${D}${bindir}/strings
- 
- 	oe_multilib_header bfd.h
- }
+ PREFERRED_PROVIDER_linux-libc-headers = "external-csl-toolchain"
+ PREFERRED_PROVIDER_virtual/arm-none-linux-gnueabi-gcc = "external-csl-toolchain"
 -- 
 1.7.8.rc4
 
