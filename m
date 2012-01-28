@@ -1,37 +1,37 @@
-Received: from mail-pw0-f47.google.com ([209.85.160.47])
+Received: from mail-pz0-f47.google.com ([209.85.210.47])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <raj.khem@gmail.com>) id 1RrEtu-00059K-QX
+	(envelope-from <raj.khem@gmail.com>) id 1RrEwA-0005EI-4m
 	for openembedded-core@lists.openembedded.org;
-	Sat, 28 Jan 2012 21:29:31 +0100
-Received: by pbaa13 with SMTP id a13so2191724pba.6
+	Sat, 28 Jan 2012 21:31:50 +0100
+Received: by dakf10 with SMTP id f10so2005039dak.6
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 28 Jan 2012 12:21:39 -0800 (PST)
+	Sat, 28 Jan 2012 12:23:58 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
 	h=date:from:to:cc:subject:message-id:references:mime-version
 	:content-type:content-disposition:in-reply-to:user-agent;
-	bh=HCZ6kghxeQnmUX55Yh1cV7HfgrnM0L/febZQJgBPY8U=;
-	b=RsZElM2cw1OadYSuLJME7BJ5uO+VokZ6qLgTgj+5xfz/aCWtQ6CDYiNibz6aZBc0B+
-	smPhMQt0WPtTXlqIFpw2nnwMVvdM8ZlqgEDPDC3c7ehyMmuYSkBzesQUlRzILjTPys/R
-	w4niZjCngLyMvFs2XcmMUzZukWHqgtLRAcJ5M=
-Received: by 10.68.218.5 with SMTP id pc5mr25821226pbc.101.1327782099483;
-	Sat, 28 Jan 2012 12:21:39 -0800 (PST)
+	bh=ISqkgBYyS3VMKGYAZj7uDVb/mSQ+xRUW5zC0zt7EBxo=;
+	b=jr4dBoVX6eNc6NVjzU5gRmrDnc20xUmdElFw4gSMgGCEuB9e6BKng9jGUS9lLAfb84
+	04S8kOmnV9o87J/MCtX1dusIZrXzghfBDlOK25B+qN8W64DavYRWF7qSfPdF7LhcIxZ/
+	ol1GpCAEjFJJw8+XcXXzXV3/xrTQIhkyudFp4=
+Received: by 10.68.73.69 with SMTP id j5mr26619183pbv.11.1327782237059;
+	Sat, 28 Jan 2012 12:23:57 -0800 (PST)
 Received: from sakrah.homelinux.org
 	(99-57-141-118.lightspeed.sntcca.sbcglobal.net. [99.57.141.118])
-	by mx.google.com with ESMTPS id a5sm31627619pbh.15.2012.01.28.12.21.37
+	by mx.google.com with ESMTPS id j5sm31699843pbe.1.2012.01.28.12.23.55
 	(version=TLSv1/SSLv3 cipher=OTHER);
-	Sat, 28 Jan 2012 12:21:38 -0800 (PST)
-Date: Sat, 28 Jan 2012 12:21:32 -0800
+	Sat, 28 Jan 2012 12:23:56 -0800 (PST)
+Date: Sat, 28 Jan 2012 12:23:49 -0800
 From: Khem Raj <raj.khem@gmail.com>
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Message-ID: <20120128202132.GD22106@sakrah.homelinux.org>
+Message-ID: <20120128202349.GE22106@sakrah.homelinux.org>
 References: <cover.1327684024.git.chris_larson@mentor.com>
-	<50e4e429330f8b48ef84eda03deffe87fd6c01b1.1327684024.git.chris_larson@mentor.com>
+	<a36fa8d970d1a2eceb16774604e5b5b7aff0b2cb.1327684024.git.chris_larson@mentor.com>
 MIME-Version: 1.0
-In-Reply-To: <50e4e429330f8b48ef84eda03deffe87fd6c01b1.1327684024.git.chris_larson@mentor.com>
+In-Reply-To: <a36fa8d970d1a2eceb16774604e5b5b7aff0b2cb.1327684024.git.chris_larson@mentor.com>
 User-Agent: Mutt/1.5.20 (2009-06-14)
 Cc: Christopher Larson <chris_larson@mentor.com>
-Subject: Re: [PATCH 02/10] eglibc-package.inc: don't include debug files in -pic
+Subject: Re: [PATCH 03/10] binutils: fixes for build with an external csl toolchain
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -46,7 +46,7 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 28 Jan 2012 20:29:31 -0000
+X-List-Received-Date: Sat, 28 Jan 2012 20:31:50 -0000
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
@@ -55,25 +55,39 @@ On (27/01/12 11:13), Christopher Larson wrote:
 > 
 > Signed-off-by: Christopher Larson <chris_larson@mentor.com>
 > ---
->  meta/recipes-core/eglibc/eglibc-package.inc |    2 +-
->  1 files changed, 1 insertions(+), 1 deletions(-)
+>  meta/recipes-devtools/binutils/binutils.inc |    5 +++--
+>  1 files changed, 3 insertions(+), 2 deletions(-)
 > 
-> diff --git a/meta/recipes-core/eglibc/eglibc-package.inc b/meta/recipes-core/eglibc/eglibc-package.inc
-> index e5a9b9d..870b95d 100644
-> --- a/meta/recipes-core/eglibc/eglibc-package.inc
-> +++ b/meta/recipes-core/eglibc/eglibc-package.inc
-> @@ -42,7 +42,7 @@ FILES_libcidn${PKGSUFFIX} = "${base_libdir}/libcidn-*.so ${base_libdir}/libcidn.
->  FILES_libmemusage${PKGSUFFIX} = "${base_libdir}/libmemusage.so"
->  FILES_eglibc-extra-nss${PKGSUFFIX} = "${base_libdir}/libnss_*-*.so ${base_libdir}/libnss_*.so.*"
->  FILES_sln${PKGSUFFIX} = "/sbin/sln"
-> -FILES_${PN}-pic = "${libdir}/*_pic.a ${libdir}/*_pic.map ${libdir}/libc_pic/"
-> +FILES_${PN}-pic = "${libdir}/*_pic.a ${libdir}/*_pic.map ${libdir}/libc_pic/*.o"
+> diff --git a/meta/recipes-devtools/binutils/binutils.inc b/meta/recipes-devtools/binutils/binutils.inc
+> index 6130ab4..e343242 100644
+> --- a/meta/recipes-devtools/binutils/binutils.inc
+> +++ b/meta/recipes-devtools/binutils/binutils.inc
+> @@ -51,6 +51,7 @@ B = "${S}/build.${HOST_SYS}.${TARGET_SYS}"
+>  EXTRA_OECONF = "--program-prefix=${TARGET_PREFIX} \
+>                  --enable-install-libbfd \
+>                  --enable-shared \
+> +                --disable-werror \
 
-are there just .o in there which are left ? not *.os ?
+I specifically wanted to avoid this option but I guess we have to have
+it to support wide versions of gcc.
 
->  FILES_libsotruss${PKGSUFFIX} = "${libdir}/audit/sotruss-lib.so"
->  FILES_${PN}-dev_append += "${bindir}/rpcgen ${libdir}/*_nonshared.a \
->  	${base_libdir}/*_nonshared.a ${base_libdir}/*.o ${datadir}/aclocal"
+>                  ${@base_contains('DISTRO_FEATURES', 'multiarch', '--enable-64-bit-bfd', '', d)}"
+>  
+>  EXTRA_OECONF_virtclass-native = "--enable-target=all --enable-64-bit-bfd --enable-install-libbfd"
+> @@ -113,11 +114,11 @@ do_install () {
+>  	cd ${D}${bindir}
+>  
+>  	# Symlinks for ease of running these on the native target
+> -	for p in ${TARGET_SYS}-* ; do
+> +	for p in ${TARGET_PREFIX}* ; do
+>  		ln -sf $p `echo $p | sed -e s,${TARGET_PREFIX},,`
+>  	done
+>  
+> -	rm ${D}${bindir}/ar ${D}${bindir}/strings
+> +	rm -f ${D}${bindir}/ar ${D}${bindir}/strings
+>  
+>  	oe_multilib_header bfd.h
+>  }
 > -- 
 > 1.7.8.rc4
 > 
