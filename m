@@ -1,39 +1,36 @@
 Received: from mail-pw0-f47.google.com ([209.85.160.47])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <raj.khem@gmail.com>) id 1RrEkT-0004wj-Fj
+	(envelope-from <raj.khem@gmail.com>) id 1RrEqd-00053X-P0
 	for openembedded-core@lists.openembedded.org;
-	Sat, 28 Jan 2012 21:19:46 +0100
-Received: by pbaa13 with SMTP id a13so2188434pba.6
+	Sat, 28 Jan 2012 21:26:08 +0100
+Received: by pbaa13 with SMTP id a13so2190688pba.6
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 28 Jan 2012 12:11:54 -0800 (PST)
+	Sat, 28 Jan 2012 12:18:16 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
 	h=date:from:to:subject:message-id:references:mime-version
-	:content-type:content-disposition:in-reply-to:user-agent;
-	bh=hDj2lxNjoqpipQKiJo8ms+KelhMn0NgwjXzgdmH1lU0=;
-	b=T2lw/qh19SY1iWF+oE5lxub0OKIwuyprzp5Qf79tulcNq552Egl1YP4KR5hgPtH+QO
-	5SwQ9ZJSrtA0Ck9S5B2B0QLS4D+VIjPXLEznZ4UJEiq41UFt3bZFYFdWgoWV2fdzmglx
-	PC0vg6Gw50x1UXkJUc27bRgwrKUtq71ObFNLg=
-Received: by 10.68.225.71 with SMTP id ri7mr9543686pbc.129.1327781513369;
-	Sat, 28 Jan 2012 12:11:53 -0800 (PST)
+	:content-type:content-disposition:content-transfer-encoding
+	:in-reply-to:user-agent;
+	bh=kLv65Tnh+qCxQ+vKR1Jq6te63h/F00FpcENpx5D0+/w=;
+	b=KpUk3cQTQXdiDli55XZhGQnENFhkYJoM4YxlpFUROXKwH/vQdHqJRYLIjoIU73IbMP
+	dl0AUDE71ws3B1ySRgkZSjVriCqbNUOQiWNeMUfCjMZ6Lpxn6rz5h0c2dBcTxpule3YG
+	/lX++tO0LzMHY13iE5jLVgI0Mt3qR9VL5x2/I=
+Received: by 10.68.217.66 with SMTP id ow2mr12377036pbc.125.1327781896558;
+	Sat, 28 Jan 2012 12:18:16 -0800 (PST)
 Received: from sakrah.homelinux.org
 	(99-57-141-118.lightspeed.sntcca.sbcglobal.net. [99.57.141.118])
-	by mx.google.com with ESMTPS id i4sm31615993pbl.2.2012.01.28.12.11.50
+	by mx.google.com with ESMTPS id i1sm31603059pbt.19.2012.01.28.12.18.14
 	(version=TLSv1/SSLv3 cipher=OTHER);
-	Sat, 28 Jan 2012 12:11:51 -0800 (PST)
-Date: Sat, 28 Jan 2012 12:11:45 -0800
+	Sat, 28 Jan 2012 12:18:15 -0800 (PST)
+Date: Sat, 28 Jan 2012 12:18:09 -0800
 From: Khem Raj <raj.khem@gmail.com>
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Message-ID: <20120128201145.GB22106@sakrah.homelinux.org>
-References: <COL120-W51BE77DBA9D330FF475952DD880@phx.gbl>
-	<20120126003644.GA4973@sakrah.homelinux.org>
-	<COL120-W40F98EF50F803A1509B3AFDD890@phx.gbl>
-	<CAMKF1sotwjeYEqRot=aOiVMq4iGvOXfWcOocqFAXTFH=OTnozw@mail.gmail.com>
-	<COL120-W5491D70C591B2839B06CF3DD8E0@phx.gbl>
+Message-ID: <20120128201809.GC22106@sakrah.homelinux.org>
+References: <1327624433-27864-1-git-send-email-schnitzeltony@googlemail.com>
 MIME-Version: 1.0
-In-Reply-To: <COL120-W5491D70C591B2839B06CF3DD8E0@phx.gbl>
+In-Reply-To: <1327624433-27864-1-git-send-email-schnitzeltony@googlemail.com>
 User-Agent: Mutt/1.5.20 (2009-06-14)
-Subject: Re: Net::SSLeay perl extension OpenSSL
+Subject: Re: [PATCH] atk: add native support / disable introspection / merge atk.inc -> recipe
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -48,217 +45,91 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 28 Jan 2012 20:19:46 -0000
-Content-Type: text/plain; charset=us-ascii
+X-List-Received-Date: Sat, 28 Jan 2012 20:26:08 -0000
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
 
-On (27/01/12 08:41), simran singh wrote:
+On (27/01/12 01:33), Andreas Müller wrote:
+> Native support currently is appended in meta-oe. Native build failed with:
 > 
-> Hello Raj,
+> | /usr/share/gir-1.0/GLib-2.0.gir:9:1: error: Unsupported version '1.1'
+> | /usr/share/gir-1.0/GLib-2.0.gir:9:39: error: Unsupported version '1.1'
+> | error parsing file Atk-1.0.gir: Failed to parse included gir GLib-2.0
+> | make[3]: *** [Atk-1.0.typelib] Error 1
 > 
-> I am using open embedded provided through a company instead of downloading from the git repository. Is there a way 
-> to apply this patch manually without going through git?.
-> I tried 'bitbake patch filename' but that did not work.
-
-if you dont use git then just patch -p1 < <patchfilename> from
-openembedded-core directory should work.
-
-btw. learn about patch(man patch) it should really help you
-
-> Thanks a bunch for your help.
+> build tested in meta-oe / angstrom environment
 > 
-> Sim  
+> Signed-off-by: Andreas Müller <schnitzeltony@googlemail.com>
+> ---
+>  meta/recipes-support/atk/atk.inc      |   13 -------------
+>  meta/recipes-support/atk/atk_2.2.0.bb |   17 +++++++++++++----
+>  2 files changed, 13 insertions(+), 17 deletions(-)
+>  delete mode 100644 meta/recipes-support/atk/atk.inc
 > 
-> > From: raj.khem@gmail.com
-> > Date: Wed, 25 Jan 2012 17:49:48 -0800
-> > To: openembedded-core@lists.openembedded.org
-> > Subject: Re: [OE-core] Net::SSLeay perl extension OpenSSL
-> > 
-> > On Wed, Jan 25, 2012 at 4:50 PM, simran singh <kyoonn@hotmail.com> wrote:
-> > >
-> > > Hello Raj,
-> > >
-> > > Thanks for the reply.
-> > > I do not have the file named "libnet-ssleay-license". Where can I obtain
-> > > this?
-> > > If I try to build without that file, I get the same error about command.pm.
-> > 
-> > Did you apply the patch properly ?
-> > 
-> > save the patch and cd into openembedded-core
-> > and then git am <patchfile>
-> > >
-> > >
-> > > Date: Wed, 25 Jan 2012 16:36:44 -0800
-> > > From: raj.khem@gmail.com
-> > > To: openembedded-core@lists.openembedded.org
-> > > Subject: Re: [OE-core] Net::SSLeay perl extension OpenSSL
-> > >
-> > >
-> > > On (25/01/12 14:50), simran singh wrote:
-> > >>
-> > >> Hello,
-> > >>
-> > >> I am not sure if this is the right list.
-> > >>
-> > >> Trying to add Net::SSLeay perl module, I get the following error.
-> > >>
-> > >
-> > > Please try attached patch. I have not tested it
-> > >
-> > >
-> > >
-> > >>
-> > >>
-> > >>  NOTE: Running task 204 of 315 (ID: 11,
-> > >>
-> > >> /home/Simran/Freescale/QorIQ-DPAA-SDK-20111026-systembuilder/engage-blackcore-common/recipes/
-> > >>
-> > >> net-ssleay/net-ssleay_1.36.bb, do_compile)
-> > >>
-> > >> ERROR: TaskFailed event exception, aborting
-> > >>
-> > >> ERROR: Build of
-> > >>
-> > >> /home/Simran/Freescale/QorIQ-DPAA-SDK-20111026-systembuilder/engage-blackcore-common/recipes/net-ssleay/net-ssleay_1.36.bb
-> > >>
-> > >>  do_compile failed
-> > >>
-> > >> ERROR: Task 11
-> > >>
-> > >> (/home/Simran/Freescale/QorIQ-DPAA-SDK-20111026-systembuilder/engage-blackcore-common/recipes/net-ssleay/net-ssleay_1.36.bb,
-> > >>
-> > >>  do_compile) failed with 256
-> > >>
-> > >> ERROR:
-> > >>
-> > >> '/home/Simran/Freescale/QorIQ-DPAA-SDK-20111026-systembuilder/engage-blackcore-common/recipes/net-ssleay/net-ssleay_1.36.bb'
-> > >>  failed
-> > >>
-> > >> NOTE: package net-ssleay-1.36-r0: task do_compile: Started
-> > >>
-> > >> ERROR: Function do_compile failed
-> > >>
-> > >> NOTE: Task failed: ('function do_compile failed',
-> > >>
-> > >> '/home/Simran/Freescale/QorIQ-DPAA-SDK-20111026-systembuilder/build_p4080ds_release/work/
-> > >>
-> > >> ppce500mc-linux/net-ssleay-1.36-r0/temp/log.do_compile.22680')
-> > >>
-> > >> ERROR: Logfile of failure stored in:
-> > >>
-> > >> /home/Simran/Freescale/QorIQ-DPAA-SDK-20111026-systembuilder/build_p4080ds_release/work/ppce500mc-
-> > >>
-> > >> linux/net-ssleay-1.36-r0/temp/log.do_compile.22680
-> > >>
-> > >> Log data follows:
-> > >>
-> > >> | NOTE: make -j 2 -e MAKEFLAGS= PASTHRU_INC= -fexpensive-optimizations
-> > >> -frename-registers -fomit-frame-pointer -O2 -g0 CCFLAGS= -fexpensive
-> > >>
-> > >> -optimizations -frename-registers -fomit-frame-pointer -O2 -g0
-> > >> LD=powerpc-linux-gnu-gcc -mcpu=e500mc -maix-struct-return
-> > >> --sysroot=/home/Simran/
-> > >>
-> > >>
-> > >> Freescale/QorIQ-DPAA-SDK-20111026-systembuilder/build_p4080ds_release/sysroots/ppce500mc-linux
-> > >>
-> > >> | Can't locate ExtUtils/Command.pm in @INC (@INC contains: inc
-> > >>
-> > >> /home/jenkins/jenkins/jobs/qoriq-dpaa-iso-step1/workspace/sb-dev.git/build_p1023rds_release
-> > >>
-> > >> /sysroots/i686-linux/usr/lib/perl/5.10.1
-> > >>
-> > >> /home/jenkins/jenkins/jobs/qoriq-dpaa-iso-step1/workspace/sb-dev.git/build_p1023rds_release/sysroots/i686-linux/usr/lib
-> > >>
-> > >> /perl/5.10.1
-> > >>
-> > >> /home/jenkins/jenkins/jobs/qoriq-dpaa-iso-step1/workspace/sb-dev.git/build_p1023rds_release/sysroots/i686-linux/usr/lib/perl/5.10.1
-> > >>
-> > >>  /home/
-> > >>
-> > >>
-> > >> jenkins/jenkins/jobs/qoriq-dpaa-iso-step1/workspace/sb-dev.git/build_p1023rds_release/sysroots/i686-linux/usr/lib/perl
-> > >> .).
-> > >>
-> > >> | BEGIN failed--compilation aborted.
-> > >>
-> > >> | make: *** [blib/lib/Net/.exists] Error 2
-> > >>
-> > >> | make: *** Waiting for unfinished jobs....
-> > >>
-> > >> | Can't locate ExtUtils/Command.pm in @INC (@INC contains: inc
-> > >> /home/jenkins/jenkins/jobs/qoriq-dpaa-iso-step1/workspace/sb-dev.git/
-> > >>
-> > >> build_p1023rds_release/sysroots/i686-linux/usr/lib/perl/5.10.1
-> > >>
-> > >> /home/jenkins/jenkins/jobs/qoriq-dpaa-iso-step1/workspace/sb-dev.git/build_p1023rds_release
-> > >>
-> > >> /sysroots/i686-linux/usr/lib/perl/5.10.1
-> > >>
-> > >> /home/jenkins/jenkins/jobs/qoriq-dpaa-iso-step1/workspace/sb-dev.git/build_p1023rds_release/sysroots/i686-linux/usr
-> > >>
-> > >> /lib/perl/5.10.1
-> > >>
-> > >> /home/jenkins/jenkins/jobs/qoriq-dpaa-iso-step1/workspace/sb-dev.git/build_p1023rds_release/sysroots/i686-linux/usr/lib/perl
-> > >>  .).
-> > >>
-> > >> | BEGIN failed--compilation aborted.
-> > >>
-> > >> | make: *** [blib/arch/.exists] Error 2
-> > >>
-> > >> | FATAL: oe_runmake failed
-> > >>
-> > >> | ERROR: Function do_compile failed
-> > >>
-> > >> NOTE: package net-ssleay-1.36-r0: task do_compile: Failed
-> > >>
-> > >> ERROR: TaskFailed event exception, aborting
-> > >>
-> > >>
-> > >>
-> > >>
-> > >>
-> > >> I used the libnet-ssleay-perl_1.36.bb, I found in the oe-commit archive.
-> > >>
-> > >> Please advice and thanks.
-> > >>
-> > >>
-> > >>
-> > >> Sim Gill 		 	   		   		 	   		
-> > >
-> > >
-> > >> _______________________________________________
-> > >> Openembedded-core mailing list
-> > >> Openembedded-core@lists.openembedded.org
-> > >> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
-> > >
-> > >
-> > > --
-> > > -Khem
-> > >
-> > >
-> > > _______________________________________________ Openembedded-core mailing
-> > > list Openembedded-core@lists.openembedded.org
-> > > http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
-> > >
-> > > _______________________________________________
-> > > Openembedded-core mailing list
-> > > Openembedded-core@lists.openembedded.org
-> > > http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
-> > >
-> > 
-> > _______________________________________________
-> > Openembedded-core mailing list
-> > Openembedded-core@lists.openembedded.org
-> > http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
->  		 	   		  
+> diff --git a/meta/recipes-support/atk/atk.inc b/meta/recipes-support/atk/atk.inc
+> deleted file mode 100644
+> index 6a4fef6..0000000
+> --- a/meta/recipes-support/atk/atk.inc
+> +++ /dev/null
+> @@ -1,13 +0,0 @@
+> -DESCRIPTION = "An accessibility toolkit for GNOME."
+> -HOMEPAGE = "http://live.gnome.org/GAP/"
+> -BUGTRACKER = "https://bugzilla.gnome.org/"
+> -
+> -LICENSE = "LGPLv2 & LGPLv2+"
+> -
+> -SECTION = "x11/libs"
+> -
+> -DEPENDS = "glib-2.0 gtk-doc-native"
+> -
+> -inherit autotools pkgconfig
+> -
+> -EXTRA_OECONF = "--disable-glibtest"
+> diff --git a/meta/recipes-support/atk/atk_2.2.0.bb b/meta/recipes-support/atk/atk_2.2.0.bb
+> index 0d657b5..daa7931 100644
+> --- a/meta/recipes-support/atk/atk_2.2.0.bb
+> +++ b/meta/recipes-support/atk/atk_2.2.0.bb
+> @@ -1,14 +1,23 @@
+> -require atk.inc
+> +DESCRIPTION = "An accessibility toolkit for GNOME."
+> +HOMEPAGE = "http://live.gnome.org/GAP/"
+> +BUGTRACKER = "https://bugzilla.gnome.org/"
+> +SECTION = "x11/libs"
+>  
+> -PR = "r1"
+> +LICENSE = "LGPLv2 & LGPLv2+"
 
+there was no LGPLv2 only LGPLv2.1 so something like LGPLv2.1+ would be
+ok here
+
+>  LIC_FILES_CHKSUM = "file://COPYING;md5=3bf50002aefd002f49e7bb854063f7e7 \
+>                      file://atk/atkutil.c;endline=20;md5=db21b0bdbef9da4dc6eb122debc9f9bc \
+>                      file://atk/atk.h;endline=20;md5=c58238d688c24387376d6c69d06248a7"
+> +PR = "r2"
+>  
+> -SRC_URI = "http://download.gnome.org/sources/atk/2.2/${BPN}-${PV}.tar.bz2"
+> +DEPENDS = "glib-2.0 gtk-doc-native"
+> +
+> +inherit autotools pkgconfig
+>  
+> +SRC_URI = "http://download.gnome.org/sources/atk/2.2/${BPN}-${PV}.tar.bz2"
+>  SRC_URI[md5sum] = "4894e9b04f0a9f1c37a624a1e8d6d73f"
+>  SRC_URI[sha256sum] = "d201e3f5808aef0b1aec2277bfa61074f68863e405428adb57a73aab5c838450"
+>  
+> +BBCLASSEXTEND = "native"
+>  
+> -
+> +EXTRA_OECONF = "--disable-glibtest \
+> +                --disable-introspection"
+> -- 
+> 1.7.4.4
+> 
+> 
 > _______________________________________________
 > Openembedded-core mailing list
 > Openembedded-core@lists.openembedded.org
 > http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
-
 
 -- 
 -Khem
