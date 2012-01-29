@@ -1,27 +1,28 @@
-Received: from smtprelay-b22.telenor.se ([195.54.99.213])
+Received: from mail-we0-f175.google.com ([74.125.82.175])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <ulf@emagii.com>) id 1RrWFt-0003au-4i
+	(envelope-from <koen@dominion.thruhere.net>) id 1RrWv3-0004O5-7y
 	for openembedded-core@lists.openembedded.org;
-	Sun, 29 Jan 2012 16:01:21 +0100
-Received: from ipb4.telenor.se (ipb4.telenor.se [195.54.127.167])
-	by smtprelay-b22.telenor.se (Postfix) with ESMTP id 715EEEB8B6
+	Sun, 29 Jan 2012 16:43:53 +0100
+Received: by werc1 with SMTP id c1so2749178wer.6
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 29 Jan 2012 15:26:25 +0100 (CET)
-X-SENDER-IP: [83.227.57.213]
-X-LISTENER: [smtp.bredband.net]
-X-IronPort-Anti-Spam-Filtered: true
-X-IronPort-Anti-Spam-Result: Aj1KALdVJU9T4znVPGdsb2JhbABErlYZAQEBATcygk8jT0sKLQmHdrdTiGYDBAsBCAEFCQYDAQICEAEIgyQFgTODHASVGoksgVyHSg
-X-IronPort-AV: E=Sophos;i="4.71,588,1320620400"; d="scan'208";a="1800144395"
-Received: from c-d539e353.011-39-73746f12.cust.bredbandsbolaget.se (HELO
-	hexagon.emagii.com) ([83.227.57.213])
-	by ipb4.telenor.se with ESMTP; 29 Jan 2012 15:26:25 +0100
-From: Ulf Samuelsson <ulf@emagii.com>
-To: openembedded-core@lists.openembedded.org
-Date: Sun, 29 Jan 2012 15:26:20 +0100
-Message-Id: <1327847180-25415-1-git-send-email-ulf@emagii.com>
-X-Mailer: git-send-email 1.7.5.4
-Cc: Ulf Samuelsson <ulf@emagii.com>
-Subject: [PATCH] mirrors.bbclass: Add new KERNELORG_MIRROR = ftp.sunet.se
+	Sun, 29 Jan 2012 07:36:01 -0800 (PST)
+Received: by 10.216.139.204 with SMTP id c54mr5749947wej.13.1327851361556;
+	Sun, 29 Jan 2012 07:36:01 -0800 (PST)
+Received: from [172.20.1.36] (ip545070eb.adsl-surfen.hetnet.nl.
+	[84.80.112.235])
+	by mx.google.com with ESMTPS id t15sm24350467wiv.6.2012.01.29.07.36.00
+	(version=TLSv1/SSLv3 cipher=OTHER);
+	Sun, 29 Jan 2012 07:36:00 -0800 (PST)
+Mime-Version: 1.0 (Apple Message framework v1251.1)
+From: Koen Kooi <koen@dominion.thruhere.net>
+In-Reply-To: <1327847180-25415-1-git-send-email-ulf@emagii.com>
+Date: Sun, 29 Jan 2012 16:35:56 +0100
+Message-Id: <59F89C99-2B25-4679-A565-B108ACAF1BFC@dominion.thruhere.net>
+References: <1327847180-25415-1-git-send-email-ulf@emagii.com>
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+X-Mailer: Apple Mail (2.1251.1)
+Subject: Re: [PATCH] mirrors.bbclass: Add new KERNELORG_MIRROR = ftp.sunet.se
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -36,32 +37,17 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 29 Jan 2012 15:01:21 -0000
+X-List-Received-Date: Sun, 29 Jan 2012 15:43:53 -0000
+Content-Type: text/plain; charset=us-ascii
+Content-Transfer-Encoding: quoted-printable
 
-www.kernel.org is missing a lot of files.
-Add the "ftp.sunet.se" mirror containing many missing files.
-The other mirrors in mirrors.bbclass seems to be inactive
-so this mirror is added before the inactive mirrors
 
-Signed-off-by: Ulf Samuelsson <ulf@emagii.com>
----
- meta/classes/mirrors.bbclass |    1 +
- 1 files changed, 1 insertions(+), 0 deletions(-)
+Op 29 jan. 2012, om 15:26 heeft Ulf Samuelsson het volgende geschreven:
 
-diff --git a/meta/classes/mirrors.bbclass b/meta/classes/mirrors.bbclass
-index 2146087..1124967 100644
---- a/meta/classes/mirrors.bbclass
-+++ b/meta/classes/mirrors.bbclass
-@@ -23,6 +23,7 @@ ${GNU_MIRROR}	ftp://ftp.cs.ubc.ca/mirror2/gnu \n \
- ${GNU_MIRROR}	ftp://sunsite.ust.hk/pub/gnu \n \
- ${GNU_MIRROR}	ftp://ftp.ayamura.org/pub/gnu \n \
- ${KERNELORG_MIRROR}	http://www.kernel.org/pub \n \
-+${KERNELORG_MIRROR}	ftp://ftp.sunet.se/pub/Linux/kernel.org \n \
- ${KERNELORG_MIRROR}	ftp://ftp.us.kernel.org/pub \n \
- ${KERNELORG_MIRROR}	ftp://ftp.uk.kernel.org/pub \n \
- ${KERNELORG_MIRROR}	ftp://ftp.hk.kernel.org/pub \n \
--- 
-1.7.5.4
+> www.kernel.org is missing a lot of files.
+> Add the "ftp.sunet.se" mirror containing many missing files.
 
+Since the files on kernel.org were removed because they might be =
+compromised, why do we add a mirror that has kept the compromised files?=
 
 
