@@ -1,35 +1,34 @@
-Received: from mail-ee0-f47.google.com ([74.125.83.47])
+Received: from mail-lpp01m010-f47.google.com ([209.85.215.47])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <schnitzeltony@googlemail.com>) id 1RrIHz-0001SH-TK
+	(envelope-from <schnitzeltony@googlemail.com>) id 1RrIRS-0001fn-0d
 	for openembedded-core@lists.openembedded.org;
-	Sun, 29 Jan 2012 01:06:35 +0100
-Received: by eekd41 with SMTP id d41so818811eek.6
+	Sun, 29 Jan 2012 01:16:23 +0100
+Received: by lahc1 with SMTP id c1so1551160lah.6
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 28 Jan 2012 15:58:45 -0800 (PST)
+	Sat, 28 Jan 2012 16:08:31 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=googlemail.com; s=gamma;
-	h=from:to:subject:date:message-id:x-mailer:in-reply-to:references
-	:mime-version:content-type:content-transfer-encoding;
-	bh=ZOJDlsAQth8v1zyZB6YFPBPbPoNK/8VIREt1yMW4T1k=;
-	b=pSgHX5SBCgpDZRm95ZXL7/G46lEjSo4vQzI0suaemX8JZHzGFyqBfvUG7twagBn6cM
-	F5UYLWp/1SA2JHCynt4oQtzMrxQAVRlK5c/l6+diBWNtaL8jFOz14xV62d61EyaGh+Jt
-	wbipUFUT6iqlMKVmDWjAZhQlopQV9MTt1kHmI=
-Received: by 10.213.27.84 with SMTP id h20mr1274311ebc.43.1327795125451;
-	Sat, 28 Jan 2012 15:58:45 -0800 (PST)
-Received: from localhost.localdomain (p4FDF1D8B.dip.t-dialin.net.
-	[79.223.29.139])
-	by mx.google.com with ESMTPS id c16sm50597043eei.1.2012.01.28.15.58.44
-	(version=TLSv1/SSLv3 cipher=OTHER);
-	Sat, 28 Jan 2012 15:58:44 -0800 (PST)
-From: =?UTF-8?q?Andreas=20M=C3=BCller?= <schnitzeltony@googlemail.com>
-To: openembedded-core@lists.openembedded.org
-Date: Sun, 29 Jan 2012 01:00:53 +0100
-Message-Id: <1327795253-24794-2-git-send-email-schnitzeltony@googlemail.com>
-X-Mailer: git-send-email 1.7.4.4
-In-Reply-To: <1327795253-24794-1-git-send-email-schnitzeltony@googlemail.com>
-References: <1327795253-24794-1-git-send-email-schnitzeltony@googlemail.com>
+	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
+	:content-type:content-transfer-encoding;
+	bh=YxP/wzTVU8R3yjIS17LYRFX+kzCsI0mHp3+6X8YtfhA=;
+	b=L5sgmjj83ijtrvIEKV35/HnbN/3ID2sQ3TMJgOaV8VK3mEwEb0WqypP+jtwpDrPGAJ
+	hZDTb73y+X+ReIkIU07d2DiYTM639Fj0cJgHA/0CRrtY9tiHweYLIm8eNlW1tbl1oO4+
+	vFSEjVBDIDB2LuQf3dtqaegsdAxqCvqE4Vqy0=
 MIME-Version: 1.0
-Subject: [PATCH v2 1/1] atk: add native / disable introspection / merge atk.inc->recipe / change license
+Received: by 10.112.27.165 with SMTP id u5mr1572003lbg.48.1327795711162; Sat,
+	28 Jan 2012 16:08:31 -0800 (PST)
+Received: by 10.112.102.165 with HTTP; Sat, 28 Jan 2012 16:08:31 -0800 (PST)
+In-Reply-To: <CALbNGRRdC_Au4174RUZvr20hB1+PTqNuOmkHpoykEOtwbF-8ww@mail.gmail.com>
+References: <CALbNGRS-WsE45UakTV5VE2T5bAxb1C2iWgPeN+Ys+OTx-i48Rw@mail.gmail.com>
+	<CALbNGRR8cJJfDcHm1hX8cRf7JOKwkoU-sySx1mYujMgXJYHBdA@mail.gmail.com>
+	<CALbNGRQza2-LE2bH2Z51nC9jVsNk6Vind3JqOfk1vU7z3+x13g@mail.gmail.com>
+	<7463040.mHMHaff4Os@helios>
+	<CALbNGRRdC_Au4174RUZvr20hB1+PTqNuOmkHpoykEOtwbF-8ww@mail.gmail.com>
+Date: Sun, 29 Jan 2012 01:08:31 +0100
+Message-ID: <CALbNGRT4=F0cbdJ4oO1HmuhXnfmmmoBG1mWqziyDLM+vb-BKiw@mail.gmail.com>
+From: =?ISO-8859-1?Q?Andreas_M=FCller?= <schnitzeltony@googlemail.com>
+To: openembedded-core@lists.openembedded.org
+Subject: Re: [oe] evince: who is responsible to pack all within usr/lib/evince/3/backends to ${PN}?
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -44,79 +43,47 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 29 Jan 2012 00:06:36 -0000
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Sun, 29 Jan 2012 00:16:23 -0000
+Content-Type: text/plain; charset=ISO-8859-1
+Content-Transfer-Encoding: quoted-printable
 
-Native support currently is appended in meta-oe. Native build failed with:
+On Sat, Jan 28, 2012 at 11:46 PM, Andreas M=FCller
+<schnitzeltony@googlemail.com> wrote:
+> On Sat, Jan 28, 2012 at 4:03 PM, Paul Eggleton
+> <paul.eggleton@linux.intel.com> wrote:
+>> On Saturday 28 January 2012 00:29:28 Andreas M=FCller wrote:
+>>> Have modified bitbake.conf here to
+>>>
+>>> PACKAGES =3D "${PN}-dbg ${PN}-dev ${PN}-staticdev ${PN} ${PN}-doc
+>>> ${PN}-locale"
+>>>
+>>> now I get the expected behavior.
+>>>
+>>> Will start a build from scratch for the night to see if there is some
+>>> fallout..
+>>
+>> We would need to be extremely careful before changing the default value =
+of
+>> PACKAGES. I would strongly suggest you enable buildhistory when you do t=
+his so
+>> you can spot any changes easily, particularly in package content.
+>>
+> I am afraid you are so right: First build fallout is db. It shows that
+> the current implementation
+>
+> SOLIBS =3D ".so.*"
+> SOLIBSDEV =3D ".so"
+>
+> fails at least here. The main shared lib is found in -dev!
+>
+> Uhhh cold in here...
+>
+How about splitting bitbake.conf changes:
+1. Now: move ${PN}-staticdev before ${PN}. This should not have the
+dramatic impact and makes it easier to fix new QA warnings.
+2. (Much) later ${PN}-dev before ${PN}. This has huge impact and needs
+massive testing
 
-| /usr/share/gir-1.0/GLib-2.0.gir:9:1: error: Unsupported version '1.1'
-| /usr/share/gir-1.0/GLib-2.0.gir:9:39: error: Unsupported version '1.1'
-| error parsing file Atk-1.0.gir: Failed to parse included gir GLib-2.0
-| make[3]: *** [Atk-1.0.typelib] Error 1
-
-build tested in meta-oe / angstrom environment
-
-Signed-off-by: Andreas Müller <schnitzeltony@googlemail.com>
----
- meta/recipes-support/atk/atk.inc      |   13 -------------
- meta/recipes-support/atk/atk_2.2.0.bb |   17 +++++++++++++----
- 2 files changed, 13 insertions(+), 17 deletions(-)
- delete mode 100644 meta/recipes-support/atk/atk.inc
-
-diff --git a/meta/recipes-support/atk/atk.inc b/meta/recipes-support/atk/atk.inc
-deleted file mode 100644
-index 6a4fef6..0000000
---- a/meta/recipes-support/atk/atk.inc
-+++ /dev/null
-@@ -1,13 +0,0 @@
--DESCRIPTION = "An accessibility toolkit for GNOME."
--HOMEPAGE = "http://live.gnome.org/GAP/"
--BUGTRACKER = "https://bugzilla.gnome.org/"
--
--LICENSE = "LGPLv2 & LGPLv2+"
--
--SECTION = "x11/libs"
--
--DEPENDS = "glib-2.0 gtk-doc-native"
--
--inherit autotools pkgconfig
--
--EXTRA_OECONF = "--disable-glibtest"
-diff --git a/meta/recipes-support/atk/atk_2.2.0.bb b/meta/recipes-support/atk/atk_2.2.0.bb
-index 0d657b5..74e7288 100644
---- a/meta/recipes-support/atk/atk_2.2.0.bb
-+++ b/meta/recipes-support/atk/atk_2.2.0.bb
-@@ -1,14 +1,23 @@
--require atk.inc
-+DESCRIPTION = "An accessibility toolkit for GNOME."
-+HOMEPAGE = "http://live.gnome.org/GAP/"
-+BUGTRACKER = "https://bugzilla.gnome.org/"
-+SECTION = "x11/libs"
- 
--PR = "r1"
-+LICENSE = "GPLv2+ & LGPLv2+"
- LIC_FILES_CHKSUM = "file://COPYING;md5=3bf50002aefd002f49e7bb854063f7e7 \
-                     file://atk/atkutil.c;endline=20;md5=db21b0bdbef9da4dc6eb122debc9f9bc \
-                     file://atk/atk.h;endline=20;md5=c58238d688c24387376d6c69d06248a7"
-+PR = "r2"
- 
--SRC_URI = "http://download.gnome.org/sources/atk/2.2/${BPN}-${PV}.tar.bz2"
-+DEPENDS = "glib-2.0 gtk-doc-native"
-+
-+inherit autotools pkgconfig
- 
-+SRC_URI = "http://download.gnome.org/sources/atk/2.2/${BPN}-${PV}.tar.bz2"
- SRC_URI[md5sum] = "4894e9b04f0a9f1c37a624a1e8d6d73f"
- SRC_URI[sha256sum] = "d201e3f5808aef0b1aec2277bfa61074f68863e405428adb57a73aab5c838450"
- 
-+BBCLASSEXTEND = "native"
- 
--
-+EXTRA_OECONF = "--disable-glibtest \
-+                --disable-introspection"
--- 
-1.7.4.4
-
+Andreas
 
 
