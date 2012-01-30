@@ -1,20 +1,24 @@
 Received: from mail.windriver.com ([147.11.1.11])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <bruce.ashfield@windriver.com>) id 1RrxYI-00017H-UQ
+	(envelope-from <bruce.ashfield@windriver.com>) id 1RrxYJ-00017J-B4
 	for openembedded-core@lists.openembedded.org;
-	Mon, 30 Jan 2012 21:10:11 +0100
+	Mon, 30 Jan 2012 21:10:13 +0100
 Received: from yow-bashfiel-l1.corp.ad.wrs.com
 	(yow-bashfiel-d3.ottawa.windriver.com [128.224.147.67])
-	by mail.windriver.com (8.14.3/8.14.3) with ESMTP id q0UK2DFt017744;
-	Mon, 30 Jan 2012 12:02:13 -0800 (PST)
+	by mail.windriver.com (8.14.3/8.14.3) with ESMTP id q0UK2DFu017744;
+	Mon, 30 Jan 2012 12:02:14 -0800 (PST)
 From: Bruce Ashfield <bruce.ashfield@windriver.com>
 To: richard.purdie@linuxfoundation.org
-Date: Mon, 30 Jan 2012 15:02:09 -0500
-Message-Id: <cover.1327952323.git.bruce.ashfield@windriver.com>
+Date: Mon, 30 Jan 2012 15:02:10 -0500
+Message-Id: <254adfc706aa9853847ea75a920d6afe1b55b46b.1327952323.git.bruce.ashfield@windriver.com>
 X-Mailer: git-send-email 1.7.4.1
+In-Reply-To: <cover.1327952323.git.bruce.ashfield@windriver.com>
+References: <cover.1327952323.git.bruce.ashfield@windriver.com>
+In-Reply-To: <cover.1327952323.git.bruce.ashfield@windriver.com>
+References: <cover.1327952323.git.bruce.ashfield@windriver.com>
 Cc: dvhart@linux.intel.com, openembedded-core@lists.openembedded.org,
 	saul.wold@intel.com
-Subject: [PATCH 0/3] linux-yocto: 3.2.2 and 3.0.18 updates
+Subject: [PATCH 1/3] kern-tools: import config audit and branch manipulation updates
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -29,52 +33,36 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 30 Jan 2012 20:10:12 -0000
+X-List-Received-Date: Mon, 30 Jan 2012 20:10:13 -0000
 
-Richard/Saul,
+Updating the kern-tools SRCREV to import the following changes:
 
-Two kernel updates in this pull request. The bigger change is the
-introduction/release of the 3.2 kernel repository. I've had this 
-under test in one form or another for nearly two months now. It 
-no only brings in a new kernel, but introduces some branching changes
-and audited kernel configuration fragments. This needs head to the
-servers now to allow add-on work to be completed.
+ a7a9930 kgit-meta/scc: allow multi-line defines
+ e3442c6 kern-tools: add required and optional kernel configuration processing
+ b56b67b configme: extract redefinition and mismatch information
+ 6118eaf kern-tools: remove branchname assumptions
 
-I've built and booted sato on all the emulated targets for the 3.2
-kernel.
+These are required to support the kernel configuration policy changes
+implemented in the yocto 3.2 kernel repository.
 
-There is an associated set of kern-tools changes to support the 
-branching in the 3.2 kernel repository, and the changes are fully
-compatible with the existing 3.0 tree.
-
-The second update is a refresh of the 3.0 tree to pickup 3.0.18, and
-to merge a set of pending features to that tree. The commit itself
-tells the story.
-
-I've built and booted this for all the emulated targets as well.
-
-The following changes since commit b719d7e10bdb5bb4fc9ef70256eb93f925fbda4b:
-
-  useradd: Ensure dependencies are only added for target recipes, not native or nativesdk (2012-01-27 16:59:56 +0000)
-
-are available in the git repository at:
-  git://git.pokylinux.org/poky-contrib zedd/kernel-oe
-  http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=zedd/kernel-oe
-
-Bruce Ashfield (3):
-  kern-tools: import config audit and branch manipulation updates
-  linux-yocto: add kernel 3.2.2 support
-  linux-yocto: update to v3.0.18 + features
-
+Signed-off-by: Bruce Ashfield <bruce.ashfield@windriver.com>
+---
  .../kern-tools/kern-tools-native_git.bb            |    2 +-
- meta/recipes-kernel/linux/linux-yocto-rt_3.0.bb    |    8 ++--
- meta/recipes-kernel/linux/linux-yocto-rt_3.2.bb    |   37 ++++++++++++++++++
- meta/recipes-kernel/linux/linux-yocto_3.0.bb       |   19 ++++-----
- meta/recipes-kernel/linux/linux-yocto_3.2.bb       |   41 ++++++++++++++++++++
- 5 files changed, 92 insertions(+), 15 deletions(-)
- create mode 100644 meta/recipes-kernel/linux/linux-yocto-rt_3.2.bb
- create mode 100644 meta/recipes-kernel/linux/linux-yocto_3.2.bb
+ 1 files changed, 1 insertions(+), 1 deletions(-)
 
+diff --git a/meta/recipes-kernel/kern-tools/kern-tools-native_git.bb b/meta/recipes-kernel/kern-tools/kern-tools-native_git.bb
+index 2711465..1eced23 100644
+--- a/meta/recipes-kernel/kern-tools/kern-tools-native_git.bb
++++ b/meta/recipes-kernel/kern-tools/kern-tools-native_git.bb
+@@ -4,7 +4,7 @@ LIC_FILES_CHKSUM = "file://git/tools/kgit;beginline=5;endline=9;md5=e2bf4415f3d8
+ 
+ DEPENDS = "git-native guilt-native"
+ 
+-SRCREV = "52d929b5435d32097bce22b3f3662440f73a33b5"
++SRCREV = "a7a9930d2b1f1954fbd817810b706e2e3c42e8de"
+ PR = r12
+ PV = "0.1+git${SRCPV}"
+ 
 -- 
 1.7.4.1
 
