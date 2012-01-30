@@ -1,24 +1,28 @@
-Received: from mail-pw0-f47.google.com ([209.85.160.47])
+Received: from mga03.intel.com ([143.182.124.21])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <steve@sakoman.com>) id 1Rrtoh-0008T9-9q
+	(envelope-from <sgw@linux.intel.com>) id 1Rrtq5-0008WC-HF
 	for openembedded-core@lists.openembedded.org;
-	Mon, 30 Jan 2012 17:10:51 +0100
-Received: by pbaa13 with SMTP id a13so3243648pba.6
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 30 Jan 2012 08:02:57 -0800 (PST)
-Received: by 10.68.116.144 with SMTP id jw16mr43020103pbb.28.1327939377442;
-	Mon, 30 Jan 2012 08:02:57 -0800 (PST)
-Received: from quadra.sakoman.net
-	(static-74-41-60-154.dsl1.pco.ca.frontiernet.net. [74.41.60.154])
-	by mx.google.com with ESMTPS id x8sm48079461pbr.11.2012.01.30.08.02.54
-	(version=SSLv3 cipher=OTHER); Mon, 30 Jan 2012 08:02:56 -0800 (PST)
-From: Steve Sakoman <steve@sakoman.com>
-To: openembedded-core@lists.openembedded.org
-Date: Mon, 30 Jan 2012 08:02:19 -0800
-Message-Id: <1327939339-14971-1-git-send-email-steve@sakoman.com>
-X-Mailer: git-send-email 1.7.1
-Cc: Steve Sakoman <steve@sakoman.com>
-Subject: [PATCH 4/4 v2] zypper: add missing runtime dependences on gzip and gnupg
+	Mon, 30 Jan 2012 17:12:17 +0100
+Received: from azsmga001.ch.intel.com ([10.2.17.19])
+	by azsmga101.ch.intel.com with ESMTP; 30 Jan 2012 08:04:23 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="101158136"
+Received: from unknown (HELO [10.255.14.96]) ([10.255.14.96])
+	by azsmga001.ch.intel.com with ESMTP; 30 Jan 2012 08:04:22 -0800
+Message-ID: <4F26BF86.5060507@linux.intel.com>
+Date: Mon, 30 Jan 2012 08:04:22 -0800
+From: Saul Wold <sgw@linux.intel.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:9.0) Gecko/20111222 Thunderbird/9.0
+MIME-Version: 1.0
+To: Michael Halstead <michael@yoctoproject.org>
+References: <4F21DABC.3000007@linux.intel.com>
+	<CAMKF1soeiB-6BKY8radeAh4GMAq2-r90uPGAR_k_jyThFWNzcA@mail.gmail.com>
+	<4F243CD8.5090301@yoctoproject.org>
+In-Reply-To: <4F243CD8.5090301@yoctoproject.org>
+Cc: yocto@yoctoproject.org, Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [yocto] opkg-utils to move to git.yoctoproject.org
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -33,43 +37,35 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 30 Jan 2012 16:10:52 -0000
+X-List-Received-Date: Mon, 30 Jan 2012 16:12:17 -0000
+Content-Type: text/plain; charset=ISO-8859-1; format=flowed
+Content-Transfer-Encoding: 7bit
 
-gzip is required to uncompress repository files
-gnupg is required for the support of signed repositories.
+On 01/28/2012 10:22 AM, Michael Halstead wrote:
+> On 01/28/2012 10:13 AM, Khem Raj wrote:
+>> On Thu, Jan 26, 2012 at 2:59 PM, Saul Wold<sgw@linux.intel.com>  wrote:
+>>> We will make this change next week barring any major objections.
+>> its a good idea infact. will you do svn2git conversion as well. ?
+> I converted from svn to git when taking the copy. If we make this change
+> we will definitely provide the git converted copy.
+>
+Michael,
 
-Signed-off-by: Steve Sakoman <steve@sakoman.com>
----
-This version incorporates feedback from Koen Kooi
- - adds runtime dependencies to existing RDEPENDS_${PN}
- 
- meta/recipes-extended/zypper/zypper_git.bb |    4 ++--
- 1 files changed, 2 insertions(+), 2 deletions(-)
+Please go ahead and complete the conversion and make the GIT repo 
+available under the "Misc" heading on git.yoctoproject.org
 
-diff --git a/meta/recipes-extended/zypper/zypper_git.bb b/meta/recipes-extended/zypper/zypper_git.bb
-index e5963be..bb456fe 100644
---- a/meta/recipes-extended/zypper/zypper_git.bb
-+++ b/meta/recipes-extended/zypper/zypper_git.bb
-@@ -5,7 +5,7 @@ LICENSE  = "GPLv2+"
- LIC_FILES_CHKSUM = "file://COPYING;md5=3201406e350b39e05a82e28b5020f413"
- 
- DEPENDS  = "libzypp augeas"
--PR = "r1"
-+PR = "r2"
- SRCREV = "2c5bb6ceb99ecd950ef993e43d77bf0569ea0582"
- 
- inherit cmake
-@@ -20,7 +20,7 @@ S = "${WORKDIR}/git"
- 
- PV = "1.5.3-git${SRCPV}"
- 
--RDEPENDS_${PN} = "rpm-libs"
-+RDEPENDS_${PN} = "rpm-libs gzip gnupg"
- RRECOMMENDS_${PN} = "procps util-linux-uuidgen"
- 
- PACKAGE_ARCH = "${MACHINE_ARCH}"
--- 
-1.7.1
+Thanks
+	Sau!
 
+> Michael Halstead
+> Sys Admin / Yocto Project
+>
+>
+>
+>
+> _______________________________________________
+> yocto mailing list
+> yocto@yoctoproject.org
+> https://lists.yoctoproject.org/listinfo/yocto
 
 
