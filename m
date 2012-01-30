@@ -1,26 +1,23 @@
-Received: from mail-pz0-f47.google.com ([209.85.210.47])
+Received: from mail-bk0-f47.google.com ([209.85.214.47])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <steve@sakoman.com>) id 1Rruw5-0001t9-V8
+	(envelope-from <steve@sakoman.com>) id 1Rruz1-00025B-F0
 	for openembedded-core@lists.openembedded.org;
-	Mon, 30 Jan 2012 18:22:34 +0100
-Received: by dakf10 with SMTP id f10so3111546dak.6
+	Mon, 30 Jan 2012 18:25:35 +0100
+Received: by bkaq10 with SMTP id q10so3521923bka.6
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 30 Jan 2012 09:14:40 -0800 (PST)
-Received: by 10.68.209.39 with SMTP id mj7mr42993672pbc.25.1327943679440;
-	Mon, 30 Jan 2012 09:14:39 -0800 (PST)
-Received: from quadra.sakoman.net
-	(static-74-41-60-154.dsl1.pco.ca.frontiernet.net. [74.41.60.154])
-	by mx.google.com with ESMTPS id z5sm48521910pbc.5.2012.01.30.09.14.37
-	(version=SSLv3 cipher=OTHER); Mon, 30 Jan 2012 09:14:38 -0800 (PST)
-From: Steve Sakoman <steve@sakoman.com>
-To: openembedded-core@lists.openembedded.org
-Date: Mon, 30 Jan 2012 09:14:24 -0800
-Message-Id: <1327943665-16402-3-git-send-email-steve@sakoman.com>
-X-Mailer: git-send-email 1.7.1
+	Mon, 30 Jan 2012 09:17:42 -0800 (PST)
+MIME-Version: 1.0
+Received: by 10.205.141.76 with SMTP id jd12mr9090890bkc.42.1327943862538;
+	Mon, 30 Jan 2012 09:17:42 -0800 (PST)
+Received: by 10.204.35.135 with HTTP; Mon, 30 Jan 2012 09:17:42 -0800 (PST)
+X-Originating-IP: [74.41.60.154]
 In-Reply-To: <1327943665-16402-1-git-send-email-steve@sakoman.com>
 References: <1327943665-16402-1-git-send-email-steve@sakoman.com>
-Cc: Steve Sakoman <steve@sakoman.com>
-Subject: [PATCH v3 2/3] gnupg: add recipe for 2.0.18
+Date: Mon, 30 Jan 2012 09:17:42 -0800
+Message-ID: <CAOSpxdbF6t5z+GYirR4u3oa41Pd=UrFyQRKT1QSw1dLBRPBeEg@mail.gmail.com>
+From: Steve Sakoman <steve@sakoman.com>
+To: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH v3 0/3] *** SUBJECT HERE ***
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -35,48 +32,42 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 30 Jan 2012 17:22:34 -0000
+X-List-Received-Date: Mon, 30 Jan 2012 17:25:35 -0000
+Content-Type: text/plain; charset=ISO-8859-1
+Content-Transfer-Encoding: quoted-printable
 
-GnuPG 2.0 is the new modularized version of GnuPG supporting OpenPGP and S/MIME
+Sigh, my morning for screw-ups.  Time for another cup of coffee . . .
 
-Signed-off-by: Steve Sakoman <steve@sakoman.com>
----
- meta/recipes-support/gnupg/gnupg_2.0.18.bb |   24 ++++++++++++++++++++++++
- 1 files changed, 24 insertions(+), 0 deletions(-)
- create mode 100644 meta/recipes-support/gnupg/gnupg_2.0.18.bb
+The subject should be: 'zypper: support signed repositories' rather
+than '***SUBJECT HERE***' :-)
 
-diff --git a/meta/recipes-support/gnupg/gnupg_2.0.18.bb b/meta/recipes-support/gnupg/gnupg_2.0.18.bb
-new file mode 100644
-index 0000000..c56f3d5
---- /dev/null
-+++ b/meta/recipes-support/gnupg/gnupg_2.0.18.bb
-@@ -0,0 +1,24 @@
-+DESCRIPTION = "gnupg - GNU privacy guard"
-+LICENSE = "GPLv2+"
-+LIC_FILES_CHKSUM = "file://COPYING;md5=f27defe1e96c2e1ecd4e0c9be8967949"
-+
-+DEPENDS = "pth libassuan libksba zlib bzip2 readline"
-+
-+inherit autotools gettext
-+
-+SRC_URI = "ftp://ftp.gnupg.org/gcrypt/gnupg/gnupg-${PV}.tar.bz2"
-+
-+SRC_URI[md5sum] = "2f37e0722666a0fedbe4d9f9227ac4d7"
-+SRC_URI[sha256sum] = "48aedd762ca443fb952a9e859efe3c66706d7c2c9c77c32dbdbac4fe962dae5b"
-+
-+S = "${WORKDIR}/gnupg-${PV}"
-+
-+EXTRA_OECONF = "--disable-ldap \
-+		--with-zlib=${STAGING_LIBDIR}/.. \
-+		--with-bzip2=${STAGING_LIBDIR}/.. \
-+                --with-readline=${STAGING_LIBDIR}/.. \
-+               "
-+
-+do_install_append() {
-+	ln -sf gpg2 ${D}${bindir}/gpg
-+}
--- 
-1.7.1
+Steve
 
+On Mon, Jan 30, 2012 at 9:14 AM, Steve Sakoman <steve@sakoman.com> wrote:
+> The current zypper implementation does not work with signed repositories.
+> This patch series adds recipes for the required packages as well as the
+> necessary runtime dependencies to zypper.
+>
+> Tested on Gumstix Overo (OMAP3) with meta-openembedded layer enabled and
+> a systemd based console image.
+>
+> Version 3 incorporates feedback from Koen Kooi and Saul Wold
+> =A0- adds runtime dependencies to existing RDEPENDS_${PN}
+> =A0- removes duplicate recipe for libassuan
+> =A0- moves recipes for gnupg and libksba to recipes-support
+>
+> Steve Sakoman (3):
+> =A0libksba: add recipe for 1.2.0
+> =A0gnupg: add recipe for 2.0.18
+> =A0zypper: add missing runtime dependences on gzip and gnupg
+>
+> =A0meta/recipes-extended/zypper/zypper_git.bb =A0 =A0| =A0 =A04 ++--
+> =A0meta/recipes-support/gnupg/gnupg_2.0.18.bb =A0 =A0| =A0 24 +++++++++++=
++++++++++++++
+> =A0meta/recipes-support/libksba/libksba_1.2.0.bb | =A0 10 ++++++++++
+> =A03 files changed, 36 insertions(+), 2 deletions(-)
+> =A0create mode 100644 meta/recipes-support/gnupg/gnupg_2.0.18.bb
+> =A0create mode 100644 meta/recipes-support/libksba/libksba_1.2.0.bb
+>
 
 
