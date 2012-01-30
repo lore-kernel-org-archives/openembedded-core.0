@@ -1,30 +1,24 @@
-Received: from mail-ww0-f43.google.com ([74.125.82.43])
+Received: from mail-pz0-f47.google.com ([209.85.210.47])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <s.stirtzel@googlemail.com>) id 1Rrrnm-0006rG-5G
+	(envelope-from <steve@sakoman.com>) id 1Rrt9x-0003dd-3S
 	for openembedded-core@lists.openembedded.org;
-	Mon, 30 Jan 2012 15:01:48 +0100
-Received: by wgbdt11 with SMTP id dt11so4069471wgb.24
+	Mon, 30 Jan 2012 16:28:45 +0100
+Received: by dakf10 with SMTP id f10so3028700dak.6
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 30 Jan 2012 05:53:53 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=googlemail.com; s=gamma;
-	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
-	:content-type; bh=FbII49YFKTt2xUiWf3QEfEkFwCOZyWLFY90PpQFUIVk=;
-	b=C3aaEDWNEYZLvStSCRAIcOYni3xl8E53UxzmJdz1YoB6E3Lb4QsH2m1eJHY8jdLnTj
-	59O2mn95hHju0XKd2XCjVGlMP13izLGrIIJNgJlT3xWCdsdUY7aTgJmSWvs1qgUTrKk9
-	jXyTaaY+z8WwVCuVG/8dwn9PQXJODoJ8kvNEM=
-MIME-Version: 1.0
-Received: by 10.180.102.169 with SMTP id fp9mr27547076wib.9.1327931633837;
-	Mon, 30 Jan 2012 05:53:53 -0800 (PST)
-Received: by 10.223.117.72 with HTTP; Mon, 30 Jan 2012 05:53:53 -0800 (PST)
-In-Reply-To: <CAGiJk9efnMcaNSE9wreO3MtuEpm2H5vCv4+GGT9GqVL6+LcFMw@mail.gmail.com>
-References: <CAGiJk9efnMcaNSE9wreO3MtuEpm2H5vCv4+GGT9GqVL6+LcFMw@mail.gmail.com>
-Date: Mon, 30 Jan 2012 14:53:53 +0100
-Message-ID: <CAGiJk9dZwSCVq-Z435nt8KTPvbWK7ti-7X-d1AW00O2yQ6Lb=A@mail.gmail.com>
-From: Samuel Stirtzel <s.stirtzel@googlemail.com>
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: Qt4 native broken include directories?
+	Mon, 30 Jan 2012 07:20:51 -0800 (PST)
+Received: by 10.68.83.105 with SMTP id p9mr42859127pby.92.1327936851407;
+	Mon, 30 Jan 2012 07:20:51 -0800 (PST)
+Received: from quadra.sakoman.net
+	(static-74-41-60-154.dsl1.pco.ca.frontiernet.net. [74.41.60.154])
+	by mx.google.com with ESMTPS id w4sm40437462pbf.4.2012.01.30.07.20.48
+	(version=SSLv3 cipher=OTHER); Mon, 30 Jan 2012 07:20:49 -0800 (PST)
+From: Steve Sakoman <steve@sakoman.com>
+To: openembedded-core@lists.openembedded.org
+Date: Mon, 30 Jan 2012 07:20:36 -0800
+Message-Id: <1327936840-13937-1-git-send-email-steve@sakoman.com>
+X-Mailer: git-send-email 1.7.1
+Cc: Steve Sakoman <steve@sakoman.com>
+Subject: [PATCH 0/4] zypper: support signed repositories
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -39,54 +33,29 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 30 Jan 2012 14:01:48 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Mon, 30 Jan 2012 15:28:46 -0000
 
-2012/1/30 Samuel Stirtzel <s.stirtzel@googlemail.com>:
-> Hi,
-> qmake2.bbclass exports the Qt include directory to the qt4 directory:
-> export OE_QMAKE_INCDIR_QT = "${STAGING_INCDIR}/qt4"
->
->
-> But it seems like the do_install of Qt native went wrong and it was
-> installed in the following directories:
-> file:///work/oe-core/tmp-eglibc/sysroots/x86_64-linux/usr/include/Qt
-> file:///work/oe-core/tmp-eglibc/sysroots/x86_64-linux/usr/include/Qt3Support
-> file:///work/oe-core/tmp-eglibc/sysroots/x86_64-linux/usr/include/QtCore
-> file:///work/oe-core/tmp-eglibc/sysroots/x86_64-linux/usr/include/QtDBus
-> file:///work/oe-core/tmp-eglibc/sysroots/x86_64-linux/usr/include/QtGui
-> file:///work/oe-core/tmp-eglibc/sysroots/x86_64-linux/usr/include/QtNetwork
-> file:///work/oe-core/tmp-eglibc/sysroots/x86_64-linux/usr/include/QtSql
-> file:///work/oe-core/tmp-eglibc/sysroots/x86_64-linux/usr/include/QtTest
-> file:///work/oe-core/tmp-eglibc/sysroots/x86_64-linux/usr/include/QtXml
-> file:///work/oe-core/tmp-eglibc/sysroots/x86_64-linux/usr/include/QtXmlPatterns
->
-> Is this intended?
-> It might be related to Otavios patch [1], but I can't connect it as I
-> don't see Qt4-native including qt4-x11-free.inc.
->
->
-> For me the result is: all native recipes that depend on Qt fail with
-> missing include errors.
-> As I am currently porting Plasma-Active two and the KDElibs + CMake
-> (IMHO) is a BBOM,
-> I currently see no way how to get around this by configuring CMake or
-> setting any options.
->
-> Help would be very appreciated.
->
->
-> [1] http://cgit.openembedded.org/openembedded-core/commit/?id=73fc8f706b08ec74087754eacd2257856fe829d1
-> --
-> Regards
-> Samuel
+The current zypper implementation does not work with signed repositories.
+This patch series adds recipes for the required packages as well as the
+necessary runtime dependencies to zypper.
 
-Ok, I cancel this thread because this is broken by design.
-As the problems I am facing are based on a larger scale, I will post a
-separate message about this later.
+Tested on Gumstix Overo (OMAP3) with meta-openembedded layer enabled and
+a systemd based console image.
 
--- 
-Regards
-Samuel
+Steve Sakoman (4):
+  libassuan: add recipe for 2.0.3
+  libksba: add recipe for 1.2.0
+  gnupg: add recipe for 2.0.18
+  zypper: add missing runtime dependences on gzip and gnupg
+
+ meta/recipes-extended/gnupg/gnupg_2.0.18.bb    |   24 ++++++++++++++++++++++++
+ meta/recipes-extended/gnupg/libassuan_2.0.3.bb |   11 +++++++++++
+ meta/recipes-extended/gnupg/libksba_1.2.0.bb   |   10 ++++++++++
+ meta/recipes-extended/zypper/zypper_git.bb     |    4 +++-
+ 4 files changed, 48 insertions(+), 1 deletions(-)
+ create mode 100644 meta/recipes-extended/gnupg/gnupg_2.0.18.bb
+ create mode 100644 meta/recipes-extended/gnupg/libassuan_2.0.3.bb
+ create mode 100644 meta/recipes-extended/gnupg/libksba_1.2.0.bb
+
 
 
