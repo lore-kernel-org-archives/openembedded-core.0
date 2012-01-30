@@ -1,27 +1,26 @@
-Received: from mail-bk0-f47.google.com ([209.85.214.47])
+Received: from mga02.intel.com ([134.134.136.20])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <steve@sakoman.com>) id 1RrufB-0001Si-Ot
+	(envelope-from <sgw@linux.intel.com>) id 1Rrujj-0001ai-Pw
 	for openembedded-core@lists.openembedded.org;
-	Mon, 30 Jan 2012 18:05:05 +0100
-Received: by bkaq10 with SMTP id q10so3496412bka.6
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 30 Jan 2012 08:57:13 -0800 (PST)
+	Mon, 30 Jan 2012 18:09:48 +0100
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+	by orsmga101.jf.intel.com with ESMTP; 30 Jan 2012 09:01:54 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.67,352,1309762800"; d="scan'208";a="101929377"
+Received: from unknown (HELO [10.255.14.96]) ([10.255.14.96])
+	by orsmga001.jf.intel.com with ESMTP; 30 Jan 2012 09:01:53 -0800
+Message-ID: <4F26CD01.4050700@linux.intel.com>
+Date: Mon, 30 Jan 2012 09:01:53 -0800
+From: Saul Wold <sgw@linux.intel.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:9.0) Gecko/20111222 Thunderbird/9.0
 MIME-Version: 1.0
-Received: by 10.205.141.76 with SMTP id jd12mr9048729bkc.42.1327942632653;
-	Mon, 30 Jan 2012 08:57:12 -0800 (PST)
-Received: by 10.204.35.135 with HTTP; Mon, 30 Jan 2012 08:57:12 -0800 (PST)
-X-Originating-IP: [74.41.60.154]
-In-Reply-To: <4F26C678.2080305@linux.intel.com>
-References: <1327936840-13937-1-git-send-email-steve@sakoman.com>
-	<1327936840-13937-4-git-send-email-steve@sakoman.com>
-	<4F26C678.2080305@linux.intel.com>
-Date: Mon, 30 Jan 2012 08:57:12 -0800
-Message-ID: <CAOSpxdZcJQcU5pWRY6yvaETKvOErM4DkQEfOMBEcQ_NvDCYBUA@mail.gmail.com>
-From: Steve Sakoman <steve@sakoman.com>
-To: Saul Wold <sgw@linux.intel.com>
-Cc: Patches and discussions about the oe-core layer
+To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 3/4] gnupg: add recipe for 2.0.18
+References: <1327795253-24794-1-git-send-email-schnitzeltony@googlemail.com>
+	<1327795253-24794-2-git-send-email-schnitzeltony@googlemail.com>
+In-Reply-To: <1327795253-24794-2-git-send-email-schnitzeltony@googlemail.com>
+Subject: Re: [PATCH v2 1/1] atk: add native / disable introspection / merge atk.inc->recipe / change license
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -36,64 +35,85 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 30 Jan 2012 17:05:05 -0000
-Content-Type: text/plain; charset=ISO-8859-1
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Mon, 30 Jan 2012 17:09:48 -0000
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 
-On Mon, Jan 30, 2012 at 8:34 AM, Saul Wold <sgw@linux.intel.com> wrote:
-> On 01/30/2012 07:20 AM, Steve Sakoman wrote:
->>
->> GnuPG 2.0 is the new modularized version of GnuPG supporting OpenPGP and
->> S/MIME
->>
->> Signed-off-by: Steve Sakoman<steve@sakoman.com>
->> ---
->> =A0meta/recipes-extended/gnupg/gnupg_2.0.18.bb | =A0 24
->> ++++++++++++++++++++++++
->> =A01 files changed, 24 insertions(+), 0 deletions(-)
->> =A0create mode 100644 meta/recipes-extended/gnupg/gnupg_2.0.18.bb
->>
->> diff --git a/meta/recipes-extended/gnupg/gnupg_2.0.18.bb
->> b/meta/recipes-extended/gnupg/gnupg_2.0.18.bb
->> new file mode 100644
->> index 0000000..c56f3d5
->> --- /dev/null
->> +++ b/meta/recipes-extended/gnupg/gnupg_2.0.18.bb
->> @@ -0,0 +1,24 @@
->> +DESCRIPTION =3D "gnupg - GNU privacy guard"
->> +LICENSE =3D "GPLv2+"
->> +LIC_FILES_CHKSUM =3D "file://COPYING;md5=3Df27defe1e96c2e1ecd4e0c9be896=
-7949"
->> +
->> +DEPENDS =3D "pth libassuan libksba zlib bzip2 readline"
->> +
->> +inherit autotools gettext
->> +
->> +SRC_URI =3D "ftp://ftp.gnupg.org/gcrypt/gnupg/gnupg-${PV}.tar.bz2"
->> +
->> +SRC_URI[md5sum] =3D "2f37e0722666a0fedbe4d9f9227ac4d7"
->> +SRC_URI[sha256sum] =3D
->> "48aedd762ca443fb952a9e859efe3c66706d7c2c9c77c32dbdbac4fe962dae5b"
->> +
->> +S =3D "${WORKDIR}/gnupg-${PV}"
->> +
->> +EXTRA_OECONF =3D "--disable-ldap \
->> + =A0 =A0 =A0 =A0 =A0 =A0 =A0 --with-zlib=3D${STAGING_LIBDIR}/.. \
->> + =A0 =A0 =A0 =A0 =A0 =A0 =A0 --with-bzip2=3D${STAGING_LIBDIR}/.. \
->> + =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0--with-readline=3D${STAGING_LIBDIR}/.. =
-\
->> + =A0 =A0 =A0 =A0 =A0 =A0 =A0 "
->> +
->> +do_install_append() {
->> + =A0 =A0 =A0 ln -sf gpg2 ${D}${bindir}/gpg
->> +}
+On 01/28/2012 04:00 PM, Andreas Müller wrote:
+> Native support currently is appended in meta-oe. Native build failed with:
 >
+> | /usr/share/gir-1.0/GLib-2.0.gir:9:1: error: Unsupported version '1.1'
+> | /usr/share/gir-1.0/GLib-2.0.gir:9:39: error: Unsupported version '1.1'
+> | error parsing file Atk-1.0.gir: Failed to parse included gir GLib-2.0
+> | make[3]: *** [Atk-1.0.typelib] Error 1
 >
-> This recipe along with libksba, would should live in recipes-support, as
-> they "support" functionality provided elsewhere.
+> build tested in meta-oe / angstrom environment
+>
+> Signed-off-by: Andreas Müller<schnitzeltony@googlemail.com>
+> ---
+>   meta/recipes-support/atk/atk.inc      |   13 -------------
+>   meta/recipes-support/atk/atk_2.2.0.bb |   17 +++++++++++++----
+>   2 files changed, 13 insertions(+), 17 deletions(-)
+>   delete mode 100644 meta/recipes-support/atk/atk.inc
+>
+> diff --git a/meta/recipes-support/atk/atk.inc b/meta/recipes-support/atk/atk.inc
+> deleted file mode 100644
+> index 6a4fef6..0000000
+> --- a/meta/recipes-support/atk/atk.inc
+> +++ /dev/null
+> @@ -1,13 +0,0 @@
+> -DESCRIPTION = "An accessibility toolkit for GNOME."
+> -HOMEPAGE = "http://live.gnome.org/GAP/"
+> -BUGTRACKER = "https://bugzilla.gnome.org/"
+> -
+> -LICENSE = "LGPLv2&  LGPLv2+"
+> -
+> -SECTION = "x11/libs"
+> -
+> -DEPENDS = "glib-2.0 gtk-doc-native"
+> -
+> -inherit autotools pkgconfig
+> -
+> -EXTRA_OECONF = "--disable-glibtest"
+> diff --git a/meta/recipes-support/atk/atk_2.2.0.bb b/meta/recipes-support/atk/atk_2.2.0.bb
+> index 0d657b5..74e7288 100644
+> --- a/meta/recipes-support/atk/atk_2.2.0.bb
+> +++ b/meta/recipes-support/atk/atk_2.2.0.bb
+> @@ -1,14 +1,23 @@
+> -require atk.inc
+> +DESCRIPTION = "An accessibility toolkit for GNOME."
+> +HOMEPAGE = "http://live.gnome.org/GAP/"
+> +BUGTRACKER = "https://bugzilla.gnome.org/"
+> +SECTION = "x11/libs"
+>
+> -PR = "r1"
+> +LICENSE = "GPLv2+&  LGPLv2+"
+Not sure what you changed here, but you did not fix this as Khem 
+suggested.  Also, if you are making LICENSE changes the note you 
+included in your 00 Patch email should really be in the Commit message 
+instead.
 
-OK, will resubmit with that change.
+Thanks
+	Sau!
 
-Steve
+>   LIC_FILES_CHKSUM = "file://COPYING;md5=3bf50002aefd002f49e7bb854063f7e7 \
+>                       file://atk/atkutil.c;endline=20;md5=db21b0bdbef9da4dc6eb122debc9f9bc \
+>                       file://atk/atk.h;endline=20;md5=c58238d688c24387376d6c69d06248a7"
+> +PR = "r2"
+>
+> -SRC_URI = "http://download.gnome.org/sources/atk/2.2/${BPN}-${PV}.tar.bz2"
+> +DEPENDS = "glib-2.0 gtk-doc-native"
+> +
+> +inherit autotools pkgconfig
+>
+> +SRC_URI = "http://download.gnome.org/sources/atk/2.2/${BPN}-${PV}.tar.bz2"
+>   SRC_URI[md5sum] = "4894e9b04f0a9f1c37a624a1e8d6d73f"
+>   SRC_URI[sha256sum] = "d201e3f5808aef0b1aec2277bfa61074f68863e405428adb57a73aab5c838450"
+>
+> +BBCLASSEXTEND = "native"
+>
+> -
+> +EXTRA_OECONF = "--disable-glibtest \
+> +                --disable-introspection"
 
 
