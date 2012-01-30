@@ -1,32 +1,26 @@
-Received: from mail-lpp01m010-f47.google.com ([209.85.215.47])
+Received: from mga02.intel.com ([134.134.136.20])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <raj.khem@gmail.com>) id 1RrvQd-0003Ai-Au
+	(envelope-from <josh@linux.intel.com>) id 1RrvUb-0003Ir-Al
 	for openembedded-core@lists.openembedded.org;
-	Mon, 30 Jan 2012 18:54:07 +0100
-Received: by lahc1 with SMTP id c1so2286525lah.6
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 30 Jan 2012 09:46:14 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc:content-type:content-transfer-encoding;
-	bh=SnLGBOGhbiWjN4whGpk0TKzp3+Q83DGEUFlbwl7JZv0=;
-	b=qQq6K+zcK0u57NWVeo9ZHhfjfoAMlBF+quSldCqXhtyEK4wKfj32TPGc4gmyKKO8zq
-	QXMcySuSCMlgA2NRIGrFG11pAoQ/GsriPmR6eV/lB7SZ5rg2o3sXER7GNa+FQ/HmBarQ
-	ZOzwryhjcI0w4TUyrEdPgO68NVG0wIPNbqf1s=
-Received: by 10.112.86.67 with SMTP id n3mr4728304lbz.29.1327945574228; Mon,
-	30 Jan 2012 09:46:14 -0800 (PST)
+	Mon, 30 Jan 2012 18:58:13 +0100
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+	by orsmga101.jf.intel.com with ESMTP; 30 Jan 2012 09:50:19 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.67,352,1309762800"; d="scan'208";a="101946737"
+Received: from mkgumbel-mobl5.jf.intel.com (HELO [10.7.199.151])
+	([10.7.199.151])
+	by orsmga001.jf.intel.com with ESMTP; 30 Jan 2012 09:50:19 -0800
+Message-ID: <4F26D85A.8030908@linux.intel.com>
+Date: Mon, 30 Jan 2012 09:50:18 -0800
+From: Joshua Lock <josh@linux.intel.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:9.0) Gecko/20111222 Thunderbird/9.0
 MIME-Version: 1.0
-Received: by 10.152.5.201 with HTTP; Mon, 30 Jan 2012 09:45:44 -0800 (PST)
-In-Reply-To: <1327936840-13937-3-git-send-email-steve@sakoman.com>
-References: <1327936840-13937-1-git-send-email-steve@sakoman.com>
-	<1327936840-13937-3-git-send-email-steve@sakoman.com>
-From: Khem Raj <raj.khem@gmail.com>
-Date: Mon, 30 Jan 2012 09:45:44 -0800
-Message-ID: <CAMKF1spTSFxJzq17PHMwg=ps3G8zvnXpfQjvYeK-krN1NEgYRA@mail.gmail.com>
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Cc: Steve Sakoman <steve@sakoman.com>
-Subject: Re: [PATCH 2/4] libksba: add recipe for 1.2.0
+To: Koen Kooi <koen@dominion.thruhere.net>
+References: <1327942199-4604-1-git-send-email-koen@dominion.thruhere.net>
+In-Reply-To: <1327942199-4604-1-git-send-email-koen@dominion.thruhere.net>
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH 1/2] alsa-state: fix RDEPENDS assignment
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -41,54 +35,60 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 30 Jan 2012 17:54:07 -0000
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Mon, 30 Jan 2012 17:58:13 -0000
+Content-Type: text/plain; charset=ISO-8859-1; format=flowed
+Content-Transfer-Encoding: 7bit
 
-Hi Steve
+Yikes, I don't know why I keep making this mistake. Thanks for catching 
+it Koen.
 
-On Mon, Jan 30, 2012 at 7:20 AM, Steve Sakoman <steve@sakoman.com> wrote:
-> Libksba provides an easy API to create and parse X.509 and CMS related ob=
-jects
-> and is required for gnupg
->
+I thought we caught this in a QA error but I definitely didn't see it, 
+best investigate.
 
-Doesn't it need libgpg-error ?
-http://www.gnupg.org/related_software/libgpg-error
+On 30/01/12 08:49, Koen Kooi wrote:
+> Signed-off-by: Koen Kooi<koen@dominion.thruhere.net>
+Signed-off-by: Joshua Lock<josh@linux.intel.com>
 
-> Signed-off-by: Steve Sakoman <steve@sakoman.com>
+Joshua
+
 > ---
-> =C2=A0meta/recipes-extended/gnupg/libksba_1.2.0.bb | =C2=A0 10 ++++++++++
-> =C2=A01 files changed, 10 insertions(+), 0 deletions(-)
-> =C2=A0create mode 100644 meta/recipes-extended/gnupg/libksba_1.2.0.bb
+>   meta/recipes-bsp/alsa-state/alsa-state.bb |    5 ++---
+>   1 files changed, 2 insertions(+), 3 deletions(-)
 >
-> diff --git a/meta/recipes-extended/gnupg/libksba_1.2.0.bb b/meta/recipes-=
-extended/gnupg/libksba_1.2.0.bb
-> new file mode 100644
-> index 0000000..876eedc
-> --- /dev/null
-> +++ b/meta/recipes-extended/gnupg/libksba_1.2.0.bb
-> @@ -0,0 +1,10 @@
-> +DESCRIPTION =3D " Libksba provides an easy API to create and parse X.509=
- and CMS related objects"
-> +LICENSE =3D "GPLv3+"
-> +LIC_FILES_CHKSUM =3D "file://COPYING;md5=3Df27defe1e96c2e1ecd4e0c9be8967=
-949"
-> +
-> +inherit autotools binconfig
-> +
-> +SRC_URI =3D "ftp://ftp.gnupg.org/gcrypt/${PN}/${PN}-${PV}.tar.bz2"
-> +
-> +SRC_URI[md5sum] =3D "e797f370b69b4dc776499d6a071ae137"
-> +SRC_URI[sha256sum] =3D "09afce65b03d027cbec10d21464f4f651cdfd269e38b404f=
-83e48d3e2a3c934b"
-> --
-> 1.7.1
+> diff --git a/meta/recipes-bsp/alsa-state/alsa-state.bb b/meta/recipes-bsp/alsa-state/alsa-state.bb
+> index bc17b25..83c9faa 100644
+> --- a/meta/recipes-bsp/alsa-state/alsa-state.bb
+> +++ b/meta/recipes-bsp/alsa-state/alsa-state.bb
+> @@ -10,7 +10,7 @@ sound state at system boot and save it at system shut down."
+>   LICENSE = "MIT"
+>   LIC_FILES_CHKSUM = "file://${COREBASE}/meta/COPYING.MIT;md5=3da9cfbcb788c80a0384361b4de20420"
+>   PV = "0.2.0"
+> -PR = "r0"
+> +PR = "r2"
 >
+>   SRC_URI = "\
+>     file://asound.conf \
+> @@ -18,8 +18,6 @@ SRC_URI = "\
+>     file://alsa-state \
+>   "
 >
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
+> -RDEPENDS = "alsa-utils-alsactl"
+> -
+>   inherit update-rc.d
+>
+>   INITSCRIPT_NAME = "alsa-state"
+> @@ -39,6 +37,7 @@ PACKAGES += "alsa-states"
+>
+>   RRECOMMENDS_alsa-state = "alsa-states"
+>
+> +RDEPENDS_${PN} = "alsa-utils-alsactl"
+>   FILES_${PN} = "${sysconfdir}/init.d ${sysconfdir}/asound.conf"
+>   CONFFILES_${PN} = "${sysconfdir}/asound.conf"
+>
+
+-- 
+Joshua Lock
+         Yocto Project "Johannes factotum"
+         Intel Open Source Technology Centre
 
 
