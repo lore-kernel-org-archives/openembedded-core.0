@@ -1,29 +1,20 @@
-Received: from mail-we0-f175.google.com ([74.125.82.175])
+Received: from mail.windriver.com ([147.11.1.11])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <koen@dominion.thruhere.net>) id 1Rrwdx-000654-VK
+	(envelope-from <bruce.ashfield@windriver.com>) id 1RrxYI-00017H-UQ
 	for openembedded-core@lists.openembedded.org;
-	Mon, 30 Jan 2012 20:11:57 +0100
-Received: by werc1 with SMTP id c1so3757201wer.6
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 30 Jan 2012 11:04:04 -0800 (PST)
-Received: by 10.216.136.156 with SMTP id w28mr7820504wei.11.1327948742749;
-	Mon, 30 Jan 2012 10:39:02 -0800 (PST)
-Received: from [172.20.1.36] (ip545070eb.adsl-surfen.hetnet.nl.
-	[84.80.112.235])
-	by mx.google.com with ESMTPS id dr5sm55132657wib.0.2012.01.30.10.39.01
-	(version=TLSv1/SSLv3 cipher=OTHER);
-	Mon, 30 Jan 2012 10:39:02 -0800 (PST)
-Mime-Version: 1.0 (Apple Message framework v1251.1)
-From: Koen Kooi <koen@dominion.thruhere.net>
-In-Reply-To: <4F26D85A.8030908@linux.intel.com>
-Date: Mon, 30 Jan 2012 19:39:03 +0100
-Message-Id: <6432C232-C013-4AB3-AED2-0ED908B5C30C@dominion.thruhere.net>
-References: <1327942199-4604-1-git-send-email-koen@dominion.thruhere.net>
-	<4F26D85A.8030908@linux.intel.com>
-To: Joshua Lock <josh@linux.intel.com>
-X-Mailer: Apple Mail (2.1251.1)
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 1/2] alsa-state: fix RDEPENDS assignment
+	Mon, 30 Jan 2012 21:10:11 +0100
+Received: from yow-bashfiel-l1.corp.ad.wrs.com
+	(yow-bashfiel-d3.ottawa.windriver.com [128.224.147.67])
+	by mail.windriver.com (8.14.3/8.14.3) with ESMTP id q0UK2DFt017744;
+	Mon, 30 Jan 2012 12:02:13 -0800 (PST)
+From: Bruce Ashfield <bruce.ashfield@windriver.com>
+To: richard.purdie@linuxfoundation.org
+Date: Mon, 30 Jan 2012 15:02:09 -0500
+Message-Id: <cover.1327952323.git.bruce.ashfield@windriver.com>
+X-Mailer: git-send-email 1.7.4.1
+Cc: dvhart@linux.intel.com, openembedded-core@lists.openembedded.org,
+	saul.wold@intel.com
+Subject: [PATCH 0/3] linux-yocto: 3.2.2 and 3.0.18 updates
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -38,77 +29,54 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 30 Jan 2012 19:11:58 -0000
-Content-Type: text/plain; charset=iso-8859-1
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Mon, 30 Jan 2012 20:10:12 -0000
 
-Op 30 jan. 2012, om 18:50 heeft Joshua Lock het volgende geschreven:
+Richard/Saul,
 
-> Yikes, I don't know why I keep making this mistake. Thanks for =
-catching it Koen.
+Two kernel updates in this pull request. The bigger change is the
+introduction/release of the 3.2 kernel repository. I've had this 
+under test in one form or another for nearly two months now. It 
+no only brings in a new kernel, but introduces some branching changes
+and audited kernel configuration fragments. This needs head to the
+servers now to allow add-on work to be completed.
 
-I'm still finding recipes that I wrote that have that mistake :)
+I've built and booted sato on all the emulated targets for the 3.2
+kernel.
 
-> I thought we caught this in a QA error but I definitely didn't see it, =
-best investigate.
+There is an associated set of kern-tools changes to support the 
+branching in the 3.2 kernel repository, and the changes are fully
+compatible with the existing 3.0 tree.
 
-it's part of recipe-sanity, which you need to call manually.
+The second update is a refresh of the 3.0 tree to pickup 3.0.18, and
+to merge a set of pending features to that tree. The commit itself
+tells the story.
 
-regards,
+I've built and booted this for all the emulated targets as well.
 
-Koen
+The following changes since commit b719d7e10bdb5bb4fc9ef70256eb93f925fbda4b:
 
+  useradd: Ensure dependencies are only added for target recipes, not native or nativesdk (2012-01-27 16:59:56 +0000)
 
->=20
-> On 30/01/12 08:49, Koen Kooi wrote:
->> Signed-off-by: Koen Kooi<koen@dominion.thruhere.net>
-> Signed-off-by: Joshua Lock<josh@linux.intel.com>
->=20
-> Joshua
->=20
->> ---
->>  meta/recipes-bsp/alsa-state/alsa-state.bb |    5 ++---
->>  1 files changed, 2 insertions(+), 3 deletions(-)
->>=20
->> diff --git a/meta/recipes-bsp/alsa-state/alsa-state.bb =
-b/meta/recipes-bsp/alsa-state/alsa-state.bb
->> index bc17b25..83c9faa 100644
->> --- a/meta/recipes-bsp/alsa-state/alsa-state.bb
->> +++ b/meta/recipes-bsp/alsa-state/alsa-state.bb
->> @@ -10,7 +10,7 @@ sound state at system boot and save it at system =
-shut down."
->>  LICENSE =3D "MIT"
->>  LIC_FILES_CHKSUM =3D =
-"file://${COREBASE}/meta/COPYING.MIT;md5=3D3da9cfbcb788c80a0384361b4de2042=
-0"
->>  PV =3D "0.2.0"
->> -PR =3D "r0"
->> +PR =3D "r2"
->>=20
->>  SRC_URI =3D "\
->>    file://asound.conf \
->> @@ -18,8 +18,6 @@ SRC_URI =3D "\
->>    file://alsa-state \
->>  "
->>=20
->> -RDEPENDS =3D "alsa-utils-alsactl"
->> -
->>  inherit update-rc.d
->>=20
->>  INITSCRIPT_NAME =3D "alsa-state"
->> @@ -39,6 +37,7 @@ PACKAGES +=3D "alsa-states"
->>=20
->>  RRECOMMENDS_alsa-state =3D "alsa-states"
->>=20
->> +RDEPENDS_${PN} =3D "alsa-utils-alsactl"
->>  FILES_${PN} =3D "${sysconfdir}/init.d ${sysconfdir}/asound.conf"
->>  CONFFILES_${PN} =3D "${sysconfdir}/asound.conf"
->>=20
->=20
-> --=20
-> Joshua Lock
->        Yocto Project "Johannes factotum"
->        Intel Open Source Technology Centre
+are available in the git repository at:
+  git://git.pokylinux.org/poky-contrib zedd/kernel-oe
+  http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=zedd/kernel-oe
+
+Bruce Ashfield (3):
+  kern-tools: import config audit and branch manipulation updates
+  linux-yocto: add kernel 3.2.2 support
+  linux-yocto: update to v3.0.18 + features
+
+ .../kern-tools/kern-tools-native_git.bb            |    2 +-
+ meta/recipes-kernel/linux/linux-yocto-rt_3.0.bb    |    8 ++--
+ meta/recipes-kernel/linux/linux-yocto-rt_3.2.bb    |   37 ++++++++++++++++++
+ meta/recipes-kernel/linux/linux-yocto_3.0.bb       |   19 ++++-----
+ meta/recipes-kernel/linux/linux-yocto_3.2.bb       |   41 ++++++++++++++++++++
+ 5 files changed, 92 insertions(+), 15 deletions(-)
+ create mode 100644 meta/recipes-kernel/linux/linux-yocto-rt_3.2.bb
+ create mode 100644 meta/recipes-kernel/linux/linux-yocto_3.2.bb
+
+-- 
+1.7.4.1
 
 
 
