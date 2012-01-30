@@ -1,32 +1,29 @@
-Received: from mail-lpp01m020-f175.google.com ([209.85.217.175])
+Received: from mail-we0-f175.google.com ([74.125.82.175])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <schnitzeltony@googlemail.com>) id 1Rrwc3-0005vd-9Q
+	(envelope-from <koen@dominion.thruhere.net>) id 1Rrwdx-000654-VK
 	for openembedded-core@lists.openembedded.org;
-	Mon, 30 Jan 2012 20:09:59 +0100
-Received: by lbol12 with SMTP id l12so336533lbo.6
+	Mon, 30 Jan 2012 20:11:57 +0100
+Received: by werc1 with SMTP id c1so3757201wer.6
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 30 Jan 2012 11:02:06 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=googlemail.com; s=gamma;
-	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
-	:content-type:content-transfer-encoding;
-	bh=7UTV+QaTJPmJO3+UJ4aQ1IhDHTt5EU332nu118tDQxE=;
-	b=kfo/SsoYd5l8LkXM4u3aMywf8+lU+EIsO8e+8HlVTEHmF7ihtVMg4Y0z3Pa04twMKK
-	2LYVliWFvLLGxsbI/9fJuilPlSBkjTo9qgpEvXBblc5SKIs1U41gaj2IWMLSD0mpKm4Y
-	3aVZ5D7kiNKtl2sj5K8F3HFsj95coDxqqXejE=
-MIME-Version: 1.0
-Received: by 10.112.84.170 with SMTP id a10mr4881321lbz.22.1327949747505; Mon,
-	30 Jan 2012 10:55:47 -0800 (PST)
-Received: by 10.112.102.165 with HTTP; Mon, 30 Jan 2012 10:55:47 -0800 (PST)
-In-Reply-To: <4F26CD01.4050700@linux.intel.com>
-References: <1327795253-24794-1-git-send-email-schnitzeltony@googlemail.com>
-	<1327795253-24794-2-git-send-email-schnitzeltony@googlemail.com>
-	<4F26CD01.4050700@linux.intel.com>
-Date: Mon, 30 Jan 2012 19:55:47 +0100
-Message-ID: <CALbNGRThtc0NUGPevQn0buhFVXyNBrCsfmkNqoX_NsU+pFS3ug@mail.gmail.com>
-From: =?ISO-8859-1?Q?Andreas_M=FCller?= <schnitzeltony@googlemail.com>
-To: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH v2 1/1] atk: add native / disable introspection / merge atk.inc->recipe / change license
+	Mon, 30 Jan 2012 11:04:04 -0800 (PST)
+Received: by 10.216.136.156 with SMTP id w28mr7820504wei.11.1327948742749;
+	Mon, 30 Jan 2012 10:39:02 -0800 (PST)
+Received: from [172.20.1.36] (ip545070eb.adsl-surfen.hetnet.nl.
+	[84.80.112.235])
+	by mx.google.com with ESMTPS id dr5sm55132657wib.0.2012.01.30.10.39.01
+	(version=TLSv1/SSLv3 cipher=OTHER);
+	Mon, 30 Jan 2012 10:39:02 -0800 (PST)
+Mime-Version: 1.0 (Apple Message framework v1251.1)
+From: Koen Kooi <koen@dominion.thruhere.net>
+In-Reply-To: <4F26D85A.8030908@linux.intel.com>
+Date: Mon, 30 Jan 2012 19:39:03 +0100
+Message-Id: <6432C232-C013-4AB3-AED2-0ED908B5C30C@dominion.thruhere.net>
+References: <1327942199-4604-1-git-send-email-koen@dominion.thruhere.net>
+	<4F26D85A.8030908@linux.intel.com>
+To: Joshua Lock <josh@linux.intel.com>
+X-Mailer: Apple Mail (2.1251.1)
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH 1/2] alsa-state: fix RDEPENDS assignment
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -41,94 +38,77 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 30 Jan 2012 19:09:59 -0000
-Content-Type: text/plain; charset=ISO-8859-1
+X-List-Received-Date: Mon, 30 Jan 2012 19:11:58 -0000
+Content-Type: text/plain; charset=iso-8859-1
 Content-Transfer-Encoding: quoted-printable
 
-On Mon, Jan 30, 2012 at 6:01 PM, Saul Wold <sgw@linux.intel.com> wrote:
-> On 01/28/2012 04:00 PM, Andreas M=FCller wrote:
->>
->> Native support currently is appended in meta-oe. Native build failed wit=
-h:
->>
->> | /usr/share/gir-1.0/GLib-2.0.gir:9:1: error: Unsupported version '1.1'
->> | /usr/share/gir-1.0/GLib-2.0.gir:9:39: error: Unsupported version '1.1'
->> | error parsing file Atk-1.0.gir: Failed to parse included gir GLib-2.0
->> | make[3]: *** [Atk-1.0.typelib] Error 1
->>
->> build tested in meta-oe / angstrom environment
->>
->> Signed-off-by: Andreas M=FCller<schnitzeltony@googlemail.com>
+Op 30 jan. 2012, om 18:50 heeft Joshua Lock het volgende geschreven:
+
+> Yikes, I don't know why I keep making this mistake. Thanks for =
+catching it Koen.
+
+I'm still finding recipes that I wrote that have that mistake :)
+
+> I thought we caught this in a QA error but I definitely didn't see it, =
+best investigate.
+
+it's part of recipe-sanity, which you need to call manually.
+
+regards,
+
+Koen
+
+
+>=20
+> On 30/01/12 08:49, Koen Kooi wrote:
+>> Signed-off-by: Koen Kooi<koen@dominion.thruhere.net>
+> Signed-off-by: Joshua Lock<josh@linux.intel.com>
+>=20
+> Joshua
+>=20
 >> ---
->> =A0meta/recipes-support/atk/atk.inc =A0 =A0 =A0| =A0 13 -------------
->> =A0meta/recipes-support/atk/atk_2.2.0.bb | =A0 17 +++++++++++++----
->> =A02 files changed, 13 insertions(+), 17 deletions(-)
->> =A0delete mode 100644 meta/recipes-support/atk/atk.inc
->>
->> diff --git a/meta/recipes-support/atk/atk.inc
->> b/meta/recipes-support/atk/atk.inc
->> deleted file mode 100644
->> index 6a4fef6..0000000
->> --- a/meta/recipes-support/atk/atk.inc
->> +++ /dev/null
->> @@ -1,13 +0,0 @@
->> -DESCRIPTION =3D "An accessibility toolkit for GNOME."
->> -HOMEPAGE =3D "http://live.gnome.org/GAP/"
->> -BUGTRACKER =3D "https://bugzilla.gnome.org/"
+>>  meta/recipes-bsp/alsa-state/alsa-state.bb |    5 ++---
+>>  1 files changed, 2 insertions(+), 3 deletions(-)
+>>=20
+>> diff --git a/meta/recipes-bsp/alsa-state/alsa-state.bb =
+b/meta/recipes-bsp/alsa-state/alsa-state.bb
+>> index bc17b25..83c9faa 100644
+>> --- a/meta/recipes-bsp/alsa-state/alsa-state.bb
+>> +++ b/meta/recipes-bsp/alsa-state/alsa-state.bb
+>> @@ -10,7 +10,7 @@ sound state at system boot and save it at system =
+shut down."
+>>  LICENSE =3D "MIT"
+>>  LIC_FILES_CHKSUM =3D =
+"file://${COREBASE}/meta/COPYING.MIT;md5=3D3da9cfbcb788c80a0384361b4de2042=
+0"
+>>  PV =3D "0.2.0"
+>> -PR =3D "r0"
+>> +PR =3D "r2"
+>>=20
+>>  SRC_URI =3D "\
+>>    file://asound.conf \
+>> @@ -18,8 +18,6 @@ SRC_URI =3D "\
+>>    file://alsa-state \
+>>  "
+>>=20
+>> -RDEPENDS =3D "alsa-utils-alsactl"
 >> -
->> -LICENSE =3D "LGPLv2& =A0LGPLv2+"
->>
->> -
->> -SECTION =3D "x11/libs"
->> -
->> -DEPENDS =3D "glib-2.0 gtk-doc-native"
->> -
->> -inherit autotools pkgconfig
->> -
->> -EXTRA_OECONF =3D "--disable-glibtest"
->> diff --git a/meta/recipes-support/atk/atk_2.2.0.bb
->> b/meta/recipes-support/atk/atk_2.2.0.bb
->> index 0d657b5..74e7288 100644
->> --- a/meta/recipes-support/atk/atk_2.2.0.bb
->> +++ b/meta/recipes-support/atk/atk_2.2.0.bb
->> @@ -1,14 +1,23 @@
->> -require atk.inc
->> +DESCRIPTION =3D "An accessibility toolkit for GNOME."
->> +HOMEPAGE =3D "http://live.gnome.org/GAP/"
->> +BUGTRACKER =3D "https://bugzilla.gnome.org/"
->> +SECTION =3D "x11/libs"
->>
->> -PR =3D "r1"
->> +LICENSE =3D "GPLv2+& =A0LGPLv2+"
->
-> Not sure what you changed here, but you did not fix this as Khem suggeste=
-d.
+>>  inherit update-rc.d
+>>=20
+>>  INITSCRIPT_NAME =3D "alsa-state"
+>> @@ -39,6 +37,7 @@ PACKAGES +=3D "alsa-states"
+>>=20
+>>  RRECOMMENDS_alsa-state =3D "alsa-states"
+>>=20
+>> +RDEPENDS_${PN} =3D "alsa-utils-alsactl"
+>>  FILES_${PN} =3D "${sysconfdir}/init.d ${sysconfdir}/asound.conf"
+>>  CONFFILES_${PN} =3D "${sysconfdir}/asound.conf"
+>>=20
+>=20
+> --=20
+> Joshua Lock
+>        Yocto Project "Johannes factotum"
+>        Intel Open Source Technology Centre
 
-After Khem's comment I checked the files mentioned in LIC_FILES_CHKSUM
-and changed
-from
-
-LICENSE =3D "LGPLv2&  LGPLv2+"
-
-to
-
-LICENSE =3D "GPLv2+&  LGPLv2+"
-
-and mentioned this for information in cover-letter for everybody to
-cross-check. Since my initial patch did not touch license and I don't
-exactly know how to handle this case what shall I do for V3:
-
-1. Keep LICENSE and move the cover letter explanations to commit message - =
-or
-2. Set LGPLv2.1+ as Khem mentioned
-
-> =A0Also, if you are making LICENSE changes the note you included in your =
-00
-> Patch email should really be in the Commit message instead.
->
-> Thanks
-> =A0 =A0 =A0 =A0Sau!
-
-Andreas
 
 
