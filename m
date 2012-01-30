@@ -1,24 +1,28 @@
-Received: from mail.windriver.com ([147.11.1.11])
+Received: from mga03.intel.com ([143.182.124.21])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <bruce.ashfield@windriver.com>) id 1RrxYL-00017K-Br
+	(envelope-from <sgw@linux.intel.com>) id 1Rrxfk-0001fO-1G
 	for openembedded-core@lists.openembedded.org;
-	Mon, 30 Jan 2012 21:10:13 +0100
-Received: from yow-bashfiel-l1.corp.ad.wrs.com
-	(yow-bashfiel-d3.ottawa.windriver.com [128.224.147.67])
-	by mail.windriver.com (8.14.3/8.14.3) with ESMTP id q0UK2DFv017744;
-	Mon, 30 Jan 2012 12:02:15 -0800 (PST)
-From: Bruce Ashfield <bruce.ashfield@windriver.com>
-To: richard.purdie@linuxfoundation.org
-Date: Mon, 30 Jan 2012 15:02:11 -0500
-Message-Id: <525881af94a4a14a38d21d589e72dfc1acdd096e.1327952323.git.bruce.ashfield@windriver.com>
-X-Mailer: git-send-email 1.7.4.1
-In-Reply-To: <cover.1327952323.git.bruce.ashfield@windriver.com>
-References: <cover.1327952323.git.bruce.ashfield@windriver.com>
-In-Reply-To: <cover.1327952323.git.bruce.ashfield@windriver.com>
-References: <cover.1327952323.git.bruce.ashfield@windriver.com>
-Cc: dvhart@linux.intel.com, openembedded-core@lists.openembedded.org,
-	saul.wold@intel.com
-Subject: [PATCH 2/3] linux-yocto: add kernel 3.2.2 support
+	Mon, 30 Jan 2012 21:17:52 +0100
+Received: from azsmga001.ch.intel.com ([10.2.17.19])
+	by azsmga101.ch.intel.com with ESMTP; 30 Jan 2012 12:09:57 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="101255839"
+Received: from unknown (HELO [10.255.14.89]) ([10.255.14.89])
+	by azsmga001.ch.intel.com with ESMTP; 30 Jan 2012 12:09:57 -0800
+Message-ID: <4F26F915.3040307@linux.intel.com>
+Date: Mon, 30 Jan 2012 12:09:57 -0800
+From: Saul Wold <sgw@linux.intel.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:9.0) Gecko/20111222 Thunderbird/9.0
+MIME-Version: 1.0
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+References: <1327942199-4604-1-git-send-email-koen@dominion.thruhere.net>
+	<4F26D85A.8030908@linux.intel.com>
+	<6432C232-C013-4AB3-AED2-0ED908B5C30C@dominion.thruhere.net>
+In-Reply-To: <6432C232-C013-4AB3-AED2-0ED908B5C30C@dominion.thruhere.net>
+Cc: Koen Kooi <koen@dominion.thruhere.net>
+Subject: Re: [PATCH 1/2] alsa-state: fix RDEPENDS assignment
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -33,127 +37,84 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 30 Jan 2012 20:10:13 -0000
+X-List-Received-Date: Mon, 30 Jan 2012 20:17:52 -0000
+Content-Type: text/plain; charset=ISO-8859-1; format=flowed
+Content-Transfer-Encoding: 7bit
 
-Adding initial support for the linux 3.2 kernel.
+On 01/30/2012 10:39 AM, Koen Kooi wrote:
+> Op 30 jan. 2012, om 18:50 heeft Joshua Lock het volgende geschreven:
+>
+>> Yikes, I don't know why I keep making this mistake. Thanks for catching it Koen.
+>
+> I'm still finding recipes that I wrote that have that mistake :)
+>
+>> I thought we caught this in a QA error but I definitely didn't see it, best investigate.
+>
+> it's part of recipe-sanity, which you need to call manually.
+>
 
-Although the branching and naming has changed slightly, the same BSPs and
-features exist in this tree as have existed in previous linux-yocto versions.
+Time to add that to my checklist!  I have a set of things I am trying to 
+remember to do (they don't always get done, but I try) to validate recipes.
 
-Notable features of this update are:
+Sau!
 
-  - streamlined branch naming
-  - configuration and functionality split in the standard kernel
-  - creation of the 'tiny' kernel type branch
-  - audited kernel configurations with optional features documented
-    in the meta branch
-  - feature and BSP refreshes
-  - 3.2-rt support refresh
-  - qemu ppc graphics support
-
-Build and boot testing has been performed on all emulated targets
-(sato and core).
-
-Signed-off-by: Bruce Ashfield <bruce.ashfield@windriver.com>
----
- meta/recipes-kernel/linux/linux-yocto-rt_3.2.bb |   37 ++++++++++++++++++++
- meta/recipes-kernel/linux/linux-yocto_3.2.bb    |   41 +++++++++++++++++++++++
- 2 files changed, 78 insertions(+), 0 deletions(-)
- create mode 100644 meta/recipes-kernel/linux/linux-yocto-rt_3.2.bb
- create mode 100644 meta/recipes-kernel/linux/linux-yocto_3.2.bb
-
-diff --git a/meta/recipes-kernel/linux/linux-yocto-rt_3.2.bb b/meta/recipes-kernel/linux/linux-yocto-rt_3.2.bb
-new file mode 100644
-index 0000000..9b0c1bf
---- /dev/null
-+++ b/meta/recipes-kernel/linux/linux-yocto-rt_3.2.bb
-@@ -0,0 +1,37 @@
-+inherit kernel
-+require recipes-kernel/linux/linux-yocto.inc
-+
-+KMACHINE = "common-pc"
-+KMACHINE_qemux86  = "common-pc"
-+KMACHINE_qemux86-64  = "common-pc-64"
-+KMACHINE_qemuarm  = "arm-versatile-926ejs"
-+KMACHINE_qemuppc  = "qemu-ppc32"
-+KMACHINE_qemumips = "mti-malta32-be"
-+
-+KBRANCH = "standard/preempt-rt/base"
-+KBRANCH_qemuppc = "standard/preempt-rt/qemu-ppc32"
-+
-+LINUX_VERSION ?= "3.2.2"
-+LINUX_KERNEL_TYPE = "preempt-rt"
-+
-+SRCREV_machine ?= "415af017cf163c63d7b1e6e929e4a9c9baf5ba6d"
-+SRCREV_machine_qemuppc ?= "38345c1e41b15c49308a9adbdde95167eeaa05fa"
-+SRCREV_meta ?= "138bf5b502607fe40315c0d76822318d77d97e01"
-+
-+PR = "r0"
-+PV = "${LINUX_VERSION}+git${SRCPV}"
-+
-+SRC_URI = "git://git.yoctoproject.org/linux-yocto-3.2.git;protocol=git;nocheckout=1;branch=${KBRANCH},meta;name=machine,meta"
-+
-+# Omit broken machines from COMPATIBLE_MACHINE
-+#   qemuppc hangs at boot
-+#   qemumips panics at boot
-+COMPATIBLE_MACHINE = "(qemux86|qemux86-64|qemuarm)"
-+
-+# Functionality flags
-+KERNEL_FEATURES=features/netfilter
-+KERNEL_FEATURES_append=" features/taskstats"
-+KERNEL_FEATURES_append_qemux86=" cfg/sound"
-+KERNEL_FEATURES_append_qemux86-64=" cfg/sound"
-+
-+require recipes-kernel/linux/linux-tools.inc
-diff --git a/meta/recipes-kernel/linux/linux-yocto_3.2.bb b/meta/recipes-kernel/linux/linux-yocto_3.2.bb
-new file mode 100644
-index 0000000..a80924d
---- /dev/null
-+++ b/meta/recipes-kernel/linux/linux-yocto_3.2.bb
-@@ -0,0 +1,41 @@
-+inherit kernel
-+require recipes-kernel/linux/linux-yocto.inc
-+
-+KMACHINE = "common-pc"
-+KMACHINE_qemux86  = "common-pc"
-+KMACHINE_qemux86-64  = "common-pc-64"
-+KMACHINE_qemuppc  = "qemu-ppc32"
-+KMACHINE_qemumips = "mti-malta32-be"
-+KMACHINE_qemuarm  = "arm-versatile-926ejs"
-+
-+KBRANCH = "standard/default/base"
-+KBRANCH_qemux86  = "standard/default/common-pc/base"
-+KBRANCH_qemux86-64  = "standard/default/common-pc-64/base"
-+KBRANCH_qemuppc  = "standard/default/qemu-ppc32"
-+KBRANCH_qemumips = "standard/default/mti-malta32-be"
-+KBRANCH_qemuarm  = "standard/default/arm-versatile-926ejs"
-+
-+LINUX_VERSION ?= "3.2.2"
-+
-+SRCREV_machine_qemuarm ?= "8d79190c307c7d41580beb77f83526ae3defcacc"
-+SRCREV_machine_qemumips ?= "c88f8c4f3be717be33a8ad89a14731eb94932336"
-+SRCREV_machine_qemuppc ?= "b8228f337002ad88f1e152d0c0c46c6035cd0428"
-+SRCREV_machine_qemux86 ?= "417fc778a86e81303bab5883b919ee422ec51c04"
-+SRCREV_machine_qemux86-64 ?= "417fc778a86e81303bab5883b919ee422ec51c04"
-+SRCREV_machine ?= "417fc778a86e81303bab5883b919ee422ec51c04"
-+SRCREV_meta ?= "138bf5b502607fe40315c0d76822318d77d97e01"
-+
-+PR = "r0"
-+PV = "${LINUX_VERSION}+git${SRCPV}"
-+
-+SRC_URI = "git://git.yoctoproject.org/linux-yocto-3.2;protocol=git;nocheckout=1;branch=${KBRANCH},meta;name=machine,meta"
-+
-+COMPATIBLE_MACHINE = "(qemuarm|qemux86|qemuppc|qemumips|qemux86-64)"
-+
-+# Functionality flags
-+KERNEL_FEATURES="features/netfilter"
-+KERNEL_FEATURES_append=" features/taskstats"
-+KERNEL_FEATURES_append_qemux86=" cfg/sound"
-+KERNEL_FEATURES_append_qemux86-64=" cfg/sound"
-+
-+require linux-tools.inc
--- 
-1.7.4.1
-
+> regards,
+>
+> Koen
+>
+>
+>>
+>> On 30/01/12 08:49, Koen Kooi wrote:
+>>> Signed-off-by: Koen Kooi<koen@dominion.thruhere.net>
+>> Signed-off-by: Joshua Lock<josh@linux.intel.com>
+>>
+>> Joshua
+>>
+>>> ---
+>>>   meta/recipes-bsp/alsa-state/alsa-state.bb |    5 ++---
+>>>   1 files changed, 2 insertions(+), 3 deletions(-)
+>>>
+>>> diff --git a/meta/recipes-bsp/alsa-state/alsa-state.bb b/meta/recipes-bsp/alsa-state/alsa-state.bb
+>>> index bc17b25..83c9faa 100644
+>>> --- a/meta/recipes-bsp/alsa-state/alsa-state.bb
+>>> +++ b/meta/recipes-bsp/alsa-state/alsa-state.bb
+>>> @@ -10,7 +10,7 @@ sound state at system boot and save it at system shut down."
+>>>   LICENSE = "MIT"
+>>>   LIC_FILES_CHKSUM = "file://${COREBASE}/meta/COPYING.MIT;md5=3da9cfbcb788c80a0384361b4de20420"
+>>>   PV = "0.2.0"
+>>> -PR = "r0"
+>>> +PR = "r2"
+>>>
+>>>   SRC_URI = "\
+>>>     file://asound.conf \
+>>> @@ -18,8 +18,6 @@ SRC_URI = "\
+>>>     file://alsa-state \
+>>>   "
+>>>
+>>> -RDEPENDS = "alsa-utils-alsactl"
+>>> -
+>>>   inherit update-rc.d
+>>>
+>>>   INITSCRIPT_NAME = "alsa-state"
+>>> @@ -39,6 +37,7 @@ PACKAGES += "alsa-states"
+>>>
+>>>   RRECOMMENDS_alsa-state = "alsa-states"
+>>>
+>>> +RDEPENDS_${PN} = "alsa-utils-alsactl"
+>>>   FILES_${PN} = "${sysconfdir}/init.d ${sysconfdir}/asound.conf"
+>>>   CONFFILES_${PN} = "${sysconfdir}/asound.conf"
+>>>
+>>
+>> --
+>> Joshua Lock
+>>         Yocto Project "Johannes factotum"
+>>         Intel Open Source Technology Centre
+>
+>
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
+>
 
 
