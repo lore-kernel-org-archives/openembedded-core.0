@@ -1,27 +1,32 @@
-Received: from mga02.intel.com ([134.134.136.20])
+Received: from mail-lpp01m020-f175.google.com ([209.85.217.175])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <josh@linux.intel.com>) id 1Rrvun-0004ND-V4
+	(envelope-from <schnitzeltony@googlemail.com>) id 1Rrwc3-0005vd-9Q
 	for openembedded-core@lists.openembedded.org;
-	Mon, 30 Jan 2012 19:25:18 +0100
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-	by orsmga101.jf.intel.com with ESMTP; 30 Jan 2012 10:17:24 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.67,352,1309762800"; d="scan'208";a="101956845"
-Received: from mkgumbel-mobl5.jf.intel.com (HELO [10.7.199.151])
-	([10.7.199.151])
-	by orsmga001.jf.intel.com with ESMTP; 30 Jan 2012 10:17:24 -0800
-Message-ID: <4F26DEB2.40304@linux.intel.com>
-Date: Mon, 30 Jan 2012 10:17:22 -0800
-From: Joshua Lock <josh@linux.intel.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:9.0) Gecko/20111222 Thunderbird/9.0
+	Mon, 30 Jan 2012 20:09:59 +0100
+Received: by lbol12 with SMTP id l12so336533lbo.6
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 30 Jan 2012 11:02:06 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=googlemail.com; s=gamma;
+	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
+	:content-type:content-transfer-encoding;
+	bh=7UTV+QaTJPmJO3+UJ4aQ1IhDHTt5EU332nu118tDQxE=;
+	b=kfo/SsoYd5l8LkXM4u3aMywf8+lU+EIsO8e+8HlVTEHmF7ihtVMg4Y0z3Pa04twMKK
+	2LYVliWFvLLGxsbI/9fJuilPlSBkjTo9qgpEvXBblc5SKIs1U41gaj2IWMLSD0mpKm4Y
+	3aVZ5D7kiNKtl2sj5K8F3HFsj95coDxqqXejE=
 MIME-Version: 1.0
+Received: by 10.112.84.170 with SMTP id a10mr4881321lbz.22.1327949747505; Mon,
+	30 Jan 2012 10:55:47 -0800 (PST)
+Received: by 10.112.102.165 with HTTP; Mon, 30 Jan 2012 10:55:47 -0800 (PST)
+In-Reply-To: <4F26CD01.4050700@linux.intel.com>
+References: <1327795253-24794-1-git-send-email-schnitzeltony@googlemail.com>
+	<1327795253-24794-2-git-send-email-schnitzeltony@googlemail.com>
+	<4F26CD01.4050700@linux.intel.com>
+Date: Mon, 30 Jan 2012 19:55:47 +0100
+Message-ID: <CALbNGRThtc0NUGPevQn0buhFVXyNBrCsfmkNqoX_NsU+pFS3ug@mail.gmail.com>
+From: =?ISO-8859-1?Q?Andreas_M=FCller?= <schnitzeltony@googlemail.com>
 To: openembedded-core@lists.openembedded.org
-References: <1327942199-4604-1-git-send-email-koen@dominion.thruhere.net>
-	<4F26D85A.8030908@linux.intel.com>
-	<1327946189.29933.86.camel@phil-desktop>
-In-Reply-To: <1327946189.29933.86.camel@phil-desktop>
-Subject: Re: [PATCH 1/2] alsa-state: fix RDEPENDS assignment
+Subject: Re: [PATCH v2 1/1] atk: add native / disable introspection / merge atk.inc->recipe / change license
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -36,31 +41,94 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 30 Jan 2012 18:25:18 -0000
-Content-Type: text/plain; charset=ISO-8859-1; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Mon, 30 Jan 2012 19:09:59 -0000
+Content-Type: text/plain; charset=ISO-8859-1
+Content-Transfer-Encoding: quoted-printable
 
-
-
-On 30/01/12 09:56, Phil Blundell wrote:
-> On Mon, 2012-01-30 at 09:50 -0800, Joshua Lock wrote:
->> Yikes, I don't know why I keep making this mistake. Thanks for catching
->> it Koen.
+On Mon, Jan 30, 2012 at 6:01 PM, Saul Wold <sgw@linux.intel.com> wrote:
+> On 01/28/2012 04:00 PM, Andreas M=FCller wrote:
 >>
->> I thought we caught this in a QA error but I definitely didn't see it,
->> best investigate.
+>> Native support currently is appended in meta-oe. Native build failed wit=
+h:
+>>
+>> | /usr/share/gir-1.0/GLib-2.0.gir:9:1: error: Unsupported version '1.1'
+>> | /usr/share/gir-1.0/GLib-2.0.gir:9:39: error: Unsupported version '1.1'
+>> | error parsing file Atk-1.0.gir: Failed to parse included gir GLib-2.0
+>> | make[3]: *** [Atk-1.0.typelib] Error 1
+>>
+>> build tested in meta-oe / angstrom environment
+>>
+>> Signed-off-by: Andreas M=FCller<schnitzeltony@googlemail.com>
+>> ---
+>> =A0meta/recipes-support/atk/atk.inc =A0 =A0 =A0| =A0 13 -------------
+>> =A0meta/recipes-support/atk/atk_2.2.0.bb | =A0 17 +++++++++++++----
+>> =A02 files changed, 13 insertions(+), 17 deletions(-)
+>> =A0delete mode 100644 meta/recipes-support/atk/atk.inc
+>>
+>> diff --git a/meta/recipes-support/atk/atk.inc
+>> b/meta/recipes-support/atk/atk.inc
+>> deleted file mode 100644
+>> index 6a4fef6..0000000
+>> --- a/meta/recipes-support/atk/atk.inc
+>> +++ /dev/null
+>> @@ -1,13 +0,0 @@
+>> -DESCRIPTION =3D "An accessibility toolkit for GNOME."
+>> -HOMEPAGE =3D "http://live.gnome.org/GAP/"
+>> -BUGTRACKER =3D "https://bugzilla.gnome.org/"
+>> -
+>> -LICENSE =3D "LGPLv2& =A0LGPLv2+"
+>>
+>> -
+>> -SECTION =3D "x11/libs"
+>> -
+>> -DEPENDS =3D "glib-2.0 gtk-doc-native"
+>> -
+>> -inherit autotools pkgconfig
+>> -
+>> -EXTRA_OECONF =3D "--disable-glibtest"
+>> diff --git a/meta/recipes-support/atk/atk_2.2.0.bb
+>> b/meta/recipes-support/atk/atk_2.2.0.bb
+>> index 0d657b5..74e7288 100644
+>> --- a/meta/recipes-support/atk/atk_2.2.0.bb
+>> +++ b/meta/recipes-support/atk/atk_2.2.0.bb
+>> @@ -1,14 +1,23 @@
+>> -require atk.inc
+>> +DESCRIPTION =3D "An accessibility toolkit for GNOME."
+>> +HOMEPAGE =3D "http://live.gnome.org/GAP/"
+>> +BUGTRACKER =3D "https://bugzilla.gnome.org/"
+>> +SECTION =3D "x11/libs"
+>>
+>> -PR =3D "r1"
+>> +LICENSE =3D "GPLv2+& =A0LGPLv2+"
 >
-> It seems that Yocto doesn't enable those checks.  Possibly it should, or
-> maybe we should just turn them on by default for everybody.
+> Not sure what you changed here, but you did not fix this as Khem suggeste=
+d.
 
-Personally, I feel that this check is useful enough to be turned on by 
-default.
+After Khem's comment I checked the files mentioned in LIC_FILES_CHKSUM
+and changed
+from
 
-Cheers,
-Joshua
--- 
-Joshua Lock
-         Yocto Project "Johannes factotum"
-         Intel Open Source Technology Centre
+LICENSE =3D "LGPLv2&  LGPLv2+"
+
+to
+
+LICENSE =3D "GPLv2+&  LGPLv2+"
+
+and mentioned this for information in cover-letter for everybody to
+cross-check. Since my initial patch did not touch license and I don't
+exactly know how to handle this case what shall I do for V3:
+
+1. Keep LICENSE and move the cover letter explanations to commit message - =
+or
+2. Set LGPLv2.1+ as Khem mentioned
+
+> =A0Also, if you are making LICENSE changes the note you included in your =
+00
+> Patch email should really be in the Commit message instead.
+>
+> Thanks
+> =A0 =A0 =A0 =A0Sau!
+
+Andreas
 
 
