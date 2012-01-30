@@ -1,24 +1,26 @@
-Received: from mail-pz0-f47.google.com ([209.85.210.47])
+Received: from mail-pw0-f47.google.com ([209.85.160.47])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <steve@sakoman.com>) id 1Rrt9x-0003dd-3S
+	(envelope-from <steve@sakoman.com>) id 1Rrt9z-0003dh-Qa
 	for openembedded-core@lists.openembedded.org;
-	Mon, 30 Jan 2012 16:28:45 +0100
-Received: by dakf10 with SMTP id f10so3028700dak.6
+	Mon, 30 Jan 2012 16:28:48 +0100
+Received: by pbaa13 with SMTP id a13so3212902pba.6
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 30 Jan 2012 07:20:51 -0800 (PST)
-Received: by 10.68.83.105 with SMTP id p9mr42859127pby.92.1327936851407;
-	Mon, 30 Jan 2012 07:20:51 -0800 (PST)
+	Mon, 30 Jan 2012 07:20:54 -0800 (PST)
+Received: by 10.68.141.111 with SMTP id rn15mr42187665pbb.76.1327936853530;
+	Mon, 30 Jan 2012 07:20:53 -0800 (PST)
 Received: from quadra.sakoman.net
 	(static-74-41-60-154.dsl1.pco.ca.frontiernet.net. [74.41.60.154])
-	by mx.google.com with ESMTPS id w4sm40437462pbf.4.2012.01.30.07.20.48
-	(version=SSLv3 cipher=OTHER); Mon, 30 Jan 2012 07:20:49 -0800 (PST)
+	by mx.google.com with ESMTPS id w4sm40437462pbf.4.2012.01.30.07.20.51
+	(version=SSLv3 cipher=OTHER); Mon, 30 Jan 2012 07:20:52 -0800 (PST)
 From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Date: Mon, 30 Jan 2012 07:20:36 -0800
-Message-Id: <1327936840-13937-1-git-send-email-steve@sakoman.com>
+Date: Mon, 30 Jan 2012 07:20:37 -0800
+Message-Id: <1327936840-13937-2-git-send-email-steve@sakoman.com>
 X-Mailer: git-send-email 1.7.1
+In-Reply-To: <1327936840-13937-1-git-send-email-steve@sakoman.com>
+References: <1327936840-13937-1-git-send-email-steve@sakoman.com>
 Cc: Steve Sakoman <steve@sakoman.com>
-Subject: [PATCH 0/4] zypper: support signed repositories
+Subject: [PATCH 1/4] libassuan: add recipe for 2.0.3
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -33,29 +35,35 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 30 Jan 2012 15:28:46 -0000
+X-List-Received-Date: Mon, 30 Jan 2012 15:28:48 -0000
 
-The current zypper implementation does not work with signed repositories.
-This patch series adds recipes for the required packages as well as the
-necessary runtime dependencies to zypper.
+Libassuan is the IPC library used by some GnuPG related software
 
-Tested on Gumstix Overo (OMAP3) with meta-openembedded layer enabled and
-a systemd based console image.
-
-Steve Sakoman (4):
-  libassuan: add recipe for 2.0.3
-  libksba: add recipe for 1.2.0
-  gnupg: add recipe for 2.0.18
-  zypper: add missing runtime dependences on gzip and gnupg
-
- meta/recipes-extended/gnupg/gnupg_2.0.18.bb    |   24 ++++++++++++++++++++++++
+Signed-off-by: Steve Sakoman <steve@sakoman.com>
+---
  meta/recipes-extended/gnupg/libassuan_2.0.3.bb |   11 +++++++++++
- meta/recipes-extended/gnupg/libksba_1.2.0.bb   |   10 ++++++++++
- meta/recipes-extended/zypper/zypper_git.bb     |    4 +++-
- 4 files changed, 48 insertions(+), 1 deletions(-)
- create mode 100644 meta/recipes-extended/gnupg/gnupg_2.0.18.bb
+ 1 files changed, 11 insertions(+), 0 deletions(-)
  create mode 100644 meta/recipes-extended/gnupg/libassuan_2.0.3.bb
- create mode 100644 meta/recipes-extended/gnupg/libksba_1.2.0.bb
+
+diff --git a/meta/recipes-extended/gnupg/libassuan_2.0.3.bb b/meta/recipes-extended/gnupg/libassuan_2.0.3.bb
+new file mode 100644
+index 0000000..ac34869
+--- /dev/null
++++ b/meta/recipes-extended/gnupg/libassuan_2.0.3.bb
+@@ -0,0 +1,11 @@
++DESCRIPTION = "Libassuan is the IPC library used by some GnuPG related software"
++LICENSE = "GPLv3+ & LGPLv2.1+"
++LIC_FILES_CHKSUM = "file://COPYING;md5=f27defe1e96c2e1ecd4e0c9be8967949 \
++                    file://COPYING.LIB;md5=2d5025d4aa3495befef8f17206a5b0a1"
++
++inherit autotools binconfig
++
++SRC_URI = "ftp://ftp.gnupg.org/gcrypt/${PN}/${PN}-${PV}.tar.bz2"
++
++SRC_URI[md5sum] = "179d1918325fdb928c7bd90b8a514fc7"
++SRC_URI[sha256sum] = "bad5682374c76bcc0abb1a7a34c9557af6874a477500748e64a7d3def79cac1b"
+-- 
+1.7.1
 
 
 
