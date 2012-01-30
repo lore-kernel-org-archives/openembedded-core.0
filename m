@@ -1,26 +1,26 @@
-Received: from mga02.intel.com ([134.134.136.20])
+Received: from mail-pz0-f47.google.com ([209.85.210.47])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <sgw@linux.intel.com>) id 1Rrujj-0001ai-Pw
+	(envelope-from <steve@sakoman.com>) id 1Rruw3-0001t2-8i
 	for openembedded-core@lists.openembedded.org;
-	Mon, 30 Jan 2012 18:09:48 +0100
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-	by orsmga101.jf.intel.com with ESMTP; 30 Jan 2012 09:01:54 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.67,352,1309762800"; d="scan'208";a="101929377"
-Received: from unknown (HELO [10.255.14.96]) ([10.255.14.96])
-	by orsmga001.jf.intel.com with ESMTP; 30 Jan 2012 09:01:53 -0800
-Message-ID: <4F26CD01.4050700@linux.intel.com>
-Date: Mon, 30 Jan 2012 09:01:53 -0800
-From: Saul Wold <sgw@linux.intel.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:9.0) Gecko/20111222 Thunderbird/9.0
-MIME-Version: 1.0
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-References: <1327795253-24794-1-git-send-email-schnitzeltony@googlemail.com>
-	<1327795253-24794-2-git-send-email-schnitzeltony@googlemail.com>
-In-Reply-To: <1327795253-24794-2-git-send-email-schnitzeltony@googlemail.com>
-Subject: Re: [PATCH v2 1/1] atk: add native / disable introspection / merge atk.inc->recipe / change license
+	Mon, 30 Jan 2012 18:22:31 +0100
+Received: by dakf10 with SMTP id f10so3111489dak.6
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 30 Jan 2012 09:14:37 -0800 (PST)
+Received: by 10.68.200.65 with SMTP id jq1mr43640580pbc.54.1327943677282;
+	Mon, 30 Jan 2012 09:14:37 -0800 (PST)
+Received: from quadra.sakoman.net
+	(static-74-41-60-154.dsl1.pco.ca.frontiernet.net. [74.41.60.154])
+	by mx.google.com with ESMTPS id z5sm48521910pbc.5.2012.01.30.09.14.35
+	(version=SSLv3 cipher=OTHER); Mon, 30 Jan 2012 09:14:36 -0800 (PST)
+From: Steve Sakoman <steve@sakoman.com>
+To: openembedded-core@lists.openembedded.org
+Date: Mon, 30 Jan 2012 09:14:23 -0800
+Message-Id: <1327943665-16402-2-git-send-email-steve@sakoman.com>
+X-Mailer: git-send-email 1.7.1
+In-Reply-To: <1327943665-16402-1-git-send-email-steve@sakoman.com>
+References: <1327943665-16402-1-git-send-email-steve@sakoman.com>
+Cc: Steve Sakoman <steve@sakoman.com>
+Subject: [PATCH v3 1/3] libksba: add recipe for 1.2.0
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -35,85 +35,35 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 30 Jan 2012 17:09:48 -0000
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Mon, 30 Jan 2012 17:22:31 -0000
 
-On 01/28/2012 04:00 PM, Andreas Müller wrote:
-> Native support currently is appended in meta-oe. Native build failed with:
->
-> | /usr/share/gir-1.0/GLib-2.0.gir:9:1: error: Unsupported version '1.1'
-> | /usr/share/gir-1.0/GLib-2.0.gir:9:39: error: Unsupported version '1.1'
-> | error parsing file Atk-1.0.gir: Failed to parse included gir GLib-2.0
-> | make[3]: *** [Atk-1.0.typelib] Error 1
->
-> build tested in meta-oe / angstrom environment
->
-> Signed-off-by: Andreas Müller<schnitzeltony@googlemail.com>
-> ---
->   meta/recipes-support/atk/atk.inc      |   13 -------------
->   meta/recipes-support/atk/atk_2.2.0.bb |   17 +++++++++++++----
->   2 files changed, 13 insertions(+), 17 deletions(-)
->   delete mode 100644 meta/recipes-support/atk/atk.inc
->
-> diff --git a/meta/recipes-support/atk/atk.inc b/meta/recipes-support/atk/atk.inc
-> deleted file mode 100644
-> index 6a4fef6..0000000
-> --- a/meta/recipes-support/atk/atk.inc
-> +++ /dev/null
-> @@ -1,13 +0,0 @@
-> -DESCRIPTION = "An accessibility toolkit for GNOME."
-> -HOMEPAGE = "http://live.gnome.org/GAP/"
-> -BUGTRACKER = "https://bugzilla.gnome.org/"
-> -
-> -LICENSE = "LGPLv2&  LGPLv2+"
-> -
-> -SECTION = "x11/libs"
-> -
-> -DEPENDS = "glib-2.0 gtk-doc-native"
-> -
-> -inherit autotools pkgconfig
-> -
-> -EXTRA_OECONF = "--disable-glibtest"
-> diff --git a/meta/recipes-support/atk/atk_2.2.0.bb b/meta/recipes-support/atk/atk_2.2.0.bb
-> index 0d657b5..74e7288 100644
-> --- a/meta/recipes-support/atk/atk_2.2.0.bb
-> +++ b/meta/recipes-support/atk/atk_2.2.0.bb
-> @@ -1,14 +1,23 @@
-> -require atk.inc
-> +DESCRIPTION = "An accessibility toolkit for GNOME."
-> +HOMEPAGE = "http://live.gnome.org/GAP/"
-> +BUGTRACKER = "https://bugzilla.gnome.org/"
-> +SECTION = "x11/libs"
->
-> -PR = "r1"
-> +LICENSE = "GPLv2+&  LGPLv2+"
-Not sure what you changed here, but you did not fix this as Khem 
-suggested.  Also, if you are making LICENSE changes the note you 
-included in your 00 Patch email should really be in the Commit message 
-instead.
+Libksba provides an easy API to create and parse X.509 and CMS related objects
+and is required for gnupg
 
-Thanks
-	Sau!
+Signed-off-by: Steve Sakoman <steve@sakoman.com>
+---
+ meta/recipes-support/libksba/libksba_1.2.0.bb |   10 ++++++++++
+ 1 files changed, 10 insertions(+), 0 deletions(-)
+ create mode 100644 meta/recipes-support/libksba/libksba_1.2.0.bb
 
->   LIC_FILES_CHKSUM = "file://COPYING;md5=3bf50002aefd002f49e7bb854063f7e7 \
->                       file://atk/atkutil.c;endline=20;md5=db21b0bdbef9da4dc6eb122debc9f9bc \
->                       file://atk/atk.h;endline=20;md5=c58238d688c24387376d6c69d06248a7"
-> +PR = "r2"
->
-> -SRC_URI = "http://download.gnome.org/sources/atk/2.2/${BPN}-${PV}.tar.bz2"
-> +DEPENDS = "glib-2.0 gtk-doc-native"
-> +
-> +inherit autotools pkgconfig
->
-> +SRC_URI = "http://download.gnome.org/sources/atk/2.2/${BPN}-${PV}.tar.bz2"
->   SRC_URI[md5sum] = "4894e9b04f0a9f1c37a624a1e8d6d73f"
->   SRC_URI[sha256sum] = "d201e3f5808aef0b1aec2277bfa61074f68863e405428adb57a73aab5c838450"
->
-> +BBCLASSEXTEND = "native"
->
-> -
-> +EXTRA_OECONF = "--disable-glibtest \
-> +                --disable-introspection"
+diff --git a/meta/recipes-support/libksba/libksba_1.2.0.bb b/meta/recipes-support/libksba/libksba_1.2.0.bb
+new file mode 100644
+index 0000000..876eedc
+--- /dev/null
++++ b/meta/recipes-support/libksba/libksba_1.2.0.bb
+@@ -0,0 +1,10 @@
++DESCRIPTION = " Libksba provides an easy API to create and parse X.509 and CMS related objects"
++LICENSE = "GPLv3+"
++LIC_FILES_CHKSUM = "file://COPYING;md5=f27defe1e96c2e1ecd4e0c9be8967949"
++
++inherit autotools binconfig
++
++SRC_URI = "ftp://ftp.gnupg.org/gcrypt/${PN}/${PN}-${PV}.tar.bz2"
++
++SRC_URI[md5sum] = "e797f370b69b4dc776499d6a071ae137"
++SRC_URI[sha256sum] = "09afce65b03d027cbec10d21464f4f651cdfd269e38b404f83e48d3e2a3c934b"
+-- 
+1.7.1
+
 
 
