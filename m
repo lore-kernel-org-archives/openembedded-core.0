@@ -1,28 +1,34 @@
-Received: from mail-we0-f175.google.com ([74.125.82.175])
-	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <s.stirtzel@googlemail.com>) id 1RroJ1-0003G7-Ns
-	for openembedded-core@lists.openembedded.org;
-	Mon, 30 Jan 2012 11:17:47 +0100
-Received: by werc1 with SMTP id c1so3216721wer.6
+Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
+	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <richard.purdie@linuxfoundation.org>)
+	id 1RrpKS-0000LF-QM for openembedded-core@lists.openembedded.org;
+	Mon, 30 Jan 2012 12:23:21 +0100
+Received: from localhost (localhost [127.0.0.1])
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q0UBFTLe022885
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 30 Jan 2012 02:09:55 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=googlemail.com; s=gamma;
-	h=mime-version:date:message-id:subject:from:to:content-type;
-	bh=hWS6IC49raEtgWbZgCRKuowxZGcG0MmKQu5hDqCHk3Y=;
-	b=oftiaztwHOSqegiQ1tG1s/VJFFM3wsn9TWnfwXk8FhQ8kPD8GZE105c7HcA6TepaD+
-	AhJb7/VFjfKEIYPWQHz9HFR5rvzkdhxZ0PbpIqbt4qaG94Gps/cmcRNVAAg7aEKw70nY
-	NTHnzuumpImG4CGBPJDKqLYDM51UzkYwQIBjw=
-MIME-Version: 1.0
-Received: by 10.216.138.220 with SMTP id a70mr8646333wej.24.1327918195538;
-	Mon, 30 Jan 2012 02:09:55 -0800 (PST)
-Received: by 10.223.117.72 with HTTP; Mon, 30 Jan 2012 02:09:55 -0800 (PST)
-Date: Mon, 30 Jan 2012 11:09:55 +0100
-Message-ID: <CAGiJk9efnMcaNSE9wreO3MtuEpm2H5vCv4+GGT9GqVL6+LcFMw@mail.gmail.com>
-From: Samuel Stirtzel <s.stirtzel@googlemail.com>
+	Mon, 30 Jan 2012 11:15:29 GMT
+Received: from tim.rpsys.net ([127.0.0.1])
+	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
+	port 10024) with LMTP
+	id 22428-04 for <openembedded-core@lists.openembedded.org>;
+	Mon, 30 Jan 2012 11:15:25 +0000 (GMT)
+Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q0UBFJLm022878
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO)
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 30 Jan 2012 11:15:21 GMT
+Message-ID: <1327922122.7807.59.camel@ted>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Subject: Qt4 native broken include directories?
+Date: Mon, 30 Jan 2012 11:15:22 +0000
+In-Reply-To: <59F89C99-2B25-4679-A565-B108ACAF1BFC@dominion.thruhere.net>
+References: <1327847180-25415-1-git-send-email-ulf@emagii.com>
+	<59F89C99-2B25-4679-A565-B108ACAF1BFC@dominion.thruhere.net>
+X-Mailer: Evolution 3.2.2- 
+Mime-Version: 1.0
+X-Virus-Scanned: amavisd-new at rpsys.net
+Subject: Re: [PATCH] mirrors.bbclass: Add new KERNELORG_MIRROR = ftp.sunet.se
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -37,45 +43,30 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 30 Jan 2012 10:17:47 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Mon, 30 Jan 2012 11:23:21 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-Hi,
-qmake2.bbclass exports the Qt include directory to the qt4 directory:
-export OE_QMAKE_INCDIR_QT = "${STAGING_INCDIR}/qt4"
+On Sun, 2012-01-29 at 16:35 +0100, Koen Kooi wrote:
+> Op 29 jan. 2012, om 15:26 heeft Ulf Samuelsson het volgende geschreven:
+> 
+> > www.kernel.org is missing a lot of files.
+> > Add the "ftp.sunet.se" mirror containing many missing files.
+> 
+> Since the files on kernel.org were removed because they might be
+> compromised, why do we add a mirror that has kept the compromised
+> files?
 
+Its a valid question.
 
-But it seems like the do_install of Qt native went wrong and it was
-installed in the following directories:
-file:///work/oe-core/tmp-eglibc/sysroots/x86_64-linux/usr/include/Qt
-file:///work/oe-core/tmp-eglibc/sysroots/x86_64-linux/usr/include/Qt3Support
-file:///work/oe-core/tmp-eglibc/sysroots/x86_64-linux/usr/include/QtCore
-file:///work/oe-core/tmp-eglibc/sysroots/x86_64-linux/usr/include/QtDBus
-file:///work/oe-core/tmp-eglibc/sysroots/x86_64-linux/usr/include/QtGui
-file:///work/oe-core/tmp-eglibc/sysroots/x86_64-linux/usr/include/QtNetwork
-file:///work/oe-core/tmp-eglibc/sysroots/x86_64-linux/usr/include/QtSql
-file:///work/oe-core/tmp-eglibc/sysroots/x86_64-linux/usr/include/QtTest
-file:///work/oe-core/tmp-eglibc/sysroots/x86_64-linux/usr/include/QtXml
-file:///work/oe-core/tmp-eglibc/sysroots/x86_64-linux/usr/include/QtXmlPatterns
+In our favour, we have checksums on all the SRC_URIs these days and I
+look suspiciously at anyone changing then other than at version upgrade
+time. We therefore have more protection in place than most for this kind
+of problem.
 
-Is this intended?
-It might be related to Otavios patch [1], but I can't connect it as I
-don't see Qt4-native including qt4-x11-free.inc.
+Cheers,
 
+Richard
 
-For me the result is: all native recipes that depend on Qt fail with
-missing include errors.
-As I am currently porting Plasma-Active two and the KDElibs + CMake
-(IMHO) is a BBOM,
-I currently see no way how to get around this by configuring CMake or
-setting any options.
-
-Help would be very appreciated.
-
-
-[1] http://cgit.openembedded.org/openembedded-core/commit/?id=73fc8f706b08ec74087754eacd2257856fe829d1
--- 
-Regards
-Samuel
 
 
