@@ -1,34 +1,29 @@
-Received: from mail-lpp01m010-f47.google.com ([209.85.215.47])
+Received: from mail-wi0-f175.google.com ([209.85.212.175])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <raj.khem@gmail.com>) id 1RrtGv-0003yy-Gl
+	(envelope-from <koen@dominion.thruhere.net>) id 1RrtHv-000433-Bh
 	for openembedded-core@lists.openembedded.org;
-	Mon, 30 Jan 2012 16:35:57 +0100
-Received: by lahc1 with SMTP id c1so2189390lah.6
+	Mon, 30 Jan 2012 16:36:59 +0100
+Received: by wibhq7 with SMTP id hq7so3298721wib.6
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 30 Jan 2012 07:28:04 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc:content-type:content-transfer-encoding;
-	bh=8DsCF9VZi3+/taNqHuKHtr8KL8MSm2NAYNTxGBY/4e8=;
-	b=xPYnIM/ehM5iqrN+9B+hI0NQ7aGvgwg15nLSfRNWvRvi9edgGdNBdZmVwMKkKPBAOz
-	Bem4iAXifYDdFOwDcucDNZzGe0h7nij3AR8jZJvDjHoVO3pATCiR5G8hno+tFED6paCw
-	LZMtNIUhFtWQuwQDua/z7JjH8lVNlSwuoKzdc=
-Received: by 10.112.86.67 with SMTP id n3mr4601657lbz.29.1327937283988; Mon,
-	30 Jan 2012 07:28:03 -0800 (PST)
-MIME-Version: 1.0
-Received: by 10.152.5.201 with HTTP; Mon, 30 Jan 2012 07:27:33 -0800 (PST)
-In-Reply-To: <CAGiJk9exB3QzUXxqoid0M14fVoSm5pPWMgsYACDuqyg894UGjA@mail.gmail.com>
-References: <4F24F822.1010102@emagii.com>
-	<CAMKF1spQSH0kS6LKTOBP2wqtsL_NBLRhPNqejqwhQCy=K0cjMg@mail.gmail.com>
-	<4F253A25.7010601@emagii.com>
-	<CAGiJk9exB3QzUXxqoid0M14fVoSm5pPWMgsYACDuqyg894UGjA@mail.gmail.com>
-From: Khem Raj <raj.khem@gmail.com>
-Date: Mon, 30 Jan 2012 07:27:33 -0800
-Message-ID: <CAMKF1sp8F4+X=Oq=r57ab0NH0R5USBpdYYcTGmAWqN=_N506rg@mail.gmail.com>
+	Mon, 30 Jan 2012 07:29:06 -0800 (PST)
+Received: by 10.180.109.77 with SMTP id hq13mr28834868wib.7.1327937346786;
+	Mon, 30 Jan 2012 07:29:06 -0800 (PST)
+Received: from [172.20.0.96] (ip545070eb.adsl-surfen.hetnet.nl.
+	[84.80.112.235])
+	by mx.google.com with ESMTPS id d9sm30974326wiy.2.2012.01.30.07.29.04
+	(version=TLSv1/SSLv3 cipher=OTHER);
+	Mon, 30 Jan 2012 07:29:04 -0800 (PST)
+From: Koen Kooi <koen@dominion.thruhere.net>
+Mime-Version: 1.0 (Apple Message framework v1251.1)
+Date: Mon, 30 Jan 2012 16:29:02 +0100
+In-Reply-To: <1327936840-13937-5-git-send-email-steve@sakoman.com>
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Cc: ulf@emagii.com
-Subject: Re: module.init-tools-3.16.tar.bz2 no longer available at kernel.org
+References: <1327936840-13937-1-git-send-email-steve@sakoman.com>
+	<1327936840-13937-5-git-send-email-steve@sakoman.com>
+Message-Id: <87FF40C2-C1D3-42D0-BB4E-50F2F39203EA@dominion.thruhere.net>
+X-Mailer: Apple Mail (2.1251.1)
+Subject: Re: [PATCH 4/4] zypper: add missing runtime dependences on gzip and gnupg
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -43,134 +38,56 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 30 Jan 2012 15:35:58 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Mon, 30 Jan 2012 15:36:59 -0000
+X-Groupsio-MsgNum: 16703
+Content-Type: multipart/signed;
+	boundary="Apple-Mail=_13C650F9-767F-4DD6-9D79-36A077151238";
+	protocol="application/pgp-signature"; micalg=pgp-sha1
+
+--Apple-Mail=_13C650F9-767F-4DD6-9D79-36A077151238
 Content-Transfer-Encoding: quoted-printable
-
-On Sun, Jan 29, 2012 at 11:52 PM, Samuel Stirtzel
-<s.stirtzel@googlemail.com> wrote:
-> 2012/1/29 Ulf Samuelsson <openembedded-core@emagii.com>:
->> 2012-01-29 11:21, Khem Raj skrev:
->>
->>> On Sat, Jan 28, 2012 at 11:41 PM, Ulf Samuelsson
->>> <openembedded-core@emagii.com> =C2=A0wrote:
->>>>
->>>> Don't know why, but it is no longer available (used to be).
->>>>
->>>>
->>>> "openembedded-core/meta/recipes-kernel/module-init-tools/module-init-t=
-ools-cross_3.16.bb"
->>>> is thus broken.
->>>>
->>>> Found it on a mirror.
->>>>
->>>>
->>>> "http://ftp.tlk-l.net/pub/mirrors/kernel.org/linux/utils/kernel/module=
--init-tools/"
->>>>
->>>> but it would be nice if it was cached somewhere.
->>>
->>> autobuilder.yoctoproject.org should have it
->>>
->> But not in a form that can be used to "unbreak" the build
->>
->>
->> openembedded-core/meta/classes/mirros.bbclass contains:
->>
->> ${KERNELORG_MIRROR} =C2=A0 =C2=A0http://www.kernel.org/pub \n \
->> ${KERNELORG_MIRROR} =C2=A0 =C2=A0ftp://ftp.us.kernel.org/pub \n \
->> ${KERNELORG_MIRROR} =C2=A0 =C2=A0ftp://ftp.uk.kernel.org/pub \n \
->> ${KERNELORG_MIRROR} =C2=A0 =C2=A0ftp://ftp.hk.kernel.org/pub \n \
->> ${KERNELORG_MIRROR} =C2=A0 =C2=A0ftp://ftp.au.kernel.org/pub \n \
->> ${KERNELORG_MIRROR} =C2=A0 =C2=A0ftp://ftp.jp.kernel.org/pub \n \
->>
->> I assume that bitbake will try this list of servers, when the recipe
->> is referring to ${KERNELORG_MIRROR}
->>
->> Only the first mirror is online. (At least today) so there is really
->> no backup, if the main server is down.
->>
->> Any objections to adding
->> ${KERNELORG_MIRROR} =C2=A0 =C2=A0ftp://ftp.sunet.se/pub/Linux/kernel.org=
- \n \
->> to mirrors.bbclass as the second entry ?
->>
->>
->>
->>>> openembedded-core@lists.openembedded.org
->>>>
->>>> --
->>>> Best Regards
->>>> Ulf Samuelsson
->>>> eMagii
->>>>
->>>>
->>>> _______________________________________________
->>>> Openembedded-core mailing list
->>>> Openembedded-core@lists.openembedded.org
->>>> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
->>>
->>> _______________________________________________
->>> Openembedded-core mailing list
->>> Openembedded-core@lists.openembedded.org
->>> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
->>
->>
->>
->> --
->> Best Regards
->> Ulf Samuelsson
->> eMagii
->>
->>
->> _______________________________________________
->> Openembedded-core mailing list
->> Openembedded-core@lists.openembedded.org
->> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
->
-> You could try to fetch it from the Poky sources, to do so put the
-> following lines in your config file (it was very helpful while
-> kernel.org was down).
->
-> PREMIRRORS_append =3D "\
-> bzr://.*/.* =C2=A0 http://pokylinux.org/sources/ \n \
-> cvs://.*/.* =C2=A0 http://pokylinux.org/sources/ \n \
-> git://.*/.* =C2=A0 http://pokylinux.org/sources/ \n \
-> hg://.*/.* =C2=A0 =C2=A0http://pokylinux.org/sources/ \n \
-> osc://.*/.* =C2=A0 http://pokylinux.org/sources/ \n \
-> p4://.*/.* =C2=A0 =C2=A0http://pokylinux.org/sources/ \n \
-> svk://.*/.* =C2=A0 http://pokylinux.org/sources/ \n \
-> svn://.*/.* =C2=A0 http://pokylinux.org/sources/ \n \
-> bzr://.*/.* =C2=A0 http://autobuilder.pokylinux.org/sources/ \n \
-> cvs://.*/.* =C2=A0 http://autobuilder.pokylinux.org/sources/ \n \
-> git://.*/.* =C2=A0 http://autobuilder.pokylinux.org/sources/ \n \
-> hg://.*/.* =C2=A0 =C2=A0http://autobuilder.pokylinux.org/sources/ \n \
-> osc://.*/.* =C2=A0 http://autobuilder.pokylinux.org/sources/ \n \
-> p4://.*/.* =C2=A0 =C2=A0http://autobuilder.pokylinux.org/sources/ \n \
-> svk://.*/.* =C2=A0 http://autobuilder.pokylinux.org/sources/ \n \
-> svn://.*/.* =C2=A0 http://autobuilder.pokylinux.org/sources/ \n"
->
-> MIRRORS_append =3D "\
-> ftp://.*/.* =C2=A0 =C2=A0 http://pokylinux.org/sources/ \n \
-> http://.*/.* =C2=A0 =C2=A0http://pokylinux.org/sources/ \n \
-> https://.*/.* =C2=A0 http://pokylinux.org/sources/ \n \
-> ftp://.*/.* =C2=A0 =C2=A0 =C2=A0http://autobuilder.pokylinux.org/sources/=
- \n \
-> http://.*/.* =C2=A0 =C2=A0 http://autobuilder.pokylinux.org/sources/ \n \
-> https://.*/.* =C2=A0 =C2=A0http://autobuilder.pokylinux.org/sources/ \n"
->
+Content-Type: text/plain;
+	charset=us-ascii
 
 
-there is own-mirrors.bblcass doing this just inherit and tell it where to l=
-ook
+Op 30 jan. 2012, om 16:20 heeft Steve Sakoman het volgende geschreven:
 
-> --
-> Regards
-> Samuel
->
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
+> gzip is required to uncompress repository files
+> gnupg is required for the support of signed repositories.
+>=20
+> Signed-off-by: Steve Sakoman <steve@sakoman.com>
+> ---
+> meta/recipes-extended/zypper/zypper_git.bb |    4 +++-
+> 1 files changed, 3 insertions(+), 1 deletions(-)
+>=20
+> diff --git a/meta/recipes-extended/zypper/zypper_git.bb =
+b/meta/recipes-extended/zypper/zypper_git.bb
+> index e5963be..1a6b83c 100644
+> --- a/meta/recipes-extended/zypper/zypper_git.bb
+> +++ b/meta/recipes-extended/zypper/zypper_git.bb
+> @@ -5,7 +5,9 @@ LICENSE  =3D "GPLv2+"
+> LIC_FILES_CHKSUM =3D =
+"file://COPYING;md5=3D3201406e350b39e05a82e28b5020f413"
+>=20
+> DEPENDS  =3D "libzypp augeas"
+> -PR =3D "r1"
+> +RDEPENDS =3D "gzip gnupg"
 
+RDEPENDS_${PN} and move it to the proper place in the recipe.=
 
+--Apple-Mail=_13C650F9-767F-4DD6-9D79-36A077151238
+Content-Transfer-Encoding: 7bit
+Content-Disposition: inline;
+	filename=signature.asc
+Content-Type: application/pgp-signature;
+	name=signature.asc
+Content-Description: Message signed with OpenPGP using GPGMail
+
+-----BEGIN PGP SIGNATURE-----
+
+iEYEARECAAYFAk8mtz8ACgkQMkyGM64RGpGOlACdEdUUwI9soHTH+ot/SqQh8maS
+5QIAnRxyU40bAnP7woYZ9n/JzzFMHEDh
+=QOhV
+-----END PGP SIGNATURE-----
+
+--Apple-Mail=_13C650F9-767F-4DD6-9D79-36A077151238--
