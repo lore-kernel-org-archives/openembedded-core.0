@@ -1,24 +1,24 @@
 Received: from mga01.intel.com ([192.55.52.88])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <sgw@linux.intel.com>) id 1Rs5E9-0003hm-JA
+	(envelope-from <sgw@linux.intel.com>) id 1Rs5EA-0003hm-Fj
 	for openembedded-core@lists.openembedded.org;
-	Tue, 31 Jan 2012 05:21:53 +0100
+	Tue, 31 Jan 2012 05:21:54 +0100
 Received: from fmsmga001.fm.intel.com ([10.253.24.23])
 	by fmsmga101.fm.intel.com with ESMTP; 30 Jan 2012 20:13:54 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="112282283"
+X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="112282287"
 Received: from unknown (HELO swold-mobl.bigsur.com) ([10.255.14.89])
 	by fmsmga001.fm.intel.com with ESMTP; 30 Jan 2012 20:13:54 -0800
 From: Saul Wold <sgw@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Mon, 30 Jan 2012 20:13:37 -0800
-Message-Id: <f03d8f0e18de58a3624a6fd9b85a62f493a9f1ed.1327980240.git.sgw@linux.intel.com>
+Date: Mon, 30 Jan 2012 20:13:38 -0800
+Message-Id: <f1ad32512d610ab432141f9ad7d5044d3aa93d76.1327980240.git.sgw@linux.intel.com>
 X-Mailer: git-send-email 1.7.6.5
 In-Reply-To: <cover.1327980240.git.sgw@linux.intel.com>
 References: <cover.1327980240.git.sgw@linux.intel.com>
 In-Reply-To: <cover.1327980240.git.sgw@linux.intel.com>
 References: <cover.1327980240.git.sgw@linux.intel.com>
-Subject: [CONSOLIDATED PULL 04/19] image_types.bbclass: refactor cpio images generation.
+Subject: [CONSOLIDATED PULL 05/19] genext2fs: fix inode computation
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -35,56 +35,74 @@ List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedde
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Tue, 31 Jan 2012 04:21:54 -0000
 
-From: Andrea Adami <andrea.adami@gmail.com>
+This patch fixes a problem with the computation of inodes
+based on the bytes_per_inode options, for a larger FS (> 2G)
+the inode count would go negative and a smaller default
+count would be used, this would cause the FS to run out of
+inodes.
 
-* Add common check for the presence of an /init
-* symlink, being 'touch' would fail with it
-* and 'touch -h' is not yet generally supported
-* (depends on distro on build host).
-
-Signed-off-by: Andrea Adami <andrea.adami@gmail.com>
+Signed-off-by: Saul Wold <sgw@linux.intel.com>
 ---
- meta/classes/image_types.bbclass |   21 +++++++++++++++++----
- 1 files changed, 17 insertions(+), 4 deletions(-)
+ .../genext2fs-1.4.1/fix-nbblocks-cast.patch        |   35 ++++++++++++++++++++
+ meta/recipes-devtools/genext2fs/genext2fs_1.4.1.bb |    4 ++-
+ 2 files changed, 38 insertions(+), 1 deletions(-)
+ create mode 100644 meta/recipes-devtools/genext2fs/genext2fs-1.4.1/fix-nbblocks-cast.patch
 
-diff --git a/meta/classes/image_types.bbclass b/meta/classes/image_types.bbclass
-index 4908ed9..eef554d 100644
---- a/meta/classes/image_types.bbclass
-+++ b/meta/classes/image_types.bbclass
-@@ -115,16 +115,29 @@ IMAGE_CMD_tar = "cd ${IMAGE_ROOTFS} && tar -cvf ${DEPLOY_DIR_IMAGE}/${IMAGE_NAME
- IMAGE_CMD_tar.gz = "cd ${IMAGE_ROOTFS} && tar -zcvf ${DEPLOY_DIR_IMAGE}/${IMAGE_NAME}.rootfs.tar.gz ."
- IMAGE_CMD_tar.bz2 = "cd ${IMAGE_ROOTFS} && tar -jcvf ${DEPLOY_DIR_IMAGE}/${IMAGE_NAME}.rootfs.tar.bz2 ."
- IMAGE_CMD_tar.xz = "cd ${IMAGE_ROOTFS} && tar --xz -cvf ${DEPLOY_DIR_IMAGE}/${IMAGE_NAME}.rootfs.tar.xz ."
--IMAGE_CMD_cpio () {
+diff --git a/meta/recipes-devtools/genext2fs/genext2fs-1.4.1/fix-nbblocks-cast.patch b/meta/recipes-devtools/genext2fs/genext2fs-1.4.1/fix-nbblocks-cast.patch
+new file mode 100644
+index 0000000..3fd15e0
+--- /dev/null
++++ b/meta/recipes-devtools/genext2fs/genext2fs-1.4.1/fix-nbblocks-cast.patch
+@@ -0,0 +1,35 @@
 +
-+CPIO_TOUCH_INIT () {
-+	if [ ! -L ${IMAGE_ROOTFS}/init ]
-+	then
- 	touch ${IMAGE_ROOTFS}/init
-+	fi
-+}
-+IMAGE_CMD_cpio () {
-+	${CPIO_TOUCH_INIT}
- 	cd ${IMAGE_ROOTFS} && (find . | cpio -o -H newc >${DEPLOY_DIR_IMAGE}/${IMAGE_NAME}.rootfs.cpio)
- }
- IMAGE_CMD_cpio.gz () {
--	touch ${IMAGE_ROOTFS}/init
-+	${CPIO_TOUCH_INIT}
- 	cd ${IMAGE_ROOTFS} && (find . | cpio -o -H newc | gzip -c -9 >${DEPLOY_DIR_IMAGE}/${IMAGE_NAME}.rootfs.cpio.gz)
- }
--IMAGE_CMD_cpio.xz = "type cpio >/dev/null; cd ${IMAGE_ROOTFS} && (find . | cpio -o -H newc | xz -c ${XZ_COMPRESSION_LEVEL} --check=${XZ_INTEGRITY_CHECK} > ${DEPLOY_DIR_IMAGE}/${IMAGE_NAME}.rootfs.cpio.xz) ${EXTRA_IMAGECMD}"
--IMAGE_CMD_cpio.lzma = "type cpio >/dev/null; cd ${IMAGE_ROOTFS} && (find . | cpio -o -H newc | xz --format=lzma -c ${XZ_COMPRESSION_LEVEL} --check=${XZ_INTEGRITY_CHECK} >${DEPLOY_DIR_IMAGE}/${IMAGE_NAME}.rootfs.cpio.lzma) ${EXTRA_IMAGECMD}"
-+IMAGE_CMD_cpio.xz () {
-+	${CPIO_TOUCH_INIT}
-+	cd ${IMAGE_ROOTFS} && (find . | cpio -o -H newc | xz -c ${XZ_COMPRESSION_LEVEL} --check=${XZ_INTEGRITY_CHECK} > ${DEPLOY_DIR_IMAGE}/${IMAGE_NAME}.rootfs.cpio.xz) ${EXTRA_IMAGECMD}
-+}
-+IMAGE_CMD_cpio.lzma () {
-+	${CPIO_TOUCH_INIT}
-+	cd ${IMAGE_ROOTFS} && (find . | cpio -o -H newc | xz --format=lzma -c ${XZ_COMPRESSION_LEVEL} --check=${XZ_INTEGRITY_CHECK} >${DEPLOY_DIR_IMAGE}/${IMAGE_NAME}.rootfs.cpio.lzma) ${EXTRA_IMAGECMD}
-+}
++This patch fixes up the computation of nbinodes which would go
++negative due to an int overflow issue when nbblocks > 2Meg for
++a 2Gig or greater filesystem.
++
++The computation is now done as a float equation, since both nbblocks
++and bytes_per_inode are no floats, and then cast to int by assignment.
++
++int tmp_nbinodes = nbblocks * BLOCKSIZE / bytes_per_inode;
++
++Upstream-Status: Submitted
++Signed-off-by: Saul Wold <sgw@linux.intel.com>
++
++Index: genext2fs-1.4.1/genext2fs.c
++===================================================================
++--- genext2fs-1.4.1.orig/genext2fs.c
+++++ genext2fs-1.4.1/genext2fs.c
++@@ -2447,7 +2447,7 @@ extern int optind, opterr, optopt;
++ int
++ main(int argc, char **argv)
++ {
++-	int nbblocks = -1;
+++	float nbblocks = -1;
++ 	int nbinodes = -1;
++ 	int nbresrvd = -1;
++ 	float bytes_per_inode = -1;
++@@ -2609,7 +2609,7 @@ main(int argc, char **argv)
++ 		}
++ 		if(fs_timestamp == -1)
++ 			fs_timestamp = time(NULL);
++-		fs = init_fs(nbblocks, nbinodes, nbresrvd, holes, fs_timestamp);
+++		fs = init_fs((int)nbblocks, nbinodes, nbresrvd, holes, fs_timestamp);
++ 	}
++ 	
++ 	populate_fs(fs, dopt, didx, squash_uids, squash_perms, fs_timestamp, NULL);
+diff --git a/meta/recipes-devtools/genext2fs/genext2fs_1.4.1.bb b/meta/recipes-devtools/genext2fs/genext2fs_1.4.1.bb
+index 9364bb8..012ec6c 100644
+--- a/meta/recipes-devtools/genext2fs/genext2fs_1.4.1.bb
++++ b/meta/recipes-devtools/genext2fs/genext2fs_1.4.1.bb
+@@ -1,6 +1,8 @@
+ require genext2fs.inc
  
- UBI_VOLNAME ?= "${MACHINE}-rootfs"
+-PR = "r0"
++PR = "r1"
++
++SRC_URI += "file://fix-nbblocks-cast.patch"
  
+ SRC_URI[md5sum] = "b7b6361bcce2cedff1ae437fadafe53b"
+ SRC_URI[sha256sum] = "404dbbfa7a86a6c3de8225c8da254d026b17fd288e05cec4df2cc7e1f4feecfc"
 -- 
 1.7.6.5
 
