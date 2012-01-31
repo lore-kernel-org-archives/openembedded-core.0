@@ -1,25 +1,32 @@
-Received: from mail.pbcl.net ([88.198.119.4] helo=hetzner.pbcl.net)
+Received: from mail-lpp01m010-f47.google.com ([209.85.215.47])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <philb@gnu.org>) id 1RsBO2-00078r-FL
+	(envelope-from <otavio.salvador@gmail.com>) id 1RsC7x-0000Wr-40
 	for openembedded-core@lists.openembedded.org;
-	Tue, 31 Jan 2012 11:56:30 +0100
-Received: from elite.brightsigndigital.co.uk ([81.142.160.137]
-	helo=[172.30.1.145])
-	by hetzner.pbcl.net with esmtpsa (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
-	(Exim 4.72) (envelope-from <philb@gnu.org>) id 1RsBGQ-0002xw-75
-	for openembedded-core@lists.openembedded.org;
-	Tue, 31 Jan 2012 11:48:38 +0100
-From: Phil Blundell <philb@gnu.org>
+	Tue, 31 Jan 2012 12:43:57 +0100
+Received: by lahc1 with SMTP id c1so2723502lah.6
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 31 Jan 2012 03:36:03 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
+	h=mime-version:sender:in-reply-to:references:date
+	:x-google-sender-auth:message-id:subject:from:to:content-type;
+	bh=b+dvq08uRHWT5qMY0HioP64/lpEobIoIRQqWswtZ+qo=;
+	b=xbfXYVDh5qJm8lQv+QbXrFMouX2cVqzz2fHGzBZdQbpQpG6+3CCZ+yQsVO3AshaIFQ
+	6R4VnEug330SwTc1wOg2TnKXRwe3Xpo65Vv8ToRq4wevgpvuchU25g2g7MfKNfTnkMPN
+	6XoptHuVqFI8jaHpb/enOkoUcsTYkHfETAxWo=
+MIME-Version: 1.0
+Received: by 10.112.36.34 with SMTP id n2mr3160876lbj.24.1328009762151; Tue,
+	31 Jan 2012 03:36:02 -0800 (PST)
+Sender: otavio.salvador@gmail.com
+Received: by 10.112.46.199 with HTTP; Tue, 31 Jan 2012 03:36:02 -0800 (PST)
+In-Reply-To: <cover.1327980240.git.sgw@linux.intel.com>
+References: <cover.1327980240.git.sgw@linux.intel.com>
+Date: Tue, 31 Jan 2012 09:36:02 -0200
+X-Google-Sender-Auth: nEgbM55XUIGxe1VhfO_dGRqAL38
+Message-ID: <CAP9ODKr-AVMB6EZpd6R0xzd=p93VT1qp=uVh3F8kB+FmOOTpsw@mail.gmail.com>
+From: Otavio Salvador <otavio@ossystems.com.br>
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Date: Tue, 31 Jan 2012 10:48:37 +0000
-In-Reply-To: <79a999f69d58ca98393991d18d0efd274932ff56.1327980240.git.sgw@linux.intel.com>
-References: <cover.1327980240.git.sgw@linux.intel.com>
-	<79a999f69d58ca98393991d18d0efd274932ff56.1327980240.git.sgw@linux.intel.com>
-X-Mailer: Evolution 3.0.2- 
-Message-ID: <1328006918.29933.91.camel@phil-desktop>
-Mime-Version: 1.0
-Subject: Re: [CONSOLIDATED PULL 16/19] tunearch/arm: Differentiate between thumb code generation and thumb capability
+Subject: Re: [CONSOLIDATED PULL 00/19] Community Chest
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -34,33 +41,45 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 31 Jan 2012 10:56:30 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Tue, 31 Jan 2012 11:43:57 -0000
+Content-Type: multipart/alternative; boundary=e0cb4efe34ec219e6704b7d15e18
 
-On Mon, 2012-01-30 at 20:13 -0800, Saul Wold wrote:
-> We have diverged a bit from oe.dev where thumb in OVERRIDES meant
-> the code was being compiled in thumb mode. With tunearch this got
-> a different meaning where it meant that if a core is capable of
-> generating thumb code them we will have this in overrides. With this
-> patch I am trying to address the problem where 'thumbmode' in TUNE_FEATURES
-> means that code will be compiled in thumb mode by default and
-> 'thumb' is to denote that core is capable of thumb instruction set.
+--e0cb4efe34ec219e6704b7d15e18
+Content-Type: text/plain; charset=ISO-8859-1
 
-So this patch is changing the meaning of the "thumb" override in
-oe-core, right?  Is that really a good idea?
+On Tue, Jan 31, 2012 at 02:13, Saul Wold <sgw@linux.intel.com> wrote:
 
-Also, I'm not quite sure I understand what the "thumb" tuning would be
-useful for when this patch is applied.  You seem to have removed most of
-the code which checks for "thumb" in TUNE_FEATURES which seems to leave
-it not doing anything very much.
+> Kernel Update from Bruce, they need a meta-yocto change set also.
+> I pulled the first part of Steve's GNUGP changes, but not the enabling
+> part since that is getting tweaked still.
+>
+>
+GNUPG I guess ;-)
 
-Can you clarify what exactly is the problem that this patch is solving,
-what the old and new semantics of the overrides and tune flags are, and
-why it's an improvement?
+-- 
+Otavio Salvador                             O.S. Systems
+E-mail: otavio@ossystems.com.br  http://www.ossystems.com.br
+Mobile: +55 53 9981-7854              http://projetos.ossystems.com.br
 
-p.
+--e0cb4efe34ec219e6704b7d15e18
+Content-Type: text/html; charset=ISO-8859-1
+Content-Transfer-Encoding: quoted-printable
 
+<div class=3D"gmail_quote">On Tue, Jan 31, 2012 at 02:13, Saul Wold <span d=
+ir=3D"ltr">&lt;<a href=3D"mailto:sgw@linux.intel.com">sgw@linux.intel.com</=
+a>&gt;</span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0=
+ 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex">
+Kernel Update from Bruce, they need a meta-yocto change set also.<br>
+I pulled the first part of Steve&#39;s GNUGP changes, but not the enabling<=
+br>
+part since that is getting tweaked still.<br><br></blockquote><div><br></di=
+v><div>GNUPG I guess ;-)</div><div>=A0</div></div>-- <br>Otavio Salvador=A0=
+ =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0O.S. Systems<br>E-m=
+ail: <a href=3D"mailto:otavio@ossystems.com.br" target=3D"_blank">otavio@os=
+systems.com.br</a>=A0 <a href=3D"http://www.ossystems.com.br" target=3D"_bl=
+ank">http://www.ossystems.com.br</a><br>
+Mobile: +55 53 9981-7854=A0 =A0 =A0 =A0=A0 =A0 =A0 =A0<a href=3D"http://pro=
+jetos.ossystems.com.br" target=3D"_blank">http://projetos.ossystems.com.br<=
+/a><br><br>
 
-
-
+--e0cb4efe34ec219e6704b7d15e18--
