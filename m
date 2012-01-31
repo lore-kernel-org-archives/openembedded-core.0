@@ -1,15 +1,15 @@
 Received: from mail-bk0-f47.google.com ([209.85.214.47])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <steve@sakoman.com>) id 1Rs1qj-00055I-Gq
+	(envelope-from <steve@sakoman.com>) id 1Rs2op-0007M5-BQ
 	for openembedded-core@lists.openembedded.org;
-	Tue, 31 Jan 2012 01:45:29 +0100
-Received: by bke17 with SMTP id 17so61182bke.6
+	Tue, 31 Jan 2012 02:47:35 +0100
+Received: by bke17 with SMTP id 17so93609bke.6
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 30 Jan 2012 16:37:36 -0800 (PST)
+	Mon, 30 Jan 2012 17:39:42 -0800 (PST)
 MIME-Version: 1.0
-Received: by 10.204.129.200 with SMTP id p8mr9690683bks.114.1327970256210;
-	Mon, 30 Jan 2012 16:37:36 -0800 (PST)
-Received: by 10.204.35.135 with HTTP; Mon, 30 Jan 2012 16:37:36 -0800 (PST)
+Received: by 10.204.146.14 with SMTP id f14mr769257bkv.132.1327973982069; Mon,
+	30 Jan 2012 17:39:42 -0800 (PST)
+Received: by 10.204.35.135 with HTTP; Mon, 30 Jan 2012 17:39:41 -0800 (PST)
 X-Originating-IP: [74.41.60.154]
 In-Reply-To: <4F272E1A.6040702@linux.intel.com>
 References: <1327957970-15159-1-git-send-email-steve@sakoman.com>
@@ -17,8 +17,8 @@ References: <1327957970-15159-1-git-send-email-steve@sakoman.com>
 	<4F2715ED.9030109@linux.intel.com>
 	<CAOSpxdajJLZSuzZS5qb4UPpjuS55ZWB=RR3a0oi9hNDF8J++Fw@mail.gmail.com>
 	<4F272E1A.6040702@linux.intel.com>
-Date: Mon, 30 Jan 2012 16:37:36 -0800
-Message-ID: <CAOSpxdYhXOdDjdZhT6B_ismp4_XnazZkPL799g3n2_SZ6btmtw@mail.gmail.com>
+Date: Mon, 30 Jan 2012 17:39:41 -0800
+Message-ID: <CAOSpxdZsOeOWuB5EcjFf5cN6kkMWzAaWXYue5m2OX_jwWQZEfw@mail.gmail.com>
 From: Steve Sakoman <steve@sakoman.com>
 To: Saul Wold <sgw@linux.intel.com>
 Cc: Patches and discussions about the oe-core layer
@@ -38,9 +38,48 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 31 Jan 2012 00:45:30 -0000
+X-List-Received-Date: Tue, 31 Jan 2012 01:47:35 -0000
 Content-Type: text/plain; charset=ISO-8859-1
 Content-Transfer-Encoding: quoted-printable
+
+I took a quick look at the zypper code and discovered that the gpg2
+dependency actually comes from the libzypp (package/libzypp.spec
+excerpt):
+
+%if 0%{?suse_version}
+Requires:       gpg2
+%else
+Requires:       gnupg2
+%endif
+
+That said, the gpg2 utility seems to be quite compatible with gpg
+(version 1.x), so we may get away with using an earlier version of
+gnupg with GPLv2.
+
+The required patch for libzypp is quite simple:
+
+--- git/zypp/KeyRing.cc-orig	2012-01-30 17:26:49.000000000 -0800
++++ git/zypp/KeyRing.cc	2012-01-30 17:27:57.000000000 -0800
+@@ -37,7 +37,7 @@ using namespace zypp::filesystem;
+ #undef  ZYPP_BASE_LOGGER_LOGGROUP
+ #define ZYPP_BASE_LOGGER_LOGGROUP "zypp::KeyRing"
+
+-#define GPG_BINARY "/usr/bin/gpg2"
++#define GPG_BINARY "/usr/bin/gpg"
+
+ ///////////////////////////////////////////////////////////////////
+ namespace zypp
+
+Of course you'll need to import the older gnupg recipe from oe-classic
+to test this - not sure I should touch that since I've been poking
+through the GPLv3 version of gnupg..
+
+Since the gnupg v2 package has a symlink from gpg to gpg2 the above
+patch should work just fine with the new code too.  I'll test &
+verify.
+
+Steve
+
 
 On Mon, Jan 30, 2012 at 3:56 PM, Saul Wold <sgw@linux.intel.com> wrote:
 > On 01/30/2012 03:29 PM, Steve Sakoman wrote:
@@ -61,20 +100,16 @@ g
 >> gnupg v2 code.
 >>
 > You mean v3 code no doubt.
-
-No, I did mean GnuPG V2 code, which is GPLv3 :-)  Yeah, confusing with
-all these v's flying around!
-
+>
+>
 >> I know from experience that signed repositories won't work for that
 >> version as-is. =A0Zypper explicitly uses gpg2.
 >>
 > Any idea how much work there is there? Do you know of anyone that can hel=
 p
 > out with this?
-
-I'll take a look at patches for zypper to use GnuPG v1 (which is GPLv2 ;-) =
-)
-
+>
+>
 >> It *may* be that gpg and gpg2 are compatible enough that you could get
 >> away with a symlink and a v1.x version of gnupg. =A0Or perhaps one could
 >> patch zypper to try gpg if gpg2 isn't present. =A0Thoughts?
@@ -89,9 +124,12 @@ wrong
 r
 > would want to provide signed repos in a non-GPLv3 device for security and
 > sanity.
-
-Agreed.
-
-Steve
+>
+> Sau!
+>
+>
+>> Steve
+>>
+>
 
 
