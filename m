@@ -1,24 +1,24 @@
 Received: from mga01.intel.com ([192.55.52.88])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <sgw@linux.intel.com>) id 1Rs5EO-0003hm-AA
+	(envelope-from <sgw@linux.intel.com>) id 1Rs5EL-0003hm-GE
 	for openembedded-core@lists.openembedded.org;
-	Tue, 31 Jan 2012 05:22:08 +0100
+	Tue, 31 Jan 2012 05:22:06 +0100
 Received: from fmsmga001.fm.intel.com ([10.253.24.23])
 	by fmsmga101.fm.intel.com with ESMTP; 30 Jan 2012 20:13:56 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="112282303"
+X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="112282302"
 Received: from unknown (HELO swold-mobl.bigsur.com) ([10.255.14.89])
 	by fmsmga001.fm.intel.com with ESMTP; 30 Jan 2012 20:13:56 -0800
 From: Saul Wold <sgw@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Mon, 30 Jan 2012 20:13:48 -0800
-Message-Id: <17ce878157361951ea0f0dfbcc40d0b20b818625.1327980240.git.sgw@linux.intel.com>
+Date: Mon, 30 Jan 2012 20:13:47 -0800
+Message-Id: <a12872bdf2ee18e2cb9cae741f35a7882054db08.1327980240.git.sgw@linux.intel.com>
 X-Mailer: git-send-email 1.7.6.5
 In-Reply-To: <cover.1327980240.git.sgw@linux.intel.com>
 References: <cover.1327980240.git.sgw@linux.intel.com>
 In-Reply-To: <cover.1327980240.git.sgw@linux.intel.com>
 References: <cover.1327980240.git.sgw@linux.intel.com>
-Subject: [CONSOLIDATED PULL 15/19] arm/tune: Correct the logic which added thumb-interwork to OVERRIDES
+Subject: [CONSOLIDATED PULL 14/19] gdb-common: Drop elfutils from DEPENDS
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -37,39 +37,42 @@ X-List-Received-Date: Tue, 31 Jan 2012 04:24:51 -0000
 
 From: Khem Raj <raj.khem@gmail.com>
 
-Add no-thumb-interwork to TUNE_FEATURES for angstrom
-
 Signed-off-by: Khem Raj <raj.khem@gmail.com>
 ---
- .../conf/machine/include/arm/feature-arm-thumb.inc |    2 +-
- meta/conf/machine/include/tune-strongarm1100.inc   |    4 +---
- 2 files changed, 2 insertions(+), 4 deletions(-)
+ meta/recipes-devtools/gdb/gdb-common.inc |    6 +++---
+ 1 files changed, 3 insertions(+), 3 deletions(-)
 
-diff --git a/meta/conf/machine/include/arm/feature-arm-thumb.inc b/meta/conf/machine/include/arm/feature-arm-thumb.inc
-index b7d6061..da29102 100644
---- a/meta/conf/machine/include/arm/feature-arm-thumb.inc
-+++ b/meta/conf/machine/include/arm/feature-arm-thumb.inc
-@@ -21,6 +21,6 @@ ARMPKGSFX_THUMB .= "${@bb.utils.contains("TUNE_FEATURES", [ "armv7", "thumb" ],
- # turn this off - the actual cost is very small.
- TUNEVALID[no-thumb-interwork] = "Disable mixing of thumb and ARM functions"
- TUNE_CCARGS += "${@bb.utils.contains("TUNE_FEATURES", "no-thumb-interwork", "-mno-thumb-interwork", "-mthumb-interwork", d)}"
--OVERRIDES .= "${@bb.utils.contains("TUNE_FEATURES", "no-thumb-interwork", ":thumb-interwork", "", d)}"
-+OVERRIDES .= "${@bb.utils.contains("TUNE_FEATURES", "no-thumb-interwork", "", ":thumb-interwork", d)}"
+diff --git a/meta/recipes-devtools/gdb/gdb-common.inc b/meta/recipes-devtools/gdb/gdb-common.inc
+index d728139..930a71b 100644
+--- a/meta/recipes-devtools/gdb/gdb-common.inc
++++ b/meta/recipes-devtools/gdb/gdb-common.inc
+@@ -2,7 +2,7 @@ DESCRIPTION = "gdb - GNU debugger"
+ HOMEPAGE = "http://www.gnu.org/software/gdb/"
+ LICENSE="GPLv3+"
+ SECTION = "devel"
+-DEPENDS = "ncurses readline elfutils ${LTTNGUST}"
++DEPENDS = "ncurses readline ${LTTNGUST}"
  
- TARGET_CC_KERNEL_ARCH += "-mno-thumb-interwork -marm"
-diff --git a/meta/conf/machine/include/tune-strongarm1100.inc b/meta/conf/machine/include/tune-strongarm1100.inc
-index 66bab8e..8bd5be7 100644
---- a/meta/conf/machine/include/tune-strongarm1100.inc
-+++ b/meta/conf/machine/include/tune-strongarm1100.inc
-@@ -6,7 +6,5 @@ TUNEVALID[strongarm] = "Enable Strongarm 1100 series processor optimizations"
- TUNE_CCARGS += "${@bb.utils.contains("TUNE_FEATURES", "strongarm", "-mtune=strongarm1100", "", d)}"
+ LTTNGUST = "lttng-ust"
+ LTTNGUST_libc-uclibc = ""
+@@ -11,7 +11,7 @@ LTTNGUST_mipsel = ""
+ LTTNGUST_mips64 = ""
+ LTTNGUST_mips64el = ""
  
- AVAILTUNES += "strongarm"
--TUNE_FEATURES_tune-strongarm = "${TUNE_FEATURES_tune-armv4} strongarm"
-+TUNE_FEATURES_tune-strongarm = "${TUNE_FEATURES_tune-armv4} strongarm no-thumb-interwork"
- PACKAGE_EXTRA_ARCHS_tune-strongarm = "${PACKAGE_EXTRA_ARCHS_tune-armv4}"
--
--
+-INC_PR = "r4"
++INC_PR = "r5"
+ 
+ LIC_FILES_CHKSUM = "file://COPYING;md5=59530bdf33659b29e73d4adb9f9f6552 \
+ 		file://COPYING.LIB;md5=9f604d8a4f8e74f4f5140845a21b6674 \
+@@ -40,7 +40,7 @@ EXPAT = "--without-expat"
+ 
+ EXTRA_OECONF = "--disable-gdbtk --disable-tui --disable-x \
+                 --with-curses --disable-multilib --with-system-readline --disable-sim \
+-                ${GDBPROPREFIX} --with-libelf=${STAGING_DIR_TARGET} ${EXPAT} \
++                ${GDBPROPREFIX} ${EXPAT} \
+                 ${@base_contains('DISTRO_FEATURES', 'multiarch', '--enable-64-bit-bfd', '', d)} \
+                "
+ 
 -- 
 1.7.6.5
 
