@@ -1,33 +1,34 @@
-Received: from mail-lpp01m010-f47.google.com ([209.85.215.47])
+Received: from stoexhub02.domain01.net ([83.145.59.143])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <raj.khem@gmail.com>) id 1Rs8FF-0005zo-NY
+	(envelope-from <anders@chargestorm.se>) id 1Rs8Uh-0006LU-3F
 	for openembedded-core@lists.openembedded.org;
-	Tue, 31 Jan 2012 08:35:13 +0100
-Received: by lahc1 with SMTP id c1so2611786lah.6
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 30 Jan 2012 23:27:20 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:content-type; bh=ajYPJCOU8KOBj/h0CZyNtobIXpwuJQCxIAqswfVFDLM=;
-	b=p1PUcW4+ZCUm7Cfdo590vqqHLazMYEKzF92mhC+LxGXyFyQM/BhLkzyc0H9WISPALb
-	E+iJMZXm7ybn5PWIO+Az5OcxySr4DzQgLBVYM10sveJAdTAQJNSHPixV1SnFrxmzo7XT
-	6RlXCRQaAI9/ptE8kUsHf697JBzWVS/FCBtz4=
-Received: by 10.152.122.38 with SMTP id lp6mr10529034lab.13.1327994839248;
-	Mon, 30 Jan 2012 23:27:19 -0800 (PST)
+	Tue, 31 Jan 2012 08:51:11 +0100
+Received: from ad.chargestorm.se (81.170.208.98) by stoexhub02.domain01.net
+	(10.12.10.2) with Microsoft SMTP Server (TLS) id 8.3.213.0;
+	Tue, 31 Jan 2012 08:42:13 +0100
+Date: Tue, 31 Jan 2012 08:42:17 +0100
+From: Anders Darander <anders@chargestorm.se>
+To: <openembedded-core@lists.openembedded.org>
+Message-ID: <20120131074216.GB4166@ad.chargestorm.se>
+Mail-Followup-To: openembedded-core@lists.openembedded.org
+References: <1327957970-15159-1-git-send-email-steve@sakoman.com>
+	<4F27108D.4090303@linux.intel.com>
+	<4F2715ED.9030109@linux.intel.com>
+	<CAOSpxdajJLZSuzZS5qb4UPpjuS55ZWB=RR3a0oi9hNDF8J++Fw@mail.gmail.com>
+	<4F272E1A.6040702@linux.intel.com>
+	<CAOSpxdZsOeOWuB5EcjFf5cN6kkMWzAaWXYue5m2OX_jwWQZEfw@mail.gmail.com>
+	<4F275EB2.1020308@linux.intel.com>
+	<CAOSpxdYTX7-CAxEe=7TiFV3QN_0M_LTFfgA8nq-YS3Q7zk+a3A@mail.gmail.com>
 MIME-Version: 1.0
-Received: by 10.152.5.201 with HTTP; Mon, 30 Jan 2012 23:26:49 -0800 (PST)
-In-Reply-To: <1327987091.24970.38.camel@elmorro>
-References: <384784ee3806d7d356631a03a116bb6db20b28d9.1327638861.git.raj.khem@gmail.com>
-	<d7e2e04d416b8ea8339b1bcc40af3043feb908b7.1327638861.git.raj.khem@gmail.com>
-	<4F275CE2.4090801@linux.intel.com>
-	<CAMKF1so+zagwZL5e4cSLu9XPaPDng4X9UnzSBVggnz656y3amA@mail.gmail.com>
-	<1327987091.24970.38.camel@elmorro>
-From: Khem Raj <raj.khem@gmail.com>
-Date: Mon, 30 Jan 2012 23:26:49 -0800
-Message-ID: <CAMKF1sp5UkNp_7fFmnUx-mBzbn7S5D_UHxQMR7DfcYQge2YVLw@mail.gmail.com>
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 2/5] task-core-tools: Divide it into 3 recipes
+In-Reply-To: <CAOSpxdYTX7-CAxEe=7TiFV3QN_0M_LTFfgA8nq-YS3Q7zk+a3A@mail.gmail.com>
+X-Accept-Language: sv, en, de
+X-GPG-Fingerprint: 5AF0 B2E9 78FE 9D75 D110  6F8F 3E31 84D7 920E 938C
+X-GPG-Key-Id: 0x920E938C
+X-GPG-Keyserver: hkp://keys.gnupg.net
+Organization: ChargeStorm AB
+User-Agent: Mutt/1.5.21 (2010-09-15)
+X-GFI-SMTP-Submission: 1
+Subject: Re: [PATCH v4 0/3] zypper: support signed repositories
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -42,38 +43,37 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 31 Jan 2012 07:35:13 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Tue, 31 Jan 2012 07:51:11 -0000
+Content-Type: text/plain; charset="iso-8859-1"
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-On Mon, Jan 30, 2012 at 9:18 PM, Tom Zanussi <tom.zanussi@intel.com> wrote:
-> On Mon, 2012-01-30 at 20:19 -0800, Khem Raj wrote:
->> On Mon, Jan 30, 2012 at 7:15 PM, Saul Wold <sgw@linux.intel.com> wrote:
->> > This patch is going to require some coordination with meta-yocto and
->> > possibly other layers that currently have .bbappends on the task-core-tools.
->> >
->> > It may be as simple as moving the dependency into this new -profile.bb task
->> > file.
->> >
->> > I am going to hold this one for now.
->>
->> Are there other layers than meta-intel and meta-yocto that needs it.
->> Please speak up. Can I request meta-yocto and meta-intel maintainers to please
->> coordinate fixing the respective layers. Fix is that if you have been appending
->
-> I've created a meta-intel branch ready to be pulled in when this is:
->
-> http://git.yoctoproject.org/cgit/cgit.cgi/meta-intel/log/?h=tzanussi/task-core-tools-rename
+* Steve Sakoman <steve@sakoman.com> [120131 06:32]:
 
-thanks Tom. meta-yocto maintainer needs to fix
-http://git.yoctoproject.org/cgit/cgit.cgi/poky/tree/meta-yocto/recipes-core/tasks/task-core-tools.bbappend
+> On Mon, Jan 30, 2012 at 7:23 PM, Saul Wold <sgw@linux.intel.com> wrote:
+> > On 01/30/2012 05:39 PM, Steve Sakoman wrote:
 
->
-> Tom
->
->
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
+> > I will wait to pull this until I hear back from you with another pull
+> > request. =A0Thanks for digging into this, better to get it solved now t=
+hen
+> > figure it out later that we missed a GPLv2 dependency.
+
+> I'll do a build with the libzypp RDEPENDS change and verify no issues,
+> and then a test build with the gpg2 -> gpg change and verify that too.
+
+> If it works, then that patch should likely get bundled with the
+> introduction of a GnuPG V1.4.10 recipe import from oe-classic.
+
+I think you'll have to modify the oe-classic recipe to use GnuPG v1.4.7,
+as it seems that GnuPG was relicensed to GPLv3 in 1.4.8... At least that
+was the conclusion I came to when I looked at this last summer.
+(Unfortunately, I didn't have time to work through it).
+
+Cheers,
+Anders
+
+--=20
+Anders Darander
+ChargeStorm AB / eStorm AB
 
 
