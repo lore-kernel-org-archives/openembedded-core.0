@@ -1,24 +1,28 @@
-Received: from mga03.intel.com ([143.182.124.21])
+Received: from mga14.intel.com ([143.182.124.37])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <dvhart@linux.intel.com>) id 1RsI5l-0002s0-8n
+	(envelope-from <sgw@linux.intel.com>) id 1RsIf0-0003nL-OS
 	for openembedded-core@lists.openembedded.org;
-	Tue, 31 Jan 2012 19:06:05 +0100
+	Tue, 31 Jan 2012 19:42:30 +0100
 Received: from azsmga002.ch.intel.com ([10.2.17.35])
-	by azsmga101.ch.intel.com with ESMTP; 31 Jan 2012 09:36:19 -0800
+	by azsmga102.ch.intel.com with ESMTP; 31 Jan 2012 10:34:35 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="61737535"
-Received: from unknown (HELO localhost) ([10.255.14.180])
-	by AZSMGA002.ch.intel.com with ESMTP; 31 Jan 2012 09:36:19 -0800
-From: Darren Hart <dvhart@linux.intel.com>
-To: openembedded-core@lists.openembedded.org, Saul Wold <sgw@linux.intel.com>
-Date: Tue, 31 Jan 2012 09:35:43 -0800
-Message-Id: <8f3b292dfbf229d32f972906148df26e81913e39.1328030784.git.dvhart@linux.intel.com>
-X-Mailer: git-send-email 1.7.6.5
-In-Reply-To: <cover.1328030784.git.dvhart@linux.intel.com>
-References: <cover.1328030784.git.dvhart@linux.intel.com>
-In-Reply-To: <cover.1328030784.git.dvhart@linux.intel.com>
-References: <cover.1328030784.git.dvhart@linux.intel.com>
-Subject: [PATCH 1/1] bootimg: Do not force FAT32 on all images, it violates the FAT specification
+X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="61759309"
+Received: from unknown (HELO [10.255.14.89]) ([10.255.14.89])
+	by AZSMGA002.ch.intel.com with ESMTP; 31 Jan 2012 10:34:35 -0800
+Message-ID: <4F28343A.8070501@linux.intel.com>
+Date: Tue, 31 Jan 2012 10:34:34 -0800
+From: Saul Wold <sgw@linux.intel.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:9.0) Gecko/20111222 Thunderbird/9.0
+MIME-Version: 1.0
+To: Paul Gortmaker <paul.gortmaker@windriver.com>, 
+	'Patches and discussions about the oe-core layer'
+	<openembedded-core@lists.openembedded.org>
+References: <1327681281-11454-1-git-send-email-paul.gortmaker@windriver.com>
+	<4F281CAC.5010304@linux.intel.com> <4F282815.1070407@windriver.com>
+In-Reply-To: <4F282815.1070407@windriver.com>
+Cc: poky@yoctoproject.org
+Subject: Re: [poky] [PATCH 0/3] U-boot recipe for most recent stable release.
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -33,56 +37,62 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 31 Jan 2012 18:06:05 -0000
+X-List-Received-Date: Tue, 31 Jan 2012 18:42:31 -0000
+Content-Type: text/plain; charset=ISO-8859-1; format=flowed
+Content-Transfer-Encoding: 7bit
 
-Fixes [YOCTO #1940]
+On 01/31/2012 09:42 AM, Paul Gortmaker wrote:
+> On 12-01-31 11:54 AM, Saul Wold wrote:
+>> On 01/27/2012 08:21 AM, Paul Gortmaker wrote:
+>>> This adds a recipe for U-Boot v2011.12.  In doing so, some of
+>>> non-shareable settings were moved out of u-boot.inc and others
+>>> moved in.
+>>>
+>>> The recipe was tested on an mpc8315 Yocto configuration.
+>>>
+>>> Paul Gortmaker (3):
+>>>     u-boot: Don't make the -Os removal part of global settings.
+>>>     u-boot: make FILESDIR a shared setting.
+>>>     u-boot: Add recipe for u-boot v2011.12
+>>>
+>>>    meta/recipes-bsp/u-boot/u-boot.inc        |    4 +---
+>>>    meta/recipes-bsp/u-boot/u-boot_2011.03.bb |    3 ++-
+>>>    meta/recipes-bsp/u-boot/u-boot_2011.06.bb |    3 ++-
+>>>    meta/recipes-bsp/u-boot/u-boot_2011.12.bb |   20 ++++++++++++++++++++
+>>>    4 files changed, 25 insertions(+), 5 deletions(-)
+>>>    create mode 100644 meta/recipes-bsp/u-boot/u-boot_2011.12.bb
+>>>
+>>
+>> What about the u-boot-mkimage recipe, does that also need to be updated?
+>
+> It could be, but it strictly doesn't have to be.  I'd say that
+> mkimage is a tool akin to something like tar -- i.e. you can build
+> whatever version you want, but its functionality isn't going
+> to really change often from one release to the next.
+>
+> If you want it updated, I can send a follow on patch to do
+> that.  What do you guys usually do with the old recipes, leave
+> them laying around, or STONITH?
+>
+Adding openembedded-core since that is really where patches to meta 
+should go.
 
-do_bootimg was performing the FAT overhead calculations assuming FAT32 and then
-forcing the use of FAT32 with "-F 32" to mkdosfs. The FAT specification is clear
-on cluster count being the determining factor for FAT size (even if the fs
-string is set to FAT32, go figure). Syslinux follows this spec, and rightly so,
-resulting in a failure on core-image-minimal:
+u-boot seems to be a special beast since we keep the older recipes 
+around for u-boot itself, are they are compatibility issues with going 
+to the latest u-boot-mkimage and older u-boot itself?
 
-	syslinux: zero FAT sectors (FAT12/16)
+Comments from the u-boot users?  Do we need to keep the older u-boot or 
+u-boot-mkimage around, or should the move to BSP/layers that need the 
+compatibility of the older version?
 
-Drop the "-F 32" from mkdosfs to allow it to select the appropriate FAT size
-based on cluster count. Leave the FAT overhead calculation in FAT32. This will
-result in a little extra padding for really small images, but not enough extra
-to justify recalculating for FAT12 and FAT16.
+Thanks
+	Sau!
 
-Tested with a core-image-minimal build for atom-pc. do_bootimg completed
-successfully, and the resulting image was FAT16.
-
-Signed-off-by: Darren Hart <dvhart@linux.intel.com>
----
- meta/classes/bootimg.bbclass |    5 ++++-
- 1 files changed, 4 insertions(+), 1 deletions(-)
-
-diff --git a/meta/classes/bootimg.bbclass b/meta/classes/bootimg.bbclass
-index e65bef7..a717600 100644
---- a/meta/classes/bootimg.bbclass
-+++ b/meta/classes/bootimg.bbclass
-@@ -114,6 +114,9 @@ build_hddimg() {
- 		# Account for the filesystem overhead. This includes directory
- 		# entries in the clusters as well as the FAT itself.
- 		# Assumptions:
-+		#   FAT32 (12 or 16 may be selected by mkdosfs, but the extra
-+		#   padding will be minimal on those smaller images and not
-+		#   worth the logic here to caclulate the smaller FAT sizes)
- 		#   < 16 entries per directory
- 		#   8.3 filenames only
- 
-@@ -142,7 +145,7 @@ build_hddimg() {
- 		BLOCKS=$(expr $BLOCKS + $(expr 16 - $(expr $BLOCKS % 16)))
- 
- 		IMG=${DEPLOY_DIR_IMAGE}/${IMAGE_NAME}.hddimg
--		mkdosfs -F 32 -n ${BOOTIMG_VOLUME_ID} -S 512 -C ${IMG} ${BLOCKS}
-+		mkdosfs -n ${BOOTIMG_VOLUME_ID} -S 512 -C ${IMG} ${BLOCKS}
- 		# Copy HDDDIR recursively into the image file directly
- 		mcopy -i ${IMG} -s ${HDDDIR}/* ::/
- 
--- 
-1.7.6.5
-
+> Thanks,
+> Paul.
+>
+>>
+>> Sau!
+>
 
 
