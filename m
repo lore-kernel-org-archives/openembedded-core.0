@@ -1,24 +1,33 @@
-Received: from mga02.intel.com ([134.134.136.20])
+Received: from mail-lpp01m010-f47.google.com ([209.85.215.47])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <jessica.zhang@intel.com>) id 1Rs6Sv-0002LO-4t
+	(envelope-from <raj.khem@gmail.com>) id 1Rs8FF-0005zo-NY
 	for openembedded-core@lists.openembedded.org;
-	Tue, 31 Jan 2012 06:41:13 +0100
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-	by orsmga101.jf.intel.com with ESMTP; 30 Jan 2012 21:33:05 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.67,352,1309762800"; d="scan'208";a="102128419"
-Received: from jzhang-desktop.jf.intel.com (HELO localhost) ([10.7.201.178])
-	by orsmga001.jf.intel.com with ESMTP; 30 Jan 2012 21:33:05 -0800
-From: Jessica Zhang <jessica.zhang@intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Mon, 30 Jan 2012 21:36:30 -0800
-Message-Id: <446e83a11aea146ef19b58d2de57bc5f3a22b067.1327987354.git.jessica.zhang@intel.com>
-X-Mailer: git-send-email 1.7.0.4
-In-Reply-To: <cover.1327987354.git.jessica.zhang@intel.com>
-References: <cover.1327987354.git.jessica.zhang@intel.com>
-In-Reply-To: <cover.1327987354.git.jessica.zhang@intel.com>
-References: <cover.1327987354.git.jessica.zhang@intel.com>
-Subject: [PATCH 1/1] Fix the issue that adt-installer tar ball is not regenerated if sstate is on, and other minor bug fixes
+	Tue, 31 Jan 2012 08:35:13 +0100
+Received: by lahc1 with SMTP id c1so2611786lah.6
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 30 Jan 2012 23:27:20 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:content-type; bh=ajYPJCOU8KOBj/h0CZyNtobIXpwuJQCxIAqswfVFDLM=;
+	b=p1PUcW4+ZCUm7Cfdo590vqqHLazMYEKzF92mhC+LxGXyFyQM/BhLkzyc0H9WISPALb
+	E+iJMZXm7ybn5PWIO+Az5OcxySr4DzQgLBVYM10sveJAdTAQJNSHPixV1SnFrxmzo7XT
+	6RlXCRQaAI9/ptE8kUsHf697JBzWVS/FCBtz4=
+Received: by 10.152.122.38 with SMTP id lp6mr10529034lab.13.1327994839248;
+	Mon, 30 Jan 2012 23:27:19 -0800 (PST)
+MIME-Version: 1.0
+Received: by 10.152.5.201 with HTTP; Mon, 30 Jan 2012 23:26:49 -0800 (PST)
+In-Reply-To: <1327987091.24970.38.camel@elmorro>
+References: <384784ee3806d7d356631a03a116bb6db20b28d9.1327638861.git.raj.khem@gmail.com>
+	<d7e2e04d416b8ea8339b1bcc40af3043feb908b7.1327638861.git.raj.khem@gmail.com>
+	<4F275CE2.4090801@linux.intel.com>
+	<CAMKF1so+zagwZL5e4cSLu9XPaPDng4X9UnzSBVggnz656y3amA@mail.gmail.com>
+	<1327987091.24970.38.camel@elmorro>
+From: Khem Raj <raj.khem@gmail.com>
+Date: Mon, 30 Jan 2012 23:26:49 -0800
+Message-ID: <CAMKF1sp5UkNp_7fFmnUx-mBzbn7S5D_UHxQMR7DfcYQge2YVLw@mail.gmail.com>
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 2/5] task-core-tools: Divide it into 3 recipes
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -33,84 +42,38 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 31 Jan 2012 05:41:13 -0000
+X-List-Received-Date: Tue, 31 Jan 2012 07:35:13 -0000
+Content-Type: text/plain; charset=UTF-8
 
-Signed-off-by: Jessica Zhang <jessica.zhang@intel.com>
----
- .../installer/adt-installer/adt_installer.conf     |    2 +-
- .../installer/adt-installer_1.0.bb                 |   13 ++++++-------
- 2 files changed, 7 insertions(+), 8 deletions(-)
+On Mon, Jan 30, 2012 at 9:18 PM, Tom Zanussi <tom.zanussi@intel.com> wrote:
+> On Mon, 2012-01-30 at 20:19 -0800, Khem Raj wrote:
+>> On Mon, Jan 30, 2012 at 7:15 PM, Saul Wold <sgw@linux.intel.com> wrote:
+>> > This patch is going to require some coordination with meta-yocto and
+>> > possibly other layers that currently have .bbappends on the task-core-tools.
+>> >
+>> > It may be as simple as moving the dependency into this new -profile.bb task
+>> > file.
+>> >
+>> > I am going to hold this one for now.
+>>
+>> Are there other layers than meta-intel and meta-yocto that needs it.
+>> Please speak up. Can I request meta-yocto and meta-intel maintainers to please
+>> coordinate fixing the respective layers. Fix is that if you have been appending
+>
+> I've created a meta-intel branch ready to be pulled in when this is:
+>
+> http://git.yoctoproject.org/cgit/cgit.cgi/meta-intel/log/?h=tzanussi/task-core-tools-rename
 
-diff --git a/meta/recipes-devtools/installer/adt-installer/adt_installer.conf b/meta/recipes-devtools/installer/adt-installer/adt_installer.conf
-index 2038b09..275756e 100644
---- a/meta/recipes-devtools/installer/adt-installer/adt_installer.conf
-+++ b/meta/recipes-devtools/installer/adt-installer/adt_installer.conf
-@@ -23,7 +23,7 @@
- 
- # Your yocto distro repository, this should include IPKG based packages and root filesystem files where the installation is based on
- 
--YOCTOADT_REPO="http://adtrepo.yoctoproject.org/$YOCTOADT_VERSION"
-+YOCTOADT_REPO="http://adtrepo.yoctoproject.org/YOCTOADT_VERSION"
- 
- # The following are for system wide setup
- # Target architectures that you want to setup host cross dev environment for
-diff --git a/meta/recipes-devtools/installer/adt-installer_1.0.bb b/meta/recipes-devtools/installer/adt-installer_1.0.bb
-index 39e53c1..5e76067 100644
---- a/meta/recipes-devtools/installer/adt-installer_1.0.bb
-+++ b/meta/recipes-devtools/installer/adt-installer_1.0.bb
-@@ -30,15 +30,13 @@ ALLOW_EMPTY = "1"
- 
- PACKAGES = ""
- 
--PR = "r5"
-+PR = "r6"
- 
- ADT_DEPLOY = "${TMPDIR}/deploy/sdk/"
- ADT_DIR = "${WORKDIR}/adt-installer/"
- YOCTOADT_VERSION = "${SDK_VERSION}"
- S = "${WORKDIR}/trunk"
- 
--inherit deploy allarch
--
- SRCREV = "596"
- PV = "0.1.8+svnr${SRCPV}"
- SRC_URI = "svn://opkg.googlecode.com/svn;module=trunk;proto=http \
-@@ -55,9 +53,9 @@ SRC_URI = "svn://opkg.googlecode.com/svn;module=trunk;proto=http \
- 
- ADTREPO = "http://adtrepo.yoctoproject.org/${SDK_VERSION}"
- 
--do_deploy[umask] = 022
-+do_populate_adt[umask] = 022
- 
--fakeroot do_deploy () {
-+fakeroot do_populate_adt () {
- 	cd ${WORKDIR}
- 	mkdir -p ${ADT_DEPLOY}
- 	rm -f ${ADT_DEPLOY}/adt-installer.tar.bz2
-@@ -73,13 +71,14 @@ fakeroot do_deploy () {
- 	echo 'YOCTOADT_VERSION=${SDK_VERSION}' > ${ADT_DIR}/temp.conf
-         cat ${ADT_DIR}/adt_installer.conf >> ${ADT_DIR}/temp.conf
-         mv ${ADT_DIR}/temp.conf ${ADT_DIR}/adt_installer.conf
-+	sed -i -e 's#YOCTOADT_VERSION#${SDK_VERSION}#' ${ADT_DIR}/adt_installer.conf
-         echo 'SDK_VENDOR=${SDK_VENDOR}' >> ${ADT_DIR}/scripts/data_define
-         echo 'INSTALL_FOLDER=${SDKPATH}' >> ${ADT_DIR}/scripts/data_define
- 	tar cfj adt_installer.tar.bz2 adt-installer
- 	cp ${WORKDIR}/adt_installer.tar.bz2 ${ADT_DEPLOY}
- }
- 
--do_install[noexec] = "1"
-+do_populate_adt[nostamp] = "1"
- do_configure[noexec] = "1"
- do_compile[noexec] = "1"
- do_package[noexec] = "1"
-@@ -89,4 +88,4 @@ do_package_write_rpm[noexec] = "1"
- do_package_write_deb[noexec] = "1"
- do_poplulate_sysroot[noexec] = "1"
- 
--addtask deploy before do_populate_sysroot after do_patch
-+addtask populate_adt before do_build after do_install
--- 
-1.7.0.4
+thanks Tom. meta-yocto maintainer needs to fix
+http://git.yoctoproject.org/cgit/cgit.cgi/poky/tree/meta-yocto/recipes-core/tasks/task-core-tools.bbappend
 
+>
+> Tom
+>
+>
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
 
 
