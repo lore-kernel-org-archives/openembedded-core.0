@@ -1,32 +1,30 @@
-Received: from mail-lpp01m010-f47.google.com ([209.85.215.47])
-	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <raj.khem@gmail.com>) id 1RsFhE-0006E4-3C
-	for openembedded-core@lists.openembedded.org;
-	Tue, 31 Jan 2012 16:32:36 +0100
-Received: by lahc1 with SMTP id c1so64567lah.6
+Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
+	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <richard.purdie@linuxfoundation.org>)
+	id 1RsG88-0007FP-FY for openembedded-core@lists.openembedded.org;
+	Tue, 31 Jan 2012 17:00:25 +0100
+Received: from localhost (localhost [127.0.0.1])
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q0VFqVuR011164
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 31 Jan 2012 07:24:42 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:content-type:content-transfer-encoding;
-	bh=qzezWCU+n5B0IWv6U4Y5DxYVSLHiVyG4JOXxRIrpsEk=;
-	b=u72cS3+SL026nrOKAsjpBQY0KEUIo9IkuNHE672IdynwFZrYg5wHR47AaFfCKQ3/Lk
-	rT0A6ITYgr+UuW+3OmxTDYEE4YrzOJOMe+CBTpNpchoeKwr001x4+/ewLx5K0VtJgiox
-	plwnB1uwYflVswhyYjknr7PFs2GNE8CzYJ1Os=
-Received: by 10.112.101.34 with SMTP id fd2mr5655638lbb.16.1328023482265; Tue,
-	31 Jan 2012 07:24:42 -0800 (PST)
-MIME-Version: 1.0
-Received: by 10.152.5.201 with HTTP; Tue, 31 Jan 2012 07:24:12 -0800 (PST)
-In-Reply-To: <1328006918.29933.91.camel@phil-desktop>
-References: <cover.1327980240.git.sgw@linux.intel.com>
-	<79a999f69d58ca98393991d18d0efd274932ff56.1327980240.git.sgw@linux.intel.com>
-	<1328006918.29933.91.camel@phil-desktop>
-From: Khem Raj <raj.khem@gmail.com>
-Date: Tue, 31 Jan 2012 07:24:12 -0800
-Message-ID: <CAMKF1sqmar=T71h+hQgmUxMJ33TNjreuugRHCjRRD0-_dwBxqA@mail.gmail.com>
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [CONSOLIDATED PULL 16/19] tunearch/arm: Differentiate between thumb code generation and thumb capability
+	Tue, 31 Jan 2012 15:52:31 GMT
+Received: from tim.rpsys.net ([127.0.0.1])
+	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
+	port 10024) with LMTP
+	id 10752-05 for <openembedded-core@lists.openembedded.org>;
+	Tue, 31 Jan 2012 15:52:27 +0000 (GMT)
+Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q0VFqPQQ011157
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO)
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 31 Jan 2012 15:52:26 GMT
+Message-ID: <1328025147.13744.30.camel@ted>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: openembedded-core <openembedded-core@lists.openembedded.org>
+Date: Tue, 31 Jan 2012 15:52:27 +0000
+X-Mailer: Evolution 3.2.2- 
+Mime-Version: 1.0
+X-Virus-Scanned: amavisd-new at rpsys.net
+Subject: [PATCH] pkgconfig: Ensure pkgconfig RDEPENDS are tracked
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -41,59 +39,31 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 31 Jan 2012 15:32:36 -0000
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Tue, 31 Jan 2012 16:00:25 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-On Tue, Jan 31, 2012 at 2:48 AM, Phil Blundell <philb@gnu.org> wrote:
-> On Mon, 2012-01-30 at 20:13 -0800, Saul Wold wrote:
->> We have diverged a bit from oe.dev where thumb in OVERRIDES meant
->> the code was being compiled in thumb mode. With tunearch this got
->> a different meaning where it meant that if a core is capable of
->> generating thumb code them we will have this in overrides. With this
->> patch I am trying to address the problem where 'thumbmode' in TUNE_FEATU=
-RES
->> means that code will be compiled in thumb mode by default and
->> 'thumb' is to denote that core is capable of thumb instruction set.
->
-> So this patch is changing the meaning of the "thumb" override in
-> oe-core, right? =C2=A0Is that really a good idea?
->
+Currently, pkgconfig dependencies get added to -dev packages which install
+.pc files however nothing in the system makes bitbake aware of these
+dependencies so images can fail with pkgconfig being missing.
 
-yes see below it bridges the gap that was created with tune overhaul
+This change explictly adds in the pkgconfig RDEPENDS to the -dev packages
+and hence makes bitbake aware of the dependency.
 
-> Also, I'm not quite sure I understand what the "thumb" tuning would be
-> useful for when this patch is applied. =C2=A0You seem to have removed mos=
-t of
-> the code which checks for "thumb" in TUNE_FEATURES which seems to leave
-> it not doing anything very much.
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+---
+diff --git a/meta/classes/pkgconfig.bbclass b/meta/classes/pkgconfig.bbclass
+index a12cd64..53e793a 100644
+--- a/meta/classes/pkgconfig.bbclass
++++ b/meta/classes/pkgconfig.bbclass
+@@ -1 +1,6 @@
+ DEPENDS_prepend = "pkgconfig-native "
++
++PKGCONFIGRDEP = "pkgconfig"
++PKGCONFIGRDEP_virtclass-native = ""
++
++RDEPENDS_${PN}-dev += "${PKGCONFIGRDEP}"
 
-it adds 't' or 't2' to package arch but it wont mean the package is
-compiled in thumb
-mode.
 
->
-> Can you clarify what exactly is the problem that this patch is solving,
-> what the old and new semantics of the overrides and tune flags are, and
-> why it's an improvement?
-
-recipes has used thumb override when they were being compiled in thumbmode
-and not thumb enabled. Currently override gets added regardless of mode whi=
-ch
-is not right. This is what it fixes there are few recipes in oe-core
-which use this
-override and plus helps in porting recipes from oe.dev which uses the overr=
-ide
-as explained.
-
->
-> p.
->
->
->
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
 
 
