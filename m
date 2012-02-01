@@ -1,24 +1,39 @@
-Received: from mga01.intel.com ([192.55.52.88])
+Received: from mail-ee0-f47.google.com ([74.125.83.47])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <josh@linux.intel.com>) id 1Rset4-0008Pz-5c
-	for openembedded-core@lists.openembedded.org;
-	Wed, 01 Feb 2012 19:26:30 +0100
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-	by fmsmga101.fm.intel.com with ESMTP; 01 Feb 2012 10:18:30 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="119221105"
-Received: from unknown (HELO [10.255.14.103]) ([10.255.14.103])
-	by fmsmga002.fm.intel.com with ESMTP; 01 Feb 2012 10:18:30 -0800
-Message-ID: <4F2981F6.9090701@linux.intel.com>
-Date: Wed, 01 Feb 2012 10:18:30 -0800
-From: Joshua Lock <josh@linux.intel.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:9.0) Gecko/20111222 Thunderbird/9.0
+	(envelope-from <martin.jansa@gmail.com>)
+	id 1Rsetg-0008S5-DH; Wed, 01 Feb 2012 19:27:08 +0100
+Received: by eekd41 with SMTP id d41so361648eek.6
+	for <multiple recipients>; Wed, 01 Feb 2012 10:19:13 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
+	h=date:from:to:cc:subject:message-id:references:mime-version
+	:content-type:content-disposition:in-reply-to:user-agent;
+	bh=CdkEmT18gIS8eC/hQPrQjRyvME0qc9+xZ+woW1sS1DU=;
+	b=RzfpumPXI8LTM7v2MXdi6V89CG7xV8cMWWEds8xNqz8sJQweK3ZnPggr5kYux+jn5l
+	33vlfJty/1N2bm9ojBSoEodOY4IhtBVrqDLmxNSRxOZqe/LODeP081mOQGxidWxuUuWq
+	ged5N/LoLkv1JPPKbwdNnmjNFEqVF+h7WkVIY=
+Received: by 10.14.32.84 with SMTP id n60mr2752457eea.88.1328120352948;
+	Wed, 01 Feb 2012 10:19:12 -0800 (PST)
+Received: from localhost ([94.230.152.246])
+	by mx.google.com with ESMTPS id a58sm22039211eeb.8.2012.02.01.10.19.11
+	(version=TLSv1/SSLv3 cipher=OTHER);
+	Wed, 01 Feb 2012 10:19:11 -0800 (PST)
+Date: Wed, 1 Feb 2012 19:19:09 +0100
+From: Martin Jansa <martin.jansa@gmail.com>
+To: Khem Raj <raj.khem@gmail.com>
+Message-ID: <20120201181909.GC6969@jama.jama.net>
+References: <CAMKF1so7zfZSiGq+txWdBkONMtMi8iKRhqV_TOPt3FV3fTTEpQ@mail.gmail.com>
+	<CAEsOVNekW4Zo6YRHyNCTMJ_GsgrzaOE8QvWr70tRNAZQNokcig@mail.gmail.com>
+	<CAP9ODKo5EQEWr2CU9uQdz6mXKPJfN6zhbSkTcC01k8rU2D4kQg@mail.gmail.com>
+	<CAEsOVNeh8GTOcU+jF1jxs1FJTi84vq0_AVX9osvU1R83gzq2nA@mail.gmail.com>
+	<CAMKF1sqkdApUR9YPamhtxtUHoanHZ5Sxp8ggUnp8PS0v_qPPgg@mail.gmail.com>
 MIME-Version: 1.0
-To: openembedded-core@lists.openembedded.org
-References: <CALbNGRSKUfru5Z-jAJmywTieJUALfLAZgxW_NEhLBK8W5pw1VA@mail.gmail.com>
-In-Reply-To: <CALbNGRSKUfru5Z-jAJmywTieJUALfLAZgxW_NEhLBK8W5pw1VA@mail.gmail.com>
-Subject: Re: accessing variables
+In-Reply-To: <CAMKF1sqkdApUR9YPamhtxtUHoanHZ5Sxp8ggUnp8PS0v_qPPgg@mail.gmail.com>
+User-Agent: Mutt/1.5.21 (2010-09-15)
+Cc: McClintock Matthew-B29882 <B29882@freescale.com>,
+	bitbake-devel <bitbake-devel@lists.openembedded.org>,
+	Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [bitbake-devel] should we switch off patchwork for oe-core and bitbake projects
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -33,41 +48,55 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 01 Feb 2012 18:26:30 -0000
-Content-Type: text/plain; charset=ISO-8859-1; format=flowed
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Wed, 01 Feb 2012 18:27:08 -0000
+X-Groupsio-MsgNum: 16856
+Content-Type: multipart/signed; micalg=pgp-sha1;
+	protocol="application/pgp-signature"; boundary="vOmOzSkFvhd7u8Ms"
+Content-Disposition: inline
 
-On 01/02/12 10:15, Andreas Müller wrote:
-> another stupid question from my side:
->
-> do
->
-> bb.data.getVar('foo', d, 1)
->
-> and
->
-> d.getVar('foo', 1)
->
-> access the same data?
+--vOmOzSkFvhd7u8Ms
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Yes.
+On Wed, Feb 01, 2012 at 10:07:14AM -0800, Khem Raj wrote:
+> On Wed, Feb 1, 2012 at 9:51 AM, McClintock Matthew-B29882
+> <B29882@freescale.com> wrote:
+> > I'm saying leave it there even if its not maintained. I can still go se=
+arch
+> > for patches sent by me or other specific people.
+>=20
+> thats what mailing list archives are for.
 
-The first is calling the class method and passing in an instance of a 
-data object, the second is calling the method on the object directly.
+is there something like
+oe/contrib/patchwork/pw-am.sh
+for some mailing list archive?
 
-Either way you're using the same data object, d.
+When I see some interesting patch in ML, easiest way for me to get it to
+development branch is to open patchwork web (from any computer) and then
+call pw-am.sh NUMBER in screen session on my development workstation.
 
-The latter is more pythonic and we've been slowly moving the code 
-towards that style.
+Even when reading mail in mutt on the same machine it's easier for me to
+use pw-am.sh to get that patch to my chroot for OE builds.
 
-Also for stylistic reasons please use True/False rather than 1/0 for the 
-final parameter.
+And that git hook marking them as applied works very well.. so usually I
+just have to mark cover letters as applied.
 
 Cheers,
-Joshua
--- 
-Joshua Lock
-         Yocto Project "Johannes factotum"
-         Intel Open Source Technology Centre
 
+--=20
+Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
 
+--vOmOzSkFvhd7u8Ms
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: Digital signature
+
+-----BEGIN PGP SIGNATURE-----
+Version: GnuPG v2.0.18 (GNU/Linux)
+
+iEYEARECAAYFAk8pgh0ACgkQN1Ujt2V2gBwTegCgu4vNaQeFBBtnjUeCZURYOIyQ
+c5AAnR3vGqa0bMkfwcB4B5CbBQDhxF1l
+=4hmW
+-----END PGP SIGNATURE-----
+
+--vOmOzSkFvhd7u8Ms--
