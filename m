@@ -1,33 +1,24 @@
-Received: from mail-lpp01m010-f47.google.com ([209.85.215.47])
+Received: from mail.gw90.de ([188.40.100.199])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <schnitzeltony@googlemail.com>) id 1RsWU0-0008Np-AM
-	for openembedded-core@lists.openembedded.org;
-	Wed, 01 Feb 2012 10:28:04 +0100
-Received: by lahc1 with SMTP id c1so533885lah.6
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 01 Feb 2012 01:20:09 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=googlemail.com; s=gamma;
-	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
-	:content-type; bh=OHrFxn6d6/DhzAxnFgAa516bQHiH5HU9BDFRugmQRF0=;
-	b=HySOyIkzZWpHi5p7dttANTJIeDDdqxDI1MMLghOCdxQz5bi9AcVtiaJsJAMDWmvTVP
-	j0BwKb466HngvH+mf6zaKxjoNnBAzXkgUaEVFuavJYbrKVa05C3/Xro9osb794FJjZNO
-	BAfZOP0v9VyTQ1gwwEZ1VunALJnyW95YdHvlc=
-MIME-Version: 1.0
-Received: by 10.152.132.104 with SMTP id ot8mr13129840lab.17.1328088009621;
-	Wed, 01 Feb 2012 01:20:09 -0800 (PST)
-Received: by 10.112.102.165 with HTTP; Wed, 1 Feb 2012 01:20:09 -0800 (PST)
-In-Reply-To: <CAPhnLPCXc6j4W8k_Ed=_Q52fLYvDB5EqFm0V8-Yg19ZC36JNEw@mail.gmail.com>
-References: <1327795253-24794-1-git-send-email-schnitzeltony@googlemail.com>
-	<1327795253-24794-2-git-send-email-schnitzeltony@googlemail.com>
-	<4F26CD01.4050700@linux.intel.com>
-	<CAPhnLPCXc6j4W8k_Ed=_Q52fLYvDB5EqFm0V8-Yg19ZC36JNEw@mail.gmail.com>
-Date: Wed, 1 Feb 2012 10:20:09 +0100
-Message-ID: <CALbNGRQg80gvCMjwEXeddMnUO2A4aMVG9KZsT04iH082b=MJTA@mail.gmail.com>
-From: =?ISO-8859-1?Q?Andreas_M=FCller?= <schnitzeltony@googlemail.com>
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH v2 1/1] atk: add native / disable introspection / merge atk.inc->recipe / change license
+	(envelope-from <paulepanter@users.sourceforge.net>)
+	id 1RsWYW-0008Sh-Kq for openembedded-core@lists.openembedded.org;
+	Wed, 01 Feb 2012 10:32:44 +0100
+Received: from f053046240.adsl.alicedsl.de ([78.53.46.240]
+	helo=[192.168.178.43])
+	by mail.gw90.de with esmtpsa (TLS1.0:RSA_AES_256_CBC_SHA1:32)
+	(Exim 4.69) (envelope-from <paulepanter@users.sourceforge.net>)
+	id 1RsWQz-0000qf-9b; Wed, 01 Feb 2012 09:24:57 +0000
+Message-ID: <1328088290.4185.11.camel@mattotaupa>
+From: Paul Menzel <paulepanter@users.sourceforge.net>
+To: openembedded-core@lists.openembedded.org
+Date: Wed, 01 Feb 2012 10:24:50 +0100
+In-Reply-To: <1328031918-23871-3-git-send-email-steve@sakoman.com>
+References: <1328031918-23871-1-git-send-email-steve@sakoman.com>
+	<1328031918-23871-3-git-send-email-steve@sakoman.com>
+X-Mailer: Evolution 3.2.2-1 
+Mime-Version: 1.0
+Cc: Steve Sakoman <steve@sakoman.com>
+Subject: Re: [PATCH v5 2/3] gnupg: add recipe for 2.0.18
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -42,29 +33,102 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 01 Feb 2012 09:28:04 -0000
-Content-Type: text/plain; charset=ISO-8859-1
+X-List-Received-Date: Wed, 01 Feb 2012 09:32:44 -0000
+X-Groupsio-MsgNum: 16821
+Content-Type: multipart/signed; micalg="pgp-sha1";
+	protocol="application/pgp-signature"; 
+	boundary="=-rriucXkUIhD2mDCUwCuf"
 
-On Wed, Feb 1, 2012 at 2:07 AM, Flanagan, Elizabeth
-<elizabeth.flanagan@intel.com> wrote:
->
-> - LICENSE needs to be ast parsable. It should be:
->
-> LICENSE = "GPL-2.0+ & LGPL-2.1+"
-I grepped around: We have exactly ONE hit for each ( GPL-2.0+ /
-LGPL-2.1+ ) in oe-core. This approach does not seem common to me..
->
-> - LGPLv2.1. It really does matter, IMHO.
->
-> For some reason OBS says this is only LGPL-2.1+ I haven't looked at it
-> too closely, but COPYING is pretty clear here.
->
-> -b
->
-Sorry to say so: The original patch did not touch license at all. It
-just moved it from inc -> bb. I feel a bit hijacked here and loose
-motivation of further versions of this patch...
+--=-rriucXkUIhD2mDCUwCuf
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Andreas
+Am Dienstag, den 31.01.2012, 09:45 -0800 schrieb Steve Sakoman:
+
+gnupg: add 2.0.18 (initial recipe)
+
+> GnuPG 2.0 is the new modularized version of GnuPG supporting OpenPGP and =
+S/MIME
+>=20
+> Signed-off-by: Steve Sakoman <steve@sakoman.com>
+> ---
+>  meta/recipes-support/gnupg/gnupg_2.0.18.bb |   25 ++++++++++++++++++++++=
++++
+>  1 files changed, 25 insertions(+), 0 deletions(-)
+>  create mode 100644 meta/recipes-support/gnupg/gnupg_2.0.18.bb
+>=20
+> diff --git a/meta/recipes-support/gnupg/gnupg_2.0.18.bb b/meta/recipes-su=
+pport/gnupg/gnupg_2.0.18.bb
+> new file mode 100644
+> index 0000000..bdf6e3e
+> --- /dev/null
+> +++ b/meta/recipes-support/gnupg/gnupg_2.0.18.bb
+> @@ -0,0 +1,25 @@
+> +DESCRIPTION =3D "gnupg - GNU privacy guard"
+
+Could we get a better description? Debian has the following as the
+summary.
+
+    GNU privacy guard - a free PGP replacement (new v2.x)
+
+Could you also please add the field `HOMEPAGE` set to [1].
+
+> +LICENSE =3D "GPLv3 & LGPLv3"
+> +LIC_FILES_CHKSUM =3D "file://COPYING;md5=3Df27defe1e96c2e1ecd4e0c9be8967=
+949 \
+> +                    file://COPYING.LIB;md5=3D6a6a8e020838b23406c81b19c1d=
+46df6"
+> +
+> +DEPENDS =3D "pth libassuan libksba zlib bzip2 readline"
+> +
+> +inherit autotools gettext
+> +
+> +SRC_URI =3D "ftp://ftp.gnupg.org/gcrypt/gnupg/gnupg-${PV}.tar.bz2"
+
+Change that to the following?
+
+    ftp://ftp.gnupg.org/gcrypt/${PN}/${P}.tar.bz2
+
+> +
+> +SRC_URI[md5sum] =3D "2f37e0722666a0fedbe4d9f9227ac4d7"
+> +SRC_URI[sha256sum] =3D "48aedd762ca443fb952a9e859efe3c66706d7c2c9c77c32d=
+bdbac4fe962dae5b"
+> +
+> +S =3D "${WORKDIR}/gnupg-${PV}"
+
+Is not that the default?
+
+> +
+> +EXTRA_OECONF =3D "--disable-ldap \
+> +		--with-zlib=3D${STAGING_LIBDIR}/.. \
+> +		--with-bzip2=3D${STAGING_LIBDIR}/.. \
+> +                --with-readline=3D${STAGING_LIBDIR}/.. \
+> +               "
+> +
+> +do_install_append() {
+> +	ln -sf gpg2 ${D}${bindir}/gpg
+> +}
+
+With these changes this patch is
+
+Acked-by: Paul Menzel <paulepanter@users.sourceforge.net>
 
 
+Thanks,
+
+Paul
+
+--=-rriucXkUIhD2mDCUwCuf
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: This is a digitally signed message part
+Content-Transfer-Encoding: 7bit
+
+-----BEGIN PGP SIGNATURE-----
+Version: GnuPG v1.4.11 (GNU/Linux)
+
+iEYEABECAAYFAk8pBOIACgkQPX1aK2wOHVhz7ACdHV41xxb7FAP+5SuDT1dCx7v0
+bcEAn0tbM+p6u3DPHtLGZRIYfjFMVFQc
+=aX72
+-----END PGP SIGNATURE-----
+
+--=-rriucXkUIhD2mDCUwCuf--
