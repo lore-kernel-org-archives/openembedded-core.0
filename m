@@ -1,24 +1,33 @@
-Received: from mail.gw90.de ([188.40.100.199])
+Received: from mail-lpp01m010-f47.google.com ([209.85.215.47])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <paulepanter@users.sourceforge.net>)
-	id 1RsWSb-0008KP-Gu for openembedded-core@lists.openembedded.org;
-	Wed, 01 Feb 2012 10:26:37 +0100
-Received: from f053046240.adsl.alicedsl.de ([78.53.46.240]
-	helo=[192.168.178.43])
-	by mail.gw90.de with esmtpsa (TLS1.0:RSA_AES_256_CBC_SHA1:32)
-	(Exim 4.69) (envelope-from <paulepanter@users.sourceforge.net>)
-	id 1RsWL3-0000pq-Sg; Wed, 01 Feb 2012 09:18:50 +0000
-Message-ID: <1328087923.4185.6.camel@mattotaupa>
-From: Paul Menzel <paulepanter@users.sourceforge.net>
-To: openembedded-core@lists.openembedded.org
-Date: Wed, 01 Feb 2012 10:18:43 +0100
-In-Reply-To: <1328031918-23871-2-git-send-email-steve@sakoman.com>
-References: <1328031918-23871-1-git-send-email-steve@sakoman.com>
-	<1328031918-23871-2-git-send-email-steve@sakoman.com>
-X-Mailer: Evolution 3.2.2-1 
-Mime-Version: 1.0
-Cc: Steve Sakoman <steve@sakoman.com>
-Subject: Re: [PATCH v5 1/3] libksba: add recipe for 1.2.0
+	(envelope-from <schnitzeltony@googlemail.com>) id 1RsWU0-0008Np-AM
+	for openembedded-core@lists.openembedded.org;
+	Wed, 01 Feb 2012 10:28:04 +0100
+Received: by lahc1 with SMTP id c1so533885lah.6
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 01 Feb 2012 01:20:09 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=googlemail.com; s=gamma;
+	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
+	:content-type; bh=OHrFxn6d6/DhzAxnFgAa516bQHiH5HU9BDFRugmQRF0=;
+	b=HySOyIkzZWpHi5p7dttANTJIeDDdqxDI1MMLghOCdxQz5bi9AcVtiaJsJAMDWmvTVP
+	j0BwKb466HngvH+mf6zaKxjoNnBAzXkgUaEVFuavJYbrKVa05C3/Xro9osb794FJjZNO
+	BAfZOP0v9VyTQ1gwwEZ1VunALJnyW95YdHvlc=
+MIME-Version: 1.0
+Received: by 10.152.132.104 with SMTP id ot8mr13129840lab.17.1328088009621;
+	Wed, 01 Feb 2012 01:20:09 -0800 (PST)
+Received: by 10.112.102.165 with HTTP; Wed, 1 Feb 2012 01:20:09 -0800 (PST)
+In-Reply-To: <CAPhnLPCXc6j4W8k_Ed=_Q52fLYvDB5EqFm0V8-Yg19ZC36JNEw@mail.gmail.com>
+References: <1327795253-24794-1-git-send-email-schnitzeltony@googlemail.com>
+	<1327795253-24794-2-git-send-email-schnitzeltony@googlemail.com>
+	<4F26CD01.4050700@linux.intel.com>
+	<CAPhnLPCXc6j4W8k_Ed=_Q52fLYvDB5EqFm0V8-Yg19ZC36JNEw@mail.gmail.com>
+Date: Wed, 1 Feb 2012 10:20:09 +0100
+Message-ID: <CALbNGRQg80gvCMjwEXeddMnUO2A4aMVG9KZsT04iH082b=MJTA@mail.gmail.com>
+From: =?ISO-8859-1?Q?Andreas_M=FCller?= <schnitzeltony@googlemail.com>
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH v2 1/1] atk: add native / disable introspection / merge atk.inc->recipe / change license
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -33,79 +42,29 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 01 Feb 2012 09:26:37 -0000
-X-Groupsio-MsgNum: 16819
-Content-Type: multipart/signed; micalg="pgp-sha1";
-	protocol="application/pgp-signature"; 
-	boundary="=-BzPWX4Ob9OIIl14BbRPo"
+X-List-Received-Date: Wed, 01 Feb 2012 09:28:04 -0000
+Content-Type: text/plain; charset=ISO-8859-1
 
---=-BzPWX4Ob9OIIl14BbRPo
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+On Wed, Feb 1, 2012 at 2:07 AM, Flanagan, Elizabeth
+<elizabeth.flanagan@intel.com> wrote:
+>
+> - LICENSE needs to be ast parsable. It should be:
+>
+> LICENSE = "GPL-2.0+ & LGPL-2.1+"
+I grepped around: We have exactly ONE hit for each ( GPL-2.0+ /
+LGPL-2.1+ ) in oe-core. This approach does not seem common to me..
+>
+> - LGPLv2.1. It really does matter, IMHO.
+>
+> For some reason OBS says this is only LGPL-2.1+ I haven't looked at it
+> too closely, but COPYING is pretty clear here.
+>
+> -b
+>
+Sorry to say so: The original patch did not touch license at all. It
+just moved it from inc -> bb. I feel a bit hijacked here and loose
+motivation of further versions of this patch...
 
-Am Dienstag, den 31.01.2012, 09:45 -0800 schrieb Steve Sakoman:
-> Libksba provides an easy API to create and parse X.509 and CMS related ob=
-jects
-> and is required for gnupg
->=20
-> Signed-off-by: Steve Sakoman <steve@sakoman.com>
-> ---
->  meta/recipes-support/libksba/libksba_1.2.0.bb |   12 ++++++++++++
->  1 files changed, 12 insertions(+), 0 deletions(-)
->  create mode 100644 meta/recipes-support/libksba/libksba_1.2.0.bb
->=20
-> diff --git a/meta/recipes-support/libksba/libksba_1.2.0.bb b/meta/recipes=
--support/libksba/libksba_1.2.0.bb
-> new file mode 100644
-> index 0000000..1fadd48
-> --- /dev/null
-> +++ b/meta/recipes-support/libksba/libksba_1.2.0.bb
-> @@ -0,0 +1,12 @@
-> +DESCRIPTION =3D "Libksba provides an easy API to create and parse X.509 =
-and CMS related objects"
-
-I am not sure if the description should be considered a sentence and
-therefore a full stop should be added at the end.
-
-Could you also please add the field `HOMEPAGE` set to [1]?
-
-> +LICENSE =3D "GPLv3"
-> +LIC_FILES_CHKSUM =3D "file://COPYING;md5=3Df27defe1e96c2e1ecd4e0c9be8967=
-949"
-> +
-> +DEPENDS =3D "libgpg-error"
-> +
-> +inherit autotools binconfig
-> +
-> +SRC_URI =3D "ftp://ftp.gnupg.org/gcrypt/${PN}/${PN}-${PV}.tar.bz2"
-> +
-> +SRC_URI[md5sum] =3D "e797f370b69b4dc776499d6a071ae137"
-> +SRC_URI[sha256sum] =3D "09afce65b03d027cbec10d21464f4f651cdfd269e38b404f=
-83e48d3e2a3c934b"
-
-With these changes this patch is
-
-Acked-by: Paul Menzel <paulepanter@users.sourceforge.net>
+Andreas
 
 
-Thanks,
-
-Paul
-
-
-[1] http://www.gnupg.org/related_software/libksba/
-
---=-BzPWX4Ob9OIIl14BbRPo
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: This is a digitally signed message part
-Content-Transfer-Encoding: 7bit
-
------BEGIN PGP SIGNATURE-----
-Version: GnuPG v1.4.11 (GNU/Linux)
-
-iEYEABECAAYFAk8pA3MACgkQPX1aK2wOHVidyACfUsWwRq4q6eBUtJ3XOU4lzlVZ
-o6EAniEImLN79RbFPfdaMhU1NokrkI7s
-=W1Q8
------END PGP SIGNATURE-----
-
---=-BzPWX4Ob9OIIl14BbRPo--
