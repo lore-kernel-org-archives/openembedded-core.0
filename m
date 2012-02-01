@@ -1,19 +1,32 @@
-Received: from mail.windriver.com ([147.11.1.11])
+Received: from mail-lpp01m020-f175.google.com ([209.85.217.175])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <bruce.ashfield@windriver.com>) id 1RsfT6-0001LI-5Z
+	(envelope-from <schnitzeltony@googlemail.com>) id 1RsfUB-0001Pj-QR
 	for openembedded-core@lists.openembedded.org;
-	Wed, 01 Feb 2012 20:03:44 +0100
-Received: from yow-bashfiel-l1.corp.ad.wrs.com
-	(yow-bashfiel-d3.ottawa.windriver.com [128.224.147.67])
-	by mail.windriver.com (8.14.3/8.14.3) with ESMTP id q11Itjo9011084;
-	Wed, 1 Feb 2012 10:55:45 -0800 (PST)
-From: Bruce Ashfield <bruce.ashfield@windriver.com>
-To: richard.purdie@linuxfoundation.org
-Date: Wed,  1 Feb 2012 13:55:40 -0500
-Message-Id: <1328122541-27434-1-git-send-email-bruce.ashfield@windriver.com>
-X-Mailer: git-send-email 1.7.4.1
-Cc: chris_larson@mentor.com, openembedded-core@lists.openembedded.org
-Subject: [v2 PATCH 0/1] classes/patch: return non-patch source items
+	Wed, 01 Feb 2012 20:04:51 +0100
+Received: by lbol12 with SMTP id l12so229145lbo.6
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 01 Feb 2012 10:56:56 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=googlemail.com; s=gamma;
+	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
+	:content-type:content-transfer-encoding;
+	bh=BtZYfFczTR7FKQEhrTxHCgydFhvhN35fWhfAgz2YXrQ=;
+	b=vXR0Ca3FWdpZX6276NQlaqI/+oW/601oS0PiouR3w3SQ3rSDyWJrLGuNlqeLVdD6Ja
+	cEi/MLC6LiN+uWV1kkXmtdMe7SOQ70UUFuGg3Cuq6S/KqP7v0N+vveDwjgRHavTJAtgM
+	12gKK177wXRtBMWD7u8Rt3rlKDSGyiJCNowk0=
+MIME-Version: 1.0
+Received: by 10.112.83.197 with SMTP id s5mr7156206lby.9.1328122616612; Wed,
+	01 Feb 2012 10:56:56 -0800 (PST)
+Received: by 10.112.102.165 with HTTP; Wed, 1 Feb 2012 10:56:56 -0800 (PST)
+In-Reply-To: <20120201182405.GD6969@jama.jama.net>
+References: <CALbNGRSKUfru5Z-jAJmywTieJUALfLAZgxW_NEhLBK8W5pw1VA@mail.gmail.com>
+	<20120201182405.GD6969@jama.jama.net>
+Date: Wed, 1 Feb 2012 19:56:56 +0100
+Message-ID: <CALbNGRTk64A=PCvLCTmpo_k0Drr5AjBczukkukwimKdNgPnLtw@mail.gmail.com>
+From: =?ISO-8859-1?Q?Andreas_M=FCller?= <schnitzeltony@googlemail.com>
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: accessing variables
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -28,51 +41,46 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 01 Feb 2012 19:03:44 -0000
+X-List-Received-Date: Wed, 01 Feb 2012 19:04:51 -0000
+Content-Type: text/plain; charset=ISO-8859-1
+Content-Transfer-Encoding: quoted-printable
 
-Richard,
+On Wed, Feb 1, 2012 at 7:24 PM, Martin Jansa <martin.jansa@gmail.com> wrote=
+:
+> On Wed, Feb 01, 2012 at 07:15:19PM +0100, Andreas M=FCller wrote:
+>> another stupid question from my side:
+>>
+>> do
+>>
+>> bb.data.getVar('foo', d, 1)
+>>
+>> and
+>>
+>> d.getVar('foo', 1)
+>>
+>> access the same data?
+>
+> Should be and later is preferred AFAIK, see:
+> http://git.openembedded.org/openembedded-core/commit/?id=3Db22831fd63164c=
+4db9c0b72934d7d734a6585251
+>
+> Cheers,
+>
+>>
+>> Thanks in advance
+>>
+>> Andreas
+>>
+>> _______________________________________________
+>> Openembedded-core mailing list
+>> Openembedded-core@lists.openembedded.org
+>> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
+>
+> --
+> Martin 'JaMa' Jansa =A0 =A0 jabber: Martin.Jansa@gmail.com
+>
+Thank you for details helping me understanding what's going on :)
 
-Here's v2 of this request.
-
-Changes since v1:
-
-  - Changed the parameter to src_patches from 'type' to 
-    'all, and make it a boolean versus a magic string
-  - Changed the name of 'others' to 'sources in the collecting
-    list.
-
-With the name 'all' as the parameter, you may think that it would
-return patches + non-patches instead of just non-patches. But that's
-largely a property of the new variable name. I'd rather keep them
-separate and really not return a mix of patches and non-patches. If
-we think this will cause confusion, I can always change the name of
-the variable again.
-
-Below is the original request:
-
-When working with Tom on some BSP usability cases, he noted that it was nice
-that we can specify more complex features in the SRC_URI now that patch
-ordering and location is maintained by using the src_patches abstraction that
-Chris added to patch.bbclass. But .. there's always a but, you had to
-specify some sort of patch to trigger the processing.
-
-Rather than hack something in that is specific to linux-yocto, it seemed
-like a good idea to add the ability to get 'anything that isn't a patch'
-from the same routines that Chris added to patch.bbclass.
-
-I'm now using this support to pickup all sorts of things from the SRC_URI,
-without knowing anything about the format of the SRC_URI itself. Extra
-filtering on 'other' is the responsibility of the caller.
-
-I'm not the worlds top python coder yet, so I'm sure there are better ways
-to do this, hence why I'm calling this an RFC patch. I can re-work it 
-as appropriate to get it into the tree, and I'll follow up with my user
-of the new functionality.
-
-Cheers,
-
-Bruce
-
-cc: Chris Larson <chris_larson@mentor.com>
+Andreas
 
 
