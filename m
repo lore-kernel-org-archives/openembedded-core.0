@@ -1,24 +1,36 @@
-Received: from mail.gw90.de ([188.40.100.199])
+Received: from stoexhub02.domain01.net ([83.145.59.143])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <paulepanter@users.sourceforge.net>)
-	id 1RsWYW-0008Sh-Kq for openembedded-core@lists.openembedded.org;
-	Wed, 01 Feb 2012 10:32:44 +0100
-Received: from f053046240.adsl.alicedsl.de ([78.53.46.240]
-	helo=[192.168.178.43])
-	by mail.gw90.de with esmtpsa (TLS1.0:RSA_AES_256_CBC_SHA1:32)
-	(Exim 4.69) (envelope-from <paulepanter@users.sourceforge.net>)
-	id 1RsWQz-0000qf-9b; Wed, 01 Feb 2012 09:24:57 +0000
-Message-ID: <1328088290.4185.11.camel@mattotaupa>
-From: Paul Menzel <paulepanter@users.sourceforge.net>
-To: openembedded-core@lists.openembedded.org
-Date: Wed, 01 Feb 2012 10:24:50 +0100
-In-Reply-To: <1328031918-23871-3-git-send-email-steve@sakoman.com>
-References: <1328031918-23871-1-git-send-email-steve@sakoman.com>
-	<1328031918-23871-3-git-send-email-steve@sakoman.com>
-X-Mailer: Evolution 3.2.2-1 
-Mime-Version: 1.0
-Cc: Steve Sakoman <steve@sakoman.com>
-Subject: Re: [PATCH v5 2/3] gnupg: add recipe for 2.0.18
+	(envelope-from <anders@chargestorm.se>) id 1RsYDE-0002gI-Oe
+	for openembedded-core@lists.openembedded.org;
+	Wed, 01 Feb 2012 12:18:52 +0100
+Received: from ad.chargestorm.se (81.170.208.98) by stoexhub02.domain01.net
+	(10.12.10.2) with Microsoft SMTP Server (TLS) id 8.3.213.0;
+	Wed, 1 Feb 2012 12:10:57 +0100
+Date: Wed, 1 Feb 2012 12:11:01 +0100
+From: Anders Darander <anders@chargestorm.se>
+To: <openembedded-core@lists.openembedded.org>
+Message-ID: <20120201111100.GA12344@ad.chargestorm.se>
+Mail-Followup-To: openembedded-core@lists.openembedded.org
+References: <1327957970-15159-1-git-send-email-steve@sakoman.com>
+	<4F27108D.4090303@linux.intel.com>
+	<4F2715ED.9030109@linux.intel.com>
+	<CAOSpxdajJLZSuzZS5qb4UPpjuS55ZWB=RR3a0oi9hNDF8J++Fw@mail.gmail.com>
+	<4F272E1A.6040702@linux.intel.com>
+	<CAOSpxdZsOeOWuB5EcjFf5cN6kkMWzAaWXYue5m2OX_jwWQZEfw@mail.gmail.com>
+	<4F275EB2.1020308@linux.intel.com>
+	<CAOSpxdYTX7-CAxEe=7TiFV3QN_0M_LTFfgA8nq-YS3Q7zk+a3A@mail.gmail.com>
+	<20120131074216.GB4166@ad.chargestorm.se>
+	<CAGDS+nmGBsC8r6yTYaSzNyDuF61A1jLL+Q+rJpDM4kb8ufAYWA@mail.gmail.com>
+MIME-Version: 1.0
+In-Reply-To: <CAGDS+nmGBsC8r6yTYaSzNyDuF61A1jLL+Q+rJpDM4kb8ufAYWA@mail.gmail.com>
+X-Accept-Language: sv, en, de
+X-GPG-Fingerprint: 5AF0 B2E9 78FE 9D75 D110  6F8F 3E31 84D7 920E 938C
+X-GPG-Key-Id: 0x920E938C
+X-GPG-Keyserver: hkp://keys.gnupg.net
+Organization: ChargeStorm AB
+User-Agent: Mutt/1.5.21 (2010-09-15)
+X-GFI-SMTP-Submission: 1
+Subject: Re: [PATCH v4 0/3] zypper: support signed repositories
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -33,102 +45,59 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 01 Feb 2012 09:32:44 -0000
-X-Groupsio-MsgNum: 16821
-Content-Type: multipart/signed; micalg="pgp-sha1";
-	protocol="application/pgp-signature"; 
-	boundary="=-rriucXkUIhD2mDCUwCuf"
-
---=-rriucXkUIhD2mDCUwCuf
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Wed, 01 Feb 2012 11:18:52 -0000
+Content-Type: text/plain; charset="iso-8859-1"
+Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-Am Dienstag, den 31.01.2012, 09:45 -0800 schrieb Steve Sakoman:
+* Steve Sakoman <sakoman@gmail.com> [120131 17:50]:
+> On Mon, Jan 30, 2012 at 11:42 PM, Anders Darander <anders@chargestorm.se>=
+ wrote:
+> > * Steve Sakoman <steve@sakoman.com> [120131 06:32]:
+> >> On Mon, Jan 30, 2012 at 7:23 PM, Saul Wold <sgw@linux.intel.com> wrote:
+> >> > On 01/30/2012 05:39 PM, Steve Sakoman wrote:
 
-gnupg: add 2.0.18 (initial recipe)
+> >> > I will wait to pull this until I hear back from you with another pull
+> >> > request. =A0Thanks for digging into this, better to get it solved no=
+w then
+> >> > figure it out later that we missed a GPLv2 dependency.
 
-> GnuPG 2.0 is the new modularized version of GnuPG supporting OpenPGP and =
-S/MIME
->=20
-> Signed-off-by: Steve Sakoman <steve@sakoman.com>
-> ---
->  meta/recipes-support/gnupg/gnupg_2.0.18.bb |   25 ++++++++++++++++++++++=
-+++
->  1 files changed, 25 insertions(+), 0 deletions(-)
->  create mode 100644 meta/recipes-support/gnupg/gnupg_2.0.18.bb
->=20
-> diff --git a/meta/recipes-support/gnupg/gnupg_2.0.18.bb b/meta/recipes-su=
-pport/gnupg/gnupg_2.0.18.bb
-> new file mode 100644
-> index 0000000..bdf6e3e
-> --- /dev/null
-> +++ b/meta/recipes-support/gnupg/gnupg_2.0.18.bb
-> @@ -0,0 +1,25 @@
-> +DESCRIPTION =3D "gnupg - GNU privacy guard"
+> >> I'll do a build with the libzypp RDEPENDS change and verify no issues,
+> >> and then a test build with the gpg2 -> gpg change and verify that too.
 
-Could we get a better description? Debian has the following as the
-summary.
+> >> If it works, then that patch should likely get bundled with the
+> >> introduction of a GnuPG V1.4.10 recipe import from oe-classic.
 
-    GNU privacy guard - a free PGP replacement (new v2.x)
+> > I think you'll have to modify the oe-classic recipe to use GnuPG v1.4.7,
+> > as it seems that GnuPG was relicensed to GPLv3 in 1.4.8... At least that
+> > was the conclusion I came to when I looked at this last summer.
+> > (Unfortunately, I didn't have time to work through it).
 
-Could you also please add the field `HOMEPAGE` set to [1].
+> This makes me wonder whether libzypp/zypper is an appropriate long
+> term choice for those who want to avoid GPLv3.
 
-> +LICENSE =3D "GPLv3 & LGPLv3"
-> +LIC_FILES_CHKSUM =3D "file://COPYING;md5=3Df27defe1e96c2e1ecd4e0c9be8967=
-949 \
-> +                    file://COPYING.LIB;md5=3D6a6a8e020838b23406c81b19c1d=
-46df6"
-> +
-> +DEPENDS =3D "pth libassuan libksba zlib bzip2 readline"
-> +
-> +inherit autotools gettext
-> +
-> +SRC_URI =3D "ftp://ftp.gnupg.org/gcrypt/gnupg/gnupg-${PV}.tar.bz2"
+> The zypp project obviously made the choice to switch to GPLv3 years
+> ago and it will be an ongoing problem to try to support old versions
+> with GPLv2.
 
-Change that to the following?
+> Perhaps yum would be a better choice for the GPLv3 averse, since IIRC
+> it is still GPLv2.
 
-    ftp://ftp.gnupg.org/gcrypt/${PN}/${P}.tar.bz2
+How does yum handle the signatures? Does it also do it using
+gpg/gpg2-commands? If so, we would probably have the same problem with
+yum as with libzypp/zypper. (Possible without having to patch gpg2 ->
+gpg, but as they are quite compatible, that should be a minor issue). We
+would still have problems using later GnuPG 1.4.x...
 
-> +
-> +SRC_URI[md5sum] =3D "2f37e0722666a0fedbe4d9f9227ac4d7"
-> +SRC_URI[sha256sum] =3D "48aedd762ca443fb952a9e859efe3c66706d7c2c9c77c32d=
-bdbac4fe962dae5b"
-> +
-> +S =3D "${WORKDIR}/gnupg-${PV}"
+Or is yum (or any other package manager) using GpgME? (The library
+designed to make it easier for applications to interface with gpg). If
+so, it should be OK, as gpgme is licensed under GPLv2(+?)
 
-Is not that the default?
+Cheers,
+Anders
 
-> +
-> +EXTRA_OECONF =3D "--disable-ldap \
-> +		--with-zlib=3D${STAGING_LIBDIR}/.. \
-> +		--with-bzip2=3D${STAGING_LIBDIR}/.. \
-> +                --with-readline=3D${STAGING_LIBDIR}/.. \
-> +               "
-> +
-> +do_install_append() {
-> +	ln -sf gpg2 ${D}${bindir}/gpg
-> +}
-
-With these changes this patch is
-
-Acked-by: Paul Menzel <paulepanter@users.sourceforge.net>
+--=20
+Anders Darander
+ChargeStorm AB / eStorm AB
 
 
-Thanks,
-
-Paul
-
---=-rriucXkUIhD2mDCUwCuf
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: This is a digitally signed message part
-Content-Transfer-Encoding: 7bit
-
------BEGIN PGP SIGNATURE-----
-Version: GnuPG v1.4.11 (GNU/Linux)
-
-iEYEABECAAYFAk8pBOIACgkQPX1aK2wOHVhz7ACdHV41xxb7FAP+5SuDT1dCx7v0
-bcEAn0tbM+p6u3DPHtLGZRIYfjFMVFQc
-=aX72
------END PGP SIGNATURE-----
-
---=-rriucXkUIhD2mDCUwCuf--
