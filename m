@@ -1,31 +1,36 @@
-Received: from mail-lpp01m010-f47.google.com ([209.85.215.47])
+Received: from mail-ee0-f47.google.com ([74.125.83.47])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <raj.khem@gmail.com>) id 1RscrY-0007KG-Tt
-	for openembedded-core@lists.openembedded.org;
-	Wed, 01 Feb 2012 17:16:49 +0100
-Received: by lahc1 with SMTP id c1so729357lah.6
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 01 Feb 2012 08:08:53 -0800 (PST)
+	(envelope-from <martin.jansa@gmail.com>) id 1RscvV-0007Rm-2q
+	for openembedded-core@lists.linuxtogo.org;
+	Wed, 01 Feb 2012 17:20:53 +0100
+Received: by eekd41 with SMTP id d41so326744eek.6
+	for <openembedded-core@lists.linuxtogo.org>;
+	Wed, 01 Feb 2012 08:12:58 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:content-type:content-transfer-encoding;
-	bh=imKxwq1Xof6kR4igjxHqKP3PpWrbyaCmdNqRTPvzwKc=;
-	b=aT1/Cm0RY9CKpB9RtPX/+yfjGz2D0vzsRqd5qaMfRFvuCP+XS3T7A1sjDeFP0eveGr
-	D9PLJMIj77y6OkigdEra21xgX1J4NM0kjWYjjt4qL6GVIOTpNvrs65GghRtdhylXASjq
-	uc6KQRlEp6PrmZPiAYu8ZtwuaOON33FalOsjs=
-Received: by 10.152.146.163 with SMTP id td3mr13510326lab.6.1328112532279;
-	Wed, 01 Feb 2012 08:08:52 -0800 (PST)
+	h=date:from:to:cc:subject:message-id:references:mime-version
+	:content-type:content-disposition:in-reply-to:user-agent;
+	bh=1XWT0dGnQqxDzU9px8Fw74GpUFKqXHTz3nv7M8ZfQtg=;
+	b=Gbw0pbiBXOay8jGPT2PNw0QdUxGqBUldPpYu06cvmeyZiV756gZ/oENGOxziOzb0uO
+	dYAzYZmUz4GDvMXnqOGUXANqOpVMkuw0Kjf6U4oBmxSkwJMJF4+JhFbLoVNfJ9JJrsNv
+	FiGyTd/IxZQNUbs7Hc9ObJEpw3dKfijQDZv/w=
+Received: by 10.213.109.6 with SMTP id h6mr4178205ebp.137.1328112777934;
+	Wed, 01 Feb 2012 08:12:57 -0800 (PST)
+Received: from localhost ([94.230.152.246])
+	by mx.google.com with ESMTPS id b49sm100489050eec.9.2012.02.01.08.12.55
+	(version=TLSv1/SSLv3 cipher=OTHER);
+	Wed, 01 Feb 2012 08:12:56 -0800 (PST)
+Date: Wed, 1 Feb 2012 17:12:54 +0100
+From: Martin Jansa <martin.jansa@gmail.com>
+To: Khem Raj <raj.khem@gmail.com>
+Message-ID: <20120201161254.GB6969@jama.jama.net>
+References: <CAMKF1so7zfZSiGq+txWdBkONMtMi8iKRhqV_TOPt3FV3fTTEpQ@mail.gmail.com>
 MIME-Version: 1.0
-Received: by 10.152.5.201 with HTTP; Wed, 1 Feb 2012 08:08:22 -0800 (PST)
-In-Reply-To: <0de11fff1e41291501f20a26e4611142aa17a94d.1328057677.git.josh@linux.intel.com>
-References: <cover.1328057677.git.josh@linux.intel.com>
-	<0de11fff1e41291501f20a26e4611142aa17a94d.1328057677.git.josh@linux.intel.com>
-From: Khem Raj <raj.khem@gmail.com>
-Date: Wed, 1 Feb 2012 08:08:22 -0800
-Message-ID: <CAMKF1sqEk-esgBaYq8bPrzp7O2vSY=v-=dfG8L0b35a3d2b_vA@mail.gmail.com>
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 1/3] pciutils: fix configure script for dash
+In-Reply-To: <CAMKF1so7zfZSiGq+txWdBkONMtMi8iKRhqV_TOPt3FV3fTTEpQ@mail.gmail.com>
+User-Agent: Mutt/1.5.21 (2010-09-15)
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.linuxtogo.org>,
+	bitbake-devel <bitbake-devel@lists.openembedded.org>
+Subject: Re: [bitbake-devel] should we switch off patchwork for oe-core and bitbake projects
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -40,52 +45,51 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 01 Feb 2012 16:16:49 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Wed, 01 Feb 2012 16:20:53 -0000
+X-Groupsio-MsgNum: 16842
+Content-Type: multipart/signed; micalg=pgp-sha1;
+	protocol="application/pgp-signature"; boundary="XOIedfhf+7KOe/yw"
+Content-Disposition: inline
+
+--XOIedfhf+7KOe/yw
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Tue, Jan 31, 2012 at 4:58 PM, Joshua Lock <josh@linux.intel.com> wrote:
-> configure.patch was missing a closing quote in a sed expression which
-> causes script execution to error on less forgiving shells such as dash.
->
-> Signed-off-by: Joshua Lock <josh@linux.intel.com>
+On Wed, Feb 01, 2012 at 08:04:14AM -0800, Khem Raj wrote:
+> Hi
+>=20
+> patchwork instance that we have currently handles patches for
+> oe-devel, oe-core and bitbake
+> layers which use oe-devel maintain and use the patch queues ok so it
+> makes sense to have it
+> there. But patch flow for oe-core and bitbake is handled differently
+> via pull requests. Would it
+> make sense to turn it off for these two projects. Is someone using
+> patchwork and/or finds
+> it useful to have the patchwork catch those patches please let me know
 
-coincidently I have same patch locally and it works :)
+I'm using it sometimes to check if some patch I've sent to list wasn't
+overlooked.
 
-> ---
-> =C2=A0.../pciutils/pciutils-3.1.9/configure.patch =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0| =C2=A0 =C2=A02 +-
-> =C2=A01 files changed, 1 insertions(+), 1 deletions(-)
->
-> diff --git a/meta/recipes-bsp/pciutils/pciutils-3.1.9/configure.patch b/m=
-eta/recipes-bsp/pciutils/pciutils-3.1.9/configure.patch
-> index 658e597..66c9f91 100644
-> --- a/meta/recipes-bsp/pciutils/pciutils-3.1.9/configure.patch
-> +++ b/meta/recipes-bsp/pciutils/pciutils-3.1.9/configure.patch
-> @@ -67,7 +67,7 @@ diff -r af2b10cc3c14 lib/configure
-> =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0cpu=3D`/usr/sbin/l=
-sattr -F value -l $proc -a type | sed 's/_.*//'`
-> =C2=A0 =C2=A0 =C2=A0 =C2=A0else
-> =C2=A0- =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0cpu=3D`uname -m |=
- sed 's/^i.86$/i386/;s/^sun4u$/sparc64/;s/^i86pc$/i386/;s/^BePC$/i386/;s/^B=
-eMac$/powerpc/;s/^BeBox$/powerpc/'`
-> -+ =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0cpu=3D${4:-`uname -m |=
- sed 's/^i.86$/i386/;s/^sun4u$/sparc64/;s/^i86pc$/i386/;s/^BePC$/i386/;s/^B=
-eMac$/powerpc/;s/^BeBox$/powerpc/`}
-> ++ =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0cpu=3D${4:-`uname -m |=
- sed 's/^i.86$/i386/;s/^sun4u$/sparc64/;s/^i86pc$/i386/;s/^BePC$/i386/;s/^B=
-eMac$/powerpc/;s/^BeBox$/powerpc/'`}
-> =C2=A0 =C2=A0 =C2=A0 =C2=A0fi
-> =C2=A0 =C2=A0 =C2=A0 =C2=A0if [ "$sys" =3D "GNU/kFreeBSD" -o "$sys" =3D "=
-DragonFly" ]
-> =C2=A0 =C2=A0 =C2=A0 =C2=A0then
-> --
-> 1.7.7.6
->
->
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
+But I can live without it if it adds some administrative or other burden
+on servers.
 
+Cheers,
 
+--=20
+Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
+
+--XOIedfhf+7KOe/yw
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: Digital signature
+
+-----BEGIN PGP SIGNATURE-----
+Version: GnuPG v2.0.18 (GNU/Linux)
+
+iEUEARECAAYFAk8pZIYACgkQN1Ujt2V2gBywSACXffc0SbtlAIoYBjnQ12f9ZmEG
+BwCgufxpbN5EdRNY7rrEnlH1rquV4yw=
+=9q37
+-----END PGP SIGNATURE-----
+
+--XOIedfhf+7KOe/yw--
