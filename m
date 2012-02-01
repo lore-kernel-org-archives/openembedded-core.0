@@ -1,21 +1,19 @@
 Received: from mail.windriver.com ([147.11.1.11])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <bruce.ashfield@windriver.com>) id 1RsfT6-0001LJ-5V
+	(envelope-from <bruce.ashfield@windriver.com>) id 1RsfT6-0001LI-5Z
 	for openembedded-core@lists.openembedded.org;
 	Wed, 01 Feb 2012 20:03:44 +0100
 Received: from yow-bashfiel-l1.corp.ad.wrs.com
 	(yow-bashfiel-d3.ottawa.windriver.com [128.224.147.67])
-	by mail.windriver.com (8.14.3/8.14.3) with ESMTP id q11ItjoA011084;
-	Wed, 1 Feb 2012 10:55:46 -0800 (PST)
+	by mail.windriver.com (8.14.3/8.14.3) with ESMTP id q11Itjo9011084;
+	Wed, 1 Feb 2012 10:55:45 -0800 (PST)
 From: Bruce Ashfield <bruce.ashfield@windriver.com>
 To: richard.purdie@linuxfoundation.org
-Date: Wed,  1 Feb 2012 13:55:41 -0500
-Message-Id: <1328122541-27434-2-git-send-email-bruce.ashfield@windriver.com>
+Date: Wed,  1 Feb 2012 13:55:40 -0500
+Message-Id: <1328122541-27434-1-git-send-email-bruce.ashfield@windriver.com>
 X-Mailer: git-send-email 1.7.4.1
-In-Reply-To: <1328122541-27434-1-git-send-email-bruce.ashfield@windriver.com>
-References: <1328122541-27434-1-git-send-email-bruce.ashfield@windriver.com>
 Cc: chris_larson@mentor.com, openembedded-core@lists.openembedded.org
-Subject: [PATCH] classes/patch: optionally return non-patch sources
+Subject: [v2 PATCH 0/1] classes/patch: return non-patch source items
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -32,61 +30,49 @@ List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedde
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Wed, 01 Feb 2012 19:03:44 -0000
 
-commit:
+Richard,
 
-  patch.bbclass: abstract out logic that determines patches to apply
+Here's v2 of this request.
 
-gives the ability for other clases to emit series files for use outside
-of a build system, or even within the build system. There are sometimes
-elements on the SRC_URI that while not directly applicable to patching,
-can be related to patching the package. For example, the yocto kernel
-class would like to know about these other source items on the SRC_URI
-to locate out of tree kernel features.
+Changes since v1:
 
-This change keeps the default behaviour of returning patches, but adds the
-ability to request that non-patch results be returned.  Additional filtering
-within the non-patch category, is left up to the caller of the routine.
+  - Changed the parameter to src_patches from 'type' to 
+    'all, and make it a boolean versus a magic string
+  - Changed the name of 'others' to 'sources in the collecting
+    list.
 
-Signed-off-by: Bruce Ashfield <bruce.ashfield@windriver.com>
----
- meta/classes/patch.bbclass |    9 ++++++++-
- 1 files changed, 8 insertions(+), 1 deletions(-)
+With the name 'all' as the parameter, you may think that it would
+return patches + non-patches instead of just non-patches. But that's
+largely a property of the new variable name. I'd rather keep them
+separate and really not return a mix of patches and non-patches. If
+we think this will cause confusion, I can always change the name of
+the variable again.
 
-diff --git a/meta/classes/patch.bbclass b/meta/classes/patch.bbclass
-index 1ea4bc5..31db9e3 100644
---- a/meta/classes/patch.bbclass
-+++ b/meta/classes/patch.bbclass
-@@ -7,13 +7,17 @@ PATCHDEPENDENCY = "${PATCHTOOL}-native:do_populate_sysroot"
- 
- inherit terminal
- 
--def src_patches(d):
-+def src_patches(d, all = False ):
- 	workdir = d.getVar('WORKDIR', True)
- 	fetch = bb.fetch2.Fetch([], d)
- 	patches = []
-+	sources = []
- 	for url in fetch.urls:
- 		local = patch_path(url, fetch, workdir)
- 		if not local:
-+			if all:
-+				local = fetch.localpath(url)
-+				sources.append(local)
- 			continue
- 
- 		urldata = fetch.ud[url]
-@@ -43,6 +47,9 @@ def src_patches(d):
- 		localurl = bb.encodeurl(('file', '', local, '', '', patchparm))
- 		patches.append(localurl)
- 
-+	if all:
-+		return sources
-+
- 	return patches
- 
- def patch_path(url, fetch, workdir):
--- 
-1.7.4.1
+Below is the original request:
 
+When working with Tom on some BSP usability cases, he noted that it was nice
+that we can specify more complex features in the SRC_URI now that patch
+ordering and location is maintained by using the src_patches abstraction that
+Chris added to patch.bbclass. But .. there's always a but, you had to
+specify some sort of patch to trigger the processing.
+
+Rather than hack something in that is specific to linux-yocto, it seemed
+like a good idea to add the ability to get 'anything that isn't a patch'
+from the same routines that Chris added to patch.bbclass.
+
+I'm now using this support to pickup all sorts of things from the SRC_URI,
+without knowing anything about the format of the SRC_URI itself. Extra
+filtering on 'other' is the responsibility of the caller.
+
+I'm not the worlds top python coder yet, so I'm sure there are better ways
+to do this, hence why I'm calling this an RFC patch. I can re-work it 
+as appropriate to get it into the tree, and I'll follow up with my user
+of the new functionality.
+
+Cheers,
+
+Bruce
+
+cc: Chris Larson <chris_larson@mentor.com>
 
 
