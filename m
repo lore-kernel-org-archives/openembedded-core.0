@@ -1,39 +1,34 @@
-Received: from mail-ee0-f47.google.com ([74.125.83.47])
+Received: from mail-ey0-f175.google.com ([209.85.215.175])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <martin.jansa@gmail.com>)
-	id 1Rsetg-0008S5-DH; Wed, 01 Feb 2012 19:27:08 +0100
-Received: by eekd41 with SMTP id d41so361648eek.6
-	for <multiple recipients>; Wed, 01 Feb 2012 10:19:13 -0800 (PST)
+	(envelope-from <martin.jansa@gmail.com>) id 1RseyT-0000Am-70
+	for openembedded-core@lists.openembedded.org;
+	Wed, 01 Feb 2012 19:32:05 +0100
+Received: by eaal10 with SMTP id l10so124274eaa.6
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 01 Feb 2012 10:24:09 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
-	h=date:from:to:cc:subject:message-id:references:mime-version
+	h=date:from:to:subject:message-id:references:mime-version
 	:content-type:content-disposition:in-reply-to:user-agent;
-	bh=CdkEmT18gIS8eC/hQPrQjRyvME0qc9+xZ+woW1sS1DU=;
-	b=RzfpumPXI8LTM7v2MXdi6V89CG7xV8cMWWEds8xNqz8sJQweK3ZnPggr5kYux+jn5l
-	33vlfJty/1N2bm9ojBSoEodOY4IhtBVrqDLmxNSRxOZqe/LODeP081mOQGxidWxuUuWq
-	ged5N/LoLkv1JPPKbwdNnmjNFEqVF+h7WkVIY=
-Received: by 10.14.32.84 with SMTP id n60mr2752457eea.88.1328120352948;
-	Wed, 01 Feb 2012 10:19:12 -0800 (PST)
-Received: from localhost ([94.230.152.246])
-	by mx.google.com with ESMTPS id a58sm22039211eeb.8.2012.02.01.10.19.11
+	bh=dorV7VnPOoVMqLMACasGrlbdP6hhjM+oGcYZUDrOMTM=;
+	b=WkT4YhXLE4MYotSQ4ZnZR/YUVGV68xnVsLW5lQKJMzqZgl5qAB9q1V2Cf6onURy/e0
+	RH5uoA1xWp0uELI9E+RoeL7YcYJaTvKsX1LomEfG/ajlP2igt0sl58gekns8C5N3BGqZ
+	u8av+hNz6/iaxZwCJDs+DxSjlRrAUqzAaePLw=
+Received: by 10.213.9.134 with SMTP id l6mr4331336ebl.52.1328120648566;
+	Wed, 01 Feb 2012 10:24:08 -0800 (PST)
+Received: from localhost ([94.230.152.246]) by mx.google.com with ESMTPS id
+	y12sm101664059eeb.11.2012.02.01.10.24.07
 	(version=TLSv1/SSLv3 cipher=OTHER);
-	Wed, 01 Feb 2012 10:19:11 -0800 (PST)
-Date: Wed, 1 Feb 2012 19:19:09 +0100
+	Wed, 01 Feb 2012 10:24:07 -0800 (PST)
+Date: Wed, 1 Feb 2012 19:24:06 +0100
 From: Martin Jansa <martin.jansa@gmail.com>
-To: Khem Raj <raj.khem@gmail.com>
-Message-ID: <20120201181909.GC6969@jama.jama.net>
-References: <CAMKF1so7zfZSiGq+txWdBkONMtMi8iKRhqV_TOPt3FV3fTTEpQ@mail.gmail.com>
-	<CAEsOVNekW4Zo6YRHyNCTMJ_GsgrzaOE8QvWr70tRNAZQNokcig@mail.gmail.com>
-	<CAP9ODKo5EQEWr2CU9uQdz6mXKPJfN6zhbSkTcC01k8rU2D4kQg@mail.gmail.com>
-	<CAEsOVNeh8GTOcU+jF1jxs1FJTi84vq0_AVX9osvU1R83gzq2nA@mail.gmail.com>
-	<CAMKF1sqkdApUR9YPamhtxtUHoanHZ5Sxp8ggUnp8PS0v_qPPgg@mail.gmail.com>
-MIME-Version: 1.0
-In-Reply-To: <CAMKF1sqkdApUR9YPamhtxtUHoanHZ5Sxp8ggUnp8PS0v_qPPgg@mail.gmail.com>
-User-Agent: Mutt/1.5.21 (2010-09-15)
-Cc: McClintock Matthew-B29882 <B29882@freescale.com>,
-	bitbake-devel <bitbake-devel@lists.openembedded.org>,
-	Patches and discussions about the oe-core layer
+To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Subject: Re: [bitbake-devel] should we switch off patchwork for oe-core and bitbake projects
+Message-ID: <20120201182405.GD6969@jama.jama.net>
+References: <CALbNGRSKUfru5Z-jAJmywTieJUALfLAZgxW_NEhLBK8W5pw1VA@mail.gmail.com>
+MIME-Version: 1.0
+In-Reply-To: <CALbNGRSKUfru5Z-jAJmywTieJUALfLAZgxW_NEhLBK8W5pw1VA@mail.gmail.com>
+User-Agent: Mutt/1.5.21 (2010-09-15)
+Subject: Re: accessing variables
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -48,55 +43,59 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 01 Feb 2012 18:27:08 -0000
-X-Groupsio-MsgNum: 16856
+X-List-Received-Date: Wed, 01 Feb 2012 18:32:05 -0000
+X-Groupsio-MsgNum: 16857
 Content-Type: multipart/signed; micalg=pgp-sha1;
-	protocol="application/pgp-signature"; boundary="vOmOzSkFvhd7u8Ms"
+	protocol="application/pgp-signature"; boundary="uxuisgdDHaNETlh8"
 Content-Disposition: inline
 
---vOmOzSkFvhd7u8Ms
-Content-Type: text/plain; charset=us-ascii
+--uxuisgdDHaNETlh8
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Wed, Feb 01, 2012 at 10:07:14AM -0800, Khem Raj wrote:
-> On Wed, Feb 1, 2012 at 9:51 AM, McClintock Matthew-B29882
-> <B29882@freescale.com> wrote:
-> > I'm saying leave it there even if its not maintained. I can still go se=
-arch
-> > for patches sent by me or other specific people.
+On Wed, Feb 01, 2012 at 07:15:19PM +0100, Andreas M=FCller wrote:
+> another stupid question from my side:
 >=20
-> thats what mailing list archives are for.
+> do
+>=20
+> bb.data.getVar('foo', d, 1)
+>=20
+> and
+>=20
+> d.getVar('foo', 1)
+>=20
+> access the same data?
 
-is there something like
-oe/contrib/patchwork/pw-am.sh
-for some mailing list archive?
-
-When I see some interesting patch in ML, easiest way for me to get it to
-development branch is to open patchwork web (from any computer) and then
-call pw-am.sh NUMBER in screen session on my development workstation.
-
-Even when reading mail in mutt on the same machine it's easier for me to
-use pw-am.sh to get that patch to my chroot for OE builds.
-
-And that git hook marking them as applied works very well.. so usually I
-just have to mark cover letters as applied.
+Should be and later is preferred AFAIK, see:
+http://git.openembedded.org/openembedded-core/commit/?id=3Db22831fd63164c4d=
+b9c0b72934d7d734a6585251
 
 Cheers,
+
+>=20
+> Thanks in advance
+>=20
+> Andreas
+>=20
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
 
 --=20
 Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
 
---vOmOzSkFvhd7u8Ms
+--uxuisgdDHaNETlh8
 Content-Type: application/pgp-signature; name="signature.asc"
 Content-Description: Digital signature
 
 -----BEGIN PGP SIGNATURE-----
 Version: GnuPG v2.0.18 (GNU/Linux)
 
-iEYEARECAAYFAk8pgh0ACgkQN1Ujt2V2gBwTegCgu4vNaQeFBBtnjUeCZURYOIyQ
-c5AAnR3vGqa0bMkfwcB4B5CbBQDhxF1l
-=4hmW
+iEYEARECAAYFAk8pg0UACgkQN1Ujt2V2gBzCzQCePyxLnQq8454pcc3Yr28TIm+z
+M+8AniIs6mBAfFuDeLJjCHzpMDujsjGd
+=fLUO
 -----END PGP SIGNATURE-----
 
---vOmOzSkFvhd7u8Ms--
+--uxuisgdDHaNETlh8--
