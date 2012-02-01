@@ -1,35 +1,32 @@
-Received: from mail-yx0-f175.google.com ([209.85.213.175])
+Received: from mail-lpp01m010-f47.google.com ([209.85.215.47])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <otavio.salvador@gmail.com>) id 1RsguL-00052Z-At
+	(envelope-from <otavio.salvador@gmail.com>) id 1RshIN-00069P-HN
 	for openembedded-core@lists.openembedded.org;
-	Wed, 01 Feb 2012 21:35:57 +0100
-Received: by mail-yx0-f175.google.com with SMTP id r5so750117yen.6
+	Wed, 01 Feb 2012 22:00:47 +0100
+Received: by lahc1 with SMTP id c1so893859lah.6
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 01 Feb 2012 12:28:04 -0800 (PST)
+	Wed, 01 Feb 2012 12:52:52 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
-	h=sender:from:to:subject:date:message-id:x-mailer:in-reply-to
-	:references:in-reply-to:references;
-	bh=dF6b93AqgbPV+4E3P8Qvto4WdZng/IXDltzABTaKrXc=;
-	b=Q7kXvUqHPe4fWVWtQI3sj2AlWyqEPDzIyP+y7mi1aw6m4F8yGMvgxX6gRAP+d4sKrh
-	kniDIkF8FB4QtutJqxLddcHneBTAOl1ViT7q+lA/sUIwQAHPhejZyQViUDgTRY+J31Tt
-	xqOqRqSNUE/ozlJyDW26zEg8KZ1ppD4xw83oY=
-Received: by 10.236.200.164 with SMTP id z24mr15205yhn.52.1328128084123;
-	Wed, 01 Feb 2012 12:28:04 -0800 (PST)
-Received: from localhost.localdomain ([186.218.100.214])
-	by mx.google.com with ESMTPS id a39sm120200yhk.15.2012.02.01.12.28.01
-	(version=TLSv1/SSLv3 cipher=OTHER);
-	Wed, 01 Feb 2012 12:28:03 -0800 (PST)
-Sender: Otavio Salvador <otavio.salvador@gmail.com>
+	h=mime-version:sender:in-reply-to:references:date
+	:x-google-sender-auth:message-id:subject:from:to:content-type;
+	bh=R0EB1QdQZyNIjWgAwJBanLfL5+cOYAkHruE9BVrdyrU=;
+	b=NHvUH6oBbVm8Pe5yilkeJtAlRadzehmRI3i6brSPsGBZebLgiQLtcuQ5Ax4jyYTG2t
+	DPJDSJZTyVFkkv3wqihy3+mlrFDP2nPM0OUvmOG9fLMCvkBuZdF7drjJNCiVermeU359
+	FpoL8w9feI4yDqyJ7eGR8qnttatCXiJEftLjY=
+MIME-Version: 1.0
+Received: by 10.152.122.38 with SMTP id lp6mr91926lab.13.1328129572050; Wed,
+	01 Feb 2012 12:52:52 -0800 (PST)
+Sender: otavio.salvador@gmail.com
+Received: by 10.112.46.199 with HTTP; Wed, 1 Feb 2012 12:52:51 -0800 (PST)
+In-Reply-To: <34ff170a1283803aae432bf8eb179225aa41c898.1328127940.git.otavio@ossystems.com.br>
+References: <cover.1328127940.git.otavio@ossystems.com.br>
+	<34ff170a1283803aae432bf8eb179225aa41c898.1328127940.git.otavio@ossystems.com.br>
+Date: Wed, 1 Feb 2012 18:52:51 -0200
+X-Google-Sender-Auth: _YcOzcgGuTu56g2QtEddxbn6ZCM
+Message-ID: <CAP9ODKqQ6MtugdzTZMhxEFZ_6Qe9qYmk9PYwtqswwA7x0OWoOQ@mail.gmail.com>
 From: Otavio Salvador <otavio@ossystems.com.br>
 To: openembedded-core@lists.openembedded.org
-Date: Wed,  1 Feb 2012 20:27:45 +0000
-Message-Id: <cc36eb9f3e699b9c4478e4de0939e50eb317446f.1328127940.git.otavio@ossystems.com.br>
-X-Mailer: git-send-email 1.7.2.5
-In-Reply-To: <cover.1328127940.git.otavio@ossystems.com.br>
-References: <cover.1328127940.git.otavio@ossystems.com.br>
-In-Reply-To: <cover.1328127940.git.otavio@ossystems.com.br>
-References: <cover.1328127940.git.otavio@ossystems.com.br>
-Subject: [PATCH 3/3] rootfs_ipk.bbclass: fix detection of script runtime requirement
+Subject: Re: [PATCH 1/3] udev: improve udev-cache robustness
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -44,40 +41,56 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 01 Feb 2012 20:35:57 -0000
+X-List-Received-Date: Wed, 01 Feb 2012 21:00:47 -0000
+Content-Type: multipart/alternative; boundary=f46d042f92b05b972504b7ed43b2
 
-The code has been broken by 2feba313c991170747381c7cf821a45c2cd04632
-that changed the way this detection has being done.
+--f46d042f92b05b972504b7ed43b2
+Content-Type: text/plain; charset=ISO-8859-1
 
-Signed-off-by: Otavio Salvador <otavio@ossystems.com.br>
----
- meta/classes/rootfs_ipk.bbclass |   10 ++++++++--
- 1 files changed, 8 insertions(+), 2 deletions(-)
+On Wed, Feb 1, 2012 at 18:27, Otavio Salvador <otavio@ossystems.com.br>wrote:
 
-diff --git a/meta/classes/rootfs_ipk.bbclass b/meta/classes/rootfs_ipk.bbclass
-index 48fb2fb..0881089 100644
---- a/meta/classes/rootfs_ipk.bbclass
-+++ b/meta/classes/rootfs_ipk.bbclass
-@@ -74,9 +74,15 @@ fakeroot rootfs_ipk_do_rootfs () {
- 
- 	${OPKG_POSTPROCESS_COMMANDS}
- 	${ROOTFS_POSTINSTALL_COMMAND}
--	
-+
-+	if grep -q Status:.install.ok.unpacked ${IMAGE_ROOTFS}${opkglibdir}status; then
-+		runtime_script_required=1
-+	else
-+		runtime_script_required=0
-+	fi
-+
- 	if ${@base_contains("IMAGE_FEATURES", "read-only-rootfs", "true", "false" ,d)}; then
--		if grep Status:.install.ok.unpacked ${IMAGE_ROOTFS}${opkglibdir}status; then
-+		if [ $runtime_script_required -eq 1 ]; then
- 			echo "Some packages could not be configured offline and rootfs is read-only."
- 			exit 1
- 		fi
+>  * allow udev-cache to be disabled at runtime (using
+>   /etc/default/udev-cache);
+>
+>  * make cache invalidated if kernel, bootparams or device list
+>   changes;
+>
+> Signed-off-by: Otavio Salvador <otavio@ossystems.com.br>
+>
+
+I forgot a PR bump in udev_164.bb. I did it in the branch.
+
 -- 
-1.7.2.5
+Otavio Salvador                             O.S. Systems
+E-mail: otavio@ossystems.com.br  http://www.ossystems.com.br
+Mobile: +55 53 9981-7854              http://projetos.ossystems.com.br
 
+--f46d042f92b05b972504b7ed43b2
+Content-Type: text/html; charset=ISO-8859-1
+Content-Transfer-Encoding: quoted-printable
 
+<div class=3D"gmail_quote">On Wed, Feb 1, 2012 at 18:27, Otavio Salvador <s=
+pan dir=3D"ltr">&lt;<a href=3D"mailto:otavio@ossystems.com.br">otavio@ossys=
+tems.com.br</a>&gt;</span> wrote:<br><blockquote class=3D"gmail_quote" styl=
+e=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex">
+<div class=3D"im">=A0* allow udev-cache to be disabled at runtime (using<br=
+>
+ =A0 /etc/default/udev-cache);<br>
+<br>
+=A0* make cache invalidated if kernel, bootparams or device list<br>
+ =A0 changes;<br>
+<br>
+Signed-off-by: Otavio Salvador &lt;<a href=3D"mailto:otavio@ossystems.com.b=
+r">otavio@ossystems.com.br</a>&gt;<br></div></blockquote><div><br></div><di=
+v>I forgot a PR bump in <a href=3D"http://udev_164.bb">udev_164.bb</a>. I d=
+id it in the branch.</div>
+<div>=A0</div></div>-- <br>Otavio Salvador=A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =
+=A0 =A0 =A0 =A0 =A0 =A0 =A0O.S. Systems<br>E-mail: <a href=3D"mailto:otavio=
+@ossystems.com.br" target=3D"_blank">otavio@ossystems.com.br</a>=A0 <a href=
+=3D"http://www.ossystems.com.br" target=3D"_blank">http://www.ossystems.com=
+.br</a><br>
+Mobile: +55 53 9981-7854=A0 =A0 =A0 =A0=A0 =A0 =A0 =A0<a href=3D"http://pro=
+jetos.ossystems.com.br" target=3D"_blank">http://projetos.ossystems.com.br<=
+/a><br><br>
 
+--f46d042f92b05b972504b7ed43b2--
