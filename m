@@ -1,34 +1,21 @@
-Received: from mail-ey0-f175.google.com ([209.85.215.175])
+Received: from mail.windriver.com ([147.11.1.11])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <martin.jansa@gmail.com>) id 1RseyT-0000Am-70
+	(envelope-from <bruce.ashfield@windriver.com>) id 1RsfT6-0001LJ-5V
 	for openembedded-core@lists.openembedded.org;
-	Wed, 01 Feb 2012 19:32:05 +0100
-Received: by eaal10 with SMTP id l10so124274eaa.6
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 01 Feb 2012 10:24:09 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
-	h=date:from:to:subject:message-id:references:mime-version
-	:content-type:content-disposition:in-reply-to:user-agent;
-	bh=dorV7VnPOoVMqLMACasGrlbdP6hhjM+oGcYZUDrOMTM=;
-	b=WkT4YhXLE4MYotSQ4ZnZR/YUVGV68xnVsLW5lQKJMzqZgl5qAB9q1V2Cf6onURy/e0
-	RH5uoA1xWp0uELI9E+RoeL7YcYJaTvKsX1LomEfG/ajlP2igt0sl58gekns8C5N3BGqZ
-	u8av+hNz6/iaxZwCJDs+DxSjlRrAUqzAaePLw=
-Received: by 10.213.9.134 with SMTP id l6mr4331336ebl.52.1328120648566;
-	Wed, 01 Feb 2012 10:24:08 -0800 (PST)
-Received: from localhost ([94.230.152.246]) by mx.google.com with ESMTPS id
-	y12sm101664059eeb.11.2012.02.01.10.24.07
-	(version=TLSv1/SSLv3 cipher=OTHER);
-	Wed, 01 Feb 2012 10:24:07 -0800 (PST)
-Date: Wed, 1 Feb 2012 19:24:06 +0100
-From: Martin Jansa <martin.jansa@gmail.com>
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Message-ID: <20120201182405.GD6969@jama.jama.net>
-References: <CALbNGRSKUfru5Z-jAJmywTieJUALfLAZgxW_NEhLBK8W5pw1VA@mail.gmail.com>
-MIME-Version: 1.0
-In-Reply-To: <CALbNGRSKUfru5Z-jAJmywTieJUALfLAZgxW_NEhLBK8W5pw1VA@mail.gmail.com>
-User-Agent: Mutt/1.5.21 (2010-09-15)
-Subject: Re: accessing variables
+	Wed, 01 Feb 2012 20:03:44 +0100
+Received: from yow-bashfiel-l1.corp.ad.wrs.com
+	(yow-bashfiel-d3.ottawa.windriver.com [128.224.147.67])
+	by mail.windriver.com (8.14.3/8.14.3) with ESMTP id q11ItjoA011084;
+	Wed, 1 Feb 2012 10:55:46 -0800 (PST)
+From: Bruce Ashfield <bruce.ashfield@windriver.com>
+To: richard.purdie@linuxfoundation.org
+Date: Wed,  1 Feb 2012 13:55:41 -0500
+Message-Id: <1328122541-27434-2-git-send-email-bruce.ashfield@windriver.com>
+X-Mailer: git-send-email 1.7.4.1
+In-Reply-To: <1328122541-27434-1-git-send-email-bruce.ashfield@windriver.com>
+References: <1328122541-27434-1-git-send-email-bruce.ashfield@windriver.com>
+Cc: chris_larson@mentor.com, openembedded-core@lists.openembedded.org
+Subject: [PATCH] classes/patch: optionally return non-patch sources
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -43,59 +30,63 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 01 Feb 2012 18:32:05 -0000
-X-Groupsio-MsgNum: 16857
-Content-Type: multipart/signed; micalg=pgp-sha1;
-	protocol="application/pgp-signature"; boundary="uxuisgdDHaNETlh8"
-Content-Disposition: inline
+X-List-Received-Date: Wed, 01 Feb 2012 19:03:44 -0000
 
---uxuisgdDHaNETlh8
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+commit:
 
-On Wed, Feb 01, 2012 at 07:15:19PM +0100, Andreas M=FCller wrote:
-> another stupid question from my side:
->=20
-> do
->=20
-> bb.data.getVar('foo', d, 1)
->=20
-> and
->=20
-> d.getVar('foo', 1)
->=20
-> access the same data?
+  patch.bbclass: abstract out logic that determines patches to apply
 
-Should be and later is preferred AFAIK, see:
-http://git.openembedded.org/openembedded-core/commit/?id=3Db22831fd63164c4d=
-b9c0b72934d7d734a6585251
+gives the ability for other clases to emit series files for use outside
+of a build system, or even within the build system. There are sometimes
+elements on the SRC_URI that while not directly applicable to patching,
+can be related to patching the package. For example, the yocto kernel
+class would like to know about these other source items on the SRC_URI
+to locate out of tree kernel features.
 
-Cheers,
+This change keeps the default behaviour of returning patches, but adds the
+ability to request that non-patch results be returned.  Additional filtering
+within the non-patch category, is left up to the caller of the routine.
 
->=20
-> Thanks in advance
->=20
-> Andreas
->=20
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
+Signed-off-by: Bruce Ashfield <bruce.ashfield@windriver.com>
+---
+ meta/classes/patch.bbclass |    9 ++++++++-
+ 1 files changed, 8 insertions(+), 1 deletions(-)
 
---=20
-Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
+diff --git a/meta/classes/patch.bbclass b/meta/classes/patch.bbclass
+index 1ea4bc5..31db9e3 100644
+--- a/meta/classes/patch.bbclass
++++ b/meta/classes/patch.bbclass
+@@ -7,13 +7,17 @@ PATCHDEPENDENCY = "${PATCHTOOL}-native:do_populate_sysroot"
+ 
+ inherit terminal
+ 
+-def src_patches(d):
++def src_patches(d, all = False ):
+ 	workdir = d.getVar('WORKDIR', True)
+ 	fetch = bb.fetch2.Fetch([], d)
+ 	patches = []
++	sources = []
+ 	for url in fetch.urls:
+ 		local = patch_path(url, fetch, workdir)
+ 		if not local:
++			if all:
++				local = fetch.localpath(url)
++				sources.append(local)
+ 			continue
+ 
+ 		urldata = fetch.ud[url]
+@@ -43,6 +47,9 @@ def src_patches(d):
+ 		localurl = bb.encodeurl(('file', '', local, '', '', patchparm))
+ 		patches.append(localurl)
+ 
++	if all:
++		return sources
++
+ 	return patches
+ 
+ def patch_path(url, fetch, workdir):
+-- 
+1.7.4.1
 
---uxuisgdDHaNETlh8
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: Digital signature
 
------BEGIN PGP SIGNATURE-----
-Version: GnuPG v2.0.18 (GNU/Linux)
 
-iEYEARECAAYFAk8pg0UACgkQN1Ujt2V2gBzCzQCePyxLnQq8454pcc3Yr28TIm+z
-M+8AniIs6mBAfFuDeLJjCHzpMDujsjGd
-=fLUO
------END PGP SIGNATURE-----
-
---uxuisgdDHaNETlh8--
