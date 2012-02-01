@@ -1,34 +1,24 @@
-Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
-	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <richard.purdie@linuxfoundation.org>)
-	id 1RsdHj-0007oW-3F for openembedded-core@lists.openembedded.org;
-	Wed, 01 Feb 2012 17:43:51 +0100
-Received: from localhost (localhost [127.0.0.1])
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q11GZu6f024307
+Received: from mail-iy0-f175.google.com ([209.85.210.175])
+	by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <steve@sakoman.com>) id 1Rsdo7-0006Oj-LX
+	for openembedded-core@lists.openembedded.org;
+	Wed, 01 Feb 2012 18:17:19 +0100
+Received: by iaby12 with SMTP id y12so1992825iab.6
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 1 Feb 2012 16:35:56 GMT
-Received: from tim.rpsys.net ([127.0.0.1])
-	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
-	port 10024) with LMTP
-	id 24078-02 for <openembedded-core@lists.openembedded.org>;
-	Wed,  1 Feb 2012 16:35:51 +0000 (GMT)
-Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q11GZkZK024301
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO)
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 1 Feb 2012 16:35:47 GMT
-Message-ID: <1328114151.13744.95.camel@ted>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Date: Wed, 01 Feb 2012 16:35:51 +0000
-In-Reply-To: <ddaf0e6f05439011bf5f04950922d0a6d5cd60b6.1327975625.git.otavio@ossystems.com.br>
-References: <cover.1327975625.git.otavio@ossystems.com.br>
-	<ddaf0e6f05439011bf5f04950922d0a6d5cd60b6.1327975625.git.otavio@ossystems.com.br>
-X-Mailer: Evolution 3.2.2- 
-Mime-Version: 1.0
-X-Virus-Scanned: amavisd-new at rpsys.net
-Subject: Re: [PATCH 1/2] udev: improve udev-cache robustness
+	Wed, 01 Feb 2012 09:09:24 -0800 (PST)
+Received: by 10.42.189.135 with SMTP id de7mr5972146icb.54.1328116163943;
+	Wed, 01 Feb 2012 09:09:23 -0800 (PST)
+Received: from quadra.sakoman.net
+	(static-74-41-60-154.dsl1.pco.ca.frontiernet.net. [74.41.60.154])
+	by mx.google.com with ESMTPS id ba5sm15195127igb.6.2012.02.01.09.09.22
+	(version=SSLv3 cipher=OTHER); Wed, 01 Feb 2012 09:09:22 -0800 (PST)
+From: Steve Sakoman <steve@sakoman.com>
+To: openembedded-core@lists.openembedded.org
+Date: Wed,  1 Feb 2012 09:09:12 -0800
+Message-Id: <1328116152-4451-1-git-send-email-steve@sakoman.com>
+X-Mailer: git-send-email 1.7.1
+Cc: Steve Sakoman <steve@sakoman.com>
+Subject: [PATCH] shadow-securetty: allow root logins on usb serial gadget device
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -43,131 +33,45 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 01 Feb 2012 16:43:51 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Wed, 01 Feb 2012 17:17:19 -0000
 
-On Tue, 2012-01-31 at 02:10 +0000, Otavio Salvador wrote:
-> * allow udev-cache to be disabled at runtime (using
->    /etc/default/udev-cache);
-> 
->  * make cache invalidated if kernel, bootparams or device list
->    changes;
-> 
-> Signed-off-by: Otavio Salvador <otavio@ossystems.com.br>
-> ---
->  meta/recipes-core/udev/udev.inc                |    8 +++++++-
->  meta/recipes-core/udev/udev/init               |   15 ++++++++++++---
->  meta/recipes-core/udev/udev/udev-cache         |   14 +++++++++++---
->  meta/recipes-core/udev/udev/udev-cache.default |    4 ++++
->  4 files changed, 34 insertions(+), 7 deletions(-)
->  create mode 100644 meta/recipes-core/udev/udev/udev-cache.default
-> 
-> diff --git a/meta/recipes-core/udev/udev.inc b/meta/recipes-core/udev/udev.inc
-> index 0e571d6..e5fbe40 100644
-> --- a/meta/recipes-core/udev/udev.inc
-> +++ b/meta/recipes-core/udev/udev.inc
-> @@ -25,6 +25,7 @@ SRC_URI = "${KERNELORG_MIRROR}/linux/utils/kernel/hotplug/udev-${PV}.tar.gz \
->             file://network.sh \
->             file://local.rules \
->             file://udev-cache \
-> +           file://udev-cache.default \
->             file://init"
->  
->  inherit autotools pkgconfig update-rc.d
-> @@ -58,7 +59,7 @@ FILES_libgudev = "${base_libdir}/libgudev*.so.* ${libdir}/libgudev*.so.*"
->  FILES_libgudev-dbg = "${base_libdir}/.debug/libgudev*.so.* ${libdir}/.debug/libgudev*.so.*"
->  FILES_libgudev-dev = "${includedir}/gudev* ${libdir}/libgudev*.so ${libdir}/libgudev*.la \
->                       ${libdir}/libgudev*.a ${libdir}/pkgconfig/gudev*.pc"
-> -FILES_udev-cache = "${sysconfdir}/init.d/udev-cache"
-> +FILES_udev-cache = "${sysconfdir}/init.d/udev-cache ${sysconfdir}/default/udev-cache"
->  
->  FILES_udev-acl = "${base_libdir}/udev/udev-acl ${base_libdir}/udev/rules.d/70-acl.rules"
->  
-> @@ -72,6 +73,11 @@ do_install_append () {
->  	install -m 0755 ${WORKDIR}/init ${D}${sysconfdir}/init.d/udev
->  	install -m 0755 ${WORKDIR}/udev-cache ${D}${sysconfdir}/init.d/udev-cache
->  
-> +	install -d ${D}${sysconfdir}/default
-> +	install -m 0755 ${WORKDIR}/udev-cache.default ${D}${sysconfdir}/default/udev-cache
-> +
-> +	touch ${D}${sysconfdir}/udev/cache.data
-> +
->  	install -d ${D}${sysconfdir}/udev/rules.d/
->  
->  	install -m 0644 ${WORKDIR}/local.rules         ${D}${sysconfdir}/udev/rules.d/local.rules
-> diff --git a/meta/recipes-core/udev/udev/init b/meta/recipes-core/udev/udev/init
-> index 6a4464c..f2c7f87 100644
-> --- a/meta/recipes-core/udev/udev/init
-> +++ b/meta/recipes-core/udev/udev/init
-> @@ -14,6 +14,7 @@ export TZ=/etc/localtime
->  [ -d /sys/class ] || exit 1
->  [ -r /proc/mounts ] || exit 1
->  [ -x /sbin/udevd ] || exit 1
-> +[ -f /etc/default/udev-cache ] && . /etc/default/udev-cache
->  [ -f /etc/udev/udev.conf ] && . /etc/udev/udev.conf
->  
->  kill_udevd() {
-> @@ -35,9 +36,17 @@ LANG=C awk '$2 == "/dev" && ($3 == "tmpfs" || $3 == "devtmpfs") { exit 1 }' /pro
->  [ -e /dev/shm ] || mkdir -m 1777 /dev/shm
->  
-> 
-> -if [ -e /etc/dev.tar ]; then
-> -	(cd /; tar xf /etc/dev.tar 2>&1 | grep -v 'time stamp' || true)
-> -	not_first_boot=1
-> +if [ "$DEVCACHE" != "" ]; then
-> +	# Ensure we are consistent to use the cache
-> +	echo -n > /dev/shm/cache.data
-> +	[ -x /bin/uname ] && /bin/uname -mrspv >> /dev/shm/cache.data
-> +	[ -r /proc/cmdline ] && cat /proc/cmdline >> /dev/shm/cache.data
-> +	[ -r /proc/devices ] && cat /proc/devices >> /dev/shm/cache.data
-> +	[ -r /proc/atags ] && cat /proc/atags >> /dev/shm/cache.data
-> +	if [ -e $DEVCACHE ] && cmp -s /dev/shm/cache.data /etc/udev/cache.data; then
-> +		(cd /; tar xf $DEVCACHE > /dev/null 2>&1)
-> +		not_first_boot=1
-> +	fi
->  fi
+Existing tty list does not include ttyGS0, add it
 
-This still forks much more than I'd like or than is necessary. In the
-interests of getting this resolved, you could do something like my
-example below which doesn't fork. It does mangle newlines in the data
-but in this case I don't think that matters.
+Signed-off-by: Steve Sakoman <steve@sakoman.com>
+---
+ meta/recipes-extended/shadow/files/securetty       |    3 +++
+ .../shadow/shadow-securetty_4.1.4.3.bb             |    2 ++
+ 2 files changed, 5 insertions(+), 0 deletions(-)
 
-Could we get away with /proc/version instead of uname -mrpsv ?
-
-Cheers,
-
-Richard
-
-#!/bin/sh
-readfile () {
-    filename=$1
-    READDATA=""
-    if [ -r $filename ]; then
-        while read line; do    
-            READDATA="$READDATA$line"
-        done < $filename
-    fi
-}
-
-readfile /proc/cmdline
-CMDLINE="$READDATA"
-readfile /proc/devices
-DEVICES="$READDATA"
-readfile /proc/atags
-ATAGS="$READDATA"
-
-if [ "$DEVCACHE" != "" ]; then
-    if [ -e $DEVCACHE ]; then
-        readfile /etc/udev/cache.data
-        if [ "$READDATA" = "$CMDLINE $DEVICES $ATAGS" ]; then
-            (cd /; tar xf $DEVCACHE > /dev/null 2>&1)
-            not_first_boot=1
-        fi
-    fi
-fi
-
-
+diff --git a/meta/recipes-extended/shadow/files/securetty b/meta/recipes-extended/shadow/files/securetty
+index 28fa0af..a06dc44 100644
+--- a/meta/recipes-extended/shadow/files/securetty
++++ b/meta/recipes-extended/shadow/files/securetty
+@@ -25,6 +25,9 @@ ttyUSB0
+ ttyUSB1
+ ttyUSB2
+ 
++# USB serial gadget
++ttyGS0
++
+ # PowerMac
+ ttyPZ0
+ ttyPZ1
+diff --git a/meta/recipes-extended/shadow/shadow-securetty_4.1.4.3.bb b/meta/recipes-extended/shadow/shadow-securetty_4.1.4.3.bb
+index e391d24..c7a206e 100644
+--- a/meta/recipes-extended/shadow/shadow-securetty_4.1.4.3.bb
++++ b/meta/recipes-extended/shadow/shadow-securetty_4.1.4.3.bb
+@@ -6,6 +6,8 @@ LIC_FILES_CHKSUM = "file://${COREBASE}/meta/COPYING.MIT;md5=3da9cfbcb788c80a0384
+ 
+ INHIBIT_DEFAULT_DEPS = "1"
+ 
++PR = "1"
++
+ SRC_URI = "file://securetty"
+ 
+ # Since we deduce our arch from ${SERIAL_CONSOLE}
+-- 
+1.7.1
 
 
 
