@@ -1,33 +1,20 @@
-Received: from vms173007pub.verizon.net ([206.46.173.7])
+Received: from mga11.intel.com ([192.55.52.93])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <denis@denix.org>)
-	id 1Rsi1Y-0007UB-Ib; Wed, 01 Feb 2012 22:47:28 +0100
-Received: from gandalf.denix.org ([unknown] [71.178.225.66])
-	by vms173007.mailsrvcs.net
-	(Sun Java(tm) System Messaging Server 7u2-7.02 32bit (built Apr 16
-	2009))
-	with ESMTPA id <0LYQ00ACHEP5QNQ1@vms173007.mailsrvcs.net>; Wed,
-	01 Feb 2012 14:39:06 -0600 (CST)
-Received: by gandalf.denix.org (Postfix, from userid 1000)	id CFC1320137; Wed,
-	01 Feb 2012 15:39:05 -0500 (EST)
-Date: Wed, 01 Feb 2012 15:39:05 -0500
-From: Denys Dmytriyenko <denis@denix.org>
-To: Martin Jansa <martin.jansa@gmail.com>
-Message-id: <20120201203905.GB11070@denix.org>
-References: <CAMKF1so7zfZSiGq+txWdBkONMtMi8iKRhqV_TOPt3FV3fTTEpQ@mail.gmail.com>
-	<CAEsOVNekW4Zo6YRHyNCTMJ_GsgrzaOE8QvWr70tRNAZQNokcig@mail.gmail.com>
-	<CAP9ODKo5EQEWr2CU9uQdz6mXKPJfN6zhbSkTcC01k8rU2D4kQg@mail.gmail.com>
-	<CAEsOVNeh8GTOcU+jF1jxs1FJTi84vq0_AVX9osvU1R83gzq2nA@mail.gmail.com>
-	<CAMKF1sqkdApUR9YPamhtxtUHoanHZ5Sxp8ggUnp8PS0v_qPPgg@mail.gmail.com>
-	<20120201181909.GC6969@jama.jama.net>
-MIME-version: 1.0
-In-reply-to: <20120201181909.GC6969@jama.jama.net>
-User-Agent: Mutt/1.5.20 (2009-06-14)
-Cc: McClintock Matthew-B29882 <B29882@freescale.com>,
-	bitbake-devel <bitbake-devel@lists.openembedded.org>,
-	Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [bitbake-devel] should we switch off patchwork for oe-core and bitbake projects
+	(envelope-from <nitin.a.kamble@intel.com>) id 1RsiGs-0008TJ-Na
+	for openembedded-core@lists.openembedded.org;
+	Wed, 01 Feb 2012 23:03:18 +0100
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+	by fmsmga102.fm.intel.com with ESMTP; 01 Feb 2012 13:55:22 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="112999999"
+Received: from nbuild0.sc.intel.com ([172.25.110.36])
+	by fmsmga001.fm.intel.com with ESMTP; 01 Feb 2012 13:55:22 -0800
+From: nitin.a.kamble@intel.com
+To: openembedded-core@lists.openembedded.org
+Date: Wed,  1 Feb 2012 13:55:20 -0800
+Message-Id: <cover.1328133261.git.nitin.a.kamble@intel.com>
+X-Mailer: git-send-email 1.7.6.4
+Subject: [PATCH 0/8] Variosu recipe upgrades
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -42,37 +29,62 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 01 Feb 2012 21:47:28 -0000
-Content-type: text/plain; charset=us-ascii
-Content-disposition: inline
+X-List-Received-Date: Wed, 01 Feb 2012 22:03:19 -0000
 
-On Wed, Feb 01, 2012 at 07:19:09PM +0100, Martin Jansa wrote:
-> On Wed, Feb 01, 2012 at 10:07:14AM -0800, Khem Raj wrote:
-> > On Wed, Feb 1, 2012 at 9:51 AM, McClintock Matthew-B29882
-> > <B29882@freescale.com> wrote:
-> > > I'm saying leave it there even if its not maintained. I can still go search
-> > > for patches sent by me or other specific people.
-> > 
-> > thats what mailing list archives are for.
-> 
-> is there something like
-> oe/contrib/patchwork/pw-am.sh
-> for some mailing list archive?
-> 
-> When I see some interesting patch in ML, easiest way for me to get it to
-> development branch is to open patchwork web (from any computer) and then
-> call pw-am.sh NUMBER in screen session on my development workstation.
-> 
-> Even when reading mail in mutt on the same machine it's easier for me to
-> use pw-am.sh to get that patch to my chroot for OE builds.
-> 
-> And that git hook marking them as applied works very well.. so usually I
-> just have to mark cover letters as applied.
+From: Nitin A Kamble <nitin.a.kamble@intel.com>
 
-I'd vote for keeping patchworks as well - there are rare patches submitted to 
-oe-core w/o corresponding pull requests...
+Nitin
+
+The following changes since commit 8d4d9a15c4947e55ed217c6035e76fcff724e544:
+
+  package bbclass: allow per package PRIVATE_LIBS (2012-02-01 15:15:15 +0000)
+
+are available in the git repository at:
+  git://git.pokylinux.org/poky-contrib nitin/upgrades
+  http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=nitin/upgrades
+
+Nitin A Kamble (8):
+  byacc: upggrade from 20111219 to 20120115
+  gmp: upgrade from 5.0.2 to 5.0.3
+  bdwgc: change the PV
+  gdb: upgrade from 7.3.1 to 7.4
+  quilt: upgrade from 0.50 to 0.51
+  python-dbus: upgrade from 0.84.0 to 1.0.0
+  linux-libc-headers: new recipes for latest upstream 3.2.2
+  distro_tracking: update for current upgrades
+
+ .../conf/distro/include/distro_tracking_fields.inc |   47 ++++++++--------
+ meta/recipes-devtools/gdb/gdb-common.inc           |    4 +-
+ ...canadian_7.3.1.bb => gdb-cross-canadian_7.4.bb} |    0
+ .../gdb/{gdb-cross_7.3.1.bb => gdb-cross_7.4.bb}   |    0
+ .../gdb/{gdb_7.3.1.bb => gdb_7.4.bb}               |    0
+ ...{python-dbus_0.84.0.bb => python-dbus_1.0.0.bb} |    4 +-
+ .../quilt/{quilt-0.50.inc => quilt-0.51.inc}       |    4 +-
+ .../{quilt-native_0.50.bb => quilt-native_0.51.bb} |    0
+ .../quilt/{quilt_0.50.bb => quilt_0.51.bb}         |    0
+ .../byacc/{byacc_20111219.bb => byacc_20120115.bb} |    6 +-
+ .../linux-libc-headers/linux-libc-headers_3.2.2.bb |    7 ++
+ .../{bdwgc_20110107.bb => bdwgc_7_2alpha5.bb}      |    0
+ meta/recipes-support/gmp/gmp/amd64.patch           |    8 ++-
+ meta/recipes-support/gmp/gmp/configure.patch       |   60 ++++++++++++--------
+ meta/recipes-support/gmp/gmp/sh4-asmfix.patch      |   28 ---------
+ .../gmp/{gmp_5.0.2.bb => gmp_5.0.3.bb}             |    9 +--
+ 16 files changed, 84 insertions(+), 93 deletions(-)
+ rename meta/recipes-devtools/gdb/{gdb-cross-canadian_7.3.1.bb => gdb-cross-canadian_7.4.bb} (100%)
+ rename meta/recipes-devtools/gdb/{gdb-cross_7.3.1.bb => gdb-cross_7.4.bb} (100%)
+ rename meta/recipes-devtools/gdb/{gdb_7.3.1.bb => gdb_7.4.bb} (100%)
+ rename meta/recipes-devtools/python/{python-dbus_0.84.0.bb => python-dbus_1.0.0.bb} (83%)
+ rename meta/recipes-devtools/quilt/{quilt-0.50.inc => quilt-0.51.inc} (86%)
+ rename meta/recipes-devtools/quilt/{quilt-native_0.50.bb => quilt-native_0.51.bb} (100%)
+ rename meta/recipes-devtools/quilt/{quilt_0.50.bb => quilt_0.51.bb} (100%)
+ rename meta/recipes-extended/byacc/{byacc_20111219.bb => byacc_20120115.bb} (59%)
+ create mode 100644 meta/recipes-kernel/linux-libc-headers/linux-libc-headers_3.2.2.bb
+ rename meta/recipes-support/bdwgc/{bdwgc_20110107.bb => bdwgc_7_2alpha5.bb} (100%)
+ delete mode 100644 meta/recipes-support/gmp/gmp/sh4-asmfix.patch
+ rename meta/recipes-support/gmp/{gmp_5.0.2.bb => gmp_5.0.3.bb} (57%)
 
 -- 
-Denys
+1.7.6.4
+
 
 
