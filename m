@@ -1,38 +1,34 @@
-Received: from mail-wi0-f175.google.com ([209.85.212.175])
-	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <koen@dominion.thruhere.net>) id 1RsYGC-0002tQ-Dd
-	for openembedded-core@lists.openembedded.org;
-	Wed, 01 Feb 2012 12:21:56 +0100
-Received: by wibhq7 with SMTP id hq7so846743wib.6
+Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
+	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <richard.purdie@linuxfoundation.org>)
+	id 1RsaDL-0003P1-5e for openembedded-core@lists.openembedded.org;
+	Wed, 01 Feb 2012 14:27:07 +0100
+Received: from localhost (localhost [127.0.0.1])
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q11DJCI3021742
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 01 Feb 2012 03:14:01 -0800 (PST)
-Received: by 10.180.106.33 with SMTP id gr1mr40844193wib.6.1328094841722;
-	Wed, 01 Feb 2012 03:14:01 -0800 (PST)
-Received: from [172.20.1.36] (ip545070eb.adsl-surfen.hetnet.nl.
-	[84.80.112.235])
-	by mx.google.com with ESMTPS id q2sm32217362wiy.7.2012.02.01.03.13.59
-	(version=TLSv1/SSLv3 cipher=OTHER);
-	Wed, 01 Feb 2012 03:14:00 -0800 (PST)
-Mime-Version: 1.0 (Apple Message framework v1251.1)
-From: Koen Kooi <koen@dominion.thruhere.net>
-In-Reply-To: <20120201111100.GA12344@ad.chargestorm.se>
-Date: Wed, 1 Feb 2012 12:13:58 +0100
-Message-Id: <1300E531-1280-45FF-8A70-686D6FFB7B91@dominion.thruhere.net>
-References: <1327957970-15159-1-git-send-email-steve@sakoman.com>
-	<4F27108D.4090303@linux.intel.com>
-	<4F2715ED.9030109@linux.intel.com>
-	<CAOSpxdajJLZSuzZS5qb4UPpjuS55ZWB=RR3a0oi9hNDF8J++Fw@mail.gmail.com>
-	<4F272E1A.6040702@linux.intel.com>
-	<CAOSpxdZsOeOWuB5EcjFf5cN6kkMWzAaWXYue5m2OX_jwWQZEfw@mail.gmail.com>
-	<4F275EB2.1020308@linux.intel.com>
-	<CAOSpxdYTX7-CAxEe=7TiFV3QN_0M_LTFfgA8nq-YS3Q7zk+a3A@mail.gmail.com>
-	<20120131074216.GB4166@ad.chargestorm.se>
-	<CAGDS+nmGBsC8r6yTYaSzNyDuF61A1jLL+Q+rJpDM4kb8ufAYWA@mail.gmail.com>
-	<20120201111100.GA12344@ad.chargestorm.se>
+	Wed, 1 Feb 2012 13:19:12 GMT
+Received: from tim.rpsys.net ([127.0.0.1])
+	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
+	port 10024) with LMTP
+	id 20877-06 for <openembedded-core@lists.openembedded.org>;
+	Wed,  1 Feb 2012 13:19:08 +0000 (GMT)
+Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q11DJ4sL021736
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO)
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 1 Feb 2012 13:19:06 GMT
+Message-ID: <1328102349.13744.68.camel@ted>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-X-Mailer: Apple Mail (2.1251.1)
-Subject: Re: [PATCH v4 0/3] zypper: support signed repositories
+Date: Wed, 01 Feb 2012 13:19:09 +0000
+In-Reply-To: <d2dc84fee222915fee201ac867c00fda16b80284.1327975625.git.otavio@ossystems.com.br>
+References: <cover.1327975625.git.otavio@ossystems.com.br>
+	<d2dc84fee222915fee201ac867c00fda16b80284.1327975625.git.otavio@ossystems.com.br>
+X-Mailer: Evolution 3.2.2- 
+Mime-Version: 1.0
+X-Virus-Scanned: amavisd-new at rpsys.net
+Subject: Re: [PATCH 2/2] classes/gitpkgv.bbclass: import from Meta-OE
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -47,68 +43,160 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 01 Feb 2012 11:21:56 -0000
-Content-Type: text/plain; charset=iso-8859-1
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Wed, 01 Feb 2012 13:27:07 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
+
+On Tue, 2012-01-31 at 02:10 +0000, Otavio Salvador wrote:
+> It provides a GITPKGV and GITPKGVTAG variables to be used in PKGV, as
+> described bellow:
+> 
+>  - GITPKGV which is a sortable version with the format NN+GITHASH, to
+>    be used in PKGV, where
+> 
+>    NN equals the total number of revs up to SRCREV
+>    GITHASH is SRCREV's (full) hash
+> 
+>  - GITPKGVTAG which is the output of 'git describe' allowing for
+>    automatic versioning
+> 
+> gitpkgv.bbclass assumes the git repository has been cloned, and
+> contains SRCREV. So ${GITPKGV} and ${GITPKGVTAG} should never be
+> used in PV, only in PKGV.  It can handle SRCREV = ${AUTOREV}, as
+> well as SRCREV = "<some fixed git hash>".
+> 
+> The code has been imported from Meta-OE at revision
+> a76fff17ea8420686ef81b35f80efac1bef21649.
+> 
+> Signed-off-by: Otavio Salvador <otavio@ossystems.com.br>
+> ---
+>  meta/classes/gitpkgv.bbclass |   95 ++++++++++++++++++++++++++++++++++++++++++
+>  1 files changed, 95 insertions(+), 0 deletions(-)
+>  create mode 100644 meta/classes/gitpkgv.bbclass
+
+As discussed on IRC, I think some of the code here should really be
+integrated into the bitbake git fetcher to ensure we have a
+clean/consistent API for fetcher functionality. The interface I'm
+thinking about would be similar to SRCPV:
+
+SRCPV = "${@bb.fetch2.get_srcrev(d)}"
+
+with a new fetcher call being added such as get_simplified_srcrev(d).
+Switching between the simplified revision and the description could be
+governed by a variable setting similar to some of the existing variables
+that control fetcher behaviour.
+
+There has been substantial work done to improve the fetcher APIs and
+clean up the various corner cases and this would seem a logical
+continuation of that, in keeping with the objectives of OE-Core.
+
+Cheers,
+
+Richard
 
 
-Op 1 feb. 2012, om 12:11 heeft Anders Darander het volgende geschreven:
+> diff --git a/meta/classes/gitpkgv.bbclass b/meta/classes/gitpkgv.bbclass
+> new file mode 100644
+> index 0000000..238b0d2
+> --- /dev/null
+> +++ b/meta/classes/gitpkgv.bbclass
+> @@ -0,0 +1,95 @@
+> +# gitpkgv.bbclass provides a GITPKGV and GITPKGVTAG variables to be
+> +# used in PKGV, as described bellow:
+> +#
+> +# - GITPKGV which is a sortable version with the format NN+GITHASH, to
+> +#   be used in PKGV, where
+> +#
+> +#   NN equals the total number of revs up to SRCREV
+> +#   GITHASH is SRCREV's (full) hash
+> +#
+> +# - GITPKGVTAG which is the output of 'git describe' allowing for
+> +#   automatic versioning
+> +#
+> +# gitpkgv.bbclass assumes the git repository has been cloned, and
+> +# contains SRCREV. So ${GITPKGV} and ${GITPKGVTAG} should never be
+> +# used in PV, only in PKGV.  It can handle SRCREV = ${AUTOREV}, as
+> +# well as SRCREV = "<some fixed git hash>".
+> +#
+> +# WARNING: if upstream repository is always using consistent and
+> +# sortable tag name scheme you can get sortable version including tag
+> +# name with ${GITPKGVTAG}, but be aware that ie tag sequence "v1.0,
+> +# v1.2, xtest, v2.0" will force you to increment PE to get upgradeable
+> +# path to v2.0 revisions
+> +#
+> +# use example:
+> +#
+> +# inherit gitpkgv
+> +#
+> +# PV = "1.0+gitr${SRCPV}"      # expands to something like 1.0+gitr3+4c1c21d7dbbf93b0df336994524313dfe0d4963b
+> +# PKGV = "1.0+gitr${GITPKGV}"  # expands also to something like 1.0+gitr31337+4c1c21d7d
+> +#
+> +# or
+> +#
+> +# inherit gitpkgv
+> +#
+> +# PV = "1.0+gitr${SRCPV}" # expands to something like 1.0+gitr3+4c1c21d7dbbf93b0df336994524313dfe0d4963b
+> +# PKGV = "${GITPKGVTAG}"  # expands to something like 1.0-31337+g4c1c21d
+> +#                           if there is tag v1.0 before this revision or
+> +#                           ver1.0-31337+g4c1c21d if there is tag ver1.0
+> +
+> +GITPKGV = "${@get_git_pkgv(d, False)}"
+> +GITPKGVTAG = "${@get_git_pkgv(d, True)}"
+> +
+> +def gitpkgv_drop_tag_prefix(version):
+> +    import re
+> +    if re.match("v\d", version):
+> +        return version[1:]
+> +    else:
+> +        return version
+> +
+> +def get_git_pkgv(d, use_tags):
+> +    import os
+> +    import bb
+> +
+> +    src_uri = bb.data.getVar('SRC_URI', d, 1).split()
+> +    fetcher = bb.fetch2.Fetch(src_uri, d)
+> +    ud = fetcher.ud
+> +
+> +    #
+> +    # If SRCREV_FORMAT is set respect it for tags
+> +    #
+> +    format = bb.data.getVar('SRCREV_FORMAT', d, True)
+> +    if not format:
+> +        format = 'default'
+> +
+> +    found = False
+> +    for url in ud.values():
+> +        if url.type == 'git':
+> +            for name, rev in url.revisions.items():
+> +                if not os.path.exists(url.localpath):
+> +                    return None
+> +
+> +                found = True
+> +
+> +                cwd = os.getcwd()
+> +                os.chdir(url.localpath)
+> +
+> +                commits = bb.fetch2.runfetchcmd("git rev-list %s -- 2> /dev/null | wc -l" % rev, d, quiet=True).strip()
+> +
+> +                if use_tags:
+> +                    try:
+> +                        output = bb.fetch2.runfetchcmd("git describe %s 2>/dev/null" % rev, d, quiet=True).strip()
+> +                        ver = gitpkgv_drop_tag_prefix(output)
+> +                    except Exception:
+> +                        ver = "0.0-%s-g%s" % (commits, rev[:7])
+> +                else:
+> +                    ver = "%s+%s" % (commits, rev[:7])
+> +
+> +                os.chdir(cwd)
+> +
+> +                format = format.replace(name, ver)
+> +
+> +    if found:
+> +        return format
+> +
+> +    return '0+0'
 
-> * Steve Sakoman <sakoman@gmail.com> [120131 17:50]:
->> On Mon, Jan 30, 2012 at 11:42 PM, Anders Darander =
-<anders@chargestorm.se> wrote:
->>> * Steve Sakoman <steve@sakoman.com> [120131 06:32]:
->>>> On Mon, Jan 30, 2012 at 7:23 PM, Saul Wold <sgw@linux.intel.com> =
-wrote:
->>>>> On 01/30/2012 05:39 PM, Steve Sakoman wrote:
->=20
->>>>> I will wait to pull this until I hear back from you with another =
-pull
->>>>> request.  Thanks for digging into this, better to get it solved =
-now then
->>>>> figure it out later that we missed a GPLv2 dependency.
->=20
->>>> I'll do a build with the libzypp RDEPENDS change and verify no =
-issues,
->>>> and then a test build with the gpg2 -> gpg change and verify that =
-too.
->=20
->>>> If it works, then that patch should likely get bundled with the
->>>> introduction of a GnuPG V1.4.10 recipe import from oe-classic.
->=20
->>> I think you'll have to modify the oe-classic recipe to use GnuPG =
-v1.4.7,
->>> as it seems that GnuPG was relicensed to GPLv3 in 1.4.8... At least =
-that
->>> was the conclusion I came to when I looked at this last summer.
->>> (Unfortunately, I didn't have time to work through it).
->=20
->> This makes me wonder whether libzypp/zypper is an appropriate long
->> term choice for those who want to avoid GPLv3.
->=20
->> The zypp project obviously made the choice to switch to GPLv3 years
->> ago and it will be an ongoing problem to try to support old versions
->> with GPLv2.
->=20
->> Perhaps yum would be a better choice for the GPLv3 averse, since IIRC
->> it is still GPLv2.
->=20
-> How does yum handle the signatures? Does it also do it using
-> gpg/gpg2-commands? If so, we would probably have the same problem with
-> yum as with libzypp/zypper. (Possible without having to patch gpg2 ->
-> gpg, but as they are quite compatible, that should be a minor issue). =
-We
-> would still have problems using later GnuPG 1.4.x...
->=20
-> Or is yum (or any other package manager) using GpgME? (The library
-> designed to make it easier for applications to interface with gpg). If
-> so, it should be OK, as gpgme is licensed under GPLv2(+?)
 
-And is yum a binary or a script? I'm in the 'statically linked package =
-manager' camp, so switching to a script is only going to make me sad ;)
-
-regards,
-
-Koen=
 
 
