@@ -1,36 +1,20 @@
-Received: from mail-lpp01m010-f47.google.com ([209.85.215.47])
+Received: from mga01.intel.com ([192.55.52.88])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <raj.khem@gmail.com>) id 1RsMm1-0001rm-Hv
+	(envelope-from <josh@linux.intel.com>) id 1RsOeL-0001hv-78
 	for openembedded-core@lists.openembedded.org;
-	Wed, 01 Feb 2012 00:06:01 +0100
-Received: by lahc1 with SMTP id c1so338080lah.6
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 31 Jan 2012 14:58:07 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc:content-type;
-	bh=ZWCnbMpInlFaj7G+nxF7kZqmpJOvk4p1UA+o6KTCUys=;
-	b=EVB01Rp27LsIf4AUgayuU16bG0UXkWCcUugjqb1bV/oUUxNp6zitrIEZDwty+UO1VZ
-	aaH/qNxeqp3+dzfiNc37Ipscxr3ffUjsYtN3lVEMzf5RVVdnML/VRiKz9uGPRr3Xtg1i
-	8horUmt25/nBAFLX+Z9lXrUrH6s4q5fUBCwYw=
-Received: by 10.152.112.41 with SMTP id in9mr12089896lab.27.1328050687323;
-	Tue, 31 Jan 2012 14:58:07 -0800 (PST)
-MIME-Version: 1.0
-Received: by 10.152.5.201 with HTTP; Tue, 31 Jan 2012 14:57:37 -0800 (PST)
-In-Reply-To: <4F28405A.7090902@linux.intel.com>
-References: <4F24F822.1010102@emagii.com>
-	<1327974653.1334.0.camel@localhost.localdomain>
-	<CAMKF1soXjPuoroZR5kkvzD5vT+QXy-==peaSa+hV2Xore+E_VA@mail.gmail.com>
-	<07E1C9D5-7CD1-4A0F-8C0A-0916826E7935@dominion.thruhere.net>
-	<CAMKF1sqhkRdWYDuHwq_4tSgdwvskBSLe94o5DTUnK6BzPZG7Cw@mail.gmail.com>
-	<4F28405A.7090902@linux.intel.com>
-From: Khem Raj <raj.khem@gmail.com>
-Date: Tue, 31 Jan 2012 14:57:37 -0800
-Message-ID: <CAMKF1spFCho5aWM6uWMmGrXgbpJX2dwzve6r5WUczQKUzbTVaQ@mail.gmail.com>
-To: Darren Hart <dvhart@linux.intel.com>
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: module.init-tools-3.16.tar.bz2 no longer available at kernel.org
+	Wed, 01 Feb 2012 02:06:13 +0100
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+	by fmsmga101.fm.intel.com with ESMTP; 31 Jan 2012 16:58:17 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="118835779"
+Received: from unknown (HELO shamshir.amr.corp.intel.com) ([10.255.14.149])
+	by fmsmga002.fm.intel.com with ESMTP; 31 Jan 2012 16:58:17 -0800
+From: Joshua Lock <josh@linux.intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Tue, 31 Jan 2012 16:58:12 -0800
+Message-Id: <cover.1328057677.git.josh@linux.intel.com>
+X-Mailer: git-send-email 1.7.7.6
+Subject: [PATCH 0/3] Misc fixes - pciutils and syslogd
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -45,51 +29,42 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 31 Jan 2012 23:06:01 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Wed, 01 Feb 2012 01:06:13 -0000
 
-On Tue, Jan 31, 2012 at 11:26 AM, Darren Hart <dvhart@linux.intel.com> wrote:
-> On 01/31/2012 12:58 AM, Khem Raj wrote:
->> On Mon, Jan 30, 2012 at 11:57 PM, Koen Kooi <koen@dominion.thruhere.net> wrote:
->>>
->>> Like the one in meta-oe? http://cgit.openembedded.org/meta-openembedded/commit/?id=2292ac565c220f2112a07abd563c6a9ee34dc662
->>
->> slightly better ;) Since I was intending to replace complete
->> module-init-tools (including cross recipes) with kmod.
->>
->> have a look at top 3 patches on
->>
->> http://git.openembedded.org/openembedded-core-contrib/log/?h=kraj/misc-fixes
->
-> Hi Khem,
->
-> For kmod-cross and kmod-native, I thought the agreed upon PR bump method
-> was something like:
+All,
 
-I think kmod-cross will go away. Its still cooking. I have a segfault
-in kmod/depmod to resolve
+Here are a couple of patches to fix issues in test builds I've been running
+today.
 
->
-> PR := "${@int(INC_PR) + 1}"
->
-> Was it not?
+The first fixes our patched configure script in pciutils for users of the dash
+shell. The second ensures sysklogd is a little more useful out of the box.
 
-that was for PRINC in bbappends in overlays.
+Cheers,
+Joshua
 
->
-> kmod.inc does "gtkdocize --docdir....", but I don't see a DEPENDS to
-> ensure gtkdocize exists.
+The following changes since commit d7b13cd42ab8d5f44f97e119b73ec2e363677d26:
 
-yes thats why the || part is there. If it exists then do it
-otherwise fallback. Since its WIP thats easier to get it
-off ground.
+  useradd.bbclass: Fix missing quote (2012-01-27 23:57:33 +0000)
 
->
-> Looking forward to seeing these in oe-core.
->
-> --
-> Darren Hart
-> Intel Open Source Technology Center
-> Yocto Project - Linux Kernel
+are available in the git repository at:
+  git://git.openembedded.org/openembedded-core-contrib josh/fixes
+  http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=josh/fixes
+
+Joshua Lock (3):
+  pciutils: fix configure script for dash
+  sysklogd: various fixes so it starts/stops cleanly
+  distro_tracking_fields: take sysklogd off Saul's plate
+
+ .../conf/distro/include/distro_tracking_fields.inc |    2 +-
+ .../pciutils/pciutils-3.1.9/configure.patch        |    2 +-
+ meta/recipes-extended/sysklogd/files/sysklogd      |    2 +-
+ meta/recipes-extended/sysklogd/files/syslog.conf   |    6 +++---
+ meta/recipes-extended/sysklogd/sysklogd.inc        |   14 ++++++++++----
+ meta/recipes-extended/sysklogd/sysklogd_1.5.bb     |    2 +-
+ 6 files changed, 17 insertions(+), 11 deletions(-)
+
+-- 
+1.7.7.6
+
 
 
