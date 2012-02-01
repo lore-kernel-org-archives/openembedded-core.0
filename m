@@ -1,28 +1,55 @@
-Received: from mail-gy0-f175.google.com ([209.85.160.175])
+Received: from am1ehsobe001.messaging.microsoft.com ([213.199.154.204]
+	helo=AM1EHSOBE005.bigfish.com)
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <steve@sakoman.com>) id 1Rse3V-00049i-K5
-	for openembedded-core@lists.openembedded.org;
-	Wed, 01 Feb 2012 18:33:13 +0100
-Received: by ghbf19 with SMTP id f19so689983ghb.6
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 01 Feb 2012 09:25:18 -0800 (PST)
-Received: by 10.50.154.200 with SMTP id vq8mr27738299igb.14.1328117117316;
-	Wed, 01 Feb 2012 09:25:17 -0800 (PST)
-Received: from quadra.sakoman.net
-	(static-74-41-60-154.dsl1.pco.ca.frontiernet.net. [74.41.60.154])
-	by mx.google.com with ESMTPS id h9sm27529504ibh.11.2012.02.01.09.25.15
-	(version=SSLv3 cipher=OTHER); Wed, 01 Feb 2012 09:25:16 -0800 (PST)
-From: Steve Sakoman <steve@sakoman.com>
-To: openembedded-core@lists.openembedded.org
-Date: Wed,  1 Feb 2012 09:24:48 -0800
-Message-Id: <1328117088-4547-1-git-send-email-steve@sakoman.com>
-X-Mailer: git-send-email 1.7.1
-Cc: Steve Sakoman <steve@sakoman.com>
-Subject: [PATCH v2] shadow-securetty: allow root logins on usb serial gadget device
+	(envelope-from <B29882@freescale.com>) id 1RseFs-0007qj-CZ
+	for openembedded-core@lists.linuxtogo.org;
+	Wed, 01 Feb 2012 18:46:00 +0100
+Received: from mail16-am1-R.bigfish.com (10.3.201.233) by
+	AM1EHSOBE005.bigfish.com (10.3.204.25) with Microsoft SMTP Server id
+	14.1.225.23; Wed, 1 Feb 2012 17:07:53 +0000
+Received: from mail16-am1 (localhost [127.0.0.1])	by mail16-am1-R.bigfish.com
+	(Postfix) with ESMTP id 065D34E0256;
+	Wed,  1 Feb 2012 17:07:53 +0000 (UTC)
+X-SpamScore: -7
+X-BigFish: VS-7(zz9371I1432N98dKzz1202hzz8275bhz2dhc1bhc31hc1ah2a8h668h839h8e2h8e3hbe9k)
+X-Forefront-Antispam-Report: CIP:70.37.183.190; KIP:(null); UIP:(null); IPV:NLI;
+	H:mail.freescale.net; RD:none; EFVD:NLI
+Received: from mail16-am1 (localhost.localdomain [127.0.0.1]) by mail16-am1
+	(MessageSwitch) id 1328116070731434_762; Wed,  1 Feb 2012 17:07:50 +0000
+	(UTC)
+Received: from AM1EHSMHS018.bigfish.com (unknown [10.3.201.242])	by
+	mail16-am1.bigfish.com (Postfix) with ESMTP id AEA74E0045;
+	Wed,  1 Feb 2012 17:07:50 +0000 (UTC)
+Received: from mail.freescale.net (70.37.183.190) by AM1EHSMHS018.bigfish.com
+	(10.3.206.21) with Microsoft SMTP Server (TLS) id 14.1.225.23;
+	Wed, 1 Feb 2012 17:07:50 +0000
+Received: from 039-SN1MPN1-002.039d.mgd.msft.net ([169.254.2.86]) by
+	039-SN1MMR1-002.039d.mgd.msft.net ([10.84.1.15]) with mapi id
+	14.01.0355.003; Wed, 1 Feb 2012 11:07:48 -0600
+From: McClintock Matthew-B29882 <B29882@freescale.com>
+To: Khem Raj <raj.khem@gmail.com>
+Thread-Topic: [bitbake-devel] should we switch off patchwork for oe-core and
+	bitbake projects
+Thread-Index: AQHM4QQFyKvbXkZugka1DUAXPW/EEA==
+Date: Wed, 1 Feb 2012 17:07:47 +0000
+Message-ID: <CAEsOVNekW4Zo6YRHyNCTMJ_GsgrzaOE8QvWr70tRNAZQNokcig@mail.gmail.com>
+References: <CAMKF1so7zfZSiGq+txWdBkONMtMi8iKRhqV_TOPt3FV3fTTEpQ@mail.gmail.com>
+In-Reply-To: <CAMKF1so7zfZSiGq+txWdBkONMtMi8iKRhqV_TOPt3FV3fTTEpQ@mail.gmail.com>
+Accept-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [99.47.177.27]
+MIME-Version: 1.0
+X-OriginatorOrg: freescale.com
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.linuxtogo.org>,
+	bitbake-devel <bitbake-devel@lists.openembedded.org>
+Subject: Re: [bitbake-devel] should we switch off patchwork for oe-core and bitbake projects
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
-Reply-To: Patches and discussions about the oe-core layer
+Reply-To: McClintock Matthew-B29882 <B29882@freescale.com>,
+	Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
 List-Id: Patches and discussions about the oe-core layer
 	<openembedded-core.lists.openembedded.org>
@@ -33,48 +60,30 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 01 Feb 2012 17:33:13 -0000
+X-List-Received-Date: Wed, 01 Feb 2012 17:46:00 -0000
+Content-Language: en-US
+Content-Type: text/plain; charset="iso-8859-1"
+Content-ID: <0D26956134530446915C95C5458A60CC@freescale.net>
+Content-Transfer-Encoding: quoted-printable
 
-Existing tty list does not include ttyGS0, add it
+On Wed, Feb 1, 2012 at 10:04 AM, Khem Raj <raj.khem@gmail.com> wrote:
+> Hi
+>
+> patchwork instance that we have currently handles patches for
+> oe-devel, oe-core and bitbake
+> layers which use oe-devel maintain and use the patch queues ok so it
+> makes sense to have it
+> there. But patch flow for oe-core and bitbake is handled differently
+> via pull requests. Would it
+> make sense to turn it off for these two projects. Is someone using
+> patchwork and/or finds
+> it useful to have the patchwork catch those patches please let me know
 
-Signed-off-by: Steve Sakoman <steve@sakoman.com>
----
-Changes in this version:
- - set PR to r1
- 
- meta/recipes-extended/shadow/files/securetty       |    3 +++
- .../shadow/shadow-securetty_4.1.4.3.bb             |    2 ++
- 2 files changed, 5 insertions(+), 0 deletions(-)
+Patchworks is useful for pulling patches into a git repo and having
+discussion on a patch documented. I don't think it should just be
+turned off, it can be left there for all the see and use.
 
-diff --git a/meta/recipes-extended/shadow/files/securetty b/meta/recipes-extended/shadow/files/securetty
-index 28fa0af..a06dc44 100644
---- a/meta/recipes-extended/shadow/files/securetty
-+++ b/meta/recipes-extended/shadow/files/securetty
-@@ -25,6 +25,9 @@ ttyUSB0
- ttyUSB1
- ttyUSB2
- 
-+# USB serial gadget
-+ttyGS0
-+
- # PowerMac
- ttyPZ0
- ttyPZ1
-diff --git a/meta/recipes-extended/shadow/shadow-securetty_4.1.4.3.bb b/meta/recipes-extended/shadow/shadow-securetty_4.1.4.3.bb
-index e391d24..c7a206e 100644
---- a/meta/recipes-extended/shadow/shadow-securetty_4.1.4.3.bb
-+++ b/meta/recipes-extended/shadow/shadow-securetty_4.1.4.3.bb
-@@ -6,6 +6,8 @@ LIC_FILES_CHKSUM = "file://${COREBASE}/meta/COPYING.MIT;md5=3da9cfbcb788c80a0384
- 
- INHIBIT_DEFAULT_DEPS = "1"
- 
-+PR = "r1"
-+
- SRC_URI = "file://securetty"
- 
- # Since we deduce our arch from ${SERIAL_CONSOLE}
--- 
-1.7.1
+-M=
 
 
 
