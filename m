@@ -1,26 +1,26 @@
 Received: from mga01.intel.com ([192.55.52.88])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <sgw@linux.intel.com>) id 1Rt0vf-0000L5-Op
+	(envelope-from <sgw@linux.intel.com>) id 1Rt0ww-0000OL-Mo
 	for openembedded-core@lists.openembedded.org;
-	Thu, 02 Feb 2012 18:58:41 +0100
+	Thu, 02 Feb 2012 18:59:58 +0100
 Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-	by fmsmga101.fm.intel.com with ESMTP; 02 Feb 2012 09:50:42 -0800
+	by fmsmga101.fm.intel.com with ESMTP; 02 Feb 2012 09:52:01 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="113364303"
+X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="113364472"
 Received: from unknown (HELO [10.255.14.238]) ([10.255.14.238])
-	by fmsmga001.fm.intel.com with ESMTP; 02 Feb 2012 09:50:41 -0800
-Message-ID: <4F2ACCF1.70704@linux.intel.com>
-Date: Thu, 02 Feb 2012 09:50:41 -0800
+	by fmsmga001.fm.intel.com with ESMTP; 02 Feb 2012 09:52:01 -0800
+Message-ID: <4F2ACD40.3000002@linux.intel.com>
+Date: Thu, 02 Feb 2012 09:52:00 -0800
 From: Saul Wold <sgw@linux.intel.com>
 User-Agent: Mozilla/5.0 (X11; Linux x86_64;
 	rv:9.0) Gecko/20111222 Thunderbird/9.0
 MIME-Version: 1.0
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-References: <1327478715-11214-1-git-send-email-Martin.Jansa@gmail.com>
-In-Reply-To: <1327478715-11214-1-git-send-email-Martin.Jansa@gmail.com>
-Cc: Martin Jansa <martin.jansa@gmail.com>
-Subject: Re: [PATCH] rootfs_ipk: remove runtime_script_required usage
+References: <77750FFE-A5A1-426D-A92E-775A8C95FF9A@dominion.thruhere.net>
+	<1327512153-30830-1-git-send-email-eric@eukrea.com>
+In-Reply-To: <1327512153-30830-1-git-send-email-eric@eukrea.com>
+Subject: Re: [PATCH v2] qt4-tools-nativesdk-4.8.0: fix build
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -35,37 +35,32 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 02 Feb 2012 17:58:41 -0000
-Content-Type: text/plain; charset=ISO-8859-1; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Thu, 02 Feb 2012 17:59:58 -0000
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 
-On 01/25/2012 12:05 AM, Martin Jansa wrote:
-> * it was introduced in 87780fc09b066525e47d0f50ee5497db54d304cd
-> * then partially removed in 2feba313c991170747381c7cf821a45c2cd04632
-> * so remove this use too as runtime_script_required is not initialized anymore and results in
->    run.do_rootfs.6328: line 235: [: -eq: unary operator expected
+On 01/25/2012 09:22 AM, Eric Bénard wrote:
+> the build is actually failing because host g++ and ld are used to
+> compile and link
 >
-> Signed-off-by: Martin Jansa<Martin.Jansa@gmail.com>
+> Signed-off-by: Eric Bénard<eric@eukrea.com>
 > ---
->   meta/classes/rootfs_ipk.bbclass |    2 +-
->   1 files changed, 1 insertions(+), 1 deletions(-)
+> v2 : increment INC_PR
+>   meta/recipes-qt/qt4/files/configure-lflags.patch   |   18 ------------------
+>   .../recipes-qt/qt4/qt-4.7.4/configure-lflags.patch |   18 ++++++++++++++++++
+>   .../recipes-qt/qt4/qt-4.8.0/configure-lflags.patch |   18 ++++++++++++++++++
+>   meta/recipes-qt/qt4/qt4-tools-nativesdk.inc        |   10 +++++++---
+>   meta/recipes-qt/qt4/qt4-tools-nativesdk_4.7.4.bb   |    3 ++-
+>   5 files changed, 45 insertions(+), 22 deletions(-)
+>   delete mode 100644 meta/recipes-qt/qt4/files/configure-lflags.patch
+>   create mode 100644 meta/recipes-qt/qt4/qt-4.7.4/configure-lflags.patch
+>   create mode 100644 meta/recipes-qt/qt4/qt-4.8.0/configure-lflags.patch
 >
-> diff --git a/meta/classes/rootfs_ipk.bbclass b/meta/classes/rootfs_ipk.bbclass
-> index 48fb2fb..5342035 100644
-> --- a/meta/classes/rootfs_ipk.bbclass
-> +++ b/meta/classes/rootfs_ipk.bbclass
-> @@ -90,7 +90,7 @@ fakeroot rootfs_ipk_do_rootfs () {
->   	rm -f ${IMAGE_ROOTFS}${opkglibdir}/lists/*
->
->   	if ${@base_contains("IMAGE_FEATURES", "package-management", "false", "true", d)}; then
-> -		if [ $runtime_script_required -eq 0 ]; then
-> +		if ! grep Status:.install.ok.unpacked ${IMAGE_ROOTFS}${opkglibdir}status; then
->   			# All packages were successfully configured.
->   			# update-rc.d, base-passwd are no further use, remove them now
->   			opkg-cl ${IPKG_ARGS} --force-depends remove update-rc.d base-passwd || true
+
 Merged into OE-core
 
 Thanks
 	Sau!
+
 
 
