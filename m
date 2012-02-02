@@ -1,30 +1,30 @@
-Received: from mail-ee0-f47.google.com ([74.125.83.47])
+Received: from mail-ey0-f175.google.com ([209.85.215.175])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <tworaz666@gmail.com>) id 1Rt3J4-0005GE-V5
+	(envelope-from <tworaz666@gmail.com>) id 1Rt3JM-0005Hf-8q
 	for openembedded-core@lists.openembedded.org;
-	Thu, 02 Feb 2012 21:30:59 +0100
-Received: by eekd41 with SMTP id d41so767548eek.6
+	Thu, 02 Feb 2012 21:31:16 +0100
+Received: by eaal10 with SMTP id l10so529166eaa.6
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 02 Feb 2012 12:23:02 -0800 (PST)
+	Thu, 02 Feb 2012 12:23:19 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
 	h=from:to:cc:subject:date:message-id:x-mailer;
-	bh=8cnfihRjjjxWrZ930qD30tTLycct7NIdpzKB4jHOV7U=;
-	b=wWQXOrdvl9RGWrbG4RH4uYqAxmpXsgc2lmrFHM7Dzx1TVZlUPhPQo8LlcYevn9/NNH
-	xQwNYGk0eaboGhQ2jTPQC60we2YXT5wluPMTSUN+vt2c1klYniIRiavo+UnSQLpwEMU1
-	EwzDhkl5un8mJsAc8Y+q26FAFrEa6Kq4QXicA=
-Received: by 10.14.135.140 with SMTP id u12mr1344731eei.73.1328214181974;
-	Thu, 02 Feb 2012 12:23:01 -0800 (PST)
+	bh=6ZJcKpdDqU23/oHATb3C4/UbPhsZmMXrK/i/GFrAo3Y=;
+	b=g65NAag52HOoKUQTjSy++/edngap+O8twZDXpicML156xFlGisvn9z+EHCOU9VVmPP
+	6PZydz+Y0+PUn2ArbT3UyL1Vnax/A0YCMRzBmEkqHY9mSzzLl+zwegy3mi2O3DwrUc6o
+	iAkzkyOyGhJsWHviB0cMYP3bh1WSfchKHWGV0=
+Received: by 10.213.9.9 with SMTP id j9mr727566ebj.53.1328214199023;
+	Thu, 02 Feb 2012 12:23:19 -0800 (PST)
 Received: from localhost.localdomain (89-77-50-243.dynamic.chello.pl.
 	[89.77.50.243])
-	by mx.google.com with ESMTPS id a58sm13006686eeb.8.2012.02.02.12.23.00
+	by mx.google.com with ESMTPS id e12sm13046535eea.5.2012.02.02.12.23.17
 	(version=TLSv1/SSLv3 cipher=OTHER);
-	Thu, 02 Feb 2012 12:23:01 -0800 (PST)
+	Thu, 02 Feb 2012 12:23:18 -0800 (PST)
 From: Peter Tworek <tworaz666@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Thu,  2 Feb 2012 21:20:53 +0100
-Message-Id: <1328214053-6737-1-git-send-email-tworaz666@gmail.com>
+Date: Thu,  2 Feb 2012 21:21:11 +0100
+Message-Id: <1328214071-6782-1-git-send-email-tworaz666@gmail.com>
 X-Mailer: git-send-email 1.7.3.4
-Subject: [PATCH] gtk+: Add patch for iconview segfault.
+Subject: [PATCH] webkit-gtk: Make it webgl support configurable via DISTRO_FEATURES.
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -39,77 +39,54 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 02 Feb 2012 20:30:59 -0000
+X-List-Received-Date: Thu, 02 Feb 2012 20:31:16 -0000
 
-https://bugzilla.gnome.org/show_bug.cgi?id=663138
-
-* Run tested on netbookpro.
-* Resolves problem with lxapperance crashing on startup.
+* Add missing dependancy on virtual/libgl
+* Make webgl configurable via DISTRO_FEATURES="opengl"
+* Fix wrong resource path for error.html file
 
 Signed-off-by: Peter Tworek <tworaz666@gmail.com>
 ---
- .../gtk+-2.24.8/gtk_icon_view_layout-crash.patch   |   30 ++++++++++++++++++++
- meta/recipes-gnome/gtk+/gtk+_2.24.8.bb             |    3 +-
- 2 files changed, 32 insertions(+), 1 deletions(-)
- create mode 100644 meta/recipes-gnome/gtk+/gtk+-2.24.8/gtk_icon_view_layout-crash.patch
+ meta/recipes-sato/webkit/webkit-gtk_svn.bb |    6 ++++--
+ 1 files changed, 4 insertions(+), 2 deletions(-)
 
-diff --git a/meta/recipes-gnome/gtk+/gtk+-2.24.8/gtk_icon_view_layout-crash.patch b/meta/recipes-gnome/gtk+/gtk+-2.24.8/gtk_icon_view_layout-crash.patch
-new file mode 100644
-index 0000000..3ca24d5
---- /dev/null
-+++ b/meta/recipes-gnome/gtk+/gtk+-2.24.8/gtk_icon_view_layout-crash.patch
-@@ -0,0 +1,30 @@
-+From 5c3bb1839cac52828756f9ddb98f49d586853991 Mon Sep 17 00:00:00 2001
-+From: Cosimo Cecchi <cosimoc@gnome.org>
-+Date: Wed, 16 Nov 2011 22:38:45 +0000
-+Subject: Revert "iconview: layout items immediately when setting a GtkTreeModel"
-+
-+It makes GtkIconView segfault on GTK 2.24.
-+
-+gtk_icon_view_expose() calls gtk_icon_view_layout() first thing if
-+there's a layout queued anyway, so we wouldn't end up in the same
-+situation causing the crash the original patch is supposed to fix.
-+
-+This reverts commit 5a03f4a6a50237d86959f596dda143dfc2f040d1.
-+
-+https://bugzilla.gnome.org/show_bug.cgi?id=663138
-+---
-+diff --git a/gtk/gtkiconview.c b/gtk/gtkiconview.c
-+index 62877fa..54b3f3b 100644
-+--- a/gtk/gtkiconview.c
-++++ b/gtk/gtkiconview.c
-+@@ -5423,7 +5423,7 @@ gtk_icon_view_set_model (GtkIconView *icon_view,
-+
-+       gtk_icon_view_build_items (icon_view);
-+
-+-      gtk_icon_view_layout (icon_view);
-++      gtk_icon_view_queue_layout (icon_view);
-+     }
-+
-+   g_object_notify (G_OBJECT (icon_view), "model");
-+--
-+cgit v0.9.0.2
-diff --git a/meta/recipes-gnome/gtk+/gtk+_2.24.8.bb b/meta/recipes-gnome/gtk+/gtk+_2.24.8.bb
-index ec827a7..4e5b66f 100644
---- a/meta/recipes-gnome/gtk+/gtk+_2.24.8.bb
-+++ b/meta/recipes-gnome/gtk+/gtk+_2.24.8.bb
-@@ -13,6 +13,7 @@ SRC_URI = "http://download.gnome.org/sources/gtk+/2.24/gtk+-${PV}.tar.bz2 \
-            file://toggle-font.diff;striplevel=0 \
-            file://0001-bgo-584832-Duplicate-the-exec-string-returned-by-gtk.patch \
-            file://doc-fixes.patch \
-+           file://gtk_icon_view_layout-crash.patch \
- 	  "
+diff --git a/meta/recipes-sato/webkit/webkit-gtk_svn.bb b/meta/recipes-sato/webkit/webkit-gtk_svn.bb
+index 9652953..2d9ec80 100644
+--- a/meta/recipes-sato/webkit/webkit-gtk_svn.bb
++++ b/meta/recipes-sato/webkit/webkit-gtk_svn.bb
+@@ -8,13 +8,14 @@ LIC_FILES_CHKSUM = "file://Source/WebCore/rendering/RenderApplet.h;endline=22;md
+                     file://Source/JavaScriptCore/parser/Parser.h;endline=23;md5=2f3cff0ad0a9c486da5a376928973a90"
  
- # TO MERGE
-@@ -27,7 +28,7 @@ SRC_URI = "http://download.gnome.org/sources/gtk+/2.24/gtk+-${PV}.tar.bz2 \
- #        file://combo-arrow-size.patch;striplevel=0
- #            file://configurefix.patch
+ DEPENDS = "zlib enchant gnome-keyring libsoup-2.4 curl icu libxml2 cairo libxslt libxt libidn gnutls gtk+ gstreamer gst-plugins-base flex-native gperf-native perl-native-runtime sqlite3"
++DEPENDS += " ${@base_contains('DISTRO_FEATURES', 'opengl', 'virtual/libgl', '', d)}"
+ DEPENDS_darwin8 = "curl icu libxml2 cairo libxslt libidn gnutls gtk+ gstreamer flex-native gperf-native perl-native-runtime sqlite3"
  
--PR = "r1"
-+PR = "r2"
+ SRCREV_FORMAT = "source"
  
- SRC_URI[md5sum] = "0413187f7e596aef00ccd1b54776ff03"
- SRC_URI[sha256sum] = "ac2325a65312922a6722a7c02a389f3f4072d79e13131485cc7b7226e2537043"
+ SRCREV = "101488"
+ PV = "1.7.2+svnr${SRCPV}"
+-PR = "r0"
++PR = "r1"
+ 
+ SRC_URI = "\
+   svn://svn.webkit.org/repository/webkit/trunk/;module=Source;proto=http;name=source \
+@@ -41,6 +42,7 @@ EXTRA_OECONF = "\
+                 --enable-image-resizer \
+                 --enable-link-prefetch \
+                 --with-gtk=2.0 \
++                ${@base_contains('DISTRO_FEATURES', 'opengl', '--enable-webgl', '--disable-webgl', d)} \
+                 UNICODE_CFLAGS=-D_REENTRANT \
+                "
+ 
+@@ -81,7 +83,7 @@ FILES_${PN}launcher = "${bindir}/GtkLauncher"
+ FILES_${PN}launcher-dbg = "${bindir}/.debug/GtkLauncher"
+ FILES_libjavascriptcore = "${libdir}/libjavascriptcoregtk-1.0.so.*"
+ FILES_${PN}-webinspector = "${datadir}/webkitgtk-*/webinspector/"
+-FILES_${PN} += "${datadir}/webkit-*/resources/error.html \
++FILES_${PN} += "${datadir}/webkitgtk-*/resources/error.html \
+                 ${datadir}/webkitgtk-*/images \
+                 ${datadir}/glib-2.0/schemas"
+ 
 -- 
 1.7.3.4
 
