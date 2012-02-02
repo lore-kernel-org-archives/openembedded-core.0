@@ -1,36 +1,35 @@
-Received: from mail-qy0-f175.google.com ([209.85.216.175])
+Received: from mail-qw0-f54.google.com ([209.85.216.54])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <kergoth@gmail.com>) id 1Rt1Ud-00066V-SC
+	(envelope-from <kergoth@gmail.com>) id 1Rt1V9-0007EZ-Bh
 	for openembedded-core@lists.openembedded.org;
-	Thu, 02 Feb 2012 19:34:48 +0100
-Received: by qcso7 with SMTP id o7so1512361qcs.6
+	Thu, 02 Feb 2012 19:35:19 +0100
+Received: by qaea17 with SMTP id a17so1939139qae.6
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 02 Feb 2012 10:26:51 -0800 (PST)
+	Thu, 02 Feb 2012 10:27:22 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
 	h=mime-version:sender:in-reply-to:references:from:date
-	:x-google-sender-auth:message-id:subject:to:cc:content-type
-	:content-transfer-encoding;
-	bh=aCuVNNpm0c3ghuBYqwYQUgfOlIyI+w7v4Cp9ARnPMYg=;
-	b=GOh/uI7uW9tsfgUOHrKzqzj8DMOUSbvQDp3RbC+ywTOVZMpHqnOh6DhM9/KTxK3lEM
-	wpaGdHR1jRKP/jF4S8C8WwciCg6X04dIdTHFax4HNajRKsQNRasHk7KPfPP3UB2PZggB
-	SbMNx9lqI+ylvf8mArNGBfUPa96KvT+bSJGX0=
-Received: by 10.229.78.135 with SMTP id l7mr1496790qck.113.1328207211219; Thu,
-	02 Feb 2012 10:26:51 -0800 (PST)
+	:x-google-sender-auth:message-id:subject:to:cc:content-type;
+	bh=D2heBkVdU1Ssz4Zpg42/jibtABO4QEfhuntDlJ1SWk8=;
+	b=vQwZwa0EhhG/vpMAdxeT9tN3IYcOjOiXJpKeg1kfz5MnBAYIvDwxuqvMdbnm7n+Z1p
+	tII/e+crkWPSoPWVx9jTeCsqtth6UQV/ZvLB2rdejsJhyWSLEmD951SfaDOiDweP6EMH
+	4Av4+WbGxERCZPUnzpQnC8iKzuLpY+j+lUr/o=
+Received: by 10.224.214.200 with SMTP id hb8mr5568671qab.80.1328207242259;
+	Thu, 02 Feb 2012 10:27:22 -0800 (PST)
 MIME-Version: 1.0
 Sender: kergoth@gmail.com
-Received: by 10.229.95.207 with HTTP; Thu, 2 Feb 2012 10:26:31 -0800 (PST)
-In-Reply-To: <20120128202132.GD22106@sakrah.homelinux.org>
+Received: by 10.229.95.207 with HTTP; Thu, 2 Feb 2012 10:27:02 -0800 (PST)
+In-Reply-To: <20120128202801.GF22106@sakrah.homelinux.org>
 References: <cover.1327684024.git.chris_larson@mentor.com>
-	<50e4e429330f8b48ef84eda03deffe87fd6c01b1.1327684024.git.chris_larson@mentor.com>
-	<20120128202132.GD22106@sakrah.homelinux.org>
+	<08cc6aa12fba6bcdb28c68edf3fe2e32dd5f52ca.1327684024.git.chris_larson@mentor.com>
+	<20120128202801.GF22106@sakrah.homelinux.org>
 From: Chris Larson <clarson@kergoth.com>
-Date: Thu, 2 Feb 2012 11:26:31 -0700
-X-Google-Sender-Auth: _vC0rBRck6swvMn3882dPigZdfc
-Message-ID: <CABcZANmgYHQBy1OYb+k_VuFxgshyZyAG5FYfGeUD7ww52QZ7dQ@mail.gmail.com>
+Date: Thu, 2 Feb 2012 11:27:02 -0700
+X-Google-Sender-Auth: L0ADKVkwvfStvjx_oclRfe-2Vns
+Message-ID: <CABcZAN=yt5U_qz9Mz85gaRKBaiwtT7vYs-Jsmv1BjWpKtz_ybw@mail.gmail.com>
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
 Cc: Christopher Larson <chris_larson@mentor.com>
-Subject: Re: [PATCH 02/10] eglibc-package.inc: don't include debug files in -pic
+Subject: Re: [PATCH 07/10] external-csl-toolchain: support mips/ppc/arm
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -45,40 +44,24 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 02 Feb 2012 18:34:48 -0000
+X-List-Received-Date: Thu, 02 Feb 2012 18:35:19 -0000
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
 
-On Sat, Jan 28, 2012 at 1:21 PM, Khem Raj <raj.khem@gmail.com> wrote:
-> On (27/01/12 11:13), Christopher Larson wrote:
->> From: Christopher Larson <chris_larson@mentor.com>
->>
->> Signed-off-by: Christopher Larson <chris_larson@mentor.com>
->> ---
->> =C2=A0meta/recipes-core/eglibc/eglibc-package.inc | =C2=A0 =C2=A02 +-
->> =C2=A01 files changed, 1 insertions(+), 1 deletions(-)
->>
->> diff --git a/meta/recipes-core/eglibc/eglibc-package.inc b/meta/recipes-=
-core/eglibc/eglibc-package.inc
->> index e5a9b9d..870b95d 100644
->> --- a/meta/recipes-core/eglibc/eglibc-package.inc
->> +++ b/meta/recipes-core/eglibc/eglibc-package.inc
->> @@ -42,7 +42,7 @@ FILES_libcidn${PKGSUFFIX} =3D "${base_libdir}/libcidn-=
-*.so ${base_libdir}/libcidn.
->> =C2=A0FILES_libmemusage${PKGSUFFIX} =3D "${base_libdir}/libmemusage.so"
->> =C2=A0FILES_eglibc-extra-nss${PKGSUFFIX} =3D "${base_libdir}/libnss_*-*.=
-so ${base_libdir}/libnss_*.so.*"
->> =C2=A0FILES_sln${PKGSUFFIX} =3D "/sbin/sln"
->> -FILES_${PN}-pic =3D "${libdir}/*_pic.a ${libdir}/*_pic.map ${libdir}/li=
-bc_pic/"
->> +FILES_${PN}-pic =3D "${libdir}/*_pic.a ${libdir}/*_pic.map ${libdir}/li=
-bc_pic/*.o"
+On Sat, Jan 28, 2012 at 1:28 PM, Khem Raj <raj.khem@gmail.com> wrote:
+> hmm is it using powerpc-linux-gnu canonical name to do both ppc32
+> and ppc64
 >
-> are there just .o in there which are left ? not *.os ?
+>> +CSL_TARGET_SYS_arm = "arm-none-linux-gnueabi"
+>> +CSL_TARGET_SYS_mips = "mips-linux-gnu"
+>> +CSL_TARGET_SYS_mipsel = "mips-linux-gnu"
+>
+>
+>> +CSL_TARGET_SYS_mips64 = "mips-linux-gnu"
+>
+> same as above
 
-I don't see any .os in libc_pic in either the packages from the eglibc
-recipe from oe-core or the external csl toolchain.
---=20
+Yeah, from what I can tell it's handled via -m32/-m64, not via the prefix.
+-- 
 Christopher Larson
 
 
