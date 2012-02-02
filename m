@@ -1,36 +1,20 @@
-Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
-	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <richard.purdie@linuxfoundation.org>)
-	id 1Rt1fr-0004B4-Cc for openembedded-core@lists.openembedded.org;
-	Thu, 02 Feb 2012 19:46:23 +0100
-Received: from localhost (localhost [127.0.0.1])
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q12IcQtQ010852
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 2 Feb 2012 18:38:26 GMT
-Received: from tim.rpsys.net ([127.0.0.1])
-	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
-	port 10024) with LMTP
-	id 10526-05 for <openembedded-core@lists.openembedded.org>;
-	Thu,  2 Feb 2012 18:38:22 +0000 (GMT)
-Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q12IcHQx010845
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO)
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 2 Feb 2012 18:38:18 GMT
-Message-ID: <1328207902.3895.12.camel@ted>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Date: Thu, 02 Feb 2012 18:38:22 +0000
-In-Reply-To: <1327795253-24794-2-git-send-email-schnitzeltony@googlemail.com>
-References: <1327795253-24794-1-git-send-email-schnitzeltony@googlemail.com>
-	<1327795253-24794-2-git-send-email-schnitzeltony@googlemail.com>
-X-Mailer: Evolution 3.2.2- 
-Mime-Version: 1.0
-X-Virus-Scanned: amavisd-new at rpsys.net
-X-MIME-Autoconverted: from 8bit to quoted-printable by tim.rpsys.net id
-	q12IcQtQ010852
-Subject: Re: [PATCH v2 1/1] atk: add native / disable introspection / merge atk.inc->recipe / change license
+Received: from mga09.intel.com ([134.134.136.24])
+	by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <josh@linux.intel.com>) id 1Rt1sc-0004SR-Tt
+	for openembedded-core@lists.openembedded.org;
+	Thu, 02 Feb 2012 19:59:35 +0100
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+	by orsmga102.jf.intel.com with ESMTP; 02 Feb 2012 10:51:37 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.67,352,1309762800"; d="scan'208";a="103229355"
+Received: from unknown (HELO shamshir.jf.intel.com) ([10.7.199.78])
+	by orsmga001.jf.intel.com with ESMTP; 02 Feb 2012 10:51:37 -0800
+From: Joshua Lock <josh@linux.intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Thu,  2 Feb 2012 10:51:34 -0800
+Message-Id: <cover.1328208481.git.josh@linux.intel.com>
+X-Mailer: git-send-email 1.7.7.6
+Subject: [PATCH 0/1] Force netbase to be MACHINE specific for all MACHINEs
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -45,32 +29,29 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 02 Feb 2012 18:46:23 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Thu, 02 Feb 2012 18:59:35 -0000
 
-On Sun, 2012-01-29 at 01:00 +0100, Andreas M=C3=BCller wrote:
-> Native support currently is appended in meta-oe. Native build failed wi=
-th:
->=20
-> | /usr/share/gir-1.0/GLib-2.0.gir:9:1: error: Unsupported version '1.1'
-> | /usr/share/gir-1.0/GLib-2.0.gir:9:39: error: Unsupported version '1.1=
-'
-> | error parsing file Atk-1.0.gir: Failed to parse included gir GLib-2.0
-> | make[3]: *** [Atk-1.0.typelib] Error 1
->=20
-> build tested in meta-oe / angstrom environment
->=20
-> Signed-off-by: Andreas M=C3=BCller <schnitzeltony@googlemail.com>
-> ---
->  meta/recipes-support/atk/atk.inc      |   13 -------------
->  meta/recipes-support/atk/atk_2.2.0.bb |   17 +++++++++++++----
->  2 files changed, 13 insertions(+), 17 deletions(-)
->  delete mode 100644 meta/recipes-support/atk/atk.inc
+Subject says it all and the detail is in the patch commit entry.
 
-Merged to master, thanks.
+Cheers,
+Joshua
 
-Richard
+The following changes since commit a69108ea388fce9034ecc8670f1149fabae55e1b:
+
+  atk: add native / disable introspection / merge atk.inc->recipe / change license (2012-02-02 18:37:21 +0000)
+
+are available in the git repository at:
+  git://git.openembedded.org/openembedded-core-contrib josh/fixes
+  http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=josh/fixes
+
+Joshua Lock (1):
+  netbase: make netbase recipe MACHINE specific for all targets
+
+ meta/recipes-core/netbase/netbase_4.47.bb |    4 +---
+ 1 files changed, 1 insertions(+), 3 deletions(-)
+
+-- 
+1.7.7.6
 
 
 
