@@ -1,32 +1,36 @@
-Received: from mga07.intel.com ([143.182.124.22] helo=azsmga101.ch.intel.com)
+Received: from mail-qy0-f175.google.com ([209.85.216.175])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <saul.wold@intel.com>) id 1Rt154-00016s-0X
+	(envelope-from <kergoth@gmail.com>) id 1Rt1TN-0003Ui-Ab
 	for openembedded-core@lists.openembedded.org;
-	Thu, 02 Feb 2012 19:08:22 +0100
-Received: from mail-iy0-f180.google.com ([209.85.210.180])
-	by mga03.intel.com with ESMTP/TLS/RC4-SHA; 02 Feb 2012 09:53:50 -0800
-Received: by iabz7 with SMTP id z7so3679160iab.25
+	Thu, 02 Feb 2012 19:33:29 +0100
+Received: by qcso7 with SMTP id o7so1511536qcs.6
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 02 Feb 2012 09:53:50 -0800 (PST)
-Received: by 10.50.213.41 with SMTP id np9mr1779115igc.21.1328205229929;
-	Thu, 02 Feb 2012 09:53:49 -0800 (PST)
-Received: from [10.6.18.218] (c-71-193-189-117.hsd1.wa.comcast.net.
-	[71.193.189.117])
-	by mx.google.com with ESMTPS id gw1sm851005igb.0.2012.02.02.09.53.48
-	(version=SSLv3 cipher=OTHER); Thu, 02 Feb 2012 09:53:49 -0800 (PST)
-Message-ID: <4F2ACDAB.5060103@intel.com>
-Date: Thu, 02 Feb 2012 09:53:47 -0800
-From: Saul Wold <saul.wold@intel.com>
-Organization: Intel
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:9.0) Gecko/20111222 Thunderbird/9.0
+	Thu, 02 Feb 2012 10:25:32 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
+	h=mime-version:sender:in-reply-to:references:from:date
+	:x-google-sender-auth:message-id:subject:to:cc:content-type
+	:content-transfer-encoding;
+	bh=O3f0hNdEzfbm63m1o5KslKjjYyGDNUv8Z6kztITmpZA=;
+	b=TKi44e7OFOOlYNGgiaQLOc/9b3R775jTsTyIidEzPYHC1w7yn8BNtrDcmnPvFaMovx
+	G5EbqE1QlFZxeVi/f5jXsbRFVhL/898FmwXxLUIAYkyuV8ir8kvVKOzIAXs1J2+BGqj1
+	sZz4XJeu/W2qrwCZjVNleARh6aPgXSqcy9DHo=
+Received: by 10.224.214.200 with SMTP id hb8mr5561452qab.80.1328207132495;
+	Thu, 02 Feb 2012 10:25:32 -0800 (PST)
 MIME-Version: 1.0
+Sender: kergoth@gmail.com
+Received: by 10.229.95.207 with HTTP; Thu, 2 Feb 2012 10:25:12 -0800 (PST)
+In-Reply-To: <20120128202349.GE22106@sakrah.homelinux.org>
+References: <cover.1327684024.git.chris_larson@mentor.com>
+	<a36fa8d970d1a2eceb16774604e5b5b7aff0b2cb.1327684024.git.chris_larson@mentor.com>
+	<20120128202349.GE22106@sakrah.homelinux.org>
+From: Chris Larson <clarson@kergoth.com>
+Date: Thu, 2 Feb 2012 11:25:12 -0700
+X-Google-Sender-Auth: yT8HNnAvrkfN-UAUIuqrInxrSFM
+Message-ID: <CABcZANk+5QS5e+9DL4W=XB-2SeBd0dmm_vAspbMrEgDbR2DFqA@mail.gmail.com>
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-References: <cover.1327952323.git.bruce.ashfield@windriver.com>
-In-Reply-To: <cover.1327952323.git.bruce.ashfield@windriver.com>
-Cc: dvhart@linux.intel.com
-Subject: Re: [PATCH 0/3] linux-yocto: 3.2.2 and 3.0.18 updates
+Cc: Christopher Larson <chris_larson@mentor.com>
+Subject: Re: [PATCH 03/10] binutils: fixes for build with an external csl toolchain
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -41,58 +45,38 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 02 Feb 2012 18:08:22 -0000
-Content-Type: text/plain; charset=ISO-8859-1; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Thu, 02 Feb 2012 18:33:29 -0000
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
-On 01/30/2012 12:02 PM, Bruce Ashfield wrote:
-> Richard/Saul,
+On Sat, Jan 28, 2012 at 1:23 PM, Khem Raj <raj.khem@gmail.com> wrote:
+> On (27/01/12 11:13), Christopher Larson wrote:
+>> From: Christopher Larson <chris_larson@mentor.com>
+>>
+>> Signed-off-by: Christopher Larson <chris_larson@mentor.com>
+>> ---
+>> =C2=A0meta/recipes-devtools/binutils/binutils.inc | =C2=A0 =C2=A05 +++--
+>> =C2=A01 files changed, 3 insertions(+), 2 deletions(-)
+>>
+>> diff --git a/meta/recipes-devtools/binutils/binutils.inc b/meta/recipes-=
+devtools/binutils/binutils.inc
+>> index 6130ab4..e343242 100644
+>> --- a/meta/recipes-devtools/binutils/binutils.inc
+>> +++ b/meta/recipes-devtools/binutils/binutils.inc
+>> @@ -51,6 +51,7 @@ B =3D "${S}/build.${HOST_SYS}.${TARGET_SYS}"
+>> =C2=A0EXTRA_OECONF =3D "--program-prefix=3D${TARGET_PREFIX} \
+>> =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0--enable-i=
+nstall-libbfd \
+>> =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0--enable-s=
+hared \
+>> + =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0--disable-werro=
+r \
 >
-> Two kernel updates in this pull request. The bigger change is the
-> introduction/release of the 3.2 kernel repository. I've had this
-> under test in one form or another for nearly two months now. It
-> no only brings in a new kernel, but introduces some branching changes
-> and audited kernel configuration fragments. This needs head to the
-> servers now to allow add-on work to be completed.
->
-> I've built and booted sato on all the emulated targets for the 3.2
-> kernel.
->
-> There is an associated set of kern-tools changes to support the
-> branching in the 3.2 kernel repository, and the changes are fully
-> compatible with the existing 3.0 tree.
->
-> The second update is a refresh of the 3.0 tree to pickup 3.0.18, and
-> to merge a set of pending features to that tree. The commit itself
-> tells the story.
->
-> I've built and booted this for all the emulated targets as well.
->
-> The following changes since commit b719d7e10bdb5bb4fc9ef70256eb93f925fbda4b:
->
->    useradd: Ensure dependencies are only added for target recipes, not native or nativesdk (2012-01-27 16:59:56 +0000)
->
-> are available in the git repository at:
->    git://git.pokylinux.org/poky-contrib zedd/kernel-oe
->    http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=zedd/kernel-oe
->
-> Bruce Ashfield (3):
->    kern-tools: import config audit and branch manipulation updates
->    linux-yocto: add kernel 3.2.2 support
->    linux-yocto: update to v3.0.18 + features
->
->   .../kern-tools/kern-tools-native_git.bb            |    2 +-
->   meta/recipes-kernel/linux/linux-yocto-rt_3.0.bb    |    8 ++--
->   meta/recipes-kernel/linux/linux-yocto-rt_3.2.bb    |   37 ++++++++++++++++++
->   meta/recipes-kernel/linux/linux-yocto_3.0.bb       |   19 ++++-----
->   meta/recipes-kernel/linux/linux-yocto_3.2.bb       |   41 ++++++++++++++++++++
->   5 files changed, 92 insertions(+), 15 deletions(-)
->   create mode 100644 meta/recipes-kernel/linux/linux-yocto-rt_3.2.bb
->   create mode 100644 meta/recipes-kernel/linux/linux-yocto_3.2.bb
->
-Merged into OE-core
+> I specifically wanted to avoid this option but I guess we have to have
+> it to support wide versions of gcc.
 
-Thanks
-	Sau!
+Yeah, it'd be nice if it wasn't needed, but sadly it is for some.
+--=20
+Christopher Larson
 
 
