@@ -1,28 +1,34 @@
-Received: from mail-wi0-f175.google.com ([209.85.212.175])
+Received: from mail-ee0-f47.google.com ([74.125.83.47])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <s.stirtzel@googlemail.com>) id 1RsvIq-0007Rq-IB
+	(envelope-from <martin.jansa@gmail.com>) id 1RsvPN-0007zW-9L
 	for openembedded-core@lists.openembedded.org;
-	Thu, 02 Feb 2012 12:58:12 +0100
-Received: by wibhq7 with SMTP id hq7so1804914wib.6
+	Thu, 02 Feb 2012 13:04:58 +0100
+Received: by eekd41 with SMTP id d41so617467eek.6
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 02 Feb 2012 03:50:16 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=googlemail.com; s=gamma;
-	h=mime-version:date:message-id:subject:from:to:content-type;
-	bh=uKpxTCoeKNfE7FKpr+f2lzX91hO8pfQ7CUtZfd+Ritk=;
-	b=Hp90b4GD5nX3adCZeESp+8FOPEq46JMxleC1S0oaP8Y0V4NiYie3w9dPJBpaoPoL0+
-	yFZ/vk49LSMetC/zI4jtvsIsw2zyxVaVS4LLbWgDy1Oy8z28RzUoyq7RoLwSvwoui3LD
-	i8ZVYN0Tl2PX0OeFHHX/ZS+ssokAVtvBxk5CM=
-MIME-Version: 1.0
-Received: by 10.181.11.227 with SMTP id el3mr3971055wid.18.1328183416296; Thu,
-	02 Feb 2012 03:50:16 -0800 (PST)
-Received: by 10.223.89.135 with HTTP; Thu, 2 Feb 2012 03:50:16 -0800 (PST)
-Date: Thu, 2 Feb 2012 12:50:16 +0100
-Message-ID: <CAGiJk9f9Mc06KbPVBcTFi_icr=P3ZGuBYrDT7oH+gC5dKVKpbA@mail.gmail.com>
-From: Samuel Stirtzel <s.stirtzel@googlemail.com>
+	Thu, 02 Feb 2012 03:57:01 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
+	h=date:from:to:subject:message-id:references:mime-version
+	:content-type:content-disposition:in-reply-to:user-agent;
+	bh=lJXJ0AKA8upP/2RXPzcUqBOMRnPX5SXqGDAXMgSDOPQ=;
+	b=qtvC9h1m56CBTU8chH3Es3Ac3FxUY13OP2ISTqTs+5tAOKEBg3wU+QG39NvUBrKgJy
+	w5WNF90iB4PCPLt7HhvLHGcBUXJanGXD8zOZ5Qq5Qf/gN1WL8mWZlhQkXES0EuKOA1vb
+	Hm+v4YEIZSeNoskOXVCbk2iuknZsAnuB0o6k8=
+Received: by 10.14.39.202 with SMTP id d50mr822134eeb.79.1328183821156;
+	Thu, 02 Feb 2012 03:57:01 -0800 (PST)
+Received: from localhost ([94.230.152.246])
+	by mx.google.com with ESMTPS id o49sm8443869eeb.7.2012.02.02.03.56.59
+	(version=TLSv1/SSLv3 cipher=OTHER);
+	Thu, 02 Feb 2012 03:57:00 -0800 (PST)
+Date: Thu, 2 Feb 2012 12:56:58 +0100
+From: Martin Jansa <martin.jansa@gmail.com>
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Subject: RFC: Porting KDE Plasma Active (WIP)
+Message-ID: <20120202115658.GH3697@jama.jama.net>
+References: <CAGiJk9f9Mc06KbPVBcTFi_icr=P3ZGuBYrDT7oH+gC5dKVKpbA@mail.gmail.com>
+MIME-Version: 1.0
+In-Reply-To: <CAGiJk9f9Mc06KbPVBcTFi_icr=P3ZGuBYrDT7oH+gC5dKVKpbA@mail.gmail.com>
+User-Agent: Mutt/1.5.21 (2010-09-15)
+Subject: Re: RFC: Porting KDE Plasma Active (WIP)
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -37,97 +43,49 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 02 Feb 2012 11:58:12 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Thu, 02 Feb 2012 12:04:58 -0000
+X-Groupsio-MsgNum: 16907
+Content-Type: multipart/signed; micalg=pgp-sha1;
+	protocol="application/pgp-signature"; boundary="SUk9VBj82R8Xhb8H"
+Content-Disposition: inline
+
+--SUk9VBj82R8Xhb8H
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+
+On Thu, Feb 02, 2012 at 12:50:16PM +0100, Samuel Stirtzel wrote:
+> Hi,
+>=20
+> for some time now I've been working on a port of Plasma Active, the
+> next generation touch user interface from KDE.
+> If you never heard about Plasma Active see [1].
+> For touch devices it is much more satisfying to use a GUI that is
+> designed for this input method, so I started porting it.
+> Someone already built Plasma Active for the Pandaboard [2] but it was
+> compiled native on the device, but somehow this inspired me to start
+> this project.
 
 Hi,
 
-for some time now I've been working on a port of Plasma Active, the
-next generation touch user interface from KDE.
-If you never heard about Plasma Active see [1].
-For touch devices it is much more satisfying to use a GUI that is
-designed for this input method, so I started porting it.
-Someone already built Plasma Active for the Pandaboard [2] but it was
-compiled native on the device, but somehow this inspired me to start
-this project.
+are you "darkh" on IRC? Because he wrote me about his meta-kde layer few
+months ago, but haven't seen him since then.
 
-The work in progress can be viewed in the repository on github [3].
-First of, if anyone does similar work or just likes to participate -
-feel free to contact me.
+Cheers,
 
+--=20
+Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
 
-Current Status (may change every minute)
-Kdelibs is working, plasma active misses the path to kconfig_compiler
-but won't accept a CMake variable (patching the CMake file could solve
-this).
-Other native dependencies are also working (things like automoc).
-The program kde4-config is taken from the host, but could (should) be
-replaced with a dummy script, as it only returns some (invalid) values
-like prefix ,exec_prefix, qt_bindir and some other paths.
+--SUk9VBj82R8Xhb8H
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: Digital signature
 
+-----BEGIN PGP SIGNATURE-----
+Version: GnuPG v2.0.18 (GNU/Linux)
 
-Current problems:
-There were some problems along the way, but as of now the most have
-been solved or worked around.
-If anyone could give a hint how the problems could be solved more
-gracefully, then it could happen that we have Plasma Active soon :)
+iEYEARECAAYFAk8qegoACgkQN1Ujt2V2gByIvwCeMOIuVnQv51lfK2un8oSYpx6y
+T84An3hx3iXr3bKDi8jpxN68cyKj54xR
+=eqBx
+-----END PGP SIGNATURE-----
 
-After testing a bit, if QT_INCLUDE_DIR is set to OE_QMAKE_INCDIR_QT it
-may work on cross compiling environments, however some times errors
-like this occur (PARALLEL_MAKE=""):
--
-arm-angstrom-linux-gnueabi-g++  ....
--I/work/oe-core/tmp-eglibc/sysroots/overo/usr/include/QtCore ....
-AuthBackend.h:24:19: fatal error: QObject: No such file or directory
--
-But inside of /work/oe-core/tmp-eglibc/sysroots/overo/usr/include/QtCore
-there is QObject and QObject.h ...
-
-In CMake, setting CMAKE_MODULEPATH won't change the module search path.
-Variables don't overwrite the set module path, so
--DCMAKE_MODULEPATH=${SOMEPATH} won't work.
-As workaround the recipe generates it's own toolchain file after
-CMake, is there any way to overwrite the function
-"cmake_do_generate_toolchain_file()" in my recipe?
-(Addig a do_generate_toolchain_file() function to my recipe won't do anything)
-
-Like posted before, OE_QMAKE_INCDIR_QT won't work if compiling native
-as Qt4-native is handled differently from Qt4x11.
-This is also worked around by creating a custom CMake toolchain file
-with QT_INCLUDE_DIR=${STAGING_INCDIR}/Qt ${STAGING_INCDIR}/QtCore ...
-
-There are other CMake configure pitfalls (all cross compiling scripts
-in kdelibs are commented out) but it seems that at least the most of
-them showed already during build time.
-
-One of the remaining things that still bug me is kde4-config,
-personally I wonder why the KDE folks use a executable to get the
-prefix / exec_prefix and the like where a script could be used?
-
-
-Current WIP:
-KActivities
-KDE-Workspace
-KDE-Runtime
-
-
-For the RFC part:
-It would really help if anyone could look over the recipes and point
-up where it can be improved.
-If you want to build it, please note that kdelibs-dev should be
-installed as until now the native kde-config is used.
-For the patches to the CMake files it would help to point out errors
-or easier ways to accomplish the intended goals.
-
-
-[1] Mobile Plasma Active desktop: http://plasma-active.org/
-[2] Building Plasma Active on the Pandaboard:
-http://ezjd.blogspot.com/2011/10/building-plasma-active.html
-[3] "meta-kde" repository:
-https://gitorious.org/openembedded-core-layers/meta-kde
-
--- 
-Regards
-Samuel
-
-
+--SUk9VBj82R8Xhb8H--
