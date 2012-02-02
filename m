@@ -1,33 +1,31 @@
-Received: from mail-ee0-f47.google.com ([74.125.83.47])
+Received: from mail-ww0-f41.google.com ([74.125.82.41])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <martin.jansa@gmail.com>) id 1RsvPN-0007zW-9L
+	(envelope-from <s.stirtzel@googlemail.com>) id 1RsvkI-0008Nr-JI
 	for openembedded-core@lists.openembedded.org;
-	Thu, 02 Feb 2012 13:04:58 +0100
-Received: by eekd41 with SMTP id d41so617467eek.6
+	Thu, 02 Feb 2012 13:26:34 +0100
+Received: by wgbdt11 with SMTP id dt11so8285637wgb.0
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 02 Feb 2012 03:57:01 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
-	h=date:from:to:subject:message-id:references:mime-version
-	:content-type:content-disposition:in-reply-to:user-agent;
-	bh=lJXJ0AKA8upP/2RXPzcUqBOMRnPX5SXqGDAXMgSDOPQ=;
-	b=qtvC9h1m56CBTU8chH3Es3Ac3FxUY13OP2ISTqTs+5tAOKEBg3wU+QG39NvUBrKgJy
-	w5WNF90iB4PCPLt7HhvLHGcBUXJanGXD8zOZ5Qq5Qf/gN1WL8mWZlhQkXES0EuKOA1vb
-	Hm+v4YEIZSeNoskOXVCbk2iuknZsAnuB0o6k8=
-Received: by 10.14.39.202 with SMTP id d50mr822134eeb.79.1328183821156;
-	Thu, 02 Feb 2012 03:57:01 -0800 (PST)
-Received: from localhost ([94.230.152.246])
-	by mx.google.com with ESMTPS id o49sm8443869eeb.7.2012.02.02.03.56.59
-	(version=TLSv1/SSLv3 cipher=OTHER);
-	Thu, 02 Feb 2012 03:57:00 -0800 (PST)
-Date: Thu, 2 Feb 2012 12:56:58 +0100
-From: Martin Jansa <martin.jansa@gmail.com>
+	Thu, 02 Feb 2012 04:18:38 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=googlemail.com; s=gamma;
+	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
+	:content-type:content-transfer-encoding;
+	bh=zO4BfZ3qsrw/Foig/qIhELdZcrehCJkjVafVLRJIH/M=;
+	b=N3cjA/jkpkS1c0WhlUaUQY8Hax1SMCz9kBwVazKIEvGCHo5Ax/irKKn8Oo+5TAMToS
+	BTPcX8SMCsRyzVtlbq2/G+Iy9Q+du2DJGMjk4LRWLp3r7m9ZLZ3dzRhtfkD/zGxH2OiC
+	pV478hkEewP/jRljmeGf99DePimwhAKatLHBE=
+MIME-Version: 1.0
+Received: by 10.180.107.34 with SMTP id gz2mr4097976wib.21.1328185118611; Thu,
+	02 Feb 2012 04:18:38 -0800 (PST)
+Received: by 10.223.89.135 with HTTP; Thu, 2 Feb 2012 04:18:38 -0800 (PST)
+In-Reply-To: <20120202115658.GH3697@jama.jama.net>
+References: <CAGiJk9f9Mc06KbPVBcTFi_icr=P3ZGuBYrDT7oH+gC5dKVKpbA@mail.gmail.com>
+	<20120202115658.GH3697@jama.jama.net>
+Date: Thu, 2 Feb 2012 13:18:38 +0100
+Message-ID: <CAGiJk9fa4b6ZABhmsWGxRu3MhC503WB-AYiJRdGPNc2cpezc4A@mail.gmail.com>
+From: Samuel Stirtzel <s.stirtzel@googlemail.com>
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Message-ID: <20120202115658.GH3697@jama.jama.net>
-References: <CAGiJk9f9Mc06KbPVBcTFi_icr=P3ZGuBYrDT7oH+gC5dKVKpbA@mail.gmail.com>
-MIME-Version: 1.0
-In-Reply-To: <CAGiJk9f9Mc06KbPVBcTFi_icr=P3ZGuBYrDT7oH+gC5dKVKpbA@mail.gmail.com>
-User-Agent: Mutt/1.5.21 (2010-09-15)
 Subject: Re: RFC: Porting KDE Plasma Active (WIP)
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
@@ -43,49 +41,47 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 02 Feb 2012 12:04:58 -0000
-X-Groupsio-MsgNum: 16907
-Content-Type: multipart/signed; micalg=pgp-sha1;
-	protocol="application/pgp-signature"; boundary="SUk9VBj82R8Xhb8H"
-Content-Disposition: inline
-
---SUk9VBj82R8Xhb8H
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+X-List-Received-Date: Thu, 02 Feb 2012 12:26:34 -0000
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
 
-On Thu, Feb 02, 2012 at 12:50:16PM +0100, Samuel Stirtzel wrote:
+2012/2/2 Martin Jansa <martin.jansa@gmail.com>:
+> On Thu, Feb 02, 2012 at 12:50:16PM +0100, Samuel Stirtzel wrote:
+>> Hi,
+>>
+>> for some time now I've been working on a port of Plasma Active, the
+>> next generation touch user interface from KDE.
+>> If you never heard about Plasma Active see [1].
+>> For touch devices it is much more satisfying to use a GUI that is
+>> designed for this input method, so I started porting it.
+>> Someone already built Plasma Active for the Pandaboard [2] but it was
+>> compiled native on the device, but somehow this inspired me to start
+>> this project.
+>
 > Hi,
->=20
-> for some time now I've been working on a port of Plasma Active, the
-> next generation touch user interface from KDE.
-> If you never heard about Plasma Active see [1].
-> For touch devices it is much more satisfying to use a GUI that is
-> designed for this input method, so I started porting it.
-> Someone already built Plasma Active for the Pandaboard [2] but it was
-> compiled native on the device, but somehow this inspired me to start
-> this project.
+>
+> are you "darkh" on IRC? Because he wrote me about his meta-kde layer few
+> months ago, but haven't seen him since then.
+>
+> Cheers,
+>
+> --
+> Martin 'JaMa' Jansa =C2=A0 =C2=A0 jabber: Martin.Jansa@gmail.com
+>
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
+>
+No, I am not.
+However if there are already existent recipes it may be worth a look,
+but I guess as you didn't post a link he had not provided more info?
 
-Hi,
-
-are you "darkh" on IRC? Because he wrote me about his meta-kde layer few
-months ago, but haven't seen him since then.
-
-Cheers,
+This "project" started 2 week ago after I watched amazing videos about
+Plasma Active two :)
 
 --=20
-Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
+Regards
+Samuel
 
---SUk9VBj82R8Xhb8H
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: Digital signature
 
------BEGIN PGP SIGNATURE-----
-Version: GnuPG v2.0.18 (GNU/Linux)
-
-iEYEARECAAYFAk8qegoACgkQN1Ujt2V2gByIvwCeMOIuVnQv51lfK2un8oSYpx6y
-T84An3hx3iXr3bKDi8jpxN68cyKj54xR
-=eqBx
------END PGP SIGNATURE-----
-
---SUk9VBj82R8Xhb8H--
