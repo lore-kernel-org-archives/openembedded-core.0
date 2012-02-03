@@ -1,23 +1,27 @@
-Received: from mail.gw90.de ([188.40.100.199])
+Received: from mga03.intel.com ([143.182.124.21])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <paulepanter@users.sourceforge.net>)
-	id 1RtSKz-000377-Gt for openembedded-core@lists.openembedded.org;
-	Sat, 04 Feb 2012 00:14:37 +0100
-Received: from g225173220.adsl.alicedsl.de ([92.225.173.220]
-	helo=[192.168.178.43])
-	by mail.gw90.de with esmtpsa (TLS1.0:RSA_AES_256_CBC_SHA1:32)
-	(Exim 4.69) (envelope-from <paulepanter@users.sourceforge.net>)
-	id 1RtSDU-0001j3-L4 for openembedded-core@lists.openembedded.org;
-	Fri, 03 Feb 2012 23:06:52 +0000
-Message-ID: <1328310400.4220.60.camel@mattotaupa>
-From: Paul Menzel <paulepanter@users.sourceforge.net>
-To: openembedded-core@lists.openembedded.org
-Date: Sat, 04 Feb 2012 00:06:40 +0100
-In-Reply-To: <1328309610-12397-1-git-send-email-tom.rini@gmail.com>
-References: <1328309610-12397-1-git-send-email-tom.rini@gmail.com>
-X-Mailer: Evolution 3.2.2-1 
-Mime-Version: 1.0
-Subject: Re: [PATCH] u-boot-fw-utils: Initial version
+	(envelope-from <sgw@linux.intel.com>) id 1RtSgn-0003fp-D4
+	for openembedded-core@lists.openembedded.org;
+	Sat, 04 Feb 2012 00:37:09 +0100
+Received: from azsmga001.ch.intel.com ([10.2.17.19])
+	by azsmga101.ch.intel.com with ESMTP; 03 Feb 2012 15:26:51 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="103081733"
+Received: from unknown (HELO [10.255.14.242]) ([10.255.14.242])
+	by azsmga001.ch.intel.com with ESMTP; 03 Feb 2012 15:26:31 -0800
+Message-ID: <4F2C6D27.8050501@linux.intel.com>
+Date: Fri, 03 Feb 2012 15:26:31 -0800
+From: Saul Wold <sgw@linux.intel.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:9.0) Gecko/20111222 Thunderbird/9.0
+MIME-Version: 1.0
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+References: <1328305049-18696-1-git-send-email-Chase.Maupin@ti.com>
+	<1328305049-18696-2-git-send-email-Chase.Maupin@ti.com>
+	<7D46E86EC0A8354091174257B2FED10127649BE9@DFLE34.ent.ti.com>
+In-Reply-To: <7D46E86EC0A8354091174257B2FED10127649BE9@DFLE34.ent.ti.com>
+Subject: Re: [PATCH 1/1] u-boot inc: update inc file for newer u-boot versions
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -32,103 +36,124 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 03 Feb 2012 23:14:37 -0000
-X-Groupsio-MsgNum: 17020
-Content-Type: multipart/signed; micalg="pgp-sha1";
-	protocol="application/pgp-signature"; 
-	boundary="=-TYn+4mHeyK3yCjA5HJZh"
-
---=-TYn+4mHeyK3yCjA5HJZh
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-Dear Tom,
-
-
-Am Freitag, den 03.02.2012, 15:53 -0700 schrieb Tom Rini:
-> From: Tom Rini <trini@ti.com>
-
-please add the version in the commit summary.
-
-> This provides the 'fw_setenv' and 'fw_getenv' programs for the target
-> so that the U-Boot environment can be modified from Linux.  These
-> programs are system-agnostic and rely on a config file that a given BSP
-> will provide (and RRECOMMEND this be installed).
-
-I do not understand the addition in the parentheses.
-
-> Signed-off-by: Tom Rini <trini@ti.com>
-> ---
->  meta/recipes-bsp/u-boot/u-boot-fw-utils_2011.06.bb |   26 ++++++++++++++=
-++++++
->  1 files changed, 26 insertions(+), 0 deletions(-)
->  create mode 100644 meta/recipes-bsp/u-boot/u-boot-fw-utils_2011.06.bb
->=20
-> diff --git a/meta/recipes-bsp/u-boot/u-boot-fw-utils_2011.06.bb b/meta/re=
-cipes-bsp/u-boot/u-boot-fw-utils_2011.06.bb
-> new file mode 100644
-> index 0000000..3185cbd
-> --- /dev/null
-> +++ b/meta/recipes-bsp/u-boot/u-boot-fw-utils_2011.06.bb
-> @@ -0,0 +1,26 @@
-> +DESCRIPTION =3D "U-boot bootloader fw_printenv/setenv utils"
-> +LICENSE =3D "GPLv2+"
-> +LIC_FILES_CHKSUM =3D "file://COPYING;md5=3D1707d6db1d42237583f50183a5651=
-ecb \
-> +                    file://README;beginline=3D1;endline=3D22;md5=3D5ba42=
-18ac89af7846802d0348df3fb90"
-> +SECTION =3D "bootloader"
-
-Is this the standard ordering? Is there also a homepage for theses
-utils?
-
-> +
-> +PR =3D "r0"
-> +
-
-Was a decision made if `PR =3D "r0"` should be set?
-
-> +SRC_URI =3D "ftp://ftp.denx.de/pub/u-boot/u-boot-${PV}.tar.bz2"
-> +
-> +SRC_URI[md5sum] =3D "0cc5026aad02f218a9b9ac56b301c97a"
-> +SRC_URI[sha256sum] =3D "362ddb935885da98cf461eba08f31e3e59d0c4ada6cb2fa1=
-5596f43af310ba8b"
-> +
-> +S =3D "${WORKDIR}/u-boot-${PV}"
-
-Is that the default? I always forget.
-
-> +
-> +EXTRA_OEMAKE =3D 'HOSTCC=3D"${CC}"'
-> +
-> +do_compile () {
-> +  oe_runmake env
-> +}
-> +
-> +do_install () {
-> +  install -d ${D}${base_sbindir}
-> +  install -m 755 ${S}/tools/env/fw_printenv ${D}${base_sbindir}/fw_print=
-env
-> +  install -m 755 ${S}/tools/env/fw_printenv ${D}${base_sbindir}/fw_seten=
-v
-> +}
-
-
-Thanks,
-
-Paul
-
---=-TYn+4mHeyK3yCjA5HJZh
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: This is a digitally signed message part
+X-List-Received-Date: Fri, 03 Feb 2012 23:37:09 -0000
+Content-Type: text/plain; charset=ISO-8859-1; format=flowed
 Content-Transfer-Encoding: 7bit
 
------BEGIN PGP SIGNATURE-----
-Version: GnuPG v1.4.11 (GNU/Linux)
+On 02/03/2012 01:43 PM, Maupin, Chase wrote:
+>> -----Original Message-----
+>> From: Maupin, Chase
+>> Sent: Friday, February 03, 2012 3:37 PM
+>> To: openembedded-core@lists.openembedded.org
+>> Cc: Maupin, Chase
+>> Subject: [PATCH 1/1] u-boot inc: update inc file for newer u-boot
+>> versions
+>>
+>> * Add support for different suffixes found with later u-boot
+>>    versions which have switched from .bin to .img
+>> * Allow recipes that include u-boot.inc to also package an
+>>    SPL if they build one.
+>>      * Minimum requirement is to set the SPL_BINARY value to add
+>>        the SPL to the u-boot package as well as into the deploy
+>>        directory.
+>>
+>> Signed-off-by: Chase Maupin<Chase.Maupin@ti.com>
+>> ---
+>>   meta/recipes-bsp/u-boot/u-boot.inc |   37
+>> ++++++++++++++++++++++++++++++++---
+>>   1 files changed, 33 insertions(+), 4 deletions(-)
+>>
+>> diff --git a/meta/recipes-bsp/u-boot/u-boot.inc b/meta/recipes-
+>> bsp/u-boot/u-boot.inc
+>> index 4180345..dcf5463 100644
+>> --- a/meta/recipes-bsp/u-boot/u-boot.inc
+>> +++ b/meta/recipes-bsp/u-boot/u-boot.inc
+>> @@ -19,11 +19,22 @@ python () {
+>>   		raise bb.parse.SkipPackage("because UBOOT_MACHINE is
+>> not set")
+>>   }
+>>
+>> -UBOOT_IMAGE ?= "u-boot-${MACHINE}-${PV}-${PR}.bin"
+>> -UBOOT_BINARY ?= "u-boot.bin"
+>> -UBOOT_SYMLINK ?= "u-boot-${MACHINE}.bin"
+>> +# Some versions of u-boot use .bin and others use .img.  By
+>> default use .bin
+>> +# but enable individual recipes to change this value.
+>> +UBOOT_SUFFIX ?= "bin"
+>> +UBOOT_IMAGE ?= "u-boot-${MACHINE}-${PV}-${PR}.${UBOOT_SUFFIX}"
+>> +UBOOT_BINARY ?= "u-boot.${UBOOT_SUFFIX}"
+>> +UBOOT_SYMLINK ?= "u-boot-${MACHINE}.${UBOOT_SUFFIX}"
+>>   UBOOT_MAKE_TARGET ?= "all"
+>>
+>> +# Some versions of u-boot build an SPL (Second Program Loader)
+>> image that
+>> +# should be packaged along with the u-boot binary as well as
+>> placed in the
+>> +# deploy directory.  For those versions they can set the following
+>> variables
+>> +# to allow packaging the SPL.
+>> +SPL_BINARY ?= ""
+>> +SPL_IMAGE ?= "${SPL_BINARY}-${PV}-${PR}"
+>> +SPL_SYMLINK ?= "${SPL_BINARY}-${MACHINE}"
+>> +
+>>   do_compile () {
+>>   	unset LDFLAGS
+>>   	unset CFLAGS
+>> @@ -36,15 +47,33 @@ do_install () {
+>>       install -d ${D}/boot
+>>       install ${S}/${UBOOT_BINARY} ${D}/boot/${UBOOT_IMAGE}
+>>       ln -sf ${UBOOT_IMAGE} ${D}/boot/${UBOOT_BINARY}
+>> +
+>> +    if [ "x${SPL_BINARY}" != "x" ]
+>> +    then
+>> +        install ${S}/${SPL_BINARY} ${D}/boot/${SPL_IMAGE}
+>> +        ln -sf ${SPL_IMAGE} ${D}/boot/${SPL_BINARY}
+>> +    fi
+>>   }
+>>
+>>   FILES_${PN} = "/boot"
+>> +# no gnu_hash in uboot.bin, by design, so skip QA
+>> +INSANE_SKIP_${PN} = True
+>
+> BTW, I believe I can remove this line since I didn't see any QA warnings when building without it.  I have seen versions of u-boot.inc that use the INSANE_SKIP and versions that don't so I'm not sure what the right thing is here.
+>
+If you are going to set it, it should be the list of which tests to skip 
+rather than True.
 
-iEUEABECAAYFAk8saIAACgkQPX1aK2wOHVh7HQCWI1Di8Q7lsjgVjomOTBmDjxr9
-xwCfZ/N3LM9VGfK9CXl5V+NSAXU8Oyc=
-=3VMD
------END PGP SIGNATURE-----
+INSANE_SKIP_${PN} = "ldflags" for the gnu_hash check, need to read 
+insane.bbclass to figure that out.
 
---=-TYn+4mHeyK3yCjA5HJZh--
+Sau!
+
+>>
+>>   do_deploy () {
+>> -	install ${S}/u-boot.bin ${DEPLOYDIR}/${UBOOT_IMAGE}
+>> +    install -d ${DEPLOYDIR}
+>> +	install ${S}/${UBOOT_BINARY} ${DEPLOYDIR}/${UBOOT_IMAGE}
+>>
+>>   	cd ${DEPLOYDIR}
+>>   	rm -f ${UBOOT_SYMLINK}
+>>   	ln -sf ${UBOOT_IMAGE} ${UBOOT_SYMLINK}
+>> +
+>> +    if [ "x${SPL_BINARY}" != "x" ]
+>> +    then
+>> +        install ${S}/${SPL_BINARY} ${DEPLOYDIR}/${SPL_IMAGE}
+>> +        rm -f ${DEPLOYDIR}/${SPL_BINARY}
+>> ${DEPLOYDIR}/${SPL_SYMLINK}
+>> +        ln -sf ${SPL_IMAGE} ${DEPLOYDIR}/${SPL_BINARY}
+>> +        ln -sf ${SPL_IMAGE} ${DEPLOYDIR}/${SPL_SYMLINK}
+>> +    fi
+>>   }
+>> +
+>>   addtask deploy before do_build after do_compile
+>> --
+>> 1.7.0.4
+>
+>
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
+>
+
+
