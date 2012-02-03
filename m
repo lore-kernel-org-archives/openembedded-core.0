@@ -1,30 +1,31 @@
-Received: from mga14.intel.com ([143.182.124.37])
-	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <dvhart@linux.intel.com>) id 1RtMrl-0003VG-6q
-	for openembedded-core@lists.openembedded.org;
-	Fri, 03 Feb 2012 18:24:05 +0100
-Received: from azsmga002.ch.intel.com ([10.2.17.35])
-	by azsmga102.ch.intel.com with ESMTP; 03 Feb 2012 09:16:06 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="62968028"
-Received: from unknown (HELO envy.home) ([10.255.14.155])
-	by AZSMGA002.ch.intel.com with ESMTP; 03 Feb 2012 09:16:05 -0800
-Message-ID: <4F2C1621.2050401@linux.intel.com>
-Date: Fri, 03 Feb 2012 09:15:13 -0800
-From: Darren Hart <dvhart@linux.intel.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:9.0) Gecko/20111222 Thunderbird/9.0
-MIME-Version: 1.0
+Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
+	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <richard.purdie@linuxfoundation.org>)
+	id 1RtMy7-0003fz-Up for openembedded-core@lists.openembedded.org;
+	Fri, 03 Feb 2012 18:30:40 +0100
+Received: from localhost (localhost [127.0.0.1])
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q13HMfC7023108;
+	Fri, 3 Feb 2012 17:22:41 GMT
+Received: from tim.rpsys.net ([127.0.0.1])
+	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
+	port 10024) with LMTP
+	id 22923-02; Fri,  3 Feb 2012 17:22:37 +0000 (GMT)
+Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q13HMWQ6023101
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO);
+	Fri, 3 Feb 2012 17:22:32 GMT
+Message-ID: <1328289758.17307.10.camel@ted>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-References: <cover.1328208481.git.josh@linux.intel.com>
-	<2e86c284dea7b710d380d262e1a76b79b530b422.1328208481.git.josh@linux.intel.com>
-	<4092F86B-459F-45ED-B7B1-1198B2D6A992@dominion.thruhere.net>
-	<4F2ADCF6.4030000@linux.intel.com>
-In-Reply-To: <4F2ADCF6.4030000@linux.intel.com>
-X-Enigmail-Version: 1.3.5
-Cc: Koen Kooi <koen@dominion.thruhere.net>
-Subject: Re: [PATCH 1/1] netbase: make netbase recipe MACHINE specific for all targets
+Date: Fri, 03 Feb 2012 17:22:38 +0000
+In-Reply-To: <1328117088-4547-1-git-send-email-steve@sakoman.com>
+References: <1328117088-4547-1-git-send-email-steve@sakoman.com>
+X-Mailer: Evolution 3.2.2- 
+Mime-Version: 1.0
+X-Virus-Scanned: amavisd-new at rpsys.net
+Cc: Steve Sakoman <steve@sakoman.com>
+Subject: Re: [PATCH v2] shadow-securetty: allow root logins on usb serial gadget device
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -39,44 +40,25 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 03 Feb 2012 17:24:05 -0000
-Content-Type: text/plain; charset=ISO-8859-1
+X-List-Received-Date: Fri, 03 Feb 2012 17:30:40 -0000
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 
-
-
-On 02/02/2012 10:59 AM, Joshua Lock wrote:
-> On 02/02/12 10:54, Koen Kooi wrote:
->> 
->> Op 2 feb. 2012, om 19:51 heeft Joshua Lock het volgende
->> geschreven:
->> 
->>> Several BSP's are appending netbase to add MACHINE specific 
->>> networking functionality. Rather than BSP creators having to
->>> mark netbase MACHINE specific just default to PACKAGE_ARCH =
->>> "${MACHINE_ARCH}" in netbase.
->>> 
->>> This shouldn't be a huge hit as netbase just copies files
->>> around.
->> 
->> In the past OE would mark things machine specific if something in
->> SRC_URI was fetched using overrides. So it this patches fixed
->> netbase the 'old' mechanism is broken :(
+On Wed, 2012-02-01 at 09:24 -0800, Steve Sakoman wrote:
+> Existing tty list does not include ttyGS0, add it
 > 
-> This patch doesn't fix netbase, I just thought it would be simpler to
->  make this change than ensure all BSP's use appropriate OVERRIDEs in
->  their netbase bbappends - several I've seen don't.
-> 
+> Signed-off-by: Steve Sakoman <steve@sakoman.com>
+> ---
+> Changes in this version:
+>  - set PR to r1
+>  
+>  meta/recipes-extended/shadow/files/securetty       |    3 +++
+>  .../shadow/shadow-securetty_4.1.4.3.bb             |    2 ++
+>  2 files changed, 5 insertions(+), 0 deletions(-)
 
-Is there a consensus on whether or not this can go in? I need either
-this or the BSP layer fix for a new BSP. It seems to me that netbase is
-overridden enough for machine specific things (like the interface file)
-that Joshua's approach is the better fix.
+Merged to master, thanks.
 
+Richard
 
--- 
-Darren Hart
-Intel Open Source Technology Center
-Yocto Project - Linux Kernel
 
 
