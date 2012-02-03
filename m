@@ -1,31 +1,32 @@
-Received: from mail-tul01m020-f175.google.com ([209.85.214.175])
-	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <slapinid@gmail.com>) id 1RtM9p-0001xm-Gd
-	for openembedded-core@lists.openembedded.org;
-	Fri, 03 Feb 2012 17:38:41 +0100
-Received: by obhx4 with SMTP id x4so4957608obh.6
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 03 Feb 2012 08:30:43 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
-	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
-	:content-type:content-transfer-encoding;
-	bh=tbzAznR6iAs5JV3be42jssHY/c3hfdvHor/9CvVTwNk=;
-	b=x2Jkw0nvet7tSCOSsX9jEK7SSE00OJimdOZlcLXIw8Nys7SZyNDxpC9O2XaDhnpCNR
-	0Y7xeG7uWs71FordT8zRIzw9XkH0Xf4lcIv3m3iupOo7mxMnBCmF6jKEbA8b61Uwhh2y
-	xq1A+mhblq0fI6/XSd5JL0FodqK/h3itK5F/4=
-MIME-Version: 1.0
-Received: by 10.182.160.2 with SMTP id xg2mr7187933obb.33.1328286643563; Fri,
-	03 Feb 2012 08:30:43 -0800 (PST)
-Received: by 10.60.39.39 with HTTP; Fri, 3 Feb 2012 08:30:43 -0800 (PST)
-In-Reply-To: <1328284640.3895.118.camel@ted>
-References: <cover.1328139407.git.nitin.a.kamble@intel.com>
-	<1328284640.3895.118.camel@ted>
-Date: Fri, 3 Feb 2012 19:30:43 +0300
-Message-ID: <CAFZPMoZf-x5ff+n-1xFFC4wth=PO=Q6SizVnnWXd-tE_jZZc8Q@mail.gmail.com>
-From: Sergey Lapin <slapinid@gmail.com>
+Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
+	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <richard.purdie@linuxfoundation.org>)
+	id 1RtMDX-00025L-5n for openembedded-core@lists.openembedded.org;
+	Fri, 03 Feb 2012 17:42:31 +0100
+Received: from localhost (localhost [127.0.0.1])
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q13GYWDA022396;
+	Fri, 3 Feb 2012 16:34:33 GMT
+Received: from tim.rpsys.net ([127.0.0.1])
+	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
+	port 10024) with LMTP
+	id 21673-09; Fri,  3 Feb 2012 16:34:26 +0000 (GMT)
+Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q13GYO7q022390
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO);
+	Fri, 3 Feb 2012 16:34:25 GMT
+Message-ID: <1328286870.16474.0.camel@ted>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Subject: Re: [patch-v2 0/7] Various recipe upgrades
+Date: Fri, 03 Feb 2012 16:34:30 +0000
+In-Reply-To: <4F2C04B6.3070808@linaro.org>
+References: <cover.1327684024.git.chris_larson@mentor.com>
+	<4F2C04B6.3070808@linaro.org>
+X-Mailer: Evolution 3.2.2- 
+Mime-Version: 1.0
+X-Virus-Scanned: amavisd-new at rpsys.net
+Cc: Christopher Larson <chris_larson@mentor.com>
+Subject: Re: [PATCH 00/10] external-csl-toolchain fixes and improvements
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -40,49 +41,27 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 03 Feb 2012 16:38:41 -0000
-Content-Type: text/plain; charset=ISO-8859-1
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Fri, 03 Feb 2012 16:42:31 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-On Fri, Feb 3, 2012 at 7:57 PM, Richard Purdie
-<richard.purdie@linuxfoundation.org> wrote:
-> On Wed, 2012-02-01 at 15:40 -0800, nitin.a.kamble@intel.com wrote:
->> From: Nitin A Kamble <nitin.a.kamble@intel.com>
->>
->> Just upgrades. And some cleanups as per comments on v1 pull request.
->>
->> Nitin
->>
->> The following changes since commit 8d4d9a15c4947e55ed217c6035e76fcff724e=
-544:
->>
->> =A0 package bbclass: allow per package PRIVATE_LIBS (2012-02-01 15:15:15=
- +0000)
->>
->> are available in the git repository at:
->> =A0 git://git.pokylinux.org/poky-contrib nitin/upgrades
->> =A0 http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=3Dnitin/upgrad=
-es
->>
->> Nitin A Kamble (7):
->> =A0 byacc: upggrade from 20111219 to 20120115
->> =A0 gmp: upgrade from 5.0.2 to 5.0.3
->> =A0 gdb: upgrade from 7.3.1 to 7.4
->> =A0 quilt: upgrade from 0.50 to 0.51
->> =A0 python-dbus: upgrade from 0.84.0 to 1.0.0
->> =A0 bdwgc: change the PV
->> =A0 distro_tracking: update for current upgrades
->
-> Merged to master, thanks (with the exception of bdwgc which was dropped)
->
-> Cheers,
->
-> Richard
+On Fri, 2012-02-03 at 17:00 +0100, Ken Werner wrote:
+> I just switched to this branch and configured OE-core to compile for 
+> qemuarm using the external CSL 2011.03 toolchain. When attempting to 
+> build the sato image bitbake aborts when compiling libproxy_0.4.7.bb. 
+> I've changed the cmake.bbclass to have cmake find the binaries of the 
+> external toolchain as posted here:
+> http://lists.linuxtogo.org/pipermail/openembedded-core/2011-December/014432.html
+> 
+> With this patch applied the build of the core-image-sate and 
+> qt4e-demo-image finished successfully. Both images are booting fine 
+> using QEMU.
 
-This breaks
-meta-openembedded/meta-oe/recipes-devtools/gdb/gdb-cross-canadian_7.3.1.bba=
-ppend
+Thanks for reporting that. I've merged the patch you refer to above.
 
-S.
+Cheers,
+
+Richard
+
 
 
