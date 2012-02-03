@@ -1,35 +1,35 @@
 Received: from mail-pz0-f47.google.com ([209.85.210.47])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <raj.khem@gmail.com>) id 1RtEli-0000tT-EP
+	(envelope-from <raj.khem@gmail.com>) id 1RtElk-0000tT-7D
 	for openembedded-core@lists.openembedded.org;
-	Fri, 03 Feb 2012 09:45:18 +0100
+	Fri, 03 Feb 2012 09:45:20 +0100
 Received: by mail-pz0-f47.google.com with SMTP id n34so83755dal.6
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 03 Feb 2012 00:37:23 -0800 (PST)
+	Fri, 03 Feb 2012 00:37:25 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
 	h=from:to:cc:subject:date:message-id:x-mailer:in-reply-to:references
 	:in-reply-to:references;
-	bh=g1kP2F8m1s++Az0fivxIQlRTu4x5YTKdj6wgWVD49HY=;
-	b=pMLYgX/BnVxzpVCEEZQr99cXYlnnRke1raSwDScF/fU5POmVd28ic247vrIYf+CKwV
-	LOadeonNYBo6mmaLZAkZ/msCpM/oTe87etY0NLRafzdBImHbJ7JAjH7lf2PmT3Uq/5YV
-	fPwD7CSB6f6wegV3WYU2Mgepvlqjc8pawX2+I=
-Received: by 10.68.227.198 with SMTP id sc6mr15604037pbc.131.1328258243155;
-	Fri, 03 Feb 2012 00:37:23 -0800 (PST)
+	bh=m7QnLmoMsgxaBmhoUWZtXXZ0J3h+X4lVAiKQpy0UU+g=;
+	b=W0NWfJRhSdNca2k+X8/CzAZ6KG0b6i/bNlhjwzR3sDp30F+W8UgW6tHKdad/3aqQso
+	At0apbxh+DSHYzBYfP8YzNWVV5qwyvHIOLtqRMz09AmUzE4KOt/s9qEkqyUFAjWyBsIF
+	jfAnxxP4vvnX4FXODlwJFjnjXaWxkeE3CvvNQ=
+Received: by 10.68.72.69 with SMTP id b5mr15675185pbv.120.1328258244960;
+	Fri, 03 Feb 2012 00:37:24 -0800 (PST)
 Received: from localhost.localdomain (oldbuilder.nslu2-linux.org.
 	[140.211.169.168])
-	by mx.google.com with ESMTPS id z5sm11478262pbc.5.2012.02.03.00.37.21
+	by mx.google.com with ESMTPS id z5sm11478262pbc.5.2012.02.03.00.37.23
 	(version=TLSv1/SSLv3 cipher=OTHER);
-	Fri, 03 Feb 2012 00:37:22 -0800 (PST)
+	Fri, 03 Feb 2012 00:37:23 -0800 (PST)
 From: Khem Raj <raj.khem@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Fri,  3 Feb 2012 00:36:12 -0800
-Message-Id: <151948a832e661d8e801b6ba5be5912862ae5dfa.1328257913.git.raj.khem@gmail.com>
+Date: Fri,  3 Feb 2012 00:36:13 -0800
+Message-Id: <3467c5305e42998029f70e9cece040db244bc129.1328257913.git.raj.khem@gmail.com>
 X-Mailer: git-send-email 1.7.5.4
 In-Reply-To: <a6d38499fa7010e3e96d9a36d9b88231d911a3c8.1328257913.git.raj.khem@gmail.com>
 References: <a6d38499fa7010e3e96d9a36d9b88231d911a3c8.1328257913.git.raj.khem@gmail.com>
 In-Reply-To: <cover.1328257913.git.raj.khem@gmail.com>
 References: <cover.1328257913.git.raj.khem@gmail.com>
-Subject: [PATCH 07/14] kmod: Add recipes
+Subject: [PATCH 08/14] module-init-tools: Delete
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -44,274 +44,227 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 03 Feb 2012 08:45:18 -0000
+X-List-Received-Date: Fri, 03 Feb 2012 08:45:20 -0000
 
-kmod is replacement for module-init-tools
+Since its provided by kmod
 
 Signed-off-by: Khem Raj <raj.khem@gmail.com>
 ---
- meta/recipes-kernel/kmod/kmod-native_git.bb        |   16 +++
- meta/recipes-kernel/kmod/kmod.inc                  |   35 +++++++
- ...001-depmod-Dont-use-errno-unconditionally.patch |  101 ++++++++++++++++++++
- meta/recipes-kernel/kmod/kmod/depmod-search.conf   |    6 +
- meta/recipes-kernel/kmod/kmod_git.bb               |   62 ++++++++++++
- 5 files changed, 220 insertions(+), 0 deletions(-)
- create mode 100644 meta/recipes-kernel/kmod/kmod-native_git.bb
- create mode 100644 meta/recipes-kernel/kmod/kmod.inc
- create mode 100644 meta/recipes-kernel/kmod/kmod/0001-depmod-Dont-use-errno-unconditionally.patch
- create mode 100644 meta/recipes-kernel/kmod/kmod/depmod-search.conf
- create mode 100644 meta/recipes-kernel/kmod/kmod_git.bb
+ .../module-init-tools/files/disable_man.patch      |   25 ------------
+ .../files/grab_module_memset.patch                 |   21 ----------
+ .../files/modutils_extension.patch                 |   25 ------------
+ .../module-init-tools-cross_3.16.bb                |   10 -----
+ .../module-init-tools/module-init-tools.inc        |   24 -----------
+ .../module-init-tools/module-init-tools_3.16.bb    |   42 --------------------
+ .../files/PD.patch                                 |    0
+ .../files/modutils.sh                              |    0
+ .../modutils-initscripts.bb                        |    0
+ 9 files changed, 0 insertions(+), 147 deletions(-)
+ delete mode 100644 meta/recipes-kernel/module-init-tools/files/disable_man.patch
+ delete mode 100644 meta/recipes-kernel/module-init-tools/files/grab_module_memset.patch
+ delete mode 100644 meta/recipes-kernel/module-init-tools/files/modutils_extension.patch
+ delete mode 100644 meta/recipes-kernel/module-init-tools/module-init-tools-cross_3.16.bb
+ delete mode 100644 meta/recipes-kernel/module-init-tools/module-init-tools.inc
+ delete mode 100644 meta/recipes-kernel/module-init-tools/module-init-tools_3.16.bb
+ rename meta/recipes-kernel/{module-init-tools => modutils-initscripts}/files/PD.patch (100%)
+ rename meta/recipes-kernel/{module-init-tools => modutils-initscripts}/files/modutils.sh (100%)
+ rename meta/recipes-kernel/{module-init-tools => modutils-initscripts}/modutils-initscripts.bb (100%)
 
-diff --git a/meta/recipes-kernel/kmod/kmod-native_git.bb b/meta/recipes-kernel/kmod/kmod-native_git.bb
-new file mode 100644
-index 0000000..904af20
---- /dev/null
-+++ b/meta/recipes-kernel/kmod/kmod-native_git.bb
-@@ -0,0 +1,16 @@
-+# Copyright (C) 2012 Khem Raj <raj.khem@gmail.com>
-+# Released under the MIT license (see COPYING.MIT for the terms)
-+
-+require kmod.inc
-+inherit native
-+
-+PR = "${INC_PR}.0"
-+
-+# EXTRA_OECONF_append = " --disable-shared"
-+
-+do_install_append (){
-+	for tool in depmod insmod lsmod modinfo modprobe rmmod
-+	do
-+		ln -s kmod ${D}${bindir}/$tool
-+	done
-+}
-diff --git a/meta/recipes-kernel/kmod/kmod.inc b/meta/recipes-kernel/kmod/kmod.inc
-new file mode 100644
-index 0000000..a425a3a
---- /dev/null
-+++ b/meta/recipes-kernel/kmod/kmod.inc
-@@ -0,0 +1,35 @@
-+# Copyright (C) 2012 Khem Raj <raj.khem@gmail.com>
-+# Released under the MIT license (see COPYING.MIT for the terms)
-+
-+DESCRIPTION = "kmod is a set of tools to handle common tasks with Linux kernel modules like \
-+insert, remove, list, check properties, resolve dependencies and aliases."
-+HOMEPAGE = "http://packages.profusion.mobi/kmod/"
-+LICENSE = "GPL-2.0+ & LGPL-2.1+"
-+LICENSE_libkmod = "LGPL-2.1+"
-+SECTION = "base"
-+PV = "4+gitr${SRCREV}"
-+INC_PR = "r0"
-+
-+LIC_FILES_CHKSUM = "file://COPYING;md5=751419260aa954499f7abaabaa882bbe \
-+                    file://libkmod/COPYING;md5=a6f89e2100d9b6cdffcea4f398e37343 \
-+                   "
-+inherit autotools
-+
-+SRC_URI = "git://git.profusion.mobi/kmod.git;protocol=git;branch=master \
-+           file://0001-depmod-Dont-use-errno-unconditionally.patch \
-+           file://depmod-search.conf \
-+          "
-+
-+SRCREV = "7bede7b6a8a75841a09478e59efbc39677b8d1d2"
-+
-+S = "${WORKDIR}/git"
-+
-+EXTRA_AUTORECONF += "--install --symlink"
-+EXTRA_OECONF +="--enable-debug --enable-logging --enable-tools"
-+
-+do_configure_prepend () {
-+        gtkdocize --docdir ${S}/libkmod/docs || touch ${S}/libkmod/docs/gtk-doc.make
-+}
-+
-+INHIBIT_PACKAGE_STRIP = "1"
-+BUILD_CFLAGS += "-O -g"
-diff --git a/meta/recipes-kernel/kmod/kmod/0001-depmod-Dont-use-errno-unconditionally.patch b/meta/recipes-kernel/kmod/kmod/0001-depmod-Dont-use-errno-unconditionally.patch
-new file mode 100644
-index 0000000..b7d8aac
---- /dev/null
-+++ b/meta/recipes-kernel/kmod/kmod/0001-depmod-Dont-use-errno-unconditionally.patch
-@@ -0,0 +1,101 @@
-+From 8d59b591cc75fd5258a3a04aa768d9f34460494a Mon Sep 17 00:00:00 2001
-+From: Khem Raj <raj.khem@gmail.com>
-+Date: Thu, 2 Feb 2012 20:55:53 -0800
-+Subject: [PATCH] depmod: Dont use errno unconditionally
-+
-+fopen() will not reset errno if it succeeds so we should
-+make sure that we only use errno in error cases.
-+
-+Also fix the diagnostic messages to not use strerror
-+when there is no error since strerror will not return
-+anything useful in this case
-+
-+Signed-off-by: Khem Raj <raj.khem@gmail.com>
-+---
-+ tools/kmod-depmod.c |   29 ++++++++++++++++-------------
-+ 1 files changed, 16 insertions(+), 13 deletions(-)
-+
-+diff --git a/tools/kmod-depmod.c b/tools/kmod-depmod.c
-+index 0721daf..01bca2a 100644
-+--- a/tools/kmod-depmod.c
-++++ b/tools/kmod-depmod.c
-+@@ -941,7 +941,7 @@ static int cfg_files_list(struct cfg_file ***p_files, size_t *p_n_files,
-+ 	}
-+ 
-+ 	closedir(d);
-+-	DBG("parsed configuration files from %s: %s\n", path, strerror(-err));
-++	DBG("parsed configuration files from %s\n", path);
-+ 	return err;
-+ }
-+ 
-+@@ -2293,13 +2293,15 @@ static int depmod_load_symvers(struct depmod *depmod, const char *filename)
-+ 	char line[10240];
-+ 	FILE *fp;
-+ 	unsigned int linenum = 0;
-+-	int err;
-++	int err = 0;
-+ 
-+ 	fp = fopen(filename, "r");
-+-	err = -errno;
-+-	DBG("load symvers: %s: %s\n", filename, strerror(-err));
-+-	if (fp == NULL)
-++	if (fp == NULL) {
-++		err = -errno;
-++		DBG("load symvers: %s: %s\n", filename, strerror(-err));
-+ 		return err;
-++	}
-++	DBG("load symvers: %s\n", filename);
-+ 
-+ 	/* eg. "0xb352177e\tfind_first_bit\tvmlinux\tEXPORT_SYMBOL" */
-+ 	while (fgets(line, sizeof(line), fp) != NULL) {
-+@@ -2329,7 +2331,7 @@ static int depmod_load_symvers(struct depmod *depmod, const char *filename)
-+ 	}
-+ 	depmod_add_fake_syms(depmod);
-+ 
-+-	DBG("loaded symvers: %s: %s\n", filename, strerror(-err));
-++	DBG("loaded symvers: %s\n", filename);
-+ 
-+ 	fclose(fp);
-+ 	return err;
-+@@ -2342,14 +2344,15 @@ static int depmod_load_system_map(struct depmod *depmod, const char *filename)
-+ 	char line[10240];
-+ 	FILE *fp;
-+ 	unsigned int linenum = 0;
-+-	int err;
-++	int err = 0;
-+ 
-+ 	fp = fopen(filename, "r");
-+-	err = -errno;
-+-	DBG("load System.map: %s: %s\n", filename, strerror(-err));
-+-	if (fp == NULL)
-++	if (fp == NULL) {
-++		err = -errno;
-++		DBG("load System.map: %s: %s\n", filename, strerror(-err));
-+ 		return err;
-+-
-++	}
-++	DBG("load System.map: %s\n", filename);
-+ 	/* eg. c0294200 R __ksymtab_devfs_alloc_devnum */
-+ 	while (fgets(line, sizeof(line), fp) != NULL) {
-+ 		char *p, *end;
-+@@ -2381,7 +2384,7 @@ static int depmod_load_system_map(struct depmod *depmod, const char *filename)
-+ 	}
-+ 	depmod_add_fake_syms(depmod);
-+ 
-+-	DBG("loaded System.map: %s: %s\n", filename, strerror(-err));
-++	DBG("loaded System.map: %s\n", filename);
-+ 
-+ 	fclose(fp);
-+ 	return err;
-+@@ -2673,7 +2676,7 @@ static int do_depmod(int argc, char *argv[])
-+ 	} else if (system_map != NULL) {
-+ 		err = depmod_load_system_map(&depmod, system_map);
-+ 		if (err < 0) {
-+-			CRIT("could not load %s: %s\n", module_symvers,
-++			CRIT("could not load %s: %s\n", system_map,
-+ 			     strerror(-err));
-+ 			goto cmdline_failed;
-+ 		}
-+-- 
-+1.7.5.4
-+
-diff --git a/meta/recipes-kernel/kmod/kmod/depmod-search.conf b/meta/recipes-kernel/kmod/kmod/depmod-search.conf
-new file mode 100644
-index 0000000..527c0bb
---- /dev/null
-+++ b/meta/recipes-kernel/kmod/kmod/depmod-search.conf
-@@ -0,0 +1,6 @@
-+#
-+# /etc/depmod.d/depmod.conf
-+#
-+
-+search updates extramodules built-in
-+
-diff --git a/meta/recipes-kernel/kmod/kmod_git.bb b/meta/recipes-kernel/kmod/kmod_git.bb
-new file mode 100644
-index 0000000..eaab47b
---- /dev/null
-+++ b/meta/recipes-kernel/kmod/kmod_git.bb
-@@ -0,0 +1,62 @@
-+# Copyright (C) 2012 Khem Raj <raj.khem@gmail.com>
-+# Released under the MIT license (see COPYING.MIT for the terms)
-+
-+require kmod.inc
-+
-+PR = "${INC_PR}.0"
-+
-+PROVIDES_${PN} += "module-init-tools-insmod-static module-init-tools-depmod module-init-tools"
-+RPROVIDES_${PN} += "module-init-tools-insmod-static module-init-tools-depmod module-init-tools"
-+CONFLICTS_${PN} += "module-init-tools-insmod-static module-init-tools-depmod module-init-tools"
-+
-+# autotools set prefix to /usr, however we want them in /bin and /sbin
-+bindir = "${base_bindir}"
-+sbindir = "${base_sbindir}"
-+libdir = "${base_libdir}"
-+
-+SRC_URI += " \
-+            file://depmod-search.conf \
-+           "
-+
-+do_install_append () {
-+        install -dm755 ${D}${base_bindir}
-+        install -dm755 ${D}${base_sbindir}
-+        # add symlinks to kmod
-+        ln -s ..${base_bindir}/kmod ${D}${base_bindir}/lsmod.kmod
-+        for tool in {ins,rm,dep}mod mod{info,probe}; do
-+                ln -s ..${base_bindir}/kmod ${D}${base_sbindir}/${tool}.kmod
-+        done
-+        # configuration directories
-+        install -dm755 ${D}${base_libdir}/depmod.d
-+        install -dm755 ${D}${base_libdir}/modprobe.d
-+        install -dm755 ${D}${sysconfdir}/depmod.d
-+        install -dm755 ${D}${sysconfdir}/modprobe.d
-+
-+        # install depmod.d file for search/ dir
-+        install -Dm644 "${WORKDIR}/depmod-search.conf" "${D}${base_libdir}/depmod.d/search.conf"
-+}
-+
-+pkg_postinst_kmod() {
-+        for f in sbin/insmod sbin/modprobe sbin/rmmod sbin/modinfo; do
-+                bn=`basename $f`
-+                update-alternatives --install /$f $bn /$f.kmod 60
-+        done
-+        update-alternatives --install /bin/lsmod bin-lsmod /bin/lsmod.kmod 60
-+        update-alternatives --install /sbin/lsmod lsmod /bin/lsmod.kmod 60
-+        update-alternatives --install /sbin/depmod depmod /sbin/depmod.kmod 60
-+}
-+
-+pkg_prerm_kmod() {
-+        for f in sbin/insmod sbin/modprobe sbin/rmmod sbin/modinfo; do
-+                bn=`basename $f`
-+                update-alternatives --remove $bn /$f.kmod
-+        done
-+        update-alternatives --remove bin-lsmod /bin/lsmod.kmod
-+        update-alternatives --remove lsmod /bin/lsmod.kmod
-+        update-alternatives --remove depmod /sbin/depmod.kmod
-+}
-+
-+PACKAGES =+ "libkmod"
-+
-+FILES_libkmod = "${base_libdir}/libkmod*${SOLIBS}"
-+FILES_${PN} += "${base_libdir}/depmod.d ${base_libdir}/modprobe.d"
+diff --git a/meta/recipes-kernel/module-init-tools/files/disable_man.patch b/meta/recipes-kernel/module-init-tools/files/disable_man.patch
+deleted file mode 100644
+index 95ad9cf..0000000
+--- a/meta/recipes-kernel/module-init-tools/files/disable_man.patch
++++ /dev/null
+@@ -1,25 +0,0 @@
+-# disable man page build
+-#
+-# by Kevin Tian <kevin.tian@intel.com>, 2010-07-21
+-
+-Upstream-Status: Inappropriate [disable feature]
+-
+-diff --git a/Makefile.am b/Makefile.am
+-index 6f83c12..32972a8 100644
+---- a/Makefile.am
+-+++ b/Makefile.am
+-@@ -39,13 +39,12 @@ modindex_LDADD = $(LDADD) libmodtools.a
+- MAN5 = modprobe.conf.5 modules.dep.5 depmod.conf.5 modprobe.d.5
+- MAN8 = depmod.8 insmod.8 lsmod.8 rmmod.8 modprobe.8 modinfo.8
+- SGML = $(addprefix doc/,  $(MAN5:%.5=%.sgml) $(MAN8:%.8=%.sgml))
+--dist_man_MANS = $(MAN5) $(MAN8)
+- # If they haven't overridden mandir, fix it (never /man!)
+- mandir =$(shell if [ @mandir@ = $(prefix)/man ]; then if [ $(prefix) = / ]; then echo /usr/share/man; else echo $(prefix)/share/man; fi; else echo @mandir@; fi)
+- 
+- TESTSUITE := $(shell test -e @srcdir@/tests && find @srcdir@/tests -type f ! -name '*~')
+- 
+--EXTRA_DIST = generate-modprobe.conf FAQ CODING stress_modules.sh install-with-care $(SGML) $(man_MANS) $(TESTSUITE)
+-+EXTRA_DIST = generate-modprobe.conf FAQ CODING stress_modules.sh install-with-care
+- 
+- sbin_PROGRAMS = insmod modprobe rmmod depmod modinfo
+- if BUILD_STATIC_UTILS
+diff --git a/meta/recipes-kernel/module-init-tools/files/grab_module_memset.patch b/meta/recipes-kernel/module-init-tools/files/grab_module_memset.patch
+deleted file mode 100644
+index 31dc0e9..0000000
+--- a/meta/recipes-kernel/module-init-tools/files/grab_module_memset.patch
++++ /dev/null
+@@ -1,21 +0,0 @@
+-# this patch is from Mark Hatle <mark.hatle@windriver.com>, who  ran into 
+-# a random segfault using the latest module-init-tools (3.12) and finally
+-# trace back to depmod.c:grab_module, which appears that the new malloc(...) 
+-# setups up things, but never clears the memory that was just allocated.
+-#
+-# Kevin Tian <kevin.tian@intel.com>, 2010-08-06
+-
+-Upstream-Status: Pending
+-
+-diff --git a/depmod.c b/depmod.c
+-index 647e5e6..46e03e0 100644
+---- a/depmod.c
+-+++ b/depmod.c
+-@@ -313,6 +313,7 @@ static struct module *grab_module(const char *dirname, const char *filename)
+- 
+- 	new = NOFAIL(malloc(sizeof(*new)
+- 			    + strlen(dirname?:"") + 1 + strlen(filename) + 1));
+-+	memset(new, 0x00, sizeof(*new) + strlen(dirname?:"") + 1 + strlen(filename) + 1);
+- 	if (dirname)
+- 		sprintf(new->pathname, "%s/%s", dirname, filename);
+- 	else
+diff --git a/meta/recipes-kernel/module-init-tools/files/modutils_extension.patch b/meta/recipes-kernel/module-init-tools/files/modutils_extension.patch
+deleted file mode 100644
+index 4a6e0fe..0000000
+--- a/meta/recipes-kernel/module-init-tools/files/modutils_extension.patch
++++ /dev/null
+@@ -1,25 +0,0 @@
+-# poky uses new name to differentiate from modutils, so reflect this new name in source
+-#
+-# comment added by Kevin Tian <kevin.tian@intel.com>, 2010-07-21
+-
+-Upstream-Status: Inappropriate [embedded specific]
+-
+---- module-init-tools-3.0-pre10.orig/generate-modprobe.conf
+-+++ module-init-tools-3.0-pre10/generate-modprobe.conf
+-@@ -45,12 +45,12 @@
+-     cp $TESTING_MODPROBE_CONF $MODPROBECONF
+- elif [ "$STDIN" = "1" ]; then
+-     cat > $MODPROBECONF
+--elif [ -x /sbin/modprobe.old ]; then
+-+elif [ -x /sbin/modprobe.24 ]; then
+-     # In sbin.
+--    /sbin/modprobe.old -c > $MODPROBECONF || modprobe_abort
+--elif modprobe.old -c >/dev/null 2>&1; then
+-+    /sbin/modprobe.24 -c > $MODPROBECONF || modprobe_abort
+-+elif modprobe.24 -c >/dev/null 2>&1; then
+-     # Somewhere in path.
+--    modprobe.old -c > $MODPROBECONF || modprobe_abort
+-+    modprobe.24 -c > $MODPROBECONF || modprobe_abort
+- elif /sbin/modprobe -V 2>/dev/null | grep -q 'modprobe version'; then
+-     # Running /sbin/modprobe gives old version.
+-     /sbin/modprobe -c > $MODPROBECONF || modprobe_abort
+diff --git a/meta/recipes-kernel/module-init-tools/module-init-tools-cross_3.16.bb b/meta/recipes-kernel/module-init-tools/module-init-tools-cross_3.16.bb
+deleted file mode 100644
+index dee163d..0000000
+--- a/meta/recipes-kernel/module-init-tools/module-init-tools-cross_3.16.bb
++++ /dev/null
+@@ -1,10 +0,0 @@
+-require module-init-tools.inc
+-PR = "r0"
+-inherit cross
+-PROVIDES += "virtual/${TARGET_PREFIX}depmod"
+-RDEPENDS_${PN} = ""
+-
+-SRC_URI[md5sum] = "bc44832c6e41707b8447e2847d2019f5"
+-SRC_URI[sha256sum] = "e1f2cdcae64a8effc25e545a5e0bdaf312f816ebbcd0916e4e87450755fab64b"
+-
+-EXTRA_OECONF_append = " --program-prefix=${TARGET_PREFIX} --disable-static-utils"
+diff --git a/meta/recipes-kernel/module-init-tools/module-init-tools.inc b/meta/recipes-kernel/module-init-tools/module-init-tools.inc
+deleted file mode 100644
+index c290c4f..0000000
+--- a/meta/recipes-kernel/module-init-tools/module-init-tools.inc
++++ /dev/null
+@@ -1,24 +0,0 @@
+-SUMMARY = "Kernel Module Utilities"
+-DESCRIPTION = "This package contains a set of programs for loading, inserting, and removing kernel modules for Linux (versions 2.5.48 and above). It serves the same function that the modutils package serves for Linux 2.4"
+-LICENSE = "GPLv2+"
+-LIC_FILES_CHKSUM = "file://COPYING;md5=94d55d512a9ba36caa9b7df079bae19f \
+-                    file://lsmod.c;md5=743c873ec42632d2ce37d3c440f366dd"
+-SECTION = "base"
+-
+-PACKAGES =+ "module-init-tools-insmod-static module-init-tools-depmod"
+-RDEPENDS_${PN} += "module-init-tools-depmod"
+-
+-FILES_module-init-tools-depmod = "${sbindir}/depmod.26"
+-FILES_module-init-tools-insmod-static = "${sbindir}/insmod.static"
+-
+-SRC_URI = "${KERNELORG_MIRROR}/linux/utils/kernel/module-init-tools/module-init-tools-${PV}.tar.bz2 \
+-           file://modutils_extension.patch \
+-           file://disable_man.patch \
+-           file://grab_module_memset.patch"
+-
+-inherit autotools
+-
+-# module-init-tools uses AX_ENABLE_BUILDDIR to move rest of configuration steps
+-# into a subdir. However this macro is not quite cross friendly. Instead of 
+-# mangling that macro, a easier way is to take the disable option
+-EXTRA_OECONF = "--disable-builddir"
+diff --git a/meta/recipes-kernel/module-init-tools/module-init-tools_3.16.bb b/meta/recipes-kernel/module-init-tools/module-init-tools_3.16.bb
+deleted file mode 100644
+index 0248b46..0000000
+--- a/meta/recipes-kernel/module-init-tools/module-init-tools_3.16.bb
++++ /dev/null
+@@ -1,42 +0,0 @@
+-require module-init-tools.inc
+-PR = "r0"
+-
+-# autotools set prefix to /usr, however we want them in /bin and /sbin
+-bindir = "/bin"
+-sbindir = "/sbin"
+-
+-do_install() {
+-	autotools_do_install
+-	for f in bin/lsmod sbin/insmod sbin/rmmod sbin/modprobe sbin/modinfo sbin/depmod; do
+-		mv ${D}/$f ${D}/$f.26
+-	done
+-}
+-
+-pkg_postinst_module-init-tools() {
+-	for f in sbin/insmod sbin/modprobe sbin/rmmod sbin/modinfo; do
+-		bn=`basename $f`
+-		update-alternatives --install /$f $bn /$f.26 60
+-	done
+-	update-alternatives --install /bin/lsmod bin-lsmod /bin/lsmod.26 60
+-	update-alternatives --install /sbin/lsmod lsmod /bin/lsmod.26 60
+-}
+-
+-pkg_prerm_module-init-tools() {
+-	for f in sbin/insmod sbin/modprobe sbin/rmmod sbin/modinfo; do
+-		bn=`basename $f`
+-		update-alternatives --remove $bn /$f.26
+-	done
+-	update-alternatives --remove bin-lsmod /bin/lsmod.26
+-	update-alternatives --remove lsmod /bin/lsmod.26
+-}
+-
+-pkg_postinst_module-init-tools-depmod() {
+-	update-alternatives --install /sbin/depmod depmod /sbin/depmod.26 60
+-}
+-
+-pkg_prerm_module-init-tools-depmod() {
+-	update-alternatives --remove depmod /sbin/depmod.26
+-}
+-
+-SRC_URI[md5sum] = "bc44832c6e41707b8447e2847d2019f5"
+-SRC_URI[sha256sum] = "e1f2cdcae64a8effc25e545a5e0bdaf312f816ebbcd0916e4e87450755fab64b"
+diff --git a/meta/recipes-kernel/module-init-tools/files/PD.patch b/meta/recipes-kernel/modutils-initscripts/files/PD.patch
+similarity index 100%
+rename from meta/recipes-kernel/module-init-tools/files/PD.patch
+rename to meta/recipes-kernel/modutils-initscripts/files/PD.patch
+diff --git a/meta/recipes-kernel/module-init-tools/files/modutils.sh b/meta/recipes-kernel/modutils-initscripts/files/modutils.sh
+similarity index 100%
+rename from meta/recipes-kernel/module-init-tools/files/modutils.sh
+rename to meta/recipes-kernel/modutils-initscripts/files/modutils.sh
+diff --git a/meta/recipes-kernel/module-init-tools/modutils-initscripts.bb b/meta/recipes-kernel/modutils-initscripts/modutils-initscripts.bb
+similarity index 100%
+rename from meta/recipes-kernel/module-init-tools/modutils-initscripts.bb
+rename to meta/recipes-kernel/modutils-initscripts/modutils-initscripts.bb
 -- 
 1.7.5.4
 
