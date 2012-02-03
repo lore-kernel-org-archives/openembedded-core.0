@@ -1,31 +1,23 @@
-Received: from mail-pw0-f47.google.com ([209.85.160.47])
+Received: from mail.gw90.de ([188.40.100.199])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <tom.rini@gmail.com>) id 1RtS8N-0002t8-9I
-	for openembedded-core@lists.openembedded.org;
-	Sat, 04 Feb 2012 00:01:35 +0100
-Received: by pbbb4 with SMTP id b4so2932267pbb.6
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 03 Feb 2012 14:53:36 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
-	h=from:to:cc:subject:date:message-id:x-mailer;
-	bh=SFUYFKMNNhQJLNNX6WKQ9BiT5dumg48S6ukcnKDRrqo=;
-	b=Y+m3bFS7uTpTcuy1mJ+g+snd4fmIStNnmKHJf441ihsniiXDsXm5u5KveL/wcPyG0r
-	gUoJ1Xrf1e8KuKbDk4VyNHhdBLSoFfEQI5t1xXFEKiH9ljsjBl/mkoQ5PKudHhR+qZ88
-	TOv01/+e0aPtdAFdSGF2ktKmNyxAeTKcbOuN0=
-Received: by 10.68.75.233 with SMTP id f9mr13619295pbw.10.1328309616403;
-	Fri, 03 Feb 2012 14:53:36 -0800 (PST)
-Received: from localhost.localdomain (ip68-230-54-74.ph.ph.cox.net.
-	[68.230.54.74])
-	by mx.google.com with ESMTPS id j4sm16151376pbg.12.2012.02.03.14.53.35
-	(version=TLSv1/SSLv3 cipher=OTHER);
-	Fri, 03 Feb 2012 14:53:35 -0800 (PST)
-From: Tom Rini <tom.rini@gmail.com>
+	(envelope-from <paulepanter@users.sourceforge.net>)
+	id 1RtSKz-000377-Gt for openembedded-core@lists.openembedded.org;
+	Sat, 04 Feb 2012 00:14:37 +0100
+Received: from g225173220.adsl.alicedsl.de ([92.225.173.220]
+	helo=[192.168.178.43])
+	by mail.gw90.de with esmtpsa (TLS1.0:RSA_AES_256_CBC_SHA1:32)
+	(Exim 4.69) (envelope-from <paulepanter@users.sourceforge.net>)
+	id 1RtSDU-0001j3-L4 for openembedded-core@lists.openembedded.org;
+	Fri, 03 Feb 2012 23:06:52 +0000
+Message-ID: <1328310400.4220.60.camel@mattotaupa>
+From: Paul Menzel <paulepanter@users.sourceforge.net>
 To: openembedded-core@lists.openembedded.org
-Date: Fri,  3 Feb 2012 15:53:30 -0700
-Message-Id: <1328309610-12397-1-git-send-email-tom.rini@gmail.com>
-X-Mailer: git-send-email 1.7.0.4
-Cc: Tom Rini <trini@ti.com>
-Subject: [PATCH] u-boot-fw-utils: Initial version
+Date: Sat, 04 Feb 2012 00:06:40 +0100
+In-Reply-To: <1328309610-12397-1-git-send-email-tom.rini@gmail.com>
+References: <1328309610-12397-1-git-send-email-tom.rini@gmail.com>
+X-Mailer: Evolution 3.2.2-1 
+Mime-Version: 1.0
+Subject: Re: [PATCH] u-boot-fw-utils: Initial version
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -40,55 +32,103 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 03 Feb 2012 23:01:35 -0000
+X-List-Received-Date: Fri, 03 Feb 2012 23:14:37 -0000
+X-Groupsio-MsgNum: 17020
+Content-Type: multipart/signed; micalg="pgp-sha1";
+	protocol="application/pgp-signature"; 
+	boundary="=-TYn+4mHeyK3yCjA5HJZh"
 
-From: Tom Rini <trini@ti.com>
+--=-TYn+4mHeyK3yCjA5HJZh
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-This provides the 'fw_setenv' and 'fw_getenv' programs for the target
-so that the U-Boot environment can be modified from Linux.  These
-programs are system-agnostic and rely on a config file that a given BSP
-will provide (and RRECOMMEND this be installed).
-
-Signed-off-by: Tom Rini <trini@ti.com>
----
- meta/recipes-bsp/u-boot/u-boot-fw-utils_2011.06.bb |   26 ++++++++++++++++++++
- 1 files changed, 26 insertions(+), 0 deletions(-)
- create mode 100644 meta/recipes-bsp/u-boot/u-boot-fw-utils_2011.06.bb
-
-diff --git a/meta/recipes-bsp/u-boot/u-boot-fw-utils_2011.06.bb b/meta/recipes-bsp/u-boot/u-boot-fw-utils_2011.06.bb
-new file mode 100644
-index 0000000..3185cbd
---- /dev/null
-+++ b/meta/recipes-bsp/u-boot/u-boot-fw-utils_2011.06.bb
-@@ -0,0 +1,26 @@
-+DESCRIPTION = "U-boot bootloader fw_printenv/setenv utils"
-+LICENSE = "GPLv2+"
-+LIC_FILES_CHKSUM = "file://COPYING;md5=1707d6db1d42237583f50183a5651ecb \
-+                    file://README;beginline=1;endline=22;md5=5ba4218ac89af7846802d0348df3fb90"
-+SECTION = "bootloader"
-+
-+PR = "r0"
-+
-+SRC_URI = "ftp://ftp.denx.de/pub/u-boot/u-boot-${PV}.tar.bz2"
-+
-+SRC_URI[md5sum] = "0cc5026aad02f218a9b9ac56b301c97a"
-+SRC_URI[sha256sum] = "362ddb935885da98cf461eba08f31e3e59d0c4ada6cb2fa15596f43af310ba8b"
-+
-+S = "${WORKDIR}/u-boot-${PV}"
-+
-+EXTRA_OEMAKE = 'HOSTCC="${CC}"'
-+
-+do_compile () {
-+  oe_runmake env
-+}
-+
-+do_install () {
-+  install -d ${D}${base_sbindir}
-+  install -m 755 ${S}/tools/env/fw_printenv ${D}${base_sbindir}/fw_printenv
-+  install -m 755 ${S}/tools/env/fw_printenv ${D}${base_sbindir}/fw_setenv
-+}
--- 
-1.7.0.4
+Dear Tom,
 
 
+Am Freitag, den 03.02.2012, 15:53 -0700 schrieb Tom Rini:
+> From: Tom Rini <trini@ti.com>
 
+please add the version in the commit summary.
+
+> This provides the 'fw_setenv' and 'fw_getenv' programs for the target
+> so that the U-Boot environment can be modified from Linux.  These
+> programs are system-agnostic and rely on a config file that a given BSP
+> will provide (and RRECOMMEND this be installed).
+
+I do not understand the addition in the parentheses.
+
+> Signed-off-by: Tom Rini <trini@ti.com>
+> ---
+>  meta/recipes-bsp/u-boot/u-boot-fw-utils_2011.06.bb |   26 ++++++++++++++=
+++++++
+>  1 files changed, 26 insertions(+), 0 deletions(-)
+>  create mode 100644 meta/recipes-bsp/u-boot/u-boot-fw-utils_2011.06.bb
+>=20
+> diff --git a/meta/recipes-bsp/u-boot/u-boot-fw-utils_2011.06.bb b/meta/re=
+cipes-bsp/u-boot/u-boot-fw-utils_2011.06.bb
+> new file mode 100644
+> index 0000000..3185cbd
+> --- /dev/null
+> +++ b/meta/recipes-bsp/u-boot/u-boot-fw-utils_2011.06.bb
+> @@ -0,0 +1,26 @@
+> +DESCRIPTION =3D "U-boot bootloader fw_printenv/setenv utils"
+> +LICENSE =3D "GPLv2+"
+> +LIC_FILES_CHKSUM =3D "file://COPYING;md5=3D1707d6db1d42237583f50183a5651=
+ecb \
+> +                    file://README;beginline=3D1;endline=3D22;md5=3D5ba42=
+18ac89af7846802d0348df3fb90"
+> +SECTION =3D "bootloader"
+
+Is this the standard ordering? Is there also a homepage for theses
+utils?
+
+> +
+> +PR =3D "r0"
+> +
+
+Was a decision made if `PR =3D "r0"` should be set?
+
+> +SRC_URI =3D "ftp://ftp.denx.de/pub/u-boot/u-boot-${PV}.tar.bz2"
+> +
+> +SRC_URI[md5sum] =3D "0cc5026aad02f218a9b9ac56b301c97a"
+> +SRC_URI[sha256sum] =3D "362ddb935885da98cf461eba08f31e3e59d0c4ada6cb2fa1=
+5596f43af310ba8b"
+> +
+> +S =3D "${WORKDIR}/u-boot-${PV}"
+
+Is that the default? I always forget.
+
+> +
+> +EXTRA_OEMAKE =3D 'HOSTCC=3D"${CC}"'
+> +
+> +do_compile () {
+> +  oe_runmake env
+> +}
+> +
+> +do_install () {
+> +  install -d ${D}${base_sbindir}
+> +  install -m 755 ${S}/tools/env/fw_printenv ${D}${base_sbindir}/fw_print=
+env
+> +  install -m 755 ${S}/tools/env/fw_printenv ${D}${base_sbindir}/fw_seten=
+v
+> +}
+
+
+Thanks,
+
+Paul
+
+--=-TYn+4mHeyK3yCjA5HJZh
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: This is a digitally signed message part
+Content-Transfer-Encoding: 7bit
+
+-----BEGIN PGP SIGNATURE-----
+Version: GnuPG v1.4.11 (GNU/Linux)
+
+iEUEABECAAYFAk8saIAACgkQPX1aK2wOHVh7HQCWI1Di8Q7lsjgVjomOTBmDjxr9
+xwCfZ/N3LM9VGfK9CXl5V+NSAXU8Oyc=
+=3VMD
+-----END PGP SIGNATURE-----
+
+--=-TYn+4mHeyK3yCjA5HJZh--
