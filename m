@@ -1,30 +1,31 @@
-Received: from mga05.intel.com ([192.55.52.89] helo=fmsmga101.fm.intel.com)
+Received: from mail-ee0-f47.google.com ([74.125.83.47])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <scott.a.garman@intel.com>) id 1RtMWa-0002xi-46
+	(envelope-from <koen@dominion.thruhere.net>) id 1RtMai-00034S-Rm
 	for openembedded-core@lists.openembedded.org;
-	Fri, 03 Feb 2012 18:02:12 +0100
-Received: from mail-iy0-f180.google.com ([209.85.210.180])
-	by mga01.intel.com with ESMTP/TLS/RC4-SHA; 03 Feb 2012 08:54:13 -0800
-Received: by iabz7 with SMTP id z7so5343279iab.25
+	Fri, 03 Feb 2012 18:06:28 +0100
+Received: by eekd41 with SMTP id d41so1026236eek.6
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 03 Feb 2012 08:54:12 -0800 (PST)
-Received: by 10.50.208.1 with SMTP id ma1mr11505626igc.4.1328288052639;
-	Fri, 03 Feb 2012 08:54:12 -0800 (PST)
-Received: from [10.1.10.192] (c-71-236-172-220.hsd1.or.comcast.net.
-	[71.236.172.220])
-	by mx.google.com with ESMTPS id d15sm12141526ibf.7.2012.02.03.08.54.11
-	(version=SSLv3 cipher=OTHER); Fri, 03 Feb 2012 08:54:11 -0800 (PST)
-Message-ID: <4F2C1132.8090406@intel.com>
-Date: Fri, 03 Feb 2012 08:54:10 -0800
-From: Scott Garman <scott.a.garman@intel.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:9.0) Gecko/20111229 Thunderbird/9.0
-MIME-Version: 1.0
-To: openembedded-core@lists.openembedded.org
-References: <cover.1328257913.git.raj.khem@gmail.com>
-	<5407fb2fc93f7d28a0e5000834c7b3b548826392.1328257913.git.raj.khem@gmail.com>
-In-Reply-To: <5407fb2fc93f7d28a0e5000834c7b3b548826392.1328257913.git.raj.khem@gmail.com>
-Subject: Re: [PATCH 13/14] runqemu-internal: qemuarm can handle 256M
+	Fri, 03 Feb 2012 08:58:31 -0800 (PST)
+Received: by 10.14.52.7 with SMTP id d7mr2533410eec.80.1328288311277;
+	Fri, 03 Feb 2012 08:58:31 -0800 (PST)
+Received: from [192.168.0.46] (28.254-240-81.adsl-static.isp.belgacom.be.
+	[81.240.254.28])
+	by mx.google.com with ESMTPS id x4sm23796066eeb.4.2012.02.03.08.58.29
+	(version=TLSv1/SSLv3 cipher=OTHER);
+	Fri, 03 Feb 2012 08:58:30 -0800 (PST)
+Mime-Version: 1.0 (Apple Message framework v1251.1)
+From: Koen Kooi <koen@dominion.thruhere.net>
+In-Reply-To: <1328287801.16474.4.camel@ted>
+Date: Fri, 3 Feb 2012 17:58:25 +0100
+Message-Id: <805BB42F-FCF7-48BE-AB53-9DB7D5E99845@dominion.thruhere.net>
+References: <cover.1328139407.git.nitin.a.kamble@intel.com>
+	<1328284640.3895.118.camel@ted>
+	<CAFZPMoZf-x5ff+n-1xFFC4wth=PO=Q6SizVnnWXd-tE_jZZc8Q@mail.gmail.com>
+	<1328287801.16474.4.camel@ted>
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+X-Mailer: Apple Mail (2.1251.1)
+Subject: Re: [patch-v2 0/7] Various recipe upgrades
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -39,54 +40,25 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 03 Feb 2012 17:02:12 -0000
-Content-Type: text/plain; charset=ISO-8859-1; format=flowed
-Content-Transfer-Encoding: 7bit
-
-On 02/03/2012 12:36 AM, Khem Raj wrote:
-> Raise the check for max RAM supported for QEMU/arm
-> its 256M since we patched it to be so in OE
->
-> Signed-off-by: Khem Raj<raj.khem@gmail.com>
-
-Thanks Khem.
-
-Acked-by: Scott Garman <scott.a.garman@intel.com>
-
-> ---
->   scripts/runqemu-internal |   13 +++++++------
->   1 files changed, 7 insertions(+), 6 deletions(-)
->
-> diff --git a/scripts/runqemu-internal b/scripts/runqemu-internal
-> index 21fbce3..73b8b41 100755
-> --- a/scripts/runqemu-internal
-> +++ b/scripts/runqemu-internal
-> @@ -67,13 +67,14 @@ fi
->   # QEMU_MEMORY has 'M' appended to mem_size
->   QEMU_MEMORY="$mem_size"M
->
-> -# Bug 433: qemuarm cannot use>  128 MB RAM
-> +# Bug 433: qemuarm cannot use>  256 MB RAM
->   if [ "$MACHINE" = "qemuarm" ]; then
-> -    if [[ -z "$mem_size" || $mem_size -gt 128 ]]; then
-> -        echo "WARNING: qemuarm does not support>  128M of RAM."
-> -        echo "Changing QEMU_MEMORY to default of 128M."
-> -        QEMU_MEMORY="128M"
-> -        SCRIPT_QEMU_EXTRA_OPT=`echo $SCRIPT_QEMU_EXTRA_OPT | sed -e "s/$mem_set/-m 128/" `
-> +    if [[ -z "$mem_size" || $mem_size -gt 256 ]]; then
-> +        echo "WARNING: qemuarm does not support>  256M of RAM."
-> +        echo "Changing QEMU_MEMORY to default of 256M."
-> +        QEMU_MEMORY="256M"
-> +	mem_size="256"
-> +        SCRIPT_QEMU_EXTRA_OPT=`echo $SCRIPT_QEMU_EXTRA_OPT | sed -e "s/$mem_set/-m 256/" `
->       fi
->   fi
->
+X-List-Received-Date: Fri, 03 Feb 2012 17:06:28 -0000
+Content-Type: text/plain; charset=us-ascii
+Content-Transfer-Encoding: quoted-printable
 
 
--- 
-Scott Garman
-Embedded Linux Engineer - Yocto Project
-Intel Open Source Technology Center
+Op 3 feb. 2012, om 17:50 heeft Richard Purdie het volgende geschreven:
+
+> On Fri, 2012-02-03 at 19:30 +0300, Sergey Lapin wrote:
+>=20
+>> This breaks
+>> =
+meta-openembedded/meta-oe/recipes-devtools/gdb/gdb-cross-canadian_7.3.1.bb=
+append
+>=20
+> Sorry about that. Koen is aware of the issue now at least.
+
+Hotfix pushed, we need to double check after the weekend when we get =
+back to our deskjobs.
+
+
 
 
