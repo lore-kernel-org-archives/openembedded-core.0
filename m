@@ -1,38 +1,32 @@
-Received: from mail-pw0-f47.google.com ([209.85.160.47])
+Received: from bear.ext.ti.com ([192.94.94.41])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <raj.khem@gmail.com>) id 1RtQUE-0000d8-2e
+	(envelope-from <chase.maupin@ti.com>) id 1RtQz9-00013z-NZ
 	for openembedded-core@lists.openembedded.org;
-	Fri, 03 Feb 2012 22:16:02 +0100
-Received: by pbbb4 with SMTP id b4so2873594pbb.6
+	Fri, 03 Feb 2012 22:48:00 +0100
+Received: from dbdp20.itg.ti.com ([172.24.170.38])
+	by bear.ext.ti.com (8.13.7/8.13.7) with ESMTP id q13Lbcc7031023
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 03 Feb 2012 13:08:03 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
-	h=date:from:to:subject:message-id:references:mime-version
-	:content-type:content-disposition:in-reply-to:user-agent;
-	bh=mBqVQE5SM0kFhSAjmyihh8KxHLh43rmouMVLRC89lWs=;
-	b=gnNGM9ip3BbaZ6J2sMmzw7wPeVJNe96ByAG2+ydvfmWT5XokG4oBcfP2LXjwcQFV9w
-	N0Ox7cHYNtLNyV9BcUNSakNq8lpd1g5cRgD9NmfCTw4Xbui7bYIaU0lAfsg7NT4LtdiQ
-	5WjIQqHYOcfqMNGpSWvmvbCcuZHC+Pz/6Sd84=
-Received: by 10.68.72.69 with SMTP id b5mr20407973pbv.120.1328303283661;
-	Fri, 03 Feb 2012 13:08:03 -0800 (PST)
-Received: from sakrah.homelinux.org
-	(99-57-141-118.lightspeed.sntcca.sbcglobal.net. [99.57.141.118])
-	by mx.google.com with ESMTPS id j4sm15568609pbg.12.2012.02.03.13.08.01
-	(version=TLSv1/SSLv3 cipher=OTHER);
-	Fri, 03 Feb 2012 13:08:02 -0800 (PST)
-Date: Fri, 3 Feb 2012 13:07:53 -0800
-From: Khem Raj <raj.khem@gmail.com>
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Message-ID: <20120203210753.GC20937@sakrah.homelinux.org>
-References: <cover.1328208481.git.josh@linux.intel.com>
-	<2e86c284dea7b710d380d262e1a76b79b530b422.1328208481.git.josh@linux.intel.com>
-	<4092F86B-459F-45ED-B7B1-1198B2D6A992@dominion.thruhere.net>
-	<4F2ADCF6.4030000@linux.intel.com>
+	Fri, 3 Feb 2012 15:37:38 -0600
+Received: from DBDE71.ent.ti.com (localhost [127.0.0.1])
+	by dbdp20.itg.ti.com (8.13.8/8.13.8) with ESMTP id q13LbbQL015310
+	for <openembedded-core@lists.openembedded.org>;
+	Sat, 4 Feb 2012 03:07:37 +0530 (IST)
+Received: from dbdp31.itg.ti.com (172.24.170.98) by DBDE71.ent.ti.com
+	(172.24.170.149) with Microsoft SMTP Server id 14.1.323.3;
+	Sat, 4 Feb 2012 03:07:37 +0530
+Received: from localhost.localdomain (dbdp20.itg.ti.com [172.24.170.38])	by
+	dbdp31.itg.ti.com (8.13.8/8.13.8) with ESMTP id q13LbWJX028344;
+	Sat, 4 Feb 2012 03:07:36 +0530 (IST)
+From: Chase Maupin <Chase.Maupin@ti.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Fri, 3 Feb 2012 15:37:29 -0600
+Message-ID: <1328305049-18696-2-git-send-email-Chase.Maupin@ti.com>
+X-Mailer: git-send-email 1.7.0.4
+In-Reply-To: <1328305049-18696-1-git-send-email-Chase.Maupin@ti.com>
+References: <1328305049-18696-1-git-send-email-Chase.Maupin@ti.com>
 MIME-Version: 1.0
-In-Reply-To: <4F2ADCF6.4030000@linux.intel.com>
-User-Agent: Mutt/1.5.20 (2009-06-14)
-Subject: Re: [PATCH 1/1] netbase: make netbase recipe MACHINE specific for all targets
+Cc: Chase Maupin <Chase.Maupin@ti.com>
+Subject: [PATCH 1/1] u-boot inc: update inc file for newer u-boot versions
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -47,44 +41,89 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 03 Feb 2012 21:16:02 -0000
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+X-List-Received-Date: Fri, 03 Feb 2012 21:48:00 -0000
+Content-Type: text/plain
 
-On (02/02/12 10:59), Joshua Lock wrote:
-> On 02/02/12 10:54, Koen Kooi wrote:
-> >
-> >Op 2 feb. 2012, om 19:51 heeft Joshua Lock het volgende geschreven:
-> >
-> >>Several BSP's are appending netbase to add MACHINE specific
-> >>networking functionality. Rather than BSP creators having to mark
-> >>netbase MACHINE specific just default to PACKAGE_ARCH = "${MACHINE_ARCH}"
-> >>in netbase.
-> >>
-> >>This shouldn't be a huge hit as netbase just copies files around.
-> >
-> >In the past OE would mark things machine specific if something in SRC_URI was fetched using overrides. So it this patches fixed netbase the 'old' mechanism is broken :(
-> 
-> This patch doesn't fix netbase, I just thought it would be simpler
-> to make this change than ensure all BSP's use appropriate OVERRIDEs
-> in their netbase bbappends - several I've seen don't.
+* Add support for different suffixes found with later u-boot
+  versions which have switched from .bin to .img
+* Allow recipes that include u-boot.inc to also package an
+  SPL if they build one.
+    * Minimum requirement is to set the SPL_BINARY value to add
+      the SPL to the u-boot package as well as into the deploy
+      directory.
 
-hmm MACHINE is automatic override. but I think making it explicit is
-better for readability
-> 
-> Cheers,
-> Joshua
-> -- 
-> Joshua Lock
->         Yocto Project "Johannes factotum"
->         Intel Open Source Technology Centre
-> 
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
+Signed-off-by: Chase Maupin <Chase.Maupin@ti.com>
+---
+ meta/recipes-bsp/u-boot/u-boot.inc |   37 ++++++++++++++++++++++++++++++++---
+ 1 files changed, 33 insertions(+), 4 deletions(-)
 
+diff --git a/meta/recipes-bsp/u-boot/u-boot.inc b/meta/recipes-bsp/u-boot/u-boot.inc
+index 4180345..dcf5463 100644
+--- a/meta/recipes-bsp/u-boot/u-boot.inc
++++ b/meta/recipes-bsp/u-boot/u-boot.inc
+@@ -19,11 +19,22 @@ python () {
+ 		raise bb.parse.SkipPackage("because UBOOT_MACHINE is not set")
+ }
+ 
+-UBOOT_IMAGE ?= "u-boot-${MACHINE}-${PV}-${PR}.bin"
+-UBOOT_BINARY ?= "u-boot.bin"
+-UBOOT_SYMLINK ?= "u-boot-${MACHINE}.bin"
++# Some versions of u-boot use .bin and others use .img.  By default use .bin
++# but enable individual recipes to change this value.
++UBOOT_SUFFIX ?= "bin"
++UBOOT_IMAGE ?= "u-boot-${MACHINE}-${PV}-${PR}.${UBOOT_SUFFIX}"
++UBOOT_BINARY ?= "u-boot.${UBOOT_SUFFIX}"
++UBOOT_SYMLINK ?= "u-boot-${MACHINE}.${UBOOT_SUFFIX}"
+ UBOOT_MAKE_TARGET ?= "all"
+ 
++# Some versions of u-boot build an SPL (Second Program Loader) image that
++# should be packaged along with the u-boot binary as well as placed in the
++# deploy directory.  For those versions they can set the following variables
++# to allow packaging the SPL.
++SPL_BINARY ?= ""
++SPL_IMAGE ?= "${SPL_BINARY}-${PV}-${PR}"
++SPL_SYMLINK ?= "${SPL_BINARY}-${MACHINE}"
++
+ do_compile () {
+ 	unset LDFLAGS
+ 	unset CFLAGS
+@@ -36,15 +47,33 @@ do_install () {
+     install -d ${D}/boot
+     install ${S}/${UBOOT_BINARY} ${D}/boot/${UBOOT_IMAGE}
+     ln -sf ${UBOOT_IMAGE} ${D}/boot/${UBOOT_BINARY}
++
++    if [ "x${SPL_BINARY}" != "x" ]
++    then
++        install ${S}/${SPL_BINARY} ${D}/boot/${SPL_IMAGE}
++        ln -sf ${SPL_IMAGE} ${D}/boot/${SPL_BINARY}
++    fi
+ }
+ 
+ FILES_${PN} = "/boot"
++# no gnu_hash in uboot.bin, by design, so skip QA
++INSANE_SKIP_${PN} = True
+ 
+ do_deploy () {
+-	install ${S}/u-boot.bin ${DEPLOYDIR}/${UBOOT_IMAGE}
++    install -d ${DEPLOYDIR}
++	install ${S}/${UBOOT_BINARY} ${DEPLOYDIR}/${UBOOT_IMAGE}
+ 
+ 	cd ${DEPLOYDIR}
+ 	rm -f ${UBOOT_SYMLINK}
+ 	ln -sf ${UBOOT_IMAGE} ${UBOOT_SYMLINK}
++
++    if [ "x${SPL_BINARY}" != "x" ]
++    then
++        install ${S}/${SPL_BINARY} ${DEPLOYDIR}/${SPL_IMAGE}
++        rm -f ${DEPLOYDIR}/${SPL_BINARY} ${DEPLOYDIR}/${SPL_SYMLINK}
++        ln -sf ${SPL_IMAGE} ${DEPLOYDIR}/${SPL_BINARY}
++        ln -sf ${SPL_IMAGE} ${DEPLOYDIR}/${SPL_SYMLINK}
++    fi
+ }
++
+ addtask deploy before do_build after do_compile
 -- 
--Khem
+1.7.0.4
+
 
 
