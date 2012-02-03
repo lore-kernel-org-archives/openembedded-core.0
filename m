@@ -1,31 +1,20 @@
-Received: from mail-ee0-f47.google.com ([74.125.83.47])
+Received: from mga02.intel.com ([134.134.136.20])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <koen@dominion.thruhere.net>) id 1RtMai-00034S-Rm
+	(envelope-from <dvhart@linux.intel.com>) id 1RtMhH-0003Kd-IM
 	for openembedded-core@lists.openembedded.org;
-	Fri, 03 Feb 2012 18:06:28 +0100
-Received: by eekd41 with SMTP id d41so1026236eek.6
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 03 Feb 2012 08:58:31 -0800 (PST)
-Received: by 10.14.52.7 with SMTP id d7mr2533410eec.80.1328288311277;
-	Fri, 03 Feb 2012 08:58:31 -0800 (PST)
-Received: from [192.168.0.46] (28.254-240-81.adsl-static.isp.belgacom.be.
-	[81.240.254.28])
-	by mx.google.com with ESMTPS id x4sm23796066eeb.4.2012.02.03.08.58.29
-	(version=TLSv1/SSLv3 cipher=OTHER);
-	Fri, 03 Feb 2012 08:58:30 -0800 (PST)
-Mime-Version: 1.0 (Apple Message framework v1251.1)
-From: Koen Kooi <koen@dominion.thruhere.net>
-In-Reply-To: <1328287801.16474.4.camel@ted>
-Date: Fri, 3 Feb 2012 17:58:25 +0100
-Message-Id: <805BB42F-FCF7-48BE-AB53-9DB7D5E99845@dominion.thruhere.net>
-References: <cover.1328139407.git.nitin.a.kamble@intel.com>
-	<1328284640.3895.118.camel@ted>
-	<CAFZPMoZf-x5ff+n-1xFFC4wth=PO=Q6SizVnnWXd-tE_jZZc8Q@mail.gmail.com>
-	<1328287801.16474.4.camel@ted>
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-X-Mailer: Apple Mail (2.1251.1)
-Subject: Re: [patch-v2 0/7] Various recipe upgrades
+	Fri, 03 Feb 2012 18:13:15 +0100
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+	by orsmga101.jf.intel.com with ESMTP; 03 Feb 2012 09:05:17 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.67,352,1309762800"; d="scan'208";a="103611942"
+Received: from unknown (HELO localhost) ([10.255.14.155])
+	by orsmga001.jf.intel.com with ESMTP; 03 Feb 2012 09:05:16 -0800
+From: Darren Hart <dvhart@linux.intel.com>
+To: openembedded-core@lists.openembedded.org, Saul Wold <sgw@linux.intel.com>
+Date: Fri,  3 Feb 2012 09:04:33 -0800
+Message-Id: <cover.1328288631.git.dvhart@linux.intel.com>
+X-Mailer: git-send-email 1.7.6.5
+Subject: [PATCH 0/1] bootimg: Use the same OS files for each boot method
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -40,25 +29,26 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 03 Feb 2012 17:06:28 -0000
-Content-Type: text/plain; charset=us-ascii
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Fri, 03 Feb 2012 17:13:15 -0000
 
+The following changes since commit 41e92923a0b2fe047ecaa9f9ffb564d6069f784f:
 
-Op 3 feb. 2012, om 17:50 heeft Richard Purdie het volgende geschreven:
+  classes/patch: optionally return non-patch sources (2012-02-03 16:51:30 +0000)
 
-> On Fri, 2012-02-03 at 19:30 +0300, Sergey Lapin wrote:
->=20
->> This breaks
->> =
-meta-openembedded/meta-oe/recipes-devtools/gdb/gdb-cross-canadian_7.3.1.bb=
-append
->=20
-> Sorry about that. Koen is aware of the issue now at least.
+are available in the git repository at:
+  git://git.yoctoproject.org/user-contrib/dvhart/oe-core dvhart/bug/1951
+  http://git.yoctoproject.org/cgit.cgi/user-contrib/dvhart/oe-core/log/?h=dvhart/bug/1951
 
-Hotfix pushed, we need to double check after the weekend when we get =
-back to our deskjobs.
+Darren Hart (1):
+  bootimg: Use the same OS files for each boot method
 
+ meta/classes/bootimg.bbclass  |   31 ++++++++++++++++++++++++-------
+ meta/classes/grub-efi.bbclass |   28 +++++++++-------------------
+ meta/classes/syslinux.bbclass |   34 +++++++++++++---------------------
+ 3 files changed, 46 insertions(+), 47 deletions(-)
+
+-- 
+1.7.6.5
 
 
 
