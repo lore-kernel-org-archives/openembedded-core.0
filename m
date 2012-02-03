@@ -1,24 +1,39 @@
-Received: from mga11.intel.com ([192.55.52.93])
+Received: from mga02.intel.com ([134.134.136.20])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <sgw@linux.intel.com>) id 1Rt6VY-0002eM-18
+	(envelope-from <nitin.a.kamble@intel.com>) id 1RtC91-0003gX-6U
 	for openembedded-core@lists.openembedded.org;
-	Fri, 03 Feb 2012 00:56:04 +0100
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-	by fmsmga102.fm.intel.com with ESMTP; 02 Feb 2012 15:48:09 -0800
+	Fri, 03 Feb 2012 06:57:11 +0100
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+	by orsmga101.jf.intel.com with ESMTP; 02 Feb 2012 21:49:13 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="113486102"
-Received: from unknown (HELO swold-mobl.bigsur.com) ([10.255.14.238])
-	by fmsmga001.fm.intel.com with ESMTP; 02 Feb 2012 15:48:08 -0800
-From: Saul Wold <sgw@linux.intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Thu,  2 Feb 2012 15:47:53 -0800
-Message-Id: <cc3a6f625278d8ec9a61be1170823c3ec4302e61.1328226197.git.sgw@linux.intel.com>
-X-Mailer: git-send-email 1.7.6.5
-In-Reply-To: <cover.1328226197.git.sgw@linux.intel.com>
-References: <cover.1328226197.git.sgw@linux.intel.com>
-In-Reply-To: <cover.1328226197.git.sgw@linux.intel.com>
-References: <cover.1328226197.git.sgw@linux.intel.com>
-Subject: [PATCH 14/14] distro_track: Track Updates
+X-IronPort-AV: E=Sophos;i="4.67,351,1309762800"; d="scan'208";a="105772602"
+Received: from orsmsx602.amr.corp.intel.com ([10.22.226.211])
+	by orsmga002.jf.intel.com with ESMTP; 02 Feb 2012 21:49:13 -0800
+Received: from orsmsx101.amr.corp.intel.com (10.22.225.128) by
+	orsmsx602.amr.corp.intel.com (10.22.226.211) with Microsoft SMTP Server
+	(TLS) id 8.2.255.0; Thu, 2 Feb 2012 21:49:12 -0800
+Received: from orsmsx105.amr.corp.intel.com ([169.254.4.3]) by
+	ORSMSX101.amr.corp.intel.com ([169.254.8.42]) with mapi id
+	14.01.0355.002; Thu, 2 Feb 2012 21:49:11 -0800
+From: "Kamble, Nitin A" <nitin.a.kamble@intel.com>
+To: Paul Menzel <paulepanter@users.sourceforge.net>,
+	"openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+Thread-Topic: [OE-core] [patch-v2 1/7] byacc: upggrade from 20111219 to
+	20120115
+Thread-Index: AQHM4TsH2Adt1+Ylaki68rG62dwnC5Ypzg6AgADeezA=
+Date: Fri, 3 Feb 2012 05:49:11 +0000
+Message-ID: <ADD6A3980E8C39419A432FF422031B4C0131FB71@ORSMSX105.amr.corp.intel.com>
+References: <cover.1328139407.git.nitin.a.kamble@intel.com>
+	<6e7973add09749de3b14543fde53791076063657.1328139407.git.nitin.a.kamble@intel.com>
+	<1328171551.3941.6.camel@mattotaupa>
+In-Reply-To: <1328171551.3941.6.camel@mattotaupa>
+Accept-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [10.22.254.139]
+MIME-Version: 1.0
+Subject: Re: [patch-v2 1/7] byacc: upggrade from 20111219 to 20120115
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -33,173 +48,31 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 02 Feb 2012 23:56:04 -0000
+X-List-Received-Date: Fri, 03 Feb 2012 05:57:11 -0000
+Content-Language: en-US
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 
-openssl: Update to 1.0.0g
-openssl: Update to 0.9.8t (gplv2)
-gnutls: Update to 2.12.16
-rxvt-unicode: Update to 9.15
-gnupg: Add gplv2 version 1.4.7
-file: Update to version 5.10
-libidn: Update to 1.24
-libdrm: Update to 2.4.30
-xinit: Update to 1.3.2
-xf86-input-keyboard: Update to 1.6.1
-xf87-input-evdev: 2.6.0
-
-Manual Checks:
-util-linux - NO Update reason
-
-Signed-off-by: Saul Wold <sgw@linux.intel.com>
----
- .../conf/distro/include/distro_tracking_fields.inc |   53 ++++++++++----------
- 1 files changed, 27 insertions(+), 26 deletions(-)
-
-diff --git a/meta/conf/distro/include/distro_tracking_fields.inc b/meta/conf/distro/include/distro_tracking_fields.inc
-index a214a37..1b4e00b 100644
---- a/meta/conf/distro/include/distro_tracking_fields.inc
-+++ b/meta/conf/distro/include/distro_tracking_fields.inc
-@@ -294,9 +294,9 @@ RECIPE_MANUAL_CHECK_DATE_pn-libpng = "Jan 19, 2012"
- RECIPE_MAINTAINER_pn-libpng = "Scott Garman <scott.a.garman@intel.com>"
- 
- RECIPE_STATUS_pn-libidn = "green"
--RECIPE_LATEST_VERSION_pn-libidn = "1.23"
--RECIPE_LATEST_RELEASE_DATE_pn-libidn = "Nov 25, 2010"
--RECIPE_LAST_UPDATE_pn-libidn = "Dec 18, 2011"
-+RECIPE_LATEST_VERSION_pn-libidn = "1.24"
-+RECIPE_LATEST_RELEASE_DATE_pn-libidn = "Jan 10, 2012"
-+RECIPE_LAST_UPDATE_pn-libidn = "Feb 02, 2012"
- RECIPE_INTEL_SECTION_pn-libidn = "base libs"
- RECIPE_TIME_BETWEEN_LAST_TWO_RELEASES_pn-libidn = "3 months"
- RECIPE_COMMENTS_pn-libidn = ""
-@@ -464,9 +464,9 @@ RECIPE_COMMENTS_pn-libgcrypt = ""
- RECIPE_MANUAL_CHECK_DATE_pn-libgcrypt = "Nov 23, 2011"
- 
- RECIPE_STATUS_pn-gnutls = "yellow"   # need explict pre configure
--RECIPE_LATEST_VERSION_pn-gnutls = "2.12.14"
--RECIPE_LATEST_RELEASE_DATE_pn-gnutls = "Nov 08, 2011"
--RECIPE_LAST_UPDATE_pn-gnutls = "Nov 28, 2011"
-+RECIPE_LATEST_VERSION_pn-gnutls = "2.12.16"
-+RECIPE_LATEST_RELEASE_DATE_pn-gnutls = "Jan 06, 2012"
-+RECIPE_LAST_UPDATE_pn-gnutls = "Feb 02, 2012"
- RECIPE_MAINTAINER_pn-gnutls = "Saul Wold <sgw@linux.intel.com>"
- RECIPE_DEPENDENCY_CHECK_pn-gnutls = "done"
- RECIPE_PATCH_pn-gnutls+gnutls-openssl = "unkown"
-@@ -497,12 +497,12 @@ RECIPE_COMMENTS_pn-libtasn1 = ""
- RECIPE_MANUAL_CHECK_DATE_pn-libtasn1 = "Nov 29, 2011"
- 
- RECIPE_STATUS_pn-openssl = "green"
--RECIPE_LATEST_VERSION_pn-openssl = "1.0.0e"
--RECIPE_LATEST_RELEASE_DATE_pn-openssl = "Sep 06, 2010"
--RECIPE_LAST_UPDATE_pn-openssl = "Nov 28, 2011"
-+RECIPE_LATEST_VERSION_pn-openssl = "1.0.1"
-+RECIPE_LATEST_RELEASE_DATE_pn-openssl = "Jan 18, 2012"
-+RECIPE_LAST_UPDATE_pn-openssl = "Feb 02, 2012"
- RECIPE_MAINTAINER_pn-openssl = "Saul Wold <sgw@linux.intel.com>"
- RECIPE_INTEL_SECTION_pn-openssl = "base libs"
--RECIPE_NO_UPDATE_REASON_pn-openssl = "1.0.0e is latest"
-+RECIPE_NO_UPDATE_REASON_pn-openssl = "1.0.1 is beta 1.0.0g is latest"
- 
- RECIPE_STATUS_pn-libnss-mdns = "green"
- DISTRO_PN_ALIAS_pn-libnss-mdns = "Meego=nss-mdns OpenSuSE=nss-mdns Ubuntu=nss-mdns Mandriva=nss_mdns Debian=nss-mdns"
-@@ -1607,9 +1607,9 @@ RECIPE_LATEST_RELEASE_DATE_pn-findutils = "Jun 01, 2009"
- RECIPE_COMMENTS_pn-findutils = ""
- 
- RECIPE_STATUS_pn-file = "green"
--RECIPE_LATEST_VERSION_pn-file = "5.09"
-+RECIPE_LATEST_VERSION_pn-file = "5.15"
- RECIPE_LATEST_RELEASE_DATE_pn-file = "Sep 16, 2011"
--RECIPE_LAST_UPDATE_pn-file = "Jul 12, 2011"
-+RECIPE_LAST_UPDATE_pn-file = "Feb 02, 2012"
- RECIPE_MAINTAINER_pn-file = "Saul Wold <sgw@linux.intel.com>"
- RECIPE_DEPENDENCY_CHECK_pn-file = "done"
- RECIPE_PATCH_pn-file+dump = "some new magic data"
-@@ -1827,7 +1827,7 @@ RECIPE_LAST_UPDATE_pn-util-linux = "Dec 27, 2011"
- RECIPE_MAINTAINER_pn-util-linux = "Saul Wold <sgw@linux.intel.com>"
- RECIPE_INTEL_SECTION_pn-util-linux = "base utils"
- RECIPE_MANUAL_CHECK_DATE_pn-util-linux = "Dec 01, 2011"
--RECIPE_COMMENTS_pn-util-linux = "kernel.org still has this off-line"
-+RECIPE_NO_UPDATE_REASON_pn-uti-linux ="2.21 is still RC1"
- 
- RECIPE_STATUS_pn-usbutils = "green"
- RECIPE_LATEST_VERSION_pn-usbutils = "0.91"
-@@ -3460,9 +3460,9 @@ RECIPE_MAINTAINER_pn-xhost="Saul Wold <sgw@linux.intel.com>"
- DISTRO_PN_ALIAS_pn-xhost = "Ubuntu=x11-xserver-utils Fedora=xorg-x11-server-utils"
- 
- RECIPE_STATUS_pn-xinit="green" # no update needed
--RECIPE_LATEST_VERSION_pn-xinit="1.3.1"
--RECIPE_LATEST_RELEASE_DATE_pn-xinit="Jul 24, 2011"
--RECIPE_LAST_UPDATE_pn-xinit = "Nov 28, 2011"
-+RECIPE_LATEST_VERSION_pn-xinit="1.3.2"
-+RECIPE_LATEST_RELEASE_DATE_pn-xinit="Jan 27, 2012"
-+RECIPE_LAST_UPDATE_pn-xinit = "Feb 02, 2012"
- RECIPE_NO_OF_PATCHES_pn-xinit="0"
- RECIPE_TIME_BETWEEN_LAST_TWO_RELEASES_pn-xinit="4 monthes"
- RECIPE_INTEL_SECTION_pn-xinit="graphic app"
-@@ -3654,12 +3654,12 @@ RECIPE_MAINTAINER_pn-x11-common="Saul Wold <sgw@linux.intel.com>"
- 
- RECIPE_STATUS_pn-xf86-input-keyboard="green" # no update needed
- DISTRO_PN_ALIAS_pn-xf86-input-keyboard = "Meego=xorg-x11-drv-keyboard Fedora=xorg-x11-drv-keyboard Mandriva=x11-driver-input-keyboard Debian=xserver-xorg-input-keyboard"
--RECIPE_LATEST_VERSION_pn-xf86-input-keyboard="1.4.0"
-+RECIPE_LATEST_VERSION_pn-xf86-input-keyboard="1.6.1"
- RECIPE_NO_OF_PATCHES_pn-xf86-input-keyboard="0"
- RECIPE_TIME_BETWEEN_LAST_TWO_RELEASES_pn-xf86-input-keyboard="9 monthes"
--RECIPE_LATEST_RELEASE_DATE_pn-xf86-input-keyboard="Oct 07, 2009"
-+RECIPE_LATEST_RELEASE_DATE_pn-xf86-input-keyboard="Jan 03, 2012"
- RECIPE_INTEL_SECTION_pn-xf86-input-keyboard="graphic core"
--RECIPE_LAST_UPDATE_pn-xf86-input-keyboard = "Jan 18, 2011"
-+RECIPE_LAST_UPDATE_pn-xf86-input-keyboard = "Feb 02, 2012"
- RECIPE_MAINTAINER_pn-xf86-input-keyboard="Saul Wold <sgw@linux.intel.com>"
- 
- RECIPE_STATUS_pn-xf86-input-mouse="green" # no update needed
-@@ -3683,9 +3683,9 @@ RECIPE_LAST_UPDATE_pn-xf86-input-vmmouse = "Nov 12, 2010"
- RECIPE_MAINTAINER_pn-xf86-input-vmmouse="Saul Wold <sgw@linux.intel.com>"
- 
- RECIPE_STATUS_pn-libdrm="green" # no update needed
--RECIPE_LATEST_VERSION_pn-libdrm="2.4.29"
--RECIPE_LATEST_RELEASE_DATE_pn-libdrm="Dec 13, 2011"
--RECIPE_LAST_UPDATE_pn-libdrm = "Dec 18, 2011"
-+RECIPE_LATEST_VERSION_pn-libdrm = "2.4.30"
-+RECIPE_LATEST_RELEASE_DATE_pn-libdrm = "Jan 06, 2012"
-+RECIPE_LAST_UPDATE_pn-libdrm = "Feb 02, 2012"
- RECIPE_NO_OF_PATCHES_pn-libdrm="1"
- RECIPE_TIME_BETWEEN_LAST_TWO_RELEASES_pn-libdrm="1 month"
- RECIPE_INTEL_SECTION_pn-libdrm="graphic core"
-@@ -3713,13 +3713,14 @@ DISTRO_PN_ALIAS_pn-libxfontcache = "Mandriva=libxfontcache Debian=libxfontcache"
- 
- RECIPE_STATUS_pn-xf86-input-evdev="green" # no update needed
- DISTRO_PN_ALIAS_pn-xf86-input-evdev = "Ubuntu=xserver-xorg-input-evdev Mandriva=x11-driver-input-evdev Debian=xserver-xorg-input-evdev Fedora=xorg-x11-drv-evdev Meego=xorg-x11-drv-evdev"
--RECIPE_LATEST_VERSION_pn-xf86-input-evdev="2.5.0"
-+RECIPE_LATEST_VERSION_pn-xf86-input-evdev="2.6.0"
- RECIPE_NO_OF_PATCHES_pn-xf86-input-evdev="0"
- RECIPE_TIME_BETWEEN_LAST_TWO_RELEASES_pn-xf86-input-evdev="1 monthes"
- RECIPE_LATEST_RELEASE_DATE_pn-xf86-input-evdev="Aug 23, 2010"
- RECIPE_INTEL_SECTION_pn-xf86-input-evdev="graphic core"
- RECIPE_LAST_UPDATE_pn-xf86-input-evdev = "Jan 18, 2011"
- RECIPE_MAINTAINER_pn-xf86-input-evdev="Saul Wold <sgw@linux.intel.com>"
-+RECIPE_NO_UPDATE_REASON_pn-xf86-input-evdev = "Do not update to *99* unstable versions"
- 
- RECIPE_STATUS_pn-xf86-video-vmware="green" # no update needed
- DISTRO_PN_ALIAS_pn-xf86-video-vmware = "Debian=xserver-xorg-video-vmware Fedora=xorg-x11-drv-vmware Mandriva=x11-driver-video-vmware Ubuntu=xserver-xorg-video-vmware"
-@@ -6119,13 +6120,13 @@ DISTRO_PN_ALIAS_pn-cdrtools = "OpenSUSE=cdrtools OSPDT"
- 
- RECIPE_STATUS_pn-rxvt-unicode = "green"
- RECIPE_DEPENDENCY_CHECK_pn-rxvt-unicode = "not done"
--RECIPE_LATEST_VERSION_pn-rxvt-unicode = "9.11"
-+RECIPE_LATEST_VERSION_pn-rxvt-unicode = "9.15"
-+RECIPE_LATEST_RELEASE_DATE_pn-rxvt-unicode = "Jan 21, 2012"
-+RECIPE_LAST_UPDATE_pn-rxvt-unicode = "Fev 02, 2012"
- RECIPE_NO_UPDATE_REASON_pn-rxvt-unicode = ""
- RECIPE_NO_OF_PATCHES_pn-rxvt-unicode = "1"
--RECIPE_LATEST_RELEASE_DATE_pn-rxvt-unicode = "May 02, 2011"
- RECIPE_TIME_BETWEEN_LAST_TWO_RELEASES_pn-rxvt-unicode = ""
- RECIPE_COMMENTS_pn-rxvt-unicode = ""
--RECIPE_LAST_UPDATE_pn-rxvt-unicode = "May 25, 2011"
- RECIPE_MAINTAINER_pn-rxvt-unicode = "Saul Wold <sgw@linux.intel.com>"
- 
- RECIPE_STATUS_pn-alsa-tools = "green"
--- 
-1.7.6.5
-
+VGhhbmtzIGZvciBjYXRjaGluZyB0aGUgdHlwby4gSSBoYXZlIGNvcnJlY3RlZCBpdCBpbiB0aGUg
+YnJhbmNoLg0KTml0aW4NCg0KDQo+IC0tLS0tT3JpZ2luYWwgTWVzc2FnZS0tLS0tDQo+IEZyb206
+IFBhdWwgTWVuemVsIFttYWlsdG86cGF1bGVwYW50ZXJAdXNlcnMuc291cmNlZm9yZ2UubmV0XQ0K
+PiBTZW50OiBUaHVyc2RheSwgRmVicnVhcnkgMDIsIDIwMTIgMTI6MzMgQU0NCj4gVG86IG9wZW5l
+bWJlZGRlZC1jb3JlQGxpc3RzLm9wZW5lbWJlZGRlZC5vcmcNCj4gQ2M6IEthbWJsZSwgTml0aW4g
+QQ0KPiBTdWJqZWN0OiBSZTogW09FLWNvcmVdIFtwYXRjaC12MiAxLzddIGJ5YWNjOiB1cGdncmFk
+ZSBmcm9tIDIwMTExMjE5IHRvDQo+IDIwMTIwMTE1DQo+IA0KPiBEZWFyIE5pdGluLA0KPiANCj4g
+DQo+IEFtIE1pdHR3b2NoLCBkZW4gMDEuMDIuMjAxMiwgMTU6NDAgLTA4MDAgc2NocmllYg0KPiBu
+aXRpbi5hLmthbWJsZUBpbnRlbC5jb206DQo+ID4gRnJvbTogTml0aW4gQSBLYW1ibGUgPG5pdGlu
+LmEua2FtYmxlQGludGVsLmNvbT4NCj4gDQo+IHRoZXJlIGlzIGEgdHlwbyBpbiB0aGUgc3VtbWFy
+eS4gUGxlYXNlIGZpeCDCu3VwZ3JhZGXCqyBpbiB5b3VyIGJyYW5jaC4NCj4gVGhlcmUgaXMgbm8g
+bmVlZCB0byByZXNlbmQgdGhlIHBhdGNoIGl0Lg0KPiANCj4gPiB1cGRhdGUgbWQ1c3VtIGZvciBs
+aWNlbnNlIGFzIHRoZSBjb3B5cmlnaHQgeWVhcnMgYXJlIHVwZGF0ZWQgaW4gdGhlDQo+ID4gZmls
+ZQ0KPiA+DQo+ID4gU2lnbmVkLW9mZi1ieTogTml0aW4gQSBLYW1ibGUgPG5pdGluLmEua2FtYmxl
+QGludGVsLmNvbT4NCj4gPiAtLS0NCj4gPiAgLi4uL2J5YWNjL3tieWFjY18yMDExMTIxOS5iYiA9
+PiBieWFjY18yMDEyMDExNS5iYn0gfCAgICA2ICsrKy0tLQ0KPiA+ICAxIGZpbGVzIGNoYW5nZWQs
+IDMgaW5zZXJ0aW9ucygrKSwgMyBkZWxldGlvbnMoLSkgIHJlbmFtZQ0KPiA+IG1ldGEvcmVjaXBl
+cy1leHRlbmRlZC9ieWFjYy97YnlhY2NfMjAxMTEyMTkuYmIgPT4gYnlhY2NfMjAxMjAxMTUuYmJ9
+DQo+ID4gKDU5JSkNCj4gDQo+IFvigKZdDQo+IA0KPiBSZXZpZXdlZC1ieTogUGF1bCBNZW56ZWwg
+PHBhdWxlcGFudGVyQHVzZXJzLnNvdXJjZWZvcmdlLm5ldD4NCj4gDQo+IA0KPiBUaGFua3MsDQo+
+IA0KPiBQYXVsDQo=
 
 
