@@ -1,32 +1,36 @@
 Received: from mail-ey0-f175.google.com ([209.85.215.175])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <tworaz666@gmail.com>) id 1RtSmP-0003lS-FS
+	(envelope-from <tworaz666@gmail.com>) id 1RtT81-0004dh-3u
 	for openembedded-core@lists.openembedded.org;
-	Sat, 04 Feb 2012 00:42:57 +0100
-Received: by mail-ey0-f175.google.com with SMTP id l10so912733eaa.6
+	Sat, 04 Feb 2012 01:05:17 +0100
+Received: by eaal10 with SMTP id l10so916414eaa.6
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 03 Feb 2012 15:35:01 -0800 (PST)
+	Fri, 03 Feb 2012 15:57:19 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
-	h=from:to:cc:subject:date:message-id:x-mailer:in-reply-to:references;
-	bh=9A6r3t1t51JHgvpbA889m25z9bNpx0z6t/bYEfcZJGQ=;
-	b=ruFyUe4i3JzG6dSXwGFq89NjQLaFV6obYeg8E/y1sZv5NCM7k0IvDa1MQBU0MgZ/Uc
-	0cLm/EI56k6q6gwern0nzW1NghwneQnZTPsPDd7v97esjdww3uUhNg5HCLtclpZog6ER
-	kJb7BpLiVST0mju792srT0J0NFLt6kmR4khO0=
-Received: by 10.213.108.73 with SMTP id e9mr24260ebp.27.1328312101865;
-	Fri, 03 Feb 2012 15:35:01 -0800 (PST)
-Received: from localhost.localdomain (89-77-50-243.dynamic.chello.pl.
-	[89.77.50.243])
-	by mx.google.com with ESMTPS id n56sm27553559eeh.6.2012.02.03.15.35.01
-	(version=TLSv1/SSLv3 cipher=OTHER);
-	Fri, 03 Feb 2012 15:35:01 -0800 (PST)
+	h=message-id:date:from:user-agent:mime-version:to:cc:subject
+	:references:in-reply-to:content-type:content-transfer-encoding;
+	bh=QOuRjK3EAEHaR14HeqpbD9py2JaASRNng4KRDJXg5Rk=;
+	b=QPiSnOhCeJcRITEZ67F8Po9l7uPE0j2hdO1WoP+/p8J4zR05dLTfbAB5ffXyau/QtK
+	AgXx99Z8vIBkm4i7D6hNQKZeo9KLHQjwAO43ftzgaKJDNpigHlMEVVcxyDnuBjQui6+C
+	vf06iWFxo4d9hjRpM1rwyZnH1CtxpGbtUH6HE=
+Received: by 10.213.29.70 with SMTP id p6mr1515482ebc.78.1328313438982;
+	Fri, 03 Feb 2012 15:57:18 -0800 (PST)
+Received: from [192.168.0.10] (89-77-50-243.dynamic.chello.pl. [89.77.50.243])
+	by mx.google.com with ESMTPS id
+	a58sm27722389eeb.8.2012.02.03.15.57.16 (version=SSLv3 cipher=OTHER);
+	Fri, 03 Feb 2012 15:57:17 -0800 (PST)
+Message-ID: <4F2C73E3.2070708@gmail.com>
+Date: Sat, 04 Feb 2012 00:55:15 +0100
 From: Peter Tworek <tworaz666@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Date: Sat,  4 Feb 2012 00:32:51 +0100
-Message-Id: <1328311971-2340-2-git-send-email-tworaz666@gmail.com>
-X-Mailer: git-send-email 1.7.3.4
-In-Reply-To: <1328311971-2340-1-git-send-email-tworaz666@gmail.com>
-References: <1328311971-2340-1-git-send-email-tworaz666@gmail.com>
-Subject: [PATCH 2/2] webkit-gtk: Make webgl support configurable via DISTRO_FEATURES.
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:9.0) Gecko/20120112 Thunderbird/9.0
+MIME-Version: 1.0
+To: Paul Menzel <paulepanter@users.sourceforge.net>
+References: <1328214086-6824-1-git-send-email-tworaz666@gmail.com>
+	<1328291196.4220.3.camel@mattotaupa>
+In-Reply-To: <1328291196.4220.3.camel@mattotaupa>
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH] busybox: Add flock utility to default configuration.
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -41,48 +45,52 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 03 Feb 2012 23:42:57 -0000
+X-List-Received-Date: Sat, 04 Feb 2012 00:05:17 -0000
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 
-* Add missing dependency on virtual/libgl.
-* Make webgl configurable via DISTRO_FEATURES="opengl".
-* Run tested on netbook pro.
+On 02/03/2012 06:46 PM, Paul Menzel wrote:
+> Am Donnerstag, den 02.02.2012, 21:21 +0100 schrieb Peter Tworek:
+>> Flock is required by by pm-utils package to function properly
+> One »by« too much.
+Fixed in v2, thanks.
+>
+>> (/usr/lib/pm-utils/functions). It's shipped in both busybox and
+>> util-linux. Both versions work fine with pm-utils. Enabling it
+>> in busybox seems like simpliest solution for the problem.
+> simplest
+Thanks, fixed in v2.
+>
+>> Signed-off-by: Peter Tworek<tworaz666@gmail.com>
+>> ---
+>>   meta/recipes-core/busybox/busybox-1.19.3/defconfig |    2 +-
+>>   1 files changed, 1 insertions(+), 1 deletions(-)
+>>
+>> diff --git a/meta/recipes-core/busybox/busybox-1.19.3/defconfig b/meta/recipes-core/busybox/busybox-1.19.3/defconfig
+>> index b474ad4..fa9c078 100644
+>> --- a/meta/recipes-core/busybox/busybox-1.19.3/defconfig
+>> +++ b/meta/recipes-core/busybox/busybox-1.19.3/defconfig
+>> @@ -540,7 +540,7 @@ CONFIG_FEATURE_FDISK_WRITABLE=y
+>>   # CONFIG_FEATURE_GPT_LABEL is not set
+>>   # CONFIG_FEATURE_FDISK_ADVANCED is not set
+>>   # CONFIG_FINDFS is not set
+>> -# CONFIG_FLOCK is not set
+>> +CONFIG_FLOCK=y
+>>   # CONFIG_FREERAMDISK is not set
+>>   CONFIG_FSCK_MINIX=y
+>>   # CONFIG_MKFS_EXT2 is not set
+> People are always interested in the size changes of the package when
+> such programs are added to the default configuration. Do you have such
+> numbers?
+Added some data to v2. On armv5t it makes busybox binary larger by ~2.8k
 
-Signed-off-by: Peter Tworek <tworaz666@gmail.com>
-Reviewed-by: Paul Menzel <paulepanter@users.sourceforge.net>
----
- meta/recipes-sato/webkit/webkit-gtk_svn.bb |    4 +++-
- 1 files changed, 3 insertions(+), 1 deletions(-)
-
-diff --git a/meta/recipes-sato/webkit/webkit-gtk_svn.bb b/meta/recipes-sato/webkit/webkit-gtk_svn.bb
-index 92ceb50..2d9ec80 100644
---- a/meta/recipes-sato/webkit/webkit-gtk_svn.bb
-+++ b/meta/recipes-sato/webkit/webkit-gtk_svn.bb
-@@ -8,13 +8,14 @@ LIC_FILES_CHKSUM = "file://Source/WebCore/rendering/RenderApplet.h;endline=22;md
-                     file://Source/JavaScriptCore/parser/Parser.h;endline=23;md5=2f3cff0ad0a9c486da5a376928973a90"
- 
- DEPENDS = "zlib enchant gnome-keyring libsoup-2.4 curl icu libxml2 cairo libxslt libxt libidn gnutls gtk+ gstreamer gst-plugins-base flex-native gperf-native perl-native-runtime sqlite3"
-+DEPENDS += " ${@base_contains('DISTRO_FEATURES', 'opengl', 'virtual/libgl', '', d)}"
- DEPENDS_darwin8 = "curl icu libxml2 cairo libxslt libidn gnutls gtk+ gstreamer flex-native gperf-native perl-native-runtime sqlite3"
- 
- SRCREV_FORMAT = "source"
- 
- SRCREV = "101488"
- PV = "1.7.2+svnr${SRCPV}"
--PR = "r0"
-+PR = "r1"
- 
- SRC_URI = "\
-   svn://svn.webkit.org/repository/webkit/trunk/;module=Source;proto=http;name=source \
-@@ -41,6 +42,7 @@ EXTRA_OECONF = "\
-                 --enable-image-resizer \
-                 --enable-link-prefetch \
-                 --with-gtk=2.0 \
-+                ${@base_contains('DISTRO_FEATURES', 'opengl', '--enable-webgl', '--disable-webgl', d)} \
-                 UNICODE_CFLAGS=-D_REENTRANT \
-                "
- 
--- 
-1.7.3.4
+>
+> Reviewed-by: Paul Menzel<paulepanter@users.sourceforge.net>
+>
+>
+> Thanks,
+>
+> Paul
 
 
 
