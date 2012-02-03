@@ -1,33 +1,31 @@
 Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
 	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
 	(envelope-from <richard.purdie@linuxfoundation.org>)
-	id 1RtLqL-0001T7-9X for openembedded-core@lists.openembedded.org;
-	Fri, 03 Feb 2012 17:18:33 +0100
+	id 1RtLwo-0001an-Gr for openembedded-core@lists.openembedded.org;
+	Fri, 03 Feb 2012 17:25:14 +0100
 Received: from localhost (localhost [127.0.0.1])
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q13GAZaW022070
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 3 Feb 2012 16:10:35 GMT
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q13GH8Fj022171;
+	Fri, 3 Feb 2012 16:17:08 GMT
 Received: from tim.rpsys.net ([127.0.0.1])
 	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
 	port 10024) with LMTP
-	id 21253-09 for <openembedded-core@lists.openembedded.org>;
-	Fri,  3 Feb 2012 16:10:32 +0000 (GMT)
+	id 21673-06; Fri,  3 Feb 2012 16:17:02 +0000 (GMT)
 Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q13GAToF022064
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO)
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 3 Feb 2012 16:10:30 GMT
-Message-ID: <1328285435.3895.119.camel@ted>
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q13GGxmG022165
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO);
+	Fri, 3 Feb 2012 16:17:00 GMT
+Message-ID: <1328285825.3895.121.camel@ted>
 From: Richard Purdie <richard.purdie@linuxfoundation.org>
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Date: Fri, 03 Feb 2012 16:10:35 +0000
-In-Reply-To: <cover.1328226197.git.sgw@linux.intel.com>
-References: <cover.1328226197.git.sgw@linux.intel.com>
+Date: Fri, 03 Feb 2012 16:17:05 +0000
+In-Reply-To: <cover.1327684024.git.chris_larson@mentor.com>
+References: <cover.1327684024.git.chris_larson@mentor.com>
 X-Mailer: Evolution 3.2.2- 
 Mime-Version: 1.0
 X-Virus-Scanned: amavisd-new at rpsys.net
-Subject: Re: [PATCH 00/14] Self-Hosted Fixes and Package Updates
+Cc: Christopher Larson <chris_larson@mentor.com>
+Subject: Re: [PATCH 00/10] external-csl-toolchain fixes and improvements
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -42,47 +40,51 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 03 Feb 2012 16:18:33 -0000
+X-List-Received-Date: Fri, 03 Feb 2012 16:25:14 -0000
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 
-On Thu, 2012-02-02 at 15:47 -0800, Saul Wold wrote:
-> Richard,
+On Fri, 2012-01-27 at 11:13 -0600, Christopher Larson wrote:
+> From: Christopher Larson <chris_larson@mentor.com>
 > 
-> This is a patch of updates and self-host-image fixes.
-> I also added the gnupg version that is gplv2 to go along
-> with the libzypp changes from Steve.
+> - Fixes the external-csl-toolchain and corresponding tcmode to be compatible
+>   with current metadata (e.g. uses current providers), and ensures it works again
+> - Kills the arch and version specific bits, making it work fine with a number
+>   of different versions of the CodeSourcery arm, mips, ppc, and ia32 toolchains
+> - Makes the packaging match up with the packaging of the internal toolchain by
+>   leveraging the eglibc packaging .inc and ensuring our other packages are
+>   named correctly
+> - Extracts versioning information for both the recipe and emitted packages
+>   from the external toolchain at ConfigParsed time. This code is not pretty,
+>   largely kept as is from the Mentor internal external toolchain, but it does
+>   work. A future commit or commits will clean that up.
 > 
-> Sau!
+> I've tested with with the fall 2010, spring 2011, and fall 2011 releases, for
+> the qemux86, qemuarm, qemumips, and qemuppc machines. I used buildhistory to
+> compare the packages and image content between internal and external, ensuring
+> that they match up with almost no differences.
 > 
-> The following changes since commit 70e1226e8c10bf07d6c7b1e13d745ad603f2ec73:
+> The following changes since commit fba0459da7f274ae284d36b7fdbf2f9d10a52610:
 > 
->   meta-yocto/local.conf.sample.extended: add LICENSE_FLAGS_WHITELIST section (2012-02-02 22:04:54 +0000)
+>   distro_tracking_fields: fix the typos in the field of maintainer. (2012-01-27 09:52:00 +0000)
 > 
 > are available in the git repository at:
->   git://git.openembedded.org/openembedded-core-contrib sgw/updates
->   http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=sgw/updates
+>   git://github.com/kergoth/oe-core external-toolchain
 > 
-> Saul Wold (14):
->   task-self-hosted: add disk partitioning tools
->   task-self-hosted: add python-pkgutil since it's required
->   self-hosted-image: add package management for correct installation
->   openssl: Update to 1.0.0g
->   openssl: Update to 0.9.8t (gplv2)
->   gnutls: Update to 2.12.16
->   rxvt-unicode: Update to 9.15
->   gnupg: Add gplv2 version 1.4.7
->   file: Update to version 5.10
->   libidn: Update to 1.24
->   libdrm: Update to 2.4.30
->   xinit: Update to 1.3.2
->   xf86-input-keyboard: Update to 1.6.1
->   distro_track: Track Updates
+> Christopher Larson (10):
+>       libc-package: fix typo in LOCALETREESRC default value
+>       eglibc-package.inc: don't include debug files in -pic
+>       binutils: fixes for build with an external csl toolchain
+>       external-csl-toolchain: fix critical PATH manipulation bug
+>       external-csl-toolchain: fixes for metadata changes
+>       external-csl-toolchain: avoid the hardcoded version/prefix
+>       external-csl-toolchain: support mips/ppc/arm
+>       external-csl-toolchain: support ia32
+>       external-csl-toolchain: leverage eglibc's packaging for more granular output
+>       external-csl-toolchain: extract version info from the toolchain
 
-Merged to master, thanks.
-
-We need to look into the input-keyboard but that doesn't invalidate the
-update.
+Merged to master. Thanks for these, good to see those recipes fulfilling
+their full potential :)
 
 Cheers,
 
