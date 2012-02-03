@@ -1,31 +1,27 @@
-Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
-	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <richard.purdie@linuxfoundation.org>)
-	id 1RtNaN-0004wD-3f for openembedded-core@lists.openembedded.org;
-	Fri, 03 Feb 2012 19:10:11 +0100
-Received: from localhost (localhost [127.0.0.1])
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q13GpqYk022691;
-	Fri, 3 Feb 2012 16:51:52 GMT
-Received: from tim.rpsys.net ([127.0.0.1])
-	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
-	port 10024) with LMTP
-	id 22119-08; Fri,  3 Feb 2012 16:51:47 +0000 (GMT)
-Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q13GpidA022684
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO);
-	Fri, 3 Feb 2012 16:51:45 GMT
-Message-ID: <1328287910.16474.5.camel@ted>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Bruce Ashfield <bruce.ashfield@windriver.com>
-Date: Fri, 03 Feb 2012 16:51:50 +0000
-In-Reply-To: <1328122541-27434-2-git-send-email-bruce.ashfield@windriver.com>
-References: <1328122541-27434-1-git-send-email-bruce.ashfield@windriver.com>
-	<1328122541-27434-2-git-send-email-bruce.ashfield@windriver.com>
-X-Mailer: Evolution 3.2.2- 
-Mime-Version: 1.0
-X-Virus-Scanned: amavisd-new at rpsys.net
-Cc: chris_larson@mentor.com, openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH] classes/patch: optionally return non-patch sources
+Received: from mga14.intel.com ([143.182.124.37])
+	by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <sgw@linux.intel.com>) id 1RtNsY-0005Fo-U0
+	for openembedded-core@lists.openembedded.org;
+	Fri, 03 Feb 2012 19:28:59 +0100
+Received: from azsmga001.ch.intel.com ([10.2.17.19])
+	by azsmga102.ch.intel.com with ESMTP; 03 Feb 2012 10:21:00 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="102982436"
+Received: from unknown (HELO [10.255.14.238]) ([10.255.14.238])
+	by azsmga001.ch.intel.com with ESMTP; 03 Feb 2012 10:21:00 -0800
+Message-ID: <4F2C258B.40603@linux.intel.com>
+Date: Fri, 03 Feb 2012 10:20:59 -0800
+From: Saul Wold <sgw@linux.intel.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:9.0) Gecko/20111222 Thunderbird/9.0
+MIME-Version: 1.0
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+References: <4EB9DF31.7070904@intel.com>
+	<19F0FAB3-A37C-4CB4-8A3D-771878983898@dominion.thruhere.net>
+In-Reply-To: <19F0FAB3-A37C-4CB4-8A3D-771878983898@dominion.thruhere.net>
+Cc: Koen Kooi <koen@dominion.thruhere.net>
+Subject: Re: openssl 1.0?
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -40,34 +36,39 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 03 Feb 2012 18:10:11 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Fri, 03 Feb 2012 18:28:59 -0000
+Content-Type: text/plain; charset=ISO-8859-1; format=flowed
 Content-Transfer-Encoding: 7bit
 
-On Wed, 2012-02-01 at 13:55 -0500, Bruce Ashfield wrote:
-> commit:
-> 
->   patch.bbclass: abstract out logic that determines patches to apply
-> 
-> gives the ability for other clases to emit series files for use outside
-> of a build system, or even within the build system. There are sometimes
-> elements on the SRC_URI that while not directly applicable to patching,
-> can be related to patching the package. For example, the yocto kernel
-> class would like to know about these other source items on the SRC_URI
-> to locate out of tree kernel features.
-> 
-> This change keeps the default behaviour of returning patches, but adds the
-> ability to request that non-patch results be returned.  Additional filtering
-> within the non-patch category, is left up to the caller of the routine.
-> 
-> Signed-off-by: Bruce Ashfield <bruce.ashfield@windriver.com>
-> ---
->  meta/classes/patch.bbclass |    9 ++++++++-
->  1 files changed, 8 insertions(+), 1 deletions(-)
+On 11/09/2011 01:28 AM, Koen Kooi wrote:
+>
+> Op 9 nov. 2011, om 03:02 heeft Scott Garman het volgende geschreven:
+>
+>> Hello,
+>>
+>> I wanted to get some feedback from the community about OpenSSL 1.0. We currently only support 0.9.8 in oe-core. Specifically: should we add openssl 1.0 to oe-core, and should the rest of our recipes build against it by default?
+>
+> The openssl in meta-oe is working fine, just keep in mind that the SOVERSION changed, so you need a PR bump for everything that links against openssl when switching.
+>
+About 2 months have gone by with OE-core containing OpenSSL 1.0, can we 
+deprecate the 0.9.8 version at this point?
 
-Merged to master, thanks.
+If people still need 0.9.8, we can move it to meta-oe.
 
-Richard
+I will submit an RFC Patch later today to remove 0.9.8 from OE-core.
 
+Sau!
+
+
+> regards,
+>
+> Koen
+>
+>
+>
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
 
 
