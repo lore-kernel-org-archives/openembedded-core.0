@@ -1,22 +1,23 @@
 Received: from mail.gw90.de ([188.40.100.199])
 	by linuxtogo.org with esmtp (Exim 4.72)
 	(envelope-from <paulepanter@users.sourceforge.net>)
-	id 1RtNLe-00047E-3R for openembedded-core@lists.openembedded.org;
-	Fri, 03 Feb 2012 18:54:58 +0100
+	id 1RtNVS-0004jv-9b for openembedded-core@lists.openembedded.org;
+	Fri, 03 Feb 2012 19:05:06 +0100
 Received: from f053033232.adsl.alicedsl.de ([78.53.33.232]
 	helo=[192.168.178.43])
 	by mail.gw90.de with esmtpsa (TLS1.0:RSA_AES_256_CBC_SHA1:32)
 	(Exim 4.69) (envelope-from <paulepanter@users.sourceforge.net>)
-	id 1RtNE8-00015W-QU; Fri, 03 Feb 2012 17:47:13 +0000
-Message-ID: <1328291196.4220.3.camel@mattotaupa>
+	id 1RtNNx-00016g-I1 for openembedded-core@lists.openembedded.org;
+	Fri, 03 Feb 2012 17:57:21 +0000
+Message-ID: <1328291829.4220.12.camel@mattotaupa>
 From: Paul Menzel <paulepanter@users.sourceforge.net>
 To: openembedded-core@lists.openembedded.org
-Date: Fri, 03 Feb 2012 18:46:36 +0100
-In-Reply-To: <1328214086-6824-1-git-send-email-tworaz666@gmail.com>
-References: <1328214086-6824-1-git-send-email-tworaz666@gmail.com>
+Date: Fri, 03 Feb 2012 18:57:09 +0100
+In-Reply-To: <1328214071-6782-1-git-send-email-tworaz666@gmail.com>
+References: <1328214071-6782-1-git-send-email-tworaz666@gmail.com>
 X-Mailer: Evolution 3.2.2-1 
 Mime-Version: 1.0
-Subject: Re: [PATCH] busybox: Add flock utility to default configuration.
+Subject: Re: [PATCH] webkit-gtk: Make it webgl support configurable via DISTRO_FEATURES.
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -31,50 +32,80 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 03 Feb 2012 17:54:58 -0000
-X-Groupsio-MsgNum: 17002
+X-List-Received-Date: Fri, 03 Feb 2012 18:05:06 -0000
+X-Groupsio-MsgNum: 17003
 Content-Type: multipart/signed; micalg="pgp-sha1";
 	protocol="application/pgp-signature"; 
-	boundary="=-ydIoWMKrlw2NabPBREsL"
+	boundary="=-B8NuOE3xrEVVOBd8QRTX"
 
---=-ydIoWMKrlw2NabPBREsL
+--=-B8NuOE3xrEVVOBd8QRTX
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
 Am Donnerstag, den 02.02.2012, 21:21 +0100 schrieb Peter Tworek:
-> Flock is required by by pm-utils package to function properly
+> * Add missing dependancy on virtual/libgl
 
-One =C2=BBby=C2=AB too much.
+depend*e*ncy and it*s* in the summary.
 
-> (/usr/lib/pm-utils/functions). It's shipped in both busybox and
-> util-linux. Both versions work fine with pm-utils. Enabling it
-> in busybox seems like simpliest solution for the problem.
+> * Make webgl configurable via DISTRO_FEATURES=3D"opengl"
+> * Fix wrong resource path for error.html file
 
-simplest
+A separate patch for that would have been nice next time.
 
 > Signed-off-by: Peter Tworek <tworaz666@gmail.com>
 > ---
->  meta/recipes-core/busybox/busybox-1.19.3/defconfig |    2 +-
->  1 files changed, 1 insertions(+), 1 deletions(-)
+>  meta/recipes-sato/webkit/webkit-gtk_svn.bb |    6 ++++--
+>  1 files changed, 4 insertions(+), 2 deletions(-)
 >=20
-> diff --git a/meta/recipes-core/busybox/busybox-1.19.3/defconfig b/meta/re=
-cipes-core/busybox/busybox-1.19.3/defconfig
-> index b474ad4..fa9c078 100644
-> --- a/meta/recipes-core/busybox/busybox-1.19.3/defconfig
-> +++ b/meta/recipes-core/busybox/busybox-1.19.3/defconfig
-> @@ -540,7 +540,7 @@ CONFIG_FEATURE_FDISK_WRITABLE=3Dy
->  # CONFIG_FEATURE_GPT_LABEL is not set
->  # CONFIG_FEATURE_FDISK_ADVANCED is not set
->  # CONFIG_FINDFS is not set
-> -# CONFIG_FLOCK is not set
-> +CONFIG_FLOCK=3Dy
->  # CONFIG_FREERAMDISK is not set
->  CONFIG_FSCK_MINIX=3Dy
->  # CONFIG_MKFS_EXT2 is not set
+> diff --git a/meta/recipes-sato/webkit/webkit-gtk_svn.bb b/meta/recipes-sa=
+to/webkit/webkit-gtk_svn.bb
+> index 9652953..2d9ec80 100644
+> --- a/meta/recipes-sato/webkit/webkit-gtk_svn.bb
+> +++ b/meta/recipes-sato/webkit/webkit-gtk_svn.bb
+> @@ -8,13 +8,14 @@ LIC_FILES_CHKSUM =3D "file://Source/WebCore/rendering/R=
+enderApplet.h;endline=3D22;md
+>                      file://Source/JavaScriptCore/parser/Parser.h;endline=
+=3D23;md5=3D2f3cff0ad0a9c486da5a376928973a90"
+> =20
+>  DEPENDS =3D "zlib enchant gnome-keyring libsoup-2.4 curl icu libxml2 cai=
+ro libxslt libxt libidn gnutls gtk+ gstreamer gst-plugins-base flex-native =
+gperf-native perl-native-runtime sqlite3"
 
-People are always interested in the size changes of the package when
-such programs are added to the default configuration. Do you have such
-numbers?
+(My mailer made a line break exactly after gtk so the + got on the next
+line and I wondered what kind of diff that is.)
+
+> +DEPENDS +=3D " ${@base_contains('DISTRO_FEATURES', 'opengl', 'virtual/li=
+bgl', '', d)}"
+>  DEPENDS_darwin8 =3D "curl icu libxml2 cairo libxslt libidn gnutls gtk+ g=
+streamer flex-native gperf-native perl-native-runtime sqlite3"
+> =20
+>  SRCREV_FORMAT =3D "source"
+> =20
+>  SRCREV =3D "101488"
+>  PV =3D "1.7.2+svnr${SRCPV}"
+> -PR =3D "r0"
+> +PR =3D "r1"
+> =20
+>  SRC_URI =3D "\
+>    svn://svn.webkit.org/repository/webkit/trunk/;module=3DSource;proto=3D=
+http;name=3Dsource \
+> @@ -41,6 +42,7 @@ EXTRA_OECONF =3D "\
+>                  --enable-image-resizer \
+>                  --enable-link-prefetch \
+>                  --with-gtk=3D2.0 \
+> +                ${@base_contains('DISTRO_FEATURES', 'opengl', '--enable-=
+webgl', '--disable-webgl', d)} \
+>                  UNICODE_CFLAGS=3D-D_REENTRANT \
+>                 "
+> =20
+> @@ -81,7 +83,7 @@ FILES_${PN}launcher =3D "${bindir}/GtkLauncher"
+>  FILES_${PN}launcher-dbg =3D "${bindir}/.debug/GtkLauncher"
+>  FILES_libjavascriptcore =3D "${libdir}/libjavascriptcoregtk-1.0.so.*"
+>  FILES_${PN}-webinspector =3D "${datadir}/webkitgtk-*/webinspector/"
+> -FILES_${PN} +=3D "${datadir}/webkit-*/resources/error.html \
+> +FILES_${PN} +=3D "${datadir}/webkitgtk-*/resources/error.html \
+>                  ${datadir}/webkitgtk-*/images \
+>                  ${datadir}/glib-2.0/schemas"
 
 Reviewed-by: Paul Menzel <paulepanter@users.sourceforge.net>
 
@@ -83,7 +114,7 @@ Thanks,
 
 Paul
 
---=-ydIoWMKrlw2NabPBREsL
+--=-B8NuOE3xrEVVOBd8QRTX
 Content-Type: application/pgp-signature; name="signature.asc"
 Content-Description: This is a digitally signed message part
 Content-Transfer-Encoding: 7bit
@@ -91,9 +122,9 @@ Content-Transfer-Encoding: 7bit
 -----BEGIN PGP SIGNATURE-----
 Version: GnuPG v1.4.11 (GNU/Linux)
 
-iEYEABECAAYFAk8sHXwACgkQPX1aK2wOHVh60gCgiUJKT3Wc12BGeWBeMY/iUT80
-Ys8An1s93EbVsuaE6qqxpqxTPoshkRL3
-=TKQJ
+iEUEABECAAYFAk8sH/UACgkQPX1aK2wOHVh/LQCeM5fbj6sYO1gNybitKtxNdkox
+DdEAlA5laMqj9jX+yHdqATjDTM9OmWQ=
+=F0T+
 -----END PGP SIGNATURE-----
 
---=-ydIoWMKrlw2NabPBREsL--
+--=-B8NuOE3xrEVVOBd8QRTX--
