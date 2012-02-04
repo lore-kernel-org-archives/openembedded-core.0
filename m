@@ -1,33 +1,32 @@
-Received: from mail-gy0-f175.google.com ([209.85.160.175])
+Received: from mail-ww0-f43.google.com ([74.125.82.43])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <martin.jansa@gmail.com>) id 1RtayN-0003CF-17
+	(envelope-from <koen@dominion.thruhere.net>) id 1RtiHT-0002oB-U4
 	for openembedded-core@lists.openembedded.org;
-	Sat, 04 Feb 2012 09:27:51 +0100
-Received: by ghbf19 with SMTP id f19so2000482ghb.6
+	Sat, 04 Feb 2012 17:16:03 +0100
+Received: by wgbdr13 with SMTP id dr13so4372046wgb.24
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 04 Feb 2012 00:19:52 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
-	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
-	:content-type; bh=KqDA48aXjggcoxhsZy/1lbhOhiocC7H+HY5CqFdRJUY=;
-	b=GAGYRFASncRIp1YB0fDE5vNcBCpVi+9Wvee74hDE9KhNwykDnKsp2jbYsCFO7bpdXp
-	xVUJThmmP0xhkoQwy0yxfjcyfzR5kN3Ea+jT+MlYuEImTGe+PVszxcbg9IAH5ncXfd+Z
-	42T5NZXrU9VMgfs5pKJEZYFXfYxLDnAWDY8rI=
-MIME-Version: 1.0
-Received: by 10.236.197.103 with SMTP id s67mr15929052yhn.5.1328343592126;
-	Sat, 04 Feb 2012 00:19:52 -0800 (PST)
-Received: by 10.236.165.104 with HTTP; Sat, 4 Feb 2012 00:19:52 -0800 (PST)
-In-Reply-To: <805BB42F-FCF7-48BE-AB53-9DB7D5E99845@dominion.thruhere.net>
-References: <cover.1328139407.git.nitin.a.kamble@intel.com>
-	<1328284640.3895.118.camel@ted>
-	<CAFZPMoZf-x5ff+n-1xFFC4wth=PO=Q6SizVnnWXd-tE_jZZc8Q@mail.gmail.com>
-	<1328287801.16474.4.camel@ted>
-	<805BB42F-FCF7-48BE-AB53-9DB7D5E99845@dominion.thruhere.net>
-Date: Sat, 4 Feb 2012 09:19:52 +0100
-Message-ID: <CA+chaQe98PRkjnRS3BG94Cnk1H=nQY5KkHbwPND44p4v=EuW2Q@mail.gmail.com>
-From: Martin Jansa <martin.jansa@gmail.com>
+	Sat, 04 Feb 2012 08:08:04 -0800 (PST)
+Received: by 10.180.78.130 with SMTP id b2mr3626210wix.1.1328371684719;
+	Sat, 04 Feb 2012 08:08:04 -0800 (PST)
+Received: from [193.191.48.241] ([193.191.48.241])
+	by mx.google.com with ESMTPS id s2sm15069773wix.3.2012.02.04.08.08.02
+	(version=TLSv1/SSLv3 cipher=OTHER);
+	Sat, 04 Feb 2012 08:08:03 -0800 (PST)
+Mime-Version: 1.0 (Apple Message framework v1251.1)
+From: Koen Kooi <koen@dominion.thruhere.net>
+In-Reply-To: <4F2C1621.2050401@linux.intel.com>
+Date: Sat, 4 Feb 2012 17:07:59 +0100
+Message-Id: <9E253355-84DD-410B-98FA-D7D9A0AD22EA@dominion.thruhere.net>
+References: <cover.1328208481.git.josh@linux.intel.com>
+	<2e86c284dea7b710d380d262e1a76b79b530b422.1328208481.git.josh@linux.intel.com>
+	<4092F86B-459F-45ED-B7B1-1198B2D6A992@dominion.thruhere.net>
+	<4F2ADCF6.4030000@linux.intel.com>
+	<4F2C1621.2050401@linux.intel.com>
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Subject: Re: [patch-v2 0/7] Various recipe upgrades
+X-Mailer: Apple Mail (2.1251.1)
+X-Gm-Message-State: ALoCoQlg1/eka5MIAJ7zg3ECdIkBrVEwEfNwuFUGJRVSMdOjNCtpujNvq8ztlspYA+g8VOJeRv+k
+Subject: Re: [PATCH 1/1] netbase: make netbase recipe MACHINE specific for all targets
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -42,33 +41,46 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 04 Feb 2012 08:27:51 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Sat, 04 Feb 2012 16:16:04 -0000
+Content-Type: text/plain; charset=us-ascii
+Content-Transfer-Encoding: quoted-printable
 
-On Fri, Feb 3, 2012 at 5:58 PM, Koen Kooi <koen@dominion.thruhere.net> wrote:
->
-> Op 3 feb. 2012, om 17:50 heeft Richard Purdie het volgende geschreven:
->
->> On Fri, 2012-02-03 at 19:30 +0300, Sergey Lapin wrote:
->>
->>> This breaks
->>> meta-openembedded/meta-oe/recipes-devtools/gdb/gdb-cross-canadian_7.3.1.bbappend
->>
->> Sorry about that. Koen is aware of the issue now at least.
->
-> Hotfix pushed, we need to double check after the weekend when we get back to our deskjobs.
 
-even with 7.3.1 it wasn't working for me so in meta-oe-contrib/shr I
-had to remove .bbappend anyway :/
+Op 3 feb. 2012, om 18:15 heeft Darren Hart het volgende geschreven:
 
-in oe-core-contrib/shr I have Eric's previous patch to do it in
-oe-core with extra patch fixing
-variables to match what I get with distroless oe-core only and also
-with normal layers I'm using with SHR.
+>=20
+>=20
+> On 02/02/2012 10:59 AM, Joshua Lock wrote:
+>> On 02/02/12 10:54, Koen Kooi wrote:
+>>>=20
+>>> Op 2 feb. 2012, om 19:51 heeft Joshua Lock het volgende
+>>> geschreven:
+>>>=20
+>>>> Several BSP's are appending netbase to add MACHINE specific=20
+>>>> networking functionality. Rather than BSP creators having to
+>>>> mark netbase MACHINE specific just default to PACKAGE_ARCH =3D
+>>>> "${MACHINE_ARCH}" in netbase.
+>>>>=20
+>>>> This shouldn't be a huge hit as netbase just copies files
+>>>> around.
+>>>=20
+>>> In the past OE would mark things machine specific if something in
+>>> SRC_URI was fetched using overrides. So it this patches fixed
+>>> netbase the 'old' mechanism is broken :(
+>>=20
+>> This patch doesn't fix netbase, I just thought it would be simpler to
+>> make this change than ensure all BSP's use appropriate OVERRIDEs in
+>> their netbase bbappends - several I've seen don't.
+>>=20
+>=20
+> Is there a consensus on whether or not this can go in? I need either
+> this or the BSP layer fix for a new BSP. It seems to me that netbase =
+is
+> overridden enough for machine specific things (like the interface =
+file)
+> that Joshua's approach is the better fix.
 
-More info:
-http://lists.linuxtogo.org/pipermail/openembedded-devel/2012-February/037652.html
-
-Cheers,
+It all depends on how much crap in BSPs you want to fix up in OE-core. =
+Where are you going to draw the line?=
 
 
