@@ -1,24 +1,27 @@
-Received: from mail.windriver.com ([147.11.1.11])
+Received: from mail-we0-f175.google.com ([74.125.82.175])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <bruce.ashfield@windriver.com>) id 1Rtvl1-00013r-5K
+	(envelope-from <andrei@gherzan.ro>) id 1Ru5I6-0004Ba-QG
 	for openembedded-core@lists.openembedded.org;
-	Sun, 05 Feb 2012 07:39:32 +0100
-Received: from yow-bashfiel-l1.corp.ad.wrs.com
-	(yow-bashfiel-d3.ottawa.windriver.com [128.224.147.67])
-	by mail.windriver.com (8.14.3/8.14.3) with ESMTP id q156VIVe002873;
-	Sat, 4 Feb 2012 22:31:25 -0800 (PST)
-From: Bruce Ashfield <bruce.ashfield@windriver.com>
-To: richard.purdie@linuxfoundation.org
-Date: Sun,  5 Feb 2012 01:31:09 -0500
-Message-Id: <b77a4edb8a1782a2d04eda1b751d36b608a5f455.1328423023.git.bruce.ashfield@windriver.com>
-X-Mailer: git-send-email 1.7.4.1
-In-Reply-To: <cover.1328423023.git.bruce.ashfield@windriver.com>
-References: <cover.1328423023.git.bruce.ashfield@windriver.com>
-In-Reply-To: <cover.1328423023.git.bruce.ashfield@windriver.com>
-References: <cover.1328423023.git.bruce.ashfield@windriver.com>
-Cc: dvhart@linux.intel.com, openembedded-core@lists.openembedded.org,
-	saul.wold@intel.com
-Subject: [PATCH 5/5] linux-yocto: fri2: use emgd-1.10
+	Sun, 05 Feb 2012 17:50:14 +0100
+Received: by werc1 with SMTP id c1so4246209wer.6
+	for <openembedded-core@lists.openembedded.org>;
+	Sun, 05 Feb 2012 08:42:14 -0800 (PST)
+Received: by 10.216.133.213 with SMTP id q63mr2060994wei.49.1328460134186;
+	Sun, 05 Feb 2012 08:42:14 -0800 (PST)
+MIME-Version: 1.0
+Received: by 10.227.100.82 with HTTP; Sun, 5 Feb 2012 08:41:54 -0800 (PST)
+X-Originating-IP: [79.117.107.69]
+In-Reply-To: <4F2C860C.3020006@linux.intel.com>
+References: <1328282644-4459-1-git-send-email-andrei@gherzan.ro>
+	<4F2C860C.3020006@linux.intel.com>
+From: Andrei Gherzan <andrei@gherzan.ro>
+Date: Sun, 5 Feb 2012 18:41:54 +0200
+Message-ID: <CAK18fxGND2uPFFmYaGV1o6zeQJUQXg9pFBUUrqb-z4-1gfTcgA@mail.gmail.com>
+To: Saul Wold <sgw@linux.intel.com>
+X-Gm-Message-State: ALoCoQl5oZ2c+E2LCj6bTPItcgXJmnIYGLomAEQ8L/HQ/FbjygOAAUTBXe490mWGgSjrhK9URgQv
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] js: Update to v1.8.5
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -33,35 +36,70 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 05 Feb 2012 06:39:32 -0000
+X-List-Received-Date: Sun, 05 Feb 2012 16:50:14 -0000
+Content-Type: multipart/alternative; boundary=0016e6dceafd657e3504b83a3aee
 
-Updating meta for the following change:
+--0016e6dceafd657e3504b83a3aee
+Content-Type: text/plain; charset=ISO-8859-1
 
-    fri2: use emgd-1.10
+On Sat, Feb 4, 2012 at 03:12, Saul Wold <sgw@linux.intel.com> wrote:
 
-    Use the yocto/emgd-1.10 branch in place of yocto/emgd.
+>
+> There seems to be a number of issues with this recipe, the
+> LIC_FILE_CHKSUMs do not match, I did not see any DEPENDS, so I am not sure
+> if you have all the dependencies correct.
+>
+> It did not compile, maybe I got a different version than you did, I am
+> trying to build it on an x86-64 machine.
+>
+> Could you look into this please.
+>
+> Thanks
+>        Sau!
+>
 
-Signed-off-by: Tom Zanussi <tom.zanussi@intel.com>
-Signed-off-by: Bruce Ashfield <bruce.ashfield@windriver.com>
----
- meta/recipes-kernel/linux/linux-yocto_3.2.bb |    2 +-
- 1 files changed, 1 insertions(+), 1 deletions(-)
+I used the md5sum of the whole cpp file and not only for the LICENSE part
+of it. Anyway, i replaced that with the correct one but as i see, this
+change wasn't in this patch.
 
-diff --git a/meta/recipes-kernel/linux/linux-yocto_3.2.bb b/meta/recipes-kernel/linux/linux-yocto_3.2.bb
-index a80924d..c13fb37 100644
---- a/meta/recipes-kernel/linux/linux-yocto_3.2.bb
-+++ b/meta/recipes-kernel/linux/linux-yocto_3.2.bb
-@@ -23,7 +23,7 @@ SRCREV_machine_qemuppc ?= "b8228f337002ad88f1e152d0c0c46c6035cd0428"
- SRCREV_machine_qemux86 ?= "417fc778a86e81303bab5883b919ee422ec51c04"
- SRCREV_machine_qemux86-64 ?= "417fc778a86e81303bab5883b919ee422ec51c04"
- SRCREV_machine ?= "417fc778a86e81303bab5883b919ee422ec51c04"
--SRCREV_meta ?= "138bf5b502607fe40315c0d76822318d77d97e01"
-+SRCREV_meta ?= "b78a519841bd8b477cad599af8d38df6760445c1"
- 
- PR = "r0"
- PV = "${LINUX_VERSION}+git${SRCPV}"
--- 
-1.7.4.1
+About DEPENDS, I couldn't find any dependencies. In order to check this i
+baked js in a new build without having anything in DEPENDS and the
+package succeeded. (bitbake js)
 
+This should be ok: http://git.gherzan.ro/yocto-dev/changeset/b21940194b78
 
+--0016e6dceafd657e3504b83a3aee
+Content-Type: text/html; charset=ISO-8859-1
+Content-Transfer-Encoding: quoted-printable
 
+<br><div class=3D"gmail_quote">On Sat, Feb 4, 2012 at 03:12, Saul Wold <spa=
+n dir=3D"ltr">&lt;<a href=3D"mailto:sgw@linux.intel.com">sgw@linux.intel.co=
+m</a>&gt;</span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margi=
+n:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex">
+
+<br>
+There seems to be a number of issues with this recipe, the LIC_FILE_CHKSUMs=
+ do not match, I did not see any DEPENDS, so I am not sure if you have all =
+the dependencies correct.<br>
+<br>
+It did not compile, maybe I got a different version than you did, I am tryi=
+ng to build it on an x86-64 machine.<br>
+<br>
+Could you look into this please.<br>
+<br>
+Thanks<br>
+ =A0 =A0 =A0 =A0Sau!<br>
+</blockquote><div><br></div><div>I used the md5sum of the whole cpp file an=
+d not only for the LICENSE part of it. Anyway, i replaced that with the cor=
+rect one but as i see, this change wasn&#39;t in this patch.</div><div>
+
+<br></div><div>About DEPENDS, I=A0couldn&#39;t=A0find any dependencies. In =
+order to check this i baked js in a new build without having anything in DE=
+PENDS and the package=A0succeeded. (bitbake js)=A0</div><div><br></div><div=
+>This should be ok:=A0<a href=3D"http://git.gherzan.ro/yocto-dev/changeset/=
+b21940194b78">http://git.gherzan.ro/yocto-dev/changeset/b21940194b78</a></d=
+iv>
+
+<div><br></div><div><br></div></div>
+
+--0016e6dceafd657e3504b83a3aee--
