@@ -1,16 +1,16 @@
 Received: from mail.windriver.com ([147.11.1.11])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <bruce.ashfield@windriver.com>) id 1Rtvl0-00013o-LP
+	(envelope-from <bruce.ashfield@windriver.com>) id 1Rtvl1-00013r-5K
 	for openembedded-core@lists.openembedded.org;
-	Sun, 05 Feb 2012 07:39:27 +0100
+	Sun, 05 Feb 2012 07:39:32 +0100
 Received: from yow-bashfiel-l1.corp.ad.wrs.com
 	(yow-bashfiel-d3.ottawa.windriver.com [128.224.147.67])
-	by mail.windriver.com (8.14.3/8.14.3) with ESMTP id q156VIVd002873;
-	Sat, 4 Feb 2012 22:31:23 -0800 (PST)
+	by mail.windriver.com (8.14.3/8.14.3) with ESMTP id q156VIVe002873;
+	Sat, 4 Feb 2012 22:31:25 -0800 (PST)
 From: Bruce Ashfield <bruce.ashfield@windriver.com>
 To: richard.purdie@linuxfoundation.org
-Date: Sun,  5 Feb 2012 01:31:08 -0500
-Message-Id: <d4cbf08a6199035271ce6abf7fd99ed1997a6523.1328423023.git.bruce.ashfield@windriver.com>
+Date: Sun,  5 Feb 2012 01:31:09 -0500
+Message-Id: <b77a4edb8a1782a2d04eda1b751d36b608a5f455.1328423023.git.bruce.ashfield@windriver.com>
 X-Mailer: git-send-email 1.7.4.1
 In-Reply-To: <cover.1328423023.git.bruce.ashfield@windriver.com>
 References: <cover.1328423023.git.bruce.ashfield@windriver.com>
@@ -18,7 +18,7 @@ In-Reply-To: <cover.1328423023.git.bruce.ashfield@windriver.com>
 References: <cover.1328423023.git.bruce.ashfield@windriver.com>
 Cc: dvhart@linux.intel.com, openembedded-core@lists.openembedded.org,
 	saul.wold@intel.com
-Subject: [PATCH 4/5] kern-tools: remove explicit 'yocto' references from auto-bsp handling
+Subject: [PATCH 5/5] linux-yocto: fri2: use emgd-1.10
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -33,31 +33,33 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 05 Feb 2012 06:39:27 -0000
+X-List-Received-Date: Sun, 05 Feb 2012 06:39:32 -0000
 
-To adapt to different branch names in a repository, removing explicit
-references to 'yocto' in automatically created BSPs ensures that they
-are consistent with the merged variants. Existing BSPs and auto BSPs
-are not impacted by this change.
+Updating meta for the following change:
 
+    fri2: use emgd-1.10
+
+    Use the yocto/emgd-1.10 branch in place of yocto/emgd.
+
+Signed-off-by: Tom Zanussi <tom.zanussi@intel.com>
 Signed-off-by: Bruce Ashfield <bruce.ashfield@windriver.com>
 ---
- .../kern-tools/kern-tools-native_git.bb            |    2 +-
+ meta/recipes-kernel/linux/linux-yocto_3.2.bb |    2 +-
  1 files changed, 1 insertions(+), 1 deletions(-)
 
-diff --git a/meta/recipes-kernel/kern-tools/kern-tools-native_git.bb b/meta/recipes-kernel/kern-tools/kern-tools-native_git.bb
-index 1eced23..14ec9e9 100644
---- a/meta/recipes-kernel/kern-tools/kern-tools-native_git.bb
-+++ b/meta/recipes-kernel/kern-tools/kern-tools-native_git.bb
-@@ -4,7 +4,7 @@ LIC_FILES_CHKSUM = "file://git/tools/kgit;beginline=5;endline=9;md5=e2bf4415f3d8
+diff --git a/meta/recipes-kernel/linux/linux-yocto_3.2.bb b/meta/recipes-kernel/linux/linux-yocto_3.2.bb
+index a80924d..c13fb37 100644
+--- a/meta/recipes-kernel/linux/linux-yocto_3.2.bb
++++ b/meta/recipes-kernel/linux/linux-yocto_3.2.bb
+@@ -23,7 +23,7 @@ SRCREV_machine_qemuppc ?= "b8228f337002ad88f1e152d0c0c46c6035cd0428"
+ SRCREV_machine_qemux86 ?= "417fc778a86e81303bab5883b919ee422ec51c04"
+ SRCREV_machine_qemux86-64 ?= "417fc778a86e81303bab5883b919ee422ec51c04"
+ SRCREV_machine ?= "417fc778a86e81303bab5883b919ee422ec51c04"
+-SRCREV_meta ?= "138bf5b502607fe40315c0d76822318d77d97e01"
++SRCREV_meta ?= "b78a519841bd8b477cad599af8d38df6760445c1"
  
- DEPENDS = "git-native guilt-native"
- 
--SRCREV = "a7a9930d2b1f1954fbd817810b706e2e3c42e8de"
-+SRCREV = "91c2b184be90d6654996887203efdd7f1727a19a"
- PR = r12
- PV = "0.1+git${SRCPV}"
- 
+ PR = "r0"
+ PV = "${LINUX_VERSION}+git${SRCPV}"
 -- 
 1.7.4.1
 
