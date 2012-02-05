@@ -1,32 +1,20 @@
-Received: from mail-ey0-f175.google.com ([209.85.215.175])
+Received: from mail.windriver.com ([147.11.1.11])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <tworaz666@gmail.com>) id 1RtkiD-0000Jz-NQ
+	(envelope-from <bruce.ashfield@windriver.com>) id 1Rtvkz-00013l-9b
 	for openembedded-core@lists.openembedded.org;
-	Sat, 04 Feb 2012 19:51:49 +0100
-Received: by eaal10 with SMTP id l10so1145884eaa.6
-	for <openembedded-core@lists.openembedded.org>;
-	Sat, 04 Feb 2012 10:43:51 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
-	h=from:to:cc:subject:date:message-id:x-mailer:in-reply-to:references;
-	bh=9ypHzV3MQ+PFId00lUfDziYYl8BTfwvjSid3vZKuvuI=;
-	b=w8CAteizDxtGM1SbaehX6iRvpre/FmcolpMIY7WGgkuer+BrcnXq3rvS9b8PA7KpaE
-	cmkEzopKBZeChKpPH4C/Zr4ESayAiyPm2r2gJeBWFsNCsAzn+zOioIpm7rJffeNs63pZ
-	5BSGtbwENEp1ojcrUrniat77S7JNqE4FIuhuk=
-Received: by 10.213.19.212 with SMTP id c20mr423421ebb.15.1328381030997;
-	Sat, 04 Feb 2012 10:43:50 -0800 (PST)
-Received: from localhost.localdomain (89-77-50-243.dynamic.chello.pl.
-	[89.77.50.243])
-	by mx.google.com with ESMTPS id n17sm38096348eei.3.2012.02.04.10.43.49
-	(version=TLSv1/SSLv3 cipher=OTHER);
-	Sat, 04 Feb 2012 10:43:50 -0800 (PST)
-From: Peter Tworek <tworaz666@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Date: Sat,  4 Feb 2012 19:41:41 +0100
-Message-Id: <1328380901-11856-2-git-send-email-tworaz666@gmail.com>
-X-Mailer: git-send-email 1.7.3.4
-In-Reply-To: <1328380901-11856-1-git-send-email-tworaz666@gmail.com>
-References: <1328380901-11856-1-git-send-email-tworaz666@gmail.com>
-Subject: [PATCH 2/2 v2] webkit-gtk: Make webgl support configurable via DISTRO_FEATURES.
+	Sun, 05 Feb 2012 07:39:26 +0100
+Received: from yow-bashfiel-l1.corp.ad.wrs.com
+	(yow-bashfiel-d3.ottawa.windriver.com [128.224.147.67])
+	by mail.windriver.com (8.14.3/8.14.3) with ESMTP id q156VIVZ002873;
+	Sat, 4 Feb 2012 22:31:19 -0800 (PST)
+From: Bruce Ashfield <bruce.ashfield@windriver.com>
+To: richard.purdie@linuxfoundation.org
+Date: Sun,  5 Feb 2012 01:31:04 -0500
+Message-Id: <cover.1328423023.git.bruce.ashfield@windriver.com>
+X-Mailer: git-send-email 1.7.4.1
+Cc: dvhart@linux.intel.com, openembedded-core@lists.openembedded.org,
+	saul.wold@intel.com
+Subject: [PATCH 0/5] linux-yocto: consolidated pull request
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -41,48 +29,50 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 04 Feb 2012 18:51:49 -0000
+X-List-Received-Date: Sun, 05 Feb 2012 06:39:27 -0000
 
-* Add missing dependency on virtual/libgl.
-* Make webgl configurable via DISTRO_FEATURES="opengl".
-* Run tested on netbook pro.
+Richard/Saul,
 
-Signed-off-by: Peter Tworek <tworaz666@gmail.com>
-Reviewed-by: Paul Menzel <paulepanter@users.sourceforge.net>
----
- meta/recipes-sato/webkit/webkit-gtk_svn.bb |    4 +++-
- 1 files changed, 3 insertions(+), 1 deletions(-)
+This is a follow on to the 3.2 tree and src_patches changes that I sent
+last week.
 
-diff --git a/meta/recipes-sato/webkit/webkit-gtk_svn.bb b/meta/recipes-sato/webkit/webkit-gtk_svn.bb
-index d754a39..e279ca3 100644
---- a/meta/recipes-sato/webkit/webkit-gtk_svn.bb
-+++ b/meta/recipes-sato/webkit/webkit-gtk_svn.bb
-@@ -8,13 +8,14 @@ LIC_FILES_CHKSUM = "file://Source/WebCore/rendering/RenderApplet.h;endline=22;md
-                     file://Source/JavaScriptCore/parser/Parser.h;endline=23;md5=2f3cff0ad0a9c486da5a376928973a90"
- 
- DEPENDS = "zlib enchant gnome-keyring libsoup-2.4 curl icu libxml2 cairo libxslt libxt libidn gnutls gtk+ gstreamer gst-plugins-base flex-native gperf-native perl-native-runtime sqlite3"
-+DEPENDS += " ${@base_contains('DISTRO_FEATURES', 'opengl', 'virtual/libgl', '', d)}"
- DEPENDS_darwin8 = "curl icu libxml2 cairo libxslt libidn gnutls gtk+ gstreamer flex-native gperf-native perl-native-runtime sqlite3"
- 
- SRCREV_FORMAT = "source"
- 
- SRCREV = "101488"
- PV = "1.7.2+svnr${SRCPV}"
--PR = "r1"
-+PR = "r2"
- 
- SRC_URI = "\
-   svn://svn.webkit.org/repository/webkit/trunk/;module=Source;proto=http;name=source \
-@@ -41,6 +42,7 @@ EXTRA_OECONF = "\
-                 --enable-image-resizer \
-                 --enable-link-prefetch \
-                 --with-gtk=2.0 \
-+                ${@base_contains('DISTRO_FEATURES', 'opengl', '--enable-webgl', '--disable-webgl', d)} \
-                 UNICODE_CFLAGS=-D_REENTRANT \
-                "
- 
+The ability to specify out of tree BSPs via single .scc files is not 
+possible, as well as any automatic BSPs following the naming conventions
+of the 3.2 tree.
+
+The meta branch changes are routine, with the exception being that I got
+a report that 3.0 -rt wasn't patching. That report turned out to be true,
+and I've fixed it here.
+
+Cheers,
+
+Bruce
+
+The following changes since commit cb89d43473a91ff4cb2447d642fcd9308d7366e3:
+
+  libzypp: add missing runtime dependences on gzip and gnupg (2012-02-03 17:23:34 +0000)
+
+are available in the git repository at:
+  git://git.pokylinux.org/poky-contrib zedd/kernel
+  http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=zedd/kernel
+
+Bruce Ashfield (5):
+  linux-yocto: locate and use out of tree features specified on the
+    SRC_URI
+  linux-yocto: meta updates for sys940x and cleanup
+  linux-yocto: rt compiliation fix
+  kern-tools: remove explicit 'yocto' references from auto-bsp handling
+  linux-yocto: fri2: use emgd-1.10
+
+ meta/classes/kernel-yocto.bbclass                  |   21 ++++++++++++++++++++
+ .../kern-tools/kern-tools-native_git.bb            |    2 +-
+ meta/recipes-kernel/linux/linux-yocto-rt_3.0.bb    |    2 +-
+ meta/recipes-kernel/linux/linux-yocto_3.0.bb       |    2 +-
+ meta/recipes-kernel/linux/linux-yocto_3.2.bb       |    2 +-
+ 5 files changed, 25 insertions(+), 4 deletions(-)
+
 -- 
-1.7.3.4
+1.7.4.1
 
 
 
