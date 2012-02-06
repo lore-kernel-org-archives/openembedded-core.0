@@ -1,22 +1,22 @@
 Received: from elite.brightsigndigital.co.uk ([81.142.160.137])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <mcrowe@brightsign.biz>) id 1RuPH2-0001ew-GI
+	(envelope-from <mcrowe@brightsign.biz>) id 1RuPH3-0001f7-4M
 	for openembedded-core@lists.openembedded.org;
-	Mon, 06 Feb 2012 15:10:28 +0100
+	Mon, 06 Feb 2012 15:10:29 +0100
 Received: from [172.30.1.25] (helo=chuckie.brightsign)
 	by elite.brightsigndigital.co.uk with esmtp (Exim 4.72)
 	(envelope-from <mcrowe@brightsign.biz>)
-	id 1RuOiA-0001Pj-TT; Mon, 06 Feb 2012 13:34:26 +0000
+	id 1RuOhM-0001Pd-IL; Mon, 06 Feb 2012 13:33:36 +0000
 Received: from mac by chuckie.brightsign with local (Exim 4.72)
 	(envelope-from <mcrowe@brightsign.biz>)
-	id 1RuOiA-0006Xd-SW; Mon, 06 Feb 2012 13:34:26 +0000
+	id 1RuOhM-0006Va-HP; Mon, 06 Feb 2012 13:33:36 +0000
 From: Mike Crowe <mac@mcrowe.com>
 To: openembedded-core@lists.openembedded.org
-Date: Mon,  6 Feb 2012 13:34:22 +0000
-Message-Id: <1328535262-25110-1-git-send-email-mac@mcrowe.com>
+Date: Mon,  6 Feb 2012 13:33:31 +0000
+Message-Id: <1328535211-24985-1-git-send-email-mac@mcrowe.com>
 X-Mailer: git-send-email 1.7.8.3
 Cc: Mike Crowe <mac@mcrowe.com>
-Subject: [PATCH] libcap: Cope with ${libdir} and ${base_libdir} being the same
+Subject: [PATCH] libusb1: Cope with ${libdir} and ${base_libdir} being the same
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -31,42 +31,40 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 06 Feb 2012 14:10:28 -0000
+X-List-Received-Date: Mon, 06 Feb 2012 14:10:29 -0000
 
 ${libdir} and ${base_libdir} may be the same. If they are don't try and
 move files onto themselves.
 
 Signed-off-by: Mike Crowe <mac@mcrowe.com>
 ---
- meta/recipes-support/libcap/libcap.inc |    8 ++++++--
- 1 files changed, 6 insertions(+), 2 deletions(-)
+ meta/recipes-support/libusb/libusb1_1.0.8.bb |    6 ++++--
+ 1 files changed, 4 insertions(+), 2 deletions(-)
 
-diff --git a/meta/recipes-support/libcap/libcap.inc b/meta/recipes-support/libcap/libcap.inc
-index 9418abf..5b03671 100644
---- a/meta/recipes-support/libcap/libcap.inc
-+++ b/meta/recipes-support/libcap/libcap.inc
-@@ -12,6 +12,8 @@ DEPENDS_virtclass-native = "perl-native-runtime"
+diff --git a/meta/recipes-support/libusb/libusb1_1.0.8.bb b/meta/recipes-support/libusb/libusb1_1.0.8.bb
+index 8873de7..e45a9d9 100644
+--- a/meta/recipes-support/libusb/libusb1_1.0.8.bb
++++ b/meta/recipes-support/libusb/libusb1_1.0.8.bb
+@@ -6,7 +6,7 @@ SECTION = "libs"
+ LICENSE = "LGPLv2.1+"
+ LIC_FILES_CHKSUM = "file://COPYING;md5=fbc093901857fcd118f065f900982c24"
  
- SRC_URI = "${KERNELORG_MIRROR}/linux/libs/security/linux-privs/libcap2/${BPN}-${PV}.tar.bz2"
+-PR = "r2"
++PR = "r3"
  
-+PR = "r1"
-+
- inherit lib_package
+ SRC_URI = "${SOURCEFORGE_MIRROR}/libusb/libusb-${PV}.tar.bz2"
  
- do_configure() {
-@@ -47,8 +49,10 @@ do_install() {
+@@ -20,7 +20,9 @@ EXTRA_OECONF = "--libdir=${base_libdir}"
+ 
  do_install_append() {
- 	# Move the library to base_libdir
- 	install -d ${D}${base_libdir}
--	mv ${D}${libdir}/* ${D}${base_libdir}
--	rmdir ${D}${libdir}
+ 	install -d ${D}${libdir}
+-	mv ${D}${base_libdir}/pkgconfig ${D}${libdir}
 +	if [ ! ${D}${libdir} -ef ${D}${base_libdir} ]; then
-+		mv ${D}${libdir}/* ${D}${base_libdir}
-+		rmdir ${D}${libdir}
++		mv ${D}${base_libdir}/pkgconfig ${D}${libdir}
 +	fi
  }
  
- FILES_${PN}-dev += "${base_libdir}/*.so"
+ FILES_${PN} += "${base_libdir}/*.so.*"
 -- 
 1.7.8.3
 
