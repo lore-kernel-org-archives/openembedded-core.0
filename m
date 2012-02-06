@@ -1,27 +1,27 @@
-Received: from mail-bk0-f47.google.com ([209.85.214.47])
+Received: from mail1.windriver.com ([147.11.146.13])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <sidebranch.openembedded@gmail.com>)
-	id 1RuVoC-0004OL-Pb for openembedded-core@lists.openembedded.org;
-	Mon, 06 Feb 2012 22:09:08 +0100
-Received: by bke17 with SMTP id 17so5312688bke.6
+	(envelope-from <mark.hatle@windriver.com>) id 1RuW44-0004t4-5t
+	for openembedded-core@lists.openembedded.org;
+	Mon, 06 Feb 2012 22:25:32 +0100
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca [147.11.189.40])
+	by mail1.windriver.com (8.14.3/8.14.3) with ESMTP id q16LHSXI005405
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 06 Feb 2012 13:01:07 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
-	h=mime-version:date:message-id:subject:from:to:content-type;
-	bh=iVUnTQeBuEfpLFF3WWe3/lkLC9FuoDFaRqgyz2KIjTE=;
-	b=Lpiy+2Cuy1rLiSddI1nehSYI02+Tjg9m3VKLECNMWCBa88GbZ3yfvNyrVsvEXks5gd
-	GagSgXoAHUPAJxhdgpY8djcefakRmtzuh+zfEqI6HrCJMbgkYQsROHYKs2na8H6bviKw
-	xaHkfsTagoHbZpur9ANVfCNIe54NNX1yyiin0=
+	Mon, 6 Feb 2012 13:17:28 -0800 (PST)
+Received: from Macintosh-5.local (172.25.36.232) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server id 14.1.255.0;
+	Mon, 6 Feb 2012 13:17:27 -0800
+Message-ID: <4F304366.8060201@windriver.com>
+Date: Mon, 6 Feb 2012 15:17:26 -0600
+From: Mark Hatle <mark.hatle@windriver.com>
+Organization: Wind River Systems
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.6;
+	rv:9.0) Gecko/20111222 Thunderbird/9.0.1
 MIME-Version: 1.0
-Received: by 10.204.153.195 with SMTP id l3mr9373006bkw.123.1328562066183;
-	Mon, 06 Feb 2012 13:01:06 -0800 (PST)
-Received: by 10.205.122.135 with HTTP; Mon, 6 Feb 2012 13:01:06 -0800 (PST)
-Date: Mon, 6 Feb 2012 22:01:06 +0100
-Message-ID: <CAMvUbCz0Lts7dUOWWvJeivm9nUb3nuhEqS-QY4+nOYOgmDzEkw@mail.gmail.com>
-From: Leon Woestenberg <sidebranch.openembedded@gmail.com>
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: armhf support in OpenEmbedded?
+To: <openembedded-core@lists.openembedded.org>
+References: <CAMvUbCz0Lts7dUOWWvJeivm9nUb3nuhEqS-QY4+nOYOgmDzEkw@mail.gmail.com>
+In-Reply-To: <CAMvUbCz0Lts7dUOWWvJeivm9nUb3nuhEqS-QY4+nOYOgmDzEkw@mail.gmail.com>
+Subject: Re: armhf support in OpenEmbedded?
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -36,40 +36,54 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 06 Feb 2012 21:09:08 -0000
-Content-Type: multipart/alternative; boundary=0015175ce0a204579f04b851f6ec
+X-List-Received-Date: Mon, 06 Feb 2012 21:25:32 -0000
+Content-Type: text/plain; charset="ISO-8859-1"; format=flowed
+Content-Transfer-Encoding: 7bit
 
---0015175ce0a204579f04b851f6ec
-Content-Type: text/plain; charset=ISO-8859-1
+In oe-core, there are definitions for various tunings that use the ARM EABI w/ 
+HF extension.
 
-Hello,
+The following tunings support that mode:  (And armhf is avsolutely not required 
+to be for the armv7-a CPU.. it compatible with any CPU that supports VFP 
+instructions... note there are armv7-a systems that do -not- have VFP support, 
+so these ABI extensions will not work there!)
 
-do we already have support for the ARM "armhf" ABI in OpenEmbedded?  (A
-quick search on the ML didn't get me hits).
+armv5ehf-vfp armv5tehf-vfp
+armv5ehfb-vfp armv5tehfb-vfp
+armv5hf-vfp armv5thf-vfp
+armv5hfb-vfp armv5thfb-vfp
+armv6hf armv6thf
+armv6hfb armv6thfb
+armv7hf armv7thf armv7hf-neon armv7thf-neon
+armv7ahfb armv7athfb armv7ahfb-neon armv7athfb-neon
+armv7hf armv7thf armv7hf-neon armv7thf-neon
+armv7hfb armv7thfb armv7hfb-neon armv7thfb-neon
 
-Basically,"armhf" is built with -mfloat-abi=hard, and tuned for armv7-a
-CPUs.
+See conf/machine/include/arm/*
+
+--Mark
+
+On 2/6/12 3:01 PM, Leon Woestenberg wrote:
+> Hello,
+>
+> do we already have support for the ARM "armhf" ABI in OpenEmbedded? (A quick
+> search on the ML didn't get me hits).
+>
+> Basically,"armhf" is built with -mfloat-abi=hard, and tuned for armv7-a CPUs.
+>
+>
+> http://wiki.debian.org/ArmHardFloatPort
+> http://www.powerdeveloper.org/forums/viewtopic.php?p=13645#13645
+>
+> Regards,
+>
+> Leon.
+>
+>
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
 
 
-http://wiki.debian.org/ArmHardFloatPort
-http://www.powerdeveloper.org/forums/viewtopic.php?p=13645#13645
 
-Regards,
-
-Leon.
-
---0015175ce0a204579f04b851f6ec
-Content-Type: text/html; charset=ISO-8859-1
-Content-Transfer-Encoding: quoted-printable
-
-Hello,<br><br>do we already have support for the ARM &quot;armhf&quot; ABI =
-in OpenEmbedded?=A0 (A quick search on the ML didn&#39;t get me hits).<br><=
-br>Basically,&quot;armhf&quot; is built with -mfloat-abi=3Dhard, and tuned =
-for armv7-a CPUs.<br>
-<br><br><a href=3D"http://wiki.debian.org/ArmHardFloatPort">http://wiki.deb=
-ian.org/ArmHardFloatPort</a><br><a href=3D"http://www.powerdeveloper.org/fo=
-rums/viewtopic.php?p=3D13645#13645">http://www.powerdeveloper.org/forums/vi=
-ewtopic.php?p=3D13645#13645</a><br>
-<br>Regards,<br><br>Leon.<br>
-
---0015175ce0a204579f04b851f6ec--
