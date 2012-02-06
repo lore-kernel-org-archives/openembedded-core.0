@@ -1,30 +1,32 @@
-Received: from comal.ext.ti.com ([198.47.26.152])
+Received: from relay1.mentorg.com ([192.94.38.131])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <chase.maupin@ti.com>) id 1RuPY1-00020a-K8
+	(envelope-from <wade_farnsworth@mentor.com>) id 1RuPyD-0002UK-1i
 	for openembedded-core@lists.openembedded.org;
-	Mon, 06 Feb 2012 15:28:01 +0100
-Received: from dbdp20.itg.ti.com ([172.24.170.38])
-	by comal.ext.ti.com (8.13.7/8.13.7) with ESMTP id q16EH57S017882
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 6 Feb 2012 08:17:06 -0600
-Received: from DBDE70.ent.ti.com (localhost [127.0.0.1])
-	by dbdp20.itg.ti.com (8.13.8/8.13.8) with ESMTP id q16EH4Nw004690
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 6 Feb 2012 19:47:05 +0530 (IST)
-Received: from dbdp31.itg.ti.com (172.24.170.98) by dbde70.ent.ti.com
-	(172.24.170.148) with Microsoft SMTP Server id 14.1.323.3;
-	Mon, 6 Feb 2012 19:47:04 +0530
-Received: from localhost.localdomain (dbdp20.itg.ti.com [172.24.170.38])	by
-	dbdp31.itg.ti.com (8.13.8/8.13.8) with ESMTP id q16EH1tb006883;
-	Mon, 6 Feb 2012 19:47:03 +0530 (IST)
-From: Chase Maupin <Chase.Maupin@ti.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Mon, 6 Feb 2012 08:16:58 -0600
-Message-ID: <1328537818-23228-1-git-send-email-Chase.Maupin@ti.com>
-X-Mailer: git-send-email 1.7.0.4
+	Mon, 06 Feb 2012 15:55:05 +0100
+Received: from svr-orw-exc-10.mgc.mentorg.com ([147.34.98.58])
+	by relay1.mentorg.com with esmtp 
+	id 1RuPqQ-0002s2-Gz from wade_farnsworth@mentor.com ;
+	Mon, 06 Feb 2012 06:47:02 -0800
+Received: from SVR-ORW-FEM-02.mgc.mentorg.com ([147.34.96.206]) by
+	SVR-ORW-EXC-10.mgc.mentorg.com with Microsoft
+	SMTPSVC(6.0.3790.4675); Mon, 6 Feb 2012 06:46:10 -0800
+Received: from [172.30.10.43] (147.34.91.1) by svr-orw-fem-02.mgc.mentorg.com
+	(147.34.96.168) with Microsoft SMTP Server id 14.1.289.1;
+	Mon, 6 Feb 2012 06:47:01 -0800
+Message-ID: <4F2FE7E4.9040902@mentor.com>
+Date: Mon, 6 Feb 2012 07:47:00 -0700
+From: Wade Farnsworth <wade_farnsworth@mentor.com>
+User-Agent: Mozilla/5.0 (X11; U; Linux x86_64; en-US;
+	rv:1.9.2.17) Gecko/20110424 Lightning/1.0b2 Thunderbird/3.1.10
 MIME-Version: 1.0
-Cc: Chase Maupin <Chase.Maupin@ti.com>
-Subject: [PATCH] u-boot inc: update inc file for newer u-boot versions
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+References: <4F1F26C6.8050501@mentor.com> <4F21A9CF.3020103@mentor.com>
+	<4F2C3541.5000409@mentor.com>
+In-Reply-To: <4F2C3541.5000409@mentor.com>
+X-OriginalArrivalTime: 06 Feb 2012 14:46:10.0000 (UTC)
+	FILETIME=[10A4A500:01CCE4DE]
+Subject: [PATCH v4 0/3] systemtap enhancements
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -39,87 +41,31 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 06 Feb 2012 14:28:01 -0000
-Content-Type: text/plain
+X-List-Received-Date: Mon, 06 Feb 2012 14:55:05 -0000
+Content-Type: text/plain; charset="ISO-8859-1"
+Content-Transfer-Encoding: 7bit
 
-* Add support for different suffixes found with later u-boot
-  versions which have switched from .bin to .img
-* Allow recipes that include u-boot.inc to also package an
-  SPL if they build one.
-    * Minimum requirement is to set the SPL_BINARY value to add
-      the SPL to the u-boot package as well as into the deploy
-      directory.
+This provides several enhancements to the systemtap recipe to improve
+end user experience.
 
-Signed-off-by: Chase Maupin <Chase.Maupin@ti.com>
----
- meta/recipes-bsp/u-boot/u-boot.inc |   35 +++++++++++++++++++++++++++++++----
- 1 files changed, 31 insertions(+), 4 deletions(-)
+- v2: Move uprobes bits to a separate recipe
+- v3: Fix -native[sdk] DEPENDS in systemtap_git.bb
+      Change to ALLOW_EMPTY_${PN} in systemtap-uprobes_git.bb
+      Updated SRCREV to pull stable version 1.7
+- v4: Reset PR due to change in PV for systemtap_git.bb
+      Make systemtap-uprobes_git.bb inherit gettext
 
-diff --git a/meta/recipes-bsp/u-boot/u-boot.inc b/meta/recipes-bsp/u-boot/u-boot.inc
-index 4180345..700d5d3 100644
---- a/meta/recipes-bsp/u-boot/u-boot.inc
-+++ b/meta/recipes-bsp/u-boot/u-boot.inc
-@@ -19,11 +19,22 @@ python () {
- 		raise bb.parse.SkipPackage("because UBOOT_MACHINE is not set")
- }
- 
--UBOOT_IMAGE ?= "u-boot-${MACHINE}-${PV}-${PR}.bin"
--UBOOT_BINARY ?= "u-boot.bin"
--UBOOT_SYMLINK ?= "u-boot-${MACHINE}.bin"
-+# Some versions of u-boot use .bin and others use .img.  By default use .bin
-+# but enable individual recipes to change this value.
-+UBOOT_SUFFIX ?= "bin"
-+UBOOT_IMAGE ?= "u-boot-${MACHINE}-${PV}-${PR}.${UBOOT_SUFFIX}"
-+UBOOT_BINARY ?= "u-boot.${UBOOT_SUFFIX}"
-+UBOOT_SYMLINK ?= "u-boot-${MACHINE}.${UBOOT_SUFFIX}"
- UBOOT_MAKE_TARGET ?= "all"
- 
-+# Some versions of u-boot build an SPL (Second Program Loader) image that
-+# should be packaged along with the u-boot binary as well as placed in the
-+# deploy directory.  For those versions they can set the following variables
-+# to allow packaging the SPL.
-+SPL_BINARY ?= ""
-+SPL_IMAGE ?= "${SPL_BINARY}-${PV}-${PR}"
-+SPL_SYMLINK ?= "${SPL_BINARY}-${MACHINE}"
-+
- do_compile () {
- 	unset LDFLAGS
- 	unset CFLAGS
-@@ -36,15 +47,31 @@ do_install () {
-     install -d ${D}/boot
-     install ${S}/${UBOOT_BINARY} ${D}/boot/${UBOOT_IMAGE}
-     ln -sf ${UBOOT_IMAGE} ${D}/boot/${UBOOT_BINARY}
-+
-+    if [ "x${SPL_BINARY}" != "x" ]
-+    then
-+        install ${S}/${SPL_BINARY} ${D}/boot/${SPL_IMAGE}
-+        ln -sf ${SPL_IMAGE} ${D}/boot/${SPL_BINARY}
-+    fi
- }
- 
- FILES_${PN} = "/boot"
- 
- do_deploy () {
--	install ${S}/u-boot.bin ${DEPLOYDIR}/${UBOOT_IMAGE}
-+    install -d ${DEPLOYDIR}
-+	install ${S}/${UBOOT_BINARY} ${DEPLOYDIR}/${UBOOT_IMAGE}
- 
- 	cd ${DEPLOYDIR}
- 	rm -f ${UBOOT_SYMLINK}
- 	ln -sf ${UBOOT_IMAGE} ${UBOOT_SYMLINK}
-+
-+    if [ "x${SPL_BINARY}" != "x" ]
-+    then
-+        install ${S}/${SPL_BINARY} ${DEPLOYDIR}/${SPL_IMAGE}
-+        rm -f ${DEPLOYDIR}/${SPL_BINARY} ${DEPLOYDIR}/${SPL_SYMLINK}
-+        ln -sf ${SPL_IMAGE} ${DEPLOYDIR}/${SPL_BINARY}
-+        ln -sf ${SPL_IMAGE} ${DEPLOYDIR}/${SPL_SYMLINK}
-+    fi
- }
-+
- addtask deploy before do_build after do_compile
--- 
-1.7.0.4
+Wade Farnsworth (3):
+  systemtap: bump SRCREV to grab version 1.7
+  systemtap: extend the recipe to build the native package
+  systemtap: build and install uprobes.ko
+
+ .../systemtap/systemtap-uprobes_git.bb             |   42 ++++++++++++++++++++
+ meta/recipes-kernel/systemtap/systemtap_git.bb     |   22 +++-------
+ meta/recipes-kernel/systemtap/systemtap_git.inc    |   16 +++++++
+ 3 files changed, 65 insertions(+), 15 deletions(-)
+ create mode 100644 meta/recipes-kernel/systemtap/systemtap-uprobes_git.bb
+ create mode 100644 meta/recipes-kernel/systemtap/systemtap_git.inc
 
 
 
