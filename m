@@ -1,31 +1,36 @@
-Received: from mail-gy0-f175.google.com ([209.85.160.175])
+Received: from mail-yw0-f47.google.com ([209.85.213.47])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <kergoth@gmail.com>) id 1RuW6l-0004yq-4D
+	(envelope-from <kergoth@gmail.com>) id 1RuW6m-0004yr-CO
 	for openembedded-core@lists.openembedded.org;
-	Mon, 06 Feb 2012 22:28:19 +0100
-Received: by ghbf19 with SMTP id f19so2762357ghb.6
+	Mon, 06 Feb 2012 22:28:20 +0100
+Received: by yhfq46 with SMTP id q46so2607902yhf.6
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 06 Feb 2012 13:20:17 -0800 (PST)
+	Mon, 06 Feb 2012 13:20:18 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
-	h=from:to:cc:subject:date:message-id:x-mailer;
-	bh=ER4EhuPA47Tag58AUmEKOzDF7CZaTnPjS3jDV256dew=;
-	b=ucXGw35/eXBDYDBTaMCzNrRYUZ5L7J9LmG9G+rselzNCm+4XADUCD/cWL8MqB61KLP
-	jLgIM2gYHokqIunamkNanFIdX/lvTNqHOaet2tyI17iPwqczHIT/it1jbkTu27+Sh6OB
-	ylqneovFBfamhs5Km3Z8aGfJ7R7Mrym72sCh4=
-Received: by 10.101.114.11 with SMTP id r11mr8208384anm.4.1328563217396;
-	Mon, 06 Feb 2012 13:20:17 -0800 (PST)
+	h=from:to:cc:subject:date:message-id:x-mailer:in-reply-to:references
+	:in-reply-to:references;
+	bh=Mw48IosyjnRrVHvAia03sDiJx8JmlT5yzT+Vbq0LLCM=;
+	b=X27SbDDMUuG5d3DHPs03VqmKC/Exkyf2o9sp1hNHoxykQlnrazQTvBH1nEXRbvo2ZF
+	aJyqvUjqimj1bACsdXVgKIeNS5K+G7KT2tcjzSqw+6im2wNeI1SNOtEr25YpcYS2uc95
+	WkHjCPJZLmpquChxcdehWl+IklDqPB/tGmAFw=
+Received: by 10.236.181.97 with SMTP id k61mr27132516yhm.108.1328563218714;
+	Mon, 06 Feb 2012 13:20:18 -0800 (PST)
 Received: from localhost.localdomain (hsvwanfw1-nat.mentorg.com.
 	[139.181.24.34])
-	by mx.google.com with ESMTPS id u11sm37999299anc.12.2012.02.06.13.20.16
+	by mx.google.com with ESMTPS id u11sm37999299anc.12.2012.02.06.13.20.17
 	(version=TLSv1/SSLv3 cipher=OTHER);
-	Mon, 06 Feb 2012 13:20:16 -0800 (PST)
+	Mon, 06 Feb 2012 13:20:18 -0800 (PST)
 From: Christopher Larson <kergoth@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Mon,  6 Feb 2012 15:20:09 -0600
-Message-Id: <cover.1328563142.git.chris_larson@mentor.com>
+Date: Mon,  6 Feb 2012 15:20:10 -0600
+Message-Id: <cb6cbd8e788316335b3460458553f37c92425312.1328563142.git.chris_larson@mentor.com>
 X-Mailer: git-send-email 1.7.7
+In-Reply-To: <cover.1328563142.git.chris_larson@mentor.com>
+References: <cover.1328563142.git.chris_larson@mentor.com>
+In-Reply-To: <cover.1328563142.git.chris_larson@mentor.com>
+References: <cover.1328563142.git.chris_larson@mentor.com>
 Cc: Christopher Larson <chris_larson@mentor.com>
-Subject: [PATCH 0/4] 2nd pass of external-csl-toolchain improvements
+Subject: [PATCH 1/4] external-csl-toolchain: set PKG/PKGV for staticdev
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -40,35 +45,35 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 06 Feb 2012 21:28:19 -0000
+X-List-Received-Date: Mon, 06 Feb 2012 21:28:20 -0000
 
 From: Christopher Larson <chris_larson@mentor.com>
 
-The following changes since commit 18d9fcfc4bc4b01f73e89f3b988c9d3d543c7705:
+Signed-off-by: Christopher Larson <chris_larson@mentor.com>
+---
+ meta/recipes-core/meta/external-csl-toolchain.bb |    2 ++
+ 1 files changed, 2 insertions(+), 0 deletions(-)
 
-  libzypp: add missing runtime dependences on gzip and gnupg (2012-02-03 17:23:28 +0000)
-
-are available in the git repository at:
-  https://github.com/kergoth/oe-core external-toolchain-fixes
-
-Christopher Larson (4):
-      external-csl-toolchain: set PKG/PKGV for staticdev
-      external-csl-toolchain: fix mtd-user.h issue
-      external-csl-toolchain: correct binary packaging
-      external-csl-toolchain: split out gdbserver packages
-
- meta/recipes-core/meta/external-csl-toolchain.bb |   18 +++++++++++++++---
- 1 files changed, 15 insertions(+), 3 deletions(-)
-
-Christopher Larson (4):
-  external-csl-toolchain: set PKG/PKGV for staticdev
-  external-csl-toolchain: fix mtd-user.h issue
-  external-csl-toolchain: correct binary packaging
-  external-csl-toolchain: split out gdbserver packages
-
- meta/recipes-core/meta/external-csl-toolchain.bb |   18 +++++++++++++++---
- 1 files changed, 15 insertions(+), 3 deletions(-)
-
+diff --git a/meta/recipes-core/meta/external-csl-toolchain.bb b/meta/recipes-core/meta/external-csl-toolchain.bb
+index c9f35c4..7dd8da2 100644
+--- a/meta/recipes-core/meta/external-csl-toolchain.bb
++++ b/meta/recipes-core/meta/external-csl-toolchain.bb
+@@ -89,6 +89,7 @@ INSANE_SKIP_gdbserver = "1"
+ 
+ PKG_${PN} = "eglibc"
+ PKG_${PN}-dev = "eglibc-dev"
++PKG_${PN}-staticdev = "eglibc-staticdev"
+ PKG_${PN}-doc = "eglibc-doc"
+ PKG_${PN}-dbg = "eglibc-dbg"
+ PKG_${PN}-pic = "eglibc-pic"
+@@ -100,6 +101,7 @@ PKG_${PN}-pcprofile = "eglibc-pcprofile"
+ 
+ PKGV_${PN} = "${CSL_VER_LIBC}"
+ PKGV_${PN}-dev = "${CSL_VER_LIBC}"
++PKGV_${PN}-staticdev = "${CSL_VER_LIBC}"
+ PKGV_${PN}-doc = "${CSL_VER_LIBC}"
+ PKGV_${PN}-dbg = "${CSL_VER_LIBC}"
+ PKGV_${PN}-pic = "${CSL_VER_LIBC}"
 -- 
 1.7.7
 
