@@ -1,30 +1,26 @@
-Received: from mail1.windriver.com ([147.11.146.13])
+Received: from mail.pbcl.net ([88.198.119.4] helo=hetzner.pbcl.net)
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <mark.hatle@windriver.com>) id 1RuUtI-0002am-19
+	(envelope-from <philb@gnu.org>) id 1RuVBS-00030f-Go
 	for openembedded-core@lists.openembedded.org;
-	Mon, 06 Feb 2012 21:10:20 +0100
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca [147.11.189.40])
-	by mail1.windriver.com (8.14.3/8.14.3) with ESMTP id q16K2Gpg004441
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 6 Feb 2012 12:02:17 -0800 (PST)
-Received: from Macintosh-5.local (172.25.36.232) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server id 14.1.255.0;
-	Mon, 6 Feb 2012 12:02:16 -0800
-Message-ID: <4F3031C6.4010805@windriver.com>
-Date: Mon, 6 Feb 2012 14:02:14 -0600
-From: Mark Hatle <mark.hatle@windriver.com>
-Organization: Wind River Systems
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.6;
-	rv:9.0) Gecko/20111222 Thunderbird/9.0.1
-MIME-Version: 1.0
-To: <openembedded-core@lists.openembedded.org>
-References: <CAMKF1spO-FVweKU21EdHK-Rs5gc4qun=JRYnwMWc88SOSeQufg@mail.gmail.com>	<CAMKF1soq=EaZ4KMb7McFcEjNyTVT2sMHPHvEr11+kL603iCOUQ@mail.gmail.com>	<1408084.uBj8QddilE@helios>
-	<1328543751.14363.11.camel@phil-desktop>
-	<4F302D77.7030902@balister.org>
+	Mon, 06 Feb 2012 21:29:06 +0100
+Received: from blundell.swaffham-prior.co.uk ([91.216.112.25]
+	helo=[192.168.114.6])
+	by hetzner.pbcl.net with esmtpsa (TLS1.0:RSA_AES_256_CBC_SHA1:32)
+	(Exim 4.72) (envelope-from <philb@gnu.org>) id 1RuV3j-0005lE-CH
+	for openembedded-core@lists.openembedded.org;
+	Mon, 06 Feb 2012 21:21:07 +0100
+Message-ID: <1328559652.2716.217.camel@x121e.pbcl.net>
+From: Phil Blundell <philb@gnu.org>
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Date: Mon, 06 Feb 2012 20:20:52 +0000
 In-Reply-To: <4F302D77.7030902@balister.org>
-X-MIME-Autoconverted: from 8bit to quoted-printable by mail1.windriver.com id
-	q16K2Gpg004441
+References: <CAMKF1spO-FVweKU21EdHK-Rs5gc4qun=JRYnwMWc88SOSeQufg@mail.gmail.com>
+	<CAMKF1soq=EaZ4KMb7McFcEjNyTVT2sMHPHvEr11+kL603iCOUQ@mail.gmail.com>
+	<1408084.uBj8QddilE@helios> <1328543751.14363.11.camel@phil-desktop>
+	<4F302D77.7030902@balister.org>
+X-Mailer: Evolution 3.2.2-1 
+Mime-Version: 1.0
 Subject: Re: Duplicate recipes in meta-oe
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
@@ -40,67 +36,55 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 06 Feb 2012 20:10:20 -0000
-Content-Type: text/plain; charset="UTF-8"; format=flowed
+X-List-Received-Date: Mon, 06 Feb 2012 20:29:06 -0000
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On 2/6/12 1:43 PM, Philip Balister wrote:
+On Mon, 2012-02-06 at 14:43 -0500, Philip Balister wrote:
 > On 02/06/2012 10:55 AM, Phil Blundell wrote:
->> On Mon, 2012-02-06 at 15:39 +0000, Paul Eggleton wrote:
->>> I talked to Koen at FOSDEM and apparently he prefers having a symlink=
- rather
->>> than a copy for the timezone file. I can't express an opinion one way=
- or
->>> another but it sounds like this one aspect still needs to be resolved=
- - should
->>> this be selectable?
->>
->> I guess this is all bound up with the "/usr on a separate partition"
->> thing.  If your position is that the root filesystem is meant to work
->> without /usr mounted then having /etc/localtime be a symlink
->> into /usr/share is probably not going to fly.  Conversely, one were to
->> take the view that any reasonable system in the 21st century is going =
-to
->> have / and=CC=A3 /usr on the same device, making it be a symlink would=
- be a
->> fine idea.
->>
->> I think probably the right answer is to make "1970s-usr" be a
->> DISTRO_FEATURE and then the timezone recipes (and others) can adapt
->> themselves accordingly.
->
+> > On Mon, 2012-02-06 at 15:39 +0000, Paul Eggleton wrote:
+> >> I talked to Koen at FOSDEM and apparently he prefers having a symlink =
+rather=20
+> >> than a copy for the timezone file. I can't express an opinion one way =
+or=20
+> >> another but it sounds like this one aspect still needs to be resolved =
+- should=20
+> >> this be selectable?
+> >=20
+> > I guess this is all bound up with the "/usr on a separate partition"
+> > thing.  If your position is that the root filesystem is meant to work
+> > without /usr mounted then having /etc/localtime be a symlink
+> > into /usr/share is probably not going to fly.  Conversely, one were to
+> > take the view that any reasonable system in the 21st century is going t=
+o
+> > have / and=CC=A3 /usr on the same device, making it be a symlink would =
+be a
+> > fine idea.
+> >=20
+> > I think probably the right answer is to make "1970s-usr" be a
+> > DISTRO_FEATURE and then the timezone recipes (and others) can adapt
+> > themselves accordingly.
+>=20
 > Does anyone use a system where /usr is on a separate partition?
 
-Where I have seen it is on some carrier grade blade systems.  Each blade =
-has a=20
-small local boot partition, which a shared (read-only) /usr partition.  T=
-he=20
-small boot partition handles initial booting, setup and mounting.. while =
-the=20
-shared partition handles the majority of "unix infrastructure".
+I'm not aware of any systems that work that way, but I do know that
+there have been some patches submitted recently (by Intel folks I think)
+to move files around in order to avoid binaries in / linking against
+shared libraries in /usr.  Presumably the fact that they're running into
+these issues indicates that they've got some systems which are using
+that sort of filesystem configuration.
 
-These systems do not use ramdisks, initrds, etc...
+And, given that the idea of a separate /usr does still have some
+currency in the Unix world, it doesn't seem unreasonable for oe-core to
+support it.  But equally, where that support carries a cost, I think it
+would make sense for there to be an easy way for DISTROs to opt out of
+it.  Obviously in the case of micro the idea of a separate /usr is
+meaningless, but I imagine there are plenty of folks who would want to
+keep the /usr filesystem layout but don't need to take special measures
+to cope with it being on a different storage device.
 
-I'm also aware of some other systems that do this for boot performance re=
-asons..=20
-they do it for booting quickly to the main UI app, and in parallel mounti=
-ng and=20
-loading additional runtime apps from the /usr disk (RO) and a /var (RW) d=
-isk.=20
-As things are available the UI options are made available to the end user=
-.  The=20
-result is a -faster- perceived boot.  Again ramdisks/initrds are not used=
-=20
-because of various reasons.
+p.
 
---Mark
-
-> Philip
->
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
 
 
 
