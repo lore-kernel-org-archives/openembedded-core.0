@@ -1,34 +1,30 @@
-Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
-	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <richard.purdie@linuxfoundation.org>)
-	id 1RuL0B-0003mS-EW; Mon, 06 Feb 2012 10:36:48 +0100
-Received: from localhost (localhost [127.0.0.1])
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q169Sjt8015434;
-	Mon, 6 Feb 2012 09:28:45 GMT
-Received: from tim.rpsys.net ([127.0.0.1])
-	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
-	port 10024) with LMTP
-	id 14404-07; Mon,  6 Feb 2012 09:28:39 +0000 (GMT)
-Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q169SXDX015427
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO);
-	Mon, 6 Feb 2012 09:28:35 GMT
-Message-ID: <1328520520.24049.7.camel@ted>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Date: Mon, 06 Feb 2012 09:28:40 +0000
-In-Reply-To: <CALbNGRQ4pvGoiv8DopfhgcujQffqOkPpS2+ON8-ad12GDdfH=w@mail.gmail.com>
-References: <CALbNGRSc52k3sqGsh+T93ex2X2+62DCoVq8RB4dk-Ooy-j3qRg@mail.gmail.com>
-	<FA3D8228-A311-4588-90C8-0A12F89723AC@dominion.thruhere.net>
-	<CALbNGRQ4pvGoiv8DopfhgcujQffqOkPpS2+ON8-ad12GDdfH=w@mail.gmail.com>
-X-Mailer: Evolution 3.2.2- 
-Mime-Version: 1.0
-X-Virus-Scanned: amavisd-new at rpsys.net
-X-MIME-Autoconverted: from 8bit to quoted-printable by tim.rpsys.net id
-	q169Sjt8015434
-Cc: openembedded-devel@lists.openembedded.org
-Subject: Re: [oe] Buildhistory, was Re: do rootfs does not create log files
+Received: from mail-yw0-f47.google.com ([209.85.213.47])
+	by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <otavio.salvador@gmail.com>) id 1RuMUW-000692-Fz
+	for openembedded-core@lists.openembedded.org;
+	Mon, 06 Feb 2012 12:12:12 +0100
+Received: by yhfq46 with SMTP id q46so2263709yhf.6
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 06 Feb 2012 03:04:11 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
+	h=sender:from:to:subject:date:message-id:x-mailer;
+	bh=4PG3Puo9EUKXUqOJ82y96TaqvXR2WtzEm6f6BTHEIfA=;
+	b=G26EJHFKMaO/GRcSh/c1cSpXJHqkJ5031ljaIwziTV9zkz+sadEIFZWDN7CEW409uS
+	HdGz+baISWPuyyAyV1BOwwVOgZTx1FyM6XgUe0PsX84jUwXGVsVkHln/8JbqoohyaFS2
+	ULTekn3A9KaRZmRN3qs5sUWT9esdR0w8hmIlA=
+Received: by 10.236.118.195 with SMTP id l43mr22041817yhh.97.1328526251142;
+	Mon, 06 Feb 2012 03:04:11 -0800 (PST)
+Received: from localhost.localdomain ([186.218.100.214])
+	by mx.google.com with ESMTPS id a39sm22309816yhk.15.2012.02.06.03.04.07
+	(version=TLSv1/SSLv3 cipher=OTHER);
+	Mon, 06 Feb 2012 03:04:09 -0800 (PST)
+Sender: Otavio Salvador <otavio.salvador@gmail.com>
+From: Otavio Salvador <otavio@ossystems.com.br>
+To: openembedded-core@lists.openembedded.org
+Date: Mon,  6 Feb 2012 11:03:57 +0000
+Message-Id: <cover.1328526202.git.otavio@ossystems.com.br>
+X-Mailer: git-send-email 1.7.2.5
+Subject: [PATCH 0/2] Pending patches from O.S. Systems tree
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -43,64 +39,28 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 06 Feb 2012 09:36:48 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Mon, 06 Feb 2012 11:12:12 -0000
 
-On Mon, 2012-02-06 at 10:04 +0100, Andreas M=C3=BCller wrote:
-> On Mon, Feb 6, 2012 at 8:46 AM, Koen Kooi <koen@dominion.thruhere.net> =
-wrote:
-> >
-> > Op 5 feb. 2012, om 23:16 heeft Andreas M=C3=BCller het volgende gesch=
-reven:
-> >
-> >> Hi,
-> >>
-> >> is it a bug or a feature that do_rootfs does not create the package
-> >> information (packed_files / packages ..) in a deploy sub-folder did =
-I
-> >> miss a switch for this?
-> >
-> > It's this one: http://git.angstrom-distribution.org/cgi-bin/cgit.cgi/=
-meta-angstrom/commit/?id=3D370a884b2372b7ddd5f0876119b5f28a2b20074f
-> >
-> > The matching commit it missing, but you can add something like this t=
-o your local.conf:
-> >
-> > INHERIT +=3D "buildhistory"
-> > BUILDHISTORY_COMMIT =3D "1"
-> > BUILDHISTORY_DIR =3D "/data/ssd/OE/buildhistory/"
-> >
-> > That will create a tree that looks like https://github.com/Angstrom-d=
-istribution/buildhistory/. It it's missing a feature that you were using =
-in testlab, let us know and Paul or I will try to add it to buildhistory.
-> >
-> > regards,
-> >
-> > Koen
-> Thanks for the info - will give buildhistory a test.
->=20
-> Without having experience on buildhistory I have a question: As you
-> might know there was a discussion about the order of packages in
-> bitbake.conf [1]. I have no idea of the workflow for this issue:
->=20
-> 1. Enable buildhistory as said above
-> 2. Build from scratch
-> 3. change the PACKAGES order in bitbake.conf
-> 4. ??
->=20
-> If I just rebuild without any PR-bumps I assume buildhistory can do
-> nothing for me. Correct?
+The following changes since commit 18d9fcfc4bc4b01f73e89f3b988c9d3d543c7705:
 
-Do two build from scratch, one with the changed PACKAGES and one
-without. Keep the same build history data in both builds. You'll then
-see the differences between them recorded.
+  libzypp: add missing runtime dependences on gzip and gnupg (2012-02-03 17:23:28 +0000)
 
-(Or diff the buildhistory from the two builds).
+are available in the git repository at:
+  git://github.com/OSSystems/oe-core master
+  https://github.com/OSSystems/oe-core/tree/HEAD
 
-Cheers,
+Otavio Salvador (2):
+  dhcp: move dhcp leases files handling to postinst/postrm
+  udev: stop providing cache support by default
 
-Richard
+ meta/recipes-connectivity/dhcp/dhcp.inc      |   19 ++++++++++++++++++-
+ meta/recipes-connectivity/dhcp/dhcp_4.2.0.bb |    2 +-
+ meta/recipes-core/udev/udev.inc              |    2 +-
+ meta/recipes-core/udev/udev_164.bb           |    2 +-
+ 4 files changed, 21 insertions(+), 4 deletions(-)
+
+-- 
+1.7.2.5
 
 
 
