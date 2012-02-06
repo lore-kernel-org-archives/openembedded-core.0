@@ -1,35 +1,23 @@
-Received: from mail-pw0-f47.google.com ([209.85.160.47])
+Received: from mail1.windriver.com ([147.11.146.13])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <raj.khem@gmail.com>) id 1RuIPA-0004YJ-EO
+	(envelope-from <Xiaofeng.Yan@windriver.com>) id 1RuIeB-0005WA-8i
 	for openembedded-core@lists.openembedded.org;
-	Mon, 06 Feb 2012 07:50:24 +0100
-Received: by mail-pw0-f47.google.com with SMTP id b4so4117806pbb.6
+	Mon, 06 Feb 2012 08:05:55 +0100
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca [147.11.189.40])
+	by mail1.windriver.com (8.14.3/8.14.3) with ESMTP id q166vp6Q023852
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 05 Feb 2012 22:42:25 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
-	h=from:to:subject:date:message-id:x-mailer:in-reply-to:references
-	:in-reply-to:references;
-	bh=WHeapxuNrYUyF5NkkkVuQDrYpoZTLsB9LdMFIVfT3Uk=;
-	b=KljTR204yEcQiCS8Rw18wEkpxga1qWG6UtxkISG2bupCkdCof42AmhojYrSwV4CME8
-	Nf9joVvZeu6khYn9bX3hawy4KA/nisighmGcT30AaD30eNaHRJaFpdXvZqKqzxnYVT6H
-	cWgb5HMIjNm8Usp5/RMTpMINz2yc4Caw0nge0=
-Received: by 10.68.216.135 with SMTP id oq7mr9884445pbc.94.1328510544813;
-	Sun, 05 Feb 2012 22:42:24 -0800 (PST)
-Received: from localhost.localdomain (oldbuilder.nslu2-linux.org.
-	[140.211.169.168]) by mx.google.com with ESMTPS id
-	li19sm37030710pbb.17.2012.02.05.22.42.22
-	(version=TLSv1/SSLv3 cipher=OTHER);
-	Sun, 05 Feb 2012 22:42:23 -0800 (PST)
-From: Khem Raj <raj.khem@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Date: Sun,  5 Feb 2012 22:40:46 -0800
-Message-Id: <d311646dbcb0be12596125a5cf8c97e713741182.1328510189.git.raj.khem@gmail.com>
-X-Mailer: git-send-email 1.7.5.4
-In-Reply-To: <04705556464a6e41642962da40f0e17847ee3483.1328510188.git.raj.khem@gmail.com>
-References: <04705556464a6e41642962da40f0e17847ee3483.1328510188.git.raj.khem@gmail.com>
-In-Reply-To: <cover.1328510187.git.raj.khem@gmail.com>
-References: <cover.1328510187.git.raj.khem@gmail.com>
-Subject: [PATCH 20/20] mirrors.bbclass: Add yp.org and oe.org to fallback mirrors
+	Sun, 5 Feb 2012 22:57:52 -0800 (PST)
+Received: from localhost (128.224.162.28) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server (TLS) id 14.1.255.0;
+	Sun, 5 Feb 2012 22:57:51 -0800
+Message-ID: <cover.1328509284.git.xiaofeng.yan@windriver.com>
+Old-Date: Mon, 6 Feb 2012 14:21:24 +0800
+Date: Mon, 6 Feb 2012 14:41:09 +0800
+To: <openembedded-core@lists.openembedded.org>
+From: Xiaofeng Yan <xiaofeng.yan@windriver.com>
+MIME-Version: 1.0
+Subject: [PATCH 0/2] glib-2.0: Don't check function "qsort_r" in configure.ac
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -44,48 +32,35 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 06 Feb 2012 06:50:24 -0000
+X-List-Received-Date: Mon, 06 Feb 2012 07:05:55 -0000
+Content-Type: text/plain
 
-This should improve the fetching errors users see
-when upstream src_uri is unavailable
+From: Xiaofeng Yan <xiaofeng.yan@windriver.com>
 
-Signed-off-by: Khem Raj <raj.khem@gmail.com>
+The function "g_qsort_with_data" has two kinds of realization. One calls qsort_r
+from libglib, the other realize itself. the realization method is controlled by macro "HAVE_QSORT_R".
+qsort_r from libglib cause sort error. Add no-check-qsort_r.patch for fixing this problem.
+This patch is to fix bug 1959. After this patch is merged into OE-core I will open a new bug to
+track the reason why qsort_r report normally. For finishing lsb test in YOCTO 1.2 M3 this patch
+is applied temporarily.
+
+Pull URL: git://git.pokylinux.org/poky-contrib.git
+  Branch: xiaofeng/1959
+  Browse: http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=xiaofeng/1959
+
+Thanks,
+    Xiaofeng Yan <xiaofeng.yan@windriver.com>
 ---
- meta/classes/mirrors.bbclass |   21 ++++++++++++++++++++-
- 1 files changed, 20 insertions(+), 1 deletions(-)
 
-diff --git a/meta/classes/mirrors.bbclass b/meta/classes/mirrors.bbclass
-index 2146087..69f44cd 100644
---- a/meta/classes/mirrors.bbclass
-+++ b/meta/classes/mirrors.bbclass
-@@ -52,5 +52,24 @@ ftp://lsof.itap.purdue.edu/pub/tools/unix/lsof/  ftp://gd.tuwien.ac.at/utils/adm
- ftp://lsof.itap.purdue.edu/pub/tools/unix/lsof/  ftp://sunsite.ualberta.ca/pub/Mirror/lsof/ \n \
- ftp://lsof.itap.purdue.edu/pub/tools/unix/lsof/  ftp://the.wiretapped.net/pub/security/host-security/lsof/ \n \
- http://www.apache.org/dist  http://archive.apache.org/dist \n \
-+cvs://.*/.*     http://autobuilder.yoctoproject.org/pub/sources/ \n \
-+svn://.*/.*     http://autobuilder.yoctoproject.org/pub/sources/ \n \
-+git://.*/.*     http://autobuilder.yoctoproject.org/pub/sources/ \n \
-+hg://.*/.*      http://autobuilder.yoctoproject.org/pub/sources/ \n \
-+bzr://.*/.*     http://autobuilder.yoctoproject.org/pub/sources/ \n \
-+svk://.*/.*     http://autobuilder.yoctoproject.org/pub/sources/ \n \
-+p4://.*/.*      http://autobuilder.yoctoproject.org/pub/sources/ \n \
-+osc://.*/.*     http://autobuilder.yoctoproject.org/pub/sources/ \n \
-+https?$://.*/.* http://autobuilder.yoctoproject.org/pub/sources/ \n \
-+ftp://.*/.*     http://autobuilder.yoctoproject.org/pub/sources/ \n \
-+cvs://.*/.*     http://sources.openembedded.org/ \n \
-+svn://.*/.*     http://sources.openembedded.org/ \n \
-+git://.*/.*     http://sources.openembedded.org/ \n \
-+hg://.*/.*      http://sources.openembedded.org/ \n \
-+bzr://.*/.*     http://sources.openembedded.org/ \n \
-+svk://.*/.*     http://sources.openembedded.org/ \n \
-+p4://.*/.*      http://sources.openembedded.org/ \n \
-+osc://.*/.*     http://sources.openembedded.org/ \n \
-+https?$://.*/.* http://sources.openembedded.org/ \n \
-+ftp://.*/.*     http://sources.openembedded.org/ \n \
- "
--
--- 
-1.7.5.4
+
+Xiaofeng Yan (2):
+  glib-2.0: Don't check function qsort_r
+  glib-2.0: Add patch "no-check-qsort_r.patch"
+
+ .../glib-2.0/glib-2.0/no-check-qsort_r.patch       |   61 ++++++++++++++++++++
+ meta/recipes-core/glib-2.0/glib-2.0_2.30.2.bb      |    3 +-
+ 2 files changed, 63 insertions(+), 1 deletions(-)
+ create mode 100644 meta/recipes-core/glib-2.0/glib-2.0/no-check-qsort_r.patch
 
 
 
