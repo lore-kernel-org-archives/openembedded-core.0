@@ -1,35 +1,34 @@
-Received: from mail-lpp01m020-f175.google.com ([209.85.217.175])
+Received: from mail-lpp01m010-f47.google.com ([209.85.215.47])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <raj.khem@gmail.com>) id 1RuXaq-0007l1-S5
+	(envelope-from <raj.khem@gmail.com>) id 1RuXfh-0007rI-Nz
 	for openembedded-core@lists.openembedded.org;
-	Tue, 07 Feb 2012 00:03:28 +0100
-Received: by lbol12 with SMTP id l12so1318594lbo.6
+	Tue, 07 Feb 2012 00:08:29 +0100
+Received: by lahc1 with SMTP id c1so3532644lah.6
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 06 Feb 2012 14:55:27 -0800 (PST)
+	Mon, 06 Feb 2012 15:00:28 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
 	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc:content-type;
-	bh=E3efGdlhLsQvCwfhMpmPhwxziveofV4TZO6VvysfiAQ=;
-	b=MzBf4bjzd5ubXRn2hy9qnAeSFjquqYtrVV2ZKQgrmqvgZRszb3b8M64Z4lgODGLjD+
-	T2z3fIGswXj2OXQ/oVf3gAtjMMBEZmyCbOtJlKIMBT4aVM1qj9KGymsRUMNLuMRCyGjY
-	WNaG4FKwpb58B5GcWa3iJ4rwb8dwqIoyzNdF0=
-Received: by 10.112.32.1 with SMTP id e1mr5613355lbi.3.1328568927300; Mon, 06
-	Feb 2012 14:55:27 -0800 (PST)
+	:content-type:content-transfer-encoding;
+	bh=F4JcpzvWlOjOuuT+hpZ2FMKWqVn3k1QsVHE/zpcdG8U=;
+	b=gsjm8mlpWHKwTkNsPRrWlKlhAczO+L+6mQYBcBzj9eX/UAvnO3dupqvIjwNE2lZxOa
+	FknuUrjY9d/QVicTcRje2O/8FnzN/v1Q97EhldRSS3AnI7F+KFaIebea0bUm2gEWuHeh
+	ddKRxLnd+OkKYhslzwM11hUB+79mfTHB7ntrQ=
+Received: by 10.112.101.34 with SMTP id fd2mr5435782lbb.16.1328569228245; Mon,
+	06 Feb 2012 15:00:28 -0800 (PST)
 MIME-Version: 1.0
-Received: by 10.152.5.201 with HTTP; Mon, 6 Feb 2012 14:54:57 -0800 (PST)
-In-Reply-To: <4F302661.9000400@gmail.com>
-References: <cover.1328509284.git.xiaofeng.yan@windriver.com>
-	<1624cca695c5baf08d376297f7278732dbcbfba6.1328509284.git.xiaofeng.yan@windriver.com>
-	<1328519623.2716.208.camel@x121e.pbcl.net>
-	<CAMKF1sqCO2Zz=4K=vSAAHZ1s8z=Hco7TQAWiFGMiXJLQB834pA@mail.gmail.com>
-	<4F302661.9000400@gmail.com>
+Received: by 10.152.5.201 with HTTP; Mon, 6 Feb 2012 14:59:58 -0800 (PST)
+In-Reply-To: <1328559652.2716.217.camel@x121e.pbcl.net>
+References: <CAMKF1spO-FVweKU21EdHK-Rs5gc4qun=JRYnwMWc88SOSeQufg@mail.gmail.com>
+	<CAMKF1soq=EaZ4KMb7McFcEjNyTVT2sMHPHvEr11+kL603iCOUQ@mail.gmail.com>
+	<1408084.uBj8QddilE@helios> <1328543751.14363.11.camel@phil-desktop>
+	<4F302D77.7030902@balister.org>
+	<1328559652.2716.217.camel@x121e.pbcl.net>
 From: Khem Raj <raj.khem@gmail.com>
-Date: Mon, 6 Feb 2012 14:54:57 -0800
-Message-ID: <CAMKF1sr6Sz99zb4AK7K+nWvUivyF+Lkf1QzMdMKyiwpoETRfWQ@mail.gmail.com>
-To: Peter Tworek <tworaz666@gmail.com>
-Cc: Patches and discussions about the oe-core layer
+Date: Mon, 6 Feb 2012 14:59:58 -0800
+Message-ID: <CAMKF1soeEj0fd6QsQcmWtHBfYro4oOBM+VbHSTW-NhOOtCedOg@mail.gmail.com>
+To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 1/2] glib-2.0: Don't check function qsort_r
+Subject: Re: Duplicate recipes in meta-oe
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -44,15 +43,21 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 06 Feb 2012 23:03:29 -0000
+X-List-Received-Date: Mon, 06 Feb 2012 23:08:29 -0000
 Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
-On Mon, Feb 6, 2012 at 11:13 AM, Peter Tworek <tworaz666@gmail.com> wrote:
-> Yes, it does. It was implemented somewhere in between 0.9.32 and 0.9.33 [1].
-> Last time I've checked it even worked fine with glib-2.0. You just need to
-> change glib_cv_have_qsort to yes in meta/site/common-uclibc.
+On Mon, Feb 6, 2012 at 12:20 PM, Phil Blundell <philb@gnu.org> wrote:
+> And, given that the idea of a separate /usr does still have some
+> currency in the Unix world, it doesn't seem unreasonable for oe-core to
+> support it. =C2=A0But equally, where that support carries a cost, I think=
+ it
+> would make sense for there to be an easy way for DISTROs to opt out of
+> it.
 
-yes I was merely pointing out the need since we still dont have 0.9.33
-in metadata
+well said Phil I have always been in favor of doing something like
+that instead of unconditionally ramming patches down the throats of
+different packages to support it
+since it does come with maintenance cost.
 
 
