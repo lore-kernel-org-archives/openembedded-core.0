@@ -1,29 +1,31 @@
-Received: from mail-ww0-f43.google.com ([74.125.82.43])
+Received: from mail-gy0-f175.google.com ([209.85.160.175])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <koen@dominion.thruhere.net>) id 1RuW4A-0004tx-A4
+	(envelope-from <kergoth@gmail.com>) id 1RuW6l-0004yq-4D
 	for openembedded-core@lists.openembedded.org;
-	Mon, 06 Feb 2012 22:25:38 +0100
-Received: by wgbdr13 with SMTP id dr13so5959281wgb.24
+	Mon, 06 Feb 2012 22:28:19 +0100
+Received: by ghbf19 with SMTP id f19so2762357ghb.6
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 06 Feb 2012 13:17:37 -0800 (PST)
-Received: by 10.180.86.198 with SMTP id r6mr15762961wiz.2.1328563057043;
-	Mon, 06 Feb 2012 13:17:37 -0800 (PST)
-Received: from [172.20.1.36] (ip545070eb.adsl-surfen.hetnet.nl.
-	[84.80.112.235])
-	by mx.google.com with ESMTPS id s2sm36850181wix.3.2012.02.06.13.17.36
+	Mon, 06 Feb 2012 13:20:17 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
+	h=from:to:cc:subject:date:message-id:x-mailer;
+	bh=ER4EhuPA47Tag58AUmEKOzDF7CZaTnPjS3jDV256dew=;
+	b=ucXGw35/eXBDYDBTaMCzNrRYUZ5L7J9LmG9G+rselzNCm+4XADUCD/cWL8MqB61KLP
+	jLgIM2gYHokqIunamkNanFIdX/lvTNqHOaet2tyI17iPwqczHIT/it1jbkTu27+Sh6OB
+	ylqneovFBfamhs5Km3Z8aGfJ7R7Mrym72sCh4=
+Received: by 10.101.114.11 with SMTP id r11mr8208384anm.4.1328563217396;
+	Mon, 06 Feb 2012 13:20:17 -0800 (PST)
+Received: from localhost.localdomain (hsvwanfw1-nat.mentorg.com.
+	[139.181.24.34])
+	by mx.google.com with ESMTPS id u11sm37999299anc.12.2012.02.06.13.20.16
 	(version=TLSv1/SSLv3 cipher=OTHER);
-	Mon, 06 Feb 2012 13:17:36 -0800 (PST)
-Mime-Version: 1.0 (Apple Message framework v1251.1)
-From: Koen Kooi <koen@dominion.thruhere.net>
-In-Reply-To: <CAMvUbCz0Lts7dUOWWvJeivm9nUb3nuhEqS-QY4+nOYOgmDzEkw@mail.gmail.com>
-Date: Mon, 6 Feb 2012 22:17:33 +0100
-Message-Id: <2025C8A2-8B17-4F99-B4B3-3A0C8EC2C322@dominion.thruhere.net>
-References: <CAMvUbCz0Lts7dUOWWvJeivm9nUb3nuhEqS-QY4+nOYOgmDzEkw@mail.gmail.com>
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-X-Mailer: Apple Mail (2.1251.1)
-X-Gm-Message-State: ALoCoQnpKlQ9qQTmNS4mx+FnvEYIJQjcTpnVS53g8bfkS8sXXNV3TBevSJQjcGMSyvMNmWNhe7S5
-Subject: Re: armhf support in OpenEmbedded?
+	Mon, 06 Feb 2012 13:20:16 -0800 (PST)
+From: Christopher Larson <kergoth@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Date: Mon,  6 Feb 2012 15:20:09 -0600
+Message-Id: <cover.1328563142.git.chris_larson@mentor.com>
+X-Mailer: git-send-email 1.7.7
+Cc: Christopher Larson <chris_larson@mentor.com>
+Subject: [PATCH 0/4] 2nd pass of external-csl-toolchain improvements
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -38,28 +40,37 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 06 Feb 2012 21:25:38 -0000
-Content-Type: text/plain; charset=iso-8859-1
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Mon, 06 Feb 2012 21:28:19 -0000
 
+From: Christopher Larson <chris_larson@mentor.com>
 
-Op 6 feb. 2012, om 22:01 heeft Leon Woestenberg het volgende geschreven:
+The following changes since commit 18d9fcfc4bc4b01f73e89f3b988c9d3d543c7705:
 
-> Hello,
->=20
-> do we already have support for the ARM "armhf" ABI in OpenEmbedded?  =
-(A quick search on the ML didn't get me hits).
->=20
-> Basically,"armhf" is built with -mfloat-abi=3Dhard, and tuned for =
-armv7-a CPUs.
+  libzypp: add missing runtime dependences on gzip and gnupg (2012-02-03 17:23:28 +0000)
 
-Yes, we've had it for ages in OE-classic and Marks tune overhaul made it =
-easy to use in OE-core as well. Also note that armhf has practically no =
-adavantage over softfp in real world applications. The only things =
-getting a decent speedup in proper benchmarks was povray.
+are available in the git repository at:
+  https://github.com/kergoth/oe-core external-toolchain-fixes
 
-regards,
+Christopher Larson (4):
+      external-csl-toolchain: set PKG/PKGV for staticdev
+      external-csl-toolchain: fix mtd-user.h issue
+      external-csl-toolchain: correct binary packaging
+      external-csl-toolchain: split out gdbserver packages
 
-Koen=
+ meta/recipes-core/meta/external-csl-toolchain.bb |   18 +++++++++++++++---
+ 1 files changed, 15 insertions(+), 3 deletions(-)
+
+Christopher Larson (4):
+  external-csl-toolchain: set PKG/PKGV for staticdev
+  external-csl-toolchain: fix mtd-user.h issue
+  external-csl-toolchain: correct binary packaging
+  external-csl-toolchain: split out gdbserver packages
+
+ meta/recipes-core/meta/external-csl-toolchain.bb |   18 +++++++++++++++---
+ 1 files changed, 15 insertions(+), 3 deletions(-)
+
+-- 
+1.7.7
+
 
 
