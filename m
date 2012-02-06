@@ -1,25 +1,38 @@
-Received: from mga03.intel.com ([143.182.124.21])
+Received: from mail-wi0-f175.google.com ([209.85.212.175])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <sgw@linux.intel.com>) id 1RuTvS-0000Tq-8p
+	(envelope-from <tworaz666@gmail.com>) id 1RuUAF-0000p6-Pn
 	for openembedded-core@lists.openembedded.org;
-	Mon, 06 Feb 2012 20:08:30 +0100
-Received: from azsmga002.ch.intel.com ([10.2.17.35])
-	by azsmga101.ch.intel.com with ESMTP; 06 Feb 2012 10:42:27 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="63827473"
-Received: from unknown (HELO [10.255.14.116]) ([10.255.14.116])
-	by AZSMGA002.ch.intel.com with ESMTP; 06 Feb 2012 10:42:26 -0800
-Message-ID: <4F301F12.3080208@linux.intel.com>
-Date: Mon, 06 Feb 2012 10:42:26 -0800
-From: Saul Wold <sgw@linux.intel.com>
+	Mon, 06 Feb 2012 20:23:47 +0100
+Received: by wibhq7 with SMTP id hq7so4724942wib.6
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 06 Feb 2012 11:15:46 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
+	h=message-id:date:from:user-agent:mime-version:to:cc:subject
+	:references:in-reply-to:content-type:content-transfer-encoding;
+	bh=5++kP5MvWogW9iOD+sE1XJG2oNnZdsheB5E3iTEF8Uk=;
+	b=ZT0NiM1QU1Ei9RiJZ2fZktGeZu6kTg4QGYqAY/4qS4+WOZiH4AaF8yY/U50hEUeMbC
+	f3gogwnj4gCsji8+bPIMgrv3ebuEvlB0g5uTNE6D9SZOarExC4QKD6q+leo9ez4iJKts
+	0p1hfM3LzulVEPMwD3ky/dl+60s03mGNyFJTU=
+Received: by 10.180.93.194 with SMTP id cw2mr29254315wib.0.1328555746706;
+	Mon, 06 Feb 2012 11:15:46 -0800 (PST)
+Received: from [192.168.0.10] (89-77-50-243.dynamic.chello.pl. [89.77.50.243])
+	by mx.google.com with ESMTPS id
+	ep3sm31627222wib.10.2012.02.06.11.15.43 (version=SSLv3 cipher=OTHER);
+	Mon, 06 Feb 2012 11:15:43 -0800 (PST)
+Message-ID: <4F302661.9000400@gmail.com>
+Date: Mon, 06 Feb 2012 20:13:37 +0100
+From: Peter Tworek <tworaz666@gmail.com>
 User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:9.0) Gecko/20111222 Thunderbird/9.0
+	rv:9.0) Gecko/20120112 Thunderbird/9.0
 MIME-Version: 1.0
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-References: <1328542159-8365-1-git-send-email-andrei@gherzan.ro>
-In-Reply-To: <1328542159-8365-1-git-send-email-andrei@gherzan.ro>
-Subject: Re: [PATCH] socat: Update to version 2.0.0 beta4
+References: <cover.1328509284.git.xiaofeng.yan@windriver.com>
+	<1624cca695c5baf08d376297f7278732dbcbfba6.1328509284.git.xiaofeng.yan@windriver.com>
+	<1328519623.2716.208.camel@x121e.pbcl.net>
+	<CAMKF1sqCO2Zz=4K=vSAAHZ1s8z=Hco7TQAWiFGMiXJLQB834pA@mail.gmail.com>
+In-Reply-To: <CAMKF1sqCO2Zz=4K=vSAAHZ1s8z=Hco7TQAWiFGMiXJLQB834pA@mail.gmail.com>
+Subject: Re: [PATCH 1/2] glib-2.0: Don't check function qsort_r
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -34,210 +47,38 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 06 Feb 2012 19:08:30 -0000
-Content-Type: text/plain; charset=ISO-8859-1; format=flowed
+X-List-Received-Date: Mon, 06 Feb 2012 19:23:47 -0000
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 
-On 02/06/2012 07:29 AM, Andrei Gherzan wrote:
-> Signed-off-by: Andrei Gherzan<andrei@gherzan.ro>
-> ---
->   .../recipes-connectivity/socat/files/compile.patch |   45 ++++++++++++++-----
->   meta/recipes-connectivity/socat/socat_1.7.2.0.bb   |   28 ------------
->   meta/recipes-connectivity/socat/socat_2.0.0-b4.bb  |   28 ++++++++++++
->   3 files changed, 61 insertions(+), 40 deletions(-)
->   delete mode 100644 meta/recipes-connectivity/socat/socat_1.7.2.0.bb
->   create mode 100644 meta/recipes-connectivity/socat/socat_2.0.0-b4.bb
->
-Why update to a beta version?  I think we want to wait for the 
-officially released version, is there a reason to go sooner?
+On 02/06/2012 04:34 PM, Khem Raj wrote:
+> On Mon, Feb 6, 2012 at 1:13 AM, Phil Blundell<philb@gnu.org>  wrote:
+>> On Mon, 2012-02-06 at 14:41 +0800, Xiaofeng Yan wrote:
+>>> From: Xiaofeng Yan<xiaofeng.yan@windriver.com>
+>>>
+>>> function "g_qsort_with_data" has two kinds of realization. One calls qsort_r
+>>> from libglib, the other realize itself.
+>>> qsort_r from libglib cause sort error.
+>>> For fixing this problem no checking "qsort_r" in configure.ac.
+>>>
+>>> [YOCTO #1959]
+>> This description doesn't make much sense.  libglib is part of glib-2.0
+>> itself; I guess you meant to say that qsort_r is from libc6.  But, even
+>> leaving that aside, if qsort_r is broken then the appropriate patch
+>> would be to fix it, not just to hack glib to use a standalone
+>> implementation.  So this patch seems like the wrong thing by any
+>> measure.
+>>
+>> Does glibc's own testsuite also have failures for qsort_r?
+> glibc one works ok last time I checked however uclibc does not implement it
+Yes, it does. It was implemented somewhere in between 0.9.32 and 0.9.33 
+[1]. Last time I've checked it even worked fine with glib-2.0. You just 
+need to change glib_cv_have_qsort to yes in meta/site/common-uclibc.
 
-Sau!
+/ptw
 
-> diff --git a/meta/recipes-connectivity/socat/files/compile.patch b/meta/recipes-connectivity/socat/files/compile.patch
-> index 4d1a0b6..6b980b9 100644
-> --- a/meta/recipes-connectivity/socat/files/compile.patch
-> +++ b/meta/recipes-connectivity/socat/files/compile.patch
-> @@ -9,7 +9,7 @@ Fri Dec 16 17:12:17 CST 2011
->   diff -Nru socat-1.7.2.0.orig/configure.in socat-1.7.2.0/configure.in
->   --- socat-1.7.2.0.orig/configure.in	2011-12-04 21:34:16.000000000 +0800
->   +++ socat-1.7.2.0/configure.in	2011-12-16 17:08:59.698367071 +0800
-> -@@ -88,7 +88,7 @@
-> +@@ -76,7 +76,7 @@
->
->
->    dnl Check for extra socket library (for Solaris)
-> @@ -18,7 +18,7 @@ diff -Nru socat-1.7.2.0.orig/configure.in socat-1.7.2.0/configure.in
->    AC_CHECK_FUNC(gethostent, , AC_CHECK_LIB(nsl, gethostent))
->    AC_CHECK_FUNC(setsockopt, , AC_CHECK_LIB(socket, setsockopt))
->
-> -@@ -102,7 +102,7 @@
-> +@@ -90,7 +90,7 @@
->     [sc_cv_have_prototype_hstrerror=yes]);
->     CFLAGS="$CFLAGS1"])
->    if test $sc_cv_have_prototype_hstrerror = yes; then
-> @@ -27,7 +27,7 @@ diff -Nru socat-1.7.2.0.orig/configure.in socat-1.7.2.0/configure.in
->    fi
->    AC_MSG_RESULT($sc_cv_have_prototype_hstrerror)
->
-> -@@ -111,83 +111,83 @@
-> +@@ -99,99 +99,99 @@
->    AC_ARG_ENABLE(help, [  --disable-help          disable help],
->    	      [case "$enableval" in
->    	       no) AC_MSG_RESULT(no);;
-> @@ -37,6 +37,26 @@ diff -Nru socat-1.7.2.0.orig/configure.in socat-1.7.2.0/configure.in
->   -	       [AC_DEFINE(WITH_HELP) AC_MSG_RESULT(yes)])
->   +	       [AC_DEFINE(WITH_HELP, [1], [With help]) AC_MSG_RESULT(yes)])
->
-> + AC_MSG_CHECKING(whether to include nop address support)
-> + AC_ARG_ENABLE(nop, [  --disable-nop           disable nop support],
-> + 	      [case "$enableval" in
-> + 	       no) AC_MSG_RESULT(no);;
-> +-	       *) AC_DEFINE(WITH_NOP) AC_MSG_RESULT(yes);;
-> ++	       *) AC_DEFINE(WITH_NOP, [1], [With nop]) AC_MSG_RESULT(yes);;
-> + 	       esac],
-> +-	       [AC_DEFINE(WITH_NOP) AC_MSG_RESULT(yes)])
-> ++	       [AC_DEFINE(WITH_nop, [1], [With nop]) AC_MSG_RESULT(yes)])
-> +
-> + AC_MSG_CHECKING(whether to include test address support)
-> + AC_ARG_ENABLE(test, [  --disable-test           disable test support],
-> + 	      [case "$enableval" in
-> + 	       no) AC_MSG_RESULT(no);;
-> +-	       *) AC_DEFINE(WITH_TEST) AC_MSG_RESULT(yes);;
-> ++	       *) AC_DEFINE(WITH_TEST, [1], [With test]) AC_MSG_RESULT(yes);;
-> + 	       esac],
-> +-	       [AC_DEFINE(WITH_TEST) AC_MSG_RESULT(yes)])
-> ++	       [AC_DEFINE(WITH_TEST, [1], [With test]) AC_MSG_RESULT(yes)])
-> +
->    AC_MSG_CHECKING(whether to include STDIO support)
->    AC_ARG_ENABLE(stdio, [  --disable-stdio         disable STDIO support],
->    	      [case "$enableval" in
-> @@ -131,7 +151,7 @@ diff -Nru socat-1.7.2.0.orig/configure.in socat-1.7.2.0/configure.in
->    		*)
->    		    AC_MSG_RESULT(no);;
->    		esac])
-> -@@ -196,9 +196,9 @@
-> +@@ -200,9 +200,9 @@
->    AC_ARG_ENABLE(ip4, [  --disable-ip4           disable IPv4 support],
->    	      [case "$enableval" in
->    	       no) AC_MSG_RESULT(no);;
-> @@ -143,7 +163,7 @@ diff -Nru socat-1.7.2.0.orig/configure.in socat-1.7.2.0/configure.in
->
->    AC_MSG_CHECKING(whether to include IPv6 support)
->    AC_ARG_ENABLE(ip6, [  --disable-ip6           disable IPv6 support],
-> -@@ -209,7 +209,7 @@
-> +@@ -213,7 +213,7 @@
->    	      [ AC_MSG_RESULT(yes);  WITH_IP6=1 ])
->    if test "$WITH_IP6"; then
->      AC_CHECK_HEADERS([netinet/ip6.h],
-> @@ -152,7 +172,7 @@ diff -Nru socat-1.7.2.0.orig/configure.in socat-1.7.2.0/configure.in
->        [AC_MSG_WARN([include file netinet/ip6.h not found, disabling IP6])],
->        [AC_INCLUDES_DEFAULT
->         #ifdef HAVE_NETINET_IN_H
-> -@@ -242,17 +242,17 @@
-> +@@ -245,17 +245,17 @@
->    AC_ARG_ENABLE(rawip, [  --disable-rawip         disable raw IP support],
->    	      [case "$enableval" in
->    	       no) AC_MSG_RESULT(no);;
-> @@ -174,7 +194,7 @@ diff -Nru socat-1.7.2.0.orig/configure.in socat-1.7.2.0/configure.in
->    AC_MSG_CHECKING(whether to include raw network interface support)
->    AC_ARG_ENABLE(interface, [  --disable-interface  disable network interface support],
->    	      [case "$enableval" in
-> -@@ -262,35 +262,35 @@
-> +@@ -293,35 +293,35 @@
->    	       [AC_MSG_RESULT(yes);  WITH_INTERFACE=1 ])
->    if test "$WITH_INTERFACE"; then
->      AC_CHECK_HEADER(netpacket/packet.h,
-> @@ -847,17 +867,18 @@ diff -Nru socat-1.7.2.0.orig/configure.in socat-1.7.2.0/configure.in
->    fi
->    AC_MSG_RESULT($ac_cv_have_z_modifier)
->
-> -@@ -1334,7 +1335,8 @@
-> +@@ -1334,8 +1335,9 @@
->     [$2=-1]
-> +  [AC_MSG_RESULT(please determine $1_SHIFT manually)]
->    )
->     LIBS="$LIBS1"])
->   -AC_DEFINE_UNQUOTED($1_SHIFT, ${$2})
->   +SHIFT_NAME="$1"_SHIFT
->   +AC_DEFINE_UNQUOTED($SHIFT_NAME, ${$2}, [foo])
-> - if test "$2" = -1; then
-> - AC_MSG_WARN(please determine $1_SHIFT manually)
-> - fi
-> -@@ -1374,7 +1376,7 @@
-> + ])
-> +
-> + AC_SHIFT_OFFSET(CRDLY,  sc_cv_sys_crdly_shift)
-> +@@ -1332,7 +1332,7 @@
->            [$4="0 /* unknown, taking default */"
->    ]) ]) ]) ]) ]) ]) ]) ])
->     CFLAGS="$CFLAGS1" ])
-> diff --git a/meta/recipes-connectivity/socat/socat_1.7.2.0.bb b/meta/recipes-connectivity/socat/socat_1.7.2.0.bb
-> deleted file mode 100644
-> index 1273dcf..0000000
-> --- a/meta/recipes-connectivity/socat/socat_1.7.2.0.bb
-> +++ /dev/null
-> @@ -1,28 +0,0 @@
-> -DESCRIPTION = "Socat is a relay for bidirectional data \
-> -transfer between two independent data channels."
-> -HOMEPAGE = "http://www.dest-unreach.org/socat/"
-> -
-> -SECTION = "console/network"
-> -
-> -DEPENDS = "openssl"
-> -
-> -LICENSE = "GPL-2.0+-with-OpenSSL-exception"
-> -
-> -PR = "r0"
-> -SRC_URI = "http://www.dest-unreach.org/socat/download/socat-${PV}.tar.bz2;name=src \
-> -           file://compile.patch"
-> -
-> -LIC_FILES_CHKSUM = "file://COPYING;md5=18810669f13b87348459e611d31ab760 \
-> -                    file://README;beginline=252;endline=282;md5=79246f11a1db0b6ccec54d1fb711c01e"
-> -
-> -SRC_URI[src.md5sum] = "eb563dd00b9d39a49fb62a677fc941fe"
-> -SRC_URI[src.sha256sum] = "59b3bde927c14fbc3f9e42c782971710da8a89bbf46f7531f09a681754041802"
-> -
-> -EXTRA_OECONF = " --disable-termios "
-> -
-> -inherit autotools
-> -
-> -do_install_prepend () {
-> -    mkdir -p ${D}${bindir}
-> -    install -d ${D}${bindir} ${D}${mandir}/man1
-> -}
-> diff --git a/meta/recipes-connectivity/socat/socat_2.0.0-b4.bb b/meta/recipes-connectivity/socat/socat_2.0.0-b4.bb
-> new file mode 100644
-> index 0000000..bb413a8
-> --- /dev/null
-> +++ b/meta/recipes-connectivity/socat/socat_2.0.0-b4.bb
-> @@ -0,0 +1,28 @@
-> +DESCRIPTION = "Socat is a relay for bidirectional data \
-> +               transfer between two independent data channels."
-> +HOMEPAGE = "http://www.dest-unreach.org/socat/"
-> +SECTION = "console/network"
-> +
-> +DEPENDS = "readline openssl"
-> +
-> +LICENSE = "GPL-2.0&  MIT&  OpenSSL"
-> +
-> +PR = "r0"
-> +
-> +SRC_URI = "http://www.dest-unreach.org/socat/download/socat-${PV}.tar.bz2;name=src \
-> +           file://compile.patch"
-> +
-> +LIC_FILES_CHKSUM = "file://COPYING;md5=18810669f13b87348459e611d31ab760 \
-> +                    file://README;beginline=252;endline=282;md5=79246f11a1db0b6ccec54d1fb711c01e"
-> +
-> +SRC_URI[src.md5sum] = "b51a00937d0a56fc8eccd36175e9d068"
-> +SRC_URI[src.sha256sum] = "1272133a0b2aef0045f1b71a2f49194e6fbc37ed5c0d0c683d98b52740dbcd9c"
-> +
-> +EXTRA_OECONF = " --disable-termios "
-> +
-> +inherit autotools
-> +
-> +do_install_prepend () {
-> +    mkdir -p ${D}${bindir}
-> +    install -d ${D}${bindir} ${D}${mandir}/man1
-> +}
+[1] 
+http://git.uclibc.org/uClibc/commit/?id=515d54433138596e81267237542bd9168b8cc787
+
 
 
