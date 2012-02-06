@@ -1,31 +1,29 @@
-Received: from mail-bk0-f47.google.com ([209.85.214.47])
+Received: from mail.pbcl.net ([88.198.119.4] helo=hetzner.pbcl.net)
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <sidebranch.openembedded@gmail.com>)
-	id 1RuWPz-0005a3-MB for openembedded-core@lists.openembedded.org;
-	Mon, 06 Feb 2012 22:48:11 +0100
-Received: by bke17 with SMTP id 17so5337530bke.6
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 06 Feb 2012 13:40:10 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
-	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
-	:content-type; bh=6f4qOFcCt+2K2fL0XYHbg0MLcpmt41pDD098XggVoYc=;
-	b=wqe9MW9NtSHm89xz7cyr8XXiulHN75Eoyftjl+/RJkFxdYFpcn7N/hrBSrSLOQonNQ
-	AuDrOiSgsJ5GGfEdKxyoOBHS8AmnA+FtyNfpI1ZjoVw7t/b3z+asF+upddcIlIJR/I+w
-	TIUW0WzcCYc+2qY0nRVZlE+QQ1GXKvlNU8g24=
-MIME-Version: 1.0
-Received: by 10.204.129.8 with SMTP id m8mr1831402bks.69.1328564410401; Mon,
-	06 Feb 2012 13:40:10 -0800 (PST)
-Received: by 10.205.122.135 with HTTP; Mon, 6 Feb 2012 13:40:10 -0800 (PST)
-In-Reply-To: <4F3044B1.1000705@windriver.com>
-References: <CAMvUbCz0Lts7dUOWWvJeivm9nUb3nuhEqS-QY4+nOYOgmDzEkw@mail.gmail.com>
-	<2025C8A2-8B17-4F99-B4B3-3A0C8EC2C322@dominion.thruhere.net>
-	<4F3044B1.1000705@windriver.com>
-Date: Mon, 6 Feb 2012 22:40:10 +0100
-Message-ID: <CAMvUbCxrWssgAi4EW4k3MUqZu+9uz_zcFPFn-XJMfF29iE=ApQ@mail.gmail.com>
-From: Leon Woestenberg <sidebranch.openembedded@gmail.com>
+	(envelope-from <philb@gnu.org>) id 1RuXHt-0006uz-Vw
+	for openembedded-core@lists.openembedded.org;
+	Mon, 06 Feb 2012 23:43:54 +0100
+Received: from blundell.swaffham-prior.co.uk ([91.216.112.25]
+	helo=[192.168.114.6])
+	by hetzner.pbcl.net with esmtpsa (TLS1.0:RSA_AES_256_CBC_SHA1:32)
+	(Exim 4.72) (envelope-from <philb@gnu.org>) id 1RuXAA-0005vx-J3
+	for openembedded-core@lists.openembedded.org;
+	Mon, 06 Feb 2012 23:35:54 +0100
+Message-ID: <1328567740.2716.238.camel@x121e.pbcl.net>
+From: Phil Blundell <philb@gnu.org>
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Subject: Re: armhf support in OpenEmbedded?
+Date: Mon, 06 Feb 2012 22:35:40 +0000
+In-Reply-To: <4F303C92.8050706@windriver.com>
+References: <CAMKF1spO-FVweKU21EdHK-Rs5gc4qun=JRYnwMWc88SOSeQufg@mail.gmail.com>
+	<CAMKF1soq=EaZ4KMb7McFcEjNyTVT2sMHPHvEr11+kL603iCOUQ@mail.gmail.com>
+	<1408084.uBj8QddilE@helios> <1328543751.14363.11.camel@phil-desktop>
+	<4F302D77.7030902@balister.org>
+	<1328559652.2716.217.camel@x121e.pbcl.net>
+	<4F303C92.8050706@windriver.com>
+X-Mailer: Evolution 3.2.2-1 
+Mime-Version: 1.0
+Subject: Re: Duplicate recipes in meta-oe
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -40,86 +38,52 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 06 Feb 2012 21:48:11 -0000
-Content-Type: multipart/alternative; boundary=0015173fe4debe447104b8528144
+X-List-Received-Date: Mon, 06 Feb 2012 22:43:54 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
---0015173fe4debe447104b8528144
-Content-Type: text/plain; charset=ISO-8859-1
+On Mon, 2012-02-06 at 14:48 -0600, Mark Hatle wrote:
+> On 2/6/12 2:20 PM, Phil Blundell wrote:
+> > On Mon, 2012-02-06 at 14:43 -0500, Philip Balister wrote:
+> >> On 02/06/2012 10:55 AM, Phil Blundell wrote:
+> >>> I think probably the right answer is to make "1970s-usr" be a
+> >>> DISTRO_FEATURE and then the timezone recipes (and others) can adapt
+> >>> themselves accordingly.
+> >>
+> >> Does anyone use a system where /usr is on a separate partition?
+> >
+> > I'm not aware of any systems that work that way, but I do know that
+> > there have been some patches submitted recently (by Intel folks I think)
+> > to move files around in order to avoid binaries in / linking against
+> > shared libraries in /usr.  Presumably the fact that they're running into
+> > these issues indicates that they've got some systems which are using
+> > that sort of filesystem configuration.
+> >
+> > And, given that the idea of a separate /usr does still have some
+> > currency in the Unix world, it doesn't seem unreasonable for oe-core to
+> > support it.  But equally, where that support carries a cost, I think it
+> > would make sense for there to be an easy way for DISTROs to opt out of
+> > it.  Obviously in the case of micro the idea of a separate /usr is
+> > meaningless, but I imagine there are plenty of folks who would want to
+> > keep the /usr filesystem layout but don't need to take special measures
+> > to cope with it being on a different storage device.
+> 
+> All existing patches should support / and "usr" being merged as in the micro 
+> system design.  If that doesn't work, it's an error in the recipe integration.
 
-Hello,
+Yes, agreed.  I think there are a few bugs in this area right now (and
+Mike Crowe sent some patches today for things which got broken in micro
+by the recent changes for separate /usr) but broadly speaking you're
+right, there is no reason that the two things can't be supported in
+parallel.
 
-On Mon, Feb 6, 2012 at 10:22 PM, Mark Hatle <mark.hatle@windriver.com>wrote:
+The point I was trying to make in the text above was that, in cases like
+the timezone thing where there is a real cost to supporting a separate
+partition for /usr (i.e. making a copy of the file rather than a link)
+it would be desirable for there to be a mechanism for DISTROs which
+don't need/want that support to avoid taking the hit.
 
-> On 2/6/12 3:17 PM, Koen Kooi wrote:
->
->>
->> Op 6 feb. 2012, om 22:01 heeft Leon Woestenberg het volgende geschreven:
->>
->>  do we already have support for the ARM "armhf" ABI in OpenEmbedded?  (A
->>> quick search on the ML didn't get me hits).
->>> Basically,"armhf" is built with -mfloat-abi=hard, and tuned for armv7-a
->>> CPUs.
->>>
->>
->> Yes, we've had it for ages in OE-classic and Marks tune overhaul made it
->> easy to use in OE-core as well. Also note that armhf has practically no
->> adavantage over softfp in real world applications. The only things getting
->> a decent speedup in proper benchmarks was povray.
->>
->
-> I strongly discourage people from using it.  If you don't care about ABI
-> compatibility it might be a few cycles faster.. but it does limit your
-> ability to draw from existing EABI software.  (Be it commercial or open
-> source.)
->
-
-Can someone please lift that large rock I have been under for ages?
-
-Thanks!
-
-Leon
+p.
 
 
-/me climbing back into the OE trenches
 
---0015173fe4debe447104b8528144
-Content-Type: text/html; charset=ISO-8859-1
-Content-Transfer-Encoding: quoted-printable
-
-Hello,<br><br><div class=3D"gmail_quote">On Mon, Feb 6, 2012 at 10:22 PM, M=
-ark Hatle <span dir=3D"ltr">&lt;<a href=3D"mailto:mark.hatle@windriver.com"=
->mark.hatle@windriver.com</a>&gt;</span> wrote:<br><blockquote class=3D"gma=
-il_quote" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-lef=
-t:1ex">
-<div class=3D"im">On 2/6/12 3:17 PM, Koen Kooi wrote:<br>
-<blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1p=
-x #ccc solid;padding-left:1ex">
-<br>
-Op 6 feb. 2012, om 22:01 heeft Leon Woestenberg het volgende geschreven:<br=
->
-<br>
-<blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1p=
-x #ccc solid;padding-left:1ex">
-do we already have support for the ARM &quot;armhf&quot; ABI in OpenEmbedde=
-d? =A0(A quick search on the ML didn&#39;t get me hits).<br>
-
-Basically,&quot;armhf&quot; is built with -mfloat-abi=3Dhard, and tuned for=
- armv7-a CPUs.<br>
-</blockquote>
-<br>
-Yes, we&#39;ve had it for ages in OE-classic and Marks tune overhaul made i=
-t easy to use in OE-core as well. Also note that armhf has practically no a=
-davantage over softfp in real world applications. The only things getting a=
- decent speedup in proper benchmarks was povray.<br>
-
-</blockquote>
-<br></div>
-I strongly discourage people from using it. =A0If you don&#39;t care about =
-ABI compatibility it might be a few cycles faster.. but it does limit your =
-ability to draw from existing EABI software. =A0(Be it commercial or open s=
-ource.)<br>
-</blockquote><div><br>Can someone please lift that large rock I have been u=
-nder for ages?<br><br>Thanks!<br><br>Leon<br><br><br>/me climbing back into=
- the OE trenches<br></div></div>
-
---0015173fe4debe447104b8528144--
