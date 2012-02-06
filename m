@@ -1,35 +1,35 @@
-Received: from mail-pw0-f47.google.com ([209.85.160.47])
+Received: from mail-pz0-f47.google.com ([209.85.210.47])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <raj.khem@gmail.com>) id 1RuIOu-0004YB-I7
+	(envelope-from <raj.khem@gmail.com>) id 1RuIOt-0004D6-Vs
 	for openembedded-core@lists.openembedded.org;
 	Mon, 06 Feb 2012 07:50:08 +0100
-Received: by pbbb4 with SMTP id b4so4117762pbb.6
+Received: by mail-pz0-f47.google.com with SMTP id n34so1809173dal.6
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 05 Feb 2012 22:42:07 -0800 (PST)
+	Sun, 05 Feb 2012 22:42:09 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
 	h=from:to:subject:date:message-id:x-mailer:in-reply-to:references
 	:in-reply-to:references;
-	bh=HsSp+RqukBAlK2Osbfnz9LCXkQWJgNfciVzjOlNVh0E=;
-	b=NlIMCdj5scjo1yDCQTkezQsB2/CdtR8VyEcYthAI/dspxekDvv9OI8H3kdMOA73FSG
-	76Qe2Vs+2e7a4+2h8SrAVu05e6/eoj5jUUON+XK0ynhFzsTDNV5+jgg7KUc3aWmzcTq3
-	nDklLNKnfPvs4Ny+8eHcWb3XATAF8ffkVLWv4=
-Received: by 10.68.73.6 with SMTP id h6mr44630291pbv.116.1328510527121;
-	Sun, 05 Feb 2012 22:42:07 -0800 (PST)
+	bh=tDBNkl2Imd6CfHVWlhHEFgjY5AodTZeylAx0t/iFpHw=;
+	b=jvHdYH6r7aJgIW8fGBBfTm552eJ6YncMiWw06KlH5U2bF5J42WSYSJ++xTjTU+CX4D
+	y1x90H12OU1Fhzn5ptxyY3annm6wMpSTRhpJ4TqPZURW8usMMJdd0Dwon0KP9lKtw8Ey
+	R2XPaariLoNPameo/0mNahIohxiilUEHEBJBg=
+Received: by 10.68.222.194 with SMTP id qo2mr45070563pbc.20.1328510528919;
+	Sun, 05 Feb 2012 22:42:08 -0800 (PST)
 Received: from localhost.localdomain (oldbuilder.nslu2-linux.org.
 	[140.211.169.168]) by mx.google.com with ESMTPS id
-	li19sm37030710pbb.17.2012.02.05.22.42.05
+	li19sm37030710pbb.17.2012.02.05.22.42.07
 	(version=TLSv1/SSLv3 cipher=OTHER);
-	Sun, 05 Feb 2012 22:42:06 -0800 (PST)
+	Sun, 05 Feb 2012 22:42:07 -0800 (PST)
 From: Khem Raj <raj.khem@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Sun,  5 Feb 2012 22:40:39 -0800
-Message-Id: <41e218a2ce9a874d44f09eeec9190e2431c647e6.1328510189.git.raj.khem@gmail.com>
+Date: Sun,  5 Feb 2012 22:40:40 -0800
+Message-Id: <e3a71d4e08c4f40a7e0ff40769c46590c8d3581e.1328510189.git.raj.khem@gmail.com>
 X-Mailer: git-send-email 1.7.5.4
 In-Reply-To: <04705556464a6e41642962da40f0e17847ee3483.1328510188.git.raj.khem@gmail.com>
 References: <04705556464a6e41642962da40f0e17847ee3483.1328510188.git.raj.khem@gmail.com>
 In-Reply-To: <cover.1328510187.git.raj.khem@gmail.com>
 References: <cover.1328510187.git.raj.khem@gmail.com>
-Subject: [PATCH 13/20] runqemu-internal: qemuarm can handle 256M
+Subject: [PATCH 14/20] gconf, consolekit: Avoid polkit when compiling with uclibc
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -46,38 +46,78 @@ List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedde
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Mon, 06 Feb 2012 06:50:12 -0000
 
-Raise the check for max RAM supported for QEMU/arm
-its 256M since we patched it to be so in OE
+polkit uses netdb functionality from glibc which is not
+available in uclibc therefore we avoid polkit when compiling
+for uclibc systems.
 
 Signed-off-by: Khem Raj <raj.khem@gmail.com>
 ---
- scripts/runqemu-internal |   13 +++++++------
- 1 files changed, 7 insertions(+), 6 deletions(-)
+ meta/recipes-gnome/gnome/gconf_3.2.3.bb            |    9 +++++++--
+ .../recipes-support/consolekit/consolekit_0.4.5.bb |   11 ++++++++---
+ 2 files changed, 15 insertions(+), 5 deletions(-)
 
-diff --git a/scripts/runqemu-internal b/scripts/runqemu-internal
-index 21fbce3..73b8b41 100755
---- a/scripts/runqemu-internal
-+++ b/scripts/runqemu-internal
-@@ -67,13 +67,14 @@ fi
- # QEMU_MEMORY has 'M' appended to mem_size
- QEMU_MEMORY="$mem_size"M
+diff --git a/meta/recipes-gnome/gnome/gconf_3.2.3.bb b/meta/recipes-gnome/gnome/gconf_3.2.3.bb
+index 412f01c..a0b8d0c 100644
+--- a/meta/recipes-gnome/gnome/gconf_3.2.3.bb
++++ b/meta/recipes-gnome/gnome/gconf_3.2.3.bb
+@@ -3,10 +3,13 @@ SECTION = "x11/gnome"
+ LICENSE = "LGPLv2+"
+ LIC_FILES_CHKSUM = "file://COPYING;md5=55ca817ccb7d5b5b66355690e9abc605"
  
--# Bug 433: qemuarm cannot use > 128 MB RAM
-+# Bug 433: qemuarm cannot use > 256 MB RAM
- if [ "$MACHINE" = "qemuarm" ]; then
--    if [[ -z "$mem_size" || $mem_size -gt 128 ]]; then
--        echo "WARNING: qemuarm does not support > 128M of RAM."
--        echo "Changing QEMU_MEMORY to default of 128M."
--        QEMU_MEMORY="128M"
--        SCRIPT_QEMU_EXTRA_OPT=`echo $SCRIPT_QEMU_EXTRA_OPT | sed -e "s/$mem_set/-m 128/" `
-+    if [[ -z "$mem_size" || $mem_size -gt 256 ]]; then
-+        echo "WARNING: qemuarm does not support > 256M of RAM."
-+        echo "Changing QEMU_MEMORY to default of 256M."
-+        QEMU_MEMORY="256M"
-+	mem_size="256"
-+        SCRIPT_QEMU_EXTRA_OPT=`echo $SCRIPT_QEMU_EXTRA_OPT | sed -e "s/$mem_set/-m 256/" `
-     fi
- fi
+-DEPENDS = "glib-2.0 gtk+ dbus dbus-glib libxml2 intltool-native polkit"
++POLKIT = "polkit"
++POLKIT_libc-uclibc = ""
++
++DEPENDS = "glib-2.0 gtk+ dbus dbus-glib libxml2 intltool-native ${POLKIT}"
+ DEPENDS_virtclass-native = "glib-2.0-native dbus-native dbus-glib-native libxml2-native intltool-native gnome-common-native"
+ 
+-PR = "r5"
++PR = "r6"
+ 
+ inherit gnomebase
+ 
+@@ -21,6 +24,8 @@ S = "${WORKDIR}/GConf-${PV}"
+ 
+ POLKIT_OECONF = "--enable-defaults-service"
+ POLKIT_OECONF_virtclass-native = "--disable-defaults-service"
++POLKIT_OECONF_libc-uclibc = "--disable-default-service"
++
+ GTKOECONF = "--with-gtk=2.0 --enable-gtk"
+ GTKOECONF_virtclass-native = "--disable-gtk"
+ EXTRA_OECONF = "--disable-gtk-doc --enable-shared --disable-static --enable-debug=yes \
+diff --git a/meta/recipes-support/consolekit/consolekit_0.4.5.bb b/meta/recipes-support/consolekit/consolekit_0.4.5.bb
+index 45f6ad3..3ded6df 100644
+--- a/meta/recipes-support/consolekit/consolekit_0.4.5.bb
++++ b/meta/recipes-support/consolekit/consolekit_0.4.5.bb
+@@ -2,13 +2,18 @@ DESCRIPTION = "ConsoleKit is a framework for defining and tracking users, login
+ HOMEPAGE="http://www.freedesktop.org/wiki/Software/ConsoleKit"
+ BUGTRACKER="https://bugs.freedesktop.org/buglist.cgi?query_format=specific&product=ConsoleKit"
+ 
+-PR = "r7"
++PR = "r8"
+ 
+ LICENSE = "GPLv2+"
+ LIC_FILES_CHKSUM = "file://COPYING;md5=59530bdf33659b29e73d4adb9f9f6552 \
+                     file://src/main.c;endline=21;md5=0a994e09769780220163255d8f9071c3"
+ 
+-DEPENDS = "glib-2.0 dbus polkit ${@base_contains('DISTRO_FEATURES', 'pam', 'libpam', '', d)}"
++POLKIT = "polkit"
++POLKIT_libc-uclibc = ""
++POLKITCONF = ""
++POLKITCONF_libc-uclibc = "--disable-policykit"
++
++DEPENDS = "glib-2.0 dbus ${POLKIT} ${@base_contains('DISTRO_FEATURES', 'pam', 'libpam', '', d)}"
+ RDEPENDS_${PN} += "base-files"
+ 
+ inherit gnome
+@@ -20,7 +25,7 @@ SRC_URI[sha256sum] = "43e0780c53078e125efcec3f847e484dc3533e49b408ce6a0ab1b22368
+ 
+ S = "${WORKDIR}/ConsoleKit-${PV}"
+ 
+-EXTRA_OECONF = "--with-systemdsystemunitdir=${base_libdir}/systemd/system/ \
++EXTRA_OECONF = "${POLKITCONF} --with-systemdsystemunitdir=${base_libdir}/systemd/system/ \
+                 ${@base_contains('DISTRO_FEATURES', 'pam', '--enable-pam-module --with-pam-module-dir=${base_libdir}/security', '--disable-pam-module', d)} \
+                "
  
 -- 
 1.7.5.4
