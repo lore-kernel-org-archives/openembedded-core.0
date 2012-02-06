@@ -1,35 +1,35 @@
-Received: from mail-pz0-f47.google.com ([209.85.210.47])
+Received: from mail-pw0-f47.google.com ([209.85.160.47])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <raj.khem@gmail.com>) id 1RuIOt-0004D6-Vs
+	(envelope-from <raj.khem@gmail.com>) id 1RuIOq-0004BP-Sm
 	for openembedded-core@lists.openembedded.org;
 	Mon, 06 Feb 2012 07:50:08 +0100
-Received: by mail-pz0-f47.google.com with SMTP id n34so1809173dal.6
+Received: by mail-pw0-f47.google.com with SMTP id b4so4117399pbb.6
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 05 Feb 2012 22:42:09 -0800 (PST)
+	Sun, 05 Feb 2012 22:42:06 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
 	h=from:to:subject:date:message-id:x-mailer:in-reply-to:references
 	:in-reply-to:references;
-	bh=tDBNkl2Imd6CfHVWlhHEFgjY5AodTZeylAx0t/iFpHw=;
-	b=jvHdYH6r7aJgIW8fGBBfTm552eJ6YncMiWw06KlH5U2bF5J42WSYSJ++xTjTU+CX4D
-	y1x90H12OU1Fhzn5ptxyY3annm6wMpSTRhpJ4TqPZURW8usMMJdd0Dwon0KP9lKtw8Ey
-	R2XPaariLoNPameo/0mNahIohxiilUEHEBJBg=
-Received: by 10.68.222.194 with SMTP id qo2mr45070563pbc.20.1328510528919;
-	Sun, 05 Feb 2012 22:42:08 -0800 (PST)
+	bh=FUqVSaQaaOU73abY/aIBteAiULNz3t+4EDpoKxbM6f8=;
+	b=Eh7h1xZfuj2n8cTdv38mKsd6SvyPJRsWEtcOfmbweXtolkDnRl+U51ZOex7DSpVkIQ
+	tgidrsHmJNRObVKkA+Qh7rH/9eyz5rjNd86cfAO230WxoEdu282ooCklVosFKZXvkhwm
+	BKK4zutwSpaDoWUPjkSPxadTHlsR8Kldind8I=
+Received: by 10.68.190.101 with SMTP id gp5mr44817784pbc.31.1328510525316;
+	Sun, 05 Feb 2012 22:42:05 -0800 (PST)
 Received: from localhost.localdomain (oldbuilder.nslu2-linux.org.
 	[140.211.169.168]) by mx.google.com with ESMTPS id
-	li19sm37030710pbb.17.2012.02.05.22.42.07
+	li19sm37030710pbb.17.2012.02.05.22.42.03
 	(version=TLSv1/SSLv3 cipher=OTHER);
-	Sun, 05 Feb 2012 22:42:07 -0800 (PST)
+	Sun, 05 Feb 2012 22:42:04 -0800 (PST)
 From: Khem Raj <raj.khem@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Sun,  5 Feb 2012 22:40:40 -0800
-Message-Id: <e3a71d4e08c4f40a7e0ff40769c46590c8d3581e.1328510189.git.raj.khem@gmail.com>
+Date: Sun,  5 Feb 2012 22:40:38 -0800
+Message-Id: <c68f6de298c35c25638ea3a5adeb06c97cd74036.1328510189.git.raj.khem@gmail.com>
 X-Mailer: git-send-email 1.7.5.4
 In-Reply-To: <04705556464a6e41642962da40f0e17847ee3483.1328510188.git.raj.khem@gmail.com>
 References: <04705556464a6e41642962da40f0e17847ee3483.1328510188.git.raj.khem@gmail.com>
 In-Reply-To: <cover.1328510187.git.raj.khem@gmail.com>
 References: <cover.1328510187.git.raj.khem@gmail.com>
-Subject: [PATCH 14/20] gconf, consolekit: Avoid polkit when compiling with uclibc
+Subject: [PATCH 12/20] zlib: Upgrade 1.2.5 -> 1.2.6
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -46,79 +46,207 @@ List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedde
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Mon, 06 Feb 2012 06:50:12 -0000
 
-polkit uses netdb functionality from glibc which is not
-available in uclibc therefore we avoid polkit when compiling
-for uclibc systems.
+Dont use autotools, it really not so autoconf like.
+the configure script gets updated with every release of zlib
+and we overwrite that. Instead use the upstream provided
+configure
+
+copyright year was changed in zlib.h which caused change in
+LIC_FILE_CHECKSUM
+
+fix.inverted.LFS.logic.patch is already applied upstream so drop it
+
+Drop the configure.ac and Makefile.am scripts since we do not
+autoreconf anymore and do not inherit autotools anymore
 
 Signed-off-by: Khem Raj <raj.khem@gmail.com>
 ---
- meta/recipes-gnome/gnome/gconf_3.2.3.bb            |    9 +++++++--
- .../recipes-support/consolekit/consolekit_0.4.5.bb |   11 ++++++++---
- 2 files changed, 15 insertions(+), 5 deletions(-)
+ meta/recipes-core/zlib/files/Makefile.am           |    9 ----
+ meta/recipes-core/zlib/files/configure.ac          |   48 --------------------
+ .../zlib/zlib-1.2.5/fix.inverted.LFS.logic.patch   |   20 --------
+ meta/recipes-core/zlib/zlib_1.2.5.bb               |   41 -----------------
+ meta/recipes-core/zlib/zlib_1.2.6.bb               |   26 +++++++++++
+ 5 files changed, 26 insertions(+), 118 deletions(-)
+ delete mode 100644 meta/recipes-core/zlib/files/Makefile.am
+ delete mode 100644 meta/recipes-core/zlib/files/configure.ac
+ delete mode 100644 meta/recipes-core/zlib/zlib-1.2.5/fix.inverted.LFS.logic.patch
+ delete mode 100644 meta/recipes-core/zlib/zlib_1.2.5.bb
+ create mode 100644 meta/recipes-core/zlib/zlib_1.2.6.bb
 
-diff --git a/meta/recipes-gnome/gnome/gconf_3.2.3.bb b/meta/recipes-gnome/gnome/gconf_3.2.3.bb
-index 412f01c..a0b8d0c 100644
---- a/meta/recipes-gnome/gnome/gconf_3.2.3.bb
-+++ b/meta/recipes-gnome/gnome/gconf_3.2.3.bb
-@@ -3,10 +3,13 @@ SECTION = "x11/gnome"
- LICENSE = "LGPLv2+"
- LIC_FILES_CHKSUM = "file://COPYING;md5=55ca817ccb7d5b5b66355690e9abc605"
- 
--DEPENDS = "glib-2.0 gtk+ dbus dbus-glib libxml2 intltool-native polkit"
-+POLKIT = "polkit"
-+POLKIT_libc-uclibc = ""
+diff --git a/meta/recipes-core/zlib/files/Makefile.am b/meta/recipes-core/zlib/files/Makefile.am
+deleted file mode 100644
+index b66d299..0000000
+--- a/meta/recipes-core/zlib/files/Makefile.am
++++ /dev/null
+@@ -1,9 +0,0 @@
+-lib_LTLIBRARIES = libz.la
+-
+-libz_la_SOURCES = adler32.c compress.c crc32.c gzlib.c gzclose.c gzread.c \
+-                  gzwrite.c uncompr.c deflate.c trees.c zutil.c inflate.c \
+-                  infback.c inftrees.c inffast.c
+-
+-libz_la_LDFLAGS = -version-number 1:2:5 --version-script zlib.map
+-
+-include_HEADERS = zconf.h zlib.h zlibdefs.h
+diff --git a/meta/recipes-core/zlib/files/configure.ac b/meta/recipes-core/zlib/files/configure.ac
+deleted file mode 100644
+index 4761b7e..0000000
+--- a/meta/recipes-core/zlib/files/configure.ac
++++ /dev/null
+@@ -1,48 +0,0 @@
+-AC_INIT(zlib,1.2.5)
+-AC_CONFIG_SRCDIR(adler32.c)
+-AM_INIT_AUTOMAKE(zlibs,1.2.5)
+-
+-AC_PREREQ([2.59])
+-
+-AC_PROG_CC([gcc])
+-AC_PROG_LIBTOOL
+-
+-AC_HEADER_STDC
+-
+-zlib_save_CPPFLAGS=$CPPFLAGS
+-CPPFLAGS="$CPPFLAGS -D_LARGEFILE64_SOURCE"
+-AC_CHECK_TYPES(off64_t)
+-CPPFLAGS=$zlib_save_CPPFLAGS
+-
+-AC_CACHE_CHECK([whether to enable -D_LARGEFILE64_SOURCE], [zlib_cv_use_lfs64], [
+-    zlib_cv_use_lfs64=no
+-    if test "$ac_cv_type_off64_t" = "yes"; then
+-        zlib_cv_use_lfs64=yes
+-    fi
+-])
+-
+-if test "$zlib_cv_use_lfs64" = "yes"; then
+-    CPPFLAGS="$CPPFLAGS -D_LARGEFILE64_SOURCE"
+-
+-    #APR_ADDTO(CPPFLAGS, [-D_LARGEFILE64_SOURCE])
+-fi
+-
+-cat > zlibdefs.h << EOF
+-/* zlibdefs.h -- compile-time definitions for the zlib compression library
+- * Copyright (C) 1995-2006 Jean-loup Gailly.
+- * For conditions of distribution and use, see copyright notice in zlib.h
+- */
+-
+-#include <sys/types.h>	/* for off_t */
+-#include <unistd.h>	/* for SEEK_* and off_t */
+-#ifdef VMS
+-#  include <unixio.h>	/* for off_t */
+-#endif
+-#ifndef z_off_t
+-#  define z_off_t off_t
+-#endif
+-EOF
+-
+-AC_CONFIG_FILES([Makefile])
+-
+-AC_OUTPUT
+diff --git a/meta/recipes-core/zlib/zlib-1.2.5/fix.inverted.LFS.logic.patch b/meta/recipes-core/zlib/zlib-1.2.5/fix.inverted.LFS.logic.patch
+deleted file mode 100644
+index 038c1a2..0000000
+--- a/meta/recipes-core/zlib/zlib-1.2.5/fix.inverted.LFS.logic.patch
++++ /dev/null
+@@ -1,20 +0,0 @@
+-Upstream-Status: Pending
+-
+-see
+-https://bugs.gentoo.org/316377?id=316377
+-https://bugs.freedesktop.org/show_bug.cgi?id=33710
+-http://lists.freedesktop.org/archives/poppler-bugs/2011-January/006014.html
+-for details
+-
+-diff -up zlib-1.2.5/zlib.h.pom zlib-1.2.5/zlib.h
+---- zlib-1.2.5/zlib.h.pom	2010-04-20 06:12:48.000000000 +0200
+-+++ zlib-1.2.5/zlib.h	2010-06-16 13:08:59.000000000 +0200
+-@@ -1578,7 +1578,7 @@ ZEXTERN int ZEXPORT inflateBackInit_ OF(
+- #  define gzoffset gzoffset64
+- #  define adler32_combine adler32_combine64
+- #  define crc32_combine crc32_combine64
+--#  ifdef _LARGEFILE64_SOURCE
+-+#  ifndef _LARGEFILE64_SOURCE
+-      ZEXTERN gzFile ZEXPORT gzopen64 OF((const char *, const char *));
+-      ZEXTERN z_off_t ZEXPORT gzseek64 OF((gzFile, z_off_t, int));
+-      ZEXTERN z_off_t ZEXPORT gztell64 OF((gzFile));
+diff --git a/meta/recipes-core/zlib/zlib_1.2.5.bb b/meta/recipes-core/zlib/zlib_1.2.5.bb
+deleted file mode 100644
+index b5756d9..0000000
+--- a/meta/recipes-core/zlib/zlib_1.2.5.bb
++++ /dev/null
+@@ -1,41 +0,0 @@
+-SUMMARY = "Zlib Compression Library"
+-DESCRIPTION = "Zlib is a general-purpose, patent-free, lossless data compression \
+-library which is used by many different programs."
+-HOMEPAGE = "http://zlib.net/"
+-SECTION = "libs"
+-LICENSE = "Zlib"
+-LIC_FILES_CHKSUM = "file://zlib.h;beginline=4;endline=23;md5=084e9c30e4e6272c3b057b13c6467f3d"
+-
+-DEPENDS = "libtool-cross"
+-PR = "r3"
+-
+-SRC_URI = "http://www.zlib.net/${BPN}-${PV}.tar.bz2 \
+-           file://configure.ac \
+-           file://Makefile.am \
+-           file://fix.inverted.LFS.logic.patch"
+-
+-SRC_URI[md5sum] = "be1e89810e66150f5b0327984d8625a0"
+-SRC_URI[sha256sum] = "239aead2f22f16bfcfa6a6a5150dcbd6d6f2e4d1eaa8727b5769ea014120b307"
+-
+-inherit autotools
+-
+-do_configure_prepend () {
+-	cp ${WORKDIR}/configure.ac ${S}/
+-	cp ${WORKDIR}/Makefile.am ${S}/
+-}
+-
+-do_install_append () {
+-	sed \
+-		-e 's:@prefix@:${prefix}:' \
+-		-e 's:@exec_prefix@:${exec_prefix}:' \
+-		-e 's:@libdir@:${libdir}:' \
+-		-e 's:@sharedlibdir@:${libdir}:' \
+-		-e 's:@includedir@:${includedir}:' \
+-		-e 's:@VERSION@:${PV}:' \
+-		zlib.pc.in > zlib.pc
+-
+-	install -d ${D}${libdir}/pkgconfig
+-	install -m 0644 zlib.pc ${D}${libdir}/pkgconfig/
+-}
+-
+-BBCLASSEXTEND = "native nativesdk"
+diff --git a/meta/recipes-core/zlib/zlib_1.2.6.bb b/meta/recipes-core/zlib/zlib_1.2.6.bb
+new file mode 100644
+index 0000000..a220773
+--- /dev/null
++++ b/meta/recipes-core/zlib/zlib_1.2.6.bb
+@@ -0,0 +1,26 @@
++SUMMARY = "Zlib Compression Library"
++DESCRIPTION = "Zlib is a general-purpose, patent-free, lossless data compression \
++library which is used by many different programs."
++HOMEPAGE = "http://zlib.net/"
++SECTION = "libs"
++LICENSE = "Zlib"
++LIC_FILES_CHKSUM = "file://zlib.h;beginline=4;endline=23;md5=94d1b5a40dadd127f3351471727e66a9"
 +
-+DEPENDS = "glib-2.0 gtk+ dbus dbus-glib libxml2 intltool-native ${POLKIT}"
- DEPENDS_virtclass-native = "glib-2.0-native dbus-native dbus-glib-native libxml2-native intltool-native gnome-common-native"
- 
--PR = "r5"
-+PR = "r6"
- 
- inherit gnomebase
- 
-@@ -21,6 +24,8 @@ S = "${WORKDIR}/GConf-${PV}"
- 
- POLKIT_OECONF = "--enable-defaults-service"
- POLKIT_OECONF_virtclass-native = "--disable-defaults-service"
-+POLKIT_OECONF_libc-uclibc = "--disable-default-service"
++SRC_URI = "http://www.zlib.net/${BPN}-${PV}.tar.bz2 \
++           "
++SRC_URI[md5sum] = "dc2cfa0d2313ca77224b4d932b2911e9"
++SRC_URI[sha256sum] = "fa3e3e4881fa5810b8903f2c7e0dcd5a0a673535f0438021c4bbb5db1b918c8e"
 +
- GTKOECONF = "--with-gtk=2.0 --enable-gtk"
- GTKOECONF_virtclass-native = "--disable-gtk"
- EXTRA_OECONF = "--disable-gtk-doc --enable-shared --disable-static --enable-debug=yes \
-diff --git a/meta/recipes-support/consolekit/consolekit_0.4.5.bb b/meta/recipes-support/consolekit/consolekit_0.4.5.bb
-index 45f6ad3..3ded6df 100644
---- a/meta/recipes-support/consolekit/consolekit_0.4.5.bb
-+++ b/meta/recipes-support/consolekit/consolekit_0.4.5.bb
-@@ -2,13 +2,18 @@ DESCRIPTION = "ConsoleKit is a framework for defining and tracking users, login
- HOMEPAGE="http://www.freedesktop.org/wiki/Software/ConsoleKit"
- BUGTRACKER="https://bugs.freedesktop.org/buglist.cgi?query_format=specific&product=ConsoleKit"
- 
--PR = "r7"
-+PR = "r8"
- 
- LICENSE = "GPLv2+"
- LIC_FILES_CHKSUM = "file://COPYING;md5=59530bdf33659b29e73d4adb9f9f6552 \
-                     file://src/main.c;endline=21;md5=0a994e09769780220163255d8f9071c3"
- 
--DEPENDS = "glib-2.0 dbus polkit ${@base_contains('DISTRO_FEATURES', 'pam', 'libpam', '', d)}"
-+POLKIT = "polkit"
-+POLKIT_libc-uclibc = ""
-+POLKITCONF = ""
-+POLKITCONF_libc-uclibc = "--disable-policykit"
++do_configure (){
++	./configure --prefix=${prefix} --shared --libdir=${libdir}
++}
 +
-+DEPENDS = "glib-2.0 dbus ${POLKIT} ${@base_contains('DISTRO_FEATURES', 'pam', 'libpam', '', d)}"
- RDEPENDS_${PN} += "base-files"
- 
- inherit gnome
-@@ -20,7 +25,7 @@ SRC_URI[sha256sum] = "43e0780c53078e125efcec3f847e484dc3533e49b408ce6a0ab1b22368
- 
- S = "${WORKDIR}/ConsoleKit-${PV}"
- 
--EXTRA_OECONF = "--with-systemdsystemunitdir=${base_libdir}/systemd/system/ \
-+EXTRA_OECONF = "${POLKITCONF} --with-systemdsystemunitdir=${base_libdir}/systemd/system/ \
-                 ${@base_contains('DISTRO_FEATURES', 'pam', '--enable-pam-module --with-pam-module-dir=${base_libdir}/security', '--disable-pam-module', d)} \
-                "
- 
++do_compile (){
++	oe_runmake
++}
++
++do_install() {
++	oe_runmake DESTDIR=${D} install
++}
++
++BBCLASSEXTEND = "native nativesdk"
 -- 
 1.7.5.4
 
