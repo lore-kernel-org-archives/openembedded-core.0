@@ -1,34 +1,21 @@
-Received: from mail-ee0-f47.google.com ([74.125.83.47])
+Received: from elite.brightsigndigital.co.uk ([81.142.160.137])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <martin.jansa@gmail.com>) id 1RuOoV-0000pH-DL
+	(envelope-from <mcrowe@brightsign.biz>) id 1RuOxt-0000zP-6w
 	for openembedded-core@lists.openembedded.org;
-	Mon, 06 Feb 2012 14:40:59 +0100
-Received: by eekd41 with SMTP id d41so1845123eek.6
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 06 Feb 2012 05:32:58 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
-	h=date:from:to:subject:message-id:references:mime-version
-	:content-type:content-disposition:in-reply-to:user-agent;
-	bh=0BRKvdNp5p88ud3kwllqTR8RYWlUjGkTD1PBIwjBdAg=;
-	b=PmPJuaA8TkLNmXd5gCWk+03ph8EhgNJkb3ZYGct9egiz51BdVLj13szG7MEIVdhXeO
-	DaNLoarHgt5gCcL6vEXm3x7PLu8IGtz0N0+ub6S/S3igS1iKXAOITms/GTGnAyWPQTJs
-	16x+xN/COUqAxBEOtI2OL/8G2QamESEZKooDQ=
-Received: by 10.14.13.196 with SMTP id b44mr1483914eeb.54.1328535178418;
-	Mon, 06 Feb 2012 05:32:58 -0800 (PST)
-Received: from localhost ([94.230.152.246])
-	by mx.google.com with ESMTPS id n17sm61115096eei.3.2012.02.06.05.32.57
-	(version=TLSv1/SSLv3 cipher=OTHER);
-	Mon, 06 Feb 2012 05:32:57 -0800 (PST)
-Date: Mon, 6 Feb 2012 14:32:54 +0100
-From: Martin Jansa <martin.jansa@gmail.com>
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Message-ID: <20120206133254.GE3872@jama.jama.net>
-References: <1328533275.24049.16.camel@ted> <20120206142830.79e73ef1@eb-e6520>
-MIME-Version: 1.0
-In-Reply-To: <20120206142830.79e73ef1@eb-e6520>
-User-Agent: Mutt/1.5.21 (2010-09-15)
-Subject: Re: Performance numbers
+	Mon, 06 Feb 2012 14:50:41 +0100
+Received: from [172.30.1.25] (helo=chuckie.brightsign)
+	by elite.brightsigndigital.co.uk with esmtp (Exim 4.72)
+	(envelope-from <mcrowe@brightsign.biz>)
+	id 1RuOqA-0001QF-BC; Mon, 06 Feb 2012 13:42:42 +0000
+Received: from mac by chuckie.brightsign with local (Exim 4.72)
+	(envelope-from <mcrowe@brightsign.biz>)
+	id 1RuOqA-0006fy-AE; Mon, 06 Feb 2012 13:42:42 +0000
+From: Mike Crowe <mac@mcrowe.com>
+To: openembedded-core@lists.openembedded.org
+Date: Mon,  6 Feb 2012 13:42:36 +0000
+Message-Id: <1328535756-25624-1-git-send-email-mac@mcrowe.com>
+X-Mailer: git-send-email 1.7.8.3
+Subject: [PATCH] libusb-compat: Cope with ${libdir} and ${base_libdir} being the same
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -43,60 +30,40 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 06 Feb 2012 13:40:59 -0000
-X-Groupsio-MsgNum: 17091
-Content-Type: multipart/signed; micalg=pgp-sha1;
-	protocol="application/pgp-signature"; boundary="Qz2CZ664xQdCRdPu"
-Content-Disposition: inline
+X-List-Received-Date: Mon, 06 Feb 2012 13:50:41 -0000
 
---Qz2CZ664xQdCRdPu
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+${libdir} and ${base_libdir} may be the same. If they are don't try and
+move files onto themselves.
+---
+ meta/recipes-support/libusb/libusb-compat_0.1.3.bb |    6 ++++--
+ 1 files changed, 4 insertions(+), 2 deletions(-)
 
-On Mon, Feb 06, 2012 at 02:28:30PM +0100, Eric B=E9nard wrote:
-> Hi Richard,
->=20
-> Le Mon, 06 Feb 2012 13:01:15 +0000,
-> Richard Purdie <richard.purdie@linuxfoundation.org> a =E9crit :
->=20
-> > Its been a while since we had some performance numbers and there were
-> > recently some questions about how current build time compared to
-> > previous numbers.
-> >=20
-> > On my 12 core system, build time for qemux86 from scratch is ~42
-> > minutes. This compares favourably with previous numbers from that
-> > system. Interestingly, switching to qemumips resulted in a build time of
-> > 43 minutes in the same tmpdir suggesting that the native part of the
-> > bootstrap process isn't the bottleneck.
-> >=20
-> > On the quad core (the system used for many of the previous numbers I'd
-> > provided), build time for qemux86 was 105 minutes which again is roughly
-> > consistent with where things were for 1.1.
-> >=20
-> what are your settings (PARALLEL_MAKE & BB_NUMBER_THREADS) used in
-> both cases ?
+diff --git a/meta/recipes-support/libusb/libusb-compat_0.1.3.bb b/meta/recipes-support/libusb/libusb-compat_0.1.3.bb
+index 60ebcc2..1595a29 100644
+--- a/meta/recipes-support/libusb/libusb-compat_0.1.3.bb
++++ b/meta/recipes-support/libusb/libusb-compat_0.1.3.bb
+@@ -15,7 +15,7 @@ DEPENDS = "libusb1"
+ PROVIDES = "libusb"
+ 
+ PE = "1"
+-PR = "r2"
++PR = "r3"
+ 
+ SRC_URI = "${SOURCEFORGE_MIRROR}/libusb/libusb-compat-${PV}.tar.bz2 \
+            file://0.1.0-beta1-gcc3.4-fix.patch"
+@@ -29,7 +29,9 @@ EXTRA_OECONF = "--libdir=${base_libdir}"
+ 
+ do_install_append() {
+ 	install -d ${D}${libdir}
+-	mv ${D}${base_libdir}/pkgconfig ${D}${libdir}
++	if [ ! ${D}${libdir} -ef ${D}${base_libdir} ]; then
++		mv ${D}${base_libdir}/pkgconfig ${D}${libdir}
++	fi
+ }
+ 
+ FILES_${PN}-dev += "${base_libdir}/*.so"
+-- 
+1.7.8.3
 
-And what's the target in your tests?
 
-My quad core does core-image-minimal-mtdutils for qemux86* from scratch=20
-in ~ 100 minutes.
 
-Cheers,
-
---=20
-Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
-
---Qz2CZ664xQdCRdPu
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: Digital signature
-
------BEGIN PGP SIGNATURE-----
-Version: GnuPG v2.0.18 (GNU/Linux)
-
-iEYEARECAAYFAk8v1oYACgkQN1Ujt2V2gByYEgCfeLqMS7AN0qjV0lJW8KSCZ9pg
-gDoAmQF7XDwXQb0WcqL7ANETzHtbJjQa
-=wLjG
------END PGP SIGNATURE-----
-
---Qz2CZ664xQdCRdPu--
