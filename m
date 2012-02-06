@@ -1,30 +1,35 @@
 Received: from mail-yw0-f47.google.com ([209.85.213.47])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <otavio.salvador@gmail.com>) id 1RuQQS-0003Mh-Jf
+	(envelope-from <otavio.salvador@gmail.com>) id 1RuQQU-0003Mh-LD
 	for openembedded-core@lists.openembedded.org;
-	Mon, 06 Feb 2012 16:24:16 +0100
-Received: by yhfq46 with SMTP id q46so2375841yhf.6
+	Mon, 06 Feb 2012 16:24:18 +0100
+Received: by mail-yw0-f47.google.com with SMTP id q46so2375841yhf.6
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 06 Feb 2012 07:16:14 -0800 (PST)
+	Mon, 06 Feb 2012 07:16:19 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
-	h=sender:from:to:subject:date:message-id:x-mailer;
-	bh=6JHmTSE5xz2saHHspA+3cLkE1ymcr3T4O/+c31f4u/Y=;
-	b=kJs+qOuMLbhCvjnum9CQt1MIesDL4/7QKFu5YW4k7nWCbMZB58hEz1nYMO/TwYQULQ
-	ABat4lyQ9PPY0iWWQrogQ3VKHwGd7qKK/3rcmvB90Vp9HKMwIyS8FmEDuFmwmbTUtkhi
-	0+RFyoj14fQlkpc6o00jY59aIbXdKiVoTuTsE=
-Received: by 10.236.175.36 with SMTP id y24mr24070465yhl.64.1328541374917;
-	Mon, 06 Feb 2012 07:16:14 -0800 (PST)
+	h=sender:from:to:subject:date:message-id:x-mailer:in-reply-to
+	:references:in-reply-to:references;
+	bh=GJIXUhoDcrETffk08giq4tqlqTX88Pe8EUyggL9iVpw=;
+	b=hC0yRSdZv3Cw6ITR5YMcUmK+Nb1RA8RZdP1KiQsc6tLmYfSOWGybAAERp6STXv4nB3
+	3nKW/QL1A5nfTi1P8Cm8fB8i5Q4CrMZL1qNGUl2QwWV8+qThRBuc8i/uKYwuylfJqz6t
+	M8spCK3uvOVeZJnQ4/4C2ICZq3Lx1IPcJqKfI=
+Received: by 10.236.175.36 with SMTP id y24mr24070993yhl.64.1328541379621;
+	Mon, 06 Feb 2012 07:16:19 -0800 (PST)
 Received: from localhost.localdomain ([186.218.100.214])
-	by mx.google.com with ESMTPS id i12sm36000501anm.6.2012.02.06.07.16.11
+	by mx.google.com with ESMTPS id i12sm36000501anm.6.2012.02.06.07.16.17
 	(version=TLSv1/SSLv3 cipher=OTHER);
-	Mon, 06 Feb 2012 07:16:12 -0800 (PST)
+	Mon, 06 Feb 2012 07:16:18 -0800 (PST)
 Sender: Otavio Salvador <otavio.salvador@gmail.com>
 From: Otavio Salvador <otavio@ossystems.com.br>
 To: openembedded-core@lists.openembedded.org
-Date: Mon,  6 Feb 2012 15:16:01 +0000
-Message-Id: <cover.1328541241.git.otavio@ossystems.com.br>
+Date: Mon,  6 Feb 2012 15:16:03 +0000
+Message-Id: <6907cafeb8297e1392f36c3c4023fabf1cb9190b.1328541241.git.otavio@ossystems.com.br>
 X-Mailer: git-send-email 1.7.2.5
-Subject: [PATCH 0/2 v2] Pending patches from O.S. Systems tree
+In-Reply-To: <cover.1328541241.git.otavio@ossystems.com.br>
+References: <cover.1328541241.git.otavio@ossystems.com.br>
+In-Reply-To: <cover.1328541241.git.otavio@ossystems.com.br>
+References: <cover.1328541241.git.otavio@ossystems.com.br>
+Subject: [PATCH 2/2] udev: stop providing cache support by default
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -39,30 +44,44 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 06 Feb 2012 15:24:16 -0000
+X-List-Received-Date: Mon, 06 Feb 2012 15:24:18 -0000
 
-v2 changes:
+The usefulness of cache nowadays has been reduced a lot and thus it's
+better to stop using it by default. Dropping the recommends allows for
+image to decide if they want or not to have cache enabled, instead of
+require a machine override.
 
-  dhcp: fix error in case rmdir tries to remove a non-empty directory
+Signed-off-by: Otavio Salvador <otavio@ossystems.com.br>
+---
+ meta/recipes-core/udev/udev.inc    |    2 +-
+ meta/recipes-core/udev/udev_164.bb |    2 +-
+ 2 files changed, 2 insertions(+), 2 deletions(-)
 
-The following changes since commit 18d9fcfc4bc4b01f73e89f3b988c9d3d543c7705:
-
-  libzypp: add missing runtime dependences on gzip and gnupg (2012-02-03 17:23:28 +0000)
-
-are available in the git repository at:
-  git://github.com/OSSystems/oe-core master
-  https://github.com/OSSystems/oe-core/tree/HEAD
-
-Otavio Salvador (2):
-  dhcp: move dhcp leases files handling to postinst/postrm
-  udev: stop providing cache support by default
-
- meta/recipes-connectivity/dhcp/dhcp.inc      |   25 ++++++++++++++++++++++++-
- meta/recipes-connectivity/dhcp/dhcp_4.2.0.bb |    2 +-
- meta/recipes-core/udev/udev.inc              |    2 +-
- meta/recipes-core/udev/udev_164.bb           |    2 +-
- 4 files changed, 27 insertions(+), 4 deletions(-)
-
+diff --git a/meta/recipes-core/udev/udev.inc b/meta/recipes-core/udev/udev.inc
+index e5fbe40..7949f22 100644
+--- a/meta/recipes-core/udev/udev.inc
++++ b/meta/recipes-core/udev/udev.inc
+@@ -12,7 +12,7 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=751419260aa954499f7abaabaa882bbe \
+ 
+ DEPENDS = "acl glib-2.0 libusb usbutils pciutils gperf-native libxslt-native"
+ RPROVIDES_${PN} = "hotplug"
+-RRECOMMENDS_${PN} += "udev-extraconf udev-cache usbutils-ids pciutils-ids"
++RRECOMMENDS_${PN} += "udev-extraconf usbutils-ids pciutils-ids"
+ RDEPENDS_libudev = "${PN} (= ${EXTENDPKGV})"
+ 
+ SRC_URI = "${KERNELORG_MIRROR}/linux/utils/kernel/hotplug/udev-${PV}.tar.gz \
+diff --git a/meta/recipes-core/udev/udev_164.bb b/meta/recipes-core/udev/udev_164.bb
+index 6d71f4d..b993a13 100644
+--- a/meta/recipes-core/udev/udev_164.bb
++++ b/meta/recipes-core/udev/udev_164.bb
+@@ -1,6 +1,6 @@
+ include udev.inc
+ 
+-PR = "r10"
++PR = "r11"
+ 
+ SRC_URI += "file://udev-166-v4l1-1.patch"
+ 
 -- 
 1.7.2.5
 
