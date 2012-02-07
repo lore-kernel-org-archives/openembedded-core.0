@@ -1,24 +1,24 @@
 Received: from mga01.intel.com ([192.55.52.88])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <sgw@linux.intel.com>) id 1RutvO-0004HK-DI
+	(envelope-from <sgw@linux.intel.com>) id 1RutvO-0004HU-LP
 	for openembedded-core@lists.openembedded.org;
 	Tue, 07 Feb 2012 23:54:10 +0100
 Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-	by fmsmga101.fm.intel.com with ESMTP; 07 Feb 2012 14:46:01 -0800
+	by fmsmga101.fm.intel.com with ESMTP; 07 Feb 2012 14:46:02 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="122206408"
+X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="122206417"
 Received: from unknown (HELO swold-mobl.bigsur.com) ([10.255.14.116])
 	by fmsmga002.fm.intel.com with ESMTP; 07 Feb 2012 14:46:01 -0800
 From: Saul Wold <sgw@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Tue,  7 Feb 2012 14:45:37 -0800
-Message-Id: <3e2ce87566124db8c78472f9a4f00ab26410f213.1328654424.git.sgw@linux.intel.com>
+Date: Tue,  7 Feb 2012 14:45:39 -0800
+Message-Id: <e5da5e84e64362f59a62f65b9f260f96af96bc11.1328654424.git.sgw@linux.intel.com>
 X-Mailer: git-send-email 1.7.6.5
 In-Reply-To: <cover.1328654424.git.sgw@linux.intel.com>
 References: <cover.1328654424.git.sgw@linux.intel.com>
 In-Reply-To: <cover.1328654424.git.sgw@linux.intel.com>
 References: <cover.1328654424.git.sgw@linux.intel.com>
-Subject: [CONSOLIDATED PULL 17/35] linux-yocto: locate and use out of tree features specified on the SRC_URI
+Subject: [CONSOLIDATED PULL 19/35] linux-yocto: rt compiliation fix
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -37,63 +37,44 @@ X-List-Received-Date: Tue, 07 Feb 2012 22:54:11 -0000
 
 From: Bruce Ashfield <bruce.ashfield@windriver.com>
 
-In a similar manner to calling the patch.bbclass to locate patches that
-were listed on the SRC_URI, it is also useful to query about 'other' items
-that are on the SRC_URI. In the case of linux-yocto, it allows us to
-know about kernel features that were specific on the URI and then apply
-them to the current tree.
+Updating the meta SRCREC to pickup the following changes:
+
+  70e86dc meta/rt: update rt patch cache
+
+Without this change a 3.0 based -rt build will fail to patch.
 
 Signed-off-by: Bruce Ashfield <bruce.ashfield@windriver.com>
 ---
- meta/classes/kernel-yocto.bbclass |   21 +++++++++++++++++++++
- 1 files changed, 21 insertions(+), 0 deletions(-)
+ meta/recipes-kernel/linux/linux-yocto-rt_3.0.bb |    2 +-
+ meta/recipes-kernel/linux/linux-yocto_3.0.bb    |    2 +-
+ 2 files changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/meta/classes/kernel-yocto.bbclass b/meta/classes/kernel-yocto.bbclass
-index 7fdefcf..3130bf4 100644
---- a/meta/classes/kernel-yocto.bbclass
-+++ b/meta/classes/kernel-yocto.bbclass
-@@ -10,6 +10,16 @@ def find_patches(d):
+diff --git a/meta/recipes-kernel/linux/linux-yocto-rt_3.0.bb b/meta/recipes-kernel/linux/linux-yocto-rt_3.0.bb
+index 7f902fc..d7e4e7a 100644
+--- a/meta/recipes-kernel/linux/linux-yocto-rt_3.0.bb
++++ b/meta/recipes-kernel/linux/linux-yocto-rt_3.0.bb
+@@ -16,7 +16,7 @@ LINUX_KERNEL_TYPE = "preempt-rt"
  
- 	return patch_list
+ SRCREV_machine ?= "2f9d925f5681eaae7f341cc1270c739e8b329c03"
+ SRCREV_machine_qemuppc ?= "c66f7ef2315010756c8c97af6b13d52f9f18c03b"
+-SRCREV_meta ?= "77ca4855e80acb8dad21acea946908716c308b5b"
++SRCREV_meta ?= "70e86dc937a40c0dc7c84549de0e86bb09f12da3"
  
-+def find_sccs(d):
-+	sources=src_patches(d, True)
-+	sources_list=[]
-+	for s in sources:
-+		base, ext = os.path.splitext(os.path.basename(s))
-+		if ext and ext in ('.scc'):
-+			sources_list.append(s)
-+
-+	return sources_list
-+
- do_patch() {
- 	cd ${S}
- 	if [ -f ${WORKDIR}/defconfig ]; then
-@@ -42,6 +52,7 @@ do_patch() {
- 	fi
+ PR = "r1"
+ PV = "${LINUX_VERSION}+git${SRCPV}"
+diff --git a/meta/recipes-kernel/linux/linux-yocto_3.0.bb b/meta/recipes-kernel/linux/linux-yocto_3.0.bb
+index f7bb0d4..67f8da1 100644
+--- a/meta/recipes-kernel/linux/linux-yocto_3.0.bb
++++ b/meta/recipes-kernel/linux/linux-yocto_3.0.bb
+@@ -18,7 +18,7 @@ SRCREV_machine_qemuppc ?= "15fd748017f0849138ff4b47d73f6866fa26cfe8"
+ SRCREV_machine_qemux86 ?= "8f74a4339b3dc029fafff0ba7d88d6dc950d4b31"
+ SRCREV_machine_qemux86-64 ?= "610c5a62daeda033755b0b7bfcb3e2cad5c76f3f"
+ SRCREV_machine ?= "5df0b4c2538399aed543133b3855f809adf08ab8"
+-SRCREV_meta ?= "77ca4855e80acb8dad21acea946908716c308b5b"
++SRCREV_meta ?= "70e86dc937a40c0dc7c84549de0e86bb09f12da3"
  
- 	patches="${@" ".join(find_patches(d))}"
-+	sccs="${@" ".join(find_sccs(d))}"
- 
- 	# This loops through all patches, and looks for directories that do
- 	# not already have feature descriptions. If a directory doesn't have
-@@ -81,6 +92,16 @@ do_patch() {
- 		fi
- 	done
- 
-+	# look for any found scc files, and ensure they are added to the list
-+	# of directories passsed to updateme
-+	for s in ${sccs}; do
-+		sdir=`dirname ${s}`
-+		echo ${patch_dirs} | grep -q ${sdir}
-+		if [ $? -ne 0 ]; then
-+			patch_dirs="${patch_dirs} ${sdir}"
-+		fi
-+	done
-+
- 	# go through the patch directories and look for any scc feature files
- 	# that were constructed above. If one is found, rename it to ".scc" so
- 	# the kernel patching can see it.
+ PR = "r3"
+ PV = "${LINUX_VERSION}+git${SRCPV}"
 -- 
 1.7.6.5
 
