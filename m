@@ -1,31 +1,23 @@
-Received: from mail-ee0-f47.google.com ([74.125.83.47])
+Received: from mail.pbcl.net ([88.198.119.4] helo=hetzner.pbcl.net)
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <otavio.salvador@gmail.com>) id 1Rup58-0003Cn-Lq
+	(envelope-from <philb@gnu.org>) id 1Rup9B-0003J0-GN
 	for openembedded-core@lists.openembedded.org;
-	Tue, 07 Feb 2012 18:43:54 +0100
-Received: by eekd41 with SMTP id d41so2219975eek.6
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 07 Feb 2012 09:35:52 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
-	h=mime-version:sender:in-reply-to:references:date
-	:x-google-sender-auth:message-id:subject:from:to:content-type;
-	bh=z1o8PFWfLbkWNhtaxBFM6lrOkMp/ykOrWTnrS73ybvs=;
-	b=E9IrtErTX+9NaAz89/UgMhghyTpD2OooY6F9boaG9GEhk8ik9GJtsg6BQo1zYtnoL+
-	9SzSMaOZlQAQPKCx4Wh5Zvyt444ueO58HhtLw0B/SliBWmO+uEDB1Llf87oPVYRPGaMn
-	z8c8KfFLPv9taiAHzLO535IQGfRC/sE6yxTf8=
-MIME-Version: 1.0
-Received: by 10.14.52.17 with SMTP id d17mr7255383eec.56.1328636152216; Tue,
-	07 Feb 2012 09:35:52 -0800 (PST)
-Sender: otavio.salvador@gmail.com
-Received: by 10.14.96.129 with HTTP; Tue, 7 Feb 2012 09:35:52 -0800 (PST)
-In-Reply-To: <1328635982-18444-1-git-send-email-andrei@gherzan.ro>
-References: <1328635982-18444-1-git-send-email-andrei@gherzan.ro>
-Date: Tue, 7 Feb 2012 15:35:52 -0200
-X-Google-Sender-Auth: QavkUVggAYlda3tYCmjtnQEeQS8
-Message-ID: <CAP9ODKrAYsyv5BODpCYF-3npivnxr8DuoLajjY79zrMZyyjzoA@mail.gmail.com>
-From: Otavio Salvador <otavio@ossystems.com.br>
+	Tue, 07 Feb 2012 18:48:05 +0100
+Received: from elite.brightsigndigital.co.uk ([81.142.160.137]
+	helo=[172.30.1.145])
+	by hetzner.pbcl.net with esmtpsa (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+	(Exim 4.72) (envelope-from <philb@gnu.org>) id 1Rup1R-0007la-9p
+	for openembedded-core@lists.openembedded.org;
+	Tue, 07 Feb 2012 18:40:05 +0100
+From: Phil Blundell <philb@gnu.org>
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
+Date: Tue, 07 Feb 2012 17:40:04 +0000
+In-Reply-To: <1328635982-18444-1-git-send-email-andrei@gherzan.ro>
+References: <1328635982-18444-1-git-send-email-andrei@gherzan.ro>
+X-Mailer: Evolution 3.0.2- 
+Message-ID: <1328636405.14363.32.camel@phil-desktop>
+Mime-Version: 1.0
 Subject: Re: [PATCH] nspr: Integrate version 4.8.9
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
@@ -41,44 +33,23 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 07 Feb 2012 17:43:54 -0000
-Content-Type: multipart/alternative; boundary=002354477cd0e37e1804b8633541
+X-List-Received-Date: Tue, 07 Feb 2012 17:48:05 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
---002354477cd0e37e1804b8633541
-Content-Type: text/plain; charset=ISO-8859-1
+On Tue, 2012-02-07 at 19:33 +0200, Andrei Gherzan wrote:
+> +FILES_${PN} = "/usr/lib/*.so"
+> +FILES_${PN}-dev = "/usr/bin/* /usr/include/* /usr/share/aclocal/* /usr/lib/pkgconfig/*"
+> +FILES_${PN}-dbg = "/usr/bin/.debug/* /usr/lib/.debug/* /usr/src/debug/*"
+> +FILE_${PN}-staticdev= "/usr/lib/*.a"
 
-On Tue, Feb 7, 2012 at 15:33, Andrei Gherzan <andrei@gherzan.ro> wrote:
+That all looks rather dubious.  The last line surely isn't accomplishing
+anything and I suspect the other three are largely wrong/useless as
+well.  What problem were you trying to solve by adding those?
 
->  meta/recipes-support/nspr/files/nspr.pc |   11 ++++++++
->
+p.
 
-Just a cosmetic issue, name the nspr.pc file nspr.pc.in so it is clear that
-it is going to be processed.
 
--- 
-Otavio Salvador                             O.S. Systems
-E-mail: otavio@ossystems.com.br  http://www.ossystems.com.br
-Mobile: +55 53 9981-7854              http://projetos.ossystems.com.br
 
---002354477cd0e37e1804b8633541
-Content-Type: text/html; charset=ISO-8859-1
-Content-Transfer-Encoding: quoted-printable
 
-<div class=3D"gmail_quote">On Tue, Feb 7, 2012 at 15:33, Andrei Gherzan <sp=
-an dir=3D"ltr">&lt;<a href=3D"mailto:andrei@gherzan.ro">andrei@gherzan.ro</=
-a>&gt;</span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0=
- 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex">
-=A0meta/recipes-support/nspr/files/nspr.pc | =A0 11 ++++++++<br></blockquot=
-e></div><div><br></div>Just a cosmetic issue, name the nspr.pc file <a href=
-=3D"http://nspr.pc.in">nspr.pc.in</a> so it is clear that it is going to be=
- processed.<br clear=3D"all">
-<div><br></div>-- <br>Otavio Salvador=A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =
-=A0 =A0 =A0 =A0 =A0 =A0O.S. Systems<br>E-mail: <a href=3D"mailto:otavio@oss=
-ystems.com.br" target=3D"_blank">otavio@ossystems.com.br</a>=A0 <a href=3D"=
-http://www.ossystems.com.br" target=3D"_blank">http://www.ossystems.com.br<=
-/a><br>
-Mobile: +55 53 9981-7854=A0 =A0 =A0 =A0=A0 =A0 =A0 =A0<a href=3D"http://pro=
-jetos.ossystems.com.br" target=3D"_blank">http://projetos.ossystems.com.br<=
-/a><br><br>
 
---002354477cd0e37e1804b8633541--
