@@ -1,24 +1,24 @@
 Received: from mga01.intel.com ([192.55.52.88])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <sgw@linux.intel.com>) id 1RutvI-0004HI-1B
+	(envelope-from <sgw@linux.intel.com>) id 1RutvI-0004HG-Hu
 	for openembedded-core@lists.openembedded.org;
 	Tue, 07 Feb 2012 23:54:04 +0100
 Received: from fmsmga002.fm.intel.com ([10.253.24.26])
 	by fmsmga101.fm.intel.com with ESMTP; 07 Feb 2012 14:45:58 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="122206365"
+X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="122206368"
 Received: from unknown (HELO swold-mobl.bigsur.com) ([10.255.14.116])
 	by fmsmga002.fm.intel.com with ESMTP; 07 Feb 2012 14:45:58 -0800
 From: Saul Wold <sgw@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Tue,  7 Feb 2012 14:45:23 -0800
-Message-Id: <a8ba002b5eb3c2e57550483d7b3ea99f0cc8a9cb.1328654424.git.sgw@linux.intel.com>
+Date: Tue,  7 Feb 2012 14:45:24 -0800
+Message-Id: <50641a59bf10485f62d6d3669a2c1ded95cc48ed.1328654424.git.sgw@linux.intel.com>
 X-Mailer: git-send-email 1.7.6.5
 In-Reply-To: <cover.1328654424.git.sgw@linux.intel.com>
 References: <cover.1328654424.git.sgw@linux.intel.com>
 In-Reply-To: <cover.1328654424.git.sgw@linux.intel.com>
 References: <cover.1328654424.git.sgw@linux.intel.com>
-Subject: [CONSOLIDATED PULL 03/35] busybox: Add flock utility to default configuration.
+Subject: [CONSOLIDATED PULL 04/35] gnupg-1.4.7: Update Patch Info
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -35,31 +35,43 @@ List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedde
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Tue, 07 Feb 2012 22:54:04 -0000
 
-From: Peter Tworek <tworaz666@gmail.com>
-
-Flock is required by by pm-utils package to function properly
-(/usr/lib/pm-utils/functions). It's shipped in both busybox and
-util-linux. Both versions work fine with pm-utils. Enabling it
-in busybox seems like simpliest solution for the problem.
-
-Signed-off-by: Peter Tworek <tworaz666@gmail.com>
+Signed-off-by: Saul Wold <sgw@linux.intel.com>
 ---
- meta/recipes-core/busybox/busybox-1.19.3/defconfig |    2 +-
- 1 files changed, 1 insertions(+), 1 deletions(-)
+ .../gnupg/gnupg-1.4.7/long-long-thumb.patch        |    7 +++++++
+ .../gnupg/gnupg-1.4.7/mips_gcc4.4.patch            |    8 ++++++++
+ 2 files changed, 15 insertions(+), 0 deletions(-)
 
-diff --git a/meta/recipes-core/busybox/busybox-1.19.3/defconfig b/meta/recipes-core/busybox/busybox-1.19.3/defconfig
-index b474ad4..fa9c078 100644
---- a/meta/recipes-core/busybox/busybox-1.19.3/defconfig
-+++ b/meta/recipes-core/busybox/busybox-1.19.3/defconfig
-@@ -540,7 +540,7 @@ CONFIG_FEATURE_FDISK_WRITABLE=y
- # CONFIG_FEATURE_GPT_LABEL is not set
- # CONFIG_FEATURE_FDISK_ADVANCED is not set
- # CONFIG_FINDFS is not set
--# CONFIG_FLOCK is not set
-+CONFIG_FLOCK=y
- # CONFIG_FREERAMDISK is not set
- CONFIG_FSCK_MINIX=y
- # CONFIG_MKFS_EXT2 is not set
+diff --git a/meta/recipes-support/gnupg/gnupg-1.4.7/long-long-thumb.patch b/meta/recipes-support/gnupg/gnupg-1.4.7/long-long-thumb.patch
+index dd4ec73..2855cab 100644
+--- a/meta/recipes-support/gnupg/gnupg-1.4.7/long-long-thumb.patch
++++ b/meta/recipes-support/gnupg/gnupg-1.4.7/long-long-thumb.patch
+@@ -1,3 +1,10 @@
++Orignal Patch came from OpenWrt via OE-Classic
++https://dev.openwrt.org/browser/packages/utils/gnupg/patches/001-mips_gcc4.4
++which is no longer a valid revision!
++
++Upstream-Status: Inappropriate [configuration]
++
++
+ --- gnupg/mpi/longlong.h~      2006-02-14 10:09:55.000000000 +0000
+ +++ gnupg/mpi/longlong.h       2008-10-27 13:11:09.000000000 +0000
+ @@ -181,7 +181,7 @@
+diff --git a/meta/recipes-support/gnupg/gnupg-1.4.7/mips_gcc4.4.patch b/meta/recipes-support/gnupg/gnupg-1.4.7/mips_gcc4.4.patch
+index b101a5b..9a03b2b 100644
+--- a/meta/recipes-support/gnupg/gnupg-1.4.7/mips_gcc4.4.patch
++++ b/meta/recipes-support/gnupg/gnupg-1.4.7/mips_gcc4.4.patch
+@@ -1,3 +1,11 @@
++
++From Openembedded-Classic
++
++    gnupg-1.4.10: Readd the ARM Thumb patch as debian has no thumb support
++
++
++Upstream-Status: Inappropriate [embedded-specific]
++
+ Index: gnupg-1.4.10/mpi/longlong.h
+ ===================================================================
+ --- gnupg-1.4.10.orig/mpi/longlong.h	2008-12-11 17:39:43.000000000 +0100
 -- 
 1.7.6.5
 
