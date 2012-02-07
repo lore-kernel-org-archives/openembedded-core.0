@@ -1,29 +1,26 @@
-Received: from mail-ww0-f43.google.com ([74.125.82.43])
+Received: from mga01.intel.com ([192.55.52.88])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <koen@dominion.thruhere.net>) id 1RupJ7-0003ZB-5Z
+	(envelope-from <sgw@linux.intel.com>) id 1RupKp-0003zn-8m
 	for openembedded-core@lists.openembedded.org;
-	Tue, 07 Feb 2012 18:58:21 +0100
-Received: by wgbdr13 with SMTP id dr13so6795191wgb.24
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 07 Feb 2012 09:50:18 -0800 (PST)
-Received: by 10.180.86.9 with SMTP id l9mr35788067wiz.15.1328637018813;
-	Tue, 07 Feb 2012 09:50:18 -0800 (PST)
-Received: from [172.20.1.36] (ip545070eb.adsl-surfen.hetnet.nl.
-	[84.80.112.235])
-	by mx.google.com with ESMTPS id ho4sm33621603wib.3.2012.02.07.09.50.17
-	(version=TLSv1/SSLv3 cipher=OTHER);
-	Tue, 07 Feb 2012 09:50:18 -0800 (PST)
-Mime-Version: 1.0 (Apple Message framework v1251.1)
-From: Koen Kooi <koen@dominion.thruhere.net>
-In-Reply-To: <fce0db04f4b95798f3bdf6c925f1707faf14f2ed.1328631790.git.paul.eggleton@linux.intel.com>
-Date: Tue, 7 Feb 2012 18:50:09 +0100
-Message-Id: <8E617E89-2373-4DEB-A3B1-C5D7E31ED4A4@dominion.thruhere.net>
-References: <cover.1328631790.git.paul.eggleton@linux.intel.com>
-	<fce0db04f4b95798f3bdf6c925f1707faf14f2ed.1328631790.git.paul.eggleton@linux.intel.com>
+	Tue, 07 Feb 2012 19:00:07 +0100
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+	by fmsmga101.fm.intel.com with ESMTP; 07 Feb 2012 09:49:55 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="122070826"
+Received: from unknown (HELO [10.255.14.116]) ([10.255.14.116])
+	by fmsmga002.fm.intel.com with ESMTP; 07 Feb 2012 09:49:55 -0800
+Message-ID: <4F316443.9020508@linux.intel.com>
+Date: Tue, 07 Feb 2012 09:49:55 -0800
+From: Saul Wold <sgw@linux.intel.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:9.0) Gecko/20111222 Thunderbird/9.0
+MIME-Version: 1.0
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-X-Mailer: Apple Mail (2.1251.1)
-Subject: Re: [PATCH 2/2] classes/buildhistory: sort list fields in package info
+References: <04705556464a6e41642962da40f0e17847ee3483.1328510188.git.raj.khem@gmail.com>
+	<d311646dbcb0be12596125a5cf8c97e713741182.1328510189.git.raj.khem@gmail.com>
+In-Reply-To: <d311646dbcb0be12596125a5cf8c97e713741182.1328510189.git.raj.khem@gmail.com>
+Subject: Re: [PATCH 20/20] mirrors.bbclass: Add yp.org and oe.org to fallback mirrors
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -38,66 +35,56 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 07 Feb 2012 17:58:21 -0000
-Content-Type: text/plain; charset=us-ascii
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Tue, 07 Feb 2012 18:00:07 -0000
+Content-Type: text/plain; charset=ISO-8859-1; format=flowed
+Content-Transfer-Encoding: 7bit
 
-
-Op 7 feb. 2012, om 17:25 heeft Paul Eggleton het volgende geschreven:
-
-> Sort DEPENDS, PACKAGES, RDEPENDS, and RRECOMMENDS in package info =
-files
-> so that any changes in order (which are not important) are smoothed =
-out
-> in the change history.
->=20
-> Fixes [YOCTO #1961]
->=20
-> Signed-off-by: Paul Eggleton <paul.eggleton@linux.intel.com>
+On 02/05/2012 10:40 PM, Khem Raj wrote:
+> This should improve the fetching errors users see
+> when upstream src_uri is unavailable
+>
+> Signed-off-by: Khem Raj<raj.khem@gmail.com>
 > ---
-> meta/classes/buildhistory.bbclass |   19 +++++++++++++++----
-> 1 files changed, 15 insertions(+), 4 deletions(-)
->=20
-> diff --git a/meta/classes/buildhistory.bbclass =
-b/meta/classes/buildhistory.bbclass
->=20
-> -	packages =3D squashspaces(d.getVar('PACKAGES', True))
-> +	packages =3D sortlist(squashspaces(d.getVar('PACKAGES', True)))
+>   meta/classes/mirrors.bbclass |   21 ++++++++++++++++++++-
+>   1 files changed, 20 insertions(+), 1 deletions(-)
+>
+> diff --git a/meta/classes/mirrors.bbclass b/meta/classes/mirrors.bbclass
+> index 2146087..69f44cd 100644
+> --- a/meta/classes/mirrors.bbclass
+> +++ b/meta/classes/mirrors.bbclass
+> @@ -52,5 +52,24 @@ ftp://lsof.itap.purdue.edu/pub/tools/unix/lsof/  ftp://gd.tuwien.ac.at/utils/adm
+>   ftp://lsof.itap.purdue.edu/pub/tools/unix/lsof/  ftp://sunsite.ualberta.ca/pub/Mirror/lsof/ \n \
+>   ftp://lsof.itap.purdue.edu/pub/tools/unix/lsof/  ftp://the.wiretapped.net/pub/security/host-security/lsof/ \n \
+>   http://www.apache.org/dist  http://archive.apache.org/dist \n \
+> +cvs://.*/.*     http://autobuilder.yoctoproject.org/pub/sources/ \n \
+> +svn://.*/.*     http://autobuilder.yoctoproject.org/pub/sources/ \n \
+> +git://.*/.*     http://autobuilder.yoctoproject.org/pub/sources/ \n \
+> +hg://.*/.*      http://autobuilder.yoctoproject.org/pub/sources/ \n \
+> +bzr://.*/.*     http://autobuilder.yoctoproject.org/pub/sources/ \n \
+> +svk://.*/.*     http://autobuilder.yoctoproject.org/pub/sources/ \n \
+> +p4://.*/.*      http://autobuilder.yoctoproject.org/pub/sources/ \n \
+> +osc://.*/.*     http://autobuilder.yoctoproject.org/pub/sources/ \n \
+> +https?$://.*/.* http://autobuilder.yoctoproject.org/pub/sources/ \n \
+> +ftp://.*/.*     http://autobuilder.yoctoproject.org/pub/sources/ \n \
 
-Sorting PACKAGES is a bad idea, since order does matter in there.
+Please use: http://downloads.yoctoproject.org/mirror/sources
 
->=20
-> 	rcpinfo =3D RecipeInfo(pn)
-> 	rcpinfo.pe =3D pe
-> 	rcpinfo.pv =3D pv
-> 	rcpinfo.pr =3D pr
-> -	rcpinfo.depends =3D squashspaces(d.getVar('DEPENDS', True) or =
-"")
-> +	rcpinfo.depends =3D sortlist(squashspaces(d.getVar('DEPENDS', =
-True) or ""))
-> 	rcpinfo.packages =3D packages
-> 	write_recipehistory(rcpinfo, d)
-> 	write_latestlink(None, pe, pv, pr, d)
-> @@ -164,8 +175,8 @@ python buildhistory_emit_pkghistory() {
-> 		pkginfo.pe =3D pe
-> 		pkginfo.pv =3D pv
-> 		pkginfo.pr =3D pr
-> -		pkginfo.rdepends =3D squashspaces(getpkgvar(pkg, =
-'RDEPENDS') or "")
-> -		pkginfo.rrecommends =3D squashspaces(getpkgvar(pkg, =
-'RRECOMMENDS') or "")
-> +		pkginfo.rdepends =3D =
-sortpkglist(squashspaces(getpkgvar(pkg, 'RDEPENDS') or ""))
-> +		pkginfo.rrecommends =3D =
-sortpkglist(squashspaces(getpkgvar(pkg, 'RRECOMMENDS') or ""))
+That makes it clearer.
 
-Not sure what went wrong, but R* didn't seem to get sorted after these =
-patches: =
-https://github.com/Angstrom-distribution/buildhistory/commit/7a9f2f9308b46=
-8706799be18b3f400410ee1f664
+Thanks
+	Sau!
 
-regards,
-
-Koen=
+> +cvs://.*/.*     http://sources.openembedded.org/ \n \
+> +svn://.*/.*     http://sources.openembedded.org/ \n \
+> +git://.*/.*     http://sources.openembedded.org/ \n \
+> +hg://.*/.*      http://sources.openembedded.org/ \n \
+> +bzr://.*/.*     http://sources.openembedded.org/ \n \
+> +svk://.*/.*     http://sources.openembedded.org/ \n \
+> +p4://.*/.*      http://sources.openembedded.org/ \n \
+> +osc://.*/.*     http://sources.openembedded.org/ \n \
+> +https?$://.*/.* http://sources.openembedded.org/ \n \
+> +ftp://.*/.*     http://sources.openembedded.org/ \n \
+>   "
+> -
 
 
