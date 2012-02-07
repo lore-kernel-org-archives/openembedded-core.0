@@ -1,24 +1,24 @@
 Received: from mga01.intel.com ([192.55.52.88])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <sgw@linux.intel.com>) id 1RutvR-0004HK-FD
+	(envelope-from <sgw@linux.intel.com>) id 1RutvR-0004HU-KC
 	for openembedded-core@lists.openembedded.org;
 	Tue, 07 Feb 2012 23:54:13 +0100
 Received: from fmsmga002.fm.intel.com ([10.253.24.26])
 	by fmsmga101.fm.intel.com with ESMTP; 07 Feb 2012 14:46:03 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="122206437"
+X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="122206439"
 Received: from unknown (HELO swold-mobl.bigsur.com) ([10.255.14.116])
 	by fmsmga002.fm.intel.com with ESMTP; 07 Feb 2012 14:46:03 -0800
 From: Saul Wold <sgw@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Tue,  7 Feb 2012 14:45:45 -0800
-Message-Id: <7eae02f47a08587cf5be3d39df0184cf346cbaea.1328654424.git.sgw@linux.intel.com>
+Date: Tue,  7 Feb 2012 14:45:46 -0800
+Message-Id: <25016d158af927e0c9e70c3df4674f53fa54fec8.1328654424.git.sgw@linux.intel.com>
 X-Mailer: git-send-email 1.7.6.5
 In-Reply-To: <cover.1328654424.git.sgw@linux.intel.com>
 References: <cover.1328654424.git.sgw@linux.intel.com>
 In-Reply-To: <cover.1328654424.git.sgw@linux.intel.com>
 References: <cover.1328654424.git.sgw@linux.intel.com>
-Subject: [CONSOLIDATED PULL 25/35] gconf, consolekit: Avoid polkit when compiling with uclibc
+Subject: [CONSOLIDATED PULL 26/35] python: Fix build failure of python-elementtree on x86_64
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -37,79 +37,71 @@ X-List-Received-Date: Tue, 07 Feb 2012 22:54:13 -0000
 
 From: Khem Raj <raj.khem@gmail.com>
 
-polkit uses netdb functionality from glibc which is not
-available in uclibc therefore we avoid polkit when compiling
-for uclibc systems.
+The problem is due to mixing of headers from host system
+thusly corrected in setup.py by checkinng if we are cross
+compiling
 
 Signed-off-by: Khem Raj <raj.khem@gmail.com>
 ---
- meta/recipes-gnome/gnome/gconf_3.2.3.bb            |    9 +++++++--
- .../recipes-support/consolekit/consolekit_0.4.5.bb |   11 ++++++++---
- 2 files changed, 15 insertions(+), 5 deletions(-)
+ .../python/python/host_include_contamination.patch |   27 ++++++++++++++++++++
+ meta/recipes-devtools/python/python_2.7.2.bb       |    3 +-
+ 2 files changed, 29 insertions(+), 1 deletions(-)
+ create mode 100644 meta/recipes-devtools/python/python/host_include_contamination.patch
 
-diff --git a/meta/recipes-gnome/gnome/gconf_3.2.3.bb b/meta/recipes-gnome/gnome/gconf_3.2.3.bb
-index 412f01c..a0b8d0c 100644
---- a/meta/recipes-gnome/gnome/gconf_3.2.3.bb
-+++ b/meta/recipes-gnome/gnome/gconf_3.2.3.bb
-@@ -3,10 +3,13 @@ SECTION = "x11/gnome"
- LICENSE = "LGPLv2+"
- LIC_FILES_CHKSUM = "file://COPYING;md5=55ca817ccb7d5b5b66355690e9abc605"
- 
--DEPENDS = "glib-2.0 gtk+ dbus dbus-glib libxml2 intltool-native polkit"
-+POLKIT = "polkit"
-+POLKIT_libc-uclibc = ""
+diff --git a/meta/recipes-devtools/python/python/host_include_contamination.patch b/meta/recipes-devtools/python/python/host_include_contamination.patch
+new file mode 100644
+index 0000000..62cb8b1
+--- /dev/null
++++ b/meta/recipes-devtools/python/python/host_include_contamination.patch
+@@ -0,0 +1,27 @@
++when building python for qemux86-64 on ubuntu 11.10/64bit
++it gropes into host includes and then mixes them with cross
++includes and as a result some modules fail to compile and link
++one of the modules is python-elementtree which is then not
++found during image creation
 +
-+DEPENDS = "glib-2.0 gtk+ dbus dbus-glib libxml2 intltool-native ${POLKIT}"
- DEPENDS_virtclass-native = "glib-2.0-native dbus-native dbus-glib-native libxml2-native intltool-native gnome-common-native"
- 
--PR = "r5"
-+PR = "r6"
- 
- inherit gnomebase
- 
-@@ -21,6 +24,8 @@ S = "${WORKDIR}/GConf-${PV}"
- 
- POLKIT_OECONF = "--enable-defaults-service"
- POLKIT_OECONF_virtclass-native = "--disable-defaults-service"
-+POLKIT_OECONF_libc-uclibc = "--disable-default-service"
++Proble is that setup.py tries to add native includes that newer
++ubuntu has introduced for multiarch support. But that should
++only happen for native builds and not cross building python
++so we add a check here.
 +
- GTKOECONF = "--with-gtk=2.0 --enable-gtk"
- GTKOECONF_virtclass-native = "--disable-gtk"
- EXTRA_OECONF = "--disable-gtk-doc --enable-shared --disable-static --enable-debug=yes \
-diff --git a/meta/recipes-support/consolekit/consolekit_0.4.5.bb b/meta/recipes-support/consolekit/consolekit_0.4.5.bb
-index 45f6ad3..3ded6df 100644
---- a/meta/recipes-support/consolekit/consolekit_0.4.5.bb
-+++ b/meta/recipes-support/consolekit/consolekit_0.4.5.bb
-@@ -2,13 +2,18 @@ DESCRIPTION = "ConsoleKit is a framework for defining and tracking users, login
- HOMEPAGE="http://www.freedesktop.org/wiki/Software/ConsoleKit"
- BUGTRACKER="https://bugs.freedesktop.org/buglist.cgi?query_format=specific&product=ConsoleKit"
- 
--PR = "r7"
-+PR = "r8"
- 
- LICENSE = "GPLv2+"
- LIC_FILES_CHKSUM = "file://COPYING;md5=59530bdf33659b29e73d4adb9f9f6552 \
-                     file://src/main.c;endline=21;md5=0a994e09769780220163255d8f9071c3"
- 
--DEPENDS = "glib-2.0 dbus polkit ${@base_contains('DISTRO_FEATURES', 'pam', 'libpam', '', d)}"
-+POLKIT = "polkit"
-+POLKIT_libc-uclibc = ""
-+POLKITCONF = ""
-+POLKITCONF_libc-uclibc = "--disable-policykit"
++Signed-off-by: Khem Raj <raj.khem@gmail.com>
++Upstream-Status: Pending
 +
-+DEPENDS = "glib-2.0 dbus ${POLKIT} ${@base_contains('DISTRO_FEATURES', 'pam', 'libpam', '', d)}"
- RDEPENDS_${PN} += "base-files"
++Index: Python-2.7.2/setup.py
++===================================================================
++--- Python-2.7.2.orig/setup.py	2012-02-03 12:10:42.307057756 -0800
+++++ Python-2.7.2/setup.py	2012-02-03 12:11:12.363059210 -0800
++@@ -360,6 +360,8 @@
++         # https://wiki.ubuntu.com/MultiarchSpec
++         if not find_executable('dpkg-architecture'):
++             return
+++	if os.environ.get('CROSS_COMPILE') is not None:
+++	    return
++         tmpfile = os.path.join(self.build_temp, 'multiarch')
++         if not os.path.exists(self.build_temp):
++             os.makedirs(self.build_temp)
+diff --git a/meta/recipes-devtools/python/python_2.7.2.bb b/meta/recipes-devtools/python/python_2.7.2.bb
+index 654c850..fb5e860 100644
+--- a/meta/recipes-devtools/python/python_2.7.2.bb
++++ b/meta/recipes-devtools/python/python_2.7.2.bb
+@@ -1,7 +1,7 @@
+ require python.inc
+ DEPENDS = "python-native db gdbm openssl readline sqlite3 zlib"
+ DEPENDS_sharprom = "python-native db readline zlib gdbm openssl"
+-PR = "${INC_PR}.5"
++PR = "${INC_PR}.6"
  
- inherit gnome
-@@ -20,7 +25,7 @@ SRC_URI[sha256sum] = "43e0780c53078e125efcec3f847e484dc3533e49b408ce6a0ab1b22368
+ DISTRO_SRC_URI ?= "file://sitecustomize.py"
+ DISTRO_SRC_URI_linuxstdbase = ""
+@@ -20,6 +20,7 @@ SRC_URI += "\
+   file://remove_sqlite_rpath.patch \
+   file://setup_py_skip_cross_import_check.patch \
+   file://add-md5module-support.patch \
++  file://host_include_contamination.patch \
+ "
  
- S = "${WORKDIR}/ConsoleKit-${PV}"
- 
--EXTRA_OECONF = "--with-systemdsystemunitdir=${base_libdir}/systemd/system/ \
-+EXTRA_OECONF = "${POLKITCONF} --with-systemdsystemunitdir=${base_libdir}/systemd/system/ \
-                 ${@base_contains('DISTRO_FEATURES', 'pam', '--enable-pam-module --with-pam-module-dir=${base_libdir}/security', '--disable-pam-module', d)} \
-                "
- 
+ S = "${WORKDIR}/Python-${PV}"
 -- 
 1.7.6.5
 
