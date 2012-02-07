@@ -1,24 +1,24 @@
 Received: from mga01.intel.com ([192.55.52.88])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <sgw@linux.intel.com>) id 1RutvR-0004HU-KC
+	(envelope-from <sgw@linux.intel.com>) id 1RutvR-0004HI-Pw
 	for openembedded-core@lists.openembedded.org;
 	Tue, 07 Feb 2012 23:54:13 +0100
 Received: from fmsmga002.fm.intel.com ([10.253.24.26])
 	by fmsmga101.fm.intel.com with ESMTP; 07 Feb 2012 14:46:03 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="122206439"
+X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="122206442"
 Received: from unknown (HELO swold-mobl.bigsur.com) ([10.255.14.116])
 	by fmsmga002.fm.intel.com with ESMTP; 07 Feb 2012 14:46:03 -0800
 From: Saul Wold <sgw@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Tue,  7 Feb 2012 14:45:46 -0800
-Message-Id: <25016d158af927e0c9e70c3df4674f53fa54fec8.1328654424.git.sgw@linux.intel.com>
+Date: Tue,  7 Feb 2012 14:45:47 -0800
+Message-Id: <086679cfbc30dba4af2f650984084195e5171b8f.1328654424.git.sgw@linux.intel.com>
 X-Mailer: git-send-email 1.7.6.5
 In-Reply-To: <cover.1328654424.git.sgw@linux.intel.com>
 References: <cover.1328654424.git.sgw@linux.intel.com>
 In-Reply-To: <cover.1328654424.git.sgw@linux.intel.com>
 References: <cover.1328654424.git.sgw@linux.intel.com>
-Subject: [CONSOLIDATED PULL 26/35] python: Fix build failure of python-elementtree on x86_64
+Subject: [CONSOLIDATED PULL 27/35] libdrm: Fix build failure unearthed by uclibc
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -33,75 +33,75 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 07 Feb 2012 22:54:13 -0000
+X-List-Received-Date: Tue, 07 Feb 2012 22:54:14 -0000
 
 From: Khem Raj <raj.khem@gmail.com>
 
-The problem is due to mixing of headers from host system
-thusly corrected in setup.py by checkinng if we are cross
-compiling
+uclibc wants to know value of __USE_GNU for certain
+header prototypes to be enabled. So we move the config.h
+header up in search list.
 
 Signed-off-by: Khem Raj <raj.khem@gmail.com>
 ---
- .../python/python/host_include_contamination.patch |   27 ++++++++++++++++++++
- meta/recipes-devtools/python/python_2.7.2.bb       |    3 +-
- 2 files changed, 29 insertions(+), 1 deletions(-)
- create mode 100644 meta/recipes-devtools/python/python/host_include_contamination.patch
+ .../drm/libdrm/GNU_SOURCE_definition.patch         |   30 ++++++++++++++++++++
+ meta/recipes-graphics/drm/libdrm_2.4.30.bb         |    6 ++-
+ 2 files changed, 34 insertions(+), 2 deletions(-)
+ create mode 100644 meta/recipes-graphics/drm/libdrm/GNU_SOURCE_definition.patch
 
-diff --git a/meta/recipes-devtools/python/python/host_include_contamination.patch b/meta/recipes-devtools/python/python/host_include_contamination.patch
+diff --git a/meta/recipes-graphics/drm/libdrm/GNU_SOURCE_definition.patch b/meta/recipes-graphics/drm/libdrm/GNU_SOURCE_definition.patch
 new file mode 100644
-index 0000000..62cb8b1
+index 0000000..8eb1d5e
 --- /dev/null
-+++ b/meta/recipes-devtools/python/python/host_include_contamination.patch
-@@ -0,0 +1,27 @@
-+when building python for qemux86-64 on ubuntu 11.10/64bit
-+it gropes into host includes and then mixes them with cross
-+includes and as a result some modules fail to compile and link
-+one of the modules is python-elementtree which is then not
-+found during image creation
++++ b/meta/recipes-graphics/drm/libdrm/GNU_SOURCE_definition.patch
+@@ -0,0 +1,30 @@
++uclibc headers need to know if _GNU_SOURCE is defined or not and its defined
++in config.h so include it first to get the definition if its there fixed build
++problems on uclibc
 +
-+Proble is that setup.py tries to add native includes that newer
-+ubuntu has introduced for multiarch support. But that should
-+only happen for native builds and not cross building python
-+so we add a check here.
++test_decode.c:107:2: error: implicit declaration of function 'open_memstream' [-Werror=implicit-function-declaration]
 +
 +Signed-off-by: Khem Raj <raj.khem@gmail.com>
 +Upstream-Status: Pending
 +
-+Index: Python-2.7.2/setup.py
++Index: libdrm-2.4.30/intel/test_decode.c
 +===================================================================
-+--- Python-2.7.2.orig/setup.py	2012-02-03 12:10:42.307057756 -0800
-++++ Python-2.7.2/setup.py	2012-02-03 12:11:12.363059210 -0800
-+@@ -360,6 +360,8 @@
-+         # https://wiki.ubuntu.com/MultiarchSpec
-+         if not find_executable('dpkg-architecture'):
-+             return
-++	if os.environ.get('CROSS_COMPILE') is not None:
-++	    return
-+         tmpfile = os.path.join(self.build_temp, 'multiarch')
-+         if not os.path.exists(self.build_temp):
-+             os.makedirs(self.build_temp)
-diff --git a/meta/recipes-devtools/python/python_2.7.2.bb b/meta/recipes-devtools/python/python_2.7.2.bb
-index 654c850..fb5e860 100644
---- a/meta/recipes-devtools/python/python_2.7.2.bb
-+++ b/meta/recipes-devtools/python/python_2.7.2.bb
-@@ -1,7 +1,7 @@
- require python.inc
- DEPENDS = "python-native db gdbm openssl readline sqlite3 zlib"
- DEPENDS_sharprom = "python-native db readline zlib gdbm openssl"
--PR = "${INC_PR}.5"
-+PR = "${INC_PR}.6"
++--- libdrm-2.4.30.orig/intel/test_decode.c	2012-02-03 14:28:46.409355918 -0800
+++++ libdrm-2.4.30/intel/test_decode.c	2012-02-03 14:29:02.357356689 -0800
++@@ -21,6 +21,8 @@
++  * IN THE SOFTWARE.
++  */
++ 
+++#include "config.h"
+++
++ #include <string.h>
++ #include <stdlib.h>
++ #include <stdio.h>
++@@ -31,7 +33,6 @@
++ #include <sys/mman.h>
++ #include <err.h>
++ 
++-#include "config.h"
++ #include "intel_bufmgr.h"
++ #include "intel_chipset.h"
++ 
+diff --git a/meta/recipes-graphics/drm/libdrm_2.4.30.bb b/meta/recipes-graphics/drm/libdrm_2.4.30.bb
+index 4a6052d..5d99916 100644
+--- a/meta/recipes-graphics/drm/libdrm_2.4.30.bb
++++ b/meta/recipes-graphics/drm/libdrm_2.4.30.bb
+@@ -2,9 +2,11 @@ require libdrm.inc
  
- DISTRO_SRC_URI ?= "file://sitecustomize.py"
- DISTRO_SRC_URI_linuxstdbase = ""
-@@ -20,6 +20,7 @@ SRC_URI += "\
-   file://remove_sqlite_rpath.patch \
-   file://setup_py_skip_cross_import_check.patch \
-   file://add-md5module-support.patch \
-+  file://host_include_contamination.patch \
- "
+ LIC_FILES_CHKSUM = "file://xf86drm.c;beginline=9;endline=32;md5=c8a3b961af7667c530816761e949dc71"
  
- S = "${WORKDIR}/Python-${PV}"
+-PR = "r0"
++PR = "r1"
+ 
+-SRC_URI += "file://installtests.patch"
++SRC_URI += "file://installtests.patch \
++            file://GNU_SOURCE_definition.patch \
++           "
+ 
+ SRC_URI[md5sum] = "9f57a68b2c0836b55ebcbc241f6ca175"
+ SRC_URI[sha256sum] = "cacea9c157ec824ad278a06f4910659b2f3ae69686518ece8d6967843cddcd56"
 -- 
 1.7.6.5
 
