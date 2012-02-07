@@ -1,24 +1,32 @@
-Received: from mga11.intel.com ([192.55.52.93])
+Received: from mail-pz0-f47.google.com ([209.85.210.47])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <josh@linux.intel.com>) id 1Runwy-0000be-PM
+	(envelope-from <bruce.ashfield@gmail.com>) id 1Runy6-0000ie-QS
 	for openembedded-core@lists.openembedded.org;
-	Tue, 07 Feb 2012 17:31:24 +0100
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-	by fmsmga102.fm.intel.com with ESMTP; 07 Feb 2012 08:23:08 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="122027760"
-Received: from unknown (HELO [10.255.15.17]) ([10.255.15.17])
-	by fmsmga002.fm.intel.com with ESMTP; 07 Feb 2012 08:23:08 -0800
-Message-ID: <4F314FEC.6090108@linux.intel.com>
-Date: Tue, 07 Feb 2012 08:23:08 -0800
-From: Joshua Lock <josh@linux.intel.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:10.0) Gecko/20120131 Thunderbird/10.0
+	Tue, 07 Feb 2012 17:32:35 +0100
+Received: by daln34 with SMTP id n34so2936573dal.6
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 07 Feb 2012 08:24:31 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
+	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
+	:cc:content-type:content-transfer-encoding;
+	bh=308/O5fmUultiy+waq9WSGLcKVXmB9YEkeI3DvSHr5k=;
+	b=N1IxV4tP1VE8euDuDOM4rWc1ANQNAAc/7ei1DfZ5dds5+WASdW24xRMfgadle/qXab
+	aIXdadgMhWPYkrK60jX18uZ295WPMpPdiCcRNwfiqcXDz1D3Sbu38XwYDE9I+buYS5bZ
+	PNU2HiGOJnlqMipMgn6yAKz+hxEPdtPuBJVPs=
 MIME-Version: 1.0
-To: openembedded-core@lists.openembedded.org
-References: <29270F77-234D-4561-974D-C8E266898FA3@beagleboard.org>
-In-Reply-To: <29270F77-234D-4561-974D-C8E266898FA3@beagleboard.org>
-Subject: Re: [meta-openembedded][RFC] meta-multimedia layer
+Received: by 10.68.116.234 with SMTP id jz10mr58733252pbb.84.1328631871399;
+	Tue, 07 Feb 2012 08:24:31 -0800 (PST)
+Received: by 10.142.139.16 with HTTP; Tue, 7 Feb 2012 08:24:31 -0800 (PST)
+In-Reply-To: <b77a4edb8a1782a2d04eda1b751d36b608a5f455.1328423023.git.bruce.ashfield@windriver.com>
+References: <cover.1328423023.git.bruce.ashfield@windriver.com>
+	<b77a4edb8a1782a2d04eda1b751d36b608a5f455.1328423023.git.bruce.ashfield@windriver.com>
+Date: Tue, 7 Feb 2012 11:24:31 -0500
+Message-ID: <CADkTA4PM=kKSdwri1xSJFFTUPo-6K6s316QPOQwxk2F0QY7k_w@mail.gmail.com>
+From: Bruce Ashfield <bruce.ashfield@gmail.com>
+To: richard.purdie@linuxfoundation.org
+Cc: dvhart@linux.intel.com, saul.wold@intel.com,
+	openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH 5/5] linux-yocto: fri2: use emgd-1.10
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -33,29 +41,75 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 07 Feb 2012 16:31:25 -0000
-Content-Type: text/plain; charset=ISO-8859-1; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Tue, 07 Feb 2012 16:32:35 -0000
+Content-Type: text/plain; charset=ISO-8859-1
+Content-Transfer-Encoding: quoted-printable
 
-
-
-On 07/02/12 03:08, Koen Kooi wrote:
-> Hi,
+On Sun, Feb 5, 2012 at 1:31 AM, Bruce Ashfield
+<bruce.ashfield@windriver.com> wrote:
+> Updating meta for the following change:
 >
-> During FOSDEM Paul Eggleton and I discussed moving a few multimedia recipes (libav, xbmc, faac, faad, etc) out of meta-oe into a new meta-multimedia layer hosted in the meta-openembedded git repo. This would allow e.g. meta-baryon to drop a number of recipes while avoiding the need to drag in the complete meta-oe layer.
+> =A0 =A0fri2: use emgd-1.10
 >
-> Thoughts?
+> =A0 =A0Use the yocto/emgd-1.10 branch in place of yocto/emgd.
+>
+> Signed-off-by: Tom Zanussi <tom.zanussi@intel.com>
+> Signed-off-by: Bruce Ashfield <bruce.ashfield@windriver.com>
+> ---
+> =A0meta/recipes-kernel/linux/linux-yocto_3.2.bb | =A0 =A02 +-
+> =A01 files changed, 1 insertions(+), 1 deletions(-)
+>
+> diff --git a/meta/recipes-kernel/linux/linux-yocto_3.2.bb b/meta/recipes-=
+kernel/linux/linux-yocto_3.2.bb
+> index a80924d..c13fb37 100644
+> --- a/meta/recipes-kernel/linux/linux-yocto_3.2.bb
+> +++ b/meta/recipes-kernel/linux/linux-yocto_3.2.bb
 
-Yes please!
+An update on this change:
 
-Would this layer be open to patches to enable 
-LICENSE_FLAGS/INCOMPATIBLE_LICENSE ?
+I touched the wrong file for this update, the emgd changes are for the 3.0
+kernel, not 3.2 (they will eventually be there as well, just not now).
+I've fixed
+this and re-pushed the top commit to my contrib branch.
+
+The new diffstat is this:
+
+  meta/recipes-kernel/linux/linux-yocto-rt_3.0.bb |    2 +-
+  meta/recipes-kernel/linux/linux-yocto_3.0.bb    |    2 +-
+  2 files changed, 2 insertions(+), 2 deletions(-)
+
+I'm off to check my builders to see why this chugged along in my local
+testing.
 
 Cheers,
-Joshua
--- 
-Joshua Lock
-         Yocto Project "Johannes factotum"
-         Intel Open Source Technology Centre
+
+Bruce
+
+
+> @@ -23,7 +23,7 @@ SRCREV_machine_qemuppc ?=3D "b8228f337002ad88f1e152d0c0=
+c46c6035cd0428"
+> =A0SRCREV_machine_qemux86 ?=3D "417fc778a86e81303bab5883b919ee422ec51c04"
+> =A0SRCREV_machine_qemux86-64 ?=3D "417fc778a86e81303bab5883b919ee422ec51c=
+04"
+> =A0SRCREV_machine ?=3D "417fc778a86e81303bab5883b919ee422ec51c04"
+> -SRCREV_meta ?=3D "138bf5b502607fe40315c0d76822318d77d97e01"
+> +SRCREV_meta ?=3D "b78a519841bd8b477cad599af8d38df6760445c1"
+>
+> =A0PR =3D "r0"
+> =A0PV =3D "${LINUX_VERSION}+git${SRCPV}"
+> --
+> 1.7.4.1
+>
+>
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
+
+
+
+--=20
+"Thou shalt not follow the NULL pointer, for chaos and madness await
+thee at its end"
 
 
