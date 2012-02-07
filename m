@@ -1,35 +1,35 @@
-Received: from mail-yw0-f47.google.com ([209.85.213.47])
+Received: from mail-gy0-f175.google.com ([209.85.160.175])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <otavio.salvador@gmail.com>) id 1RusQR-0001u5-BS
+	(envelope-from <otavio.salvador@gmail.com>) id 1RusQT-0001tq-Ce
 	for openembedded-core@lists.openembedded.org;
-	Tue, 07 Feb 2012 22:18:07 +0100
-Received: by yhfq46 with SMTP id q46so3160882yhf.6
+	Tue, 07 Feb 2012 22:18:09 +0100
+Received: by mail-gy0-f175.google.com with SMTP id f19so3355799ghb.6
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 07 Feb 2012 13:10:04 -0800 (PST)
+	Tue, 07 Feb 2012 13:10:08 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
 	h=sender:from:to:subject:date:message-id:x-mailer:in-reply-to
 	:references:in-reply-to:references;
-	bh=GJIXUhoDcrETffk08giq4tqlqTX88Pe8EUyggL9iVpw=;
-	b=WYroYnbXIH3c0wOxHrOQx0ChNMV49so/3UJITv7JdBWjn9S4AVzcYBdss/LzxC++8l
-	7eLU89L8T3/eHcZ7MOqVbblCnnXPy2Lp+0H0j4zdRk1Px0gs13v41nRyko0/hTCQB0/l
-	VgJBF372u3n2sVolQWYiUhSdMsDVyWhkOUdW4=
-Received: by 10.236.197.33 with SMTP id s21mr11774422yhn.40.1328649004496;
-	Tue, 07 Feb 2012 13:10:04 -0800 (PST)
+	bh=SPZGb9N2jYZUsf9pf9vO8TtAFR3eHFop2l3nJHJlRCg=;
+	b=xAFIntesvBHdFPQpn8W7BvB1YrQRhRo/shhapldqqi5Hcbgvtyekk7ViYcUNdHbkpP
+	KLDxCeSsdsq/Rn7Fh3PztdrxO9z+RoFY/bACyCKknBLoH4bKjJ1nq2ZjEzOK7EVY28lt
+	JtllXqZNxbiebrXSQS4SWXhaKhPDcsrf+3cM4=
+Received: by 10.236.197.33 with SMTP id s21mr11774685yhn.40.1328649008868;
+	Tue, 07 Feb 2012 13:10:08 -0800 (PST)
 Received: from localhost.localdomain ([186.218.100.214])
-	by mx.google.com with ESMTPS id f47sm30150280yhh.8.2012.02.07.13.10.02
+	by mx.google.com with ESMTPS id f47sm30150280yhh.8.2012.02.07.13.10.06
 	(version=TLSv1/SSLv3 cipher=OTHER);
-	Tue, 07 Feb 2012 13:10:03 -0800 (PST)
+	Tue, 07 Feb 2012 13:10:07 -0800 (PST)
 Sender: Otavio Salvador <otavio.salvador@gmail.com>
 From: Otavio Salvador <otavio@ossystems.com.br>
 To: openembedded-core@lists.openembedded.org
-Date: Tue,  7 Feb 2012 21:09:49 +0000
-Message-Id: <6907cafeb8297e1392f36c3c4023fabf1cb9190b.1328648562.git.otavio@ossystems.com.br>
+Date: Tue,  7 Feb 2012 21:09:51 +0000
+Message-Id: <981ec1c0249fee08b2536b2bdf4a3bc93c0f3171.1328648562.git.otavio@ossystems.com.br>
 X-Mailer: git-send-email 1.7.2.5
 In-Reply-To: <cover.1328648562.git.otavio@ossystems.com.br>
 References: <cover.1328648562.git.otavio@ossystems.com.br>
 In-Reply-To: <cover.1328648562.git.otavio@ossystems.com.br>
 References: <cover.1328648562.git.otavio@ossystems.com.br>
-Subject: [PATCH 2/4] udev: stop providing cache support by default
+Subject: [PATCH 4/4] useradd.bbclass: skip processing on virtclass-cross extended packages
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -44,43 +44,37 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 07 Feb 2012 21:18:07 -0000
-
-The usefulness of cache nowadays has been reduced a lot and thus it's
-better to stop using it by default. Dropping the recommends allows for
-image to decide if they want or not to have cache enabled, instead of
-require a machine override.
+X-List-Received-Date: Tue, 07 Feb 2012 21:18:09 -0000
 
 Signed-off-by: Otavio Salvador <otavio@ossystems.com.br>
 ---
- meta/recipes-core/udev/udev.inc    |    2 +-
- meta/recipes-core/udev/udev_164.bb |    2 +-
- 2 files changed, 2 insertions(+), 2 deletions(-)
+ meta/classes/useradd.bbclass |    3 +++
+ 1 files changed, 3 insertions(+), 0 deletions(-)
 
-diff --git a/meta/recipes-core/udev/udev.inc b/meta/recipes-core/udev/udev.inc
-index e5fbe40..7949f22 100644
---- a/meta/recipes-core/udev/udev.inc
-+++ b/meta/recipes-core/udev/udev.inc
-@@ -12,7 +12,7 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=751419260aa954499f7abaabaa882bbe \
+diff --git a/meta/classes/useradd.bbclass b/meta/classes/useradd.bbclass
+index 8eb6444..1fed755 100644
+--- a/meta/classes/useradd.bbclass
++++ b/meta/classes/useradd.bbclass
+@@ -3,6 +3,7 @@
+ # and support files needed to add and modify user and group accounts
+ DEPENDS_append = "${USERADDDEPENDS}"
+ USERADDDEPENDS = " base-passwd shadow-native shadow-sysroot shadow"
++USERADDDEPENDS_virtclass-cross = ""
+ USERADDDEPENDS_virtclass-native = ""
+ USERADDDEPENDS_virtclass-nativesdk = ""
  
- DEPENDS = "acl glib-2.0 libusb usbutils pciutils gperf-native libxslt-native"
- RPROVIDES_${PN} = "hotplug"
--RRECOMMENDS_${PN} += "udev-extraconf udev-cache usbutils-ids pciutils-ids"
-+RRECOMMENDS_${PN} += "udev-extraconf usbutils-ids pciutils-ids"
- RDEPENDS_libudev = "${PN} (= ${EXTENDPKGV})"
+@@ -104,10 +105,12 @@ useradd_sysroot_sstate () {
  
- SRC_URI = "${KERNELORG_MIRROR}/linux/utils/kernel/hotplug/udev-${PV}.tar.gz \
-diff --git a/meta/recipes-core/udev/udev_164.bb b/meta/recipes-core/udev/udev_164.bb
-index 6d71f4d..b993a13 100644
---- a/meta/recipes-core/udev/udev_164.bb
-+++ b/meta/recipes-core/udev/udev_164.bb
-@@ -1,6 +1,6 @@
- include udev.inc
- 
--PR = "r10"
-+PR = "r11"
- 
- SRC_URI += "file://udev-166-v4l1-1.patch"
+ do_install[prefuncs] += "${SYSROOTFUNC}"
+ SYSROOTFUNC = "useradd_sysroot"
++SYSROOTFUNC_virtclass-cross = ""
+ SYSROOTFUNC_virtclass-native = ""
+ SYSROOTFUNC_virtclass-nativesdk = ""
+ SSTATEPREINSTFUNCS += "${SYSROOTPOSTFUNC}"
+ SYSROOTPOSTFUNC = "useradd_sysroot_sstate"
++SYSROOTPOSTFUNC_virtclass-cross = ""
+ SYSROOTPOSTFUNC_virtclass-native = ""
+ SYSROOTPOSTFUNC_virtclass-nativesdk = ""
  
 -- 
 1.7.2.5
