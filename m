@@ -1,27 +1,32 @@
-Received: from mail-qy0-f175.google.com ([209.85.216.175])
+Received: from mail-lpp01m010-f47.google.com ([209.85.215.47])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <andrei@gherzan.ro>) id 1RupgN-0004ev-5w
+	(envelope-from <raj.khem@gmail.com>) id 1RuplG-0004mR-U2
 	for openembedded-core@lists.openembedded.org;
-	Tue, 07 Feb 2012 19:22:23 +0100
-Received: by qcso7 with SMTP id o7so3994435qcs.6
+	Tue, 07 Feb 2012 19:27:26 +0100
+Received: by lahc1 with SMTP id c1so4327535lah.6
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 07 Feb 2012 10:14:20 -0800 (PST)
-Received: by 10.229.76.9 with SMTP id a9mr9690447qck.76.1328638460320;
-	Tue, 07 Feb 2012 10:14:20 -0800 (PST)
-Received: from [128.224.170.202] ([89.121.200.106])
-	by mx.google.com with ESMTPS id fh6sm42280963qab.22.2012.02.07.10.14.18
-	(version=SSLv3 cipher=OTHER); Tue, 07 Feb 2012 10:14:19 -0800 (PST)
-Message-ID: <4F3169F9.5070005@gherzan.ro>
-Date: Tue, 07 Feb 2012 20:14:17 +0200
-From: Andrei Gherzan <andrei@gherzan.ro>
-User-Agent: Mozilla/5.0 (X11; Linux i686;
-	rv:9.0) Gecko/20111229 Thunderbird/9.0
+	Tue, 07 Feb 2012 10:19:24 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:content-type; bh=JsUeX1iqMUG4MiqP28TazUCy0cGeKFofKKQYCZF23GA=;
+	b=XxppBxZGOYQEy4dpYweRYmzfoFddkY6f7b/QoVERrr8hzITsaF4xhW4UgT2oJMufJx
+	N2odqgnqnh83cMFCekZX8u8Cctkp0Fo4hs4D0qA95dg/troNBdJOATmEm2KWGUbgWM4M
+	H6fQbm3oUUOyzWdYH6tIYEkvYeNj/3RGY3BHE=
+Received: by 10.112.32.1 with SMTP id e1mr6860564lbi.3.1328638764314; Tue, 07
+	Feb 2012 10:19:24 -0800 (PST)
 MIME-Version: 1.0
-To: openembedded-core@lists.openembedded.org
-References: <1328635982-18444-1-git-send-email-andrei@gherzan.ro>
-	<1328636405.14363.32.camel@phil-desktop>
-In-Reply-To: <1328636405.14363.32.camel@phil-desktop>
-Subject: Re: [PATCH] nspr: Integrate version 4.8.9
+Received: by 10.152.5.201 with HTTP; Tue, 7 Feb 2012 10:18:54 -0800 (PST)
+In-Reply-To: <CAP9ODKozBCcoddJ1PKPOKJAy_OWerS+qvxPe9qGmR3SLT=RdqQ@mail.gmail.com>
+References: <cover.1328510187.git.raj.khem@gmail.com>
+	<04705556464a6e41642962da40f0e17847ee3483.1328510188.git.raj.khem@gmail.com>
+	<2f04aa9f17c455c3d42ecb81975e425746973bef.1328510189.git.raj.khem@gmail.com>
+	<CAP9ODKozBCcoddJ1PKPOKJAy_OWerS+qvxPe9qGmR3SLT=RdqQ@mail.gmail.com>
+From: Khem Raj <raj.khem@gmail.com>
+Date: Tue, 7 Feb 2012 10:18:54 -0800
+Message-ID: <CAMKF1sqPAeYohBX5nvM831FWaoj3ZaYENbZAq=S3m1H_Yrc5qQ@mail.gmail.com>
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 19/20] gcc-cross-testing: Fix evaluation of user and target name
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -36,23 +41,13 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 07 Feb 2012 18:22:23 -0000
-Content-Type: text/plain; charset=ISO-8859-1; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Tue, 07 Feb 2012 18:27:27 -0000
+Content-Type: text/plain; charset=UTF-8
 
-On 02/07/2012 07:40 PM, Phil Blundell wrote:
-> On Tue, 2012-02-07 at 19:33 +0200, Andrei Gherzan wrote:
->> +FILES_${PN} = "/usr/lib/*.so"
->> +FILES_${PN}-dev = "/usr/bin/* /usr/include/* /usr/share/aclocal/* /usr/lib/pkgconfig/*"
->> +FILE_${PN}-staticdev= "/usr/lib/*.a"
-> That all looks rather dubious.  The last line surely isn't accomplishing
-> anything and I suspect the other three are largely wrong/useless as
-> well.  What problem were you trying to solve by adding those?
+On Tue, Feb 7, 2012 at 9:49 AM, Otavio Salvador <otavio@ossystems.com.br> wrote:
 >
-> p.
-You right. These line are useless here as they end up in the right rpm 
-by default. Resending patch...
+> There're any reason to not use grep -q and drop the pipe?
 
-@g
+yes. I dont need to know stderr along with stdio just return value is enough
 
 
