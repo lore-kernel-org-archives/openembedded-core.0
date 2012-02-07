@@ -1,30 +1,33 @@
-Received: from mail-ww0-f43.google.com ([74.125.82.43])
+Received: from mail-lpp01m020-f175.google.com ([209.85.217.175])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <koen@dominion.thruhere.net>) id 1Ruksx-0004br-PW
+	(envelope-from <raj.khem@gmail.com>) id 1Run9N-0005Jt-RT
 	for openembedded-core@lists.openembedded.org;
-	Tue, 07 Feb 2012 14:15:03 +0100
-Received: by wgbdr13 with SMTP id dr13so6515260wgb.24
+	Tue, 07 Feb 2012 16:40:11 +0100
+Received: by lbol12 with SMTP id l12so1625559lbo.6
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 07 Feb 2012 05:07:01 -0800 (PST)
-Received: by 10.180.81.66 with SMTP id y2mr33698510wix.20.1328620021827;
-	Tue, 07 Feb 2012 05:07:01 -0800 (PST)
-Received: from [172.20.1.36] (ip545070eb.adsl-surfen.hetnet.nl.
-	[84.80.112.235])
-	by mx.google.com with ESMTPS id q7sm32051498wix.5.2012.02.07.05.07.00
-	(version=TLSv1/SSLv3 cipher=OTHER);
-	Tue, 07 Feb 2012 05:07:01 -0800 (PST)
-Mime-Version: 1.0 (Apple Message framework v1251.1)
-From: Koen Kooi <koen@dominion.thruhere.net>
-In-Reply-To: <CAK18fxFPfknw2GFTaK1oh2tqLKvyyTOFfj=3pPoJe=gjeqH+tg@mail.gmail.com>
-Date: Tue, 7 Feb 2012 14:06:53 +0100
-Message-Id: <C7894645-45A1-40AF-8F77-0C84D50B26AC@dominion.thruhere.net>
-References: <1328613869-19250-1-git-send-email-andrei@gherzan.ro>
-	<F229F287-890C-429C-BE74-8E38AB5E0C25@dominion.thruhere.net>
-	<CAK18fxFPfknw2GFTaK1oh2tqLKvyyTOFfj=3pPoJe=gjeqH+tg@mail.gmail.com>
-To: Patches and discussions about the oe-core layer
+	Tue, 07 Feb 2012 07:32:07 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc:content-type;
+	bh=oZQQlN8MRP20UE0JpsrRnjZ583g47zbPDHmA88jR/Y8=;
+	b=qjcETMEAshghN8uGWU8i1P2kmirF2Q3iu3DYQEi/T3hOwevVm4DaFGo0s2wC7cnTuD
+	z734cgKOiGzP8UUpOjc1J8+Of3A88/K7TBmNLOv/T8iyr1+Se9zAGxvjipFLAI8bGZrx
+	JaW0NMfmMN5Xp9L731Vm+Z2mc8U0bhDrJBNDw=
+Received: by 10.112.86.67 with SMTP id n3mr6395737lbz.29.1328628726252; Tue,
+	07 Feb 2012 07:32:06 -0800 (PST)
+MIME-Version: 1.0
+Received: by 10.152.5.201 with HTTP; Tue, 7 Feb 2012 07:31:35 -0800 (PST)
+In-Reply-To: <4F30DC16.1050506@linux.intel.com>
+References: <04705556464a6e41642962da40f0e17847ee3483.1328510188.git.raj.khem@gmail.com>
+	<c68f6de298c35c25638ea3a5adeb06c97cd74036.1328510189.git.raj.khem@gmail.com>
+	<4F30DC16.1050506@linux.intel.com>
+From: Khem Raj <raj.khem@gmail.com>
+Date: Tue, 7 Feb 2012 07:31:35 -0800
+Message-ID: <CAMKF1sqTc3PA_4xNbp1751tA73pRazsvrFdwhomdELtb-25ZGg@mail.gmail.com>
+To: Saul Wold <sgw@linux.intel.com>
+Cc: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-X-Mailer: Apple Mail (2.1251.1)
-Subject: Re: [PATCH 1/3] nspr: Integrate version 4.8.9
+Subject: Re: [PATCH 12/20] zlib: Upgrade 1.2.5 -> 1.2.6
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -39,53 +42,15 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 07 Feb 2012 13:15:03 -0000
-Content-Type: text/plain; charset=iso-8859-1
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Tue, 07 Feb 2012 15:40:11 -0000
+Content-Type: text/plain; charset=UTF-8
 
+On Tue, Feb 7, 2012 at 12:08 AM, Saul Wold <sgw@linux.intel.com> wrote:
+> | /bin/grep: /intel/poky/builds/world/tmp/sysroots/qemux86/usr/lib/libz.la:
+> No such file or directory
 
-Op 7 feb. 2012, om 14:04 heeft Andrei Gherzan het volgende geschreven:
-
-> On Tue, Feb 7, 2012 at 14:12, Koen Kooi <koen@dominion.thruhere.net> =
-wrote:
->=20
-> Op 7 feb. 2012, om 12:24 heeft Andrei Gherzan het volgende geschreven:
->=20
-> > Signed-off-by: Andrei Gherzan <andrei@gherzan.ro>
-> > Signed-off-by: Sergey 'Jin' Bostandzhyan <jin@mediatomb.cc>
-> > ---
-> > meta/recipes-support/nspr/files/nspr.pc |   11 +++++++++
-> > meta/recipes-support/nspr/nspr_4.8.9.bb |   36 =
-+++++++++++++++++++++++++++++++
-> > 2 files changed, 47 insertions(+), 0 deletions(-)
-> > create mode 100644 meta/recipes-support/nspr/files/nspr.pc
-> > create mode 100644 meta/recipes-support/nspr/nspr_4.8.9.bb
-> >
-> > diff --git a/meta/recipes-support/nspr/files/nspr.pc =
-b/meta/recipes-support/nspr/files/nspr.pc
-> > new file mode 100644
-> > index 0000000..c3aed84
-> > --- /dev/null
-> > +++ b/meta/recipes-support/nspr/files/nspr.pc
-> > @@ -0,0 +1,11 @@
-> > +os_libs=3D-lpthread -ldl
-> > +prefix=3D/usr
-> > +exec_prefix=3D/usr
-> > +libdir=3D/usr/lib
-> > +includedir=3D/usr/include
->=20
-> The above hardcodes an fs layout that isn't true for e.g. micro
->=20
->=20
-> A pc was the only way to make js "see" nspr.  Actually it was Jin's =
-idea and i found it accurate for my use-case.=20
-> Koen, on micro how these hardcodes should look like?
-
-You will problably need to replace them with OEPREFIX/OELIBDIR and do =
-sed -i s:OEPREFIX:${prefix}:g *.pc in do_install_append.
-
-regards,
-
-Koen=
+thanks ok I did not catch it with sato image build. which package is
+failing with this
+error.
 
 
