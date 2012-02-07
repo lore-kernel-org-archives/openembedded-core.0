@@ -1,26 +1,34 @@
-Received: from mga01.intel.com ([192.55.52.88])
+Received: from mail-ee0-f47.google.com ([74.125.83.47])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <sgw@linux.intel.com>) id 1RupKp-0003zn-8m
+	(envelope-from <otavio.salvador@gmail.com>) id 1RupKt-00041C-V7
 	for openembedded-core@lists.openembedded.org;
-	Tue, 07 Feb 2012 19:00:07 +0100
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-	by fmsmga101.fm.intel.com with ESMTP; 07 Feb 2012 09:49:55 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="122070826"
-Received: from unknown (HELO [10.255.14.116]) ([10.255.14.116])
-	by fmsmga002.fm.intel.com with ESMTP; 07 Feb 2012 09:49:55 -0800
-Message-ID: <4F316443.9020508@linux.intel.com>
-Date: Tue, 07 Feb 2012 09:49:55 -0800
-From: Saul Wold <sgw@linux.intel.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:9.0) Gecko/20111222 Thunderbird/9.0
+	Tue, 07 Feb 2012 19:00:12 +0100
+Received: by eekd41 with SMTP id d41so2224583eek.6
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 07 Feb 2012 09:52:09 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
+	h=mime-version:sender:in-reply-to:references:date
+	:x-google-sender-auth:message-id:subject:from:to:content-type;
+	bh=XiKkMbLTiBM5CNClZxyZJROm/NJsGzxzJEHanDsn4Zs=;
+	b=fPfA1odDS5WuaY92ZDqiWFpYhw7PvON3ZjoL6bgPZ5IoedOF5+e6yHrg8/Kch9JjCJ
+	8u1yDlVHb73b3QxyYe6z+70bAamuka/PheNAEV8yFjrH76bmuD3QlJrtS4RbMEBMMzcM
+	y1CWYiTtEsI7cC+qPQ2CEXt8oByskySCb5aKk=
 MIME-Version: 1.0
+Received: by 10.14.53.74 with SMTP id f50mr7482645eec.5.1328637128097; Tue, 07
+	Feb 2012 09:52:08 -0800 (PST)
+Sender: otavio.salvador@gmail.com
+Received: by 10.14.96.129 with HTTP; Tue, 7 Feb 2012 09:52:08 -0800 (PST)
+In-Reply-To: <8E617E89-2373-4DEB-A3B1-C5D7E31ED4A4@dominion.thruhere.net>
+References: <cover.1328631790.git.paul.eggleton@linux.intel.com>
+	<fce0db04f4b95798f3bdf6c925f1707faf14f2ed.1328631790.git.paul.eggleton@linux.intel.com>
+	<8E617E89-2373-4DEB-A3B1-C5D7E31ED4A4@dominion.thruhere.net>
+Date: Tue, 7 Feb 2012 15:52:08 -0200
+X-Google-Sender-Auth: d2Ad8YKN6Fth1eFUoaUy0FQ66Qg
+Message-ID: <CAP9ODKpTssfD2O9LK3=ntGs4=L7qxr+5UxxvSdBvJqppiQhp1Q@mail.gmail.com>
+From: Otavio Salvador <otavio@ossystems.com.br>
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-References: <04705556464a6e41642962da40f0e17847ee3483.1328510188.git.raj.khem@gmail.com>
-	<d311646dbcb0be12596125a5cf8c97e713741182.1328510189.git.raj.khem@gmail.com>
-In-Reply-To: <d311646dbcb0be12596125a5cf8c97e713741182.1328510189.git.raj.khem@gmail.com>
-Subject: Re: [PATCH 20/20] mirrors.bbclass: Add yp.org and oe.org to fallback mirrors
+Subject: Re: [PATCH 2/2] classes/buildhistory: sort list fields in package info
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -35,56 +43,43 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 07 Feb 2012 18:00:07 -0000
-Content-Type: text/plain; charset=ISO-8859-1; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Tue, 07 Feb 2012 18:00:12 -0000
+Content-Type: multipart/alternative; boundary=90e6ba6150c60e41db04b863703e
 
-On 02/05/2012 10:40 PM, Khem Raj wrote:
-> This should improve the fetching errors users see
-> when upstream src_uri is unavailable
->
-> Signed-off-by: Khem Raj<raj.khem@gmail.com>
-> ---
->   meta/classes/mirrors.bbclass |   21 ++++++++++++++++++++-
->   1 files changed, 20 insertions(+), 1 deletions(-)
->
-> diff --git a/meta/classes/mirrors.bbclass b/meta/classes/mirrors.bbclass
-> index 2146087..69f44cd 100644
-> --- a/meta/classes/mirrors.bbclass
-> +++ b/meta/classes/mirrors.bbclass
-> @@ -52,5 +52,24 @@ ftp://lsof.itap.purdue.edu/pub/tools/unix/lsof/  ftp://gd.tuwien.ac.at/utils/adm
->   ftp://lsof.itap.purdue.edu/pub/tools/unix/lsof/  ftp://sunsite.ualberta.ca/pub/Mirror/lsof/ \n \
->   ftp://lsof.itap.purdue.edu/pub/tools/unix/lsof/  ftp://the.wiretapped.net/pub/security/host-security/lsof/ \n \
->   http://www.apache.org/dist  http://archive.apache.org/dist \n \
-> +cvs://.*/.*     http://autobuilder.yoctoproject.org/pub/sources/ \n \
-> +svn://.*/.*     http://autobuilder.yoctoproject.org/pub/sources/ \n \
-> +git://.*/.*     http://autobuilder.yoctoproject.org/pub/sources/ \n \
-> +hg://.*/.*      http://autobuilder.yoctoproject.org/pub/sources/ \n \
-> +bzr://.*/.*     http://autobuilder.yoctoproject.org/pub/sources/ \n \
-> +svk://.*/.*     http://autobuilder.yoctoproject.org/pub/sources/ \n \
-> +p4://.*/.*      http://autobuilder.yoctoproject.org/pub/sources/ \n \
-> +osc://.*/.*     http://autobuilder.yoctoproject.org/pub/sources/ \n \
-> +https?$://.*/.* http://autobuilder.yoctoproject.org/pub/sources/ \n \
-> +ftp://.*/.*     http://autobuilder.yoctoproject.org/pub/sources/ \n \
+--90e6ba6150c60e41db04b863703e
+Content-Type: text/plain; charset=ISO-8859-1
 
-Please use: http://downloads.yoctoproject.org/mirror/sources
+On Tue, Feb 7, 2012 at 15:50, Koen Kooi <koen@dominion.thruhere.net> wrote:
 
-That makes it clearer.
-
-Thanks
-	Sau!
-
-> +cvs://.*/.*     http://sources.openembedded.org/ \n \
-> +svn://.*/.*     http://sources.openembedded.org/ \n \
-> +git://.*/.*     http://sources.openembedded.org/ \n \
-> +hg://.*/.*      http://sources.openembedded.org/ \n \
-> +bzr://.*/.*     http://sources.openembedded.org/ \n \
-> +svk://.*/.*     http://sources.openembedded.org/ \n \
-> +p4://.*/.*      http://sources.openembedded.org/ \n \
-> +osc://.*/.*     http://sources.openembedded.org/ \n \
-> +https?$://.*/.* http://sources.openembedded.org/ \n \
-> +ftp://.*/.*     http://sources.openembedded.org/ \n \
->   "
-> -
+> Sorting PACKAGES is a bad idea, since order does matter in there.
 
 
+Agreed. Even installed depends might change depending on the installation
+order.
+
+-- 
+Otavio Salvador                             O.S. Systems
+E-mail: otavio@ossystems.com.br  http://www.ossystems.com.br
+Mobile: +55 53 9981-7854              http://projetos.ossystems.com.br
+
+--90e6ba6150c60e41db04b863703e
+Content-Type: text/html; charset=ISO-8859-1
+Content-Transfer-Encoding: quoted-printable
+
+<div class=3D"gmail_quote">On Tue, Feb 7, 2012 at 15:50, Koen Kooi <span di=
+r=3D"ltr">&lt;<a href=3D"mailto:koen@dominion.thruhere.net">koen@dominion.t=
+hruhere.net</a>&gt;</span> wrote:<br><blockquote class=3D"gmail_quote" styl=
+e=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex">
+Sorting PACKAGES is a bad idea, since order does matter in there.</blockquo=
+te><div><br></div><div>Agreed. Even installed depends might change dependin=
+g on the installation order.</div><div><br></div></div>-- <br>Otavio Salvad=
+or=A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0O.S. Systems<b=
+r>
+E-mail: <a href=3D"mailto:otavio@ossystems.com.br" target=3D"_blank">otavio=
+@ossystems.com.br</a>=A0 <a href=3D"http://www.ossystems.com.br" target=3D"=
+_blank">http://www.ossystems.com.br</a><br>Mobile: +55 53 9981-7854=A0 =A0 =
+=A0 =A0=A0 =A0 =A0 =A0<a href=3D"http://projetos.ossystems.com.br" target=
+=3D"_blank">http://projetos.ossystems.com.br</a><br>
+<br>
+
+--90e6ba6150c60e41db04b863703e--
