@@ -1,24 +1,35 @@
-Received: from mga01.intel.com ([192.55.52.88])
+Received: from mail-pz0-f47.google.com ([209.85.210.47])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <sgw@linux.intel.com>) id 1RutvS-0004HG-3C
+	(envelope-from <raj.khem@gmail.com>) id 1Rutwv-0005SR-5o
 	for openembedded-core@lists.openembedded.org;
-	Tue, 07 Feb 2012 23:54:14 +0100
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-	by fmsmga101.fm.intel.com with ESMTP; 07 Feb 2012 14:46:03 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="122206446"
-Received: from unknown (HELO swold-mobl.bigsur.com) ([10.255.14.116])
-	by fmsmga002.fm.intel.com with ESMTP; 07 Feb 2012 14:46:03 -0800
-From: Saul Wold <sgw@linux.intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Tue,  7 Feb 2012 14:45:48 -0800
-Message-Id: <e08604800fe1cb8f240f53c147ceb4ee08a29b91.1328654424.git.sgw@linux.intel.com>
-X-Mailer: git-send-email 1.7.6.5
-In-Reply-To: <cover.1328654424.git.sgw@linux.intel.com>
-References: <cover.1328654424.git.sgw@linux.intel.com>
-In-Reply-To: <cover.1328654424.git.sgw@linux.intel.com>
-References: <cover.1328654424.git.sgw@linux.intel.com>
-Subject: [CONSOLIDATED PULL 28/35] libx11: Backport _XGetRequest API
+	Tue, 07 Feb 2012 23:55:45 +0100
+Received: by daln34 with SMTP id n34so3194493dal.6
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 07 Feb 2012 14:47:41 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
+	h=date:from:to:subject:message-id:references:mime-version
+	:content-type:content-disposition:in-reply-to:user-agent;
+	bh=11h4dTd6GPbpTS+awfxnzr54TrYZ8hTMYFZJRzx8uIQ=;
+	b=MHb4AzeMpdzhbSI351qbQdS8TJcxkTOoLB/vMZ95PvSSFF7A0xQT4vjjNBLV3bF3va
+	gZxZmZd08I/wNFx6eapPVjdnQ6MWOulyUfnJ5mOii+ba5tfCx6Bve4n7tEyZnOZlhUWu
+	s6ykISLscT0jh24JSxdUCzwRcrEXZqqjE+rwU=
+Received: by 10.68.218.231 with SMTP id pj7mr62594228pbc.63.1328654861623;
+	Tue, 07 Feb 2012 14:47:41 -0800 (PST)
+Received: from sakrah.homelinux.org
+	(99-57-142-235.lightspeed.sntcca.sbcglobal.net. [99.57.142.235])
+	by mx.google.com with ESMTPS id x6sm166976pbf.7.2012.02.07.14.47.39
+	(version=TLSv1/SSLv3 cipher=OTHER);
+	Tue, 07 Feb 2012 14:47:40 -0800 (PST)
+Date: Tue, 7 Feb 2012 14:47:28 -0800
+From: Khem Raj <raj.khem@gmail.com>
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Message-ID: <20120207224728.GB13125@sakrah.homelinux.org>
+References: <1321488805.18905.5.camel@ted> <20120207103141.GA30500@mcrowe.com>
+MIME-Version: 1.0
+In-Reply-To: <20120207103141.GA30500@mcrowe.com>
+User-Agent: Mutt/1.5.20 (2009-06-14)
+Subject: Re: [PATCH] libtool-cross: Upbreak and actually use more of it
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -33,190 +44,109 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 07 Feb 2012 22:54:50 -0000
+X-List-Received-Date: Tue, 07 Feb 2012 22:55:45 -0000
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-From: Khem Raj <raj.khem@gmail.com>
+On (07/02/12 10:31), Mike Crowe wrote:
+> On Thu, Nov 17, 2011 at 12:13:25AM +0000, Richard Purdie wrote:
+> > We should be using libtool-cross for cross compiling but
+> > were not. This patch sets datadir so libtoolize ends up
+> > containing correct paths. It then installs libtoolize.
+> 
+> I have a recipe that no longer works after this (or perhaps the other
+> changes Richard mentions later in the thread.) It's a pretty
+> straightforward recipe that inherits from autotools. Judging by the
+> number of warnings from autoconf the package was probably expecting an
+> older version of automake/autoconf. The configure task fails with:
+> 
+>  libtoolize: `config/compile' not found in `/home/mac/src/oe/build/tmp-eglibc/sysroots/panther/usr/share/libtool'
+> 
+> (continued inside patch)
+> 
+> > The path ltmain.sh was installed to was incorrect and this is fixed.
+> > 
+> > We also now install all the libtool m4 macros.
+> > 
+> > Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+> > ---
+> > diff --git a/meta/recipes-devtools/libtool/libtool-cross_2.4.bb b/meta/recipes-devtools/libtool/libtool-cross_2.4.bb
+> > index 596528a..4e6e3f2 100644
+> > --- a/meta/recipes-devtools/libtool/libtool-cross_2.4.bb
+> > +++ b/meta/recipes-devtools/libtool/libtool-cross_2.4.bb
+> > @@ -1,10 +1,13 @@
+> >  require libtool-${PV}.inc
+> >  
+> > -PR = "r5"
+> > +PR = "r7"
+> >  PACKAGES = ""
+> >  SRC_URI += "file://prefix.patch"
+> >  SRC_URI += "file://fixinstall.patch"
+> >  
+> > +target_datadir := "${datadir}"
+> > +datadir = "${STAGING_DIR_TARGET}${target_datadir}"
+> > +
+> >  do_configure_prepend () {
+> >  	# Remove any existing libtool m4 since old stale versions would break
+> >  	# any upgrade
+> > @@ -13,20 +16,21 @@ do_configure_prepend () {
+> >  }
+> >  
+> >  do_install () {
+> > -	install -d ${D}${bindir}/
+> > -	install -m 0755 ${HOST_SYS}-libtool ${D}${bindir}/${HOST_SYS}-libtool
+> > -	install -d ${D}${datadir}/libtool/
+> > -	install -d ${D}${datadir}/aclocal/
+> > -	install -c ${S}/libltdl/config/config.guess ${D}${datadir}/libtool/
+> > -	install -c ${S}/libltdl/config/config.sub ${D}${datadir}/libtool/
+> > -	install -c -m 0644 ${S}/libltdl/config/ltmain.sh ${D}${datadir}/libtool/
+> > -	install -c -m 0644 ${S}/libltdl/m4/libtool.m4 ${D}${datadir}/aclocal/
+> > -	install -c -m 0644 ${S}/libltdl/m4/ltdl.m4 ${D}${datadir}/aclocal/
+> > +	install -d ${D}${bindir_crossscripts}/
+> > +	install -m 0755 ${HOST_SYS}-libtool ${D}${bindir_crossscripts}/${HOST_SYS}-libtool
+> > +	install -d ${D}${bindir_crossscripts}/
+> > +	install -m 0755 libtoolize ${D}${bindir_crossscripts}/
+> > +	install -d ${D}${target_datadir}/libtool/config/
+> > +	install -d ${D}${target_datadir}/aclocal/
+> > +	install -c ${S}/libltdl/config/config.guess ${D}${target_datadir}/libtool/
+> > +	install -c ${S}/libltdl/config/config.sub ${D}${target_datadir}/libtool/
+> 
+> If I also install "compile", "depcomp" and "missing" here then this
+> solves the immediate problem but then it looks like I also need to add
+> "COPYING.LIB" and probably many other files to
+> ${D}{$target_datadir}/libtool/libltdl too which leads me to think that
+> I'm swimming against the tide and might be going about this the wrong
+> way. Is this the correct approach? If so why not just call "make
+> install" rather than installing everything by hand?
 
-This API is relatively new and will be in next release of libX11
-this is needed for OE qemu-native which links to libx11-native
-but uses libGL from build system and herein lies the problem
-if you have bleeding edge distro e.g. ubuntu 12.04(development)
-libGL.so expects this API to be present. Backported to 1.4.4
-thusly
+can you just try oe_runmake DESTDIR=${D} install ?
+you might need to do some extra bits in there but that can be done
+additionally
 
-Signed-off-by: Khem Raj <raj.khem@gmail.com>
----
- ...quest-as-substitute-for-GetReq-GetReqExtr.patch |  137 ++++++++++++++++++++
- meta/recipes-graphics/xorg-lib/libx11_1.4.4.bb     |    3 +
- 2 files changed, 140 insertions(+), 0 deletions(-)
- create mode 100644 meta/recipes-graphics/xorg-lib/libx11-1.4.4/0001-Add-_XGetRequest-as-substitute-for-GetReq-GetReqExtr.patch
+> 
+> > +	install -c -m 0644 ${S}/libltdl/config/ltmain.sh ${D}${target_datadir}/libtool/config/
+> > +	install -c -m 0644 ${S}/libltdl/m4/*.m4 ${D}${target_datadir}/aclocal/
+> >  }
+> >  
+> >  SYSROOT_PREPROCESS_FUNCS += "libtoolcross_sysroot_preprocess"
+> >  
+> >  libtoolcross_sysroot_preprocess () {
+> > -	install -d ${SYSROOT_DESTDIR}${bindir_crossscripts}
+> > -	install -m 755 ${D}${bindir}/${HOST_SYS}-libtool ${SYSROOT_DESTDIR}${bindir_crossscripts}/${HOST_SYS}-libtool
+> > +	sysroot_stage_dir ${D}${bindir_crossscripts} ${SYSROOT_DESTDIR}${bindir_crossscripts}
+> > +	sysroot_stage_dir ${D}${target_datadir} ${SYSROOT_DESTDIR}${target_datadir}
+> >  }
+> 
+> TIA
+> 
+> Mike.
+> 
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
 
-diff --git a/meta/recipes-graphics/xorg-lib/libx11-1.4.4/0001-Add-_XGetRequest-as-substitute-for-GetReq-GetReqExtr.patch b/meta/recipes-graphics/xorg-lib/libx11-1.4.4/0001-Add-_XGetRequest-as-substitute-for-GetReq-GetReqExtr.patch
-new file mode 100644
-index 0000000..aedb5c4
---- /dev/null
-+++ b/meta/recipes-graphics/xorg-lib/libx11-1.4.4/0001-Add-_XGetRequest-as-substitute-for-GetReq-GetReqExtr.patch
-@@ -0,0 +1,137 @@
-+From 4a060f993bf676cf21ad9784e010f54134da7b40 Mon Sep 17 00:00:00 2001
-+From: Peter Hutterer <peter.hutterer@who-t.net>
-+Date: Mon, 17 Oct 2011 09:45:15 +1000
-+Subject: [PATCH] Add _XGetRequest as substitute for GetReq/GetReqExtra
-+
-+Signed-off-by: Peter Hutterer <peter.hutterer@who-t.net>
-+Reviewed-by: Jamey Sharp <jamey@minilop.net>
-+---
-+ include/X11/Xlibint.h |   49 ++++++++++++++++---------------------------------
-+ src/XlibInt.c         |   31 +++++++++++++++++++++++++++++++
-+ 2 files changed, 47 insertions(+), 33 deletions(-)
-+
-+Upstream-Status: Backport
-+
-+diff --git a/include/X11/Xlibint.h b/include/X11/Xlibint.h
-+index 2ce356d..43d1f2a 100644
-+--- a/include/X11/Xlibint.h
-++++ b/include/X11/Xlibint.h
-+@@ -420,6 +420,18 @@ extern LockInfoPtr _Xglobal_lock;
-+ #define WORD64ALIGN
-+ #endif /* WORD64 */
-+ 
-++/**
-++ * Return a len-sized request buffer for the request type. This function may
-++ * flush the output queue.
-++ *
-++ * @param dpy The display connection
-++ * @param type The request type
-++ * @param len Length of the request in bytes
-++ *
-++ * @returns A pointer to the request buffer with a few default values
-++ * initialized.
-++ */
-++extern void *_XGetRequest(Display *dpy, CARD8 type, size_t len);
-+ 
-+ /*
-+  * GetReq - Get the next available X request packet in the buffer and
-+@@ -432,25 +444,10 @@ extern LockInfoPtr _Xglobal_lock;
-+ 
-+ #if !defined(UNIXCPP) || defined(ANSICPP)
-+ #define GetReq(name, req) \
-+-        WORD64ALIGN\
-+-	if ((dpy->bufptr + SIZEOF(x##name##Req)) > dpy->bufmax)\
-+-		_XFlush(dpy);\
-+-	req = (x##name##Req *)(dpy->last_req = dpy->bufptr);\
-+-	req->reqType = X_##name;\
-+-	req->length = (SIZEOF(x##name##Req))>>2;\
-+-	dpy->bufptr += SIZEOF(x##name##Req);\
-+-	dpy->request++
-+-
-++	req = (x##name##Req *) _XGetRequest(dpy, X_##name, SIZEOF(x##name##Req))
-+ #else  /* non-ANSI C uses empty comment instead of "##" for token concatenation */
-+ #define GetReq(name, req) \
-+-        WORD64ALIGN\
-+-	if ((dpy->bufptr + SIZEOF(x/**/name/**/Req)) > dpy->bufmax)\
-+-		_XFlush(dpy);\
-+-	req = (x/**/name/**/Req *)(dpy->last_req = dpy->bufptr);\
-+-	req->reqType = X_/**/name;\
-+-	req->length = (SIZEOF(x/**/name/**/Req))>>2;\
-+-	dpy->bufptr += SIZEOF(x/**/name/**/Req);\
-+-	dpy->request++
-++	req = (x/**/name/**/Req *) _XGetRequest(dpy, X_/**/name, SIZEOF(x/**/name/**/Req))
-+ #endif
-+ 
-+ /* GetReqExtra is the same as GetReq, but allocates "n" additional
-+@@ -458,24 +455,10 @@ extern LockInfoPtr _Xglobal_lock;
-+ 
-+ #if !defined(UNIXCPP) || defined(ANSICPP)
-+ #define GetReqExtra(name, n, req) \
-+-        WORD64ALIGN\
-+-	if ((dpy->bufptr + SIZEOF(x##name##Req) + n) > dpy->bufmax)\
-+-		_XFlush(dpy);\
-+-	req = (x##name##Req *)(dpy->last_req = dpy->bufptr);\
-+-	req->reqType = X_##name;\
-+-	req->length = (SIZEOF(x##name##Req) + n)>>2;\
-+-	dpy->bufptr += SIZEOF(x##name##Req) + n;\
-+-	dpy->request++
-++	req = (x##name##Req *) _XGetRequest(dpy, X_##name, SIZEOF(x##name##Req) + n)
-+ #else
-+ #define GetReqExtra(name, n, req) \
-+-        WORD64ALIGN\
-+-	if ((dpy->bufptr + SIZEOF(x/**/name/**/Req) + n) > dpy->bufmax)\
-+-		_XFlush(dpy);\
-+-	req = (x/**/name/**/Req *)(dpy->last_req = dpy->bufptr);\
-+-	req->reqType = X_/**/name;\
-+-	req->length = (SIZEOF(x/**/name/**/Req) + n)>>2;\
-+-	dpy->bufptr += SIZEOF(x/**/name/**/Req) + n;\
-+-	dpy->request++
-++	req = (x/**/name/**/Req *) _XGetRequest(dpy, X_/**/name, SIZEOF(x/**/name/**/Req) + n)
-+ #endif
-+ 
-+ 
-+diff --git a/src/XlibInt.c b/src/XlibInt.c
-+index 3db151e..a8f5d08 100644
-+--- a/src/XlibInt.c
-++++ b/src/XlibInt.c
-+@@ -1956,6 +1956,37 @@ Screen *_XScreenOfWindow(Display *dpy, Window w)
-+ }
-+ 
-+ 
-++/*
-++ * WARNING: This implementation's pre-conditions and post-conditions
-++ * must remain compatible with the old macro-based implementations of
-++ * GetReq, GetReqExtra, GetResReq, and GetEmptyReq. The portions of the
-++ * Display structure affected by those macros are part of libX11's
-++ * ABI.
-++ */
-++void *_XGetRequest(Display *dpy, CARD8 type, size_t len)
-++{
-++    xReq *req;
-++
-++    WORD64ALIGN
-++
-++    if (dpy->bufptr + len > dpy->bufmax)
-++	_XFlush(dpy);
-++
-++    if (len % 4)
-++	fprintf(stderr,
-++		"Xlib: request %d length %zd not a multiple of 4.\n",
-++		type, len);
-++
-++    dpy->last_req = dpy->bufptr;
-++
-++    req = (xReq*)dpy->bufptr;
-++    req->reqType = type;
-++    req->length = len / 4;
-++    dpy->bufptr += len;
-++    dpy->request++;
-++    return req;
-++}
-++
-+ #if defined(WIN32)
-+ 
-+ /*
-+-- 
-+1.7.8.3
-+
-diff --git a/meta/recipes-graphics/xorg-lib/libx11_1.4.4.bb b/meta/recipes-graphics/xorg-lib/libx11_1.4.4.bb
-index 823b3dc..ee1d919 100644
---- a/meta/recipes-graphics/xorg-lib/libx11_1.4.4.bb
-+++ b/meta/recipes-graphics/xorg-lib/libx11_1.4.4.bb
-@@ -1,6 +1,8 @@
- require libx11.inc
- inherit gettext
- 
-+PR = "r1"
-+
- BBCLASSEXTEND = "native nativesdk"
- 
- EXTRA_OECONF += "--with-keysymdefdir=${STAGING_INCDIR}/X11"
-@@ -12,6 +14,7 @@ DEPENDS += "util-macros xtrans libxdmcp libxau \
- 
- SRC_URI += " file://keysymdef_include.patch \
-              file://x11_disable_makekeys.patch \
-+             file://0001-Add-_XGetRequest-as-substitute-for-GetReq-GetReqExtr.patch \
-              "
- 
- SRC_URI[md5sum] = "ed7c382cbf8c13425b6a66bcac0ca5d9"
 -- 
-1.7.6.5
-
+-Khem
 
 
