@@ -1,31 +1,27 @@
-Received: from mail-qw0-f47.google.com ([209.85.216.47])
+Received: from smtp-out11.han.skanova.net ([195.67.226.200])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <andrei@gherzan.ro>) id 1RujLu-0002Xp-Px
+	(envelope-from <openembedded-core@emagii.com>) id 1Rujda-0002qm-S7
 	for openembedded-core@lists.openembedded.org;
-	Tue, 07 Feb 2012 12:36:50 +0100
-Received: by qadz30 with SMTP id z30so2914499qad.6
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 07 Feb 2012 03:28:48 -0800 (PST)
-Received: by 10.224.31.69 with SMTP id x5mr20780275qac.21.1328614128333;
-	Tue, 07 Feb 2012 03:28:48 -0800 (PST)
-Received: from [128.224.170.202] ([89.121.200.106])
-	by mx.google.com with ESMTPS id fi8sm40238428qab.21.2012.02.07.03.28.46
-	(version=SSLv3 cipher=OTHER); Tue, 07 Feb 2012 03:28:47 -0800 (PST)
-Message-ID: <4F310AEE.3050606@gherzan.ro>
-Date: Tue, 07 Feb 2012 13:28:46 +0200
-From: Andrei Gherzan <andrei@gherzan.ro>
-User-Agent: Mozilla/5.0 (X11; Linux i686;
-	rv:9.0) Gecko/20111229 Thunderbird/9.0
+	Tue, 07 Feb 2012 12:55:06 +0100
+Received: from [10.175.196.237] (83.227.57.213) by smtp-out11.han.skanova.net
+	(8.5.133) (authenticated as ulf_samuelsson@telia.com)
+	id 4EFC3D3500E5A527 for openembedded-core@lists.openembedded.org;
+	Tue, 7 Feb 2012 12:45:52 +0100
+Message-ID: <4F310EEE.80905@emagii.com>
+Date: Tue, 07 Feb 2012 12:45:50 +0100
+From: Ulf Samuelsson <openembedded-core@emagii.com>
+User-Agent: Mozilla/5.0 (X11; U; Linux i686; en-US;
+	rv:1.9.2.24) Gecko/20111108 Thunderbird/3.1.16
 MIME-Version: 1.0
-To: Andrei Gherzan <andrei@gherzan.ro>
-References: <1328613884-19288-1-git-send-email-andrei@gherzan.ro>
-In-Reply-To: <1328613884-19288-1-git-send-email-andrei@gherzan.ro>
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 2/3] js: Update to v1.8.5
+To: openembedded-core@lists.openembedded.org
+References: <4F25501F.9000606@emagii.com>	<CAMKF1so1dzbo3_YN-pJqn-axFAUazqkdKgFU+CUh3dSbWgYF2Q@mail.gmail.com>
+	<4F26678A.1050803@gherzan.ro>
+In-Reply-To: <4F26678A.1050803@gherzan.ro>
+Subject: Re: bitbake -c clean <package> fails
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
-Reply-To: Patches and discussions about the oe-core layer
+Reply-To: ulf@emagii.com, Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
 List-Id: Patches and discussions about the oe-core layer
 	<openembedded-core.lists.openembedded.org>
@@ -36,33 +32,51 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 07 Feb 2012 11:36:51 -0000
+X-List-Received-Date: Tue, 07 Feb 2012 11:55:07 -0000
 Content-Type: text/plain; charset=ISO-8859-1; format=flowed
 Content-Transfer-Encoding: 7bit
 
-On 02/07/2012 01:24 PM, Andrei Gherzan wrote:
-> Signed-off-by: Andrei Gherzan<andrei@gherzan.ro>
-> Signed-off-by: Sergey 'Jin' Bostandzhyan<jin@mediatomb.cc>
-> ---
->   meta/recipes-support/js/files/buildcc.patch       |   22 ------
->   meta/recipes-support/js/files/configure.ac        |   28 --------
->   meta/recipes-support/js/files/jsautocfg.h         |   74 ---------------------
->   meta/recipes-support/js/files/link_with_gcc.patch |   15 ----
->   meta/recipes-support/js/files/usepic.patch        |   26 -------
->   meta/recipes-support/js/js_1.7.0+1.8.0rc1.bb      |   50 --------------
->   meta/recipes-support/js/js_1.8.5.bb               |   50 ++++++++++++++
->   7 files changed, 50 insertions(+), 215 deletions(-)
->   delete mode 100644 meta/recipes-support/js/files/buildcc.patch
->   delete mode 100644 meta/recipes-support/js/files/configure.ac
->   delete mode 100644 meta/recipes-support/js/files/jsautocfg.h
->   delete mode 100644 meta/recipes-support/js/files/link_with_gcc.patch
->   delete mode 100644 meta/recipes-support/js/files/usepic.patch
->   delete mode 100644 meta/recipes-support/js/js_1.7.0+1.8.0rc1.bb
->   create mode 100644 meta/recipes-support/js/js_1.8.5.bb
-I uploaded only 1/3 and 2/3 patches because 3/3 is the patch for socat 
-update. Saul already provided feedback about this. Sorry for creating 
-this confusion.
+2012-01-30 10:48, Andrei Gherzan skrev:
+> On 01/29/2012 07:35 PM, Khem Raj wrote:
+>> On Sun, Jan 29, 2012 at 5:56 AM, Ulf Samuelsson
+>> <openembedded-core@emagii.com>  wrote:
+>>> First I attempted to just remove the source tarball from the downloads
+>>> directory.
+>>> No download, but build completed.
+>> if you want a fresh fetch.
+>> you can just do bitbake -ccleanall module-init-tools
+>> that will remove the sstate as well as the sources
+>>
+>> _______________________________________________
+>> Openembedded-core mailing list
+>> Openembedded-core@lists.openembedded.org
+>> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
+>
+> Clean it's just a "clean". As in "make clean". So after a clean you 
+> will typically have configure, compile etc.
+> "cleanall" = remove unpacked + remove source. So after a clean you 
+> will tipically have fetch.
+I have tried clean, cleansstate and cleanall.
+All of them remove the source directory.
 
-@g
+If I try to use XorA's method of testing out the kernel
+http://www.xora.org.uk/2009/12/10/openembeddedangstrom-kernel-workflow/
+then it fails since a recompile of the source will fail to update 
+dependencies.
+If i bitbake -c compile virtual/kernel -f a
+and then
+bitbake virtual/kernel
+then the previous build will be used.
+
+Is it at all possible now to recompile, without having to clean out 
+everything,
+and start from scratch?
+
+>
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
+
 
 
