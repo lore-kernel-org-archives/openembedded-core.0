@@ -1,37 +1,27 @@
-Received: from mail-pw0-f47.google.com ([209.85.160.47])
+Received: from mga09.intel.com ([134.134.136.24])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <raj.khem@gmail.com>) id 1RuuAK-0006Ii-BG
-	for openembedded-core@lists.openembedded.org;
-	Wed, 08 Feb 2012 00:09:36 +0100
-Received: by pbbb4 with SMTP id b4so35427pbb.6
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 07 Feb 2012 15:01:33 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
-	h=date:from:to:subject:message-id:references:mime-version
-	:content-type:content-disposition:in-reply-to:user-agent;
-	bh=dKFctRujxFklyk2E+fUA6dg5W3eR6g6d4PQodM1FGno=;
-	b=ueVpJokiGNU0XhYx/K/QR1BQhRpal8bTYMYLQURJfqhFayEoEWGF8ZXW94wxtPlx8h
-	GdbaGFpb6k8HvoUIhhbod3OvL+x072Ybxj3f411AeIGhBqOWCXxRu7/dXurDlplCqg2r
-	Vyy6Wm59+VhuoEX+kS7sNIxwgDB5ST+HOY9fo=
-Received: by 10.68.227.132 with SMTP id sa4mr62589153pbc.64.1328655692915;
-	Tue, 07 Feb 2012 15:01:32 -0800 (PST)
-Received: from sakrah.homelinux.org
-	(99-57-142-235.lightspeed.sntcca.sbcglobal.net. [99.57.142.235])
-	by mx.google.com with ESMTPS id i10sm228071pbg.10.2012.02.07.15.01.30
-	(version=TLSv1/SSLv3 cipher=OTHER);
-	Tue, 07 Feb 2012 15:01:31 -0800 (PST)
-Date: Tue, 7 Feb 2012 15:01:19 -0800
-From: Khem Raj <raj.khem@gmail.com>
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Message-ID: <20120207230119.GE13125@sakrah.homelinux.org>
-References: <1328646568-25721-1-git-send-email-andrei@gherzan.ro>
-	<4F318D77.5020901@linux.intel.com>
-	<CAP9ODKpZwQHyAsYeR-BRTChgrb68xi8enrn_RoajXX4mBU7TJQ@mail.gmail.com>
+	(envelope-from <sgw@linux.intel.com>)
+	id 1RuuCS-0006Mg-Um; Wed, 08 Feb 2012 00:11:49 +0100
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+	by orsmga102.jf.intel.com with ESMTP; 07 Feb 2012 15:03:45 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.67,352,1309762800"; d="scan'208";a="105083441"
+Received: from unknown (HELO [10.255.14.116]) ([10.255.14.116])
+	by orsmga001.jf.intel.com with ESMTP; 07 Feb 2012 15:03:44 -0800
+Message-ID: <4F31ADD0.9050206@linux.intel.com>
+Date: Tue, 07 Feb 2012 15:03:44 -0800
+From: Saul Wold <sgw@linux.intel.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:9.0) Gecko/20111222 Thunderbird/9.0
 MIME-Version: 1.0
-In-Reply-To: <CAP9ODKpZwQHyAsYeR-BRTChgrb68xi8enrn_RoajXX4mBU7TJQ@mail.gmail.com>
-User-Agent: Mutt/1.5.20 (2009-06-14)
-Subject: Re: [PATCH 1/2] dhcp: Update to 4.2.3-P2
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>, 
+	openembedded-devel <openembedded-devel@lists.openembedded.org>, 
+	Paul Eggleton <paul.eggleton@linux.intel.com>
+References: <29270F77-234D-4561-974D-C8E266898FA3@beagleboard.org>
+	<20120207224904.GC13125@sakrah.homelinux.org>
+In-Reply-To: <20120207224904.GC13125@sakrah.homelinux.org>
+Subject: Re: [meta-openembedded][RFC] meta-multimedia layer
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -46,21 +36,37 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 07 Feb 2012 23:09:36 -0000
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+X-List-Received-Date: Tue, 07 Feb 2012 23:11:49 -0000
+Content-Type: text/plain; charset=ISO-8859-1; format=flowed
+Content-Transfer-Encoding: 7bit
 
-On (07/02/12 18:54), Otavio Salvador wrote:
-> On Tue, Feb 7, 2012 at 18:45, Saul Wold <sgw@linux.intel.com> wrote:
-> 
-> > We are trying to address warning that come from the build, so can you
-> > please address the packaging issues and the location of libcrypto as it's
-> > in /usr/lib while dhclient is in /sbin and may not have /usr yet (see prior
-> > discussions about / and /usr boundry issues.)
-> >
-> 
-> What would be the fix for it? move dhclient onto /usr/sbin?
+On 02/07/2012 02:49 PM, Khem Raj wrote:
+> On (07/02/12 12:08), Koen Kooi wrote:
+>> Hi,
+>>
+>> During FOSDEM Paul Eggleton and I discussed moving a few multimedia recipes (libav, xbmc, faac, faad, etc) out of meta-oe into a new meta-multimedia layer hosted in the meta-openembedded git repo. This would allow e.g. meta-baryon to drop a number of recipes while avoiding the need to drag in the complete meta-oe layer.
+>>
+>> Thoughts?
+>
+> yes idea is fine. Will it then host all multimedia related stuff ? or
+> just whats in meta-oe is being moved.
+>
+This is a good idea, we should get a good proposal so it's clear what's 
+moving where and how.  Currently this should start with meta-oe and we 
+can then evaluate if anything in oe-core should move there.
 
-or move libcrypto into /lib its really not that pretty
+This is similar to the starting point we have with gnome, but we needed 
+to keep some of that in core.
+
+Thanks for the effort.
+
+Sau!
+
+
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
+>
 
 
