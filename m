@@ -1,29 +1,23 @@
-Received: from mga11.intel.com ([192.55.52.93])
+Received: from mail-qw0-f47.google.com ([209.85.216.47])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <sgw@linux.intel.com>) id 1RuoGv-0001bt-87
+	(envelope-from <andrei@gherzan.ro>) id 1Ruohf-0002YU-JT
 	for openembedded-core@lists.openembedded.org;
-	Tue, 07 Feb 2012 17:52:01 +0100
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-	by fmsmga102.fm.intel.com with ESMTP; 07 Feb 2012 08:43:58 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="122039239"
-Received: from unknown (HELO [10.255.14.116]) ([10.255.14.116])
-	by fmsmga002.fm.intel.com with ESMTP; 07 Feb 2012 08:43:58 -0800
-Message-ID: <4F3154CD.3000305@linux.intel.com>
-Date: Tue, 07 Feb 2012 08:43:57 -0800
-From: Saul Wold <sgw@linux.intel.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:9.0) Gecko/20111222 Thunderbird/9.0
-MIME-Version: 1.0
-To: Khem Raj <raj.khem@gmail.com>
-References: <04705556464a6e41642962da40f0e17847ee3483.1328510188.git.raj.khem@gmail.com>
-	<633b2b23bbddb8cb2b0aa1d75ee82b9826d1de55.1328510188.git.raj.khem@gmail.com>
-	<4F314FA2.6060708@linux.intel.com>
-	<CAMKF1sqQQLVBUarw50B33DmD9G_YNrG7QpJj8-LgtygO8j3O+w@mail.gmail.com>
-In-Reply-To: <CAMKF1sqQQLVBUarw50B33DmD9G_YNrG7QpJj8-LgtygO8j3O+w@mail.gmail.com>
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 10/20] pseudo: Wrap renameat and opendir
+	Tue, 07 Feb 2012 18:19:39 +0100
+Received: by qadz30 with SMTP id z30so3175095qad.6
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 07 Feb 2012 09:11:36 -0800 (PST)
+Received: by 10.229.77.69 with SMTP id f5mr9793707qck.12.1328634696545;
+	Tue, 07 Feb 2012 09:11:36 -0800 (PST)
+Received: from localhost.localdomain ([89.121.200.106])
+	by mx.google.com with ESMTPS id fd1sm42017610qab.1.2012.02.07.09.11.34
+	(version=TLSv1/SSLv3 cipher=OTHER);
+	Tue, 07 Feb 2012 09:11:35 -0800 (PST)
+From: Andrei Gherzan <andrei@gherzan.ro>
+To: openembedded-core@lists.openembedded.org
+Date: Tue,  7 Feb 2012 19:11:24 +0200
+Message-Id: <1328634684-4062-1-git-send-email-andrei@gherzan.ro>
+X-Mailer: git-send-email 1.7.5.4
+Subject: [PATCH 1/2] dhcp: Update to 4.2.3-P2
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -38,435 +32,708 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 07 Feb 2012 16:52:01 -0000
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Tue, 07 Feb 2012 17:19:39 -0000
 
-On 02/07/2012 08:31 AM, Khem Raj wrote:
-> On Tue, Feb 7, 2012 at 8:21 AM, Saul Wold<sgw@linux.intel.com>  wrote:
->> On 02/05/2012 10:40 PM, Khem Raj wrote:
->>>
->>> Signed-off-by: Khem Raj<raj.khem@gmail.com>
->>> ---
->>>   meta/recipes-devtools/pseudo/pseudo/opendir.patch  |   92 ++++++++
->>>   meta/recipes-devtools/pseudo/pseudo/renameat.patch |  227
->>> ++++++++++++++++++++
->>>   meta/recipes-devtools/pseudo/pseudo_1.2.bb         |    6 +-
->>>   3 files changed, 323 insertions(+), 2 deletions(-)
->>>   create mode 100644 meta/recipes-devtools/pseudo/pseudo/opendir.patch
->>>   create mode 100644 meta/recipes-devtools/pseudo/pseudo/renameat.patch
->>>
->>> diff --git a/meta/recipes-devtools/pseudo/pseudo/opendir.patch
->>> b/meta/recipes-devtools/pseudo/pseudo/opendir.patch
->>> new file mode 100644
->>> index 0000000..d20f717
->>> --- /dev/null
->>> +++ b/meta/recipes-devtools/pseudo/pseudo/opendir.patch
->>> @@ -0,0 +1,92 @@
->>> +commit 162f2692c399b93311652201a940fdaf9c9e6924
->>> +Author: Peter Seebach<peter.seebach@windriver.com>
->>> +Date:   Thu Feb 2 11:45:42 2012 -0600
->>> +
->>> +    Make opendir/closedir stash and forget directory names.
->>> +
->>> +    The dirfd(DIR *) interface allows you to get the fd for a DIR *,
->>> +    meaning you can use it with openat(), meaning you can need its
->>> +    path.  This causes a segfault.  Also gonna fix the base_path
->>> +    code not to segfault in that case, but first fix the underlying
->>> +    problem.
->>> +
->>
->>
->> Missing Upstream-Status: and Signed-off-by (yes I know we have an email
->> header).
->
-> they are backports
->
-Please update the patch!
+1. Update to 4.2.3-P2
+2. From 4.2.0 final release, -lcrypto check was removed and we compile static libraries
+from bind that are linked to libcrypto. This is why i added a patch in order to add
+-lcrypto to LIBS.
 
-Thanks
-	Sau!
+Signed-off-by: Andrei Gherzan <andrei@gherzan.ro>
+---
+ .../dhcp/dhcp-4.2.0/dhcp-3.0.3-dhclient-dbus.patch |   86 ----------------
+ .../dhcp/dhcp-4.2.0/fix-client-path.patch          |   23 -----
+ .../dhcp/dhcp-4.2.0/fix-external-bind.patch        |  103 --------------------
+ .../dhcp/dhcp-4.2.0/fixincludes.patch              |   12 ---
+ .../dhcp/dhcp-4.2.0/noattrmode.patch               |   21 ----
+ meta/recipes-connectivity/dhcp/dhcp-4.2.0/site.h   |   21 ----
+ .../dhcp-4.2.3-P2/dhcp-3.0.3-dhclient-dbus.patch   |   86 ++++++++++++++++
+ .../dhcp/dhcp-4.2.3-P2/fix-external-bind.patch     |  103 ++++++++++++++++++++
+ .../dhcp/dhcp-4.2.3-P2/fixincludes.patch           |   12 +++
+ .../dhcp/dhcp-4.2.3-P2/link-with-lcrypto.patch     |   30 ++++++
+ .../dhcp/dhcp-4.2.3-P2/noattrmode.patch            |   21 ++++
+ .../recipes-connectivity/dhcp/dhcp-4.2.3-P2/site.h |   21 ++++
+ meta/recipes-connectivity/dhcp/dhcp.inc            |    2 +-
+ meta/recipes-connectivity/dhcp/dhcp_4.2.0.bb       |   12 ---
+ meta/recipes-connectivity/dhcp/dhcp_4.2.3-P2.bb    |   12 +++
+ 15 files changed, 286 insertions(+), 279 deletions(-)
+ delete mode 100644 meta/recipes-connectivity/dhcp/dhcp-4.2.0/dhcp-3.0.3-dhclient-dbus.patch
+ delete mode 100644 meta/recipes-connectivity/dhcp/dhcp-4.2.0/fix-client-path.patch
+ delete mode 100644 meta/recipes-connectivity/dhcp/dhcp-4.2.0/fix-external-bind.patch
+ delete mode 100644 meta/recipes-connectivity/dhcp/dhcp-4.2.0/fixincludes.patch
+ delete mode 100644 meta/recipes-connectivity/dhcp/dhcp-4.2.0/noattrmode.patch
+ delete mode 100644 meta/recipes-connectivity/dhcp/dhcp-4.2.0/site.h
+ create mode 100644 meta/recipes-connectivity/dhcp/dhcp-4.2.3-P2/dhcp-3.0.3-dhclient-dbus.patch
+ create mode 100644 meta/recipes-connectivity/dhcp/dhcp-4.2.3-P2/fix-external-bind.patch
+ create mode 100644 meta/recipes-connectivity/dhcp/dhcp-4.2.3-P2/fixincludes.patch
+ create mode 100644 meta/recipes-connectivity/dhcp/dhcp-4.2.3-P2/link-with-lcrypto.patch
+ create mode 100644 meta/recipes-connectivity/dhcp/dhcp-4.2.3-P2/noattrmode.patch
+ create mode 100644 meta/recipes-connectivity/dhcp/dhcp-4.2.3-P2/site.h
+ delete mode 100644 meta/recipes-connectivity/dhcp/dhcp_4.2.0.bb
+ create mode 100644 meta/recipes-connectivity/dhcp/dhcp_4.2.3-P2.bb
 
->>
->> Thanks
->>         Sau!
->>
->>> +diff --git a/ChangeLog.txt b/ChangeLog.txt
->>> +index 4de488c..9625b38 100644
->>> +--- a/ChangeLog.txt
->>> ++++ b/ChangeLog.txt
->>> +@@ -1,3 +1,7 @@
->>> ++2012-02-02:
->>> ++      * (seebs) stash dir name for DIR * from opendir using dirfd.
->>> ++      * (seebs) add closedir.
->>> ++
->>> + 2011-11-02:
->>> +       * (seebs) Call this 1.2 because the UNLOAD change is moderately
->>> +         significant, and so's the clone change.
->>> +diff --git a/ports/unix/guts/closedir.c b/ports/unix/guts/closedir.c
->>> +new file mode 100644
->>> +index 0000000..1085361
->>> +--- /dev/null
->>> ++++ b/ports/unix/guts/closedir.c
->>> +@@ -0,0 +1,20 @@
->>> ++/*
->>> ++ * Copyright (c) 2012 Wind River Systems; see
->>> ++ * guts/COPYRIGHT for information.
->>> ++ *
->>> ++ * static int
->>> ++ * wrap_closedir(DIR *dirp) {
->>> ++ *    int rc = -1;
->>> ++ */
->>> ++      if (!dirp) {
->>> ++              errno = EFAULT;
->>> ++              return -1;
->>> ++      }
->>> ++
->>> ++      int fd = dirfd(dirp);
->>> ++      pseudo_client_op(OP_CLOSE, 0, fd, -1, 0, 0);
->>> ++      rc = real_closedir(dirp);
->>> ++
->>> ++/*    return rc;
->>> ++ * }
->>> ++ */
->>> +diff --git a/ports/unix/guts/opendir.c b/ports/unix/guts/opendir.c
->>> +index 8eaa71f..e69717e 100644
->>> +--- a/ports/unix/guts/opendir.c
->>> ++++ b/ports/unix/guts/opendir.c
->>> +@@ -6,8 +6,25 @@
->>> +  * wrap_opendir(const char *path) {
->>> +  *    DIR * rc = NULL;
->>> +  */
->>> ++      struct stat buf;
->>> ++      int save_errno;
->>> +
->>> +       rc = real_opendir(path);
->>> ++      if (rc) {
->>> ++              int fd;
->>> ++              save_errno = errno;
->>> ++              fd = dirfd(rc);
->>> ++              if (real_fstat(fd,&buf) == -1) {
->>>
->>> ++                      pseudo_debug(1, "diropen (fd %d) succeeded, but
->>> fstat failed (%s).\n",
->>> ++                              fd, strerror(errno));
->>> ++                      pseudo_client_op_plain(OP_OPEN, PSA_READ, fd, -1,
->>> path, 0);
->>> ++              } else {
->>> ++                      pseudo_client_op_plain(OP_OPEN, PSA_READ, fd, -1,
->>> path,&buf);
->>> ++              }
->>> ++
->>> ++
->>> ++              errno = save_errno;
->>> ++      }
->>> +
->>> + /*    return rc;
->>> +  * }
->>> +diff --git a/ports/unix/wrapfuncs.in b/ports/unix/wrapfuncs.in
->>> +index e06e404..32250c4 100644
->>> +--- a/ports/unix/wrapfuncs.in
->>> ++++ b/ports/unix/wrapfuncs.in
->>> +@@ -21,6 +21,7 @@ long pathconf(const char *path, int name);
->>> + char *realpath(const char *name, char *resolved_name); /*
->>> version="GLIBC_2.3" */
->>> + int remove(const char *path); /* flags=AT_SYMLINK_NOFOLLOW */
->>> + DIR *opendir(const char *path);
->>> ++int closedir(DIR *dirp);
->>> + char *tempnam(const char *template, const char *pfx);
->>> + char *tmpnam(char *s);
->>> + int truncate(const char *path, off_t length);
->>> diff --git a/meta/recipes-devtools/pseudo/pseudo/renameat.patch
->>> b/meta/recipes-devtools/pseudo/pseudo/renameat.patch
->>> new file mode 100644
->>> index 0000000..74c8585
->>> --- /dev/null
->>> +++ b/meta/recipes-devtools/pseudo/pseudo/renameat.patch
->>> @@ -0,0 +1,227 @@
->>> +commit 795f2b44b7f692151556782f142a4a6e7d45d892
->>> +Author: Peter Seebach<peter.seebach@windriver.com>
->>> +Date:   Thu Feb 2 15:49:21 2012 -0600
->>> +
->>> +    Implement renameat()
->>> +
->>> +    After three long years, someone tried to use this.  This was
->>> impossibly
->>> +    hard back when pseudo was written, because there was only one dirfd
->>> +    provided for.  Thing is, now, the canonicalization happens in
->>> wrapfuncs,
->>> +    so a small tweak to makewrappers to recognize that oldpath should use
->>> +    olddirfd if it exists is enough to get us fully canonicalized paths
->>> +    when needed.
->>> +
->>> +    Also fix the crash if base_path gets called with an fd for which we
->>> have
->>> +    no path.
->>> +
->>> +diff --git a/ChangeLog.txt b/ChangeLog.txt
->>> +index 9625b38..25bd463 100644
->>> +--- a/ChangeLog.txt
->>> ++++ b/ChangeLog.txt
->>> +@@ -1,6 +1,9 @@
->>> + 2012-02-02:
->>> +       * (seebs) stash dir name for DIR * from opendir using dirfd.
->>> +       * (seebs) add closedir.
->>> ++      * (seebs) add initial pass at renameat()
->>> ++      * (seebs) in base_path, don't try to strlen the result if
->>> ++        fd_path() returns NULL.
->>> +
->>> + 2011-11-02:
->>> +       * (seebs) Call this 1.2 because the UNLOAD change is moderately
->>> +diff --git a/makewrappers b/makewrappers
->>> +index 20bbf2b..bf344d6 100755
->>> +--- a/makewrappers
->>> ++++ b/makewrappers
->>> +@@ -211,12 +211,13 @@ class Function:
->>> +         self.flags = '0'
->>> +         self.port = port
->>> +         self.directory = ''
->>> +-      self.version = 'NULL'
->>> ++        self.version = 'NULL'
->>> +         # On Darwin, some functions are SECRETLY converted to
->>> foo$INODE64
->>> +         # when called.  So we have to look those up for real_*
->>> +         self.inode64 = None
->>> +         self.real_func = None
->>> +         self.paths_to_munge = []
->>> ++        self.dirfds = {}
->>> +         self.hand_wrapped = None
->>> +         # used for the copyright date when creating stub functions
->>> +         self.date = datetime.date.today().year
->>> +@@ -239,6 +240,7 @@ class Function:
->>> +         # * If the arg has a name ending in 'path', we will canonicalize
->>> it.
->>> +         # * If the arg is named 'dirfd' or 'flags', it becomes the
->>> default
->>> +         #   values for the dirfd and flags arguments when
->>> canonicalizing.
->>> ++        # * If the name ends in dirfd, we do the same fancy stuff.
->>> +         # * Note that the "comments" field (/* ... */ after the decl)
->>> can
->>> +         #   override the dirfd/flags values.
->>> +         self.args = ArgumentList(bits.group(2))
->>> +@@ -246,7 +248,9 @@ class Function:
->>> +             # ignore varargs, they never get these special treatments
->>> +             if arg.vararg:
->>> +                 pass
->>> +-            elif arg.name == 'dirfd':
->>> ++            elif arg.name[-5:] == 'dirfd':
->>> ++                if len(arg.name)>    5:
->>> ++                    self.dirfds[arg.name[:-5]] = True
->>> +                 self.dirfd = 'dirfd'
->>> +             elif arg.name == 'flags':
->>> +                 self.flags = 'flags'
->>> +@@ -325,9 +329,13 @@ class Function:
->>> +         """create/allocate canonical paths"""
->>> +         alloc_paths = []
->>> +         for path in self.paths_to_munge:
->>> ++            prefix = path[:-4]
->>> ++          if not prefix in self.dirfds:
->>> ++                prefix = ''
->>> ++            print "for path %s: prefix<%s>" % ( path, prefix )
->>> +             alloc_paths.append(
->>> +-                "%s = pseudo_root_path(__func__, __LINE__, %s, %s, %s);"
->>> %
->>> +-                (path, self.dirfd, path, self.flags))
->>> ++                "%s = pseudo_root_path(__func__, __LINE__, %s%s, %s,
->>> %s);" %
->>> ++                (path, prefix, self.dirfd, path, self.flags))
->>> +         return "\n\t\t\t".join(alloc_paths)
->>> +
->>> +     def free_paths(self):
->>> +diff --git a/ports/unix/guts/renameat.c b/ports/unix/guts/renameat.c
->>> +index c8203b7..f13cd1e 100644
->>> +--- a/ports/unix/guts/renameat.c
->>> ++++ b/ports/unix/guts/renameat.c
->>> +@@ -1,15 +1,111 @@
->>> + /*
->>> +- * Copyright (c) 2008-2010 Wind River Systems; see
->>> ++ * Copyright (c) 2008-2012 Wind River Systems; see
->>> +  * guts/COPYRIGHT for information.
->>> +  *
->>> +  * static int
->>> +  * wrap_renameat(int olddirfd, const char *oldpath, int newdirfd, const
->>> char *newpath) {
->>> +  *    int rc = -1;
->>> +  */
->>> ++      pseudo_msg_t *msg;
->>> ++      struct stat oldbuf, newbuf;
->>> ++      int oldrc, newrc;
->>> ++      int save_errno;
->>> ++      int old_db_entry = 0;
->>> +
->>> +-      pseudo_diag("help! unimplemented renameat [%s ->    %s].\n",
->>> oldpath, newpath);
->>> ++      pseudo_debug(2, "renameat: %d,%s->%d,%s\n",
->>> ++              olddirfd, oldpath ? oldpath : "<nil>",
->>> ++              newdirfd, newpath ? newpath : "<nil>");
->>> ++
->>> ++#ifdef PSEUDO_NO_REAL_AT_FUNCTIONS
->>> ++      if (olddirfd != AT_FDCWD || newdirfd != AT_FDCWD) {
->>> ++              errno = ENOSYS;
->>> ++              return -1;
->>> ++      }
->>> ++#endif
->>> ++
->>> ++      if (!oldpath || !newpath) {
->>> ++              errno = EFAULT;
->>> ++              return -1;
->>> ++      }
->>> ++
->>> ++      save_errno = errno;
->>> ++
->>> ++#ifdef PSEUDO_NO_REAL_AT_FUNCTIONS
->>> ++      newrc = real_lstat(newpath,&newbuf);
->>> ++      oldrc = real_lstat(oldpath,&oldbuf);
->>> ++#else
->>> ++      oldrc = real___fxstatat(_STAT_VER, olddirfd, oldpath,&oldbuf,
->>> AT_SYMLINK_NOFOLLOW);
->>> ++      newrc = real___fxstatat(_STAT_VER, newdirfd, newpath,&newbuf,
->>> AT_SYMLINK_NOFOLLOW);
->>>
->>> ++#endif
->>> ++
->>> ++      errno = save_errno;
->>> ++
->>> ++      /* newpath must be removed. */
->>> ++      /* as with unlink, we have to mark that the file may get deleted
->>> */
->>> ++      msg = pseudo_client_op_plain(OP_MAY_UNLINK, 0, -1, newdirfd,
->>> newpath, newrc ? NULL :&newbuf);
->>> ++      if (msg&&    msg->result == RESULT_SUCCEED)
->>>
->>> ++              old_db_entry = 1;
->>> +       rc = real_renameat(olddirfd, oldpath, newdirfd, newpath);
->>> ++      save_errno = errno;
->>> ++      if (old_db_entry) {
->>> ++              if (rc == -1) {
->>> ++                      /* since we failed, that wasn't really unlinked --
->>> put
->>> ++                       * it back.
->>> ++                       */
->>> ++                      pseudo_client_op_plain(OP_CANCEL_UNLINK, 0, -1,
->>> newdirfd, newpath,&newbuf);
->>> ++              } else {
->>> ++                      /* confirm that the file was removed */
->>> ++                      pseudo_client_op_plain(OP_DID_UNLINK, 0, -1,
->>> newdirfd, newpath,&newbuf);
->>> ++              }
->>> ++      }
->>> ++      if (rc == -1) {
->>> ++              /* and we're done. */
->>> ++              errno = save_errno;
->>> ++              return rc;
->>> ++      }
->>> ++      save_errno = errno;
->>> ++      /* nothing to do for a "rename" of a link to itself */
->>> ++      if (newrc != -1&&    oldrc != -1&&
->>> ++          newbuf.st_dev == oldbuf.st_dev&&
->>> ++          newbuf.st_ino == oldbuf.st_ino) {
->>> ++              return rc;
->>> ++        }
->>> ++
->>> ++      /* rename(3) is not mv(1).  rename(file, dir) fails; you must
->>> provide
->>> ++       * the corrected path yourself.  You can rename over a directory
->>> only
->>> ++       * if the source is a directory.  Symlinks are simply removed.
->>> ++       *
->>> ++       * If we got here, the real rename call succeeded.  That means
->>> newpath
->>> ++       * has been unlinked and oldpath has been linked to it.
->>> ++       *
->>> ++       * There are a ton of special cases to error check.  I don't check
->>> ++       * for any of them, because in every such case, the underlying
->>> rename
->>> ++       * failed, and there is nothing to do.
->>> ++       * The only tricky part is that, because we used to ignore
->>> symlinks,
->>> ++       * we may have to rename or remove directory trees even though in
->>> ++       * theory rename can never destroy a directory tree.
->>> ++       */
->>> ++      if (!old_db_entry) {
->>> ++              /* create an entry under the old name, which will then be
->>> ++               * renamed; this way, children would get renamed too, if
->>> there
->>> ++               * were any.
->>> ++               */
->>> ++              if (newrc == 0) {
->>> ++                      if (newbuf.st_dev != oldbuf.st_dev) {
->>> ++                              oldbuf.st_dev = newbuf.st_dev;
->>> ++                              oldbuf.st_ino = newbuf.st_ino;
->>> ++                      }
->>> ++              }
->>> ++              pseudo_debug(1, "creating new '%s' [%llu] to rename\n",
->>> ++                      oldpath, (unsigned long long) oldbuf.st_ino);
->>> ++              pseudo_client_op_plain(OP_LINK, 0, -1, olddirfd,
->>> oldpath,&oldbuf);
->>> ++      }
->>> ++      /* special case: use 'fd' for olddirfd, because
->>> ++       * we know it has no other meaning for RENAME
->>> ++       */
->>> ++      pseudo_client_op_plain(OP_RENAME, 0, olddirfd, newdirfd,
->>> newpath,&oldbuf, oldpath);
->>>
->>> +
->>> ++      errno = save_errno;
->>> + /*    return rc;
->>> +  * }
->>> +  */
->>> +diff --git a/pseudo_client.c b/pseudo_client.c
->>> +index 48607c2..4a30420 100644
->>> +--- a/pseudo_client.c
->>> ++++ b/pseudo_client.c
->>> +@@ -988,6 +988,8 @@ base_path(int dirfd, const char *path, int
->>> leave_last) {
->>> +               if (dirfd != -1&&    dirfd != AT_FDCWD) {
->>>
->>> +                       if (dirfd>= 0) {
->>> +                               basepath = fd_path(dirfd);
->>> ++                      }
->>> ++                      if (basepath) {
->>> +                               baselen = strlen(basepath);
->>> +                       } else {
->>> +                               pseudo_diag("got *at() syscall for unknown
->>> directory, fd %d\n", dirfd);
->>> +@@ -1128,7 +1130,10 @@ pseudo_client_op(pseudo_op_t op, int access, int
->>> fd, int dirfd, const char *path
->>> +       if (path) {
->>> +               pseudo_debug(2, " %s", path);
->>> +       }
->>> +-      if (fd != -1) {
->>> ++      /* for OP_RENAME in renameat, "fd" is also used for the
->>> ++       * second dirfd.
->>> ++       */
->>> ++      if (fd != -1&&    op != OP_RENAME) {
->>>
->>> +               pseudo_debug(2, " [fd %d]", fd);
->>> +       }
->>> +       if (buf) {
->>> diff --git a/meta/recipes-devtools/pseudo/pseudo_1.2.bb
->>> b/meta/recipes-devtools/pseudo/pseudo_1.2.bb
->>> index f2ebc22..04bcbce 100644
->>> --- a/meta/recipes-devtools/pseudo/pseudo_1.2.bb
->>> +++ b/meta/recipes-devtools/pseudo/pseudo_1.2.bb
->>> @@ -1,10 +1,12 @@
->>>   require pseudo.inc
->>>
->>> -PR = "r4"
->>> +PR = "r5"
->>>
->>>   SRC_URI =
->>> "http://www.yoctoproject.org/downloads/${BPN}/${BPN}-${PV}.tar.bz2 \
->>>              file://oe-config.patch \
->>> -           file://static_sqlite.patch"
->>> +           file://static_sqlite.patch \
->>> +           file://opendir.patch \
->>> +           file://renameat.patch"
->>>
->>>   SRC_URI[md5sum] = "a2819084bab7e991f06626d02cf55048"
->>>   SRC_URI[sha256sum] =
->>> "4749a22df687f44d24c26e97170d4781a1bd52d5ee092364a40877e4d96ff058"
->
+diff --git a/meta/recipes-connectivity/dhcp/dhcp-4.2.0/dhcp-3.0.3-dhclient-dbus.patch b/meta/recipes-connectivity/dhcp/dhcp-4.2.0/dhcp-3.0.3-dhclient-dbus.patch
+deleted file mode 100644
+index b4a666d..0000000
+--- a/meta/recipes-connectivity/dhcp/dhcp-4.2.0/dhcp-3.0.3-dhclient-dbus.patch
++++ /dev/null
+@@ -1,86 +0,0 @@
+-Upstream-Status: Inappropriate [distribution]
+-
+---- client/scripts/bsdos
+-+++ client/scripts/bsdos
+-@@ -47,6 +47,11 @@
+-     . /etc/dhcp/dhclient-exit-hooks
+-   fi
+- # probably should do something with exit status of the local script
+-+  if [ x$dhc_dbus != x -a $exit_status -eq 0 ]; then
+-+    dbus-send --system --dest=com.redhat.dhcp \
+-+      --type=method_call /com/redhat/dhcp/$interface com.redhat.dhcp.set \
+-+      'string:'"`env | grep -Ev '^(PATH|SHLVL|_|PWD|dhc_dbus)\='`"
+-+  fi
+-   exit $exit_status
+- }
+- 
+---- client/scripts/freebsd
+-+++ client/scripts/freebsd
+-@@ -57,6 +57,11 @@
+-     . /etc/dhcp/dhclient-exit-hooks
+-   fi
+- # probably should do something with exit status of the local script
+-+  if [ x$dhc_dbus != x -a $exit_status -eq 0 ]; then
+-+    dbus-send --system --dest=com.redhat.dhcp \
+-+      --type=method_call /com/redhat/dhcp/$interface com.redhat.dhcp.set \
+-+      'string:'"`env | grep -Ev '^(PATH|SHLVL|_|PWD|dhc_dbus)\='`"
+-+  fi
+-   exit $exit_status
+- }
+- 
+---- client/scripts/linux
+-+++ client/scripts/linux
+-@@ -69,6 +69,11 @@
+-     . /etc/dhcp/dhclient-exit-hooks
+-   fi
+- # probably should do something with exit status of the local script
+-+  if [ x$dhc_dbus != x -a $exit_status -eq 0 ]; then
+-+    dbus-send --system --dest=com.redhat.dhcp \
+-+      --type=method_call /com/redhat/dhcp/$interface com.redhat.dhcp.set \
+-+      'string:'"`env | grep -Ev '^(PATH|SHLVL|_|PWD|dhc_dbus)\='`"
+-+  fi
+-   exit $exit_status
+- }
+- 
+---- client/scripts/netbsd
+-+++ client/scripts/netbsd
+-@@ -47,6 +47,11 @@
+-     . /etc/dhcp/dhclient-exit-hooks
+-   fi
+- # probably should do something with exit status of the local script
+-+  if [ x$dhc_dbus != x -a $exit_status -eq 0 ]; then
+-+    dbus-send --system --dest=com.redhat.dhcp \
+-+      --type=method_call /com/redhat/dhcp/$interface com.redhat.dhcp.set \
+-+      'string:'"`env | grep -Ev '^(PATH|SHLVL|_|PWD|dhc_dbus)\='`"
+-+  fi
+-   exit $exit_status
+- }
+- 
+---- client/scripts/openbsd
+-+++ client/scripts/openbsd
+-@@ -47,6 +47,11 @@
+-     . /etc/dhcp/dhclient-exit-hooks
+-   fi
+- # probably should do something with exit status of the local script
+-+  if [ x$dhc_dbus != x -a $exit_status -eq 0 ]; then
+-+    dbus-send --system --dest=com.redhat.dhcp \
+-+      --type=method_call /com/redhat/dhcp/$interface com.redhat.dhcp.set \
+-+      'string:'"`env | grep -Ev '^(PATH|SHLVL|_|PWD|dhc_dbus)\='`"
+-+  fi
+-   exit $exit_status
+- }
+- 
+---- client/scripts/solaris
+-+++ client/scripts/solaris
+-@@ -47,6 +47,11 @@
+-     . /etc/dhcp/dhclient-exit-hooks
+-   fi
+- # probably should do something with exit status of the local script
+-+  if [ x$dhc_dbus != x -a $exit_status -eq 0 ]; then
+-+    dbus-send --system --dest=com.redhat.dhcp \
+-+      --type=method_call /com/redhat/dhcp/$interface com.redhat.dhcp.set \
+-+      'string:'"`env | grep -Ev '^(PATH|SHLVL|_|PWD|dhc_dbus)\='`"
+-+  fi
+-   exit $exit_status
+- }
+- 
+diff --git a/meta/recipes-connectivity/dhcp/dhcp-4.2.0/fix-client-path.patch b/meta/recipes-connectivity/dhcp/dhcp-4.2.0/fix-client-path.patch
+deleted file mode 100644
+index 97ed0d9..0000000
+--- a/meta/recipes-connectivity/dhcp/dhcp-4.2.0/fix-client-path.patch
++++ /dev/null
+@@ -1,23 +0,0 @@
+-CLIENT_PATH is the only environment when executing dhclient-script,
+-without this patch, dhclient-script won't run properly because it
+-invokes ifconfig and route
+-
+-Upstream-Status: Inappropriate [configuration]
+-
+-7/28/2010 - qhe
+-
+-diff -ru dhcp-4.1.1-P1.orig//client/Makefile.am dhcp-4.1.1-P1/client/Makefile.am
+---- dhcp-4.1.1-P1.orig//client/Makefile.am	2010-07-29 13:20:05.000000000 +0800
+-+++ dhcp-4.1.1-P1/client/Makefile.am	2010-07-29 13:28:14.000000000 +0800
+-@@ -10,9 +10,9 @@
+- EXTRA_DIST = $(man_MANS)
+- 
+- dhclient.o: dhclient.c
+--	$(COMPILE) -DCLIENT_PATH='"$(sbindir)"' \
+-+	$(COMPILE) -DCLIENT_PATH='"PATH=$(sbindir):$(base_sbindir):$(bindir):$(base_bindir)"' \
+- 		   -DLOCALSTATEDIR='"$(localstatedir)"' -c dhclient.c
+- 
+- dhc6.o: dhc6.c
+--	$(COMPILE) -DCLIENT_PATH='"$(sbindir)"' \
+-+	$(COMPILE) -DCLIENT_PATH='"PATH=$(sbindir):$(base_sbindir):$(bindir):$(base_bindir)"' \
+- 		   -DLOCALSTATEDIR='"$(localstatedir)"' -c dhc6.c
+diff --git a/meta/recipes-connectivity/dhcp/dhcp-4.2.0/fix-external-bind.patch b/meta/recipes-connectivity/dhcp/dhcp-4.2.0/fix-external-bind.patch
+deleted file mode 100644
+index 4f11655..0000000
+--- a/meta/recipes-connectivity/dhcp/dhcp-4.2.0/fix-external-bind.patch
++++ /dev/null
+@@ -1,103 +0,0 @@
+-Upstream-Status: Pending
+-
+-11/30/2010
+---with-libbind=PATH is available but not used by Makefile,
+-this patch is to allow building with external bind
+-
+-Signed-off-by: Qing He <qing.he@intel.com>
+-
+-diff --git a/Makefile.am b/Makefile.am
+-index 928d926..cd17af8 100644
+---- a/Makefile.am
+-+++ b/Makefile.am
+-@@ -21,7 +21,7 @@ EXTRA_DIST = RELNOTES LICENSE \
+- 	     util/bindvar.sh \
+- 	     bind/Makefile bind/bind.tar.gz bind/version.tmp 
+- 
+--SUBDIRS = bind includes tests common dst omapip client dhcpctl relay server
+-+SUBDIRS = includes tests common dst omapip client dhcpctl relay server
+- 
+- nobase_include_HEADERS = dhcpctl/dhcpctl.h
+- 
+-diff --git a/client/Makefile.am b/client/Makefile.am
+-index 77ed055..5a77f2d 100644
+---- a/client/Makefile.am
+-+++ b/client/Makefile.am
+-@@ -5,7 +5,7 @@ dhclient_SOURCES = clparse.c dhclient.c dhc6.c \
+- 		   scripts/netbsd scripts/nextstep scripts/openbsd \
+- 		   scripts/solaris scripts/openwrt
+- dhclient_LDADD = ../common/libdhcp.a ../omapip/libomapi.a \
+--		 ../bind/lib/libdns.a ../bind/lib/libisc.a
+-+		 $(libbind)/libdns.a $(libbind)/libisc.a
+- man_MANS = dhclient.8 dhclient-script.8 dhclient.conf.5 dhclient.leases.5
+- EXTRA_DIST = $(man_MANS)
+- 
+-diff --git a/configure.ac b/configure.ac
+-index ff832aa..60d342c 100644
+---- a/configure.ac
+-+++ b/configure.ac
+-@@ -500,6 +500,7 @@ no)
+- 	libbind="$use_libbind"
+- 	;;
+- esac
+-+AC_SUBST([libbind])
+- 
+- # OpenLDAP support.
+- AC_ARG_WITH(ldap,
+-diff --git a/dhcpctl/Makefile.am b/dhcpctl/Makefile.am
+-index 61049be..85aefa3 100644
+---- a/dhcpctl/Makefile.am
+-+++ b/dhcpctl/Makefile.am
+-@@ -6,10 +6,10 @@ EXTRA_DIST = $(man_MANS)
+- 
+- omshell_SOURCES = omshell.c
+- omshell_LDADD = libdhcpctl.a ../common/libdhcp.a ../omapip/libomapi.a \
+--	        ../bind/lib/libdns.a ../bind/lib/libisc.a
+-+	        $(libbind)/libdns.a $(libbind)/libisc.a
+- 
+- libdhcpctl_a_SOURCES = dhcpctl.c callback.c remote.c
+- 
+- cltest_SOURCES = cltest.c
+- cltest_LDADD = libdhcpctl.a ../common/libdhcp.a ../omapip/libomapi.a \
+--	       ../bind/lib/libdns.a ../bind/lib/libisc.a
+-\ No newline at end of file
+-+	       $(libbind)/libdns.a $(libbind)/libisc.a
+-diff --git a/omapip/Makefile.am b/omapip/Makefile.am
+-index 595950a..17f2233 100644
+---- a/omapip/Makefile.am
+-+++ b/omapip/Makefile.am
+-@@ -10,5 +10,5 @@ man_MANS = omapi.3
+- EXTRA_DIST = $(man_MANS)
+- 
+- svtest_SOURCES = test.c
+--svtest_LDADD = libomapi.a ../bind/lib/libdns.a ../bind/lib/libisc.a
+-+svtest_LDADD = libomapi.a $(libbind)/libdns.a $(libbind)/libisc.a
+- 
+-diff --git a/relay/Makefile.am b/relay/Makefile.am
+-index d8757ca..a7885da 100644
+---- a/relay/Makefile.am
+-+++ b/relay/Makefile.am
+-@@ -3,7 +3,7 @@ AM_CPPFLAGS = -DLOCALSTATEDIR='"@localstatedir@"'
+- sbin_PROGRAMS = dhcrelay
+- dhcrelay_SOURCES = dhcrelay.c
+- dhcrelay_LDADD = ../common/libdhcp.a ../omapip/libomapi.a \
+--		 ../bind/lib/libdns.a ../bind/lib/libisc.a
+-+		 $(libbind)/libdns.a $(libbind)/libisc.a
+- man_MANS = dhcrelay.8
+- EXTRA_DIST = $(man_MANS)
+- 
+-diff --git a/server/Makefile.am b/server/Makefile.am
+-index cdfaf47..d2c254b 100644
+---- a/server/Makefile.am
+-+++ b/server/Makefile.am
+-@@ -8,8 +8,8 @@ dhcpd_SOURCES = dhcpd.c dhcp.c bootp.c confpars.c db.c class.c failover.c \
+- 
+- dhcpd_CFLAGS = $(LDAP_CFLAGS)
+- dhcpd_LDADD = ../common/libdhcp.a ../omapip/libomapi.a \
+--	      ../dhcpctl/libdhcpctl.a ../bind/lib/libdns.a \
+--	      ../bind/lib/libisc.a
+-+	      ../dhcpctl/libdhcpctl.a $(libbind)/libdns.a \
+-+	      $(libbind)/libisc.a
+- 
+- man_MANS = dhcpd.8 dhcpd.conf.5 dhcpd.leases.5
+- EXTRA_DIST = $(man_MANS)
+diff --git a/meta/recipes-connectivity/dhcp/dhcp-4.2.0/fixincludes.patch b/meta/recipes-connectivity/dhcp/dhcp-4.2.0/fixincludes.patch
+deleted file mode 100644
+index e33c9dd..0000000
+--- a/meta/recipes-connectivity/dhcp/dhcp-4.2.0/fixincludes.patch
++++ /dev/null
+@@ -1,12 +0,0 @@
+-Upstream-Status: Pending
+-
+---- dhcp-3.0.2/common/tr.c~compile	2005-10-13 14:23:37.000000000 +0200
+-+++ dhcp-3.0.2/common/tr.c	2005-10-13 14:23:45.000000000 +0200
+-@@ -39,6 +39,7 @@
+- #include "includes/netinet/udp.h"
+- #include "includes/netinet/if_ether.h"
+- #include "netinet/if_tr.h"
+-+#include <asm/types.h>
+- #include <sys/time.h>
+- 
+- /*
+diff --git a/meta/recipes-connectivity/dhcp/dhcp-4.2.0/noattrmode.patch b/meta/recipes-connectivity/dhcp/dhcp-4.2.0/noattrmode.patch
+deleted file mode 100644
+index 5c635e8..0000000
+--- a/meta/recipes-connectivity/dhcp/dhcp-4.2.0/noattrmode.patch
++++ /dev/null
+@@ -1,21 +0,0 @@
+-Upstream-Status: Backport
+-
+-#
+-# Patch managed by http://www.holgerschurig.de/patcher.html
+-#
+-
+---- dhcp-3.0.1/includes/dhcpd.h~compile
+-+++ dhcp-3.0.1/includes/dhcpd.h
+-@@ -306,9 +306,9 @@
+- #	define EPHEMERAL_FLAGS		(MS_NULL_TERMINATION | \
+- 					 UNICAST_BROADCAST_HACK)
+- 
+--	binding_state_t __attribute__ ((mode (__byte__))) binding_state;
+--	binding_state_t __attribute__ ((mode (__byte__))) next_binding_state;
+--	binding_state_t __attribute__ ((mode (__byte__))) desired_binding_state;
+-+	binding_state_t binding_state;
+-+	binding_state_t next_binding_state;
+-+	binding_state_t desired_binding_state;
+- 	
+- 	struct lease_state *state;
+- 
+diff --git a/meta/recipes-connectivity/dhcp/dhcp-4.2.0/site.h b/meta/recipes-connectivity/dhcp/dhcp-4.2.0/site.h
+deleted file mode 100644
+index 2289554..0000000
+--- a/meta/recipes-connectivity/dhcp/dhcp-4.2.0/site.h
++++ /dev/null
+@@ -1,21 +0,0 @@
+-/*
+- * define config file location in ${S}/includes/site.h
+- * still need to take care of installation path (${sysconfdir}/dhcpd.conf)
+- *
+- * 7/22/2010 - qhe
+- */
+-
+-/* Define this if you want DNS update functionality to be available. */
+-
+-#define NSUPDATE
+-
+-/* Define this if you aren't debugging and you want to save memory
+-   (potentially a _lot_ of memory) by allocating leases in chunks rather
+-   than one at a time. */
+-
+-#define COMPACT_LEASES
+-
+-
+-/* local */
+-#define _PATH_DHCPD_CONF     "/etc/dhcp/dhcpd.conf"
+-#define _PATH_DHCLIENT_CONF  "/etc/dhcp/dhclient.conf"
+diff --git a/meta/recipes-connectivity/dhcp/dhcp-4.2.3-P2/dhcp-3.0.3-dhclient-dbus.patch b/meta/recipes-connectivity/dhcp/dhcp-4.2.3-P2/dhcp-3.0.3-dhclient-dbus.patch
+new file mode 100644
+index 0000000..b4a666d
+--- /dev/null
++++ b/meta/recipes-connectivity/dhcp/dhcp-4.2.3-P2/dhcp-3.0.3-dhclient-dbus.patch
+@@ -0,0 +1,86 @@
++Upstream-Status: Inappropriate [distribution]
++
++--- client/scripts/bsdos
+++++ client/scripts/bsdos
++@@ -47,6 +47,11 @@
++     . /etc/dhcp/dhclient-exit-hooks
++   fi
++ # probably should do something with exit status of the local script
+++  if [ x$dhc_dbus != x -a $exit_status -eq 0 ]; then
+++    dbus-send --system --dest=com.redhat.dhcp \
+++      --type=method_call /com/redhat/dhcp/$interface com.redhat.dhcp.set \
+++      'string:'"`env | grep -Ev '^(PATH|SHLVL|_|PWD|dhc_dbus)\='`"
+++  fi
++   exit $exit_status
++ }
++ 
++--- client/scripts/freebsd
+++++ client/scripts/freebsd
++@@ -57,6 +57,11 @@
++     . /etc/dhcp/dhclient-exit-hooks
++   fi
++ # probably should do something with exit status of the local script
+++  if [ x$dhc_dbus != x -a $exit_status -eq 0 ]; then
+++    dbus-send --system --dest=com.redhat.dhcp \
+++      --type=method_call /com/redhat/dhcp/$interface com.redhat.dhcp.set \
+++      'string:'"`env | grep -Ev '^(PATH|SHLVL|_|PWD|dhc_dbus)\='`"
+++  fi
++   exit $exit_status
++ }
++ 
++--- client/scripts/linux
+++++ client/scripts/linux
++@@ -69,6 +69,11 @@
++     . /etc/dhcp/dhclient-exit-hooks
++   fi
++ # probably should do something with exit status of the local script
+++  if [ x$dhc_dbus != x -a $exit_status -eq 0 ]; then
+++    dbus-send --system --dest=com.redhat.dhcp \
+++      --type=method_call /com/redhat/dhcp/$interface com.redhat.dhcp.set \
+++      'string:'"`env | grep -Ev '^(PATH|SHLVL|_|PWD|dhc_dbus)\='`"
+++  fi
++   exit $exit_status
++ }
++ 
++--- client/scripts/netbsd
+++++ client/scripts/netbsd
++@@ -47,6 +47,11 @@
++     . /etc/dhcp/dhclient-exit-hooks
++   fi
++ # probably should do something with exit status of the local script
+++  if [ x$dhc_dbus != x -a $exit_status -eq 0 ]; then
+++    dbus-send --system --dest=com.redhat.dhcp \
+++      --type=method_call /com/redhat/dhcp/$interface com.redhat.dhcp.set \
+++      'string:'"`env | grep -Ev '^(PATH|SHLVL|_|PWD|dhc_dbus)\='`"
+++  fi
++   exit $exit_status
++ }
++ 
++--- client/scripts/openbsd
+++++ client/scripts/openbsd
++@@ -47,6 +47,11 @@
++     . /etc/dhcp/dhclient-exit-hooks
++   fi
++ # probably should do something with exit status of the local script
+++  if [ x$dhc_dbus != x -a $exit_status -eq 0 ]; then
+++    dbus-send --system --dest=com.redhat.dhcp \
+++      --type=method_call /com/redhat/dhcp/$interface com.redhat.dhcp.set \
+++      'string:'"`env | grep -Ev '^(PATH|SHLVL|_|PWD|dhc_dbus)\='`"
+++  fi
++   exit $exit_status
++ }
++ 
++--- client/scripts/solaris
+++++ client/scripts/solaris
++@@ -47,6 +47,11 @@
++     . /etc/dhcp/dhclient-exit-hooks
++   fi
++ # probably should do something with exit status of the local script
+++  if [ x$dhc_dbus != x -a $exit_status -eq 0 ]; then
+++    dbus-send --system --dest=com.redhat.dhcp \
+++      --type=method_call /com/redhat/dhcp/$interface com.redhat.dhcp.set \
+++      'string:'"`env | grep -Ev '^(PATH|SHLVL|_|PWD|dhc_dbus)\='`"
+++  fi
++   exit $exit_status
++ }
++ 
+diff --git a/meta/recipes-connectivity/dhcp/dhcp-4.2.3-P2/fix-external-bind.patch b/meta/recipes-connectivity/dhcp/dhcp-4.2.3-P2/fix-external-bind.patch
+new file mode 100644
+index 0000000..4f11655
+--- /dev/null
++++ b/meta/recipes-connectivity/dhcp/dhcp-4.2.3-P2/fix-external-bind.patch
+@@ -0,0 +1,103 @@
++Upstream-Status: Pending
++
++11/30/2010
++--with-libbind=PATH is available but not used by Makefile,
++this patch is to allow building with external bind
++
++Signed-off-by: Qing He <qing.he@intel.com>
++
++diff --git a/Makefile.am b/Makefile.am
++index 928d926..cd17af8 100644
++--- a/Makefile.am
+++++ b/Makefile.am
++@@ -21,7 +21,7 @@ EXTRA_DIST = RELNOTES LICENSE \
++ 	     util/bindvar.sh \
++ 	     bind/Makefile bind/bind.tar.gz bind/version.tmp 
++ 
++-SUBDIRS = bind includes tests common dst omapip client dhcpctl relay server
+++SUBDIRS = includes tests common dst omapip client dhcpctl relay server
++ 
++ nobase_include_HEADERS = dhcpctl/dhcpctl.h
++ 
++diff --git a/client/Makefile.am b/client/Makefile.am
++index 77ed055..5a77f2d 100644
++--- a/client/Makefile.am
+++++ b/client/Makefile.am
++@@ -5,7 +5,7 @@ dhclient_SOURCES = clparse.c dhclient.c dhc6.c \
++ 		   scripts/netbsd scripts/nextstep scripts/openbsd \
++ 		   scripts/solaris scripts/openwrt
++ dhclient_LDADD = ../common/libdhcp.a ../omapip/libomapi.a \
++-		 ../bind/lib/libdns.a ../bind/lib/libisc.a
+++		 $(libbind)/libdns.a $(libbind)/libisc.a
++ man_MANS = dhclient.8 dhclient-script.8 dhclient.conf.5 dhclient.leases.5
++ EXTRA_DIST = $(man_MANS)
++ 
++diff --git a/configure.ac b/configure.ac
++index ff832aa..60d342c 100644
++--- a/configure.ac
+++++ b/configure.ac
++@@ -500,6 +500,7 @@ no)
++ 	libbind="$use_libbind"
++ 	;;
++ esac
+++AC_SUBST([libbind])
++ 
++ # OpenLDAP support.
++ AC_ARG_WITH(ldap,
++diff --git a/dhcpctl/Makefile.am b/dhcpctl/Makefile.am
++index 61049be..85aefa3 100644
++--- a/dhcpctl/Makefile.am
+++++ b/dhcpctl/Makefile.am
++@@ -6,10 +6,10 @@ EXTRA_DIST = $(man_MANS)
++ 
++ omshell_SOURCES = omshell.c
++ omshell_LDADD = libdhcpctl.a ../common/libdhcp.a ../omapip/libomapi.a \
++-	        ../bind/lib/libdns.a ../bind/lib/libisc.a
+++	        $(libbind)/libdns.a $(libbind)/libisc.a
++ 
++ libdhcpctl_a_SOURCES = dhcpctl.c callback.c remote.c
++ 
++ cltest_SOURCES = cltest.c
++ cltest_LDADD = libdhcpctl.a ../common/libdhcp.a ../omapip/libomapi.a \
++-	       ../bind/lib/libdns.a ../bind/lib/libisc.a
++\ No newline at end of file
+++	       $(libbind)/libdns.a $(libbind)/libisc.a
++diff --git a/omapip/Makefile.am b/omapip/Makefile.am
++index 595950a..17f2233 100644
++--- a/omapip/Makefile.am
+++++ b/omapip/Makefile.am
++@@ -10,5 +10,5 @@ man_MANS = omapi.3
++ EXTRA_DIST = $(man_MANS)
++ 
++ svtest_SOURCES = test.c
++-svtest_LDADD = libomapi.a ../bind/lib/libdns.a ../bind/lib/libisc.a
+++svtest_LDADD = libomapi.a $(libbind)/libdns.a $(libbind)/libisc.a
++ 
++diff --git a/relay/Makefile.am b/relay/Makefile.am
++index d8757ca..a7885da 100644
++--- a/relay/Makefile.am
+++++ b/relay/Makefile.am
++@@ -3,7 +3,7 @@ AM_CPPFLAGS = -DLOCALSTATEDIR='"@localstatedir@"'
++ sbin_PROGRAMS = dhcrelay
++ dhcrelay_SOURCES = dhcrelay.c
++ dhcrelay_LDADD = ../common/libdhcp.a ../omapip/libomapi.a \
++-		 ../bind/lib/libdns.a ../bind/lib/libisc.a
+++		 $(libbind)/libdns.a $(libbind)/libisc.a
++ man_MANS = dhcrelay.8
++ EXTRA_DIST = $(man_MANS)
++ 
++diff --git a/server/Makefile.am b/server/Makefile.am
++index cdfaf47..d2c254b 100644
++--- a/server/Makefile.am
+++++ b/server/Makefile.am
++@@ -8,8 +8,8 @@ dhcpd_SOURCES = dhcpd.c dhcp.c bootp.c confpars.c db.c class.c failover.c \
++ 
++ dhcpd_CFLAGS = $(LDAP_CFLAGS)
++ dhcpd_LDADD = ../common/libdhcp.a ../omapip/libomapi.a \
++-	      ../dhcpctl/libdhcpctl.a ../bind/lib/libdns.a \
++-	      ../bind/lib/libisc.a
+++	      ../dhcpctl/libdhcpctl.a $(libbind)/libdns.a \
+++	      $(libbind)/libisc.a
++ 
++ man_MANS = dhcpd.8 dhcpd.conf.5 dhcpd.leases.5
++ EXTRA_DIST = $(man_MANS)
+diff --git a/meta/recipes-connectivity/dhcp/dhcp-4.2.3-P2/fixincludes.patch b/meta/recipes-connectivity/dhcp/dhcp-4.2.3-P2/fixincludes.patch
+new file mode 100644
+index 0000000..e33c9dd
+--- /dev/null
++++ b/meta/recipes-connectivity/dhcp/dhcp-4.2.3-P2/fixincludes.patch
+@@ -0,0 +1,12 @@
++Upstream-Status: Pending
++
++--- dhcp-3.0.2/common/tr.c~compile	2005-10-13 14:23:37.000000000 +0200
+++++ dhcp-3.0.2/common/tr.c	2005-10-13 14:23:45.000000000 +0200
++@@ -39,6 +39,7 @@
++ #include "includes/netinet/udp.h"
++ #include "includes/netinet/if_ether.h"
++ #include "netinet/if_tr.h"
+++#include <asm/types.h>
++ #include <sys/time.h>
++ 
++ /*
+diff --git a/meta/recipes-connectivity/dhcp/dhcp-4.2.3-P2/link-with-lcrypto.patch b/meta/recipes-connectivity/dhcp/dhcp-4.2.3-P2/link-with-lcrypto.patch
+new file mode 100644
+index 0000000..2335ae8
+--- /dev/null
++++ b/meta/recipes-connectivity/dhcp/dhcp-4.2.3-P2/link-with-lcrypto.patch
+@@ -0,0 +1,30 @@
++commit 4fa2e86cc242bca3064c92ce6759dab0bca4eb5c
++Author: Andrei Gherzan <andrei@gherzan.ro>
++Date:   Thu Feb 2 23:59:11 2012 +0200
++
++    dhcp: Update to 4.2.3-P2
++
++    1. Update to 4.2.3-P2
++    2. From 4.2.0 final release, -lcrypto check was removed and we compile static libraries
++    from bind that are linked to libcrypto. This is why i added a patch in order to add
++    -lcrypto to LIBS.
++
++    Signed-off-by: Andrei Gherzan <andrei@gherzan.ro>
++    Upstream-Status: Pending
++
++
++Index: dhcp-4.2.3-P2-r0/dhcp-4.2.3-P2/configure.ac
++===================================================================
++--- dhcp-4.2.3-P2.orig/configure.ac	2012-02-02 18:04:20.843023196 +0200
+++++ dhcp-4.2.3-P2/configure.ac	2012-02-02 17:58:16.000000000 +0200
++@@ -456,6 +456,10 @@
++ # Look for optional headers.
++ AC_CHECK_HEADERS(sys/socket.h net/if_dl.h net/if6.h regex.h)
++ 
+++# find an MD5 library
+++AC_SEARCH_LIBS(MD5_Init, [crypto])
+++AC_SEARCH_LIBS(MD5Init, [crypto])
+++
++ # Solaris needs some libraries for functions
++ AC_SEARCH_LIBS(socket, [socket])
++ AC_SEARCH_LIBS(inet_ntoa, [nsl])
+diff --git a/meta/recipes-connectivity/dhcp/dhcp-4.2.3-P2/noattrmode.patch b/meta/recipes-connectivity/dhcp/dhcp-4.2.3-P2/noattrmode.patch
+new file mode 100644
+index 0000000..5c635e8
+--- /dev/null
++++ b/meta/recipes-connectivity/dhcp/dhcp-4.2.3-P2/noattrmode.patch
+@@ -0,0 +1,21 @@
++Upstream-Status: Backport
++
++#
++# Patch managed by http://www.holgerschurig.de/patcher.html
++#
++
++--- dhcp-3.0.1/includes/dhcpd.h~compile
+++++ dhcp-3.0.1/includes/dhcpd.h
++@@ -306,9 +306,9 @@
++ #	define EPHEMERAL_FLAGS		(MS_NULL_TERMINATION | \
++ 					 UNICAST_BROADCAST_HACK)
++ 
++-	binding_state_t __attribute__ ((mode (__byte__))) binding_state;
++-	binding_state_t __attribute__ ((mode (__byte__))) next_binding_state;
++-	binding_state_t __attribute__ ((mode (__byte__))) desired_binding_state;
+++	binding_state_t binding_state;
+++	binding_state_t next_binding_state;
+++	binding_state_t desired_binding_state;
++ 	
++ 	struct lease_state *state;
++ 
+diff --git a/meta/recipes-connectivity/dhcp/dhcp-4.2.3-P2/site.h b/meta/recipes-connectivity/dhcp/dhcp-4.2.3-P2/site.h
+new file mode 100644
+index 0000000..2289554
+--- /dev/null
++++ b/meta/recipes-connectivity/dhcp/dhcp-4.2.3-P2/site.h
+@@ -0,0 +1,21 @@
++/*
++ * define config file location in ${S}/includes/site.h
++ * still need to take care of installation path (${sysconfdir}/dhcpd.conf)
++ *
++ * 7/22/2010 - qhe
++ */
++
++/* Define this if you want DNS update functionality to be available. */
++
++#define NSUPDATE
++
++/* Define this if you aren't debugging and you want to save memory
++   (potentially a _lot_ of memory) by allocating leases in chunks rather
++   than one at a time. */
++
++#define COMPACT_LEASES
++
++
++/* local */
++#define _PATH_DHCPD_CONF     "/etc/dhcp/dhcpd.conf"
++#define _PATH_DHCLIENT_CONF  "/etc/dhcp/dhclient.conf"
+diff --git a/meta/recipes-connectivity/dhcp/dhcp.inc b/meta/recipes-connectivity/dhcp/dhcp.inc
+index be256ce..051190f 100644
+--- a/meta/recipes-connectivity/dhcp/dhcp.inc
++++ b/meta/recipes-connectivity/dhcp/dhcp.inc
+@@ -12,7 +12,7 @@ LIC_FILES_CHKSUM = "file://LICENSE;beginline=4;md5=bb6fd41f5895b67088ebea61ad365
+ 
+ DEPENDS = "bind"
+ 
+-SRC_URI = "ftp://ftp.isc.org/isc/dhcp/dhcp-${PV}.tar.gz \
++SRC_URI = "ftp://ftp.isc.org/isc/dhcp/${PV}/dhcp-${PV}.tar.gz \
+            file://site.h \
+ 	   file://init-relay file://default-relay \
+ 	   file://init-server file://default-server \
+diff --git a/meta/recipes-connectivity/dhcp/dhcp_4.2.0.bb b/meta/recipes-connectivity/dhcp/dhcp_4.2.0.bb
+deleted file mode 100644
+index a3a560b..0000000
+--- a/meta/recipes-connectivity/dhcp/dhcp_4.2.0.bb
++++ /dev/null
+@@ -1,12 +0,0 @@
+-require dhcp.inc
+-
+-PR = "r5"
+-
+-SRC_URI += "file://fixincludes.patch \
+-            file://dhcp-3.0.3-dhclient-dbus.patch;striplevel=0 \
+-            file://fix-client-path.patch \
+-            file://fix-external-bind.patch \
+-           "
+-
+-SRC_URI[md5sum] = "83abd7c4f9c24d8dd024ca5a71380c0a"
+-SRC_URI[sha256sum] = "6260d43423e4c406ba63cd7199502a395e952b13c80a955026c4b82a4e9d4943"
+diff --git a/meta/recipes-connectivity/dhcp/dhcp_4.2.3-P2.bb b/meta/recipes-connectivity/dhcp/dhcp_4.2.3-P2.bb
+new file mode 100644
+index 0000000..24b50ba
+--- /dev/null
++++ b/meta/recipes-connectivity/dhcp/dhcp_4.2.3-P2.bb
+@@ -0,0 +1,12 @@
++require dhcp.inc
++
++PR = "r0"
++
++SRC_URI += "file://fixincludes.patch \
++            file://dhcp-3.0.3-dhclient-dbus.patch;striplevel=0 \
++            file://fix-external-bind.patch \
++            file://link-with-lcrypto.patch \
++           "
++
++SRC_URI[md5sum] = "14f57fd580d01633d0fad4809007a801"
++SRC_URI[sha256sum] = "5cf7ae2cad9c4ca0103748b2476ec8ea78484e408f8fe597e4e0a4afb051b469"
+-- 
+1.7.5.4
+
 
 
