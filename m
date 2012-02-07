@@ -1,24 +1,26 @@
-Received: from mail.pbcl.net ([88.198.119.4] helo=hetzner.pbcl.net)
+Received: from mga03.intel.com ([143.182.124.21])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <philb@gnu.org>) id 1Rup9B-0003J0-GN
+	(envelope-from <sgw@linux.intel.com>) id 1RupBC-0003NE-Ig
 	for openembedded-core@lists.openembedded.org;
-	Tue, 07 Feb 2012 18:48:05 +0100
-Received: from elite.brightsigndigital.co.uk ([81.142.160.137]
-	helo=[172.30.1.145])
-	by hetzner.pbcl.net with esmtpsa (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
-	(Exim 4.72) (envelope-from <philb@gnu.org>) id 1Rup1R-0007la-9p
-	for openembedded-core@lists.openembedded.org;
-	Tue, 07 Feb 2012 18:40:05 +0100
-From: Phil Blundell <philb@gnu.org>
+	Tue, 07 Feb 2012 18:50:10 +0100
+Received: from azsmga001.ch.intel.com ([10.2.17.19])
+	by azsmga101.ch.intel.com with ESMTP; 07 Feb 2012 09:22:41 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="104181330"
+Received: from unknown (HELO [10.255.14.116]) ([10.255.14.116])
+	by azsmga001.ch.intel.com with ESMTP; 07 Feb 2012 09:21:40 -0800
+Message-ID: <4F315DA4.50106@linux.intel.com>
+Date: Tue, 07 Feb 2012 09:21:40 -0800
+From: Saul Wold <sgw@linux.intel.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:9.0) Gecko/20111222 Thunderbird/9.0
+MIME-Version: 1.0
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Date: Tue, 07 Feb 2012 17:40:04 +0000
-In-Reply-To: <1328635982-18444-1-git-send-email-andrei@gherzan.ro>
-References: <1328635982-18444-1-git-send-email-andrei@gherzan.ro>
-X-Mailer: Evolution 3.0.2- 
-Message-ID: <1328636405.14363.32.camel@phil-desktop>
-Mime-Version: 1.0
-Subject: Re: [PATCH] nspr: Integrate version 4.8.9
+References: <04705556464a6e41642962da40f0e17847ee3483.1328510188.git.raj.khem@gmail.com>
+	<2f04aa9f17c455c3d42ecb81975e425746973bef.1328510189.git.raj.khem@gmail.com>
+In-Reply-To: <2f04aa9f17c455c3d42ecb81975e425746973bef.1328510189.git.raj.khem@gmail.com>
+Subject: Re: [PATCH 19/20] gcc-cross-testing: Fix evaluation of user and target name
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -33,23 +35,47 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 07 Feb 2012 17:48:05 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Tue, 07 Feb 2012 17:50:10 -0000
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 
-On Tue, 2012-02-07 at 19:33 +0200, Andrei Gherzan wrote:
-> +FILES_${PN} = "/usr/lib/*.so"
-> +FILES_${PN}-dev = "/usr/bin/* /usr/include/* /usr/share/aclocal/* /usr/lib/pkgconfig/*"
-> +FILES_${PN}-dbg = "/usr/bin/.debug/* /usr/lib/.debug/* /usr/src/debug/*"
-> +FILE_${PN}-staticdev= "/usr/lib/*.a"
+On 02/05/2012 10:40 PM, Khem Raj wrote:
+> Dont use -q to grep we pipe to /dev/null anyway all we
+> care is the return status of grep
+>
+> Signed-off-by: Khem Raj<raj.khem@gmail.com>
+>
+> xxx
+>
+> Signed-off-by: Khem Raj<raj.khem@gmail.com>
 
-That all looks rather dubious.  The last line surely isn't accomplishing
-anything and I suspect the other three are largely wrong/useless as
-well.  What problem were you trying to solve by adding those?
-
-p.
+The patch seem valid, but the commit message needs to be cleaned up.
 
 
+Sau!
 
+> ---
+>   meta/recipes-devtools/gcc/gcc-cross.inc |    6 +++---
+>   1 files changed, 3 insertions(+), 3 deletions(-)
+>
+> diff --git a/meta/recipes-devtools/gcc/gcc-cross.inc b/meta/recipes-devtools/gcc/gcc-cross.inc
+> index 6acf8c5..b16c57d 100644
+> --- a/meta/recipes-devtools/gcc/gcc-cross.inc
+> +++ b/meta/recipes-devtools/gcc/gcc-cross.inc
+> @@ -65,11 +65,11 @@ then
+>   	exit 1;
+>   fi
+>
+> -echo "\$target" | grep −q "@">&  /dev/null
+> +echo "\$target" | grep "@">&  /dev/null
+>   if [ "x\$?" = "x0" ]
+>   then
+> -   user=echo \$target | cut -d '@' -f 1
+> -   target=echo \$target | cut -d '@' -f 2
+> +   user=\$(echo \$target | cut -d '@' -f 1)
+> +   target=\$(echo \$target | cut -d '@' -f 2)
+>   else
+>      user=\$USER
+>   fi
 
 
