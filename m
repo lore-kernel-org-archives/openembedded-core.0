@@ -1,33 +1,30 @@
-Received: from mail-ee0-f47.google.com ([74.125.83.47])
+Received: from mail-gy0-f175.google.com ([209.85.160.175])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <otavio.salvador@gmail.com>) id 1RusBA-0001It-Kr
+	(envelope-from <otavio.salvador@gmail.com>) id 1RusQN-0001tq-Eh
 	for openembedded-core@lists.openembedded.org;
-	Tue, 07 Feb 2012 22:02:20 +0100
-Received: by eekd41 with SMTP id d41so2271551eek.6
+	Tue, 07 Feb 2012 22:18:03 +0100
+Received: by ghbf19 with SMTP id f19so3355799ghb.6
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 07 Feb 2012 12:54:18 -0800 (PST)
+	Tue, 07 Feb 2012 13:10:00 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
-	h=mime-version:sender:in-reply-to:references:date
-	:x-google-sender-auth:message-id:subject:from:to:content-type;
-	bh=w64IQFPPNI6CmvX45+eTHgR7Dslj4y2XrTLHqR0wh+A=;
-	b=lXwlWtD80Q4k4jXVUWrgJuHcT5YjfIbL86p1BrZJGEptU2BDwRY6/AmY9+iw8ISaE7
-	Vy2kPEiZUQax6q1ff+4PbnFfqd/yJPqpV8kLuGC8Z9nXhb8uvo8u+742VyPxdFQH8xVo
-	vAma6jQjYwxJGYcvZWceUEh8moEhK9OUzmA5Q=
-MIME-Version: 1.0
-Received: by 10.14.48.65 with SMTP id u41mr5403618eeb.39.1328648058133; Tue,
-	07 Feb 2012 12:54:18 -0800 (PST)
-Sender: otavio.salvador@gmail.com
-Received: by 10.14.96.129 with HTTP; Tue, 7 Feb 2012 12:54:18 -0800 (PST)
-In-Reply-To: <4F318D77.5020901@linux.intel.com>
-References: <1328646568-25721-1-git-send-email-andrei@gherzan.ro>
-	<4F318D77.5020901@linux.intel.com>
-Date: Tue, 7 Feb 2012 18:54:18 -0200
-X-Google-Sender-Auth: gOS4FBqseiaeZu454XNmMnk72Z0
-Message-ID: <CAP9ODKpZwQHyAsYeR-BRTChgrb68xi8enrn_RoajXX4mBU7TJQ@mail.gmail.com>
+	h=sender:from:to:subject:date:message-id:x-mailer;
+	bh=346eMEMgjdVyU6N7RfMbTjvtuIysVUQ1ncZl/LnjRSo=;
+	b=Pd7659CyI136qX75Q8gc5QsbBHautK0ivrvLDIOGJwGrBHdgvbjeS/h12SzBEhZtIQ
+	lZ7H4IMnMdxu6lE4OL8yQ8aq7BgBDn8x4k5VLQsQyexEMDboPHo3T/GegCTo+ZqFGrMJ
+	AuKZnr70LcjWxmgKAyfo0EZXNTY7l4nZap4GA=
+Received: by 10.236.9.97 with SMTP id 61mr34602900yhs.71.1328648999954;
+	Tue, 07 Feb 2012 13:09:59 -0800 (PST)
+Received: from localhost.localdomain ([186.218.100.214])
+	by mx.google.com with ESMTPS id f47sm30150280yhh.8.2012.02.07.13.09.58
+	(version=TLSv1/SSLv3 cipher=OTHER);
+	Tue, 07 Feb 2012 13:09:59 -0800 (PST)
+Sender: Otavio Salvador <otavio.salvador@gmail.com>
 From: Otavio Salvador <otavio@ossystems.com.br>
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 1/2] dhcp: Update to 4.2.3-P2
+To: openembedded-core@lists.openembedded.org
+Date: Tue,  7 Feb 2012 21:09:47 +0000
+Message-Id: <cover.1328648562.git.otavio@ossystems.com.br>
+X-Mailer: git-send-email 1.7.2.5
+Subject: [PATCH 0/4] Pending patches at O.S. Systems' tree
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -42,47 +39,36 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 07 Feb 2012 21:02:20 -0000
-Content-Type: multipart/alternative; boundary=90e6ba6153a8895d0704b865fb0f
+X-List-Received-Date: Tue, 07 Feb 2012 21:18:03 -0000
 
---90e6ba6153a8895d0704b865fb0f
-Content-Type: text/plain; charset=ISO-8859-1
+I am sending the patches that are waiting in our tree. dhcp and udev
+patches ought to have been handled by Saul but in any case they are
+present here.
 
-On Tue, Feb 7, 2012 at 18:45, Saul Wold <sgw@linux.intel.com> wrote:
+The following changes since commit 18d9fcfc4bc4b01f73e89f3b988c9d3d543c7705:
 
-> We are trying to address warning that come from the build, so can you
-> please address the packaging issues and the location of libcrypto as it's
-> in /usr/lib while dhclient is in /sbin and may not have /usr yet (see prior
-> discussions about / and /usr boundry issues.)
->
+  libzypp: add missing runtime dependences on gzip and gnupg (2012-02-03 17:23:28 +0000)
 
-What would be the fix for it? move dhclient onto /usr/sbin?
+are available in the git repository at:
+  git://github.com/OSSystems/oe-core master
+  https://github.com/OSSystems/oe-core/tree/HEAD
+
+Otavio Salvador (4):
+  dhcp: move dhcp leases files handling to postinst/postrm
+  udev: stop providing cache support by default
+  cross.bbclass: add virtclass handler
+  useradd.bbclass: skip processing on virtclass-cross extended packages
+
+ meta/classes/cross.bbclass                   |   39 ++++++++++++++++++++++++++
+ meta/classes/useradd.bbclass                 |    3 ++
+ meta/recipes-connectivity/dhcp/dhcp.inc      |   25 ++++++++++++++++-
+ meta/recipes-connectivity/dhcp/dhcp_4.2.0.bb |    2 +-
+ meta/recipes-core/udev/udev.inc              |    2 +-
+ meta/recipes-core/udev/udev_164.bb           |    2 +-
+ 6 files changed, 69 insertions(+), 4 deletions(-)
 
 -- 
-Otavio Salvador                             O.S. Systems
-E-mail: otavio@ossystems.com.br  http://www.ossystems.com.br
-Mobile: +55 53 9981-7854              http://projetos.ossystems.com.br
+1.7.2.5
 
---90e6ba6153a8895d0704b865fb0f
-Content-Type: text/html; charset=ISO-8859-1
-Content-Transfer-Encoding: quoted-printable
 
-<div class=3D"gmail_quote">On Tue, Feb 7, 2012 at 18:45, Saul Wold <span di=
-r=3D"ltr">&lt;<a href=3D"mailto:sgw@linux.intel.com">sgw@linux.intel.com</a=
->&gt;</span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0 =
-0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex">
-<div id=3D":1do">We are trying to address warning that come from the build,=
- so can you please address the packaging issues and the location of libcryp=
-to as it&#39;s in /usr/lib while dhclient is in /sbin and may not have /usr=
- yet (see prior discussions about / and /usr boundry issues.)<br>
-</div></blockquote></div><br>What would be the fix for it? move dhclient on=
-to /usr/sbin?<br clear=3D"all"><div><br></div>-- <br>Otavio Salvador=A0 =A0=
- =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0O.S. Systems<br>E-mail:=
- <a href=3D"mailto:otavio@ossystems.com.br" target=3D"_blank">otavio@ossyst=
-ems.com.br</a>=A0 <a href=3D"http://www.ossystems.com.br" target=3D"_blank"=
->http://www.ossystems.com.br</a><br>
-Mobile: +55 53 9981-7854=A0 =A0 =A0 =A0=A0 =A0 =A0 =A0<a href=3D"http://pro=
-jetos.ossystems.com.br" target=3D"_blank">http://projetos.ossystems.com.br<=
-/a><br><br>
 
---90e6ba6153a8895d0704b865fb0f--
