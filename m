@@ -1,26 +1,26 @@
-Received: from mail-wi0-f175.google.com ([209.85.212.175])
+Received: from mga11.intel.com ([192.55.52.93])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <koen@dominion.thruhere.net>) id 1RusYQ-0002D1-Pk
+	(envelope-from <sgw@linux.intel.com>) id 1Rusc2-0002K5-LA
 	for openembedded-core@lists.openembedded.org;
-	Tue, 07 Feb 2012 22:26:22 +0100
-Received: by wibhq7 with SMTP id hq7so5587659wib.6
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 07 Feb 2012 13:18:20 -0800 (PST)
-Received: by 10.216.131.210 with SMTP id m60mr9527721wei.47.1328649500379;
-	Tue, 07 Feb 2012 13:18:20 -0800 (PST)
-Received: from [172.20.1.36] (ip545070eb.adsl-surfen.hetnet.nl.
-	[84.80.112.235])
-	by mx.google.com with ESMTPS id y6sm22534726wix.10.2012.02.07.13.18.19
-	(version=TLSv1/SSLv3 cipher=OTHER);
-	Tue, 07 Feb 2012 13:18:19 -0800 (PST)
-From: Koen Kooi <koen@dominion.thruhere.net>
-Date: Tue, 7 Feb 2012 22:18:15 +0100
-Message-Id: <DC6F4EDD-F0C5-4642-915F-5DA32D372ECD@dominion.thruhere.net>
+	Tue, 07 Feb 2012 22:30:06 +0100
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+	by fmsmga102.fm.intel.com with ESMTP; 07 Feb 2012 13:22:03 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="115204199"
+Received: from unknown (HELO [10.255.14.116]) ([10.255.14.116])
+	by fmsmga001.fm.intel.com with ESMTP; 07 Feb 2012 13:22:03 -0800
+Message-ID: <4F3195FB.20003@linux.intel.com>
+Date: Tue, 07 Feb 2012 13:22:03 -0800
+From: Saul Wold <sgw@linux.intel.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:9.0) Gecko/20111222 Thunderbird/9.0
+MIME-Version: 1.0
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Mime-Version: 1.0 (Apple Message framework v1251.1)
-X-Mailer: Apple Mail (2.1251.1)
-Subject: Expert track at yocto dev day?
+References: <DC6F4EDD-F0C5-4642-915F-5DA32D372ECD@dominion.thruhere.net>
+In-Reply-To: <DC6F4EDD-F0C5-4642-915F-5DA32D372ECD@dominion.thruhere.net>
+Cc: Koen Kooi <koen@dominion.thruhere.net>
+Subject: Re: Expert track at yocto dev day?
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -35,17 +35,30 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 07 Feb 2012 21:26:22 -0000
-Content-Type: text/plain; charset=us-ascii
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Tue, 07 Feb 2012 21:30:06 -0000
+Content-Type: text/plain; charset=ISO-8859-1; format=flowed
+Content-Transfer-Encoding: 7bit
 
-Hi,
+On 02/07/2012 01:18 PM, Koen Kooi wrote:
+> Hi,
+>
+> Do we have enough people present to do an expert track at the yocto dev days next week? I bet we can do a nice code sprint :)
+>
+Many of the experts will be working the dev days presenting, and sharing 
+during the advanced session (which may be doing some work)!  It was a 
+thought at one point.
 
-Do we have enough people present to do an expert track at the yocto dev =
-days next week? I bet we can do a nice code sprint :)
+Sau!
 
-regards,
 
-Koen=
+
+> regards,
+>
+> Koen
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
+>
 
 
