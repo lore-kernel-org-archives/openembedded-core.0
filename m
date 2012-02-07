@@ -1,35 +1,35 @@
-Received: from mail-gy0-f175.google.com ([209.85.160.175])
+Received: from mail-yw0-f47.google.com ([209.85.213.47])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <otavio.salvador@gmail.com>) id 1RusQR-0001tq-4f
+	(envelope-from <otavio.salvador@gmail.com>) id 1RusQR-0001u5-BS
 	for openembedded-core@lists.openembedded.org;
 	Tue, 07 Feb 2012 22:18:07 +0100
-Received: by mail-gy0-f175.google.com with SMTP id f19so3355799ghb.6
+Received: by yhfq46 with SMTP id q46so3160882yhf.6
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 07 Feb 2012 13:10:06 -0800 (PST)
+	Tue, 07 Feb 2012 13:10:04 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
 	h=sender:from:to:subject:date:message-id:x-mailer:in-reply-to
 	:references:in-reply-to:references;
-	bh=XurMgz6KB9WtKFPEaMSHCNofz05omW8MTdF28hZeg+k=;
-	b=vsmyGnEEa+jjI3h9BeOV1OvvI9YQUDrLgMHbNOgMSOVsph5p4bZkyDkDQJe77GWLgQ
-	jE3PGnqFqQNatv+yRdu1mxkxPPFauEN+FjEb7xxQVBHfEKqiLk7FsTWdEAp0zwB3OJ7l
-	2fMc/8yW53drRzurx8BriiCuVFBgv7YUHG5jo=
-Received: by 10.236.124.206 with SMTP id x54mr34439211yhh.112.1328649006616;
-	Tue, 07 Feb 2012 13:10:06 -0800 (PST)
+	bh=GJIXUhoDcrETffk08giq4tqlqTX88Pe8EUyggL9iVpw=;
+	b=WYroYnbXIH3c0wOxHrOQx0ChNMV49so/3UJITv7JdBWjn9S4AVzcYBdss/LzxC++8l
+	7eLU89L8T3/eHcZ7MOqVbblCnnXPy2Lp+0H0j4zdRk1Px0gs13v41nRyko0/hTCQB0/l
+	VgJBF372u3n2sVolQWYiUhSdMsDVyWhkOUdW4=
+Received: by 10.236.197.33 with SMTP id s21mr11774422yhn.40.1328649004496;
+	Tue, 07 Feb 2012 13:10:04 -0800 (PST)
 Received: from localhost.localdomain ([186.218.100.214])
-	by mx.google.com with ESMTPS id f47sm30150280yhh.8.2012.02.07.13.10.04
+	by mx.google.com with ESMTPS id f47sm30150280yhh.8.2012.02.07.13.10.02
 	(version=TLSv1/SSLv3 cipher=OTHER);
-	Tue, 07 Feb 2012 13:10:05 -0800 (PST)
+	Tue, 07 Feb 2012 13:10:03 -0800 (PST)
 Sender: Otavio Salvador <otavio.salvador@gmail.com>
 From: Otavio Salvador <otavio@ossystems.com.br>
 To: openembedded-core@lists.openembedded.org
-Date: Tue,  7 Feb 2012 21:09:50 +0000
-Message-Id: <3aaae21268883e5ebcc5373f99517045613ad102.1328648562.git.otavio@ossystems.com.br>
+Date: Tue,  7 Feb 2012 21:09:49 +0000
+Message-Id: <6907cafeb8297e1392f36c3c4023fabf1cb9190b.1328648562.git.otavio@ossystems.com.br>
 X-Mailer: git-send-email 1.7.2.5
 In-Reply-To: <cover.1328648562.git.otavio@ossystems.com.br>
 References: <cover.1328648562.git.otavio@ossystems.com.br>
 In-Reply-To: <cover.1328648562.git.otavio@ossystems.com.br>
 References: <cover.1328648562.git.otavio@ossystems.com.br>
-Subject: [PATCH 3/4] cross.bbclass: add virtclass handler
+Subject: [PATCH 2/4] udev: stop providing cache support by default
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -46,64 +46,42 @@ List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedde
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Tue, 07 Feb 2012 21:18:07 -0000
 
-Allow use of BBCLASSEXTEND with 'cross' and use of virtclass-cross in
-recipes.
+The usefulness of cache nowadays has been reduced a lot and thus it's
+better to stop using it by default. Dropping the recommends allows for
+image to decide if they want or not to have cache enabled, instead of
+require a machine override.
 
 Signed-off-by: Otavio Salvador <otavio@ossystems.com.br>
 ---
- meta/classes/cross.bbclass |   39 +++++++++++++++++++++++++++++++++++++++
- 1 files changed, 39 insertions(+), 0 deletions(-)
+ meta/recipes-core/udev/udev.inc    |    2 +-
+ meta/recipes-core/udev/udev_164.bb |    2 +-
+ 2 files changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/meta/classes/cross.bbclass b/meta/classes/cross.bbclass
-index 5681ab9..a764902 100644
---- a/meta/classes/cross.bbclass
-+++ b/meta/classes/cross.bbclass
-@@ -55,6 +55,45 @@ libexecdir = "${exec_prefix}/libexec/${CROSS_TARGET_SYS_DIR}"
+diff --git a/meta/recipes-core/udev/udev.inc b/meta/recipes-core/udev/udev.inc
+index e5fbe40..7949f22 100644
+--- a/meta/recipes-core/udev/udev.inc
++++ b/meta/recipes-core/udev/udev.inc
+@@ -12,7 +12,7 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=751419260aa954499f7abaabaa882bbe \
  
- do_populate_sysroot[sstate-inputdirs] = "${SYSROOT_DESTDIR}/${STAGING_DIR_NATIVE}"
+ DEPENDS = "acl glib-2.0 libusb usbutils pciutils gperf-native libxslt-native"
+ RPROVIDES_${PN} = "hotplug"
+-RRECOMMENDS_${PN} += "udev-extraconf udev-cache usbutils-ids pciutils-ids"
++RRECOMMENDS_${PN} += "udev-extraconf usbutils-ids pciutils-ids"
+ RDEPENDS_libudev = "${PN} (= ${EXTENDPKGV})"
  
-+python cross_virtclass_handler () {
-+    if not isinstance(e, bb.event.RecipePreFinalise):
-+        return
-+
-+    classextend = e.data.getVar('BBCLASSEXTEND', True) or ""
-+    if "cross" not in classextend:
-+        return
-+
-+    pn = e.data.getVar("PN", True)
-+    if not pn.endswith("-cross"):
-+        return
-+
-+    def map_dependencies(varname, d, suffix = ""):
-+        if suffix:
-+            varname = varname + "_" + suffix
-+        deps = d.getVar(varname, True)
-+        if not deps:
-+            return
-+        deps = bb.utils.explode_deps(deps)
-+        newdeps = []
-+        for dep in deps:
-+            if dep.endswith("-cross"):
-+                newdeps.append(dep)
-+            else:
-+                newdeps.append(dep + "-cross")
-+        bb.data.setVar(varname, " ".join(newdeps), d)
-+
-+    for pkg in (e.data.getVar("PACKAGES", True).split() + [""]):
-+        map_dependencies("RDEPENDS", e.data, pkg)
-+        map_dependencies("RRECOMMENDS", e.data, pkg)
-+        map_dependencies("RSUGGESTS", e.data, pkg)
-+        map_dependencies("RPROVIDES", e.data, pkg)
-+        map_dependencies("RREPLACES", e.data, pkg)
-+
-+    bb.data.setVar("OVERRIDES", e.data.getVar("OVERRIDES", False) + ":virtclass-cross", e.data)
-+}
-+
-+addhandler cross_virtclass_handler
-+
- do_install () {
- 	oe_runmake 'DESTDIR=${D}' install
- }
+ SRC_URI = "${KERNELORG_MIRROR}/linux/utils/kernel/hotplug/udev-${PV}.tar.gz \
+diff --git a/meta/recipes-core/udev/udev_164.bb b/meta/recipes-core/udev/udev_164.bb
+index 6d71f4d..b993a13 100644
+--- a/meta/recipes-core/udev/udev_164.bb
++++ b/meta/recipes-core/udev/udev_164.bb
+@@ -1,6 +1,6 @@
+ include udev.inc
+ 
+-PR = "r10"
++PR = "r11"
+ 
+ SRC_URI += "file://udev-166-v4l1-1.patch"
+ 
 -- 
 1.7.2.5
 
