@@ -1,35 +1,35 @@
-Received: from mail-yx0-f175.google.com ([209.85.213.175])
+Received: from mail-gy0-f175.google.com ([209.85.160.175])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <otavio.salvador@gmail.com>) id 1RusQO-0001ts-SI
+	(envelope-from <otavio.salvador@gmail.com>) id 1RusQR-0001tq-4f
 	for openembedded-core@lists.openembedded.org;
-	Tue, 07 Feb 2012 22:18:05 +0100
-Received: by yenr5 with SMTP id r5so3087870yen.6
+	Tue, 07 Feb 2012 22:18:07 +0100
+Received: by mail-gy0-f175.google.com with SMTP id f19so3355799ghb.6
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 07 Feb 2012 13:10:02 -0800 (PST)
+	Tue, 07 Feb 2012 13:10:06 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
 	h=sender:from:to:subject:date:message-id:x-mailer:in-reply-to
 	:references:in-reply-to:references;
-	bh=2w8n72xtpjwBYmISeDdgBacyPDxHJJ5cvJGFtlSt04I=;
-	b=LwrcMU0eN1ZHmrZiqCQYMwJzA3Ooke2JIv3EEFG/BxIy+JrL3LMJ1vnmnnpnUNu/u9
-	s7TmJk72UFiyNzHot1NeZXymKWM32ci+geH6ltKvar2Xm8rKl+0lJ+TTttOU23s8uF2d
-	Xaoz9Y39y1BtWzMMntjxcwCgRuf9cVeLoN16Q=
-Received: by 10.236.191.134 with SMTP id g6mr33795056yhn.95.1328649002017;
-	Tue, 07 Feb 2012 13:10:02 -0800 (PST)
+	bh=XurMgz6KB9WtKFPEaMSHCNofz05omW8MTdF28hZeg+k=;
+	b=vsmyGnEEa+jjI3h9BeOV1OvvI9YQUDrLgMHbNOgMSOVsph5p4bZkyDkDQJe77GWLgQ
+	jE3PGnqFqQNatv+yRdu1mxkxPPFauEN+FjEb7xxQVBHfEKqiLk7FsTWdEAp0zwB3OJ7l
+	2fMc/8yW53drRzurx8BriiCuVFBgv7YUHG5jo=
+Received: by 10.236.124.206 with SMTP id x54mr34439211yhh.112.1328649006616;
+	Tue, 07 Feb 2012 13:10:06 -0800 (PST)
 Received: from localhost.localdomain ([186.218.100.214])
-	by mx.google.com with ESMTPS id f47sm30150280yhh.8.2012.02.07.13.10.00
+	by mx.google.com with ESMTPS id f47sm30150280yhh.8.2012.02.07.13.10.04
 	(version=TLSv1/SSLv3 cipher=OTHER);
-	Tue, 07 Feb 2012 13:10:01 -0800 (PST)
+	Tue, 07 Feb 2012 13:10:05 -0800 (PST)
 Sender: Otavio Salvador <otavio.salvador@gmail.com>
 From: Otavio Salvador <otavio@ossystems.com.br>
 To: openembedded-core@lists.openembedded.org
-Date: Tue,  7 Feb 2012 21:09:48 +0000
-Message-Id: <f3c82bbf545c086ccd89c06020f8721637fe9202.1328648562.git.otavio@ossystems.com.br>
+Date: Tue,  7 Feb 2012 21:09:50 +0000
+Message-Id: <3aaae21268883e5ebcc5373f99517045613ad102.1328648562.git.otavio@ossystems.com.br>
 X-Mailer: git-send-email 1.7.2.5
 In-Reply-To: <cover.1328648562.git.otavio@ossystems.com.br>
 References: <cover.1328648562.git.otavio@ossystems.com.br>
 In-Reply-To: <cover.1328648562.git.otavio@ossystems.com.br>
 References: <cover.1328648562.git.otavio@ossystems.com.br>
-Subject: [PATCH 1/4] dhcp: move dhcp leases files handling to postinst/postrm
+Subject: [PATCH 3/4] cross.bbclass: add virtclass handler
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -44,70 +44,66 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 07 Feb 2012 21:18:05 -0000
+X-List-Received-Date: Tue, 07 Feb 2012 21:18:07 -0000
 
-Both server and client needs access to leases files so its creation
-and removal are now handled by postinst/postrm scripts.
+Allow use of BBCLASSEXTEND with 'cross' and use of virtclass-cross in
+recipes.
 
 Signed-off-by: Otavio Salvador <otavio@ossystems.com.br>
 ---
- meta/recipes-connectivity/dhcp/dhcp.inc      |   25 ++++++++++++++++++++++++-
- meta/recipes-connectivity/dhcp/dhcp_4.2.0.bb |    2 +-
- 2 files changed, 25 insertions(+), 2 deletions(-)
+ meta/classes/cross.bbclass |   39 +++++++++++++++++++++++++++++++++++++++
+ 1 files changed, 39 insertions(+), 0 deletions(-)
 
-diff --git a/meta/recipes-connectivity/dhcp/dhcp.inc b/meta/recipes-connectivity/dhcp/dhcp.inc
-index be256ce..f66dfba 100644
---- a/meta/recipes-connectivity/dhcp/dhcp.inc
-+++ b/meta/recipes-connectivity/dhcp/dhcp.inc
-@@ -66,12 +66,35 @@ FILES_dhcp-server-config = "${sysconfdir}/default/dhcp-server ${sysconfdir}/dhcp
+diff --git a/meta/classes/cross.bbclass b/meta/classes/cross.bbclass
+index 5681ab9..a764902 100644
+--- a/meta/classes/cross.bbclass
++++ b/meta/classes/cross.bbclass
+@@ -55,6 +55,45 @@ libexecdir = "${exec_prefix}/libexec/${CROSS_TARGET_SYS_DIR}"
  
- FILES_dhcp-relay = "${sbindir}/dhcrelay ${sysconfdir}/init.d/dhcp-relay ${sysconfdir}/default/dhcp-relay"
+ do_populate_sysroot[sstate-inputdirs] = "${SYSROOT_DESTDIR}/${STAGING_DIR_NATIVE}"
  
--FILES_dhcp-client = "${base_sbindir}/dhclient ${base_sbindir}/dhclient-script ${sysconfdir}/dhcp/dhclient.conf ${localstatedir}/lib/dhcp/"
-+FILES_dhcp-client = "${base_sbindir}/dhclient ${base_sbindir}/dhclient-script ${sysconfdir}/dhcp/dhclient.conf"
- RDEPENDS_dhcp-client = "bash"
- 
- FILES_dhcp-omshell = "${bindir}/omshell"
- 
- pkg_postinst_dhcp-server() {
-+    mkdir -p $D/${localstatedir}/lib/dhcp
-     touch $D/${localstatedir}/lib/dhcp/dhcpd.leases
-     touch $D/${localstatedir}/lib/dhcp/dhcpd6.leases
++python cross_virtclass_handler () {
++    if not isinstance(e, bb.event.RecipePreFinalise):
++        return
++
++    classextend = e.data.getVar('BBCLASSEXTEND', True) or ""
++    if "cross" not in classextend:
++        return
++
++    pn = e.data.getVar("PN", True)
++    if not pn.endswith("-cross"):
++        return
++
++    def map_dependencies(varname, d, suffix = ""):
++        if suffix:
++            varname = varname + "_" + suffix
++        deps = d.getVar(varname, True)
++        if not deps:
++            return
++        deps = bb.utils.explode_deps(deps)
++        newdeps = []
++        for dep in deps:
++            if dep.endswith("-cross"):
++                newdeps.append(dep)
++            else:
++                newdeps.append(dep + "-cross")
++        bb.data.setVar(varname, " ".join(newdeps), d)
++
++    for pkg in (e.data.getVar("PACKAGES", True).split() + [""]):
++        map_dependencies("RDEPENDS", e.data, pkg)
++        map_dependencies("RRECOMMENDS", e.data, pkg)
++        map_dependencies("RSUGGESTS", e.data, pkg)
++        map_dependencies("RPROVIDES", e.data, pkg)
++        map_dependencies("RREPLACES", e.data, pkg)
++
++    bb.data.setVar("OVERRIDES", e.data.getVar("OVERRIDES", False) + ":virtclass-cross", e.data)
++}
++
++addhandler cross_virtclass_handler
++
+ do_install () {
+ 	oe_runmake 'DESTDIR=${D}' install
  }
-+
-+pkg_postinst_dhcp-client() {
-+    mkdir -p $D/${localstatedir}/lib/dhcp
-+}
-+
-+pkg_postrm_dhcp-server() {
-+    rm -f $D/${localstatedir}/lib/dhcp/dhcpd.leases
-+    rm -f $D/${localstatedir}/lib/dhcp/dhcpd6.leases
-+
-+    if ! rmdir $D/${localstatedir}/lib/dhcp 2>/dev/null; then
-+        echo "Not removing ${localstatedir}/lib/dhcp as it is non-empty."
-+    fi
-+}
-+
-+pkg_postrm_dhcp-client() {
-+    rm -f $D/${localstatedir}/lib/dhcp/dhclient.leases
-+    rm -f $D/${localstatedir}/lib/dhcp/dhclient6.leases
-+
-+    if ! rmdir $D/${localstatedir}/lib/dhcp 2>/dev/null; then
-+        echo "Not removing ${localstatedir}/lib/dhcp as it is non-empty."
-+    fi
-+}
-diff --git a/meta/recipes-connectivity/dhcp/dhcp_4.2.0.bb b/meta/recipes-connectivity/dhcp/dhcp_4.2.0.bb
-index a3a560b..3b1c0e2 100644
---- a/meta/recipes-connectivity/dhcp/dhcp_4.2.0.bb
-+++ b/meta/recipes-connectivity/dhcp/dhcp_4.2.0.bb
-@@ -1,6 +1,6 @@
- require dhcp.inc
- 
--PR = "r5"
-+PR = "r7"
- 
- SRC_URI += "file://fixincludes.patch \
-             file://dhcp-3.0.3-dhclient-dbus.patch;striplevel=0 \
 -- 
 1.7.2.5
 
