@@ -1,35 +1,26 @@
-Received: from mail-gy0-f175.google.com ([209.85.160.175])
+Received: from mail-wi0-f175.google.com ([209.85.212.175])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <otavio.salvador@gmail.com>) id 1RusQT-0001tq-Ce
+	(envelope-from <koen@dominion.thruhere.net>) id 1RusYQ-0002D1-Pk
 	for openembedded-core@lists.openembedded.org;
-	Tue, 07 Feb 2012 22:18:09 +0100
-Received: by mail-gy0-f175.google.com with SMTP id f19so3355799ghb.6
+	Tue, 07 Feb 2012 22:26:22 +0100
+Received: by wibhq7 with SMTP id hq7so5587659wib.6
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 07 Feb 2012 13:10:08 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
-	h=sender:from:to:subject:date:message-id:x-mailer:in-reply-to
-	:references:in-reply-to:references;
-	bh=SPZGb9N2jYZUsf9pf9vO8TtAFR3eHFop2l3nJHJlRCg=;
-	b=xAFIntesvBHdFPQpn8W7BvB1YrQRhRo/shhapldqqi5Hcbgvtyekk7ViYcUNdHbkpP
-	KLDxCeSsdsq/Rn7Fh3PztdrxO9z+RoFY/bACyCKknBLoH4bKjJ1nq2ZjEzOK7EVY28lt
-	JtllXqZNxbiebrXSQS4SWXhaKhPDcsrf+3cM4=
-Received: by 10.236.197.33 with SMTP id s21mr11774685yhn.40.1328649008868;
-	Tue, 07 Feb 2012 13:10:08 -0800 (PST)
-Received: from localhost.localdomain ([186.218.100.214])
-	by mx.google.com with ESMTPS id f47sm30150280yhh.8.2012.02.07.13.10.06
+	Tue, 07 Feb 2012 13:18:20 -0800 (PST)
+Received: by 10.216.131.210 with SMTP id m60mr9527721wei.47.1328649500379;
+	Tue, 07 Feb 2012 13:18:20 -0800 (PST)
+Received: from [172.20.1.36] (ip545070eb.adsl-surfen.hetnet.nl.
+	[84.80.112.235])
+	by mx.google.com with ESMTPS id y6sm22534726wix.10.2012.02.07.13.18.19
 	(version=TLSv1/SSLv3 cipher=OTHER);
-	Tue, 07 Feb 2012 13:10:07 -0800 (PST)
-Sender: Otavio Salvador <otavio.salvador@gmail.com>
-From: Otavio Salvador <otavio@ossystems.com.br>
-To: openembedded-core@lists.openembedded.org
-Date: Tue,  7 Feb 2012 21:09:51 +0000
-Message-Id: <981ec1c0249fee08b2536b2bdf4a3bc93c0f3171.1328648562.git.otavio@ossystems.com.br>
-X-Mailer: git-send-email 1.7.2.5
-In-Reply-To: <cover.1328648562.git.otavio@ossystems.com.br>
-References: <cover.1328648562.git.otavio@ossystems.com.br>
-In-Reply-To: <cover.1328648562.git.otavio@ossystems.com.br>
-References: <cover.1328648562.git.otavio@ossystems.com.br>
-Subject: [PATCH 4/4] useradd.bbclass: skip processing on virtclass-cross extended packages
+	Tue, 07 Feb 2012 13:18:19 -0800 (PST)
+From: Koen Kooi <koen@dominion.thruhere.net>
+Date: Tue, 7 Feb 2012 22:18:15 +0100
+Message-Id: <DC6F4EDD-F0C5-4642-915F-5DA32D372ECD@dominion.thruhere.net>
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Mime-Version: 1.0 (Apple Message framework v1251.1)
+X-Mailer: Apple Mail (2.1251.1)
+Subject: Expert track at yocto dev day?
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -44,40 +35,17 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 07 Feb 2012 21:18:09 -0000
+X-List-Received-Date: Tue, 07 Feb 2012 21:26:22 -0000
+Content-Type: text/plain; charset=us-ascii
+Content-Transfer-Encoding: quoted-printable
 
-Signed-off-by: Otavio Salvador <otavio@ossystems.com.br>
----
- meta/classes/useradd.bbclass |    3 +++
- 1 files changed, 3 insertions(+), 0 deletions(-)
+Hi,
 
-diff --git a/meta/classes/useradd.bbclass b/meta/classes/useradd.bbclass
-index 8eb6444..1fed755 100644
---- a/meta/classes/useradd.bbclass
-+++ b/meta/classes/useradd.bbclass
-@@ -3,6 +3,7 @@
- # and support files needed to add and modify user and group accounts
- DEPENDS_append = "${USERADDDEPENDS}"
- USERADDDEPENDS = " base-passwd shadow-native shadow-sysroot shadow"
-+USERADDDEPENDS_virtclass-cross = ""
- USERADDDEPENDS_virtclass-native = ""
- USERADDDEPENDS_virtclass-nativesdk = ""
- 
-@@ -104,10 +105,12 @@ useradd_sysroot_sstate () {
- 
- do_install[prefuncs] += "${SYSROOTFUNC}"
- SYSROOTFUNC = "useradd_sysroot"
-+SYSROOTFUNC_virtclass-cross = ""
- SYSROOTFUNC_virtclass-native = ""
- SYSROOTFUNC_virtclass-nativesdk = ""
- SSTATEPREINSTFUNCS += "${SYSROOTPOSTFUNC}"
- SYSROOTPOSTFUNC = "useradd_sysroot_sstate"
-+SYSROOTPOSTFUNC_virtclass-cross = ""
- SYSROOTPOSTFUNC_virtclass-native = ""
- SYSROOTPOSTFUNC_virtclass-nativesdk = ""
- 
--- 
-1.7.2.5
+Do we have enough people present to do an expert track at the yocto dev =
+days next week? I bet we can do a nice code sprint :)
 
+regards,
+
+Koen=
 
 
