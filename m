@@ -1,32 +1,20 @@
-Received: from mga06.intel.com ([134.134.136.21] helo=orsmga101.jf.intel.com)
+Received: from mga01.intel.com ([192.55.52.88])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <saul.wold@intel.com>) id 1Rv3gx-000775-Cg
+	(envelope-from <sgw@linux.intel.com>) id 1Rv3jj-0007E0-GT
 	for openembedded-core@lists.openembedded.org;
-	Wed, 08 Feb 2012 10:19:55 +0100
-Received: from mail-iy0-f180.google.com ([209.85.210.180])
-	by mga02.intel.com with ESMTP/TLS/RC4-SHA; 08 Feb 2012 01:11:50 -0800
-Received: by iabz7 with SMTP id z7so669352iab.25
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 08 Feb 2012 01:11:50 -0800 (PST)
-Received: by 10.50.179.6 with SMTP id dc6mr26206770igc.15.1328692310165;
-	Wed, 08 Feb 2012 01:11:50 -0800 (PST)
-Received: from [10.6.18.245] (c-71-193-189-117.hsd1.wa.comcast.net.
-	[71.193.189.117])
-	by mx.google.com with ESMTPS id ub10sm25742992igb.7.2012.02.08.01.11.47
-	(version=SSLv3 cipher=OTHER); Wed, 08 Feb 2012 01:11:49 -0800 (PST)
-Message-ID: <4F323C52.8030304@intel.com>
-Date: Wed, 08 Feb 2012 01:11:46 -0800
-From: Saul Wold <saul.wold@intel.com>
-Organization: Intel
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:9.0) Gecko/20111222 Thunderbird/9.0
-MIME-Version: 1.0
-To: Richard Purdie <richard.purdie@linuxfoundation.org>, 
-	Yocto Project Discussion <yocto@yoctoproject.org>,
-	'Patches and discussions about the oe-core layer'
-	<openembedded-core@lists.openembedded.org>
-Cc: "Stewart, David C" <david.c.stewart@intel.com>
-Subject: Upstream-Status finally @ 100%
+	Wed, 08 Feb 2012 10:22:47 +0100
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+	by fmsmga101.fm.intel.com with ESMTP; 08 Feb 2012 01:14:43 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="115371623"
+Received: from unknown (HELO swold-mobl.bigsur.com) ([10.255.14.241])
+	by fmsmga001.fm.intel.com with ESMTP; 08 Feb 2012 01:14:43 -0800
+From: Saul Wold <sgw@linux.intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Wed,  8 Feb 2012 01:14:43 -0800
+Message-Id: <1328692483-4398-1-git-send-email-sgw@linux.intel.com>
+X-Mailer: git-send-email 1.7.6.5
+Subject: [PATCH] task-core-tools-profile: fix valgrind for arm and systemtap for mips
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -41,32 +29,35 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 08 Feb 2012 09:19:56 -0000
-Content-Type: text/plain; charset=ISO-8859-1; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Wed, 08 Feb 2012 09:22:48 -0000
 
+Signed-off-by: Saul Wold <sgw@linux.intel.com>
+---
+ meta/recipes-core/tasks/task-core-tools-profile.bb |    2 ++
+ 1 files changed, 2 insertions(+), 0 deletions(-)
 
-We finally did it!
-
-After getting some final patches yesterday, we made it to 100% with 
-patch Upsteam-Status.
-
-Total Patches Files: 1243
-All Upstream-Status: 1243
-Fix Upstream-Status: 0
-Need Upstream-Status: 0
-Pending Upstream-Status: 461
-
-This means we have 461 patches to now work their way into the Upstream
-communities.
-
-Let's work to maintain this, I will be watching incoming patches and 
-using a check script to verify that patches have Upstream-Status.
-
-Thanks to all those people who worked to get Upstream-Status into their 
-patches.
-
-Sau!
+diff --git a/meta/recipes-core/tasks/task-core-tools-profile.bb b/meta/recipes-core/tasks/task-core-tools-profile.bb
+index 254d3f5..30776ef 100644
+--- a/meta/recipes-core/tasks/task-core-tools-profile.bb
++++ b/meta/recipes-core/tasks/task-core-tools-profile.bb
+@@ -37,6 +37,7 @@ PROFILETOOLS = "\
+ # hence we exclude it from uclibc based builds
+ SYSTEMTAP = "systemtap"
+ SYSTEMTAP_libc-uclibc = ""
++SYSTEMTAP_mips = ""
+ 
+ # lttng-ust uses sched_getcpu() which is not there on uclibc
+ # for some of the architectures it can be patched to call the
+@@ -53,6 +54,7 @@ LTTNGUST_mips = ""
+ VALGRIND = "valgrind"
+ VALGRIND_libc-uclibc = ""
+ VALGRIND_mips = ""
++VALGRIND_arm = ""
+ 
+ #    exmap-console
+ #    exmap-server
+-- 
+1.7.6.5
 
 
 
