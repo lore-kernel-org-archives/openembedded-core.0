@@ -1,35 +1,26 @@
-Received: from mail-yw0-f47.google.com ([209.85.213.47])
+Received: from smtpout.karoo.kcom.com ([212.50.160.34])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <otavio.salvador@gmail.com>) id 1Rv6ha-0007F5-SS
+	(envelope-from <mac@mcrowe.com>) id 1Rv6lk-0007Tg-JW
 	for openembedded-core@lists.openembedded.org;
-	Wed, 08 Feb 2012 13:32:47 +0100
-Received: by yhfq46 with SMTP id q46so169822yhf.6
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 08 Feb 2012 04:24:43 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
-	h=sender:from:to:subject:date:message-id:x-mailer:in-reply-to
-	:references:in-reply-to:references;
-	bh=SPZGb9N2jYZUsf9pf9vO8TtAFR3eHFop2l3nJHJlRCg=;
-	b=GPoSKDwNq4lI4oxi1q0bdLVfw5ZKywTO9AWQnt2CvDVwRBpusyD9zHZ8Ruk5xMwNLN
-	BkSNeh38KZqAhE8I/Kc5SjtunDpS6lFGCxkoLqNorcps5WBQa61bhsCJHT5PE2ltp7BS
-	Ts1NuUTgBbyOgyem6IrdlaFoDp+S4j+p/fwVU=
-Received: by 10.236.161.103 with SMTP id v67mr36265394yhk.87.1328703777794;
-	Wed, 08 Feb 2012 04:22:57 -0800 (PST)
-Received: from localhost.localdomain ([186.218.100.214])
-	by mx.google.com with ESMTPS id b12sm1695032yhj.4.2012.02.08.04.22.56
-	(version=TLSv1/SSLv3 cipher=OTHER);
-	Wed, 08 Feb 2012 04:22:57 -0800 (PST)
-Sender: Otavio Salvador <otavio.salvador@gmail.com>
-From: Otavio Salvador <otavio@ossystems.com.br>
-To: openembedded-core@lists.openembedded.org
-Date: Wed,  8 Feb 2012 12:22:45 +0000
-Message-Id: <bc276cb5a459c130387d0cb2154d34e5864cbdd1.1328703672.git.otavio@ossystems.com.br>
-X-Mailer: git-send-email 1.7.2.5
-In-Reply-To: <cover.1328703672.git.otavio@ossystems.com.br>
-References: <cover.1328703672.git.otavio@ossystems.com.br>
-In-Reply-To: <cover.1328703672.git.otavio@ossystems.com.br>
-References: <cover.1328703672.git.otavio@ossystems.com.br>
-Subject: [PATCH 2/2] useradd.bbclass: skip processing on virtclass-cross extended packages
+	Wed, 08 Feb 2012 13:37:04 +0100
+X-IronPort-AV: E=Sophos;i="4.73,383,1325462400"; d="scan'208";a="593751338"
+Received: from deneb.mcrowe.com ([82.152.148.4])
+	by smtpout.karoo.kcom.com with ESMTP; 08 Feb 2012 12:29:00 +0000
+Received: from mac by deneb.mcrowe.com with local (Exim 4.72)
+	(envelope-from <mac@mcrowe.com>) id 1Rv6dw-0003Ad-VW
+	for openembedded-core@lists.openembedded.org;
+	Wed, 08 Feb 2012 12:29:00 +0000
+Date: Wed, 8 Feb 2012 12:29:00 +0000
+From: Mike Crowe <mac@mcrowe.com>
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Message-ID: <20120208122900.GA11658@mcrowe.com>
+References: <1321488805.18905.5.camel@ted> <20120207103141.GA30500@mcrowe.com>
+	<20120207224728.GB13125@sakrah.homelinux.org>
+MIME-Version: 1.0
+In-Reply-To: <20120207224728.GB13125@sakrah.homelinux.org>
+User-Agent: Mutt/1.5.20 (2009-06-14)
+Subject: Re: [PATCH] libtool-cross: Upbreak and actually use more of it
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -44,40 +35,117 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 08 Feb 2012 12:32:47 -0000
+X-List-Received-Date: Wed, 08 Feb 2012 12:37:04 -0000
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-Signed-off-by: Otavio Salvador <otavio@ossystems.com.br>
----
- meta/classes/useradd.bbclass |    3 +++
- 1 files changed, 3 insertions(+), 0 deletions(-)
+On Tue, Feb 07, 2012 at 02:47:28PM -0800, Khem Raj wrote:
+> On (07/02/12 10:31), Mike Crowe wrote:
+> > On Thu, Nov 17, 2011 at 12:13:25AM +0000, Richard Purdie wrote:
+> > > We should be using libtool-cross for cross compiling but
+> > > were not. This patch sets datadir so libtoolize ends up
+> > > containing correct paths. It then installs libtoolize.
+> > 
+> > I have a recipe that no longer works after this (or perhaps the other
+> > changes Richard mentions later in the thread.) It's a pretty
+> > straightforward recipe that inherits from autotools. Judging by the
+> > number of warnings from autoconf the package was probably expecting an
+> > older version of automake/autoconf. The configure task fails with:
+> > 
+> >  libtoolize: `config/compile' not found in `/home/mac/src/oe/build/tmp-eglibc/sysroots/panther/usr/share/libtool'
+> > 
+> > (continued inside patch)
+> > 
+> > > The path ltmain.sh was installed to was incorrect and this is fixed.
+> > > 
+> > > We also now install all the libtool m4 macros.
+> > > 
+> > > Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+> > > ---
+> > > diff --git a/meta/recipes-devtools/libtool/libtool-cross_2.4.bb b/meta/recipes-devtools/libtool/libtool-cross_2.4.bb
+> > > index 596528a..4e6e3f2 100644
+> > > --- a/meta/recipes-devtools/libtool/libtool-cross_2.4.bb
+> > > +++ b/meta/recipes-devtools/libtool/libtool-cross_2.4.bb
+> > > @@ -1,10 +1,13 @@
+> > >  require libtool-${PV}.inc
+> > >  
+> > > -PR = "r5"
+> > > +PR = "r7"
+> > >  PACKAGES = ""
+> > >  SRC_URI += "file://prefix.patch"
+> > >  SRC_URI += "file://fixinstall.patch"
+> > >  
+> > > +target_datadir := "${datadir}"
+> > > +datadir = "${STAGING_DIR_TARGET}${target_datadir}"
+> > > +
+> > >  do_configure_prepend () {
+> > >  	# Remove any existing libtool m4 since old stale versions would break
+> > >  	# any upgrade
+> > > @@ -13,20 +16,21 @@ do_configure_prepend () {
+> > >  }
+> > >  
+> > >  do_install () {
+> > > -	install -d ${D}${bindir}/
+> > > -	install -m 0755 ${HOST_SYS}-libtool ${D}${bindir}/${HOST_SYS}-libtool
+> > > -	install -d ${D}${datadir}/libtool/
+> > > -	install -d ${D}${datadir}/aclocal/
+> > > -	install -c ${S}/libltdl/config/config.guess ${D}${datadir}/libtool/
+> > > -	install -c ${S}/libltdl/config/config.sub ${D}${datadir}/libtool/
+> > > -	install -c -m 0644 ${S}/libltdl/config/ltmain.sh ${D}${datadir}/libtool/
+> > > -	install -c -m 0644 ${S}/libltdl/m4/libtool.m4 ${D}${datadir}/aclocal/
+> > > -	install -c -m 0644 ${S}/libltdl/m4/ltdl.m4 ${D}${datadir}/aclocal/
+> > > +	install -d ${D}${bindir_crossscripts}/
+> > > +	install -m 0755 ${HOST_SYS}-libtool ${D}${bindir_crossscripts}/${HOST_SYS}-libtool
+> > > +	install -d ${D}${bindir_crossscripts}/
+> > > +	install -m 0755 libtoolize ${D}${bindir_crossscripts}/
+> > > +	install -d ${D}${target_datadir}/libtool/config/
+> > > +	install -d ${D}${target_datadir}/aclocal/
+> > > +	install -c ${S}/libltdl/config/config.guess ${D}${target_datadir}/libtool/
+> > > +	install -c ${S}/libltdl/config/config.sub ${D}${target_datadir}/libtool/
+> > 
+> > If I also install "compile", "depcomp" and "missing" here then this
+> > solves the immediate problem but then it looks like I also need to add
+> > "COPYING.LIB" and probably many other files to
+> > ${D}{$target_datadir}/libtool/libltdl too which leads me to think that
+> > I'm swimming against the tide and might be going about this the wrong
+> > way. Is this the correct approach? If so why not just call "make
+> > install" rather than installing everything by hand?
+> 
+> can you just try oe_runmake DESTDIR=${D} install ?
+> you might need to do some extra bits in there but that can be done
+> additionally
 
-diff --git a/meta/classes/useradd.bbclass b/meta/classes/useradd.bbclass
-index 8eb6444..1fed755 100644
---- a/meta/classes/useradd.bbclass
-+++ b/meta/classes/useradd.bbclass
-@@ -3,6 +3,7 @@
- # and support files needed to add and modify user and group accounts
- DEPENDS_append = "${USERADDDEPENDS}"
- USERADDDEPENDS = " base-passwd shadow-native shadow-sysroot shadow"
-+USERADDDEPENDS_virtclass-cross = ""
- USERADDDEPENDS_virtclass-native = ""
- USERADDDEPENDS_virtclass-nativesdk = ""
- 
-@@ -104,10 +105,12 @@ useradd_sysroot_sstate () {
- 
- do_install[prefuncs] += "${SYSROOTFUNC}"
- SYSROOTFUNC = "useradd_sysroot"
-+SYSROOTFUNC_virtclass-cross = ""
- SYSROOTFUNC_virtclass-native = ""
- SYSROOTFUNC_virtclass-nativesdk = ""
- SSTATEPREINSTFUNCS += "${SYSROOTPOSTFUNC}"
- SYSROOTPOSTFUNC = "useradd_sysroot_sstate"
-+SYSROOTPOSTFUNC_virtclass-cross = ""
- SYSROOTPOSTFUNC_virtclass-native = ""
- SYSROOTPOSTFUNC_virtclass-nativesdk = ""
- 
--- 
-1.7.2.5
+I replaced the whole of do_install with your suggestion and my package
+now configures and compiles successfully.
 
+I'll try a complete build from clean to see if the change causes any
+other problems for me. If it does not should I submit a patch for this
+change?
+
+Thanks for your help.
+
+Mike.
+
+> > > +	install -c -m 0644 ${S}/libltdl/config/ltmain.sh ${D}${target_datadir}/libtool/config/
+> > > +	install -c -m 0644 ${S}/libltdl/m4/*.m4 ${D}${target_datadir}/aclocal/
+> > >  }
+> > >  
+> > >  SYSROOT_PREPROCESS_FUNCS += "libtoolcross_sysroot_preprocess"
+> > >  
+> > >  libtoolcross_sysroot_preprocess () {
+> > > -	install -d ${SYSROOT_DESTDIR}${bindir_crossscripts}
+> > > -	install -m 755 ${D}${bindir}/${HOST_SYS}-libtool ${SYSROOT_DESTDIR}${bindir_crossscripts}/${HOST_SYS}-libtool
+> > > +	sysroot_stage_dir ${D}${bindir_crossscripts} ${SYSROOT_DESTDIR}${bindir_crossscripts}
+> > > +	sysroot_stage_dir ${D}${target_datadir} ${SYSROOT_DESTDIR}${target_datadir}
+> > >  }
+> > 
+> > TIA
+> > 
+> > Mike.
+> > 
+> > _______________________________________________
+> > Openembedded-core mailing list
+> > Openembedded-core@lists.openembedded.org
+> > http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
 
 
