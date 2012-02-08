@@ -1,35 +1,31 @@
-Received: from mail-ee0-f47.google.com ([74.125.83.47])
+Received: from mail-qy0-f175.google.com ([209.85.216.175])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <otavio.salvador@gmail.com>) id 1RvCfD-0006OG-78
+	(envelope-from <andrei@gherzan.ro>) id 1RvCsN-0006zj-Tm
 	for openembedded-core@lists.openembedded.org;
-	Wed, 08 Feb 2012 19:54:43 +0100
-Received: by eekd41 with SMTP id d41so240771eek.6
+	Wed, 08 Feb 2012 20:08:20 +0100
+Received: by qcso7 with SMTP id o7so491874qcs.6
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 08 Feb 2012 10:46:39 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
-	h=mime-version:sender:in-reply-to:references:date
-	:x-google-sender-auth:message-id:subject:from:to:content-type;
-	bh=r1N5QfFiKDvezvqcCL5NaIeg+APGRSe3nZPXhjSsCLY=;
-	b=XDI14T4qSNeFBuu0H/cQ/UebscEmokGZYh6Imsy4lV5bin2BUGkh/v8Pvcy5Q9KxP3
-	bOEAy05U+bSUB5AdbZUFlUjWyhNYhSCKjJj4Z4CexLfrVamWbHA9pW8PALCWs5d7pGi9
-	m5sOvEv2M6DhQBsQFJDA0av9dMlkiS26Dw2Zk=
+	Wed, 08 Feb 2012 11:00:16 -0800 (PST)
+Received: by 10.224.205.71 with SMTP id fp7mr22274667qab.27.1328727615968;
+	Wed, 08 Feb 2012 11:00:15 -0800 (PST)
+Received: from [128.224.170.202] ([89.121.200.106])
+	by mx.google.com with ESMTPS id hk9sm325680qab.20.2012.02.08.11.00.13
+	(version=SSLv3 cipher=OTHER); Wed, 08 Feb 2012 11:00:14 -0800 (PST)
+Message-ID: <4F32C642.8030408@gherzan.ro>
+Date: Wed, 08 Feb 2012 21:00:18 +0200
+From: Andrei Gherzan <andrei@gherzan.ro>
+User-Agent: Mozilla/5.0 (X11; Linux i686;
+	rv:9.0) Gecko/20111229 Thunderbird/9.0
 MIME-Version: 1.0
-Received: by 10.14.53.74 with SMTP id f50mr9026698eec.5.1328726799703; Wed, 08
-	Feb 2012 10:46:39 -0800 (PST)
-Sender: otavio.salvador@gmail.com
-Received: by 10.14.96.129 with HTTP; Wed, 8 Feb 2012 10:46:39 -0800 (PST)
-In-Reply-To: <4F32C1A6.70402@gherzan.ro>
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
 References: <1328717200-13689-1-git-send-email-andrei@gherzan.ro>
 	<1328717410.14363.46.camel@phil-desktop>
 	<CAP9ODKqUo7qazvdbWxQB_bQh3jpf+Uf=kf1YVp=Y-oB6QQYGGQ@mail.gmail.com>
 	<1328720440.14363.56.camel@phil-desktop>
 	<4F32C1A6.70402@gherzan.ro>
-Date: Wed, 8 Feb 2012 16:46:39 -0200
-X-Google-Sender-Auth: YZFyMwVce_qy6Do2qHTmZbDomRY
-Message-ID: <CAP9ODKqaWXbWMx7WRgDEDfqpWM1YPEhbPG_V93mYtd_QVqQJ1g@mail.gmail.com>
-From: Otavio Salvador <otavio@ossystems.com.br>
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
+	<CAP9ODKqaWXbWMx7WRgDEDfqpWM1YPEhbPG_V93mYtd_QVqQJ1g@mail.gmail.com>
+In-Reply-To: <CAP9ODKqaWXbWMx7WRgDEDfqpWM1YPEhbPG_V93mYtd_QVqQJ1g@mail.gmail.com>
 Subject: Re: [PATCH] dhcp: Update to 4.2.3-P2
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
@@ -45,52 +41,77 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 08 Feb 2012 18:54:43 -0000
-Content-Type: multipart/alternative; boundary=90e6ba6150c6e65e4604b878506a
+X-List-Received-Date: Wed, 08 Feb 2012 19:08:20 -0000
+Content-Type: multipart/alternative;
+	boundary="------------060608030105090102090207"
 
---90e6ba6150c6e65e4604b878506a
-Content-Type: text/plain; charset=ISO-8859-1
+--------------060608030105090102090207
+Content-Type: text/plain; charset=ISO-8859-1; format=flowed
+Content-Transfer-Encoding: 7bit
 
-On Wed, Feb 8, 2012 at 16:40, Andrei Gherzan <andrei@gherzan.ro> wrote:
-
-> ...
+On 02/08/2012 08:46 PM, Otavio Salvador wrote:
+> On Wed, Feb 8, 2012 at 16:40, Andrei Gherzan <andrei@gherzan.ro 
+> <mailto:andrei@gherzan.ro>> wrote:
 >
+>     ...
+>
+>
+> In my opinion we ought to merge your patch without handling crypto 
+> issue right now while we set in one way of fixing it.
+>
+> It seems to me that the fix is to move libcrypto to base_libdir and 
+> don't touch dhcp for this.
+>
+>
+I don't know why my conclusion line from the last email was erased but 
+this was my solution as well. I mean a quick and functional one.
 
-In my opinion we ought to merge your patch without handling crypto issue
-right now while we set in one way of fixing it.
+@g
 
-It seems to me that the fix is to move libcrypto to base_libdir and don't
-touch dhcp for this.
-
--- 
-Otavio Salvador                             O.S. Systems
-E-mail: otavio@ossystems.com.br  http://www.ossystems.com.br
-Mobile: +55 53 9981-7854              http://projetos.ossystems.com.br
-
---90e6ba6150c6e65e4604b878506a
+--------------060608030105090102090207
 Content-Type: text/html; charset=ISO-8859-1
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 7bit
 
-<div class=3D"gmail_quote">On Wed, Feb 8, 2012 at 16:40, Andrei Gherzan <sp=
-an dir=3D"ltr">&lt;<a href=3D"mailto:andrei@gherzan.ro">andrei@gherzan.ro</=
-a>&gt;</span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0=
- 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex">
+<html>
+  <head>
+    <meta content="text/html; charset=ISO-8859-1"
+      http-equiv="Content-Type">
+  </head>
+  <body bgcolor="#FFFFFF" text="#000000">
+    On 02/08/2012 08:46 PM, Otavio Salvador wrote:
+    <blockquote
+cite="mid:CAP9ODKqaWXbWMx7WRgDEDfqpWM1YPEhbPG_V93mYtd_QVqQJ1g@mail.gmail.com"
+      type="cite">
+      <div class="gmail_quote">On Wed, Feb 8, 2012 at 16:40, Andrei
+        Gherzan <span dir="ltr">&lt;<a moz-do-not-send="true"
+            href="mailto:andrei@gherzan.ro">andrei@gherzan.ro</a>&gt;</span>
+        wrote:<br>
+        <blockquote class="gmail_quote" style="margin:0 0 0
+          .8ex;border-left:1px #ccc solid;padding-left:1ex">
+          <div bgcolor="#FFFFFF" text="#000000">
+            <div>
+              <div class="h5">...</div>
+            </div>
+          </div>
+        </blockquote>
+        <div><br>
+        </div>
+        <div>In my opinion we ought to merge your patch without handling
+          crypto issue right now while we set in one way of fixing it.</div>
+        <div><br>
+        </div>
+        <div>It seems to me that the fix is to move libcrypto to
+          base_libdir and don't touch dhcp for this.&nbsp;</div>
+      </div>
+      <div><br>
+      </div>
+      <br>
+    </blockquote>
+    I don't know why my conclusion line from the last email was erased
+    but this was my solution as well. I mean a quick and functional one.<br>
+    <br>
+    @g<br>
+  </body>
+</html>
 
- =20
-   =20
- =20
-  <div bgcolor=3D"#FFFFFF" text=3D"#000000"><div><div class=3D"h5">...</div=
-></div></div></blockquote><div><br></div><div>In my opinion we ought to mer=
-ge your patch without handling crypto issue right now while we set in one w=
-ay of fixing it.</div>
-<div><br></div><div>It seems to me that the fix is to move libcrypto to bas=
-e_libdir and don&#39;t touch dhcp for this.=A0</div></div><div><br></div>--=
- <br>Otavio Salvador=A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0=
- =A0O.S. Systems<br>E-mail: <a href=3D"mailto:otavio@ossystems.com.br" targ=
-et=3D"_blank">otavio@ossystems.com.br</a>=A0 <a href=3D"http://www.ossystem=
-s.com.br" target=3D"_blank">http://www.ossystems.com.br</a><br>
-Mobile: +55 53 9981-7854=A0 =A0 =A0 =A0=A0 =A0 =A0 =A0<a href=3D"http://pro=
-jetos.ossystems.com.br" target=3D"_blank">http://projetos.ossystems.com.br<=
-/a><br><br>
-
---90e6ba6150c6e65e4604b878506a--
+--------------060608030105090102090207--
