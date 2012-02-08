@@ -1,28 +1,32 @@
-Received: from mail-ww0-f43.google.com ([74.125.82.43])
+Received: from mga06.intel.com ([134.134.136.21] helo=orsmga101.jf.intel.com)
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <koen@dominion.thruhere.net>) id 1Rv3DJ-0000M5-9h
+	(envelope-from <saul.wold@intel.com>) id 1Rv3gx-000775-Cg
 	for openembedded-core@lists.openembedded.org;
-	Wed, 08 Feb 2012 09:49:17 +0100
-Received: by wgbdr13 with SMTP id dr13so243714wgb.24
+	Wed, 08 Feb 2012 10:19:55 +0100
+Received: from mail-iy0-f180.google.com ([209.85.210.180])
+	by mga02.intel.com with ESMTP/TLS/RC4-SHA; 08 Feb 2012 01:11:50 -0800
+Received: by iabz7 with SMTP id z7so669352iab.25
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 08 Feb 2012 00:41:14 -0800 (PST)
-Received: by 10.180.99.100 with SMTP id ep4mr39401789wib.7.1328690474342;
-	Wed, 08 Feb 2012 00:41:14 -0800 (PST)
-Received: from [172.20.1.36] (ip545070eb.adsl-surfen.hetnet.nl.
-	[84.80.112.235])
-	by mx.google.com with ESMTPS id m8sm784267wia.11.2012.02.08.00.41.13
-	(version=TLSv1/SSLv3 cipher=OTHER);
-	Wed, 08 Feb 2012 00:41:13 -0800 (PST)
-Mime-Version: 1.0 (Apple Message framework v1251.1)
-From: Koen Kooi <koen@dominion.thruhere.net>
-In-Reply-To: <cover.1328638222.git.paul.eggleton@linux.intel.com>
-Date: Wed, 8 Feb 2012 09:41:11 +0100
-Message-Id: <17269C3B-EEDD-4E2B-B30B-F835453B285A@dominion.thruhere.net>
-References: <cover.1328638222.git.paul.eggleton@linux.intel.com>
-To: Patches and discussions about the oe-core layer
+	Wed, 08 Feb 2012 01:11:50 -0800 (PST)
+Received: by 10.50.179.6 with SMTP id dc6mr26206770igc.15.1328692310165;
+	Wed, 08 Feb 2012 01:11:50 -0800 (PST)
+Received: from [10.6.18.245] (c-71-193-189-117.hsd1.wa.comcast.net.
+	[71.193.189.117])
+	by mx.google.com with ESMTPS id ub10sm25742992igb.7.2012.02.08.01.11.47
+	(version=SSLv3 cipher=OTHER); Wed, 08 Feb 2012 01:11:49 -0800 (PST)
+Message-ID: <4F323C52.8030304@intel.com>
+Date: Wed, 08 Feb 2012 01:11:46 -0800
+From: Saul Wold <saul.wold@intel.com>
+Organization: Intel
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:9.0) Gecko/20111222 Thunderbird/9.0
+MIME-Version: 1.0
+To: Richard Purdie <richard.purdie@linuxfoundation.org>, 
+	Yocto Project Discussion <yocto@yoctoproject.org>,
+	'Patches and discussions about the oe-core layer'
 	<openembedded-core@lists.openembedded.org>
-X-Mailer: Apple Mail (2.1251.1)
-Subject: Re: [PATCH 0/2] Buildhistory sorting fixes v2
+Cc: "Stewart, David C" <david.c.stewart@intel.com>
+Subject: Upstream-Status finally @ 100%
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -37,39 +41,32 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 08 Feb 2012 08:49:17 -0000
-Content-Type: text/plain; charset=us-ascii
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Wed, 08 Feb 2012 09:19:56 -0000
+Content-Type: text/plain; charset=ISO-8859-1; format=flowed
+Content-Transfer-Encoding: 7bit
 
 
-Op 7 feb. 2012, om 19:14 heeft Paul Eggleton het volgende geschreven:
+We finally did it!
 
-> v2 fixes incorrect variable name and removes the erroneous sorting of
-> PACKAGES (for which the original order *is* significant).
->=20
-> The following changes since commit =
-18d9fcfc4bc4b01f73e89f3b988c9d3d543c7705:
->=20
->  libzypp: add missing runtime dependences on gzip and gnupg =
-(2012-02-03 17:23:28 +0000)
->=20
-> are available in the git repository at:
->  git://git.openembedded.org/openembedded-core-contrib =
-paule/buildhistory-fix3
->  =
-http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=3Dp=
-aule/buildhistory-fix3
->=20
-> Paul Eggleton (2):
->  classes/buildhistory: sort image file list
->  classes/buildhistory: sort list fields in package info
+After getting some final patches yesterday, we made it to 100% with 
+patch Upsteam-Status.
 
-Those work beautifully: =
-https://github.com/Angstrom-distribution/buildhistory/commit/6f5de74027b6c=
-28458c5767b8a30b64a271c5b90
+Total Patches Files: 1243
+All Upstream-Status: 1243
+Fix Upstream-Status: 0
+Need Upstream-Status: 0
+Pending Upstream-Status: 461
 
-regards,
+This means we have 461 patches to now work their way into the Upstream
+communities.
 
-Koen=
+Let's work to maintain this, I will be watching incoming patches and 
+using a check script to verify that patches have Upstream-Status.
+
+Thanks to all those people who worked to get Upstream-Status into their 
+patches.
+
+Sau!
+
 
 
