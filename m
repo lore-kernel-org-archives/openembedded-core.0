@@ -1,26 +1,32 @@
-Received: from smtpout.karoo.kcom.com ([212.50.160.34])
+Received: from mail-ee0-f47.google.com ([74.125.83.47])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <mac@mcrowe.com>) id 1Rv6lk-0007Tg-JW
+	(envelope-from <otavio.salvador@gmail.com>) id 1Rv6uP-0001G4-ET
 	for openembedded-core@lists.openembedded.org;
-	Wed, 08 Feb 2012 13:37:04 +0100
-X-IronPort-AV: E=Sophos;i="4.73,383,1325462400"; d="scan'208";a="593751338"
-Received: from deneb.mcrowe.com ([82.152.148.4])
-	by smtpout.karoo.kcom.com with ESMTP; 08 Feb 2012 12:29:00 +0000
-Received: from mac by deneb.mcrowe.com with local (Exim 4.72)
-	(envelope-from <mac@mcrowe.com>) id 1Rv6dw-0003Ad-VW
-	for openembedded-core@lists.openembedded.org;
-	Wed, 08 Feb 2012 12:29:00 +0000
-Date: Wed, 8 Feb 2012 12:29:00 +0000
-From: Mike Crowe <mac@mcrowe.com>
+	Wed, 08 Feb 2012 13:46:01 +0100
+Received: by eekd41 with SMTP id d41so140033eek.6
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 08 Feb 2012 04:37:58 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
+	h=mime-version:sender:in-reply-to:references:date
+	:x-google-sender-auth:message-id:subject:from:to:content-type;
+	bh=hFH66W01HRyvJOSAgLJikZGeXu2dI8mw2q221jTzuHM=;
+	b=fxD2pG/hgV6OrTIWITdawQIDTO404nxWM7YFFXJ7kbxqLYMkf2RP4UCVlK1yDI8ASb
+	RRqMDU8s6Nt3po3WgXL//p6Z/tihS1aYA5TP883CzscMxADsrEq0PwPXewjeZ+3vmxhv
+	pUmMUHxTnpydL28Ok9r9KSzDlvOrDHR6Ih34s=
+MIME-Version: 1.0
+Received: by 10.14.206.133 with SMTP id l5mr8375829eeo.22.1328704678276; Wed,
+	08 Feb 2012 04:37:58 -0800 (PST)
+Sender: otavio.salvador@gmail.com
+Received: by 10.14.96.129 with HTTP; Wed, 8 Feb 2012 04:37:58 -0800 (PST)
+In-Reply-To: <CAFZPMoZ=F_Adon-nQpRELPL2F3WBJi1Pt3T9sK3t1L-k--R0Cw@mail.gmail.com>
+References: <CAFZPMoZ=F_Adon-nQpRELPL2F3WBJi1Pt3T9sK3t1L-k--R0Cw@mail.gmail.com>
+Date: Wed, 8 Feb 2012 10:37:58 -0200
+X-Google-Sender-Auth: X7O1d0Zqs8qfYGjIqE5soVQybeM
+Message-ID: <CAP9ODKo3gEH6bBoxpGMs8AyaeZ+RokAtuL_gxic0rm_PK1WwRA@mail.gmail.com>
+From: Otavio Salvador <otavio@ossystems.com.br>
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Message-ID: <20120208122900.GA11658@mcrowe.com>
-References: <1321488805.18905.5.camel@ted> <20120207103141.GA30500@mcrowe.com>
-	<20120207224728.GB13125@sakrah.homelinux.org>
-MIME-Version: 1.0
-In-Reply-To: <20120207224728.GB13125@sakrah.homelinux.org>
-User-Agent: Mutt/1.5.20 (2009-06-14)
-Subject: Re: [PATCH] libtool-cross: Upbreak and actually use more of it
+Subject: Re: systemd.bbclass problems
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -35,117 +41,47 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 08 Feb 2012 12:37:04 -0000
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+X-List-Received-Date: Wed, 08 Feb 2012 12:46:01 -0000
+Content-Type: multipart/alternative; boundary=047d7b3441445c2f3f04b8732a8c
 
-On Tue, Feb 07, 2012 at 02:47:28PM -0800, Khem Raj wrote:
-> On (07/02/12 10:31), Mike Crowe wrote:
-> > On Thu, Nov 17, 2011 at 12:13:25AM +0000, Richard Purdie wrote:
-> > > We should be using libtool-cross for cross compiling but
-> > > were not. This patch sets datadir so libtoolize ends up
-> > > containing correct paths. It then installs libtoolize.
-> > 
-> > I have a recipe that no longer works after this (or perhaps the other
-> > changes Richard mentions later in the thread.) It's a pretty
-> > straightforward recipe that inherits from autotools. Judging by the
-> > number of warnings from autoconf the package was probably expecting an
-> > older version of automake/autoconf. The configure task fails with:
-> > 
-> >  libtoolize: `config/compile' not found in `/home/mac/src/oe/build/tmp-eglibc/sysroots/panther/usr/share/libtool'
-> > 
-> > (continued inside patch)
-> > 
-> > > The path ltmain.sh was installed to was incorrect and this is fixed.
-> > > 
-> > > We also now install all the libtool m4 macros.
-> > > 
-> > > Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-> > > ---
-> > > diff --git a/meta/recipes-devtools/libtool/libtool-cross_2.4.bb b/meta/recipes-devtools/libtool/libtool-cross_2.4.bb
-> > > index 596528a..4e6e3f2 100644
-> > > --- a/meta/recipes-devtools/libtool/libtool-cross_2.4.bb
-> > > +++ b/meta/recipes-devtools/libtool/libtool-cross_2.4.bb
-> > > @@ -1,10 +1,13 @@
-> > >  require libtool-${PV}.inc
-> > >  
-> > > -PR = "r5"
-> > > +PR = "r7"
-> > >  PACKAGES = ""
-> > >  SRC_URI += "file://prefix.patch"
-> > >  SRC_URI += "file://fixinstall.patch"
-> > >  
-> > > +target_datadir := "${datadir}"
-> > > +datadir = "${STAGING_DIR_TARGET}${target_datadir}"
-> > > +
-> > >  do_configure_prepend () {
-> > >  	# Remove any existing libtool m4 since old stale versions would break
-> > >  	# any upgrade
-> > > @@ -13,20 +16,21 @@ do_configure_prepend () {
-> > >  }
-> > >  
-> > >  do_install () {
-> > > -	install -d ${D}${bindir}/
-> > > -	install -m 0755 ${HOST_SYS}-libtool ${D}${bindir}/${HOST_SYS}-libtool
-> > > -	install -d ${D}${datadir}/libtool/
-> > > -	install -d ${D}${datadir}/aclocal/
-> > > -	install -c ${S}/libltdl/config/config.guess ${D}${datadir}/libtool/
-> > > -	install -c ${S}/libltdl/config/config.sub ${D}${datadir}/libtool/
-> > > -	install -c -m 0644 ${S}/libltdl/config/ltmain.sh ${D}${datadir}/libtool/
-> > > -	install -c -m 0644 ${S}/libltdl/m4/libtool.m4 ${D}${datadir}/aclocal/
-> > > -	install -c -m 0644 ${S}/libltdl/m4/ltdl.m4 ${D}${datadir}/aclocal/
-> > > +	install -d ${D}${bindir_crossscripts}/
-> > > +	install -m 0755 ${HOST_SYS}-libtool ${D}${bindir_crossscripts}/${HOST_SYS}-libtool
-> > > +	install -d ${D}${bindir_crossscripts}/
-> > > +	install -m 0755 libtoolize ${D}${bindir_crossscripts}/
-> > > +	install -d ${D}${target_datadir}/libtool/config/
-> > > +	install -d ${D}${target_datadir}/aclocal/
-> > > +	install -c ${S}/libltdl/config/config.guess ${D}${target_datadir}/libtool/
-> > > +	install -c ${S}/libltdl/config/config.sub ${D}${target_datadir}/libtool/
-> > 
-> > If I also install "compile", "depcomp" and "missing" here then this
-> > solves the immediate problem but then it looks like I also need to add
-> > "COPYING.LIB" and probably many other files to
-> > ${D}{$target_datadir}/libtool/libltdl too which leads me to think that
-> > I'm swimming against the tide and might be going about this the wrong
-> > way. Is this the correct approach? If so why not just call "make
-> > install" rather than installing everything by hand?
-> 
-> can you just try oe_runmake DESTDIR=${D} install ?
-> you might need to do some extra bits in there but that can be done
-> additionally
+--047d7b3441445c2f3f04b8732a8c
+Content-Type: text/plain; charset=ISO-8859-1
 
-I replaced the whole of do_install with your suggestion and my package
-now configures and compiles successfully.
+On Wed, Feb 8, 2012 at 10:11, Sergey Lapin <slapinid@gmail.com> wrote:
 
-I'll try a complete build from clean to see if the change causes any
-other problems for me. If it does not should I submit a patch for this
-change?
+> If I fail postinst start during image build, everything works properly.
+>
 
-Thanks for your help.
+Yes.
 
-Mike.
+Current systemd-systemctl-native doesn't not support multiple scripts.
+Please take a look on this script as it is where the bug needs to be
+squashed ;-)
 
-> > > +	install -c -m 0644 ${S}/libltdl/config/ltmain.sh ${D}${target_datadir}/libtool/config/
-> > > +	install -c -m 0644 ${S}/libltdl/m4/*.m4 ${D}${target_datadir}/aclocal/
-> > >  }
-> > >  
-> > >  SYSROOT_PREPROCESS_FUNCS += "libtoolcross_sysroot_preprocess"
-> > >  
-> > >  libtoolcross_sysroot_preprocess () {
-> > > -	install -d ${SYSROOT_DESTDIR}${bindir_crossscripts}
-> > > -	install -m 755 ${D}${bindir}/${HOST_SYS}-libtool ${SYSROOT_DESTDIR}${bindir_crossscripts}/${HOST_SYS}-libtool
-> > > +	sysroot_stage_dir ${D}${bindir_crossscripts} ${SYSROOT_DESTDIR}${bindir_crossscripts}
-> > > +	sysroot_stage_dir ${D}${target_datadir} ${SYSROOT_DESTDIR}${target_datadir}
-> > >  }
-> > 
-> > TIA
-> > 
-> > Mike.
-> > 
-> > _______________________________________________
-> > Openembedded-core mailing list
-> > Openembedded-core@lists.openembedded.org
-> > http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
+-- 
+Otavio Salvador                             O.S. Systems
+E-mail: otavio@ossystems.com.br  http://www.ossystems.com.br
+Mobile: +55 53 9981-7854              http://projetos.ossystems.com.br
 
+--047d7b3441445c2f3f04b8732a8c
+Content-Type: text/html; charset=ISO-8859-1
+Content-Transfer-Encoding: quoted-printable
 
+<div class=3D"gmail_quote">On Wed, Feb 8, 2012 at 10:11, Sergey Lapin <span=
+ dir=3D"ltr">&lt;<a href=3D"mailto:slapinid@gmail.com">slapinid@gmail.com</=
+a>&gt;</span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0=
+ 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex">
+If I fail postinst start during image build, everything works properly.<br>=
+</blockquote><div><br></div><div>Yes.</div><div><br></div><div>Current syst=
+emd-systemctl-native doesn&#39;t not support multiple scripts. Please take =
+a look on this script as it is where the bug needs to be squashed ;-)</div>
+<div>=A0</div></div>-- <br>Otavio Salvador=A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =
+=A0 =A0 =A0 =A0 =A0 =A0 =A0O.S. Systems<br>E-mail: <a href=3D"mailto:otavio=
+@ossystems.com.br" target=3D"_blank">otavio@ossystems.com.br</a>=A0 <a href=
+=3D"http://www.ossystems.com.br" target=3D"_blank">http://www.ossystems.com=
+.br</a><br>
+Mobile: +55 53 9981-7854=A0 =A0 =A0 =A0=A0 =A0 =A0 =A0<a href=3D"http://pro=
+jetos.ossystems.com.br" target=3D"_blank">http://projetos.ossystems.com.br<=
+/a><br><br>
+
+--047d7b3441445c2f3f04b8732a8c--
