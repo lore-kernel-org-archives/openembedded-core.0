@@ -1,31 +1,33 @@
-Received: from mga02.intel.com ([134.134.136.20])
-	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <sgw@linux.intel.com>) id 1RuvNV-0007yF-10
-	for openembedded-core@lists.openembedded.org;
-	Wed, 08 Feb 2012 01:27:17 +0100
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-	by orsmga101.jf.intel.com with ESMTP; 07 Feb 2012 16:19:07 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.67,352,1309762800"; d="scan'208";a="105102651"
-Received: from unknown (HELO [10.255.14.116]) ([10.255.14.116])
-	by orsmga001.jf.intel.com with ESMTP; 07 Feb 2012 16:19:07 -0800
-Message-ID: <4F31BF7B.4040303@linux.intel.com>
-Date: Tue, 07 Feb 2012 16:19:07 -0800
-From: Saul Wold <sgw@linux.intel.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:9.0) Gecko/20111222 Thunderbird/9.0
-MIME-Version: 1.0
-To: Khem Raj <raj.khem@gmail.com>
-References: <04705556464a6e41642962da40f0e17847ee3483.1328510188.git.raj.khem@gmail.com>
-	<c68f6de298c35c25638ea3a5adeb06c97cd74036.1328510189.git.raj.khem@gmail.com>
-	<4F30DC16.1050506@linux.intel.com>
-	<CAMKF1sqTc3PA_4xNbp1751tA73pRazsvrFdwhomdELtb-25ZGg@mail.gmail.com>
-	<4F314A73.8070406@linux.intel.com>
-	<20120207231245.GA13160@sakrah.homelinux.org>
-In-Reply-To: <20120207231245.GA13160@sakrah.homelinux.org>
-Cc: Patches and discussions about the oe-core layer
+Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
+	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <richard.purdie@linuxfoundation.org>)
+	id 1RuvtM-0000z2-Ui for openembedded-core@lists.openembedded.org;
+	Wed, 08 Feb 2012 02:00:13 +0100
+Received: from localhost (localhost [127.0.0.1])
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q180q99k013014
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 8 Feb 2012 00:52:09 GMT
+Received: from tim.rpsys.net ([127.0.0.1])
+	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
+	port 10024) with LMTP
+	id 02673-08 for <openembedded-core@lists.openembedded.org>;
+	Wed,  8 Feb 2012 00:52:05 +0000 (GMT)
+Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q180prhq013008
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO)
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 8 Feb 2012 00:51:59 GMT
+Message-ID: <1328662317.29471.1.camel@ted>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 12/20] zlib: Upgrade 1.2.5 -> 1.2.6
+Date: Wed, 08 Feb 2012 00:51:57 +0000
+In-Reply-To: <cover.1328654424.git.sgw@linux.intel.com>
+References: <cover.1328654424.git.sgw@linux.intel.com>
+X-Mailer: Evolution 3.2.2- 
+Mime-Version: 1.0
+X-Virus-Scanned: amavisd-new at rpsys.net
+Subject: Re: [CONSOLIDATED PULL 00/35] Catching up with Pulls
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -40,109 +42,89 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 08 Feb 2012 00:27:17 -0000
-Content-Type: text/plain; charset=ISO-8859-1; format=flowed
+X-List-Received-Date: Wed, 08 Feb 2012 01:00:13 -0000
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 
-On 02/07/2012 03:12 PM, Khem Raj wrote:
-> On (07/02/12 07:59), Saul Wold wrote:
->> On 02/07/2012 07:31 AM, Khem Raj wrote:
->>> On Tue, Feb 7, 2012 at 12:08 AM, Saul Wold<sgw@linux.intel.com>   wrote:
->>>> | /bin/grep: /intel/poky/builds/world/tmp/sysroots/qemux86/usr/lib/libz.la:
->>>> No such file or directory
->>>
->>> thanks ok I did not catch it with sato image build. which package is
->>> failing with this
->>> error.
->>>
->> pixman, gconf, polkit are the 3 I saw doing a world build.
->
-> I havent been able to reproduce it with eglibc I tried bitbake gconf
-> pixman polkit it all liked well. Might be my machine is just nice to me
-> but that said when I get to the culprit it mostly will be the package
-> who is using .la in weird way since zlib already ships a .pc file it
-> should have used that one instead
->
-Khem,
+On Tue, 2012-02-07 at 14:45 -0800, Saul Wold wrote:
+> Richard et al:
+> 
+> Updates from various folks, this include kernel, uclibc.
+> 
+> One Major change to note is Khem's task-core-tools breakup and
+> the renaming of POKY_ -> CORE_IMAGE_.  This will require layers
+> to pay attention and fix.
+> 
+> Sau!
+> 
+> 
+> The following changes since commit 18d9fcfc4bc4b01f73e89f3b988c9d3d543c7705:
+> 
+>   libzypp: add missing runtime dependences on gzip and gnupg (2012-02-03 17:23:28 +0000)
+> 
+> are available in the git repository at:
+>   git://git.openembedded.org/openembedded-core-contrib sgw/stage
+>   http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=sgw/stage
+> 
+> Andreas Oberritter (1):
+>   tune-mips32.inc: Add mips32-nf and mips32el-nf
+> 
+> Bruce Ashfield (5):
+>   linux-yocto: locate and use out of tree features specified on the
+>     SRC_URI
+>   linux-yocto: meta updates for sys940x and cleanup
+>   linux-yocto: rt compiliation fix
+>   kern-tools: remove explicit 'yocto' references from auto-bsp handling
+>   linux-yocto: fri2: use emgd-1.10
+> 
+> Chase Maupin (1):
+>   u-boot inc: update inc file for newer u-boot versions
+> 
+> Darren Hart (1):
+>   bootimg: Use the same OS files for each boot method
+> 
+> Khem Raj (13):
+>   xorg-apps: Bump PR to accomodate meta-oe recipe deletion
+>   task-core-tools: Divide it into 3 recipes
+>   Enable options needed for ltp to compile
+>   runqemu-internal: qemuarm can handle 256M
+>   gconf,consolekit: Avoid polkit when compiling with uclibc
+>   python: Fix build failure of python-elementtree on x86_64
+>   libdrm: Fix build failure unearthed by uclibc
+>   libx11: Backport _XGetRequest API
+>   pseudo: Wrap renameat and opendir
+>   uclibc: Upgrade recipes from 0.9.32 -> 0.9.33
+>   classes,recipes: Replace POKY_* with CORE_IMAGE_*
+>   gcc-cross-testing: Fix evaluation of user and target name
+>   mirrors.bbclass: Add yp.org and oe.org to fallback mirrors
+> 
+> Mike Crowe (3):
+>   libusb1: Cope with ${libdir} and ${base_libdir} being the same
+>   libusb-compat: Cope with ${libdir} and ${base_libdir} being the same
+>   libcap: Cope with ${libdir} and ${base_libdir} being the same
+> 
+> Otavio Salvador (2):
+>   udev: stop providing cache support by default
+>   dhcp: move dhcp leases files handling to postinst/postrm
+> 
+> Peter Tworek (3):
+>   busybox: Add flock utility to default configuration.
+>   webkit-gtk: Fix error.html resource path.
+>   webkit-gtk: Make webgl support configurable via DISTRO_FEATURES.
+> 
+> Saul Wold (3):
+>   gnupg-1.4.7: Update Patch Info
+>   openssl-0.9.8: Remove in favor or 1.0.0
+>   mtools-3.9.9: Use correct URI for the mirror
+> 
+> Wade Farnsworth (3):
+>   systemtap: bump SRCREV to grab version 1.7
+>   systemtap: extend the recipe to build the native package
+>   systemtap: build and install uprobes.ko
 
-Can you verify if you have a .la file in you sysroot?
+Merged to master, thanks.
 
-tmp/work/i586-poky-linux/zlib-1.2.5-r3/package/usr/lib:
-libz.a  libz.la  libz.so  libz.so.1  libz.so.1.2.5  pkgconfig
+Richard
 
-tmp/work/i586-poky-linux/zlib-1.2.6-r0/package/usr/lib:
-libz.a  libz.so  libz.so.1  libz.so.1.2.6  pkgconfig
-
-Very reproducible on my machine:
-
-| i586-poky-linux-libtool: link: cannot find the library 
-`/intel/poky/builds/world/tmp/sysroots/qemux86/usr/lib/libz.la' or 
-unhandled argument `=/usr/lib/libz.la'
-| make[2]: *** [trap-crasher] Error 1
-| make[2]: *** Waiting for unfinished jobs....
-| i586-poky-linux-libtool: link: cannot find the library 
-`/intel/poky/builds/world/tmp/sysroots/qemux86/usr/lib/libz.la' or 
-unhandled argument `=/usr/lib/libz.la'
-| make[2]: *** [fetch-test] Error 1
-| i586-poky-linux-libtool: link: cannot find the library 
-`/intel/poky/builds/world/tmp/sysroots/qemux86/usr/lib/libz.la' or 
-unhandled argument `=/usr/lib/libz.la'
-| make[2]: *** [region-test] Error 1
-| i586-poky-linux-libtool: link: cannot find the library 
-`/intel/poky/builds/world/tmp/sysroots/qemux86/usr/lib/libz.la' or 
-unhandled argument `=/usr/lib/libz.la'
-| make[2]: *** [pdf-op-test] Error 1
-| i586-poky-linux-libtool: link: cannot find the library 
-`/intel/poky/builds/world/tmp/sysroots/qemux86/usr/lib/libz.la' or 
-unhERROR: Function failed: do_compile (see 
-/intel/poky/builds/world/tmp/work/i586-poky-linux/pixman-1_0.24.2-r0/temp/log.do_compile.13548 
-for further information)
-| andled argument `=/usr/lib/libz.la'
-| make[2]: *** [oob-test] Error 1
-| i586-poky-linux-libtool: link: cannot find the library 
-`/intel/poky/builds/world/tmp/sysroots/qemux86/usr/lib/libz.la' or 
-unhandled argument `=/usr/lib/libz.la'
-| make[2]: *** [alpha-loop] Error 1
-| i586-poky-linux-libtool: link: cannot find the library 
-`/intel/poky/builds/world/tmp/sysroots/qemux86/usr/lib/libz.la' or 
-unhandled argument `=/usr/lib/libz.la'
-| make[2]: *** [a1-trap-test] Error 1
-| i586-poky-linux-libtool: link: cannot find the library 
-`/intel/poky/builds/world/tmp/sysroots/qemux86/usr/lib/libz.la' or 
-unhandled argument `=/usr/lib/libz.la'
-| make[2]: *** [region-translate-test] Error 1
-| i586-poky-linux-libtool: link: cannot find the library 
-`/intel/poky/builds/world/tmp/sysroots/qemux86/usr/lib/libz.la' or 
-unhandled argument `=/usr/lib/libz.la'
-| make[2]: *** [scaling-helpers-test] Error 1
-| i586-poky-linux-libtool: link: cannot find the library 
-`/intel/poky/builds/world/tmp/sysroots/qemux86/usr/lib/libz.la' or 
-unhandled argument `=/usr/lib/libz.la'
-| make[2]: *** [scaling-crash-test] Error 1
-| i586-poky-linux-libtool: link: cannot find the library 
-`/intel/poky/builds/world/tmp/sysroots/qemux86/usr/lib/libz.la' or 
-unhandled argument `=/usr/lib/libz.la'
-| make[2]: *** [gradient-crash-test] Error 1
-| i586-poky-linux-libtool: link: cannot find the library 
-`/intel/poky/builds/world/tmp/sysroots/qemux86/usr/lib/libz.la' or 
-unhandled argument `=/usr/lib/libz.la'
-| make[2]: *** [region-contains-test] Error 1
-| make[2]: Leaving directory 
-`/intel/poky/builds/world/tmp/work/i586-poky-linux/pixman-1_0.24.2-r0/pixman-0.24.2/test'
-| make[1]: *** [all-recursive] Error 1
-| make[1]: Leaving directory 
-`/intel/poky/builds/world/tmp/work/i586-poky-linux/pixman-1_0.24.2-r0/pixman-0.24.2'
-| make: *** [all] Error 2
-| ERROR: oe_runmake failed
-NOTE: package pixman-1_0.24.2-r0: task do_compile: Failed
-
-
-Sau!
-
-
-
->>
->> Sau!
->
 
 
