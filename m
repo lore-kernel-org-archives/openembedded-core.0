@@ -1,32 +1,30 @@
-Received: from mail-ee0-f47.google.com ([74.125.83.47])
-	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <otavio.salvador@gmail.com>) id 1Rv6uP-0001G4-ET
-	for openembedded-core@lists.openembedded.org;
-	Wed, 08 Feb 2012 13:46:01 +0100
-Received: by eekd41 with SMTP id d41so140033eek.6
+Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
+	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <richard.purdie@linuxfoundation.org>)
+	id 1Rv92f-0001MR-Um for openembedded-core@lists.openembedded.org;
+	Wed, 08 Feb 2012 16:02:42 +0100
+Received: from localhost (localhost [127.0.0.1])
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q18Esc7x020852
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 08 Feb 2012 04:37:58 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
-	h=mime-version:sender:in-reply-to:references:date
-	:x-google-sender-auth:message-id:subject:from:to:content-type;
-	bh=hFH66W01HRyvJOSAgLJikZGeXu2dI8mw2q221jTzuHM=;
-	b=fxD2pG/hgV6OrTIWITdawQIDTO404nxWM7YFFXJ7kbxqLYMkf2RP4UCVlK1yDI8ASb
-	RRqMDU8s6Nt3po3WgXL//p6Z/tihS1aYA5TP883CzscMxADsrEq0PwPXewjeZ+3vmxhv
-	pUmMUHxTnpydL28Ok9r9KSzDlvOrDHR6Ih34s=
-MIME-Version: 1.0
-Received: by 10.14.206.133 with SMTP id l5mr8375829eeo.22.1328704678276; Wed,
-	08 Feb 2012 04:37:58 -0800 (PST)
-Sender: otavio.salvador@gmail.com
-Received: by 10.14.96.129 with HTTP; Wed, 8 Feb 2012 04:37:58 -0800 (PST)
-In-Reply-To: <CAFZPMoZ=F_Adon-nQpRELPL2F3WBJi1Pt3T9sK3t1L-k--R0Cw@mail.gmail.com>
-References: <CAFZPMoZ=F_Adon-nQpRELPL2F3WBJi1Pt3T9sK3t1L-k--R0Cw@mail.gmail.com>
-Date: Wed, 8 Feb 2012 10:37:58 -0200
-X-Google-Sender-Auth: X7O1d0Zqs8qfYGjIqE5soVQybeM
-Message-ID: <CAP9ODKo3gEH6bBoxpGMs8AyaeZ+RokAtuL_gxic0rm_PK1WwRA@mail.gmail.com>
-From: Otavio Salvador <otavio@ossystems.com.br>
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: systemd.bbclass problems
+	Wed, 8 Feb 2012 14:54:38 GMT
+Received: from tim.rpsys.net ([127.0.0.1])
+	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
+	port 10024) with LMTP
+	id 20709-01 for <openembedded-core@lists.openembedded.org>;
+	Wed,  8 Feb 2012 14:54:34 +0000 (GMT)
+Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q18EsWPI020846
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO)
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 8 Feb 2012 14:54:33 GMT
+Message-ID: <1328712879.29471.34.camel@ted>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: openembedded-core <openembedded-core@lists.openembedded.org>
+Date: Wed, 08 Feb 2012 14:54:39 +0000
+X-Mailer: Evolution 3.2.2- 
+Mime-Version: 1.0
+X-Virus-Scanned: amavisd-new at rpsys.net
+Subject: Some notes on speeding up do_package_write_rpm
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -41,47 +39,63 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 08 Feb 2012 12:46:01 -0000
-Content-Type: multipart/alternative; boundary=047d7b3441445c2f3f04b8732a8c
+X-List-Received-Date: Wed, 08 Feb 2012 15:02:42 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
---047d7b3441445c2f3f04b8732a8c
-Content-Type: text/plain; charset=ISO-8859-1
+I had a look at why do_package_write_rpm seems slow. It's clear most of
+the time is being spent in rpmbuild. Taking the BUILDSPEC script, it was
+interesting to run it standalone with "strace -f". The result with
+libxfont was a 13.5MB log file showing lots of execs of grep, wc, cut
+and other shell utils.
 
-On Wed, Feb 8, 2012 at 10:11, Sergey Lapin <slapinid@gmail.com> wrote:
+This confirmed suspicion I had that the X.provides and X.requires
+scripts that are written out and called by rpmbuild were causing some
+performance issues since those scripts are where the grep/wc/cut calls
+are coming from.
 
-> If I fail postinst start during image build, everything works properly.
->
+Rewriting dump_filterdeps() in package_rpm.bbclass to write out a python
+script instead of a shell script (doing the same work), resulted in an
+strace logfile of 1.5MB, much smaller. The big win is that python has
+internal functions for these things so we don't have all the exec()
+overhead and don't hit the kernel anywhere near as much.
 
-Yes.
+This showed small improvements in times for some simple package writing
+tasks. I then ran "time bitbake eglibc-locale -c package_write_rpm -f"
+which I've noticed is one of the last tasks to complete on my standard
+build time benchmark atm. The results with shell script (i.e. before):
 
-Current systemd-systemctl-native doesn't not support multiple scripts.
-Please take a look on this script as it is where the bug needs to be
-squashed ;-)
+real	7m15.207s
+user	2m31.320s
+sys	0m27.720s
 
--- 
-Otavio Salvador                             O.S. Systems
-E-mail: otavio@ossystems.com.br  http://www.ossystems.com.br
-Mobile: +55 53 9981-7854              http://projetos.ossystems.com.br
+and after, with the python script:
 
---047d7b3441445c2f3f04b8732a8c
-Content-Type: text/html; charset=ISO-8859-1
-Content-Transfer-Encoding: quoted-printable
+real	5m23.727s
+user	3m25.540s
+sys	1m4.530s
 
-<div class=3D"gmail_quote">On Wed, Feb 8, 2012 at 10:11, Sergey Lapin <span=
- dir=3D"ltr">&lt;<a href=3D"mailto:slapinid@gmail.com">slapinid@gmail.com</=
-a>&gt;</span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0=
- 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex">
-If I fail postinst start during image build, everything works properly.<br>=
-</blockquote><div><br></div><div>Yes.</div><div><br></div><div>Current syst=
-emd-systemctl-native doesn&#39;t not support multiple scripts. Please take =
-a look on this script as it is where the bug needs to be squashed ;-)</div>
-<div>=A0</div></div>-- <br>Otavio Salvador=A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =
-=A0 =A0 =A0 =A0 =A0 =A0 =A0O.S. Systems<br>E-mail: <a href=3D"mailto:otavio=
-@ossystems.com.br" target=3D"_blank">otavio@ossystems.com.br</a>=A0 <a href=
-=3D"http://www.ossystems.com.br" target=3D"_blank">http://www.ossystems.com=
-.br</a><br>
-Mobile: +55 53 9981-7854=A0 =A0 =A0 =A0=A0 =A0 =A0 =A0<a href=3D"http://pro=
-jetos.ossystems.com.br" target=3D"_blank">http://projetos.ossystems.com.br<=
-/a><br><br>
+So in real terms its much faster but it claims to be using more user and
+sys resources. So it looks to be a performance speedup (and everything
+I've done would agree with that) but those user/sys numbers don't make
+sense.
 
---047d7b3441445c2f3f04b8732a8c--
+I find the first set of numbers odd anyway as how can something spending
+2.5 minutes in user and 0.5 minutes in sys making a total of 3 minutes,
+take 7.25 minutes to run on a multicore system that is otherwise idle. I
+suspect somewhere, the accounting in the kernel is screwing up maybe in
+the handling of the many short lived processes we were triggering. The
+real numbers correspond with my stopwatch so I'm happy to proceed with
+changes in this direction but if anyone does understand why those
+numbers would differ like that, I'd be interested to know about it.
+
+Tests to see how much overall this helps our build time are still in
+progress.
+
+Cheers,
+
+Richard
+
+
+
+
