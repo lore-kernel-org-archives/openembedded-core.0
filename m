@@ -1,33 +1,30 @@
-Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
-	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <richard.purdie@linuxfoundation.org>)
-	id 1Rv5Ki-0007Lq-FL for openembedded-core@lists.openembedded.org;
-	Wed, 08 Feb 2012 12:05:04 +0100
-Received: from localhost (localhost [127.0.0.1])
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q18Av1vu018737
+Received: from mail-ww0-f41.google.com ([74.125.82.41])
+	by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <koen@dominion.thruhere.net>) id 1Rv5My-0007XT-3O
+	for openembedded-core@lists.openembedded.org;
+	Wed, 08 Feb 2012 12:07:24 +0100
+Received: by wgbdt11 with SMTP id dt11so6272281wgb.0
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 8 Feb 2012 10:57:01 GMT
-Received: from tim.rpsys.net ([127.0.0.1])
-	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
-	port 10024) with LMTP
-	id 18383-05 for <openembedded-core@lists.openembedded.org>;
-	Wed,  8 Feb 2012 10:56:57 +0000 (GMT)
-Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q18AupEI018731
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO)
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 8 Feb 2012 10:56:53 GMT
-Message-ID: <1328698619.29471.15.camel@ted>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
+	Wed, 08 Feb 2012 02:59:21 -0800 (PST)
+Received: by 10.216.139.197 with SMTP id c47mr6522975wej.15.1328698760981;
+	Wed, 08 Feb 2012 02:59:20 -0800 (PST)
+Received: from [172.20.1.36] (ip545070eb.adsl-surfen.hetnet.nl.
+	[84.80.112.235])
+	by mx.google.com with ESMTPS id bj10sm38927675wib.9.2012.02.08.02.59.19
+	(version=TLSv1/SSLv3 cipher=OTHER);
+	Wed, 08 Feb 2012 02:59:20 -0800 (PST)
+Mime-Version: 1.0 (Apple Message framework v1251.1)
+From: Koen Kooi <koen@dominion.thruhere.net>
+In-Reply-To: <2211037.GJWb2du2Sd@helios>
+Date: Wed, 8 Feb 2012 11:59:13 +0100
+Message-Id: <5D6A3267-0656-473D-8940-33AE3CEB53C2@dominion.thruhere.net>
+References: <CAGiJk9f9Mc06KbPVBcTFi_icr=P3ZGuBYrDT7oH+gC5dKVKpbA@mail.gmail.com>
+	<2211037.GJWb2du2Sd@helios>
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Date: Wed, 08 Feb 2012 10:56:59 +0000
-In-Reply-To: <cover.1328638222.git.paul.eggleton@linux.intel.com>
-References: <cover.1328638222.git.paul.eggleton@linux.intel.com>
-X-Mailer: Evolution 3.2.2- 
-Mime-Version: 1.0
-X-Virus-Scanned: amavisd-new at rpsys.net
-Subject: Re: [PATCH 0/2] Buildhistory sorting fixes v2
+X-Mailer: Apple Mail (2.1251.1)
+X-Gm-Message-State: ALoCoQnFa9w7dV1TdDAmO8g0jjQzf+MryF2Xcmaety8EA+dHJQWOWe64fdXbI1LYxnw7dLmTJi3z
+Subject: Re: RFC: Porting KDE Plasma Active (WIP)
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -42,31 +39,32 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 08 Feb 2012 11:05:04 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
-
-On Tue, 2012-02-07 at 18:14 +0000, Paul Eggleton wrote:
-> v2 fixes incorrect variable name and removes the erroneous sorting of
-> PACKAGES (for which the original order *is* significant).
-> 
-> The following changes since commit 18d9fcfc4bc4b01f73e89f3b988c9d3d543c7705:
-> 
->   libzypp: add missing runtime dependences on gzip and gnupg (2012-02-03 17:23:28 +0000)
-> 
-> are available in the git repository at:
->   git://git.openembedded.org/openembedded-core-contrib paule/buildhistory-fix3
->   http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=paule/buildhistory-fix3
-> 
-> Paul Eggleton (2):
->   classes/buildhistory: sort image file list
->   classes/buildhistory: sort list fields in package info
-
-Merged to master, thanks.
-
-Richard
+X-List-Received-Date: Wed, 08 Feb 2012 11:07:24 -0000
+Content-Type: text/plain; charset=us-ascii
+Content-Transfer-Encoding: quoted-printable
 
 
+Op 8 feb. 2012, om 11:09 heeft Paul Eggleton het volgende geschreven:
 
+> Hi Samuel,
+>=20
+> On Thursday 02 February 2012 12:50:16 Samuel Stirtzel wrote:
+>> for some time now I've been working on a port of Plasma Active, the
+>> next generation touch user interface from KDE.
+>=20
+> This is something I'd been wanting to do as well. I got as far as =
+being able=20
+> to build cleaned up versions of the KDE recipes we had in OE-Classic =
+(not very=20
+> many) but that was it. Looks like you're doing really well!
+
+Indeed! The main problem with this kde stuff is that the developers want =
+to write everything in QT, so instead of running sed on a file they =
+build a qt app to do that. Guess what goes wrong when you want to =
+crosscompile it...
+
+regards,
+
+Koen=
 
 
