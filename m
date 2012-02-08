@@ -1,33 +1,35 @@
-Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
-	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <richard.purdie@linuxfoundation.org>)
-	id 1RuvtM-0000z2-Ui for openembedded-core@lists.openembedded.org;
-	Wed, 08 Feb 2012 02:00:13 +0100
-Received: from localhost (localhost [127.0.0.1])
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q180q99k013014
+Received: from mail-lpp01m010-f47.google.com ([209.85.215.47])
+	by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <raj.khem@gmail.com>) id 1Ruwxu-0002kC-8f
+	for openembedded-core@lists.openembedded.org;
+	Wed, 08 Feb 2012 03:08:58 +0100
+Received: by lahc1 with SMTP id c1so67799lah.6
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 8 Feb 2012 00:52:09 GMT
-Received: from tim.rpsys.net ([127.0.0.1])
-	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
-	port 10024) with LMTP
-	id 02673-08 for <openembedded-core@lists.openembedded.org>;
-	Wed,  8 Feb 2012 00:52:05 +0000 (GMT)
-Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q180prhq013008
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO)
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 8 Feb 2012 00:51:59 GMT
-Message-ID: <1328662317.29471.1.camel@ted>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Date: Wed, 08 Feb 2012 00:51:57 +0000
-In-Reply-To: <cover.1328654424.git.sgw@linux.intel.com>
-References: <cover.1328654424.git.sgw@linux.intel.com>
-X-Mailer: Evolution 3.2.2- 
-Mime-Version: 1.0
-X-Virus-Scanned: amavisd-new at rpsys.net
-Subject: Re: [CONSOLIDATED PULL 00/35] Catching up with Pulls
+	Tue, 07 Feb 2012 18:00:55 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc:content-type:content-transfer-encoding;
+	bh=ABlr6FKIZgRX9U0W4vuqEHSgrEn+Fmg5jbdt5u7CglA=;
+	b=L/5hW2ojiC8XqSi47zelTtB1AC2Dl9zDg4W5/0Gb6gu8YYzJK/UQnNKLB8efgxiEyv
+	pThJhgqehEILKaPy/PQqJGXCrvbc2rJPq4w76LMf0jxWWGfbz8RDN0qugUpq1k3k7rqY
+	X+a3VzW61DfSpEqP6n1/pCjp5+k8pMHQtumuw=
+Received: by 10.112.32.1 with SMTP id e1mr7348234lbi.3.1328666455237; Tue, 07
+	Feb 2012 18:00:55 -0800 (PST)
+MIME-Version: 1.0
+Received: by 10.152.5.201 with HTTP; Tue, 7 Feb 2012 18:00:25 -0800 (PST)
+In-Reply-To: <4F31B1E3.4080600@windriver.com>
+References: <04705556464a6e41642962da40f0e17847ee3483.1328510188.git.raj.khem@gmail.com>
+	<633b2b23bbddb8cb2b0aa1d75ee82b9826d1de55.1328510188.git.raj.khem@gmail.com>
+	<4F314FA2.6060708@linux.intel.com>
+	<CAMKF1sqQQLVBUarw50B33DmD9G_YNrG7QpJj8-LgtygO8j3O+w@mail.gmail.com>
+	<4F3154CD.3000305@linux.intel.com> <4F31B1E3.4080600@windriver.com>
+From: Khem Raj <raj.khem@gmail.com>
+Date: Tue, 7 Feb 2012 18:00:25 -0800
+Message-ID: <CAMKF1sr8LWWK6Pq1MK2z6gVNr9X2a4he8gmF0hrxZGx9bwbvgQ@mail.gmail.com>
+To: Mark Hatle <mark.hatle@windriver.com>
+Cc: "Wold, Saul" <saul.wold@intel.com>,
+	openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH 10/20] pseudo: Wrap renameat and opendir
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -42,89 +44,596 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 08 Feb 2012 01:00:13 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Wed, 08 Feb 2012 02:08:58 -0000
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
-On Tue, 2012-02-07 at 14:45 -0800, Saul Wold wrote:
-> Richard et al:
-> 
-> Updates from various folks, this include kernel, uclibc.
-> 
-> One Major change to note is Khem's task-core-tools breakup and
-> the renaming of POKY_ -> CORE_IMAGE_.  This will require layers
-> to pay attention and fix.
-> 
-> Sau!
-> 
-> 
-> The following changes since commit 18d9fcfc4bc4b01f73e89f3b988c9d3d543c7705:
-> 
->   libzypp: add missing runtime dependences on gzip and gnupg (2012-02-03 17:23:28 +0000)
-> 
-> are available in the git repository at:
->   git://git.openembedded.org/openembedded-core-contrib sgw/stage
->   http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=sgw/stage
-> 
-> Andreas Oberritter (1):
->   tune-mips32.inc: Add mips32-nf and mips32el-nf
-> 
-> Bruce Ashfield (5):
->   linux-yocto: locate and use out of tree features specified on the
->     SRC_URI
->   linux-yocto: meta updates for sys940x and cleanup
->   linux-yocto: rt compiliation fix
->   kern-tools: remove explicit 'yocto' references from auto-bsp handling
->   linux-yocto: fri2: use emgd-1.10
-> 
-> Chase Maupin (1):
->   u-boot inc: update inc file for newer u-boot versions
-> 
-> Darren Hart (1):
->   bootimg: Use the same OS files for each boot method
-> 
-> Khem Raj (13):
->   xorg-apps: Bump PR to accomodate meta-oe recipe deletion
->   task-core-tools: Divide it into 3 recipes
->   Enable options needed for ltp to compile
->   runqemu-internal: qemuarm can handle 256M
->   gconf,consolekit: Avoid polkit when compiling with uclibc
->   python: Fix build failure of python-elementtree on x86_64
->   libdrm: Fix build failure unearthed by uclibc
->   libx11: Backport _XGetRequest API
->   pseudo: Wrap renameat and opendir
->   uclibc: Upgrade recipes from 0.9.32 -> 0.9.33
->   classes,recipes: Replace POKY_* with CORE_IMAGE_*
->   gcc-cross-testing: Fix evaluation of user and target name
->   mirrors.bbclass: Add yp.org and oe.org to fallback mirrors
-> 
-> Mike Crowe (3):
->   libusb1: Cope with ${libdir} and ${base_libdir} being the same
->   libusb-compat: Cope with ${libdir} and ${base_libdir} being the same
->   libcap: Cope with ${libdir} and ${base_libdir} being the same
-> 
-> Otavio Salvador (2):
->   udev: stop providing cache support by default
->   dhcp: move dhcp leases files handling to postinst/postrm
-> 
-> Peter Tworek (3):
->   busybox: Add flock utility to default configuration.
->   webkit-gtk: Fix error.html resource path.
->   webkit-gtk: Make webgl support configurable via DISTRO_FEATURES.
-> 
-> Saul Wold (3):
->   gnupg-1.4.7: Update Patch Info
->   openssl-0.9.8: Remove in favor or 1.0.0
->   mtools-3.9.9: Use correct URI for the mirror
-> 
-> Wade Farnsworth (3):
->   systemtap: bump SRCREV to grab version 1.7
->   systemtap: extend the recipe to build the native package
->   systemtap: build and install uprobes.ko
+On Tue, Feb 7, 2012 at 3:21 PM, Mark Hatle <mark.hatle@windriver.com> wrote=
+:
+> The pseudo upstream has been updated. =C2=A0We should like just update th=
+e recipe
+> to use git commit: =C2=A0 =C2=A0 =C2=A0 =C2=A0 9461b2a88ba672c533a331f95d=
+d5ba7eba683c77
+>
 
-Merged to master, thanks.
+yes that is for git recipe we still need patches for 1.2 recipe and
+default is to use 1.2
 
-Richard
-
+> --Mark
+>
+>
+> On 2/7/12 11:43 AM, Saul Wold wrote:
+>>
+>> On 02/07/2012 08:31 AM, Khem Raj wrote:
+>>>
+>>> On Tue, Feb 7, 2012 at 8:21 AM, Saul Wold<sgw@linux.intel.com> =C2=A0 w=
+rote:
+>>>>
+>>>> On 02/05/2012 10:40 PM, Khem Raj wrote:
+>>>>>
+>>>>>
+>>>>> Signed-off-by: Khem Raj<raj.khem@gmail.com>
+>>>>> ---
+>>>>> =C2=A0 meta/recipes-devtools/pseudo/pseudo/opendir.patch =C2=A0| =C2=
+=A0 92 ++++++++
+>>>>> =C2=A0 meta/recipes-devtools/pseudo/pseudo/renameat.patch | =C2=A0227
+>>>>> ++++++++++++++++++++
+>>>>> =C2=A0 meta/recipes-devtools/pseudo/pseudo_1.2.bb =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 | =C2=A0 =C2=A06 +-
+>>>>> =C2=A0 3 files changed, 323 insertions(+), 2 deletions(-)
+>>>>> =C2=A0 create mode 100644 meta/recipes-devtools/pseudo/pseudo/opendir=
+.patch
+>>>>> =C2=A0 create mode 100644 meta/recipes-devtools/pseudo/pseudo/renamea=
+t.patch
+>>>>>
+>>>>> diff --git a/meta/recipes-devtools/pseudo/pseudo/opendir.patch
+>>>>> b/meta/recipes-devtools/pseudo/pseudo/opendir.patch
+>>>>> new file mode 100644
+>>>>> index 0000000..d20f717
+>>>>> --- /dev/null
+>>>>> +++ b/meta/recipes-devtools/pseudo/pseudo/opendir.patch
+>>>>> @@ -0,0 +1,92 @@
+>>>>> +commit 162f2692c399b93311652201a940fdaf9c9e6924
+>>>>> +Author: Peter Seebach<peter.seebach@windriver.com>
+>>>>> +Date: =C2=A0 Thu Feb 2 11:45:42 2012 -0600
+>>>>> +
+>>>>> + =C2=A0 =C2=A0Make opendir/closedir stash and forget directory names=
+.
+>>>>> +
+>>>>> + =C2=A0 =C2=A0The dirfd(DIR *) interface allows you to get the fd fo=
+r a DIR *,
+>>>>> + =C2=A0 =C2=A0meaning you can use it with openat(), meaning you can =
+need its
+>>>>> + =C2=A0 =C2=A0path. =C2=A0This causes a segfault. =C2=A0Also gonna f=
+ix the base_path
+>>>>> + =C2=A0 =C2=A0code not to segfault in that case, but first fix the u=
+nderlying
+>>>>> + =C2=A0 =C2=A0problem.
+>>>>> +
+>>>>
+>>>>
+>>>>
+>>>> Missing Upstream-Status: and Signed-off-by (yes I know we have an emai=
+l
+>>>> header).
+>>>
+>>>
+>>> they are backports
+>>>
+>> Please update the patch!
+>>
+>> Thanks
+>> =C2=A0 =C2=A0 =C2=A0 =C2=A0Sau!
+>>
+>>>>
+>>>> Thanks
+>>>> =C2=A0 =C2=A0 =C2=A0 =C2=A0 Sau!
+>>>>
+>>>>> +diff --git a/ChangeLog.txt b/ChangeLog.txt
+>>>>> +index 4de488c..9625b38 100644
+>>>>> +--- a/ChangeLog.txt
+>>>>> ++++ b/ChangeLog.txt
+>>>>> +@@ -1,3 +1,7 @@
+>>>>> ++2012-02-02:
+>>>>> ++ =C2=A0 =C2=A0 =C2=A0* (seebs) stash dir name for DIR * from opendi=
+r using dirfd.
+>>>>> ++ =C2=A0 =C2=A0 =C2=A0* (seebs) add closedir.
+>>>>> ++
+>>>>> + 2011-11-02:
+>>>>> + =C2=A0 =C2=A0 =C2=A0 * (seebs) Call this 1.2 because the UNLOAD cha=
+nge is moderately
+>>>>> + =C2=A0 =C2=A0 =C2=A0 =C2=A0 significant, and so's the clone change.
+>>>>> +diff --git a/ports/unix/guts/closedir.c b/ports/unix/guts/closedir.c
+>>>>> +new file mode 100644
+>>>>> +index 0000000..1085361
+>>>>> +--- /dev/null
+>>>>> ++++ b/ports/unix/guts/closedir.c
+>>>>> +@@ -0,0 +1,20 @@
+>>>>> ++/*
+>>>>> ++ * Copyright (c) 2012 Wind River Systems; see
+>>>>> ++ * guts/COPYRIGHT for information.
+>>>>> ++ *
+>>>>> ++ * static int
+>>>>> ++ * wrap_closedir(DIR *dirp) {
+>>>>> ++ * =C2=A0 =C2=A0int rc =3D -1;
+>>>>> ++ */
+>>>>> ++ =C2=A0 =C2=A0 =C2=A0if (!dirp) {
+>>>>> ++ =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0errno =3D EFAULT;
+>>>>> ++ =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0return -1;
+>>>>> ++ =C2=A0 =C2=A0 =C2=A0}
+>>>>> ++
+>>>>> ++ =C2=A0 =C2=A0 =C2=A0int fd =3D dirfd(dirp);
+>>>>> ++ =C2=A0 =C2=A0 =C2=A0pseudo_client_op(OP_CLOSE, 0, fd, -1, 0, 0);
+>>>>> ++ =C2=A0 =C2=A0 =C2=A0rc =3D real_closedir(dirp);
+>>>>> ++
+>>>>> ++/* =C2=A0 =C2=A0return rc;
+>>>>> ++ * }
+>>>>> ++ */
+>>>>> +diff --git a/ports/unix/guts/opendir.c b/ports/unix/guts/opendir.c
+>>>>> +index 8eaa71f..e69717e 100644
+>>>>> +--- a/ports/unix/guts/opendir.c
+>>>>> ++++ b/ports/unix/guts/opendir.c
+>>>>> +@@ -6,8 +6,25 @@
+>>>>> + =C2=A0* wrap_opendir(const char *path) {
+>>>>> + =C2=A0* =C2=A0 =C2=A0DIR * rc =3D NULL;
+>>>>> + =C2=A0*/
+>>>>> ++ =C2=A0 =C2=A0 =C2=A0struct stat buf;
+>>>>> ++ =C2=A0 =C2=A0 =C2=A0int save_errno;
+>>>>> +
+>>>>> + =C2=A0 =C2=A0 =C2=A0 rc =3D real_opendir(path);
+>>>>> ++ =C2=A0 =C2=A0 =C2=A0if (rc) {
+>>>>> ++ =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0int fd;
+>>>>> ++ =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0save_errno =3D err=
+no;
+>>>>> ++ =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0fd =3D dirfd(rc);
+>>>>> ++ =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0if (real_fstat(fd,=
+&buf) =3D=3D -1) {
+>>>>>
+>>>>> ++ =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0pseudo_debug(1, "diropen (fd %d) succeeded, but
+>>>>> fstat failed (%s).\n",
+>>>>> ++ =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0fd, strerror(errno));
+>>>>> ++ =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0pseudo_client_op_plain(OP_OPEN, PSA_READ, fd,
+>>>>> -1,
+>>>>> path, 0);
+>>>>> ++ =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0} else {
+>>>>> ++ =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0pseudo_client_op_plain(OP_OPEN, PSA_READ, fd,
+>>>>> -1,
+>>>>> path,&buf);
+>>>>> ++ =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0}
+>>>>> ++
+>>>>> ++
+>>>>> ++ =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0errno =3D save_err=
+no;
+>>>>> ++ =C2=A0 =C2=A0 =C2=A0}
+>>>>> +
+>>>>> + /* =C2=A0 =C2=A0return rc;
+>>>>> + =C2=A0* }
+>>>>> +diff --git a/ports/unix/wrapfuncs.in b/ports/unix/wrapfuncs.in
+>>>>> +index e06e404..32250c4 100644
+>>>>> +--- a/ports/unix/wrapfuncs.in
+>>>>> ++++ b/ports/unix/wrapfuncs.in
+>>>>> +@@ -21,6 +21,7 @@ long pathconf(const char *path, int name);
+>>>>> + char *realpath(const char *name, char *resolved_name); /*
+>>>>> version=3D"GLIBC_2.3" */
+>>>>> + int remove(const char *path); /* flags=3DAT_SYMLINK_NOFOLLOW */
+>>>>> + DIR *opendir(const char *path);
+>>>>> ++int closedir(DIR *dirp);
+>>>>> + char *tempnam(const char *template, const char *pfx);
+>>>>> + char *tmpnam(char *s);
+>>>>> + int truncate(const char *path, off_t length);
+>>>>> diff --git a/meta/recipes-devtools/pseudo/pseudo/renameat.patch
+>>>>> b/meta/recipes-devtools/pseudo/pseudo/renameat.patch
+>>>>> new file mode 100644
+>>>>> index 0000000..74c8585
+>>>>> --- /dev/null
+>>>>> +++ b/meta/recipes-devtools/pseudo/pseudo/renameat.patch
+>>>>> @@ -0,0 +1,227 @@
+>>>>> +commit 795f2b44b7f692151556782f142a4a6e7d45d892
+>>>>> +Author: Peter Seebach<peter.seebach@windriver.com>
+>>>>> +Date: =C2=A0 Thu Feb 2 15:49:21 2012 -0600
+>>>>> +
+>>>>> + =C2=A0 =C2=A0Implement renameat()
+>>>>> +
+>>>>> + =C2=A0 =C2=A0After three long years, someone tried to use this. =C2=
+=A0This was
+>>>>> impossibly
+>>>>> + =C2=A0 =C2=A0hard back when pseudo was written, because there was o=
+nly one
+>>>>> dirfd
+>>>>> + =C2=A0 =C2=A0provided for. =C2=A0Thing is, now, the canonicalizatio=
+n happens in
+>>>>> wrapfuncs,
+>>>>> + =C2=A0 =C2=A0so a small tweak to makewrappers to recognize that old=
+path should
+>>>>> use
+>>>>> + =C2=A0 =C2=A0olddirfd if it exists is enough to get us fully canoni=
+calized
+>>>>> paths
+>>>>> + =C2=A0 =C2=A0when needed.
+>>>>> +
+>>>>> + =C2=A0 =C2=A0Also fix the crash if base_path gets called with an fd=
+ for which
+>>>>> we
+>>>>> have
+>>>>> + =C2=A0 =C2=A0no path.
+>>>>> +
+>>>>> +diff --git a/ChangeLog.txt b/ChangeLog.txt
+>>>>> +index 9625b38..25bd463 100644
+>>>>> +--- a/ChangeLog.txt
+>>>>> ++++ b/ChangeLog.txt
+>>>>> +@@ -1,6 +1,9 @@
+>>>>> + 2012-02-02:
+>>>>> + =C2=A0 =C2=A0 =C2=A0 * (seebs) stash dir name for DIR * from opendi=
+r using dirfd.
+>>>>> + =C2=A0 =C2=A0 =C2=A0 * (seebs) add closedir.
+>>>>> ++ =C2=A0 =C2=A0 =C2=A0* (seebs) add initial pass at renameat()
+>>>>> ++ =C2=A0 =C2=A0 =C2=A0* (seebs) in base_path, don't try to strlen th=
+e result if
+>>>>> ++ =C2=A0 =C2=A0 =C2=A0 =C2=A0fd_path() returns NULL.
+>>>>> +
+>>>>> + 2011-11-02:
+>>>>> + =C2=A0 =C2=A0 =C2=A0 * (seebs) Call this 1.2 because the UNLOAD cha=
+nge is moderately
+>>>>> +diff --git a/makewrappers b/makewrappers
+>>>>> +index 20bbf2b..bf344d6 100755
+>>>>> +--- a/makewrappers
+>>>>> ++++ b/makewrappers
+>>>>> +@@ -211,12 +211,13 @@ class Function:
+>>>>> + =C2=A0 =C2=A0 =C2=A0 =C2=A0 self.flags =3D '0'
+>>>>> + =C2=A0 =C2=A0 =C2=A0 =C2=A0 self.port =3D port
+>>>>> + =C2=A0 =C2=A0 =C2=A0 =C2=A0 self.directory =3D ''
+>>>>> +- =C2=A0 =C2=A0 =C2=A0self.version =3D 'NULL'
+>>>>> ++ =C2=A0 =C2=A0 =C2=A0 =C2=A0self.version =3D 'NULL'
+>>>>> + =C2=A0 =C2=A0 =C2=A0 =C2=A0 # On Darwin, some functions are SECRETL=
+Y converted to
+>>>>> foo$INODE64
+>>>>> + =C2=A0 =C2=A0 =C2=A0 =C2=A0 # when called. =C2=A0So we have to look=
+ those up for real_*
+>>>>> + =C2=A0 =C2=A0 =C2=A0 =C2=A0 self.inode64 =3D None
+>>>>> + =C2=A0 =C2=A0 =C2=A0 =C2=A0 self.real_func =3D None
+>>>>> + =C2=A0 =C2=A0 =C2=A0 =C2=A0 self.paths_to_munge =3D []
+>>>>> ++ =C2=A0 =C2=A0 =C2=A0 =C2=A0self.dirfds =3D {}
+>>>>> + =C2=A0 =C2=A0 =C2=A0 =C2=A0 self.hand_wrapped =3D None
+>>>>> + =C2=A0 =C2=A0 =C2=A0 =C2=A0 # used for the copyright date when crea=
+ting stub functions
+>>>>> + =C2=A0 =C2=A0 =C2=A0 =C2=A0 self.date =3D datetime.date.today().yea=
+r
+>>>>> +@@ -239,6 +240,7 @@ class Function:
+>>>>> + =C2=A0 =C2=A0 =C2=A0 =C2=A0 # * If the arg has a name ending in 'pa=
+th', we will
+>>>>> canonicalize
+>>>>> it.
+>>>>> + =C2=A0 =C2=A0 =C2=A0 =C2=A0 # * If the arg is named 'dirfd' or 'fla=
+gs', it becomes the
+>>>>> default
+>>>>> + =C2=A0 =C2=A0 =C2=A0 =C2=A0 # =C2=A0 values for the dirfd and flags=
+ arguments when
+>>>>> canonicalizing.
+>>>>> ++ =C2=A0 =C2=A0 =C2=A0 =C2=A0# * If the name ends in dirfd, we do th=
+e same fancy stuff.
+>>>>> + =C2=A0 =C2=A0 =C2=A0 =C2=A0 # * Note that the "comments" field (/* =
+... */ after the decl)
+>>>>> can
+>>>>> + =C2=A0 =C2=A0 =C2=A0 =C2=A0 # =C2=A0 override the dirfd/flags value=
+s.
+>>>>> + =C2=A0 =C2=A0 =C2=A0 =C2=A0 self.args =3D ArgumentList(bits.group(2=
+))
+>>>>> +@@ -246,7 +248,9 @@ class Function:
+>>>>> + =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 # ignore varargs, they ne=
+ver get these special treatments
+>>>>> + =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 if arg.vararg:
+>>>>> + =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 pass
+>>>>> +- =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0elif arg.name =3D=3D 'dir=
+fd':
+>>>>> ++ =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0elif arg.name[-5:] =3D=3D=
+ 'dirfd':
+>>>>> ++ =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0if len(arg.=
+name)> =C2=A0 =C2=A0 5:
+>>>>> ++ =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0self.dirfds[arg.name[:-5]] =3D True
+>>>>> + =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 self.dirfd =
+=3D 'dirfd'
+>>>>> + =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 elif arg.name =3D=3D 'fla=
+gs':
+>>>>> + =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 self.flags =
+=3D 'flags'
+>>>>> +@@ -325,9 +329,13 @@ class Function:
+>>>>> + =C2=A0 =C2=A0 =C2=A0 =C2=A0 """create/allocate canonical paths"""
+>>>>> + =C2=A0 =C2=A0 =C2=A0 =C2=A0 alloc_paths =3D []
+>>>>> + =C2=A0 =C2=A0 =C2=A0 =C2=A0 for path in self.paths_to_munge:
+>>>>> ++ =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0prefix =3D path[:-4]
+>>>>> ++ =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0if not prefix in self.dirfds:
+>>>>> ++ =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0prefix =3D =
+''
+>>>>> ++ =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0print "for path %s: prefi=
+x<%s>" % ( path, prefix )
+>>>>> + =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 alloc_paths.append(
+>>>>> +- =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0"%s =3D pse=
+udo_root_path(__func__, __LINE__, %s, %s,
+>>>>> %s);"
+>>>>> %
+>>>>> +- =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0(path, self=
+.dirfd, path, self.flags))
+>>>>> ++ =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0"%s =3D pse=
+udo_root_path(__func__, __LINE__, %s%s, %s,
+>>>>> %s);" %
+>>>>> ++ =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0(path, pref=
+ix, self.dirfd, path, self.flags))
+>>>>> + =C2=A0 =C2=A0 =C2=A0 =C2=A0 return "\n\t\t\t".join(alloc_paths)
+>>>>> +
+>>>>> + =C2=A0 =C2=A0 def free_paths(self):
+>>>>> +diff --git a/ports/unix/guts/renameat.c b/ports/unix/guts/renameat.c
+>>>>> +index c8203b7..f13cd1e 100644
+>>>>> +--- a/ports/unix/guts/renameat.c
+>>>>> ++++ b/ports/unix/guts/renameat.c
+>>>>> +@@ -1,15 +1,111 @@
+>>>>> + /*
+>>>>> +- * Copyright (c) 2008-2010 Wind River Systems; see
+>>>>> ++ * Copyright (c) 2008-2012 Wind River Systems; see
+>>>>> + =C2=A0* guts/COPYRIGHT for information.
+>>>>> + =C2=A0*
+>>>>> + =C2=A0* static int
+>>>>> + =C2=A0* wrap_renameat(int olddirfd, const char *oldpath, int newdir=
+fd,
+>>>>> const
+>>>>> char *newpath) {
+>>>>> + =C2=A0* =C2=A0 =C2=A0int rc =3D -1;
+>>>>> + =C2=A0*/
+>>>>> ++ =C2=A0 =C2=A0 =C2=A0pseudo_msg_t *msg;
+>>>>> ++ =C2=A0 =C2=A0 =C2=A0struct stat oldbuf, newbuf;
+>>>>> ++ =C2=A0 =C2=A0 =C2=A0int oldrc, newrc;
+>>>>> ++ =C2=A0 =C2=A0 =C2=A0int save_errno;
+>>>>> ++ =C2=A0 =C2=A0 =C2=A0int old_db_entry =3D 0;
+>>>>> +
+>>>>> +- =C2=A0 =C2=A0 =C2=A0pseudo_diag("help! unimplemented renameat [%s =
+-> =C2=A0 =C2=A0 %s].\n",
+>>>>> oldpath, newpath);
+>>>>> ++ =C2=A0 =C2=A0 =C2=A0pseudo_debug(2, "renameat: %d,%s->%d,%s\n",
+>>>>> ++ =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0olddirfd, oldpath =
+? oldpath : "<nil>",
+>>>>> ++ =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0newdirfd, newpath =
+? newpath : "<nil>");
+>>>>> ++
+>>>>> ++#ifdef PSEUDO_NO_REAL_AT_FUNCTIONS
+>>>>> ++ =C2=A0 =C2=A0 =C2=A0if (olddirfd !=3D AT_FDCWD || newdirfd !=3D AT=
+_FDCWD) {
+>>>>> ++ =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0errno =3D ENOSYS;
+>>>>> ++ =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0return -1;
+>>>>> ++ =C2=A0 =C2=A0 =C2=A0}
+>>>>> ++#endif
+>>>>> ++
+>>>>> ++ =C2=A0 =C2=A0 =C2=A0if (!oldpath || !newpath) {
+>>>>> ++ =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0errno =3D EFAULT;
+>>>>> ++ =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0return -1;
+>>>>> ++ =C2=A0 =C2=A0 =C2=A0}
+>>>>> ++
+>>>>> ++ =C2=A0 =C2=A0 =C2=A0save_errno =3D errno;
+>>>>> ++
+>>>>> ++#ifdef PSEUDO_NO_REAL_AT_FUNCTIONS
+>>>>> ++ =C2=A0 =C2=A0 =C2=A0newrc =3D real_lstat(newpath,&newbuf);
+>>>>> ++ =C2=A0 =C2=A0 =C2=A0oldrc =3D real_lstat(oldpath,&oldbuf);
+>>>>> ++#else
+>>>>> ++ =C2=A0 =C2=A0 =C2=A0oldrc =3D real___fxstatat(_STAT_VER, olddirfd,=
+ oldpath,&oldbuf,
+>>>>> AT_SYMLINK_NOFOLLOW);
+>>>>> ++ =C2=A0 =C2=A0 =C2=A0newrc =3D real___fxstatat(_STAT_VER, newdirfd,=
+ newpath,&newbuf,
+>>>>> AT_SYMLINK_NOFOLLOW);
+>>>>>
+>>>>> ++#endif
+>>>>> ++
+>>>>> ++ =C2=A0 =C2=A0 =C2=A0errno =3D save_errno;
+>>>>> ++
+>>>>> ++ =C2=A0 =C2=A0 =C2=A0/* newpath must be removed. */
+>>>>> ++ =C2=A0 =C2=A0 =C2=A0/* as with unlink, we have to mark that the fi=
+le may get
+>>>>> deleted
+>>>>> */
+>>>>> ++ =C2=A0 =C2=A0 =C2=A0msg =3D pseudo_client_op_plain(OP_MAY_UNLINK, =
+0, -1, newdirfd,
+>>>>> newpath, newrc ? NULL :&newbuf);
+>>>>> ++ =C2=A0 =C2=A0 =C2=A0if (msg&& =C2=A0 =C2=A0 msg->result =3D=3D RES=
+ULT_SUCCEED)
+>>>>>
+>>>>> ++ =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0old_db_entry =3D 1=
+;
+>>>>> + =C2=A0 =C2=A0 =C2=A0 rc =3D real_renameat(olddirfd, oldpath, newdir=
+fd, newpath);
+>>>>> ++ =C2=A0 =C2=A0 =C2=A0save_errno =3D errno;
+>>>>> ++ =C2=A0 =C2=A0 =C2=A0if (old_db_entry) {
+>>>>> ++ =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0if (rc =3D=3D -1) =
+{
+>>>>> ++ =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0/* since we failed, that wasn't really unlinked
+>>>>> --
+>>>>> put
+>>>>> ++ =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 * it back.
+>>>>> ++ =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 */
+>>>>> ++ =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0pseudo_client_op_plain(OP_CANCEL_UNLINK, 0, -1,
+>>>>> newdirfd, newpath,&newbuf);
+>>>>> ++ =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0} else {
+>>>>> ++ =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0/* confirm that the file was removed */
+>>>>> ++ =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0pseudo_client_op_plain(OP_DID_UNLINK, 0, -1,
+>>>>> newdirfd, newpath,&newbuf);
+>>>>> ++ =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0}
+>>>>> ++ =C2=A0 =C2=A0 =C2=A0}
+>>>>> ++ =C2=A0 =C2=A0 =C2=A0if (rc =3D=3D -1) {
+>>>>> ++ =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0/* and we're done.=
+ */
+>>>>> ++ =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0errno =3D save_err=
+no;
+>>>>> ++ =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0return rc;
+>>>>> ++ =C2=A0 =C2=A0 =C2=A0}
+>>>>> ++ =C2=A0 =C2=A0 =C2=A0save_errno =3D errno;
+>>>>> ++ =C2=A0 =C2=A0 =C2=A0/* nothing to do for a "rename" of a link to i=
+tself */
+>>>>> ++ =C2=A0 =C2=A0 =C2=A0if (newrc !=3D -1&& =C2=A0 =C2=A0 oldrc !=3D -=
+1&&
+>>>>> ++ =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0newbuf.st_dev =3D=3D oldbuf.st_d=
+ev&&
+>>>>> ++ =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0newbuf.st_ino =3D=3D oldbuf.st_i=
+no) {
+>>>>> ++ =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0return rc;
+>>>>> ++ =C2=A0 =C2=A0 =C2=A0 =C2=A0}
+>>>>> ++
+>>>>> ++ =C2=A0 =C2=A0 =C2=A0/* rename(3) is not mv(1). =C2=A0rename(file, =
+dir) fails; you must
+>>>>> provide
+>>>>> ++ =C2=A0 =C2=A0 =C2=A0 * the corrected path yourself. =C2=A0You can =
+rename over a
+>>>>> directory
+>>>>> only
+>>>>> ++ =C2=A0 =C2=A0 =C2=A0 * if the source is a directory. =C2=A0Symlink=
+s are simply removed.
+>>>>> ++ =C2=A0 =C2=A0 =C2=A0 *
+>>>>> ++ =C2=A0 =C2=A0 =C2=A0 * If we got here, the real rename call succee=
+ded. =C2=A0That means
+>>>>> newpath
+>>>>> ++ =C2=A0 =C2=A0 =C2=A0 * has been unlinked and oldpath has been link=
+ed to it.
+>>>>> ++ =C2=A0 =C2=A0 =C2=A0 *
+>>>>> ++ =C2=A0 =C2=A0 =C2=A0 * There are a ton of special cases to error c=
+heck. =C2=A0I don't
+>>>>> check
+>>>>> ++ =C2=A0 =C2=A0 =C2=A0 * for any of them, because in every such case=
+, the underlying
+>>>>> rename
+>>>>> ++ =C2=A0 =C2=A0 =C2=A0 * failed, and there is nothing to do.
+>>>>> ++ =C2=A0 =C2=A0 =C2=A0 * The only tricky part is that, because we us=
+ed to ignore
+>>>>> symlinks,
+>>>>> ++ =C2=A0 =C2=A0 =C2=A0 * we may have to rename or remove directory t=
+rees even though
+>>>>> in
+>>>>> ++ =C2=A0 =C2=A0 =C2=A0 * theory rename can never destroy a directory=
+ tree.
+>>>>> ++ =C2=A0 =C2=A0 =C2=A0 */
+>>>>> ++ =C2=A0 =C2=A0 =C2=A0if (!old_db_entry) {
+>>>>> ++ =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0/* create an entry=
+ under the old name, which will then
+>>>>> be
+>>>>> ++ =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 * renamed; this w=
+ay, children would get renamed too,
+>>>>> if
+>>>>> there
+>>>>> ++ =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 * were any.
+>>>>> ++ =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 */
+>>>>> ++ =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0if (newrc =3D=3D 0=
+) {
+>>>>> ++ =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0if (newbuf.st_dev !=3D oldbuf.st_dev) {
+>>>>> ++ =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0oldbuf.st_dev =3D newbuf.st_dev;
+>>>>> ++ =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0oldbuf.st_ino =3D newbuf.st_ino;
+>>>>> ++ =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0}
+>>>>> ++ =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0}
+>>>>> ++ =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0pseudo_debug(1, "c=
+reating new '%s' [%llu] to rename\n",
+>>>>> ++ =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0oldpath, (unsigned long long) oldbuf.st_ino);
+>>>>> ++ =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0pseudo_client_op_p=
+lain(OP_LINK, 0, -1, olddirfd,
+>>>>> oldpath,&oldbuf);
+>>>>> ++ =C2=A0 =C2=A0 =C2=A0}
+>>>>> ++ =C2=A0 =C2=A0 =C2=A0/* special case: use 'fd' for olddirfd, becaus=
+e
+>>>>> ++ =C2=A0 =C2=A0 =C2=A0 * we know it has no other meaning for RENAME
+>>>>> ++ =C2=A0 =C2=A0 =C2=A0 */
+>>>>> ++ =C2=A0 =C2=A0 =C2=A0pseudo_client_op_plain(OP_RENAME, 0, olddirfd,=
+ newdirfd,
+>>>>> newpath,&oldbuf, oldpath);
+>>>>>
+>>>>> +
+>>>>> ++ =C2=A0 =C2=A0 =C2=A0errno =3D save_errno;
+>>>>> + /* =C2=A0 =C2=A0return rc;
+>>>>> + =C2=A0* }
+>>>>> + =C2=A0*/
+>>>>> +diff --git a/pseudo_client.c b/pseudo_client.c
+>>>>> +index 48607c2..4a30420 100644
+>>>>> +--- a/pseudo_client.c
+>>>>> ++++ b/pseudo_client.c
+>>>>> +@@ -988,6 +988,8 @@ base_path(int dirfd, const char *path, int
+>>>>> leave_last) {
+>>>>> + =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 if (dirfd !=3D -1&=
+& =C2=A0 =C2=A0 dirfd !=3D AT_FDCWD) {
+>>>>>
+>>>>> + =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 if (dirfd>=3D 0) {
+>>>>> + =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 basepath =3D fd_path(dirfd);
+>>>>> ++ =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0}
+>>>>> ++ =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0if (basepath) {
+>>>>> + =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 baselen =3D strlen(basepath);
+>>>>> + =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 } else {
+>>>>> + =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 pseudo_diag("got *at() syscall for
+>>>>> unknown
+>>>>> directory, fd %d\n", dirfd);
+>>>>> +@@ -1128,7 +1130,10 @@ pseudo_client_op(pseudo_op_t op, int access,
+>>>>> int
+>>>>> fd, int dirfd, const char *path
+>>>>> + =C2=A0 =C2=A0 =C2=A0 if (path) {
+>>>>> + =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 pseudo_debug(2, " =
+%s", path);
+>>>>> + =C2=A0 =C2=A0 =C2=A0 }
+>>>>> +- =C2=A0 =C2=A0 =C2=A0if (fd !=3D -1) {
+>>>>> ++ =C2=A0 =C2=A0 =C2=A0/* for OP_RENAME in renameat, "fd" is also use=
+d for the
+>>>>> ++ =C2=A0 =C2=A0 =C2=A0 * second dirfd.
+>>>>> ++ =C2=A0 =C2=A0 =C2=A0 */
+>>>>> ++ =C2=A0 =C2=A0 =C2=A0if (fd !=3D -1&& =C2=A0 =C2=A0 op !=3D OP_RENA=
+ME) {
+>>>>>
+>>>>> + =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 pseudo_debug(2, " =
+[fd %d]", fd);
+>>>>> + =C2=A0 =C2=A0 =C2=A0 }
+>>>>> + =C2=A0 =C2=A0 =C2=A0 if (buf) {
+>>>>> diff --git a/meta/recipes-devtools/pseudo/pseudo_1.2.bb
+>>>>> b/meta/recipes-devtools/pseudo/pseudo_1.2.bb
+>>>>> index f2ebc22..04bcbce 100644
+>>>>> --- a/meta/recipes-devtools/pseudo/pseudo_1.2.bb
+>>>>> +++ b/meta/recipes-devtools/pseudo/pseudo_1.2.bb
+>>>>> @@ -1,10 +1,12 @@
+>>>>> =C2=A0 require pseudo.inc
+>>>>>
+>>>>> -PR =3D "r4"
+>>>>> +PR =3D "r5"
+>>>>>
+>>>>> =C2=A0 SRC_URI =3D
+>>>>> "http://www.yoctoproject.org/downloads/${BPN}/${BPN}-${PV}.tar.bz2 \
+>>>>> =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0file://oe-config.patc=
+h \
+>>>>> - =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 file://static_sqlite.patch"
+>>>>> + =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 file://static_sqlite.patch \
+>>>>> + =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 file://opendir.patch \
+>>>>> + =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 file://renameat.patch"
+>>>>>
+>>>>> =C2=A0 SRC_URI[md5sum] =3D "a2819084bab7e991f06626d02cf55048"
+>>>>> =C2=A0 SRC_URI[sha256sum] =3D
+>>>>> "4749a22df687f44d24c26e97170d4781a1bd52d5ee092364a40877e4d96ff058"
+>>>
+>>>
+>>
+>> _______________________________________________
+>> Openembedded-core mailing list
+>> Openembedded-core@lists.openembedded.org
+>> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
+>
+>
 
 
