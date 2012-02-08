@@ -1,57 +1,37 @@
-Received: from am1ehsobe001.messaging.microsoft.com ([213.199.154.204]
-	helo=AM1EHSOBE003.bigfish.com)
+Received: from mail-ey0-f175.google.com ([209.85.215.175])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <B29882@freescale.com>) id 1RvARw-0002HR-WD
+	(envelope-from <otavio.salvador@gmail.com>) id 1RvAX1-0002Td-J4
 	for openembedded-core@lists.openembedded.org;
-	Wed, 08 Feb 2012 17:32:53 +0100
-Received: from mail118-am1-R.bigfish.com (10.3.201.226) by
-	AM1EHSOBE003.bigfish.com (10.3.204.23) with Microsoft SMTP Server id
-	14.1.225.23; Wed, 8 Feb 2012 15:54:43 +0000
-Received: from mail118-am1 (localhost [127.0.0.1])	by
-	mail118-am1-R.bigfish.com (Postfix) with ESMTP id DAD7816039D	for
-	<openembedded-core@lists.openembedded.org>;
-	Wed,  8 Feb 2012 15:54:44 +0000 (UTC)
-X-SpamScore: -16
-X-BigFish: VS-16(zzbb2dI9371I936eK1505M1432N98dKzz1202hzz8275dhz2dh2a8h668h839h8e2h8e3hbe9k)
-X-Forefront-Antispam-Report: CIP:70.37.183.190; KIP:(null); UIP:(null); IPV:NLI;
-	H:mail.freescale.net; RD:none; EFVD:NLI
-Received: from mail118-am1 (localhost.localdomain [127.0.0.1]) by mail118-am1
-	(MessageSwitch) id 1328716482820555_17983;
-	Wed,  8 Feb 2012 15:54:42 +0000 (UTC)
-Received: from AM1EHSMHS012.bigfish.com (unknown [10.3.201.228])	by
-	mail118-am1.bigfish.com (Postfix) with ESMTP id C4562E0046	for
-	<openembedded-core@lists.openembedded.org>;
-	Wed,  8 Feb 2012 15:54:42 +0000 (UTC)
-Received: from mail.freescale.net (70.37.183.190) by AM1EHSMHS012.bigfish.com
-	(10.3.207.112) with Microsoft SMTP Server (TLS) id 14.1.225.23;
-	Wed, 8 Feb 2012 15:54:40 +0000
-Received: from 039-SN1MPN1-001.039d.mgd.msft.net ([169.254.1.244]) by
-	039-SN1MMR1-003.039d.mgd.msft.net ([10.84.1.16]) with mapi id
-	14.01.0355.003; Wed, 8 Feb 2012 09:54:30 -0600
-From: McClintock Matthew-B29882 <B29882@freescale.com>
+	Wed, 08 Feb 2012 17:38:07 +0100
+Received: by eaal10 with SMTP id l10so196041eaa.6
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 08 Feb 2012 08:30:04 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
+	h=mime-version:sender:in-reply-to:references:date
+	:x-google-sender-auth:message-id:subject:from:to:content-type;
+	bh=077IyhTRSfuOaKxpHo3UTu5vIPzLILjiZin0bOUyu94=;
+	b=FL4KSJZtkZqafs/a2N+Th81W9R97DOqva14tti1BFN8NMhlK/Gb9k5JJEWtkryi3Fj
+	VXGoXfPUwwF7lTaDThI5HU3yCnVj06s5XeJVwaZQBnJvMe02k8BOHSLM+XVroV3F1xfZ
+	Tx8jXUz6+nLvoMUKM0U3HFVDJaBvbhTN/trPs=
+MIME-Version: 1.0
+Received: by 10.213.10.145 with SMTP id p17mr2861750ebp.12.1328718604206; Wed,
+	08 Feb 2012 08:30:04 -0800 (PST)
+Sender: otavio.salvador@gmail.com
+Received: by 10.14.96.129 with HTTP; Wed, 8 Feb 2012 08:30:04 -0800 (PST)
+In-Reply-To: <1328717410.14363.46.camel@phil-desktop>
+References: <1328717200-13689-1-git-send-email-andrei@gherzan.ro>
+	<1328717410.14363.46.camel@phil-desktop>
+Date: Wed, 8 Feb 2012 14:30:04 -0200
+X-Google-Sender-Auth: 0dfiGwUGHNkQ7E8bKEx5NnXn77U
+Message-ID: <CAP9ODKqUo7qazvdbWxQB_bQh3jpf+Uf=kf1YVp=Y-oB6QQYGGQ@mail.gmail.com>
+From: Otavio Salvador <otavio@ossystems.com.br>
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Thread-Topic: [OE-core] Expert track at yocto dev day?
-Thread-Index: AQHM5nnxI+VcaBYnEUuAiINJBgkjZw==
-Date: Wed, 8 Feb 2012 15:54:30 +0000
-Message-ID: <CAEsOVNeqHg0YDqato0=hfcUwMUpvoBqpHiOZXX=fmz8mgTz0Gg@mail.gmail.com>
-References: <DC6F4EDD-F0C5-4642-915F-5DA32D372ECD@dominion.thruhere.net>
-	<4F3195FB.20003@linux.intel.com>
-	<C13FAF30-26F8-4435-A2F8-DCD3F65876EA@dominion.thruhere.net>
-	<1328715426.3164.13.camel@ted>
-In-Reply-To: <1328715426.3164.13.camel@ted>
-Accept-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [99.47.177.27]
-MIME-Version: 1.0
-X-OriginatorOrg: freescale.com
-Subject: Re: Expert track at yocto dev day?
+Subject: Re: [PATCH] dhcp: Update to 4.2.3-P2
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
-Reply-To: McClintock Matthew-B29882 <B29882@freescale.com>,
-	Patches and discussions about the oe-core layer
+Reply-To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
 List-Id: Patches and discussions about the oe-core layer
 	<openembedded-core.lists.openembedded.org>
@@ -62,41 +42,54 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 08 Feb 2012 16:32:53 -0000
-Content-Language: en-US
-Content-Type: text/plain; charset="iso-8859-1"
-Content-ID: <7451F34C999C8349B1557FC0B9BA832D@freescale.net>
+X-List-Received-Date: Wed, 08 Feb 2012 16:38:07 -0000
+Content-Type: multipart/alternative; boundary=0015174c170469024304b8766831
+
+--0015174c170469024304b8766831
+Content-Type: text/plain; charset=ISO-8859-1
+
+On Wed, Feb 8, 2012 at 14:10, Phil Blundell <philb@gnu.org> wrote:
+
+> This isn't just a straightforward update, you seem to be moving dhclient
+> from ${base_sbindir} to ${sbindir}.  If that's a good thing (which
+> doesn't seem totally obvious to me) then it ought at least to be
+> mentioned in the commit message.
+>
+
+He is doing that because it links against libcrypt that is at ${libdir}.
+But it clearly needs to be in another commit or, at least, explicit in the
+changlog.
+
+-- 
+Otavio Salvador                             O.S. Systems
+E-mail: otavio@ossystems.com.br  http://www.ossystems.com.br
+Mobile: +55 53 9981-7854              http://projetos.ossystems.com.br
+
+--0015174c170469024304b8766831
+Content-Type: text/html; charset=ISO-8859-1
 Content-Transfer-Encoding: quoted-printable
 
-On Wed, Feb 8, 2012 at 9:37 AM, Richard Purdie
-<richard.purdie@linuxfoundation.org> wrote:
-> On Tue, 2012-02-07 at 22:27 +0100, Koen Kooi wrote:
->> Op 7 feb. 2012, om 22:22 heeft Saul Wold het volgende geschreven:
->> > On 02/07/2012 01:18 PM, Koen Kooi wrote:
->> >> Do we have enough people present to do an expert track at the yocto
->> dev days next week? I bet we can do a nice code sprint :)
->> >>
->> > Many of the experts will be working the dev days presenting, and
->> > sharing during the advanced session (which may be doing some work)!
->> > It was a thought at one point.
->>
->> I know at least one expert that will not be presenting for sure :)
+<div class=3D"gmail_quote">On Wed, Feb 8, 2012 at 14:10, Phil Blundell <spa=
+n dir=3D"ltr">&lt;<a href=3D"mailto:philb@gnu.org">philb@gnu.org</a>&gt;</s=
+pan> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex=
+;border-left:1px #ccc solid;padding-left:1ex">
+<div id=3D":1ev">This isn&#39;t just a straightforward update, you seem to =
+be moving dhclient<br>
+from ${base_sbindir} to ${sbindir}. =A0If that&#39;s a good thing (which<br=
 >
-> The developer day has sections which are of a hands on labs format and
-> we're trying to ensure there are people around to help out with those.
->
-> I'd love to get people together to do code sprint type activities but
-> there isn't really enough time to do everything and I know my schedule
-> has many meetings already spread over the conference. I wouldn't want to
-> do the code sprint at the expense of the developer day.
->
-> If we had a list of things we wanted to discuss/work on and an idea of
-> who needed/wanted to be involved, we probably could find a corner
-> somewhere and some time to look at things though.
+doesn&#39;t seem totally obvious to me) then it ought at least to be<br>
+mentioned in the commit message.<div class=3D"yj6qo ajU"><div id=3D":1sa" c=
+lass=3D"ajR" tabindex=3D"0"></div></div></div></blockquote></div><br>He is =
+doing that because it links against libcrypt that is at ${libdir}. But it c=
+learly needs to be in another commit or, at least, explicit in the changlog=
+.<br clear=3D"all">
+<div><br></div>-- <br>Otavio Salvador=A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =
+=A0 =A0 =A0 =A0 =A0 =A0O.S. Systems<br>E-mail: <a href=3D"mailto:otavio@oss=
+ystems.com.br" target=3D"_blank">otavio@ossystems.com.br</a>=A0 <a href=3D"=
+http://www.ossystems.com.br" target=3D"_blank">http://www.ossystems.com.br<=
+/a><br>
+Mobile: +55 53 9981-7854=A0 =A0 =A0 =A0=A0 =A0 =A0 =A0<a href=3D"http://pro=
+jetos.ossystems.com.br" target=3D"_blank">http://projetos.ossystems.com.br<=
+/a><br><br>
 
-Be sure to let the list know if you plan anything.
-
--M=
-
-
-
+--0015174c170469024304b8766831--
