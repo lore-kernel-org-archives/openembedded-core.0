@@ -1,38 +1,36 @@
-Received: from mga06.intel.com ([134.134.136.21] helo=orsmga101.jf.intel.com)
+Received: from mail-ee0-f47.google.com ([74.125.83.47])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <saul.wold@intel.com>) id 1RvCdp-0006Ks-Pj
+	(envelope-from <otavio.salvador@gmail.com>) id 1RvCfD-0006OG-78
 	for openembedded-core@lists.openembedded.org;
-	Wed, 08 Feb 2012 19:53:18 +0100
-Received: from mail-iy0-f180.google.com ([209.85.210.180])
-	by mga02.intel.com with ESMTP/TLS/RC4-SHA; 08 Feb 2012 10:45:12 -0800
-Received: by iabz7 with SMTP id z7so1583698iab.25
+	Wed, 08 Feb 2012 19:54:43 +0100
+Received: by eekd41 with SMTP id d41so240771eek.6
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 08 Feb 2012 10:45:12 -0800 (PST)
-Received: by 10.50.203.66 with SMTP id ko2mr34044735igc.7.1328726712183;
-	Wed, 08 Feb 2012 10:45:12 -0800 (PST)
-Received: from [10.6.18.245] (c-71-193-189-117.hsd1.wa.comcast.net.
-	[71.193.189.117])
-	by mx.google.com with ESMTPS id r18sm40701ibh.4.2012.02.08.10.45.09
-	(version=SSLv3 cipher=OTHER); Wed, 08 Feb 2012 10:45:10 -0800 (PST)
-Message-ID: <4F32C2B3.7020200@intel.com>
-Date: Wed, 08 Feb 2012 10:45:07 -0800
-From: Saul Wold <saul.wold@intel.com>
-Organization: Intel
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:9.0) Gecko/20111222 Thunderbird/9.0
+	Wed, 08 Feb 2012 10:46:39 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
+	h=mime-version:sender:in-reply-to:references:date
+	:x-google-sender-auth:message-id:subject:from:to:content-type;
+	bh=r1N5QfFiKDvezvqcCL5NaIeg+APGRSe3nZPXhjSsCLY=;
+	b=XDI14T4qSNeFBuu0H/cQ/UebscEmokGZYh6Imsy4lV5bin2BUGkh/v8Pvcy5Q9KxP3
+	bOEAy05U+bSUB5AdbZUFlUjWyhNYhSCKjJj4Z4CexLfrVamWbHA9pW8PALCWs5d7pGi9
+	m5sOvEv2M6DhQBsQFJDA0av9dMlkiS26Dw2Zk=
 MIME-Version: 1.0
-To: "Osier-mixon, Jeffrey" <jeffrey.osier-mixon@intel.com>
-References: <4F323C52.8030304@intel.com>
-	<CDED78A957032E45B3239CDDA7642D1508437968@ORSMSX105.amr.corp.intel.com>
-	<CALZ2gZX3LMTcJ11qg5T7RAJRGpcR3fE0YB2cWMbmXPzo3Vpqqg@mail.gmail.com>
-	<CAMKF1spwxYzxRM2NbYfaU_GLXqjBtuXi5kO_Up6t2MS1zREi4g@mail.gmail.com>
-	<CALZ2gZWmpnhxg=aa3qLbrpQLJqfgOn2W5WH0369rdHqyKqaD-A@mail.gmail.com>
-In-Reply-To: <CALZ2gZWmpnhxg=aa3qLbrpQLJqfgOn2W5WH0369rdHqyKqaD-A@mail.gmail.com>
-Cc: Yocto Project Discussion <yocto@yoctoproject.org>,
-	Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>, "Stewart,
-	David C" <david.c.stewart@intel.com>
-Subject: Re: [yocto] Upstream-Status finally @ 100%
+Received: by 10.14.53.74 with SMTP id f50mr9026698eec.5.1328726799703; Wed, 08
+	Feb 2012 10:46:39 -0800 (PST)
+Sender: otavio.salvador@gmail.com
+Received: by 10.14.96.129 with HTTP; Wed, 8 Feb 2012 10:46:39 -0800 (PST)
+In-Reply-To: <4F32C1A6.70402@gherzan.ro>
+References: <1328717200-13689-1-git-send-email-andrei@gherzan.ro>
+	<1328717410.14363.46.camel@phil-desktop>
+	<CAP9ODKqUo7qazvdbWxQB_bQh3jpf+Uf=kf1YVp=Y-oB6QQYGGQ@mail.gmail.com>
+	<1328720440.14363.56.camel@phil-desktop>
+	<4F32C1A6.70402@gherzan.ro>
+Date: Wed, 8 Feb 2012 16:46:39 -0200
+X-Google-Sender-Auth: YZFyMwVce_qy6Do2qHTmZbDomRY
+Message-ID: <CAP9ODKqaWXbWMx7WRgDEDfqpWM1YPEhbPG_V93mYtd_QVqQJ1g@mail.gmail.com>
+From: Otavio Salvador <otavio@ossystems.com.br>
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] dhcp: Update to 4.2.3-P2
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -47,57 +45,52 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 08 Feb 2012 18:53:18 -0000
-Content-Type: text/plain; charset=ISO-8859-1; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Wed, 08 Feb 2012 18:54:43 -0000
+Content-Type: multipart/alternative; boundary=90e6ba6150c6e65e4604b878506a
 
-On 02/08/2012 10:04 AM, Osier-mixon, Jeffrey wrote:
-> Ah, documentation :)  excellent
+--90e6ba6150c6e65e4604b878506a
+Content-Type: text/plain; charset=ISO-8859-1
+
+On Wed, Feb 8, 2012 at 16:40, Andrei Gherzan <andrei@gherzan.ro> wrote:
+
+> ...
 >
 
-Jefro:
+In my opinion we ought to merge your patch without handling crypto issue
+right now while we set in one way of fixing it.
 
-You can get more info about this from Mark's OE page:
-http://www.openembedded.org/wiki/Commit_Patch_Message_Guidelines
+It seems to me that the fix is to move libcrypto to base_libdir and don't
+touch dhcp for this.
 
-The Key thing to note on my numbers is that we have 461 patches that 
-could potentially be up-streamed to other communities, depending the 
-status of those communities, from active communities accepting patches 
-to upstream source that is just download-able with no activity or 
-maintainers.
+-- 
+Otavio Salvador                             O.S. Systems
+E-mail: otavio@ossystems.com.br  http://www.ossystems.com.br
+Mobile: +55 53 9981-7854              http://projetos.ossystems.com.br
 
-We have 1243 patches overall, which include OE Specific configuration 
-patches and Embedded specific tweaks to various upstreams that may not 
-be appropriate or acceptable to the upstream community.
+--90e6ba6150c6e65e4604b878506a
+Content-Type: text/html; charset=ISO-8859-1
+Content-Transfer-Encoding: quoted-printable
 
-Sau!
+<div class=3D"gmail_quote">On Wed, Feb 8, 2012 at 16:40, Andrei Gherzan <sp=
+an dir=3D"ltr">&lt;<a href=3D"mailto:andrei@gherzan.ro">andrei@gherzan.ro</=
+a>&gt;</span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0=
+ 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex">
 
+ =20
+   =20
+ =20
+  <div bgcolor=3D"#FFFFFF" text=3D"#000000"><div><div class=3D"h5">...</div=
+></div></div></blockquote><div><br></div><div>In my opinion we ought to mer=
+ge your patch without handling crypto issue right now while we set in one w=
+ay of fixing it.</div>
+<div><br></div><div>It seems to me that the fix is to move libcrypto to bas=
+e_libdir and don&#39;t touch dhcp for this.=A0</div></div><div><br></div>--=
+ <br>Otavio Salvador=A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0=
+ =A0O.S. Systems<br>E-mail: <a href=3D"mailto:otavio@ossystems.com.br" targ=
+et=3D"_blank">otavio@ossystems.com.br</a>=A0 <a href=3D"http://www.ossystem=
+s.com.br" target=3D"_blank">http://www.ossystems.com.br</a><br>
+Mobile: +55 53 9981-7854=A0 =A0 =A0 =A0=A0 =A0 =A0 =A0<a href=3D"http://pro=
+jetos.ossystems.com.br" target=3D"_blank">http://projetos.ossystems.com.br<=
+/a><br><br>
 
-
-
-> On Wed, Feb 8, 2012 at 9:45 AM, Khem Raj <raj.khem@gmail.com
-> <mailto:raj.khem@gmail.com>> wrote:
->
->     On Wed, Feb 8, 2012 at 9:34 AM, Osier-mixon, Jeffrey
->     <jeffrey.osier-mixon@intel.com
->     <mailto:jeffrey.osier-mixon@intel.com>> wrote:
->      > This sounds fantastic, and I'd love to create a page on the website
->      > reflecting this. Just so I am clear, what exactly is this 100%
->     of? Do we
->      > have no local patches to upstream projects at all?
->
->     it means that all patches have a field 'Upstream-Status'
->     and for most of them it reflects the status of patch w.r.t. upstream
->     of given package
->
->
->
->
-> --
-> Jeff Osier-Mixon http://jefro.net/blog
-> Yocto Project Community Manager @Intel http://yoctoproject.org
-> <http://yoctoproject.org/>
->
-
-
-
+--90e6ba6150c6e65e4604b878506a--
