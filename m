@@ -1,25 +1,25 @@
 Received: from mga09.intel.com ([134.134.136.24])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <paul.eggleton@linux.intel.com>) id 1RvYMy-00047W-JB
+	(envelope-from <paul.eggleton@linux.intel.com>) id 1RvYMz-00047W-At
 	for openembedded-core@lists.openembedded.org;
-	Thu, 09 Feb 2012 19:05:20 +0100
+	Thu, 09 Feb 2012 19:05:21 +0100
 Received: from orsmga001.jf.intel.com ([10.7.209.18])
-	by orsmga102.jf.intel.com with ESMTP; 09 Feb 2012 09:57:15 -0800
+	by orsmga102.jf.intel.com with ESMTP; 09 Feb 2012 09:57:16 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.67,352,1309762800"; d="scan'208";a="105753134"
+X-IronPort-AV: E=Sophos;i="4.67,352,1309762800"; d="scan'208";a="105753138"
 Received: from unknown (HELO helios.ger.corp.intel.com) ([10.252.123.13])
-	by orsmga001.jf.intel.com with ESMTP; 09 Feb 2012 09:57:14 -0800
+	by orsmga001.jf.intel.com with ESMTP; 09 Feb 2012 09:57:15 -0800
 From: Paul Eggleton <paul.eggleton@linux.intel.com>
 To: openembedded-core@lists.openembedded.org, philip@balister.org,
 	eric@eukrea.com
-Date: Thu,  9 Feb 2012 17:57:07 +0000
-Message-Id: <6dd3f664169b2ffd249da4e86f5f16b8c4316c99.1328809777.git.paul.eggleton@linux.intel.com>
+Date: Thu,  9 Feb 2012 17:57:08 +0000
+Message-Id: <eb604fbfbe547c3a7a4505eeab54f11ee00c0874.1328809777.git.paul.eggleton@linux.intel.com>
 X-Mailer: git-send-email 1.7.5.4
 In-Reply-To: <cover.1328809777.git.paul.eggleton@linux.intel.com>
 References: <cover.1328809777.git.paul.eggleton@linux.intel.com>
 In-Reply-To: <cover.1328809777.git.paul.eggleton@linux.intel.com>
 References: <cover.1328809777.git.paul.eggleton@linux.intel.com>
-Subject: [RFC PATCH 1/4] qt4: fix compile error in Qt 4.8.0 with gcc 4.6
+Subject: [RFC PATCH 2/4] qt4: build qmake for the target
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -34,84 +34,227 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 09 Feb 2012 18:05:20 -0000
+X-List-Received-Date: Thu, 09 Feb 2012 18:05:21 -0000
 
-Fix the following compile error (by disabling -Werror for QtWebKit):
+qmake was not being built at all (since we had the host version from
+qt4-native) and the default is to build for the host machine within
+configure. With a minor hack we can build qmake for the target as well,
+which is useful if you want to build Qt 4 software on an actual device.
 
-./wtf/NullPtr.h:48:1: error: identifier 'nullptr' will become a keyword in C++0x [-Werror=c++0x-compat]
+Also move do_compile() from qt-${PV}.inc up to qt4.inc as both versions
+have the exact same content.
 
 Signed-off-by: Paul Eggleton <paul.eggleton@linux.intel.com>
 ---
- meta/recipes-qt/qt4/qt-4.8.0.inc                   |    1 +
- .../recipes-qt/qt4/qt-4.8.0/webkit_no_werror.patch |   19 +++++++++++++++++++
- meta/recipes-qt/qt4/qt4-embedded_4.8.0.bb          |    2 +-
- meta/recipes-qt/qt4/qt4-x11-free_4.8.0.bb          |    2 +-
- 4 files changed, 22 insertions(+), 2 deletions(-)
- create mode 100644 meta/recipes-qt/qt4/qt-4.8.0/webkit_no_werror.patch
+ meta/recipes-qt/qt4/files/target_qmake.patch       |   16 ++++++++
+ meta/recipes-qt/qt4/qt-4.7.4.inc                   |   11 +-----
+ meta/recipes-qt/qt4/qt-4.8.0.inc                   |   12 +-----
+ meta/recipes-qt/qt4/qt-4.8.0/qmake_pri_fixes.patch |   40 ++++++++++++++++++++
+ meta/recipes-qt/qt4/qt4-embedded_4.7.4.bb          |    2 +-
+ meta/recipes-qt/qt4/qt4-x11-free_4.7.4.bb          |    2 +-
+ meta/recipes-qt/qt4/qt4.inc                        |   25 +++++++++++-
+ 7 files changed, 83 insertions(+), 25 deletions(-)
+ create mode 100644 meta/recipes-qt/qt4/files/target_qmake.patch
+ create mode 100644 meta/recipes-qt/qt4/qt-4.8.0/qmake_pri_fixes.patch
 
-diff --git a/meta/recipes-qt/qt4/qt-4.8.0.inc b/meta/recipes-qt/qt4/qt-4.8.0.inc
-index 2addbb2..e251f0a 100644
---- a/meta/recipes-qt/qt4/qt-4.8.0.inc
-+++ b/meta/recipes-qt/qt4/qt-4.8.0.inc
-@@ -14,6 +14,7 @@ SRC_URI = "http://get.qt.nokia.com/qt/source/qt-everywhere-opensource-src-${PV}.
+diff --git a/meta/recipes-qt/qt4/files/target_qmake.patch b/meta/recipes-qt/qt4/files/target_qmake.patch
+new file mode 100644
+index 0000000..a4650c8
+--- /dev/null
++++ b/meta/recipes-qt/qt4/files/target_qmake.patch
+@@ -0,0 +1,16 @@
++Allow building a separate qmake for the target
++
++Signed-off-by: Paul Eggleton <paul.eggleton@linux.intel.com>
++
++Upstream-Status: Inappropriate [config]
++
++--- qt-everywhere-opensource-src-4.8.0.orig/qmake/qmake.pro
+++++ qt-everywhere-opensource-src-4.8.0/qmake/qmake.pro
++@@ -7,6 +7,7 @@ CONFIG += console bootstrap
++ CONFIG -= qt shared app_bundle uic
++ DEFINES += QT_BUILD_QMAKE QT_BOOTSTRAPPED
++ DESTDIR = ../bin/
+++TARGET = qmake2
++ 
++ OBJECTS_DIR = .
++ MOC_DIR = .
+diff --git a/meta/recipes-qt/qt4/qt-4.7.4.inc b/meta/recipes-qt/qt4/qt-4.7.4.inc
+index 9ddb055..216472c 100644
+--- a/meta/recipes-qt/qt4/qt-4.7.4.inc
++++ b/meta/recipes-qt/qt4/qt-4.7.4.inc
+@@ -15,6 +15,7 @@ SRC_URI = "http://get.qt.nokia.com/qt/source/qt-everywhere-opensource-src-${PV}.
+            file://blacklist-diginotar-certs.diff \
             file://fix-translations.patch \
             file://add_nostrip_for_debug_packages.diff \
++           file://target_qmake.patch \
+            file://g++.conf \
+            file://linux.conf \
+            file://fix-qtbug-20925.patch \
+@@ -43,13 +44,3 @@ do_configure_prepend() {
+     ${S}/configure
+ }
+ 
+-do_compile() {
+-    # Fixup missing wsegl header in some SGX SDKs
+-    if ! [ -e ${STAGING_INCDIR}/wsegl.h ] ; then
+-        cp src/3rdparty/powervr/wsegl.h src/plugins/gfxdrivers/powervr/QWSWSEGL/
+-    fi
+-
+-    unset CFLAGS CXXFLAGS
+-
+-    oe_runmake ${EXTRA_ENV}
+-}
+diff --git a/meta/recipes-qt/qt4/qt-4.8.0.inc b/meta/recipes-qt/qt4/qt-4.8.0.inc
+index e251f0a..f7984bd 100644
+--- a/meta/recipes-qt/qt4/qt-4.8.0.inc
++++ b/meta/recipes-qt/qt4/qt-4.8.0.inc
+@@ -15,6 +15,8 @@ SRC_URI = "http://get.qt.nokia.com/qt/source/qt-everywhere-opensource-src-${PV}.
+            file://add_nostrip_for_debug_packages.diff \
             file://qmake_cxx_eval.patch \
-+           file://webkit_no_werror.patch \
+            file://webkit_no_werror.patch \
++           file://target_qmake.patch \
++           file://qmake_pri_fixes.patch \
             file://g++.conf \
             file://linux.conf \
             "
-diff --git a/meta/recipes-qt/qt4/qt-4.8.0/webkit_no_werror.patch b/meta/recipes-qt/qt4/qt-4.8.0/webkit_no_werror.patch
+@@ -50,13 +52,3 @@ do_configure_prepend() {
+     unset LD
+ }
+ 
+-do_compile() {
+-    # Fixup missing wsegl header in some SGX SDKs
+-    if ! [ -e ${STAGING_INCDIR}/wsegl.h ] ; then
+-        cp src/3rdparty/powervr/wsegl.h src/plugins/gfxdrivers/powervr/QWSWSEGL/
+-    fi
+-
+-    unset CFLAGS CXXFLAGS
+-
+-    oe_runmake ${EXTRA_ENV}
+-}
+diff --git a/meta/recipes-qt/qt4/qt-4.8.0/qmake_pri_fixes.patch b/meta/recipes-qt/qt4/qt-4.8.0/qmake_pri_fixes.patch
 new file mode 100644
-index 0000000..90eb60e
+index 0000000..6fe853a
 --- /dev/null
-+++ b/meta/recipes-qt/qt4/qt-4.8.0/webkit_no_werror.patch
-@@ -0,0 +1,19 @@
-+Fix the following error during compiling with gcc 4.6:
++++ b/meta/recipes-qt/qt4/qt-4.8.0/qmake_pri_fixes.patch
+@@ -0,0 +1,40 @@
++qmake: fix source file references in qmake.pri
 +
-+./wtf/NullPtr.h:48:1: error: identifier 'nullptr' will become a keyword in C++0x [-Werror=c++0x-compat]
++Fix duplicate entries in SOURCES and HEADERS, and fix the source file
++list for the split of qlocale.cpp.
 +
 +Signed-off-by: Paul Eggleton <paul.eggleton@linux.intel.com>
 +
 +Upstream-Status: Pending
 +
-+--- qt-everywhere-opensource-src-4.8.0.orig/src/3rdparty/webkit/Source/WebKit.pri
-++++ qt-everywhere-opensource-src-4.8.0/src/3rdparty/webkit/Source/WebKit.pri
-+@@ -102,8 +102,6 @@ CONFIG -= warn_on
++--- qt-everywhere-opensource-src-4.8.0.orig/qmake/qmake.pri
+++++ qt-everywhere-opensource-src-4.8.0/qmake/qmake.pri
++@@ -22,8 +22,7 @@ SOURCES += project.cpp property.cpp main
++            generators/symbian/initprojectdeploy_symbian.cpp \
++            generators/integrity/gbuild.cpp \
++            windows/registry.cpp \
++-           symbian/epocroot.cpp \
++-           generators/integrity/gbuild.cpp
+++           symbian/epocroot.cpp
 + 
-+ # Treat warnings as errors on x86/Linux/GCC
-+ linux-g++* {
-+-    isEqual(QT_ARCH,x86_64)|isEqual(QT_ARCH,i386): QMAKE_CXXFLAGS += -Werror
-+-
-+     greaterThan(QT_GCC_MAJOR_VERSION, 3):greaterThan(QT_GCC_MINOR_VERSION, 5) {
-+         if (!contains(QMAKE_CXXFLAGS, -std=c++0x) && !contains(QMAKE_CXXFLAGS, -std=gnu++0x)) {
-+             # We need to deactivate those warnings because some names conflicts with upcoming c++0x types (e.g.nullptr).
-diff --git a/meta/recipes-qt/qt4/qt4-embedded_4.8.0.bb b/meta/recipes-qt/qt4/qt4-embedded_4.8.0.bb
-index 5c1c97e..efbc02a 100644
---- a/meta/recipes-qt/qt4/qt4-embedded_4.8.0.bb
-+++ b/meta/recipes-qt/qt4/qt4-embedded_4.8.0.bb
++ HEADERS += project.h property.h generators/makefile.h \
++            generators/unix/unixmake.h meta.h option.h cachekeys.h \
++@@ -40,8 +39,7 @@ HEADERS += project.h property.h generato
++            generators/symbian/initprojectdeploy_symbian.h \
++            generators/integrity/gbuild.h \
++            windows/registry_p.h \
++-           symbian/epocroot_p.h \
++-           generators/integrity/gbuild.h
+++           symbian/epocroot_p.h
++ 
++ contains(QT_EDITION, OpenSource) {
++    DEFINES += QMAKE_OPENSOURCE_EDITION
++@@ -72,6 +70,8 @@ bootstrap { #Qt code
++         qlist.cpp \
++         qlinkedlist.cpp \
++         qlocale.cpp \
+++        qlocale_tools.cpp \
+++        qlocale_unix.cpp \
++         qmalloc.cpp \
++         qmap.cpp \
++         qmetatype.cpp \
+diff --git a/meta/recipes-qt/qt4/qt4-embedded_4.7.4.bb b/meta/recipes-qt/qt4/qt4-embedded_4.7.4.bb
+index 9b66d03..a1fcafb 100644
+--- a/meta/recipes-qt/qt4/qt4-embedded_4.7.4.bb
++++ b/meta/recipes-qt/qt4/qt4-embedded_4.7.4.bb
 @@ -1,7 +1,7 @@
  require qt-${PV}.inc
  require qt4-embedded.inc
  
--PR = "${INC_PR}.0"
-+PR = "${INC_PR}.1"
+-PR = "${INC_PR}.6"
++PR = "${INC_PR}.7"
  
- DEFAULT_PREFERENCE = "-1"
+ QT_CONFIG_FLAGS_append_armv6 = " -no-neon "
  
-diff --git a/meta/recipes-qt/qt4/qt4-x11-free_4.8.0.bb b/meta/recipes-qt/qt4/qt4-x11-free_4.8.0.bb
-index edd3e0e..6a0b0b8 100644
---- a/meta/recipes-qt/qt4/qt4-x11-free_4.8.0.bb
-+++ b/meta/recipes-qt/qt4/qt4-x11-free_4.8.0.bb
+diff --git a/meta/recipes-qt/qt4/qt4-x11-free_4.7.4.bb b/meta/recipes-qt/qt4/qt4-x11-free_4.7.4.bb
+index 6dedf00..e7f848e 100644
+--- a/meta/recipes-qt/qt4/qt4-x11-free_4.7.4.bb
++++ b/meta/recipes-qt/qt4/qt4-x11-free_4.7.4.bb
 @@ -1,7 +1,7 @@
  require qt4-x11-free.inc
  require qt-${PV}.inc
  
--PR = "${INC_PR}.0"
-+PR = "${INC_PR}.1"
+-PR = "${INC_PR}.6"
++PR = "${INC_PR}.7"
  
- DEFAULT_PREFERENCE = "-1"
+ QT_CONFIG_FLAGS_append_armv6 = " -no-neon "
  
+diff --git a/meta/recipes-qt/qt4/qt4.inc b/meta/recipes-qt/qt4/qt4.inc
+index ea868ff..53854b1 100644
+--- a/meta/recipes-qt/qt4/qt4.inc
++++ b/meta/recipes-qt/qt4/qt4.inc
+@@ -142,8 +142,8 @@ RRECOMMENDS_${QT_BASE_NAME}-qmlviewer += " \
+ RRECOMMENDS_${QT_BASE_NAME}-doc += " \
+             ${QT_BASE_NAME}-demos-doc"
+ 
+-FILES_${QT_BASE_NAME}-tools                = "${bindir}/qttracereplay ${bindir}/qdoc* ${bindir}/moc ${bindir}/uic* ${bindir}/rcc"
+-FILES_${QT_BASE_NAME}-tools-dbg            = "${bindir}/.debug/qttracereplay ${bindir}/.debug/qdoc* ${bindir}/.debug/uic* ${bindir}/.debug/moc ${bindir}/.debug/rcc"
++FILES_${QT_BASE_NAME}-tools                = "${bindir}/qttracereplay ${bindir}/qdoc* ${bindir}/qmake ${bindir}/moc ${bindir}/uic* ${bindir}/rcc"
++FILES_${QT_BASE_NAME}-tools-dbg            = "${bindir}/.debug/qttracereplay ${bindir}/.debug/qdoc* ${bindir}/.debug/qmake ${bindir}/.debug/uic* ${bindir}/.debug/moc ${bindir}/.debug/rcc"
+ FILES_${QT_BASE_NAME}-assistant            = "${bindir}/*assistant* ${bindir}/qcollectiongenerator ${bindir}/qhelpconverter ${bindir}/qhelpgenerator"
+ FILES_${QT_BASE_NAME}-assistant-dbg        = "${bindir}/.debug/*assistant* ${bindir}/.debug/qcollectiongenerator ${bindir}/.debug/qhelpconverter ${bindir}/.debug/qhelpgenerator"
+ FILES_${QT_BASE_NAME}-common               = "${bindir}/qtconfig"
+@@ -236,6 +236,24 @@ do_configure() {
+ 			-I${STAGING_INCDIR}/freetype2
+ }
+ 
++do_compile() {
++    # Fixup missing wsegl header in some SGX SDKs
++    if ! [ -e ${STAGING_INCDIR}/wsegl.h ] ; then
++        cp src/3rdparty/powervr/wsegl.h src/plugins/gfxdrivers/powervr/QWSWSEGL/
++    fi
++
++    unset CFLAGS CXXFLAGS
++
++    oe_runmake ${EXTRA_ENV}
++
++    # Build target qmake
++    export QMAKESPEC="${S}/mkspecs/linux-oe-g++"
++    cd ${S}/qmake
++    ${OE_QMAKE_QMAKE}
++    oe_runmake CC="${CC}" CXX="${CXX}"
++    cd ${S}
++}
++
+ python populate_packages_prepend() {
+         translation_dir = bb.data.expand('${datadir}/${QT_DIR_NAME}/translations/', d)
+         translation_name = bb.data.expand('${QT_BASE_NAME}-translation-%s', d)
+@@ -295,8 +313,9 @@ python populate_packages_prepend() {
+ do_install() {
+ 	oe_runmake install INSTALL_ROOT=${D}
+ 
+-	# These are host binaries, we should only use them in staging
++	# Install a proper target version of qmake
+ 	rm ${D}/${bindir}/qmake
++	install -m 0755 bin/qmake2 ${D}${bindir}/qmake
+ 
+ 	# fix pkgconfig, libtool and prl files
+ 	sed -i -e 's#-L${S}/lib/\?##g' \
 -- 
 1.7.5.4
 
