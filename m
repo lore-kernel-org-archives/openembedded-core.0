@@ -1,30 +1,26 @@
-Received: from mail-we0-f175.google.com ([74.125.82.175])
+Received: from mail-wi0-f175.google.com ([209.85.212.175])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <koen@dominion.thruhere.net>) id 1RvYhU-0004mg-UQ
+	(envelope-from <andrei@gherzan.ro>) id 1RvYlI-0004sq-7B
 	for openembedded-core@lists.openembedded.org;
-	Thu, 09 Feb 2012 19:26:33 +0100
-Received: by werc1 with SMTP id c1so1449952wer.6
+	Thu, 09 Feb 2012 19:30:28 +0100
+Received: by wibhq7 with SMTP id hq7so1433760wib.6
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 09 Feb 2012 10:18:28 -0800 (PST)
-Received: by 10.216.132.91 with SMTP id n69mr9052734wei.7.1328811508279;
-	Thu, 09 Feb 2012 10:18:28 -0800 (PST)
-Received: from [172.20.1.36] (ip545070eb.adsl-surfen.hetnet.nl.
-	[84.80.112.235])
-	by mx.google.com with ESMTPS id da8sm8333935wib.6.2012.02.09.10.18.26
-	(version=TLSv1/SSLv3 cipher=OTHER);
-	Thu, 09 Feb 2012 10:18:27 -0800 (PST)
-Mime-Version: 1.0 (Apple Message framework v1251.1)
-From: Koen Kooi <koen@dominion.thruhere.net>
-In-Reply-To: <eb604fbfbe547c3a7a4505eeab54f11ee00c0874.1328809777.git.paul.eggleton@linux.intel.com>
-Date: Thu, 9 Feb 2012 19:18:19 +0100
-Message-Id: <8E1320A1-3A67-47DB-96FD-8A75155AFA12@dominion.thruhere.net>
-References: <cover.1328809777.git.paul.eggleton@linux.intel.com>
-	<eb604fbfbe547c3a7a4505eeab54f11ee00c0874.1328809777.git.paul.eggleton@linux.intel.com>
+	Thu, 09 Feb 2012 10:22:23 -0800 (PST)
+Received: by 10.216.139.34 with SMTP id b34mr1119870wej.57.1328811743197; Thu,
+	09 Feb 2012 10:22:23 -0800 (PST)
+MIME-Version: 1.0
+Received: by 10.227.113.67 with HTTP; Thu, 9 Feb 2012 10:22:03 -0800 (PST)
+X-Originating-IP: [89.121.200.106]
+In-Reply-To: <5B0511B3-55A8-492F-8E01-5D03FA8F992A@dominion.thruhere.net>
+References: <1328809480-13730-1-git-send-email-andrei@gherzan.ro>
+	<5B0511B3-55A8-492F-8E01-5D03FA8F992A@dominion.thruhere.net>
+From: Andrei Gherzan <andrei@gherzan.ro>
+Date: Thu, 9 Feb 2012 20:22:03 +0200
+Message-ID: <CAK18fxFO_zW0MvenCRo_t4tRGuyCNY=NeBrqA=suwaS5RuOJOQ@mail.gmail.com>
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-X-Mailer: Apple Mail (2.1251.1)
-X-Gm-Message-State: ALoCoQlaFnj65SyC2E5jDhyF8u0HoI3HcLxlGLkUgdaOMwSO8GEcrZgmp2bNa9eESr+r3yahBei5
-Subject: Re: [RFC PATCH 2/4] qt4: build qmake for the target
+X-Gm-Message-State: ALoCoQkYnfLfAExTwiep2XJGW7/60kPLx7yMQic6qD+eg6A56RDopU6FHjLSpyv8TTY2PlgYw6fB
+Subject: Re: [PATCH 2/2] openssl: Move libcrypto to base_libdir
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -39,32 +35,59 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 09 Feb 2012 18:26:33 -0000
-Content-Type: text/plain; charset=us-ascii
+X-List-Received-Date: Thu, 09 Feb 2012 18:30:28 -0000
+Content-Type: multipart/alternative; boundary=001636ef0391ed385d04b88c17f7
+
+--001636ef0391ed385d04b88c17f7
+Content-Type: text/plain; charset=ISO-8859-1
+
+On Thu, Feb 9, 2012 at 20:15, Koen Kooi <koen@dominion.thruhere.net> wrote:
+
+>
+> Op 9 feb. 2012, om 18:44 heeft Andrei Gherzan het volgende geschreven:
+>
+> > This fix is for dhclient. It needs libcrypto at runtime and if
+> > libcrypto is in libdir, it's path can be inaccessible on systems
+> > where /usr is on nfs for example or dhclient is needed before
+> > /usr is mounted.
+> >
+> > Signed-off-by: Andrei Gherzan <andrei@gherzan.ro>
+>
+> MIssing PR bump
+>
+>
+This and the actual /lib directory creation.
+Re-sending patch with PR-bump, Saul's mentions and mkdir on /lib.
+
+@g
+
+--001636ef0391ed385d04b88c17f7
+Content-Type: text/html; charset=ISO-8859-1
 Content-Transfer-Encoding: quoted-printable
 
+<div class=3D"gmail_quote">On Thu, Feb 9, 2012 at 20:15, Koen Kooi <span di=
+r=3D"ltr">&lt;<a href=3D"mailto:koen@dominion.thruhere.net">koen@dominion.t=
+hruhere.net</a>&gt;</span> wrote:<br><blockquote class=3D"gmail_quote" styl=
+e=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex">
 
-Op 9 feb. 2012, om 18:57 heeft Paul Eggleton het volgende geschreven:
+<br>
+Op 9 feb. 2012, om 18:44 heeft Andrei Gherzan het volgende geschreven:<br>
+<div class=3D"im"><br>
+&gt; This fix is for dhclient. It needs libcrypto at runtime and if<br>
+&gt; libcrypto is in libdir, it&#39;s path can be inaccessible on systems<b=
+r>
+&gt; where /usr is on nfs for example or dhclient is needed before<br>
+&gt; /usr is mounted.<br>
+&gt;<br>
+&gt; Signed-off-by: Andrei Gherzan &lt;<a href=3D"mailto:andrei@gherzan.ro"=
+>andrei@gherzan.ro</a>&gt;<br>
+<br>
+</div>MIssing PR bump<br>
+<div class=3D"HOEnZb"><div class=3D"h5"><br></div></div></blockquote><div>=
+=A0</div><div>This and the actual /lib directory creation.=A0</div><div>Re-=
+sending patch with PR-bump, Saul&#39;s mentions and mkdir on /lib.</div><di=
+v><br>
 
->=20
-> +++ b/meta/recipes-qt/qt4/qt-4.8.0/qmake_pri_fixes.patch
-> @@ -0,0 +1,40 @@
-> +qmake: fix source file references in qmake.pri
-> +
-> +Fix duplicate entries in SOURCES and HEADERS, and fix the source file
-> +list for the split of qlocale.cpp.
-> +
-> +Signed-off-by: Paul Eggleton <paul.eggleton@linux.intel.com>
-> +
-> +Upstream-Status: Pending
+</div><div>@g</div></div>
 
-Since qt upstream is git and you're including a SOB can you please add =
-the git-am'able version of the patches? That will also give us some more =
-info on how old the patch is since git is really bad at tracking =
-renames.
-
-regards,
-
-Koen=
-
-
+--001636ef0391ed385d04b88c17f7--
