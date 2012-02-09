@@ -1,20 +1,24 @@
 Received: from mga14.intel.com ([143.182.124.37])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <josh@linux.intel.com>) id 1RvJQY-0001yc-Iq
+	(envelope-from <josh@linux.intel.com>) id 1RvJQZ-0001yc-D5
 	for openembedded-core@lists.openembedded.org;
-	Thu, 09 Feb 2012 03:08:02 +0100
+	Thu, 09 Feb 2012 03:08:03 +0100
 Received: from azsmga001.ch.intel.com ([10.2.17.19])
 	by azsmga102.ch.intel.com with ESMTP; 08 Feb 2012 17:59:57 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="104740497"
+X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="104740498"
 Received: from unknown (HELO shamshir.amr.corp.intel.com) ([10.255.14.207])
 	by azsmga001.ch.intel.com with ESMTP; 08 Feb 2012 17:59:57 -0800
 From: Joshua Lock <josh@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Wed,  8 Feb 2012 17:59:50 -0800
-Message-Id: <cover.1328750092.git.josh@linux.intel.com>
+Date: Wed,  8 Feb 2012 17:59:51 -0800
+Message-Id: <6c2863bdf61add5007edfc1d961076e9de200e7b.1328752455.git.josh@linux.intel.com>
 X-Mailer: git-send-email 1.7.7.6
-Subject: [PATCH 0/5] Clutter-centric updates
+In-Reply-To: <cover.1328750092.git.josh@linux.intel.com>
+References: <cover.1328750092.git.josh@linux.intel.com>
+In-Reply-To: <cover.1328752455.git.josh@linux.intel.com>
+References: <cover.1328752455.git.josh@linux.intel.com>
+Subject: [PATCH 1/5] clutter-1.8: update to clutter-1.8.4
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -29,39 +33,49 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 09 Feb 2012 02:08:02 -0000
+X-List-Received-Date: Thu, 09 Feb 2012 02:08:03 -0000
 
-Here are clutter and mx recipe updates and some changes to the mx recipe to ensure it's fully
-functional following some discussion with the mx maintainer.
+Added a note about why we're setting S, so I don't have to figure it out again
+next time I try and update clutter.
 
-Cheers,
-Joshua
-
-The following changes since commit 4ef5e70f531f48cef90805402c16ec02ad3f2b92:
-
-  tcmode-default: add preference for gdb/gdbserver (2012-02-08 10:16:48 -0600)
-
-are available in the git repository at:
-  git://git.openembedded.org/openembedded-core-contrib josh/stuff
-  http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=josh/stuff
-
-Joshua Lock (5):
-  clutter-1.8: update to clutter-1.8.4
-  mx: update to 1.4.2
-  mx: ensure gettext and dbus are present
-  clutter: upgrade git recipe to reflect 1.8.4 tag
-  distro-tracking-fields: update clutter, clutter_git and mx
-
- .../conf/distro/include/distro_tracking_fields.inc |   16 ++--
- .../{clutter-1.8_1.8.2.bb => clutter-1.8_1.8.4.bb} |    7 +-
- meta/recipes-graphics/clutter/clutter_git.bb       |    6 +-
- .../mx/files/introspection-m4.patch                |  107 ++++++++++++++++++++
- .../mx/{mx_1.3.2.bb => mx_1.4.2.bb}                |   15 ++-
- 5 files changed, 130 insertions(+), 21 deletions(-)
+Signed-off-by: Joshua Lock <josh@linux.intel.com>
+---
+ .../{clutter-1.8_1.8.2.bb => clutter-1.8_1.8.4.bb} |    7 +++----
+ 1 files changed, 3 insertions(+), 4 deletions(-)
  rename meta/recipes-graphics/clutter/{clutter-1.8_1.8.2.bb => clutter-1.8_1.8.4.bb} (79%)
- create mode 100644 meta/recipes-graphics/mx/files/introspection-m4.patch
- rename meta/recipes-graphics/mx/{mx_1.3.2.bb => mx_1.4.2.bb} (40%)
 
+diff --git a/meta/recipes-graphics/clutter/clutter-1.8_1.8.2.bb b/meta/recipes-graphics/clutter/clutter-1.8_1.8.4.bb
+similarity index 79%
+rename from meta/recipes-graphics/clutter/clutter-1.8_1.8.2.bb
+rename to meta/recipes-graphics/clutter/clutter-1.8_1.8.4.bb
+index f76201e..378b6fe 100644
+--- a/meta/recipes-graphics/clutter/clutter-1.8_1.8.2.bb
++++ b/meta/recipes-graphics/clutter/clutter-1.8_1.8.4.bb
+@@ -1,8 +1,6 @@
+ require recipes-graphics/clutter/clutter.inc
+ require recipes-graphics/clutter/clutter-package.inc
+ 
+-PR = "r3"
+-
+ # We're API/ABI compatible and this may make things easier for layers
+ PROVIDES += "clutter-1.6"
+ 
+@@ -14,6 +12,7 @@ SRC_URI = "http://source.clutter-project.org/sources/clutter/1.8/clutter-${PV}.t
+            file://update_gettext_macro_version.patch"
+ 
+ LIC_FILES_CHKSUM = "file://COPYING;md5=4fbd65380cdd255951079008b364516c"
++# because we've namespaced PN to clutter-1.8
+ S = "${WORKDIR}/clutter-${PV}"
+ 
+ BASE_CONF += "--disable-introspection"
+@@ -23,5 +22,5 @@ do_configure_prepend () {
+ 	sed -i -e 's/^DOLT//' ${S}/configure.ac
+ }
+ 
+-SRC_URI[md5sum] = "29a238fa11da2f56c40de0eb04424aaf"
+-SRC_URI[sha256sum] = "5e6abf6440e6be8130fd7a6b449e1789e4318f61b17f06323ba1b58dc143bc8b"
++SRC_URI[md5sum] = "487f70f9b59e1328b47f1db4094ab662"
++SRC_URI[sha256sum] = "0d567177facd6913ac9c894e230ae48933125f02354ef965bbbf0586f1f0df91"
 -- 
 1.7.7.6
 
