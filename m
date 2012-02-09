@@ -1,23 +1,33 @@
-Received: from mail.gw90.de ([188.40.100.199])
-	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <paulepanter@users.sourceforge.net>)
-	id 1RvQ54-0000uf-Ki for openembedded-core@lists.openembedded.org;
-	Thu, 09 Feb 2012 10:14:19 +0100
-Received: from f053033192.adsl.alicedsl.de ([78.53.33.192]
-	helo=[192.168.178.43])
-	by mail.gw90.de with esmtpsa (TLS1.0:RSA_AES_256_CBC_SHA1:32)
-	(Exim 4.69) (envelope-from <paulepanter@users.sourceforge.net>)
-	id 1RvPxM-00033z-Tx; Thu, 09 Feb 2012 09:06:21 +0000
-Message-ID: <1328778363.5379.3.camel@mattotaupa>
-From: Paul Menzel <paulepanter@users.sourceforge.net>
-To: openembedded-core@lists.openembedded.org
-Date: Thu, 09 Feb 2012 10:06:03 +0100
-In-Reply-To: <92a87a54f47245d723727bd190c35323e66ad3ea.1328774359.git.xiaofeng.yan@windriver.com>
-References: <cover.1328774359.git.xiaofeng.yan@windriver.com>
-	<92a87a54f47245d723727bd190c35323e66ad3ea.1328774359.git.xiaofeng.yan@windriver.com>
-X-Mailer: Evolution 3.2.2-1 
+Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
+	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <richard.purdie@linuxfoundation.org>)
+	id 1RvReG-000751-12 for openembedded-core@lists.openembedded.org;
+	Thu, 09 Feb 2012 11:54:44 +0100
+Received: from localhost (localhost [127.0.0.1])
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q19AkccS012869
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 9 Feb 2012 10:46:38 GMT
+Received: from tim.rpsys.net ([127.0.0.1])
+	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
+	port 10024) with LMTP
+	id 12762-02 for <openembedded-core@lists.openembedded.org>;
+	Thu,  9 Feb 2012 10:46:32 +0000 (GMT)
+Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q19AkREn012863
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO)
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 9 Feb 2012 10:46:31 GMT
+Message-ID: <1328784395.7875.2.camel@ted>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Date: Thu, 09 Feb 2012 10:46:35 +0000
+In-Reply-To: <857BE142E5399E46B20FD45B9DB8A7BC0FCE533D@SHSMSX102.ccr.corp.intel.com>
+References: <857BE142E5399E46B20FD45B9DB8A7BC0FCE533D@SHSMSX102.ccr.corp.intel.com>
+X-Mailer: Evolution 3.2.2- 
 Mime-Version: 1.0
-Subject: Re: [PATCH 1/2] libx11-1.4.4: Add patch makekeys_crosscompile.patch
+X-Virus-Scanned: amavisd-new at rpsys.net
+Subject: Re: do_patch signature confliction for gcc family recipes
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -32,84 +42,41 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 09 Feb 2012 09:14:19 -0000
-X-Groupsio-MsgNum: 17331
-Content-Type: multipart/signed; micalg="pgp-sha1";
-	protocol="application/pgp-signature"; 
-	boundary="=-lkKhryv3xR5tAPVtF4Da"
-
---=-lkKhryv3xR5tAPVtF4Da
+X-List-Received-Date: Thu, 09 Feb 2012 10:54:44 -0000
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-Dear Xiaofeng,
-
-
-Am Donnerstag, den 09.02.2012, 16:05 +0800 schrieb Xiaofeng Yan:
-> From: Xiaofeng Yan <xiaofeng.yan@windriver.com>
->=20
-> LSB 4.1 complain a host contamination error from libx11 because of absent
-> patch "makekeys_crosscompile.patch" from libx11-trim-1.4.4.
->=20
-> [YOCTO #1970]
-
-could you squash both patches please?
-
-Also please add the output from the cover letter to the commit message.
-
-> Signed-off-by: Xiaofeng Yan <xiaofeng.yan@windriver.com>
-> ---
->  .../libx11-1.4.4/makekeys_crosscompile.patch       |   45 ++++++++++++++=
-++++++
->  1 files changed, 45 insertions(+), 0 deletions(-)
->  create mode 100644 meta/recipes-graphics/xorg-lib/libx11-1.4.4/makekeys_=
-crosscompile.patch
->=20
-> diff --git a/meta/recipes-graphics/xorg-lib/libx11-1.4.4/makekeys_crossco=
-mpile.patch b/meta/recipes-graphics/xorg-lib/libx11-1.4.4/makekeys_crosscom=
-pile.patch
-> new file mode 100644
-> index 0000000..e5eacf0
-> --- /dev/null
-> +++ b/meta/recipes-graphics/xorg-lib/libx11-1.4.4/makekeys_crosscompile.p=
-atch
-> @@ -0,0 +1,45 @@
-> +Because the size of "unsigned long" is different between 32-bit
-> +and 64-bit, judge whether target is 32-bit or 64-bit and tell
-> +"makekey".=20
-
-Trailing space at the end.
-
-Could you also add the error message to the patch file in a *separate*
-patch please. Preferably before copying it.
-
-> +
-> +Upstream-Status: Pending
-> +
-> +Signed-off-by: dbuitenh@windriver.com
-> +
-> +--- libX11-1.3.4.orig/src/util/makekeys.c	2010-01-15 09:11:36.000000000 =
-+0800
-> ++++ libX11-1.3.4/src/util/makekeys.c	2011-05-24 19:04:25.454774908 +0800
-
-[=E2=80=A6]
-
-
-Thanks,
-
-Paul
-
---=-lkKhryv3xR5tAPVtF4Da
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: This is a digitally signed message part
 Content-Transfer-Encoding: 7bit
 
------BEGIN PGP SIGNATURE-----
-Version: GnuPG v1.4.11 (GNU/Linux)
+On Thu, 2012-02-09 at 06:22 +0000, Lu, Lianhao wrote:
+> Hi guys,
+> 
+> I just found that the gcc-runtime-nativesdk has different task signature for task do_patch, comparing to that of gcc-cross-initial. This would cause a do_patch failure if we use OEBasicHash as the BB_SIGNATURE_HANDLER. By comparing their sigdata files, it turns out that the difference comes from the dependency to the variable PN in do_patch(See the following output of diffsigs). It is not designed, because all gcc family recipes share the same source therefore should have the same signature for all do_patch tasks.
+> 
+> $ bitbake-diffsigs i586-poky-linux/gcc-cross-initial-4.6.2+svnr181430-r22.do_patch.sigdata.c7458123b61e7799d85c0f7b5c2c42f5 x86_64-nativesdk-pokysdk-linux/gcc-runtime-nativesdk-4.6.2+svnr181430-r22.do_patch.sigdata.c6fd9cc8796537680198a31c39a5efb7 
+> 
+> basehash changed from 49509723413c15e414b91b1e0074c169 to 026f47cf7b6f9bc6358b8727a14feacd
+> List of dependencies for variable PN changed from set(['FILE']) to set([])
+> changed items: set(['FILE'])
+> Variable PN value changed from {@bb.parse.BBHandler.vars_from_file(d.getVar('FILE'),d)[0] or 'defaultpkgname'} to gcc-runtime-nativesdk
+> Task dependency hash changed from 1cad915227dbbe6a9d2e5f85c9a4748f to 2526a771c7e3d733fccbff32c70328cc (for gcc-cross-initial_4.6.bb.do_unpack and quilt-native_0.51.bb.do_populate_sysroot)
+> Task dependency hash changed from 2526a771c7e3d733fccbff32c70328cc to 214e4a3f054da63cb266af4394ccb9a5 (for quilt-native_0.51.bb.do_populate_sysroot and virtual:nativesdkgcc-runtime_4.6.bb.do_headerfix)
+> Task dependency hash changed from 214e4a3f054da63cb266af4394ccb9a5 to 1cad915227dbbe6a9d2e5f85c9a4748f (for gcc-cross-initial_4.6.bb.do_headerfix and virtual:nativesdkgcc-runtime_4.6.bb.do_unpack)
+> 
+> I'm wondering if it is a correct way to fix this issue by excluding the PN from do_patch dependency:
+> diff --git a/meta/recipes-devtools/gcc/gcc-common.inc b/meta/recipes-devtools/gc
+> index e89a7c0..57668f9 100644
+> --- a/meta/recipes-devtools/gcc/gcc-common.inc
+> +++ b/meta/recipes-devtools/gcc/gcc-common.inc
+> @@ -109,3 +109,4 @@ do_headerfix[vardepvalue] = "PATH"
+>  # We need to ensure that for the shared work directory, the do_patch singatures
+>  # The real WORKDIR location isn't a dependency for the shared workdir.
+>  src_patches[vardepsexclude] = "WORKDIR"
+> +should_apply[vardepsexclude] = "PN"
 
-iEYEABECAAYFAk8zjHwACgkQPX1aK2wOHViI+QCfQ6QGypP6mNP25TAWhqkivccZ
-mwIAn2RRk37qjupfLn6JNRlYlPQrWqn0
-=8pwm
------END PGP SIGNATURE-----
+I think this is the correct fix in this case and I'll take such a patch.
 
---=-lkKhryv3xR5tAPVtF4Da--
+Cheers,
+
+Richard
+
+
+
