@@ -1,25 +1,32 @@
-Received: from mga09.intel.com ([134.134.136.24])
+Received: from mail-ee0-f47.google.com ([74.125.83.47])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <paul.eggleton@linux.intel.com>) id 1RvYN0-00047W-8b
+	(envelope-from <otavio.salvador@gmail.com>) id 1RvYWW-0004RZ-QT
 	for openembedded-core@lists.openembedded.org;
-	Thu, 09 Feb 2012 19:05:22 +0100
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-	by orsmga102.jf.intel.com with ESMTP; 09 Feb 2012 09:57:19 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.67,352,1309762800"; d="scan'208";a="105753158"
-Received: from unknown (HELO helios.ger.corp.intel.com) ([10.252.123.13])
-	by orsmga001.jf.intel.com with ESMTP; 09 Feb 2012 09:57:17 -0800
-From: Paul Eggleton <paul.eggleton@linux.intel.com>
-To: openembedded-core@lists.openembedded.org, philip@balister.org,
-	eric@eukrea.com
-Date: Thu,  9 Feb 2012 17:57:10 +0000
-Message-Id: <bc74688809e394e690a85122059cb7645ceadf3a.1328809777.git.paul.eggleton@linux.intel.com>
-X-Mailer: git-send-email 1.7.5.4
+	Thu, 09 Feb 2012 19:15:12 +0100
+Received: by eekd41 with SMTP id d41so563774eek.6
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 09 Feb 2012 10:07:08 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
+	h=mime-version:sender:in-reply-to:references:date
+	:x-google-sender-auth:message-id:subject:from:to:content-type;
+	bh=7+X3o+1aCMOkUFlU4ASwbyjyy+RE2Ats/ZOEgzI896A=;
+	b=YxKuY5dyGemmI8dJLbTNgnZBjBCGs/xjj/pZ/DMq6wPY0lQsFUyt6+SRXMWKnTGgL0
+	j9tnQj2OXrU6YtA5k4SjXssG+lExvm3uB1OQRUNm32yAkhJzpASftVZDM8YD0l795Yty
+	Q6K9UF/eeQWBGGxgrEOe23huMOjt4q29CZ4iM=
+MIME-Version: 1.0
+Received: by 10.14.48.65 with SMTP id u41mr972203eeb.39.1328810827954; Thu, 09
+	Feb 2012 10:07:07 -0800 (PST)
+Sender: otavio.salvador@gmail.com
+Received: by 10.14.96.129 with HTTP; Thu, 9 Feb 2012 10:07:07 -0800 (PST)
 In-Reply-To: <cover.1328809777.git.paul.eggleton@linux.intel.com>
 References: <cover.1328809777.git.paul.eggleton@linux.intel.com>
-In-Reply-To: <cover.1328809777.git.paul.eggleton@linux.intel.com>
-References: <cover.1328809777.git.paul.eggleton@linux.intel.com>
-Subject: [RFC PATCH 4/4] qt4-tools-nativesdk: improve and tidy up qmake build
+Date: Thu, 9 Feb 2012 16:07:07 -0200
+X-Google-Sender-Auth: NrzJjRJH-SurXHOeYQZfLD5ymEQ
+Message-ID: <CAP9ODKq1v8Amv+ceJqrEwZK3YadUvx9b3t8Dov70319By37EKQ@mail.gmail.com>
+From: Otavio Salvador <otavio@ossystems.com.br>
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [RFC PATCH 0/4] qmake/qt4-tools-nativesdk fixes
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -34,125 +41,52 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 09 Feb 2012 18:05:22 -0000
+X-List-Received-Date: Thu, 09 Feb 2012 18:15:13 -0000
+Content-Type: multipart/alternative; boundary=90e6ba6153a85fbba104b88be1b4
 
-* Use the same method to build qmake as in the qt4 target recipes
-* We always have qmake from qt4-native so don't check if it exists -
-  just skip the check like we do in the qt4 target recipes. This
-  saves us a patch.
-* Replace qt4-tools-native in DEPENDS with qt4-native
+--90e6ba6153a85fbba104b88be1b4
+Content-Type: text/plain; charset=ISO-8859-1
 
-Signed-off-by: Paul Eggleton <paul.eggleton@linux.intel.com>
----
- meta/recipes-qt/qt4/files/qmake-exists-check.patch |   19 -----------------
- meta/recipes-qt/qt4/qt4-tools-nativesdk.inc        |   22 +++++++++++--------
- meta/recipes-qt/qt4/qt4-tools-nativesdk_4.8.0.bb   |    2 +
- 3 files changed, 15 insertions(+), 28 deletions(-)
- delete mode 100644 meta/recipes-qt/qt4/files/qmake-exists-check.patch
+On Thu, Feb 9, 2012 at 15:57, Paul Eggleton
+<paul.eggleton@linux.intel.com>wrote:
 
-diff --git a/meta/recipes-qt/qt4/files/qmake-exists-check.patch b/meta/recipes-qt/qt4/files/qmake-exists-check.patch
-deleted file mode 100644
-index 27d21e0..0000000
---- a/meta/recipes-qt/qt4/files/qmake-exists-check.patch
-+++ /dev/null
-@@ -1,19 +0,0 @@
--qt4-tools-nativesdk: avoid rebuilding qmake
--
--qt4-tools-nativesdk patch to avoids building qmake in configure if it already exists 
--(as it will, since we symlink it in from the native sysroot in do_configure)
--
--Signed-off-by: Paul Eggleton <paul.eggleton@linux.intel.com>
--Upstream-Status: Inappropriate [configuration]
--
----- qt-everywhere-opensource-src-4.6.3.orig/configure	2011-01-10 12:01:56.260607001 +0000
--+++ qt-everywhere-opensource-src-4.6.3/configure	2011-01-10 12:02:20.584607015 +0000
--@@ -4286,7 +4286,7 @@
-- }
-- 
-- # build qmake
---if true; then ###[ '!' -f "$outpath/bin/qmake" ];
--+if [ '!' -f "$outpath/bin/qmake" ]; then
--     echo "Creating qmake. Please wait..."
-- 
--     OLD_QCONFIG_H=
-diff --git a/meta/recipes-qt/qt4/qt4-tools-nativesdk.inc b/meta/recipes-qt/qt4/qt4-tools-nativesdk.inc
-index 64cc1ae..4ede78a 100644
---- a/meta/recipes-qt/qt4/qt4-tools-nativesdk.inc
-+++ b/meta/recipes-qt/qt4/qt4-tools-nativesdk.inc
-@@ -1,21 +1,22 @@
- DESCRIPTION = "SDK tools for Qt/[X11|Mac|Embedded] version 4.x"
--DEPENDS = "zlib-nativesdk dbus-nativesdk libx11-nativesdk qt4-tools-native"
-+DEPENDS = "zlib-nativesdk dbus-nativesdk libx11-nativesdk qt4-native"
- SECTION = "libs"
- HOMEPAGE = "http://qt.nokia.com"
- LICENSE = "LGPLv2.1 | GPLv3"
- 
--INC_PR = "r9"
-+INC_PR = "r10"
- 
- FILESEXTRAPATHS =. "${FILE_DIRNAME}/qt-${PV}:"
- 
- inherit nativesdk qmake2
- 
- SRC_URI = "http://get.qt.nokia.com/qt/source/qt-everywhere-opensource-src-${PV}.tar.gz \
-+           file://0004-no-qmake.patch \
-            file://configure-lflags.patch \
-            file://qt-config.patch \
--           file://qmake-exists-check.patch \
-            file://configure-paths.patch \
-            file://qt-dbus-const.patch \
-+           file://target_qmake.patch \
-            file://g++.conf \
-            file://linux.conf"
- 
-@@ -66,11 +67,7 @@ do_configure() {
-         sed -i -e "s#gcc#${CC}#" mkspecs/common/g++-base.conf
-     fi
- 
--    # first launch configure to get qmake compiled for the nativesdk
--    (echo o; echo yes) | CC="${CC}" CXX="${CXX}" ./configure ${EXTRA_OECONF} || true
--
--    # then backup the binary and start again with a qmake which can run on the build host
--    mv bin/qmake bin/qmake_nativesdk
-+    # Use qmake from qt4-native for building
-     if [ ! -e bin/qmake ]; then
-         ln -sf ${STAGING_BINDIR_NATIVE}/qmake2 bin/qmake
-     fi
-@@ -99,11 +96,18 @@ do_compile() {
-     for i in ${TOBUILD}; do
-         cd ${S}/$i && oe_runmake CC="${CC}" CXX="${CXX}"
-     done
-+
-+    # Build nativesdk qmake
-+    export QMAKESPEC="${S}/mkspecs/linux-oe-g++"
-+    cd ${S}/qmake
-+    ${OE_QMAKE_QMAKE}
-+    oe_runmake CC="${CC}" CXX="${CXX}"
-+    cd ${S}
- }
- 
- do_install() {
-     install -d ${D}${bindir}
--    install -m 0755 bin/qmake_nativesdk ${D}${bindir}/qmake2
-+    install -m 0755 bin/qmake2 ${D}${bindir}/qmake2
-     for i in moc uic uic3 rcc lrelease lupdate qdbuscpp2xml qdbusxml2cpp; do
-         install -m 0755 bin/${i} ${D}${bindir}/${i}4
-     done
-diff --git a/meta/recipes-qt/qt4/qt4-tools-nativesdk_4.8.0.bb b/meta/recipes-qt/qt4/qt4-tools-nativesdk_4.8.0.bb
-index e615d36..02917fe 100644
---- a/meta/recipes-qt/qt4/qt4-tools-nativesdk_4.8.0.bb
-+++ b/meta/recipes-qt/qt4/qt4-tools-nativesdk_4.8.0.bb
-@@ -2,6 +2,8 @@ require qt4-tools-nativesdk.inc
- 
- PR = "${INC_PR}.0"
- 
-+SRC_URI += "file://qmake_pri_fixes.patch"
-+
- DEFAULT_PREFERENCE = "-1"
- 
- SRC_URI[md5sum] = "e8a5fdbeba2927c948d9f477a6abe904"
+> Please review the following changes for suitability for inclusion. If you
+> have
+> any objections or suggestions for improvement, please respond to the
+> patches. If
+> you agree with the changes, please provide your Acked-by.
+>
+
+Acked-by: Otavio Salvador <otavio@ossystems.com.br>
+
 -- 
-1.7.5.4
+Otavio Salvador                             O.S. Systems
+E-mail: otavio@ossystems.com.br  http://www.ossystems.com.br
+Mobile: +55 53 9981-7854              http://projetos.ossystems.com.br
 
+--90e6ba6153a85fbba104b88be1b4
+Content-Type: text/html; charset=ISO-8859-1
+Content-Transfer-Encoding: quoted-printable
 
+<div class=3D"gmail_quote">On Thu, Feb 9, 2012 at 15:57, Paul Eggleton <spa=
+n dir=3D"ltr">&lt;<a href=3D"mailto:paul.eggleton@linux.intel.com">paul.egg=
+leton@linux.intel.com</a>&gt;</span> wrote:<br><blockquote class=3D"gmail_q=
+uote" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1e=
+x">
+<div id=3D":12d">Please review the following changes for suitability for in=
+clusion. If you have<br>
+any objections or suggestions for improvement, please respond to the patche=
+s. If<br>
+you agree with the changes, please provide your Acked-by.<br></div></blockq=
+uote></div><br>Acked-by: Otavio Salvador &lt;<a href=3D"mailto:otavio@ossys=
+tems.com.br">otavio@ossystems.com.br</a>&gt;<br clear=3D"all"><div><br></di=
+v>
+-- <br>Otavio Salvador=A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =
+=A0 =A0O.S. Systems<br>E-mail: <a href=3D"mailto:otavio@ossystems.com.br" t=
+arget=3D"_blank">otavio@ossystems.com.br</a>=A0 <a href=3D"http://www.ossys=
+tems.com.br" target=3D"_blank">http://www.ossystems.com.br</a><br>
+Mobile: +55 53 9981-7854=A0 =A0 =A0 =A0=A0 =A0 =A0 =A0<a href=3D"http://pro=
+jetos.ossystems.com.br" target=3D"_blank">http://projetos.ossystems.com.br<=
+/a><br><br>
 
+--90e6ba6153a85fbba104b88be1b4--
