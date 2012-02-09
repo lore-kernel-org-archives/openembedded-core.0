@@ -1,25 +1,23 @@
-Received: from mail1.windriver.com ([147.11.146.13])
+Received: from mail.gw90.de ([188.40.100.199])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <Xiaofeng.Yan@windriver.com>) id 1RvPOn-0007uI-16
-	for openembedded-core@lists.openembedded.org;
-	Thu, 09 Feb 2012 09:30:37 +0100
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca [147.11.189.40])
-	by mail1.windriver.com (8.14.3/8.14.3) with ESMTP id q198MWhr014734
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 9 Feb 2012 00:22:32 -0800 (PST)
-Received: from localhost (128.224.162.28) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server (TLS) id 14.1.255.0;
-	Thu, 9 Feb 2012 00:22:32 -0800
-Message-ID: <fb577ec153d082e1f377ef5d5de3ff5caaa4eb34.1328774359.git.xiaofeng.yan@windriver.com>
-In-Reply-To: <cover.1328774359.git.xiaofeng.yan@windriver.com>
+	(envelope-from <paulepanter@users.sourceforge.net>)
+	id 1RvQ54-0000uf-Ki for openembedded-core@lists.openembedded.org;
+	Thu, 09 Feb 2012 10:14:19 +0100
+Received: from f053033192.adsl.alicedsl.de ([78.53.33.192]
+	helo=[192.168.178.43])
+	by mail.gw90.de with esmtpsa (TLS1.0:RSA_AES_256_CBC_SHA1:32)
+	(Exim 4.69) (envelope-from <paulepanter@users.sourceforge.net>)
+	id 1RvPxM-00033z-Tx; Thu, 09 Feb 2012 09:06:21 +0000
+Message-ID: <1328778363.5379.3.camel@mattotaupa>
+From: Paul Menzel <paulepanter@users.sourceforge.net>
+To: openembedded-core@lists.openembedded.org
+Date: Thu, 09 Feb 2012 10:06:03 +0100
+In-Reply-To: <92a87a54f47245d723727bd190c35323e66ad3ea.1328774359.git.xiaofeng.yan@windriver.com>
 References: <cover.1328774359.git.xiaofeng.yan@windriver.com>
-Old-Date: Thu, 9 Feb 2012 15:40:00 +0800
-Date: Thu, 9 Feb 2012 16:05:14 +0800
-To: <openembedded-core@lists.openembedded.org>
-From: Xiaofeng Yan <xiaofeng.yan@windriver.com>
-MIME-Version: 1.0
-Subject: [PATCH 2/2] libx11-1.4.4: Add patch "makekeys_crosscompile.patch"
+	<92a87a54f47245d723727bd190c35323e66ad3ea.1328774359.git.xiaofeng.yan@windriver.com>
+X-Mailer: Evolution 3.2.2-1 
+Mime-Version: 1.0
+Subject: Re: [PATCH 1/2] libx11-1.4.4: Add patch makekeys_crosscompile.patch
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -34,44 +32,84 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 09 Feb 2012 08:30:37 -0000
-Content-Type: text/plain
+X-List-Received-Date: Thu, 09 Feb 2012 09:14:19 -0000
+X-Groupsio-MsgNum: 17331
+Content-Type: multipart/signed; micalg="pgp-sha1";
+	protocol="application/pgp-signature"; 
+	boundary="=-lkKhryv3xR5tAPVtF4Da"
 
-From: Xiaofeng Yan <xiaofeng.yan@windriver.com>
+--=-lkKhryv3xR5tAPVtF4Da
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Add patch "makekeys_crosscompile.patch" to libx11-1.4.4 for fixing
-bug 1970.
-
-[YOCTO #1970]
-
-Signed-off-by: Xiaofeng Yan <xiaofeng.yan@windriver.com>
----
- meta/recipes-graphics/xorg-lib/libx11_1.4.4.bb |    3 ++-
- 1 files changed, 2 insertions(+), 1 deletions(-)
-
-diff --git a/meta/recipes-graphics/xorg-lib/libx11_1.4.4.bb b/meta/recipes-graphics/xorg-lib/libx11_1.4.4.bb
-index ee1d919..0428ff5 100644
---- a/meta/recipes-graphics/xorg-lib/libx11_1.4.4.bb
-+++ b/meta/recipes-graphics/xorg-lib/libx11_1.4.4.bb
-@@ -1,7 +1,7 @@
- require libx11.inc
- inherit gettext
- 
--PR = "r1"
-+PR = "r2"
- 
- BBCLASSEXTEND = "native nativesdk"
- 
-@@ -15,6 +15,7 @@ DEPENDS += "util-macros xtrans libxdmcp libxau \
- SRC_URI += " file://keysymdef_include.patch \
-              file://x11_disable_makekeys.patch \
-              file://0001-Add-_XGetRequest-as-substitute-for-GetReq-GetReqExtr.patch \
-+             file://makekeys_crosscompile.patch \
-              "
- 
- SRC_URI[md5sum] = "ed7c382cbf8c13425b6a66bcac0ca5d9"
--- 
-1.7.0.4
+Dear Xiaofeng,
 
 
+Am Donnerstag, den 09.02.2012, 16:05 +0800 schrieb Xiaofeng Yan:
+> From: Xiaofeng Yan <xiaofeng.yan@windriver.com>
+>=20
+> LSB 4.1 complain a host contamination error from libx11 because of absent
+> patch "makekeys_crosscompile.patch" from libx11-trim-1.4.4.
+>=20
+> [YOCTO #1970]
 
+could you squash both patches please?
+
+Also please add the output from the cover letter to the commit message.
+
+> Signed-off-by: Xiaofeng Yan <xiaofeng.yan@windriver.com>
+> ---
+>  .../libx11-1.4.4/makekeys_crosscompile.patch       |   45 ++++++++++++++=
+++++++
+>  1 files changed, 45 insertions(+), 0 deletions(-)
+>  create mode 100644 meta/recipes-graphics/xorg-lib/libx11-1.4.4/makekeys_=
+crosscompile.patch
+>=20
+> diff --git a/meta/recipes-graphics/xorg-lib/libx11-1.4.4/makekeys_crossco=
+mpile.patch b/meta/recipes-graphics/xorg-lib/libx11-1.4.4/makekeys_crosscom=
+pile.patch
+> new file mode 100644
+> index 0000000..e5eacf0
+> --- /dev/null
+> +++ b/meta/recipes-graphics/xorg-lib/libx11-1.4.4/makekeys_crosscompile.p=
+atch
+> @@ -0,0 +1,45 @@
+> +Because the size of "unsigned long" is different between 32-bit
+> +and 64-bit, judge whether target is 32-bit or 64-bit and tell
+> +"makekey".=20
+
+Trailing space at the end.
+
+Could you also add the error message to the patch file in a *separate*
+patch please. Preferably before copying it.
+
+> +
+> +Upstream-Status: Pending
+> +
+> +Signed-off-by: dbuitenh@windriver.com
+> +
+> +--- libX11-1.3.4.orig/src/util/makekeys.c	2010-01-15 09:11:36.000000000 =
++0800
+> ++++ libX11-1.3.4/src/util/makekeys.c	2011-05-24 19:04:25.454774908 +0800
+
+[=E2=80=A6]
+
+
+Thanks,
+
+Paul
+
+--=-lkKhryv3xR5tAPVtF4Da
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: This is a digitally signed message part
+Content-Transfer-Encoding: 7bit
+
+-----BEGIN PGP SIGNATURE-----
+Version: GnuPG v1.4.11 (GNU/Linux)
+
+iEYEABECAAYFAk8zjHwACgkQPX1aK2wOHViI+QCfQ6QGypP6mNP25TAWhqkivccZ
+mwIAn2RRk37qjupfLn6JNRlYlPQrWqn0
+=8pwm
+-----END PGP SIGNATURE-----
+
+--=-lkKhryv3xR5tAPVtF4Da--
