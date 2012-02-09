@@ -1,25 +1,21 @@
-Received: from mga03.intel.com ([143.182.124.21])
+Received: from mga09.intel.com ([134.134.136.24])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <sgw@linux.intel.com>) id 1RvYLc-00044T-M6
+	(envelope-from <paul.eggleton@linux.intel.com>) id 1RvYMx-00047W-P4
 	for openembedded-core@lists.openembedded.org;
-	Thu, 09 Feb 2012 19:03:56 +0100
-Received: from azsmga001.ch.intel.com ([10.2.17.19])
-	by azsmga101.ch.intel.com with ESMTP; 09 Feb 2012 09:55:50 -0800
+	Thu, 09 Feb 2012 19:05:20 +0100
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+	by orsmga102.jf.intel.com with ESMTP; 09 Feb 2012 09:57:13 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="104999161"
-Received: from unknown (HELO [10.255.14.208]) ([10.255.14.208])
-	by azsmga001.ch.intel.com with ESMTP; 09 Feb 2012 09:55:48 -0800
-Message-ID: <4F3408A4.7050301@linux.intel.com>
-Date: Thu, 09 Feb 2012 09:55:48 -0800
-From: Saul Wold <sgw@linux.intel.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:9.0) Gecko/20111222 Thunderbird/9.0
-MIME-Version: 1.0
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-References: <1328809480-13730-1-git-send-email-andrei@gherzan.ro>
-In-Reply-To: <1328809480-13730-1-git-send-email-andrei@gherzan.ro>
-Subject: Re: [PATCH 2/2] openssl: Move libcrypto to base_libdir
+X-IronPort-AV: E=Sophos;i="4.67,352,1309762800"; d="scan'208";a="105753130"
+Received: from unknown (HELO helios.ger.corp.intel.com) ([10.252.123.13])
+	by orsmga001.jf.intel.com with ESMTP; 09 Feb 2012 09:57:12 -0800
+From: Paul Eggleton <paul.eggleton@linux.intel.com>
+To: openembedded-core@lists.openembedded.org, philip@balister.org,
+	eric@eukrea.com
+Date: Thu,  9 Feb 2012 17:57:06 +0000
+Message-Id: <cover.1328809777.git.paul.eggleton@linux.intel.com>
+X-Mailer: git-send-email 1.7.5.4
+Subject: [RFC PATCH 0/4] qmake/qt4-tools-nativesdk fixes
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -34,56 +30,59 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 09 Feb 2012 18:03:57 -0000
-Content-Type: text/plain; charset=ISO-8859-1; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Thu, 09 Feb 2012 18:05:20 -0000
 
-On 02/09/2012 09:44 AM, Andrei Gherzan wrote:
-> This fix is for dhclient. It needs libcrypto at runtime and if
-> libcrypto is in libdir, it's path can be inaccessible on systems
-> where /usr is on nfs for example or dhclient is needed before
-> /usr is mounted.
->
-> Signed-off-by: Andrei Gherzan<andrei@gherzan.ro>
-> ---
->   meta/recipes-connectivity/openssl/openssl.inc |    7 ++++++-
->   1 files changed, 6 insertions(+), 1 deletions(-)
->
-> diff --git a/meta/recipes-connectivity/openssl/openssl.inc b/meta/recipes-connectivity/openssl/openssl.inc
-> index 771f146..45a6422 100644
-> --- a/meta/recipes-connectivity/openssl/openssl.inc
-> +++ b/meta/recipes-connectivity/openssl/openssl.inc
-> @@ -36,10 +36,11 @@ export AS = "${CC} -c"
->   inherit pkgconfig siteinfo
->
->   PACKAGES =+ "libcrypto libssl ${PN}-misc"
-> -FILES_libcrypto = "${libdir}/libcrypto.so.*"
-> +FILES_libcrypto = "${base_libdir}/libcrypto.so.*"
-libcrypto${SOLIBS}
+This patchset enables building qmake for the target with other target
+utilities. I also fixed a couple of build failures in the process.
+
+In addition I've used the same method to build qmake in the
+qt4-tools-nativesdk recipe. This wasn't strictly necessary, however I
+think it would be good to be consistent and incidentally the resulting
+qmake executable is slightly smaller.
+
+NOTE: This patchset is an RFC - please do not merge until people have
+had a chance to test. I haven't thoroughly tested these myself yet.
 
 
->   FILES_libssl = "${libdir}/libssl.so.*"
->   FILES_${PN} =+ " ${libdir}/ssl/*"
->   FILES_${PN}-misc = "${libdir}/ssl/misc ${libdir}/ssl/openssl.cnf"
-> +FILES_${PN}-dev += "${base_libdir}/libcrypto.so"
->
-libcrypto${SOLIBSDEV}
+Please review the following changes for suitability for inclusion. If you have
+any objections or suggestions for improvement, please respond to the patches. If
+you agree with the changes, please provide your Acked-by.
 
-These would be better to use than
+The following changes since commit 4ef5e70f531f48cef90805402c16ec02ad3f2b92:
 
+  tcmode-default: add preference for gdb/gdbserver (2012-02-08 10:16:48 -0600)
 
->   do_configure_prepend_darwin () {
->   	sed -i -e '/version-script=openssl\.ld/d' Configure
-> @@ -132,6 +133,10 @@ do_install () {
->   	oe_libinstall -so libcrypto ${D}${libdir}
->   	oe_libinstall -so libssl ${D}${libdir}
->
-> +	# Moving libcrypto to /usr
-> +	mv ${D}${libdir}/libcrypto* ${D}${base_libdir}/
-> +	sed -i s/usr// ${D}/${libdir}/pkgconfig/libcrypto.pc
-> +
->   	install -d ${D}${includedir}
->   	cp --dereference -R include/openssl ${D}${includedir}
->   	sed -i -e '1s,.*,#!${bindir}/env perl,' ${D}${libdir}/ssl/misc/CA.pl
+are available in the git repository at:
+  git://git.openembedded.org/openembedded-core-contrib paule/qmake-target
+  http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=paule/qmake-target
+
+Paul Eggleton (4):
+  qt4: fix compile error in Qt 4.8.0 with gcc 4.6
+  qt4: build qmake for the target
+  qt4-tools-nativesdk: fix build of 4.7.4
+  qt4-tools-nativesdk: improve and tidy up qmake build
+
+ meta/recipes-qt/qt4/files/qmake-exists-check.patch |   19 ---------
+ meta/recipes-qt/qt4/files/target_qmake.patch       |   16 ++++++++
+ meta/recipes-qt/qt4/qt-4.7.4.inc                   |   11 +-----
+ meta/recipes-qt/qt4/qt-4.8.0.inc                   |   13 +-----
+ meta/recipes-qt/qt4/qt-4.8.0/qmake_pri_fixes.patch |   40 ++++++++++++++++++++
+ .../recipes-qt/qt4/qt-4.8.0/webkit_no_werror.patch |   19 +++++++++
+ meta/recipes-qt/qt4/qt4-embedded_4.7.4.bb          |    2 +-
+ meta/recipes-qt/qt4/qt4-embedded_4.8.0.bb          |    2 +-
+ meta/recipes-qt/qt4/qt4-tools-nativesdk.inc        |   29 +++++++++-----
+ meta/recipes-qt/qt4/qt4-tools-nativesdk_4.8.0.bb   |    2 +
+ meta/recipes-qt/qt4/qt4-x11-free_4.7.4.bb          |    2 +-
+ meta/recipes-qt/qt4/qt4-x11-free_4.8.0.bb          |    2 +-
+ meta/recipes-qt/qt4/qt4.inc                        |   25 +++++++++++-
+ 13 files changed, 125 insertions(+), 57 deletions(-)
+ delete mode 100644 meta/recipes-qt/qt4/files/qmake-exists-check.patch
+ create mode 100644 meta/recipes-qt/qt4/files/target_qmake.patch
+ create mode 100644 meta/recipes-qt/qt4/qt-4.8.0/qmake_pri_fixes.patch
+ create mode 100644 meta/recipes-qt/qt4/qt-4.8.0/webkit_no_werror.patch
+
+-- 
+1.7.5.4
+
 
 
