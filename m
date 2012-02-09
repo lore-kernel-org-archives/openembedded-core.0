@@ -1,33 +1,26 @@
-Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
-	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <richard.purdie@linuxfoundation.org>)
-	id 1RvReG-000751-12 for openembedded-core@lists.openembedded.org;
-	Thu, 09 Feb 2012 11:54:44 +0100
-Received: from localhost (localhost [127.0.0.1])
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q19AkccS012869
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 9 Feb 2012 10:46:38 GMT
-Received: from tim.rpsys.net ([127.0.0.1])
-	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
-	port 10024) with LMTP
-	id 12762-02 for <openembedded-core@lists.openembedded.org>;
-	Thu,  9 Feb 2012 10:46:32 +0000 (GMT)
-Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q19AkREn012863
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO)
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 9 Feb 2012 10:46:31 GMT
-Message-ID: <1328784395.7875.2.camel@ted>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
+Received: from mga14.intel.com ([143.182.124.37])
+	by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <sgw@linux.intel.com>) id 1RvXj3-0002vy-SE
+	for openembedded-core@lists.openembedded.org;
+	Thu, 09 Feb 2012 18:24:06 +0100
+Received: from azsmga001.ch.intel.com ([10.2.17.19])
+	by azsmga102.ch.intel.com with ESMTP; 09 Feb 2012 09:15:59 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="104984660"
+Received: from unknown (HELO [10.255.14.208]) ([10.255.14.208])
+	by azsmga001.ch.intel.com with ESMTP; 09 Feb 2012 09:15:59 -0800
+Message-ID: <4F33FF4F.2090309@linux.intel.com>
+Date: Thu, 09 Feb 2012 09:15:59 -0800
+From: Saul Wold <sgw@linux.intel.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:9.0) Gecko/20111222 Thunderbird/9.0
+MIME-Version: 1.0
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Date: Thu, 09 Feb 2012 10:46:35 +0000
-In-Reply-To: <857BE142E5399E46B20FD45B9DB8A7BC0FCE533D@SHSMSX102.ccr.corp.intel.com>
-References: <857BE142E5399E46B20FD45B9DB8A7BC0FCE533D@SHSMSX102.ccr.corp.intel.com>
-X-Mailer: Evolution 3.2.2- 
-Mime-Version: 1.0
-X-Virus-Scanned: amavisd-new at rpsys.net
-Subject: Re: do_patch signature confliction for gcc family recipes
+References: <1328733516-30021-1-git-send-email-msm@freescale.com>
+In-Reply-To: <1328733516-30021-1-git-send-email-msm@freescale.com>
+Cc: Matthew McClintock <msm@freescale.com>
+Subject: Re: [PATCH] Update cached autoconf values for libpcap on powerpc64
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -42,41 +35,37 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 09 Feb 2012 10:54:44 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Thu, 09 Feb 2012 17:24:06 -0000
+Content-Type: text/plain; charset=ISO-8859-1; format=flowed
 Content-Transfer-Encoding: 7bit
 
-On Thu, 2012-02-09 at 06:22 +0000, Lu, Lianhao wrote:
-> Hi guys,
-> 
-> I just found that the gcc-runtime-nativesdk has different task signature for task do_patch, comparing to that of gcc-cross-initial. This would cause a do_patch failure if we use OEBasicHash as the BB_SIGNATURE_HANDLER. By comparing their sigdata files, it turns out that the difference comes from the dependency to the variable PN in do_patch(See the following output of diffsigs). It is not designed, because all gcc family recipes share the same source therefore should have the same signature for all do_patch tasks.
-> 
-> $ bitbake-diffsigs i586-poky-linux/gcc-cross-initial-4.6.2+svnr181430-r22.do_patch.sigdata.c7458123b61e7799d85c0f7b5c2c42f5 x86_64-nativesdk-pokysdk-linux/gcc-runtime-nativesdk-4.6.2+svnr181430-r22.do_patch.sigdata.c6fd9cc8796537680198a31c39a5efb7 
-> 
-> basehash changed from 49509723413c15e414b91b1e0074c169 to 026f47cf7b6f9bc6358b8727a14feacd
-> List of dependencies for variable PN changed from set(['FILE']) to set([])
-> changed items: set(['FILE'])
-> Variable PN value changed from {@bb.parse.BBHandler.vars_from_file(d.getVar('FILE'),d)[0] or 'defaultpkgname'} to gcc-runtime-nativesdk
-> Task dependency hash changed from 1cad915227dbbe6a9d2e5f85c9a4748f to 2526a771c7e3d733fccbff32c70328cc (for gcc-cross-initial_4.6.bb.do_unpack and quilt-native_0.51.bb.do_populate_sysroot)
-> Task dependency hash changed from 2526a771c7e3d733fccbff32c70328cc to 214e4a3f054da63cb266af4394ccb9a5 (for quilt-native_0.51.bb.do_populate_sysroot and virtual:nativesdkgcc-runtime_4.6.bb.do_headerfix)
-> Task dependency hash changed from 214e4a3f054da63cb266af4394ccb9a5 to 1cad915227dbbe6a9d2e5f85c9a4748f (for gcc-cross-initial_4.6.bb.do_headerfix and virtual:nativesdkgcc-runtime_4.6.bb.do_unpack)
-> 
-> I'm wondering if it is a correct way to fix this issue by excluding the PN from do_patch dependency:
-> diff --git a/meta/recipes-devtools/gcc/gcc-common.inc b/meta/recipes-devtools/gc
-> index e89a7c0..57668f9 100644
-> --- a/meta/recipes-devtools/gcc/gcc-common.inc
-> +++ b/meta/recipes-devtools/gcc/gcc-common.inc
-> @@ -109,3 +109,4 @@ do_headerfix[vardepvalue] = "PATH"
->  # We need to ensure that for the shared work directory, the do_patch singatures
->  # The real WORKDIR location isn't a dependency for the shared workdir.
->  src_patches[vardepsexclude] = "WORKDIR"
-> +should_apply[vardepsexclude] = "PN"
+On 02/08/2012 12:38 PM, Matthew McClintock wrote:
+> Without this fix, libpcap will fail to build on powerpc64
+>
+Matthew, can you please resubmit this with the patch file in the commit 
+header per the guidelines
 
-I think this is the correct fix in this case and I'll take such a patch.
+more along the lines of:
+powerpc64-linux: update cached autoconf value for libpcap
 
-Cheers,
+Thanks
+	Sau!
 
-Richard
-
+> Signed-off-by: Matthew McClintock<msm@freescale.com>
+> ---
+>   meta/site/powerpc64-linux |    3 ++-
+>   1 files changed, 2 insertions(+), 1 deletions(-)
+>
+> diff --git a/meta/site/powerpc64-linux b/meta/site/powerpc64-linux
+> index a49c717..2b147d7 100644
+> --- a/meta/site/powerpc64-linux
+> +++ b/meta/site/powerpc64-linux
+> @@ -31,4 +31,5 @@ screen_cv_sys_sockets_nofs=${screen_cv_sys_sockets_nofs=no}
+>   screen_cv_sys_sockets_usable=${screen_cv_sys_sockets_usable=yes}
+>   screen_cv_sys_terminfo_used=${screen_cv_sys_terminfo_used=yes}
+>
+> -
+> +# libpcap
+> +ac_cv_linux_vers=${ac_cv_linux_vers=2}
 
 
