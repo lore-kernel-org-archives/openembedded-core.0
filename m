@@ -1,27 +1,25 @@
-Received: from mga01.intel.com ([192.55.52.88])
+Received: from mail-qw0-f47.google.com ([209.85.216.47])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <paul.eggleton@linux.intel.com>) id 1RvYlI-0004sp-GJ
+	(envelope-from <andrei@gherzan.ro>) id 1RvYtY-00058i-FW
 	for openembedded-core@lists.openembedded.org;
-	Thu, 09 Feb 2012 19:30:28 +0100
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-	by fmsmga101.fm.intel.com with ESMTP; 09 Feb 2012 10:22:22 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="115943408"
-Received: from unknown (HELO helios.localnet) ([10.252.123.13])
-	by fmsmga001.fm.intel.com with ESMTP; 09 Feb 2012 10:22:22 -0800
-From: Paul Eggleton <paul.eggleton@linux.intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Thu, 09 Feb 2012 18:22:20 +0000
-Message-ID: <1556143.JbHgubmlpB@helios>
-Organization: Intel Corporation
-User-Agent: KMail/4.8.0 (Linux/3.0.0-15-generic-pae; KDE/4.8.0; i686; ; )
-In-Reply-To: <8E1320A1-3A67-47DB-96FD-8A75155AFA12@dominion.thruhere.net>
-References: <cover.1328809777.git.paul.eggleton@linux.intel.com>
-	<eb604fbfbe547c3a7a4505eeab54f11ee00c0874.1328809777.git.paul.eggleton@linux.intel.com>
-	<8E1320A1-3A67-47DB-96FD-8A75155AFA12@dominion.thruhere.net>
+	Thu, 09 Feb 2012 19:39:00 +0100
+Received: by qadz30 with SMTP id z30so4796202qad.6
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 09 Feb 2012 10:30:55 -0800 (PST)
 MIME-Version: 1.0
-Cc: Koen Kooi <koen@dominion.thruhere.net>
-Subject: Re: [RFC PATCH 2/4] qt4: build qmake for the target
+Received: by 10.229.135.146 with SMTP id n18mr1868475qct.72.1328812255257;
+	Thu, 09 Feb 2012 10:30:55 -0800 (PST)
+Received: from localhost.localdomain ([89.121.200.106])
+	by mx.google.com with ESMTPS id dm7sm7308429qab.5.2012.02.09.10.30.52
+	(version=TLSv1/SSLv3 cipher=OTHER);
+	Thu, 09 Feb 2012 10:30:53 -0800 (PST)
+From: Andrei Gherzan <andrei@gherzan.ro>
+To: openembedded-core@lists.openembedded.org
+Date: Thu,  9 Feb 2012 20:30:44 +0200
+Message-Id: <1328812244-32105-1-git-send-email-andrei@gherzan.ro>
+X-Mailer: git-send-email 1.7.5.4
+X-Gm-Message-State: ALoCoQn9hR3Xn19Axs0tIDMap0Hcmmlr42I/QERuE3540QuEZhIOljdKgMzFS4WPk3XAxWSbjpYb
+Subject: [PATCH] openssl: Move libcrypto to base_libdir
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -36,36 +34,63 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 09 Feb 2012 18:30:28 -0000
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
+X-List-Received-Date: Thu, 09 Feb 2012 18:39:00 -0000
 
-On Thursday 09 February 2012 19:18:19 Koen Kooi wrote:
-> Op 9 feb. 2012, om 18:57 heeft Paul Eggleton het volgende geschreven:
-> > +++ b/meta/recipes-qt/qt4/qt-4.8.0/qmake_pri_fixes.patch
-> > @@ -0,0 +1,40 @@
-> > +qmake: fix source file references in qmake.pri
-> > +
-> > +Fix duplicate entries in SOURCES and HEADERS, and fix the source file
-> > +list for the split of qlocale.cpp.
-> > +
-> > +Signed-off-by: Paul Eggleton <paul.eggleton@linux.intel.com>
-> > +
-> > +Upstream-Status: Pending
-> 
-> Since qt upstream is git and you're including a SOB can you please add the
-> git-am'able version of the patches? That will also give us some more info
-> on how old the patch is since git is really bad at tracking renames.
+This fix is for dhclient. It needs libcrypto at runtime and if
+libcrypto is in libdir, it's path can be inaccessible on systems
+where /usr is on nfs for example or dhclient is needed before
+/usr is mounted.
 
-Ah yes, I recall you asking for this last time as well. Once I've heard from 
-more people testing this I'll redo the patch against Qt git.
+Signed-off-by: Andrei Gherzan <andrei@gherzan.ro>
+---
+ meta/recipes-connectivity/openssl/openssl.inc      |    8 +++++++-
+ .../recipes-connectivity/openssl/openssl_1.0.0g.bb |    2 +-
+ 2 files changed, 8 insertions(+), 2 deletions(-)
 
-Cheers,
-Paul
-
+diff --git a/meta/recipes-connectivity/openssl/openssl.inc b/meta/recipes-connectivity/openssl/openssl.inc
+index 771f146..76a28ff 100644
+--- a/meta/recipes-connectivity/openssl/openssl.inc
++++ b/meta/recipes-connectivity/openssl/openssl.inc
+@@ -36,10 +36,11 @@ export AS = "${CC} -c"
+ inherit pkgconfig siteinfo
+ 
+ PACKAGES =+ "libcrypto libssl ${PN}-misc"
+-FILES_libcrypto = "${libdir}/libcrypto.so.*"
++FILES_libcrypto = "${base_libdir}/libcrypto${SOLIBS}"
+ FILES_libssl = "${libdir}/libssl.so.*"
+ FILES_${PN} =+ " ${libdir}/ssl/*"
+ FILES_${PN}-misc = "${libdir}/ssl/misc ${libdir}/ssl/openssl.cnf"
++FILES_${PN}-dev += "${base_libdir}/libcrypto${SOLIBSDEV}"
+ 
+ do_configure_prepend_darwin () {
+ 	sed -i -e '/version-script=openssl\.ld/d' Configure
+@@ -132,6 +133,11 @@ do_install () {
+ 	oe_libinstall -so libcrypto ${D}${libdir}
+ 	oe_libinstall -so libssl ${D}${libdir}
+ 
++	# Moving libcrypto to /usr
++	mkdir -p ${D}/${base_libdir}/
++	mv ${D}${libdir}/libcrypto* ${D}${base_libdir}/
++	sed -i s/usr// ${D}/${libdir}/pkgconfig/libcrypto.pc
++
+ 	install -d ${D}${includedir}
+ 	cp --dereference -R include/openssl ${D}${includedir}
+ 	sed -i -e '1s,.*,#!${bindir}/env perl,' ${D}${libdir}/ssl/misc/CA.pl
+diff --git a/meta/recipes-connectivity/openssl/openssl_1.0.0g.bb b/meta/recipes-connectivity/openssl/openssl_1.0.0g.bb
+index 80dfcb3..8ffe931 100644
+--- a/meta/recipes-connectivity/openssl/openssl_1.0.0g.bb
++++ b/meta/recipes-connectivity/openssl/openssl_1.0.0g.bb
+@@ -6,7 +6,7 @@ DEPENDS += "ocf-linux"
+ 
+ CFLAG += "-DHAVE_CRYPTODEV -DUSE_CRYPTODEV_DIGESTS"
+ 
+-PR = "${INC_PR}.0"
++PR = "${INC_PR}.1"
+ 
+ LIC_FILES_CHKSUM = "file://LICENSE;md5=f9a8f968107345e0b75aa8c2ecaa7ec8"
+ 
 -- 
+1.7.5.4
 
-Paul Eggleton
-Intel Open Source Technology Centre
 
 
