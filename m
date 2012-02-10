@@ -1,25 +1,25 @@
-Received: from mail-ww0-f43.google.com ([74.125.82.43])
+Received: from mga09.intel.com ([134.134.136.24])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <andrei@gherzan.ro>) id 1Rvt2O-00069o-1r
+	(envelope-from <sgw@linux.intel.com>) id 1Rvt6F-0006JS-Rt
 	for openembedded-core@lists.openembedded.org;
-	Fri, 10 Feb 2012 17:09:28 +0100
-Received: by wgbdr13 with SMTP id dr13so2649396wgb.24
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 10 Feb 2012 08:01:22 -0800 (PST)
+	Fri, 10 Feb 2012 17:13:28 +0100
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+	by orsmga102.jf.intel.com with ESMTP; 10 Feb 2012 08:05:21 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.67,351,1309762800"; d="scan'208";a="108724471"
+Received: from unknown (HELO [10.255.14.208]) ([10.255.14.208])
+	by orsmga002.jf.intel.com with ESMTP; 10 Feb 2012 08:05:20 -0800
+Message-ID: <4F354040.1020303@linux.intel.com>
+Date: Fri, 10 Feb 2012 08:05:20 -0800
+From: Saul Wold <sgw@linux.intel.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:9.0) Gecko/20111222 Thunderbird/9.0
 MIME-Version: 1.0
-Received: by 10.216.134.3 with SMTP id r3mr1248449wei.40.1328889681951;
-	Fri, 10 Feb 2012 08:01:21 -0800 (PST)
-Received: from localhost.localdomain ([89.121.200.106])
-	by mx.google.com with ESMTPS id m8sm19117125wia.11.2012.02.10.08.01.21
-	(version=TLSv1/SSLv3 cipher=OTHER);
-	Fri, 10 Feb 2012 08:01:21 -0800 (PST)
-From: Andrei Gherzan <andrei@gherzan.ro>
-To: openembedded-core@lists.openembedded.org
-Date: Fri, 10 Feb 2012 18:01:15 +0200
-Message-Id: <1328889675-9864-1-git-send-email-andrei@gherzan.ro>
-X-Mailer: git-send-email 1.7.5.4
-X-Gm-Message-State: ALoCoQmTxWA6JgFOpC9UolLsJEjot9+Bec9o3DNspXwcua+knTc+8cHmRD4ONeIFYVVLryOfoHa/
-Subject: [PATCH] openssl: Move libcrypto to base_libdir
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+References: <cover.1328750092.git.josh@linux.intel.com>
+In-Reply-To: <cover.1328750092.git.josh@linux.intel.com>
+Subject: Re: [PATCH 0/5] Clutter-centric updates
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -34,134 +34,46 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 10 Feb 2012 16:09:28 -0000
+X-List-Received-Date: Fri, 10 Feb 2012 16:13:28 -0000
+Content-Type: text/plain; charset=ISO-8859-1; format=flowed
+Content-Transfer-Encoding: 7bit
 
-This fix is for dhclient. It needs libcrypto at runtime and if
-libcrypto is in libdir, it's path can be inaccessible on systems
-where /usr is on nfs for example or dhclient is needed before
-/usr is mounted.
+On 02/08/2012 05:59 PM, Joshua Lock wrote:
+> Here are clutter and mx recipe updates and some changes to the mx recipe to ensure it's fully
+> functional following some discussion with the mx maintainer.
+>
+> Cheers,
+> Joshua
+>
+> The following changes since commit 4ef5e70f531f48cef90805402c16ec02ad3f2b92:
+>
+>    tcmode-default: add preference for gdb/gdbserver (2012-02-08 10:16:48 -0600)
+>
+> are available in the git repository at:
+>    git://git.openembedded.org/openembedded-core-contrib josh/stuff
+>    http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=josh/stuff
+>
+> Joshua Lock (5):
+>    clutter-1.8: update to clutter-1.8.4
+>    mx: update to 1.4.2
+>    mx: ensure gettext and dbus are present
+>    clutter: upgrade git recipe to reflect 1.8.4 tag
+>    distro-tracking-fields: update clutter, clutter_git and mx
+>
+>   .../conf/distro/include/distro_tracking_fields.inc |   16 ++--
+>   .../{clutter-1.8_1.8.2.bb =>  clutter-1.8_1.8.4.bb} |    7 +-
+>   meta/recipes-graphics/clutter/clutter_git.bb       |    6 +-
+>   .../mx/files/introspection-m4.patch                |  107 ++++++++++++++++++++
+>   .../mx/{mx_1.3.2.bb =>  mx_1.4.2.bb}                |   15 ++-
+>   5 files changed, 130 insertions(+), 21 deletions(-)
+>   rename meta/recipes-graphics/clutter/{clutter-1.8_1.8.2.bb =>  clutter-1.8_1.8.4.bb} (79%)
+>   create mode 100644 meta/recipes-graphics/mx/files/introspection-m4.patch
+>   rename meta/recipes-graphics/mx/{mx_1.3.2.bb =>  mx_1.4.2.bb} (40%)
+>
 
-Signed-off-by: Andrei Gherzan <andrei@gherzan.ro>
----
- ...001-openssl-Move-libcrypto-to-base_libdir.patch |   61 ++++++++++++++++++++
- meta/recipes-connectivity/openssl/openssl.inc      |   10 +++-
- .../recipes-connectivity/openssl/openssl_1.0.0g.bb |    2 +-
- 3 files changed, 71 insertions(+), 2 deletions(-)
- create mode 100644 meta/recipes-connectivity/openssl/0001-openssl-Move-libcrypto-to-base_libdir.patch
+Merged into OE-core
 
-diff --git a/meta/recipes-connectivity/openssl/0001-openssl-Move-libcrypto-to-base_libdir.patch b/meta/recipes-connectivity/openssl/0001-openssl-Move-libcrypto-to-base_libdir.patch
-new file mode 100644
-index 0000000..b101d8c
---- /dev/null
-+++ b/meta/recipes-connectivity/openssl/0001-openssl-Move-libcrypto-to-base_libdir.patch
-@@ -0,0 +1,61 @@
-+From ac1fe1490e997fb8fd91ec13b675d38efcc65775 Mon Sep 17 00:00:00 2001
-+From: Andrei Gherzan <andrei@gherzan.ro>
-+Date: Thu, 9 Feb 2012 00:03:38 +0200
-+Subject: [PATCH] openssl: Move libcrypto to base_libdir
-+
-+This fix is for dhclient. It needs libcrypto at runtime and if
-+libcrypto is in libdir, it's path can be inaccessible on systems
-+where /usr is on nfs for example or dhclient is needed before
-+/usr is mounted.
-+
-+Signed-off-by: Andrei Gherzan <andrei@gherzan.ro>
-+---
-+ meta/recipes-connectivity/openssl/openssl.inc      |    8 +++++++-
-+ .../recipes-connectivity/openssl/openssl_1.0.0g.bb |    2 +-
-+ 2 files changed, 8 insertions(+), 2 deletions(-)
-+
-+diff --git a/meta/recipes-connectivity/openssl/openssl.inc b/meta/recipes-connectivity/openssl/openssl.inc
-+index 771f146..76a28ff 100644
-+--- a/meta/recipes-connectivity/openssl/openssl.inc
-++++ b/meta/recipes-connectivity/openssl/openssl.inc
-+@@ -36,10 +36,11 @@ export AS = "${CC} -c"
-+ inherit pkgconfig siteinfo
-+ 
-+ PACKAGES =+ "libcrypto libssl ${PN}-misc"
-+-FILES_libcrypto = "${libdir}/libcrypto.so.*"
-++FILES_libcrypto = "${base_libdir}/libcrypto${SOLIBS}"
-+ FILES_libssl = "${libdir}/libssl.so.*"
-+ FILES_${PN} =+ " ${libdir}/ssl/*"
-+ FILES_${PN}-misc = "${libdir}/ssl/misc ${libdir}/ssl/openssl.cnf"
-++FILES_${PN}-dev += "${base_libdir}/libcrypto${SOLIBSDEV}"
-+ 
-+ do_configure_prepend_darwin () {
-+ 	sed -i -e '/version-script=openssl\.ld/d' Configure
-+@@ -132,6 +133,11 @@ do_install () {
-+ 	oe_libinstall -so libcrypto ${D}${libdir}
-+ 	oe_libinstall -so libssl ${D}${libdir}
-+ 
-++	# Moving libcrypto to /usr
-++	mkdir -p ${D}/${base_libdir}/
-++	mv ${D}${libdir}/libcrypto* ${D}${base_libdir}/
-++	sed -i s/usr// ${D}/${libdir}/pkgconfig/libcrypto.pc
-++
-+ 	install -d ${D}${includedir}
-+ 	cp --dereference -R include/openssl ${D}${includedir}
-+ 	sed -i -e '1s,.*,#!${bindir}/env perl,' ${D}${libdir}/ssl/misc/CA.pl
-+diff --git a/meta/recipes-connectivity/openssl/openssl_1.0.0g.bb b/meta/recipes-connectivity/openssl/openssl_1.0.0g.bb
-+index 80dfcb3..8ffe931 100644
-+--- a/meta/recipes-connectivity/openssl/openssl_1.0.0g.bb
-++++ b/meta/recipes-connectivity/openssl/openssl_1.0.0g.bb
-+@@ -6,7 +6,7 @@ DEPENDS += "ocf-linux"
-+ 
-+ CFLAG += "-DHAVE_CRYPTODEV -DUSE_CRYPTODEV_DIGESTS"
-+ 
-+-PR = "${INC_PR}.0"
-++PR = "${INC_PR}.1"
-+ 
-+ LIC_FILES_CHKSUM = "file://LICENSE;md5=f9a8f968107345e0b75aa8c2ecaa7ec8"
-+ 
-+-- 
-+1.7.5.4
-+
-diff --git a/meta/recipes-connectivity/openssl/openssl.inc b/meta/recipes-connectivity/openssl/openssl.inc
-index 771f146..eb6c5ea 100644
---- a/meta/recipes-connectivity/openssl/openssl.inc
-+++ b/meta/recipes-connectivity/openssl/openssl.inc
-@@ -36,10 +36,11 @@ export AS = "${CC} -c"
- inherit pkgconfig siteinfo
- 
- PACKAGES =+ "libcrypto libssl ${PN}-misc"
--FILES_libcrypto = "${libdir}/libcrypto.so.*"
-+FILES_libcrypto = "${base_libdir}/libcrypto${SOLIBS}"
- FILES_libssl = "${libdir}/libssl.so.*"
- FILES_${PN} =+ " ${libdir}/ssl/*"
- FILES_${PN}-misc = "${libdir}/ssl/misc ${libdir}/ssl/openssl.cnf"
-+FILES_${PN}-dev += "${base_libdir}/libcrypto${SOLIBSDEV}"
- 
- do_configure_prepend_darwin () {
- 	sed -i -e '/version-script=openssl\.ld/d' Configure
-@@ -132,6 +133,13 @@ do_install () {
- 	oe_libinstall -so libcrypto ${D}${libdir}
- 	oe_libinstall -so libssl ${D}${libdir}
- 
-+	# Moving libcrypto to /usr
-+	if [ ! ${D}${libdir} -ef ${D}${base_libdir} ]; then
-+		mkdir -p ${D}/${base_libdir}/
-+		mv ${D}${libdir}/libcrypto* ${D}${base_libdir}/
-+		sed -i s#libdir=\$\{exec_prefix\}\/lib#libdir=${base_libdir}# ${D}/${libdir}/pkgconfig/libcrypto.pc
-+	fi
-+
- 	install -d ${D}${includedir}
- 	cp --dereference -R include/openssl ${D}${includedir}
- 	sed -i -e '1s,.*,#!${bindir}/env perl,' ${D}${libdir}/ssl/misc/CA.pl
-diff --git a/meta/recipes-connectivity/openssl/openssl_1.0.0g.bb b/meta/recipes-connectivity/openssl/openssl_1.0.0g.bb
-index 80dfcb3..8ffe931 100644
---- a/meta/recipes-connectivity/openssl/openssl_1.0.0g.bb
-+++ b/meta/recipes-connectivity/openssl/openssl_1.0.0g.bb
-@@ -6,7 +6,7 @@ DEPENDS += "ocf-linux"
- 
- CFLAG += "-DHAVE_CRYPTODEV -DUSE_CRYPTODEV_DIGESTS"
- 
--PR = "${INC_PR}.0"
-+PR = "${INC_PR}.1"
- 
- LIC_FILES_CHKSUM = "file://LICENSE;md5=f9a8f968107345e0b75aa8c2ecaa7ec8"
- 
--- 
-1.7.5.4
-
+Thanks
+	Sau!
 
 
