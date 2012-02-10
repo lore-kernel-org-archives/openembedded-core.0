@@ -1,33 +1,34 @@
 Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
 	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
 	(envelope-from <richard.purdie@linuxfoundation.org>)
-	id 1Rvqon-00014d-Gl for openembedded-core@lists.openembedded.org;
-	Fri, 10 Feb 2012 14:47:17 +0100
+	id 1RvqqY-00018C-3f for openembedded-core@lists.openembedded.org;
+	Fri, 10 Feb 2012 14:49:06 +0100
 Received: from localhost (localhost [127.0.0.1])
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q1ADdBtj031199
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q1ADf02e031240
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 10 Feb 2012 13:39:11 GMT
+	Fri, 10 Feb 2012 13:41:00 GMT
 Received: from tim.rpsys.net ([127.0.0.1])
 	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
 	port 10024) with LMTP
-	id 29766-06 for <openembedded-core@lists.openembedded.org>;
-	Fri, 10 Feb 2012 13:39:06 +0000 (GMT)
+	id 29766-07 for <openembedded-core@lists.openembedded.org>;
+	Fri, 10 Feb 2012 13:40:52 +0000 (GMT)
 Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q1ADd39S031193
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q1ADekmO031219
 	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO)
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 10 Feb 2012 13:39:04 GMT
-Message-ID: <1328881152.13434.9.camel@ted>
+	Fri, 10 Feb 2012 13:40:47 GMT
+Message-ID: <1328881254.13434.10.camel@ted>
 From: Richard Purdie <richard.purdie@linuxfoundation.org>
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Date: Fri, 10 Feb 2012 13:39:12 +0000
-In-Reply-To: <4F347F9A.5090007@linux.intel.com>
-References: <1328832638.10451.52.camel@ted> <4F347F9A.5090007@linux.intel.com>
+Date: Fri, 10 Feb 2012 13:40:54 +0000
+In-Reply-To: <CAMKF1soksEad4TP5upRjW2vG6_OjeQjyYTAL88PH_qgy9yyiug@mail.gmail.com>
+References: <1328832372.10451.47.camel@ted>
+	<CAMKF1soksEad4TP5upRjW2vG6_OjeQjyYTAL88PH_qgy9yyiug@mail.gmail.com>
 X-Mailer: Evolution 3.2.2- 
 Mime-Version: 1.0
 X-Virus-Scanned: amavisd-new at rpsys.net
-Subject: Re: [PATCH] package.bbclass: Optimise the per file rpm handling
+Subject: Re: [PATCH] gcc-4.6: Some small performance tweaks
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -42,35 +43,21 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 10 Feb 2012 13:47:17 -0000
+X-List-Received-Date: Fri, 10 Feb 2012 13:49:06 -0000
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 
-On Thu, 2012-02-09 at 18:23 -0800, Joshua Lock wrote:
-> On 09/02/12 16:10, Richard Purdie wrote:
-> > Currently a process was being forked off for each individual file
-> > this class wanted to inspect with rpmdeps. This converts it to use
-> > rpmdeps-oecore which allows batch processing of these dependencies.
+On Thu, 2012-02-09 at 16:39 -0800, Khem Raj wrote:
+> On Thu, Feb 9, 2012 at 4:06 PM, Richard Purdie
+> <richard.purdie@linuxfoundation.org> wrote:
 > >
-> > For do_package for perl, this reduced the time by about 1 minute (33%).
+> > +NATIVEDEPS = "mpfr-native gmp-native libmpc-native zlib-native"
 > 
-> Awesome! Sounds like this addresses #1718
 > 
-> http://bugzilla.pokylinux.org/show_bug.cgi?id=1718
+> note that we will need to ship zlib-nativesdk as well if we do this
+> so hopefully that case is covered by this.
 
-It will certainly help with that issue, yes.
-
-> > @@ -1136,7 +1136,7 @@ RPMDEPS = "${STAGING_LIBDIR_NATIVE}/rpm/bin/rpmdeps --macros ${STAGING_LIBDIR_NA
-> >   #  FILERDEPENDS_filepath_pkg - per file dep
-> >
-> >   python package_do_filedeps() {
-> > -	import os, re
-> > +	import re, subprocess
-> 
-> Was this accidentally left in? I don't see any calls to subprocess?
-
-It was indeed from a different experiment, well spotted. I've removed
-that.
+Yes, zlib has a BBCLASSEXTEND on zlib-nativesdk so this should be fine.
 
 Cheers,
 
