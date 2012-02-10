@@ -1,21 +1,29 @@
-Received: from smtp204.alice.it ([82.57.200.100])
+Received: from mail-pz0-f47.google.com ([209.85.210.47])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <denis@eukrea.com>) id 1RvrIo-00028i-LV
+	(envelope-from <tom.rini@gmail.com>) id 1Rvrqy-0003Kn-US
 	for openembedded-core@lists.openembedded.org;
-	Fri, 10 Feb 2012 15:18:18 +0100
-Received: from denis-n73sv.localnet (82.48.81.29) by smtp204.alice.it
-	(8.6.023.02) (authenticated as editempo@alice.it)
-	id 4ECA5ECD02800AA0; Fri, 10 Feb 2012 15:04:17 +0100
-From: Denis Carikli <denis@eukrea.com>
-To: openembedded-core@lists.openembedded.org
-Date: Fri, 10 Feb 2012 15:04:15 +0100
-Message-ID: <2787694.QmGOfSfC0J@denis-n73sv>
-Organization: Eukrea
-User-Agent: KMail/4.7.3 (Linux/3.0.0-14-generic-pae; KDE/4.7.3; i686; ; )
-In-Reply-To: <1328638770-31141-1-git-send-email-andrei@gherzan.ro>
-References: <1328638770-31141-1-git-send-email-andrei@gherzan.ro>
+	Fri, 10 Feb 2012 15:53:37 +0100
+Received: by daln34 with SMTP id n34so2001912dal.6
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 10 Feb 2012 06:45:30 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
+	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
+	:content-type; bh=50Ta+NNV4PoVRBpF9RAt31htlxLJDENbw+bThKr2riQ=;
+	b=eSp58yQX13cSBFWdHtqUdDyzfkrqoO08Xj6u8PKmK4N08v+nPS9yqTuESskk1CZ0Ju
+	cQvSrYWwemBQ/pfrNW7YCrrdBjkDqNPeXAxiFmB52/rIKh131bRCG2WwQ9Y3TesOA7kW
+	hSNC+cWfH3RPPzRcc4ByRkw0LZr+rsYn8n15M=
 MIME-Version: 1.0
-Subject: Re: [PATCH 1/1] nspr: Integrate version 4.8.9
+Received: by 10.68.72.138 with SMTP id d10mr15955719pbv.15.1328885130038; Fri,
+	10 Feb 2012 06:45:30 -0800 (PST)
+Received: by 10.142.237.1 with HTTP; Fri, 10 Feb 2012 06:45:29 -0800 (PST)
+In-Reply-To: <CAMKF1srTMHyV+2eDaJKuZs9=2VUYkqhJoqfFqZxrdTCCooWMXA@mail.gmail.com>
+References: <CAMKF1srTMHyV+2eDaJKuZs9=2VUYkqhJoqfFqZxrdTCCooWMXA@mail.gmail.com>
+Date: Fri, 10 Feb 2012 07:45:29 -0700
+Message-ID: <CA+M6bXmHSqxSOFv37X7zZE7ctrRiej5Om8L5RRE4BV0Ui7gPUg@mail.gmail.com>
+From: Tom Rini <tom.rini@gmail.com>
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: Recipes with disabled parallel make
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -30,30 +38,25 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 10 Feb 2012 14:18:18 -0000
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
+X-List-Received-Date: Fri, 10 Feb 2012 14:53:37 -0000
+Content-Type: text/plain; charset=ISO-8859-1
 
-There are some small issues:
+On Thu, Feb 9, 2012 at 5:35 PM, Khem Raj <raj.khem@gmail.com> wrote:
+> Hi
+>
+> Just grepped for the occurances of disabled parallel make and I see
+> around 40 cases on oe-core
+>
+> git grep PARALLEL_MAKE.*=.*\"\" recipes* | grep -v "#"
+>
+> If someone has time to kill then it would help to see if some of these
+> are fixed by time or can be fixed
+>
+> it can help in paralleling the build a bit more.
 
->+Cflags: 
-There is a whitespace at the end.
-> +inherit autotools 
-There is a whitespace at the end.
+Once we move to u-boot v2011.12 or later, that can die from the U-Boot recipes.
 
->+LICENSE = "GPLv2"
-The license is not GPLv2 only, but rather:
-GPLv2+ or MPL1.1(I'm not sure if it's spelled correctly) or  LGPLv2.1+
-(I don't remember how or are expressed, maybe | or ||, you should grep for it)
-
->+LIC_FILES_CHKSUM = 
-"file://${COMMON_LICENSE_DIR}/GPL-2.0;md5=801f80980d171dd6425610833a22dbe6"
-Could you instead md5sum part of Makefile.in(or configure.in, or both) that 
-contains a license header that seem to be applied to all files at 
-compilation...
-
-Thank a lot for working on nspr, I need it for chromium.
-
-Denis.
+-- 
+Tom
 
 
