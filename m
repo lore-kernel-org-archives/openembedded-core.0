@@ -1,30 +1,30 @@
 Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
 	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
 	(envelope-from <richard.purdie@linuxfoundation.org>)
-	id 1Rve7z-0001D8-6h for openembedded-core@lists.openembedded.org;
-	Fri, 10 Feb 2012 01:14:15 +0100
+	id 1Rve8s-0001G8-ST for openembedded-core@lists.openembedded.org;
+	Fri, 10 Feb 2012 01:15:11 +0100
 Received: from localhost (localhost [127.0.0.1])
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q1A06AXU023983
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q1A0750e023993
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 10 Feb 2012 00:06:10 GMT
+	Fri, 10 Feb 2012 00:07:05 GMT
 Received: from tim.rpsys.net ([127.0.0.1])
 	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
 	port 10024) with LMTP
-	id 22429-04 for <openembedded-core@lists.openembedded.org>;
-	Fri, 10 Feb 2012 00:06:06 +0000 (GMT)
+	id 22290-06 for <openembedded-core@lists.openembedded.org>;
+	Fri, 10 Feb 2012 00:07:01 +0000 (GMT)
 Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q1A063HH023977
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q1A06uIC023987
 	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO)
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 10 Feb 2012 00:06:04 GMT
-Message-ID: <1328832372.10451.47.camel@ted>
+	Fri, 10 Feb 2012 00:06:56 GMT
+Message-ID: <1328832425.10451.48.camel@ted>
 From: Richard Purdie <richard.purdie@linuxfoundation.org>
 To: openembedded-core <openembedded-core@lists.openembedded.org>
-Date: Fri, 10 Feb 2012 00:06:12 +0000
+Date: Fri, 10 Feb 2012 00:07:05 +0000
 X-Mailer: Evolution 3.2.2- 
 Mime-Version: 1.0
 X-Virus-Scanned: amavisd-new at rpsys.net
-Subject: [PATCH] gcc-4.6: Some small performance tweaks
+Subject: [PATCH] sstate.bbclass: Optimise sstate_hardcode_path
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -39,65 +39,60 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 10 Feb 2012 00:14:15 -0000
+X-List-Received-Date: Fri, 10 Feb 2012 00:15:11 -0000
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 
-a) Use the system zlib to avoid building it for each gcc.
-b) -initial and -intermediate don't need plugins or lto-plugin
-   so disable them.
+The sstate_hardcode_path() function triggered large numbers of exec()
+calls when processing packages with large numbers of file relocations
+(e.g. perl). This patch optimises those calls into longer single commands
+which make the code significantly more efficient.
+
+This reduced the do_package time for perl by 2 minutes (from 4.75 minutes)
+for me.
 
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 ---
-diff --git a/meta/recipes-devtools/gcc/gcc-4.6.inc b/meta/recipes-devtools/gcc/gcc-4.6.inc
-index 758c93e..ece378d 100644
---- a/meta/recipes-devtools/gcc/gcc-4.6.inc
-+++ b/meta/recipes-devtools/gcc/gcc-4.6.inc
-@@ -23,7 +23,7 @@ BRANCH = "gcc-4_6-branch"
- FILESPATH = "${@base_set_filespath([ '${FILE_DIRNAME}/gcc-4.6' ], d)}"
+diff --git a/meta/classes/sstate.bbclass b/meta/classes/sstate.bbclass
+index 4bd3712..d4f95c1 100644
+--- a/meta/classes/sstate.bbclass
++++ b/meta/classes/sstate.bbclass
+@@ -317,19 +317,24 @@ def sstate_hardcode_path(d):
+ 	staging_host = d.getVar('STAGING_DIR_HOST', True)
+ 	sstate_builddir = d.getVar('SSTATE_BUILDDIR', True)
  
- DEPENDS =+ "mpfr gmp libmpc"
--NATIVEDEPS = "mpfr-native gmp-native libmpc-native"
-+NATIVEDEPS = "mpfr-native gmp-native libmpc-native zlib-native"
+-	for i in file_list.split('\n'):
+-		if not i:
+-			continue           
+-		if bb.data.inherits_class('native', d) or bb.data.inherits_class('nativesdk', d) or bb.data.inherits_class('crosssdk', d) or bb.data.inherits_class('cross-canadian', d):
+-			cmd = "sed -i -e s:%s:FIXMESTAGINGDIR:g %s" % (staging, i)
+-		elif bb.data.inherits_class('cross', d):
+-			cmd = "sed -i -e s:%s:FIXMESTAGINGDIRTARGET:g %s \
+-				sed -i -e s:%s:FIXMESTAGINGDIR:g %s" % (staging_target, i, staging, i)
+-		else:
+-			cmd = "sed -i -e s:%s:FIXMESTAGINGDIRHOST:g %s" % (staging_host, i)
++	files = " ".join(file_list.split('\n'))
  
- LICENSE="GPL-3.0-with-GCC-exception & GPLv3"
++	if bb.data.inherits_class('native', d) or bb.data.inherits_class('nativesdk', d) or bb.data.inherits_class('crosssdk', d) or bb.data.inherits_class('cross-canadian', d):
++		cmd = "sed -i -e s:%s:FIXMESTAGINGDIR:g %s" % (staging, files)
++	elif bb.data.inherits_class('cross', d):
++		cmd = "sed -i -e s:%s:FIXMESTAGINGDIRTARGET:g %s \
++			sed -i -e s:%s:FIXMESTAGINGDIR:g %s" % (staging_target, files, staging, files)
++	else:
++		cmd = "sed -i -e s:%s:FIXMESTAGINGDIRHOST:g %s" % (staging_host, files)
++
++	if files:
+ 		os.system(cmd)
+-		os.system("echo %s | sed -e 's:%s::' >> %sfixmepath" % (i, sstate_builddir, sstate_builddir))
++		fix = open("%sfixmepath" % (sstate_builddir), "w")
++		fixme = []
++		for f in file_list.split('\n'):
++			fixme.append(f.replace(sstate_builddir, ""))
++		fix.write("\n".join(fixme))
++		fix.close()
+ 	p.close()
  
-@@ -86,16 +86,12 @@ B = "${WORKDIR}/${BRANCH}/build.${HOST_SYS}.${TARGET_SYS}"
- FORTRAN = ""
- JAVA = ""
- 
--#EXTRA_OECONF_BASE = "  --enable-cheaders=c_std \
--#			--enable-libssp \
--#			--disable-bootstrap \
--#			--disable-libgomp \
--#			--disable-libmudflap"
- EXTRA_OECONF_BASE = " --enable-lto \
- 			--enable-libssp \
- 			--disable-bootstrap \
- 			--disable-libgomp \
- 			--disable-libmudflap \
-+			--with-system-zlib \
- 			--with-linker-hash-style=${LINKER_HASH_STYLE} \
- 			--enable-cheaders=c_global "
- 
-@@ -103,11 +99,17 @@ EXTRA_OECONF_INITIAL = "--disable-libmudflap \
- 			--disable-libgomp \
- 			--disable-libssp \
- 			--disable-libquadmath \
-+			--with-system-zlib \
-+			--disable-lto \
-+			--disable-plugin \
- 			--enable-decimal-float=no"
- 
- EXTRA_OECONF_INTERMEDIATE = "--disable-libmudflap \
- 				--disable-libgomp \
- 				--disable-libquadmath \
-+				--with-system-zlib \
-+				--disable-lto \
-+				--disable-plugin \
- 				--disable-libssp"
- 
- EXTRA_OECONF_append_linux-uclibc = " --disable-decimal-float "
+ def sstate_package(ss, d):
 
 
 
