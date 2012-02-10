@@ -1,27 +1,21 @@
-Received: from mga03.intel.com ([143.182.124.21])
+Received: from smtp204.alice.it ([82.57.200.100])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <paul.eggleton@linux.intel.com>) id 1RvrI6-00025i-OV
+	(envelope-from <denis@eukrea.com>) id 1RvrIo-00028i-LV
 	for openembedded-core@lists.openembedded.org;
-	Fri, 10 Feb 2012 15:17:35 +0100
-Received: from azsmga002.ch.intel.com ([10.2.17.35])
-	by azsmga101.ch.intel.com with ESMTP; 10 Feb 2012 06:09:28 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="65299546"
-Received: from unknown (HELO helios.localnet) ([10.252.122.199])
-	by AZSMGA002.ch.intel.com with ESMTP; 10 Feb 2012 06:09:26 -0800
-From: Paul Eggleton <paul.eggleton@linux.intel.com>
+	Fri, 10 Feb 2012 15:18:18 +0100
+Received: from denis-n73sv.localnet (82.48.81.29) by smtp204.alice.it
+	(8.6.023.02) (authenticated as editempo@alice.it)
+	id 4ECA5ECD02800AA0; Fri, 10 Feb 2012 15:04:17 +0100
+From: Denis Carikli <denis@eukrea.com>
 To: openembedded-core@lists.openembedded.org
-Date: Fri, 10 Feb 2012 14:09:25 +0000
-Message-ID: <8983108.GyvSNSG0Wm@helios>
-Organization: Intel Corporation
-User-Agent: KMail/4.8.0 (Linux/3.0.0-15-generic-pae; KDE/4.8.0; i686; ; )
-In-Reply-To: <1328882587.14363.87.camel@phil-desktop>
-References: <cover.1328809777.git.paul.eggleton@linux.intel.com>
-	<1440799.NqLiKZanR0@helios>
-	<1328882587.14363.87.camel@phil-desktop>
+Date: Fri, 10 Feb 2012 15:04:15 +0100
+Message-ID: <2787694.QmGOfSfC0J@denis-n73sv>
+Organization: Eukrea
+User-Agent: KMail/4.7.3 (Linux/3.0.0-14-generic-pae; KDE/4.7.3; i686; ; )
+In-Reply-To: <1328638770-31141-1-git-send-email-andrei@gherzan.ro>
+References: <1328638770-31141-1-git-send-email-andrei@gherzan.ro>
 MIME-Version: 1.0
-Cc: Phil Blundell <philb@gnu.org>
-Subject: Re: [RFC PATCH 1/4] qt4: fix compile error in Qt 4.8.0 with gcc 4.6
+Subject: Re: [PATCH 1/1] nspr: Integrate version 4.8.9
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -36,46 +30,30 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 10 Feb 2012 14:17:35 -0000
+X-List-Received-Date: Fri, 10 Feb 2012 14:18:18 -0000
 Content-Transfer-Encoding: 7Bit
 Content-Type: text/plain; charset="us-ascii"
 
-On Friday 10 February 2012 14:03:06 Phil Blundell wrote:
-> On Fri, 2012-02-10 at 13:56 +0000, Paul Eggleton wrote:
-> > What the code is attempting to do is provide its own "nullptr" if it isn't
-> > being provided as part of the language:
-> > 
-> > ------------------------------
-> > #if __has_feature(cxx_nullptr) || (GCC_VERSION_AT_LEAST(4, 6, 0) &&
-> > defined(__GXX_EXPERIMENTAL_CXX0X__)) || (defined(_MSC_VER) && _MSC_VER >=
-> > 1600 && !COMPILER(INTEL))
-> > 
-> > #define HAVE_NULLPTR 1
-> > 
-> > #else
-> > 
-> > namespace std {
-> > 
-> >     class nullptr_t { };
-> > 
-> > }
-> > 
-> > extern std::nullptr_t nullptr;
-> > 
-> > #endif
-> > ------------------------------
-> > 
-> > gcc 4.6 is preempting this and complaining about the use of the
-> > identifier. I don't think renaming it is going to be acceptable upstream
-> > either.
+There are some small issues:
 
-> Does it work if you build with -std=c++0x?
+>+Cflags: 
+There is a whitespace at the end.
+> +inherit autotools 
+There is a whitespace at the end.
 
-It does, yes (well, compiling the above code on its own anyway).
+>+LICENSE = "GPLv2"
+The license is not GPLv2 only, but rather:
+GPLv2+ or MPL1.1(I'm not sure if it's spelled correctly) or  LGPLv2.1+
+(I don't remember how or are expressed, maybe | or ||, you should grep for it)
 
--- 
+>+LIC_FILES_CHKSUM = 
+"file://${COMMON_LICENSE_DIR}/GPL-2.0;md5=801f80980d171dd6425610833a22dbe6"
+Could you instead md5sum part of Makefile.in(or configure.in, or both) that 
+contains a license header that seem to be applied to all files at 
+compilation...
 
-Paul Eggleton
-Intel Open Source Technology Centre
+Thank a lot for working on nspr, I need it for chromium.
+
+Denis.
 
 
