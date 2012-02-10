@@ -1,32 +1,24 @@
-Received: from mail.dream-property.net ([82.149.226.172])
+Received: from mga14.intel.com ([143.182.124.37])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <obi@opendreambox.org>) id 1RvfPD-0002wm-GM
+	(envelope-from <josh@linux.intel.com>) id 1RvgGg-00046o-2w
 	for openembedded-core@lists.openembedded.org;
-	Fri, 10 Feb 2012 02:36:07 +0100
-Received: from localhost (localhost [127.0.0.1])
-	by mail.dream-property.net (Postfix) with ESMTP id B3F003158B3D
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 10 Feb 2012 02:28:03 +0100 (CET)
-X-Virus-Scanned: Debian amavisd-new at mail.dream-property.net
-Received: from mail.dream-property.net ([127.0.0.1])
-	by localhost (mail.dream-property.net [127.0.0.1]) (amavisd-new,
-	port 10024) with LMTP id i2A0j87MuJr7
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 10 Feb 2012 02:27:56 +0100 (CET)
-Received: from [172.22.22.61] (drms-590c5a35.pool.mediaWays.net [89.12.90.53])
-	(using TLSv1 with cipher DHE-RSA-AES256-SHA (256/256 bits))
-	(No client certificate requested)
-	by mail.dream-property.net (Postfix) with ESMTPSA id 7CE503158B3B
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 10 Feb 2012 02:27:56 +0100 (CET)
-Message-ID: <4F34729A.3020402@opendreambox.org>
-Date: Fri, 10 Feb 2012 02:27:54 +0100
-From: Andreas Oberritter <obi@opendreambox.org>
+	Fri, 10 Feb 2012 03:31:22 +0100
+Received: from azsmga001.ch.intel.com ([10.2.17.19])
+	by azsmga102.ch.intel.com with ESMTP; 09 Feb 2012 18:23:15 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="105194113"
+Received: from unknown (HELO [10.255.14.206]) ([10.255.14.206])
+	by azsmga001.ch.intel.com with ESMTP; 09 Feb 2012 18:23:15 -0800
+Message-ID: <4F347F92.2000501@linux.intel.com>
+Date: Thu, 09 Feb 2012 18:23:14 -0800
+From: Joshua Lock <josh@linux.intel.com>
 User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:10.0) Gecko/20120129 Thunderbird/10.0
+	rv:10.0) Gecko/20120131 Thunderbird/10.0
 MIME-Version: 1.0
-To: openembedded-core <openembedded-core@lists.openembedded.org>
-Subject: [PATCH/RFC] xorg-lib: don't build libs unless requested by DISTRO_FEATURES
+To: openembedded-core@lists.openembedded.org
+References: <1328832425.10451.48.camel@ted>
+In-Reply-To: <1328832425.10451.48.camel@ted>
+Subject: Re: [PATCH] sstate.bbclass: Optimise sstate_hardcode_path
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -41,52 +33,87 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 10 Feb 2012 01:36:07 -0000
-Content-Type: text/plain; charset=ISO-8859-1
+X-List-Received-Date: Fri, 10 Feb 2012 02:31:22 -0000
+Content-Type: text/plain; charset=ISO-8859-1; format=flowed
 Content-Transfer-Encoding: 7bit
 
-* If 'x11' is not set in DISTRO_FEATURES, then skip all
-  recipes using xorg-lib-common.inc instead of only those
-  using libx11.inc.
+On 09/02/12 16:07, Richard Purdie wrote:
+> The sstate_hardcode_path() function triggered large numbers of exec()
+> calls when processing packages with large numbers of file relocations
+> (e.g. perl). This patch optimises those calls into longer single commands
+> which make the code significantly more efficient.
+>
+> This reduced the do_package time for perl by 2 minutes (from 4.75 minutes)
+> for me.
 
-* One exception: pixman, which is not only used by xorg,
-  but also by cairo.
+Very nice speed up!
 
-Signed-off-by: Andreas Oberritter <obi@opendreambox.org>
----
- meta/recipes-graphics/xorg-lib/libx11.inc          |    5 -----
- meta/recipes-graphics/xorg-lib/xorg-lib-common.inc |    6 ++++++
- 2 files changed, 6 insertions(+), 5 deletions(-)
+> Signed-off-by: Richard Purdie<richard.purdie@linuxfoundation.org>
 
-diff --git a/meta/recipes-graphics/xorg-lib/libx11.inc b/meta/recipes-graphics/xorg-lib/libx11.inc
-index 748a48c..9057edc 100644
---- a/meta/recipes-graphics/xorg-lib/libx11.inc
-+++ b/meta/recipes-graphics/xorg-lib/libx11.inc
-@@ -49,8 +49,3 @@ do_compile_prepend() {
- # Multiple libx11 derivatives from from this file and are selected by virtual/libx11
- # A world build should only build the correct version, not all of them.
- EXCLUDE_FROM_WORLD = "1"
--
--python () {
--       if not oe.utils.contains ('DISTRO_FEATURES', 'x11', True, False, d):
--       	  raise bb.parse.SkipPackage("X11 not enabled for this DISTRO")
--}
-diff --git a/meta/recipes-graphics/xorg-lib/xorg-lib-common.inc b/meta/recipes-graphics/xorg-lib/xorg-lib-common.inc
-index d106054..3d5d378 100644
---- a/meta/recipes-graphics/xorg-lib/xorg-lib-common.inc
-+++ b/meta/recipes-graphics/xorg-lib/xorg-lib-common.inc
-@@ -14,3 +14,9 @@ S = "${WORKDIR}/${XORG_PN}-${PV}"
- inherit autotools pkgconfig
- 
- EXTRA_OECONF = "--enable-malloc0returnsnull --with-fop=no --without-xmlto"
-+
-+python () {
-+        whitelist = [ "pixman" ]
-+        if not d.getVar('BPN', True) in whitelist and not oe.utils.contains ('DISTRO_FEATURES', 'x11', True, False, d):
-+                raise bb.parse.SkipPackage("X11 not enabled for this DISTRO")
-+}
+A minor api/style nit below but:
+
+Acked-by: Joshua Lock <josh@linux.intel.com>
+
+> ---
+> diff --git a/meta/classes/sstate.bbclass b/meta/classes/sstate.bbclass
+> index 4bd3712..d4f95c1 100644
+> --- a/meta/classes/sstate.bbclass
+> +++ b/meta/classes/sstate.bbclass
+> @@ -317,19 +317,24 @@ def sstate_hardcode_path(d):
+>   	staging_host = d.getVar('STAGING_DIR_HOST', True)
+>   	sstate_builddir = d.getVar('SSTATE_BUILDDIR', True)
+>
+> -	for i in file_list.split('\n'):
+> -		if not i:
+> -			continue
+> -		if bb.data.inherits_class('native', d) or bb.data.inherits_class('nativesdk', d) or bb.data.inherits_class('crosssdk', d) or bb.data.inherits_class('cross-canadian', d):
+> -			cmd = "sed -i -e s:%s:FIXMESTAGINGDIR:g %s" % (staging, i)
+> -		elif bb.data.inherits_class('cross', d):
+> -			cmd = "sed -i -e s:%s:FIXMESTAGINGDIRTARGET:g %s \
+> -				sed -i -e s:%s:FIXMESTAGINGDIR:g %s" % (staging_target, i, staging, i)
+> -		else:
+> -			cmd = "sed -i -e s:%s:FIXMESTAGINGDIRHOST:g %s" % (staging_host, i)
+> +	files = " ".join(file_list.split('\n'))
+>
+> +	if bb.data.inherits_class('native', d) or bb.data.inherits_class('nativesdk', d) or bb.data.inherits_class('crosssdk', d) or bb.data.inherits_class('cross-canadian', d):
+
+I think this can be replaced by a single call to the inherits method of 
+the oe.utils module:
+
+oe.utils.inherits(d, 'native', 'nativesdk', 'crosssdk', 'cross-canadian')
+
+which makes this a little more concise.
+
+> +		cmd = "sed -i -e s:%s:FIXMESTAGINGDIR:g %s" % (staging, files)
+> +	elif bb.data.inherits_class('cross', d):
+> +		cmd = "sed -i -e s:%s:FIXMESTAGINGDIRTARGET:g %s \
+> +			sed -i -e s:%s:FIXMESTAGINGDIR:g %s" % (staging_target, files, staging, files)
+> +	else:
+> +		cmd = "sed -i -e s:%s:FIXMESTAGINGDIRHOST:g %s" % (staging_host, files)
+> +
+> +	if files:
+>   		os.system(cmd)
+> -		os.system("echo %s | sed -e 's:%s::'>>  %sfixmepath" % (i, sstate_builddir, sstate_builddir))
+> +		fix = open("%sfixmepath" % (sstate_builddir), "w")
+> +		fixme = []
+> +		for f in file_list.split('\n'):
+> +			fixme.append(f.replace(sstate_builddir, ""))
+> +		fix.write("\n".join(fixme))
+> +		fix.close()
+>   	p.close()
+>
+>   def sstate_package(ss, d):
+>
+>
+>
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
+
 -- 
-1.7.5.4
-
+Joshua Lock
+         Yocto Project "Johannes factotum"
+         Intel Open Source Technology Centre
 
 
