@@ -1,31 +1,30 @@
-Received: from mail-lpp01m020-f175.google.com ([209.85.217.175])
+Received: from mail-lpp01m010-f47.google.com ([209.85.215.47])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <raj.khem@gmail.com>) id 1RvxKy-00087w-OA
+	(envelope-from <raj.khem@gmail.com>) id 1Rvxjl-0000YB-Tz
 	for openembedded-core@lists.openembedded.org;
-	Fri, 10 Feb 2012 21:44:56 +0100
-Received: by lbol12 with SMTP id l12so1642713lbo.6
+	Fri, 10 Feb 2012 22:10:34 +0100
+Received: by lahc1 with SMTP id c1so2862621lah.6
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 10 Feb 2012 12:36:50 -0800 (PST)
+	Fri, 10 Feb 2012 13:02:27 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
 	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:content-type; bh=FEnk+ksmR5FrXZVfB4jLGCwnnwGRFYQcB33wjFCEeOk=;
-	b=OpY5LRKaXzlMnO2C8bZlOVOQ5TgQUCs7PZ0XNHB3eo5faEHN6BpX8qknczbjhitO2B
-	QiFyobsV2xhbDXZi2hPPrTaUaUiiTyL0Jk9fKHBslI/ErpEzoEHzsggUuOCGSYhjANeA
-	X7JGLpUM+SNun8jPmvfNdFMXK7NGJgM726HaY=
-Received: by 10.112.28.169 with SMTP id c9mr2563901lbh.42.1328906210420; Fri,
-	10 Feb 2012 12:36:50 -0800 (PST)
+	:content-type:content-transfer-encoding;
+	bh=iEPqq/nwe4pj38hJYj9AR579XNALmksv1cCR/y9Yes8=;
+	b=WPKAfsW395ezgBUZIK960yehcyjJpY3gUrmzhwZDgBDY9W0B36amMUnc+f365WBtRR
+	HFpH8558o3JntcKg/enO44ZRB+kq0hHIR8srpPjp6qSHQOWgM9LV24dZM34GEEq02RrR
+	1n0nhNFrHQ/g/95aLyzQ1oViw1of1wqI1BNSE=
+Received: by 10.152.123.68 with SMTP id ly4mr5166149lab.13.1328907747628; Fri,
+	10 Feb 2012 13:02:27 -0800 (PST)
 MIME-Version: 1.0
-Received: by 10.152.5.201 with HTTP; Fri, 10 Feb 2012 12:36:20 -0800 (PST)
-In-Reply-To: <1862774.ijFNRjIgdo@helios>
-References: <cover.1328809777.git.paul.eggleton@linux.intel.com>
-	<CAMKF1spuyaA4ZJTe1pH8qyRA0nXQfJ67hAKjs5daf_Lmxy=8Tg@mail.gmail.com>
-	<1440799.NqLiKZanR0@helios> <1862774.ijFNRjIgdo@helios>
+Received: by 10.152.5.201 with HTTP; Fri, 10 Feb 2012 13:01:56 -0800 (PST)
+In-Reply-To: <1328862631-30998-1-git-send-email-sgw@linux.intel.com>
+References: <1328862631-30998-1-git-send-email-sgw@linux.intel.com>
 From: Khem Raj <raj.khem@gmail.com>
-Date: Fri, 10 Feb 2012 12:36:20 -0800
-Message-ID: <CAMKF1soxtqT40tKKUQQe1tkhR_5=sbeuwq5R80gLyVJA_n9OYg@mail.gmail.com>
+Date: Fri, 10 Feb 2012 13:01:56 -0800
+Message-ID: <CAMKF1srORv1Wjoo3AzwGpkUuPWky6wxKSWSdSvbD_WoQPwq+0w@mail.gmail.com>
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Subject: Re: [RFC PATCH 1/4] qt4: fix compile error in Qt 4.8.0 with gcc 4.6
+Subject: Re: [PATCH] gnupg: Update checksum, fix configure and compliation issues
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -40,22 +39,30 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 10 Feb 2012 20:44:56 -0000
+X-List-Received-Date: Fri, 10 Feb 2012 21:10:34 -0000
 Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
-On Fri, Feb 10, 2012 at 11:31 AM, Paul Eggleton
-<paul.eggleton@linux.intel.com> wrote:
->
-> So, I dug further into this, and I discovered that the reason for this
-> breaking was that the Qt configure script thought we were not using g++ as the
-> C++ compiler (!) thus it did not detect the gcc version, and therefore when it
-> came to the check to see if gcc 4.6+ was being used in order to add the -Wno-
-> c++0x-compat option to CXXFLAGS (which it already has code to do), the version
-> was not set and the option was not added.
->
-> I've updated the contrib branch to fix this as well as reformat the other patch
-> as Koen requested.
+On Fri, Feb 10, 2012 at 12:30 AM, Saul Wold <sgw@linux.intel.com> wrote:
+> +
+> +Upstream-Status: Inappropriate [configuration]
+> +
+> +Signed-off-by: Saul Wold <sgw@linux.intel.com>
+> +
+> +Index: gnupg-1.4.7/configure.ac
+> +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+> +--- gnupg-1.4.7.orig/configure.ac
+> ++++ gnupg-1.4.7/configure.ac
+> +@@ -827,7 +827,6 @@ else
+> + =C2=A0 AC_SUBST(USE_NLS)
+> + =C2=A0 AC_SUBST(USE_INCLUDED_LIBINTL)
+> + =C2=A0 AC_SUBST(BUILD_INCLUDED_LIBINTL)
+> +- =C2=A0AM_PO_SUBDIRS
+> + fi
+> +
 
-Thanks for redoing it.
+could you describe the error ?
 
 
