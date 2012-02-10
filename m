@@ -1,29 +1,23 @@
-Received: from mail-ww0-f43.google.com ([74.125.82.43])
+Received: from mail.gw90.de ([188.40.100.199])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <koen@dominion.thruhere.net>) id 1Rvm8E-0002Wg-7w
-	for openembedded-core@lists.openembedded.org;
-	Fri, 10 Feb 2012 09:47:02 +0100
-Received: by wgbdr13 with SMTP id dr13so2250171wgb.24
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 10 Feb 2012 00:38:56 -0800 (PST)
-Received: by 10.180.19.97 with SMTP id d1mr7794761wie.12.1328863136650;
-	Fri, 10 Feb 2012 00:38:56 -0800 (PST)
-Received: from [172.20.1.36] (ip545070eb.adsl-surfen.hetnet.nl.
-	[84.80.112.235]) by mx.google.com with ESMTPS id
-	hb10sm15736067wib.10.2012.02.10.00.38.55
-	(version=TLSv1/SSLv3 cipher=OTHER);
-	Fri, 10 Feb 2012 00:38:55 -0800 (PST)
-Mime-Version: 1.0 (Apple Message framework v1251.1)
-From: Koen Kooi <koen@dominion.thruhere.net>
-In-Reply-To: <4F34729A.3020402@opendreambox.org>
-Date: Fri, 10 Feb 2012 09:38:59 +0100
-Message-Id: <7113E9EE-BFA2-47CA-94A5-381601F92C7F@dominion.thruhere.net>
-References: <4F34729A.3020402@opendreambox.org>
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-X-Mailer: Apple Mail (2.1251.1)
-X-Gm-Message-State: ALoCoQlyOD42WPPFyce7JTq4p+d6W+jVJNzrnNiyvz8Kwq44MTuZJlx8Kh/Fl9xX4Foy8A7L2cQT
-Subject: Re: [PATCH/RFC] xorg-lib: don't build libs unless requested by DISTRO_FEATURES
+	(envelope-from <paulepanter@users.sourceforge.net>)
+	id 1Rvmne-0003ks-AN for openembedded-core@lists.openembedded.org;
+	Fri, 10 Feb 2012 10:29:50 +0100
+Received: from f053034143.adsl.alicedsl.de ([78.53.34.143]
+	helo=[192.168.178.43])
+	by mail.gw90.de with esmtpsa (TLS1.0:RSA_AES_256_CBC_SHA1:32)
+	(Exim 4.69) (envelope-from <paulepanter@users.sourceforge.net>)
+	id 1Rvmfz-0006nm-Pj for openembedded-core@lists.openembedded.org;
+	Fri, 10 Feb 2012 09:21:56 +0000
+Message-ID: <1328865702.4215.8.camel@mattotaupa>
+From: Paul Menzel <paulepanter@users.sourceforge.net>
+To: openembedded-core@lists.openembedded.org
+Date: Fri, 10 Feb 2012 10:21:42 +0100
+In-Reply-To: <1328862631-30998-1-git-send-email-sgw@linux.intel.com>
+References: <1328862631-30998-1-git-send-email-sgw@linux.intel.com>
+X-Mailer: Evolution 3.2.2-1 
+Mime-Version: 1.0
+Subject: Re: [PATCH] gnupg: Update checksum, fix configure and compliation issues
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -38,68 +32,138 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 10 Feb 2012 08:47:02 -0000
-Content-Type: text/plain; charset=us-ascii
+X-List-Received-Date: Fri, 10 Feb 2012 09:29:50 -0000
+X-Groupsio-MsgNum: 17398
+Content-Type: multipart/signed; micalg="pgp-sha1";
+	protocol="application/pgp-signature"; 
+	boundary="=-9eWvDX34OJSAlUT5MF7Z"
+
+--=-9eWvDX34OJSAlUT5MF7Z
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
+Am Freitag, den 10.02.2012, 00:30 -0800 schrieb Saul Wold:
 
-Op 10 feb. 2012, om 02:27 heeft Andreas Oberritter het volgende =
-geschreven:
+In the summary there should be comp*i*lation.
 
-> * If 'x11' is not set in DISTRO_FEATURES, then skip all
->  recipes using xorg-lib-common.inc instead of only those
->  using libx11.inc.
+> This recipe was added, but did not have the correct
+> checksum information for the LIC_FILES_CHKSUM or the
+> SRC_URI.
+
+How could that happen?
+
+> Also disable Documetnation for now due to older autotools issue.
+
+docum*en*tation
+
 >=20
-> * One exception: pixman, which is not only used by xorg,
->  but also by cairo.
+> [YOCTO #1966]
 >=20
-> Signed-off-by: Andreas Oberritter <obi@opendreambox.org>
+> Signed-off-by: Saul Wold <sgw@linux.intel.com>
 > ---
-> meta/recipes-graphics/xorg-lib/libx11.inc          |    5 -----
-> meta/recipes-graphics/xorg-lib/xorg-lib-common.inc |    6 ++++++
-> 2 files changed, 6 insertions(+), 5 deletions(-)
+>  .../gnupg/gnupg-1.4.7/configure.patch              |   17 ++++++++++++++=
++++
+>  meta/recipes-support/gnupg/gnupg_1.4.7.bb          |   12 ++++++------
+>  2 files changed, 23 insertions(+), 6 deletions(-)
+>  create mode 100644 meta/recipes-support/gnupg/gnupg-1.4.7/configure.patc=
+h
 >=20
-> diff --git a/meta/recipes-graphics/xorg-lib/libx11.inc =
-b/meta/recipes-graphics/xorg-lib/libx11.inc
-> index 748a48c..9057edc 100644
-> --- a/meta/recipes-graphics/xorg-lib/libx11.inc
-> +++ b/meta/recipes-graphics/xorg-lib/libx11.inc
-> @@ -49,8 +49,3 @@ do_compile_prepend() {
-> # Multiple libx11 derivatives from from this file and are selected by =
-virtual/libx11
-> # A world build should only build the correct version, not all of =
-them.
-> EXCLUDE_FROM_WORLD =3D "1"
-> -
-> -python () {
-> -       if not oe.utils.contains ('DISTRO_FEATURES', 'x11', True, =
-False, d):
-> -       	  raise bb.parse.SkipPackage("X11 not enabled for this =
-DISTRO")
-> -}
-> diff --git a/meta/recipes-graphics/xorg-lib/xorg-lib-common.inc =
-b/meta/recipes-graphics/xorg-lib/xorg-lib-common.inc
-> index d106054..3d5d378 100644
-> --- a/meta/recipes-graphics/xorg-lib/xorg-lib-common.inc
-> +++ b/meta/recipes-graphics/xorg-lib/xorg-lib-common.inc
-> @@ -14,3 +14,9 @@ S =3D "${WORKDIR}/${XORG_PN}-${PV}"
-> inherit autotools pkgconfig
->=20
-> EXTRA_OECONF =3D "--enable-malloc0returnsnull --with-fop=3Dno =
---without-xmlto"
+> diff --git a/meta/recipes-support/gnupg/gnupg-1.4.7/configure.patch b/met=
+a/recipes-support/gnupg/gnupg-1.4.7/configure.patch
+> new file mode 100644
+> index 0000000..e005ac6
+> --- /dev/null
+> +++ b/meta/recipes-support/gnupg/gnupg-1.4.7/configure.patch
+> @@ -0,0 +1,17 @@
+
+Could you please describe the problem here. PO sounds like translation
+to me.
+
 > +
-> +python () {
-> +        whitelist =3D [ "pixman" ]
-> +        if not d.getVar('BPN', True) in whitelist and not =
-oe.utils.contains ('DISTRO_FEATURES', 'x11', True, False, d):
-> +                raise bb.parse.SkipPackage("X11 not enabled for this =
-DISTRO")
+> +Upstream-Status: Inappropriate [configuration]
+> +
+> +Signed-off-by: Saul Wold <sgw@linux.intel.com>
+> +
+> +Index: gnupg-1.4.7/configure.ac
+> +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+> +--- gnupg-1.4.7.orig/configure.ac
+> ++++ gnupg-1.4.7/configure.ac
+> +@@ -827,7 +827,6 @@ else
+> +   AC_SUBST(USE_NLS)
+> +   AC_SUBST(USE_INCLUDED_LIBINTL)
+> +   AC_SUBST(BUILD_INCLUDED_LIBINTL)
+> +-  AM_PO_SUBDIRS
+> + fi
+> +=20
+> + if test "$try_extensions" =3D yes || test x"$card_support" =3D xyes ; t=
+hen
+> diff --git a/meta/recipes-support/gnupg/gnupg_1.4.7.bb b/meta/recipes-sup=
+port/gnupg/gnupg_1.4.7.bb
+> index daea5aa..26683df 100644
+> --- a/meta/recipes-support/gnupg/gnupg_1.4.7.bb
+> +++ b/meta/recipes-support/gnupg/gnupg_1.4.7.bb
+> @@ -5,18 +5,17 @@ SECTION =3D "console/utils"
+> =20
+>  LICENSE =3D "GPLv2"
+> =20
+> -LIC_FILES_CHKSUM =3D "file://COPYING;md5=3D"
+> +LIC_FILES_CHKSUM =3D "file://COPYING;md5=3Deb723b61539feef013de476e68b5c=
+50a"
+> =20
+>  PR =3D "r4"
 
-I know you're just moving the error message around, but I would suggest =
-changing it to "'x11' not in DISTRO_FEATURES".
+Should that be increased? I know the package did not work before but the
+content should have changed nevertheless.
 
-regards,
+> =20
+>  SRC_URI =3D "ftp://ftp.gnupg.org/gcrypt/gnupg/gnupg-${PV}.tar.bz2 \
+>             file://long-long-thumb.patch \
+> +           file://configure.patch \
+>             file://mips_gcc4.4.patch"
+> =20
+> -SRC_URI[md5sum] =3D "dcf7ed712997888d616e029637bfc303"
+> -SRC_URI[sha256sum] =3D "a2907f4432d67894e425e48ae85785dd60ecb01658c9682b=
+cd96f5e91043bb38"
+> -
+> -S =3D "${WORKDIR}/gnupg-${PV}"
+> +SRC_URI[md5sum] =3D "b06a141cca5cd1a55bbdd25ab833303c"
+> +SRC_URI[sha256sum] =3D "69d18b7d193f62ca27ed4febcb4c9044aa0c95305d3258fe=
+902e2fae5fc6468d"
+> =20
+>  inherit autotools gettext
+> =20
+> @@ -73,7 +72,8 @@ EXTRA_OECONF =3D "--disable-ldap \
+>  		--with-bzip2=3D${STAGING_LIBDIR}/.. \
+>  		--disable-selinux-support \
+>                  --with-readline=3D${STAGING_LIBDIR}/.. \
+> -                ac_cv_sys_symbol_underscore=3Dyes"
+> +                ac_cv_sys_symbol_underscore=3Dno \
+> +		"
 
-Koen=
+Does that belong to the documentation change?
+
+> =20
+>  do_install () {
+>  	autotools_do_install
 
 
+Thanks,
+
+Paul
+
+--=-9eWvDX34OJSAlUT5MF7Z
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: This is a digitally signed message part
+Content-Transfer-Encoding: 7bit
+
+-----BEGIN PGP SIGNATURE-----
+Version: GnuPG v1.4.11 (GNU/Linux)
+
+iEYEABECAAYFAk804acACgkQPX1aK2wOHVhChgCePHZekHXCXAzZGDSJeGk+yaQM
+MWIAniwwaDetgLvIUOEqqcO/AO7seIUc
+=G2MY
+-----END PGP SIGNATURE-----
+
+--=-9eWvDX34OJSAlUT5MF7Z--
