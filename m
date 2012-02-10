@@ -1,30 +1,33 @@
-Received: from mail-lpp01m010-f47.google.com ([209.85.215.47])
+Received: from mail.dream-property.net ([82.149.226.172])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <raj.khem@gmail.com>) id 1Rvxjl-0000YB-Tz
+	(envelope-from <obi@opendreambox.org>) id 1Rvyhe-0002K2-KT
 	for openembedded-core@lists.openembedded.org;
-	Fri, 10 Feb 2012 22:10:34 +0100
-Received: by lahc1 with SMTP id c1so2862621lah.6
+	Fri, 10 Feb 2012 23:12:26 +0100
+Received: from localhost (localhost [127.0.0.1])
+	by mail.dream-property.net (Postfix) with ESMTP id AF2173158BC1
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 10 Feb 2012 13:02:27 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:content-type:content-transfer-encoding;
-	bh=iEPqq/nwe4pj38hJYj9AR579XNALmksv1cCR/y9Yes8=;
-	b=WPKAfsW395ezgBUZIK960yehcyjJpY3gUrmzhwZDgBDY9W0B36amMUnc+f365WBtRR
-	HFpH8558o3JntcKg/enO44ZRB+kq0hHIR8srpPjp6qSHQOWgM9LV24dZM34GEEq02RrR
-	1n0nhNFrHQ/g/95aLyzQ1oViw1of1wqI1BNSE=
-Received: by 10.152.123.68 with SMTP id ly4mr5166149lab.13.1328907747628; Fri,
-	10 Feb 2012 13:02:27 -0800 (PST)
+	Fri, 10 Feb 2012 23:04:20 +0100 (CET)
+X-Virus-Scanned: Debian amavisd-new at mail.dream-property.net
+Received: from mail.dream-property.net ([127.0.0.1])
+	by localhost (mail.dream-property.net [127.0.0.1]) (amavisd-new,
+	port 10024) with LMTP id ds4Eiwp2JG3i
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 10 Feb 2012 23:04:14 +0100 (CET)
+Received: from [172.22.22.61] (drms-590ec8a5.pool.mediaWays.net
+	[89.14.200.165])
+	(using TLSv1 with cipher DHE-RSA-AES256-SHA (256/256 bits))
+	(No client certificate requested)
+	by mail.dream-property.net (Postfix) with ESMTPSA id 14BBA3158BC9
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 10 Feb 2012 23:04:13 +0100 (CET)
+Message-ID: <4F35945D.7020900@opendreambox.org>
+Date: Fri, 10 Feb 2012 23:04:13 +0100
+From: Andreas Oberritter <obi@opendreambox.org>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:10.0) Gecko/20120129 Thunderbird/10.0
 MIME-Version: 1.0
-Received: by 10.152.5.201 with HTTP; Fri, 10 Feb 2012 13:01:56 -0800 (PST)
-In-Reply-To: <1328862631-30998-1-git-send-email-sgw@linux.intel.com>
-References: <1328862631-30998-1-git-send-email-sgw@linux.intel.com>
-From: Khem Raj <raj.khem@gmail.com>
-Date: Fri, 10 Feb 2012 13:01:56 -0800
-Message-ID: <CAMKF1srORv1Wjoo3AzwGpkUuPWky6wxKSWSdSvbD_WoQPwq+0w@mail.gmail.com>
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] gnupg: Update checksum, fix configure and compliation issues
+To: openembedded-core <openembedded-core@lists.openembedded.org>
+Subject: [PATCH] consolekit: depend on libx11
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -39,30 +42,43 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 10 Feb 2012 21:10:34 -0000
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Fri, 10 Feb 2012 22:12:26 -0000
+Content-Type: text/plain; charset=ISO-8859-1
+Content-Transfer-Encoding: 7bit
 
-On Fri, Feb 10, 2012 at 12:30 AM, Saul Wold <sgw@linux.intel.com> wrote:
-> +
-> +Upstream-Status: Inappropriate [configuration]
-> +
-> +Signed-off-by: Saul Wold <sgw@linux.intel.com>
-> +
-> +Index: gnupg-1.4.7/configure.ac
-> +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-> +--- gnupg-1.4.7.orig/configure.ac
-> ++++ gnupg-1.4.7/configure.ac
-> +@@ -827,7 +827,6 @@ else
-> + =C2=A0 AC_SUBST(USE_NLS)
-> + =C2=A0 AC_SUBST(USE_INCLUDED_LIBINTL)
-> + =C2=A0 AC_SUBST(BUILD_INCLUDED_LIBINTL)
-> +- =C2=A0AM_PO_SUBDIRS
-> + fi
-> +
+* Fixes the following error at configure time:
 
-could you describe the error ?
+|checking for TOOLS... no
+|configure: error: Package requirements (x11 >= 1.0.0
+|  glib-2.0 >= 2.14
+|) were not met:
+|
+|No package 'x11' found
+
+Signed-off-by: Andreas Oberritter <obi@opendreambox.org>
+---
+* Note that I didn't build test this, because I'm building
+  without x11. I just looked up the package of x11.pc, which
+  at least in Ubuntu is libx11.
+
+ .../recipes-support/consolekit/consolekit_0.4.5.bb |    2 +-
+ 1 files changed, 1 insertions(+), 1 deletions(-)
+
+diff --git a/meta/recipes-support/consolekit/consolekit_0.4.5.bb b/meta/recipes-support/consolekit/consolekit_0.4.5.bb
+index 3ded6df..3a4b04f 100644
+--- a/meta/recipes-support/consolekit/consolekit_0.4.5.bb
++++ b/meta/recipes-support/consolekit/consolekit_0.4.5.bb
+@@ -13,7 +13,7 @@ POLKIT_libc-uclibc = ""
+ POLKITCONF = ""
+ POLKITCONF_libc-uclibc = "--disable-policykit"
+ 
+-DEPENDS = "glib-2.0 dbus ${POLKIT} ${@base_contains('DISTRO_FEATURES', 'pam', 'libpam', '', d)}"
++DEPENDS = "glib-2.0 dbus ${POLKIT} ${@base_contains('DISTRO_FEATURES', 'pam', 'libpam', '', d)} virtual/libx11"
+ RDEPENDS_${PN} += "base-files"
+ 
+ inherit gnome
+-- 
+1.7.5.4
+
 
 
