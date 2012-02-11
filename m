@@ -1,33 +1,20 @@
-Received: from mail.dream-property.net ([82.149.226.172])
+Received: from mga03.intel.com ([143.182.124.21])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <obi@opendreambox.org>) id 1Rvyhe-0002K2-KT
+	(envelope-from <josh@linux.intel.com>) id 1Rw0ym-00079b-E6
 	for openembedded-core@lists.openembedded.org;
-	Fri, 10 Feb 2012 23:12:26 +0100
-Received: from localhost (localhost [127.0.0.1])
-	by mail.dream-property.net (Postfix) with ESMTP id AF2173158BC1
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 10 Feb 2012 23:04:20 +0100 (CET)
-X-Virus-Scanned: Debian amavisd-new at mail.dream-property.net
-Received: from mail.dream-property.net ([127.0.0.1])
-	by localhost (mail.dream-property.net [127.0.0.1]) (amavisd-new,
-	port 10024) with LMTP id ds4Eiwp2JG3i
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 10 Feb 2012 23:04:14 +0100 (CET)
-Received: from [172.22.22.61] (drms-590ec8a5.pool.mediaWays.net
-	[89.14.200.165])
-	(using TLSv1 with cipher DHE-RSA-AES256-SHA (256/256 bits))
-	(No client certificate requested)
-	by mail.dream-property.net (Postfix) with ESMTPSA id 14BBA3158BC9
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 10 Feb 2012 23:04:13 +0100 (CET)
-Message-ID: <4F35945D.7020900@opendreambox.org>
-Date: Fri, 10 Feb 2012 23:04:13 +0100
-From: Andreas Oberritter <obi@opendreambox.org>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:10.0) Gecko/20120129 Thunderbird/10.0
-MIME-Version: 1.0
-To: openembedded-core <openembedded-core@lists.openembedded.org>
-Subject: [PATCH] consolekit: depend on libx11
+	Sat, 11 Feb 2012 01:38:16 +0100
+Received: from azsmga001.ch.intel.com ([10.2.17.19])
+	by azsmga101.ch.intel.com with ESMTP; 10 Feb 2012 16:30:09 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="105636743"
+Received: from unknown (HELO shamshir.amr.corp.intel.com) ([10.255.14.248])
+	by azsmga001.ch.intel.com with ESMTP; 10 Feb 2012 16:30:08 -0800
+From: Joshua Lock <josh@linux.intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Fri, 10 Feb 2012 16:30:06 -0800
+Message-Id: <cover.1328920045.git.josh@linux.intel.com>
+X-Mailer: git-send-email 1.7.7.6
+Subject: [PATCH 0/1] Fix overriding PACKAGE_ARCH for MACHINE specific SRC_URI
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -42,43 +29,35 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 10 Feb 2012 22:12:26 -0000
-Content-Type: text/plain; charset=ISO-8859-1
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Sat, 11 Feb 2012 00:38:16 -0000
 
-* Fixes the following error at configure time:
+After the discussion following my recent netbase patch I spent some time today
+looking to fixup the BSP which triggered the change and discovered that the
+logic to set PACKAGE_ARCH = MACHINE_ARCH for MACHINE specific SRC_URI overrides
+doesn't search for said overrides in layers.
 
-|checking for TOOLS... no
-|configure: error: Package requirements (x11 >= 1.0.0
-|  glib-2.0 >= 2.14
-|) were not met:
-|
-|No package 'x11' found
+This patch is probably an ugly fix, but it's a fix nonetheless. I couldn't find
+a better fix before boarding a plane so submit this as is for review.
 
-Signed-off-by: Andreas Oberritter <obi@opendreambox.org>
----
-* Note that I didn't build test this, because I'm building
-  without x11. I just looked up the package of x11.pc, which
-  at least in Ubuntu is libx11.
+Cheers,
+Joshua
 
- .../recipes-support/consolekit/consolekit_0.4.5.bb |    2 +-
- 1 files changed, 1 insertions(+), 1 deletions(-)
+The following changes since commit 41a83ccfe50ec69425a4828fb5836d38d3f99e67:
 
-diff --git a/meta/recipes-support/consolekit/consolekit_0.4.5.bb b/meta/recipes-support/consolekit/consolekit_0.4.5.bb
-index 3ded6df..3a4b04f 100644
---- a/meta/recipes-support/consolekit/consolekit_0.4.5.bb
-+++ b/meta/recipes-support/consolekit/consolekit_0.4.5.bb
-@@ -13,7 +13,7 @@ POLKIT_libc-uclibc = ""
- POLKITCONF = ""
- POLKITCONF_libc-uclibc = "--disable-policykit"
- 
--DEPENDS = "glib-2.0 dbus ${POLKIT} ${@base_contains('DISTRO_FEATURES', 'pam', 'libpam', '', d)}"
-+DEPENDS = "glib-2.0 dbus ${POLKIT} ${@base_contains('DISTRO_FEATURES', 'pam', 'libpam', '', d)} virtual/libx11"
- RDEPENDS_${PN} += "base-files"
- 
- inherit gnome
+  guile: fix cross configure failure (2012-02-10 17:01:42 +0000)
+
+are available in the git repository at:
+  git://git.yoctoproject.org/poky-contrib josh/work
+  http://git.yoctoproject.org/cgit.cgi/poky-contrib/log/?h=josh/work
+
+Joshua Lock (1):
+  base.bbclass: look in layers for SRC_URI with MACHINE overrides too
+
+ meta/classes/base.bbclass |   10 ++++++++++
+ 1 files changed, 10 insertions(+), 0 deletions(-)
+
 -- 
-1.7.5.4
+1.7.7.6
 
 
 
