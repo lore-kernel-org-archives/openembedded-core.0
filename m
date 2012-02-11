@@ -1,24 +1,37 @@
-Received: from mga03.intel.com ([143.182.124.21])
+Received: from mail-pz0-f47.google.com ([209.85.210.47])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <josh@linux.intel.com>) id 1Rw0yn-00079b-7N
+	(envelope-from <raj.khem@gmail.com>) id 1Rw2MS-0002rf-5C
 	for openembedded-core@lists.openembedded.org;
-	Sat, 11 Feb 2012 01:38:17 +0100
-Received: from azsmga001.ch.intel.com ([10.2.17.19])
-	by azsmga101.ch.intel.com with ESMTP; 10 Feb 2012 16:30:09 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="105636744"
-Received: from unknown (HELO shamshir.amr.corp.intel.com) ([10.255.14.248])
-	by azsmga001.ch.intel.com with ESMTP; 10 Feb 2012 16:30:08 -0800
-From: Joshua Lock <josh@linux.intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Fri, 10 Feb 2012 16:30:07 -0800
-Message-Id: <dfc93718c100209c9897317d2399da7691a41070.1328920045.git.josh@linux.intel.com>
-X-Mailer: git-send-email 1.7.7.6
-In-Reply-To: <cover.1328920045.git.josh@linux.intel.com>
-References: <cover.1328920045.git.josh@linux.intel.com>
-In-Reply-To: <cover.1328920045.git.josh@linux.intel.com>
-References: <cover.1328920045.git.josh@linux.intel.com>
-Subject: [PATCH 1/1] base.bbclass: look in layers for SRC_URI with MACHINE overrides too
+	Sat, 11 Feb 2012 03:06:48 +0100
+Received: by daln34 with SMTP id n34so2371499dal.6
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 10 Feb 2012 17:58:40 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
+	h=date:from:to:subject:message-id:references:mime-version
+	:content-type:content-disposition:in-reply-to:user-agent;
+	bh=uSsiTZalSYAX+5GMhRfD+zCAryMsuxG5O5jVtbYMssE=;
+	b=MojoLSeNhrp1Gm1i5ZYEVpt50okZiw0eM1GVf7ti6ae2kbTy4RUvmiLZWNzDbexVyH
+	nxJFMen8s3n86EKUZhh5fF91wGqghnS1pEjz0z9zOt/JpCMehTeB/uIyxJEHhF4K1RkP
+	GfkWc1BOhiymsvxg8iGlv0QxkH/hxhtRtC658=
+Received: by 10.68.232.103 with SMTP id tn7mr21688957pbc.74.1328925520246;
+	Fri, 10 Feb 2012 17:58:40 -0800 (PST)
+Received: from sakrah.homelinux.org
+	(99-57-140-209.lightspeed.sntcca.sbcglobal.net. [99.57.140.209])
+	by mx.google.com with ESMTPS id i10sm17919976pbg.10.2012.02.10.17.58.37
+	(version=TLSv1/SSLv3 cipher=OTHER);
+	Fri, 10 Feb 2012 17:58:38 -0800 (PST)
+Date: Fri, 10 Feb 2012 17:58:34 -0800
+From: Khem Raj <raj.khem@gmail.com>
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Message-ID: <20120211015834.GB2095@sakrah.homelinux.org>
+References: <1328832372.10451.47.camel@ted>
+	<CAMKF1soksEad4TP5upRjW2vG6_OjeQjyYTAL88PH_qgy9yyiug@mail.gmail.com>
+	<1328881254.13434.10.camel@ted>
+MIME-Version: 1.0
+In-Reply-To: <1328881254.13434.10.camel@ted>
+User-Agent: Mutt/1.5.21 (2010-09-15)
+Subject: Re: [PATCH] gcc-4.6: Some small performance tweaks
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -33,41 +46,36 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 11 Feb 2012 00:38:17 -0000
+X-List-Received-Date: Sat, 11 Feb 2012 02:06:48 -0000
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-The logic which looks for MACHINE overrides in SRC_URI and updates PACKAGE_ARCH
-accordingly doesn't account for SRC_URI overrides in layers.
+On (10/02/12 13:40), Richard Purdie wrote:
+> On Thu, 2012-02-09 at 16:39 -0800, Khem Raj wrote:
+> > On Thu, Feb 9, 2012 at 4:06 PM, Richard Purdie
+> > <richard.purdie@linuxfoundation.org> wrote:
+> > >
+> > > +NATIVEDEPS = "mpfr-native gmp-native libmpc-native zlib-native"
+> > 
+> > 
+> > note that we will need to ship zlib-nativesdk as well if we do this
+> > so hopefully that case is covered by this.
+> 
+> Yes, zlib has a BBCLASSEXTEND on zlib-nativesdk so this should be fine.
 
-This patch may not be the cleanest approach to solving the issue but it works.
+OK and this is bundled with meta-toolchain too right ?
+> 
+> Cheers,
+> 
+> Richard
+> 
+> 
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
 
-Signed-off-by: Joshua Lock <josh@linux.intel.com>
----
- meta/classes/base.bbclass |   10 ++++++++++
- 1 files changed, 10 insertions(+), 0 deletions(-)
-
-diff --git a/meta/classes/base.bbclass b/meta/classes/base.bbclass
-index a26ac94..8fd5e53 100644
---- a/meta/classes/base.bbclass
-+++ b/meta/classes/base.bbclass
-@@ -460,6 +460,16 @@ python () {
-             path = bb.data.expand(os.path.join("${FILE_DIRNAME}", p, "${MACHINE}"), d)
-             if os.path.isdir(path):
-                 paths.append(path)
-+
-+        # FILE is relative to the original recipe, for any bbappends in
-+        # layers we need to look a little further
-+        expaths = d.getVar('FILESEXTRAPATHS', True) or ""
-+        for path in expaths.split(":"):
-+            if len(path):
-+                p = bb.data.expand(os.path.join(path, "${MACHINE}"), d)
-+                if os.path.isdir(p):
-+	            paths.append(p)
-+
-         if len(paths) != 0:
-             for s in srcuri.split():
-                 if not s.startswith("file://"):
 -- 
-1.7.7.6
-
+-Khem
 
 
