@@ -1,25 +1,25 @@
-Received: from mail-ee0-f47.google.com ([74.125.83.47])
+Received: from mail-ey0-f175.google.com ([209.85.215.175])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <andrei@gherzan.ro>) id 1RwCSo-0001CD-PG
+	(envelope-from <andrei@gherzan.ro>) id 1RwCTa-0001Eh-Gf
 	for openembedded-core@lists.openembedded.org;
-	Sat, 11 Feb 2012 13:54:04 +0100
-Received: by eekd41 with SMTP id d41so1020023eek.6
+	Sat, 11 Feb 2012 13:54:50 +0100
+Received: by eaal10 with SMTP id l10so979492eaa.6
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 11 Feb 2012 04:45:52 -0800 (PST)
+	Sat, 11 Feb 2012 04:46:43 -0800 (PST)
 MIME-Version: 1.0
-Received: by 10.213.4.74 with SMTP id 10mr900008ebq.95.1328964352373;
-	Sat, 11 Feb 2012 04:45:52 -0800 (PST)
+Received: by 10.14.96.65 with SMTP id q41mr3088807eef.99.1328964403013;
+	Sat, 11 Feb 2012 04:46:43 -0800 (PST)
 Received: from localhost.localdomain ([79.117.107.69])
-	by mx.google.com with ESMTPS id v51sm34897814eef.2.2012.02.11.04.45.50
+	by mx.google.com with ESMTPS id o49sm34855754eeb.7.2012.02.11.04.46.42
 	(version=TLSv1/SSLv3 cipher=OTHER);
-	Sat, 11 Feb 2012 04:45:51 -0800 (PST)
+	Sat, 11 Feb 2012 04:46:42 -0800 (PST)
 From: Andrei Gherzan <andrei@gherzan.ro>
 To: openembedded-core@lists.openembedded.org
-Date: Sat, 11 Feb 2012 14:45:46 +0200
-Message-Id: <1328964346-15804-1-git-send-email-andrei@gherzan.ro>
+Date: Sat, 11 Feb 2012 14:46:37 +0200
+Message-Id: <1328964397-15855-1-git-send-email-andrei@gherzan.ro>
 X-Mailer: git-send-email 1.7.5.4
-X-Gm-Message-State: ALoCoQnvq4N/NEF7slESO8ZH4r+3Sx3Yeaqd3nQ4jDFEeFiYVl81bTSxOXxRQ/OfefaNOu0S+q45
-Subject: [PATCH] nspr: Integrate version 4.8.9
+X-Gm-Message-State: ALoCoQntbZj6zNXrxMfGTdzvitb9mWYODyIdXxocGrKRFh/TKNn04AX0vomhr81yw5zm10Q+FeVD
+Subject: [PATCH] nspr: Compile nspr with tests 1. Compile package tests suite 2. Add patch for removing rpath from binaries 3. Add tests to -dev rpm as it needs dev libraries
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -34,77 +34,208 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 11 Feb 2012 12:54:04 -0000
+X-List-Received-Date: Sat, 11 Feb 2012 12:54:50 -0000
 
 Signed-off-by: Andrei Gherzan <andrei@gherzan.ro>
-Signed-off-by: Sergey 'Jin' Bostandzhyan <jin@mediatomb.cc>
 ---
- meta/recipes-support/nspr/files/nspr.pc.in |   11 ++++++++
- meta/recipes-support/nspr/nspr_4.8.9.bb    |   37 ++++++++++++++++++++++++++++
- 2 files changed, 48 insertions(+), 0 deletions(-)
- create mode 100644 meta/recipes-support/nspr/files/nspr.pc.in
- create mode 100644 meta/recipes-support/nspr/nspr_4.8.9.bb
+ .../nspr/files/remove-rpath-from-tests.patch       |   21 +++
+ meta/recipes-support/nspr/nspr_4.8.9.bb            |  135 +++++++++++++++++++-
+ 2 files changed, 152 insertions(+), 4 deletions(-)
+ create mode 100644 meta/recipes-support/nspr/files/remove-rpath-from-tests.patch
 
-diff --git a/meta/recipes-support/nspr/files/nspr.pc.in b/meta/recipes-support/nspr/files/nspr.pc.in
+diff --git a/meta/recipes-support/nspr/files/remove-rpath-from-tests.patch b/meta/recipes-support/nspr/files/remove-rpath-from-tests.patch
 new file mode 100644
-index 0000000..e7af08d
+index 0000000..819c784
 --- /dev/null
-+++ b/meta/recipes-support/nspr/files/nspr.pc.in
-@@ -0,0 +1,11 @@
-+os_libs=-lpthread -ldl
-+prefix=OEPREFIX
-+exec_prefix=OEEXECPREFIX
-+libdir=OELIBDIR
-+includedir=OEINCDIR
++++ b/meta/recipes-support/nspr/files/remove-rpath-from-tests.patch
+@@ -0,0 +1,21 @@
++Author: Andrei Gherzan <andrei@gherzan.ro>
++Date:   Thu Feb 9 00:03:38 2012 +0200
 +
-+Name: NSPR
-+Description: The Netscape Portable Runtime
-+Version: 4.8.9
-+Libs: -L${libdir} -lplds4 -lplc4 -lnspr4 -lpthread -ldl
-+Cflags:
++Avoid QA warnings by removing hardcoded rpath from binaries.
++
++Signed-off-by: Andrei Gherzan <andrei@gherzan.ro>
++Upstream-Status: Pending
++
++Index: nspr-4.8.9/mozilla/nsprpub/pr/tests/Makefile.in
++===================================================================
++--- nsprpub.orig/pr/tests/Makefile.in	2012-02-11 00:01:10.476220505 +0200
+++++ nsprpub/pr/tests/Makefile.in	2012-02-10 23:57:40.000000000 +0200
++@@ -379,7 +379,7 @@
++ endif
++ 
++ ifeq (,$(filter-out Linux GNU GNU_%,$(OS_ARCH)))
++-    LDOPTS += -Xlinker -rpath $(ABSOLUTE_LIB_DIR)
+++    LDOPTS += -Xlinker
++     ifeq ($(USE_PTHREADS),1)
++         EXTRA_LIBS = -lpthread
++     endif
 diff --git a/meta/recipes-support/nspr/nspr_4.8.9.bb b/meta/recipes-support/nspr/nspr_4.8.9.bb
-new file mode 100644
-index 0000000..da324fc
---- /dev/null
+index da324fc..a2b2b6a 100644
+--- a/meta/recipes-support/nspr/nspr_4.8.9.bb
 +++ b/meta/recipes-support/nspr/nspr_4.8.9.bb
-@@ -0,0 +1,37 @@
-+DESCRIPTION = "Netscape Portable Runtime Library"
-+HOMEPAGE =  "http://www.mozilla.org/projects/nspr/"
-+LICENSE = "GPL-2.0 | MPL-1.1 | LGPL-2.1"
-+LIC_FILES_CHKSUM = "file://configure.in;beginline=3;endline=40;md5=99d4d7d68bbc4bc60ebf8c15ed295f28 \
-+                    file://Makefile.in;beginline=4;endline=38;md5=c2b512182a334e1bfa1edc4d1c84a298 "
-+SECTION = "libs/network"
+@@ -5,17 +5,135 @@ LIC_FILES_CHKSUM = "file://configure.in;beginline=3;endline=40;md5=99d4d7d68bbc4
+                     file://Makefile.in;beginline=4;endline=38;md5=c2b512182a334e1bfa1edc4d1c84a298 "
+ SECTION = "libs/network"
+ 
+-PR = "r0"
++PR = "r1"
+ 
+-SRC_URI = "ftp://ftp.mozilla.org/pub/mozilla.org/nspr/releases/v${PV}/src/nspr-${PV}.tar.gz"
++SRC_URI = "ftp://ftp.mozilla.org/pub/mozilla.org/nspr/releases/v${PV}/src/nspr-${PV}.tar.gz \
++           file://remove-rpath-from-tests.patch"
+ 
+-SRC_URI += "file://nspr.pc.in "
++SRC_URI += "file://nspr.pc.in"
+ 
+ SRC_URI[md5sum] = "60770d45dc08c0f181b22cdfce5be3e8"
+ SRC_URI[sha256sum] = "ff43c7c819e72f03bb908e7652c5d5f59a5d31ee86c333e692650207103d1cce"
+ 
+ S = "${WORKDIR}/nspr-${PV}/mozilla/nsprpub"
+ 
++TESTS = "runtests.pl \
++    runtests.sh \
++    accept \
++    acceptread \
++    acceptreademu \
++    affinity \
++    alarm \
++    anonfm \
++    atomic \
++    attach \
++    bigfile \
++    cleanup \
++    cltsrv  \
++    concur \
++    cvar \
++    cvar2 \
++    dlltest \
++    dtoa \
++    errcodes \
++    exit \
++    fdcach \
++    fileio \
++    foreign \
++    formattm \
++    fsync \
++    gethost \
++    getproto \
++    i2l \
++    initclk \
++    inrval \
++    instrumt \
++    intrio \
++    intrupt \
++    io_timeout \
++    ioconthr \
++    join \
++    joinkk \
++    joinku \
++    joinuk \
++    joinuu \
++    layer \
++    lazyinit \
++    libfilename \
++    lltest \
++    lock \
++    lockfile \
++    logfile \
++    logger \
++    many_cv \
++    multiwait \
++    nameshm1 \
++    nblayer \
++    nonblock \
++    ntioto \
++    ntoh \
++    op_2long \
++    op_excl \
++    op_filnf \
++    op_filok \
++    op_nofil \
++    parent \
++    parsetm \
++    peek \
++    perf \
++    pipeping \
++    pipeping2 \
++    pipeself \
++    poll_nm \
++    poll_to \
++    pollable \
++    prftest \
++    primblok \
++    provider \
++    prpollml \
++    ranfile \
++    randseed \
++    reinit \
++    rwlocktest \
++    sel_spd \
++    selct_er \
++    selct_nm \
++    selct_to \
++    selintr \
++    sema \
++    semaerr \
++    semaping \
++    sendzlf \
++    server_test \
++    servr_kk \
++    servr_uk \
++    servr_ku \
++    servr_uu \
++    short_thread \
++    sigpipe \
++    socket \
++    sockopt \
++    sockping \
++    sprintf \
++    stack \
++    stdio \
++    str2addr \
++    strod \
++    switch \
++    system \
++    testbit \
++    testfile \
++    threads \
++    timemac \
++    timetest \
++    tpd \
++    udpsrv \
++    vercheck \
++    version \
++    writev \
++    xnotify \
++    zerolen"
 +
-+PR = "r0"
-+
-+SRC_URI = "ftp://ftp.mozilla.org/pub/mozilla.org/nspr/releases/v${PV}/src/nspr-${PV}.tar.gz"
-+
-+SRC_URI += "file://nspr.pc.in "
-+
-+SRC_URI[md5sum] = "60770d45dc08c0f181b22cdfce5be3e8"
-+SRC_URI[sha256sum] = "ff43c7c819e72f03bb908e7652c5d5f59a5d31ee86c333e692650207103d1cce"
-+
-+S = "${WORKDIR}/nspr-${PV}/mozilla/nsprpub"
-+
-+inherit autotools
-+
-+do_configure() {
-+	oe_runconf
+ inherit autotools
+ 
+ do_configure() {
+@@ -26,12 +144,21 @@ do_compile_prepend() {
+ 	oe_runmake CROSS_COMPILE=1 CFLAGS="-DXP_UNIX" LDFLAGS="" CC=gcc -C config export
+ }
+ 
++do_compile_append() {
++    cd pr/tests
++    make
 +}
 +
-+do_compile_prepend() {
-+	oe_runmake CROSS_COMPILE=1 CFLAGS="-DXP_UNIX" LDFLAGS="" CC=gcc -C config export
-+}
-+
-+do_install_append() {
-+    install -D ${WORKDIR}/nspr.pc.in ${D}${libdir}/pkgconfig/nspr.pc
-+    sed -i s:OEPREFIX:${prefix}:g ${D}${libdir}/pkgconfig/nspr.pc
-+    sed -i s:OELIBDIR:${libdir}:g ${D}${libdir}/pkgconfig/nspr.pc
-+    sed -i s:OEINCDIR:${includedir}:g ${D}${libdir}/pkgconfig/nspr.pc
-+    sed -i s:OEEXECPREFIX:${exec_prefix}:g ${D}${libdir}/pkgconfig/nspr.pc
-+}
-+
-+
+ do_install_append() {
+     install -D ${WORKDIR}/nspr.pc.in ${D}${libdir}/pkgconfig/nspr.pc
+     sed -i s:OEPREFIX:${prefix}:g ${D}${libdir}/pkgconfig/nspr.pc
+     sed -i s:OELIBDIR:${libdir}:g ${D}${libdir}/pkgconfig/nspr.pc
+     sed -i s:OEINCDIR:${includedir}:g ${D}${libdir}/pkgconfig/nspr.pc
+     sed -i s:OEEXECPREFIX:${exec_prefix}:g ${D}${libdir}/pkgconfig/nspr.pc
++    cd ${S}/pr/tests
++    mkdir -p ${D}/opt/nspr_tests
++    install -m 0755 ${TESTS} ${D}/opt/nspr_tests
+ }
+ 
+-
++FILES_${PN}-dev += "/opt/nspr_tests/*"
++FILES_${PN}-dbg += "/opt/nspr_tests/.debug/*"
 -- 
 1.7.5.4
 
