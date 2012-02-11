@@ -1,35 +1,35 @@
 Received: from mail-pz0-f47.google.com ([209.85.210.47])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <raj.khem@gmail.com>) id 1Rw2VN-0003Nz-S8
+	(envelope-from <raj.khem@gmail.com>) id 1Rw2Wn-0003TB-R2
 	for openembedded-core@lists.openembedded.org;
-	Sat, 11 Feb 2012 03:16:02 +0100
-Received: by daln34 with SMTP id n34so2374745dal.6
+	Sat, 11 Feb 2012 03:17:30 +0100
+Received: by daln34 with SMTP id n34so2375293dal.6
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 10 Feb 2012 18:07:54 -0800 (PST)
+	Fri, 10 Feb 2012 18:09:22 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
 	h=date:from:to:subject:message-id:references:mime-version
 	:content-type:content-disposition:in-reply-to:user-agent;
-	bh=2oQl8B9d8Sz3NgO/ec+wZLRBQYaw7HX+vV+oXSm+jQI=;
-	b=LL2I16yAlUPmqoxO61h48vfnaWe5nebUKrGGlp0PzyANYBcBX1Sxq35qkjdF+yQua7
-	Y78+oLEYAc5A5gl6pDf7loNpRflFvS6HwzkOWaciCZefuJVtH/ZCPLtg0S6xMFb1OCvl
-	APwN+MIM9+2Dr1zlPNeLjLA8/ci20fSalBPW8=
-Received: by 10.68.241.101 with SMTP id wh5mr21654996pbc.114.1328926074736;
-	Fri, 10 Feb 2012 18:07:54 -0800 (PST)
+	bh=oQQObkV07Rng8Mwq9vWxKkjaVNERWUwNZk+Gxqd71XU=;
+	b=xf0zFoiqFUKeYXG3dP/VIoQ9YTCVyXoq/bFwgFcryT4rNbAivy7Qe9B55wiw9ElWqY
+	GOAywtMKbkkC+bWb2vVV6AFK9TVDAt1H810PSBxZebiCYepeOTS0hXlRSx8V/QdN6JRZ
+	TNiupyfbnnVOyF2ug41Exze2dBBZS67NSsJ7g=
+Received: by 10.68.241.70 with SMTP id wg6mr21888664pbc.6.1328926162036;
+	Fri, 10 Feb 2012 18:09:22 -0800 (PST)
 Received: from sakrah.homelinux.org
 	(99-57-140-209.lightspeed.sntcca.sbcglobal.net. [99.57.140.209])
-	by mx.google.com with ESMTPS id p9sm17973543pbb.9.2012.02.10.18.07.52
+	by mx.google.com with ESMTPS id t10sm17977817pbb.18.2012.02.10.18.09.20
 	(version=TLSv1/SSLv3 cipher=OTHER);
-	Fri, 10 Feb 2012 18:07:53 -0800 (PST)
-Date: Fri, 10 Feb 2012 18:07:49 -0800
+	Fri, 10 Feb 2012 18:09:20 -0800 (PST)
+Date: Fri, 10 Feb 2012 18:09:17 -0800
 From: Khem Raj <raj.khem@gmail.com>
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Message-ID: <20120211020749.GE2095@sakrah.homelinux.org>
-References: <4F355B52.6050007@opendreambox.org>
+Message-ID: <20120211020917.GF2095@sakrah.homelinux.org>
+References: <4F35945D.7020900@opendreambox.org>
 MIME-Version: 1.0
-In-Reply-To: <4F355B52.6050007@opendreambox.org>
+In-Reply-To: <4F35945D.7020900@opendreambox.org>
 User-Agent: Mutt/1.5.21 (2010-09-15)
-Subject: Re: [PATCH] autotools.bbclass: Don't copy into non-existant directory
+Subject: Re: [PATCH] consolekit: depend on libx11
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -44,52 +44,53 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 11 Feb 2012 02:16:02 -0000
+X-List-Received-Date: Sat, 11 Feb 2012 02:17:30 -0000
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-On (10/02/12 19:00), Andreas Oberritter wrote:
-> * If configure.ac contains AM_GNU_GETTEXT and po/Makefile.in.in
->   doesn't exist, autotools_do_configure() copies a local
->   version of Makefile.in.in to this location. If the directory
->   'po' doesn't exist, the function aborts.
+On (10/02/12 23:04), Andreas Oberritter wrote:
+> * Fixes the following error at configure time:
 > 
-> * This patch verifies that the directory exists before copying
->   a file to it. This fixes libcddb, which uses AM_GNU_GETTEXT,
->   but has no 'po' directory.
+> |checking for TOOLS... no
+> |configure: error: Package requirements (x11 >= 1.0.0
+> |  glib-2.0 >= 2.14
+> |) were not met:
+> |
+> |No package 'x11' found
 > 
-
-this patch is ok however did you try to create the dir and then copy
-over the file if it did not exist ?
-
 > Signed-off-by: Andreas Oberritter <obi@opendreambox.org>
 > ---
->  meta/classes/autotools.bbclass |    2 +-
+> * Note that I didn't build test this, because I'm building
+>   without x11. I just looked up the package of x11.pc, which
+>   at least in Ubuntu is libx11.
+> 
+>  .../recipes-support/consolekit/consolekit_0.4.5.bb |    2 +-
 >  1 files changed, 1 insertions(+), 1 deletions(-)
 > 
-> diff --git a/meta/classes/autotools.bbclass b/meta/classes/autotools.bbclass
-> index 5d74333..e22ea68 100644
-> --- a/meta/classes/autotools.bbclass
-> +++ b/meta/classes/autotools.bbclass
-> @@ -149,7 +149,7 @@ autotools_do_configure() {
->  			  else if grep "^[[:space:]]*AM_GNU_GETTEXT" $CONFIGURE_AC >/dev/null; then
->                              # We'd call gettextize here if it wasn't so broken...
->  			    cp ${STAGING_DATADIR}/gettext/config.rpath ${AUTOTOOLS_AUXDIR}/
-> -			    if [ ! -e ${S}/po/Makefile.in.in ]; then
-> +			    if [ -d ${S}/po/ -a ! -e ${S}/po/Makefile.in.in ]; then
->  			      cp ${STAGING_DATADIR}/gettext/po/Makefile.in.in ${S}/po/
->                              fi
->  			  fi
+> diff --git a/meta/recipes-support/consolekit/consolekit_0.4.5.bb b/meta/recipes-support/consolekit/consolekit_0.4.5.bb
+> index 3ded6df..3a4b04f 100644
+> --- a/meta/recipes-support/consolekit/consolekit_0.4.5.bb
+> +++ b/meta/recipes-support/consolekit/consolekit_0.4.5.bb
+> @@ -13,7 +13,7 @@ POLKIT_libc-uclibc = ""
+>  POLKITCONF = ""
+>  POLKITCONF_libc-uclibc = "--disable-policykit"
+>  
+> -DEPENDS = "glib-2.0 dbus ${POLKIT} ${@base_contains('DISTRO_FEATURES', 'pam', 'libpam', '', d)}"
+> +DEPENDS = "glib-2.0 dbus ${POLKIT} ${@base_contains('DISTRO_FEATURES', 'pam', 'libpam', '', d)} virtual/libx11"
+
+should this depend on if x11 is in DISTRO_FEATURES ?
+
+>  RDEPENDS_${PN} += "base-files"
+>  
+>  inherit gnome
 > -- 
 > 1.7.5.4
 > 
-
-
+> 
 > _______________________________________________
 > Openembedded-core mailing list
 > Openembedded-core@lists.openembedded.org
 > http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
-
 
 -- 
 -Khem
