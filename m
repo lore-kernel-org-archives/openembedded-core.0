@@ -1,35 +1,30 @@
-Received: from mail-pz0-f47.google.com ([209.85.210.47])
+Received: from mail-pw0-f47.google.com ([209.85.160.47])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <raj.khem@gmail.com>) id 1Rw2Wn-0003TB-R2
+	(envelope-from <raj.khem@gmail.com>) id 1Rw3Po-0005KB-SP
 	for openembedded-core@lists.openembedded.org;
-	Sat, 11 Feb 2012 03:17:30 +0100
-Received: by daln34 with SMTP id n34so2375293dal.6
+	Sat, 11 Feb 2012 04:14:21 +0100
+Received: by pbcum15 with SMTP id um15so2351870pbc.6
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 10 Feb 2012 18:09:22 -0800 (PST)
+	Fri, 10 Feb 2012 19:06:13 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
-	h=date:from:to:subject:message-id:references:mime-version
-	:content-type:content-disposition:in-reply-to:user-agent;
-	bh=oQQObkV07Rng8Mwq9vWxKkjaVNERWUwNZk+Gxqd71XU=;
-	b=xf0zFoiqFUKeYXG3dP/VIoQ9YTCVyXoq/bFwgFcryT4rNbAivy7Qe9B55wiw9ElWqY
-	GOAywtMKbkkC+bWb2vVV6AFK9TVDAt1H810PSBxZebiCYepeOTS0hXlRSx8V/QdN6JRZ
-	TNiupyfbnnVOyF2ug41Exze2dBBZS67NSsJ7g=
-Received: by 10.68.241.70 with SMTP id wg6mr21888664pbc.6.1328926162036;
-	Fri, 10 Feb 2012 18:09:22 -0800 (PST)
-Received: from sakrah.homelinux.org
-	(99-57-140-209.lightspeed.sntcca.sbcglobal.net. [99.57.140.209])
-	by mx.google.com with ESMTPS id t10sm17977817pbb.18.2012.02.10.18.09.20
+	h=from:to:cc:subject:date:message-id:x-mailer;
+	bh=V10e/WjvjRncNQoRUjEQqVXHcGZE87k664X6X5Bi+LU=;
+	b=MqXJbrGVS2V0J3DVa8WfmXNtHhGxvn1efTE34gPTReiFI+dFicEws86JDHrcxas6Sc
+	anTOWxsRJjzBp8K6FKyeNUrHusEUM2VbOq+QdXewqSOC/gqxlS0lOv3OK7dhY3c/Z/BX
+	L4+Jon1X8GMYK0Kwsatqen+EX8Gfg8mjeddrU=
+Received: by 10.68.217.72 with SMTP id ow8mr22099459pbc.130.1328929573385;
+	Fri, 10 Feb 2012 19:06:13 -0800 (PST)
+Received: from localhost.localdomain (oldbuilder.nslu2-linux.org.
+	[140.211.169.168])
+	by mx.google.com with ESMTPS id e10sm18326261pbv.0.2012.02.10.19.06.11
 	(version=TLSv1/SSLv3 cipher=OTHER);
-	Fri, 10 Feb 2012 18:09:20 -0800 (PST)
-Date: Fri, 10 Feb 2012 18:09:17 -0800
+	Fri, 10 Feb 2012 19:06:12 -0800 (PST)
 From: Khem Raj <raj.khem@gmail.com>
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Message-ID: <20120211020917.GF2095@sakrah.homelinux.org>
-References: <4F35945D.7020900@opendreambox.org>
-MIME-Version: 1.0
-In-Reply-To: <4F35945D.7020900@opendreambox.org>
-User-Agent: Mutt/1.5.21 (2010-09-15)
-Subject: Re: [PATCH] consolekit: depend on libx11
+To: openembedded-core@lists.openembedded.org
+Date: Fri, 10 Feb 2012 19:05:06 -0800
+Message-Id: <1328929506-20682-1-git-send-email-raj.khem@gmail.com>
+X-Mailer: git-send-email 1.7.5.4
+Subject: [RFC] classes: Add recipe class to overrides
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -44,55 +39,154 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 11 Feb 2012 02:17:30 -0000
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+X-List-Received-Date: Sat, 11 Feb 2012 03:14:21 -0000
 
-On (10/02/12 23:04), Andreas Oberritter wrote:
-> * Fixes the following error at configure time:
-> 
-> |checking for TOOLS... no
-> |configure: error: Package requirements (x11 >= 1.0.0
-> |  glib-2.0 >= 2.14
-> |) were not met:
-> |
-> |No package 'x11' found
-> 
-> Signed-off-by: Andreas Oberritter <obi@opendreambox.org>
-> ---
-> * Note that I didn't build test this, because I'm building
->   without x11. I just looked up the package of x11.pc, which
->   at least in Ubuntu is libx11.
-> 
->  .../recipes-support/consolekit/consolekit_0.4.5.bb |    2 +-
->  1 files changed, 1 insertions(+), 1 deletions(-)
-> 
-> diff --git a/meta/recipes-support/consolekit/consolekit_0.4.5.bb b/meta/recipes-support/consolekit/consolekit_0.4.5.bb
-> index 3ded6df..3a4b04f 100644
-> --- a/meta/recipes-support/consolekit/consolekit_0.4.5.bb
-> +++ b/meta/recipes-support/consolekit/consolekit_0.4.5.bb
-> @@ -13,7 +13,7 @@ POLKIT_libc-uclibc = ""
->  POLKITCONF = ""
->  POLKITCONF_libc-uclibc = "--disable-policykit"
->  
-> -DEPENDS = "glib-2.0 dbus ${POLKIT} ${@base_contains('DISTRO_FEATURES', 'pam', 'libpam', '', d)}"
-> +DEPENDS = "glib-2.0 dbus ${POLKIT} ${@base_contains('DISTRO_FEATURES', 'pam', 'libpam', '', d)} virtual/libx11"
+We have currently no override to detect a recipe
+being build cross, crosssdk or for target
+at times we can use virtclass-native and virtclass-nativesdk to
+override stuff in recipes but we dont have way to modify a variables
+based on recipe type always.
 
-should this depend on if x11 is in DISTRO_FEATURES ?
+With this patch we attempt to have recipe class override always
+so we can use it in recipes which use BBCLASSEXTEND as well as
+others which inherit the classes directly.
 
->  RDEPENDS_${PN} += "base-files"
->  
->  inherit gnome
-> -- 
-> 1.7.5.4
-> 
-> 
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
+I am not too fond of names that I have used so any suggestions are
+welcome I would have liked to drop virtclass- from the existing
+overrides but that would mean a lot of changes so I left them
+alone.
 
+With this change now we can say
+
+EXTRA_OECONF_class-target = "...."
+EXTRA_OECONF_virtclass-native = "..."
+EXTRA_OECONF_virtclass-nativesdk = "..."
+EXTRA_OECONF_virtclass-crosssdk= "..."
+
+....
+
+Signed-off-by: Khem Raj <raj.khem@gmail.com>
+---
+ meta/classes/base.bbclass                       |    1 +
+ meta/classes/cross-canadian.bbclass             |    2 +-
+ meta/classes/cross.bbclass                      |    1 +
+ meta/classes/crosssdk.bbclass                   |    1 +
+ meta/classes/native.bbclass                     |    3 +--
+ meta/classes/nativesdk.bbclass                  |    3 +--
+ meta/conf/distro/include/default-distrovars.inc |    8 ++++++++
+ 7 files changed, 14 insertions(+), 5 deletions(-)
+
+diff --git a/meta/classes/base.bbclass b/meta/classes/base.bbclass
+index a26ac94..b39bb0b 100644
+--- a/meta/classes/base.bbclass
++++ b/meta/classes/base.bbclass
+@@ -1,4 +1,5 @@
+ BB_DEFAULT_TASK ?= "build"
++RECIPECLASSOVERRIDE ?= ":class-target"
+ 
+ inherit patch
+ inherit staging
+diff --git a/meta/classes/cross-canadian.bbclass b/meta/classes/cross-canadian.bbclass
+index 499a1fb..439404e 100644
+--- a/meta/classes/cross-canadian.bbclass
++++ b/meta/classes/cross-canadian.bbclass
+@@ -8,7 +8,7 @@
+ # SDK packages are built either explicitly by the user,
+ # or indirectly via dependency.  No need to be in 'world'.
+ EXCLUDE_FROM_WORLD = "1"
+-
++RECIPECLASSOVERRIDE = ":virtclass-cross-canadian"
+ STAGING_BINDIR_TOOLCHAIN = "${STAGING_DIR_NATIVE}${bindir_native}/${SDK_ARCH}${SDK_VENDOR}-${SDK_OS}:${STAGING_DIR_NATIVE}${bindir_native}/${TUNE_PKGARCH}${TARGET_VENDOR}-${TARGET_OS}"
+ 
+ #
+diff --git a/meta/classes/cross.bbclass b/meta/classes/cross.bbclass
+index 8da3048..421ede6 100644
+--- a/meta/classes/cross.bbclass
++++ b/meta/classes/cross.bbclass
+@@ -4,6 +4,7 @@ inherit relocatable
+ # no need for them to be a direct target of 'world'
+ EXCLUDE_FROM_WORLD = "1"
+ 
++RECIPECLASSOVERRIDE = ":virtclass-cross"
+ PACKAGES = ""
+ PACKAGES_DYNAMIC = ""
+ PACKAGES_DYNAMIC_virtclass-native = ""
+diff --git a/meta/classes/crosssdk.bbclass b/meta/classes/crosssdk.bbclass
+index 83753b4..89eaadd 100644
+--- a/meta/classes/crosssdk.bbclass
++++ b/meta/classes/crosssdk.bbclass
+@@ -1,5 +1,6 @@
+ inherit cross
+ 
++RECIPECLASSOVERRIDE = ":virtclass-crosssdk"
+ PACKAGE_ARCH = "${SDK_ARCH}"
+ STAGING_DIR_TARGET = "${STAGING_DIR}/${SDK_ARCH}-nativesdk${SDK_VENDOR}-${SDK_OS}"
+ STAGING_BINDIR_TOOLCHAIN = "${STAGING_DIR_NATIVE}${bindir_native}/${TARGET_ARCH}${TARGET_VENDOR}-${TARGET_OS}"
+diff --git a/meta/classes/native.bbclass b/meta/classes/native.bbclass
+index 00196ba..dbdb406 100644
+--- a/meta/classes/native.bbclass
++++ b/meta/classes/native.bbclass
+@@ -94,6 +94,7 @@ PKG_CONFIG_SYSROOT_DIR = ""
+ 
+ # we dont want libc-uclibc or libc-glibc to kick in for native recipes
+ LIBCOVERRIDE = ""
++RECIPECLASSOVERRIDE = ":virtclass-native"
+ 
+ PATH =. "${COREBASE}/scripts/native-intercept:"
+ 
+@@ -141,8 +142,6 @@ python native_virtclass_handler () {
+         if not prov.endswith("-native"):
+             provides = provides.replace(prov, prov + "-native")
+     e.data.setVar("PROVIDES", provides)
+-
+-    e.data.setVar("OVERRIDES", e.data.getVar("OVERRIDES", False) + ":virtclass-native")
+ }
+ 
+ addhandler native_virtclass_handler
+diff --git a/meta/classes/nativesdk.bbclass b/meta/classes/nativesdk.bbclass
+index ceec53e..6858604 100644
+--- a/meta/classes/nativesdk.bbclass
++++ b/meta/classes/nativesdk.bbclass
+@@ -8,6 +8,7 @@ STAGING_BINDIR_TOOLCHAIN = "${STAGING_DIR_NATIVE}${bindir_native}/${SDK_ARCH}${S
+ 
+ # we dont want libc-uclibc or libc-glibc to kick in for nativesdk recipes
+ LIBCOVERRIDE = ""
++RECIPECLASSOVERRIDE = ":virtclass-nativesdk"
+ 
+ #
+ # Update PACKAGE_ARCH and PACKAGE_ARCHS
+@@ -63,8 +64,6 @@ python nativesdk_virtclass_handler () {
+     pn = e.data.getVar("PN", True)
+     if not pn.endswith("-nativesdk"):
+         return
+-
+-    e.data.setVar("OVERRIDES", e.data.getVar("OVERRIDES", False) + ":virtclass-nativesdk")
+ }
+ 
+ python () {
+diff --git a/meta/conf/distro/include/default-distrovars.inc b/meta/conf/distro/include/default-distrovars.inc
+index 16b3108..ca7c750 100644
+--- a/meta/conf/distro/include/default-distrovars.inc
++++ b/meta/conf/distro/include/default-distrovars.inc
+@@ -41,8 +41,16 @@ NO32LIBS ??= "1"
+ 
+ # Default to emitting logfiles if a build fails.
+ BBINCLUDELOGS ??= "yes"
++
++# dummy distro related variables
++# they should be overridden by real distros
++# these fallbacks only serve the purpose of
++# oe-core standalone testability
++
++DISTRO ??= ""
+ SDK_VERSION ??= "oe-core.0"
+ DISTRO_VERSION ??= "oe-core.0"
+ 
+ # Missing checksums should raise an error
+ BB_STRICT_CHECKSUM = "1"
++OVERRIDES .= "${RECIPECLASSOVERRIDE}"
 -- 
--Khem
+1.7.5.4
+
 
 
