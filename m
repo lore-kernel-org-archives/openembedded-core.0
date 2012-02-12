@@ -1,26 +1,25 @@
-Received: from mail-pw0-f47.google.com ([209.85.160.47])
+Received: from mail-ee0-f47.google.com ([74.125.83.47])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <aalonso00@gmail.com>)
-	id 1RwIc2-0008NO-M9; Sat, 11 Feb 2012 20:27:58 +0100
-Received: by pbcum15 with SMTP id um15so2686179pbc.6
-	for <multiple recipients>; Sat, 11 Feb 2012 11:19:50 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
-	h=mime-version:date:message-id:subject:from:to:content-type;
-	bh=Dg/vfReGNUyYmigHZ2Y7n6kefbtYSWWwzfm7a2zYecc=;
-	b=gooqbVgjI+YmLsXeHp6Sl/WEGQl16uXtJ387Uq6Cp5QiFW08RsKkUiyFfQp/rZ+A/d
-	pFr2QAknQ6eifW1wyIjhacuF1aAYHIz2mLhDLvZvQGto7UC28ZaUJIRFb3j26NdDJx2C
-	SAnM/+PEPIOkcdlwApRsVv6GtAZVufTjif9is=
+	(envelope-from <andrei@gherzan.ro>) id 1RweW3-0006rL-8L
+	for openembedded-core@lists.openembedded.org;
+	Sun, 12 Feb 2012 19:51:15 +0100
+Received: by eekd41 with SMTP id d41so1334937eek.6
+	for <openembedded-core@lists.openembedded.org>;
+	Sun, 12 Feb 2012 10:43:06 -0800 (PST)
 MIME-Version: 1.0
-Received: by 10.68.73.100 with SMTP id k4mr29929367pbv.55.1328987990202; Sat,
-	11 Feb 2012 11:19:50 -0800 (PST)
-Received: by 10.68.203.134 with HTTP; Sat, 11 Feb 2012 11:19:50 -0800 (PST)
-Date: Sat, 11 Feb 2012 13:19:50 -0600
-Message-ID: <CAAB-1yw=Hhk7V_suVM9fShLRsQXicsKNZV0KzXAMewZVqnPhWA@mail.gmail.com>
-From: Adrian Alonso <aalonso00@gmail.com>
-To: openembedded-devel@lists.openembedded.org, 
-	Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>, yocto <yocto@yoctoproject.org>
-Subject: OpenEmbedded/Yocto Freescale ARM BSP Layer
+Received: by 10.14.120.74 with SMTP id o50mr1567677eeh.18.1329072186571;
+	Sun, 12 Feb 2012 10:43:06 -0800 (PST)
+Received: from localhost.localdomain ([79.117.107.69])
+	by mx.google.com with ESMTPS id c16sm51644430eei.1.2012.02.12.10.43.04
+	(version=TLSv1/SSLv3 cipher=OTHER);
+	Sun, 12 Feb 2012 10:43:05 -0800 (PST)
+From: Andrei Gherzan <andrei@gherzan.ro>
+To: openembedded-core@lists.openembedded.org
+Date: Sun, 12 Feb 2012 20:42:58 +0200
+Message-Id: <1329072178-18881-1-git-send-email-andrei@gherzan.ro>
+X-Mailer: git-send-email 1.7.5.4
+X-Gm-Message-State: ALoCoQkMGKBJ8xjWQJAlDqmqctj2UaSNKRCJVANDKMz3sm86BsgttlhmRc6M9SJRKbrTs6AvuK0q
+Subject: [PATCH] nspr: Compile nspr with tests 1. Compile package tests suite 2. Add patch for removing rpath from binaries 3. Add tests to -dev rpm as it needs dev libraries
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -35,85 +34,209 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 11 Feb 2012 19:27:59 -0000
-Content-Type: multipart/alternative; boundary=f46d041705ad11180904b8b52156
+X-List-Received-Date: Sun, 12 Feb 2012 18:51:15 -0000
 
---f46d041705ad11180904b8b52156
-Content-Type: text/plain; charset=windows-1252
-Content-Transfer-Encoding: quoted-printable
+Signed-off-by: Andrei Gherzan <andrei@gherzan.ro>
+---
+ .../nspr/files/remove-rpath-from-tests.patch       |   21 +++
+ meta/recipes-support/nspr/nspr_4.8.9.bb            |  134 +++++++++++++++++++-
+ 2 files changed, 151 insertions(+), 4 deletions(-)
+ create mode 100644 meta/recipes-support/nspr/files/remove-rpath-from-tests.patch
 
-*We are proud to announce the creation of a mailing list to easy the
-communication of people using Freescale=92s ARM*
-*processors and micro-controllers with OpenEmbedded and/or Yocto. For now,
-we will be using Google Groups for*
-*this task. You can join the group at
-http://groups.google.com/group/meta-fsl-arm
+diff --git a/meta/recipes-support/nspr/files/remove-rpath-from-tests.patch b/meta/recipes-support/nspr/files/remove-rpath-from-tests.patch
+new file mode 100644
+index 0000000..819c784
+--- /dev/null
++++ b/meta/recipes-support/nspr/files/remove-rpath-from-tests.patch
+@@ -0,0 +1,21 @@
++Author: Andrei Gherzan <andrei@gherzan.ro>
++Date:   Thu Feb 9 00:03:38 2012 +0200
++
++Avoid QA warnings by removing hardcoded rpath from binaries.
++
++Signed-off-by: Andrei Gherzan <andrei@gherzan.ro>
++Upstream-Status: Pending
++
++Index: nspr-4.8.9/mozilla/nsprpub/pr/tests/Makefile.in
++===================================================================
++--- nsprpub.orig/pr/tests/Makefile.in	2012-02-11 00:01:10.476220505 +0200
+++++ nsprpub/pr/tests/Makefile.in	2012-02-10 23:57:40.000000000 +0200
++@@ -379,7 +379,7 @@
++ endif
++ 
++ ifeq (,$(filter-out Linux GNU GNU_%,$(OS_ARCH)))
++-    LDOPTS += -Xlinker -rpath $(ABSOLUTE_LIB_DIR)
+++    LDOPTS += -Xlinker
++     ifeq ($(USE_PTHREADS),1)
++         EXTRA_LIBS = -lpthread
++     endif
+diff --git a/meta/recipes-support/nspr/nspr_4.8.9.bb b/meta/recipes-support/nspr/nspr_4.8.9.bb
+index da324fc..c68599c 100644
+--- a/meta/recipes-support/nspr/nspr_4.8.9.bb
++++ b/meta/recipes-support/nspr/nspr_4.8.9.bb
+@@ -5,17 +5,135 @@ LIC_FILES_CHKSUM = "file://configure.in;beginline=3;endline=40;md5=99d4d7d68bbc4
+                     file://Makefile.in;beginline=4;endline=38;md5=c2b512182a334e1bfa1edc4d1c84a298 "
+ SECTION = "libs/network"
+ 
+-PR = "r0"
++PR = "r1"
+ 
+-SRC_URI = "ftp://ftp.mozilla.org/pub/mozilla.org/nspr/releases/v${PV}/src/nspr-${PV}.tar.gz"
++SRC_URI = "ftp://ftp.mozilla.org/pub/mozilla.org/nspr/releases/v${PV}/src/nspr-${PV}.tar.gz \
++           file://remove-rpath-from-tests.patch"
+ 
+-SRC_URI += "file://nspr.pc.in "
++SRC_URI += "file://nspr.pc.in"
+ 
+ SRC_URI[md5sum] = "60770d45dc08c0f181b22cdfce5be3e8"
+ SRC_URI[sha256sum] = "ff43c7c819e72f03bb908e7652c5d5f59a5d31ee86c333e692650207103d1cce"
+ 
+ S = "${WORKDIR}/nspr-${PV}/mozilla/nsprpub"
+ 
++TESTS = "runtests.pl \
++    runtests.sh \
++    accept \
++    acceptread \
++    acceptreademu \
++    affinity \
++    alarm \
++    anonfm \
++    atomic \
++    attach \
++    bigfile \
++    cleanup \
++    cltsrv  \
++    concur \
++    cvar \
++    cvar2 \
++    dlltest \
++    dtoa \
++    errcodes \
++    exit \
++    fdcach \
++    fileio \
++    foreign \
++    formattm \
++    fsync \
++    gethost \
++    getproto \
++    i2l \
++    initclk \
++    inrval \
++    instrumt \
++    intrio \
++    intrupt \
++    io_timeout \
++    ioconthr \
++    join \
++    joinkk \
++    joinku \
++    joinuk \
++    joinuu \
++    layer \
++    lazyinit \
++    libfilename \
++    lltest \
++    lock \
++    lockfile \
++    logfile \
++    logger \
++    many_cv \
++    multiwait \
++    nameshm1 \
++    nblayer \
++    nonblock \
++    ntioto \
++    ntoh \
++    op_2long \
++    op_excl \
++    op_filnf \
++    op_filok \
++    op_nofil \
++    parent \
++    parsetm \
++    peek \
++    perf \
++    pipeping \
++    pipeping2 \
++    pipeself \
++    poll_nm \
++    poll_to \
++    pollable \
++    prftest \
++    primblok \
++    provider \
++    prpollml \
++    ranfile \
++    randseed \
++    reinit \
++    rwlocktest \
++    sel_spd \
++    selct_er \
++    selct_nm \
++    selct_to \
++    selintr \
++    sema \
++    semaerr \
++    semaping \
++    sendzlf \
++    server_test \
++    servr_kk \
++    servr_uk \
++    servr_ku \
++    servr_uu \
++    short_thread \
++    sigpipe \
++    socket \
++    sockopt \
++    sockping \
++    sprintf \
++    stack \
++    stdio \
++    str2addr \
++    strod \
++    switch \
++    system \
++    testbit \
++    testfile \
++    threads \
++    timemac \
++    timetest \
++    tpd \
++    udpsrv \
++    vercheck \
++    version \
++    writev \
++    xnotify \
++    zerolen"
++
+ inherit autotools
+ 
+ do_configure() {
+@@ -26,12 +144,20 @@ do_compile_prepend() {
+ 	oe_runmake CROSS_COMPILE=1 CFLAGS="-DXP_UNIX" LDFLAGS="" CC=gcc -C config export
+ }
+ 
++do_compile_append() {
++	oe_runmake -C pr/tests
++}
++
+ do_install_append() {
+     install -D ${WORKDIR}/nspr.pc.in ${D}${libdir}/pkgconfig/nspr.pc
+     sed -i s:OEPREFIX:${prefix}:g ${D}${libdir}/pkgconfig/nspr.pc
+     sed -i s:OELIBDIR:${libdir}:g ${D}${libdir}/pkgconfig/nspr.pc
+     sed -i s:OEINCDIR:${includedir}:g ${D}${libdir}/pkgconfig/nspr.pc
+     sed -i s:OEEXECPREFIX:${exec_prefix}:g ${D}${libdir}/pkgconfig/nspr.pc
++    cd ${S}/pr/tests
++    mkdir -p ${D}/opt/nspr_tests
++    install -m 0755 ${TESTS} ${D}/opt/nspr_tests
+ }
+ 
+-
++FILES_${PN}-dev += "/opt/nspr_tests/*"
++FILES_${PN}-dbg += "/opt/nspr_tests/.debug/*"
+-- 
+1.7.5.4
 
-This mailing list will be used to share work and review the patches before
-those are merge onto the BSP layer.*
-*The layer itself has also been moved to a new repository, still at GitHub.
-The new repository http://github.com/Freescale/meta-fsl-arm;*
-*people already using previous meta-freescale GitHub trees you will need to
-change their GIT configuration to this new location.
 
-Please join us at the mainling list and start to watch and to fork the
-repository at GitHub.*
 
-Regards
-Adrian Alonso
-
---f46d041705ad11180904b8b52156
-Content-Type: text/html; charset=windows-1252
-Content-Transfer-Encoding: quoted-printable
-
-<b id=3D"internal-source-marker_0.8964913580566645" style=3D"font-family:&#=
-39;Times New Roman&#39;;font-size:medium"><span style=3D"font-size:15px;fon=
-t-family:Arial;font-weight:normal;vertical-align:baseline;white-space:pre-w=
-rap">We are proud to announce the creation of a mailing list to easy the co=
-mmunication of people using Freescale=92s ARM</span></b><div>
-<b style=3D"font-family:&#39;Times New Roman&#39;;font-size:medium"><span s=
-tyle=3D"font-size:15px;font-family:Arial;font-weight:normal;vertical-align:=
-baseline;white-space:pre-wrap">processors and micro-controllers with OpenEm=
-bedded and/or Yocto. For now, we will be using Google Groups for</span></b>=
-</div>
-<div><b style=3D"font-family:&#39;Times New Roman&#39;;font-size:medium"><s=
-pan style=3D"font-size:15px;font-family:Arial;font-weight:normal;vertical-a=
-lign:baseline;white-space:pre-wrap">this task. You can join the group at </=
-span><a href=3D"http://groups.google.com/group/meta-fsl-arm"><span style=3D=
-"font-size:15px;font-family:Arial;color:rgb(17,85,204);font-weight:normal;v=
-ertical-align:baseline;white-space:pre-wrap">http://groups.google.com/group=
-/meta-fsl-arm</span></a><span style=3D"font-size:15px;font-family:Arial;fon=
-t-weight:normal;vertical-align:baseline;white-space:pre-wrap"></span><br>
-<span style=3D"font-size:15px;font-family:Arial;font-weight:normal;vertical=
--align:baseline;white-space:pre-wrap"></span><br><span style=3D"font-size:1=
-5px;font-family:Arial;font-weight:normal;vertical-align:baseline;white-spac=
-e:pre-wrap">This mailing list will be used to share work and review the pat=
-ches before those are merge onto the BSP layer.</span></b></div>
-<div><b style=3D"font-family:&#39;Times New Roman&#39;;font-size:medium"><s=
-pan style=3D"font-size:15px;font-family:Arial;font-weight:normal;vertical-a=
-lign:baseline;white-space:pre-wrap">The layer itself has also been moved to=
- a new repository, still at GitHub. The new repository </span><a href=3D"ht=
-tp://github.com/Freescale/meta-fsl-arm"><span style=3D"font-size:15px;font-=
-family:Arial;color:rgb(17,85,204);font-weight:normal;vertical-align:baselin=
-e;white-space:pre-wrap">http://github.com/Freescale/meta-fsl-arm</span></a>=
-<span style=3D"font-size:15px;font-family:Arial;font-weight:normal;vertical=
--align:baseline;white-space:pre-wrap">;</span></b></div>
-<div><b style=3D"font-family:&#39;Times New Roman&#39;;font-size:medium"><s=
-pan style=3D"font-size:15px;font-family:Arial;font-weight:normal;vertical-a=
-lign:baseline;white-space:pre-wrap">people already using previous meta-free=
-scale GitHub trees you will need to change their GIT configuration to this =
-new location.</span><br>
-<span style=3D"font-size:15px;font-family:Arial;font-weight:normal;vertical=
--align:baseline;white-space:pre-wrap"></span><br><span style=3D"font-size:1=
-5px;font-family:Arial;font-weight:normal;vertical-align:baseline;white-spac=
-e:pre-wrap">Please join us at the mainling list and start to watch and to f=
-ork the repository at GitHub.</span></b></div>
-<div><font face=3D"Arial"><span style=3D"font-size:15px;white-space:pre-wra=
-p"><br></span></font></div><div><font face=3D"Arial"><span style=3D"font-si=
-ze:15px;white-space:pre-wrap">Regards</span></font></div><div><font face=3D=
-"Arial"><span style=3D"font-size:15px;white-space:pre-wrap">Adrian Alonso<b=
-r clear=3D"all">
-</span></font><div><br></div><br>
-</div>
-
---f46d041705ad11180904b8b52156--
