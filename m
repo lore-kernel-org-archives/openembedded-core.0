@@ -1,22 +1,28 @@
-Received: from mail.gw90.de ([188.40.100.199])
+Received: from mail-iy0-f175.google.com ([209.85.210.175])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <paulepanter@users.sourceforge.net>)
-	id 1Rwf5t-0007lu-Jz for openembedded-core@lists.openembedded.org;
-	Sun, 12 Feb 2012 20:28:17 +0100
-Received: from g225080050.adsl.alicedsl.de ([92.225.80.50]
-	helo=[192.168.178.43])
-	by mail.gw90.de with esmtpsa (TLS1.0:RSA_AES_256_CBC_SHA1:32)
-	(Exim 4.69) (envelope-from <paulepanter@users.sourceforge.net>)
-	id 1RweyH-0006Kk-KK; Sun, 12 Feb 2012 19:20:26 +0000
-Message-ID: <1329074394.3359.29.camel@mattotaupa>
-From: Paul Menzel <paulepanter@users.sourceforge.net>
-To: openembedded-core@lists.openembedded.org
-Date: Sun, 12 Feb 2012 20:19:54 +0100
-In-Reply-To: <1329072178-18881-1-git-send-email-andrei@gherzan.ro>
-References: <1329072178-18881-1-git-send-email-andrei@gherzan.ro>
-X-Mailer: Evolution 3.2.2-1 
-Mime-Version: 1.0
-Subject: Re: [PATCH] nspr: Compile nspr with tests 1. Compile package tests suite 2. Add patch for removing rpath from binaries 3. Add tests to -dev rpm as it needs dev libraries
+	(envelope-from <ka6sox@gmail.com>) id 1Rwfnd-0000Ew-K7
+	for openembedded-core@lists.openembedded.org;
+	Sun, 12 Feb 2012 21:13:29 +0100
+Received: by iaby12 with SMTP id y12so3277586iab.6
+	for <openembedded-core@lists.openembedded.org>;
+	Sun, 12 Feb 2012 12:05:20 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
+	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
+	:content-type; bh=wt9x5dT1SWkLwUDrZ8Hu7jClbvf8RVKlhU2cT85yAKs=;
+	b=nwNUWGos0Em21iASWyuEOUHyqIsjIpAZDN5BBFgTB32ERB+uDyaMNooywlduqNV7ym
+	E4RLzRR0oj/a5+LWOqhZRBZvW7h6TWkooZj+NcBp5jy8KmsXlWXl9nVZ5rHfOw6PgYpm
+	XIWIjn3JJJPnR9anCOzZrFYTYwnwRdlutXbSk=
+MIME-Version: 1.0
+Received: by 10.50.88.132 with SMTP id bg4mr15626481igb.5.1329077120376; Sun,
+	12 Feb 2012 12:05:20 -0800 (PST)
+Received: by 10.50.170.7 with HTTP; Sun, 12 Feb 2012 12:05:20 -0800 (PST)
+In-Reply-To: <Pine.LNX.4.64.1202111600300.3065@www.vctlabs.com>
+References: <Pine.LNX.4.64.1202111600300.3065@www.vctlabs.com>
+Date: Sun, 12 Feb 2012 12:05:20 -0800
+Message-ID: <CAHQecY6yQ5mOW9uu3JPvSQij9AdNPOio1-VmM34_ii1suVJUmg@mail.gmail.com>
+From: Tom King <ka6sox@gmail.com>
+To: openembedded-core <openembedded-core@lists.openembedded.org>
+Subject: OE scons cross-compile patch
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -31,281 +37,219 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 12 Feb 2012 19:28:17 -0000
-X-Groupsio-MsgNum: 17455
-Content-Type: multipart/signed; micalg="pgp-sha1";
-	protocol="application/pgp-signature"; 
-	boundary="=-YfDdSFTFu51G/H0qAUZw"
+X-List-Received-Date: Sun, 12 Feb 2012 20:13:30 -0000
+X-Groupsio-MsgNum: 17456
+Content-Type: multipart/mixed; boundary=e89a8f234e73a39de804b8c9e191
 
---=-YfDdSFTFu51G/H0qAUZw
-Content-Type: text/plain; charset="UTF-8"
+--e89a8f234e73a39de804b8c9e191
+Content-Type: multipart/alternative; boundary=e89a8f234e73a39de604b8c9e18f
+
+--e89a8f234e73a39de604b8c9e18f
+Content-Type: text/plain; charset=ISO-8859-1
+
+I've seen it build and work.
+
+if its wrong let me know how to fix it
+
+---------- Forwarded message ----------
+From: S. Lockwood-Childs <sjl@vctlabs.com>
+Date: Sat, Feb 11, 2012 at 4:03 PM
+Subject: OE scons cross-compile patch
+To: ka6sox@gmail.com
+
+
+commit 9f66f474614696154d50156ada5f4c**1629b1b28c
+Author: S Lockwood-Childs <sjl@vctlabs.com>
+Date:   Sat Feb 11 15:07:17 2012 -0800
+
+   cross-compile support for SCons
+
+   scons build system searches paths for hard-coded tool names like "gcc",
+   so this patch teaches it to check first for a tool with cross-compile
+prefix
+   if the CROSS_COMPILE variable has been set. If not found, it falls back
+   to searching for the un-prefixed tool name.
+
+   For example, if CROSS_COMPILE=arm-angstrom-**linux-gnueabi-
+   SCons.Evironment.Detect('gcc') should find arm-angstrom-linux-gnueabi-gcc
+   SCons.Evironment.Detect('zip') should find plain zip
+
+diff --git a/meta/recipes-devtools/**python/python-scons-native/**scons-cross-toolchain.patch
+b/meta/recipes-devtools/**python/python-scons-native/**
+scons-cross-toolchain.patch
+new file mode 100644
+index 0000000..041279e
+--- /dev/null
++++ b/meta/recipes-devtools/**python/python-scons-native/**
+scons-cross-toolchain.patch
+@@ -0,0 +1,17 @@
++--- scons-2.1.0/engine/SCons/**Environment.py.orig       2012-02-10
+16:59:10.000000000 -0800
+++++ scons-2.1.0/engine/SCons/**Environment.py    2012-02-11
+13:29:15.000000000 -0800
++@@ -1483,6 +1483,14 @@
++         if not SCons.Util.is_List(progs):
++             progs = [ progs ]
++         for prog in progs:
+++            # prefer cross version of program, if it exists
+++            if 'CROSS_COMPILE' in self._dict:
+++                cross_prog = self['CROSS_COMPILE'] + prog
+++                #print "Looking for %s" % cross_prog
+++                path = self.WhereIs(cross_prog)
+++                if path: return cross_prog
+++
+++            #print "Looking for %s" % prog
++             path = self.WhereIs(prog)
++             if path: return prog
++         return None
+diff --git a/meta/recipes-devtools/**python/python-scons-native_2.**1.0.bb<http://python-scons-native_2.1.0.bb>b/meta/recipes-devtools/
+**python/python-scons-native_2.**1.0.bb<http://python-scons-native_2.1.0.bb>
+index ff94cf6..c653237 100644
+--- a/meta/recipes-devtools/**python/python-scons-native_2.**1.0.bb<http://python-scons-native_2.1.0.bb>
++++ b/meta/recipes-devtools/**python/python-scons-native_2.**1.0.bb<http://python-scons-native_2.1.0.bb>
+@@ -2,4 +2,6 @@ require python-scons_${PV}.bb
+ inherit native
+ DEPENDS = "python-native"
+ RDEPENDS_${PN} = ""
+-PR = "r1"
++PR = "r2"
++
++SRC_URI += "file://scons-cross-toolchain.**patch"
+
+--e89a8f234e73a39de604b8c9e18f
+Content-Type: text/html; charset=ISO-8859-1
 Content-Transfer-Encoding: quoted-printable
 
-Dear Andrei,
+<div>I&#39;ve seen it build and work.</div><div><br></div><div>if its wrong=
+ let me know how to fix it<br><br><div class=3D"gmail_quote">---------- For=
+warded message ----------<br>From: <b class=3D"gmail_sendername">S. Lockwoo=
+d-Childs</b> <span dir=3D"ltr">&lt;<a href=3D"mailto:sjl@vctlabs.com">sjl@v=
+ctlabs.com</a>&gt;</span><br>
+Date: Sat, Feb 11, 2012 at 4:03 PM<br>Subject: OE scons cross-compile patch=
+<br>To: <a href=3D"mailto:ka6sox@gmail.com">ka6sox@gmail.com</a><br><br><br=
+>commit 9f66f474614696154d50156ada5f4c<u></u>1629b1b28c<br>
+Author: S Lockwood-Childs &lt;<a href=3D"mailto:sjl@vctlabs.com" target=3D"=
+_blank">sjl@vctlabs.com</a>&gt;<br>
+Date: =A0 Sat Feb 11 15:07:17 2012 -0800<br>
+<br>
+ =A0 =A0cross-compile support for SCons<br>
+<br>
+ =A0 =A0scons build system searches paths for hard-coded tool names like &q=
+uot;gcc&quot;,<br>
+ =A0 =A0so this patch teaches it to check first for a tool with cross-compi=
+le prefix<br>
+ =A0 =A0if the CROSS_COMPILE variable has been set. If not found, it falls =
+back<br>
+ =A0 =A0to searching for the un-prefixed tool name.<br>
+<br>
+ =A0 =A0For example, if CROSS_COMPILE=3Darm-angstrom-<u></u>linux-gnueabi-<=
+br>
+ =A0 =A0SCons.Evironment.Detect(&#39;gcc&#39;) should find arm-angstrom-lin=
+ux-gnueabi-gcc<br>
+ =A0 =A0SCons.Evironment.Detect(&#39;zip&#39;) should find plain zip<br>
+<br>
+diff --git a/meta/recipes-devtools/<u></u>python/python-scons-native/<u></u=
+>scons-cross-toolchain.patch b/meta/recipes-devtools/<u></u>python/python-s=
+cons-native/<u></u>scons-cross-toolchain.patch<br>
+new file mode 100644<br>
+index 0000000..041279e<br>
+--- /dev/null<br>
++++ b/meta/recipes-devtools/<u></u>python/python-scons-native/<u></u>scons-=
+cross-toolchain.patch<br>
+@@ -0,0 +1,17 @@<br>
++--- scons-2.1.0/engine/SCons/<u></u>Environment.py.orig =A0 =A0 =A0 2012-0=
+2-10 16:59:10.000000000 -0800<br>
+++++ scons-2.1.0/engine/SCons/<u></u>Environment.py =A0 =A02012-02-11 13:29=
+:15.000000000 -0800<br>
++@@ -1483,6 +1483,14 @@<br>
++ =A0 =A0 =A0 =A0 if not SCons.Util.is_List(progs):<br>
++ =A0 =A0 =A0 =A0 =A0 =A0 progs =3D [ progs ]<br>
++ =A0 =A0 =A0 =A0 for prog in progs:<br>
+++ =A0 =A0 =A0 =A0 =A0 =A0# prefer cross version of program, if it exists<b=
+r>
+++ =A0 =A0 =A0 =A0 =A0 =A0if &#39;CROSS_COMPILE&#39; in self._dict:<br>
+++ =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0cross_prog =3D self[&#39;CROSS_COMPILE&#3=
+9;] + prog<br>
+++ =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0#print &quot;Looking for %s&quot; % cross=
+_prog<br>
+++ =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0path =3D self.WhereIs(cross_prog)<br>
+++ =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0if path: return cross_prog<br>
+++<br>
+++ =A0 =A0 =A0 =A0 =A0 =A0#print &quot;Looking for %s&quot; % prog<br>
++ =A0 =A0 =A0 =A0 =A0 =A0 path =3D self.WhereIs(prog)<br>
++ =A0 =A0 =A0 =A0 =A0 =A0 if path: return prog<br>
++ =A0 =A0 =A0 =A0 return None<br>
+diff --git a/meta/recipes-devtools/<u></u>python/<a href=3D"http://python-s=
+cons-native_2.1.0.bb" target=3D"_blank">python-scons-native_2.<u></u>1.0.bb=
+</a> b/meta/recipes-devtools/<u></u>python/<a href=3D"http://python-scons-n=
+ative_2.1.0.bb" target=3D"_blank">python-scons-native_2.<u></u>1.0.bb</a><b=
+r>
 
+index ff94cf6..c653237 100644<br>
+--- a/meta/recipes-devtools/<u></u>python/<a href=3D"http://python-scons-na=
+tive_2.1.0.bb" target=3D"_blank">python-scons-native_2.<u></u>1.0.bb</a><br=
+>
++++ b/meta/recipes-devtools/<u></u>python/<a href=3D"http://python-scons-na=
+tive_2.1.0.bb" target=3D"_blank">python-scons-native_2.<u></u>1.0.bb</a><br=
+>
+@@ -2,4 +2,6 @@ require python-scons_${PV}.bb<br>
+=A0inherit native<br>
+=A0DEPENDS =3D &quot;python-native&quot;<br>
+=A0RDEPENDS_${PN} =3D &quot;&quot;<br>
+-PR =3D &quot;r1&quot;<br>
++PR =3D &quot;r2&quot;<br>
++<br>
++SRC_URI +=3D &quot;file://scons-cross-toolchain.<u></u>patch&quot;</div><b=
+r></div>
 
-Am Sonntag, den 12.02.2012, 20:42 +0200 schrieb Andrei Gherzan:
+--e89a8f234e73a39de604b8c9e18f--
 
-Thank you for your patch. Unfortunately all the commit message went in
-the subject line so there seem to be some line breaks missing.
+--e89a8f234e73a39de804b8c9e191
+Content-Type: TEXT/x-diff; charset=US-ASCII; name="oe-scons-cross-compile.patch"
+Content-Disposition: attachment; filename="oe-scons-cross-compile.patch"
+Content-Transfer-Encoding: base64
+Content-ID: <Pine.LNX.4.64.1202111603100.3065@www.vctlabs.com>
+X-Attachment-Id: e2f64a0e400ac881_0.1
 
-Additionally I think 2. is unrelated and could be a separate patch?
+Y29tbWl0IDlmNjZmNDc0NjE0Njk2MTU0ZDUwMTU2YWRhNWY0YzE2MjliMWIyOGMNCkF1dGhvcjog
+UyBMb2Nrd29vZC1DaGlsZHMgPHNqbEB2Y3RsYWJzLmNvbT4NCkRhdGU6ICAgU2F0IEZlYiAxMSAx
+NTowNzoxNyAyMDEyIC0wODAwDQoNCiAgICBjcm9zcy1jb21waWxlIHN1cHBvcnQgZm9yIFNDb25z
+DQogICAgDQogICAgc2NvbnMgYnVpbGQgc3lzdGVtIHNlYXJjaGVzIHBhdGhzIGZvciBoYXJkLWNv
+ZGVkIHRvb2wgbmFtZXMgbGlrZSAiZ2NjIiwNCiAgICBzbyB0aGlzIHBhdGNoIHRlYWNoZXMgaXQg
+dG8gY2hlY2sgZmlyc3QgZm9yIGEgdG9vbCB3aXRoIGNyb3NzLWNvbXBpbGUgcHJlZml4DQogICAg
+aWYgdGhlIENST1NTX0NPTVBJTEUgdmFyaWFibGUgaGFzIGJlZW4gc2V0LiBJZiBub3QgZm91bmQs
+IGl0IGZhbGxzIGJhY2sNCiAgICB0byBzZWFyY2hpbmcgZm9yIHRoZSB1bi1wcmVmaXhlZCB0b29s
+IG5hbWUuDQogICAgDQogICAgRm9yIGV4YW1wbGUsIGlmIENST1NTX0NPTVBJTEU9YXJtLWFuZ3N0
+cm9tLWxpbnV4LWdudWVhYmktDQogICAgU0NvbnMuRXZpcm9ubWVudC5EZXRlY3QoJ2djYycpIHNo
+b3VsZCBmaW5kIGFybS1hbmdzdHJvbS1saW51eC1nbnVlYWJpLWdjYw0KICAgIFNDb25zLkV2aXJv
+bm1lbnQuRGV0ZWN0KCd6aXAnKSBzaG91bGQgZmluZCBwbGFpbiB6aXANCg0KZGlmZiAtLWdpdCBh
+L21ldGEvcmVjaXBlcy1kZXZ0b29scy9weXRob24vcHl0aG9uLXNjb25zLW5hdGl2ZS9zY29ucy1j
+cm9zcy10b29sY2hhaW4ucGF0Y2ggYi9tZXRhL3JlY2lwZXMtZGV2dG9vbHMvcHl0aG9uL3B5dGhv
+bi1zY29ucy1uYXRpdmUvc2NvbnMtY3Jvc3MtdG9vbGNoYWluLnBhdGNoDQpuZXcgZmlsZSBtb2Rl
+IDEwMDY0NA0KaW5kZXggMDAwMDAwMC4uMDQxMjc5ZQ0KLS0tIC9kZXYvbnVsbA0KKysrIGIvbWV0
+YS9yZWNpcGVzLWRldnRvb2xzL3B5dGhvbi9weXRob24tc2NvbnMtbmF0aXZlL3Njb25zLWNyb3Nz
+LXRvb2xjaGFpbi5wYXRjaA0KQEAgLTAsMCArMSwxNyBAQA0KKy0tLSBzY29ucy0yLjEuMC9lbmdp
+bmUvU0NvbnMvRW52aXJvbm1lbnQucHkub3JpZwkyMDEyLTAyLTEwIDE2OjU5OjEwLjAwMDAwMDAw
+MCAtMDgwMA0KKysrKyBzY29ucy0yLjEuMC9lbmdpbmUvU0NvbnMvRW52aXJvbm1lbnQucHkJMjAx
+Mi0wMi0xMSAxMzoyOToxNS4wMDAwMDAwMDAgLTA4MDANCitAQCAtMTQ4Myw2ICsxNDgzLDE0IEBA
+DQorICAgICAgICAgaWYgbm90IFNDb25zLlV0aWwuaXNfTGlzdChwcm9ncyk6DQorICAgICAgICAg
+ICAgIHByb2dzID0gWyBwcm9ncyBdDQorICAgICAgICAgZm9yIHByb2cgaW4gcHJvZ3M6DQorKyAg
+ICAgICAgICAgICMgcHJlZmVyIGNyb3NzIHZlcnNpb24gb2YgcHJvZ3JhbSwgaWYgaXQgZXhpc3Rz
+DQorKyAgICAgICAgICAgIGlmICdDUk9TU19DT01QSUxFJyBpbiBzZWxmLl9kaWN0Og0KKysgICAg
+ICAgICAgICAgICAgY3Jvc3NfcHJvZyA9IHNlbGZbJ0NST1NTX0NPTVBJTEUnXSArIHByb2cNCisr
+ICAgICAgICAgICAgICAgICNwcmludCAiTG9va2luZyBmb3IgJXMiICUgY3Jvc3NfcHJvZw0KKysg
+ICAgICAgICAgICAgICAgcGF0aCA9IHNlbGYuV2hlcmVJcyhjcm9zc19wcm9nKQ0KKysgICAgICAg
+ICAgICAgICAgaWYgcGF0aDogcmV0dXJuIGNyb3NzX3Byb2cNCisrDQorKyAgICAgICAgICAgICNw
+cmludCAiTG9va2luZyBmb3IgJXMiICUgcHJvZw0KKyAgICAgICAgICAgICBwYXRoID0gc2VsZi5X
+aGVyZUlzKHByb2cpDQorICAgICAgICAgICAgIGlmIHBhdGg6IHJldHVybiBwcm9nDQorICAgICAg
+ICAgcmV0dXJuIE5vbmUNCmRpZmYgLS1naXQgYS9tZXRhL3JlY2lwZXMtZGV2dG9vbHMvcHl0aG9u
+L3B5dGhvbi1zY29ucy1uYXRpdmVfMi4xLjAuYmIgYi9tZXRhL3JlY2lwZXMtZGV2dG9vbHMvcHl0
+aG9uL3B5dGhvbi1zY29ucy1uYXRpdmVfMi4xLjAuYmINCmluZGV4IGZmOTRjZjYuLmM2NTMyMzcg
+MTAwNjQ0DQotLS0gYS9tZXRhL3JlY2lwZXMtZGV2dG9vbHMvcHl0aG9uL3B5dGhvbi1zY29ucy1u
+YXRpdmVfMi4xLjAuYmINCisrKyBiL21ldGEvcmVjaXBlcy1kZXZ0b29scy9weXRob24vcHl0aG9u
+LXNjb25zLW5hdGl2ZV8yLjEuMC5iYg0KQEAgLTIsNCArMiw2IEBAIHJlcXVpcmUgcHl0aG9uLXNj
+b25zXyR7UFZ9LmJiDQogaW5oZXJpdCBuYXRpdmUNCiBERVBFTkRTID0gInB5dGhvbi1uYXRpdmUi
+DQogUkRFUEVORFNfJHtQTn0gPSAiIg0KLVBSID0gInIxIg0KK1BSID0gInIyIg0KKw0KK1NSQ19V
+UkkgKz0gImZpbGU6Ly9zY29ucy1jcm9zcy10b29sY2hhaW4ucGF0Y2giDQo=
 
-> Signed-off-by: Andrei Gherzan <andrei@gherzan.ro>
-> ---
-
-If you send updated patches please add that to the tag PATCH like for
-example [PATCH v3] [1].
-
-Also please add what changed to the previous iterations.
-
->  .../nspr/files/remove-rpath-from-tests.patch       |   21 +++
->  meta/recipes-support/nspr/nspr_4.8.9.bb            |  134 ++++++++++++++=
-+++++-
->  2 files changed, 151 insertions(+), 4 deletions(-)
->  create mode 100644 meta/recipes-support/nspr/files/remove-rpath-from-tes=
-ts.patch
->=20
-> diff --git a/meta/recipes-support/nspr/files/remove-rpath-from-tests.patc=
-h b/meta/recipes-support/nspr/files/remove-rpath-from-tests.patch
-> new file mode 100644
-> index 0000000..819c784
-> --- /dev/null
-> +++ b/meta/recipes-support/nspr/files/remove-rpath-from-tests.patch
-> @@ -0,0 +1,21 @@
-> +Author: Andrei Gherzan <andrei@gherzan.ro>
-> +Date:   Thu Feb 9 00:03:38 2012 +0200
-> +
-> +Avoid QA warnings by removing hardcoded rpath from binaries.
-
-Could you paste that warning here please.
-
-> +
-> +Signed-off-by: Andrei Gherzan <andrei@gherzan.ro>
-> +Upstream-Status: Pending
-> +
-> +Index: nspr-4.8.9/mozilla/nsprpub/pr/tests/Makefile.in
-> +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-> +--- nsprpub.orig/pr/tests/Makefile.in	2012-02-11 00:01:10.476220505 +020=
-0
-> ++++ nsprpub/pr/tests/Makefile.in	2012-02-10 23:57:40.000000000 +0200
-> +@@ -379,7 +379,7 @@
-> + endif
-> +=20
-> + ifeq (,$(filter-out Linux GNU GNU_%,$(OS_ARCH)))
-> +-    LDOPTS +=3D -Xlinker -rpath $(ABSOLUTE_LIB_DIR)
-> ++    LDOPTS +=3D -Xlinker
-> +     ifeq ($(USE_PTHREADS),1)
-> +         EXTRA_LIBS =3D -lpthread
-> +     endif
-> diff --git a/meta/recipes-support/nspr/nspr_4.8.9.bb b/meta/recipes-suppo=
-rt/nspr/nspr_4.8.9.bb
-> index da324fc..c68599c 100644
-> --- a/meta/recipes-support/nspr/nspr_4.8.9.bb
-> +++ b/meta/recipes-support/nspr/nspr_4.8.9.bb
-> @@ -5,17 +5,135 @@ LIC_FILES_CHKSUM =3D "file://configure.in;beginline=3D=
-3;endline=3D40;md5=3D99d4d7d68bbc4
->                      file://Makefile.in;beginline=3D4;endline=3D38;md5=3D=
-c2b512182a334e1bfa1edc4d1c84a298 "
->  SECTION =3D "libs/network"
-> =20
-> -PR =3D "r0"
-> +PR =3D "r1"
-> =20
-> -SRC_URI =3D "ftp://ftp.mozilla.org/pub/mozilla.org/nspr/releases/v${PV}/=
-src/nspr-${PV}.tar.gz"
-> +SRC_URI =3D "ftp://ftp.mozilla.org/pub/mozilla.org/nspr/releases/v${PV}/=
-src/nspr-${PV}.tar.gz \
-> +           file://remove-rpath-from-tests.patch"
-
-Could you please change that to the following to make future diffs
-smaller.
-
-SRC_URI =3D "ftp://ftp.mozilla.org/pub/mozilla.org/nspr/releases/v${PV}/src=
-/nspr-${PV}.tar.gz \
-           file://remove-rpath-from-tests.patch \
-          "
-
-> =20
-> -SRC_URI +=3D "file://nspr.pc.in "
-> +SRC_URI +=3D "file://nspr.pc.in"
-> =20
->  SRC_URI[md5sum] =3D "60770d45dc08c0f181b22cdfce5be3e8"
->  SRC_URI[sha256sum] =3D "ff43c7c819e72f03bb908e7652c5d5f59a5d31ee86c333e6=
-92650207103d1cce"
-> =20
->  S =3D "${WORKDIR}/nspr-${PV}/mozilla/nsprpub"
-> =20
-> +TESTS =3D "runtests.pl \
-> +    runtests.sh \
-> +    accept \
-> +    acceptread \
-> +    acceptreademu \
-> +    affinity \
-> +    alarm \
-> +    anonfm \
-> +    atomic \
-> +    attach \
-> +    bigfile \
-> +    cleanup \
-> +    cltsrv  \
-> +    concur \
-> +    cvar \
-> +    cvar2 \
-> +    dlltest \
-> +    dtoa \
-> +    errcodes \
-> +    exit \
-> +    fdcach \
-> +    fileio \
-> +    foreign \
-> +    formattm \
-> +    fsync \
-> +    gethost \
-> +    getproto \
-> +    i2l \
-> +    initclk \
-> +    inrval \
-> +    instrumt \
-> +    intrio \
-> +    intrupt \
-> +    io_timeout \
-> +    ioconthr \
-> +    join \
-> +    joinkk \
-> +    joinku \
-> +    joinuk \
-> +    joinuu \
-> +    layer \
-> +    lazyinit \
-> +    libfilename \
-> +    lltest \
-> +    lock \
-> +    lockfile \
-> +    logfile \
-> +    logger \
-> +    many_cv \
-> +    multiwait \
-> +    nameshm1 \
-> +    nblayer \
-> +    nonblock \
-> +    ntioto \
-> +    ntoh \
-> +    op_2long \
-> +    op_excl \
-> +    op_filnf \
-> +    op_filok \
-> +    op_nofil \
-> +    parent \
-> +    parsetm \
-> +    peek \
-> +    perf \
-> +    pipeping \
-> +    pipeping2 \
-> +    pipeself \
-> +    poll_nm \
-> +    poll_to \
-> +    pollable \
-> +    prftest \
-> +    primblok \
-> +    provider \
-> +    prpollml \
-> +    ranfile \
-> +    randseed \
-> +    reinit \
-> +    rwlocktest \
-> +    sel_spd \
-> +    selct_er \
-> +    selct_nm \
-> +    selct_to \
-> +    selintr \
-> +    sema \
-> +    semaerr \
-> +    semaping \
-> +    sendzlf \
-> +    server_test \
-> +    servr_kk \
-> +    servr_uk \
-> +    servr_ku \
-> +    servr_uu \
-> +    short_thread \
-> +    sigpipe \
-> +    socket \
-> +    sockopt \
-> +    sockping \
-> +    sprintf \
-> +    stack \
-> +    stdio \
-> +    str2addr \
-> +    strod \
-> +    switch \
-> +    system \
-> +    testbit \
-> +    testfile \
-> +    threads \
-> +    timemac \
-> +    timetest \
-> +    tpd \
-> +    udpsrv \
-> +    vercheck \
-> +    version \
-> +    writev \
-> +    xnotify \
-> +    zerolen"
-> +
->  inherit autotools
-> =20
->  do_configure() {
-> @@ -26,12 +144,20 @@ do_compile_prepend() {
->  	oe_runmake CROSS_COMPILE=3D1 CFLAGS=3D"-DXP_UNIX" LDFLAGS=3D"" CC=3Dgcc=
- -C config export
->  }
-> =20
-> +do_compile_append() {
-> +	oe_runmake -C pr/tests
-> +}
-> +
->  do_install_append() {
->      install -D ${WORKDIR}/nspr.pc.in ${D}${libdir}/pkgconfig/nspr.pc
->      sed -i s:OEPREFIX:${prefix}:g ${D}${libdir}/pkgconfig/nspr.pc
->      sed -i s:OELIBDIR:${libdir}:g ${D}${libdir}/pkgconfig/nspr.pc
->      sed -i s:OEINCDIR:${includedir}:g ${D}${libdir}/pkgconfig/nspr.pc
->      sed -i s:OEEXECPREFIX:${exec_prefix}:g ${D}${libdir}/pkgconfig/nspr.=
-pc
-> +    cd ${S}/pr/tests
-> +    mkdir -p ${D}/opt/nspr_tests
-> +    install -m 0755 ${TESTS} ${D}/opt/nspr_tests
->  }
-
-I am not sure if `/opt` is a good choice.
-
-> =20
-> -
-> +FILES_${PN}-dev +=3D "/opt/nspr_tests/*"
-> +FILES_${PN}-dbg +=3D "/opt/nspr_tests/.debug/*"
-
-
-Thanks,
-
-Paul
-
-
-[1] http://www.openembedded.org/wiki/How_to_submit_a_patch_to_OpenEmbedded#=
-Create_and_Commit_your_patch
-
---=-YfDdSFTFu51G/H0qAUZw
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: This is a digitally signed message part
-Content-Transfer-Encoding: 7bit
-
------BEGIN PGP SIGNATURE-----
-Version: GnuPG v1.4.11 (GNU/Linux)
-
-iEYEABECAAYFAk84ENsACgkQPX1aK2wOHVj/QgCfWTU34T2otepLIRF2tYC+nemk
-eJoAn1XefamQNkUao4x06asa/VblMr0Y
-=6JsF
------END PGP SIGNATURE-----
-
---=-YfDdSFTFu51G/H0qAUZw--
+--e89a8f234e73a39de804b8c9e191--
