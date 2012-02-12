@@ -1,25 +1,35 @@
-Received: from mail-ee0-f47.google.com ([74.125.83.47])
+Received: from mail-ey0-f175.google.com ([209.85.215.175])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <andrei@gherzan.ro>) id 1RweW3-0006rL-8L
+	(envelope-from <martin.jansa@gmail.com>) id 1Rweik-0007PH-EO
 	for openembedded-core@lists.openembedded.org;
-	Sun, 12 Feb 2012 19:51:15 +0100
-Received: by eekd41 with SMTP id d41so1334937eek.6
+	Sun, 12 Feb 2012 20:04:22 +0100
+Received: by eaal10 with SMTP id l10so1281018eaa.6
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 12 Feb 2012 10:43:06 -0800 (PST)
-MIME-Version: 1.0
-Received: by 10.14.120.74 with SMTP id o50mr1567677eeh.18.1329072186571;
-	Sun, 12 Feb 2012 10:43:06 -0800 (PST)
-Received: from localhost.localdomain ([79.117.107.69])
-	by mx.google.com with ESMTPS id c16sm51644430eei.1.2012.02.12.10.43.04
+	Sun, 12 Feb 2012 10:56:14 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
+	h=date:from:to:subject:message-id:references:mime-version
+	:content-type:content-disposition:in-reply-to:user-agent;
+	bh=C7S2yfhrLyPotBmEIYc+P4AZMk486KSG7WAqRbohhVo=;
+	b=nLZMfHZFvaV/hn+hOPj9g2Maw9UlUjW+isSIp9N+fs7gsJp2vDFtI4Equf8fje9ogO
+	tl8bXnxJQbbY4+JHFxCVIs7b2nusExiMC9OkeBdTZxchKGgwf1NoSfZF4y1wqH2YvG2p
+	EO8cmYYCnkY2uNv3tXxIIP7twxuSmMme2AOhg=
+Received: by 10.213.35.135 with SMTP id p7mr2195281ebd.131.1329072973816;
+	Sun, 12 Feb 2012 10:56:13 -0800 (PST)
+Received: from localhost ([94.230.152.246])
+	by mx.google.com with ESMTPS id n58sm51673268een.10.2012.02.12.10.56.12
 	(version=TLSv1/SSLv3 cipher=OTHER);
-	Sun, 12 Feb 2012 10:43:05 -0800 (PST)
-From: Andrei Gherzan <andrei@gherzan.ro>
-To: openembedded-core@lists.openembedded.org
-Date: Sun, 12 Feb 2012 20:42:58 +0200
-Message-Id: <1329072178-18881-1-git-send-email-andrei@gherzan.ro>
-X-Mailer: git-send-email 1.7.5.4
-X-Gm-Message-State: ALoCoQkMGKBJ8xjWQJAlDqmqctj2UaSNKRCJVANDKMz3sm86BsgttlhmRc6M9SJRKbrTs6AvuK0q
-Subject: [PATCH] nspr: Compile nspr with tests 1. Compile package tests suite 2. Add patch for removing rpath from binaries 3. Add tests to -dev rpm as it needs dev libraries
+	Sun, 12 Feb 2012 10:56:12 -0800 (PST)
+Date: Sun, 12 Feb 2012 19:56:11 +0100
+From: Martin Jansa <martin.jansa@gmail.com>
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Message-ID: <20120212185610.GH10322@jama.jama.net>
+References: <1328888467-31364-1-git-send-email-Martin.Jansa@gmail.com>
+	<20120211020527.GD2095@sakrah.homelinux.org>
+MIME-Version: 1.0
+In-Reply-To: <20120211020527.GD2095@sakrah.homelinux.org>
+User-Agent: Mutt/1.5.21 (2010-09-15)
+Subject: Re: [RFC] zlib: export LDCONFIG = true to disable runnig host's ldconfig
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -34,209 +44,89 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 12 Feb 2012 18:51:15 -0000
+X-List-Received-Date: Sun, 12 Feb 2012 19:04:22 -0000
+X-Groupsio-MsgNum: 17454
+Content-Type: multipart/signed; micalg=pgp-sha1;
+	protocol="application/pgp-signature"; boundary="QDd5rp1wjxlDmy9q"
+Content-Disposition: inline
 
-Signed-off-by: Andrei Gherzan <andrei@gherzan.ro>
----
- .../nspr/files/remove-rpath-from-tests.patch       |   21 +++
- meta/recipes-support/nspr/nspr_4.8.9.bb            |  134 +++++++++++++++++++-
- 2 files changed, 151 insertions(+), 4 deletions(-)
- create mode 100644 meta/recipes-support/nspr/files/remove-rpath-from-tests.patch
+--QDd5rp1wjxlDmy9q
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-diff --git a/meta/recipes-support/nspr/files/remove-rpath-from-tests.patch b/meta/recipes-support/nspr/files/remove-rpath-from-tests.patch
-new file mode 100644
-index 0000000..819c784
---- /dev/null
-+++ b/meta/recipes-support/nspr/files/remove-rpath-from-tests.patch
-@@ -0,0 +1,21 @@
-+Author: Andrei Gherzan <andrei@gherzan.ro>
-+Date:   Thu Feb 9 00:03:38 2012 +0200
-+
-+Avoid QA warnings by removing hardcoded rpath from binaries.
-+
-+Signed-off-by: Andrei Gherzan <andrei@gherzan.ro>
-+Upstream-Status: Pending
-+
-+Index: nspr-4.8.9/mozilla/nsprpub/pr/tests/Makefile.in
-+===================================================================
-+--- nsprpub.orig/pr/tests/Makefile.in	2012-02-11 00:01:10.476220505 +0200
-++++ nsprpub/pr/tests/Makefile.in	2012-02-10 23:57:40.000000000 +0200
-+@@ -379,7 +379,7 @@
-+ endif
-+ 
-+ ifeq (,$(filter-out Linux GNU GNU_%,$(OS_ARCH)))
-+-    LDOPTS += -Xlinker -rpath $(ABSOLUTE_LIB_DIR)
-++    LDOPTS += -Xlinker
-+     ifeq ($(USE_PTHREADS),1)
-+         EXTRA_LIBS = -lpthread
-+     endif
-diff --git a/meta/recipes-support/nspr/nspr_4.8.9.bb b/meta/recipes-support/nspr/nspr_4.8.9.bb
-index da324fc..c68599c 100644
---- a/meta/recipes-support/nspr/nspr_4.8.9.bb
-+++ b/meta/recipes-support/nspr/nspr_4.8.9.bb
-@@ -5,17 +5,135 @@ LIC_FILES_CHKSUM = "file://configure.in;beginline=3;endline=40;md5=99d4d7d68bbc4
-                     file://Makefile.in;beginline=4;endline=38;md5=c2b512182a334e1bfa1edc4d1c84a298 "
- SECTION = "libs/network"
- 
--PR = "r0"
-+PR = "r1"
- 
--SRC_URI = "ftp://ftp.mozilla.org/pub/mozilla.org/nspr/releases/v${PV}/src/nspr-${PV}.tar.gz"
-+SRC_URI = "ftp://ftp.mozilla.org/pub/mozilla.org/nspr/releases/v${PV}/src/nspr-${PV}.tar.gz \
-+           file://remove-rpath-from-tests.patch"
- 
--SRC_URI += "file://nspr.pc.in "
-+SRC_URI += "file://nspr.pc.in"
- 
- SRC_URI[md5sum] = "60770d45dc08c0f181b22cdfce5be3e8"
- SRC_URI[sha256sum] = "ff43c7c819e72f03bb908e7652c5d5f59a5d31ee86c333e692650207103d1cce"
- 
- S = "${WORKDIR}/nspr-${PV}/mozilla/nsprpub"
- 
-+TESTS = "runtests.pl \
-+    runtests.sh \
-+    accept \
-+    acceptread \
-+    acceptreademu \
-+    affinity \
-+    alarm \
-+    anonfm \
-+    atomic \
-+    attach \
-+    bigfile \
-+    cleanup \
-+    cltsrv  \
-+    concur \
-+    cvar \
-+    cvar2 \
-+    dlltest \
-+    dtoa \
-+    errcodes \
-+    exit \
-+    fdcach \
-+    fileio \
-+    foreign \
-+    formattm \
-+    fsync \
-+    gethost \
-+    getproto \
-+    i2l \
-+    initclk \
-+    inrval \
-+    instrumt \
-+    intrio \
-+    intrupt \
-+    io_timeout \
-+    ioconthr \
-+    join \
-+    joinkk \
-+    joinku \
-+    joinuk \
-+    joinuu \
-+    layer \
-+    lazyinit \
-+    libfilename \
-+    lltest \
-+    lock \
-+    lockfile \
-+    logfile \
-+    logger \
-+    many_cv \
-+    multiwait \
-+    nameshm1 \
-+    nblayer \
-+    nonblock \
-+    ntioto \
-+    ntoh \
-+    op_2long \
-+    op_excl \
-+    op_filnf \
-+    op_filok \
-+    op_nofil \
-+    parent \
-+    parsetm \
-+    peek \
-+    perf \
-+    pipeping \
-+    pipeping2 \
-+    pipeself \
-+    poll_nm \
-+    poll_to \
-+    pollable \
-+    prftest \
-+    primblok \
-+    provider \
-+    prpollml \
-+    ranfile \
-+    randseed \
-+    reinit \
-+    rwlocktest \
-+    sel_spd \
-+    selct_er \
-+    selct_nm \
-+    selct_to \
-+    selintr \
-+    sema \
-+    semaerr \
-+    semaping \
-+    sendzlf \
-+    server_test \
-+    servr_kk \
-+    servr_uk \
-+    servr_ku \
-+    servr_uu \
-+    short_thread \
-+    sigpipe \
-+    socket \
-+    sockopt \
-+    sockping \
-+    sprintf \
-+    stack \
-+    stdio \
-+    str2addr \
-+    strod \
-+    switch \
-+    system \
-+    testbit \
-+    testfile \
-+    threads \
-+    timemac \
-+    timetest \
-+    tpd \
-+    udpsrv \
-+    vercheck \
-+    version \
-+    writev \
-+    xnotify \
-+    zerolen"
-+
- inherit autotools
- 
- do_configure() {
-@@ -26,12 +144,20 @@ do_compile_prepend() {
- 	oe_runmake CROSS_COMPILE=1 CFLAGS="-DXP_UNIX" LDFLAGS="" CC=gcc -C config export
- }
- 
-+do_compile_append() {
-+	oe_runmake -C pr/tests
-+}
-+
- do_install_append() {
-     install -D ${WORKDIR}/nspr.pc.in ${D}${libdir}/pkgconfig/nspr.pc
-     sed -i s:OEPREFIX:${prefix}:g ${D}${libdir}/pkgconfig/nspr.pc
-     sed -i s:OELIBDIR:${libdir}:g ${D}${libdir}/pkgconfig/nspr.pc
-     sed -i s:OEINCDIR:${includedir}:g ${D}${libdir}/pkgconfig/nspr.pc
-     sed -i s:OEEXECPREFIX:${exec_prefix}:g ${D}${libdir}/pkgconfig/nspr.pc
-+    cd ${S}/pr/tests
-+    mkdir -p ${D}/opt/nspr_tests
-+    install -m 0755 ${TESTS} ${D}/opt/nspr_tests
- }
- 
--
-+FILES_${PN}-dev += "/opt/nspr_tests/*"
-+FILES_${PN}-dbg += "/opt/nspr_tests/.debug/*"
--- 
-1.7.5.4
+On Fri, Feb 10, 2012 at 06:05:27PM -0800, Khem Raj wrote:
+> On (10/02/12 16:41), Martin Jansa wrote:
+> > * it's called from install-libs target and when /etc/ld.so.cache is wri=
+teable by user running bitbake
+> >   then it creates invalid cache (in my case libstdc++.so cannot be foun=
+d after building zlib(-native)
+> >   and I have to call touch */libstdc++.so && /sbin/ldconfig to fix it
+>=20
+> hmm does it happen only with native or with both ?
+>=20
 
+for both
 
+> i think we need to fix zlib install in this case.
 
+So should I just send patch which removes ldconfig call from install-libs?
+
+Cheers,
+
+> > Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
+> > ---
+> >  meta/recipes-core/zlib/zlib_1.2.6.bb |    3 +++
+> >  1 files changed, 3 insertions(+), 0 deletions(-)
+> >=20
+> > diff --git a/meta/recipes-core/zlib/zlib_1.2.6.bb b/meta/recipes-core/z=
+lib/zlib_1.2.6.bb
+> > index a220773..dcdc16f 100644
+> > --- a/meta/recipes-core/zlib/zlib_1.2.6.bb
+> > +++ b/meta/recipes-core/zlib/zlib_1.2.6.bb
+> > @@ -11,6 +11,9 @@ SRC_URI =3D "http://www.zlib.net/${BPN}-${PV}.tar.bz2=
+ \
+> >  SRC_URI[md5sum] =3D "dc2cfa0d2313ca77224b4d932b2911e9"
+> >  SRC_URI[sha256sum] =3D "fa3e3e4881fa5810b8903f2c7e0dcd5a0a673535f04380=
+21c4bbb5db1b918c8e"
+> > =20
+> > +# disable calling ldconfig on host, it breaks /etc/ld.so.cache if it's=
+ writeable by user running bitbake
+> > +export LDCONFIG =3D "true"
+> > +
+> >  do_configure (){
+> >  	./configure --prefix=3D${prefix} --shared --libdir=3D${libdir}
+> >  }
+> > --=20
+> > 1.7.8.4
+> >=20
+> >=20
+> > _______________________________________________
+> > Openembedded-core mailing list
+> > Openembedded-core@lists.openembedded.org
+> > http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
+>=20
+> --=20
+> -Khem
+>=20
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
+
+--=20
+Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
+
+--QDd5rp1wjxlDmy9q
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: Digital signature
+
+-----BEGIN PGP SIGNATURE-----
+Version: GnuPG v2.0.18 (GNU/Linux)
+
+iEYEARECAAYFAk84C0oACgkQN1Ujt2V2gBxVIQCePniitGNJFNnzDIElUMgv+8gm
+/ssAmgMvtsH2xvp9afDQq6FR1zUmkDut
+=GOwp
+-----END PGP SIGNATURE-----
+
+--QDd5rp1wjxlDmy9q--
