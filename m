@@ -1,24 +1,24 @@
 Received: from mga11.intel.com ([192.55.52.93])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <paul.eggleton@linux.intel.com>) id 1RxISv-0004HK-V8
+	(envelope-from <paul.eggleton@linux.intel.com>) id 1RxISw-0004HK-Kv
 	for openembedded-core@lists.openembedded.org;
 	Tue, 14 Feb 2012 14:30:42 +0100
 Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-	by fmsmga102.fm.intel.com with ESMTP; 14 Feb 2012 05:22:30 -0800
+	by fmsmga102.fm.intel.com with ESMTP; 14 Feb 2012 05:22:31 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="117403924"
+X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="117403930"
 Received: from unknown (HELO helios.ger.corp.intel.com) ([10.252.122.250])
-	by fmsmga001.fm.intel.com with ESMTP; 14 Feb 2012 05:22:29 -0800
+	by fmsmga001.fm.intel.com with ESMTP; 14 Feb 2012 05:22:30 -0800
 From: Paul Eggleton <paul.eggleton@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Tue, 14 Feb 2012 13:22:24 +0000
-Message-Id: <0e9d34790d483bc9fcfe0d74bb325b22df98b91c.1329225663.git.paul.eggleton@linux.intel.com>
+Date: Tue, 14 Feb 2012 13:22:25 +0000
+Message-Id: <535327acc26107ae4b22affbaeecb109e2a2bf1e.1329225663.git.paul.eggleton@linux.intel.com>
 X-Mailer: git-send-email 1.7.5.4
 In-Reply-To: <cover.1329225663.git.paul.eggleton@linux.intel.com>
 References: <cover.1329225663.git.paul.eggleton@linux.intel.com>
 In-Reply-To: <cover.1329225663.git.paul.eggleton@linux.intel.com>
 References: <cover.1329225663.git.paul.eggleton@linux.intel.com>
-Subject: [PATCH 1/4] scripts/bitbake: pass through debug options to initial pseudo build
+Subject: [PATCH 2/4] conf/bitbake.conf: remove Opie definitions
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -35,48 +35,35 @@ List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedde
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Tue, 14 Feb 2012 13:30:42 -0000
 
-If you specify -D or -v options to the bitbake wrapper script, and the
-initial pseudo build needs to be done, it's useful to pass these
-options through to that command so that you can debug the initial
-pseudo build as well.
+These values are now set via palmtop-defs.bbclass in meta-opie (and are
+not needed for anything else.)
 
 Signed-off-by: Paul Eggleton <paul.eggleton@linux.intel.com>
 ---
- scripts/bitbake |   14 +++++++++++++-
- 1 files changed, 13 insertions(+), 1 deletions(-)
+ meta/conf/bitbake.conf |   10 ----------
+ 1 files changed, 0 insertions(+), 10 deletions(-)
 
-diff --git a/scripts/bitbake b/scripts/bitbake
-index 1c8d4eb..dda3b26 100755
---- a/scripts/bitbake
-+++ b/scripts/bitbake
-@@ -4,6 +4,7 @@ export BBFETCH2=True
- export BB_ENV_EXTRAWHITE="PSEUDO_BUILD PSEUDO_DISABLED $BB_ENV_EXTRAWHITE"
+diff --git a/meta/conf/bitbake.conf b/meta/conf/bitbake.conf
+index 2cc4b8f..90e5f7a 100644
+--- a/meta/conf/bitbake.conf
++++ b/meta/conf/bitbake.conf
+@@ -520,16 +520,6 @@ BOOTSTRAP_EXTRA_RDEPENDS = ""
+ BOOTSTRAP_EXTRA_RRECOMMENDS = ""
  
- NO_BUILD_OPTS="--version -h --help -p --parse-only -s --show-versions -e --environment -g --graphviz"
-+PASSTHROUGH_OPTS="-D -DD -DDD -DDDD -v"
- needpseudo="1"
- for opt in $@; do
- for key in $NO_BUILD_OPTS; do
-@@ -69,7 +70,18 @@ if [ $buildpseudo = "1" ]; then
-     if [ $needtar = "0" ]; then
-         TARTARGET=""
-     fi
--    bitbake pseudo-native $TARTARGET -c populate_sysroot
-+    # Pass through debug options
-+    additionalopts=""
-+    for opt in $@; do
-+        for key in $PASSTHROUGH_OPTS; do
-+            if [ $opt = $key ]
-+            then
-+                additionalopts="$additionalopts $opt"
-+                break
-+            fi
-+        done
-+    done
-+    bitbake pseudo-native $TARTARGET $additionalopts -c populate_sysroot
-     ret=$?
-     if [ "$ret" != "0" ]; then
-         exit 1
+ ##################################################################
+-# Palmtop stuff.
+-##################################################################
+-
+-export QTDIR = "${STAGING_DIR_HOST}/qt2"
+-export QPEDIR = "${STAGING_DIR_HOST}"
+-export OPIEDIR = "${STAGING_DIR_HOST}"
+-export palmtopdir = "${libdir}/opie"
+-export palmqtdir = "${palmtopdir}"
+-
+-##################################################################
+ # Download locations and utilities.
+ ##################################################################
+ 
 -- 
 1.7.5.4
 
