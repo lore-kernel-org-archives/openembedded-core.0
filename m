@@ -1,38 +1,33 @@
-Received: from mail.pbcl.net ([88.198.119.4] helo=hetzner.pbcl.net)
+Received: from mail-gx0-f175.google.com ([209.85.161.175])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <philb@gnu.org>) id 1RxEnG-0001gu-5b
+	(envelope-from <martin.jansa@gmail.com>) id 1RxHR2-0002Sa-CH
 	for openembedded-core@lists.openembedded.org;
-	Tue, 14 Feb 2012 10:35:26 +0100
-Received: from blundell.swaffham-prior.co.uk ([91.216.112.25]
-	helo=[192.168.114.6])
-	by hetzner.pbcl.net with esmtpsa (TLS1.0:RSA_AES_256_CBC_SHA1:32)
-	(Exim 4.72) (envelope-from <philb@gnu.org>) id 1RxEfN-0004Wd-RL
-	for openembedded-core@lists.openembedded.org;
-	Tue, 14 Feb 2012 10:27:17 +0100
-Message-ID: <1329211619.2591.35.camel@x121e.pbcl.net>
-From: Phil Blundell <philb@gnu.org>
+	Tue, 14 Feb 2012 13:24:40 +0100
+Received: by ggeq1 with SMTP id q1so2790270gge.6
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 14 Feb 2012 04:16:29 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
+	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
+	:content-type; bh=NB787QI/6Qq9cYP3wxtmA0NuaTi3wq7SVX3g87pauqY=;
+	b=FtH6e/mp3aEj9StqbNsFDypOF1JWwe3+sLKlG2owMvAy+M/BaikYubL0pY6dlYaBBE
+	8DSd/pcPYNwQT4n3YSADc6Mf1r/X8lBfU7ZtGPFdAJ56jiyVk7f88qsN3Klirub/hERD
+	fiicmSY05QBz9OQO635GTEaXW4x5zPTBIWk7w=
+MIME-Version: 1.0
+Received: by 10.236.116.195 with SMTP id g43mr9380459yhh.26.1329221789341;
+	Tue, 14 Feb 2012 04:16:29 -0800 (PST)
+Received: by 10.236.67.81 with HTTP; Tue, 14 Feb 2012 04:16:29 -0800 (PST)
+In-Reply-To: <1328977465.26671.0.camel@ted>
+References: <1328832372.10451.47.camel@ted>
+	<CAMKF1soksEad4TP5upRjW2vG6_OjeQjyYTAL88PH_qgy9yyiug@mail.gmail.com>
+	<1328881254.13434.10.camel@ted>
+	<20120211015834.GB2095@sakrah.homelinux.org>
+	<1328977465.26671.0.camel@ted>
+Date: Tue, 14 Feb 2012 13:16:29 +0100
+Message-ID: <CA+chaQeSjRw_OTPauSx5YBbiLGdgfkMYGYi_0E3Me-QCPS+Q8Q@mail.gmail.com>
+From: Martin Jansa <martin.jansa@gmail.com>
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Date: Tue, 14 Feb 2012 09:26:59 +0000
-In-Reply-To: <CAMKF1spU8Yw7Uhw6JmkJ1EBm2K8K6Q0Zu_DmdhT8L0aL7nBthw@mail.gmail.com>
-References: <04705556464a6e41642962da40f0e17847ee3483.1328510188.git.raj.khem@gmail.com>
-	<c68f6de298c35c25638ea3a5adeb06c97cd74036.1328510189.git.raj.khem@gmail.com>
-	<4F30DC16.1050506@linux.intel.com>
-	<CAMKF1sqTc3PA_4xNbp1751tA73pRazsvrFdwhomdELtb-25ZGg@mail.gmail.com>
-	<4F314A73.8070406@linux.intel.com>
-	<20120207231245.GA13160@sakrah.homelinux.org>
-	<4F31BF7B.4040303@linux.intel.com>
-	<CAMKF1sqCgiu0TnTj_rgvDgZ5+JE3uX+Y_5KvKmcfd4LDOAoF2Q@mail.gmail.com>
-	<CAGDS+nmdBg8QyBPx6iuG0p0aaPfAU3kvE6jJbekvC2ne0XBedw@mail.gmail.com>
-	<54DBF0D0-65DA-4444-8EF5-3E14ED8FE44F@dominion.thruhere.net>
-	<20120213074852.GA3832@jama.jama.net>
-	<CAGDS+nne1Xbe6XGPuLXqyMLOC_7uqYKFkbRuW77Ub672kpL7BA@mail.gmail.com>
-	<60152733-3093-4B6D-8D98-517DEA75C5A2@dominion.thruhere.net>
-	<857BE142E5399E46B20FD45B9DB8A7BC0FCE7381@SHSMSX102.ccr.corp.intel.com>
-	<CAMKF1spU8Yw7Uhw6JmkJ1EBm2K8K6Q0Zu_DmdhT8L0aL7nBthw@mail.gmail.com>
-X-Mailer: Evolution 3.2.2-1 
-Mime-Version: 1.0
-Subject: Re: [PATCH 12/20] zlib: Upgrade 1.2.5 -> 1.2.6
+Subject: Re: [PATCH] gcc-4.6: Some small performance tweaks
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -47,30 +42,34 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 14 Feb 2012 09:35:26 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Tue, 14 Feb 2012 12:24:40 -0000
+Content-Type: text/plain; charset=UTF-8
 
-On Mon, 2012-02-13 at 22:24 -0800, Khem Raj wrote:
-> On Mon, Feb 13, 2012 at 8:52 PM, Lu, Lianhao <lianhao.lu@intel.com> wrote:
-> >>>>>
-> >>>>> It works if you -c cleansstate on a bunch of recipes, pango, cairo, fontconfig, gtk+, etc
-> >>>>
-> >
-> > I tried rpm-native after "-c cleansstate", but it still asks for libz.la? Anyone has the clue?
-> 
-> try to find which native .la files have libz,la in deps
-> and rebuild them too
+On Sat, Feb 11, 2012 at 5:24 PM, Richard Purdie
+<richard.purdie@linuxfoundation.org> wrote:
+> On Fri, 2012-02-10 at 17:58 -0800, Khem Raj wrote:
+>> On (10/02/12 13:40), Richard Purdie wrote:
+>> > On Thu, 2012-02-09 at 16:39 -0800, Khem Raj wrote:
+>> > > On Thu, Feb 9, 2012 at 4:06 PM, Richard Purdie
+>> > > <richard.purdie@linuxfoundation.org> wrote:
+>> > > >
+>> > > > +NATIVEDEPS = "mpfr-native gmp-native libmpc-native zlib-native"
+>> > >
+>> > >
+>> > > note that we will need to ship zlib-nativesdk as well if we do this
+>> > > so hopefully that case is covered by this.
+>> >
+>> > Yes, zlib has a BBCLASSEXTEND on zlib-nativesdk so this should be fine.
+>>
+>> OK and this is bundled with meta-toolchain too right ?
+>
+> By anything that depends on it by the shlibs code in the usual way, yes.
 
-Can we not just put libz.la back in zlib?  Having to spend hours hunting
-out and rebuilding things, and/or bumping PR on half the .bb files in
-the repository, seems like an unsatisfactory state of affairs.  As far
-as I know the presence of libz.la wasn't previously causing us any
-trouble so I'm not entirely clear why heroic measures are justified in
-trying to get rid of it.
+But zlib is build time dependency, isn't it?
 
-p.
+Now it fails to build target gcc because it depends only on
+zlib-native not target zlib and zlib.h is not found.
 
-
+Regards,
 
 
