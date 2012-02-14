@@ -1,21 +1,23 @@
-Received: from 253-16.static.businesstel.hu ([178.210.253.16]
-	helo=teledigit.eu) by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <kgy@teledigit.eu>) id 1RxDYs-00082P-15
+Received: from mail1.windriver.com ([147.11.146.13])
+	by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <Wenzong.Fan@windriver.com>) id 1RxDeg-0008AE-ET
 	for openembedded-core@lists.openembedded.org;
-	Tue, 14 Feb 2012 09:16:30 +0100
-X-AuthUser: kgy@teledigit.eu
-Received: from linux-oxe9.localnet ([195.228.189.98]:59618)
-	by teledigit.eu with [XMail 1.26 ESMTP Server]
-	id <S1EA0> for <openembedded-core@lists.openembedded.org> from
-	<kgy@teledigit.eu>; Tue, 14 Feb 2012 08:59:57 +0100
-From: Gyorgy Kovesdi <kgy@teledigit.eu>
-To: openembedded-core@lists.openembedded.org
-Date: Tue, 14 Feb 2012 08:59:56 +0100
-Message-ID: <2061594.EF8qQeAt5j@linux-oxe9>
-Organization: NNG
-User-Agent: KMail/4.7.2 (Linux/3.1.9-1.4-desktop; KDE/4.7.2; x86_64; ; )
+	Tue, 14 Feb 2012 09:22:30 +0100
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca [147.11.189.40])
+	by mail1.windriver.com (8.14.3/8.14.3) with ESMTP id q1E8EIv2017072
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 14 Feb 2012 00:14:19 -0800 (PST)
+Received: from localhost.localdomain (128.224.162.28) by
+	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server id
+	14.1.255.0; Tue, 14 Feb 2012 00:14:18 -0800
+From: <wenzong.fan@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Tue, 14 Feb 2012 15:56:00 +0800
+Message-ID: <cover.1329185046.git.wenzong.fan@windriver.com>
+X-Mailer: git-send-email 1.7.0.4
 MIME-Version: 1.0
-Subject: tcl modules are missing
+Subject: [PATCH 0/1] eds-tools: Update it to fix the build error
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -30,53 +32,34 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 14 Feb 2012 08:16:30 -0000
-X-Groupsio-MsgNum: 17482
-Content-Type: multipart/mixed; boundary="nextPart3076198.YG71VQ5DWn"
-Content-Transfer-Encoding: 7Bit
+X-List-Received-Date: Tue, 14 Feb 2012 08:22:30 -0000
+Content-Type: text/plain
 
---nextPart3076198.YG71VQ5DWn
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
+From: Wenzong Fan <wenzong.fan@windriver.com>
 
-Hi,
+Get the latest updates to eds-tools for fixing the build error:
+* libedataserver/e-data-server-module.h: No such file or directory
 
-I have problems using tcl: the modules directory (/usr/lib/tcl8) is missing.
-I created a patch to solve it:
+Also update its recipe file to reflect it has been converted to git
+repo and splict the generated binaries to correct packages.
 
-diff --git a/meta/recipes-devtools/tcltk/tcl_8.5.11.bb b/meta/recipes-
-devtools/tcltk/tcl_8.5.11.bb
-index 146021a..1d28558 100644
---- a/meta/recipes-devtools/tcltk/tcl_8.5.11.bb
-+++ b/meta/recipes-devtools/tcltk/tcl_8.5.11.bb
-@@ -60,6 +60,7 @@ do_install() {
- PACKAGES =+ "${PN}-lib"
- FILES_${PN}-lib = "${libdir}/libtcl8.5.so*"
- FILES_${PN} += "${prefix}/lib/tcl8.5"
-+FILES_${PN} += "${prefix}/lib/tcl8"
- FILES_${PN}-dev += "${libdir}/tclConfig.sh"
- 
- BBCLASSEXTEND = "native"
+[yocto#1786]
 
-Regards
-Gyorgy Kovesdi
+The following changes since commit 41a83ccfe50ec69425a4828fb5836d38d3f99e67:
+  Lianhao Lu (1):
+        guile: fix cross configure failure
 
---nextPart3076198.YG71VQ5DWn
-Content-Disposition: attachment; filename="add-modules-dir.patch"
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/x-patch; charset="UTF-8"; name="add-modules-dir.patch"
+are available in the git repository at:
 
-diff --git a/meta/recipes-devtools/tcltk/tcl_8.5.11.bb b/meta/recipes-devtools/tcltk/tcl_8.5.11.bb
-index 146021a..1d28558 100644
---- a/meta/recipes-devtools/tcltk/tcl_8.5.11.bb
-+++ b/meta/recipes-devtools/tcltk/tcl_8.5.11.bb
-@@ -60,6 +60,7 @@ do_install() {
- PACKAGES =+ "${PN}-lib"
- FILES_${PN}-lib = "${libdir}/libtcl8.5.so*"
- FILES_${PN} += "${prefix}/lib/tcl8.5"
-+FILES_${PN} += "${prefix}/lib/tcl8"
- FILES_${PN}-dev += "${libdir}/tclConfig.sh"
- 
- BBCLASSEXTEND = "native"
+  git://git.pokylinux.org/poky-contrib wenzong/1786
+  http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=wenzong/1786
 
---nextPart3076198.YG71VQ5DWn--
+Wenzong Fan (1):
+  eds-tools: Update it to fix the build error
+
+ .../conf/distro/include/distro_tracking_fields.inc |    4 ++--
+ meta/recipes-sato/eds/eds-tools_git.bb             |    8 +++++---
+ 2 files changed, 7 insertions(+), 5 deletions(-)
+
+
+
