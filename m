@@ -1,31 +1,39 @@
-Received: from mail-we0-f175.google.com ([74.125.82.175])
+Received: from e06smtp13.uk.ibm.com ([195.75.94.109])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <s.stirtzel@googlemail.com>) id 1RxZ7G-0007od-Cb
+	(envelope-from <ken.werner@linaro.org>) id 1RxaqJ-0002O3-LE
 	for openembedded-core@lists.openembedded.org;
-	Wed, 15 Feb 2012 08:17:26 +0100
-Received: by werc1 with SMTP id c1so447239wer.6
+	Wed, 15 Feb 2012 10:08:03 +0100
+Received: from /spool/local
+	by e06smtp13.uk.ibm.com with IBM ESMTP SMTP Gateway: Authorized Use
+	Only! Violators will be prosecuted
+	for <openembedded-core@lists.openembedded.org> from
+	<ken.werner@linaro.org>; Wed, 15 Feb 2012 08:49:37 -0000
+Received: from d06nrmr1507.portsmouth.uk.ibm.com (9.149.38.233)
+	by e06smtp13.uk.ibm.com (192.168.101.143) with IBM ESMTP SMTP Gateway:
+	Authorized Use Only! Violators will be prosecuted; 
+	Wed, 15 Feb 2012 08:49:23 -0000
+Received: from d06av07.portsmouth.uk.ibm.com (d06av07.portsmouth.uk.ibm.com
+	[9.149.37.248])
+	by d06nrmr1507.portsmouth.uk.ibm.com (8.13.8/8.13.8/NCO v10.0) with
+	ESMTP id q1F8nLNf2433234
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 14 Feb 2012 23:09:14 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=googlemail.com; s=gamma;
-	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
-	:content-type; bh=2WgEyfjNQU7FnK7xWdX8vZUKfGyJfm22Tt99fADGjJw=;
-	b=bfQPkYBf4IHLdiaEQ7OaoPZwYuIB1oU12VaT4GxcT25ZQBP5tugrsdrAKQ2cPZ+gCx
-	WlQj+oBphdkiWoDYvXt6y8zaQlcxm0HtkxAa9jKzF3kN1m/IAYhTUUqgqlhHH98suPdZ
-	vkFNYYpHVMTsIJhbzqyyYno40W9vAYG+4dv70=
-MIME-Version: 1.0
-Received: by 10.181.11.227 with SMTP id el3mr33462954wid.18.1329289754874;
-	Tue, 14 Feb 2012 23:09:14 -0800 (PST)
-Received: by 10.223.89.135 with HTTP; Tue, 14 Feb 2012 23:09:14 -0800 (PST)
-In-Reply-To: <20120214190537.GC11340@sakrah.homelinux.org>
-References: <CAGiJk9fHCXEeFkRBi4OWL-0fbGtxPpHyGu5Qky+yJ_Ab-yVZ7A@mail.gmail.com>
-	<20120214190537.GC11340@sakrah.homelinux.org>
-Date: Wed, 15 Feb 2012 08:09:14 +0100
-Message-ID: <CAGiJk9cmQXWdBnntMNEngCyoYGxjVQ+z-uHfwPuivHA_66wBHg@mail.gmail.com>
-From: Samuel Stirtzel <s.stirtzel@googlemail.com>
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: Eglibc related / libm issue
+	Wed, 15 Feb 2012 08:49:22 GMT
+Received: from d06av07.portsmouth.uk.ibm.com (loopback [127.0.0.1])
+	by d06av07.portsmouth.uk.ibm.com (8.14.4/8.13.1/NCO v10.0 AVout) with
+	ESMTP id q1F8nLpJ027628
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 15 Feb 2012 01:49:21 -0700
+Received: from bolide.boeblingen.de.ibm.com
+	(dyn-9-152-213-71.boeblingen.de.ibm.com [9.152.213.71])
+	by d06av07.portsmouth.uk.ibm.com (8.14.4/8.13.1/NCO v10.0 AVin) with
+	ESMTP id q1F8nKT7027594; Wed, 15 Feb 2012 01:49:20 -0700
+From: Ken Werner <ken.werner@linaro.org>
+To: openembedded-core@lists.openembedded.org
+Date: Wed, 15 Feb 2012 09:49:07 +0100
+Message-Id: <1329295747-25855-1-git-send-email-ken.werner@linaro.org>
+X-Mailer: git-send-email 1.7.5.4
+x-cbid: 12021508-2966-0000-0000-0000033A6BD1
+Subject: [PATCH] Add sanity checks for eglibc locale
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -40,47 +48,63 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 15 Feb 2012 07:17:26 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Wed, 15 Feb 2012 09:08:03 -0000
 
-2012/2/14 Khem Raj <raj.khem@gmail.com>:
-> On (14/02/12 16:21), Samuel Stirtzel wrote:
->> Hi,
->> currently building dependency depencies of Plasma Active dependency
->> dependencies (this sentence may contain slight ironic content).
->>
->> One of the libraries wants the maths.h library libm.
->> Libm existent in my rootfs under /lib/libm-2.12.2.so, /lib/libm.so.6
->> that points to it and the other link at /usr/lib/libm.so.
->> But for some reason configure can't find it and quits with this error:
->>
->> ac_cv_header_math_h=yes
->> ...
->> configure:14858: checking for ceil, floor and round in default libs
->> configure:14900: checking for ceil, floor and round with -lm
->> configure:14943: error: Could not find ceil, floor, round in default
->> libs or with -lm
->>
->>
->> Anyone knows what causes this, or how it could be resolved?
->
-> post the config.log which should be in the top of build tree.
-> there it must list why the test failed.
->
-> --
-> -Khem
->
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
-Hi,
-here is the full configure.log: http://pastebin.com/wAERBH5G
+Add sanity checks that test for the existance of folders. This allows to use
+an external binary toolchain that doesn't have localization support.
+---
+ meta/recipes-core/eglibc/eglibc-locale.inc  |   20 +++++++++++++++-----
+ meta/recipes-core/eglibc/eglibc-package.inc |    4 +++-
+ 2 files changed, 18 insertions(+), 6 deletions(-)
 
-The part pointed out in my previous mail was also from configure.log
-
+diff --git a/meta/recipes-core/eglibc/eglibc-locale.inc b/meta/recipes-core/eglibc/eglibc-locale.inc
+index b4646fa..2e9b4d4 100644
+--- a/meta/recipes-core/eglibc/eglibc-locale.inc
++++ b/meta/recipes-core/eglibc/eglibc-locale.inc
+@@ -72,11 +72,21 @@ LOCALETREESRC = "${STAGING_INCDIR}/eglibc-locale-internal-${MULTIMACH_TARGET_SYS
+ 
+ do_install () {
+ 	mkdir -p ${D}${bindir} ${D}${datadir} ${D}${libdir}
+-	cp -fpPR ${LOCALETREESRC}/${bindir}/* ${D}${bindir}
+-	cp -fpPR ${LOCALETREESRC}/${libdir}/locale ${D}${libdir}
+-	cp -fpPR ${LOCALETREESRC}/${libdir}/gconv ${D}${libdir}
+-	cp -fpPR ${LOCALETREESRC}/${datadir}/i18n ${D}${datadir}
+-	cp -fpPR ${LOCALETREESRC}/${datadir}/locale ${D}${datadir}
++	if [ -n "$(ls ${LOCALETREESRC}/${bindir})" ]; then
++		cp -fpPR ${LOCALETREESRC}/${bindir}/* ${D}${bindir}
++	fi
++	if [ -e ${LOCALETREESRC}/${libdir}/locale ]; then
++		cp -fpPR ${LOCALETREESRC}/${libdir}/locale ${D}${libdir}
++	fi
++	if [ -e ${LOCALETREESRC}/${libdir}/gconv ]; then
++		cp -fpPR ${LOCALETREESRC}/${libdir}/gconv ${D}${libdir}
++	fi
++	if [ -e ${LOCALETREESRC}/${datadir}/i18n ]; then
++		cp -fpPR ${LOCALETREESRC}/${datadir}/i18n ${D}${datadir}
++	fi
++	if [ -e ${LOCALETREESRC}/${datadir}/locale ]; then
++		cp -fpPR ${LOCALETREESRC}/${datadir}/locale ${D}${datadir}
++	fi
+ 	cp -fpPR ${LOCALETREESRC}/SUPPORTED ${WORKDIR}
+ }
+ 
+diff --git a/meta/recipes-core/eglibc/eglibc-package.inc b/meta/recipes-core/eglibc/eglibc-package.inc
+index 870b95d..2a1d939 100644
+--- a/meta/recipes-core/eglibc/eglibc-package.inc
++++ b/meta/recipes-core/eglibc/eglibc-package.inc
+@@ -91,7 +91,9 @@ do_install_locale () {
+ 		mv -f ${D}${libdir}/gconv ${dest}${libdir}
+ 	fi
+ 	cp -fpPR ${D}${libdir}/* ${dest}${libdir}
+-        mv ${D}${datadir}/i18n ${dest}${datadir}
++	if [ -e ${D}${datadir}/i18n ]; then
++		mv ${D}${datadir}/i18n ${dest}${datadir}
++	fi
+ 	cp -fpPR ${D}${datadir}/* ${dest}${datadir}
+ 	cp -fpPR ${WORKDIR}/SUPPORTED ${dest}
+ }
 -- 
-Regards
-Samuel
+1.7.5.4
+
 
 
