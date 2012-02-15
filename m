@@ -1,31 +1,29 @@
-Received: from mail-ey0-f175.google.com ([209.85.215.175])
+Received: from mail-ee0-f47.google.com ([74.125.83.47])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <martin.jansa@gmail.com>) id 1RxjzL-0001fr-Sh
+	(envelope-from <martin.jansa@gmail.com>) id 1Rxl98-0004DD-KK
 	for openembedded-core@lists.openembedded.org;
-	Wed, 15 Feb 2012 19:53:59 +0100
-Received: by eaal10 with SMTP id l10so403630eaa.6
+	Wed, 15 Feb 2012 21:08:10 +0100
+Received: by eekd41 with SMTP id d41so443911eek.6
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 15 Feb 2012 10:45:47 -0800 (PST)
+	Wed, 15 Feb 2012 11:59:58 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
-	h=from:to:cc:subject:date:message-id:x-mailer:in-reply-to:references;
-	bh=BU2yP/wYbAuGdjV/P4pDt+FWcOlQAieUNCldRo3rVps=;
-	b=e80oCEYkM2ILQ2gVBWd8MkXD3H2mDQDt+VxjODeG1vQuH4FTAFp+bHLFaUBQEOFKSQ
-	HnInkmIyot56VrjrttINP/4vXme1s8Ly35QTIo4nNBAxOENPKuPWTSkTs/0WKPQ7VJSU
-	7B4jAyd9E50r6DIU7VA6coueyLRyeVfv7OXTQ=
-Received: by 10.14.17.91 with SMTP id i67mr8939116eei.14.1329331547830;
-	Wed, 15 Feb 2012 10:45:47 -0800 (PST)
+	h=from:to:cc:subject:date:message-id:x-mailer;
+	bh=KUIt838M6E3twDgRh+F9sWo0YVs6mUY3ozQVKp7P3aA=;
+	b=uy5b5XBckE0EAYOWw7jare6zOP9vV52zKJ6tKF++8pV8CFRXZ8oLfsoIZ+HwAAVxhl
+	ZfkfKREiaPAWPso117iv2Y+R7DT6lmGb0aOjkLcUx1PK7zu7nVAKYoLpwZ9/tqEtEw+6
+	aA5FyyXjyIj4F/xPtltQcpK+7YBogwir1a0x4=
+Received: by 10.213.105.143 with SMTP id t15mr248574ebo.60.1329335998459;
+	Wed, 15 Feb 2012 11:59:58 -0800 (PST)
 Received: from localhost ([94.230.152.246])
-	by mx.google.com with ESMTPS id a58sm13810836eeb.8.2012.02.15.10.45.46
+	by mx.google.com with ESMTPS id a58sm14470922eeb.8.2012.02.15.11.59.56
 	(version=TLSv1/SSLv3 cipher=OTHER);
-	Wed, 15 Feb 2012 10:45:46 -0800 (PST)
+	Wed, 15 Feb 2012 11:59:56 -0800 (PST)
 From: Martin Jansa <martin.jansa@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Wed, 15 Feb 2012 19:45:38 +0100
-Message-Id: <1329331538-20223-1-git-send-email-Martin.Jansa@gmail.com>
+Date: Wed, 15 Feb 2012 20:59:49 +0100
+Message-Id: <1329335989-8424-1-git-send-email-Martin.Jansa@gmail.com>
 X-Mailer: git-send-email 1.7.8.4
-In-Reply-To: <CAP9ODKppqZH7G8fcPNyTR=R_s3jJxr21o2qwK7kySGjmR_fSKg@mail.gmail.com>
-References: <CAP9ODKppqZH7G8fcPNyTR=R_s3jJxr21o2qwK7kySGjmR_fSKg@mail.gmail.com>
-Subject: [PATCHv2] libsdl: add fix for new _XGetRequest symbol backported to libx11
+Subject: [PATCH] wireless-tools: remove ldconfig call from install-libs
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -40,108 +38,60 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 15 Feb 2012 18:54:00 -0000
+X-List-Received-Date: Wed, 15 Feb 2012 20:08:10 -0000
+
+* and drop apply=yes param as it's not needed
 
 Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
 ---
- .../libsdl-1.2.14/add.XGetRequest.symbol.patch     |   70 ++++++++++++++++++++
- meta/recipes-graphics/libsdl/libsdl_1.2.14.bb      |    3 +-
- 2 files changed, 72 insertions(+), 1 deletions(-)
- create mode 100644 meta/recipes-graphics/libsdl/libsdl-1.2.14/add.XGetRequest.symbol.patch
+ .../wireless-tools/remove.ldconfig.call.patch      |   19 +++++++++++++++++++
+ .../wireless-tools/wireless-tools_29.bb            |    5 +++--
+ 2 files changed, 22 insertions(+), 2 deletions(-)
+ create mode 100644 meta/recipes-connectivity/wireless-tools/wireless-tools/remove.ldconfig.call.patch
 
-diff --git a/meta/recipes-graphics/libsdl/libsdl-1.2.14/add.XGetRequest.symbol.patch b/meta/recipes-graphics/libsdl/libsdl-1.2.14/add.XGetRequest.symbol.patch
+diff --git a/meta/recipes-connectivity/wireless-tools/wireless-tools/remove.ldconfig.call.patch b/meta/recipes-connectivity/wireless-tools/wireless-tools/remove.ldconfig.call.patch
 new file mode 100644
-index 0000000..7bab177
+index 0000000..3a22c3f
 --- /dev/null
-+++ b/meta/recipes-graphics/libsdl/libsdl-1.2.14/add.XGetRequest.symbol.patch
-@@ -0,0 +1,70 @@
-+_XGetRequest API was backported to libx11-1.4.4 in:
-+http://git.openembedded.org/openembedded-core/commit/?id=e08604800fe1cb8f240f53c147ceb4ee08a29b91
++++ b/meta/recipes-connectivity/wireless-tools/wireless-tools/remove.ldconfig.call.patch
+@@ -0,0 +1,19 @@
++When /etc/ld.so.cache is writeable by user running bitbake then it creates invalid cache 
++(in my case libstdc++.so cannot be found after building zlib(-native) and I have to call 
++touch */libstdc++.so && /sbin/ldconfig to fix it.
 +
-+This breaks e.g. libsdl-image build with:
-+| /OE/shr-core/tmp-eglibc/sysroots/qemux86-64/usr/lib/libSDL.so: undefined reference to `_XGetRequest'
++So remove ldconfig call from make install-libs
 +
-+For details see: https://bugzilla.redhat.com/show_bug.cgi?id=782251
++Upstream-Status: Inappropriate [disable feature]
 +
-+Upstream-Status: Accepted
-+
-+@@ -, +, @@ 
-+ added.
-+ src/video/x11/SDL_x11dyn.c |   24 ++++++++++++++++++++++++
-+ src/video/x11/SDL_x11sym.h |    6 ++++++
-+ 2 files changed, 30 insertions(+), 0 deletions(-)
-+--- a/src/video/x11/SDL_x11dyn.c	
-++++ a/src/video/x11/SDL_x11dyn.c	
-+@@ -109,6 +109,21 @@ char *(*pXGetICValues)(XIC, ...) = NULL;
-+ #undef SDL_X11_SYM
++diff -uNr wireless_tools.29.orig/Makefile wireless_tools.29/Makefile
++--- wireless_tools.29.orig/Makefile	2007-09-18 01:56:46.000000000 +0200
+++++ wireless_tools.29/Makefile	2012-02-15 20:46:41.780763514 +0100
++@@ -163,7 +163,6 @@
++ 	install -m 755 $(DYNAMIC) $(INSTALL_LIB)
++ 	ln -sfn $(DYNAMIC) $(INSTALL_LIB)/$(DYNAMIC_LINK)
++ 	@echo "*** Don't forget to add $(INSTALL_LIB) to /etc/ld.so.conf, and run ldconfig as root. ***"
++-	@$(LDCONFIG) || echo "*** Could not run ldconfig ! ***"
 + 
-+ 
-++static void *SDL_XGetRequest_workaround(Display* dpy, CARD8 type, size_t len)
-++{
-++	xReq *req;
-++	WORD64ALIGN
-++	if (dpy->bufptr + len > dpy->bufmax)
-++		_XFlush(dpy);
-++	dpy->last_req = dpy->bufptr;
-++	req = (xReq*)dpy->bufptr;
-++	req->reqType = type;
-++	req->length = len / 4;
-++	dpy->bufptr += len;
-++	dpy->request++;
-++	return req;
-++}
-++
-+ static int x11_load_refcount = 0;
-+ 
-+ void SDL_X11_UnloadSymbols(void)
-+@@ -168,6 +183,15 @@ int SDL_X11_LoadSymbols(void)
-+ 		X11_GetSym("XGetICValues",&SDL_X11_HAVE_UTF8,(void **)&pXGetICValues);
-+ 		#endif
-+ 
-++		/*
-++		 * In case we're built with newer Xlib headers, we need to make sure
-++		 *  that _XGetRequest() is available, even on older systems.
-++		 *  Otherwise, various Xlib macros we use will call a NULL pointer.
-++		 */
-++		if (!SDL_X11_HAVE_XGETREQUEST) {
-++			p_XGetRequest = SDL_XGetRequest_workaround;
-++		}
-++
-+ 		if (SDL_X11_HAVE_BASEXLIB) {  /* all required symbols loaded. */
-+ 			SDL_ClearError();
-+ 		} else {
-+--- a/src/video/x11/SDL_x11sym.h	
-++++ a/src/video/x11/SDL_x11sym.h	
-+@@ -170,6 +170,12 @@ SDL_X11_SYM(void,_XRead32,(Display *dpy,register long *data,long len),(dpy,data,
-+ #endif
-+ 
-+ /*
-++ * libX11 1.4.99.1 added _XGetRequest, and macros use it behind the scenes.
-++ */
-++SDL_X11_MODULE(XGETREQUEST)
-++SDL_X11_SYM(void *,_XGetRequest,(Display* a,CARD8 b,size_t c),(a,b,c),return)
-++
-++/*
-+  * These only show up on some variants of Unix.
-+  */
-+ #if defined(__osf__)
-diff --git a/meta/recipes-graphics/libsdl/libsdl_1.2.14.bb b/meta/recipes-graphics/libsdl/libsdl_1.2.14.bb
-index f587291..5b87f39 100644
---- a/meta/recipes-graphics/libsdl/libsdl_1.2.14.bb
-+++ b/meta/recipes-graphics/libsdl/libsdl_1.2.14.bb
-@@ -15,10 +15,11 @@ PROVIDES = "virtual/libsdl"
- DEPENDS = "${@base_contains('DISTRO_FEATURES', 'opengl', 'virtual/libgl', '', d)} virtual/libx11 libxext libxrandr libxrender tslib"
- DEPENDS_virtclass-nativesdk = "libx11-nativesdk libxrandr-nativesdk libxrender-nativesdk libxext-nativesdk"
++ # Install the static library
++ install-static:: $(STATIC)
+diff --git a/meta/recipes-connectivity/wireless-tools/wireless-tools_29.bb b/meta/recipes-connectivity/wireless-tools/wireless-tools_29.bb
+index cc51dec..c6235d6 100644
+--- a/meta/recipes-connectivity/wireless-tools/wireless-tools_29.bb
++++ b/meta/recipes-connectivity/wireless-tools/wireless-tools_29.bb
+@@ -7,10 +7,11 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=94d55d512a9ba36caa9b7df079bae19f \
+ 			file://sample_enc.c;beginline=1;endline=4;md5=838372be07874260b566bae2f6ed33b6"
+ SECTION = "base"
+ PE = "1"
+-PR = "r2"
++PR = "r3"
  
--PR = "r4"
-+PR = "r5"
- 
- SRC_URI = "http://www.libsdl.org/release/SDL-${PV}.tar.gz \
-            file://configure_tweak.patch \
-+           file://add.XGetRequest.symbol.patch \
-        "
- 
- S = "${WORKDIR}/SDL-${PV}"
+ SRC_URI = "http://www.hpl.hp.com/personal/Jean_Tourrilhes/Linux/wireless_tools.29.tar.gz \
+-           file://man.patch;apply=yes \
++	   file://remove.ldconfig.call.patch \
++	   file://man.patch \
+ 	   file://wireless-tools.if-pre-up \
+ 	   file://zzz-wireless.if-pre-up \
+ 	   file://avoid_strip.patch"
 -- 
 1.7.8.4
 
