@@ -1,29 +1,22 @@
-Received: from mail-ee0-f47.google.com ([74.125.83.47])
+Received: from mail-iy0-f175.google.com ([209.85.210.175])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <martin.jansa@gmail.com>) id 1Rxl98-0004DD-KK
+	(envelope-from <brandon@rascalmicro.com>) id 1RxoIS-0001VI-13
 	for openembedded-core@lists.openembedded.org;
-	Wed, 15 Feb 2012 21:08:10 +0100
-Received: by eekd41 with SMTP id d41so443911eek.6
+	Thu, 16 Feb 2012 00:30:00 +0100
+Received: by iaby12 with SMTP id y12so2248500iab.6
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 15 Feb 2012 11:59:58 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
-	h=from:to:cc:subject:date:message-id:x-mailer;
-	bh=KUIt838M6E3twDgRh+F9sWo0YVs6mUY3ozQVKp7P3aA=;
-	b=uy5b5XBckE0EAYOWw7jare6zOP9vV52zKJ6tKF++8pV8CFRXZ8oLfsoIZ+HwAAVxhl
-	ZfkfKREiaPAWPso117iv2Y+R7DT6lmGb0aOjkLcUx1PK7zu7nVAKYoLpwZ9/tqEtEw+6
-	aA5FyyXjyIj4F/xPtltQcpK+7YBogwir1a0x4=
-Received: by 10.213.105.143 with SMTP id t15mr248574ebo.60.1329335998459;
-	Wed, 15 Feb 2012 11:59:58 -0800 (PST)
-Received: from localhost ([94.230.152.246])
-	by mx.google.com with ESMTPS id a58sm14470922eeb.8.2012.02.15.11.59.56
-	(version=TLSv1/SSLv3 cipher=OTHER);
-	Wed, 15 Feb 2012 11:59:56 -0800 (PST)
-From: Martin Jansa <martin.jansa@gmail.com>
+	Wed, 15 Feb 2012 15:21:46 -0800 (PST)
+MIME-Version: 1.0
+Received: by 10.42.46.76 with SMTP id j12mr137537icf.22.1329348106877; Wed, 15
+	Feb 2012 15:21:46 -0800 (PST)
+Received: by 10.231.15.73 with HTTP; Wed, 15 Feb 2012 15:21:46 -0800 (PST)
+X-Originating-IP: [146.115.15.122]
+Date: Wed, 15 Feb 2012 18:21:46 -0500
+Message-ID: <CA+b4E8wdD1bQN77Sg=ew+-AbHtyrn4N87Ud6+BwCFdW56BO_kQ@mail.gmail.com>
+From: Brandon Stafford <brandon@rascalmicro.com>
 To: openembedded-core@lists.openembedded.org
-Date: Wed, 15 Feb 2012 20:59:49 +0100
-Message-Id: <1329335989-8424-1-git-send-email-Martin.Jansa@gmail.com>
-X-Mailer: git-send-email 1.7.8.4
-Subject: [PATCH] wireless-tools: remove ldconfig call from install-libs
+X-Gm-Message-State: ALoCoQldZd9mcIuv6+MYuxsRje97Tn6EOSSNpbb5nRn798aCsDXQ4URLjSk75wWXqK3e9TVH2BrH
+Subject: Problem building core-image-basic: Cannot create symlink from ./var/run to 'volatile/run'
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -38,62 +31,89 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 15 Feb 2012 20:08:10 -0000
+X-List-Received-Date: Wed, 15 Feb 2012 23:30:00 -0000
+Content-Type: multipart/alternative; boundary=90e6ba614ce0b1790104b908f972
 
-* and drop apply=yes param as it's not needed
+--90e6ba614ce0b1790104b908f972
+Content-Type: text/plain; charset=ISO-8859-1
 
-Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
----
- .../wireless-tools/remove.ldconfig.call.patch      |   19 +++++++++++++++++++
- .../wireless-tools/wireless-tools_29.bb            |    5 +++--
- 2 files changed, 22 insertions(+), 2 deletions(-)
- create mode 100644 meta/recipes-connectivity/wireless-tools/wireless-tools/remove.ldconfig.call.patch
+Hi all,
 
-diff --git a/meta/recipes-connectivity/wireless-tools/wireless-tools/remove.ldconfig.call.patch b/meta/recipes-connectivity/wireless-tools/wireless-tools/remove.ldconfig.call.patch
-new file mode 100644
-index 0000000..3a22c3f
---- /dev/null
-+++ b/meta/recipes-connectivity/wireless-tools/wireless-tools/remove.ldconfig.call.patch
-@@ -0,0 +1,19 @@
-+When /etc/ld.so.cache is writeable by user running bitbake then it creates invalid cache 
-+(in my case libstdc++.so cannot be found after building zlib(-native) and I have to call 
-+touch */libstdc++.so && /sbin/ldconfig to fix it.
-+
-+So remove ldconfig call from make install-libs
-+
-+Upstream-Status: Inappropriate [disable feature]
-+
-+diff -uNr wireless_tools.29.orig/Makefile wireless_tools.29/Makefile
-+--- wireless_tools.29.orig/Makefile	2007-09-18 01:56:46.000000000 +0200
-++++ wireless_tools.29/Makefile	2012-02-15 20:46:41.780763514 +0100
-+@@ -163,7 +163,6 @@
-+ 	install -m 755 $(DYNAMIC) $(INSTALL_LIB)
-+ 	ln -sfn $(DYNAMIC) $(INSTALL_LIB)/$(DYNAMIC_LINK)
-+ 	@echo "*** Don't forget to add $(INSTALL_LIB) to /etc/ld.so.conf, and run ldconfig as root. ***"
-+-	@$(LDCONFIG) || echo "*** Could not run ldconfig ! ***"
-+ 
-+ # Install the static library
-+ install-static:: $(STATIC)
-diff --git a/meta/recipes-connectivity/wireless-tools/wireless-tools_29.bb b/meta/recipes-connectivity/wireless-tools/wireless-tools_29.bb
-index cc51dec..c6235d6 100644
---- a/meta/recipes-connectivity/wireless-tools/wireless-tools_29.bb
-+++ b/meta/recipes-connectivity/wireless-tools/wireless-tools_29.bb
-@@ -7,10 +7,11 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=94d55d512a9ba36caa9b7df079bae19f \
- 			file://sample_enc.c;beginline=1;endline=4;md5=838372be07874260b566bae2f6ed33b6"
- SECTION = "base"
- PE = "1"
--PR = "r2"
-+PR = "r3"
- 
- SRC_URI = "http://www.hpl.hp.com/personal/Jean_Tourrilhes/Linux/wireless_tools.29.tar.gz \
--           file://man.patch;apply=yes \
-+	   file://remove.ldconfig.call.patch \
-+	   file://man.patch \
- 	   file://wireless-tools.if-pre-up \
- 	   file://zzz-wireless.if-pre-up \
- 	   file://avoid_strip.patch"
+In trying to build core-image-basic for qemuarm, I ran into an error:
+extract_archive:
+Cannot create symlink from ./var/run to 'volatile/run': File exists.
+
+(The full error message is posted here: http://pastebin.com/QPic3uHx )
+
+Though this seems very similar to a post from a few months ago, I am not
+sure how to go about debugging it:
+http://lists.linuxtogo.org/pipermail/openembedded-devel/2011-October/035409.html
+
+Can other folks build core-image-basic successfully? Any suggestions about
+how to determine which recipe is attempting to make the symlink?
+
+From what I can tell, the culprits could be meta/files/fs-perms.txt
+or meta/recipes-core/base-files/base-files_3.0.14.bb, but I'm not sure
+where to go from there. If it helps, I am able to build core-image-minimal
+successfully.
+
+Thanks,
+Brandon
+
 -- 
-1.7.8.4
+Brandon Stafford
+Rascal Micro: small computers for art and science
+Somerville, MA, USA
+
+--90e6ba614ce0b1790104b908f972
+Content-Type: text/html; charset=ISO-8859-1
+Content-Transfer-Encoding: quoted-printable
+
+Hi all,<div><br></div><div>In trying to build core-image-basic for qemuarm,=
+ I ran into an error:=A0<span style=3D"line-height:21px;font-size:12px;font=
+-family:Consolas,Menlo,Monaco,&#39;Lucida Console&#39;,&#39;Liberation Mono=
+&#39;,&#39;DejaVu Sans Mono&#39;,&#39;Bitstream Vera Sans Mono&#39;,monospa=
+ce,serif">extract_archive: Cannot create symlink from .</span><span style=
+=3D"line-height:21px;font-size:12px;font-family:Consolas,Menlo,Monaco,&#39;=
+Lucida Console&#39;,&#39;Liberation Mono&#39;,&#39;DejaVu Sans Mono&#39;,&#=
+39;Bitstream Vera Sans Mono&#39;,monospace,serif;font-weight:bold">/</span>=
+<span style=3D"line-height:21px;font-size:12px;font-family:Consolas,Menlo,M=
+onaco,&#39;Lucida Console&#39;,&#39;Liberation Mono&#39;,&#39;DejaVu Sans M=
+ono&#39;,&#39;Bitstream Vera Sans Mono&#39;,monospace,serif">var</span><spa=
+n style=3D"line-height:21px;font-size:12px;font-family:Consolas,Menlo,Monac=
+o,&#39;Lucida Console&#39;,&#39;Liberation Mono&#39;,&#39;DejaVu Sans Mono&=
+#39;,&#39;Bitstream Vera Sans Mono&#39;,monospace,serif;font-weight:bold">/=
+</span><span style=3D"line-height:21px;font-size:12px;font-family:Consolas,=
+Menlo,Monaco,&#39;Lucida Console&#39;,&#39;Liberation Mono&#39;,&#39;DejaVu=
+ Sans Mono&#39;,&#39;Bitstream Vera Sans Mono&#39;,monospace,serif">run to=
+=A0</span><span style=3D"line-height:21px;color:rgb(255,0,0);font-size:12px=
+;font-family:Consolas,Menlo,Monaco,&#39;Lucida Console&#39;,&#39;Liberation=
+ Mono&#39;,&#39;DejaVu Sans Mono&#39;,&#39;Bitstream Vera Sans Mono&#39;,mo=
+nospace,serif">&#39;volatile/run&#39;</span><span style=3D"line-height:21px=
+;font-size:12px;font-family:Consolas,Menlo,Monaco,&#39;Lucida Console&#39;,=
+&#39;Liberation Mono&#39;,&#39;DejaVu Sans Mono&#39;,&#39;Bitstream Vera Sa=
+ns Mono&#39;,monospace,serif">: File exists.</span></div>
 
 
+<br>(The full error message is posted here:=A0<a href=3D"http://pastebin.co=
+m/QPic3uHx" target=3D"_blank">http://pastebin.com/QPic3uHx</a> )<div><div><=
+br></div><div>Though this seems very similar to a post from a few months ag=
+o, I am not sure how to go about debugging it: <a href=3D"http://lists.linu=
+xtogo.org/pipermail/openembedded-devel/2011-October/035409.html" target=3D"=
+_blank">http://lists.linuxtogo.org/pipermail/openembedded-devel/2011-Octobe=
+r/035409.html</a></div>
 
+<div><br></div><div>Can other folks build core-image-basic successfully? An=
+y suggestions about how to determine which recipe is attempting to make the=
+ symlink?</div><div><br></div><div>From what I can tell, the culprits could=
+ be=A0meta/files/fs-perms.txt or=A0meta/recipes-core/base-files/<a href=3D"=
+http://base-files_3.0.14.bb">base-files_3.0.14.bb</a>, but I&#39;m not sure=
+ where to go from there. If it helps, I am able to build core-image-minimal=
+ successfully.</div>
+<div><br></div><div>Thanks,</div><div>Brandon</div><div>
+<br></div>-- <br><div>Brandon Stafford</div>
+<div>Rascal Micro: small computers for art and science</div><div>Somerville=
+, MA, USA</div><br>
+</div>
+
+--90e6ba614ce0b1790104b908f972--
