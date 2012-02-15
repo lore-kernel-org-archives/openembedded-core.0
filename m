@@ -1,29 +1,32 @@
-Received: from mail-ey0-f175.google.com ([209.85.215.175])
+Received: from mail-vx0-f175.google.com ([209.85.220.175])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <martin.jansa@gmail.com>) id 1Rxiyh-0008Av-0L
+	(envelope-from <otavio.salvador@gmail.com>) id 1RxjTH-0000v0-B3
 	for openembedded-core@lists.openembedded.org;
-	Wed, 15 Feb 2012 18:49:15 +0100
-Received: by eaal10 with SMTP id l10so385326eaa.6
+	Wed, 15 Feb 2012 19:20:51 +0100
+Received: by vcbfl15 with SMTP id fl15so1075513vcb.6
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 15 Feb 2012 09:41:00 -0800 (PST)
+	Wed, 15 Feb 2012 10:12:38 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
-	h=from:to:cc:subject:date:message-id:x-mailer;
-	bh=y/ZcQJguXPD0Mb9lLcfxerAlkPq1Gfl6dooRl2OikcM=;
-	b=MECpFiFuyGx+4LxB3Wavxw1xgpL9Prrkl/vS13qnYUrcdj/rOvItFAaLY0VjALdlnj
-	ZLwubZ8ZGaNsxsruhy8Y9VYEC5/9+XHLmNSb04RfZuDGcqkHxdReMrTkI1dbmkAr+l36
-	1fEF2q62CW5AlFBOY04Hwa0GIHaX7i/T9p1O4=
-Received: by 10.213.28.132 with SMTP id m4mr388549ebc.3.1329327659643;
-	Wed, 15 Feb 2012 09:40:59 -0800 (PST)
-Received: from localhost ([94.230.152.246])
-	by mx.google.com with ESMTPS id o49sm13270602eeb.7.2012.02.15.09.40.55
-	(version=TLSv1/SSLv3 cipher=OTHER);
-	Wed, 15 Feb 2012 09:40:58 -0800 (PST)
-From: Martin Jansa <martin.jansa@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Date: Wed, 15 Feb 2012 18:40:47 +0100
-Message-Id: <1329327647-21681-1-git-send-email-Martin.Jansa@gmail.com>
-X-Mailer: git-send-email 1.7.8.4
-Subject: [PATCH] libsdl: add fix for new _XGetRequest symbol backported to libx11
+	h=mime-version:sender:in-reply-to:references:date
+	:x-google-sender-auth:message-id:subject:from:to:content-type;
+	bh=U9amvC1fuXbRp91iA+U2ORjJfz88umTziipGfBNQcv4=;
+	b=SzTXc2+FvPHVXVVe2+WShaiqkH+e/tRbl7L6HnJaOozr0EVVwayb/LquF7m6h9M4Gz
+	ri/ZQbiOl+NfiMAcztFPEy7Ve3btSRFFqROxNy5ZcH8j12vVx6w0EzgJzMNrjmyBvkxo
+	Go4MO+XAB1cUHC8DGMna+NxYzEoW2fi6K9WKc=
+MIME-Version: 1.0
+Received: by 10.52.67.229 with SMTP id q5mr11589779vdt.14.1329329558828; Wed,
+	15 Feb 2012 10:12:38 -0800 (PST)
+Sender: otavio.salvador@gmail.com
+Received: by 10.220.3.84 with HTTP; Wed, 15 Feb 2012 10:12:38 -0800 (PST)
+In-Reply-To: <1329327647-21681-1-git-send-email-Martin.Jansa@gmail.com>
+References: <1329327647-21681-1-git-send-email-Martin.Jansa@gmail.com>
+Date: Wed, 15 Feb 2012 16:12:38 -0200
+X-Google-Sender-Auth: nsDfLNbUGR6MzaO1o4U3fPm7K6A
+Message-ID: <CAP9ODKppqZH7G8fcPNyTR=R_s3jJxr21o2qwK7kySGjmR_fSKg@mail.gmail.com>
+From: Otavio Salvador <otavio@ossystems.com.br>
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] libsdl: add fix for new _XGetRequest symbol backported to libx11
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -38,110 +41,40 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 15 Feb 2012 17:49:15 -0000
+X-List-Received-Date: Wed, 15 Feb 2012 18:20:51 -0000
+Content-Type: multipart/alternative; boundary=20cf307811a024b80b04b904a89d
 
-Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
----
- .../libsdl-1.2.14/add.XGetRequest.symbol.patch     |   70 ++++++++++++++++++++
- meta/recipes-graphics/libsdl/libsdl_1.2.14.bb      |    3 +-
- 2 files changed, 72 insertions(+), 1 deletions(-)
- create mode 100644 meta/recipes-graphics/libsdl/libsdl-1.2.14/add.XGetRequest.symbol.patch
+--20cf307811a024b80b04b904a89d
+Content-Type: text/plain; charset=ISO-8859-1
 
-diff --git a/meta/recipes-graphics/libsdl/libsdl-1.2.14/add.XGetRequest.symbol.patch b/meta/recipes-graphics/libsdl/libsdl-1.2.14/add.XGetRequest.symbol.patch
-new file mode 100644
-index 0000000..a22ad65
---- /dev/null
-+++ b/meta/recipes-graphics/libsdl/libsdl-1.2.14/add.XGetRequest.symbol.patch
-@@ -0,0 +1,70 @@
-+_XGetRequest API was backported to libx11-1.4.4 in:
-+http://git.openembedded.org/openembedded-core/commit/?id=e08604800fe1cb8f240f53c147ceb4ee08a29b91
-+
-+This breaks e.g. libsdl-image build with:
-+| /OE/shr-core/tmp-eglibc/sysroots/qemux86-64/usr/lib/libSDL.so: undefined reference to `_XGetRequest'
-+
-+For details see: https://bugzilla.redhat.com/show_bug.cgi?id=782251
-+
-+Upstrea-Status: Accepted
-+
-+@@ -, +, @@ 
-+ added.
-+ src/video/x11/SDL_x11dyn.c |   24 ++++++++++++++++++++++++
-+ src/video/x11/SDL_x11sym.h |    6 ++++++
-+ 2 files changed, 30 insertions(+), 0 deletions(-)
-+--- a/src/video/x11/SDL_x11dyn.c	
-++++ a/src/video/x11/SDL_x11dyn.c	
-+@@ -109,6 +109,21 @@ char *(*pXGetICValues)(XIC, ...) = NULL;
-+ #undef SDL_X11_SYM
-+ 
-+ 
-++static void *SDL_XGetRequest_workaround(Display* dpy, CARD8 type, size_t len)
-++{
-++	xReq *req;
-++	WORD64ALIGN
-++	if (dpy->bufptr + len > dpy->bufmax)
-++		_XFlush(dpy);
-++	dpy->last_req = dpy->bufptr;
-++	req = (xReq*)dpy->bufptr;
-++	req->reqType = type;
-++	req->length = len / 4;
-++	dpy->bufptr += len;
-++	dpy->request++;
-++	return req;
-++}
-++
-+ static int x11_load_refcount = 0;
-+ 
-+ void SDL_X11_UnloadSymbols(void)
-+@@ -168,6 +183,15 @@ int SDL_X11_LoadSymbols(void)
-+ 		X11_GetSym("XGetICValues",&SDL_X11_HAVE_UTF8,(void **)&pXGetICValues);
-+ 		#endif
-+ 
-++		/*
-++		 * In case we're built with newer Xlib headers, we need to make sure
-++		 *  that _XGetRequest() is available, even on older systems.
-++		 *  Otherwise, various Xlib macros we use will call a NULL pointer.
-++		 */
-++		if (!SDL_X11_HAVE_XGETREQUEST) {
-++			p_XGetRequest = SDL_XGetRequest_workaround;
-++		}
-++
-+ 		if (SDL_X11_HAVE_BASEXLIB) {  /* all required symbols loaded. */
-+ 			SDL_ClearError();
-+ 		} else {
-+--- a/src/video/x11/SDL_x11sym.h	
-++++ a/src/video/x11/SDL_x11sym.h	
-+@@ -170,6 +170,12 @@ SDL_X11_SYM(void,_XRead32,(Display *dpy,register long *data,long len),(dpy,data,
-+ #endif
-+ 
-+ /*
-++ * libX11 1.4.99.1 added _XGetRequest, and macros use it behind the scenes.
-++ */
-++SDL_X11_MODULE(XGETREQUEST)
-++SDL_X11_SYM(void *,_XGetRequest,(Display* a,CARD8 b,size_t c),(a,b,c),return)
-++
-++/*
-+  * These only show up on some variants of Unix.
-+  */
-+ #if defined(__osf__)
-diff --git a/meta/recipes-graphics/libsdl/libsdl_1.2.14.bb b/meta/recipes-graphics/libsdl/libsdl_1.2.14.bb
-index f587291..5b87f39 100644
---- a/meta/recipes-graphics/libsdl/libsdl_1.2.14.bb
-+++ b/meta/recipes-graphics/libsdl/libsdl_1.2.14.bb
-@@ -15,10 +15,11 @@ PROVIDES = "virtual/libsdl"
- DEPENDS = "${@base_contains('DISTRO_FEATURES', 'opengl', 'virtual/libgl', '', d)} virtual/libx11 libxext libxrandr libxrender tslib"
- DEPENDS_virtclass-nativesdk = "libx11-nativesdk libxrandr-nativesdk libxrender-nativesdk libxext-nativesdk"
- 
--PR = "r4"
-+PR = "r5"
- 
- SRC_URI = "http://www.libsdl.org/release/SDL-${PV}.tar.gz \
-            file://configure_tweak.patch \
-+           file://add.XGetRequest.symbol.patch \
-        "
- 
- S = "${WORKDIR}/SDL-${PV}"
+On Wed, Feb 15, 2012 at 15:40, Martin Jansa <martin.jansa@gmail.com> wrote:
+
+> +Upstrea-Status: Accepted
+>
+
+Typo!
+
 -- 
-1.7.8.4
+Otavio Salvador                             O.S. Systems
+E-mail: otavio@ossystems.com.br  http://www.ossystems.com.br
+Mobile: +55 53 9981-7854              http://projetos.ossystems.com.br
 
+--20cf307811a024b80b04b904a89d
+Content-Type: text/html; charset=ISO-8859-1
+Content-Transfer-Encoding: quoted-printable
 
+<div class=3D"gmail_quote">On Wed, Feb 15, 2012 at 15:40, Martin Jansa <spa=
+n dir=3D"ltr">&lt;<a href=3D"mailto:martin.jansa@gmail.com">martin.jansa@gm=
+ail.com</a>&gt;</span> wrote:<br><blockquote class=3D"gmail_quote" style=3D=
+"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex">
++Upstrea-Status: Accepted<br></blockquote><div><br></div><div>Typo!</div><d=
+iv>=A0</div></div>-- <br>Otavio Salvador=A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0=
+ =A0 =A0 =A0 =A0 =A0 =A0O.S. Systems<br>E-mail: <a href=3D"mailto:otavio@os=
+systems.com.br" target=3D"_blank">otavio@ossystems.com.br</a>=A0 <a href=3D=
+"http://www.ossystems.com.br" target=3D"_blank">http://www.ossystems.com.br=
+</a><br>
+Mobile: +55 53 9981-7854=A0 =A0 =A0 =A0=A0 =A0 =A0 =A0<a href=3D"http://pro=
+jetos.ossystems.com.br" target=3D"_blank">http://projetos.ossystems.com.br<=
+/a><br><br>
 
+--20cf307811a024b80b04b904a89d--
