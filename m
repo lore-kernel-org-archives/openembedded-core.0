@@ -1,31 +1,22 @@
-Received: from mail-bk0-f47.google.com ([209.85.214.47])
+Received: from elite.brightsigndigital.co.uk ([81.142.160.137])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <s.stirtzel@googlemail.com>) id 1Ry2Rv-0000yZ-3c
+	(envelope-from <mcrowe@brightsign.biz>) id 1Ry39Z-0002ih-KR
 	for openembedded-core@lists.openembedded.org;
-	Thu, 16 Feb 2012 15:36:43 +0100
-Received: by bkwq11 with SMTP id q11so2107212bkw.6
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 16 Feb 2012 06:28:30 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=googlemail.com; s=gamma;
-	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
-	:content-type; bh=emVBqHSHdL8WEm0DqvfhlwqiemwVdMSdxUbX9vptbXo=;
-	b=FI/3ApOjgQ2G6+Hblfvk9P27NrcEoDG605sflFTca8q2ac/uV7gTid0m0hBjZbFqaT
-	fyyoP9mFmvYoAWOFgbh2G6CWxfXRoOoJZX7a7lE1UonadaKq/H1WmFG/wy9K3emjXQiB
-	iwNYRN00L1Um2+b/z0tXQ3ZEv56aJihGTRCc0=
-MIME-Version: 1.0
-Received: by 10.204.151.196 with SMTP id d4mr1306285bkw.29.1329402510197; Thu,
-	16 Feb 2012 06:28:30 -0800 (PST)
-Received: by 10.223.89.135 with HTTP; Thu, 16 Feb 2012 06:28:30 -0800 (PST)
-In-Reply-To: <CAP9ODKoFQbOm12SMW-VGpBdHKbd9+A9_V0kGQHvaAwCtrxifGg@mail.gmail.com>
-References: <CAGiJk9ddcv7C7gZbR7a5+YVXfwyX_igRWCWyCR16TggQUrfcYg@mail.gmail.com>
-	<CAP9ODKoFQbOm12SMW-VGpBdHKbd9+A9_V0kGQHvaAwCtrxifGg@mail.gmail.com>
-Date: Thu, 16 Feb 2012 15:28:30 +0100
-Message-ID: <CAGiJk9dWF3JQfjhZPj-hKx59egJ1SXsT_O_mLfCk8GFrpZZ_tw@mail.gmail.com>
-From: Samuel Stirtzel <s.stirtzel@googlemail.com>
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: RFC: Qt session management is disabled via QT_DISTRO_FLAGS
+	Thu, 16 Feb 2012 16:21:49 +0100
+Received: from [172.30.1.25] (helo=chuckie.brightsign)
+	by elite.brightsigndigital.co.uk with esmtp (Exim 4.72)
+	(envelope-from <mcrowe@brightsign.biz>)
+	id 1Ry31d-0006TQ-OY; Thu, 16 Feb 2012 15:13:37 +0000
+Received: from mac by chuckie.brightsign with local (Exim 4.72)
+	(envelope-from <mcrowe@brightsign.biz>)
+	id 1Ry31d-0002MK-NZ; Thu, 16 Feb 2012 15:13:37 +0000
+From: Mike Crowe <mac@mcrowe.com>
+To: openembedded-core@lists.openembedded.org
+Date: Thu, 16 Feb 2012 15:13:35 +0000
+Message-Id: <1329405215-9037-1-git-send-email-mac@mcrowe.com>
+X-Mailer: git-send-email 1.7.9
+Cc: Mike Crowe <mac@mcrowe.com>
+Subject: [PATCH] e2fsprogs: Cope with ${libdir} and ${base_libdir} being the same
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -40,32 +31,45 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 16 Feb 2012 14:36:43 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Thu, 16 Feb 2012 15:21:49 -0000
 
-2012/2/16 Otavio Salvador <otavio@ossystems.com.br>:
-> On Thu, Feb 16, 2012 at 11:04, Samuel Stirtzel <s.stirtzel@googlemail.com>
-> wrote:
->>
->> Anyone knows if enabling session management in Qt is a bad idea, or if
->> there is another way of solving this?
->
->
-> I don't think it is going to be a problem to have it enabled on x11 flavour.
-Since it is a distro variable, I consider to ask before this breaks
-anything or the like.
+${libdir} and ${base_libdir} may be the same. If they are don't try and
+move files onto themselves.
 
-I'd suggest to change this line from:
-QT_DISTRO_FLAGS ?= "-no-accessibility -no-sm"
-To:
-QT_DISTRO_FLAGS ?= "-no-accessibility -sm"
+Signed-off-by: Mike Crowe <mac@mcrowe.com>
+---
+ meta/recipes-devtools/e2fsprogs/e2fsprogs_1.42.bb |   10 ++++++----
+ 1 files changed, 6 insertions(+), 4 deletions(-)
 
-So distributions that don't want a Qt session manager could just
-disable it, or is there another preferred way to enable "-sm"?
-
-
+diff --git a/meta/recipes-devtools/e2fsprogs/e2fsprogs_1.42.bb b/meta/recipes-devtools/e2fsprogs/e2fsprogs_1.42.bb
+index 2289211..9647e51 100644
+--- a/meta/recipes-devtools/e2fsprogs/e2fsprogs_1.42.bb
++++ b/meta/recipes-devtools/e2fsprogs/e2fsprogs_1.42.bb
+@@ -1,6 +1,6 @@
+ require e2fsprogs.inc
+ 
+-PR = "r2"
++PR = "r3"
+ 
+ SRC_URI += "file://fallocate.patch \
+             file://acinclude.m4"
+@@ -32,9 +32,11 @@ do_install () {
+ 
+ do_install_append () {
+ 	# e2initrd_helper and the pkgconfig files belong in libdir
+-	install -d ${D}${libdir}
+-	mv ${D}${base_libdir}/e2initrd_helper ${D}${libdir}
+-	mv ${D}${base_libdir}/pkgconfig ${D}${libdir}
++	if [ ! ${D}${libdir} -ef ${D}${base_libdir} ]; then
++		install -d ${D}${libdir}
++		mv ${D}${base_libdir}/e2initrd_helper ${D}${libdir}
++		mv ${D}${base_libdir}/pkgconfig ${D}${libdir}
++	fi
+ }
+ 
+ # blkid used to be part of e2fsprogs but is useful outside, add it
 -- 
-Regards
-Samuel
+1.7.9
+
 
 
