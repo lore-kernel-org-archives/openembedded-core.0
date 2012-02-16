@@ -1,29 +1,29 @@
-Received: from mail-ee0-f47.google.com ([74.125.83.47])
+Received: from mail-ey0-f175.google.com ([209.85.215.175])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <martin.jansa@gmail.com>) id 1Ry1uw-0007je-Bc
+	(envelope-from <martin.jansa@gmail.com>) id 1Ry2M1-0000eP-JO
 	for openembedded-core@lists.openembedded.org;
-	Thu, 16 Feb 2012 15:02:38 +0100
-Received: by eekd41 with SMTP id d41so649108eek.6
+	Thu, 16 Feb 2012 15:30:37 +0100
+Received: by eaal10 with SMTP id l10so633624eaa.6
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 16 Feb 2012 05:54:25 -0800 (PST)
+	Thu, 16 Feb 2012 06:22:24 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
 	h=date:from:to:subject:message-id:references:mime-version
 	:content-type:content-disposition:in-reply-to:user-agent;
-	bh=5p5dNMsfPZaomggr+BnjUXklncVsv6Sm8Q18pt2QEZA=;
-	b=HojifrfaHfEzPRzNjWReMh4ZExtXL31BQicV2CqAIU3SsgNtd9DUnqMwWdaaV4oflT
-	j2P11FkUnzxrET0gNO20E8Ldau5HOfnyWAKCKsqZVJYNOfBh6MdwNI+1NNJXL0AP96gI
-	SQwBtcnAY0kmkS4TVdlpkl7Z0HaceZSPkJ3c0=
-Received: by 10.14.202.197 with SMTP id d45mr1543296eeo.128.1329400465202;
-	Thu, 16 Feb 2012 05:54:25 -0800 (PST)
+	bh=5gPbJvqhHu9qm1QZjyPWXt/qYe1bx72q/yKBkVTyYxQ=;
+	b=HSlBQJnslfCNo+NAqUymAiunESrDgohC0J3dsj9ZTZC3qyJCFZH123TcA57dP2QUwS
+	z+TcR4vX2G46dIcJQHyKAPMBaA2PSVBvQnpco0oSc/hBfdZ28mnYyy4eoEJPOUAYiIXn
+	9EtbRuyhhBs7NbZttQxy5blTVdrSUXpzDVsaE=
+Received: by 10.14.23.134 with SMTP id v6mr1632420eev.41.1329402143765;
+	Thu, 16 Feb 2012 06:22:23 -0800 (PST)
 Received: from localhost ([94.230.152.246])
-	by mx.google.com with ESMTPS id a58sm23555913eeb.8.2012.02.16.05.54.23
+	by mx.google.com with ESMTPS id n58sm23763899een.10.2012.02.16.06.22.22
 	(version=TLSv1/SSLv3 cipher=OTHER);
-	Thu, 16 Feb 2012 05:54:24 -0800 (PST)
-Date: Thu, 16 Feb 2012 14:54:22 +0100
+	Thu, 16 Feb 2012 06:22:23 -0800 (PST)
+Date: Thu, 16 Feb 2012 15:22:21 +0100
 From: Martin Jansa <martin.jansa@gmail.com>
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Message-ID: <20120216135422.GE5822@jama.jama.net>
+Message-ID: <20120216142220.GF5822@jama.jama.net>
 References: <1327425729.19643.113.camel@ted>
 	<20120216134447.GD5822@jama.jama.net>
 MIME-Version: 1.0
@@ -44,13 +44,13 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 16 Feb 2012 14:02:38 -0000
-X-Groupsio-MsgNum: 17541
+X-List-Received-Date: Thu, 16 Feb 2012 14:30:37 -0000
+X-Groupsio-MsgNum: 17542
 Content-Type: multipart/signed; micalg=pgp-sha1;
-	protocol="application/pgp-signature"; boundary="FEz7ebHBGB6b2e8X"
+	protocol="application/pgp-signature"; boundary="p8PhoBjPxaQXD0vg"
 Content-Disposition: inline
 
---FEz7ebHBGB6b2e8X
+--p8PhoBjPxaQXD0vg
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
@@ -118,7 +118,10 @@ e_write_ipk.sigdata.*
 be068de2f716c9fdfc54970fd9908b4f2cd0e6
 >=20
 > Now I'm looking into why busybox depends on MACHINE variable.
->=20
+
+Ah this is because meta-oe adds systemd support which rrecommends some
+kernel-modules.. so same issue as below :/.
+
 > And interesting case is when something depends on linux-libc-headers even=
  task-* recipe=20
 > which includes ie iptables (which rdepends or rrecommends some kernel mod=
@@ -166,38 +169,27 @@ nd linux-gta04_git.bb.do_package)
 nager to fill use RRECOMMENDS_${PN}
 > but we don't care (from sstate pov) how kernel was built. We already don'=
 t need such module to be built at all.
+>=20
+> Regards,
+>=20
+> --=20
+> Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
 
-and one more weird issue, why are some -native packages depending on
-kernel.do_deploy?
 
-bitbake-diffsigs
-tmp-eglibc/stamps/x86_64-linux/evas-native-2_1.1.0+svnr67991-r3.1.do_build.=
-sigdata.958e626749c6668426b053c235679492
-tmp-eglibc/stamps/x86_64-linux/evas-native-2_1.1.0+svnr67991-r3.1.do_build.=
-sigdata.653789da75b68fd24290dc8364950ccc
-Task dependency hash changed from 9470058e15b666452c6209230c2d445b to
-4068dabb3a553492e678b90434f6c893 (for
-linux-nokia900-meego_git.bb.do_deploy and linux-gta04_git.bb.do_deploy)
-
-If I grep for linux/kernel/deploy in whole meta-efl I don't see how it
-could became dependant task of it (the same for edje-native and
-ecore-native).
-
-Cheers,
 
 --=20
 Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
 
---FEz7ebHBGB6b2e8X
+--p8PhoBjPxaQXD0vg
 Content-Type: application/pgp-signature; name="signature.asc"
 Content-Description: Digital signature
 
 -----BEGIN PGP SIGNATURE-----
 Version: GnuPG v2.0.18 (GNU/Linux)
 
-iEYEARECAAYFAk89Co4ACgkQN1Ujt2V2gBzn2ACeLFE17nSe3nLbHoT+N454SRoS
-bzcAn2kFBNiKcEGQ6Mfe04Dj7A//Uduy
-=LIzI
+iEYEARECAAYFAk89ERwACgkQN1Ujt2V2gByeygCggHG55IoI4rlO37Uk9sHIaIFo
+5m0AoLi2+VJhbAAyCcgCir2zi2NnwNwf
+=01vg
 -----END PGP SIGNATURE-----
 
---FEz7ebHBGB6b2e8X--
+--p8PhoBjPxaQXD0vg--
