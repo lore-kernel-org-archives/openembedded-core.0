@@ -1,37 +1,27 @@
-Received: from mx3.leapfrog.com ([63.114.26.253])
+Received: from mga14.intel.com ([143.182.124.37])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <dlazzari@leapfrog.com>) id 1RyVCq-0003FD-S0
+	(envelope-from <sgw@linux.intel.com>) id 1RyWY4-0007rK-Ha
 	for openembedded-core@lists.openembedded.org;
-	Fri, 17 Feb 2012 22:19:05 +0100
-Received: from mx3.leapfrog.com (localhost [127.0.0.1])
-	by localhost.leapfrog.com (Postfix) with ESMTP
-	id 2B03D5F80; Fri, 17 Feb 2012 13:10:49 -0800 (PST)
-Received: from NAEXCHHT01.na.leapfrog.com (unknown [10.15.6.13])
-	by mx3.leapfrog.com (Postfix) with ESMTP
-	id B689E5E88; Fri, 17 Feb 2012 13:10:48 -0800 (PST)
-Received: from NAEMCASHT02.na.leapfrog.com (10.12.2.36) by
-	NAEXCHHT01.na.leapfrog.com (10.15.6.13) with Microsoft SMTP Server
-	(TLS) id 8.2.254.0; Fri, 17 Feb 2012 13:10:48 -0800
-Received: from NAEMMAIL01.na.leapfrog.com ([fe80::252e:28a6:3d8f:6991]) by
-	NAEMCASHT02.na.leapfrog.com ([::1]) with mapi id 14.01.0355.002;
-	Fri, 17 Feb 2012 13:10:48 -0800
-From: Daniel Lazzari <dlazzari@leapfrog.com>
-To: 'Mark Hatle' <mark.hatle@windriver.com>,
-	Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Thread-Topic: [OE-core] Problems with Pseudo
-Thread-Index: AcztrW75y4vYIagQSn6dS9a1MMOLBwAR/BqAABBPs3A=
-Date: Fri, 17 Feb 2012 21:10:47 +0000
-Message-ID: <E7A9054A5ACABE48B0E540E46E862B0F04264E2A@NAEMMAIL01.na.leapfrog.com>
-References: <E7A9054A5ACABE48B0E540E46E862B0F04264D83@NAEMMAIL01.na.leapfrog.com>
-	<4F3EB7C5.6020605@windriver.com>
-In-Reply-To: <4F3EB7C5.6020605@windriver.com>
-Accept-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [10.100.2.5]
+	Fri, 17 Feb 2012 23:45:06 +0100
+Received: from azsmga002.ch.intel.com ([10.2.17.35])
+	by azsmga102.ch.intel.com with ESMTP; 17 Feb 2012 14:36:48 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="67830500"
+Received: from unknown (HELO [10.255.15.81]) ([10.255.15.81])
+	by AZSMGA002.ch.intel.com with ESMTP; 17 Feb 2012 14:36:48 -0800
+Message-ID: <4F3ED680.5020909@linux.intel.com>
+Date: Fri, 17 Feb 2012 14:36:48 -0800
+From: Saul Wold <sgw@linux.intel.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:10.0) Gecko/20120131 Thunderbird/10.0
 MIME-Version: 1.0
-Subject: Re: Problems with Pseudo
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+References: <1e2722b29db9486276198e13f06345babce10518.1329147583.git.Martin.Jansa@gmail.com>
+	<b17109ebc9396973f7c0dbf6812699e2c0930349.1329147583.git.Martin.Jansa@gmail.com>
+In-Reply-To: <b17109ebc9396973f7c0dbf6812699e2c0930349.1329147583.git.Martin.Jansa@gmail.com>
+Cc: Martin Jansa <martin.jansa@gmail.com>
+Subject: Re: [PATCH 2/4] gdb-cross-canadian: use NATIVESDK paths as it happens to be here
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -46,87 +36,53 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 17 Feb 2012 21:19:06 -0000
-Content-Language: en-US
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Fri, 17 Feb 2012 22:45:06 -0000
+Content-Type: text/plain; charset=ISO-8859-1; format=flowed
+Content-Transfer-Encoding: 7bit
 
-Thanks Mark! Your suggestions led me to the solution. A while back I had ad=
-ded the cap_sys_rawio capability to my python binary because of a tricky si=
-tuation involving needing to be able to issue mass storage device commands =
-without being the root user. Reinstalling python removed that capability an=
-d my bitbake is working again.
+On 02/13/2012 07:40 AM, Martin Jansa wrote:
+> * seems like config/config in -L was also wrong
+>
+> Signed-off-by: Martin Jansa<Martin.Jansa@gmail.com>
+> ---
+>   meta/recipes-devtools/gdb/gdb-cross-canadian.inc |   10 ++++++++--
+>   1 files changed, 8 insertions(+), 2 deletions(-)
+>
+> diff --git a/meta/recipes-devtools/gdb/gdb-cross-canadian.inc b/meta/recipes-devtools/gdb/gdb-cross-canadian.inc
+> index b5746ce..bac63b7 100644
+> --- a/meta/recipes-devtools/gdb/gdb-cross-canadian.inc
+> +++ b/meta/recipes-devtools/gdb/gdb-cross-canadian.inc
+> @@ -10,12 +10,18 @@ RDEPENDS += "python-nativesdk-core python-nativesdk-lang python-nativesdk-re \
+>
+>   EXTRA_OECONF_append = "--with-python=${WORKDIR}/python"
+>
+> +NATIVESDK_NAME = "oecore-${SDK_ARCH}-${SDK_ARCH}"
+> +NATIVESDK_PATH = "/usr/local/${NATIVESDK_NAME}"
+Martin,
 
->-----Original Message-----
->From: Mark Hatle [mailto:mark.hatle@windriver.com]
->Sent: Friday, February 17, 2012 12:26 PM
->To: Patches and discussions about the oe-core layer
->Cc: Daniel Lazzari
->Subject: Re: [OE-core] Problems with Pseudo
->
->The usual cause of this error is either a system level protection, i.e.
->grsecurity, app armor, or selinux policy that prevents preload libraries f=
-rom
->being loaded.
->
->The other option is something is set "setuid" and that also prevents
->LD_PRELOAD libraries from loading for security reasons.
->
->Finally, you can get this message if you are on a mixed-mode (multilib) ho=
-st.
->I.e. you have executables that are both ELF 32 and ELF64.  If so, you need=
- to
->configure the system to build pseudo with both target environments,
->otherwise only one version is generated and you'll get an error when the
->"other" type is being executed.
->
->--Mark
->
->On 2/17/12 11:50 AM, Daniel Lazzari wrote:
->> A problem just popped up today that I can't seem to fix. When trying to
->bitbake anything, I first get the following message:
->>
->> ERROR: ld.so: object 'libpseudo.so' from LD_PRELOAD cannot be preloaded:
->ignored.
->>
->> Followed by a bunch of debug output, detailing the configuration files b=
-eing
->loaded, then finally I get:
->>
->> ERROR:  Poky's config sanity checker detected a potential misconfigurati=
-on.
->>      Either fix the cause of this error or at your own risk disable the =
-checker
->(see sanity.conf).
->>      Following is the list of potential problems / advisories:
->>
->>      Pseudo is not functioning correctly, which will cause failures duri=
-ng
->package installation. Please check your configuration.
->>
->> ERROR: Execution of event handler 'check_sanity_eventhandler' failed
->>
->> I've never seen this before, but I'm afraid to disable it because I know=
- how
->important pseudo is. Strangely enough, if I run pseudo (the one built in t=
-he
->i686-linux sysroot) manually from the command line, it works just fine. I =
-tried
->blowing away my build directory and downloads but nothing seems to work.
->Has anyone seen this before or might be able to help me track down what's
->going on?
->>
->> Thanks,
->>
->> Dan Lazzari Jr.
->> Firmware Engineer
->> dlazzari@leapfrog.com
->>
->>
->> _______________________________________________
->> Openembedded-core mailing list
->> Openembedded-core@lists.openembedded.org
->> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
+These two lines will not work in the general case, since the NATIVESDK 
+might be for a different distro (not oecore) or in a different directory 
+such as /opt vs /usr/local.
 
+The Poky build fails with this patch for example.
+
+Sau!
+
+> +NATIVESDK_PATHNATIVE = "${NATIVESDK_PATH}/sysroots/${SDK_SYS}"
+> +NATIVESDK_LIBDIR = "${NATIVESDK_PATHNATIVE}${libdir_nativesdk}"
+> +NATIVESDK_INCLUDEDIR = "${NATIVESDK_PATHNATIVE}${includedir_nativesdk}"
+> +
+
+>   do_configure_prepend() {
+>   cat>  ${WORKDIR}/python<<  EOF
+>   #! /bin/sh
+>   case "\$2" in
+> -        --includes) echo "-I${STAGING_DIR}/${HOST_ARCH}-nativesdk${HOST_VENDOR}-${HOST_OS}${exec_prefix}/include/python${PYTHON_BASEVERSION}/" ;;
+> -        --ldflags) echo "-L${STAGING_DIR}/${HOST_ARCH}-nativesdk${HOST_VENDOR}-${HOST_OS}${libdir}/python${PYTHON_BASEVERSION}/config/config -lpthread -ldl -lutil -lm -lpython${PYTHON_BASEVERSION}" ;;
+> +        --includes) echo "-I${STAGING_DIR}/${HOST_ARCH}-nativesdk${HOST_VENDOR}-${HOST_OS}${NATIVESDK_INCLUDEDIR}/python${PYTHON_BASEVERSION}/" ;;
+> +        --ldflags) echo "-L${STAGING_DIR}/${HOST_ARCH}-nativesdk${HOST_VENDOR}-${HOST_OS}${NATIVESDK_LIBDIR}/python${PYTHON_BASEVERSION}/config -lpthread -ldl -lutil -lm -lpython${PYTHON_BASEVERSION}" ;;
+>           --exec-prefix) echo "/usr" ;;
+>           *) exit 1 ;;
+>   esac
 
 
