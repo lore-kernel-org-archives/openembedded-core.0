@@ -1,28 +1,33 @@
-Received: from mail.windriver.com ([147.11.1.11])
+Received: from mail.pbcl.net ([88.198.119.4] helo=hetzner.pbcl.net)
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <mark.hatle@windriver.com>) id 1RyUVD-0001uF-99
+	(envelope-from <philb@gnu.org>) id 1RyUYp-00020c-CW
 	for openembedded-core@lists.openembedded.org;
-	Fri, 17 Feb 2012 21:33:59 +0100
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca [147.11.189.40])
-	by mail.windriver.com (8.14.3/8.14.3) with ESMTP id q1HKPgq3022798
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
-	Fri, 17 Feb 2012 12:25:42 -0800 (PST)
-Received: from Macintosh-5.local (147.11.117.59) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server id 14.1.255.0;
-	Fri, 17 Feb 2012 12:25:42 -0800
-Message-ID: <4F3EB7C5.6020605@windriver.com>
-Date: Fri, 17 Feb 2012 12:25:41 -0800
-From: Mark Hatle <mark.hatle@windriver.com>
-Organization: Wind River Systems
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.6;
-	rv:9.0) Gecko/20111222 Thunderbird/9.0.1
-MIME-Version: 1.0
+	Fri, 17 Feb 2012 21:37:43 +0100
+Received: from blundell.swaffham-prior.co.uk ([91.216.112.25]
+	helo=[192.168.114.6])
+	by hetzner.pbcl.net with esmtpsa (TLS1.0:RSA_AES_256_CBC_SHA1:32)
+	(Exim 4.72) (envelope-from <philb@gnu.org>) id 1RyUQt-0000NY-3I
+	for openembedded-core@lists.openembedded.org;
+	Fri, 17 Feb 2012 21:29:31 +0100
+Message-ID: <1329510550.2591.122.camel@x121e.pbcl.net>
+From: Phil Blundell <philb@gnu.org>
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-References: <E7A9054A5ACABE48B0E540E46E862B0F04264D83@NAEMMAIL01.na.leapfrog.com>
-In-Reply-To: <E7A9054A5ACABE48B0E540E46E862B0F04264D83@NAEMMAIL01.na.leapfrog.com>
-Cc: Daniel Lazzari <dlazzari@leapfrog.com>
-Subject: Re: Problems with Pseudo
+Date: Fri, 17 Feb 2012 20:29:10 +0000
+In-Reply-To: <CAP9ODKqgFVA5K6DQG-hZXww+fiFX+H4hGcqfWjn691ng3jgGVA@mail.gmail.com>
+References: <cover.1329500798.git.otavio@ossystems.com.br>
+	<a186127453b155d8f35a32fac48a56dad98aad7f.1329500798.git.otavio@ossystems.com.br>
+	<1329501107.14363.205.camel@phil-desktop>
+	<CAP9ODKqd=j7wye-W2ZGtS5eC+ALf_i9X7F0BWiN-VaY+SkRB2A@mail.gmail.com>
+	<1329506739.2591.114.camel@x121e.pbcl.net>
+	<CAP9ODKq5jiun+bcQZeR2d9Dx2gJM3v=eu2N2WiCuwTb7sb4A-A@mail.gmail.com>
+	<1329508773.2591.116.camel@x121e.pbcl.net>
+	<CAP9ODKq7u3Vg+YU8GDMQH3vBw_GPH-Wuq9C7fa=DnEuUo0mr1A@mail.gmail.com>
+	<1329509501.2591.118.camel@x121e.pbcl.net>
+	<CAP9ODKqgFVA5K6DQG-hZXww+fiFX+H4hGcqfWjn691ng3jgGVA@mail.gmail.com>
+X-Mailer: Evolution 3.2.2-1 
+Mime-Version: 1.0
+Subject: Re: [PATCH 3/3] rootfs_ipk.bbclass: fix unpacked postinst support if no package management
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -37,53 +42,32 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 17 Feb 2012 20:33:59 -0000
-Content-Type: text/plain; charset="ISO-8859-1"; format=flowed
+X-List-Received-Date: Fri, 17 Feb 2012 20:37:43 -0000
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 
-The usual cause of this error is either a system level protection, i.e. 
-grsecurity, app armor, or selinux policy that prevents preload libraries from 
-being loaded.
+On Fri, 2012-02-17 at 18:14 -0200, Otavio Salvador wrote:
+> On Fri, Feb 17, 2012 at 18:11, Phil Blundell <philb@gnu.org> wrote:
+>         We seem to be going in circles here but, to go back to what I
+>         said at
+>         the beginning, why can't you use the existing run-postinsts
+>         recipe
+>         rather than adding a new script?
+> 
+> 
+> My image didn't end with it installed. I did a very small image and I
+> expect that independently of what I choose, rootfs behave right.
 
-The other option is something is set "setuid" and that also prevents LD_PRELOAD 
-libraries from loading for security reasons.
+Ah, I see.  Yes, that's a fair point.  Maybe rootfs_ipk itself should
+inject ${ROOTFS_PKGMANAGE_BOOTSTRAP} into the image if it notices that
+there are postinsts which require running and no other package manager
+is installed.  I think it would be better not to have multiple scripts
+doing the same thing if we can avoid it, otherwise you end up having to
+fix things like ordering issues in all of them independently.
 
-Finally, you can get this message if you are on a mixed-mode (multilib) host. 
-I.e. you have executables that are both ELF 32 and ELF64.  If so, you need to 
-configure the system to build pseudo with both target environments, otherwise 
-only one version is generated and you'll get an error when the "other" type is 
-being executed.
+p.
 
---Mark
 
-On 2/17/12 11:50 AM, Daniel Lazzari wrote:
-> A problem just popped up today that I can't seem to fix. When trying to bitbake anything, I first get the following message:
->
-> ERROR: ld.so: object 'libpseudo.so' from LD_PRELOAD cannot be preloaded: ignored.
->
-> Followed by a bunch of debug output, detailing the configuration files being loaded, then finally I get:
->
-> ERROR:  Poky's config sanity checker detected a potential misconfiguration.
->      Either fix the cause of this error or at your own risk disable the checker (see sanity.conf).
->      Following is the list of potential problems / advisories:
->
->      Pseudo is not functioning correctly, which will cause failures during package installation. Please check your configuration.
->
-> ERROR: Execution of event handler 'check_sanity_eventhandler' failed
->
-> I've never seen this before, but I'm afraid to disable it because I know how important pseudo is. Strangely enough, if I run pseudo (the one built in the i686-linux sysroot) manually from the command line, it works just fine. I tried blowing away my build directory and downloads but nothing seems to work. Has anyone seen this before or might be able to help me track down what's going on?
->
-> Thanks,
->
-> Dan Lazzari Jr.
-> Firmware Engineer
-> dlazzari@leapfrog.com
->
->
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
 
 
 
