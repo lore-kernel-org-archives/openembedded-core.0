@@ -1,16 +1,14 @@
 Received: from ffm.saftware.de ([83.141.3.46])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <obi@opendreambox.org>) id 1Rzc98-0000TA-2d
+	(envelope-from <obi@opendreambox.org>) id 1RzcAS-0000WO-5D
 	for openembedded-core@lists.openembedded.org;
-	Mon, 20 Feb 2012 23:55:50 +0100
+	Mon, 20 Feb 2012 23:57:12 +0100
 From: Andreas Oberritter <obi@opendreambox.org>
 To: openembedded-core@lists.openembedded.org
-Date: Fri, 17 Feb 2012 23:56:11 +0100
-Message-Id: <1329519371-12600-2-git-send-email-obi@opendreambox.org>
+Date: Fri, 17 Feb 2012 23:56:10 +0100
+Message-Id: <1329519371-12600-1-git-send-email-obi@opendreambox.org>
 X-Mailer: git-send-email 1.7.5.4
-In-Reply-To: <1329519371-12600-1-git-send-email-obi@opendreambox.org>
-References: <1329519371-12600-1-git-send-email-obi@opendreambox.org>
-Subject: [PATCH 2/2] mpeg2dec: depend on libx11 conditionally
+Subject: [PATCH 1/2] gst-plugins-base: depend on libx11 and libxv conditionally
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -25,29 +23,31 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 20 Feb 2012 22:55:50 -0000
+X-List-Received-Date: Mon, 20 Feb 2012 22:57:12 -0000
 
-* mpeg2dec currently doesn't build if x11 is unavailable,
-  due to an unconditional dependency on libx11. However,
-  libx11 is not required to build mpeg2dec.
+* gst-plugins-base currently doesn't build if x11 is
+  unavailable, due to unconditional dependencies on libx11
+  and libxv. However, they are not required to build
+  gst-plugins-base.
 
 Signed-off-by: Andreas Oberritter <obi@opendreambox.org>
 ---
- meta/recipes-multimedia/mpeg2dec/mpeg2dec_0.4.1.bb |    2 +-
- 1 files changed, 1 insertions(+), 1 deletions(-)
+ .../gstreamer/gst-plugins-base_0.10.35.bb          |    3 ++-
+ 1 files changed, 2 insertions(+), 1 deletions(-)
 
-diff --git a/meta/recipes-multimedia/mpeg2dec/mpeg2dec_0.4.1.bb b/meta/recipes-multimedia/mpeg2dec/mpeg2dec_0.4.1.bb
-index f2865f6..f38066a 100644
---- a/meta/recipes-multimedia/mpeg2dec/mpeg2dec_0.4.1.bb
-+++ b/meta/recipes-multimedia/mpeg2dec/mpeg2dec_0.4.1.bb
-@@ -6,7 +6,7 @@ LICENSE_FLAGS = "commercial"
- LIC_FILES_CHKSUM = "file://COPYING;md5=94d55d512a9ba36caa9b7df079bae19f \
-                     file://include/mpeg2.h;beginline=1;endline=22;md5=ead62602d4638329d3b5b86a55803154"
+diff --git a/meta/recipes-multimedia/gstreamer/gst-plugins-base_0.10.35.bb b/meta/recipes-multimedia/gstreamer/gst-plugins-base_0.10.35.bb
+index e49a00c..0b287bc 100644
+--- a/meta/recipes-multimedia/gstreamer/gst-plugins-base_0.10.35.bb
++++ b/meta/recipes-multimedia/gstreamer/gst-plugins-base_0.10.35.bb
+@@ -6,7 +6,8 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=0636e73ff0215e8d672dc4c32c317bb3 \
+                     file://COPYING.LIB;md5=55ca817ccb7d5b5b66355690e9abc605 \
+                     file://gst/ffmpegcolorspace/utils.c;beginline=1;endline=20;md5=9c83a200b8e597b26ca29df20fc6ecd0"
  
--DEPENDS = "virtual/libx11"
-+DEPENDS = "${@base_contains('DISTRO_FEATURES', 'x11', 'virtual/libx11', '', d)}"
+-DEPENDS += "virtual/libx11 alsa-lib freetype liboil libogg libvorbis libxv libtheora avahi util-linux tremor"
++DEPENDS += "${@base_contains('DISTRO_FEATURES', 'x11', 'virtual/libx11 libxv', '', d)}"
++DEPENDS += "alsa-lib freetype liboil libogg libvorbis libtheora avahi util-linux tremor"
  
- PR = "r2"
+ SRC_URI += " file://gst-plugins-base-tremor.patch"
  
 -- 
 1.7.5.4
