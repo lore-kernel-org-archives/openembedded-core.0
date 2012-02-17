@@ -1,26 +1,21 @@
-Received: from mail.windriver.com ([147.11.1.11])
+Received: from mga01.intel.com ([192.55.52.88])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <Yi.Zhao@windriver.com>) id 1RyHzt-0000NG-BJ
+	(envelope-from <dexuan.cui@intel.com>) id 1RyLpK-000849-7c
 	for openembedded-core@lists.openembedded.org;
-	Fri, 17 Feb 2012 08:12:49 +0100
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca [147.11.189.40])
-	by mail.windriver.com (8.14.3/8.14.3) with ESMTP id q1H74Ymv004780
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 16 Feb 2012 23:04:35 -0800 (PST)
-Received: from localhost (128.224.162.249) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server (TLS) id 14.1.255.0;
-	Thu, 16 Feb 2012 23:04:34 -0800
-From: Yi Zhao <yi.zhao@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Fri, 17 Feb 2012 15:04:15 +0800
-Message-ID: <b9208f0e962076809b446697193147e1e6f0dd33.1329456260.git.yi.zhao@windriver.com>
-X-Mailer: git-send-email 1.7.1
-In-Reply-To: <cover.1329456260.git.yi.zhao@windriver.com>
-References: <cover.1329456260.git.yi.zhao@windriver.com>
-MIME-Version: 1.0
-X-Originating-IP: [128.224.162.249]
-Subject: [PATCH 3/3] task-core-lsb: add lsbtest to RDEPENDS_task-core-misc list
+	Fri, 17 Feb 2012 12:18:11 +0100
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+	by fmsmga101.fm.intel.com with ESMTP; 17 Feb 2012 03:09:55 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="118595396"
+Received: from dcui-desktop.sh.intel.com ([10.239.36.38])
+	by fmsmga001.fm.intel.com with ESMTP; 17 Feb 2012 03:09:54 -0800
+From: Dexuan Cui <dexuan.cui@intel.com>
+To: openembedded-core@lists.openembedded.org, sgw@linux.intel.com,
+	dvhart@linux.intel.com
+Date: Fri, 17 Feb 2012 19:10:14 +0800
+Message-Id: <cover.1329470047.git.dexuan.cui@intel.com>
+X-Mailer: git-send-email 1.7.6
+Subject: [PATCH 0/2] self-hosted-image: 2 new patches from Dexuan: Feb 17, 2012
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -35,36 +30,47 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 17 Feb 2012 07:12:49 -0000
-Content-Type: text/plain
+X-List-Received-Date: Fri, 17 Feb 2012 11:18:11 -0000
 
----
- meta/recipes-extended/tasks/task-core-lsb.bb |    3 ++-
- 1 files changed, 2 insertions(+), 1 deletions(-)
+Hi Saul, Darren and all,
 
-diff --git a/meta/recipes-extended/tasks/task-core-lsb.bb b/meta/recipes-extended/tasks/task-core-lsb.bb
-index c48ccf0..2767196 100644
---- a/meta/recipes-extended/tasks/task-core-lsb.bb
-+++ b/meta/recipes-extended/tasks/task-core-lsb.bb
-@@ -3,7 +3,7 @@
- #
- 
- DESCRIPTION = "Create Small Image Tasks"
--PR = "r6"
-+PR = "r7"
- LICENSE = "MIT"
- LIC_FILES_CHKSUM = "file://${COREBASE}/LICENSE;md5=3f40d7994397109285ec7b81fdeb3b58 \
-                     file://${COREBASE}/meta/COPYING.MIT;md5=3da9cfbcb788c80a0384361b4de20420"
-@@ -116,6 +116,7 @@ RDEPENDS_task-core-misc = "\
-     groff \
-     lsb \
-     lsbsetup \
-+    lsbtest \
-     lsof \
-     man \
-     man-pages \
+This is actually v3 of the old patches("self-hosted-image: generate the
+.hdddirect and .vmdk image files") I sent 1 month ago.
+I'm sorry for sending this out so late, as I was pushed tightly on one other
+task... :-(
+
+The new recipe self-hosted-directdisk-image.bb invokes self-hosted-image's
+do_rootfs automatically. That is, self-hosted-directdisk-image.bb is an
+enhanced version of self-hosted-image.bb.
+If we only want to run the generated .ext3 image with "runqemu", we can
+run "bitbake self-hosted-image"; if we also want to generated a .vmdk image,
+we can run "bitbake self-hosted-directdisk-image".
+
+Please comment. Thanks!
+
+-------------
+
+The following changes since commit 367f34f8bfb816bc396c89c95813246c16a76e1b:
+
+  linux-yocto: enable smp for qemux86 (2012-02-16 13:59:27 +0800)
+
+are available in the git repository at:
+  git://git.pokylinux.org/poky-contrib dcui/self-hosted-v81
+  http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=dcui/self-hosted-v81
+
+Dexuan Cui (2):
+  syslinux.bbclass: make PROMPT settable
+  self-hosted-directdisk-image: create .hdddirect and .vmdk images
+
+ meta/classes/boot-directdisk.bbclass               |    4 +++-
+ meta/classes/syslinux.bbclass                      |   11 ++++++-----
+ meta/conf/machine/include/qemu.inc                 |    2 ++
+ .../images/self-hosted-directdisk-image.bb         |   15 +++++++++++++++
+ 4 files changed, 26 insertions(+), 6 deletions(-)
+ create mode 100644 meta/recipes-core/images/self-hosted-directdisk-image.bb
+
 -- 
-1.7.1
+1.7.6
 
 
 
