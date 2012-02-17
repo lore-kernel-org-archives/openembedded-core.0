@@ -1,33 +1,35 @@
-Received: from mail.pbcl.net ([88.198.119.4] helo=hetzner.pbcl.net)
+Received: from mx3.leapfrog.com ([63.114.26.253])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <philb@gnu.org>) id 1RyUYp-00020c-CW
+	(envelope-from <dlazzari@leapfrog.com>) id 1RyUfq-0002D3-5Q
 	for openembedded-core@lists.openembedded.org;
-	Fri, 17 Feb 2012 21:37:43 +0100
-Received: from blundell.swaffham-prior.co.uk ([91.216.112.25]
-	helo=[192.168.114.6])
-	by hetzner.pbcl.net with esmtpsa (TLS1.0:RSA_AES_256_CBC_SHA1:32)
-	(Exim 4.72) (envelope-from <philb@gnu.org>) id 1RyUQt-0000NY-3I
-	for openembedded-core@lists.openembedded.org;
-	Fri, 17 Feb 2012 21:29:31 +0100
-Message-ID: <1329510550.2591.122.camel@x121e.pbcl.net>
-From: Phil Blundell <philb@gnu.org>
-To: Patches and discussions about the oe-core layer
+	Fri, 17 Feb 2012 21:44:58 +0100
+Received: from mx3.leapfrog.com (localhost [127.0.0.1])
+	by localhost.leapfrog.com (Postfix) with ESMTP id CE4FF5EAE
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 17 Feb 2012 12:17:42 -0800 (PST)
+Received: from NAEXCHHT01.na.leapfrog.com (unknown [10.15.6.13])
+	by mx3.leapfrog.com (Postfix) with ESMTP id A8AC45E1B
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 17 Feb 2012 12:17:42 -0800 (PST)
+Received: from NAEMCASHT01.na.leapfrog.com (10.16.4.161) by
+	NAEXCHHT01.na.leapfrog.com (10.15.6.13) with Microsoft SMTP Server
+	(TLS) id 8.2.254.0; Fri, 17 Feb 2012 12:17:42 -0800
+Received: from NAEMMAIL01.na.leapfrog.com ([fe80::252e:28a6:3d8f:6991]) by
+	NAEMCASHT01.na.leapfrog.com ([::1]) with mapi id 14.01.0355.002;
+	Fri, 17 Feb 2012 12:17:42 -0800
+From: Daniel Lazzari <dlazzari@leapfrog.com>
+To: "'openembedded-core@lists.openembedded.org'"
 	<openembedded-core@lists.openembedded.org>
-Date: Fri, 17 Feb 2012 20:29:10 +0000
-In-Reply-To: <CAP9ODKqgFVA5K6DQG-hZXww+fiFX+H4hGcqfWjn691ng3jgGVA@mail.gmail.com>
-References: <cover.1329500798.git.otavio@ossystems.com.br>
-	<a186127453b155d8f35a32fac48a56dad98aad7f.1329500798.git.otavio@ossystems.com.br>
-	<1329501107.14363.205.camel@phil-desktop>
-	<CAP9ODKqd=j7wye-W2ZGtS5eC+ALf_i9X7F0BWiN-VaY+SkRB2A@mail.gmail.com>
-	<1329506739.2591.114.camel@x121e.pbcl.net>
-	<CAP9ODKq5jiun+bcQZeR2d9Dx2gJM3v=eu2N2WiCuwTb7sb4A-A@mail.gmail.com>
-	<1329508773.2591.116.camel@x121e.pbcl.net>
-	<CAP9ODKq7u3Vg+YU8GDMQH3vBw_GPH-Wuq9C7fa=DnEuUo0mr1A@mail.gmail.com>
-	<1329509501.2591.118.camel@x121e.pbcl.net>
-	<CAP9ODKqgFVA5K6DQG-hZXww+fiFX+H4hGcqfWjn691ng3jgGVA@mail.gmail.com>
-X-Mailer: Evolution 3.2.2-1 
-Mime-Version: 1.0
-Subject: Re: [PATCH 3/3] rootfs_ipk.bbclass: fix unpacked postinst support if no package management
+Thread-Topic: [OE-core] Problems with Pseudo
+Thread-Index: AcztsTJ2UjGSDol2Q6efFeV7aEC4WQ==
+Date: Fri, 17 Feb 2012 20:17:41 +0000
+Message-ID: <E7A9054A5ACABE48B0E540E46E862B0F04264DED@NAEMMAIL01.na.leapfrog.com>
+Accept-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [10.100.2.5]
+MIME-Version: 1.0
+Subject: Re: Problems with Pseudo
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -42,32 +44,38 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 17 Feb 2012 20:37:43 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Fri, 17 Feb 2012 20:44:58 -0000
+Content-Language: en-US
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 
-On Fri, 2012-02-17 at 18:14 -0200, Otavio Salvador wrote:
-> On Fri, Feb 17, 2012 at 18:11, Phil Blundell <philb@gnu.org> wrote:
->         We seem to be going in circles here but, to go back to what I
->         said at
->         the beginning, why can't you use the existing run-postinsts
->         recipe
->         rather than adding a new script?
-> 
-> 
-> My image didn't end with it installed. I did a very small image and I
-> expect that independently of what I choose, rootfs behave right.
+>Date: Fri, 17 Feb 2012 20:12:48 +0000
+>From: Phil Blundell <philb@gnu.org>
+>Subject: Re: [OE-core] Problems with Pseudo
+>To: Patches and discussions about the oe-core layer
+>	<openembedded-core@lists.openembedded.org>
+>Message-ID: <1329509568.2591.119.camel@x121e.pbcl.net>
+>Content-Type: text/plain; charset=3D"UTF-8"
+>
+>On Fri, 2012-02-17 at 19:50 +0000, Daniel Lazzari wrote:
+>> A problem just popped up today that I can't seem to fix. When trying to
+>bitbake anything, I first get the following message:
+>>
+>> ERROR: ld.so: object 'libpseudo.so' from LD_PRELOAD cannot be preloaded:
+>ignored.
+>>
+>> Followed by a bunch of debug output, detailing the configuration files b=
+eing
+>loaded, then finally I get:
+>
+>Are you trying to run bitbake from inside a devshell or anything like that=
+?
+>
+>p.
+>
 
-Ah, I see.  Yes, that's a fair point.  Maybe rootfs_ipk itself should
-inject ${ROOTFS_PKGMANAGE_BOOTSTRAP} into the image if it notices that
-there are postinsts which require running and no other package manager
-is installed.  I think it would be better not to have multiple scripts
-doing the same thing if we can avoid it, otherwise you end up having to
-fix things like ordering issues in all of them independently.
-
-p.
-
-
+We normally run bitbake through a wrapper script, but I tried it just from =
+my command line and I get the same result.
 
 
 
