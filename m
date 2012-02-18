@@ -1,51 +1,47 @@
-Received: from mail-vw0-f47.google.com ([209.85.212.47])
+Received: from mail-ee0-f47.google.com ([74.125.83.47])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <otavio.salvador@gmail.com>) id 1RybXo-0005wI-2q
+	(envelope-from <martin.jansa@gmail.com>) id 1Ryj2M-0007HJ-MD
 	for openembedded-core@lists.openembedded.org;
-	Sat, 18 Feb 2012 05:05:08 +0100
-Received: by vbbff1 with SMTP id ff1so3020043vbb.6
+	Sat, 18 Feb 2012 13:05:10 +0100
+Received: by eekd41 with SMTP id d41so1421514eek.6
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 17 Feb 2012 19:56:52 -0800 (PST)
-Received-SPF: pass (google.com: domain of otavio.salvador@gmail.com designates
-	10.220.108.70 as permitted sender) client-ip=10.220.108.70; 
-Authentication-Results: mr.google.com; spf=pass (google.com: domain of
-	otavio.salvador@gmail.com designates 10.220.108.70 as permitted
-	sender) smtp.mail=otavio.salvador@gmail.com;
-	dkim=pass header.i=otavio.salvador@gmail.com
-Received: from mr.google.com ([10.220.108.70])
-	by 10.220.108.70 with SMTP id e6mr6990585vcp.74.1329537412968 (num_hops
-	= 1); Fri, 17 Feb 2012 19:56:52 -0800 (PST)
+	Sat, 18 Feb 2012 03:56:54 -0800 (PST)
+Received-SPF: pass (google.com: domain of martin.jansa@gmail.com designates
+	10.14.183.136 as permitted sender) client-ip=10.14.183.136; 
+Authentication-Results: mr.google.com;
+	spf=pass (google.com: domain of martin.jansa@gmail.com
+	designates 10.14.183.136 as permitted sender)
+	smtp.mail=martin.jansa@gmail.com;
+	dkim=pass header.i=martin.jansa@gmail.com
+Received: from mr.google.com ([10.14.183.136])
+	by 10.14.183.136 with SMTP id q8mr6730792eem.60.1329566214327 (num_hops
+	= 1); Sat, 18 Feb 2012 03:56:54 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
-	h=mime-version:sender:in-reply-to:references:date
-	:x-google-sender-auth:message-id:subject:from:to:content-type;
-	bh=23XjGMHHiQmdkqEza8vA8gvtW49WlRnHHE6cUi3oN40=;
-	b=XnMO8BIaYiBkT2hsOj0z018sFJ4pVQfEsf9sg5EKcZsX9kKBP0oFEHiW3BHPPxs52h
-	7yVOLT8jLD2DjQdzSZ4XTJsjrLBIeLOKd0k0+/KylrcIgQQV//nsq5HHMViTYD8GhMSE
-	68qSGcY5v0FThLBUtw0oXqIP8vZMJ/zGXsXIU=
+	h=date:from:to:cc:subject:message-id:references:mime-version
+	:content-type:content-disposition:in-reply-to:user-agent;
+	bh=Ln0zkYN3xNr36/qq9gJwNMI4A2pQLjcDqJa0gR2fejc=;
+	b=SmmBZco87/VdkcP5TD/FRcsjrgTTuKgCepA5tDFUakqwXD3OhTNGoGrG988ybS6cGi
+	rUoXJvYvSDj/c9DR2p6ocxFqZCb9TbtmWQdFmrj1xyqdz5nnUjvTMTcg+qSZYCb6u6Gk
+	RELZbLALzVdGEscI6i2IBihVsj+IOuf7hFQfs=
+Received: by 10.14.183.136 with SMTP id q8mr5441135eem.60.1329566214262;
+	Sat, 18 Feb 2012 03:56:54 -0800 (PST)
+Received: from localhost ([94.230.152.246])
+	by mx.google.com with ESMTPS id y14sm21286230eef.10.2012.02.18.03.56.52
+	(version=TLSv1/SSLv3 cipher=OTHER);
+	Sat, 18 Feb 2012 03:56:52 -0800 (PST)
+Date: Sat, 18 Feb 2012 12:56:51 +0100
+From: Martin Jansa <martin.jansa@gmail.com>
+To: Saul Wold <sgw@linux.intel.com>
+Message-ID: <20120218115651.GA11351@jama.jama.net>
+References: <1e2722b29db9486276198e13f06345babce10518.1329147583.git.Martin.Jansa@gmail.com>
+	<b17109ebc9396973f7c0dbf6812699e2c0930349.1329147583.git.Martin.Jansa@gmail.com>
+	<4F3ED680.5020909@linux.intel.com>
 MIME-Version: 1.0
-Received: by 10.220.108.70 with SMTP id e6mr5622567vcp.74.1329537412901; Fri,
-	17 Feb 2012 19:56:52 -0800 (PST)
-Sender: otavio.salvador@gmail.com
-Received: by 10.220.3.84 with HTTP; Fri, 17 Feb 2012 19:56:52 -0800 (PST)
-In-Reply-To: <1329510550.2591.122.camel@x121e.pbcl.net>
-References: <cover.1329500798.git.otavio@ossystems.com.br>
-	<a186127453b155d8f35a32fac48a56dad98aad7f.1329500798.git.otavio@ossystems.com.br>
-	<1329501107.14363.205.camel@phil-desktop>
-	<CAP9ODKqd=j7wye-W2ZGtS5eC+ALf_i9X7F0BWiN-VaY+SkRB2A@mail.gmail.com>
-	<1329506739.2591.114.camel@x121e.pbcl.net>
-	<CAP9ODKq5jiun+bcQZeR2d9Dx2gJM3v=eu2N2WiCuwTb7sb4A-A@mail.gmail.com>
-	<1329508773.2591.116.camel@x121e.pbcl.net>
-	<CAP9ODKq7u3Vg+YU8GDMQH3vBw_GPH-Wuq9C7fa=DnEuUo0mr1A@mail.gmail.com>
-	<1329509501.2591.118.camel@x121e.pbcl.net>
-	<CAP9ODKqgFVA5K6DQG-hZXww+fiFX+H4hGcqfWjn691ng3jgGVA@mail.gmail.com>
-	<1329510550.2591.122.camel@x121e.pbcl.net>
-Date: Sat, 18 Feb 2012 01:56:52 -0200
-X-Google-Sender-Auth: dmNxJoA859zwPnyS0f_5kD2jLiQ
-Message-ID: <CAP9ODKqzR1RBD2u4goHUS8dAV04LDHtreivvNOdw+twU7as2Og@mail.gmail.com>
-From: Otavio Salvador <otavio@ossystems.com.br>
-To: Patches and discussions about the oe-core layer
+In-Reply-To: <4F3ED680.5020909@linux.intel.com>
+User-Agent: Mutt/1.5.21 (2010-09-15)
+Cc: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 3/3] rootfs_ipk.bbclass: fix unpacked postinst support if no package management
+Subject: Re: [PATCH 2/4] gdb-cross-canadian: use NATIVESDK paths as it happens to be here
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -60,82 +56,120 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 18 Feb 2012 04:05:08 -0000
-Content-Type: multipart/alternative; boundary=f46d043748cb3629eb04b9350d2a
+X-List-Received-Date: Sat, 18 Feb 2012 12:05:10 -0000
+X-Groupsio-MsgNum: 17578
+Content-Type: multipart/signed; micalg=pgp-sha1;
+	protocol="application/pgp-signature"; boundary="azLHFNyN32YCQGCU"
+Content-Disposition: inline
 
---f46d043748cb3629eb04b9350d2a
-Content-Type: text/plain; charset=ISO-8859-1
-
-On Fri, Feb 17, 2012 at 18:29, Phil Blundell <philb@gnu.org> wrote:
-
-> On Fri, 2012-02-17 at 18:14 -0200, Otavio Salvador wrote:
-> > On Fri, Feb 17, 2012 at 18:11, Phil Blundell <philb@gnu.org> wrote:
-> >         We seem to be going in circles here but, to go back to what I
-> >         said at
-> >         the beginning, why can't you use the existing run-postinsts
-> >         recipe
-> >         rather than adding a new script?
-> >
-> >
-> > My image didn't end with it installed. I did a very small image and I
-> > expect that independently of what I choose, rootfs behave right.
->
-> Ah, I see.  Yes, that's a fair point.  Maybe rootfs_ipk itself should
-> inject ${ROOTFS_PKGMANAGE_BOOTSTRAP} into the image if it notices that
-> there are postinsts which require running and no other package manager
-> is installed.  I think it would be better not to have multiple scripts
-> doing the same thing if we can avoid it, otherwise you end up having to
-> fix things like ordering issues in all of them independently.
-
-
-Not easy to do because it might not have been built before.
-
--- 
-Otavio Salvador                             O.S. Systems
-E-mail: otavio@ossystems.com.br  http://www.ossystems.com.br
-Mobile: +55 53 9981-7854              http://projetos.ossystems.com.br
-
---f46d043748cb3629eb04b9350d2a
-Content-Type: text/html; charset=ISO-8859-1
+--azLHFNyN32YCQGCU
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-<div class=3D"gmail_quote">On Fri, Feb 17, 2012 at 18:29, Phil Blundell <sp=
-an dir=3D"ltr">&lt;<a href=3D"mailto:philb@gnu.org">philb@gnu.org</a>&gt;</=
-span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8e=
-x;border-left:1px #ccc solid;padding-left:1ex">
-<div class=3D"im">On Fri, 2012-02-17 at 18:14 -0200, Otavio Salvador wrote:=
-<br>
-&gt; On Fri, Feb 17, 2012 at 18:11, Phil Blundell &lt;<a href=3D"mailto:phi=
-lb@gnu.org">philb@gnu.org</a>&gt; wrote:<br>
-&gt; =A0 =A0 =A0 =A0 We seem to be going in circles here but, to go back to=
- what I<br>
-&gt; =A0 =A0 =A0 =A0 said at<br>
-&gt; =A0 =A0 =A0 =A0 the beginning, why can&#39;t you use the existing run-=
-postinsts<br>
-&gt; =A0 =A0 =A0 =A0 recipe<br>
-&gt; =A0 =A0 =A0 =A0 rather than adding a new script?<br>
-&gt;<br>
-&gt;<br>
-&gt; My image didn&#39;t end with it installed. I did a very small image an=
-d I<br>
-&gt; expect that independently of what I choose, rootfs behave right.<br>
-<br>
-</div>Ah, I see. =A0Yes, that&#39;s a fair point. =A0Maybe rootfs_ipk itsel=
-f should<br>
-inject ${ROOTFS_PKGMANAGE_BOOTSTRAP} into the image if it notices that<br>
-there are postinsts which require running and no other package manager<br>
-is installed. =A0I think it would be better not to have multiple scripts<br=
->
-doing the same thing if we can avoid it, otherwise you end up having to<br>
-fix things like ordering issues in all of them independently.</blockquote><=
-div><br></div><div>Not easy to do because it might not have been built befo=
-re.</div><div>=A0</div></div>-- <br>Otavio Salvador=A0 =A0 =A0 =A0 =A0 =A0 =
-=A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0O.S. Systems<br>
-E-mail: <a href=3D"mailto:otavio@ossystems.com.br" target=3D"_blank">otavio=
-@ossystems.com.br</a>=A0 <a href=3D"http://www.ossystems.com.br" target=3D"=
-_blank">http://www.ossystems.com.br</a><br>Mobile: +55 53 9981-7854=A0 =A0 =
-=A0 =A0=A0 =A0 =A0 =A0<a href=3D"http://projetos.ossystems.com.br" target=
-=3D"_blank">http://projetos.ossystems.com.br</a><br>
-<br>
+On Fri, Feb 17, 2012 at 02:36:48PM -0800, Saul Wold wrote:
+> On 02/13/2012 07:40 AM, Martin Jansa wrote:
+> > * seems like config/config in -L was also wrong
+> >
+> > Signed-off-by: Martin Jansa<Martin.Jansa@gmail.com>
+> > ---
+> >   meta/recipes-devtools/gdb/gdb-cross-canadian.inc |   10 ++++++++--
+> >   1 files changed, 8 insertions(+), 2 deletions(-)
+> >
+> > diff --git a/meta/recipes-devtools/gdb/gdb-cross-canadian.inc b/meta/re=
+cipes-devtools/gdb/gdb-cross-canadian.inc
+> > index b5746ce..bac63b7 100644
+> > --- a/meta/recipes-devtools/gdb/gdb-cross-canadian.inc
+> > +++ b/meta/recipes-devtools/gdb/gdb-cross-canadian.inc
+> > @@ -10,12 +10,18 @@ RDEPENDS +=3D "python-nativesdk-core python-natives=
+dk-lang python-nativesdk-re \
+> >
+> >   EXTRA_OECONF_append =3D "--with-python=3D${WORKDIR}/python"
+> >
+> > +NATIVESDK_NAME =3D "oecore-${SDK_ARCH}-${SDK_ARCH}"
+> > +NATIVESDK_PATH =3D "/usr/local/${NATIVESDK_NAME}"
 
---f46d043748cb3629eb04b9350d2a--
+Ah, I was reusing definition from bitbake.conf:
+meta/conf/bitbake.conf:SDK_NAME =3D "oecore-${SDK_ARCH}-${TARGET_ARCH}"
+
+with only TARGET_ARCH replaced with SDK_ARCH.
+
+Can we move "oecore" to extra varible like:
+
+bitbake.conf:
+-SDK_NAME =3D "oecore-${SDK_ARCH}-${TARGET_ARCH}"
++SDK_NAME_PREFIX =3D "oecore"
++SDK_NAME =3D "${SDK_NAME_PREFIX}-${SDK_ARCH}-${TARGET_ARCH}"
+
+meta-yocto/conf/distro/poky.conf:
+-SDK_NAME =3D "${DISTRO}-${TCLIBC}-${SDK_ARCH}-${TARGET_ARCH}"
++SDK_NAME_PREFIX =3D "${DISTRO}-${TCLIBC}"
+
+SDK_PATH is worse:
+meta/conf/bitbake.conf:SDKPATH =3D "/usr/local/${SDK_NAME}"
+meta-yocto/conf/distro/poky.conf:SDKPATH =3D "/opt/${DISTRO}/${SDK_VERSION}"
+
+Maybe this patch is not going in right direction, but nobody replied in
+"SDK confusion Was: [oe] [meta-oe] gdb-cross-canadian: build gdb with pytho=
+n support"
+thread so I have sent this version which works in default (distroless)
+oe-core (and also for SHR as we don't override default SDK* variables.
+
+If this variables make sense globally, then we can move them to
+bitbake.conf and pokyt.conf (and maybe Angstrom too) can overwrite them
+like they do with other SDK*.
+
+Cheers,
+
+
+> Martin,
+>=20
+> These two lines will not work in the general case, since the NATIVESDK=20
+> might be for a different distro (not oecore) or in a different directory=
+=20
+> such as /opt vs /usr/local.
+>=20
+> The Poky build fails with this patch for example.
+>=20
+> Sau!
+>=20
+> > +NATIVESDK_PATHNATIVE =3D "${NATIVESDK_PATH}/sysroots/${SDK_SYS}"
+> > +NATIVESDK_LIBDIR =3D "${NATIVESDK_PATHNATIVE}${libdir_nativesdk}"
+> > +NATIVESDK_INCLUDEDIR =3D "${NATIVESDK_PATHNATIVE}${includedir_nativesd=
+k}"
+> > +
+>=20
+> >   do_configure_prepend() {
+> >   cat>  ${WORKDIR}/python<<  EOF
+> >   #! /bin/sh
+> >   case "\$2" in
+> > -        --includes) echo "-I${STAGING_DIR}/${HOST_ARCH}-nativesdk${HOS=
+T_VENDOR}-${HOST_OS}${exec_prefix}/include/python${PYTHON_BASEVERSION}/" ;;
+> > -        --ldflags) echo "-L${STAGING_DIR}/${HOST_ARCH}-nativesdk${HOST=
+_VENDOR}-${HOST_OS}${libdir}/python${PYTHON_BASEVERSION}/config/config -lpt=
+hread -ldl -lutil -lm -lpython${PYTHON_BASEVERSION}" ;;
+> > +        --includes) echo "-I${STAGING_DIR}/${HOST_ARCH}-nativesdk${HOS=
+T_VENDOR}-${HOST_OS}${NATIVESDK_INCLUDEDIR}/python${PYTHON_BASEVERSION}/" ;;
+> > +        --ldflags) echo "-L${STAGING_DIR}/${HOST_ARCH}-nativesdk${HOST=
+_VENDOR}-${HOST_OS}${NATIVESDK_LIBDIR}/python${PYTHON_BASEVERSION}/config -=
+lpthread -ldl -lutil -lm -lpython${PYTHON_BASEVERSION}" ;;
+> >           --exec-prefix) echo "/usr" ;;
+> >           *) exit 1 ;;
+> >   esac
+
+--=20
+Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
+
+--azLHFNyN32YCQGCU
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: Digital signature
+
+-----BEGIN PGP SIGNATURE-----
+Version: GnuPG v2.0.18 (GNU/Linux)
+
+iEYEARECAAYFAk8/kgMACgkQN1Ujt2V2gBx6NgCdGNcIqq1FITKsxO8Hv3qzLAa3
+TBcAn0j2d4QO3gz7xwPOi8Kh2vCgNksR
+=gtkf
+-----END PGP SIGNATURE-----
+
+--azLHFNyN32YCQGCU--
