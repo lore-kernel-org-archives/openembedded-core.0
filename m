@@ -1,33 +1,53 @@
-Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
-	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <richard.purdie@linuxfoundation.org>)
-	id 1Ryx48-0002yl-Lh; Sun, 19 Feb 2012 04:03:57 +0100
-Received: from localhost (localhost [127.0.0.1])
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q1J2tedU019776;
-	Sun, 19 Feb 2012 02:55:40 GMT
-Received: from tim.rpsys.net ([127.0.0.1])
-	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
-	port 10024) with LMTP
-	id 18864-02; Sun, 19 Feb 2012 02:55:36 +0000 (GMT)
-Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q1J2tTPl019770
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO);
-	Sun, 19 Feb 2012 02:55:32 GMT
-Message-ID: <1329620128.7006.8.camel@ted>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: bitbake-devel <bitbake-devel@lists.openembedded.org>
-Date: Sun, 19 Feb 2012 02:55:28 +0000
-In-Reply-To: <1329608182.4436.48.camel@ted>
-References: <1329608182.4436.48.camel@ted>
-X-Mailer: Evolution 3.2.2- 
-Mime-Version: 1.0
-X-Virus-Scanned: amavisd-new at rpsys.net
-Cc: openembedded-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [bitbake-devel] Bitbake Memory Usage
+Received: from am1ehsobe001.messaging.microsoft.com ([213.199.154.204]
+	helo=AM1EHSOBE004.bigfish.com)
+	by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <B29882@freescale.com>) id 1Rz1L7-0008Jv-Bl
+	for openembedded-core@lists.openembedded.org;
+	Sun, 19 Feb 2012 08:37:45 +0100
+Received: from mail32-am1-R.bigfish.com (10.3.201.240) by
+	AM1EHSOBE004.bigfish.com (10.3.204.24) with Microsoft SMTP Server id
+	14.1.225.23; Sun, 19 Feb 2012 07:29:27 +0000
+Received: from mail32-am1 (localhost [127.0.0.1])	by mail32-am1-R.bigfish.com
+	(Postfix) with ESMTP id 8C9734053B;
+	Sun, 19 Feb 2012 07:29:27 +0000 (UTC)
+X-SpamScore: -7
+X-BigFish: VS-7(zz9371I1432N98dKzz1202hzz8275dhz2dh2a8h668h839h8e2h8e3hbe9k)
+X-Forefront-Antispam-Report: CIP:70.37.183.190; KIP:(null); UIP:(null); IPV:NLI;
+	H:mail.freescale.net; RD:none; EFVD:NLI
+Received: from mail32-am1 (localhost.localdomain [127.0.0.1]) by mail32-am1
+	(MessageSwitch) id 1329636565158334_17610;
+	Sun, 19 Feb 2012 07:29:25 +0000 (UTC)
+Received: from AM1EHSMHS019.bigfish.com (unknown [10.3.201.233])	by
+	mail32-am1.bigfish.com (Postfix) with ESMTP id 239B02004B;
+	Sun, 19 Feb 2012 07:29:25 +0000 (UTC)
+Received: from mail.freescale.net (70.37.183.190) by AM1EHSMHS019.bigfish.com
+	(10.3.206.22) with Microsoft SMTP Server (TLS) id 14.1.225.23;
+	Sun, 19 Feb 2012 07:29:25 +0000
+Received: from 039-SN1MPN1-001.039d.mgd.msft.net ([169.254.1.244]) by
+	039-SN1MMR1-002.039d.mgd.msft.net ([10.84.1.15]) with mapi id
+	14.01.0355.003; Sun, 19 Feb 2012 01:29:25 -0600
+From: McClintock Matthew-B29882 <B29882@freescale.com>
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>, Richard Purdie
+	<richard.purdie@linuxfoundation.org>
+Thread-Topic: [OE-core] useradd: Add missing DEPEND on shadow
+Thread-Index: AQHM7tg0PUQHDhYhBkusb6mkJ5e9XQ==
+Date: Sun, 19 Feb 2012 07:29:24 +0000
+Message-ID: <CAEsOVNfS-UvJPCR527463OzKJLvVxK7GAnwr_==Lz7sjEOsYbA@mail.gmail.com>
+References: <1320883434.10843.244.camel@ted>
+In-Reply-To: <1320883434.10843.244.camel@ted>
+Accept-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [99.47.177.27]
+MIME-Version: 1.0
+X-OriginatorOrg: freescale.com
+Subject: Re: useradd: Add missing DEPEND on shadow
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
-Reply-To: Patches and discussions about the oe-core layer
+Reply-To: McClintock Matthew-B29882 <B29882@freescale.com>,
+	Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
 List-Id: Patches and discussions about the oe-core layer
 	<openembedded-core.lists.openembedded.org>
@@ -38,60 +58,41 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 19 Feb 2012 03:03:57 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Sun, 19 Feb 2012 07:37:45 -0000
+Content-Language: en-US
+Content-Type: text/plain; charset="iso-8859-1"
+Content-ID: <BC61D8037BFFD4439CCD73727E085AB7@freescale.net>
+Content-Transfer-Encoding: quoted-printable
 
-On Sat, 2012-02-18 at 23:36 +0000, Richard Purdie wrote:
-> I was looking at our process with top and sadly, this shows zero change
-> in bitbake memory usage, with it being stable at 206M. What is worth
-> noting is I've seen instability and had problems reproducing numbers in
-> the past. It now appears the first time you edit any of bitbake's .py
-> files and run it, you will get a higher memory usage (say 267M). The
-> second time you run bitbake having changed none of its .py files, the
-> usage will go back down. I can only assume there is some overhead in
-> creating the .pyc files and this pushes the memory usage up. I'd like to
-> understand that problem further.
+On Wed, Nov 9, 2011 at 4:03 PM, Richard Purdie
+<richard.purdie@linuxfoundation.org> wrote:
+> Without this rootfs generation fails as an RDEPENDS is added
+> but the package might not have bneen built.
+>
+> Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+> ---
+> diff --git a/meta/classes/useradd.bbclass b/meta/classes/useradd.bbclass
+> index 8cd7f4f..7faf1a7 100644
+> --- a/meta/classes/useradd.bbclass
+> +++ b/meta/classes/useradd.bbclass
+> @@ -2,7 +2,7 @@
+> =A0# target sysroot, and shadow -native and -sysroot provide the utilitie=
+s
+> =A0# and support files needed to add and modify user and group accounts
+> =A0DEPENDS_append =3D "${USERADDDEPENDS}"
+> -USERADDDEPENDS =3D " base-passwd shadow-native shadow-sysroot"
+> +USERADDDEPENDS =3D " base-passwd shadow-native shadow-sysroot shadow"
 
-For reference, only VSS increases and RSS does not in this case so it
-looks like there are leftover memory mappings.
+The shadow recipe is a 'PACKAGE_ARCH =3D "${MACHINE_ARCH}"' recipe. This
+makes all recipes that inherit useradd depend on shadow which will
+depend on the MACHINE being built for. Ideally, we just need a way to
+ensure these packages are deployed - we don't want them to effect
+signatures.
 
-> So we got rid of about half the objects from memory and nearly halved
-> the memory consumption. Seems a shame the overall memory usage therefore
-> didn't change then? :/.
+Can you suggest a better fix here? Some
+bb.exec_func("shadow:do_populate_sysroot") or something equivalent?
 
-> So in summary, our fork() execution model may have some scary looking
-> memory numbers but in reality the overhead is good with CoW. There are
-> some puzzles remaining about how/when we can cooerce python to give
-> memory back to the system. We should also look at the memory hogging
-> variables identified and see if we can't do something better with them
-> in the core.
-> 
-> I'm going to continue to look at this when I have time but I hope this
-> reassures some people about the fork() overhead and enthuses some people
-> to further look around bitbake's memory usage.
-
-Digging a little deeper, it was mainly strings that we were making the
-saving with. I checked and the allocator for string objects in python
-will return them to the main python objector allocator, maintaining only
-a small queue of 80 objects for reuse. For objects over 256 bytes in
-size, the glibc malloc/free calls are used. In turn, glibc uses sbrk()
-to change the data segment size if necessary for anything less that
-128kb in size. The string in the caches in question are very likely to
-be over 256 bytes in size but under 128kb.
-
-The problem is then going to be memory fragmentation since whilst we can
-free the memory used by the objects, its extremely unlikely everything
-to the end of the data segment is likely to be free so sbrk() cannot be
-rolled backwards to free memory.
-
-So in summary its unlikely we're going to get freed memory back with
-python for these kinds of caches, at least from the main server
-process...
-
-Cheers,
-
-Richard
+-M=
 
 
 
