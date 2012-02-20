@@ -1,22 +1,22 @@
 Received: from smtpfb2-g21.free.fr ([212.27.42.10])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <eric@eukrea.com>) id 1RzOKd-0000sD-6q
+	(envelope-from <eric@eukrea.com>) id 1RzOPU-000147-9s
 	for openembedded-core@lists.openembedded.org;
-	Mon, 20 Feb 2012 09:10:47 +0100
+	Mon, 20 Feb 2012 09:15:48 +0100
 Received: from smtp3-g21.free.fr (smtp3-g21.free.fr [212.27.42.3])
-	by smtpfb2-g21.free.fr (Postfix) with ESMTP id 35B87D1A39D
+	by smtpfb2-g21.free.fr (Postfix) with ESMTP id 2D371D198CA
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 20 Feb 2012 08:57:21 +0100 (CET)
+	Mon, 20 Feb 2012 08:57:42 +0100 (CET)
 Received: from localhost.localdomain (unknown [82.233.81.124])
-	by smtp3-g21.free.fr (Postfix) with ESMTP id 7B393A6251;
-	Mon, 20 Feb 2012 08:57:16 +0100 (CET)
+	by smtp3-g21.free.fr (Postfix) with ESMTP id 72CFEA6292;
+	Mon, 20 Feb 2012 08:57:38 +0100 (CET)
 From: =?UTF-8?q?Eric=20B=C3=A9nard?= <eric@eukrea.com>
 To: openembedded-core@lists.openembedded.org
-Date: Mon, 20 Feb 2012 08:57:11 +0100
-Message-Id: <1329724631-2052-1-git-send-email-eric@eukrea.com>
+Date: Mon, 20 Feb 2012 08:57:33 +0100
+Message-Id: <1329724653-2094-1-git-send-email-eric@eukrea.com>
 X-Mailer: git-send-email 1.7.7.6
 MIME-Version: 1.0
-Subject: [PATCH] pulseaudio: cleary disable orc support
+Subject: [PATCH] pulseaudio: realy disable orc support
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -31,7 +31,7 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 20 Feb 2012 08:10:47 -0000
+X-List-Received-Date: Mon, 20 Feb 2012 08:15:48 -0000
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
 
