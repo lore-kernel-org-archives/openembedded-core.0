@@ -1,42 +1,34 @@
-Received: from mail-ee0-f47.google.com ([74.125.83.47])
+Received: from mail.windriver.com ([147.11.1.11])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <andrei@gherzan.ro>) id 1RzE4r-0002fx-4O
+	(envelope-from <Xiaofeng.Yan@windriver.com>) id 1RzN3K-0003ZO-JO
 	for openembedded-core@lists.openembedded.org;
-	Sun, 19 Feb 2012 22:13:49 +0100
-Received: by eekd41 with SMTP id d41so1733074eek.6
-	for <openembedded-core@lists.openembedded.org>;
-	Sun, 19 Feb 2012 13:05:32 -0800 (PST)
-Received-SPF: pass (google.com: domain of andrei@gherzan.ro designates
-	10.213.28.204 as permitted sender) client-ip=10.213.28.204; 
-Authentication-Results: mr.google.com;
-	spf=pass (google.com: domain of andrei@gherzan.ro
-	designates 10.213.28.204 as permitted sender)
-	smtp.mail=andrei@gherzan.ro
-Received: from mr.google.com ([10.213.28.204])
-	by 10.213.28.204 with SMTP id n12mr1688585ebc.74.1329685532200
-	(num_hops = 1); Sun, 19 Feb 2012 13:05:32 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=google.com; s=gamma;
-	h=mime-version:from:to:cc:subject:date:message-id:x-mailer
-	:x-gm-message-state;
-	bh=ckx71kW4dRwl3evMhngnodFWmbD8/AqsYeHJZcm1Xz4=;
-	b=i3KWerHVyEri4i02aXnfJ3QallC3WYIn+3/rCzRnu3xnR0yYeilVbs7QUAdRfZLW22
-	ijlhpUmHvL7j+tEAWHhQ0Ea/TiUqt4KZ6Ax/Tc5NUnVsGlKQBHviNK5kIbhqaveUOBy3
-	Qh+IBVlgiM2pgyohIL2YXAxarDihbMJPiGryU=
+	Mon, 20 Feb 2012 07:48:50 +0100
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca [147.11.189.40])
+	by mail.windriver.com (8.14.3/8.14.3) with ESMTP id q1K6eT6T010948
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
+	Sun, 19 Feb 2012 22:40:29 -0800 (PST)
+Received: from [128.224.162.223] (128.224.162.223) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server (TLS) id 14.1.255.0;
+	Sun, 19 Feb 2012 22:40:29 -0800
+Message-ID: <4F41EAD7.3030009@windriver.com>
+Date: Mon, 20 Feb 2012 14:40:23 +0800
+From: Xiaofeng Yan <xiaofeng.yan@windriver.com>
+User-Agent: Mozilla/5.0 (X11; U; Linux i686; en-US;
+	rv:1.9.2.23) Gecko/20110921 Thunderbird/3.1.15
 MIME-Version: 1.0
-Received: by 10.213.28.204 with SMTP id n12mr1337038ebc.74.1329685530472;
-	Sun, 19 Feb 2012 13:05:30 -0800 (PST)
-Received: from localhost.localdomain ([79.117.107.69])
-	by mx.google.com with ESMTPS id c16sm69362437eei.1.2012.02.19.13.05.29
-	(version=TLSv1/SSLv3 cipher=OTHER);
-	Sun, 19 Feb 2012 13:05:29 -0800 (PST)
-From: Andrei Gherzan <andrei@gherzan.ro>
-To: openembedded-core@lists.openembedded.org
-Date: Sun, 19 Feb 2012 23:05:24 +0200
-Message-Id: <1329685524-30028-1-git-send-email-andrei@gherzan.ro>
-X-Mailer: git-send-email 1.7.5.4
-X-Gm-Message-State: ALoCoQkSHy+wxj8V54KKZU8XQblqpALPdE3nQ1alV70NZetcUpMCA+edts3yRTRpvDdUBM+mjt27
-Subject: [PATCH] dbus: Remove empty ${lindir}dbus-1.0/test directory as we don't build tests
+To: Saul Wold <sgw@linux.intel.com>
+References: <4F21BE12.3000008@linux.intel.com>
+	<4F24F672.5090107@linux.intel.com> <4F38E8CB.6090101@windriver.com>
+	<4F3A9118.8050806@linux.intel.com>
+	<4F3BCE0C.10400@linux.intel.com> <4F3C59A8.209@windriver.com>
+	<4F3EE848.80703@linux.intel.com>
+In-Reply-To: <4F3EE848.80703@linux.intel.com>
+X-Originating-IP: [128.224.162.223]
+X-MIME-Autoconverted: from 8bit to quoted-printable by mail.windriver.com id
+	q1K6eT6T010948
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [oe] Source Archiver Class
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -51,40 +43,99 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 19 Feb 2012 21:13:49 -0000
+X-List-Received-Date: Mon, 20 Feb 2012 06:48:51 -0000
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: quoted-printable
 
-This empty directory generates a QA warning of unshippped files/dirs.
+On 2012=E5=B9=B402=E6=9C=8818=E6=97=A5 07:52, Saul Wold wrote:
+>
+> Xiaofeng & Community:
+>
+> We had a chat with Chris Larson and Mark Hatle here at ELC.
+>
+> We focused this issue down to a fewer number of options that meet the=20
+> needs of the licenses.  Please review this and let us know if there=20
+> are any issues or concerns.
+>
+>
+Hi Saul,
 
-Signed-off-by: Andrei Gherzan <andrei@gherzan.ro>
----
- meta/recipes-core/dbus/dbus.inc |    5 ++++-
- 1 files changed, 4 insertions(+), 1 deletions(-)
+I comment my understanding as follow:
+> Best Practices:
+>  - Archive during build, we do not support nor recommend post archiving
+>  - Original tarball and patches w/ordering file (maybe comment the
+>    series), grab non-patch files also.
+         for example:
+         file://a.patch
+         file://b.config.in
+         we also archive b.config.in.
+>  - Unless requesting configured sources, which will just be the
+>    configured source tarball
+>  - Grab temp as postfunc of do_package - latest logs via links & pid
+>
+        That means logs package include all of logs in temp. for example.
+        You has described a following function we will realize at the=20
+previous email.
+       3 - Original Source code & Patches & temp (scripts & logs)
 
-diff --git a/meta/recipes-core/dbus/dbus.inc b/meta/recipes-core/dbus/dbus.inc
-index 2a25256..588209f 100644
---- a/meta/recipes-core/dbus/dbus.inc
-+++ b/meta/recipes-core/dbus/dbus.inc
-@@ -10,7 +10,7 @@ DEPENDS = "expat virtual/libintl ${@base_contains('DISTRO_FEATURES', 'x11', '${X
- DEPENDS_virtclass-native = "expat-native virtual/libintl-native"
- DEPENDS_virtclass-nativesdk = "expat-nativesdk virtual/libintl-nativesdk virtual/libx11"
- 
--INC_PR = "r1"
-+INC_PR = "r2"
- 
- SRC_URI = "http://dbus.freedesktop.org/releases/dbus/dbus-${PV}.tar.gz \
-            file://tmpdir.patch; \
-@@ -91,6 +91,9 @@ do_install() {
- 	# Remove Red Hat initscript
- 	rm -rf ${D}${sysconfdir}/rc.d
- 
-+	# Remove empty testexec directory as we don't build tests
-+	rm -rf ${D}${libdir}/dbus-1.0/test
-+
- 	# disable dbus-1 sysv script on systemd installs
- 	# nearly all distros call the initscript plain 'dbus', but OE-core is different
- 	ln -sf /dev/null ${D}/${base_libdir}/systemd/system/dbus-1.service
--- 
-1.7.5.4
+        source codes and patches should be in the stage=20
+do_patch[postfunc] =3D " do_get_source"
+        logs should be in the stage do_package[postfunc] =3D " do_get_log=
+s"
+        So logs file shouldn't be archived in do_patch[postfunc] =3D "=20
+do_get_logs"
+        The logs in the stage of do_packge are more than do_patch.
 
+> For sstate Builds (LATER):
+>  - need to verify that fetch/patch/configure will get re-run for=20
+> archiving
+>  - Add temp dir to sstate capture (without links)
+>
+> 3 Implementations classes
+>  - Filter in oe/lib/license.py
+>  - source_archive.bb
+>    - archives tarballs to ${BP}/...
+>    - reuse copyleft_compliance for patch handling
+>  - srpm
+>    - take output from above and create SRPM - (LATER)
+>
+We will do the archive  work according the license .  I will implement=20
+two functions, one is for left, the other for right.
+> 2 Configuration classes
+>  - uses prefunc/postfunc at correct place
+>  - Original Tarball / Patches
+>  - Post Configuration
+>
+We can define 8 classes to complete  8 kinds of archiving methods. =20
+every class will inherit archiver.bbclass.
+and then realize do_stage[prefunc/postfunc] in this class.
+stage include unpack, patch, configure, build package and so on.
+for example. we want only to get original tarball, then we can define a=20
+bbclass named "source.bbclass"
+source.bbclass:
+   inherit archiver.bbclass
+   do_unpack[postfunc] =3D " do_get_source"
+
+if we want to get both original and patches tarball, then we can define=20
+bbclass names "source_patches.bbclass"
+source_patches.bbclass
+    inherit archiver.bbclass
+    do_unpack[postfunc] =3D " do_get_source_patches"
+
+> SOURCE_ARCHIVE_PACKAGE_TYPE =3D {tar, srpm}
+> SOURCE_ARCHIVE_LOG =3D {True, False}
+>
+> Please let us know if you have any questions.
+>
+> Sau!
+>
+If my understanding don't meet your ideas, Please correct me.
+
+Thanks for your help very much.
+
+Thanks
+Yan
+> On 02/15/2012 05:19 PM, Xiaofeng Yan wrote:
+>
 
 
