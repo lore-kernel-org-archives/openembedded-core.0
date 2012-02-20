@@ -1,42 +1,37 @@
-Received: from mail-lpp01m010-f47.google.com ([209.85.215.47])
+Received: from out5-smtp.messagingengine.com ([66.111.4.29])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <raj.khem@gmail.com>) id 1RzWgl-0001HO-As
+	(envelope-from <walters@verbum.org>) id 1RzYpd-0006c6-Ik
 	for openembedded-core@lists.openembedded.org;
-	Mon, 20 Feb 2012 18:06:11 +0100
-Received: by lahc1 with SMTP id c1so6618835lah.6
+	Mon, 20 Feb 2012 20:23:30 +0100
+Received: from compute6.internal (compute6.nyi.mail.srv.osa [10.202.2.46])
+	by gateway1.nyi.mail.srv.osa (Postfix) with ESMTP id 5055C21082
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 20 Feb 2012 08:57:53 -0800 (PST)
-Received-SPF: pass (google.com: domain of raj.khem@gmail.com designates
-	10.112.8.129 as permitted sender) client-ip=10.112.8.129; 
-Authentication-Results: mr.google.com;
-	spf=pass (google.com: domain of raj.khem@gmail.com
-	designates 10.112.8.129 as permitted sender)
-	smtp.mail=raj.khem@gmail.com;
-	dkim=pass header.i=raj.khem@gmail.com
-Received: from mr.google.com ([10.112.8.129])
-	by 10.112.8.129 with SMTP id r1mr7982984lba.38.1329757073357 (num_hops
-	= 1); Mon, 20 Feb 2012 08:57:53 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:content-type:content-transfer-encoding;
-	bh=ymbnh92FA8AQsRbEmjDhYiibRvVK6aoDZXY1APqnUk8=;
-	b=TOV6iYrotjY7RjJekxjBhWmX61LcgPQ2Yyd7v9g0s7HeuS+dPHP5+kqK94x7rf588f
-	/ZfnSwRmGCM/UFQiM2EoeHVKeF2ImMqBAleghZuaa8ndmONDuV00cetqEgcMPElrXHWZ
-	0FSJ+NRhDd3AN+ABa2abVAhe+wijpycIR2q+I=
-Received: by 10.112.8.129 with SMTP id r1mr6692269lba.38.1329757073279; Mon,
-	20 Feb 2012 08:57:53 -0800 (PST)
-MIME-Version: 1.0
-Received: by 10.152.27.109 with HTTP; Mon, 20 Feb 2012 08:57:23 -0800 (PST)
-In-Reply-To: <A86092D2-EFD8-4D6E-93A6-7911E3A9B066@dominion.thruhere.net>
-References: <cover.1328510187.git.raj.khem@gmail.com>
-	<4F31F617.9020603@linux.intel.com>
-	<A86092D2-EFD8-4D6E-93A6-7911E3A9B066@dominion.thruhere.net>
-From: Khem Raj <raj.khem@gmail.com>
-Date: Mon, 20 Feb 2012 08:57:23 -0800
-Message-ID: <CAMKF1sowSsmZUQVkTnTiBStkmsVKnHvqwizqEgJLoV3ZvsEw_A@mail.gmail.com>
+	Mon, 20 Feb 2012 14:15:13 -0500 (EST)
+Received: from frontend1.nyi.mail.srv.osa ([10.202.2.160])
+	by compute6.internal (MEProxy); Mon, 20 Feb 2012 14:15:13 -0500
+DKIM-Signature: v=1; a=rsa-sha1; c=relaxed/relaxed; d=
+	messagingengine.com; h=subject:from:to:cc:in-reply-to:references
+	:content-type:date:message-id:mime-version
+	:content-transfer-encoding; s=smtpout; bh=6+svGQExUGtSxEdSnh+MNq
+	HfbCI=; b=ZA2x9iffeW0ZuSwHJ7tmqBB0OJJ1qfd0il09fKpxBFBZWuq7ws4IA0
+	r9gP6WfaOgjn0AGnD67WKwJv9iApIDkYN/oOlVNV2NdjdOYUyLhSuMiqIo6v4Bq2
+	BS2UGSRONW5hV3VtclGHmEFZ/462vdhugPxXmiekHLNmOdQcsJg9o=
+X-Sasl-enc: ACi/id/bGKnVmuVO1w+ddE1X6v2hEE7YhDQC4/knAvyR 1329765313
+Received: from [192.168.1.6] (c-65-96-60-117.hsd1.ct.comcast.net
+	[65.96.60.117])
+	by mail.messagingengine.com (Postfix) with ESMTPA id 0A97C8E025E;
+	Mon, 20 Feb 2012 14:15:13 -0500 (EST)
+From: Colin Walters <walters@verbum.org>
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH V2 00/20] uclibc upgrade, initial kmod and thumb tune
+In-Reply-To: <1329608182.4436.48.camel@ted>
+References: <1329608182.4436.48.camel@ted>
+Date: Mon, 20 Feb 2012 09:05:00 -0500
+Message-ID: <1329746700.22425.2.camel@lenny>
+Mime-Version: 1.0
+X-Mailer: Evolution 3.0.3 (3.0.3-1.fc15) 
+Cc: bitbake-devel <bitbake-devel@lists.openembedded.org>
+Subject: Re: Bitbake Memory Usage
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -51,40 +46,22 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 20 Feb 2012 17:06:11 -0000
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Mon, 20 Feb 2012 19:23:30 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-On Mon, Feb 20, 2012 at 4:11 AM, Koen Kooi <koen@dominion.thruhere.net> wro=
-te:
->
-> Op 8 feb. 2012, om 05:12 heeft Saul Wold het volgende geschreven:
->
->> On 02/05/2012 10:40 PM, Khem Raj wrote:
->>>
->>
->>> =C2=A0 kmod: Add recipes
->>> =C2=A0 module-init-tools: Delete
->>> =C2=A0 image.bbclass,kernel.bbclass: Use kmod-native instead of
->>> =C2=A0 =C2=A0 module-init-tools-cross
->> Withdrawn for now
->
-> Khem, Saul, any news on a new patchset for kmod?
+On Sat, 2012-02-18 at 23:36 +0000, Richard Purdie wrote:
+> As soon as the child starts trying to remove
+> things from memory, we lose the benefits of CoW and USS and PSS rise.
 
-The top three patches on
-http://git.openembedded.org/openembedded-core-contrib/log/?h=3Dkraj/misc
-is what I have latest there is some work left to do. in packaging area
-e.g. stuff going into / instead of /usr is not perfect
-since libkmod is going into /usr and rest to / but
+Note that even leaving out the garbage collector, the cPython VM
+incrementing/decrementing the refcount of objects will force the copy.
 
->
-> regards,
->
-> Koen
->
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
+The python multiprocessing module has some classes which allow
+explicitly sharing memory.  Certainly for various caches e.g. if
+they're just read-only after a certain point it might make sense
+to wrap them in e.g. a multiprocessing.Value.
+
+
 
 
