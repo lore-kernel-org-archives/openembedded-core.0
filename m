@@ -1,32 +1,37 @@
-Received: from mail-qw0-f47.google.com ([209.85.216.47])
+Received: from mail-bk0-f47.google.com ([209.85.214.47])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <kergoth@gmail.com>)
-	id 1RzZV1-0008EQ-9w; Mon, 20 Feb 2012 21:06:17 +0100
-Received: by qadz30 with SMTP id z30so4016223qad.6
-	for <multiple recipients>; Mon, 20 Feb 2012 11:57:56 -0800 (PST)
+	(envelope-from <sidebranch.openembedded@gmail.com>)
+	id 1RzbPX-0005kU-Ao for openembedded-core@lists.openembedded.org;
+	Mon, 20 Feb 2012 23:08:43 +0100
+Received: by bkwq11 with SMTP id q11so5131089bkw.6
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 20 Feb 2012 14:00:25 -0800 (PST)
+Received-SPF: pass (google.com: domain of sidebranch.openembedded@gmail.com
+	designates 10.205.122.73 as permitted sender)
+	client-ip=10.205.122.73; 
+Authentication-Results: mr.google.com; spf=pass (google.com: domain of
+	sidebranch.openembedded@gmail.com designates 10.205.122.73 as
+	permitted sender) smtp.mail=sidebranch.openembedded@gmail.com;
+	dkim=pass header.i=sidebranch.openembedded@gmail.com
+Received: from mr.google.com ([10.205.122.73])
+	by 10.205.122.73 with SMTP id gf9mr1698751bkc.4.1329775225331 (num_hops
+	= 1); Mon, 20 Feb 2012 14:00:25 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
-	h=mime-version:sender:in-reply-to:references:from:date
-	:x-google-sender-auth:message-id:subject:to:cc:content-type
-	:content-transfer-encoding;
-	bh=d4t/LvCda9O9NzEtIsuubRtKYcg7o6v0vTDRRQFR4WY=;
-	b=Yipa0+BlQefeWCY3PzoFl3UB1r2RsLdJewGGmPGM/C/pqmuiq278NqWopTWHEUiaCM
-	DMtiQiwbS0kFAHFcJPV4rEjeK9Q+uULR0tYcV+vuf20QTjIQ5LWbXyc4GoGgIlahlBbA
-	bmXOR9ojLOolNZGVEQn83wTaNkCJDZ806YEZM=
-Received: by 10.229.78.204 with SMTP id m12mr14246959qck.130.1329767876520;
-	Mon, 20 Feb 2012 11:57:56 -0800 (PST)
+	h=mime-version:date:message-id:subject:from:to:content-type;
+	bh=AvRo2KKzH5pbjKYNehb3uJ2oyuR/TZQMBJYtdDAZujw=;
+	b=myTsnjZIG5y7nRFi1MyQflaiaqz2grqlYGVCi1k+/SqGkDlAKqFlsgDeIDmRju+VQd
+	IDGHGVQgUitmmQv1Et0ZzNFoQiOgK1Cosnxqiqq3H02v9ZGKLiPgB64lW+R9a0PeqFS2
+	DnSXcT0JMrNq43rpfO1hjcQOy6zutNP7r7vcA=
 MIME-Version: 1.0
-Sender: kergoth@gmail.com
-Received: by 10.229.224.145 with HTTP; Mon, 20 Feb 2012 11:57:36 -0800 (PST)
-In-Reply-To: <1329746700.22425.2.camel@lenny>
-References: <1329608182.4436.48.camel@ted> <1329746700.22425.2.camel@lenny>
-From: Chris Larson <clarson@kergoth.com>
-Date: Mon, 20 Feb 2012 12:57:36 -0700
-X-Google-Sender-Auth: FIrgqDzGnwMUzEsOtGof140KR1U
-Message-ID: <CABcZANmS1TK6p3VD-GQv34X=sPmMOQo8ik370CrnH6qa=rbNUA@mail.gmail.com>
+Received: by 10.205.122.73 with SMTP id gf9mr1369552bkc.4.1329775225245; Mon,
+	20 Feb 2012 14:00:25 -0800 (PST)
+Received: by 10.204.225.70 with HTTP; Mon, 20 Feb 2012 14:00:25 -0800 (PST)
+Date: Mon, 20 Feb 2012 23:00:25 +0100
+Message-ID: <CAMvUbCwy5UL3YWXS=2SkeKff2WDQE9EX7-CGUv9s5SH+9uSK1g@mail.gmail.com>
+From: Leon Woestenberg <sidebranch.openembedded@gmail.com>
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Cc: bitbake-devel <bitbake-devel@lists.openembedded.org>
-Subject: Re: Bitbake Memory Usage
+Subject: bitbake parsing of IMAGE_INSTALL += # tslib mtd-utils" extremely user unfriendly.
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -41,31 +46,34 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 20 Feb 2012 20:06:17 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Mon, 20 Feb 2012 22:08:43 -0000
+Content-Type: multipart/alternative; boundary=000e0ce0d2eeee90e604b96c6b05
+
+--000e0ce0d2eeee90e604b96c6b05
+Content-Type: text/plain; charset=ISO-8859-1
+
+Hello all,
+
+bitbake can really braindump on us when we insert typo's.  The result of
+bitbake 1.14 parsing this one wasn't pleasant:
+
+IMAGE_INSTALL += # tslib mtd-utils"
+
+(Yes, it's a typo. No, I wouldn't expect bitbake to give me that much
+output :) )
+
+Regards,
+
+Leon.
+
+--000e0ce0d2eeee90e604b96c6b05
+Content-Type: text/html; charset=ISO-8859-1
 Content-Transfer-Encoding: quoted-printable
 
-On Mon, Feb 20, 2012 at 7:05 AM, Colin Walters <walters@verbum.org> wrote:
-> On Sat, 2012-02-18 at 23:36 +0000, Richard Purdie wrote:
->> As soon as the child starts trying to remove
->> things from memory, we lose the benefits of CoW and USS and PSS rise.
->
-> Note that even leaving out the garbage collector, the cPython VM
-> incrementing/decrementing the refcount of objects will force the copy.
->
-> The python multiprocessing module has some classes which allow
-> explicitly sharing memory. =C2=A0Certainly for various caches e.g. if
-> they're just read-only after a certain point it might make sense
-> to wrap them in e.g. a multiprocessing.Value.
+Hello all,<br><br>bitbake can really braindump on us when we insert typo&#3=
+9;s.=A0 The result of bitbake 1.14 parsing this one wasn&#39;t pleasant:<br=
+><br>IMAGE_INSTALL +=3D # tslib mtd-utils&quot;<br><br>(Yes, it&#39;s a typ=
+o. No, I wouldn&#39;t expect bitbake to give me that much output :) )<br>
+<br>Regards,<br><br>Leon.<br>
 
-Hmm, that's quite interesting, thanks for that tidbit. We should
-consider looking into that. On a related note, I think we should sit
-down and basically review every use of a cache anywhere in bitbake and
-rethink their operation. We still have multiple caches stored as
-globals with no expiration policy of any sort, they accrue
-indefinitely, until process exit. As we review them, we could consider
-this as well on a case-by-case basis.
---=20
-Christopher Larson
-
-
+--000e0ce0d2eeee90e604b96c6b05--
