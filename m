@@ -1,25 +1,25 @@
-Received: from mga01.intel.com ([192.55.52.88])
+Received: from mga09.intel.com ([134.134.136.24])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <sgw@linux.intel.com>) id 1RzvCV-00033I-Hh
+	(envelope-from <sgw@linux.intel.com>) id 1RzvEl-0003Ax-UA
 	for openembedded-core@lists.openembedded.org;
-	Tue, 21 Feb 2012 20:16:35 +0100
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-	by fmsmga101.fm.intel.com with ESMTP; 21 Feb 2012 11:08:15 -0800
+	Tue, 21 Feb 2012 20:18:56 +0100
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+	by orsmga102.jf.intel.com with ESMTP; 21 Feb 2012 11:10:35 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="119774881"
+X-IronPort-AV: E=Sophos;i="4.67,352,1309762800"; d="scan'208";a="110491846"
 Received: from unknown (HELO [10.255.15.72]) ([10.255.15.72])
-	by fmsmga001.fm.intel.com with ESMTP; 21 Feb 2012 11:08:15 -0800
-Message-ID: <4F43EB9F.9030300@linux.intel.com>
-Date: Tue, 21 Feb 2012 11:08:15 -0800
+	by orsmga001.jf.intel.com with ESMTP; 21 Feb 2012 11:10:34 -0800
+Message-ID: <4F43EC2A.5010808@linux.intel.com>
+Date: Tue, 21 Feb 2012 11:10:34 -0800
 From: Saul Wold <sgw@linux.intel.com>
 User-Agent: Mozilla/5.0 (X11; Linux x86_64;
 	rv:10.0) Gecko/20120131 Thunderbird/10.0
 MIME-Version: 1.0
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-References: <4F35945D.7020900@opendreambox.org>
-In-Reply-To: <4F35945D.7020900@opendreambox.org>
-Subject: Re: [PATCH] consolekit: depend on libx11
+References: <cover.1328859334.git.lianhao.lu@intel.com>
+In-Reply-To: <cover.1328859334.git.lianhao.lu@intel.com>
+Subject: Re: [PATCH 0/1] Fixing guile cross configure failure
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -34,42 +34,34 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 21 Feb 2012 19:16:35 -0000
+X-List-Received-Date: Tue, 21 Feb 2012 19:18:56 -0000
 Content-Type: text/plain; charset=ISO-8859-1; format=flowed
 Content-Transfer-Encoding: 7bit
 
-On 02/10/2012 02:04 PM, Andreas Oberritter wrote:
-> * Fixes the following error at configure time:
+On 02/09/2012 11:37 PM, Lianhao Lu wrote:
+> This patch fixed the cross configure failure of guile, as for yocto bug #1978.
 >
-> |checking for TOOLS... no
-> |configure: error: Package requirements (x11>= 1.0.0
-> |  glib-2.0>= 2.14
-> |) were not met:
-> |
-> |No package 'x11' found
+> The following changes since commit 4ef5e70f531f48cef90805402c16ec02ad3f2b92:
+>    Christopher Larson (1):
+>          tcmode-default: add preference for gdb/gdbserver
 >
-> Signed-off-by: Andreas Oberritter<obi@opendreambox.org>
-> ---
-> * Note that I didn't build test this, because I'm building
->    without x11. I just looked up the package of x11.pc, which
->    at least in Ubuntu is libx11.
+> are available in the git repository at:
 >
->   .../recipes-support/consolekit/consolekit_0.4.5.bb |    2 +-
->   1 files changed, 1 insertions(+), 1 deletions(-)
+>    git://git.yoctoproject.org/poky-contrib llu/bug1978
+>    http://git.yoctoproject.org/cgit.cgi/poky-contrib/log/?h=llu/bug1978
 >
-> diff --git a/meta/recipes-support/consolekit/consolekit_0.4.5.bb b/meta/recipes-support/consolekit/consolekit_0.4.5.bb
-> index 3ded6df..3a4b04f 100644
-> --- a/meta/recipes-support/consolekit/consolekit_0.4.5.bb
-> +++ b/meta/recipes-support/consolekit/consolekit_0.4.5.bb
-> @@ -13,7 +13,7 @@ POLKIT_libc-uclibc = ""
->   POLKITCONF = ""
->   POLKITCONF_libc-uclibc = "--disable-policykit"
+> Lianhao Lu (1):
+>    guile: fix cross configure failure
 >
-> -DEPENDS = "glib-2.0 dbus ${POLKIT} ${@base_contains('DISTRO_FEATURES', 'pam', 'libpam', '', d)}"
-> +DEPENDS = "glib-2.0 dbus ${POLKIT} ${@base_contains('DISTRO_FEATURES', 'pam', 'libpam', '', d)} virtual/libx11"
->   RDEPENDS_${PN} += "base-files"
+>   meta/recipes-devtools/guile/guile_2.0.3.bb |    4 +++-
+>   1 files changed, 3 insertions(+), 1 deletions(-)
 >
->   inherit gnome
+>
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
+>
 
 Merged into OE-core
 
