@@ -1,27 +1,26 @@
-Received: from mail.pbcl.net ([88.198.119.4] helo=hetzner.pbcl.net)
+Received: from mga01.intel.com ([192.55.52.88])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <philb@gnu.org>) id 1RzxaA-0001XJ-MI
+	(envelope-from <paul.eggleton@linux.intel.com>) id 1Rzxdv-0001e8-5n
 	for openembedded-core@lists.openembedded.org;
-	Tue, 21 Feb 2012 22:49:10 +0100
-Received: from blundell.swaffham-prior.co.uk ([91.216.112.25]
-	helo=[192.168.114.6])
-	by hetzner.pbcl.net with esmtpsa (TLS1.0:RSA_AES_256_CBC_SHA1:32)
-	(Exim 4.72) (envelope-from <philb@gnu.org>) id 1RzxS9-0005st-Hy
-	for openembedded-core@lists.openembedded.org;
-	Tue, 21 Feb 2012 22:40:53 +0100
-Message-ID: <1329860429.2591.187.camel@x121e.pbcl.net>
-From: Phil Blundell <philb@gnu.org>
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Date: Tue, 21 Feb 2012 21:40:29 +0000
-In-Reply-To: <CAMKF1so0r+8CUMCAQ0Jz1wbP=jSjqnZGuSjPawn5FtJGOQjBjA@mail.gmail.com>
-References: <cover.1329456260.git.yi.zhao@windriver.com>
-	<ea7342b8cdd7a0f9c49253f9e063ab7577f04038.1329456260.git.yi.zhao@windriver.com>
-	<4F43F9EE.5080608@linux.intel.com>
-	<CAMKF1so0r+8CUMCAQ0Jz1wbP=jSjqnZGuSjPawn5FtJGOQjBjA@mail.gmail.com>
-X-Mailer: Evolution 3.2.2-1 
-Mime-Version: 1.0
-Subject: Re: [PATCH 1/3] lsbtest: Add recipe for LSB tests and automate test
+	Tue, 21 Feb 2012 22:53:03 +0100
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+	by fmsmga101.fm.intel.com with ESMTP; 21 Feb 2012 13:44:42 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="127884441"
+Received: from unknown (HELO helios.localnet) ([10.252.123.31])
+	by fmsmga002.fm.intel.com with ESMTP; 21 Feb 2012 13:44:41 -0800
+From: Paul Eggleton <paul.eggleton@linux.intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Tue, 21 Feb 2012 21:44:39 +0000
+Message-ID: <1653112.YUnhIDHb6u@helios>
+Organization: Intel Corporation
+User-Agent: KMail/4.8.0 (Linux/3.0.0-16-generic-pae; KDE/4.8.0; i686; ; )
+In-Reply-To: <CAGDS+nn7+3zVFX896P-+y5tT4Xw-++bgKtizmDsFZUno5D9Y8A@mail.gmail.com>
+References: <cover.1329147583.git.Martin.Jansa@gmail.com>
+	<CAMKF1sqMP5yyeFo8qUhjd1xPkOvV6JcpzSwRP33VNyc0wf+C_A@mail.gmail.com>
+	<CAGDS+nn7+3zVFX896P-+y5tT4Xw-++bgKtizmDsFZUno5D9Y8A@mail.gmail.com>
+MIME-Version: 1.0
+Subject: Re: [PATCH 4/4] recipes: bump PR to rebuild .la files without libz.la
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -36,30 +35,23 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 21 Feb 2012 21:49:10 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Tue, 21 Feb 2012 21:53:03 -0000
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
 
-On Tue, 2012-02-21 at 13:02 -0800, Khem Raj wrote:
-> On Tue, Feb 21, 2012 at 12:09 PM, Saul Wold <sgw@linux.intel.com> wrote:
-> > I think you need to have a RDEPENDS on at a minimum for this lsbtest recipe
-> > since it relies on RPM to install the packages.
-> >
-> > RDEPENDS = "rpm"
-> >
-> >
-> 
-> that wont fly if someone is using opkg or dpkg
+On Tuesday 21 February 2012 13:16:11 Steve Sakoman wrote:
+> Since Poky doesn't have x11 in DISTRO_FEATURES, cairo builds without
+> xlib support by default.
 
-LSB requires that you be able to install RPMs, irrespective of what your
-native package format is.  So, if you are using opkg and care about LSB
-compliance then you will probably need to engineer some sort of wrapper,
-and I guess that could legitimately PROVIDE rpm.  To that end it might
-be nicer if that dependency was some sort of "virtual/rpm-for-crazy-lsb"
-sort of thing, but the general idea isn't an unreasonable one.
+If you're referring to the default configuration, I can assure you Poky does 
+have x11 in DISTRO_FEATURES.
 
-p.
+Cheers,
+Paul
 
+-- 
 
+Paul Eggleton
+Intel Open Source Technology Centre
 
 
