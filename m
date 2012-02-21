@@ -1,46 +1,27 @@
-Received: from mail-tul01m020-f175.google.com ([209.85.214.175])
+Received: from mail.pbcl.net ([88.198.119.4] helo=hetzner.pbcl.net)
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <sakoman@gmail.com>) id 1RzxYv-0001SI-VK
+	(envelope-from <philb@gnu.org>) id 1RzxaA-0001XJ-MI
 	for openembedded-core@lists.openembedded.org;
-	Tue, 21 Feb 2012 22:47:54 +0100
-Received: by obhx4 with SMTP id x4so9560095obh.6
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 21 Feb 2012 13:39:34 -0800 (PST)
-Received-SPF: pass (google.com: domain of sakoman@gmail.com designates
-	10.182.193.73 as permitted sender) client-ip=10.182.193.73; 
-Authentication-Results: mr.google.com;
-	spf=pass (google.com: domain of sakoman@gmail.com
-	designates 10.182.193.73 as permitted sender)
-	smtp.mail=sakoman@gmail.com;
-	dkim=pass header.i=sakoman@gmail.com
-Received: from mr.google.com ([10.182.193.73])
-	by 10.182.193.73 with SMTP id hm9mr7416430obc.29.1329860374126
-	(num_hops = 1); Tue, 21 Feb 2012 13:39:34 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
-	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
-	:content-type:content-transfer-encoding;
-	bh=6hetQrkX77i7BE6bocP1DoY8d8b05sWi314+Qz6jwYE=;
-	b=rQkrprNfuwCDDWbTg52xzv6onIOK6EmBK0iSpMSWFMEZ4pfhLN/7rRTedtauAIGBuR
-	crCf/PqyJB3TJsZszdI4DnaENVPveLDX02fLrY9Fo1YB4K4EQ2eHB9JRykwyEVwryP9m
-	x08a52D9BI310GIxZAtN/deVsyyq4kA0EynAU=
-MIME-Version: 1.0
-Received: by 10.182.193.73 with SMTP id hm9mr6360383obc.29.1329860374063; Tue,
-	21 Feb 2012 13:39:34 -0800 (PST)
-Received: by 10.182.246.8 with HTTP; Tue, 21 Feb 2012 13:39:34 -0800 (PST)
-In-Reply-To: <1329860021.2591.182.camel@x121e.pbcl.net>
-References: <cover.1329147583.git.Martin.Jansa@gmail.com>
-	<1e2722b29db9486276198e13f06345babce10518.1329147583.git.Martin.Jansa@gmail.com>
-	<4cb8ea6acd12fec8ff072912292a374aaac56dcb.1329147583.git.Martin.Jansa@gmail.com>
-	<CAGDS+nkxwj33z1zP2Uc9+oH97WkOy_v0yP2cs0VDcDgxm3SYog@mail.gmail.com>
-	<CAMKF1sqMP5yyeFo8qUhjd1xPkOvV6JcpzSwRP33VNyc0wf+C_A@mail.gmail.com>
-	<CAGDS+nn7+3zVFX896P-+y5tT4Xw-++bgKtizmDsFZUno5D9Y8A@mail.gmail.com>
-	<1329860021.2591.182.camel@x121e.pbcl.net>
-Date: Tue, 21 Feb 2012 13:39:34 -0800
-Message-ID: <CAGDS+nmmDatHX=MbJkEgCLNS0ZWssWVTDCQZR3Q5wNYPe82EhA@mail.gmail.com>
-From: Steve Sakoman <sakoman@gmail.com>
+	Tue, 21 Feb 2012 22:49:10 +0100
+Received: from blundell.swaffham-prior.co.uk ([91.216.112.25]
+	helo=[192.168.114.6])
+	by hetzner.pbcl.net with esmtpsa (TLS1.0:RSA_AES_256_CBC_SHA1:32)
+	(Exim 4.72) (envelope-from <philb@gnu.org>) id 1RzxS9-0005st-Hy
+	for openembedded-core@lists.openembedded.org;
+	Tue, 21 Feb 2012 22:40:53 +0100
+Message-ID: <1329860429.2591.187.camel@x121e.pbcl.net>
+From: Phil Blundell <philb@gnu.org>
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 4/4] recipes: bump PR to rebuild .la files without libz.la
+Date: Tue, 21 Feb 2012 21:40:29 +0000
+In-Reply-To: <CAMKF1so0r+8CUMCAQ0Jz1wbP=jSjqnZGuSjPawn5FtJGOQjBjA@mail.gmail.com>
+References: <cover.1329456260.git.yi.zhao@windriver.com>
+	<ea7342b8cdd7a0f9c49253f9e063ab7577f04038.1329456260.git.yi.zhao@windriver.com>
+	<4F43F9EE.5080608@linux.intel.com>
+	<CAMKF1so0r+8CUMCAQ0Jz1wbP=jSjqnZGuSjPawn5FtJGOQjBjA@mail.gmail.com>
+X-Mailer: Evolution 3.2.2-1 
+Mime-Version: 1.0
+Subject: Re: [PATCH 1/3] lsbtest: Add recipe for LSB tests and automate test
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -55,49 +36,30 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 21 Feb 2012 21:47:54 -0000
-Content-Type: text/plain; charset=ISO-8859-1
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Tue, 21 Feb 2012 21:49:10 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-On Tue, Feb 21, 2012 at 1:33 PM, Phil Blundell <philb@gnu.org> wrote:
-> On Tue, 2012-02-21 at 13:16 -0800, Steve Sakoman wrote:
->> On Tue, Feb 21, 2012 at 1:07 PM, Khem Raj <raj.khem@gmail.com> wrote:
->> > On Tue, Feb 21, 2012 at 11:25 AM, Steve Sakoman <sakoman@gmail.com> wr=
-ote:
->> >>
->> >> | configure: error: Package requirements (cairo-xlib >=3D 1.6) were n=
-ot met:
->> >> |
->> >> | No package 'cairo-xlib' found
->> >
->> > Add DEPENDS +=3D "cairo"
->>
->> Nope, cairo is already in the DEPENDS list for gtk+.
->>
->> Seems the issue is that on that build machine (the 4 core) cairo isn't
->> being built with --with-x=3Dyes.
->>
->> The cairo recipe checks for x11 in DISTRO_FEATURES and does
->> --with-x=3Dyes if it is present.
->>
->> Since Poky doesn't have x11 in DISTRO_FEATURES, cairo builds without
->> xlib support by default.
->
-> If you don't have x11 in DISTRO_FEATURES then I wouldn't have expected
-> gtk+ to want cairo-x11 either.
+On Tue, 2012-02-21 at 13:02 -0800, Khem Raj wrote:
+> On Tue, Feb 21, 2012 at 12:09 PM, Saul Wold <sgw@linux.intel.com> wrote:
+> > I think you need to have a RDEPENDS on at a minimum for this lsbtest recipe
+> > since it relies on RPM to install the packages.
+> >
+> > RDEPENDS = "rpm"
+> >
+> >
+> 
+> that wont fly if someone is using opkg or dpkg
 
-Agreed!  But it does :-(
+LSB requires that you be able to install RPMs, irrespective of what your
+native package format is.  So, if you are using opkg and care about LSB
+compliance then you will probably need to engineer some sort of wrapper,
+and I guess that could legitimately PROVIDE rpm.  To that end it might
+be nicer if that dependency was some sort of "virtual/rpm-for-crazy-lsb"
+sort of thing, but the general idea isn't an unreasonable one.
 
->=A0Though, I don't quite know what the gtk+
-> configury will do if you don't select any backends at all and it's
-> possible it might be falling back to X in that case.
->
-> What gtk backend are you expecting to use - directfb?
+p.
 
-Well, this is an image for a headless system, so neither directfb nor
-x11 will be used!  I'm not really sure what package is causing gtk+ to
-be built.
 
-Steve
 
 
