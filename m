@@ -1,45 +1,30 @@
-Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
-	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <richard.purdie@linuxfoundation.org>)
-	id 1RzytF-00057c-S0 for openembedded-core@lists.openembedded.org;
-	Wed, 22 Feb 2012 00:12:58 +0100
-Received: from localhost (localhost [127.0.0.1])
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q1LN4b2j021389
+Received: from mail-iy0-f175.google.com ([209.85.210.175])
+	by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <brandon@rascalmicro.com>) id 1Rzzc1-0006ZJ-F5
+	for openembedded-core@lists.openembedded.org;
+	Wed, 22 Feb 2012 00:59:13 +0100
+Received: by iaby12 with SMTP id y12so10373118iab.6
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 21 Feb 2012 23:04:37 GMT
-Received: from tim.rpsys.net ([127.0.0.1])
-	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
-	port 10024) with LMTP
-	id 20838-07 for <openembedded-core@lists.openembedded.org>;
-	Tue, 21 Feb 2012 23:04:33 +0000 (GMT)
-Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q1LN4UII021383
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO)
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 21 Feb 2012 23:04:31 GMT
-Message-ID: <1329865470.20261.95.camel@ted>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Date: Tue, 21 Feb 2012 23:04:30 +0000
-In-Reply-To: <1329147596.14363.90.camel@phil-desktop>
-References: <04705556464a6e41642962da40f0e17847ee3483.1328510188.git.raj.khem@gmail.com>
-	<c68f6de298c35c25638ea3a5adeb06c97cd74036.1328510189.git.raj.khem@gmail.com>
-	<4F30DC16.1050506@linux.intel.com>
-	<CAMKF1sqTc3PA_4xNbp1751tA73pRazsvrFdwhomdELtb-25ZGg@mail.gmail.com>
-	<4F314A73.8070406@linux.intel.com>
-	<20120207231245.GA13160@sakrah.homelinux.org>
-	<4F31BF7B.4040303@linux.intel.com>
-	<CAMKF1sqCgiu0TnTj_rgvDgZ5+JE3uX+Y_5KvKmcfd4LDOAoF2Q@mail.gmail.com>
-	<CAGDS+nmdBg8QyBPx6iuG0p0aaPfAU3kvE6jJbekvC2ne0XBedw@mail.gmail.com>
-	<54DBF0D0-65DA-4444-8EF5-3E14ED8FE44F@dominion.thruhere.net>
-	<20120213074852.GA3832@jama.jama.net>
-	<CAGDS+nne1Xbe6XGPuLXqyMLOC_7uqYKFkbRuW77Ub672kpL7BA@mail.gmail.com>
-	<1329147596.14363.90.camel@phil-desktop>
-X-Mailer: Evolution 3.2.2- 
-Mime-Version: 1.0
-X-Virus-Scanned: amavisd-new at rpsys.net
-Subject: Re: [PATCH 12/20] zlib: Upgrade 1.2.5 -> 1.2.6
+	Tue, 21 Feb 2012 15:50:53 -0800 (PST)
+Received-SPF: pass (google.com: domain of brandon@rascalmicro.com designates
+	10.50.203.100 as permitted sender) client-ip=10.50.203.100; 
+Authentication-Results: mr.google.com; spf=pass (google.com: domain of
+	brandon@rascalmicro.com designates 10.50.203.100 as permitted
+	sender) smtp.mail=brandon@rascalmicro.com
+Received: from mr.google.com ([10.50.203.100])
+	by 10.50.203.100 with SMTP id kp4mr23347657igc.6.1329868253339
+	(num_hops = 1); Tue, 21 Feb 2012 15:50:53 -0800 (PST)
+MIME-Version: 1.0
+Received: by 10.50.203.100 with SMTP id kp4mr18819360igc.6.1329868252474; Tue,
+	21 Feb 2012 15:50:52 -0800 (PST)
+Received: by 10.231.199.138 with HTTP; Tue, 21 Feb 2012 15:50:52 -0800 (PST)
+X-Originating-IP: [146.115.15.122]
+Date: Tue, 21 Feb 2012 18:50:52 -0500
+Message-ID: <CA+b4E8x4_cCvhUw-UgLK=9ymuoXsiih8BMZc=ts0B7Qf=oaNuQ@mail.gmail.com>
+From: Brandon Stafford <brandon@rascalmicro.com>
+To: openembedded-core@lists.openembedded.org
+X-Gm-Message-State: ALoCoQkBxCuUAcZH2Ewmye1S6dAsrngqovXY+OnqRU9BAprKfl37XNbI8SNvYIZM6owFRMaae899
+Subject: Cannot satisfy the following dependencies for task-core-basic: libusb-compat (>= 0.1.3)
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -54,31 +39,60 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 21 Feb 2012 23:12:58 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Tue, 21 Feb 2012 23:59:13 -0000
+Content-Type: multipart/alternative; boundary=14dae9340765c96e4004b9821433
 
-On Mon, 2012-02-13 at 15:39 +0000, Phil Blundell wrote:
-> On Mon, 2012-02-13 at 05:23 -0800, Steve Sakoman wrote:
-> > We need to find a way to prevent or warn of disruptive changes like
-> > this zlib patch.
-> 
-> Aren't these sorts of things meant to get tested on the Yocto
-> autobuilder before being merged?  I thought that was how it was supposed
-> to work.
+--14dae9340765c96e4004b9821433
+Content-Type: text/plain; charset=ISO-8859-1
 
-It was tested, there were some issues, it was thought they were
-relatively easily resolved, that turned out not to be the case.
+Hi all,
 
-I get put under immense pressure to merge patches 'yesterday'. Please
-keep this kind of issue in mind next time you ask me to hurry up and
-merge something ;-). We've been able to catch a lot of things but its
-the ones that slip through that people notice :/.
+In trying to build core-image-basic, it seems that libusb-compat cannot be
+found:
+
+| Collected errors:
+|  * satisfy_dependencies_for: Cannot satisfy the following dependencies
+for task-core-basic:
+|  * libusb-compat (>= 0.1.3) *
+|  * opkg_install_cmd: Cannot install package task-core-basic.
+NOTE: package core-image-basic-1.0-r0: task do_rootfs: Failed
+
+However, it seems like libusb-compat should be findable:
+
+:~/oe-core/build$ ls ../meta/recipes-support/libusb/
+libusb1_1.0.8.bb  libusb-compat-0.1.3  libusb-compat_0.1.3.bb
+
+Do I need to tell bitbake to look in recipes-support explicitly?
 
 Cheers,
+Brandon
 
-Richard
+-- 
+Brandon Stafford
+Rascal Micro: small computers for art and science
+Somerville, MA, USA
 
+--14dae9340765c96e4004b9821433
+Content-Type: text/html; charset=ISO-8859-1
+Content-Transfer-Encoding: quoted-printable
 
+<div><div>Hi all,</div><div><br></div><div>In trying to build core-image-ba=
+sic, it seems that libusb-compat cannot be found:</div><div><br></div><div>=
+| Collected errors:</div><div>| =A0* satisfy_dependencies_for: Cannot satis=
+fy the following dependencies for task-core-basic:</div>
+<div>| =A0* <span class=3D"Apple-tab-span" style=3D"white-space:pre">	</spa=
+n>libusb-compat (&gt;=3D 0.1.3) *</div><div>| =A0* opkg_install_cmd: Cannot=
+ install package task-core-basic.</div><div>NOTE: package core-image-basic-=
+1.0-r0: task do_rootfs: Failed</div>
+</div><div><br></div><div>However, it seems like libusb-compat should be fi=
+ndable:</div><div><br></div><div>:~/oe-core/build$ ls ../meta/recipes-suppo=
+rt/libusb/</div><div><a href=3D"http://libusb1_1.0.8.bb">libusb1_1.0.8.bb</=
+a> =A0libusb-compat-0.1.3 =A0<a href=3D"http://libusb-compat_0.1.3.bb">libu=
+sb-compat_0.1.3.bb</a></div>
+<div><br></div><div>Do I need to tell bitbake to look in recipes-support ex=
+plicitly?</div><div><br></div><div>Cheers,<br>Brandon</div><div><br></div>-=
+- <br><div>Brandon Stafford</div><div>Rascal Micro: small computers for art=
+ and science</div>
+<div>Somerville, MA, USA</div><br>
 
-
+--14dae9340765c96e4004b9821433--
