@@ -1,30 +1,26 @@
-Received: from mga14.intel.com ([143.182.124.37])
+Received: from mga01.intel.com ([192.55.52.88])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <sgw@linux.intel.com>) id 1RztAH-0005Rx-8s
+	(envelope-from <sgw@linux.intel.com>) id 1RztJQ-0005si-C0
 	for openembedded-core@lists.openembedded.org;
-	Tue, 21 Feb 2012 18:06:09 +0100
-Received: from azsmga001.ch.intel.com ([10.2.17.19])
-	by azsmga102.ch.intel.com with ESMTP; 21 Feb 2012 08:57:48 -0800
+	Tue, 21 Feb 2012 18:15:36 +0100
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+	by fmsmga101.fm.intel.com with ESMTP; 21 Feb 2012 09:07:16 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="109030395"
+X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="119728908"
 Received: from unknown (HELO [10.255.15.72]) ([10.255.15.72])
-	by azsmga001.ch.intel.com with ESMTP; 21 Feb 2012 08:57:48 -0800
-Message-ID: <4F43CD0C.8050700@linux.intel.com>
-Date: Tue, 21 Feb 2012 08:57:48 -0800
+	by fmsmga001.fm.intel.com with ESMTP; 21 Feb 2012 09:07:16 -0800
+Message-ID: <4F43CF43.50206@linux.intel.com>
+Date: Tue, 21 Feb 2012 09:07:15 -0800
 From: Saul Wold <sgw@linux.intel.com>
 User-Agent: Mozilla/5.0 (X11; Linux x86_64;
 	rv:10.0) Gecko/20120131 Thunderbird/10.0
 MIME-Version: 1.0
-To: Xiaofeng Yan <xiaofeng.yan@windriver.com>
-References: <4F21BE12.3000008@linux.intel.com>
-	<4F24F672.5090107@linux.intel.com> <4F38E8CB.6090101@windriver.com>
-	<4F3A9118.8050806@linux.intel.com>
-	<4F3BCE0C.10400@linux.intel.com> <4F3C59A8.209@windriver.com>
-	<4F3EE848.80703@linux.intel.com> <4F41EAD7.3030009@windriver.com>
-In-Reply-To: <4F41EAD7.3030009@windriver.com>
-Cc: Patches and discussions about the oe-core layer
+To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Subject: Re: [oe] Source Archiver Class
+References: <cover.1329147583.git.Martin.Jansa@gmail.com>
+In-Reply-To: <cover.1329147583.git.Martin.Jansa@gmail.com>
+Cc: Martin Jansa <martin.jansa@gmail.com>, fcooper@ti.com
+Subject: Re: [PATCH 0/4] PR bumps for missing libz.la, resent gdb python support with fix
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -39,135 +35,96 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 21 Feb 2012 17:06:09 -0000
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Tue, 21 Feb 2012 17:15:36 -0000
+Content-Type: text/plain; charset=ISO-8859-1; format=flowed
+Content-Transfer-Encoding: 7bit
 
-On 02/19/2012 10:40 PM, Xiaofeng Yan wrote:
-> On 2012年02月18日 07:52, Saul Wold wrote:
->>
->> Xiaofeng & Community:
->>
->> We had a chat with Chris Larson and Mark Hatle here at ELC.
->>
->> We focused this issue down to a fewer number of options that meet the
->> needs of the licenses. Please review this and let us know if there are
->> any issues or concerns.
->>
->>
-> Hi Saul,
+On 02/13/2012 07:40 AM, Martin Jansa wrote:
+> The following changes since commit e5ad03093dfc4364d1407183f458df79f347c7a1:
 >
-> I comment my understanding as follow:
->> Best Practices:
->> - Archive during build, we do not support nor recommend post archiving
->> - Original tarball and patches w/ordering file (maybe comment the
->> series), grab non-patch files also.
-> for example:
-> file://a.patch
-> file://b.config.in
-> we also archive b.config.in.
-
-Yes, correct.
-
->> - Unless requesting configured sources, which will just be the
->> configured source tarball
->> - Grab temp as postfunc of do_package - latest logs via links & pid
->>
-> That means logs package include all of logs in temp. for example.
-> You has described a following function we will realize at the previous
-> email.
-> 3 - Original Source code & Patches & temp (scripts & logs)
+>    guile: fix cross configure failure (2012-02-10 13:38:16 +0000)
 >
-> source codes and patches should be in the stage do_patch[postfunc] = "
-> do_get_source"
-> logs should be in the stage do_package[postfunc] = " do_get_logs"
-> So logs file shouldn't be archived in do_patch[postfunc] = " do_get_logs"
-> The logs in the stage of do_packge are more than do_patch.
+> are available in the git repository at:
+>    git://git.openembedded.org/openembedded-core-contrib jansa/pull
+>    http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=jansa/pull
 >
-Correct, you want to get the logs and scripts from temp when they are 
-most complete (after do_package not after do_patch).
-
-As mentioned below, you would use the variable SOURCE_ARCHIVE_LOG in the 
-do_package[postfunc] to determine if you need to archive the logs or not.
-
-
->> For sstate Builds (LATER):
->> - need to verify that fetch/patch/configure will get re-run for archiving
->> - Add temp dir to sstate capture (without links)
->>
->> 3 Implementations classes
->> - Filter in oe/lib/license.py
->> - source_archive.bb
->> - archives tarballs to ${BP}/...
->> - reuse copyleft_compliance for patch handling
->> - srpm
->> - take output from above and create SRPM - (LATER)
->>
-> We will do the archive work according the license . I will implement two
-> functions, one is for left, the other for right.
-I am not sure what you mean by one is for left and the other is for right?
-
-Can you explain your thoughts here.
-
-
->> 2 Configuration classes
->> - uses prefunc/postfunc at correct place
->> - Original Tarball / Patches
->> - Post Configuration
->>
-> We can define 8 classes to complete 8 kinds of archiving methods. every
-> class will inherit archiver.bbclass.
-
-I am not sure we need 8 classes anymore, that was the point of this 
-email to simplify the needs.
-
-2 Classes:
-
-source_patches.bbclass
-  - Original Tarball & Patches & Other files
-  - do_patch[postfunc] = <archive ${S}/patches with Original tarball>
-  - Included temp dir if enabled via SOURCE_ARCHIVE_LOG
-
-configured_source.bbclass
-  - Get the ${S} dir (or $S & any build dir) after do_configure
-  - do_configure[postfunc] = <archive configured source>
-  - Include temp dir if enabled via SOURCE_ARCHIVE_LOG
-
-
-> and then realize do_stage[prefunc/postfunc] in this class.
-> stage include unpack, patch, configure, build package and so on.
-> for example. we want only to get original tarball, then we can define a
-> bbclass named "source.bbclass"
-> source.bbclass:
-> inherit archiver.bbclass
-> do_unpack[postfunc] = " do_get_source"
+> Eric BENARD (1):
+>    gdb-cross-canadian: build gdb with python support
 >
-> if we want to get both original and patches tarball, then we can define
-> bbclass names "source_patches.bbclass"
-> source_patches.bbclass
-> inherit archiver.bbclass
-> do_unpack[postfunc] = " do_get_source_patches"
+> Martin Jansa (3):
+>    gdb-cross-canadian: use NATIVESDK paths as it happens to be here
+>    zlib: remove ldconfig call from install-libs
+>    recipes: bump PR to rebuild .la files without libz.la
 >
->> SOURCE_ARCHIVE_PACKAGE_TYPE = {tar, srpm}
->> SOURCE_ARCHIVE_LOG = {True, False}
->>
->> Please let us know if you have any questions.
->>
->> Sau!
->>
-> If my understanding don't meet your ideas, Please correct me.
->
-I should be available via IRC in your afternoon, I will be away during 
-your morning.
+The zlib patches were pulled, but as already noted the 
+gdb-cross-canadian ones are pending.
 
-Sau!
+Thanks
+	Sau!
 
-> Thanks for your help very much.
->
-> Thanks
-> Yan
->> On 02/15/2012 05:19 PM, Xiaofeng Yan wrote:
->>
+>   meta/recipes-connectivity/gupnp/gssdp_0.10.0.bb    |    2 +-
+>   meta/recipes-connectivity/gupnp/gupnp-av_0.8.0.bb  |    2 +-
+>   meta/recipes-connectivity/gupnp/gupnp_0.16.1.bb    |    2 +-
+>   .../telepathy/libtelepathy_0.3.3.bb                |    2 +-
+>   .../telepathy/telepathy-glib_0.17.4.bb             |    2 +-
+>   .../telepathy/telepathy-mission-control_5.10.1.bb  |    2 +-
+>   meta/recipes-core/eggdbus/eggdbus_0.6.bb           |    2 +-
+>   meta/recipes-core/glib-2.0/glib-2.0_2.30.2.bb      |    2 +-
+>   .../glib-networking/glib-networking_2.28.7.bb      |    2 +-
+>   meta/recipes-core/libxml/libxml2_2.7.8.bb          |    2 +-
+>   .../zlib/zlib-1.2.6/remove.ldconfig.call.patch     |   20 +++++++++++++++
+>   meta/recipes-core/zlib/zlib_1.2.6.bb               |    3 ++
+>   meta/recipes-devtools/binutils/binutils_2.22.bb    |    2 +-
+>   meta/recipes-devtools/file/file_5.10.bb            |    2 +-
+>   meta/recipes-devtools/gdb/gdb-cross-canadian.inc   |   26 +++++++++++++++++++-
+>   meta/recipes-devtools/python/python-gst_0.10.22.bb |    2 +-
+>   .../python/python-pygobject_2.27.91.bb             |    2 +-
+>   meta/recipes-devtools/rpm/rpm_5.4.0.bb             |    2 +-
+>   .../subversion/subversion_1.7.2.bb                 |    2 +
+>   meta/recipes-extended/cracklib/cracklib_2.8.18.bb  |    2 +-
+>   meta/recipes-extended/pam/libpam_1.1.5.bb          |    2 +-
+>   meta/recipes-extended/polkit/polkit_0.104.bb       |    2 +-
+>   meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf_2.24.0.bb |    2 +-
+>   meta/recipes-gnome/gnome/gconf_3.2.3.bb            |    2 +-
+>   meta/recipes-gnome/gnome/gnome-keyring_2.32.1.bb   |    2 +-
+>   meta/recipes-gnome/gthumb/gthumb_2.12.4.bb         |    2 +
+>   meta/recipes-gnome/gtk+/gtk+_2.24.8.bb             |    2 +-
+>   meta/recipes-gnome/gtkhtml2/gtkhtml2_svn.bb        |    2 +-
+>   meta/recipes-gnome/json-glib/json-glib_0.14.2.bb   |    2 +
+>   meta/recipes-gnome/libglade/libglade_2.6.4.bb      |    2 +-
+>   meta/recipes-gnome/librsvg/librsvg_2.32.1.bb       |    2 +-
+>   meta/recipes-gnome/libunique/libunique_1.1.6.bb    |    2 +-
+>   meta/recipes-graphics/cairo/cairo_1.10.2.bb        |    2 +-
+>   .../libmatchbox/libmatchbox_1.9.bb                 |    2 +-
+>   .../menu-cache/menu-cache_0.3.2.bb                 |    2 +-
+>   meta/recipes-graphics/xorg-lib/libfontenc_1.1.0.bb |    2 +-
+>   meta/recipes-graphics/xorg-lib/libxfont_1.4.4.bb   |    2 +-
+>   .../gstreamer/gst-plugins-bad_0.10.22.bb           |    2 +-
+>   .../gstreamer/gst-plugins-base_0.10.35.bb          |    2 +-
+>   .../gstreamer/gst-plugins-good_0.10.30.bb          |    2 +-
+>   .../gstreamer/gst-plugins-ugly_0.10.18.bb          |    2 +-
+>   .../gstreamer/gstreamer_0.10.35.bb                 |    2 +-
+>   .../libid3tag/libid3tag_0.15.1b.bb                 |    2 +-
+>   meta/recipes-multimedia/libpng/libpng_1.2.46.bb    |    2 +-
+>   meta/recipes-multimedia/libtiff/tiff_3.9.5.bb      |    2 +-
+>   meta/recipes-qt/qt4/qt4-x11-free_4.8.0.bb          |    2 +-
+>   meta/recipes-sato/eds/eds-dbus_git.bb              |    2 +-
+>   .../gtk-engines/gtk-sato-engine_git.bb             |    2 +-
+>   .../matchbox-keyboard/matchbox-keyboard_git.bb     |    2 +-
+>   .../matchbox-panel-2/matchbox-panel-2_git.bb       |    2 +-
+>   .../recipes-sato/owl-video-widget/libowl-av_git.bb |    2 +-
+>   .../sato-screenshot/sato-screenshot_git.bb         |    2 +-
+>   meta/recipes-sato/webkit/webkit-gtk_svn.bb         |    2 +-
+>   meta/recipes-support/curl/curl_7.23.1.bb           |    2 +-
+>   meta/recipes-support/gnutls/gnutls_2.12.16.bb      |    2 +-
+>   meta/recipes-support/libcroco/libcroco_0.6.3.bb    |    2 +-
+>   meta/recipes-support/libfm/libfm_0.1.17.bb         |    2 +-
+>   meta/recipes-support/libsoup/libsoup_2.2.105.bb    |    2 +-
+>   meta/recipes-support/libxslt/libxslt_1.1.26.bb     |    2 +-
+>   meta/recipes-support/neon/neon_0.29.6.bb           |    2 +-
+>   meta/recipes-support/vte/vte_0.28.2.bb             |    2 +-
+>   61 files changed, 109 insertions(+), 56 deletions(-)
+>   create mode 100644 meta/recipes-core/zlib/zlib-1.2.6/remove.ldconfig.call.patch
 >
 
 
