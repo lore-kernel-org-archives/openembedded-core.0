@@ -1,42 +1,44 @@
-Received: from mail-lpp01m010-f47.google.com ([209.85.215.47])
-	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <raj.khem@gmail.com>) id 1Rzynh-0004rz-Oj
-	for openembedded-core@lists.openembedded.org;
-	Wed, 22 Feb 2012 00:07:13 +0100
-Received: by lahc1 with SMTP id c1so8400492lah.6
+Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
+	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <richard.purdie@linuxfoundation.org>)
+	id 1RzyqA-0004wo-0k for openembedded-core@lists.openembedded.org;
+	Wed, 22 Feb 2012 00:09:46 +0100
+Received: from localhost (localhost [127.0.0.1])
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q1LN1QNN021309
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 21 Feb 2012 14:58:54 -0800 (PST)
-Received-SPF: pass (google.com: domain of raj.khem@gmail.com designates
-	10.112.8.129 as permitted sender) client-ip=10.112.8.129; 
-Authentication-Results: mr.google.com;
-	spf=pass (google.com: domain of raj.khem@gmail.com
-	designates 10.112.8.129 as permitted sender)
-	smtp.mail=raj.khem@gmail.com;
-	dkim=pass header.i=raj.khem@gmail.com
-Received: from mr.google.com ([10.112.8.129])
-	by 10.112.8.129 with SMTP id r1mr10311511lba.38.1329865134359 (num_hops
-	= 1); Tue, 21 Feb 2012 14:58:54 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc:content-type:content-transfer-encoding;
-	bh=xgJWrVt1t2pVfU1uBNCidz8jBAsu3pmDJqNus0cqEHc=;
-	b=n5/7JljIk+82BHHPhlhxat2kbL09FFMTIZQs7HxuPYQgPTIttiaeCqZ9lGvcVBI4Bo
-	yZeXrmX3W8t+OVb6ie/gJvPc+OOItXnjCJ70Dgiek3uoX4OJm0BNhoErLUO2kELVEkft
-	zUWuQqqd75fb/mvA5EA2SeRjv3NMgVOn1YRbU=
-Received: by 10.112.8.129 with SMTP id r1mr8661100lba.38.1329865134303; Tue,
-	21 Feb 2012 14:58:54 -0800 (PST)
-MIME-Version: 1.0
-Received: by 10.152.27.109 with HTTP; Tue, 21 Feb 2012 14:58:24 -0800 (PST)
-In-Reply-To: <1329861178.20261.62.camel@ted>
-References: <1329851229-31625-1-git-send-email-steve@sakoman.com>
-	<1329861178.20261.62.camel@ted>
-From: Khem Raj <raj.khem@gmail.com>
-Date: Tue, 21 Feb 2012 14:58:24 -0800
-Message-ID: <CAMKF1srgDCoszNsYc30zwR_kgQOV8F2k3i5dQHGyzvJoW3ar4w@mail.gmail.com>
+	Tue, 21 Feb 2012 23:01:26 GMT
+Received: from tim.rpsys.net ([127.0.0.1])
+	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
+	port 10024) with LMTP
+	id 21169-02 for <openembedded-core@lists.openembedded.org>;
+	Tue, 21 Feb 2012 23:01:21 +0000 (GMT)
+Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q1LN1Jvn021303
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO)
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 21 Feb 2012 23:01:20 GMT
+Message-ID: <1329865279.20261.92.camel@ted>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Cc: Steve Sakoman <steve@sakoman.com>
-Subject: Re: [PATCH] libxml2: add missing dependency on binutils
+Date: Tue, 21 Feb 2012 23:01:19 +0000
+In-Reply-To: <CAGDS+nne1Xbe6XGPuLXqyMLOC_7uqYKFkbRuW77Ub672kpL7BA@mail.gmail.com>
+References: <04705556464a6e41642962da40f0e17847ee3483.1328510188.git.raj.khem@gmail.com>
+	<c68f6de298c35c25638ea3a5adeb06c97cd74036.1328510189.git.raj.khem@gmail.com>
+	<4F30DC16.1050506@linux.intel.com>
+	<CAMKF1sqTc3PA_4xNbp1751tA73pRazsvrFdwhomdELtb-25ZGg@mail.gmail.com>
+	<4F314A73.8070406@linux.intel.com>
+	<20120207231245.GA13160@sakrah.homelinux.org>
+	<4F31BF7B.4040303@linux.intel.com>
+	<CAMKF1sqCgiu0TnTj_rgvDgZ5+JE3uX+Y_5KvKmcfd4LDOAoF2Q@mail.gmail.com>
+	<CAGDS+nmdBg8QyBPx6iuG0p0aaPfAU3kvE6jJbekvC2ne0XBedw@mail.gmail.com>
+	<54DBF0D0-65DA-4444-8EF5-3E14ED8FE44F@dominion.thruhere.net>
+	<20120213074852.GA3832@jama.jama.net>
+	<CAGDS+nne1Xbe6XGPuLXqyMLOC_7uqYKFkbRuW77Ub672kpL7BA@mail.gmail.com>
+X-Mailer: Evolution 3.2.2- 
+Mime-Version: 1.0
+X-Virus-Scanned: amavisd-new at rpsys.net
+Subject: Re: [PATCH 12/20] zlib: Upgrade 1.2.5 -> 1.2.6
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -51,64 +53,31 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 21 Feb 2012 23:07:13 -0000
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Tue, 21 Feb 2012 23:09:46 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-On Tue, Feb 21, 2012 at 1:52 PM, Richard Purdie
-<richard.purdie@linuxfoundation.org> wrote:
-> On Tue, 2012-02-21 at 11:07 -0800, Steve Sakoman wrote:
->> Otherwise build fails with following error:
->>
->> | In file included from libxml.h:36:0,
->> | =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0from xml=
-memory.c:8:
->> | ./include/libxml/xmlversion.h:396:22: fatal error: ansidecl.h: No such=
- file or directory
->>
->> Signed-off-by: Steve Sakoman <steve@sakoman.com>
->> ---
->> =C2=A0meta/recipes-core/libxml/libxml2.inc | =C2=A0 =C2=A02 +-
->> =C2=A01 files changed, 1 insertions(+), 1 deletions(-)
->>
->> diff --git a/meta/recipes-core/libxml/libxml2.inc b/meta/recipes-core/li=
-bxml/libxml2.inc
->> index 0979acd..6230f60 100644
->> --- a/meta/recipes-core/libxml/libxml2.inc
->> +++ b/meta/recipes-core/libxml/libxml2.inc
->> @@ -10,7 +10,7 @@ LIC_FILES_CHKSUM =3D "file://Copyright;md5=3Dbb90c4892=
-6316d9af6e2d70ca7013ade \
->> =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0file://trio.c;beginline=3D5;endline=3D14;md5=3D6c025753c86d958722ec76=
-e94cae932e"
->>
->> =C2=A0DEPENDS_virtclass-native =3D "python-native"
->> -DEPENDS =3D+ "zlib"
->> +DEPENDS =3D+ "zlib binutils"
->>
->> =C2=A0SRC_URI =3D "ftp://xmlsoft.org/libxml2/libxml2-${PV}.tar.gz \
->> =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 file://libxml-64bit.patch"
->
-> This sounds very wrong. It would have implications for libxml2-native
-> I'd imagine. What is it doing that needs binutils?
+On Mon, 2012-02-13 at 05:23 -0800, Steve Sakoman wrote:
+> Indeed!  I gave up on trying to determine an exhaustive list and just
+> blew away tmp and sstate and rebuilt everything -- including package
+> repositories :-(
+> 
+> We need to find a way to prevent or warn of disruptive changes like
+> this zlib patch.  For those of us trying to make a living using Yocto,
+> losing a day of productivity to things like this really stings.
 
-configure detects the header and then uses it. So as long as you provide
-binutils or not provide consistently it will build in a consistent way
-whats happening here probably is that its configured with binutils-dev
-being staged but is building without then being in staging.
+I agree this change sucked and showed us we have some real issues. I
+will point out that if we had been using the basichash signature
+generator, it would likely have picked up this change and rebuild all
+the appropriate pieces.
 
+This illustrates why we do really need to switch to the basichash
+dependency model even if some things are going to rebuild a bit more
+often as humans make bad judges of what needs rebuilding...
 
->
-> Its going to add considerable time to the build too.
->
-> Cheers,
->
-> Richard
->
->
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
+Cheers,
+
+Richard
+
 
 
