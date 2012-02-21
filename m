@@ -1,43 +1,28 @@
-Received: from mail-tul01m020-f175.google.com ([209.85.214.175])
-	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <sakoman@gmail.com>) id 1Rzxu1-0002SR-Ol
-	for openembedded-core@lists.openembedded.org;
-	Tue, 21 Feb 2012 23:09:41 +0100
-Received: by obhx4 with SMTP id x4so9588117obh.6
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 21 Feb 2012 14:01:21 -0800 (PST)
-Received-SPF: pass (google.com: domain of sakoman@gmail.com designates
-	10.182.1.104 as permitted sender) client-ip=10.182.1.104; 
-Authentication-Results: mr.google.com;
-	spf=pass (google.com: domain of sakoman@gmail.com
-	designates 10.182.1.104 as permitted sender)
-	smtp.mail=sakoman@gmail.com;
-	dkim=pass header.i=sakoman@gmail.com
-Received: from mr.google.com ([10.182.1.104])
-	by 10.182.1.104 with SMTP id 8mr17003216obl.19.1329861681980 (num_hops
-	= 1); Tue, 21 Feb 2012 14:01:21 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
-	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
-	:content-type; bh=7cfEbNH/SuQMS2zs1rhJvLvkdInM8ipQxFrVunLpTKY=;
-	b=TSmfMUaOVBP8VBeHuAJASCnpIifQMez4yvmemrWL3YjQludBTQopCNLjvM1ETOVhEm
-	PSg4YV0yRglFizl5JuD/QVMUeaMSy5DN8BVEOUmya4pIF2TqjwhtgT34+oy+jr90wQ0p
-	2BAH7CA5b0OpBfYlI0BbPquPANtQ7cd27cidI=
-MIME-Version: 1.0
-Received: by 10.182.1.104 with SMTP id 8mr14470259obl.19.1329861681937; Tue,
-	21 Feb 2012 14:01:21 -0800 (PST)
-Received: by 10.182.246.8 with HTTP; Tue, 21 Feb 2012 14:01:21 -0800 (PST)
-In-Reply-To: <1653112.YUnhIDHb6u@helios>
-References: <cover.1329147583.git.Martin.Jansa@gmail.com>
-	<CAMKF1sqMP5yyeFo8qUhjd1xPkOvV6JcpzSwRP33VNyc0wf+C_A@mail.gmail.com>
-	<CAGDS+nn7+3zVFX896P-+y5tT4Xw-++bgKtizmDsFZUno5D9Y8A@mail.gmail.com>
-	<1653112.YUnhIDHb6u@helios>
-Date: Tue, 21 Feb 2012 14:01:21 -0800
-Message-ID: <CAGDS+n=AqMkJEDs7VbB5u+MsZLUd=bZTgMSR_5DLJ3C6N-sV9w@mail.gmail.com>
-From: Steve Sakoman <sakoman@gmail.com>
-To: Paul Eggleton <paul.eggleton@linux.intel.com>, 
-	Patches and discussions about the oe-core layer
+Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
+	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <richard.purdie@linuxfoundation.org>)
+	id 1RzxwB-0002Yj-8U for openembedded-core@lists.openembedded.org;
+	Tue, 21 Feb 2012 23:11:55 +0100
+Received: from localhost (localhost [127.0.0.1])
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q1LM3ZMq020286;
+	Tue, 21 Feb 2012 22:03:35 GMT
+Received: from tim.rpsys.net ([127.0.0.1])
+	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
+	port 10024) with LMTP
+	id 19096-10; Tue, 21 Feb 2012 22:03:30 +0000 (GMT)
+Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q1LM3Tj6020278
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO);
+	Tue, 21 Feb 2012 22:03:30 GMT
+Message-ID: <1329861809.20261.68.camel@ted>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: poky <poky@lists.yoctoproject.org>, openembedded-core
 	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 4/4] recipes: bump PR to rebuild .la files without libz.la
+Date: Tue, 21 Feb 2012 22:03:29 +0000
+X-Mailer: Evolution 3.2.2- 
+Mime-Version: 1.0
+X-Virus-Scanned: amavisd-new at rpsys.net
+Subject: Heads up: basichash being enabled for poky by default
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -52,30 +37,39 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 21 Feb 2012 22:09:42 -0000
-Content-Type: text/plain; charset=ISO-8859-1
+X-List-Received-Date: Tue, 21 Feb 2012 22:11:55 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-On Tue, Feb 21, 2012 at 1:44 PM, Paul Eggleton
-<paul.eggleton@linux.intel.com> wrote:
-> On Tuesday 21 February 2012 13:16:11 Steve Sakoman wrote:
->> Since Poky doesn't have x11 in DISTRO_FEATURES, cairo builds without
->> xlib support by default.
->
-> If you're referring to the default configuration, I can assure you Poky does
-> have x11 in DISTRO_FEATURES.
+This is just to warn people that I'm going to push a change making
+basichash the default for DISTRO=poky as of tomorrow. This change has
+been brewing for a while and has seen plenty of discussion. Its time to
+throw the switch:
 
-The ELC flu is affecting my ability to think :-(
+http://git.yoctoproject.org/cgit.cgi/poky-contrib/commit/?id=f65bbb41d6fe9763acbd80df5885b3526259ce80
 
-I see now that Poky relies on the DISTRO_FEATURES setup in
-bitbake.conf (via default-distrovars.inc via defaultsetup.conf).  I
-was just looking in poky.conf and didn't see anywhere that it pulled
-in either of those files.
+I haven't yet decided what should happen when in OE-Core and am open to
+opinions on that.
 
-So now I need to figure out why the quad core machine is refusing to
-enable --with-x=yes for the cairo build . . .
+If you're not ready for the change, you can still set:
 
-Perhaps better to wait till tomorrow when I am feeling better.
+BB_SIGNATURE_HANDLER = 'OEbasic'
 
-Steve
+to get the existing behaviour either at a local or distro level. The
+difference is one will include the sstate hash in the files in
+tmp/stamps/*. This means if the hash changes, it gets rebuilt.
+
+As a result of this commit your tree will rebuild. I'll bump the TMPDIR
+ABI version number at the same time so people more easily spot the
+change and can either revert or continue at their choice.
+
+Cheers,
+
+Richard
+
+
+
+
+
 
 
