@@ -1,14 +1,20 @@
-Received: from ffm.saftware.de ([83.141.3.46])
+Received: from mga03.intel.com ([143.182.124.21])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <obi@opendreambox.org>) id 1Rzs0e-0001PU-V4
+	(envelope-from <paul.eggleton@linux.intel.com>) id 1Rzs8t-00026M-5V
 	for openembedded-core@lists.openembedded.org;
-	Tue, 21 Feb 2012 16:52:09 +0100
-From: Andreas Oberritter <obi@opendreambox.org>
+	Tue, 21 Feb 2012 17:00:39 +0100
+Received: from azsmga001.ch.intel.com ([10.2.17.19])
+	by azsmga101.ch.intel.com with ESMTP; 21 Feb 2012 07:52:19 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="108997276"
+Received: from unknown (HELO helios.ger.corp.intel.com) ([10.252.123.60])
+	by azsmga001.ch.intel.com with ESMTP; 21 Feb 2012 07:52:18 -0800
+From: Paul Eggleton <paul.eggleton@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Tue, 21 Feb 2012 16:43:43 +0100
-Message-Id: <1329839023-17307-1-git-send-email-obi@opendreambox.org>
+Date: Tue, 21 Feb 2012 15:52:13 +0000
+Message-Id: <cover.1329837658.git.paul.eggleton@linux.intel.com>
 X-Mailer: git-send-email 1.7.5.4
-Subject: [PATCH] python-native: distutils: don't use libdir, remove dead code path
+Subject: [RFC PATCH 0/2] psplash improvements v2
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -23,78 +29,40 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 21 Feb 2012 15:52:09 -0000
+X-List-Received-Date: Tue, 21 Feb 2012 16:00:39 -0000
 
-* Use sys.lib instead of libdir's suffix.
-* While at it, simplify redundant if/and-statments.
+Implements the psplash changes as discussed on the mailing list [1] and
+by the TSC [2].
 
-Signed-off-by: Andreas Oberritter <obi@opendreambox.org>
----
-Coming from OE-classic it was surprising that python-native suddenly
-required 'libdir' to be exported. Otherwise autoconf would fail to
-detect python libraries. This happend using a customized environment
-setup script to use OE's compiler and libs without bitbake.
+[1] http://www.mail-archive.com/openembedded-core@lists.openembedded.org/msg13800.html
+[2] http://lists.linuxtogo.org/pipermail/tsc/2012-January/000330.html
 
-NOTE: I'm unsure whether os.getenv("libdir").split('/')[-1] and sys.lib
-actually return the same values in every case. I'm not using multilib.
-Can anybody please confirm oder disprove this?
+Since v1 I've done away with the additional script and integrated .png
+conversion into the recipe (optional) as well as used alternatives to
+allow selecting the psplash at runtime. I also decided against renaming
+the default header file as it would break existing bbappends.
 
-This doesn't show up as a problem when bitbake is used. I don't know
-whether this would show up in an SDK setup. I'm using a script to set
-up some commands to simplify working with OE's compilers and libraries,
-i.e. by providing the required environment variables and parameters for
-make and autotools. Having to export libdir seems odd, as it's the only
-required lower case variable and is typically used by autotools in
-conjunction with many other lower case variables, which already get
-passed to configure as command line parameters.
 
- ...2-distutils-prefix-is-inside-staging-area.patch |   15 +++++----------
- 1 files changed, 5 insertions(+), 10 deletions(-)
+Please review the following changes for suitability for inclusion. If you have
+any objections or suggestions for improvement, please respond to the patches. If
+you agree with the changes, please provide your Acked-by.
 
-diff --git a/meta/recipes-devtools/python/python-native/12-distutils-prefix-is-inside-staging-area.patch b/meta/recipes-devtools/python/python-native/12-distutils-prefix-is-inside-staging-area.patch
-index b46caf6..7b743e5 100644
---- a/meta/recipes-devtools/python/python-native/12-distutils-prefix-is-inside-staging-area.patch
-+++ b/meta/recipes-devtools/python/python-native/12-distutils-prefix-is-inside-staging-area.patch
-@@ -26,26 +26,21 @@ Upstream-Status: Inappropriate [embedded specific]
-  
-      if os.name == "posix":
-          if python_build:
--@@ -115,12 +115,16 @@
--     If 'prefix' is supplied, use it instead of sys.prefix or
-+@@ -116,11 +116,11 @@
-      sys.exec_prefix -- i.e., ignore 'plat_specific'.
-      """
--+    lib_basename = os.getenv("libdir").split('/')[-1]
-      if prefix is None:
- -        prefix = plat_specific and EXEC_PREFIX or PREFIX
--+        if plat_specific:
--+            prefix = plat_specific and os.environ['STAGING_LIBDIR'].rstrip(lib_basename)
--+        else:
--+            prefix = plat_specific and EXEC_PREFIX or PREFIX
-++        prefix = plat_specific and os.environ['STAGING_LIBDIR'].rstrip(sys.lib) or PREFIX
-  
-      if os.name == "posix":
-          libpython = os.path.join(prefix,
- -                                 "lib", "python" + get_python_version())
--+                                 lib_basename, "python" + get_python_version())
-++                                 sys.lib, "python" + get_python_version())
-          if standard_lib:
-              return libpython
-          else:
--@@ -216,7 +220,7 @@
-+@@ -216,7 +216,7 @@
-      else:
-          # The name of the config.h file changed in 2.2
-          config_h = 'pyconfig.h'
-@@ -54,7 +49,7 @@ Upstream-Status: Inappropriate [embedded specific]
-  
-  
-  def get_makefile_filename():
--@@ -225,7 +229,7 @@
-+@@ -225,7 +225,7 @@
-          return os.path.join(os.path.dirname(os.path.realpath(sys.executable)),
-                              "Makefile")
-      lib_dir = get_python_lib(plat_specific=1, standard_lib=1)
+The following changes since commit 1da6a2dbd5e7aeea6cd45ca05590bdd50b67bf89:
+
+  recipes: bump PR to rebuild .la files without libz.la (2012-02-21 15:00:24 +0000)
+
+are available in the git repository at:
+  git://git.openembedded.org/openembedded-core-contrib paule/oe-psplash
+  http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=paule/oe-psplash
+
+Paul Eggleton (2):
+  psplash: use OpenEmbedded logo
+  psplash: allow building multiple splash executables
+
+ meta/recipes-core/psplash/files/psplash-poky-img.h | 1959 +++++++++++---------
+ meta/recipes-core/psplash/psplash_git.bb           |   93 +-
+ 2 files changed, 1143 insertions(+), 909 deletions(-)
+
 -- 
 1.7.5.4
 
