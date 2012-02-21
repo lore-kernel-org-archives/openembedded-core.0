@@ -1,33 +1,42 @@
-Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
-	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <richard.purdie@linuxfoundation.org>)
-	id 1RzylC-0004ms-QA for openembedded-core@lists.openembedded.org;
-	Wed, 22 Feb 2012 00:04:39 +0100
-Received: from localhost (localhost [127.0.0.1])
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q1LMuJXo021166
+Received: from mail-lpp01m010-f47.google.com ([209.85.215.47])
+	by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <raj.khem@gmail.com>) id 1Rzynh-0004rz-Oj
+	for openembedded-core@lists.openembedded.org;
+	Wed, 22 Feb 2012 00:07:13 +0100
+Received: by lahc1 with SMTP id c1so8400492lah.6
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 21 Feb 2012 22:56:19 GMT
-Received: from tim.rpsys.net ([127.0.0.1])
-	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
-	port 10024) with LMTP
-	id 20289-10 for <openembedded-core@lists.openembedded.org>;
-	Tue, 21 Feb 2012 22:56:15 +0000 (GMT)
-Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q1LMu9es021160
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO)
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 21 Feb 2012 22:56:10 GMT
-Message-ID: <1329864969.20261.89.camel@ted>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
+	Tue, 21 Feb 2012 14:58:54 -0800 (PST)
+Received-SPF: pass (google.com: domain of raj.khem@gmail.com designates
+	10.112.8.129 as permitted sender) client-ip=10.112.8.129; 
+Authentication-Results: mr.google.com;
+	spf=pass (google.com: domain of raj.khem@gmail.com
+	designates 10.112.8.129 as permitted sender)
+	smtp.mail=raj.khem@gmail.com;
+	dkim=pass header.i=raj.khem@gmail.com
+Received: from mr.google.com ([10.112.8.129])
+	by 10.112.8.129 with SMTP id r1mr10311511lba.38.1329865134359 (num_hops
+	= 1); Tue, 21 Feb 2012 14:58:54 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc:content-type:content-transfer-encoding;
+	bh=xgJWrVt1t2pVfU1uBNCidz8jBAsu3pmDJqNus0cqEHc=;
+	b=n5/7JljIk+82BHHPhlhxat2kbL09FFMTIZQs7HxuPYQgPTIttiaeCqZ9lGvcVBI4Bo
+	yZeXrmX3W8t+OVb6ie/gJvPc+OOItXnjCJ70Dgiek3uoX4OJm0BNhoErLUO2kELVEkft
+	zUWuQqqd75fb/mvA5EA2SeRjv3NMgVOn1YRbU=
+Received: by 10.112.8.129 with SMTP id r1mr8661100lba.38.1329865134303; Tue,
+	21 Feb 2012 14:58:54 -0800 (PST)
+MIME-Version: 1.0
+Received: by 10.152.27.109 with HTTP; Tue, 21 Feb 2012 14:58:24 -0800 (PST)
+In-Reply-To: <1329861178.20261.62.camel@ted>
+References: <1329851229-31625-1-git-send-email-steve@sakoman.com>
+	<1329861178.20261.62.camel@ted>
+From: Khem Raj <raj.khem@gmail.com>
+Date: Tue, 21 Feb 2012 14:58:24 -0800
+Message-ID: <CAMKF1srgDCoszNsYc30zwR_kgQOV8F2k3i5dQHGyzvJoW3ar4w@mail.gmail.com>
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Date: Tue, 21 Feb 2012 22:56:09 +0000
-In-Reply-To: <4F441BF1.6090404@mlbassoc.com>
-References: <1329861809.20261.68.camel@ted> <4F441BF1.6090404@mlbassoc.com>
-X-Mailer: Evolution 3.2.2- 
-Mime-Version: 1.0
-X-Virus-Scanned: amavisd-new at rpsys.net
-Subject: Re: Heads up: basichash being enabled for poky by default
+Cc: Steve Sakoman <steve@sakoman.com>
+Subject: Re: [PATCH] libxml2: add missing dependency on binutils
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -42,64 +51,64 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 21 Feb 2012 23:04:39 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Tue, 21 Feb 2012 23:07:13 -0000
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
-On Tue, 2012-02-21 at 15:34 -0700, Gary Thomas wrote:
-> On 2012-02-21 15:03, Richard Purdie wrote:
-> > If you're not ready for the change, you can still set:
-> >
-> > BB_SIGNATURE_HANDLER = 'OEBasic'
-> >
-> > to get the existing behaviour either at a local or distro level. The
-> > difference is one will include the sstate hash in the files in
-> > tmp/stamps/*. This means if the hash changes, it gets rebuilt.
-> >
-> > As a result of this commit your tree will rebuild. I'll bump the TMPDIR
-> > ABI version number at the same time so people more easily spot the
-> > change and can either revert or continue at their choice.
-> 
-> For those of us not using DISTRO=poky, what are the pros & cons
-> of the various signature handler settings?
+On Tue, Feb 21, 2012 at 1:52 PM, Richard Purdie
+<richard.purdie@linuxfoundation.org> wrote:
+> On Tue, 2012-02-21 at 11:07 -0800, Steve Sakoman wrote:
+>> Otherwise build fails with following error:
+>>
+>> | In file included from libxml.h:36:0,
+>> | =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0from xml=
+memory.c:8:
+>> | ./include/libxml/xmlversion.h:396:22: fatal error: ansidecl.h: No such=
+ file or directory
+>>
+>> Signed-off-by: Steve Sakoman <steve@sakoman.com>
+>> ---
+>> =C2=A0meta/recipes-core/libxml/libxml2.inc | =C2=A0 =C2=A02 +-
+>> =C2=A01 files changed, 1 insertions(+), 1 deletions(-)
+>>
+>> diff --git a/meta/recipes-core/libxml/libxml2.inc b/meta/recipes-core/li=
+bxml/libxml2.inc
+>> index 0979acd..6230f60 100644
+>> --- a/meta/recipes-core/libxml/libxml2.inc
+>> +++ b/meta/recipes-core/libxml/libxml2.inc
+>> @@ -10,7 +10,7 @@ LIC_FILES_CHKSUM =3D "file://Copyright;md5=3Dbb90c4892=
+6316d9af6e2d70ca7013ade \
+>> =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0file://trio.c;beginline=3D5;endline=3D14;md5=3D6c025753c86d958722ec76=
+e94cae932e"
+>>
+>> =C2=A0DEPENDS_virtclass-native =3D "python-native"
+>> -DEPENDS =3D+ "zlib"
+>> +DEPENDS =3D+ "zlib binutils"
+>>
+>> =C2=A0SRC_URI =3D "ftp://xmlsoft.org/libxml2/libxml2-${PV}.tar.gz \
+>> =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 file://libxml-64bit.patch"
+>
+> This sounds very wrong. It would have implications for libxml2-native
+> I'd imagine. What is it doing that needs binutils?
 
-In gory details terms, there are five options:
-
-unset, "basic", "basichash", "OEBasic", "OEBasicHash"
-
-Which reminds me that the patch I linked to is wrong and we'll be
-switching to OEBasicHash. See below for the difference.
-
-I'd suggest people only care about OEBasic (the current default
-everywhere) and OEBasicHash.
-
-We need some kind of hash generator for sstate. Since sstate is now
-mandatory, having a siggen is also mandatory so the unset option isn't
-useful for OE-Core but was there for compatibility with OE-classic.
-
-The difference between the OE and plain variants is that the OE versions
-live in meta/lib/oe/sstatesig.py instead of bitbake. You can see they
-inherit the basic versions and make some specific tweaks to the
-dependency tree (like ignoring changes in quilt-native so do_patch
-doesn't get rerun when quilt-native changes). This also shows how you
-could plug in a completely different custom signature generator.
-
-The difference between basic and basichash is that basic hash injects
-the signatures into the files in tmp/stamps/. This means things will
-rebuild when any hash changes, removing the manual PR bump process and
-making things much more deterministic and consistent with the sstate
-packages. It likely will rebuild more than you want it to in some cases
-though.
-
-Does that make things clearer?
-
-Cheers,
-
-Richard
+configure detects the header and then uses it. So as long as you provide
+binutils or not provide consistently it will build in a consistent way
+whats happening here probably is that its configured with binutils-dev
+being staged but is building without then being in staging.
 
 
-
-
-
+>
+> Its going to add considerable time to the build too.
+>
+> Cheers,
+>
+> Richard
+>
+>
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
 
 
