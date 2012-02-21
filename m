@@ -1,24 +1,20 @@
 Received: from mga03.intel.com ([143.182.124.21])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <paul.eggleton@linux.intel.com>) id 1Rzs8w-00026O-1B
+	(envelope-from <paul.eggleton@linux.intel.com>) id 1RzsCo-0002KP-Ni
 	for openembedded-core@lists.openembedded.org;
-	Tue, 21 Feb 2012 17:00:42 +0100
-Received: from azsmga001.ch.intel.com ([10.2.17.19])
-	by azsmga101.ch.intel.com with ESMTP; 21 Feb 2012 07:52:22 -0800
+	Tue, 21 Feb 2012 17:04:42 +0100
+Received: from azsmga002.ch.intel.com ([10.2.17.35])
+	by azsmga101.ch.intel.com with ESMTP; 21 Feb 2012 07:56:22 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="108997292"
+X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="68680078"
 Received: from unknown (HELO helios.ger.corp.intel.com) ([10.252.123.60])
-	by azsmga001.ch.intel.com with ESMTP; 21 Feb 2012 07:52:21 -0800
+	by AZSMGA002.ch.intel.com with ESMTP; 21 Feb 2012 07:56:21 -0800
 From: Paul Eggleton <paul.eggleton@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Tue, 21 Feb 2012 15:52:15 +0000
-Message-Id: <6d5f355feb0162434d21419d3786bcc9dd515ec1.1329837658.git.paul.eggleton@linux.intel.com>
+Date: Tue, 21 Feb 2012 15:56:19 +0000
+Message-Id: <cover.1329839666.git.paul.eggleton@linux.intel.com>
 X-Mailer: git-send-email 1.7.5.4
-In-Reply-To: <cover.1329837658.git.paul.eggleton@linux.intel.com>
-References: <cover.1329837658.git.paul.eggleton@linux.intel.com>
-In-Reply-To: <cover.1329837658.git.paul.eggleton@linux.intel.com>
-References: <cover.1329837658.git.paul.eggleton@linux.intel.com>
-Subject: [RFC PATCH 2/2] psplash: allow building multiple splash executables
+Subject: [RFC PATCH 0/1] DISTRO_FEATURES_BACKFILL implementation
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -33,155 +29,34 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 21 Feb 2012 16:00:42 -0000
+X-List-Received-Date: Tue, 21 Feb 2012 16:04:43 -0000
 
-Adds a SPLASH_IMAGES variable which you can set to include one or more
-images (listed in URI form as they would appear in SRC_URI), and an
-executable will be built for each one, with each executable packaged
-separately and managed at runtime using the alternatives system. An
-optional "outsuffix" parameter can be used to specify the suffix for the
-executable/package name. The images themselves can either be
-pre-processed image header files (produced using the
-make-image-header.sh script that comes with psplash), or alternatively
-you can provide a .png and it will be converted using the aforementioned
-script on the fly (at the expense of requiring gdk-pixbuf-native at
-build time).
+Implements DISTRO_FEATURES_BACKFILL to allow introducing new
+DISTRO_FEATURES that control existing functionality without breaking
+existing distro configuration, as discussed in the following thread:
 
-This has been implemented in such a way that you can still just provide
-your own psplash-poky-img.h in a bbappend and it will work as it did
-before; the only change being that the psplash executable is provided
-in a "psplash-default" package rather than in the main psplash package,
-and an RRECOMMENDS is set up to ensure psplash-default gets pulled in
-(if you specify your own file or change the outsuffix you will need to
-either install it separately yourself or add your own RRECOMMENDS
-relationship.)
+http://article.gmane.org/gmane.comp.handhelds.openembedded.core/13033
 
-Implements [YOCTO #1947]
 
-Signed-off-by: Paul Eggleton <paul.eggleton@linux.intel.com>
----
- meta/recipes-core/psplash/psplash_git.bb |   93 ++++++++++++++++++++++++++++--
- 1 files changed, 87 insertions(+), 6 deletions(-)
+Please review the following changes for suitability for inclusion. If you have
+any objections or suggestions for improvement, please respond to the patches. If
+you agree with the changes, please provide your Acked-by.
 
-diff --git a/meta/recipes-core/psplash/psplash_git.bb b/meta/recipes-core/psplash/psplash_git.bb
-index 9112aa9..42ea615 100644
---- a/meta/recipes-core/psplash/psplash_git.bb
-+++ b/meta/recipes-core/psplash/psplash_git.bb
-@@ -7,27 +7,108 @@ LIC_FILES_CHKSUM = "file://psplash.h;md5=a87c39812c1e37f3451567cc29a29c8f"
- 
- SRCREV = "e05374aae945bcfc6d962ed0d7b2774b77987e1d"
- PV = "0.1+git${SRCPV}"
--PR = "r0"
-+PR = "r1"
- 
- SRC_URI = "git://git.yoctoproject.org/${BPN};protocol=git \
-            file://psplash-init \
--	   file://psplash-poky-img.h"
-+           ${SPLASH_IMAGES}"
-+
-+SPLASH_IMAGES = "file://psplash-poky-img.h;outsuffix=default"
-+
-+python __anonymous() {
-+    oldpkgs = d.getVar("PACKAGES", True).split()
-+    splashfiles = d.getVar('SPLASH_IMAGES', True).split()
-+    pkgs = []
-+    localpaths = []
-+    haspng = False
-+    for uri in splashfiles:
-+        fetcher = bb.fetch2.Fetch([uri], d)
-+        flocal = fetcher.localpath(uri)
-+        fbase = os.path.splitext(os.path.basename(flocal))[0]
-+        outsuffix = fetcher.ud[uri].parm.get("outsuffix")
-+        if not outsuffix:
-+            if fbase.startswith("psplash-"):
-+                outsuffix = fbase[8:]
-+            else:
-+                outsuffix = fbase
-+            if outsuffix.endswith('-img'):
-+                outsuffix = outsuffix[:-4]
-+        outname = "psplash-%s" % outsuffix
-+        if outname == '' or outname in oldpkgs:
-+            bb.fatal("The output name '%s' derived from the URI %s is not valid, please specify the outsuffix parameter" % (outname, uri))
-+        else:
-+            pkgs.append(outname)
-+        if flocal.endswith(".png"):
-+            haspng = True
-+        localpaths.append(flocal)
-+
-+    # Set these so that we have less work to do in do_compile and do_install_append
-+    d.setVar("SPLASH_INSTALL", " ".join(pkgs))
-+    d.setVar("SPLASH_LOCALPATHS", " ".join(localpaths))
-+
-+    if haspng:
-+        d.appendVar("DEPENDS", " gdk-pixbuf-native")
-+
-+    d.prependVar("PACKAGES", "%s " % (" ".join(pkgs)))
-+    for p in pkgs:
-+        d.setVar("FILES_%s" % p, "${bindir}/%s" % p)
-+        d.setVar("ALTERNATIVE_PATH", "${bindir}/%s" % p)
-+        d.setVar("ALTERNATIVE_PRIORITY", "100")
-+        postinst = d.getVar("psplash_alternatives_postinst", True)
-+        d.setVar('pkg_postinst_%s' % p, postinst)
-+        postrm = d.getVar("psplash_alternatives_postrm", True)
-+        d.setVar('pkg_postrm_%s' % p, postrm)
-+        d.appendVar("RDEPENDS_%s" % p, " ${PN}")
-+        if p == "psplash-default":
-+            d.appendVar("RRECOMMENDS_${PN}", " %s" % p)
-+}
- 
- S = "${WORKDIR}/git"
- 
- inherit autotools pkgconfig update-rc.d
- 
--FILES_${PN} += "/mnt/.psplash"
-+python do_compile () {
-+    import shutil
- 
--do_configure_prepend () {
--	cp -f ${WORKDIR}/psplash-poky-img.h ${S}/
-+    # Build a separate executable for each splash image
-+    destfile = "%s/psplash-poky-img.h" % d.getVar('S', True)
-+    localfiles = d.getVar('SPLASH_LOCALPATHS', True).split()
-+    outputfiles = d.getVar('SPLASH_INSTALL', True).split()
-+    for localfile, outputfile in zip(localfiles, outputfiles):
-+        if localfile.endswith(".png"):
-+            outp = commands.getstatusoutput('./make-image-header.sh %s POKY' % localfile)
-+            print(outp[1])
-+            fbase = os.path.splitext(os.path.basename(localfile))[0]
-+            shutil.copyfile("%s-img.h" % fbase, destfile)
-+        else:
-+            shutil.copyfile(localfile, destfile)
-+        # For some reason just updating the header is not enough, we have to touch the .c
-+        # file in order to get it to rebuild
-+        os.utime("psplash.c", None)
-+        bb.build.exec_func("oe_runmake", d)
-+        shutil.copyfile("psplash", outputfile)
- }
- 
--do_install_prepend() {
-+do_install_append() {
- 	install -d ${D}/mnt/.psplash/
- 	install -d ${D}${sysconfdir}/init.d/
- 	install -m 0755 ${WORKDIR}/psplash-init ${D}${sysconfdir}/init.d/psplash.sh
-+	install -d ${D}${bindir}
-+	for i in ${SPLASH_INSTALL} ; do
-+		install -m 0755 $i ${D}${bindir}/$i
-+	done
-+	rm -f ${D}${bindir}/psplash
- }
- 
-+psplash_alternatives_postinst() {
-+update-alternatives --install ${bindir}/psplash psplash ${ALTERNATIVE_PATH} ${ALTERNATIVE_PRIORITY}
-+}
-+
-+psplash_alternatives_postrm() {
-+update-alternatives --remove psplash ${ALTERNATIVE_PATH}
-+}
-+
-+FILES_${PN} += "/mnt/.psplash"
-+
- INITSCRIPT_NAME = "psplash.sh"
- INITSCRIPT_PARAMS = "start 0 S . stop 20 0 1 6 ."
+The following changes since commit 1da6a2dbd5e7aeea6cd45ca05590bdd50b67bf89:
+
+  recipes: bump PR to rebuild .la files without libz.la (2012-02-21 15:00:24 +0000)
+
+are available in the git repository at:
+  git://git.openembedded.org/openembedded-core-contrib paule/distro-features-backfill
+  http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=paule/distro-features-backfill
+
+Paul Eggleton (1):
+  conf/bitbake.conf: add DISTRO_FEATURES_BACKFILL
+
+ meta/conf/bitbake.conf |    3 +++
+ meta/lib/oe/utils.py   |   20 ++++++++++++++++++++
+ 2 files changed, 23 insertions(+), 0 deletions(-)
+
 -- 
 1.7.5.4
 
