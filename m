@@ -1,28 +1,25 @@
-Received: from hermes.mlbassoc.com ([64.234.241.98] helo=mail.chez-thomas.org)
+Received: from mail.pbcl.net ([88.198.119.4] helo=hetzner.pbcl.net)
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <gary@mlbassoc.com>) id 1RzyQ1-0003WO-8k
+	(envelope-from <philb@gnu.org>) id 1RzyW1-0003da-4B
 	for openembedded-core@lists.openembedded.org;
-	Tue, 21 Feb 2012 23:42:45 +0100
-Received: by mail.chez-thomas.org (Postfix, from userid 1998)
-	id 85A56F81221; Tue, 21 Feb 2012 15:34:26 -0700 (MST)
-X-Spam-Checker-Version: SpamAssassin 3.3.2 (2011-06-06) on
-	hermes.chez-thomas.org
-X-Spam-Level: 
-X-Spam-Status: No, score=-2.9 required=4.0 tests=ALL_TRUSTED,BAYES_00
-	autolearn=ham version=3.3.2
-Received: from hermes.chez-thomas.org (localhost.localdomain [127.0.0.1])
-	by mail.chez-thomas.org (Postfix) with ESMTP id 4EDE0F81220;
-	Tue, 21 Feb 2012 15:34:25 -0700 (MST)
-Message-ID: <4F441BF1.6090404@mlbassoc.com>
-Date: Tue, 21 Feb 2012 15:34:25 -0700
-From: Gary Thomas <gary@mlbassoc.com>
-User-Agent: Mozilla/5.0 (X11; Linux i686;
-	rv:10.0) Gecko/20120131 Thunderbird/10.0
-MIME-Version: 1.0
-To: openembedded-core@lists.openembedded.org
-References: <1329861809.20261.68.camel@ted>
-In-Reply-To: <1329861809.20261.68.camel@ted>
-Subject: Re: Heads up: basichash being enabled for poky by default
+	Tue, 21 Feb 2012 23:48:57 +0100
+Received: from blundell.swaffham-prior.co.uk ([91.216.112.25]
+	helo=[192.168.114.6])
+	by hetzner.pbcl.net with esmtpsa (TLS1.0:RSA_AES_256_CBC_SHA1:32)
+	(Exim 4.72) (envelope-from <philb@gnu.org>) id 1RzyNz-0005wA-Ru
+	for openembedded-core@lists.openembedded.org;
+	Tue, 21 Feb 2012 23:40:39 +0100
+Message-ID: <1329864016.2591.195.camel@x121e.pbcl.net>
+From: Phil Blundell <philb@gnu.org>
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Date: Tue, 21 Feb 2012 22:40:16 +0000
+In-Reply-To: <4F441987.2010800@linux.intel.com>
+References: <1328889675-9864-1-git-send-email-andrei@gherzan.ro>
+	<4F441987.2010800@linux.intel.com>
+X-Mailer: Evolution 3.2.2-1 
+Mime-Version: 1.0
+Subject: Re: [PATCH] openssl: Move libcrypto to base_libdir
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -37,40 +34,51 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 21 Feb 2012 22:42:45 -0000
-Content-Type: text/plain; charset=ISO-8859-1; format=flowed
+X-List-Received-Date: Tue, 21 Feb 2012 22:48:57 -0000
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 
-On 2012-02-21 15:03, Richard Purdie wrote:
-> This is just to warn people that I'm going to push a change making
-> basichash the default for DISTRO=poky as of tomorrow. This change has
-> been brewing for a while and has seen plenty of discussion. Its time to
-> throw the switch:
->
-> http://git.yoctoproject.org/cgit.cgi/poky-contrib/commit/?id=f65bbb41d6fe9763acbd80df5885b3526259ce80
->
-> I haven't yet decided what should happen when in OE-Core and am open to
-> opinions on that.
->
-> If you're not ready for the change, you can still set:
->
-> BB_SIGNATURE_HANDLER = 'OEbasic'
->
-> to get the existing behaviour either at a local or distro level. The
-> difference is one will include the sstate hash in the files in
-> tmp/stamps/*. This means if the hash changes, it gets rebuilt.
->
-> As a result of this commit your tree will rebuild. I'll bump the TMPDIR
-> ABI version number at the same time so people more easily spot the
-> change and can either revert or continue at their choice.
+On Tue, 2012-02-21 at 14:24 -0800, Saul Wold wrote:
+> On 02/10/2012 08:01 AM, Andrei Gherzan wrote:
+> > This fix is for dhclient. It needs libcrypto at runtime and if
+> > libcrypto is in libdir, it's path can be inaccessible on systems
+> > where /usr is on nfs for example or dhclient is needed before
+> > /usr is mounted.
+> >
+> > Signed-off-by: Andrei Gherzan<andrei@gherzan.ro>
+> > ---
+> >   ...001-openssl-Move-libcrypto-to-base_libdir.patch |   61 ++++++++++++++++++++
+> >   meta/recipes-connectivity/openssl/openssl.inc      |   10 +++-
+> >   .../recipes-connectivity/openssl/openssl_1.0.0g.bb |    2 +-
+> >   3 files changed, 71 insertions(+), 2 deletions(-)
+> >   create mode 100644 meta/recipes-connectivity/openssl/0001-openssl-Move-libcrypto-to-base_libdir.patch
+> >
+> > diff --git a/meta/recipes-connectivity/openssl/0001-openssl-Move-libcrypto-to-base_libdir.patch b/meta/recipes-connectivity/openssl/0001-openssl-Move-libcrypto-to-base_libdir.patch
+> > new file mode 100644
+> > index 0000000..b101d8c
+> > --- /dev/null
+> > +++ b/meta/recipes-connectivity/openssl/0001-openssl-Move-libcrypto-to-base_libdir.patch
+> > @@ -0,0 +1,61 @@
+> > +From ac1fe1490e997fb8fd91ec13b675d38efcc65775 Mon Sep 17 00:00:00 2001
+> > +From: Andrei Gherzan<andrei@gherzan.ro>
+> > +Date: Thu, 9 Feb 2012 00:03:38 +0200
+> > +Subject: [PATCH] openssl: Move libcrypto to base_libdir
+> > +
+> > +This fix is for dhclient. It needs libcrypto at runtime and if
+> > +libcrypto is in libdir, it's path can be inaccessible on systems
+> > +where /usr is on nfs for example or dhclient is needed before
+> > +/usr is mounted.
+> > +
+> Seems to be missing Upstream-Status
 
-For those of us not using DISTRO=poky, what are the pros & cons
-of the various signature handler settings?
+Really?  There doesn't seem to be any genuine patch here.  As far as I
+can tell, that 0001-openssl-Move-libcrypto-to-base_libdir.patch file is
+some old version of the changeset which has somehow gotten checked in as
+a git format-patch'd diff.  I think it should be deleted, not given an
+upstream-status.
 
--- 
-------------------------------------------------------------
-Gary Thomas                 |  Consulting for the
-MLB Associates              |    Embedded world
-------------------------------------------------------------
+p.
+
+
 
 
