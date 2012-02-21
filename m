@@ -1,29 +1,30 @@
-Received: from mail.pbcl.net ([88.198.119.4] helo=hetzner.pbcl.net)
+Received: from mail.windriver.com ([147.11.1.11])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <philb@gnu.org>) id 1RzxTa-00019R-MJ
+	(envelope-from <mark.hatle@windriver.com>) id 1RzxTd-00019O-7i
 	for openembedded-core@lists.openembedded.org;
-	Tue, 21 Feb 2012 22:42:22 +0100
-Received: from blundell.swaffham-prior.co.uk ([91.216.112.25]
-	helo=[192.168.114.6])
-	by hetzner.pbcl.net with esmtpsa (TLS1.0:RSA_AES_256_CBC_SHA1:32)
-	(Exim 4.72) (envelope-from <philb@gnu.org>) id 1RzxLZ-0005sJ-9y
-	for openembedded-core@lists.openembedded.org;
-	Tue, 21 Feb 2012 22:34:05 +0100
-Message-ID: <1329860021.2591.182.camel@x121e.pbcl.net>
-From: Phil Blundell <philb@gnu.org>
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Date: Tue, 21 Feb 2012 21:33:41 +0000
-In-Reply-To: <CAGDS+nn7+3zVFX896P-+y5tT4Xw-++bgKtizmDsFZUno5D9Y8A@mail.gmail.com>
-References: <cover.1329147583.git.Martin.Jansa@gmail.com>
-	<1e2722b29db9486276198e13f06345babce10518.1329147583.git.Martin.Jansa@gmail.com>
-	<4cb8ea6acd12fec8ff072912292a374aaac56dcb.1329147583.git.Martin.Jansa@gmail.com>
-	<CAGDS+nkxwj33z1zP2Uc9+oH97WkOy_v0yP2cs0VDcDgxm3SYog@mail.gmail.com>
-	<CAMKF1sqMP5yyeFo8qUhjd1xPkOvV6JcpzSwRP33VNyc0wf+C_A@mail.gmail.com>
-	<CAGDS+nn7+3zVFX896P-+y5tT4Xw-++bgKtizmDsFZUno5D9Y8A@mail.gmail.com>
-X-Mailer: Evolution 3.2.2-1 
-Mime-Version: 1.0
-Subject: Re: [PATCH 4/4] recipes: bump PR to rebuild .la files without libz.la
+	Tue, 21 Feb 2012 22:42:25 +0100
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca [147.11.189.40])
+	by mail.windriver.com (8.14.3/8.14.3) with ESMTP id q1LLY4Zi004552
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 21 Feb 2012 13:34:04 -0800 (PST)
+Received: from Macintosh-5.local (172.25.36.227) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server id 14.1.255.0;
+	Tue, 21 Feb 2012 13:34:03 -0800
+Message-ID: <4F440DCA.9020805@windriver.com>
+Date: Tue, 21 Feb 2012 15:34:02 -0600
+From: Mark Hatle <mark.hatle@windriver.com>
+Organization: Wind River Systems
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.6;
+	rv:9.0) Gecko/20111222 Thunderbird/9.0.1
+MIME-Version: 1.0
+To: <openembedded-core@lists.openembedded.org>
+References: <cover.1329456260.git.yi.zhao@windriver.com>
+	<ea7342b8cdd7a0f9c49253f9e063ab7577f04038.1329456260.git.yi.zhao@windriver.com>
+	<4F43F9EE.5080608@linux.intel.com>
+	<CAMKF1so0r+8CUMCAQ0Jz1wbP=jSjqnZGuSjPawn5FtJGOQjBjA@mail.gmail.com>
+In-Reply-To: <CAMKF1so0r+8CUMCAQ0Jz1wbP=jSjqnZGuSjPawn5FtJGOQjBjA@mail.gmail.com>
+Subject: Re: [PATCH 1/3] lsbtest: Add recipe for LSB tests and automate test
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -38,40 +39,32 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 21 Feb 2012 21:42:22 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Tue, 21 Feb 2012 21:42:25 -0000
+Content-Type: text/plain; charset="ISO-8859-1"; format=flowed
 Content-Transfer-Encoding: 7bit
 
-On Tue, 2012-02-21 at 13:16 -0800, Steve Sakoman wrote:
-> On Tue, Feb 21, 2012 at 1:07 PM, Khem Raj <raj.khem@gmail.com> wrote:
-> > On Tue, Feb 21, 2012 at 11:25 AM, Steve Sakoman <sakoman@gmail.com> wrote:
-> >>
-> >> | configure: error: Package requirements (cairo-xlib >= 1.6) were not met:
-> >> |
-> >> | No package 'cairo-xlib' found
-> >
-> > Add DEPENDS += "cairo"
-> 
-> Nope, cairo is already in the DEPENDS list for gtk+.
-> 
-> Seems the issue is that on that build machine (the 4 core) cairo isn't
-> being built with --with-x=yes.
-> 
-> The cairo recipe checks for x11 in DISTRO_FEATURES and does
-> --with-x=yes if it is present.
-> 
-> Since Poky doesn't have x11 in DISTRO_FEATURES, cairo builds without
-> xlib support by default.
+On 2/21/12 3:02 PM, Khem Raj wrote:
+> On Tue, Feb 21, 2012 at 12:09 PM, Saul Wold<sgw@linux.intel.com>  wrote:
+>> I think you need to have a RDEPENDS on at a minimum for this lsbtest recipe
+>> since it relies on RPM to install the packages.
+>>
+>> RDEPENDS = "rpm"
+>>
+>>
+>
+> that wont fly if someone is using opkg or dpkg
 
-If you don't have x11 in DISTRO_FEATURES then I wouldn't have expected
-gtk+ to want cairo-x11 either.  Though, I don't quite know what the gtk+
-configury will do if you don't select any backends at all and it's
-possible it might be falling back to X in that case.
+Unfortunately rpm is a requirement of the LSB test suite itself.  (This is a 
+workstation/server oriented test suite, so the requirement is reasonable. 
+Nobody should be deploying a system w/ the test suite installed.)
 
-What gtk backend are you expecting to use - directfb?
+--Mark
 
-p.
-
+>
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
 
 
 
