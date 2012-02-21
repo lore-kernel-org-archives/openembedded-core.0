@@ -1,32 +1,25 @@
-Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
-	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <richard.purdie@linuxfoundation.org>)
-	id 1Rzy8E-0002vz-FG; Tue, 21 Feb 2012 23:24:22 +0100
-Received: from localhost (localhost [127.0.0.1])
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q1LMG2p4020542;
-	Tue, 21 Feb 2012 22:16:02 GMT
-Received: from tim.rpsys.net ([127.0.0.1])
-	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
-	port 10024) with LMTP
-	id 20289-03; Tue, 21 Feb 2012 22:15:58 +0000 (GMT)
-Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q1LMFrps020535
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO);
-	Tue, 21 Feb 2012 22:15:55 GMT
-Message-ID: <1329862553.20261.74.camel@ted>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Chris Larson <clarson@kergoth.com>
-Date: Tue, 21 Feb 2012 22:15:53 +0000
-In-Reply-To: <CABcZANmS1TK6p3VD-GQv34X=sPmMOQo8ik370CrnH6qa=rbNUA@mail.gmail.com>
-References: <1329608182.4436.48.camel@ted> <1329746700.22425.2.camel@lenny>
-	<CABcZANmS1TK6p3VD-GQv34X=sPmMOQo8ik370CrnH6qa=rbNUA@mail.gmail.com>
-X-Mailer: Evolution 3.2.2- 
-Mime-Version: 1.0
-X-Virus-Scanned: amavisd-new at rpsys.net
-Cc: bitbake-devel <bitbake-devel@lists.openembedded.org>,
-	Patches and discussions about the oe-core layer
+Received: from mga02.intel.com ([134.134.136.20])
+	by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <sgw@linux.intel.com>) id 1RzyG3-0003G2-U3
+	for openembedded-core@lists.openembedded.org;
+	Tue, 21 Feb 2012 23:32:28 +0100
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+	by orsmga101.jf.intel.com with ESMTP; 21 Feb 2012 14:24:07 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.67,352,1309762800"; d="scan'208";a="110549164"
+Received: from unknown (HELO [10.255.15.72]) ([10.255.15.72])
+	by orsmga001.jf.intel.com with ESMTP; 21 Feb 2012 14:24:07 -0800
+Message-ID: <4F441987.2010800@linux.intel.com>
+Date: Tue, 21 Feb 2012 14:24:07 -0800
+From: Saul Wold <sgw@linux.intel.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:10.0) Gecko/20120131 Thunderbird/10.0
+MIME-Version: 1.0
+To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Subject: Re: [bitbake-devel] Bitbake Memory Usage
+References: <1328889675-9864-1-git-send-email-andrei@gherzan.ro>
+In-Reply-To: <1328889675-9864-1-git-send-email-andrei@gherzan.ro>
+Subject: Re: [PATCH] openssl: Move libcrypto to base_libdir
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -41,50 +34,138 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 21 Feb 2012 22:24:22 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Tue, 21 Feb 2012 22:32:28 -0000
+Content-Type: text/plain; charset=ISO-8859-1; format=flowed
 Content-Transfer-Encoding: 7bit
 
-On Mon, 2012-02-20 at 12:57 -0700, Chris Larson wrote:
-> On Mon, Feb 20, 2012 at 7:05 AM, Colin Walters <walters@verbum.org> wrote:
-> > On Sat, 2012-02-18 at 23:36 +0000, Richard Purdie wrote:
-> >> As soon as the child starts trying to remove
-> >> things from memory, we lose the benefits of CoW and USS and PSS rise.
-> >
-> > Note that even leaving out the garbage collector, the cPython VM
-> > incrementing/decrementing the refcount of objects will force the copy.
-> >
-> > The python multiprocessing module has some classes which allow
-> > explicitly sharing memory.  Certainly for various caches e.g. if
-> > they're just read-only after a certain point it might make sense
-> > to wrap them in e.g. a multiprocessing.Value.
-> 
-> Hmm, that's quite interesting, thanks for that tidbit. We should
-> consider looking into that.
+On 02/10/2012 08:01 AM, Andrei Gherzan wrote:
+> This fix is for dhclient. It needs libcrypto at runtime and if
+> libcrypto is in libdir, it's path can be inaccessible on systems
+> where /usr is on nfs for example or dhclient is needed before
+> /usr is mounted.
+>
+> Signed-off-by: Andrei Gherzan<andrei@gherzan.ro>
+> ---
+>   ...001-openssl-Move-libcrypto-to-base_libdir.patch |   61 ++++++++++++++++++++
+>   meta/recipes-connectivity/openssl/openssl.inc      |   10 +++-
+>   .../recipes-connectivity/openssl/openssl_1.0.0g.bb |    2 +-
+>   3 files changed, 71 insertions(+), 2 deletions(-)
+>   create mode 100644 meta/recipes-connectivity/openssl/0001-openssl-Move-libcrypto-to-base_libdir.patch
+>
+> diff --git a/meta/recipes-connectivity/openssl/0001-openssl-Move-libcrypto-to-base_libdir.patch b/meta/recipes-connectivity/openssl/0001-openssl-Move-libcrypto-to-base_libdir.patch
+> new file mode 100644
+> index 0000000..b101d8c
+> --- /dev/null
+> +++ b/meta/recipes-connectivity/openssl/0001-openssl-Move-libcrypto-to-base_libdir.patch
+> @@ -0,0 +1,61 @@
+> +From ac1fe1490e997fb8fd91ec13b675d38efcc65775 Mon Sep 17 00:00:00 2001
+> +From: Andrei Gherzan<andrei@gherzan.ro>
+> +Date: Thu, 9 Feb 2012 00:03:38 +0200
+> +Subject: [PATCH] openssl: Move libcrypto to base_libdir
+> +
+> +This fix is for dhclient. It needs libcrypto at runtime and if
+> +libcrypto is in libdir, it's path can be inaccessible on systems
+> +where /usr is on nfs for example or dhclient is needed before
+> +/usr is mounted.
+> +
+Seems to be missing Upstream-Status
 
-Its interesting but my tests are suggesting the reference counting isn't
-hurting in at least our common "execute a shell task" use case. With the
-way CoW and the data store works, I can believe that.
+Sau!
 
-On the other hand, the serialisation that multiprocessing puts around
-its variables looked potentially problematic (and slow) last time I
-looked. The manual page specifically says those structures are slow if I
-remember rightly.
-
->  On a related note, I think we should sit
-> down and basically review every use of a cache anywhere in bitbake and
-> rethink their operation. We still have multiple caches stored as
-> globals with no expiration policy of any sort, they accrue
-> indefinitely, until process exit. As we review them, we could consider
-> this as well on a case-by-case basis.
-
-I agree we need to resolve some of the life cycle issue and remove the
-globals. The ones I'm aware of do give significant speed benefits though
-and I'm not sure there will be much scope for removing them :/.
-
-Cheers,
-
-Richard
-
+> +Signed-off-by: Andrei Gherzan<andrei@gherzan.ro>
+> +---
+> + meta/recipes-connectivity/openssl/openssl.inc      |    8 +++++++-
+> + .../recipes-connectivity/openssl/openssl_1.0.0g.bb |    2 +-
+> + 2 files changed, 8 insertions(+), 2 deletions(-)
+> +
+> +diff --git a/meta/recipes-connectivity/openssl/openssl.inc b/meta/recipes-connectivity/openssl/openssl.inc
+> +index 771f146..76a28ff 100644
+> +--- a/meta/recipes-connectivity/openssl/openssl.inc
+> ++++ b/meta/recipes-connectivity/openssl/openssl.inc
+> +@@ -36,10 +36,11 @@ export AS = "${CC} -c"
+> + inherit pkgconfig siteinfo
+> +
+> + PACKAGES =+ "libcrypto libssl ${PN}-misc"
+> +-FILES_libcrypto = "${libdir}/libcrypto.so.*"
+> ++FILES_libcrypto = "${base_libdir}/libcrypto${SOLIBS}"
+> + FILES_libssl = "${libdir}/libssl.so.*"
+> + FILES_${PN} =+ " ${libdir}/ssl/*"
+> + FILES_${PN}-misc = "${libdir}/ssl/misc ${libdir}/ssl/openssl.cnf"
+> ++FILES_${PN}-dev += "${base_libdir}/libcrypto${SOLIBSDEV}"
+> +
+> + do_configure_prepend_darwin () {
+> + 	sed -i -e '/version-script=openssl\.ld/d' Configure
+> +@@ -132,6 +133,11 @@ do_install () {
+> + 	oe_libinstall -so libcrypto ${D}${libdir}
+> + 	oe_libinstall -so libssl ${D}${libdir}
+> +
+> ++	# Moving libcrypto to /usr
+> ++	mkdir -p ${D}/${base_libdir}/
+> ++	mv ${D}${libdir}/libcrypto* ${D}${base_libdir}/
+> ++	sed -i s/usr// ${D}/${libdir}/pkgconfig/libcrypto.pc
+> ++
+> + 	install -d ${D}${includedir}
+> + 	cp --dereference -R include/openssl ${D}${includedir}
+> + 	sed -i -e '1s,.*,#!${bindir}/env perl,' ${D}${libdir}/ssl/misc/CA.pl
+> +diff --git a/meta/recipes-connectivity/openssl/openssl_1.0.0g.bb b/meta/recipes-connectivity/openssl/openssl_1.0.0g.bb
+> +index 80dfcb3..8ffe931 100644
+> +--- a/meta/recipes-connectivity/openssl/openssl_1.0.0g.bb
+> ++++ b/meta/recipes-connectivity/openssl/openssl_1.0.0g.bb
+> +@@ -6,7 +6,7 @@ DEPENDS += "ocf-linux"
+> +
+> + CFLAG += "-DHAVE_CRYPTODEV -DUSE_CRYPTODEV_DIGESTS"
+> +
+> +-PR = "${INC_PR}.0"
+> ++PR = "${INC_PR}.1"
+> +
+> + LIC_FILES_CHKSUM = "file://LICENSE;md5=f9a8f968107345e0b75aa8c2ecaa7ec8"
+> +
+> +--
+> +1.7.5.4
+> +
+> diff --git a/meta/recipes-connectivity/openssl/openssl.inc b/meta/recipes-connectivity/openssl/openssl.inc
+> index 771f146..eb6c5ea 100644
+> --- a/meta/recipes-connectivity/openssl/openssl.inc
+> +++ b/meta/recipes-connectivity/openssl/openssl.inc
+> @@ -36,10 +36,11 @@ export AS = "${CC} -c"
+>   inherit pkgconfig siteinfo
+>
+>   PACKAGES =+ "libcrypto libssl ${PN}-misc"
+> -FILES_libcrypto = "${libdir}/libcrypto.so.*"
+> +FILES_libcrypto = "${base_libdir}/libcrypto${SOLIBS}"
+>   FILES_libssl = "${libdir}/libssl.so.*"
+>   FILES_${PN} =+ " ${libdir}/ssl/*"
+>   FILES_${PN}-misc = "${libdir}/ssl/misc ${libdir}/ssl/openssl.cnf"
+> +FILES_${PN}-dev += "${base_libdir}/libcrypto${SOLIBSDEV}"
+>
+>   do_configure_prepend_darwin () {
+>   	sed -i -e '/version-script=openssl\.ld/d' Configure
+> @@ -132,6 +133,13 @@ do_install () {
+>   	oe_libinstall -so libcrypto ${D}${libdir}
+>   	oe_libinstall -so libssl ${D}${libdir}
+>
+> +	# Moving libcrypto to /usr
+> +	if [ ! ${D}${libdir} -ef ${D}${base_libdir} ]; then
+> +		mkdir -p ${D}/${base_libdir}/
+> +		mv ${D}${libdir}/libcrypto* ${D}${base_libdir}/
+> +		sed -i s#libdir=\$\{exec_prefix\}\/lib#libdir=${base_libdir}# ${D}/${libdir}/pkgconfig/libcrypto.pc
+> +	fi
+> +
+>   	install -d ${D}${includedir}
+>   	cp --dereference -R include/openssl ${D}${includedir}
+>   	sed -i -e '1s,.*,#!${bindir}/env perl,' ${D}${libdir}/ssl/misc/CA.pl
+> diff --git a/meta/recipes-connectivity/openssl/openssl_1.0.0g.bb b/meta/recipes-connectivity/openssl/openssl_1.0.0g.bb
+> index 80dfcb3..8ffe931 100644
+> --- a/meta/recipes-connectivity/openssl/openssl_1.0.0g.bb
+> +++ b/meta/recipes-connectivity/openssl/openssl_1.0.0g.bb
+> @@ -6,7 +6,7 @@ DEPENDS += "ocf-linux"
+>
+>   CFLAG += "-DHAVE_CRYPTODEV -DUSE_CRYPTODEV_DIGESTS"
+>
+> -PR = "${INC_PR}.0"
+> +PR = "${INC_PR}.1"
+>
+>   LIC_FILES_CHKSUM = "file://LICENSE;md5=f9a8f968107345e0b75aa8c2ecaa7ec8"
+>
 
 
