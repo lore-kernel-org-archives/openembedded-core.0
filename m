@@ -1,31 +1,31 @@
-Received: from mail.pbcl.net ([88.198.119.4] helo=hetzner.pbcl.net)
-	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <philb@gnu.org>) id 1Rzxei-0001gi-2x
-	for openembedded-core@lists.openembedded.org;
-	Tue, 21 Feb 2012 22:53:52 +0100
-Received: from blundell.swaffham-prior.co.uk ([91.216.112.25]
-	helo=[192.168.114.6])
-	by hetzner.pbcl.net with esmtpsa (TLS1.0:RSA_AES_256_CBC_SHA1:32)
-	(Exim 4.72) (envelope-from <philb@gnu.org>) id 1RzxWf-0005tB-V2
-	for openembedded-core@lists.openembedded.org;
-	Tue, 21 Feb 2012 22:45:35 +0100
-Message-ID: <1329860710.2591.191.camel@x121e.pbcl.net>
-From: Phil Blundell <philb@gnu.org>
+Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
+	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <richard.purdie@linuxfoundation.org>)
+	id 1Rzxm3-0002DO-6N for openembedded-core@lists.openembedded.org;
+	Tue, 21 Feb 2012 23:01:27 +0100
+Received: from localhost (localhost [127.0.0.1])
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q1LLr8LF020129;
+	Tue, 21 Feb 2012 21:53:08 GMT
+Received: from tim.rpsys.net ([127.0.0.1])
+	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
+	port 10024) with LMTP
+	id 19941-02; Tue, 21 Feb 2012 21:53:04 +0000 (GMT)
+Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q1LLqwfa020122
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO);
+	Tue, 21 Feb 2012 21:52:59 GMT
+Message-ID: <1329861178.20261.62.camel@ted>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Date: Tue, 21 Feb 2012 21:45:10 +0000
-In-Reply-To: <CAGDS+nmmDatHX=MbJkEgCLNS0ZWssWVTDCQZR3Q5wNYPe82EhA@mail.gmail.com>
-References: <cover.1329147583.git.Martin.Jansa@gmail.com>
-	<1e2722b29db9486276198e13f06345babce10518.1329147583.git.Martin.Jansa@gmail.com>
-	<4cb8ea6acd12fec8ff072912292a374aaac56dcb.1329147583.git.Martin.Jansa@gmail.com>
-	<CAGDS+nkxwj33z1zP2Uc9+oH97WkOy_v0yP2cs0VDcDgxm3SYog@mail.gmail.com>
-	<CAMKF1sqMP5yyeFo8qUhjd1xPkOvV6JcpzSwRP33VNyc0wf+C_A@mail.gmail.com>
-	<CAGDS+nn7+3zVFX896P-+y5tT4Xw-++bgKtizmDsFZUno5D9Y8A@mail.gmail.com>
-	<1329860021.2591.182.camel@x121e.pbcl.net>
-	<CAGDS+nmmDatHX=MbJkEgCLNS0ZWssWVTDCQZR3Q5wNYPe82EhA@mail.gmail.com>
-X-Mailer: Evolution 3.2.2-1 
+Date: Tue, 21 Feb 2012 21:52:58 +0000
+In-Reply-To: <1329851229-31625-1-git-send-email-steve@sakoman.com>
+References: <1329851229-31625-1-git-send-email-steve@sakoman.com>
+X-Mailer: Evolution 3.2.2- 
 Mime-Version: 1.0
-Subject: Re: [PATCH 4/4] recipes: bump PR to rebuild .la files without libz.la
+X-Virus-Scanned: amavisd-new at rpsys.net
+Cc: Steve Sakoman <steve@sakoman.com>
+Subject: Re: [PATCH] libxml2: add missing dependency on binutils
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -40,27 +40,44 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 21 Feb 2012 21:53:52 -0000
+X-List-Received-Date: Tue, 21 Feb 2012 22:01:27 -0000
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 
-On Tue, 2012-02-21 at 13:39 -0800, Steve Sakoman wrote:
-> Well, this is an image for a headless system, so neither directfb nor
-> x11 will be used!  I'm not really sure what package is causing gtk+ to
-> be built.
+On Tue, 2012-02-21 at 11:07 -0800, Steve Sakoman wrote:
+> Otherwise build fails with following error:
+> 
+> | In file included from libxml.h:36:0,
+> |                  from xmlmemory.c:8:
+> | ./include/libxml/xmlversion.h:396:22: fatal error: ansidecl.h: No such file or directory
+> 
+> Signed-off-by: Steve Sakoman <steve@sakoman.com>
+> ---
+>  meta/recipes-core/libxml/libxml2.inc |    2 +-
+>  1 files changed, 1 insertions(+), 1 deletions(-)
+> 
+> diff --git a/meta/recipes-core/libxml/libxml2.inc b/meta/recipes-core/libxml/libxml2.inc
+> index 0979acd..6230f60 100644
+> --- a/meta/recipes-core/libxml/libxml2.inc
+> +++ b/meta/recipes-core/libxml/libxml2.inc
+> @@ -10,7 +10,7 @@ LIC_FILES_CHKSUM = "file://Copyright;md5=bb90c48926316d9af6e2d70ca7013ade \
+>                      file://trio.c;beginline=5;endline=14;md5=6c025753c86d958722ec76e94cae932e"
+>  
+>  DEPENDS_virtclass-native = "python-native"
+> -DEPENDS =+ "zlib"
+> +DEPENDS =+ "zlib binutils"
+>  
+>  SRC_URI = "ftp://xmlsoft.org/libxml2/libxml2-${PV}.tar.gz \
+>             file://libxml-64bit.patch"
 
-Ah.  Well, gtk+ 2.x requires you to choose exactly one of either x11 or
-directfb as the backend.  If you don't have either then it isn't going
-to work. 
+This sounds very wrong. It would have implications for libxml2-native
+I'd imagine. What is it doing that needs binutils?
 
-You can use "bitbake -g" to find out what is depending on gtk+, or just
-add gtk+ to BBMASK and see which recipe starts complaining about
-unsatisfied dependencies.  Sounds like eliminating that dependency at
-source is probably going to be the most fruitful route for you to
-explore.
+Its going to add considerable time to the build too.
 
-p.
+Cheers,
 
+Richard
 
 
 
