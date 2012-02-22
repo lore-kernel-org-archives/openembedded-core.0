@@ -1,33 +1,23 @@
-Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
-	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <richard.purdie@linuxfoundation.org>)
-	id 1S0LXR-0003xX-I9 for openembedded-core@lists.openembedded.org;
-	Thu, 23 Feb 2012 00:23:57 +0100
-Received: from localhost (localhost [127.0.0.1])
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q1MNFaho003246
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 22 Feb 2012 23:15:36 GMT
-Received: from tim.rpsys.net ([127.0.0.1])
-	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
-	port 10024) with LMTP
-	id 03118-01 for <openembedded-core@lists.openembedded.org>;
-	Wed, 22 Feb 2012 23:15:32 +0000 (GMT)
-Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q1MNFQHT003240
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO)
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 22 Feb 2012 23:15:27 GMT
-Message-ID: <1329952527.32110.43.camel@ted>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
+Received: from smtp-relay2.palm.com ([64.28.152.243])
+	by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <prvs=392e25361=rich.pixley@palm.com>)
+	id 1S0Lpp-0004Uc-BA for openembedded-core@lists.openembedded.org;
+	Thu, 23 Feb 2012 00:42:57 +0100
+X-IronPort-AV: E=Sophos;i="4.73,466,1325491200"; d="scan'208,217";a="11845253"
+Received: from unknown (HELO ushqusdns4.palm.com) ([148.92.223.164])
+	by smtp-relay2.palm.com with ESMTP; 22 Feb 2012 15:33:31 -0800
+Received: from fuji.noir.com ([10.100.2.13])
+	by ushqusdns4.palm.com (8.14.4/8.14.4) with ESMTP id q1MNXULm019417;
+	Wed, 22 Feb 2012 15:33:30 -0800
+Message-ID: <4F457B4B.4000507@palm.com>
+Date: Wed, 22 Feb 2012 15:33:31 -0800
+From: Rich Pixley <rich.pixley@palm.com>
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.7;
+	rv:10.0.2) Gecko/20120216 Thunderbird/10.0.2
+MIME-Version: 1.0
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Date: Wed, 22 Feb 2012 23:15:27 +0000
-In-Reply-To: <2449634.H5BiXpsY7e@helios>
-References: <2449634.H5BiXpsY7e@helios>
-X-Mailer: Evolution 3.2.2- 
-Mime-Version: 1.0
-X-Virus-Scanned: amavisd-new at rpsys.net
-Subject: Re: QEMU recipe cleanup
+Subject: sharing DL_DIR?
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -42,28 +32,84 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 22 Feb 2012 23:23:57 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Wed, 22 Feb 2012 23:42:57 -0000
+Content-Type: multipart/alternative;
+	boundary="------------070108090307090607000505"
+
+--------------070108090307090607000505
+Content-Type: text/plain; charset=ISO-8859-1; format=flowed
 Content-Transfer-Encoding: 7bit
 
-On Wed, 2012-02-22 at 15:21 +0000, Paul Eggleton wrote:
-> Hi all,
-> 
-> I was looking into Yocto bug #2020 today and I noticed we have some "old" QEMU 
-> recipes kicking around. 0.15.1 is the latest version which AFAIK I've been 
-> using since it was merged mid-October last year, and it seems to be working 
-> fine. We also have 0.14.0 and a _git recipe which claims (via manually set PV) 
-> to be 0.14.0 as well.
-> 
-> Do we need to keep all of these?
+Is it reasonable to expect to share DL_DIR between multiple builds?
 
-I'd axe the 0.14 version if nobody shouts. I think it was kept as 0.15
-changed a lot of things and we had some issues. I think they're all
-resolved now though.
+That is, are downloads properly locked so that multiple concurrent 
+downloads of the same file won't collide?  And if so, are they NFS safe 
+locks?
 
-Cheers,
+Or must each build download it's own copies of every component?
 
-Richard
+I ask because our, (Palm), branch has been, but it's a bit of a nuisance 
+to pick a suitable locking mechanism that is both functional and performant.
 
+  * Flock/lockf aren't reliably supported in heterogeneous environments.
+  * The old lockfiles don't work over NFS. Lock directories apparently
+    do, but trying to clean these up after interruptions or failures is
+    a losing battle so if we do use these, we end up with orphan locks
+    periodically.
+  * With NFS as a possibility, we can't assume any kernel local IPC
+    mechanism, so sysV ipc is out.
+  * It seems like a pretty huge overhead to try to create any sort of
+    zeroconf overhead.
 
+Our solution so far has been to use NFS lock directories for multiple 
+machine builds and flock/lockf for single machine builds.  This mostly 
+works, though it's not ideal, and it's significantly faster than 
+downloading/copying all of the component source multiple times even over 
+local mirrors.
 
+--rich
+
+--------------070108090307090607000505
+Content-Type: text/html; charset=ISO-8859-1
+Content-Transfer-Encoding: 7bit
+
+<html>
+  <head>
+
+    <meta http-equiv="content-type" content="text/html; charset=ISO-8859-1">
+  </head>
+  <body bgcolor="#FFFFFF" text="#000000">
+    Is it reasonable to expect to share DL_DIR between multiple builds?<br>
+    <br>
+    That is, are downloads properly locked so that multiple concurrent
+    downloads of the same file won't collide?&nbsp; And if so, are they NFS
+    safe locks?<br>
+    <br>
+    Or must each build download it's own copies of every component?<br>
+    <br>
+    I ask because our, (Palm), branch has been, but it's a bit of a
+    nuisance to pick a suitable locking mechanism that is both
+    functional and performant.<br>
+    <ul>
+      <li>Flock/lockf aren't reliably supported in heterogeneous
+        environments.</li>
+      <li>The old lockfiles don't work over NFS. Lock directories
+        apparently do, but trying to clean these up after interruptions
+        or failures is a losing battle so if we do use these, we end up
+        with orphan locks periodically.</li>
+      <li>With NFS as a possibility, we can't assume any kernel local
+        IPC mechanism, so sysV ipc is out.</li>
+      <li>It seems like a pretty huge overhead to try to create any sort
+        of zeroconf overhead.</li>
+    </ul>
+    <p>Our solution so far has been to use NFS lock directories for
+      multiple machine builds and flock/lockf for single machine
+      builds.&nbsp; This mostly works, though it's not ideal, and it's
+      significantly faster than downloading/copying all of the component
+      source multiple times even over local mirrors.<br>
+    </p>
+    --rich<br>
+  </body>
+</html>
+
+--------------070108090307090607000505--
