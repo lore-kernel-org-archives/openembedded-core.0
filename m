@@ -1,25 +1,29 @@
-Received: from mail1.windriver.com ([147.11.146.13])
+Received: from mail.pbcl.net ([88.198.119.4] helo=hetzner.pbcl.net)
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <Liezhi.Yang@windriver.com>) id 1S0Ek6-0006RJ-01
+	(envelope-from <philb@gnu.org>) id 1S0EkU-0006Uu-1U
 	for openembedded-core@lists.openembedded.org;
-	Wed, 22 Feb 2012 17:08:34 +0100
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca [147.11.189.40])
-	by mail1.windriver.com (8.14.3/8.14.3) with ESMTP id q1MDUZsu002496
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 22 Feb 2012 05:30:35 -0800 (PST)
-Received: from build-PowerEdge-T100.corp.ad.wrs.com (128.224.163.66) by
-	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server id
-	14.1.255.0; Wed, 22 Feb 2012 05:30:34 -0800
-From: Robert Yang <liezhi.yang@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Wed, 22 Feb 2012 21:27:57 +0800
-Message-ID: <7b1bbbfe30e32b4cacde385b452d73a92a700dde.1329916583.git.liezhi.yang@windriver.com>
-X-Mailer: git-send-email 1.7.4.1
-In-Reply-To: <cover.1329916583.git.liezhi.yang@windriver.com>
+	Wed, 22 Feb 2012 17:08:58 +0100
+Received: from elite.brightsigndigital.co.uk ([81.142.160.137]
+	helo=[172.30.1.145])
+	by hetzner.pbcl.net with esmtpsa (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+	(Exim 4.72) (envelope-from <philb@gnu.org>) id 1S0EcR-0007Ad-V8
+	for openembedded-core@lists.openembedded.org;
+	Wed, 22 Feb 2012 17:00:40 +0100
+From: Phil Blundell <philb@gnu.org>
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Date: Wed, 22 Feb 2012 16:00:38 +0000
+In-Reply-To: <CAP9ODKp9uc7UajJYHNZ_QJ_R+YOXmPt_ZU2phHWFQvG-2CnOng@mail.gmail.com>
 References: <cover.1329916583.git.liezhi.yang@windriver.com>
-MIME-Version: 1.0
-Subject: [PATCH 1/1] A script to clean obsolete sstate cache files
+	<287F5295-D8E2-4540-A20D-28D934EAEA88@dominion.thruhere.net>
+	<1329920131.20261.148.camel@ted>
+	<9FF37BD6-73C7-4056-B38F-BCC8740C5A95@dominion.thruhere.net>
+	<1329923198.20261.160.camel@ted>
+	<CAP9ODKp9uc7UajJYHNZ_QJ_R+YOXmPt_ZU2phHWFQvG-2CnOng@mail.gmail.com>
+X-Mailer: Evolution 3.0.2- 
+Message-ID: <1329926439.14363.260.camel@phil-desktop>
+Mime-Version: 1.0
+Subject: Re: [PATCH 0/1] A script to clean obsolete sstate cache files
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -34,180 +38,28 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 22 Feb 2012 16:08:34 -0000
-Content-Type: text/plain
+X-List-Received-Date: Wed, 22 Feb 2012 16:08:58 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-There would be many obsolete cache files in the SSTATE_DIR after several
-builds, this script can remove the obsolete one for a pkg, only leave
-the up to date one.
+On Wed, 2012-02-22 at 13:47 -0200, Otavio Salvador wrote:
+> On Wed, Feb 22, 2012 at 13:06, Richard Purdie
+> <richard.purdie@linuxfoundation.org> wrote:
+> > Or why can't people just cherry-pick the patch in, or apply the patch
+> > manually? The latter is no different to people who just supply the
+> > patches manually the the list with no corresponding git tree after all.
+> 
+> Because this mean to have and maintain a full clone of the repository
+> and I don't want and I won't do that.
 
-Here is the help text:
+Applying the patch manually (either with "git am" or directly with
+"patch") doesn't require you to have a copy of poky on hand.  That
+doesn't seem like such a hardship, particularly given that the patch in
+question here is just creating a single new file and doesn't touch any
+existing content at all.
 
-sstate-cache-management.sh <OPTION>
+p.
 
-Options:
-  --help, -h
-        Display this help and exit.
-
-  --cache-dir=<sstate cache dir>
-        Specify sstate cache directory, will use the environment
-        variable SSTATE_CACHE_DIR if it is not specified.
-
-  --remove-duplicated
-        Remove the duplicated sstate cache files of one package, only
-        the newest one would be kept.
-
-[YOCTO #1682]
-
-Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
----
- scripts/sstate-cache-management.sh |  135 ++++++++++++++++++++++++++++++++++++
- 1 files changed, 135 insertions(+), 0 deletions(-)
- create mode 100755 scripts/sstate-cache-management.sh
-
-diff --git a/scripts/sstate-cache-management.sh b/scripts/sstate-cache-management.sh
-new file mode 100755
-index 0000000..d0e3abc
---- /dev/null
-+++ b/scripts/sstate-cache-management.sh
-@@ -0,0 +1,135 @@
-+#!/bin/bash
-+
-+#  Copyright (c) 2012 Wind River Systems, Inc.
-+#
-+# This program is free software; you can redistribute it and/or modify
-+# it under the terms of the GNU General Public License version 2 as
-+# published by the Free Software Foundation.
-+#
-+# This program is distributed in the hope that it will be useful,
-+# but WITHOUT ANY WARRANTY; without even the implied warranty of
-+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
-+# See the GNU General Public License for more details.
-+#
-+# You should have received a copy of the GNU General Public License
-+# along with this program; if not, write to the Free Software
-+# Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
-+#
-+
-+usage () {
-+  cat << EOF
-+Welcome to sstate cache management utilities.
-+sstate-cache-management.sh <OPTION>
-+
-+Options:
-+  --help, -h
-+        Display this help and exit.
-+
-+  --cache-dir=<sstate cache dir>
-+        Specify sstate cache directory, will use the environment
-+        variable SSTATE_CACHE_DIR if it is not specified.
-+
-+  --remove-duplicated
-+        Remove the duplicated sstate cache files of one package, only
-+        the newest one would be kept.
-+
-+EOF
-+}
-+
-+if [ $# -lt 1 ]; then
-+  usage
-+  exit 0
-+fi
-+
-+# Print error information and exit.
-+echo_error () {
-+  echo "ERROR: $1" >&2
-+  exit 1
-+}
-+
-+# Remove the duplicated cache files for the pkg, keep the newest one
-+remove_duplicated () {
-+  local all_suffixes="$1"
-+  local ava_archs="$2"
-+  local total_deleted=0
-+  for suffix in $all_suffixes; do
-+      local deleted=0
-+      echo -n "Removing the sstate-xxx_$suffix.tgz ... "
-+      # sed twice to avoid the greedy match
-+      file_names=`for arch in $ava_archs; do
-+          ls sstate-*-$arch-*_$suffix.tgz 2>/dev/null | \
-+              sed -e 's/\(.*\)-'"$arch"'-.*/\1/' \
-+              -e 's/\(.*\)-'"$arch"'-.*/\1/'
-+      done | sort -u`
-+
-+      for fn in $file_names; do
-+          for arch in $ava_archs; do
-+              ls $fn-$arch-*_$suffix.tgz 2>/dev/null >>/tmp/$fn
-+          done
-+          # Also delete the .siginfo file
-+          to_del=$(ls -t $(cat /tmp/$fn) | sed -n '1!p' | sed -e 'p' -e 's/$/.siginfo/')
-+          rm -f $to_del
-+          let deleted=$deleted+`echo $to_del | wc -w`
-+          rm -f /tmp/$fn
-+      done
-+      echo "($deleted files)"
-+      let total_deleted=$total_deleted+$deleted
-+  done
-+  echo "$total_deleted files have been removed"
-+}
-+
-+# Parse arguments
-+while [ -n "$1" ]; do
-+  case $1 in
-+    --cache-dir=*)
-+      cache_dir=`echo $1 | sed -e 's#^--cache-dir=##' -e 's#/*$##' | xargs readlink -f`
-+      [ -d "$cache_dir" ] || echo_error "Invalid argument to --cache-dir"
-+      shift
-+        ;;
-+    --remove-duplicated)
-+      rm_duplicated="yes"
-+      shift
-+        ;;
-+    --help|-h)
-+      usage
-+      exit 0
-+        ;;
-+    *)
-+        echo "Invalid arguments $*"
-+        echo_error "Try 'sstate-cache-management.sh -h' for more information."
-+        ;;
-+  esac
-+done
-+
-+# sstate cache directory, use environment variable SSTATE_CACHE_DIR
-+# if it was not specified, otherwise, error.
-+[ -n "$cache_dir" ] || cache_dir=$SSTATE_CACHE_DIR
-+[ -d "$cache_dir" ] || echo_error "Invalid cache directory \"$cache_dir\""
-+
-+cache_dir=`readlink -f $cache_dir`
-+
-+topdir=$(dirname $(dirname $(readlink -f $0)))
-+tunedir=$topdir/meta/conf/machine/include
-+[ -d $tunedir ] || echo_error "Can't find the tune directory"
-+
-+# Use the "_" to substitute "-", e.g., x86-64 to x86_64
-+all_archs=`grep -r DEFAULTTUNE $tunedir | \
-+    sed -e 's/.*\"\(.*\)\"/\1/' -e 's/-/_/g' | sort -u`
-+# Add the qemu archs
-+all_archs="$all_archs qemuarm qemux86 qemumips qemuppc"
-+
-+all_suffixes="deploy-rpm deploy-ipk deploy-deb deploy package populate-lic populate-sysroot"
-+
-+cd $cache_dir
-+
-+echo "Figuring out the archs in the sstate cache dir ..."
-+for arch in $all_archs; do
-+    ls | grep -q -w $arch
-+    [ $? -eq 0 ] && ava_archs="$ava_archs $arch"
-+done
-+echo "The following archs have been found in the sstate cache dir:"
-+echo $ava_archs
-+
-+if [ "$rm_duplicated" == "yes" -a -n "$ava_archs" ]; then
-+    remove_duplicated "$all_suffixes" "$ava_archs"
-+fi
--- 
-1.7.4.1
 
 
 
