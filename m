@@ -1,46 +1,16 @@
-Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
-	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <richard.purdie@linuxfoundation.org>)
-	id 1S0ACD-0003YE-Dd for openembedded-core@lists.openembedded.org;
-	Wed, 22 Feb 2012 12:17:18 +0100
-Received: from localhost (localhost [127.0.0.1])
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q1MB8vTJ027176
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 22 Feb 2012 11:08:57 GMT
-Received: from tim.rpsys.net ([127.0.0.1])
-	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
-	port 10024) with LMTP
-	id 25930-09 for <openembedded-core@lists.openembedded.org>;
-	Wed, 22 Feb 2012 11:08:53 +0000 (GMT)
-Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q1MB8kfF027170
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO)
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 22 Feb 2012 11:08:48 GMT
-Message-ID: <1329908926.20261.103.camel@ted>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Date: Wed, 22 Feb 2012 11:08:46 +0000
-In-Reply-To: <9C41C640-9B88-45D6-B0DE-6C9F317B43BB@dominion.thruhere.net>
-References: <04705556464a6e41642962da40f0e17847ee3483.1328510188.git.raj.khem@gmail.com>
-	<c68f6de298c35c25638ea3a5adeb06c97cd74036.1328510189.git.raj.khem@gmail.com>
-	<4F30DC16.1050506@linux.intel.com>
-	<CAMKF1sqTc3PA_4xNbp1751tA73pRazsvrFdwhomdELtb-25ZGg@mail.gmail.com>
-	<4F314A73.8070406@linux.intel.com>
-	<20120207231245.GA13160@sakrah.homelinux.org>
-	<4F31BF7B.4040303@linux.intel.com>
-	<CAMKF1sqCgiu0TnTj_rgvDgZ5+JE3uX+Y_5KvKmcfd4LDOAoF2Q@mail.gmail.com>
-	<CAGDS+nmdBg8QyBPx6iuG0p0aaPfAU3kvE6jJbekvC2ne0XBedw@mail.gmail.com>
-	<54DBF0D0-65DA-4444-8EF5-3E14ED8FE44F@dominion.thruhere.net>
-	<20120213074852.GA3832@jama.jama.net>
-	<CAGDS+nne1Xbe6XGPuLXqyMLOC_7uqYKFkbRuW77Ub672kpL7BA@mail.gmail.com>
-	<1329865279.20261.92.camel@ted>
-	<9C41C640-9B88-45D6-B0DE-6C9F317B43BB@dominion.thruhere.net>
-X-Mailer: Evolution 3.2.2- 
-Mime-Version: 1.0
-X-Virus-Scanned: amavisd-new at rpsys.net
-Subject: Re: [PATCH 12/20] zlib: Upgrade 1.2.5 -> 1.2.6
+Received: from ffm.saftware.de ([83.141.3.46])
+	by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <obi@opendreambox.org>) id 1S0ATV-00047o-GJ
+	for openembedded-core@lists.openembedded.org;
+	Wed, 22 Feb 2012 12:35:09 +0100
+From: Andreas Oberritter <obi@opendreambox.org>
+To: openembedded-core@lists.openembedded.org
+Date: Wed, 22 Feb 2012 12:26:47 +0100
+Message-Id: <1329910007-8441-6-git-send-email-obi@opendreambox.org>
+X-Mailer: git-send-email 1.7.5.4
+In-Reply-To: <1329910007-8441-1-git-send-email-obi@opendreambox.org>
+References: <1329910007-8441-1-git-send-email-obi@opendreambox.org>
+Subject: [PATCH 5/5] gnomebase.bbclass: skip packages inheriting gnomebase unless x11 is defined
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -55,34 +25,41 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 22 Feb 2012 11:17:18 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Wed, 22 Feb 2012 11:35:09 -0000
 
-On Wed, 2012-02-22 at 09:03 +0100, Koen Kooi wrote:
-> Op 22 feb. 2012, om 00:01 heeft Richard Purdie het volgende geschreven:
-> 
-> > On Mon, 2012-02-13 at 05:23 -0800, Steve Sakoman wrote:
-> >> Indeed!  I gave up on trying to determine an exhaustive list and just
-> >> blew away tmp and sstate and rebuilt everything -- including package
-> >> repositories :-(
-> >> 
-> >> We need to find a way to prevent or warn of disruptive changes like
-> >> this zlib patch.  For those of us trying to make a living using Yocto,
-> >> losing a day of productivity to things like this really stings.
-> > 
-> > I agree this change sucked and showed us we have some real issues. I
-> > will point out that if we had been using the basichash signature
-> > generator, it would likely have picked up this change and rebuild all
-> > the appropriate pieces.
-> 
-> Rebuild yes, but not fix all the -dev packages in the feeds.
+* Drop dependency on GNOME if x11 is disabled.
+* Exceptions may be listed in a whitelist.
+* Current exceptions are: libcroco, librsvg and pango.
 
-The PR service using the hash changes would have allowed that though...
+Signed-off-by: Andreas Oberritter <obi@opendreambox.org>
+---
+ meta/classes/gnomebase.bbclass |    7 ++++++-
+ 1 files changed, 6 insertions(+), 1 deletions(-)
 
-Cheers,
-
-Richard
+diff --git a/meta/classes/gnomebase.bbclass b/meta/classes/gnomebase.bbclass
+index a4209a0..f81d79b 100644
+--- a/meta/classes/gnomebase.bbclass
++++ b/meta/classes/gnomebase.bbclass
+@@ -6,7 +6,7 @@ def gnome_verdir(v):
+ SECTION ?= "x11/gnome"
+ SRC_URI = "${GNOME_MIRROR}/${BPN}/${@gnome_verdir("${PV}")}/${BPN}-${PV}.tar.bz2;name=archive"
+ 
+-DEPENDS += "gnome-common"
++DEPENDS += "${@base_contains('DISTRO_FEATURES', 'x11', 'gnome-common', '', d)}"
+ 
+ FILES_${PN} += "${datadir}/application-registry  \
+ 	${datadir}/mime-info \
+@@ -28,3 +28,8 @@ do_install_append() {
+ 	rm -f ${D}${datadir}/applications/*.cache
+ }
+ 
++python () {
++        whitelist = [ "libcroco", "librsvg", "pango" ]
++        if not d.getVar('BPN', True) in whitelist and not oe.utils.contains ('DISTRO_FEATURES', 'x11', True, False, d):
++                raise bb.parse.SkipPackage("'x11' not in DISTRO_FEATURES")
++}
+-- 
+1.7.5.4
 
 
 
