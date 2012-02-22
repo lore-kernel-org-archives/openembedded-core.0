@@ -1,24 +1,59 @@
-Received: from mga14.intel.com ([143.182.124.37])
+Received: from mail-wi0-f175.google.com ([209.85.212.175])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <nitin.a.kamble@intel.com>) id 1S05y8-0007bD-1F
+	(envelope-from <koen@dominion.thruhere.net>) id 1S07JA-0003D6-1H
 	for openembedded-core@lists.openembedded.org;
-	Wed, 22 Feb 2012 07:46:28 +0100
-Received: from azsmga001.ch.intel.com ([10.2.17.19])
-	by azsmga102.ch.intel.com with ESMTP; 21 Feb 2012 22:37:56 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="109312592"
-Received: from nbuild0.sc.intel.com ([172.25.110.36])
-	by azsmga001.ch.intel.com with ESMTP; 21 Feb 2012 22:37:56 -0800
-From: nitin.a.kamble@intel.com
-To: openembedded-core@lists.openembedded.org
-Date: Tue, 21 Feb 2012 22:37:53 -0800
-Message-Id: <44285a7a69f45582670350ca63e1fa8996dac890.1329892604.git.nitin.a.kamble@intel.com>
-X-Mailer: git-send-email 1.7.6.4
-In-Reply-To: <2125b0a630c007976b62237dca790abcc5718825.1329892604.git.nitin.a.kamble@intel.com>
-References: <2125b0a630c007976b62237dca790abcc5718825.1329892604.git.nitin.a.kamble@intel.com>
-In-Reply-To: <cover.1329892604.git.nitin.a.kamble@intel.com>
-References: <cover.1329892604.git.nitin.a.kamble@intel.com>
-Subject: [PATCH 10/10] libgcc: get the gcc header files working
+	Wed, 22 Feb 2012 09:12:16 +0100
+Received: by wibhq7 with SMTP id hq7so4208596wib.6
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 22 Feb 2012 00:03:56 -0800 (PST)
+Received-SPF: pass (google.com: domain of koen@dominion.thruhere.net
+	designates 10.216.144.160 as permitted sender)
+	client-ip=10.216.144.160; 
+Authentication-Results: mr.google.com; spf=pass (google.com: domain of
+	koen@dominion.thruhere.net designates 10.216.144.160 as
+	permitted sender) smtp.mail=koen@dominion.thruhere.net
+Received: from mr.google.com ([10.216.144.160])
+	by 10.216.144.160 with SMTP id n32mr8476267wej.30.1329897836379
+	(num_hops = 1); Wed, 22 Feb 2012 00:03:56 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=google.com; s=gamma;
+	h=content-type:mime-version:subject:from:in-reply-to:date
+	:content-transfer-encoding:message-id:references:to:x-mailer
+	:x-gm-message-state;
+	bh=gYlfKhdspCPFVfwt+TSW5bLJr9In04QAEgKPIoyTr1Y=;
+	b=jjsLoEBnDKOuYGaGGIOAcAh2vD26jhBsWzKvtUxzCk845KXAphColFTJ2I1+UjmQnD
+	CNaNrErHDiUdPcDoCQabdhBgme6wZiUqzd6osTixTrfnyQhnGkHzWHWTY+3z49hx1K9r
+	qFOvupVl3Xbq7N+IVe440EOH1DysMv/E46JAw=
+Received: by 10.216.144.160 with SMTP id n32mr7033824wej.30.1329897835961;
+	Wed, 22 Feb 2012 00:03:55 -0800 (PST)
+Received: from [172.20.1.36] (ip545070eb.adsl-surfen.hetnet.nl.
+	[84.80.112.235])
+	by mx.google.com with ESMTPS id ft8sm27481007wib.11.2012.02.22.00.03.54
+	(version=TLSv1/SSLv3 cipher=OTHER);
+	Wed, 22 Feb 2012 00:03:55 -0800 (PST)
+Mime-Version: 1.0 (Apple Message framework v1257)
+From: Koen Kooi <koen@dominion.thruhere.net>
+In-Reply-To: <1329865279.20261.92.camel@ted>
+Date: Wed, 22 Feb 2012 09:03:58 +0100
+Message-Id: <9C41C640-9B88-45D6-B0DE-6C9F317B43BB@dominion.thruhere.net>
+References: <04705556464a6e41642962da40f0e17847ee3483.1328510188.git.raj.khem@gmail.com>
+	<c68f6de298c35c25638ea3a5adeb06c97cd74036.1328510189.git.raj.khem@gmail.com>
+	<4F30DC16.1050506@linux.intel.com>
+	<CAMKF1sqTc3PA_4xNbp1751tA73pRazsvrFdwhomdELtb-25ZGg@mail.gmail.com>
+	<4F314A73.8070406@linux.intel.com>
+	<20120207231245.GA13160@sakrah.homelinux.org>
+	<4F31BF7B.4040303@linux.intel.com>
+	<CAMKF1sqCgiu0TnTj_rgvDgZ5+JE3uX+Y_5KvKmcfd4LDOAoF2Q@mail.gmail.com>
+	<CAGDS+nmdBg8QyBPx6iuG0p0aaPfAU3kvE6jJbekvC2ne0XBedw@mail.gmail.com>
+	<54DBF0D0-65DA-4444-8EF5-3E14ED8FE44F@dominion.thruhere.net>
+	<20120213074852.GA3832@jama.jama.net>
+	<CAGDS+nne1Xbe6XGPuLXqyMLOC_7uqYKFkbRuW77Ub672kpL7BA@mail.gmail.com>
+	<1329865279.20261.92.camel@ted>
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+X-Mailer: Apple Mail (2.1257)
+X-Gm-Message-State: ALoCoQkZIvtE1sZjYrXMZEGRSHMkYecwQwM50sBAVxZCLRF3Bo6pFo1LW/qOhoijjxJA1tO5CzCs
+Subject: Re: [PATCH 12/20] zlib: Upgrade 1.2.5 -> 1.2.6
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -33,85 +68,31 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 22 Feb 2012 06:46:28 -0000
+X-List-Received-Date: Wed, 22 Feb 2012 08:12:16 -0000
+Content-Type: text/plain; charset=us-ascii
+Content-Transfer-Encoding: 7bit
 
-From: Nitin A Kamble <nitin.a.kamble@intel.com>
 
-Signed-off-by: Nitin A Kamble <nitin.a.kamble@intel.com>
----
- meta/recipes-devtools/gcc/libgcc_4.6.bb |   53 +++++++++++++++++++++++++++++++
- 1 files changed, 53 insertions(+), 0 deletions(-)
+Op 22 feb. 2012, om 00:01 heeft Richard Purdie het volgende geschreven:
 
-diff --git a/meta/recipes-devtools/gcc/libgcc_4.6.bb b/meta/recipes-devtools/gcc/libgcc_4.6.bb
-index 076cf37..6d93341 100644
---- a/meta/recipes-devtools/gcc/libgcc_4.6.bb
-+++ b/meta/recipes-devtools/gcc/libgcc_4.6.bb
-@@ -14,6 +14,9 @@ FILES_${PN} = "${base_libdir}/libgcc*.so.*"
- FILES_${PN}-dev = " \
-   ${base_libdir}/libgcc*.so \
-   ${libdir}/${TARGET_SYS}/${BINV}/crt* \
-+  ${libdir}/${TARGET_SYS}/${BINV}/32 \
-+  ${libdir}/${TARGET_SYS}/${BINV}/x32 \
-+  ${libdir}/${TARGET_SYS}/${BINV}/n32 \
-   ${libdir}/${TARGET_SYS}/${BINV}/libgcc*"
- FILES_libgcov-dev = " \
-   ${libdir}/${TARGET_SYS}/${BINV}/libgcov.a "
-@@ -51,3 +54,53 @@ BBCLASSEXTEND = "nativesdk"
- INSANE_SKIP_libgcc-dev = "staticdev"
- INSANE_SKIP_libgcov-dev = "staticdev"
- 
-+addtask multilib_install after do_install before do_package
-+
-+
-+# this makes multilib gcc files findable for target gcc
-+# like this directory is made findable 
-+#    /usr/lib/i586-pokymllib32-linux/4.6.3/
-+# by creating this symlink to it
-+#    /usr/lib64/x86_64-poky-linux/4.6.3/32
-+
-+python do_multilib_install() {
-+        import re
-+        # do this only for multilib extended recipe
-+        if d.getVar('PN', 1) != 'libgcc':
-+                return
-+
-+        tune_arch = d.getVar('TUNE_ARCH', 1) or ''
-+        defaulttune = d.getVar('DEFAULTTUNE', 1) or ''
-+        multilibs = d.getVar('MULTILIB_VARIANTS', 1) or ''
-+        if multilibs == '':
-+                return
-+
-+	tunes_32 = ['x86', 'core2', 'i586', 'mips', 'mipsel', 'mips-nf', 'mipsel-nf', 'powerpc', 'powerpc-nf']
-+        tunes_64 = ['x86-64', 'core2-64', 'mips64', 'mips64el', 'mips64-nf', 'mips64el-nf', 'powerpc64']
-+        tunes_x32 = ['x86-64-x32', 'core2-64-x32']
-+        tunes_n32 = ['mips64-n32', 'mips64el-n32', 'mips64-nf-n32', 'mips64el-nf-n32']
-+
-+        for ml in multilibs.split(' '):
-+                ml_tune = d.getVar('DEFAULTTUNE_virtclass-multilib-' + ml, 1) or ''
-+		ml_tune_features = d.getVar('TUNE_FEATURES_tune-' + ml_tune, 1) or ''
-+                ml_baselib = d.getVar('BASE_LIB_tune-' + ml_tune, 1) or ''
-+                for feature in ml_tune_features.split():
-+                        ml_feature_arch = d.getVar('TUNE_FEATURE_ARCH-' + feature, 1) or ''
-+		if ml_tune in tunes_32:
-+                        bitness = '32'
-+                elif ml_tune in tunes_64:
-+                        bitness = '64'
-+                elif ml_tune in tunes_x32:
-+                        bitness = 'x32'
-+                elif ml_tune in tunes_n32:
-+                        bitness = 'n32'
-+
-+	binv = d.getVar('BINV', 1) or ''
-+
-+	src = '/usr/' + ml_baselib + '/' + ml_feature_arch + '-pokyml' + ml + '-linux/' + binv + '/' 
-+	dest = (d.getVar('D', 1) or '') + (d.getVar('libdir', 1) or '') + '/' + (d.getVar('TARGET_SYS', 1) or '') + '/' + binv + '/' + bitness
-+	if os.path.lexists(dest):
-+		os.unlink(dest)
-+	os.symlink(src, dest)
-+
-+}
--- 
-1.7.6.4
+> On Mon, 2012-02-13 at 05:23 -0800, Steve Sakoman wrote:
+>> Indeed!  I gave up on trying to determine an exhaustive list and just
+>> blew away tmp and sstate and rebuilt everything -- including package
+>> repositories :-(
+>> 
+>> We need to find a way to prevent or warn of disruptive changes like
+>> this zlib patch.  For those of us trying to make a living using Yocto,
+>> losing a day of productivity to things like this really stings.
+> 
+> I agree this change sucked and showed us we have some real issues. I
+> will point out that if we had been using the basichash signature
+> generator, it would likely have picked up this change and rebuild all
+> the appropriate pieces.
 
+Rebuild yes, but not fix all the -dev packages in the feeds.
+
+regards,
+
+Koen
 
 
