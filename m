@@ -1,16 +1,16 @@
 Received: from ffm.saftware.de ([83.141.3.46])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <obi@opendreambox.org>) id 1S0ATX-000486-Bn
+	(envelope-from <obi@opendreambox.org>) id 1S0ATY-00048m-2R
 	for openembedded-core@lists.openembedded.org;
-	Wed, 22 Feb 2012 12:35:11 +0100
+	Wed, 22 Feb 2012 12:35:12 +0100
 From: Andreas Oberritter <obi@opendreambox.org>
 To: openembedded-core@lists.openembedded.org
-Date: Wed, 22 Feb 2012 12:26:43 +0100
-Message-Id: <1329910007-8441-2-git-send-email-obi@opendreambox.org>
+Date: Wed, 22 Feb 2012 12:26:44 +0100
+Message-Id: <1329910007-8441-3-git-send-email-obi@opendreambox.org>
 X-Mailer: git-send-email 1.7.5.4
 In-Reply-To: <1329910007-8441-1-git-send-email-obi@opendreambox.org>
 References: <1329910007-8441-1-git-send-email-obi@opendreambox.org>
-Subject: [PATCH 1/5] libsoup-2.4: don't depend on libgnome-keyring unless x11 is defined
+Subject: [PATCH 2/5] libproxy: don't depend on gconf unless x11 is defined
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -25,30 +25,30 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 22 Feb 2012 11:35:11 -0000
+X-List-Received-Date: Wed, 22 Feb 2012 11:35:12 -0000
 
 * Drop dependency on GNOME if x11 is disabled.
 
 Signed-off-by: Andreas Oberritter <obi@opendreambox.org>
 ---
- meta/recipes-support/libsoup/libsoup-2.4_2.36.1.bb |    4 ++--
+ meta/recipes-support/libproxy/libproxy_0.4.7.bb |    4 ++--
  1 files changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/meta/recipes-support/libsoup/libsoup-2.4_2.36.1.bb b/meta/recipes-support/libsoup/libsoup-2.4_2.36.1.bb
-index 8e6ef26..861a1aa 100644
---- a/meta/recipes-support/libsoup/libsoup-2.4_2.36.1.bb
-+++ b/meta/recipes-support/libsoup/libsoup-2.4_2.36.1.bb
-@@ -6,9 +6,9 @@ LICENSE = "LGPLv2"
- LIC_FILES_CHKSUM = "file://COPYING;md5=5f30f0716dfdd0d91eb439ebec522ec2"
+diff --git a/meta/recipes-support/libproxy/libproxy_0.4.7.bb b/meta/recipes-support/libproxy/libproxy_0.4.7.bb
+index f31b701..659100d 100644
+--- a/meta/recipes-support/libproxy/libproxy_0.4.7.bb
++++ b/meta/recipes-support/libproxy/libproxy_0.4.7.bb
+@@ -6,9 +6,9 @@ LICENSE = "LGPLv2.1+"
+ LIC_FILES_CHKSUM = "file://COPYING;md5=7d7044444a7b1b116e8783edcdb44ff4 \
+                     file://utils/proxy.c;beginline=1;endline=18;md5=55152a1006d7dafbef32baf9c30a99c0"
  
- SECTION = "x11/gnome/libs"
+-DEPENDS = "gconf"
++DEPENDS = "${@base_contains('DISTRO_FEATURES', 'x11', 'gconf', '', d)}"
+ 
 -PR = "r1"
 +PR = "r2"
  
--DEPENDS = "glib-2.0 gnutls libxml2 libproxy sqlite3 libgnome-keyring"
-+DEPENDS = "glib-2.0 gnutls libxml2 libproxy sqlite3 ${@base_contains('DISTRO_FEATURES', 'x11', 'libgnome-keyring', '', d)}"
- 
- SRC_URI = "${GNOME_MIRROR}/libsoup/2.36/libsoup-${PV}.tar.bz2"
+ SRC_URI = "http://libproxy.googlecode.com/files/libproxy-${PV}.tar.gz"
  
 -- 
 1.7.5.4
