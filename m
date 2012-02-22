@@ -1,16 +1,16 @@
 Received: from ffm.saftware.de ([83.141.3.46])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <obi@opendreambox.org>) id 1S0ATV-00047o-GJ
+	(envelope-from <obi@opendreambox.org>) id 1S0ATX-000486-Bn
 	for openembedded-core@lists.openembedded.org;
-	Wed, 22 Feb 2012 12:35:09 +0100
+	Wed, 22 Feb 2012 12:35:11 +0100
 From: Andreas Oberritter <obi@opendreambox.org>
 To: openembedded-core@lists.openembedded.org
-Date: Wed, 22 Feb 2012 12:26:47 +0100
-Message-Id: <1329910007-8441-6-git-send-email-obi@opendreambox.org>
+Date: Wed, 22 Feb 2012 12:26:43 +0100
+Message-Id: <1329910007-8441-2-git-send-email-obi@opendreambox.org>
 X-Mailer: git-send-email 1.7.5.4
 In-Reply-To: <1329910007-8441-1-git-send-email-obi@opendreambox.org>
 References: <1329910007-8441-1-git-send-email-obi@opendreambox.org>
-Subject: [PATCH 5/5] gnomebase.bbclass: skip packages inheriting gnomebase unless x11 is defined
+Subject: [PATCH 1/5] libsoup-2.4: don't depend on libgnome-keyring unless x11 is defined
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -25,39 +25,31 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 22 Feb 2012 11:35:09 -0000
+X-List-Received-Date: Wed, 22 Feb 2012 11:35:11 -0000
 
 * Drop dependency on GNOME if x11 is disabled.
-* Exceptions may be listed in a whitelist.
-* Current exceptions are: libcroco, librsvg and pango.
 
 Signed-off-by: Andreas Oberritter <obi@opendreambox.org>
 ---
- meta/classes/gnomebase.bbclass |    7 ++++++-
- 1 files changed, 6 insertions(+), 1 deletions(-)
+ meta/recipes-support/libsoup/libsoup-2.4_2.36.1.bb |    4 ++--
+ 1 files changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/meta/classes/gnomebase.bbclass b/meta/classes/gnomebase.bbclass
-index a4209a0..f81d79b 100644
---- a/meta/classes/gnomebase.bbclass
-+++ b/meta/classes/gnomebase.bbclass
-@@ -6,7 +6,7 @@ def gnome_verdir(v):
- SECTION ?= "x11/gnome"
- SRC_URI = "${GNOME_MIRROR}/${BPN}/${@gnome_verdir("${PV}")}/${BPN}-${PV}.tar.bz2;name=archive"
+diff --git a/meta/recipes-support/libsoup/libsoup-2.4_2.36.1.bb b/meta/recipes-support/libsoup/libsoup-2.4_2.36.1.bb
+index 8e6ef26..861a1aa 100644
+--- a/meta/recipes-support/libsoup/libsoup-2.4_2.36.1.bb
++++ b/meta/recipes-support/libsoup/libsoup-2.4_2.36.1.bb
+@@ -6,9 +6,9 @@ LICENSE = "LGPLv2"
+ LIC_FILES_CHKSUM = "file://COPYING;md5=5f30f0716dfdd0d91eb439ebec522ec2"
  
--DEPENDS += "gnome-common"
-+DEPENDS += "${@base_contains('DISTRO_FEATURES', 'x11', 'gnome-common', '', d)}"
+ SECTION = "x11/gnome/libs"
+-PR = "r1"
++PR = "r2"
  
- FILES_${PN} += "${datadir}/application-registry  \
- 	${datadir}/mime-info \
-@@ -28,3 +28,8 @@ do_install_append() {
- 	rm -f ${D}${datadir}/applications/*.cache
- }
+-DEPENDS = "glib-2.0 gnutls libxml2 libproxy sqlite3 libgnome-keyring"
++DEPENDS = "glib-2.0 gnutls libxml2 libproxy sqlite3 ${@base_contains('DISTRO_FEATURES', 'x11', 'libgnome-keyring', '', d)}"
  
-+python () {
-+        whitelist = [ "libcroco", "librsvg", "pango" ]
-+        if not d.getVar('BPN', True) in whitelist and not oe.utils.contains ('DISTRO_FEATURES', 'x11', True, False, d):
-+                raise bb.parse.SkipPackage("'x11' not in DISTRO_FEATURES")
-+}
+ SRC_URI = "${GNOME_MIRROR}/libsoup/2.36/libsoup-${PV}.tar.bz2"
+ 
 -- 
 1.7.5.4
 
