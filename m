@@ -1,41 +1,28 @@
-Received: from mail-wi0-f175.google.com ([209.85.212.175])
-	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <koen@dominion.thruhere.net>) id 1S07JA-0003D6-1H
-	for openembedded-core@lists.openembedded.org;
-	Wed, 22 Feb 2012 09:12:16 +0100
-Received: by wibhq7 with SMTP id hq7so4208596wib.6
+Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
+	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <richard.purdie@linuxfoundation.org>)
+	id 1S0ACD-0003YE-Dd for openembedded-core@lists.openembedded.org;
+	Wed, 22 Feb 2012 12:17:18 +0100
+Received: from localhost (localhost [127.0.0.1])
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q1MB8vTJ027176
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 22 Feb 2012 00:03:56 -0800 (PST)
-Received-SPF: pass (google.com: domain of koen@dominion.thruhere.net
-	designates 10.216.144.160 as permitted sender)
-	client-ip=10.216.144.160; 
-Authentication-Results: mr.google.com; spf=pass (google.com: domain of
-	koen@dominion.thruhere.net designates 10.216.144.160 as
-	permitted sender) smtp.mail=koen@dominion.thruhere.net
-Received: from mr.google.com ([10.216.144.160])
-	by 10.216.144.160 with SMTP id n32mr8476267wej.30.1329897836379
-	(num_hops = 1); Wed, 22 Feb 2012 00:03:56 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=google.com; s=gamma;
-	h=content-type:mime-version:subject:from:in-reply-to:date
-	:content-transfer-encoding:message-id:references:to:x-mailer
-	:x-gm-message-state;
-	bh=gYlfKhdspCPFVfwt+TSW5bLJr9In04QAEgKPIoyTr1Y=;
-	b=jjsLoEBnDKOuYGaGGIOAcAh2vD26jhBsWzKvtUxzCk845KXAphColFTJ2I1+UjmQnD
-	CNaNrErHDiUdPcDoCQabdhBgme6wZiUqzd6osTixTrfnyQhnGkHzWHWTY+3z49hx1K9r
-	qFOvupVl3Xbq7N+IVe440EOH1DysMv/E46JAw=
-Received: by 10.216.144.160 with SMTP id n32mr7033824wej.30.1329897835961;
-	Wed, 22 Feb 2012 00:03:55 -0800 (PST)
-Received: from [172.20.1.36] (ip545070eb.adsl-surfen.hetnet.nl.
-	[84.80.112.235])
-	by mx.google.com with ESMTPS id ft8sm27481007wib.11.2012.02.22.00.03.54
-	(version=TLSv1/SSLv3 cipher=OTHER);
-	Wed, 22 Feb 2012 00:03:55 -0800 (PST)
-Mime-Version: 1.0 (Apple Message framework v1257)
-From: Koen Kooi <koen@dominion.thruhere.net>
-In-Reply-To: <1329865279.20261.92.camel@ted>
-Date: Wed, 22 Feb 2012 09:03:58 +0100
-Message-Id: <9C41C640-9B88-45D6-B0DE-6C9F317B43BB@dominion.thruhere.net>
+	Wed, 22 Feb 2012 11:08:57 GMT
+Received: from tim.rpsys.net ([127.0.0.1])
+	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
+	port 10024) with LMTP
+	id 25930-09 for <openembedded-core@lists.openembedded.org>;
+	Wed, 22 Feb 2012 11:08:53 +0000 (GMT)
+Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q1MB8kfF027170
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO)
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 22 Feb 2012 11:08:48 GMT
+Message-ID: <1329908926.20261.103.camel@ted>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Date: Wed, 22 Feb 2012 11:08:46 +0000
+In-Reply-To: <9C41C640-9B88-45D6-B0DE-6C9F317B43BB@dominion.thruhere.net>
 References: <04705556464a6e41642962da40f0e17847ee3483.1328510188.git.raj.khem@gmail.com>
 	<c68f6de298c35c25638ea3a5adeb06c97cd74036.1328510189.git.raj.khem@gmail.com>
 	<4F30DC16.1050506@linux.intel.com>
@@ -49,10 +36,10 @@ References: <04705556464a6e41642962da40f0e17847ee3483.1328510188.git.raj.khem@gm
 	<20120213074852.GA3832@jama.jama.net>
 	<CAGDS+nne1Xbe6XGPuLXqyMLOC_7uqYKFkbRuW77Ub672kpL7BA@mail.gmail.com>
 	<1329865279.20261.92.camel@ted>
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-X-Mailer: Apple Mail (2.1257)
-X-Gm-Message-State: ALoCoQkZIvtE1sZjYrXMZEGRSHMkYecwQwM50sBAVxZCLRF3Bo6pFo1LW/qOhoijjxJA1tO5CzCs
+	<9C41C640-9B88-45D6-B0DE-6C9F317B43BB@dominion.thruhere.net>
+X-Mailer: Evolution 3.2.2- 
+Mime-Version: 1.0
+X-Virus-Scanned: amavisd-new at rpsys.net
 Subject: Re: [PATCH 12/20] zlib: Upgrade 1.2.5 -> 1.2.6
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
@@ -68,31 +55,34 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 22 Feb 2012 08:12:16 -0000
-Content-Type: text/plain; charset=us-ascii
+X-List-Received-Date: Wed, 22 Feb 2012 11:17:18 -0000
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 
-
-Op 22 feb. 2012, om 00:01 heeft Richard Purdie het volgende geschreven:
-
-> On Mon, 2012-02-13 at 05:23 -0800, Steve Sakoman wrote:
->> Indeed!  I gave up on trying to determine an exhaustive list and just
->> blew away tmp and sstate and rebuilt everything -- including package
->> repositories :-(
->> 
->> We need to find a way to prevent or warn of disruptive changes like
->> this zlib patch.  For those of us trying to make a living using Yocto,
->> losing a day of productivity to things like this really stings.
+On Wed, 2012-02-22 at 09:03 +0100, Koen Kooi wrote:
+> Op 22 feb. 2012, om 00:01 heeft Richard Purdie het volgende geschreven:
 > 
-> I agree this change sucked and showed us we have some real issues. I
-> will point out that if we had been using the basichash signature
-> generator, it would likely have picked up this change and rebuild all
-> the appropriate pieces.
+> > On Mon, 2012-02-13 at 05:23 -0800, Steve Sakoman wrote:
+> >> Indeed!  I gave up on trying to determine an exhaustive list and just
+> >> blew away tmp and sstate and rebuilt everything -- including package
+> >> repositories :-(
+> >> 
+> >> We need to find a way to prevent or warn of disruptive changes like
+> >> this zlib patch.  For those of us trying to make a living using Yocto,
+> >> losing a day of productivity to things like this really stings.
+> > 
+> > I agree this change sucked and showed us we have some real issues. I
+> > will point out that if we had been using the basichash signature
+> > generator, it would likely have picked up this change and rebuild all
+> > the appropriate pieces.
+> 
+> Rebuild yes, but not fix all the -dev packages in the feeds.
 
-Rebuild yes, but not fix all the -dev packages in the feeds.
+The PR service using the hash changes would have allowed that though...
 
-regards,
+Cheers,
 
-Koen
+Richard
+
 
 
