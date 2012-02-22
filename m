@@ -1,24 +1,24 @@
 Received: from mga14.intel.com ([143.182.124.37])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <nitin.a.kamble@intel.com>) id 1S05y1-0007bR-Le
+	(envelope-from <nitin.a.kamble@intel.com>) id 1S05y1-0007bD-FU
 	for openembedded-core@lists.openembedded.org;
-	Wed, 22 Feb 2012 07:46:25 +0100
+	Wed, 22 Feb 2012 07:46:22 +0100
 Received: from azsmga001.ch.intel.com ([10.2.17.19])
-	by azsmga102.ch.intel.com with ESMTP; 21 Feb 2012 22:37:56 -0800
+	by azsmga102.ch.intel.com with ESMTP; 21 Feb 2012 22:37:55 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="109312590"
+X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="109312589"
 Received: from nbuild0.sc.intel.com ([172.25.110.36])
 	by azsmga001.ch.intel.com with ESMTP; 21 Feb 2012 22:37:55 -0800
 From: nitin.a.kamble@intel.com
 To: openembedded-core@lists.openembedded.org
-Date: Tue, 21 Feb 2012 22:37:51 -0800
-Message-Id: <e63f62b491b637aa4d97174fb7a0682fff6a872b.1329892604.git.nitin.a.kamble@intel.com>
+Date: Tue, 21 Feb 2012 22:37:50 -0800
+Message-Id: <ef352f3fbf408916c17da50453111af298d5ce56.1329892604.git.nitin.a.kamble@intel.com>
 X-Mailer: git-send-email 1.7.6.4
 In-Reply-To: <2125b0a630c007976b62237dca790abcc5718825.1329892604.git.nitin.a.kamble@intel.com>
 References: <2125b0a630c007976b62237dca790abcc5718825.1329892604.git.nitin.a.kamble@intel.com>
 In-Reply-To: <cover.1329892604.git.nitin.a.kamble@intel.com>
 References: <cover.1329892604.git.nitin.a.kamble@intel.com>
-Subject: [PATCH 08/10] target gcc: gcc-multilib-setup
+Subject: [PATCH 07/10] gcc: remove the 64bithack patch
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -37,200 +37,109 @@ X-List-Received-Date: Wed, 22 Feb 2012 06:46:27 -0000
 
 From: Nitin A Kamble <nitin.a.kamble@intel.com>
 
-add a task to setup multilib configuration for target gcc.
-
-now the multilib setup file is tweeked as needed.
-
-Signed-off-by: Nitin A Kamble <nitin.a.kamble@intel.com>
-
-gcc-multilib-config.inc: tail
+and bump PR
 
 Signed-off-by: Nitin A Kamble <nitin.a.kamble@intel.com>
 ---
- meta/recipes-devtools/gcc/gcc-configure-common.inc |    2 +-
- meta/recipes-devtools/gcc/gcc-configure-target.inc |    1 +
- meta/recipes-devtools/gcc/gcc-multilib-config.inc  |  149 ++++++++++++++++++++
- 3 files changed, 151 insertions(+), 1 deletions(-)
- create mode 100644 meta/recipes-devtools/gcc/gcc-multilib-config.inc
+ meta/recipes-devtools/gcc/gcc-4.6.inc             |    3 +-
+ meta/recipes-devtools/gcc/gcc-4.6/64bithack.patch |   68 ---------------------
+ 2 files changed, 1 insertions(+), 70 deletions(-)
+ delete mode 100644 meta/recipes-devtools/gcc/gcc-4.6/64bithack.patch
 
-diff --git a/meta/recipes-devtools/gcc/gcc-configure-common.inc b/meta/recipes-devtools/gcc/gcc-configure-common.inc
-index c4b6ac1..f4f0112 100644
---- a/meta/recipes-devtools/gcc/gcc-configure-common.inc
-+++ b/meta/recipes-devtools/gcc/gcc-configure-common.inc
-@@ -25,7 +25,7 @@ EXTRA_OECONF_PATHS ?= ""
- EXTRA_OECONF_INITIAL ?= ""
- EXTRA_OECONF_INTERMEDIATE ?= ""
+diff --git a/meta/recipes-devtools/gcc/gcc-4.6.inc b/meta/recipes-devtools/gcc/gcc-4.6.inc
+index ece378d..3ef240b 100644
+--- a/meta/recipes-devtools/gcc/gcc-4.6.inc
++++ b/meta/recipes-devtools/gcc/gcc-4.6.inc
+@@ -1,6 +1,6 @@
+ require gcc-common.inc
  
--GCCMULTILIB = "--disable-multilib"
-+GCCMULTILIB ?= "--disable-multilib"
+-PR = "r22"
++PR = "r23"
  
- EXTRA_OECONF = "${@['--enable-clocale=generic', ''][d.getVar('USE_NLS', 1) != 'no']} \
-                 --with-gnu-ld \
-diff --git a/meta/recipes-devtools/gcc/gcc-configure-target.inc b/meta/recipes-devtools/gcc/gcc-configure-target.inc
-index 8b169a7..9001bcf 100644
---- a/meta/recipes-devtools/gcc/gcc-configure-target.inc
-+++ b/meta/recipes-devtools/gcc/gcc-configure-target.inc
-@@ -1,4 +1,5 @@
- require gcc-configure-common.inc
-+require gcc-multilib-config.inc
- 
- EXTRA_OECONF_PATHS = " \
-     --with-local-prefix=${STAGING_DIR_TARGET}${prefix} \
-diff --git a/meta/recipes-devtools/gcc/gcc-multilib-config.inc b/meta/recipes-devtools/gcc/gcc-multilib-config.inc
-new file mode 100644
-index 0000000..173c2fe
---- /dev/null
-+++ b/meta/recipes-devtools/gcc/gcc-multilib-config.inc
-@@ -0,0 +1,149 @@
-+GCCMULTILIB = "--enable-multilib"
-+
-+addtask gcc_multilib_setup after do_patch before do_configure
-+
-+# following code modifies these definitions in the gcc config
-+#	MULTILIB_OPTIONS
-+#	MULTILIB_DIRNAMES
-+#	MULTILIB_OSDIRNAMES
-+#	GLIBC_DYNAMIC_LINKER32
-+#	GLIBC_DYNAMIC_LINKER64
-+#	GLIBC_DYNAMIC_LINKERX32
-+#	GLIBC_DYNAMIC_LINKERN32
-+#  For more information on use of these variables look at these files in the gcc source code
-+#	gcc/config/i386/t-linux64
-+#	gcc/config/mips/t-linux64
-+#	gcc/config/rs6000/t-linux64
-+#	gcc/config/i386/linux64.h
-+#	gcc/config/mips/linux64.h
-+#	gcc/config/rs6000/linux64.h
-+# Nitin Kamble 2012/02/13
-+
-+python do_gcc_multilib_setup() {
-+	import re
-+
-+	# do this only for target recipe
-+ 	if d.getVar('PN', 1) != 'gcc':
-+		return
-+
-+ 	srcdir = d.getVar('S', 1) or ''
-+
-+ 	multilibs = d.getVar('MULTILIB_VARIANTS', 1) or ''
-+ 	if multilibs == '':
-+		return
-+
-+	gcc_target_config_files = { 	'x86_64'	: 'gcc/config/i386/t-linux64',
-+					'mips'		: 'gcc/config/mips/t-linux64' ,
-+					'ppc' 		: 'gcc/config/rs6000/t-linux64' }
-+
-+	gcc_header_config_files = { 	'x86_64'	: 'gcc/config/i386/linux64.h',
-+					'mips'		: 'gcc/config/mips/linux64.h' ,
-+					'ppc' 		: 'gcc/config/rs6000/linux64.h' }
-+
-+ 	target_arch = d.getVar('TARGET_ARCH', 1) or ''
-+
-+	if target_arch not in gcc_target_config_files:
-+		bb.warn('gcc multilib setup is not supported for TARGET_ARCH=' + target_arch)
-+		return
-+
-+	gcc_multilib_target_config_file = gcc_target_config_files[target_arch]
-+
-+	gcc_multilib_header_config_file = gcc_header_config_files[target_arch]
-+
-+	ml_list = ['DEFAULTTUNE']
-+	for ml in multilibs.split(' '):
-+		ml_list.append('DEFAULTTUNE_virtclass-multilib-' + ml)
-+
-+	tunes_32 = ['x86', 'core2', 'i586', 'mips', 'mipsel', 'mips-nf', 'mipsel-nf', 'powerpc', 'powerpc-nf']
-+	tunes_64 = ['x86-64', 'core2-64', 'mips64', 'mips64el', 'mips64-nf', 'mips64el-nf', 'powerpc64']
-+	tunes_x32 = ['x86-64-x32', 'core2-64-x32']
-+	tunes_n32 = ['mips64-n32', 'mips64el-n32', 'mips64-nf-n32', 'mips64el-nf-n32']
-+
-+	libdir32 = 'SYSTEMLIBS_DIR'
-+	libdir64 = 'SYSTEMLIBS_DIR'
-+	libdirx32 = 'SYSTEMLIBS_DIR'
-+	libdirn32 = 'SYSTEMLIBS_DIR'
-+
-+	multilib_options = []
-+	multilib_dirnames = []
-+	multilib_osdirnames = []
-+
-+	for ml in ml_list:
-+ 		ml_tune = d.getVar(ml, 1) or ''
-+ 		ml_tune_features = d.getVar('TUNE_FEATURES_tune-' + ml_tune, 1) or ''
-+ 		ml_baselib = d.getVar('BASE_LIB_tune-' + ml_tune, 1) or ''
-+
-+		if ml_tune in tunes_32:
-+			libdir32 = ml_baselib
-+		elif ml_tune in tunes_64:
-+			libdir64 = ml_baselib
-+		elif ml_tune in tunes_x32:
-+			libdirx32 = ml_baselib
-+		elif ml_tune in tunes_n32:
-+			libdirn32 = ml_baselib
-+
-+		ml_tune_ccargs_list = []
-+		for feature in ml_tune_features.split():
-+ 			ml_feature_ccargs = d.getVar('TUNE_FEATURE_CCARGS-' + feature, 1) or ''
-+			ml_tune_ccargs_list.append(ml_feature_ccargs)
-+		ml_tune_ccargs = ' '.join(ml_tune_ccargs_list)
-+		# take out '-' in parameters
-+		multilib_options.append(re.sub(r'^\-+', '', re.sub(r' \-+',  ' ', ml_tune_ccargs)))
-+		if ml_baselib == 'lib':
-+			multilib_dirnames.append('32')
-+		else:
-+			multilib_dirnames.append(ml_baselib.replace('lib', ''))
-+		multilib_osdirnames.append('../' + ml_baselib)
-+	
-+	with open(srcdir + '/' + gcc_multilib_target_config_file, 'r') as f:
-+		filelines = f.read()
-+		f.close()
-+
-+		# recreate multilib configuration variables
-+
-+		filelines = re.sub(r'^\s*MULTILIB_OPTIONS\s*=.*$',
-+			'MULTILIB_OPTIONS = ' + '/'.join(multilib_options),
-+			filelines, flags=re.MULTILINE)
-+
-+		filelines = re.sub(r'^\s*MULTILIB_DIRNAMES\s*=.*$',
-+			'MULTILIB_DIRNAMES = ' + ' '.join(multilib_dirnames),
-+			filelines, flags=re.MULTILINE)
-+
-+		filelines = re.sub(r'^\s*MULTILIB_OSDIRNAMES\s*=.*$',
-+			'MULTILIB_OSDIRNAMES = ' + ' '.join(multilib_osdirnames),
-+			filelines, flags=re.MULTILINE)
-+	
-+	with open(srcdir + '/' + gcc_multilib_target_config_file, 'w') as f:
-+		f.write(filelines)
-+		f.close()
-+
-+	with open(srcdir + '/' + gcc_multilib_header_config_file, 'r') as f:
-+		filelines = f.read()
-+		f.close()
-+
-+		# replace lines like
-+		# #define GLIBC_DYNAMIC_LINKER32 SYSTEMLIBS_DIR "ld-linux.so.2"
-+		# by
-+		# #define GLIBC_DYNAMIC_LINKER32 "/lib/" "ld-linux.so.2"
-+		# this is needed to put the correct dynamic loader path in the generated binaries
-+
-+		filelines = re.sub(r'^(#define\s*GLIBC_DYNAMIC_LINKER32\s*)(SYSTEMLIBS_DIR)(\s*\".*\")$',
-+			r'\1"/' + libdir32 + r'/"\3',
-+			filelines, flags=re.MULTILINE)
-+
-+		filelines = re.sub(r'^(#define\s*GLIBC_DYNAMIC_LINKER64\s*)(SYSTEMLIBS_DIR)(\s*\".*\")$',
-+			r'\1"/' + libdir64 + r'/"\3',
-+			filelines, flags=re.MULTILINE)
-+
-+		filelines = re.sub(r'^(#define\s*GLIBC_DYNAMIC_LINKERX32\s*)(SYSTEMLIBS_DIR)(\s*\".*\")$',
-+			r'\1"/' + libdirx32 + r'/"\3',
-+			filelines, flags=re.MULTILINE)
-+
-+		filelines = re.sub(r'^(#define\s*GLIBC_DYNAMIC_LINKERN32\s*)(SYSTEMLIBS_DIR)(\s*\".*\")$',
-+			r'\1"/' + libdirn32 + r'/"\3',
-+			filelines, flags=re.MULTILINE)
-+
-+		with open(srcdir + '/' + gcc_multilib_header_config_file, 'w') as f:
-+			f.write(filelines)
-+			f.close()
-+}
+ # Third digit in PV should be incremented after a minor release
+ # happens from this branch on gcc e.g. currently its 4.6.0
+@@ -59,7 +59,6 @@ SRC_URI = "svn://gcc.gnu.org/svn/gcc/branches;module=${BRANCH};proto=http \
+            file://gcc-poison-system-directories.patch \
+            file://gcc-poison-dir-extend.patch \
+            file://gcc-4.3.3-SYSROOT_CFLAGS_FOR_TARGET.patch \
+-	   file://64bithack.patch \
+ 	   file://optional_libstdc.patch \
+ 	   file://disable_relax_pic_calls_flag.patch \
+ 	   file://COLLECT_GCC_OPTIONS.patch \
+diff --git a/meta/recipes-devtools/gcc/gcc-4.6/64bithack.patch b/meta/recipes-devtools/gcc/gcc-4.6/64bithack.patch
+deleted file mode 100644
+index d35753a..0000000
+--- a/meta/recipes-devtools/gcc/gcc-4.6/64bithack.patch
++++ /dev/null
+@@ -1,68 +0,0 @@
+-Upstream-Status: Inappropriate [embedded specific]
+-
+-GCC has internal multilib handling code but it assumes a very specific rigid directory
+-layout. The build system implementation of multilib layout is very generic and allows
+-complete customisation of the library directories.
+-
+-This patch is a partial solution to allow any custom directories to be passed into gcc
+-and handled correctly. It forces gcc to use the base_libdir (which is the current 
+-directory, "."). We need to do this for each multilib that is configured as we don't
+-know which compiler options may be being passed into the compiler. Since we have a compiler
+-per mulitlib at this point that isn't an issue.
+-
+-The one problem is the target compiler is only going to work for the default multlilib at
+-this point. Ideally we'd figure out which multilibs were being enabled with which paths
+-and be able to patch these entries with a complete set of correct paths but this we
+-don't have such code at this point. This is something the target gcc recipe should do 
+-and override these platform defaults in its build config.
+-
+-RP 15/8/11
+-
+-Index: gcc-4_6-branch/gcc/config/i386/t-linux64
+-===================================================================
+---- gcc-4_6-branch.orig/gcc/config/i386/t-linux64	2011-06-23 15:15:29.000000000 +0100
+-+++ gcc-4_6-branch/gcc/config/i386/t-linux64	2011-08-15 13:09:03.772415848 +0100
+-@@ -24,8 +24,8 @@
+- # MULTILIB_OSDIRNAMES according to what is found on the target.
+- 
+- MULTILIB_OPTIONS = m64/m32
+--MULTILIB_DIRNAMES = 64 32 
+--MULTILIB_OSDIRNAMES = ../lib64 $(if $(wildcard $(shell echo $(SYSTEM_HEADER_DIR))/../../usr/lib32),../lib32,../lib)
+-+MULTILIB_DIRNAMES = . .
+-+MULTILIB_OSDIRNAMES = ../$(shell basename $(base_libdir)) ../$(shell basename $(base_libdir))
+- 
+- LIBGCC = stmp-multilib
+- INSTALL_LIBGCC = install-multilib
+-Index: gcc-4_6-branch/gcc/config/mips/t-linux64
+-===================================================================
+---- gcc-4_6-branch.orig/gcc/config/mips/t-linux64	2011-08-15 13:06:13.732415763 +0100
+-+++ gcc-4_6-branch/gcc/config/mips/t-linux64	2011-08-15 13:09:11.452419446 +0100
+-@@ -17,8 +17,8 @@
+- # <http://www.gnu.org/licenses/>.
+- 
+- MULTILIB_OPTIONS = mabi=n32/mabi=32/mabi=64
+--MULTILIB_DIRNAMES = n32 32 64
+--MULTILIB_OSDIRNAMES = ../lib32 ../lib ../lib64
+-+MULTILIB_DIRNAMES = . . .
+-+MULTILIB_OSDIRNAMES = ../$(shell basename $(base_libdir)) ../$(shell basename $(base_libdir)) ../$(shell basename $(base_libdir))
+- 
+- EXTRA_MULTILIB_PARTS=crtbegin.o crtend.o crtbeginS.o crtendS.o crtbeginT.o
+- 
+-Index: gcc-4_6-branch/gcc/config/rs6000/t-linux64
+-===================================================================
+---- gcc-4_6-branch.orig/gcc/config/rs6000/t-linux64	2011-08-15 13:06:25.272415822 +0100
+-+++ gcc-4_6-branch/gcc/config/rs6000/t-linux64	2011-08-15 13:09:21.062415878 +0100
+-@@ -32,11 +32,11 @@
+- # MULTILIB_OSDIRNAMES according to what is found on the target.
+- 
+- MULTILIB_OPTIONS        = m64/m32 msoft-float
+--MULTILIB_DIRNAMES       = 64 32 nof
+-+MULTILIB_DIRNAMES       = . . .
+- MULTILIB_EXTRA_OPTS     = fPIC mstrict-align
+- MULTILIB_EXCEPTIONS     = m64/msoft-float
+- MULTILIB_EXCLUSIONS     = m64/!m32/msoft-float
+--MULTILIB_OSDIRNAMES	= ../lib64 $(if $(wildcard $(shell echo $(SYSTEM_HEADER_DIR))/../../usr/lib32),../lib32,../lib) nof
+-+MULTILIB_OSDIRNAMES	= ../$(shell basename $(base_libdir)) ../$(shell basename $(base_libdir)) ../$(shell basename $(base_libdir))
+- MULTILIB_MATCHES        = $(MULTILIB_MATCHES_FLOAT)
+- 
+- softfp_wrap_start := '\#ifndef __powerpc64__'
 -- 
 1.7.6.4
 
