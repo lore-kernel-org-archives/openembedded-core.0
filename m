@@ -1,37 +1,45 @@
-Received: from mail-ww0-f43.google.com ([74.125.82.43])
+Received: from mail-vw0-f47.google.com ([209.85.212.47])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <s.stirtzel@googlemail.com>) id 1S0Edz-0006Cx-2K
+	(envelope-from <otavio.salvador@gmail.com>) id 1S0Egh-0006J8-1P
 	for openembedded-core@lists.openembedded.org;
-	Wed, 22 Feb 2012 17:02:15 +0100
-Received: by wgbdr13 with SMTP id dr13so150449wgb.24
+	Wed, 22 Feb 2012 17:05:03 +0100
+Received: by vbbff1 with SMTP id ff1so150613vbb.6
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 22 Feb 2012 07:53:54 -0800 (PST)
-Received-SPF: pass (google.com: domain of s.stirtzel@googlemail.com designates
-	10.180.77.228 as permitted sender) client-ip=10.180.77.228; 
+	Wed, 22 Feb 2012 07:56:42 -0800 (PST)
+Received-SPF: pass (google.com: domain of otavio.salvador@gmail.com designates
+	10.52.27.10 as permitted sender) client-ip=10.52.27.10; 
 Authentication-Results: mr.google.com; spf=pass (google.com: domain of
-	s.stirtzel@googlemail.com designates 10.180.77.228 as permitted
-	sender) smtp.mail=s.stirtzel@googlemail.com;
-	dkim=pass header.i=s.stirtzel@googlemail.com
-Received: from mr.google.com ([10.180.77.228])
-	by 10.180.77.228 with SMTP id v4mr36910003wiw.2.1329926034964 (num_hops
-	= 1); Wed, 22 Feb 2012 07:53:54 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=googlemail.com; s=gamma;
-	h=mime-version:date:message-id:subject:from:to:content-type;
-	bh=uLKwiJiPD7J/HRV6pweoHgGn4p0X4cM0sAjuiwoECew=;
-	b=m7OTzZG6iQq6NURhN1XJ23Z53HCPHeZ0/dfU52csTMDIJYV7VjA+/RQ+QPRZWdowaM
-	j4QCC7OR3wmIJqqL12eZxepPUPBBPKob2aZ1FGkaVVJ9VMrtnDWUOFrbNvlg5zC6eQM9
-	iQNPIWmOrV6o66gY9yUTJVKuPai2umvA8ALYw=
+	otavio.salvador@gmail.com designates 10.52.27.10 as permitted
+	sender) smtp.mail=otavio.salvador@gmail.com;
+	dkim=pass header.i=otavio.salvador@gmail.com
+Received: from mr.google.com ([10.52.27.10])
+	by 10.52.27.10 with SMTP id p10mr15455540vdg.16.1329926202294 (num_hops
+	= 1); Wed, 22 Feb 2012 07:56:42 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
+	h=mime-version:sender:in-reply-to:references:date
+	:x-google-sender-auth:message-id:subject:from:to:cc:content-type
+	:content-transfer-encoding;
+	bh=UONoAaHPOdv9XyNUxA6XWjhbRzRZhbDcGcrUxcnK0kA=;
+	b=c97M4GPk6bG8KjOtbGOpLG8X27ru8ekjVBovN/pVneesm8IKoGdWriXmF1XAcUj1u+
+	OzJSKDCEpnHUc6h5E8rzB6quFY+cEGkfBWZrnPVFyIa4qzT9ZUnr1nH/NfQjGsDj3OA6
+	ce0K8sZBACT+NOqI33VUTliaWcUbm8a3W40a4=
 MIME-Version: 1.0
-Received: by 10.180.77.228 with SMTP id v4mr30513045wiw.2.1329926034846; Wed,
-	22 Feb 2012 07:53:54 -0800 (PST)
-Received: by 10.227.202.211 with HTTP; Wed, 22 Feb 2012 07:53:54 -0800 (PST)
-Date: Wed, 22 Feb 2012 16:53:54 +0100
-Message-ID: <CAGiJk9fWz97OC-wbpAroJdPUYP7+GTKcOG-00a0tP4R_jfWFPA@mail.gmail.com>
-From: Samuel Stirtzel <s.stirtzel@googlemail.com>
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Linker error while cross compiling, (Qt issue?)
+Received: by 10.52.27.10 with SMTP id p10mr12659594vdg.16.1329926202234; Wed,
+	22 Feb 2012 07:56:42 -0800 (PST)
+Sender: otavio.salvador@gmail.com
+Received: by 10.220.149.81 with HTTP; Wed, 22 Feb 2012 07:56:42 -0800 (PST)
+In-Reply-To: <2032247.UMYq2ztU6u@helios>
+References: <cover.1329916583.git.liezhi.yang@windriver.com>
+	<1329923198.20261.160.camel@ted>
+	<CAP9ODKp9uc7UajJYHNZ_QJ_R+YOXmPt_ZU2phHWFQvG-2CnOng@mail.gmail.com>
+	<2032247.UMYq2ztU6u@helios>
+Date: Wed, 22 Feb 2012 13:56:42 -0200
+X-Google-Sender-Auth: OUCiRY6yFultLSqACxkWIXyorqU
+Message-ID: <CAP9ODKo_94H_HkxHbvpe-hXpS6t0=5Dqv5QUSHPW+DsYJ=jncA@mail.gmail.com>
+From: Otavio Salvador <otavio@ossystems.com.br>
+To: Paul Eggleton <paul.eggleton@linux.intel.com>
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH 0/1] A script to clean obsolete sstate cache files
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -46,35 +54,30 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 22 Feb 2012 16:02:15 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Wed, 22 Feb 2012 16:05:03 -0000
+Content-Type: text/plain; charset=ISO-8859-1
+Content-Transfer-Encoding: quoted-printable
 
-Hi,
-although building libdbusmenu-qt [1] for kdelibs succeeds, linking the
-library will fail with "undefined reference to
-DBusMenuExporter::~DBusMenuExporter" and similar errors.
-The library is there and nothing in the configure / compile log of
-both recipes seems to state any sort misconfiguration for this case.
+On Wed, Feb 22, 2012 at 13:53, Paul Eggleton
+<paul.eggleton@linux.intel.com> wrote:
+> Except here we are talking about a single patch that adds a single file, =
+which
+> is easily downloadable from the web interface. If it were more complicate=
+d I
+> could understand the fuss, but right now this is almost ridiculous.
 
-For libdbusmenu-qt the settings were double checked, according to the
-configuration it "should" export the symbols, however for some very
-odd reasons it doesn't export any useful symbols at all.
-See  http://pastebin.com/z9QfsCTc  for the list of exported symbols
-(U=required symbols, T=provided symbols, for others see "man nm").
+It doesn't seem that easy; it seems Koen tried to apply it and it has faile=
+d.
 
-This error really puzzles me, usually I would assume that a library
-has no problems to export symbols.
-(Posted this to the core list as chances are good that it might be Qt related)
+Besides, Robert didn't complain about people asking it to be resend.
+Who is complaining is Richard and I am just justifying the reasoning
+why it is more the logical to expect it to be done based on OE-Core.
 
-It seems to only occur when cross compiling.
-
-Anyone has an idea if this is gcc ld / Qt related, or how to resolve it?
-Help would be appreciated.
-
-
-[1] http://gitorious.org/dbusmenu/dbusmenu-qt/trees/master/src
--- 
-Regards
-Samuel
+--=20
+Otavio Salvador=A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0O=
+.S. Systems
+E-mail: otavio@ossystems.com.br=A0 http://www.ossystems.com.br
+Mobile: +55 53 9981-7854=A0 =A0 =A0 =A0=A0 =A0 =A0 =A0http://projetos.ossys=
+tems.com.br
 
 
