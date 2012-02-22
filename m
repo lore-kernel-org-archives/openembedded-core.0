@@ -1,20 +1,24 @@
 Received: from mga14.intel.com ([143.182.124.37])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <edwin.zhai@intel.com>) id 1S04zQ-0004uy-It
+	(envelope-from <edwin.zhai@intel.com>) id 1S04zR-0004uy-Cs
 	for openembedded-core@lists.openembedded.org;
-	Wed, 22 Feb 2012 06:43:44 +0100
+	Wed, 22 Feb 2012 06:43:45 +0100
 Received: from azsmga001.ch.intel.com ([10.2.17.19])
 	by azsmga102.ch.intel.com with ESMTP; 21 Feb 2012 21:34:18 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="109294425"
+X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="109294426"
 Received: from yocto-build3.sh.intel.com ([10.239.48.15])
-	by azsmga001.ch.intel.com with ESMTP; 21 Feb 2012 21:34:17 -0800
+	by azsmga001.ch.intel.com with ESMTP; 21 Feb 2012 21:34:18 -0800
 From: edwin.zhai@intel.com
 To: openembedded-core@lists.openembedded.org
-Date: Wed, 22 Feb 2012 13:33:41 +0800
-Message-Id: <cover.1329888524.git.edwin.zhai@intel.com>
+Date: Wed, 22 Feb 2012 13:33:42 +0800
+Message-Id: <b7613743bd7777e0d89595be3a672965f04feb59.1329888524.git.edwin.zhai@intel.com>
 X-Mailer: git-send-email 1.7.1
-Subject: [PATCH 0/3] Fixes for multilib
+In-Reply-To: <cover.1329888524.git.edwin.zhai@intel.com>
+References: <cover.1329888524.git.edwin.zhai@intel.com>
+In-Reply-To: <cover.1329888524.git.edwin.zhai@intel.com>
+References: <cover.1329888524.git.edwin.zhai@intel.com>
+Subject: [PATCH 1/3] quicky: Fix for multilib
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -29,38 +33,28 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 22 Feb 2012 05:43:44 -0000
+X-List-Received-Date: Wed, 22 Feb 2012 05:43:45 -0000
 
 From: Zhai Edwin <edwin.zhai@intel.com>
 
-All,
-These are fixes for multilib, and [Yocto 1906].
+Signed-off-by: Zhai Edwin <edwin.zhai@intel.com>
+---
+ meta/recipes-qt/qt-apps/quicky_0.4.bb |    2 +-
+ 1 files changed, 1 insertions(+), 1 deletions(-)
 
-Pls. help to pull.
-
-Thanks,
-Edwin
-
-The following changes since commit 41a83ccfe50ec69425a4828fb5836d38d3f99e67:
-
-  guile: fix cross configure failure (2012-02-10 17:01:42 +0000)
-
-are available in the git repository at:
-  git://git.pokylinux.org/poky-contrib gzhai/master2
-  http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=gzhai/master2
-
-Zhai Edwin (3):
-  quicky: Fix for multilib
-  texi2html: Fix for multilib
-  vte: fix scroll issue
-
- meta/recipes-extended/texi2html/texi2html_5.0.bb |    2 +-
- meta/recipes-qt/qt-apps/quicky_0.4.bb            |    2 +-
- meta/recipes-support/vte/vte.inc                 |    3 +-
- meta/recipes-support/vte/vte/scrollbar_fix.patch |  122 ++++++++++++++++++++++
- meta/recipes-support/vte/vte_0.28.2.bb           |    2 +-
- 5 files changed, 127 insertions(+), 4 deletions(-)
- create mode 100644 meta/recipes-support/vte/vte/scrollbar_fix.patch
+diff --git a/meta/recipes-qt/qt-apps/quicky_0.4.bb b/meta/recipes-qt/qt-apps/quicky_0.4.bb
+index 20c04f8..73d3e99 100644
+--- a/meta/recipes-qt/qt-apps/quicky_0.4.bb
++++ b/meta/recipes-qt/qt-apps/quicky_0.4.bb
+@@ -17,5 +17,5 @@ inherit qmake2 pkgconfig
+ 
+ do_install() {
+ 	install -d ${D}${bindir}
+-	install -m 0755 ${S}/${PN} ${D}${bindir}
++	install -m 0755 ${S}/${BPN} ${D}${bindir}
+ }
+-- 
+1.7.1
 
 
 
