@@ -1,42 +1,25 @@
-Received: from mail-vw0-f47.google.com ([209.85.212.47])
+Received: from mail1.windriver.com ([147.11.146.13])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <otavio.salvador@gmail.com>) id 1S0EjU-0006OZ-NJ
+	(envelope-from <Liezhi.Yang@windriver.com>) id 1S0Ek6-0006RJ-01
 	for openembedded-core@lists.openembedded.org;
-	Wed, 22 Feb 2012 17:07:57 +0100
-Received: by vbbff1 with SMTP id ff1so153524vbb.6
+	Wed, 22 Feb 2012 17:08:34 +0100
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca [147.11.189.40])
+	by mail1.windriver.com (8.14.3/8.14.3) with ESMTP id q1MDUZsu002496
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 22 Feb 2012 07:59:36 -0800 (PST)
-Received-SPF: pass (google.com: domain of otavio.salvador@gmail.com designates
-	10.52.176.130 as permitted sender) client-ip=10.52.176.130; 
-Authentication-Results: mr.google.com; spf=pass (google.com: domain of
-	otavio.salvador@gmail.com designates 10.52.176.130 as permitted
-	sender) smtp.mail=otavio.salvador@gmail.com;
-	dkim=pass header.i=otavio.salvador@gmail.com
-Received: from mr.google.com ([10.52.176.130])
-	by 10.52.176.130 with SMTP id ci2mr15005105vdc.33.1329926376210
-	(num_hops = 1); Wed, 22 Feb 2012 07:59:36 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
-	h=mime-version:sender:in-reply-to:references:date
-	:x-google-sender-auth:message-id:subject:from:to:content-type
-	:content-transfer-encoding;
-	bh=sSeBLRNbaM3yhx7fobvEwpGZgIb/y8lRv59PzYmqUGU=;
-	b=WIcQ97hPNKADPPMINht/tjrAe2tXu+i5G/1OyUqPNkg/V5thtU2KSXV23YZBiDgR3g
-	Yv0zx4GOWcIyW+NxRV56h3USTdkg8K+8RM9ukuk2REh5StbRI6CKrz7TDulBfOSrwXvz
-	f+7x+Vz6KJPrEL30ZU8qLGvGUOGfCjXZyXEN4=
+	Wed, 22 Feb 2012 05:30:35 -0800 (PST)
+Received: from build-PowerEdge-T100.corp.ad.wrs.com (128.224.163.66) by
+	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server id
+	14.1.255.0; Wed, 22 Feb 2012 05:30:34 -0800
+From: Robert Yang <liezhi.yang@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Wed, 22 Feb 2012 21:27:57 +0800
+Message-ID: <7b1bbbfe30e32b4cacde385b452d73a92a700dde.1329916583.git.liezhi.yang@windriver.com>
+X-Mailer: git-send-email 1.7.4.1
+In-Reply-To: <cover.1329916583.git.liezhi.yang@windriver.com>
+References: <cover.1329916583.git.liezhi.yang@windriver.com>
 MIME-Version: 1.0
-Received: by 10.52.176.130 with SMTP id ci2mr12264738vdc.33.1329926376143;
-	Wed, 22 Feb 2012 07:59:36 -0800 (PST)
-Sender: otavio.salvador@gmail.com
-Received: by 10.220.149.81 with HTTP; Wed, 22 Feb 2012 07:59:36 -0800 (PST)
-In-Reply-To: <CAGiJk9fWz97OC-wbpAroJdPUYP7+GTKcOG-00a0tP4R_jfWFPA@mail.gmail.com>
-References: <CAGiJk9fWz97OC-wbpAroJdPUYP7+GTKcOG-00a0tP4R_jfWFPA@mail.gmail.com>
-Date: Wed, 22 Feb 2012 13:59:36 -0200
-X-Google-Sender-Auth: 0PCwW9LOzf0Qhb9jfudSckmb0U8
-Message-ID: <CAP9ODKpPNJn-PRijKasZnomGOPuQ5ugBadJGxCdtwSu5FxAUJQ@mail.gmail.com>
-From: Otavio Salvador <otavio@ossystems.com.br>
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: Linker error while cross compiling, (Qt issue?)
+Subject: [PATCH 1/1] A script to clean obsolete sstate cache files
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -51,25 +34,180 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 22 Feb 2012 16:07:57 -0000
-Content-Type: text/plain; charset=ISO-8859-1
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Wed, 22 Feb 2012 16:08:34 -0000
+Content-Type: text/plain
 
-On Wed, Feb 22, 2012 at 13:53, Samuel Stirtzel
-<s.stirtzel@googlemail.com> wrote:
-> This error really puzzles me, usually I would assume that a library
-> has no problems to export symbols.
+There would be many obsolete cache files in the SSTATE_DIR after several
+builds, this script can remove the obsolete one for a pkg, only leave
+the up to date one.
 
-It puzzles me as well;  I have many applications and libraries linking
-against Qt without problem is my first advice is to check the build
-system of libdbusmenu-qt and check if it has any linking blackmagic or
-something like that.
+Here is the help text:
 
---=20
-Otavio Salvador=A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0O=
-.S. Systems
-E-mail: otavio@ossystems.com.br=A0 http://www.ossystems.com.br
-Mobile: +55 53 9981-7854=A0 =A0 =A0 =A0=A0 =A0 =A0 =A0http://projetos.ossys=
-tems.com.br
+sstate-cache-management.sh <OPTION>
+
+Options:
+  --help, -h
+        Display this help and exit.
+
+  --cache-dir=<sstate cache dir>
+        Specify sstate cache directory, will use the environment
+        variable SSTATE_CACHE_DIR if it is not specified.
+
+  --remove-duplicated
+        Remove the duplicated sstate cache files of one package, only
+        the newest one would be kept.
+
+[YOCTO #1682]
+
+Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
+---
+ scripts/sstate-cache-management.sh |  135 ++++++++++++++++++++++++++++++++++++
+ 1 files changed, 135 insertions(+), 0 deletions(-)
+ create mode 100755 scripts/sstate-cache-management.sh
+
+diff --git a/scripts/sstate-cache-management.sh b/scripts/sstate-cache-management.sh
+new file mode 100755
+index 0000000..d0e3abc
+--- /dev/null
++++ b/scripts/sstate-cache-management.sh
+@@ -0,0 +1,135 @@
++#!/bin/bash
++
++#  Copyright (c) 2012 Wind River Systems, Inc.
++#
++# This program is free software; you can redistribute it and/or modify
++# it under the terms of the GNU General Public License version 2 as
++# published by the Free Software Foundation.
++#
++# This program is distributed in the hope that it will be useful,
++# but WITHOUT ANY WARRANTY; without even the implied warranty of
++# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
++# See the GNU General Public License for more details.
++#
++# You should have received a copy of the GNU General Public License
++# along with this program; if not, write to the Free Software
++# Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
++#
++
++usage () {
++  cat << EOF
++Welcome to sstate cache management utilities.
++sstate-cache-management.sh <OPTION>
++
++Options:
++  --help, -h
++        Display this help and exit.
++
++  --cache-dir=<sstate cache dir>
++        Specify sstate cache directory, will use the environment
++        variable SSTATE_CACHE_DIR if it is not specified.
++
++  --remove-duplicated
++        Remove the duplicated sstate cache files of one package, only
++        the newest one would be kept.
++
++EOF
++}
++
++if [ $# -lt 1 ]; then
++  usage
++  exit 0
++fi
++
++# Print error information and exit.
++echo_error () {
++  echo "ERROR: $1" >&2
++  exit 1
++}
++
++# Remove the duplicated cache files for the pkg, keep the newest one
++remove_duplicated () {
++  local all_suffixes="$1"
++  local ava_archs="$2"
++  local total_deleted=0
++  for suffix in $all_suffixes; do
++      local deleted=0
++      echo -n "Removing the sstate-xxx_$suffix.tgz ... "
++      # sed twice to avoid the greedy match
++      file_names=`for arch in $ava_archs; do
++          ls sstate-*-$arch-*_$suffix.tgz 2>/dev/null | \
++              sed -e 's/\(.*\)-'"$arch"'-.*/\1/' \
++              -e 's/\(.*\)-'"$arch"'-.*/\1/'
++      done | sort -u`
++
++      for fn in $file_names; do
++          for arch in $ava_archs; do
++              ls $fn-$arch-*_$suffix.tgz 2>/dev/null >>/tmp/$fn
++          done
++          # Also delete the .siginfo file
++          to_del=$(ls -t $(cat /tmp/$fn) | sed -n '1!p' | sed -e 'p' -e 's/$/.siginfo/')
++          rm -f $to_del
++          let deleted=$deleted+`echo $to_del | wc -w`
++          rm -f /tmp/$fn
++      done
++      echo "($deleted files)"
++      let total_deleted=$total_deleted+$deleted
++  done
++  echo "$total_deleted files have been removed"
++}
++
++# Parse arguments
++while [ -n "$1" ]; do
++  case $1 in
++    --cache-dir=*)
++      cache_dir=`echo $1 | sed -e 's#^--cache-dir=##' -e 's#/*$##' | xargs readlink -f`
++      [ -d "$cache_dir" ] || echo_error "Invalid argument to --cache-dir"
++      shift
++        ;;
++    --remove-duplicated)
++      rm_duplicated="yes"
++      shift
++        ;;
++    --help|-h)
++      usage
++      exit 0
++        ;;
++    *)
++        echo "Invalid arguments $*"
++        echo_error "Try 'sstate-cache-management.sh -h' for more information."
++        ;;
++  esac
++done
++
++# sstate cache directory, use environment variable SSTATE_CACHE_DIR
++# if it was not specified, otherwise, error.
++[ -n "$cache_dir" ] || cache_dir=$SSTATE_CACHE_DIR
++[ -d "$cache_dir" ] || echo_error "Invalid cache directory \"$cache_dir\""
++
++cache_dir=`readlink -f $cache_dir`
++
++topdir=$(dirname $(dirname $(readlink -f $0)))
++tunedir=$topdir/meta/conf/machine/include
++[ -d $tunedir ] || echo_error "Can't find the tune directory"
++
++# Use the "_" to substitute "-", e.g., x86-64 to x86_64
++all_archs=`grep -r DEFAULTTUNE $tunedir | \
++    sed -e 's/.*\"\(.*\)\"/\1/' -e 's/-/_/g' | sort -u`
++# Add the qemu archs
++all_archs="$all_archs qemuarm qemux86 qemumips qemuppc"
++
++all_suffixes="deploy-rpm deploy-ipk deploy-deb deploy package populate-lic populate-sysroot"
++
++cd $cache_dir
++
++echo "Figuring out the archs in the sstate cache dir ..."
++for arch in $all_archs; do
++    ls | grep -q -w $arch
++    [ $? -eq 0 ] && ava_archs="$ava_archs $arch"
++done
++echo "The following archs have been found in the sstate cache dir:"
++echo $ava_archs
++
++if [ "$rm_duplicated" == "yes" -a -n "$ava_archs" ]; then
++    remove_duplicated "$all_suffixes" "$ava_archs"
++fi
+-- 
+1.7.4.1
+
 
 
