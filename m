@@ -1,30 +1,20 @@
-Received: from mail-iy0-f175.google.com ([209.85.210.175])
+Received: from mga01.intel.com ([192.55.52.88])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <brandon@rascalmicro.com>) id 1Rzzc1-0006ZJ-F5
+	(envelope-from <josh@linux.intel.com>) id 1S01QA-0001qf-NM
 	for openembedded-core@lists.openembedded.org;
-	Wed, 22 Feb 2012 00:59:13 +0100
-Received: by iaby12 with SMTP id y12so10373118iab.6
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 21 Feb 2012 15:50:53 -0800 (PST)
-Received-SPF: pass (google.com: domain of brandon@rascalmicro.com designates
-	10.50.203.100 as permitted sender) client-ip=10.50.203.100; 
-Authentication-Results: mr.google.com; spf=pass (google.com: domain of
-	brandon@rascalmicro.com designates 10.50.203.100 as permitted
-	sender) smtp.mail=brandon@rascalmicro.com
-Received: from mr.google.com ([10.50.203.100])
-	by 10.50.203.100 with SMTP id kp4mr23347657igc.6.1329868253339
-	(num_hops = 1); Tue, 21 Feb 2012 15:50:53 -0800 (PST)
-MIME-Version: 1.0
-Received: by 10.50.203.100 with SMTP id kp4mr18819360igc.6.1329868252474; Tue,
-	21 Feb 2012 15:50:52 -0800 (PST)
-Received: by 10.231.199.138 with HTTP; Tue, 21 Feb 2012 15:50:52 -0800 (PST)
-X-Originating-IP: [146.115.15.122]
-Date: Tue, 21 Feb 2012 18:50:52 -0500
-Message-ID: <CA+b4E8x4_cCvhUw-UgLK=9ymuoXsiih8BMZc=ts0B7Qf=oaNuQ@mail.gmail.com>
-From: Brandon Stafford <brandon@rascalmicro.com>
+	Wed, 22 Feb 2012 02:55:06 +0100
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+	by fmsmga101.fm.intel.com with ESMTP; 21 Feb 2012 17:46:46 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="119901753"
+Received: from unknown (HELO shamshir.amr.corp.intel.com) ([10.255.15.54])
+	by fmsmga001.fm.intel.com with ESMTP; 21 Feb 2012 17:46:46 -0800
+From: Joshua Lock <josh@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-X-Gm-Message-State: ALoCoQkBxCuUAcZH2Ewmye1S6dAsrngqovXY+OnqRU9BAprKfl37XNbI8SNvYIZM6owFRMaae899
-Subject: Cannot satisfy the following dependencies for task-core-basic: libusb-compat (>= 0.1.3)
+Date: Tue, 21 Feb 2012 17:46:41 -0800
+Message-Id: <cover.1329875013.git.josh@linux.intel.com>
+X-Mailer: git-send-email 1.7.7.6
+Subject: [PATCH 0/3] Fix overriding PACKAGE_ARCH for MACHINE specific SRC_URI [v2]
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -39,60 +29,34 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 21 Feb 2012 23:59:13 -0000
-Content-Type: multipart/alternative; boundary=14dae9340765c96e4004b9821433
+X-List-Received-Date: Wed, 22 Feb 2012 01:55:06 -0000
 
---14dae9340765c96e4004b9821433
-Content-Type: text/plain; charset=ISO-8859-1
-
-Hi all,
-
-In trying to build core-image-basic, it seems that libusb-compat cannot be
-found:
-
-| Collected errors:
-|  * satisfy_dependencies_for: Cannot satisfy the following dependencies
-for task-core-basic:
-|  * libusb-compat (>= 0.1.3) *
-|  * opkg_install_cmd: Cannot install package task-core-basic.
-NOTE: package core-image-basic-1.0-r0: task do_rootfs: Failed
-
-However, it seems like libusb-compat should be findable:
-
-:~/oe-core/build$ ls ../meta/recipes-support/libusb/
-libusb1_1.0.8.bb  libusb-compat-0.1.3  libusb-compat_0.1.3.bb
-
-Do I need to tell bitbake to look in recipes-support explicitly?
+This series includes a fix for base.bbclass so that PACKAGE_ARCH is correctly set to
+MACHINE_ARCH for all recipes which include a MACHINE OVERRIDE in SRC_URI.
 
 Cheers,
-Brandon
+Joshua
+
+The following changes since commit d4ffe12ca36bf10be4e0f9565d7c3d8e6f4a265a:
+
+  iputils: Add base_libdir to VPATH in order to find the crypto library (2012-02-21 17:59:21 +0000)
+
+are available in the git repository at:
+  git://git.openembedded.org/openembedded-core-contrib josh/work
+  http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=josh/work
+
+Joshua Lock (3):
+  base.bbclass: check all entries of FILESPATH for MACHINE overrides
+  external-csl-toolchain: skip parsing if CSL_VER_MAIN isn't set
+  netbase: remove redundant assignments
+
+ meta/classes/base.bbclass                        |   14 ++++++++------
+ meta/recipes-core/meta/external-csl-toolchain.bb |    8 ++++++++
+ meta/recipes-core/netbase/netbase_4.47.bb        |    4 ----
+ 3 files changed, 16 insertions(+), 10 deletions(-)
 
 -- 
-Brandon Stafford
-Rascal Micro: small computers for art and science
-Somerville, MA, USA
+1.7.7.6
 
---14dae9340765c96e4004b9821433
-Content-Type: text/html; charset=ISO-8859-1
-Content-Transfer-Encoding: quoted-printable
 
-<div><div>Hi all,</div><div><br></div><div>In trying to build core-image-ba=
-sic, it seems that libusb-compat cannot be found:</div><div><br></div><div>=
-| Collected errors:</div><div>| =A0* satisfy_dependencies_for: Cannot satis=
-fy the following dependencies for task-core-basic:</div>
-<div>| =A0* <span class=3D"Apple-tab-span" style=3D"white-space:pre">	</spa=
-n>libusb-compat (&gt;=3D 0.1.3) *</div><div>| =A0* opkg_install_cmd: Cannot=
- install package task-core-basic.</div><div>NOTE: package core-image-basic-=
-1.0-r0: task do_rootfs: Failed</div>
-</div><div><br></div><div>However, it seems like libusb-compat should be fi=
-ndable:</div><div><br></div><div>:~/oe-core/build$ ls ../meta/recipes-suppo=
-rt/libusb/</div><div><a href=3D"http://libusb1_1.0.8.bb">libusb1_1.0.8.bb</=
-a> =A0libusb-compat-0.1.3 =A0<a href=3D"http://libusb-compat_0.1.3.bb">libu=
-sb-compat_0.1.3.bb</a></div>
-<div><br></div><div>Do I need to tell bitbake to look in recipes-support ex=
-plicitly?</div><div><br></div><div>Cheers,<br>Brandon</div><div><br></div>-=
-- <br><div>Brandon Stafford</div><div>Rascal Micro: small computers for art=
- and science</div>
-<div>Somerville, MA, USA</div><br>
 
---14dae9340765c96e4004b9821433--
