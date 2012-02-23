@@ -1,36 +1,38 @@
-Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
-	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <richard.purdie@linuxfoundation.org>)
-	id 1S0f93-0004IQ-7E for openembedded-core@lists.openembedded.org;
-	Thu, 23 Feb 2012 21:20:05 +0100
-Received: from localhost (localhost [127.0.0.1])
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q1NKBhLt024685
+Received: from mail-we0-f175.google.com ([74.125.82.175])
+	by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <koen@dominion.thruhere.net>) id 1S0fP1-0004Ny-C6
+	for openembedded-core@lists.openembedded.org;
+	Thu, 23 Feb 2012 21:36:35 +0100
+Received: by werc1 with SMTP id c1so1076260wer.6
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 23 Feb 2012 20:11:43 GMT
-Received: from tim.rpsys.net ([127.0.0.1])
-	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
-	port 10024) with LMTP
-	id 18053-10 for <openembedded-core@lists.openembedded.org>;
-	Thu, 23 Feb 2012 20:11:39 +0000 (GMT)
-Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q1NKBYht024672
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO)
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 23 Feb 2012 20:11:36 GMT
-Message-ID: <1330027895.32110.84.camel@ted>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
+	Thu, 23 Feb 2012 12:28:13 -0800 (PST)
+Received-SPF: pass (google.com: domain of koen@dominion.thruhere.net
+	designates 10.181.12.106 as permitted sender)
+	client-ip=10.181.12.106; 
+Authentication-Results: mr.google.com; spf=pass (google.com: domain of
+	koen@dominion.thruhere.net designates 10.181.12.106 as
+	permitted sender) smtp.mail=koen@dominion.thruhere.net
+Received: from mr.google.com ([10.181.12.106])
+	by 10.181.12.106 with SMTP id ep10mr6352798wid.8.1330028893583
+	(num_hops = 1); Thu, 23 Feb 2012 12:28:13 -0800 (PST)
+Received: by 10.181.12.106 with SMTP id ep10mr5182405wid.8.1330028893528;
+	Thu, 23 Feb 2012 12:28:13 -0800 (PST)
+Received: from [172.20.1.36] (ip545070eb.adsl-surfen.hetnet.nl.
+	[84.80.112.235])
+	by mx.google.com with ESMTPS id dw7sm6659593wib.4.2012.02.23.12.28.12
+	(version=TLSv1/SSLv3 cipher=OTHER);
+	Thu, 23 Feb 2012 12:28:12 -0800 (PST)
+Mime-Version: 1.0 (Apple Message framework v1257)
+From: Koen Kooi <koen@dominion.thruhere.net>
+In-Reply-To: <cover.1330025248.git.paul.eggleton@linux.intel.com>
+Date: Thu, 23 Feb 2012 21:28:11 +0100
+Message-Id: <A8AEC4FF-9450-4896-A486-09CCE518A34D@dominion.thruhere.net>
+References: <cover.1330025248.git.paul.eggleton@linux.intel.com>
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Date: Thu, 23 Feb 2012 20:11:35 +0000
-In-Reply-To: <4F46919E.2050204@palm.com>
-References: <4F457B4B.4000507@palm.com>
-	<CAHQecY7-=cwCA7PXYhf3xes+SMsWo6qffwkQk6ckzRsP5ys7oA@mail.gmail.com>
-	<E9FAD6E1E68141CCA2CF166F1762B320@gmail.com>	<4F458CAA.7040107@palm.com>
-	<1329992162.32110.53.camel@ted> <4F46919E.2050204@palm.com>
-X-Mailer: Evolution 3.2.2- 
-Mime-Version: 1.0
-X-Virus-Scanned: amavisd-new at rpsys.net
-Subject: Re: sharing DL_DIR?
+X-Mailer: Apple Mail (2.1257)
+X-Gm-Message-State: ALoCoQkxFOk5SI1vLclgWmUWJpCOAEaTQS8Oh+URjpvK7UKsoxW2C1HXD2KJmcM39x/bfkG5Nxo5
+Subject: Re: [PATCH 0/2] psplash improvements v2
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -45,27 +47,39 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 23 Feb 2012 20:20:05 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
-
-On Thu, 2012-02-23 at 11:21 -0800, Rich Pixley wrote:
-> On 2/23/12 02:16 , Richard Purdie wrote:
-> > On Wed, 2012-02-22 at 16:47 -0800, Rich Pixley wrote:
-> >> What happens if two separate bitbake invocations both simultaneously
-> >> attempt to download the same file?
-> > The first will download it, the second will wait for it to finish, then
-> > both will continue with the downloaded file.
-> How does the second know that the first is in progress?
-
-It won't be able to take the lock and the done stamp file doesn't exist
-yet.
-
-Cheers,
-
-Richard
+X-List-Received-Date: Thu, 23 Feb 2012 20:36:35 -0000
+Content-Type: text/plain; charset=us-ascii
+Content-Transfer-Encoding: quoted-printable
 
 
+Op 23 feb. 2012, om 20:30 heeft Paul Eggleton het volgende geschreven:
 
+> Implements the psplash changes as discussed on the mailing list [1] =
+and
+> by the TSC [2].
+>=20
+> [1] =
+http://www.mail-archive.com/openembedded-core@lists.openembedded.org/msg13=
+800.html
+> [2] http://lists.linuxtogo.org/pipermail/tsc/2012-January/000330.html
+>=20
+> Since v1 I've done away with the additional script and integrated .png
+> conversion into the recipe (optional) as well as used alternatives to
+> allow selecting the psplash at runtime. I also decided against =
+renaming
+> the default header file as it would break existing bbappends.
+>=20
+> Note for meta-yocto there is a corresponding change that should be
+> applied at the same time which I will send out shortly.
+>=20
+> (No changes since the RFC except for rebasing on top of current =
+master.)
+
+I haven't had time to test it yet, but it looks good judging from a =
+quick read.
+
+regards,
+
+Koen=
 
 
