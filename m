@@ -1,26 +1,25 @@
-Received: from smtp-relay2.palm.com ([64.28.152.243])
+Received: from mga11.intel.com ([192.55.52.93])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <prvs=393c5c6b8=rich.pixley@palm.com>)
-	id 1S0N0u-0007Eh-OD for openembedded-core@lists.openembedded.org;
-	Thu, 23 Feb 2012 01:58:28 +0100
-X-IronPort-AV: E=Sophos;i="4.73,466,1325491200"; d="scan'208";a="11846391"
-Received: from unknown (HELO ushqusdns4.palm.com) ([148.92.223.164])
-	by smtp-relay2.palm.com with ESMTP; 22 Feb 2012 16:50:08 -0800
-Received: from fuji.noir.com ([10.100.2.13])
-	by ushqusdns4.palm.com (8.14.4/8.14.4) with ESMTP id q1N0o7gu029757;
-	Wed, 22 Feb 2012 16:50:07 -0800
-Message-ID: <4F458D3F.9020602@palm.com>
-Date: Wed, 22 Feb 2012 16:50:07 -0800
-From: Rich Pixley <rich.pixley@palm.com>
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.7;
-	rv:10.0.2) Gecko/20120216 Thunderbird/10.0.2
+	(envelope-from <sgw@linux.intel.com>) id 1S0N9B-0007t1-Km
+	for openembedded-core@lists.openembedded.org;
+	Thu, 23 Feb 2012 02:07:01 +0100
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+	by fmsmga102.fm.intel.com with ESMTP; 22 Feb 2012 16:58:40 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="120313682"
+Received: from unknown (HELO [10.255.15.72]) ([10.255.15.72])
+	by fmsmga001.fm.intel.com with ESMTP; 22 Feb 2012 16:58:40 -0800
+Message-ID: <4F458F3F.50409@linux.intel.com>
+Date: Wed, 22 Feb 2012 16:58:39 -0800
+From: Saul Wold <sgw@linux.intel.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:10.0) Gecko/20120131 Thunderbird/10.0
 MIME-Version: 1.0
-To: Saul Wold <sgw@linux.intel.com>
-References: <4F457B4B.4000507@palm.com> <4F457D1A.8010707@linux.intel.com>
-In-Reply-To: <4F457D1A.8010707@linux.intel.com>
-Cc: Patches and discussions about the oe-core layer
+To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Subject: Re: sharing DL_DIR?
+References: <1329519371-12600-1-git-send-email-obi@opendreambox.org>
+In-Reply-To: <1329519371-12600-1-git-send-email-obi@opendreambox.org>
+Subject: Re: [PATCH 1/2] gst-plugins-base: depend on libx11 and libxv conditionally
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -35,60 +34,41 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 23 Feb 2012 00:58:29 -0000
+X-List-Received-Date: Thu, 23 Feb 2012 01:07:01 -0000
 Content-Type: text/plain; charset=ISO-8859-1; format=flowed
 Content-Transfer-Encoding: 7bit
 
-Excellent, thanks.  That's the news I was hoping for.
+On 02/17/2012 02:56 PM, Andreas Oberritter wrote:
+> * gst-plugins-base currently doesn't build if x11 is
+>    unavailable, due to unconditional dependencies on libx11
+>    and libxv. However, they are not required to build
+>    gst-plugins-base.
+>
+> Signed-off-by: Andreas Oberritter<obi@opendreambox.org>
+> ---
+>   .../gstreamer/gst-plugins-base_0.10.35.bb          |    3 ++-
+>   1 files changed, 2 insertions(+), 1 deletions(-)
+>
+> diff --git a/meta/recipes-multimedia/gstreamer/gst-plugins-base_0.10.35.bb b/meta/recipes-multimedia/gstreamer/gst-plugins-base_0.10.35.bb
+> index e49a00c..0b287bc 100644
+> --- a/meta/recipes-multimedia/gstreamer/gst-plugins-base_0.10.35.bb
+> +++ b/meta/recipes-multimedia/gstreamer/gst-plugins-base_0.10.35.bb
+> @@ -6,7 +6,8 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=0636e73ff0215e8d672dc4c32c317bb3 \
+>                       file://COPYING.LIB;md5=55ca817ccb7d5b5b66355690e9abc605 \
+>                       file://gst/ffmpegcolorspace/utils.c;beginline=1;endline=20;md5=9c83a200b8e597b26ca29df20fc6ecd0"
+>
+> -DEPENDS += "virtual/libx11 alsa-lib freetype liboil libogg libvorbis libxv libtheora avahi util-linux tremor"
+> +DEPENDS += "${@base_contains('DISTRO_FEATURES', 'x11', 'virtual/libx11 libxv', '', d)}"
+> +DEPENDS += "alsa-lib freetype liboil libogg libvorbis libtheora avahi util-linux tremor"
+>
+>   SRC_URI += " file://gst-plugins-base-tremor.patch"
+>
+As with the other patches do you need to have some configure option to 
+ensure that these will be exculded if perhaps the build already contains 
+these libraries?
 
---rich
+This also pertains to your mpeg2dev patch
 
-On 2/22/12 15:41 , Saul Wold wrote:
-> On 02/22/2012 03:33 PM, Rich Pixley wrote:
->> Is it reasonable to expect to share DL_DIR between multiple builds?
->>
-> Absolutely, We share DL_DIR via NFS across multiple machines and builds.
->
->> That is, are downloads properly locked so that multiple concurrent
->> downloads of the same file won't collide? And if so, are they NFS safe
->> locks?
->>
-> Yes, as far as I know.
->
->> Or must each build download it's own copies of every component?
->>
-> No need.
->
->> I ask because our, (Palm), branch has been, but it's a bit of a nuisance
->> to pick a suitable locking mechanism that is both functional and performant.
->>
->>    * Flock/lockf aren't reliably supported in heterogeneous environments.
->>    * The old lockfiles don't work over NFS. Lock directories apparently
->>      do, but trying to clean these up after interruptions or failures is
->>      a losing battle so if we do use these, we end up with orphan locks
->>      periodically.
->>    * With NFS as a possibility, we can't assume any kernel local IPC
->>      mechanism, so sysV ipc is out.
->>    * It seems like a pretty huge overhead to try to create any sort of
->>      zeroconf overhead.
->>
->> Our solution so far has been to use NFS lock directories for multiple
->> machine builds and flock/lockf for single machine builds. This mostly
->> works, though it's not ideal, and it's significantly faster than
->> downloading/copying all of the component source multiple times even over
->> local mirrors.
->>
-> I think we are using a very basic locking mechism that creates the
-> lockfile and a donefile when complete.  It seems to work well enough.
->
-> Sau!
->
->> --rich
->>
->>
->> _______________________________________________
->> Openembedded-core mailing list
->> Openembedded-core@lists.openembedded.org
->> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
+Sau!
 
 
