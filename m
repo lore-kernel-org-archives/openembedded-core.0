@@ -1,24 +1,24 @@
 Received: from mga01.intel.com ([192.55.52.88])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <sgw@linux.intel.com>) id 1S0bC9-0004to-FD
+	(envelope-from <sgw@linux.intel.com>) id 1S0bCB-0004t7-Ks
 	for openembedded-core@lists.openembedded.org;
-	Thu, 23 Feb 2012 17:07:02 +0100
+	Thu, 23 Feb 2012 17:07:04 +0100
 Received: from fmsmga002.fm.intel.com ([10.253.24.26])
 	by fmsmga101.fm.intel.com with ESMTP; 23 Feb 2012 07:58:35 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="128652378"
+X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="128652380"
 Received: from unknown (HELO swold-mobl.bigsur.com) ([10.255.15.72])
 	by fmsmga002.fm.intel.com with ESMTP; 23 Feb 2012 07:58:35 -0800
 From: Saul Wold <sgw@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Thu, 23 Feb 2012 07:58:27 -0800
-Message-Id: <980b4324dad37df23945522ff7457f37994d78c4.1330012543.git.sgw@linux.intel.com>
+Date: Thu, 23 Feb 2012 07:58:29 -0800
+Message-Id: <ab4f118de47b65667f29f03fcb6baf762ddf54f9.1330012543.git.sgw@linux.intel.com>
 X-Mailer: git-send-email 1.7.6.5
 In-Reply-To: <cover.1330012543.git.sgw@linux.intel.com>
 References: <cover.1330012543.git.sgw@linux.intel.com>
 In-Reply-To: <cover.1330012543.git.sgw@linux.intel.com>
 References: <cover.1330012543.git.sgw@linux.intel.com>
-Subject: [CONSOLIDATED PULL 23/25] task-self-hosted: remove duplicate packages
+Subject: [CONSOLIDATED PULL 25/25] distro_tracking_fields: fix typos
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -35,75 +35,33 @@ List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedde
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Thu, 23 Feb 2012 16:07:04 -0000
 
-From: Dexuan Cui <dexuan.cui@intel.com>
-
-The package names are specified more than once.
-We only need to keep one for each of them, so let's remove the duplicated
-ones.
-This patch makes no actual change to the functionality of the recipe.
-
-Signed-off-by: Dexuan Cui <dexuan.cui@intel.com>
+Signed-off-by: Saul Wold <sgw@linux.intel.com>
 ---
- meta/recipes-core/tasks/task-self-hosted.bb |   11 -----------
- 1 files changed, 0 insertions(+), 11 deletions(-)
+ .../conf/distro/include/distro_tracking_fields.inc |    4 ++--
+ 1 files changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/meta/recipes-core/tasks/task-self-hosted.bb b/meta/recipes-core/tasks/task-self-hosted.bb
-index 1678ac3..c9a8c49 100644
---- a/meta/recipes-core/tasks/task-self-hosted.bb
-+++ b/meta/recipes-core/tasks/task-self-hosted.bb
-@@ -30,12 +30,6 @@ RDEPENDS_task-self-hosted = "\
- RDEPENDS_task-self-hosted-host-tools = "\
-     connman \
-     connman-plugin-ethernet \
--    parted \
--    e2fsprogs \
--    e2fsprogs-mke2fs \
--    e2fsprogs-tune2fs \
--    e2fsprogs-e2fsck \
--    e2fsprogs-fsck \
-     dhcp-client \
-     e2fsprogs \
-     e2fsprogs-e2fsck \
-@@ -65,7 +59,6 @@ RDEPENDS_task-self-hosted-sdk = "\
-     cpp-symlinks \
-     ccache \
-     coreutils \
--    diffutils \
-     distcc \
-     eglibc-utils \
-     file \
-@@ -74,7 +67,6 @@ RDEPENDS_task-self-hosted-sdk = "\
-     gcc-symlinks \
-     g++ \
-     g++-symlinks \
--    gettext \
-     intltool \
-     ldd \
-     less \
-@@ -88,7 +80,6 @@ RDEPENDS_task-self-hosted-sdk = "\
-     pkgconfig \
-     quilt \
-     sed \
--    tcl \
-     "
+diff --git a/meta/conf/distro/include/distro_tracking_fields.inc b/meta/conf/distro/include/distro_tracking_fields.inc
+index 5381c18..686bdf7 100644
+--- a/meta/conf/distro/include/distro_tracking_fields.inc
++++ b/meta/conf/distro/include/distro_tracking_fields.inc
+@@ -5900,7 +5900,7 @@ RECIPE_LAST_UPDATE_pn-gthumb = "Nov 30, 2011"
+ RECIPE_MAINTAINER_pn-gthumb = "Joshua Lock <josh@linux.intel.com>"
  
- RDEPENDS_task-self-hosted-debug = " \
-@@ -100,7 +91,6 @@ RDEPENDS_task-self-hosted-debug = " \
+ RECIPE_LATEST_VERSION_pn-mx = "1.4.2"
+-RECIPE_LAST_UPDATE_pn-mx = "Deb 08, 2012"
++RECIPE_LAST_UPDATE_pn-mx = "Dec 08, 2012"
+ RECIPE_MAINTAINER_pn-mx = "Joshua Lock <josh@linux.intel.com>"
  
- 
- RDEPENDS_task-self-hosted-extended = "\
--    binutils \
-     bzip2 \
-     chkconfig \
-     chrpath \
-@@ -134,7 +124,6 @@ RDEPENDS_task-self-hosted-extended = "\
-     openssl \
-     opkg \
-     opkg-utils \
--    parted \
-     patch \
-     perl \
-     perl-dev \
+ RECIPE_LATEST_VERSION_pn-json-glib = "0.14.2"
+@@ -6135,7 +6135,7 @@ RECIPE_STATUS_pn-rxvt-unicode = "green"
+ RECIPE_DEPENDENCY_CHECK_pn-rxvt-unicode = "not done"
+ RECIPE_LATEST_VERSION_pn-rxvt-unicode = "9.15"
+ RECIPE_LATEST_RELEASE_DATE_pn-rxvt-unicode = "Jan 21, 2012"
+-RECIPE_LAST_UPDATE_pn-rxvt-unicode = "Fev 02, 2012"
++RECIPE_LAST_UPDATE_pn-rxvt-unicode = "Feb 02, 2012"
+ RECIPE_NO_UPDATE_REASON_pn-rxvt-unicode = ""
+ RECIPE_NO_OF_PATCHES_pn-rxvt-unicode = "1"
+ RECIPE_TIME_BETWEEN_LAST_TWO_RELEASES_pn-rxvt-unicode = ""
 -- 
 1.7.6.5
 
