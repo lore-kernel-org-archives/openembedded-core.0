@@ -1,24 +1,24 @@
 Received: from mga02.intel.com ([134.134.136.20])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <dexuan.cui@intel.com>) id 1S0PYt-0004Nr-MN
+	(envelope-from <dexuan.cui@intel.com>) id 1S0PYu-0004Nr-DG
 	for openembedded-core@lists.openembedded.org;
-	Thu, 23 Feb 2012 04:41:43 +0100
+	Thu, 23 Feb 2012 04:41:44 +0100
 Received: from orsmga002.jf.intel.com ([10.7.209.21])
-	by orsmga101.jf.intel.com with ESMTP; 22 Feb 2012 19:33:21 -0800
+	by orsmga101.jf.intel.com with ESMTP; 22 Feb 2012 19:33:22 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.67,351,1309762800"; d="scan'208";a="113726407"
+X-IronPort-AV: E=Sophos;i="4.67,351,1309762800"; d="scan'208";a="113726412"
 Received: from dcui-desktop.sh.intel.com ([10.239.36.12])
 	by orsmga002.jf.intel.com with ESMTP; 22 Feb 2012 19:33:21 -0800
 From: Dexuan Cui <dexuan.cui@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Thu, 23 Feb 2012 11:33:44 +0800
-Message-Id: <2722b49d249177e48f610968898e06d9597ce065.1329967965.git.dexuan.cui@intel.com>
+Date: Thu, 23 Feb 2012 11:33:45 +0800
+Message-Id: <a347ae3ef53afdd663c2af02a2a291f16a0386c3.1329967965.git.dexuan.cui@intel.com>
 X-Mailer: git-send-email 1.7.6
 In-Reply-To: <cover.1329967965.git.dexuan.cui@intel.com>
 References: <cover.1329967965.git.dexuan.cui@intel.com>
 In-Reply-To: <cover.1329967965.git.dexuan.cui@intel.com>
 References: <cover.1329967965.git.dexuan.cui@intel.com>
-Subject: [PATCH 1/2] task-self-hosted: remove duplicate packages
+Subject: [PATCH 2/2] task-self-hosted: make the package lists alphabetical
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -33,75 +33,142 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 23 Feb 2012 03:41:43 -0000
+X-List-Received-Date: Thu, 23 Feb 2012 03:41:44 -0000
 
-The package names are specified more than once.
-We only need to keep one for each of them, so let's remove the duplicated
-ones.
 This patch makes no actual change to the functionality of the recipe.
 
 Signed-off-by: Dexuan Cui <dexuan.cui@intel.com>
 ---
- meta/recipes-core/tasks/task-self-hosted.bb |   11 -----------
- 1 files changed, 0 insertions(+), 11 deletions(-)
+ meta/recipes-core/tasks/task-self-hosted.bb |   36 +++++++++++++-------------
+ 1 files changed, 18 insertions(+), 18 deletions(-)
 
 diff --git a/meta/recipes-core/tasks/task-self-hosted.bb b/meta/recipes-core/tasks/task-self-hosted.bb
-index 1678ac3..c9a8c49 100644
+index c9a8c49..3c5fad6 100644
 --- a/meta/recipes-core/tasks/task-self-hosted.bb
 +++ b/meta/recipes-core/tasks/task-self-hosted.bb
-@@ -30,12 +30,6 @@ RDEPENDS_task-self-hosted = "\
- RDEPENDS_task-self-hosted-host-tools = "\
-     connman \
-     connman-plugin-ethernet \
--    parted \
--    e2fsprogs \
--    e2fsprogs-mke2fs \
--    e2fsprogs-tune2fs \
--    e2fsprogs-e2fsck \
--    e2fsprogs-fsck \
-     dhcp-client \
-     e2fsprogs \
-     e2fsprogs-e2fsck \
-@@ -65,7 +59,6 @@ RDEPENDS_task-self-hosted-sdk = "\
-     cpp-symlinks \
+@@ -53,20 +53,20 @@ RDEPENDS_task-self-hosted-host-tools = "\
+ RDEPENDS_task-self-hosted-sdk = "\
+     autoconf \
+     automake \
+-    binutils-symlinks \
+     binutils \
+-    cpp \
+-    cpp-symlinks \
++    binutils-symlinks \
      ccache \
      coreutils \
--    diffutils \
++    cpp \
++    cpp-symlinks \
      distcc \
      eglibc-utils \
      file \
-@@ -74,7 +67,6 @@ RDEPENDS_task-self-hosted-sdk = "\
-     gcc-symlinks \
+     findutils \
+-    gcc \
+-    gcc-symlinks \
      g++ \
      g++-symlinks \
--    gettext \
++    gcc \
++    gcc-symlinks \
      intltool \
      ldd \
      less \
-@@ -88,7 +80,6 @@ RDEPENDS_task-self-hosted-sdk = "\
-     pkgconfig \
-     quilt \
-     sed \
--    tcl \
-     "
- 
+@@ -85,9 +85,9 @@ RDEPENDS_task-self-hosted-sdk = "\
  RDEPENDS_task-self-hosted-debug = " \
-@@ -100,7 +91,6 @@ RDEPENDS_task-self-hosted-debug = " \
+     gdb \
+     gdbserver \
+-    tcf-agent \
+     rsync \
+-    strace"
++    strace \
++    tcf-agent"
  
  
  RDEPENDS_task-self-hosted-extended = "\
--    binutils \
-     bzip2 \
-     chkconfig \
-     chrpath \
-@@ -134,7 +124,6 @@ RDEPENDS_task-self-hosted-extended = "\
-     openssl \
-     opkg \
-     opkg-utils \
--    parted \
-     patch \
-     perl \
-     perl-dev \
+@@ -101,16 +101,17 @@ RDEPENDS_task-self-hosted-extended = "\
+     elfutils \
+     expat \
+     gamin \
++    gawk \
+     gdbm \
+-    git \
+     gettext \
+     gettext-runtime \
++    git \
+     grep \
+     groff \
+-    gawk \
++    gzip \
+     libaio \
+-    libxml2 \
+     libusb1 \
++    libxml2 \
+     lrzsz \
+     lsof \
+     lzo \
+@@ -133,11 +134,13 @@ RDEPENDS_task-self-hosted-extended = "\
+     python \
+     python-compile \
+     python-compiler \
++    python-compression \
+     python-core \
+     python-curses \
+     python-datetime \
+     python-distutils \
+     python-elementtree \
++    python-email \
+     python-fcntl \
+     python-logging \
+     python-misc \
+@@ -145,17 +148,15 @@ RDEPENDS_task-self-hosted-extended = "\
+     python-netclient \
+     python-netserver \
+     python-pickle \
++    python-pkgutil \
+     python-re \
+     python-rpm \
+     python-shell \
+     python-sqlite3 \
+     python-subprocess \
+     python-textutils \
+-    python-xmlrpc \
+-    python-email \
+     python-unixadmin \
+-    python-compression \
+-    python-pkgutil \
++    python-xmlrpc \
+     quota \
+     readline \
+     rpm \
+@@ -164,12 +165,11 @@ RDEPENDS_task-self-hosted-extended = "\
+     sudo \
+     sysstat \
+     tar \
+-    gzip \
+     tcl \
+     texi2html \
+     texinfo \
+-    usbutils \
+     unzip \
++    usbutils \
+     watchdog \
+     wget \
+     which \
+@@ -180,7 +180,7 @@ RDEPENDS_task-self-hosted-extended = "\
+ 
+ 
+ RDEPENDS_task-self-hosted-graphics = "\
+-    python-pygtk \
++    builder \
+     libgl \
+     libgl-dev \
+     libglu \
+@@ -188,5 +188,5 @@ RDEPENDS_task-self-hosted-graphics = "\
+     libsdl \
+     libsdl-dev \
+     libx11-dev \
+-    builder \
++    python-pygtk \
+     "
 -- 
 1.7.6
 
