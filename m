@@ -1,26 +1,26 @@
-Received: from smtp-relay2.palm.com ([64.28.152.243])
+Received: from mga14.intel.com ([143.182.124.37])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <prvs=393c5c6b8=rich.pixley@palm.com>)
-	id 1S0MzY-000770-LH for openembedded-core@lists.openembedded.org;
-	Thu, 23 Feb 2012 01:57:05 +0100
-X-IronPort-AV: E=Sophos;i="4.73,466,1325491200"; d="scan'208,217";a="11846353"
-Received: from unknown (HELO ushqusdns4.palm.com) ([148.92.223.164])
-	by smtp-relay2.palm.com with ESMTP; 22 Feb 2012 16:47:38 -0800
-Received: from fuji.noir.com ([10.100.2.13])
-	by ushqusdns4.palm.com (8.14.4/8.14.4) with ESMTP id q1N0lb1L027665;
-	Wed, 22 Feb 2012 16:47:37 -0800
-Message-ID: <4F458CAA.7040107@palm.com>
-Date: Wed, 22 Feb 2012 16:47:38 -0800
-From: Rich Pixley <rich.pixley@palm.com>
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.7;
-	rv:10.0.2) Gecko/20120216 Thunderbird/10.0.2
+	(envelope-from <sgw@linux.intel.com>) id 1S0N0H-0007B0-Jt
+	for openembedded-core@lists.openembedded.org;
+	Thu, 23 Feb 2012 01:57:49 +0100
+Received: from azsmga002.ch.intel.com ([10.2.17.35])
+	by azsmga102.ch.intel.com with ESMTP; 22 Feb 2012 16:49:27 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="69298959"
+Received: from unknown (HELO [10.255.15.72]) ([10.255.15.72])
+	by AZSMGA002.ch.intel.com with ESMTP; 22 Feb 2012 16:49:27 -0800
+Message-ID: <4F458D16.7020500@linux.intel.com>
+Date: Wed, 22 Feb 2012 16:49:26 -0800
+From: Saul Wold <sgw@linux.intel.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:10.0) Gecko/20120131 Thunderbird/10.0
 MIME-Version: 1.0
-To: openembedded-core@lists.openembedded.org
-References: <4F457B4B.4000507@palm.com>
-	<CAHQecY7-=cwCA7PXYhf3xes+SMsWo6qffwkQk6ckzRsP5ys7oA@mail.gmail.com>
-	<E9FAD6E1E68141CCA2CF166F1762B320@gmail.com>
-In-Reply-To: <E9FAD6E1E68141CCA2CF166F1762B320@gmail.com>
-Subject: Re: sharing DL_DIR?
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+References: <1329833078-4502-1-git-send-email-yauhen.kharuzhy@promwad.com>
+In-Reply-To: <1329833078-4502-1-git-send-email-yauhen.kharuzhy@promwad.com>
+Cc: denx@promwad.com
+Subject: Re: [PATCH] ppp: Fix rp-pppoe plugin compilation
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -35,202 +35,111 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 23 Feb 2012 00:57:05 -0000
-Content-Type: multipart/alternative;
-	boundary="------------060805080208090009000806"
-
---------------060805080208090009000806
-Content-Type: text/plain; charset=UTF-8; format=flowed
+X-List-Received-Date: Thu, 23 Feb 2012 00:57:49 -0000
+Content-Type: text/plain; charset=ISO-8859-1; format=flowed
 Content-Transfer-Encoding: 7bit
 
-What happens if two separate bitbake invocations both simultaneously 
-attempt to download the same file?
-
---rich
-
-On 2/22/12 15:41 , Christopher Larson wrote:
-> I share it as well. I don't see locks being a big issue for most 
-> things, as the worst case is a re-download, not use of a corrupt or 
-> incomplete file, due to the completion stamps.
+On 02/21/2012 06:04 AM, Yauhen Kharuzhy wrote:
+> rp-pppoe plugin was broken due linux headers changes: pppd has own copy of
+> if_pppol2tp.h file which is included from<linux/if_pppox.h>.
 >
-> -- 
-> Christopher Larson
+> Add patch from Debian for struct pppol2tpv3_addr definition.
 >
-> On Wednesday, February 22, 2012 at 4:39 PM, Tom King wrote:
+> Signed-off-by: Yauhen Kharuzhy<yauhen.kharuzhy@promwad.com>
+> ---
+>   .../ppp/ppp-2.4.5/update_if_pppol2tp.patch         |   54 ++++++++++++++++++++
+>   meta/recipes-connectivity/ppp/ppp_2.4.5.bb         |    3 +-
+>   2 files changed, 56 insertions(+), 1 deletions(-)
+>   create mode 100644 meta/recipes-connectivity/ppp/ppp-2.4.5/update_if_pppol2tp.patch
 >
->> I have a single downloads directory with symlinks for every target 
->> build I have to that directory.  As long as I have the source already 
->> in there I don't fetch  it again
->>
->> Tom
->>
->> On Wed, Feb 22, 2012 at 1:33 PM, Rich Pixley <rich.pixley@palm.com 
->> <mailto:rich.pixley@palm.com>> wrote:
->>> Is it reasonable to expect to share DL_DIR between multiple builds?
->>>
->>> That is, are downloads properly locked so that multiple concurrent 
->>> downloads of the same file won't collide?  And if so, are they NFS 
->>> safe locks?
->>>
->>> Or must each build download it's own copies of every component?
->>>
->>> I ask because our, (Palm), branch has been, but it's a bit of a 
->>> nuisance to pick a suitable locking mechanism that is both 
->>> functional and performant.
->>>
->>>   * Flock/lockf aren't reliably supported in heterogeneous environments.
->>>   * The old lockfiles don't work over NFS. Lock directories
->>>     apparently do, but trying to clean these up after interruptions
->>>     or failures is a losing battle so if we do use these, we end up
->>>     with orphan locks periodically.
->>>   * With NFS as a possibility, we can't assume any kernel local IPC
->>>     mechanism, so sysV ipc is out.
->>>   * It seems like a pretty huge overhead to try to create any sort
->>>     of zeroconf overhead.
->>>
->>> Our solution so far has been to use NFS lock directories for 
->>> multiple machine builds and flock/lockf for single machine builds.  
->>> This mostly works, though it's not ideal, and it's significantly 
->>> faster than downloading/copying all of the component source multiple 
->>> times even over local mirrors.
->>>
->>> --rich
->>>
->>> _______________________________________________
->>> Openembedded-core mailing list
->>> Openembedded-core@lists.openembedded.org 
->>> <mailto:Openembedded-core@lists.openembedded.org>
->>> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
->>>
->>
->> _______________________________________________
->> Openembedded-core mailing list
->> Openembedded-core@lists.openembedded.org 
->> <mailto:Openembedded-core@lists.openembedded.org>
->> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
+> diff --git a/meta/recipes-connectivity/ppp/ppp-2.4.5/update_if_pppol2tp.patch b/meta/recipes-connectivity/ppp/ppp-2.4.5/update_if_pppol2tp.patch
+> new file mode 100644
+> index 0000000..e034f19
+> --- /dev/null
+> +++ b/meta/recipes-connectivity/ppp/ppp-2.4.5/update_if_pppol2tp.patch
+> @@ -0,0 +1,54 @@
+> +Upstream-Status: Pending
+
+You should also include a Signed-off-by: in the patch itself so it can 
+be traced back to someone if needed.  Also include the orignal patch 
+info here if it came from some other upstream such as Debian.
+
+Thanks
+	Sau!
+
+> +diff --git a/include/linux/if_pppol2tp.h b/include/linux/if_pppol2tp.h
+> +index 4113d6a..7ee86b2 100644
+> +--- a/include/linux/if_pppol2tp.h
+> ++++ b/include/linux/if_pppol2tp.h
+> +@@ -2,7 +2,7 @@
+> +  * Linux PPP over L2TP (PPPoL2TP) Socket Implementation (RFC 2661)
+> +  *
+> +  * This file supplies definitions required by the PPP over L2TP driver
+> +- * (pppol2tp.c).  All version information wrt this file is located in pppol2tp.c
+> ++ * (l2tp_ppp.c).  All version information wrt this file is located in l2tp_ppp.c
+> +  *
+> +  * License:
+> +  *		This program is free software; you can redistribute it and/or
+> +@@ -15,14 +15,14 @@
+> + #ifndef __LINUX_IF_PPPOL2TP_H
+> + #define __LINUX_IF_PPPOL2TP_H
+> +
+> +-#include<asm/types.h>
+> ++#include<linux/types.h>
+> ++
+> +
+> + /* Structure used to connect() the socket to a particular tunnel UDP
+> +  * socket.
+> +  */
+> +-struct pppol2tp_addr
+> +-{
+> +-	pid_t	pid;			/* pid that owns the fd.
+> ++struct pppol2tp_addr {
+> ++	__kernel_pid_t	pid;		/* pid that owns the fd.
+> + 					 * 0 =>  current */
+> + 	int	fd;			/* FD of UDP socket to use */
+> +
+> +@@ -32,6 +32,20 @@ struct pppol2tp_addr
+> + 	__u16 d_tunnel, d_session;	/* For sending outgoing packets */
+> + };
+> +
+> ++/* The L2TPv3 protocol changes tunnel and session ids from 16 to 32
+> ++ * bits. So we need a different sockaddr structure.
+> ++ */
+> ++struct pppol2tpv3_addr {
+> ++	pid_t	pid;			/* pid that owns the fd.
+> ++					 * 0 =>  current */
+> ++	int	fd;			/* FD of UDP or IP socket to use */
+> ++
+> ++	struct sockaddr_in addr;	/* IP address and port to send to */
+> ++
+> ++	__u32 s_tunnel, s_session;	/* For matching incoming packets */
+> ++	__u32 d_tunnel, d_session;	/* For sending outgoing packets */
+> ++};
+> ++
+> + /* Socket options:
+> +  * DEBUG	- bitmask of debug message categories
+> +  * SENDSEQ	- 0 =>  don't send packets with sequence numbers
+> diff --git a/meta/recipes-connectivity/ppp/ppp_2.4.5.bb b/meta/recipes-connectivity/ppp/ppp_2.4.5.bb
+> index 72464bf..80f91e6 100644
+> --- a/meta/recipes-connectivity/ppp/ppp_2.4.5.bb
+> +++ b/meta/recipes-connectivity/ppp/ppp_2.4.5.bb
+> @@ -10,7 +10,7 @@ LIC_FILES_CHKSUM = "file://pppd/ccp.c;beginline=1;endline=29;md5=e2c43fe6e81ff77
+>                       file://pppd/plugins/passprompt.c;beginline=1;endline=10;md5=3bcbcdbf0e369c9a3e0b8c8275b065d8 \
+>                       file://pppd/tdb.c;beginline=1;endline=27;md5=4ca3a9991b011038d085d6675ae7c4e6 \
+>                       file://chat/chat.c;beginline=1;endline=15;md5=0d374b8545ee5c62d7aff1acbd38add2"
+> -PR = "r2"
+> +PR = "r3"
 >
+>   SRC_URI = "http://ppp.samba.org/ftp/ppp/ppp-${PV}.tar.gz \
+>              file://makefile.patch \
+> @@ -18,6 +18,7 @@ SRC_URI = "http://ppp.samba.org/ftp/ppp/ppp-${PV}.tar.gz \
+>              file://pppd-resolv-varrun.patch \
+>              file://enable-ipv6.patch \
+>              file://makefile-remove-hard-usr-reference.patch \
+> +           file://update_if_pppol2tp.patch \
+>              file://pon \
+>              file://poff \
+>              file://init \
 
---------------060805080208090009000806
-Content-Type: text/html; charset=UTF-8
-Content-Transfer-Encoding: 8bit
 
-<html>
-  <head>
-    <meta content="text/html; charset=UTF-8" http-equiv="Content-Type">
-  </head>
-  <body bgcolor="#FFFFFF" text="#000000">
-    What happens if two separate bitbake invocations both simultaneously
-    attempt to download the same file?<br>
-    <br>
-    --rich<br>
-    <br>
-    On 2/22/12 15:41 , Christopher Larson wrote:
-    <blockquote cite="mid:E9FAD6E1E68141CCA2CF166F1762B320@gmail.com"
-      type="cite">
-      <div style="font-family: Helvetica; font-size: 13px; ">I share it
-        as well. I don't see locks being a big issue for most things, as
-        the worst case is a re-download, not use of a corrupt or
-        incomplete file, due to the completion stamps.<br>
-      </div>
-      <div>
-        <div><br>
-        </div>
-        <div>-- </div>
-        <div>Christopher Larson</div>
-        <div><br>
-        </div>
-      </div>
-      <p style="color: #A0A0A8;">On Wednesday, February 22, 2012 at 4:39
-        PM, Tom King wrote:</p>
-      <blockquote type="cite"
-style="border-left-style:solid;border-width:1px;margin-left:0px;padding-left:10px;">
-        <span>
-          <div>
-            <div>I have a single downloads directory with symlinks for
-              every target build I have to that directory.  As long as I
-              have the source already in there I don't fetch  it again
-              <div><br>
-              </div>
-              <div>Tom<br>
-                <br>
-                <div>
-                  On Wed, Feb 22, 2012 at 1:33 PM, Rich Pixley <span
-                    dir="ltr">&lt;<a moz-do-not-send="true"
-                      href="mailto:rich.pixley@palm.com">rich.pixley@palm.com</a>&gt;</span>
-                  wrote:<br>
-                  <blockquote type="cite">
-                    <div>
-                      <div bgcolor="#FFFFFF" text="#000000"> Is it
-                        reasonable to expect to share DL_DIR between
-                        multiple builds?<br>
-                        <br>
-                        That is, are downloads properly locked so that
-                        multiple concurrent downloads of the same file
-                        won't collide?  And if so, are they NFS safe
-                        locks?<br>
-                        <br>
-                        Or must each build download it's own copies of
-                        every component?<br>
-                        <br>
-                        I ask because our, (Palm), branch has been, but
-                        it's a bit of a nuisance to pick a suitable
-                        locking mechanism that is both functional and
-                        performant.<br>
-                        <ul>
-                          <li>Flock/lockf aren't reliably supported in
-                            heterogeneous environments.</li>
-                          <li>The old lockfiles don't work over NFS.
-                            Lock directories apparently do, but trying
-                            to clean these up after interruptions or
-                            failures is a losing battle so if we do use
-                            these, we end up with orphan locks
-                            periodically.</li>
-                          <li>With NFS as a possibility, we can't assume
-                            any kernel local IPC mechanism, so sysV ipc
-                            is out.</li>
-                          <li>It seems like a pretty huge overhead to
-                            try to create any sort of zeroconf overhead.</li>
-                        </ul>
-                        <p>Our solution so far has been to use NFS lock
-                          directories for multiple machine builds and
-                          flock/lockf for single machine builds.  This
-                          mostly works, though it's not ideal, and it's
-                          significantly faster than downloading/copying
-                          all of the component source multiple times
-                          even over local mirrors.<span><font
-                              color="#888888"><br>
-                            </font></span></p>
-                        <span><font color="#888888"> --rich<br>
-                          </font></span></div>
-                      <br>
-                      _______________________________________________<br>
-                      Openembedded-core mailing list<br>
-                      <a moz-do-not-send="true"
-                        href="mailto:Openembedded-core@lists.openembedded.org">Openembedded-core@lists.openembedded.org</a><br>
-                      <a moz-do-not-send="true"
-href="http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core"
-                        target="_blank">http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core</a><br>
-                      <br>
-                    </div>
-                  </blockquote>
-                </div>
-                <br>
-              </div>
-            </div>
-            <div>
-              <div>_______________________________________________</div>
-              <div>Openembedded-core mailing list</div>
-              <div><a moz-do-not-send="true"
-                  href="mailto:Openembedded-core@lists.openembedded.org">Openembedded-core@lists.openembedded.org</a></div>
-              <div><a moz-do-not-send="true"
-href="http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core">http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core</a></div>
-            </div>
-          </div>
-        </span> </blockquote>
-      <div> <br>
-      </div>
-    </blockquote>
-  </body>
-</html>
-
---------------060805080208090009000806--
