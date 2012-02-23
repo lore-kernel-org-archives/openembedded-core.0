@@ -1,43 +1,48 @@
-Received: from mail-we0-f175.google.com ([74.125.82.175])
+Received: from mail-ee0-f47.google.com ([74.125.83.47])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <s.stirtzel@googlemail.com>) id 1S0TDL-0008Nx-3Z
+	(envelope-from <martin.jansa@gmail.com>) id 1S0TzE-0001iC-HB
 	for openembedded-core@lists.openembedded.org;
-	Thu, 23 Feb 2012 08:35:43 +0100
-Received: by werc1 with SMTP id c1so564994wer.6
+	Thu, 23 Feb 2012 09:25:12 +0100
+Received: by eekd41 with SMTP id d41so409271eek.6
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 22 Feb 2012 23:27:22 -0800 (PST)
-Received-SPF: pass (google.com: domain of s.stirtzel@googlemail.com designates
-	10.216.138.195 as permitted sender) client-ip=10.216.138.195; 
-Authentication-Results: mr.google.com; spf=pass (google.com: domain of
-	s.stirtzel@googlemail.com designates 10.216.138.195 as
-	permitted sender) smtp.mail=s.stirtzel@googlemail.com;
-	dkim=pass header.i=s.stirtzel@googlemail.com
-Received: from mr.google.com ([10.216.138.195])
-	by 10.216.138.195 with SMTP id a45mr116475wej.25.1329982042273
-	(num_hops = 1); Wed, 22 Feb 2012 23:27:22 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=googlemail.com; s=gamma;
-	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
-	:content-type:content-transfer-encoding;
-	bh=zcg9GA+IyaABvLej0T6zDILflFsYbgOmDaFDFZG2zVI=;
-	b=qzC5dtEDQ/nM7CrYxdCXwGqJUmsBezEjIU241JgXCEJzp+kq2Jqv58eNYx/RsAXjMP
-	/Csqp6jNC/orYIlXz5ocgrqKOnJRlvbLpwZeYS9VrbnI8VcDyLNYL2R1neiJYfHhFHk1
-	YgFQp1DVdbyFcimnb7VctasW4BM38AJ8ekSYo=
-MIME-Version: 1.0
-Received: by 10.216.138.195 with SMTP id a45mr94763wej.25.1329982042131; Wed,
-	22 Feb 2012 23:27:22 -0800 (PST)
-Received: by 10.223.104.8 with HTTP; Wed, 22 Feb 2012 23:27:22 -0800 (PST)
-In-Reply-To: <CAP9ODKpKZ6LyYMiTYj_Rv9CE+DMNhHePWOKxRRVrW7EHuWE34w@mail.gmail.com>
-References: <CAGiJk9fWz97OC-wbpAroJdPUYP7+GTKcOG-00a0tP4R_jfWFPA@mail.gmail.com>
-	<CAP9ODKpPNJn-PRijKasZnomGOPuQ5ugBadJGxCdtwSu5FxAUJQ@mail.gmail.com>
-	<CAGiJk9fjz9JdhTaKW23e_cmBSW2baPf4DmPgSDq08znPA9nh5Q@mail.gmail.com>
-	<CAP9ODKpKZ6LyYMiTYj_Rv9CE+DMNhHePWOKxRRVrW7EHuWE34w@mail.gmail.com>
-Date: Thu, 23 Feb 2012 08:27:22 +0100
-Message-ID: <CAGiJk9eXiSXuyZyFwdK_pSZD2_zfyBmZHSqoD4FW_fUJLCJ60g@mail.gmail.com>
-From: Samuel Stirtzel <s.stirtzel@googlemail.com>
+	Thu, 23 Feb 2012 00:16:51 -0800 (PST)
+Received-SPF: pass (google.com: domain of martin.jansa@gmail.com designates
+	10.14.28.75 as permitted sender) client-ip=10.14.28.75; 
+Authentication-Results: mr.google.com;
+	spf=pass (google.com: domain of martin.jansa@gmail.com
+	designates 10.14.28.75 as permitted sender)
+	smtp.mail=martin.jansa@gmail.com;
+	dkim=pass header.i=martin.jansa@gmail.com
+Received: from mr.google.com ([10.14.28.75])
+	by 10.14.28.75 with SMTP id f51mr164835eea.118.1329985011587 (num_hops
+	= 1); Thu, 23 Feb 2012 00:16:51 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
+	h=date:from:to:subject:message-id:references:mime-version
+	:content-type:content-disposition:in-reply-to:user-agent;
+	bh=h6djn9ZdLxPIfMzhtdjjQ4o6Hp2r7TojwQQVEyMAKiM=;
+	b=pkGRU2DciY+3cJAxo+HgsWNMcyUoA5di2m6CY2b0nSjSDHoWHKnWIsWE3UfH27FYAU
+	DkCuMnqJhc4wGHrZJ4xgVgEukDtwzJBCabSSVi4av3JnNdRIcDdFs2UfeKnhys6mGZ6N
+	X47qxpvVoCS4dQc5M5KPeHCO2nKsH2F/WjV98=
+Received: by 10.14.28.75 with SMTP id f51mr131060eea.118.1329985011439;
+	Thu, 23 Feb 2012 00:16:51 -0800 (PST)
+Received: from localhost ([94.230.152.246])
+	by mx.google.com with ESMTPS id w60sm2741995eeb.4.2012.02.23.00.16.49
+	(version=TLSv1/SSLv3 cipher=OTHER);
+	Thu, 23 Feb 2012 00:16:50 -0800 (PST)
+Date: Thu, 23 Feb 2012 09:16:48 +0100
+From: Martin Jansa <martin.jansa@gmail.com>
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Subject: Re: Linker error while cross compiling, (Qt issue?)
+Message-ID: <20120223081648.GN3769@jama.jama.net>
+References: <1e2722b29db9486276198e13f06345babce10518.1329147583.git.Martin.Jansa@gmail.com>
+	<b17109ebc9396973f7c0dbf6812699e2c0930349.1329147583.git.Martin.Jansa@gmail.com>
+	<4F3ED680.5020909@linux.intel.com>
+	<20120218115651.GA11351@jama.jama.net>
+	<1329573666.1884.5.camel@ted>
+MIME-Version: 1.0
+In-Reply-To: <1329573666.1884.5.camel@ted>
+User-Agent: Mutt/1.5.21 (2010-09-15)
+Subject: Re: [PATCH 2/4] gdb-cross-canadian: use NATIVESDK paths as it happens to be here
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -52,51 +57,109 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 23 Feb 2012 07:35:43 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Thu, 23 Feb 2012 08:25:12 -0000
+X-Groupsio-MsgNum: 17754
+Content-Type: multipart/signed; micalg=pgp-sha1;
+	protocol="application/pgp-signature"; boundary="8MZM6zh5Bb05FW+3"
+Content-Disposition: inline
+
+--8MZM6zh5Bb05FW+3
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-2012/2/22 Otavio Salvador <otavio@ossystems.com.br>:
-> On Wed, Feb 22, 2012 at 14:06, Samuel Stirtzel
-> <s.stirtzel@googlemail.com> wrote:
->> 2012/2/22 Otavio Salvador <otavio@ossystems.com.br>:
->>> On Wed, Feb 22, 2012 at 13:53, Samuel Stirtzel
->>> <s.stirtzel@googlemail.com> wrote:
->>>> This error really puzzles me, usually I would assume that a library
->>>> has no problems to export symbols.
->>>
->>> It puzzles me as well; =C2=A0I have many applications and libraries lin=
-king
->>> against Qt without problem is my first advice is to check the build
->>> system of libdbusmenu-qt and check if it has any linking blackmagic or
->>> something like that.
->>
->> It looks like the "usual" linking magic:
->> http://gitorious.org/dbusmenu/dbusmenu-qt/blobs/master/src/dbusmenu_expo=
-rt.h
->> "dbusmenu_qt_EXPORTS" is defined at compile time and classes are
->> exported e.g. "class DBUSMENU_EXPORT DBusMenuExporter : public
->> QObject".
->
-> http://gitorious.org/dbusmenu/dbusmenu-qt/blobs/master/src/CMakeLists.txt=
-#line7
->
-> This might be related. I didn't try but might be a failure in the way
-> of the code is exporting it.
+On Sat, Feb 18, 2012 at 02:01:06PM +0000, Richard Purdie wrote:
+> On Sat, 2012-02-18 at 12:56 +0100, Martin Jansa wrote:
+> > On Fri, Feb 17, 2012 at 02:36:48PM -0800, Saul Wold wrote:
+> > > On 02/13/2012 07:40 AM, Martin Jansa wrote:
+> > > > * seems like config/config in -L was also wrong
+> > > >
+> > > > Signed-off-by: Martin Jansa<Martin.Jansa@gmail.com>
+> > > > ---
+> > > >   meta/recipes-devtools/gdb/gdb-cross-canadian.inc |   10 ++++++++--
+> > > >   1 files changed, 8 insertions(+), 2 deletions(-)
+> > > >
+> > > > diff --git a/meta/recipes-devtools/gdb/gdb-cross-canadian.inc b/met=
+a/recipes-devtools/gdb/gdb-cross-canadian.inc
+> > > > index b5746ce..bac63b7 100644
+> > > > --- a/meta/recipes-devtools/gdb/gdb-cross-canadian.inc
+> > > > +++ b/meta/recipes-devtools/gdb/gdb-cross-canadian.inc
+> > > > @@ -10,12 +10,18 @@ RDEPENDS +=3D "python-nativesdk-core python-nat=
+ivesdk-lang python-nativesdk-re \
+> > > >
+> > > >   EXTRA_OECONF_append =3D "--with-python=3D${WORKDIR}/python"
+> > > >
+> > > > +NATIVESDK_NAME =3D "oecore-${SDK_ARCH}-${SDK_ARCH}"
+> > > > +NATIVESDK_PATH =3D "/usr/local/${NATIVESDK_NAME}"
+> >=20
+> > Ah, I was reusing definition from bitbake.conf:
+> > meta/conf/bitbake.conf:SDK_NAME =3D "oecore-${SDK_ARCH}-${TARGET_ARCH}"
+> >=20
+> > with only TARGET_ARCH replaced with SDK_ARCH.
+> >=20
+> > Can we move "oecore" to extra varible like:
+> >=20
+> > bitbake.conf:
+> > -SDK_NAME =3D "oecore-${SDK_ARCH}-${TARGET_ARCH}"
+> > +SDK_NAME_PREFIX =3D "oecore"
+> > +SDK_NAME =3D "${SDK_NAME_PREFIX}-${SDK_ARCH}-${TARGET_ARCH}"
+> >=20
+> > meta-yocto/conf/distro/poky.conf:
+> > -SDK_NAME =3D "${DISTRO}-${TCLIBC}-${SDK_ARCH}-${TARGET_ARCH}"
+> > +SDK_NAME_PREFIX =3D "${DISTRO}-${TCLIBC}"
+> >=20
+> > SDK_PATH is worse:
+> > meta/conf/bitbake.conf:SDKPATH =3D "/usr/local/${SDK_NAME}"
+> > meta-yocto/conf/distro/poky.conf:SDKPATH =3D "/opt/${DISTRO}/${SDK_VERS=
+ION}"
+> >=20
+> > Maybe this patch is not going in right direction, but nobody replied in
+> > "SDK confusion Was: [oe] [meta-oe] gdb-cross-canadian: build gdb with p=
+ython support"
+> > thread so I have sent this version which works in default (distroless)
+> > oe-core (and also for SHR as we don't override default SDK* variables.
+>=20
+> This last week has been a bit problematic with conference activities
+> occupying many of the people who would normally have replied to that
+> kind of thread.
 
-Yes that helped me, I've seen the visibility=3Dhidden before, but didn't
-thought about that the code _could_ export it wrong.
-So adding  __attribute__((visibility("default")))  to the
-dbusmenu_export.h solves this issue.
+I know and I wasn't complaining much about lack of responses :) rather
+wanted to resend this 2 patches in form easy to test for everybody.
 
-It is still odd that this only occurs while cross compiling.
-More odd seems that the same error happens to Soprano, it also uses
-Q_DECL_EXPORT [1].
+And I wanted to resend older Eric's patch for oe-core not .bbappend in
+meta-oe, because I wanted to test it without any aditional layer (as
+it first should work for distroless oe-core and not only for distributions
+overwriting default configuration).
 
-[1] http://quickgit.kde.org/index.php?p=3Dsoprano.git&a=3Dblob_plain&h=3D74=
-96feb29efea05cca47d919ce6060670634df32&f=3Dsoprano%2Fsoprano_export.h
+> I'm very worried that you're having to copy the base bitbake definitions
+> as needing to do that is usually a sign there is some underlying more
+> fundamental problem. We really need to find a better alternative.
+>=20
+> I therefore don't think the patch as it stands can go in but I do want
+> to understand the problem and try and fix it in a way that addresses the
+> issues. I'm probably not going to get a chance to look at things until
+> next week though.
+
+I've added SDK_NAME_PREFIX to bitbake.conf which is probably better to
+overwrite then whole "oecore-${SDK_ARCH}-${TARGET_ARCH}" and I've moved
+3 NATIVESDK_* variables from that .inc to bitbake.conf so it's easier to
+see that those also need to be overwriten in consistent way, see
+following patchset.
+
+Cheers,
 --=20
-Regards
-Samuel
+Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
 
+--8MZM6zh5Bb05FW+3
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: Digital signature
 
+-----BEGIN PGP SIGNATURE-----
+Version: GnuPG v2.0.18 (GNU/Linux)
+
+iEYEARECAAYFAk9F9fAACgkQN1Ujt2V2gBzC0gCeIcURPKLw2cRqnHiMArhTdmJU
+IbgAoKQ5xgIJWx38m4YnQmzWoOliqL8U
+=Ebue
+-----END PGP SIGNATURE-----
+
+--8MZM6zh5Bb05FW+3--
