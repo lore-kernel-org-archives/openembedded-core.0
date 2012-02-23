@@ -1,24 +1,24 @@
 Received: from mga01.intel.com ([192.55.52.88])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <sgw@linux.intel.com>) id 1S0bC5-0004to-Ty
+	(envelope-from <sgw@linux.intel.com>) id 1S0bC6-0004t7-Nz
 	for openembedded-core@lists.openembedded.org;
-	Thu, 23 Feb 2012 17:06:58 +0100
+	Thu, 23 Feb 2012 17:06:59 +0100
 Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-	by fmsmga101.fm.intel.com with ESMTP; 23 Feb 2012 07:58:33 -0800
+	by fmsmga101.fm.intel.com with ESMTP; 23 Feb 2012 07:58:34 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="128652365"
+X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="128652368"
 Received: from unknown (HELO swold-mobl.bigsur.com) ([10.255.15.72])
 	by fmsmga002.fm.intel.com with ESMTP; 23 Feb 2012 07:58:33 -0800
 From: Saul Wold <sgw@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Thu, 23 Feb 2012 07:58:18 -0800
-Message-Id: <e666f93c325a1eecb217780f0f15e09ecd104a7e.1330012543.git.sgw@linux.intel.com>
+Date: Thu, 23 Feb 2012 07:58:20 -0800
+Message-Id: <9c58c35fa0bb2c587543ba4c629fd186388007d2.1330012543.git.sgw@linux.intel.com>
 X-Mailer: git-send-email 1.7.6.5
 In-Reply-To: <cover.1330012543.git.sgw@linux.intel.com>
 References: <cover.1330012543.git.sgw@linux.intel.com>
 In-Reply-To: <cover.1330012543.git.sgw@linux.intel.com>
 References: <cover.1330012543.git.sgw@linux.intel.com>
-Subject: [CONSOLIDATED PULL 14/25] mpeg2dec: depend on libx11 conditionally
+Subject: [CONSOLIDATED PULL 16/25] syslinux: Use SYSLINUX_TIMEOUT and SYSLINUX_PROMPT to configure syslinux
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -35,29 +35,50 @@ List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedde
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Thu, 23 Feb 2012 16:06:59 -0000
 
-From: Andreas Oberritter <obi@opendreambox.org>
+syslinux allows you to set TIMEOUT and PROMPT variables, when PROMPT is 0,
+the "boot:" is not displayed uless one presses CTRL or SHIFT during startup.
+TIMEOUT is in 1/10th of seconds, and a value of 0 for TIMEOUT will disable
+the timeout mechanism.
 
-* mpeg2dec currently doesn't build if x11 is unavailable,
-  due to an unconditional dependency on libx11. However,
-  libx11 is not required to build mpeg2dec.
+In bitbake, recipes had set TIMEOUT (not SYSLINUX_TIMEOUT) incorrectly, other
+patches fix this issues.  We are adding SYSLINUX_PROMPT to enable/disable the
+"boot:" prompt in syslinux.
 
-Signed-off-by: Andreas Oberritter <obi@opendreambox.org>
+See http://www.syslinux.org/wiki/index.php/SYSLINUX for more details
+
+Signed-off-by: Saul Wold <sgw@linux.intel.com>
+Signed-off-by: Dexuan Cui <dexuan.cui@intel.com>
 ---
- meta/recipes-multimedia/mpeg2dec/mpeg2dec_0.4.1.bb |    2 +-
- 1 files changed, 1 insertions(+), 1 deletions(-)
+ meta/classes/syslinux.bbclass |   10 +++++-----
+ 1 files changed, 5 insertions(+), 5 deletions(-)
 
-diff --git a/meta/recipes-multimedia/mpeg2dec/mpeg2dec_0.4.1.bb b/meta/recipes-multimedia/mpeg2dec/mpeg2dec_0.4.1.bb
-index f2865f6..f38066a 100644
---- a/meta/recipes-multimedia/mpeg2dec/mpeg2dec_0.4.1.bb
-+++ b/meta/recipes-multimedia/mpeg2dec/mpeg2dec_0.4.1.bb
-@@ -6,7 +6,7 @@ LICENSE_FLAGS = "commercial"
- LIC_FILES_CHKSUM = "file://COPYING;md5=94d55d512a9ba36caa9b7df079bae19f \
-                     file://include/mpeg2.h;beginline=1;endline=22;md5=ead62602d4638329d3b5b86a55803154"
+diff --git a/meta/classes/syslinux.bbclass b/meta/classes/syslinux.bbclass
+index 1569074..33a509d 100644
+--- a/meta/classes/syslinux.bbclass
++++ b/meta/classes/syslinux.bbclass
+@@ -136,10 +136,6 @@ python build_syslinux_cfg () {
+ 	except OSError:
+ 		raise bb.build.funcFailed('Unable to open %s' % (cfile))
  
--DEPENDS = "virtual/libx11"
-+DEPENDS = "${@base_contains('DISTRO_FEATURES', 'x11', 'virtual/libx11', '', d)}"
+-	# FIXME - the timeout should be settable
+-	# And maybe the default too
+-	# Definately the prompt
+-
+ 	cfgfile.write('# Automatically created by OE\n')
  
- PR = "r2"
+ 	opts = d.getVar('SYSLINUX_OPTS', 1)
+@@ -158,7 +154,11 @@ python build_syslinux_cfg () {
+ 	else:
+ 		cfgfile.write('TIMEOUT 50\n')
+ 
+-	cfgfile.write('PROMPT 1\n')
++	prompt = d.getVar('SYSLINUX_PROMPT', 1)
++	if prompt:
++		cfgfile.write('PROMPT %s\n' % prompt)
++	else:
++		cfgfile.write('PROMPT 1\n')
+ 
+ 	menu = d.getVar('AUTO_SYSLINUXMENU', 1)
  
 -- 
 1.7.6.5
