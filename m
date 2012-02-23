@@ -1,23 +1,23 @@
-Received: from mga01.intel.com ([192.55.52.88])
+Received: from mga09.intel.com ([134.134.136.24])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <paul.eggleton@linux.intel.com>) id 1S0anS-0003bR-E9
+	(envelope-from <paul.eggleton@linux.intel.com>) id 1S0asi-0003ev-Ss
 	for openembedded-core@lists.openembedded.org;
-	Thu, 23 Feb 2012 16:41:30 +0100
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-	by fmsmga101.fm.intel.com with ESMTP; 23 Feb 2012 07:32:49 -0800
+	Thu, 23 Feb 2012 16:46:57 +0100
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+	by orsmga102.jf.intel.com with ESMTP; 23 Feb 2012 07:38:34 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="128644935"
+X-IronPort-AV: E=Sophos;i="4.67,352,1309762800"; d="scan'208";a="111227746"
 Received: from unknown (HELO helios.localnet) ([10.252.123.61])
-	by fmsmga002.fm.intel.com with ESMTP; 23 Feb 2012 07:32:48 -0800
+	by orsmga001.jf.intel.com with ESMTP; 23 Feb 2012 07:38:33 -0800
 From: Paul Eggleton <paul.eggleton@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Thu, 23 Feb 2012 15:32:47 +0000
-Message-ID: <2217377.xs2ypPJBB4@helios>
+Date: Thu, 23 Feb 2012 15:38:33 +0000
+Message-ID: <2076050.yMvNPjVBiI@helios>
 Organization: Intel Corporation
 User-Agent: KMail/4.8.0 (Linux/3.0.0-16-generic-pae; KDE/4.8.0; i686; ; )
-In-Reply-To: <20120223163032.0822e104@eb-e6520>
+In-Reply-To: <2217377.xs2ypPJBB4@helios>
 References: <CAMvUbCwy5UL3YWXS=2SkeKff2WDQE9EX7-CGUv9s5SH+9uSK1g@mail.gmail.com>
-	<1329828974.15011.7.camel@ted> <20120223163032.0822e104@eb-e6520>
+	<20120223163032.0822e104@eb-e6520> <2217377.xs2ypPJBB4@helios>
 MIME-Version: 1.0
 Subject: Re: bitbake parsing of IMAGE_INSTALL += # tslib mtd-utils" extremely user unfriendly.
 X-BeenThere: openembedded-core@lists.openembedded.org
@@ -34,51 +34,31 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 23 Feb 2012 15:41:30 -0000
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset="iso-8859-1"
+X-List-Received-Date: Thu, 23 Feb 2012 15:46:57 -0000
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
 
-On Thursday 23 February 2012 16:30:32 Eric B=E9nard wrote:
-> Richard Purdie <richard.purdie@linuxfoundation.org> a =E9crit :
-> > What was the output? (I realise I can find out)
-> >=20
-> > With usability issues like this, opening a bug in
-> > bugzilla.yoctoproject.org is a good idea, particularly as we've bee=
-n
-> > focusing on cleaning up this kind of problem. Reporting them with a=
+On Thursday 23 February 2012 15:32:47 Paul Eggleton wrote:
+> > Basically I had :
+> > XSERVER += "    <==== missing \
+> > 
+> > 	xf86-input-tslib \
+> > 	"
+> > 
+> > and bitbake exit with :
+> > ERROR: Command execution failed: Exited with 1
+> > et nothing more.
+> 
+> This got broken last night and fixed last night, so if you update you should
+> have the fix.
 
-> > known reproducible test case helps a lot as when you're looking to =
-try
-> > and fix these things, you need a good set of reproducers.
-> >=20
-> > As a quick plug for the work that's been done already, we've now wo=
-rked
-> > through many of the issues that were reported so it is worth taking=
- the
-> > time to report them! :)
->=20
-> I had also a bitbake failure after an error in an image and bitbake
-> exited without any information concerning the error (even when runnin=
-g
-> with -DDD I didn't managed to see a log - but I must admit I didn't
-> search in the whole history).
->=20
-> Basically I had :
-> XSERVER +=3D "    <=3D=3D=3D=3D missing \
-> =09xf86-input-tslib \
-> =09"
-> and bitbake exit with :
-> ERROR: Command execution failed: Exited with 1
-> et nothing more.
-
-This got broken last night and fixed last night, so if you update you s=
-hould=20
-have the fix.
+Er, actually that's completely false. However I do have a bitbake patch ready 
+to submit to fix this.
 
 Cheers,
 Paul
 
---=20
+-- 
 
 Paul Eggleton
 Intel Open Source Technology Centre
