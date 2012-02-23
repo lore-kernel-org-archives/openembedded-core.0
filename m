@@ -1,19 +1,36 @@
-Received: from smtp2-g21.free.fr ([212.27.42.2])
-	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <eric@eukrea.com>)
-	id 1S0UOl-0002Ts-0d; Thu, 23 Feb 2012 09:51:35 +0100
-Received: from eb-e6520 (unknown [82.240.38.71])
-	by smtp2-g21.free.fr (Postfix) with ESMTP id 730914B0196;
-	Thu, 23 Feb 2012 09:43:10 +0100 (CET)
-Date: Thu, 23 Feb 2012 09:43:09 +0100
-From: Eric =?ISO-8859-1?B?QuluYXJk?= <eric@eukrea.com>
-To: openembedded-core@lists.openembedded.org,
-	openembedded-devel@lists.openembedded.org, yocto@yoctoproject.org
-Message-ID: <20120223094309.348b6986@eb-e6520>
-Organization: =?ISO-8859-1?B?RXVrculh?= Electromatique
-X-Mailer: Claws Mail 3.8.0 (GTK+ 2.24.8; x86_64-redhat-linux-gnu)
+Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
+	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <richard.purdie@linuxfoundation.org>)
+	id 1S0Vqi-0005tG-A2 for openembedded-core@lists.openembedded.org;
+	Thu, 23 Feb 2012 11:24:32 +0100
+Received: from localhost (localhost [127.0.0.1])
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q1NAGBht009170
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 23 Feb 2012 10:16:11 GMT
+Received: from tim.rpsys.net ([127.0.0.1])
+	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
+	port 10024) with LMTP
+	id 07301-10 for <openembedded-core@lists.openembedded.org>;
+	Thu, 23 Feb 2012 10:16:07 +0000 (GMT)
+Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q1NAG2Qb009164
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO)
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 23 Feb 2012 10:16:03 GMT
+Message-ID: <1329992162.32110.53.camel@ted>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Date: Thu, 23 Feb 2012 10:16:02 +0000
+In-Reply-To: <4F458CAA.7040107@palm.com>
+References: <4F457B4B.4000507@palm.com>
+	<CAHQecY7-=cwCA7PXYhf3xes+SMsWo6qffwkQk6ckzRsP5ys7oA@mail.gmail.com>
+	<E9FAD6E1E68141CCA2CF166F1762B320@gmail.com>
+	<4F458CAA.7040107@palm.com>
+X-Mailer: Evolution 3.2.2- 
 Mime-Version: 1.0
-Subject: ELC Videos
+X-Virus-Scanned: amavisd-new at rpsys.net
+Subject: Re: sharing DL_DIR?
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -28,23 +45,20 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 23 Feb 2012 08:51:35 -0000
-Content-Type: text/plain; charset=US-ASCII
+X-List-Received-Date: Thu, 23 Feb 2012 10:24:32 -0000
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 
-Hi,
+On Wed, 2012-02-22 at 16:47 -0800, Rich Pixley wrote:
+> What happens if two separate bitbake invocations both simultaneously
+> attempt to download the same file?
 
-ELC videos are available here :
-http://video.linux.com/categories/2012-embedded-linux-conference
+The first will download it, the second will wait for it to finish, then
+both will continue with the downloaded file.
 
-2 (at least) are about OE & Yocto :
-Khem "OpenEmbedded - A Layered Approach" :
-http://video.linux.com/videos/openembedded-a-layered-approach
-Saul "Yocto Project Update" :
-http://video.linux.com/videos/yocto-project-update
+Cheers,
 
-Eric
--- 
-http://eukrea.com/en/news/104-2012
+Richard
+
 
 
