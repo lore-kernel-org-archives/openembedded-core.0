@@ -1,30 +1,34 @@
 Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
 	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
 	(envelope-from <richard.purdie@linuxfoundation.org>)
-	id 1S0VsZ-0005wF-B2 for openembedded-core@lists.openembedded.org;
-	Thu, 23 Feb 2012 11:26:27 +0100
+	id 1S0W2C-000642-HM for openembedded-core@lists.openembedded.org;
+	Thu, 23 Feb 2012 11:36:24 +0100
 Received: from localhost (localhost [127.0.0.1])
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q1NAI6sg009226
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q1NAS3iL009338
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 23 Feb 2012 10:18:06 GMT
+	Thu, 23 Feb 2012 10:28:03 GMT
 Received: from tim.rpsys.net ([127.0.0.1])
 	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
 	port 10024) with LMTP
-	id 09173-01 for <openembedded-core@lists.openembedded.org>;
-	Thu, 23 Feb 2012 10:18:02 +0000 (GMT)
+	id 09173-02 for <openembedded-core@lists.openembedded.org>;
+	Thu, 23 Feb 2012 10:27:58 +0000 (GMT)
 Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q1NAHvCt009220
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q1NARqQQ009331
 	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO)
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 23 Feb 2012 10:17:58 GMT
-Message-ID: <1329992278.32110.54.camel@ted>
+	Thu, 23 Feb 2012 10:27:53 GMT
+Message-ID: <1329992873.32110.58.camel@ted>
 From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: openembedded-core <openembedded-core@lists.openembedded.org>
-Date: Thu, 23 Feb 2012 10:17:58 +0000
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Date: Thu, 23 Feb 2012 10:27:53 +0000
+In-Reply-To: <b17109ebc9396973f7c0dbf6812699e2c0930349.1329147583.git.Martin.Jansa@gmail.com>
+References: <cover.1329147583.git.Martin.Jansa@gmail.com>
+	<b17109ebc9396973f7c0dbf6812699e2c0930349.1329147583.git.Martin.Jansa@gmail.com>
 X-Mailer: Evolution 3.2.2- 
 Mime-Version: 1.0
 X-Virus-Scanned: amavisd-new at rpsys.net
-Subject: [PATCH] sstatesig.py: Move package exclusion list to the layer config
+Subject: Re: [PATCH 2/4] gdb-cross-canadian: use NATIVESDK paths as it happens to be here
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -39,71 +43,55 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 23 Feb 2012 10:26:27 -0000
+X-List-Received-Date: Thu, 23 Feb 2012 10:36:24 -0000
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 
-Its desireable for other layers to be able to append to the list of packages
-with 'safe ABI's which are excluded from the sstate signatures.
+On Mon, 2012-02-13 at 16:40 +0100, Martin Jansa wrote:
+> * seems like config/config in -L was also wrong
+> 
+> Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
+> ---
+>  meta/recipes-devtools/gdb/gdb-cross-canadian.inc |   10 ++++++++--
+>  1 files changed, 8 insertions(+), 2 deletions(-)
+> 
+> diff --git a/meta/recipes-devtools/gdb/gdb-cross-canadian.inc b/meta/recipes-devtools/gdb/gdb-cross-canadian.inc
+> index b5746ce..bac63b7 100644
+> --- a/meta/recipes-devtools/gdb/gdb-cross-canadian.inc
+> +++ b/meta/recipes-devtools/gdb/gdb-cross-canadian.inc
+> @@ -10,12 +10,18 @@ RDEPENDS += "python-nativesdk-core python-nativesdk-lang python-nativesdk-re \
+>  
+>  EXTRA_OECONF_append = "--with-python=${WORKDIR}/python"
+>  
+> +NATIVESDK_NAME = "oecore-${SDK_ARCH}-${SDK_ARCH}"
+> +NATIVESDK_PATH = "/usr/local/${NATIVESDK_NAME}"
+> +NATIVESDK_PATHNATIVE = "${NATIVESDK_PATH}/sysroots/${SDK_SYS}"
+> +NATIVESDK_LIBDIR = "${NATIVESDK_PATHNATIVE}${libdir_nativesdk}"
+> +NATIVESDK_INCLUDEDIR = "${NATIVESDK_PATHNATIVE}${includedir_nativesdk}"
+> +
+>  do_configure_prepend() {
+>  cat > ${WORKDIR}/python << EOF
+>  #! /bin/sh
+>  case "\$2" in
+> -        --includes) echo "-I${STAGING_DIR}/${HOST_ARCH}-nativesdk${HOST_VENDOR}-${HOST_OS}${exec_prefix}/include/python${PYTHON_BASEVERSION}/" ;;
+> -        --ldflags) echo "-L${STAGING_DIR}/${HOST_ARCH}-nativesdk${HOST_VENDOR}-${HOST_OS}${libdir}/python${PYTHON_BASEVERSION}/config/config -lpthread -ldl -lutil -lm -lpython${PYTHON_BASEVERSION}" ;;
+> +        --includes) echo "-I${STAGING_DIR}/${HOST_ARCH}-nativesdk${HOST_VENDOR}-${HOST_OS}${NATIVESDK_INCLUDEDIR}/python${PYTHON_BASEVERSION}/" ;;
+> +        --ldflags) echo "-L${STAGING_DIR}/${HOST_ARCH}-nativesdk${HOST_VENDOR}-${HOST_OS}${NATIVESDK_LIBDIR}/python${PYTHON_BASEVERSION}/config -lpthread -ldl -lutil -lm -lpython${PYTHON_BASEVERSION}" ;;
+>          --exec-prefix) echo "/usr" ;;
+>          *) exit 1 ;;
+>  esac
 
-I can't emphasise enough how careful you need to be with this list, anything
-excluded here needs to be things which don't change interface and are consistent
-between different machines.
+I made some experiments with "bitbake gdb-cross-canadian-x86-64 -e" and
+it seems to me that:
 
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
----
-diff --git a/meta/conf/layer.conf b/meta/conf/layer.conf
-index ad95405..c0c2930 100644
---- a/meta/conf/layer.conf
-+++ b/meta/conf/layer.conf
-@@ -18,3 +18,4 @@ PATH := "${PATH}:${COREBASE}/scripts"
- 
- QEMUIMAGETESTS := "${COREBASE}/scripts/qemuimage-tests"
- 
-+SIGGEN_EXCLUDERECIPES_ABISAFE = "sysvinit-inittab shadow-securetty opkg-config-base netbase formfactor xserver-xf86-config pointercal base-files"
-diff --git a/meta/lib/oe/sstatesig.py b/meta/lib/oe/sstatesig.py
-index 5a64882..7b80c18 100644
---- a/meta/lib/oe/sstatesig.py
-+++ b/meta/lib/oe/sstatesig.py
-@@ -1,6 +1,6 @@
- import bb.siggen
- 
--def sstate_rundepfilter(fn, recipename, task, dep, depname, dataCache):
-+def sstate_rundepfilter(siggen, fn, recipename, task, dep, depname, dataCache):
-     # Return True if we should keep the dependency, False to drop it
-     def isNative(x):
-         return x.endswith("-native")
-@@ -30,7 +30,7 @@ def sstate_rundepfilter(fn, recipename, task, dep, depname, dataCache):
-         return False
- 
-     # Exclude well defined machine specific configurations which don't change ABI
--    if depname in ['sysvinit-inittab', 'shadow-securetty', 'opkg-config-base', 'netbase', 'formfactor', 'xserver-xf86-config', 'pointercal', 'base-files']:
-+    if depname in siggen.abisaferecipes:
-         return False
- 
-     # Kernel modules are well namespaced. We don't want to depend on the kernel's checksum
-@@ -50,16 +50,18 @@ def sstate_rundepfilter(fn, recipename, task, dep, depname, dataCache):
- class SignatureGeneratorOEBasic(bb.siggen.SignatureGeneratorBasic):
-     name = "OEBasic"
-     def init_rundepcheck(self, data):
-+        self.abisaferecipes = (data.getVar("SIGGEN_EXCLUDERECIPES_ABISAFE", True) or "").split()
-         pass
-     def rundep_check(self, fn, recipename, task, dep, depname, dataCache = None):
--        return sstate_rundepfilter(fn, recipename, task, dep, depname, dataCache)
-+        return sstate_rundepfilter(self, fn, recipename, task, dep, depname, dataCache)
- 
- class SignatureGeneratorOEBasicHash(bb.siggen.SignatureGeneratorBasicHash):
-     name = "OEBasicHash"
-     def init_rundepcheck(self, data):
-+        self.abisaferecipes = (data.getVar("SIGGEN_EXCLUDERECIPES_ABISAFE", True) or "").split()
-         pass
-     def rundep_check(self, fn, recipename, task, dep, depname, dataCache = None):
--        return sstate_rundepfilter(fn, recipename, task, dep, depname, dataCache)
-+        return sstate_rundepfilter(self, fn, recipename, task, dep, depname, dataCache)
- 
- # Insert these classes into siggen's namespace so it can see and select them
- bb.siggen.SignatureGeneratorOEBasic = SignatureGeneratorOEBasic
+       --includes) echo "-I${STAGING_INCDIR}/python${PYTHON_BASEVERSION}/" ;;
+       --ldflags) echo "-L${STAGING_LIBDIR}/../python${PYTHON_BASEVERSION}/config -lpthread -ldl -lutil -lm -lpython${PYTHON_BASEVERSION}" ;;
 
+should work ok here?
+
+Cheers,
+
+Richard
 
 
 
