@@ -1,42 +1,20 @@
-Received: from mail-vx0-f175.google.com ([209.85.220.175])
+Received: from mga03.intel.com ([143.182.124.21])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <otavio.salvador@gmail.com>) id 1S0WK1-0006U1-3i
+	(envelope-from <dongxiao.xu@intel.com>) id 1S0ZB9-0000iJ-KF
 	for openembedded-core@lists.openembedded.org;
-	Thu, 23 Feb 2012 11:54:49 +0100
-Received: by vcqp1 with SMTP id p1so833805vcq.6
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 23 Feb 2012 02:46:27 -0800 (PST)
-Received-SPF: pass (google.com: domain of otavio.salvador@gmail.com designates
-	10.220.156.208 as permitted sender) client-ip=10.220.156.208; 
-Authentication-Results: mr.google.com; spf=pass (google.com: domain of
-	otavio.salvador@gmail.com designates 10.220.156.208 as
-	permitted sender) smtp.mail=otavio.salvador@gmail.com;
-	dkim=pass header.i=otavio.salvador@gmail.com
-Received: from mr.google.com ([10.220.156.208])
-	by 10.220.156.208 with SMTP id y16mr415378vcw.28.1329993987670
-	(num_hops = 1); Thu, 23 Feb 2012 02:46:27 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
-	h=mime-version:sender:in-reply-to:references:date
-	:x-google-sender-auth:message-id:subject:from:to:content-type
-	:content-transfer-encoding;
-	bh=tMa//IESXcqy54wXzR592WxS+/+i1sl8si4dqrWFsQQ=;
-	b=japwok+fE0eLMIyKZttlcciDL6ggRMHvmkAPI+X+4pi/HHEmx0PkNsqjnonI1ybs1c
-	BYZfZmQJt3/zOrG/+mHFTXblzcpuMlnRouK4AHQ7lgEOYgDVmMp6QA+R+9xhysb7kTnC
-	Dowu2zESHunSTKtj9iUxPWnLjbIxUPbSZ0JKM=
-MIME-Version: 1.0
-Received: by 10.220.156.208 with SMTP id y16mr337989vcw.28.1329993987604; Thu,
-	23 Feb 2012 02:46:27 -0800 (PST)
-Sender: otavio.salvador@gmail.com
-Received: by 10.220.203.74 with HTTP; Thu, 23 Feb 2012 02:46:27 -0800 (PST)
-In-Reply-To: <1329992278.32110.54.camel@ted>
-References: <1329992278.32110.54.camel@ted>
-Date: Thu, 23 Feb 2012 08:46:27 -0200
-X-Google-Sender-Auth: mxf_XuIqwGukBrh2nSyyxCfbXho
-Message-ID: <CAP9ODKomVXg1Ry=o3ao_yWdiOQK6f2ViG86xHgmsrfML9BvkHg@mail.gmail.com>
-From: Otavio Salvador <otavio@ossystems.com.br>
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] sstatesig.py: Move package exclusion list to the layer config
+	Thu, 23 Feb 2012 14:57:51 +0100
+Received: from azsmga002.ch.intel.com ([10.2.17.35])
+	by azsmga101.ch.intel.com with ESMTP; 23 Feb 2012 05:49:29 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="69497750"
+Received: from dongxiao-osel.sh.intel.com (HELO localhost) ([10.239.36.11])
+	by AZSMGA002.ch.intel.com with ESMTP; 23 Feb 2012 05:49:28 -0800
+From: Dongxiao Xu <dongxiao.xu@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Thu, 23 Feb 2012 21:48:05 +0800
+Message-Id: <cover.1330003047.git.dongxiao.xu@intel.com>
+X-Mailer: git-send-email 1.7.4.1
+Subject: [PATCH 0/3][PULL] Hob2: OE-Core related changes
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -51,23 +29,52 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 23 Feb 2012 10:54:49 -0000
-Content-Type: text/plain; charset=ISO-8859-1
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Thu, 23 Feb 2012 13:57:51 -0000
 
-On Thu, Feb 23, 2012 at 08:17, Richard Purdie
-<richard.purdie@linuxfoundation.org> wrote:
-> +SIGGEN_EXCLUDERECIPES_ABISAFE =3D "sysvinit-inittab shadow-securetty opk=
-g-config-base netbase formfactor xserver-xf86-config pointercal base-files"
+Hi Richard,
 
-I would prefer one package per line here so it is easier to read a
-diff changing this, in future.
+This is the hob2 related OE-Core changes. Please help to review and pull.
 
---=20
-Otavio Salvador=A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0O=
-.S. Systems
-E-mail: otavio@ossystems.com.br=A0 http://www.ossystems.com.br
-Mobile: +55 53 9981-7854=A0 =A0 =A0 =A0=A0 =A0 =A0 =A0http://projetos.ossys=
-tems.com.br
+Compared with previous version:
+ - packageinfo.bbclass: Fix the way to construct ipk/deb package names.
+ - meta-hob: rename dummy-image and dummy-toolchain to hob-image and hob-toolchain
+
+Note that this pull request depends on the following pull requests:
+ - hob2-bitbake-changes
+
+Thanks,
+Dongxiao
+
+The following changes since commit 55f72b98f606c1554eb6edd151292ffdfddf1384:
+
+  texi2html: Fix for multilib (2012-02-22 23:01:45 +0000)
+
+are available in the git repository at:
+  git://git.pokylinux.org/poky-contrib dxu4/hob2-oecore-changes
+  http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=dxu4/hob2-oecore-changes
+
+Dongxiao Xu (2):
+  packageinfo.bbclass: add a new bbclass to pass package information
+  meta-hob: Add a new meta-hob layer
+
+Shane Wang (1):
+  package.bbclass: set package size into pkgdata for hob2's use
+
+ meta-hob/COPYING.MIT                        |   17 +++++++++++++
+ meta-hob/conf/layer.conf                    |    9 +++++++
+ meta-hob/recipes-core/images/hob-image.bb   |    1 +
+ meta-hob/recipes-core/meta/hob-toolchain.bb |   10 +++++++
+ meta/classes/package.bbclass                |    8 ++++++
+ meta/classes/packageinfo.bbclass            |   35 +++++++++++++++++++++++++++
+ 6 files changed, 80 insertions(+), 0 deletions(-)
+ create mode 100644 meta-hob/COPYING.MIT
+ create mode 100644 meta-hob/conf/layer.conf
+ create mode 100644 meta-hob/recipes-core/images/hob-image.bb
+ create mode 100644 meta-hob/recipes-core/meta/hob-toolchain.bb
+ create mode 100644 meta/classes/packageinfo.bbclass
+
+-- 
+1.7.4.1
+
 
 
