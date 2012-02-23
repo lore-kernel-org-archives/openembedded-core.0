@@ -1,40 +1,40 @@
 Received: from dan.rpsys.net ([93.97.175.187])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <richard@rpsys.net>) id 1S0ZuW-0001fg-Ji
+	(envelope-from <richard@rpsys.net>) id 1S0ZuW-0001fg-TQ
 	for openembedded-core@lists.openembedded.org;
-	Thu, 23 Feb 2012 15:44:44 +0100
+	Thu, 23 Feb 2012 15:44:45 +0100
 Received: from localhost (dan.rpsys.net [127.0.0.1])
 	by dan.rpsys.net (8.14.2/8.14.2/Debian-2build1) with ESMTP id
-	q1NElr17002890 for <openembedded-core@lists.openembedded.org>;
-	Thu, 23 Feb 2012 14:47:53 GMT
-X-Quarantine-ID: <Oj3mllZ6uvP6>
+	q1NElnCU002875 for <openembedded-core@lists.openembedded.org>;
+	Thu, 23 Feb 2012 14:47:50 GMT
+X-Quarantine-ID: <eIb7GBdMHxfu>
 X-Virus-Scanned: Debian amavisd-new at dan.rpsys.net
 X-Amavis-Alert: BAD HEADER, Duplicate header field: "In-Reply-To"
 Received: from dan.rpsys.net ([127.0.0.1])
 	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
-	with LMTP id Oj3mllZ6uvP6
+	with LMTP id eIb7GBdMHxfu
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 23 Feb 2012 14:47:53 +0000 (GMT)
+	Thu, 23 Feb 2012 14:47:49 +0000 (GMT)
 Received: from ted (ted.config [192.168.1.68]) (authenticated bits=0)
 	by dan.rpsys.net (8.14.2/8.14.2/Debian-2build1) with ESMTP id
-	q1NElonZ002878
+	q1NEllwX002870
 	(version=TLSv1/SSLv3 cipher=AES256-SHA bits=256 verify=NOT)
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 23 Feb 2012 14:47:51 GMT
+	Thu, 23 Feb 2012 14:47:49 GMT
 Received: from richard by ted with local (Exim 4.76)
-	(envelope-from <richard@dan.rpsys.net>) id 1S0YsX-0003z1-Iq
+	(envelope-from <richard@dan.rpsys.net>) id 1S0Ysp-0004sQ-CG
 	for openembedded-core@lists.openembedded.org;
-	Thu, 23 Feb 2012 13:38:37 +0000
+	Thu, 23 Feb 2012 13:38:55 +0000
 From: Richard Purdie <richard.purdie@linuxfoundation.org>
 To: openembedded-core@lists.openembedded.org
-Date: Thu, 23 Feb 2012 13:38:12 +0000
-Message-Id: <008428eeaf897d9d18e070097cfc82e706913539.1330004039.git.richard.purdie@linuxfoundation.org>
+Date: Thu, 23 Feb 2012 13:38:19 +0000
+Message-Id: <5aab97771d0b0bdd9e7655e83f897a78e07b1593.1330004039.git.richard.purdie@linuxfoundation.org>
 X-Mailer: git-send-email 1.7.5.4
 In-Reply-To: <5c6b81ada0814d1947d89120867bb9a4a5b0fa85.1330004039.git.richard.purdie@linuxfoundation.org>
 References: <5c6b81ada0814d1947d89120867bb9a4a5b0fa85.1330004039.git.richard.purdie@linuxfoundation.org>
 In-Reply-To: <cover.1330004039.git.richard.purdie@linuxfoundation.org>
 References: <cover.1330004039.git.richard.purdie@linuxfoundation.org>
-Subject: [PATCH 03/16] libusb1: Address unpackaged files warning
+Subject: [PATCH 10/16] glib-2.0: Fix unpackaged files warning
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -49,35 +49,39 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 23 Feb 2012 14:44:44 -0000
+X-List-Received-Date: Thu, 23 Feb 2012 14:44:45 -0000
 
-WARNING: For recipe libusb1, the following files/directories were installed but not shipped in any package:
-WARNING:   /lib/libusb-1.0.la
+WARNING: For recipe glib-2.0, the following files/directories were installed but not shipped in any package:
+WARNING:   /usr/lib/gio
+WARNING:   /usr/lib/gio/modules
 
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 ---
- meta/recipes-support/libusb/libusb1_1.0.8.bb |    4 ++--
- 1 files changed, 2 insertions(+), 2 deletions(-)
+ meta/recipes-core/glib-2.0/glib-2.0_2.30.2.bb |    5 ++++-
+ 1 files changed, 4 insertions(+), 1 deletions(-)
 
-diff --git a/meta/recipes-support/libusb/libusb1_1.0.8.bb b/meta/recipes-support/libusb/libusb1_1.0.8.bb
-index e45a9d9..b8fa790 100644
---- a/meta/recipes-support/libusb/libusb1_1.0.8.bb
-+++ b/meta/recipes-support/libusb/libusb1_1.0.8.bb
-@@ -6,7 +6,7 @@ SECTION = "libs"
- LICENSE = "LGPLv2.1+"
- LIC_FILES_CHKSUM = "file://COPYING;md5=fbc093901857fcd118f065f900982c24"
+diff --git a/meta/recipes-core/glib-2.0/glib-2.0_2.30.2.bb b/meta/recipes-core/glib-2.0/glib-2.0_2.30.2.bb
+index 111f9a4..e2170bc 100644
+--- a/meta/recipes-core/glib-2.0/glib-2.0_2.30.2.bb
++++ b/meta/recipes-core/glib-2.0/glib-2.0_2.30.2.bb
+@@ -1,6 +1,6 @@
+ require glib.inc
  
--PR = "r3"
-+PR = "r4"
+-PR = "r4"
++PR = "r5"
+ PE = "1"
  
- SRC_URI = "${SOURCEFORGE_MIRROR}/libusb/libusb-${PV}.tar.bz2"
+ DEPENDS += "libffi python-argparse-native zlib"
+@@ -35,6 +35,9 @@ do_install_append() {
+   # remove some unpackaged files
+   rm -f ${D}${libdir}/gdbus-2.0/codegen/*.pyc
+   rm -f ${D}${libdir}/gdbus-2.0/codegen/*.pyo
++  # and empty dirs
++  rmdir ${D}${libdir}/gio/modules/
++  rmdir ${D}${libdir}/gio/
+ }
  
-@@ -27,4 +27,4 @@ do_install_append() {
- 
- FILES_${PN} += "${base_libdir}/*.so.*"
- 
--FILES_${PN}-dev += "${base_libdir}/*.so"
-+FILES_${PN}-dev += "${base_libdir}/*.so ${base_libdir}/*.la"
+ PACKAGES += "${PN}-codegen"
 -- 
 1.7.5.4
 
