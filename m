@@ -1,24 +1,24 @@
 Received: from mga01.intel.com ([192.55.52.88])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <sgw@linux.intel.com>) id 1S0bC1-0004tn-Ng
+	(envelope-from <sgw@linux.intel.com>) id 1S0bC2-0004t7-3J
 	for openembedded-core@lists.openembedded.org;
-	Thu, 23 Feb 2012 17:06:53 +0100
+	Thu, 23 Feb 2012 17:06:54 +0100
 Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-	by fmsmga101.fm.intel.com with ESMTP; 23 Feb 2012 07:58:31 -0800
+	by fmsmga101.fm.intel.com with ESMTP; 23 Feb 2012 07:58:30 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="128652344"
+X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="128652342"
 Received: from unknown (HELO swold-mobl.bigsur.com) ([10.255.15.72])
 	by fmsmga002.fm.intel.com with ESMTP; 23 Feb 2012 07:58:30 -0800
 From: Saul Wold <sgw@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Thu, 23 Feb 2012 07:58:06 -0800
-Message-Id: <8ca57f1a8640ae5554d0e500253609d0b0d7a9ea.1330012543.git.sgw@linux.intel.com>
+Date: Thu, 23 Feb 2012 07:58:05 -0800
+Message-Id: <79d8237046de1a44536af8a29de71a07630d286d.1330012543.git.sgw@linux.intel.com>
 X-Mailer: git-send-email 1.7.6.5
 In-Reply-To: <cover.1330012543.git.sgw@linux.intel.com>
 References: <cover.1330012543.git.sgw@linux.intel.com>
 In-Reply-To: <cover.1330012543.git.sgw@linux.intel.com>
 References: <cover.1330012543.git.sgw@linux.intel.com>
-Subject: [CONSOLIDATED PULL 02/25] initscripts: Make /etc/timestamp consistent again.
+Subject: [CONSOLIDATED PULL 01/25] xorg-lib: don't build libs unless requested by DISTRO_FEATURES
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -33,66 +33,50 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 23 Feb 2012 16:06:53 -0000
+X-List-Received-Date: Thu, 23 Feb 2012 16:06:54 -0000
 
-From: Gary Thomas <gary@mlbassoc.com>
+From: Andreas Oberritter <obi@opendreambox.org>
 
-Commit cc8695 changed the way timestamps were handled
-and added some extra munging to be able to compare them
-reliably.  This change makes the timestamp value the same
-everywhere and simplifies how the check to set the system
-clock based on the timestamp is done.
+* If 'x11' is not set in DISTRO_FEATURES, then skip all
+  recipes using xorg-lib-common.inc instead of only those
+  using libx11.inc.
 
-Also, if the value stored in /etc/timestamp is newer
-[at all] than the current system time, set the system clock
-from the stored value, down to the minute, not just the day.
+* One exception: pixman, which is not only used by xorg,
+  but also by cairo.
 
-Signed-off-by: Gary Thomas <gary@mlbassoc.com>
+Signed-off-by: Andreas Oberritter <obi@opendreambox.org>
 ---
- .../initscripts/initscripts-1.0/bootmisc.sh        |    4 ++--
- .../initscripts/initscripts-1.0/save-rtc.sh        |    2 +-
- meta/recipes-core/initscripts/initscripts_1.0.bb   |    2 +-
- 3 files changed, 4 insertions(+), 4 deletions(-)
+ meta/recipes-graphics/xorg-lib/libx11.inc          |    5 -----
+ meta/recipes-graphics/xorg-lib/xorg-lib-common.inc |    6 ++++++
+ 2 files changed, 6 insertions(+), 5 deletions(-)
 
-diff --git a/meta/recipes-core/initscripts/initscripts-1.0/bootmisc.sh b/meta/recipes-core/initscripts/initscripts-1.0/bootmisc.sh
-index d9e8ffa..20ec0a0 100755
---- a/meta/recipes-core/initscripts/initscripts-1.0/bootmisc.sh
-+++ b/meta/recipes-core/initscripts/initscripts-1.0/bootmisc.sh
-@@ -68,9 +68,9 @@ fi
- /etc/init.d/hwclock.sh start
- if test -e /etc/timestamp
- then
--	SYSTEMDATE=`date -u +%4Y%2m%2d`
-+	SYSTEMDATE=`date -u +%4Y%2m%2d%2H%2M`
- 	read TIMESTAMP < /etc/timestamp
--	if [ ${TIMESTAMP#????????}${TIMESTAMP%????????} -gt $SYSTEMDATE ]; then
-+	if [ ${TIMESTAMP} -gt $SYSTEMDATE ]; then
- 		date -u $TIMESTAMP
- 		/etc/init.d/hwclock.sh stop
- 	fi
-diff --git a/meta/recipes-core/initscripts/initscripts-1.0/save-rtc.sh b/meta/recipes-core/initscripts/initscripts-1.0/save-rtc.sh
-index 3d8e850..1f804e2 100644
---- a/meta/recipes-core/initscripts/initscripts-1.0/save-rtc.sh
-+++ b/meta/recipes-core/initscripts/initscripts-1.0/save-rtc.sh
-@@ -10,4 +10,4 @@
- ### END INIT INFO
+diff --git a/meta/recipes-graphics/xorg-lib/libx11.inc b/meta/recipes-graphics/xorg-lib/libx11.inc
+index 748a48c..9057edc 100644
+--- a/meta/recipes-graphics/xorg-lib/libx11.inc
++++ b/meta/recipes-graphics/xorg-lib/libx11.inc
+@@ -49,8 +49,3 @@ do_compile_prepend() {
+ # Multiple libx11 derivatives from from this file and are selected by virtual/libx11
+ # A world build should only build the correct version, not all of them.
+ EXCLUDE_FROM_WORLD = "1"
+-
+-python () {
+-       if not oe.utils.contains ('DISTRO_FEATURES', 'x11', True, False, d):
+-       	  raise bb.parse.SkipPackage("X11 not enabled for this DISTRO")
+-}
+diff --git a/meta/recipes-graphics/xorg-lib/xorg-lib-common.inc b/meta/recipes-graphics/xorg-lib/xorg-lib-common.inc
+index d106054..3d5d378 100644
+--- a/meta/recipes-graphics/xorg-lib/xorg-lib-common.inc
++++ b/meta/recipes-graphics/xorg-lib/xorg-lib-common.inc
+@@ -14,3 +14,9 @@ S = "${WORKDIR}/${XORG_PN}-${PV}"
+ inherit autotools pkgconfig
  
- # Update the timestamp
--date -u +%2m%2d%2H%2M%4Y > /etc/timestamp
-+date -u +%4Y%2m%2d%2H%2M > /etc/timestamp
-diff --git a/meta/recipes-core/initscripts/initscripts_1.0.bb b/meta/recipes-core/initscripts/initscripts_1.0.bb
-index 203c605..b56c55c 100644
---- a/meta/recipes-core/initscripts/initscripts_1.0.bb
-+++ b/meta/recipes-core/initscripts/initscripts_1.0.bb
-@@ -3,7 +3,7 @@ DESCRIPTION = "Initscripts provide the basic system startup initialization scrip
- SECTION = "base"
- LICENSE = "GPLv2"
- LIC_FILES_CHKSUM = "file://COPYING;md5=751419260aa954499f7abaabaa882bbe"
--PR = "r129"
-+PR = "r130"
- 
- INHIBIT_DEFAULT_DEPS = "1"
- 
+ EXTRA_OECONF = "--enable-malloc0returnsnull --with-fop=no --without-xmlto"
++
++python () {
++        whitelist = [ "pixman" ]
++        if not d.getVar('BPN', True) in whitelist and not oe.utils.contains ('DISTRO_FEATURES', 'x11', True, False, d):
++                raise bb.parse.SkipPackage("X11 not enabled for this DISTRO")
++}
 -- 
 1.7.6.5
 
