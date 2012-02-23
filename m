@@ -1,24 +1,33 @@
-Received: from mga02.intel.com ([134.134.136.20])
+Received: from mail.dream-property.net ([82.149.226.172])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <dongxiao.xu@intel.com>) id 1S0ZBD-0000iR-3r
+	(envelope-from <obi@opendreambox.org>) id 1S0ZJ3-0001HV-2u
 	for openembedded-core@lists.openembedded.org;
-	Thu, 23 Feb 2012 14:57:55 +0100
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-	by orsmga101.jf.intel.com with ESMTP; 23 Feb 2012 05:49:33 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.67,352,1309762800"; d="scan'208";a="111195105"
-Received: from dongxiao-osel.sh.intel.com (HELO localhost) ([10.239.36.11])
-	by orsmga001.jf.intel.com with ESMTP; 23 Feb 2012 05:49:32 -0800
-From: Dongxiao Xu <dongxiao.xu@intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Thu, 23 Feb 2012 21:48:08 +0800
-Message-Id: <453fb96940c40cdcf3a5d0ffda4a4a6b3580e9da.1330003047.git.dongxiao.xu@intel.com>
-X-Mailer: git-send-email 1.7.4.1
-In-Reply-To: <cover.1330003047.git.dongxiao.xu@intel.com>
-References: <cover.1330003047.git.dongxiao.xu@intel.com>
-In-Reply-To: <cover.1330003047.git.dongxiao.xu@intel.com>
-References: <cover.1330003047.git.dongxiao.xu@intel.com>
-Subject: [PATCH 3/3] meta-hob: Add a new meta-hob layer
+	Thu, 23 Feb 2012 15:06:01 +0100
+Received: from localhost (localhost [127.0.0.1])
+	by mail.dream-property.net (Postfix) with ESMTP id 6605631593FC
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 23 Feb 2012 14:57:40 +0100 (CET)
+X-Virus-Scanned: Debian amavisd-new at mail.dream-property.net
+Received: from mail.dream-property.net ([127.0.0.1])
+	by localhost (mail.dream-property.net [127.0.0.1]) (amavisd-new,
+	port 10024) with LMTP id fXDeo9heQuh6
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 23 Feb 2012 14:57:33 +0100 (CET)
+Received: from [172.22.22.61] (drms-590ed8a0.pool.mediaWays.net
+	[89.14.216.160])
+	(using TLSv1 with cipher DHE-RSA-AES256-SHA (256/256 bits))
+	(No client certificate requested)
+	by mail.dream-property.net (Postfix) with ESMTPSA id 7024631593F9
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 23 Feb 2012 14:57:33 +0100 (CET)
+Message-ID: <4F4645CC.4050403@opendreambox.org>
+Date: Thu, 23 Feb 2012 14:57:32 +0100
+From: Andreas Oberritter <obi@opendreambox.org>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:10.0.2) Gecko/20120216 Thunderbird/10.0.2
+MIME-Version: 1.0
+To: openembedded-core <openembedded-core@lists.openembedded.org>
+Subject: bug in recipe version priorities across layers?
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -33,86 +42,130 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 23 Feb 2012 13:57:55 -0000
+X-List-Received-Date: Thu, 23 Feb 2012 14:06:01 -0000
+Content-Type: text/plain; charset=ISO-8859-1
+Content-Transfer-Encoding: 7bit
 
-This new layer contains hob-image.bb and hob-toolchain.bb that
-are used by hob to build images or toolchain.
+Hi,
 
-Signed-off-by: Dongxiao Xu <dongxiao.xu@intel.com>
----
- meta-hob/COPYING.MIT                        |   17 +++++++++++++++++
- meta-hob/conf/layer.conf                    |    9 +++++++++
- meta-hob/recipes-core/images/hob-image.bb   |    1 +
- meta-hob/recipes-core/meta/hob-toolchain.bb |   10 ++++++++++
- 4 files changed, 37 insertions(+), 0 deletions(-)
- create mode 100644 meta-hob/COPYING.MIT
- create mode 100644 meta-hob/conf/layer.conf
- create mode 100644 meta-hob/recipes-core/images/hob-image.bb
- create mode 100644 meta-hob/recipes-core/meta/hob-toolchain.bb
+I have a problem with bitbake choosing the wrong version of a 
+recipe. The facts are:
 
-diff --git a/meta-hob/COPYING.MIT b/meta-hob/COPYING.MIT
-new file mode 100644
-index 0000000..fb950dc
---- /dev/null
-+++ b/meta-hob/COPYING.MIT
-@@ -0,0 +1,17 @@
-+Permission is hereby granted, free of charge, to any person obtaining a copy 
-+of this software and associated documentation files (the "Software"), to deal 
-+in the Software without restriction, including without limitation the rights 
-+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell 
-+copies of the Software, and to permit persons to whom the Software is 
-+furnished to do so, subject to the following conditions:
-+
-+The above copyright notice and this permission notice shall be included in 
-+all copies or substantial portions of the Software.
-+
-+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR 
-+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, 
-+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE 
-+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER 
-+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, 
-+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN 
-+THE SOFTWARE.
-diff --git a/meta-hob/conf/layer.conf b/meta-hob/conf/layer.conf
-new file mode 100644
-index 0000000..5f5eb82
---- /dev/null
-+++ b/meta-hob/conf/layer.conf
-@@ -0,0 +1,9 @@
-+# We have a conf and classes directory, add to BBPATH
-+BBPATH := "${BBPATH}:${LAYERDIR}"
-+
-+# We have a packages directory, add to BBFILES
-+BBFILES := "${BBFILES} ${LAYERDIR}/recipes-*/*/*.bb"
-+
-+BBFILE_COLLECTIONS += "hob"
-+BBFILE_PATTERN_hob := "^${LAYERDIR}/"
-+BBFILE_PRIORITY_hob = "1"
-diff --git a/meta-hob/recipes-core/images/hob-image.bb b/meta-hob/recipes-core/images/hob-image.bb
-new file mode 100644
-index 0000000..c8d6f49
---- /dev/null
-+++ b/meta-hob/recipes-core/images/hob-image.bb
-@@ -0,0 +1 @@
-+inherit image
-diff --git a/meta-hob/recipes-core/meta/hob-toolchain.bb b/meta-hob/recipes-core/meta/hob-toolchain.bb
-new file mode 100644
-index 0000000..6535253
---- /dev/null
-+++ b/meta-hob/recipes-core/meta/hob-toolchain.bb
-@@ -0,0 +1,10 @@
-+DESCRIPTION = "dummy toolchain"
-+LICENSE = "MIT"
-+
-+PR = "r0"
-+
-+LIC_FILES_CHKSUM = "file://${COREBASE}/LICENSE;md5=3f40d7994397109285ec7b81fdeb3b58 \
-+                    file://${COREBASE}/meta/COPYING.MIT;md5=3da9cfbcb788c80a0384361b4de20420"
-+
-+IMAGETEST ?= "dummy"
-+inherit populate_sdk imagetest-${IMAGETEST}
--- 
-1.7.4.1
+- I have multiple layers, including a machine layer, meta-opendreambox,
+meta-openembedded and openembedded-core.
+- meta-opendreambox contains wpa-supplicant_0.5.10.bb and 
+wpa-supplicant_0.7.3.bbappend.
+- openembedded-core contains wpa-supplicant_0.7.3.bb.
+- There's no PREFERRED_VERSION statement for wpa-supplicant in any of 
+the active layers. There is such a statement in another machine's 
+layer, which shares the same TMPDIR, but even has a different PACKAGE_ARCH.
+- There's no DEFAULT_PREFERENCE statement in any of the recipes.
+- The machine I'm building for shall use the latest available version.
+- The older wpa-supplicant is provided for a different machine.
+- Both bitbake and openembedded-core are from today's master branches.
 
+The problem: The machine I'm building for also picks up version 0.5.10, 
+unless I eiher copy 0.7.3 from openembedded-core to my layer or delete 
+version 0.5.10 from my layer. Deleting wpa-supplicant_0.7.3.bbappend 
+doesn't change the behaviour.
+
+How can copying the recipe make a difference? The BBFILE_PRIORITY 
+for meta-opendreambox is higher than for openembedded-core, but I 
+wouldn't expect this to have an effect on recipes with different 
+versions. Is this expected behaviour?
+
+Here's a log of all lines matching wpa-supplicant of "bitbake 
+-ccleansstate wpa-supplicant" with debug enabled:
+
+DEBUG: Cache: /a/openembedded-core/meta/recipes-connectivity/wpa-supplicant/wpa-supplicant_0.7.3.bb is not cached
+DEBUG: Cache: /a/meta-opendreambox/recipes-connectivity/wpa-supplicant/wpa-supplicant_0.5.10.bb is not cached
+DEBUG: BB /a/meta-opendreambox/recipes-connectivity/wpa-supplicant/wpa-supplicant_0.5.10.bb: handle(data)
+DEBUG: LOAD /a/meta-opendreambox/recipes-connectivity/wpa-supplicant/wpa-supplicant_0.5.10.bb
+DEBUG: BB /a/openembedded-core/meta/recipes-connectivity/wpa-supplicant/wpa-supplicant_0.7.3.bb: handle(data)
+DEBUG: LOAD /a/openembedded-core/meta/recipes-connectivity/wpa-supplicant/wpa-supplicant_0.7.3.bb
+DEBUG: CONF /a/openembedded-core/meta/recipes-connectivity/wpa-supplicant/wpa-supplicant_0.7.3.bb:1: including wpa-supplicant-0.7.inc
+DEBUG: BB /a/openembedded-core/meta/recipes-connectivity/wpa-supplicant/wpa-supplicant-0.7.inc: handle(data, include)
+DEBUG: LOAD /a/openembedded-core/meta/recipes-connectivity/wpa-supplicant/wpa-supplicant-0.7.inc
+DEBUG: Appending .bbappend file /a/meta-openembedded/meta-oe/recipes-connectivity/wpa-supplicant/wpa-supplicant_0.7.3.bbappend to /a/openembedded-core/meta/recipes-connectivity/wpa-supplicant/wpa-supplicant_0.7.3.bb
+DEBUG: BB /a/meta-openembedded/meta-oe/recipes-connectivity/wpa-supplicant/wpa-supplicant_0.7.3.bbappend: handle(data, include)
+DEBUG: LOAD /a/meta-openembedded/meta-oe/recipes-connectivity/wpa-supplicant/wpa-supplicant_0.7.3.bbappend
+DEBUG: providers for wpa-supplicant are: ['wpa-supplicant']
+DEBUG: sorted providers for wpa-supplicant are: ['/a/meta-opendreambox/recipes-connectivity/wpa-supplicant/wpa-supplicant_0.5.10.bb']
+DEBUG: adding /a/meta-opendreambox/recipes-connectivity/wpa-supplicant/wpa-supplicant_0.5.10.bb to satisfy wpa-supplicant
+DEBUG: Added dependency virtual/mipsel-oe-linux-gcc for /a/meta-opendreambox/recipes-connectivity/wpa-supplicant/wpa-supplicant_0.5.10.bb
+DEBUG: Added dependency virtual/mipsel-oe-linux-compilerlibs for /a/meta-opendreambox/recipes-connectivity/wpa-supplicant/wpa-supplicant_0.5.10.bb
+DEBUG: Added dependency virtual/libc for /a/meta-opendreambox/recipes-connectivity/wpa-supplicant/wpa-supplicant_0.5.10.bb
+DEBUG: Added dependency openssl for /a/meta-opendreambox/recipes-connectivity/wpa-supplicant/wpa-supplicant_0.5.10.bb
+DEBUG: Added runtime dependency wpa-supplicant for /a/meta-opendreambox/recipes-connectivity/wpa-supplicant/wpa-supplicant_0.5.10.bb
+DEBUG: Added runtime dependency wpa-supplicant-dev for /a/meta-opendreambox/recipes-connectivity/wpa-supplicant/wpa-supplicant_0.5.10.bb
+DEBUG: Added runtime recommendation wpa-supplicant for /a/meta-opendreambox/recipes-connectivity/wpa-supplicant/wpa-supplicant_0.5.10.bb
+DEBUG: Added runtime recommendation wpa-supplicant-passphrase for /a/meta-opendreambox/recipes-connectivity/wpa-supplicant/wpa-supplicant_0.5.10.bb
+DEBUG: providers for wpa-supplicant are: ['wpa-supplicant']
+DEBUG: checking PREFERRED_PROVIDER_wpa-supplicant (value None) against ['wpa-supplicant']
+DEBUG: checking PREFERRED_PROVIDER_wpa-supplicant-0.5.10 (value None) against ['wpa-supplicant']
+DEBUG: checking PREFERRED_PROVIDER_wpa-supplicant-0.5.10-r0 (value None) against ['wpa-supplicant']
+DEBUG: checking PREFERRED_PROVIDER_wpa-supplicant-0.7.3 (value None) against ['wpa-supplicant']
+DEBUG: checking PREFERRED_PROVIDER_wpa-supplicant-0.7.3-r7 (value None) against ['wpa-supplicant']
+DEBUG: sorted providers for wpa-supplicant are: ['/a/meta-opendreambox/recipes-connectivity/wpa-supplicant/wpa-supplicant_0.5.10.bb']
+DEBUG: adding '/a/meta-opendreambox/recipes-connectivity/wpa-supplicant/wpa-supplicant_0.5.10.bb' to satisfy runtime 'wpa-supplicant'
+DEBUG: providers for wpa-supplicant-dev are: ['wpa-supplicant']
+DEBUG: checking PREFERRED_PROVIDER_wpa-supplicant (value None) against ['wpa-supplicant']
+DEBUG: checking PREFERRED_PROVIDER_wpa-supplicant-0.5.10 (value None) against ['wpa-supplicant']
+DEBUG: checking PREFERRED_PROVIDER_wpa-supplicant-0.5.10-r0 (value None) against ['wpa-supplicant']
+DEBUG: checking PREFERRED_PROVIDER_wpa-supplicant-0.7.3 (value None) against ['wpa-supplicant']
+DEBUG: checking PREFERRED_PROVIDER_wpa-supplicant-0.7.3-r7 (value None) against ['wpa-supplicant']
+DEBUG: sorted providers for wpa-supplicant-dev are: ['/a/meta-opendreambox/recipes-connectivity/wpa-supplicant/wpa-supplicant_0.5.10.bb']
+DEBUG: adding '/a/meta-opendreambox/recipes-connectivity/wpa-supplicant/wpa-supplicant_0.5.10.bb' to satisfy runtime 'wpa-supplicant-dev'
+DEBUG: providers for wpa-supplicant-passphrase are: ['wpa-supplicant']
+DEBUG: checking PREFERRED_PROVIDER_wpa-supplicant (value None) against ['wpa-supplicant']
+DEBUG: checking PREFERRED_PROVIDER_wpa-supplicant-0.5.10 (value None) against ['wpa-supplicant']
+DEBUG: checking PREFERRED_PROVIDER_wpa-supplicant-0.5.10-r0 (value None) against ['wpa-supplicant']
+DEBUG: checking PREFERRED_PROVIDER_wpa-supplicant-0.7.3 (value None) against ['wpa-supplicant']
+DEBUG: checking PREFERRED_PROVIDER_wpa-supplicant-0.7.3-r7 (value None) against ['wpa-supplicant']
+DEBUG: sorted providers for wpa-supplicant-passphrase are: ['/a/meta-opendreambox/recipes-connectivity/wpa-supplicant/wpa-supplicant_0.5.10.bb']
+DEBUG: adding '/a/meta-opendreambox/recipes-connectivity/wpa-supplicant/wpa-supplicant_0.5.10.bb' to satisfy runtime 'wpa-supplicant-passphrase'
+DEBUG: Processing /a/meta-opendreambox/recipes-connectivity/wpa-supplicant/wpa-supplicant_0.5.10.bb:do_unpack
+DEBUG: Processing /a/meta-opendreambox/recipes-connectivity/wpa-supplicant/wpa-supplicant_0.5.10.bb:do_patch
+DEBUG: Processing /a/meta-opendreambox/recipes-connectivity/wpa-supplicant/wpa-supplicant_0.5.10.bb:do_install
+DEBUG: Processing /a/meta-opendreambox/recipes-connectivity/wpa-supplicant/wpa-supplicant_0.5.10.bb:do_populate_sysroot
+DEBUG: Processing /a/meta-opendreambox/recipes-connectivity/wpa-supplicant/wpa-supplicant_0.5.10.bb:do_populate_sysroot_setscene
+DEBUG: Processing /a/meta-opendreambox/recipes-connectivity/wpa-supplicant/wpa-supplicant_0.5.10.bb:do_listtasks
+DEBUG: Processing /a/meta-opendreambox/recipes-connectivity/wpa-supplicant/wpa-supplicant_0.5.10.bb:do_clean
+DEBUG: Processing /a/meta-opendreambox/recipes-connectivity/wpa-supplicant/wpa-supplicant_0.5.10.bb:do_checkuri
+DEBUG: Processing /a/meta-opendreambox/recipes-connectivity/wpa-supplicant/wpa-supplicant_0.5.10.bb:do_checkuriall
+DEBUG: Processing /a/meta-opendreambox/recipes-connectivity/wpa-supplicant/wpa-supplicant_0.5.10.bb:do_fetch
+DEBUG: Processing /a/meta-opendreambox/recipes-connectivity/wpa-supplicant/wpa-supplicant_0.5.10.bb:do_fetchall
+DEBUG: Processing /a/meta-opendreambox/recipes-connectivity/wpa-supplicant/wpa-supplicant_0.5.10.bb:do_build
+DEBUG: Processing /a/meta-opendreambox/recipes-connectivity/wpa-supplicant/wpa-supplicant_0.5.10.bb:do_buildall
+DEBUG: Processing /a/meta-opendreambox/recipes-connectivity/wpa-supplicant/wpa-supplicant_0.5.10.bb:do_configure
+DEBUG: Processing /a/meta-opendreambox/recipes-connectivity/wpa-supplicant/wpa-supplicant_0.5.10.bb:do_compile
+DEBUG: Processing /a/meta-opendreambox/recipes-connectivity/wpa-supplicant/wpa-supplicant_0.5.10.bb:do_package_write
+DEBUG: Processing /a/meta-opendreambox/recipes-connectivity/wpa-supplicant/wpa-supplicant_0.5.10.bb:do_package
+DEBUG: Processing /a/meta-opendreambox/recipes-connectivity/wpa-supplicant/wpa-supplicant_0.5.10.bb:do_cleansstate
+DEBUG: Processing /a/meta-opendreambox/recipes-connectivity/wpa-supplicant/wpa-supplicant_0.5.10.bb:do_cleanall
+DEBUG: Processing /a/meta-opendreambox/recipes-connectivity/wpa-supplicant/wpa-supplicant_0.5.10.bb:do_rm_work
+DEBUG: Processing /a/meta-opendreambox/recipes-connectivity/wpa-supplicant/wpa-supplicant_0.5.10.bb:do_rm_work_all
+DEBUG: Processing /a/meta-opendreambox/recipes-connectivity/wpa-supplicant/wpa-supplicant_0.5.10.bb:do_recipe_sanity
+DEBUG: Processing /a/meta-opendreambox/recipes-connectivity/wpa-supplicant/wpa-supplicant_0.5.10.bb:do_recipe_sanity_all
+DEBUG: Processing /a/meta-opendreambox/recipes-connectivity/wpa-supplicant/wpa-supplicant_0.5.10.bb:do_populate_lic
+DEBUG: Processing /a/meta-opendreambox/recipes-connectivity/wpa-supplicant/wpa-supplicant_0.5.10.bb:do_package_setscene
+DEBUG: Processing /a/meta-opendreambox/recipes-connectivity/wpa-supplicant/wpa-supplicant_0.5.10.bb:do_package_write_ipk
+DEBUG: Processing /a/meta-opendreambox/recipes-connectivity/wpa-supplicant/wpa-supplicant_0.5.10.bb:do_package_write_ipk_setscene
+DEBUG: Processing /a/meta-opendreambox/recipes-connectivity/wpa-supplicant/wpa-supplicant_0.5.10.bb:do_devshell
+DEBUG: Processing /a/meta-opendreambox/recipes-connectivity/wpa-supplicant/wpa-supplicant_0.5.10.bb:do_populate_lic_setscene
+DEBUG: Considering 0 (/a/meta-opendreambox/recipes-connectivity/wpa-supplicant/wpa-supplicant_0.5.10.bb, do_clean): set([1])
+DEBUG: Considering 1 (/a/meta-opendreambox/recipes-connectivity/wpa-supplicant/wpa-supplicant_0.5.10.bb, do_cleansstate): set([])
+DEBUG: Stampfile /a/tmp/stamps/mipsel-oe-linux/wpa-supplicant-0.5.10-r0.do_clean not available
+NOTE: Running task 1 of 2 (ID: 0, /a/meta-opendreambox/recipes-connectivity/wpa-supplicant/wpa-supplicant_0.5.10.bb, do_clean)
+NOTE: package wpa-supplicant-0.5.10-r0: task do_clean: Started
+NOTE: package wpa-supplicant-0.5.10-r0: task do_clean: Succeeded
+DEBUG: Marking task 1 (/a/meta-opendreambox/recipes-connectivity/wpa-supplicant/wpa-supplicant_0.5.10.bb, do_cleansstate) as buildable
+DEBUG: Stampfile /a/tmp/stamps/mipsel-oe-linux/wpa-supplicant-0.5.10-r0.do_cleansstate not available
+NOTE: Running task 2 of 2 (ID: 1, /a/meta-opendreambox/recipes-connectivity/wpa-supplicant/wpa-supplicant_0.5.10.bb, do_cleansstate)
+NOTE: package wpa-supplicant-0.5.10-r0: task do_cleansstate: Started
+NOTE: package wpa-supplicant-0.5.10-r0: task do_cleansstate: Succeeded
+
+Regards,
+Andreas
 
 
