@@ -1,23 +1,20 @@
-Received: from smtp2-g21.free.fr ([212.27.42.2])
+Received: from mga09.intel.com ([134.134.136.24])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <eric@eukrea.com>) id 1S0aky-0003PZ-Oi
+	(envelope-from <paul.eggleton@linux.intel.com>) id 1S0alw-0003SW-V7
 	for openembedded-core@lists.openembedded.org;
-	Thu, 23 Feb 2012 16:38:57 +0100
-Received: from eb-e6520 (unknown [82.240.38.71])
-	by smtp2-g21.free.fr (Postfix) with ESMTP id 60D2F4B017E
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 23 Feb 2012 16:30:33 +0100 (CET)
-Date: Thu, 23 Feb 2012 16:30:32 +0100
-From: Eric =?ISO-8859-1?B?QuluYXJk?= <eric@eukrea.com>
+	Thu, 23 Feb 2012 16:39:57 +0100
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+	by orsmga102.jf.intel.com with ESMTP; 23 Feb 2012 07:31:34 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.67,351,1309762800"; d="scan'208";a="114033997"
+Received: from unknown (HELO helios.ger.corp.intel.com) ([10.252.123.61])
+	by orsmga002.jf.intel.com with ESMTP; 23 Feb 2012 07:31:33 -0800
+From: Paul Eggleton <paul.eggleton@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Message-ID: <20120223163032.0822e104@eb-e6520>
-In-Reply-To: <1329828974.15011.7.camel@ted>
-References: <CAMvUbCwy5UL3YWXS=2SkeKff2WDQE9EX7-CGUv9s5SH+9uSK1g@mail.gmail.com>
-	<1329828974.15011.7.camel@ted>
-Organization: =?ISO-8859-1?B?RXVrculh?= Electromatique
-X-Mailer: Claws Mail 3.8.0 (GTK+ 2.24.8; x86_64-redhat-linux-gnu)
-Mime-Version: 1.0
-Subject: Re: bitbake parsing of IMAGE_INSTALL += # tslib mtd-utils" extremely user unfriendly.
+Date: Thu, 23 Feb 2012 15:31:27 +0000
+Message-Id: <cover.1330010964.git.paul.eggleton@linux.intel.com>
+X-Mailer: git-send-email 1.7.5.4
+Subject: [PATCH 0/3] fixes for meta-toolchain without x11
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -32,45 +29,70 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 23 Feb 2012 15:38:57 -0000
-Content-Type: text/plain; charset=ISO-8859-1
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Thu, 23 Feb 2012 15:39:57 -0000
 
-Hi Richard,
+A couple of patches that fix building meta-toolchain with x11 removed
+from DISTRO_FEATURES, and a patch removing QEMU 0.14.0 which is
+obsolete.
 
-Le Tue, 21 Feb 2012 12:56:14 +0000,
-Richard Purdie <richard.purdie@linuxfoundation.org> a =E9crit :
->=20
-> What was the output? (I realise I can find out)
->=20
-> With usability issues like this, opening a bug in
-> bugzilla.yoctoproject.org is a good idea, particularly as we've been
-> focusing on cleaning up this kind of problem. Reporting them with a
-> known reproducible test case helps a lot as when you're looking to try
-> and fix these things, you need a good set of reproducers.=20
->=20
-> As a quick plug for the work that's been done already, we've now worked
-> through many of the issues that were reported so it is worth taking the
-> time to report them! :)
->=20
-I had also a bitbake failure after an error in an image and bitbake
-exited without any information concerning the error (even when running
-with -DDD I didn't managed to see a log - but I must admit I didn't
-search in the whole history).
+The following changes since commit 55f72b98f606c1554eb6edd151292ffdfddf1384:
 
-Basically I had :
-XSERVER +=3D "    <=3D=3D=3D=3D missing \
-	xf86-input-tslib \
-	"
-and bitbake exit with :
-ERROR: Command execution failed: Exited with 1
-et nothing more.
+  texi2html: Fix for multilib (2012-02-22 23:01:45 +0000)
 
-Eric
+are available in the git repository at:
+  git://git.openembedded.org/openembedded-core-contrib paule/meta-toolchain-nox
+  http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=paule/meta-toolchain-nox
 
+Paul Eggleton (3):
+  qemu: enable building qemu-nativesdk without x11
+  libsdl: allow building without x11
+  qemu: remove version 0.14.0
 
+ ...t-and-use-GCC-atomic-builtins-for-locking.patch |   86 -
+ .../qemu/qemu-0.14.0/arm-bgr.patch                 |   30 -
+ .../qemu/qemu-0.14.0/enable-i386-linux-user.patch  |   55 -
+ .../fallback-to-safe-mmap_min_addr.patch           |   39 -
+ .../qemu/qemu-0.14.0/fix-configure-checks.patch    |   22 -
+ .../qemu/qemu-0.14.0/fix-nogl.patch                |  127 -
+ .../qemu/qemu-0.14.0/glflags.patch                 |   15 -
+ .../qemu/qemu-0.14.0/init-info.patch               |   18 -
+ .../qemu/qemu-0.14.0/larger_default_ram_size.patch |   22 -
+ .../qemu/qemu-0.14.0/linker-flags.patch            |   25 -
+ .../qemu/qemu-0.14.0/no-strip.patch                |   15 -
+ .../qemu/qemu-0.14.0/opengl-sdl-fix.patch          |   43 -
+ .../qemu/qemu-0.14.0/powerpc_rom.bin               |  Bin 4096 -> 0 bytes
+ .../qemu/qemu-0.14.0/qemu-git-qemugl-host.patch    |34368 --------------------
+ .../qemu/qemu-0.14.0/qemu-vmware-vga-depth.patch   |  118 -
+ .../qemugl-allow-glxcontext-release.patch          |   65 -
+ .../qemu/qemu-0.14.0/qemugl-fix.patch              |   74 -
+ .../spice-qxl-locking-fix-for-qemu-kvm.patch       |  152 -
+ meta/recipes-devtools/qemu/qemu.inc                |    3 +-
+ meta/recipes-devtools/qemu/qemu_0.14.0.bb          |   48 -
+ meta/recipes-devtools/qemu/qemu_0.15.1.bb          |   13 +-
+ meta/recipes-graphics/libsdl/libsdl_1.2.14.bb      |   11 +-
+ 22 files changed, 19 insertions(+), 35330 deletions(-)
+ delete mode 100644 meta/recipes-devtools/qemu/qemu-0.14.0/Detect-and-use-GCC-atomic-builtins-for-locking.patch
+ delete mode 100644 meta/recipes-devtools/qemu/qemu-0.14.0/arm-bgr.patch
+ delete mode 100644 meta/recipes-devtools/qemu/qemu-0.14.0/enable-i386-linux-user.patch
+ delete mode 100644 meta/recipes-devtools/qemu/qemu-0.14.0/fallback-to-safe-mmap_min_addr.patch
+ delete mode 100644 meta/recipes-devtools/qemu/qemu-0.14.0/fix-configure-checks.patch
+ delete mode 100644 meta/recipes-devtools/qemu/qemu-0.14.0/fix-nogl.patch
+ delete mode 100644 meta/recipes-devtools/qemu/qemu-0.14.0/glflags.patch
+ delete mode 100644 meta/recipes-devtools/qemu/qemu-0.14.0/init-info.patch
+ delete mode 100644 meta/recipes-devtools/qemu/qemu-0.14.0/larger_default_ram_size.patch
+ delete mode 100644 meta/recipes-devtools/qemu/qemu-0.14.0/linker-flags.patch
+ delete mode 100644 meta/recipes-devtools/qemu/qemu-0.14.0/no-strip.patch
+ delete mode 100644 meta/recipes-devtools/qemu/qemu-0.14.0/opengl-sdl-fix.patch
+ delete mode 100644 meta/recipes-devtools/qemu/qemu-0.14.0/powerpc_rom.bin
+ delete mode 100644 meta/recipes-devtools/qemu/qemu-0.14.0/qemu-git-qemugl-host.patch
+ delete mode 100644 meta/recipes-devtools/qemu/qemu-0.14.0/qemu-vmware-vga-depth.patch
+ delete mode 100644 meta/recipes-devtools/qemu/qemu-0.14.0/qemugl-allow-glxcontext-release.patch
+ delete mode 100644 meta/recipes-devtools/qemu/qemu-0.14.0/qemugl-fix.patch
+ delete mode 100644 meta/recipes-devtools/qemu/qemu-0.14.0/spice-qxl-locking-fix-for-qemu-kvm.patch
+ delete mode 100644 meta/recipes-devtools/qemu/qemu_0.14.0.bb
 
---=20
-http://eukrea.com/en/news/104-2012
+-- 
+1.7.5.4
+
 
 
