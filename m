@@ -1,47 +1,45 @@
-Received: from ch1ehsobe001.messaging.microsoft.com ([216.32.181.181]
-	helo=ch1outboundpool.messaging.microsoft.com)
+Received: from tx2ehsobe003.messaging.microsoft.com ([65.55.88.13]
+	helo=TX2EHSOBE005.bigfish.com)
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <B29882@freescale.com>) id 1S0SCC-0005kE-V8
+	(envelope-from <B29882@freescale.com>) id 1S0SQe-0006G6-0w
 	for openembedded-core@lists.openembedded.org;
-	Thu, 23 Feb 2012 07:30:29 +0100
-Received: from mail10-ch1-R.bigfish.com (10.43.68.244) by
-	CH1EHSOBE017.bigfish.com (10.43.70.67) with Microsoft SMTP Server id
-	14.1.225.23; Thu, 23 Feb 2012 06:22:01 +0000
-Received: from mail10-ch1 (localhost [127.0.0.1])	by mail10-ch1-R.bigfish.com
-	(Postfix) with ESMTP id 533DDC04AD	for
+	Thu, 23 Feb 2012 07:45:24 +0100
+Received: from mail82-tx2-R.bigfish.com (10.9.14.249) by
+	TX2EHSOBE005.bigfish.com (10.9.40.25) with Microsoft SMTP Server id
+	14.1.225.23; Thu, 23 Feb 2012 06:21:52 +0000
+Received: from mail82-tx2 (localhost [127.0.0.1])	by mail82-tx2-R.bigfish.com
+	(Postfix) with ESMTP id 271DD140114	for
 	<openembedded-core@lists.openembedded.org>;
-	Thu, 23 Feb 2012 06:22:01 +0000 (UTC)
+	Thu, 23 Feb 2012 06:21:52 +0000 (UTC)
 X-SpamScore: 3
 X-BigFish: VS3(zzzz1202h1082kzz8275bhz2dh2a8h668h839h)
 X-Forefront-Antispam-Report: CIP:70.37.183.190; KIP:(null); UIP:(null); IPV:NLI;
 	H:mail.freescale.net; RD:none; EFVD:NLI
-Received: from mail10-ch1 (localhost.localdomain [127.0.0.1]) by mail10-ch1
-	(MessageSwitch) id 1329978109139577_1057;
-	Thu, 23 Feb 2012 06:21:49 +0000 (UTC)
-Received: from CH1EHSMHS029.bigfish.com (snatpool1.int.messaging.microsoft.com
-	[10.43.68.252])	by mail10-ch1.bigfish.com (Postfix) with ESMTP id
-	415042C01F3 for <openembedded-core@lists.openembedded.org>;
-	Thu, 23 Feb 2012 06:21:47 +0000 (UTC)
-Received: from mail.freescale.net (70.37.183.190) by CH1EHSMHS029.bigfish.com
-	(10.43.70.29) with Microsoft SMTP Server (TLS) id 14.1.225.23;
-	Thu, 23 Feb 2012 06:21:47 +0000
+Received: from mail82-tx2 (localhost.localdomain [127.0.0.1]) by mail82-tx2
+	(MessageSwitch) id 1329978110499086_21885;
+	Thu, 23 Feb 2012 06:21:50 +0000 (UTC)
+Received: from TX2EHSMHS023.bigfish.com (unknown [10.9.14.245])	by
+	mail82-tx2.bigfish.com (Postfix) with ESMTP id 75862240046	for
+	<openembedded-core@lists.openembedded.org>;
+	Thu, 23 Feb 2012 06:21:50 +0000 (UTC)
+Received: from mail.freescale.net (70.37.183.190) by TX2EHSMHS023.bigfish.com
+	(10.9.99.123) with Microsoft SMTP Server (TLS) id 14.1.225.23;
+	Thu, 23 Feb 2012 06:21:50 +0000
 Received: from tx30smr01.am.freescale.net (10.81.153.31) by
-	039-SN1MMR1-001.039d.mgd.msft.net (10.84.1.13) with Microsoft SMTP
+	039-SN1MMR1-003.039d.mgd.msft.net (10.84.1.16) with Microsoft SMTP
 	Server (TLS) id 14.1.355.3; Thu, 23 Feb 2012 00:21:52 -0600
 Received: from right.am.freescale.net (right.am.freescale.net [10.82.193.13])
 	by tx30smr01.am.freescale.net (8.14.3/8.14.0) with ESMTP id
-	q1N6LnqT006062 for <openembedded-core@lists.openembedded.org>;
+	q1N6LnqS006062 for <openembedded-core@lists.openembedded.org>;
 	Wed, 22 Feb 2012 23:21:52 -0700
 From: Matthew McClintock <msm@freescale.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Thu, 23 Feb 2012 00:21:49 -0600
-Message-ID: <1329978109-642-2-git-send-email-msm@freescale.com>
+Date: Thu, 23 Feb 2012 00:21:48 -0600
+Message-ID: <1329978109-642-1-git-send-email-msm@freescale.com>
 X-Mailer: git-send-email 1.7.6.1
-In-Reply-To: <1329978109-642-1-git-send-email-msm@freescale.com>
-References: <1329978109-642-1-git-send-email-msm@freescale.com>
 MIME-Version: 1.0
 X-OriginatorOrg: freescale.com
-Subject: [PATCH 2/2] tune-ppce5500: consolidate ppce5500 and ppc64e5500 into one tune file
+Subject: [PATCH 1/2] arch-powerpc{, 64}.inc: update/add PACKAGE_EXTRA_ARCHS for powerpc/powerpc64
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -56,94 +54,36 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 23 Feb 2012 06:30:29 -0000
+X-List-Received-Date: Thu, 23 Feb 2012 06:45:25 -0000
 Content-Type: text/plain
-
-We don't need two files for this. Also this fixes some mutlilib build
-issues where we were not able to select the multilib arch to be
-ppce5500 or ppc64e5500.
-
-Changes recently made to meta-fsl-ppc layer depend on this change as
-well
 
 Signed-off-by: Matthew McClintock <msm@freescale.com>
 ---
- meta/conf/machine/include/tune-ppce5500-32b.inc |   15 ---------------
- meta/conf/machine/include/tune-ppce5500-64b.inc |   15 ---------------
- meta/conf/machine/include/tune-ppce5500.inc     |   20 ++++++++++++++++++++
- 3 files changed, 20 insertions(+), 30 deletions(-)
- delete mode 100644 meta/conf/machine/include/tune-ppce5500-32b.inc
- delete mode 100644 meta/conf/machine/include/tune-ppce5500-64b.inc
- create mode 100644 meta/conf/machine/include/tune-ppce5500.inc
+ meta/conf/machine/include/powerpc/arch-powerpc.inc |    4 +---
+ .../machine/include/powerpc/arch-powerpc64.inc     |    1 +
+ 2 files changed, 2 insertions(+), 3 deletions(-)
 
-diff --git a/meta/conf/machine/include/tune-ppce5500-32b.inc b/meta/conf/machine/include/tune-ppce5500-32b.inc
-deleted file mode 100644
-index 7a9e533..0000000
---- a/meta/conf/machine/include/tune-ppce5500-32b.inc
-+++ /dev/null
-@@ -1,15 +0,0 @@
--DEFAULTTUNE ?= "ppce5500"
+diff --git a/meta/conf/machine/include/powerpc/arch-powerpc.inc b/meta/conf/machine/include/powerpc/arch-powerpc.inc
+index 8347f86..c9b2829 100644
+--- a/meta/conf/machine/include/powerpc/arch-powerpc.inc
++++ b/meta/conf/machine/include/powerpc/arch-powerpc.inc
+@@ -30,6 +30,4 @@ BASE_LIB_tune-powerpc-nf = "lib"
+ PACKAGE_EXTRA_ARCHS_tune-powerpc-nf = "powerpc-nf"
+ TUNE_FEATURES_tune-powerpc ?= "m32 fpu-hard"
+ BASE_LIB_tune-powerpc = "lib"
+-PACKAGE_EXTRA_ARCHS_tune-powerpc = "${PACKAGE_EXTRA_ARCHS_tune-powerpc-nf} powerpc"
 -
--require conf/machine/include/powerpc/arch-powerpc64.inc
 -
--TUNEVALID[ppce5500] = "Enable ppce5500 specific processor optimizations"
--TUNE_CCARGS += "${@bb.utils.contains("TUNE_FEATURES", "ppce5500", "-mcpu=e5500", "", d)}"
--TUNE_PKGARCH = "${@bb.utils.contains("TUNE_FEATURES", "ppce5500", "ppce5500", "${PPCPKGARCH}", d)}"
--
--AVAILTUNES = "ppce5500"
--TUNE_FEATURES_tune-ppce5500 = "m32 ppce5500"
--PACKAGE_EXTRA_ARCHS_tune-ppce5500 = "powerpc ppce5500"
--BASE_LIB_tune-ppce5500 = "lib"
--
--# glibc configure options to get e5500 specific library (for sqrt)
--GLIBC_EXTRA_OECONF += "${@bb.utils.contains("TUNE_FEATURES", "ppce5500", "--with-cpu=e5500", "", d)}"
-diff --git a/meta/conf/machine/include/tune-ppce5500-64b.inc b/meta/conf/machine/include/tune-ppce5500-64b.inc
-deleted file mode 100644
-index 683d25f..0000000
---- a/meta/conf/machine/include/tune-ppce5500-64b.inc
-+++ /dev/null
-@@ -1,15 +0,0 @@
--DEFAULTTUNE ?= "ppc64e5500"
--
--require conf/machine/include/powerpc/arch-powerpc64.inc
--
--TUNEVALID[ppc64e5500] = "Enable ppc64e5500 specific processor optimizations"
--TUNE_CCARGS += "${@bb.utils.contains("TUNE_FEATURES", "ppc64e5500", "-mcpu=e5500", "", d)}"
--TUNE_PKGARCH = "${@bb.utils.contains("TUNE_FEATURES", "ppc64e5500", "ppc64e5500", "${PPCPKGARCH}", d)}"
--
--AVAILTUNES = "ppc64e5500"
--TUNE_FEATURES_tune-ppc64e5500 = "m64 ppc64e5500"
--PACKAGE_EXTRA_ARCHS_tune-ppc64e5500 = "powerpc64 ppc64e5500"
--BASE_LIB_tune-ppc64e5500 = "lib64"
--
--# glibc configure options to get e5500 specific library (for sqrt)
--GLIBC_EXTRA_OECONF += "${@bb.utils.contains("TUNE_FEATURES", "ppc64e5500", "--with-cpu=e5500", "", d)}"
-diff --git a/meta/conf/machine/include/tune-ppce5500.inc b/meta/conf/machine/include/tune-ppce5500.inc
-new file mode 100644
-index 0000000..fe8d79d
---- /dev/null
-+++ b/meta/conf/machine/include/tune-ppce5500.inc
-@@ -0,0 +1,20 @@
-+DEFAULTTUNE ?= "ppce5500"
-+
-+require conf/machine/include/powerpc/arch-powerpc64.inc
-+
-+TUNEVALID[e5500] = "Enable Freescale e5500 specific processor optimizations"
-+TUNE_CCARGS += "${@bb.utils.contains("TUNE_FEATURES", "e5500", "-mcpu=e5500", "", d)}"
-+
-+AVAILTUNES += "ppce5500 ppc64e5500"
-+TUNE_FEATURES_tune-ppce5500 = "m32 fpu-hard e5500"
-+PACKAGE_EXTRA_ARCHS_tune-ppce5500 = "${PACKAGE_EXTRA_ARCHS_tune-powerpc} ppce5500"
-+BASE_LIB_tune-ppce5500 = "lib"
-+TUNE_PKGARCH_tune-ppce5500 = "ppce5500"
-+
-+TUNE_FEATURES_tune-ppc64e5500 = "m64 fpu-hard e5500"
-+PACKAGE_EXTRA_ARCHS_tune-ppc64e5500 = "${PACKAGE_EXTRA_ARCHS_tune-powerpc64} ppc64e5500"
-+BASE_LIB_tune-ppc64e5500 = "lib64"
-+TUNE_PKGARCH_tune-ppc64e5500 = "ppc64e5500"
-+
-+# glibc configure options to get e5500 specific library (for sqrt)
-+GLIBC_EXTRA_OECONF += "${@bb.utils.contains("TUNE_FEATURES", "e5500", "--with-cpu=e5500", "", d)}"
++PACKAGE_EXTRA_ARCHS_tune-powerpc = "powerpc"
+diff --git a/meta/conf/machine/include/powerpc/arch-powerpc64.inc b/meta/conf/machine/include/powerpc/arch-powerpc64.inc
+index 7ef8ddc..48cd08e 100644
+--- a/meta/conf/machine/include/powerpc/arch-powerpc64.inc
++++ b/meta/conf/machine/include/powerpc/arch-powerpc64.inc
+@@ -10,3 +10,4 @@ TUNE_ARCH .= "${@bb.utils.contains("TUNE_FEATURES", [ "m64" ], "powerpc64", "",
+ AVAILTUNES += "powerpc64"
+ TUNE_FEATURES_tune-powerpc64 ?= "m64 fpu-hard"
+ BASE_LIB_tune-powerpc64 = "lib64"
++PACKAGE_EXTRA_ARCHS_tune-powerpc64 = "powerpc64"
 -- 
 1.7.6.1
 
