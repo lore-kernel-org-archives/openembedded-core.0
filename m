@@ -1,44 +1,20 @@
-Received: from mail-ee0-f47.google.com ([74.125.83.47])
+Received: from mga01.intel.com ([192.55.52.88])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <martin.jansa@gmail.com>) id 1S0b4f-0003xO-9J
+	(envelope-from <sgw@linux.intel.com>) id 1S0bC0-0004t7-NN
 	for openembedded-core@lists.openembedded.org;
-	Thu, 23 Feb 2012 16:59:17 +0100
-Received: by mail-ee0-f47.google.com with SMTP id d41so619839eek.6
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 23 Feb 2012 07:50:58 -0800 (PST)
-Received-SPF: pass (google.com: domain of martin.jansa@gmail.com designates
-	10.213.32.67 as permitted sender) client-ip=10.213.32.67; 
-Authentication-Results: mr.google.com;
-	spf=pass (google.com: domain of martin.jansa@gmail.com
-	designates 10.213.32.67 as permitted sender)
-	smtp.mail=martin.jansa@gmail.com;
-	dkim=pass header.i=martin.jansa@gmail.com
-Received: from mr.google.com ([10.213.32.67])
-	by 10.213.32.67 with SMTP id b3mr604461ebd.75.1330012258146 (num_hops =
-	1); Thu, 23 Feb 2012 07:50:58 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
-	h=from:to:subject:date:message-id:x-mailer:in-reply-to:references
-	:in-reply-to:references;
-	bh=ZnUhzNbVZNm9gQhMeZzZfzAzj91JYKwbaoYsxPYEIZQ=;
-	b=SUp4sCg8eTZhNNqxfbYMZm0oyclNEROj0tJcZwRQ4zuPLBo+hXs/lHmyjE+N5SWBke
-	zT7SrmwxgiiIzWDV6tpLU2gkgNZDJQrVxQExnZ1wRWj1ocq/nLmQNfw2wSTf0AhDHmSw
-	LlxzzxD9QqrQAoyTHu7nG67S1TCgl4fXdXdQg=
-Received: by 10.213.32.67 with SMTP id b3mr475744ebd.75.1330012258061;
-	Thu, 23 Feb 2012 07:50:58 -0800 (PST)
-Received: from localhost ([94.230.152.246])
-	by mx.google.com with ESMTPS id a58sm6643082eeb.8.2012.02.23.07.50.56
-	(version=TLSv1/SSLv3 cipher=OTHER);
-	Thu, 23 Feb 2012 07:50:57 -0800 (PST)
-From: Martin Jansa <martin.jansa@gmail.com>
+	Thu, 23 Feb 2012 17:06:53 +0100
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+	by fmsmga101.fm.intel.com with ESMTP; 23 Feb 2012 07:58:30 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="128652338"
+Received: from unknown (HELO swold-mobl.bigsur.com) ([10.255.15.72])
+	by fmsmga002.fm.intel.com with ESMTP; 23 Feb 2012 07:58:30 -0800
+From: Saul Wold <sgw@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Thu, 23 Feb 2012 16:50:27 +0100
-Message-Id: <c79b78bd5e3d4869682f7d3a0d09af61e3dc4da4.1330012029.git.Martin.Jansa@gmail.com>
-X-Mailer: git-send-email 1.7.8.4
-In-Reply-To: <3a155936ed32d2296f38a499c41490f215b6fb4d.1330012029.git.Martin.Jansa@gmail.com>
-References: <3a155936ed32d2296f38a499c41490f215b6fb4d.1330012029.git.Martin.Jansa@gmail.com>
-In-Reply-To: <cover.1330012029.git.Martin.Jansa@gmail.com>
-References: <cover.1330012029.git.Martin.Jansa@gmail.com>
-Subject: [PATCH 11/11] sstate.bbclass: improve performance of sstate package creation
+Date: Thu, 23 Feb 2012 07:58:04 -0800
+Message-Id: <cover.1330012543.git.sgw@linux.intel.com>
+X-Mailer: git-send-email 1.7.6.5
+Subject: [CONSOLIDATED PULL 00/25] Catching up from ELC
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -53,79 +29,123 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 23 Feb 2012 15:59:17 -0000
+X-List-Received-Date: Thu, 23 Feb 2012 16:06:53 -0000
 
-* also fixes replacing paths for perl where cmd line was probably
-  too long for os.system(cmd) (it had 560410 characters because a lot of
-  files from sstate_scan_cmd).
-* also print those 2 commands so we can find them in log.do_package
+Richard,
 
-Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
----
- meta/classes/sstate.bbclass |   39 ++++++++++++++++-----------------------
- 1 files changed, 16 insertions(+), 23 deletions(-)
+Here are a batch of changes reviewed and built
 
-diff --git a/meta/classes/sstate.bbclass b/meta/classes/sstate.bbclass
-index ee9bf05..6883843 100644
---- a/meta/classes/sstate.bbclass
-+++ b/meta/classes/sstate.bbclass
-@@ -304,38 +304,31 @@ python sstate_cleanall() {
- def sstate_hardcode_path(d):
- 	# Need to remove hardcoded paths and fix these when we install the
- 	# staging packages.
--	sstate_scan_cmd = d.getVar('SSTATE_SCAN_CMD', True)
--	p = os.popen("%s" % sstate_scan_cmd)
--	file_list = p.read()
--
--	if file_list == "":
--		p.close()
--		return
- 
- 	staging = d.getVar('STAGING_DIR', True)
- 	staging_target = d.getVar('STAGING_DIR_TARGET', True)
- 	staging_host = d.getVar('STAGING_DIR_HOST', True)
- 	sstate_builddir = d.getVar('SSTATE_BUILDDIR', True)
- 
--	files = " ".join(file_list.split('\n'))
--
- 	if bb.data.inherits_class('native', d) or bb.data.inherits_class('nativesdk', d) or bb.data.inherits_class('crosssdk', d) or bb.data.inherits_class('cross-canadian', d):
--		cmd = "sed -i -e s:%s:FIXMESTAGINGDIR:g %s" % (staging, files)
-+		sstate_sed_cmd = "sed -i -e 's:%s:FIXMESTAGINGDIR:g'" % (staging)
- 	elif bb.data.inherits_class('cross', d):
--		cmd = "sed -i -e s:%s:FIXMESTAGINGDIRTARGET:g %s \
--			sed -i -e s:%s:FIXMESTAGINGDIR:g %s" % (staging_target, files, staging, files)
-+		sstate_sed_cmd = "sed -i -e 's:%s:FIXMESTAGINGDIRTARGET:g; s:%s:FIXMESTAGINGDIR:g'" % (staging_target, staging)
- 	else:
--		cmd = "sed -i -e s:%s:FIXMESTAGINGDIRHOST:g %s" % (staging_host, files)
--
--	if files:
--		os.system(cmd)
--		fix = open("%sfixmepath" % (sstate_builddir), "w")
--		fixme = []
--		for f in file_list.split('\n'):
--			fixme.append(f.replace(sstate_builddir, ""))
--		fix.write("\n".join(fixme))
--		fix.close()
--	p.close()
-+		sstate_sed_cmd = "sed -i -e 's:%s:FIXMESTAGINGDIRHOST:g'" % (staging_host)
-+	
-+	sstate_scan_cmd = d.getVar('SSTATE_SCAN_CMD', True)
-+	sstate_filelist_cmd = "tee %sfixmepath" % (sstate_builddir)
-+
-+	# fixmepath file needs relative paths, drop sstate_builddir prefix
-+	sstate_filelist_relative_cmd = "sed -i -e 's:^%s::g %sfixmepath'" % (sstate_builddir, sstate_builddir)
-+
-+	sstate_hardcode_cmd = "%s | %s | xargs %s" % (sstate_scan_cmd, sstate_filelist_cmd, sstate_sed_cmd)
-+
-+	print "Removing hardcoded paths from sstate package: '%s'" % (sstate_hardcode_cmd)
-+	os.system(sstate_hardcode_cmd)
-+	print "Replacing absolute paths in fixmepath file: '%s'" % (sstate_filelist_relative_cmd)
-+	os.system(sstate_filelist_relative_cmd)
- 
- def sstate_package(ss, d):
-     import oe.path
+
+The following changes since commit 55f72b98f606c1554eb6edd151292ffdfddf1384:
+
+  texi2html: Fix for multilib (2012-02-22 23:01:45 +0000)
+
+are available in the git repository at:
+  git://git.openembedded.org/openembedded-core-contrib sgw/stage
+  http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=sgw/stage
+
+Andreas Oberritter (5):
+  xorg-lib: don't build libs unless requested by DISTRO_FEATURES
+  autotools.bbclass: Don't copy into non-existant directory
+  busybox: don't create /etc/default
+  gst-plugins-base: depend on libx11 and libxv conditionally
+  mpeg2dec: depend on libx11 conditionally
+
+Andrei Gherzan (7):
+  dhcp: Update to 4.2.3-P2
+  nspr: Integrate version 4.8.9
+  nspr: Compile nspr with tests
+  nspr: Add patch in order to remove rpath from binaries
+  e2fsprogs: e2initrd_helper was moved in libdir but not packaged
+    correctly in FILES_libext2fs
+  dbus: Remove empty ${lindir}dbus-1.0/test directory as we don't build
+    tests
+  openssl: Move libcrypto to base_libdir
+
+Dexuan Cui (2):
+  task-self-hosted: remove duplicate packages
+  task-self-hosted: make the package lists alphabetical
+
+Gary Thomas (1):
+  initscripts: Make /etc/timestamp consistent again.
+
+Martin Jansa (1):
+  wireless-tools: remove ldconfig call from install-libs
+
+Mike Crowe (1):
+  e2fsprogs: Cope with ${libdir} and ${base_libdir} being the same
+
+Robert Yang (1):
+  A script to clean obsolete sstate cache files
+
+Saul Wold (6):
+  syslinux: Use SYSLINUX_TIMEOUT and SYSLINUX_PROMPT to configure
+    syslinux
+  syslinux: add SYSLINUX_ROOT to APPEND line
+  image_types: add vmdk type to use with VMware
+  image-live: fix SYSLINUX_TIME and add SYSLINUX_ROOT instead of APPEND
+  boot-directdisk: Use correct SYSLINUX_TIMEOUT and SYSLINUX_ROOT
+    instead of APPEND
+  distro_tracking_fields: fix typos
+
+Yauhen Kharuzhy (1):
+  ppp: Fix rp-pppoe plugin compilation
+
+ meta/classes/autotools.bbclass                     |    2 +-
+ meta/classes/boot-directdisk.bbclass               |    6 +-
+ meta/classes/image-live.bbclass                    |    4 +-
+ meta/classes/image_types.bbclass                   |    5 +-
+ meta/classes/syslinux.bbclass                      |   11 +-
+ .../conf/distro/include/distro_tracking_fields.inc |    4 +-
+ .../dhcp-3.0.3-dhclient-dbus.patch                 |    0
+ .../fix-client-path.patch                          |    0
+ .../fix-external-bind.patch                        |    0
+ .../fixincludes.patch                              |    0
+ .../dhcp/dhcp-4.2.3-P2/link-with-lcrypto.patch     |   25 +++
+ .../{dhcp-4.2.0 => dhcp-4.2.3-P2}/noattrmode.patch |    0
+ .../dhcp/{dhcp-4.2.0 => dhcp-4.2.3-P2}/site.h      |    0
+ meta/recipes-connectivity/dhcp/dhcp.inc            |    6 +-
+ .../dhcp/{dhcp_4.2.0.bb => dhcp_4.2.3-P2.bb}       |    8 +-
+ meta/recipes-connectivity/openssl/openssl.inc      |   10 +-
+ .../recipes-connectivity/openssl/openssl_1.0.0g.bb |    2 +-
+ .../ppp/ppp-2.4.5/update_if_pppol2tp.patch         |   54 +++++++
+ meta/recipes-connectivity/ppp/ppp_2.4.5.bb         |    3 +-
+ .../wireless-tools/remove.ldconfig.call.patch      |   19 +++
+ .../wireless-tools/wireless-tools_29.bb            |    5 +-
+ meta/recipes-core/busybox/busybox.inc              |    1 -
+ meta/recipes-core/busybox/busybox_1.19.3.bb        |    2 +-
+ meta/recipes-core/dbus/dbus.inc                    |    5 +-
+ .../initscripts/initscripts-1.0/bootmisc.sh        |    4 +-
+ .../initscripts/initscripts-1.0/save-rtc.sh        |    2 +-
+ meta/recipes-core/initscripts/initscripts_1.0.bb   |    2 +-
+ meta/recipes-core/tasks/task-self-hosted.bb        |   47 ++----
+ meta/recipes-devtools/e2fsprogs/e2fsprogs_1.42.bb  |   12 +-
+ meta/recipes-graphics/xorg-lib/libx11.inc          |    5 -
+ meta/recipes-graphics/xorg-lib/xorg-lib-common.inc |    6 +
+ .../gstreamer/gst-plugins-base_0.10.35.bb          |    3 +-
+ meta/recipes-multimedia/mpeg2dec/mpeg2dec_0.4.1.bb |    2 +-
+ meta/recipes-support/nspr/files/nspr.pc.in         |   11 ++
+ .../nspr/files/remove-rpath-from-tests.patch       |   26 +++
+ meta/recipes-support/nspr/nspr_4.8.9.bb            |  165 ++++++++++++++++++++
+ scripts/sstate-cache-management.sh                 |  135 ++++++++++++++++
+ 37 files changed, 518 insertions(+), 74 deletions(-)
+ rename meta/recipes-connectivity/dhcp/{dhcp-4.2.0 => dhcp-4.2.3-P2}/dhcp-3.0.3-dhclient-dbus.patch (100%)
+ rename meta/recipes-connectivity/dhcp/{dhcp-4.2.0 => dhcp-4.2.3-P2}/fix-client-path.patch (100%)
+ rename meta/recipes-connectivity/dhcp/{dhcp-4.2.0 => dhcp-4.2.3-P2}/fix-external-bind.patch (100%)
+ rename meta/recipes-connectivity/dhcp/{dhcp-4.2.0 => dhcp-4.2.3-P2}/fixincludes.patch (100%)
+ create mode 100644 meta/recipes-connectivity/dhcp/dhcp-4.2.3-P2/link-with-lcrypto.patch
+ rename meta/recipes-connectivity/dhcp/{dhcp-4.2.0 => dhcp-4.2.3-P2}/noattrmode.patch (100%)
+ rename meta/recipes-connectivity/dhcp/{dhcp-4.2.0 => dhcp-4.2.3-P2}/site.h (100%)
+ rename meta/recipes-connectivity/dhcp/{dhcp_4.2.0.bb => dhcp_4.2.3-P2.bb} (48%)
+ create mode 100644 meta/recipes-connectivity/ppp/ppp-2.4.5/update_if_pppol2tp.patch
+ create mode 100644 meta/recipes-connectivity/wireless-tools/wireless-tools/remove.ldconfig.call.patch
+ create mode 100644 meta/recipes-support/nspr/files/nspr.pc.in
+ create mode 100644 meta/recipes-support/nspr/files/remove-rpath-from-tests.patch
+ create mode 100644 meta/recipes-support/nspr/nspr_4.8.9.bb
+ create mode 100755 scripts/sstate-cache-management.sh
+
 -- 
-1.7.8.4
+1.7.6.5
 
 
 
