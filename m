@@ -1,40 +1,40 @@
 Received: from dan.rpsys.net ([93.97.175.187])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <richard@rpsys.net>) id 1S0ZuX-0001fg-Vb
+	(envelope-from <richard@rpsys.net>) id 1S0ZuY-0001fg-VZ
 	for openembedded-core@lists.openembedded.org;
-	Thu, 23 Feb 2012 15:44:46 +0100
+	Thu, 23 Feb 2012 15:44:47 +0100
 Received: from localhost (dan.rpsys.net [127.0.0.1])
 	by dan.rpsys.net (8.14.2/8.14.2/Debian-2build1) with ESMTP id
-	q1NElxoW002926 for <openembedded-core@lists.openembedded.org>;
-	Thu, 23 Feb 2012 14:47:59 GMT
-X-Quarantine-ID: <xkwxTtvzHJkk>
+	q1NEltSC002909 for <openembedded-core@lists.openembedded.org>;
+	Thu, 23 Feb 2012 14:47:55 GMT
+X-Quarantine-ID: <WeRWq+bjUOkY>
 X-Virus-Scanned: Debian amavisd-new at dan.rpsys.net
 X-Amavis-Alert: BAD HEADER, Duplicate header field: "In-Reply-To"
 Received: from dan.rpsys.net ([127.0.0.1])
 	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
-	with LMTP id xkwxTtvzHJkk
+	with LMTP id WeRWq+bjUOkY
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 23 Feb 2012 14:47:59 +0000 (GMT)
+	Thu, 23 Feb 2012 14:47:55 +0000 (GMT)
 Received: from ted (ted.config [192.168.1.68]) (authenticated bits=0)
 	by dan.rpsys.net (8.14.2/8.14.2/Debian-2build1) with ESMTP id
-	q1NElvBm002915
+	q1NElqBo002884
 	(version=TLSv1/SSLv3 cipher=AES256-SHA bits=256 verify=NOT)
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 23 Feb 2012 14:47:58 GMT
+	Thu, 23 Feb 2012 14:47:53 GMT
 Received: from richard by ted with local (Exim 4.76)
-	(envelope-from <richard@dan.rpsys.net>) id 1S0Ysu-000513-1h
+	(envelope-from <richard@dan.rpsys.net>) id 1S0Yt1-0005F3-RZ
 	for openembedded-core@lists.openembedded.org;
-	Thu, 23 Feb 2012 13:39:00 +0000
+	Thu, 23 Feb 2012 13:39:07 +0000
 From: Richard Purdie <richard.purdie@linuxfoundation.org>
 To: openembedded-core@lists.openembedded.org
-Date: Thu, 23 Feb 2012 13:38:21 +0000
-Message-Id: <4661025c2743fe020018d7b97fd6759c571c2733.1330004039.git.richard.purdie@linuxfoundation.org>
+Date: Thu, 23 Feb 2012 13:38:24 +0000
+Message-Id: <828e720df944368aa3a05cf77f95c12edcf5d31d.1330004039.git.richard.purdie@linuxfoundation.org>
 X-Mailer: git-send-email 1.7.5.4
 In-Reply-To: <5c6b81ada0814d1947d89120867bb9a4a5b0fa85.1330004039.git.richard.purdie@linuxfoundation.org>
 References: <5c6b81ada0814d1947d89120867bb9a4a5b0fa85.1330004039.git.richard.purdie@linuxfoundation.org>
 In-Reply-To: <cover.1330004039.git.richard.purdie@linuxfoundation.org>
 References: <cover.1330004039.git.richard.purdie@linuxfoundation.org>
-Subject: [PATCH 12/16] package.bbclass: Remove empty directories created as part of srcdebug handling
+Subject: [PATCH 15/16] gthumb: Resolve staticdev QA warnings
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -49,57 +49,66 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 23 Feb 2012 14:44:46 -0000
+X-List-Received-Date: Thu, 23 Feb 2012 14:44:54 -0000
 
-We can create directories like /usr/src/debug as part of the debug file
-manipulations. If these are going to end up empty, remove them to avoid QA
-warnings like:
+Since the .a files are pretty useless in the case of plugin modules, lets
+just remove them. This resolves the warnings:
 
-WARNING: For recipe task-core-x11, the following files/directories were installed but not shipped in any package:
-WARNING:   /usr
-WARNING:   /usr/src
-WARNING:   /usr/src/debug
-WARNING: For recipe task-core-console, the following files/directories were installed but not shipped in any package:
-WARNING:   /usr
-WARNING:   /usr/src
-WARNING:   /usr/src/debug
+WARNING: QA Issue: non -staticdev package contains static .a library: gthumb path '/work/x86_64-poky-linux/gthumb-2.12.4-r1/packages-split/gthumb/usr/lib/gthumb/extensions/libslideshow.a'
+WARNING: QA Issue: non -staticdev package contains static .a library: gthumb path '/work/x86_64-poky-linux/gthumb-2.12.4-r1/packages-split/gthumb/usr/lib/gthumb/extensions/libimporter.a'
+WARNING: QA Issue: non -staticdev package contains static .a library: gthumb path '/work/x86_64-poky-linux/gthumb-2.12.4-r1/packages-split/gthumb/usr/lib/gthumb/extensions/libimage_viewer.a'
+WARNING: QA Issue: non -staticdev package contains static .a library: gthumb path '/work/x86_64-poky-linux/gthumb-2.12.4-r1/packages-split/gthumb/usr/lib/gthumb/extensions/libchange_date.a'
+WARNING: QA Issue: non -staticdev package contains static .a library: gthumb path '/work/x86_64-poky-linux/gthumb-2.12.4-r1/packages-split/gthumb/usr/lib/gthumb/extensions/libedit_metadata.a'
+WARNING: QA Issue: non -staticdev package contains static .a library: gthumb path '/work/x86_64-poky-linux/gthumb-2.12.4-r1/packages-split/gthumb/usr/lib/gthumb/extensions/libgstreamer_tools.a'
+WARNING: QA Issue: non -staticdev package contains static .a library: gthumb path '/work/x86_64-poky-linux/gthumb-2.12.4-r1/packages-split/gthumb/usr/lib/gthumb/extensions/libphoto_importer.a'
+WARNING: QA Issue: non -staticdev package contains static .a library: gthumb path '/work/x86_64-poky-linux/gthumb-2.12.4-r1/packages-split/gthumb/usr/lib/gthumb/extensions/libimage_rotation.a'
+WARNING: QA Issue: non -staticdev package contains static .a library: gthumb path '/work/x86_64-poky-linux/gthumb-2.12.4-r1/packages-split/gthumb/usr/lib/gthumb/extensions/libfile_viewer.a'
+WARNING: QA Issue: non -staticdev package contains static .a library: gthumb path '/work/x86_64-poky-linux/gthumb-2.12.4-r1/packages-split/gthumb/usr/lib/gthumb/extensions/libpixbuf_savers.a'
+WARNING: QA Issue: non -staticdev package contains static .a library: gthumb path '/work/x86_64-poky-linux/gthumb-2.12.4-r1/packages-split/gthumb/usr/lib/gthumb/extensions/libexport_tools.a'
+WARNING: QA Issue: non -staticdev package contains static .a library: gthumb path '/work/x86_64-poky-linux/gthumb-2.12.4-r1/packages-split/gthumb/usr/lib/gthumb/extensions/libconvert_format.a'
+WARNING: QA Issue: non -staticdev package contains static .a library: gthumb path '/work/x86_64-poky-linux/gthumb-2.12.4-r1/packages-split/gthumb/usr/lib/gthumb/extensions/librename_series.a'
+WARNING: QA Issue: non -staticdev package contains static .a library: gthumb path '/work/x86_64-poky-linux/gthumb-2.12.4-r1/packages-split/gthumb/usr/lib/gthumb/extensions/libfile_tools.a'
+WARNING: QA Issue: non -staticdev package contains static .a library: gthumb path '/work/x86_64-poky-linux/gthumb-2.12.4-r1/packages-split/gthumb/usr/lib/gthumb/extensions/libwebalbums.a'
+WARNING: QA Issue: non -staticdev package contains static .a library: gthumb path '/work/x86_64-poky-linux/gthumb-2.12.4-r1/packages-split/gthumb/usr/lib/gthumb/extensions/libcatalogs.a'
+WARNING: QA Issue: non -staticdev package contains static .a library: gthumb path '/work/x86_64-poky-linux/gthumb-2.12.4-r1/packages-split/gthumb/usr/lib/gthumb/extensions/libresize_images.a'
+WARNING: QA Issue: non -staticdev package contains static .a library: gthumb path '/work/x86_64-poky-linux/gthumb-2.12.4-r1/packages-split/gthumb/usr/lib/gthumb/extensions/libimage_print.a'
+WARNING: QA Issue: non -staticdev package contains static .a library: gthumb path '/work/x86_64-poky-linux/gthumb-2.12.4-r1/packages-split/gthumb/usr/lib/gthumb/extensions/libdesktop_background.a'
+WARNING: QA Issue: non -staticdev package contains static .a library: gthumb path '/work/x86_64-poky-linux/gthumb-2.12.4-r1/packages-split/gthumb/usr/lib/gthumb/extensions/libred_eye_removal.a'
+WARNING: QA Issue: non -staticdev package contains static .a library: gthumb path '/work/x86_64-poky-linux/gthumb-2.12.4-r1/packages-split/gthumb/usr/lib/gthumb/extensions/libcomments.a'
+WARNING: QA Issue: non -staticdev package contains static .a library: gthumb path '/work/x86_64-poky-linux/gthumb-2.12.4-r1/packages-split/gthumb/usr/lib/gthumb/extensions/libfile_manager.a'
+WARNING: QA Issue: non -staticdev package contains static .a library: gthumb path '/work/x86_64-poky-linux/gthumb-2.12.4-r1/packages-split/gthumb/usr/lib/gthumb/extensions/libjpeg_utils.a'
+WARNING: QA Issue: non -staticdev package contains static .a library: gthumb path '/work/x86_64-poky-linux/gthumb-2.12.4-r1/packages-split/gthumb/usr/lib/gthumb/extensions/libgstreamer_utils.a'
+WARNING: QA Issue: non -staticdev package contains static .a library: gthumb path '/work/x86_64-poky-linux/gthumb-2.12.4-r1/packages-split/gthumb/usr/lib/gthumb/extensions/liblist_tools.a'
+WARNING: QA Issue: non -staticdev package contains static .a library: gthumb path '/work/x86_64-poky-linux/gthumb-2.12.4-r1/packages-split/gthumb/usr/lib/gthumb/extensions/libbookmarks.a'
+WARNING: QA Issue: non -staticdev package contains static .a library: gthumb path '/work/x86_64-poky-linux/gthumb-2.12.4-r1/packages-split/gthumb/usr/lib/gthumb/extensions/libsearch.a'
+WARNING: QA Issue: non -staticdev package contains static .a library: gthumb path '/work/x86_64-poky-linux/gthumb-2.12.4-r1/packages-split/gthumb/usr/lib/gthumb/extensions/libraw_files.a'
 
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 ---
- meta/classes/package.bbclass |   13 ++++++++++++-
- 1 files changed, 12 insertions(+), 1 deletions(-)
+ meta/recipes-gnome/gthumb/gthumb_2.12.4.bb |    6 +++++-
+ 1 files changed, 5 insertions(+), 1 deletions(-)
 
-diff --git a/meta/classes/package.bbclass b/meta/classes/package.bbclass
-index f6d6e1a..b579e50 100644
---- a/meta/classes/package.bbclass
-+++ b/meta/classes/package.bbclass
-@@ -251,7 +251,13 @@ def splitfile2(debugsrcdir, d):
-     sourcefile = bb.data.expand("${WORKDIR}/debugsources.list", d)
+diff --git a/meta/recipes-gnome/gthumb/gthumb_2.12.4.bb b/meta/recipes-gnome/gthumb/gthumb_2.12.4.bb
+index 19a6b31..5c87dc1 100644
+--- a/meta/recipes-gnome/gthumb/gthumb_2.12.4.bb
++++ b/meta/recipes-gnome/gthumb/gthumb_2.12.4.bb
+@@ -4,7 +4,7 @@ LICENSE = "GPLv2"
+ LIC_FILES_CHKSUM = "file://COPYING;md5=59530bdf33659b29e73d4adb9f9f6552"
+ DEPENDS = "glib-2.0 gtk+ libxml2 gnome-doc-utils libunique gconf libpng gstreamer jpeg tiff gst-plugins-base"
  
-     if debugsrcdir:
--       bb.mkdirhier("%s%s" % (dvar, debugsrcdir))
-+       nosuchdir = []
-+       basepath = dvar
-+       for p in debugsrcdir.split("/"):
-+           basepath = basepath + "/" + p
-+           if not os.path.exists(basepath):
-+               nosuchdir.append(basepath)
-+       bb.mkdirhier(basepath)
+-PR = "r1"
++PR = "r2"
  
-        processdebugsrc =  "LC_ALL=C ; sort -z -u '%s' | egrep -v -z '(<internal>|<built-in>)$' | "
-        # We need to ignore files that are not actually ours
-@@ -268,6 +274,11 @@ def splitfile2(debugsrcdir, d):
-               #bb.note("rmdir -p %s" % dir)
-               os.system("rmdir -p %s 2>/dev/null" % dir)
+ EXTRA_OECONF = "--disable-gnome-keyring --disable-libsoup --disable-exiv2 --disable-clutter"
  
-+       # Also remove debugsrcdir if its empty
-+       for p in nosuchdir[::-1]:
-+           if not os.listdir(p):
-+               os.rmdir(p)
+@@ -15,3 +15,7 @@ FILES_${PN}-dbg += "${libdir}/gthumb/modules/.debug/ ${libdir}/gthumb/extensions
+ 
+ SRC_URI[archive.md5sum] = "97fc13221b0c5d80c27a2e25a3a3ac6f"
+ SRC_URI[archive.sha256sum] = "cf809695230ab8892a078be454a42ade865754c72ec1da7c3d74d4310de54f1d"
 +
- def runstrip(file, elftype, d):
-     # Function to strip a single file, called from split_and_strip_files below
-     # A working 'file' (one which works on the target architecture)
++do_install_append () {
++	rm ${D}${libdir}/${BPN}/extensions/*.a
++}
 -- 
 1.7.5.4
 
