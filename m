@@ -1,40 +1,29 @@
 Received: from dan.rpsys.net ([93.97.175.187])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <richard@rpsys.net>) id 1S0ZuY-0001fg-Lc
+	(envelope-from <richard@rpsys.net>) id 1S0ZuZ-0001fg-9D
 	for openembedded-core@lists.openembedded.org;
-	Thu, 23 Feb 2012 15:44:46 +0100
+	Thu, 23 Feb 2012 15:44:47 +0100
 Received: from localhost (dan.rpsys.net [127.0.0.1])
 	by dan.rpsys.net (8.14.2/8.14.2/Debian-2build1) with ESMTP id
-	q1NEm8f4003018 for <openembedded-core@lists.openembedded.org>;
-	Thu, 23 Feb 2012 14:48:09 GMT
-X-Quarantine-ID: <34w58XiheKR0>
+	q1NEm4VD003000; Thu, 23 Feb 2012 14:48:05 GMT
 X-Virus-Scanned: Debian amavisd-new at dan.rpsys.net
-X-Amavis-Alert: BAD HEADER, Duplicate header field: "In-Reply-To"
 Received: from dan.rpsys.net ([127.0.0.1])
 	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
-	with LMTP id 34w58XiheKR0
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 23 Feb 2012 14:48:08 +0000 (GMT)
+	with LMTP id CS7rPtGk9Qr1; Thu, 23 Feb 2012 14:48:04 +0000 (GMT)
 Received: from ted (ted.config [192.168.1.68]) (authenticated bits=0)
 	by dan.rpsys.net (8.14.2/8.14.2/Debian-2build1) with ESMTP id
-	q1NEm5kV003003
-	(version=TLSv1/SSLv3 cipher=AES256-SHA bits=256 verify=NOT)
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 23 Feb 2012 14:48:07 GMT
+	q1NEm1Ke002947
+	(version=TLSv1/SSLv3 cipher=AES256-SHA bits=256 verify=NOT);
+	Thu, 23 Feb 2012 14:48:02 GMT
 Received: from richard by ted with local (Exim 4.76)
-	(envelope-from <richard@dan.rpsys.net>) id 1S0Yt4-0005Pq-6D
-	for openembedded-core@lists.openembedded.org;
-	Thu, 23 Feb 2012 13:39:10 +0000
+	(envelope-from <richard@dan.rpsys.net>)
+	id 1S0YsG-0001j4-Ev; Thu, 23 Feb 2012 13:38:20 +0000
 From: Richard Purdie <richard.purdie@linuxfoundation.org>
 To: openembedded-core@lists.openembedded.org
-Date: Thu, 23 Feb 2012 13:38:25 +0000
-Message-Id: <a7a11da5e692eba27bb228c6e34c4fbe56e7ad6c.1330004039.git.richard.purdie@linuxfoundation.org>
+Date: Thu, 23 Feb 2012 13:38:17 +0000
+Message-Id: <cover.1330004039.git.richard.purdie@linuxfoundation.org>
 X-Mailer: git-send-email 1.7.5.4
-In-Reply-To: <5c6b81ada0814d1947d89120867bb9a4a5b0fa85.1330004039.git.richard.purdie@linuxfoundation.org>
-References: <5c6b81ada0814d1947d89120867bb9a4a5b0fa85.1330004039.git.richard.purdie@linuxfoundation.org>
-In-Reply-To: <cover.1330004039.git.richard.purdie@linuxfoundation.org>
-References: <cover.1330004039.git.richard.purdie@linuxfoundation.org>
-Subject: [PATCH 16/16] sstatesig.py: Add handling for machine specific module depenedencies
+Subject: [PATCH 00/16] Various fixes, mostly for WARNING messages
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -51,91 +40,63 @@ List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedde
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Thu, 23 Feb 2012 14:44:58 -0000
 
-Adding dependencies on machine specific recipes from generic packages
-causes a rebuild of the generic package per machine if using signatures
-for the stamp files which is unacceptable.
+These patches mainly fix various warning issues reported by the build but 
+there are a couple of other improvements/fixes thrown in.
 
-We need to declare that RRECOMMENDS on kernel-module-* are safe
-and that we shouldn't care about these machine specific dependencies
-from a stamp perspective. This change adds code which does this.
+The following changes since commit a578fbce14b6f3391f28d59f287160e04590fa77:
 
-It depends on a change in bitbake to expose the dataCache object
-which can be used to make the calculations we need to allow this to
-work correctly.
+  netbase: remove redundant assignments (2012-02-22 22:11:27 +0000)
 
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
----
- meta/lib/oe/sstatesig.py |   26 ++++++++++++++++++++------
- 1 files changed, 20 insertions(+), 6 deletions(-)
+are available in the git repository at:
+  git://git.pokylinux.org/poky-contrib rpurdie/fixes
+  http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=rpurdie/fixes
 
-diff --git a/meta/lib/oe/sstatesig.py b/meta/lib/oe/sstatesig.py
-index ee7cbad..5a64882 100644
---- a/meta/lib/oe/sstatesig.py
-+++ b/meta/lib/oe/sstatesig.py
-@@ -1,6 +1,6 @@
- import bb.siggen
- 
--def sstate_rundepfilter(fn, recipename, task, dep, depname):
-+def sstate_rundepfilter(fn, recipename, task, dep, depname, dataCache):
-     # Return True if we should keep the dependency, False to drop it
-     def isNative(x):
-         return x.endswith("-native")
-@@ -8,13 +8,16 @@ def sstate_rundepfilter(fn, recipename, task, dep, depname):
-         return x.endswith("-cross") or x.endswith("-cross-initial") or x.endswith("-cross-intermediate")
-     def isNativeSDK(x):
-         return x.endswith("-nativesdk")
-+    def isKernel(fn):
-+        inherits = " ".join(dataCache.inherits[fn])
-+        return inherits.find("module-base.bbclass") != -1 or inherits.find("linux-kernel-base.bbclass") != -1
- 
-     # Always include our own inter-task dependencies
-     if recipename == depname:
-         return True
- 
-     # Quilt (patch application) changing isn't likely to affect anything
--    if depname == "quilt-native":
-+    if depname == "quilt-native" and recipename != "quilt-native":
-         return False
-     # Don't change native/cross/nativesdk recipe dependencies any further
-     if isNative(recipename) or isCross(recipename) or isNativeSDK(recipename):
-@@ -30,6 +33,17 @@ def sstate_rundepfilter(fn, recipename, task, dep, depname):
-     if depname in ['sysvinit-inittab', 'shadow-securetty', 'opkg-config-base', 'netbase', 'formfactor', 'xserver-xf86-config', 'pointercal', 'base-files']:
-         return False
- 
-+    # Kernel modules are well namespaced. We don't want to depend on the kernel's checksum
-+    # if we're just doing an RRECOMMENDS_xxx = "kernel-module-*", not least because the checksum
-+    # is machine specific.
-+    # Therefore if we're not a kernel or a module recipe (inheriting the kernel classes)
-+    # and we reccomend a kernel-module, we exclude the dependency.
-+    depfn = dep.rsplit(".", 1)[0]
-+    if dataCache and isKernel(depfn) and not isKernel(fn):
-+        for pkg in dataCache.runrecs[fn]:
-+            if " ".join(dataCache.runrecs[fn][pkg]).find("kernel-module-") != -1:
-+                return False
-+
-     # Default to keep dependencies
-     return True
- 
-@@ -37,15 +51,15 @@ class SignatureGeneratorOEBasic(bb.siggen.SignatureGeneratorBasic):
-     name = "OEBasic"
-     def init_rundepcheck(self, data):
-         pass
--    def rundep_check(self, fn, recipename, task, dep, depname):
--        return sstate_rundepfilter(fn, recipename, task, dep, depname)
-+    def rundep_check(self, fn, recipename, task, dep, depname, dataCache = None):
-+        return sstate_rundepfilter(fn, recipename, task, dep, depname, dataCache)
- 
- class SignatureGeneratorOEBasicHash(bb.siggen.SignatureGeneratorBasicHash):
-     name = "OEBasicHash"
-     def init_rundepcheck(self, data):
-         pass
--    def rundep_check(self, fn, recipename, task, dep, depname):
--        return sstate_rundepfilter(fn, recipename, task, dep, depname)
-+    def rundep_check(self, fn, recipename, task, dep, depname, dataCache = None):
-+        return sstate_rundepfilter(fn, recipename, task, dep, depname, dataCache)
- 
- # Insert these classes into siggen's namespace so it can see and select them
- bb.siggen.SignatureGeneratorOEBasic = SignatureGeneratorOEBasic
+This repository is based against Poky, not OE-Core.
+
+Richard Purdie (16):
+  eglibc: Fix package warning
+  rpm: Fix LICENSE field
+  libusb1: Address unpackaged files warning
+  libusb-compat: Address unpackaged files warning
+  readline: Add a patch to remove the redundant rpath linker option
+  libgcrypt: Fix unpackaged file warning
+  dbus: Fix unpackaged files warning
+  e2fsprogs: Fix unpackaged file warning
+  cracklib: Fix unpackaged files warning by disabling autodetected
+    python
+  glib-2.0: Fix unpackaged files warning
+  dbus-glib: Correctly package bash completion pieces to avoid QA
+    warning
+  package.bbclass: Remove empty directories created as part of srcdebug
+    handling
+  insane.bbclass: Only depend on desktop-file-utils-native when we need
+    it
+  autotools.bbclass: Make builds deterministic
+  gthumb: Resolve staticdev QA warnings
+  sstatesig.py: Add handling for machine specific module depenedencies
+
+ meta/classes/autotools.bbclass                     |    2 +
+ meta/classes/insane.bbclass                        |    8 +++++-
+ meta/classes/package.bbclass                       |   13 +++++++++-
+ meta/lib/oe/sstatesig.py                           |   26 +++++++++++++++----
+ meta/recipes-core/dbus/dbus-glib.inc               |    4 ++-
+ meta/recipes-core/dbus/dbus-glib_0.92.bb           |    2 +-
+ meta/recipes-core/dbus/dbus.inc                    |    3 ++
+ meta/recipes-core/eglibc/eglibc-package.inc        |    1 +
+ meta/recipes-core/glib-2.0/glib-2.0_2.30.2.bb      |    5 +++-
+ meta/recipes-core/readline/files/norpath.patch     |   21 ++++++++++++++++
+ meta/recipes-core/readline/readline.inc            |    1 +
+ meta/recipes-core/readline/readline_6.2.bb         |    2 +-
+ meta/recipes-devtools/e2fsprogs/e2fsprogs_1.42.bb  |    4 +-
+ meta/recipes-devtools/rpm/rpm_5.4.0.bb             |    4 +-
+ meta/recipes-extended/cracklib/cracklib_2.8.18.bb  |    4 ++-
+ meta/recipes-gnome/gthumb/gthumb_2.12.4.bb         |    6 ++++-
+ meta/recipes-support/libgcrypt/libgcrypt.inc       |    3 ++
+ meta/recipes-support/libusb/libusb-compat_0.1.3.bb |    4 +-
+ meta/recipes-support/libusb/libusb1_1.0.8.bb       |    4 +-
+ 19 files changed, 95 insertions(+), 22 deletions(-)
+ create mode 100644 meta/recipes-core/readline/files/norpath.patch
+
 -- 
 1.7.5.4
 
