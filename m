@@ -1,34 +1,42 @@
-Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
-	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <richard.purdie@linuxfoundation.org>)
-	id 1S0W2C-000642-HM for openembedded-core@lists.openembedded.org;
-	Thu, 23 Feb 2012 11:36:24 +0100
-Received: from localhost (localhost [127.0.0.1])
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q1NAS3iL009338
+Received: from mail-ey0-f175.google.com ([209.85.215.175])
+	by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <martin.jansa@gmail.com>) id 1S0WGJ-00069N-NW
+	for openembedded-core@lists.openembedded.org;
+	Thu, 23 Feb 2012 11:50:59 +0100
+Received: by eaal10 with SMTP id l10so473597eaa.6
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 23 Feb 2012 10:28:03 GMT
-Received: from tim.rpsys.net ([127.0.0.1])
-	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
-	port 10024) with LMTP
-	id 09173-02 for <openembedded-core@lists.openembedded.org>;
-	Thu, 23 Feb 2012 10:27:58 +0000 (GMT)
-Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q1NARqQQ009331
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO)
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 23 Feb 2012 10:27:53 GMT
-Message-ID: <1329992873.32110.58.camel@ted>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Date: Thu, 23 Feb 2012 10:27:53 +0000
-In-Reply-To: <b17109ebc9396973f7c0dbf6812699e2c0930349.1329147583.git.Martin.Jansa@gmail.com>
-References: <cover.1329147583.git.Martin.Jansa@gmail.com>
-	<b17109ebc9396973f7c0dbf6812699e2c0930349.1329147583.git.Martin.Jansa@gmail.com>
-X-Mailer: Evolution 3.2.2- 
-Mime-Version: 1.0
-X-Virus-Scanned: amavisd-new at rpsys.net
-Subject: Re: [PATCH 2/4] gdb-cross-canadian: use NATIVESDK paths as it happens to be here
+	Thu, 23 Feb 2012 02:42:38 -0800 (PST)
+Received-SPF: pass (google.com: domain of martin.jansa@gmail.com designates
+	10.213.26.20 as permitted sender) client-ip=10.213.26.20; 
+Authentication-Results: mr.google.com;
+	spf=pass (google.com: domain of martin.jansa@gmail.com
+	designates 10.213.26.20 as permitted sender)
+	smtp.mail=martin.jansa@gmail.com;
+	dkim=pass header.i=martin.jansa@gmail.com
+Received: from mr.google.com ([10.213.26.20])
+	by 10.213.26.20 with SMTP id b20mr282548ebc.19.1329993758524 (num_hops
+	= 1); Thu, 23 Feb 2012 02:42:38 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
+	h=from:to:cc:subject:date:message-id:x-mailer:mime-version
+	:content-type:content-transfer-encoding;
+	bh=I2YfMwbUSu3tQDm0S7kUTx7kLwRtp/X27ZMD8P6q1pU=;
+	b=o8I4QR3BWVmbnxBmVlwE17lbdvpDPBCALXlvTzYGg3qDgbYPenVPkriJqWbv4AdwxF
+	Niq7J4GA0eLarjoQ7lsf8G9R1uHgFKxxeBxGuSiPpm8ISQVy1XETE2fcv4mLnoGsO1Qa
+	0/06xFup3drlg376Cvjp5Uo7ovkqAl30mmgTc=
+Received: by 10.213.26.20 with SMTP id b20mr222453ebc.19.1329993758422;
+	Thu, 23 Feb 2012 02:42:38 -0800 (PST)
+Received: from localhost ([94.230.152.246])
+	by mx.google.com with ESMTPS id u9sm3912557eem.11.2012.02.23.02.42.36
+	(version=TLSv1/SSLv3 cipher=OTHER);
+	Thu, 23 Feb 2012 02:42:37 -0800 (PST)
+From: Martin Jansa <martin.jansa@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Date: Thu, 23 Feb 2012 11:42:29 +0100
+Message-Id: <cover.1329993620.git.Martin.Jansa@gmail.com>
+X-Mailer: git-send-email 1.7.8.4
+MIME-Version: 1.0
+Cc: fcooper@ti.com
+Subject: [PATCH 0/7] Pending patches
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -43,55 +51,44 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 23 Feb 2012 10:36:24 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Thu, 23 Feb 2012 10:50:59 -0000
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-On Mon, 2012-02-13 at 16:40 +0100, Martin Jansa wrote:
-> * seems like config/config in -L was also wrong
-> 
-> Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
-> ---
->  meta/recipes-devtools/gdb/gdb-cross-canadian.inc |   10 ++++++++--
->  1 files changed, 8 insertions(+), 2 deletions(-)
-> 
-> diff --git a/meta/recipes-devtools/gdb/gdb-cross-canadian.inc b/meta/recipes-devtools/gdb/gdb-cross-canadian.inc
-> index b5746ce..bac63b7 100644
-> --- a/meta/recipes-devtools/gdb/gdb-cross-canadian.inc
-> +++ b/meta/recipes-devtools/gdb/gdb-cross-canadian.inc
-> @@ -10,12 +10,18 @@ RDEPENDS += "python-nativesdk-core python-nativesdk-lang python-nativesdk-re \
->  
->  EXTRA_OECONF_append = "--with-python=${WORKDIR}/python"
->  
-> +NATIVESDK_NAME = "oecore-${SDK_ARCH}-${SDK_ARCH}"
-> +NATIVESDK_PATH = "/usr/local/${NATIVESDK_NAME}"
-> +NATIVESDK_PATHNATIVE = "${NATIVESDK_PATH}/sysroots/${SDK_SYS}"
-> +NATIVESDK_LIBDIR = "${NATIVESDK_PATHNATIVE}${libdir_nativesdk}"
-> +NATIVESDK_INCLUDEDIR = "${NATIVESDK_PATHNATIVE}${includedir_nativesdk}"
-> +
->  do_configure_prepend() {
->  cat > ${WORKDIR}/python << EOF
->  #! /bin/sh
->  case "\$2" in
-> -        --includes) echo "-I${STAGING_DIR}/${HOST_ARCH}-nativesdk${HOST_VENDOR}-${HOST_OS}${exec_prefix}/include/python${PYTHON_BASEVERSION}/" ;;
-> -        --ldflags) echo "-L${STAGING_DIR}/${HOST_ARCH}-nativesdk${HOST_VENDOR}-${HOST_OS}${libdir}/python${PYTHON_BASEVERSION}/config/config -lpthread -ldl -lutil -lm -lpython${PYTHON_BASEVERSION}" ;;
-> +        --includes) echo "-I${STAGING_DIR}/${HOST_ARCH}-nativesdk${HOST_VENDOR}-${HOST_OS}${NATIVESDK_INCLUDEDIR}/python${PYTHON_BASEVERSION}/" ;;
-> +        --ldflags) echo "-L${STAGING_DIR}/${HOST_ARCH}-nativesdk${HOST_VENDOR}-${HOST_OS}${NATIVESDK_LIBDIR}/python${PYTHON_BASEVERSION}/config -lpthread -ldl -lutil -lm -lpython${PYTHON_BASEVERSION}" ;;
->          --exec-prefix) echo "/usr" ;;
->          *) exit 1 ;;
->  esac
+You can consider sdk/gdb-cross-canadian as RFC and sstatesig.py will 
+be probably better fixed by extending SIGGEN_EXCLUDERECIPES_ABISAFE
 
-I made some experiments with "bitbake gdb-cross-canadian-x86-64 -e" and
-it seems to me that:
+The following changes since commit 55f72b98f606c1554eb6edd151292ffdfddf1384:
 
-       --includes) echo "-I${STAGING_INCDIR}/python${PYTHON_BASEVERSION}/" ;;
-       --ldflags) echo "-L${STAGING_LIBDIR}/../python${PYTHON_BASEVERSION}/config -lpthread -ldl -lutil -lm -lpython${PYTHON_BASEVERSION}" ;;
+  texi2html: Fix for multilib (2012-02-22 23:01:45 +0000)
 
-should work ok here?
+are available in the git repository at:
+  git://git.openembedded.org/openembedded-core-contrib jansa/pull
+  http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=jansa/pull
 
-Cheers,
+Eric BENARD (1):
+  gdb-cross-canadian: build gdb with python support
 
-Richard
+Martin Jansa (6):
+  wireless-tools: remove ldconfig call from install-libs
+  bitbake.conf: use weak assignment for BB_CONSOLELOG
+  sstatesig: add pointercal-xinput to excluded machine specific configs
+  python: add Makefile to SSTATE_SCAN_FILES
+  bitbake.conf: introduce SDK_NAME_PREFIX and NATIVESDK_* variables
+  gdb-cross-canadian: use NATIVESDK paths as it happens to be here
+
+ meta/conf/bitbake.conf                             |   16 ++++++++++++-
+ meta/lib/oe/sstatesig.py                           |    2 +-
+ .../wireless-tools/remove.ldconfig.call.patch      |   19 ++++++++++++++++
+ .../wireless-tools/wireless-tools_29.bb            |    5 ++-
+ meta/recipes-devtools/gdb/gdb-cross-canadian.inc   |   23 +++++++++++++++++++-
+ .../recipes-devtools/gdb/gdb-cross-canadian_7.4.bb |    2 +-
+ meta/recipes-devtools/python/python_2.7.2.bb       |    1 +
+ 7 files changed, 61 insertions(+), 7 deletions(-)
+ create mode 100644 meta/recipes-connectivity/wireless-tools/wireless-tools/remove.ldconfig.call.patch
+
+-- 
+1.7.8.4
 
 
 
