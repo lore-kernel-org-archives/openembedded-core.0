@@ -1,24 +1,24 @@
 Received: from mga01.intel.com ([192.55.52.88])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <sgw@linux.intel.com>) id 1S0bC5-0004t7-LW
+	(envelope-from <sgw@linux.intel.com>) id 1S0bC6-0004tn-61
 	for openembedded-core@lists.openembedded.org;
-	Thu, 23 Feb 2012 17:06:57 +0100
+	Thu, 23 Feb 2012 17:06:58 +0100
 Received: from fmsmga002.fm.intel.com ([10.253.24.26])
 	by fmsmga101.fm.intel.com with ESMTP; 23 Feb 2012 07:58:33 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="128652363"
+X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="128652367"
 Received: from unknown (HELO swold-mobl.bigsur.com) ([10.255.15.72])
 	by fmsmga002.fm.intel.com with ESMTP; 23 Feb 2012 07:58:33 -0800
 From: Saul Wold <sgw@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Thu, 23 Feb 2012 07:58:17 -0800
-Message-Id: <138ab9fd184b3443b0b062990ecbaa703c707f55.1330012543.git.sgw@linux.intel.com>
+Date: Thu, 23 Feb 2012 07:58:19 -0800
+Message-Id: <9fcc217ab6c636ea954bb8c1db07cb1a79ed8fd4.1330012543.git.sgw@linux.intel.com>
 X-Mailer: git-send-email 1.7.6.5
 In-Reply-To: <cover.1330012543.git.sgw@linux.intel.com>
 References: <cover.1330012543.git.sgw@linux.intel.com>
 In-Reply-To: <cover.1330012543.git.sgw@linux.intel.com>
 References: <cover.1330012543.git.sgw@linux.intel.com>
-Subject: [CONSOLIDATED PULL 13/25] gst-plugins-base: depend on libx11 and libxv conditionally
+Subject: [CONSOLIDATED PULL 15/25] ppp: Fix rp-pppoe plugin compilation
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -33,34 +33,103 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 23 Feb 2012 16:06:58 -0000
+X-List-Received-Date: Thu, 23 Feb 2012 16:06:59 -0000
 
-From: Andreas Oberritter <obi@opendreambox.org>
+From: Yauhen Kharuzhy <yauhen.kharuzhy@promwad.com>
 
-* gst-plugins-base currently doesn't build if x11 is
-  unavailable, due to unconditional dependencies on libx11
-  and libxv. However, they are not required to build
-  gst-plugins-base.
+rp-pppoe plugin was broken due linux headers changes: pppd has own copy of
+if_pppol2tp.h file which is included from <linux/if_pppox.h>.
 
-Signed-off-by: Andreas Oberritter <obi@opendreambox.org>
+Add patch from Debian for struct pppol2tpv3_addr definition.
+
+Signed-off-by: Yauhen Kharuzhy <yauhen.kharuzhy@promwad.com>
 ---
- .../gstreamer/gst-plugins-base_0.10.35.bb          |    3 ++-
- 1 files changed, 2 insertions(+), 1 deletions(-)
+ .../ppp/ppp-2.4.5/update_if_pppol2tp.patch         |   54 ++++++++++++++++++++
+ meta/recipes-connectivity/ppp/ppp_2.4.5.bb         |    3 +-
+ 2 files changed, 56 insertions(+), 1 deletions(-)
+ create mode 100644 meta/recipes-connectivity/ppp/ppp-2.4.5/update_if_pppol2tp.patch
 
-diff --git a/meta/recipes-multimedia/gstreamer/gst-plugins-base_0.10.35.bb b/meta/recipes-multimedia/gstreamer/gst-plugins-base_0.10.35.bb
-index 6dfc26e..93f8eb3 100644
---- a/meta/recipes-multimedia/gstreamer/gst-plugins-base_0.10.35.bb
-+++ b/meta/recipes-multimedia/gstreamer/gst-plugins-base_0.10.35.bb
-@@ -6,7 +6,8 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=0636e73ff0215e8d672dc4c32c317bb3 \
-                     file://COPYING.LIB;md5=55ca817ccb7d5b5b66355690e9abc605 \
-                     file://gst/ffmpegcolorspace/utils.c;beginline=1;endline=20;md5=9c83a200b8e597b26ca29df20fc6ecd0"
+diff --git a/meta/recipes-connectivity/ppp/ppp-2.4.5/update_if_pppol2tp.patch b/meta/recipes-connectivity/ppp/ppp-2.4.5/update_if_pppol2tp.patch
+new file mode 100644
+index 0000000..e034f19
+--- /dev/null
++++ b/meta/recipes-connectivity/ppp/ppp-2.4.5/update_if_pppol2tp.patch
+@@ -0,0 +1,54 @@
++Upstream-Status: Pending
++diff --git a/include/linux/if_pppol2tp.h b/include/linux/if_pppol2tp.h
++index 4113d6a..7ee86b2 100644
++--- a/include/linux/if_pppol2tp.h
+++++ b/include/linux/if_pppol2tp.h
++@@ -2,7 +2,7 @@
++  * Linux PPP over L2TP (PPPoL2TP) Socket Implementation (RFC 2661)
++  *
++  * This file supplies definitions required by the PPP over L2TP driver
++- * (pppol2tp.c).  All version information wrt this file is located in pppol2tp.c
+++ * (l2tp_ppp.c).  All version information wrt this file is located in l2tp_ppp.c
++  *
++  * License:
++  *		This program is free software; you can redistribute it and/or
++@@ -15,14 +15,14 @@
++ #ifndef __LINUX_IF_PPPOL2TP_H
++ #define __LINUX_IF_PPPOL2TP_H
++ 
++-#include <asm/types.h>
+++#include <linux/types.h>
+++
++ 
++ /* Structure used to connect() the socket to a particular tunnel UDP
++  * socket.
++  */
++-struct pppol2tp_addr
++-{
++-	pid_t	pid;			/* pid that owns the fd.
+++struct pppol2tp_addr {
+++	__kernel_pid_t	pid;		/* pid that owns the fd.
++ 					 * 0 => current */
++ 	int	fd;			/* FD of UDP socket to use */
++ 
++@@ -32,6 +32,20 @@ struct pppol2tp_addr
++ 	__u16 d_tunnel, d_session;	/* For sending outgoing packets */
++ };
++ 
+++/* The L2TPv3 protocol changes tunnel and session ids from 16 to 32
+++ * bits. So we need a different sockaddr structure.
+++ */
+++struct pppol2tpv3_addr {
+++	pid_t	pid;			/* pid that owns the fd.
+++					 * 0 => current */
+++	int	fd;			/* FD of UDP or IP socket to use */
+++
+++	struct sockaddr_in addr;	/* IP address and port to send to */
+++
+++	__u32 s_tunnel, s_session;	/* For matching incoming packets */
+++	__u32 d_tunnel, d_session;	/* For sending outgoing packets */
+++};
+++
++ /* Socket options:
++  * DEBUG	- bitmask of debug message categories
++  * SENDSEQ	- 0 => don't send packets with sequence numbers
+diff --git a/meta/recipes-connectivity/ppp/ppp_2.4.5.bb b/meta/recipes-connectivity/ppp/ppp_2.4.5.bb
+index 72464bf..80f91e6 100644
+--- a/meta/recipes-connectivity/ppp/ppp_2.4.5.bb
++++ b/meta/recipes-connectivity/ppp/ppp_2.4.5.bb
+@@ -10,7 +10,7 @@ LIC_FILES_CHKSUM = "file://pppd/ccp.c;beginline=1;endline=29;md5=e2c43fe6e81ff77
+                     file://pppd/plugins/passprompt.c;beginline=1;endline=10;md5=3bcbcdbf0e369c9a3e0b8c8275b065d8 \
+                     file://pppd/tdb.c;beginline=1;endline=27;md5=4ca3a9991b011038d085d6675ae7c4e6 \
+                     file://chat/chat.c;beginline=1;endline=15;md5=0d374b8545ee5c62d7aff1acbd38add2"
+-PR = "r2"
++PR = "r3"
  
--DEPENDS += "virtual/libx11 alsa-lib freetype liboil libogg libvorbis libxv libtheora avahi util-linux tremor"
-+DEPENDS += "${@base_contains('DISTRO_FEATURES', 'x11', 'virtual/libx11 libxv', '', d)}"
-+DEPENDS += "alsa-lib freetype liboil libogg libvorbis libtheora avahi util-linux tremor"
- 
- SRC_URI += " file://gst-plugins-base-tremor.patch"
- 
+ SRC_URI = "http://ppp.samba.org/ftp/ppp/ppp-${PV}.tar.gz \
+            file://makefile.patch \
+@@ -18,6 +18,7 @@ SRC_URI = "http://ppp.samba.org/ftp/ppp/ppp-${PV}.tar.gz \
+            file://pppd-resolv-varrun.patch \
+            file://enable-ipv6.patch \
+            file://makefile-remove-hard-usr-reference.patch \
++           file://update_if_pppol2tp.patch \
+            file://pon \
+            file://poff \
+            file://init \
 -- 
 1.7.6.5
 
