@@ -1,40 +1,40 @@
 Received: from dan.rpsys.net ([93.97.175.187])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <richard@rpsys.net>) id 1S0ZuX-0001fg-M2
+	(envelope-from <richard@rpsys.net>) id 1S0ZuX-0001fg-Vb
 	for openembedded-core@lists.openembedded.org;
-	Thu, 23 Feb 2012 15:44:45 +0100
+	Thu, 23 Feb 2012 15:44:46 +0100
 Received: from localhost (dan.rpsys.net [127.0.0.1])
 	by dan.rpsys.net (8.14.2/8.14.2/Debian-2build1) with ESMTP id
-	q1NElvZv002916 for <openembedded-core@lists.openembedded.org>;
-	Thu, 23 Feb 2012 14:47:57 GMT
-X-Quarantine-ID: <f5RaGDN6xEb8>
+	q1NElxoW002926 for <openembedded-core@lists.openembedded.org>;
+	Thu, 23 Feb 2012 14:47:59 GMT
+X-Quarantine-ID: <xkwxTtvzHJkk>
 X-Virus-Scanned: Debian amavisd-new at dan.rpsys.net
 X-Amavis-Alert: BAD HEADER, Duplicate header field: "In-Reply-To"
 Received: from dan.rpsys.net ([127.0.0.1])
 	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
-	with LMTP id f5RaGDN6xEb8
+	with LMTP id xkwxTtvzHJkk
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 23 Feb 2012 14:47:57 +0000 (GMT)
+	Thu, 23 Feb 2012 14:47:59 +0000 (GMT)
 Received: from ted (ted.config [192.168.1.68]) (authenticated bits=0)
 	by dan.rpsys.net (8.14.2/8.14.2/Debian-2build1) with ESMTP id
-	q1NEls7a002894
+	q1NElvBm002915
 	(version=TLSv1/SSLv3 cipher=AES256-SHA bits=256 verify=NOT)
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 23 Feb 2012 14:47:55 GMT
+	Thu, 23 Feb 2012 14:47:58 GMT
 Received: from richard by ted with local (Exim 4.76)
-	(envelope-from <richard@dan.rpsys.net>) id 1S0YsV-0003pn-7R
+	(envelope-from <richard@dan.rpsys.net>) id 1S0Ysu-000513-1h
 	for openembedded-core@lists.openembedded.org;
-	Thu, 23 Feb 2012 13:38:35 +0000
+	Thu, 23 Feb 2012 13:39:00 +0000
 From: Richard Purdie <richard.purdie@linuxfoundation.org>
 To: openembedded-core@lists.openembedded.org
-Date: Thu, 23 Feb 2012 13:38:11 +0000
-Message-Id: <fb65014267749a783626d6d8453f5e5b03a5950a.1330004039.git.richard.purdie@linuxfoundation.org>
+Date: Thu, 23 Feb 2012 13:38:21 +0000
+Message-Id: <4661025c2743fe020018d7b97fd6759c571c2733.1330004039.git.richard.purdie@linuxfoundation.org>
 X-Mailer: git-send-email 1.7.5.4
 In-Reply-To: <5c6b81ada0814d1947d89120867bb9a4a5b0fa85.1330004039.git.richard.purdie@linuxfoundation.org>
 References: <5c6b81ada0814d1947d89120867bb9a4a5b0fa85.1330004039.git.richard.purdie@linuxfoundation.org>
 In-Reply-To: <cover.1330004039.git.richard.purdie@linuxfoundation.org>
 References: <cover.1330004039.git.richard.purdie@linuxfoundation.org>
-Subject: [PATCH 02/16] rpm: Fix LICENSE field
+Subject: [PATCH 12/16] package.bbclass: Remove empty directories created as part of srcdebug handling
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -49,38 +49,57 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 23 Feb 2012 14:44:45 -0000
+X-List-Received-Date: Thu, 23 Feb 2012 14:44:46 -0000
 
-This addresses the warning:
+We can create directories like /usr/src/debug as part of the debug file
+manipulations. If these are going to end up empty, remove them to avoid QA
+warnings like:
 
-WARNING: rpm: No generic license file exists for: LGPL in any provider
-WARNING: rpm: No generic license file exists for: 2.1 in any provider
+WARNING: For recipe task-core-x11, the following files/directories were installed but not shipped in any package:
+WARNING:   /usr
+WARNING:   /usr/src
+WARNING:   /usr/src/debug
+WARNING: For recipe task-core-console, the following files/directories were installed but not shipped in any package:
+WARNING:   /usr
+WARNING:   /usr/src
+WARNING:   /usr/src/debug
 
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 ---
- meta/recipes-devtools/rpm/rpm_5.4.0.bb |    4 ++--
- 1 files changed, 2 insertions(+), 2 deletions(-)
+ meta/classes/package.bbclass |   13 ++++++++++++-
+ 1 files changed, 12 insertions(+), 1 deletions(-)
 
-diff --git a/meta/recipes-devtools/rpm/rpm_5.4.0.bb b/meta/recipes-devtools/rpm/rpm_5.4.0.bb
-index 2c26d9a..6be490f 100644
---- a/meta/recipes-devtools/rpm/rpm_5.4.0.bb
-+++ b/meta/recipes-devtools/rpm/rpm_5.4.0.bb
-@@ -39,13 +39,13 @@ DESCRIPTION_perl-modules-rpm-dev = "Development items such as man pages for use
- language bindings."
+diff --git a/meta/classes/package.bbclass b/meta/classes/package.bbclass
+index f6d6e1a..b579e50 100644
+--- a/meta/classes/package.bbclass
++++ b/meta/classes/package.bbclass
+@@ -251,7 +251,13 @@ def splitfile2(debugsrcdir, d):
+     sourcefile = bb.data.expand("${WORKDIR}/debugsources.list", d)
  
- HOMEPAGE = "http://rpm5.org/"
--LICENSE = "LGPL 2.1"
-+LICENSE = "LGPLv2.1"
- LIC_FILES_CHKSUM = "file://COPYING.LIB;md5=2d5025d4aa3495befef8f17206a5b0a1"
+     if debugsrcdir:
+-       bb.mkdirhier("%s%s" % (dvar, debugsrcdir))
++       nosuchdir = []
++       basepath = dvar
++       for p in debugsrcdir.split("/"):
++           basepath = basepath + "/" + p
++           if not os.path.exists(basepath):
++               nosuchdir.append(basepath)
++       bb.mkdirhier(basepath)
  
- DEPENDS = "bzip2 zlib db openssl elfutils expat libpcre attr acl popt ${extrarpmdeps}"
- extrarpmdeps = "python perl"
- extrarpmdeps_virtclass-native = "file-native"
--PR = "r30"
-+PR = "r31"
+        processdebugsrc =  "LC_ALL=C ; sort -z -u '%s' | egrep -v -z '(<internal>|<built-in>)$' | "
+        # We need to ignore files that are not actually ours
+@@ -268,6 +274,11 @@ def splitfile2(debugsrcdir, d):
+               #bb.note("rmdir -p %s" % dir)
+               os.system("rmdir -p %s 2>/dev/null" % dir)
  
- # rpm2cpio is a shell script, which is part of the rpm src.rpm.  It is needed
- # in order to extract the distribution SRPM into a format we can extract...
++       # Also remove debugsrcdir if its empty
++       for p in nosuchdir[::-1]:
++           if not os.listdir(p):
++               os.rmdir(p)
++
+ def runstrip(file, elftype, d):
+     # Function to strip a single file, called from split_and_strip_files below
+     # A working 'file' (one which works on the target architecture)
 -- 
 1.7.5.4
 
