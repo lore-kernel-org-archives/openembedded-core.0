@@ -1,24 +1,36 @@
-Received: from smtp2-g21.free.fr ([212.27.42.2])
+Received: from mail.dream-property.net ([82.149.226.172])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <eric@eukrea.com>) id 1S0bJa-00063t-1j
+	(envelope-from <obi@opendreambox.org>) id 1S0c4D-0006kj-A0
 	for openembedded-core@lists.openembedded.org;
-	Thu, 23 Feb 2012 17:14:42 +0100
-Received: from eb-e6520 (unknown [82.240.38.71])
-	by smtp2-g21.free.fr (Postfix) with ESMTP id 431F64B013A;
-	Thu, 23 Feb 2012 17:06:18 +0100 (CET)
-Date: Thu, 23 Feb 2012 17:06:17 +0100
-From: Eric =?ISO-8859-1?B?QuluYXJk?= <eric@eukrea.com>
-To: Paul Eggleton <paul.eggleton@linux.intel.com>
-Message-ID: <20120223170617.093598d6@eb-e6520>
-In-Reply-To: <2076050.yMvNPjVBiI@helios>
-References: <CAMvUbCwy5UL3YWXS=2SkeKff2WDQE9EX7-CGUv9s5SH+9uSK1g@mail.gmail.com>
-	<20120223163032.0822e104@eb-e6520> <2217377.xs2ypPJBB4@helios>
-	<2076050.yMvNPjVBiI@helios>
-Organization: =?ISO-8859-1?B?RXVrculh?= Electromatique
-X-Mailer: Claws Mail 3.8.0 (GTK+ 2.24.8; x86_64-redhat-linux-gnu)
-Mime-Version: 1.0
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: bitbake parsing of IMAGE_INSTALL += # tslib mtd-utils" extremely user unfriendly.
+	Thu, 23 Feb 2012 18:02:53 +0100
+Received: from localhost (localhost [127.0.0.1])
+	by mail.dream-property.net (Postfix) with ESMTP id DE9BF315942A
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 23 Feb 2012 17:54:32 +0100 (CET)
+X-Virus-Scanned: Debian amavisd-new at mail.dream-property.net
+Received: from mail.dream-property.net ([127.0.0.1])
+	by localhost (mail.dream-property.net [127.0.0.1]) (amavisd-new,
+	port 10024) with LMTP id v-3rRDoytmqg
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 23 Feb 2012 17:54:22 +0100 (CET)
+Received: from [172.22.22.61] (drms-590ed8a0.pool.mediaWays.net
+	[89.14.216.160])
+	(using TLSv1 with cipher DHE-RSA-AES256-SHA (256/256 bits))
+	(No client certificate requested)
+	by mail.dream-property.net (Postfix) with ESMTPSA id 2891B3159419
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 23 Feb 2012 17:54:22 +0100 (CET)
+Message-ID: <4F466F3D.8060504@opendreambox.org>
+Date: Thu, 23 Feb 2012 17:54:21 +0100
+From: Andreas Oberritter <obi@opendreambox.org>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:10.0.2) Gecko/20120216 Thunderbird/10.0.2
+MIME-Version: 1.0
+To: openembedded-core@lists.openembedded.org
+References: <4F4645CC.4050403@opendreambox.org>
+	<20120223140409.GT3769@jama.jama.net>
+In-Reply-To: <20120223140409.GT3769@jama.jama.net>
+Subject: Re: bug in recipe version priorities across layers?
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -33,37 +45,74 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 23 Feb 2012 16:14:42 -0000
+X-List-Received-Date: Thu, 23 Feb 2012 17:02:53 -0000
 Content-Type: text/plain; charset=ISO-8859-1
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 7bit
 
-Le Thu, 23 Feb 2012 15:38:33 +0000,
-Paul Eggleton <paul.eggleton@linux.intel.com> a =E9crit :
+On 23.02.2012 15:04, Martin Jansa wrote:
+> Afaik latest version from layer with highest priority wins. Which
+> doesn't always mean latest version globally.
+> 
+> DEFAULT_PREFERENCE doesn't help e.g. to demote development version in some
+> layer with higher priority.
+> 
+> But PREFERRED_VERSION does work.
 
-> On Thursday 23 February 2012 15:32:47 Paul Eggleton wrote:
-> > > Basically I had :
-> > > XSERVER +=3D "    <=3D=3D=3D=3D missing \
-> > >=20
-> > > 	xf86-input-tslib \
-> > > 	"
-> > >=20
-> > > and bitbake exit with :
-> > > ERROR: Command execution failed: Exited with 1
-> > > et nothing more.
-> >=20
-> > This got broken last night and fixed last night, so if you update you s=
-hould
-> > have the fix.
->=20
-> Er, actually that's completely false. However I do have a bitbake patch r=
-eady=20
-> to submit to fix this.
->=20
-I confirm this is false I as updated bitbake before sending the mail ;-)
+Thanks, Martin! I didn't expect that, but it's an explanation. Is this 
+documented somewhere? I think OE-classic behaved differently.
 
-Thanks,
-Eric
---=20
-http://eukrea.com/en/news/104-2012
+I noticed that "bitbake-layers show-overlayed" nicely prints the 
+available versions in order of preference. For some packages, I don't 
+understand the ordering though, e.g.:
+
+python-setuptools:
+  meta-oe              0.6c11-ml3
+  meta                 0.6c11-ml3
+python-setuptools-native:
+  meta                 0.6c11-ml3
+  meta-oe              0.6c11-ml3
+
+(I modified bitbake-layers to include PR in its output)
+
+The diff between both layers looks like this:
+
+--- openembedded-core/meta/recipes-devtools/python/python-setuptools_0.6c11.bb	2012-01-18 15:05:39.876945863 +0100
++++ meta-openembedded/meta-oe/recipes-devtools/python/python-setuptools_0.6c11.bb	2012-01-18 15:10:23.816943155 +0100
+@@ -29,3 +29,5 @@
+ SRC_URI[sha256sum] = "630fea9b726320b73ee3ca6ff61732cb32675b0389be658080fe46383b87a1d3"
+ 
+ BBCLASSEXTEND = "native"
++
++NATIVE_INSTALL_WORKS = "1"
+---
+
+The only occurence of python-setuptools(-native) is:
+meta/classes/setuptools.bbclass:DEPENDS += "python-setuptools-native"
+
+Another strange one, this time with unequal versions:
+
+mpfr:
+  meta-oe              3.0.0-r4
+  meta                 3.1.0-r0
+mpfr-native:
+  meta                 3.1.0-r0
+  meta-oe              3.0.0-r4
+
+Would lowering the priority of meta-openembedded affect its ability to
+bbappend OE-core's recipes? Is it possible to lower its priority, or to
+raise the priority of OE core, without modifying conf/layer.conf in
+either layer?
+
+Regards,
+Andreas
+
+>> - The older wpa-supplicant is provided for a different machine.
+>> - Both bitbake and openembedded-core are from today's master branches.
+>>
+>> The problem: The machine I'm building for also picks up version 0.5.10, 
+>> unless I eiher copy 0.7.3 from openembedded-core to my layer or delete 
+>> version 0.5.10 from my layer. Deleting wpa-supplicant_0.7.3.bbappend 
+>> doesn't change the behaviour.
+
 
 
