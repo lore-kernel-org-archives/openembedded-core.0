@@ -1,36 +1,35 @@
-Received: from mail.dream-property.net ([82.149.226.172])
+Received: from mail-wi0-f175.google.com ([209.85.212.175])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <obi@opendreambox.org>) id 1S0c4D-0006kj-A0
+	(envelope-from <koen@dominion.thruhere.net>) id 1S0cpM-0001wi-Nr
 	for openembedded-core@lists.openembedded.org;
-	Thu, 23 Feb 2012 18:02:53 +0100
-Received: from localhost (localhost [127.0.0.1])
-	by mail.dream-property.net (Postfix) with ESMTP id DE9BF315942A
+	Thu, 23 Feb 2012 18:51:36 +0100
+Received: by wibhq7 with SMTP id hq7so983589wib.6
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 23 Feb 2012 17:54:32 +0100 (CET)
-X-Virus-Scanned: Debian amavisd-new at mail.dream-property.net
-Received: from mail.dream-property.net ([127.0.0.1])
-	by localhost (mail.dream-property.net [127.0.0.1]) (amavisd-new,
-	port 10024) with LMTP id v-3rRDoytmqg
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 23 Feb 2012 17:54:22 +0100 (CET)
-Received: from [172.22.22.61] (drms-590ed8a0.pool.mediaWays.net
-	[89.14.216.160])
-	(using TLSv1 with cipher DHE-RSA-AES256-SHA (256/256 bits))
-	(No client certificate requested)
-	by mail.dream-property.net (Postfix) with ESMTPSA id 2891B3159419
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 23 Feb 2012 17:54:22 +0100 (CET)
-Message-ID: <4F466F3D.8060504@opendreambox.org>
-Date: Thu, 23 Feb 2012 17:54:21 +0100
-From: Andreas Oberritter <obi@opendreambox.org>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:10.0.2) Gecko/20120216 Thunderbird/10.0.2
+	Thu, 23 Feb 2012 09:43:15 -0800 (PST)
+Received-SPF: pass (google.com: domain of koen@dominion.thruhere.net
+	designates 10.180.101.72 as permitted sender)
+	client-ip=10.180.101.72; 
+Authentication-Results: mr.google.com; spf=pass (google.com: domain of
+	koen@dominion.thruhere.net designates 10.180.101.72 as
+	permitted sender) smtp.mail=koen@dominion.thruhere.net
+Received: from mr.google.com ([10.180.101.72])
+	by 10.180.101.72 with SMTP id fe8mr5030578wib.4.1330018995387 (num_hops
+	= 1); Thu, 23 Feb 2012 09:43:15 -0800 (PST)
 MIME-Version: 1.0
+Received: by 10.180.101.72 with SMTP id fe8mr4109258wib.4.1330018995325;
+	Thu, 23 Feb 2012 09:43:15 -0800 (PST)
+Received: from localhost (ip545070eb.adsl-surfen.hetnet.nl. [84.80.112.235])
+	by mx.google.com with ESMTPS id h19sm5726785wiw.9.2012.02.23.09.43.14
+	(version=TLSv1/SSLv3 cipher=OTHER);
+	Thu, 23 Feb 2012 09:43:14 -0800 (PST)
+From: Koen Kooi <koen@dominion.thruhere.net>
 To: openembedded-core@lists.openembedded.org
-References: <4F4645CC.4050403@opendreambox.org>
-	<20120223140409.GT3769@jama.jama.net>
-In-Reply-To: <20120223140409.GT3769@jama.jama.net>
-Subject: Re: bug in recipe version priorities across layers?
+Date: Thu, 23 Feb 2012 18:43:05 +0100
+Message-Id: <1330018985-21603-1-git-send-email-koen@dominion.thruhere.net>
+X-Mailer: git-send-email 1.7.2.5
+X-Gm-Message-State: ALoCoQmDIYKJP13TVe/KLLh45OmQxUNRaUtJFjJG9BK2ov4KCFRgCNr9Tx3BPXywPpts7hyBLqdB
+Cc: Koen Kooi <koen@dominion.thruhere.net>, martin.jansa@gmail.com
+Subject: [PATCH] libsdl 1.2.14: regenerate patch so it applies with 'patch' as well as 'git apply'
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -45,74 +44,73 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 23 Feb 2012 17:02:53 -0000
-Content-Type: text/plain; charset=ISO-8859-1
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Thu, 23 Feb 2012 17:51:36 -0000
 
-On 23.02.2012 15:04, Martin Jansa wrote:
-> Afaik latest version from layer with highest priority wins. Which
-> doesn't always mean latest version globally.
-> 
-> DEFAULT_PREFERENCE doesn't help e.g. to demote development version in some
-> layer with higher priority.
-> 
-> But PREFERRED_VERSION does work.
+The '@@ -, +, @@' part upsets plain 'patch'
 
-Thanks, Martin! I didn't expect that, but it's an explanation. Is this 
-documented somewhere? I think OE-classic behaved differently.
-
-I noticed that "bitbake-layers show-overlayed" nicely prints the 
-available versions in order of preference. For some packages, I don't 
-understand the ordering though, e.g.:
-
-python-setuptools:
-  meta-oe              0.6c11-ml3
-  meta                 0.6c11-ml3
-python-setuptools-native:
-  meta                 0.6c11-ml3
-  meta-oe              0.6c11-ml3
-
-(I modified bitbake-layers to include PR in its output)
-
-The diff between both layers looks like this:
-
---- openembedded-core/meta/recipes-devtools/python/python-setuptools_0.6c11.bb	2012-01-18 15:05:39.876945863 +0100
-+++ meta-openembedded/meta-oe/recipes-devtools/python/python-setuptools_0.6c11.bb	2012-01-18 15:10:23.816943155 +0100
-@@ -29,3 +29,5 @@
- SRC_URI[sha256sum] = "630fea9b726320b73ee3ca6ff61732cb32675b0389be658080fe46383b87a1d3"
- 
- BBCLASSEXTEND = "native"
-+
-+NATIVE_INSTALL_WORKS = "1"
+Signed-off-by: Koen Kooi <koen@dominion.thruhere.net>
 ---
+ .../libsdl-1.2.14/add.XGetRequest.symbol.patch     |   27 +++++++++++++------
+ 1 files changed, 18 insertions(+), 9 deletions(-)
 
-The only occurence of python-setuptools(-native) is:
-meta/classes/setuptools.bbclass:DEPENDS += "python-setuptools-native"
-
-Another strange one, this time with unequal versions:
-
-mpfr:
-  meta-oe              3.0.0-r4
-  meta                 3.1.0-r0
-mpfr-native:
-  meta                 3.1.0-r0
-  meta-oe              3.0.0-r4
-
-Would lowering the priority of meta-openembedded affect its ability to
-bbappend OE-core's recipes? Is it possible to lower its priority, or to
-raise the priority of OE core, without modifying conf/layer.conf in
-either layer?
-
-Regards,
-Andreas
-
->> - The older wpa-supplicant is provided for a different machine.
->> - Both bitbake and openembedded-core are from today's master branches.
->>
->> The problem: The machine I'm building for also picks up version 0.5.10, 
->> unless I eiher copy 0.7.3 from openembedded-core to my layer or delete 
->> version 0.5.10 from my layer. Deleting wpa-supplicant_0.7.3.bbappend 
->> doesn't change the behaviour.
+diff --git a/meta/recipes-graphics/libsdl/libsdl-1.2.14/add.XGetRequest.symbol.patch b/meta/recipes-graphics/libsdl/libsdl-1.2.14/add.XGetRequest.symbol.patch
+index 7bab177..33ba8ec 100644
+--- a/meta/recipes-graphics/libsdl/libsdl-1.2.14/add.XGetRequest.symbol.patch
++++ b/meta/recipes-graphics/libsdl/libsdl-1.2.14/add.XGetRequest.symbol.patch
+@@ -1,5 +1,8 @@
+-_XGetRequest API was backported to libx11-1.4.4 in:
+-http://git.openembedded.org/openembedded-core/commit/?id=e08604800fe1cb8f240f53c147ceb4ee08a29b91
++From e49fe9e2d75764d2d7ef79ab4252a1f6b99adcd3 Mon Sep 17 00:00:00 2001
++From: Martin Jansa <martin.jansa@gmail.com>
++Date: Thu, 23 Feb 2012 18:38:19 +0100
++Subject: [PATCH] _XGetRequest API was backported to libx11-1.4.4 in:
++ http://git.openembedded.org/openembedded-core/commit/?id=e08604800fe1cb8f240f53c147ceb4ee08a29b91
+ 
+ This breaks e.g. libsdl-image build with:
+ | /OE/shr-core/tmp-eglibc/sysroots/qemux86-64/usr/lib/libSDL.so: undefined reference to `_XGetRequest'
+@@ -7,14 +10,15 @@ This breaks e.g. libsdl-image build with:
+ For details see: https://bugzilla.redhat.com/show_bug.cgi?id=782251
+ 
+ Upstream-Status: Accepted
+-
+-@@ -, +, @@ 
+- added.
++---
+  src/video/x11/SDL_x11dyn.c |   24 ++++++++++++++++++++++++
+  src/video/x11/SDL_x11sym.h |    6 ++++++
+  2 files changed, 30 insertions(+), 0 deletions(-)
+---- a/src/video/x11/SDL_x11dyn.c	
+-+++ a/src/video/x11/SDL_x11dyn.c	
++
++diff --git a/src/video/x11/SDL_x11dyn.c b/src/video/x11/SDL_x11dyn.c
++index 4e549b3..a7e800e 100644
++--- a/src/video/x11/SDL_x11dyn.c
+++++ b/src/video/x11/SDL_x11dyn.c
+ @@ -109,6 +109,21 @@ char *(*pXGetICValues)(XIC, ...) = NULL;
+  #undef SDL_X11_SYM
+  
+@@ -53,8 +57,10 @@ Upstream-Status: Accepted
+  		if (SDL_X11_HAVE_BASEXLIB) {  /* all required symbols loaded. */
+  			SDL_ClearError();
+  		} else {
+---- a/src/video/x11/SDL_x11sym.h	
+-+++ a/src/video/x11/SDL_x11sym.h	
++diff --git a/src/video/x11/SDL_x11sym.h b/src/video/x11/SDL_x11sym.h
++index 3dfa146..f1e7841 100644
++--- a/src/video/x11/SDL_x11sym.h
+++++ b/src/video/x11/SDL_x11sym.h
+ @@ -170,6 +170,12 @@ SDL_X11_SYM(void,_XRead32,(Display *dpy,register long *data,long len),(dpy,data,
+  #endif
+  
+@@ -68,3 +74,6 @@ Upstream-Status: Accepted
+   * These only show up on some variants of Unix.
+   */
+  #if defined(__osf__)
++-- 
++1.7.2.5
++
+-- 
+1.7.2.5
 
 
 
