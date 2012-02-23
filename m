@@ -1,40 +1,44 @@
-Received: from dan.rpsys.net ([93.97.175.187])
+Received: from mail-pw0-f47.google.com ([209.85.160.47])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <richard@rpsys.net>) id 1S0a6D-0002KW-8E
+	(envelope-from <otavio.salvador@gmail.com>) id 1S0aBC-0002z8-73
 	for openembedded-core@lists.openembedded.org;
-	Thu, 23 Feb 2012 15:56:49 +0100
-Received: from localhost (dan.rpsys.net [127.0.0.1])
-	by dan.rpsys.net (8.14.2/8.14.2/Debian-2build1) with ESMTP id
-	q1NF2CHg004025 for <openembedded-core@lists.openembedded.org>;
-	Thu, 23 Feb 2012 15:02:12 GMT
-X-Quarantine-ID: <9O+XdDr7Qk1Z>
-X-Virus-Scanned: Debian amavisd-new at dan.rpsys.net
-X-Amavis-Alert: BAD HEADER, Duplicate header field: "In-Reply-To"
-Received: from dan.rpsys.net ([127.0.0.1])
-	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
-	with LMTP id 9O+XdDr7Qk1Z
+	Thu, 23 Feb 2012 16:01:58 +0100
+Received: by pbbjt11 with SMTP id jt11so719501pbb.6
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 23 Feb 2012 15:02:12 +0000 (GMT)
-Received: from ted (ted.config [192.168.1.68]) (authenticated bits=0)
-	by dan.rpsys.net (8.14.2/8.14.2/Debian-2build1) with ESMTP id
-	q1NF2AWr004018
-	(version=TLSv1/SSLv3 cipher=AES256-SHA bits=256 verify=NOT)
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 23 Feb 2012 15:02:11 GMT
-Received: from richard by ted with local (Exim 4.76)
-	(envelope-from <richard@dan.rpsys.net>) id 1S0Zy4-00029X-JF
-	for openembedded-core@lists.openembedded.org;
-	Thu, 23 Feb 2012 14:48:24 +0000
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: openembedded-core@lists.openembedded.org
-Date: Thu, 23 Feb 2012 14:48:12 +0000
-Message-Id: <a272fb96eb48c2e1ae2756f98f9432d831a21057.1330004039.git.richard.purdie@linuxfoundation.org>
-X-Mailer: git-send-email 1.7.5.4
-In-Reply-To: <5e4de9be889558b18c52bc0af42d19fafabfce37.1330004039.git.richard.purdie@linuxfoundation.org>
-References: <5e4de9be889558b18c52bc0af42d19fafabfce37.1330004039.git.richard.purdie@linuxfoundation.org>
-In-Reply-To: <cover.1330004039.git.richard.purdie@linuxfoundation.org>
+	Thu, 23 Feb 2012 06:53:35 -0800 (PST)
+Received-SPF: pass (google.com: domain of otavio.salvador@gmail.com designates
+	10.68.226.170 as permitted sender) client-ip=10.68.226.170; 
+Authentication-Results: mr.google.com; spf=pass (google.com: domain of
+	otavio.salvador@gmail.com designates 10.68.226.170 as permitted
+	sender) smtp.mail=otavio.salvador@gmail.com;
+	dkim=pass header.i=otavio.salvador@gmail.com
+Received: from mr.google.com ([10.68.226.170])
+	by 10.68.226.170 with SMTP id rt10mr4873679pbc.127.1330008815903
+	(num_hops = 1); Thu, 23 Feb 2012 06:53:35 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
+	h=mime-version:sender:in-reply-to:references:date
+	:x-google-sender-auth:message-id:subject:from:to:content-type
+	:content-transfer-encoding;
+	bh=GGpmW25h0AyxoAliDYurYlex4eXeYMnMhqlVJn9J4/M=;
+	b=I69egZK+Rgxmdo9IlXfyg/gh56LYK4KRI4BUD/WwECvoqlLZu2kwz1qVLHZyPBDZvk
+	z9maDuuT5ChJG3sxMxX7VtzjG875CQopz99HjoGKbHSfEuP7xaHoGRvFBypB7d1D5eOJ
+	Ld7TD7VOG2aG9cT4+AcFZCmF7gIQf9eqojUMk=
+MIME-Version: 1.0
+Received: by 10.68.226.170 with SMTP id rt10mr4149287pbc.127.1330008815859;
+	Thu, 23 Feb 2012 06:53:35 -0800 (PST)
+Sender: otavio.salvador@gmail.com
+Received: by 10.68.210.71 with HTTP; Thu, 23 Feb 2012 06:53:35 -0800 (PST)
+In-Reply-To: <32a9dc576917167f6c2392c822abf54fba58eaf2.1330004039.git.richard.purdie@linuxfoundation.org>
 References: <cover.1330004039.git.richard.purdie@linuxfoundation.org>
-Subject: [PATCH 13/16] insane.bbclass: Only depend on desktop-file-utils-native when we need it
+	<5c6b81ada0814d1947d89120867bb9a4a5b0fa85.1330004039.git.richard.purdie@linuxfoundation.org>
+	<32a9dc576917167f6c2392c822abf54fba58eaf2.1330004039.git.richard.purdie@linuxfoundation.org>
+Date: Thu, 23 Feb 2012 12:53:35 -0200
+X-Google-Sender-Auth: quNbQme2YYvEUwroddC16jv6B18
+Message-ID: <CAP9ODKprbhrpzGo=_Qd+JBcvVkKWaS0=TgVM7XmApC2QPYG3fA@mail.gmail.com>
+From: Otavio Salvador <otavio@ossystems.com.br>
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 04/16] libusb-compat: Address unpackaged files warning
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -49,42 +53,23 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 23 Feb 2012 14:56:49 -0000
+X-List-Received-Date: Thu, 23 Feb 2012 15:01:58 -0000
+Content-Type: text/plain; charset=ISO-8859-1
+Content-Transfer-Encoding: quoted-printable
 
-There is no point in depending on desktop-file-utils if we're not going to
-use it. This patch makes the dependency conditional upon the desktop tests
-being enabled.
+On Thu, Feb 23, 2012 at 11:38, Richard Purdie
+<richard.purdie@linuxfoundation.org> wrote:
+> WARNING: For recipe libusb-compat, the following files/directories were i=
+nstalled but not shipped in any package:
+> WARNING: =A0 /lib/libusb.la
 
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
----
- meta/classes/insane.bbclass |    8 +++++++-
- 1 files changed, 7 insertions(+), 1 deletions(-)
+Why not drop it?
 
-diff --git a/meta/classes/insane.bbclass b/meta/classes/insane.bbclass
-index ead6ec1..7a84465 100644
---- a/meta/classes/insane.bbclass
-+++ b/meta/classes/insane.bbclass
-@@ -23,7 +23,7 @@
- # The package.bbclass can help us here.
- #
- inherit package
--PACKAGE_DEPENDS += "pax-utils-native desktop-file-utils-native ${QADEPENDS}"
-+PACKAGE_DEPENDS += "pax-utils-native ${QADEPENDS}"
- PACKAGEFUNCS += " do_package_qa "
- 
- # unsafe-references-in-binaries requires prelink-rtld from
-@@ -722,3 +722,9 @@ do_populate_sysroot[postfuncs] += "do_qa_staging "
- # have it in DEPENDS and for correct LIC_FILES_CHKSUM
- #addtask qa_configure after do_configure before do_compile
- do_configure[postfuncs] += "do_qa_configure "
-+
-+python () {
-+    tests = d.getVar('WARN_QA', True) + " " + d.getVar('ERROR_QA', True)
-+    if tests.find("desktop") != -1:
-+        d.appendVar("PACKAGE_DEPENDS", "desktop-file-utils-native")
-+}
--- 
-1.7.5.4
-
+--=20
+Otavio Salvador=A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0O=
+.S. Systems
+E-mail: otavio@ossystems.com.br=A0 http://www.ossystems.com.br
+Mobile: +55 53 9981-7854=A0 =A0 =A0 =A0=A0 =A0 =A0 =A0http://projetos.ossys=
+tems.com.br
 
 
