@@ -1,45 +1,43 @@
-Received: from tx2ehsobe003.messaging.microsoft.com ([65.55.88.13]
-	helo=TX2EHSOBE005.bigfish.com)
+Received: from mail-we0-f175.google.com ([74.125.82.175])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <B29882@freescale.com>) id 1S0SQe-0006G6-0w
+	(envelope-from <s.stirtzel@googlemail.com>) id 1S0TDL-0008Nx-3Z
 	for openembedded-core@lists.openembedded.org;
-	Thu, 23 Feb 2012 07:45:24 +0100
-Received: from mail82-tx2-R.bigfish.com (10.9.14.249) by
-	TX2EHSOBE005.bigfish.com (10.9.40.25) with Microsoft SMTP Server id
-	14.1.225.23; Thu, 23 Feb 2012 06:21:52 +0000
-Received: from mail82-tx2 (localhost [127.0.0.1])	by mail82-tx2-R.bigfish.com
-	(Postfix) with ESMTP id 271DD140114	for
-	<openembedded-core@lists.openembedded.org>;
-	Thu, 23 Feb 2012 06:21:52 +0000 (UTC)
-X-SpamScore: 3
-X-BigFish: VS3(zzzz1202h1082kzz8275bhz2dh2a8h668h839h)
-X-Forefront-Antispam-Report: CIP:70.37.183.190; KIP:(null); UIP:(null); IPV:NLI;
-	H:mail.freescale.net; RD:none; EFVD:NLI
-Received: from mail82-tx2 (localhost.localdomain [127.0.0.1]) by mail82-tx2
-	(MessageSwitch) id 1329978110499086_21885;
-	Thu, 23 Feb 2012 06:21:50 +0000 (UTC)
-Received: from TX2EHSMHS023.bigfish.com (unknown [10.9.14.245])	by
-	mail82-tx2.bigfish.com (Postfix) with ESMTP id 75862240046	for
-	<openembedded-core@lists.openembedded.org>;
-	Thu, 23 Feb 2012 06:21:50 +0000 (UTC)
-Received: from mail.freescale.net (70.37.183.190) by TX2EHSMHS023.bigfish.com
-	(10.9.99.123) with Microsoft SMTP Server (TLS) id 14.1.225.23;
-	Thu, 23 Feb 2012 06:21:50 +0000
-Received: from tx30smr01.am.freescale.net (10.81.153.31) by
-	039-SN1MMR1-003.039d.mgd.msft.net (10.84.1.16) with Microsoft SMTP
-	Server (TLS) id 14.1.355.3; Thu, 23 Feb 2012 00:21:52 -0600
-Received: from right.am.freescale.net (right.am.freescale.net [10.82.193.13])
-	by tx30smr01.am.freescale.net (8.14.3/8.14.0) with ESMTP id
-	q1N6LnqS006062 for <openembedded-core@lists.openembedded.org>;
-	Wed, 22 Feb 2012 23:21:52 -0700
-From: Matthew McClintock <msm@freescale.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Thu, 23 Feb 2012 00:21:48 -0600
-Message-ID: <1329978109-642-1-git-send-email-msm@freescale.com>
-X-Mailer: git-send-email 1.7.6.1
+	Thu, 23 Feb 2012 08:35:43 +0100
+Received: by werc1 with SMTP id c1so564994wer.6
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 22 Feb 2012 23:27:22 -0800 (PST)
+Received-SPF: pass (google.com: domain of s.stirtzel@googlemail.com designates
+	10.216.138.195 as permitted sender) client-ip=10.216.138.195; 
+Authentication-Results: mr.google.com; spf=pass (google.com: domain of
+	s.stirtzel@googlemail.com designates 10.216.138.195 as
+	permitted sender) smtp.mail=s.stirtzel@googlemail.com;
+	dkim=pass header.i=s.stirtzel@googlemail.com
+Received: from mr.google.com ([10.216.138.195])
+	by 10.216.138.195 with SMTP id a45mr116475wej.25.1329982042273
+	(num_hops = 1); Wed, 22 Feb 2012 23:27:22 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=googlemail.com; s=gamma;
+	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
+	:content-type:content-transfer-encoding;
+	bh=zcg9GA+IyaABvLej0T6zDILflFsYbgOmDaFDFZG2zVI=;
+	b=qzC5dtEDQ/nM7CrYxdCXwGqJUmsBezEjIU241JgXCEJzp+kq2Jqv58eNYx/RsAXjMP
+	/Csqp6jNC/orYIlXz5ocgrqKOnJRlvbLpwZeYS9VrbnI8VcDyLNYL2R1neiJYfHhFHk1
+	YgFQp1DVdbyFcimnb7VctasW4BM38AJ8ekSYo=
 MIME-Version: 1.0
-X-OriginatorOrg: freescale.com
-Subject: [PATCH 1/2] arch-powerpc{, 64}.inc: update/add PACKAGE_EXTRA_ARCHS for powerpc/powerpc64
+Received: by 10.216.138.195 with SMTP id a45mr94763wej.25.1329982042131; Wed,
+	22 Feb 2012 23:27:22 -0800 (PST)
+Received: by 10.223.104.8 with HTTP; Wed, 22 Feb 2012 23:27:22 -0800 (PST)
+In-Reply-To: <CAP9ODKpKZ6LyYMiTYj_Rv9CE+DMNhHePWOKxRRVrW7EHuWE34w@mail.gmail.com>
+References: <CAGiJk9fWz97OC-wbpAroJdPUYP7+GTKcOG-00a0tP4R_jfWFPA@mail.gmail.com>
+	<CAP9ODKpPNJn-PRijKasZnomGOPuQ5ugBadJGxCdtwSu5FxAUJQ@mail.gmail.com>
+	<CAGiJk9fjz9JdhTaKW23e_cmBSW2baPf4DmPgSDq08znPA9nh5Q@mail.gmail.com>
+	<CAP9ODKpKZ6LyYMiTYj_Rv9CE+DMNhHePWOKxRRVrW7EHuWE34w@mail.gmail.com>
+Date: Thu, 23 Feb 2012 08:27:22 +0100
+Message-ID: <CAGiJk9eXiSXuyZyFwdK_pSZD2_zfyBmZHSqoD4FW_fUJLCJ60g@mail.gmail.com>
+From: Samuel Stirtzel <s.stirtzel@googlemail.com>
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: Linker error while cross compiling, (Qt issue?)
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -54,39 +52,51 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 23 Feb 2012 06:45:25 -0000
-Content-Type: text/plain
+X-List-Received-Date: Thu, 23 Feb 2012 07:35:43 -0000
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
-Signed-off-by: Matthew McClintock <msm@freescale.com>
----
- meta/conf/machine/include/powerpc/arch-powerpc.inc |    4 +---
- .../machine/include/powerpc/arch-powerpc64.inc     |    1 +
- 2 files changed, 2 insertions(+), 3 deletions(-)
+2012/2/22 Otavio Salvador <otavio@ossystems.com.br>:
+> On Wed, Feb 22, 2012 at 14:06, Samuel Stirtzel
+> <s.stirtzel@googlemail.com> wrote:
+>> 2012/2/22 Otavio Salvador <otavio@ossystems.com.br>:
+>>> On Wed, Feb 22, 2012 at 13:53, Samuel Stirtzel
+>>> <s.stirtzel@googlemail.com> wrote:
+>>>> This error really puzzles me, usually I would assume that a library
+>>>> has no problems to export symbols.
+>>>
+>>> It puzzles me as well; =C2=A0I have many applications and libraries lin=
+king
+>>> against Qt without problem is my first advice is to check the build
+>>> system of libdbusmenu-qt and check if it has any linking blackmagic or
+>>> something like that.
+>>
+>> It looks like the "usual" linking magic:
+>> http://gitorious.org/dbusmenu/dbusmenu-qt/blobs/master/src/dbusmenu_expo=
+rt.h
+>> "dbusmenu_qt_EXPORTS" is defined at compile time and classes are
+>> exported e.g. "class DBUSMENU_EXPORT DBusMenuExporter : public
+>> QObject".
+>
+> http://gitorious.org/dbusmenu/dbusmenu-qt/blobs/master/src/CMakeLists.txt=
+#line7
+>
+> This might be related. I didn't try but might be a failure in the way
+> of the code is exporting it.
 
-diff --git a/meta/conf/machine/include/powerpc/arch-powerpc.inc b/meta/conf/machine/include/powerpc/arch-powerpc.inc
-index 8347f86..c9b2829 100644
---- a/meta/conf/machine/include/powerpc/arch-powerpc.inc
-+++ b/meta/conf/machine/include/powerpc/arch-powerpc.inc
-@@ -30,6 +30,4 @@ BASE_LIB_tune-powerpc-nf = "lib"
- PACKAGE_EXTRA_ARCHS_tune-powerpc-nf = "powerpc-nf"
- TUNE_FEATURES_tune-powerpc ?= "m32 fpu-hard"
- BASE_LIB_tune-powerpc = "lib"
--PACKAGE_EXTRA_ARCHS_tune-powerpc = "${PACKAGE_EXTRA_ARCHS_tune-powerpc-nf} powerpc"
--
--
-+PACKAGE_EXTRA_ARCHS_tune-powerpc = "powerpc"
-diff --git a/meta/conf/machine/include/powerpc/arch-powerpc64.inc b/meta/conf/machine/include/powerpc/arch-powerpc64.inc
-index 7ef8ddc..48cd08e 100644
---- a/meta/conf/machine/include/powerpc/arch-powerpc64.inc
-+++ b/meta/conf/machine/include/powerpc/arch-powerpc64.inc
-@@ -10,3 +10,4 @@ TUNE_ARCH .= "${@bb.utils.contains("TUNE_FEATURES", [ "m64" ], "powerpc64", "",
- AVAILTUNES += "powerpc64"
- TUNE_FEATURES_tune-powerpc64 ?= "m64 fpu-hard"
- BASE_LIB_tune-powerpc64 = "lib64"
-+PACKAGE_EXTRA_ARCHS_tune-powerpc64 = "powerpc64"
--- 
-1.7.6.1
+Yes that helped me, I've seen the visibility=3Dhidden before, but didn't
+thought about that the code _could_ export it wrong.
+So adding  __attribute__((visibility("default")))  to the
+dbusmenu_export.h solves this issue.
 
+It is still odd that this only occurs while cross compiling.
+More odd seems that the same error happens to Soprano, it also uses
+Q_DECL_EXPORT [1].
 
+[1] http://quickgit.kde.org/index.php?p=3Dsoprano.git&a=3Dblob_plain&h=3D74=
+96feb29efea05cca47d919ce6060670634df32&f=3Dsoprano%2Fsoprano_export.h
+--=20
+Regards
+Samuel
 
 
