@@ -1,48 +1,19 @@
-Received: from mail-ee0-f47.google.com ([74.125.83.47])
+Received: from smtp2-g21.free.fr ([212.27.42.2])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <martin.jansa@gmail.com>) id 1S0TzE-0001iC-HB
-	for openembedded-core@lists.openembedded.org;
-	Thu, 23 Feb 2012 09:25:12 +0100
-Received: by eekd41 with SMTP id d41so409271eek.6
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 23 Feb 2012 00:16:51 -0800 (PST)
-Received-SPF: pass (google.com: domain of martin.jansa@gmail.com designates
-	10.14.28.75 as permitted sender) client-ip=10.14.28.75; 
-Authentication-Results: mr.google.com;
-	spf=pass (google.com: domain of martin.jansa@gmail.com
-	designates 10.14.28.75 as permitted sender)
-	smtp.mail=martin.jansa@gmail.com;
-	dkim=pass header.i=martin.jansa@gmail.com
-Received: from mr.google.com ([10.14.28.75])
-	by 10.14.28.75 with SMTP id f51mr164835eea.118.1329985011587 (num_hops
-	= 1); Thu, 23 Feb 2012 00:16:51 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
-	h=date:from:to:subject:message-id:references:mime-version
-	:content-type:content-disposition:in-reply-to:user-agent;
-	bh=h6djn9ZdLxPIfMzhtdjjQ4o6Hp2r7TojwQQVEyMAKiM=;
-	b=pkGRU2DciY+3cJAxo+HgsWNMcyUoA5di2m6CY2b0nSjSDHoWHKnWIsWE3UfH27FYAU
-	DkCuMnqJhc4wGHrZJ4xgVgEukDtwzJBCabSSVi4av3JnNdRIcDdFs2UfeKnhys6mGZ6N
-	X47qxpvVoCS4dQc5M5KPeHCO2nKsH2F/WjV98=
-Received: by 10.14.28.75 with SMTP id f51mr131060eea.118.1329985011439;
-	Thu, 23 Feb 2012 00:16:51 -0800 (PST)
-Received: from localhost ([94.230.152.246])
-	by mx.google.com with ESMTPS id w60sm2741995eeb.4.2012.02.23.00.16.49
-	(version=TLSv1/SSLv3 cipher=OTHER);
-	Thu, 23 Feb 2012 00:16:50 -0800 (PST)
-Date: Thu, 23 Feb 2012 09:16:48 +0100
-From: Martin Jansa <martin.jansa@gmail.com>
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Message-ID: <20120223081648.GN3769@jama.jama.net>
-References: <1e2722b29db9486276198e13f06345babce10518.1329147583.git.Martin.Jansa@gmail.com>
-	<b17109ebc9396973f7c0dbf6812699e2c0930349.1329147583.git.Martin.Jansa@gmail.com>
-	<4F3ED680.5020909@linux.intel.com>
-	<20120218115651.GA11351@jama.jama.net>
-	<1329573666.1884.5.camel@ted>
-MIME-Version: 1.0
-In-Reply-To: <1329573666.1884.5.camel@ted>
-User-Agent: Mutt/1.5.21 (2010-09-15)
-Subject: Re: [PATCH 2/4] gdb-cross-canadian: use NATIVESDK paths as it happens to be here
+	(envelope-from <eric@eukrea.com>)
+	id 1S0UOl-0002Ts-0d; Thu, 23 Feb 2012 09:51:35 +0100
+Received: from eb-e6520 (unknown [82.240.38.71])
+	by smtp2-g21.free.fr (Postfix) with ESMTP id 730914B0196;
+	Thu, 23 Feb 2012 09:43:10 +0100 (CET)
+Date: Thu, 23 Feb 2012 09:43:09 +0100
+From: Eric =?ISO-8859-1?B?QuluYXJk?= <eric@eukrea.com>
+To: openembedded-core@lists.openembedded.org,
+	openembedded-devel@lists.openembedded.org, yocto@yoctoproject.org
+Message-ID: <20120223094309.348b6986@eb-e6520>
+Organization: =?ISO-8859-1?B?RXVrculh?= Electromatique
+X-Mailer: Claws Mail 3.8.0 (GTK+ 2.24.8; x86_64-redhat-linux-gnu)
+Mime-Version: 1.0
+Subject: ELC Videos
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -57,109 +28,23 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 23 Feb 2012 08:25:12 -0000
-X-Groupsio-MsgNum: 17754
-Content-Type: multipart/signed; micalg=pgp-sha1;
-	protocol="application/pgp-signature"; boundary="8MZM6zh5Bb05FW+3"
-Content-Disposition: inline
+X-List-Received-Date: Thu, 23 Feb 2012 08:51:35 -0000
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
---8MZM6zh5Bb05FW+3
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Hi,
 
-On Sat, Feb 18, 2012 at 02:01:06PM +0000, Richard Purdie wrote:
-> On Sat, 2012-02-18 at 12:56 +0100, Martin Jansa wrote:
-> > On Fri, Feb 17, 2012 at 02:36:48PM -0800, Saul Wold wrote:
-> > > On 02/13/2012 07:40 AM, Martin Jansa wrote:
-> > > > * seems like config/config in -L was also wrong
-> > > >
-> > > > Signed-off-by: Martin Jansa<Martin.Jansa@gmail.com>
-> > > > ---
-> > > >   meta/recipes-devtools/gdb/gdb-cross-canadian.inc |   10 ++++++++--
-> > > >   1 files changed, 8 insertions(+), 2 deletions(-)
-> > > >
-> > > > diff --git a/meta/recipes-devtools/gdb/gdb-cross-canadian.inc b/met=
-a/recipes-devtools/gdb/gdb-cross-canadian.inc
-> > > > index b5746ce..bac63b7 100644
-> > > > --- a/meta/recipes-devtools/gdb/gdb-cross-canadian.inc
-> > > > +++ b/meta/recipes-devtools/gdb/gdb-cross-canadian.inc
-> > > > @@ -10,12 +10,18 @@ RDEPENDS +=3D "python-nativesdk-core python-nat=
-ivesdk-lang python-nativesdk-re \
-> > > >
-> > > >   EXTRA_OECONF_append =3D "--with-python=3D${WORKDIR}/python"
-> > > >
-> > > > +NATIVESDK_NAME =3D "oecore-${SDK_ARCH}-${SDK_ARCH}"
-> > > > +NATIVESDK_PATH =3D "/usr/local/${NATIVESDK_NAME}"
-> >=20
-> > Ah, I was reusing definition from bitbake.conf:
-> > meta/conf/bitbake.conf:SDK_NAME =3D "oecore-${SDK_ARCH}-${TARGET_ARCH}"
-> >=20
-> > with only TARGET_ARCH replaced with SDK_ARCH.
-> >=20
-> > Can we move "oecore" to extra varible like:
-> >=20
-> > bitbake.conf:
-> > -SDK_NAME =3D "oecore-${SDK_ARCH}-${TARGET_ARCH}"
-> > +SDK_NAME_PREFIX =3D "oecore"
-> > +SDK_NAME =3D "${SDK_NAME_PREFIX}-${SDK_ARCH}-${TARGET_ARCH}"
-> >=20
-> > meta-yocto/conf/distro/poky.conf:
-> > -SDK_NAME =3D "${DISTRO}-${TCLIBC}-${SDK_ARCH}-${TARGET_ARCH}"
-> > +SDK_NAME_PREFIX =3D "${DISTRO}-${TCLIBC}"
-> >=20
-> > SDK_PATH is worse:
-> > meta/conf/bitbake.conf:SDKPATH =3D "/usr/local/${SDK_NAME}"
-> > meta-yocto/conf/distro/poky.conf:SDKPATH =3D "/opt/${DISTRO}/${SDK_VERS=
-ION}"
-> >=20
-> > Maybe this patch is not going in right direction, but nobody replied in
-> > "SDK confusion Was: [oe] [meta-oe] gdb-cross-canadian: build gdb with p=
-ython support"
-> > thread so I have sent this version which works in default (distroless)
-> > oe-core (and also for SHR as we don't override default SDK* variables.
->=20
-> This last week has been a bit problematic with conference activities
-> occupying many of the people who would normally have replied to that
-> kind of thread.
+ELC videos are available here :
+http://video.linux.com/categories/2012-embedded-linux-conference
 
-I know and I wasn't complaining much about lack of responses :) rather
-wanted to resend this 2 patches in form easy to test for everybody.
+2 (at least) are about OE & Yocto :
+Khem "OpenEmbedded - A Layered Approach" :
+http://video.linux.com/videos/openembedded-a-layered-approach
+Saul "Yocto Project Update" :
+http://video.linux.com/videos/yocto-project-update
 
-And I wanted to resend older Eric's patch for oe-core not .bbappend in
-meta-oe, because I wanted to test it without any aditional layer (as
-it first should work for distroless oe-core and not only for distributions
-overwriting default configuration).
+Eric
+-- 
+http://eukrea.com/en/news/104-2012
 
-> I'm very worried that you're having to copy the base bitbake definitions
-> as needing to do that is usually a sign there is some underlying more
-> fundamental problem. We really need to find a better alternative.
->=20
-> I therefore don't think the patch as it stands can go in but I do want
-> to understand the problem and try and fix it in a way that addresses the
-> issues. I'm probably not going to get a chance to look at things until
-> next week though.
 
-I've added SDK_NAME_PREFIX to bitbake.conf which is probably better to
-overwrite then whole "oecore-${SDK_ARCH}-${TARGET_ARCH}" and I've moved
-3 NATIVESDK_* variables from that .inc to bitbake.conf so it's easier to
-see that those also need to be overwriten in consistent way, see
-following patchset.
-
-Cheers,
---=20
-Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
-
---8MZM6zh5Bb05FW+3
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: Digital signature
-
------BEGIN PGP SIGNATURE-----
-Version: GnuPG v2.0.18 (GNU/Linux)
-
-iEYEARECAAYFAk9F9fAACgkQN1Ujt2V2gBzC0gCeIcURPKLw2cRqnHiMArhTdmJU
-IbgAoKQ5xgIJWx38m4YnQmzWoOliqL8U
-=Ebue
------END PGP SIGNATURE-----
-
---8MZM6zh5Bb05FW+3--
