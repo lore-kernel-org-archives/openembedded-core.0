@@ -1,42 +1,39 @@
-Received: from mail-pw0-f47.google.com ([209.85.160.47])
+Received: from mail-ee0-f47.google.com ([74.125.83.47])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <otavio.salvador@gmail.com>) id 1S0aE3-00031n-DX
+	(envelope-from <martin.jansa@gmail.com>) id 1S0aE4-00031s-LQ
 	for openembedded-core@lists.openembedded.org;
-	Thu, 23 Feb 2012 16:04:55 +0100
-Received: by pbbjt11 with SMTP id jt11so721783pbb.6
+	Thu, 23 Feb 2012 16:04:56 +0100
+Received: by eekd41 with SMTP id d41so583717eek.6
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 23 Feb 2012 06:56:33 -0800 (PST)
-Received-SPF: pass (google.com: domain of otavio.salvador@gmail.com designates
-	10.68.193.136 as permitted sender) client-ip=10.68.193.136; 
-Authentication-Results: mr.google.com; spf=pass (google.com: domain of
-	otavio.salvador@gmail.com designates 10.68.193.136 as permitted
-	sender) smtp.mail=otavio.salvador@gmail.com;
-	dkim=pass header.i=otavio.salvador@gmail.com
-Received: from mr.google.com ([10.68.193.136])
-	by 10.68.193.136 with SMTP id ho8mr4824663pbc.148.1330008993349
-	(num_hops = 1); Thu, 23 Feb 2012 06:56:33 -0800 (PST)
+	Thu, 23 Feb 2012 06:56:35 -0800 (PST)
+Received-SPF: pass (google.com: domain of martin.jansa@gmail.com designates
+	10.14.45.80 as permitted sender) client-ip=10.14.45.80; 
+Authentication-Results: mr.google.com;
+	spf=pass (google.com: domain of martin.jansa@gmail.com
+	designates 10.14.45.80 as permitted sender)
+	smtp.mail=martin.jansa@gmail.com;
+	dkim=pass header.i=martin.jansa@gmail.com
+Received: from mr.google.com ([10.14.45.80])
+	by 10.14.45.80 with SMTP id o56mr1053070eeb.88.1330008995503 (num_hops
+	= 1); Thu, 23 Feb 2012 06:56:35 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
-	h=mime-version:sender:in-reply-to:references:date
-	:x-google-sender-auth:message-id:subject:from:to:content-type
-	:content-transfer-encoding;
-	bh=br4n7DOA06y6lrtdiq0XAPpEF+t4GYWUMFZsDjiQidQ=;
-	b=ToLw9y5U63I5Nb4f9GbXT7TqXCVUnPEkqijHVl9V0Ey00AKyAnmeSmh7MjxwknbBqB
-	MZt8TyJl8gu9DAlhG2utEqqv0v4dhCMq4LVZdOvZmW830L4f94/Tzxa3afwA9jkxhiGH
-	c+oqHJi2QEuN0NMOcNsAyUj0as2dxbVvMjLdg=
-MIME-Version: 1.0
-Received: by 10.68.193.136 with SMTP id ho8mr4122747pbc.148.1330008993290;
-	Thu, 23 Feb 2012 06:56:33 -0800 (PST)
-Sender: otavio.salvador@gmail.com
-Received: by 10.68.210.71 with HTTP; Thu, 23 Feb 2012 06:56:33 -0800 (PST)
-In-Reply-To: <cover.1330004039.git.richard.purdie@linuxfoundation.org>
-References: <cover.1330004039.git.richard.purdie@linuxfoundation.org>
-Date: Thu, 23 Feb 2012 12:56:33 -0200
-X-Google-Sender-Auth: huCx_ap-B6R86RjER3_hfQNHXDs
-Message-ID: <CAP9ODKp2puQg8KMMHdEApyqkwrEKV3OPLKStLxw3iMFX9C63=Q@mail.gmail.com>
-From: Otavio Salvador <otavio@ossystems.com.br>
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 00/16] Various fixes, mostly for WARNING messages
+	h=from:to:cc:subject:date:message-id:x-mailer;
+	bh=ZiU9x+Rd5wQsjxC/BOCJn0LyfWRhtuX1m0JIqx745c0=;
+	b=SkFB9C8onR0cMLtaKBixwDZwwjMC3qiOLIAbDfpB/zvxnT+Uu4Oy2W9W/OvVP1RWW0
+	fVNX9qNeREEkux2My1uUnmZus4bJciIrxTVgnOAfa5fcRS+BE5C/zGkVnMddWHX71AHx
+	yxKTnd0tTWeSYHQVnDpRVdhmazB6icLXZv8ws=
+Received: by 10.14.45.80 with SMTP id o56mr827648eeb.88.1330008995403;
+	Thu, 23 Feb 2012 06:56:35 -0800 (PST)
+Received: from localhost ([94.230.152.246])
+	by mx.google.com with ESMTPS id a58sm6161207eeb.8.2012.02.23.06.56.33
+	(version=TLSv1/SSLv3 cipher=OTHER);
+	Thu, 23 Feb 2012 06:56:34 -0800 (PST)
+From: Martin Jansa <martin.jansa@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Date: Thu, 23 Feb 2012 15:56:26 +0100
+Message-Id: <1330008986-22618-1-git-send-email-Martin.Jansa@gmail.com>
+X-Mailer: git-send-email 1.7.8.4
+Subject: [PATCH] e2fsprogs: remove ldconfig call from install-libs
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -51,24 +48,69 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 23 Feb 2012 15:04:55 -0000
-Content-Type: text/plain; charset=ISO-8859-1
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Thu, 23 Feb 2012 15:04:56 -0000
 
-On Thu, Feb 23, 2012 at 11:37, Richard Purdie
-<richard.purdie@linuxfoundation.org> wrote:
-> These patches mainly fix various warning issues reported by the build but
-> there are a couple of other improvements/fixes thrown in.
+Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
+---
+ .../e2fsprogs-1.42/remove.ldconfig.call.patch      |   28 ++++++++++++++++++++
+ meta/recipes-devtools/e2fsprogs/e2fsprogs_1.42.bb  |    6 +++-
+ 2 files changed, 32 insertions(+), 2 deletions(-)
+ create mode 100644 meta/recipes-devtools/e2fsprogs/e2fsprogs-1.42/remove.ldconfig.call.patch
 
-From looking on the patches seems fine except I'd remove the .la files
-instead of adding it on -dev. I didn't build-test it as it is based on
-Poky.
+diff --git a/meta/recipes-devtools/e2fsprogs/e2fsprogs-1.42/remove.ldconfig.call.patch b/meta/recipes-devtools/e2fsprogs/e2fsprogs-1.42/remove.ldconfig.call.patch
+new file mode 100644
+index 0000000..0e5fd7d
+--- /dev/null
++++ b/meta/recipes-devtools/e2fsprogs/e2fsprogs-1.42/remove.ldconfig.call.patch
+@@ -0,0 +1,28 @@
++When /etc/ld.so.cache is writeable by user running bitbake then it creates invalid cache
++(in my case libstdc++.so cannot be found after building zlib(-native) and I have to call
++touch */libstdc++.so && /sbin/ldconfig to fix it.
++
++So remove ldconfig call from make install-libs
++
++Upstream-Status: Inappropriate [disable feature]
++
++diff -uNr e2fsprogs-1.42.orig/lib/Makefile.elf-lib e2fsprogs-1.42/lib/Makefile.elf-lib
++--- e2fsprogs-1.42.orig/lib/Makefile.elf-lib	2010-06-14 05:07:36.000000000 +0200
+++++ e2fsprogs-1.42/lib/Makefile.elf-lib	2012-02-23 14:26:07.021272275 +0100
++@@ -52,8 +52,6 @@
++ 		$(LN_S) -f $(ELF_INSTALL_DIR)/$(ELF_SONAME) \
++ 			$(DESTDIR)$(libdir)/$(ELF_IMAGE).so; \
++ 	fi			
++-	$(E) "	LDCONFIG"
++-	$(Q) -$(LDCONFIG)
++ 
++ install-strip: install
++ 	$(E) "	STRIP-LIB $(ELF_INSTALL_DIR)/$(ELF_LIB)"
++@@ -69,7 +67,6 @@
++ 	$(RM) -f $(DESTDIR)$(ELF_INSTALL_DIR)/$(ELF_LIB) \
++ 		$(DESTDIR)$(ELF_INSTALL_DIR)/$(ELF_SONAME) \
++ 		$(DESTDIR)$(libdir)/$(ELF_IMAGE).so
++-	-$(LDCONFIG)
++ 
++ clean::
++ 	$(RM) -rf elfshared
+diff --git a/meta/recipes-devtools/e2fsprogs/e2fsprogs_1.42.bb b/meta/recipes-devtools/e2fsprogs/e2fsprogs_1.42.bb
+index 2289211..c40d02f 100644
+--- a/meta/recipes-devtools/e2fsprogs/e2fsprogs_1.42.bb
++++ b/meta/recipes-devtools/e2fsprogs/e2fsprogs_1.42.bb
+@@ -1,9 +1,11 @@
+ require e2fsprogs.inc
+ 
+-PR = "r2"
++PR = "r3"
+ 
+ SRC_URI += "file://fallocate.patch \
+-            file://acinclude.m4"
++            file://acinclude.m4 \
++            file://remove.ldconfig.call.patch \
++"
+ 
+ SRC_URI[md5sum] = "a3c4ffd7352310ab5e9412965d575610"
+ SRC_URI[sha256sum] = "55b46db0cec3e2eb0e5de14494a88b01ff6c0500edf8ca8927cad6da7b5e4a46"
+-- 
+1.7.8.4
 
---=20
-Otavio Salvador=A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0O=
-.S. Systems
-E-mail: otavio@ossystems.com.br=A0 http://www.ossystems.com.br
-Mobile: +55 53 9981-7854=A0 =A0 =A0 =A0=A0 =A0 =A0 =A0http://projetos.ossys=
-tems.com.br
 
 
