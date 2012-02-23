@@ -1,24 +1,24 @@
 Received: from mga01.intel.com ([192.55.52.88])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <sgw@linux.intel.com>) id 1S0bC7-0004tn-JC
+	(envelope-from <sgw@linux.intel.com>) id 1S0bC8-0004t7-2E
 	for openembedded-core@lists.openembedded.org;
-	Thu, 23 Feb 2012 17:06:59 +0100
+	Thu, 23 Feb 2012 17:07:00 +0100
 Received: from fmsmga002.fm.intel.com ([10.253.24.26])
 	by fmsmga101.fm.intel.com with ESMTP; 23 Feb 2012 07:58:34 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="128652370"
+X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="128652372"
 Received: from unknown (HELO swold-mobl.bigsur.com) ([10.255.15.72])
 	by fmsmga002.fm.intel.com with ESMTP; 23 Feb 2012 07:58:34 -0800
 From: Saul Wold <sgw@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Thu, 23 Feb 2012 07:58:22 -0800
-Message-Id: <a3b0629d8a9855fbbb394b0b952133cc63a89912.1330012543.git.sgw@linux.intel.com>
+Date: Thu, 23 Feb 2012 07:58:23 -0800
+Message-Id: <13124670a226a9379e6dbe20c028c23a9d568f83.1330012543.git.sgw@linux.intel.com>
 X-Mailer: git-send-email 1.7.6.5
 In-Reply-To: <cover.1330012543.git.sgw@linux.intel.com>
 References: <cover.1330012543.git.sgw@linux.intel.com>
 In-Reply-To: <cover.1330012543.git.sgw@linux.intel.com>
 References: <cover.1330012543.git.sgw@linux.intel.com>
-Subject: [CONSOLIDATED PULL 18/25] image_types: add vmdk type to use with VMware
+Subject: [CONSOLIDATED PULL 19/25] image-live: fix SYSLINUX_TIME and add SYSLINUX_ROOT instead of APPEND
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -37,31 +37,24 @@ X-List-Received-Date: Thu, 23 Feb 2012 16:07:00 -0000
 
 Signed-off-by: Saul Wold <sgw@linux.intel.com>
 ---
- meta/classes/image_types.bbclass |    5 ++++-
- 1 files changed, 4 insertions(+), 1 deletions(-)
+ meta/classes/image-live.bbclass |    4 ++--
+ 1 files changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/meta/classes/image_types.bbclass b/meta/classes/image_types.bbclass
-index eef554d..3b26162 100644
---- a/meta/classes/image_types.bbclass
-+++ b/meta/classes/image_types.bbclass
-@@ -153,6 +153,8 @@ IMAGE_CMD_ubi () {
- }
- IMAGE_CMD_ubifs = "mkfs.ubifs -r ${IMAGE_ROOTFS} -o ${DEPLOY_DIR_IMAGE}/${IMAGE_NAME}.rootfs.ubifs ${MKUBIFS_ARGS}"
+diff --git a/meta/classes/image-live.bbclass b/meta/classes/image-live.bbclass
+index e85ac1e..1476840 100644
+--- a/meta/classes/image-live.bbclass
++++ b/meta/classes/image-live.bbclass
+@@ -2,8 +2,8 @@
+ AUTO_SYSLINUXCFG = "1"
+ INITRD_IMAGE ?= "core-image-minimal-initramfs"
+ INITRD ?= "${DEPLOY_DIR_IMAGE}/${INITRD_IMAGE}-${MACHINE}.cpio.gz"
+-APPEND += "root=/dev/ram0 "
+-TIMEOUT = "10"
++SYSLINUX_ROOT = "root=/dev/ram0 "
++SYSLINUX_TIMEOUT = "10"
+ LABELS += "boot install"
  
-+IMAGE_CMD_vmdk = "qemu-img convert -O vmdk ${DEPLOY_DIR_IMAGE}/${IMAGE_NAME}.hdddirect ${DEPLOY_DIR_IMAGE}/${IMAGE_NAME}.vmdk"
-+
- EXTRA_IMAGECMD = ""
- EXTRA_IMAGECMD_jffs2 ?= "--pad --little-endian --eraseblock=0x40000"
- # Change these if you want default genext2fs behavior (i.e. create minimal inode number)
-@@ -182,6 +184,7 @@ IMAGE_DEPENDS_cpio.lzma = "xz-native"
- IMAGE_DEPENDS_cpio.xz = "xz-native"
- IMAGE_DEPENDS_ubi = "mtd-utils-native"
- IMAGE_DEPENDS_ubifs = "mtd-utils-native"
-+IMAGE_DEPENDS_vmdk = "qemu-native"
- 
- # This variable is available to request which values are suitable for IMAGE_FSTYPES
--IMAGE_TYPES = "jffs2 sum.jffs2 cramfs ext2 ext2.gz ext2.bz2 ext3 ext3.gz ext2.lzma btrfs live squashfs squashfs-lzma ubi tar tar.gz tar.bz2 tar.xz cpio cpio.gz cpio.xz cpio.lzma"
-+IMAGE_TYPES = "jffs2 sum.jffs2 cramfs ext2 ext2.gz ext2.bz2 ext3 ext3.gz ext2.lzma btrfs live squashfs squashfs-lzma ubi tar tar.gz tar.bz2 tar.xz cpio cpio.gz cpio.xz cpio.lzma vmdk"
+ ROOTFS ?= "${DEPLOY_DIR_IMAGE}/${IMAGE_BASENAME}-${MACHINE}.ext3"
 -- 
 1.7.6.5
 
