@@ -1,24 +1,24 @@
 Received: from mga01.intel.com ([192.55.52.88])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <sgw@linux.intel.com>) id 1S0bC4-0004t7-HW
+	(envelope-from <sgw@linux.intel.com>) id 1S0bC5-0004tn-1Z
 	for openembedded-core@lists.openembedded.org;
-	Thu, 23 Feb 2012 17:06:56 +0100
+	Thu, 23 Feb 2012 17:06:57 +0100
 Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-	by fmsmga101.fm.intel.com with ESMTP; 23 Feb 2012 07:58:32 -0800
+	by fmsmga101.fm.intel.com with ESMTP; 23 Feb 2012 07:58:33 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="128652359"
+X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="128652360"
 Received: from unknown (HELO swold-mobl.bigsur.com) ([10.255.15.72])
 	by fmsmga002.fm.intel.com with ESMTP; 23 Feb 2012 07:58:32 -0800
 From: Saul Wold <sgw@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Thu, 23 Feb 2012 07:58:14 -0800
-Message-Id: <c2f8aad1a37a5108736f54c62c9680261f173f53.1330012543.git.sgw@linux.intel.com>
+Date: Thu, 23 Feb 2012 07:58:15 -0800
+Message-Id: <36fdd134f4864f5efdf8c271c3bf6e822bc10961.1330012543.git.sgw@linux.intel.com>
 X-Mailer: git-send-email 1.7.6.5
 In-Reply-To: <cover.1330012543.git.sgw@linux.intel.com>
 References: <cover.1330012543.git.sgw@linux.intel.com>
 In-Reply-To: <cover.1330012543.git.sgw@linux.intel.com>
 References: <cover.1330012543.git.sgw@linux.intel.com>
-Subject: [CONSOLIDATED PULL 10/25] dbus: Remove empty ${lindir}dbus-1.0/test directory as we don't build tests
+Subject: [CONSOLIDATED PULL 11/25] busybox: don't create /etc/default
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -35,38 +35,40 @@ List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedde
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Thu, 23 Feb 2012 16:06:57 -0000
 
-From: Andrei Gherzan <andrei@gherzan.ro>
+From: Andreas Oberritter <obi@opendreambox.org>
 
-This empty directory generates a QA warning of unshippped files/dirs.
+* It's not used by the recipe and its creation
+  currently depends on CONFIG_HWCLOCK=y.
 
-Signed-off-by: Andrei Gherzan <andrei@gherzan.ro>
+Signed-off-by: Andreas Oberritter <obi@opendreambox.org>
 ---
- meta/recipes-core/dbus/dbus.inc |    5 ++++-
- 1 files changed, 4 insertions(+), 1 deletions(-)
+ meta/recipes-core/busybox/busybox.inc       |    1 -
+ meta/recipes-core/busybox/busybox_1.19.3.bb |    2 +-
+ 2 files changed, 1 insertions(+), 2 deletions(-)
 
-diff --git a/meta/recipes-core/dbus/dbus.inc b/meta/recipes-core/dbus/dbus.inc
-index 2a25256..588209f 100644
---- a/meta/recipes-core/dbus/dbus.inc
-+++ b/meta/recipes-core/dbus/dbus.inc
-@@ -10,7 +10,7 @@ DEPENDS = "expat virtual/libintl ${@base_contains('DISTRO_FEATURES', 'x11', '${X
- DEPENDS_virtclass-native = "expat-native virtual/libintl-native"
- DEPENDS_virtclass-nativesdk = "expat-nativesdk virtual/libintl-nativesdk virtual/libx11"
+diff --git a/meta/recipes-core/busybox/busybox.inc b/meta/recipes-core/busybox/busybox.inc
+index 5fb436e..fc69d65 100644
+--- a/meta/recipes-core/busybox/busybox.inc
++++ b/meta/recipes-core/busybox/busybox.inc
+@@ -179,7 +179,6 @@ do_install () {
+ 		install -m 0755 ${WORKDIR}/busybox-udhcpd ${D}${sysconfdir}/init.d/
+ 	fi
+ 	if grep "CONFIG_HWCLOCK=y" ${WORKDIR}/defconfig; then
+-		install -d ${D}${sysconfdir}/default
+ 		install -m 0755 ${WORKDIR}/hwclock.sh ${D}${sysconfdir}/init.d/
+ 	fi
+ 	if grep "CONFIG_UDHCPC=y" ${WORKDIR}/defconfig; then
+diff --git a/meta/recipes-core/busybox/busybox_1.19.3.bb b/meta/recipes-core/busybox/busybox_1.19.3.bb
+index a075407..45e284f 100644
+--- a/meta/recipes-core/busybox/busybox_1.19.3.bb
++++ b/meta/recipes-core/busybox/busybox_1.19.3.bb
+@@ -1,5 +1,5 @@
+ require busybox.inc
+-PR = "r3"
++PR = "r4"
  
--INC_PR = "r1"
-+INC_PR = "r2"
- 
- SRC_URI = "http://dbus.freedesktop.org/releases/dbus/dbus-${PV}.tar.gz \
-            file://tmpdir.patch; \
-@@ -91,6 +91,9 @@ do_install() {
- 	# Remove Red Hat initscript
- 	rm -rf ${D}${sysconfdir}/rc.d
- 
-+	# Remove empty testexec directory as we don't build tests
-+	rm -rf ${D}${libdir}/dbus-1.0/test
-+
- 	# disable dbus-1 sysv script on systemd installs
- 	# nearly all distros call the initscript plain 'dbus', but OE-core is different
- 	ln -sf /dev/null ${D}/${base_libdir}/systemd/system/dbus-1.service
+ SRC_URI = "http://www.busybox.net/downloads/busybox-${PV}.tar.bz2;name=tarball \
+            file://udhcpscript.patch \
 -- 
 1.7.6.5
 
