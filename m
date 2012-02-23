@@ -1,24 +1,24 @@
 Received: from mga01.intel.com ([192.55.52.88])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <sgw@linux.intel.com>) id 1S0bC8-0004t7-Vd
+	(envelope-from <sgw@linux.intel.com>) id 1S0bC9-0004tn-G2
 	for openembedded-core@lists.openembedded.org;
-	Thu, 23 Feb 2012 17:07:01 +0100
+	Thu, 23 Feb 2012 17:07:02 +0100
 Received: from fmsmga002.fm.intel.com ([10.253.24.26])
 	by fmsmga101.fm.intel.com with ESMTP; 23 Feb 2012 07:58:35 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="128652377"
+X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="128652379"
 Received: from unknown (HELO swold-mobl.bigsur.com) ([10.255.15.72])
 	by fmsmga002.fm.intel.com with ESMTP; 23 Feb 2012 07:58:35 -0800
 From: Saul Wold <sgw@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Thu, 23 Feb 2012 07:58:26 -0800
-Message-Id: <f07365dd711757d9790f5e8a6d6a0b48adb47a7c.1330012543.git.sgw@linux.intel.com>
+Date: Thu, 23 Feb 2012 07:58:28 -0800
+Message-Id: <b78c5fcd691f9d4f31708754f6614bbc7b7a9e21.1330012543.git.sgw@linux.intel.com>
 X-Mailer: git-send-email 1.7.6.5
 In-Reply-To: <cover.1330012543.git.sgw@linux.intel.com>
 References: <cover.1330012543.git.sgw@linux.intel.com>
 In-Reply-To: <cover.1330012543.git.sgw@linux.intel.com>
 References: <cover.1330012543.git.sgw@linux.intel.com>
-Subject: [CONSOLIDATED PULL 22/25] A script to clean obsolete sstate cache files
+Subject: [CONSOLIDATED PULL 24/25] task-self-hosted: make the package lists alphabetical
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -33,179 +33,144 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 23 Feb 2012 16:07:03 -0000
+X-List-Received-Date: Thu, 23 Feb 2012 16:07:04 -0000
 
-From: Robert Yang <liezhi.yang@windriver.com>
+From: Dexuan Cui <dexuan.cui@intel.com>
 
-There would be many obsolete cache files in the SSTATE_DIR after several
-builds, this script can remove the obsolete one for a pkg, only leave
-the up to date one.
+This patch makes no actual change to the functionality of the recipe.
 
-Here is the help text:
-
-sstate-cache-management.sh <OPTION>
-
-Options:
-  --help, -h
-        Display this help and exit.
-
-  --cache-dir=<sstate cache dir>
-        Specify sstate cache directory, will use the environment
-        variable SSTATE_CACHE_DIR if it is not specified.
-
-  --remove-duplicated
-        Remove the duplicated sstate cache files of one package, only
-        the newest one would be kept.
-
-[YOCTO #1682]
-
-Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
+Signed-off-by: Dexuan Cui <dexuan.cui@intel.com>
 ---
- scripts/sstate-cache-management.sh |  135 ++++++++++++++++++++++++++++++++++++
- 1 files changed, 135 insertions(+), 0 deletions(-)
- create mode 100755 scripts/sstate-cache-management.sh
+ meta/recipes-core/tasks/task-self-hosted.bb |   36 +++++++++++++-------------
+ 1 files changed, 18 insertions(+), 18 deletions(-)
 
-diff --git a/scripts/sstate-cache-management.sh b/scripts/sstate-cache-management.sh
-new file mode 100755
-index 0000000..d0e3abc
---- /dev/null
-+++ b/scripts/sstate-cache-management.sh
-@@ -0,0 +1,135 @@
-+#!/bin/bash
-+
-+#  Copyright (c) 2012 Wind River Systems, Inc.
-+#
-+# This program is free software; you can redistribute it and/or modify
-+# it under the terms of the GNU General Public License version 2 as
-+# published by the Free Software Foundation.
-+#
-+# This program is distributed in the hope that it will be useful,
-+# but WITHOUT ANY WARRANTY; without even the implied warranty of
-+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
-+# See the GNU General Public License for more details.
-+#
-+# You should have received a copy of the GNU General Public License
-+# along with this program; if not, write to the Free Software
-+# Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
-+#
-+
-+usage () {
-+  cat << EOF
-+Welcome to sstate cache management utilities.
-+sstate-cache-management.sh <OPTION>
-+
-+Options:
-+  --help, -h
-+        Display this help and exit.
-+
-+  --cache-dir=<sstate cache dir>
-+        Specify sstate cache directory, will use the environment
-+        variable SSTATE_CACHE_DIR if it is not specified.
-+
-+  --remove-duplicated
-+        Remove the duplicated sstate cache files of one package, only
-+        the newest one would be kept.
-+
-+EOF
-+}
-+
-+if [ $# -lt 1 ]; then
-+  usage
-+  exit 0
-+fi
-+
-+# Print error information and exit.
-+echo_error () {
-+  echo "ERROR: $1" >&2
-+  exit 1
-+}
-+
-+# Remove the duplicated cache files for the pkg, keep the newest one
-+remove_duplicated () {
-+  local all_suffixes="$1"
-+  local ava_archs="$2"
-+  local total_deleted=0
-+  for suffix in $all_suffixes; do
-+      local deleted=0
-+      echo -n "Removing the sstate-xxx_$suffix.tgz ... "
-+      # sed twice to avoid the greedy match
-+      file_names=`for arch in $ava_archs; do
-+          ls sstate-*-$arch-*_$suffix.tgz 2>/dev/null | \
-+              sed -e 's/\(.*\)-'"$arch"'-.*/\1/' \
-+              -e 's/\(.*\)-'"$arch"'-.*/\1/'
-+      done | sort -u`
-+
-+      for fn in $file_names; do
-+          for arch in $ava_archs; do
-+              ls $fn-$arch-*_$suffix.tgz 2>/dev/null >>/tmp/$fn
-+          done
-+          # Also delete the .siginfo file
-+          to_del=$(ls -t $(cat /tmp/$fn) | sed -n '1!p' | sed -e 'p' -e 's/$/.siginfo/')
-+          rm -f $to_del
-+          let deleted=$deleted+`echo $to_del | wc -w`
-+          rm -f /tmp/$fn
-+      done
-+      echo "($deleted files)"
-+      let total_deleted=$total_deleted+$deleted
-+  done
-+  echo "$total_deleted files have been removed"
-+}
-+
-+# Parse arguments
-+while [ -n "$1" ]; do
-+  case $1 in
-+    --cache-dir=*)
-+      cache_dir=`echo $1 | sed -e 's#^--cache-dir=##' -e 's#/*$##' | xargs readlink -f`
-+      [ -d "$cache_dir" ] || echo_error "Invalid argument to --cache-dir"
-+      shift
-+        ;;
-+    --remove-duplicated)
-+      rm_duplicated="yes"
-+      shift
-+        ;;
-+    --help|-h)
-+      usage
-+      exit 0
-+        ;;
-+    *)
-+        echo "Invalid arguments $*"
-+        echo_error "Try 'sstate-cache-management.sh -h' for more information."
-+        ;;
-+  esac
-+done
-+
-+# sstate cache directory, use environment variable SSTATE_CACHE_DIR
-+# if it was not specified, otherwise, error.
-+[ -n "$cache_dir" ] || cache_dir=$SSTATE_CACHE_DIR
-+[ -d "$cache_dir" ] || echo_error "Invalid cache directory \"$cache_dir\""
-+
-+cache_dir=`readlink -f $cache_dir`
-+
-+topdir=$(dirname $(dirname $(readlink -f $0)))
-+tunedir=$topdir/meta/conf/machine/include
-+[ -d $tunedir ] || echo_error "Can't find the tune directory"
-+
-+# Use the "_" to substitute "-", e.g., x86-64 to x86_64
-+all_archs=`grep -r DEFAULTTUNE $tunedir | \
-+    sed -e 's/.*\"\(.*\)\"/\1/' -e 's/-/_/g' | sort -u`
-+# Add the qemu archs
-+all_archs="$all_archs qemuarm qemux86 qemumips qemuppc"
-+
-+all_suffixes="deploy-rpm deploy-ipk deploy-deb deploy package populate-lic populate-sysroot"
-+
-+cd $cache_dir
-+
-+echo "Figuring out the archs in the sstate cache dir ..."
-+for arch in $all_archs; do
-+    ls | grep -q -w $arch
-+    [ $? -eq 0 ] && ava_archs="$ava_archs $arch"
-+done
-+echo "The following archs have been found in the sstate cache dir:"
-+echo $ava_archs
-+
-+if [ "$rm_duplicated" == "yes" -a -n "$ava_archs" ]; then
-+    remove_duplicated "$all_suffixes" "$ava_archs"
-+fi
+diff --git a/meta/recipes-core/tasks/task-self-hosted.bb b/meta/recipes-core/tasks/task-self-hosted.bb
+index c9a8c49..3c5fad6 100644
+--- a/meta/recipes-core/tasks/task-self-hosted.bb
++++ b/meta/recipes-core/tasks/task-self-hosted.bb
+@@ -53,20 +53,20 @@ RDEPENDS_task-self-hosted-host-tools = "\
+ RDEPENDS_task-self-hosted-sdk = "\
+     autoconf \
+     automake \
+-    binutils-symlinks \
+     binutils \
+-    cpp \
+-    cpp-symlinks \
++    binutils-symlinks \
+     ccache \
+     coreutils \
++    cpp \
++    cpp-symlinks \
+     distcc \
+     eglibc-utils \
+     file \
+     findutils \
+-    gcc \
+-    gcc-symlinks \
+     g++ \
+     g++-symlinks \
++    gcc \
++    gcc-symlinks \
+     intltool \
+     ldd \
+     less \
+@@ -85,9 +85,9 @@ RDEPENDS_task-self-hosted-sdk = "\
+ RDEPENDS_task-self-hosted-debug = " \
+     gdb \
+     gdbserver \
+-    tcf-agent \
+     rsync \
+-    strace"
++    strace \
++    tcf-agent"
+ 
+ 
+ RDEPENDS_task-self-hosted-extended = "\
+@@ -101,16 +101,17 @@ RDEPENDS_task-self-hosted-extended = "\
+     elfutils \
+     expat \
+     gamin \
++    gawk \
+     gdbm \
+-    git \
+     gettext \
+     gettext-runtime \
++    git \
+     grep \
+     groff \
+-    gawk \
++    gzip \
+     libaio \
+-    libxml2 \
+     libusb1 \
++    libxml2 \
+     lrzsz \
+     lsof \
+     lzo \
+@@ -133,11 +134,13 @@ RDEPENDS_task-self-hosted-extended = "\
+     python \
+     python-compile \
+     python-compiler \
++    python-compression \
+     python-core \
+     python-curses \
+     python-datetime \
+     python-distutils \
+     python-elementtree \
++    python-email \
+     python-fcntl \
+     python-logging \
+     python-misc \
+@@ -145,17 +148,15 @@ RDEPENDS_task-self-hosted-extended = "\
+     python-netclient \
+     python-netserver \
+     python-pickle \
++    python-pkgutil \
+     python-re \
+     python-rpm \
+     python-shell \
+     python-sqlite3 \
+     python-subprocess \
+     python-textutils \
+-    python-xmlrpc \
+-    python-email \
+     python-unixadmin \
+-    python-compression \
+-    python-pkgutil \
++    python-xmlrpc \
+     quota \
+     readline \
+     rpm \
+@@ -164,12 +165,11 @@ RDEPENDS_task-self-hosted-extended = "\
+     sudo \
+     sysstat \
+     tar \
+-    gzip \
+     tcl \
+     texi2html \
+     texinfo \
+-    usbutils \
+     unzip \
++    usbutils \
+     watchdog \
+     wget \
+     which \
+@@ -180,7 +180,7 @@ RDEPENDS_task-self-hosted-extended = "\
+ 
+ 
+ RDEPENDS_task-self-hosted-graphics = "\
+-    python-pygtk \
++    builder \
+     libgl \
+     libgl-dev \
+     libglu \
+@@ -188,5 +188,5 @@ RDEPENDS_task-self-hosted-graphics = "\
+     libsdl \
+     libsdl-dev \
+     libx11-dev \
+-    builder \
++    python-pygtk \
+     "
 -- 
 1.7.6.5
 
