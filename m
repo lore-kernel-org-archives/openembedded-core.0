@@ -1,24 +1,20 @@
-Received: from mga03.intel.com ([143.182.124.21])
+Received: from mga01.intel.com ([192.55.52.88])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <paul.eggleton@linux.intel.com>) id 1S0eR2-0003ZM-By
+	(envelope-from <paul.eggleton@linux.intel.com>) id 1S0eVF-0003ea-Cp
 	for openembedded-core@lists.openembedded.org;
-	Thu, 23 Feb 2012 20:34:36 +0100
-Received: from azsmga002.ch.intel.com ([10.2.17.35])
-	by azsmga101.ch.intel.com with ESMTP; 23 Feb 2012 11:26:13 -0800
+	Thu, 23 Feb 2012 20:38:57 +0100
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+	by fmsmga101.fm.intel.com with ESMTP; 23 Feb 2012 11:30:34 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="69619522"
+X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="120643502"
 Received: from unknown (HELO helios.ger.corp.intel.com) ([10.252.123.61])
-	by AZSMGA002.ch.intel.com with ESMTP; 23 Feb 2012 11:26:13 -0800
+	by fmsmga001.fm.intel.com with ESMTP; 23 Feb 2012 11:30:34 -0800
 From: Paul Eggleton <paul.eggleton@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Thu, 23 Feb 2012 19:26:09 +0000
-Message-Id: <f7ac4b5a19670d88441b120cdbab19101d6a3a65.1330025054.git.paul.eggleton@linux.intel.com>
+Date: Thu, 23 Feb 2012 19:30:30 +0000
+Message-Id: <cover.1330025248.git.paul.eggleton@linux.intel.com>
 X-Mailer: git-send-email 1.7.5.4
-In-Reply-To: <cover.1330025054.git.paul.eggleton@linux.intel.com>
-References: <cover.1330025054.git.paul.eggleton@linux.intel.com>
-In-Reply-To: <cover.1330025054.git.paul.eggleton@linux.intel.com>
-References: <cover.1330025054.git.paul.eggleton@linux.intel.com>
-Subject: [PATCH 1/1] conf/bitbake.conf: add DISTRO_FEATURES_BACKFILL
+Subject: [PATCH 0/2] psplash improvements v2
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -33,68 +29,41 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 23 Feb 2012 19:34:36 -0000
+X-List-Received-Date: Thu, 23 Feb 2012 19:38:57 -0000
 
-When introducing new items to DISTRO_FEATURES that control functionality
-that is already enabled, in order to leave existing distro configuration
-unchanged we need a way to "backfill" these new feature items onto the
-existing DISTRO_FEATURES value.
+Implements the psplash changes as discussed on the mailing list [1] and
+by the TSC [2].
 
-This introduces a DISTRO_FEATURES_BACKFILL variable whose items will be
-added to the end of DISTRO_FEATURES, unless they also appear in
-DISTRO_FEATURES_BACKFILL_CONSIDERED which distros can use in their
-configuration to prevent specific items from being added.
+[1] http://www.mail-archive.com/openembedded-core@lists.openembedded.org/msg13800.html
+[2] http://lists.linuxtogo.org/pipermail/tsc/2012-January/000330.html
 
-Fixes [YOCTO #1946].
+Since v1 I've done away with the additional script and integrated .png
+conversion into the recipe (optional) as well as used alternatives to
+allow selecting the psplash at runtime. I also decided against renaming
+the default header file as it would break existing bbappends.
 
-Signed-off-by: Paul Eggleton <paul.eggleton@linux.intel.com>
----
- meta/conf/bitbake.conf |    3 +++
- meta/lib/oe/utils.py   |   20 ++++++++++++++++++++
- 2 files changed, 23 insertions(+), 0 deletions(-)
+Note for meta-yocto there is a corresponding change that should be
+applied at the same time which I will send out shortly.
 
-diff --git a/meta/conf/bitbake.conf b/meta/conf/bitbake.conf
-index 90e5f7a..2539ae0 100644
---- a/meta/conf/bitbake.conf
-+++ b/meta/conf/bitbake.conf
-@@ -694,6 +694,9 @@ MACHINE_ESSENTIAL_EXTRA_RDEPENDS ?= ""
- MACHINE_ESSENTIAL_EXTRA_RRECOMMENDS ?= ""
- IMAGE_FEATURES += "${EXTRA_IMAGE_FEATURES}"
- 
-+DISTRO_FEATURES_BACKFILL = ""
-+DISTRO_FEATURES_append = "${@oe.utils.distro_features_backfill(d)}"
-+
- COMBINED_FEATURES = "\
-     ${@base_both_contain("DISTRO_FEATURES", "MACHINE_FEATURES", "alsa", d)} \
-     ${@base_both_contain("DISTRO_FEATURES", "MACHINE_FEATURES", "bluetooth", d)} \
-diff --git a/meta/lib/oe/utils.py b/meta/lib/oe/utils.py
-index 95daace..2aaed3a 100644
---- a/meta/lib/oe/utils.py
-+++ b/meta/lib/oe/utils.py
-@@ -88,3 +88,23 @@ def param_bool(cfg, field, dflt = None):
- def inherits(d, *classes):
-     """Return True if the metadata inherits any of the specified classes"""
-     return any(bb.data.inherits_class(cls, d) for cls in classes)
-+
-+def distro_features_backfill(d):
-+    # This construct allows the addition of new features to DISTRO_FEATURES
-+    # that if not present would disable existing functionality, without
-+    # disturbing distributions that have already set DISTRO_FEATURES.
-+    # Distributions wanting to elide a value in DISTRO_FEATURES_BACKFILL should
-+    # add the feature to DISTRO_FEATURES_BACKFILL_CONSIDERED
-+
-+    backfill = (d.getVar("DISTRO_FEATURES_BACKFILL", True) or "").split()
-+    considered = (d.getVar("DISTRO_FEATURES_BACKFILL_CONSIDERED", True) or "").split()
-+
-+    addfeatures = []
-+    for feature in backfill:
-+        if feature not in considered:
-+            addfeatures.append(feature)
-+
-+    if addfeatures:
-+        return " %s" % (" ".join(addfeatures))
-+    else:
-+        return ""
+(No changes since the RFC except for rebasing on top of current master.)
+
+
+The following changes since commit 55f72b98f606c1554eb6edd151292ffdfddf1384:
+
+  texi2html: Fix for multilib (2012-02-22 23:01:45 +0000)
+
+are available in the git repository at:
+  git://git.openembedded.org/openembedded-core-contrib paule/oe-psplash
+  http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=paule/oe-psplash
+
+Paul Eggleton (2):
+  psplash: use OpenEmbedded logo
+  psplash: allow building multiple splash executables
+
+ meta/recipes-core/psplash/files/psplash-poky-img.h | 1959 +++++++++++---------
+ meta/recipes-core/psplash/psplash_git.bb           |   93 +-
+ 2 files changed, 1143 insertions(+), 909 deletions(-)
+
 -- 
 1.7.5.4
 
