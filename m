@@ -1,25 +1,25 @@
-Received: from mga09.intel.com ([134.134.136.24])
+Received: from mga11.intel.com ([192.55.52.93])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <sgw@linux.intel.com>) id 1S0maH-0003dp-CY
+	(envelope-from <sgw@linux.intel.com>) id 1S0mef-0003hY-8K
 	for openembedded-core@lists.openembedded.org;
-	Fri, 24 Feb 2012 05:16:41 +0100
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-	by orsmga102.jf.intel.com with ESMTP; 23 Feb 2012 20:08:00 -0800
+	Fri, 24 Feb 2012 05:21:13 +0100
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+	by fmsmga102.fm.intel.com with ESMTP; 23 Feb 2012 20:12:50 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.67,352,1309762800"; d="scan'208";a="111422993"
+X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="128885501"
 Received: from unknown (HELO [10.255.15.58]) ([10.255.15.58])
-	by orsmga001.jf.intel.com with ESMTP; 23 Feb 2012 20:06:55 -0800
-Message-ID: <4F470CDE.9030904@linux.intel.com>
-Date: Thu, 23 Feb 2012 20:06:54 -0800
+	by fmsmga002.fm.intel.com with ESMTP; 23 Feb 2012 20:12:50 -0800
+Message-ID: <4F470E42.6010802@linux.intel.com>
+Date: Thu, 23 Feb 2012 20:12:50 -0800
 From: Saul Wold <sgw@linux.intel.com>
 User-Agent: Mozilla/5.0 (X11; Linux x86_64;
 	rv:10.0.1) Gecko/20120216 Thunderbird/10.0.1
 MIME-Version: 1.0
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-References: <cover.1329500798.git.otavio@ossystems.com.br>
-In-Reply-To: <cover.1329500798.git.otavio@ossystems.com.br>
-Subject: Re: [PATCH 0/3] Pending O.S. Systems' tree patches
+References: <cover.1329967965.git.dexuan.cui@intel.com>
+In-Reply-To: <cover.1329967965.git.dexuan.cui@intel.com>
+Subject: Re: [PATCH 0/2] task-self-hosted: 2 cleanup patches: no actual functional change
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -34,36 +34,29 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 24 Feb 2012 04:16:41 -0000
+X-List-Received-Date: Fri, 24 Feb 2012 04:21:13 -0000
 Content-Type: text/plain; charset=ISO-8859-1; format=flowed
 Content-Transfer-Encoding: 7bit
 
-On 02/17/2012 09:47 AM, Otavio Salvador wrote:
-> The following changes since commit e5ad03093dfc4364d1407183f458df79f347c7a1:
+On 02/22/2012 07:33 PM, Dexuan Cui wrote:
+> The following changes since commit 04bc2688f0cc0deb9fae5d13619e4e66e886e702:
 >
->    guile: fix cross configure failure (2012-02-10 13:38:16 +0000)
+>    misc: only for test. (2012-02-23 10:45:43 +0800)
 >
 > are available in the git repository at:
->    git://github.com/OSSystems/oe-core master
->    https://github.com/OSSystems/oe-core/tree/HEAD
+>    git://git.pokylinux.org/poky-contrib dcui/stage/master_under_test
+>    http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=dcui/stage/master_under_test
 >
-> Otavio Salvador (3):
->    update-rc.d.bbclass: do nothing for extended cross packages
->    rootfs_ipk.bbclass: fix status file location in rootfs
-Merged these first 2 into OE-core
-
->    rootfs_ipk.bbclass: fix unpacked postinst support if no package
->      management
+> Dexuan Cui (2):
+>    task-self-hosted: remove duplicate packages
+>    task-self-hosted: make the package lists alphabetical
 >
-Not sure where this one stand with your discussion with Phil
+>   meta/recipes-core/tasks/task-self-hosted.bb |   47 ++++++++++----------------
+>   1 files changed, 18 insertions(+), 29 deletions(-)
+>
+Merged into OE-core
 
 Thanks
 	Sau!
-
-
->   meta/classes/rootfs_ipk.bbclass  |   21 ++++++++++++++++++---
->   meta/classes/update-rc.d.bbclass |    1 +
->   2 files changed, 19 insertions(+), 3 deletions(-)
->
 
 
