@@ -1,22 +1,40 @@
-Received: from mga09.intel.com ([134.134.136.24])
+Received: from mail-pz0-f47.google.com ([209.85.210.47])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <lianhao.lu@intel.com>) id 1S0lXf-0002j9-Fv
+	(envelope-from <raj.khem@gmail.com>) id 1S0m42-0002yx-9Q
 	for openembedded-core@lists.openembedded.org;
-	Fri, 24 Feb 2012 04:09:55 +0100
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-	by orsmga102.jf.intel.com with ESMTP; 23 Feb 2012 19:01:33 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.67,352,1309762800"; d="scan'208";a="111409368"
-Received: from llu-piketon.sh.intel.com (HELO localhost) ([10.239.36.62])
-	by orsmga001.jf.intel.com with ESMTP; 23 Feb 2012 19:01:33 -0800
-From: Lianhao Lu <lianhao.lu@intel.com>
+	Fri, 24 Feb 2012 04:43:22 +0100
+Received: by daln34 with SMTP id n34so1731489dal.6
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 23 Feb 2012 19:34:59 -0800 (PST)
+Received-SPF: pass (google.com: domain of raj.khem@gmail.com designates
+	10.68.132.102 as permitted sender) client-ip=10.68.132.102; 
+Authentication-Results: mr.google.com;
+	spf=pass (google.com: domain of raj.khem@gmail.com
+	designates 10.68.132.102 as permitted sender)
+	smtp.mail=raj.khem@gmail.com;
+	dkim=pass header.i=raj.khem@gmail.com
+Received: from mr.google.com ([10.68.132.102])
+	by 10.68.132.102 with SMTP id ot6mr1896043pbb.157.1330054499223
+	(num_hops = 1); Thu, 23 Feb 2012 19:34:59 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
+	h=from:to:cc:subject:date:message-id:x-mailer;
+	bh=SUY7WwtehBvcvkWQrw193DQ2nyZLHG7dI+6+MsA98Tk=;
+	b=LPEfb/3Wb8aYcJvj2BW2fqzru7oGoUhpu0TwKDcisleQumQaUTLtoEZiEAGV0jmB68
+	zFj0zmql9oNVCGfbHG9wHyesm610LFgNM7YdMfJUxyENADGbV6v6Ik1cWs08vv2m14hR
+	cQtNzmbZwEl/UZpg+uSkQw3AiFBX4+uLm8bpQ=
+Received: by 10.68.132.102 with SMTP id ot6mr1579196pbb.157.1330054499138;
+	Thu, 23 Feb 2012 19:34:59 -0800 (PST)
+Received: from localhost.localdomain (oldbuilder.nslu2-linux.org.
+	[140.211.169.168])
+	by mx.google.com with ESMTPS id h3sm3124215pbr.75.2012.02.23.19.34.56
+	(version=TLSv1/SSLv3 cipher=OTHER);
+	Thu, 23 Feb 2012 19:34:57 -0800 (PST)
+From: Khem Raj <raj.khem@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Fri, 24 Feb 2012 11:00:40 +0800
-Message-Id: <f52803bfc127eb77b31587e998f91f296254a205.1330051744.git.lianhao.lu@intel.com>
-X-Mailer: git-send-email 1.7.0.4
-In-Reply-To: <cover.1330051744.git.lianhao.lu@intel.com>
-References: <cover.1330051744.git.lianhao.lu@intel.com>
-Subject: [PATCH 1/1] bitbake.conf: Added new variable BBINCLUDES
+Date: Thu, 23 Feb 2012 19:33:32 -0800
+Message-Id: <cover.1330053959.git.raj.khem@gmail.com>
+X-Mailer: git-send-email 1.7.5.4
+Subject: [PATCH 0/4] stash gcc-cross buildtree and add recipe class override
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -31,46 +49,46 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 24 Feb 2012 03:09:55 -0000
+X-List-Received-Date: Fri, 24 Feb 2012 03:43:22 -0000
 
-The new variable BBINCLUDES contains the file dependency information. It
-exposes the bitbake internal variable '__depends' and '__base_depends'.
+Add recipe class to overrides
+Prepare gcc for 4.7 changes
+missing DEPENDS found during individual recipe builds
+Add emptry DISTRO to oe-core
 
-Signed-off-by: Lianhao Lu <lianhao.lu@intel.com>
----
- meta/conf/bitbake.conf |    2 ++
- meta/lib/oe/utils.py   |    9 +++++++++
- 2 files changed, 11 insertions(+), 0 deletions(-)
+The following changes since commit a1f23a7cc527afdd1ce6cc7cd6083ee78fde09b3:
 
-diff --git a/meta/conf/bitbake.conf b/meta/conf/bitbake.conf
-index 90e5f7a..04851e5 100644
---- a/meta/conf/bitbake.conf
-+++ b/meta/conf/bitbake.conf
-@@ -731,3 +731,5 @@ BB_HASHBASE_WHITELIST ?= "TMPDIR FILE PATH PWD BB_TASKHASH BBPATH DL_DIR SSTATE_
- 
- MLPREFIX ??= ""
- MULTILIB_VARIANTS ??= ""
-+
-+BBINCLUDES = "${@oe.utils.get_file_depends(d)}"
-diff --git a/meta/lib/oe/utils.py b/meta/lib/oe/utils.py
-index 02d5442..b4dcc4f 100644
---- a/meta/lib/oe/utils.py
-+++ b/meta/lib/oe/utils.py
-@@ -88,3 +88,12 @@ def param_bool(cfg, field, dflt = None):
- def inherits(d, *classes):
-     """Return True if the metadata inherits any of the specified classes"""
-     return any(bb.data.inherits_class(cls, d) for cls in classes)
-+
-+def get_file_depends(d):
-+    '''Return the dependent files'''
-+    dep_files = []
-+    depends = d.getVar('__depends', True) or set()
-+    depends = depends.union(d.getVar('__base_depends', True) or set())
-+    for (fn, ctime) in depends:
-+        dep_files.append(os.path.abspath(fn))
-+    return " ".join(dep_files)
+  update-rc.d.bbclass: do nothing for extended cross packages (2012-02-24 00:47:44 +0000)
+
+are available in the git repository at:
+  git://git.openembedded.org/openembedded-core-contrib kraj/misc
+  http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=kraj/misc
+
+Khem Raj (4):
+  glib-networking: Add intltools-native to DEPENDS
+  classes: Add recipe class to overrides
+  default-distrovars: Add empty weak definition for DISTRO variable
+  gcc: Stash the gcc-cross builddir to reuse in libgcc and gcc-runtime
+
+ meta/classes/base.bbclass                          |    1 +
+ meta/classes/cross-canadian.bbclass                |    2 +-
+ meta/classes/cross.bbclass                         |    1 +
+ meta/classes/crosssdk.bbclass                      |    1 +
+ meta/classes/native.bbclass                        |    3 +-
+ meta/classes/nativesdk.bbclass                     |    3 +-
+ meta/conf/bitbake.conf                             |    3 +-
+ meta/conf/distro/include/default-distrovars.inc    |    7 ++++
+ .../glib-networking/glib-networking_2.28.7.bb      |    2 +-
+ meta/recipes-devtools/gcc/gcc-4.6.inc              |    2 +-
+ meta/recipes-devtools/gcc/gcc-configure-common.inc |    3 --
+ .../recipes-devtools/gcc/gcc-configure-runtime.inc |   24 ++++++++++------
+ meta/recipes-devtools/gcc/gcc-cross-initial.inc    |    2 +-
+ meta/recipes-devtools/gcc/gcc-package-cross.inc    |   14 +--------
+ meta/recipes-devtools/gcc/libgcc_4.6.bb            |   30 ++++++++++++++++----
+ 15 files changed, 58 insertions(+), 40 deletions(-)
+
 -- 
-1.7.0.4
+1.7.5.4
 
 
 
