@@ -1,58 +1,46 @@
-Received: from tx2ehsobe004.messaging.microsoft.com ([65.55.88.14]
-	helo=TX2EHSOBE003.bigfish.com)
+Received: from mail-qw0-f54.google.com ([209.85.216.54])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <B29882@freescale.com>) id 1S0zJz-0006sR-4N
+	(envelope-from <kergoth@gmail.com>) id 1S0zZu-0007QI-LL
 	for openembedded-core@lists.openembedded.org;
-	Fri, 24 Feb 2012 18:52:43 +0100
-Received: from mail84-tx2-R.bigfish.com (10.9.14.246) by
-	TX2EHSOBE003.bigfish.com (10.9.40.23) with Microsoft SMTP Server id
-	14.1.225.23; Fri, 24 Feb 2012 17:44:19 +0000
-Received: from mail84-tx2 (localhost [127.0.0.1])	by mail84-tx2-R.bigfish.com
-	(Postfix) with ESMTP id B2D60160626	for
-	<openembedded-core@lists.openembedded.org>;
-	Fri, 24 Feb 2012 17:44:19 +0000 (UTC)
-X-SpamScore: -13
-X-BigFish: VS-13(zz9371I936eK1102K1432N98dKzz1202hzz8275bh8275dhz2dh2a8h668h839h8e2h8e3hbe9k)
-X-Forefront-Antispam-Report: CIP:70.37.183.190; KIP:(null); UIP:(null); IPV:NLI;
-	H:mail.freescale.net; RD:none; EFVD:NLI
-Received: from mail84-tx2 (localhost.localdomain [127.0.0.1]) by mail84-tx2
-	(MessageSwitch) id 1330105457476029_16030;
-	Fri, 24 Feb 2012 17:44:17 +0000 (UTC)
-Received: from TX2EHSMHS012.bigfish.com (unknown [10.9.14.250])	by
-	mail84-tx2.bigfish.com (Postfix) with ESMTP id 6F73C14004B	for
-	<openembedded-core@lists.openembedded.org>;
-	Fri, 24 Feb 2012 17:44:17 +0000 (UTC)
-Received: from mail.freescale.net (70.37.183.190) by TX2EHSMHS012.bigfish.com
-	(10.9.99.112) with Microsoft SMTP Server (TLS) id 14.1.225.23;
-	Fri, 24 Feb 2012 17:44:12 +0000
-Received: from 039-SN1MPN1-001.039d.mgd.msft.net ([169.254.1.244]) by
-	039-SN1MMR1-002.039d.mgd.msft.net ([10.84.1.15]) with mapi id
-	14.01.0355.003; Fri, 24 Feb 2012 11:44:11 -0600
-From: McClintock Matthew-B29882 <B29882@freescale.com>
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>, Luo Zhenhua-B19537
-	<B19537@freescale.com>
-Thread-Topic: [OE-core] Using external source trees with OE-Core
-Thread-Index: AQHM8xUmFjkmqUF3KU6/yhONOVV3h5ZMs/gAgAACLYA=
-Date: Fri, 24 Feb 2012 17:44:11 +0000
-Message-ID: <CAEsOVNdSH5W5=MhuWhdofC0X8nDCqQUnmooi919_3Ue8jG8tAw@mail.gmail.com>
-References: <1330088135.32006.14.camel@ted>
-	<CAEsOVNe0Fe5qyzYWK3Tf5P1=oYMnB3n-LoOVdE5bk-EkHdPf3A@mail.gmail.com>
-	<1330104962.8430.4.camel@ted>
-In-Reply-To: <1330104962.8430.4.camel@ted>
-Accept-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [99.47.177.27]
+	Fri, 24 Feb 2012 19:09:10 +0100
+Received: by qao25 with SMTP id 25so329249qao.6
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 24 Feb 2012 10:00:46 -0800 (PST)
+Received-SPF: pass (google.com: domain of kergoth@gmail.com designates
+	10.229.135.85 as permitted sender) client-ip=10.229.135.85; 
+Authentication-Results: mr.google.com;
+	spf=pass (google.com: domain of kergoth@gmail.com
+	designates 10.229.135.85 as permitted sender)
+	smtp.mail=kergoth@gmail.com;
+	dkim=pass header.i=kergoth@gmail.com
+Received: from mr.google.com ([10.229.135.85])
+	by 10.229.135.85 with SMTP id m21mr2716074qct.26.1330106446407
+	(num_hops = 1); Fri, 24 Feb 2012 10:00:46 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
+	h=mime-version:sender:in-reply-to:references:from:date
+	:x-google-sender-auth:message-id:subject:to:content-type;
+	bh=0Az5kcUY1A57adRcMNYp+cpYS5IxpQUg95IENZQY+eg=;
+	b=iJGec5TTdUX51FdIa48PV2T490/j0Lam3CU4jhk8sd88m8lZXnHfp4HENQ+iJF5iYP
+	45xqPG/NvuaQ/5d5+/NlH5L08AgC2pldrmZThvujqdq8qTaUYP3xIZDEhTiFrdIcgjkU
+	aA9tgUV5CKDtHY82ukrxkAErMl2Pu1IrbBFL4=
+Received: by 10.229.135.85 with SMTP id m21mr2239036qct.26.1330106446088; Fri,
+	24 Feb 2012 10:00:46 -0800 (PST)
 MIME-Version: 1.0
-X-OriginatorOrg: freescale.com
-Cc: McClintock Matthew-B29882 <B29882@freescale.com>
+Sender: kergoth@gmail.com
+Received: by 10.229.224.145 with HTTP; Fri, 24 Feb 2012 08:59:39 -0800 (PST)
+In-Reply-To: <1330088135.32006.14.camel@ted>
+References: <1330088135.32006.14.camel@ted>
+From: Chris Larson <clarson@kergoth.com>
+Date: Fri, 24 Feb 2012 09:59:39 -0700
+X-Google-Sender-Auth: Jx4X76O-bdgXb0BgSz2zYcRxxWs
+Message-ID: <CABcZANkQPVQHhBKW06=y6OKbxAcngvhGzD2oeOZ8Q8GPwwfzGw@mail.gmail.com>
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
 Subject: Re: Using external source trees with OE-Core
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
-Reply-To: McClintock Matthew-B29882 <B29882@freescale.com>,
-	Patches and discussions about the oe-core layer
+Reply-To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
 List-Id: Patches and discussions about the oe-core layer
 	<openembedded-core.lists.openembedded.org>
@@ -63,45 +51,23 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 24 Feb 2012 17:52:43 -0000
-Content-Language: en-US
-Content-Type: text/plain; charset="iso-8859-1"
-Content-ID: <02415B928C897E4988FBA2AEBEE34176@mgd.freescale.com>
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Fri, 24 Feb 2012 18:09:10 -0000
+Content-Type: text/plain; charset=UTF-8
 
-On Fri, Feb 24, 2012 at 11:36 AM, Richard Purdie
+On Fri, Feb 24, 2012 at 5:55 AM, Richard Purdie
 <richard.purdie@linuxfoundation.org> wrote:
-> On Fri, 2012-02-24 at 16:55 +0000, McClintock Matthew-B29882 wrote:
->> We do something very similar to this currently. I've pushed what we
->> are using here:
->>
->> https://github.com/mattsm/meta-fsl-local-sdk
->>
->> It would be nice to consolidate all the required bits upstream... =3D)
->
-> I would warn you that there is code in there that is clearly
-> inappropriate for OE-Core.
+> You can also -c clean and it will wipe
+> out WORKDIR but it won't touch ${S}. I picked libfm effectively at
+> random. It won't remove the autoreconf changes from configure but I'm
+> not sure I care much about that.
 
-No surprise at all...
-
-> It would also explain that bug report you sent me which referenced
-> "do_populate_sysroot_post" and I asked what local modifications you had
-> and you said "none" ;-).
-
-I don't use this... we use this for internal developers... so the
-error was not using this...
-
-> Does the patch in this thread take care of your needs regarding the
-> srctree and clean classes?
-
-Not sure, hoping Zhenhua can take a look.
-
-> For cleanobjs, I can see advantages in merging something like that into
-> the core...
-
-....
-
--M=
-
+This is one of the things that srctree handled a bit differently. I
+think we should think about pushing the clean improvement bits into a
+core class, to make it easy to select slightly different clean
+behavior. Either that, or add a hook for it. As it is today, it'd be
+slightly painful to make the recipe both wipe workdir and make clean
+your source tree.
+-- 
+Christopher Larson
 
 
