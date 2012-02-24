@@ -1,44 +1,20 @@
-Received: from mail-yx0-f175.google.com ([209.85.213.175])
+Received: from mga09.intel.com ([134.134.136.24])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <otavio.salvador@gmail.com>) id 1S12Em-0001si-4T
+	(envelope-from <elizabeth.flanagan@intel.com>) id 1S13Yz-0003TM-6J
 	for openembedded-core@lists.openembedded.org;
-	Fri, 24 Feb 2012 21:59:32 +0100
-Received: by yenr5 with SMTP id r5so1357680yen.6
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 24 Feb 2012 12:51:08 -0800 (PST)
-Received-SPF: pass (google.com: domain of otavio.salvador@gmail.com designates
-	10.236.184.6 as permitted sender) client-ip=10.236.184.6; 
-Authentication-Results: mr.google.com; spf=pass (google.com: domain of
-	otavio.salvador@gmail.com designates 10.236.184.6 as permitted
-	sender) smtp.mail=otavio.salvador@gmail.com;
-	dkim=pass header.i=otavio.salvador@gmail.com
-Received: from mr.google.com ([10.236.184.6])
-	by 10.236.184.6 with SMTP id r6mr7921350yhm.82.1330116668886 (num_hops
-	= 1); Fri, 24 Feb 2012 12:51:08 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
-	h=sender:from:to:subject:date:message-id:x-mailer:in-reply-to
-	:references:in-reply-to:references;
-	bh=ITg10HbGl0tdx7U91BsWPp055t29Vr9ssv+aR+Pgqhk=;
-	b=bVwftnp80QaaG9ZgjxfJMITt5eXkEG5NBPdlhY2S2oYoWrV+qGPKP0/7gr6QazYynR
-	S5zNMK0awXzhSc1/UcQxatTu7wOpMpLVK+dKCpgEX3vlxDl12WIx/NOG1TV+pSuQvj0B
-	Dfk1XPl0HnS7sWhPGLfUF+T/XLEKPNycVtBZo=
-Received: by 10.236.184.6 with SMTP id r6mr6016259yhm.82.1330116668846;
-	Fri, 24 Feb 2012 12:51:08 -0800 (PST)
-Received: from localhost.localdomain ([186.218.100.214])
-	by mx.google.com with ESMTPS id w44sm15149743yhk.17.2012.02.24.12.51.07
-	(version=TLSv1/SSLv3 cipher=OTHER);
-	Fri, 24 Feb 2012 12:51:08 -0800 (PST)
-Sender: Otavio Salvador <otavio.salvador@gmail.com>
-From: Otavio Salvador <otavio@ossystems.com.br>
+	Fri, 24 Feb 2012 23:24:29 +0100
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+	by orsmga102.jf.intel.com with ESMTP; 24 Feb 2012 14:16:05 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.67,352,1309762800"; d="scan'208";a="111668382"
+Received: from envy.jf.intel.com ([10.7.201.175])
+	by orsmga001.jf.intel.com with ESMTP; 24 Feb 2012 14:16:05 -0800
+From: Beth Flanagan <elizabeth.flanagan@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Fri, 24 Feb 2012 20:50:54 +0000
-Message-Id: <ed88fa73fa9370b4b241d0379e7d200c4199cd36.1330116559.git.otavio@ossystems.com.br>
-X-Mailer: git-send-email 1.7.2.5
-In-Reply-To: <cover.1330116559.git.otavio@ossystems.com.br>
-References: <cover.1330116559.git.otavio@ossystems.com.br>
-In-Reply-To: <cover.1330116559.git.otavio@ossystems.com.br>
-References: <cover.1330116559.git.otavio@ossystems.com.br>
-Subject: [PATCH 2/2] useradd.bbclass: override USERADDSETSCENEDEPS to empty when building cross packages
+Date: Fri, 24 Feb 2012 14:17:33 -0800
+Message-Id: <cover.1330121220.git.elizabeth.flanagan@intel.com>
+X-Mailer: git-send-email 1.7.1
+Subject: [PATCH 0/3] License Related Patches
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -53,27 +29,38 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 24 Feb 2012 20:59:32 -0000
+X-List-Received-Date: Fri, 24 Feb 2012 22:24:29 -0000
 
-Signed-off-by: Otavio Salvador <otavio@ossystems.com.br>
----
- meta/classes/useradd.bbclass |    1 +
- 1 files changed, 1 insertions(+), 0 deletions(-)
+A few license related patches:
 
-diff --git a/meta/classes/useradd.bbclass b/meta/classes/useradd.bbclass
-index 1fed755..db874bc 100644
---- a/meta/classes/useradd.bbclass
-+++ b/meta/classes/useradd.bbclass
-@@ -115,6 +115,7 @@ SYSROOTPOSTFUNC_virtclass-native = ""
- SYSROOTPOSTFUNC_virtclass-nativesdk = ""
- 
- USERADDSETSCENEDEPS = "base-passwd:do_populate_sysroot_setscene shadow-native:do_populate_sysroot_setscene shadow-sysroot:do_populate_sysroot_setscene"
-+USERADDSETSCENEDEPS_virtclass-cross = ""
- USERADDSETSCENEDEPS_virtclass-native = ""
- USERADDSETSCENEDEPS_virtclass-nativesdk = ""
- do_package_setscene[depends] = "${USERADDSETSCENEDEPS}"
--- 
-1.7.2.5
+1. Per a request from Mark Hatle, adding the email from Mark Nudelman to me 
+which allows us to use BSD license as opposed to the less license within the
+recipe.
+
+2. Next patch looks for package level LICENSE. If it finds it, it uses it. If
+not it falls back to LICENSE.
+
+3. A bit of space optimization around copying licenses to the image. When 
+COPY_LIC_MANIFEST and COPY_LIC_DIRS are set we copy the generic licenses once if
+found and then symlink to it from each /usr/share/common-licenses/${pkg} 
+directory.
+
+The following changes since commit 21ddc964ced18d4f1058c003f46acc2c7f1f1fe3:
+
+  scripts/hob: Launch the new hob (2012-02-24 18:09:20 +0000)
+
+are available in the git repository at:
+  git://git.yoctoproject.org/poky-contrib eflanagan/license_fixes
+  http://git.yoctoproject.org/cgit.cgi/poky-contrib/log/?h=eflanagan/license_fixes
+
+Elizabeth Flanagan (3):
+  less_444.bb: Adding license email from author
+  license.bbclass: Gather Pkg level licenses
+  license.bbclass: Symbolic links of generic license
+
+ meta/classes/license.bbclass           |   32 +++++++++++++++++++++++---------
+ meta/recipes-extended/less/less_444.bb |   15 ++++++++++++---
+ 2 files changed, 35 insertions(+), 12 deletions(-)
 
 
 
