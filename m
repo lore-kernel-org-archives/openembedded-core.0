@@ -1,42 +1,41 @@
-Received: from mail-lpp01m010-f47.google.com ([209.85.215.47])
+Received: from mail-ey0-f175.google.com ([209.85.215.175])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <raj.khem@gmail.com>) id 1S0yj2-0006L6-8S
+	(envelope-from <martin.jansa@gmail.com>) id 1S0yjg-0006Nb-PY
 	for openembedded-core@lists.openembedded.org;
-	Fri, 24 Feb 2012 18:14:32 +0100
-Received: by lahc1 with SMTP id c1so3186957lah.6
+	Fri, 24 Feb 2012 18:15:12 +0100
+Received: by eaal10 with SMTP id l10so1226829eaa.6
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 24 Feb 2012 09:06:09 -0800 (PST)
-Received-SPF: pass (google.com: domain of raj.khem@gmail.com designates
-	10.112.23.100 as permitted sender) client-ip=10.112.23.100; 
+	Fri, 24 Feb 2012 09:06:50 -0800 (PST)
+Received-SPF: pass (google.com: domain of martin.jansa@gmail.com designates
+	10.213.34.9 as permitted sender) client-ip=10.213.34.9; 
 Authentication-Results: mr.google.com;
-	spf=pass (google.com: domain of raj.khem@gmail.com
-	designates 10.112.23.100 as permitted sender)
-	smtp.mail=raj.khem@gmail.com;
-	dkim=pass header.i=raj.khem@gmail.com
-Received: from mr.google.com ([10.112.23.100])
-	by 10.112.23.100 with SMTP id l4mr1305466lbf.24.1330103169436 (num_hops
-	= 1); Fri, 24 Feb 2012 09:06:09 -0800 (PST)
+	spf=pass (google.com: domain of martin.jansa@gmail.com
+	designates 10.213.34.9 as permitted sender)
+	smtp.mail=martin.jansa@gmail.com;
+	dkim=pass header.i=martin.jansa@gmail.com
+Received: from mr.google.com ([10.213.34.9])
+	by 10.213.34.9 with SMTP id j9mr1013767ebd.117.1330103210220 (num_hops
+	= 1); Fri, 24 Feb 2012 09:06:50 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	h=from:to:cc:subject:date:message-id:x-mailer:mime-version
 	:content-type:content-transfer-encoding;
-	bh=ZZcsc28LJLjdikpNhmqEPcVwnEV147FSh7qslp7xsjo=;
-	b=ZoqSId4e8gu9TcUv8Wln/9qD/2Z6XbO6FGzi9nqjpK1tdFr+NbI2Zv8h1aldqHoKei
-	EY514fbSOiyH3orJb221fbK3SHbbO9j9HPKA15cXhfjSKGFhweq8rJdBHa3Ixow9oiQJ
-	XMgbOqkSlbvRhQdPt5LY3S/nj4Q3gHKzcF9Jo=
-Received: by 10.112.23.100 with SMTP id l4mr1075844lbf.24.1330103169291; Fri,
-	24 Feb 2012 09:06:09 -0800 (PST)
+	bh=sFeim6ulVbJuQMDhCS5Jta/cBwxrbl5Rajk2BaWNfio=;
+	b=dhOXKZRuqCz8SiwZlqgt0C3F/bmJ9ZKil9nCitwCCwcYpSHdwW6lRpxqhtmHxOUTQA
+	t0XA4+9ty5THOXVlFG88hh8BNZR8wNoO7PncfBcxvJQw3PYZX9QcgL0I1RylbzuPJyda
+	Fgk8e+zZNjI5uiKqEwQajy29UZIN+5HrfFDxM=
+Received: by 10.213.34.9 with SMTP id j9mr758577ebd.117.1330103210022;
+	Fri, 24 Feb 2012 09:06:50 -0800 (PST)
+Received: from localhost ([94.230.152.246])
+	by mx.google.com with ESMTPS id n52sm20119103eea.5.2012.02.24.09.06.48
+	(version=TLSv1/SSLv3 cipher=OTHER);
+	Fri, 24 Feb 2012 09:06:49 -0800 (PST)
+From: Martin Jansa <martin.jansa@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Date: Fri, 24 Feb 2012 18:06:41 +0100
+Message-Id: <cover.1330102968.git.Martin.Jansa@gmail.com>
+X-Mailer: git-send-email 1.7.8.4
 MIME-Version: 1.0
-Received: by 10.152.27.109 with HTTP; Fri, 24 Feb 2012 09:05:39 -0800 (PST)
-In-Reply-To: <1330100504.5477.6.camel@ted>
-References: <cover.1330053959.git.raj.khem@gmail.com>
-	<bab8960657c873358e301979445c8fa4e81cc15f.1330053959.git.raj.khem@gmail.com>
-	<1330100504.5477.6.camel@ted>
-From: Khem Raj <raj.khem@gmail.com>
-Date: Fri, 24 Feb 2012 09:05:39 -0800
-Message-ID: <CAMKF1srNpxainQ2ZyZ=wKZmmuLdp_fEjyTr1JKMRGVO4X8QV2w@mail.gmail.com>
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 3/4] default-distrovars: Add empty weak definition for DISTRO variable
+Subject: [PATCH 0/7] Pending patches - added even more patches
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -51,62 +50,47 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 24 Feb 2012 17:14:32 -0000
+X-List-Received-Date: Fri, 24 Feb 2012 17:15:12 -0000
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 
-On Fri, Feb 24, 2012 at 8:21 AM, Richard Purdie
-<richard.purdie@linuxfoundation.org> wrote:
-> On Thu, 2012-02-23 at 19:33 -0800, Khem Raj wrote:
->> Signed-off-by: Khem Raj <raj.khem@gmail.com>
->> ---
->> =C2=A0meta/conf/distro/include/default-distrovars.inc | =C2=A0 =C2=A07 +=
-++++++
->> =C2=A01 files changed, 7 insertions(+), 0 deletions(-)
->>
->> diff --git a/meta/conf/distro/include/default-distrovars.inc b/meta/conf=
-/distro/include/default-distrovars.inc
->> index 16b3108..dba204e 100644
->> --- a/meta/conf/distro/include/default-distrovars.inc
->> +++ b/meta/conf/distro/include/default-distrovars.inc
->> @@ -41,6 +41,13 @@ NO32LIBS ??=3D "1"
->>
->> =C2=A0# Default to emitting logfiles if a build fails.
->> =C2=A0BBINCLUDELOGS ??=3D "yes"
->> +
->> +# dummy distro related variables
->> +# they should be overridden by real distros
->> +# these fallbacks only serve the purpose of
->> +# oe-core standalone testability
->> +
->> +DISTRO ??=3D ""
->> =C2=A0SDK_VERSION ??=3D "oe-core.0"
->> =C2=A0DISTRO_VERSION ??=3D "oe-core.0"
->
-> Why do we need this? The commit message tells me what you're doing but
-> not why. I'm really getting frustrated with one line commit messages
-> with no details.
->
-> I don't think we should need this either, I'm not sure I like the
-> change. The whole idea was OE-Core could run "distroless".
->
+First 4 are the same, not resent (will try RP's suggestion for STAGING_DIR* variables first)
 
-There is an error case I dont remeber how I obtained that where it
-prints bogus value if DISTRO is not
-defined at all but and empty DISTRO var is distroless in essence anyway IMO
+sstate.bbclass: improve performance of sstate package creation - updated ' position
+shadow-sysroot: disable package creation - new patch discussed on #yocto
+gst-plugin-bluetooth: upgrade to 4.98 and add checksums - old one was missing SRC_URI 
+  checksums so was failing to build
 
-> Cheers,
->
-> Richard
->
->
->
->
->
->
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
+The following changes since commit d3de5f7308b4a42b809884119a670af5bedde38f:
+
+  psplash: allow building multiple splash executables (2012-02-24 16:44:37 +0000)
+
+are available in the git repository at:
+  git://git.openembedded.org/openembedded-core-contrib jansa/pull
+  http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=jansa/pull
+
+Eric BENARD (1):
+  gdb-cross-canadian: build gdb with python support
+
+Martin Jansa (6):
+  bitbake.conf: use weak assignment for BB_CONSOLELOG
+  bitbake.conf: introduce SDK_NAME_PREFIX and NATIVESDK_* variables
+  gdb-cross-canadian: use NATIVESDK paths as it happens to be here
+  sstate.bbclass: improve performance of sstate package creation
+  shadow-sysroot: disable package creation
+  gst-plugin-bluetooth: upgrade to 4.98 and add checksums
+
+ meta/classes/sstate.bbclass                        |   39 ++++++++------------
+ meta/conf/bitbake.conf                             |   16 +++++++-
+ ...etooth_4.96.bb => gst-plugin-bluetooth_4.98.bb} |    3 +-
+ meta/recipes-devtools/gdb/gdb-cross-canadian.inc   |   23 +++++++++++-
+ .../recipes-devtools/gdb/gdb-cross-canadian_7.4.bb |    2 +-
+ .../shadow/shadow-sysroot_4.1.4.3.bb               |    7 +++-
+ 6 files changed, 61 insertions(+), 29 deletions(-)
+ rename meta/recipes-connectivity/bluez/{gst-plugin-bluetooth_4.96.bb => gst-plugin-bluetooth_4.98.bb} (77%)
+
+-- 
+1.7.8.4
+
 
 
