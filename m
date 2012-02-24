@@ -1,24 +1,34 @@
-Received: from mga09.intel.com ([134.134.136.24])
+Received: from mail.dream-property.net ([82.149.226.172])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <dexuan.cui@intel.com>) id 1S0vaY-0001pA-SH
+	(envelope-from <obi@opendreambox.org>) id 1S0vfN-0001v0-7v
 	for openembedded-core@lists.openembedded.org;
-	Fri, 24 Feb 2012 14:53:35 +0100
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-	by orsmga102.jf.intel.com with ESMTP; 24 Feb 2012 05:45:10 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.67,352,1309762800"; d="scan'208";a="111539493"
-Received: from dcui-desktop.sh.intel.com ([10.239.36.12])
-	by orsmga001.jf.intel.com with ESMTP; 24 Feb 2012 05:44:11 -0800
-From: Dexuan Cui <dexuan.cui@intel.com>
+	Fri, 24 Feb 2012 14:58:33 +0100
+Received: from localhost (localhost [127.0.0.1])
+	by mail.dream-property.net (Postfix) with ESMTP id 24F6531594E8
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 24 Feb 2012 14:50:12 +0100 (CET)
+X-Virus-Scanned: Debian amavisd-new at mail.dream-property.net
+Received: from mail.dream-property.net ([127.0.0.1])
+	by localhost (mail.dream-property.net [127.0.0.1]) (amavisd-new,
+	port 10024) with LMTP id arFNzn2Ib7cY
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 24 Feb 2012 14:50:00 +0100 (CET)
+Received: from [172.22.22.61] (drms-590c477b.pool.mediaWays.net [89.12.71.123])
+	(using TLSv1 with cipher DHE-RSA-AES256-SHA (256/256 bits))
+	(No client certificate requested)
+	by mail.dream-property.net (Postfix) with ESMTPSA id 987B131594E6
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 24 Feb 2012 14:50:00 +0100 (CET)
+Message-ID: <4F479587.2080402@opendreambox.org>
+Date: Fri, 24 Feb 2012 14:49:59 +0100
+From: Andreas Oberritter <obi@opendreambox.org>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:10.0.2) Gecko/20120216 Thunderbird/10.0.2
+MIME-Version: 1.0
 To: openembedded-core@lists.openembedded.org
-Date: Fri, 24 Feb 2012 21:44:35 +0800
-Message-Id: <82a1c80968b74bba31763add47f217d84043546e.1330091038.git.dexuan.cui@intel.com>
-X-Mailer: git-send-email 1.7.6
-In-Reply-To: <cover.1330091038.git.dexuan.cui@intel.com>
-References: <cover.1330091038.git.dexuan.cui@intel.com>
-In-Reply-To: <cover.1330091038.git.dexuan.cui@intel.com>
-References: <cover.1330091038.git.dexuan.cui@intel.com>
-Subject: [PATCH 1/1] task-self-hosted: add hicolor-icon-theme and socat
+References: <1330088135.32006.14.camel@ted>
+In-Reply-To: <1330088135.32006.14.camel@ted>
+Subject: Re: Using external source trees with OE-Core
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -33,59 +43,47 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 24 Feb 2012 13:53:35 -0000
+X-List-Received-Date: Fri, 24 Feb 2012 13:58:33 -0000
+Content-Type: text/plain; charset=ISO-8859-1
+Content-Transfer-Encoding: 7bit
 
-python-pygtk depends on libgtk and libgtk's recommends have
-gdk-pixbuf-loader-{png,jpeg,gif,xpm}, so we have the warnings.
-We can add hicolor-icon-theme to fix the warning:
-Configuring gdk-pixbuf-loader-png.
-gtk-update-icon-cache: No theme index file.
-Configuring gdk-pixbuf-loader-jpeg.
-gtk-update-icon-cache: No theme index file.
-Configuring liberation-fonts.
-Configuring gdk-pixbuf-loader-xpm.
-gtk-update-icon-cache: No theme index file.
-Configuring gdk-pixbuf-loader-gif.
-gtk-update-icon-cache: No theme index file.
+On 24.02.2012 13:55, Richard Purdie wrote:
+> Someone recently asked me about using external source trees with
+> OE-Core. I was aware of srctree.bbclass in OE-Classic and did start
+> looking at it but it has various elements I wasn't so keen on. I
+> therefore wondered if I could improve upon it. I did start from that
+> code base but came up with:
+> 
+> http://git.yoctoproject.org/cgit.cgi/poky-contrib/commit/?h=rpurdie/a0&id=ac8a54c18c33aaab6758c34a3d6093d3d3384cee
+> [patch inline below]
+> 
+> which I've called externalsrc.bbclass since it behaves a bit
+> differently. In particular, all the usual task targets are available.
+> 
+> As an example usage with the above patch applied:
+> 
+> cd ~
+> tar -xvzf $DL_DIR/libfm-0.1.17.tar.gz
+> (creates libfm-0.1.17 in my homedir)
+> 
+> edit libfm_0.1.17.bb and add:
+> 
+> inherit externalsrc
+> S = "/home/richard/libfm-0.1.17"
 
-Add socat for to faciliate proxy setting.
+Do I need to edit libfm_0.1.17.bb in-place, or can it be stored outside
+my layers to be built with bitbake -b, for example?
 
-Signed-off-by: Dexuan Cui <dexuan.cui@intel.com>
----
- meta/recipes-core/tasks/task-self-hosted.bb |    4 +++-
- 1 files changed, 3 insertions(+), 1 deletions(-)
+Does S need to contain an absolute path, or could it be set to a path
+relative to the location of the recipe?
 
-diff --git a/meta/recipes-core/tasks/task-self-hosted.bb b/meta/recipes-core/tasks/task-self-hosted.bb
-index 3c5fad6..586a461 100644
---- a/meta/recipes-core/tasks/task-self-hosted.bb
-+++ b/meta/recipes-core/tasks/task-self-hosted.bb
-@@ -3,7 +3,7 @@
- #
- 
- DESCRIPTION = "Create Basic Image Tasks"
--PR = "r5"
-+PR = "r6"
- LICENSE = "MIT"
- LIC_FILES_CHKSUM = "file://${COREBASE}/LICENSE;md5=3f40d7994397109285ec7b81fdeb3b58 \
-                     file://${COREBASE}/meta/COPYING.MIT;md5=3da9cfbcb788c80a0384361b4de20420"
-@@ -109,6 +109,7 @@ RDEPENDS_task-self-hosted-extended = "\
-     grep \
-     groff \
-     gzip \
-+    hicolor-icon-theme \
-     libaio \
-     libusb1 \
-     libxml2 \
-@@ -161,6 +162,7 @@ RDEPENDS_task-self-hosted-extended = "\
-     readline \
-     rpm \
-     setserial \
-+    socat \
-     subversion \
-     sudo \
-     sysstat \
--- 
-1.7.6
+It would be nice if it was possible to include bitbake recipes in the
+source trees of my projects, which "just work".
 
+I think this was possible with srctree.bbclass, though I never had it
+working reliably. I think bitbake -cclean always raised errors.
+
+Regards,
+Andreas
 
 
