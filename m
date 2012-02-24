@@ -1,16 +1,39 @@
-Received: from ffm.saftware.de ([83.141.3.46])
+Received: from mail-ee0-f47.google.com ([74.125.83.47])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <obi@opendreambox.org>) id 1S11vd-0001ig-ME
+	(envelope-from <martin.jansa@gmail.com>) id 1S129E-0001p5-Rl
 	for openembedded-core@lists.openembedded.org;
-	Fri, 24 Feb 2012 21:39:45 +0100
-From: Andreas Oberritter <obi@opendreambox.org>
+	Fri, 24 Feb 2012 21:53:48 +0100
+Received: by eekd41 with SMTP id d41so1307465eek.6
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 24 Feb 2012 12:45:25 -0800 (PST)
+Received-SPF: pass (google.com: domain of martin.jansa@gmail.com designates
+	10.14.199.193 as permitted sender) client-ip=10.14.199.193; 
+Authentication-Results: mr.google.com;
+	spf=pass (google.com: domain of martin.jansa@gmail.com
+	designates 10.14.199.193 as permitted sender)
+	smtp.mail=martin.jansa@gmail.com;
+	dkim=pass header.i=martin.jansa@gmail.com
+Received: from mr.google.com ([10.14.199.193])
+	by 10.14.199.193 with SMTP id x41mr2442512een.29.1330116325909
+	(num_hops = 1); Fri, 24 Feb 2012 12:45:25 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
+	h=from:to:cc:subject:date:message-id:x-mailer;
+	bh=lfvywPsY0VfbBSQJLRrSRjf9M031QFBsAbF9JJiC8JI=;
+	b=OadxCBIaxETNtdg2r86KUf3DeBnrs/A5FX/UscpR5M8VDcxNHdCUd4uLOTT6UdFmS3
+	Ns/ZUkNg7TojKbqgUP8emgNSfMBxtBSm20NuUypPsFVwEv+MIa8htvm7yn/HyFfG5e6V
+	gQaJqjZyh1fCAlchmzsZNt1CAc7Bo4pPk6cAI=
+Received: by 10.14.199.193 with SMTP id x41mr1811140een.29.1330116325806;
+	Fri, 24 Feb 2012 12:45:25 -0800 (PST)
+Received: from localhost ([94.230.152.246])
+	by mx.google.com with ESMTPS id r5sm9894408eef.6.2012.02.24.12.45.24
+	(version=TLSv1/SSLv3 cipher=OTHER);
+	Fri, 24 Feb 2012 12:45:25 -0800 (PST)
+From: Martin Jansa <martin.jansa@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Fri, 24 Feb 2012 21:31:21 +0100
-Message-Id: <1330115481-11625-1-git-send-email-obi@opendreambox.org>
-X-Mailer: git-send-email 1.7.5.4
-In-Reply-To: <1330050435-28527-1-git-send-email-obi@opendreambox.org>
-References: <1330050435-28527-1-git-send-email-obi@opendreambox.org>
-Subject: [PATCH v2] libsdl: add DirectFB support
+Date: Fri, 24 Feb 2012 21:45:16 +0100
+Message-Id: <1330116316-3304-1-git-send-email-Martin.Jansa@gmail.com>
+X-Mailer: git-send-email 1.7.8.4
+Subject: [PATCH] layer.conf: use += for SIGGEN_EXCLUDERECIPES_ABISAFE and split to multiple lines
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -25,46 +48,37 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 24 Feb 2012 20:39:45 -0000
+X-List-Received-Date: Fri, 24 Feb 2012 20:53:48 -0000
 
-* Use conditional dependencies for DirectFB, like
-  it's already done for OpenGL and X11.
+* += is important, because if oe-core is in BBLAYERS after some other
+  layers with SIGGEN_EXCLUDERECIPES_ABISAFE it overwrites their entries
 
-Signed-off-by: Andreas Oberritter <obi@opendreambox.org>
+Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
 ---
-* Rebased after X11 was already made conditional.
+ meta/conf/layer.conf |   11 ++++++++++-
+ 1 files changed, 10 insertions(+), 1 deletions(-)
 
- meta/recipes-graphics/libsdl/libsdl_1.2.14.bb |    6 ++++--
- 1 files changed, 4 insertions(+), 2 deletions(-)
-
-diff --git a/meta/recipes-graphics/libsdl/libsdl_1.2.14.bb b/meta/recipes-graphics/libsdl/libsdl_1.2.14.bb
-index 62a2d1f..94df358 100644
---- a/meta/recipes-graphics/libsdl/libsdl_1.2.14.bb
-+++ b/meta/recipes-graphics/libsdl/libsdl_1.2.14.bb
-@@ -12,7 +12,8 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=27818cd7fd83877a8e3ef82b82798ef4"
+diff --git a/meta/conf/layer.conf b/meta/conf/layer.conf
+index c0c2930..dac9c97 100644
+--- a/meta/conf/layer.conf
++++ b/meta/conf/layer.conf
+@@ -18,4 +18,13 @@ PATH := "${PATH}:${COREBASE}/scripts"
  
- PROVIDES = "virtual/libsdl"
+ QEMUIMAGETESTS := "${COREBASE}/scripts/qemuimage-tests"
  
--DEPENDS = "${@base_contains('DISTRO_FEATURES', 'opengl', 'virtual/libgl', '', d)} \
-+DEPENDS = "${@base_contains('DISTRO_FEATURES', 'directfb', 'directfb', '', d)} \
-+           ${@base_contains('DISTRO_FEATURES', 'opengl', 'virtual/libgl', '', d)} \
-            ${@base_contains('DISTRO_FEATURES', 'x11', 'virtual/libx11 libxext libxrandr libxrender', '', d)} \
-            tslib"
- DEPENDS_virtclass-nativesdk = "${@base_contains('DISTRO_FEATURES', 'x11', 'libx11-nativesdk libxrandr-nativesdk libxrender-nativesdk libxext-nativesdk', '', d)}"
-@@ -35,9 +36,10 @@ EXTRA_OECONF = "--disable-static --disable-debug --enable-cdrom --enable-threads
-                 --enable-file --disable-oss --disable-esd --disable-arts \
-                 --disable-diskaudio --disable-nas --disable-esd-shared --disable-esdtest \
-                 --disable-mintaudio --disable-nasm --disable-video-dga \
--                --disable-video-fbcon --disable-video-directfb --disable-video-ps2gs --disable-video-ps3 \
-+                --disable-video-fbcon --disable-video-ps2gs --disable-video-ps3 \
-                 --disable-video-xbios --disable-video-gem --disable-video-dummy \
-                 --enable-input-events --enable-input-tslib --enable-pthreads \
-+                ${@base_contains('DISTRO_FEATURES', 'directfb', '--enable-video-directfb', '--disable-video-directfb', d)} \
-                 ${@base_contains('DISTRO_FEATURES', 'opengl', '--enable-video-opengl', '--disable-video-opengl', d)} \
-                 ${@base_contains('DISTRO_FEATURES', 'x11', '--enable-video-x11', '--disable-video-x11', d)} \
-                 --disable-video-svga \
+-SIGGEN_EXCLUDERECIPES_ABISAFE = "sysvinit-inittab shadow-securetty opkg-config-base netbase formfactor xserver-xf86-config pointercal base-files"
++SIGGEN_EXCLUDERECIPES_ABISAFE += " \
++  sysvinit-inittab \
++  shadow-securetty \
++  opkg-config-base \
++  netbase \
++  formfactor \
++  xserver-xf86-config \
++  pointercal \
++  base-files \
++"
 -- 
-1.7.5.4
+1.7.8.4
 
 
 
