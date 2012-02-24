@@ -1,27 +1,37 @@
-Received: from mail1.windriver.com ([147.11.146.13])
-	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <mark.hatle@windriver.com>) id 1S0wSk-0002cN-Ji
-	for openembedded-core@lists.openembedded.org;
-	Fri, 24 Feb 2012 15:49:34 +0100
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca [147.11.189.40])
-	by mail1.windriver.com (8.14.3/8.14.3) with ESMTP id q1OEfAko005036
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
+Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
+	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <richard.purdie@linuxfoundation.org>)
+	id 1S0wqM-0003EW-MR for openembedded-core@lists.openembedded.org;
+	Fri, 24 Feb 2012 16:13:58 +0100
+Received: from localhost (localhost [127.0.0.1])
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q1OF5aQI007617
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 24 Feb 2012 06:41:10 -0800 (PST)
-Received: from Macintosh-5.local (172.25.36.227) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server id 14.1.255.0;
-	Fri, 24 Feb 2012 06:41:10 -0800
-Message-ID: <4F47A185.9070303@windriver.com>
-Date: Fri, 24 Feb 2012 08:41:09 -0600
-From: Mark Hatle <mark.hatle@windriver.com>
-Organization: Wind River Systems
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.6;
-	rv:10.0.2) Gecko/20120216 Thunderbird/10.0.2
-MIME-Version: 1.0
-To: <openembedded-core@lists.openembedded.org>
-References: <1330088135.32006.14.camel@ted> <4F479587.2080402@opendreambox.org>
-In-Reply-To: <4F479587.2080402@opendreambox.org>
-Subject: Re: Using external source trees with OE-Core
+	Fri, 24 Feb 2012 15:05:36 GMT
+Received: from tim.rpsys.net ([127.0.0.1])
+	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
+	port 10024) with LMTP
+	id 06936-06 for <openembedded-core@lists.openembedded.org>;
+	Fri, 24 Feb 2012 15:05:32 +0000 (GMT)
+Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q1OF5QIw007611
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO)
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 24 Feb 2012 15:05:28 GMT
+Message-ID: <1330095927.32006.48.camel@ted>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Date: Fri, 24 Feb 2012 15:05:27 +0000
+In-Reply-To: <4F479039.7090708@opendreambox.org>
+References: <1329910007-8441-1-git-send-email-obi@opendreambox.org>
+	<1329910007-8441-2-git-send-email-obi@opendreambox.org>
+	<CFE738D1-7A44-4F57-BB18-818DD5474E01@dominion.thruhere.net>
+	<20120224081006.GA2519@sakrah.homelinux.org>
+	<4F479039.7090708@opendreambox.org>
+X-Mailer: Evolution 3.2.2- 
+Mime-Version: 1.0
+X-Virus-Scanned: amavisd-new at rpsys.net
+Subject: Re: [PATCH 1/5] libsoup-2.4: don't depend on libgnome-keyring unless x11 is defined
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -36,73 +46,56 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 24 Feb 2012 14:49:35 -0000
-Content-Type: text/plain; charset="ISO-8859-1"; format=flowed
+X-List-Received-Date: Fri, 24 Feb 2012 15:13:58 -0000
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 
-On 2/24/12 7:49 AM, Andreas Oberritter wrote:
-> On 24.02.2012 13:55, Richard Purdie wrote:
->> Someone recently asked me about using external source trees with
->> OE-Core. I was aware of srctree.bbclass in OE-Classic and did start
->> looking at it but it has various elements I wasn't so keen on. I
->> therefore wondered if I could improve upon it. I did start from that
->> code base but came up with:
->>
->> http://git.yoctoproject.org/cgit.cgi/poky-contrib/commit/?h=rpurdie/a0&id=ac8a54c18c33aaab6758c34a3d6093d3d3384cee
->> [patch inline below]
->>
->> which I've called externalsrc.bbclass since it behaves a bit
->> differently. In particular, all the usual task targets are available.
->>
->> As an example usage with the above patch applied:
->>
->> cd ~
->> tar -xvzf $DL_DIR/libfm-0.1.17.tar.gz
->> (creates libfm-0.1.17 in my homedir)
->>
->> edit libfm_0.1.17.bb and add:
->>
->> inherit externalsrc
->> S = "/home/richard/libfm-0.1.17"
->
-> Do I need to edit libfm_0.1.17.bb in-place, or can it be stored outside
-> my layers to be built with bitbake -b, for example?
+On Fri, 2012-02-24 at 14:27 +0100, Andreas Oberritter wrote:
+> On 24.02.2012 09:10, Khem Raj wrote:
+> > On (22/02/12 13:56), Koen Kooi wrote:
+> >>
+> >> Op 22 feb. 2012, om 12:26 heeft Andreas Oberritter het volgende geschreven:
+> >>
+> >>> * Drop dependency on GNOME if x11 is disabled.
+> >>>
+> >>> Signed-off-by: Andreas Oberritter <obi@opendreambox.org>
+> >>> ---
+> >>> meta/recipes-support/libsoup/libsoup-2.4_2.36.1.bb |    4 ++--
+> >>> 1 files changed, 2 insertions(+), 2 deletions(-)
+> >>>
+> >>> diff --git a/meta/recipes-support/libsoup/libsoup-2.4_2.36.1.bb b/meta/recipes-support/libsoup/libsoup-2.4_2.36.1.bb
+> >>> index 8e6ef26..861a1aa 100644
+> >>> --- a/meta/recipes-support/libsoup/libsoup-2.4_2.36.1.bb
+> >>> +++ b/meta/recipes-support/libsoup/libsoup-2.4_2.36.1.bb
+> >>> @@ -6,9 +6,9 @@ LICENSE = "LGPLv2"
+> >>> LIC_FILES_CHKSUM = "file://COPYING;md5=5f30f0716dfdd0d91eb439ebec522ec2"
+> >>>
+> >>> SECTION = "x11/gnome/libs"
+> >>> -PR = "r1"
+> >>> +PR = "r2"
+> >>>
+> >>> -DEPENDS = "glib-2.0 gnutls libxml2 libproxy sqlite3 libgnome-keyring"
+> >>> +DEPENDS = "glib-2.0 gnutls libxml2 libproxy sqlite3 ${@base_contains('DISTRO_FEATURES', 'x11', 'libgnome-keyring', '', d)}"
+> >>
+> >> that one likely needs a --disable-something to be deterministic.
+> > 
+> > may be --without-gnome or --disable-gnome-keyring ?
+> 
+> The flag --without-gnome is right. I've updated this patch [1],
+> but I'm waiting before resubmitting it, because after Richard's
+> comments I'm unsure which distro feature should be tested or
+> whether PACKAGECONFIG should be used.
 
-You should be able to add a bbappend for this item, in a custom development 
-layer and not modify the original .bb.  It will still require the two line 
-configuration change (and a custom layer configuration... but I recommend that 
-anyway.)
+I think the answer is we should have PACKAGECONFIG and something which
+gets the defaults for that from distro features. That should actually
+simplify the code a little.
 
-> Does S need to contain an absolute path, or could it be set to a path
-> relative to the location of the recipe?
+I'm also wondering if a good name for the distro feature flag would be
+"gnomeapi" ?
 
-I don't know for this development.... but relative can get very messy, 
-especially when all of the project, work dir, etc can be overridden to create a 
-custom environment for someone.  Enforcing an absolute path isn't a bad idea here.
+Cheers,
 
-> It would be nice if it was possible to include bitbake recipes in the
-> source trees of my projects, which "just work".
-
-Might be possible in something like base.bbclass to add the inherit if a value 
-is set.. then in local.conf you could do something like:
-
-EXTERNALSRC_libfm = "/home/richard/libfm-0.1.17"
-
-And if it's set, the class could do the reset?  That would certainly be easier 
-then a layer.
-
---Mark
-
-> I think this was possible with srctree.bbclass, though I never had it
-> working reliably. I think bitbake -cclean always raised errors.
->
-> Regards,
-> Andreas
->
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
+Richard
 
 
 
