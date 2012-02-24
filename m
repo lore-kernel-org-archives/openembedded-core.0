@@ -1,22 +1,24 @@
 Received: from mga09.intel.com ([134.134.136.24])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <elizabeth.flanagan@intel.com>) id 1S13a2-0003WW-De
+	(envelope-from <elizabeth.flanagan@intel.com>) id 1S13a3-0003WW-51
 	for openembedded-core@lists.openembedded.org;
-	Fri, 24 Feb 2012 23:25:34 +0100
+	Fri, 24 Feb 2012 23:25:35 +0100
 Received: from orsmga001.jf.intel.com ([10.7.209.18])
 	by orsmga102.jf.intel.com with ESMTP; 24 Feb 2012 14:17:10 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.67,352,1309762800"; d="scan'208";a="111668403"
+X-IronPort-AV: E=Sophos;i="4.67,352,1309762800"; d="scan'208";a="111668404"
 Received: from envy.jf.intel.com ([10.7.201.175])
 	by orsmga001.jf.intel.com with ESMTP; 24 Feb 2012 14:16:10 -0800
 From: Beth Flanagan <elizabeth.flanagan@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Fri, 24 Feb 2012 14:17:37 -0800
-Message-Id: <7fb99be3893199165558e9d7bb1638c2d572cff2.1330121220.git.elizabeth.flanagan@intel.com>
+Date: Fri, 24 Feb 2012 14:17:38 -0800
+Message-Id: <ccf71508a19ca420d7694335c1890140d9d7fa79.1330121220.git.elizabeth.flanagan@intel.com>
 X-Mailer: git-send-email 1.7.1
+In-Reply-To: <7fb99be3893199165558e9d7bb1638c2d572cff2.1330121220.git.elizabeth.flanagan@intel.com>
+References: <7fb99be3893199165558e9d7bb1638c2d572cff2.1330121220.git.elizabeth.flanagan@intel.com>
 In-Reply-To: <cover.1330121220.git.elizabeth.flanagan@intel.com>
 References: <cover.1330121220.git.elizabeth.flanagan@intel.com>
-Subject: [PATCH 1/3] less_444.bb: Adding license email from author
+Subject: [PATCH 2/3] license.bbclass: Gather Pkg level licenses
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -31,45 +33,46 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 24 Feb 2012 22:25:34 -0000
+X-List-Received-Date: Fri, 24 Feb 2012 22:25:35 -0000
 
 From: Elizabeth Flanagan <elizabeth.flanagan@intel.com>
 
-This slipped off my plate. Adding the email response from the
-author of less which allows us to use a generic BSD instead of
-the less license.
+We should look for LICENSE at a package level first. If it's
+not found, we should use the recipe level LICENSE. This adds a
+bit more granularity to license manifests where needed.
 
 Signed-off-by: Elizabeth Flanagan <elizabeth.flanagan@intel.com>
 ---
- meta/recipes-extended/less/less_444.bb |   15 ++++++++++++---
- 1 files changed, 12 insertions(+), 3 deletions(-)
+ meta/classes/license.bbclass |   16 ++++++++++++++--
+ 1 files changed, 14 insertions(+), 2 deletions(-)
 
-diff --git a/meta/recipes-extended/less/less_444.bb b/meta/recipes-extended/less/less_444.bb
-index f413ba0..fb7059d 100644
---- a/meta/recipes-extended/less/less_444.bb
-+++ b/meta/recipes-extended/less/less_444.bb
-@@ -6,9 +6,18 @@ HOMEPAGE = "http://www.greenwoodsoftware.com/"
- SECTION = "console/utils"
+diff --git a/meta/classes/license.bbclass b/meta/classes/license.bbclass
+index 10a937b..11908d9 100644
+--- a/meta/classes/license.bbclass
++++ b/meta/classes/license.bbclass
+@@ -140,8 +140,20 @@ python do_populate_lic() {
+     import shutil
+     import oe.license
  
- # (GPLv2+ (<< 418), GPLv3+ (>= 418)) | less
--# less is a 2-clause BSD-like permissive license
--# Mark Nudelman (author of less) has given permission to utilize a generic 
--# 2-clause BSD
-+# Including email author giving permissing to use BSD
-+#
-+# From: Mark Nudelman <markn@greenwoodsoftware.com>
-+# To: Elizabeth Flanagan <elizabeth.flanagan@intel.com
-+# Date: 12/19/11
-+#
-+# Hi Elizabeth,
-+# Using a generic BSD license for less is fine with me.
-+# Thanks,
-+#
-+# --Mark
-+#
- 
- LICENSE = "GPLv3+ | BSD-2-Clause"
- LIC_FILES_CHKSUM = "file://COPYING;md5=d32239bcb673463ab874e80d47fae504 \
+-    # All the license types for the package
+-    license_types = d.getVar('LICENSE', True)
++    pn = d.getVar('PN', True)
++    for package in d.getVar('PACKAGES', True):
++        if d.getVar('LICENSE_' + pn + '-' + package, True):
++            license_types = license_types + ' & ' + \
++                            d.getVar('LICENSE_' + pn + '-' + package, True)
++
++    #If we get here with no license types, then that means we have a recipe 
++    #level license. If so, we grab only those.
++    try:
++        license_types
++    except NameError:        
++        # All the license types at the recipe level
++        license_types = d.getVar('LICENSE', True)
++ 
+     # All the license files for the package
+     lic_files = d.getVar('LIC_FILES_CHKSUM', True)
+     pn = d.getVar('PN', True)
 -- 
 1.7.1
 
