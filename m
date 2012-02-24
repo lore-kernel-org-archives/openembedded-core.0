@@ -1,25 +1,20 @@
-Received: from mga09.intel.com ([134.134.136.24])
+Received: from mga01.intel.com ([192.55.52.88])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <sgw@linux.intel.com>) id 1S10Dv-0008A9-UE
+	(envelope-from <sgw@linux.intel.com>) id 1S10Uc-0000GI-Bn
 	for openembedded-core@lists.openembedded.org;
-	Fri, 24 Feb 2012 19:50:32 +0100
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-	by orsmga102.jf.intel.com with ESMTP; 24 Feb 2012 10:42:08 -0800
+	Fri, 24 Feb 2012 20:07:46 +0100
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+	by fmsmga101.fm.intel.com with ESMTP; 24 Feb 2012 10:59:22 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.67,351,1309762800"; d="scan'208";a="114600980"
-Received: from unknown (HELO [10.255.15.58]) ([10.255.15.58])
-	by orsmga002.jf.intel.com with ESMTP; 24 Feb 2012 10:41:07 -0800
-Message-ID: <4F47D9C3.6060203@linux.intel.com>
-Date: Fri, 24 Feb 2012 10:41:07 -0800
+X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="129141162"
+Received: from unknown (HELO swold-mobl.bigsur.com) ([10.255.15.58])
+	by fmsmga002.fm.intel.com with ESMTP; 24 Feb 2012 10:59:22 -0800
 From: Saul Wold <sgw@linux.intel.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:10.0.1) Gecko/20120216 Thunderbird/10.0.1
-MIME-Version: 1.0
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-References: <1330101456-11889-1-git-send-email-obi@opendreambox.org>
-In-Reply-To: <1330101456-11889-1-git-send-email-obi@opendreambox.org>
-Subject: Re: [PATCH] initscripts: mount and unmount cifs network filesystems
+To: openembedded-core@lists.openembedded.org
+Date: Fri, 24 Feb 2012 10:59:19 -0800
+Message-Id: <cover.1330109787.git.sgw@linux.intel.com>
+X-Mailer: git-send-email 1.7.7.6
+Subject: [PATCH 0/2] A couple of fixes
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -34,88 +29,39 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 24 Feb 2012 18:50:32 -0000
-Content-Type: text/plain; charset=ISO-8859-1; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Fri, 24 Feb 2012 19:07:46 -0000
 
-On 02/24/2012 08:37 AM, Andreas Oberritter wrote:
-> * Added cifs to mountnfs.sh and umountnfs.sh.
->
-This patch appears to need to be rebased.
+Richard,
 
-Thanks
-	Sau!
+These patches address a couple of issues, the gnupg fixes the GPLv2 version
+of that recipe, it was orignally pushed (by me as a mistake, got pulled too 
+soon).  This version is correct and builds.
 
-> Signed-off-by: Andreas Oberritter<obi@opendreambox.org>
-> ---
->   .../initscripts/initscripts-1.0/mountnfs.sh        |    8 +++++++-
->   .../initscripts/initscripts-1.0/umountnfs.sh       |    2 +-
->   meta/recipes-core/initscripts/initscripts_1.0.bb   |    2 +-
->   3 files changed, 9 insertions(+), 3 deletions(-)
->
-> diff --git a/meta/recipes-core/initscripts/initscripts-1.0/mountnfs.sh b/meta/recipes-core/initscripts/initscripts-1.0/mountnfs.sh
-> index 859fc9e..82ec7f6 100755
-> --- a/meta/recipes-core/initscripts/initscripts-1.0/mountnfs.sh
-> +++ b/meta/recipes-core/initscripts/initscripts-1.0/mountnfs.sh
-> @@ -23,6 +23,7 @@ portmap=no
->   mount_nfs=no
->   mount_smb=no
->   mount_ncp=no
-> +mount_cifs=no
->   while read device mountpt fstype options
->   do
->   	case "$device" in
-> @@ -56,6 +57,10 @@ do
->   	then
->   		mount_ncp=yes
->   	fi
-> +	if test "$fstype" = cifs
-> +	then
-> +		mount_cifs=yes
-> +	fi
->   done
->
->   exec 0>&1
-> @@ -70,12 +75,13 @@ then
->   	fi
->   fi
->
-> -if test "$mount_nfs" = yes || test "$mount_smb" = yes || test "$mount_ncp" = yes
-> +if test "$mount_nfs" = yes || test "$mount_smb" = yes || test "$mount_ncp" = yes || test "$mount_cifs" = yes
->   then
->   	echo "Mounting remote filesystems..."
->   	test "$mount_nfs" = yes&&  mount -a -t nfs
->   	test "$mount_smb" = yes&&  mount -a -t smbfs
->   	test "$mount_ncp" = yes&&  mount -a -t ncpfs
-> +	test "$mount_cifs" = yes&&  mount -a -t cifs
->   fi
->
->   )<  /etc/fstab
-> diff --git a/meta/recipes-core/initscripts/initscripts-1.0/umountnfs.sh b/meta/recipes-core/initscripts/initscripts-1.0/umountnfs.sh
-> index 15d1f73..af07540 100755
-> --- a/meta/recipes-core/initscripts/initscripts-1.0/umountnfs.sh
-> +++ b/meta/recipes-core/initscripts/initscripts-1.0/umountnfs.sh
-> @@ -23,7 +23,7 @@ test -f /etc/fstab&&  (
->   #
->   while read device mountpt fstype options
->   do
-> -	if test "$fstype" = nfs ||  test "$fstype" = smbfs ||  test "$fstype" = ncpfs
-> +	if test "$fstype" = nfs ||  test "$fstype" = smbfs ||  test "$fstype" = ncpfs || test "$fstype" = cifs
->   	then
->   		umount -f $mountpt
->   	fi
-> diff --git a/meta/recipes-core/initscripts/initscripts_1.0.bb b/meta/recipes-core/initscripts/initscripts_1.0.bb
-> index 203c605..b56c55c 100644
-> --- a/meta/recipes-core/initscripts/initscripts_1.0.bb
-> +++ b/meta/recipes-core/initscripts/initscripts_1.0.bb
-> @@ -3,7 +3,7 @@ DESCRIPTION = "Initscripts provide the basic system startup initialization scrip
->   SECTION = "base"
->   LICENSE = "GPLv2"
->   LIC_FILES_CHKSUM = "file://COPYING;md5=751419260aa954499f7abaabaa882bbe"
-> -PR = "r129"
-> +PR = "r130"
->
->   INHIBIT_DEFAULT_DEPS = "1"
->
+The syslinux change removes about 60 WARNINGS by packaging the remaining files
+in syslinux-misc
+
+Sau!
+
+The following changes since commit 22194a04f224864dd687660e351a3a10da1f06fa:
+
+  scripts/hob: Launch the new hob (2012-02-24 18:05:46 +0000)
+
+are available in the git repository at:
+  git://git.openembedded.org/openembedded-core-contrib sgw/fix
+  http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=sgw/fix
+
+Saul Wold (2):
+  gnupg: Update checksum, fix configure and compliation issues
+  syslinux: Package unpackaged files in -misc
+
+ meta/recipes-devtools/syslinux/syslinux_4.03.bb    |    3 ++-
+ .../gnupg/gnupg-1.4.7/configure.patch              |   17 +++++++++++++++++
+ meta/recipes-support/gnupg/gnupg_1.4.7.bb          |   17 +++++++++--------
+ 3 files changed, 28 insertions(+), 9 deletions(-)
+ create mode 100644 meta/recipes-support/gnupg/gnupg-1.4.7/configure.patch
+
+-- 
+1.7.7.6
+
 
 
