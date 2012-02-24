@@ -1,26 +1,24 @@
-Received: from mail1.windriver.com ([147.11.146.13])
+Received: from bluegiga.fi ([194.100.31.45] helo=darkblue.bluegiga.com)
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <Yi.Zhao@windriver.com>) id 1S0pJ7-0001jh-FW
+	(envelope-from <Lauri.Hintsala@bluegiga.com>) id 1S0pMt-0001nO-03
 	for openembedded-core@lists.openembedded.org;
-	Fri, 24 Feb 2012 08:11:09 +0100
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca [147.11.189.40])
-	by mail1.windriver.com (8.14.3/8.14.3) with ESMTP id q1O72ln9016164
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 23 Feb 2012 23:02:47 -0800 (PST)
-Received: from localhost (128.224.162.249) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server (TLS) id 14.1.255.0;
-	Thu, 23 Feb 2012 23:02:47 -0800
-From: Yi Zhao <yi.zhao@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Fri, 24 Feb 2012 15:02:28 +0800
-Message-ID: <0d1dff7abd26e3b55e48144933de46724706f117.1330066564.git.yi.zhao@windriver.com>
-X-Mailer: git-send-email 1.7.1
-In-Reply-To: <cover.1330066564.git.yi.zhao@windriver.com>
-References: <cover.1330066564.git.yi.zhao@windriver.com>
+	Fri, 24 Feb 2012 08:15:03 +0100
+Received: from [10.1.1.28] ([10.1.1.28]) by darkblue.bluegiga.com with
+	Microsoft SMTPSVC(6.0.3790.4675); Fri, 24 Feb 2012 09:06:42 +0200
+Message-ID: <4F473702.7020909@bluegiga.com>
+Date: Fri, 24 Feb 2012 09:06:42 +0200
+From: Lauri Hintsala <lauri.hintsala@bluegiga.com>
+User-Agent: Mozilla/5.0 (X11; U; Linux i686; en-US;
+	rv:1.9.2.24) Gecko/20111108 Lightning/1.0b2 Thunderbird/3.1.16
 MIME-Version: 1.0
-X-Originating-IP: [128.224.162.249]
-Subject: [PATCH V2 3/3] task-core-lsb: add lsbtest to RDEPENDS_task-core-misc list
+To: Gary Thomas <gary@mlbassoc.com>
+References: <1328890565-8304-1-git-send-email-gary@mlbassoc.com>
+In-Reply-To: <1328890565-8304-1-git-send-email-gary@mlbassoc.com>
+X-OriginalArrivalTime: 24 Feb 2012 07:06:42.0308 (UTC)
+	FILETIME=[DC742C40:01CCF2C2]
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] initscripts: Make /etc/timestamp consistent again.
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -35,36 +33,35 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 24 Feb 2012 07:11:09 -0000
-Content-Type: text/plain
+X-List-Received-Date: Fri, 24 Feb 2012 07:15:03 -0000
+Content-Type: text/plain; charset=ISO-8859-1; format=flowed
+Content-Transfer-Encoding: 7bit
 
----
- meta/recipes-extended/tasks/task-core-lsb.bb |    3 ++-
- 1 files changed, 2 insertions(+), 1 deletions(-)
+On 02/10/2012 06:16 PM, Gary Thomas wrote:
+> Commit cc8695 changed the way timestamps were handled
+> and added some extra munging to be able to compare them
+> reliably.  This change makes the timestamp value the same
+> everywhere and simplifies how the check to set the system
+> clock based on the timestamp is done.
+>
+> Also, if the value stored in /etc/timestamp is newer
+> [at all] than the current system time, set the system clock
+> from the stored value, down to the minute, not just the day.
+>
+> Signed-off-by: Gary Thomas<gary@mlbassoc.com>
+> ---
+>   .../initscripts/initscripts-1.0/bootmisc.sh        |    4 ++--
+>   .../initscripts/initscripts-1.0/save-rtc.sh        |    2 +-
+>   meta/recipes-core/initscripts/initscripts_1.0.bb   |    2 +-
+>   3 files changed, 4 insertions(+), 4 deletions(-)
 
-diff --git a/meta/recipes-extended/tasks/task-core-lsb.bb b/meta/recipes-extended/tasks/task-core-lsb.bb
-index c48ccf0..2767196 100644
---- a/meta/recipes-extended/tasks/task-core-lsb.bb
-+++ b/meta/recipes-extended/tasks/task-core-lsb.bb
-@@ -3,7 +3,7 @@
- #
- 
- DESCRIPTION = "Create Small Image Tasks"
--PR = "r6"
-+PR = "r7"
- LICENSE = "MIT"
- LIC_FILES_CHKSUM = "file://${COREBASE}/LICENSE;md5=3f40d7994397109285ec7b81fdeb3b58 \
-                     file://${COREBASE}/meta/COPYING.MIT;md5=3da9cfbcb788c80a0384361b4de20420"
-@@ -116,6 +116,7 @@ RDEPENDS_task-core-misc = "\
-     groff \
-     lsb \
-     lsbsetup \
-+    lsbtest \
-     lsof \
-     man \
-     man-pages \
--- 
-1.7.1
 
+Hi Gary,
+
+You should do the same changes to meta/classes/image.bbclass where the 
+/etc/timestamp file is generated to filesystem image.
+
+Regards,
+Lauri Hintsala
 
 
