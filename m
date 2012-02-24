@@ -1,25 +1,26 @@
-Received: from mga01.intel.com ([192.55.52.88])
+Received: from mga03.intel.com ([143.182.124.21])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <sgw@linux.intel.com>) id 1S0mhW-0003po-0i
+	(envelope-from <sgw@linux.intel.com>) id 1S0mid-0003su-SX
 	for openembedded-core@lists.openembedded.org;
-	Fri, 24 Feb 2012 05:24:10 +0100
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-	by fmsmga101.fm.intel.com with ESMTP; 23 Feb 2012 20:15:47 -0800
+	Fri, 24 Feb 2012 05:25:20 +0100
+Received: from azsmga002.ch.intel.com ([10.2.17.35])
+	by azsmga101.ch.intel.com with ESMTP; 23 Feb 2012 20:16:56 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="128886470"
+X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="69785816"
 Received: from unknown (HELO [10.255.15.58]) ([10.255.15.58])
-	by fmsmga002.fm.intel.com with ESMTP; 23 Feb 2012 20:15:47 -0800
-Message-ID: <4F470EF3.9060201@linux.intel.com>
-Date: Thu, 23 Feb 2012 20:15:47 -0800
+	by AZSMGA002.ch.intel.com with ESMTP; 23 Feb 2012 20:16:56 -0800
+Message-ID: <4F470F38.7040502@linux.intel.com>
+Date: Thu, 23 Feb 2012 20:16:56 -0800
 From: Saul Wold <sgw@linux.intel.com>
 User-Agent: Mozilla/5.0 (X11; Linux x86_64;
 	rv:10.0.1) Gecko/20120216 Thunderbird/10.0.1
 MIME-Version: 1.0
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-References: <1329519371-12600-1-git-send-email-obi@opendreambox.org>
-In-Reply-To: <1329519371-12600-1-git-send-email-obi@opendreambox.org>
-Subject: Re: [PATCH 1/2] gst-plugins-base: depend on libx11 and libxv conditionally
+References: <1329405215-9037-1-git-send-email-mac@mcrowe.com>
+In-Reply-To: <1329405215-9037-1-git-send-email-mac@mcrowe.com>
+Cc: Mike Crowe <mac@mcrowe.com>
+Subject: Re: [PATCH] e2fsprogs: Cope with ${libdir} and ${base_libdir} being the same
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -34,40 +35,50 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 24 Feb 2012 04:24:10 -0000
+X-List-Received-Date: Fri, 24 Feb 2012 04:25:20 -0000
 Content-Type: text/plain; charset=ISO-8859-1; format=flowed
 Content-Transfer-Encoding: 7bit
 
-On 02/17/2012 02:56 PM, Andreas Oberritter wrote:
-> * gst-plugins-base currently doesn't build if x11 is
->    unavailable, due to unconditional dependencies on libx11
->    and libxv. However, they are not required to build
->    gst-plugins-base.
+On 02/16/2012 07:13 AM, Mike Crowe wrote:
+> ${libdir} and ${base_libdir} may be the same. If they are don't try and
+> move files onto themselves.
 >
-> Signed-off-by: Andreas Oberritter<obi@opendreambox.org>
+> Signed-off-by: Mike Crowe<mac@mcrowe.com>
 > ---
->   .../gstreamer/gst-plugins-base_0.10.35.bb          |    3 ++-
->   1 files changed, 2 insertions(+), 1 deletions(-)
+>   meta/recipes-devtools/e2fsprogs/e2fsprogs_1.42.bb |   10 ++++++----
+>   1 files changed, 6 insertions(+), 4 deletions(-)
 >
-> diff --git a/meta/recipes-multimedia/gstreamer/gst-plugins-base_0.10.35.bb b/meta/recipes-multimedia/gstreamer/gst-plugins-base_0.10.35.bb
-> index e49a00c..0b287bc 100644
-> --- a/meta/recipes-multimedia/gstreamer/gst-plugins-base_0.10.35.bb
-> +++ b/meta/recipes-multimedia/gstreamer/gst-plugins-base_0.10.35.bb
-> @@ -6,7 +6,8 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=0636e73ff0215e8d672dc4c32c317bb3 \
->                       file://COPYING.LIB;md5=55ca817ccb7d5b5b66355690e9abc605 \
->                       file://gst/ffmpegcolorspace/utils.c;beginline=1;endline=20;md5=9c83a200b8e597b26ca29df20fc6ecd0"
+> diff --git a/meta/recipes-devtools/e2fsprogs/e2fsprogs_1.42.bb b/meta/recipes-devtools/e2fsprogs/e2fsprogs_1.42.bb
+> index 2289211..9647e51 100644
+> --- a/meta/recipes-devtools/e2fsprogs/e2fsprogs_1.42.bb
+> +++ b/meta/recipes-devtools/e2fsprogs/e2fsprogs_1.42.bb
+> @@ -1,6 +1,6 @@
+>   require e2fsprogs.inc
 >
-> -DEPENDS += "virtual/libx11 alsa-lib freetype liboil libogg libvorbis libxv libtheora avahi util-linux tremor"
-> +DEPENDS += "${@base_contains('DISTRO_FEATURES', 'x11', 'virtual/libx11 libxv', '', d)}"
-> +DEPENDS += "alsa-lib freetype liboil libogg libvorbis libtheora avahi util-linux tremor"
+> -PR = "r2"
+> +PR = "r3"
 >
->   SRC_URI += " file://gst-plugins-base-tremor.patch"
+>   SRC_URI += "file://fallocate.patch \
+>               file://acinclude.m4"
+> @@ -32,9 +32,11 @@ do_install () {
 >
+>   do_install_append () {
+>   	# e2initrd_helper and the pkgconfig files belong in libdir
+> -	install -d ${D}${libdir}
+> -	mv ${D}${base_libdir}/e2initrd_helper ${D}${libdir}
+> -	mv ${D}${base_libdir}/pkgconfig ${D}${libdir}
+> +	if [ ! ${D}${libdir} -ef ${D}${base_libdir} ]; then
+> +		install -d ${D}${libdir}
+> +		mv ${D}${base_libdir}/e2initrd_helper ${D}${libdir}
+> +		mv ${D}${base_libdir}/pkgconfig ${D}${libdir}
+> +	fi
+>   }
+>
+>   # blkid used to be part of e2fsprogs but is useful outside, add it
 
 Merged into OE-core
 
-
-Thanks
+thanks
 	Sau!
 
 
