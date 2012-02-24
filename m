@@ -1,31 +1,47 @@
-Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
-	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <richard.purdie@linuxfoundation.org>)
-	id 1S0sUK-00079w-NK for openembedded-core@lists.openembedded.org;
-	Fri, 24 Feb 2012 11:34:56 +0100
-Received: from localhost (localhost [127.0.0.1])
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q1OAQY84004280;
-	Fri, 24 Feb 2012 10:26:34 GMT
-Received: from tim.rpsys.net ([127.0.0.1])
-	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
-	port 10024) with LMTP
-	id 03283-06; Fri, 24 Feb 2012 10:26:30 +0000 (GMT)
-Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q1OAQPAO004274
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO);
-	Fri, 24 Feb 2012 10:26:27 GMT
-Message-ID: <1330079186.32006.4.camel@ted>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
+Received: from mail-ee0-f47.google.com ([74.125.83.47])
+	by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <martin.jansa@gmail.com>) id 1S0sbT-0007EP-8M
+	for openembedded-core@lists.openembedded.org;
+	Fri, 24 Feb 2012 11:42:19 +0100
+Received: by eekd41 with SMTP id d41so1045326eek.6
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 24 Feb 2012 02:33:57 -0800 (PST)
+Received-SPF: pass (google.com: domain of martin.jansa@gmail.com designates
+	10.14.37.69 as permitted sender) client-ip=10.14.37.69; 
+Authentication-Results: mr.google.com;
+	spf=pass (google.com: domain of martin.jansa@gmail.com
+	designates 10.14.37.69 as permitted sender)
+	smtp.mail=martin.jansa@gmail.com;
+	dkim=pass header.i=martin.jansa@gmail.com
+Received: from mr.google.com ([10.14.37.69])
+	by 10.14.37.69 with SMTP id x45mr1101977eea.43.1330079637112 (num_hops
+	= 1); Fri, 24 Feb 2012 02:33:57 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
+	h=date:from:to:subject:message-id:references:mime-version
+	:content-type:content-disposition:in-reply-to:user-agent;
+	bh=RSwOb6r5DZBczGfVhpquYfOacIKF1ni59owxmHjdCTw=;
+	b=NHSnt5274q9NOoMXVSDqSpJaZBmUE6T49TaJbPGhlfl8vXp7P38oOlAThqjM4XPy4m
+	wRwBYrOmg4Ruhtz6H10BFJmKuOCB0Q1JpEjw13V36W989oMUY+1Y1lmtNs1Y0VITfy7z
+	jVvVAEf7bykqJdxtQg4VEDQZhIxSCwC2A90Tk=
+Received: by 10.14.37.69 with SMTP id x45mr838146eea.43.1330079637019;
+	Fri, 24 Feb 2012 02:33:57 -0800 (PST)
+Received: from localhost ([94.230.152.246])
+	by mx.google.com with ESMTPS id u11sm9366111eeb.1.2012.02.24.02.33.54
+	(version=TLSv1/SSLv3 cipher=OTHER);
+	Fri, 24 Feb 2012 02:33:55 -0800 (PST)
+Date: Fri, 24 Feb 2012 11:33:52 +0100
+From: Martin Jansa <martin.jansa@gmail.com>
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Date: Fri, 24 Feb 2012 10:26:26 +0000
-In-Reply-To: <4F473702.7020909@bluegiga.com>
-References: <1328890565-8304-1-git-send-email-gary@mlbassoc.com>
-	<4F473702.7020909@bluegiga.com>
-X-Mailer: Evolution 3.2.2- 
-Mime-Version: 1.0
-X-Virus-Scanned: amavisd-new at rpsys.net
-Subject: Re: [PATCH] initscripts: Make /etc/timestamp consistent again.
+Message-ID: <20120224103352.GH3769@jama.jama.net>
+References: <4F4645CC.4050403@opendreambox.org>
+	<20120223140409.GT3769@jama.jama.net>
+	<4F466F3D.8060504@opendreambox.org>
+	<20120223210101.GB3769@jama.jama.net>
+MIME-Version: 1.0
+In-Reply-To: <20120223210101.GB3769@jama.jama.net>
+User-Agent: Mutt/1.5.21 (2010-09-15)
+Subject: Re: bug in recipe version priorities across layers?
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -40,41 +56,54 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 24 Feb 2012 10:34:56 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Fri, 24 Feb 2012 10:42:19 -0000
+X-Groupsio-MsgNum: 17897
+Content-Type: multipart/signed; micalg=pgp-sha1;
+	protocol="application/pgp-signature"; boundary="6ZcLte273om6Oiqd"
+Content-Disposition: inline
 
-On Fri, 2012-02-24 at 09:06 +0200, Lauri Hintsala wrote:
-> On 02/10/2012 06:16 PM, Gary Thomas wrote:
-> > Commit cc8695 changed the way timestamps were handled
-> > and added some extra munging to be able to compare them
-> > reliably.  This change makes the timestamp value the same
-> > everywhere and simplifies how the check to set the system
-> > clock based on the timestamp is done.
-> >
-> > Also, if the value stored in /etc/timestamp is newer
-> > [at all] than the current system time, set the system clock
-> > from the stored value, down to the minute, not just the day.
-> >
-> > Signed-off-by: Gary Thomas<gary@mlbassoc.com>
-> > ---
-> >   .../initscripts/initscripts-1.0/bootmisc.sh        |    4 ++--
-> >   .../initscripts/initscripts-1.0/save-rtc.sh        |    2 +-
-> >   meta/recipes-core/initscripts/initscripts_1.0.bb   |    2 +-
-> >   3 files changed, 4 insertions(+), 4 deletions(-)
-> 
-> 
-> Hi Gary,
-> 
-> You should do the same changes to meta/classes/image.bbclass where the 
-> /etc/timestamp file is generated to filesystem image.
+--6ZcLte273om6Oiqd
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Agreed, this is a nasty inconsistency. I've pushed a patch into master
-which fixes this.
+On Thu, Feb 23, 2012 at 10:01:01PM +0100, Martin Jansa wrote:
+> please just send patch removing python-setuptools from meta-oe,
+> NATIVE_INSTALL_WORKS isn't needed in oe-core world.. and now with
+> python-setuptools_0.6c11.bb in oe-core it doesn't make sense to keep
+> both :).
+>=20
+> > Another strange one, this time with unequal versions:
+> >=20
+> > mpfr:
+> >   meta-oe              3.0.0-r4
+> >   meta                 3.1.0-r0
+> > mpfr-native:
+> >   meta                 3.1.0-r0
+> >   meta-oe              3.0.0-r4
+>=20
+> This also looks like candidate for removal or at least conversion to
+> .bbappend if there is significant diff between meta-oe and oe-core.
+
+I've checked the diff and there was just patch for newer patchset P4 and
+small patch for thumb (long-long-thumb.patch) which is not yet in
+upstream 3.1.0, I'll test 3.1.0 on armv4t and send patch adding
+long-long-thumb.patch to oe-core version and drop it from meta-oe.
 
 Cheers,
+--=20
+Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
 
-Richard
+--6ZcLte273om6Oiqd
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: Digital signature
 
+-----BEGIN PGP SIGNATURE-----
+Version: GnuPG v2.0.18 (GNU/Linux)
 
+iEYEARECAAYFAk9HZ5AACgkQN1Ujt2V2gBzS1gCcCIezTvdRncOU23QzUV40/fMb
+ozMAniaUgKijSdbGV9zGx2f6WpkXnjCM
+=MQ0+
+-----END PGP SIGNATURE-----
 
+--6ZcLte273om6Oiqd--
