@@ -1,34 +1,34 @@
 Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
 	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
 	(envelope-from <richard.purdie@linuxfoundation.org>)
-	id 1S0y0d-0005FE-2p for openembedded-core@lists.openembedded.org;
-	Fri, 24 Feb 2012 17:28:39 +0100
+	id 1S0y2E-0005Ie-6e for openembedded-core@lists.openembedded.org;
+	Fri, 24 Feb 2012 17:30:18 +0100
 Received: from localhost (localhost [127.0.0.1])
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q1OGKG9e008475
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q1OGLtF5008497
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 24 Feb 2012 16:20:16 GMT
+	Fri, 24 Feb 2012 16:21:55 GMT
 Received: from tim.rpsys.net ([127.0.0.1])
 	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
 	port 10024) with LMTP
-	id 08112-04 for <openembedded-core@lists.openembedded.org>;
-	Fri, 24 Feb 2012 16:20:12 +0000 (GMT)
+	id 08091-05 for <openembedded-core@lists.openembedded.org>;
+	Fri, 24 Feb 2012 16:21:47 +0000 (GMT)
 Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q1OGK89S008469
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q1OGLhmn008482
 	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO)
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 24 Feb 2012 16:20:10 GMT
-Message-ID: <1330100410.5477.4.camel@ted>
+	Fri, 24 Feb 2012 16:21:43 GMT
+Message-ID: <1330100504.5477.6.camel@ted>
 From: Richard Purdie <richard.purdie@linuxfoundation.org>
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Date: Fri, 24 Feb 2012 16:20:10 +0000
-In-Reply-To: <0c86983a495510f1fec576591e2f5d5e70cb4aa5.1330053959.git.raj.khem@gmail.com>
+Date: Fri, 24 Feb 2012 16:21:44 +0000
+In-Reply-To: <bab8960657c873358e301979445c8fa4e81cc15f.1330053959.git.raj.khem@gmail.com>
 References: <cover.1330053959.git.raj.khem@gmail.com>
-	<0c86983a495510f1fec576591e2f5d5e70cb4aa5.1330053959.git.raj.khem@gmail.com>
+	<bab8960657c873358e301979445c8fa4e81cc15f.1330053959.git.raj.khem@gmail.com>
 X-Mailer: Evolution 3.2.2- 
 Mime-Version: 1.0
 X-Virus-Scanned: amavisd-new at rpsys.net
-Subject: Re: [PATCH 2/4] classes: Add recipe class to overrides
+Subject: Re: [PATCH 3/4] default-distrovars: Add empty weak definition for DISTRO variable
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -43,39 +43,47 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 24 Feb 2012 16:28:39 -0000
+X-List-Received-Date: Fri, 24 Feb 2012 16:30:18 -0000
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 
 On Thu, 2012-02-23 at 19:33 -0800, Khem Raj wrote:
-> We have currently no override to detect a recipe
-> being build cross, crosssdk or for target
-> at times we can use virtclass-native and virtclass-nativesdk to
-> override stuff in recipes but we dont have way to modify a variables
-> based on recipe type always.
+> Signed-off-by: Khem Raj <raj.khem@gmail.com>
+> ---
+>  meta/conf/distro/include/default-distrovars.inc |    7 +++++++
+>  1 files changed, 7 insertions(+), 0 deletions(-)
 > 
-> With this patch we attempt to have recipe class override always
-> so we can use it in recipes which use BBCLASSEXTEND as well as
-> others which inherit the classes directly.
-> 
-> I am not too fond of names that I have used so any suggestions are
-> welcome I would have liked to drop virtclass- from the existing
-> overrides but that would mean a lot of changes so I left them
-> alone.
-> 
-> With this change now we can say
-> 
-> EXTRA_OECONF_class-target = "...."
-> EXTRA_OECONF_virtclass-native = "..."
-> EXTRA_OECONF_virtclass-nativesdk = "..."
-> EXTRA_OECONF_virtclass-crosssdk= "..."
+> diff --git a/meta/conf/distro/include/default-distrovars.inc b/meta/conf/distro/include/default-distrovars.inc
+> index 16b3108..dba204e 100644
+> --- a/meta/conf/distro/include/default-distrovars.inc
+> +++ b/meta/conf/distro/include/default-distrovars.inc
+> @@ -41,6 +41,13 @@ NO32LIBS ??= "1"
+>  
+>  # Default to emitting logfiles if a build fails.
+>  BBINCLUDELOGS ??= "yes"
+> +
+> +# dummy distro related variables
+> +# they should be overridden by real distros
+> +# these fallbacks only serve the purpose of
+> +# oe-core standalone testability
+> +
+> +DISTRO ??= ""
+>  SDK_VERSION ??= "oe-core.0"
+>  DISTRO_VERSION ??= "oe-core.0"
 
-I think we need to drop the "virt" here and make this consistent since
-they are no longer specific to the virtual BBCLASSEXTEND code...
+Why do we need this? The commit message tells me what you're doing but
+not why. I'm really getting frustrated with one line commit messages
+with no details.
+
+I don't think we should need this either, I'm not sure I like the
+change. The whole idea was OE-Core could run "distroless".
 
 Cheers,
 
 Richard
+
+
+
 
 
 
