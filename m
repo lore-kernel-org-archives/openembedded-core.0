@@ -1,16 +1,16 @@
 Received: from ffm.saftware.de ([83.141.3.46])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <obi@opendreambox.org>) id 1S11ry-0001VX-5P
+	(envelope-from <obi@opendreambox.org>) id 1S11vd-0001ig-ME
 	for openembedded-core@lists.openembedded.org;
-	Fri, 24 Feb 2012 21:35:58 +0100
+	Fri, 24 Feb 2012 21:39:45 +0100
 From: Andreas Oberritter <obi@opendreambox.org>
 To: openembedded-core@lists.openembedded.org
-Date: Fri, 24 Feb 2012 21:27:34 +0100
-Message-Id: <1330115254-11300-1-git-send-email-obi@opendreambox.org>
+Date: Fri, 24 Feb 2012 21:31:21 +0100
+Message-Id: <1330115481-11625-1-git-send-email-obi@opendreambox.org>
 X-Mailer: git-send-email 1.7.5.4
-In-Reply-To: <4F47D9C3.6060203@linux.intel.com>
-References: <4F47D9C3.6060203@linux.intel.com>
-Subject: [PATCH v2] initscripts: mount and unmount cifs network filesystems
+In-Reply-To: <1330050435-28527-1-git-send-email-obi@opendreambox.org>
+References: <1330050435-28527-1-git-send-email-obi@opendreambox.org>
+Subject: [PATCH v2] libsdl: add DirectFB support
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -25,83 +25,44 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 24 Feb 2012 20:35:58 -0000
+X-List-Received-Date: Fri, 24 Feb 2012 20:39:45 -0000
 
-* Added cifs to mountnfs.sh and umountnfs.sh.
+* Use conditional dependencies for DirectFB, like
+  it's already done for OpenGL and X11.
 
 Signed-off-by: Andreas Oberritter <obi@opendreambox.org>
 ---
-* Rebased as requested
+* Rebased after X11 was already made conditional.
 
- .../initscripts/initscripts-1.0/mountnfs.sh        |    8 +++++++-
- .../initscripts/initscripts-1.0/umountnfs.sh       |    2 +-
- meta/recipes-core/initscripts/initscripts_1.0.bb   |    2 +-
- 3 files changed, 9 insertions(+), 3 deletions(-)
+ meta/recipes-graphics/libsdl/libsdl_1.2.14.bb |    6 ++++--
+ 1 files changed, 4 insertions(+), 2 deletions(-)
 
-diff --git a/meta/recipes-core/initscripts/initscripts-1.0/mountnfs.sh b/meta/recipes-core/initscripts/initscripts-1.0/mountnfs.sh
-index 859fc9e..82ec7f6 100755
---- a/meta/recipes-core/initscripts/initscripts-1.0/mountnfs.sh
-+++ b/meta/recipes-core/initscripts/initscripts-1.0/mountnfs.sh
-@@ -23,6 +23,7 @@ portmap=no
- mount_nfs=no
- mount_smb=no
- mount_ncp=no
-+mount_cifs=no
- while read device mountpt fstype options
- do
- 	case "$device" in
-@@ -56,6 +57,10 @@ do
- 	then
- 		mount_ncp=yes
- 	fi
-+	if test "$fstype" = cifs
-+	then
-+		mount_cifs=yes
-+	fi
- done
+diff --git a/meta/recipes-graphics/libsdl/libsdl_1.2.14.bb b/meta/recipes-graphics/libsdl/libsdl_1.2.14.bb
+index 62a2d1f..94df358 100644
+--- a/meta/recipes-graphics/libsdl/libsdl_1.2.14.bb
++++ b/meta/recipes-graphics/libsdl/libsdl_1.2.14.bb
+@@ -12,7 +12,8 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=27818cd7fd83877a8e3ef82b82798ef4"
  
- exec 0>&1
-@@ -70,12 +75,13 @@ then
- 	fi
- fi
+ PROVIDES = "virtual/libsdl"
  
--if test "$mount_nfs" = yes || test "$mount_smb" = yes || test "$mount_ncp" = yes
-+if test "$mount_nfs" = yes || test "$mount_smb" = yes || test "$mount_ncp" = yes || test "$mount_cifs" = yes
- then
- 	echo "Mounting remote filesystems..."
- 	test "$mount_nfs" = yes && mount -a -t nfs
- 	test "$mount_smb" = yes && mount -a -t smbfs
- 	test "$mount_ncp" = yes && mount -a -t ncpfs
-+	test "$mount_cifs" = yes && mount -a -t cifs
- fi
- 
- ) < /etc/fstab
-diff --git a/meta/recipes-core/initscripts/initscripts-1.0/umountnfs.sh b/meta/recipes-core/initscripts/initscripts-1.0/umountnfs.sh
-index 15d1f73..af07540 100755
---- a/meta/recipes-core/initscripts/initscripts-1.0/umountnfs.sh
-+++ b/meta/recipes-core/initscripts/initscripts-1.0/umountnfs.sh
-@@ -23,7 +23,7 @@ test -f /etc/fstab && (
- #
- while read device mountpt fstype options
- do
--	if test "$fstype" = nfs ||  test "$fstype" = smbfs ||  test "$fstype" = ncpfs
-+	if test "$fstype" = nfs ||  test "$fstype" = smbfs ||  test "$fstype" = ncpfs || test "$fstype" = cifs
- 	then
- 		umount -f $mountpt
- 	fi
-diff --git a/meta/recipes-core/initscripts/initscripts_1.0.bb b/meta/recipes-core/initscripts/initscripts_1.0.bb
-index b56c55c..e16f19f 100644
---- a/meta/recipes-core/initscripts/initscripts_1.0.bb
-+++ b/meta/recipes-core/initscripts/initscripts_1.0.bb
-@@ -3,7 +3,7 @@ DESCRIPTION = "Initscripts provide the basic system startup initialization scrip
- SECTION = "base"
- LICENSE = "GPLv2"
- LIC_FILES_CHKSUM = "file://COPYING;md5=751419260aa954499f7abaabaa882bbe"
--PR = "r130"
-+PR = "r131"
- 
- INHIBIT_DEFAULT_DEPS = "1"
- 
+-DEPENDS = "${@base_contains('DISTRO_FEATURES', 'opengl', 'virtual/libgl', '', d)} \
++DEPENDS = "${@base_contains('DISTRO_FEATURES', 'directfb', 'directfb', '', d)} \
++           ${@base_contains('DISTRO_FEATURES', 'opengl', 'virtual/libgl', '', d)} \
+            ${@base_contains('DISTRO_FEATURES', 'x11', 'virtual/libx11 libxext libxrandr libxrender', '', d)} \
+            tslib"
+ DEPENDS_virtclass-nativesdk = "${@base_contains('DISTRO_FEATURES', 'x11', 'libx11-nativesdk libxrandr-nativesdk libxrender-nativesdk libxext-nativesdk', '', d)}"
+@@ -35,9 +36,10 @@ EXTRA_OECONF = "--disable-static --disable-debug --enable-cdrom --enable-threads
+                 --enable-file --disable-oss --disable-esd --disable-arts \
+                 --disable-diskaudio --disable-nas --disable-esd-shared --disable-esdtest \
+                 --disable-mintaudio --disable-nasm --disable-video-dga \
+-                --disable-video-fbcon --disable-video-directfb --disable-video-ps2gs --disable-video-ps3 \
++                --disable-video-fbcon --disable-video-ps2gs --disable-video-ps3 \
+                 --disable-video-xbios --disable-video-gem --disable-video-dummy \
+                 --enable-input-events --enable-input-tslib --enable-pthreads \
++                ${@base_contains('DISTRO_FEATURES', 'directfb', '--enable-video-directfb', '--disable-video-directfb', d)} \
+                 ${@base_contains('DISTRO_FEATURES', 'opengl', '--enable-video-opengl', '--disable-video-opengl', d)} \
+                 ${@base_contains('DISTRO_FEATURES', 'x11', '--enable-video-x11', '--disable-video-x11', d)} \
+                 --disable-video-svga \
 -- 
 1.7.5.4
 
