@@ -1,38 +1,20 @@
-Received: from mail.dream-property.net ([82.149.226.172])
+Received: from mga09.intel.com ([134.134.136.24])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <obi@opendreambox.org>) id 1S0vJT-0001g2-6A
+	(envelope-from <dexuan.cui@intel.com>) id 1S0vaY-0001pA-4S
 	for openembedded-core@lists.openembedded.org;
-	Fri, 24 Feb 2012 14:35:55 +0100
-Received: from localhost (localhost [127.0.0.1])
-	by mail.dream-property.net (Postfix) with ESMTP id 15A2231594D8
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 24 Feb 2012 14:27:34 +0100 (CET)
-X-Virus-Scanned: Debian amavisd-new at mail.dream-property.net
-Received: from mail.dream-property.net ([127.0.0.1])
-	by localhost (mail.dream-property.net [127.0.0.1]) (amavisd-new,
-	port 10024) with LMTP id Qd8IvRW3YjXd
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 24 Feb 2012 14:27:23 +0100 (CET)
-Received: from [172.22.22.61] (drms-590c477b.pool.mediaWays.net [89.12.71.123])
-	(using TLSv1 with cipher DHE-RSA-AES256-SHA (256/256 bits))
-	(No client certificate requested)
-	by mail.dream-property.net (Postfix) with ESMTPSA id DEEFE31594D4
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 24 Feb 2012 14:27:22 +0100 (CET)
-Message-ID: <4F479039.7090708@opendreambox.org>
-Date: Fri, 24 Feb 2012 14:27:21 +0100
-From: Andreas Oberritter <obi@opendreambox.org>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:10.0.2) Gecko/20120216 Thunderbird/10.0.2
-MIME-Version: 1.0
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-References: <1329910007-8441-1-git-send-email-obi@opendreambox.org>
-	<1329910007-8441-2-git-send-email-obi@opendreambox.org>
-	<CFE738D1-7A44-4F57-BB18-818DD5474E01@dominion.thruhere.net>
-	<20120224081006.GA2519@sakrah.homelinux.org>
-In-Reply-To: <20120224081006.GA2519@sakrah.homelinux.org>
-Subject: Re: [PATCH 1/5] libsoup-2.4: don't depend on libgnome-keyring unless x11 is defined
+	Fri, 24 Feb 2012 14:53:34 +0100
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+	by orsmga102.jf.intel.com with ESMTP; 24 Feb 2012 05:45:10 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.67,352,1309762800"; d="scan'208";a="111539489"
+Received: from dcui-desktop.sh.intel.com ([10.239.36.12])
+	by orsmga001.jf.intel.com with ESMTP; 24 Feb 2012 05:44:10 -0800
+From: Dexuan Cui <dexuan.cui@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Fri, 24 Feb 2012 21:44:34 +0800
+Message-Id: <cover.1330091038.git.dexuan.cui@intel.com>
+X-Mailer: git-send-email 1.7.6
+Subject: [PATCH 0/1] task-self-hosted: add hicolor-icon-theme and socat
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -47,48 +29,24 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 24 Feb 2012 13:35:55 -0000
-Content-Type: text/plain; charset=ISO-8859-1
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Fri, 24 Feb 2012 13:53:34 -0000
 
-On 24.02.2012 09:10, Khem Raj wrote:
-> On (22/02/12 13:56), Koen Kooi wrote:
->>
->> Op 22 feb. 2012, om 12:26 heeft Andreas Oberritter het volgende geschreven:
->>
->>> * Drop dependency on GNOME if x11 is disabled.
->>>
->>> Signed-off-by: Andreas Oberritter <obi@opendreambox.org>
->>> ---
->>> meta/recipes-support/libsoup/libsoup-2.4_2.36.1.bb |    4 ++--
->>> 1 files changed, 2 insertions(+), 2 deletions(-)
->>>
->>> diff --git a/meta/recipes-support/libsoup/libsoup-2.4_2.36.1.bb b/meta/recipes-support/libsoup/libsoup-2.4_2.36.1.bb
->>> index 8e6ef26..861a1aa 100644
->>> --- a/meta/recipes-support/libsoup/libsoup-2.4_2.36.1.bb
->>> +++ b/meta/recipes-support/libsoup/libsoup-2.4_2.36.1.bb
->>> @@ -6,9 +6,9 @@ LICENSE = "LGPLv2"
->>> LIC_FILES_CHKSUM = "file://COPYING;md5=5f30f0716dfdd0d91eb439ebec522ec2"
->>>
->>> SECTION = "x11/gnome/libs"
->>> -PR = "r1"
->>> +PR = "r2"
->>>
->>> -DEPENDS = "glib-2.0 gnutls libxml2 libproxy sqlite3 libgnome-keyring"
->>> +DEPENDS = "glib-2.0 gnutls libxml2 libproxy sqlite3 ${@base_contains('DISTRO_FEATURES', 'x11', 'libgnome-keyring', '', d)}"
->>
->> that one likely needs a --disable-something to be deterministic.
-> 
-> may be --without-gnome or --disable-gnome-keyring ?
+The following changes since commit 31ac02695483943b677f8886e29438a8ed48f208:
 
-The flag --without-gnome is right. I've updated this patch [1],
-but I'm waiting before resubmitting it, because after Richard's
-comments I'm unsure which distro feature should be tested or
-whether PACKAGECONFIG should be used.
+  XXX: only for test misc Signed-off-by: Dexuan Cui <dexuan.cui@intel.com> (2012-02-24 21:33:25 +0800)
 
-Regards,
-Andreas
+are available in the git repository at:
+  git://git.pokylinux.org/poky-contrib dcui/stage/master_under_test
+  http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=dcui/stage/master_under_test
 
-[1] http://git.openembedded.org/openembedded-core-contrib/commit/?h=obi/current&id=5c7c62268aa56a5d4d58764653ef95a9deb683ad
+Dexuan Cui (1):
+  task-self-hosted: add hicolor-icon-theme and socat
+
+ meta/recipes-core/tasks/task-self-hosted.bb |    4 +++-
+ 1 files changed, 3 insertions(+), 1 deletions(-)
+
+-- 
+1.7.6
+
 
 
