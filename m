@@ -1,33 +1,34 @@
 Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
 	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <rpurdie@rpsys.net>) id 1S0yAI-0005RP-WE
-	for openembedded-core@lists.openembedded.org;
-	Fri, 24 Feb 2012 17:38:39 +0100
+	(envelope-from <richard.purdie@linuxfoundation.org>)
+	id 1S0yAW-0005Td-E1 for openembedded-core@lists.openembedded.org;
+	Fri, 24 Feb 2012 17:38:52 +0100
 Received: from localhost (localhost [127.0.0.1])
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q1OGUGmR008635
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q1OGUShq008644
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 24 Feb 2012 16:30:16 GMT
+	Fri, 24 Feb 2012 16:30:28 GMT
 Received: from tim.rpsys.net ([127.0.0.1])
 	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
 	port 10024) with LMTP
-	id 08091-07 for <openembedded-core@lists.openembedded.org>;
-	Fri, 24 Feb 2012 16:30:12 +0000 (GMT)
+	id 08112-07 for <openembedded-core@lists.openembedded.org>;
+	Fri, 24 Feb 2012 16:30:22 +0000 (GMT)
 Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q1OGU67Y008628
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q1OGULYN008638
 	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO)
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 24 Feb 2012 16:30:07 GMT
-Message-ID: <1330101007.5477.10.camel@ted>
-From: Richard Purdie <rpurdie@rpsys.net>
+	Fri, 24 Feb 2012 16:30:22 GMT
+Message-ID: <1330101022.5477.11.camel@ted>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Date: Fri, 24 Feb 2012 16:30:07 +0000
-In-Reply-To: <1330089290-12361-1-git-send-email-Martin.Jansa@gmail.com>
-References: <1330089290-12361-1-git-send-email-Martin.Jansa@gmail.com>
+Date: Fri, 24 Feb 2012 16:30:22 +0000
+In-Reply-To: <82a1c80968b74bba31763add47f217d84043546e.1330091038.git.dexuan.cui@intel.com>
+References: <cover.1330091038.git.dexuan.cui@intel.com>
+	<82a1c80968b74bba31763add47f217d84043546e.1330091038.git.dexuan.cui@intel.com>
 X-Mailer: Evolution 3.2.2- 
 Mime-Version: 1.0
 X-Virus-Scanned: amavisd-new at rpsys.net
-Subject: Re: [PATCH] mpfr: add patch to fix build for thumb
+Subject: Re: [PATCH 1/1] task-self-hosted: add hicolor-icon-theme and socat
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -42,17 +43,30 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 24 Feb 2012 16:38:39 -0000
+X-List-Received-Date: Fri, 24 Feb 2012 16:38:53 -0000
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 
-On Fri, 2012-02-24 at 14:14 +0100, Martin Jansa wrote:
-> Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
+On Fri, 2012-02-24 at 21:44 +0800, Dexuan Cui wrote:
+> python-pygtk depends on libgtk and libgtk's recommends have
+> gdk-pixbuf-loader-{png,jpeg,gif,xpm}, so we have the warnings.
+> We can add hicolor-icon-theme to fix the warning:
+> Configuring gdk-pixbuf-loader-png.
+> gtk-update-icon-cache: No theme index file.
+> Configuring gdk-pixbuf-loader-jpeg.
+> gtk-update-icon-cache: No theme index file.
+> Configuring liberation-fonts.
+> Configuring gdk-pixbuf-loader-xpm.
+> gtk-update-icon-cache: No theme index file.
+> Configuring gdk-pixbuf-loader-gif.
+> gtk-update-icon-cache: No theme index file.
+> 
+> Add socat for to faciliate proxy setting.
+> 
+> Signed-off-by: Dexuan Cui <dexuan.cui@intel.com>
 > ---
->  .../mpfr/mpfr-3.1.0/long-long-thumb.patch          |   39 ++++++++++++++++++++
->  meta/recipes-support/mpfr/mpfr_3.1.0.bb            |    6 ++-
->  2 files changed, 43 insertions(+), 2 deletions(-)
->  create mode 100644 meta/recipes-support/mpfr/mpfr-3.1.0/long-long-thumb.patch
+>  meta/recipes-core/tasks/task-self-hosted.bb |    4 +++-
+>  1 files changed, 3 insertions(+), 1 deletions(-)
 
 Merged to master, thanks.
 
