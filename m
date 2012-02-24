@@ -1,20 +1,22 @@
 Received: from mga09.intel.com ([134.134.136.24])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <lianhao.lu@intel.com>) id 1S0lXe-0002j9-OH
+	(envelope-from <lianhao.lu@intel.com>) id 1S0lXf-0002j9-Fv
 	for openembedded-core@lists.openembedded.org;
-	Fri, 24 Feb 2012 04:09:54 +0100
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-	by orsmga102.jf.intel.com with ESMTP; 23 Feb 2012 19:01:31 -0800
+	Fri, 24 Feb 2012 04:09:55 +0100
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+	by orsmga102.jf.intel.com with ESMTP; 23 Feb 2012 19:01:33 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.67,351,1309762800"; d="scan'208";a="114293474"
+X-IronPort-AV: E=Sophos;i="4.67,352,1309762800"; d="scan'208";a="111409368"
 Received: from llu-piketon.sh.intel.com (HELO localhost) ([10.239.36.62])
-	by orsmga002.jf.intel.com with ESMTP; 23 Feb 2012 19:01:31 -0800
+	by orsmga001.jf.intel.com with ESMTP; 23 Feb 2012 19:01:33 -0800
 From: Lianhao Lu <lianhao.lu@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Fri, 24 Feb 2012 11:00:36 +0800
-Message-Id: <cover.1330051744.git.lianhao.lu@intel.com>
+Date: Fri, 24 Feb 2012 11:00:40 +0800
+Message-Id: <f52803bfc127eb77b31587e998f91f296254a205.1330051744.git.lianhao.lu@intel.com>
 X-Mailer: git-send-email 1.7.0.4
-Subject: [PATCH 0/1] Added new variable BBINCLUDES
+In-Reply-To: <cover.1330051744.git.lianhao.lu@intel.com>
+References: <cover.1330051744.git.lianhao.lu@intel.com>
+Subject: [PATCH 1/1] bitbake.conf: Added new variable BBINCLUDES
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -31,25 +33,44 @@ List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedde
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Fri, 24 Feb 2012 03:09:55 -0000
 
-This patch added a new variable BBINCLUDES to show the file dependency 
-information. This kind of information could be used by others, i.e. recipe 
-editors. 
+The new variable BBINCLUDES contains the file dependency information. It
+exposes the bitbake internal variable '__depends' and '__base_depends'.
 
-The following changes since commit a1f23a7cc527afdd1ce6cc7cd6083ee78fde09b3:
-  Otavio Salvador (1):
-        update-rc.d.bbclass: do nothing for extended cross packages
-
-are available in the git repository at:
-
-  git://git.yoctoproject.org/poky-contrib llu/bbincludes
-  http://git.yoctoproject.org/cgit.cgi/poky-contrib/log/?h=llu/bbincludes
-
-Lianhao Lu (1):
-  bitbake.conf: Added new variable BBINCLUDES
-
+Signed-off-by: Lianhao Lu <lianhao.lu@intel.com>
+---
  meta/conf/bitbake.conf |    2 ++
  meta/lib/oe/utils.py   |    9 +++++++++
  2 files changed, 11 insertions(+), 0 deletions(-)
+
+diff --git a/meta/conf/bitbake.conf b/meta/conf/bitbake.conf
+index 90e5f7a..04851e5 100644
+--- a/meta/conf/bitbake.conf
++++ b/meta/conf/bitbake.conf
+@@ -731,3 +731,5 @@ BB_HASHBASE_WHITELIST ?= "TMPDIR FILE PATH PWD BB_TASKHASH BBPATH DL_DIR SSTATE_
+ 
+ MLPREFIX ??= ""
+ MULTILIB_VARIANTS ??= ""
++
++BBINCLUDES = "${@oe.utils.get_file_depends(d)}"
+diff --git a/meta/lib/oe/utils.py b/meta/lib/oe/utils.py
+index 02d5442..b4dcc4f 100644
+--- a/meta/lib/oe/utils.py
++++ b/meta/lib/oe/utils.py
+@@ -88,3 +88,12 @@ def param_bool(cfg, field, dflt = None):
+ def inherits(d, *classes):
+     """Return True if the metadata inherits any of the specified classes"""
+     return any(bb.data.inherits_class(cls, d) for cls in classes)
++
++def get_file_depends(d):
++    '''Return the dependent files'''
++    dep_files = []
++    depends = d.getVar('__depends', True) or set()
++    depends = depends.union(d.getVar('__base_depends', True) or set())
++    for (fn, ctime) in depends:
++        dep_files.append(os.path.abspath(fn))
++    return " ".join(dep_files)
+-- 
+1.7.0.4
 
 
 
