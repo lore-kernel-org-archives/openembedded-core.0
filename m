@@ -1,30 +1,39 @@
-Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
-	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <richard.purdie@linuxfoundation.org>)
-	id 1S0uoe-0001P0-FT for openembedded-core@lists.openembedded.org;
-	Fri, 24 Feb 2012 14:04:04 +0100
-Received: from localhost (localhost [127.0.0.1])
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q1OCtglk006071
+Received: from mail-ey0-f175.google.com ([209.85.215.175])
+	by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <martin.jansa@gmail.com>) id 1S0v7K-0001Zb-En
+	for openembedded-core@lists.openembedded.org;
+	Fri, 24 Feb 2012 14:23:22 +0100
+Received: by eaal10 with SMTP id l10so1109426eaa.6
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 24 Feb 2012 12:55:42 GMT
-Received: from tim.rpsys.net ([127.0.0.1])
-	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
-	port 10024) with LMTP
-	id 05627-03 for <openembedded-core@lists.openembedded.org>;
-	Fri, 24 Feb 2012 12:55:38 +0000 (GMT)
-Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q1OCtYr6006065
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO)
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 24 Feb 2012 12:55:35 GMT
-Message-ID: <1330088135.32006.14.camel@ted>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: openembedded-core <openembedded-core@lists.openembedded.org>
-Date: Fri, 24 Feb 2012 12:55:35 +0000
-X-Mailer: Evolution 3.2.2- 
-Mime-Version: 1.0
-X-Virus-Scanned: amavisd-new at rpsys.net
-Subject: Using external source trees with OE-Core
+	Fri, 24 Feb 2012 05:15:00 -0800 (PST)
+Received-SPF: pass (google.com: domain of martin.jansa@gmail.com designates
+	10.14.22.65 as permitted sender) client-ip=10.14.22.65; 
+Authentication-Results: mr.google.com;
+	spf=pass (google.com: domain of martin.jansa@gmail.com
+	designates 10.14.22.65 as permitted sender)
+	smtp.mail=martin.jansa@gmail.com;
+	dkim=pass header.i=martin.jansa@gmail.com
+Received: from mr.google.com ([10.14.22.65])
+	by 10.14.22.65 with SMTP id s41mr1470109ees.50.1330089299999 (num_hops
+	= 1); Fri, 24 Feb 2012 05:14:59 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
+	h=from:to:cc:subject:date:message-id:x-mailer;
+	bh=Uq1Uv5uBTGoY6898X6jHTXzkRyCueJUL6pyV/16ze/0=;
+	b=LyQ+yfnTtMwrnE+3t6fByydLX/4IV50nzFSuCIURuXqdnax+bblUm64erH32nhy3RO
+	tsVHXkqL6x2gKolJMEpiAfFk8OW/dpxDT6BcW71ASMdBmQt9X4r7DiWHHISpuqyx7tcX
+	VppVzjEaI1irqKPEFrGMpo3PasyvIL1PIq0uk=
+Received: by 10.14.22.65 with SMTP id s41mr1111349ees.50.1330089299904;
+	Fri, 24 Feb 2012 05:14:59 -0800 (PST)
+Received: from localhost ([94.230.152.246])
+	by mx.google.com with ESMTPS id s48sm18119797eem.0.2012.02.24.05.14.58
+	(version=TLSv1/SSLv3 cipher=OTHER);
+	Fri, 24 Feb 2012 05:14:59 -0800 (PST)
+From: Martin Jansa <martin.jansa@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Date: Fri, 24 Feb 2012 14:14:50 +0100
+Message-Id: <1330089290-12361-1-git-send-email-Martin.Jansa@gmail.com>
+X-Mailer: git-send-email 1.7.8.4
+Subject: [PATCH] mpfr: add patch to fix build for thumb
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -39,126 +48,80 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 24 Feb 2012 13:04:04 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Fri, 24 Feb 2012 13:23:22 -0000
 
-Someone recently asked me about using external source trees with
-OE-Core. I was aware of srctree.bbclass in OE-Classic and did start
-looking at it but it has various elements I wasn't so keen on. I
-therefore wondered if I could improve upon it. I did start from that
-code base but came up with:
-
-http://git.yoctoproject.org/cgit.cgi/poky-contrib/commit/?h=rpurdie/a0&id=ac8a54c18c33aaab6758c34a3d6093d3d3384cee
-[patch inline below]
-
-which I've called externalsrc.bbclass since it behaves a bit
-differently. In particular, all the usual task targets are available.
-
-As an example usage with the above patch applied:
-
-cd ~
-tar -xvzf $DL_DIR/libfm-0.1.17.tar.gz
-(creates libfm-0.1.17 in my homedir)
-
-edit libfm_0.1.17.bb and add:
-
-inherit externalsrc
-S = "/home/richard/libfm-0.1.17"
-
-bitbake libfm
-
-and it does what you'd expect. You can also -c clean and it will wipe
-out WORKDIR but it won't touch ${S}. I picked libfm effectively at
-random. It won't remove the autoreconf changes from configure but I'm
-not sure I care much about that.
-
-Admittedly, I did have to fix one Makefile.am which did '-I../' instead
-of "-I$(srcdir)/../" but that is a bug in libfm.
-
-Obviously this won't work quite as well with some recipes like
-linux-yocto which manipulate ${S} a lot more but it should work in most
-cases. I also found it very hard to remove tasks from the anonymous
-python, we probably need to improve the API for this.
-
-Opinions on including this class?
-
-Cheers,
-
-Richard
-
-
-
-From ac8a54c18c33aaab6758c34a3d6093d3d3384cee Mon Sep 17 00:00:00 2001
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-Date: Fri, 24 Feb 2012 12:29:36 +0000
-Subject: externalsrc.bbclass: Add class for handling external source trees
-
-This is loosly based upon srctree.bbclass from OE-Classic but with some
-changes appropriate to OE-Core.
-
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
 ---
-diff --git a/meta/classes/externalsrc.bbclass b/meta/classes/externalsrc.bbclass
-new file mode 100644
-index 0000000..7e00ef8
---- a/dev/null
-+++ b/meta/classes/externalsrc.bbclass
-@@ -0,0 +1,53 @@
-+# Copyright (C) 2012 Linux Foundation
-+# Author: Richard Purdie
-+# Some code and influence taken from srctree.bbclass:
-+# Copyright (C) 2009 Chris Larson <clarson@kergoth.com>
-+# Released under the MIT license (see COPYING.MIT for the terms)
-+#
-+# externalsrc.bbclass enables use of an existing source tree, usually external to 
-+# the build system to build a piece of software rather than the usual fetch/unpack/patch
-+# process.
-+#
-+# To use, set S to point at the directory you want to use containing the sources
-+# e.g. S = "/path/to/my/source/tree"
-+#
-+# If the class is to work for both target and native versions (or with multilibs/
-+# cross or other BBCLASSEXTEND variants), its expected that setting B to point to 
-+# where to place the compiled binaries will work (split source and build directories).
-+# This is the default but B can be set to S if circumstaces dictate.
-+#
-+
-+SRC_URI = ""
-+SRCTREECOVEREDTASKS ?= "do_patch do_unpack do_fetch"
-+B = "${WORKDIR}/${BPN}-${PV}/"
-+
-+def remove_tasks(tasks, deltasks, d):
-+    for task in tasks:
-+        deps = d.getVarFlag(task, "deps")
-+        for preptask in deltasks:
-+            if preptask in deps:
-+                deps.remove(preptask)
-+        d.setVarFlag(task, "deps", deps)
-+    # Poking around bitbake internal variables is evil but there appears to be no better way :(
-+    tasklist = d.getVar('__BBTASKS') or []
-+    for task in deltasks:
-+        d.delVarFlag(task, "task")
-+        if task in tasklist:
-+            tasklist.remove(task)
-+    d.setVar('__BBTASKS', tasklist)
-+
-+python () {
-+    tasks = filter(lambda k: d.getVarFlag(k, "task"), d.keys())
-+    covered = d.getVar("SRCTREECOVEREDTASKS", True).split()
-+
-+    for task in tasks:
-+        if task.endswith("_setscene"):
-+            # sstate is never going to work for external source trees, disable it
-+            covered.append(task)
-+        else:
-+            # Since configure will likely touch ${S}, ensure only we lock so one task has access at a time
-+            d.appendVarFlag(task, "lockfiles", "${S}/singletask.lock")
-+
-+    remove_tasks(tasks, covered, d)
-+}
-+
+ .../mpfr/mpfr-3.1.0/long-long-thumb.patch          |   39 ++++++++++++++++++++
+ meta/recipes-support/mpfr/mpfr_3.1.0.bb            |    6 ++-
+ 2 files changed, 43 insertions(+), 2 deletions(-)
+ create mode 100644 meta/recipes-support/mpfr/mpfr-3.1.0/long-long-thumb.patch
 
+diff --git a/meta/recipes-support/mpfr/mpfr-3.1.0/long-long-thumb.patch b/meta/recipes-support/mpfr/mpfr-3.1.0/long-long-thumb.patch
+new file mode 100644
+index 0000000..ca7100e
+--- /dev/null
++++ b/meta/recipes-support/mpfr/mpfr-3.1.0/long-long-thumb.patch
+@@ -0,0 +1,39 @@
++From 84021b1e236508169be65e802a9c0a25fc9a8827 Mon Sep 17 00:00:00 2001
++From: Phil Blundell <philb@gnu.org>
++Date: Mon, 27 Oct 2008 22:26:35 +0000
++Subject: [PATCH] mpfr: crusade against inline assembler
++
++Without this, build fails for thumb:
++| {standard input}: Assembler messages:
++| {standard input}:199: Error: selected processor does not support Thumb mode `umull sl,r0,r2,r1'
++| {standard input}:214: Error: selected processor does not support Thumb mode `umull sl,r2,r1,fp'
++| {standard input}:219: Error: instruction not supported in Thumb16 mode -- `adds fp,r0,sl'
++| {standard input}:220: Error: unshifted register required -- `adc r2,r2,#0'
++| {standard input}:235: Error: selected processor does not support Thumb mode `umull r0,sl,r1,r3'
++| {standard input}:244: Error: selected processor does not support Thumb mode `umull fp,ip,r1,r3'
++| {standard input}:253: Error: instruction not supported in Thumb16 mode -- `adds r3,sl,fp'
++| {standard input}:254: Error: unshifted register required -- `adc ip,ip,#0'
++| {standard input}:259: Error: instruction not supported in Thumb16 mode -- `adds sl,r1,r0'
++| {standard input}:642: Error: selected processor does not support Thumb mode `umull r0,r2,r3,r1'
++| ../arm-oe-linux-gnueabi-libtool --tag=CC   --mode=compile arm-oe-linux-gnueabi-gcc  -march=armv5te  -mthumb -mthumb-interwork  -mtune=xscale --sysroot=/OE/shr-core/tmp-eglibc/sysroots/spitz -DHAVE_INTTYPES_H=1 -DHAVE_STDINT_H=1 -DTIME_WITH_SYS_TIME=1 -DHAVE_LOCALE_H=1 -DHAVE_WCHAR_H=1 -DHAVE_STDARG=1 -DHAVE_SYS_TIME_H=1 -DHAVE_ALLOCA_H=1 -DHAVE_STDINT_H=1 -DHAVE_VA_COPY=1 -DHAVE_SETLOCALE=1 -DHAVE_GETTIMEOFDAY=1 -DHAVE_LONG_LONG=1 -DHAVE_INTMAX_T=1 -DMPFR_HAVE_INTMAX_MAX=1 -DMPFR_HAVE_FESETROUND=1 -DHAVE_ROUND=1 -DHAVE_TRUNC=1 -DHAVE_FLOOR=1 -DHAVE_CEIL=1 -DHAVE_NEARBYINT=1 -DLT_OBJDIR=\".libs/\" -DHAVE_ATTRIBUTE_MODE=1 -DHAVE___GMPN_ROOTREM=1 -DHAVE___GMPN_SBPI1_DIVAPPR_Q=1 -I.     -O2 -pipe -g -feliminate-unused-debug-types -ffloat-store -c -o pow.lo pow.c
++| {standard input}:1154: Error: selected processor does not support Thumb mode `umull r0,r1,sl,ip'
++| {standard input}:1166: Error: selected processor does not support Thumb mode `umull r3,r2,ip,r0'
++| {standard input}:1171: Error: instruction not supported in Thumb16 mode -- `adds r0,r1,r3'
++| {standard input}:1172: Error: unshifted register required -- `adc r2,r2,#0'
++| make[2]: *** [mul.lo] Error 1
++
++Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
++
++Upstream-Status: Pending
++
++--- mpfr.old/src/mpfr-longlong.h	2008-01-01 03:29:09.000000000 +0000
+++++ mpfr/src/mpfr-longlong.h	2008-10-27 21:46:44.000000000 +0000
++@@ -406,7 +406,7 @@
++ 	     "rIJ" ((USItype) (bl)))
++ #endif
++ 
++-#if defined (__arm__) && W_TYPE_SIZE == 32
+++#if defined (__arm__) && W_TYPE_SIZE == 32 && !defined(__thumb__)
++ #define add_ssaaaa(sh, sl, ah, al, bh, bl) \
++   __asm__ ("adds\t%1, %4, %5\n\tadc\t%0, %2, %3"			\
++ 	   : "=r" (sh), "=&r" (sl)					\
+diff --git a/meta/recipes-support/mpfr/mpfr_3.1.0.bb b/meta/recipes-support/mpfr/mpfr_3.1.0.bb
+index 8e67fc2..102ec69 100644
+--- a/meta/recipes-support/mpfr/mpfr_3.1.0.bb
++++ b/meta/recipes-support/mpfr/mpfr_3.1.0.bb
+@@ -3,9 +3,11 @@ LICENSE="GPLv3&LGPLv3"
+ LIC_FILES_CHKSUM = "file://COPYING;md5=d32239bcb673463ab874e80d47fae504 \
+ 		    file://COPYING.LESSER;md5=6a6a8e020838b23406c81b19c1d46df6"
+ DEPENDS = "gmp"
+-PR = "r0"
++PR = "r1"
+ 
+-SRC_URI = "http://www.mpfr.org/mpfr-${PV}/mpfr-${PV}.tar.bz2"
++SRC_URI = "http://www.mpfr.org/mpfr-${PV}/mpfr-${PV}.tar.bz2 \
++  file://long-long-thumb.patch \
++"
+ 
+ SRC_URI[md5sum] = "238ae4a15cc3a5049b723daef5d17938"
+ SRC_URI[sha256sum] = "74a7bbbad168dd1cc414f1c9210b8fc16ccfc8e422d34b3371a8978e31eab680"
+-- 
+1.7.8.4
 
 
 
