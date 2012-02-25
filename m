@@ -1,14 +1,38 @@
-Received: from ffm.saftware.de ([83.141.3.46])
+Received: from mail-ww0-f43.google.com ([74.125.82.43])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <obi@opendreambox.org>) id 1S16QL-0007kT-Jj
+	(envelope-from <koen@dominion.thruhere.net>) id 1S1DeI-0001vg-Gv
 	for openembedded-core@lists.openembedded.org;
-	Sat, 25 Feb 2012 02:27:45 +0100
-From: Andreas Oberritter <obi@opendreambox.org>
-To: openembedded-core@lists.openembedded.org
-Date: Sat, 25 Feb 2012 02:19:20 +0100
-Message-Id: <1330132760-12519-1-git-send-email-obi@opendreambox.org>
-X-Mailer: git-send-email 1.7.5.4
-Subject: [PATCH] bzip2: split into binary and library packages
+	Sat, 25 Feb 2012 10:10:38 +0100
+Received: by wgbdr12 with SMTP id dr12so490051wgb.24
+	for <openembedded-core@lists.openembedded.org>;
+	Sat, 25 Feb 2012 01:02:15 -0800 (PST)
+Received-SPF: pass (google.com: domain of koen@dominion.thruhere.net
+	designates 10.181.12.106 as permitted sender)
+	client-ip=10.181.12.106; 
+Authentication-Results: mr.google.com; spf=pass (google.com: domain of
+	koen@dominion.thruhere.net designates 10.181.12.106 as
+	permitted sender) smtp.mail=koen@dominion.thruhere.net
+Received: from mr.google.com ([10.181.12.106])
+	by 10.181.12.106 with SMTP id ep10mr2585461wid.8.1330160535031
+	(num_hops = 1); Sat, 25 Feb 2012 01:02:15 -0800 (PST)
+Received: by 10.181.12.106 with SMTP id ep10mr2020679wid.8.1330160534929;
+	Sat, 25 Feb 2012 01:02:14 -0800 (PST)
+Received: from [172.20.1.36] (ip545070eb.adsl-surfen.hetnet.nl.
+	[84.80.112.235])
+	by mx.google.com with ESMTPS id fw5sm8471817wib.0.2012.02.25.01.02.12
+	(version=TLSv1/SSLv3 cipher=OTHER);
+	Sat, 25 Feb 2012 01:02:13 -0800 (PST)
+Mime-Version: 1.0 (Apple Message framework v1257)
+From: Koen Kooi <koen@dominion.thruhere.net>
+In-Reply-To: <1330132760-12519-1-git-send-email-obi@opendreambox.org>
+Date: Sat, 25 Feb 2012 10:02:12 +0100
+Message-Id: <D1EF2FB1-9919-42C2-B9D0-E6584B6C7BD8@dominion.thruhere.net>
+References: <1330132760-12519-1-git-send-email-obi@opendreambox.org>
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+X-Mailer: Apple Mail (2.1257)
+X-Gm-Message-State: ALoCoQlkSqAaFUofKTXR1YZBnq/wkv4o/dH44gegBckposyPz7B7ritWUy602PDhbtD6AZDBGIA1
+Subject: Re: [PATCH] bzip2: split into binary and library packages
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -23,56 +47,18 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 25 Feb 2012 01:27:45 -0000
+X-List-Received-Date: Sat, 25 Feb 2012 09:10:38 -0000
+Content-Type: text/plain; charset=us-ascii
+Content-Transfer-Encoding: quoted-printable
 
-* Create libbz2 (and -dev, -staticdev), which can be
-  installed without the bzip2 executables.
 
-Signed-off-by: Andreas Oberritter <obi@opendreambox.org>
----
- meta/recipes-extended/bzip2/bzip2_1.0.6.bb |   14 +++++++++++++-
- 1 files changed, 13 insertions(+), 1 deletions(-)
+Op 25 feb. 2012, om 02:19 heeft Andreas Oberritter het volgende =
+geschreven:
 
-diff --git a/meta/recipes-extended/bzip2/bzip2_1.0.6.bb b/meta/recipes-extended/bzip2/bzip2_1.0.6.bb
-index 14cd240..fa8310e 100644
---- a/meta/recipes-extended/bzip2/bzip2_1.0.6.bb
-+++ b/meta/recipes-extended/bzip2/bzip2_1.0.6.bb
-@@ -6,7 +6,7 @@ HOMEPAGE = "http://www.bzip.org/"
- SECTION = "console/utils"
- LICENSE = "BSD-4-Clause"
- LIC_FILES_CHKSUM = "file://LICENSE;beginline=8;endline=37;md5=40d9d1eb05736d1bfc86cfdd9106e6b2"
--PR = "r4"
-+PR = "r5"
- 
- SRC_URI = "http://www.bzip.org/${PV}/${BPN}-${PV}.tar.gz \
-            file://configure.ac \
-@@ -15,6 +15,8 @@ SRC_URI = "http://www.bzip.org/${PV}/${BPN}-${PV}.tar.gz \
- SRC_URI[md5sum] = "00b516f4704d4a7cb50a1d97e6e8e15b"
- SRC_URI[sha256sum] = "a2848f34fcd5d6cf47def00461fcb528a0484d8edef8208d6d2e2909dc61d9cd"
- 
-+PACKAGES =+ "libbz2 libbz2-dev libbz2-staticdev"
-+
- CFLAGS_append = " -fPIC -fpic -Winline -fno-strength-reduce -D_FILE_OFFSET_BITS=64"
- 
- inherit autotools update-alternatives
-@@ -28,5 +30,15 @@ do_configure_prepend () {
- 	cp ${STAGING_DATADIR_NATIVE}/automake*/install-sh ${S}/
- }
- 
-+FILES_libbz2 = "${libdir}/lib*${SOLIBS}"
-+
-+FILES_libbz2-dev = "${includedir} ${libdir}/lib*${SOLIBSDEV}"
-+SECTION_libbz2-dev = "devel"
-+RDEPENDS_libbz2-dev = "libbz2 (= ${EXTENDPKGV})"
-+
-+FILES_libbz2-staticdev = "${libdir}/*.a"
-+SECTION_libbz2-staticdev = "devel"
-+RDEPENDS_libbz2-staticdev = "libbz2-dev (= ${EXTENDPKGV})"
-+
- PROVIDES_append_virtclass-native = " bzip2-full-native"
- BBCLASSEXTEND = "native"
--- 
-1.7.5.4
+> * Create libbz2 (and -dev, -staticdev), which can be
+>  installed without the bzip2 executables.
 
+You need a PR bump for everything that links against libbz2 to ensure =
+clean upgrade paths.=
 
 
