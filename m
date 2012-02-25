@@ -1,35 +1,14 @@
-Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
-	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <richard.purdie@linuxfoundation.org>)
-	id 1S16AO-0007G9-U4 for openembedded-core@lists.openembedded.org;
-	Sat, 25 Feb 2012 02:11:17 +0100
-Received: from localhost (localhost [127.0.0.1])
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q1P12suC015899
-	for <openembedded-core@lists.openembedded.org>;
-	Sat, 25 Feb 2012 01:02:54 GMT
-Received: from tim.rpsys.net ([127.0.0.1])
-	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
-	port 10024) with LMTP
-	id 14946-09 for <openembedded-core@lists.openembedded.org>;
-	Sat, 25 Feb 2012 01:02:50 +0000 (GMT)
-Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q1P12lVT015893
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO)
-	for <openembedded-core@lists.openembedded.org>;
-	Sat, 25 Feb 2012 01:02:48 GMT
-Message-ID: <1330131768.13788.6.camel@ted>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Date: Sat, 25 Feb 2012 01:02:48 +0000
-In-Reply-To: <20120225000546.GO3769@jama.jama.net>
-References: <cover.1329147583.git.Martin.Jansa@gmail.com>
-	<b17109ebc9396973f7c0dbf6812699e2c0930349.1329147583.git.Martin.Jansa@gmail.com>
-	<1329992873.32110.58.camel@ted> <20120225000546.GO3769@jama.jama.net>
-X-Mailer: Evolution 3.2.2- 
-Mime-Version: 1.0
-X-Virus-Scanned: amavisd-new at rpsys.net
-Subject: Re: [PATCH 2/4] gdb-cross-canadian: use NATIVESDK paths as it happens to be here
+Received: from ffm.saftware.de ([83.141.3.46])
+	by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <obi@opendreambox.org>) id 1S16QC-0007iQ-Gc
+	for openembedded-core@lists.openembedded.org;
+	Sat, 25 Feb 2012 02:27:36 +0100
+From: Andreas Oberritter <obi@opendreambox.org>
+To: openembedded-core@lists.openembedded.org
+Date: Sat, 25 Feb 2012 02:19:10 +0100
+Message-Id: <1330132750-12469-1-git-send-email-obi@opendreambox.org>
+X-Mailer: git-send-email 1.7.5.4
+Subject: [PATCH] automake: omit compilation of pyc files on install
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -44,120 +23,108 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 25 Feb 2012 01:11:17 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Sat, 25 Feb 2012 01:27:36 -0000
 
-On Sat, 2012-02-25 at 01:05 +0100, Martin Jansa wrote:
-> On Thu, Feb 23, 2012 at 10:27:53AM +0000, Richard Purdie wrote:
-> > On Mon, 2012-02-13 at 16:40 +0100, Martin Jansa wrote:
-> > > * seems like config/config in -L was also wrong
-> > > 
-> > > Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
-> > > ---
-> > >  meta/recipes-devtools/gdb/gdb-cross-canadian.inc |   10 ++++++++--
-> > >  1 files changed, 8 insertions(+), 2 deletions(-)
-> > > 
-> > > diff --git a/meta/recipes-devtools/gdb/gdb-cross-canadian.inc b/meta/recipes-devtools/gdb/gdb-cross-canadian.inc
-> > > index b5746ce..bac63b7 100644
-> > > --- a/meta/recipes-devtools/gdb/gdb-cross-canadian.inc
-> > > +++ b/meta/recipes-devtools/gdb/gdb-cross-canadian.inc
-> > > @@ -10,12 +10,18 @@ RDEPENDS += "python-nativesdk-core python-nativesdk-lang python-nativesdk-re \
-> > >  
-> > >  EXTRA_OECONF_append = "--with-python=${WORKDIR}/python"
-> > >  
-> > > +NATIVESDK_NAME = "oecore-${SDK_ARCH}-${SDK_ARCH}"
-> > > +NATIVESDK_PATH = "/usr/local/${NATIVESDK_NAME}"
-> > > +NATIVESDK_PATHNATIVE = "${NATIVESDK_PATH}/sysroots/${SDK_SYS}"
-> > > +NATIVESDK_LIBDIR = "${NATIVESDK_PATHNATIVE}${libdir_nativesdk}"
-> > > +NATIVESDK_INCLUDEDIR = "${NATIVESDK_PATHNATIVE}${includedir_nativesdk}"
-> > > +
-> > >  do_configure_prepend() {
-> > >  cat > ${WORKDIR}/python << EOF
-> > >  #! /bin/sh
-> > >  case "\$2" in
-> > > -        --includes) echo "-I${STAGING_DIR}/${HOST_ARCH}-nativesdk${HOST_VENDOR}-${HOST_OS}${exec_prefix}/include/python${PYTHON_BASEVERSION}/" ;;
-> > > -        --ldflags) echo "-L${STAGING_DIR}/${HOST_ARCH}-nativesdk${HOST_VENDOR}-${HOST_OS}${libdir}/python${PYTHON_BASEVERSION}/config/config -lpthread -ldl -lutil -lm -lpython${PYTHON_BASEVERSION}" ;;
-> > > +        --includes) echo "-I${STAGING_DIR}/${HOST_ARCH}-nativesdk${HOST_VENDOR}-${HOST_OS}${NATIVESDK_INCLUDEDIR}/python${PYTHON_BASEVERSION}/" ;;
-> > > +        --ldflags) echo "-L${STAGING_DIR}/${HOST_ARCH}-nativesdk${HOST_VENDOR}-${HOST_OS}${NATIVESDK_LIBDIR}/python${PYTHON_BASEVERSION}/config -lpthread -ldl -lutil -lm -lpython${PYTHON_BASEVERSION}" ;;
-> > >          --exec-prefix) echo "/usr" ;;
-> > >          *) exit 1 ;;
-> > >  esac
-> > 
-> > I made some experiments with "bitbake gdb-cross-canadian-x86-64 -e" and
-> > it seems to me that:
-> > 
-> >        --includes) echo "-I${STAGING_INCDIR}/python${PYTHON_BASEVERSION}/" ;;
-> >        --ldflags) echo "-L${STAGING_LIBDIR}/../python${PYTHON_BASEVERSION}/config -lpthread -ldl -lutil -lm -lpython${PYTHON_BASEVERSION}" ;;
-> > 
-> > should work ok here?
-> 
-> No it's not the same.
-> 
-> With default oe-core settings it behaves like this:
-> 
-> python-nativesdk is staged in the same directory for all 3 MACHINEs I
-> was using for test (qemuarm, qemux86, qemux86-64)
-> 
-> SDKMACHINE=i686:   SYSROOTS/i686-nativesdk-oesdk-linux/usr/local/oecore-i686-i686/sysroots/i686-oesdk-linux/
-> SDKMACHINE=x86-64: SYSROOTS/x86_64-nativesdk-oesdk-linux/usr/local/oecore-x86_64-x86_64/sysroots/x86_64-oesdk-linux
-> 
-> while STAGING_INCDIR is different for each machine
-> SDKMACHINE=i686:
->   STAGING_LIBDIR="SYSROOTS/i686-oesdk-linux-nativesdk/usr/local/oecore-i686-i586/sysroots/i686-oesdk-linux/usr/lib/i586-oe-linux"
->   STAGING_LIBDIR="SYSROOTS/i686-oesdk-linux-nativesdk/usr/local/oecore-i686-x86_64/sysroots/i686-oesdk-linux/usr/lib/x86_64-oe-linux"
->   STAGING_LIBDIR="SYSROOTS/i686-oesdk-linux-nativesdk/usr/local/oecore-i686-arm/sysroots/i686-oesdk-linux/usr/lib/armv5te-oe-linux-gnueabi"
-> SDKMACHINE=x86-64:
->   STAGING_LIBDIR="SYSROOTS/x86_64-oesdk-linux-nativesdk/usr/local/oecore-x86_64-i586/sysroots/x86_64-oesdk-linux/usr/lib/i586-oe-linux"
->   STAGING_LIBDIR="SYSROOTS/x86_64-oesdk-linux-nativesdk/usr/local/oecore-x86_64-x86_64/sysroots/x86_64-oesdk-linux/usr/lib/x86_64-oe-linux"
->   STAGING_LIBDIR="SYSROOTS/x86_64-oesdk-linux-nativesdk/usr/local/oecore-x86_64-arm/sysroots/x86_64-oesdk-linux/usr/lib/armv5te-oe-linux-gnueabi"
-> 
-> notice that not only SDK_NAME tripple is changing
-> SDK_NAME = "${SDK_NAME_PREFIX}-${SDK_ARCH}-${TARGET_ARCH}"
-> so we keep it the same across all MACHINES with:
-> NATIVESDK_SDK_NAME = "${SDK_NAME_PREFIX}-${SDK_ARCH}-${SDK_ARCH}"
-> 
-> but also toplevel SYSROOT is different
-> i686-nativesdk-oesdk-linux
-> i686-oesdk-linux-nativesdk
-> and
-> x86_64-nativesdk-oesdk-linux
-> x86_64-oesdk-linux-nativesdk
-> 
-> So nativesdk staging is broken and python-nativesdk should be staged
-> separately for each SDK_ARCH/TARGET_ARCH combination or we need those
-> NATIVESDK_SDK_NAME variables for cross-canadian -> nativesdk deps.
+* On install, automake calls py-compile, which previously
+  compiled python source code to pyc and pyo, which both
+  got packaged.
+* The python interpreter in OE contains patches to enable
+  optimization (pyo) by default:
+    04-default-is-optimized.patch
+    99-ignore-optimization-flag.patch
+* automake created pyc files by calling py_compile.compile()
+  and adding the c suffix manually, resulting in identical
+  byte code for both pyc and pyo files.
+* py-compile-compile-only-optimized-byte-code.patch
+  applies to automake 1.11 and automake master, but older
+  versions require a slightly modified patch. However,
+  older versions are only pinned by chinook-compat and
+  nylon, so I left them untouched.
 
-All becomes clear now. 
+Signed-off-by: Andreas Oberritter <obi@opendreambox.org>
+Signed-off-by: Khem Raj <raj.khem@gmail.com>
 
-I seem to remember strongly disagreeing with:
+The patch was imported from the OpenEmbedded git server
+(git://git.openembedded.org/openembedded) as of commit id
+aa4585c5065e05c759f16e1e8623fc7f40640f1b.
 
-SDK_NAME = "oecore-${SDK_ARCH}-${TARGET_ARCH}"
-SDKPATH = "/usr/local/${SDK_NAME}"
+Modified to apply to automake version 1.11.2 and to
+include a patch header. Also renamed the patch.
 
-that is in bitbake.conf but probably wasn't able to articulate why at
-the time. You'll note that poky.conf does:
+Signed-off-by: Andreas Oberritter <obi@opendreambox.org>
+---
+ ...-compile-compile-only-optimized-byte-code.patch |   42 ++++++++++++++++++++
+ meta/recipes-devtools/automake/automake_1.11.2.bb  |    5 +-
+ 2 files changed, 45 insertions(+), 2 deletions(-)
+ create mode 100644 meta/recipes-devtools/automake/automake/py-compile-compile-only-optimized-byte-code.patch
 
-SDK_VERSION := "${@'${DISTRO_VERSION}'.replace('snapshot-${DATE}','snapshot')}"
-SDK_NAME = "${DISTRO}-${TCLIBC}-${SDK_ARCH}-${TARGET_ARCH}"
-SDKPATH = "/opt/${DISTRO}/${SDK_VERSION}"
-
-so the SDKPATH is not dependent on TARGET_ARCH. It doesn't need to
-depend on SDK_ARCH either although that is not the problematic part
-here.
-
-If you think about what is happening, bitbake will reuse the sstate
-files for each nativesdk, they are meant to be equivalent for each
-SDKMACHINE. If you hardcode TARGET_ARCH into the path, they are not.
-
-So I'd say that SDKPATH containing SDK_NAME is clearly bogus and
-TARGET_ARCH needs to be removed in somehow at the very least. Fix that
-and your problems should go away. The patches you're sending don't fix
-the root problem though.
-
-Cheers,
-
-Richard
+diff --git a/meta/recipes-devtools/automake/automake/py-compile-compile-only-optimized-byte-code.patch b/meta/recipes-devtools/automake/automake/py-compile-compile-only-optimized-byte-code.patch
+new file mode 100644
+index 0000000..f09bfbc
+--- /dev/null
++++ b/meta/recipes-devtools/automake/automake/py-compile-compile-only-optimized-byte-code.patch
+@@ -0,0 +1,42 @@
++Upstream-Status: Inappropriate [embedded specific]
++
++* OE-Core's python creates the same binary output
++  for both pyc and pyo, so disable the creation of
++  pyc files by automake.
++
++Signed-off-by: Andreas Oberritter <obi@opendreambox.org>
++---
++ lib/py-compile |   17 -----------------
++ 1 files changed, 0 insertions(+), 17 deletions(-)
++
++diff --git a/lib/py-compile b/lib/py-compile
++index 3f9d05b..101c814 100755
++--- a/lib/py-compile
+++++ b/lib/py-compile
++@@ -101,23 +101,6 @@ else
++     filetrans="filepath = os.path.normpath('$destdir' + os.sep + path)"
++ fi
++ 
++-$PYTHON -c "
++-import sys, os, py_compile
++-
++-files = '''$files'''
++-
++-sys.stdout.write('Byte-compiling python modules...\n')
++-for file in files.split():
++-    $pathtrans
++-    $filetrans
++-    if not os.path.exists(filepath) or not (len(filepath) >= 3
++-                                            and filepath[-3:] == '.py'):
++-	    continue
++-    sys.stdout.write(file)
++-    sys.stdout.flush()
++-    py_compile.compile(filepath, filepath + 'c', path)
++-sys.stdout.write('\n')" || exit $?
++-
++ # this will fail for python < 1.5, but that doesn't matter ...
++ $PYTHON -O -c "
++ import sys, os, py_compile
++-- 
++1.7.0.4
++
+diff --git a/meta/recipes-devtools/automake/automake_1.11.2.bb b/meta/recipes-devtools/automake/automake_1.11.2.bb
+index 4534c39..4271336 100644
+--- a/meta/recipes-devtools/automake/automake_1.11.2.bb
++++ b/meta/recipes-devtools/automake/automake_1.11.2.bb
+@@ -37,9 +37,10 @@ PATHFIXPATCH_virtclass-nativesdk = ""
+ SRC_URI += "${PATHFIXPATCH} \
+ 	    file://prefer-cpio-over-pax-for-ustar-archives.patch \
+ 	    file://python-libdir.patch \
+-            file://automake_1.11.2_fix_for_pkglibexec_SCRIPTS.patch"
++            file://automake_1.11.2_fix_for_pkglibexec_SCRIPTS.patch \
++            file://py-compile-compile-only-optimized-byte-code.patch"
+ 
+-PR = "r1"
++PR = "r2"
+ SRC_URI[md5sum] = "18194e804d415767bae8f703c963d456"
+ SRC_URI[sha256sum] = "4f46d1f9380c8a3506280750f630e9fc915cb1a435b724be56b499d016368718"
+ 
+-- 
+1.7.5.4
 
 
 
