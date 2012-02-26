@@ -1,39 +1,39 @@
-Received: from mail-ee0-f47.google.com ([74.125.83.47])
+Received: from mail-wi0-f175.google.com ([209.85.212.175])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <martin.jansa@gmail.com>) id 1S1n6B-0005xv-Eu
+	(envelope-from <koen@dominion.thruhere.net>) id 1S1n8H-000637-Pq
 	for openembedded-core@lists.openembedded.org;
-	Mon, 27 Feb 2012 00:01:47 +0100
-Received: by eekc1 with SMTP id c1so226043eek.6
+	Mon, 27 Feb 2012 00:03:57 +0100
+Received: by wiax18 with SMTP id x18so253914wia.6
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 26 Feb 2012 14:53:22 -0800 (PST)
-Received-SPF: pass (google.com: domain of martin.jansa@gmail.com designates
-	10.14.94.134 as permitted sender) client-ip=10.14.94.134; 
-Authentication-Results: mr.google.com;
-	spf=pass (google.com: domain of martin.jansa@gmail.com
-	designates 10.14.94.134 as permitted sender)
-	smtp.mail=martin.jansa@gmail.com;
-	dkim=pass header.i=martin.jansa@gmail.com
-Received: from mr.google.com ([10.14.94.134])
-	by 10.14.94.134 with SMTP id n6mr6583052eef.63.1330296802059 (num_hops
-	= 1); Sun, 26 Feb 2012 14:53:22 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
-	h=from:to:cc:subject:date:message-id:x-mailer;
-	bh=X3IhZRHY8HaaPL95PcBiyo8OKKzJ3/WPPyop2xYqJJk=;
-	b=qxebfv9jlQLqrTf1cSn1bofUID6fuVyNrKsinOKOKx4UAjiQs6P7xnY+IKJFDP/pxs
-	qgCdeU/34gML2vWA4EG9zPvR6d8NEqstGO7eyI1SdivIVcm4HRQMGrQvqy+kCOcHgHAn
-	5Ux0eaxiNvssNxwajrOqYTM6MjYTQwfcmKNdQ=
-Received: by 10.14.94.134 with SMTP id n6mr4885734eef.63.1330296801952;
-	Sun, 26 Feb 2012 14:53:21 -0800 (PST)
-Received: from localhost ([94.230.152.246])
-	by mx.google.com with ESMTPS id y14sm50490378eef.10.2012.02.26.14.53.20
+	Sun, 26 Feb 2012 14:55:32 -0800 (PST)
+Received-SPF: pass (google.com: domain of koen@dominion.thruhere.net
+	designates 10.180.96.8 as permitted sender)
+	client-ip=10.180.96.8; 
+Authentication-Results: mr.google.com; spf=pass (google.com: domain of
+	koen@dominion.thruhere.net designates 10.180.96.8 as permitted
+	sender) smtp.mail=koen@dominion.thruhere.net
+Received: from mr.google.com ([10.180.96.8])
+	by 10.180.96.8 with SMTP id do8mr13289914wib.21.1330296932522 (num_hops
+	= 1); Sun, 26 Feb 2012 14:55:32 -0800 (PST)
+Received: by 10.180.96.8 with SMTP id do8mr10503865wib.21.1330296932319;
+	Sun, 26 Feb 2012 14:55:32 -0800 (PST)
+Received: from [172.20.0.96] (ip545070eb.adsl-surfen.hetnet.nl.
+	[84.80.112.235])
+	by mx.google.com with ESMTPS id ft8sm18089626wib.11.2012.02.26.14.55.31
 	(version=TLSv1/SSLv3 cipher=OTHER);
-	Sun, 26 Feb 2012 14:53:21 -0800 (PST)
-From: Martin Jansa <martin.jansa@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Date: Sun, 26 Feb 2012 23:53:13 +0100
-Message-Id: <1330296793-23327-1-git-send-email-Martin.Jansa@gmail.com>
-X-Mailer: git-send-email 1.7.8.4
-Subject: [PATCH] arch-armv7.inc: fix quoting
+	Sun, 26 Feb 2012 14:55:31 -0800 (PST)
+Mime-Version: 1.0 (Apple Message framework v1257)
+From: Koen Kooi <koen@dominion.thruhere.net>
+In-Reply-To: <b5c5d99d64381f508be653cc48e793f1e25eb2fe.1330294151.git.paul.eggleton@linux.intel.com>
+Date: Sun, 26 Feb 2012 23:55:25 +0100
+Message-Id: <1A634368-87AC-4206-8B0C-3729A478FF0C@dominion.thruhere.net>
+References: <cover.1330294151.git.paul.eggleton@linux.intel.com>
+	<b5c5d99d64381f508be653cc48e793f1e25eb2fe.1330294151.git.paul.eggleton@linux.intel.com>
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+X-Mailer: Apple Mail (2.1257)
+X-Gm-Message-State: ALoCoQnUDd6qXix2ejhQSnIANSNhtH4OJlRYHbmKOArQfv+mlfUTaISQ6jwNQP3aCbCjYsmHZzeX
+Subject: Re: [PATCH 1/4] qt4: fix compile error in Qt 4.8.0 with gcc 4.6
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -48,28 +48,80 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 26 Feb 2012 23:01:47 -0000
+X-List-Received-Date: Sun, 26 Feb 2012 23:03:57 -0000
+Content-Type: text/plain; charset=us-ascii
+Content-Transfer-Encoding: quoted-printable
 
-Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
----
- meta/conf/machine/include/arm/arch-armv7.inc |    2 +-
- 1 files changed, 1 insertions(+), 1 deletions(-)
 
-diff --git a/meta/conf/machine/include/arm/arch-armv7.inc b/meta/conf/machine/include/arm/arch-armv7.inc
-index 98481aa..33d9f0d 100644
---- a/meta/conf/machine/include/arm/arch-armv7.inc
-+++ b/meta/conf/machine/include/arm/arch-armv7.inc
-@@ -22,7 +22,7 @@ PACKAGE_EXTRA_ARCHS_tune-armv7-neon = "${PACKAGE_EXTRA_ARCHS_tune-armv7} armv7-v
- PACKAGE_EXTRA_ARCHS_tune-armv7t-neon = "${PACKAGE_EXTRA_ARCHS_tune-armv7t} armv7-vfp-neon armv7at2-vfp-neon"
- 
- # VFP Tunes
--AVAILTUNES += "armv7hf armv7thf armv7hf-neon armv7thf-neon
-+AVAILTUNES += "armv7hf armv7thf armv7hf-neon armv7thf-neon"
- TUNE_FEATURES_tune-armv7hf ?= "${TUNE_FEATURES_tune-armv7} callconvention-hard"
- TUNE_FEATURES_tune-armv7thf ?= "${TUNE_FEATURES_tune-armv7t} callconvention-hard"
- TUNE_FEATURES_tune-armv7hf-neon ?= "${TUNE_FEATURES_tune-armv7-neon} callconvention-hard"
--- 
-1.7.8.4
+Op 26 feb. 2012, om 23:27 heeft Paul Eggleton het volgende geschreven:
 
+> Ensure the Qt configure script can can detect the compiler correctly =
+as
+> g++. This fixes the following compile error with gcc 4.6:
+>=20
+> ./wtf/NullPtr.h:48:1: error: identifier 'nullptr' will become a =
+keyword in C++0x [-Werror=3Dc++0x-compat]
+>=20
+> Signed-off-by: Paul Eggleton <paul.eggleton@linux.intel.com>
+> ---
+> meta/recipes-qt/qt4/qt-4.8.0.inc                   |    1 +
+> .../qt4/qt-4.8.0/configure_oe_compiler.patch       |   31 =
+++++++++++++++++++++
+> meta/recipes-qt/qt4/qt4-embedded_4.8.0.bb          |    2 +-
+> 3 files changed, 33 insertions(+), 1 deletions(-)
+> create mode 100644 =
+meta/recipes-qt/qt4/qt-4.8.0/configure_oe_compiler.patch
+>=20
+> diff --git a/meta/recipes-qt/qt4/qt-4.8.0.inc =
+b/meta/recipes-qt/qt4/qt-4.8.0.inc
+> index 2addbb2..532f1ff 100644
+> --- a/meta/recipes-qt/qt4/qt-4.8.0.inc
+> +++ b/meta/recipes-qt/qt4/qt-4.8.0.inc
+> @@ -14,6 +14,7 @@ SRC_URI =3D =
+"http://get.qt.nokia.com/qt/source/qt-everywhere-opensource-src-${PV}.
+>            file://fix-translations.patch \
+>            file://add_nostrip_for_debug_packages.diff \
+>            file://qmake_cxx_eval.patch \
+> +           file://configure_oe_compiler.patch \
+>            file://g++.conf \
+>            file://linux.conf \
+>            "
+> diff --git a/meta/recipes-qt/qt4/qt-4.8.0/configure_oe_compiler.patch =
+b/meta/recipes-qt/qt4/qt-4.8.0/configure_oe_compiler.patch
+> new file mode 100644
+> index 0000000..d455d0a
+> --- /dev/null
+> +++ b/meta/recipes-qt/qt4/qt-4.8.0/configure_oe_compiler.patch
+> @@ -0,0 +1,31 @@
+> +Ensure we identify the compiler as g++ in configure
+> +
+> +Our PLATFORM in OE is ${TARGET_OS}-oe-g++, and previously the =
+configure
+> +script was interpreting from this that the compiler was "oe-g++" and =
+thus
+> +g++ specific checks were not being run since this string did not =
+match;
+> +among other things this resulted in a compiler version check in the
+> +QtWebKit build code not working, and hence the following error at =
+build
+> +time:
+> +
+> +./wtf/NullPtr.h:48:1: error: identifier 'nullptr' will become a =
+keyword in C++0x [-Werror=3Dc++0x-compat]
+> +
+> +The easiest thing since our PLATFORM is entirely artificial is to =
+just
+> +force COMPILER to "g++" in the configure script if it is detected as
+> +"oe-g++".
+> +
+> +Upstream-Status: Inappropriate [configuration]
+> +
+> +Signed-off-by: Paul Eggleton <paul.eggleton@linux.intel.com>
+
+Can I bribe you to make those proper git patches? :)
+
+regards,
+
+Koen=
 
 
