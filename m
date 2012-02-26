@@ -1,42 +1,41 @@
 Received: from mail-ee0-f47.google.com ([74.125.83.47])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <martin.jansa@gmail.com>) id 1S1Yyy-0007Qj-71
+	(envelope-from <martin.jansa@gmail.com>) id 1S1Yzp-0007TH-Bc
 	for openembedded-core@lists.openembedded.org;
-	Sun, 26 Feb 2012 08:57:24 +0100
-Received: by eekc1 with SMTP id c1so31231eek.6
+	Sun, 26 Feb 2012 08:58:17 +0100
+Received: by eekc1 with SMTP id c1so31329eek.6
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 25 Feb 2012 23:48:59 -0800 (PST)
+	Sat, 25 Feb 2012 23:49:52 -0800 (PST)
 Received-SPF: pass (google.com: domain of martin.jansa@gmail.com designates
-	10.213.26.20 as permitted sender) client-ip=10.213.26.20; 
+	10.213.9.148 as permitted sender) client-ip=10.213.9.148; 
 Authentication-Results: mr.google.com;
 	spf=pass (google.com: domain of martin.jansa@gmail.com
-	designates 10.213.26.20 as permitted sender)
+	designates 10.213.9.148 as permitted sender)
 	smtp.mail=martin.jansa@gmail.com;
 	dkim=pass header.i=martin.jansa@gmail.com
-Received: from mr.google.com ([10.213.26.20])
-	by 10.213.26.20 with SMTP id b20mr2734735ebc.19.1330242539564 (num_hops
-	= 1); Sat, 25 Feb 2012 23:48:59 -0800 (PST)
+Received: from mr.google.com ([10.213.9.148])
+	by 10.213.9.148 with SMTP id l20mr2658354ebl.104.1330242592960
+	(num_hops = 1); Sat, 25 Feb 2012 23:49:52 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
-	h=from:to:cc:subject:date:message-id:x-mailer:mime-version
-	:content-type:content-transfer-encoding;
-	bh=msXDOq2q+uCEi6e/nbc28X87k1jgVbZJyeu6NyvvDyg=;
-	b=sZjv7SmRtBKuNXNhT9YJO21DYaAoqVAg1WYZLhW3E02umF7+wk+c+SZnNLnC16jmfr
-	2+HFR6gHEwTYi/IntSZPWhPud9NlN70l/PIH2MmsVIAMCN3N53wLop6PMQXLMBIdaT0N
-	e+9uRNM59micJ669Gm1eMcv6lXHhVyhoCggkQ=
-Received: by 10.213.26.20 with SMTP id b20mr2057229ebc.19.1330242539188;
-	Sat, 25 Feb 2012 23:48:59 -0800 (PST)
+	h=from:to:subject:date:message-id:x-mailer:in-reply-to:references;
+	bh=XsKI953RvKFDkyIK4mSdGMamTqeW1xA/fMYdWAvR0rc=;
+	b=QYiwTkO56hr3z6e04auBGi7h7hYNTPTmUwXKmJPClafBO8hgyFEFFTTLvKEK4WfYCT
+	vrgc5J0ily/v5rM/uIBhu+M3/8OjxzSp53Dl++btcoy+W7UGTzI0JEcdzioE/AulM0GB
+	8klQwGPGIM6Dwe07EFkXYAZbDMmRXf5qyU/aw=
+Received: by 10.213.9.148 with SMTP id l20mr1997274ebl.104.1330242592893;
+	Sat, 25 Feb 2012 23:49:52 -0800 (PST)
 Received: from localhost ([94.230.152.246])
-	by mx.google.com with ESMTPS id u9sm41690299eem.11.2012.02.25.23.48.56
+	by mx.google.com with ESMTPS id y14sm41703072eef.10.2012.02.25.23.49.51
 	(version=TLSv1/SSLv3 cipher=OTHER);
-	Sat, 25 Feb 2012 23:48:58 -0800 (PST)
+	Sat, 25 Feb 2012 23:49:52 -0800 (PST)
 From: Martin Jansa <martin.jansa@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Sun, 26 Feb 2012 08:48:48 +0100
-Message-Id: <cover.1330242184.git.Martin.Jansa@gmail.com>
+Date: Sun, 26 Feb 2012 08:49:40 +0100
+Message-Id: <85003f1e060b6a4406bdde5c48fb9a09bea2ee05.1330242184.git.Martin.Jansa@gmail.com>
 X-Mailer: git-send-email 1.7.8.4
-MIME-Version: 1.0
-Cc: fcooper@ti.com
-Subject: [PATCHv2 0/5] Pending patches
+In-Reply-To: <cover.1330242184.git.Martin.Jansa@gmail.com>
+References: <cover.1330242184.git.Martin.Jansa@gmail.com>
+Subject: [PATCHv2 1/5] bitbake.conf: use weak assignment for BB_CONSOLELOG
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -51,42 +50,29 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 26 Feb 2012 07:57:24 -0000
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Sun, 26 Feb 2012 07:58:17 -0000
 
-Patch 0003 depends on
-http://patchwork.openembedded.org/patch/22047/
+* some people prefer subdirectory like ${TMPDIR}/cooker/${DATETIME}.log
 
-0001 wasn't changed from v1, but still does apply.
+Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
+---
+ meta/conf/bitbake.conf |    3 ++-
+ 1 files changed, 2 insertions(+), 1 deletions(-)
 
-0004/0005 is the same as I've sent as single patches to ML before.
-
-The following changes since commit c44e51f281101c8933679f679e3d4a75a41bedf7:
-
-  initscripts: mount and unmount cifs network filesystems (2012-02-24 23:25:33 +0000)
-
-are available in the git repository at:
-  git://git.openembedded.org/openembedded-core-contrib jansa/pull
-  http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=jansa/pull
-
-Eric BENARD (1):
-  gdb-cross-canadian: build gdb with python support
-
-Martin Jansa (4):
-  bitbake.conf: use weak assignment for BB_CONSOLELOG
-  bitbake.conf: remove TARGET_ARCH from in SDKPATH
-  sstatesig: add SIGGEN_EXCLUDE_SAFE_RECIPE_DEPS option to exclude well
-    defined recipe->dependency
-  layer.conf: add keymaps to SIGGEN_EXCLUDERECIPES_ABISAFE
-
- meta/conf/bitbake.conf                             |   12 +++++++++---
- meta/conf/layer.conf                               |    1 +
- meta/lib/oe/sstatesig.py                           |    6 ++++++
- meta/recipes-devtools/gdb/gdb-cross-canadian.inc   |   20 +++++++++++++++++++-
- .../recipes-devtools/gdb/gdb-cross-canadian_7.4.bb |    2 +-
- 5 files changed, 36 insertions(+), 5 deletions(-)
-
+diff --git a/meta/conf/bitbake.conf b/meta/conf/bitbake.conf
+index 2539ae0..55daa9e 100644
+--- a/meta/conf/bitbake.conf
++++ b/meta/conf/bitbake.conf
+@@ -726,7 +726,8 @@ DISTRO[unexport] = "1"
+ # Used by canadian-cross to handle string conversions on TARGET_ARCH where needed
+ TRANSLATED_TARGET_ARCH ??= "${@d.getVar('TARGET_ARCH', True).replace("_", "-")}"
+ 
+-BB_CONSOLELOG = "${TMPDIR}/cooker.log.${DATETIME}"
++# Complete output from bitbake, if you're changing it, make sure to use existing directory
++BB_CONSOLELOG ?= "${TMPDIR}/cooker.log.${DATETIME}"
+ 
+ # Setup our default hash policy
+ BB_SIGNATURE_HANDLER ?= "OEBasic"
 -- 
 1.7.8.4
 
