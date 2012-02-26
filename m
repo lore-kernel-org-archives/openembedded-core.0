@@ -1,36 +1,27 @@
-Received: from out5-smtp.messagingengine.com ([66.111.4.29])
-	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <walters@verbum.org>) id 1S1dQ3-0003tj-FS
-	for openembedded-core@lists.openembedded.org;
-	Sun, 26 Feb 2012 13:41:39 +0100
-Received: from compute6.internal (compute6.nyi.mail.srv.osa [10.202.2.46])
-	by gateway1.nyi.mail.srv.osa (Postfix) with ESMTP id 76BC5212DD
-	for <openembedded-core@lists.openembedded.org>;
-	Sun, 26 Feb 2012 07:33:16 -0500 (EST)
-Received: from frontend2.nyi.mail.srv.osa ([10.202.2.161])
-	by compute6.internal (MEProxy); Sun, 26 Feb 2012 07:33:16 -0500
-DKIM-Signature: v=1; a=rsa-sha1; c=relaxed/relaxed; d=
-	messagingengine.com; h=subject:from:to:date:in-reply-to
-	:references:content-type:content-transfer-encoding:message-id
-	:mime-version; s=smtpout; bh=bhjHlmQKG4atYr+ZhDykXmq5jWk=; b=Ajy
-	rZf2ROZ5wGgPdnmo371FhSLJvr/i/L/1BPNwFmmCu5TCcaWvSggdkQKW5XhAaOTZ
-	62c21ZCgCc6vP4pIdDWtCioKNJgJjZcL5L0fVjqzZ0icoX7tx7o5c13idU/5wl0r
-	FXvZmpysWkV/rvmcoZm3d3u3Z6B9SeqXTJMRTQYM=
-X-Sasl-enc: 7JSmNsPw8ZoYHNrCgHpbxD4lndZJ49M5jYWpiUfphWOi 1330259596
-Received: from [10.0.250.78] (unknown [89.206.243.164])
-	by mail.messagingengine.com (Postfix) with ESMTPA id 0075E48247C
-	for <openembedded-core@lists.openembedded.org>;
-	Sun, 26 Feb 2012 07:33:15 -0500 (EST)
-From: Colin Walters <walters@verbum.org>
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Date: Sun, 26 Feb 2012 07:32:47 -0500
-In-Reply-To: <1330259412.28988.10.camel@lenny>
-References: <1330185446.13788.40.camel@ted> <1330259412.28988.10.camel@lenny>
-X-Mailer: Evolution 3.0.3 (3.0.3-1.fc15) 
-Message-ID: <1330259567.28988.12.camel@lenny>
+Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
+	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <richard.purdie@linuxfoundation.org>)
+	id 1S1duK-0004Xj-Pb; Sun, 26 Feb 2012 14:12:56 +0100
+Received: from localhost (localhost [127.0.0.1])
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q1QD4VJT013160;
+	Sun, 26 Feb 2012 13:04:31 GMT
+Received: from tim.rpsys.net ([127.0.0.1])
+	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
+	port 10024) with LMTP
+	id 12449-05; Sun, 26 Feb 2012 13:04:25 +0000 (GMT)
+Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q1QD4NgE013154
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO);
+	Sun, 26 Feb 2012 13:04:24 GMT
+Message-ID: <1330261465.31855.4.camel@ted>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: bitbake-devel <bitbake-devel@lists.openembedded.org>
+Date: Sun, 26 Feb 2012 13:04:25 +0000
+X-Mailer: Evolution 3.2.2- 
 Mime-Version: 1.0
-Subject: Re: [PATCH] glib: Drop dbus dependency, it isn't useful
+X-Virus-Scanned: amavisd-new at rpsys.net
+Cc: openembedded-core <openembedded-core@lists.openembedded.org>
+Subject: [PATCH] bitbake/ConfHandler: Be more strict about variable quoting
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -45,28 +36,50 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 26 Feb 2012 12:41:39 -0000
+X-List-Received-Date: Sun, 26 Feb 2012 13:12:57 -0000
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 
-On Sun, 2012-02-26 at 07:30 -0500, Colin Walters wrote:
-> On Sat, 2012-02-25 at 15:57 +0000, Richard Purdie wrote:
-> > dbus is only needed for some of the glib tests which we don't use. We can
-> > therefore drop the dependency and gain some small parallelism gains.
-> 
-> Maybe you want
-> https://bugzilla.gnome.org/show_bug.cgi?id=667806#c4
-> 
-> Care to comment there that it'd be useful for you?
+[cross posted to OE-Core since this is a major change in behaviour but
+in my opinion, probably a good one]
 
-Specifically you should argue that if cross compiling there's no
-point to building the tests (if they're not installed), because
-you can't run them (well, without some qemu hackery).
+Currently, bitbake will accept variables in the forms:
 
-Due to libtool mainly compiling the tests also takes about 20%
-of the build time.
+X = 1
+X = '1 \
 
+X = "1"
+X = '1'
 
+which will all set X=1. This patch removes the first two possibilities
+and makes quoting mandatory. There is little metadata out there which
+doesn't quote properly and bitbake will exit with an error about the
+exact line number and file with any problem so users can easily identify
+and fix issues. OE-Core has already been checked/fixed.
+
+The motivation for this is being able to give sane errors if a user
+does something like:
+
+IMAGE_INSTALL += # tslib mtd-utils"
+
+which currently gives a really nasty failure.
+
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+---
+diff --git a/bitbake/lib/bb/parse/parse_py/ConfHandler.py b/bitbake/lib/bb/parse/parse_py/ConfHandler.py
+index 9242632..64b8208 100644
+--- a/bitbake/lib/bb/parse/parse_py/ConfHandler.py
++++ b/bitbake/lib/bb/parse/parse_py/ConfHandler.py
+@@ -29,8 +29,7 @@ import logging
+ import bb.utils
+ from bb.parse import ParseError, resolve_file, ast, logger
+ 
+-#__config_regexp__  = re.compile( r"(?P<exp>export\s*)?(?P<var>[a-zA-Z0-9\-_+.${}]+)\s*(?P<colon>:)?(?P<ques>\?)?=\s*(?P<apo>['\"]?)(?P<value>.*)(?P=apo)$")
+-__config_regexp__  = re.compile( r"(?P<exp>export\s*)?(?P<var>[a-zA-Z0-9\-_+.${}/]+)(\[(?P<flag>[a-zA-Z0-9\-_+.]+)\])?\s*((?P<colon>:=)|(?P<lazyques>\?\?=)|(?P<ques>\?=)|(?P<append>\+=)|(?P<prepend>=\+)|(?P<predot>=\.)|(?P<postdot>\.=)|=)\s*(?P<apo>['\"]?)(?P<value>.*)(?P=apo)$")
++__config_regexp__  = re.compile( r"(?P<exp>export\s*)?(?P<var>[a-zA-Z0-9\-_+.${}/]+)(\[(?P<flag>[a-zA-Z0-9\-_+.]+)\])?\s*((?P<colon>:=)|(?P<lazyques>\?\?=)|(?P<ques>\?=)|(?P<append>\+=)|(?P<prepend>=\+)|(?P<predot>=\.)|(?P<postdot>\.=)|=)\s*(?P<apo>['\"])(?P<value>.*)(?P=apo)$")
+ __include_regexp__ = re.compile( r"include\s+(.+)" )
+ __require_regexp__ = re.compile( r"require\s+(.+)" )
+ __export_regexp__ = re.compile( r"export\s+(.+)" )
 
 
 
