@@ -1,34 +1,26 @@
-Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
-	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <richard.purdie@linuxfoundation.org>)
-	id 1S1Qh9-0004t2-Cx for openembedded-core@lists.openembedded.org;
-	Sun, 26 Feb 2012 00:06:27 +0100
-Received: from localhost (localhost [127.0.0.1])
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q1PMw48M006919
-	for <openembedded-core@lists.openembedded.org>;
-	Sat, 25 Feb 2012 22:58:04 GMT
-Received: from tim.rpsys.net ([127.0.0.1])
-	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
-	port 10024) with LMTP
-	id 06726-01 for <openembedded-core@lists.openembedded.org>;
-	Sat, 25 Feb 2012 22:58:00 +0000 (GMT)
-Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q1PMvnSq006913
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO)
-	for <openembedded-core@lists.openembedded.org>;
-	Sat, 25 Feb 2012 22:57:56 GMT
-Message-ID: <1330210670.13788.56.camel@ted>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
+Received: from mga09.intel.com ([134.134.136.24])
+	by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <sgw@linux.intel.com>) id 1S1TNe-0006g3-0P
+	for openembedded-core@lists.openembedded.org;
+	Sun, 26 Feb 2012 02:58:30 +0100
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+	by orsmga102.jf.intel.com with ESMTP; 25 Feb 2012 17:50:04 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.67,352,1309762800"; d="scan'208";a="111897532"
+Received: from unknown (HELO [10.255.15.58]) ([10.255.15.58])
+	by orsmga001.jf.intel.com with ESMTP; 25 Feb 2012 17:49:04 -0800
+Message-ID: <4F498F90.80309@linux.intel.com>
+Date: Sat, 25 Feb 2012 17:49:04 -0800
+From: Saul Wold <sgw@linux.intel.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:10.0.1) Gecko/20120216 Thunderbird/10.0.1
+MIME-Version: 1.0
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Date: Sat, 25 Feb 2012 22:57:50 +0000
-In-Reply-To: <20120225191607.GQ3769@jama.jama.net>
-References: <1330185446.13788.40.camel@ted>
-	<20120225191607.GQ3769@jama.jama.net>
-X-Mailer: Evolution 3.2.2- 
-Mime-Version: 1.0
-X-Virus-Scanned: amavisd-new at rpsys.net
-Subject: Re: [PATCH] glib: Drop dbus dependency, it isn't useful
+References: <1330116316-3304-1-git-send-email-Martin.Jansa@gmail.com>
+In-Reply-To: <1330116316-3304-1-git-send-email-Martin.Jansa@gmail.com>
+Cc: Martin Jansa <martin.jansa@gmail.com>
+Subject: Re: [PATCH] layer.conf: use += for SIGGEN_EXCLUDERECIPES_ABISAFE and split to multiple lines
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -43,37 +35,41 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 25 Feb 2012 23:06:27 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Sun, 26 Feb 2012 01:58:30 -0000
+Content-Type: text/plain; charset=ISO-8859-1; format=flowed
 Content-Transfer-Encoding: 7bit
 
-On Sat, 2012-02-25 at 20:16 +0100, Martin Jansa wrote:
-> On Sat, Feb 25, 2012 at 03:57:26PM +0000, Richard Purdie wrote:
-> > dbus is only needed for some of the glib tests which we don't use. We can
-> > therefore drop the dependency and gain some small parallelism gains.
-> > 
-> > Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-> > ---
-> > diff --git a/meta-yocto/conf/distro/poky-tiny.conf b/meta-yocto/conf/distro/poky-tiny.conf
-> > index 411347a..5d1d67a 100644
-> > --- a/meta-yocto/conf/distro/poky-tiny.conf
-> > +++ b/meta-yocto/conf/distro/poky-tiny.conf
-> > @@ -108,3 +108,5 @@ IMAGE_FSTYPES = "ext2 cpio.gz"
-> >  #        variants of all compatible machines, but that leads to a lot
-> >  #        more machine configs to maintain long term.
-> >  MACHINE_ESSENTIAL_EXTRA_RDEPENDS = ""
-> > +
-> > +ASSUME_PROVIDED += "pkgconfig$"
-> 
-> ^^ this doesn't seem related to this patch and what's meaning of trailing $, or just typo?
+On 02/24/2012 12:45 PM, Martin Jansa wrote:
+> * += is important, because if oe-core is in BBLAYERS after some other
+>    layers with SIGGEN_EXCLUDERECIPES_ABISAFE it overwrites their entries
+>
+> Signed-off-by: Martin Jansa<Martin.Jansa@gmail.com>
+> ---
+>   meta/conf/layer.conf |   11 ++++++++++-
+>   1 files changed, 10 insertions(+), 1 deletions(-)
+>
+> diff --git a/meta/conf/layer.conf b/meta/conf/layer.conf
+> index c0c2930..dac9c97 100644
+> --- a/meta/conf/layer.conf
+> +++ b/meta/conf/layer.conf
+> @@ -18,4 +18,13 @@ PATH := "${PATH}:${COREBASE}/scripts"
+>
+>   QEMUIMAGETESTS := "${COREBASE}/scripts/qemuimage-tests"
+>
+> -SIGGEN_EXCLUDERECIPES_ABISAFE = "sysvinit-inittab shadow-securetty opkg-config-base netbase formfactor xserver-xf86-config pointercal base-files"
+> +SIGGEN_EXCLUDERECIPES_ABISAFE += " \
+> +  sysvinit-inittab \
+> +  shadow-securetty \
+> +  opkg-config-base \
+> +  netbase \
+> +  formfactor \
+> +  xserver-xf86-config \
+> +  pointercal \
+> +  base-files \
+> +"
+Merged into OE-core
 
-Right, sorry about that, its a piece of a different patch.
-ASSUME_PROVIDED takes regexps and without that it would match
-pkgconfig-native too so its not a typo.
-
-Cheers,
-
-Richard
-
+Thanks
+	Sau!
 
 
