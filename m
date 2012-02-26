@@ -1,37 +1,36 @@
-Received: from mail-tul01m020-f175.google.com ([209.85.214.175])
+Received: from mail.dream-property.net ([82.149.226.172])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <sakoman@gmail.com>) id 1S1hyR-0008P4-MQ
+	(envelope-from <obi@opendreambox.org>) id 1S1i16-0008SA-Qy
 	for openembedded-core@lists.openembedded.org;
-	Sun, 26 Feb 2012 18:33:27 +0100
-Received: by obhx4 with SMTP id x4so4785305obh.6
+	Sun, 26 Feb 2012 18:36:12 +0100
+Received: from localhost (localhost [127.0.0.1])
+	by mail.dream-property.net (Postfix) with ESMTP id 222673159686
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 26 Feb 2012 09:25:01 -0800 (PST)
-Received-SPF: pass (google.com: domain of sakoman@gmail.com designates
-	10.182.1.104 as permitted sender) client-ip=10.182.1.104; 
-Authentication-Results: mr.google.com;
-	spf=pass (google.com: domain of sakoman@gmail.com
-	designates 10.182.1.104 as permitted sender)
-	smtp.mail=sakoman@gmail.com;
-	dkim=pass header.i=sakoman@gmail.com
-Received: from mr.google.com ([10.182.1.104])
-	by 10.182.1.104 with SMTP id 8mr3917272obl.19.1330277101904 (num_hops =
-	1); Sun, 26 Feb 2012 09:25:01 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
-	h=mime-version:date:message-id:subject:from:to:content-type;
-	bh=yt2zWGqyxZosRGHanHgeOPFCfFvU+ybuBzIzSLdwNvs=;
-	b=o6wFk2tPVyR7+kCIWbSYENN2Ts/In6Qna9f+VVyxQBYj3buBJ7Yas84oM0RD27prfG
-	xubqKlYmhloGdBVQ0WablVEQfsRaHT/TJoskNRNIE6kgGELwhsnLozAWdvEKz4vN0mUJ
-	orgui0K6gzfmu9HwqoYqfG7eX3jFyjdYvOkck=
+	Sun, 26 Feb 2012 18:27:49 +0100 (CET)
+X-Virus-Scanned: Debian amavisd-new at mail.dream-property.net
+Received: from mail.dream-property.net ([127.0.0.1])
+	by localhost (mail.dream-property.net [127.0.0.1]) (amavisd-new,
+	port 10024) with LMTP id ApmQr2iRgUgy
+	for <openembedded-core@lists.openembedded.org>;
+	Sun, 26 Feb 2012 18:27:42 +0100 (CET)
+Received: from [172.22.22.61] (drms-590ed5c2.pool.mediaWays.net
+	[89.14.213.194])
+	(using TLSv1 with cipher DHE-RSA-AES256-SHA (256/256 bits))
+	(No client certificate requested)
+	by mail.dream-property.net (Postfix) with ESMTPSA id 594D73159685
+	for <openembedded-core@lists.openembedded.org>;
+	Sun, 26 Feb 2012 18:27:42 +0100 (CET)
+Message-ID: <4F4A6B8D.5030103@opendreambox.org>
+Date: Sun, 26 Feb 2012 18:27:41 +0100
+From: Andreas Oberritter <obi@opendreambox.org>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:10.0.2) Gecko/20120216 Thunderbird/10.0.2
 MIME-Version: 1.0
-Received: by 10.182.1.104 with SMTP id 8mr3500617obl.19.1330277101841; Sun, 26
-	Feb 2012 09:25:01 -0800 (PST)
-Received: by 10.182.246.8 with HTTP; Sun, 26 Feb 2012 09:25:01 -0800 (PST)
-Date: Sun, 26 Feb 2012 09:25:01 -0800
-Message-ID: <CAGDS+nk2zxHM05n1rKzW8q-sgOmiMCVdwRP_LvWJ-B+1_8hH5Q@mail.gmail.com>
-From: Steve Sakoman <sakoman@gmail.com>
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: elfutils - missing dependency on bzip2?
+To: openembedded-core@lists.openembedded.org
+References: <1330132760-12519-1-git-send-email-obi@opendreambox.org>
+	<D1EF2FB1-9919-42C2-B9D0-E6584B6C7BD8@dominion.thruhere.net>
+In-Reply-To: <D1EF2FB1-9919-42C2-B9D0-E6584B6C7BD8@dominion.thruhere.net>
+Subject: Re: [PATCH] bzip2: split into binary and library packages
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -46,24 +45,20 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 26 Feb 2012 17:33:27 -0000
+X-List-Received-Date: Sun, 26 Feb 2012 17:36:12 -0000
 Content-Type: text/plain; charset=ISO-8859-1
+Content-Transfer-Encoding: 7bit
 
-After a pull this morning the rebuild if elfutils fails with:
+On 25.02.2012 10:02, Koen Kooi wrote:
+> 
+> Op 25 feb. 2012, om 02:19 heeft Andreas Oberritter het volgende geschreven:
+> 
+>> * Create libbz2 (and -dev, -staticdev), which can be
+>>  installed without the bzip2 executables.
+> 
+> You need a PR bump for everything that links against libbz2 to ensure clean upgrade paths.
 
-| /usr/bin/ld: cannot find -lbz2
-| collect2: ld returned 1 exit status
-| make[3]: *** [libdw.so] Error 1
-| make[3]: Leaving directory
-`/media/Work/yocto/tmp/work/i686-linux/elfutils-native-0.148-r5/elfutils-0.148/libdw'
-
-If I build bzip2-native and then rebuild elfutils-native all is well
-and the build continues until the next failure (mesa-dri-glsl-native,
-fwiw, haven't investigated that one yet).
-
-Anyone else see this, or is it just another case of my build machines
-being in a strange state?
-
-Steve
+Are you sure? I'm asking because existing packages still depend on
+bzip2, which now depends on libbz2.
 
 
