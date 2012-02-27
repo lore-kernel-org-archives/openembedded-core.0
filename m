@@ -1,48 +1,55 @@
-Received: from mail-lpp01m010-f47.google.com ([209.85.215.47])
+Received: from tx2ehsobe003.messaging.microsoft.com ([65.55.88.13]
+	helo=TX2EHSOBE006.bigfish.com)
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <raj.khem@gmail.com>) id 1S28ZR-00062L-V0
+	(envelope-from <B29882@freescale.com>) id 1S28ct-0006UJ-DL
 	for openembedded-core@lists.openembedded.org;
-	Mon, 27 Feb 2012 22:57:26 +0100
-Received: by lagw12 with SMTP id w12so1176081lag.6
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 27 Feb 2012 13:48:59 -0800 (PST)
-Received-SPF: pass (google.com: domain of raj.khem@gmail.com designates
-	10.152.147.1 as permitted sender) client-ip=10.152.147.1; 
-Authentication-Results: mr.google.com;
-	spf=pass (google.com: domain of raj.khem@gmail.com
-	designates 10.152.147.1 as permitted sender)
-	smtp.mail=raj.khem@gmail.com;
-	dkim=pass header.i=raj.khem@gmail.com
-Received: from mr.google.com ([10.152.147.1])
-	by 10.152.147.1 with SMTP id tg1mr13202374lab.22.1330379339320
-	(num_hops = 1); Mon, 27 Feb 2012 13:48:59 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc:content-type:content-transfer-encoding;
-	bh=YrY9taNM20UStaGg9Pc2A0p2fND4htej+NsxMAYE8xY=;
-	b=x2on8SI7gkpjnRAoOgWdcVvb7hxDIwXfSUz8alw2Vtg97jQx7eBlr7bl+eesLZiA21
-	jSEJ1p+LsdbHiyPKqo5cWFagXnl/IqiJ+cOG/GsuuCFfpYl2TUzKS3t7+7pO0MTxkFsh
-	wtCKc3LV5LL3wMNVDReONren4uzwbeMRANhpg=
-Received: by 10.152.147.1 with SMTP id tg1mr11009612lab.22.1330379339257; Mon,
-	27 Feb 2012 13:48:59 -0800 (PST)
-MIME-Version: 1.0
-Received: by 10.152.27.109 with HTTP; Mon, 27 Feb 2012 13:48:29 -0800 (PST)
-In-Reply-To: <4F4BF66C.7000706@linux.intel.com>
-References: <cover.1330369680.git.sgw@linux.intel.com>
-	<1917f9e3ccf8558491f0f671ba0525319cd3cf02.1330369680.git.sgw@linux.intel.com>
-	<CAMKF1sq+4=fD2kyK2BHjuCcompqcb01ThpJak+59VvD1EycDxw@mail.gmail.com>
-	<4F4BF66C.7000706@linux.intel.com>
-From: Khem Raj <raj.khem@gmail.com>
-Date: Mon, 27 Feb 2012 13:48:29 -0800
-Message-ID: <CAMKF1srGBvkQSUtfcGvfko+bYprwu9GdiRQ1a0gZDEKizhieFA@mail.gmail.com>
-To: Saul Wold <sgw@linux.intel.com>
-Cc: Patches and discussions about the oe-core layer
+	Mon, 27 Feb 2012 23:00:59 +0100
+Received: from mail90-tx2-R.bigfish.com (10.9.14.247) by
+	TX2EHSOBE006.bigfish.com (10.9.40.26) with Microsoft SMTP Server id
+	14.1.225.23; Mon, 27 Feb 2012 21:52:29 +0000
+Received: from mail90-tx2 (localhost [127.0.0.1])	by mail90-tx2-R.bigfish.com
+	(Postfix) with ESMTP id 397641E023F;
+	Mon, 27 Feb 2012 21:52:29 +0000 (UTC)
+X-SpamScore: -7
+X-BigFish: VS-7(zz9371I1432N98dKzz1202hzz8275bhz2dh2a8h668h839h8e2h8e3hbe9k)
+X-Forefront-Antispam-Report: CIP:70.37.183.190; KIP:(null); UIP:(null); IPV:NLI;
+	H:mail.freescale.net; RD:none; EFVD:NLI
+Received: from mail90-tx2 (localhost.localdomain [127.0.0.1]) by mail90-tx2
+	(MessageSwitch) id 1330379547507929_2581;
+	Mon, 27 Feb 2012 21:52:27 +0000 (UTC)
+Received: from TX2EHSMHS043.bigfish.com (unknown [10.9.14.253])	by
+	mail90-tx2.bigfish.com (Postfix) with ESMTP id 791CD2C004B;
+	Mon, 27 Feb 2012 21:52:27 +0000 (UTC)
+Received: from mail.freescale.net (70.37.183.190) by TX2EHSMHS043.bigfish.com
+	(10.9.99.143) with Microsoft SMTP Server (TLS) id 14.1.225.23;
+	Mon, 27 Feb 2012 21:52:25 +0000
+Received: from 039-SN1MPN1-001.039d.mgd.msft.net ([169.254.1.244]) by
+	039-SN1MMR1-002.039d.mgd.msft.net ([10.84.1.15]) with mapi id
+	14.01.0355.003; Mon, 27 Feb 2012 15:52:24 -0600
+From: McClintock Matthew-B29882 <B29882@freescale.com>
+To: "openembedded-core@lists.openembedded.org"
 	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 03/13] util-linux: Update to 2.21
+Thread-Topic: [OE-core] [PATCH 3/4] arch-powerpc.inc: use default value of
+	TUNE_PKGARCH
+Thread-Index: AQHM9ZitFM6YWEDQ5Eyj6FPOiid9ypZRrXiA
+Date: Mon, 27 Feb 2012 21:52:24 +0000
+Message-ID: <CAEsOVNesVgqxo-yG3rj=22OoYD6OKiNZqeXxg2APZcu8qav4+Q@mail.gmail.com>
+References: <1330371531-28803-1-git-send-email-msm@freescale.com>
+	<1330371531-28803-3-git-send-email-msm@freescale.com>
+	<CAEsOVNeSWS_X8UjbzofCOEdssxz8mVBtwEa+nwLzfrEXJW3MmQ@mail.gmail.com>
+In-Reply-To: <CAEsOVNeSWS_X8UjbzofCOEdssxz8mVBtwEa+nwLzfrEXJW3MmQ@mail.gmail.com>
+Accept-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [99.47.177.27]
+MIME-Version: 1.0
+X-OriginatorOrg: freescale.com
+Subject: Re: [PATCH 3/4] arch-powerpc.inc: use default value of TUNE_PKGARCH
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
-Reply-To: Patches and discussions about the oe-core layer
+Reply-To: McClintock Matthew-B29882 <B29882@freescale.com>,
+	Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
 List-Id: Patches and discussions about the oe-core layer
 	<openembedded-core.lists.openembedded.org>
@@ -53,29 +60,52 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 27 Feb 2012 21:57:26 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Mon, 27 Feb 2012 22:00:59 -0000
+Content-Language: en-US
+Content-Type: text/plain; charset="iso-8859-1"
+Content-ID: <8742CCD56CA71C41B451E6D7DD9908A2@mgd.freescale.com>
 Content-Transfer-Encoding: quoted-printable
 
-On Mon, Feb 27, 2012 at 1:32 PM, Saul Wold <sgw@linux.intel.com> wrote:
-> On 02/27/2012 11:31 AM, Khem Raj wrote:
->>
->> On Mon, Feb 27, 2012 at 11:10 AM, Saul Wold<sgw@linux.intel.com> =C2=A0w=
+On Mon, Feb 27, 2012 at 3:41 PM, Matthew McClintock <msm@freescale.com> wro=
+te:
+> On Mon, Feb 27, 2012 at 1:38 PM, Matthew McClintock <msm@freescale.com> w=
 rote:
->>>
->>>
->>> -CACHED_CONFIGUREVARS +=3D "scanf_cv_type_modifier=3Das"
->>> +CACHED_CONFIGUREVARS +=3D "scanf_cv_alloc_modifier=3Das"
+>> We can use the default value for TUNE_PKGARCH, and now we just
+>> append "-nf" if no float is the build target
 >>
+>> Signed-off-by: Matthew McClintock <msm@freescale.com>
+>> ---
+>> =A0meta/conf/machine/include/powerpc/arch-powerpc.inc | =A0 =A03 +--
+>> =A01 files changed, 1 insertions(+), 2 deletions(-)
 >>
->> can you explain this change ?
+>> diff --git a/meta/conf/machine/include/powerpc/arch-powerpc.inc b/meta/c=
+onf/machine/include/powerpc/arch-powerpc.inc
+>> index c9b2829..350f9a9 100644
+>> --- a/meta/conf/machine/include/powerpc/arch-powerpc.inc
+>> +++ b/meta/conf/machine/include/powerpc/arch-powerpc.inc
+>> @@ -20,8 +20,7 @@ ABIEXTENSION =3D "${@['','spe'][d.getVar('TARGET_FPU',=
+ True) in ['ppc-efd', 'ppc-e
 >>
-> The configure setup changed from the "type" -> "alloc",
-
-ok thanks
-
-
->>
+>> =A0PPCPKGSFX_FPU =3D "${@bb.utils.contains("TUNE_FEATURES", "fpu-hard" ,=
+ "", "-nf", d)}"
 >
+> This bit above needs to change too.. we need to reverse the logic:
+>
+> -PPCPKGSFX_FPU =3D "${@bb.utils.contains("TUNE_FEATURES", "fpu-hard" ,
+> "", "-nf", d)}"
+> +PPCPKGSFX_FPU =3D "${@bb.utils.contains("TUNE_FEATURES", "fpu-soft" ,
+> "-nf", "", d)}"
+>
+> So for parts with an SPE which define ppc-efd and ppc-efs we don't get
+> the '-nf' appended (the part this patch adds just below)
+
+Or perhaps after finding some python/bitbake foo:
+
+PPCPKGSFX_FPU =3D "${@['', '-nf', '',
+'-gnuspe'][bb.data.getVar('TARGET_FPU',d,1) in ['fpu-hard',
+'fpu-soft', 'ppc-efs', 'ppc-efd']]}"
+
+-M=
+
 
 
