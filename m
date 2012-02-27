@@ -1,47 +1,21 @@
-Received: from mail-bk0-f47.google.com ([209.85.214.47])
+Received: from [78.110.170.148] (helo=tinyArch.localdomain)
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <schnitzeltony@googlemail.com>) id 1S20nZ-0001Jd-1o
+	(envelope-from <ml@communistcode.co.uk>) id 1S20vT-0001YO-B1
 	for openembedded-core@lists.openembedded.org;
-	Mon, 27 Feb 2012 14:39:29 +0100
-Received: by bkcjg15 with SMTP id jg15so1225660bkc.6
+	Mon, 27 Feb 2012 14:47:39 +0100
+Received: from [192.168.0.59] (unknown [195.171.99.130])
+	by tinyArch.localdomain (Postfix) with ESMTPSA id 0501B275BA
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 27 Feb 2012 05:31:02 -0800 (PST)
-Received-SPF: pass (google.com: domain of schnitzeltony@googlemail.com
-	designates 10.112.85.199 as permitted sender)
-	client-ip=10.112.85.199; 
-Authentication-Results: mr.google.com; spf=pass (google.com: domain of
-	schnitzeltony@googlemail.com designates 10.112.85.199 as
-	permitted sender) smtp.mail=schnitzeltony@googlemail.com;
-	dkim=pass header.i=schnitzeltony@googlemail.com
-Received: from mr.google.com ([10.112.85.199])
-	by 10.112.85.199 with SMTP id j7mr6086117lbz.26.1330349462934 (num_hops
-	= 1); Mon, 27 Feb 2012 05:31:02 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=googlemail.com; s=gamma;
-	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
-	:content-type:content-transfer-encoding;
-	bh=e2j3Ii8UUS1cIR1doFrAVccxfBiWyxc6Jy3zUSeXLKc=;
-	b=K1KnYxLsYVLe5es7hf8mJIYXJ9gn6jt/UIyjtfIGfQxqeRYQpLcPeh8YXWnPesG4y7
-	ZTZAP/BvtKjnFfeCXcA//gyDgF3j9ffquRMw7roI3AuosSjCvb395e95cxRqfu9RCeVm
-	AFxhv96vBCxcXNQg67YSaRC8kwoK1APS58ON0=
+	Mon, 27 Feb 2012 12:38:54 +0000 (GMT)
+Message-ID: <4F4B878A.6000802@communistcode.co.uk>
+Date: Mon, 27 Feb 2012 13:39:22 +0000
+From: Jack Mitchell <ml@communistcode.co.uk>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:10.0.2) Gecko/20120217 Thunderbird/10.0.2
 MIME-Version: 1.0
-Received: by 10.112.85.199 with SMTP id j7mr5108999lbz.26.1330349462783; Mon,
-	27 Feb 2012 05:31:02 -0800 (PST)
-Received: by 10.112.29.74 with HTTP; Mon, 27 Feb 2012 05:31:02 -0800 (PST)
-In-Reply-To: <1330345164.4593.18.camel@ted>
-References: <CALbNGRSPf7xJ8wziDTbi7c6vsbwx-ve93dJioJBru5RNusferw@mail.gmail.com>
-	<CAEsOVNdi-m0y=FsJ_yu8CxK=UiPYdrV8bAV3_Y0mzKc6ft+h3g@mail.gmail.com>
-	<CAMKF1srj5zBNQy=bQ1Co0jEV6yryx=EU=vyy2+3KwGUEUxiYkw@mail.gmail.com>
-	<CALbNGRS49UDHDMCS9=fePkuEXEd_fOJ0WSxcsSf2aeCstdNxKg@mail.gmail.com>
-	<6DB1E138-F4A8-432A-AB83-793B911CE68A@dominion.thruhere.net>
-	<CALbNGRQU7BDK5WGYgaXbCwmki922wk_EBkBqZadLL5G=5pCPQA@mail.gmail.com>
-	<1330345164.4593.18.camel@ted>
-Date: Mon, 27 Feb 2012 14:31:02 +0100
-Message-ID: <CALbNGRT3g9z-5-=9ePN88X9f-1FrDTQuyhBPveHTGmtrPbpRcw@mail.gmail.com>
-From: =?ISO-8859-1?Q?Andreas_M=FCller?= <schnitzeltony@googlemail.com>
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Subject: Re: [oe] gcc-cross-initial patching fails
+Subject: udev 181 compilation error
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -56,91 +30,181 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 27 Feb 2012 13:39:29 -0000
-Content-Type: text/plain; charset=ISO-8859-1
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Mon, 27 Feb 2012 13:47:39 -0000
+Content-Type: multipart/alternative;
+	boundary="------------090100060809080501070508"
 
-On Mon, Feb 27, 2012 at 1:19 PM, Richard Purdie
-<richard.purdie@linuxfoundation.org> wrote:
-> On Mon, 2012-02-27 at 12:37 +0100, Andreas M=FCller wrote:
->> On Thu, Feb 23, 2012 at 8:18 PM, Koen Kooi <koen@dominion.thruhere.net> =
-wrote:
->> >
->> > Op 22 feb. 2012, om 22:39 heeft Andreas M=FCller het volgende geschrev=
-en:
->> >
->> >> On Wed, Feb 22, 2012 at 10:18 PM, Khem Raj <raj.khem@gmail.com> wrote=
-:
->> >>> On Wed, Feb 22, 2012 at 12:15 PM, McClintock Matthew-B29882
->> >>> <B29882@freescale.com> wrote:
->> >>>>> Applying patch gcc45-no-add-needed.patch
->> >>>>> patching file gcc/config/alpha/elf.h
->> >>>>> patching file gcc/config/ia64/linux.h
->> >>>>> patching file gcc/config/linux.h
->> >>>>> Hunk #1 succeeded at 89 (offset -12 lines).
->> >>>>> patching file gcc/config/rs6000/sysv4.h
->> >>>>> Hunk #1 FAILED at 908.
->> >>>>> 1 out of 1 hunk FAILED -- rejects in file gcc/config/rs6000/sysv4.=
-h
->> >>>>> Patch gcc45-no-add-needed.patch does not apply (enforce with -f)
->> >>>>> ERROR: Function failed: patch_do_patch
->> >>>>> ERROR: Logfile of failure stored in:
->> >>>>> /home/Superandy/tmp/oe-core-eglibc/work-shared/gcc-4.5-r45+svnr181=
-733/temp/log.do_patch.5367
->> >>>>> NOTE: package gcc-cross-initial-4.5-r45+svnr181733: task do_patch:=
- Failed
->> >>>>> ERROR: Task 2829
->> >>>>> (/home/Superandy/data/oe-core/sources/meta-openembedded/meta-oe/re=
-cipes-devtools/gcc/gcc-cross-initial_4.5.bb,
->> >>>>> do_patch) failed with exit code '1'
->> >>>>>
->> >>>>> git log does not help me much - =A0what goes wrong?
->> >>>>
->> >>>> Which actual patch is it failing on? Is there a conflict between
->> >>>> oe-core and meta-oe patch set against gcc?
->> >>>
->> >>> gcc45-no-add-needed.patch is the patch in question. I dont see
->> >>> anything wrong with it.
->> >>> Can you do bitbake -ccleanall gcc-cross-initial and redo bitbake
->> >>> gcc-cross-initial -cpatch ?
->> >>>
->> >> FYI: I removed the line which came in by the commits I mentioned abov=
-e
->> >>
->> >> should_apply[vardepsexclude] +=3D "PN"
->> >>
->> >> in openembedded-core/meta/recipes-devtools/gcc/gcc-common.inc
->> >>
->> >> and build from scratch works without issues.
->> >
->> > I received reports of the same problem and I handed your fix to them, =
-I'm waiting to hear back.
->> >
->> Having some experience to this problem now, I have the feeling that
->> there is some race condition on patching. I think gcc-cross-initial /
->> gcc-cross-intermediate / gcc-runtime share same source directory -
->> correct me if I am wrong. In case all start patching about the same
->> time, the patches don't match for those being late. This theory is
->> encouraged by the fact that the following sequence helps when building
->> from scratch:
->>
->> 1. bitbake gcc-cross-initial
->> 2. bitbake gcc-cross-intermediate
->> 3. bitbake gcc-runtime
->> 4. bitbake <my-image>
->
-> Does gcc-4.5 have different patch sets for any of the above?
->
-> Its now being assumed there is one good patch set shared by all the
-> recipes (since we're sharing the source directory). If that were not the
-> case it would explain the issues some people are reporting...
->
-meta-oe gcc-runtime_4.5 says:
+--------------090100060809080501070508
+Content-Type: text/plain; charset=ISO-8859-1; format=flowed
+Content-Transfer-Encoding: 7bit
 
-SRC_URI_append =3D "file://fortran-cross-compile-hack.patch"
+I receive the following error when compiling Angstrom related to udev 181.
 
-Is this a possible culprit?
+    In file included from src/extras/mtd_probe/mtd_probe.c:19:0:
+    *src/extras/mtd_probe/mtd_probe.h:20:26: fatal error:
+    mtd/mtd-user.h: No such file or directory
+    compilation terminated.
+    src/extras/mtd_probe/probe_smartmedia.c:22:26: fatal error:
+    mtd/mtd-user.h: No such file or directory
+    compilation terminated.*
+    make[2]: ***
+    [src/extras/mtd_probe/src_extras_mtd_probe_mtd_probe-mtd_probe.o]
+    Error 1
+    make[2]: *** Waiting for unfinished jobs....
+    make[2]: ***
+    [src/extras/mtd_probe/src_extras_mtd_probe_mtd_probe-probe_smartmedia.o]
+    Error 1
+    arm-angstrom-linux-gnueabi-libtool: link:
+    arm-angstrom-linux-gnueabi-gcc  -march=armv7-a
+    -fno-tree-vectorize      -mthumb-interwork -mfloat-abi=softfp
+    -mfpu=neon -mtune=cortex-a8
+    --sysroot=/home/jack/angstrom/build/tmp-angstrom_2010_x-eglibc/sysroots/beaglebone
+    -shared  -fPIC -DPIC  src/.libs/libudev.o src/.libs/libudev-list.o
+    src/.libs/libudev-util.o src/.libs/libudev-device.o
+    src/.libs/libudev-enumerate.o src/.libs/libudev-monitor.o
+    src/.libs/libudev-queue.o   -lrt  -march=armv7-a -mthumb-interwork
+    -mfloat-abi=softfp -mfpu=neon -mtune=cortex-a8
+    --sysroot=/home/jack/angstrom/build/tmp-angstrom_2010_x-eglibc/sysroots/beaglebone
+    -O2 -Wl,--gc-sections -Wl,--as-needed -Wl,-O1 -Wl,--hash-style=gnu
+    -Wl,--as-needed   -Wl,-soname -Wl,libudev.so.0 -o
+    src/.libs/libudev.so.0.13.1
+    arm-angstrom-linux-gnueabi-libtool: link:
+    arm-angstrom-linux-gnueabi-gcc -march=armv7-a -fno-tree-vectorize
+    -mthumb-interwork -mfloat-abi=softfp -mfpu=neon -mtune=cortex-a8
+    --sysroot=/home/jack/angstrom/build/tmp-angstrom_2010_x-eglibc/sysroots/beaglebone
+    -Wall -Wmissing-declarations -Wmissing-prototypes -Wnested-externs
+    -Wpointer-arith -Wpointer-arith -Wsign-compare -Wchar-subscripts
+    -Wstrict-prototypes -Wshadow -Wformat-security -Wtype-limits
+    -fvisibility=hidden -ffunction-sections -fdata-sections -O2 -pipe -g
+    -feliminate-unused-debug-types -Wl,--gc-sections -Wl,--as-needed
+    -Wl,-O1 -Wl,--hash-style=gnu -Wl,--as-needed -o
+    src/extras/keymap/keymap
+    src/extras/keymap/src_extras_keymap_keymap-keymap.o  -lrt
+    arm-angstrom-linux-gnueabi-libtool: link:
+    arm-angstrom-linux-gnueabi-ar cru src/.libs/libudev-private.a
+    src/.libs/libudev.o src/.libs/libudev-list.o
+    src/.libs/libudev-util.o src/.libs/libudev-device.o
+    src/.libs/libudev-enumerate.o src/.libs/libudev-monitor.o
+    src/.libs/libudev-queue.o src/.libs/libudev-util-private.o
+    src/.libs/libudev-device-private.o src/.libs/libudev-queue-private.o
+    arm-angstrom-linux-gnueabi-libtool: link:
+    arm-angstrom-linux-gnueabi-ranlib src/.libs/libudev-private.a
+    arm-angstrom-linux-gnueabi-libtool: link: ( cd "src/.libs" && rm -f
+    "libudev-private.la" && ln -s "../libudev-private.la"
+    "libudev-private.la" )
+    arm-angstrom-linux-gnueabi-libtool: link: (cd "src/.libs" && rm -f
+    "libudev.so.0" && ln -s "libudev.so.0.13.1" "libudev.so.0")
+    arm-angstrom-linux-gnueabi-libtool: link: (cd "src/.libs" && rm -f
+    "libudev.so" && ln -s "libudev.so.0.13.1" "libudev.so")
+    arm-angstrom-linux-gnueabi-libtool: link: ( cd "src/.libs" && rm -f
+    "libudev.la" && ln -s "../libudev.la" "libudev.la" )
+    make[1]: *** [all-recursive] Error 1
+    make: *** [all] Error 2
+    + die 'oe_runmake failed'
+    + bbfatal 'oe_runmake failed'
+    + echo 'ERROR: oe_runmake failed'
+    ERROR: oe_runmake failed
+    + exit 1
 
-Andreas
+Does anyone have any insight to this?
 
+Regards,
+Jack.
 
+--------------090100060809080501070508
+Content-Type: text/html; charset=ISO-8859-1
+Content-Transfer-Encoding: 7bit
+
+<html>
+  <head>
+
+    <meta http-equiv="content-type" content="text/html; charset=ISO-8859-1">
+  </head>
+  <body bgcolor="#FFFFFF" text="#000000">
+    <tt>I receive the following error when compiling Angstrom related to
+      udev 181.<br>
+      <br>
+    </tt>
+    <blockquote><tt>In file included from
+        src/extras/mtd_probe/mtd_probe.c:19:0:<br>
+        <b>src/extras/mtd_probe/mtd_probe.h:20:26: fatal error:
+          mtd/mtd-user.h: No such file or directory<br>
+          compilation terminated.<br>
+          src/extras/mtd_probe/probe_smartmedia.c:22:26: fatal error:
+          mtd/mtd-user.h: No such file or directory<br>
+          compilation terminated.</b><br>
+        make[2]: ***
+        [src/extras/mtd_probe/src_extras_mtd_probe_mtd_probe-mtd_probe.o]
+        Error 1<br>
+        make[2]: *** Waiting for unfinished jobs....<br>
+        make[2]: ***
+        [src/extras/mtd_probe/src_extras_mtd_probe_mtd_probe-probe_smartmedia.o]
+        Error 1<br>
+        arm-angstrom-linux-gnueabi-libtool: link:
+        arm-angstrom-linux-gnueabi-gcc&nbsp; -march=armv7-a
+        -fno-tree-vectorize&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; -mthumb-interwork -mfloat-abi=softfp
+        -mfpu=neon -mtune=cortex-a8
+        --sysroot=/home/jack/angstrom/build/tmp-angstrom_2010_x-eglibc/sysroots/beaglebone
+        -shared&nbsp; -fPIC -DPIC&nbsp; src/.libs/libudev.o
+        src/.libs/libudev-list.o src/.libs/libudev-util.o
+        src/.libs/libudev-device.o src/.libs/libudev-enumerate.o
+        src/.libs/libudev-monitor.o src/.libs/libudev-queue.o&nbsp;&nbsp; -lrt&nbsp;
+        -march=armv7-a -mthumb-interwork -mfloat-abi=softfp -mfpu=neon
+        -mtune=cortex-a8
+        --sysroot=/home/jack/angstrom/build/tmp-angstrom_2010_x-eglibc/sysroots/beaglebone
+        -O2 -Wl,--gc-sections -Wl,--as-needed -Wl,-O1
+        -Wl,--hash-style=gnu -Wl,--as-needed&nbsp;&nbsp; -Wl,-soname
+        -Wl,libudev.so.0 -o src/.libs/libudev.so.0.13.1<br>
+        arm-angstrom-linux-gnueabi-libtool: link:
+        arm-angstrom-linux-gnueabi-gcc -march=armv7-a
+        -fno-tree-vectorize -mthumb-interwork -mfloat-abi=softfp
+        -mfpu=neon -mtune=cortex-a8
+        --sysroot=/home/jack/angstrom/build/tmp-angstrom_2010_x-eglibc/sysroots/beaglebone
+        -Wall -Wmissing-declarations -Wmissing-prototypes
+        -Wnested-externs -Wpointer-arith -Wpointer-arith -Wsign-compare
+        -Wchar-subscripts -Wstrict-prototypes -Wshadow -Wformat-security
+        -Wtype-limits -fvisibility=hidden -ffunction-sections
+        -fdata-sections -O2 -pipe -g -feliminate-unused-debug-types
+        -Wl,--gc-sections -Wl,--as-needed -Wl,-O1 -Wl,--hash-style=gnu
+        -Wl,--as-needed -o src/extras/keymap/keymap
+        src/extras/keymap/src_extras_keymap_keymap-keymap.o&nbsp; -lrt<br>
+        arm-angstrom-linux-gnueabi-libtool: link:
+        arm-angstrom-linux-gnueabi-ar cru src/.libs/libudev-private.a
+        src/.libs/libudev.o src/.libs/libudev-list.o
+        src/.libs/libudev-util.o src/.libs/libudev-device.o
+        src/.libs/libudev-enumerate.o src/.libs/libudev-monitor.o
+        src/.libs/libudev-queue.o src/.libs/libudev-util-private.o
+        src/.libs/libudev-device-private.o
+        src/.libs/libudev-queue-private.o<br>
+        arm-angstrom-linux-gnueabi-libtool: link:
+        arm-angstrom-linux-gnueabi-ranlib src/.libs/libudev-private.a<br>
+        arm-angstrom-linux-gnueabi-libtool: link: ( cd "src/.libs"
+        &amp;&amp; rm -f "libudev-private.la" &amp;&amp; ln -s
+        "../libudev-private.la" "libudev-private.la" )<br>
+        arm-angstrom-linux-gnueabi-libtool: link: (cd "src/.libs"
+        &amp;&amp; rm -f "libudev.so.0" &amp;&amp; ln -s
+        "libudev.so.0.13.1" "libudev.so.0")<br>
+        arm-angstrom-linux-gnueabi-libtool: link: (cd "src/.libs"
+        &amp;&amp; rm -f "libudev.so" &amp;&amp; ln -s
+        "libudev.so.0.13.1" "libudev.so")<br>
+        arm-angstrom-linux-gnueabi-libtool: link: ( cd "src/.libs"
+        &amp;&amp; rm -f "libudev.la" &amp;&amp; ln -s "../libudev.la"
+        "libudev.la" )<br>
+        make[1]: *** [all-recursive] Error 1<br>
+        make: *** [all] Error 2<br>
+        + die 'oe_runmake failed'<br>
+        + bbfatal 'oe_runmake failed'<br>
+        + echo 'ERROR: oe_runmake failed'<br>
+        ERROR: oe_runmake failed<br>
+        + exit 1<br>
+        <br>
+      </tt></blockquote>
+    <tt>Does anyone have any insight to this?<br>
+      <br>
+      Regards,<br>
+      Jack.<br>
+    </tt>
+  </body>
+</html>
+
+--------------090100060809080501070508--
