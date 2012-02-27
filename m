@@ -1,27 +1,55 @@
-Received: from col0-omc3-s16.col0.hotmail.com ([65.55.34.154])
+Received: from va3ehsobe001.messaging.microsoft.com ([216.32.180.11]
+	helo=VA3EHSOBE003.bigfish.com)
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <kyoonn@hotmail.com>)
-	id 1S29Ni-00073f-Fz; Mon, 27 Feb 2012 23:49:23 +0100
-Received: from COL120-W36 ([65.55.34.135]) by col0-omc3-s16.col0.hotmail.com
-	with Microsoft SMTPSVC(6.0.3790.4675); 
-	Mon, 27 Feb 2012 14:39:51 -0800
-Message-ID: <COL120-W36A0C340F8E742B6764468DD690@phx.gbl>
-X-Originating-IP: [70.137.142.215]
-From: simran singh <kyoonn@hotmail.com>
-To: <openembedded-core@lists.openembedded.org>,
-	<openembedded-devel@lists.openembedded.org>
-Date: Mon, 27 Feb 2012 14:39:49 -0800
-Importance: Normal
-In-Reply-To: <COL120-W40B503FFC0574E4957B971DD6B0@phx.gbl>
-References: <COL120-W40B503FFC0574E4957B971DD6B0@phx.gbl>
+	(envelope-from <B29882@freescale.com>) id 1S29bs-0007hm-NH
+	for openembedded-core@lists.openembedded.org;
+	Tue, 28 Feb 2012 00:04:00 +0100
+Received: from mail15-va3-R.bigfish.com (10.7.14.243) by
+	VA3EHSOBE003.bigfish.com (10.7.40.23) with Microsoft SMTP Server id
+	14.1.225.23; Mon, 27 Feb 2012 22:55:33 +0000
+Received: from mail15-va3 (localhost [127.0.0.1])	by mail15-va3-R.bigfish.com
+	(Postfix) with ESMTP id E52251E051F	for
+	<openembedded-core@lists.openembedded.org>;
+	Mon, 27 Feb 2012 22:55:33 +0000 (UTC)
+X-SpamScore: -7
+X-BigFish: VS-7(zz9371I1432N98dKzz1202hzz8275bh8275dhz2dh2a8h668h839h8e2h8e3hbe9k)
+X-Forefront-Antispam-Report: CIP:70.37.183.190; KIP:(null); UIP:(null); IPV:NLI;
+	H:mail.freescale.net; RD:none; EFVD:NLI
+Received: from mail15-va3 (localhost.localdomain [127.0.0.1]) by mail15-va3
+	(MessageSwitch) id 1330383331849492_25566;
+	Mon, 27 Feb 2012 22:55:31 +0000 (UTC)
+Received: from VA3EHSMHS025.bigfish.com (unknown [10.7.14.243])	by
+	mail15-va3.bigfish.com (Postfix) with ESMTP id C0035E0049	for
+	<openembedded-core@lists.openembedded.org>;
+	Mon, 27 Feb 2012 22:55:31 +0000 (UTC)
+Received: from mail.freescale.net (70.37.183.190) by VA3EHSMHS025.bigfish.com
+	(10.7.99.35) with Microsoft SMTP Server (TLS) id 14.1.225.23;
+	Mon, 27 Feb 2012 22:55:30 +0000
+Received: from 039-SN1MPN1-001.039d.mgd.msft.net ([169.254.1.244]) by
+	039-SN1MMR1-001.039d.mgd.msft.net ([10.84.1.13]) with mapi id
+	14.01.0355.003; Mon, 27 Feb 2012 16:55:29 -0600
+From: McClintock Matthew-B29882 <B29882@freescale.com>
+To: "openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+Thread-Topic: [OE-core] [PATCH 1/4] multilib.bbclass: allow
+	TARGET_VENDOR_virtclass-multilib to be overriden
+Thread-Index: AQHM9aLmWIqY6KZElEa7DCbn4B6BZw==
+Date: Mon, 27 Feb 2012 22:55:29 +0000
+Message-ID: <CAEsOVNe9iwAbQ8jFFTY8hVroy2nTm7-XauGgFyV+x_4DtFOxUg@mail.gmail.com>
+References: <1330371531-28803-1-git-send-email-msm@freescale.com>
+In-Reply-To: <1330371531-28803-1-git-send-email-msm@freescale.com>
+Accept-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [99.47.177.27]
 MIME-Version: 1.0
-X-OriginalArrivalTime: 27 Feb 2012 22:39:51.0238 (UTC)
-	FILETIME=[B7B22660:01CCF5A0]
-Subject: Re: [oe] BOTAN crypto library
+X-OriginatorOrg: freescale.com
+Subject: Re: [PATCH 1/4] multilib.bbclass: allow TARGET_VENDOR_virtclass-multilib to be overriden
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
-Reply-To: Patches and discussions about the oe-core layer
+Reply-To: McClintock Matthew-B29882 <B29882@freescale.com>,
+	Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
 List-Id: Patches and discussions about the oe-core layer
 	<openembedded-core.lists.openembedded.org>
@@ -32,126 +60,59 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 27 Feb 2012 22:49:23 -0000
-Content-Type: multipart/alternative;
-	boundary="_b5ac102b-4580-45ea-8930-771cec077aca_"
-
---_b5ac102b-4580-45ea-8930-771cec077aca_
+X-List-Received-Date: Mon, 27 Feb 2012 23:04:00 -0000
+Content-Language: en-US
 Content-Type: text/plain; charset="iso-8859-1"
+Content-ID: <0FCE4598CB45734187F72FAC5C88006F@mgd.freescale.com>
 Content-Transfer-Encoding: quoted-printable
 
+Per conversation with Saul on IRC - I'll push a branch to poky-contrib
+for my 6 pending patches.
 
-Hello=2C
+-M
+
+On Mon, Feb 27, 2012 at 1:38 PM, Matthew McClintock <msm@freescale.com> wro=
+te:
+> If we set this bit, we can override the ugly "pokymllib32" to back to
+> "poky" (powerpc-pokymllib32-linux-gcc -> powerpc-poky-linux-gcc). I've
+> left this unset by default, but can be set by adding the following:
+>
+> TARGET_VENDOR_virtclass-multilib-lib32 =3D "-poky"
+>
+> Signed-off-by: Matthew McClintock <msm@freescale.com>
+> ---
+> =A0meta/classes/multilib.bbclass | =A0 =A03 ++-
+> =A01 files changed, 2 insertions(+), 1 deletions(-)
+>
+> diff --git a/meta/classes/multilib.bbclass b/meta/classes/multilib.bbclas=
+s
+> index 87d0cd4..61b7765 100644
+> --- a/meta/classes/multilib.bbclass
+> +++ b/meta/classes/multilib.bbclass
+> @@ -26,7 +26,8 @@ python multilib_virtclass_handler () {
+> =A0 =A0 e.data.setVar("MLPREFIX", variant + "-")
+> =A0 =A0 e.data.setVar("PN", variant + "-" + e.data.getVar("PN", False))
+> =A0 =A0 e.data.setVar("SHLIBSDIR_virtclass-multilib-" + variant ,e.data.g=
+etVar("SHLIBSDIR", False) + "/" + variant)
+> - =A0 =A0e.data.setVar("TARGET_VENDOR_virtclass-multilib-" + variant, e.d=
+ata.getVar("TARGET_VENDOR", False) + "ml" + variant)
+> + =A0 =A0if e.data.getVar("TARGET_VENDOR_virtclass-multilib-" + variant, =
+False) is None:
+> + =A0 =A0 =A0 =A0 =A0 e.data.setVar("TARGET_VENDOR_virtclass-multilib-" +=
+ variant, e.data.getVar("TARGET_VENDOR", False) + "ml" + variant)
+> =A0 =A0 e.data.setVar("OVERRIDES", e.data.getVar("OVERRIDES", False) + ov=
+erride)
+> =A0}
+>
+> --
+> 1.7.6.1
+>
+>
+>
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core=
 
 
 
-I figured out the solution. Posting here for someone else lost like me.
-
-
-
-Had to add this line:
-
-
-
-export LDFLAGS =3D "-L${STAGING_LIBDIR}"
-
-
-
-
-
-From: kyoonn@hotmail.com
-To: openembedded-core@lists.openembedded.org=3B openembedded-devel@lists.op=
-enembedded.org
-Date: Fri=2C 24 Feb 2012 16:15:19 -0800
-Subject: [oe] BOTAN crypto library
-
-=20
-Hello=2C
-=20
-I hope this is right place to ask for help regarding this. I am trying to b=
-uild the Botan crytpo library using
-system builder. I created a recipe for this and I am getting an error when =
-I try to $make the library.
-This is the error I am getting:
-=20
-| /usr/bin/ld: /home/Simran/Freescale/QorIQ-DPAA-SDK-20111026-systembuilder=
-/build_p4080ds_release/sysroots/
-ppce500mc-linux/usr/lib/crti.o: Relocations in generic ELF (EM: 20)
-| /usr/bin/ld: /home/Simran/Freescale/QorIQ-DPAA-SDK-20111026-systembuilder=
-/build_p4080ds_release/sysroots/
-ppce500mc-linux/usr/lib/crti.o: Relocations in generic ELF (EM: 20)
-| /home/Simran/Freescale/QorIQ-DPAA-SDK-20111026-systembuilder/build_p4080d=
-s_release/sysroots/
-ppce500mc-linux/usr/lib/crti.o: could not read symbols: File in wrong forma=
-t
-| collect2: ld returned 1 exit status
-| make: *** [libbotan-1.10.so.0.1] Error 1
-| ERROR: Function do_install failed
-=20
-I am guessing this has to do something with the linking of the libbotan-1.1=
-0.so.0.1 file. Please advice. I have attached
-the recipe that I created
-Thank you for any help.
-=20
-Simran
- 		 	   		 =20
-
-_______________________________________________
-Openembedded-devel mailing list
-Openembedded-devel@lists.openembedded.org
-http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-devel 		 	=
-   		  =
-
---_b5ac102b-4580-45ea-8930-771cec077aca_
-Content-Type: text/html; charset="iso-8859-1"
-Content-Transfer-Encoding: quoted-printable
-
-<html>
-<head>
-<style><!--
-.hmmessage P
-{
-margin:0px=3B
-padding:0px
-}
-body.hmmessage
-{
-font-size: 10pt=3B
-font-family:Tahoma
-}
---></style></head>
-<body class=3D'hmmessage'><div dir=3D'ltr'>
-Hello=2C<br>
-<br>
-I figured out the solution. Posting here for someone else lost like me.<br>
-<br>
-Had to add this line:<br>
-<br>
-export LDFLAGS =3D "-L${STAGING_LIBDIR}"<br><br><br><br><br><br><div><div i=
-d=3D"SkyDrivePlaceholder"></div>From: kyoonn@hotmail.com<br>To: openembedde=
-d-core@lists.openembedded.org=3B openembedded-devel@lists.openembedded.org<=
-br>Date: Fri=2C 24 Feb 2012 16:15:19 -0800<br>Subject: [oe] BOTAN crypto li=
-brary<br><br><pre> <br>Hello=2C<br> <br>I hope this is right place to ask f=
-or help regarding this. I am trying to build the Botan crytpo library using=
-<br>system builder. I created a recipe for this and I am getting an error w=
-hen I try to $make the library.<br>This is the error I am getting:<br> <br>=
-| /usr/bin/ld: /home/Simran/Freescale/QorIQ-DPAA-SDK-20111026-systembuilder=
-/build_p4080ds_release/sysroots/<br>ppce500mc-linux/usr/lib/crti.o: Relocat=
-ions in generic ELF (EM: 20)<br>| /usr/bin/ld: /home/Simran/Freescale/QorIQ=
--DPAA-SDK-20111026-systembuilder/build_p4080ds_release/sysroots/<br>ppce500=
-mc-linux/usr/lib/crti.o: Relocations in generic ELF (EM: 20)<br>| /home/Sim=
-ran/Freescale/QorIQ-DPAA-SDK-20111026-systembuilder/build_p4080ds_release/s=
-ysroots/<br>ppce500mc-linux/usr/lib/crti.o: could not read symbols: File in=
- wrong format<br>| collect2: ld returned 1 exit status<br>| make: *** [libb=
-otan-1.10.so.0.1] Error 1<br>| ERROR: Function do_install failed<br> <br>I =
-am guessing this has to do something with the linking of the libbotan-1.10.=
-so.0.1 file. Please advice. I have attached<br>the recipe that I created<br=
->Thank you for any help.<br> <br>Simran<br> 		 	   		  <br></pre><br>______=
-_________________________________________
-Openembedded-devel mailing list
-Openembedded-devel@lists.openembedded.org
-http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-devel</div=
-> 		 	   		  </div></body>
-</html>=
-
---_b5ac102b-4580-45ea-8930-771cec077aca_--
