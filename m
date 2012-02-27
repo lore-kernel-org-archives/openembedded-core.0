@@ -1,36 +1,45 @@
-Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
-	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <richard.purdie@linuxfoundation.org>)
-	id 1S207I-0000J9-1d for openembedded-core@lists.openembedded.org;
-	Mon, 27 Feb 2012 13:55:49 +0100
-Received: from localhost (localhost [127.0.0.1])
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q1RClLvw027333
+Received: from mail-ey0-f193.google.com ([209.85.215.193])
+	by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <martin.jansa@gmail.com>) id 1S20W5-0000xn-Sn
+	for openembedded-core@lists.openembedded.org;
+	Mon, 27 Feb 2012 14:21:25 +0100
+Received: by eaad13 with SMTP id d13so1100414eaa.0
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 27 Feb 2012 12:47:21 GMT
-Received: from tim.rpsys.net ([127.0.0.1])
-	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
-	port 10024) with LMTP
-	id 26721-08 for <openembedded-core@lists.openembedded.org>;
-	Mon, 27 Feb 2012 12:47:17 +0000 (GMT)
-Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q1RClBKE027326
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO)
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 27 Feb 2012 12:47:12 GMT
-Message-ID: <1330346833.4593.22.camel@ted>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
+	Mon, 27 Feb 2012 05:12:59 -0800 (PST)
+Received-SPF: pass (google.com: domain of martin.jansa@gmail.com designates
+	10.14.133.10 as permitted sender) client-ip=10.14.133.10; 
+Authentication-Results: mr.google.com;
+	spf=pass (google.com: domain of martin.jansa@gmail.com
+	designates 10.14.133.10 as permitted sender)
+	smtp.mail=martin.jansa@gmail.com;
+	dkim=pass header.i=martin.jansa@gmail.com
+Received: from mr.google.com ([10.14.133.10])
+	by 10.14.133.10 with SMTP id p10mr5111102eei.36.1330348379286 (num_hops
+	= 1); Mon, 27 Feb 2012 05:12:59 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
+	h=date:from:to:subject:message-id:references:mime-version
+	:content-type:content-disposition:in-reply-to:user-agent;
+	bh=zPIdOuyy3xCwBTzebr8URYnyK7oNr0hR5+IadlEEEIA=;
+	b=T95xHTPZ/s4fOhcLNLH7rkewYop+0vvGFdtm+acoa0Oj5WcTDcLAicqy7OMrQmaGSc
+	M5SJEtH2CrKUXGgFt1Vor1Sg/jHnaLBju5sGXuqF9rjbm0OmyTVjPvdqKGvf8vX5Tnfl
+	26mX1Uyp3BX7FAXxssQytuc2ikle8M8pg+170=
+Received: by 10.14.133.10 with SMTP id p10mr3853600eei.36.1330348379153;
+	Mon, 27 Feb 2012 05:12:59 -0800 (PST)
+Received: from localhost ([94.230.152.246])
+	by mx.google.com with ESMTPS id s48sm57943179eem.0.2012.02.27.05.12.57
+	(version=TLSv1/SSLv3 cipher=OTHER);
+	Mon, 27 Feb 2012 05:12:58 -0800 (PST)
+Date: Mon, 27 Feb 2012 14:12:56 +0100
+From: Martin Jansa <martin.jansa@gmail.com>
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Date: Mon, 27 Feb 2012 12:47:13 +0000
-In-Reply-To: <20120227123641.GH3859@jama.jama.net>
-References: <20120222221309.69BFD10336@opal>
-	<20120227103306.GG3859@jama.jama.net>
-	<06A495EB-6F73-4325-A055-EEEBC01D93A4@dominion.thruhere.net>
-	<1330344828.4593.14.camel@ted> <20120227123641.GH3859@jama.jama.net>
-X-Mailer: Evolution 3.2.2- 
-Mime-Version: 1.0
-X-Virus-Scanned: amavisd-new at rpsys.net
-Subject: Re: [oe-commits] Joshua Lock : netbase: remove redundant assignments
+Message-ID: <20120227131256.GI3859@jama.jama.net>
+References: <20120214230044.GB3914@jama.jama.net>
+	<20120224123243.GJ3769@jama.jama.net>
+MIME-Version: 1.0
+In-Reply-To: <20120224123243.GJ3769@jama.jama.net>
+User-Agent: Mutt/1.5.21 (2010-09-15)
+Subject: Re: DEPENDS not extended to -native for BBCLASSEXTENDS when added by PACKAGECONFIG
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -45,96 +54,177 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 27 Feb 2012 12:55:49 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Mon, 27 Feb 2012 13:21:26 -0000
+X-Groupsio-MsgNum: 18030
+Content-Type: multipart/signed; micalg=pgp-sha1;
+	protocol="application/pgp-signature"; boundary="xs+9IvWevLaxKUtW"
+Content-Disposition: inline
 
-On Mon, 2012-02-27 at 13:36 +0100, Martin Jansa wrote:
-> On Mon, Feb 27, 2012 at 12:13:48PM +0000, Richard Purdie wrote:
-> > On Mon, 2012-02-27 at 12:31 +0100, Koen Kooi wrote:
-> > > Op 27 feb. 2012, om 11:33 heeft Martin Jansa het volgende geschreven:
-> > > 
-> > > > On Wed, Feb 22, 2012 at 10:13:09PM +0000, git@git.openembedded.org wrote:
-> > > >> Module: openembedded-core.git
-> > > >> Branch: master
-> > > >> Commit: c3d5800d2850a186f91b5a0db642aa5d1c20156b
-> > > >> URL:    http://git.openembedded.org/?p=openembedded-core.git&a=commit;h=c3d5800d2850a186f91b5a0db642aa5d1c20156b
-> > > >> 
-> > > >> Author: Joshua Lock <josh@linux.intel.com>
-> > > >> Date:   Tue Feb 21 17:46:44 2012 -0800
-> > > >> 
-> > > >> netbase: remove redundant assignments
-> > > >> 
-> > > >> There's no need to explicitly set PACKAGE_ARCH = MACHINE_ARCH, base.bbclass
-> > > >> takes care of setting this value for us based on the interfaces for those
-> > > >> machines being an OVERRIDE.
-> > > > 
-> > > > do_install () {
-> > > > ...
-> > > >        # Disable network manager on machines that commonly do NFS booting
-> > > >        case "${MACHINE}" in
-> > > >                "qemuarm" | "qemux86" | "qemux86-64" | "qemumips" | "qemuppc" )
-> > > > 
-> > > > This causes do_install hash to depend on MACHINE variable for all MACHINEs, 
-> > > > so making whole recipe MACHINE_ARCH would be more effective then rebuilding 
-> > > > TARGET_ARCH package after every MACHINE switch.
-> > > 
-> > > That whole bit needs to go into the specific nfs image recipe, not
-> > > into the recipe. Unless we decide nfs is the one and only way to boot
-> > > qemu machines.
-> > 
-> > Clearly the qemu machines boot on non-nfs setups just fine and the
-> > comment is just a bit stale here.
-> > 
-> > For qemu we expect the IP address to be stable and consistent so we know
-> > where to find it and we don't expect it to disappear. The problem was
-> > that if network manager starts poking around the main ethernet
-> > interface, anything can go wrong (e.g. random QA test failures if
-> > networkmanager decided to change the interface at the wrong moment). We
-> > therefore really do know better than network manager when it comes to
-> > ethernet connectivity into our qemu images.
-> > 
-> > There are a few options here:
-> > 
-> > a) Whitelist the MACHINE variable in hashes apart from the qemu machines
-> > 
-> > b) Change the code to a do_install_append_qemu* which would mean the
-> > hashes become stable.
-> 
-> I'm fine with this but maybe then return PACKAGE_ARCH setting for them
-> as we would be assuming that every machine with such append also have
-> own interfaces file in SRC_URI (this is now true better to see it
-> explicitly set above do_install_append_qemu* statement IMHO).
+--xs+9IvWevLaxKUtW
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Agreed.
+On Fri, Feb 24, 2012 at 01:32:43PM +0100, Martin Jansa wrote:
+> On Wed, Feb 15, 2012 at 12:00:44AM +0100, Martin Jansa wrote:
+> > oe-core gtk+ has:
+> >=20
+> > X11DEPENDS =3D "virtual/libx11 libxext libxcursor libxrandr libxdamage =
+libxrender libxcomposite"
+> > DEPENDS =3D "glib-2.0 pango atk jpeg libpng gtk-doc-native gdk-pixbuf-n=
+ative docbook-utils-native \
+> >  libgcrypt cairo gdk-pixbuf"
+> > PACKAGECONFIG[x11] =3D "--with-x=3Dyes --with-gdktarget=3Dx11,--with-x=
+=3Dno,${X11DEPENDS}"
+> >=20
+> > meta-oe adds BBCLASSEXTEND =3D "native"
+> > because gtk+-native-2* is needed for gtk+3 to build:
+> > http://git.openembedded.org/meta-openembedded/commit/?id=3Da4155ac38dce=
+214cbb59f6243b29ca3df76e0d29
+> >=20
+> > I would expect that all dependencies added by x11 PACKAGECONFIG will be=
+ expanded=20
+> > to -native variants like for every other dependency, but it's not true:
+> >=20
+> > gtk-native.env:X11DEPENDS=3D"virtual/libx11 libxext libxcursor libxrand=
+r libxdamage libxrender libxcomposite"
+> > gtk-native.env:# DEPENDS=3Dpkgconfig-native ${@autotools_dep_prepend(d)=
+}${BASEDEPENDS} glib-2.0-native pango-native atk-native jpeg-native libpng-=
+native gtk-doc-native gdk-pixbuf-native docbook-utils-native libgcrypt-nati=
+ve cairo-native gdk-pixbuf-native ${X11DEPENDS}
+> > gtk-gative.env:DEPENDS=3D"pkgconfig-native autoconf-native automake-nat=
+ive libtool-native gnu-config-native  glib-2.0-native pango-native atk-nati=
+ve jpeg-native libpng-native gtk-doc-native gdk-pixbuf-native docbook-utils=
+-native libgcrypt-native cairo-native gdk-pixbuf-native virtual/libx11 libx=
+ext libxcursor libxrandr libxdamage libxrender libxcomposite"
+> >=20
+> > gtk-target.env:X11DEPENDS=3D"virtual/libx11 libxext libxcursor libxrand=
+r libxdamage libxrender libxcomposite"
+> > gtk-target.env:# DEPENDS=3Dpkgconfig-native ${@autotools_dep_prepend(d)=
+}${BASEDEPENDS} glib-2.0 pango atk jpeg libpng gtk-doc-native gdk-pixbuf-na=
+tive docbook-utils-native  libgcrypt cairo gdk-pixbuf ${X11DEPENDS}
+> > gtk-target.env:DEPENDS=3D"pkgconfig-native autoconf-native automake-nat=
+ive libtool-native libtool-cross gnu-config-native  virtual/arm-oe-linux-gn=
+ueabi-gcc virtual/arm-oe-linux-gnueabi-compilerlibs virtual/libc  glib-2.0 =
+pango atk jpeg libpng gtk-doc-native gdk-pixbuf-native docbook-utils-native=
+  libgcrypt cairo gdk-pixbuf virtual/libx11 libxext libxcursor libxrandr li=
+bxdamage libxrender libxcomposite"
+> >=20
+> > And gtk+-native builds fails to configure because of missing libxrender=
+-native (libx11-native is built by something else probably).
+> >=20
+> > configure:23318: checking for XOpenDisplay
+> > configure:23318: gcc -o conftest -DGDK_PIXBUF_DISABLE_DEPRECATED -isyst=
+em/var/lib/jenkins/jobs/shr-core/workspace/shr-core/tmp-eglibc/sysroots/x86=
+_64-linux/usr/include -O2 -pipe -Wall -isystem/var/lib/jenkins/jobs/shr-cor=
+e/workspace/shr-core/tmp-eglibc/sysroots/x86_64-linux/usr/include -DG_DISAB=
+LE_SINGLE_INCLUDES -DATK_DISABLE_SINGLE_INCLUDES -DGDK_PIXBUF_DISABLE_SINGL=
+E_INCLUDES -DGTK_DISABLE_SINGLE_INCLUDES  -L/var/lib/jenkins/jobs/shr-core/=
+workspace/shr-core/tmp-eglibc/sysroots/x86_64-linux/usr/lib -L/var/lib/jenk=
+ins/jobs/shr-core/workspace/shr-core/tmp-eglibc/sysroots/x86_64-linux/lib -=
+Wl,-rpath-link,/var/lib/jenkins/jobs/shr-core/workspace/shr-core/tmp-eglibc=
+/sysroots/x86_64-linux/usr/lib -Wl,-rpath-link,/var/lib/jenkins/jobs/shr-co=
+re/workspace/shr-core/tmp-eglibc/sysroots/x86_64-linux/lib -Wl,-rpath,/var/=
+lib/jenkins/jobs/shr-core/workspace/shr-core/tmp-eglibc/sysroots/x86_64-lin=
+ux/usr/lib -Wl,-rpath,/var/lib/jenkins/jobs/shr-core/workspace/shr-core/tmp=
+-eglibc/sysroots/x86_64-linux/lib -Wl,-O1 conftest.c  -lXext -lXrender -lX1=
+1    >&5
+> > /usr/bin/ld: cannot find -lXrender
+> > collect2: ld returned 1 exit status
+> > configure:23318: $? =3D 1
+> > configure: failed program was:
+> > ...
+> > configure:23318: result: no
+> > configure:23322: error: *** libX11 not found. Check 'config.log' for mo=
+re details.
+> >=20
+> > Regards,
+>=20
+> any idea about this? I'm tired of building virtual/libx11-native and
+> libxrender-native manually after each gtk+-native build error :/.
+>=20
+> Yes I can fix it in gtk+ bbappend by repeating
+> PACKAGECONFIG/DISTRO_FEATURES logic fog DEPENDS_virtclass-native, but
+> this seems like bug in PACKAGECONFIG handling and could be in more
+> recipes.
 
-> > c) Shove the information into a qemu specific package. 
-> > 
-> > The trouble with c) before everyone decides its the best is how/when do
-> > you include that package. It really needs to be present whenever network
-> > manager is present. I don't want to end up with someone installing it
-> > from feeds and getting different behaviour as it would be a nightmare to
-> > debug.
-> 
-> Bit of off-topic, but do we really need
-> EXTRA_IMAGEDEPENDS += "qemu-native qemu-helper-native"
-> in meta/conf/machine/include/qemu.inc?
-> 
-> My guess is that in many cases host running builds isn't the same box
-> where someone is using native qemu to test those images. (e.g. in my
-> case I'm running builds in minimal chroot, while using distribution qemu
-> to test resulting images).
+I've added bb.error to PACKAGECONFIG handling and virtclass-native
+handler and PACKAGECONFIG is executed _always_ after virtclass-native
+(or nativesdk), so all dependencies added by PACKAGECONFIG are not=20
+available for virtclass-native handler to process.
 
-We have a lot of manuals and user expectation that:
+With tmp-eglibc/cache removed to force reparse of all recipes I have
+this order of handlers:
+OE qemux86-64@ ~/oe-core $ grep "\(cairo\)\|\(gtk+\)\|\(libsdl\)\|\(pango\)=
+\|\(xserver-xorg\)" log
+ERROR: Executing virtclass-native handle for gtk+
+ERROR: Executing PACKAGECONFIG handle for gtk+
+ERROR: Executing virtclass-native handle for gtk+-native
+ERROR: Executing PACKAGECONFIG handle for gtk+-native
+ERROR: Executing virtclass-native handle for gtk+
+ERROR: Executing PACKAGECONFIG handle for gtk+
+ERROR: Executing virtclass-native handle for gtk+
+ERROR: Executing PACKAGECONFIG handle for gtk+
+ERROR: Executing virtclass-native handle for libsdl
+ERROR: Executing PACKAGECONFIG handle for libsdl
+ERROR: Executing virtclass-native handle for libsdl-nativesdk
+ERROR: Executing PACKAGECONFIG handle for libsdl-nativesdk
+ERROR: Executing virtclass-native handle for pango
+ERROR: Executing PACKAGECONFIG handle for pango
+ERROR: Executing virtclass-native handle for pango-native
+ERROR: Executing PACKAGECONFIG handle for pango-native
+ERROR: Executing virtclass-native handle for cairo
+ERROR: Executing PACKAGECONFIG handle for cairo
+ERROR: Executing virtclass-native handle for cairo-native
+ERROR: Executing PACKAGECONFIG handle for cairo-native
+ERROR: Executing virtclass-native handle for xserver-xorg
+ERROR: Executing PACKAGECONFIG handle for xserver-xorg
+ERROR: Executing virtclass-native handle for xserver-xorg-lite
+ERROR: Executing PACKAGECONFIG handle for xserver-xorg-lite
+ERROR: Executing virtclass-native handle for python-pycairo
+ERROR: Executing PACKAGECONFIG handle for gtk+
+ERROR: Executing virtclass-native handle for gtk+-native
+ERROR: Executing PACKAGECONFIG handle for gtk+-native
+ERROR: Executing virtclass-native handle for pango
+ERROR: Executing PACKAGECONFIG handle for pango
+ERROR: Executing virtclass-native handle for pango-native
+ERROR: Executing PACKAGECONFIG handle for pango-native
+ERROR: Executing virtclass-native handle for cairo
+ERROR: Executing PACKAGECONFIG handle for cairo
+ERROR: Executing virtclass-native handle for cairo-native
+ERROR: Executing PACKAGECONFIG handle for cairo-native
+ERROR: Executing virtclass-native handle for pango
+ERROR: Executing PACKAGECONFIG handle for pango
+ERROR: Executing virtclass-native handle for cairo
+ERROR: Executing PACKAGECONFIG handle for cairo
 
-bitbake some-image
-runqemu some-image
-
-'just works'. That dependency is the only way we can ensure it :/
+Can we convert PACKAGECONFIG from anonymous python function in
+base.bbclass to handler like native is and somehow define order of
+handlers (like with addtask)?
 
 Cheers,
 
-Richard
+>=20
+> Cheers,
+>=20
+> --=20
+> Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
 
 
 
+--=20
+Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
+
+--xs+9IvWevLaxKUtW
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: Digital signature
+
+-----BEGIN PGP SIGNATURE-----
+Version: GnuPG v2.0.18 (GNU/Linux)
+
+iEYEARECAAYFAk9LgVgACgkQN1Ujt2V2gBw4tACfdZukcS2fhlFRgWdM5SqA0YkN
+DXgAnApD5NZfeUVgY8yXu4mCB/n/2Vxj
+=qwUZ
+-----END PGP SIGNATURE-----
+
+--xs+9IvWevLaxKUtW--
