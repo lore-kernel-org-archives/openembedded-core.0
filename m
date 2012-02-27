@@ -1,38 +1,27 @@
-Received: from mail-wi0-f175.google.com ([209.85.212.175])
+Received: from mga01.intel.com ([192.55.52.88])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <koen@dominion.thruhere.net>) id 1S21Gf-0002LV-R2
+	(envelope-from <dongxiao.xu@intel.com>) id 1S21I7-0002PA-UL
 	for openembedded-core@lists.openembedded.org;
-	Mon, 27 Feb 2012 15:09:33 +0100
-Received: by wibhq12 with SMTP id hq12so215362wib.6
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 27 Feb 2012 06:01:07 -0800 (PST)
-Received-SPF: pass (google.com: domain of koen@dominion.thruhere.net
-	designates 10.180.95.34 as permitted sender)
-	client-ip=10.180.95.34; 
-Authentication-Results: mr.google.com; spf=pass (google.com: domain of
-	koen@dominion.thruhere.net designates 10.180.95.34 as permitted
-	sender) smtp.mail=koen@dominion.thruhere.net
-Received: from mr.google.com ([10.180.95.34])
-	by 10.180.95.34 with SMTP id dh2mr11551028wib.15.1330351267521
-	(num_hops = 1); Mon, 27 Feb 2012 06:01:07 -0800 (PST)
-Received: by 10.180.95.34 with SMTP id dh2mr9089690wib.15.1330351267435;
-	Mon, 27 Feb 2012 06:01:07 -0800 (PST)
-Received: from [172.20.1.36] (ip545070eb.adsl-surfen.hetnet.nl.
-	[84.80.112.235])
-	by mx.google.com with ESMTPS id p10sm22507330wic.0.2012.02.27.06.01.06
-	(version=TLSv1/SSLv3 cipher=OTHER);
-	Mon, 27 Feb 2012 06:01:06 -0800 (PST)
-Mime-Version: 1.0 (Apple Message framework v1257)
-From: Koen Kooi <koen@dominion.thruhere.net>
-In-Reply-To: <1330346629.4593.20.camel@ted>
-Date: Mon, 27 Feb 2012 15:01:05 +0100
-Message-Id: <3980D06F-534C-41A8-8EB5-49F692FB9E66@dominion.thruhere.net>
-References: <1330346629.4593.20.camel@ted>
+	Mon, 27 Feb 2012 15:11:04 +0100
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+	by fmsmga101.fm.intel.com with ESMTP; 27 Feb 2012 06:02:36 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="121887701"
+Received: from dongxiao-osel.sh.intel.com (HELO [10.239.36.11])
+	([10.239.36.11])
+	by fmsmga001.fm.intel.com with ESMTP; 27 Feb 2012 06:02:35 -0800
+From: "Xu, Dongxiao" <dongxiao.xu@intel.com>
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-X-Mailer: Apple Mail (2.1257)
-X-Gm-Message-State: ALoCoQk4Fz+QlKZETwFjoFL/dKTmERradZkl8nb1ZkHpa0eFSf8M7ww3GKWLmBQG9WSdYzimD/a2
-Subject: Re: [PATCH] image_types: Refactor compression code into a generic compression solution
+In-Reply-To: <1330339310.4593.4.camel@ted>
+References: <cover.1330329283.git.dongxiao.xu@intel.com>
+	<62993ba45601c619fad5813647787b7fdbc17f7d.1330329283.git.dongxiao.xu@intel.com>
+	<1330339310.4593.4.camel@ted>
+Date: Mon, 27 Feb 2012 22:01:11 +0800
+Message-ID: <1330351271.4803.16.camel@dongxiao-osel>
+Mime-Version: 1.0
+X-Mailer: Evolution 2.32.2 
+Subject: Re: [PATCH 1/1] bitbake.conf: Add DATE and TIME to BB_HASH_WHITELIST
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -47,43 +36,75 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 27 Feb 2012 14:09:33 -0000
-Content-Type: text/plain; charset=us-ascii
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Mon, 27 Feb 2012 14:11:04 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
+
+On Mon, 2012-02-27 at 10:41 +0000, Richard Purdie wrote:
+> On Mon, 2012-02-27 at 15:58 +0800, Dongxiao Xu wrote:
+> > DATE and TIME are not needed when calculating cache's hash value.
+> > 
+> > Signed-off-by: Dongxiao Xu <dongxiao.xu@intel.com>
+> > ---
+> >  meta/conf/bitbake.conf |    2 +-
+> >  1 files changed, 1 insertions(+), 1 deletions(-)
+> > 
+> > diff --git a/meta/conf/bitbake.conf b/meta/conf/bitbake.conf
+> > index 7d0e0d8..d817bcc 100644
+> > --- a/meta/conf/bitbake.conf
+> > +++ b/meta/conf/bitbake.conf
+> > @@ -736,7 +736,7 @@ BB_CONSOLELOG ?= "${TMPDIR}/cooker.log.${DATETIME}"
+> >  
+> >  # Setup our default hash policy
+> >  BB_SIGNATURE_HANDLER ?= "OEBasic"
+> > -BB_HASHBASE_WHITELIST ?= "TMPDIR FILE PATH PWD BB_TASKHASH BBPATH DL_DIR SSTATE_DIR THISDIR FILESEXTRAPATHS FILE_DIRNAME HOME LOGNAME SHELL TERM USER FILESPATH STAGING_DIR_HOST STAGING_DIR_TARGET COREBASE PRSERV_HOST PRSERV_PORT PRSERV_DUMPDIR PRSERV_DUMPFILE PRSERV_LOCKDOWN"
+> > +BB_HASHBASE_WHITELIST ?= "TMPDIR FILE PATH PWD BB_TASKHASH BBPATH DL_DIR SSTATE_DIR THISDIR FILESEXTRAPATHS FILE_DIRNAME HOME LOGNAME SHELL TERM USER FILESPATH STAGING_DIR_HOST STAGING_DIR_TARGET COREBASE PRSERV_HOST PRSERV_PORT PRSERV_DUMPDIR PRSERV_DUMPFILE PRSERV_LOCKDOWN DATE TIME"
+> >  
+> >  MLPREFIX ??= ""
+> >  MULTILIB_VARIANTS ??= ""
+> 
+> I think this patch highlights a major difference between your hashing
+> policy for bitbake's base configuration cache and the hash policy needed
+> for the signatures and other sstate related pieces.
+> 
+> With siggen, we know we have a target variable (usually a task like
+> do_compile) and we figure out all its dependencies which we create a
+> hash of. Its perfectly valid to have that hash depend on DATE or TIME,
+> if it uses them and we don't want to exclude them.
+> 
+> For the base configuration cache, we don't want to depend on DATE or
+> TIME. We also don't have one target variable to figure out the
+> dependencies for, we need to hash every variable with some exclusion
+> list.
+> 
+> My point is therefore that the above list is very different to the one
+> bitbake needs for its cache's hash. With that in mind, we probably need
+> to add a new variable which does something like:
+> 
+> BB_HASHCONFIG_WHITELIST ?= "DATE TIME ${BB_HASHBASE_WHITELIST}"
+
+Yes, this change does make sense.
+
+I will send a new pull request for it.
+
+Thanks,
+Dongxiao
+
+> 
+> ?
+> 
+> Cheers,
+> 
+> Richard
+> 
+> 
+> 
+> 
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
 
 
-Op 27 feb. 2012, om 13:43 heeft Richard Purdie het volgende geschreven:
-
-> The current approach of adding each different compressed image type =
-doesn't
-> scale. This patch changes the code so compressed images for each form =
-are
-> automatically available using the form <type>.<compression type> in
-> IMAGE_FSTYPES. This doesn't change any existing externally visible =
-behaviour
-> and the image generation process becomes more efficient as a result =
-too.
->=20
-> Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-> ---
-> diff --git a/meta/classes/image.bbclass b/meta/classes/image.bbclass
->=20
-> +COMPRESSIONTYPES =3D "gz bz2 lzma xy"
-> +COMPRESS_CMD_lzma =3D "lzma -k -f -7 ${IMAGE_NAME}.rootfs.${type}"
-> +COMPRESS_CMD_gz =3D "gzip -f -9 -c ${IMAGE_NAME}.rootfs.${type} > =
-${IMAGE_NAME}.rootfs.${type}.gz"
-> +COMPRESS_CMD_bz2 =3D "bzip2 -k ${IMAGE_NAME}.rootfs.${type}"
-> +COMPRESS_CMD_xy =3D "xz -k -c ${XZ_COMPRESSION_LEVEL} =
---check=3D${XZ_INTEGRITY_CHECK} ${IMAGE_NAME}.rootfs.${type}"
-> +COMPRESS_DEPENDS_lzma =3D "xz-native"
-> +COMPRESS_DEPENDS_gz =3D ""
-> +COMPRESS_DEPENDS_bz2 =3D ""
-> +COMPRESS_DEPENDS_xy =3D "xz-native"
-
-s/xy/xz/g
-
-regrds,
-
-koen=
 
 
