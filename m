@@ -1,46 +1,47 @@
-Received: from mail-vw0-f47.google.com ([209.85.212.47])
+Received: from mail-bk0-f47.google.com ([209.85.214.47])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <otavio.salvador@gmail.com>) id 1S20nY-0001Jb-9n
+	(envelope-from <schnitzeltony@googlemail.com>) id 1S20nZ-0001Jd-1o
 	for openembedded-core@lists.openembedded.org;
-	Mon, 27 Feb 2012 14:39:28 +0100
-Received: by vbbfr13 with SMTP id fr13so903720vbb.6
+	Mon, 27 Feb 2012 14:39:29 +0100
+Received: by bkcjg15 with SMTP id jg15so1225660bkc.6
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 27 Feb 2012 05:31:01 -0800 (PST)
-Received-SPF: pass (google.com: domain of otavio.salvador@gmail.com designates
-	10.52.71.80 as permitted sender) client-ip=10.52.71.80; 
+	Mon, 27 Feb 2012 05:31:02 -0800 (PST)
+Received-SPF: pass (google.com: domain of schnitzeltony@googlemail.com
+	designates 10.112.85.199 as permitted sender)
+	client-ip=10.112.85.199; 
 Authentication-Results: mr.google.com; spf=pass (google.com: domain of
-	otavio.salvador@gmail.com designates 10.52.71.80 as permitted
-	sender) smtp.mail=otavio.salvador@gmail.com;
-	dkim=pass header.i=otavio.salvador@gmail.com
-Received: from mr.google.com ([10.52.71.80])
-	by 10.52.71.80 with SMTP id s16mr6554897vdu.131.1330349461551 (num_hops
-	= 1); Mon, 27 Feb 2012 05:31:01 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
-	h=mime-version:sender:in-reply-to:references:date
-	:x-google-sender-auth:message-id:subject:from:to:content-type
-	:content-transfer-encoding;
-	bh=29SuQ2TiWliNLK1LZRXmAGIuk/kjiw+EaBSQXcwbyBY=;
-	b=xSgLnHS7hbOsNe/Wd+REGK5nB6tTlqm0ZobJVRd4sSSnH0QqXcjunr9R5hQElyonDQ
-	kSeXZUSb/SeA715uqlQpgzaOSpsoxkTkZJI+/iQ6TiQSX9t2OPzAnZ2lxH4VevekqIhc
-	+e3QuoiON+cX+mU7O4CkB/YybgE8mN+FcwJBQ=
+	schnitzeltony@googlemail.com designates 10.112.85.199 as
+	permitted sender) smtp.mail=schnitzeltony@googlemail.com;
+	dkim=pass header.i=schnitzeltony@googlemail.com
+Received: from mr.google.com ([10.112.85.199])
+	by 10.112.85.199 with SMTP id j7mr6086117lbz.26.1330349462934 (num_hops
+	= 1); Mon, 27 Feb 2012 05:31:02 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=googlemail.com; s=gamma;
+	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
+	:content-type:content-transfer-encoding;
+	bh=e2j3Ii8UUS1cIR1doFrAVccxfBiWyxc6Jy3zUSeXLKc=;
+	b=K1KnYxLsYVLe5es7hf8mJIYXJ9gn6jt/UIyjtfIGfQxqeRYQpLcPeh8YXWnPesG4y7
+	ZTZAP/BvtKjnFfeCXcA//gyDgF3j9ffquRMw7roI3AuosSjCvb395e95cxRqfu9RCeVm
+	AFxhv96vBCxcXNQg67YSaRC8kwoK1APS58ON0=
 MIME-Version: 1.0
-Received: by 10.52.71.80 with SMTP id s16mr5290228vdu.131.1330349461392; Mon,
-	27 Feb 2012 05:31:01 -0800 (PST)
-Sender: otavio.salvador@gmail.com
-Received: by 10.220.7.208 with HTTP; Mon, 27 Feb 2012 05:31:01 -0800 (PST)
-In-Reply-To: <4FDB63C3-5AB6-45B2-8662-D302D8936B2A@dominion.thruhere.net>
-References: <20120222221309.69BFD10336@opal>
-	<20120227103306.GG3859@jama.jama.net>
-	<06A495EB-6F73-4325-A055-EEEBC01D93A4@dominion.thruhere.net>
-	<1330344828.4593.14.camel@ted>
-	<4FDB63C3-5AB6-45B2-8662-D302D8936B2A@dominion.thruhere.net>
-Date: Mon, 27 Feb 2012 10:31:01 -0300
-X-Google-Sender-Auth: G36QBBiCaex-wNSGzoFcIS9fYZI
-Message-ID: <CAP9ODKr5_P=62V2TstE_bX8-jn6RXxcs2swT6E9ojGox6diRhA@mail.gmail.com>
-From: Otavio Salvador <otavio@ossystems.com.br>
+Received: by 10.112.85.199 with SMTP id j7mr5108999lbz.26.1330349462783; Mon,
+	27 Feb 2012 05:31:02 -0800 (PST)
+Received: by 10.112.29.74 with HTTP; Mon, 27 Feb 2012 05:31:02 -0800 (PST)
+In-Reply-To: <1330345164.4593.18.camel@ted>
+References: <CALbNGRSPf7xJ8wziDTbi7c6vsbwx-ve93dJioJBru5RNusferw@mail.gmail.com>
+	<CAEsOVNdi-m0y=FsJ_yu8CxK=UiPYdrV8bAV3_Y0mzKc6ft+h3g@mail.gmail.com>
+	<CAMKF1srj5zBNQy=bQ1Co0jEV6yryx=EU=vyy2+3KwGUEUxiYkw@mail.gmail.com>
+	<CALbNGRS49UDHDMCS9=fePkuEXEd_fOJ0WSxcsSf2aeCstdNxKg@mail.gmail.com>
+	<6DB1E138-F4A8-432A-AB83-793B911CE68A@dominion.thruhere.net>
+	<CALbNGRQU7BDK5WGYgaXbCwmki922wk_EBkBqZadLL5G=5pCPQA@mail.gmail.com>
+	<1330345164.4593.18.camel@ted>
+Date: Mon, 27 Feb 2012 14:31:02 +0100
+Message-ID: <CALbNGRT3g9z-5-=9ePN88X9f-1FrDTQuyhBPveHTGmtrPbpRcw@mail.gmail.com>
+From: =?ISO-8859-1?Q?Andreas_M=FCller?= <schnitzeltony@googlemail.com>
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Subject: Re: [oe-commits] Joshua Lock : netbase: remove redundant assignments
+Subject: Re: [oe] gcc-cross-initial patching fails
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -55,24 +56,91 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 27 Feb 2012 13:39:28 -0000
+X-List-Received-Date: Mon, 27 Feb 2012 13:39:29 -0000
 Content-Type: text/plain; charset=ISO-8859-1
 Content-Transfer-Encoding: quoted-printable
 
-On Mon, Feb 27, 2012 at 10:26, Koen Kooi <koen@dominion.thruhere.net> wrote=
+On Mon, Feb 27, 2012 at 1:19 PM, Richard Purdie
+<richard.purdie@linuxfoundation.org> wrote:
+> On Mon, 2012-02-27 at 12:37 +0100, Andreas M=FCller wrote:
+>> On Thu, Feb 23, 2012 at 8:18 PM, Koen Kooi <koen@dominion.thruhere.net> =
+wrote:
+>> >
+>> > Op 22 feb. 2012, om 22:39 heeft Andreas M=FCller het volgende geschrev=
+en:
+>> >
+>> >> On Wed, Feb 22, 2012 at 10:18 PM, Khem Raj <raj.khem@gmail.com> wrote=
 :
-> 1) a package with /etc/rpc, /etc/hosts, /etc/protocols and /etc/services
-> 2) a package with /etc/network/interfaces
-> 3) a package with the initscript (probably move that into the ifupdown pa=
-ckage)
+>> >>> On Wed, Feb 22, 2012 at 12:15 PM, McClintock Matthew-B29882
+>> >>> <B29882@freescale.com> wrote:
+>> >>>>> Applying patch gcc45-no-add-needed.patch
+>> >>>>> patching file gcc/config/alpha/elf.h
+>> >>>>> patching file gcc/config/ia64/linux.h
+>> >>>>> patching file gcc/config/linux.h
+>> >>>>> Hunk #1 succeeded at 89 (offset -12 lines).
+>> >>>>> patching file gcc/config/rs6000/sysv4.h
+>> >>>>> Hunk #1 FAILED at 908.
+>> >>>>> 1 out of 1 hunk FAILED -- rejects in file gcc/config/rs6000/sysv4.=
+h
+>> >>>>> Patch gcc45-no-add-needed.patch does not apply (enforce with -f)
+>> >>>>> ERROR: Function failed: patch_do_patch
+>> >>>>> ERROR: Logfile of failure stored in:
+>> >>>>> /home/Superandy/tmp/oe-core-eglibc/work-shared/gcc-4.5-r45+svnr181=
+733/temp/log.do_patch.5367
+>> >>>>> NOTE: package gcc-cross-initial-4.5-r45+svnr181733: task do_patch:=
+ Failed
+>> >>>>> ERROR: Task 2829
+>> >>>>> (/home/Superandy/data/oe-core/sources/meta-openembedded/meta-oe/re=
+cipes-devtools/gcc/gcc-cross-initial_4.5.bb,
+>> >>>>> do_patch) failed with exit code '1'
+>> >>>>>
+>> >>>>> git log does not help me much - =A0what goes wrong?
+>> >>>>
+>> >>>> Which actual patch is it failing on? Is there a conflict between
+>> >>>> oe-core and meta-oe patch set against gcc?
+>> >>>
+>> >>> gcc45-no-add-needed.patch is the patch in question. I dont see
+>> >>> anything wrong with it.
+>> >>> Can you do bitbake -ccleanall gcc-cross-initial and redo bitbake
+>> >>> gcc-cross-initial -cpatch ?
+>> >>>
+>> >> FYI: I removed the line which came in by the commits I mentioned abov=
+e
+>> >>
+>> >> should_apply[vardepsexclude] +=3D "PN"
+>> >>
+>> >> in openembedded-core/meta/recipes-devtools/gcc/gcc-common.inc
+>> >>
+>> >> and build from scratch works without issues.
+>> >
+>> > I received reports of the same problem and I handed your fix to them, =
+I'm waiting to hear back.
+>> >
+>> Having some experience to this problem now, I have the feeling that
+>> there is some race condition on patching. I think gcc-cross-initial /
+>> gcc-cross-intermediate / gcc-runtime share same source directory -
+>> correct me if I am wrong. In case all start patching about the same
+>> time, the patches don't match for those being late. This theory is
+>> encouraged by the fact that the following sequence helps when building
+>> from scratch:
+>>
+>> 1. bitbake gcc-cross-initial
+>> 2. bitbake gcc-cross-intermediate
+>> 3. bitbake gcc-runtime
+>> 4. bitbake <my-image>
+>
+> Does gcc-4.5 have different patch sets for any of the above?
+>
+> Its now being assumed there is one good patch set shared by all the
+> recipes (since we're sharing the source directory). If that were not the
+> case it would explain the issues some people are reporting...
+>
+meta-oe gcc-runtime_4.5 says:
 
-I like this idea a lot :-D
+SRC_URI_append =3D "file://fortran-cross-compile-hack.patch"
 
---=20
-Otavio Salvador=A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0O=
-.S. Systems
-E-mail: otavio@ossystems.com.br=A0 http://www.ossystems.com.br
-Mobile: +55 53 9981-7854=A0 =A0 =A0 =A0=A0 =A0 =A0 =A0http://projetos.ossys=
-tems.com.br
+Is this a possible culprit?
+
+Andreas
 
 
