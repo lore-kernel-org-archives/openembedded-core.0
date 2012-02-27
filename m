@@ -1,33 +1,27 @@
-Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
-	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <rpurdie@rpsys.net>) id 1S1naq-0006Tm-MJ
+Received: from mga03.intel.com ([143.182.124.21])
+	by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <paul.eggleton@linux.intel.com>) id 1S1oeV-0007JY-TK
 	for openembedded-core@lists.openembedded.org;
-	Mon, 27 Feb 2012 00:33:28 +0100
-Received: from localhost (localhost [127.0.0.1])
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q1QNP41R019580
-	for <openembedded-core@lists.openembedded.org>;
-	Sun, 26 Feb 2012 23:25:04 GMT
-Received: from tim.rpsys.net ([127.0.0.1])
-	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
-	port 10024) with LMTP
-	id 18792-08 for <openembedded-core@lists.openembedded.org>;
-	Sun, 26 Feb 2012 23:25:00 +0000 (GMT)
-Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q1QNOvvu019566
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO)
-	for <openembedded-core@lists.openembedded.org>;
-	Sun, 26 Feb 2012 23:24:58 GMT
-Message-ID: <1330298698.31855.27.camel@ted>
-From: Richard Purdie <rpurdie@rpsys.net>
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Date: Sun, 26 Feb 2012 23:24:58 +0000
-In-Reply-To: <CAGDS+nk2zxHM05n1rKzW8q-sgOmiMCVdwRP_LvWJ-B+1_8hH5Q@mail.gmail.com>
-References: <CAGDS+nk2zxHM05n1rKzW8q-sgOmiMCVdwRP_LvWJ-B+1_8hH5Q@mail.gmail.com>
-X-Mailer: Evolution 3.2.2- 
-Mime-Version: 1.0
-X-Virus-Scanned: amavisd-new at rpsys.net
-Subject: Re: elfutils - missing dependency on bzip2?
+	Mon, 27 Feb 2012 01:41:20 +0100
+Received: from azsmga002.ch.intel.com ([10.2.17.35])
+	by azsmga101.ch.intel.com with ESMTP; 26 Feb 2012 16:32:53 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="70512151"
+Received: from unknown (HELO helios.localnet) ([10.252.123.61])
+	by AZSMGA002.ch.intel.com with ESMTP; 26 Feb 2012 16:32:51 -0800
+From: Paul Eggleton <paul.eggleton@linux.intel.com>
+To: Koen Kooi <koen@dominion.thruhere.net>
+Date: Mon, 27 Feb 2012 00:32:50 +0000
+Message-ID: <2495325.p9LszkOSpb@helios>
+Organization: Intel Corporation
+User-Agent: KMail/4.8.0 (Linux/3.0.0-16-generic-pae; KDE/4.8.0; i686; ; )
+In-Reply-To: <A6DE8A8B-66DB-4D6E-90ED-ECAED8C60A3A@dominion.thruhere.net>
+References: <cover.1330294151.git.paul.eggleton@linux.intel.com>
+	<1770784.lEEKdoRJtu@helios>
+	<A6DE8A8B-66DB-4D6E-90ED-ECAED8C60A3A@dominion.thruhere.net>
+MIME-Version: 1.0
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH 1/4] qt4: fix compile error in Qt 4.8.0 with gcc 4.6
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -42,48 +36,23 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 26 Feb 2012 23:33:28 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Mon, 27 Feb 2012 00:41:20 -0000
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
 
-On Sun, 2012-02-26 at 09:25 -0800, Steve Sakoman wrote:
-> After a pull this morning the rebuild if elfutils fails with:
-> 
-> | /usr/bin/ld: cannot find -lbz2
-> | collect2: ld returned 1 exit status
-> | make[3]: *** [libdw.so] Error 1
-> | make[3]: Leaving directory
-> `/media/Work/yocto/tmp/work/i686-linux/elfutils-native-0.148-r5/elfutils-0.148/libdw'
-> 
-> If I build bzip2-native and then rebuild elfutils-native all is well
-> and the build continues until the next failure (mesa-dri-glsl-native,
-> fwiw, haven't investigated that one yet).
+On Monday 27 February 2012 00:05:53 Koen Kooi wrote:
+> It's useful for people like me that have a custom PATCHTOOL that uses
+> git-am. It also makes git am -3 work when updating to a newer version.
 
-This sounds like there might be a floating dependency in elfutils on
-bzip2, if its present. We probably need to lock that down one way or
-another.
-
-> Anyone else see this, or is it just another case of my build machines
-> being in a strange state?
-
-I've seen mesa-dri-glsl-native myself and if its the same issue, this is
-something the signature changes have highlighted. It was there before,
-that change just exposed it.
-
-Basically, the problem is compile running twice. You could do it before
-with something like:
-
-bitbake mesa-dri-glsl-native
-bitbake mesa-dri-glsl-native -c compile -f
-
-We either need to fix these makefile issues or run "make clean" against
-them before rerunning make.
+OK, I've done this and pushed a new branch. I'm not going to send a new patch 
+series though unless there are other changes.
 
 Cheers,
+Paul
 
-Richard
+-- 
 
-
-
+Paul Eggleton
+Intel Open Source Technology Centre
 
 
