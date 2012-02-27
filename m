@@ -1,47 +1,39 @@
-Received: from ch1ehsobe005.messaging.microsoft.com ([216.32.181.185]
-	helo=ch1outboundpool.messaging.microsoft.com)
+Received: from mail-bk0-f47.google.com ([209.85.214.47])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <B29882@freescale.com>) id 1S26mW-0003hA-QA
+	(envelope-from <raj.khem@gmail.com>) id 1S26q3-0003ot-SR
 	for openembedded-core@lists.openembedded.org;
-	Mon, 27 Feb 2012 21:02:48 +0100
-Received: from mail102-ch1-R.bigfish.com (10.43.68.234) by
-	CH1EHSOBE009.bigfish.com (10.43.70.59) with Microsoft SMTP Server id
-	14.1.225.23; Mon, 27 Feb 2012 19:39:19 +0000
-Received: from mail102-ch1 (localhost [127.0.0.1])	by
-	mail102-ch1-R.bigfish.com (Postfix) with ESMTP id 08A286035C	for
-	<openembedded-core@lists.openembedded.org>;
-	Mon, 27 Feb 2012 19:39:19 +0000 (UTC)
-X-SpamScore: 3
-X-BigFish: VS3(zzzz1202h1082kzz8275bhz2dh2a8h668h839h)
-X-Forefront-Antispam-Report: CIP:70.37.183.190; KIP:(null); UIP:(null); IPV:NLI;
-	H:mail.freescale.net; RD:none; EFVD:NLI
-Received: from mail102-ch1 (localhost.localdomain [127.0.0.1]) by mail102-ch1
-	(MessageSwitch) id 1330371557103812_24716;
-	Mon, 27 Feb 2012 19:39:17 +0000 (UTC)
-Received: from CH1EHSMHS006.bigfish.com (snatpool1.int.messaging.microsoft.com
-	[10.43.68.246])	by mail102-ch1.bigfish.com (Postfix) with ESMTP id
-	085DE22023A	for <openembedded-core@lists.openembedded.org>;
-	Mon, 27 Feb 2012 19:39:17 +0000 (UTC)
-Received: from mail.freescale.net (70.37.183.190) by CH1EHSMHS006.bigfish.com
-	(10.43.70.6) with Microsoft SMTP Server (TLS) id 14.1.225.23;
-	Mon, 27 Feb 2012 19:39:15 +0000
-Received: from az33smr02.freescale.net (10.64.34.200) by
-	039-SN1MMR1-002.039d.mgd.msft.net (10.84.1.15) with Microsoft SMTP
-	Server id 14.1.355.3; Mon, 27 Feb 2012 13:38:51 -0600
-Received: from right.am.freescale.net (right.am.freescale.net [10.82.193.13])
-	by az33smr02.freescale.net (8.13.1/8.13.0) with ESMTP id
-	q1RJcpYA016536	for <openembedded-core@lists.openembedded.org>;
-	Mon, 27 Feb 2012 13:38:51 -0600 (CST)
-From: Matthew McClintock <msm@freescale.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Mon, 27 Feb 2012 13:38:49 -0600
-Message-ID: <1330371531-28803-2-git-send-email-msm@freescale.com>
-X-Mailer: git-send-email 1.7.6.1
-In-Reply-To: <1330371531-28803-1-git-send-email-msm@freescale.com>
-References: <1330371531-28803-1-git-send-email-msm@freescale.com>
+	Mon, 27 Feb 2012 21:06:27 +0100
+Received: by bkcjg15 with SMTP id jg15so1679620bkc.6
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 27 Feb 2012 11:58:01 -0800 (PST)
+Received-SPF: pass (google.com: domain of raj.khem@gmail.com designates
+	10.112.42.72 as permitted sender) client-ip=10.112.42.72; 
+Authentication-Results: mr.google.com;
+	spf=pass (google.com: domain of raj.khem@gmail.com
+	designates 10.112.42.72 as permitted sender)
+	smtp.mail=raj.khem@gmail.com;
+	dkim=pass header.i=raj.khem@gmail.com
+Received: from mr.google.com ([10.112.42.72])
+	by 10.112.42.72 with SMTP id m8mr6419216lbl.10.1330372681456 (num_hops
+	= 1); Mon, 27 Feb 2012 11:58:01 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc:content-type:content-transfer-encoding;
+	bh=EyilRvHpUvaPskHDAf4UC86gZPvL9cQjaEftdbrp2ok=;
+	b=caqP6WDhIW3by1iKQV3RVexGXRAiHzObclR4P51JxfF1uZwwq5FM0EHuIW2jDFmS7q
+	mtq74/fKkbBNEppe2Q2i2itkukfgqc/uXzjpbsOnBbFXT2bxMplYhMCjQqk9JdIcz4M0
+	k4BzT63rVg5Is7d8iL2XKp+E8ZWxQwbwAoguY=
+Received: by 10.112.42.72 with SMTP id m8mr5380174lbl.10.1330372681371; Mon,
+	27 Feb 2012 11:58:01 -0800 (PST)
 MIME-Version: 1.0
-X-OriginatorOrg: freescale.com
-Subject: [PATCH 2/4] bitbake.conf: add default value for TUNE_PKGARCH
+Received: by 10.152.27.109 with HTTP; Mon, 27 Feb 2012 11:57:31 -0800 (PST)
+In-Reply-To: <cover.1330053959.git.raj.khem@gmail.com>
+References: <cover.1330053959.git.raj.khem@gmail.com>
+From: Khem Raj <raj.khem@gmail.com>
+Date: Mon, 27 Feb 2012 11:57:31 -0800
+Message-ID: <CAMKF1sq-b9zTxETKDvqnhKrQ2Cg2AZZq-oVkuFowFynJ=a7isQ@mail.gmail.com>
+To: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH 0/4] stash gcc-cross buildtree and add recipe class override
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -56,37 +48,73 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 27 Feb 2012 20:02:49 -0000
-Content-Type: text/plain
+X-List-Received-Date: Mon, 27 Feb 2012 20:06:28 -0000
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
-Add a default value for TUNE_PKGARCH. This let's us use
-the following:
+On Thu, Feb 23, 2012 at 7:33 PM, Khem Raj <raj.khem@gmail.com> wrote:
+> Add recipe class to overrides
+> Prepare gcc for 4.7 changes
+> missing DEPENDS found during individual recipe builds
+> Add emptry DISTRO to oe-core
+>
 
-TUNE_PKGARCH_tune-ppce500
+I have rebased the tree on top of todays master there were some conflicts w=
+.r.t
+gcc patch.
 
-Instead of scanning over variables and using bitbake internal
-functions to create a valid value here.
-
-Signed-off-by: Matthew McClintock <msm@freescale.com>
----
- meta/conf/bitbake.conf |    1 +
- 1 files changed, 1 insertions(+), 0 deletions(-)
-
-diff --git a/meta/conf/bitbake.conf b/meta/conf/bitbake.conf
-index 7d0e0d8..e256d5f 100644
---- a/meta/conf/bitbake.conf
-+++ b/meta/conf/bitbake.conf
-@@ -95,6 +95,7 @@ TUNE_CCARGS ??= ""
- TUNE_LDARGS ??= ""
- TUNE_ASARGS ??= ""
- TUNE_FEATURES ??= "${TUNE_FEATURES_tune-${DEFAULTTUNE}}"
-+TUNE_PKGARCH ??= "${TUNE_PKGARCH_tune-${DEFAULTTUNE}}"
- LIBCEXTENSION ??= ""
- ABIEXTENSION ??= ""
- 
--- 
-1.7.6.1
-
-
+> The following changes since commit a1f23a7cc527afdd1ce6cc7cd6083ee78fde09=
+b3:
+>
+> =C2=A0update-rc.d.bbclass: do nothing for extended cross packages (2012-0=
+2-24 00:47:44 +0000)
+>
+> are available in the git repository at:
+> =C2=A0git://git.openembedded.org/openembedded-core-contrib kraj/misc
+> =C2=A0http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log=
+/?h=3Dkraj/misc
+>
+> Khem Raj (4):
+> =C2=A0glib-networking: Add intltools-native to DEPENDS
+> =C2=A0classes: Add recipe class to overrides
+> =C2=A0default-distrovars: Add empty weak definition for DISTRO variable
+> =C2=A0gcc: Stash the gcc-cross builddir to reuse in libgcc and gcc-runtim=
+e
+>
+> =C2=A0meta/classes/base.bbclass =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
+ =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0| =C2=A0 =C2=A01 +
+> =C2=A0meta/classes/cross-canadian.bbclass =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0| =C2=A0 =C2=A02 +-
+> =C2=A0meta/classes/cross.bbclass =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 | =C2=A0 =C2=A01 +
+> =C2=A0meta/classes/crosssdk.bbclass =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0| =C2=A0 =C2=A01 +
+> =C2=A0meta/classes/native.bbclass =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0| =C2=A0 =C2=A03 +-
+> =C2=A0meta/classes/nativesdk.bbclass =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 | =C2=A0 =C2=A03 +-
+> =C2=A0meta/conf/bitbake.conf =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 | =C2=A0 =C2=A03 +-
+> =C2=A0meta/conf/distro/include/default-distrovars.inc =C2=A0 =C2=A0| =C2=
+=A0 =C2=A07 ++++
+> =C2=A0.../glib-networking/glib-networking_2.28.7.bb =C2=A0 =C2=A0 =C2=A0|=
+ =C2=A0 =C2=A02 +-
+> =C2=A0meta/recipes-devtools/gcc/gcc-4.6.inc =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0 =C2=A0| =C2=A0 =C2=A02 +-
+> =C2=A0meta/recipes-devtools/gcc/gcc-configure-common.inc | =C2=A0 =C2=A03=
+ --
+> =C2=A0.../recipes-devtools/gcc/gcc-configure-runtime.inc | =C2=A0 24 ++++=
+++++++------
+> =C2=A0meta/recipes-devtools/gcc/gcc-cross-initial.inc =C2=A0 =C2=A0| =C2=
+=A0 =C2=A02 +-
+> =C2=A0meta/recipes-devtools/gcc/gcc-package-cross.inc =C2=A0 =C2=A0| =C2=
+=A0 14 +--------
+> =C2=A0meta/recipes-devtools/gcc/libgcc_4.6.bb =C2=A0 =C2=A0 =C2=A0 =C2=A0=
+ =C2=A0 =C2=A0| =C2=A0 30 ++++++++++++++++----
+> =C2=A015 files changed, 58 insertions(+), 40 deletions(-)
+>
+> --
+> 1.7.5.4
+>
 
 
