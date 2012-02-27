@@ -1,39 +1,43 @@
-Received: from mail-bk0-f47.google.com ([209.85.214.47])
+Received: from mail-we0-f175.google.com ([74.125.82.175])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <raj.khem@gmail.com>) id 1S26q3-0003ot-SR
+	(envelope-from <koen@dominion.thruhere.net>) id 1S27B9-0004CF-EK
 	for openembedded-core@lists.openembedded.org;
-	Mon, 27 Feb 2012 21:06:27 +0100
-Received: by bkcjg15 with SMTP id jg15so1679620bkc.6
+	Mon, 27 Feb 2012 21:28:15 +0100
+Received: by wera1 with SMTP id a1so923030wer.6
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 27 Feb 2012 11:58:01 -0800 (PST)
-Received-SPF: pass (google.com: domain of raj.khem@gmail.com designates
-	10.112.42.72 as permitted sender) client-ip=10.112.42.72; 
-Authentication-Results: mr.google.com;
-	spf=pass (google.com: domain of raj.khem@gmail.com
-	designates 10.112.42.72 as permitted sender)
-	smtp.mail=raj.khem@gmail.com;
-	dkim=pass header.i=raj.khem@gmail.com
-Received: from mr.google.com ([10.112.42.72])
-	by 10.112.42.72 with SMTP id m8mr6419216lbl.10.1330372681456 (num_hops
-	= 1); Mon, 27 Feb 2012 11:58:01 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc:content-type:content-transfer-encoding;
-	bh=EyilRvHpUvaPskHDAf4UC86gZPvL9cQjaEftdbrp2ok=;
-	b=caqP6WDhIW3by1iKQV3RVexGXRAiHzObclR4P51JxfF1uZwwq5FM0EHuIW2jDFmS7q
-	mtq74/fKkbBNEppe2Q2i2itkukfgqc/uXzjpbsOnBbFXT2bxMplYhMCjQqk9JdIcz4M0
-	k4BzT63rVg5Is7d8iL2XKp+E8ZWxQwbwAoguY=
-Received: by 10.112.42.72 with SMTP id m8mr5380174lbl.10.1330372681371; Mon,
-	27 Feb 2012 11:58:01 -0800 (PST)
-MIME-Version: 1.0
-Received: by 10.152.27.109 with HTTP; Mon, 27 Feb 2012 11:57:31 -0800 (PST)
-In-Reply-To: <cover.1330053959.git.raj.khem@gmail.com>
-References: <cover.1330053959.git.raj.khem@gmail.com>
-From: Khem Raj <raj.khem@gmail.com>
-Date: Mon, 27 Feb 2012 11:57:31 -0800
-Message-ID: <CAMKF1sq-b9zTxETKDvqnhKrQ2Cg2AZZq-oVkuFowFynJ=a7isQ@mail.gmail.com>
-To: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 0/4] stash gcc-cross buildtree and add recipe class override
+	Mon, 27 Feb 2012 12:19:49 -0800 (PST)
+Received-SPF: pass (google.com: domain of koen@dominion.thruhere.net
+	designates 10.180.97.196 as permitted sender)
+	client-ip=10.180.97.196; 
+Authentication-Results: mr.google.com; spf=pass (google.com: domain of
+	koen@dominion.thruhere.net designates 10.180.97.196 as
+	permitted sender) smtp.mail=koen@dominion.thruhere.net
+Received: from mr.google.com ([10.180.97.196])
+	by 10.180.97.196 with SMTP id ec4mr31609092wib.11.1330373989084
+	(num_hops = 1); Mon, 27 Feb 2012 12:19:49 -0800 (PST)
+Received: by 10.180.97.196 with SMTP id ec4mr25066815wib.11.1330373989033;
+	Mon, 27 Feb 2012 12:19:49 -0800 (PST)
+Received: from [172.20.1.36] (ip545070eb.adsl-surfen.hetnet.nl.
+	[84.80.112.235])
+	by mx.google.com with ESMTPS id fl2sm59947436wib.4.2012.02.27.12.19.47
+	(version=TLSv1/SSLv3 cipher=OTHER);
+	Mon, 27 Feb 2012 12:19:47 -0800 (PST)
+Mime-Version: 1.0 (Apple Message framework v1257)
+From: Koen Kooi <koen@dominion.thruhere.net>
+In-Reply-To: <CAP9ODKr5_P=62V2TstE_bX8-jn6RXxcs2swT6E9ojGox6diRhA@mail.gmail.com>
+Date: Mon, 27 Feb 2012 21:19:45 +0100
+Message-Id: <F4D2D55E-949A-4796-8AA1-FA6765861446@dominion.thruhere.net>
+References: <20120222221309.69BFD10336@opal>
+	<20120227103306.GG3859@jama.jama.net>
+	<06A495EB-6F73-4325-A055-EEEBC01D93A4@dominion.thruhere.net>
+	<1330344828.4593.14.camel@ted>
+	<4FDB63C3-5AB6-45B2-8662-D302D8936B2A@dominion.thruhere.net>
+	<CAP9ODKr5_P=62V2TstE_bX8-jn6RXxcs2swT6E9ojGox6diRhA@mail.gmail.com>
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+X-Mailer: Apple Mail (2.1257)
+X-Gm-Message-State: ALoCoQkmcjCR3WTWTJC99UjzwUV8dhBAXtKSY8i+oo6Jp05U4jAniDgI5gvVfIQgy7vOX3OmEa7s
+Subject: Re: [oe-commits] Joshua Lock : netbase: remove redundant assignments
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -48,73 +52,29 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 27 Feb 2012 20:06:28 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Mon, 27 Feb 2012 20:28:15 -0000
+Content-Type: text/plain; charset=iso-8859-1
 Content-Transfer-Encoding: quoted-printable
 
-On Thu, Feb 23, 2012 at 7:33 PM, Khem Raj <raj.khem@gmail.com> wrote:
-> Add recipe class to overrides
-> Prepare gcc for 4.7 changes
-> missing DEPENDS found during individual recipe builds
-> Add emptry DISTRO to oe-core
->
 
-I have rebased the tree on top of todays master there were some conflicts w=
-.r.t
-gcc patch.
+Op 27 feb. 2012, om 14:31 heeft Otavio Salvador het volgende geschreven:
 
-> The following changes since commit a1f23a7cc527afdd1ce6cc7cd6083ee78fde09=
-b3:
->
-> =C2=A0update-rc.d.bbclass: do nothing for extended cross packages (2012-0=
-2-24 00:47:44 +0000)
->
-> are available in the git repository at:
-> =C2=A0git://git.openembedded.org/openembedded-core-contrib kraj/misc
-> =C2=A0http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log=
-/?h=3Dkraj/misc
->
-> Khem Raj (4):
-> =C2=A0glib-networking: Add intltools-native to DEPENDS
-> =C2=A0classes: Add recipe class to overrides
-> =C2=A0default-distrovars: Add empty weak definition for DISTRO variable
-> =C2=A0gcc: Stash the gcc-cross builddir to reuse in libgcc and gcc-runtim=
-e
->
-> =C2=A0meta/classes/base.bbclass =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
- =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0| =C2=A0 =C2=A01 +
-> =C2=A0meta/classes/cross-canadian.bbclass =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0| =C2=A0 =C2=A02 +-
-> =C2=A0meta/classes/cross.bbclass =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 | =C2=A0 =C2=A01 +
-> =C2=A0meta/classes/crosssdk.bbclass =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0| =C2=A0 =C2=A01 +
-> =C2=A0meta/classes/native.bbclass =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0| =C2=A0 =C2=A03 +-
-> =C2=A0meta/classes/nativesdk.bbclass =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 | =C2=A0 =C2=A03 +-
-> =C2=A0meta/conf/bitbake.conf =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 | =C2=A0 =C2=A03 +-
-> =C2=A0meta/conf/distro/include/default-distrovars.inc =C2=A0 =C2=A0| =C2=
-=A0 =C2=A07 ++++
-> =C2=A0.../glib-networking/glib-networking_2.28.7.bb =C2=A0 =C2=A0 =C2=A0|=
- =C2=A0 =C2=A02 +-
-> =C2=A0meta/recipes-devtools/gcc/gcc-4.6.inc =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0| =C2=A0 =C2=A02 +-
-> =C2=A0meta/recipes-devtools/gcc/gcc-configure-common.inc | =C2=A0 =C2=A03=
- --
-> =C2=A0.../recipes-devtools/gcc/gcc-configure-runtime.inc | =C2=A0 24 ++++=
-++++++------
-> =C2=A0meta/recipes-devtools/gcc/gcc-cross-initial.inc =C2=A0 =C2=A0| =C2=
-=A0 =C2=A02 +-
-> =C2=A0meta/recipes-devtools/gcc/gcc-package-cross.inc =C2=A0 =C2=A0| =C2=
-=A0 14 +--------
-> =C2=A0meta/recipes-devtools/gcc/libgcc_4.6.bb =C2=A0 =C2=A0 =C2=A0 =C2=A0=
- =C2=A0 =C2=A0| =C2=A0 30 ++++++++++++++++----
-> =C2=A015 files changed, 58 insertions(+), 40 deletions(-)
->
-> --
-> 1.7.5.4
->
+> On Mon, Feb 27, 2012 at 10:26, Koen Kooi <koen@dominion.thruhere.net> =
+wrote:
+>> 1) a package with /etc/rpc, /etc/hosts, /etc/protocols and =
+/etc/services
+>> 2) a package with /etc/network/interfaces
+>> 3) a package with the initscript (probably move that into the =
+ifupdown package)
+>=20
+> I like this idea a lot :-D
+
+Any suggestions on how to do the split? This is going to be a painfull =
+change by the looks of it, so I'd like a lot of input before I go spin a =
+patchset :)
+
+regards,
+
+Koen=
 
 
