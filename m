@@ -1,55 +1,47 @@
-Received: from va3ehsobe001.messaging.microsoft.com ([216.32.180.11]
-	helo=VA3EHSOBE003.bigfish.com)
+Received: from mga05.intel.com ([192.55.52.89] helo=fmsmga101.fm.intel.com)
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <B29882@freescale.com>) id 1S29bs-0007hm-NH
+	(envelope-from <saul.wold@intel.com>) id 1S2A36-00080P-5l
 	for openembedded-core@lists.openembedded.org;
-	Tue, 28 Feb 2012 00:04:00 +0100
-Received: from mail15-va3-R.bigfish.com (10.7.14.243) by
-	VA3EHSOBE003.bigfish.com (10.7.40.23) with Microsoft SMTP Server id
-	14.1.225.23; Mon, 27 Feb 2012 22:55:33 +0000
-Received: from mail15-va3 (localhost [127.0.0.1])	by mail15-va3-R.bigfish.com
-	(Postfix) with ESMTP id E52251E051F	for
-	<openembedded-core@lists.openembedded.org>;
-	Mon, 27 Feb 2012 22:55:33 +0000 (UTC)
-X-SpamScore: -7
-X-BigFish: VS-7(zz9371I1432N98dKzz1202hzz8275bh8275dhz2dh2a8h668h839h8e2h8e3hbe9k)
-X-Forefront-Antispam-Report: CIP:70.37.183.190; KIP:(null); UIP:(null); IPV:NLI;
-	H:mail.freescale.net; RD:none; EFVD:NLI
-Received: from mail15-va3 (localhost.localdomain [127.0.0.1]) by mail15-va3
-	(MessageSwitch) id 1330383331849492_25566;
-	Mon, 27 Feb 2012 22:55:31 +0000 (UTC)
-Received: from VA3EHSMHS025.bigfish.com (unknown [10.7.14.243])	by
-	mail15-va3.bigfish.com (Postfix) with ESMTP id C0035E0049	for
-	<openembedded-core@lists.openembedded.org>;
-	Mon, 27 Feb 2012 22:55:31 +0000 (UTC)
-Received: from mail.freescale.net (70.37.183.190) by VA3EHSMHS025.bigfish.com
-	(10.7.99.35) with Microsoft SMTP Server (TLS) id 14.1.225.23;
-	Mon, 27 Feb 2012 22:55:30 +0000
-Received: from 039-SN1MPN1-001.039d.mgd.msft.net ([169.254.1.244]) by
-	039-SN1MMR1-001.039d.mgd.msft.net ([10.84.1.13]) with mapi id
-	14.01.0355.003; Mon, 27 Feb 2012 16:55:29 -0600
-From: McClintock Matthew-B29882 <B29882@freescale.com>
-To: "openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Thread-Topic: [OE-core] [PATCH 1/4] multilib.bbclass: allow
-	TARGET_VENDOR_virtclass-multilib to be overriden
-Thread-Index: AQHM9aLmWIqY6KZElEa7DCbn4B6BZw==
-Date: Mon, 27 Feb 2012 22:55:29 +0000
-Message-ID: <CAEsOVNe9iwAbQ8jFFTY8hVroy2nTm7-XauGgFyV+x_4DtFOxUg@mail.gmail.com>
-References: <1330371531-28803-1-git-send-email-msm@freescale.com>
-In-Reply-To: <1330371531-28803-1-git-send-email-msm@freescale.com>
-Accept-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [99.47.177.27]
+	Tue, 28 Feb 2012 00:32:08 +0100
+Received: from mail-tul01m020-f180.google.com ([209.85.214.180])
+	by mga01.intel.com with ESMTP/TLS/RC4-SHA; 27 Feb 2012 15:23:39 -0800
+Received: by obbwd18 with SMTP id wd18so1894954obb.25
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 27 Feb 2012 15:23:39 -0800 (PST)
+Received-SPF: pass (google.com: domain of saul.wold@intel.com designates
+	10.60.14.34 as permitted sender) client-ip=10.60.14.34; 
+Authentication-Results: mr.google.com;
+	spf=pass (google.com: domain of saul.wold@intel.com
+	designates 10.60.14.34 as permitted sender)
+	smtp.mail=saul.wold@intel.com
+Received: from mr.google.com ([10.60.14.34])
+	by 10.60.14.34 with SMTP id m2mr5499588oec.65.1330385019264 (num_hops =
+	1); Mon, 27 Feb 2012 15:23:39 -0800 (PST)
+Received: by 10.60.14.34 with SMTP id m2mr4870237oec.65.1330385019166;
+	Mon, 27 Feb 2012 15:23:39 -0800 (PST)
+Received: from [10.6.18.245] (c-71-193-189-117.hsd1.wa.comcast.net.
+	[71.193.189.117])
+	by mx.google.com with ESMTPS id f2sm95221oef.6.2012.02.27.15.23.36
+	(version=SSLv3 cipher=OTHER); Mon, 27 Feb 2012 15:23:38 -0800 (PST)
+Message-ID: <4F4C1077.3030106@intel.com>
+Date: Mon, 27 Feb 2012 15:23:35 -0800
+From: Saul Wold <saul.wold@intel.com>
+Organization: Intel
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:10.0.1) Gecko/20120216 Thunderbird/10.0.1
 MIME-Version: 1.0
-X-OriginatorOrg: freescale.com
-Subject: Re: [PATCH 1/4] multilib.bbclass: allow TARGET_VENDOR_virtclass-multilib to be overriden
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+References: <cover.1330371008.git.bruce.ashfield@windriver.com>
+	<a2440ad66968c13a0db6f97f69b04b8670ac9ffd.1330371008.git.bruce.ashfield@windriver.com>
+In-Reply-To: <a2440ad66968c13a0db6f97f69b04b8670ac9ffd.1330371008.git.bruce.ashfield@windriver.com>
+X-Gm-Message-State: ALoCoQktiPqfgnJk/pFgN1XNHqVo10Aik4VVZGd+AupS26a0YpA4BbCf5uAjhviGNc8h7pfjeOHh
+Cc: dvhart@linux.intel.com
+Subject: Re: [PATCH 2/3] linux-yocto: update 3.2 kernel to v3.2.7
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
-Reply-To: McClintock Matthew-B29882 <B29882@freescale.com>,
-	Patches and discussions about the oe-core layer
+Reply-To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
 List-Id: Patches and discussions about the oe-core layer
 	<openembedded-core.lists.openembedded.org>
@@ -60,59 +52,88 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 27 Feb 2012 23:04:00 -0000
-Content-Language: en-US
-Content-Type: text/plain; charset="iso-8859-1"
-Content-ID: <0FCE4598CB45734187F72FAC5C88006F@mgd.freescale.com>
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Mon, 27 Feb 2012 23:32:08 -0000
+Content-Type: text/plain; charset=ISO-8859-1; format=flowed
+Content-Transfer-Encoding: 7bit
 
-Per conversation with Saul on IRC - I'll push a branch to poky-contrib
-for my 6 pending patches.
-
--M
-
-On Mon, Feb 27, 2012 at 1:38 PM, Matthew McClintock <msm@freescale.com> wro=
-te:
-> If we set this bit, we can override the ugly "pokymllib32" to back to
-> "poky" (powerpc-pokymllib32-linux-gcc -> powerpc-poky-linux-gcc). I've
-> left this unset by default, but can be set by adding the following:
+On 02/27/2012 11:34 AM, Bruce Ashfield wrote:
+> Updating the 3.2 kernel recipe to the latest -stable release.
 >
-> TARGET_VENDOR_virtclass-multilib-lib32 =3D "-poky"
->
-> Signed-off-by: Matthew McClintock <msm@freescale.com>
+> Signed-off-by: Bruce Ashfield<bruce.ashfield@windriver.com>
 > ---
-> =A0meta/classes/multilib.bbclass | =A0 =A03 ++-
-> =A01 files changed, 2 insertions(+), 1 deletions(-)
+>   meta/recipes-kernel/linux/linux-yocto-rt_3.2.bb |    9 +++++----
+>   meta/recipes-kernel/linux/linux-yocto_3.2.bb    |   19 ++++++++++---------
+>   2 files changed, 15 insertions(+), 13 deletions(-)
 >
-> diff --git a/meta/classes/multilib.bbclass b/meta/classes/multilib.bbclas=
-s
-> index 87d0cd4..61b7765 100644
-> --- a/meta/classes/multilib.bbclass
-> +++ b/meta/classes/multilib.bbclass
-> @@ -26,7 +26,8 @@ python multilib_virtclass_handler () {
-> =A0 =A0 e.data.setVar("MLPREFIX", variant + "-")
-> =A0 =A0 e.data.setVar("PN", variant + "-" + e.data.getVar("PN", False))
-> =A0 =A0 e.data.setVar("SHLIBSDIR_virtclass-multilib-" + variant ,e.data.g=
-etVar("SHLIBSDIR", False) + "/" + variant)
-> - =A0 =A0e.data.setVar("TARGET_VENDOR_virtclass-multilib-" + variant, e.d=
-ata.getVar("TARGET_VENDOR", False) + "ml" + variant)
-> + =A0 =A0if e.data.getVar("TARGET_VENDOR_virtclass-multilib-" + variant, =
-False) is None:
-> + =A0 =A0 =A0 =A0 =A0 e.data.setVar("TARGET_VENDOR_virtclass-multilib-" +=
- variant, e.data.getVar("TARGET_VENDOR", False) + "ml" + variant)
-> =A0 =A0 e.data.setVar("OVERRIDES", e.data.getVar("OVERRIDES", False) + ov=
-erride)
-> =A0}
+
+I noticed that there are 3 Packaging WARNINGS in this build, we are 
+trying to improve the overall Quality by reducing the warnings. These 
+are probably general to all linux-yocto recipes.
+
+Can you address these:
+
+WARNING: For recipe linux-yocto, the following files/directories were 
+installed but not shipped in any package:
+WARNING:   /lib/modules/3.2.2-yocto-standard+/build
+WARNING:   /lib/modules/3.2.2-yocto-standard+/source
+WARNING:   /etc/modprobe.d
+
+
+Thanks
+	Sau!
+
+> diff --git a/meta/recipes-kernel/linux/linux-yocto-rt_3.2.bb b/meta/recipes-kernel/linux/linux-yocto-rt_3.2.bb
+> index 329527f..3370729 100644
+> --- a/meta/recipes-kernel/linux/linux-yocto-rt_3.2.bb
+> +++ b/meta/recipes-kernel/linux/linux-yocto-rt_3.2.bb
+> @@ -11,12 +11,13 @@ KMACHINE_qemumips = "mti-malta32-be"
+>   KBRANCH = "standard/preempt-rt/base"
+>   KBRANCH_qemuppc = "standard/preempt-rt/qemu-ppc32"
 >
-> --
-> 1.7.6.1
+> -LINUX_VERSION ?= "3.2.2"
+> +LINUX_VERSION ?= "3.2.7"
+>   LINUX_KERNEL_TYPE = "preempt-rt"
 >
+> -SRCREV_machine ?= "415af017cf163c63d7b1e6e929e4a9c9baf5ba6d"
+> -SRCREV_machine_qemuppc ?= "38345c1e41b15c49308a9adbdde95167eeaa05fa"
+> -SRCREV_meta ?= "138bf5b502607fe40315c0d76822318d77d97e01"
+> +SRCREV_machine ?= "2043e8b786dfd06a41a66780141f731d2d788696"
+> +SRCREV_machine_qemuppc ?= "ec400326633f011c3b7d390beb765ad955145a29"
+> +SRCREV_meta ?= "5db8963f9aefc70b4483ca4ccce8f2ef6964e2c3"
+> +
 >
+>   PR = "r0"
+>   PV = "${LINUX_VERSION}+git${SRCPV}"
+> diff --git a/meta/recipes-kernel/linux/linux-yocto_3.2.bb b/meta/recipes-kernel/linux/linux-yocto_3.2.bb
+> index a80924d..9be1bd9 100644
+> --- a/meta/recipes-kernel/linux/linux-yocto_3.2.bb
+> +++ b/meta/recipes-kernel/linux/linux-yocto_3.2.bb
+> @@ -15,15 +15,16 @@ KBRANCH_qemuppc  = "standard/default/qemu-ppc32"
+>   KBRANCH_qemumips = "standard/default/mti-malta32-be"
+>   KBRANCH_qemuarm  = "standard/default/arm-versatile-926ejs"
 >
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core=
+> -LINUX_VERSION ?= "3.2.2"
+> -
+> -SRCREV_machine_qemuarm ?= "8d79190c307c7d41580beb77f83526ae3defcacc"
+> -SRCREV_machine_qemumips ?= "c88f8c4f3be717be33a8ad89a14731eb94932336"
+> -SRCREV_machine_qemuppc ?= "b8228f337002ad88f1e152d0c0c46c6035cd0428"
+> -SRCREV_machine_qemux86 ?= "417fc778a86e81303bab5883b919ee422ec51c04"
+> -SRCREV_machine_qemux86-64 ?= "417fc778a86e81303bab5883b919ee422ec51c04"
+> -SRCREV_machine ?= "417fc778a86e81303bab5883b919ee422ec51c04"
+> -SRCREV_meta ?= "138bf5b502607fe40315c0d76822318d77d97e01"
+> +LINUX_VERSION ?= "3.2.7"
+> +
+> +
+> +SRCREV_machine_qemuarm ?= "c2028a144fe035719af7c5e9989fedc62ccf3c2c"
+> +SRCREV_machine_qemumips ?= "7dfffd937d4755cba0fcf3f2b9b69a1c62262084"
+> +SRCREV_machine_qemuppc ?= "8fc0489fffe4c626f9a8053ad86014e75073a3d0"
+> +SRCREV_machine_qemux86 ?= "0fae9c2722039df3e93398d314ee10e3f4330b86"
+> +SRCREV_machine_qemux86-64 ?= "0fae9c2722039df3e93398d314ee10e3f4330b86"
+> +SRCREV_machine ?= "0fae9c2722039df3e93398d314ee10e3f4330b86"
+> +SRCREV_meta ?= "5db8963f9aefc70b4483ca4ccce8f2ef6964e2c3"
+>
+>   PR = "r0"
+>   PV = "${LINUX_VERSION}+git${SRCPV}"
 
 
 
