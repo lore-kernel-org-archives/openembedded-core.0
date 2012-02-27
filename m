@@ -1,41 +1,24 @@
-Received: from mail-vx0-f175.google.com ([209.85.220.175])
+Received: from mga09.intel.com ([134.134.136.24])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <otavio.salvador@gmail.com>) id 1S24NO-0006Ho-Iy
+	(envelope-from <paul.eggleton@linux.intel.com>) id 1S24Sh-0006NO-0E
 	for openembedded-core@lists.openembedded.org;
-	Mon, 27 Feb 2012 18:28:42 +0100
-Received: by vcbfl13 with SMTP id fl13so1256905vcb.6
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 27 Feb 2012 09:20:15 -0800 (PST)
-Received-SPF: pass (google.com: domain of otavio.salvador@gmail.com designates
-	10.220.156.139 as permitted sender) client-ip=10.220.156.139; 
-Authentication-Results: mr.google.com; spf=pass (google.com: domain of
-	otavio.salvador@gmail.com designates 10.220.156.139 as
-	permitted sender) smtp.mail=otavio.salvador@gmail.com;
-	dkim=pass header.i=otavio.salvador@gmail.com
-Received: from mr.google.com ([10.220.156.139])
-	by 10.220.156.139 with SMTP id x11mr9126856vcw.18.1330363215842
-	(num_hops = 1); Mon, 27 Feb 2012 09:20:15 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
-	h=mime-version:sender:in-reply-to:references:date
-	:x-google-sender-auth:message-id:subject:from:to:content-type
-	:content-transfer-encoding;
-	bh=+KiNY9vUSsBPR4ChVRVJHBw3MKyi+nJqqeMQ2a3VyIk=;
-	b=G/I7Bb4rhKfI92f1unaKSKHMb3T6MxauGpdSOk6aOLHFnF3zeevre0wS1/w1cr6QYT
-	AJ9u28qOqIvXUQL2iKiJNrtelGaihhml77m1PL6/1Jl4i4jR4yFFHqq5XS6/azZE6eS3
-	e47JroqnUnUfbxWa0EVsKYWJLizDBVpRweuWk=
-MIME-Version: 1.0
-Received: by 10.220.156.139 with SMTP id x11mr7382783vcw.18.1330363215795;
-	Mon, 27 Feb 2012 09:20:15 -0800 (PST)
-Sender: otavio.salvador@gmail.com
-Received: by 10.220.7.208 with HTTP; Mon, 27 Feb 2012 09:20:15 -0800 (PST)
-In-Reply-To: <1330362610-12851-1-git-send-email-obi@opendreambox.org>
+	Mon, 27 Feb 2012 18:34:11 +0100
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+	by orsmga102.jf.intel.com with ESMTP; 27 Feb 2012 09:25:43 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.67,352,1309762800"; d="scan'208";a="112305246"
+Received: from unknown (HELO helios.localnet) ([10.252.123.30])
+	by orsmga001.jf.intel.com with ESMTP; 27 Feb 2012 09:24:43 -0800
+From: Paul Eggleton <paul.eggleton@linux.intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Mon, 27 Feb 2012 17:24:42 +0000
+Message-ID: <1624619.CXJLtNuTG7@helios>
+Organization: Intel Corporation
+User-Agent: KMail/4.8.0 (Linux/3.0.0-16-generic-pae; KDE/4.8.0; i686; ; )
+In-Reply-To: <CAP9ODKr1faEWrO877gfeMkutp8_STOvNp81iA00uiC0w46A1qQ@mail.gmail.com>
 References: <1330362610-12851-1-git-send-email-obi@opendreambox.org>
-Date: Mon, 27 Feb 2012 14:20:15 -0300
-X-Google-Sender-Auth: Z9Q-ndZnytbOR8FVtsnklv7JLpM
-Message-ID: <CAP9ODKr1faEWrO877gfeMkutp8_STOvNp81iA00uiC0w46A1qQ@mail.gmail.com>
-From: Otavio Salvador <otavio@ossystems.com.br>
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
+	<CAP9ODKr1faEWrO877gfeMkutp8_STOvNp81iA00uiC0w46A1qQ@mail.gmail.com>
+MIME-Version: 1.0
 Subject: Re: [PATCH] qt4.inc: depend on tiff
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
@@ -51,24 +34,27 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 27 Feb 2012 17:28:42 -0000
-Content-Type: text/plain; charset=ISO-8859-1
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Mon, 27 Feb 2012 17:34:11 -0000
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
 
-On Mon, Feb 27, 2012 at 14:10, Andreas Oberritter <obi@opendreambox.org> wr=
-ote:
-> * Fixes the following error with qt4-embedded-4.8.0 and possibly others:
->
-> | ../../../gui/image/qtiffhandler.cpp:48:20: fatal error: tiffio.h: No su=
-ch file or directory
+On Monday 27 February 2012 14:20:15 Otavio Salvador wrote:
+> On Mon, Feb 27, 2012 at 14:10, Andreas Oberritter <obi@opendreambox.org> 
+wrote:
+> > * Fixes the following error with qt4-embedded-4.8.0 and possibly others:
+> > | ../../../gui/image/qtiffhandler.cpp:48:20: fatal error: tiffio.h: No
+> > | such file or directory
+> Please bump INC_PR.
 
-Please bump INC_PR.
+FYI, there's no INC_PR in qt4.inc but you can bump INC_PR in qt4-embedded.inc 
+and qt4-x11-free.inc since those are the only places that include qt4.inc.
 
---=20
-Otavio Salvador=A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0O=
-.S. Systems
-E-mail: otavio@ossystems.com.br=A0 http://www.ossystems.com.br
-Mobile: +55 53 9981-7854=A0 =A0 =A0 =A0=A0 =A0 =A0 =A0http://projetos.ossys=
-tems.com.br
+Cheers,
+Paul
+
+-- 
+
+Paul Eggleton
+Intel Open Source Technology Centre
 
 
