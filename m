@@ -1,32 +1,34 @@
-Received: from mail-ey0-f175.google.com ([209.85.215.175])
-	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <martin.jansa@gmail.com>)
-	id 1S1y1Q-00043O-Vu; Mon, 27 Feb 2012 11:41:37 +0100
-Received: by eaae1 with SMTP id e1so484185eaa.6
-	for <multiple recipients>; Mon, 27 Feb 2012 02:33:11 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
-	h=date:from:to:cc:subject:message-id:references:mime-version
-	:content-type:content-disposition:in-reply-to:user-agent;
-	bh=AFdQL+3AORPol+DvkjEb3G80h7js/lJjfhEMEhxeke0=;
-	b=aII366TCJKRkKbMTFjjjzv2WxTeWKkbT53An07lF6axqyyR1a2Bqz6au23vYaAVYdi
-	hXmAfsk0xeA7g9GyYsFHFh0tY8cy0KgICPHT3M+n8oCS0jt1f+ecRLlwXXsoVC+M95E7
-	PR/frCVx7g1ZA2P/7uotWfqMWvbj9ilGOAp6A=
-Received: by 10.213.110.17 with SMTP id l17mr2890217ebp.112.1330338791055;
-	Mon, 27 Feb 2012 02:33:11 -0800 (PST)
-Received: from localhost ([94.230.152.246])
-	by mx.google.com with ESMTPS id z7sm9765285eef.9.2012.02.27.02.33.08
-	(version=TLSv1/SSLv3 cipher=OTHER);
-	Mon, 27 Feb 2012 02:33:08 -0800 (PST)
-Date: Mon, 27 Feb 2012 11:33:06 +0100
-From: Martin Jansa <martin.jansa@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Message-ID: <20120227103306.GG3859@jama.jama.net>
-References: <20120222221309.69BFD10336@opal>
-MIME-Version: 1.0
-In-Reply-To: <20120222221309.69BFD10336@opal>
-User-Agent: Mutt/1.5.21 (2010-09-15)
-Cc: openembedded-commits@lists.openembedded.org
-Subject: Re: [oe-commits] Joshua Lock : netbase: remove redundant assignments
+Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
+	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <richard.purdie@linuxfoundation.org>)
+	id 1S1yA0-0005zB-Kb for openembedded-core@lists.openembedded.org;
+	Mon, 27 Feb 2012 11:50:28 +0100
+Received: from localhost (localhost [127.0.0.1])
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q1RAg4us025991
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 27 Feb 2012 10:42:04 GMT
+Received: from tim.rpsys.net ([127.0.0.1])
+	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
+	port 10024) with LMTP
+	id 24840-05 for <openembedded-core@lists.openembedded.org>;
+	Mon, 27 Feb 2012 10:41:59 +0000 (GMT)
+Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q1RAfnsc025985
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO)
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 27 Feb 2012 10:41:53 GMT
+Message-ID: <1330339310.4593.4.camel@ted>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Date: Mon, 27 Feb 2012 10:41:50 +0000
+In-Reply-To: <62993ba45601c619fad5813647787b7fdbc17f7d.1330329283.git.dongxiao.xu@intel.com>
+References: <cover.1330329283.git.dongxiao.xu@intel.com>
+	<62993ba45601c619fad5813647787b7fdbc17f7d.1330329283.git.dongxiao.xu@intel.com>
+X-Mailer: Evolution 3.2.2- 
+Mime-Version: 1.0
+X-Virus-Scanned: amavisd-new at rpsys.net
+Subject: Re: [PATCH 1/1] bitbake.conf: Add DATE and TIME to BB_HASH_WHITELIST
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -41,92 +43,59 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 27 Feb 2012 10:41:37 -0000
-X-Groupsio-MsgNum: 18016
-Content-Type: multipart/signed; micalg=pgp-sha1;
-	protocol="application/pgp-signature"; boundary="tMbDGjvJuJijemkf"
-Content-Disposition: inline
+X-List-Received-Date: Mon, 27 Feb 2012 10:50:29 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
---tMbDGjvJuJijemkf
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+On Mon, 2012-02-27 at 15:58 +0800, Dongxiao Xu wrote:
+> DATE and TIME are not needed when calculating cache's hash value.
+> 
+> Signed-off-by: Dongxiao Xu <dongxiao.xu@intel.com>
+> ---
+>  meta/conf/bitbake.conf |    2 +-
+>  1 files changed, 1 insertions(+), 1 deletions(-)
+> 
+> diff --git a/meta/conf/bitbake.conf b/meta/conf/bitbake.conf
+> index 7d0e0d8..d817bcc 100644
+> --- a/meta/conf/bitbake.conf
+> +++ b/meta/conf/bitbake.conf
+> @@ -736,7 +736,7 @@ BB_CONSOLELOG ?= "${TMPDIR}/cooker.log.${DATETIME}"
+>  
+>  # Setup our default hash policy
+>  BB_SIGNATURE_HANDLER ?= "OEBasic"
+> -BB_HASHBASE_WHITELIST ?= "TMPDIR FILE PATH PWD BB_TASKHASH BBPATH DL_DIR SSTATE_DIR THISDIR FILESEXTRAPATHS FILE_DIRNAME HOME LOGNAME SHELL TERM USER FILESPATH STAGING_DIR_HOST STAGING_DIR_TARGET COREBASE PRSERV_HOST PRSERV_PORT PRSERV_DUMPDIR PRSERV_DUMPFILE PRSERV_LOCKDOWN"
+> +BB_HASHBASE_WHITELIST ?= "TMPDIR FILE PATH PWD BB_TASKHASH BBPATH DL_DIR SSTATE_DIR THISDIR FILESEXTRAPATHS FILE_DIRNAME HOME LOGNAME SHELL TERM USER FILESPATH STAGING_DIR_HOST STAGING_DIR_TARGET COREBASE PRSERV_HOST PRSERV_PORT PRSERV_DUMPDIR PRSERV_DUMPFILE PRSERV_LOCKDOWN DATE TIME"
+>  
+>  MLPREFIX ??= ""
+>  MULTILIB_VARIANTS ??= ""
 
-On Wed, Feb 22, 2012 at 10:13:09PM +0000, git@git.openembedded.org wrote:
-> Module: openembedded-core.git
-> Branch: master
-> Commit: c3d5800d2850a186f91b5a0db642aa5d1c20156b
-> URL:    http://git.openembedded.org/?p=3Dopenembedded-core.git&a=3Dcommit=
-;h=3Dc3d5800d2850a186f91b5a0db642aa5d1c20156b
->=20
-> Author: Joshua Lock <josh@linux.intel.com>
-> Date:   Tue Feb 21 17:46:44 2012 -0800
->=20
-> netbase: remove redundant assignments
->=20
-> There's no need to explicitly set PACKAGE_ARCH =3D MACHINE_ARCH, base.bbc=
-lass
-> takes care of setting this value for us based on the interfaces for those
-> machines being an OVERRIDE.
+I think this patch highlights a major difference between your hashing
+policy for bitbake's base configuration cache and the hash policy needed
+for the signatures and other sstate related pieces.
 
-do_install () {
-=2E..
-        # Disable network manager on machines that commonly do NFS booting
-        case "${MACHINE}" in
-                "qemuarm" | "qemux86" | "qemux86-64" | "qemumips" | "qemupp=
-c" )
+With siggen, we know we have a target variable (usually a task like
+do_compile) and we figure out all its dependencies which we create a
+hash of. Its perfectly valid to have that hash depend on DATE or TIME,
+if it uses them and we don't want to exclude them.
 
-This causes do_install hash to depend on MACHINE variable for all MACHINEs,=
-=20
-so making whole recipe MACHINE_ARCH would be more effective then rebuilding=
-=20
-TARGET_ARCH package after every MACHINE switch.
+For the base configuration cache, we don't want to depend on DATE or
+TIME. We also don't have one target variable to figure out the
+dependencies for, we need to hash every variable with some exclusion
+list.
+
+My point is therefore that the above list is very different to the one
+bitbake needs for its cache's hash. With that in mind, we probably need
+to add a new variable which does something like:
+
+BB_HASHCONFIG_WHITELIST ?= "DATE TIME ${BB_HASHBASE_WHITELIST}"
+
+?
 
 Cheers,
 
->=20
-> Signed-off-by: Joshua Lock <josh@linux.intel.com>
-> Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
->=20
-> ---
->=20
->  meta/recipes-core/netbase/netbase_4.47.bb |    4 ----
->  1 files changed, 0 insertions(+), 4 deletions(-)
->=20
-> diff --git a/meta/recipes-core/netbase/netbase_4.47.bb b/meta/recipes-cor=
-e/netbase/netbase_4.47.bb
-> index ddfa8ad..3aa4915 100644
-> --- a/meta/recipes-core/netbase/netbase_4.47.bb
-> +++ b/meta/recipes-core/netbase/netbase_4.47.bb
-> @@ -47,7 +47,3 @@ do_install () {
->  }
-> =20
->  CONFFILES_${PN} =3D "${sysconfdir}/hosts ${sysconfdir}/network/interface=
-s"
-> -
-> -PACKAGE_ARCH_qemuarm =3D "${MACHINE_ARCH}"
-> -PACKAGE_ARCH_qemux86 =3D "${MACHINE_ARCH}"
-> -PACKAGE_ARCH_qemux86-64 =3D "${MACHINE_ARCH}"
->=20
->=20
-> _______________________________________________
-> Openembedded-commits mailing list
-> Openembedded-commits@lists.openembedded.org
-> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-commits
+Richard
 
---=20
-Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
 
---tMbDGjvJuJijemkf
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: Digital signature
 
------BEGIN PGP SIGNATURE-----
-Version: GnuPG v2.0.18 (GNU/Linux)
 
-iEYEARECAAYFAk9LW+IACgkQN1Ujt2V2gBy+aACgqntprhfbnOs78vMdGWo82eEh
-GwMAn1tiUO9e8AqBQHPG6ZSJu71nHk4x
-=225R
------END PGP SIGNATURE-----
 
---tMbDGjvJuJijemkf--
