@@ -1,35 +1,24 @@
-Received: from mail-we0-f175.google.com ([74.125.82.175])
+Received: from mga09.intel.com ([134.134.136.24])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <koen@dominion.thruhere.net>) id 1S2I5Y-0004gI-LU
+	(envelope-from <edwin.zhai@intel.com>) id 1S2I9n-0004sq-1n
 	for openembedded-core@lists.openembedded.org;
-	Tue, 28 Feb 2012 09:07:12 +0100
-Received: by wera1 with SMTP id a1so1182850wer.6
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 27 Feb 2012 23:58:45 -0800 (PST)
-Received-SPF: pass (google.com: domain of koen@dominion.thruhere.net
-	designates 10.180.84.137 as permitted sender)
-	client-ip=10.180.84.137; 
-Authentication-Results: mr.google.com; spf=pass (google.com: domain of
-	koen@dominion.thruhere.net designates 10.180.84.137 as
-	permitted sender) smtp.mail=koen@dominion.thruhere.net
-Received: from mr.google.com ([10.180.84.137])
-	by 10.180.84.137 with SMTP id z9mr5551411wiy.22.1330415925832 (num_hops
-	= 1); Mon, 27 Feb 2012 23:58:45 -0800 (PST)
-MIME-Version: 1.0
-Received: by 10.180.84.137 with SMTP id z9mr4350012wiy.22.1330415925738;
-	Mon, 27 Feb 2012 23:58:45 -0800 (PST)
-Received: from localhost (ip545070eb.adsl-surfen.hetnet.nl. [84.80.112.235])
-	by mx.google.com with ESMTPS id by4sm21178230wib.3.2012.02.27.23.58.44
-	(version=TLSv1/SSLv3 cipher=OTHER);
-	Mon, 27 Feb 2012 23:58:45 -0800 (PST)
-From: Koen Kooi <koen@dominion.thruhere.net>
+	Tue, 28 Feb 2012 09:11:35 +0100
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+	by orsmga102.jf.intel.com with ESMTP; 28 Feb 2012 00:02:02 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.67,351,1309762800"; d="scan'208";a="115563787"
+Received: from yocto-build3.sh.intel.com ([10.239.48.15])
+	by orsmga002.jf.intel.com with ESMTP; 28 Feb 2012 00:01:03 -0800
+From: edwin.zhai@intel.com
 To: openembedded-core@lists.openembedded.org
-Date: Tue, 28 Feb 2012 08:58:37 +0100
-Message-Id: <1330415917-3451-1-git-send-email-koen@dominion.thruhere.net>
-X-Mailer: git-send-email 1.7.2.5
-X-Gm-Message-State: ALoCoQlM67hzgoDBZ+QHM5FYd/FU7aaZUC06nElRktGmVX+0SGYlB/Xs0rB3xMJNf0S5oLt4WZ0Q
-Cc: Koen Kooi <koen@dominion.thruhere.net>
-Subject: [PATCH] tcl 8.5.11: fix packaging
+Date: Tue, 28 Feb 2012 16:00:47 +0800
+Message-Id: <41d276807b67807826163f305c95ab234977a0e4.1330415940.git.edwin.zhai@intel.com>
+X-Mailer: git-send-email 1.7.1
+In-Reply-To: <cover.1330415940.git.edwin.zhai@intel.com>
+References: <cover.1330415940.git.edwin.zhai@intel.com>
+In-Reply-To: <cover.1330415940.git.edwin.zhai@intel.com>
+References: <cover.1330415940.git.edwin.zhai@intel.com>
+Subject: [PATCH 2/5] gnupg: Fix for multilib
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -44,42 +33,30 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 28 Feb 2012 08:07:12 -0000
+X-List-Received-Date: Tue, 28 Feb 2012 08:11:35 -0000
 
-Include /usr/lib/tcl8 for the msgcat and test module, force dependency on tcl-lib since shlibs isn't picking it up.
+From: Zhai Edwin <edwin.zhai@intel.com>
 
-Signed-off-by: Koen Kooi <koen@dominion.thruhere.net>
+Signed-off-by: Zhai Edwin <edwin.zhai@intel.com>
 ---
- meta/recipes-devtools/tcltk/tcl_8.5.11.bb |    7 +++++--
- 1 files changed, 5 insertions(+), 2 deletions(-)
+ meta/recipes-support/gnupg/gnupg_2.0.18.bb |    2 +-
+ 1 files changed, 1 insertions(+), 1 deletions(-)
 
-diff --git a/meta/recipes-devtools/tcltk/tcl_8.5.11.bb b/meta/recipes-devtools/tcltk/tcl_8.5.11.bb
-index 146021a..a9a41fb 100644
---- a/meta/recipes-devtools/tcltk/tcl_8.5.11.bb
-+++ b/meta/recipes-devtools/tcltk/tcl_8.5.11.bb
-@@ -11,7 +11,7 @@ LIC_FILES_CHKSUM = "file://../license.terms;md5=a47a9be26d03f925fc1fbd2784f27e11
-     file://../win/license.terms;md5=a47a9be26d03f925fc1fbd2784f27e11 \
-     "
+diff --git a/meta/recipes-support/gnupg/gnupg_2.0.18.bb b/meta/recipes-support/gnupg/gnupg_2.0.18.bb
+index 6712269..abcb5fb 100644
+--- a/meta/recipes-support/gnupg/gnupg_2.0.18.bb
++++ b/meta/recipes-support/gnupg/gnupg_2.0.18.bb
+@@ -8,7 +8,7 @@ DEPENDS = "pth libassuan libksba zlib bzip2 readline libgcrypt"
  
--PR = "r2"
-+PR = "r3"
+ inherit autotools gettext
  
- BASE_SRC_URI = "${SOURCEFORGE_MIRROR}/tcl/tcl${PV}-src.tar.gz \
-                 file://tcl-add-soname.patch"
-@@ -59,7 +59,10 @@ do_install() {
+-SRC_URI = "ftp://ftp.gnupg.org/gcrypt/${PN}/${P}.tar.bz2"
++SRC_URI = "ftp://ftp.gnupg.org/gcrypt/${BPN}/${BPN}-${PV}.tar.bz2"
  
- PACKAGES =+ "${PN}-lib"
- FILES_${PN}-lib = "${libdir}/libtcl8.5.so*"
--FILES_${PN} += "${prefix}/lib/tcl8.5"
-+FILES_${PN} += "${prefix}/lib/tcl8.5 ${prefix}/lib/tcl8"
- FILES_${PN}-dev += "${libdir}/tclConfig.sh"
- 
-+# isn't getting picked up by shlibs code
-+RDEPENDS_${PN} += "${PN}-lib"
-+
- BBCLASSEXTEND = "native"
+ SRC_URI[md5sum] = "2f37e0722666a0fedbe4d9f9227ac4d7"
+ SRC_URI[sha256sum] = "48aedd762ca443fb952a9e859efe3c66706d7c2c9c77c32dbdbac4fe962dae5b"
 -- 
-1.7.2.5
+1.7.1
 
 
 
