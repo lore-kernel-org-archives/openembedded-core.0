@@ -1,37 +1,41 @@
-Received: from mail-pw0-f47.google.com ([209.85.160.47])
+Received: from mail-vx0-f175.google.com ([209.85.220.175])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <andrea.adami@gmail.com>) id 1S2WoJ-0000vd-PI
+	(envelope-from <otavio.salvador@gmail.com>) id 1S2Wue-00010Q-Jl
 	for openembedded-core@lists.openembedded.org;
-	Wed, 29 Feb 2012 00:50:24 +0100
-Received: by pbbrp12 with SMTP id rp12so4335994pbb.6
+	Wed, 29 Feb 2012 00:56:56 +0100
+Received: by vcbfl13 with SMTP id fl13so2673227vcb.6
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 28 Feb 2012 15:41:55 -0800 (PST)
-Received-SPF: pass (google.com: domain of andrea.adami@gmail.com designates
-	10.68.194.8 as permitted sender) client-ip=10.68.194.8; 
-Authentication-Results: mr.google.com;
-	spf=pass (google.com: domain of andrea.adami@gmail.com
-	designates 10.68.194.8 as permitted sender)
-	smtp.mail=andrea.adami@gmail.com;
-	dkim=pass header.i=andrea.adami@gmail.com
-Received: from mr.google.com ([10.68.194.8])
-	by 10.68.194.8 with SMTP id hs8mr59812777pbc.113.1330472515279
-	(num_hops = 1); Tue, 28 Feb 2012 15:41:55 -0800 (PST)
+	Tue, 28 Feb 2012 15:48:28 -0800 (PST)
+Received-SPF: pass (google.com: domain of otavio.salvador@gmail.com designates
+	10.52.99.231 as permitted sender) client-ip=10.52.99.231; 
+Authentication-Results: mr.google.com; spf=pass (google.com: domain of
+	otavio.salvador@gmail.com designates 10.52.99.231 as permitted
+	sender) smtp.mail=otavio.salvador@gmail.com;
+	dkim=pass header.i=otavio.salvador@gmail.com
+Received: from mr.google.com ([10.52.99.231])
+	by 10.52.99.231 with SMTP id et7mr15344335vdb.114.1330472908212
+	(num_hops = 1); Tue, 28 Feb 2012 15:48:28 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
-	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
-	:content-type; bh=STRTgo1KaV3vvJKkcPoyA65gB4QsaHyH/+xZQu1tOu8=;
-	b=g5V9DVKwE1zqUIu5C9wAkaGtlnHFMRUZoM6iIozx7e8Wg+lW4wnu00PULrtdniZ5eN
-	UKtHWLHnC+b3enb1Z5fnDWSWz4NEckhCJy/SoJUdZtADVfB8ERW/RlMT9bWTyU9PALx0
-	Il8b/BNQKtSPfF+w/NFCJD6H9vwJWKVNdTmbk=
+	h=mime-version:sender:in-reply-to:references:date
+	:x-google-sender-auth:message-id:subject:from:to:content-type
+	:content-transfer-encoding;
+	bh=kuiDSHjG4hgV6a9+SqMX6hBN4KpSONrHRN/8TqU1u8U=;
+	b=YohUtzD+6XEPUwVl7n8domQbLZiagcygr39O2cGGcO3yNMSrs4bvd6wNyegce5Tnms
+	877HhBWQckArmYIKDzn5/SB9KSOqIy1f4naxoP4T3OUL9130Kbepwf8YgHxqBz+Z9ELL
+	JrCaafC9dHn/HsXkZe8zpPqB8W2l6T4Qt++c4=
 MIME-Version: 1.0
-Received: by 10.68.194.8 with SMTP id hs8mr50380682pbc.113.1330472515078; Tue,
-	28 Feb 2012 15:41:55 -0800 (PST)
-Received: by 10.143.67.8 with HTTP; Tue, 28 Feb 2012 15:41:55 -0800 (PST)
-In-Reply-To: <D1E600DA-4C86-4459-8820-F8B2AE88AAEF@dominion.thruhere.net>
+Received: by 10.52.99.231 with SMTP id et7mr12701953vdb.114.1330472908093;
+	Tue, 28 Feb 2012 15:48:28 -0800 (PST)
+Sender: otavio.salvador@gmail.com
+Received: by 10.220.7.208 with HTTP; Tue, 28 Feb 2012 15:48:28 -0800 (PST)
+In-Reply-To: <CAAQYJAvgS3gsZ8XCOcU89QgESvxsMsYYYfe_x-DF05m7ibeLwg@mail.gmail.com>
 References: <1330346629.4593.20.camel@ted>
 	<D1E600DA-4C86-4459-8820-F8B2AE88AAEF@dominion.thruhere.net>
-Date: Wed, 29 Feb 2012 00:41:55 +0100
-Message-ID: <CAAQYJAvgS3gsZ8XCOcU89QgESvxsMsYYYfe_x-DF05m7ibeLwg@mail.gmail.com>
-From: Andrea Adami <andrea.adami@gmail.com>
+	<CAAQYJAvgS3gsZ8XCOcU89QgESvxsMsYYYfe_x-DF05m7ibeLwg@mail.gmail.com>
+Date: Tue, 28 Feb 2012 20:48:28 -0300
+X-Google-Sender-Auth: -qpxywsYp4qP_wR0c4zeiV9hK_I
+Message-ID: <CAP9ODKqRy=O1tdqUZUyq=_L0gFnwNr55e9-E-djx+hWda8G63A@mail.gmail.com>
+From: Otavio Salvador <otavio@ossystems.com.br>
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
 Subject: Re: [PATCH] image_types: Refactor compression code into a generic compression solution
@@ -49,52 +53,40 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 28 Feb 2012 23:50:24 -0000
+X-List-Received-Date: Tue, 28 Feb 2012 23:56:56 -0000
 Content-Type: text/plain; charset=ISO-8859-1
+Content-Transfer-Encoding: quoted-printable
 
-On Tue, Feb 28, 2012 at 9:19 PM, Koen Kooi <koen@dominion.thruhere.net> wrote:
+On Tue, Feb 28, 2012 at 20:41, Andrea Adami <andrea.adami@gmail.com> wrote:
+> | ln: failed to create symbolic link
+> `/oe/oe-core/build/tmp-eglibc/deploy/images/initramfs-kexecboot-klibc-ima=
+ge-poodle.cpio.lzma':
+> File exists
 >
-> Op 27 feb. 2012, om 13:43 heeft Richard Purdie het volgende geschreven:
+> Looking at run.do_rootfs I see runimagecmd is called twice.
 >
->> The current approach of adding each different compressed image type doesn't
->> scale. This patch changes the code so compressed images for each form are
->> automatically available using the form <type>.<compression type> in
->> IMAGE_FSTYPES. This doesn't change any existing externally visible behaviour
->> and the image generation process becomes more efficient as a result too.
->
-> There's a a few -f's missing in this patch, e.g. bz2 images now fail with:
->
-> bzip2: ERROR: Function failed: do_rootfs (see /OE/tentacle/build/tmp-angstrom_2010_x-eglibc/work/beagleboard-angstrom-linux-gnueabi/systemd-image-1.0-r0/temp/log.do_rootfs.3174 for further information)
-> Output file Angstrom-systemd-image-eglibc-ipk-v2012.02-core-beagleboard.rootfs.tar.bz2 already exists.
->
-> A quick look suggests at least bz2 and xz images can't get rebuilt.
->
+> In the log.do_rootfs there is also a strange
 
-Issues with cpio.lzma as well:
+I found many issues with shell variable expanding in current bitbake;
+I described the issue in #yocto but it seems I am the only one to have
+those problems.
 
-| ln: failed to create symbolic link
-`/oe/oe-core/build/tmp-eglibc/deploy/images/initramfs-kexecboot-klibc-image-poodle.cpio.lzma':
-File exists
+Basically it seems:
 
-Looking at run.do_rootfs I see runimagecmd is called twice.
+export FOO=3Dbar
 
-In the log.do_rootfs there is also a strange
+Parses fine but /don't work/.
 
-+ sed sERROR: Function failed: do_rootfs (see
-/oe/oe-core/build/tmp-eglibc/work/poodle-oe-linux-gnueabi/initramfs-kexecboot-klibc-image-1.0-r0/temp/log.do_rootfs.31195
-for further information)
-/generic_//g
+export FOO=3D"bar"
+
+Works.
 
 
-Regards
-
-Andrea
-> regards,
->
-> Koen
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
+--=20
+Otavio Salvador=A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0O=
+.S. Systems
+E-mail: otavio@ossystems.com.br=A0 http://www.ossystems.com.br
+Mobile: +55 53 9981-7854=A0 =A0 =A0 =A0=A0 =A0 =A0 =A0http://projetos.ossys=
+tems.com.br
 
 
