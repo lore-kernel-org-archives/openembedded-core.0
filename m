@@ -1,33 +1,16 @@
-Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
-	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <richard.purdie@linuxfoundation.org>)
-	id 1S2jGm-0000wE-Ri for openembedded-core@lists.openembedded.org;
-	Wed, 29 Feb 2012 14:08:37 +0100
-Received: from localhost (localhost [127.0.0.1])
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q1TD0896030092
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 29 Feb 2012 13:00:08 GMT
-Received: from tim.rpsys.net ([127.0.0.1])
-	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
-	port 10024) with LMTP
-	id 28765-10 for <openembedded-core@lists.openembedded.org>;
-	Wed, 29 Feb 2012 13:00:04 +0000 (GMT)
-Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q1TD00e8030076
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO)
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 29 Feb 2012 13:00:01 GMT
-Message-ID: <1330520402.24508.40.camel@ted>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Date: Wed, 29 Feb 2012 13:00:02 +0000
-In-Reply-To: <cover.1330494042.git.otavio@ossystems.com.br>
-References: <cover.1330494042.git.otavio@ossystems.com.br>
-X-Mailer: Evolution 3.2.2- 
-Mime-Version: 1.0
-X-Virus-Scanned: amavisd-new at rpsys.net
-Subject: Re: [PATCH 0/3] Pending patches from O.S. Systems' tree
+Received: from ffm.saftware.de ([83.141.3.46])
+	by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <obi@opendreambox.org>) id 1S2jR3-00016t-2P
+	for openembedded-core@lists.openembedded.org;
+	Wed, 29 Feb 2012 14:19:13 +0100
+From: Andreas Oberritter <obi@opendreambox.org>
+To: openembedded-core@lists.openembedded.org
+Date: Tue, 28 Feb 2012 12:24:28 +0100
+Message-Id: <1330428268-9338-1-git-send-email-obi@opendreambox.org>
+X-Mailer: git-send-email 1.7.5.4
+In-Reply-To: <4F4C596A.3050301@linux.intel.com>
+References: <4F4C596A.3050301@linux.intel.com>
+Subject: [PATCH v3] libsdl: add DirectFB support
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -42,30 +25,53 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 29 Feb 2012 13:08:37 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Wed, 29 Feb 2012 13:19:13 -0000
 
-On Wed, 2012-02-29 at 05:41 +0000, Otavio Salvador wrote:
-> The following changes since commit 61216d2743502ef38955054aad6a4f2ed63e6d43:
-> 
->   licenses.conf: fix quotting of SRC_DISTRIBUTE_LICENSES (2012-02-28 17:51:42 +0000)
-> 
-> are available in the git repository at:
->   git://github.com/OSSystems/oe-core master
->   https://github.com/OSSystems/oe-core/tree/HEAD
-> 
-> Otavio Salvador (3):
->   image.bbclass: do not create image manifest link if IMAGE_LINK_NAME
->     is empty
->   image_types.bbclass: properly support IMAGE_LINK_NAME as empty
->   image_types.bbclass: fix bzip2 and xz compression commands
+* Use conditional dependencies for DirectFB, like
+  it's already done for OpenGL and X11.
 
-Merged to master, thanks (with one tweak I've mentioned).
+Signed-off-by: Andreas Oberritter <obi@opendreambox.org>
+---
+* v2: Rebased after X11 was already made conditional.
+* v3: Add back PR bump, which was auto-merged during rebase.
 
-Cheers,
+ meta/recipes-graphics/libsdl/libsdl_1.2.14.bb |    8 +++++---
+ 1 files changed, 5 insertions(+), 3 deletions(-)
 
-Richard
+diff --git a/meta/recipes-graphics/libsdl/libsdl_1.2.14.bb b/meta/recipes-graphics/libsdl/libsdl_1.2.14.bb
+index 62a2d1f..5c9e645 100644
+--- a/meta/recipes-graphics/libsdl/libsdl_1.2.14.bb
++++ b/meta/recipes-graphics/libsdl/libsdl_1.2.14.bb
+@@ -12,12 +12,13 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=27818cd7fd83877a8e3ef82b82798ef4"
+ 
+ PROVIDES = "virtual/libsdl"
+ 
+-DEPENDS = "${@base_contains('DISTRO_FEATURES', 'opengl', 'virtual/libgl', '', d)} \
++DEPENDS = "${@base_contains('DISTRO_FEATURES', 'directfb', 'directfb', '', d)} \
++           ${@base_contains('DISTRO_FEATURES', 'opengl', 'virtual/libgl', '', d)} \
+            ${@base_contains('DISTRO_FEATURES', 'x11', 'virtual/libx11 libxext libxrandr libxrender', '', d)} \
+            tslib"
+ DEPENDS_virtclass-nativesdk = "${@base_contains('DISTRO_FEATURES', 'x11', 'libx11-nativesdk libxrandr-nativesdk libxrender-nativesdk libxext-nativesdk', '', d)}"
+ 
+-PR = "r6"
++PR = "r7"
+ 
+ SRC_URI = "http://www.libsdl.org/release/SDL-${PV}.tar.gz \
+            file://configure_tweak.patch \
+@@ -35,9 +36,10 @@ EXTRA_OECONF = "--disable-static --disable-debug --enable-cdrom --enable-threads
+                 --enable-file --disable-oss --disable-esd --disable-arts \
+                 --disable-diskaudio --disable-nas --disable-esd-shared --disable-esdtest \
+                 --disable-mintaudio --disable-nasm --disable-video-dga \
+-                --disable-video-fbcon --disable-video-directfb --disable-video-ps2gs --disable-video-ps3 \
++                --disable-video-fbcon --disable-video-ps2gs --disable-video-ps3 \
+                 --disable-video-xbios --disable-video-gem --disable-video-dummy \
+                 --enable-input-events --enable-input-tslib --enable-pthreads \
++                ${@base_contains('DISTRO_FEATURES', 'directfb', '--enable-video-directfb', '--disable-video-directfb', d)} \
+                 ${@base_contains('DISTRO_FEATURES', 'opengl', '--enable-video-opengl', '--disable-video-opengl', d)} \
+                 ${@base_contains('DISTRO_FEATURES', 'x11', '--enable-video-x11', '--disable-video-x11', d)} \
+                 --disable-video-svga \
+-- 
+1.7.5.4
 
 
 
