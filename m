@@ -1,20 +1,26 @@
-Received: from outbound.icp-qv1-irony-out1.iinet.net.au ([203.59.1.106])
+Received: from mga09.intel.com ([134.134.136.24])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <james@digitalmatter.com.au>) id 1S2EEs-0003Yz-2Z
+	(envelope-from <sgw@linux.intel.com>) id 1S2EuV-0003sX-W0
 	for openembedded-core@lists.openembedded.org;
-	Tue, 28 Feb 2012 05:00:35 +0100
-X-IronPort-Anti-Spam-Filtered: true
-X-IronPort-Anti-Spam-Result: AvwEAGKdSE/LO4Se/2dsb2JhbABCsw+BB4JFAS0ogSmIBaoIAY0ijgUTBgMChH8HWAwggx4EiE2Sbox8
-X-IronPort-AV: E=Sophos;i="4.73,494,1325433600"; d="scan'208";a="838505897"
-Received: from unknown (HELO gentoo_vm.DMA.local) ([203.59.132.158])
-	by outbound.icp-qv1-irony-out1.iinet.net.au with ESMTP;
-	28 Feb 2012 11:48:57 +0800
-From: James Limbouris <james@digitalmatter.com.au>
-To: openembedded-core@lists.openembedded.org
-Date: Tue, 28 Feb 2012 11:49:06 +0800
-Message-Id: <1330400946-22941-1-git-send-email-james@digitalmatter.com.au>
-X-Mailer: git-send-email 1.7.3.4
-Subject: [PATCH] mtd-utils: Don't use host 'ranlib' or 'ar'.
+	Tue, 28 Feb 2012 05:43:36 +0100
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+	by orsmga102.jf.intel.com with ESMTP; 27 Feb 2012 20:34:51 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.67,352,1309762800"; d="scan'208";a="112478570"
+Received: from unknown (HELO [10.255.15.37]) ([10.255.15.37])
+	by orsmga001.jf.intel.com with ESMTP; 27 Feb 2012 20:34:50 -0800
+Message-ID: <4F4C596A.3050301@linux.intel.com>
+Date: Mon, 27 Feb 2012 20:34:50 -0800
+From: Saul Wold <sgw@linux.intel.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:10.0.1) Gecko/20120216 Thunderbird/10.0.1
+MIME-Version: 1.0
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+References: <1330050435-28527-1-git-send-email-obi@opendreambox.org>
+	<1330115481-11625-1-git-send-email-obi@opendreambox.org>
+In-Reply-To: <1330115481-11625-1-git-send-email-obi@opendreambox.org>
+Subject: Re: [PATCH v2] libsdl: add DirectFB support
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -29,34 +35,50 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 28 Feb 2012 04:00:35 -0000
+X-List-Received-Date: Tue, 28 Feb 2012 04:43:36 -0000
+Content-Type: text/plain; charset=ISO-8859-1; format=flowed
+Content-Transfer-Encoding: 7bit
 
-If ranlib, ar, or cc are not supplied to make, it attempts to use ${CROSS}xxx.
-Since ${CROSS} is not set, host ranlib may run, producing an unusable .a file on some platforms.
+On 02/24/2012 12:31 PM, Andreas Oberritter wrote:
+> * Use conditional dependencies for DirectFB, like
+>    it's already done for OpenGL and X11.
+>
+> Signed-off-by: Andreas Oberritter<obi@opendreambox.org>
+> ---
+> * Rebased after X11 was already made conditional.
+>
+>   meta/recipes-graphics/libsdl/libsdl_1.2.14.bb |    6 ++++--
+>   1 files changed, 4 insertions(+), 2 deletions(-)
+>
+No PR Bump!
 
-Signed-off-by: James Limbouris <james@digitalmatter.com.au>
----
- meta/recipes-devtools/mtd/mtd-utils_1.4.9.bb |    4 ++--
- 1 files changed, 2 insertions(+), 2 deletions(-)
+Sau!
 
-diff --git a/meta/recipes-devtools/mtd/mtd-utils_1.4.9.bb b/meta/recipes-devtools/mtd/mtd-utils_1.4.9.bb
-index 519472c..4228b51 100644
---- a/meta/recipes-devtools/mtd/mtd-utils_1.4.9.bb
-+++ b/meta/recipes-devtools/mtd/mtd-utils_1.4.9.bb
-@@ -11,9 +11,9 @@ SRC_URI = "git://git.infradead.org/mtd-utils.git;protocol=git;tag=995cfe51b0a3cf
- 
- S = "${WORKDIR}/git/"
- 
--PR = "r0"
-+PR = "r1"
- 
--EXTRA_OEMAKE = "'CC=${CC}' 'CFLAGS=${CFLAGS} -I${S}/include -DWITHOUT_XATTR' 'BUILDDIR=${S}'"
-+EXTRA_OEMAKE = "'CC=${CC}' 'RANLIB=${RANLIB}' 'AR=${AR}' 'CFLAGS=${CFLAGS} -I${S}/include -DWITHOUT_XATTR' 'BUILDDIR=${S}'"
- 
- do_install () {
- 	oe_runmake install DESTDIR=${D} SBINDIR=${sbindir} MANDIR=${mandir} INCLUDEDIR=${includedir}
--- 
-1.7.3.4
-
+> diff --git a/meta/recipes-graphics/libsdl/libsdl_1.2.14.bb b/meta/recipes-graphics/libsdl/libsdl_1.2.14.bb
+> index 62a2d1f..94df358 100644
+> --- a/meta/recipes-graphics/libsdl/libsdl_1.2.14.bb
+> +++ b/meta/recipes-graphics/libsdl/libsdl_1.2.14.bb
+> @@ -12,7 +12,8 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=27818cd7fd83877a8e3ef82b82798ef4"
+>
+>   PROVIDES = "virtual/libsdl"
+>
+> -DEPENDS = "${@base_contains('DISTRO_FEATURES', 'opengl', 'virtual/libgl', '', d)} \
+> +DEPENDS = "${@base_contains('DISTRO_FEATURES', 'directfb', 'directfb', '', d)} \
+> +           ${@base_contains('DISTRO_FEATURES', 'opengl', 'virtual/libgl', '', d)} \
+>              ${@base_contains('DISTRO_FEATURES', 'x11', 'virtual/libx11 libxext libxrandr libxrender', '', d)} \
+>              tslib"
+>   DEPENDS_virtclass-nativesdk = "${@base_contains('DISTRO_FEATURES', 'x11', 'libx11-nativesdk libxrandr-nativesdk libxrender-nativesdk libxext-nativesdk', '', d)}"
+> @@ -35,9 +36,10 @@ EXTRA_OECONF = "--disable-static --disable-debug --enable-cdrom --enable-threads
+>                   --enable-file --disable-oss --disable-esd --disable-arts \
+>                   --disable-diskaudio --disable-nas --disable-esd-shared --disable-esdtest \
+>                   --disable-mintaudio --disable-nasm --disable-video-dga \
+> -                --disable-video-fbcon --disable-video-directfb --disable-video-ps2gs --disable-video-ps3 \
+> +                --disable-video-fbcon --disable-video-ps2gs --disable-video-ps3 \
+>                   --disable-video-xbios --disable-video-gem --disable-video-dummy \
+>                   --enable-input-events --enable-input-tslib --enable-pthreads \
+> +                ${@base_contains('DISTRO_FEATURES', 'directfb', '--enable-video-directfb', '--disable-video-directfb', d)} \
+>                   ${@base_contains('DISTRO_FEATURES', 'opengl', '--enable-video-opengl', '--disable-video-opengl', d)} \
+>                   ${@base_contains('DISTRO_FEATURES', 'x11', '--enable-video-x11', '--disable-video-x11', d)} \
+>                   --disable-video-svga \
 
 
