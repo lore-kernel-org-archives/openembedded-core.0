@@ -1,35 +1,52 @@
-Received: from masterfoo.zenlinux.com ([207.192.74.254])
+Received: from am1ehsobe001.messaging.microsoft.com ([213.199.154.204]
+	helo=AM1EHSOBE002.bigfish.com)
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <scott.a.garman@intel.com>) id 1S2Uzi-0006Rr-Gt
+	(envelope-from <B29882@freescale.com>) id 1S2V9v-00074L-41
 	for openembedded-core@lists.openembedded.org;
-	Tue, 28 Feb 2012 22:54:02 +0100
-Received: from localhost (c-76-105-137-48.hsd1.or.comcast.net [76.105.137.48])
-	(using TLSv1 with cipher DHE-RSA-AES128-SHA (128/128 bits))
-	(No client certificate requested)
-	by masterfoo.zenlinux.com (Postfix) with ESMTP id E509D2FF3D
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 28 Feb 2012 16:45:31 -0500 (EST)
-From: Scott Garman <scott.a.garman@intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Tue, 28 Feb 2012 13:45:28 -0800
-Message-Id: <948126e8b9392e90f86f18a7095589586cc22d42.1330465479.git.scott.a.garman@intel.com>
-X-Mailer: git-send-email 1.7.5.4
-In-Reply-To: <cover.1330465479.git.scott.a.garman@intel.com>
-References: <cover.1330465479.git.scott.a.garman@intel.com>
-In-Reply-To: <cover.1330465479.git.scott.a.garman@intel.com>
-References: <cover.1330465479.git.scott.a.garman@intel.com>
-X-MasterFoo-MailScanner-Information: Please contact the ISP for more
-	information
-X-MailScanner-ID: E509D2FF3D.4A6A4
-X-MasterFoo-MailScanner: Found to be clean
-X-MasterFoo-MailScanner-SpamCheck: not spam
-X-MasterFoo-MailScanner-From: scott.a.garman@intel.com
-X-Spam-Status: No
-Subject: [PATCH 1/1] sudo: upgrade to 1.8.4
+	Tue, 28 Feb 2012 23:04:35 +0100
+Received: from mail46-am1-R.bigfish.com (10.3.201.238) by
+	AM1EHSOBE002.bigfish.com (10.3.204.22) with Microsoft SMTP Server id
+	14.1.225.23; Tue, 28 Feb 2012 21:41:02 +0000
+Received: from mail46-am1 (localhost [127.0.0.1])	by mail46-am1-R.bigfish.com
+	(Postfix) with ESMTP id 44A8D1804E5;
+	Tue, 28 Feb 2012 21:41:02 +0000 (UTC)
+X-SpamScore: 3
+X-BigFish: VS3(zzzz1202hzzz2dh2a8h668h839h8e2h8e3hbe9k)
+X-Forefront-Antispam-Report: CIP:70.37.183.190; KIP:(null); UIP:(null); IPV:NLI;
+	H:mail.freescale.net; RD:none; EFVD:NLI
+Received: from mail46-am1 (localhost.localdomain [127.0.0.1]) by mail46-am1
+	(MessageSwitch) id 1330465260287738_9034;
+	Tue, 28 Feb 2012 21:41:00 +0000 (UTC)
+Received: from AM1EHSMHS017.bigfish.com (unknown [10.3.201.250])	by
+	mail46-am1.bigfish.com (Postfix) with ESMTP id 3D4CA340A4D;
+	Tue, 28 Feb 2012 21:41:00 +0000 (UTC)
+Received: from mail.freescale.net (70.37.183.190) by AM1EHSMHS017.bigfish.com
+	(10.3.207.155) with Microsoft SMTP Server (TLS) id 14.1.225.23;
+	Tue, 28 Feb 2012 21:41:00 +0000
+Received: from 039-SN1MPN1-001.039d.mgd.msft.net ([169.254.1.244]) by
+	039-SN1MMR1-002.039d.mgd.msft.net ([10.84.1.15]) with mapi id
+	14.01.0355.003; Tue, 28 Feb 2012 15:40:58 -0600
+From: McClintock Matthew-B29882 <B29882@freescale.com>
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Thread-Topic: qemu.inc do_install question / qemu-targets.inc
+Thread-Index: AQHM9mGnEKMMtdYuIkej4ugsDzRb8g==
+Date: Tue, 28 Feb 2012 21:40:57 +0000
+Message-ID: <CAEsOVNfTjTNi_nBy=Fd98JURMMLAwvcpQs=zbxihMKeRgn_ehA@mail.gmail.com>
+Accept-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [99.47.177.27]
+MIME-Version: 1.0
+X-OriginatorOrg: freescale.com
+Cc: Yoder Stuart-B08248 <B08248@freescale.com>,
+	Paul Eggleton <paul.eggleton@linux.intel.com>
+Subject: qemu.inc do_install question / qemu-targets.inc
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
-Reply-To: Patches and discussions about the oe-core layer
+Reply-To: McClintock Matthew-B29882 <B29882@freescale.com>,
+	Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
 List-Id: Patches and discussions about the oe-core layer
 	<openembedded-core.lists.openembedded.org>
@@ -40,65 +57,57 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 28 Feb 2012 21:54:02 -0000
+X-List-Received-Date: Tue, 28 Feb 2012 22:04:35 -0000
+Content-Language: en-US
+Content-Type: text/plain; charset="iso-8859-1"
+Content-ID: <71FA0DB74847644EAF2F2ADA4B9DA17F@mgd.freescale.com>
+Content-Transfer-Encoding: quoted-printable
 
-During the upgrade to 1.8.4, the UCB-licensed fnmatch.c was replaced
-with a non-recursive BSD-licensed version, hence the removal of UCB
-and addition of BSD in the LICENSE field. This led to checksum changes
-in the doc/LICENSE file, and we now additionally track the comment
-headers in redblack.c.
+All,
 
-These changes were confirmed on the sudo mailing list:
+I'm wanting to remove this:
 
-http://www.sudo.ws/pipermail/sudo-workers/2012-February/000736.html
+diff --git a/meta/recipes-devtools/qemu/qemu.inc
+b/meta/recipes-devtools/qemu/qemu.inc
+index 58049b9..3be46f2 100644
+--- a/meta/recipes-devtools/qemu/qemu.inc
++++ b/meta/recipes-devtools/qemu/qemu.inc
+@@ -49,13 +49,6 @@ do_configure() {
+     test ! -e ${S}/target-i386/beginend_funcs.sh || chmod a+x
+${S}/target-i386/beginend_funcs.s
+ }
 
-This upgrade also fixes CVE-2012-0809.
+-do_install () {
+-       export STRIP=3D"true"
+-       autotools_do_install
+-       install -d ${D}${datadir}/qemu
+-       install -m 0755 ${WORKDIR}/powerpc_rom.bin ${D}${datadir}/qemu
+-}
+-
 
-Signed-off-by: Scott Garman <scott.a.garman@intel.com>
----
- meta/recipes-extended/sudo/sudo.inc                |    7 ++++---
- .../sudo/{sudo_1.8.3.bb => sudo_1.8.4.bb}          |    4 ++--
- 2 files changed, 6 insertions(+), 5 deletions(-)
- rename meta/recipes-extended/sudo/{sudo_1.8.3.bb => sudo_1.8.4.bb} (84%)
+Can anyone comment why it's there? Can we move it up a level to a
+specific recipe? We don't want to include this powerpc_rom.bin..
+should we just fork our qemu recipe instead?
 
-diff --git a/meta/recipes-extended/sudo/sudo.inc b/meta/recipes-extended/sudo/sudo.inc
-index 83dd209..2168690 100644
---- a/meta/recipes-extended/sudo/sudo.inc
-+++ b/meta/recipes-extended/sudo/sudo.inc
-@@ -3,9 +3,10 @@ DESCRIPTION = "Sudo (superuser do) allows a system administrator to give certain
- HOMEPAGE = "http://www.sudo.ws"
- BUGTRACKER = "http://www.sudo.ws/bugs/"
- SECTION = "admin"
--LICENSE = "ISC & UCB & Zlib"
--LIC_FILES_CHKSUM = "file://doc/LICENSE;md5=54f1b46c2459ecec3d892618eab44302 \
--                    file://compat/fnmatch.c;beginline=6;endline=31;md5=5872733146b9eb0deb79e1f664815b85 \
-+LICENSE = "ISC & BSD & Zlib"
-+LIC_FILES_CHKSUM = "file://doc/LICENSE;md5=19f95c610f585c26a836975654807669 \
-+                    file://plugins/sudoers/redblack.c;beginline=1;endline=41;md5=fba1c1dca0951819964dfdc618e81724 \
-+                    file://compat/fnmatch.c;beginline=3;endline=27;md5=67f83ee9bd456557397082f8f1be0efd \
-                     file://compat/getcwd.c;beginline=5;endline=27;md5=449af4cc57fc7d46f42090608ba3e681 \
-                     file://compat/glob.c;beginline=6;endline=31;md5=5872733146b9eb0deb79e1f664815b85 \
-                     file://compat/snprintf.c;beginline=6;endline=31;md5=c98b24f02967c095d7a70ae2e4d4d4ea"
-diff --git a/meta/recipes-extended/sudo/sudo_1.8.3.bb b/meta/recipes-extended/sudo/sudo_1.8.4.bb
-similarity index 84%
-rename from meta/recipes-extended/sudo/sudo_1.8.3.bb
-rename to meta/recipes-extended/sudo/sudo_1.8.4.bb
-index 99fe5b9..dfa7291 100644
---- a/meta/recipes-extended/sudo/sudo_1.8.3.bb
-+++ b/meta/recipes-extended/sudo/sudo_1.8.4.bb
-@@ -8,8 +8,8 @@ SRC_URI = "http://ftp.sudo.ws/sudo/dist/sudo-${PV}.tar.gz \
- 
- PAM_SRC_URI = "file://sudo.pam"
- 
--SRC_URI[md5sum] = "9e5517bbf3aee420b38c2d1d7a71bcad"
--SRC_URI[sha256sum] = "ff1fcc410c5465063ee4912912e29936ea39f017d9a8a57ec76b0ded71b7c3c4"
-+SRC_URI[md5sum] = "5a54dde137618bbc1dd46bb0ef725d7d"
-+SRC_URI[sha256sum] = "17a91da1857954aa73445197e6f73d5d50cc8c48719f6db457723bb8badc32a5"
- 
- DEPENDS += " ${@base_contains('DISTRO_FEATURES', 'pam', 'libpam', '', d)}"
- RDEPENDS_${PN} += " ${@base_contains('DISTRO_FEATURES', 'pam', 'pam-plugin-limits pam-plugin-keyinit', '', d)}"
--- 
-1.7.5.4
+Also, can we make this change? I don't think we want ppc-linux-user on
+our ppc-softmmu target.
+
+diff --git a/meta/recipes-devtools/qemu/qemu-targets.inc
+b/meta/recipes-devtools/qemu/qemu-targe
+index 550a7fe..8423aa1 100644
+--- a/meta/recipes-devtools/qemu/qemu-targets.inc
++++ b/meta/recipes-devtools/qemu/qemu-targets.inc
+@@ -6,7 +6,7 @@ def get_qemu_target_list(d):
+     import bb
+     archs =3D bb.data.getVar('QEMU_TARGETS', d, True).split()
+     targets =3D ""
+-    for arch in ['mips64', 'mips64el', 'ppcemb']:
++    for arch in ['mips64', 'mips64el', 'ppcemb', 'ppc']:
+         if arch in archs:
+             targets +=3D arch + "-softmmu,"
+            archs.remove(arch)
+
+-M=
 
 
 
