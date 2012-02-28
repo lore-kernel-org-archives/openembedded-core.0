@@ -1,54 +1,44 @@
-Received: from tx2ehsobe001.messaging.microsoft.com ([65.55.88.11]
-	helo=TX2EHSOBE006.bigfish.com)
+Received: from mail-pw0-f47.google.com ([209.85.160.47])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <B29882@freescale.com>) id 1S2Wf9-0000kq-9k
+	(envelope-from <andrea.adami@gmail.com>) id 1S2WoJ-0000vd-PI
 	for openembedded-core@lists.openembedded.org;
-	Wed, 29 Feb 2012 00:40:55 +0100
-Received: from mail139-tx2-R.bigfish.com (10.9.14.247) by
-	TX2EHSOBE006.bigfish.com (10.9.40.26) with Microsoft SMTP Server id
-	14.1.225.23; Tue, 28 Feb 2012 23:17:22 +0000
-Received: from mail139-tx2 (localhost [127.0.0.1])	by
-	mail139-tx2-R.bigfish.com (Postfix) with ESMTP id C94D220020F	for
-	<openembedded-core@lists.openembedded.org>;
-	Tue, 28 Feb 2012 23:17:22 +0000 (UTC)
-X-SpamScore: -14
-X-BigFish: VS-14(zz9371I1432N98dK14ffOzz1202hzz8275bhz2dh2a8h668h839h8e2h8e3hbe9k)
-X-Forefront-Antispam-Report: CIP:70.37.183.190; KIP:(null); UIP:(null); IPV:NLI;
-	H:mail.freescale.net; RD:none; EFVD:NLI
-Received: from mail139-tx2 (localhost.localdomain [127.0.0.1]) by mail139-tx2
-	(MessageSwitch) id 133047104173476_6044;
-	Tue, 28 Feb 2012 23:17:21 +0000 (UTC)
-Received: from TX2EHSMHS023.bigfish.com (unknown [10.9.14.241])	by
-	mail139-tx2.bigfish.com (Postfix) with ESMTP id 0DC2F4E0046	for
-	<openembedded-core@lists.openembedded.org>;
-	Tue, 28 Feb 2012 23:17:21 +0000 (UTC)
-Received: from mail.freescale.net (70.37.183.190) by TX2EHSMHS023.bigfish.com
-	(10.9.99.123) with Microsoft SMTP Server (TLS) id 14.1.225.23;
-	Tue, 28 Feb 2012 23:17:20 +0000
-Received: from 039-SN1MPN1-001.039d.mgd.msft.net ([169.254.1.244]) by
-	039-SN1MMR1-001.039d.mgd.msft.net ([10.84.1.13]) with mapi id
-	14.01.0355.003; Tue, 28 Feb 2012 17:17:11 -0600
-From: McClintock Matthew-B29882 <B29882@freescale.com>
+	Wed, 29 Feb 2012 00:50:24 +0100
+Received: by pbbrp12 with SMTP id rp12so4335994pbb.6
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 28 Feb 2012 15:41:55 -0800 (PST)
+Received-SPF: pass (google.com: domain of andrea.adami@gmail.com designates
+	10.68.194.8 as permitted sender) client-ip=10.68.194.8; 
+Authentication-Results: mr.google.com;
+	spf=pass (google.com: domain of andrea.adami@gmail.com
+	designates 10.68.194.8 as permitted sender)
+	smtp.mail=andrea.adami@gmail.com;
+	dkim=pass header.i=andrea.adami@gmail.com
+Received: from mr.google.com ([10.68.194.8])
+	by 10.68.194.8 with SMTP id hs8mr59812777pbc.113.1330472515279
+	(num_hops = 1); Tue, 28 Feb 2012 15:41:55 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
+	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
+	:content-type; bh=STRTgo1KaV3vvJKkcPoyA65gB4QsaHyH/+xZQu1tOu8=;
+	b=g5V9DVKwE1zqUIu5C9wAkaGtlnHFMRUZoM6iIozx7e8Wg+lW4wnu00PULrtdniZ5eN
+	UKtHWLHnC+b3enb1Z5fnDWSWz4NEckhCJy/SoJUdZtADVfB8ERW/RlMT9bWTyU9PALx0
+	Il8b/BNQKtSPfF+w/NFCJD6H9vwJWKVNdTmbk=
+MIME-Version: 1.0
+Received: by 10.68.194.8 with SMTP id hs8mr50380682pbc.113.1330472515078; Tue,
+	28 Feb 2012 15:41:55 -0800 (PST)
+Received: by 10.143.67.8 with HTTP; Tue, 28 Feb 2012 15:41:55 -0800 (PST)
+In-Reply-To: <D1E600DA-4C86-4459-8820-F8B2AE88AAEF@dominion.thruhere.net>
+References: <1330346629.4593.20.camel@ted>
+	<D1E600DA-4C86-4459-8820-F8B2AE88AAEF@dominion.thruhere.net>
+Date: Wed, 29 Feb 2012 00:41:55 +0100
+Message-ID: <CAAQYJAvgS3gsZ8XCOcU89QgESvxsMsYYYfe_x-DF05m7ibeLwg@mail.gmail.com>
+From: Andrea Adami <andrea.adami@gmail.com>
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Thread-Topic: [OE-core] Including the kernel in the image
-Thread-Index: AQHM9m8ZlpKjh16A9kKUYHCvFdkT+w==
-Date: Tue, 28 Feb 2012 23:17:11 +0000
-Message-ID: <CAEsOVNfdCJDXDk5P0Fr4g5r6PU=mQbJfyLpFrw+ifuC3-rMrcw@mail.gmail.com>
-References: <1808929.8Oa6VYabAJ@helios>
-In-Reply-To: <1808929.8Oa6VYabAJ@helios>
-Accept-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [99.47.177.27]
-MIME-Version: 1.0
-X-OriginatorOrg: freescale.com
-Subject: Re: Including the kernel in the image
+Subject: Re: [PATCH] image_types: Refactor compression code into a generic compression solution
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
-Reply-To: McClintock Matthew-B29882 <B29882@freescale.com>,
-	Patches and discussions about the oe-core layer
+Reply-To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
 List-Id: Patches and discussions about the oe-core layer
 	<openembedded-core.lists.openembedded.org>
@@ -59,39 +49,52 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 28 Feb 2012 23:40:55 -0000
-Content-Language: en-US
-Content-Type: text/plain; charset="iso-8859-1"
-Content-ID: <B874AE1240A90C4989A114F1925AE9FF@mgd.freescale.com>
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Tue, 28 Feb 2012 23:50:24 -0000
+Content-Type: text/plain; charset=ISO-8859-1
 
-On Tue, Feb 28, 2012 at 9:48 AM, Paul Eggleton
-<paul.eggleton@linux.intel.com> wrote:
-> Hi all,
+On Tue, Feb 28, 2012 at 9:19 PM, Koen Kooi <koen@dominion.thruhere.net> wrote:
 >
-> For some boot configurations (e.g. kexecboot) having the kernel binary in=
- the
-> image is required. In OE Classic, task-boot used to always include the ke=
-rnel
-> binary in the image (via RRECOMMENDS, so it could be uninstalled). We don=
-'t
-> currently have this in OE-Core and I was wondering what the new preferred=
- way
-> to have this done would be.
+> Op 27 feb. 2012, om 13:43 heeft Richard Purdie het volgende geschreven:
 >
-> Obviously we could go and add it to various images or even to task-core-b=
-oot
-> again but I'm not sure that's ideal. Wanting the kernel in the image is r=
-eally
-> machine-specific (or to be precise, boot method specific); so I'm wonderi=
-ng if
-> adding it to MACHINE_ESSENTIAL_EXTRA_RRECOMMENDS for all machines likely =
-to
-> need it is the right thing to do?
+>> The current approach of adding each different compressed image type doesn't
+>> scale. This patch changes the code so compressed images for each form are
+>> automatically available using the form <type>.<compression type> in
+>> IMAGE_FSTYPES. This doesn't change any existing externally visible behaviour
+>> and the image generation process becomes more efficient as a result too.
+>
+> There's a a few -f's missing in this patch, e.g. bz2 images now fail with:
+>
+> bzip2: ERROR: Function failed: do_rootfs (see /OE/tentacle/build/tmp-angstrom_2010_x-eglibc/work/beagleboard-angstrom-linux-gnueabi/systemd-image-1.0-r0/temp/log.do_rootfs.3174 for further information)
+> Output file Angstrom-systemd-image-eglibc-ipk-v2012.02-core-beagleboard.rootfs.tar.bz2 already exists.
+>
+> A quick look suggests at least bz2 and xz images can't get rebuilt.
+>
 
-kexec and qemu/kvm could use this...
+Issues with cpio.lzma as well:
 
--M=
+| ln: failed to create symbolic link
+`/oe/oe-core/build/tmp-eglibc/deploy/images/initramfs-kexecboot-klibc-image-poodle.cpio.lzma':
+File exists
 
+Looking at run.do_rootfs I see runimagecmd is called twice.
+
+In the log.do_rootfs there is also a strange
+
++ sed sERROR: Function failed: do_rootfs (see
+/oe/oe-core/build/tmp-eglibc/work/poodle-oe-linux-gnueabi/initramfs-kexecboot-klibc-image-1.0-r0/temp/log.do_rootfs.31195
+for further information)
+/generic_//g
+
+
+Regards
+
+Andrea
+> regards,
+>
+> Koen
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
 
 
