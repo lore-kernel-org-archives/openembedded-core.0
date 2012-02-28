@@ -1,23 +1,19 @@
 Received: from mail.windriver.com ([147.11.1.11])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <bruce.ashfield@windriver.com>) id 1S2USt-0005j1-IF
+	(envelope-from <bruce.ashfield@windriver.com>) id 1S2USt-0005j2-IN
 	for openembedded-core@lists.openembedded.org;
 	Tue, 28 Feb 2012 22:20:07 +0100
 Received: from localhost.localdomain (yow-bashfiel-d2.ottawa.windriver.com
 	[128.224.146.167])
-	by mail.windriver.com (8.14.3/8.14.3) with ESMTP id q1SLBZEW028690;
-	Tue, 28 Feb 2012 13:11:36 -0800 (PST)
+	by mail.windriver.com (8.14.3/8.14.3) with ESMTP id q1SLBZEV028690;
+	Tue, 28 Feb 2012 13:11:35 -0800 (PST)
 From: Bruce Ashfield <bruce.ashfield@windriver.com>
 To: richard.purdie@linuxfoundation.org
-Date: Tue, 28 Feb 2012 16:09:58 -0500
-Message-Id: <4851737d22f645f8a5ccfd798939d48d66267bd5.1330463101.git.bruce.ashfield@windriver.com>
+Date: Tue, 28 Feb 2012 16:09:57 -0500
+Message-Id: <cover.1330463101.git.bruce.ashfield@windriver.com>
 X-Mailer: git-send-email 1.7.0.4
-In-Reply-To: <cover.1330463101.git.bruce.ashfield@windriver.com>
-References: <cover.1330463101.git.bruce.ashfield@windriver.com>
-In-Reply-To: <cover.1330463101.git.bruce.ashfield@windriver.com>
-References: <cover.1330463101.git.bruce.ashfield@windriver.com>
 Cc: openembedded-core@lists.openembedded.org, saul.wold@intel.com
-Subject: [PATCH 1/3] linux-yocto: make kernel_checkout reentrant
+Subject: [PATCH 0/3] linux-yocto: revision bump + pvr + checkout fix
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -34,87 +30,48 @@ List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedde
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Tue, 28 Feb 2012 21:20:08 -0000
 
-The steps in do_kernel_checkout modify the source tree in WORKDIR.
-If it is called multiple times, or interrupted, the tree is left
-in an inconsistent state.
+Richard/Saul,
 
-This change adds protections around branch names, and around the
-manipulations of directories to ensure that it is safe to call
-at any point.
+Naturally right after I sent my previous version bump to 3.2.7,
+3.2.8 came out with an x86 floating point fix that was worth
+picking up. Hence my quick bump to 3.2.8.
 
-Signed-off-by: Bruce Ashfield <bruce.ashfield@windriver.com>
----
- meta/classes/kernel-yocto.bbclass |   33 ++++++++++++++++++++-------------
- 1 files changed, 20 insertions(+), 13 deletions(-)
+The other update to the 3.0/3.2 trees stages content for PVR
+functionality in some future BSP work.
 
-diff --git a/meta/classes/kernel-yocto.bbclass b/meta/classes/kernel-yocto.bbclass
-index 5f3cb63..187e3cc 100644
---- a/meta/classes/kernel-yocto.bbclass
-+++ b/meta/classes/kernel-yocto.bbclass
-@@ -139,17 +139,17 @@ do_patch() {
- }
- 
- do_kernel_checkout() {
--	# we build out of {S}, so ensure that ${S} is clean and present
--	rm -rf ${S}
--	mkdir -p ${S}/.git
--
- 	set +e
- 
- 	# A linux yocto SRC_URI should use the bareclone option. That
- 	# ensures that all the branches are available in the WORKDIR version
- 	# of the repository. If it wasn't passed, we should detect it, and put
- 	# out a useful error message
--	if [ -d "${WORKDIR}/git/.git" ]; then
-+	if [ -d "${WORKDIR}/git/" ] && [ -d "${WORKDIR}/git/.git" ]; then
-+		# we build out of {S}, so ensure that ${S} is clean and present
-+		rm -rf ${S}
-+		mkdir -p ${S}/.git
-+
- 		echo "WARNING. ${WORKDIR}/git is not a bare clone."
- 		echo "Ensure that the SRC_URI includes the 'bareclone=1' option."
- 		
-@@ -158,12 +158,14 @@ do_kernel_checkout() {
- 		mv ${WORKDIR}/git/.git ${S}
- 		rm -rf ${WORKDIR}/git/
- 		cd ${S}
--		git branch -a | grep -q ${KMETA}
--		if [ $? -ne 0 ]; then
--			echo "ERROR. The branch '${KMETA}' is required and was not"
--			echo "found. Ensure that the SRC_URI points to a valid linux-yocto"
--			echo "kernel repository"
--			exit 1
-+		if [ -n "${YOCTO_KERNEL_META_DATA}" ] && [ -n "${KMETA}" ]; then
-+			git branch -a | grep -q ${KMETA}
-+			if [ $? -ne 0 ]; then
-+				echo "ERROR. The branch '${KMETA}' is required and was not"
-+				echo "found. Ensure that the SRC_URI points to a valid linux-yocto"
-+				echo "kernel repository"
-+				exit 1
-+			fi
- 		fi
- 	 	if [ -z "${YOCTO_KERNEL_EXTERNAL_BRANCH}" ] && [ -n "${KBRANCH}" ] ; then
- 			git branch -a | grep -q ${KBRANCH}
-@@ -174,10 +176,15 @@ do_kernel_checkout() {
- 				exit 1
- 			fi
- 		fi
--	else
-+	fi
-+	if [ -d "${WORKDIR}/git/" ] && [ ! -d "${WORKDIR}/git/.git" ]; then
-+		# we build out of {S}, so ensure that ${S} is clean and present
-+		rm -rf ${S}
-+		mkdir -p ${S}/.git
-+
- 		mv ${WORKDIR}/git/* ${S}/.git
- 		rm -rf ${WORKDIR}/git/
--		cd ${S}
-+		cd ${S}	
- 		git config core.bare false
- 	fi
- 	# end debare
--- 
-1.7.0.4
+And finally, I added some extra checks and safety to the kernel
+checkout code, since Saul was reporting issues that I couldn't
+reproduce, I can't be sure if they fix his problem. But they do
+fix issues with aborted builds and the korg recipe. I've built
+many kernels and as many recipes as possible with these in place.
+
+cc: Kishore Bodke <kishore.k.bodke@intel.com>
+
+Cheers,
+
+Bruce
+
+The following changes since commit d86e3082e695cde555df276a2436873fa5381130:
+  Otavio Salvador (1):
+        licenses.conf: fix quotting of SRC_DISTRIBUTE_LICENSES
+
+are available in the git repository at:
+
+  git://git.pokylinux.org/poky-contrib zedd/kernel
+  http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=zedd/kernel
+
+Bruce Ashfield (3):
+  linux-yocto: make kernel_checkout reentrant
+  linux-yocto/meta: add pvr feature description
+  linux-yocto: update to v3.2.8
+
+ meta/classes/kernel-yocto.bbclass                 |   33 ++++++++++++--------
+ meta/recipes-kernel/linux/linux-yocto-rt_3.0.bb   |    2 +-
+ meta/recipes-kernel/linux/linux-yocto-rt_3.2.bb   |    8 ++--
+ meta/recipes-kernel/linux/linux-yocto-tiny_3.0.bb |    2 +-
+ meta/recipes-kernel/linux/linux-yocto_3.0.bb      |    2 +-
+ meta/recipes-kernel/linux/linux-yocto_3.2.bb      |   16 +++++-----
+ 6 files changed, 35 insertions(+), 28 deletions(-)
 
 
 
