@@ -1,24 +1,24 @@
 Received: from mga01.intel.com ([192.55.52.88])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <sgw@linux.intel.com>) id 1S2FhT-0008Qi-1M
+	(envelope-from <sgw@linux.intel.com>) id 1S2FhT-0008QA-9S
 	for openembedded-core@lists.openembedded.org;
 	Tue, 28 Feb 2012 06:34:11 +0100
 Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-	by fmsmga101.fm.intel.com with ESMTP; 27 Feb 2012 21:25:40 -0800
+	by fmsmga101.fm.intel.com with ESMTP; 27 Feb 2012 21:25:41 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="130197477"
+X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="130197479"
 Received: from unknown (HELO swold-mobl.bigsur.com) ([10.255.15.37])
 	by fmsmga002.fm.intel.com with ESMTP; 27 Feb 2012 21:25:40 -0800
 From: Saul Wold <sgw@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Mon, 27 Feb 2012 21:25:23 -0800
-Message-Id: <39a60d4f0ca8e88514114c0666df0305e51e7356.1330406574.git.sgw@linux.intel.com>
+Date: Mon, 27 Feb 2012 21:25:24 -0800
+Message-Id: <df29111737a9fa9107c5e86bfb0fbc30de72ed4a.1330406574.git.sgw@linux.intel.com>
 X-Mailer: git-send-email 1.7.7.6
 In-Reply-To: <cover.1330406574.git.sgw@linux.intel.com>
 References: <cover.1330406574.git.sgw@linux.intel.com>
 In-Reply-To: <cover.1330406574.git.sgw@linux.intel.com>
 References: <cover.1330406574.git.sgw@linux.intel.com>
-Subject: [CONSOLIDATED PULL 25/36] bluez4: Fix build on x86/amd64 with gcc 4.7
+Subject: [CONSOLIDATED PULL 26/36] linux-yocto: update 3.0 kernel to v3.0.22
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -33,71 +33,87 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 28 Feb 2012 05:34:11 -0000
+X-List-Received-Date: Tue, 28 Feb 2012 05:34:12 -0000
 
-From: Khem Raj <raj.khem@gmail.com>
+From: Bruce Ashfield <bruce.ashfield@windriver.com>
 
-gcc figures an impossible asm contraint
-in inline asm which it is correct about
+bumping the revision of the 3.0 kernel to the latest -stable release.
 
-"i" requires the operand to be a compile-time constant
-but memory location of a multi-dimensional array isn't constant
-at compile time.
-
-Signed-off-by: Khem Raj <raj.khem@gmail.com>
+Signed-off-by: Bruce Ashfield <bruce.ashfield@windriver.com>
 ---
- .../bluez/bluez4-4.98/sbc_mmx.patch                |   24 ++++++++++++++++++++
- meta/recipes-connectivity/bluez/bluez4_4.98.bb     |    6 +++-
- 2 files changed, 28 insertions(+), 2 deletions(-)
- create mode 100644 meta/recipes-connectivity/bluez/bluez4-4.98/sbc_mmx.patch
+ meta/recipes-kernel/linux/linux-yocto-rt_3.0.bb   |    8 ++++----
+ meta/recipes-kernel/linux/linux-yocto-tiny_3.0.bb |    6 +++---
+ meta/recipes-kernel/linux/linux-yocto_3.0.bb      |   18 +++++++++---------
+ 3 files changed, 16 insertions(+), 16 deletions(-)
 
-diff --git a/meta/recipes-connectivity/bluez/bluez4-4.98/sbc_mmx.patch b/meta/recipes-connectivity/bluez/bluez4-4.98/sbc_mmx.patch
-new file mode 100644
-index 0000000..98fab45
---- /dev/null
-+++ b/meta/recipes-connectivity/bluez/bluez4-4.98/sbc_mmx.patch
-@@ -0,0 +1,24 @@
-+on x86 and x86_64 gcc 4.7 complains
-+
-+sbc/sbc_primitives_mmx.c: In function 'sbc_calc_scalefactors_mmx':
-+sbc/sbc_primitives_mmx.c:294:4: warning: asm operand 2 probably doesn't match constraints [enabled by default]
-+sbc/sbc_primitives_mmx.c:294:4: error: impossible constraint in 'asm'
-+
-+This patch is taken from https://bugs.launchpad.net/ubuntu/+source/bluez/+bug/911871
-+
-+Signed-off-by: Khem Raj <raj.khem@gmail.com>
-+
-+Upstream-Status: Pending
-+Index: bluez-4.98/sbc/sbc_primitives_mmx.c
-+===================================================================
-+--- bluez-4.98.orig/sbc/sbc_primitives_mmx.c	2011-12-21 14:53:54.000000000 -0800
-++++ bluez-4.98/sbc/sbc_primitives_mmx.c	2012-02-24 10:07:03.422073800 -0800
-+@@ -318,7 +318,7 @@
-+ 				"movl          %k0, 4(%3)\n"
-+ 			: "+r" (blk)
-+ 			: "r" (&sb_sample_f[0][ch][sb]),
-+-				"i" ((char *) &sb_sample_f[1][0][0] -
-++				"r" ((char *) &sb_sample_f[1][0][0] -
-+ 					(char *) &sb_sample_f[0][0][0]),
-+ 				"r" (&scale_factor[ch][sb]),
-+ 				"r" (&consts),
-diff --git a/meta/recipes-connectivity/bluez/bluez4_4.98.bb b/meta/recipes-connectivity/bluez/bluez4_4.98.bb
-index 62de1fe..2412b1b 100644
---- a/meta/recipes-connectivity/bluez/bluez4_4.98.bb
-+++ b/meta/recipes-connectivity/bluez/bluez4_4.98.bb
-@@ -1,8 +1,10 @@
- require bluez4.inc
+diff --git a/meta/recipes-kernel/linux/linux-yocto-rt_3.0.bb b/meta/recipes-kernel/linux/linux-yocto-rt_3.0.bb
+index 3d4a1d0..41a37fe 100644
+--- a/meta/recipes-kernel/linux/linux-yocto-rt_3.0.bb
++++ b/meta/recipes-kernel/linux/linux-yocto-rt_3.0.bb
+@@ -11,12 +11,12 @@ KMACHINE_qemumips = "mti-malta32-be"
+ KBRANCH = "yocto/standard/preempt-rt/base"
+ KBRANCH_qemuppc = "yocto/standard/preempt-rt/qemu-ppc32"
  
--PR = "r0"
-+PR = "r1"
+-LINUX_VERSION ?= "3.0.18"
++LINUX_VERSION ?= "3.0.22"
+ LINUX_KERNEL_TYPE = "preempt-rt"
  
--SRC_URI += "file://bluetooth.conf"
-+SRC_URI += "file://bluetooth.conf \
-+            file://sbc_mmx.patch \
-+           "
+-SRCREV_machine ?= "2f9d925f5681eaae7f341cc1270c739e8b329c03"
+-SRCREV_machine_qemuppc ?= "c66f7ef2315010756c8c97af6b13d52f9f18c03b"
+-SRCREV_meta ?= "b78a519841bd8b477cad599af8d38df6760445c1"
++SRCREV_machine ?= "03705f7f066d83b4cd3a6088781d47e3b9e45b71"
++SRCREV_machine_qemuppc ?= "c8b184e8171f6f5a8017be4c5bf1e7a38c3f3002"
++SRCREV_meta ?= "808b49474268040ab27c8ee687b60807a11547b4"
  
- SRC_URI[md5sum] = "362864b716950baa04797de735fc237b"
- SRC_URI[sha256sum] = "9a5b655bada7c7a1921cb3bac83b8a32bbe49893e4c7a1377cdc1b0d35f7d233"
+ PR = "r1"
+ PV = "${LINUX_VERSION}+git${SRCPV}"
+diff --git a/meta/recipes-kernel/linux/linux-yocto-tiny_3.0.bb b/meta/recipes-kernel/linux/linux-yocto-tiny_3.0.bb
+index 061476c..f4eedb7 100644
+--- a/meta/recipes-kernel/linux/linux-yocto-tiny_3.0.bb
++++ b/meta/recipes-kernel/linux/linux-yocto-tiny_3.0.bb
+@@ -5,10 +5,10 @@ require recipes-kernel/linux/linux-yocto.inc
+ KMACHINE = "yocto/standard/base"
+ KBRANCH = "${KMACHINE}"
+ 
+-LINUX_VERSION ?= "3.0.12"
++LINUX_VERSION ?= "3.0.22"
+ 
+-SRCREV_machine ?= "f389d310965a56091f688b28ea8be6d9cbb7fbbe"
+-SRCREV_meta ?= "04a52a32cbdf0972033b97b83eaa83eb275dfdc9"
++SRCREV_machine ?= "c578f3a1f357142a6e02a1df4ae9aa16f45094d6"
++SRCREV_meta ?= "808b49474268040ab27c8ee687b60807a11547b4"
+ 
+ PR = "r1"
+ PV = "${LINUX_VERSION}+git${SRCPV}"
+diff --git a/meta/recipes-kernel/linux/linux-yocto_3.0.bb b/meta/recipes-kernel/linux/linux-yocto_3.0.bb
+index d52e93a..8e7842e 100644
+--- a/meta/recipes-kernel/linux/linux-yocto_3.0.bb
++++ b/meta/recipes-kernel/linux/linux-yocto_3.0.bb
+@@ -10,15 +10,15 @@ KMACHINE_qemuarm  = "yocto/standard/arm-versatile-926ejs"
+ 
+ KBRANCH = "${KMACHINE}"
+ 
+-LINUX_VERSION ?= "3.0.18"
+-
+-SRCREV_machine_qemuarm ?= "48e68bd72da497a14200801140b3b87dae6d60e9"
+-SRCREV_machine_qemumips ?= "9d86aeb43e5bbb0851cc4f105b64caab13bc71f3"
+-SRCREV_machine_qemuppc ?= "15fd748017f0849138ff4b47d73f6866fa26cfe8"
+-SRCREV_machine_qemux86 ?= "8f74a4339b3dc029fafff0ba7d88d6dc950d4b31"
+-SRCREV_machine_qemux86-64 ?= "610c5a62daeda033755b0b7bfcb3e2cad5c76f3f"
+-SRCREV_machine ?= "5df0b4c2538399aed543133b3855f809adf08ab8"
+-SRCREV_meta ?= "b78a519841bd8b477cad599af8d38df6760445c1"
++LINUX_VERSION ?= "3.0.22"
++
++SRCREV_machine_qemuarm ?= "6d4d3334bf648b97a0d44b7833060f4da40840d5"
++SRCREV_machine_qemumips ?= "1d8d58d120c92510be8a97b0ed493a25a3010d6c"
++SRCREV_machine_qemuppc ?= "804aff4612bb7a53ac4679412c2a78bc06e3c4ce"
++SRCREV_machine_qemux86 ?= "7b0476fde681e828417d8fa86c47b0ca539ade70"
++SRCREV_machine_qemux86-64 ?= "14fe1742198bd5a85fbcf6e53d336838ff87b2ef"
++SRCREV_machine ?= "c578f3a1f357142a6e02a1df4ae9aa16f45094d6"
++SRCREV_meta ?= "808b49474268040ab27c8ee687b60807a11547b4"
+ 
+ PR = "r3"
+ PV = "${LINUX_VERSION}+git${SRCPV}"
 -- 
 1.7.7.6
 
