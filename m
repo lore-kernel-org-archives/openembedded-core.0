@@ -1,24 +1,24 @@
 Received: from mga01.intel.com ([192.55.52.88])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <sgw@linux.intel.com>) id 1S2FhT-0008QA-9S
+	(envelope-from <sgw@linux.intel.com>) id 1S2FhS-0008QZ-W0
 	for openembedded-core@lists.openembedded.org;
 	Tue, 28 Feb 2012 06:34:11 +0100
 Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-	by fmsmga101.fm.intel.com with ESMTP; 27 Feb 2012 21:25:41 -0800
+	by fmsmga101.fm.intel.com with ESMTP; 27 Feb 2012 21:25:40 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="130197479"
+X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="130197475"
 Received: from unknown (HELO swold-mobl.bigsur.com) ([10.255.15.37])
 	by fmsmga002.fm.intel.com with ESMTP; 27 Feb 2012 21:25:40 -0800
 From: Saul Wold <sgw@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Mon, 27 Feb 2012 21:25:24 -0800
-Message-Id: <df29111737a9fa9107c5e86bfb0fbc30de72ed4a.1330406574.git.sgw@linux.intel.com>
+Date: Mon, 27 Feb 2012 21:25:22 -0800
+Message-Id: <9c18631b76740bcc5a871eaea2a1348bf707f8aa.1330406574.git.sgw@linux.intel.com>
 X-Mailer: git-send-email 1.7.7.6
 In-Reply-To: <cover.1330406574.git.sgw@linux.intel.com>
 References: <cover.1330406574.git.sgw@linux.intel.com>
 In-Reply-To: <cover.1330406574.git.sgw@linux.intel.com>
 References: <cover.1330406574.git.sgw@linux.intel.com>
-Subject: [CONSOLIDATED PULL 26/36] linux-yocto: update 3.0 kernel to v3.0.22
+Subject: [CONSOLIDATED PULL 24/36] gcc: Stash the gcc-cross builddir to reuse in libgcc and gcc-runtime
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -35,85 +35,216 @@ List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedde
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Tue, 28 Feb 2012 05:34:12 -0000
 
-From: Bruce Ashfield <bruce.ashfield@windriver.com>
+From: Khem Raj <raj.khem@gmail.com>
 
-bumping the revision of the 3.0 kernel to the latest -stable release.
+Currently we stash the libgcc install tree and then reuse that
+to populate libgcc recipe later. This mechanism does not work
+for gcc 4.7/trunk since now libstdc++ needs access to build tree
+of libgcc. This patch stashes the gcc-cross build tree
+and then reuses this in libgcc as well as in gcc-runtime
+recipe builds.
 
-Signed-off-by: Bruce Ashfield <bruce.ashfield@windriver.com>
+Now we build libgcc in the libgcc recipe instead of just
+using the prebuilt install tree
+
+core-image-minimal build/run tested on all qemu machines
+
+Signed-off-by: Khem Raj <raj.khem@gmail.com>
 ---
- meta/recipes-kernel/linux/linux-yocto-rt_3.0.bb   |    8 ++++----
- meta/recipes-kernel/linux/linux-yocto-tiny_3.0.bb |    6 +++---
- meta/recipes-kernel/linux/linux-yocto_3.0.bb      |   18 +++++++++---------
- 3 files changed, 16 insertions(+), 16 deletions(-)
+ meta/recipes-devtools/gcc/gcc-4.6.inc              |    2 +-
+ meta/recipes-devtools/gcc/gcc-configure-common.inc |    3 --
+ .../recipes-devtools/gcc/gcc-configure-runtime.inc |   24 +++++++++-----
+ meta/recipes-devtools/gcc/gcc-cross-initial.inc    |    2 +-
+ meta/recipes-devtools/gcc/gcc-package-cross.inc    |   14 +-------
+ meta/recipes-devtools/gcc/libgcc_4.6.bb            |   34 ++++++++++++++-----
+ 6 files changed, 43 insertions(+), 36 deletions(-)
 
-diff --git a/meta/recipes-kernel/linux/linux-yocto-rt_3.0.bb b/meta/recipes-kernel/linux/linux-yocto-rt_3.0.bb
-index 3d4a1d0..41a37fe 100644
---- a/meta/recipes-kernel/linux/linux-yocto-rt_3.0.bb
-+++ b/meta/recipes-kernel/linux/linux-yocto-rt_3.0.bb
-@@ -11,12 +11,12 @@ KMACHINE_qemumips = "mti-malta32-be"
- KBRANCH = "yocto/standard/preempt-rt/base"
- KBRANCH_qemuppc = "yocto/standard/preempt-rt/qemu-ppc32"
+diff --git a/meta/recipes-devtools/gcc/gcc-4.6.inc b/meta/recipes-devtools/gcc/gcc-4.6.inc
+index edc2a58..46a1ab4 100644
+--- a/meta/recipes-devtools/gcc/gcc-4.6.inc
++++ b/meta/recipes-devtools/gcc/gcc-4.6.inc
+@@ -1,6 +1,6 @@
+ require gcc-common.inc
  
--LINUX_VERSION ?= "3.0.18"
-+LINUX_VERSION ?= "3.0.22"
- LINUX_KERNEL_TYPE = "preempt-rt"
+-PR = "r22"
++PR = "r23"
  
--SRCREV_machine ?= "2f9d925f5681eaae7f341cc1270c739e8b329c03"
--SRCREV_machine_qemuppc ?= "c66f7ef2315010756c8c97af6b13d52f9f18c03b"
--SRCREV_meta ?= "b78a519841bd8b477cad599af8d38df6760445c1"
-+SRCREV_machine ?= "03705f7f066d83b4cd3a6088781d47e3b9e45b71"
-+SRCREV_machine_qemuppc ?= "c8b184e8171f6f5a8017be4c5bf1e7a38c3f3002"
-+SRCREV_meta ?= "808b49474268040ab27c8ee687b60807a11547b4"
+ # Third digit in PV should be incremented after a minor release
+ # happens from this branch on gcc e.g. currently its 4.6.0
+diff --git a/meta/recipes-devtools/gcc/gcc-configure-common.inc b/meta/recipes-devtools/gcc/gcc-configure-common.inc
+index 8ab799f..a012fc5 100644
+--- a/meta/recipes-devtools/gcc/gcc-configure-common.inc
++++ b/meta/recipes-devtools/gcc/gcc-configure-common.inc
+@@ -68,9 +68,6 @@ do_configure_prepend () {
+ 	echo "NATIVE_SYSTEM_HEADER_DIR = ${SYSTEMHEADERS}" > ${B}/gcc/t-oe
+ 	cat ${S}/gcc/defaults.h | grep -v "\#endif.*GCC_DEFAULTS_H" > ${B}/gcc/defaults.h.new
+ 	cat >>${B}/gcc/defaults.h.new <<_EOF
+-#ifndef STANDARD_INCLUDE_DIR
+-#define STANDARD_INCLUDE_DIR "${SYSTEMHEADERS}"
+-#endif
+ #ifndef STANDARD_STARTFILE_PREFIX_1
+ #define STANDARD_STARTFILE_PREFIX_1 "${SYSTEMLIBS}"
+ #endif
+diff --git a/meta/recipes-devtools/gcc/gcc-configure-runtime.inc b/meta/recipes-devtools/gcc/gcc-configure-runtime.inc
+index 34bfaeb..353b083 100644
+--- a/meta/recipes-devtools/gcc/gcc-configure-runtime.inc
++++ b/meta/recipes-devtools/gcc/gcc-configure-runtime.inc
+@@ -3,6 +3,7 @@ require gcc-configure-common.inc
+ CXXFLAGS := "${@oe_filter_out('-fvisibility-inlines-hidden', '${CXXFLAGS}', d)}"
  
- PR = "r1"
- PV = "${LINUX_VERSION}+git${SRCPV}"
-diff --git a/meta/recipes-kernel/linux/linux-yocto-tiny_3.0.bb b/meta/recipes-kernel/linux/linux-yocto-tiny_3.0.bb
-index 061476c..f4eedb7 100644
---- a/meta/recipes-kernel/linux/linux-yocto-tiny_3.0.bb
-+++ b/meta/recipes-kernel/linux/linux-yocto-tiny_3.0.bb
-@@ -5,10 +5,10 @@ require recipes-kernel/linux/linux-yocto.inc
- KMACHINE = "yocto/standard/base"
- KBRANCH = "${KMACHINE}"
+ EXTRA_OECONF_PATHS = " \
++    --enable-sjlj-exceptions=no \
+     --with-local-prefix=${STAGING_DIR_TARGET}${prefix} \
+     --with-gxx-include-dir=${includedir}/c++/ \
+     --with-sysroot=${STAGING_DIR_TARGET} \
+@@ -16,26 +17,32 @@ RUNTIMETARGET = "libssp libstdc++-v3"
  
--LINUX_VERSION ?= "3.0.12"
-+LINUX_VERSION ?= "3.0.22"
+ do_configure () {
+ 	export CXX="${CXX} -nostdinc++ -nostdlib++"
+-	for d in ${RUNTIMETARGET}; do
++	mtarget=`echo ${MULTIMACH_TARGET_SYS} | sed -e s#-nativesdk##`
++	target=`echo ${TARGET_SYS} | sed -e s#-nativesdk##`
++	cp -fpPR ${STAGING_INCDIR_NATIVE}/gcc-build-internal-$mtarget/* ${B}
++	for d in libgcc ${RUNTIMETARGET}; do
+ 		echo "Configuring $d"
+-		mkdir -p ${B}/$d/
+-		cd ${B}/$d/
++		rm -rf ${B}/$target/$d/
++		mkdir -p ${B}/$target/$d/
++		cd ${B}/$target/$d/
+ 		chmod a+x ${S}/$d/configure
+ 		${S}/$d/configure ${CONFIGUREOPTS} ${EXTRA_OECONF}
+ 	done
+ }
  
--SRCREV_machine ?= "f389d310965a56091f688b28ea8be6d9cbb7fbbe"
--SRCREV_meta ?= "04a52a32cbdf0972033b97b83eaa83eb275dfdc9"
-+SRCREV_machine ?= "c578f3a1f357142a6e02a1df4ae9aa16f45094d6"
-+SRCREV_meta ?= "808b49474268040ab27c8ee687b60807a11547b4"
+ do_compile () {
+-	for d in ${RUNTIMETARGET}; do
+-		cd ${B}/$d/
+-		oe_runmake
++	target=`echo ${TARGET_SYS} | sed -e s#-nativesdk##`
++	for d in libgcc ${RUNTIMETARGET}; do
++		cd ${B}/$target/$d/
++		oe_runmake MULTIBUILDTOP=${B}/$target/$d/
+ 	done
+ }
  
- PR = "r1"
- PV = "${LINUX_VERSION}+git${SRCPV}"
-diff --git a/meta/recipes-kernel/linux/linux-yocto_3.0.bb b/meta/recipes-kernel/linux/linux-yocto_3.0.bb
-index d52e93a..8e7842e 100644
---- a/meta/recipes-kernel/linux/linux-yocto_3.0.bb
-+++ b/meta/recipes-kernel/linux/linux-yocto_3.0.bb
-@@ -10,15 +10,15 @@ KMACHINE_qemuarm  = "yocto/standard/arm-versatile-926ejs"
+ do_install () {
++	target=`echo ${TARGET_SYS} | sed -e s#-nativesdk##`
+ 	for d in ${RUNTIMETARGET}; do
+-		cd ${B}/$d/
+-		oe_runmake 'DESTDIR=${D}' install
++		cd ${B}/$target/$d/
++		oe_runmake 'DESTDIR=${D}' MULTIBUILDTOP=${B}/$target/$d/ install
+ 	done
+ 	chown -R root:root ${D}
+ }
+@@ -45,4 +52,3 @@ DEPENDS = "virtual/${TARGET_PREFIX}gcc virtual/${TARGET_PREFIX}g++ libgcc"
+ PROVIDES = "virtual/${TARGET_PREFIX}compilerlibs"
  
- KBRANCH = "${KMACHINE}"
- 
--LINUX_VERSION ?= "3.0.18"
+ BBCLASSEXTEND = "nativesdk"
 -
--SRCREV_machine_qemuarm ?= "48e68bd72da497a14200801140b3b87dae6d60e9"
--SRCREV_machine_qemumips ?= "9d86aeb43e5bbb0851cc4f105b64caab13bc71f3"
--SRCREV_machine_qemuppc ?= "15fd748017f0849138ff4b47d73f6866fa26cfe8"
--SRCREV_machine_qemux86 ?= "8f74a4339b3dc029fafff0ba7d88d6dc950d4b31"
--SRCREV_machine_qemux86-64 ?= "610c5a62daeda033755b0b7bfcb3e2cad5c76f3f"
--SRCREV_machine ?= "5df0b4c2538399aed543133b3855f809adf08ab8"
--SRCREV_meta ?= "b78a519841bd8b477cad599af8d38df6760445c1"
-+LINUX_VERSION ?= "3.0.22"
-+
-+SRCREV_machine_qemuarm ?= "6d4d3334bf648b97a0d44b7833060f4da40840d5"
-+SRCREV_machine_qemumips ?= "1d8d58d120c92510be8a97b0ed493a25a3010d6c"
-+SRCREV_machine_qemuppc ?= "804aff4612bb7a53ac4679412c2a78bc06e3c4ce"
-+SRCREV_machine_qemux86 ?= "7b0476fde681e828417d8fa86c47b0ca539ade70"
-+SRCREV_machine_qemux86-64 ?= "14fe1742198bd5a85fbcf6e53d336838ff87b2ef"
-+SRCREV_machine ?= "c578f3a1f357142a6e02a1df4ae9aa16f45094d6"
-+SRCREV_meta ?= "808b49474268040ab27c8ee687b60807a11547b4"
+diff --git a/meta/recipes-devtools/gcc/gcc-cross-initial.inc b/meta/recipes-devtools/gcc/gcc-cross-initial.inc
+index f0e7810..66c47e0 100644
+--- a/meta/recipes-devtools/gcc/gcc-cross-initial.inc
++++ b/meta/recipes-devtools/gcc/gcc-cross-initial.inc
+@@ -25,5 +25,5 @@ EXTRA_OECONF = "--with-local-prefix=${STAGING_DIR_TARGET}${target_prefix} \
+ 		${@get_gcc_fpu_setting(bb, d)}"
  
- PR = "r3"
- PV = "${LINUX_VERSION}+git${SRCPV}"
+ do_compile () {
+-    oe_runmake
++    oe_runmake all-gcc all-target-libgcc
+ }
+diff --git a/meta/recipes-devtools/gcc/gcc-package-cross.inc b/meta/recipes-devtools/gcc/gcc-package-cross.inc
+index c872e00..7718e70 100644
+--- a/meta/recipes-devtools/gcc/gcc-package-cross.inc
++++ b/meta/recipes-devtools/gcc/gcc-package-cross.inc
+@@ -36,19 +36,7 @@ do_install () {
+ 	case ${PN} in
+ 		*gcc-cross|*gcc-crosssdk)
+ 			dest=${D}/${includedir}/gcc-build-internal-${MULTIMACH_TARGET_SYS}
+-			oe_runmake "DESTDIR=$dest" libdir=${target_libdir} base_libdir=${target_base_libdir} prefix=${target_prefix} exec_prefix=${target_exec_prefix} install-target-libgcc
+-
+-			# Ideally here we'd override the libgcc Makefile's idea of slibdir but
+-			# for now, we just move the files to the correct location
+-
+-			install -d $dest${target_base_libdir}
+-			mv $dest${target_exec_prefix}/${TARGET_SYS}/lib*/* $dest${target_base_libdir}
+-			rm -rf $dest${target_exec_prefix}/${TARGET_SYS}
+-
+-			# Also need to move gcc from /usr/lib/gcc/* to /usr/lib/ else the search paths won't find the crt*.o files
+-
+-			mv $dest${target_libdir}/gcc/* $dest${target_libdir}/
+-			rmdir $dest${target_libdir}/gcc
++			cp -fpPR . $dest
+ 		;;
+ 	esac
+ }
+diff --git a/meta/recipes-devtools/gcc/libgcc_4.6.bb b/meta/recipes-devtools/gcc/libgcc_4.6.bb
+index 04e2877..9eb5cfb 100644
+--- a/meta/recipes-devtools/gcc/libgcc_4.6.bb
++++ b/meta/recipes-devtools/gcc/libgcc_4.6.bb
+@@ -1,6 +1,7 @@
+ require gcc-${PV}.inc
+ 
+ INHIBIT_DEFAULT_DEPS = "1"
++
+ DEPENDS = "virtual/${TARGET_PREFIX}gcc virtual/${TARGET_PREFIX}g++"
+ 
+ PACKAGES = "\
+@@ -20,15 +21,28 @@ FILES_libgcov-dev = " \
+ 
+ FILES_${PN}-dbg += "${base_libdir}/.debug/"
+ 
+-do_configure[noexec] = "1"
+-do_compile[noexec] = "1"
++EXTRA_OECONF += "--enable-sjlj-exceptions=no"
+ 
+-do_install () {
++do_configure () {
+ 	target=`echo ${MULTIMACH_TARGET_SYS} | sed -e s#-nativesdk##`
+-
+-	# Install libgcc from our gcc-cross saved data
+ 	install -d ${D}${base_libdir} ${D}${libdir}
+-	cp -fpPR ${STAGING_INCDIR_NATIVE}/gcc-build-internal-$target/* ${D}
++	cp -fpPR ${STAGING_INCDIR_NATIVE}/gcc-build-internal-$target/* ${B}
++	mkdir -p ${B}/${PN}
++	cd ${B}/${PN}
++	chmod a+x ${S}/${PN}/configure
++	${S}/${PN}/configure ${CONFIGUREOPTS} ${EXTRA_OECONF}
++}
++
++do_compile () {
++	target=`echo ${TARGET_SYS} | sed -e s#-nativesdk##`
++	cd ${B}/${PN}
++	oe_runmake MULTIBUILDTOP=${B}/$target/${PN}/
++}
++
++do_install () {
++	target=`echo ${TARGET_SYS} | sed -e s#-nativesdk##`
++	cd ${B}/${PN}
++	oe_runmake 'DESTDIR=${D}' MULTIBUILDTOP=${B}/$target/${PN}/ install
+ 
+ 	# Move libgcc_s into /lib
+ 	mkdir -p ${D}${base_libdir}
+@@ -38,8 +52,11 @@ do_install () {
+ 		mv ${D}${libdir}/libgcc* ${D}${base_libdir} || true
+ 	fi
+ 
+-	chown -R root:root ${D}
+-	chmod +x ${D}${base_libdir}/libgcc_s.so.*
++	# install the runtime in /usr/lib/ not in /usr/lib/gcc on target
++	# so that cross-gcc can find it in the sysroot
++
++	mv ${D}${libdir}/gcc/* ${D}${libdir}
++	rm -rf ${D}${libdir}/gcc/
+ }
+ 
+ do_package_write_ipk[depends] += "virtual/${MLPREFIX}libc:do_package"
+@@ -50,4 +67,3 @@ BBCLASSEXTEND = "nativesdk"
+ 
+ INSANE_SKIP_libgcc-dev = "staticdev"
+ INSANE_SKIP_libgcov-dev = "staticdev"
+-
 -- 
 1.7.7.6
 
