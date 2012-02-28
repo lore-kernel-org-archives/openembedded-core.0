@@ -1,20 +1,24 @@
 Received: from mga01.intel.com ([192.55.52.88])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <sgw@linux.intel.com>) id 1S2FhL-0008QA-KW
+	(envelope-from <sgw@linux.intel.com>) id 1S2FhM-0008QA-K4
 	for openembedded-core@lists.openembedded.org;
-	Tue, 28 Feb 2012 06:34:04 +0100
+	Tue, 28 Feb 2012 06:34:05 +0100
 Received: from fmsmga002.fm.intel.com ([10.253.24.26])
 	by fmsmga101.fm.intel.com with ESMTP; 27 Feb 2012 21:25:35 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="130197426"
+X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="130197429"
 Received: from unknown (HELO swold-mobl.bigsur.com) ([10.255.15.37])
 	by fmsmga002.fm.intel.com with ESMTP; 27 Feb 2012 21:25:35 -0800
 From: Saul Wold <sgw@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Mon, 27 Feb 2012 21:24:58 -0800
-Message-Id: <cover.1330406574.git.sgw@linux.intel.com>
+Date: Mon, 27 Feb 2012 21:24:59 -0800
+Message-Id: <64e23cb8f4f45e3db60c948568a76bad87fa1a2d.1330406574.git.sgw@linux.intel.com>
 X-Mailer: git-send-email 1.7.7.6
-Subject: [CONSOLIDATED PULL 00/36] General Updates, Kernel, QT, misc
+In-Reply-To: <cover.1330406574.git.sgw@linux.intel.com>
+References: <cover.1330406574.git.sgw@linux.intel.com>
+In-Reply-To: <cover.1330406574.git.sgw@linux.intel.com>
+References: <cover.1330406574.git.sgw@linux.intel.com>
+Subject: [CONSOLIDATED PULL 01/36] lsbtest: Add recipe for LSB tests and automate test
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -29,207 +33,846 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 28 Feb 2012 05:34:04 -0000
+X-List-Received-Date: Tue, 28 Feb 2012 05:34:05 -0000
 
-Richard,
+From: Yi Zhao <yi.zhao@windriver.com>
 
-This has built and being rebuilt currently on the AB, and booted
-locally.
+The recipe is used for LSB tests. The script LSB_Test.sh does the following things:
+- setup LSB testing environment
+- download LSB rpm packages with list file packages_list from remote
+- install the packages
+- execute LSB testing with profile file session
+- collect the results
 
-Nothing too outrageous in here.
+Install packages_list and session files into ${D}/opt/lsb-test.
 
-This should mark the end of M3 Dev targeting a 1.2 M3 Delivery by
-Thursday.
-
-Sau!
-
-
-The following changes since commit 8d4db8e6dcd2d25637cb77515fe776552f2fdd6d:
-
-  bitbake.conf: Create a new filter variable BB_HASHCONFIG_WHITELIST (2012-02-27 20:10:29 +0000)
-
-are available in the git repository at:
-  git://git.openembedded.org/openembedded-core-contrib sgw/stage
-  http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=sgw/stage
-
-Andreas Oberritter (1):
-  qt4.inc: depend on tiff
-
-Bruce Ashfield (3):
-  linux-yocto: update 3.0 kernel to v3.0.22
-  linux-yocto: update 3.2 kernel to v3.2.7
-  linux-yocto: allow non-branched repositories to check out
-
-James Limbouris (1):
-  mtd-utils: Don't use host 'ranlib' or 'ar'.
-
-Khem Raj (4):
-  classes: Add recipe class to overrides
-  default-distrovars: Add empty weak definition for DISTRO variable
-  gcc: Stash the gcc-cross builddir to reuse in libgcc and gcc-runtime
-  bluez4: Fix build on x86/amd64 with gcc 4.7
-
-Matthew McClintock (5):
-  arch-powerpc{, 64}.inc: update/add PACKAGE_EXTRA_ARCHS for
-    powerpc/powerpc64
-  tune-ppce5500: consolidate ppce5500 and ppc64e5500 into one tune file
-  multilib.bbclass: allow TARGET_VENDOR_virtclass-multilib to be
-    overriden
-  bitbake.conf: add default value for TUNE_PKGARCH
-  tune-ppc*.inc: update to use new default value for TUNE_PKGARCH
-
-Paul Eggleton (4):
-  qt4: fix compile error in Qt 4.8.0 with gcc 4.6
-  qt4: build qmake for the target
-  qt4-tools-nativesdk: fix build of 4.7.4
-  qt4-tools-nativesdk: improve and tidy up qmake build
-
-Saul Wold (14):
-  gnupg: Add missing patch for curl_typeof_fix
-  qemu: Add glib-2.0 as depends
-  util-linux: Update to 2.21
-  file: Update to version 5.11
-  psmisc: Update to version 22.16
-  libdrm: Update to version 2.4.31
-  mkfontdir: Update to version 1.0.7
-  mkfontscale: Update to version 1.1.0
-  boost: Update to version 1.49.0
-  sqlite3: Update to version 3.7.10
-  xf86-video-intel: Update to version 2.18.0
-  tiff: Update to version 3.9.5
-  bind: add DEPENDS for libcap
-  distro_tracking: Account for updates and Manual Checking
-
-Wenzong Fan (1):
-  gettext: Get gettext use its own libunistring
-
-Yi Zhao (3):
-  lsbtest: Add recipe for LSB tests and automate test
-  distro_tracking_fields: add information for lsbtest
-  task-core-lsb: add lsbtest to RDEPENDS_task-core-misc list
-
- meta/classes/base.bbclass                          |    1 +
- meta/classes/cross-canadian.bbclass                |    2 +-
- meta/classes/cross.bbclass                         |    1 +
- meta/classes/crosssdk.bbclass                      |    1 +
- meta/classes/kernel-yocto.bbclass                  |    2 +-
- meta/classes/multilib.bbclass                      |    3 +-
- meta/classes/native.bbclass                        |    3 +-
- meta/classes/nativesdk.bbclass                     |    3 +-
- meta/conf/bitbake.conf                             |    4 +-
- meta/conf/distro/include/default-distrovars.inc    |    7 +
- .../conf/distro/include/distro_tracking_fields.inc |  110 +++--
- meta/conf/machine/include/powerpc/arch-powerpc.inc |    4 +-
- .../machine/include/powerpc/arch-powerpc64.inc     |    1 +
- meta/conf/machine/include/tune-ppc603e.inc         |    2 +-
- meta/conf/machine/include/tune-ppce300c2.inc       |    2 +-
- meta/conf/machine/include/tune-ppce500.inc         |    2 +-
- meta/conf/machine/include/tune-ppce500mc.inc       |    2 +-
- meta/conf/machine/include/tune-ppce500v2.inc       |    2 +-
- meta/conf/machine/include/tune-ppce5500-32b.inc    |   15 -
- meta/conf/machine/include/tune-ppce5500-64b.inc    |   15 -
- meta/conf/machine/include/tune-ppce5500.inc        |   20 +
- meta/recipes-connectivity/bind/bind_9.8.1.bb       |    4 +-
- .../bluez/bluez4-4.98/sbc_mmx.patch                |   24 +
- meta/recipes-connectivity/bluez/bluez4_4.98.bb     |    6 +-
- meta/recipes-core/gettext/gettext_0.18.1.1.bb      |    3 +-
- .../util-linux-ng-replace-siginterrupt.patch       |   25 -
- .../{util-linux-2.20.1 => util-linux-2.21}/MCONFIG |    0
- .../defines.h                                      |    0
- .../make_include                                   |    0
- .../remove-lscpu.patch                             |    0
- .../remove_sigsetmark.patch                        |    0
- .../swapargs.h                                     |    0
- .../uclibc-__progname-conflict.patch               |    0
- .../uclibc-compile.patch                           |    0
- .../util-linux-ng-2.16-mount_lock_path.patch       |    0
- .../util-linux-ng-replace-siginterrupt.patch       |   26 +
- meta/recipes-core/util-linux/util-linux.inc        |    8 +-
- .../{util-linux_2.20.1.bb => util-linux_2.21.bb}   |   12 +-
- .../file/{file_5.10.bb => file_5.11.bb}            |    6 +-
- meta/recipes-devtools/gcc/gcc-4.6.inc              |    2 +-
- meta/recipes-devtools/gcc/gcc-configure-common.inc |    3 -
- .../recipes-devtools/gcc/gcc-configure-runtime.inc |   24 +-
- meta/recipes-devtools/gcc/gcc-cross-initial.inc    |    2 +-
- meta/recipes-devtools/gcc/gcc-package-cross.inc    |   14 +-
- meta/recipes-devtools/gcc/libgcc_4.6.bb            |   34 +-
- meta/recipes-devtools/mtd/mtd-utils_1.4.9.bb       |    4 +-
- meta/recipes-devtools/qemu/qemu.inc                |    2 +-
- meta/recipes-devtools/qemu/qemu_0.15.1.bb          |    2 +-
- meta/recipes-extended/lsb/lsbtest/LSB_Test.sh      |  510 ++++++++++++++++++++
- meta/recipes-extended/lsb/lsbtest/packages_list    |   50 ++
- meta/recipes-extended/lsb/lsbtest/session          |  194 ++++++++
- meta/recipes-extended/lsb/lsbtest_1.0.bb           |   37 ++
- .../psmisc/files/libintl-link.patch                |   32 --
- meta/recipes-extended/psmisc/psmisc.inc            |    4 +-
- .../psmisc/{psmisc_22.14.bb => psmisc_22.16.bb}    |    4 +-
- meta/recipes-extended/tasks/task-core-lsb.bb       |    3 +-
- .../drm/{libdrm_2.4.30.bb => libdrm_2.4.31.bb}     |    6 +-
- .../{mkfontdir_1.0.6.bb => mkfontdir_1.0.7.bb}     |    4 +-
- .../{mkfontscale_1.0.9.bb => mkfontscale_1.1.0.bb} |    4 +-
- ...-intel_2.17.0.bb => xf86-video-intel_2.18.0.bb} |    5 +-
- meta/recipes-kernel/linux/linux-yocto-rt_3.0.bb    |    8 +-
- meta/recipes-kernel/linux/linux-yocto-rt_3.2.bb    |    9 +-
- meta/recipes-kernel/linux/linux-yocto-tiny_3.0.bb  |    6 +-
- meta/recipes-kernel/linux/linux-yocto_3.0.bb       |   18 +-
- meta/recipes-kernel/linux/linux-yocto_3.2.bb       |   19 +-
- .../libtiff/{tiff_3.9.5.bb => tiff_4.0.1.bb}       |    8 +-
- meta/recipes-qt/qt4/files/qmake-exists-check.patch |   19 -
- meta/recipes-qt/qt4/files/target_qmake.patch       |   27 +
- meta/recipes-qt/qt4/qt-4.7.4.inc                   |   11 +-
- meta/recipes-qt/qt4/qt-4.8.0.inc                   |   13 +-
- .../qt4/qt-4.8.0/configure_oe_compiler.patch       |   31 ++
- meta/recipes-qt/qt4/qt-4.8.0/qmake_pri_fixes.patch |   51 ++
- meta/recipes-qt/qt4/qt4-embedded.inc               |    2 +-
- meta/recipes-qt/qt4/qt4-embedded_4.7.4.bb          |    2 +-
- meta/recipes-qt/qt4/qt4-embedded_4.8.0.bb          |    2 +-
- meta/recipes-qt/qt4/qt4-tools-nativesdk.inc        |   29 +-
- meta/recipes-qt/qt4/qt4-tools-nativesdk_4.8.0.bb   |    2 +
- meta/recipes-qt/qt4/qt4-x11-free.inc               |    2 +-
- meta/recipes-qt/qt4/qt4-x11-free_4.7.4.bb          |    2 +-
- meta/recipes-qt/qt4/qt4.inc                        |   51 ++-
- .../boost/{boost_1.48.0.bb => boost_1.49.0.bb}     |    4 +-
- .../gnupg-1.4.7/curl_typeof_fix_backport.patch     |   27 +
- meta/recipes-support/sqlite/sqlite3_3.7.10.bb      |   11 +
- meta/recipes-support/sqlite/sqlite3_3.7.9.bb       |   11 -
- 84 files changed, 1287 insertions(+), 334 deletions(-)
- delete mode 100644 meta/conf/machine/include/tune-ppce5500-32b.inc
- delete mode 100644 meta/conf/machine/include/tune-ppce5500-64b.inc
- create mode 100644 meta/conf/machine/include/tune-ppce5500.inc
- create mode 100644 meta/recipes-connectivity/bluez/bluez4-4.98/sbc_mmx.patch
- delete mode 100644 meta/recipes-core/util-linux/util-linux-2.20.1/util-linux-ng-replace-siginterrupt.patch
- rename meta/recipes-core/util-linux/{util-linux-2.20.1 => util-linux-2.21}/MCONFIG (100%)
- rename meta/recipes-core/util-linux/{util-linux-2.20.1 => util-linux-2.21}/defines.h (100%)
- rename meta/recipes-core/util-linux/{util-linux-2.20.1 => util-linux-2.21}/make_include (100%)
- rename meta/recipes-core/util-linux/{util-linux-2.20.1 => util-linux-2.21}/remove-lscpu.patch (100%)
- rename meta/recipes-core/util-linux/{util-linux-2.20.1 => util-linux-2.21}/remove_sigsetmark.patch (100%)
- rename meta/recipes-core/util-linux/{util-linux-2.20.1 => util-linux-2.21}/swapargs.h (100%)
- rename meta/recipes-core/util-linux/{util-linux-2.20.1 => util-linux-2.21}/uclibc-__progname-conflict.patch (100%)
- rename meta/recipes-core/util-linux/{util-linux-2.20.1 => util-linux-2.21}/uclibc-compile.patch (100%)
- rename meta/recipes-core/util-linux/{util-linux-2.20.1 => util-linux-2.21}/util-linux-ng-2.16-mount_lock_path.patch (100%)
- create mode 100644 meta/recipes-core/util-linux/util-linux-2.21/util-linux-ng-replace-siginterrupt.patch
- rename meta/recipes-core/util-linux/{util-linux_2.20.1.bb => util-linux_2.21.bb} (84%)
- rename meta/recipes-devtools/file/{file_5.10.bb => file_5.11.bb} (85%)
+[YOCTO #1567]
+---
+ meta/recipes-extended/lsb/lsbtest/LSB_Test.sh   |  510 +++++++++++++++++++++++
+ meta/recipes-extended/lsb/lsbtest/packages_list |   50 +++
+ meta/recipes-extended/lsb/lsbtest/session       |  194 +++++++++
+ meta/recipes-extended/lsb/lsbtest_1.0.bb        |   37 ++
+ 4 files changed, 791 insertions(+), 0 deletions(-)
  create mode 100644 meta/recipes-extended/lsb/lsbtest/LSB_Test.sh
  create mode 100644 meta/recipes-extended/lsb/lsbtest/packages_list
  create mode 100644 meta/recipes-extended/lsb/lsbtest/session
  create mode 100644 meta/recipes-extended/lsb/lsbtest_1.0.bb
- delete mode 100644 meta/recipes-extended/psmisc/files/libintl-link.patch
- rename meta/recipes-extended/psmisc/{psmisc_22.14.bb => psmisc_22.16.bb} (46%)
- rename meta/recipes-graphics/drm/{libdrm_2.4.30.bb => libdrm_2.4.31.bb} (59%)
- rename meta/recipes-graphics/xorg-app/{mkfontdir_1.0.6.bb => mkfontdir_1.0.7.bb} (81%)
- rename meta/recipes-graphics/xorg-app/{mkfontscale_1.0.9.bb => mkfontscale_1.1.0.bb} (80%)
- rename meta/recipes-graphics/xorg-driver/{xf86-video-intel_2.17.0.bb => xf86-video-intel_2.18.0.bb} (84%)
- rename meta/recipes-multimedia/libtiff/{tiff_3.9.5.bb => tiff_4.0.1.bb} (79%)
- delete mode 100644 meta/recipes-qt/qt4/files/qmake-exists-check.patch
- create mode 100644 meta/recipes-qt/qt4/files/target_qmake.patch
- create mode 100644 meta/recipes-qt/qt4/qt-4.8.0/configure_oe_compiler.patch
- create mode 100644 meta/recipes-qt/qt4/qt-4.8.0/qmake_pri_fixes.patch
- rename meta/recipes-support/boost/{boost_1.48.0.bb => boost_1.49.0.bb} (53%)
- create mode 100644 meta/recipes-support/gnupg/gnupg-1.4.7/curl_typeof_fix_backport.patch
- create mode 100644 meta/recipes-support/sqlite/sqlite3_3.7.10.bb
- delete mode 100644 meta/recipes-support/sqlite/sqlite3_3.7.9.bb
 
+diff --git a/meta/recipes-extended/lsb/lsbtest/LSB_Test.sh b/meta/recipes-extended/lsb/lsbtest/LSB_Test.sh
+new file mode 100644
+index 0000000..f14f485
+--- /dev/null
++++ b/meta/recipes-extended/lsb/lsbtest/LSB_Test.sh
+@@ -0,0 +1,510 @@
++#!/bin/bash
++
++# Copyright (C) 2012 Wind River Systems, Inc.
++#
++# This program is free software; you can redistribute it and/or modify
++# it under the terms of the GNU General Public License version 2 as
++# published by the Free Software Foundation.
++#
++# This program is distributed in the hope that it will be useful,
++# but WITHOUT ANY WARRANTY; without even the implied warranty of
++# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
++# See the GNU General Public License for more details.
++#
++# You should have received a copy of the GNU General Public License
++# along with this program; if not, write to the Free Software
++# Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
++
++
++WORK_DIR="/opt/lsb-test"
++
++if [ `id -u` -ne 0 ]
++then
++	cat << EOF
++	In order to install and run LSB testsuite, you need administrator privileges.
++	You are currently running this script as an unprivileged user.
++
++EOF
++	exit 1
++fi
++
++ARCH=`uname -m`
++if [ ${ARCH} != "i686" ] && [ ${ARCH} != "x86_64" ] && [ ${ARCH} != "ppc" ]
++then
++	echo "Error: Unsupported architecture"
++	exit 1
++fi
++
++which rpm
++if [ $? -ne 0 ]
++then
++	echo "No rpm command found"
++	exit 1
++fi
++
++RET=0
++
++cd ${WORK_DIR} || exit 1
++# Step 1: Download the LSB Packages
++echo ""
++echo "Download LSB packages..."
++echo ""
++
++if [ ! -e ./packages_list ]
++then
++	echo "Error: Could not find packages list" >&2
++	exit 1
++fi
++
++. ./packages_list
++
++PACKAGES_DIR="/var/opt/lsb/test/manager/packages/ftp.linuxfoundation.org/pub/lsb"
++
++BASE_PACKAGES_DIR="${PACKAGES_DIR}/base/${LSB_RELEASE}/binary"
++RUNTIME_BASE_PACKAGES_DIR="${PACKAGES_DIR}/test_suites/released-all/binary/runtime"
++RUNTIME_PACKAGES_DIR="${PACKAGES_DIR}/test_suites/${LSB_RELEASE}/binary/runtime"
++APP_PACKAGES_DIR="${PACKAGES_DIR}/app-battery/${LSB_RELEASE}/${LSB_ARCH}"
++APP_TESTFILES_DIR="${PACKAGES_DIR}/app-battery/tests"
++SNAPSHOTS_TESTFILES_DIR="${PACKAGES_DIR}/snapshots/appbat/tests"
++
++if [ ! -d ${PACKAGES_DIR} ]
++then
++	mkdir -p ${PACKAGES_DIR}
++fi
++
++if [ ! -d ${BASE_PACKAGES_DIR} ]
++then
++	mkdir -p ${BASE_PACKAGES_DIR}
++fi
++
++if [ ! -d ${RUNTIME_BASE_PACKAGES_DIR} ]
++then
++	mkdir -p ${RUNTIME_BASE_PACKAGES_DIR}
++fi
++
++if [ ! -d ${RUNTIME_PACKAGES_DIR} ]
++then
++	mkdir -p ${RUNTIME_PACKAGES_DIR}
++fi
++
++if [ ! -d ${APP_PACKAGES_DIR} ]
++then
++	mkdir -p ${APP_PACKAGES_DIR}
++fi
++
++if [ ! -d ${APP_TESTFILES_DIR} ]
++then
++	mkdir -p ${APP_TESTFILES_DIR}
++fi
++
++# Official download server list. You can replace them with your own server.
++SERVER_IPADDR="140.211.169.23"
++SERVER_NAME="ftp.linuxfoundation.org"
++
++if ! `grep -F -q "${SERVER_NAME}" /etc/hosts`; then
++	echo "${SERVER_IPADDR}	${SERVER_NAME}	${SERVER_NAME}" >> /etc/hosts
++fi
++
++#ping -c 5 ${SERVER_NAME}
++#if [ $? -ne 0 ]
++#then
++#	echo "The server: ${SERVER_NAME} is unreachable"
++#	exit 1
++#fi
++
++SERVER1="\
++	http://${SERVER_NAME}/pub/lsb/base/${LSB_RELEASE}/binary"
++SERVER2="\
++	http://${SERVER_NAME}/pub/lsb/test_suites/released-all/binary/runtime"
++SERVER3="\
++	http://${SERVER_NAME}/pub/lsb/test_suites/${LSB_RELEASE}/binary/runtime"
++SERVER4="\
++	http://${SERVER_NAME}/pub/lsb/app-battery/${LSB_RELEASE}/${LSB_ARCH}"
++SERVER5="\
++	http://${SERVER_NAME}/pub/lsb/app-battery/tests"
++
++# We using "curl" as a download tool, "wget" is an alternative.
++CURL=`which curl`
++WGET=`which wget`
++if [ ! -z ${CURL} ]
++then
++	DOWNLOAD_CMD="${CURL} -R -L --retry 3 --retry-delay 4 --connect-timeout 180 --compressed -C - -o"
++elif [ ! -z ${WGET} ]
++then
++	DOWNLOAD_CMD="${WGET} -c -t 5 -O"
++else
++	echo "Can not find a download tool, please install curl or wget."
++	exit 1
++fi
++
++cd ${BASE_PACKAGES_DIR}
++for pkg in ${BASE_PACKAGES_LIST}; do
++	if [ ! -f ${pkg} ]
++	then
++		#${DOWNLOAD_CMD} ${pkg}".#part" ${SERVER1}/${pkg} > /dev/null 2>&1
++		${DOWNLOAD_CMD} ${pkg}".#part" ${SERVER1}/${pkg}
++		if [ $? -eq 0 ]
++		then
++			mv -f ${pkg}".#part" ${pkg}
++			echo "Download ${pkg} successfully."
++		else
++			echo "Download ${pkg} failed."
++			RET=1
++		fi
++	fi
++done
++
++cd ${RUNTIME_BASE_PACKAGES_DIR}
++for pkg in ${RUNTIME_BASE_PACKAGES_LIST}; do
++	if [ ! -f ${pkg} ]
++	then
++		#${DOWNLOAD_CMD} ${pkg}".#part" ${SERVER2}/${pkg} > /dev/null 2>&1
++		${DOWNLOAD_CMD} ${pkg}".#part" ${SERVER2}/${pkg}
++		if [ $? -eq 0 ]
++		then
++			mv -f ${pkg}".#part" ${pkg}
++			echo "Download ${pkg} successfully."
++		else
++			echo "Download ${pkg} failed."
++			RET=1
++		fi
++	fi
++done
++
++cd ${RUNTIME_PACKAGES_DIR}
++for pkg in ${RUNTIME_PACKAGES_LIST}; do
++	if [ ! -f ${pkg} ]
++	then
++		#${DOWNLOAD_CMD} ${pkg}".#part" ${SERVER3}/${pkg} > /dev/null 2>&1
++		${DOWNLOAD_CMD} ${pkg}".#part" ${SERVER3}/${pkg}
++		if [ $? -eq 0 ]
++		then
++			mv -f ${pkg}".#part" ${pkg}
++			echo "Download ${pkg} successfully."
++		else
++			echo "Download ${pkg} failed."
++			RET=1
++		fi
++	fi
++done
++
++cd ${APP_PACKAGES_DIR}
++for pkg in ${APP_PACKAGES_LIST}; do
++	if [ ! -f ${pkg} ]
++	then
++		#${DOWNLOAD_CMD} ${pkg}".#part" ${SERVER4}/${pkg} > /dev/null 2>&1
++		${DOWNLOAD_CMD} ${pkg}".#part" ${SERVER4}/${pkg}
++		if [ $? -eq 0 ]
++		then
++			mv -f ${pkg}".#part" ${pkg}
++			echo "Download ${pkg} successfully."
++		else
++			echo "Download ${pkg} failed."
++			RET=1
++		fi
++	fi
++done
++
++cd ${APP_TESTFILES_DIR}
++for pkg in ${APP_TESTFILES_LIST}; do
++	if [ ! -f ${pkg} ]
++	then
++		#${DOWNLOAD_CMD} ${pkg}".#part" ${SERVER5}/${pkg} > /dev/null 2>&1
++		${DOWNLOAD_CMD} ${pkg}".#part" ${SERVER5}/${pkg}
++		if [ $? -eq 0 ]
++		then
++			mv -f ${pkg}".#part" ${pkg}
++			echo "Download ${pkg} successfully."
++		else
++			echo "Download ${pkg} failed."
++			RET=1
++		fi
++	fi
++done
++
++if [ ${RET} -ne 0 ]
++then
++	echo "Download some packages failed. Please download them again."
++	exit 1
++fi
++
++# Step 2: Install the LSB Packages
++echo ""
++echo "Install LSB packages..."
++echo ""
++
++# Kill lighttpd
++ps aux | grep "lighttpd" | grep -v -q "grep"
++if [ $? -eq 0 ]
++then
++	killall lighttpd >/dev/null 2>&1
++fi
++
++# Start avahi-daemon
++ps aux | grep "avahi-daemon" | grep -v -q "grep"
++if [ $? -ne 0 ]
++then
++	/etc/init.d/avahi-daemon start >/dev/null 2>&1
++fi
++
++LSB_START_CMD="/opt/lsb/test/manager/bin/dist-checker-start.pl"
++LSB_STOP_CMD="/opt/lsb/test/manager/bin/dist-checker-stop.pl"
++
++PLATFORM_FILE="/etc/rpm/platform"
++
++RPM_INSTALL_CMD="rpm --quiet --nodeps --replacepkgs --nosignature -i"
++RPM_INSTALL_CMD_NOSCRIPTS="rpm --quiet --nodeps --replacepkgs --noscripts --nosignature -i"
++
++# If the lsb has been started, stop it first.
++if [ -x ${LSB_STOP_CMD} ]
++then
++	${LSB_STOP_CMD}
++fi
++
++if [ ! -d /etc/rpm ]
++then
++	mkdir -p /etc/rpm
++fi
++
++if [ ! -f ${PLATFORM_FILE} ]
++then
++	touch ${PLATFORM_FILE}
++fi
++
++if ! `grep -F -q "noarch-suse" ${PLATFORM_FILE}`; then
++	if [ ${ARCH} == i686 ];then
++		echo "i486-suse" >> ${PLATFORM_FILE}
++		echo "i486-noarch" >> ${PLATFORM_FILE}
++		echo "i486-pc" >> ${PLATFORM_FILE}
++		echo "noarch-suse" >> ${PLATFORM_FILE}
++	else
++		echo "${ARCH}-suse" >> ${PLATFORM_FILE}
++		echo "${ARCH}-noarch" >> ${PLATFORM_FILE}
++		echo "${ARCH}-pc" >> ${PLATFORM_FILE}
++		echo "noarch-suse" >> ${PLATFORM_FILE}
++	fi
++fi
++
++if [ -d ${BASE_PACKAGES_DIR} ]
++then
++	cd ${BASE_PACKAGES_DIR}
++	for pkg in ${BASE_PACKAGES_LIST}
++	do
++		rpm --quiet -q ${pkg%\.*}
++		if [ $? -ne 0 ]; then
++			$RPM_INSTALL_CMD ${pkg}
++		fi
++	done
++fi
++
++if [ -d ${RUNTIME_BASE_PACKAGES_DIR} ]
++then
++	cd ${RUNTIME_BASE_PACKAGES_DIR}
++	for pkg in ${RUNTIME_BASE_PACKAGES_LIST}
++	do
++		rpm --quiet -q ${pkg%\.*}
++		if [ $? -ne 0 ]; then
++			$RPM_INSTALL_CMD ${pkg}
++		fi
++	done
++fi
++
++if [ -d ${RUNTIME_PACKAGES_DIR} ]
++then
++	cd ${RUNTIME_PACKAGES_DIR}
++	for pkg in ${RUNTIME_PACKAGES_LIST}
++	do
++		rpm --quiet -q ${pkg%\.*}
++		if [ $? -ne 0 ]; then
++			$RPM_INSTALL_CMD ${pkg}
++		fi
++	done
++fi
++
++if [ -d ${APP_PACKAGES_DIR} ]
++then
++	cd ${APP_PACKAGES_DIR}
++	for pkg in ${APP_PACKAGES_LIST}
++	do
++		echo "${pkg}" | grep -q "apache\|xpdf"
++		if [ $? -eq 0 ]
++		then
++			rpm --quiet -q ${pkg%\.*}
++			if [ $? -ne 0 ]; then
++				$RPM_INSTALL_CMD_NOSCRIPTS ${pkg}
++			fi
++		else
++			rpm --quiet -q ${pkg%\.*}
++			if [ $? -ne 0 ]; then
++				$RPM_INSTALL_CMD ${pkg}
++			fi
++		fi
++	done
++fi
++
++if [ ! -d ${SNAPSHOTS_TESTFILES_DIR} ]
++then
++	mkdir -p ${SNAPSHOTS_TESTFILES_DIR}
++fi
++
++if [ -d ${APP_TESTFILES_DIR} ]
++then
++	cd ${APP_TESTFILES_DIR}
++	for pkg in ${APP_TESTFILES_LIST}
++	do
++		cp -f ${pkg} ${SNAPSHOTS_TESTFILES_DIR}
++	done
++fi
++
++cd ${WORK_DIR}
++
++# Step 3: Set environment
++echo ""
++echo "Set environment..."
++echo ""
++
++check ()
++{
++	if [ $? -eq 0 ]
++	then
++		echo "PASS"
++	else 
++		echo "FAIL"
++		exit 1
++	fi
++}
++
++echo ""
++echo "---------------------------------"
++echo "Create the Dirnames on target"
++
++if [ ! -d /etc/rpm/sysinfo ]
++then
++	mkdir -p /etc/rpm/sysinfo
++fi
++
++cat > /etc/rpm/sysinfo/Dirnames << EOF
++/etc/opt/lsb
++/home/tet/LSB.tools
++/opt/lsb-tet3-lite/lib/ksh
++/opt/lsb-tet3-lite/lib/perl
++/opt/lsb-tet3-lite/lib/posix_sh
++/opt/lsb-tet3-lite/lib/tet3
++/opt/lsb-tet3-lite/lib/xpg3sh
++/opt/lsb/appbat/lib/python2.4/site-packages/qm
++/opt/lsb/appbat/lib/python2.4/site-packages/qm/external
++/opt/lsb/appbat/lib/python2.4/site-packages/qm/external/DocumentTemplate
++/opt/lsb/appbat/lib/python2.4/site-packages/qm/test
++/opt/lsb/appbat/lib/python2.4/site-packages/qm/test/classes
++/opt/lsb/appbat/lib/python2.4/site-packages/qm/test/web
++/opt/lsb/test/doc
++/opt/lsb/test/lib
++/opt/lsb/test/qm/diagnostics
++/opt/lsb/test/qm/doc
++/opt/lsb/test/qm/doc/test/html
++/opt/lsb/test/qm/doc/test/print
++/opt/lsb/test/qm/dtml
++/opt/lsb/test/qm/dtml/test
++/opt/lsb/test/qm/messages/test
++/opt/lsb/test/qm/tutorial/test/tdb
++/opt/lsb/test/qm/tutorial/test/tdb/QMTest
++/opt/lsb/test/qm/web
++/opt/lsb/test/qm/web/images
++/opt/lsb/test/qm/web/stylesheets
++/opt/lsb/test/qm/xml
++/opt/lsb/test/share
++/usr/share/doc/lsb-runtime-test
++/var/opt/lsb
++/opt/lsb/test/desktop
++/opt/lsb/test/desktop/fontconfig
++/opt/lsb/test/desktop/freetype
++/opt/lsb/test/desktop/gtkvts
++/opt/lsb/test/desktop/libpng
++/opt/lsb/test/desktop/qt3
++/opt/lsb/test/desktop/xft
++/opt/lsb/test/desktop/xml
++/opt/lsb/test/desktop/xrender
++
++
++EOF
++
++if [ -f /etc/rpm/sysinfo/Dirnames ]
++then
++	echo "Success to creat Dirnames file"
++else 
++	echo "Fail to creat Dirnames file"
++fi
++
++echo ""
++echo "---------------------------------"
++echo "Update cache"
++ldconfig
++check;
++
++# Check loop device
++if [ ! -b /dev/loop0 ]
++then
++	insmod /lib/modules/`uname -r`/kernel/drivers/block/loop.ko
++	if [ $? != 0 ];then
++		echo "Insmod loop.ko failed."
++	fi
++fi
++
++# Resolve localhost
++LOCALHOST=`hostname`
++if ! `grep -F -q "$LOCALHOST" /etc/hosts`; then
++	echo "127.0.0.1	$LOCALHOST" >> /etc/hosts
++fi
++
++# Workaround to add part of locales for LSB test
++localedef -i de_DE -f ISO-8859-1 de_DE
++localedef -i de_DE -f ISO-8859-15 de_DE.ISO-8859-15
++localedef -i de_DE -f UTF-8 de_DE.UTF-8
++localedef -i de_DE@euro -f ISO-8859-15 de_DE@euro
++localedef -i en_HK -f ISO-8859-1 en_HK
++localedef -i en_PH -f ISO-8859-1 en_PH
++localedef -i en_US -f ISO-8859-15 en_US.ISO-8859-15
++localedef -i en_US -f ISO-8859-1 en_US.ISO-8859-1
++localedef -i en_US -f ISO-8859-1 en_US
++localedef -i en_US -f UTF-8 en_US.UTF-8
++localedef -i en_US -f ISO-8859-1 en_US.ISO8859-1
++localedef -i es_MX -f ISO-8859-1 es_MX
++localedef -i fr_FR -f ISO-8859-1 fr_FR
++localedef -i it_IT -f ISO-8859-1 it_IT
++localedef -i ja_JP -f EUC-JP ja_JP.eucjp
++localedef -i se_NO -f UTF-8 se_NO.UTF-8
++localedef -i ta_IN -f UTF-8 ta_IN
++
++echo ""
++echo "Installation done!"
++echo ""
++
++# Step 4: Start LSB test
++if [ -x ${LSB_START_CMD} ]
++then
++	${LSB_START_CMD}
++fi
++
++echo "---------------------------------"
++echo "Run all the certification version of LSB Tests"
++echo "---------------------------------"
++
++LSB_DIST_CHECKER="/opt/lsb/test/manager/utils/dist-checker.pl"
++SESSION="${WORK_DIR}/session"
++if [ ! -e ${SESSION} ]
++then
++	echo "Error: Could not find session file."
++	echo "You must run LSB test from webbrower."
++	exit 1
++fi
++
++if [ -x ${LSB_DIST_CHECKER} ]
++then
++	${LSB_DIST_CHECKER} -v2 -f ${SESSION}
++	check
++fi
++
++echo ""
++echo "LSB test complete. Please check the log file in /var/opt/lsb/test/manager/results/"
++echo ""
++
+diff --git a/meta/recipes-extended/lsb/lsbtest/packages_list b/meta/recipes-extended/lsb/lsbtest/packages_list
+new file mode 100644
+index 0000000..9285ed9
+--- /dev/null
++++ b/meta/recipes-extended/lsb/lsbtest/packages_list
+@@ -0,0 +1,50 @@
++LSB_RELEASE="released-4.1.0"
++LSB_ARCH="lsbarch"
++
++BASE_PACKAGES_LIST="lsb-setup-4.1.0-1.noarch.rpm"
++
++RUNTIME_BASE_PACKAGES_LIST="lsb-dist-checker-4.1.0.1-2.targetarch.rpm \
++	lsb-tet3-lite-3.7-15.lsb4.targetarch.rpm \
++	lsb-tet3-lite-devel-3.7-15.lsb4.targetarch.rpm \
++	lsb-xvfb-1.2.0-19.targetarch.rpm \
++	"
++
++RUNTIME_PACKAGES_LIST="lsb-cmdchk-4.1.0-1.targetarch.rpm \
++	lsb-libchk-4.1.0-1.targetarch.rpm \
++	lsb-qm-2.2-8.lsb4.targetarch.rpm \
++	lsb-task-dist-testkit-4.1.0-1.noarch.rpm \
++	lsb-test-core-4.1.0-1.targetarch.rpm \
++	lsb-test-cpp-t2c-4.1.0-1.targetarch.rpm \
++	lsb-test-desktop-4.1.0-2.targetarch.rpm \
++	lsb-test-desktop-t2c-4.1.0-1.targetarch.rpm \
++	lsb-test-libstdcpp-4.1.0-13.lsb4.targetarch.rpm \
++	lsb-test-olver-core-4.1.0-1.targetarch.rpm \
++	lsb-test-perl-4.1.0-1.noarch.rpm \
++	lsb-test-printing-4.1.0-1.targetarch.rpm \
++	lsb-test-python-4.1.1-2.targetarch.rpm \
++	lsb-test-qt3-azov-4.1.0-1.targetarch.rpm \
++	lsb-test-qt4-azov-4.1.0-1.targetarch.rpm \
++	lsb-test-xts5-5.1.5-38.lsb4.targetarch.rpm \
++	lsb-test-alsa-t2c-4.1.0-1.targetarch.rpm \
++	lsb-test-core-t2c-4.1.0-1.targetarch.rpm \
++	lsb-test-xml2-azov-4.1.0-1.targetarch.rpm \
++	"
++
++APP_PACKAGES_LIST="lsb-python-2.4.6-5.lsb4.targetarch.rpm \
++	lsb-apache-2.2.14-3.lsb4.targetarch.rpm \
++	lsb-tcl-8.5.7-6.lsb4.targetarch.rpm \
++	lsb-expect-5.43.0-11.lsb4.targetarch.rpm \
++	lsb-groff-1.20.1-5.lsb4.targetarch.rpm \
++	lsb-raptor-1.4.19-3.lsb4.targetarch.rpm \
++	lsb-xpdf-1.01-10.lsb4.targetarch.rpm \
++	lsb-samba-3.4.3-5.lsb4.targetarch.rpm \
++	lsb-rsync-3.0.6-3.lsb4.targetarch.rpm \
++	"
++
++APP_TESTFILES_LIST="expect-tests.tar \
++	tcl-tests.tar \
++	raptor-tests.tar \
++	test1.pdf \
++	test2.pdf \
++	"
++
+diff --git a/meta/recipes-extended/lsb/lsbtest/session b/meta/recipes-extended/lsb/lsbtest/session
+new file mode 100644
+index 0000000..85ca2ef
+--- /dev/null
++++ b/meta/recipes-extended/lsb/lsbtest/session
+@@ -0,0 +1,194 @@
++[GENERAL]
++VERBOSE_LEVEL:   1
++ARCHITECTURE:    targetarch
++USE_INTERNET:    1
++STD_VERSION:     LSB 4.1
++STD_PROFILE:     no
++[cmdchk]
++RUN: 1
++VERSION: local|*
++
++[libchk]
++RUN: 1
++VERSION: local|*
++
++[alsa-t2c]
++RUN: 1
++VERSION: local|*
++
++[alsa-t2c|local|*]
++AUTOREPLY_TESTSUITE_DIR: /opt/lsb/test/alsa-t2c
++AUTOREPLY_RESULTS_DIR: /opt/lsb/test/alsa-t2c/results
++
++[core]
++RUN: 1
++VERSION: local|*
++
++[core|local|*]
++AUTOREPLY_PROVIDES_BASH: n
++AUTOREPLY_TESTRUN_PATH: /home/tet/test_sets
++AUTOREPLY_PERSON: Automated
++AUTOREPLY_KERNEL_NAME: vmlinuz
++AUTOREPLY_INSTALL_LSBPAM_CONF: y
++AUTOREPLY_PROVIDES_C_SHELL: n
++AUTOREPLY_ORGANISATION: N/A
++AUTOREPLY_SET_PASS_MIN_DAYS: y
++AUTOREPLY_PROVIDES_SYSV_INIT: 
++AUTOREPLY_ISNTALL_DEVS: y
++AUTOREPLY_SUPPORTS_FILE_CMD: y
++AUTOREPLY_TEST_SYSTEM: Distribution Checker
++AUTOREPLY_TESTSUITE_DIR: /opt/lsb/test/core/tet/test_sets
++AUTOREPLY_SUPPORTS_NLS: n
++AUTOREPLY_SUPPORTS_PROCESS_ACCOUNTING: n
++AUTOREPLY_PATH_TO_RC.D: 
++AUTOREPLY_ALLOWS_MAKEDEV: n
++AUTOREPLY_RESULTS_DIR: /opt/lsb/test/core/tet/test_sets/results
++
++[core-t2c]
++RUN: 1
++VERSION: local|*
++
++[core-t2c|local|*]
++AUTOREPLY_TESTSUITE_DIR: /opt/lsb/test/core-t2c
++AUTOREPLY_RESULTS_DIR: /opt/lsb/test/core-t2c/results
++
++[cpp-t2c]
++RUN: 1
++VERSION: local|*
++
++[cpp-t2c|local|*]
++AUTOREPLY_TESTSUITE_DIR: /opt/lsb/test/cpp-t2c
++AUTOREPLY_RESULTS_DIR: /opt/lsb/test/cpp-t2c/results
++
++[desktop]
++RUN: 1
++VERSION: local|*
++
++[desktop|local|*]
++AUTOREPLY_DESKTOP_ENVIRONMENT: [default]
++AUTOREPLY_PERSON: Automated
++AUTOREPLY_X_CLIENT_HOSTNAME: 
++AUTOREPLY_TEST_SYSTEM: Distribution Checker
++AUTOREPLY_TESTSUITE_DIR: /opt/lsb/test/desktop
++AUTOREPLY_X11_FONT_PATH: [default]
++AUTOREPLY_SHOW_SUMMARY_REPORT: 
++AUTOREPLY_ORGANISATION: N/A
++AUTOREPLY_XVFB_DISPLAY: [default]
++
++[desktop-t2c]
++RUN: 1
++VERSION: local|*
++
++[desktop-t2c|local|*]
++AUTOREPLY_TESTSUITE_DIR: /opt/lsb/test/desktop-t2c
++AUTOREPLY_RESULTS_DIR: /opt/lsb/test/desktop-t2c/results
++
++[libstdcpp]
++RUN: 1
++VERSION: local|*
++
++[libstdcpp|local|*]
++AUTOREPLY_TEST_SYSTEM: Distribution Checker
++AUTOREPLY_PERSON: Automated
++AUTOREPLY_TESTSUITE_DIR: /opt/lsb/test/libstdcpp_4.1.0
++AUTOREPLY_ORGANISATION: N/A
++AUTOREPLY_GNU_TRIPLET: 
++
++[olver]
++RUN: 1
++VERSION: local|*
++
++[olver|local|*]
++AUTOREPLY_TESTSUITE_DIR: /opt/lsb/test/olver-core
++AUTOREPLY_RESULTS_DIR: /var/opt/lsb/test/olver-core
++
++[perl]
++RUN: 1
++VERSION: local|*
++
++[perl|local|*]
++AUTOREPLY_TESTSUITE_DIR: /opt/lsb/test/perl
++AUTOREPLY_RESULTS_DIR: /opt/lsb/test/perl/results
++
++[printing]
++RUN: 1
++VERSION: local|*
++
++[printing|local|*]
++AUTOREPLY_TESTSUITE_DIR: /opt/lsb/test/printing
++AUTOREPLY_RESULTS_DIR: /opt/lsb/test/printing/results
++
++[python]
++RUN: 1
++VERSION: local|*
++
++[python|local|*]
++AUTOREPLY_TESTSUITE_DIR: /opt/lsb/test/python
++AUTOREPLY_RESULTS_DIR: /opt/lsb/test/python/results
++
++[qt3-azov]
++RUN: 1
++VERSION: local|*
++
++[qt3-azov|local|*]
++AUTOREPLY_TESTSUITE_DIR: /opt/lsb/test/qt3-azov
++AUTOREPLY_X11_FONT_PATH: [default]
++AUTOREPLY_RESULTS_DIR: /opt/lsb/test/qt3-azov/results
++
++[qt4-azov]
++RUN: 1
++VERSION: local|*
++
++[qt4-azov|local|*]
++AUTOREPLY_TESTSUITE_DIR: /opt/lsb/test/qt4-azov
++AUTOREPLY_X11_FONT_PATH: [default]
++AUTOREPLY_RESULTS_DIR: /opt/lsb/test/qt4-azov/results
++
++[xml2-azov]
++RUN: 1
++VERSION: local|*
++
++[xts5]
++RUN: 1
++VERSION: local|*
++
++[xts5|local|*]
++AUTOREPLY_XT_FONTPATH_GOOD: [default]
++AUTOREPLY_TESTSUITE_DIR: /opt/lsb/test/xts5
++AUTOREPLY_XVFB_DISPLAY: [default]
++AUTOREPLY_RESULTS_DIR: /opt/lsb/test/xts5/xts5/results
++AUTOREPLY_XT_FONTPATH: [default]
++AUTOREPLY_X_CLIENT_HOSTNAME: 
++
++[apache]
++RUN: 1
++VERSION: local|*
++
++[expect]
++RUN: 1
++VERSION: local|*
++
++[groff]
++RUN: 1
++VERSION: local|*
++
++[raptor]
++RUN: 1
++VERSION: local|*
++
++[rsync]
++RUN: 1
++VERSION: local|*
++
++[samba]
++RUN: 1
++VERSION: local|*
++
++[tcl]
++RUN: 1
++VERSION: local|*
++
++[xpdf]
++RUN: 1
++VERSION: local|*
++
+diff --git a/meta/recipes-extended/lsb/lsbtest_1.0.bb b/meta/recipes-extended/lsb/lsbtest_1.0.bb
+new file mode 100644
+index 0000000..d932c83
+--- /dev/null
++++ b/meta/recipes-extended/lsb/lsbtest_1.0.bb
+@@ -0,0 +1,37 @@
++DESCRIPTION = "automate test for lsb"
++SECTION = "console/utils"
++LICENSE = "GPLv2"
++PR = "r0"
++
++LIC_FILES_CHKSUM = "file://LSB_Test.sh;beginline=3;endline=16;md5=7063bb54b04719df0716b513447f4fc0"
++
++SRC_URI = "file://LSB_Test.sh \
++		   file://packages_list \
++		   file://session \
++		   "
++RDEPENDS_${PN} = "rpm"
++
++S=${WORKDIR}
++
++do_install() {
++	install -d ${D}/usr/bin
++	install -m 0755 ${S}/LSB_Test.sh ${D}/usr/bin
++	install -d  ${D}/opt/lsb-test
++	install -m 0644 ${S}/packages_list ${D}/opt/lsb-test/packages_list
++	install -m 0644 ${S}/session ${D}/opt/lsb-test/session
++	if [ "${TARGET_ARCH}" == "i586" ];then
++		sed -i -e 's/lsbarch/ia32/g' -e 's/targetarch/i486/g' ${D}/opt/lsb-test/packages_list
++		sed -i -e 's/targetarch/x86/g' ${D}/opt/lsb-test/session
++	fi
++	if [ "${TARGET_ARCH}" == "x86_64" ];then
++		sed -i -e 's/lsbarch/amd64/g' -e 's/targetarch/x86_64/g' ${D}/opt/lsb-test/packages_list
++		sed -i -e 's/targetarch/x86-64/g' ${D}/opt/lsb-test/session
++	fi
++	if [ "${TARGET_ARCH}" == "powerpc" ];then
++		sed -i -e 's/lsbarch/ppc32/g' -e 's/targetarch/ppc/g' ${D}/opt/lsb-test/packages_list
++		sed -i -e 's/targetarch/PPC32/g' ${D}/opt/lsb-test/session
++	fi
++}
++
++FILES_${PN} += "/opt/lsb-test/* \
++               "
 -- 
 1.7.7.6
 
