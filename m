@@ -1,38 +1,23 @@
-Received: from mail-ww0-f43.google.com ([74.125.82.43])
+Received: from mail.windriver.com ([147.11.1.11])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <koen@dominion.thruhere.net>) id 1S2Te1-0004XN-LV
+	(envelope-from <bruce.ashfield@windriver.com>) id 1S2USt-0005j1-IF
 	for openembedded-core@lists.openembedded.org;
-	Tue, 28 Feb 2012 21:27:33 +0100
-Received: by wgbdr12 with SMTP id dr12so2903677wgb.24
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 28 Feb 2012 12:19:03 -0800 (PST)
-Received-SPF: pass (google.com: domain of koen@dominion.thruhere.net
-	designates 10.180.8.164 as permitted sender)
-	client-ip=10.180.8.164; 
-Authentication-Results: mr.google.com; spf=pass (google.com: domain of
-	koen@dominion.thruhere.net designates 10.180.8.164 as permitted
-	sender) smtp.mail=koen@dominion.thruhere.net
-Received: from mr.google.com ([10.180.8.164])
-	by 10.180.8.164 with SMTP id s4mr42133093wia.6.1330460343078 (num_hops
-	= 1); Tue, 28 Feb 2012 12:19:03 -0800 (PST)
-Received: by 10.180.8.164 with SMTP id s4mr33427946wia.6.1330460343031;
-	Tue, 28 Feb 2012 12:19:03 -0800 (PST)
-Received: from [172.20.1.36] (ip545070eb.adsl-surfen.hetnet.nl.
-	[84.80.112.235])
-	by mx.google.com with ESMTPS id h19sm31066666wiw.9.2012.02.28.12.19.01
-	(version=TLSv1/SSLv3 cipher=OTHER);
-	Tue, 28 Feb 2012 12:19:01 -0800 (PST)
-Mime-Version: 1.0 (Apple Message framework v1257)
-From: Koen Kooi <koen@dominion.thruhere.net>
-In-Reply-To: <1330346629.4593.20.camel@ted>
-Date: Tue, 28 Feb 2012 21:19:01 +0100
-Message-Id: <D1E600DA-4C86-4459-8820-F8B2AE88AAEF@dominion.thruhere.net>
-References: <1330346629.4593.20.camel@ted>
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-X-Mailer: Apple Mail (2.1257)
-X-Gm-Message-State: ALoCoQkwnQIdQyCzTdOrfsu5DbIAnHZDzHm2uPkle7fL3Tqv/AB6J+nupZBaawA1pHVPNGSvuc1H
-Subject: Re: [PATCH] image_types: Refactor compression code into a generic compression solution
+	Tue, 28 Feb 2012 22:20:07 +0100
+Received: from localhost.localdomain (yow-bashfiel-d2.ottawa.windriver.com
+	[128.224.146.167])
+	by mail.windriver.com (8.14.3/8.14.3) with ESMTP id q1SLBZEW028690;
+	Tue, 28 Feb 2012 13:11:36 -0800 (PST)
+From: Bruce Ashfield <bruce.ashfield@windriver.com>
+To: richard.purdie@linuxfoundation.org
+Date: Tue, 28 Feb 2012 16:09:58 -0500
+Message-Id: <4851737d22f645f8a5ccfd798939d48d66267bd5.1330463101.git.bruce.ashfield@windriver.com>
+X-Mailer: git-send-email 1.7.0.4
+In-Reply-To: <cover.1330463101.git.bruce.ashfield@windriver.com>
+References: <cover.1330463101.git.bruce.ashfield@windriver.com>
+In-Reply-To: <cover.1330463101.git.bruce.ashfield@windriver.com>
+References: <cover.1330463101.git.bruce.ashfield@windriver.com>
+Cc: openembedded-core@lists.openembedded.org, saul.wold@intel.com
+Subject: [PATCH 1/3] linux-yocto: make kernel_checkout reentrant
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -47,38 +32,89 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 28 Feb 2012 20:27:33 -0000
-Content-Type: text/plain; charset=us-ascii
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Tue, 28 Feb 2012 21:20:08 -0000
 
+The steps in do_kernel_checkout modify the source tree in WORKDIR.
+If it is called multiple times, or interrupted, the tree is left
+in an inconsistent state.
 
-Op 27 feb. 2012, om 13:43 heeft Richard Purdie het volgende geschreven:
+This change adds protections around branch names, and around the
+manipulations of directories to ensure that it is safe to call
+at any point.
 
-> The current approach of adding each different compressed image type =
-doesn't
-> scale. This patch changes the code so compressed images for each form =
-are
-> automatically available using the form <type>.<compression type> in
-> IMAGE_FSTYPES. This doesn't change any existing externally visible =
-behaviour
-> and the image generation process becomes more efficient as a result =
-too.
+Signed-off-by: Bruce Ashfield <bruce.ashfield@windriver.com>
+---
+ meta/classes/kernel-yocto.bbclass |   33 ++++++++++++++++++++-------------
+ 1 files changed, 20 insertions(+), 13 deletions(-)
 
-There's a a few -f's missing in this patch, e.g. bz2 images now fail =
-with:
+diff --git a/meta/classes/kernel-yocto.bbclass b/meta/classes/kernel-yocto.bbclass
+index 5f3cb63..187e3cc 100644
+--- a/meta/classes/kernel-yocto.bbclass
++++ b/meta/classes/kernel-yocto.bbclass
+@@ -139,17 +139,17 @@ do_patch() {
+ }
+ 
+ do_kernel_checkout() {
+-	# we build out of {S}, so ensure that ${S} is clean and present
+-	rm -rf ${S}
+-	mkdir -p ${S}/.git
+-
+ 	set +e
+ 
+ 	# A linux yocto SRC_URI should use the bareclone option. That
+ 	# ensures that all the branches are available in the WORKDIR version
+ 	# of the repository. If it wasn't passed, we should detect it, and put
+ 	# out a useful error message
+-	if [ -d "${WORKDIR}/git/.git" ]; then
++	if [ -d "${WORKDIR}/git/" ] && [ -d "${WORKDIR}/git/.git" ]; then
++		# we build out of {S}, so ensure that ${S} is clean and present
++		rm -rf ${S}
++		mkdir -p ${S}/.git
++
+ 		echo "WARNING. ${WORKDIR}/git is not a bare clone."
+ 		echo "Ensure that the SRC_URI includes the 'bareclone=1' option."
+ 		
+@@ -158,12 +158,14 @@ do_kernel_checkout() {
+ 		mv ${WORKDIR}/git/.git ${S}
+ 		rm -rf ${WORKDIR}/git/
+ 		cd ${S}
+-		git branch -a | grep -q ${KMETA}
+-		if [ $? -ne 0 ]; then
+-			echo "ERROR. The branch '${KMETA}' is required and was not"
+-			echo "found. Ensure that the SRC_URI points to a valid linux-yocto"
+-			echo "kernel repository"
+-			exit 1
++		if [ -n "${YOCTO_KERNEL_META_DATA}" ] && [ -n "${KMETA}" ]; then
++			git branch -a | grep -q ${KMETA}
++			if [ $? -ne 0 ]; then
++				echo "ERROR. The branch '${KMETA}' is required and was not"
++				echo "found. Ensure that the SRC_URI points to a valid linux-yocto"
++				echo "kernel repository"
++				exit 1
++			fi
+ 		fi
+ 	 	if [ -z "${YOCTO_KERNEL_EXTERNAL_BRANCH}" ] && [ -n "${KBRANCH}" ] ; then
+ 			git branch -a | grep -q ${KBRANCH}
+@@ -174,10 +176,15 @@ do_kernel_checkout() {
+ 				exit 1
+ 			fi
+ 		fi
+-	else
++	fi
++	if [ -d "${WORKDIR}/git/" ] && [ ! -d "${WORKDIR}/git/.git" ]; then
++		# we build out of {S}, so ensure that ${S} is clean and present
++		rm -rf ${S}
++		mkdir -p ${S}/.git
++
+ 		mv ${WORKDIR}/git/* ${S}/.git
+ 		rm -rf ${WORKDIR}/git/
+-		cd ${S}
++		cd ${S}	
+ 		git config core.bare false
+ 	fi
+ 	# end debare
+-- 
+1.7.0.4
 
-bzip2: ERROR: Function failed: do_rootfs (see =
-/OE/tentacle/build/tmp-angstrom_2010_x-eglibc/work/beagleboard-angstrom-li=
-nux-gnueabi/systemd-image-1.0-r0/temp/log.do_rootfs.3174 for further =
-information)
-Output file =
-Angstrom-systemd-image-eglibc-ipk-v2012.02-core-beagleboard.rootfs.tar.bz2=
- already exists.
-
-A quick look suggests at least bz2 and xz images can't get rebuilt.
-
-regards,
-
-Koen=
 
 
