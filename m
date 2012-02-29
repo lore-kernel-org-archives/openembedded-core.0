@@ -1,43 +1,20 @@
-Received: from mail-vw0-f47.google.com ([209.85.212.47])
+Received: from outbound.icp-osb-irony-out7.iinet.net.au ([203.59.1.108])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <otavio.salvador@gmail.com>) id 1S2YEm-00036Y-QX
+	(envelope-from <james@digitalmatter.com.au>) id 1S2YHr-0003Fp-Nv
 	for openembedded-core@lists.openembedded.org;
-	Wed, 29 Feb 2012 02:21:48 +0100
-Received: by vbbfr13 with SMTP id fr13so2610343vbb.6
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 28 Feb 2012 17:13:20 -0800 (PST)
-Received-SPF: pass (google.com: domain of otavio.salvador@gmail.com designates
-	10.52.66.228 as permitted sender) client-ip=10.52.66.228; 
-Authentication-Results: mr.google.com; spf=pass (google.com: domain of
-	otavio.salvador@gmail.com designates 10.52.66.228 as permitted
-	sender) smtp.mail=otavio.salvador@gmail.com;
-	dkim=pass header.i=otavio.salvador@gmail.com
-Received: from mr.google.com ([10.52.66.228])
-	by 10.52.66.228 with SMTP id i4mr15774997vdt.12.1330478000471 (num_hops
-	= 1); Tue, 28 Feb 2012 17:13:20 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
-	h=mime-version:sender:in-reply-to:references:date
-	:x-google-sender-auth:message-id:subject:from:to:content-type
-	:content-transfer-encoding;
-	bh=b8J4fOIquvumNgjW6UQIXd5wEVkBde2k+VcEa68rkLA=;
-	b=ArR4vdm+cto7poSPWT0egoiyCdYN+jwH2bwabHchIA1hYV4XcYizGRwzyo8jwI8iIe
-	sJdRRQBwmefKRAPDhf3M767XUEcY0xH4TbyCV5eOQ2AR6PW/sNhQO6JgT/bc5mbxkByp
-	yKATmqzyydvtNMpy2jwLS8lKnxHdMIX9j3e20=
-MIME-Version: 1.0
-Received: by 10.52.66.228 with SMTP id i4mr13036143vdt.12.1330478000090; Tue,
-	28 Feb 2012 17:13:20 -0800 (PST)
-Sender: otavio.salvador@gmail.com
-Received: by 10.220.7.208 with HTTP; Tue, 28 Feb 2012 17:13:20 -0800 (PST)
-In-Reply-To: <0d6796d36dede0968c1f164e05f9be2969f3b29d.1330474667.git.elizabeth.flanagan@intel.com>
-References: <cover.1330474667.git.elizabeth.flanagan@intel.com>
-	<0d6796d36dede0968c1f164e05f9be2969f3b29d.1330474667.git.elizabeth.flanagan@intel.com>
-Date: Tue, 28 Feb 2012 22:13:20 -0300
-X-Google-Sender-Auth: vIZyGdipJ4NfYp_nKTPCsf_wufA
-Message-ID: <CAP9ODKqisZf0uZ7bmfHOXsVg3dRUGt-nzHCiOU8Osa7g-1wVPg@mail.gmail.com>
-From: Otavio Salvador <otavio@ossystems.com.br>
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 1/1] bootimg.bbclass: Quoting fixes
+	Wed, 29 Feb 2012 02:25:00 +0100
+X-IronPort-Anti-Spam-Filtered: true
+X-IronPort-Anti-Spam-Result: AvwEANp6TU/LO4Se/2dsb2JhbABDs1SBB4J3KIEpiAe5C40TXxMLhH8HWINKBIhNknKMfQ
+X-IronPort-AV: E=Sophos;i="4.73,499,1325433600"; d="scan'208";a="78784405"
+Received: from unknown (HELO gentoo_vm.DMA.local) ([203.59.132.158])
+	by outbound.icp-osb-irony-out7.iinet.net.au with ESMTP;
+	29 Feb 2012 09:13:25 +0800
+From: James Limbouris <james@digitalmatter.com.au>
+To: openembedded-core@lists.openembedded.org
+Date: Wed, 29 Feb 2012 09:13:46 +0800
+Message-Id: <1330478026-3871-1-git-send-email-james@digitalmatter.com.au>
+X-Mailer: git-send-email 1.7.3.4
+Subject: [PATCH] initscripts: Create the volatiles cache atomically.
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -52,21 +29,78 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 29 Feb 2012 01:21:49 -0000
-Content-Type: text/plain; charset=ISO-8859-1
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Wed, 29 Feb 2012 01:25:00 -0000
 
-On Tue, Feb 28, 2012 at 21:23, Beth Flanagan
-<elizabeth.flanagan@intel.com> wrote:
-> More quoting issues during an fri build. Fixing as per standard.
+If a machine loses power while building the volatiles cache, it will
+continue to operate with an incomplete set of volatiles. Fix this by
+updating atomically.
 
-Already done by Saul :)
+Signed-off-by: James Limbouris <james@digitalmatter.com.au>
+---
+ .../initscripts-1.0/populate-volatile.sh           |   10 ++++++----
+ meta/recipes-core/initscripts/initscripts_1.0.bb   |    2 +-
+ 2 files changed, 7 insertions(+), 5 deletions(-)
 
---=20
-Otavio Salvador=A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0O=
-.S. Systems
-E-mail: otavio@ossystems.com.br=A0 http://www.ossystems.com.br
-Mobile: +55 53 9981-7854=A0 =A0 =A0 =A0=A0 =A0 =A0 =A0http://projetos.ossys=
-tems.com.br
+diff --git a/meta/recipes-core/initscripts/initscripts-1.0/populate-volatile.sh b/meta/recipes-core/initscripts/initscripts-1.0/populate-volatile.sh
+index 1813fd1..4a99aff 100755
+--- a/meta/recipes-core/initscripts/initscripts-1.0/populate-volatile.sh
++++ b/meta/recipes-core/initscripts/initscripts-1.0/populate-volatile.sh
+@@ -22,7 +22,7 @@ create_file() {
+ 	chown ${TUSER}.${TGROUP} $1 || echo \"Failed to set owner -${TUSER}- for -$1-.\" >/dev/tty0 2>&1; 
+ 	chmod ${TMODE} $1 || echo \"Failed to set mode -${TMODE}- for -$1-.\" >/dev/tty0 2>&1 " 
+ 
+-	test "$VOLATILE_ENABLE_CACHE" = yes && echo "$EXEC" >> /etc/volatile.cache
++	test "$VOLATILE_ENABLE_CACHE" = yes && echo "$EXEC" >> /etc/volatile.cache.build
+ 
+ 	[ -e "$1" ] && {
+ 	  [ "${VERBOSE}" != "no" ] && echo "Target already exists. Skipping."
+@@ -37,7 +37,7 @@ mk_dir() {
+ 	chown ${TUSER}.${TGROUP} $1 || echo \"Failed to set owner -${TUSER}- for -$1-.\" >/dev/tty0 2>&1; 
+ 	chmod ${TMODE} $1 || echo \"Failed to set mode -${TMODE}- for -$1-.\" >/dev/tty0 2>&1 "
+ 
+-	test "$VOLATILE_ENABLE_CACHE" = yes && echo "$EXEC" >> /etc/volatile.cache
++	test "$VOLATILE_ENABLE_CACHE" = yes && echo "$EXEC" >> /etc/volatile.cache.build
+ 	
+ 	[ -e "$1" ] && {
+ 	  [ "${VERBOSE}" != "no" ] && echo "Target already exists. Skipping."
+@@ -49,7 +49,7 @@ mk_dir() {
+ link_file() {
+ 	EXEC="test -e \"$2\" -o -L $2 || ln -s \"$1\" \"$2\" >/dev/tty0 2>&1" 
+ 
+-	test "$VOLATILE_ENABLE_CACHE" = yes && echo "	$EXEC" >> /etc/volatile.cache
++	test "$VOLATILE_ENABLE_CACHE" = yes && echo "	$EXEC" >> /etc/volatile.cache.build
+ 	
+ 	[ -e "$2" ] && {
+ 	  echo "Cannot create link over existing -${TNAME}-." >&2
+@@ -185,10 +185,12 @@ if test -e /etc/volatile.cache -a "$VOLATILE_ENABLE_CACHE" = "yes" -a "x$1" != "
+ then
+ 	sh /etc/volatile.cache
+ else	
+-	rm -f /etc/volatile.cache
++	rm -f /etc/volatile.cache /etc/volatile.cache.build
+ 	for file in `ls -1 "${CFGDIR}" | sort`; do
+ 		apply_cfgfile "${CFGDIR}/${file}"
+ 	done
++
++	[ -e /etc/volatile.cache.build ] && sync && mv /etc/volatile.cache.build /etc/volatile.cache
+ fi
+ 
+ if test -f /etc/ld.so.cache -a ! -f /var/run/ld.so.cache
+diff --git a/meta/recipes-core/initscripts/initscripts_1.0.bb b/meta/recipes-core/initscripts/initscripts_1.0.bb
+index e16f19f..68701ce 100644
+--- a/meta/recipes-core/initscripts/initscripts_1.0.bb
++++ b/meta/recipes-core/initscripts/initscripts_1.0.bb
+@@ -3,7 +3,7 @@ DESCRIPTION = "Initscripts provide the basic system startup initialization scrip
+ SECTION = "base"
+ LICENSE = "GPLv2"
+ LIC_FILES_CHKSUM = "file://COPYING;md5=751419260aa954499f7abaabaa882bbe"
+-PR = "r131"
++PR = "r132"
+ 
+ INHIBIT_DEFAULT_DEPS = "1"
+ 
+-- 
+1.7.3.4
+
 
 
