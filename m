@@ -1,44 +1,39 @@
-Received: from mail-yx0-f175.google.com ([209.85.213.175])
+Received: from mail-gy0-f175.google.com ([209.85.160.175])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <otavio.salvador@gmail.com>) id 1S2cQJ-0004VV-HH
+	(envelope-from <otavio.salvador@gmail.com>) id 1S2clR-0005EG-3N
 	for openembedded-core@lists.openembedded.org;
-	Wed, 29 Feb 2012 06:49:59 +0100
-Received: by mail-yx0-f175.google.com with SMTP id m3so1050693yen.6
+	Wed, 29 Feb 2012 07:11:49 +0100
+Received: by ghbz2 with SMTP id z2so1529797ghb.6
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 28 Feb 2012 21:41:33 -0800 (PST)
+	Tue, 28 Feb 2012 22:03:20 -0800 (PST)
 Received-SPF: pass (google.com: domain of otavio.salvador@gmail.com designates
-	10.236.165.34 as permitted sender) client-ip=10.236.165.34; 
+	10.101.180.18 as permitted sender) client-ip=10.101.180.18; 
 Authentication-Results: mr.google.com; spf=pass (google.com: domain of
-	otavio.salvador@gmail.com designates 10.236.165.34 as permitted
+	otavio.salvador@gmail.com designates 10.101.180.18 as permitted
 	sender) smtp.mail=otavio.salvador@gmail.com;
 	dkim=pass header.i=otavio.salvador@gmail.com
-Received: from mr.google.com ([10.236.165.34])
-	by 10.236.165.34 with SMTP id d22mr1123117yhl.86.1330494093493
-	(num_hops = 1); Tue, 28 Feb 2012 21:41:33 -0800 (PST)
+Received: from mr.google.com ([10.101.180.18])
+	by 10.101.180.18 with SMTP id h18mr2802025anp.23.1330495400591
+	(num_hops = 1); Tue, 28 Feb 2012 22:03:20 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
-	h=sender:from:to:subject:date:message-id:x-mailer:in-reply-to
-	:references:in-reply-to:references;
-	bh=bTGYrhY0sfJ3n0njjX+tTbsv4PRov/P+N41vPcXOYX0=;
-	b=FGl1344WDqQPHhIESKN/EfTZwn4pz4yOv6ob74blZbwIyko32yoUXtXRfKBsQ1mYvF
-	aNAGaxQypVMJupE1n/86mAAH0ODkGvZElNSsCqZweWLkqfpNISj2zuBy5Qnak4F7BHsV
-	a7OJc/yt3NO2bUl7otMknekJ3L+le+a4/y1MI=
-Received: by 10.236.165.34 with SMTP id d22mr871854yhl.86.1330494093451;
-	Tue, 28 Feb 2012 21:41:33 -0800 (PST)
+	h=sender:from:to:subject:date:message-id:x-mailer;
+	bh=4HyXnZakuQ4cp2QOoTTRe+dTNsm7WI1Go/MsVhcIhUw=;
+	b=tMAo2Z6+EgQfxIFD4fCgU72AfIlb4hJuJd7C8Si0t6KRaGAM48BUowt6Nz+VkKFlEZ
+	DHbwf5dYQmQwwwsWGSP7Q2Ha2f4Es0AuEmDlRXHYvzljmzI0Jj6eSa4Ucg355Opp0iR9
+	GsmardBIQ2ZEoRixRuXXYtbwyE7AqwEBsHezc=
+Received: by 10.101.180.18 with SMTP id h18mr2167459anp.23.1330495400514;
+	Tue, 28 Feb 2012 22:03:20 -0800 (PST)
 Received: from localhost.localdomain ([186.218.100.214])
-	by mx.google.com with ESMTPS id b6sm32799257anc.3.2012.02.28.21.41.30
+	by mx.google.com with ESMTPS id 34sm32861741anu.6.2012.02.28.22.03.18
 	(version=TLSv1/SSLv3 cipher=OTHER);
-	Tue, 28 Feb 2012 21:41:32 -0800 (PST)
+	Tue, 28 Feb 2012 22:03:19 -0800 (PST)
 Sender: Otavio Salvador <otavio.salvador@gmail.com>
 From: Otavio Salvador <otavio@ossystems.com.br>
 To: openembedded-core@lists.openembedded.org
-Date: Wed, 29 Feb 2012 05:41:18 +0000
-Message-Id: <b353fcc6ba6e02e72ca02daa4d6da4048c3fac91.1330494042.git.otavio@ossystems.com.br>
+Date: Wed, 29 Feb 2012 06:03:13 +0000
+Message-Id: <1330495393-19751-1-git-send-email-otavio@ossystems.com.br>
 X-Mailer: git-send-email 1.7.2.5
-In-Reply-To: <cover.1330494042.git.otavio@ossystems.com.br>
-References: <cover.1330494042.git.otavio@ossystems.com.br>
-In-Reply-To: <cover.1330494042.git.otavio@ossystems.com.br>
-References: <cover.1330494042.git.otavio@ossystems.com.br>
-Subject: [PATCH 3/3] image_types.bbclass: fix bzip2 and xz compression commands
+Subject: [PATCH] syslinux: fix packaging of ${PN} and ${PN}-staticdev
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -53,31 +48,47 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 29 Feb 2012 05:49:59 -0000
+X-List-Received-Date: Wed, 29 Feb 2012 06:11:49 -0000
 
-We need to use -f (force) or the command fails in the image file
-already exists.
+ - ${PN} where not being build due ordering;
+ - ${PN}-staticdev lacked the ${libdir} files.
 
 Signed-off-by: Otavio Salvador <otavio@ossystems.com.br>
 ---
- meta/classes/image_types.bbclass |    4 ++--
- 1 files changed, 2 insertions(+), 2 deletions(-)
+ meta/recipes-devtools/syslinux/syslinux_4.03.bb |    6 +++---
+ 1 files changed, 3 insertions(+), 3 deletions(-)
 
-diff --git a/meta/classes/image_types.bbclass b/meta/classes/image_types.bbclass
-index f9ed49f..0c25a92 100644
---- a/meta/classes/image_types.bbclass
-+++ b/meta/classes/image_types.bbclass
-@@ -188,8 +188,8 @@ IMAGE_TYPES = "jffs2 sum.jffs2 cramfs ext2 ext2.gz ext2.bz2 ext3 ext3.gz ext2.lz
- COMPRESSIONTYPES = "gz bz2 lzma xz"
- COMPRESS_CMD_lzma = "lzma -k -f -7 ${IMAGE_NAME}.rootfs.${type}"
- COMPRESS_CMD_gz = "gzip -f -9 -c ${IMAGE_NAME}.rootfs.${type} > ${IMAGE_NAME}.rootfs.${type}.gz"
--COMPRESS_CMD_bz2 = "bzip2 -k ${IMAGE_NAME}.rootfs.${type}"
--COMPRESS_CMD_xz = "xz -k -c ${XZ_COMPRESSION_LEVEL} --check=${XZ_INTEGRITY_CHECK} ${IMAGE_NAME}.rootfs.${type}"
-+COMPRESS_CMD_bz2 = "bzip2 -f -k ${IMAGE_NAME}.rootfs.${type}"
-+COMPRESS_CMD_xz = "xz -f -k -c ${XZ_COMPRESSION_LEVEL} --check=${XZ_INTEGRITY_CHECK} ${IMAGE_NAME}.rootfs.${type}"
- COMPRESS_DEPENDS_lzma = "xz-native"
- COMPRESS_DEPENDS_gz = ""
- COMPRESS_DEPENDS_bz2 = ""
+diff --git a/meta/recipes-devtools/syslinux/syslinux_4.03.bb b/meta/recipes-devtools/syslinux/syslinux_4.03.bb
+index 823465c..2ab6878 100644
+--- a/meta/recipes-devtools/syslinux/syslinux_4.03.bb
++++ b/meta/recipes-devtools/syslinux/syslinux_4.03.bb
+@@ -7,7 +7,7 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=0636e73ff0215e8d672dc4c32c317bb3 \
+ # If you really want to run syslinux, you need mtools.  We just want the
+ # ldlinux.* stuff for now, so skip mtools-native
+ DEPENDS = "nasm-native"
+-PR = "r5"
++PR = "r6"
+ 
+ SRC_URI = "${KERNELORG_MIRROR}/linux/utils/boot/syslinux/4.xx/syslinux-${PV}.tar.bz2 \
+            file://cross-build.patch"
+@@ -46,7 +46,7 @@ do_install() {
+ 	install -m 644 ${S}/core/ldlinux.bss ${D}${libdir}/syslinux/
+ }
+ 
+-PACKAGES =+ "${PN}-extlinux ${PN}-mbr ${PN}-chain ${PN}-pxelinux ${PN}-isolinux ${PN}-misc"
++PACKAGES += "${PN}-extlinux ${PN}-mbr ${PN}-chain ${PN}-pxelinux ${PN}-isolinux ${PN}-misc"
+ 
+ RDEPENDS_${PN} += "mtools"
+ 
+@@ -57,7 +57,7 @@ FILES_${PN}-chain = "${libdir}/${PN}/chain.c32"
+ FILES_${PN}-isolinux = "${libdir}/${PN}/isolinux.bin"
+ FILES_${PN}-pxelinux = "${libdir}/${PN}/pxelinux.0"
+ FILES_${PN}-dev += "${datadir}/${PN}/com32/lib*${SOLIBS} ${datadir}/${PN}/com32/include ${datadir}/${PN}/com32/com32.ld"
+-FILES_${PN}-staticdev += "${datadir}/${PN}/com32/lib*.a"
++FILES_${PN}-staticdev += "${datadir}/${PN}/com32/lib*.a ${libdir}/${PN}/com32/lib*.a"
+ FILES_${PN}-misc = "${libdir}/${PN}/* ${bindir}/*"
+ 
+ BBCLASSEXTEND = "native"
 -- 
 1.7.2.5
 
