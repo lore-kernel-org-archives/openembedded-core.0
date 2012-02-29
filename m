@@ -1,34 +1,20 @@
-Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
-	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <richard.purdie@linuxfoundation.org>)
-	id 1S2jD8-0000kz-4j for openembedded-core@lists.openembedded.org;
-	Wed, 29 Feb 2012 14:04:50 +0100
-Received: from localhost (localhost [127.0.0.1])
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q1TCuMYV030030
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 29 Feb 2012 12:56:22 GMT
-Received: from tim.rpsys.net ([127.0.0.1])
-	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
-	port 10024) with LMTP
-	id 28765-09 for <openembedded-core@lists.openembedded.org>;
-	Wed, 29 Feb 2012 12:56:18 +0000 (GMT)
-Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q1TCuCAt030024
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO)
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 29 Feb 2012 12:56:13 GMT
-Message-ID: <1330520175.24508.39.camel@ted>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Date: Wed, 29 Feb 2012 12:56:15 +0000
-In-Reply-To: <515e5d34c437e37115e4005738a2b2c8055508cf.1330494042.git.otavio@ossystems.com.br>
-References: <cover.1330494042.git.otavio@ossystems.com.br>
-	<515e5d34c437e37115e4005738a2b2c8055508cf.1330494042.git.otavio@ossystems.com.br>
-X-Mailer: Evolution 3.2.2- 
-Mime-Version: 1.0
-X-Virus-Scanned: amavisd-new at rpsys.net
-Subject: Re: [PATCH 2/3] image_types.bbclass: properly support IMAGE_LINK_NAME as empty
+Received: from mga01.intel.com ([192.55.52.88])
+	by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <paul.eggleton@linux.intel.com>) id 1S2jFy-0000ru-2i
+	for openembedded-core@lists.openembedded.org;
+	Wed, 29 Feb 2012 14:07:46 +0100
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+	by fmsmga101.fm.intel.com with ESMTP; 29 Feb 2012 04:59:16 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="130942555"
+Received: from unknown (HELO helios.ger.corp.intel.com) ([10.252.123.96])
+	by fmsmga002.fm.intel.com with ESMTP; 29 Feb 2012 04:59:16 -0800
+From: Paul Eggleton <paul.eggleton@linux.intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Wed, 29 Feb 2012 12:59:13 +0000
+Message-Id: <cover.1330520324.git.paul.eggleton@linux.intel.com>
+X-Mailer: git-send-email 1.7.5.4
+Subject: [PATCH 0/1] More quoting fixes
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -43,34 +29,26 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 29 Feb 2012 13:04:50 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Wed, 29 Feb 2012 13:07:46 -0000
 
-On Wed, 2012-02-29 at 05:41 +0000, Otavio Salvador wrote:
-> Signed-off-by: Otavio Salvador <otavio@ossystems.com.br>
-> ---
->  meta/classes/image_types.bbclass |   14 +++++++++-----
->  1 files changed, 9 insertions(+), 5 deletions(-)
-> 
-> diff --git a/meta/classes/image_types.bbclass b/meta/classes/image_types.bbclass
-> index 74071c1..f9ed49f 100644
-> --- a/meta/classes/image_types.bbclass
-> +++ b/meta/classes/image_types.bbclass
-> @@ -25,7 +25,9 @@ def get_imagecmds(d):
->              types.append("ext3")
->          types.remove("live")
->  
-> -    cmds += "	rm -f ${DEPLOY_DIR_IMAGE}/${IMAGE_LINK_NAME}.*"
-> +    if len(d.getVar('IMAGE_LINK_NAME', True)) > 0:
-> +        cmds += "	rm -f ${DEPLOY_DIR_IMAGE}/${IMAGE_LINK_NAME}.*"
-> +
+The following changes since commit 3cb519598d9ce044ccccb2d6a52a3c0933433501:
 
-I took this but I removed the unneeded len() above.
+  tcl 8.5.11: fix packaging for native version (2012-02-28 13:33:22 +0000)
 
-Cheers,
+are available in the git repository at:
+  git://git.openembedded.org/openembedded-core-contrib paule/quoting-fixes
+  http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=paule/quoting-fixes
 
-Richard
+Paul Eggleton (1):
+  More quoting fixes
+
+ .../opensync/libsyncml_0.5.4.bb                    |    2 +-
+ meta/recipes-devtools/guile/guile_2.0.3.bb         |    2 +-
+ meta/recipes-graphics/cairo/cairo.inc              |    2 +-
+ 3 files changed, 3 insertions(+), 3 deletions(-)
+
+-- 
+1.7.5.4
 
 
 
