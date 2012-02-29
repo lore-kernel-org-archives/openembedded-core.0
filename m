@@ -1,42 +1,28 @@
-Received: from mail-tul01m020-f175.google.com ([209.85.214.175])
+Received: from smtp25.4emm.com ([69.18.222.26])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <sakoman@gmail.com>) id 1S2cEn-0004Fz-Lb
+	(envelope-from <james@digitalmatter.com.au>) id 1S2cI6-0004LR-Vn
 	for openembedded-core@lists.openembedded.org;
-	Wed, 29 Feb 2012 06:38:05 +0100
-Received: by obqv19 with SMTP id v19so1927886obq.6
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 28 Feb 2012 21:29:37 -0800 (PST)
-Received-SPF: pass (google.com: domain of sakoman@gmail.com designates
-	10.60.4.105 as permitted sender) client-ip=10.60.4.105; 
-Authentication-Results: mr.google.com;
-	spf=pass (google.com: domain of sakoman@gmail.com
-	designates 10.60.4.105 as permitted sender)
-	smtp.mail=sakoman@gmail.com;
-	dkim=pass header.i=sakoman@gmail.com
-Received: from mr.google.com ([10.60.4.105])
-	by 10.60.4.105 with SMTP id j9mr8061124oej.29.1330493377107 (num_hops =
-	1); Tue, 28 Feb 2012 21:29:37 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
-	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
-	:content-type:content-transfer-encoding;
-	bh=7nNQINzxPic1DpveUmytHfvXfIxIIhTsP/XhXS7+i4g=;
-	b=eeUJfvxAja1KP3UoFcIRMTIPxvp/H6v7D8l9dzVwj2V6+h1+4nOcoYE9x49hHbLJ/O
-	9GdQ0rvDdUkRV1CN3OJ0e3w3JIjsXIbAsR3+ZKFBMa2B8BGA6pR4xjuxho6oo2f+tx15
-	4cOIxIwPajxCdtxwRB5bhhJusnKCYZyC0WbuM=
-MIME-Version: 1.0
-Received: by 10.60.4.105 with SMTP id j9mr7129884oej.29.1330493377030; Tue, 28
-	Feb 2012 21:29:37 -0800 (PST)
-Received: by 10.182.246.8 with HTTP; Tue, 28 Feb 2012 21:29:37 -0800 (PST)
-In-Reply-To: <4F4DB40B.6000300@windriver.com>
-References: <CAGDS+nmNeyC3P+x+mk0g-qOKhkJ5pMNhX-ckBXr4F273poq2yw@mail.gmail.com>
-	<4F4DB40B.6000300@windriver.com>
-Date: Tue, 28 Feb 2012 21:29:37 -0800
-Message-ID: <CAGDS+nmKg-iCjTnNrnM9-qBK8JF0MbJB3HX4=PM-06KPNVs_Gg@mail.gmail.com>
-From: Steve Sakoman <sakoman@gmail.com>
+	Wed, 29 Feb 2012 06:41:31 +0100
+Received: from MBX21.4emm.local ([fe80::a0d4:cb04:3e3c:8690]) by
+	HUB25.4emm.local ([fe80::102d:c89a:95eb:bcfb%15]) with mapi id
+	14.01.0289.001; Wed, 29 Feb 2012 00:31:58 -0500
+From: James Limbouris <james@digitalmatter.com.au>
 To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>, 
-	Mark Hatle <mark.hatle@windriver.com>
-Subject: Re: psuedo-native strangeness on 64 bit build machine
+	<openembedded-core@lists.openembedded.org>
+Thread-Topic: [OE-core] [PATCH] initscripts: Make /etc/timestamp consistent
+	again.
+Thread-Index: AQHM6BAdDCpmIG709kqsEPybLz1tCpZMyKWAgAatY0A=
+Date: Wed, 29 Feb 2012 05:31:58 +0000
+Message-ID: <840A81C1B782724A8EB52725BD519EFF337FFD7A@MBX21.4emm.local>
+References: <1328890565-8304-1-git-send-email-gary@mlbassoc.com>
+	<4F47D76D.50805@linux.intel.com>
+In-Reply-To: <4F47D76D.50805@linux.intel.com>
+Accept-Language: en-AU, en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [203.59.132.158]
+MIME-Version: 1.0
+Subject: Re: [PATCH] initscripts: Make /etc/timestamp consistent again.
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -51,47 +37,104 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 29 Feb 2012 05:38:05 -0000
-Content-Type: text/plain; charset=ISO-8859-1
+X-List-Received-Date: Wed, 29 Feb 2012 05:41:31 -0000
+Content-Language: en-US
+Content-Type: text/plain; charset="iso-8859-1"
 Content-Transfer-Encoding: quoted-printable
 
-On Tue, Feb 28, 2012 at 9:13 PM, Mark Hatle <mark.hatle@windriver.com> wrot=
-e:
+Hi,
 
-> I'm building pseudo on 64-bit machines right now, no problem.
->
-> The error you are seeing is pseudo attempting to build both a 64-bit and =
-a
-> 32-bit wrapper. =A0The 32-bit wrapper is built when the recipe detects su=
-pport
-> for both 32-bit and 64-bit userspace. =A0It does this by looking first th=
-at
-> your host is 64-bit, and then for /usr/include/gnu/stubs-32.h. =A0Assumin=
-g it
-> finds those, it assumes your system has 32-bit binaries on it.
+I think we need to add BUSYBOX_CONFIG_FEATURE_TEST_64 to the busybox defcon=
+fig after this patch.
+On my build (which had neither BUSYBOX_CONFIG_FEATURE_TEST_64 nor BUSYBOX_C=
+ONFIG_EXPR_MATH_SUPPORT_64) I was getting 'out of range' errors.
+=A0=A0
+Regards=A0
+James Limbouris
 
-Thanks for the quick reply.
-
-My 64 bit build machine has the ia32-libs package installed and
-/usr/include/gnu/stubs-32.h exists.  Any idea why the initial clean
-build succeeds, but the rebuild triggered by the pull fails?
-
-> To avoid a 32-bit build of pseudo, on a 64-bit machine. =A0You need to se=
+> -----Original Message-----
+> From: openembedded-core-bounces@lists.openembedded.org
+> [mailto:openembedded-core-bounces@lists.openembedded.org] On Behalf
+> Of Saul Wold
+> Sent: Saturday, 25 February 2012 2:31 AM
+> To: Patches and discussions about the oe-core layer
+> Subject: Re: [OE-core] [PATCH] initscripts: Make /etc/timestamp consisten=
 t
-> NO32LIBS =3D "1". =A0This instructs pseudo to avoid the 32-bit binary bui=
-ld.
-> =A0(If your machine has 32-bit binaries on it, you need to fix your compi=
-ler
-> to allow for 32-bit userspace builds, otherwise pseudo will be incapable =
-of
-> wrapping any 32-bit binaries, resulting in a potential mismatch of user,
-> groups and modes set by any 32-bit applications.
-
-Could you give me a pointer on how to "fix" my compiler to allow for
-32-bit userspace builds?
-
-Thanks!
-
-Steve
+> again.
+>=20
+> On 02/10/2012 08:16 AM, Gary Thomas wrote:
+> > Commit cc8695 changed the way timestamps were handled
+> > and added some extra munging to be able to compare them
+> > reliably.  This change makes the timestamp value the same
+> > everywhere and simplifies how the check to set the system
+> > clock based on the timestamp is done.
+> >
+> > Also, if the value stored in /etc/timestamp is newer
+> > [at all] than the current system time, set the system clock
+> > from the stored value, down to the minute, not just the day.
+> >
+> > Signed-off-by: Gary Thomas<gary@mlbassoc.com>
+> > ---
+> >   .../initscripts/initscripts-1.0/bootmisc.sh        |    4 ++--
+> >   .../initscripts/initscripts-1.0/save-rtc.sh        |    2 +-
+> >   meta/recipes-core/initscripts/initscripts_1.0.bb   |    2 +-
+> >   3 files changed, 4 insertions(+), 4 deletions(-)
+> >
+> > diff --git a/meta/recipes-core/initscripts/initscripts-1.0/bootmisc.sh
+> b/meta/recipes-core/initscripts/initscripts-1.0/bootmisc.sh
+> > index d9e8ffa..20ec0a0 100755
+> > --- a/meta/recipes-core/initscripts/initscripts-1.0/bootmisc.sh
+> > +++ b/meta/recipes-core/initscripts/initscripts-1.0/bootmisc.sh
+> > @@ -68,9 +68,9 @@ fi
+> >   /etc/init.d/hwclock.sh start
+> >   if test -e /etc/timestamp
+> >   then
+> > -	SYSTEMDATE=3D`date -u +%4Y%2m%2d`
+> > +	SYSTEMDATE=3D`date -u +%4Y%2m%2d%2H%2M`
+> >   	read TIMESTAMP<  /etc/timestamp
+> > -	if [ ${TIMESTAMP#????????}${TIMESTAMP%????????} -gt
+> $SYSTEMDATE ]; then
+> > +	if [ ${TIMESTAMP} -gt $SYSTEMDATE ]; then
+> >   		date -u $TIMESTAMP
+> >   		/etc/init.d/hwclock.sh stop
+> >   	fi
+> > diff --git a/meta/recipes-core/initscripts/initscripts-1.0/save-rtc.sh
+> b/meta/recipes-core/initscripts/initscripts-1.0/save-rtc.sh
+> > index 3d8e850..1f804e2 100644
+> > --- a/meta/recipes-core/initscripts/initscripts-1.0/save-rtc.sh
+> > +++ b/meta/recipes-core/initscripts/initscripts-1.0/save-rtc.sh
+> > @@ -10,4 +10,4 @@
+> >   ### END INIT INFO
+> >
+> >   # Update the timestamp
+> > -date -u +%2m%2d%2H%2M%4Y>  /etc/timestamp
+> > +date -u +%4Y%2m%2d%2H%2M>  /etc/timestamp
+> > diff --git a/meta/recipes-core/initscripts/initscripts_1.0.bb b/meta/re=
+cipes-
+> core/initscripts/initscripts_1.0.bb
+> > index 203c605..b56c55c 100644
+> > --- a/meta/recipes-core/initscripts/initscripts_1.0.bb
+> > +++ b/meta/recipes-core/initscripts/initscripts_1.0.bb
+> > @@ -3,7 +3,7 @@ DESCRIPTION =3D "Initscripts provide the basic system
+> startup initialization scrip
+> >   SECTION =3D "base"
+> >   LICENSE =3D "GPLv2"
+> >   LIC_FILES_CHKSUM =3D
+> "file://COPYING;md5=3D751419260aa954499f7abaabaa882bbe"
+> > -PR =3D "r129"
+> > +PR =3D "r130"
+> >
+> >   INHIBIT_DEFAULT_DEPS =3D "1"
+> >
+>=20
+> Merged into OE-core
+>=20
+> Thanks
+> 	Sau!
+>=20
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
 
 
