@@ -1,37 +1,40 @@
-Received: from mail-yx0-f175.google.com ([209.85.213.175])
+Received: from mail-lpp01m010-f47.google.com ([209.85.215.47])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <sakoman@gmail.com>) id 1S2rmo-0004MN-Fz
+	(envelope-from <raj.khem@gmail.com>) id 1S2tW3-0007bK-DQ
 	for openembedded-core@lists.openembedded.org;
-	Wed, 29 Feb 2012 23:14:14 +0100
-Received: by yenm3 with SMTP id m3so1524436yen.6
+	Thu, 01 Mar 2012 01:05:03 +0100
+Received: by lagw12 with SMTP id w12so13333lag.6
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 29 Feb 2012 14:05:44 -0800 (PST)
-Received-SPF: pass (google.com: domain of sakoman@gmail.com designates
-	10.60.4.71 as permitted sender) client-ip=10.60.4.71; 
+	Wed, 29 Feb 2012 15:56:34 -0800 (PST)
+Received-SPF: pass (google.com: domain of raj.khem@gmail.com designates
+	10.112.23.100 as permitted sender) client-ip=10.112.23.100; 
 Authentication-Results: mr.google.com;
-	spf=pass (google.com: domain of sakoman@gmail.com
-	designates 10.60.4.71 as permitted sender)
-	smtp.mail=sakoman@gmail.com;
-	dkim=pass header.i=sakoman@gmail.com
-Received: from mr.google.com ([10.60.4.71])
-	by 10.60.4.71 with SMTP id i7mr811035oei.39.1330553144869 (num_hops =
-	1); Wed, 29 Feb 2012 14:05:44 -0800 (PST)
+	spf=pass (google.com: domain of raj.khem@gmail.com
+	designates 10.112.23.100 as permitted sender)
+	smtp.mail=raj.khem@gmail.com;
+	dkim=pass header.i=raj.khem@gmail.com
+Received: from mr.google.com ([10.112.23.100])
+	by 10.112.23.100 with SMTP id l4mr1230503lbf.24.1330559794409 (num_hops
+	= 1); Wed, 29 Feb 2012 15:56:34 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
-	h=mime-version:date:message-id:subject:from:to:content-type;
-	bh=GzQ3YBQGmC4dKp2SAqFGkd97aOXJS62+eLm0OEhufzI=;
-	b=nBkEPnDn5/soktQGXWHCFuAEA0S/djBywLd6Dtsp28LZvd6ByeSyE/PKEmidf0XJ6X
-	JigZjw5pYrmrf0rPyBm7zFQ52K9wE1UuPKcPfPCZwrcNnTPav0llXsX1Uy+ny+E7KdUL
-	G6hOLhszUPNHIishT1whM3vRmjaCGb34srO6E=
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:content-type:content-transfer-encoding;
+	bh=AjxliPyw7l+eWNz4xDvr6moRExH+M17SuCFvZgHMU5M=;
+	b=V6/4nrficfvrY+4soFpH4EcTMwcC9zZ7258h9bku0f3l02Co5LO9x4MacoBDpU+i7t
+	UAJbxEe9CagnsHQc2usiEuIJ2DWRSssgbny5Pu2IygoDVXldJGW19osbKkB2wk14xD/A
+	q1/4TnD38f4fb4BhTYksveAqFyYhiCmOOspiI=
+Received: by 10.112.23.100 with SMTP id l4mr1013351lbf.24.1330559794254; Wed,
+	29 Feb 2012 15:56:34 -0800 (PST)
 MIME-Version: 1.0
-Received: by 10.60.4.71 with SMTP id i7mr697384oei.39.1330553144836; Wed, 29
-	Feb 2012 14:05:44 -0800 (PST)
-Received: by 10.182.246.8 with HTTP; Wed, 29 Feb 2012 14:05:44 -0800 (PST)
-Date: Wed, 29 Feb 2012 14:05:44 -0800
-Message-ID: <CAGDS+nk7a=X-zrjsv9RtuH-YzSLX=gAsqbtpVkF+tQ=saJQP1w@mail.gmail.com>
-From: Steve Sakoman <sakoman@gmail.com>
+Received: by 10.152.27.109 with HTTP; Wed, 29 Feb 2012 15:56:04 -0800 (PST)
+In-Reply-To: <CAGDS+nk7a=X-zrjsv9RtuH-YzSLX=gAsqbtpVkF+tQ=saJQP1w@mail.gmail.com>
+References: <CAGDS+nk7a=X-zrjsv9RtuH-YzSLX=gAsqbtpVkF+tQ=saJQP1w@mail.gmail.com>
+From: Khem Raj <raj.khem@gmail.com>
+Date: Wed, 29 Feb 2012 15:56:04 -0800
+Message-ID: <CAMKF1spZxmWem68=G3COfc1ukBwbtemMPRrpznTEjrK5=DvU+g@mail.gmail.com>
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Subject: wpa-supplicant strangeness after pull
+Subject: Re: wpa-supplicant strangeness after pull
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -46,34 +49,64 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 29 Feb 2012 22:14:14 -0000
-Content-Type: text/plain; charset=ISO-8859-1
+X-List-Received-Date: Thu, 01 Mar 2012 00:05:03 -0000
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
-I'm continuing to see failing builds or defective packages on package
-rebuilds triggered by the recent change to sstate hash.
+On Wed, Feb 29, 2012 at 2:05 PM, Steve Sakoman <sakoman@gmail.com> wrote:
+> I'm continuing to see failing builds or defective packages on package
+> rebuilds triggered by the recent change to sstate hash.
+>
+> The wpa-supplicant package is a good example of the latter -- the
+> rebuild completes successfully but the resulting package is defective.
+> =C2=A0There were no recent changes to the recipe, so this was clearly a
+> "just to be safe" rebuild based on sstate hash (correct me if I am
+> wrong!)
+>
+> In particular /usr/share/dbus-1/system-services/fi.w1.wpa_supplicant1.ser=
+vice
+> now contains:
+>
+> Exec=3D/usr/usr/sbin/wpa_supplicant -u
+>
+> rather than:
+>
+> Exec=3D/usr/sbin/wpa_supplicant -u
+>
+> Rebuilding the package after a -c cleansstate restores the expected resul=
+t.
+>
+> Is it "just me" or are others seeing this kind of breakage?
+>
 
-The wpa-supplicant package is a good example of the latter -- the
-rebuild completes successfully but the resulting package is defective.
- There were no recent changes to the recipe, so this was clearly a
-"just to be safe" rebuild based on sstate hash (correct me if I am
-wrong!)
+you are just ahead of others :)
+and this is yet another case where basichash exposes an underlying problem
 
-In particular /usr/share/dbus-1/system-services/fi.w1.wpa_supplicant1.service
-now contains:
+see the sed command in below snippet
 
-Exec=/usr/usr/sbin/wpa_supplicant -u
+install -m 644 ${S}/dbus/dbus-wpa_supplicant.conf
+${D}/${sysconfdir}/dbus-1/system.d
+install -d ${D}/${datadir}/dbus-1/system-services
+sed -i -e s:${base_sbindir}:${sbindir}:g ${S}/dbus/*.service
+install -m 644 ${S}/dbus/*.service ${D}/${datadir}/dbus-1/system-services
 
-rather than:
+that command can only be run correctly once unless you delete ${S}
+since its sedding something in ${S}
+and we know base_sbindir (/sbin) and sbindir(/usr/sbin) are close
+enough expressionwise
 
-Exec=/usr/sbin/wpa_supplicant -u
 
-Rebuilding the package after a -c cleansstate restores the expected result.
+> I'm beginning to suspect I ought to just do a clean build after every
+> pull in order to remain productive!
 
-Is it "just me" or are others seeing this kind of breakage?
+That will hide these kind of issues you bring forward :)
 
-I'm beginning to suspect I ought to just do a clean build after every
-pull in order to remain productive!
-
-Steve
+>
+> Steve
+>
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
 
 
