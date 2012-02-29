@@ -1,19 +1,37 @@
-Received: from ibawizard.net
-	([82.208.49.253] helo=mengele.ibawizard.net ident=postfix)
+Received: from mail-yx0-f175.google.com ([209.85.213.175])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <ynezz@true.cz>) id 1S2qaV-0002CZ-TH
+	(envelope-from <sakoman@gmail.com>) id 1S2rmo-0004MN-Fz
 	for openembedded-core@lists.openembedded.org;
-	Wed, 29 Feb 2012 21:57:27 +0100
-Received: from ntbk.lan (localhost [127.0.0.1])
-	by mengele.ibawizard.net (Postfix) with ESMTP id 4395E1D36171;
-	Wed, 29 Feb 2012 21:39:13 +0100 (CET)
-From: =?UTF-8?q?Petr=20=C5=A0tetiar?= <ynezz@true.cz>
-To: openembedded-core@lists.openembedded.org
-Date: Wed, 29 Feb 2012 21:33:15 +0100
-Message-Id: <1330547595-11631-1-git-send-email-ynezz@true.cz>
-X-Mailer: git-send-email 1.7.9
+	Wed, 29 Feb 2012 23:14:14 +0100
+Received: by yenm3 with SMTP id m3so1524436yen.6
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 29 Feb 2012 14:05:44 -0800 (PST)
+Received-SPF: pass (google.com: domain of sakoman@gmail.com designates
+	10.60.4.71 as permitted sender) client-ip=10.60.4.71; 
+Authentication-Results: mr.google.com;
+	spf=pass (google.com: domain of sakoman@gmail.com
+	designates 10.60.4.71 as permitted sender)
+	smtp.mail=sakoman@gmail.com;
+	dkim=pass header.i=sakoman@gmail.com
+Received: from mr.google.com ([10.60.4.71])
+	by 10.60.4.71 with SMTP id i7mr811035oei.39.1330553144869 (num_hops =
+	1); Wed, 29 Feb 2012 14:05:44 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
+	h=mime-version:date:message-id:subject:from:to:content-type;
+	bh=GzQ3YBQGmC4dKp2SAqFGkd97aOXJS62+eLm0OEhufzI=;
+	b=nBkEPnDn5/soktQGXWHCFuAEA0S/djBywLd6Dtsp28LZvd6ByeSyE/PKEmidf0XJ6X
+	JigZjw5pYrmrf0rPyBm7zFQ52K9wE1UuPKcPfPCZwrcNnTPav0llXsX1Uy+ny+E7KdUL
+	G6hOLhszUPNHIishT1whM3vRmjaCGb34srO6E=
 MIME-Version: 1.0
-Subject: [PATCH] image_types.bbclass: fix link creation failure if the target already exists
+Received: by 10.60.4.71 with SMTP id i7mr697384oei.39.1330553144836; Wed, 29
+	Feb 2012 14:05:44 -0800 (PST)
+Received: by 10.182.246.8 with HTTP; Wed, 29 Feb 2012 14:05:44 -0800 (PST)
+Date: Wed, 29 Feb 2012 14:05:44 -0800
+Message-ID: <CAGDS+nk7a=X-zrjsv9RtuH-YzSLX=gAsqbtpVkF+tQ=saJQP1w@mail.gmail.com>
+From: Steve Sakoman <sakoman@gmail.com>
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: wpa-supplicant strangeness after pull
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -28,37 +46,34 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 29 Feb 2012 20:57:28 -0000
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Wed, 29 Feb 2012 22:14:14 -0000
+Content-Type: text/plain; charset=ISO-8859-1
 
-| ln: failed to create symbolic link `beagleboard/systemd-image-beagleboa=
-rd.tar.bz2': File exists
-NOTE: package systemd-image-1.0-r0: task do_rootfs: Failed
+I'm continuing to see failing builds or defective packages on package
+rebuilds triggered by the recent change to sstate hash.
 
-Signed-off-by: Petr =C5=A0tetiar <ynezz@true.cz>
----
- meta/classes/image_types.bbclass |    2 +-
- 1 files changed, 1 insertions(+), 1 deletions(-)
+The wpa-supplicant package is a good example of the latter -- the
+rebuild completes successfully but the resulting package is defective.
+ There were no recent changes to the recipe, so this was clearly a
+"just to be safe" rebuild based on sstate hash (correct me if I am
+wrong!)
 
-diff --git a/meta/classes/image_types.bbclass b/meta/classes/image_types.=
-bbclass
-index 5b48a09..adab573 100644
---- a/meta/classes/image_types.bbclass
-+++ b/meta/classes/image_types.bbclass
-@@ -61,7 +61,7 @@ runimagecmd () {
-         # And create the symlinks
-         if [ -n "${IMAGE_LINK_NAME}" ]; then
-             for type in ${subimages}; do
--                ln -s ${IMAGE_NAME}.rootfs.$type ${DEPLOY_DIR_IMAGE}/${I=
-MAGE_LINK_NAME}.$type
-+                ln -fs ${IMAGE_NAME}.rootfs.$type ${DEPLOY_DIR_IMAGE}/${=
-IMAGE_LINK_NAME}.$type
-             done
-         fi
- }
---=20
-1.7.9
+In particular /usr/share/dbus-1/system-services/fi.w1.wpa_supplicant1.service
+now contains:
 
+Exec=/usr/usr/sbin/wpa_supplicant -u
+
+rather than:
+
+Exec=/usr/sbin/wpa_supplicant -u
+
+Rebuilding the package after a -c cleansstate restores the expected result.
+
+Is it "just me" or are others seeing this kind of breakage?
+
+I'm beginning to suspect I ought to just do a clean build after every
+pull in order to remain productive!
+
+Steve
 
 
