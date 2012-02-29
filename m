@@ -1,25 +1,34 @@
-Received: from mga03.intel.com ([143.182.124.21])
-	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <paul.eggleton@linux.intel.com>) id 1S2jeq-0004Er-DN
+Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
+	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <rpurdie@rpsys.net>) id 1S2jfs-0004H8-R1
 	for openembedded-core@lists.openembedded.org;
-	Wed, 29 Feb 2012 14:33:29 +0100
-Received: from azsmga001.ch.intel.com ([10.2.17.19])
-	by azsmga101.ch.intel.com with ESMTP; 29 Feb 2012 05:24:59 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="112753723"
-Received: from unknown (HELO helios.localnet) ([10.252.123.96])
-	by azsmga001.ch.intel.com with ESMTP; 29 Feb 2012 05:24:58 -0800
-From: Paul Eggleton <paul.eggleton@linux.intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Wed, 29 Feb 2012 13:24:56 +0000
-Message-ID: <3783698.iMdhYanJlj@helios>
-Organization: Intel Corporation
-User-Agent: KMail/4.8.0 (Linux/3.0.0-16-generic-pae; KDE/4.8.0; i686; ; )
+	Wed, 29 Feb 2012 14:34:33 +0100
+Received: from localhost (localhost [127.0.0.1])
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q1TDQ4Qw030493
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 29 Feb 2012 13:26:04 GMT
+Received: from tim.rpsys.net ([127.0.0.1])
+	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
+	port 10024) with LMTP
+	id 30161-04 for <openembedded-core@lists.openembedded.org>;
+	Wed, 29 Feb 2012 13:26:00 +0000 (GMT)
+Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q1TDPvmN030487
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO)
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 29 Feb 2012 13:25:58 GMT
+Message-ID: <1330521961.24508.43.camel@ted>
+From: Richard Purdie <rpurdie@rpsys.net>
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Date: Wed, 29 Feb 2012 13:26:01 +0000
 In-Reply-To: <CAP9ODKpPUtNpV0Wc91kvehnf=1OpYtKdJ411-+kV8Z=GADOKiQ@mail.gmail.com>
 References: <cover.1330520324.git.paul.eggleton@linux.intel.com>
 	<9f75e5f43a30ed6e154f299ead955588c98de5c7.1330520324.git.paul.eggleton@linux.intel.com>
 	<CAP9ODKpPUtNpV0Wc91kvehnf=1OpYtKdJ411-+kV8Z=GADOKiQ@mail.gmail.com>
-MIME-Version: 1.0
+X-Mailer: Evolution 3.2.2- 
+Mime-Version: 1.0
+X-Virus-Scanned: amavisd-new at rpsys.net
 Subject: Re: [PATCH 1/1] More quoting fixes
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
@@ -35,13 +44,12 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 29 Feb 2012 13:33:29 -0000
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
+X-List-Received-Date: Wed, 29 Feb 2012 13:34:33 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-On Wednesday 29 February 2012 10:19:33 Otavio Salvador wrote:
+On Wed, 2012-02-29 at 10:19 -0300, Otavio Salvador wrote:
 > On Wed, Feb 29, 2012 at 09:59, Paul Eggleton
-> 
 > <paul.eggleton@linux.intel.com> wrote:
 > > -export VERBOSE=1
 > > +export VERBOSE="1"
@@ -49,14 +57,13 @@ On Wednesday 29 February 2012 10:19:33 Otavio Salvador wrote:
 > I fully agree with the change but here it doesn't raise a parser
 > error. Isn't it expected to happen?
 
-Yes, that has also been fixed in bitbake master.
+No. I added something to bitbake a short while ago and these are parser
+errors now!
 
 Cheers,
-Paul
 
--- 
+Richard
 
-Paul Eggleton
-Intel Open Source Technology Centre
+
 
 
