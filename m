@@ -1,28 +1,30 @@
-Received: from smtp25.4emm.com ([69.18.222.26])
+Received: from mail.windriver.com ([147.11.1.11])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <james@digitalmatter.com.au>) id 1S2cI6-0004LR-Vn
+	(envelope-from <mark.hatle@windriver.com>) id 1S2cLG-0004Oo-JY
 	for openembedded-core@lists.openembedded.org;
-	Wed, 29 Feb 2012 06:41:31 +0100
-Received: from MBX21.4emm.local ([fe80::a0d4:cb04:3e3c:8690]) by
-	HUB25.4emm.local ([fe80::102d:c89a:95eb:bcfb%15]) with mapi id
-	14.01.0289.001; Wed, 29 Feb 2012 00:31:58 -0500
-From: James Limbouris <james@digitalmatter.com.au>
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Thread-Topic: [OE-core] [PATCH] initscripts: Make /etc/timestamp consistent
-	again.
-Thread-Index: AQHM6BAdDCpmIG709kqsEPybLz1tCpZMyKWAgAatY0A=
-Date: Wed, 29 Feb 2012 05:31:58 +0000
-Message-ID: <840A81C1B782724A8EB52725BD519EFF337FFD7A@MBX21.4emm.local>
-References: <1328890565-8304-1-git-send-email-gary@mlbassoc.com>
-	<4F47D76D.50805@linux.intel.com>
-In-Reply-To: <4F47D76D.50805@linux.intel.com>
-Accept-Language: en-AU, en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [203.59.132.158]
+	Wed, 29 Feb 2012 06:44:46 +0100
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca [147.11.189.40])
+	by mail.windriver.com (8.14.3/8.14.3) with ESMTP id q1T5aG8F020352
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
+	Tue, 28 Feb 2012 21:36:16 -0800 (PST)
+Received: from Macintosh-5.local (172.25.36.232) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server id 14.1.255.0;
+	Tue, 28 Feb 2012 21:36:16 -0800
+Message-ID: <4F4DB94F.7060701@windriver.com>
+Date: Tue, 28 Feb 2012 23:36:15 -0600
+From: Mark Hatle <mark.hatle@windriver.com>
+Organization: Wind River Systems
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.6;
+	rv:10.0.2) Gecko/20120216 Thunderbird/10.0.2
 MIME-Version: 1.0
-Subject: Re: [PATCH] initscripts: Make /etc/timestamp consistent again.
+To: Steve Sakoman <sakoman@gmail.com>
+References: <CAGDS+nmNeyC3P+x+mk0g-qOKhkJ5pMNhX-ckBXr4F273poq2yw@mail.gmail.com>
+	<4F4DB40B.6000300@windriver.com>
+	<CAGDS+nmKg-iCjTnNrnM9-qBK8JF0MbJB3HX4=PM-06KPNVs_Gg@mail.gmail.com>
+In-Reply-To: <CAGDS+nmKg-iCjTnNrnM9-qBK8JF0MbJB3HX4=PM-06KPNVs_Gg@mail.gmail.com>
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: psuedo-native strangeness on 64 bit build machine
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -37,104 +39,56 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 29 Feb 2012 05:41:31 -0000
-Content-Language: en-US
-Content-Type: text/plain; charset="iso-8859-1"
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Wed, 29 Feb 2012 05:44:47 -0000
+Content-Type: text/plain; charset="ISO-8859-1"; format=flowed
+Content-Transfer-Encoding: 7bit
 
-Hi,
+On 2/28/12 11:29 PM, Steve Sakoman wrote:
+> On Tue, Feb 28, 2012 at 9:13 PM, Mark Hatle<mark.hatle@windriver.com>  wrote:
+>
+>> I'm building pseudo on 64-bit machines right now, no problem.
+>>
+>> The error you are seeing is pseudo attempting to build both a 64-bit and a
+>> 32-bit wrapper.  The 32-bit wrapper is built when the recipe detects support
+>> for both 32-bit and 64-bit userspace.  It does this by looking first that
+>> your host is 64-bit, and then for /usr/include/gnu/stubs-32.h.  Assuming it
+>> finds those, it assumes your system has 32-bit binaries on it.
+>
+> Thanks for the quick reply.
+>
+> My 64 bit build machine has the ia32-libs package installed and
+> /usr/include/gnu/stubs-32.h exists.  Any idea why the initial clean
+> build succeeds, but the rebuild triggered by the pull fails?
+>
+>> To avoid a 32-bit build of pseudo, on a 64-bit machine.  You need to set
+>> NO32LIBS = "1".  This instructs pseudo to avoid the 32-bit binary build.
+>>   (If your machine has 32-bit binaries on it, you need to fix your compiler
+>> to allow for 32-bit userspace builds, otherwise pseudo will be incapable of
+>> wrapping any 32-bit binaries, resulting in a potential mismatch of user,
+>> groups and modes set by any 32-bit applications.
+>
+> Could you give me a pointer on how to "fix" my compiler to allow for
+> 32-bit userspace builds?
 
-I think we need to add BUSYBOX_CONFIG_FEATURE_TEST_64 to the busybox defcon=
-fig after this patch.
-On my build (which had neither BUSYBOX_CONFIG_FEATURE_TEST_64 nor BUSYBOX_C=
-ONFIG_EXPR_MATH_SUPPORT_64) I was getting 'out of range' errors.
-=A0=A0
-Regards=A0
-James Limbouris
+I don't use Ubuntu much, and when I do, it's only with 64-bit binaries.  (Fedora 
+and RHEL I often use with mixed size systems...)
 
-> -----Original Message-----
-> From: openembedded-core-bounces@lists.openembedded.org
-> [mailto:openembedded-core-bounces@lists.openembedded.org] On Behalf
-> Of Saul Wold
-> Sent: Saturday, 25 February 2012 2:31 AM
-> To: Patches and discussions about the oe-core layer
-> Subject: Re: [OE-core] [PATCH] initscripts: Make /etc/timestamp consisten=
-t
-> again.
->=20
-> On 02/10/2012 08:16 AM, Gary Thomas wrote:
-> > Commit cc8695 changed the way timestamps were handled
-> > and added some extra munging to be able to compare them
-> > reliably.  This change makes the timestamp value the same
-> > everywhere and simplifies how the check to set the system
-> > clock based on the timestamp is done.
-> >
-> > Also, if the value stored in /etc/timestamp is newer
-> > [at all] than the current system time, set the system clock
-> > from the stored value, down to the minute, not just the day.
-> >
-> > Signed-off-by: Gary Thomas<gary@mlbassoc.com>
-> > ---
-> >   .../initscripts/initscripts-1.0/bootmisc.sh        |    4 ++--
-> >   .../initscripts/initscripts-1.0/save-rtc.sh        |    2 +-
-> >   meta/recipes-core/initscripts/initscripts_1.0.bb   |    2 +-
-> >   3 files changed, 4 insertions(+), 4 deletions(-)
-> >
-> > diff --git a/meta/recipes-core/initscripts/initscripts-1.0/bootmisc.sh
-> b/meta/recipes-core/initscripts/initscripts-1.0/bootmisc.sh
-> > index d9e8ffa..20ec0a0 100755
-> > --- a/meta/recipes-core/initscripts/initscripts-1.0/bootmisc.sh
-> > +++ b/meta/recipes-core/initscripts/initscripts-1.0/bootmisc.sh
-> > @@ -68,9 +68,9 @@ fi
-> >   /etc/init.d/hwclock.sh start
-> >   if test -e /etc/timestamp
-> >   then
-> > -	SYSTEMDATE=3D`date -u +%4Y%2m%2d`
-> > +	SYSTEMDATE=3D`date -u +%4Y%2m%2d%2H%2M`
-> >   	read TIMESTAMP<  /etc/timestamp
-> > -	if [ ${TIMESTAMP#????????}${TIMESTAMP%????????} -gt
-> $SYSTEMDATE ]; then
-> > +	if [ ${TIMESTAMP} -gt $SYSTEMDATE ]; then
-> >   		date -u $TIMESTAMP
-> >   		/etc/init.d/hwclock.sh stop
-> >   	fi
-> > diff --git a/meta/recipes-core/initscripts/initscripts-1.0/save-rtc.sh
-> b/meta/recipes-core/initscripts/initscripts-1.0/save-rtc.sh
-> > index 3d8e850..1f804e2 100644
-> > --- a/meta/recipes-core/initscripts/initscripts-1.0/save-rtc.sh
-> > +++ b/meta/recipes-core/initscripts/initscripts-1.0/save-rtc.sh
-> > @@ -10,4 +10,4 @@
-> >   ### END INIT INFO
-> >
-> >   # Update the timestamp
-> > -date -u +%2m%2d%2H%2M%4Y>  /etc/timestamp
-> > +date -u +%4Y%2m%2d%2H%2M>  /etc/timestamp
-> > diff --git a/meta/recipes-core/initscripts/initscripts_1.0.bb b/meta/re=
-cipes-
-> core/initscripts/initscripts_1.0.bb
-> > index 203c605..b56c55c 100644
-> > --- a/meta/recipes-core/initscripts/initscripts_1.0.bb
-> > +++ b/meta/recipes-core/initscripts/initscripts_1.0.bb
-> > @@ -3,7 +3,7 @@ DESCRIPTION =3D "Initscripts provide the basic system
-> startup initialization scrip
-> >   SECTION =3D "base"
-> >   LICENSE =3D "GPLv2"
-> >   LIC_FILES_CHKSUM =3D
-> "file://COPYING;md5=3D751419260aa954499f7abaabaa882bbe"
-> > -PR =3D "r129"
-> > +PR =3D "r130"
-> >
-> >   INHIBIT_DEFAULT_DEPS =3D "1"
-> >
->=20
-> Merged into OE-core
->=20
-> Thanks
-> 	Sau!
->=20
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
+Most distributions have a 32-bit devel package, or set of packages.  I assume 
+ubuntu does as well.  (I've recently been doing a lot of builds on 64-bit Mint 12.)
+
+A quick google found me some references to:
+
+glibc-devel-32bit, gcc-32bit
+
+You might want to try apt-get those and see if that will work.  Under the hood, 
+you'll need the 32-bit glibc development files, and libgcc.  Once you have that, 
+I believe pseudo will build both 32-bit and 64-bit properly.
+
+--Mark
+
+> Thanks!
+>
+> Steve
+
 
 
