@@ -1,24 +1,27 @@
-Received: from outbound.icp-osb-irony-out7.iinet.net.au ([203.59.1.108])
+Received: from ibawizard.net
+	([82.208.49.253] helo=mengele.ibawizard.net ident=postfix)
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <james@digitalmatter.com.au>) id 1S2daa-00068t-Br
+	(envelope-from <ynezz@mengele.ibawizard.net>) id 1S2fQW-0008HP-DN
 	for openembedded-core@lists.openembedded.org;
-	Wed, 29 Feb 2012 08:04:40 +0100
-X-IronPort-Anti-Spam-Filtered: true
-X-IronPort-Anti-Spam-Result: AvwEAOPLTU/LO4Se/2dsb2JhbABDs1iBB4J3KIEpiAe5Jo0eVBMGAwKEfwc/GSyDHgSITZJyjH0
-X-IronPort-AV: E=Sophos;i="4.73,501,1325433600"; d="scan'208";a="78903120"
-Received: from unknown (HELO gentoo_vm.DMA.local) ([203.59.132.158])
-	by outbound.icp-osb-irony-out7.iinet.net.au with ESMTP;
-	29 Feb 2012 14:56:08 +0800
-From: James Limbouris <james@digitalmatter.com.au>
-To: openembedded-core@lists.openembedded.org
-Date: Wed, 29 Feb 2012 14:56:30 +0800
-Message-Id: <1330498590-29895-1-git-send-email-james@digitalmatter.com.au>
-X-Mailer: git-send-email 1.7.3.4
-Subject: [PATCH] busybox: Enable 64 bit shell tests, and disable non-standard date format interpretation.
+	Wed, 29 Feb 2012 10:02:24 +0100
+Received: by mengele.ibawizard.net (Postfix, from userid 1002)
+	id E5B811D36195; Wed, 29 Feb 2012 09:45:44 +0100 (CET)
+Date: Wed, 29 Feb 2012 09:45:44 +0100
+From: Petr =?iso-8859-2?Q?=A9tetiar?= <ynezz@true.cz>
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Message-ID: <20120229084544.GH21882@ibawizard.net>
+References: <CAGDS+nmNeyC3P+x+mk0g-qOKhkJ5pMNhX-ckBXr4F273poq2yw@mail.gmail.com>
+	<4F4DB40B.6000300@windriver.com>
+MIME-Version: 1.0
+In-Reply-To: <4F4DB40B.6000300@windriver.com>
+User-Agent: Mutt/1.5.18 (2008-05-17)
+Subject: Re: psuedo-native strangeness on 64 bit build machine
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
-Reply-To: Patches and discussions about the oe-core layer
+Reply-To: Petr =?iso-8859-2?Q?=A9tetiar?= <ynezz@true.cz>,
+	Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
 List-Id: Patches and discussions about the oe-core layer
 	<openembedded-core.lists.openembedded.org>
@@ -29,36 +32,42 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 29 Feb 2012 07:04:40 -0000
+X-List-Received-Date: Wed, 29 Feb 2012 09:02:24 -0000
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-Without 64 bit shell tests, the timestamp comparison in initscripts' bootmisc.sh throws 'out of range' errors.
-With CONFIG_FEATURE_DATE_COMPAT, date reads the YYYYMMddhhmm string as hhmmYYYYMMdd when setting the time from the timestamp in bootmisc.sh.
+Mark Hatle <mark.hatle@windriver.com> [2012-02-28 23:13:47]:
 
-Signed-off-by: James Limbouris <james@digitalmatter.com.au>
----
- meta/recipes-core/busybox/busybox-1.19.3/defconfig |    4 ++--
- 1 files changed, 2 insertions(+), 2 deletions(-)
+> On 2/28/12 10:35 PM, Steve Sakoman wrote:
+>> I did a clean build on an Ubuntu 64 bit build machine a couple of days
+>> ago with no issues.
 
-diff --git a/meta/recipes-core/busybox/busybox-1.19.3/defconfig b/meta/recipes-core/busybox/busybox-1.19.3/defconfig
-index fa9c078..ca49671 100644
---- a/meta/recipes-core/busybox/busybox-1.19.3/defconfig
-+++ b/meta/recipes-core/busybox/busybox-1.19.3/defconfig
-@@ -172,11 +172,11 @@ CONFIG_CAT=y
- CONFIG_DATE=y
- # CONFIG_FEATURE_DATE_ISOFMT is not set
- # CONFIG_FEATURE_DATE_NANO is not set
--CONFIG_FEATURE_DATE_COMPAT=y
-+# CONFIG_FEATURE_DATE_COMPAT is not set
- CONFIG_ID=y
- CONFIG_GROUPS=y
- CONFIG_TEST=y
--# CONFIG_FEATURE_TEST_64 is not set
-+CONFIG_FEATURE_TEST_64=y
- CONFIG_TOUCH=y
- CONFIG_TR=y
- CONFIG_FEATURE_TR_CLASSES=y
--- 
-1.7.3.4
+I can confirm same situation here.
 
+>> After a pull of today I did an image build for an OMAP3 machine and
+>> encountered an issue with psuedo-native.
+
+Just pseudo? What's your setup, I mean layers etc. Are you using Angstrom's
+setup-scripts?
+
+>> Has anyone else been successful building on 64 bit machines?
+
+What version of Ubuntu is that? I'm on 12.04.
+
+> I'm building pseudo on 64-bit machines right now, no problem.
+
+I think, that it's some problem with parallel make. If I clean the stamps and
+tmp dir of pseudo-native manually (-c cleanall doesn't work actually, because
+pseudo-native is missing, chicken-egg problem? :)) and set PARALLEL_MAKE=1
+NUM_THREADS=-j1, then it builds just fine.
+
+There must have been something introduced in the bitbake or the layers
+recently, since I was able to build Angstrom/systemd-image/beagleboard from
+scratch 3 weeks ago with the same settings (PARALLEL_MAKE=4 NUM_THREADS=-j4").
+Now it's impossible to finish the build, the most noticeable failure is gcc,
+which fails for me in patching task due to the parallel build settings.
+Changing the parallel settings back to 1 helps here also.
+
+-- ynezz
 
 
