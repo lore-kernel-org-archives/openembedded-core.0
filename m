@@ -1,39 +1,44 @@
-Received: from mail-yx0-f175.google.com ([209.85.213.175])
+Received: from mail-gy0-f175.google.com ([209.85.160.175])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <otavio.salvador@gmail.com>) id 1S2cQF-0004VV-4b
+	(envelope-from <otavio.salvador@gmail.com>) id 1S2cQG-0004Vi-OE
 	for openembedded-core@lists.openembedded.org;
-	Wed, 29 Feb 2012 06:49:55 +0100
-Received: by yenm3 with SMTP id m3so1050693yen.6
+	Wed, 29 Feb 2012 06:49:56 +0100
+Received: by ghbz2 with SMTP id z2so1527219ghb.6
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 28 Feb 2012 21:41:26 -0800 (PST)
+	Tue, 28 Feb 2012 21:41:28 -0800 (PST)
 Received-SPF: pass (google.com: domain of otavio.salvador@gmail.com designates
-	10.236.182.2 as permitted sender) client-ip=10.236.182.2; 
+	10.236.161.201 as permitted sender) client-ip=10.236.161.201; 
 Authentication-Results: mr.google.com; spf=pass (google.com: domain of
-	otavio.salvador@gmail.com designates 10.236.182.2 as permitted
-	sender) smtp.mail=otavio.salvador@gmail.com;
+	otavio.salvador@gmail.com designates 10.236.161.201 as
+	permitted sender) smtp.mail=otavio.salvador@gmail.com;
 	dkim=pass header.i=otavio.salvador@gmail.com
-Received: from mr.google.com ([10.236.182.2])
-	by 10.236.182.2 with SMTP id n2mr33433408yhm.11.1330494086640 (num_hops
-	= 1); Tue, 28 Feb 2012 21:41:26 -0800 (PST)
+Received: from mr.google.com ([10.236.161.201])
+	by 10.236.161.201 with SMTP id w49mr32434072yhk.76.1330494088266
+	(num_hops = 1); Tue, 28 Feb 2012 21:41:28 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
-	h=sender:from:to:subject:date:message-id:x-mailer;
-	bh=w1T8qz+8t9BASscN1lDjvKxAluXmBqJc7QBePy7DKWI=;
-	b=j0QY4ovmVmxsKZmUpnhRFmnOss6dcYFFBcC8kDMXO13GBlEevjThGhGx2U/g7F14eG
-	33V3uiXUUSCKC49Q4+kKKbl2ww1jJAogk8naHM+gZlno4JQLrYEfVDWJ0bbhHpiBF/+H
-	BneZiazyVl1lsHi3YhvuMY4DBC2JfW7du+CD0=
-Received: by 10.236.182.2 with SMTP id n2mr25366943yhm.11.1330494086539;
-	Tue, 28 Feb 2012 21:41:26 -0800 (PST)
+	h=sender:from:to:subject:date:message-id:x-mailer:in-reply-to
+	:references:in-reply-to:references;
+	bh=GHWfOg9w5hwMmhsKlcoxJzHMpfhQ2FOFJyLq6DsjseE=;
+	b=gaYeoMMRpzrn7ySeO0OwJxjLEugJnEubxn+Gw7ziKg+1D2IW7zWWcnjbF9keLuimW8
+	dOxXQBPc6VnIW1CFjcwOjM0otfle/+NjLL/vNWT0FznFtYWF/zfJOpiLuC4ePtqwWEtM
+	0vt4IE348joUWVIUsZaFsm7Cz0CYDTRGYIo0U=
+Received: by 10.236.161.201 with SMTP id w49mr24616994yhk.76.1330494088231;
+	Tue, 28 Feb 2012 21:41:28 -0800 (PST)
 Received: from localhost.localdomain ([186.218.100.214])
-	by mx.google.com with ESMTPS id b6sm32799257anc.3.2012.02.28.21.41.24
+	by mx.google.com with ESMTPS id b6sm32799257anc.3.2012.02.28.21.41.26
 	(version=TLSv1/SSLv3 cipher=OTHER);
-	Tue, 28 Feb 2012 21:41:25 -0800 (PST)
+	Tue, 28 Feb 2012 21:41:27 -0800 (PST)
 Sender: Otavio Salvador <otavio.salvador@gmail.com>
 From: Otavio Salvador <otavio@ossystems.com.br>
 To: openembedded-core@lists.openembedded.org
-Date: Wed, 29 Feb 2012 05:41:15 +0000
-Message-Id: <cover.1330494042.git.otavio@ossystems.com.br>
+Date: Wed, 29 Feb 2012 05:41:16 +0000
+Message-Id: <15cc019c1794bdc7151850ded06ddee579d69952.1330494042.git.otavio@ossystems.com.br>
 X-Mailer: git-send-email 1.7.2.5
-Subject: [PATCH 0/3] Pending patches from O.S. Systems' tree
+In-Reply-To: <cover.1330494042.git.otavio@ossystems.com.br>
+References: <cover.1330494042.git.otavio@ossystems.com.br>
+In-Reply-To: <cover.1330494042.git.otavio@ossystems.com.br>
+References: <cover.1330494042.git.otavio@ossystems.com.br>
+Subject: [PATCH 1/3] image.bbclass: do not create image manifest link if IMAGE_LINK_NAME is empty
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -48,26 +53,30 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 29 Feb 2012 05:49:55 -0000
+X-List-Received-Date: Wed, 29 Feb 2012 05:49:57 -0000
 
-The following changes since commit 61216d2743502ef38955054aad6a4f2ed63e6d43:
+Signed-off-by: Otavio Salvador <otavio@ossystems.com.br>
+---
+ meta/classes/image.bbclass |    6 ++++--
+ 1 files changed, 4 insertions(+), 2 deletions(-)
 
-  licenses.conf: fix quotting of SRC_DISTRIBUTE_LICENSES (2012-02-28 17:51:42 +0000)
-
-are available in the git repository at:
-  git://github.com/OSSystems/oe-core master
-  https://github.com/OSSystems/oe-core/tree/HEAD
-
-Otavio Salvador (3):
-  image.bbclass: do not create image manifest link if IMAGE_LINK_NAME
-    is empty
-  image_types.bbclass: properly support IMAGE_LINK_NAME as empty
-  image_types.bbclass: fix bzip2 and xz compression commands
-
- meta/classes/image.bbclass       |    6 ++++--
- meta/classes/image_types.bbclass |   18 +++++++++++-------
- 2 files changed, 15 insertions(+), 9 deletions(-)
-
+diff --git a/meta/classes/image.bbclass b/meta/classes/image.bbclass
+index 4db55ff..ec75cc1 100644
+--- a/meta/classes/image.bbclass
++++ b/meta/classes/image.bbclass
+@@ -322,8 +322,10 @@ make_zimage_symlink_relative () {
+ write_image_manifest () {
+ 	rootfs_${IMAGE_PKGTYPE}_write_manifest
+ 
+-	rm -f ${DEPLOY_DIR_IMAGE}/${IMAGE_LINK_NAME}.manifest
+-        ln -s ${IMAGE_NAME}.rootfs.manifest ${DEPLOY_DIR_IMAGE}/${IMAGE_LINK_NAME}.manifest
++	if [ -n "${IMAGE_LINK_NAME}" ]; then
++		rm -f ${DEPLOY_DIR_IMAGE}/${IMAGE_LINK_NAME}.manifest
++		ln -s ${IMAGE_NAME}.rootfs.manifest ${DEPLOY_DIR_IMAGE}/${IMAGE_LINK_NAME}.manifest
++	fi
+ }
+ 
+ # Make login manager(s) enable automatic login.
 -- 
 1.7.2.5
 
