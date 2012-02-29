@@ -1,22 +1,20 @@
-Received: from mga09.intel.com ([134.134.136.24])
+Received: from mga14.intel.com ([143.182.124.37])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <elizabeth.flanagan@intel.com>) id 1S2XSN-0001pP-1b
+	(envelope-from <elizabeth.flanagan@intel.com>) id 1S2XTI-0001rf-7p
 	for openembedded-core@lists.openembedded.org;
-	Wed, 29 Feb 2012 01:31:47 +0100
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-	by orsmga102.jf.intel.com with ESMTP; 28 Feb 2012 16:23:18 -0800
+	Wed, 29 Feb 2012 01:32:44 +0100
+Received: from azsmga001.ch.intel.com ([10.2.17.19])
+	by azsmga102.ch.intel.com with ESMTP; 28 Feb 2012 16:23:10 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.67,352,1309762800"; d="scan'208";a="112841783"
+X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="112490024"
 Received: from unknown (HELO cenodoxus.amr.corp.intel.com) ([10.255.15.126])
-	by orsmga001.jf.intel.com with ESMTP; 28 Feb 2012 16:23:18 -0800
+	by azsmga001.ch.intel.com with ESMTP; 28 Feb 2012 16:23:09 -0800
 From: Beth Flanagan <elizabeth.flanagan@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Tue, 28 Feb 2012 16:23:16 -0800
-Message-Id: <0d6796d36dede0968c1f164e05f9be2969f3b29d.1330474667.git.elizabeth.flanagan@intel.com>
+Date: Tue, 28 Feb 2012 16:23:04 -0800
+Message-Id: <cover.1330474667.git.elizabeth.flanagan@intel.com>
 X-Mailer: git-send-email 1.7.1
-In-Reply-To: <cover.1330474667.git.elizabeth.flanagan@intel.com>
-References: <cover.1330474667.git.elizabeth.flanagan@intel.com>
-Subject: [PATCH 1/1] bootimg.bbclass: Quoting fixes
+Subject: [PATCH 0/1] Quote fixes.
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -31,45 +29,24 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 29 Feb 2012 00:31:47 -0000
+X-List-Received-Date: Wed, 29 Feb 2012 00:32:44 -0000
 
-From: Elizabeth Flanagan <elizabeth.flanagan@intel.com>
+I found these ParseError quoting issues in the fri2 layer. I fixed other
+quoting issues in the class while I was there.
 
-More quoting issues during an fri build. Fixing as per standard.
+The following changes since commit d86e3082e695cde555df276a2436873fa5381130:
 
-Signed-off-by: Elizabeth Flanagan <elizabeth.flanagan@intel.com>
----
+  licenses.conf: fix quotting of SRC_DISTRIBUTE_LICENSES (2012-02-28 17:51:52 +0000)
+
+are available in the git repository at:
+  git://git.yoctoproject.org/poky-contrib eflanagan/quote_fixes
+  http://git.yoctoproject.org/cgit.cgi/poky-contrib/log/?h=eflanagan/quote_fixes
+
+Elizabeth Flanagan (1):
+  bootimg.bbclass: Quoting fixes
+
  meta/classes/bootimg.bbclass |    8 ++++----
  1 files changed, 4 insertions(+), 4 deletions(-)
-
-diff --git a/meta/classes/bootimg.bbclass b/meta/classes/bootimg.bbclass
-index 1d1a3d0..dd37034 100644
---- a/meta/classes/bootimg.bbclass
-+++ b/meta/classes/bootimg.bbclass
-@@ -35,8 +35,8 @@ ISODIR = "${S}/iso"
- BOOTIMG_VOLUME_ID   ?= "boot"
- BOOTIMG_EXTRA_SPACE ?= "512"
- 
--EFI = ${@base_contains("MACHINE_FEATURES", "efi", "1", "0", d)}
--EFI_CLASS = ${@base_contains("MACHINE_FEATURES", "efi", "grub-efi", "dummy", d)}
-+EFI = '${@base_contains("MACHINE_FEATURES", "efi", "1", "0", d)}'
-+EFI_CLASS = '${@base_contains("MACHINE_FEATURES", "efi", "grub-efi", "dummy", d)}'
- 
- # Include legacy boot if MACHINE_FEATURES includes "pcbios" or if it does not
- # contain "efi". This way legacy is supported by default if neither is
-@@ -52,8 +52,8 @@ def pcbios_class(d):
- 		return "syslinux"
- 	return "dummy"
- 
--PCBIOS = ${@pcbios(d)}
--PCBIOS_CLASS = ${@pcbios_class(d)}
-+PCBIOS = '${@pcbios(d)}'
-+PCBIOS_CLASS = '${@pcbios_class(d)}'
- 
- inherit ${PCBIOS_CLASS}
- inherit ${EFI_CLASS}
--- 
-1.7.1
 
 
 
