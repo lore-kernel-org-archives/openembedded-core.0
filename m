@@ -1,39 +1,27 @@
-Received: from mail-gy0-f175.google.com ([209.85.160.175])
+Received: from smtp21.4emm.com ([69.18.222.6])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <otavio.salvador@gmail.com>) id 1S2clR-0005EG-3N
+	(envelope-from <james@digitalmatter.com.au>) id 1S2dG8-0005V2-6R
 	for openembedded-core@lists.openembedded.org;
-	Wed, 29 Feb 2012 07:11:49 +0100
-Received: by ghbz2 with SMTP id z2so1529797ghb.6
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 28 Feb 2012 22:03:20 -0800 (PST)
-Received-SPF: pass (google.com: domain of otavio.salvador@gmail.com designates
-	10.101.180.18 as permitted sender) client-ip=10.101.180.18; 
-Authentication-Results: mr.google.com; spf=pass (google.com: domain of
-	otavio.salvador@gmail.com designates 10.101.180.18 as permitted
-	sender) smtp.mail=otavio.salvador@gmail.com;
-	dkim=pass header.i=otavio.salvador@gmail.com
-Received: from mr.google.com ([10.101.180.18])
-	by 10.101.180.18 with SMTP id h18mr2802025anp.23.1330495400591
-	(num_hops = 1); Tue, 28 Feb 2012 22:03:20 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
-	h=sender:from:to:subject:date:message-id:x-mailer;
-	bh=4HyXnZakuQ4cp2QOoTTRe+dTNsm7WI1Go/MsVhcIhUw=;
-	b=tMAo2Z6+EgQfxIFD4fCgU72AfIlb4hJuJd7C8Si0t6KRaGAM48BUowt6Nz+VkKFlEZ
-	DHbwf5dYQmQwwwsWGSP7Q2Ha2f4Es0AuEmDlRXHYvzljmzI0Jj6eSa4Ucg355Opp0iR9
-	GsmardBIQ2ZEoRixRuXXYtbwyE7AqwEBsHezc=
-Received: by 10.101.180.18 with SMTP id h18mr2167459anp.23.1330495400514;
-	Tue, 28 Feb 2012 22:03:20 -0800 (PST)
-Received: from localhost.localdomain ([186.218.100.214])
-	by mx.google.com with ESMTPS id 34sm32861741anu.6.2012.02.28.22.03.18
-	(version=TLSv1/SSLv3 cipher=OTHER);
-	Tue, 28 Feb 2012 22:03:19 -0800 (PST)
-Sender: Otavio Salvador <otavio.salvador@gmail.com>
-From: Otavio Salvador <otavio@ossystems.com.br>
-To: openembedded-core@lists.openembedded.org
-Date: Wed, 29 Feb 2012 06:03:13 +0000
-Message-Id: <1330495393-19751-1-git-send-email-otavio@ossystems.com.br>
-X-Mailer: git-send-email 1.7.2.5
-Subject: [PATCH] syslinux: fix packaging of ${PN} and ${PN}-staticdev
+	Wed, 29 Feb 2012 07:43:32 +0100
+Received: from MBX21.4emm.local ([fe80::a0d4:cb04:3e3c:8690]) by
+	HUB21.4emm.local ([::1]) with mapi id 14.01.0289.001; Wed, 29 Feb 2012
+	01:34:02 -0500
+From: James Limbouris <james@digitalmatter.com.au>
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Thread-Topic: [OE-core] [PATCH] initscripts: Make /etc/timestamp consistent
+	again.
+Thread-Index: AQHM6BAdDCpmIG709kqsEPybLz1tCpZMyKWAgAatY0CAABGVcA==
+Date: Wed, 29 Feb 2012 06:34:02 +0000
+Message-ID: <840A81C1B782724A8EB52725BD519EFF337FFDC8@MBX21.4emm.local>
+References: <1328890565-8304-1-git-send-email-gary@mlbassoc.com>
+	<4F47D76D.50805@linux.intel.com> 
+Accept-Language: en-AU, en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [203.59.132.158]
+MIME-Version: 1.0
+Subject: Re: [PATCH] initscripts: Make /etc/timestamp consistent again.
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -48,49 +36,119 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 29 Feb 2012 06:11:49 -0000
+X-List-Received-Date: Wed, 29 Feb 2012 06:43:32 -0000
+Content-Language: en-US
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 
- - ${PN} where not being build due ordering;
- - ${PN}-staticdev lacked the ${libdir} files.
+Also, CONFIG_FEATURE_DATE_COMPAT=3Dy has to be removed - it mungs the YYYYM=
+Mddhhmm string into hhmmYYYYMMdd !
 
-Signed-off-by: Otavio Salvador <otavio@ossystems.com.br>
----
- meta/recipes-devtools/syslinux/syslinux_4.03.bb |    6 +++---
- 1 files changed, 3 insertions(+), 3 deletions(-)
-
-diff --git a/meta/recipes-devtools/syslinux/syslinux_4.03.bb b/meta/recipes-devtools/syslinux/syslinux_4.03.bb
-index 823465c..2ab6878 100644
---- a/meta/recipes-devtools/syslinux/syslinux_4.03.bb
-+++ b/meta/recipes-devtools/syslinux/syslinux_4.03.bb
-@@ -7,7 +7,7 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=0636e73ff0215e8d672dc4c32c317bb3 \
- # If you really want to run syslinux, you need mtools.  We just want the
- # ldlinux.* stuff for now, so skip mtools-native
- DEPENDS = "nasm-native"
--PR = "r5"
-+PR = "r6"
- 
- SRC_URI = "${KERNELORG_MIRROR}/linux/utils/boot/syslinux/4.xx/syslinux-${PV}.tar.bz2 \
-            file://cross-build.patch"
-@@ -46,7 +46,7 @@ do_install() {
- 	install -m 644 ${S}/core/ldlinux.bss ${D}${libdir}/syslinux/
- }
- 
--PACKAGES =+ "${PN}-extlinux ${PN}-mbr ${PN}-chain ${PN}-pxelinux ${PN}-isolinux ${PN}-misc"
-+PACKAGES += "${PN}-extlinux ${PN}-mbr ${PN}-chain ${PN}-pxelinux ${PN}-isolinux ${PN}-misc"
- 
- RDEPENDS_${PN} += "mtools"
- 
-@@ -57,7 +57,7 @@ FILES_${PN}-chain = "${libdir}/${PN}/chain.c32"
- FILES_${PN}-isolinux = "${libdir}/${PN}/isolinux.bin"
- FILES_${PN}-pxelinux = "${libdir}/${PN}/pxelinux.0"
- FILES_${PN}-dev += "${datadir}/${PN}/com32/lib*${SOLIBS} ${datadir}/${PN}/com32/include ${datadir}/${PN}/com32/com32.ld"
--FILES_${PN}-staticdev += "${datadir}/${PN}/com32/lib*.a"
-+FILES_${PN}-staticdev += "${datadir}/${PN}/com32/lib*.a ${libdir}/${PN}/com32/lib*.a"
- FILES_${PN}-misc = "${libdir}/${PN}/* ${bindir}/*"
- 
- BBCLASSEXTEND = "native"
--- 
-1.7.2.5
-
+> -----Original Message-----
+> From: James Limbouris
+> Sent: Wednesday, 29 February 2012 1:32 PM
+> To: Patches and discussions about the oe-core layer
+> Subject: RE: [OE-core] [PATCH] initscripts: Make /etc/timestamp consisten=
+t
+> again.
+>=20
+> Hi,
+>=20
+> I think we need to add BUSYBOX_CONFIG_FEATURE_TEST_64 to the
+> busybox defconfig after this patch.
+> On my build (which had neither BUSYBOX_CONFIG_FEATURE_TEST_64 nor
+> BUSYBOX_CONFIG_EXPR_MATH_SUPPORT_64) I was getting 'out of range'
+> errors.
+>=20
+> Regards
+> James Limbouris
+>=20
+> > -----Original Message-----
+> > From: openembedded-core-bounces@lists.openembedded.org
+> > [mailto:openembedded-core-bounces@lists.openembedded.org] On
+> Behalf
+> > Of Saul Wold
+> > Sent: Saturday, 25 February 2012 2:31 AM
+> > To: Patches and discussions about the oe-core layer
+> > Subject: Re: [OE-core] [PATCH] initscripts: Make /etc/timestamp consist=
+ent
+> > again.
+> >
+> > On 02/10/2012 08:16 AM, Gary Thomas wrote:
+> > > Commit cc8695 changed the way timestamps were handled
+> > > and added some extra munging to be able to compare them
+> > > reliably.  This change makes the timestamp value the same
+> > > everywhere and simplifies how the check to set the system
+> > > clock based on the timestamp is done.
+> > >
+> > > Also, if the value stored in /etc/timestamp is newer
+> > > [at all] than the current system time, set the system clock
+> > > from the stored value, down to the minute, not just the day.
+> > >
+> > > Signed-off-by: Gary Thomas<gary@mlbassoc.com>
+> > > ---
+> > >   .../initscripts/initscripts-1.0/bootmisc.sh        |    4 ++--
+> > >   .../initscripts/initscripts-1.0/save-rtc.sh        |    2 +-
+> > >   meta/recipes-core/initscripts/initscripts_1.0.bb   |    2 +-
+> > >   3 files changed, 4 insertions(+), 4 deletions(-)
+> > >
+> > > diff --git a/meta/recipes-core/initscripts/initscripts-1.0/bootmisc.s=
+h
+> > b/meta/recipes-core/initscripts/initscripts-1.0/bootmisc.sh
+> > > index d9e8ffa..20ec0a0 100755
+> > > --- a/meta/recipes-core/initscripts/initscripts-1.0/bootmisc.sh
+> > > +++ b/meta/recipes-core/initscripts/initscripts-1.0/bootmisc.sh
+> > > @@ -68,9 +68,9 @@ fi
+> > >   /etc/init.d/hwclock.sh start
+> > >   if test -e /etc/timestamp
+> > >   then
+> > > -	SYSTEMDATE=3D`date -u +%4Y%2m%2d`
+> > > +	SYSTEMDATE=3D`date -u +%4Y%2m%2d%2H%2M`
+> > >   	read TIMESTAMP<  /etc/timestamp
+> > > -	if [ ${TIMESTAMP#????????}${TIMESTAMP%????????} -gt
+> > $SYSTEMDATE ]; then
+> > > +	if [ ${TIMESTAMP} -gt $SYSTEMDATE ]; then
+> > >   		date -u $TIMESTAMP
+> > >   		/etc/init.d/hwclock.sh stop
+> > >   	fi
+> > > diff --git a/meta/recipes-core/initscripts/initscripts-1.0/save-rtc.s=
+h
+> > b/meta/recipes-core/initscripts/initscripts-1.0/save-rtc.sh
+> > > index 3d8e850..1f804e2 100644
+> > > --- a/meta/recipes-core/initscripts/initscripts-1.0/save-rtc.sh
+> > > +++ b/meta/recipes-core/initscripts/initscripts-1.0/save-rtc.sh
+> > > @@ -10,4 +10,4 @@
+> > >   ### END INIT INFO
+> > >
+> > >   # Update the timestamp
+> > > -date -u +%2m%2d%2H%2M%4Y>  /etc/timestamp
+> > > +date -u +%4Y%2m%2d%2H%2M>  /etc/timestamp
+> > > diff --git a/meta/recipes-core/initscripts/initscripts_1.0.bb
+> b/meta/recipes-
+> > core/initscripts/initscripts_1.0.bb
+> > > index 203c605..b56c55c 100644
+> > > --- a/meta/recipes-core/initscripts/initscripts_1.0.bb
+> > > +++ b/meta/recipes-core/initscripts/initscripts_1.0.bb
+> > > @@ -3,7 +3,7 @@ DESCRIPTION =3D "Initscripts provide the basic system
+> > startup initialization scrip
+> > >   SECTION =3D "base"
+> > >   LICENSE =3D "GPLv2"
+> > >   LIC_FILES_CHKSUM =3D
+> > "file://COPYING;md5=3D751419260aa954499f7abaabaa882bbe"
+> > > -PR =3D "r129"
+> > > +PR =3D "r130"
+> > >
+> > >   INHIBIT_DEFAULT_DEPS =3D "1"
+> > >
+> >
+> > Merged into OE-core
+> >
+> > Thanks
+> > 	Sau!
+> >
+> > _______________________________________________
+> > Openembedded-core mailing list
+> > Openembedded-core@lists.openembedded.org
+> > http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
 
 
