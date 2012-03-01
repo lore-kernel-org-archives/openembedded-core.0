@@ -1,48 +1,23 @@
-Received: from mail-pz0-f50.google.com ([209.85.210.50])
+Received: from mail.gw90.de ([188.40.100.199])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <raj.khem@gmail.com>) id 1S33SV-0005xZ-Rf
-	for openembedded-core@lists.openembedded.org;
-	Thu, 01 Mar 2012 11:42:04 +0100
-Received: by dald2 with SMTP id d2so686408dal.9
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 01 Mar 2012 02:33:33 -0800 (PST)
-Received-SPF: pass (google.com: domain of raj.khem@gmail.com designates
-	10.68.203.73 as permitted sender) client-ip=10.68.203.73; 
-Authentication-Results: mr.google.com;
-	spf=pass (google.com: domain of raj.khem@gmail.com
-	designates 10.68.203.73 as permitted sender)
-	smtp.mail=raj.khem@gmail.com;
-	dkim=pass header.i=raj.khem@gmail.com
-Received: from mr.google.com ([10.68.203.73])
-	by 10.68.203.73 with SMTP id ko9mr597364pbc.130.1330598013611 (num_hops
-	= 1); Thu, 01 Mar 2012 02:33:33 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
-	h=message-id:date:from:user-agent:mime-version:to:subject:references
-	:in-reply-to:content-type:content-transfer-encoding;
-	bh=r+QJkE3uT3e/hJTrdl7oLka1f7IMNkmCs1lPSKrrxjo=;
-	b=lHvsoeuaFzykomcH9GXAK+mdlpCrqi2aWNwU6w8Lj/5WcF1GpCPeaqjjFUUbvbXoVZ
-	Ye50GiMBG+83846zw1y4N95fnEfjHCBinJLf6Td6K1i41EGnwEMTwRAjA4BoEhTbgr8R
-	V3YsGdAYVK8kWDv5GaG4bUpPRtswgO1chaRRw=
-Received: by 10.68.203.73 with SMTP id ko9mr504243pbc.130.1330598013344;
-	Thu, 01 Mar 2012 02:33:33 -0800 (PST)
-Received: from [192.168.1.78] (99-57-140-209.lightspeed.sntcca.sbcglobal.net.
-	[99.57.140.209])
-	by mx.google.com with ESMTPS id m7sm1760600pba.30.2012.03.01.02.33.31
-	(version=SSLv3 cipher=OTHER); Thu, 01 Mar 2012 02:33:32 -0800 (PST)
-Message-ID: <4F4F5079.1050608@gmail.com>
-Date: Thu, 01 Mar 2012 02:33:29 -0800
-From: Khem Raj <raj.khem@gmail.com>
-User-Agent: Mozilla/5.0 (X11; Linux i686;
-	rv:11.0) Gecko/20120224 Thunderbird/11.0
-MIME-Version: 1.0
+	(envelope-from <paulepanter@users.sourceforge.net>)
+	id 1S33Wu-00035b-HS for openembedded-core@lists.openembedded.org;
+	Thu, 01 Mar 2012 11:46:36 +0100
+Received: from f053033002.adsl.alicedsl.de ([78.53.33.2] helo=[192.168.178.43])
+	by mail.gw90.de with esmtpsa (TLS1.0:RSA_AES_256_CBC_SHA1:32)
+	(Exim 4.69) (envelope-from <paulepanter@users.sourceforge.net>)
+	id 1S33Oo-0000R4-E5; Thu, 01 Mar 2012 10:38:14 +0000
+Message-ID: <1330598285.3569.25.camel@mattotaupa>
+From: Paul Menzel <paulepanter@users.sourceforge.net>
 To: openembedded-core@lists.openembedded.org
-References: <CAGDS+nmNeyC3P+x+mk0g-qOKhkJ5pMNhX-ckBXr4F273poq2yw@mail.gmail.com>
-	<4F4DB40B.6000300@windriver.com>
-	<20120229084544.GH21882@ibawizard.net>
-	<CAGDS+nnW6QBngHLVVn7AS=HU_DAdc6JQr9k=mrpu9mx=dLRLOQ@mail.gmail.com>
-	<CAGDS+nnd_hZnxgX1JfKMksxmfREYjqEYFYN+Yhj=sgffUsCXNA@mail.gmail.com>
-In-Reply-To: <CAGDS+nnd_hZnxgX1JfKMksxmfREYjqEYFYN+Yhj=sgffUsCXNA@mail.gmail.com>
-Subject: Re: psuedo-native strangeness on 64 bit build machine
+Date: Thu, 01 Mar 2012 11:38:05 +0100
+In-Reply-To: <4F4F13A8.5070009@windriver.com>
+References: <cover.1328774359.git.xiaofeng.yan@windriver.com>
+	<92a87a54f47245d723727bd190c35323e66ad3ea.1328774359.git.xiaofeng.yan@windriver.com>
+	<1328778363.5379.3.camel@mattotaupa> <4F4F13A8.5070009@windriver.com>
+X-Mailer: Evolution 3.2.2-1 
+Mime-Version: 1.0
+Subject: Re: [PATCH 1/2] libx11-1.4.4: Add patch makekeys_crosscompile.patch
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -57,33 +32,106 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 01 Mar 2012 10:42:04 -0000
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Thu, 01 Mar 2012 10:46:36 -0000
+X-Groupsio-MsgNum: 18250
+Content-Type: multipart/signed; micalg="pgp-sha1";
+	protocol="application/pgp-signature"; 
+	boundary="=-6bBbbF1sKTKkrZHjBx8p"
 
-On 02/29/2012 07:12 AM, Steve Sakoman wrote:
-> On Wed, Feb 29, 2012 at 6:22 AM, Steve Sakoman <sakoman@gmail.com> wrote:
->> On Wed, Feb 29, 2012 at 12:45 AM, Petr Štetiar <ynezz@true.cz> wrote:
-> 
->>> Now it's impossible to finish the build, the most noticeable failure is gcc,
->>> which fails for me in patching task due to the parallel build settings.
->>> Changing the parallel settings back to 1 helps here also.
->>
->> I just tried building gcc and can confirm that it fails for me on the
->> 64 bit build machine.
-> 
-> For me, a -c cleansstate gcc and then a rebuild resulted in a
-> successful gcc build.  I did not need to turn off parallel builds.
-> 
+--=-6bBbbF1sKTKkrZHjBx8p
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-just add NO32LIBS = "1" to your local.conf
+Am Donnerstag, den 01.03.2012, 14:14 +0800 schrieb Xiaofeng Yan:
+> On 2012=E5=B9=B402=E6=9C=8809=E6=97=A5 17:06, Paul Menzel wrote:
 
-> Steve
-> 
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
+> > Am Donnerstag, den 09.02.2012, 16:05 +0800 schrieb Xiaofeng Yan:
+> >> From: Xiaofeng Yan<xiaofeng.yan@windriver.com>
+> >>
+> >> LSB 4.1 complain a host contamination error from libx11 because of abs=
+ent
+> >> patch "makekeys_crosscompile.patch" from libx11-trim-1.4.4.
+> >>
+> >> [YOCTO #1970]
+> > could you squash both patches please?
+> >
+> > Also please add the output from the cover letter to the commit message.
+> >
+> >> Signed-off-by: Xiaofeng Yan<xiaofeng.yan@windriver.com>
+
+I just noticed. Your Thunderbird setup seems to be broken. For some
+reason it deletes spaces.
+
+> >> ---
+> >>   .../libx11-1.4.4/makekeys_crosscompile.patch       |   45 ++++++++++=
+++++++++++
+> >>   1 files changed, 45 insertions(+), 0 deletions(-)
+> >>   create mode 100644 meta/recipes-graphics/xorg-lib/libx11-1.4.4/makek=
+eys_crosscompile.patch
+> >>
+> >> diff --git a/meta/recipes-graphics/xorg-lib/libx11-1.4.4/makekeys_cros=
+scompile.patch b/meta/recipes-graphics/xorg-lib/libx11-1.4.4/makekeys_cross=
+compile.patch
+
+Here Thunderbird removed a line break.
+
+> >> new file mode 100644
+> >> index 0000000..e5eacf0
+> >> --- /dev/null
+> >> +++ b/meta/recipes-graphics/xorg-lib/libx11-1.4.4/makekeys_crosscompil=
+e.patch
+> >> @@ -0,0 +1,45 @@
+> >> +Because the size of "unsigned long" is different between 32-bit
+> >> +and 64-bit, judge whether target is 32-bit or 64-bit and tell
+> >> +"makekey".
+> > Trailing space at the end.
+> >
+> > Could you also add the error message to the patch file in a *separate*
+> > patch please. Preferably before copying it.
+>
+> Do you mean I use an separated file to record error message?
+> So there are two file here. one is for  makekeys_crosscompile.patch,=20
+> another is for a file to record error message. right?
+
+Sorry, I did not understand your reply either. :/
+
+1. Copy the error message you got when building without the patch.
+2. Go to
+
+    meta/recipes-graphics/xorg-lib/libx11-trim-1.4.4/makekeys_crosscompile.=
+patch
+
+and add that error message to the commit message of the patch above.
+Make that the first patch.
+3. Now copy this file to libx11-1.4.4 and submit as a second patch.
+
+> >> +
+> >> +Upstream-Status: Pending
+> >> +
+> >> +Signed-off-by: dbuitenh@windriver.com
+> >> +
+> >> +--- libX11-1.3.4.orig/src/util/makekeys.c	2010-01-15 09:11:36.0000000=
+00 +0800
+> >> ++++ libX11-1.3.4/src/util/makekeys.c	2011-05-24 19:04:25.454774908 +0=
+800
+> > [=E2=80=A6]
 
 
+Thanks,
 
+Paul
+
+--=-6bBbbF1sKTKkrZHjBx8p
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: This is a digitally signed message part
+Content-Transfer-Encoding: 7bit
+
+-----BEGIN PGP SIGNATURE-----
+Version: GnuPG v1.4.11 (GNU/Linux)
+
+iEYEABECAAYFAk9PUY0ACgkQPX1aK2wOHVg08QCeK04yVHxJrmsXs6zuXY7KPtze
+1lQAniwSkrjqmu4v24GdPXSbtbcs9gHX
+=9O8x
+-----END PGP SIGNATURE-----
+
+--=-6bBbbF1sKTKkrZHjBx8p--
