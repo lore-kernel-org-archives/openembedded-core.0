@@ -1,20 +1,24 @@
 Received: from mga03.intel.com ([143.182.124.21])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <sgw@linux.intel.com>) id 1S30XD-0007yn-8a
+	(envelope-from <sgw@linux.intel.com>) id 1S30XE-0007yn-3i
 	for openembedded-core@lists.openembedded.org;
-	Thu, 01 Mar 2012 08:34:43 +0100
+	Thu, 01 Mar 2012 08:34:44 +0100
 Received: from azsmga001.ch.intel.com ([10.2.17.19])
-	by azsmga101.ch.intel.com with ESMTP; 29 Feb 2012 23:26:12 -0800
+	by azsmga101.ch.intel.com with ESMTP; 29 Feb 2012 23:26:13 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="113168877"
+X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="113168879"
 Received: from unknown (HELO swold-mobl.myhome.westell.com) ([10.255.15.82])
 	by azsmga001.ch.intel.com with ESMTP; 29 Feb 2012 23:26:12 -0800
 From: Saul Wold <sgw@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Wed, 29 Feb 2012 23:26:03 -0800
-Message-Id: <cover.1330586641.git.sgw@linux.intel.com>
+Date: Wed, 29 Feb 2012 23:26:04 -0800
+Message-Id: <e843bb6aff1c944409305b9c68e6fd8dce89e9c9.1330586641.git.sgw@linux.intel.com>
 X-Mailer: git-send-email 1.7.7.6
-Subject: [PATCH 0/7] Updates and QA Warning Fixes
+In-Reply-To: <cover.1330586641.git.sgw@linux.intel.com>
+References: <cover.1330586641.git.sgw@linux.intel.com>
+In-Reply-To: <cover.1330586641.git.sgw@linux.intel.com>
+References: <cover.1330586641.git.sgw@linux.intel.com>
+Subject: [PATCH 1/7] perl: remove empty directories to clean QA Warnings
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -29,45 +33,41 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 01 Mar 2012 07:34:43 -0000
+X-List-Received-Date: Thu, 01 Mar 2012 07:34:44 -0000
 
-Richard,
+WARNING: For recipe perl, the following files/directories were installed but not shipped in any package:
+WARNING:   /usr/lib/perl/site_perl
+WARNING:   /usr/lib/perl/site_perl/5.14.2
+Signed-off-by: Saul Wold <sgw@linux.intel.com>
+---
+ meta/recipes-devtools/perl/perl_5.14.2.bb |    6 ++++--
+ 1 files changed, 4 insertions(+), 2 deletions(-)
 
-This patch set has update, qa warning fixes, and a non-GPLv3
-fix (this one could be a M3 RC2 item).
-
-Sau!
-
-The following changes since commit 8054497b393d40a2ed8c802c74a02e92a3001297:
-
-  image_types_uboot: Update to work after recent image_types changes (2012-02-29 18:23:04 +0000)
-
-are available in the git repository at:
-  git://git.openembedded.org/openembedded-core-contrib sgw/updates
-  http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=sgw/updates
-
-Saul Wold (7):
-  perl: remove empty directories to clean QA Warnings
-  netbase: fix QA Warnings
-  hdparm: update to 9.39
-  glproto: Update to 1.4.15
-  pixman: updat to 0.24.4
-  util-linux: Fix removal of lscpu for non-GPLv3 Build
-  distro_tracking: Upgrade and Manual Checks
-
- .../conf/distro/include/distro_tracking_fields.inc |   19 +++++----
- meta/recipes-core/netbase/netbase_4.47.bb          |    3 +-
- .../util-linux/util-linux-2.21/remove-lscpu.patch  |   43 +++++++++++++------
- meta/recipes-core/util-linux/util-linux_2.21.bb    |    2 +-
- meta/recipes-devtools/perl/perl_5.14.2.bb          |    6 ++-
- .../hdparm/{hdparm_9.37.bb => hdparm_9.39.bb}      |    5 +-
- .../{pixman_0.24.2.bb => pixman_0.24.4.bb}         |    7 +--
- .../{glproto_1.4.14.bb => glproto_1.4.15.bb}       |    4 +-
- 8 files changed, 53 insertions(+), 36 deletions(-)
- rename meta/recipes-extended/hdparm/{hdparm_9.37.bb => hdparm_9.39.bb} (89%)
- rename meta/recipes-graphics/xorg-lib/{pixman_0.24.2.bb => pixman_0.24.4.bb} (82%)
- rename meta/recipes-graphics/xorg-proto/{glproto_1.4.14.bb => glproto_1.4.15.bb} (77%)
-
+diff --git a/meta/recipes-devtools/perl/perl_5.14.2.bb b/meta/recipes-devtools/perl/perl_5.14.2.bb
+index 0abefe4..6703b5c 100644
+--- a/meta/recipes-devtools/perl/perl_5.14.2.bb
++++ b/meta/recipes-devtools/perl/perl_5.14.2.bb
+@@ -7,7 +7,7 @@ LIC_FILES_CHKSUM = "file://Copying;md5=2b4c6ffbcfcbdee469f02565f253d81a \
+ # We need gnugrep (for -I)
+ DEPENDS = "virtual/db grep-native"
+ DEPENDS += "gdbm zlib"
+-PR = "r2"
++PR = "r3"
+ 
+ # 5.10.1 has Module::Build built-in
+ PROVIDES += "libmodule-build-perl"
+@@ -190,8 +190,10 @@ do_install() {
+ 
+         ln -sf perl ${D}/${libdir}/perl5
+ 
+-        # Remove unwanted file
++        # Remove unwanted file and empty directories
+         rm -f ${D}/${libdir}/perl/${PV}/.packlist
++	rmdir ${D}/${libdir}/perl/site_perl/${PV}
++	rmdir ${D}/${libdir}/perl/site_perl
+ 
+         # Fix up shared library
+         mv ${D}/${libdir}/perl/${PV}/CORE/libperl.so ${D}/${libdir}/libperl.so.${PV}
 -- 
 1.7.7.6
 
