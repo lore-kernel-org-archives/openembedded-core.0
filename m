@@ -1,44 +1,20 @@
-Received: from mail-pz0-f50.google.com ([209.85.210.50])
+Received: from mga03.intel.com ([143.182.124.21])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <raj.khem@gmail.com>) id 1S2zub-0004rC-2O
+	(envelope-from <sgw@linux.intel.com>) id 1S30XD-0007yn-8a
 	for openembedded-core@lists.openembedded.org;
-	Thu, 01 Mar 2012 07:54:49 +0100
-Received: by dald2 with SMTP id d2so433643dal.9
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 29 Feb 2012 22:46:18 -0800 (PST)
-Received-SPF: pass (google.com: domain of raj.khem@gmail.com designates
-	10.68.129.4 as permitted sender) client-ip=10.68.129.4; 
-Authentication-Results: mr.google.com;
-	spf=pass (google.com: domain of raj.khem@gmail.com
-	designates 10.68.129.4 as permitted sender)
-	smtp.mail=raj.khem@gmail.com;
-	dkim=pass header.i=raj.khem@gmail.com
-Received: from mr.google.com ([10.68.129.4])
-	by 10.68.129.4 with SMTP id ns4mr16149369pbb.151.1330584378819
-	(num_hops = 1); Wed, 29 Feb 2012 22:46:18 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
-	h=message-id:date:from:user-agent:mime-version:to:subject:references
-	:in-reply-to:content-type:content-transfer-encoding;
-	bh=CkEPmgRbtNNjHogWBx3GWn+/eZI1Oq5TnYC7Vq8G/UY=;
-	b=aC687dmKOJHOq3/hsOCq7QTQ04q4QnM5kP4B7y/E0B2kK4GM9rbWaQSqLvI6w0W6gs
-	tnAkDMTUVV5V1Q0mBdGvzxWon29H4/aUGKPQtgn1IcxBVhTPx7Qx+Rg3ulZn5SwVjHVV
-	6CQJzwnF4BP5YRUpAt6DLRgGuh0p9JlTZOGn4=
-Received: by 10.68.129.4 with SMTP id ns4mr13379681pbb.151.1330584378726;
-	Wed, 29 Feb 2012 22:46:18 -0800 (PST)
-Received: from [192.168.1.78] (99-57-140-209.lightspeed.sntcca.sbcglobal.net.
-	[99.57.140.209])
-	by mx.google.com with ESMTPS id w8sm1282322pbo.23.2012.02.29.22.46.16
-	(version=SSLv3 cipher=OTHER); Wed, 29 Feb 2012 22:46:17 -0800 (PST)
-Message-ID: <4F4F1B36.7020504@gmail.com>
-Date: Wed, 29 Feb 2012 22:46:14 -0800
-From: Khem Raj <raj.khem@gmail.com>
-User-Agent: Mozilla/5.0 (X11; Linux i686;
-	rv:11.0) Gecko/20120224 Thunderbird/11.0
-MIME-Version: 1.0
+	Thu, 01 Mar 2012 08:34:43 +0100
+Received: from azsmga001.ch.intel.com ([10.2.17.19])
+	by azsmga101.ch.intel.com with ESMTP; 29 Feb 2012 23:26:12 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="113168877"
+Received: from unknown (HELO swold-mobl.myhome.westell.com) ([10.255.15.82])
+	by azsmga001.ch.intel.com with ESMTP; 29 Feb 2012 23:26:12 -0800
+From: Saul Wold <sgw@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-References: <COL120-W40B503FFC0574E4957B971DD6B0@phx.gbl>
-In-Reply-To: <COL120-W40B503FFC0574E4957B971DD6B0@phx.gbl>
-Subject: Re: BOTAN crypto library
+Date: Wed, 29 Feb 2012 23:26:03 -0800
+Message-Id: <cover.1330586641.git.sgw@linux.intel.com>
+X-Mailer: git-send-email 1.7.7.6
+Subject: [PATCH 0/7] Updates and QA Warning Fixes
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -53,40 +29,47 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 01 Mar 2012 06:54:49 -0000
-Content-Type: text/plain; charset=ISO-8859-1
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Thu, 01 Mar 2012 07:34:43 -0000
 
-On 02/24/2012 04:15 PM, simran singh wrote:
-> Hello,
-> 
-> I hope this is right place to ask for help regarding this. I am trying
-> to build the Botan crytpo library using
-> system builder. I created a recipe for this and I am getting an error
-> when I try to $make the library.
-> This is the error I am getting:
-> 
-> | /usr/bin/ld:
-> /home/Simran/Freescale/QorIQ-DPAA-SDK-20111026-systembuilder/build_p4080ds_release/sysroots/
-> ppce500mc-linux/usr/lib/crti.o: Relocations in generic ELF (EM: 20)
-> | /usr/bin/ld:
-> /home/Simran/Freescale/QorIQ-DPAA-SDK-20111026-systembuilder/build_p4080ds_release/sysroots/
-> ppce500mc-linux/usr/lib/crti.o: Relocations in generic ELF (EM: 20)
-> |
-> /home/Simran/Freescale/QorIQ-DPAA-SDK-20111026-systembuilder/build_p4080ds_release/sysroots/
-> ppce500mc-linux/usr/lib/crti.o: could not read symbols: File in wrong format
-> | collect2: ld returned 1 exit status
-> | make: *** [libbotan-1.10.so.0.1] Error 1
-> | ERROR: Function do_install failed
-> 
-> I am guessing this has to do something with the linking of the
-> libbotan-1.10.so.0.1 file. Please advice. I have attached
-> the recipe that I created
-> Thank you for any help.
+Richard,
 
-so its using your host ld to link target library thats totally broken
-Does botan's makefile system honor standard variables like LD, CC, CXX
-etc. ?
+This patch set has update, qa warning fixes, and a non-GPLv3
+fix (this one could be a M3 RC2 item).
+
+Sau!
+
+The following changes since commit 8054497b393d40a2ed8c802c74a02e92a3001297:
+
+  image_types_uboot: Update to work after recent image_types changes (2012-02-29 18:23:04 +0000)
+
+are available in the git repository at:
+  git://git.openembedded.org/openembedded-core-contrib sgw/updates
+  http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=sgw/updates
+
+Saul Wold (7):
+  perl: remove empty directories to clean QA Warnings
+  netbase: fix QA Warnings
+  hdparm: update to 9.39
+  glproto: Update to 1.4.15
+  pixman: updat to 0.24.4
+  util-linux: Fix removal of lscpu for non-GPLv3 Build
+  distro_tracking: Upgrade and Manual Checks
+
+ .../conf/distro/include/distro_tracking_fields.inc |   19 +++++----
+ meta/recipes-core/netbase/netbase_4.47.bb          |    3 +-
+ .../util-linux/util-linux-2.21/remove-lscpu.patch  |   43 +++++++++++++------
+ meta/recipes-core/util-linux/util-linux_2.21.bb    |    2 +-
+ meta/recipes-devtools/perl/perl_5.14.2.bb          |    6 ++-
+ .../hdparm/{hdparm_9.37.bb => hdparm_9.39.bb}      |    5 +-
+ .../{pixman_0.24.2.bb => pixman_0.24.4.bb}         |    7 +--
+ .../{glproto_1.4.14.bb => glproto_1.4.15.bb}       |    4 +-
+ 8 files changed, 53 insertions(+), 36 deletions(-)
+ rename meta/recipes-extended/hdparm/{hdparm_9.37.bb => hdparm_9.39.bb} (89%)
+ rename meta/recipes-graphics/xorg-lib/{pixman_0.24.2.bb => pixman_0.24.4.bb} (82%)
+ rename meta/recipes-graphics/xorg-proto/{glproto_1.4.14.bb => glproto_1.4.15.bb} (77%)
+
+-- 
+1.7.7.6
 
 
 
