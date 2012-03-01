@@ -1,33 +1,30 @@
 Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
 	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
 	(envelope-from <richard.purdie@linuxfoundation.org>)
-	id 1S3FMU-0006Wo-AU for openembedded-core@lists.openembedded.org;
-	Fri, 02 Mar 2012 00:24:38 +0100
+	id 1S3Fky-0006lr-Lz for openembedded-core@lists.openembedded.org;
+	Fri, 02 Mar 2012 00:49:56 +0100
 Received: from localhost (localhost [127.0.0.1])
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q21NG8dP023809
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q21NfQ7s024311
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 1 Mar 2012 23:16:08 GMT
+	Thu, 1 Mar 2012 23:41:26 GMT
 Received: from tim.rpsys.net ([127.0.0.1])
 	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
 	port 10024) with LMTP
-	id 23067-09 for <openembedded-core@lists.openembedded.org>;
-	Thu,  1 Mar 2012 23:16:03 +0000 (GMT)
+	id 23870-04 for <openembedded-core@lists.openembedded.org>;
+	Thu,  1 Mar 2012 23:41:21 +0000 (GMT)
 Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q21NFwko023802
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q21NfIgq024305
 	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO)
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 1 Mar 2012 23:15:59 GMT
-Message-ID: <1330643762.14819.4.camel@ted>
+	Thu, 1 Mar 2012 23:41:19 GMT
+Message-ID: <1330645282.15224.0.camel@ted>
 From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Date: Thu, 01 Mar 2012 23:16:02 +0000
-In-Reply-To: <1330625283-14582-1-git-send-email-raj.khem@gmail.com>
-References: <1330625283-14582-1-git-send-email-raj.khem@gmail.com>
+To: openembedded-core <openembedded-core@lists.openembedded.org>
+Date: Thu, 01 Mar 2012 23:41:22 +0000
 X-Mailer: Evolution 3.2.2- 
 Mime-Version: 1.0
 X-Virus-Scanned: amavisd-new at rpsys.net
-Subject: Re: [PATCH] libproxy: Fix build errors due to missing prototypes
+Subject: [PATCH] lib/oe/patch.py: Fix patch resolver logic
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -42,25 +39,55 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 01 Mar 2012 23:24:38 -0000
+X-List-Received-Date: Thu, 01 Mar 2012 23:49:56 -0000
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 
-On Thu, 2012-03-01 at 10:08 -0800, Khem Raj wrote:
-> g++ really does not like the missing prototypes
-> here we were missing close() and read() so include
-> unistd.h to get them
-> 
-> Signed-off-by: Khem Raj <raj.khem@gmail.com>
-> ---
->  .../libproxy/libproxy/g++-namepace.patch           |   22 ++++++++++++++++++++
->  meta/recipes-support/libproxy/libproxy_0.4.7.bb    |    6 +++-
->  2 files changed, 26 insertions(+), 2 deletions(-)
->  create mode 100644 meta/recipes-support/libproxy/libproxy/g++-namepace.patch
+Currently, if PATCHRESOLVE is user and and PatchTree() is being used, you can
+get backtraces if patch applcication fails. This is because even in the failure
+case, self._current is incremented, meaning second time around, there are array
+range issues.
 
-Merged to master, thanks.
+This patch changes the code so _current is only incremented upon successful
+patch application, thereby resolving this failure.
 
-Richard
+[YOCTO #2043 partially]
+
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+---
+diff --git a/meta/lib/oe/patch.py b/meta/lib/oe/patch.py
+index 6f7f900..065a8f7 100644
+--- a/meta/lib/oe/patch.py
++++ b/meta/lib/oe/patch.py
+@@ -134,20 +134,23 @@ class PatchTree(PatchSet):
+         bb.note("patches is %s" % self.patches)
+         if all:
+             for i in self.patches:
++                bb.note("applying patch %s" % i)
++                self._applypatch(i, force)
++
+                 if self._current is not None:
+                     self._current = self._current + 1
+                 else:
+                     self._current = 0
+-                bb.note("applying patch %s" % i)
+-                self._applypatch(i, force)
+         else:
++            bb.note("applying patch %s" % self.patches[self._current or 0])
++            ret = self._applypatch(self.patches[self._current or 0], force)
++
+             if self._current is not None:
+                 self._current = self._current + 1
+             else:
+                 self._current = 0
+-            bb.note("applying patch %s" % self.patches[self._current])
+-            return self._applypatch(self.patches[self._current], force)
+ 
++            return ret
+ 
+     def Pop(self, force = None, all = None):
+         if all:
+
 
 
 
