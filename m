@@ -1,36 +1,39 @@
-Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
-	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <richard.purdie@linuxfoundation.org>)
-	id 1S3CIe-0003Rb-B1 for openembedded-core@lists.openembedded.org;
-	Thu, 01 Mar 2012 21:08:28 +0100
-Received: from localhost (localhost [127.0.0.1])
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q21K00lH021782
+Received: from e06smtp18.uk.ibm.com ([195.75.94.114])
+	by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <ken.werner@linaro.org>) id 1S3DKb-0004Kr-Ei
+	for openembedded-core@lists.openembedded.org;
+	Thu, 01 Mar 2012 22:14:33 +0100
+Received: from /spool/local
+	by e06smtp18.uk.ibm.com with IBM ESMTP SMTP Gateway: Authorized Use
+	Only! Violators will be prosecuted
+	for <openembedded-core@lists.openembedded.org> from
+	<ken.werner@linaro.org>; Thu, 1 Mar 2012 20:55:55 -0000
+Received: from d06nrmr1407.portsmouth.uk.ibm.com (9.149.38.185)
+	by e06smtp18.uk.ibm.com (192.168.101.148) with IBM ESMTP SMTP Gateway:
+	Authorized Use Only! Violators will be prosecuted; 
+	Thu, 1 Mar 2012 20:55:51 -0000
+Received: from d06av05.portsmouth.uk.ibm.com (d06av05.portsmouth.uk.ibm.com
+	[9.149.37.229])
+	by d06nrmr1407.portsmouth.uk.ibm.com (8.13.8/8.13.8/NCO v10.0) with
+	ESMTP id q21KtojG2461866
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 1 Mar 2012 20:00:00 GMT
-Received: from tim.rpsys.net ([127.0.0.1])
-	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
-	port 10024) with LMTP
-	id 20680-08 for <openembedded-core@lists.openembedded.org>;
-	Thu,  1 Mar 2012 19:59:56 +0000 (GMT)
-Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q21JxpIr021776
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO)
+	Thu, 1 Mar 2012 20:55:50 GMT
+Received: from d06av05.portsmouth.uk.ibm.com (loopback [127.0.0.1])
+	by d06av05.portsmouth.uk.ibm.com (8.14.4/8.13.1/NCO v10.0 AVout) with
+	ESMTP id q21Kto8i019744
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 1 Mar 2012 19:59:52 GMT
-Message-ID: <1330631993.12133.11.camel@ted>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Date: Thu, 01 Mar 2012 19:59:53 +0000
-In-Reply-To: <20120301182546.GK3831@jama.jama.net>
-References: <85003f1e060b6a4406bdde5c48fb9a09bea2ee05.1330242184.git.Martin.Jansa@gmail.com>
-	<f88bff815fdeb404bb9a51efbf1b03862ef6dda0.1330242184.git.Martin.Jansa@gmail.com>
-	<4F4F4011.2080303@gmail.com> <20120301094052.GB3831@jama.jama.net>
-	<20120301182546.GK3831@jama.jama.net>
-X-Mailer: Evolution 3.2.2- 
-Mime-Version: 1.0
-X-Virus-Scanned: amavisd-new at rpsys.net
-Subject: Re: [PATCHv2 2/5] bitbake.conf: remove TARGET_ARCH from in SDKPATH
+	Thu, 1 Mar 2012 13:55:50 -0700
+Received: from bolide.boeblingen.de.ibm.com
+	(dyn-9-152-213-71.boeblingen.de.ibm.com [9.152.213.71])
+	by d06av05.portsmouth.uk.ibm.com (8.14.4/8.13.1/NCO v10.0 AVin) with
+	ESMTP id q21Ktoco019741; Thu, 1 Mar 2012 13:55:50 -0700
+From: Ken Werner <ken.werner@linaro.org>
+To: openembedded-core@lists.openembedded.org
+Date: Thu,  1 Mar 2012 21:55:44 +0100
+Message-Id: <1330635344-27411-1-git-send-email-ken.werner@linaro.org>
+X-Mailer: git-send-email 1.7.5.4
+x-cbid: 12030120-6892-0000-0000-0000012D0908
+Subject: [PATCH] image_types: add IMAGE_ROOTFS_ALIGNMENT
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -45,38 +48,43 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 01 Mar 2012 20:08:28 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Thu, 01 Mar 2012 21:14:33 -0000
 
-On Thu, 2012-03-01 at 19:25 +0100, Martin Jansa wrote:
-> On Thu, Mar 01, 2012 at 10:40:52AM +0100, Martin Jansa wrote:
-> > On Thu, Mar 01, 2012 at 01:23:29AM -0800, Khem Raj wrote:
-> > > On 02/25/2012 11:49 PM, Martin Jansa wrote:
-> > > > +SDK_NAME_PREFIX = "oecore"
-> > > 
-> > > should this be weak assignment
-> > 
-> > Yeah, probably could be (I'm not overwritting this from my distro conf
-> > so I haven't tried), but SDK_NAME assignment also wasn't weak and distros
-> > were overwritting it.
-> > 
-> > Someone with custom SDK_NAME(_PREFIX) please try and send patch.
-> 
-> And we should change TARGET_ARCH in SDK_NAME to
-> PACKAGE_ARCH or TUNE_PKGARCH
-> 
-> because meta-toolchain-gmae for armv7a ends in
-> oecore-i686-arm-toolchain-gmae-20120229.tar.bz2
-> and for armv4t with similar name (I was lucky that it took more then day to
-> build)
-> oecore-i686-arm-toolchain-gmae-20120301.tar.bz2
+Introduce a new variable called IMAGE_ROOTFS_ALIGNMENT that allows to control
+the aligment of the size of the rootfs. Its default value is set to 1KiB so
+that the existing behaviour is not changed. In case the SD card emulation of
+a QEMU system emulator gets used you may set the alignment to 2MiB.
+---
+ meta/classes/image_types.bbclass |   12 +++++++++++-
+ 1 files changed, 11 insertions(+), 1 deletions(-)
 
-Agreed...
-
-Cheers,
-
-Richard
+diff --git a/meta/classes/image_types.bbclass b/meta/classes/image_types.bbclass
+index f756c39..314d6d1 100644
+--- a/meta/classes/image_types.bbclass
++++ b/meta/classes/image_types.bbclass
+@@ -55,9 +55,19 @@ def get_imagecmds(d):
+         cmds += "\n" + localdata.getVar("runimagecmd", True)
+     return cmds
+ 
++# The default aligment of the size of the rootfs is set to 1KiB. In case
++# you're using the SD card emulation of a QEMU system simulator you may
++# set this value to 2048 (2MiB alignment).
++IMAGE_ROOTFS_ALIGNMENT ?= "1"
++
+ runimagecmd () {
+ 	# Image generation code for image type ${type}
+-	ROOTFS_SIZE=`du -ks ${IMAGE_ROOTFS}|awk '{base_size = ($1 * ${IMAGE_OVERHEAD_FACTOR});  OFMT = "%.0f" ; print ((base_size > ${IMAGE_ROOTFS_SIZE} ? base_size : ${IMAGE_ROOTFS_SIZE}) + ${IMAGE_ROOTFS_EXTRA_SPACE}) }'`
++	# The base_size gets calculated:
++	#  - initial size determined by `du -ks` of the IMAGE_ROOTFS
++	#  - then multiplied by the IMAGE_OVERHEAD_FACTOR
++	#  - then rounded up to IMAGE_ROOTFS_ALIGNMENT
++	#  - finally tested against IMAGE_ROOTFS_SIZE
++	ROOTFS_SIZE=`du -ks ${IMAGE_ROOTFS}|awk '{base_size = $1 * ${IMAGE_OVERHEAD_FACTOR} + ${IMAGE_ROOTFS_ALIGNMENT} - 1; base_size -= base_size % ${IMAGE_ROOTFS_ALIGNMENT}; print ((base_size > ${IMAGE_ROOTFS_SIZE} ? base_size : ${IMAGE_ROOTFS_SIZE}) + ${IMAGE_ROOTFS_EXTRA_SPACE}) }'`
+ 	${cmd}
+ 	# Now create the needed compressed versions
+ 	cd ${DEPLOY_DIR_IMAGE}/
+-- 
+1.7.5.4
 
 
 
