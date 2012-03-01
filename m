@@ -1,40 +1,24 @@
-Received: from mail-lpp01m010-f47.google.com ([209.85.215.47])
+Received: from mail.windriver.com ([147.11.1.11])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <raj.khem@gmail.com>) id 1S2tW3-0007bK-DQ
+	(envelope-from <bruce.ashfield@windriver.com>) id 1S2vtM-0006Qw-Bc
 	for openembedded-core@lists.openembedded.org;
-	Thu, 01 Mar 2012 01:05:03 +0100
-Received: by lagw12 with SMTP id w12so13333lag.6
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 29 Feb 2012 15:56:34 -0800 (PST)
-Received-SPF: pass (google.com: domain of raj.khem@gmail.com designates
-	10.112.23.100 as permitted sender) client-ip=10.112.23.100; 
-Authentication-Results: mr.google.com;
-	spf=pass (google.com: domain of raj.khem@gmail.com
-	designates 10.112.23.100 as permitted sender)
-	smtp.mail=raj.khem@gmail.com;
-	dkim=pass header.i=raj.khem@gmail.com
-Received: from mr.google.com ([10.112.23.100])
-	by 10.112.23.100 with SMTP id l4mr1230503lbf.24.1330559794409 (num_hops
-	= 1); Wed, 29 Feb 2012 15:56:34 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:content-type:content-transfer-encoding;
-	bh=AjxliPyw7l+eWNz4xDvr6moRExH+M17SuCFvZgHMU5M=;
-	b=V6/4nrficfvrY+4soFpH4EcTMwcC9zZ7258h9bku0f3l02Co5LO9x4MacoBDpU+i7t
-	UAJbxEe9CagnsHQc2usiEuIJ2DWRSssgbny5Pu2IygoDVXldJGW19osbKkB2wk14xD/A
-	q1/4TnD38f4fb4BhTYksveAqFyYhiCmOOspiI=
-Received: by 10.112.23.100 with SMTP id l4mr1013351lbf.24.1330559794254; Wed,
-	29 Feb 2012 15:56:34 -0800 (PST)
-MIME-Version: 1.0
-Received: by 10.152.27.109 with HTTP; Wed, 29 Feb 2012 15:56:04 -0800 (PST)
-In-Reply-To: <CAGDS+nk7a=X-zrjsv9RtuH-YzSLX=gAsqbtpVkF+tQ=saJQP1w@mail.gmail.com>
-References: <CAGDS+nk7a=X-zrjsv9RtuH-YzSLX=gAsqbtpVkF+tQ=saJQP1w@mail.gmail.com>
-From: Khem Raj <raj.khem@gmail.com>
-Date: Wed, 29 Feb 2012 15:56:04 -0800
-Message-ID: <CAMKF1spZxmWem68=G3COfc1ukBwbtemMPRrpznTEjrK5=DvU+g@mail.gmail.com>
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: wpa-supplicant strangeness after pull
+	Thu, 01 Mar 2012 03:37:16 +0100
+Received: from localhost.localdomain (yow-bashfiel-d2.ottawa.windriver.com
+	[128.224.146.167])
+	by mail.windriver.com (8.14.3/8.14.3) with ESMTP id q212SgAq027205;
+	Wed, 29 Feb 2012 18:28:43 -0800 (PST)
+From: Bruce Ashfield <bruce.ashfield@windriver.com>
+To: richard.purdie@linuxfoundation.org
+Date: Wed, 29 Feb 2012 21:27:07 -0500
+Message-Id: <af4eb4032c08f20a7a33b29f8ac296304353c101.1330568367.git.bruce.ashfield@windriver.com>
+X-Mailer: git-send-email 1.7.0.4
+In-Reply-To: <cover.1330568367.git.bruce.ashfield@windriver.com>
+References: <cover.1330568367.git.bruce.ashfield@windriver.com>
+In-Reply-To: <cover.1330568367.git.bruce.ashfield@windriver.com>
+References: <cover.1330568367.git.bruce.ashfield@windriver.com>
+Cc: dvhart@linux.intel.com, openembedded-core@lists.openembedded.org,
+	saul.wold@intel.com
+Subject: [PATCH 1/1] linux-libc-headers-yocto: bump to v3.2.8
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -49,64 +33,80 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 01 Mar 2012 00:05:03 -0000
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Thu, 01 Mar 2012 02:37:16 -0000
 
-On Wed, Feb 29, 2012 at 2:05 PM, Steve Sakoman <sakoman@gmail.com> wrote:
-> I'm continuing to see failing builds or defective packages on package
-> rebuilds triggered by the recent change to sstate hash.
->
-> The wpa-supplicant package is a good example of the latter -- the
-> rebuild completes successfully but the resulting package is defective.
-> =C2=A0There were no recent changes to the recipe, so this was clearly a
-> "just to be safe" rebuild based on sstate hash (correct me if I am
-> wrong!)
->
-> In particular /usr/share/dbus-1/system-services/fi.w1.wpa_supplicant1.ser=
-vice
-> now contains:
->
-> Exec=3D/usr/usr/sbin/wpa_supplicant -u
->
-> rather than:
->
-> Exec=3D/usr/sbin/wpa_supplicant -u
->
-> Rebuilding the package after a -c cleansstate restores the expected resul=
-t.
->
-> Is it "just me" or are others seeing this kind of breakage?
->
+Making two changes for BSPs that prefer linux-libc-headers-yocto:
 
-you are just ahead of others :)
-and this is yet another case where basichash exposes an underlying problem
+  - bumping to v3.2.8 headers
+  - stubbing out unecessary linux-yocto functions when headers
+    are being built
 
-see the sed command in below snippet
+[YOCTO #2032]
 
-install -m 644 ${S}/dbus/dbus-wpa_supplicant.conf
-${D}/${sysconfdir}/dbus-1/system.d
-install -d ${D}/${datadir}/dbus-1/system-services
-sed -i -e s:${base_sbindir}:${sbindir}:g ${S}/dbus/*.service
-install -m 644 ${S}/dbus/*.service ${D}/${datadir}/dbus-1/system-services
+Acked-by: Darren Hart <dvhart@linux.intel.com>
+Signed-off-by: Bruce Ashfield <bruce.ashfield@windriver.com>
+---
+ .../linux-libc-headers-yocto_git.bb                |   29 +++++++++++++-------
+ 1 files changed, 19 insertions(+), 10 deletions(-)
 
-that command can only be run correctly once unless you delete ${S}
-since its sedding something in ${S}
-and we know base_sbindir (/sbin) and sbindir(/usr/sbin) are close
-enough expressionwise
+diff --git a/meta/recipes-kernel/linux-libc-headers/linux-libc-headers-yocto_git.bb b/meta/recipes-kernel/linux-libc-headers/linux-libc-headers-yocto_git.bb
+index 734170f..7aa9322 100644
+--- a/meta/recipes-kernel/linux-libc-headers/linux-libc-headers-yocto_git.bb
++++ b/meta/recipes-kernel/linux-libc-headers/linux-libc-headers-yocto_git.bb
+@@ -8,12 +8,13 @@ DEPENDS += "unifdef-native"
+ PROVIDES = "linux-libc-headers"
+ RPROVIDES_${PN}-dev = "linux-libc-headers-dev"
+ RPROVIDES_${PN}-dbg = "linux-libc-headers-dbg"
+-SRCREV = "69cfbdf9f1ff461a75e5b77d6d7ba35e97db4cc3"
+-PV = "2.6.37+git-${SRCPV}"
+-PR = "r4"
++SRCREV = "21ab5dca134a6bf1316aa59f69f9ee9e091d5702"
++KBRANCH ?= "standard/base"
++KMETA ?= "meta"
++PV = "3.2+git-${SRCPV}"
++PR = "r5"
+ 
+-SRCREV_FORMAT = "meta_machine"
+-SRC_URI = "git://git.yoctoproject.org/linux-yocto-2.6.37;protocol=git;nocheckout=1;branch=${KBRANCH},meta;name=machine,meta"
++SRC_URI = "git://git.yoctoproject.org/linux-yocto-3.2;protocol=git;nocheckout=1;branch=${KBRANCH},meta;name=machine,meta"
+ 
+ # force this to empty to prevent installation failures, we aren't
+ # building a device tree as part of kern headers
+@@ -35,6 +36,16 @@ do_configure() {
+ 	oe_runmake allnoconfig ARCH=$ARCH
+ }
+ 
++do_install() {
++	set_arch
++	oe_runmake headers_install INSTALL_HDR_PATH=${D}${exec_prefix} ARCH=$ARCH
++
++        # The ..install.cmd conflicts between various configure runs
++        find ${D}${includedir} -name ..install.cmd | xargs rm -f
++}
++
++# The following tasks are not required when we just want
++# headers. So we override and stub them out.
+ do_kernel_configme() {
+ }
+ 
+@@ -44,12 +55,10 @@ do_patch () {
+ do_compile () {
+ }
+ 
+-do_install() {
+-	set_arch
+-	oe_runmake headers_install INSTALL_HDR_PATH=${D}${exec_prefix} ARCH=$ARCH
++do_validate_branches () {
++}
+ 
+-        # The ..install.cmd conflicts between various configure runs
+-        find ${D}${includedir} -name ..install.cmd | xargs rm -f
++do_kernel_configcheck () {
+ }
+ 
+ BBCLASSEXTEND = "nativesdk"
+-- 
+1.7.0.4
 
-
-> I'm beginning to suspect I ought to just do a clean build after every
-> pull in order to remain productive!
-
-That will hide these kind of issues you bring forward :)
-
->
-> Steve
->
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
 
 
