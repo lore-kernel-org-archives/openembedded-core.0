@@ -1,46 +1,28 @@
-Received: from mail-ey0-f175.google.com ([209.85.215.175])
-	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <martin.jansa@gmail.com>) id 1S32da-0005Su-78
-	for openembedded-core@lists.openembedded.org;
-	Thu, 01 Mar 2012 10:49:28 +0100
-Received: by eaae1 with SMTP id e1so89188eaa.6
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 01 Mar 2012 01:40:54 -0800 (PST)
-Received-SPF: pass (google.com: domain of martin.jansa@gmail.com designates
-	10.14.127.76 as permitted sender) client-ip=10.14.127.76; 
-Authentication-Results: mr.google.com;
-	spf=pass (google.com: domain of martin.jansa@gmail.com
-	designates 10.14.127.76 as permitted sender)
-	smtp.mail=martin.jansa@gmail.com;
-	dkim=pass header.i=martin.jansa@gmail.com
-Received: from mr.google.com ([10.14.127.76])
-	by 10.14.127.76 with SMTP id c52mr2668625eei.37.1330594854791 (num_hops
-	= 1); Thu, 01 Mar 2012 01:40:54 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
-	h=date:from:to:subject:message-id:references:mime-version
-	:content-type:content-disposition:in-reply-to:user-agent;
-	bh=Lj9QIOWCACbZeRX2GOXzaL8/SaV8EprrhdFmy+y9N2w=;
-	b=rJ63sLvHNJePXENvzJ4uomXIr+Ae4V73Nidk4mFXeh6UqcuF6LMz5xlNCTj8qt5O4M
-	3G52C880llXFbelCfl4pIq1IkBVOpkWiaK89YHVITwOiA7TC6+qz3EFigOgTL6j6HZle
-	Wge41KAS9PBg95TRwEIuAXtW62/2+hYNhxEe8=
-Received: by 10.14.127.76 with SMTP id c52mr2055461eei.37.1330594854722;
-	Thu, 01 Mar 2012 01:40:54 -0800 (PST)
-Received: from localhost ([94.230.152.246])
-	by mx.google.com with ESMTPS id w60sm5352777eeb.4.2012.03.01.01.40.53
-	(version=TLSv1/SSLv3 cipher=OTHER);
-	Thu, 01 Mar 2012 01:40:53 -0800 (PST)
-Date: Thu, 1 Mar 2012 10:40:52 +0100
-From: Martin Jansa <martin.jansa@gmail.com>
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Message-ID: <20120301094052.GB3831@jama.jama.net>
-References: <85003f1e060b6a4406bdde5c48fb9a09bea2ee05.1330242184.git.Martin.Jansa@gmail.com>
-	<f88bff815fdeb404bb9a51efbf1b03862ef6dda0.1330242184.git.Martin.Jansa@gmail.com>
-	<4F4F4011.2080303@gmail.com>
-MIME-Version: 1.0
-In-Reply-To: <4F4F4011.2080303@gmail.com>
-User-Agent: Mutt/1.5.21 (2010-09-15)
-Subject: Re: [PATCHv2 2/5] bitbake.conf: remove TARGET_ARCH from in SDKPATH
+Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
+	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <richard.purdie@linuxfoundation.org>)
+	id 1S32hD-0007we-Fr for openembedded-core@lists.openembedded.org;
+	Thu, 01 Mar 2012 10:53:11 +0100
+Received: from localhost (localhost [127.0.0.1])
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q219ieJC013690;
+	Thu, 1 Mar 2012 09:44:40 GMT
+Received: from tim.rpsys.net ([127.0.0.1])
+	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
+	port 10024) with LMTP
+	id 12721-10; Thu,  1 Mar 2012 09:44:36 +0000 (GMT)
+Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q219iVa7013684
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO);
+	Thu, 1 Mar 2012 09:44:32 GMT
+Message-ID: <1330595074.30807.4.camel@ted>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: openembedded-core <openembedded-core@lists.openembedded.org>
+Date: Thu, 01 Mar 2012 09:44:34 +0000
+X-Mailer: Evolution 3.2.2- 
+Mime-Version: 1.0
+X-Virus-Scanned: amavisd-new at rpsys.net
+Cc: Inaky Perez-Gonzalez <inaky.perez-gonzalez@intel.com>
+Subject: [PATCH] site.conf.sample: Fix broken SOCKS proxy setup and configuration
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -55,44 +37,111 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 01 Mar 2012 09:49:28 -0000
-X-Groupsio-MsgNum: 18245
-Content-Type: multipart/signed; micalg=pgp-sha1;
-	protocol="application/pgp-signature"; boundary="aM3YZ0Iwxop3KEKx"
-Content-Disposition: inline
+X-List-Received-Date: Thu, 01 Mar 2012 09:53:11 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
---aM3YZ0Iwxop3KEKx
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+From: Inaky Perez-Gonzalez <inaky.perez-gonzalez@intel.com>
 
-On Thu, Mar 01, 2012 at 01:23:29AM -0800, Khem Raj wrote:
-> On 02/25/2012 11:49 PM, Martin Jansa wrote:
-> > +SDK_NAME_PREFIX =3D "oecore"
->=20
-> should this be weak assignment
+SOCKS proxy specification with git was using conflicting methods and
+thus was failing when mixed SOCKS needs were in place (requiring no
+proxy for some hosts and proxy for the rest)
 
-Yeah, probably could be (I'm not overwritting this from my distro conf
-so I haven't tried), but SDK_NAME assignment also wasn't weak and distros
-were overwritting it.
+- GIT_PROXY_COMMAND is an environment variable GIT uses to OVERRIDE
+  all proxy configuration in ~/.gitconfig or any other gitconfig. By
+  using it to configure, it was breaking havoc on site git
+  configuration or the one generated by bitbake in tmp/.
 
-Someone with custom SDK_NAME(_PREFIX) please try and send patch.
+  Renamed to OE_GIT_PROXY_COMMAND in meta/conf/site.conf.sample
+   (with a doc tidbit on the name chosen), meta/classes/base.bbclass.
 
-Cheers,
+- The gitconfig generated by bitbake was wrong. There was a typo error
+  (gitproxy vs gitProxy), thus all lines were being ignored. Fixed in
+  meta/classes/base.bbclass.
 
---=20
-Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
+- The gitconfig generated was being placed in
+  ${STAGING_DIR_NATIVE}/usr/etc/gitconfig; git was looking for it in
+  ${STAGING_DIR_NATIVE}/etc/gitconfig. Fixed that in
+  meta/classes/base.bbclass, at the same time creating a
+  GIT_CONFIG_PATH variable, since it is also referenced in
+  generate_git_config() and have all instances refer to that.
 
---aM3YZ0Iwxop3KEKx
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: Digital signature
+Signed-off-by: Inaky Perez-Gonzalez <inaky.perez-gonzalez@intel.com>
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+---
+ meta/classes/base.bbclass  |    9 +++++----
+ meta/conf/site.conf.sample |   16 ++++++++++++----
+ 2 files changed, 17 insertions(+), 8 deletions(-)
 
------BEGIN PGP SIGNATURE-----
-Version: GnuPG v2.0.18 (GNU/Linux)
+diff --git a/meta/classes/base.bbclass b/meta/classes/base.bbclass
+index e80e874..a76fe55 100644
+--- a/meta/classes/base.bbclass
++++ b/meta/classes/base.bbclass
+@@ -111,16 +111,17 @@ python base_do_unpack() {
+             raise bb.build.FuncFailed(e)
+ }
+ 
+-GIT_CONFIG = "${STAGING_DIR_NATIVE}/usr/etc/gitconfig"
++GIT_CONFIG_PATH = "${STAGING_DIR_NATIVE}/etc"
++GIT_CONFIG = "${GIT_CONFIG_PATH}/gitconfig"
+ 
+ def generate_git_config(e):
+         from bb import data
+ 
+         if data.getVar('GIT_CORE_CONFIG', e.data, True):
+                 gitconfig_path = e.data.getVar('GIT_CONFIG', True)
+-                proxy_command = "    gitproxy = %s\n" % data.getVar('GIT_PROXY_COMMAND', e.data, True)
++                proxy_command = "    gitProxy = %s\n" % data.getVar('OE_GIT_PROXY_COMMAND', e.data, True)
+ 
+-                bb.mkdirhier(bb.data.expand("${STAGING_DIR_NATIVE}/usr/etc/", e.data))
++                bb.mkdirhier(bb.data.expand("${GIT_CONFIG_PATH}", e.data))
+                 if (os.path.exists(gitconfig_path)):
+                         os.remove(gitconfig_path)
+ 
+@@ -128,7 +129,7 @@ def generate_git_config(e):
+                 f.write("[core]\n")
+                 ignore_hosts = data.getVar('GIT_PROXY_IGNORE', e.data, True).split()
+                 for ignore_host in ignore_hosts:
+-                        f.write("    gitproxy = none for %s\n" % ignore_host)
++                        f.write("    gitProxy = none for %s\n" % ignore_host)
+                 f.write(proxy_command)
+                 f.close
+ 
+diff --git a/meta/conf/site.conf.sample b/meta/conf/site.conf.sample
+index d438298..68d1da9 100644
+--- a/meta/conf/site.conf.sample
++++ b/meta/conf/site.conf.sample
+@@ -22,17 +22,25 @@ SCONF_VERSION = "1"
+ #GIT_PROXY_PORT = "81"
+ #export GIT_PROXY_COMMAND = "${COREBASE}/scripts/oe-git-proxy-command"
+ 
+-# GIT_PROXY_IGNORE_* lines define hosts which do not require a proxy to access
++# Set to yes to have a gitconfig generated for handling proxies; you
++# might not want this if you have all that set in your global git
++# configuration. If you don't enable it, the rest of the entries
++# (_PROXY_IGNORE, etc) don't really work that well
+ #GIT_CORE_CONFIG = "Yes"
+-#GIT_PROXY_IGNORE_1 = "host.server.com"
+-#GIT_PROXY_IGNORE_2 = "another.server.com"
++
++# Space separate list of hosts to ignore for GIT proxy
++#GIT_PROXY_IGNORE = "host.server.com another.server.com"
+ 
+ # If SOCKS is available run the following command to comple a simple transport
+ # gcc scripts/oe-git-proxy-socks.c -o oe-git-proxy-socks
+ # and then share that binary somewhere in PATH, then use the following settings
+ #GIT_PROXY_HOST = "proxy.example.com"
+ #GIT_PROXY_PORT = "81"
+-#export GIT_PROXY_COMMAND = "${COREBASE}/scripts/oe-git-proxy-socks-command"
++
++# GIT_PROXY_COMMAND is used by git to override all proxy settings from
++# configuration files, so we prefix OE_ to avoid breaking havoc on the
++# generated (or local) gitconfig's.
++#OE_GIT_PROXY_COMMAND = "${COREBASE}/scripts/oe-git-proxy-socks-command"
+ 
+ 
+ # Uncomment this to use a shared download directory
 
-iEYEARECAAYFAk9PRCQACgkQN1Ujt2V2gBwbhQCgl4q8kWQKgWnujD15+syeHLXy
-wHUAn3D8nJvLWsRggHFSCAhrtNVD+DHu
-=O93v
------END PGP SIGNATURE-----
 
---aM3YZ0Iwxop3KEKx--
+
+
