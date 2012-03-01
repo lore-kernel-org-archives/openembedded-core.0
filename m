@@ -1,24 +1,24 @@
 Received: from mga03.intel.com ([143.182.124.21])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <sgw@linux.intel.com>) id 1S30XE-0007yn-3i
+	(envelope-from <sgw@linux.intel.com>) id 1S30XF-0007yn-0V
 	for openembedded-core@lists.openembedded.org;
-	Thu, 01 Mar 2012 08:34:44 +0100
+	Thu, 01 Mar 2012 08:34:45 +0100
 Received: from azsmga001.ch.intel.com ([10.2.17.19])
 	by azsmga101.ch.intel.com with ESMTP; 29 Feb 2012 23:26:13 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="113168879"
+X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="113168882"
 Received: from unknown (HELO swold-mobl.myhome.westell.com) ([10.255.15.82])
-	by azsmga001.ch.intel.com with ESMTP; 29 Feb 2012 23:26:12 -0800
+	by azsmga001.ch.intel.com with ESMTP; 29 Feb 2012 23:26:13 -0800
 From: Saul Wold <sgw@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Wed, 29 Feb 2012 23:26:04 -0800
-Message-Id: <e843bb6aff1c944409305b9c68e6fd8dce89e9c9.1330586641.git.sgw@linux.intel.com>
+Date: Wed, 29 Feb 2012 23:26:05 -0800
+Message-Id: <9fd8cef147747da7496ac1e5999564e9e6b67db4.1330586641.git.sgw@linux.intel.com>
 X-Mailer: git-send-email 1.7.7.6
 In-Reply-To: <cover.1330586641.git.sgw@linux.intel.com>
 References: <cover.1330586641.git.sgw@linux.intel.com>
 In-Reply-To: <cover.1330586641.git.sgw@linux.intel.com>
 References: <cover.1330586641.git.sgw@linux.intel.com>
-Subject: [PATCH 1/7] perl: remove empty directories to clean QA Warnings
+Subject: [PATCH 2/7] netbase: fix QA Warnings
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -33,41 +33,36 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 01 Mar 2012 07:34:44 -0000
+X-List-Received-Date: Thu, 01 Mar 2012 07:34:45 -0000
 
-WARNING: For recipe perl, the following files/directories were installed but not shipped in any package:
-WARNING:   /usr/lib/perl/site_perl
-WARNING:   /usr/lib/perl/site_perl/5.14.2
+WARNING: For recipe netbase, the following files/directories were installed but not shipped in any package:
+WARNING:   /usr/sbin
 Signed-off-by: Saul Wold <sgw@linux.intel.com>
 ---
- meta/recipes-devtools/perl/perl_5.14.2.bb |    6 ++++--
- 1 files changed, 4 insertions(+), 2 deletions(-)
+ meta/recipes-core/netbase/netbase_4.47.bb |    3 +--
+ 1 files changed, 1 insertions(+), 2 deletions(-)
 
-diff --git a/meta/recipes-devtools/perl/perl_5.14.2.bb b/meta/recipes-devtools/perl/perl_5.14.2.bb
-index 0abefe4..6703b5c 100644
---- a/meta/recipes-devtools/perl/perl_5.14.2.bb
-+++ b/meta/recipes-devtools/perl/perl_5.14.2.bb
-@@ -7,7 +7,7 @@ LIC_FILES_CHKSUM = "file://Copying;md5=2b4c6ffbcfcbdee469f02565f253d81a \
- # We need gnugrep (for -I)
- DEPENDS = "virtual/db grep-native"
- DEPENDS += "gdbm zlib"
--PR = "r2"
-+PR = "r3"
+diff --git a/meta/recipes-core/netbase/netbase_4.47.bb b/meta/recipes-core/netbase/netbase_4.47.bb
+index 3aa4915..a1462f8 100644
+--- a/meta/recipes-core/netbase/netbase_4.47.bb
++++ b/meta/recipes-core/netbase/netbase_4.47.bb
+@@ -4,7 +4,7 @@ HOMEPAGE = "http://packages.debian.org/netbase"
+ SECTION = "base"
+ LICENSE = "GPLv2"
+ LIC_FILES_CHKSUM = "file://debian/copyright;md5=3dd6192d306f582dee7687da3d8748ab"
+-PR = "r0"
++PR = "r1"
  
- # 5.10.1 has Module::Build built-in
- PROVIDES += "libmodule-build-perl"
-@@ -190,8 +190,10 @@ do_install() {
+ inherit update-rc.d
  
-         ln -sf perl ${D}/${libdir}/perl5
+@@ -22,7 +22,6 @@ SRC_URI[sha256sum] = "a7e6525c9a09b00eff3395d09739b3c70a18bff8d13f7daa21fdf81989
  
--        # Remove unwanted file
-+        # Remove unwanted file and empty directories
-         rm -f ${D}/${libdir}/perl/${PV}/.packlist
-+	rmdir ${D}/${libdir}/perl/site_perl/${PV}
-+	rmdir ${D}/${libdir}/perl/site_perl
- 
-         # Fix up shared library
-         mv ${D}/${libdir}/perl/${PV}/CORE/libperl.so ${D}/${libdir}/libperl.so.${PV}
+ do_install () {
+ 	install -d ${D}${sysconfdir}/init.d \
+-		   ${D}${sbindir} \
+ 		   ${D}${mandir}/man8 \
+ 		   ${D}${sysconfdir}/network/if-pre-up.d \
+ 		   ${D}${sysconfdir}/network/if-up.d \
 -- 
 1.7.7.6
 
