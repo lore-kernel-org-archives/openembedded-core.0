@@ -1,40 +1,39 @@
-Received: from mail-pz0-f50.google.com ([209.85.210.50])
+Received: from mail-wi0-f175.google.com ([209.85.212.175])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <raj.khem@gmail.com>) id 1S30zW-0003Ca-TC
+	(envelope-from <koen@dominion.thruhere.net>) id 1S31HD-0003T8-Mm
 	for openembedded-core@lists.openembedded.org;
-	Thu, 01 Mar 2012 09:03:59 +0100
-Received: by dald2 with SMTP id d2so510999dal.9
+	Thu, 01 Mar 2012 09:22:15 +0100
+Received: by wibhq12 with SMTP id hq12so169109wib.6
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 29 Feb 2012 23:55:28 -0800 (PST)
-Received-SPF: pass (google.com: domain of raj.khem@gmail.com designates
-	10.68.238.136 as permitted sender) client-ip=10.68.238.136; 
-Authentication-Results: mr.google.com;
-	spf=pass (google.com: domain of raj.khem@gmail.com
-	designates 10.68.238.136 as permitted sender)
-	smtp.mail=raj.khem@gmail.com;
-	dkim=pass header.i=raj.khem@gmail.com
-Received: from mr.google.com ([10.68.238.136])
-	by 10.68.238.136 with SMTP id vk8mr16816142pbc.143.1330588528599
-	(num_hops = 1); Wed, 29 Feb 2012 23:55:28 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
-	h=from:to:cc:subject:date:message-id:x-mailer;
-	bh=Aecia/nuZXR0RhC5/1NMVza3ccIQMeC1YK90UAaRs0I=;
-	b=Yx3SI4Ppd0Auql/yzTLGqQY74YTgZSQmzYQZvM7l+rukTCPNsk4pqLyI74oFM/VP2P
-	eJwx3wD9hK9NYkiEH51ZXjVlQoMMQRBJ83msw1Ld35BlE7uMpTaqs9J/7xVmupuFFT7q
-	0/BdtPVKAYRZJV1oTNe7HMulVmCgGeQYMlgYw=
-Received: by 10.68.238.136 with SMTP id vk8mr13927994pbc.143.1330588528514;
-	Wed, 29 Feb 2012 23:55:28 -0800 (PST)
-Received: from localhost.localdomain (oldbuilder.nslu2-linux.org.
-	[140.211.169.168])
-	by mx.google.com with ESMTPS id d8sm1445323pbg.5.2012.02.29.23.55.26
+	Thu, 01 Mar 2012 00:13:46 -0800 (PST)
+Received-SPF: pass (google.com: domain of koen@dominion.thruhere.net
+	designates 10.180.95.34 as permitted sender)
+	client-ip=10.180.95.34; 
+Authentication-Results: mr.google.com; spf=pass (google.com: domain of
+	koen@dominion.thruhere.net designates 10.180.95.34 as permitted
+	sender) smtp.mail=koen@dominion.thruhere.net
+Received: from mr.google.com ([10.180.95.34])
+	by 10.180.95.34 with SMTP id dh2mr8010737wib.15.1330589626274 (num_hops
+	= 1); Thu, 01 Mar 2012 00:13:46 -0800 (PST)
+Received: by 10.180.95.34 with SMTP id dh2mr6405184wib.15.1330589626098;
+	Thu, 01 Mar 2012 00:13:46 -0800 (PST)
+Received: from [172.20.1.36] (ip545070eb.adsl-surfen.hetnet.nl.
+	[84.80.112.235])
+	by mx.google.com with ESMTPS id k6sm25243667wiy.7.2012.03.01.00.13.44
 	(version=TLSv1/SSLv3 cipher=OTHER);
-	Wed, 29 Feb 2012 23:55:27 -0800 (PST)
-From: Khem Raj <raj.khem@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Date: Wed, 29 Feb 2012 23:55:00 -0800
-Message-Id: <1330588500-25258-1-git-send-email-raj.khem@gmail.com>
-X-Mailer: git-send-email 1.7.5.4
-Subject: [PATCH] util-linux: Fix build when NLS is disabled
+	Thu, 01 Mar 2012 00:13:45 -0800 (PST)
+Mime-Version: 1.0 (Apple Message framework v1257)
+From: Koen Kooi <koen@dominion.thruhere.net>
+In-Reply-To: <3d96c591f182971ec0fb0aff9b8d18af80febe40.1330586641.git.sgw@linux.intel.com>
+Date: Thu, 1 Mar 2012 09:13:39 +0100
+Message-Id: <F93E6383-4A2F-4BF2-BE86-95F2985B7E03@dominion.thruhere.net>
+References: <cover.1330586641.git.sgw@linux.intel.com>
+	<3d96c591f182971ec0fb0aff9b8d18af80febe40.1330586641.git.sgw@linux.intel.com>
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+X-Mailer: Apple Mail (2.1257)
+X-Gm-Message-State: ALoCoQmqiZlVVCkTXmKxzYSNnJ3xhwoYciZUSmA2EfIbPHcZwsgA7fkwxP2DqWKYlU4FIn27wXtJ
+Subject: Re: [PATCH 5/7] pixman: updat to 0.24.4
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -49,71 +48,40 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 01 Mar 2012 08:03:59 -0000
+X-List-Received-Date: Thu, 01 Mar 2012 08:22:15 -0000
+Content-Type: text/plain; charset=us-ascii
+Content-Transfer-Encoding: quoted-printable
 
-AC_CHECK_DECLS generated defines should be
-checked with #if not #ifdef
 
-Signed-off-by: Khem Raj <raj.khem@gmail.com>
----
- .../fix_NL_TIME_FIRST_WEEKDAY.patch                |   24 ++++++++++++++++++++
- meta/recipes-core/util-linux/util-linux_2.21.bb    |    5 ++-
- 2 files changed, 27 insertions(+), 2 deletions(-)
- create mode 100644 meta/recipes-core/util-linux/util-linux-2.21/fix_NL_TIME_FIRST_WEEKDAY.patch
+Op 1 mrt. 2012, om 08:26 heeft Saul Wold het volgende geschreven:
 
-diff --git a/meta/recipes-core/util-linux/util-linux-2.21/fix_NL_TIME_FIRST_WEEKDAY.patch b/meta/recipes-core/util-linux/util-linux-2.21/fix_NL_TIME_FIRST_WEEKDAY.patch
-new file mode 100644
-index 0000000..545c3a9
---- /dev/null
-+++ b/meta/recipes-core/util-linux/util-linux-2.21/fix_NL_TIME_FIRST_WEEKDAY.patch
-@@ -0,0 +1,24 @@
-+configure uses AC_CHECK_DECLS to check for _NL_TIME_WEEK_1STDAY
-+which means we will get HAVE_DECL__NL_TIME_WEEK_1STDAY
-+defined to 1 if symbol is declared, otherwise to 0 in config.h
-+
-+Therefore we cannot rely on conditionals which check for it
-+being defined or not since it always will be defined so correct
-+thing is to use #if instead of #ifdef
-+
-+Signed-off-by: Khem Raj <raj.khem@gmail.com>
-+
-+Upstream-Status: Pending
-+Index: util-linux-2.21/misc-utils/cal.c
-+===================================================================
-+--- util-linux-2.21.orig/misc-utils/cal.c	2012-02-29 23:41:54.413347665 -0800
-++++ util-linux-2.21/misc-utils/cal.c	2012-02-29 23:42:44.573350057 -0800
-+@@ -297,7 +297,7 @@
-+  * the locale database, which can be overridden with the
-+  * -s (Sunday) or -m (Monday) options.
-+  */
-+-#ifdef HAVE_DECL__NL_TIME_WEEK_1STDAY
-++#if HAVE_DECL__NL_TIME_WEEK_1STDAY
-+ 	/*
-+ 	 * You need to use 2 locale variables to get the first day of the week.
-+ 	 * This is needed to support first_weekday=2 and first_workday=1 for
-diff --git a/meta/recipes-core/util-linux/util-linux_2.21.bb b/meta/recipes-core/util-linux/util-linux_2.21.bb
-index aa6ac64..8234ecb 100644
---- a/meta/recipes-core/util-linux/util-linux_2.21.bb
-+++ b/meta/recipes-core/util-linux/util-linux_2.21.bb
-@@ -1,5 +1,5 @@
- MAJOR_VERSION = "2.21"
--PR = "r0"
-+PR = "r1"
- require util-linux.inc
- 
- # note that `lscpu' is under GPLv3+
-@@ -7,7 +7,8 @@ LICENSE_util-linux-lscpu = "GPLv3+"
- 
- SRC_URI += "file://util-linux-ng-replace-siginterrupt.patch \
-             file://util-linux-ng-2.16-mount_lock_path.patch \
--            file://uclibc-__progname-conflict.patch \      
-+            file://uclibc-__progname-conflict.patch \
-+            file://fix_NL_TIME_FIRST_WEEKDAY.patch \
- "
- 
- SRC_URI[md5sum] = "3c7a26963f3921c1e775a80330321870"
--- 
-1.7.5.4
+> Signed-off-by: Saul Wold <sgw@linux.intel.com>
+> ---
+> .../{pixman_0.24.2.bb =3D> pixman_0.24.4.bb}         |    7 +++----
+> 1 files changed, 3 insertions(+), 4 deletions(-)
+> rename meta/recipes-graphics/xorg-lib/{pixman_0.24.2.bb =3D> =
+pixman_0.24.4.bb} (82%)
+>=20
+> diff --git a/meta/recipes-graphics/xorg-lib/pixman_0.24.2.bb =
+b/meta/recipes-graphics/xorg-lib/pixman_0.24.4.bb
+> similarity index 82%
+> rename from meta/recipes-graphics/xorg-lib/pixman_0.24.2.bb
+> rename to meta/recipes-graphics/xorg-lib/pixman_0.24.4.bb
+> index c710b42..4c90ea3 100644
+> --- a/meta/recipes-graphics/xorg-lib/pixman_0.24.2.bb
+> +++ b/meta/recipes-graphics/xorg-lib/pixman_0.24.4.bb
+> @@ -15,10 +15,9 @@ LIC_FILES_CHKSUM =3D =
+"file://COPYING;md5=3D14096c769ae0cbb5fcb94ec468be11b3 \
+> DEPENDS +=3D "zlib libpng"
+>=20
+> PE =3D "1"
+> -PR =3D "r1"
+> +PR =3D "r0"
 
+Setting it to the default is bogus, no?
+
+regards,
+
+Koen=
 
 
