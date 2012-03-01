@@ -1,43 +1,16 @@
-Received: from mail-lpp01m010-f47.google.com ([209.85.215.47])
+Received: from hermes.mlbassoc.com ([64.234.241.98] helo=mail.chez-thomas.org)
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <schnitzeltony@googlemail.com>) id 1S37I0-0007AA-E6
+	(envelope-from <gthomas@mail.chez-thomas.org>) id 1S37M7-0007F4-QC
 	for openembedded-core@lists.openembedded.org;
-	Thu, 01 Mar 2012 15:47:28 +0100
-Received: by lagw12 with SMTP id w12so824315lag.6
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 01 Mar 2012 06:38:58 -0800 (PST)
-Received-SPF: pass (google.com: domain of schnitzeltony@googlemail.com
-	designates 10.152.110.6 as permitted sender)
-	client-ip=10.152.110.6; 
-Authentication-Results: mr.google.com; spf=pass (google.com: domain of
-	schnitzeltony@googlemail.com designates 10.152.110.6 as
-	permitted sender) smtp.mail=schnitzeltony@googlemail.com;
-	dkim=pass header.i=schnitzeltony@googlemail.com
-Received: from mr.google.com ([10.152.110.6])
-	by 10.152.110.6 with SMTP id hw6mr4898132lab.8.1330612738703 (num_hops
-	= 1); Thu, 01 Mar 2012 06:38:58 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=googlemail.com; s=gamma;
-	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
-	:content-type:content-transfer-encoding;
-	bh=6l+iUIU9Tnk80DImYJPjMCOUyJTZZBHaZ5drNvwHqd8=;
-	b=dfbUBBVPRPjegpOSVKORDlxp3fWH5jgGMPVOkjLiG3G8MqdtV0iQ2T3K0BmOYMpzh/
-	5oAvGlu7foo0e+gJVz1RGz/EvGfjvhRQihYszrPmQBbjT58Df8DZYCOa7IUT7cbhFaRD
-	Ooo03kaVBbeYPKYfBXkGIMrW2klyIc0PijF9I=
-MIME-Version: 1.0
-Received: by 10.152.110.6 with SMTP id hw6mr3998739lab.8.1330612738626; Thu,
-	01 Mar 2012 06:38:58 -0800 (PST)
-Received: by 10.112.29.74 with HTTP; Thu, 1 Mar 2012 06:38:58 -0800 (PST)
-In-Reply-To: <13179298.lVtZb3KUcf@helios>
-References: <CALbNGRSc52k3sqGsh+T93ex2X2+62DCoVq8RB4dk-Ooy-j3qRg@mail.gmail.com>
-	<FA3D8228-A311-4588-90C8-0A12F89723AC@dominion.thruhere.net>
-	<CALbNGRQBCeQj=0dHAwAddM5cvJZhKLzyk8J5+WLAh7QFQBx_rg@mail.gmail.com>
-	<13179298.lVtZb3KUcf@helios>
-Date: Thu, 1 Mar 2012 15:38:58 +0100
-Message-ID: <CALbNGRS9k8Qu6O_gZgTFd6peYcwzHPn7ddzf-8PfNKb_OaHGyA@mail.gmail.com>
-From: =?ISO-8859-1?Q?Andreas_M=FCller?= <schnitzeltony@googlemail.com>
+	Thu, 01 Mar 2012 15:51:43 +0100
+Received: by mail.chez-thomas.org (Postfix, from userid 996)
+	id E2A99F8120C; Thu,  1 Mar 2012 07:43:14 -0700 (MST)
+From: Gary Thomas <gary@mlbassoc.com>
 To: openembedded-core@lists.openembedded.org
-Subject: Re: [oe] Buildhistory, was Re: do rootfs does not create log files
+Date: Thu,  1 Mar 2012 07:43:14 -0700
+Message-Id: <1330612994-26329-1-git-send-email-gary@mlbassoc.com>
+X-Mailer: git-send-email 1.7.7.6
+Subject: [PATCH] initscripts: Properly handle new timestamp format
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -52,32 +25,41 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 01 Mar 2012 14:47:28 -0000
-Content-Type: text/plain; charset=ISO-8859-1
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Thu, 01 Mar 2012 14:51:44 -0000
 
-On Thu, Mar 1, 2012 at 3:31 PM, Paul Eggleton
-<paul.eggleton@linux.intel.com> wrote:
-> On Thursday 01 March 2012 13:38:04 Andreas M=FCller wrote:
->> Would it be big effort to have the package scripts (pre-/postinst,
->> postrm) handled by buildhistory?
->
-> Do you mean you would like the contents of the scripts recorded in
-> buildhistory?
-Yes that's what I meant :)
-> If so, I guess this is possible; if we just output each script
-> to a separate file I don't think it should be too difficult. Making it wo=
-rk
-> nicely if you switch back to the old (symlinked) mode would be an extra t=
-rick,
-> though I'm starting to wonder if that's worth continuing to support.
->
-> Cheers,
-> Paul
->
-> --
->
-> Paul Eggleton
-> Intel Open Source Technology Centre
+Recent changes have attempted to make consistant use of /etc/timestamp
+In particular
+  5aab665 initscripts: Make /etc/timestamp consistent again.
+  173a48f image.bbclass: Ensure timestamp matches format used in initscripts after recent changes
+
+This new format can cause problems as the value is too large for
+most [32 bit] machines.  Work around this by only comparing the
+YYYYMMDD portion (which does fit in 32 bits).  Also, the new format
+is not directly compatible with the 'date' command line, so it
+must be reformatted for use.
+
+Signed-off-by: Gary Thomas <gary@mlbassoc.com>
+---
+ .../initscripts/initscripts-1.0/bootmisc.sh        |    4 ++--
+ 1 files changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/meta/recipes-core/initscripts/initscripts-1.0/bootmisc.sh b/meta/recipes-core/initscripts/initscripts-1.0/bootmisc.sh
+index 20ec0a0..383de82 100755
+--- a/meta/recipes-core/initscripts/initscripts-1.0/bootmisc.sh
++++ b/meta/recipes-core/initscripts/initscripts-1.0/bootmisc.sh
+@@ -70,8 +70,8 @@ if test -e /etc/timestamp
+ then
+ 	SYSTEMDATE=`date -u +%4Y%2m%2d%2H%2M`
+ 	read TIMESTAMP < /etc/timestamp
+-	if [ ${TIMESTAMP} -gt $SYSTEMDATE ]; then
+-		date -u $TIMESTAMP
++	if [ ${TIMESTAMP%????} -gt ${SYSTEMDATE%????} ]; then
++		date -u ${TIMESTAMP#????}${TIMESTAMP%????????}
+ 		/etc/init.d/hwclock.sh stop
+ 	fi
+ fi
+-- 
+1.7.7.6
+
 
 
