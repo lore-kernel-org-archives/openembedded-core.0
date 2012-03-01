@@ -1,45 +1,31 @@
-Received: from mail-pw0-f47.google.com ([209.85.160.47])
+Received: from mail1.windriver.com ([147.11.146.13])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <raj.khem@gmail.com>) id 1S2y0m-0000CL-3e
+	(envelope-from <Xiaofeng.Yan@windriver.com>) id 1S2zRO-0004UY-C8
 	for openembedded-core@lists.openembedded.org;
-	Thu, 01 Mar 2012 05:53:04 +0100
-Received: by pbbrp12 with SMTP id rp12so369202pbb.6
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 29 Feb 2012 20:44:33 -0800 (PST)
-Received-SPF: pass (google.com: domain of raj.khem@gmail.com designates
-	10.68.220.67 as permitted sender) client-ip=10.68.220.67; 
-Authentication-Results: mr.google.com;
-	spf=pass (google.com: domain of raj.khem@gmail.com
-	designates 10.68.220.67 as permitted sender)
-	smtp.mail=raj.khem@gmail.com;
-	dkim=pass header.i=raj.khem@gmail.com
-Received: from mr.google.com ([10.68.220.67])
-	by 10.68.220.67 with SMTP id pu3mr1246094pbc.61.1330577073876 (num_hops
-	= 1); Wed, 29 Feb 2012 20:44:33 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
-	h=message-id:date:from:user-agent:mime-version:to:subject:references
-	:in-reply-to:content-type:content-transfer-encoding;
-	bh=KdsmZ9oZgHCkRrMoyvembtkL+Tt3Tj1vi53j4zsIREo=;
-	b=euyZehhgzZMmLFvjCLc2IwwLfRqjYPBKpxfFNEvAgh0CwdCbMP4TU7pY18gtuH19v3
-	romw744cnp3PFmYWZWtTmXq5iqHw31XACngQOWss/y6/w7holFclR7deL6aJNNrO1Re7
-	F1EY3sJNy6A1dNWsWted7jZBEstRx9jySkQY4=
-Received: by 10.68.220.67 with SMTP id pu3mr1041164pbc.61.1330577073670;
-	Wed, 29 Feb 2012 20:44:33 -0800 (PST)
-Received: from [192.168.1.78] (99-57-140-209.lightspeed.sntcca.sbcglobal.net.
-	[99.57.140.209])
-	by mx.google.com with ESMTPS id m3sm1003991pbg.44.2012.02.29.20.44.31
-	(version=SSLv3 cipher=OTHER); Wed, 29 Feb 2012 20:44:32 -0800 (PST)
-Message-ID: <4F4EFEAD.9010508@gmail.com>
-Date: Wed, 29 Feb 2012 20:44:29 -0800
-From: Khem Raj <raj.khem@gmail.com>
-User-Agent: Mozilla/5.0 (X11; Linux i686;
-	rv:11.0) Gecko/20120224 Thunderbird/11.0
+	Thu, 01 Mar 2012 07:24:38 +0100
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca [147.11.189.40])
+	by mail1.windriver.com (8.14.3/8.14.3) with ESMTP id q216G8NJ016005
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
+	Wed, 29 Feb 2012 22:16:08 -0800 (PST)
+Received: from [128.224.162.223] (128.224.162.223) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server (TLS) id 14.1.255.0;
+	Wed, 29 Feb 2012 22:16:07 -0800
+Message-ID: <4F4F13A8.5070009@windriver.com>
+Date: Thu, 1 Mar 2012 14:14:00 +0800
+From: Xiaofeng Yan <xiaofeng.yan@windriver.com>
+User-Agent: Mozilla/5.0 (X11; U; Linux i686; en-US;
+	rv:1.9.2.23) Gecko/20110921 Thunderbird/3.1.15
 MIME-Version: 1.0
-To: openembedded-core@lists.openembedded.org
-References: <5c6b81ada0814d1947d89120867bb9a4a5b0fa85.1330004039.git.richard.purdie@linuxfoundation.org>
-	<008428eeaf897d9d18e070097cfc82e706913539.1330004039.git.richard.purdie@linuxfoundation.org>
-In-Reply-To: <008428eeaf897d9d18e070097cfc82e706913539.1330004039.git.richard.purdie@linuxfoundation.org>
-Subject: Re: [PATCH 03/16] libusb1: Address unpackaged files warning
+To: Paul Menzel <paulepanter@users.sourceforge.net>
+References: <cover.1328774359.git.xiaofeng.yan@windriver.com>	
+	<92a87a54f47245d723727bd190c35323e66ad3ea.1328774359.git.xiaofeng.yan@windriver.com>
+	<1328778363.5379.3.camel@mattotaupa>
+In-Reply-To: <1328778363.5379.3.camel@mattotaupa>
+X-Originating-IP: [128.224.162.223]
+X-MIME-Autoconverted: from 8bit to quoted-printable by mail1.windriver.com id
+	q216G8NJ016005
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH 1/2] libx11-1.4.4: Add patch makekeys_crosscompile.patch
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -54,39 +40,69 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 01 Mar 2012 04:53:04 -0000
-Content-Type: text/plain; charset=ISO-8859-1
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Thu, 01 Mar 2012 06:24:38 -0000
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: quoted-printable
 
-On 02/23/2012 05:38 AM, Richard Purdie wrote:
-> WARNING: For recipe libusb1, the following files/directories were installed but not shipped in any package:
-> WARNING:   /lib/libusb-1.0.la
-> 
-> Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-> ---
->  meta/recipes-support/libusb/libusb1_1.0.8.bb |    4 ++--
->  1 files changed, 2 insertions(+), 2 deletions(-)
-> 
-> diff --git a/meta/recipes-support/libusb/libusb1_1.0.8.bb b/meta/recipes-support/libusb/libusb1_1.0.8.bb
-> index e45a9d9..b8fa790 100644
-> --- a/meta/recipes-support/libusb/libusb1_1.0.8.bb
-> +++ b/meta/recipes-support/libusb/libusb1_1.0.8.bb
-> @@ -6,7 +6,7 @@ SECTION = "libs"
->  LICENSE = "LGPLv2.1+"
->  LIC_FILES_CHKSUM = "file://COPYING;md5=fbc093901857fcd118f065f900982c24"
->  
-> -PR = "r3"
-> +PR = "r4"
->  
->  SRC_URI = "${SOURCEFORGE_MIRROR}/libusb/libusb-${PV}.tar.bz2"
->  
-> @@ -27,4 +27,4 @@ do_install_append() {
->  
->  FILES_${PN} += "${base_libdir}/*.so.*"
->  
-> -FILES_${PN}-dev += "${base_libdir}/*.so"
-> +FILES_${PN}-dev += "${base_libdir}/*.so ${base_libdir}/*.la"
+On 2012=E5=B9=B402=E6=9C=8809=E6=97=A5 17:06, Paul Menzel wrote:
+> Dear Xiaofeng,
+>
+>
+> Am Donnerstag, den 09.02.2012, 16:05 +0800 schrieb Xiaofeng Yan:
+>> From: Xiaofeng Yan<xiaofeng.yan@windriver.com>
+>>
+>> LSB 4.1 complain a host contamination error from libx11 because of abs=
+ent
+>> patch "makekeys_crosscompile.patch" from libx11-trim-1.4.4.
+>>
+>> [YOCTO #1970]
+> could you squash both patches please?
+>
+> Also please add the output from the cover letter to the commit message.
+>
+>> Signed-off-by: Xiaofeng Yan<xiaofeng.yan@windriver.com>
+>> ---
+>>   .../libx11-1.4.4/makekeys_crosscompile.patch       |   45 ++++++++++=
+++++++++++
+>>   1 files changed, 45 insertions(+), 0 deletions(-)
+>>   create mode 100644 meta/recipes-graphics/xorg-lib/libx11-1.4.4/makek=
+eys_crosscompile.patch
+>>
+>> diff --git a/meta/recipes-graphics/xorg-lib/libx11-1.4.4/makekeys_cros=
+scompile.patch b/meta/recipes-graphics/xorg-lib/libx11-1.4.4/makekeys_cro=
+sscompile.patch
+>> new file mode 100644
+>> index 0000000..e5eacf0
+>> --- /dev/null
+>> +++ b/meta/recipes-graphics/xorg-lib/libx11-1.4.4/makekeys_crosscompil=
+e.patch
+>> @@ -0,0 +1,45 @@
+>> +Because the size of "unsigned long" is different between 32-bit
+>> +and 64-bit, judge whether target is 32-bit or 64-bit and tell
+>> +"makekey".
+> Trailing space at the end.
+>
+> Could you also add the error message to the patch file in a *separate*
+> patch please. Preferably before copying it.
+>
+Do you mean I use an separated file to record error message?
+So there are two file here. one is for  makekeys_crosscompile.patch,=20
+another is for a file to record error message. right?
+>> +
+>> +Upstream-Status: Pending
+>> +
+>> +Signed-off-by: dbuitenh@windriver.com
+>> +
+>> +--- libX11-1.3.4.orig/src/util/makekeys.c	2010-01-15 09:11:36.0000000=
+00 +0800
+>> ++++ libX11-1.3.4/src/util/makekeys.c	2011-05-24 19:04:25.454774908 +0=
+800
+> [=E2=80=A6]
+>
+>
+> Thanks,
+>
+> Paul
 
-why not just delete it. We have been living without it anyway
 
 
