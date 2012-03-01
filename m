@@ -1,28 +1,28 @@
 Received: from hermes.mlbassoc.com ([64.234.241.98] helo=mail.chez-thomas.org)
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <gary@mlbassoc.com>) id 1S37n6-00085o-Jm
+	(envelope-from <gary@mlbassoc.com>) id 1S382i-0001FU-8U
 	for openembedded-core@lists.openembedded.org;
-	Thu, 01 Mar 2012 16:19:36 +0100
+	Thu, 01 Mar 2012 16:35:44 +0100
 Received: by mail.chez-thomas.org (Postfix, from userid 1998)
-	id 4ABB2F812EF; Thu,  1 Mar 2012 08:11:08 -0700 (MST)
+	id EFA1AF812EF; Thu,  1 Mar 2012 08:27:15 -0700 (MST)
 X-Spam-Checker-Version: SpamAssassin 3.3.2 (2011-06-06) on
 	hermes.chez-thomas.org
 X-Spam-Level: 
 X-Spam-Status: No, score=-2.9 required=4.0 tests=ALL_TRUSTED,BAYES_00
-	autolearn=ham version=3.3.2
+	autolearn=unavailable version=3.3.2
 Received: from hermes.chez-thomas.org (localhost.localdomain [127.0.0.1])
-	by mail.chez-thomas.org (Postfix) with ESMTP id 88096F812EE;
-	Thu,  1 Mar 2012 08:11:07 -0700 (MST)
-Message-ID: <4F4F918B.4010404@mlbassoc.com>
-Date: Thu, 01 Mar 2012 08:11:07 -0700
+	by mail.chez-thomas.org (Postfix) with ESMTP id A09E4F812EE;
+	Thu,  1 Mar 2012 08:27:14 -0700 (MST)
+Message-ID: <4F4F9552.8040107@mlbassoc.com>
+Date: Thu, 01 Mar 2012 08:27:14 -0700
 From: Gary Thomas <gary@mlbassoc.com>
 User-Agent: Mozilla/5.0 (X11; Linux i686;
 	rv:10.0) Gecko/20120131 Thunderbird/10.0
 MIME-Version: 1.0
 To: openembedded-core@lists.openembedded.org
 References: <1330612994-26329-1-git-send-email-gary@mlbassoc.com>
-	<1330613948.31767.12.camel@ted>
-In-Reply-To: <1330613948.31767.12.camel@ted>
+	<1330613948.31767.12.camel@ted> <4F4F918B.4010404@mlbassoc.com>
+In-Reply-To: <4F4F918B.4010404@mlbassoc.com>
 Subject: Re: [PATCH] initscripts: Properly handle new timestamp format
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
@@ -38,32 +38,59 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 01 Mar 2012 15:19:37 -0000
+X-List-Received-Date: Thu, 01 Mar 2012 15:35:44 -0000
 Content-Type: text/plain; charset=ISO-8859-1; format=flowed
 Content-Transfer-Encoding: 7bit
 
-On 2012-03-01 07:59, Richard Purdie wrote:
-> On Thu, 2012-03-01 at 07:43 -0700, Gary Thomas wrote:
->> Recent changes have attempted to make consistant use of /etc/timestamp
->> In particular
->>    5aab665 initscripts: Make /etc/timestamp consistent again.
->>    173a48f image.bbclass: Ensure timestamp matches format used in initscripts after recent changes
+On 2012-03-01 08:11, Gary Thomas wrote:
+> On 2012-03-01 07:59, Richard Purdie wrote:
+>> On Thu, 2012-03-01 at 07:43 -0700, Gary Thomas wrote:
+>>> Recent changes have attempted to make consistant use of /etc/timestamp
+>>> In particular
+>>> 5aab665 initscripts: Make /etc/timestamp consistent again.
+>>> 173a48f image.bbclass: Ensure timestamp matches format used in initscripts after recent changes
+>>>
+>>> This new format can cause problems as the value is too large for
+>>> most [32 bit] machines. Work around this by only comparing the
+>>> YYYYMMDD portion (which does fit in 32 bits). Also, the new format
+>>> is not directly compatible with the 'date' command line, so it
+>>> must be reformatted for use.
+>>>
+>>> Signed-off-by: Gary Thomas<gary@mlbassoc.com>
+>>> ---
+>>> .../initscripts/initscripts-1.0/bootmisc.sh | 4 ++--
+>>> 1 files changed, 2 insertions(+), 2 deletions(-)
 >>
->> This new format can cause problems as the value is too large for
->> most [32 bit] machines.  Work around this by only comparing the
->> YYYYMMDD portion (which does fit in 32 bits).  Also, the new format
->> is not directly compatible with the 'date' command line, so it
->> must be reformatted for use.
->>
->> Signed-off-by: Gary Thomas<gary@mlbassoc.com>
->> ---
->>   .../initscripts/initscripts-1.0/bootmisc.sh        |    4 ++--
->>   1 files changed, 2 insertions(+), 2 deletions(-)
+>> I merged the changes to busybox in relation to this. Is this patch still
+>> needed?
 >
-> I merged the changes to busybox in relation to this. Is this patch still
-> needed?
+> Let me check - I didn't see the related busybox change.
+>
 
-Let me check - I didn't see the related busybox change.
+I missed the busybox change because there was no PR bump :-(
+
+The problem with the change turning off CONFIG_FEATURE_DATE_COMPAT is that
+now 'date' from busybox works one way and 'date' from coreutils works another.
+
+Using coreutils:
+
+root@cobra8148p81:~# date 201203011520
+date: invalid date `201203011520'
+root@cobra8148p81:~# date 030115202012
+Thu Mar  1 15:20:00 UTC 2012
+root@cobra8148p81:~# ls -l /bin/date
+lrwxrwxrwx 1 root root 14 Mar  1 15:14 /bin/date -> date.coreutils
+
+Using busybox:
+
+root@cobra8148p81:~# ln -s /bin/busybox /tmp/date
+root@cobra8148p81:~# /tmp/date 201203011520
+Thu Mar  1 15:20:00 UTC 2012
+
+I think the best thing would be to turn CONFIG_FEATURE_DATE_COMPAT back
+on along with my reformatting change.
+
+I can make an updated patch if you agree.
 
 -- 
 ------------------------------------------------------------
