@@ -1,40 +1,45 @@
-Received: from mail-tul01m020-f175.google.com ([209.85.214.175])
+Received: from mail-pw0-f47.google.com ([209.85.160.47])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <sakoman@gmail.com>) id 1S2wuP-0007NW-7D
+	(envelope-from <raj.khem@gmail.com>) id 1S2y0m-0000CL-3e
 	for openembedded-core@lists.openembedded.org;
-	Thu, 01 Mar 2012 04:42:25 +0100
-Received: by obqv19 with SMTP id v19so224276obq.6
+	Thu, 01 Mar 2012 05:53:04 +0100
+Received: by pbbrp12 with SMTP id rp12so369202pbb.6
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 29 Feb 2012 19:33:55 -0800 (PST)
-Received-SPF: pass (google.com: domain of sakoman@gmail.com designates
-	10.182.193.73 as permitted sender) client-ip=10.182.193.73; 
+	Wed, 29 Feb 2012 20:44:33 -0800 (PST)
+Received-SPF: pass (google.com: domain of raj.khem@gmail.com designates
+	10.68.220.67 as permitted sender) client-ip=10.68.220.67; 
 Authentication-Results: mr.google.com;
-	spf=pass (google.com: domain of sakoman@gmail.com
-	designates 10.182.193.73 as permitted sender)
-	smtp.mail=sakoman@gmail.com;
-	dkim=pass header.i=sakoman@gmail.com
-Received: from mr.google.com ([10.182.193.73])
-	by 10.182.193.73 with SMTP id hm9mr1290938obc.29.1330572835327
-	(num_hops = 1); Wed, 29 Feb 2012 19:33:55 -0800 (PST)
+	spf=pass (google.com: domain of raj.khem@gmail.com
+	designates 10.68.220.67 as permitted sender)
+	smtp.mail=raj.khem@gmail.com;
+	dkim=pass header.i=raj.khem@gmail.com
+Received: from mr.google.com ([10.68.220.67])
+	by 10.68.220.67 with SMTP id pu3mr1246094pbc.61.1330577073876 (num_hops
+	= 1); Wed, 29 Feb 2012 20:44:33 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
-	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
-	:content-type; bh=8rNqrL6VB71kLChZPoxsIoVF3yqFf3nnDc5eDMe2jX8=;
-	b=beY9DIGwN9iNPjwNU/AO4Jb75M0GKeeOBr9vEO+WMYzbylhdWegUJn8POrdG7H6qm6
-	yl386httNitPVXObdTgeCG9lw7UtC3nGVoT2gEk3VX3xYTHxowj3Gx7w4pCUdGXbv/L2
-	6rBYZCQ8F75WhocLNsHenZI/aDxhT0eeqGIF8=
+	h=message-id:date:from:user-agent:mime-version:to:subject:references
+	:in-reply-to:content-type:content-transfer-encoding;
+	bh=KdsmZ9oZgHCkRrMoyvembtkL+Tt3Tj1vi53j4zsIREo=;
+	b=euyZehhgzZMmLFvjCLc2IwwLfRqjYPBKpxfFNEvAgh0CwdCbMP4TU7pY18gtuH19v3
+	romw744cnp3PFmYWZWtTmXq5iqHw31XACngQOWss/y6/w7holFclR7deL6aJNNrO1Re7
+	F1EY3sJNy6A1dNWsWted7jZBEstRx9jySkQY4=
+Received: by 10.68.220.67 with SMTP id pu3mr1041164pbc.61.1330577073670;
+	Wed, 29 Feb 2012 20:44:33 -0800 (PST)
+Received: from [192.168.1.78] (99-57-140-209.lightspeed.sntcca.sbcglobal.net.
+	[99.57.140.209])
+	by mx.google.com with ESMTPS id m3sm1003991pbg.44.2012.02.29.20.44.31
+	(version=SSLv3 cipher=OTHER); Wed, 29 Feb 2012 20:44:32 -0800 (PST)
+Message-ID: <4F4EFEAD.9010508@gmail.com>
+Date: Wed, 29 Feb 2012 20:44:29 -0800
+From: Khem Raj <raj.khem@gmail.com>
+User-Agent: Mozilla/5.0 (X11; Linux i686;
+	rv:11.0) Gecko/20120224 Thunderbird/11.0
 MIME-Version: 1.0
-Received: by 10.182.193.73 with SMTP id hm9mr1112572obc.29.1330572835280; Wed,
-	29 Feb 2012 19:33:55 -0800 (PST)
-Received: by 10.182.246.8 with HTTP; Wed, 29 Feb 2012 19:33:55 -0800 (PST)
-In-Reply-To: <CAMKF1spZxmWem68=G3COfc1ukBwbtemMPRrpznTEjrK5=DvU+g@mail.gmail.com>
-References: <CAGDS+nk7a=X-zrjsv9RtuH-YzSLX=gAsqbtpVkF+tQ=saJQP1w@mail.gmail.com>
-	<CAMKF1spZxmWem68=G3COfc1ukBwbtemMPRrpznTEjrK5=DvU+g@mail.gmail.com>
-Date: Wed, 29 Feb 2012 19:33:55 -0800
-Message-ID: <CAGDS+nnxh6u6EXhzzr+X8giuwm8mC8Nbo6wqcA6Afpj1_MOybg@mail.gmail.com>
-From: Steve Sakoman <sakoman@gmail.com>
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: wpa-supplicant strangeness after pull
+To: openembedded-core@lists.openembedded.org
+References: <5c6b81ada0814d1947d89120867bb9a4a5b0fa85.1330004039.git.richard.purdie@linuxfoundation.org>
+	<008428eeaf897d9d18e070097cfc82e706913539.1330004039.git.richard.purdie@linuxfoundation.org>
+In-Reply-To: <008428eeaf897d9d18e070097cfc82e706913539.1330004039.git.richard.purdie@linuxfoundation.org>
+Subject: Re: [PATCH 03/16] libusb1: Address unpackaged files warning
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -49,44 +54,39 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 01 Mar 2012 03:42:25 -0000
+X-List-Received-Date: Thu, 01 Mar 2012 04:53:04 -0000
 Content-Type: text/plain; charset=ISO-8859-1
+Content-Transfer-Encoding: 7bit
 
-On Wed, Feb 29, 2012 at 3:56 PM, Khem Raj <raj.khem@gmail.com> wrote:
+On 02/23/2012 05:38 AM, Richard Purdie wrote:
+> WARNING: For recipe libusb1, the following files/directories were installed but not shipped in any package:
+> WARNING:   /lib/libusb-1.0.la
+> 
+> Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+> ---
+>  meta/recipes-support/libusb/libusb1_1.0.8.bb |    4 ++--
+>  1 files changed, 2 insertions(+), 2 deletions(-)
+> 
+> diff --git a/meta/recipes-support/libusb/libusb1_1.0.8.bb b/meta/recipes-support/libusb/libusb1_1.0.8.bb
+> index e45a9d9..b8fa790 100644
+> --- a/meta/recipes-support/libusb/libusb1_1.0.8.bb
+> +++ b/meta/recipes-support/libusb/libusb1_1.0.8.bb
+> @@ -6,7 +6,7 @@ SECTION = "libs"
+>  LICENSE = "LGPLv2.1+"
+>  LIC_FILES_CHKSUM = "file://COPYING;md5=fbc093901857fcd118f065f900982c24"
+>  
+> -PR = "r3"
+> +PR = "r4"
+>  
+>  SRC_URI = "${SOURCEFORGE_MIRROR}/libusb/libusb-${PV}.tar.bz2"
+>  
+> @@ -27,4 +27,4 @@ do_install_append() {
+>  
+>  FILES_${PN} += "${base_libdir}/*.so.*"
+>  
+> -FILES_${PN}-dev += "${base_libdir}/*.so"
+> +FILES_${PN}-dev += "${base_libdir}/*.so ${base_libdir}/*.la"
 
-> and this is yet another case where basichash exposes an underlying problem
->
-> see the sed command in below snippet
->
-> install -m 644 ${S}/dbus/dbus-wpa_supplicant.conf
-> ${D}/${sysconfdir}/dbus-1/system.d
-> install -d ${D}/${datadir}/dbus-1/system-services
-> sed -i -e s:${base_sbindir}:${sbindir}:g ${S}/dbus/*.service
-> install -m 644 ${S}/dbus/*.service ${D}/${datadir}/dbus-1/system-services
->
-> that command can only be run correctly once unless you delete ${S}
-> since its sedding something in ${S}
-> and we know base_sbindir (/sbin) and sbindir(/usr/sbin) are close
-> enough expressionwise
-
-Makes perfect sense.  But quite scary -- makes me wonder how many more
-things like this are lurking as yet undetected!  This caused an
-obvious problem right at boot time so it was easy to detect.
-
->> I'm beginning to suspect I ought to just do a clean build after every
->> pull in order to remain productive!
->
-> That will hide these kind of issues you bring forward :)
-
-You are right of course.  Sadly I only get to bill for getting client
-work done, not for debugging the build system :-(
-
-So my motivation is typically to just get things working again
-quickly, rather than to dig in and find the root cause.  Need to find
-a happy balance.  Lately I've been spending the time to document the
-issue on the list, but if a clean rebuild fixes things I just forge on
-with client work.
-
-Steve
+why not just delete it. We have been living without it anyway
 
 
