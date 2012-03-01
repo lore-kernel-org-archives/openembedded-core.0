@@ -1,31 +1,44 @@
-Received: from mail1.windriver.com ([147.11.146.13])
+Received: from mail-pz0-f50.google.com ([209.85.210.50])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <Xiaofeng.Yan@windriver.com>) id 1S2zRO-0004UY-C8
+	(envelope-from <raj.khem@gmail.com>) id 1S2zub-0004rC-2O
 	for openembedded-core@lists.openembedded.org;
-	Thu, 01 Mar 2012 07:24:38 +0100
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca [147.11.189.40])
-	by mail1.windriver.com (8.14.3/8.14.3) with ESMTP id q216G8NJ016005
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
-	Wed, 29 Feb 2012 22:16:08 -0800 (PST)
-Received: from [128.224.162.223] (128.224.162.223) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server (TLS) id 14.1.255.0;
-	Wed, 29 Feb 2012 22:16:07 -0800
-Message-ID: <4F4F13A8.5070009@windriver.com>
-Date: Thu, 1 Mar 2012 14:14:00 +0800
-From: Xiaofeng Yan <xiaofeng.yan@windriver.com>
-User-Agent: Mozilla/5.0 (X11; U; Linux i686; en-US;
-	rv:1.9.2.23) Gecko/20110921 Thunderbird/3.1.15
+	Thu, 01 Mar 2012 07:54:49 +0100
+Received: by dald2 with SMTP id d2so433643dal.9
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 29 Feb 2012 22:46:18 -0800 (PST)
+Received-SPF: pass (google.com: domain of raj.khem@gmail.com designates
+	10.68.129.4 as permitted sender) client-ip=10.68.129.4; 
+Authentication-Results: mr.google.com;
+	spf=pass (google.com: domain of raj.khem@gmail.com
+	designates 10.68.129.4 as permitted sender)
+	smtp.mail=raj.khem@gmail.com;
+	dkim=pass header.i=raj.khem@gmail.com
+Received: from mr.google.com ([10.68.129.4])
+	by 10.68.129.4 with SMTP id ns4mr16149369pbb.151.1330584378819
+	(num_hops = 1); Wed, 29 Feb 2012 22:46:18 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
+	h=message-id:date:from:user-agent:mime-version:to:subject:references
+	:in-reply-to:content-type:content-transfer-encoding;
+	bh=CkEPmgRbtNNjHogWBx3GWn+/eZI1Oq5TnYC7Vq8G/UY=;
+	b=aC687dmKOJHOq3/hsOCq7QTQ04q4QnM5kP4B7y/E0B2kK4GM9rbWaQSqLvI6w0W6gs
+	tnAkDMTUVV5V1Q0mBdGvzxWon29H4/aUGKPQtgn1IcxBVhTPx7Qx+Rg3ulZn5SwVjHVV
+	6CQJzwnF4BP5YRUpAt6DLRgGuh0p9JlTZOGn4=
+Received: by 10.68.129.4 with SMTP id ns4mr13379681pbb.151.1330584378726;
+	Wed, 29 Feb 2012 22:46:18 -0800 (PST)
+Received: from [192.168.1.78] (99-57-140-209.lightspeed.sntcca.sbcglobal.net.
+	[99.57.140.209])
+	by mx.google.com with ESMTPS id w8sm1282322pbo.23.2012.02.29.22.46.16
+	(version=SSLv3 cipher=OTHER); Wed, 29 Feb 2012 22:46:17 -0800 (PST)
+Message-ID: <4F4F1B36.7020504@gmail.com>
+Date: Wed, 29 Feb 2012 22:46:14 -0800
+From: Khem Raj <raj.khem@gmail.com>
+User-Agent: Mozilla/5.0 (X11; Linux i686;
+	rv:11.0) Gecko/20120224 Thunderbird/11.0
 MIME-Version: 1.0
-To: Paul Menzel <paulepanter@users.sourceforge.net>
-References: <cover.1328774359.git.xiaofeng.yan@windriver.com>	
-	<92a87a54f47245d723727bd190c35323e66ad3ea.1328774359.git.xiaofeng.yan@windriver.com>
-	<1328778363.5379.3.camel@mattotaupa>
-In-Reply-To: <1328778363.5379.3.camel@mattotaupa>
-X-Originating-IP: [128.224.162.223]
-X-MIME-Autoconverted: from 8bit to quoted-printable by mail1.windriver.com id
-	q216G8NJ016005
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 1/2] libx11-1.4.4: Add patch makekeys_crosscompile.patch
+To: openembedded-core@lists.openembedded.org
+References: <COL120-W40B503FFC0574E4957B971DD6B0@phx.gbl>
+In-Reply-To: <COL120-W40B503FFC0574E4957B971DD6B0@phx.gbl>
+Subject: Re: BOTAN crypto library
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -40,69 +53,40 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 01 Mar 2012 06:24:38 -0000
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Thu, 01 Mar 2012 06:54:49 -0000
+Content-Type: text/plain; charset=ISO-8859-1
+Content-Transfer-Encoding: 7bit
 
-On 2012=E5=B9=B402=E6=9C=8809=E6=97=A5 17:06, Paul Menzel wrote:
-> Dear Xiaofeng,
->
->
-> Am Donnerstag, den 09.02.2012, 16:05 +0800 schrieb Xiaofeng Yan:
->> From: Xiaofeng Yan<xiaofeng.yan@windriver.com>
->>
->> LSB 4.1 complain a host contamination error from libx11 because of abs=
-ent
->> patch "makekeys_crosscompile.patch" from libx11-trim-1.4.4.
->>
->> [YOCTO #1970]
-> could you squash both patches please?
->
-> Also please add the output from the cover letter to the commit message.
->
->> Signed-off-by: Xiaofeng Yan<xiaofeng.yan@windriver.com>
->> ---
->>   .../libx11-1.4.4/makekeys_crosscompile.patch       |   45 ++++++++++=
-++++++++++
->>   1 files changed, 45 insertions(+), 0 deletions(-)
->>   create mode 100644 meta/recipes-graphics/xorg-lib/libx11-1.4.4/makek=
-eys_crosscompile.patch
->>
->> diff --git a/meta/recipes-graphics/xorg-lib/libx11-1.4.4/makekeys_cros=
-scompile.patch b/meta/recipes-graphics/xorg-lib/libx11-1.4.4/makekeys_cro=
-sscompile.patch
->> new file mode 100644
->> index 0000000..e5eacf0
->> --- /dev/null
->> +++ b/meta/recipes-graphics/xorg-lib/libx11-1.4.4/makekeys_crosscompil=
-e.patch
->> @@ -0,0 +1,45 @@
->> +Because the size of "unsigned long" is different between 32-bit
->> +and 64-bit, judge whether target is 32-bit or 64-bit and tell
->> +"makekey".
-> Trailing space at the end.
->
-> Could you also add the error message to the patch file in a *separate*
-> patch please. Preferably before copying it.
->
-Do you mean I use an separated file to record error message?
-So there are two file here. one is for  makekeys_crosscompile.patch,=20
-another is for a file to record error message. right?
->> +
->> +Upstream-Status: Pending
->> +
->> +Signed-off-by: dbuitenh@windriver.com
->> +
->> +--- libX11-1.3.4.orig/src/util/makekeys.c	2010-01-15 09:11:36.0000000=
-00 +0800
->> ++++ libX11-1.3.4/src/util/makekeys.c	2011-05-24 19:04:25.454774908 +0=
-800
-> [=E2=80=A6]
->
->
-> Thanks,
->
-> Paul
+On 02/24/2012 04:15 PM, simran singh wrote:
+> Hello,
+> 
+> I hope this is right place to ask for help regarding this. I am trying
+> to build the Botan crytpo library using
+> system builder. I created a recipe for this and I am getting an error
+> when I try to $make the library.
+> This is the error I am getting:
+> 
+> | /usr/bin/ld:
+> /home/Simran/Freescale/QorIQ-DPAA-SDK-20111026-systembuilder/build_p4080ds_release/sysroots/
+> ppce500mc-linux/usr/lib/crti.o: Relocations in generic ELF (EM: 20)
+> | /usr/bin/ld:
+> /home/Simran/Freescale/QorIQ-DPAA-SDK-20111026-systembuilder/build_p4080ds_release/sysroots/
+> ppce500mc-linux/usr/lib/crti.o: Relocations in generic ELF (EM: 20)
+> |
+> /home/Simran/Freescale/QorIQ-DPAA-SDK-20111026-systembuilder/build_p4080ds_release/sysroots/
+> ppce500mc-linux/usr/lib/crti.o: could not read symbols: File in wrong format
+> | collect2: ld returned 1 exit status
+> | make: *** [libbotan-1.10.so.0.1] Error 1
+> | ERROR: Function do_install failed
+> 
+> I am guessing this has to do something with the linking of the
+> libbotan-1.10.so.0.1 file. Please advice. I have attached
+> the recipe that I created
+> Thank you for any help.
+
+so its using your host ld to link target library thats totally broken
+Does botan's makefile system honor standard variables like LD, CC, CXX
+etc. ?
 
 
 
