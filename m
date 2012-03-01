@@ -1,37 +1,37 @@
-Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
-	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <richard.purdie@linuxfoundation.org>)
-	id 1S35am-0005VA-Le for openembedded-core@lists.openembedded.org;
-	Thu, 01 Mar 2012 13:58:44 +0100
-Received: from localhost (localhost [127.0.0.1])
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q21CoFWk015774
+Received: from mail-tul01m020-f175.google.com ([209.85.214.175])
+	by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <slapinid@gmail.com>) id 1S35ao-0005VB-Bh
+	for openembedded-core@lists.openembedded.org;
+	Thu, 01 Mar 2012 13:58:46 +0100
+Received: by obqv19 with SMTP id v19so690457obq.6
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 1 Mar 2012 12:50:15 GMT
-Received: from tim.rpsys.net ([127.0.0.1])
-	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
-	port 10024) with LMTP
-	id 15367-02 for <openembedded-core@lists.openembedded.org>;
-	Thu,  1 Mar 2012 12:50:11 +0000 (GMT)
-Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q21Co5ok015764
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO)
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 1 Mar 2012 12:50:06 GMT
-Message-ID: <1330606209.31767.6.camel@ted>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
+	Thu, 01 Mar 2012 04:50:16 -0800 (PST)
+Received-SPF: pass (google.com: domain of slapinid@gmail.com designates
+	10.60.25.65 as permitted sender) client-ip=10.60.25.65; 
+Authentication-Results: mr.google.com;
+	spf=pass (google.com: domain of slapinid@gmail.com
+	designates 10.60.25.65 as permitted sender)
+	smtp.mail=slapinid@gmail.com;
+	dkim=pass header.i=slapinid@gmail.com
+Received: from mr.google.com ([10.60.25.65])
+	by 10.60.25.65 with SMTP id a1mr2425619oeg.23.1330606216063 (num_hops =
+	1); Thu, 01 Mar 2012 04:50:16 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
+	h=mime-version:date:message-id:subject:from:to:content-type;
+	bh=2KlBDopTcuY9bEsW6RWVFMfzUWBZXYPfxW4L8EiPiCw=;
+	b=Y/dWPfUHHVguEwICc+UVnla3kBjBPv7ONj9Kz5x+wIN8kmw554dXz94jAsO+DmptJg
+	jGRP9ezZUeR/PSbl6uF8DVxg0iudObgRJwPDfjWSa+lzLNm/+z3y0eD9LUAWhowAUL1f
+	yXzMsfI+1aOnce3zeDPiqhWEDvCbZDzlMUP0Q=
+MIME-Version: 1.0
+Received: by 10.60.25.65 with SMTP id a1mr1962711oeg.23.1330606216031; Thu, 01
+	Mar 2012 04:50:16 -0800 (PST)
+Received: by 10.60.39.39 with HTTP; Thu, 1 Mar 2012 04:50:16 -0800 (PST)
+Date: Thu, 1 Mar 2012 15:50:16 +0300
+Message-ID: <CAFZPMoaRYRE1Brig5x-1tnECa1AnFWfYfgg5Gx9qrRsB1EFH4w@mail.gmail.com>
+From: Sergey Lapin <slapinid@gmail.com>
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Date: Thu, 01 Mar 2012 12:50:09 +0000
-In-Reply-To: <8F7AFDB0-51BE-4C02-AAEF-5C82EE7ED671@dominion.thruhere.net>
-References: <cover.1330587785.git.sgw@linux.intel.com>
-	<8166980a5f0696c1f88bce1fb9bdcff7089690b8.1330587785.git.sgw@linux.intel.com>
-	<C2C41049-7169-4851-B07A-9CDDD5A5ED45@dominion.thruhere.net>
-	<1330602916.31767.3.camel@ted>
-	<8F7AFDB0-51BE-4C02-AAEF-5C82EE7ED671@dominion.thruhere.net>
-X-Mailer: Evolution 3.2.2- 
-Mime-Version: 1.0
-X-Virus-Scanned: amavisd-new at rpsys.net
-Subject: Re: [PATCH] libx11-trim/diet: Add RPROVIDES for libx11-dev
+Subject: multiple kernel builds
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -46,35 +46,23 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 01 Mar 2012 12:58:44 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Thu, 01 Mar 2012 12:58:46 -0000
+Content-Type: text/plain; charset=ISO-8859-1
 
-On Thu, 2012-03-01 at 13:11 +0100, Koen Kooi wrote:
-> Op 1 mrt. 2012, om 12:55 heeft Richard Purdie het volgende geschreven:
-> 
-> > We have things that depend on libx11-dev, this patch ensures the -trim
-> > and -diet versions provide it. This resolves some multiple providers
-> > warnings.
-> > 
-> > Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-> > ---
-> > 
-> > Koen/Saul: This is how I think we should be fixing the libx11 issues...
-> 
-> I'm going to say something shockingly out of character: I think the
-> trim/diet/normal seperation should be done with DISTRO_FEATURES +
-> PACKAGECONFIG. Due to shlib naming the 3 recipes cannot coexist in the
-> feeds anyway.
+Hi, all!
 
-I agree although in this case, PACKAGECONFIG should be enough. 
+How could I achieve multiple kernel packages builds in single build?
 
-I propose we fix the immediate problem as per the patch and then look at
-converting to PACKAGECONFIG.
+I need multiple kernel configurations for single hardware (which will
+live in single build and booted on
+request). So I need to put 2 uImages on one ubifs partition or
+different mtd partitions, which is ok.
 
-Cheers,
+But I need to build both in single run.
 
-Richard
+Any ideas?
 
+Thanks a lot,
+S.
 
 
