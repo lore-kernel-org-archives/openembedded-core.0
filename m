@@ -1,27 +1,27 @@
-Received: from hermes.mlbassoc.com ([64.234.241.98] helo=mail.chez-thomas.org)
+Received: from smtp23.4emm.com ([69.18.222.9])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <gary@mlbassoc.com>) id 1S3HHn-0000ob-FZ
+	(envelope-from <james@digitalmatter.com.au>) id 1S3Ixv-0002a6-M7
 	for openembedded-core@lists.openembedded.org;
-	Fri, 02 Mar 2012 02:27:55 +0100
-Received: by mail.chez-thomas.org (Postfix, from userid 1998)
-	id 116ECF812FC; Thu,  1 Mar 2012 18:19:26 -0700 (MST)
-X-Spam-Checker-Version: SpamAssassin 3.3.2 (2011-06-06) on
-	hermes.chez-thomas.org
-X-Spam-Level: 
-X-Spam-Status: No, score=-2.9 required=4.0 tests=ALL_TRUSTED,BAYES_00
-	autolearn=unavailable version=3.3.2
-Received: from hermes.chez-thomas.org (localhost.localdomain [127.0.0.1])
-	by mail.chez-thomas.org (Postfix) with ESMTP id 736FEF812FA;
-	Thu,  1 Mar 2012 18:19:22 -0700 (MST)
-Message-ID: <4F50201A.8050002@mlbassoc.com>
-Date: Thu, 01 Mar 2012 18:19:22 -0700
-From: Gary Thomas <gary@mlbassoc.com>
-User-Agent: Mozilla/5.0 (X11; Linux i686;
-	rv:10.0) Gecko/20120131 Thunderbird/10.0
-MIME-Version: 1.0
+	Fri, 02 Mar 2012 04:15:31 +0100
+Received: from MBX21.4emm.local ([fe80::a0d4:cb04:3e3c:8690]) by
+	HUB23.4emm.local ([::1]) with mapi id 14.01.0289.001; Thu, 1 Mar 2012
+	22:07:02 -0500
+From: James Limbouris <james@digitalmatter.com.au>
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Subject: Image generation change
+Thread-Topic: [OE-core] [PATCH] gdk-pixbuf: Pick up ${NM} from the environment.
+Thread-Index: AQHM95L+gbITVbvqLEGLvGmgsn/sN5ZWU2kQ
+Date: Fri, 2 Mar 2012 03:07:01 +0000
+Message-ID: <840A81C1B782724A8EB52725BD519EFF33800103@MBX21.4emm.local>
+References: <1330414619-21016-1-git-send-email-james@digitalmatter.com.au>
+	<4F4F4A20.9060406@gmail.com>
+In-Reply-To: <4F4F4A20.9060406@gmail.com>
+Accept-Language: en-AU, en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [203.59.132.158]
+MIME-Version: 1.0
+Subject: Re: [PATCH] gdk-pixbuf: Pick up ${NM} from the	environment.
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -36,64 +36,70 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 02 Mar 2012 01:27:55 -0000
-Content-Type: text/plain; charset=ISO-8859-1; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Fri, 02 Mar 2012 03:15:31 -0000
+Content-Language: en-US
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 
-I'm having a problem after the recent change
-   commit eacedb4f2afa98dbd2f5ea7a9f52e6ea952a72d2
-   Author: Richard Purdie <richard.purdie@linuxfoundation.org>
-   Date:   Wed Feb 29 16:24:26 2012 +0000
+> -----Original Message-----
+> From: openembedded-core-bounces@lists.openembedded.org
+> [mailto:openembedded-core-bounces@lists.openembedded.org] On Behalf
+> Of Khem Raj
+> Sent: Thursday, 1 March 2012 6:06 PM
+> To: openembedded-core@lists.openembedded.org
+> Subject: Re: [OE-core] [PATCH] gdk-pixbuf: Pick up ${NM} from the
+> environment.
+>=20
+> On 02/27/2012 11:36 PM, James Limbouris wrote:
+> > Signed-off-by: James Limbouris <james@digitalmatter.com.au>
+> > ---
+> >  .../gdk-pixbuf-2.24.0/configure_nm.patch           |   19
+> +++++++++++++++++++
+> >  meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf_2.24.0.bb |    3 ++-
+> >  2 files changed, 21 insertions(+), 1 deletions(-)
+> >  create mode 100644 meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf-
+> 2.24.0/configure_nm.patch
+> >
+> > diff --git a/meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf-
+> 2.24.0/configure_nm.patch b/meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf-
+> 2.24.0/configure_nm.patch
+> > new file mode 100644
+> > index 0000000..1697967
+> > --- /dev/null
+> > +++ b/meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf-
+> 2.24.0/configure_nm.patch
+> > @@ -0,0 +1,19 @@
+> > +At this stage of configure, ${NM} has already been correctly set.
+> > +This AC_PATH_PROG overwrites the correct path with a host path.
+> > +
+> > +Upstream-Status: Inappropriate [configuration]
+> > +Signed-off-by: James Limbouris <james@digitalmatter.com.au>
+> > +
+> > +Index: gdk-pixbuf-2.24.0/configure.ac
+> >
+> +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D
+> =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+> > +diff -uNr gdk-pixbuf-2.24.0/configure.ac gdk-pixbuf-
+> 2.24.0.mod/configure.ac
+> > +--- gdk-pixbuf-2.24.0/configure.ac	2011-08-27 11:27:52.000000000 +0800
+> > ++++ gdk-pixbuf-2.24.0.mod/configure.ac	2012-02-28
+> 14:48:36.481126410 +0800
+> > +@@ -147,7 +147,6 @@
+> > + AC_SYS_LARGEFILE
+> > +
+> > + AM_PROG_AS
+> > +-AC_PATH_PROG(NM, nm, nm)
+>=20
+> you could use AC_CHECK_TOOLS(NM, [$NM nm], nm)
+> here instead of deleting it
 
-     image_types: Correctness fixes
+On my system at least, nm has already been found and examined by the config=
+ script at this stage.
+The AC_PATH_PROG looks for it a second time, and overwrites the already cor=
+rect entry.
+So, do we need an AC_CHECK_TOOLS?
 
-     * Add a newline to improve the output formatting
-     * Use set() to turn the list into a set of unique items to prevnt
-       the same image code running twice (for e.g. IMAGE_FSTYPES = "tar.gz tar.bz2")
-     * Support multiple compression extensions such as ".gz.u-boot"
-     * Fix basetype/type typo and fix multiple image generation
-
-     Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-
-I build initrd-style images which can be loaded by U-Boot.  This is a multi-step
-process - first create the root image as ext3.gz, then pack it into the U-Boot
-image.  Before this change, I could use this setup:
-
-IMAGE_FSTYPES = "ext3.gz initrd"
-IMAGE_CMD_initrd = " uboot_initrd;"
-IMAGE_ROOTFS_SIZE = "24576"
-
-where the 'uboot_initrd' command expected the ext3.gz image to be complete and
-all it does is the U-Boot mkimage magic.
-
-This no longer works as when uboot_initrd() runs, there is no ext3.gz image
-yet built.  I'm not sure I understand the exact reason, but if I revert just
-these lines, the process works again.
-
-diff --git a/meta/classes/image_types.bbclass b/meta/classes/image_types.bbclass
-index 5b48a09..8ea170a 100644
---- a/meta/classes/image_types.bbclass
-+++ b/meta/classes/image_types.bbclass
-@@ -29,7 +29,7 @@ def get_imagecmds(d):
-      if d.getVar('IMAGE_LINK_NAME', True):
-          cmds += "      rm -f ${DEPLOY_DIR_IMAGE}/${IMAGE_LINK_NAME}.*"
-
--    for type in set(types):
-+    for type in types:
-          ccmd = []
-          subimages = []
-          localdata = bb.data.createCopy(d)
-
-If there is another way to solve my problem, i.e. generate the wrapped
-up initrd image, that will still work with the code as is, I'd be happy
-to use it, but I'm not sure how to write such a process.
-
-Any ideas gladly accepted, thanks
-
--- 
-------------------------------------------------------------
-Gary Thomas                 |  Consulting for the
-MLB Associates              |    Embedded world
-------------------------------------------------------------
 
 
