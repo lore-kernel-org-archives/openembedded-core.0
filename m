@@ -1,43 +1,43 @@
-Received: from mail-pz0-f47.google.com ([209.85.210.47])
+Received: from mail-lpp01m010-f47.google.com ([209.85.215.47])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <raj.khem@gmail.com>) id 1S3bYQ-0004ZP-VL
+	(envelope-from <raj.khem@gmail.com>) id 1S3c4E-0004wT-PN
 	for openembedded-core@lists.openembedded.org;
-	Sat, 03 Mar 2012 00:06:27 +0100
-Received: by dado14 with SMTP id o14so2202792dad.6
+	Sat, 03 Mar 2012 00:39:18 +0100
+Received: by lagw12 with SMTP id w12so2790370lag.6
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 02 Mar 2012 14:57:54 -0800 (PST)
+	Fri, 02 Mar 2012 15:30:47 -0800 (PST)
 Received-SPF: pass (google.com: domain of raj.khem@gmail.com designates
-	10.68.218.228 as permitted sender) client-ip=10.68.218.228; 
+	10.112.8.129 as permitted sender) client-ip=10.112.8.129; 
 Authentication-Results: mr.google.com;
 	spf=pass (google.com: domain of raj.khem@gmail.com
-	designates 10.68.218.228 as permitted sender)
+	designates 10.112.8.129 as permitted sender)
 	smtp.mail=raj.khem@gmail.com;
 	dkim=pass header.i=raj.khem@gmail.com
-Received: from mr.google.com ([10.68.218.228])
-	by 10.68.218.228 with SMTP id pj4mr21783576pbc.167.1330729074941
-	(num_hops = 1); Fri, 02 Mar 2012 14:57:54 -0800 (PST)
+Received: from mr.google.com ([10.112.8.129])
+	by 10.112.8.129 with SMTP id r1mr5374816lba.38.1330731047402 (num_hops
+	= 1); Fri, 02 Mar 2012 15:30:47 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=from:to:cc:subject:date:message-id:x-mailer;
-	bh=LnoYx3Ggp+oq5fevAkJAGhe5fgUCOS6SjMq6YtrNB4k=;
-	b=kERKktYoeYXq841mLHQwbIdQ79N5G0jWRWzOP+OtZljEEgOO78DMwaaBFLXcMTA2fW
-	W6e5NS5Ih6vZ45TFlfTk5zotFnRChmzumFE3H1HwrQEkfXdhFnEMEkaQ8GM45X2Mn7CE
-	aOrMJ20JOAFmqXzNNEyzRnnBBQiNsbVtJCzaNzpqWIjXhGAvDUwk2nhSVgrG6L3yCA4h
-	l3PxS74rYlutLy1OAcbVUY1UqVBpIVyzE6tl5K04Saa8kCH5LgPo762lOuW0nrfLCCQO
-	nYVY8QRzN7T2IvHyE3z1caZTopUnqICX6rSJDo3m9pQka1tI/2AJDBdxytEZOUT2Us6V
-	Qpbw==
-Received: by 10.68.218.228 with SMTP id pj4mr18232622pbc.167.1330729074847;
-	Fri, 02 Mar 2012 14:57:54 -0800 (PST)
-Received: from localhost.localdomain (oldbuilder.nslu2-linux.org.
-	[140.211.169.168])
-	by mx.google.com with ESMTPS id f5sm6118286pbe.26.2012.03.02.14.57.52
-	(version=TLSv1/SSLv3 cipher=OTHER);
-	Fri, 02 Mar 2012 14:57:53 -0800 (PST)
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:content-type; bh=K1PWHBFnVcuuIkxl0fPKx3jGvdYsXPlB7coJuhkNEiA=;
+	b=GbhAjaCxYg2XGnj06Rk4mu75/+Qd1FOwG0ms9KDIvcKntICeXgUbyL+poKeEj6Wu/d
+	cNKK9jHHzIYOEFJOPfczxFwwWySbK9sxXckMzc3HJ4AIumN041QeZo+1EZnBog16dbzF
+	r3fKVurguC0GR7ph7b4vcQT4xD7L96S2pYGxQk8c+hefpGx7Befb4nJncA6SVaVNKVH3
+	dVfCrs7z7DrTNg7PNG9kRsr2Baz0lM30mzFJVjDEDoTmnbC19B12KFHI9xgwGYhTVMTH
+	P2cksnWkpi6CG55/Ov2934RekTvoPyHJ9xcMK8kvIjspTKyqgRr9Gl5PyAfEnxKOzU3u
+	+Jpg==
+Received: by 10.112.8.129 with SMTP id r1mr4430682lba.38.1330731047315; Fri,
+	02 Mar 2012 15:30:47 -0800 (PST)
+MIME-Version: 1.0
+Received: by 10.152.27.109 with HTTP; Fri, 2 Mar 2012 15:30:17 -0800 (PST)
+In-Reply-To: <CAJG6M_MgcYVomQbn=j_w=+BCDjUAdDe1D==CsQ_eFTJm1=rwQw@mail.gmail.com>
+References: <CAMKF1srTMHyV+2eDaJKuZs9=2VUYkqhJoqfFqZxrdTCCooWMXA@mail.gmail.com>
+	<CAJG6M_MgcYVomQbn=j_w=+BCDjUAdDe1D==CsQ_eFTJm1=rwQw@mail.gmail.com>
 From: Khem Raj <raj.khem@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Date: Fri,  2 Mar 2012 14:57:28 -0800
-Message-Id: <1330729048-22399-1-git-send-email-raj.khem@gmail.com>
-X-Mailer: git-send-email 1.7.5.4
-Subject: [PATCH] eglibc-testing: Fix testing script to work well with dash
+Date: Fri, 2 Mar 2012 15:30:17 -0800
+Message-ID: <CAMKF1sr_9RXwRHYN7M6ELLZEqbQsM7X6RQELiPn697zyGCetzg@mail.gmail.com>
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: Recipes with disabled parallel make
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -52,30 +52,18 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 02 Mar 2012 23:06:27 -0000
+X-List-Received-Date: Fri, 02 Mar 2012 23:39:18 -0000
+Content-Type: text/plain; charset=UTF-8
 
-Dash did not like >& so we do 2 >& 1 > /dev/null
+On Fri, Mar 2, 2012 at 2:29 PM, Yury Bushmelev <jay4mail@gmail.com> wrote:
+>
+> 3. Recipes not tested yet (need more work):
+> meta/recipes-bsp/x-load/x-load.inc (want specific ARCH)
+> meta/recipes-bsp/u-boot/u-boot.inc (multiple versions available)
+> meta/recipes-core/eglibc/eglibc.inc (multiple versions available)
 
-Signed-off-by: Khem Raj <raj.khem@gmail.com>
----
- meta/recipes-core/eglibc/eglibc-testing.inc |    2 +-
- 1 files changed, 1 insertions(+), 1 deletions(-)
-
-diff --git a/meta/recipes-core/eglibc/eglibc-testing.inc b/meta/recipes-core/eglibc/eglibc-testing.inc
-index c30409f..a5ce773 100644
---- a/meta/recipes-core/eglibc/eglibc-testing.inc
-+++ b/meta/recipes-core/eglibc/eglibc-testing.inc
-@@ -47,7 +47,7 @@ then
- 	echo "Please specify the target machine and remote user in form of user@target"
- 	exit 1;
- fi
--ssh \$target ls \$PWD\ >& /dev/null
-+ssh \$target ls \$PWD\  2>&1 > /dev/null
- if [ "x\$?" != "x0" ]
- then
- 	echo "Failed connecting to \$target it could be because of:"
--- 
-1.7.5.4
-
+eglibc is already built parallel. It uses a different flag
+EGLIBCPARALLELISM which directly derived from PARALLEL_MAKE
+since eglibc uses PARALLELMFLAGS="-j X"
 
 
