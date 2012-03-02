@@ -1,33 +1,39 @@
-Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
-	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <richard.purdie@linuxfoundation.org>)
-	id 1S3Sde-0003SX-Kf for openembedded-core@lists.openembedded.org;
-	Fri, 02 Mar 2012 14:35:14 +0100
-Received: from localhost (localhost [127.0.0.1])
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q22DQhpF031936
+Received: from mail-we0-f175.google.com ([74.125.82.175])
+	by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <koen@dominion.thruhere.net>) id 1S3SiJ-0003a0-OI
+	for openembedded-core@lists.openembedded.org;
+	Fri, 02 Mar 2012 14:40:04 +0100
+Received: by wera1 with SMTP id a1so1091197wer.6
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 2 Mar 2012 13:26:43 GMT
-Received: from tim.rpsys.net ([127.0.0.1])
-	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
-	port 10024) with LMTP
-	id 31841-01 for <openembedded-core@lists.openembedded.org>;
-	Fri,  2 Mar 2012 13:26:39 +0000 (GMT)
-Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q22DQYLn031930
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO)
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 2 Mar 2012 13:26:35 GMT
-Message-ID: <1330694798.18076.3.camel@ted>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Date: Fri, 02 Mar 2012 13:26:38 +0000
-In-Reply-To: <81a428ea0e7515ab09e707fbdaba9b1a1b5050b6.1330684260.git.liezhi.yang@windriver.com>
+	Fri, 02 Mar 2012 05:31:32 -0800 (PST)
+Received-SPF: pass (google.com: domain of koen@dominion.thruhere.net
+	designates 10.180.83.97 as permitted sender)
+	client-ip=10.180.83.97; 
+Authentication-Results: mr.google.com; spf=pass (google.com: domain of
+	koen@dominion.thruhere.net designates 10.180.83.97 as permitted
+	sender) smtp.mail=koen@dominion.thruhere.net
+Received: from mr.google.com ([10.180.83.97])
+	by 10.180.83.97 with SMTP id p1mr5292054wiy.19.1330695092990 (num_hops
+	= 1); Fri, 02 Mar 2012 05:31:32 -0800 (PST)
+Received: by 10.180.83.97 with SMTP id p1mr4239852wiy.19.1330695092922;
+	Fri, 02 Mar 2012 05:31:32 -0800 (PST)
+Received: from [172.20.0.96] (ip545070eb.adsl-surfen.hetnet.nl.
+	[84.80.112.235])
+	by mx.google.com with ESMTPS id k6sm3536674wiy.7.2012.03.02.05.31.31
+	(version=TLSv1/SSLv3 cipher=OTHER);
+	Fri, 02 Mar 2012 05:31:32 -0800 (PST)
+Mime-Version: 1.0 (Apple Message framework v1257)
+From: Koen Kooi <koen@dominion.thruhere.net>
+In-Reply-To: <1330694798.18076.3.camel@ted>
+Date: Fri, 2 Mar 2012 14:31:30 +0100
+Message-Id: <3707B894-6275-45C8-B2A3-37263D2C9B1C@dominion.thruhere.net>
 References: <cover.1330684260.git.liezhi.yang@windriver.com>
 	<81a428ea0e7515ab09e707fbdaba9b1a1b5050b6.1330684260.git.liezhi.yang@windriver.com>
-X-Mailer: Evolution 3.2.2- 
-Mime-Version: 1.0
-X-Virus-Scanned: amavisd-new at rpsys.net
+	<1330694798.18076.3.camel@ted>
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+X-Mailer: Apple Mail (2.1257)
+X-Gm-Message-State: ALoCoQn1YHPoElab40fIAXMd0C0cdkGPaBWFLsxrmQPX1Nuk1RQsph0//wTLCZsUq4+VYabEkGgX
 Subject: Re: [PATCH 1/1] V2 Fix libpam's chmod
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
@@ -43,47 +49,60 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 02 Mar 2012 13:35:14 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Fri, 02 Mar 2012 13:40:04 -0000
+Content-Type: text/plain; charset=us-ascii
+Content-Transfer-Encoding: quoted-printable
 
-On Fri, 2012-03-02 at 18:34 +0800, Robert Yang wrote:
-> The libpam's has an error when generating the rootfs:
-> 
-> chmod: cannot access `/usr/sbin/unix_chkpwd': No such file or directory
-> 
-> This is because the following code in libpam_1.1.5.bb:
-> 
-> pkg_postinst_pam-plugin-unix () {
->     # below is necessary to allow unix_chkpwd get user info from shadow file
->     # on lsb images
->     chmod 4755 ${sbindir}/unix_chkpwd
-> }
-> 
-> This is to set the setuid permission for unix_chkpwd (the lsb test
-> requires this), but it lacks a "${D}", and we can do this in the install
-> stage.
-> 
-> [YOCTO #2049]
-> 
-> Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
 
-Robert, in future patches could you use a subject line like:
+Op 2 mrt. 2012, om 14:26 heeft Richard Purdie het volgende geschreven:
 
-[PATCH 1/1 v2] Fix libpam's chmod
+> On Fri, 2012-03-02 at 18:34 +0800, Robert Yang wrote:
+>> The libpam's has an error when generating the rootfs:
+>>=20
+>> chmod: cannot access `/usr/sbin/unix_chkpwd': No such file or =
+directory
+>>=20
+>> This is because the following code in libpam_1.1.5.bb:
+>>=20
+>> pkg_postinst_pam-plugin-unix () {
+>>    # below is necessary to allow unix_chkpwd get user info from =
+shadow file
+>>    # on lsb images
+>>    chmod 4755 ${sbindir}/unix_chkpwd
+>> }
+>>=20
+>> This is to set the setuid permission for unix_chkpwd (the lsb test
+>> requires this), but it lacks a "${D}", and we can do this in the =
+install
+>> stage.
+>>=20
+>> [YOCTO #2049]
+>>=20
+>> Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
+>=20
+> Robert, in future patches could you use a subject line like:
+>=20
+> [PATCH 1/1 v2] Fix libpam's chmod
+>=20
+> instead of:
+>=20
+> [PATCH 1/1] V2 Fix libpam's chmod
+>=20
+> so that when the patches get applied, the V2 is stripped off?
+>=20
+> The reason is that the value isn't particularly within the repository
+> once merged and doesn't look good when looking through commit history.
 
-instead of:
+Actually both versions above are wrong, the right version would be =
+similar to:
 
-[PATCH 1/1] V2 Fix libpam's chmod
+libpam 1.1.5: fix chmod in postinst
 
-so that when the patches get applied, the V2 is stripped off?
+We can debate the usefulness of the version specifier, but we do need to =
+follow the commit guide for the rest.
 
-The reason is that the value isn't particularly within the repository
-once merged and doesn't look good when looking through commit history.
+regards,
 
-Thanks!
-
-Richard
-
+Koen=
 
 
