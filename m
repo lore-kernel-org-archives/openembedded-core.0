@@ -1,29 +1,25 @@
-Received: from smtp25.4emm.com ([69.18.222.26])
+Received: from bluegiga.fi ([194.100.31.45] helo=darkblue.bluegiga.com)
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <james@digitalmatter.com.au>) id 1S3LV5-0007U9-QO
+	(envelope-from <Lauri.Hintsala@bluegiga.com>) id 1S3LuQ-00085f-By
 	for openembedded-core@lists.openembedded.org;
-	Fri, 02 Mar 2012 06:57:57 +0100
-Received: from MBX21.4emm.local ([fe80::a0d4:cb04:3e3c:8690]) by
-	HUB25.4emm.local ([fe80::102d:c89a:95eb:bcfb%15]) with mapi id
-	14.01.0289.001; Fri, 2 Mar 2012 00:49:18 -0500
-From: James Limbouris <james@digitalmatter.com.au>
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Thread-Topic: [OE-core] [PATCH] gdk-pixbuf: Pick up ${NM} from	the environment.
-Thread-Index: AQHM+DS4LF728caIekaC29GEJ2qj9JZWfnlg
-Date: Fri, 2 Mar 2012 05:49:17 +0000
-Message-ID: <840A81C1B782724A8EB52725BD519EFF338001B6@MBX21.4emm.local>
-References: <1330414619-21016-1-git-send-email-james@digitalmatter.com.au>
-	<4F4F4A20.9060406@gmail.com>
-	<840A81C1B782724A8EB52725BD519EFF33800103@MBX21.4emm.local>
-	<20120302052348.GA15160@sakrah.homelinux.org>
-In-Reply-To: <20120302052348.GA15160@sakrah.homelinux.org>
-Accept-Language: en-AU, en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [203.59.132.158]
+	Fri, 02 Mar 2012 07:24:06 +0100
+Received: from [10.1.1.28] ([10.1.1.28]) by darkblue.bluegiga.com with
+	Microsoft SMTPSVC(6.0.3790.4675); Fri, 2 Mar 2012 08:15:37 +0200
+Message-ID: <4F506587.50904@bluegiga.com>
+Date: Fri, 02 Mar 2012 08:15:35 +0200
+From: Lauri Hintsala <lauri.hintsala@bluegiga.com>
+User-Agent: Mozilla/5.0 (X11; U; Linux i686; en-US;
+	rv:1.9.2.27) Gecko/20120216 Lightning/1.0b2 Thunderbird/3.1.19
 MIME-Version: 1.0
-Subject: Re: [PATCH] gdk-pixbuf: Pick up ${NM} from	the	environment.
+To: openembedded-core@lists.openembedded.org
+References: <1330612994-26329-1-git-send-email-gary@mlbassoc.com>	<1330613948.31767.12.camel@ted>
+	<4F4F918B.4010404@mlbassoc.com>	<4F4F9552.8040107@mlbassoc.com>
+	<1330616672.31767.23.camel@ted>	<4F4F9B21.3000407@mlbassoc.com>	<CAP9ODKqmYL2QPDJk8AdDOxoL+EZ+B4y7OwLbsZ-+NDRLjxz3+Q@mail.gmail.com>
+	<4F4F9E70.7010807@mlbassoc.com>
+In-Reply-To: <4F4F9E70.7010807@mlbassoc.com>
+X-OriginalArrivalTime: 02 Mar 2012 06:15:37.0131 (UTC)
+	FILETIME=[E25B87B0:01CCF83B]
+Subject: Re: [PATCH] initscripts: Properly handle new timestamp format
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -38,101 +34,29 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 02 Mar 2012 05:57:57 -0000
-Content-Language: en-US
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Fri, 02 Mar 2012 06:24:06 -0000
+Content-Type: text/plain; charset=ISO-8859-1; format=flowed
+Content-Transfer-Encoding: 7bit
 
-> -----Original Message-----
-> From: openembedded-core-bounces@lists.openembedded.org
-> [mailto:openembedded-core-bounces@lists.openembedded.org] On Behalf
-> Of Khem Raj
-> Sent: Friday, 2 March 2012 1:24 PM
-> To: Patches and discussions about the oe-core layer
-> Subject: Re: [OE-core] [PATCH] gdk-pixbuf: Pick up ${NM} from the
-> environment.
->=20
-> On (02/03/12 03:07), James Limbouris wrote:
-> > > -----Original Message-----
-> > > From: openembedded-core-bounces@lists.openembedded.org
-> > > [mailto:openembedded-core-bounces@lists.openembedded.org] On
-> Behalf
-> > > Of Khem Raj
-> > > Sent: Thursday, 1 March 2012 6:06 PM
-> > > To: openembedded-core@lists.openembedded.org
-> > > Subject: Re: [OE-core] [PATCH] gdk-pixbuf: Pick up ${NM} from the
-> > > environment.
-> > >
-> > > On 02/27/2012 11:36 PM, James Limbouris wrote:
-> > > > Signed-off-by: James Limbouris <james@digitalmatter.com.au>
-> > > > ---
-> > > >  .../gdk-pixbuf-2.24.0/configure_nm.patch           |   19
-> > > +++++++++++++++++++
-> > > >  meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf_2.24.0.bb |    3 ++-
-> > > >  2 files changed, 21 insertions(+), 1 deletions(-)
-> > > >  create mode 100644 meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf-
-> > > 2.24.0/configure_nm.patch
-> > > >
-> > > > diff --git a/meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf-
-> > > 2.24.0/configure_nm.patch b/meta/recipes-gnome/gdk-pixbuf/gdk-
-> pixbuf-
-> > > 2.24.0/configure_nm.patch
-> > > > new file mode 100644
-> > > > index 0000000..1697967
-> > > > --- /dev/null
-> > > > +++ b/meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf-
-> > > 2.24.0/configure_nm.patch
-> > > > @@ -0,0 +1,19 @@
-> > > > +At this stage of configure, ${NM} has already been correctly set.
-> > > > +This AC_PATH_PROG overwrites the correct path with a host path.
-> > > > +
-> > > > +Upstream-Status: Inappropriate [configuration]
-> > > > +Signed-off-by: James Limbouris <james@digitalmatter.com.au>
-> > > > +
-> > > > +Index: gdk-pixbuf-2.24.0/configure.ac
-> > > >
-> > >
-> +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D
-> > > =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-> > > > +diff -uNr gdk-pixbuf-2.24.0/configure.ac gdk-pixbuf-
-> > > 2.24.0.mod/configure.ac
-> > > > +--- gdk-pixbuf-2.24.0/configure.ac	2011-08-27
-> 11:27:52.000000000 +0800
-> > > > ++++ gdk-pixbuf-2.24.0.mod/configure.ac	2012-02-28
-> > > 14:48:36.481126410 +0800
-> > > > +@@ -147,7 +147,6 @@
-> > > > + AC_SYS_LARGEFILE
-> > > > +
-> > > > + AM_PROG_AS
-> > > > +-AC_PATH_PROG(NM, nm, nm)
-> > >
-> > > you could use AC_CHECK_TOOLS(NM, [$NM nm], nm)
-> > > here instead of deleting it
-> >
-> > On my system at least, nm has already been found and examined by the
-> config script at this stage.
-> > The AC_PATH_PROG looks for it a second time, and overwrites the already
-> correct entry.
-> > So, do we need an AC_CHECK_TOOLS?
->=20
-> its set in environment yes but removing it in not correct
-> thing from the package perspective. using AC_CHECK_TOOLS makes it work
-> well
-> in cross environment and native build bahavior is not changed.
-> More over such a patch will be a welcome in upstream of this package
-> as well.
+On 03/01/2012 06:06 PM, Gary Thomas wrote:
+>>> As far as I can recall (which is a really long time), 'date' has always
+>>> wanted the format MMDDHHmm[YYYY], so I think that's what we should
+>>> expect.
+>>> That format doesn't compare easily which is why the timestamp was
+>>> changed
+>>> (not by me) to a more ISO standard YYYYMMDDHHmm. If busybox has 64-bit
+>>> math enabled, then this can be compared with no problems, it just has
+>>> to be munged into the format 'date' wants.
+>>
+>> So we can have compat and 64-bit math and have it properly behaving?
+>
+> Yes, I believe so. I'll work up the patch and test it now.
 
-It is more than set in the environment - the configure script spits out two=
- messages about it before hitting this macro.
-So, I think the check is entirely extraneous.
 
-I have seen this issue patched out in other gnome packages, some in oe-core=
-.
-At least one was marked Upstream-Status: Inappropriate [configuration], and=
- one marked Pending.
-So I got the idea that upstream was not interested...
+It might be very helpful for other developers if 64-bit math requirement 
+of busybox would be documented somewhere.
 
+BR,
+Lauri
 
 
