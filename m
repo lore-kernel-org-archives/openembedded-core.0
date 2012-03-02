@@ -1,39 +1,31 @@
-Received: from mail-pz0-f47.google.com ([209.85.210.47])
+Received: from ibawizard.net
+	([82.208.49.253] helo=mengele.ibawizard.net ident=postfix)
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <steve@sakoman.com>) id 1S3YlA-0007SE-Km
+	(envelope-from <ynezz@mengele.ibawizard.net>) id 1S3ag1-0003PU-SA
 	for openembedded-core@lists.openembedded.org;
-	Fri, 02 Mar 2012 21:07:24 +0100
-Received: by dado14 with SMTP id o14so2085917dad.6
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 02 Mar 2012 11:58:52 -0800 (PST)
-Received-SPF: pass (google.com: domain of steve@sakoman.com designates
-	10.68.229.67 as permitted sender) client-ip=10.68.229.67; 
-Authentication-Results: mr.google.com;
-	spf=pass (google.com: domain of steve@sakoman.com
-	designates 10.68.229.67 as permitted sender)
-	smtp.mail=steve@sakoman.com
-Received: from mr.google.com ([10.68.229.67])
-	by 10.68.229.67 with SMTP id so3mr20032998pbc.163.1330718332506
-	(num_hops = 1); Fri, 02 Mar 2012 11:58:52 -0800 (PST)
+	Fri, 02 Mar 2012 23:10:13 +0100
+Received: by mengele.ibawizard.net (Postfix, from userid 1002)
+	id 17E171D36195; Fri,  2 Mar 2012 23:01:38 +0100 (CET)
+Date: Fri, 2 Mar 2012 23:01:38 +0100
+From: Petr =?iso-8859-2?Q?=A9tetiar?= <ynezz@true.cz>
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Message-ID: <20120302220138.GI21882@ibawizard.net>
+References: <1330547595-11631-1-git-send-email-ynezz@true.cz>
+	<1330617040.31767.25.camel@ted>
+	<CALbNGRRKMKQx1ZSzJruX26J2NGYFBYS+Cgp3W2Pk9ETCRtfY+g@mail.gmail.com>
+	<1330691892.15224.17.camel@ted>
+	<CALbNGRSJMFZ03x25xE+d_Sj6H2g6=gFx5OX15GAO2sRAGKrsSg@mail.gmail.com>
+	<1330694440.18076.1.camel@ted>
 MIME-Version: 1.0
-Received: by 10.68.229.67 with SMTP id so3mr16692006pbc.163.1330718332435;
-	Fri, 02 Mar 2012 11:58:52 -0800 (PST)
-Received: from quadra.sakoman.net
-	(static-74-41-60-154.dsl1.pco.ca.frontiernet.net. [74.41.60.154])
-	by mx.google.com with ESMTPS id j3sm5782599pbb.29.2012.03.02.11.58.50
-	(version=SSLv3 cipher=OTHER); Fri, 02 Mar 2012 11:58:51 -0800 (PST)
-From: Steve Sakoman <steve@sakoman.com>
-To: openembedded-core@lists.openembedded.org
-Date: Fri,  2 Mar 2012 11:58:43 -0800
-Message-Id: <1330718323-17978-1-git-send-email-steve@sakoman.com>
-X-Mailer: git-send-email 1.7.1
-X-Gm-Message-State: ALoCoQlsj/VHoBpr5r2ZIyhWbu2YqxSkgHr+4Uqjnwzw5SuVDERP1URQ84AZvSP4n8SBITimgGpu
-Cc: Steve Sakoman <steve@sakoman.com>
-Subject: [PATCH] wpa-supplicant: fix breakage during rebuild
+In-Reply-To: <1330694440.18076.1.camel@ted>
+User-Agent: Mutt/1.5.18 (2008-05-17)
+Subject: Re: [PATCH] image_types.bbclass: fix link creation	failure if the target already exists
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
-Reply-To: Patches and discussions about the oe-core layer
+Reply-To: Petr =?iso-8859-2?Q?=A9tetiar?= <ynezz@true.cz>,
+	Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
 List-Id: Patches and discussions about the oe-core layer
 	<openembedded-core.lists.openembedded.org>
@@ -44,56 +36,34 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 02 Mar 2012 20:07:25 -0000
+X-List-Received-Date: Fri, 02 Mar 2012 22:10:14 -0000
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-Install phase currently edits files in $S with sed. This causes breakage
-if install is run a second time (due to sstate hash rebuild for example)
+Richard Purdie <richard.purdie@linuxfoundation.org> [2012-03-02 13:20:40]:
 
-The result is hidden build breakage, in particular
-/usr/share/dbus-1/system-services/fi.w1.wpa_supplicant1.service now contains:
+> Thanks, that helps a lot. I'd tested "tar tar" and "tar.gz tar.bz2" but
+> not that :). I think something like:
+> 
+> diff --git a/meta/classes/image_types.bbclass b/meta/classes/image_types.bbclass
+> index 681571d..1bf59a5 100644
+> --- a/meta/classes/image_types.bbclass
+> +++ b/meta/classes/image_types.bbclass
+> @@ -17,7 +17,8 @@ def get_imagecmds(d):
+>                      types.append(basetype)
+>                  if basetype not in cimages:
+>                      cimages[basetype] = []
+> -                cimages[basetype].append(ctype)
+> +                if ctype not in cimages[basetype]:
+> +                    cimages[basetype].append(ctype)
+>                  break
+>          if not basetype and type not in types:
+>              types.append(type)
+> 
+> should fix this?
 
-Exec=/usr/usr/sbin/wpa_supplicant -u
+It's ok now. Thanks.
 
-rather than:
-
-Exec=/usr/sbin/wpa_supplicant -u
-
-This patch does the sed edit after the files are copied to $D, which should be safe.
-
-Signed-off-by: Steve Sakoman <steve@sakoman.com>
----
- .../wpa-supplicant/wpa-supplicant-0.7.inc          |    2 +-
- .../wpa-supplicant/wpa-supplicant_0.7.3.bb         |    2 +-
- 2 files changed, 2 insertions(+), 2 deletions(-)
-
-diff --git a/meta/recipes-connectivity/wpa-supplicant/wpa-supplicant-0.7.inc b/meta/recipes-connectivity/wpa-supplicant/wpa-supplicant-0.7.inc
-index 99317e4..539ab8c 100644
---- a/meta/recipes-connectivity/wpa-supplicant/wpa-supplicant-0.7.inc
-+++ b/meta/recipes-connectivity/wpa-supplicant/wpa-supplicant-0.7.inc
-@@ -58,8 +58,8 @@ do_install () {
- 	install -d ${D}/${sysconfdir}/dbus-1/system.d
- 	install -m 644 ${S}/dbus/dbus-wpa_supplicant.conf ${D}/${sysconfdir}/dbus-1/system.d
- 	install -d ${D}/${datadir}/dbus-1/system-services
--	sed -i -e s:${base_sbindir}:${sbindir}:g ${S}/dbus/*.service
- 	install -m 644 ${S}/dbus/*.service ${D}/${datadir}/dbus-1/system-services
-+	sed -i -e s:${base_sbindir}:${sbindir}:g ${D}/${datadir}/dbus-1/system-services/*.service
- 
- 	install -d ${D}/etc/default/volatiles
- 	install -m 0644 ${WORKDIR}/99_wpa_supplicant ${D}/etc/default/volatiles
-diff --git a/meta/recipes-connectivity/wpa-supplicant/wpa-supplicant_0.7.3.bb b/meta/recipes-connectivity/wpa-supplicant/wpa-supplicant_0.7.3.bb
-index 49f5482..c607fad 100644
---- a/meta/recipes-connectivity/wpa-supplicant/wpa-supplicant_0.7.3.bb
-+++ b/meta/recipes-connectivity/wpa-supplicant/wpa-supplicant_0.7.3.bb
-@@ -1,6 +1,6 @@
- require wpa-supplicant-0.7.inc
- 
--PR = "r6"
-+PR = "r7"
- 
- SRC_URI[md5sum] = "f516f191384a9a546e3f5145c08addda"
- SRC_URI[sha256sum] = "d0cd50caa85346ccc376dcda5ed3c258eef19a93b3cade39d25760118ad59443"
--- 
-1.7.1
-
+-- ynezz
 
 
