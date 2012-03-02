@@ -1,33 +1,31 @@
 Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
 	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
 	(envelope-from <richard.purdie@linuxfoundation.org>)
-	id 1S3URt-0003XZ-03 for openembedded-core@lists.openembedded.org;
-	Fri, 02 Mar 2012 16:31:13 +0100
+	id 1S3Uao-0003pT-2p for openembedded-core@lists.openembedded.org;
+	Fri, 02 Mar 2012 16:40:26 +0100
 Received: from localhost (localhost [127.0.0.1])
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q22FMfdB002110
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 2 Mar 2012 15:22:41 GMT
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q22FVqjV002287;
+	Fri, 2 Mar 2012 15:31:52 GMT
 Received: from tim.rpsys.net ([127.0.0.1])
 	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
 	port 10024) with LMTP
-	id 01088-07 for <openembedded-core@lists.openembedded.org>;
-	Fri,  2 Mar 2012 15:22:36 +0000 (GMT)
+	id 01088-09; Fri,  2 Mar 2012 15:31:48 +0000 (GMT)
 Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q22FMWrF002104
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO)
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 2 Mar 2012 15:22:34 GMT
-Message-ID: <1330701756.309.9.camel@ted>
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q22FViDB002280
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO);
+	Fri, 2 Mar 2012 15:31:45 GMT
+Message-ID: <1330702308.309.10.camel@ted>
 From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Date: Fri, 02 Mar 2012 15:22:36 +0000
-In-Reply-To: <1330478026-3871-1-git-send-email-james@digitalmatter.com.au>
-References: <1330478026-3871-1-git-send-email-james@digitalmatter.com.au>
+To: "Zhai, Edwin" <edwin.zhai@intel.com>
+Date: Fri, 02 Mar 2012 15:31:48 +0000
+In-Reply-To: <20120302063339.GB1450@edwin-gen>
+References: <20120302063339.GB1450@edwin-gen>
 X-Mailer: Evolution 3.2.2- 
 Mime-Version: 1.0
 X-Virus-Scanned: amavisd-new at rpsys.net
-Subject: Re: [PATCH] initscripts: Create the volatiles cache atomically.
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: multilib build failure with shadow-sysroot:do_populate_sysroot_setscene
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -42,24 +40,39 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 02 Mar 2012 15:31:13 -0000
+X-List-Received-Date: Fri, 02 Mar 2012 15:40:26 -0000
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 
-On Wed, 2012-02-29 at 09:13 +0800, James Limbouris wrote:
-> If a machine loses power while building the volatiles cache, it will
-> continue to operate with an incomplete set of volatiles. Fix this by
-> updating atomically.
+On Fri, 2012-03-02 at 14:33 +0800, Zhai, Edwin wrote:
+> RP,
+> I have image-sato multilib build failure with following error:
 > 
-> Signed-off-by: James Limbouris <james@digitalmatter.com.au>
-> ---
->  .../initscripts-1.0/populate-volatile.sh           |   10 ++++++----
->  meta/recipes-core/initscripts/initscripts_1.0.bb   |    2 +-
->  2 files changed, 7 insertions(+), 5 deletions(-)
+> "ERROR: Task do_package_setscene depends upon nonexistant task 
+> /distro/edwin-working/poky/meta/recipes-extended/shadow/shadow-sysroot_4.1.4.3.bb:do_populate_sysroot_setscene
+> Summary: There was 1 ERROR message shown, returning a non-zero exit code."
+> 
+> After removing "shadow-sysroot:do_populate_sysroot_setscene" from 
+> USERADDSETSCENEDEPS in meta/classes/useradd.bbclass, I can pass the build.
+> 
+> Why does it become nonexistant task in multilib building? Any possible fix for 
+> it?
 
-Merged to master, thanks.
+Totally guessing but does replacing:
+
+shadow-sysroot:do_populate_sysroot_setscene
+
+with:
+
+${MLPREFIX}shadow-sysroot:do_populate_sysroot_setscene
+
+work better?
+
+Cheers,
 
 Richard
+
+
 
 
 
