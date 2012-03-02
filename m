@@ -1,25 +1,23 @@
-Received: from mga03.intel.com ([143.182.124.21])
+Received: from mail.windriver.com ([147.11.1.11])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <edwin.zhai@intel.com>) id 1S3MCO-0008KO-HU
+	(envelope-from <Liezhi.Yang@windriver.com>) id 1S3MdS-0000cJ-Sh
 	for openembedded-core@lists.openembedded.org;
-	Fri, 02 Mar 2012 07:42:40 +0100
-Received: from azsmga001.ch.intel.com ([10.2.17.19])
-	by azsmga101.ch.intel.com with ESMTP; 01 Mar 2012 22:33:03 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="113685517"
-Received: from edwin-gen.sh.intel.com (HELO edwin-gen) ([10.239.36.17])
-	by azsmga001.ch.intel.com with SMTP; 01 Mar 2012 22:33:02 -0800
-Received: by edwin-gen (sSMTP sendmail emulation);
-	Fri, 02 Mar 2012 14:33:39 +0800
-Date: Fri, 2 Mar 2012 14:33:39 +0800
-From: "Zhai, Edwin" <edwin.zhai@intel.com>
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-Message-ID: <20120302063339.GB1450@edwin-gen>
+	Fri, 02 Mar 2012 08:10:39 +0100
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca [147.11.189.40])
+	by mail.windriver.com (8.14.3/8.14.3) with ESMTP id q227265S015101
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 1 Mar 2012 23:02:06 -0800 (PST)
+Received: from build-PowerEdge-T100.corp.ad.wrs.com (128.224.163.66) by
+	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server id
+	14.1.255.0; Thu, 1 Mar 2012 23:02:06 -0800
+From: Robert Yang <liezhi.yang@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Fri, 2 Mar 2012 15:02:00 +0800
+Message-ID: <cover.1330670625.git.liezhi.yang@windriver.com>
+X-Mailer: git-send-email 1.7.4.1
 MIME-Version: 1.0
-User-Agent: Mutt/1.5.20 (2009-06-14)
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: multilib build failure with shadow-sysroot:do_populate_sysroot_setscene
+Subject: [PATCH 0/1] Fix libpam's chmod
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -34,29 +32,33 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 02 Mar 2012 06:42:40 -0000
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+X-List-Received-Date: Fri, 02 Mar 2012 07:10:39 -0000
+Content-Type: text/plain
 
-RP,
-I have image-sato multilib build failure with following error:
+Hi Saul,
 
-"ERROR: Task do_package_setscene depends upon nonexistant task 
-/distro/edwin-working/poky/meta/recipes-extended/shadow/shadow-sysroot_4.1.4.3.bb:do_populate_sysroot_setscene
-Summary: There was 1 ERROR message shown, returning a non-zero exit code."
+This patch is based on oe-core, but I don't have permission to put the pull
+request on git://git.openembedded.org/openembedded-core-contrib, so I still
+put the pull request on poky-contrib.
 
-After removing "shadow-sysroot:do_populate_sysroot_setscene" from 
-USERADDSETSCENEDEPS in meta/classes/useradd.bbclass, I can pass the build.
+//Robert
 
-Why does it become nonexistant task in multilib building? Any possible fix for 
-it?
+The following changes since commit 6b6aa170d5c618cfcd016dd1de926db647f7f932:
 
-Thanks,
-Edwin
+  busybox: Restore 'date' compatability (2012-03-01 23:16:43 +0000)
 
+are available in the git repository at:
+  git://git.pokylinux.org/poky-contrib robert/libpam
+  http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=robert/libpam
+
+Robert Yang (1):
+  Fix libpam's chmod
+
+ meta/recipes-extended/pam/libpam_1.1.5.bb |    7 ++-----
+ 1 files changed, 2 insertions(+), 5 deletions(-)
 
 -- 
-best rgds,
-edwin
+1.7.4.1
+
 
 
