@@ -1,18 +1,18 @@
-Received: from mail.windriver.com ([147.11.1.11])
+Received: from mail1.windriver.com ([147.11.146.13])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <Liezhi.Yang@windriver.com>) id 1S3PkU-0004oH-Fd
+	(envelope-from <Liezhi.Yang@windriver.com>) id 1S3PoK-0004s1-2o
 	for openembedded-core@lists.openembedded.org;
-	Fri, 02 Mar 2012 11:30:06 +0100
+	Fri, 02 Mar 2012 11:34:04 +0100
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca [147.11.189.40])
-	by mail.windriver.com (8.14.3/8.14.3) with ESMTP id q22ALYLj008740
+	by mail1.windriver.com (8.14.3/8.14.3) with ESMTP id q22APWeH019677
 	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 2 Mar 2012 02:21:34 -0800 (PST)
+	Fri, 2 Mar 2012 02:25:32 -0800 (PST)
 Received: from [128.224.162.196] (128.224.162.196) by ALA-HCA.corp.ad.wrs.com
 	(147.11.189.50) with Microsoft SMTP Server id 14.1.255.0;
-	Fri, 2 Mar 2012 02:21:34 -0800
-Message-ID: <4F509F2C.6090809@windriver.com>
-Date: Fri, 2 Mar 2012 18:21:32 +0800
+	Fri, 2 Mar 2012 02:25:32 -0800
+Message-ID: <4F50A01B.9030909@windriver.com>
+Date: Fri, 2 Mar 2012 18:25:31 +0800
 From: Robert Yang <liezhi.yang@windriver.com>
 User-Agent: Mozilla/5.0 (X11; Linux i686;
 	rv:9.0) Gecko/20111229 Thunderbird/9.0
@@ -39,7 +39,7 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 02 Mar 2012 10:30:06 -0000
+X-List-Received-Date: Fri, 02 Mar 2012 10:34:04 -0000
 Content-Type: text/plain; charset="ISO-8859-1"; format=flowed
 Content-Transfer-Encoding: 7bit
 
@@ -103,10 +103,10 @@ On 03/02/2012 06:17 PM, Koen Kooi wrote:
 >
 > No, I meant: you change the output package, so you need to increase PR
 
-Would you please give me more explanations? I'm sorry I don't know what does
-this mean:-).
+Ah, got it, the PR field, I will send a V2.
 
 // Robert
+
 
 > _______________________________________________
 > Openembedded-core mailing list
