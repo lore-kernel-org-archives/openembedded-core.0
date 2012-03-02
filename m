@@ -1,28 +1,34 @@
-Received: from hermes.mlbassoc.com ([64.234.241.98] helo=mail.chez-thomas.org)
-	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <gary@mlbassoc.com>) id 1S3Rtm-0008F5-Ur
-	for openembedded-core@lists.openembedded.org;
-	Fri, 02 Mar 2012 13:47:51 +0100
-Received: by mail.chez-thomas.org (Postfix, from userid 1998)
-	id 0DE48F8120B; Fri,  2 Mar 2012 05:39:21 -0700 (MST)
-X-Spam-Checker-Version: SpamAssassin 3.3.2 (2011-06-06) on
-	hermes.chez-thomas.org
-X-Spam-Level: 
-X-Spam-Status: No, score=-2.9 required=4.0 tests=ALL_TRUSTED,BAYES_00
-	autolearn=unavailable version=3.3.2
-Received: from hermes.chez-thomas.org (localhost.localdomain [127.0.0.1])
-	by mail.chez-thomas.org (Postfix) with ESMTP id EDD26F81209;
-	Fri,  2 Mar 2012 05:39:19 -0700 (MST)
-Message-ID: <4F50BF77.6030602@mlbassoc.com>
-Date: Fri, 02 Mar 2012 05:39:19 -0700
-From: Gary Thomas <gary@mlbassoc.com>
-User-Agent: Mozilla/5.0 (X11; Linux i686;
-	rv:10.0) Gecko/20120131 Thunderbird/10.0
-MIME-Version: 1.0
-To: openembedded-core@lists.openembedded.org
-References: <4F50201A.8050002@mlbassoc.com> <1330690453.15224.10.camel@ted>
-In-Reply-To: <1330690453.15224.10.camel@ted>
-Subject: Re: Image generation change
+Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
+	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <richard.purdie@linuxfoundation.org>)
+	id 1S3Ru1-0008H9-If for openembedded-core@lists.openembedded.org;
+	Fri, 02 Mar 2012 13:48:05 +0100
+Received: from localhost (localhost [127.0.0.1])
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q22CdZYV031343
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 2 Mar 2012 12:39:35 GMT
+Received: from tim.rpsys.net ([127.0.0.1])
+	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
+	port 10024) with LMTP
+	id 30925-07 for <openembedded-core@lists.openembedded.org>;
+	Fri,  2 Mar 2012 12:39:31 +0000 (GMT)
+Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q22CdQUI031337
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO)
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 2 Mar 2012 12:39:27 GMT
+Message-ID: <1330691970.15224.18.camel@ted>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Date: Fri, 02 Mar 2012 12:39:30 +0000
+In-Reply-To: <F32A162F-E406-4D75-8BE5-E742C27E2E95@dominion.thruhere.net>
+References: <1330690229.15224.7.camel@ted>
+	<F32A162F-E406-4D75-8BE5-E742C27E2E95@dominion.thruhere.net>
+X-Mailer: Evolution 3.2.2- 
+Mime-Version: 1.0
+X-Virus-Scanned: amavisd-new at rpsys.net
+Subject: Re: [PATCH] base.bbclass: If unpacking again, wipe out ${S}/patches
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -37,72 +43,44 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 02 Mar 2012 12:47:51 -0000
-Content-Type: text/plain; charset=ISO-8859-1; format=flowed
+X-List-Received-Date: Fri, 02 Mar 2012 12:48:05 -0000
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 
-On 2012-03-02 05:14, Richard Purdie wrote:
-> On Thu, 2012-03-01 at 18:19 -0700, Gary Thomas wrote:
->> I'm having a problem after the recent change
->>     commit eacedb4f2afa98dbd2f5ea7a9f52e6ea952a72d2
->>     Author: Richard Purdie<richard.purdie@linuxfoundation.org>
->>     Date:   Wed Feb 29 16:24:26 2012 +0000
->>
->>       image_types: Correctness fixes
->>
->>       * Add a newline to improve the output formatting
->>       * Use set() to turn the list into a set of unique items to prevnt
->>         the same image code running twice (for e.g. IMAGE_FSTYPES = "tar.gz tar.bz2")
->>       * Support multiple compression extensions such as ".gz.u-boot"
->>       * Fix basetype/type typo and fix multiple image generation
->>
->>       Signed-off-by: Richard Purdie<richard.purdie@linuxfoundation.org>
->>
->> I build initrd-style images which can be loaded by U-Boot.  This is a multi-step
->> process - first create the root image as ext3.gz, then pack it into the U-Boot
->> image.  Before this change, I could use this setup:
->>
->> IMAGE_FSTYPES = "ext3.gz initrd"
->> IMAGE_CMD_initrd = " uboot_initrd;"
->> IMAGE_ROOTFS_SIZE = "24576"
->>
->> where the 'uboot_initrd' command expected the ext3.gz image to be complete and
->> all it does is the U-Boot mkimage magic.
->>
->> This no longer works as when uboot_initrd() runs, there is no ext3.gz image
->> yet built.  I'm not sure I understand the exact reason, but if I revert just
->> these lines, the process works again.
->>
->> diff --git a/meta/classes/image_types.bbclass b/meta/classes/image_types.bbclass
->> index 5b48a09..8ea170a 100644
->> --- a/meta/classes/image_types.bbclass
->> +++ b/meta/classes/image_types.bbclass
->> @@ -29,7 +29,7 @@ def get_imagecmds(d):
->>        if d.getVar('IMAGE_LINK_NAME', True):
->>            cmds += "      rm -f ${DEPLOY_DIR_IMAGE}/${IMAGE_LINK_NAME}.*"
->>
->> -    for type in set(types):
->> +    for type in types:
->>            ccmd = []
->>            subimages = []
->>            localdata = bb.data.createCopy(d)
->>
->> If there is another way to solve my problem, i.e. generate the wrapped
->> up initrd image, that will still work with the code as is, I'd be happy
->> to use it, but I'm not sure how to write such a process.
->>
->> Any ideas gladly accepted, thanks
->
-> Does the patch "image_types.bbclass: We need to preserve order in the
-> types variable and avoid set()" fix this problem?
->
+On Fri, 2012-03-02 at 13:29 +0100, Koen Kooi wrote:
+> Op 2 mrt. 2012, om 13:10 heeft Richard Purdie het volgende geschreven:
+> 
+> > If we unpack again, its assumed the data in any patches directory is invalid
+> > since do_patch will run again. This ensures old patch data doesn't get
+> > reused in a confused way.
+> > 
+> > Ideally we should probably wipe out ${S} here but that is probably a change
+> > for another time.
+> > 
+> > [YOCTO #2043 partially]
+> > 
+> > Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+> > ---
+> > diff --git a/meta/classes/base.bbclass b/meta/classes/base.bbclass
+> > index a76fe55..39d3e78 100644
+> > --- a/meta/classes/base.bbclass
+> > +++ b/meta/classes/base.bbclass
+> > @@ -94,6 +94,7 @@ python base_do_fetch() {
+> > 
+> > addtask unpack after do_fetch
+> > do_unpack[dirs] = "${WORKDIR}"
+> > +do_unpack[cleandirs] = "${S}/patches"
+> 
+> This gets clean *before* do_unpack, right? I have a number of recipes
+> that use sources with patches/ as a toplevel subdirectory.
 
-Yes, this works great, thanks
+Yes, bitbake wipes out cleandirs before the task runs. As I mention, we
+could in theory wipe ${S} there, I'm just a little more nervous about
+that change.
 
--- 
-------------------------------------------------------------
-Gary Thomas                 |  Consulting for the
-MLB Associates              |    Embedded world
-------------------------------------------------------------
+Cheers,
+
+Richard
+
 
 
