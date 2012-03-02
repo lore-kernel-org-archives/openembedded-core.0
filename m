@@ -1,25 +1,52 @@
-Received: from mail1.windriver.com ([147.11.146.13])
+Received: from mail-pw0-f47.google.com ([209.85.160.47])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <Liezhi.Yang@windriver.com>) id 1S3MdT-0000cK-9V
+	(envelope-from <raj.khem@gmail.com>) id 1S3NTP-0001Wz-8R
 	for openembedded-core@lists.openembedded.org;
-	Fri, 02 Mar 2012 08:10:39 +0100
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca [147.11.189.40])
-	by mail1.windriver.com (8.14.3/8.14.3) with ESMTP id q22727J4017148
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
+	Fri, 02 Mar 2012 09:04:19 +0100
+Received: by pbbrp12 with SMTP id rp12so1579773pbb.6
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 1 Mar 2012 23:02:07 -0800 (PST)
-Received: from build-PowerEdge-T100.corp.ad.wrs.com (128.224.163.66) by
-	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server id
-	14.1.255.0; Thu, 1 Mar 2012 23:02:07 -0800
-From: Robert Yang <liezhi.yang@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Fri, 2 Mar 2012 15:02:01 +0800
-Message-ID: <faf86eef0c803de04cb1a23041cce959a34ecee5.1330670625.git.liezhi.yang@windriver.com>
-X-Mailer: git-send-email 1.7.4.1
-In-Reply-To: <cover.1330670625.git.liezhi.yang@windriver.com>
-References: <cover.1330670625.git.liezhi.yang@windriver.com>
+	Thu, 01 Mar 2012 23:55:47 -0800 (PST)
+Received-SPF: pass (google.com: domain of raj.khem@gmail.com designates
+	10.68.240.41 as permitted sender) client-ip=10.68.240.41; 
+Authentication-Results: mr.google.com;
+	spf=pass (google.com: domain of raj.khem@gmail.com
+	designates 10.68.240.41 as permitted sender)
+	smtp.mail=raj.khem@gmail.com;
+	dkim=pass header.i=raj.khem@gmail.com
+Received: from mr.google.com ([10.68.240.41])
+	by 10.68.240.41 with SMTP id vx9mr12390379pbc.10.1330674947682
+	(num_hops = 1); Thu, 01 Mar 2012 23:55:47 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=date:from:to:subject:message-id:references:mime-version
+	:content-type:content-disposition:in-reply-to:user-agent;
+	bh=xKjT+lD8XtAI3LWZKW9WzlF5VsS0agkczsKxwoXcCvQ=;
+	b=fCqeesnpySgSV+8v5a+Og+xwyThi+PwmxAyuhCgTo5iA+T/bbTSY2WGOvietMm+KJZ
+	BwjNxY+waE4Tf7xN1fQ8yf7zVFQ8BGUm8QQ+yy4nuq0/XWnmDC2sKT3ox4bEZHkxNmU2
+	oiVdrQ8+z5SdLIz8USFeuQyAh1ePP37ha0UOcASAgelKW7DVqE+R2dQc8TMAzIri2ZFa
+	O0iUG/Z9mpYzYVyUOFkxQ+4Vy5zcH88RLL/nsOmslpnTDHP/h2SMVxnrMZwq5My2dsHT
+	Dz9yGRVA+uGxOep5n61883trt6/RtbxPLI2Vd//4uuvZQ8LMN9CixVW3i7EvCbXeuwuN
+	Q2zw==
+Received: by 10.68.240.41 with SMTP id vx9mr10256607pbc.10.1330674947502;
+	Thu, 01 Mar 2012 23:55:47 -0800 (PST)
+Received: from sakrah.homelinux.org
+	(99-57-140-209.lightspeed.sntcca.sbcglobal.net. [99.57.140.209])
+	by mx.google.com with ESMTPS id d4sm4360119pbe.36.2012.03.01.23.55.44
+	(version=TLSv1/SSLv3 cipher=OTHER);
+	Thu, 01 Mar 2012 23:55:45 -0800 (PST)
+Date: Thu, 1 Mar 2012 23:55:37 -0800
+From: Khem Raj <raj.khem@gmail.com>
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Message-ID: <20120302075537.GA1850@sakrah.homelinux.org>
+References: <1330414619-21016-1-git-send-email-james@digitalmatter.com.au>
+	<4F4F4A20.9060406@gmail.com>
+	<840A81C1B782724A8EB52725BD519EFF33800103@MBX21.4emm.local>
+	<20120302052348.GA15160@sakrah.homelinux.org>
+	<840A81C1B782724A8EB52725BD519EFF338001B6@MBX21.4emm.local>
 MIME-Version: 1.0
-Subject: [PATCH 1/1] Fix libpam's chmod
+In-Reply-To: <840A81C1B782724A8EB52725BD519EFF338001B6@MBX21.4emm.local>
+User-Agent: Mutt/1.5.21 (2010-09-15)
+Subject: Re: [PATCH] gdk-pixbuf: Pick up ${NM} from	the	environment.
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -34,51 +61,32 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 02 Mar 2012 07:10:39 -0000
-Content-Type: text/plain
+X-List-Received-Date: Fri, 02 Mar 2012 08:04:19 -0000
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-The libpam's has an error when generating the rootfs:
+> It is more than set in the environment - the configure script spits out two messages about it before hitting this macro.
+> So, I think the check is entirely extraneous.
+> 
 
-chmod: cannot access `/usr/sbin/unix_chkpwd': No such file or directory
+if you can point that there is another check which makes this one
+redundant thats a different issue and then your patch is ok. but I doubt
+thats the case
 
-This is because the following code in libpam_1.1.5.bb:
+> I have seen this issue patched out in other gnome packages, some in oe-core.
+> At least one was marked Upstream-Status: Inappropriate [configuration], and one marked Pending.
+> So I got the idea that upstream was not interested...
 
-pkg_postinst_pam-plugin-unix () {
-    # below is necessary to allow unix_chkpwd get user info from shadow file
-    # on lsb images
-    chmod 4755 ${sbindir}/unix_chkpwd
-}
+usually such patches are taken status may be too conservative
 
-This is to set the setuid permission for unix_chkpwd (the lsb test
-requires this), but it lacks a "${D}", and we can do this in the install
-stage.
+> 
+> 
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
 
-[YOCTO #2049]
-
-Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
----
- meta/recipes-extended/pam/libpam_1.1.5.bb |    7 ++-----
- 1 files changed, 2 insertions(+), 5 deletions(-)
-
-diff --git a/meta/recipes-extended/pam/libpam_1.1.5.bb b/meta/recipes-extended/pam/libpam_1.1.5.bb
-index 283f477..8cddca9 100644
---- a/meta/recipes-extended/pam/libpam_1.1.5.bb
-+++ b/meta/recipes-extended/pam/libpam_1.1.5.bb
-@@ -85,10 +85,7 @@ do_install() {
- 
- 	install -d ${D}${sysconfdir}/pam.d/     
- 	install -m 0644 ${WORKDIR}/pam.d/* ${D}${sysconfdir}/pam.d/
--}
- 
--pkg_postinst_pam-plugin-unix () {
--    # below is necessary to allow unix_chkpwd get user info from shadow file
--    # on lsb images
--    chmod 4755 ${sbindir}/unix_chkpwd
-+    # The lsb requires unix_chkpwd has setuid permission
-+    chmod 4755 ${D}${sbindir}/unix_chkpwd
- }
 -- 
-1.7.4.1
-
+-Khem
 
 
