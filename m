@@ -1,36 +1,29 @@
-Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
-	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <richard.purdie@linuxfoundation.org>)
-	id 1S3Spw-0003lk-Ae for openembedded-core@lists.openembedded.org;
-	Fri, 02 Mar 2012 14:47:56 +0100
-Received: from localhost (localhost [127.0.0.1])
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q22DdPJ3032200
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 2 Mar 2012 13:39:25 GMT
-Received: from tim.rpsys.net ([127.0.0.1])
-	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
-	port 10024) with LMTP
-	id 31378-08 for <openembedded-core@lists.openembedded.org>;
-	Fri,  2 Mar 2012 13:39:20 +0000 (GMT)
-Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q22DdGHD032188
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO)
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 2 Mar 2012 13:39:17 GMT
-Message-ID: <1330695560.309.2.camel@ted>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Date: Fri, 02 Mar 2012 13:39:20 +0000
-In-Reply-To: <3707B894-6275-45C8-B2A3-37263D2C9B1C@dominion.thruhere.net>
-References: <cover.1330684260.git.liezhi.yang@windriver.com>
-	<81a428ea0e7515ab09e707fbdaba9b1a1b5050b6.1330684260.git.liezhi.yang@windriver.com>
-	<1330694798.18076.3.camel@ted>
-	<3707B894-6275-45C8-B2A3-37263D2C9B1C@dominion.thruhere.net>
-X-Mailer: Evolution 3.2.2- 
-Mime-Version: 1.0
-X-Virus-Scanned: amavisd-new at rpsys.net
-Subject: Re: [PATCH 1/1] V2 Fix libpam's chmod
+Received: from hermes.mlbassoc.com ([64.234.241.98] helo=mail.chez-thomas.org)
+	by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <gary@mlbassoc.com>) id 1S3SqS-0003oB-5C
+	for openembedded-core@lists.openembedded.org;
+	Fri, 02 Mar 2012 14:48:28 +0100
+Received: by mail.chez-thomas.org (Postfix, from userid 1998)
+	id 7B77CF81210; Fri,  2 Mar 2012 06:39:58 -0700 (MST)
+X-Spam-Checker-Version: SpamAssassin 3.3.2 (2011-06-06) on
+	hermes.chez-thomas.org
+X-Spam-Level: 
+X-Spam-Status: No, score=-2.9 required=4.0 tests=ALL_TRUSTED,BAYES_00
+	autolearn=ham version=3.3.2
+Received: from hermes.chez-thomas.org (localhost.localdomain [127.0.0.1])
+	by mail.chez-thomas.org (Postfix) with ESMTP id CF0EFF8120B;
+	Fri,  2 Mar 2012 06:39:57 -0700 (MST)
+Message-ID: <4F50CDAD.6060209@mlbassoc.com>
+Date: Fri, 02 Mar 2012 06:39:57 -0700
+From: Gary Thomas <gary@mlbassoc.com>
+User-Agent: Mozilla/5.0 (X11; Linux i686;
+	rv:10.0) Gecko/20120131 Thunderbird/10.0
+MIME-Version: 1.0
+To: openembedded-core@lists.openembedded.org
+References: <1330675739.1086.154.camel@localhost.localdomain>
+	<1330691655.15224.14.camel@ted>
+In-Reply-To: <1330691655.15224.14.camel@ted>
+Subject: Re: [image_types_uboot] getdepends for ext2.gz.u-boot
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -45,66 +38,35 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 02 Mar 2012 13:47:56 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Fri, 02 Mar 2012 13:48:28 -0000
+Content-Type: text/plain; charset=ISO-8859-1; format=flowed
 Content-Transfer-Encoding: 7bit
 
-On Fri, 2012-03-02 at 14:31 +0100, Koen Kooi wrote:
-> Op 2 mrt. 2012, om 14:26 heeft Richard Purdie het volgende geschreven:
-> 
-> > On Fri, 2012-03-02 at 18:34 +0800, Robert Yang wrote:
-> >> The libpam's has an error when generating the rootfs:
-> >> 
-> >> chmod: cannot access `/usr/sbin/unix_chkpwd': No such file or directory
-> >> 
-> >> This is because the following code in libpam_1.1.5.bb:
-> >> 
-> >> pkg_postinst_pam-plugin-unix () {
-> >>    # below is necessary to allow unix_chkpwd get user info from shadow file
-> >>    # on lsb images
-> >>    chmod 4755 ${sbindir}/unix_chkpwd
-> >> }
-> >> 
-> >> This is to set the setuid permission for unix_chkpwd (the lsb test
-> >> requires this), but it lacks a "${D}", and we can do this in the install
-> >> stage.
-> >> 
-> >> [YOCTO #2049]
-> >> 
-> >> Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
-> > 
-> > Robert, in future patches could you use a subject line like:
-> > 
-> > [PATCH 1/1 v2] Fix libpam's chmod
-> > 
-> > instead of:
-> > 
-> > [PATCH 1/1] V2 Fix libpam's chmod
-> > 
-> > so that when the patches get applied, the V2 is stripped off?
-> > 
-> > The reason is that the value isn't particularly within the repository
-> > once merged and doesn't look good when looking through commit history.
-> 
-> Actually both versions above are wrong, the right version would be similar to:
-> 
-> libpam 1.1.5: fix chmod in postinst
-> 
-> We can debate the usefulness of the version specifier, but we do need to follow the commit guide for the rest.
+On 2012-03-02 05:34, Richard Purdie wrote:
+> On Fri, 2012-03-02 at 16:08 +0800, Ni Qingliang wrote:
+>> Hello,
+>>
+>> when using ext2.gz.u-boot as IMAGE_FSTYPES, I got error when doing
+>> rootfs with error info:
+>> genext2fs: command not found
+>>
+>> after checked fuction imagetypes_getdepends, I guess the ext2's
+>> dependency is not considered. maybe we should assign 'ext2' to
+>> 'basetype', but not 'type' directly.
+>>
+>> Any idea?
+>
+> Does
+> http://git.yoctoproject.org/cgit.cgi/poky/commit/?id=78ae63423f123f89a5c72c85539e6ed71bd2653d fix the problem for you?
 
-Good point, I was just commenting that the patch version specifier
-didn't look good. As you say, the package name should be first too, as
-per http://wiki.openembedded.org/wiki/Commit_Patch_Message_Guidelines
-under Common Errors in Patch and Commit Messages: '- Short log does not
-start with the file or component being modified. Such as "foo: Update to
-new upstream version 5.8.9"'.
+This looks like what I'm doing with my own generator.  I tried
+it, with & without this patch, and I don't get a ext2.gz.u-boot
+image, only a broken link.
 
-If I was going to be picky, I'd suggest capitalisation of "fix" in your
-version ;-)
-
-Cheers,
-
-Richard
-
+-- 
+------------------------------------------------------------
+Gary Thomas                 |  Consulting for the
+MLB Associates              |    Embedded world
+------------------------------------------------------------
 
 
