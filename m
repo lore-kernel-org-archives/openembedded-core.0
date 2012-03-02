@@ -1,25 +1,30 @@
-Received: from mail.windriver.com ([147.11.1.11])
-	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <Liezhi.Yang@windriver.com>) id 1S3Pwu-00050m-1C
-	for openembedded-core@lists.openembedded.org;
-	Fri, 02 Mar 2012 11:42:56 +0100
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca [147.11.189.40])
-	by mail.windriver.com (8.14.3/8.14.3) with ESMTP id q22AYO7x010283
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
+Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
+	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <richard.purdie@linuxfoundation.org>)
+	id 1S3RR9-0007El-2W for openembedded-core@lists.openembedded.org;
+	Fri, 02 Mar 2012 13:18:15 +0100
+Received: from localhost (localhost [127.0.0.1])
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q22C9iQA030565
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 2 Mar 2012 02:34:24 -0800 (PST)
-Received: from build-PowerEdge-T100.corp.ad.wrs.com (128.224.163.66) by
-	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server id
-	14.1.255.0; Fri, 2 Mar 2012 02:34:24 -0800
-From: Robert Yang <liezhi.yang@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Fri, 2 Mar 2012 18:34:19 +0800
-Message-ID: <81a428ea0e7515ab09e707fbdaba9b1a1b5050b6.1330684260.git.liezhi.yang@windriver.com>
-X-Mailer: git-send-email 1.7.4.1
-In-Reply-To: <cover.1330684260.git.liezhi.yang@windriver.com>
-References: <cover.1330684260.git.liezhi.yang@windriver.com>
-MIME-Version: 1.0
-Subject: [PATCH 1/1] V2 Fix libpam's chmod
+	Fri, 2 Mar 2012 12:09:44 GMT
+Received: from tim.rpsys.net ([127.0.0.1])
+	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
+	port 10024) with LMTP
+	id 29319-08 for <openembedded-core@lists.openembedded.org>;
+	Fri,  2 Mar 2012 12:09:39 +0000 (GMT)
+Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q22C9YKe030558
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO)
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 2 Mar 2012 12:09:38 GMT
+Message-ID: <1330690177.15224.6.camel@ted>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: openembedded-core <openembedded-core@lists.openembedded.org>
+Date: Fri, 02 Mar 2012 12:09:37 +0000
+X-Mailer: Evolution 3.2.2- 
+Mime-Version: 1.0
+X-Virus-Scanned: amavisd-new at rpsys.net
+Subject: [PATCH] lib/oe/patch.py: Fix and improve PatchTree() resolver logic
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -34,60 +39,134 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 02 Mar 2012 10:42:56 -0000
-Content-Type: text/plain
+X-List-Received-Date: Fri, 02 Mar 2012 12:18:15 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-The libpam's has an error when generating the rootfs:
+Currently, if PATCHRESOLVE is user and and PatchTree() is being used, you can
+get backtraces if patch application fails. This is because even in the failure
+case, self._current is incremented, meaning second time around, there are array
+range issues.
 
-chmod: cannot access `/usr/sbin/unix_chkpwd': No such file or directory
+This patch changes the code so _current is only incremented upon successful
+patch application, thereby resolving this failure.
 
-This is because the following code in libpam_1.1.5.bb:
+Secondly, if you bitbake -c patch -f a recipe using PatchTree(), the
+clean method was unimplemented leading to patch failures.
 
-pkg_postinst_pam-plugin-unix () {
-    # below is necessary to allow unix_chkpwd get user info from shadow file
-    # on lsb images
-    chmod 4755 ${sbindir}/unix_chkpwd
-}
+The other part of this patch changes the logic so a series file and
+set of applied patches are maintained in a quilt like fashion. This
+means a the Clean method can be implemented correctly and rerunning
+the patch task of an existing patches source now works reliably.
 
-This is to set the setuid permission for unix_chkpwd (the lsb test
-requires this), but it lacks a "${D}", and we can do this in the install
-stage.
+[YOCTO #2043 partially]
 
-[YOCTO #2049]
-
-Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 ---
- meta/recipes-extended/pam/libpam_1.1.5.bb |    9 +++------
- 1 files changed, 3 insertions(+), 6 deletions(-)
+diff --git a/meta/lib/oe/patch.py b/meta/lib/oe/patch.py
+index 6f7f900..a5b31b8 100644
+--- a/meta/lib/oe/patch.py
++++ b/meta/lib/oe/patch.py
+@@ -98,7 +98,37 @@ class PatchSet(object):
+ class PatchTree(PatchSet):
+     def __init__(self, dir, d):
+         PatchSet.__init__(self, dir, d)
+-
++        self.patchdir = os.path.join(self.dir, 'patches')
++        self.seriespath = os.path.join(self.dir, 'patches', 'series')
++        bb.utils.mkdirhier(self.patchdir)
++
++    def _appendPatchFile(self, patch, strippath):
++        with open(self.seriespath, 'a') as f:
++            f.write(os.path.basename(patch) + "," + strippath + "\n")
++        shellcmd = ["cat", patch, ">" , self.patchdir + "/" + os.path.basename(patch)]
++        runcmd(["sh", "-c", " ".join(shellcmd)], self.dir)
++
++    def _removePatch(self, p):
++        patch = {}
++        patch['file'] = p.split(",")[0]
++        patch['strippath'] = p.split(",")[1]
++        self._applypatch(patch, False, True)
++
++    def _removePatchFile(self, all = False):
++        if not os.path.exists(self.seriespath):
++            return
++        patches = open(self.seriespath, 'r+').readlines()
++        if all:
++            for p in reversed(patches):
++                self._removePatch(os.path.join(self.patchdir, p.strip()))
++            patches = []
++        else:
++            self._removePatch(os.path.join(self.patchdir, patches[-1].strip()))
++            patches.pop()
++        with open(self.seriespath, 'w') as f:
++            for p in patches:
++                f.write(p)
++         
+     def Import(self, patch, force = None):
+         """"""
+         PatchSet.Import(self, patch, force)
+@@ -127,6 +157,10 @@ class PatchTree(PatchSet):
+ 
+         shellcmd.pop(len(shellcmd) - 1)
+         output = runcmd(["sh", "-c", " ".join(shellcmd)], self.dir)
++
++        if not reverse:
++            self._appendPatchFile(patch['file'], patch['strippath'])
++
+         return output
+ 
+     def Push(self, force = False, all = False, run = True):
+@@ -134,30 +168,37 @@ class PatchTree(PatchSet):
+         bb.note("patches is %s" % self.patches)
+         if all:
+             for i in self.patches:
+-                if self._current is not None:
+-                    self._current = self._current + 1
+-                else:
+-                    self._current = 0
+                 bb.note("applying patch %s" % i)
+                 self._applypatch(i, force)
++                self._current = i
+         else:
+             if self._current is not None:
+-                self._current = self._current + 1
++                next = self._current + 1
+             else:
+-                self._current = 0
+-            bb.note("applying patch %s" % self.patches[self._current])
+-            return self._applypatch(self.patches[self._current], force)
++                next = 0
++
++            bb.note("applying patch %s" % self.patches[next])
++            ret = self._applypatch(self.patches[next], force)
+ 
++            self._current = next
++            return ret
+ 
+     def Pop(self, force = None, all = None):
+         if all:
+-            for i in self.patches:
+-                self._applypatch(i, force, True)
++            self._removePatchFile(True)
++            self._current = None
+         else:
+-            self._applypatch(self.patches[self._current], force, True)
++            self._removePatchFile(False)
++
++        if self._current == 0:
++            self._current = None
++
++        if self._current is not None:
++            self._current = self._current - 1
+ 
+     def Clean(self):
+         """"""
++        self.Pop(all=True)
+ 
+ class GitApplyTree(PatchTree):
+     def __init__(self, dir, d):
 
-diff --git a/meta/recipes-extended/pam/libpam_1.1.5.bb b/meta/recipes-extended/pam/libpam_1.1.5.bb
-index 283f477..8dd5ac5 100644
---- a/meta/recipes-extended/pam/libpam_1.1.5.bb
-+++ b/meta/recipes-extended/pam/libpam_1.1.5.bb
-@@ -9,7 +9,7 @@ SECTION = "base"
- LICENSE = "GPLv2+ | BSD"
- LIC_FILES_CHKSUM = "file://COPYING;md5=ca0395de9a86191a078b8b79302e3083"
- 
--PR = "r2"
-+PR = "r3"
- 
- SRC_URI = "https://fedorahosted.org/releases/l/i/linux-pam/Linux-PAM-${PV}.tar.bz2 \
-            file://99_pam \
-@@ -85,10 +85,7 @@ do_install() {
- 
- 	install -d ${D}${sysconfdir}/pam.d/     
- 	install -m 0644 ${WORKDIR}/pam.d/* ${D}${sysconfdir}/pam.d/
--}
- 
--pkg_postinst_pam-plugin-unix () {
--    # below is necessary to allow unix_chkpwd get user info from shadow file
--    # on lsb images
--    chmod 4755 ${sbindir}/unix_chkpwd
-+    # The lsb requires unix_chkpwd has setuid permission
-+    chmod 4755 ${D}${sbindir}/unix_chkpwd
- }
--- 
-1.7.4.1
 
 
 
