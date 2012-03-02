@@ -1,33 +1,30 @@
-Received: from mail-wi0-f175.google.com ([209.85.212.175])
+Received: from hermes.mlbassoc.com ([64.234.241.98] helo=mail.chez-thomas.org)
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <koen@dominion.thruhere.net>) id 1S3TFS-0007Eg-Qz
+	(envelope-from <gary@mlbassoc.com>) id 1S3TY0-0000FR-AH
 	for openembedded-core@lists.openembedded.org;
-	Fri, 02 Mar 2012 15:14:18 +0100
-Received: by wibhq12 with SMTP id hq12so672917wib.6
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 02 Mar 2012 06:05:48 -0800 (PST)
-Received: by 10.180.100.196 with SMTP id fa4mr5384614wib.0.1330697148042;
-	Fri, 02 Mar 2012 06:05:48 -0800 (PST)
-Received: from [172.20.0.96] (ip545070eb.adsl-surfen.hetnet.nl.
-	[84.80.112.235])
-	by mx.google.com with ESMTPS id cc3sm10393673wib.7.2012.03.02.06.05.46
-	(version=TLSv1/SSLv3 cipher=OTHER);
-	Fri, 02 Mar 2012 06:05:47 -0800 (PST)
-Mime-Version: 1.0 (Apple Message framework v1257)
-From: Koen Kooi <koen@dominion.thruhere.net>
-In-Reply-To: <1330695560.309.2.camel@ted>
-Date: Fri, 2 Mar 2012 15:05:45 +0100
-Message-Id: <5E812D36-C010-4494-9622-6536E8443097@dominion.thruhere.net>
-References: <cover.1330684260.git.liezhi.yang@windriver.com>
-	<81a428ea0e7515ab09e707fbdaba9b1a1b5050b6.1330684260.git.liezhi.yang@windriver.com>
-	<1330694798.18076.3.camel@ted>
-	<3707B894-6275-45C8-B2A3-37263D2C9B1C@dominion.thruhere.net>
-	<1330695560.309.2.camel@ted>
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-X-Mailer: Apple Mail (2.1257)
-X-Gm-Message-State: ALoCoQnJdDfLvte2XfTKoTBAt5jZQBD1GeAlwpNvTPOGFTA1vXdOqbFcYVCdd+0kSF+08B1yQLMg
-Subject: Re: [PATCH 1/1] V2 Fix libpam's chmod
+	Fri, 02 Mar 2012 15:33:28 +0100
+Received: by mail.chez-thomas.org (Postfix, from userid 1998)
+	id A63F0F81213; Fri,  2 Mar 2012 07:24:58 -0700 (MST)
+X-Spam-Checker-Version: SpamAssassin 3.3.2 (2011-06-06) on
+	hermes.chez-thomas.org
+X-Spam-Level: 
+X-Spam-Status: No, score=-2.9 required=4.0 tests=ALL_TRUSTED,BAYES_00
+	autolearn=unavailable version=3.3.2
+Received: from hermes.chez-thomas.org (localhost.localdomain [127.0.0.1])
+	by mail.chez-thomas.org (Postfix) with ESMTP id 9F7E8F81210;
+	Fri,  2 Mar 2012 07:24:56 -0700 (MST)
+Message-ID: <4F50D838.7000703@mlbassoc.com>
+Date: Fri, 02 Mar 2012 07:24:56 -0700
+From: Gary Thomas <gary@mlbassoc.com>
+User-Agent: Mozilla/5.0 (X11; Linux i686;
+	rv:10.0) Gecko/20120131 Thunderbird/10.0
+MIME-Version: 1.0
+To: openembedded-core@lists.openembedded.org
+References: <1330675739.1086.154.camel@localhost.localdomain>
+	<1330691655.15224.14.camel@ted> <4F50CDAD.6060209@mlbassoc.com>
+	<1330696435.309.3.camel@ted>
+In-Reply-To: <1330696435.309.3.camel@ted>
+Subject: Re: [image_types_uboot] getdepends for ext2.gz.u-boot
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -42,83 +39,41 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 02 Mar 2012 14:14:19 -0000
-Content-Type: text/plain; charset=us-ascii
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Fri, 02 Mar 2012 14:33:28 -0000
+Content-Type: text/plain; charset=ISO-8859-1; format=flowed
+Content-Transfer-Encoding: 7bit
 
+On 2012-03-02 06:53, Richard Purdie wrote:
+> On Fri, 2012-03-02 at 06:39 -0700, Gary Thomas wrote:
+>> On 2012-03-02 05:34, Richard Purdie wrote:
+>>> On Fri, 2012-03-02 at 16:08 +0800, Ni Qingliang wrote:
+>>>> Hello,
+>>>>
+>>>> when using ext2.gz.u-boot as IMAGE_FSTYPES, I got error when doing
+>>>> rootfs with error info:
+>>>> genext2fs: command not found
+>>>>
+>>>> after checked fuction imagetypes_getdepends, I guess the ext2's
+>>>> dependency is not considered. maybe we should assign 'ext2' to
+>>>> 'basetype', but not 'type' directly.
+>>>>
+>>>> Any idea?
+>>>
+>>> Does
+>>> http://git.yoctoproject.org/cgit.cgi/poky/commit/?id=78ae63423f123f89a5c72c85539e6ed71bd2653d fix the problem for you?
+>>
+>> This looks like what I'm doing with my own generator.  I tried
+>> it, with&  without this patch, and I don't get a ext2.gz.u-boot
+>> image, only a broken link.
+>
+> That sounds like what happens if you don't inherit image_types_uboot
 
-Op 2 mrt. 2012, om 14:39 heeft Richard Purdie het volgende geschreven:
+Indeed.  This method also works perfectly, thanks!
 
-> On Fri, 2012-03-02 at 14:31 +0100, Koen Kooi wrote:
->> Op 2 mrt. 2012, om 14:26 heeft Richard Purdie het volgende =
-geschreven:
->>=20
->>> On Fri, 2012-03-02 at 18:34 +0800, Robert Yang wrote:
->>>> The libpam's has an error when generating the rootfs:
->>>>=20
->>>> chmod: cannot access `/usr/sbin/unix_chkpwd': No such file or =
-directory
->>>>=20
->>>> This is because the following code in libpam_1.1.5.bb:
->>>>=20
->>>> pkg_postinst_pam-plugin-unix () {
->>>>   # below is necessary to allow unix_chkpwd get user info from =
-shadow file
->>>>   # on lsb images
->>>>   chmod 4755 ${sbindir}/unix_chkpwd
->>>> }
->>>>=20
->>>> This is to set the setuid permission for unix_chkpwd (the lsb test
->>>> requires this), but it lacks a "${D}", and we can do this in the =
-install
->>>> stage.
->>>>=20
->>>> [YOCTO #2049]
->>>>=20
->>>> Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
->>>=20
->>> Robert, in future patches could you use a subject line like:
->>>=20
->>> [PATCH 1/1 v2] Fix libpam's chmod
->>>=20
->>> instead of:
->>>=20
->>> [PATCH 1/1] V2 Fix libpam's chmod
->>>=20
->>> so that when the patches get applied, the V2 is stripped off?
->>>=20
->>> The reason is that the value isn't particularly within the =
-repository
->>> once merged and doesn't look good when looking through commit =
-history.
->>=20
->> Actually both versions above are wrong, the right version would be =
-similar to:
->>=20
->> libpam 1.1.5: fix chmod in postinst
->>=20
->> We can debate the usefulness of the version specifier, but we do need =
-to follow the commit guide for the rest.
->=20
-> Good point, I was just commenting that the patch version specifier
-> didn't look good. As you say, the package name should be first too, as
-> per http://wiki.openembedded.org/wiki/Commit_Patch_Message_Guidelines
-> under Common Errors in Patch and Commit Messages: '- Short log does =
-not
-> start with the file or component being modified. Such as "foo: Update =
-to
-> new upstream version 5.8.9"'.
->=20
-> If I was going to be picky, I'd suggest capitalisation of "fix" in =
-your
-> version ;-)
-
-I'm a bit conflicted on that one. If I'm going to treat it as a sentence =
-by using caps, I'd also like to use proper punctuation, which the =
-guidelines don't allow. And that's why I said 'similar' :)
-
-regards,
-
-Koen=
+-- 
+------------------------------------------------------------
+Gary Thomas                 |  Consulting for the
+MLB Associates              |    Embedded world
+------------------------------------------------------------
 
 
