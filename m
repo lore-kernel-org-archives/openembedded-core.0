@@ -1,39 +1,37 @@
-Received: from mail-we0-f175.google.com ([74.125.82.175])
+Received: from sputnik.urmx.de ([88.198.51.18])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <koen@dominion.thruhere.net>) id 1S3OCA-0002Os-No
+	(envelope-from <Eibach@gdsys.de>) id 1S3PK0-0004LQ-SK
 	for openembedded-core@lists.openembedded.org;
-	Fri, 02 Mar 2012 09:50:34 +0100
-Received: by wera1 with SMTP id a1so925227wer.6
+	Fri, 02 Mar 2012 11:02:44 +0100
+Received: from mailrelay.gdsys.de (unknown [217.6.197.20])
+	by sputnik.urmx.de (Postfix) with ESMTP id 5CF0E6000FAA
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 02 Mar 2012 00:42:04 -0800 (PST)
-Received-SPF: pass (google.com: domain of koen@dominion.thruhere.net
-	designates 10.180.99.164 as permitted sender)
-	client-ip=10.180.99.164; 
-Authentication-Results: mr.google.com; spf=pass (google.com: domain of
-	koen@dominion.thruhere.net designates 10.180.99.164 as
-	permitted sender) smtp.mail=koen@dominion.thruhere.net
-Received: from mr.google.com ([10.180.99.164])
-	by 10.180.99.164 with SMTP id er4mr2969663wib.11.1330677724285
-	(num_hops = 1); Fri, 02 Mar 2012 00:42:04 -0800 (PST)
-Received: by 10.180.99.164 with SMTP id er4mr2377227wib.11.1330677724228;
-	Fri, 02 Mar 2012 00:42:04 -0800 (PST)
-Received: from [172.20.1.36] (ip545070eb.adsl-surfen.hetnet.nl.
-	[84.80.112.235])
-	by mx.google.com with ESMTPS id df3sm1985519wib.1.2012.03.02.00.42.02
-	(version=TLSv1/SSLv3 cipher=OTHER);
-	Fri, 02 Mar 2012 00:42:03 -0800 (PST)
-Mime-Version: 1.0 (Apple Message framework v1257)
-From: Koen Kooi <koen@dominion.thruhere.net>
-In-Reply-To: <faf86eef0c803de04cb1a23041cce959a34ecee5.1330670625.git.liezhi.yang@windriver.com>
-Date: Fri, 2 Mar 2012 09:42:03 +0100
-Message-Id: <3F8819B5-BFD1-4A1B-AB0E-B54829635281@dominion.thruhere.net>
-References: <cover.1330670625.git.liezhi.yang@windriver.com>
-	<faf86eef0c803de04cb1a23041cce959a34ecee5.1330670625.git.liezhi.yang@windriver.com>
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-X-Mailer: Apple Mail (2.1257)
-X-Gm-Message-State: ALoCoQnbxA5CzqgjbF4x+fgDagIB9L9nW4TYfnnp3a3gpEcPC575GUic2xdE2CfQW5rc6Kqfk4gb
-Subject: Re: [PATCH 1/1] Fix libpam's chmod
+	Fri,  2 Mar 2012 10:54:14 +0100 (CET)
+Received: from mailsgw.gdsys.de (localhost [127.0.0.1])
+	by mailsgw.gdsys.de (Postfix) with ESMTP id 1B2721F8801
+	for <openembedded-core@lists.openembedded.org>;
+	Fri,  2 Mar 2012 10:54:15 +0100 (CET)
+X-Spam-Processed: srv201.gdsys.de, Fri, 02 Mar 2012 10:54:13 +0100
+	(not processed: message from trusted or authenticated source)
+X-Return-Path: Eibach@gdsys.de
+X-Envelope-From: Eibach@gdsys.de
+X-MDaemon-Deliver-To: openembedded-core@lists.openembedded.org
+MIME-Version: 1.0
+Importance: normal
+Priority: normal
+X-MIMEOLE: Produced By Microsoft MimeOLE V6.00.3790.4913
+Date: Fri, 2 Mar 2012 10:54:20 +0100
+Message-ID: <48D3D52125C49B43AE880038E2E5314BB5BFA4@SRV101.gdsys.de>
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+Thread-Topic: Build for powerpc spe broken
+thread-index: Acz4V8dvGE2kPzXtTAeK/7rTL2tQTg==
+From: "Eibach, Dirk" <Eibach@gdsys.de>
+Cc: <openembedded-core@lists.openembedded.org>
+X-SafeGuard_MailGateway: Version: 5.60.3.11066 SGMG Date: 20120302095415Z
+X-AntiVirus: checked by AntiVir MailGate (version: 2.0.2-5; AVE: 7.9.10.8;
+	VDF: 7.11.24.118; host: mailrelay)
+Subject: Build for powerpc spe broken
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -48,62 +46,28 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 02 Mar 2012 08:50:34 -0000
-Content-Type: text/plain; charset=us-ascii
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Fri, 02 Mar 2012 10:02:45 -0000
+Content-Class: urn:content-classes:message
+Content-Type: text/plain;
+	charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 
 
-Op 2 mrt. 2012, om 08:02 heeft Robert Yang het volgende geschreven:
+Commits
+12f0a0d3e1afe90633c8b95d36670ab0f156e912
+785962440131f993b912d26cba39dc7ffc91aad4
+01fd9be5db633d881c789c5b119f794a3f1000da
 
-> The libpam's has an error when generating the rootfs:
->=20
-> chmod: cannot access `/usr/sbin/unix_chkpwd': No such file or =
-directory
->=20
-> This is because the following code in libpam_1.1.5.bb:
->=20
-> pkg_postinst_pam-plugin-unix () {
->    # below is necessary to allow unix_chkpwd get user info from shadow =
-file
->    # on lsb images
->    chmod 4755 ${sbindir}/unix_chkpwd
-> }
->=20
-> This is to set the setuid permission for unix_chkpwd (the lsb test
-> requires this), but it lacks a "${D}", and we can do this in the =
-install
-> stage.
->=20
-> [YOCTO #2049]
->=20
-> Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
-> ---
-> meta/recipes-extended/pam/libpam_1.1.5.bb |    7 ++-----
-> 1 files changed, 2 insertions(+), 5 deletions(-)
->=20
-> diff --git a/meta/recipes-extended/pam/libpam_1.1.5.bb =
-b/meta/recipes-extended/pam/libpam_1.1.5.bb
-> index 283f477..8cddca9 100644
-> --- a/meta/recipes-extended/pam/libpam_1.1.5.bb
-> +++ b/meta/recipes-extended/pam/libpam_1.1.5.bb
-> @@ -85,10 +85,7 @@ do_install() {
->=20
-> 	install -d ${D}${sysconfdir}/pam.d/    =20
-> 	install -m 0644 ${WORKDIR}/pam.d/* ${D}${sysconfdir}/pam.d/
-> -}
->=20
-> -pkg_postinst_pam-plugin-unix () {
-> -    # below is necessary to allow unix_chkpwd get user info from =
-shadow file
-> -    # on lsb images
-> -    chmod 4755 ${sbindir}/unix_chkpwd
-> +    # The lsb requires unix_chkpwd has setuid permission
-> +    chmod 4755 ${D}${sbindir}/unix_chkpwd
+break building for powerpc spe, it seems a powerpc-nf toolchain is
+built.
 
-MIssing PR bump
+Patch "[PATCH 3/4] arch-powerpc.inc: use default value of TUNE_PKGARCH"
+was not pulled and I don't see a replacement for it yet. Matthew, do you
+have something in your queue?
 
-regards,
+Cheers
+Dirk
 
-Koen=
+
 
 
