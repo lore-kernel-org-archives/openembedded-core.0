@@ -1,34 +1,39 @@
-Received: from smtp1.4emm.com ([69.18.222.47])
+Received: from mail-we0-f175.google.com ([74.125.82.175])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <james@digitalmatter.com.au>) id 1S3NkX-0001pv-Mm
+	(envelope-from <koen@dominion.thruhere.net>) id 1S3OCA-0002Os-No
 	for openembedded-core@lists.openembedded.org;
-	Fri, 02 Mar 2012 09:22:01 +0100
-Received: from HUB20.4emm.local (192.168.160.61) by HUB01.4emm.local
-	(192.168.160.132) with Microsoft SMTP Server (TLS) id 8.2.255.0;
-	Fri, 2 Mar 2012 03:12:27 -0500
-Received: from MBX21.4emm.local ([fe80::a0d4:cb04:3e3c:8690]) by
-	HUB20.4emm.local ([fe80::25a0:1c69:da2b:f9cc%14]) with mapi id
-	14.01.0289.001; Fri, 2 Mar 2012 03:12:27 -0500
-From: James Limbouris <james@digitalmatter.com.au>
+	Fri, 02 Mar 2012 09:50:34 +0100
+Received: by wera1 with SMTP id a1so925227wer.6
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 02 Mar 2012 00:42:04 -0800 (PST)
+Received-SPF: pass (google.com: domain of koen@dominion.thruhere.net
+	designates 10.180.99.164 as permitted sender)
+	client-ip=10.180.99.164; 
+Authentication-Results: mr.google.com; spf=pass (google.com: domain of
+	koen@dominion.thruhere.net designates 10.180.99.164 as
+	permitted sender) smtp.mail=koen@dominion.thruhere.net
+Received: from mr.google.com ([10.180.99.164])
+	by 10.180.99.164 with SMTP id er4mr2969663wib.11.1330677724285
+	(num_hops = 1); Fri, 02 Mar 2012 00:42:04 -0800 (PST)
+Received: by 10.180.99.164 with SMTP id er4mr2377227wib.11.1330677724228;
+	Fri, 02 Mar 2012 00:42:04 -0800 (PST)
+Received: from [172.20.1.36] (ip545070eb.adsl-surfen.hetnet.nl.
+	[84.80.112.235])
+	by mx.google.com with ESMTPS id df3sm1985519wib.1.2012.03.02.00.42.02
+	(version=TLSv1/SSLv3 cipher=OTHER);
+	Fri, 02 Mar 2012 00:42:03 -0800 (PST)
+Mime-Version: 1.0 (Apple Message framework v1257)
+From: Koen Kooi <koen@dominion.thruhere.net>
+In-Reply-To: <faf86eef0c803de04cb1a23041cce959a34ecee5.1330670625.git.liezhi.yang@windriver.com>
+Date: Fri, 2 Mar 2012 09:42:03 +0100
+Message-Id: <3F8819B5-BFD1-4A1B-AB0E-B54829635281@dominion.thruhere.net>
+References: <cover.1330670625.git.liezhi.yang@windriver.com>
+	<faf86eef0c803de04cb1a23041cce959a34ecee5.1330670625.git.liezhi.yang@windriver.com>
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Thread-Topic: [OE-core] [PATCH] gdk-pixbuf: Pick up ${NM}	from	the environment.
-Thread-Index: AQHM+EnqMvHyRRMz806ZZqq3dc67pJZWpE/w
-Date: Fri, 2 Mar 2012 08:12:26 +0000
-Message-ID: <840A81C1B782724A8EB52725BD519EFF3380020C@MBX21.4emm.local>
-References: <1330414619-21016-1-git-send-email-james@digitalmatter.com.au>
-	<4F4F4A20.9060406@gmail.com>
-	<840A81C1B782724A8EB52725BD519EFF33800103@MBX21.4emm.local>
-	<20120302052348.GA15160@sakrah.homelinux.org>
-	<840A81C1B782724A8EB52725BD519EFF338001B6@MBX21.4emm.local>
-	<20120302075537.GA1850@sakrah.homelinux.org>
-In-Reply-To: <20120302075537.GA1850@sakrah.homelinux.org>
-Accept-Language: en-AU, en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [203.59.132.158]
-MIME-Version: 1.0
-Subject: Re: [PATCH] gdk-pixbuf: Pick up ${NM}	from	the	environment.
+X-Mailer: Apple Mail (2.1257)
+X-Gm-Message-State: ALoCoQnbxA5CzqgjbF4x+fgDagIB9L9nW4TYfnnp3a3gpEcPC575GUic2xdE2CfQW5rc6Kqfk4gb
+Subject: Re: [PATCH 1/1] Fix libpam's chmod
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -43,141 +48,62 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 02 Mar 2012 08:22:01 -0000
-Content-Language: en-US
-Content-Type: text/plain; charset="us-ascii"
+X-List-Received-Date: Fri, 02 Mar 2012 08:50:34 -0000
+Content-Type: text/plain; charset=us-ascii
 Content-Transfer-Encoding: quoted-printable
 
-> -----Original Message-----
-> From: openembedded-core-bounces@lists.openembedded.org
-> [mailto:openembedded-core-bounces@lists.openembedded.org] On Behalf
-> Of Khem Raj
-> Sent: Friday, 2 March 2012 3:56 PM
-> To: Patches and discussions about the oe-core layer
-> Subject: Re: [OE-core] [PATCH] gdk-pixbuf: Pick up ${NM} from the
-> environment.
+
+Op 2 mrt. 2012, om 08:02 heeft Robert Yang het volgende geschreven:
+
+> The libpam's has an error when generating the rootfs:
 >=20
-> > It is more than set in the environment - the configure script spits out=
- two
-> messages about it before hitting this macro.
-> > So, I think the check is entirely extraneous.
-> >
+> chmod: cannot access `/usr/sbin/unix_chkpwd': No such file or =
+directory
 >=20
-> if you can point that there is another check which makes this one
-> redundant thats a different issue and then your patch is ok. but I doubt
-> thats the case
+> This is because the following code in libpam_1.1.5.bb:
 >=20
-> > I have seen this issue patched out in other gnome packages, some in oe-
-> core.
-> > At least one was marked Upstream-Status: Inappropriate [configuration],
-> and one marked Pending.
-> > So I got the idea that upstream was not interested...
+> pkg_postinst_pam-plugin-unix () {
+>    # below is necessary to allow unix_chkpwd get user info from shadow =
+file
+>    # on lsb images
+>    chmod 4755 ${sbindir}/unix_chkpwd
+> }
 >=20
-> usually such patches are taken status may be too conservative
+> This is to set the setuid permission for unix_chkpwd (the lsb test
+> requires this), but it lacks a "${D}", and we can do this in the =
+install
+> stage.
 >=20
+> [YOCTO #2049]
+>=20
+> Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
+> ---
+> meta/recipes-extended/pam/libpam_1.1.5.bb |    7 ++-----
+> 1 files changed, 2 insertions(+), 5 deletions(-)
+>=20
+> diff --git a/meta/recipes-extended/pam/libpam_1.1.5.bb =
+b/meta/recipes-extended/pam/libpam_1.1.5.bb
+> index 283f477..8cddca9 100644
+> --- a/meta/recipes-extended/pam/libpam_1.1.5.bb
+> +++ b/meta/recipes-extended/pam/libpam_1.1.5.bb
+> @@ -85,10 +85,7 @@ do_install() {
+>=20
+> 	install -d ${D}${sysconfdir}/pam.d/    =20
+> 	install -m 0644 ${WORKDIR}/pam.d/* ${D}${sysconfdir}/pam.d/
+> -}
+>=20
+> -pkg_postinst_pam-plugin-unix () {
+> -    # below is necessary to allow unix_chkpwd get user info from =
+shadow file
+> -    # on lsb images
+> -    chmod 4755 ${sbindir}/unix_chkpwd
+> +    # The lsb requires unix_chkpwd has setuid permission
+> +    chmod 4755 ${D}${sbindir}/unix_chkpwd
 
-Here is the fragment from the configure script, with the patch applied. Sor=
-ry, it's quite long:
+MIssing PR bump
 
-{ $as_echo "$as_me:${as_lineno-$LINENO}: checking for BSD- or MS-compatible=
- name lister (nm)" >&5
-$as_echo_n "checking for BSD- or MS-compatible name lister (nm)... " >&6; }
-if ${lt_cv_path_NM+:} false; then :
-  $as_echo_n "(cached) " >&6
-else
-  if test -n "$NM"; then
-  # Let the user override the test.
-  lt_cv_path_NM=3D"$NM"
-else
-  lt_nm_to_check=3D"${ac_tool_prefix}nm"
-  if test -n "$ac_tool_prefix" && test "$build" =3D "$host"; then
-    lt_nm_to_check=3D"$lt_nm_to_check nm"
-  fi
-  for lt_tmp_nm in $lt_nm_to_check; do
-    lt_save_ifs=3D"$IFS"; IFS=3D$PATH_SEPARATOR
-    for ac_dir in $PATH /usr/ccs/bin/elf /usr/ccs/bin /usr/ucb /bin; do
-      IFS=3D"$lt_save_ifs"
-      test -z "$ac_dir" && ac_dir=3D.
-      tmp_nm=3D"$ac_dir/$lt_tmp_nm"
-      if test -f "$tmp_nm" || test -f "$tmp_nm$ac_exeext" ; then
-	# Check to see if the nm accepts a BSD-compat flag.
-	# Adding the `sed 1q' prevents false positives on HP-UX, which says:
-	#   nm: unknown option "B" ignored
-	# Tru64's nm complains that /dev/null is an invalid object file
-	case `"$tmp_nm" -B /dev/null 2>&1 | sed '1q'` in
-	*/dev/null* | *'Invalid file or object type'*)
-	  lt_cv_path_NM=3D"$tmp_nm -B"
-	  break
-	  ;;
-	*)
-	  case `"$tmp_nm" -p /dev/null 2>&1 | sed '1q'` in
-	  */dev/null*)
-	    lt_cv_path_NM=3D"$tmp_nm -p"
-	    break
-	    ;;
-	  *)
-	    lt_cv_path_NM=3D${lt_cv_path_NM=3D"$tmp_nm"} # keep the first match, b=
-ut
-	    continue # so that we can try to find one that supports BSD flags
-	    ;;
-	  esac
-	  ;;
-	esac
-      fi
-    done
-    IFS=3D"$lt_save_ifs"
-  done
-  : ${lt_cv_path_NM=3Dno}
-fi
-fi
-{ $as_echo "$as_me:${as_lineno-$LINENO}: result: $lt_cv_path_NM" >&5
-$as_echo "$lt_cv_path_NM" >&6; }
-if test "$lt_cv_path_NM" !=3D "no"; then
-  NM=3D"$lt_cv_path_NM"
-else
-  # Didn't find any BSD compatible name lister, look for dumpbin.
-  if test -n "$DUMPBIN"; then :
-    # Let the user override the test.
-  else
-    if test -n "$ac_tool_prefix"; then
-  for ac_prog in dumpbin "link -dump"
-  do
-    # Extract the first word of "$ac_tool_prefix$ac_prog", so it can be a p=
-rogram name with args.
-set dummy $ac_tool_prefix$ac_prog; ac_word=3D$2
-{ $as_echo "$as_me:${as_lineno-$LINENO}: checking for $ac_word" >&5
-$as_echo_n "checking for $ac_word... " >&6; }
-if ${ac_cv_prog_DUMPBIN+:} false; then :
-  $as_echo_n "(cached) " >&6
-else
-  if test -n "$DUMPBIN"; then
-  ac_cv_prog_DUMPBIN=3D"$DUMPBIN" # Let the user override the test.
-else
-as_save_IFS=3D$IFS; IFS=3D$PATH_SEPARATOR
-for as_dir in $PATH
-do
-  IFS=3D$as_save_IFS
-  test -z "$as_dir" && as_dir=3D.
-    for ac_exec_ext in '' $ac_executable_extensions; do
-  if { test -f "$as_dir/$ac_word$ac_exec_ext" && $as_test_x "$as_dir/$ac_wo=
-rd$ac_exec_ext"; }; then
-    ac_cv_prog_DUMPBIN=3D"$ac_tool_prefix$ac_prog"
-    $as_echo "$as_me:${as_lineno-$LINENO}: found $as_dir/$ac_word$ac_exec_e=
-xt" >&5
-    break 2
-  fi
-done
-  done
-IFS=3D$as_save_IFS
+regards,
 
-
-I believe this code is generated by libtool, in ./m4/libtool.m4.
-I have _no_ idea how libtool works, or fits in with autotools, so I'm not t=
-oo sure whether AC_CHECK_TOOLS makes sense here or not.
-I'm happy to resubmit and/or file a bugzilla report with Gnome.
-
-Regards,
-James
-
+Koen=
 
 
