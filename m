@@ -1,25 +1,42 @@
-Received: from mail1.windriver.com ([147.11.146.13])
+Received: from mail-yx0-f175.google.com ([209.85.213.175])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <Xiaofeng.Yan@windriver.com>) id 1S3moA-0002n1-E3
+	(envelope-from <otavio.salvador@gmail.com>) id 1S3t44-0000cJ-1y
 	for openembedded-core@lists.openembedded.org;
-	Sat, 03 Mar 2012 12:07:26 +0100
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca [147.11.189.40])
-	by mail1.windriver.com (8.14.3/8.14.3) with ESMTP id q23AwsAc008111
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
+	Sat, 03 Mar 2012 18:48:16 +0100
+Received: by yenm3 with SMTP id m3so1171174yen.6
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 3 Mar 2012 02:58:54 -0800 (PST)
-Received: from localhost (128.224.162.28) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server (TLS) id 14.1.255.0;
-	Sat, 3 Mar 2012 02:58:53 -0800
-Message-ID: <b0099a1b242e3c0b5a6229ddd6fa889581ef5ea7.1330772078.git.xiaofeng.yan@windriver.com>
-In-Reply-To: <cover.1330772078.git.xiaofeng.yan@windriver.com>
-References: <cover.1330772078.git.xiaofeng.yan@windriver.com>
-Old-Date: Fri, 2 Mar 2012 15:54:15 +0800
-Date: Sat, 3 Mar 2012 18:59:50 +0800
-To: <openembedded-core@lists.openembedded.org>
-From: Xiaofeng Yan <xiaofeng.yan@windriver.com>
-MIME-Version: 1.0
-Subject: [PATCH 3/3] libx11-trim: Add error information from LSB Test Suite to makekeys_crosscompile.patch
+	Sat, 03 Mar 2012 09:39:43 -0800 (PST)
+Received-SPF: pass (google.com: domain of otavio.salvador@gmail.com designates
+	10.236.173.132 as permitted sender) client-ip=10.236.173.132; 
+Authentication-Results: mr.google.com; spf=pass (google.com: domain of
+	otavio.salvador@gmail.com designates 10.236.173.132 as
+	permitted sender) smtp.mail=otavio.salvador@gmail.com;
+	dkim=pass header.i=otavio.salvador@gmail.com
+Received: from mr.google.com ([10.236.173.132])
+	by 10.236.173.132 with SMTP id v4mr19474626yhl.78.1330796383341
+	(num_hops = 1); Sat, 03 Mar 2012 09:39:43 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=sender:from:to:subject:date:message-id:x-mailer;
+	bh=NWxlHrZ52kFL2Cxq4ML1GU7mzMjqsttnjlNXUPjfg2Q=;
+	b=S5YZVXapTKug8BfR2VkQlrJjMQxEpxTWD41P04b/+LUwxjYbiAC1Ulr5N88vZa6P/I
+	pHbqoq8cPozwTre5PvbOAw9ENoMm+uAvvc9nZiAESX1D9nM+GN+lCXxcgAR+bXyv7GWV
+	sPNGHpZTVNbPHK3vUQNmkgqdcPPI2tDIi4DRqaqchV48bTbBLU4ZB2vMuel6tq7MN7hn
+	QtiG832cS+QZLNRJpttm0+RObZm2kTdNBwS7dQea1kuYpApPBkABcaRqvLtG6tN8kQ03
+	jcvdtF1JG6cVPmutGRDGOySu56zP0F69R0YH9dPWP2LbjAoFfucWSxR5vGd2hoDqbhR+
+	o2rQ==
+Received: by 10.236.173.132 with SMTP id v4mr15434401yhl.78.1330796383294;
+	Sat, 03 Mar 2012 09:39:43 -0800 (PST)
+Received: from localhost.localdomain ([186.218.100.214])
+	by mx.google.com with ESMTPS id o11sm15284275anl.11.2012.03.03.09.39.41
+	(version=TLSv1/SSLv3 cipher=OTHER);
+	Sat, 03 Mar 2012 09:39:42 -0800 (PST)
+Sender: Otavio Salvador <otavio.salvador@gmail.com>
+From: Otavio Salvador <otavio@ossystems.com.br>
+To: openembedded-core@lists.openembedded.org
+Date: Sat,  3 Mar 2012 17:39:30 +0000
+Message-Id: <cover.1330796256.git.otavio@ossystems.com.br>
+X-Mailer: git-send-email 1.7.2.5
+Subject: [PATCH 0/4] Postinst trigger improvements for images
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -34,64 +51,35 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 03 Mar 2012 11:07:26 -0000
-Content-Type: text/plain
+X-List-Received-Date: Sat, 03 Mar 2012 17:48:16 -0000
 
-From: Xiaofeng Yan <xiaofeng.yan@windriver.com>
+This patchset make consistent the name used as postinst trigger in rootfs.
 
-Append error information from LSB Test Suite to this patch for an illustrative purpose \
-why this patches should be needed.
+The following changes since commit 857840472705af1c0fbb8db917b4bb6809b929a6:
 
-Signed-off-by: Xiaofeng Yan <xiaofeng.yan@windriver.com>
----
- .../libx11-trim-1.4.4/makekeys_crosscompile.patch  |   33 +++++++++++++++++++-
- 1 files changed, 32 insertions(+), 1 deletions(-)
+  wpa-supplicant: fix breakage during rebuild (2012-03-02 22:35:03 +0000)
 
-diff --git a/meta/recipes-graphics/xorg-lib/libx11-trim-1.4.4/makekeys_crosscompile.patch b/meta/recipes-graphics/xorg-lib/libx11-trim-1.4.4/makekeys_crosscompile.patch
-index e5eacf0..daf3696 100644
---- a/meta/recipes-graphics/xorg-lib/libx11-trim-1.4.4/makekeys_crosscompile.patch
-+++ b/meta/recipes-graphics/xorg-lib/libx11-trim-1.4.4/makekeys_crosscompile.patch
-@@ -1,6 +1,37 @@
- Because the size of "unsigned long" is different between 32-bit
- and 64-bit, judge whether target is 32-bit or 64-bit and tell
--"makekey". 
-+"makekey".
-+
-+The error information from LSB Test suite is as follow:
-+VSW5TESTSUITE PURPOSE 7
-+Assertion XStringToKeysym-7.(A)
-+When the string argument is the name of a KeySym in the 
-+table with the prefix XK_ removed, then a call to
-+XStringToKeysym returns that KeySym.
-+METH: For each KeySym name in table with code G:
-+METH: Call XStringToKeysym to obtain the KeySym defined for that string.
-+METH: Verify that XStringToKeysym did not return NoSymbol.
-+METH: Verify that the returned string is correct.
-+CHECK: XStringToKeysym-7 1, line 130 
-+CHECK: XStringToKeysym-7 2, line 140 
-+CHECK: XStringToKeysym-7 3, line 150 
-+CHECK: XStringToKeysym-7 4, line 160 
-+CHECK: XStringToKeysym-7 5, line 170 
-+CHECK: XStringToKeysym-7 6, line 180 
-+CHECK: XStringToKeysym-7 7, line 190 
-+CHECK: XStringToKeysym-7 8, line 200 
-+CHECK: XStringToKeysym-7 9, line 210 
-+CHECK: XStringToKeysym-7 10, line 220 
-+CHECK: XStringToKeysym-7 11, line 230 
-+CHECK: XStringToKeysym-7 12, line 240 
-+CHECK: XStringToKeysym-7 13, line 250 
-+CHECK: XStringToKeysym-7 14, line 260 
-+CHECK: XStringToKeysym-7 15, line 270 
-+CHECK: XStringToKeysym-7 16, line 280 
-+CHECK: XStringToKeysym-7 17, line 290 
-+CHECK: XStringToKeysym-7 18, line 300 
-+CHECK: XStringToKeysym-7 19, line 310 
-+CHECK: XStringToKeysym-7 20, line 320
- 
- Upstream-Status: Pending
- 
+are available in the git repository at:
+  git://github.com/OSSystems/oe-core master
+  https://github.com/OSSystems/oe-core/tree/HEAD
+
+Otavio Salvador (4):
+  run-postinsts: fix opkg data path
+  image.bbclass: fix rootfs generation without package management tools
+  rootfs_rpm.bbclass: rename postinst trigger script
+  opkg: rename postinst trigger script
+
+ meta/classes/core-image.bbclass                    |    2 --
+ meta/classes/image.bbclass                         |    7 +++++--
+ meta/classes/rootfs_rpm.bbclass                    |    6 +++---
+ .../dpkg/run-postinsts/run-postinsts               |    4 ++--
+ .../dpkg/run-postinsts/run-postinsts.awk           |    2 +-
+ meta/recipes-devtools/dpkg/run-postinsts_1.0.bb    |    2 +-
+ meta/recipes-devtools/opkg/opkg.inc                |    8 ++++----
+ 7 files changed, 16 insertions(+), 15 deletions(-)
+
 -- 
-1.7.0.4
+1.7.2.5
 
 
 
