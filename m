@@ -1,25 +1,23 @@
 Received: from mail.windriver.com ([147.11.1.11])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <Xiaofeng.Yan@windriver.com>) id 1S3mih-0002ci-Nu
+	(envelope-from <Xiaofeng.Yan@windriver.com>) id 1S3mo2-0002lM-QX
 	for openembedded-core@lists.openembedded.org;
-	Sat, 03 Mar 2012 12:01:48 +0100
+	Sat, 03 Mar 2012 12:07:19 +0100
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca [147.11.189.40])
-	by mail.windriver.com (8.14.3/8.14.3) with ESMTP id q23ArFH4017607
+	by mail.windriver.com (8.14.3/8.14.3) with ESMTP id q23Awkev018435
 	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 3 Mar 2012 02:53:15 -0800 (PST)
+	Sat, 3 Mar 2012 02:58:46 -0800 (PST)
 Received: from localhost (128.224.162.28) by ALA-HCA.corp.ad.wrs.com
 	(147.11.189.50) with Microsoft SMTP Server (TLS) id 14.1.255.0;
-	Sat, 3 Mar 2012 02:53:14 -0800
-Message-ID: <6b45ee6d33a54d9abcbc0dd28f383a4993795017.1330771239.git.xiaofeng.yan@windriver.com>
-In-Reply-To: <cover.1330771239.git.xiaofeng.yan@windriver.com>
-References: <cover.1330771239.git.xiaofeng.yan@windriver.com>
-Old-Date: Fri, 2 Mar 2012 16:39:29 +0800
-Date: Sat, 3 Mar 2012 18:54:10 +0800
+	Sat, 3 Mar 2012 02:58:46 -0800
+Message-ID: <cover.1330772078.git.xiaofeng.yan@windriver.com>
+Old-Date: Sat, 3 Mar 2012 18:54:38 +0800
+Date: Sat, 3 Mar 2012 18:59:42 +0800
 To: <openembedded-core@lists.openembedded.org>
 From: Xiaofeng Yan <xiaofeng.yan@windriver.com>
 MIME-Version: 1.0
-Subject: [PATCH 3/3] archiver_configure.bbclass: configure the content for archiving package
+Subject: [PATCH 0/3]
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -34,68 +32,54 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 03 Mar 2012 11:01:48 -0000
+X-List-Received-Date: Sat, 03 Mar 2012 11:07:19 -0000
 Content-Type: text/plain
 
 From: Xiaofeng Yan <xiaofeng.yan@windriver.com>
 
-This is configuration file to point to what content a archive package
-should include in the different stage of task by pointing to different variable and
-stage.
+LSB report the following information when running lsb  test.
 
-[YOCTO #1977]
+VSW5TESTSUITE PURPOSE 7
+Assertion XStringToKeysym-7.(A)
+When the string argument is the name of a KeySym in the
+table with the prefix XK_ removed, then a call to
+XStringToKeysym returns that KeySym.
+METH: For each KeySym name in table with code G:
+METH: Call XStringToKeysym to obtain the KeySym defined for that string.
+METH: Verify that XStringToKeysym did not return NoSymbol.
+METH: Verify that the returned string is correct.
+CHECK: XStringToKeysym-7 1, line 130
+CHECK: XStringToKeysym-7 2, line 140
+CHECK: XStringToKeysym-7 3, line 150
+CHECK: XStringToKeysym-7 4, line 160
+CHECK: XStringToKeysym-7 5, line 170
 
-Signed-off-by: Xiaofeng Yan <xiaofeng.yan@windriver.com>
+This is host contamination problem. libx11-1.4.4 hasn't patch
+"makekeys_crosscompile.patch" in libx11-trim-1.4.4 because core-image-lsb-qt3
+use libx11 instead of libx11-trim.
 
-Signed-off-by: Xiaofeng Yan <xiaofeng.yan@windriver.com>
+
+
+Pull URL: git://git.pokylinux.org/poky-contrib.git
+  Branch: xiaofeng/1970
+  Browse: http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=xiaofeng/1970
+
+Thanks,
+    Xiaofeng Yan <xiaofeng.yan@windriver.com>
 ---
- meta/classes/archiver_configure.bbclass |   35 +++++++++++++++++++++++++++++++
- 1 files changed, 35 insertions(+), 0 deletions(-)
- create mode 100644 meta/classes/archiver_configure.bbclass
 
-diff --git a/meta/classes/archiver_configure.bbclass b/meta/classes/archiver_configure.bbclass
-new file mode 100644
-index 0000000..c9892d3
---- /dev/null
-+++ b/meta/classes/archiver_configure.bbclass
-@@ -0,0 +1,35 @@
-+# This file is for getting tarball in different stage for sources, patches, and logs by configuring 
-+# the following variable and tasks
-+
-+inherit archiver
-+
-+# SOURCE_ARCHIVE_PACKAGE_TYPE = {'tar','srpm'}
-+SOURCE_ARCHIVE_PACKAGE_TYPE = 'tar'
-+
-+# SOURCE_ARCHIVE_LOG_WITH_SCRIPTS = {'logs_with_scripts', 'logs'}
-+# String 'logs_with_scripts' include temp directory and .bb and .inc file
-+# String 'logs' only include temp 
-+SOURCE_ARCHIVE_LOG_WITH_SCRIPTS = 'logs_with_scripts'
-+
-+# PATCHES_ARCHIVE_WITH_SERIES = {'true', 'false'}
-+# Strings 'true' means that patches including series files(series + non-applying)
-+# String 'false' means that no series and only archive applying patches
-+PATCHES_ARCHIVE_WITH_SERIES = 'true'
-+
-+# Archive packages for copy-left
-+#COPYLEFT_COMPLIANCE = 'true'
-+
-+# Open this item when you want to get original sources tarball with patches
-+do_unpack[postfuncs] += "do_archive_original_sources_patches "
-+
-+# Open this item when you want to get tarball for patched sources including patches
-+#do_patch[postfuncs] += "do_archive_patched_sources "
-+
-+# Open this item when you want to get tarball for configured sources including patches
-+#do_configure[postfuncs] += "do_archive_configured_sources "
-+
-+# Open this item when you want to get tarball for logs tarball
-+do_package_write_rpm[prefuncs] += "do_archive_scripts_logs "
-+
-+# Get dump date and create diff file 
-+do_package_write_rpm[postfuncs] += "do_dumpdata_create_diff_gz "
--- 
-1.7.0.4
+
+Xiaofeng Yan (3):
+  libx11-1.4.4: Add patch makekeys_crosscompile.patch
+  libx11-1.4.4: Add patch "makekeys_crosscompile.patch"
+  libx11-trim: Add error information from LSB Test Suite to
+    makekeys_crosscompile.patch
+
+ .../libx11-1.4.4/makekeys_crosscompile.patch       |   76 ++++++++++++++++++++
+ .../libx11-trim-1.4.4/makekeys_crosscompile.patch  |   33 ++++++++-
+ meta/recipes-graphics/xorg-lib/libx11_1.4.4.bb     |    3 +-
+ 3 files changed, 110 insertions(+), 2 deletions(-)
+ create mode 100644 meta/recipes-graphics/xorg-lib/libx11-1.4.4/makekeys_crosscompile.patch
 
 
 
