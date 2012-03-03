@@ -1,39 +1,39 @@
-Received: from mail-lpp01m010-f47.google.com ([209.85.215.47])
+Received: from mail-pz0-f51.google.com ([209.85.210.51])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <jay@jay-tech.ru>) id 1S3xN3-0007eH-1r
+	(envelope-from <andrea.adami@gmail.com>) id 1S3ygn-0000Sa-DZ
 	for openembedded-core@lists.openembedded.org;
-	Sat, 03 Mar 2012 23:24:09 +0100
-Received: by lagw12 with SMTP id w12so3495310lag.6
+	Sun, 04 Mar 2012 00:48:37 +0100
+Received: by dady9 with SMTP id y9so3328527dad.10
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 03 Mar 2012 14:15:36 -0800 (PST)
-Received-SPF: pass (google.com: domain of jay@jay-tech.ru designates
-	10.112.100.169 as permitted sender) client-ip=10.112.100.169; 
+	Sat, 03 Mar 2012 15:40:04 -0800 (PST)
+Received-SPF: pass (google.com: domain of andrea.adami@gmail.com designates
+	10.68.242.135 as permitted sender) client-ip=10.68.242.135; 
 Authentication-Results: mr.google.com;
-	spf=pass (google.com: domain of jay@jay-tech.ru
-	designates 10.112.100.169 as permitted sender)
-	smtp.mail=jay@jay-tech.ru
-Received: from mr.google.com ([10.112.100.169])
-	by 10.112.100.169 with SMTP id ez9mr6392597lbb.82.1330812936427
-	(num_hops = 1); Sat, 03 Mar 2012 14:15:36 -0800 (PST)
-Received: by 10.112.100.169 with SMTP id ez9mr5245260lbb.82.1330812936062;
-	Sat, 03 Mar 2012 14:15:36 -0800 (PST)
+	spf=pass (google.com: domain of andrea.adami@gmail.com
+	designates 10.68.242.135 as permitted sender)
+	smtp.mail=andrea.adami@gmail.com;
+	dkim=pass header.i=andrea.adami@gmail.com
+Received: from mr.google.com ([10.68.242.135])
+	by 10.68.242.135 with SMTP id wq7mr32911739pbc.134.1330818004057
+	(num_hops = 1); Sat, 03 Mar 2012 15:40:04 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=mime-version:date:message-id:subject:from:to:content-type;
+	bh=OJqiYi7blUTNDiDJzQAEz54EmAAGRbrhUllIvH744yY=;
+	b=nqNxmac9iQjo83Bjt2EmPz/7Qb1rwJtOg8yAU+G7S2+4TDx9QplG8X0cHx5Pq1slfG
+	T8LyC8G175mXCuoL/VlZWRoYaz076+U7TQ2j7juR14227pmSG6Cp79iukpPA855TXp6s
+	oWbAcsg8dfHLTialPQM5fGoC8CDtlk9RPpLvVeWf+bNJeuF8119lKn8erW7afIwsuCw+
+	0tXI0IWosecy/Tc2RkK24+boAlcVrqzcOpwHM8TuM4egV1sQQ/BTebOMt0PuPG4ss6MJ
+	sK8thIUiWD5BiTkLs9gkEevluDMdp+QCzbQVcfsyRDBFfqBkeGcwTiHDV/jkUygTiyvr
+	PukA==
 MIME-Version: 1.0
-Sender: jay@jay-tech.ru
-Received: by 10.112.87.197 with HTTP; Sat, 3 Mar 2012 14:15:15 -0800 (PST)
-X-Originating-IP: [2.92.3.29]
-In-Reply-To: <CAMKF1sr+mqhe5P5zgvpHvcoqnRYA66JkRBbji=eeb+dwM8K3tg@mail.gmail.com>
-References: <CAMKF1srTMHyV+2eDaJKuZs9=2VUYkqhJoqfFqZxrdTCCooWMXA@mail.gmail.com>
-	<CAJG6M_MgcYVomQbn=j_w=+BCDjUAdDe1D==CsQ_eFTJm1=rwQw@mail.gmail.com>
-	<CAJG6M_OO4o6E7EZv1ROReYigpycDBUWXWb+KuvbV-KO8u+_ocg@mail.gmail.com>
-	<CAMKF1sr+mqhe5P5zgvpHvcoqnRYA66JkRBbji=eeb+dwM8K3tg@mail.gmail.com>
-From: Yury Bushmelev <jay4mail@gmail.com>
-Date: Sun, 4 Mar 2012 01:15:15 +0300
-X-Google-Sender-Auth: omY2xL-oqNlLHsAwpGdshMevw_c
-Message-ID: <CAJG6M_PbM=k0ceFynF4V34rL59q4F_wfydoOkKUkBvvt8CRkyg@mail.gmail.com>
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-X-Gm-Message-State: ALoCoQljINjX6eB+2dmx9KVN35NE07wBKuT2rZbRbLFwB6FjvtHcE6kqSOe2E8nkuqr+dDk+P64b
-Subject: Re: Recipes with disabled parallel make
+Received: by 10.68.242.135 with SMTP id wq7mr27924351pbc.134.1330818003924;
+	Sat, 03 Mar 2012 15:40:03 -0800 (PST)
+Received: by 10.143.67.8 with HTTP; Sat, 3 Mar 2012 15:40:03 -0800 (PST)
+Date: Sun, 4 Mar 2012 00:40:03 +0100
+Message-ID: <CAAQYJAtC-SCxohUjEOcixWA_B+K62O9AMr-d4XWX+PBDpg6i=w@mail.gmail.com>
+From: Andrea Adami <andrea.adami@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Subject: [RFC] keymaps and kernel version
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -48,28 +48,36 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 03 Mar 2012 22:24:09 -0000
+X-List-Received-Date: Sat, 03 Mar 2012 23:48:37 -0000
 Content-Type: text/plain; charset=ISO-8859-1
 
-2012/3/3 Khem Raj <raj.khem@gmail.com>:
-> On Fri, Mar 2, 2012 at 11:48 PM, Yury Bushmelev <jay4mail@gmail.com> wrote:
->>> meta/recipes-extended/net-tools/net-tools_1.60-23.bb
->>
->> net-tools confirmed to fail with P_M disabled when build was run with
->> BB_N_T="7" and P_M="-j 7".
->
-> hmmm this is reversal of course. so I guess in order to declare them good
-> they should be compiled in variety of combinations.
+Hi,
+while testing some new kernels I found out a broken keymap.
+After short research I could identify the cause in
+recipes-bsp/keymaps/files/keymap.sh:
+...
+KERNEL_MAJMIN=`uname -r | cut -d '.' -f 1,2`
+if [ -e /etc/keymap-$KERNEL_MAJMIN.map ]; then
+    loadkeys /etc/keymap-$KERNEL_MAJMIN.map
+fi
+...
 
-Doing this today. Tested P_M in range [2..7]. Following 2 recipes
-failed and gone to list #1:
+$ uname -r | cut -d '.' -f 1,2
+3.2
 
-meta/recipes-core/eggdbus/eggdbus_0.6.bb
-meta/recipes-extended/net-tools/net-tools_1.60-23.bb
 
-I'll run some more extreme builds tonight.
+I realized we are still using some old keymap-2.6.map and this doesn't
+match with KERNEL_MAJMIN.
+Now, renaming the keymaps to 3.2 would be only a band-aid,  3.3 is coming.
 
--- 
-Yury Bushmelev
+Maybe we should check for keymap-3.map, i.e.
+
+ uname -r | cut -d '.' -f 1,1
+
+ or embed the machine name instead.
+
+Regards
+
+Andrea
 
 
