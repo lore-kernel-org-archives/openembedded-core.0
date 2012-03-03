@@ -1,37 +1,23 @@
-Received: from mail-lpp01m010-f47.google.com ([209.85.215.47])
+Received: from mail1.windriver.com ([147.11.146.13])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <jay@jay-tech.ru>) id 1S3jqR-00087Q-SL
+	(envelope-from <Xiaofeng.Yan@windriver.com>) id 1S3miV-0002au-KT
 	for openembedded-core@lists.openembedded.org;
-	Sat, 03 Mar 2012 08:57:35 +0100
-Received: by lagw12 with SMTP id w12so3047009lag.6
+	Sat, 03 Mar 2012 12:01:35 +0100
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca [147.11.189.40])
+	by mail1.windriver.com (8.14.3/8.14.3) with ESMTP id q23Ar2sY008049
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 02 Mar 2012 23:49:03 -0800 (PST)
-Received-SPF: pass (google.com: domain of jay@jay-tech.ru designates
-	10.152.136.36 as permitted sender) client-ip=10.152.136.36; 
-Authentication-Results: mr.google.com;
-	spf=pass (google.com: domain of jay@jay-tech.ru
-	designates 10.152.136.36 as permitted sender)
-	smtp.mail=jay@jay-tech.ru
-Received: from mr.google.com ([10.152.136.36])
-	by 10.152.136.36 with SMTP id px4mr11323974lab.47.1330760943924
-	(num_hops = 1); Fri, 02 Mar 2012 23:49:03 -0800 (PST)
-Received: by 10.152.136.36 with SMTP id px4mr9324825lab.47.1330760943455; Fri,
-	02 Mar 2012 23:49:03 -0800 (PST)
+	Sat, 3 Mar 2012 02:53:02 -0800 (PST)
+Received: from localhost (128.224.162.28) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server (TLS) id 14.1.255.0;
+	Sat, 3 Mar 2012 02:53:02 -0800
+Message-ID: <cover.1330771239.git.xiaofeng.yan@windriver.com>
+Old-Date: Sat, 3 Mar 2012 18:40:39 +0800
+Date: Sat, 3 Mar 2012 18:53:58 +0800
+To: <openembedded-core@lists.openembedded.org>
+From: Xiaofeng Yan <xiaofeng.yan@windriver.com>
 MIME-Version: 1.0
-Sender: jay@jay-tech.ru
-Received: by 10.112.87.197 with HTTP; Fri, 2 Mar 2012 23:48:43 -0800 (PST)
-X-Originating-IP: [2.92.3.29]
-In-Reply-To: <CAJG6M_MgcYVomQbn=j_w=+BCDjUAdDe1D==CsQ_eFTJm1=rwQw@mail.gmail.com>
-References: <CAMKF1srTMHyV+2eDaJKuZs9=2VUYkqhJoqfFqZxrdTCCooWMXA@mail.gmail.com>
-	<CAJG6M_MgcYVomQbn=j_w=+BCDjUAdDe1D==CsQ_eFTJm1=rwQw@mail.gmail.com>
-From: Yury Bushmelev <jay4mail@gmail.com>
-Date: Sat, 3 Mar 2012 10:48:43 +0300
-X-Google-Sender-Auth: ghVQ3vNay4Mzdc6KlBvzJzSURi4
-Message-ID: <CAJG6M_OO4o6E7EZv1ROReYigpycDBUWXWb+KuvbV-KO8u+_ocg@mail.gmail.com>
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-X-Gm-Message-State: ALoCoQm03d6yz8so2GbqYOuNQbDi+vLvoGUqPDLjriKa/MGl378Zq2g/dnGOaykWESYT5seHnerZ
-Subject: Re: Recipes with disabled parallel make
+Subject: [PATCH 0/3] Realize archiver.bbclass
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -46,26 +32,36 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 03 Mar 2012 07:57:36 -0000
-Content-Type: text/plain; charset=ISO-8859-1
+X-List-Received-Date: Sat, 03 Mar 2012 11:01:36 -0000
+Content-Type: text/plain
 
-2012/3/3 Yury Bushmelev <jay4mail@gmail.com>:
-> 2012/2/10 Khem Raj <raj.khem@gmail.com>:
->> Hi
->>
->> Just grepped for the occurances of disabled parallel make and I see
->> around 40 cases on oe-core
-[skip]
+From: Xiaofeng Yan <xiaofeng.yan@windriver.com>
 
-> 2. Recipes _not_ confirmed to fail with P_M enabled (i.e. are building
-> ok in my environment with P_M enabled):
-[skip]
-> meta/recipes-extended/net-tools/net-tools_1.60-23.bb
+archiver.bbclass is for archiving sources , patches and logs including .bb and .inc files by configuring  archiver_configure.bbclass which control what a archiving package should include.
+For archiving a source rpm package, I add some functions to package_rpm.bbclass.
+I also merge source_pkg.bbclass to archiver.bbclass due to their similar functions. 
 
-net-tools confirmed to fail with P_M disabled when build was run with
-BB_N_T="7" and P_M="-j 7".
+Pull URL: git://git.pokylinux.org/poky-contrib.git
+  Branch: xiaofeng/1977
+  Browse: http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=xiaofeng/1977
 
--- 
-Yury Bushmelev
+Thanks,
+    Xiaofeng Yan <xiaofeng.yan@windriver.com>
+---
+
+
+Xiaofeng Yan (3):
+  package_rpm.bbclass: Add srpm function
+  archiver.bbclass: archive sources, patches,logs to tarball
+  archiver_configure.bbclass: configure the content for archiving
+    package
+
+ meta/classes/archiver.bbclass           |  393 +++++++++++++++++++++++++++++++
+ meta/classes/archiver_configure.bbclass |   35 +++
+ meta/classes/package_rpm.bbclass        |   54 ++++-
+ 3 files changed, 479 insertions(+), 3 deletions(-)
+ create mode 100644 meta/classes/archiver.bbclass
+ create mode 100644 meta/classes/archiver_configure.bbclass
+
 
 
