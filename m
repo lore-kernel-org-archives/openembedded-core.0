@@ -1,47 +1,47 @@
-Received: from mail-yx0-f175.google.com ([209.85.213.175])
+Received: from mail-yw0-f47.google.com ([209.85.213.47])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <otavio.salvador@gmail.com>) id 1S3t44-0000cJ-KJ
+	(envelope-from <otavio.salvador@gmail.com>) id 1S3t45-0000cK-Hr
 	for openembedded-core@lists.openembedded.org;
-	Sat, 03 Mar 2012 18:48:16 +0100
-Received: by mail-yx0-f175.google.com with SMTP id m3so1171174yen.6
+	Sat, 03 Mar 2012 18:48:17 +0100
+Received: by yhjj56 with SMTP id j56so1170022yhj.6
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 03 Mar 2012 09:39:46 -0800 (PST)
+	Sat, 03 Mar 2012 09:39:44 -0800 (PST)
 Received-SPF: pass (google.com: domain of otavio.salvador@gmail.com designates
-	10.101.176.6 as permitted sender) client-ip=10.101.176.6; 
+	10.236.78.201 as permitted sender) client-ip=10.236.78.201; 
 Authentication-Results: mr.google.com; spf=pass (google.com: domain of
-	otavio.salvador@gmail.com designates 10.101.176.6 as permitted
+	otavio.salvador@gmail.com designates 10.236.78.201 as permitted
 	sender) smtp.mail=otavio.salvador@gmail.com;
 	dkim=pass header.i=otavio.salvador@gmail.com
-Received: from mr.google.com ([10.101.176.6])
-	by 10.101.176.6 with SMTP id d6mr6085039anp.27.1330796386410 (num_hops
-	= 1); Sat, 03 Mar 2012 09:39:46 -0800 (PST)
+Received: from mr.google.com ([10.236.78.201])
+	by 10.236.78.201 with SMTP id g49mr20136029yhe.33.1330796384900
+	(num_hops = 1); Sat, 03 Mar 2012 09:39:44 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
 	h=sender:from:to:subject:date:message-id:x-mailer:in-reply-to
 	:references:in-reply-to:references;
-	bh=TyNwg1PhJs/8NTUNVz0UTVWlJAYDaP9bmiPt7oJ6ZpA=;
-	b=pS9JkZ6p9Sl3p8eGPaN6L+CdHjJsyuFp2anQgxp48jQiQd0NEPIoMwzPSfpjyRDjAa
-	3fN9ZnO7whRoo876KKwhGnGigzHQzFt5oaURhJ7WJVNHfW+MrIeV6LOZwpnAiLnKhkp0
-	gU30L2VGkNXI9sq/M3fr7lvPVAffmWzV1/lnorVxsVew7rjO/r9F+iX4JFKrkjKDXGrX
-	s0SHyz84SQTrOuILN/9YFkd/2AVrtbBFCqu2Icoxt9I9+TloaLehX3SDbXHK1hH1OsDl
-	f+Hkr6rpwX5D73XtRDC64phJez6iz0ObQ5I8HWA/4x4Z5n401KXEeEkHw5BjUKs65vsl
-	Kl9A==
-Received: by 10.101.176.6 with SMTP id d6mr4829201anp.27.1330796386360;
-	Sat, 03 Mar 2012 09:39:46 -0800 (PST)
+	bh=wQBL1iO80jf5oOB/eqhc2R/U7DRAE9aoirB6bG+Nm4I=;
+	b=Qt54ZB/YveFnKGpHd5YkbOyuD+J8SzseQCTaIS/jOJai0+X7qJK7kfalwshWWi5hRe
+	8JmjceivLcws16NKNyx4u3pREyfZYk7+u5hJY17lUStu/xuMjQ9sQMqbOww+glRIkjdw
+	R2WsJ9c/84OIc43lkfKeckztOFjjF52wzNBqzMuRIKAQvmRI9MUHg7M3Y7R5T9yFSFOe
+	ZLq80y4rNOp/RyP5q8Isi0lm73H6KdPdjr5q9ssx0JkGB1NV4bbvAkX0ylRNLZDW9NB4
+	ff82QSvPU4UfGIM7GPyFcMsk2Aa3J0TWhfVLV7FYSHx2nR926QjZmKKUArAG654yROZg
+	oaDA==
+Received: by 10.236.78.201 with SMTP id g49mr15963306yhe.33.1330796384857;
+	Sat, 03 Mar 2012 09:39:44 -0800 (PST)
 Received: from localhost.localdomain ([186.218.100.214])
-	by mx.google.com with ESMTPS id o11sm15284275anl.11.2012.03.03.09.39.45
+	by mx.google.com with ESMTPS id o11sm15284275anl.11.2012.03.03.09.39.43
 	(version=TLSv1/SSLv3 cipher=OTHER);
-	Sat, 03 Mar 2012 09:39:45 -0800 (PST)
+	Sat, 03 Mar 2012 09:39:44 -0800 (PST)
 Sender: Otavio Salvador <otavio.salvador@gmail.com>
 From: Otavio Salvador <otavio@ossystems.com.br>
 To: openembedded-core@lists.openembedded.org
-Date: Sat,  3 Mar 2012 17:39:32 +0000
-Message-Id: <7c13d18bc74fcc48e9c03bcd7c74630b62957f12.1330796256.git.otavio@ossystems.com.br>
+Date: Sat,  3 Mar 2012 17:39:31 +0000
+Message-Id: <e0a83d8e1e13af1705b0c713c227e46209a97623.1330796256.git.otavio@ossystems.com.br>
 X-Mailer: git-send-email 1.7.2.5
 In-Reply-To: <cover.1330796256.git.otavio@ossystems.com.br>
 References: <cover.1330796256.git.otavio@ossystems.com.br>
 In-Reply-To: <cover.1330796256.git.otavio@ossystems.com.br>
 References: <cover.1330796256.git.otavio@ossystems.com.br>
-Subject: [PATCH 2/4] image.bbclass: fix rootfs generation without package management tools
+Subject: [PATCH 1/4] run-postinsts: fix opkg data path
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -56,66 +56,55 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 03 Mar 2012 17:48:16 -0000
-
-When building without package management tools the
-ROOTFS_BOOTSTRAP_INSTALL packages need to be available to provide the
-bare minimal for rootfs unconfigure postinsts to be on first boot.
-
-Those packages where being include in core-image.bbclass' based images
-however every image needs those available for proper rootfs generation.
+X-List-Received-Date: Sat, 03 Mar 2012 17:48:17 -0000
 
 Signed-off-by: Otavio Salvador <otavio@ossystems.com.br>
 ---
- meta/classes/core-image.bbclass |    2 --
- meta/classes/image.bbclass      |    7 +++++--
- 2 files changed, 5 insertions(+), 4 deletions(-)
+ .../dpkg/run-postinsts/run-postinsts               |    4 ++--
+ .../dpkg/run-postinsts/run-postinsts.awk           |    2 +-
+ meta/recipes-devtools/dpkg/run-postinsts_1.0.bb    |    2 +-
+ 3 files changed, 4 insertions(+), 4 deletions(-)
 
-diff --git a/meta/classes/core-image.bbclass b/meta/classes/core-image.bbclass
-index 668297b..e2ad0fc 100644
---- a/meta/classes/core-image.bbclass
-+++ b/meta/classes/core-image.bbclass
-@@ -51,8 +51,6 @@ CORE_IMAGE_BASE_INSTALL = '\
-     task-core-boot \
-     task-base-extended \
-     \
--    ${@base_contains("IMAGE_FEATURES", "package-management", "", "${ROOTFS_PKGMANAGE_BOOTSTRAP}",d)} \
--    \
-     ${CORE_IMAGE_EXTRA_INSTALL} \
-     '
+diff --git a/meta/recipes-devtools/dpkg/run-postinsts/run-postinsts b/meta/recipes-devtools/dpkg/run-postinsts/run-postinsts
+index 584a92e..5f6442c 100755
+--- a/meta/recipes-devtools/dpkg/run-postinsts/run-postinsts
++++ b/meta/recipes-devtools/dpkg/run-postinsts/run-postinsts
+@@ -8,8 +8,8 @@
+ PKGSYSTEM=/var/lib/dpkg
  
-diff --git a/meta/classes/image.bbclass b/meta/classes/image.bbclass
-index dfce381..8e9da99 100644
---- a/meta/classes/image.bbclass
-+++ b/meta/classes/image.bbclass
-@@ -5,7 +5,7 @@ inherit imagetest-${IMAGETEST}
- 
+ if [ ! -e $PKGSYSTEM/status ]; then
+-  if [ -e /usr/lib/opkg/status ]; then
+-    PKGSYSTEM=/usr/lib/opkg
++  if [ -e /var/lib/opkg/status ]; then
++    PKGSYSTEM=/var/lib/opkg
+   else
+     echo "No package system found"
+     exit 1
+diff --git a/meta/recipes-devtools/dpkg/run-postinsts/run-postinsts.awk b/meta/recipes-devtools/dpkg/run-postinsts/run-postinsts.awk
+index d92200b..18a0492 100644
+--- a/meta/recipes-devtools/dpkg/run-postinsts/run-postinsts.awk
++++ b/meta/recipes-devtools/dpkg/run-postinsts/run-postinsts.awk
+@@ -11,7 +11,7 @@ BEGIN {
+   if (rc==0)
+     pkgdir="/var/lib/dpkg/info"
+   else
+-    pkgdir="/usr/lib/opkg/info"
++    pkgdir="/var/lib/opkg/info"
+   package=""
+ }
+ /Package:.*/ {
+diff --git a/meta/recipes-devtools/dpkg/run-postinsts_1.0.bb b/meta/recipes-devtools/dpkg/run-postinsts_1.0.bb
+index f8f3368..7438a10 100644
+--- a/meta/recipes-devtools/dpkg/run-postinsts_1.0.bb
++++ b/meta/recipes-devtools/dpkg/run-postinsts_1.0.bb
+@@ -1,6 +1,6 @@
+ DESCRIPTION = "Run postinstall scripts on device using awk"
+ SECTION = "devel"
+-PR = "r7"
++PR = "r8"
  LICENSE = "MIT"
- PACKAGES = ""
--RDEPENDS += "${IMAGE_INSTALL} ${LINGUAS_INSTALL} ${NORMAL_FEATURE_INSTALL}"
-+RDEPENDS += "${IMAGE_INSTALL} ${LINGUAS_INSTALL} ${NORMAL_FEATURE_INSTALL} ${ROOTFS_BOOTSTRAP_INSTALL}"
- RRECOMMENDS += "${NORMAL_FEATURE_INSTALL_OPTIONAL}"
- 
- INHIBIT_DEFAULT_DEPS = "1"
-@@ -14,6 +14,9 @@ INHIBIT_DEFAULT_DEPS = "1"
- IMAGE_FEATURES ?= ""
- IMAGE_FEATURES[type] = "list"
- 
-+# rootfs bootstrap install
-+ROOTFS_BOOTSTRAP_INSTALL = "${@base_contains("IMAGE_FEATURES", "package-management", "", "${ROOTFS_PKGMANAGE_BOOTSTRAP}",d)}"
-+
- # packages to install from features
- FEATURE_INSTALL = "${@' '.join(oe.packagegroup.required_packages(oe.data.typed_value('IMAGE_FEATURES', d), d))}"
- FEATURE_INSTALL_OPTIONAL = "${@' '.join(oe.packagegroup.optional_packages(oe.data.typed_value('IMAGE_FEATURES', d), d))}"
-@@ -52,7 +55,7 @@ PACKAGE_GROUP_doc-pkgs[optional] = "1"
- IMAGE_INSTALL ?= ""
- IMAGE_INSTALL[type] = "list"
- IMAGE_BASENAME[export] = "1"
--export PACKAGE_INSTALL ?= "${IMAGE_INSTALL} ${FEATURE_INSTALL}"
-+export PACKAGE_INSTALL ?= "${IMAGE_INSTALL} ${ROOTFS_BOOTSTRAP_INSTALL} ${FEATURE_INSTALL}"
- PACKAGE_INSTALL_ATTEMPTONLY ?= "${FEATURE_INSTALL_OPTIONAL}"
- 
- # Images are generally built explicitly, do not need to be part of world.
+ LIC_FILES_CHKSUM = "file://${COREBASE}/LICENSE;md5=3f40d7994397109285ec7b81fdeb3b58 \
+                     file://${COREBASE}/meta/COPYING.MIT;md5=3da9cfbcb788c80a0384361b4de20420"
 -- 
 1.7.2.5
 
