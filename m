@@ -1,44 +1,44 @@
-Received: from mail-vw0-f47.google.com ([209.85.212.47])
+Received: from mail-lpp01m010-f47.google.com ([209.85.215.47])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <otavio.salvador@gmail.com>) id 1S3tI3-0001GN-Ah
+	(envelope-from <raj.khem@gmail.com>) id 1S3vBn-00043Q-6U
 	for openembedded-core@lists.openembedded.org;
-	Sat, 03 Mar 2012 19:02:43 +0100
-Received: by vbbfr13 with SMTP id fr13so2490206vbb.6
+	Sat, 03 Mar 2012 21:04:23 +0100
+Received: by lagw12 with SMTP id w12so3429120lag.6
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 03 Mar 2012 09:54:10 -0800 (PST)
-Received-SPF: pass (google.com: domain of otavio.salvador@gmail.com designates
-	10.52.71.80 as permitted sender) client-ip=10.52.71.80; 
-Authentication-Results: mr.google.com; spf=pass (google.com: domain of
-	otavio.salvador@gmail.com designates 10.52.71.80 as permitted
-	sender) smtp.mail=otavio.salvador@gmail.com;
-	dkim=pass header.i=otavio.salvador@gmail.com
-Received: from mr.google.com ([10.52.71.80])
-	by 10.52.71.80 with SMTP id s16mr24496355vdu.131.1330797250709
-	(num_hops = 1); Sat, 03 Mar 2012 09:54:10 -0800 (PST)
+	Sat, 03 Mar 2012 11:55:50 -0800 (PST)
+Received-SPF: pass (google.com: domain of raj.khem@gmail.com designates
+	10.112.23.100 as permitted sender) client-ip=10.112.23.100; 
+Authentication-Results: mr.google.com;
+	spf=pass (google.com: domain of raj.khem@gmail.com
+	designates 10.112.23.100 as permitted sender)
+	smtp.mail=raj.khem@gmail.com;
+	dkim=pass header.i=raj.khem@gmail.com
+Received: from mr.google.com ([10.112.23.100])
+	by 10.112.23.100 with SMTP id l4mr6763676lbf.24.1330804550686 (num_hops
+	= 1); Sat, 03 Mar 2012 11:55:50 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:sender:in-reply-to:references:date
-	:x-google-sender-auth:message-id:subject:from:to:content-type
-	:content-transfer-encoding;
-	bh=lFKZVErBDrOoanOdWocsxUnqC4Tbmzu8xts5YfzM1SM=;
-	b=Wfk9SBziGbF3goezldnlfQSpckPBizCrscCriDm8jvYUDLdPccGth5mdn+W3oX0BsM
-	CZiZpTTR/q7MsjIN+/pe1ndikco+3NmGtKQR7zdH+pCgyyH9E3HcB/WlnCSvVUSS7JGl
-	yFdultuU1taCD2pS/qVEv7JxZ74M3wzaHra/0Oo9ICDDoBKgbOtpHToj/Xxfm/zn2AVm
-	Yk+i6itDJHtorYqrizrq1H0R9WyeXWaTm2kdSCFoHYLKeF2PrEwDcGXUAwLrfIiHkNmA
-	VJI6dPA2DETtjEJOe+M2H+v4UGMxR/VbeiyhnAQCIGogAT7SNbGJnCwGvuhDFEEBu3i1
-	eOkw==
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:content-type; bh=Q28IM85RoTRc3kzKf/UFgFBSbofdPsJuSeqSxK5OfoQ=;
+	b=KxHgw4PmL6uKGhEnO0l7Sv/Cywddt20ZR26MUdaYo/9BDfA3DglZUp6NJeBphEUsiB
+	8FtMz4ttr88rHJ/Oiea5iyeO+ucDAAH2jTs+uY52XeHsCvmy2gSEKpBr+zMTQjAJ4tZT
+	EW/VCCPtgKcP4oQOaJJdjFPmpsoAw0YkeVkORRZ72CoOvtxxBH9kUBClEko2SX2DnCin
+	G5iQqmu1LsUIL8MErNoHPSWf7bZ5MXvvYwysfUR5K4cpOkFYnkh2DpmHQfWPRayvnyFd
+	2Ii9R61ar8OlY9KJNaHQJIMPHP1bFWirQpyAxf8Q0dtlpxbsVyjv+TwRgLkM2dINuy4Q
+	9cmA==
+Received: by 10.112.23.100 with SMTP id l4mr5588537lbf.24.1330804550324; Sat,
+	03 Mar 2012 11:55:50 -0800 (PST)
 MIME-Version: 1.0
-Received: by 10.52.71.80 with SMTP id s16mr20973044vdu.131.1330797250647; Sat,
-	03 Mar 2012 09:54:10 -0800 (PST)
-Sender: otavio.salvador@gmail.com
-Received: by 10.220.7.208 with HTTP; Sat, 3 Mar 2012 09:54:10 -0800 (PST)
-In-Reply-To: <cover.1330796256.git.otavio@ossystems.com.br>
-References: <cover.1330796256.git.otavio@ossystems.com.br>
-Date: Sat, 3 Mar 2012 14:54:10 -0300
-X-Google-Sender-Auth: pz_DPvpPsHE-zepXk6ba0EwfiwE
-Message-ID: <CAP9ODKpN3X=k=654p1G6_X6rvp26_HQeifyNeQM4ZowsnFygQg@mail.gmail.com>
-From: Otavio Salvador <otavio@ossystems.com.br>
-To: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 0/4] Postinst trigger improvements for images
+Received: by 10.152.27.109 with HTTP; Sat, 3 Mar 2012 11:55:20 -0800 (PST)
+In-Reply-To: <CAJG6M_OO4o6E7EZv1ROReYigpycDBUWXWb+KuvbV-KO8u+_ocg@mail.gmail.com>
+References: <CAMKF1srTMHyV+2eDaJKuZs9=2VUYkqhJoqfFqZxrdTCCooWMXA@mail.gmail.com>
+	<CAJG6M_MgcYVomQbn=j_w=+BCDjUAdDe1D==CsQ_eFTJm1=rwQw@mail.gmail.com>
+	<CAJG6M_OO4o6E7EZv1ROReYigpycDBUWXWb+KuvbV-KO8u+_ocg@mail.gmail.com>
+From: Khem Raj <raj.khem@gmail.com>
+Date: Sat, 3 Mar 2012 11:55:20 -0800
+Message-ID: <CAMKF1sr+mqhe5P5zgvpHvcoqnRYA66JkRBbji=eeb+dwM8K3tg@mail.gmail.com>
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: Recipes with disabled parallel make
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -53,26 +53,16 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 03 Mar 2012 18:02:43 -0000
-Content-Type: text/plain; charset=ISO-8859-1
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Sat, 03 Mar 2012 20:04:23 -0000
+Content-Type: text/plain; charset=UTF-8
 
-On Sat, Mar 3, 2012 at 14:39, Otavio Salvador <otavio@ossystems.com.br> wro=
-te:
-> Otavio Salvador (4):
-> =A0run-postinsts: fix opkg data path
-> =A0image.bbclass: fix rootfs generation without package management tools
-> =A0rootfs_rpm.bbclass: rename postinst trigger script
-> =A0opkg: rename postinst trigger script
+On Fri, Mar 2, 2012 at 11:48 PM, Yury Bushmelev <jay4mail@gmail.com> wrote:
+>> meta/recipes-extended/net-tools/net-tools_1.60-23.bb
+>
+> net-tools confirmed to fail with P_M disabled when build was run with
+> BB_N_T="7" and P_M="-j 7".
 
-I pushed the dpkg patch for my branch doing the same as opkg. I forgot
-pushing it before doing the pull request.
-
---=20
-Otavio Salvador=A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0O=
-.S. Systems
-E-mail: otavio@ossystems.com.br=A0 http://www.ossystems.com.br
-Mobile: +55 53 9981-7854=A0 =A0 =A0 =A0=A0 =A0 =A0 =A0http://projetos.ossys=
-tems.com.br
+hmmm this is reversal of course. so I guess in order to declare them good
+they should be compiled in variety of combinations.
 
 
