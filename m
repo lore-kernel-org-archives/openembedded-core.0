@@ -1,27 +1,43 @@
-Received: from mga14.intel.com ([143.182.124.37])
+Received: from mail-ee0-f47.google.com ([74.125.83.47])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <sgw@linux.intel.com>) id 1S4gWX-0007sc-1r
+	(envelope-from <tworaz666@gmail.com>) id 1S4gZu-0007xw-GD
 	for openembedded-core@lists.openembedded.org;
-	Mon, 05 Mar 2012 23:36:57 +0100
-Received: from azsmga002.ch.intel.com ([10.2.17.35])
-	by azsmga102.ch.intel.com with ESMTP; 05 Mar 2012 14:28:20 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="73905781"
-Received: from unknown (HELO [10.255.15.110]) ([10.255.15.110])
-	by AZSMGA002.ch.intel.com with ESMTP; 05 Mar 2012 14:28:20 -0800
-Message-ID: <4F553E04.3040306@linux.intel.com>
-Date: Mon, 05 Mar 2012 14:28:20 -0800
-From: Saul Wold <sgw@linux.intel.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:10.0.1) Gecko/20120216 Thunderbird/10.0.1
-MIME-Version: 1.0
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>, 
-	Christopher Larson <kergoth@gmail.com>, 
-	Mark Hatle <mark.hatle@windriver.com>
-References: <cover.1330771239.git.xiaofeng.yan@windriver.com>
-In-Reply-To: <cover.1330771239.git.xiaofeng.yan@windriver.com>
-Subject: Re: [PATCH 0/3] Realize archiver.bbclass
+	Mon, 05 Mar 2012 23:40:26 +0100
+Received: by eekc1 with SMTP id c1so1393832eek.6
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 05 Mar 2012 14:31:51 -0800 (PST)
+Received-SPF: pass (google.com: domain of tworaz666@gmail.com designates
+	10.213.113.203 as permitted sender) client-ip=10.213.113.203; 
+Authentication-Results: mr.google.com;
+	spf=pass (google.com: domain of tworaz666@gmail.com
+	designates 10.213.113.203 as permitted sender)
+	smtp.mail=tworaz666@gmail.com;
+	dkim=pass header.i=tworaz666@gmail.com
+Received: from mr.google.com ([10.213.113.203])
+	by 10.213.113.203 with SMTP id b11mr2754240ebq.164.1330986711714
+	(num_hops = 1); Mon, 05 Mar 2012 14:31:51 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=from:to:cc:subject:date:message-id:x-mailer;
+	bh=RzAVBCASO4dGOmCM2Sg4u1tbViKZOX8UT6XfQ4jkalw=;
+	b=lr9m/ajFhLayd6JANqZgYUEkyBK/Wmanq8H6bCBxrqbx2Q6BePIV4my3AIR7aZweQB
+	E10nseBXmfNRhRzsV+yJaVNtS4pum55Vd4cDj7S+j/+bHVMyO7c5QcMmGKb1pHCMNLwM
+	u3WTeGOVsqWhUhY5FYhcOi9QIY68sVKjs0qRnxIaKOB2IlcMsf1Z3x3NAs9MrH3bslce
+	elrx4zuYNtolq92txJER/oS0JkBK7ODMunwOSnDRU4In9ckOJLTU8ra6cLkbBqYOXEnS
+	xy/WlQo6rQGRUh0RI8x6LT/1hqF+b/naIW1Uk1bfAWBy647FJC1ho+w9asXmC6hcdS+I
+	RqeQ==
+Received: by 10.213.113.203 with SMTP id b11mr2087104ebq.164.1330986711639;
+	Mon, 05 Mar 2012 14:31:51 -0800 (PST)
+Received: from localhost.localdomain (89-77-50-243.dynamic.chello.pl.
+	[89.77.50.243])
+	by mx.google.com with ESMTPS id u9sm66436268eem.11.2012.03.05.14.31.50
+	(version=TLSv1/SSLv3 cipher=OTHER);
+	Mon, 05 Mar 2012 14:31:51 -0800 (PST)
+From: Peter Tworek <tworaz666@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Date: Mon,  5 Mar 2012 23:31:34 +0100
+Message-Id: <1330986694-28199-1-git-send-email-tworaz666@gmail.com>
+X-Mailer: git-send-email 1.7.3.4
+Subject: [PATCH] psplash: Add mising commands module import.
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -36,60 +52,56 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 05 Mar 2012 22:36:57 -0000
-Content-Type: text/plain; charset=ISO-8859-1; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Mon, 05 Mar 2012 22:40:26 -0000
 
-On 03/03/2012 02:53 AM, Xiaofeng Yan wrote:
-> From: Xiaofeng Yan<xiaofeng.yan@windriver.com>
->
-> archiver.bbclass is for archiving sources , patches and logs including .bb and .inc files by configuring  archiver_configure.bbclass which control what a archiving package should include.
-> For archiving a source rpm package, I add some functions to package_rpm.bbclass.
-> I also merge source_pkg.bbclass to archiver.bbclass due to their similar functions.
->
-Are you going to deprecate/remove the other classes sourcepkg.bbclass, 
-src_distribute.bbclass, src_distribute_local.bbclass and 
-copyleft_compliance.bbclass
+Python commands module is used in the recipe, but never imported.
+This leads to build errors like:
 
-I am still reviewing this and would like to get ACKs from Chris and Mark.
+NameError: global name 'commands' is not defined
 
-This is going to require some review and testing.  I also sent and email 
-about the archiver_configure class.
+ERROR: The stack trace of python calls that resulted in this exception/failure was:
+ERROR:   File "do_compile", line 24, in <module>
+ERROR:
+ERROR:   File "do_compile", line 11, in do_compile
+ERROR:
+ERROR: The code that was being executed was:
+ERROR:      0020:        bb.build.exec_func("oe_runmake", d)
+ERROR:      0021:        shutil.copyfile("psplash", outputfile)
+ERROR:      0022:
+ERROR:      0023:
+ERROR:  *** 0024:do_compile(d)
+ERROR:      0025:
+ERROR: (file: 'do_compile', lineno: 24, function: <module>)
+ERROR:      0007:    localfiles = d.getVar('SPLASH_LOCALPATHS', True).split()
+ERROR:      0008:    outputfiles = d.getVar('SPLASH_INSTALL', True).split()
+ERROR:      0009:    for localfile, outputfile in zip(localfiles, outputfiles):
+ERROR:      0010:        if localfile.endswith(".png"):
+ERROR:  *** 0011:            outp = commands.getstatusoutput('./make-image-header.sh %s POKY' % localfile)
+ERROR:      0012:            print(outp[1])
+ERROR:      0013:            fbase = os.path.splitext(os.path.basename(localfile))[0]
+ERROR:      0014:            shutil.copyfile("%s-img.h" % fbase, destfile)
+ERROR:      0015:        else:
 
-Can you please let us know how you tested, this is an important change 
-and we would like to get it close to correct the first time through.
+Signed-off-by: Peter Tworek <tworaz666@gmail.com>
+---
+ meta/recipes-core/psplash/psplash_git.bb |    2 +-
+ 1 files changed, 1 insertions(+), 1 deletions(-)
 
-Thanks for your effort on this.
+diff --git a/meta/recipes-core/psplash/psplash_git.bb b/meta/recipes-core/psplash/psplash_git.bb
+index 42ea615..bd405f9 100644
+--- a/meta/recipes-core/psplash/psplash_git.bb
++++ b/meta/recipes-core/psplash/psplash_git.bb
+@@ -68,7 +68,7 @@ S = "${WORKDIR}/git"
+ inherit autotools pkgconfig update-rc.d
+ 
+ python do_compile () {
+-    import shutil
++    import shutil, commands
+ 
+     # Build a separate executable for each splash image
+     destfile = "%s/psplash-poky-img.h" % d.getVar('S', True)
+-- 
+1.7.3.4
 
-Sau!
-
-> Pull URL: git://git.pokylinux.org/poky-contrib.git
->    Branch: xiaofeng/1977
->    Browse: http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=xiaofeng/1977
->
-> Thanks,
->      Xiaofeng Yan<xiaofeng.yan@windriver.com>
-> ---
->
->
-> Xiaofeng Yan (3):
->    package_rpm.bbclass: Add srpm function
->    archiver.bbclass: archive sources, patches,logs to tarball
->    archiver_configure.bbclass: configure the content for archiving
->      package
->
->   meta/classes/archiver.bbclass           |  393 +++++++++++++++++++++++++++++++
->   meta/classes/archiver_configure.bbclass |   35 +++
->   meta/classes/package_rpm.bbclass        |   54 ++++-
->   3 files changed, 479 insertions(+), 3 deletions(-)
->   create mode 100644 meta/classes/archiver.bbclass
->   create mode 100644 meta/classes/archiver_configure.bbclass
->
->
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
->
 
 
