@@ -1,40 +1,25 @@
-Received: from mail-we0-f175.google.com ([74.125.82.175])
+Received: from mga09.intel.com ([134.134.136.24])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <koen@dominion.thruhere.net>) id 1S4fZp-00058g-S9
+	(envelope-from <sgw@linux.intel.com>) id 1S4ffk-0006eJ-7u
 	for openembedded-core@lists.openembedded.org;
-	Mon, 05 Mar 2012 22:36:17 +0100
-Received: by wera1 with SMTP id a1so2778816wer.6
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 05 Mar 2012 13:27:43 -0800 (PST)
-Received-SPF: pass (google.com: domain of koen@dominion.thruhere.net
-	designates 10.180.80.104 as permitted sender)
-	client-ip=10.180.80.104; 
-Authentication-Results: mr.google.com; spf=pass (google.com: domain of
-	koen@dominion.thruhere.net designates 10.180.80.104 as
-	permitted sender) smtp.mail=koen@dominion.thruhere.net
-Received: from mr.google.com ([10.180.80.104])
-	by 10.180.80.104 with SMTP id q8mr13049370wix.14.1330982863226
-	(num_hops = 1); Mon, 05 Mar 2012 13:27:43 -0800 (PST)
-Received: by 10.180.80.104 with SMTP id q8mr10403328wix.14.1330982863144;
-	Mon, 05 Mar 2012 13:27:43 -0800 (PST)
-Received: from [172.20.1.36] (ip545070eb.adsl-surfen.hetnet.nl.
-	[84.80.112.235])
-	by mx.google.com with ESMTPS id 9sm68184005wid.2.2012.03.05.13.27.41
-	(version=TLSv1/SSLv3 cipher=OTHER);
-	Mon, 05 Mar 2012 13:27:42 -0800 (PST)
-Mime-Version: 1.0 (Apple Message framework v1257)
-From: Koen Kooi <koen@dominion.thruhere.net>
-In-Reply-To: <1330982065.25887.3.camel@ted>
-Date: Mon, 5 Mar 2012 22:27:40 +0100
-Message-Id: <3DDE8192-DE32-4CB6-9D35-9063B2CF2160@dominion.thruhere.net>
-References: <1330933112-13510-1-git-send-email-koen@dominion.thruhere.net>
-	<1330982065.25887.3.camel@ted>
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-X-Mailer: Apple Mail (2.1257)
-X-Gm-Message-State: ALoCoQkfX66gKzw1Nk7piF8xd0u5w5tQA3MtJ6DNgqHdbyoyEQvfjicL2xNsPcSlwE0fuNYkznaG
-Cc: Patches and discussions about the oe-core layer
+	Mon, 05 Mar 2012 22:42:24 +0100
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+	by orsmga102.jf.intel.com with ESMTP; 05 Mar 2012 13:33:48 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.67,351,1309762800"; d="scan'208";a="117934791"
+Received: from unknown (HELO [10.255.15.110]) ([10.255.15.110])
+	by orsmga002.jf.intel.com with ESMTP; 05 Mar 2012 13:33:47 -0800
+Message-ID: <4F55313B.3020909@linux.intel.com>
+Date: Mon, 05 Mar 2012 13:33:47 -0800
+From: Saul Wold <sgw@linux.intel.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:10.0.1) Gecko/20120216 Thunderbird/10.0.1
+MIME-Version: 1.0
+To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH v2 1/4] polkit 0.104: convert pam code to PACKAGECONFIG and adhere to OE recipe styleguide
+References: <1330132750-12469-1-git-send-email-obi@opendreambox.org>
+In-Reply-To: <1330132750-12469-1-git-send-email-obi@opendreambox.org>
+Subject: Re: [PATCH] automake: omit compilation of pyc files on install
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -49,68 +34,113 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 05 Mar 2012 21:36:18 -0000
-Content-Type: text/plain; charset=us-ascii
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Mon, 05 Mar 2012 21:42:24 -0000
+Content-Type: text/plain; charset=ISO-8859-1; format=flowed
+Content-Transfer-Encoding: 7bit
 
+On 02/24/2012 05:19 PM, Andreas Oberritter wrote:
+> * On install, automake calls py-compile, which previously
+>    compiled python source code to pyc and pyo, which both
+>    got packaged.
+> * The python interpreter in OE contains patches to enable
+>    optimization (pyo) by default:
+>      04-default-is-optimized.patch
+>      99-ignore-optimization-flag.patch
+> * automake created pyc files by calling py_compile.compile()
+>    and adding the c suffix manually, resulting in identical
+>    byte code for both pyc and pyo files.
+> * py-compile-compile-only-optimized-byte-code.patch
+>    applies to automake 1.11 and automake master, but older
+>    versions require a slightly modified patch. However,
+>    older versions are only pinned by chinook-compat and
+>    nylon, so I left them untouched.
+>
+> Signed-off-by: Andreas Oberritter<obi@opendreambox.org>
+> Signed-off-by: Khem Raj<raj.khem@gmail.com>
+>
+> The patch was imported from the OpenEmbedded git server
+> (git://git.openembedded.org/openembedded) as of commit id
+> aa4585c5065e05c759f16e1e8623fc7f40640f1b.
+>
+> Modified to apply to automake version 1.11.2 and to
+> include a patch header. Also renamed the patch.
+>
+> Signed-off-by: Andreas Oberritter<obi@opendreambox.org>
+> ---
+>   ...-compile-compile-only-optimized-byte-code.patch |   42 ++++++++++++++++++++
+>   meta/recipes-devtools/automake/automake_1.11.2.bb  |    5 +-
+>   2 files changed, 45 insertions(+), 2 deletions(-)
+>   create mode 100644 meta/recipes-devtools/automake/automake/py-compile-compile-only-optimized-byte-code.patch
+>
+> diff --git a/meta/recipes-devtools/automake/automake/py-compile-compile-only-optimized-byte-code.patch b/meta/recipes-devtools/automake/automake/py-compile-compile-only-optimized-byte-code.patch
+> new file mode 100644
+> index 0000000..f09bfbc
+> --- /dev/null
+> +++ b/meta/recipes-devtools/automake/automake/py-compile-compile-only-optimized-byte-code.patch
+> @@ -0,0 +1,42 @@
+> +Upstream-Status: Inappropriate [embedded specific]
+> +
+> +* OE-Core's python creates the same binary output
+> +  for both pyc and pyo, so disable the creation of
+> +  pyc files by automake.
+> +
+> +Signed-off-by: Andreas Oberritter<obi@opendreambox.org>
+> +---
+> + lib/py-compile |   17 -----------------
+> + 1 files changed, 0 insertions(+), 17 deletions(-)
+> +
+> +diff --git a/lib/py-compile b/lib/py-compile
+> +index 3f9d05b..101c814 100755
+> +--- a/lib/py-compile
+> ++++ b/lib/py-compile
+> +@@ -101,23 +101,6 @@ else
+> +     filetrans="filepath = os.path.normpath('$destdir' + os.sep + path)"
+> + fi
+> +
+> +-$PYTHON -c "
+> +-import sys, os, py_compile
+> +-
+> +-files = '''$files'''
+> +-
+> +-sys.stdout.write('Byte-compiling python modules...\n')
+> +-for file in files.split():
+> +-    $pathtrans
+> +-    $filetrans
+> +-    if not os.path.exists(filepath) or not (len(filepath)>= 3
+> +-                                            and filepath[-3:] == '.py'):
+> +-	    continue
+> +-    sys.stdout.write(file)
+> +-    sys.stdout.flush()
+> +-    py_compile.compile(filepath, filepath + 'c', path)
+> +-sys.stdout.write('\n')" || exit $?
+> +-
+> + # this will fail for python<  1.5, but that doesn't matter ...
+> + $PYTHON -O -c "
+> + import sys, os, py_compile
+> +--
+> +1.7.0.4
+> +
+> diff --git a/meta/recipes-devtools/automake/automake_1.11.2.bb b/meta/recipes-devtools/automake/automake_1.11.2.bb
+> index 4534c39..4271336 100644
+> --- a/meta/recipes-devtools/automake/automake_1.11.2.bb
+> +++ b/meta/recipes-devtools/automake/automake_1.11.2.bb
+> @@ -37,9 +37,10 @@ PATHFIXPATCH_virtclass-nativesdk = ""
+>   SRC_URI += "${PATHFIXPATCH} \
+>   	    file://prefer-cpio-over-pax-for-ustar-archives.patch \
+>   	    file://python-libdir.patch \
+> -            file://automake_1.11.2_fix_for_pkglibexec_SCRIPTS.patch"
+> +            file://automake_1.11.2_fix_for_pkglibexec_SCRIPTS.patch \
+> +            file://py-compile-compile-only-optimized-byte-code.patch"
+>
+> -PR = "r1"
+> +PR = "r2"
+>   SRC_URI[md5sum] = "18194e804d415767bae8f703c963d456"
+>   SRC_URI[sha256sum] = "4f46d1f9380c8a3506280750f630e9fc915cb1a435b724be56b499d016368718"
+>
 
-Op 5 mrt. 2012, om 22:14 heeft Richard Purdie het volgende geschreven:
+Merged into OE-core
 
-> On Mon, 2012-03-05 at 08:38 +0100, Koen Kooi wrote:
->> Signed-off-by: Koen Kooi <koen@dominion.thruhere.net>
->> ---
->> meta/recipes-extended/polkit/polkit_0.104.bb |   25 =
-+++++++++++++++----------
->> 1 files changed, 15 insertions(+), 10 deletions(-)
->>=20
->> diff --git a/meta/recipes-extended/polkit/polkit_0.104.bb =
-b/meta/recipes-extended/polkit/polkit_0.104.bb
->> index 2737a4a..5dc82c5 100644
->> --- a/meta/recipes-extended/polkit/polkit_0.104.bb
->> +++ b/meta/recipes-extended/polkit/polkit_0.104.bb
->> @@ -6,28 +6,33 @@ LIC_FILES_CHKSUM =3D =
-"file://COPYING;md5=3D155db86cdbafa7532b41f390409283eb \
->>                     =
-file://src/polkit/polkit.h;beginline=3D1;endline=3D20;md5=3D0a8630b0133176=
-d0504c87a0ded39db4 \
->>                     =
-file://docs/polkit/html/license.html;md5=3Dd85a36709a446c10f4ee123f9dda0e3=
-8"
->>=20
->> +DEPENDS =3D "expat dbus-glib eggdbus intltool-native"
->> +
->> +PACKAGECONFIG =3D "${@base_contains('DISTRO_FEATURES', 'pam', 'pam', =
-'', d)}"
->> +PACKAGECONFIG[pam] =3D =
-"--with-authfw=3Dpam,--with-authfw=3Dnone,libpam,libpam"
->> +
->=20
-> After this merged I found a few issues on the autobuilder. There were
-> two problems. If DISTRO_FEATURES didn't contain pam and was empty, the
-> PACKAGECONFIG code would not trigger at all (and not add the
-> authfw=3Dnone). Secondly, I think we need "shadow", not "none" as
-> otherwise the builds fail due to an invalid configuration.
-
-I've thought about that, but if we choose 'shadow', we need to add =
-(R)DEPENDS for it to work properly. So 'none' seems like the best =
-option.=20
-
-Anyway, how can I take over maintainership of polkit, I'm getting tired =
-of every commit breaking it subtly and taking another week of my time =
-finding out that $random error is actually caused by polkit deep down. =
-It's like dbus, breakage does not always point to the culprit.
-
-Takes this one for example:
-
-=
-http://cgit.openembedded.org/openembedded-core/commit/meta/recipes-extende=
-d/polkit?id=3D6bc6406b019ebc104a4abfb15c2d2e1263968664
-
-PAM is hardcoded to be enabled, but you'll only get a working config if =
-you put it in DISTRO_FEATURES.
-
-regards,
-
-Koen=
+Thanks
+	Sau!
 
 
