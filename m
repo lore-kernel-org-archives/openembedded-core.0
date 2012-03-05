@@ -1,47 +1,42 @@
-Received: from mail-vx0-f175.google.com ([209.85.220.175])
+Received: from mail-pw0-f47.google.com ([209.85.160.47])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <otavio.salvador@gmail.com>) id 1S4WVX-0004yo-0h
+	(envelope-from <andrea.adami@gmail.com>) id 1S4XqP-0006V6-76
 	for openembedded-core@lists.openembedded.org;
-	Mon, 05 Mar 2012 12:55:15 +0100
-Received: by vcbfl13 with SMTP id fl13so3384196vcb.6
+	Mon, 05 Mar 2012 14:20:53 +0100
+Received: by pbbrp12 with SMTP id rp12so3908098pbb.6
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 05 Mar 2012 03:46:40 -0800 (PST)
-Received-SPF: pass (google.com: domain of otavio.salvador@gmail.com designates
-	10.52.66.228 as permitted sender) client-ip=10.52.66.228; 
-Authentication-Results: mr.google.com; spf=pass (google.com: domain of
-	otavio.salvador@gmail.com designates 10.52.66.228 as permitted
-	sender) smtp.mail=otavio.salvador@gmail.com;
-	dkim=pass header.i=otavio.salvador@gmail.com
-Received: from mr.google.com ([10.52.66.228])
-	by 10.52.66.228 with SMTP id i4mr32996871vdt.12.1330948000217 (num_hops
-	= 1); Mon, 05 Mar 2012 03:46:40 -0800 (PST)
+	Mon, 05 Mar 2012 05:12:17 -0800 (PST)
+Received-SPF: pass (google.com: domain of andrea.adami@gmail.com designates
+	10.68.135.68 as permitted sender) client-ip=10.68.135.68; 
+Authentication-Results: mr.google.com;
+	spf=pass (google.com: domain of andrea.adami@gmail.com
+	designates 10.68.135.68 as permitted sender)
+	smtp.mail=andrea.adami@gmail.com;
+	dkim=pass header.i=andrea.adami@gmail.com
+Received: from mr.google.com ([10.68.135.68])
+	by 10.68.135.68 with SMTP id pq4mr10932762pbb.71.1330953137585
+	(num_hops = 1); Mon, 05 Mar 2012 05:12:17 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:sender:in-reply-to:references:date
-	:x-google-sender-auth:message-id:subject:from:to:content-type
-	:content-transfer-encoding;
-	bh=ZLYiy62oe0BMRzwVBXqu6MO2rkLr2M3rrjRp4OgSqqg=;
-	b=TMQuWZVr8AHNBDMqUuoUc5AdUcryroZpAHAoYOzFOohhfWsqNH3fwY8esf2zJTbiHJ
-	a+s7/i0RFAFmBkEd26KjyUg1aZ1nZRNsC68IZYMaCZ0MClgiykrLcTspEv4/7qLBebQ4
-	Gzfe7fCQOM4RM6okK4I6aysXCoaGLUsqN7jLeweJXzOhN4JsRM/ZJWIh+bGyTztQJG3o
-	544yvCu49xKJ8Z9GkD/asF1/x5DeB4tLoi5fB5y3LSwN6uBTBx9pNlN2w0dJzIwKtdKu
-	bGwYWcDAKjTm+jWAJXH1gqygnnuLteuMOMDmkOEg1u5zb2ECS8OcYP0UpmBEdA3oyNCu
-	cO/Q==
+	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
+	:content-type:content-transfer-encoding;
+	bh=60bKPS2thPpgaYecCH40uwKmdn15ZP9G3Vci2HGmPpU=;
+	b=0vlOarO+M1juY6dWVasVEhFXs+YKlZ3MHgIyhNtUR22X6QQKRBvu4U8F5Fy/OyZLO4
+	H1oELktD48TZiGk8adAsNUHt/O3Z+BInA6dyUGpuAG59hvgz2Qw5+co+OLTLRowgcmGw
+	FJaKcGUeRpZhKnElu1Hm8OIH39qC160JW5vvfD6Wro9nVJF4IkdpOf9xrlwitdqRhgj2
+	RwK4reAAIDsdHrY2TNNvPYaSKcgPFJroYEssafNSBVl8U7bq2NaX7j7bt0y30IRpYHzv
+	v96k9bInpMb/gGvTw2Bw8Z+3rfZ/kWbQk7UszHqRM/BRQ8Ysk7fkYfgOP2Pb3h9YXJJE
+	6Xgg==
 MIME-Version: 1.0
-Received: by 10.52.66.228 with SMTP id i4mr28178712vdt.12.1330948000147; Mon,
-	05 Mar 2012 03:46:40 -0800 (PST)
-Sender: otavio.salvador@gmail.com
-Received: by 10.220.7.208 with HTTP; Mon, 5 Mar 2012 03:46:40 -0800 (PST)
-In-Reply-To: <1330835499.3949.18.camel@ted>
-References: <cover.1330796256.git.otavio@ossystems.com.br>
-	<af77629ed96cb6c688540f19806558f6a8034771.1330796256.git.otavio@ossystems.com.br>
-	<1330835499.3949.18.camel@ted>
-Date: Mon, 5 Mar 2012 08:46:40 -0300
-X-Google-Sender-Auth: 5pq8d_ltvcsIo2tqUQBwWeil0g0
-Message-ID: <CAP9ODKozzmfAGWCwP3aOwkmO7Gnu4tS8-uBRWCtPrqW9ufa6wg@mail.gmail.com>
-From: Otavio Salvador <otavio@ossystems.com.br>
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 3/4] rootfs_rpm.bbclass: rename postinst trigger script
+Received: by 10.68.135.68 with SMTP id pq4mr9444945pbb.71.1330953137411; Mon,
+	05 Mar 2012 05:12:17 -0800 (PST)
+Received: by 10.143.67.8 with HTTP; Mon, 5 Mar 2012 05:12:17 -0800 (PST)
+In-Reply-To: <CAAQYJAtC-SCxohUjEOcixWA_B+K62O9AMr-d4XWX+PBDpg6i=w@mail.gmail.com>
+References: <CAAQYJAtC-SCxohUjEOcixWA_B+K62O9AMr-d4XWX+PBDpg6i=w@mail.gmail.com>
+Date: Mon, 5 Mar 2012 14:12:17 +0100
+Message-ID: <CAAQYJAvQajmU+T1oGQLingBR7S7_G_A3KxtDeB+s6_tNnmoteg@mail.gmail.com>
+From: Andrea Adami <andrea.adami@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Subject: Re: [RFC] keymaps and kernel version
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -56,32 +51,53 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 05 Mar 2012 11:55:15 -0000
+X-List-Received-Date: Mon, 05 Mar 2012 13:20:53 -0000
 Content-Type: text/plain; charset=ISO-8859-1
 Content-Transfer-Encoding: quoted-printable
 
-On Sun, Mar 4, 2012 at 01:31, Richard Purdie
-<richard.purdie@linuxfoundation.org> wrote:
-> I find the consistency argument a little confusing when you had to
-> rename this for all of the packaging backends from the same thing?
+On Sun, Mar 4, 2012 at 12:40 AM, Andrea Adami <andrea.adami@gmail.com> wrot=
+e:
+> Hi,
+> while testing some new kernels I found out a broken keymap.
+> After short research I could identify the cause in
+> recipes-bsp/keymaps/files/keymap.sh:
+> ...
+> KERNEL_MAJMIN=3D`uname -r | cut -d '.' -f 1,2`
+> if [ -e /etc/keymap-$KERNEL_MAJMIN.map ]; then
+> =A0 =A0loadkeys /etc/keymap-$KERNEL_MAJMIN.map
+> fi
+> ...
+>
+> $ uname -r | cut -d '.' -f 1,2
+> 3.2
+>
+>
+> I realized we are still using some old keymap-2.6.map and this doesn't
+> match with KERNEL_MAJMIN.
+> Now, renaming the keymaps to 3.2 would be only a band-aid, =A03.3 is comi=
+ng.
+>
+> Maybe we should check for keymap-3.map, i.e.
+>
+> =A0uname -r | cut -d '.' -f 1,1
+>
+> =A0or embed the machine name instead.
+>
+> Regards
+>
+> Andrea
 
-I did it because I used run-postinsts package for bootstrap in ipk.
+Actually this all sounds remnant of linux 2.4 vs. 2.6 times.
 
-> I understand you want a less confusing name though as configure is an
-> overloaded word.
+Probably today we can just set:
+...
+if [ -e /etc/keymap.map ]; then
+...
 
-If you prefer I can change this; doesn't matter for me.
+and the BSP layers will have to rename the overrides only once.
 
-> Also, please do post the deb patch too. Saying you've just pushed an
-> extra patch somewhere doesn't really work...
+My 2 cents
 
-Right; once you reply if you want me to change wording I do.
-
---=20
-Otavio Salvador=A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0O=
-.S. Systems
-E-mail: otavio@ossystems.com.br=A0 http://www.ossystems.com.br
-Mobile: +55 53 9981-7854=A0 =A0 =A0 =A0=A0 =A0 =A0 =A0http://projetos.ossys=
-tems.com.br
+Andrea
 
 
