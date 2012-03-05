@@ -1,40 +1,45 @@
-Received: from mail-lpp01m010-f47.google.com ([209.85.215.47])
+Received: from mail-vw0-f47.google.com ([209.85.212.47])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <cliff.brake@gmail.com>) id 1S4epH-0003kr-Jt
+	(envelope-from <otavio.salvador@gmail.com>) id 1S4f5y-0004Vi-NE
 	for openembedded-core@lists.openembedded.org;
-	Mon, 05 Mar 2012 21:48:11 +0100
-Received: by lagw12 with SMTP id w12so5313555lag.6
+	Mon, 05 Mar 2012 22:05:26 +0100
+Received: by vbbfr13 with SMTP id fr13so3979425vbb.6
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 05 Mar 2012 12:39:36 -0800 (PST)
-Received-SPF: pass (google.com: domain of cliff.brake@gmail.com designates
-	10.112.9.34 as permitted sender) client-ip=10.112.9.34; 
-Authentication-Results: mr.google.com;
-	spf=pass (google.com: domain of cliff.brake@gmail.com
-	designates 10.112.9.34 as permitted sender)
-	smtp.mail=cliff.brake@gmail.com;
-	dkim=pass header.i=cliff.brake@gmail.com
-Received: from mr.google.com ([10.112.9.34])
-	by 10.112.9.34 with SMTP id w2mr10151937lba.50.1330979976544 (num_hops
-	= 1); Mon, 05 Mar 2012 12:39:36 -0800 (PST)
+	Mon, 05 Mar 2012 12:56:51 -0800 (PST)
+Received-SPF: pass (google.com: domain of otavio.salvador@gmail.com designates
+	10.52.68.241 as permitted sender) client-ip=10.52.68.241; 
+Authentication-Results: mr.google.com; spf=pass (google.com: domain of
+	otavio.salvador@gmail.com designates 10.52.68.241 as permitted
+	sender) smtp.mail=otavio.salvador@gmail.com;
+	dkim=pass header.i=otavio.salvador@gmail.com
+Received: from mr.google.com ([10.52.68.241])
+	by 10.52.68.241 with SMTP id z17mr37386223vdt.97.1330981011526
+	(num_hops = 1); Mon, 05 Mar 2012 12:56:51 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:date:message-id:subject:from:to:content-type;
-	bh=gEXW/udWN82e1t351JuOvfxFJVuQMfs0dIoB/HZ6fjg=;
-	b=F5umjU04b+trYVk1c+R9v7oiafjXJzywZqjQNWyLFKtNPiNA3TA0GJLqN2pcAmrrku
-	QertxPPM67bchOL44C0ystGA5kkSZtFSP6QADtLXca1fwMdIqBVNJ1szo46TWGrwBp8c
-	AmGIE6wmPpoQlcwD7ULgvHleGOkppMjLQoRbC4EZmkktYAYrGSQgAX53TdxggwyHzB3Y
-	dw1396rDzFAeI2doqmo0hxvz/m/HALm4a8tMmt/CJ0oMbig8PK1u7YPkdDwRFBuepalj
-	NKMQBOAEh7g7+/p0o3m+1CUJdIvkquWEdu5LWfPE56o48oTetueT3YxPxVvGwKF5d3La
-	ijzg==
+	h=mime-version:sender:in-reply-to:references:date
+	:x-google-sender-auth:message-id:subject:from:to:content-type
+	:content-transfer-encoding;
+	bh=KvFknQ9vA2/Nk8mC/TBVIqdMTRzE2LhMlCOk6WR0yIQ=;
+	b=bUu1DvoRyCr5+Oao6kvu5RVN/GGGhzLlkV4lcaYC5V21a1+tkYAiytbARlAx6dEn/b
+	OC8nk87in1ZFL+EAyegqYxIJTmFXVpaSazWGXHwNmtsiLoCvpYi7yY+ZyoAqK9FEfduj
+	MO4gAT+CS6mFGjwLwCKkvsuob/6GXADhD9wb4bhEzqjWdYb7ru4zT/x/vp6eehTCMkM/
+	zazDk2i5Ji2FiPhGISVai0BLOsWjJ7x0Sdf3sp8gIQwrUbVziTRoB8WCUJPwIZyTtlpT
+	n+z0HO5Lu03vMikVndby97bUbZghL29JDee8HNT0id6CTdDIOKJRAjOCNxlVwd3wuwRs
+	WcRA==
 MIME-Version: 1.0
-Received: by 10.112.9.34 with SMTP id w2mr8309864lba.50.1330979976429; Mon, 05
-	Mar 2012 12:39:36 -0800 (PST)
-Received: by 10.112.31.197 with HTTP; Mon, 5 Mar 2012 12:39:36 -0800 (PST)
-Date: Mon, 5 Mar 2012 15:39:36 -0500
-Message-ID: <CAOd_LFz2nUOW4D4Q9YuDHzwvs6qTwgS2TJZA5UnJbYaROCiSGg@mail.gmail.com>
-From: Cliff Brake <cliff.brake@gmail.com>
+Received: by 10.52.68.241 with SMTP id z17mr32009211vdt.97.1330981011262; Mon,
+	05 Mar 2012 12:56:51 -0800 (PST)
+Sender: otavio.salvador@gmail.com
+Received: by 10.220.7.208 with HTTP; Mon, 5 Mar 2012 12:56:51 -0800 (PST)
+In-Reply-To: <CAOd_LFz2nUOW4D4Q9YuDHzwvs6qTwgS2TJZA5UnJbYaROCiSGg@mail.gmail.com>
+References: <CAOd_LFz2nUOW4D4Q9YuDHzwvs6qTwgS2TJZA5UnJbYaROCiSGg@mail.gmail.com>
+Date: Mon, 5 Mar 2012 17:56:51 -0300
+X-Google-Sender-Auth: TM7HyKfXWhTKs4Kc_m0j4V6uRTU
+Message-ID: <CAP9ODKq_JrKF4LJwRt5Fcg79+xQfdVQqPBJZyq_=Lv7zu36koA@mail.gmail.com>
+From: Otavio Salvador <otavio@ossystems.com.br>
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Subject: read only rootfs?
+Subject: Re: read only rootfs?
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -49,25 +54,24 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 05 Mar 2012 20:48:11 -0000
+X-List-Received-Date: Mon, 05 Mar 2012 21:05:26 -0000
 Content-Type: text/plain; charset=ISO-8859-1
+Content-Transfer-Encoding: quoted-printable
 
-Hello,
+On Mon, Mar 5, 2012 at 17:39, Cliff Brake <cliff.brake@gmail.com> wrote:
+> What are the best practices for implementing a read-only rootfs built
+> with OE? =A0I've looked at a few things like poky-tiny.conf, but figured
+> I would ask.
 
-What are the best practices for implementing a read-only rootfs built
-with OE?  I've looked at a few things like poky-tiny.conf, but figured
-I would ask.
+You could the image feature for it; depending on the image complexity
+it might just work or need few fixes for some postinsts to work in
+offline mode.
 
-To date, I've been cheating and implementing a tmpfs overlay on top a
-RO rootfs using unionfs, but this is less than idea as you need to do
-the package install process on every boot.  Others boot the first time
-RW, and then switch to RO for subsequent boots.
-
-Thanks,
-Cliff
-
--- 
-=================
-http://bec-systems.com
+--=20
+Otavio Salvador=A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0O=
+.S. Systems
+E-mail: otavio@ossystems.com.br=A0 http://www.ossystems.com.br
+Mobile: +55 53 9981-7854=A0 =A0 =A0 =A0=A0 =A0 =A0 =A0http://projetos.ossys=
+tems.com.br
 
 
