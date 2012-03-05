@@ -1,37 +1,31 @@
-Received: from out5-smtp.messagingengine.com ([66.111.4.29])
-	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <walters@verbum.org>) id 1S4bTy-0005Vg-EN
-	for openembedded-core@lists.openembedded.org;
-	Mon, 05 Mar 2012 18:13:58 +0100
-Received: from compute2.internal (compute2.nyi.mail.srv.osa [10.202.2.42])
-	by gateway1.nyi.mail.srv.osa (Postfix) with ESMTP id 71F6A205AF
-	for <openembedded-core@lists.openembedded.org>;
-	Mon,  5 Mar 2012 12:05:25 -0500 (EST)
-Received: from frontend2.nyi.mail.srv.osa ([10.202.2.161])
-	by compute2.internal (MEProxy); Mon, 05 Mar 2012 12:05:25 -0500
-DKIM-Signature: v=1; a=rsa-sha1; c=relaxed/relaxed; d=
-	messagingengine.com; h=message-id:subject:from:to:date
-	:in-reply-to:references:content-type:content-transfer-encoding
-	:mime-version; s=smtpout; bh=+o0y3DchFCQ0ZZU/xNmUsL3SwZ0=; b=cQx
-	ss8HNJVrzQBlywGReSAP7S15VYbxApSG6czglgfOHz8an0vL7yif86vaMNz007Ob
-	EemLNoc4LGUo+EJdAWFma1eyp2wkGD8mgrs/WyKDCjcdxoecejoZm14D8QeU4SO6
-	ikvdA310pqrInbEBokb5eUjrubfytQf2vaMKhBus=
-X-Sasl-enc: fAegZHMnfwNvYwCNdtzmdqZYMAbWZ2nvVv0gud9b15UE 1330967125
-Received: from [192.168.43.202] (247.sub-166-248-18.myvzw.com [166.248.18.247])
-	by mail.messagingengine.com (Postfix) with ESMTPSA id 1D349483514
-	for <openembedded-core@lists.openembedded.org>;
-	Mon,  5 Mar 2012 12:05:25 -0500 (EST)
-Message-ID: <1330967095.23796.4.camel@lenny>
-From: Colin Walters <walters@verbum.org>
+Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
+	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <richard.purdie@linuxfoundation.org>)
+	id 1S4c5L-0007eA-LD for openembedded-core@lists.openembedded.org;
+	Mon, 05 Mar 2012 18:52:35 +0100
+Received: from localhost (localhost [127.0.0.1])
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q25Hi0TG009955;
+	Mon, 5 Mar 2012 17:44:00 GMT
+Received: from tim.rpsys.net ([127.0.0.1])
+	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
+	port 10024) with LMTP
+	id 09813-01; Mon,  5 Mar 2012 17:43:55 +0000 (GMT)
+Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q25HhlRx009949
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO);
+	Mon, 5 Mar 2012 17:43:50 GMT
+Message-ID: <1330969425.23819.1.camel@ted>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Date: Mon, 05 Mar 2012 12:04:55 -0500
-In-Reply-To: <3fce8ebe8b9af73e91bd8baf397d1a9ac196171f.1330771239.git.xiaofeng.yan@windriver.com>
-References: <cover.1330771239.git.xiaofeng.yan@windriver.com>
-	<3fce8ebe8b9af73e91bd8baf397d1a9ac196171f.1330771239.git.xiaofeng.yan@windriver.com>
-X-Mailer: Evolution 3.2.3 (3.2.3-1.fc16) 
+Date: Mon, 05 Mar 2012 09:43:45 -0800
+In-Reply-To: <1330933112-13510-1-git-send-email-koen@dominion.thruhere.net>
+References: <1330933112-13510-1-git-send-email-koen@dominion.thruhere.net>
+X-Mailer: Evolution 3.2.2- 
 Mime-Version: 1.0
-Subject: Re: [PATCH 1/3] package_rpm.bbclass: Add srpm function
+X-Virus-Scanned: amavisd-new at rpsys.net
+Cc: Koen Kooi <koen@dominion.thruhere.net>
+Subject: Re: [PATCH v2 1/4] polkit 0.104: convert pam code to PACKAGECONFIG and adhere to OE recipe styleguide
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -46,24 +40,21 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 05 Mar 2012 17:13:58 -0000
+X-List-Received-Date: Mon, 05 Mar 2012 17:52:35 -0000
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 
-On Sat, 2012-03-03 at 18:54 +0800, Xiaofeng Yan wrote:
-> From: Xiaofeng Yan <xiaofeng.yan@windriver.com>
-> 
-> Add a new function to archive source, patches and logs to a source rpm
-> package. Every source rpm package  will be deployed to
-> ${DEPLOY}/sources/deploy-srpm.
+On Mon, 2012-03-05 at 08:38 +0100, Koen Kooi wrote:
+> Signed-off-by: Koen Kooi <koen@dominion.thruhere.net>
+> ---
+>  meta/recipes-extended/polkit/polkit_0.104.bb |   25 +++++++++++++++----------
+>  1 files changed, 15 insertions(+), 10 deletions(-)
 
-What's the goal of this?  Just to be a "one file" collection of
-sources?  Or do we actually expect people to build from this somehow?
+Merged to master, thanks (patches 1-4).
 
-If the intention is to eventually allow building, but it's not actually
-used to build right now, it seems very likely to "bitrot" as the core
-changes.
+Cheers,
 
+Richard
 
 
 
