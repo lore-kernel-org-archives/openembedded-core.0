@@ -1,25 +1,40 @@
-Received: from mga09.intel.com ([134.134.136.24])
+Received: from mail-we0-f175.google.com ([74.125.82.175])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <sgw@linux.intel.com>) id 1S4fVv-00053F-UY
+	(envelope-from <koen@dominion.thruhere.net>) id 1S4fZp-00058g-S9
 	for openembedded-core@lists.openembedded.org;
-	Mon, 05 Mar 2012 22:32:16 +0100
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-	by orsmga102.jf.intel.com with ESMTP; 05 Mar 2012 13:23:40 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.67,351,1309762800"; d="scan'208";a="117931268"
-Received: from unknown (HELO [10.255.15.110]) ([10.255.15.110])
-	by orsmga002.jf.intel.com with ESMTP; 05 Mar 2012 13:23:39 -0800
-Message-ID: <4F552EDB.9070408@linux.intel.com>
-Date: Mon, 05 Mar 2012 13:23:39 -0800
-From: Saul Wold <sgw@linux.intel.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:10.0.1) Gecko/20120216 Thunderbird/10.0.1
-MIME-Version: 1.0
-To: Patches and discussions about the oe-core layer
+	Mon, 05 Mar 2012 22:36:17 +0100
+Received: by wera1 with SMTP id a1so2778816wer.6
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 05 Mar 2012 13:27:43 -0800 (PST)
+Received-SPF: pass (google.com: domain of koen@dominion.thruhere.net
+	designates 10.180.80.104 as permitted sender)
+	client-ip=10.180.80.104; 
+Authentication-Results: mr.google.com; spf=pass (google.com: domain of
+	koen@dominion.thruhere.net designates 10.180.80.104 as
+	permitted sender) smtp.mail=koen@dominion.thruhere.net
+Received: from mr.google.com ([10.180.80.104])
+	by 10.180.80.104 with SMTP id q8mr13049370wix.14.1330982863226
+	(num_hops = 1); Mon, 05 Mar 2012 13:27:43 -0800 (PST)
+Received: by 10.180.80.104 with SMTP id q8mr10403328wix.14.1330982863144;
+	Mon, 05 Mar 2012 13:27:43 -0800 (PST)
+Received: from [172.20.1.36] (ip545070eb.adsl-surfen.hetnet.nl.
+	[84.80.112.235])
+	by mx.google.com with ESMTPS id 9sm68184005wid.2.2012.03.05.13.27.41
+	(version=TLSv1/SSLv3 cipher=OTHER);
+	Mon, 05 Mar 2012 13:27:42 -0800 (PST)
+Mime-Version: 1.0 (Apple Message framework v1257)
+From: Koen Kooi <koen@dominion.thruhere.net>
+In-Reply-To: <1330982065.25887.3.camel@ted>
+Date: Mon, 5 Mar 2012 22:27:40 +0100
+Message-Id: <3DDE8192-DE32-4CB6-9D35-9063B2CF2160@dominion.thruhere.net>
+References: <1330933112-13510-1-git-send-email-koen@dominion.thruhere.net>
+	<1330982065.25887.3.camel@ted>
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
+X-Mailer: Apple Mail (2.1257)
+X-Gm-Message-State: ALoCoQkfX66gKzw1Nk7piF8xd0u5w5tQA3MtJ6DNgqHdbyoyEQvfjicL2xNsPcSlwE0fuNYkznaG
+Cc: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-References: <1330410346-14477-1-git-send-email-james@digitalmatter.com.au>
-In-Reply-To: <1330410346-14477-1-git-send-email-james@digitalmatter.com.au>
-Subject: Re: [PATCH] mtd-utils: clean up old files
+Subject: Re: [PATCH v2 1/4] polkit 0.104: convert pam code to PACKAGECONFIG and adhere to OE recipe styleguide
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -34,392 +49,68 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 05 Mar 2012 21:32:16 -0000
-Content-Type: text/plain; charset=ISO-8859-1; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Mon, 05 Mar 2012 21:36:18 -0000
+Content-Type: text/plain; charset=us-ascii
+Content-Transfer-Encoding: quoted-printable
 
-On 02/27/2012 10:25 PM, James Limbouris wrote:
-> Signed-off-by: James Limbouris<james@digitalmatter.com.au>
-> ---
->   .../add-exclusion-to-mkfs-jffs2-git-2.patch        |  103 ---------------
->   .../add-exclusion-to-mkfs-jffs2-git.patch          |  136 --------------------
->   .../mtd/mtd-utils/fix-ignoreerrors-git.patch       |   28 ----
->   .../mtd/mtd-utils/remove-ubi.patch                 |   35 -----
->   meta/recipes-devtools/mtd/mtd-utils_1.1.0+git.bb   |   28 ----
->   5 files changed, 0 insertions(+), 330 deletions(-)
->   delete mode 100644 meta/recipes-devtools/mtd/mtd-utils-1.4.9/mtd-utils-1.4.1/add-exclusion-to-mkfs-jffs2-git-2.patch
->   delete mode 100644 meta/recipes-devtools/mtd/mtd-utils/add-exclusion-to-mkfs-jffs2-git.patch
->   delete mode 100644 meta/recipes-devtools/mtd/mtd-utils/fix-ignoreerrors-git.patch
->   delete mode 100644 meta/recipes-devtools/mtd/mtd-utils/remove-ubi.patch
->   delete mode 100644 meta/recipes-devtools/mtd/mtd-utils_1.1.0+git.bb
->
 
-Sorry for the delay on this one, not sure why you are removing the git 
-version of the recipe?  If anything you could move it forward to the 
-latetest git version and clean up the patches as needed.
+Op 5 mrt. 2012, om 22:14 heeft Richard Purdie het volgende geschreven:
 
-Thanks
-	Sau!
+> On Mon, 2012-03-05 at 08:38 +0100, Koen Kooi wrote:
+>> Signed-off-by: Koen Kooi <koen@dominion.thruhere.net>
+>> ---
+>> meta/recipes-extended/polkit/polkit_0.104.bb |   25 =
++++++++++++++++----------
+>> 1 files changed, 15 insertions(+), 10 deletions(-)
+>>=20
+>> diff --git a/meta/recipes-extended/polkit/polkit_0.104.bb =
+b/meta/recipes-extended/polkit/polkit_0.104.bb
+>> index 2737a4a..5dc82c5 100644
+>> --- a/meta/recipes-extended/polkit/polkit_0.104.bb
+>> +++ b/meta/recipes-extended/polkit/polkit_0.104.bb
+>> @@ -6,28 +6,33 @@ LIC_FILES_CHKSUM =3D =
+"file://COPYING;md5=3D155db86cdbafa7532b41f390409283eb \
+>>                     =
+file://src/polkit/polkit.h;beginline=3D1;endline=3D20;md5=3D0a8630b0133176=
+d0504c87a0ded39db4 \
+>>                     =
+file://docs/polkit/html/license.html;md5=3Dd85a36709a446c10f4ee123f9dda0e3=
+8"
+>>=20
+>> +DEPENDS =3D "expat dbus-glib eggdbus intltool-native"
+>> +
+>> +PACKAGECONFIG =3D "${@base_contains('DISTRO_FEATURES', 'pam', 'pam', =
+'', d)}"
+>> +PACKAGECONFIG[pam] =3D =
+"--with-authfw=3Dpam,--with-authfw=3Dnone,libpam,libpam"
+>> +
+>=20
+> After this merged I found a few issues on the autobuilder. There were
+> two problems. If DISTRO_FEATURES didn't contain pam and was empty, the
+> PACKAGECONFIG code would not trigger at all (and not add the
+> authfw=3Dnone). Secondly, I think we need "shadow", not "none" as
+> otherwise the builds fail due to an invalid configuration.
 
-> diff --git a/meta/recipes-devtools/mtd/mtd-utils-1.4.9/mtd-utils-1.4.1/add-exclusion-to-mkfs-jffs2-git-2.patch b/meta/recipes-devtools/mtd/mtd-utils-1.4.9/mtd-utils-1.4.1/add-exclusion-to-mkfs-jffs2-git-2.patch
-> deleted file mode 100644
-> index 57d6a30..0000000
-> --- a/meta/recipes-devtools/mtd/mtd-utils-1.4.9/mtd-utils-1.4.1/add-exclusion-to-mkfs-jffs2-git-2.patch
-> +++ /dev/null
-> @@ -1,103 +0,0 @@
-> -Upstream-Status: Pending
-> -
-> ---- /tmp/mkfs.jffs2.c	2009-01-11 15:28:41.000000000 +0100
-> -+++ git/mkfs.jffs2.c	2009-01-11 15:59:29.000000000 +0100
-> -@@ -100,6 +100,11 @@
-> - 	struct rb_node hardlink_rb;
-> - };
-> -
-> -+struct ignorepath_entry {
-> -+	struct ignorepath_entry* next;  /* Points to the next ignorepath element */
-> -+	char name[PATH_MAX];        /* Name of the entry */
-> -+};
-> -+static struct ignorepath_entry* ignorepath = 0;
-> - struct rb_root hardlinks;
-> - static int out_fd = -1;
-> - static int in_fd = -1;
-> -@@ -408,7 +413,7 @@
-> - 	char *hpath, *tpath;
-> - 	struct dirent *dp, **namelist;
-> - 	struct filesystem_entry *entry;
-> --
-> -+	struct ignorepath_entry* element = ignorepath;
-> -
-> - 	if (lstat(hostpath,&sb)) {
-> - 		perror_msg_and_die("%s", hostpath);
-> -@@ -417,6 +422,15 @@
-> - 	entry = add_host_filesystem_entry(targetpath, hostpath,
-> - 			sb.st_uid, sb.st_gid, sb.st_mode, 0, parent);
-> -
-> -+	while ( element ) {
-> -+		if ( strcmp( element->name, targetpath ) == 0 ) {
-> -+			printf( "Note: ignoring directories below '%s'\n", targetpath );
-> -+			return entry;
-> -+			break;
-> -+		}
-> -+		element = element->next;
-> -+	}
-> -+
-> - 	n = scandir(hostpath,&namelist, 0, alphasort);
-> - 	if (n<  0) {
-> - 		perror_msg_and_die("opening directory %s", hostpath);
-> -@@ -1453,6 +1467,7 @@
-> - 	{"root", 1, NULL, 'r'},
-> - 	{"pagesize", 1, NULL, 's'},
-> - 	{"eraseblock", 1, NULL, 'e'},
-> -+	{"ignore", 1, NULL, 'I'},
-> - 	{"output", 1, NULL, 'o'},
-> - 	{"help", 0, NULL, 'h'},
-> - 	{"verbose", 0, NULL, 'v'},
-> -@@ -1500,6 +1515,7 @@
-> - "  -L, --list-compressors  Show the list of the avaiable compressors\n"
-> - "  -t, --test-compression  Call decompress and compare with the original (for test)\n"
-> - "  -n, --no-cleanmarkers   Don't add a cleanmarker to every eraseblock\n"
-> -+"  -I, --ignore=PATH       Ignore sub directory and file tree below PATH when recursing over the file system\n"
-> - "  -o, --output=FILE       Output to FILE (default: stdout)\n"
-> - "  -l, --little-endian     Create a little-endian filesystem\n"
-> - "  -b, --big-endian        Create a big-endian filesystem\n"
-> -@@ -1666,6 +1682,7 @@
-> - 	char *compr_name = NULL;
-> - 	int compr_prior  = -1;
-> - 	int warn_page_size = 0;
-> -+	struct ignorepath_entry* element = ignorepath;
-> -
-> - 	page_size = sysconf(_SC_PAGESIZE);
-> - 	if (page_size<  0) /* System doesn't know so ... */
-> -@@ -1676,7 +1693,7 @@
-> - 	jffs2_compressors_init();
-> -
-> - 	while ((opt = getopt_long(argc, argv,
-> --					"D:d:r:s:o:qUPfh?vVe:lbp::nc:m:x:X:Lty:i:", long_options,&c))>= 0)
-> -+					"D:d:r:s:I:o:qUPfh?vVe:lbp::nc:m:x:X:Lty:i:", long_options,&c))>= 0)
-> - 	{
-> - 		switch (opt) {
-> - 			case 'D':
-> -@@ -1700,6 +1717,28 @@
-> - 				warn_page_size = 0; /* set by user, so don't need to warn */
-> - 				break;
-> -
-> -+			case 'I':
-> -+				printf( "Note: Adding '%s' to ignore Path\n", optarg );
-> -+				element = ignorepath;
-> -+				if ( !ignorepath ) {
-> -+					ignorepath = xmalloc( sizeof( struct ignorepath_entry ) );
-> -+					ignorepath->next = 0;
-> -+					strcpy(&ignorepath->name[0], optarg );
-> -+				} else {
-> -+					while ( element->next ) element = element->next;
-> -+					element->next = xmalloc( sizeof( struct ignorepath_entry ) );
-> -+ 					element->next->next = 0;
-> -+					strcpy(&element->next->name[0], optarg );
-> -+				}
-> -+				printf( "--------- Dumping ignore path list ----------------\n" );
-> -+				element = ignorepath;
-> -+				while ( element ) {
-> -+					printf( "  * '%s'\n",&element->name[0] );
-> -+					element = element->next;
-> -+				}
-> -+				printf( "---------------------------------------------------\n" );
-> -+				break;
-> -+
-> - 			case 'o':
-> - 				if (out_fd != -1) {
-> - 					error_msg_and_die("output filename specified more than once");
-> diff --git a/meta/recipes-devtools/mtd/mtd-utils/add-exclusion-to-mkfs-jffs2-git.patch b/meta/recipes-devtools/mtd/mtd-utils/add-exclusion-to-mkfs-jffs2-git.patch
-> deleted file mode 100644
-> index 60edb8f..0000000
-> --- a/meta/recipes-devtools/mtd/mtd-utils/add-exclusion-to-mkfs-jffs2-git.patch
-> +++ /dev/null
-> @@ -1,136 +0,0 @@
-> -Upstream-Status: Pending
-> -
-> ----
-> - mkfs.jffs2.c |   44 ++++++++++++++++++++++++++++++++++++++++++--
-> - 1 file changed, 42 insertions(+), 2 deletions(-)
-> -
-> ---- git.orig/mkfs.jffs2.c
-> -+++ git/mkfs.jffs2.c
-> -@@ -98,10 +98,16 @@ struct filesystem_entry {
-> - 	struct filesystem_entry *next;	/* Only relevant to non-directories */
-> - 	struct filesystem_entry *files;	/* Only relevant to directories */
-> - 	struct rb_node hardlink_rb;
-> - };
-> -
-> -+struct ignorepath_entry {
-> -+	struct ignorepath_entry* next;	/* Points to the next ignorepath element */
-> -+	char name[PATH_MAX];		/* Name of the entry */
-> -+};
-> -+
-> -+static struct ignorepath_entry* ignorepath = 0;
-> - struct rb_root hardlinks;
-> - static int out_fd = -1;
-> - static int in_fd = -1;
-> - static char default_rootdir[] = ".";
-> - static char *rootdir = default_rootdir;
-> -@@ -404,19 +410,28 @@ static struct filesystem_entry *recursiv
-> - 	int i, n;
-> - 	struct stat sb;
-> - 	char *hpath, *tpath;
-> - 	struct dirent *dp, **namelist;
-> - 	struct filesystem_entry *entry;
-> --
-> -+	struct ignorepath_entry* element = ignorepath;
-> -
-> - 	if (lstat(hostpath,&sb)) {
-> - 		perror_msg_and_die("%s", hostpath);
-> - 	}
-> -
-> - 	entry = add_host_filesystem_entry(targetpath, hostpath,
-> - 			sb.st_uid, sb.st_gid, sb.st_mode, 0, parent);
-> -
-> -+	while ( element ) {
-> -+		if ( strcmp( element->name, targetpath ) == 0 ) {
-> -+			printf( "Note: ignoring directories below '%s'\n", targetpath );
-> -+			return entry;
-> -+			break;
-> -+		}
-> -+		element = element->next;
-> -+	}
-> -+
-> - 	n = scandir(hostpath,&namelist, 0, alphasort);
-> - 	if (n<  0) {
-> - 		perror_msg_and_die("opening directory %s", hostpath);
-> - 	}
-> -
-> -@@ -1446,10 +1461,11 @@ static void create_target_filesystem(str
-> - static struct option long_options[] = {
-> - 	{"pad", 2, NULL, 'p'},
-> - 	{"root", 1, NULL, 'r'},
-> - 	{"pagesize", 1, NULL, 's'},
-> - 	{"eraseblock", 1, NULL, 'e'},
-> -+	{"ignore", 1, NULL, 'I'},
-> - 	{"output", 1, NULL, 'o'},
-> - 	{"help", 0, NULL, 'h'},
-> - 	{"verbose", 0, NULL, 'v'},
-> - 	{"version", 0, NULL, 'V'},
-> - 	{"big-endian", 0, NULL, 'b'},
-> -@@ -1493,10 +1509,11 @@ static char *helptext =
-> - "  -y, --compressor-priority=PRIORITY:COMPRESSOR_NAME\n"
-> - "                          Set the priority of a compressor\n"
-> - "  -L, --list-compressors  Show the list of the avaiable compressors\n"
-> - "  -t, --test-compression  Call decompress and compare with the original (for test)\n"
-> - "  -n, --no-cleanmarkers   Don't add a cleanmarker to every eraseblock\n"
-> -+"  -I, --ignore=PATH       Ignore sub directory and file tree below PATH when recursing over the file system\n"
-> - "  -o, --output=FILE       Output to FILE (default: stdout)\n"
-> - "  -l, --little-endian     Create a little-endian filesystem\n"
-> - "  -b, --big-endian        Create a big-endian filesystem\n"
-> - "  -D, --devtable=FILE     Use the named FILE as a device table file\n"
-> - "  -f, --faketime          Change all file times to '0' for regression testing\n"
-> -@@ -1659,21 +1676,22 @@ int main(int argc, char **argv)
-> - 	FILE *devtable = NULL;
-> - 	struct filesystem_entry *root;
-> - 	char *compr_name = NULL;
-> - 	int compr_prior  = -1;
-> - 	int warn_page_size = 0;
-> -+  	struct ignorepath_entry* element = ignorepath;
-> -
-> - 	page_size = sysconf(_SC_PAGESIZE);
-> - 	if (page_size<  0) /* System doesn't know so ... */
-> - 		page_size = 4096; /* ... we make an educated guess */
-> - 	if (page_size != 4096)
-> - 		warn_page_size = 1; /* warn user if page size not 4096 */
-> -
-> - 	jffs2_compressors_init();
-> -
-> - 	while ((opt = getopt_long(argc, argv,
-> --					"D:d:r:s:o:qUPfh?vVe:lbp::nc:m:x:X:Lty:i:", long_options,&c))>= 0)
-> -+   					"D:d:r:s:I:o:qUPfh?vVe:lbp::nc:m:x:X:Lty:i:", long_options,&c))>= 0)
-> - 	{
-> - 		switch (opt) {
-> - 			case 'D':
-> - 				devtable = xfopen(optarg, "r");
-> - 				if (fstat(fileno(devtable),&sb)<  0)
-> -@@ -1693,10 +1711,32 @@ int main(int argc, char **argv)
-> - 			case 's':
-> - 				page_size = strtol(optarg, NULL, 0);
-> - 				warn_page_size = 0; /* set by user, so don't need to warn */
-> - 				break;
-> -
-> -+			case 'I':
-> -+				printf( "Note: Adding '%s' to ignore Path\n", optarg );
-> -+				element = ignorepath;
-> -+				if ( !ignorepath ) {
-> -+					ignorepath = xmalloc( sizeof( struct ignorepath_entry ) );
-> -+					ignorepath->next = 0;
-> -+					strcpy(&ignorepath->name[0], optarg );
-> -+				} else {
-> -+					while ( element->next ) element = element->next;
-> -+					element->next = xmalloc( sizeof( struct ignorepath_entry ) );
-> -+ 					element->next->next = 0;
-> -+					strcpy(&element->next->name[0], optarg );
-> -+				}
-> -+				printf( "--------- Dumping ignore path list ----------------\n" );
-> -+				element = ignorepath;
-> -+				while ( element ) {
-> -+					printf( "  * '%s'\n",&element->name[0] );
-> -+					element = element->next;
-> -+				}
-> -+				printf( "---------------------------------------------------\n" );
-> -+				break;
-> -+
-> - 			case 'o':
-> - 				if (out_fd != -1) {
-> - 					error_msg_and_die("output filename specified more than once");
-> - 				}
-> - 				out_fd = open(optarg, O_CREAT | O_TRUNC | O_RDWR, 0644);
-> diff --git a/meta/recipes-devtools/mtd/mtd-utils/fix-ignoreerrors-git.patch b/meta/recipes-devtools/mtd/mtd-utils/fix-ignoreerrors-git.patch
-> deleted file mode 100644
-> index f532a27..0000000
-> --- a/meta/recipes-devtools/mtd/mtd-utils/fix-ignoreerrors-git.patch
-> +++ /dev/null
-> @@ -1,28 +0,0 @@
-> -Upstream-Status: Pending
-> -
-> ----
-> - nanddump.c |    4 ++--
-> - 1 file changed, 2 insertions(+), 2 deletions(-)
-> -
-> -Index: git/nanddump.c
-> -===================================================================
-> ---- git.orig/nanddump.c	2007-01-23 15:42:34.000000000 +0000
-> -+++ git/nanddump.c	2007-01-23 15:47:57.000000000 +0000
-> -@@ -281,7 +281,7 @@ int main(int argc, char **argv)
-> - 			}
-> - 		}
-> -
-> --		if (badblock) {
-> -+		if (badblock&&  !ignoreerrors) {
-> - 			if (omitbad)
-> - 				continue;
-> - 			memset (readbuf, 0xff, bs);
-> -@@ -335,7 +335,7 @@ int main(int argc, char **argv)
-> - 		if (omitoob)
-> - 			continue;
-> -
-> --		if (badblock) {
-> -+		if (badblock&&  !ignoreerrors) {
-> - 			memset (readbuf, 0xff, meminfo.oobsize);
-> - 		} else {
-> - 			/* Read OOB data and exit on failure */
-> diff --git a/meta/recipes-devtools/mtd/mtd-utils/remove-ubi.patch b/meta/recipes-devtools/mtd/mtd-utils/remove-ubi.patch
-> deleted file mode 100644
-> index 24a4697..0000000
-> --- a/meta/recipes-devtools/mtd/mtd-utils/remove-ubi.patch
-> +++ /dev/null
-> @@ -1,35 +0,0 @@
-> -Upstream-Status: Inappropriate [configuration]
-> -
-> ----
-> - Makefile |    3 ---
-> - 1 file changed, 3 deletions(-)
-> -
-> ---- git.orig/Makefile
-> -+++ git/Makefile
-> -@@ -41,19 +41,17 @@ $(BUILDDIR)/%.o: %.c
-> - 	$(CC) $(CFLAGS) -g -c -o $@ $<  -g -Wp,-MD,$(BUILDDIR)/.$(<F).dep
-> -
-> - .SUFFIXES:
-> -
-> - all: $(TARGETS)
-> --	make -C $(BUILDDIR)/ubi-utils
-> -
-> - IGNORE=${wildcard $(BUILDDIR)/.*.c.dep}
-> - -include ${IGNORE}
-> -
-> - clean:
-> - 	rm -f $(BUILDDIR)/*.o $(TARGETS) $(BUILDDIR)/.*.c.dep $(SYMLINKS)
-> - 	if [ "$(BUILDDIR)x" != ".x" ]; then rm -rf $(BUILDDIR); fi
-> --	make -C $(BUILDDIR)/ubi-utils clean
-> -
-> - $(SYMLINKS):
-> - 	ln -sf ../fs/jffs2/$@ $@
-> -
-> - $(BUILDDIR)/mkfs.jffs2: $(BUILDDIR)/crc32.o \
-> -@@ -91,6 +89,5 @@ $(BUILDDIR)/fectest: $(BUILDDIR)/fectest
-> - install: ${TARGETS}
-> - 	mkdir -p ${DESTDIR}/${SBINDIR}
-> - 	install -m0755 ${TARGETS} ${DESTDIR}/${SBINDIR}/
-> - 	mkdir -p ${DESTDIR}/${MANDIR}/man1
-> - 	gzip -9c mkfs.jffs2.1>  ${DESTDIR}/${MANDIR}/man1/mkfs.jffs2.1.gz
-> --	make -C $(BUILDDIR)/ubi-utils install
-> diff --git a/meta/recipes-devtools/mtd/mtd-utils_1.1.0+git.bb b/meta/recipes-devtools/mtd/mtd-utils_1.1.0+git.bb
-> deleted file mode 100644
-> index 04531de..0000000
-> --- a/meta/recipes-devtools/mtd/mtd-utils_1.1.0+git.bb
-> +++ /dev/null
-> @@ -1,28 +0,0 @@
-> -DESCRIPTION = "Tools for managing memory technology devices."
-> -SECTION = "base"
-> -DEPENDS = "zlib lzo"
-> -HOMEPAGE = "http://www.linux-mtd.infradead.org/"
-> -LICENSE = "GPLv2"
-> -PR = "r2"
-> -
-> -SRC_URI = "git://git.infradead.org/mtd-utils.git;protocol=git;tag=b995f89a81589be8d8a41c374a6df109d0ee12b3 \
-> -           file://add-exclusion-to-mkfs-jffs2-git.patch \
-> -	   file://remove-ubi.patch \
-> -	   file://fix-ignoreerrors-git.patch"
-> -
-> -S = "${WORKDIR}/git/"
-> -
-> -EXTRA_OEMAKE = "'CC=${CC}' 'CFLAGS=${CFLAGS} -I${S}/include -DWITHOUT_XATTR'"
-> -
-> -do_install () {
-> -	oe_runmake install DESTDIR=${D} SBINDIR=${sbindir} MANDIR=${mandir} INCLUDEDIR=${includedir}
-> -	install -d ${D}${includedir}/mtd/
-> -	for f in ${S}/include/mtd/*.h; do
-> -		install -m 0644 $f ${D}${includedir}/mtd/
-> -	done
-> -
-> -}
-> -
-> -PARALLEL_MAKE = ""
-> -
-> -BBCLASSEXTEND = "native"
+I've thought about that, but if we choose 'shadow', we need to add =
+(R)DEPENDS for it to work properly. So 'none' seems like the best =
+option.=20
+
+Anyway, how can I take over maintainership of polkit, I'm getting tired =
+of every commit breaking it subtly and taking another week of my time =
+finding out that $random error is actually caused by polkit deep down. =
+It's like dbus, breakage does not always point to the culprit.
+
+Takes this one for example:
+
+=
+http://cgit.openembedded.org/openembedded-core/commit/meta/recipes-extende=
+d/polkit?id=3D6bc6406b019ebc104a4abfb15c2d2e1263968664
+
+PAM is hardcoded to be enabled, but you'll only get a working config if =
+you put it in DISTRO_FEATURES.
+
+regards,
+
+Koen=
 
 
