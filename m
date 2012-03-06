@@ -1,26 +1,27 @@
-Received: from mga09.intel.com ([134.134.136.24])
+Received: from smtp23.4emm.com ([69.18.222.9])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <edwin.zhai@intel.com>) id 1S4i3a-0001Xz-88
+	(envelope-from <james@digitalmatter.com.au>) id 1S4jId-00031r-LG
 	for openembedded-core@lists.openembedded.org;
-	Tue, 06 Mar 2012 01:15:10 +0100
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-	by orsmga102.jf.intel.com with ESMTP; 05 Mar 2012 16:06:32 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.67,352,1309762800"; d="scan'208";a="114844854"
-Received: from edwin-gen.sh.intel.com (HELO [10.239.36.17]) ([10.239.36.17])
-	by orsmga001.jf.intel.com with ESMTP; 05 Mar 2012 16:06:32 -0800
-Message-ID: <4F55555C.3060708@intel.com>
-Date: Tue, 06 Mar 2012 08:07:56 +0800
-From: "Zhai, Edwin" <edwin.zhai@intel.com>
-User-Agent: Mozilla/5.0 (X11; U; Linux i686; en-US;
-	rv:1.9.2.14) Gecko/20110223 Lightning/1.0b2 Thunderbird/3.1.8
-MIME-Version: 1.0
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-References: <20120302063339.GB1450@edwin-gen> <1330702308.309.10.camel@ted>
-In-Reply-To: <1330702308.309.10.camel@ted>
-Cc: Patches and discussions about the oe-core layer
+	Tue, 06 Mar 2012 02:34:47 +0100
+Received: from MBX20.4emm.local ([fe80::382d:f6d3:f4de:a97f]) by
+	HUB23.4emm.local ([::1]) with mapi id 14.01.0289.001; Mon, 5 Mar 2012
+	20:26:13 -0500
+From: James Limbouris <james@digitalmatter.com.au>
+To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Subject: Re: multilib build failure with shadow-sysroot:do_populate_sysroot_setscene
+Thread-Topic: [OE-core] [PATCH] mtd-utils: clean up old files
+Thread-Index: AQHM9eHtlEiR9+VRN0ii21wp31SAypZclISA///uKqA=
+Date: Tue, 6 Mar 2012 01:26:12 +0000
+Message-ID: <840A81C1B782724A8EB52725BD519EFF338055C6@MBX20.4emm.local>
+References: <1330410346-14477-1-git-send-email-james@digitalmatter.com.au>
+	<4F552EDB.9070408@linux.intel.com>
+In-Reply-To: <4F552EDB.9070408@linux.intel.com>
+Accept-Language: en-AU, en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [203.59.132.158]
+MIME-Version: 1.0
+Subject: Re: [PATCH] mtd-utils: clean up old files
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -35,49 +36,58 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 06 Mar 2012 00:15:10 -0000
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Tue, 06 Mar 2012 01:34:47 -0000
+Content-Language: en-US
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 
-On 03/02/2012 11:31 PM, Richard Purdie wrote:
-> On Fri, 2012-03-02 at 14:33 +0800, Zhai, Edwin wrote:
->> RP,
->> I have image-sato multilib build failure with following error:
->>
->> "ERROR: Task do_package_setscene depends upon nonexistant task
->> /distro/edwin-working/poky/meta/recipes-extended/shadow/shadow-sysroot_4.1.4.3.bb:do_populate_sysroot_setscene
->> Summary: There was 1 ERROR message shown, returning a non-zero exit code."
->>
->> After removing "shadow-sysroot:do_populate_sysroot_setscene" from
->> USERADDSETSCENEDEPS in meta/classes/useradd.bbclass, I can pass the build.
->>
->> Why does it become nonexistant task in multilib building? Any possible fix for
->> it?
->
-> Totally guessing but does replacing:
->
-> shadow-sysroot:do_populate_sysroot_setscene
->
-> with:
->
-> ${MLPREFIX}shadow-sysroot:do_populate_sysroot_setscene
->
-> work better?
+> -----Original Message-----
+> From: Saul Wold [mailto:sgw@linux.intel.com]
+> Sent: Tuesday, 6 March 2012 5:24 AM
+> To: Patches and discussions about the oe-core layer
+> Cc: James Limbouris
+> Subject: Re: [OE-core] [PATCH] mtd-utils: clean up old files
+>=20
+> On 02/27/2012 10:25 PM, James Limbouris wrote:
+> > Signed-off-by: James Limbouris<james@digitalmatter.com.au>
+> > ---
+> >   .../add-exclusion-to-mkfs-jffs2-git-2.patch        |  103 -----------=
+----
+> >   .../add-exclusion-to-mkfs-jffs2-git.patch          |  136 -----------=
+---------
+> >   .../mtd/mtd-utils/fix-ignoreerrors-git.patch       |   28 ----
+> >   .../mtd/mtd-utils/remove-ubi.patch                 |   35 -----
+> >   meta/recipes-devtools/mtd/mtd-utils_1.1.0+git.bb   |   28 ----
+> >   5 files changed, 0 insertions(+), 330 deletions(-)
+> >   delete mode 100644 meta/recipes-devtools/mtd/mtd-utils-1.4.9/mtd-
+> utils-1.4.1/add-exclusion-to-mkfs-jffs2-git-2.patch
+> >   delete mode 100644 meta/recipes-devtools/mtd/mtd-utils/add-
+> exclusion-to-mkfs-jffs2-git.patch
+> >   delete mode 100644 meta/recipes-devtools/mtd/mtd-utils/fix-
+> ignoreerrors-git.patch
+> >   delete mode 100644 meta/recipes-devtools/mtd/mtd-utils/remove-
+> ubi.patch
+> >   delete mode 100644 meta/recipes-devtools/mtd/mtd-utils_1.1.0+git.bb
+> >
+>=20
+> Sorry for the delay on this one, not sure why you are removing the git
+> version of the recipe?  If anything you could move it forward to the
+> latetest git version and clean up the patches as needed.
+>=20
+> Thanks
+> 	Sau!
 
-RP,
-It works. I'll send out this patch after test.
-BTW, shouldn't it be extended automatically?
+Hi Saul,
 
-Thanks,
-Edwin
+It seems they are both git recipes, only the 1.4.1 recipe is missing depend=
+encies, has no LIC_FILES_CHKSUM, and has a different license tag.
+It looks to me like it hasn't built for some time... There is also a bogus =
+folder full of 1.4.1 patches in the 1.4.9 patches folder.
+I think things got mixed up during the recipe reorganisation, a parallel ve=
+rsion of mtd-utils was subsequently added, and the original has rotted.
 
->
-> Cheers,
->
-> Richard
->
->
->
+Regards,
+James
 
 
 
