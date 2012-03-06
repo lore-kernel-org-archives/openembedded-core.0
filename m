@@ -1,39 +1,53 @@
-Received: from mga12.intel.com ([143.182.124.36] helo=azsmga102.ch.intel.com)
+Received: from mail-ww0-f43.google.com ([74.125.82.43])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <scott.a.garman@intel.com>) id 1S505L-0007DZ-Bs
+	(envelope-from <koen@dominion.thruhere.net>) id 1S50At-0007IZ-74
 	for openembedded-core@lists.openembedded.org;
-	Tue, 06 Mar 2012 20:30:11 +0100
-Received: from mail-qy0-f180.google.com ([209.85.216.180])
-	by mga14.intel.com with ESMTP/TLS/RC4-SHA; 06 Mar 2012 11:20:29 -0800
-Received: by mail-qy0-f180.google.com with SMTP id d15so2775720qcs.25
+	Tue, 06 Mar 2012 20:35:55 +0100
+Received: by wgbdr12 with SMTP id dr12so4310315wgb.24
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 06 Mar 2012 11:20:29 -0800 (PST)
-Received-SPF: pass (google.com: domain of scott.a.garman@intel.com designates
-	10.224.173.72 as permitted sender) client-ip=10.224.173.72; 
+	Tue, 06 Mar 2012 11:27:19 -0800 (PST)
+Received-SPF: pass (google.com: domain of koen@dominion.thruhere.net
+	designates 10.216.145.209 as permitted sender)
+	client-ip=10.216.145.209; 
 Authentication-Results: mr.google.com; spf=pass (google.com: domain of
-	scott.a.garman@intel.com designates 10.224.173.72 as permitted
-	sender) smtp.mail=scott.a.garman@intel.com
-Received: from mr.google.com ([10.224.173.72])
-	by 10.224.173.72 with SMTP id o8mr9237751qaz.76.1331061629269 (num_hops
-	= 1); Tue, 06 Mar 2012 11:20:29 -0800 (PST)
-Received: by 10.224.173.72 with SMTP id o8mr7977866qaz.76.1331061625957;
-	Tue, 06 Mar 2012 11:20:25 -0800 (PST)
-Received: from [172.10.11.19] ([209.216.168.112])
-	by mx.google.com with ESMTPS id gw4sm30646550qab.13.2012.03.06.11.20.23
-	(version=SSLv3 cipher=OTHER); Tue, 06 Mar 2012 11:20:24 -0800 (PST)
-Message-ID: <4F566375.30705@intel.com>
-Date: Tue, 06 Mar 2012 11:20:21 -0800
-From: Scott Garman <scott.a.garman@intel.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:10.0.2) Gecko/20120216 Thunderbird/10.0.2
-MIME-Version: 1.0
+	koen@dominion.thruhere.net designates 10.216.145.209 as
+	permitted sender) smtp.mail=koen@dominion.thruhere.net
+Received: from mr.google.com ([10.216.145.209])
+	by 10.216.145.209 with SMTP id p59mr8920797wej.50.1331062039477
+	(num_hops = 1); Tue, 06 Mar 2012 11:27:19 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=google.com; s=20120113;
+	h=references:in-reply-to:mime-version:content-transfer-encoding
+	:content-type:message-id:cc:x-mailer:from:subject:date:to
+	:x-gm-message-state;
+	bh=BYboLxyC3dm8cRK5t3t0mLNYyCd+YXYouTf9oZkHg/s=;
+	b=OJA4gv1byTjxJIAL0pFtTVO0qf40tchYp2+byCZmlSLSZ9GnzQzbHwYAmtQ2Qzi5FB
+	KypG+HM4dLEBnWU6DDa7Qrd1dbGxc89YKmwo+id6LoKyj1O8xZNKkmiUmV82mi+urIwj
+	YblBhqDXwbMiYJT9UaWA1iRTqVOFjDxhro9WvfzAx+p/w1ZyBSKDR4dB/RxWdlb+EIVm
+	1epVWzddPH+q/haLhIfeasUeWW9MfnmXj6jFwGyCsaa/uaYMEXx0dCOP/oOO5ruM9I9Z
+	8LyWPLszcJJ1Cw+mixgD4oloNiAsrFWFels8GlgliRZwY4c1PRTwuKjQ4RobN32eXVjP
+	mI+w==
+Received: by 10.216.145.209 with SMTP id p59mr7124714wej.50.1331062039208;
+	Tue, 06 Mar 2012 11:27:19 -0800 (PST)
+Received: from [172.20.1.20] (ip545070eb.adsl-surfen.hetnet.nl.
+	[84.80.112.235])
+	by mx.google.com with ESMTPS id fl2sm83089067wib.4.2012.03.06.11.27.17
+	(version=TLSv1/SSLv3 cipher=OTHER);
+	Tue, 06 Mar 2012 11:27:17 -0800 (PST)
+References: <1331060564-7425-1-git-send-email-Chase.Maupin@ti.com>
+In-Reply-To: <1331060564-7425-1-git-send-email-Chase.Maupin@ti.com>
+Mime-Version: 1.0 (1.0)
+Message-Id: <BB247454-2C90-4DFB-A9C6-8F729C8E6E62@dominion.thruhere.net>
+X-Mailer: iPhone Mail (9A405)
+From: Koen Kooi <koen@dominion.thruhere.net>
+Date: Tue, 6 Mar 2012 20:27:14 +0100
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-References: <CAFZPMoaRKkELBmd1u5SnWF5UDQiHawi9aRJFw72UqGrKLJQNHw@mail.gmail.com>
-	<CAFZPMob-UQNR9Q-_EsumFpWj=49t9TNjFYF8WTNLgfDWQ+qiAQ@mail.gmail.com>
-In-Reply-To: <CAFZPMob-UQNR9Q-_EsumFpWj=49t9TNjFYF8WTNLgfDWQ+qiAQ@mail.gmail.com>
-X-Gm-Message-State: ALoCoQmYO+Ic5px+mzhqL+6ln8ctEuOxUyxy4CcmCtmqmCDAj4DIUOfDBNXVNdkPRjwAPfPWKz6V
-Subject: Re: broken ncurses support for python
+X-Gm-Message-State: ALoCoQkViJPpOPcMtZfocTe77SvOJRBSZpm6XgI0CVBvkGwhwmS4UBJZY1Tc/jARl2C1/pfsFycc
+Cc: Chase Maupin <Chase.Maupin@ti.com>,
+	"<openembedded-core@lists.openembedded.org>"
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] bluez4: add dependency on libcheck to enable test modules
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -48,44 +62,65 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 06 Mar 2012 19:30:11 -0000
-Content-Type: text/plain; charset=ISO-8859-1; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Tue, 06 Mar 2012 19:35:55 -0000
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain;
+	charset=us-ascii
 
-On 03/06/2012 05:06 AM, Sergey Lapin wrote:
-> On Tue, Mar 6, 2012 at 3:08 PM, Sergey Lapin<slapinid@gmail.com>  wrote:
->> commit dd05e06b89906002f68d616a6326c962e725bc54
->> Author: Christopher Larson<chris_larson@mentor.com>
->> Date:   Tue Jan 10 13:51:18 2012 -0600
->>
->>     ncurses-native: install to libdir, not base_libdir
->
-> I was wrong with this one, actual culprit is this one:
->
-> commit 796c3d038fb7892a5e5206fb10217623de18853f
-> Author: Scott Garman<scott.a.garman@intel.com>
-> Date:   Wed Jan 4 22:30:29 2012 -0800
->
->
->>
->> breaks python ncurses support.
->>
->> Any ideas on proper fixing? For myself I revert this locally and
->> everything works perfectly.
->> (I think .so files and .a archives should be in usr/lib while .so
->> can go to /lib which is not the case with current ncurses.)
->> so mv in do_install should be sufficient, not --libdir=${base_libdir}.
 
-Could you be more specific about how python ncurses support is broken? I 
-assume you're getting errors of unresolved symbols. If that's the case, 
-you may need to rebuild the application so it links to ncurses from 
-base_libdir.
 
-Scott
+Op 6 mrt. 2012 om 20:02 heeft Chase Maupin <Chase.Maupin@ti.com> het volgend=
+e geschreven:
 
--- 
-Scott Garman
-Embedded Linux Engineer - Yocto Project
-Intel Open Source Technology Center
+> * The later versions of bluez such as 4.98 require libcheck
+>  in order to build the test packages as enabled by the
+>  --enable-test option passed in EXTRA_OECONF.
+> * Failure to have the libcheck package availalbe results in the
+>  configure script ignoring the --enable-test option and not
+>  building the test modules.
+> * Adding libcheck, which is greater than the minimum required
+>  version of the check library of 0.9.6 allows building the
+>  test modules.
+> * Build tested for am335x-evm MACHINE type and run time tested
+>  by back porting this fix to the oe-classic and arago setup
+>  and booting on am335x-evm.
+>=20
+> Signed-off-by: Chase Maupin <Chase.Maupin@ti.com>
+> ---
+> meta/recipes-connectivity/bluez/bluez4.inc |    2 +-
+> 1 files changed, 1 insertions(+), 1 deletions(-)
+>=20
+> diff --git a/meta/recipes-connectivity/bluez/bluez4.inc b/meta/recipes-con=
+nectivity/bluez/bluez4.inc
+> index 9158687..fbbe0bf 100644
+> --- a/meta/recipes-connectivity/bluez/bluez4.inc
+> +++ b/meta/recipes-connectivity/bluez/bluez4.inc
+> @@ -7,7 +7,7 @@ LIC_FILES_CHKSUM =3D "file://COPYING;md5=3D12f884d2ae1ff87=
+c09e5b7ccc2c4ca7e \
+>                     file://COPYING.LIB;md5=3Dfb504b67c50331fc78734fed90fb0=
+e09 \
+>                     file://src/main.c;beginline=3D1;endline=3D24;md5=3D9bc=
+54b93cd7e17bf03f52513f39f926e \
+>                     file://sbc/sbc.c;beginline=3D1;endline=3D25;md5=3D1a40=
+781ed30d50d8639323a184aeb191"
+> -DEPENDS =3D "udev alsa-lib libusb dbus-glib glib-2.0"
+> +DEPENDS =3D "udev alsa-lib libusb dbus-glib glib-2.0 libcheck"
+> RDEPENDS_${PN}-dev =3D "bluez-hcidump"
+>=20
+> ASNEEDED =3D ""
+
+Missing PR bump :)
+
+
+
+
+> --=20
+> 1.7.0.4
+>=20
+>=20
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
 
 
