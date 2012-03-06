@@ -1,22 +1,43 @@
-Received: from mail.gw90.de ([188.40.100.199])
+Received: from mail-ee0-f47.google.com ([74.125.83.47])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <paulepanter@users.sourceforge.net>)
-	id 1S4r5P-0007Vm-BT for openembedded-core@lists.openembedded.org;
-	Tue, 06 Mar 2012 10:53:39 +0100
-Received: from g225138053.adsl.alicedsl.de ([92.225.138.53]
-	helo=[192.168.178.43])
-	by mail.gw90.de with esmtpsa (TLS1.0:RSA_AES_256_CBC_SHA1:32)
-	(Exim 4.69) (envelope-from <paulepanter@users.sourceforge.net>)
-	id 1S4qxA-0000fw-B8; Tue, 06 Mar 2012 09:45:08 +0000
-Message-ID: <1331027106.6166.7.camel@mattotaupa>
-From: Paul Menzel <paulepanter@users.sourceforge.net>
+	(envelope-from <s.stirtzel@googlemail.com>) id 1S4r8D-0007ZX-B2
+	for openembedded-core@lists.openembedded.org;
+	Tue, 06 Mar 2012 10:56:33 +0100
+Received: by eekc1 with SMTP id c1so1505200eek.6
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 06 Mar 2012 01:47:57 -0800 (PST)
+Received-SPF: pass (google.com: domain of s.stirtzel@googlemail.com designates
+	10.213.101.1 as permitted sender) client-ip=10.213.101.1; 
+Authentication-Results: mr.google.com; spf=pass (google.com: domain of
+	s.stirtzel@googlemail.com designates 10.213.101.1 as permitted
+	sender) smtp.mail=s.stirtzel@googlemail.com;
+	dkim=pass header.i=s.stirtzel@googlemail.com
+Received: from mr.google.com ([10.213.101.1])
+	by 10.213.101.1 with SMTP id a1mr4465345ebo.76.1331027277903 (num_hops
+	= 1); Tue, 06 Mar 2012 01:47:57 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=googlemail.com; s=20120113;
+	h=from:to:cc:subject:date:message-id:x-mailer;
+	bh=FGqV9fS89S7mAQgRl5XQxkLebxIFd2Bxj6+K1ivu2k4=;
+	b=SdZ33MZrfVz1N9hBD1SGTXkNsRiXyCatXU1qRxjoXdyDrzeYOk0vWjsg0PlkSMwBUY
+	6081HIhkLDQYETiTyPp7aQH6fUDG2ErTvjyiesgj5OAy5kJmdwR8GTh/6DX1J0qZGSEy
+	nDZrwWM+tfqrAQvv/jW90jqUopcKKGx7D+mn/zASbaDYS25TONrPYboerJx04HXfN+nA
+	1ZFq9bMBZ6qmJH/i9Uc7OsmPp/jMjd2LRl6lVOzSjWwsB3sy4Ku56MoWhsVtHqDrmVjH
+	1ROxA9vYUe7uNlpG0uVW+enAbh4haaSKeBPdmQGO4bhdv8znRmAUD+4dwbtlf4+Uybgf
+	TxeA==
+Received: by 10.213.101.1 with SMTP id a1mr3378150ebo.76.1331027277826;
+	Tue, 06 Mar 2012 01:47:57 -0800 (PST)
+Received: from localhost.localdomain (ip-95-223-250-190.unitymediagroup.de.
+	[95.223.250.190])
+	by mx.google.com with ESMTPS id d54sm26490534eei.9.2012.03.06.01.47.56
+	(version=TLSv1/SSLv3 cipher=OTHER);
+	Tue, 06 Mar 2012 01:47:57 -0800 (PST)
+From: Samuel Stirtzel <s.stirtzel@googlemail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Tue, 06 Mar 2012 10:45:06 +0100
-In-Reply-To: <1331000623-10956-1-git-send-email-james@digitalmatter.com.au>
-References: <1331000623-10956-1-git-send-email-james@digitalmatter.com.au>
-X-Mailer: Evolution 3.2.2-1 
-Mime-Version: 1.0
-Subject: Re: [PATCH v2] gdk-pixbuf: Pick up ${NM} from the environment.
+Date: Tue,  6 Mar 2012 10:47:42 +0100
+Message-Id: <1331027262-13318-1-git-send-email-s.stirtzel@googlemail.com>
+X-Mailer: git-send-email 1.7.5.4
+Subject: [PATCH] mime.bbclass: Fix bracket error.
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -31,97 +52,56 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 06 Mar 2012 09:53:39 -0000
-X-Groupsio-MsgNum: 18429
-Content-Type: multipart/signed; micalg="pgp-sha1";
-	protocol="application/pgp-signature"; 
-	boundary="=-zxbusMZzWU5lVenUCf4w"
+X-List-Received-Date: Tue, 06 Mar 2012 09:56:33 -0000
 
---=-zxbusMZzWU5lVenUCf4w
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+This fixes the following error:
 
-Dear James,
+ERROR: Error executing a python function in ...:
+AttributeError: 'str' object has no attribute 'append'
 
+ERROR: The stack trace of python calls that resulted in this exception/failure was:
+ERROR:   File "populate_packages", line 193, in <module>
+ERROR:
+ERROR:   File "populate_packages", line 189, in populate_packages
+ERROR:
+ERROR: The code that was being executed was:
+ERROR:      0189:                       rdepends.append("shared-mime-info-data")
+ERROR:      0190:                       d.setVar('RDEPENDS_' + pkg, " " + " ".join(rdepends))
+ERROR:      0191:
+ERROR:      0192:
+ERROR:  *** 0193:populate_packages(d)
+ERROR:      0194:
+ERROR: (file: 'populate_packages', lineno: 193, function: <module>)
+ERROR:      0185:                       postrm += d.getVar('mime_postrm', True)
+ERROR:      0186:                       d.setVar('pkg_postrm_%s' % pkg, postrm)
+ERROR:      0187:                       bb.note("adding shared-mime-info-data dependency to %s" % pkg)
+ERROR:      0188:                       rdepends = explode_deps(d.getVar('RDEPENDS_' + pkg, False) or d.getVar('RDEPENDS', False)) or ""
+ERROR:  *** 0189:                       rdepends.append("shared-mime-info-data")
+ERROR:      0190:                       d.setVar('RDEPENDS_' + pkg, " " + " ".join(rdepends))
+ERROR:      0191:
+ERROR:      0192:
+ERROR:      0193:populate_packages(d)
 
-thank you for sending an improved version of the patch.
+Signed-off-by: Samuel Stirtzel <s.stirtzel@googlemail.com>
+---
+ meta/classes/mime.bbclass |    2 +-
+ 1 files changed, 1 insertions(+), 1 deletions(-)
 
-
-Am Dienstag, den 06.03.2012, 10:23 +0800 schrieb James Limbouris:
-> Signed-off-by: James Limbouris <james@digitalmatter.com.au>
-> ---
->  .../gdk-pixbuf-2.24.0/configure_nm.patch           |   18 ++++++++++++++=
-++++
->  meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf_2.24.0.bb |    3 ++-
->  2 files changed, 20 insertions(+), 1 deletions(-)
->  create mode 100644 meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf-2.24.0/confi=
-gure_nm.patch
->=20
-> diff --git a/meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf-2.24.0/configure_nm=
-.patch b/meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf-2.24.0/configure_nm.patch
-> new file mode 100644
-> index 0000000..0460824
-> --- /dev/null
-> +++ b/meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf-2.24.0/configure_nm.patch
-> @@ -0,0 +1,18 @@
-> +Pick up ${NM} from the environment.
-> +Upstream-Status: Inappropriate [configuration]
-
-as Khem and you discussed, it should be useful for upstream [1]. Maybe
-you can add more context [2][3], so upstream can better judge if they
-want it.
-
-> +Signed-off-by: James Limbouris <james@digitalmatter.com.au>
-> +
-> +Index: gdk-pixbuf-2.24.0/configure.ac
-> +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-> +diff -uNr gdk-pixbuf-2.24.0/configure.ac gdk-pixbuf-2.24.0.mod/configure=
-.ac
-> +--- gdk-pixbuf-2.24.0/configure.ac	2011-08-27 11:27:52.000000000 +0800
-> ++++ gdk-pixbuf-2.24.0.mod/configure.ac	2012-02-28 14:48:36.481126410 +08=
-00
-> +@@ -147,7 +147,7 @@
-> + AC_SYS_LARGEFILE
-> +=20
-> + AM_PROG_AS
-> +-AC_PATH_PROG(NM, nm, nm)
-> ++AC_CHECK_TOOLS(NM, [$NM nm], nm)
-> +=20
-> + AC_MSG_CHECKING([for some Win32 platform])
-> + AS_CASE(["$host"],
-> diff --git a/meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf_2.24.0.bb b/meta/re=
-cipes-gnome/gdk-pixbuf/gdk-pixbuf_2.24.0.bb
-> index 121babd..d75bf2a 100644
-> --- a/meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf_2.24.0.bb
-> +++ b/meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf_2.24.0.bb
-
-[=E2=80=A6]
+diff --git a/meta/classes/mime.bbclass b/meta/classes/mime.bbclass
+index dcdc27a..6302747 100644
+--- a/meta/classes/mime.bbclass
++++ b/meta/classes/mime.bbclass
+@@ -54,7 +54,7 @@ python populate_packages_append () {
+ 			postrm += d.getVar('mime_postrm', True)
+ 			d.setVar('pkg_postrm_%s' % pkg, postrm)
+ 			bb.note("adding shared-mime-info-data dependency to %s" % pkg)
+-			rdepends = explode_deps(d.getVar('RDEPENDS_' + pkg, False) or d.getVar('RDEPENDS', False)) or ""
++			rdepends = explode_deps(d.getVar('RDEPENDS_' + pkg, False) or d.getVar('RDEPENDS', False) or "" ) 
+ 			rdepends.append("shared-mime-info-data")
+ 			d.setVar('RDEPENDS_' + pkg, " " + " ".join(rdepends))
+ }
+-- 
+1.7.5.4
 
 
-Thanks,
 
-Paul
-
-
-[1] http://lists.linuxtogo.org/pipermail/openembedded-core/2012-March/01855=
-4.html
-[2] http://www.gnu.org/software/autoconf/manual/autoconf-2.67/html_node/Gen=
-eric-Programs.html
-[3] http://lists.gnu.org/archive/html/bug-ncurses/2011-11/msg00011.html
-
---=-zxbusMZzWU5lVenUCf4w
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: This is a digitally signed message part
-Content-Transfer-Encoding: 7bit
-
------BEGIN PGP SIGNATURE-----
-Version: GnuPG v1.4.12 (GNU/Linux)
-
-iEYEABECAAYFAk9V3KIACgkQPX1aK2wOHViyyACgiJQRzMj9ocqhcOP5yLjkVeDa
-56gAnRk9nFY2lT4xdwuDE8uU2EZJHaZj
-=a4Ok
------END PGP SIGNATURE-----
-
---=-zxbusMZzWU5lVenUCf4w--
