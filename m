@@ -1,45 +1,45 @@
-Received: from mail-lpp01m010-f47.google.com ([209.85.215.47])
+Received: from mail-tul01m020-f175.google.com ([209.85.214.175])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <raj.khem@gmail.com>) id 1S52Zg-0001pX-To
+	(envelope-from <slapinid@gmail.com>) id 1S534l-0002C2-1m
 	for openembedded-core@lists.openembedded.org;
-	Tue, 06 Mar 2012 23:09:41 +0100
-Received: by lagw12 with SMTP id w12so6842515lag.6
+	Tue, 06 Mar 2012 23:41:47 +0100
+Received: by obqv19 with SMTP id v19so6944501obq.6
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 06 Mar 2012 14:01:04 -0800 (PST)
-Received-SPF: pass (google.com: domain of raj.khem@gmail.com designates
-	10.152.111.229 as permitted sender) client-ip=10.152.111.229; 
+	Tue, 06 Mar 2012 14:33:09 -0800 (PST)
+Received-SPF: pass (google.com: domain of slapinid@gmail.com designates
+	10.182.53.66 as permitted sender) client-ip=10.182.53.66; 
 Authentication-Results: mr.google.com;
-	spf=pass (google.com: domain of raj.khem@gmail.com
-	designates 10.152.111.229 as permitted sender)
-	smtp.mail=raj.khem@gmail.com;
-	dkim=pass header.i=raj.khem@gmail.com
-Received: from mr.google.com ([10.152.111.229])
-	by 10.152.111.229 with SMTP id il5mr23460490lab.19.1331071264661
-	(num_hops = 1); Tue, 06 Mar 2012 14:01:04 -0800 (PST)
+	spf=pass (google.com: domain of slapinid@gmail.com
+	designates 10.182.53.66 as permitted sender)
+	smtp.mail=slapinid@gmail.com;
+	dkim=pass header.i=slapinid@gmail.com
+Received: from mr.google.com ([10.182.53.66])
+	by 10.182.53.66 with SMTP id z2mr11231598obo.3.1331073189897 (num_hops
+	= 1); Tue, 06 Mar 2012 14:33:09 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
 	:content-type:content-transfer-encoding;
-	bh=Y2PchpZh6jLLuRLfMzFBmHa8aTOvveAWNGkIwsB4s8s=;
-	b=EdgQzF2RxWjj0QPe7aVY5qq5WDLL27X7/CZqwSt6I5bUoJkshgzhT1hkJwlozJ328o
-	ypV5KaDu7hscsPXQV0bdFDI9On/L1KWqOjmH7ckTpQ2hprpKW7E5LttIDpUGV/Kkgxv3
-	7W5HSrJCtzsilKk8xFD3UD3rcsB60Wff5lH2HqIjFmrgzo5kRJHJWzGsVbX2BjqXqRGI
-	c9X+cb8FRxEoJHDibQZ9TzkS8b9lJPgTXgZyM3yzqDgNXZnVVr06KHxnoKkfEKukSlRn
-	53wWW0j+mHqXCO4GhlIiu+oxuAf6PS5ChZYYmmn1D9a88OkyoQ3DQwA+iASLyscp1N8b
-	6NBw==
-Received: by 10.152.111.229 with SMTP id il5mr19223260lab.19.1331071264516;
-	Tue, 06 Mar 2012 14:01:04 -0800 (PST)
+	bh=N1NDkzYHiR3D01VzOyx0J9eMOicXU2FlNqdDa15R72Q=;
+	b=Mj4QhditHQHckAbRQGFfsUtO/wfYCdcc0J5v9SuCe5y37cxm3zYDAHAIeux+2DyHgQ
+	SZkbXc0+6NnqG9uVkGL3Yiils5CsmpIZUwWJuz2KgTfxePP+SaJ5txlUUJJ4ejHflX9i
+	4ANGlXc9ETkq66SxFoMXKLGXh9eFR2TEIitPVVrvb50gr31mfwcHs3OaNHnlJ3+5Sir0
+	jxAKI1orFGrxFBVS4bLQIIYNcYwxrEewp36RSYeldDONYiB0azoEWoAPu7tFBHKVH34b
+	jmtlXf8fNV4KNquvAmNEU1PSBm14XMGoN1vGUzzru091JxnmOtxg6XYrE/yF7i0rBmNq
+	TKzg==
 MIME-Version: 1.0
-Received: by 10.152.27.109 with HTTP; Tue, 6 Mar 2012 14:00:34 -0800 (PST)
-In-Reply-To: <4F567B1E.5060003@opendreambox.org>
-References: <cover.1331053126.git.sgw@linux.intel.com>
-	<b00d6f957a3ac9bcdab9dda1e887ad36b3bab852.1331053126.git.sgw@linux.intel.com>
-	<4F567B1E.5060003@opendreambox.org>
-From: Khem Raj <raj.khem@gmail.com>
-Date: Tue, 6 Mar 2012 14:00:34 -0800
-Message-ID: <CAMKF1sqUrHRtimHT8fH38zJKoE0_0XtKi5Q8apLudM7K5nKmOA@mail.gmail.com>
+Received: by 10.182.53.66 with SMTP id z2mr9640081obo.3.1331073189849; Tue, 06
+	Mar 2012 14:33:09 -0800 (PST)
+Received: by 10.60.23.6 with HTTP; Tue, 6 Mar 2012 14:33:09 -0800 (PST)
+In-Reply-To: <4F566375.30705@intel.com>
+References: <CAFZPMoaRKkELBmd1u5SnWF5UDQiHawi9aRJFw72UqGrKLJQNHw@mail.gmail.com>
+	<CAFZPMob-UQNR9Q-_EsumFpWj=49t9TNjFYF8WTNLgfDWQ+qiAQ@mail.gmail.com>
+	<4F566375.30705@intel.com>
+Date: Wed, 7 Mar 2012 01:33:09 +0300
+Message-ID: <CAFZPMob0HRhYLbZLt7zvLQkJxF_mRxuF0w5MATNcOHwhLko0bA@mail.gmail.com>
+From: Sergey Lapin <slapinid@gmail.com>
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Subject: Re: [CONSOLIDATED PULL 17/20] xz: split out liblzma as seperate packages
+Subject: Re: broken ncurses support for python
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -54,68 +54,53 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 06 Mar 2012 22:09:41 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Tue, 06 Mar 2012 22:41:47 -0000
+Content-Type: text/plain; charset=ISO-8859-1
 Content-Transfer-Encoding: quoted-printable
 
-On Tue, Mar 6, 2012 at 1:01 PM, Andreas Oberritter <obi@opendreambox.org> w=
-rote:
-> On 06.03.2012 18:03, Saul Wold wrote:
->> From: Koen Kooi <koen@dominion.thruhere.net>
+On Tue, Mar 6, 2012 at 11:20 PM, Scott Garman <scott.a.garman@intel.com> wr=
+ote:
+> On 03/06/2012 05:06 AM, Sergey Lapin wrote:
 >>
->> As usual, this creates problems for upgrade paths, but splitting out the=
- lib is worth the short term hassle
->
-> Sorry, if I'm missing the obvious, but how is this different than the
-> patch I submitted to do the same thing with bzip2 and libbz2, which got
-> rejected by Koen?
->
-> See http://patches.openembedded.org/patch/22015/ .
->
-
-yes they are doing same things for different recipes. I think
-now that we use OEBasicHash it should do rebuilds of dependencies
-but for feeds it still needs the PR bumps that holds true for
-both the recipes. It could be that one has less dependencies
-than the other.
-
-> Regards,
-> Andreas
->
->> Signed-off-by: Koen Kooi <koen@dominion.thruhere.net>
->> ---
->> =C2=A0meta/recipes-extended/xz/xz_5.0.3.bb | =C2=A0 =C2=A09 ++++++++-
->> =C2=A01 files changed, 8 insertions(+), 1 deletions(-)
+>> On Tue, Mar 6, 2012 at 3:08 PM, Sergey Lapin<slapinid@gmail.com> =A0wrot=
+e:
+>>>
+>>> commit dd05e06b89906002f68d616a6326c962e725bc54
+>>> Author: Christopher Larson<chris_larson@mentor.com>
+>>> Date: =A0 Tue Jan 10 13:51:18 2012 -0600
+>>>
+>>> =A0 =A0ncurses-native: install to libdir, not base_libdir
 >>
->> diff --git a/meta/recipes-extended/xz/xz_5.0.3.bb b/meta/recipes-extende=
-d/xz/xz_5.0.3.bb
->> index bae71ec..e8f96b6 100644
->> --- a/meta/recipes-extended/xz/xz_5.0.3.bb
->> +++ b/meta/recipes-extended/xz/xz_5.0.3.bb
->> @@ -14,8 +14,15 @@ SRC_URI =3D "http://tukaani.org/xz/xz-${PV}.tar.gz"
->> =C2=A0SRC_URI[md5sum] =3D "fefe52f9ecd521de2a8ce38c21a27574"
->> =C2=A0SRC_URI[sha256sum] =3D "10eb4df72dffb2fb14c3d2d82b450e72282ffcb9ee=
-3908a8e5b392b8f09681bf"
 >>
->> -PR =3D "r0"
->> +PR =3D "r1"
+>> I was wrong with this one, actual culprit is this one:
 >>
->> =C2=A0inherit autotools gettext
+>> commit 796c3d038fb7892a5e5206fb10217623de18853f
+>> Author: Scott Garman<scott.a.garman@intel.com>
+>> Date: =A0 Wed Jan 4 22:30:29 2012 -0800
 >>
->> +PACKAGES =3D+ "liblzma liblzma-dev liblzma-staticdev liblzma-dbg"
->> +
->> +FILES_liblzma =3D "${libdir}/liblzma*${SOLIBS}"
->> +FILES_liblzma-dev =3D "${includedir}/lzma* ${libdir}/liblzma*${SOLIBSDE=
-V} ${libdir}/liblzma.la ${libdir}/pkgconfig/liblzma.pc"
->> +FILES_liblzma-staticdev =3D "${libdir}/liblzma.a"
->> +FILES_liblzma-dbg =3D "${libdir}/.debug/liblzma*"
->> +
->> =C2=A0BBCLASSEXTEND =3D "native"
+>>
+>>>
+>>> breaks python ncurses support.
+>>>
+>>> Any ideas on proper fixing? For myself I revert this locally and
+>>> everything works perfectly.
+>>> (I think .so files and .a archives should be in usr/lib while .so
+>>> can go to /lib which is not the case with current ncurses.)
+>>> so mv in do_install should be sufficient, not --libdir=3D${base_libdir}=
+.
 >
 >
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
+> Could you be more specific about how python ncurses support is broken? I
+> assume you're getting errors of unresolved symbols. If that's the case, y=
+ou
+> may need to rebuild the application so it links to ncurses from base_libd=
+ir.
+No, python fails to find the library.
+And it is bad practice to put develeopment files in /lib anyway.
+I think, putting .so.x.x intu lib was sufficient instead of setting
+whole libdir to /lib.
+Or development files might be moved to /usr/lib back (and .so symlink re-cr=
+eated
+to address this).
 
 
