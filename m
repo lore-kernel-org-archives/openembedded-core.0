@@ -1,24 +1,46 @@
-Received: from mga01.intel.com ([192.55.52.88])
+Received: from mail-vw0-f47.google.com ([209.85.212.47])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <sgw@linux.intel.com>) id 1S4xvu-0003ce-RZ
+	(envelope-from <otavio.salvador@gmail.com>) id 1S4y6r-0004Ta-MW
 	for openembedded-core@lists.openembedded.org;
-	Tue, 06 Mar 2012 18:12:19 +0100
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-	by fmsmga101.fm.intel.com with ESMTP; 06 Mar 2012 09:03:33 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="125714870"
-Received: from unknown (HELO swold-mobl.verilan.com) ([10.255.15.180])
-	by fmsmga001.fm.intel.com with ESMTP; 06 Mar 2012 09:03:33 -0800
-From: Saul Wold <sgw@linux.intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Tue,  6 Mar 2012 09:03:23 -0800
-Message-Id: <0648a1928696d3c18153045bea7724604b54f453.1331053126.git.sgw@linux.intel.com>
-X-Mailer: git-send-email 1.7.7.6
-In-Reply-To: <cover.1331053126.git.sgw@linux.intel.com>
+	Tue, 06 Mar 2012 18:23:37 +0100
+Received: by vbbfr13 with SMTP id fr13so4852489vbb.6
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 06 Mar 2012 09:15:01 -0800 (PST)
+Received-SPF: pass (google.com: domain of otavio.salvador@gmail.com designates
+	10.52.99.231 as permitted sender) client-ip=10.52.99.231; 
+Authentication-Results: mr.google.com; spf=pass (google.com: domain of
+	otavio.salvador@gmail.com designates 10.52.99.231 as permitted
+	sender) smtp.mail=otavio.salvador@gmail.com;
+	dkim=pass header.i=otavio.salvador@gmail.com
+Received: from mr.google.com ([10.52.99.231])
+	by 10.52.99.231 with SMTP id et7mr42281192vdb.114.1331054101385
+	(num_hops = 1); Tue, 06 Mar 2012 09:15:01 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=mime-version:sender:in-reply-to:references:date
+	:x-google-sender-auth:message-id:subject:from:to:content-type
+	:content-transfer-encoding;
+	bh=HLF/Kf1O3mAnQS4IKBL/g8GbUCpbrfBuDg13erx7i5E=;
+	b=p3QTTjCzVjOlHqTJh0AvC9k/pVFxEZQ2HXniJFj9BNE5Q34w3VLknDeOvWEJgBrA5d
+	PNJb8yklWz/CfbftP68mb3BEGWqiI+lGj9siQYXq1tCyfuOASvOxyZeQT92LSAwzpYvt
+	x4Mz2p37rKLNAvoP526a2SkBpUotLRfeVNDiSgmfgARXNEFSQYRtnEBh4fFYKqrGMEd7
+	ljjZ0H1if/3h1jEXxOS65v5myDneJi/zSq5tnpjB9ZN5hOUZzg9OFSvLGCmEsF849lJs
+	y+5PK4U3qaUYzG4LSVwiNcOC4A3lZ01f6QFcQXX2hc9HxRAkTvu5Kson539pYa0U46N/
+	XiYg==
+MIME-Version: 1.0
+Received: by 10.52.99.231 with SMTP id et7mr36233562vdb.114.1331054101284;
+	Tue, 06 Mar 2012 09:15:01 -0800 (PST)
+Sender: otavio.salvador@gmail.com
+Received: by 10.220.7.208 with HTTP; Tue, 6 Mar 2012 09:15:01 -0800 (PST)
+In-Reply-To: <de5c29df23ffa4bef8c729377827750a73e01368.1331053126.git.sgw@linux.intel.com>
 References: <cover.1331053126.git.sgw@linux.intel.com>
-In-Reply-To: <cover.1331053126.git.sgw@linux.intel.com>
-References: <cover.1331053126.git.sgw@linux.intel.com>
-Subject: [CONSOLIDATED PULL 20/20] polkit: Fix Upstream-Status tag
+	<de5c29df23ffa4bef8c729377827750a73e01368.1331053126.git.sgw@linux.intel.com>
+Date: Tue, 6 Mar 2012 14:15:01 -0300
+X-Google-Sender-Auth: 88wmDEUgDqXvYfoExRTmY84JaWI
+Message-ID: <CAP9ODKoHv9CqZWsMyfiNtu6ig56j5b6SthZJOFXeiHQx0DWRPg@mail.gmail.com>
+From: Otavio Salvador <otavio@ossystems.com.br>
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [CONSOLIDATED PULL 04/20] image.bbclass: fix rootfs generation without package management tools
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -33,42 +55,24 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 06 Mar 2012 17:12:19 -0000
+X-List-Received-Date: Tue, 06 Mar 2012 17:23:37 -0000
+Content-Type: text/plain; charset=ISO-8859-1
+Content-Transfer-Encoding: quoted-printable
 
-Signed-off-by: Saul Wold <sgw@linux.intel.com>
----
- ...ession-Set-error-if-we-cannot-find-a-sess.patch |    2 +-
- ...ession-Actually-return-TRUE-if-a-session-.patch |    2 +-
- 2 files changed, 2 insertions(+), 2 deletions(-)
+On Tue, Mar 6, 2012 at 14:03, Saul Wold <sgw@linux.intel.com> wrote:
+> When building without package management tools the
+> ROOTFS_BOOTSTRAP_INSTALL packages need to be available to provide the
+> bare minimal for rootfs unconfigure postinsts to be on first boot.
 
-diff --git a/meta/recipes-extended/polkit/polkit-0.104/0001-PolkitUnixSession-Set-error-if-we-cannot-find-a-sess.patch b/meta/recipes-extended/polkit/polkit-0.104/0001-PolkitUnixSession-Set-error-if-we-cannot-find-a-sess.patch
-index aaa989e..c021bfb 100644
---- a/meta/recipes-extended/polkit/polkit-0.104/0001-PolkitUnixSession-Set-error-if-we-cannot-find-a-sess.patch
-+++ b/meta/recipes-extended/polkit/polkit-0.104/0001-PolkitUnixSession-Set-error-if-we-cannot-find-a-sess.patch
-@@ -14,7 +14,7 @@ for more details.
- Signed-off-by: David Zeuthen <davidz@redhat.com>
- ---
- 
--Upstream-status: Accepted
-+Upstream-Status: Accepted
- 
-  src/polkit/polkitunixsession-systemd.c |   21 ++++++++++++++++-----
-  1 files changed, 16 insertions(+), 5 deletions(-)
-diff --git a/meta/recipes-extended/polkit/polkit-0.104/0002-PolkitUnixSession-Actually-return-TRUE-if-a-session-.patch b/meta/recipes-extended/polkit/polkit-0.104/0002-PolkitUnixSession-Actually-return-TRUE-if-a-session-.patch
-index 3fdc731..49f8ce2 100644
---- a/meta/recipes-extended/polkit/polkit-0.104/0002-PolkitUnixSession-Actually-return-TRUE-if-a-session-.patch
-+++ b/meta/recipes-extended/polkit/polkit-0.104/0002-PolkitUnixSession-Actually-return-TRUE-if-a-session-.patch
-@@ -9,7 +9,7 @@ boolean because that's just confusing.
- Signed-off-by: David Zeuthen <davidz@redhat.com>
- ---
- 
--Upstream-status: Accepted
-+Upstream-Status: Accepted
- 
-  src/polkit/polkitunixsession-systemd.c |   12 +++++-------
-  1 files changed, 5 insertions(+), 7 deletions(-)
--- 
-1.7.7.6
+Please hold it until I fix the issues on the other patches of the same
+set as it will break systemd based images without a proper patch in
+meta-oe just after it.
 
+--=20
+Otavio Salvador=A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0O=
+.S. Systems
+E-mail: otavio@ossystems.com.br=A0 http://www.ossystems.com.br
+Mobile: +55 53 9981-7854=A0 =A0 =A0 =A0=A0 =A0 =A0 =A0http://projetos.ossys=
+tems.com.br
 
 
