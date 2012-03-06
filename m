@@ -1,51 +1,45 @@
-Received: from mail-ww0-f43.google.com ([74.125.82.43])
+Received: from mail-gy0-f175.google.com ([209.85.160.175])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <koen@dominion.thruhere.net>) id 1S4tSO-0004UI-VD
+	(envelope-from <slapinid@gmail.com>) id 1S4uEH-0007FA-1I
 	for openembedded-core@lists.openembedded.org;
-	Tue, 06 Mar 2012 13:25:32 +0100
-Received: by wgbdr12 with SMTP id dr12so3943667wgb.24
+	Tue, 06 Mar 2012 14:15:01 +0100
+Received: by ghbz2 with SMTP id z2so2078680ghb.6
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 06 Mar 2012 04:16:57 -0800 (PST)
-Received-SPF: pass (google.com: domain of koen@dominion.thruhere.net
-	designates 10.216.138.129 as permitted sender)
-	client-ip=10.216.138.129; 
-Authentication-Results: mr.google.com; spf=pass (google.com: domain of
-	koen@dominion.thruhere.net designates 10.216.138.129 as
-	permitted sender) smtp.mail=koen@dominion.thruhere.net
-Received: from mr.google.com ([10.216.138.129])
-	by 10.216.138.129 with SMTP id a1mr7866218wej.49.1331036217580
-	(num_hops = 1); Tue, 06 Mar 2012 04:16:57 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=google.com; s=20120113;
-	h=content-type:mime-version:subject:from:in-reply-to:date
-	:content-transfer-encoding:message-id:references:to:x-mailer
-	:x-gm-message-state;
-	bh=Y+t/lT1q1zCLooDnl6d1kgR0pDZ95yxQvs+JQ8g36yw=;
-	b=Szq3uqJNX90epHBCLmR+ebNcTCDB5WH3E4OcPQxcDWEIDGUXgrYJeR5HbA+kB2l7w2
-	07q9uNKqUdgsh4f2fwzQjwalUtXOZ+37aPedyOzuleoJGJjZCr6NL71Egk9XgCvx1G54
-	d1YoAjiDmxuZNmhkKGJ4mzWEoB7zHcNSy9ghUPyGx+04Th0FXmA+EGmBH/IaTXrcFlIG
-	a9y32FX9iWLA29rD1TLdHtdmimvqoNWC0S882iXjINB7g4cFDgvYn3YSeOa382RjdFof
-	DUDDd/0rYZpnlcXwPNJSu+DrVqpWet3HAzhjYvYF2AtxGe8iZucAmisQh/sjPKsTugfq
-	G5YA==
-Received: by 10.216.138.129 with SMTP id a1mr6247592wej.49.1331036217454;
-	Tue, 06 Mar 2012 04:16:57 -0800 (PST)
-Received: from [172.20.0.96] (ip545070eb.adsl-surfen.hetnet.nl.
-	[84.80.112.235])
-	by mx.google.com with ESMTPS id r8sm52386329wiw.10.2012.03.06.04.16.56
-	(version=TLSv1/SSLv3 cipher=OTHER);
-	Tue, 06 Mar 2012 04:16:56 -0800 (PST)
-Mime-Version: 1.0 (Apple Message framework v1257)
-From: Koen Kooi <koen@dominion.thruhere.net>
-In-Reply-To: <1331035711.6166.25.camel@mattotaupa>
-Date: Tue, 6 Mar 2012 13:16:55 +0100
-Message-Id: <C236B415-C095-440F-AAF5-97AC46584A63@dominion.thruhere.net>
-References: <1331035393-27558-1-git-send-email-koen@dominion.thruhere.net>
-	<1331035711.6166.25.camel@mattotaupa>
+	Tue, 06 Mar 2012 05:06:24 -0800 (PST)
+Received-SPF: pass (google.com: domain of slapinid@gmail.com designates
+	10.60.4.162 as permitted sender) client-ip=10.60.4.162; 
+Authentication-Results: mr.google.com;
+	spf=pass (google.com: domain of slapinid@gmail.com
+	designates 10.60.4.162 as permitted sender)
+	smtp.mail=slapinid@gmail.com;
+	dkim=pass header.i=slapinid@gmail.com
+Received: from mr.google.com ([10.60.4.162])
+	by 10.60.4.162 with SMTP id l2mr11819666oel.3.1331039184556 (num_hops =
+	1); Tue, 06 Mar 2012 05:06:24 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
+	:cc:content-type:content-transfer-encoding;
+	bh=Kh+T1thbcBqP1l6+42SCSXIgCxgBhxI+eCQ/V+thytc=;
+	b=YYZajeNcjgo3KaF37M7t+BGW7dftMQjqkE+jZLNZTg3dVxY/AKdbT5ksSEZNCt1bOq
+	DkQK5FnzvCkEl1KnXYneD0H0CIYsUIgIDI5EXxbjdsdilZz98MQgpBLPOB5iW1FVDMgZ
+	kG5y7ykRYKvmaqQWfb/CqWJEzZkJ0rLD2PTWdv4COEF5X+qydgCzUo/1nqcg+Ngvqd0Q
+	2dvxDmFxl1NouvuhAyph96K7TOGpGd7bYFKArvclKXDibj5U46CfUvZpz6k+LHFOoGp1
+	KqXVM14ISIXni28YiSGk6oD+1vJv9yugZul+xSg7mt5U0No2hFuwo/Q/LRgBNlwUfZrf
+	vloA==
+MIME-Version: 1.0
+Received: by 10.60.4.162 with SMTP id l2mr10034643oel.3.1331039184493; Tue, 06
+	Mar 2012 05:06:24 -0800 (PST)
+Received: by 10.60.39.39 with HTTP; Tue, 6 Mar 2012 05:06:24 -0800 (PST)
+In-Reply-To: <CAFZPMoaRKkELBmd1u5SnWF5UDQiHawi9aRJFw72UqGrKLJQNHw@mail.gmail.com>
+References: <CAFZPMoaRKkELBmd1u5SnWF5UDQiHawi9aRJFw72UqGrKLJQNHw@mail.gmail.com>
+Date: Tue, 6 Mar 2012 16:06:24 +0300
+Message-ID: <CAFZPMob-UQNR9Q-_EsumFpWj=49t9TNjFYF8WTNLgfDWQ+qiAQ@mail.gmail.com>
+From: Sergey Lapin <slapinid@gmail.com>
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-X-Mailer: Apple Mail (2.1257)
-X-Gm-Message-State: ALoCoQlP19i7/5wN8Hw/fD1yHr3kdV6GeKRh6IZ5kMFPOpXsDw59j9WbVCgAHHLdcmZNPDFLEF4A
-Subject: Re: [PATCH] xz: split out liblzma as seperate packages
+Cc: Christopher Larson <chris_larson@mentor.com>,
+	Scott Garman <scott.a.garman@intel.com>
+Subject: Re: broken ncurses support for python
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -60,32 +54,34 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 06 Mar 2012 12:25:33 -0000
-Content-Type: text/plain; charset=us-ascii
+X-List-Received-Date: Tue, 06 Mar 2012 13:15:01 -0000
+Content-Type: text/plain; charset=ISO-8859-1
 Content-Transfer-Encoding: quoted-printable
 
+On Tue, Mar 6, 2012 at 3:08 PM, Sergey Lapin <slapinid@gmail.com> wrote:
+> commit dd05e06b89906002f68d616a6326c962e725bc54
+> Author: Christopher Larson <chris_larson@mentor.com>
+> Date: =A0 Tue Jan 10 13:51:18 2012 -0600
+>
+> =A0 =A0ncurses-native: install to libdir, not base_libdir
 
-Op 6 mrt. 2012, om 13:08 heeft Paul Menzel het volgende geschreven:
+I was wrong with this one, actual culprit is this one:
 
-> Dear Koen,
->=20
->=20
-> Am Dienstag, den 06.03.2012, 13:03 +0100 schrieb Koen Kooi:
->=20
-> sep*a*rate in the commit summary.
->=20
->> As usual, this creates problems for upgrade paths, but splitting out =
-the lib is worth the short term hassle
->=20
-> Is there some documentation what distros or users should do facing =
-this
-> hassle?
+commit 796c3d038fb7892a5e5206fb10217623de18853f
+Author: Scott Garman <scott.a.garman@intel.com>
+Date:   Wed Jan 4 22:30:29 2012 -0800
 
-$packagemagager upgrade --$forceoverwrite-switch or ensure xz is =
-upgraded first. I know opkg gets this wrong most of the time.
 
-regards,
-
-Koen=
+>
+> breaks python ncurses support.
+>
+> Any ideas on proper fixing? For myself I revert this locally and
+> everything works perfectly.
+> (I think .so files and .a archives should be in usr/lib while .so
+> can go to /lib which is not the case with current ncurses.)
+> so mv in do_install should be sufficient, not --libdir=3D${base_libdir}.
+>
+> All the best,
+> S.
 
 
