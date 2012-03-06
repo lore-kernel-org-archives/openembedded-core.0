@@ -1,31 +1,46 @@
-Received: from mail.windriver.com ([147.11.1.11])
+Received: from mail-we0-f175.google.com ([74.125.82.175])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <Xiaofeng.Yan@windriver.com>) id 1S4sVw-0001Mz-QT
+	(envelope-from <koen@dominion.thruhere.net>) id 1S4tFF-000490-4x
 	for openembedded-core@lists.openembedded.org;
-	Tue, 06 Mar 2012 12:25:09 +0100
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca [147.11.189.40])
-	by mail.windriver.com (8.14.3/8.14.3) with ESMTP id q26BGLfR012416
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
-	Tue, 6 Mar 2012 03:16:21 -0800 (PST)
-Received: from [128.224.162.223] (128.224.162.223) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server (TLS) id 14.1.255.0;
-	Tue, 6 Mar 2012 03:16:21 -0800
-Message-ID: <4F55F208.2020803@windriver.com>
-Date: Tue, 6 Mar 2012 19:16:24 +0800
-From: Xiaofeng Yan <xiaofeng.yan@windriver.com>
-User-Agent: Mozilla/5.0 (X11; U; Linux i686; en-US;
-	rv:1.9.2.23) Gecko/20110921 Thunderbird/3.1.15
+	Tue, 06 Mar 2012 13:11:57 +0100
+Received: by wera1 with SMTP id a1so3145598wer.6
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 06 Mar 2012 04:03:21 -0800 (PST)
+Received-SPF: pass (google.com: domain of koen@dominion.thruhere.net
+	designates 10.216.135.225 as permitted sender)
+	client-ip=10.216.135.225; 
+Authentication-Results: mr.google.com; spf=pass (google.com: domain of
+	koen@dominion.thruhere.net designates 10.216.135.225 as
+	permitted sender) smtp.mail=koen@dominion.thruhere.net
+Received: from mr.google.com ([10.216.135.225])
+	by 10.216.135.225 with SMTP id u75mr5446591wei.97.1331035401778
+	(num_hops = 1); Tue, 06 Mar 2012 04:03:21 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=google.com; s=20120113;
+	h=mime-version:from:to:cc:subject:date:message-id:x-mailer
+	:x-gm-message-state;
+	bh=Gb0o7FQjr+Vg1jNl8fEPyXZq4zm8Tuf7Zn1YOF4GXbs=;
+	b=iWTHTUoMp15FwPGffQ66dQEo4AcJI4FmAok/iCCz3cqpADN23jf8dHw7cKzQ2pvjO5
+	hPInGX/JCJhbLakENpyzr7FYGi0cM9+SwI9kwKf7Yzrdf2JzdvATOzFFl9AKkedlFkQC
+	APKW8YNNjEeVy6WH+q4tlYCyE60Q+k4ez5dDrgP+ne/wlFZiaNWKIGU1cTkQpq1uA6mp
+	clKhY3AyCZKVZasKBqxNLwmQl+d/6EZRxtstTtu0jLAIdB0T2nYeF5OMBpG9pLzRK201
+	/Kib0obaOVdIMP0Da+/WgQOHRjcFQTL0zCoGeXbfCb2cHsDAMP6cjujutfHo2mT/7i0g
+	eOhw==
 MIME-Version: 1.0
-To: Saul Wold <sgw@linux.intel.com>
-References: <cover.1330771239.git.xiaofeng.yan@windriver.com>
-	<4F553E04.3040306@linux.intel.com>
-In-Reply-To: <4F553E04.3040306@linux.intel.com>
-X-Originating-IP: [128.224.162.223]
-X-MIME-Autoconverted: from 8bit to quoted-printable by mail.windriver.com id
-	q26BGLfR012416
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 0/3] Realize archiver.bbclass
+Received: by 10.216.135.225 with SMTP id u75mr4376146wei.97.1331035401646;
+	Tue, 06 Mar 2012 04:03:21 -0800 (PST)
+Received: from localhost (ip545070eb.adsl-surfen.hetnet.nl. [84.80.112.235])
+	by mx.google.com with ESMTPS id hv7sm8452712wib.1.2012.03.06.04.03.20
+	(version=TLSv1/SSLv3 cipher=OTHER);
+	Tue, 06 Mar 2012 04:03:21 -0800 (PST)
+From: Koen Kooi <koen@dominion.thruhere.net>
+To: openembedded-core@lists.openembedded.org
+Date: Tue,  6 Mar 2012 13:03:13 +0100
+Message-Id: <1331035393-27558-1-git-send-email-koen@dominion.thruhere.net>
+X-Mailer: git-send-email 1.7.2.5
+X-Gm-Message-State: ALoCoQm8AZxkmbmfAy9xevcveyzsyGphSXQ92hSn8AdM8bsU0p7x2uFr8tPPIxpQhEJTrVjxsFjC
+Cc: Koen Kooi <koen@dominion.thruhere.net>
+Subject: [PATCH] xz: split out liblzma as seperate packages
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -40,81 +55,38 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 06 Mar 2012 11:25:09 -0000
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Tue, 06 Mar 2012 12:11:57 -0000
 
-On 2012=E5=B9=B403=E6=9C=8806=E6=97=A5 06:28, Saul Wold wrote:
-> On 03/03/2012 02:53 AM, Xiaofeng Yan wrote:
->> From: Xiaofeng Yan<xiaofeng.yan@windriver.com>
->>
->> archiver.bbclass is for archiving sources , patches and logs=20
->> including .bb and .inc files by configuring=20
->> archiver_configure.bbclass which control what a archiving package=20
->> should include.
->> For archiving a source rpm package, I add some functions to=20
->> package_rpm.bbclass.
->> I also merge source_pkg.bbclass to archiver.bbclass due to their=20
->> similar functions.
->>
-> Are you going to deprecate/remove the other classes sourcepkg.bbclass,=20
-> src_distribute.bbclass, src_distribute_local.bbclass and=20
-> copyleft_compliance.bbclass
->
-sourcepkg.bbclass has been merged into archiver.bbclass. others can't be=20
-merged into archiver.bbclass.
+As usual, this creates problems for upgrade paths, but splitting out the lib is worth the short term hassle
 
-I will merge them to archiver.bbclass in V2 and remove tem.
-> I am still reviewing this and would like to get ACKs from Chris and Mar=
-k.
->
-> This is going to require some review and testing. I also sent and=20
-> email about the archiver_configure class.
->
-> Can you please let us know how you tested, this is an important change=20
-> and we would like to get it close to correct the first time through.
->
-inherit archiver_configure.bbclass in a global bbclass file, for example=20
-package_rpm.bbclass and then run "bitbake core-image-sato" or "bitbake=20
-package_name".
+Signed-off-by: Koen Kooi <koen@dominion.thruhere.net>
+---
+ meta/recipes-extended/xz/xz_5.0.3.bb |    9 ++++++++-
+ 1 files changed, 8 insertions(+), 1 deletions(-)
 
-archiving package should be deployed in tmp/deploy/sources/ when=20
-finishing this building.
-
-> Thanks for your effort on this.
->
-> Sau!
->
->> Pull URL: git://git.pokylinux.org/poky-contrib.git
->> Branch: xiaofeng/1977
->> Browse:=20
->> http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=3Dxiaofeng/1977
->>
->> Thanks,
->> Xiaofeng Yan<xiaofeng.yan@windriver.com>
->> ---
->>
->>
->> Xiaofeng Yan (3):
->> package_rpm.bbclass: Add srpm function
->> archiver.bbclass: archive sources, patches,logs to tarball
->> archiver_configure.bbclass: configure the content for archiving
->> package
->>
->> meta/classes/archiver.bbclass | 393 +++++++++++++++++++++++++++++++
->> meta/classes/archiver_configure.bbclass | 35 +++
->> meta/classes/package_rpm.bbclass | 54 ++++-
->> 3 files changed, 479 insertions(+), 3 deletions(-)
->> create mode 100644 meta/classes/archiver.bbclass
->> create mode 100644 meta/classes/archiver_configure.bbclass
->>
->>
->> _______________________________________________
->> Openembedded-core mailing list
->> Openembedded-core@lists.openembedded.org
->> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
->>
->
+diff --git a/meta/recipes-extended/xz/xz_5.0.3.bb b/meta/recipes-extended/xz/xz_5.0.3.bb
+index bae71ec..e8f96b6 100644
+--- a/meta/recipes-extended/xz/xz_5.0.3.bb
++++ b/meta/recipes-extended/xz/xz_5.0.3.bb
+@@ -14,8 +14,15 @@ SRC_URI = "http://tukaani.org/xz/xz-${PV}.tar.gz"
+ SRC_URI[md5sum] = "fefe52f9ecd521de2a8ce38c21a27574"
+ SRC_URI[sha256sum] = "10eb4df72dffb2fb14c3d2d82b450e72282ffcb9ee3908a8e5b392b8f09681bf"
+ 
+-PR = "r0"
++PR = "r1"
+ 
+ inherit autotools gettext
+ 
++PACKAGES =+ "liblzma liblzma-dev liblzma-staticdev liblzma-dbg"
++
++FILES_liblzma = "${libdir}/liblzma*${SOLIBS}"
++FILES_liblzma-dev = "${includedir}/lzma* ${libdir}/liblzma*${SOLIBSDEV} ${libdir}/liblzma.la ${libdir}/pkgconfig/liblzma.pc"
++FILES_liblzma-staticdev = "${libdir}/liblzma.a"
++FILES_liblzma-dbg = "${libdir}/.debug/liblzma*"
++
+ BBCLASSEXTEND = "native"
+-- 
+1.7.2.5
 
 
 
