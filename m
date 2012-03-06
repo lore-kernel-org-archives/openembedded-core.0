@@ -1,24 +1,24 @@
 Received: from mga01.intel.com ([192.55.52.88])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <sgw@linux.intel.com>) id 1S4xvn-0003cc-Ak
+	(envelope-from <sgw@linux.intel.com>) id 1S4xvn-0003ce-Au
 	for openembedded-core@lists.openembedded.org;
 	Tue, 06 Mar 2012 18:12:11 +0100
 Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-	by fmsmga101.fm.intel.com with ESMTP; 06 Mar 2012 09:03:31 -0800
+	by fmsmga101.fm.intel.com with ESMTP; 06 Mar 2012 09:03:32 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="125714849"
+X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="125714853"
 Received: from unknown (HELO swold-mobl.verilan.com) ([10.255.15.180])
 	by fmsmga001.fm.intel.com with ESMTP; 06 Mar 2012 09:03:31 -0800
 From: Saul Wold <sgw@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Tue,  6 Mar 2012 09:03:11 -0800
-Message-Id: <1820df9b75fa9574384ca56a75cfdd743465c60a.1331053126.git.sgw@linux.intel.com>
+Date: Tue,  6 Mar 2012 09:03:12 -0800
+Message-Id: <8f0e051c2a1bd875e8fe705a5f628897dd2dc723.1331053126.git.sgw@linux.intel.com>
 X-Mailer: git-send-email 1.7.7.6
 In-Reply-To: <cover.1331053126.git.sgw@linux.intel.com>
 References: <cover.1331053126.git.sgw@linux.intel.com>
 In-Reply-To: <cover.1331053126.git.sgw@linux.intel.com>
 References: <cover.1331053126.git.sgw@linux.intel.com>
-Subject: [CONSOLIDATED PULL 08/20] logrotate 3.7.9: Allow rotate log across filesystems
+Subject: [CONSOLIDATED PULL 09/20] gcc: Upgrade to 4.6.3 release
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -35,208 +35,680 @@ List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedde
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Tue, 06 Mar 2012 17:12:11 -0000
 
-From: Robert Yang <liezhi.yang@windriver.com>
+From: Khem Raj <raj.khem@gmail.com>
 
-The logrotate can't save the log across the different filesystems since
-it used the "rename(const char *oldpath, const char *newpath)" to save
-the file, fix it to act as the "mv" command(first rename, if failed,
-read and write) to allow save the log across the different filesystems.
+core-image-sato/core-image-minimal builds and boots
+on all qemu machines
 
-* config.c: Remove the check for different filesystems
-* logrotate.c: Act as the "mv" command when rotate log
-* logrotate.8: Update the mannual
-* logrotate.8: Fix a bug in the mannual(\f should be \fR)
-
-[YOCTO #718]
-
-Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
+Signed-off-by: Khem Raj <raj.khem@gmail.com>
 ---
- .../allow-across-different-filesystems.patch       |  154 ++++++++++++++++++++
- meta/recipes-extended/logrotate/logrotate_3.7.9.bb |    5 +-
- 2 files changed, 157 insertions(+), 2 deletions(-)
- create mode 100644 meta/recipes-extended/logrotate/logrotate-3.7.9/allow-across-different-filesystems.patch
+ meta/recipes-devtools/gcc/gcc-4.6.inc              |    9 +-
+ .../GPLUSPLUS_INCLUDE_DIR_with_sysroot.patch       |   32 +++---
+ .../gcc/gcc-4.6/gcc-flags-for-build.patch          |   97 +++++++++++---------
+ .../gcc-4.6/gcc-poison-system-directories.patch    |   80 ++++++++--------
+ .../gcc/gcc-4.6/gcc-with-linker-hash-style.patch   |   36 ++++----
+ .../gcc/gcc-4.6/volatile_access_backport.patch     |   28 ------
+ 6 files changed, 131 insertions(+), 151 deletions(-)
+ delete mode 100644 meta/recipes-devtools/gcc/gcc-4.6/volatile_access_backport.patch
 
-diff --git a/meta/recipes-extended/logrotate/logrotate-3.7.9/allow-across-different-filesystems.patch b/meta/recipes-extended/logrotate/logrotate-3.7.9/allow-across-different-filesystems.patch
-new file mode 100644
-index 0000000..41df23f
---- /dev/null
-+++ b/meta/recipes-extended/logrotate/logrotate-3.7.9/allow-across-different-filesystems.patch
-@@ -0,0 +1,154 @@
-+Allow rotate log across different filesystems
-+
-+* Remove the check for different filesystems
-+* Act as the "mv" command when rotate log
-+* Update the mannual
-+* Fix a bug in the mannual(\f should be \fR)
-+
-+Upstream-Status: Pending
-+
-+Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
-+---
-+ config.c    |    8 --------
-+ logrotate.8 |    9 ++++-----
-+ logrotate.c |   59 +++++++++++++++++++++++++++++++++++++++++++++++++++++------
-+ 3 files changed, 57 insertions(+), 19 deletions(-)
-+
-+diff --git a/config.c b/config.c
-+--- a/config.c
-++++ b/config.c
-+@@ -1482,14 +1482,6 @@ duperror:
-+ 				dirName, strerror(errno));
-+ 			goto error;
-+ 		    }
-+-
-+-		    if (sb.st_dev != sb2.st_dev) {
-+-			message(MESS_ERROR,
-+-				"%s:%d olddir %s and log file %s "
-+-				"are on different devices\n", configFile,
-+-				lineNum, newlog->oldDir, newlog->files[i]);
-+-			goto error;
-+-		    }
-+ 		}
-+ 	    }
-+ 
-+diff --git a/logrotate.8 b/logrotate.8
-+--- a/logrotate.8
-++++ b/logrotate.8
-+@@ -354,10 +354,9 @@ Do not rotate the log if it is empty (this overrides the \fBifempty\fR option).
-+ .TP
-+ \fBolddir \fIdirectory\fR
-+ Logs are moved into \fIdirectory\fR for rotation. The \fIdirectory\fR
-+-must be on the same physical device as the log file being rotated,
-+-and is assumed to be relative to the directory holding the log file
-+-unless an absolute path name is specified. When this option is used all
-+-old versions of the log end up in \fIdirectory\fR.  This option may be
-++is assumed to be relative to the directory holding the log file unless
-++an absolute path name is specified. When this option is used all old
-++versions of the log end up in \fIdirectory\fR. This option may be
-+ overridden by the \fBnoolddir\fR option.
-+ 
-+ .TP
-+@@ -415,7 +414,7 @@ Log files are rotated when they grow bigger than \fIsize\fR bytes. If
-+ \fIsize\fR is followed by \fIk\fR, the size is assumed to be in kilobytes.
-+ If the \fIM\fR is used, the size is in megabytes, and if \fIG\fR is used, the
-+ size is in gigabytes. So \fBsize 100\fR, \fIsize 100k\fR, \fIsize 100M\fR and
-+-\fIsize 100G\f are all valid.
-++\fIsize 100G\fR are all valid.
-+ 
-+ .TP
-+ \fBsharedscripts\fR
-+diff --git a/logrotate.c b/logrotate.c
-+--- a/logrotate.c
-++++ b/logrotate.c
-+@@ -625,6 +625,53 @@ int findNeedRotating(struct logInfo *log, int logNum)
-+     return 0;
-+ }
-+ 
-++/* Act as the "mv" command, if rename failed, then read the old file and
-++ * write to new file. The function which invokes the mvFile will use
-++ * the strerror(errorno) to handle the error message, so we don't have
-++ * to print the error message here */
-++
-++int mvFile (char *oldName, char *newName, struct logInfo *log)
-++{
-++    struct stat sbprev;
-++    int fd_old, fd_new, n;
-++    char buf[BUFSIZ];
-++
-++    /* Do the rename first */
-++    if (!rename(oldName, newName))
-++        return 0;
-++
-++    /* If the errno is EXDEV, then read old file, write newfile and
-++     * remove the oldfile */
-++    if (errno == EXDEV) {
-++        /* Open the old file to read */
-++        if ((fd_old = open(oldName, O_RDONLY)) < 0)
-++            return 1;
-++
-++        /* Create the file to write, keep the same attribute as the old file */
-++        if (stat(oldName, &sbprev))
-++            return 1;
-++        else {
-++            if ((fd_new = createOutputFile(newName,
-++                O_WRONLY | O_CREAT | O_TRUNC, &sbprev)) < 0 )
-++                return 1;
-++        }
-++
-++        /* Read and write */
-++        while ((n = read(fd_old, buf, BUFSIZ)) > 0)
-++            if (write(fd_new, buf, n) != n)
-++                return 1;
-++
-++        if ((close(fd_old) < 0) ||
-++            removeLogFile(oldName, log) ||
-++            (close(fd_new) < 0))
-++            return 1;
-++
-++        return 0;
-++    }
-++
-++    return 1;
-++}
-++
-+ int prerotateSingleLog(struct logInfo *log, int logNum, struct logState *state,
-+ 		       struct logNames *rotNames)
-+ {
-+@@ -958,15 +1005,15 @@ int prerotateSingleLog(struct logInfo *log, int logNum, struct logState *state,
-+ 		    rotNames->baseName, i, fileext, compext);
-+ 
-+ 	    message(MESS_DEBUG,
-+-		    "renaming %s to %s (rotatecount %d, logstart %d, i %d), \n",
-++		    "moving %s to %s (rotatecount %d, logstart %d, i %d), \n",
-+ 		    oldName, newName, rotateCount, logStart, i);
-+ 
-+-	    if (!debug && rename(oldName, newName)) {
-++	    if (!debug && mvFile(oldName, newName, log)) {
-+ 		if (errno == ENOENT) {
-+ 		    message(MESS_DEBUG, "old log %s does not exist\n",
-+ 			    oldName);
-+ 		} else {
-+-		    message(MESS_ERROR, "error renaming %s to %s: %s\n",
-++		    message(MESS_ERROR, "error moving %s to %s: %s\n",
-+ 			    oldName, newName, strerror(errno));
-+ 		    hasErrors = 1;
-+ 		}
-+@@ -1082,11 +1129,11 @@ int rotateSingleLog(struct logInfo *log, int logNum, struct logState *state,
-+ 						log->files[logNum]);
-+ 		}
-+ #endif
-+-		message(MESS_DEBUG, "renaming %s to %s\n", log->files[logNum],
-++		message(MESS_DEBUG, "moving %s to %s\n", log->files[logNum],
-+ 		    rotNames->finalName);
-+ 	    if (!debug && !hasErrors &&
-+-		rename(log->files[logNum], rotNames->finalName)) {
-+-		message(MESS_ERROR, "failed to rename %s to %s: %s\n",
-++		mvFile(log->files[logNum], rotNames->finalName, log)) {
-++		message(MESS_ERROR, "failed to move %s to %s: %s\n",
-+ 			log->files[logNum], rotNames->finalName,
-+ 			strerror(errno));
-+ 			hasErrors = 1;
-+-- 
-+1.7.4.1
-+
-diff --git a/meta/recipes-extended/logrotate/logrotate_3.7.9.bb b/meta/recipes-extended/logrotate/logrotate_3.7.9.bb
-index 8dc0504..40d1a38 100644
---- a/meta/recipes-extended/logrotate/logrotate_3.7.9.bb
-+++ b/meta/recipes-extended/logrotate/logrotate_3.7.9.bb
-@@ -2,13 +2,14 @@ DESCRIPTION = "Rotates, compresses, removes and mails system log files"
- SECTION = "console/utils"
- HOMEPAGE = "https://fedorahosted.org/releases/l/o/logrotate"
- LICENSE = "GPLv2"
--PR = "r1"
-+PR = "r2"
+diff --git a/meta/recipes-devtools/gcc/gcc-4.6.inc b/meta/recipes-devtools/gcc/gcc-4.6.inc
+index edc2a58..99c30a6 100644
+--- a/meta/recipes-devtools/gcc/gcc-4.6.inc
++++ b/meta/recipes-devtools/gcc/gcc-4.6.inc
+@@ -1,6 +1,6 @@
+ require gcc-common.inc
  
- DEPENDS="coreutils popt"
+-PR = "r22"
++PR = "r23"
  
- LIC_FILES_CHKSUM = "file://COPYING;md5=18810669f13b87348459e611d31ab760"
+ # Third digit in PV should be incremented after a minor release
+ # happens from this branch on gcc e.g. currently its 4.6.0
+@@ -8,7 +8,7 @@ PR = "r22"
+ # on branch then PV should be incremented to 4.6.1+svnr${SRCPV}
+ # to reflect that change
  
--SRC_URI = "https://fedorahosted.org/releases/l/o/logrotate/logrotate-${PV}.tar.gz"
-+SRC_URI = "https://fedorahosted.org/releases/l/o/logrotate/logrotate-${PV}.tar.gz \
-+           file://allow-across-different-filesystems.patch"
+-PV = "4.6.2+svnr${SRCPV}"
++PV = "4.6.3+svnr${SRCPV}"
  
- SRC_URI[md5sum] = "eeba9dbca62a9210236f4b83195e4ea5"
- SRC_URI[sha256sum] = "080caf904e70e04da16b8dfa95a5a787ec7d722ee1af18ccea437d3ffdd6fec0"
+ # BINV should be incremented after updating to a revision
+ # after a minor gcc release (e.g. 4.6.1 or 4.6.2) has been made
+@@ -16,9 +16,9 @@ PV = "4.6.2+svnr${SRCPV}"
+ # 4.6.1 then the value below will have 2 which will mean 4.6.2
+ # which will be next minor release and so on.
+ 
+-BINV = "4.6.3"
++BINV = "4.6.4"
+ 
+-SRCREV = "181430"
++SRCREV = "184847"
+ BRANCH = "gcc-4_6-branch"
+ FILESPATH = "${@base_set_filespath([ '${FILE_DIRNAME}/gcc-4.6' ], d)}"
+ 
+@@ -63,7 +63,6 @@ SRC_URI = "svn://gcc.gnu.org/svn/gcc/branches;module=${BRANCH};proto=http \
+ 	   file://optional_libstdc.patch \
+ 	   file://disable_relax_pic_calls_flag.patch \
+ 	   file://COLLECT_GCC_OPTIONS.patch \
+-           file://volatile_access_backport.patch \
+            file://use-defaults.h-and-t-oe-in-B.patch \
+ 	   file://powerpc-e5500.patch \
+            file://fix-for-ice-50099.patch \
+diff --git a/meta/recipes-devtools/gcc/gcc-4.6/GPLUSPLUS_INCLUDE_DIR_with_sysroot.patch b/meta/recipes-devtools/gcc/gcc-4.6/GPLUSPLUS_INCLUDE_DIR_with_sysroot.patch
+index 6ccbeea..575e0e4 100644
+--- a/meta/recipes-devtools/gcc/gcc-4.6/GPLUSPLUS_INCLUDE_DIR_with_sysroot.patch
++++ b/meta/recipes-devtools/gcc/gcc-4.6/GPLUSPLUS_INCLUDE_DIR_with_sysroot.patch
+@@ -58,8 +58,8 @@ from the sysroot, one of the paths *does* need to be relocated in this way.
+ ===========================
+ Index: gcc-4_6-branch/gcc/Makefile.in
+ ===================================================================
+---- gcc-4_6-branch.orig/gcc/Makefile.in	2011-12-13 22:52:15.000000000 -0800
+-+++ gcc-4_6-branch/gcc/Makefile.in	2011-12-13 22:52:21.933635767 -0800
++--- gcc-4_6-branch.orig/gcc/Makefile.in	2012-03-04 09:33:36.000000000 -0800
+++++ gcc-4_6-branch/gcc/Makefile.in	2012-03-04 09:41:06.858672113 -0800
+ @@ -587,6 +587,7 @@
+  build_tooldir = $(exec_prefix)/$(target_noncanonical)
+  # Directory in which the compiler finds target-independent g++ includes.
+@@ -78,8 +78,8 @@ Index: gcc-4_6-branch/gcc/Makefile.in
+    -DLOCAL_INCLUDE_DIR=\"$(local_includedir)\" \
+ Index: gcc-4_6-branch/gcc/configure.ac
+ ===================================================================
+---- gcc-4_6-branch.orig/gcc/configure.ac	2011-12-13 22:52:15.000000000 -0800
+-+++ gcc-4_6-branch/gcc/configure.ac	2011-12-13 22:52:21.937635526 -0800
++--- gcc-4_6-branch.orig/gcc/configure.ac	2012-03-04 09:33:36.000000000 -0800
+++++ gcc-4_6-branch/gcc/configure.ac	2012-03-04 09:41:06.862671939 -0800
+ @@ -144,6 +144,15 @@
+    fi
+  fi
+@@ -96,7 +96,7 @@ Index: gcc-4_6-branch/gcc/configure.ac
+  AC_ARG_WITH(cpp_install_dir,
+  [  --with-cpp-install-dir=DIR
+                            install the user visible C preprocessor in DIR
+-@@ -4737,6 +4746,7 @@
++@@ -4727,6 +4736,7 @@
+  AC_SUBST(float_h_file)
+  AC_SUBST(gcc_config_arguments)
+  AC_SUBST(gcc_gxx_include_dir)
+@@ -106,8 +106,8 @@ Index: gcc-4_6-branch/gcc/configure.ac
+  AC_SUBST(host_xm_include_list)
+ Index: gcc-4_6-branch/gcc/cppdefault.c
+ ===================================================================
+---- gcc-4_6-branch.orig/gcc/cppdefault.c	2011-12-13 22:51:28.000000000 -0800
+-+++ gcc-4_6-branch/gcc/cppdefault.c	2011-12-13 22:52:21.937635526 -0800
++--- gcc-4_6-branch.orig/gcc/cppdefault.c	2012-03-03 01:03:17.000000000 -0800
+++++ gcc-4_6-branch/gcc/cppdefault.c	2012-03-04 09:41:06.862671939 -0800
+ @@ -48,15 +48,18 @@
+  = {
+  #ifdef GPLUSPLUS_INCLUDE_DIR
+@@ -132,8 +132,8 @@ Index: gcc-4_6-branch/gcc/cppdefault.c
+      /* This is the dir for gcc's private headers.  */
+ Index: gcc-4_6-branch/gcc/configure
+ ===================================================================
+---- gcc-4_6-branch.orig/gcc/configure	2011-12-13 22:52:15.000000000 -0800
+-+++ gcc-4_6-branch/gcc/configure	2011-12-13 22:52:33.185690436 -0800
++--- gcc-4_6-branch.orig/gcc/configure	2012-03-04 09:33:36.000000000 -0800
+++++ gcc-4_6-branch/gcc/configure	2012-03-04 09:41:12.462671816 -0800
+ @@ -636,6 +636,7 @@
+  host_xm_include_list
+  host_xm_file_list
+@@ -158,25 +158,25 @@ Index: gcc-4_6-branch/gcc/configure
+  
+  # Check whether --with-cpp_install_dir was given.
+  if test "${with_cpp_install_dir+set}" = set; then :
+-@@ -17514,7 +17524,7 @@
++@@ -17504,7 +17514,7 @@
+    lt_dlunknown=0; lt_dlno_uscore=1; lt_dlneed_uscore=2
+    lt_status=$lt_dlunknown
+    cat > conftest.$ac_ext <<_LT_EOF
+--#line 17517 "configure"
+-+#line 17527 "configure"
++-#line 17507 "configure"
+++#line 17517 "configure"
+  #include "confdefs.h"
+  
+  #if HAVE_DLFCN_H
+-@@ -17620,7 +17630,7 @@
++@@ -17610,7 +17620,7 @@
+    lt_dlunknown=0; lt_dlno_uscore=1; lt_dlneed_uscore=2
+    lt_status=$lt_dlunknown
+    cat > conftest.$ac_ext <<_LT_EOF
+--#line 17623 "configure"
+-+#line 17633 "configure"
++-#line 17613 "configure"
+++#line 17623 "configure"
+  #include "confdefs.h"
+  
+  #if HAVE_DLFCN_H
+-@@ -26151,6 +26161,7 @@
++@@ -26141,6 +26151,7 @@
+  
+  
+  
+diff --git a/meta/recipes-devtools/gcc/gcc-4.6/gcc-flags-for-build.patch b/meta/recipes-devtools/gcc/gcc-4.6/gcc-flags-for-build.patch
+index 9cba50d..5eaeb05 100644
+--- a/meta/recipes-devtools/gcc/gcc-4.6/gcc-flags-for-build.patch
++++ b/meta/recipes-devtools/gcc/gcc-4.6/gcc-flags-for-build.patch
+@@ -1,10 +1,10 @@
+ Upstream-Status: Pending
+ 
+-Index: gcc-4.6.0/Makefile.def
++Index: gcc-4_6-branch/Makefile.def
+ ===================================================================
+---- gcc-4.6.0.orig/Makefile.def
+-+++ gcc-4.6.0/Makefile.def
+-@@ -243,6 +243,7 @@ flags_to_pass = { flag= AWK ; };
++--- gcc-4_6-branch.orig/Makefile.def	2012-03-03 01:08:03.000000000 -0800
+++++ gcc-4_6-branch/Makefile.def	2012-03-04 09:19:02.430607447 -0800
++@@ -242,6 +242,7 @@
+  flags_to_pass = { flag= BISON ; };
+  flags_to_pass = { flag= CC_FOR_BUILD ; };
+  flags_to_pass = { flag= CFLAGS_FOR_BUILD ; };
+@@ -12,11 +12,11 @@ Index: gcc-4.6.0/Makefile.def
+  flags_to_pass = { flag= CXX_FOR_BUILD ; };
+  flags_to_pass = { flag= EXPECT ; };
+  flags_to_pass = { flag= FLEX ; };
+-Index: gcc-4.6.0/gcc/Makefile.in
++Index: gcc-4_6-branch/gcc/Makefile.in
+ ===================================================================
+---- gcc-4.6.0.orig/gcc/Makefile.in
+-+++ gcc-4.6.0/gcc/Makefile.in
+-@@ -770,7 +770,7 @@ BUILD_LINKERFLAGS = $(BUILD_CFLAGS)
++--- gcc-4_6-branch.orig/gcc/Makefile.in	2012-03-03 01:03:17.000000000 -0800
+++++ gcc-4_6-branch/gcc/Makefile.in	2012-03-04 09:19:02.430607447 -0800
++@@ -770,7 +770,7 @@
+  
+  # Native linker and preprocessor flags.  For x-fragment overrides.
+  BUILD_LDFLAGS=@BUILD_LDFLAGS@
+@@ -25,11 +25,11 @@ Index: gcc-4.6.0/gcc/Makefile.in
+  
+  # Actual name to use when installing a native compiler.
+  GCC_INSTALL_NAME := $(shell echo gcc|sed '$(program_transform_name)')
+-Index: gcc-4.6.0/gcc/configure.ac
++Index: gcc-4_6-branch/gcc/configure.ac
+ ===================================================================
+---- gcc-4.6.0.orig/gcc/configure.ac
+-+++ gcc-4.6.0/gcc/configure.ac
+-@@ -1784,16 +1784,18 @@ AC_SUBST(inhibit_libc)
++--- gcc-4_6-branch.orig/gcc/configure.ac	2012-03-03 01:17:45.000000000 -0800
+++++ gcc-4_6-branch/gcc/configure.ac	2012-03-04 09:19:02.430607447 -0800
++@@ -1774,16 +1774,18 @@
+  # Also, we cannot run fixincludes.
+  
+  # These are the normal (build=host) settings:
+@@ -52,11 +52,11 @@ Index: gcc-4.6.0/gcc/configure.ac
+  fi
+  
+  # Expand extra_headers to include complete path.
+-Index: gcc-4.6.0/Makefile.in
++Index: gcc-4_6-branch/Makefile.in
+ ===================================================================
+---- gcc-4.6.0.orig/Makefile.in
+-+++ gcc-4.6.0/Makefile.in
+-@@ -338,6 +338,7 @@ AR_FOR_BUILD = @AR_FOR_BUILD@
++--- gcc-4_6-branch.orig/Makefile.in	2012-03-03 01:08:03.000000000 -0800
+++++ gcc-4_6-branch/Makefile.in	2012-03-04 09:19:02.446607448 -0800
++@@ -338,6 +338,7 @@
+  AS_FOR_BUILD = @AS_FOR_BUILD@
+  CC_FOR_BUILD = @CC_FOR_BUILD@
+  CFLAGS_FOR_BUILD = @CFLAGS_FOR_BUILD@
+@@ -64,7 +64,7 @@ Index: gcc-4.6.0/Makefile.in
+  CXXFLAGS_FOR_BUILD = @CXXFLAGS_FOR_BUILD@
+  CXX_FOR_BUILD = @CXX_FOR_BUILD@
+  DLLTOOL_FOR_BUILD = @DLLTOOL_FOR_BUILD@
+-@@ -691,6 +692,7 @@ BASE_FLAGS_TO_PASS = \
++@@ -691,6 +692,7 @@
+  	"BISON=$(BISON)" \
+  	"CC_FOR_BUILD=$(CC_FOR_BUILD)" \
+  	"CFLAGS_FOR_BUILD=$(CFLAGS_FOR_BUILD)" \
+@@ -72,11 +72,11 @@ Index: gcc-4.6.0/Makefile.in
+  	"CXX_FOR_BUILD=$(CXX_FOR_BUILD)" \
+  	"EXPECT=$(EXPECT)" \
+  	"FLEX=$(FLEX)" \
+-Index: gcc-4.6.0/gcc/configure
++Index: gcc-4_6-branch/gcc/configure
+ ===================================================================
+---- gcc-4.6.0.orig/gcc/configure
+-+++ gcc-4.6.0/gcc/configure
+-@@ -703,6 +703,7 @@ SED
++--- gcc-4_6-branch.orig/gcc/configure	2012-03-03 01:17:45.000000000 -0800
+++++ gcc-4_6-branch/gcc/configure	2012-03-04 09:19:15.638608087 -0800
++@@ -703,6 +703,7 @@
+  LIBTOOL
+  collect2
+  STMP_FIXINC
+@@ -84,7 +84,16 @@ Index: gcc-4.6.0/gcc/configure
+  BUILD_LDFLAGS
+  BUILD_CFLAGS
+  CC_FOR_BUILD
+-@@ -11382,6 +11383,7 @@ fi
++@@ -4842,7 +4843,7 @@
++ { $as_echo "$as_me:${as_lineno-$LINENO}: result: $acx_cv_cc_gcc_supports_ada" >&5
++ $as_echo "$acx_cv_cc_gcc_supports_ada" >&6; }
++ 
++-if test x$GNATBIND != xno && test x$GNATMAKE != xno && test x$acx_cv_cc_gcc_supports_ada != xno; then
+++if test "x$GNATBIND" != xno && test "x$GNATMAKE" != xno && test x$acx_cv_cc_gcc_supports_ada != xno; then
++   have_gnat=yes
++ else
++   have_gnat=no
++@@ -11372,6 +11373,7 @@
+  CC_FOR_BUILD='$(CC)'
+  BUILD_CFLAGS='$(ALL_CFLAGS)'
+  BUILD_LDFLAGS='$(LDFLAGS)'
+@@ -92,7 +101,7 @@ Index: gcc-4.6.0/gcc/configure
+  STMP_FIXINC=stmp-fixinc
+  
+  # And these apply if build != host, or we are generating coverage data
+-@@ -11389,6 +11391,7 @@ if test x$build != x$host || test "x$cov
++@@ -11379,6 +11381,7 @@
+  then
+      BUILD_CFLAGS='$(INTERNAL_CFLAGS) $(T_CFLAGS) $(CFLAGS_FOR_BUILD)'
+      BUILD_LDFLAGS='$(LDFLAGS_FOR_BUILD)'
+@@ -100,29 +109,29 @@ Index: gcc-4.6.0/gcc/configure
+  fi
+  
+  # Expand extra_headers to include complete path.
+-@@ -17505,7 +17508,7 @@ else
++@@ -17495,7 +17498,7 @@
+    lt_dlunknown=0; lt_dlno_uscore=1; lt_dlneed_uscore=2
+    lt_status=$lt_dlunknown
+    cat > conftest.$ac_ext <<_LT_EOF
+--#line 17508 "configure"
+-+#line 17511 "configure"
++-#line 17498 "configure"
+++#line 17501 "configure"
+  #include "confdefs.h"
+  
+  #if HAVE_DLFCN_H
+-@@ -17611,7 +17614,7 @@ else
++@@ -17601,7 +17604,7 @@
+    lt_dlunknown=0; lt_dlno_uscore=1; lt_dlneed_uscore=2
+    lt_status=$lt_dlunknown
+    cat > conftest.$ac_ext <<_LT_EOF
+--#line 17614 "configure"
+-+#line 17617 "configure"
++-#line 17604 "configure"
+++#line 17607 "configure"
+  #include "confdefs.h"
+  
+  #if HAVE_DLFCN_H
+-Index: gcc-4.6.0/Makefile.tpl
++Index: gcc-4_6-branch/Makefile.tpl
+ ===================================================================
+---- gcc-4.6.0.orig/Makefile.tpl
+-+++ gcc-4.6.0/Makefile.tpl
+-@@ -341,6 +341,7 @@ AR_FOR_BUILD = @AR_FOR_BUILD@
++--- gcc-4_6-branch.orig/Makefile.tpl	2012-03-03 01:08:03.000000000 -0800
+++++ gcc-4_6-branch/Makefile.tpl	2012-03-04 09:19:02.454607448 -0800
++@@ -341,6 +341,7 @@
+  AS_FOR_BUILD = @AS_FOR_BUILD@
+  CC_FOR_BUILD = @CC_FOR_BUILD@
+  CFLAGS_FOR_BUILD = @CFLAGS_FOR_BUILD@
+@@ -130,11 +139,11 @@ Index: gcc-4.6.0/Makefile.tpl
+  CXXFLAGS_FOR_BUILD = @CXXFLAGS_FOR_BUILD@
+  CXX_FOR_BUILD = @CXX_FOR_BUILD@
+  DLLTOOL_FOR_BUILD = @DLLTOOL_FOR_BUILD@
+-Index: gcc-4.6.0/configure.ac
++Index: gcc-4_6-branch/configure.ac
+ ===================================================================
+---- gcc-4.6.0.orig/configure.ac
+-+++ gcc-4.6.0/configure.ac
+-@@ -3154,6 +3154,7 @@ esac
++--- gcc-4_6-branch.orig/configure.ac	2012-03-03 01:17:45.000000000 -0800
+++++ gcc-4_6-branch/configure.ac	2012-03-04 09:19:02.454607448 -0800
++@@ -3123,6 +3123,7 @@
+  # our build compiler if desired.
+  if test x"${build}" = x"${host}" ; then
+    CFLAGS_FOR_BUILD=${CFLAGS_FOR_BUILD-${CFLAGS}}
+@@ -142,7 +151,7 @@ Index: gcc-4.6.0/configure.ac
+    CXXFLAGS_FOR_BUILD=${CXXFLAGS_FOR_BUILD-${CXXFLAGS}}
+    LDFLAGS_FOR_BUILD=${LDFLAGS_FOR_BUILD-${LDFLAGS}}
+  fi
+-@@ -3220,6 +3221,7 @@ AC_SUBST(AR_FOR_BUILD)
++@@ -3189,6 +3190,7 @@
+  AC_SUBST(AS_FOR_BUILD)
+  AC_SUBST(CC_FOR_BUILD)
+  AC_SUBST(CFLAGS_FOR_BUILD)
+@@ -150,11 +159,11 @@ Index: gcc-4.6.0/configure.ac
+  AC_SUBST(CXXFLAGS_FOR_BUILD)
+  AC_SUBST(CXX_FOR_BUILD)
+  AC_SUBST(DLLTOOL_FOR_BUILD)
+-Index: gcc-4.6.0/configure
++Index: gcc-4_6-branch/configure
+ ===================================================================
+---- gcc-4.6.0.orig/configure
+-+++ gcc-4.6.0/configure
+-@@ -617,6 +617,7 @@ GCJ_FOR_BUILD
++--- gcc-4_6-branch.orig/configure	2012-03-03 01:17:45.000000000 -0800
+++++ gcc-4_6-branch/configure	2012-03-04 09:19:02.458607448 -0800
++@@ -617,6 +617,7 @@
+  DLLTOOL_FOR_BUILD
+  CXX_FOR_BUILD
+  CXXFLAGS_FOR_BUILD
+@@ -162,7 +171,7 @@ Index: gcc-4.6.0/configure
+  CFLAGS_FOR_BUILD
+  CC_FOR_BUILD
+  AS_FOR_BUILD
+-@@ -7675,6 +7676,7 @@ esac
++@@ -7644,6 +7645,7 @@
+  # our build compiler if desired.
+  if test x"${build}" = x"${host}" ; then
+    CFLAGS_FOR_BUILD=${CFLAGS_FOR_BUILD-${CFLAGS}}
+@@ -170,7 +179,7 @@ Index: gcc-4.6.0/configure
+    CXXFLAGS_FOR_BUILD=${CXXFLAGS_FOR_BUILD-${CXXFLAGS}}
+    LDFLAGS_FOR_BUILD=${LDFLAGS_FOR_BUILD-${LDFLAGS}}
+  fi
+-@@ -7740,6 +7742,7 @@ done
++@@ -7709,6 +7711,7 @@
+  
+  
+  
+diff --git a/meta/recipes-devtools/gcc/gcc-4.6/gcc-poison-system-directories.patch b/meta/recipes-devtools/gcc/gcc-4.6/gcc-poison-system-directories.patch
+index 3902a35..a44e86c 100644
+--- a/meta/recipes-devtools/gcc/gcc-4.6/gcc-poison-system-directories.patch
++++ b/meta/recipes-devtools/gcc/gcc-4.6/gcc-poison-system-directories.patch
+@@ -27,11 +27,11 @@ Upstream-Status: Inappropriate [distribution: codesourcery]
+        ENABLE_POISON_SYSTEM_DIRECTORIES defined, warn for use of
+        /usr/include, /usr/local/include or /usr/X11R6/include.
+ 
+-Index: gcc-4.6.0/gcc/common.opt
++Index: gcc-4_6-branch/gcc/common.opt
+ ===================================================================
+---- gcc-4.6.0.orig/gcc/common.opt
+-+++ gcc-4.6.0/gcc/common.opt
+-@@ -558,6 +558,10 @@ Wpadded
++--- gcc-4_6-branch.orig/gcc/common.opt	2012-03-03 01:03:17.000000000 -0800
+++++ gcc-4_6-branch/gcc/common.opt	2012-03-04 09:24:54.410624483 -0800
++@@ -567,6 +567,10 @@
+  Common Var(warn_padded) Warning
+  Warn when padding is required to align structure members
+  
+@@ -42,10 +42,10 @@ Index: gcc-4.6.0/gcc/common.opt
+  Wshadow
+  Common Var(warn_shadow) Warning
+  Warn when one local variable shadows another
+-Index: gcc-4.6.0/gcc/config.in
++Index: gcc-4_6-branch/gcc/config.in
+ ===================================================================
+---- gcc-4.6.0.orig/gcc/config.in
+-+++ gcc-4.6.0/gcc/config.in
++--- gcc-4_6-branch.orig/gcc/config.in	2012-03-03 01:03:17.000000000 -0800
+++++ gcc-4_6-branch/gcc/config.in	2012-03-04 09:24:54.410624483 -0800
+ @@ -144,6 +144,12 @@
+  #endif
+  
+@@ -59,11 +59,11 @@ Index: gcc-4.6.0/gcc/config.in
+  /* Define if you want all operations on RTL (the basic data structure of the
+     optimizer and back end) to be checked for dynamic type safety at runtime.
+     This is quite expensive. */
+-Index: gcc-4.6.0/gcc/configure.ac
++Index: gcc-4_6-branch/gcc/configure.ac
+ ===================================================================
+---- gcc-4.6.0.orig/gcc/configure.ac
+-+++ gcc-4.6.0/gcc/configure.ac
+-@@ -4694,6 +4694,16 @@ else
++--- gcc-4_6-branch.orig/gcc/configure.ac	2012-03-04 09:22:07.000000000 -0800
+++++ gcc-4_6-branch/gcc/configure.ac	2012-03-04 09:24:54.410624483 -0800
++@@ -4692,6 +4692,16 @@
+  fi)
+  AC_SUBST(slibdir)
+  
+@@ -80,11 +80,11 @@ Index: gcc-4.6.0/gcc/configure.ac
+  # Substitute configuration variables
+  AC_SUBST(subdirs)
+  AC_SUBST(srcdir)
+-Index: gcc-4.6.0/gcc/doc/invoke.texi
++Index: gcc-4_6-branch/gcc/doc/invoke.texi
+ ===================================================================
+---- gcc-4.6.0.orig/gcc/doc/invoke.texi
+-+++ gcc-4.6.0/gcc/doc/invoke.texi
+-@@ -257,6 +257,7 @@ Objective-C and Objective-C++ Dialects}.
++--- gcc-4_6-branch.orig/gcc/doc/invoke.texi	2012-03-03 00:46:39.000000000 -0800
+++++ gcc-4_6-branch/gcc/doc/invoke.texi	2012-03-04 09:24:54.414624482 -0800
++@@ -257,6 +257,7 @@
+  -Woverlength-strings  -Wpacked  -Wpacked-bitfield-compat  -Wpadded @gol
+  -Wparentheses  -Wpedantic-ms-format -Wno-pedantic-ms-format @gol
+  -Wpointer-arith  -Wno-pointer-to-int-cast @gol
+@@ -92,7 +92,7 @@ Index: gcc-4.6.0/gcc/doc/invoke.texi
+  -Wredundant-decls @gol
+  -Wreturn-type  -Wsequence-point  -Wshadow @gol
+  -Wsign-compare  -Wsign-conversion  -Wstack-protector @gol
+-@@ -3773,6 +3774,14 @@ headers---for that, @option{-Wunknown-pr
++@@ -3782,6 +3783,14 @@
+   for most targets, it is made up of code and thus requires the stack
+   to be made executable in order for the program to work properly.
+  
+@@ -107,11 +107,11 @@ Index: gcc-4.6.0/gcc/doc/invoke.texi
+  @item -Wfloat-equal
+  @opindex Wfloat-equal
+  @opindex Wno-float-equal
+-Index: gcc-4.6.0/gcc/gcc.c
++Index: gcc-4_6-branch/gcc/gcc.c
+ ===================================================================
+---- gcc-4.6.0.orig/gcc/gcc.c
+-+++ gcc-4.6.0/gcc/gcc.c
+-@@ -659,6 +659,8 @@ proper position among the other output f
++--- gcc-4_6-branch.orig/gcc/gcc.c	2012-03-03 01:03:17.000000000 -0800
+++++ gcc-4_6-branch/gcc/gcc.c	2012-03-04 09:24:54.418624482 -0800
++@@ -659,6 +659,8 @@
+      %{flto} %{flto=*} %l " LINK_PIE_SPEC \
+     "%X %{o*} %{e*} %{N} %{n} %{r}\
+      %{s} %{t} %{u*} %{z} %{Z} %{!nostdlib:%{!nostartfiles:%S}}\
+@@ -120,11 +120,11 @@ Index: gcc-4.6.0/gcc/gcc.c
+      %{static:} %{L*} %(mfwrap) %(link_libgcc) %o\
+      %{fopenmp|ftree-parallelize-loops=*:%:include(libgomp.spec)%(link_gomp)}\
+      %(mflib) " STACK_SPLIT_SPEC "\
+-Index: gcc-4.6.0/gcc/incpath.c
++Index: gcc-4_6-branch/gcc/incpath.c
+ ===================================================================
+---- gcc-4.6.0.orig/gcc/incpath.c
+-+++ gcc-4.6.0/gcc/incpath.c
+-@@ -353,6 +353,24 @@ merge_include_chains (const char *sysroo
++--- gcc-4_6-branch.orig/gcc/incpath.c	2012-03-03 01:03:17.000000000 -0800
+++++ gcc-4_6-branch/gcc/incpath.c	2012-03-04 09:24:54.418624482 -0800
++@@ -353,6 +353,24 @@
+  	}
+        fprintf (stderr, _("End of search list.\n"));
+      }
+@@ -149,11 +149,11 @@ Index: gcc-4.6.0/gcc/incpath.c
+  }
+  
+  /* Use given -I paths for #include "..." but not #include <...>, and
+-Index: gcc-4.6.0/gcc/Makefile.in
++Index: gcc-4_6-branch/gcc/Makefile.in
+ ===================================================================
+---- gcc-4.6.0.orig/gcc/Makefile.in
+-+++ gcc-4.6.0/gcc/Makefile.in
+-@@ -2179,7 +2179,7 @@ attribs.o : attribs.c $(CONFIG_H) $(SYST
++--- gcc-4_6-branch.orig/gcc/Makefile.in	2012-03-04 09:22:05.000000000 -0800
+++++ gcc-4_6-branch/gcc/Makefile.in	2012-03-04 09:24:54.418624482 -0800
++@@ -2179,7 +2179,7 @@
+  
+  incpath.o: incpath.c incpath.h $(CONFIG_H) $(SYSTEM_H) $(CPPLIB_H) \
+  		intl.h prefix.h coretypes.h $(TM_H) cppdefault.h $(TARGET_H) \
+@@ -162,11 +162,11 @@ Index: gcc-4.6.0/gcc/Makefile.in
+  
+  prefix.o: prefix.c $(CONFIG_H) $(SYSTEM_H) coretypes.h $(TM_H) prefix.h \
+  	Makefile $(BASEVER)
+-Index: gcc-4.6.0/gcc/configure
++Index: gcc-4_6-branch/gcc/configure
+ ===================================================================
+---- gcc-4.6.0.orig/gcc/configure
+-+++ gcc-4.6.0/gcc/configure
+-@@ -912,6 +912,7 @@ with_system_zlib
++--- gcc-4_6-branch.orig/gcc/configure	2012-03-04 09:22:07.000000000 -0800
+++++ gcc-4_6-branch/gcc/configure	2012-03-04 09:25:31.502626277 -0800
++@@ -912,6 +912,7 @@
+  enable_maintainer_mode
+  enable_version_specific_runtime_libs
+  with_slibdir
+@@ -174,7 +174,7 @@ Index: gcc-4.6.0/gcc/configure
+  enable_plugin
+  enable_libquadmath_support
+  '
+-@@ -1623,6 +1624,8 @@ Optional Features:
++@@ -1623,6 +1624,8 @@
+    --enable-version-specific-runtime-libs
+                            specify that runtime libraries should be
+                            installed in a compiler-specific directory
+@@ -183,25 +183,25 @@ Index: gcc-4.6.0/gcc/configure
+    --enable-plugin         enable plugin support
+    --disable-libquadmath-support
+                            disable libquadmath support for Fortran
+-@@ -17508,7 +17511,7 @@ else
++@@ -17498,7 +17501,7 @@
+    lt_dlunknown=0; lt_dlno_uscore=1; lt_dlneed_uscore=2
+    lt_status=$lt_dlunknown
+    cat > conftest.$ac_ext <<_LT_EOF
+--#line 17511 "configure"
+-+#line 17514 "configure"
++-#line 17501 "configure"
+++#line 17504 "configure"
+  #include "confdefs.h"
+  
+  #if HAVE_DLFCN_H
+-@@ -17614,7 +17617,7 @@ else
++@@ -17604,7 +17607,7 @@
+    lt_dlunknown=0; lt_dlno_uscore=1; lt_dlneed_uscore=2
+    lt_status=$lt_dlunknown
+    cat > conftest.$ac_ext <<_LT_EOF
+--#line 17617 "configure"
+-+#line 17620 "configure"
++-#line 17607 "configure"
+++#line 17610 "configure"
+  #include "confdefs.h"
+  
+  #if HAVE_DLFCN_H
+-@@ -26127,6 +26130,19 @@ fi
++@@ -26125,6 +26128,19 @@
+  
+  
+  
+diff --git a/meta/recipes-devtools/gcc/gcc-4.6/gcc-with-linker-hash-style.patch b/meta/recipes-devtools/gcc/gcc-4.6/gcc-with-linker-hash-style.patch
+index 4fa3cbe..94b61cd 100644
+--- a/meta/recipes-devtools/gcc/gcc-4.6/gcc-with-linker-hash-style.patch
++++ b/meta/recipes-devtools/gcc/gcc-4.6/gcc-with-linker-hash-style.patch
+@@ -21,8 +21,8 @@ Date:   Wed May 11 18:28:14 2011 +0000
+ 
+ Index: gcc-4_6-branch/gcc/config.in
+ ===================================================================
+---- gcc-4_6-branch.orig/gcc/config.in	2011-09-09 08:26:10.000000000 -0700
+-+++ gcc-4_6-branch/gcc/config.in	2011-09-09 08:27:14.142981164 -0700
++--- gcc-4_6-branch.orig/gcc/config.in	2012-03-04 09:30:04.000000000 -0800
+++++ gcc-4_6-branch/gcc/config.in	2012-03-04 09:32:30.878646575 -0800
+ @@ -1583,6 +1583,12 @@
+  #endif
+  
+@@ -38,8 +38,8 @@ Index: gcc-4_6-branch/gcc/config.in
+  #ifndef USED_FOR_TARGET
+ Index: gcc-4_6-branch/gcc/configure
+ ===================================================================
+---- gcc-4_6-branch.orig/gcc/configure	2011-09-09 08:26:15.000000000 -0700
+-+++ gcc-4_6-branch/gcc/configure	2011-09-09 08:27:42.793023181 -0700
++--- gcc-4_6-branch.orig/gcc/configure	2012-03-04 09:30:05.000000000 -0800
+++++ gcc-4_6-branch/gcc/configure	2012-03-04 09:32:39.918647011 -0800
+ @@ -915,6 +915,7 @@
+  enable_poison_system_directories
+  enable_plugin
+@@ -57,25 +57,25 @@ Index: gcc-4_6-branch/gcc/configure
+  
+  Some influential environment variables:
+    CC          C compiler command
+-@@ -17511,7 +17514,7 @@
++@@ -17501,7 +17504,7 @@
+    lt_dlunknown=0; lt_dlno_uscore=1; lt_dlneed_uscore=2
+    lt_status=$lt_dlunknown
+    cat > conftest.$ac_ext <<_LT_EOF
+--#line 17514 "configure"
+-+#line 17517 "configure"
++-#line 17504 "configure"
+++#line 17507 "configure"
+  #include "confdefs.h"
+  
+  #if HAVE_DLFCN_H
+-@@ -17617,7 +17620,7 @@
++@@ -17607,7 +17610,7 @@
+    lt_dlunknown=0; lt_dlno_uscore=1; lt_dlneed_uscore=2
+    lt_status=$lt_dlunknown
+    cat > conftest.$ac_ext <<_LT_EOF
+--#line 17620 "configure"
+-+#line 17623 "configure"
++-#line 17610 "configure"
+++#line 17613 "configure"
+  #include "confdefs.h"
+  
+  #if HAVE_DLFCN_H
+-@@ -26434,6 +26437,36 @@
++@@ -26432,6 +26435,36 @@
+  fi
+  
+  
+@@ -114,9 +114,9 @@ Index: gcc-4_6-branch/gcc/configure
+  
+ Index: gcc-4_6-branch/gcc/configure.ac
+ ===================================================================
+---- gcc-4_6-branch.orig/gcc/configure.ac	2011-09-09 08:26:15.000000000 -0700
+-+++ gcc-4_6-branch/gcc/configure.ac	2011-09-09 08:27:14.162981193 -0700
+-@@ -4907,6 +4907,30 @@
++--- gcc-4_6-branch.orig/gcc/configure.ac	2012-03-04 09:30:05.000000000 -0800
+++++ gcc-4_6-branch/gcc/configure.ac	2012-03-04 09:32:30.890646574 -0800
++@@ -4905,6 +4905,30 @@
+  fi
+  
+  
+@@ -149,8 +149,8 @@ Index: gcc-4_6-branch/gcc/configure.ac
+  
+ Index: gcc-4_6-branch/gcc/doc/install.texi
+ ===================================================================
+---- gcc-4_6-branch.orig/gcc/doc/install.texi	2011-06-24 08:13:00.000000000 -0700
+-+++ gcc-4_6-branch/gcc/doc/install.texi	2011-09-09 08:27:14.172981215 -0700
++--- gcc-4_6-branch.orig/gcc/doc/install.texi	2012-03-03 00:46:39.000000000 -0800
+++++ gcc-4_6-branch/gcc/doc/install.texi	2012-03-04 09:32:30.894646574 -0800
+ @@ -1665,6 +1665,11 @@
+  support @option{--build-id} option, a warning is issued and the
+  @option{--enable-linker-build-id} option is ignored.  The default is off.
+@@ -165,8 +165,8 @@ Index: gcc-4_6-branch/gcc/doc/install.texi
+  Tells GCC to use the gnu_unique_object relocation for C++ template
+ Index: gcc-4_6-branch/gcc/gcc.c
+ ===================================================================
+---- gcc-4_6-branch.orig/gcc/gcc.c	2011-09-09 08:26:14.000000000 -0700
+-+++ gcc-4_6-branch/gcc/gcc.c	2011-09-09 08:27:14.172981215 -0700
++--- gcc-4_6-branch.orig/gcc/gcc.c	2012-03-04 09:30:04.000000000 -0800
+++++ gcc-4_6-branch/gcc/gcc.c	2012-03-04 09:32:30.894646574 -0800
+ @@ -1427,7 +1427,8 @@
+    }
+  #endif
+diff --git a/meta/recipes-devtools/gcc/gcc-4.6/volatile_access_backport.patch b/meta/recipes-devtools/gcc/gcc-4.6/volatile_access_backport.patch
+deleted file mode 100644
+index 9c86817..0000000
+--- a/meta/recipes-devtools/gcc/gcc-4.6/volatile_access_backport.patch
++++ /dev/null
+@@ -1,28 +0,0 @@
+-Pulled from http://gcc.gnu.org/ml/gcc-patches/2011-03/msg01477.html
+-
+-Upstream-Status: Backport
+-
+-Signed-off-by: Saul Wold <sgw@linux.intel.com>
+-
+-    gcc/
+-    * expr.c (expand_expr_real_1): Only use BLKmode for volatile
+-    accesses which are not naturally aligned.
+-
+-Index: gcc-4.6.0/gcc/expr.c
+-===================================================================
+---- gcc-4.6.0.orig/gcc/expr.c	2011-06-01 15:28:55.000000000 -0700
+-+++ gcc-4.6.0/gcc/expr.c	2011-06-01 15:41:17.154848182 -0700
+-@@ -9178,8 +9178,11 @@
+- 		&& modifier != EXPAND_CONST_ADDRESS
+- 		&& modifier != EXPAND_INITIALIZER)
+- 	    /* If the field is volatile, we always want an aligned
+--	       access.  */
+--	    || (volatilep && flag_strict_volatile_bitfields > 0)
+-+	       access.  Only do this if the access is not already naturally
+-+	       aligned, otherwise "normal" (non-bitfield) volatile fields
+-+	       become non-addressable.  */
+-+	    || (volatilep && flag_strict_volatile_bitfields > 0
+-+		&& (bitpos % GET_MODE_ALIGNMENT (mode) != 0))
+- 	    /* If the field isn't aligned enough to fetch as a memref,
+- 	       fetch it as a bit field.  */
+- 	    || (mode1 != BLKmode
 -- 
 1.7.7.6
 
