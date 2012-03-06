@@ -1,20 +1,24 @@
 Received: from mga14.intel.com ([143.182.124.37])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <edwin.zhai@intel.com>) id 1S4oru-0004Np-Bp
+	(envelope-from <edwin.zhai@intel.com>) id 1S4orv-0004Np-4x
 	for openembedded-core@lists.openembedded.org;
-	Tue, 06 Mar 2012 08:31:34 +0100
+	Tue, 06 Mar 2012 08:31:35 +0100
 Received: from azsmga001.ch.intel.com ([10.2.17.19])
 	by azsmga102.ch.intel.com with ESMTP; 05 Mar 2012 23:22:58 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="115184978"
+X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="115184979"
 Received: from yocto-build3.sh.intel.com ([10.239.48.15])
-	by azsmga001.ch.intel.com with ESMTP; 05 Mar 2012 23:22:57 -0800
+	by azsmga001.ch.intel.com with ESMTP; 05 Mar 2012 23:22:58 -0800
 From: edwin.zhai@intel.com
 To: openembedded-core@lists.openembedded.org
-Date: Tue,  6 Mar 2012 15:23:09 +0800
-Message-Id: <cover.1331017518.git.edwin.zhai@intel.com>
+Date: Tue,  6 Mar 2012 15:23:10 +0800
+Message-Id: <917dce4e894b696e8cbaa91a4d07a7cd3d001f2d.1331017518.git.edwin.zhai@intel.com>
 X-Mailer: git-send-email 1.7.1
-Subject: [PATCH 0/4] Fixes for multilib and VTE, Mar 6, 2012
+In-Reply-To: <cover.1331017518.git.edwin.zhai@intel.com>
+References: <cover.1331017518.git.edwin.zhai@intel.com>
+In-Reply-To: <cover.1331017518.git.edwin.zhai@intel.com>
+References: <cover.1331017518.git.edwin.zhai@intel.com>
+Subject: [PATCH 1/4] vte: fix scroll issue
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -29,43 +33,166 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 06 Mar 2012 07:31:34 -0000
+X-List-Received-Date: Tue, 06 Mar 2012 07:31:35 -0000
 
 From: Zhai Edwin <edwin.zhai@intel.com>
 
-RP,
-2 fixes for multilib.
-1 for VTE, which just revert a simple commit after last VTE upgrade. Although
-doesn't hit the root cause, it fix the end user experience issue and is more
-light-weight than reverting whole VTE upgrade. We can revisit it for root cause
-in future.
+On qemu x86-64, scrollbar in vte got broken with one commit to change the way
+of emiting "changed" signal. This patch revert it as work around.
 
-Thanks,
-edwin
+[YOCTO #1906] got fixed.
 
-The following changes since commit a8dc76ee69cfe1ffe846c07a510e3a562a5b1a7f:
-
-  base.bbclass: Fix PACKAGECONFIG handling when no flags are set (2012-03-05 13:04:11 -0800)
-
-are available in the git repository at:
-  git://git.pokylinux.org/poky-contrib gzhai/master2
-  http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=gzhai/master2
-
-Dongxiao Xu (1):
-  multilib: extend all recipes in multilib.conf
-
-Zhai Edwin (3):
-  vte: fix scroll issue
-  self-hosted: Fix multiple libx11 error
-  shadow-sysroot: Fix for multilib
-
- meta/classes/useradd.bbclass                     |    2 +-
- meta/conf/multilib.conf                          |  313 ++++++++++++++++++++--
- meta/recipes-core/tasks/task-self-hosted.bb      |    4 +-
+Signed-off-by: Zhai Edwin <edwin.zhai@intel.com>
+---
  meta/recipes-support/vte/vte.inc                 |    3 +-
- meta/recipes-support/vte/vte/scrollbar_fix.patch |  122 +++++++++
- 5 files changed, 424 insertions(+), 20 deletions(-)
+ meta/recipes-support/vte/vte/scrollbar_fix.patch |  122 ++++++++++++++++++++++
+ 2 files changed, 124 insertions(+), 1 deletions(-)
  create mode 100644 meta/recipes-support/vte/vte/scrollbar_fix.patch
+
+diff --git a/meta/recipes-support/vte/vte.inc b/meta/recipes-support/vte/vte.inc
+index 7971673..5e05608 100644
+--- a/meta/recipes-support/vte/vte.inc
++++ b/meta/recipes-support/vte/vte.inc
+@@ -6,7 +6,8 @@ RDEPENDS_libvte = "vte-termcap"
+ 
+ inherit gnome
+ 
+-SRC_URI += "file://introspection.patch"
++SRC_URI += "file://introspection.patch\ 
++            file://scrollbar_fix.patch"
+ 
+ EXTRA_OECONF = "--disable-gtk-doc --disable-python --disable-introspection"
+ 
+diff --git a/meta/recipes-support/vte/vte/scrollbar_fix.patch b/meta/recipes-support/vte/vte/scrollbar_fix.patch
+new file mode 100644
+index 0000000..707377a
+--- /dev/null
++++ b/meta/recipes-support/vte/vte/scrollbar_fix.patch
+@@ -0,0 +1,122 @@
++On qemu x86-64, matchbox-terminal has broken scrollbar, because of following
++commit in vte. This patch revert it as work around.
++
++Signed-off-by: Zhai Edwin <edwin.zhai@intel.com>
++
++Upstream-Status: Inappropriate [workaround]
++
++commit 6eadb8494797e44910b86b5e101823cf527c04e1
++Author: Kristian Høgsberg <krh@bitplanet.net>
++Date:   Thu Jul 15 09:07:51 2010 -0400
++
++    Use accessors for setting adjustment
++    
++    We use g_object_freeze_notify() to emit the same amount of ::changed
++    signals.
++
++Index: vte-0.28.2/src/vte.c
++===================================================================
++--- vte-0.28.2.orig/src/vte.c	2011-08-29 05:31:45.000000000 +0800
+++++ vte-0.28.2/src/vte.c	2012-02-21 11:03:22.000000000 +0800
++@@ -2018,15 +2018,13 @@
++ 		glong v;
++ 		gdouble current;
++ 
++-		g_object_freeze_notify (G_OBJECT (terminal->adjustment));
++-
++ 		v = _vte_ring_delta (screen->row_data);
++ 		current = gtk_adjustment_get_lower(terminal->adjustment);
++ 		if (current != v) {
++ 			_vte_debug_print(VTE_DEBUG_ADJ,
++ 					"Changing lower bound from %.0f to %ld\n",
++ 					 current, v);
++-			gtk_adjustment_set_lower(terminal->adjustment, v);
+++			terminal->adjustment->lower = v;
++ 			changed = TRUE;
++ 		}
++ 
++@@ -2039,19 +2037,19 @@
++ 			_vte_debug_print(VTE_DEBUG_ADJ,
++ 					"Changing upper bound from %.0f to %ld\n",
++ 					 current, v);
++-			gtk_adjustment_set_upper(terminal->adjustment, v);
+++			terminal->adjustment->upper = v;
++ 			changed = TRUE;
++ 		}
++ 
++-		g_object_thaw_notify (G_OBJECT (terminal->adjustment));
++-
++-		if (changed)
+++		if (changed) {
++ 			_vte_debug_print(VTE_DEBUG_SIGNALS,
++ 					"Emitting adjustment_changed.\n");
+++			gtk_adjustment_changed(terminal->adjustment);
+++		}
++ 		terminal->pvt->adjustment_changed_pending = FALSE;
++ 	}
++ 	if (terminal->pvt->adjustment_value_changed_pending) {
++-		glong v, delta;
+++		glong v;
++ 		_vte_debug_print(VTE_DEBUG_SIGNALS,
++ 				"Emitting adjustment_value_changed.\n");
++ 		terminal->pvt->adjustment_value_changed_pending = FALSE;
++@@ -2062,9 +2060,9 @@
++ 			 * via the adjustment - e.g. user interaction with the
++ 			 * scrollbar
++ 			 */
++-			delta = terminal->pvt->screen->scroll_delta;
+++			terminal->adjustment->value = terminal->pvt->screen->scroll_delta;
++ 			terminal->pvt->screen->scroll_delta = v;
++-			gtk_adjustment_set_value(terminal->adjustment, delta);
+++			gtk_adjustment_value_changed(terminal->adjustment);
++ 		}
++ 	}
++ }
++@@ -2141,15 +2139,13 @@
++ 
++ 	_vte_terminal_adjust_adjustments(terminal);
++ 
++-        g_object_freeze_notify(G_OBJECT(terminal->adjustment));
++-
++ 	/* The step increment should always be one. */
++ 	v = gtk_adjustment_get_step_increment(terminal->adjustment);
++ 	if (v != 1) {
++ 		_vte_debug_print(VTE_DEBUG_ADJ,
++ 				"Changing step increment from %.0lf to %ld\n",
++ 				v, terminal->row_count);
++-		gtk_adjustment_set_step_increment(terminal->adjustment, 1);
+++		terminal->adjustment->step_increment = 1;
++ 		changed = TRUE;
++ 	}
++ 
++@@ -2160,8 +2156,7 @@
++ 		_vte_debug_print(VTE_DEBUG_ADJ,
++ 				"Changing page size from %.0f to %ld\n",
++ 				 v, terminal->row_count);
++-		gtk_adjustment_set_page_size(terminal->adjustment,
++-					     terminal->row_count);
+++		terminal->adjustment->page_size = terminal->row_count;
++ 		changed = TRUE;
++ 	}
++ 
++@@ -2173,16 +2168,15 @@
++ 				"Changing page increment from "
++ 				"%.0f to %ld\n",
++ 				v, terminal->row_count);
++-		gtk_adjustment_set_page_increment(terminal->adjustment,
++-						  terminal->row_count);
+++		terminal->adjustment->page_increment = terminal->row_count;
++ 		changed = TRUE;
++ 	}
++ 
++-	g_object_thaw_notify(G_OBJECT(terminal->adjustment));
++-
++-	if (changed)
+++	if (changed) {
++ 		_vte_debug_print(VTE_DEBUG_SIGNALS,
++ 				"Emitting adjustment_changed.\n");
+++		gtk_adjustment_changed(terminal->adjustment);
+++	}
++ }
++ 
++ /* Scroll a fixed number of lines up or down in the current screen. */
+-- 
+1.7.1
 
 
 
