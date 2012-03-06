@@ -1,26 +1,43 @@
-Received: from mail.windriver.com ([147.11.1.11])
+Received: from mail-yx0-f175.google.com ([209.85.213.175])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <Bruce.Ashfield@windriver.com>) id 1S4wO2-0001g9-9F
+	(envelope-from <jefflance01@gmail.com>) id 1S4x4Z-0002XJ-1x
 	for openembedded-core@lists.openembedded.org;
-	Tue, 06 Mar 2012 16:33:14 +0100
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca [147.11.189.40])
-	by mail.windriver.com (8.14.3/8.14.3) with ESMTP id q26FOZCw017900
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
-	Tue, 6 Mar 2012 07:24:35 -0800 (PST)
-Received: from yow-bashfiel-l1.wrs.com (147.11.118.51) by
-	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server id
-	14.1.255.0; Tue, 6 Mar 2012 07:24:35 -0800
-From: Bruce Ashfield <bruce.ashfield@windriver.com>
-To: <richard.purdie@linuxfoundation.org>
-Date: Tue, 6 Mar 2012 10:24:32 -0500
-Message-ID: <2fb5cfc0812dcf851bcc9ba20f5ecc0bca99c920.1331047183.git.bruce.ashfield@windriver.com>
-X-Mailer: git-send-email 1.7.4.1
-In-Reply-To: <cover.1331047183.git.bruce.ashfield@windriver.com>
-References: <cover.1331047183.git.bruce.ashfield@windriver.com>
-MIME-Version: 1.0
-Cc: dvhart@linux.intel.com, openembedded-core@lists.openembedded.org,
-	saul.wold@intel.com
-Subject: [PATCH 1/2] linux-yocto/meta: fix incorrect config references
+	Tue, 06 Mar 2012 17:17:11 +0100
+Received: by yenm3 with SMTP id m3so2235893yen.6
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 06 Mar 2012 08:08:34 -0800 (PST)
+Received-SPF: pass (google.com: domain of jefflance01@gmail.com designates
+	10.236.136.99 as permitted sender) client-ip=10.236.136.99; 
+Authentication-Results: mr.google.com;
+	spf=pass (google.com: domain of jefflance01@gmail.com
+	designates 10.236.136.99 as permitted sender)
+	smtp.mail=jefflance01@gmail.com;
+	dkim=pass header.i=jefflance01@gmail.com
+Received: from mr.google.com ([10.236.136.99])
+	by 10.236.136.99 with SMTP id v63mr34375086yhi.46.1331050114834
+	(num_hops = 1); Tue, 06 Mar 2012 08:08:34 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=from:to:cc:subject:date:message-id:x-mailer;
+	bh=qez97Vw6lM6IRF8C347wfseFGLYS+lmkk4TTXZZvgkU=;
+	b=QHU0ZdsYS+S5KblUxl6DbzxeLQDevcYEMgvBanvfW8hB89zAGu7F4v018gQtuHlCZf
+	DI0XVdimZjPmB1Pg7/6gFO7KwcMLxztOi4t88apsNTdqNZ7rd9nK3meNHyGu4cWHzxux
+	tMn1/UH69R/LOgiy5sq3IJSYd/lmRgLYg+XaqewTPM9zeE+e+iaZOZ1XUORGRaKTuvE5
+	Kt1EPY67COPAKPBLgCqKgn8K/vsg4zrxTqTTTNs7UEsdb6vRcEwU4Nr6H7xfyeE91MlU
+	yLxsQHyE1sBhJ+dwLKsYW6f3/x5RRrtEaYJzVa5K1B42F+orTWsW/u8Fbpqxy0ngX9uM
+	BVxg==
+Received: by 10.236.136.99 with SMTP id v63mr27207090yhi.46.1331050114560;
+	Tue, 06 Mar 2012 08:08:34 -0800 (PST)
+Received: from localhost.localdomain (dragon.ti.com. [192.94.94.33])
+	by mx.google.com with ESMTPS id u20sm12847595yhi.10.2012.03.06.08.08.31
+	(version=TLSv1/SSLv3 cipher=OTHER);
+	Tue, 06 Mar 2012 08:08:32 -0800 (PST)
+From: Jeff Lance <jefflance01@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Date: Tue,  6 Mar 2012 10:08:28 -0600
+Message-Id: <1331050108-21460-1-git-send-email-j-lance1@ti.com>
+X-Mailer: git-send-email 1.7.0.4
+Cc: Jeff Lance <j-lance1@ti.com>
+Subject: [PATCH] trace-cmd: modifying License information
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -35,51 +52,38 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 06 Mar 2012 15:33:14 -0000
-Content-Type: text/plain
+X-List-Received-Date: Tue, 06 Mar 2012 16:17:11 -0000
 
-Updating the meta SRCREV to pickup the following fixes:
+* Adding LGPLv2.1 to GPLv2 to create a dual license to cover the libraries.
+* Bump up PR
 
-  a9ffedb meta/fri2/sys940x: fix incorrect cfg includes
-  3d1a678 meta/sys940x: fix incorrect emgd branch merge
-
-During the merge of the 3.0 BSPs forward to 3.2, a few moved config
-fragments were missed.
-
-Signed-off-by: Bruce Ashfield <bruce.ashfield@windriver.com>
+Signed-off-by: Jeff Lance <j-lance1@ti.com>
 ---
- meta/recipes-kernel/linux/linux-yocto-rt_3.2.bb |    2 +-
- meta/recipes-kernel/linux/linux-yocto_3.2.bb    |    2 +-
- 2 files changed, 2 insertions(+), 2 deletions(-)
+ meta/recipes-kernel/trace-cmd/trace-cmd_1.2.bb |    8 +++++---
+ 1 files changed, 5 insertions(+), 3 deletions(-)
 
-diff --git a/meta/recipes-kernel/linux/linux-yocto-rt_3.2.bb b/meta/recipes-kernel/linux/linux-yocto-rt_3.2.bb
-index efb1bc9..872289f 100644
---- a/meta/recipes-kernel/linux/linux-yocto-rt_3.2.bb
-+++ b/meta/recipes-kernel/linux/linux-yocto-rt_3.2.bb
-@@ -16,7 +16,7 @@ LINUX_KERNEL_TYPE = "preempt-rt"
+diff --git a/meta/recipes-kernel/trace-cmd/trace-cmd_1.2.bb b/meta/recipes-kernel/trace-cmd/trace-cmd_1.2.bb
+index d40dc6e..007cad2 100644
+--- a/meta/recipes-kernel/trace-cmd/trace-cmd_1.2.bb
++++ b/meta/recipes-kernel/trace-cmd/trace-cmd_1.2.bb
+@@ -1,10 +1,12 @@
+ DESCRIPTION = "User interface to Ftrace"
+-LICENSE = "GPLv2"
++LICENSE = "LGPLv2.1 GPLv2"
+ LIC_FILES_CHKSUM = "file://COPYING;md5=751419260aa954499f7abaabaa882bbe \
+-                    file://trace-cmd.c;beginline=6;endline=8;md5=2c22c965a649ddd7973d7913c5634a5e"
++                    file://trace-cmd.c;beginline=6;endline=8;md5=2c22c965a649ddd7973d7913c5634a5e \
++                    file://COPYING.LIB;md5=bbb461211a33b134d42ed5ee802b37ff \
++                    file://trace-input.c;beginline=5;endine=8;md5=c9c405aaf5cfc09582ec83cf6e83a020"
  
- SRCREV_machine ?= "3652b606f1ab7769a7ecc86c70d22db4ef99fb2a"
- SRCREV_machine_qemuppc ?= "0c8f5214bc15699b41369751cdecea45f717c79c"
--SRCREV_meta ?= "fa83c7b0b47d1aa3e25594ddbcd125a1108d3aaa"
-+SRCREV_meta ?= "a9ffedb3d7ed7a1da79d8b46b36518865f7ae4d0"
+ SRCREV = "7055ffd37beeb44714e86a4abc703f7e175a0db5"
+-PR = "r1"
++PR = "r2"
+ PV = "1.2+git${SRCPV}"
  
- PR = "r1"
- PV = "${LINUX_VERSION}+git${SRCPV}"
-diff --git a/meta/recipes-kernel/linux/linux-yocto_3.2.bb b/meta/recipes-kernel/linux/linux-yocto_3.2.bb
-index 2d2542a..6da16c6 100644
---- a/meta/recipes-kernel/linux/linux-yocto_3.2.bb
-+++ b/meta/recipes-kernel/linux/linux-yocto_3.2.bb
-@@ -23,7 +23,7 @@ SRCREV_machine_qemuppc ?= "74364f1062a219eb242d7cb300a404516c297601"
- SRCREV_machine_qemux86 ?= "ea0a62d6821aede782c2b9457639f1ca7f2ddc07"
- SRCREV_machine_qemux86-64 ?= "626165edf65281d9b933a6129e935c7a73ab63a7"
- SRCREV_machine ?= "6f164ae4ef5aeec2bef40a1b936ac1f9b9db46ba"
--SRCREV_meta ?= "fa83c7b0b47d1aa3e25594ddbcd125a1108d3aaa"
-+SRCREV_meta ?= "a9ffedb3d7ed7a1da79d8b46b36518865f7ae4d0"
- 
- PR = "r1"
- PV = "${LINUX_VERSION}+git${SRCPV}"
+ inherit pkgconfig
 -- 
-1.7.4.1
+1.7.0.4
 
 
 
