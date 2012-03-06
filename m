@@ -1,23 +1,47 @@
-Received: from mail.gw90.de ([188.40.100.199])
+Received: from mail-we0-f175.google.com ([74.125.82.175])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <paulepanter@users.sourceforge.net>)
-	id 1S4tKD-0004JY-Uj for openembedded-core@lists.openembedded.org;
-	Tue, 06 Mar 2012 13:17:05 +0100
-Received: from g225138053.adsl.alicedsl.de ([92.225.138.53]
-	helo=[192.168.178.43])
-	by mail.gw90.de with esmtpsa (TLS1.0:RSA_AES_256_CBC_SHA1:32)
-	(Exim 4.69) (envelope-from <paulepanter@users.sourceforge.net>)
-	id 1S4tBz-00012z-NH for openembedded-core@lists.openembedded.org;
-	Tue, 06 Mar 2012 12:08:36 +0000
-Message-ID: <1331035711.6166.25.camel@mattotaupa>
-From: Paul Menzel <paulepanter@users.sourceforge.net>
-To: openembedded-core@lists.openembedded.org
-Date: Tue, 06 Mar 2012 13:08:31 +0100
-In-Reply-To: <1331035393-27558-1-git-send-email-koen@dominion.thruhere.net>
-References: <1331035393-27558-1-git-send-email-koen@dominion.thruhere.net>
-X-Mailer: Evolution 3.2.2-1 
-Mime-Version: 1.0
-Subject: Re: [PATCH] xz: split out liblzma as seperate packages
+	(envelope-from <koen@dominion.thruhere.net>) id 1S4tMv-0004ND-EB
+	for openembedded-core@lists.openembedded.org;
+	Tue, 06 Mar 2012 13:19:53 +0100
+Received: by wera1 with SMTP id a1so3151363wer.6
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 06 Mar 2012 04:11:18 -0800 (PST)
+Received-SPF: pass (google.com: domain of koen@dominion.thruhere.net
+	designates 10.216.135.169 as permitted sender)
+	client-ip=10.216.135.169; 
+Authentication-Results: mr.google.com; spf=pass (google.com: domain of
+	koen@dominion.thruhere.net designates 10.216.135.169 as
+	permitted sender) smtp.mail=koen@dominion.thruhere.net
+Received: from mr.google.com ([10.216.135.169])
+	by 10.216.135.169 with SMTP id u41mr8170518wei.13.1331035878035
+	(num_hops = 1); Tue, 06 Mar 2012 04:11:18 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=google.com; s=20120113;
+	h=from:content-type:content-transfer-encoding:subject:date:message-id
+	:to:mime-version:x-mailer:x-gm-message-state;
+	bh=khwNt0J+Vk/E+7FiD/AegolyBBFwRUNVbpjWOBmGeSU=;
+	b=S8VYi78W4qw3IndbBxuH6XkQ8qk52vslCkNM+1K6+wlMW3qFrX7XHu3rSJzcWFo0vQ
+	4C06uUYjqMERWN71cjxN344EuEZTi2154WXm6syCLRUywYd9Qx5nI1NjPovlRdpn6Z1x
+	cDSS3V6Vm4YkKTCowa4+NlXy/QinBVUBQyj5uEoEDEbklouhDSjZLW/BLjO/9VBhiBjN
+	Zs2XadtqpsD6BJj0hrSL79/T7CHfjOnj8Ij3qMjqTx7y6JkLqo2futm7evxtRinRJM93
+	fCgeUBWvW+YjDA/agi32Q9JGoxMVB2sW9sKzInMWLeX6skAxc0KofAHYQCecdC+bqYA+
+	fVrg==
+Received: by 10.216.135.169 with SMTP id u41mr6511348wei.13.1331035877933;
+	Tue, 06 Mar 2012 04:11:17 -0800 (PST)
+Received: from [172.20.0.96] (ip545070eb.adsl-surfen.hetnet.nl.
+	[84.80.112.235])
+	by mx.google.com with ESMTPS id fw5sm27766445wib.0.2012.03.06.04.11.16
+	(version=TLSv1/SSLv3 cipher=OTHER);
+	Tue, 06 Mar 2012 04:11:17 -0800 (PST)
+From: Koen Kooi <koen@dominion.thruhere.net>
+Date: Tue, 6 Mar 2012 13:11:15 +0100
+Message-Id: <DDCC2C87-F44F-4AA0-8854-E7376CF3AC72@dominion.thruhere.net>
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Mime-Version: 1.0 (Apple Message framework v1257)
+X-Mailer: Apple Mail (2.1257)
+X-Gm-Message-State: ALoCoQkUu9NkvUSfakk0bhFdwK118u7GSvv3xNDNpVL3uvOx1OXAcJlgm6z5SJKN5xfcn/o89RDZ
+Subject: [RFC] updating xz to 5.1.1alpha or git master
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -32,77 +56,57 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 06 Mar 2012 12:17:06 -0000
-X-Groupsio-MsgNum: 18435
-Content-Type: multipart/signed; micalg="pgp-sha1";
-	protocol="application/pgp-signature"; 
-	boundary="=-ECygp1p3IImzZuAZsuP1"
-
---=-ECygp1p3IImzZuAZsuP1
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Tue, 06 Mar 2012 12:19:53 -0000
+Content-Type: text/plain; charset=us-ascii
 Content-Transfer-Encoding: quoted-printable
 
-Dear Koen,
+Hi,
+
+Latetely I've been trying to optimize the time it takes to rebuild the =
+beaglebone factory image, which is delivered as a 4GiB SD card image =
+people can dd to their SD cards. I tried and failed to replace genext2fs =
+with mkfs.ext4 since uboot can only read from a ext2 -> tune2fs -> ext4 =
+partition, not from a mkfs.ext4'ed partition. So the next step was to =
+tackle the compression step.=20
+
+All tests done on a intel i7 with 16GiB  RAM
+
+Regular xz:
+
+$ time xz -k -e 4gb.img
+
+real	7m26.158s
+user	6m38.345s
+sys	0m2.076s
+
+$ du -hs *xz
+143M 4gb.img.xz
+
+With https://github.com/vasi/pixz:
+
+$ time pixz -t 4gb.img 4gb.img.xz
+real	2m9.997s
+user	9m41.085s
+sys	0m6.990s
+
+$ du -hs *xz
+151M 4gb.img.xz
+
+After posting those stats on G+ Brian Marete pointed me to the alpha =
+releases of xz that have pthread support:
+
+With xz git master and -T8:
+real	1m43.144s
+user	10m29.579s
+sys	0m5.456s
+
+Based on that I'd like to update xz(-native) to the alpha release, but =
+I'm not familiar enough with the xz project to say if that's a good idea =
+or not. So, any comments from xz users?
+
+regards,
+
+koen
 
 
-Am Dienstag, den 06.03.2012, 13:03 +0100 schrieb Koen Kooi:
 
-sep*a*rate in the commit summary.
-
-> As usual, this creates problems for upgrade paths, but splitting out the =
-lib is worth the short term hassle
-
-Is there some documentation what distros or users should do facing this
-hassle?
-
-> Signed-off-by: Koen Kooi <koen@dominion.thruhere.net>
-> ---
->  meta/recipes-extended/xz/xz_5.0.3.bb |    9 ++++++++-
->  1 files changed, 8 insertions(+), 1 deletions(-)
->=20
-> diff --git a/meta/recipes-extended/xz/xz_5.0.3.bb b/meta/recipes-extended=
-/xz/xz_5.0.3.bb
-> index bae71ec..e8f96b6 100644
-> --- a/meta/recipes-extended/xz/xz_5.0.3.bb
-> +++ b/meta/recipes-extended/xz/xz_5.0.3.bb
-> @@ -14,8 +14,15 @@ SRC_URI =3D "http://tukaani.org/xz/xz-${PV}.tar.gz"
->  SRC_URI[md5sum] =3D "fefe52f9ecd521de2a8ce38c21a27574"
->  SRC_URI[sha256sum] =3D "10eb4df72dffb2fb14c3d2d82b450e72282ffcb9ee3908a8=
-e5b392b8f09681bf"
-> =20
-> -PR =3D "r0"
-> +PR =3D "r1"
-> =20
->  inherit autotools gettext
-> =20
-> +PACKAGES =3D+ "liblzma liblzma-dev liblzma-staticdev liblzma-dbg"
-> +
-> +FILES_liblzma =3D "${libdir}/liblzma*${SOLIBS}"
-> +FILES_liblzma-dev =3D "${includedir}/lzma* ${libdir}/liblzma*${SOLIBSDEV=
-} ${libdir}/liblzma.la ${libdir}/pkgconfig/liblzma.pc"
-> +FILES_liblzma-staticdev =3D "${libdir}/liblzma.a"
-> +FILES_liblzma-dbg =3D "${libdir}/.debug/liblzma*"
-> +
->  BBCLASSEXTEND =3D "native"
-
-Reviewed-by: Paul Menzel <paulepanter@users.sourceforge.net>
-
-
-Thanks,
-
-Paul
-
---=-ECygp1p3IImzZuAZsuP1
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: This is a digitally signed message part
-Content-Transfer-Encoding: 7bit
-
------BEGIN PGP SIGNATURE-----
-Version: GnuPG v1.4.12 (GNU/Linux)
-
-iEYEABECAAYFAk9V/j8ACgkQPX1aK2wOHVhaFwCdFory7n9DtnqUxScjElCpmpSf
-5S4An3QR7aUK2uiESyUhlLRFU62GQTV8
-=n6vh
------END PGP SIGNATURE-----
-
---=-ECygp1p3IImzZuAZsuP1--
