@@ -1,24 +1,24 @@
 Received: from mga01.intel.com ([192.55.52.88])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <sgw@linux.intel.com>) id 1S4xvm-0003cc-Ks
+	(envelope-from <sgw@linux.intel.com>) id 1S4xvm-0003ce-LB
 	for openembedded-core@lists.openembedded.org;
 	Tue, 06 Mar 2012 18:12:10 +0100
 Received: from fmsmga001.fm.intel.com ([10.253.24.23])
 	by fmsmga101.fm.intel.com with ESMTP; 06 Mar 2012 09:03:31 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="125714844"
+X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="125714846"
 Received: from unknown (HELO swold-mobl.verilan.com) ([10.255.15.180])
 	by fmsmga001.fm.intel.com with ESMTP; 06 Mar 2012 09:03:31 -0800
 From: Saul Wold <sgw@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Tue,  6 Mar 2012 09:03:08 -0800
-Message-Id: <8718a9bcf466bd74339c8b96ea3ef0f5d9c83a30.1331053126.git.sgw@linux.intel.com>
+Date: Tue,  6 Mar 2012 09:03:09 -0800
+Message-Id: <c0b63ad0859c1c8870f7d21cc029ad75f52803ea.1331053126.git.sgw@linux.intel.com>
 X-Mailer: git-send-email 1.7.7.6
 In-Reply-To: <cover.1331053126.git.sgw@linux.intel.com>
 References: <cover.1331053126.git.sgw@linux.intel.com>
 In-Reply-To: <cover.1331053126.git.sgw@linux.intel.com>
 References: <cover.1331053126.git.sgw@linux.intel.com>
-Subject: [CONSOLIDATED PULL 05/20] linux-yocto: respect FILESPATH directories
+Subject: [CONSOLIDATED PULL 06/20] linux-yocto: use bareclone option
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -37,103 +37,123 @@ X-List-Received-Date: Tue, 06 Mar 2012 17:12:10 -0000
 
 From: Bruce Ashfield <bruce.ashfield@windriver.com>
 
-During the work to enhance the ability to specify out of tree kernel
-features, an assumption was made about PN being part of a patch
-path. This assumption is incorrect, since patches can be anywhere in
-the valid FILESPATH.
-
-To make locating the patches in WORKDIR simple, we can just query
-patch.bbclass and return both the absolute directory of the patch
-and the subdirectory as it was specified on the src_uri.
+Instead of specifying nocheckout=1, it provides a better workflow if
+the linux-yocto recipes use the new bareclone=1 option to get a mirrored
+copy of the source repository. This allows all local and remote branches
+to be available during the kernel build and development cycle.
 
 Signed-off-by: Bruce Ashfield <bruce.ashfield@windriver.com>
 ---
- meta/classes/kernel-yocto.bbclass |   30 ++++++++++++++++++++++++++----
- 1 files changed, 26 insertions(+), 4 deletions(-)
+ meta/recipes-kernel/linux/linux-yocto-rt_3.0.bb   |    4 ++--
+ meta/recipes-kernel/linux/linux-yocto-rt_3.2.bb   |    4 ++--
+ meta/recipes-kernel/linux/linux-yocto-tiny_3.0.bb |    4 ++--
+ meta/recipes-kernel/linux/linux-yocto_2.6.37.bb   |    4 ++--
+ meta/recipes-kernel/linux/linux-yocto_3.0.bb      |    4 ++--
+ meta/recipes-kernel/linux/linux-yocto_3.2.bb      |    4 ++--
+ 6 files changed, 12 insertions(+), 12 deletions(-)
 
-diff --git a/meta/classes/kernel-yocto.bbclass b/meta/classes/kernel-yocto.bbclass
-index aabca78..ce125b4 100644
---- a/meta/classes/kernel-yocto.bbclass
-+++ b/meta/classes/kernel-yocto.bbclass
-@@ -1,6 +1,8 @@
- S = "${WORKDIR}/linux"
+diff --git a/meta/recipes-kernel/linux/linux-yocto-rt_3.0.bb b/meta/recipes-kernel/linux/linux-yocto-rt_3.0.bb
+index 8090535..8120300 100644
+--- a/meta/recipes-kernel/linux/linux-yocto-rt_3.0.bb
++++ b/meta/recipes-kernel/linux/linux-yocto-rt_3.0.bb
+@@ -18,10 +18,10 @@ SRCREV_machine ?= "03705f7f066d83b4cd3a6088781d47e3b9e45b71"
+ SRCREV_machine_qemuppc ?= "c8b184e8171f6f5a8017be4c5bf1e7a38c3f3002"
+ SRCREV_meta ?= "d7b46785d6781e2c23d754f35f09bebd3b74b5bb"
+ 
+-PR = "r1"
++PR = "r2"
+ PV = "${LINUX_VERSION}+git${SRCPV}"
+ 
+-SRC_URI = "git://git.yoctoproject.org/linux-yocto-3.0.git;protocol=git;nocheckout=1;branch=${KBRANCH},meta;name=machine,meta"
++SRC_URI = "git://git.yoctoproject.org/linux-yocto-3.0.git;protocol=git;bareclone=1;branch=${KBRANCH},meta;name=machine,meta"
+ 
+ # Omit broken machines from COMPATIBLE_MACHINE
+ #   qemuppc hangs at boot
+diff --git a/meta/recipes-kernel/linux/linux-yocto-rt_3.2.bb b/meta/recipes-kernel/linux/linux-yocto-rt_3.2.bb
+index bbb227f..e5db5df 100644
+--- a/meta/recipes-kernel/linux/linux-yocto-rt_3.2.bb
++++ b/meta/recipes-kernel/linux/linux-yocto-rt_3.2.bb
+@@ -19,10 +19,10 @@ SRCREV_machine_qemuppc ?= "470deb222a704f84f3acf3a013a19d2da399d511"
+ SRCREV_meta ?= "4c648bbbc7d2204d1b24f444aebb10f91c4ecae3"
  
  
-+# returns local (absolute) path names for all valid patches in the
-+# src_uri
- def find_patches(d):
- 	patches=src_patches(d)
- 	patch_list=[]
-@@ -10,6 +12,7 @@ def find_patches(d):
+-PR = "r0"
++PR = "r1"
+ PV = "${LINUX_VERSION}+git${SRCPV}"
  
- 	return patch_list
+-SRC_URI = "git://git.yoctoproject.org/linux-yocto-3.2.git;protocol=git;nocheckout=1;branch=${KBRANCH},meta;name=machine,meta"
++SRC_URI = "git://git.yoctoproject.org/linux-yocto-3.2.git;protocol=git;bareclone=1;branch=${KBRANCH},meta;name=machine,meta"
  
-+# returns all the elements from the src uri that are .scc files
- def find_sccs(d):
- 	sources=src_patches(d, True)
- 	sources_list=[]
-@@ -20,6 +23,22 @@ def find_sccs(d):
+ # Omit broken machines from COMPATIBLE_MACHINE
+ #   qemuppc hangs at boot
+diff --git a/meta/recipes-kernel/linux/linux-yocto-tiny_3.0.bb b/meta/recipes-kernel/linux/linux-yocto-tiny_3.0.bb
+index 32d502f..61706ea 100644
+--- a/meta/recipes-kernel/linux/linux-yocto-tiny_3.0.bb
++++ b/meta/recipes-kernel/linux/linux-yocto-tiny_3.0.bb
+@@ -10,10 +10,10 @@ LINUX_VERSION ?= "3.0.22"
+ SRCREV_machine ?= "c578f3a1f357142a6e02a1df4ae9aa16f45094d6"
+ SRCREV_meta ?= "d7b46785d6781e2c23d754f35f09bebd3b74b5bb"
  
- 	return sources_list
+-PR = "r1"
++PR = "r2"
+ PV = "${LINUX_VERSION}+git${SRCPV}"
  
-+# this is different from find_patches, in that it returns a colon separated
-+# list of <patches>:<subdir> instead of just a list of patches
-+def find_urls(d):
-+	patches=src_patches(d)
-+	fetch = bb.fetch2.Fetch([], d)
-+	patch_list=[]
-+	for p in patches:
-+		_, _, local, _, _, _ = bb.decodeurl(p)
-+		for url in fetch.urls:
-+			urldata = fetch.ud[url]
-+			if urldata.localpath == local:
-+				patch_list.append(local+':'+urldata.path)
-+
-+        return patch_list
-+
-+
- do_patch() {
- 	cd ${S}
- 	if [ -f ${WORKDIR}/defconfig ]; then
-@@ -51,8 +70,8 @@ do_patch() {
- 		exit 1
- 	fi
+-SRC_URI = "git://git.yoctoproject.org/linux-yocto-3.0;protocol=git;nocheckout=1;branch=${KBRANCH},meta;name=machine,meta \
++SRC_URI = "git://git.yoctoproject.org/linux-yocto-3.0;protocol=git;bareclone=1;branch=${KBRANCH},meta;name=machine,meta \
+            file://core.cfg \
+            file://serial.cfg \
+            file://ext2.cfg \
+diff --git a/meta/recipes-kernel/linux/linux-yocto_2.6.37.bb b/meta/recipes-kernel/linux/linux-yocto_2.6.37.bb
+index 27c7558..d3da75c 100644
+--- a/meta/recipes-kernel/linux/linux-yocto_2.6.37.bb
++++ b/meta/recipes-kernel/linux/linux-yocto_2.6.37.bb
+@@ -20,10 +20,10 @@ SRCREV_machine_qemux86-64 = "af2bfbe5f757361b5b027a24d67a93bfdfaaf33c"
+ SRCREV_machine = "4ae8f8605c81c39b959948e23f7123294a5dfb3f"
+ SRCREV_meta = "aeea99683c7283f1f3320bf2ee7085ee252d4e7e"
  
--	patches="${@" ".join(find_patches(d))}"
- 	sccs="${@" ".join(find_sccs(d))}"
-+	patches_and_dirs="${@" ".join(find_urls(d))}"
+-PR = "r22"
++PR = "r23"
+ PV = "${LINUX_VERSION}+git${SRCPV}"
  
- 	# This loops through all patches, and looks for directories that do
- 	# not already have feature descriptions. If a directory doesn't have
-@@ -66,14 +85,16 @@ do_patch() {
- 	# to be repeated on the SRC_URI line .. which is more intutive
- 	set +e
- 	patch_dirs=
--	for p in ${patches}; do
-+	for pp in ${patches_and_dirs}; do
-+	        p=`echo $pp | cut -f1 -d:`
-+		wp=`echo $pp | cut -f2 -d:`
- 		pdir=`dirname ${p}`
- 		pname=`basename ${p}`
- 		scc=`find ${pdir} -maxdepth 1 -name '*.scc'`
- 		if [ -z "${scc}" ]; then
- 			# there is no scc file. We need to switch to someplace that we know
- 		        # we can create content (the workdir)
--			workdir_subdir=`echo ${pdir} | sed "s%^.*/${PN}%%" | sed 's%^/%%'`
-+			workdir_subdir=`dirname ${wp}`
- 			suggested_dir="${WORKDIR}/${workdir_subdir}"
- 			echo ${gen_feature_dirs} | grep -q ${suggested_dir}
- 			if [ $? -ne 0 ]; then
-@@ -82,7 +103,8 @@ do_patch() {
- 			# we call the file *.scc_tmp, so the test above will continue to find
- 			# that patches from a common subdirectory don't have a scc file and 
- 			# they'll be placed in order, into this file. We'll rename it later.
--			echo "patch ${pname}" >> ${suggested_dir}/gen_${workdir_subdir}_desc.scc_tmp
-+			gen_feature_name="gen_`echo ${workdir_subdir} | sed 's%/%%g'`_desc.scc_tmp"
-+			echo "patch ${pname}" >> ${WORKDIR}/${workdir_subdir}/${gen_feature_name}
- 		else
- 			suggested_dir="${pdir}"
- 		fi
+-SRC_URI = "git://git.yoctoproject.org/linux-yocto-2.6.37;protocol=git;nocheckout=1;branch=${KBRANCH},meta;name=machine,meta"
++SRC_URI = "git://git.yoctoproject.org/linux-yocto-2.6.37;protocol=git;bareclone=1;branch=${KBRANCH},meta;name=machine,meta"
+ 
+ COMPATIBLE_MACHINE = "(qemuarm|qemux86|qemuppc|qemumips|qemux86-64)"
+ 
+diff --git a/meta/recipes-kernel/linux/linux-yocto_3.0.bb b/meta/recipes-kernel/linux/linux-yocto_3.0.bb
+index 58e1f6b..819bf70 100644
+--- a/meta/recipes-kernel/linux/linux-yocto_3.0.bb
++++ b/meta/recipes-kernel/linux/linux-yocto_3.0.bb
+@@ -20,10 +20,10 @@ SRCREV_machine_qemux86-64 ?= "14fe1742198bd5a85fbcf6e53d336838ff87b2ef"
+ SRCREV_machine ?= "c578f3a1f357142a6e02a1df4ae9aa16f45094d6"
+ SRCREV_meta ?= "d7b46785d6781e2c23d754f35f09bebd3b74b5bb"
+ 
+-PR = "r3"
++PR = "r4"
+ PV = "${LINUX_VERSION}+git${SRCPV}"
+ 
+-SRC_URI = "git://git.yoctoproject.org/linux-yocto-3.0;protocol=git;nocheckout=1;branch=${KBRANCH},meta;name=machine,meta"
++SRC_URI = "git://git.yoctoproject.org/linux-yocto-3.0;protocol=git;bareclone=1;branch=${KBRANCH},meta;name=machine,meta"
+ 
+ COMPATIBLE_MACHINE = "(qemuarm|qemux86|qemuppc|qemumips|qemux86-64)"
+ 
+diff --git a/meta/recipes-kernel/linux/linux-yocto_3.2.bb b/meta/recipes-kernel/linux/linux-yocto_3.2.bb
+index ecde039..bad6f5e 100644
+--- a/meta/recipes-kernel/linux/linux-yocto_3.2.bb
++++ b/meta/recipes-kernel/linux/linux-yocto_3.2.bb
+@@ -26,10 +26,10 @@ SRCREV_machine_qemux86-64 ?= "f54af84c64408a0259a919d1fd2405c0115c0a0b"
+ SRCREV_machine ?= "21ab5dca134a6bf1316aa59f69f9ee9e091d5702"
+ SRCREV_meta ?= "4c648bbbc7d2204d1b24f444aebb10f91c4ecae3"
+ 
+-PR = "r0"
++PR = "r1"
+ PV = "${LINUX_VERSION}+git${SRCPV}"
+ 
+-SRC_URI = "git://git.yoctoproject.org/linux-yocto-3.2;protocol=git;nocheckout=1;branch=${KBRANCH},meta;name=machine,meta"
++SRC_URI = "git://git.yoctoproject.org/linux-yocto-3.2;protocol=git;bareclone=1;branch=${KBRANCH},meta;name=machine,meta"
+ 
+ COMPATIBLE_MACHINE = "(qemuarm|qemux86|qemuppc|qemumips|qemux86-64)"
+ 
 -- 
 1.7.7.6
 
