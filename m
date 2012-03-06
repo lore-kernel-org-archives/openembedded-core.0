@@ -1,24 +1,44 @@
-Received: from mga03.intel.com ([143.182.124.21])
+Received: from db3ehsobe004.messaging.microsoft.com ([213.199.154.142]
+	helo=db3outboundpool.messaging.microsoft.com)
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <paul.eggleton@linux.intel.com>) id 1S54Ml-000460-Rl
-	for openembedded-core@lists.openembedded.org;
-	Wed, 07 Mar 2012 01:04:28 +0100
-Received: from azsmga002.ch.intel.com ([10.2.17.35])
-	by azsmga101.ch.intel.com with ESMTP; 06 Mar 2012 15:55:49 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="74454813"
-Received: from unknown (HELO helios.ger.corp.intel.com) ([10.252.123.109])
-	by AZSMGA002.ch.intel.com with ESMTP; 06 Mar 2012 15:55:42 -0800
-From: Paul Eggleton <paul.eggleton@linux.intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Tue,  6 Mar 2012 23:55:37 +0000
-Message-Id: <50d2b32b6d5367e5822c396d28a78ea54cb4ea40.1331078069.git.paul.eggleton@linux.intel.com>
-X-Mailer: git-send-email 1.7.5.4
-In-Reply-To: <cover.1331078069.git.paul.eggleton@linux.intel.com>
-References: <cover.1331078069.git.paul.eggleton@linux.intel.com>
-In-Reply-To: <cover.1331078069.git.paul.eggleton@linux.intel.com>
-References: <cover.1331078069.git.paul.eggleton@linux.intel.com>
-Subject: [PATCH 1/1] formfactor: use full path to fbset
+	(envelope-from <B29882@freescale.com>) id 1S54lL-0004NX-UF
+	for openembedded-core@openembedded.org; Wed, 07 Mar 2012 01:29:52 +0100
+Received: from mail72-db3-R.bigfish.com (10.3.81.230) by
+	DB3EHSOBE005.bigfish.com (10.3.84.25) with Microsoft SMTP Server id
+	14.1.225.23; Tue, 6 Mar 2012 23:20:59 +0000
+Received: from mail72-db3 (localhost [127.0.0.1])	by mail72-db3-R.bigfish.com
+	(Postfix) with ESMTP id D44A32201EC	for
+	<openembedded-core@openembedded.org>; 
+	Tue,  6 Mar 2012 23:20:59 +0000 (UTC)
+X-SpamScore: 3
+X-BigFish: VS3(zzzz1202h1082kzz8275bhz2dh2a8h668h839h)
+X-Forefront-Antispam-Report: CIP:70.37.183.190; KIP:(null); UIP:(null); IPV:NLI;
+	H:mail.freescale.net; RD:none; EFVD:NLI
+Received: from mail72-db3 (localhost.localdomain [127.0.0.1]) by mail72-db3
+	(MessageSwitch) id 1331076057983348_29576;
+	Tue,  6 Mar 2012 23:20:57 +0000 (UTC)
+Received: from DB3EHSMHS016.bigfish.com (unknown [10.3.81.226])	by
+	mail72-db3.bigfish.com (Postfix) with ESMTP id EC31B420045	for
+	<openembedded-core@openembedded.org>;
+	Tue,  6 Mar 2012 23:20:57 +0000 (UTC)
+Received: from mail.freescale.net (70.37.183.190) by DB3EHSMHS016.bigfish.com
+	(10.3.87.116) with Microsoft SMTP Server (TLS) id 14.1.225.23;
+	Tue, 6 Mar 2012 23:20:57 +0000
+Received: from tx30smr01.am.freescale.net (10.81.153.31) by
+	039-SN1MMR1-003.039d.mgd.msft.net (10.84.1.16) with Microsoft SMTP
+	Server (TLS) id 14.1.355.3; Tue, 6 Mar 2012 17:20:56 -0600
+Received: from right.am.freescale.net (right.am.freescale.net [10.82.193.13])
+	by tx30smr01.am.freescale.net (8.14.3/8.14.0) with ESMTP id
+	q26NKt9T027864
+	for <openembedded-core@openembedded.org>; Tue, 6 Mar 2012 16:20:56 -0700
+From: Matthew McClintock <msm@freescale.com>
+To: <openembedded-core@openembedded.org>
+Date: Tue, 6 Mar 2012 17:20:55 -0600
+Message-ID: <1331076055-15262-1-git-send-email-msm@freescale.com>
+X-Mailer: git-send-email 1.7.6.1
+MIME-Version: 1.0
+X-OriginatorOrg: freescale.com
+Subject: [PATCH] arch-powerpc.inc: use default value of TUNE_PKGARCH
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -33,57 +53,37 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 07 Mar 2012 00:04:28 -0000
+X-List-Received-Date: Wed, 07 Mar 2012 00:29:52 -0000
+Content-Type: text/plain
 
-When using rootless X, /usr/sbin is not in PATH and thus running "fbset"
-will fail; so specify /usr/sbin/fbset instead.
+We can use the default value for TUNE_PKGARCH, and now we just
+append "-nf" if TARGET_FPU is fpu-soft
 
-Fixes [YOCTO #1986]
-
-Signed-off-by: Paul Eggleton <paul.eggleton@linux.intel.com>
+Signed-off-by: Matthew McClintock <msm@freescale.com>
 ---
- meta/recipes-bsp/formfactor/files/config      |    6 +++---
- meta/recipes-bsp/formfactor/formfactor_0.0.bb |    2 +-
- 2 files changed, 4 insertions(+), 4 deletions(-)
+ meta/conf/machine/include/powerpc/arch-powerpc.inc |    6 ++----
+ 1 files changed, 2 insertions(+), 4 deletions(-)
 
-diff --git a/meta/recipes-bsp/formfactor/files/config b/meta/recipes-bsp/formfactor/files/config
-index e936916..a3f762a 100755
---- a/meta/recipes-bsp/formfactor/files/config
-+++ b/meta/recipes-bsp/formfactor/files/config
-@@ -29,15 +29,15 @@ if [ -z "$DISPLAY_ORIENTATION" ]; then
- fi
+diff --git a/meta/conf/machine/include/powerpc/arch-powerpc.inc b/meta/conf/machine/include/powerpc/arch-powerpc.inc
+index c9b2829..abd72ed 100644
+--- a/meta/conf/machine/include/powerpc/arch-powerpc.inc
++++ b/meta/conf/machine/include/powerpc/arch-powerpc.inc
+@@ -18,10 +18,8 @@ TARGET_FPU .= "${@bb.utils.contains("TUNE_FEATURES", "fpu-soft", "soft", "", d)}
  
- if [ -z "$DISPLAY_WIDTH_PIXELS" ]; then
--    DISPLAY_WIDTH_PIXELS=`fbset | grep geometry | awk '{ print $2 }'`
-+    DISPLAY_WIDTH_PIXELS=`/usr/sbin/fbset | grep geometry | awk '{ print $2 }'`
- fi
+ ABIEXTENSION = "${@['','spe'][d.getVar('TARGET_FPU', True) in ['ppc-efd', 'ppc-efs']]}"
  
- if [ -z "$DISPLAY_HEIGHT_PIXELS" ]; then
--    DISPLAY_HEIGHT_PIXELS=`fbset | grep geometry | awk '{ print $3 }'`
-+    DISPLAY_HEIGHT_PIXELS=`/usr/sbin/fbset | grep geometry | awk '{ print $3 }'`
- fi
+-PPCPKGSFX_FPU = "${@bb.utils.contains("TUNE_FEATURES", "fpu-hard" , "", "-nf", d)}"
+-
+-PPCPKGARCH = "${TUNE_ARCH}${PPCPKGSFX_FPU}"
+-TUNE_PKGARCH ?= "${PPCPKGARCH}"
++PPCPKGSFX_FPU = "${@['', '-nf'][bb.data.getVar('TARGET_FPU',d,1) in ['fpu-soft']]}"
++TUNE_PKGARCH_append = "${PPCPKGSFX_FPU}"
  
- if [ -z "$DISPLAY_BPP" ]; then
--    DISPLAY_BPP=`fbset | grep geometry | awk '{ print $6 }'`
-+    DISPLAY_BPP=`/usr/sbin/fbset | grep geometry | awk '{ print $6 }'`
- fi
- 
- # 
-diff --git a/meta/recipes-bsp/formfactor/formfactor_0.0.bb b/meta/recipes-bsp/formfactor/formfactor_0.0.bb
-index abf20e0..31b4490 100644
---- a/meta/recipes-bsp/formfactor/formfactor_0.0.bb
-+++ b/meta/recipes-bsp/formfactor/formfactor_0.0.bb
-@@ -3,7 +3,7 @@ SECTION = "base"
- LICENSE = "MIT"
- LIC_FILES_CHKSUM = "file://${COREBASE}/LICENSE;md5=3f40d7994397109285ec7b81fdeb3b58 \
-                     file://${COREBASE}/meta/COPYING.MIT;md5=3da9cfbcb788c80a0384361b4de20420"
--PR = "r19"
-+PR = "r20"
- 
- SRC_URI = "file://config file://machconfig"
- S = "${WORKDIR}"
+ # Basic tune definitions
+ AVAILTUNES += "powerpc powerpc-nf" 
 -- 
-1.7.5.4
+1.7.6.1
+
 
 
 
