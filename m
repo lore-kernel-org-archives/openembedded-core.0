@@ -1,29 +1,22 @@
-Received: from mail2.eads.net ([80.156.45.114] helo=mail.eads.net)
+Received: from mail.gw90.de ([188.40.100.199])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <Wolfgang.Hauser.external@cassidian.com>)
-	id 1S4qUQ-0006lH-PY for openembedded-core@lists.openembedded.org;
-	Tue, 06 Mar 2012 10:15:26 +0100
-Received: from gsx3071-vs5.mxchg.m.corp ([53.147.176.148])
-	by mail.eads.net (8.13.8/8.13.8/Debian-2) with ESMTP id q268uIV4001349
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 6 Mar 2012 09:56:20 +0100
-Received: from gsx300a.mxchg.m.corp ([10.43.212.131]) by
-	gsx3071-vs5.mxchg.m.corp with Microsoft SMTPSVC(6.0.3790.4675); 
-	Tue, 6 Mar 2012 09:56:21 +0100
-X-MimeOLE: Produced By Microsoft Exchange V6.5
-MIME-Version: 1.0
-Date: Tue, 6 Mar 2012 09:56:21 +0100
-Message-ID: <0C757E680E33864AB113392C7E83F910BE52D0@GSX300A.mxchg.m.corp>
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-Thread-Topic: [OE-core] read only rootfs?
-Thread-Index: Acz7EBsipGLZ16aWTve8vEyLpBGqIgAYxpogAAB2zLA=
-From: "Hauser, Wolfgang (external)" <Wolfgang.Hauser.external@cassidian.com>
-To: "Patches and discussions about the oe-core layer"
-	<openembedded-core@lists.openembedded.org>
-X-OriginalArrivalTime: 06 Mar 2012 08:56:21.0531 (UTC)
-	FILETIME=[00852EB0:01CCFB77]
-Subject: Re: read only rootfs?
+	(envelope-from <paulepanter@users.sourceforge.net>)
+	id 1S4r5P-0007Vm-BT for openembedded-core@lists.openembedded.org;
+	Tue, 06 Mar 2012 10:53:39 +0100
+Received: from g225138053.adsl.alicedsl.de ([92.225.138.53]
+	helo=[192.168.178.43])
+	by mail.gw90.de with esmtpsa (TLS1.0:RSA_AES_256_CBC_SHA1:32)
+	(Exim 4.69) (envelope-from <paulepanter@users.sourceforge.net>)
+	id 1S4qxA-0000fw-B8; Tue, 06 Mar 2012 09:45:08 +0000
+Message-ID: <1331027106.6166.7.camel@mattotaupa>
+From: Paul Menzel <paulepanter@users.sourceforge.net>
+To: openembedded-core@lists.openembedded.org
+Date: Tue, 06 Mar 2012 10:45:06 +0100
+In-Reply-To: <1331000623-10956-1-git-send-email-james@digitalmatter.com.au>
+References: <1331000623-10956-1-git-send-email-james@digitalmatter.com.au>
+X-Mailer: Evolution 3.2.2-1 
+Mime-Version: 1.0
+Subject: Re: [PATCH v2] gdk-pixbuf: Pick up ${NM} from the environment.
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -38,74 +31,97 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 06 Mar 2012 09:15:26 -0000
-Content-class: urn:content-classes:message
-Content-Type: text/plain;
-	charset="iso-8859-1"
+X-List-Received-Date: Tue, 06 Mar 2012 09:53:39 -0000
+X-Groupsio-MsgNum: 18429
+Content-Type: multipart/signed; micalg="pgp-sha1";
+	protocol="application/pgp-signature"; 
+	boundary="=-zxbusMZzWU5lVenUCf4w"
+
+--=-zxbusMZzWU5lVenUCf4w
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-Hello,
+Dear James,
 
-we run our system using a readonly rootfs.
 
-The main issues is, to figure out which packages need writeable data, =
-this data have to be linked and managed by volatiles.
-- tmpfs in ram for /tmp /var/volatiles
-- links in  volatiles for /var/lib/.. (bluez, dhcp, ...); /var/log =
-;/var/run
-- links for all files that have to be writeable from the aplications =
-which are used.
+thank you for sending an improved version of the patch.
 
-Next step is to modify the packages that need a runtime (first boot) =
-configuration.
 
-- amend (bbappend) or modify the recipes in your own OE layer to avoid =
-runtime (first boot) configuration of packages, most of them are capable =
-to do its configuration offline. (search for pkg_postinst pkg_preinst)
-=20
-Finally we got a working readonly Image directly out of OE. We don't use =
-filesystem overlays like unionfs.
-We use ubifs for NAND, because squashfs isn't able to manage bad blocks =
-of NAND.
+Am Dienstag, den 06.03.2012, 10:23 +0800 schrieb James Limbouris:
+> Signed-off-by: James Limbouris <james@digitalmatter.com.au>
+> ---
+>  .../gdk-pixbuf-2.24.0/configure_nm.patch           |   18 ++++++++++++++=
+++++
+>  meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf_2.24.0.bb |    3 ++-
+>  2 files changed, 20 insertions(+), 1 deletions(-)
+>  create mode 100644 meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf-2.24.0/confi=
+gure_nm.patch
+>=20
+> diff --git a/meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf-2.24.0/configure_nm=
+.patch b/meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf-2.24.0/configure_nm.patch
+> new file mode 100644
+> index 0000000..0460824
+> --- /dev/null
+> +++ b/meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf-2.24.0/configure_nm.patch
+> @@ -0,0 +1,18 @@
+> +Pick up ${NM} from the environment.
+> +Upstream-Status: Inappropriate [configuration]
 
-The number of modified packages isn't that high, so it may be better to =
-spent the work to figure out the volatiles instead of overlaying the =
-filesystems and carry the overhead.
+as Khem and you discussed, it should be useful for upstream [1]. Maybe
+you can add more context [2][3], so upstream can better judge if they
+want it.
 
-Our user data reside on a USB-Stick connected to the system.
+> +Signed-off-by: James Limbouris <james@digitalmatter.com.au>
+> +
+> +Index: gdk-pixbuf-2.24.0/configure.ac
+> +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+> +diff -uNr gdk-pixbuf-2.24.0/configure.ac gdk-pixbuf-2.24.0.mod/configure=
+.ac
+> +--- gdk-pixbuf-2.24.0/configure.ac	2011-08-27 11:27:52.000000000 +0800
+> ++++ gdk-pixbuf-2.24.0.mod/configure.ac	2012-02-28 14:48:36.481126410 +08=
+00
+> +@@ -147,7 +147,7 @@
+> + AC_SYS_LARGEFILE
+> +=20
+> + AM_PROG_AS
+> +-AC_PATH_PROG(NM, nm, nm)
+> ++AC_CHECK_TOOLS(NM, [$NM nm], nm)
+> +=20
+> + AC_MSG_CHECKING([for some Win32 platform])
+> + AS_CASE(["$host"],
+> diff --git a/meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf_2.24.0.bb b/meta/re=
+cipes-gnome/gdk-pixbuf/gdk-pixbuf_2.24.0.bb
+> index 121babd..d75bf2a 100644
+> --- a/meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf_2.24.0.bb
+> +++ b/meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf_2.24.0.bb
 
-Reagards
-Wolfgang
+[=E2=80=A6]
 
------Urspr=FCngliche Nachricht-----
-Von: openembedded-core-bounces@lists.openembedded.org =
-[mailto:openembedded-core-bounces@lists.openembedded.org] Im Auftrag von =
-Cliff Brake
-Gesendet: Montag, 5. M=E4rz 2012 21:40
-An: Patches and discussions about the oe-core layer
-Betreff: [OE-core] read only rootfs?
-
-Hello,
-
-What are the best practices for implementing a read-only rootfs built
-with OE?  I've looked at a few things like poky-tiny.conf, but figured
-I would ask.
-
-To date, I've been cheating and implementing a tmpfs overlay on top a
-RO rootfs using unionfs, but this is less than idea as you need to do
-the package install process on every boot.  Others boot the first time
-RW, and then switch to RO for subsequent boots.
 
 Thanks,
-Cliff
 
---=20
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-http://bec-systems.com
-
-_______________________________________________
-Openembedded-core mailing list
-Openembedded-core@lists.openembedded.org
-http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
+Paul
 
 
+[1] http://lists.linuxtogo.org/pipermail/openembedded-core/2012-March/01855=
+4.html
+[2] http://www.gnu.org/software/autoconf/manual/autoconf-2.67/html_node/Gen=
+eric-Programs.html
+[3] http://lists.gnu.org/archive/html/bug-ncurses/2011-11/msg00011.html
+
+--=-zxbusMZzWU5lVenUCf4w
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: This is a digitally signed message part
+Content-Transfer-Encoding: 7bit
+
+-----BEGIN PGP SIGNATURE-----
+Version: GnuPG v1.4.12 (GNU/Linux)
+
+iEYEABECAAYFAk9V3KIACgkQPX1aK2wOHViyyACgiJQRzMj9ocqhcOP5yLjkVeDa
+56gAnRk9nFY2lT4xdwuDE8uU2EZJHaZj
+=a4Ok
+-----END PGP SIGNATURE-----
+
+--=-zxbusMZzWU5lVenUCf4w--
