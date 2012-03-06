@@ -1,24 +1,24 @@
 Received: from mga01.intel.com ([192.55.52.88])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <sgw@linux.intel.com>) id 1S4xvl-0003ce-KD
+	(envelope-from <sgw@linux.intel.com>) id 1S4xvl-0003cc-AZ
 	for openembedded-core@lists.openembedded.org;
 	Tue, 06 Mar 2012 18:12:10 +0100
 Received: from fmsmga001.fm.intel.com ([10.253.24.23])
 	by fmsmga101.fm.intel.com with ESMTP; 06 Mar 2012 09:03:31 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="125714842"
+X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="125714840"
 Received: from unknown (HELO swold-mobl.verilan.com) ([10.255.15.180])
-	by fmsmga001.fm.intel.com with ESMTP; 06 Mar 2012 09:03:31 -0800
+	by fmsmga001.fm.intel.com with ESMTP; 06 Mar 2012 09:03:30 -0800
 From: Saul Wold <sgw@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Tue,  6 Mar 2012 09:03:07 -0800
-Message-Id: <de5c29df23ffa4bef8c729377827750a73e01368.1331053126.git.sgw@linux.intel.com>
+Date: Tue,  6 Mar 2012 09:03:06 -0800
+Message-Id: <0ea00dab7b56ea5addc8a76030aadc3acbbdf191.1331053126.git.sgw@linux.intel.com>
 X-Mailer: git-send-email 1.7.7.6
 In-Reply-To: <cover.1331053126.git.sgw@linux.intel.com>
 References: <cover.1331053126.git.sgw@linux.intel.com>
 In-Reply-To: <cover.1331053126.git.sgw@linux.intel.com>
 References: <cover.1331053126.git.sgw@linux.intel.com>
-Subject: [CONSOLIDATED PULL 04/20] image.bbclass: fix rootfs generation without package management tools
+Subject: [CONSOLIDATED PULL 03/20] image_types: add IMAGE_ROOTFS_ALIGNMENT
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -35,66 +35,41 @@ List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedde
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Tue, 06 Mar 2012 17:12:10 -0000
 
-From: Otavio Salvador <otavio@ossystems.com.br>
+From: Ken Werner <ken.werner@linaro.org>
 
-When building without package management tools the
-ROOTFS_BOOTSTRAP_INSTALL packages need to be available to provide the
-bare minimal for rootfs unconfigure postinsts to be on first boot.
-
-Those packages where being include in core-image.bbclass' based images
-however every image needs those available for proper rootfs generation.
-
-Signed-off-by: Otavio Salvador <otavio@ossystems.com.br>
+Introduce a new variable called IMAGE_ROOTFS_ALIGNMENT that allows to control
+the aligment of the size of the rootfs. Its default value is set to 1KiB so
+that the existing behaviour is not changed. In case the SD card emulation of
+a QEMU system emulator gets used you may set the alignment to 2MiB.
 ---
- meta/classes/core-image.bbclass |    2 --
- meta/classes/image.bbclass      |    7 +++++--
- 2 files changed, 5 insertions(+), 4 deletions(-)
+ meta/classes/image_types.bbclass |   12 +++++++++++-
+ 1 files changed, 11 insertions(+), 1 deletions(-)
 
-diff --git a/meta/classes/core-image.bbclass b/meta/classes/core-image.bbclass
-index 668297b..e2ad0fc 100644
---- a/meta/classes/core-image.bbclass
-+++ b/meta/classes/core-image.bbclass
-@@ -51,8 +51,6 @@ CORE_IMAGE_BASE_INSTALL = '\
-     task-core-boot \
-     task-base-extended \
-     \
--    ${@base_contains("IMAGE_FEATURES", "package-management", "", "${ROOTFS_PKGMANAGE_BOOTSTRAP}",d)} \
--    \
-     ${CORE_IMAGE_EXTRA_INSTALL} \
-     '
+diff --git a/meta/classes/image_types.bbclass b/meta/classes/image_types.bbclass
+index 1bf59a5..8b82018 100644
+--- a/meta/classes/image_types.bbclass
++++ b/meta/classes/image_types.bbclass
+@@ -60,9 +60,19 @@ def get_imagecmds(d):
+         cmds += "\n" + localdata.getVar("runimagecmd", True)
+     return cmds
  
-diff --git a/meta/classes/image.bbclass b/meta/classes/image.bbclass
-index a62eb2c..533f53c 100644
---- a/meta/classes/image.bbclass
-+++ b/meta/classes/image.bbclass
-@@ -5,7 +5,7 @@ inherit imagetest-${IMAGETEST}
- 
- LICENSE = "MIT"
- PACKAGES = ""
--RDEPENDS += "${IMAGE_INSTALL} ${LINGUAS_INSTALL} ${NORMAL_FEATURE_INSTALL}"
-+RDEPENDS += "${IMAGE_INSTALL} ${LINGUAS_INSTALL} ${NORMAL_FEATURE_INSTALL} ${ROOTFS_BOOTSTRAP_INSTALL}"
- RRECOMMENDS += "${NORMAL_FEATURE_INSTALL_OPTIONAL}"
- 
- INHIBIT_DEFAULT_DEPS = "1"
-@@ -14,6 +14,9 @@ INHIBIT_DEFAULT_DEPS = "1"
- IMAGE_FEATURES ?= ""
- IMAGE_FEATURES[type] = "list"
- 
-+# rootfs bootstrap install
-+ROOTFS_BOOTSTRAP_INSTALL = "${@base_contains("IMAGE_FEATURES", "package-management", "", "${ROOTFS_PKGMANAGE_BOOTSTRAP}",d)}"
++# The default aligment of the size of the rootfs is set to 1KiB. In case
++# you're using the SD card emulation of a QEMU system simulator you may
++# set this value to 2048 (2MiB alignment).
++IMAGE_ROOTFS_ALIGNMENT ?= "1"
 +
- # packages to install from features
- FEATURE_INSTALL = "${@' '.join(oe.packagegroup.required_packages(oe.data.typed_value('IMAGE_FEATURES', d), d))}"
- FEATURE_INSTALL_OPTIONAL = "${@' '.join(oe.packagegroup.optional_packages(oe.data.typed_value('IMAGE_FEATURES', d), d))}"
-@@ -52,7 +55,7 @@ PACKAGE_GROUP_doc-pkgs[optional] = "1"
- IMAGE_INSTALL ?= ""
- IMAGE_INSTALL[type] = "list"
- IMAGE_BASENAME[export] = "1"
--export PACKAGE_INSTALL ?= "${IMAGE_INSTALL} ${FEATURE_INSTALL}"
-+export PACKAGE_INSTALL ?= "${IMAGE_INSTALL} ${ROOTFS_BOOTSTRAP_INSTALL} ${FEATURE_INSTALL}"
- PACKAGE_INSTALL_ATTEMPTONLY ?= "${FEATURE_INSTALL_OPTIONAL}"
- 
- # Images are generally built explicitly, do not need to be part of world.
+ runimagecmd () {
+ 	# Image generation code for image type ${type}
+-	ROOTFS_SIZE=`du -ks ${IMAGE_ROOTFS}|awk '{base_size = ($1 * ${IMAGE_OVERHEAD_FACTOR});  OFMT = "%.0f" ; print ((base_size > ${IMAGE_ROOTFS_SIZE} ? base_size : ${IMAGE_ROOTFS_SIZE}) + ${IMAGE_ROOTFS_EXTRA_SPACE}) }'`
++	# The base_size gets calculated:
++	#  - initial size determined by `du -ks` of the IMAGE_ROOTFS
++	#  - then multiplied by the IMAGE_OVERHEAD_FACTOR
++	#  - then rounded up to IMAGE_ROOTFS_ALIGNMENT
++	#  - finally tested against IMAGE_ROOTFS_SIZE
++	ROOTFS_SIZE=`du -ks ${IMAGE_ROOTFS}|awk '{base_size = $1 * ${IMAGE_OVERHEAD_FACTOR} + ${IMAGE_ROOTFS_ALIGNMENT} - 1; base_size -= base_size % ${IMAGE_ROOTFS_ALIGNMENT}; print ((base_size > ${IMAGE_ROOTFS_SIZE} ? base_size : ${IMAGE_ROOTFS_SIZE}) + ${IMAGE_ROOTFS_EXTRA_SPACE}) }'`
+ 	${cmd}
+ 	# Now create the needed compressed versions
+ 	cd ${DEPLOY_DIR_IMAGE}/
 -- 
 1.7.7.6
 
