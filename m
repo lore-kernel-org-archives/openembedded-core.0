@@ -1,30 +1,14 @@
-Received: from mga03.intel.com ([143.182.124.21])
+Received: from ffm.saftware.de ([83.141.3.46])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <dvhart@linux.intel.com>) id 1S5KTJ-0007go-Hv
+	(envelope-from <obi@opendreambox.org>) id 1S5Nt8-0005PU-QF
 	for openembedded-core@lists.openembedded.org;
-	Wed, 07 Mar 2012 18:16:17 +0100
-Received: from azsmga002.ch.intel.com ([10.2.17.35])
-	by azsmga101.ch.intel.com with ESMTP; 07 Mar 2012 09:05:49 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="74759233"
-Received: from unknown (HELO envy.home) ([10.255.15.53])
-	by AZSMGA002.ch.intel.com with ESMTP; 07 Mar 2012 09:05:49 -0800
-Message-ID: <4F579506.90805@linux.intel.com>
-Date: Wed, 07 Mar 2012 09:04:06 -0800
-From: Darren Hart <dvhart@linux.intel.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:10.0.1) Gecko/20120209 Thunderbird/10.0.1
-MIME-Version: 1.0
-To: Koen Kooi <koen@dominion.thruhere.net>
-References: <cover.1331107546.git.dvhart@linux.intel.com>
-	<83eeb4ed11a6a63abda1f3978c849a46516b92a1.1331107546.git.dvhart@linux.intel.com>
-	<AE0C8B23-EB0D-4DD3-9BF9-22BAEB66969F@dominion.thruhere.net>
-In-Reply-To: <AE0C8B23-EB0D-4DD3-9BF9-22BAEB66969F@dominion.thruhere.net>
-X-Enigmail-Version: 1.3.5
-Cc: Paul Eggleton <paul.eggleton@linux.intel.com>,
-	Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 1/1] kernel.bbclass: Remove warnings for modutils and modprobe.d
+	Wed, 07 Mar 2012 21:55:10 +0100
+From: Andreas Oberritter <obi@opendreambox.org>
+To: openembedded-core@lists.openembedded.org
+Date: Wed,  7 Mar 2012 21:36:28 +0100
+Message-Id: <1331152588-27456-1-git-send-email-obi@opendreambox.org>
+X-Mailer: git-send-email 1.7.5.4
+Subject: [PATCH] qt4: fix deps in libQtWebkit.la and QtWebKit.pc
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -39,55 +23,61 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 07 Mar 2012 17:16:17 -0000
-Content-Type: text/plain; charset=ISO-8859-1
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Wed, 07 Mar 2012 20:55:11 -0000
 
+* Both files contain -L../../WebCore/release -L../../JavaScriptCore/release -lwebcore -ljscore
+* These paths and libs don't get installed.
+* When building a shared lib with libtool, that links
+  with libQtWebKit, libtool adds these unneeded parameters
+  to the linker command-line, thus linking fails.
 
+Signed-off-by: Andreas Oberritter <obi@opendreambox.org>
+---
+ meta/recipes-qt/qt4/qt4-embedded.inc |    2 +-
+ meta/recipes-qt/qt4/qt4-x11-free.inc |    2 +-
+ meta/recipes-qt/qt4/qt4.inc          |    1 +
+ 3 files changed, 3 insertions(+), 2 deletions(-)
 
-On 03/07/2012 12:21 AM, Koen Kooi wrote:
-> 
-> Op 7 mrt. 2012, om 09:06 heeft Darren Hart het volgende geschreven:
-> 
->> Fixes [Yocto #2036]
->>
->> The source and build directories are unused, remove them.
->>
->> The modutils and modprobe.d directories may be used if modules are built that
->> are either autoloaded or have modprobe.d entries. This isn't known at install
->> time, so check after the package split if these directories are empty and
->> remove them if they are.
->>
->> Signed-off-by: Darren Hart <dvhart@linux.intel.com>
->> CC: Paul Eggleton <paul.eggleton@linux.intel.com>
->> ---
->> meta/classes/kernel.bbclass |   10 ++++++++++
->> 1 files changed, 10 insertions(+), 0 deletions(-)
->>
->> diff --git a/meta/classes/kernel.bbclass b/meta/classes/kernel.bbclass
->> index 8fbec90..169df33 100644
->> --- a/meta/classes/kernel.bbclass
->> +++ b/meta/classes/kernel.bbclass
->> @@ -105,6 +105,8 @@ kernel_do_install() {
->> 		oe_runmake DEPMOD=echo INSTALL_MOD_PATH="${D}" modules_install
->> 		rm -f "${D}/lib/modules/${KERNEL_VERSION}/modules.order"
->> 		rm -f "${D}/lib/modules/${KERNEL_VERSION}/modules.builtin"
->> +		rm "${D}/lib/modules/${KERNEL_VERSION}/build"
->> +		rm "${D}/lib/modules/${KERNEL_VERSION}/source"
-> 
-> How do you want to support on-target building of exernal modules?
-
-That is an open issue that needs to be addressed, but we don't install
-the build or source directories now (unless I'm missing something), so
-these are links to nowhere at the moment.
-
-We do have a bug open to support on-target module building. I supect
-we'll need to add these as part of a headers package or similar. So
-these may come back.
-
+diff --git a/meta/recipes-qt/qt4/qt4-embedded.inc b/meta/recipes-qt/qt4/qt4-embedded.inc
+index 80948f3..0e57e5a 100644
+--- a/meta/recipes-qt/qt4/qt4-embedded.inc
++++ b/meta/recipes-qt/qt4/qt4-embedded.inc
+@@ -2,7 +2,7 @@ DESCRIPTION = "Qt is a versatile cross-platform application framework -- this is
+ SECTION = "libs"
+ HOMEPAGE = "http://qt.nokia.com"
+ DEPENDS += "directfb tslib"
+-INC_PR = "r41"
++INC_PR = "r42"
+ 
+ QT_BASE_LIB  ?= "libqt-embedded"
+ 
+diff --git a/meta/recipes-qt/qt4/qt4-x11-free.inc b/meta/recipes-qt/qt4/qt4-x11-free.inc
+index 75487f7..56f349a 100644
+--- a/meta/recipes-qt/qt4/qt4-x11-free.inc
++++ b/meta/recipes-qt/qt4/qt4-x11-free.inc
+@@ -5,7 +5,7 @@ HOMEPAGE = "http://qt.nokia.com"
+ SECTION = "x11/libs"
+ DEPENDS += "virtual/libgl virtual/libx11 fontconfig libxft libxext libxrender libxrandr libxcursor"
+ 
+-INC_PR = "r38"
++INC_PR = "r39"
+ 
+ QT_GLFLAGS ?= "${@base_contains('DISTRO_FEATURES', 'opengl', '-opengl', '-no-opengl', d)} "
+ QT_GLFLAGS_qemux86 = "-opengl"
+diff --git a/meta/recipes-qt/qt4/qt4.inc b/meta/recipes-qt/qt4/qt4.inc
+index 2e70bd9..77fb06f 100644
+--- a/meta/recipes-qt/qt4/qt4.inc
++++ b/meta/recipes-qt/qt4/qt4.inc
+@@ -328,6 +328,7 @@ do_install() {
+ 			-e 's#" -Wl,-rpath-link,${S}/lib/\?"##g' \
+ 			-e 's#" -Wl,-rpath-link,${libdir}/\?"##g' \
+ 			-e 's#Iin#I${in#g' \
++			-e 's#-L\.\./\.\./WebCore/release\s\+-L\.\./\.\./JavaScriptCore/release\s\+-lwebcore\s\+-ljscore##g' \
+ 			${D}${libdir}/*.la ${D}${libdir}/*.prl ${D}${libdir}/pkgconfig/*.pc
+ 
+ 	sed -i -e s#" -Wl,-rpath-link,${S}/lib"##g \
 -- 
-Darren Hart
-Intel Open Source Technology Center
-Yocto Project - Linux Kernel
+1.7.5.4
+
 
 
