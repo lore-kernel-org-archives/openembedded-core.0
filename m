@@ -1,32 +1,41 @@
-Received: from mail-we0-f175.google.com ([74.125.82.175])
+Received: from sputnik.urmx.de ([88.198.51.18])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <koen@dominion.thruhere.net>) id 1S5CG6-0002hw-2H
+	(envelope-from <Eibach@gdsys.de>) id 1S5D2I-0004Q3-HA
 	for openembedded-core@lists.openembedded.org;
-	Wed, 07 Mar 2012 09:30:06 +0100
-Received: by wera1 with SMTP id a1so3779635wer.6
+	Wed, 07 Mar 2012 10:19:54 +0100
+Received: from mailrelay.gdsys.de (unknown [217.6.197.20])
+	by sputnik.urmx.de (Postfix) with ESMTP id D0E6F6020208
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 07 Mar 2012 00:21:29 -0800 (PST)
-Received: by 10.180.103.35 with SMTP id ft3mr2057958wib.0.1331108489457;
-	Wed, 07 Mar 2012 00:21:29 -0800 (PST)
-Received: from [172.20.0.96] (ip545070eb.adsl-surfen.hetnet.nl.
-	[84.80.112.235])
-	by mx.google.com with ESMTPS id j3sm12923280wiw.1.2012.03.07.00.21.28
-	(version=TLSv1/SSLv3 cipher=OTHER);
-	Wed, 07 Mar 2012 00:21:28 -0800 (PST)
-Mime-Version: 1.0 (Apple Message framework v1257)
-From: Koen Kooi <koen@dominion.thruhere.net>
-In-Reply-To: <83eeb4ed11a6a63abda1f3978c849a46516b92a1.1331107546.git.dvhart@linux.intel.com>
-Date: Wed, 7 Mar 2012 09:21:27 +0100
-Message-Id: <AE0C8B23-EB0D-4DD3-9BF9-22BAEB66969F@dominion.thruhere.net>
-References: <cover.1331107546.git.dvhart@linux.intel.com>
-	<83eeb4ed11a6a63abda1f3978c849a46516b92a1.1331107546.git.dvhart@linux.intel.com>
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-X-Mailer: Apple Mail (2.1257)
-X-Gm-Message-State: ALoCoQlLonLrd3T6KIGh1SzVoJ5uDHIB/sBHzVwUsJY1fSy2S1cJewxNpsp+Jc9g6C83aM3lsozd
-Cc: Paul Eggleton <paul.eggleton@linux.intel.com>,
-	Darren Hart <dvhart@linux.intel.com>
-Subject: Re: [PATCH 1/1] kernel.bbclass: Remove warnings for modutils and modprobe.d
+	Wed,  7 Mar 2012 10:11:17 +0100 (CET)
+Received: from mailsgw.gdsys.de (localhost [127.0.0.1])
+	by mailsgw.gdsys.de (Postfix) with ESMTP id 075D61F8802
+	for <openembedded-core@lists.openembedded.org>;
+	Wed,  7 Mar 2012 10:11:19 +0100 (CET)
+X-Spam-Processed: srv201.gdsys.de, Wed, 07 Mar 2012 10:11:15 +0100
+	(not processed: message from trusted or authenticated source)
+X-Return-Path: Eibach@gdsys.de
+X-Envelope-From: Eibach@gdsys.de
+X-MDaemon-Deliver-To: openembedded-core@lists.openembedded.org
+MIME-Version: 1.0
+X-MimeOLE: Produced By Microsoft MimeOLE V6.00.3790.4913
+Importance: normal
+Priority: normal
+Date: Wed, 7 Mar 2012 10:11:22 +0100
+Message-ID: <48D3D52125C49B43AE880038E2E5314BB5BFA7@SRV101.gdsys.de>
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+Thread-Topic: [OE-core] [PATCH] arch-powerpc.inc: use default value
+	ofTUNE_PKGARCH
+thread-index: Acz7+EKQc7LX+AQFSWiFTJMtxnHdLAAScZQg
+References: <1331076055-15262-1-git-send-email-msm@freescale.com>
+From: "Eibach, Dirk" <Eibach@gdsys.de>
+To: "Patches and discussions about the oe-core layer"
+	<openembedded-core@lists.openembedded.org>, 
+	<openembedded-core@openembedded.org>
+X-SafeGuard_MailGateway: Version: 5.60.3.11066 SGMG Date: 20120307091118Z
+X-AntiVirus: checked by AntiVir MailGate (version: 2.0.2-5; AVE: 7.9.10.8;
+	VDF: 7.11.24.196; host: mailrelay)
+Subject: Re: [PATCH] arch-powerpc.inc: use default value ofTUNE_PKGARCH
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -41,48 +50,50 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 07 Mar 2012 08:30:06 -0000
-Content-Type: text/plain; charset=us-ascii
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Wed, 07 Mar 2012 09:19:54 -0000
+Content-Class: urn:content-classes:message
+Content-Type: text/plain;
+	charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 
+ 
 
-Op 7 mrt. 2012, om 09:06 heeft Darren Hart het volgende geschreven:
-
-> Fixes [Yocto #2036]
->=20
-> The source and build directories are unused, remove them.
->=20
-> The modutils and modprobe.d directories may be used if modules are =
-built that
-> are either autoloaded or have modprobe.d entries. This isn't known at =
-install
-> time, so check after the package split if these directories are empty =
-and
-> remove them if they are.
->=20
-> Signed-off-by: Darren Hart <dvhart@linux.intel.com>
-> CC: Paul Eggleton <paul.eggleton@linux.intel.com>
+> We can use the default value for TUNE_PKGARCH, and now we 
+> just append "-nf" if TARGET_FPU is fpu-soft
+> 
+> Signed-off-by: Matthew McClintock <msm@freescale.com>
 > ---
-> meta/classes/kernel.bbclass |   10 ++++++++++
-> 1 files changed, 10 insertions(+), 0 deletions(-)
->=20
-> diff --git a/meta/classes/kernel.bbclass b/meta/classes/kernel.bbclass
-> index 8fbec90..169df33 100644
-> --- a/meta/classes/kernel.bbclass
-> +++ b/meta/classes/kernel.bbclass
-> @@ -105,6 +105,8 @@ kernel_do_install() {
-> 		oe_runmake DEPMOD=3Decho INSTALL_MOD_PATH=3D"${D}" =
-modules_install
-> 		rm -f "${D}/lib/modules/${KERNEL_VERSION}/modules.order"
-> 		rm -f =
-"${D}/lib/modules/${KERNEL_VERSION}/modules.builtin"
-> +		rm "${D}/lib/modules/${KERNEL_VERSION}/build"
-> +		rm "${D}/lib/modules/${KERNEL_VERSION}/source"
+>  meta/conf/machine/include/powerpc/arch-powerpc.inc |    6 ++----
+>  1 files changed, 2 insertions(+), 4 deletions(-)
+> 
+> diff --git 
+> a/meta/conf/machine/include/powerpc/arch-powerpc.inc 
+> b/meta/conf/machine/include/powerpc/arch-powerpc.inc
+> index c9b2829..abd72ed 100644
+> --- a/meta/conf/machine/include/powerpc/arch-powerpc.inc
+> +++ b/meta/conf/machine/include/powerpc/arch-powerpc.inc
+> @@ -18,10 +18,8 @@ TARGET_FPU .= 
+> "${@bb.utils.contains("TUNE_FEATURES", "fpu-soft", "soft", "", d)}
+>  
+>  ABIEXTENSION = "${@['','spe'][d.getVar('TARGET_FPU', True) 
+> in ['ppc-efd', 'ppc-efs']]}"
+>  
+> -PPCPKGSFX_FPU = "${@bb.utils.contains("TUNE_FEATURES", 
+> "fpu-hard" , "", "-nf", d)}"
+> -
+> -PPCPKGARCH = "${TUNE_ARCH}${PPCPKGSFX_FPU}"
+> -TUNE_PKGARCH ?= "${PPCPKGARCH}"
+> +PPCPKGSFX_FPU = "${@['', 
+> '-nf'][bb.data.getVar('TARGET_FPU',d,1) in ['fpu-soft']]}"
+> +TUNE_PKGARCH_append = "${PPCPKGSFX_FPU}"
+>  
+>  # Basic tune definitions
+>  AVAILTUNES += "powerpc powerpc-nf" 
 
-How do you want to support on-target building of exernal modules?
+This fixes my issues with e500v2 cores.
 
-regards,
+Tested-by: Dirk Eibach <eibach@gdsys.de>
 
-Koen=
+
 
 
