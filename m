@@ -1,30 +1,14 @@
-Received: from devils.ext.ti.com ([198.47.26.153])
+Received: from ffm.saftware.de ([83.141.3.46])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <chase.maupin@ti.com>) id 1S5NvV-0005VW-ON
+	(envelope-from <obi@opendreambox.org>) id 1S5O9S-00065D-6k
 	for openembedded-core@lists.openembedded.org;
-	Wed, 07 Mar 2012 21:57:38 +0100
-Received: from dbdp20.itg.ti.com ([172.24.170.38])
-	by devils.ext.ti.com (8.13.7/8.13.7) with ESMTP id q27KmwXG019388
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 7 Mar 2012 14:48:59 -0600
-Received: from DBDE70.ent.ti.com (localhost [127.0.0.1])
-	by dbdp20.itg.ti.com (8.13.8/8.13.8) with ESMTP id q27KmvVj021349
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 8 Mar 2012 02:18:58 +0530 (IST)
-Received: from dbdp31.itg.ti.com (172.24.170.98) by dbde70.ent.ti.com
-	(172.24.170.148) with Microsoft SMTP Server id 14.1.323.3;
-	Thu, 8 Mar 2012 02:18:57 +0530
-Received: from localhost.localdomain (dbdp20.itg.ti.com [172.24.170.38])	by
-	dbdp31.itg.ti.com (8.13.8/8.13.8) with ESMTP id q27Kms2Z021945;
-	Thu, 8 Mar 2012 02:18:56 +0530 (IST)
-From: Chase Maupin <Chase.Maupin@ti.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Wed, 7 Mar 2012 14:48:52 -0600
-Message-ID: <1331153332-3782-1-git-send-email-Chase.Maupin@ti.com>
-X-Mailer: git-send-email 1.7.0.4
-MIME-Version: 1.0
-Cc: Chase Maupin <Chase.Maupin@ti.com>
-Subject: [PATCHv3] bluez4: add dependency on libcheck to enable test modules
+	Wed, 07 Mar 2012 22:12:02 +0100
+From: Andreas Oberritter <obi@opendreambox.org>
+To: openembedded-core@lists.openembedded.org
+Date: Wed,  7 Mar 2012 22:03:17 +0100
+Message-Id: <1331154197-17024-1-git-send-email-obi@opendreambox.org>
+X-Mailer: git-send-email 1.7.5.4
+Subject: [PATCH v2] bzip2: split into binary and library packages
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -39,61 +23,166 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 07 Mar 2012 20:57:38 -0000
-Content-Type: text/plain
+X-List-Received-Date: Wed, 07 Mar 2012 21:12:02 -0000
 
-* The later versions of bluez such as 4.98 require libcheck
-  in order to build the test packages as enabled by the
-  --enable-test option passed in EXTRA_OECONF.
-* Failure to have the libcheck package available results in the
-  configure script ignoring the --enable-test option and not
-  building the test modules.
-* Adding libcheck, which is greater than the minimum required
-  version of the check library of 0.9.6 allows building the
-  test modules.
-* Build tested for am335x-evm MACHINE type and run time tested
-  by back porting this fix to the oe-classic and arago setup
-  and booting on am335x-evm.
+* Create libbz2 (and -dev, -staticdev), which can be
+  installed without the bzip2 executables.
 
-Signed-off-by: Chase Maupin <Chase.Maupin@ti.com>
+Signed-off-by: Andreas Oberritter <obi@opendreambox.org>
 ---
-* Updated in version 2:
-    * Bumped the PR of the bluez4_4.98 recipe.  I assume this is the
-      way to handle changes to the .inc file since there is no INC_PR
-* Updated in version 3:
-    * Fixed typo in commit message
----
- meta/recipes-connectivity/bluez/bluez4.inc     |    2 +-
- meta/recipes-connectivity/bluez/bluez4_4.98.bb |    2 +-
- 2 files changed, 2 insertions(+), 2 deletions(-)
+v1->v2: Bump PR of every package depending on bzip2 as suggested by Koen.
 
-diff --git a/meta/recipes-connectivity/bluez/bluez4.inc b/meta/recipes-connectivity/bluez/bluez4.inc
-index 9158687..fbbe0bf 100644
---- a/meta/recipes-connectivity/bluez/bluez4.inc
-+++ b/meta/recipes-connectivity/bluez/bluez4.inc
-@@ -7,7 +7,7 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=12f884d2ae1ff87c09e5b7ccc2c4ca7e \
-                     file://COPYING.LIB;md5=fb504b67c50331fc78734fed90fb0e09 \
-                     file://src/main.c;beginline=1;endline=24;md5=9bc54b93cd7e17bf03f52513f39f926e \
-                     file://sbc/sbc.c;beginline=1;endline=25;md5=1a40781ed30d50d8639323a184aeb191"
--DEPENDS = "udev alsa-lib libusb dbus-glib glib-2.0"
-+DEPENDS = "udev alsa-lib libusb dbus-glib glib-2.0 libcheck"
- RDEPENDS_${PN}-dev = "bluez-hcidump"
+ .../recipes-gnome/libgsf/libgsf_1.14.5.bb          |    2 +-
+ meta/recipes-devtools/dpkg/dpkg.inc                |    2 +-
+ meta/recipes-devtools/elfutils/elfutils_0.148.bb   |    2 +-
+ meta/recipes-devtools/quilt/quilt_0.51.bb          |    2 +-
+ meta/recipes-devtools/rpm/rpm_5.4.0.bb             |    2 +-
+ meta/recipes-extended/bzip2/bzip2_1.0.6.bb         |   14 +++++++++++++-
+ meta/recipes-support/gnupg/gnupg_1.4.7.bb          |    2 +-
+ meta/recipes-support/gnupg/gnupg_2.0.18.bb         |    1 +
+ meta/recipes-support/libpcre/libpcre_8.21.bb       |    2 +-
+ 9 files changed, 21 insertions(+), 8 deletions(-)
+
+diff --git a/meta-demoapps/recipes-gnome/libgsf/libgsf_1.14.5.bb b/meta-demoapps/recipes-gnome/libgsf/libgsf_1.14.5.bb
+index bf1b1ad..01139c7 100644
+--- a/meta-demoapps/recipes-gnome/libgsf/libgsf_1.14.5.bb
++++ b/meta-demoapps/recipes-gnome/libgsf/libgsf_1.14.5.bb
+@@ -1,7 +1,7 @@
+ DESCRIPTION = "GNOME Structured File Library"
+ LICENSE = "GPL"
+ SECTION = "libs"
+-PR = "r2"
++PR = "r3"
  
- ASNEEDED = ""
-diff --git a/meta/recipes-connectivity/bluez/bluez4_4.98.bb b/meta/recipes-connectivity/bluez/bluez4_4.98.bb
-index 2412b1b..9a4c682 100644
---- a/meta/recipes-connectivity/bluez/bluez4_4.98.bb
-+++ b/meta/recipes-connectivity/bluez/bluez4_4.98.bb
-@@ -1,6 +1,6 @@
- require bluez4.inc
+ LIC_FILES_CHKSUM = "file://COPYING;md5=dc7371b50816c96e145fa0f8ade8e24d \
+                     file://COPYING.LIB;md5=61464cfe342798eeced82efe9ae55f63 \
+diff --git a/meta/recipes-devtools/dpkg/dpkg.inc b/meta/recipes-devtools/dpkg/dpkg.inc
+index 1326994..69fd50a 100644
+--- a/meta/recipes-devtools/dpkg/dpkg.inc
++++ b/meta/recipes-devtools/dpkg/dpkg.inc
+@@ -2,7 +2,7 @@ DESCRIPTION = "Package maintenance system for Debian."
+ LICENSE = "GPLv2.0+"
+ SECTION = "base"
  
--PR = "r1"
-+PR = "r2"
+-INC_PR = "r15"
++INC_PR = "r16"
  
- SRC_URI += "file://bluetooth.conf \
-             file://sbc_mmx.patch \
+ SRC_URI = "${DEBIAN_MIRROR}/main/d/dpkg/dpkg_${PV}.tar.bz2 \
+            file://ignore_extra_fields.patch"
+diff --git a/meta/recipes-devtools/elfutils/elfutils_0.148.bb b/meta/recipes-devtools/elfutils/elfutils_0.148.bb
+index 710959a..dca89b1 100644
+--- a/meta/recipes-devtools/elfutils/elfutils_0.148.bb
++++ b/meta/recipes-devtools/elfutils/elfutils_0.148.bb
+@@ -6,7 +6,7 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=0636e73ff0215e8d672dc4c32c317bb3\
+                     file://EXCEPTION;md5=570adcb0c1218ab57f2249c67d0ce417"
+ DEPENDS = "libtool bzip2 zlib"
+ 
+-PR = "r5"
++PR = "r6"
+ 
+ SRC_URI = "https://fedorahosted.org/releases/e/l/elfutils/elfutils-${PV}.tar.bz2"
+ 
+diff --git a/meta/recipes-devtools/quilt/quilt_0.51.bb b/meta/recipes-devtools/quilt/quilt_0.51.bb
+index 6691d15..1c6ca73 100644
+--- a/meta/recipes-devtools/quilt/quilt_0.51.bb
++++ b/meta/recipes-devtools/quilt/quilt_0.51.bb
+@@ -4,4 +4,4 @@ RDEPENDS_${PN} += "patch diffstat bzip2 util-linux"
+ SRC_URI += "file://aclocal.patch \
+             file://gnu_patch_test_fix_target.patch \
+            "
+-PR = "r0"
++PR = "r1"
+diff --git a/meta/recipes-devtools/rpm/rpm_5.4.0.bb b/meta/recipes-devtools/rpm/rpm_5.4.0.bb
+index 6be490f..64ae537 100644
+--- a/meta/recipes-devtools/rpm/rpm_5.4.0.bb
++++ b/meta/recipes-devtools/rpm/rpm_5.4.0.bb
+@@ -45,7 +45,7 @@ LIC_FILES_CHKSUM = "file://COPYING.LIB;md5=2d5025d4aa3495befef8f17206a5b0a1"
+ DEPENDS = "bzip2 zlib db openssl elfutils expat libpcre attr acl popt ${extrarpmdeps}"
+ extrarpmdeps = "python perl"
+ extrarpmdeps_virtclass-native = "file-native"
+-PR = "r31"
++PR = "r32"
+ 
+ # rpm2cpio is a shell script, which is part of the rpm src.rpm.  It is needed
+ # in order to extract the distribution SRPM into a format we can extract...
+diff --git a/meta/recipes-extended/bzip2/bzip2_1.0.6.bb b/meta/recipes-extended/bzip2/bzip2_1.0.6.bb
+index 14cd240..fa8310e 100644
+--- a/meta/recipes-extended/bzip2/bzip2_1.0.6.bb
++++ b/meta/recipes-extended/bzip2/bzip2_1.0.6.bb
+@@ -6,7 +6,7 @@ HOMEPAGE = "http://www.bzip.org/"
+ SECTION = "console/utils"
+ LICENSE = "BSD-4-Clause"
+ LIC_FILES_CHKSUM = "file://LICENSE;beginline=8;endline=37;md5=40d9d1eb05736d1bfc86cfdd9106e6b2"
+-PR = "r4"
++PR = "r5"
+ 
+ SRC_URI = "http://www.bzip.org/${PV}/${BPN}-${PV}.tar.gz \
+            file://configure.ac \
+@@ -15,6 +15,8 @@ SRC_URI = "http://www.bzip.org/${PV}/${BPN}-${PV}.tar.gz \
+ SRC_URI[md5sum] = "00b516f4704d4a7cb50a1d97e6e8e15b"
+ SRC_URI[sha256sum] = "a2848f34fcd5d6cf47def00461fcb528a0484d8edef8208d6d2e2909dc61d9cd"
+ 
++PACKAGES =+ "libbz2 libbz2-dev libbz2-staticdev"
++
+ CFLAGS_append = " -fPIC -fpic -Winline -fno-strength-reduce -D_FILE_OFFSET_BITS=64"
+ 
+ inherit autotools update-alternatives
+@@ -28,5 +30,15 @@ do_configure_prepend () {
+ 	cp ${STAGING_DATADIR_NATIVE}/automake*/install-sh ${S}/
+ }
+ 
++FILES_libbz2 = "${libdir}/lib*${SOLIBS}"
++
++FILES_libbz2-dev = "${includedir} ${libdir}/lib*${SOLIBSDEV}"
++SECTION_libbz2-dev = "devel"
++RDEPENDS_libbz2-dev = "libbz2 (= ${EXTENDPKGV})"
++
++FILES_libbz2-staticdev = "${libdir}/*.a"
++SECTION_libbz2-staticdev = "devel"
++RDEPENDS_libbz2-staticdev = "libbz2-dev (= ${EXTENDPKGV})"
++
+ PROVIDES_append_virtclass-native = " bzip2-full-native"
+ BBCLASSEXTEND = "native"
+diff --git a/meta/recipes-support/gnupg/gnupg_1.4.7.bb b/meta/recipes-support/gnupg/gnupg_1.4.7.bb
+index f033659..41552b2 100644
+--- a/meta/recipes-support/gnupg/gnupg_1.4.7.bb
++++ b/meta/recipes-support/gnupg/gnupg_1.4.7.bb
+@@ -7,7 +7,7 @@ LICENSE = "GPLv2"
+ 
+ LIC_FILES_CHKSUM = "file://COPYING;md5=eb723b61539feef013de476e68b5c50a"
+ 
+-PR = "r5"
++PR = "r6"
+ 
+ SRC_URI = "ftp://ftp.gnupg.org/gcrypt/gnupg/gnupg-${PV}.tar.bz2 \
+            file://long-long-thumb.patch \
+diff --git a/meta/recipes-support/gnupg/gnupg_2.0.18.bb b/meta/recipes-support/gnupg/gnupg_2.0.18.bb
+index abcb5fb..3085494 100644
+--- a/meta/recipes-support/gnupg/gnupg_2.0.18.bb
++++ b/meta/recipes-support/gnupg/gnupg_2.0.18.bb
+@@ -5,6 +5,7 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=f27defe1e96c2e1ecd4e0c9be8967949 \
+                     file://COPYING.LIB;md5=6a6a8e020838b23406c81b19c1d46df6"
+ 
+ DEPENDS = "pth libassuan libksba zlib bzip2 readline libgcrypt"
++PR = "r1"
+ 
+ inherit autotools gettext
+ 
+diff --git a/meta/recipes-support/libpcre/libpcre_8.21.bb b/meta/recipes-support/libpcre/libpcre_8.21.bb
+index f48d9f2..f5fa4ef 100644
+--- a/meta/recipes-support/libpcre/libpcre_8.21.bb
++++ b/meta/recipes-support/libpcre/libpcre_8.21.bb
+@@ -5,7 +5,7 @@ provides a POSIX calling interface to PCRE; the regular expressions \
+ themselves still follow Perl syntax and semantics. The header file for \
+ the POSIX-style functions is called pcreposix.h."
+ SECTION = "devel"
+-PR = "r0"
++PR = "r1"
+ LICENSE = "BSD"
+ LIC_FILES_CHKSUM = "file://LICENCE;md5=2f00d186a775c8002422a5315079d96b"
+ SRC_URI = "${SOURCEFORGE_MIRROR}/pcre/pcre-${PV}.tar.bz2 \
 -- 
-1.7.0.4
+1.7.5.4
 
 
 
