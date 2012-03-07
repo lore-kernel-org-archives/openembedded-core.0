@@ -1,44 +1,28 @@
-Received: from db3ehsobe004.messaging.microsoft.com ([213.199.154.142]
-	helo=db3outboundpool.messaging.microsoft.com)
+Received: from smtp24.4emm.com ([69.18.222.25])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <B29882@freescale.com>) id 1S54lL-0004NX-UF
-	for openembedded-core@openembedded.org; Wed, 07 Mar 2012 01:29:52 +0100
-Received: from mail72-db3-R.bigfish.com (10.3.81.230) by
-	DB3EHSOBE005.bigfish.com (10.3.84.25) with Microsoft SMTP Server id
-	14.1.225.23; Tue, 6 Mar 2012 23:20:59 +0000
-Received: from mail72-db3 (localhost [127.0.0.1])	by mail72-db3-R.bigfish.com
-	(Postfix) with ESMTP id D44A32201EC	for
-	<openembedded-core@openembedded.org>; 
-	Tue,  6 Mar 2012 23:20:59 +0000 (UTC)
-X-SpamScore: 3
-X-BigFish: VS3(zzzz1202h1082kzz8275bhz2dh2a8h668h839h)
-X-Forefront-Antispam-Report: CIP:70.37.183.190; KIP:(null); UIP:(null); IPV:NLI;
-	H:mail.freescale.net; RD:none; EFVD:NLI
-Received: from mail72-db3 (localhost.localdomain [127.0.0.1]) by mail72-db3
-	(MessageSwitch) id 1331076057983348_29576;
-	Tue,  6 Mar 2012 23:20:57 +0000 (UTC)
-Received: from DB3EHSMHS016.bigfish.com (unknown [10.3.81.226])	by
-	mail72-db3.bigfish.com (Postfix) with ESMTP id EC31B420045	for
-	<openembedded-core@openembedded.org>;
-	Tue,  6 Mar 2012 23:20:57 +0000 (UTC)
-Received: from mail.freescale.net (70.37.183.190) by DB3EHSMHS016.bigfish.com
-	(10.3.87.116) with Microsoft SMTP Server (TLS) id 14.1.225.23;
-	Tue, 6 Mar 2012 23:20:57 +0000
-Received: from tx30smr01.am.freescale.net (10.81.153.31) by
-	039-SN1MMR1-003.039d.mgd.msft.net (10.84.1.16) with Microsoft SMTP
-	Server (TLS) id 14.1.355.3; Tue, 6 Mar 2012 17:20:56 -0600
-Received: from right.am.freescale.net (right.am.freescale.net [10.82.193.13])
-	by tx30smr01.am.freescale.net (8.14.3/8.14.0) with ESMTP id
-	q26NKt9T027864
-	for <openembedded-core@openembedded.org>; Tue, 6 Mar 2012 16:20:56 -0700
-From: Matthew McClintock <msm@freescale.com>
-To: <openembedded-core@openembedded.org>
-Date: Tue, 6 Mar 2012 17:20:55 -0600
-Message-ID: <1331076055-15262-1-git-send-email-msm@freescale.com>
-X-Mailer: git-send-email 1.7.6.1
+	(envelope-from <james@digitalmatter.com.au>) id 1S56A5-0005Nw-NX
+	for openembedded-core@lists.openembedded.org;
+	Wed, 07 Mar 2012 02:59:29 +0100
+Received: from MBX20.4emm.local ([fe80::382d:f6d3:f4de:a97f]) by
+	HUB24.4emm.local ([fe80::2c09:98d1:4a87:91f6%18]) with mapi id
+	14.01.0289.001; Tue, 6 Mar 2012 20:49:49 -0500
+From: James Limbouris <james@digitalmatter.com.au>
+To: "openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+Thread-Topic: [OE-core] [PATCH v2] gdk-pixbuf: Pick up ${NM} from the
+	environment.
+Thread-Index: AQHM+0AkTW11mng2W02Sur0vozU7MZZdWPAAgAC4H6A=
+Date: Wed, 7 Mar 2012 01:49:48 +0000
+Message-ID: <840A81C1B782724A8EB52725BD519EFF338079F4@MBX20.4emm.local>
+References: <1331000623-10956-1-git-send-email-james@digitalmatter.com.au>
+	<1331027106.6166.7.camel@mattotaupa>
+In-Reply-To: <1331027106.6166.7.camel@mattotaupa>
+Accept-Language: en-AU, en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [203.59.132.158]
 MIME-Version: 1.0
-X-OriginatorOrg: freescale.com
-Subject: [PATCH] arch-powerpc.inc: use default value of TUNE_PKGARCH
+Subject: Re: [PATCH v2] gdk-pixbuf: Pick up ${NM} from the environment.
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -53,37 +37,32 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 07 Mar 2012 00:29:52 -0000
-Content-Type: text/plain
+X-List-Received-Date: Wed, 07 Mar 2012 01:59:29 -0000
+Content-Language: en-US
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 
-We can use the default value for TUNE_PKGARCH, and now we just
-append "-nf" if TARGET_FPU is fpu-soft
-
-Signed-off-by: Matthew McClintock <msm@freescale.com>
----
- meta/conf/machine/include/powerpc/arch-powerpc.inc |    6 ++----
- 1 files changed, 2 insertions(+), 4 deletions(-)
-
-diff --git a/meta/conf/machine/include/powerpc/arch-powerpc.inc b/meta/conf/machine/include/powerpc/arch-powerpc.inc
-index c9b2829..abd72ed 100644
---- a/meta/conf/machine/include/powerpc/arch-powerpc.inc
-+++ b/meta/conf/machine/include/powerpc/arch-powerpc.inc
-@@ -18,10 +18,8 @@ TARGET_FPU .= "${@bb.utils.contains("TUNE_FEATURES", "fpu-soft", "soft", "", d)}
- 
- ABIEXTENSION = "${@['','spe'][d.getVar('TARGET_FPU', True) in ['ppc-efd', 'ppc-efs']]}"
- 
--PPCPKGSFX_FPU = "${@bb.utils.contains("TUNE_FEATURES", "fpu-hard" , "", "-nf", d)}"
--
--PPCPKGARCH = "${TUNE_ARCH}${PPCPKGSFX_FPU}"
--TUNE_PKGARCH ?= "${PPCPKGARCH}"
-+PPCPKGSFX_FPU = "${@['', '-nf'][bb.data.getVar('TARGET_FPU',d,1) in ['fpu-soft']]}"
-+TUNE_PKGARCH_append = "${PPCPKGSFX_FPU}"
- 
- # Basic tune definitions
- AVAILTUNES += "powerpc powerpc-nf" 
--- 
-1.7.6.1
-
-
+PiAtLS0tLU9yaWdpbmFsIE1lc3NhZ2UtLS0tLQ0KPiBGcm9tOiBQYXVsIE1lbnplbCBbbWFpbHRv
+OnBhdWxlcGFudGVyQHVzZXJzLnNvdXJjZWZvcmdlLm5ldF0NCj4gU2VudDogVHVlc2RheSwgNiBN
+YXJjaCAyMDEyIDU6NDUgUE0NCj4gVG86IG9wZW5lbWJlZGRlZC1jb3JlQGxpc3RzLm9wZW5lbWJl
+ZGRlZC5vcmcNCj4gQ2M6IEphbWVzIExpbWJvdXJpcw0KPiBTdWJqZWN0OiBSZTogW09FLWNvcmVd
+IFtQQVRDSCB2Ml0gZ2RrLXBpeGJ1ZjogUGljayB1cCAke05NfSBmcm9tIHRoZQ0KPiBlbnZpcm9u
+bWVudC4NCj4gDQo+IERlYXIgSmFtZXMsDQo+IA0KPiANCj4gdGhhbmsgeW91IGZvciBzZW5kaW5n
+IGFuIGltcHJvdmVkIHZlcnNpb24gb2YgdGhlIHBhdGNoLg0KPiANCi4uLg0KPiANCj4gYXMgS2hl
+bSBhbmQgeW91IGRpc2N1c3NlZCwgaXQgc2hvdWxkIGJlIHVzZWZ1bCBmb3IgdXBzdHJlYW0gWzFd
+LiBNYXliZQ0KPiB5b3UgY2FuIGFkZCBtb3JlIGNvbnRleHQgWzJdWzNdLCBzbyB1cHN0cmVhbSBj
+YW4gYmV0dGVyIGp1ZGdlIGlmIHRoZXkNCj4gd2FudCBpdC4NCj4gDQouLi4NCj4gDQo+IFRoYW5r
+cywNCj4gDQo+IFBhdWwNCj4gDQo+IA0KPiBbMV0gaHR0cDovL2xpc3RzLmxpbnV4dG9nby5vcmcv
+cGlwZXJtYWlsL29wZW5lbWJlZGRlZC1jb3JlLzIwMTItDQo+IE1hcmNoLzAxODU1NC5odG1sDQo+
+IFsyXSBodHRwOi8vd3d3LmdudS5vcmcvc29mdHdhcmUvYXV0b2NvbmYvbWFudWFsL2F1dG9jb25m
+LQ0KPiAyLjY3L2h0bWxfbm9kZS9HZW5lcmljLVByb2dyYW1zLmh0bWwNCj4gWzNdIGh0dHA6Ly9s
+aXN0cy5nbnUub3JnL2FyY2hpdmUvaHRtbC9idWctbmN1cnNlcy8yMDExLTExL21zZzAwMDExLmh0
+bWwNCg0KSGksDQoNClRoaXMgaXNzdWUgaGFzIGFscmVhZHkgYmVlbiBwYXRjaGVkIGZvciBndGsr
+LCBhbmQgaXMgbWFya2VkIFVwc3RyZWFtOiBpbmFwcHJvcHJpYXRlIHRoZXJlLg0KSG93ZXZlciwg
+SSBjb3VsZG4ndCBmaW5kIGFueSBtZW50aW9uIG9mIEFDX0NIRUNLX1RPT0xTIGluIHRoZSBHbm9t
+ZSBidWd6aWxsYSwgc28gSSBoYXZlIHN1Ym1pdHRlZCBidWcgcmVwb3J0cyBmb3IgYm90aCBnZGst
+cGl4YnVmIGFuZCBndGsrLg0KDQpodHRwczovL2J1Z3ppbGxhLmdub21lLm9yZy9zaG93X2J1Zy5j
+Z2k/aWQ9NjcxNTE1DQpodHRwczovL2J1Z3ppbGxhLmdub21lLm9yZy9zaG93X2J1Zy5jZ2k/aWQ9
+NjcxNTE2DQoNClJlZ2FyZHMsDQpKYW1lcw0KDQo=
 
 
