@@ -1,43 +1,30 @@
 Received: from devils.ext.ti.com ([198.47.26.153])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <chase.maupin@ti.com>) id 1S5Nti-0005SN-8z
+	(envelope-from <chase.maupin@ti.com>) id 1S5NvV-0005VW-ON
 	for openembedded-core@lists.openembedded.org;
-	Wed, 07 Mar 2012 21:55:46 +0100
-Received: from dlep26.itg.ti.com ([157.170.170.121])
-	by devils.ext.ti.com (8.13.7/8.13.7) with ESMTP id q27Kl79g019140;
-	Wed, 7 Mar 2012 14:47:07 -0600
-Received: from DFLE70.ent.ti.com (localhost [127.0.0.1])
-	by dlep26.itg.ti.com (8.13.8/8.13.8) with ESMTP id q27Kl7ow007290;
-	Wed, 7 Mar 2012 14:47:07 -0600 (CST)
-Received: from DFLE34.ent.ti.com ([fe80::c12:d795:2e56:2d02]) by
-	DFLE70.ent.ti.com ([fe80::db3:609a:aa62:e1ec%22]) with mapi id
-	14.01.0323.003; Wed, 7 Mar 2012 14:47:07 -0600
-From: "Maupin, Chase" <chase.maupin@ti.com>
-To: Paul Menzel <paulepanter@users.sourceforge.net>,
-	"openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Thread-Topic: [OE-core] [PATCHv2] bluez4: add dependency on libcheck to
-	enable test modules
-Thread-Index: AQHM/F/aXhhwarKtCU2YqxeLaWtyFpZfTeQg
-Date: Wed, 7 Mar 2012 20:47:06 +0000
-Message-ID: <7D46E86EC0A8354091174257B2FED1012F0593CF@DFLE34.ent.ti.com>
-References: <1331123568-23178-1-git-send-email-Chase.Maupin@ti.com>
-	<1331124185.3539.20.camel@mattotaupa>
-In-Reply-To: <1331124185.3539.20.camel@mattotaupa>
-Accept-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-cr-hashedpuzzle: BdHI CQSm CfsZ DtDx D8zV EZ2x E2MJ G8xN Hy06 JlD+ Ku0I
-	KvFL PMD9 PxN+ QKRw U3i6; 2;
-	bwBwAGUAbgBlAG0AYgBlAGQAZABlAGQALQBjAG8AcgBlAEAAbABpAHMAdABzAC4AbwBwAGUAbgBlAG0AYgBlAGQAZABlAGQALgBvAHIAZwA7AHAAYQB1AGwAZQBwAGEAbgB0AGUAcgBAAHUAcwBlAHIAcwAuAHMAbwB1AHIAYwBlAGYAbwByAGcAZQAuAG4AZQB0AA==;
-	Sosha1_v1; 7; {DB38D66B-8970-41A6-9CE3-DE4492A9E266};
-	YwBoAGEAcwBlAC4AbQBhAHUAcABpAG4AQAB0AGkALgBjAG8AbQA=; Wed,
-	07 Mar 2012 20:47:03 GMT;
-	UgBFADoAIABbAE8ARQAtAGMAbwByAGUAXQAgAFsAUABBAFQAQwBIAHYAMgBdACAAYgBsAHUAZQB6ADQAOgAgAGEAZABkACAAZABlAHAAZQBuAGQAZQBuAGMAeQAgAG8AbgAgAGwAaQBiAGMAaABlAGMAawAgAHQAbwAgAGUAbgBhAGIAbABlACAAdABlAHMAdAAgAG0AbwBkAHUAbABlAHMA
-x-cr-puzzleid: {DB38D66B-8970-41A6-9CE3-DE4492A9E266}
-x-originating-ip: [128.247.5.50]
+	Wed, 07 Mar 2012 21:57:38 +0100
+Received: from dbdp20.itg.ti.com ([172.24.170.38])
+	by devils.ext.ti.com (8.13.7/8.13.7) with ESMTP id q27KmwXG019388
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 7 Mar 2012 14:48:59 -0600
+Received: from DBDE70.ent.ti.com (localhost [127.0.0.1])
+	by dbdp20.itg.ti.com (8.13.8/8.13.8) with ESMTP id q27KmvVj021349
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 8 Mar 2012 02:18:58 +0530 (IST)
+Received: from dbdp31.itg.ti.com (172.24.170.98) by dbde70.ent.ti.com
+	(172.24.170.148) with Microsoft SMTP Server id 14.1.323.3;
+	Thu, 8 Mar 2012 02:18:57 +0530
+Received: from localhost.localdomain (dbdp20.itg.ti.com [172.24.170.38])	by
+	dbdp31.itg.ti.com (8.13.8/8.13.8) with ESMTP id q27Kms2Z021945;
+	Thu, 8 Mar 2012 02:18:56 +0530 (IST)
+From: Chase Maupin <Chase.Maupin@ti.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Wed, 7 Mar 2012 14:48:52 -0600
+Message-ID: <1331153332-3782-1-git-send-email-Chase.Maupin@ti.com>
+X-Mailer: git-send-email 1.7.0.4
 MIME-Version: 1.0
-Subject: Re: [PATCHv2] bluez4: add dependency on libcheck to enable test modules
+Cc: Chase Maupin <Chase.Maupin@ti.com>
+Subject: [PATCHv3] bluez4: add dependency on libcheck to enable test modules
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -52,64 +39,61 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 07 Mar 2012 20:55:46 -0000
-Content-Language: en-US
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+X-List-Received-Date: Wed, 07 Mar 2012 20:57:38 -0000
+Content-Type: text/plain
 
-PiAtLS0tLU9yaWdpbmFsIE1lc3NhZ2UtLS0tLQ0KPiBGcm9tOiBQYXVsIE1lbnplbCBbbWFpbHRv
-OnBhdWxlcGFudGVyQHVzZXJzLnNvdXJjZWZvcmdlLm5ldF0NCj4gU2VudDogV2VkbmVzZGF5LCBN
-YXJjaCAwNywgMjAxMiA2OjQzIEFNDQo+IFRvOiBvcGVuZW1iZWRkZWQtY29yZUBsaXN0cy5vcGVu
-ZW1iZWRkZWQub3JnDQo+IENjOiBNYXVwaW4sIENoYXNlDQo+IFN1YmplY3Q6IFJlOiBbT0UtY29y
-ZV0gW1BBVENIdjJdIGJsdWV6NDogYWRkIGRlcGVuZGVuY3kgb24gbGliY2hlY2sNCj4gdG8gZW5h
-YmxlIHRlc3QgbW9kdWxlcw0KPiANCj4gQW0gTWl0dHdvY2gsIGRlbiAwNy4wMy4yMDEyLCAwNjoz
-MiAtMDYwMCBzY2hyaWViIENoYXNlIE1hdXBpbjoNCj4gPiAqIFRoZSBsYXRlciB2ZXJzaW9ucyBv
-ZiBibHVleiBzdWNoIGFzIDQuOTggcmVxdWlyZSBsaWJjaGVjaw0KPiA+ICAgaW4gb3JkZXIgdG8g
-YnVpbGQgdGhlIHRlc3QgcGFja2FnZXMgYXMgZW5hYmxlZCBieSB0aGUNCj4gPiAgIC0tZW5hYmxl
-LXRlc3Qgb3B0aW9uIHBhc3NlZCBpbiBFWFRSQV9PRUNPTkYuDQo+ID4gKiBGYWlsdXJlIHRvIGhh
-dmUgdGhlIGxpYmNoZWNrIHBhY2thZ2UgYXZhaWxhbGJlIHJlc3VsdHMgaW4gdGhlDQo+IA0KPiBh
-dmFpbGEqYmwqZQ0KDQpJJ2xsIGZpeCB0aGlzLiAgdGhhbmtzDQoNCj4gDQo+ID4gICBjb25maWd1
-cmUgc2NyaXB0IGlnbm9yaW5nIHRoZSAtLWVuYWJsZS10ZXN0IG9wdGlvbiBhbmQgbm90DQo+ID4g
-ICBidWlsZGluZyB0aGUgdGVzdCBtb2R1bGVzLg0KPiA+ICogQWRkaW5nIGxpYmNoZWNrLCB3aGlj
-aCBpcyBncmVhdGVyIHRoYW4gdGhlIG1pbmltdW0gcmVxdWlyZWQNCj4gPiAgIHZlcnNpb24gb2Yg
-dGhlIGNoZWNrIGxpYnJhcnkgb2YgMC45LjYgYWxsb3dzIGJ1aWxkaW5nIHRoZQ0KPiA+ICAgdGVz
-dCBtb2R1bGVzLg0KPiA+ICogQnVpbGQgdGVzdGVkIGZvciBhbTMzNXgtZXZtIE1BQ0hJTkUgdHlw
-ZSBhbmQgcnVuIHRpbWUgdGVzdGVkDQo+ID4gICBieSBiYWNrIHBvcnRpbmcgdGhpcyBmaXggdG8g
-dGhlIG9lLWNsYXNzaWMgYW5kIGFyYWdvIHNldHVwDQo+ID4gICBhbmQgYm9vdGluZyBvbiBhbTMz
-NXgtZXZtLg0KPiANCj4gRG8geW91IGhhdmUgYSBwYXRjaCBmb3IgdGhhdCBzbyB0aGF0IG90aGVy
-cyBjYW4gcHJvZml0IGZyb20gdGhpcw0KPiB3b3JrDQo+IHRvbz8NCg0KSXQgaXMgYmVpbmcgbWFk
-ZSBpbnRvIGFuIG9mZmljaWFsIHBhdGNoIGZvciBhcmFnby4gIEN1cnJlbnRseSBpdCBpcyBvbiBt
-eSBidWlsZCBzZXR1cCBidXQgYSBwYXRjaCBpcyBwZW5kaW5nLg0KDQo+IA0KPiA+IFNpZ25lZC1v
-ZmYtYnk6IENoYXNlIE1hdXBpbiA8Q2hhc2UuTWF1cGluQHRpLmNvbT4NCj4gPiAtLS0NCj4gPiAq
-IFVwZGF0ZWQgaW4gdmVyc2lvbiAyOg0KPiA+ICAgICAqIEJ1bXBlZCB0aGUgUFIgb2YgdGhlIGJs
-dWV6NF80Ljk4IHJlY2lwZS4gIEkgYXNzdW1lIHRoaXMgaXMNCj4gdGhlDQo+ID4gICAgICAgd2F5
-IHRvIGhhbmRsZSBjaGFuZ2VzIHRvIHRoZSAuaW5jIGZpbGUgc2luY2UgdGhlcmUgaXMgbm8NCj4g
-SU5DX1BSDQo+ID4NCj4gPiAtLS0NCj4gPiAgbWV0YS9yZWNpcGVzLWNvbm5lY3Rpdml0eS9ibHVl
-ei9ibHVlejQuaW5jICAgICB8ICAgIDIgKy0NCj4gPiAgbWV0YS9yZWNpcGVzLWNvbm5lY3Rpdml0
-eS9ibHVlei9ibHVlejRfNC45OC5iYiB8ICAgIDIgKy0NCj4gPiAgMiBmaWxlcyBjaGFuZ2VkLCAy
-IGluc2VydGlvbnMoKyksIDIgZGVsZXRpb25zKC0pDQo+ID4NCj4gPiBkaWZmIC0tZ2l0IGEvbWV0
-YS9yZWNpcGVzLWNvbm5lY3Rpdml0eS9ibHVlei9ibHVlejQuaW5jDQo+IGIvbWV0YS9yZWNpcGVz
-LWNvbm5lY3Rpdml0eS9ibHVlei9ibHVlejQuaW5jDQo+ID4gaW5kZXggOTE1ODY4Ny4uZmJiZTBi
-ZiAxMDA2NDQNCj4gPiAtLS0gYS9tZXRhL3JlY2lwZXMtY29ubmVjdGl2aXR5L2JsdWV6L2JsdWV6
-NC5pbmMNCj4gPiArKysgYi9tZXRhL3JlY2lwZXMtY29ubmVjdGl2aXR5L2JsdWV6L2JsdWV6NC5p
-bmMNCj4gPiBAQCAtNyw3ICs3LDcgQEAgTElDX0ZJTEVTX0NIS1NVTSA9DQo+ICJmaWxlOi8vQ09Q
-WUlORzttZDU9MTJmODg0ZDJhZTFmZjg3YzA5ZTViN2NjYzJjNGNhN2UgXA0KPiA+DQo+IGZpbGU6
-Ly9DT1BZSU5HLkxJQjttZDU9ZmI1MDRiNjdjNTAzMzFmYzc4NzM0ZmVkOTBmYjBlMDkgXA0KPiA+
-DQo+IGZpbGU6Ly9zcmMvbWFpbi5jO2JlZ2lubGluZT0xO2VuZGxpbmU9MjQ7bWQ1PTliYzU0Yjkz
-Y2Q3ZTE3YmYwM2Y1MjUNCj4gMTNmMzlmOTI2ZSBcDQo+ID4NCj4gZmlsZTovL3NiYy9zYmMuYzti
-ZWdpbmxpbmU9MTtlbmRsaW5lPTI1O21kNT0xYTQwNzgxZWQzMGQ1MGQ4NjM5MzIzYQ0KPiAxODRh
-ZWIxOTEiDQo+ID4gLURFUEVORFMgPSAidWRldiBhbHNhLWxpYiBsaWJ1c2IgZGJ1cy1nbGliIGds
-aWItMi4wIg0KPiA+ICtERVBFTkRTID0gInVkZXYgYWxzYS1saWIgbGlidXNiIGRidXMtZ2xpYiBn
-bGliLTIuMCBsaWJjaGVjayINCj4gPiAgUkRFUEVORFNfJHtQTn0tZGV2ID0gImJsdWV6LWhjaWR1
-bXAiDQo+ID4NCj4gPiAgQVNORUVERUQgPSAiIg0KPiA+IGRpZmYgLS1naXQgYS9tZXRhL3JlY2lw
-ZXMtY29ubmVjdGl2aXR5L2JsdWV6L2JsdWV6NF80Ljk4LmJiDQo+IGIvbWV0YS9yZWNpcGVzLWNv
-bm5lY3Rpdml0eS9ibHVlei9ibHVlejRfNC45OC5iYg0KPiA+IGluZGV4IDI0MTJiMWIuLjlhNGM2
-ODIgMTAwNjQ0DQo+ID4gLS0tIGEvbWV0YS9yZWNpcGVzLWNvbm5lY3Rpdml0eS9ibHVlei9ibHVl
-ejRfNC45OC5iYg0KPiA+ICsrKyBiL21ldGEvcmVjaXBlcy1jb25uZWN0aXZpdHkvYmx1ZXovYmx1
-ZXo0XzQuOTguYmINCj4gPiBAQCAtMSw2ICsxLDYgQEANCj4gPiAgcmVxdWlyZSBibHVlejQuaW5j
-DQo+ID4NCj4gPiAtUFIgPSAicjEiDQo+ID4gK1BSID0gInIyIg0KPiA+DQo+ID4gIFNSQ19VUkkg
-Kz0gImZpbGU6Ly9ibHVldG9vdGguY29uZiBcDQo+ID4gICAgICAgICAgICAgIGZpbGU6Ly9zYmNf
-bW14LnBhdGNoIFwNCj4gDQo+IFJldmlld2VkLWJ5OiBQYXVsIE1lbnplbCA8cGF1bGVwYW50ZXJA
-dXNlcnMuc291cmNlZm9yZ2UubmV0Pg0KPiANCj4gDQo+IFRoYW5rcywNCj4gDQo+IFBhdWwNCg==
+* The later versions of bluez such as 4.98 require libcheck
+  in order to build the test packages as enabled by the
+  --enable-test option passed in EXTRA_OECONF.
+* Failure to have the libcheck package available results in the
+  configure script ignoring the --enable-test option and not
+  building the test modules.
+* Adding libcheck, which is greater than the minimum required
+  version of the check library of 0.9.6 allows building the
+  test modules.
+* Build tested for am335x-evm MACHINE type and run time tested
+  by back porting this fix to the oe-classic and arago setup
+  and booting on am335x-evm.
+
+Signed-off-by: Chase Maupin <Chase.Maupin@ti.com>
+---
+* Updated in version 2:
+    * Bumped the PR of the bluez4_4.98 recipe.  I assume this is the
+      way to handle changes to the .inc file since there is no INC_PR
+* Updated in version 3:
+    * Fixed typo in commit message
+---
+ meta/recipes-connectivity/bluez/bluez4.inc     |    2 +-
+ meta/recipes-connectivity/bluez/bluez4_4.98.bb |    2 +-
+ 2 files changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/meta/recipes-connectivity/bluez/bluez4.inc b/meta/recipes-connectivity/bluez/bluez4.inc
+index 9158687..fbbe0bf 100644
+--- a/meta/recipes-connectivity/bluez/bluez4.inc
++++ b/meta/recipes-connectivity/bluez/bluez4.inc
+@@ -7,7 +7,7 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=12f884d2ae1ff87c09e5b7ccc2c4ca7e \
+                     file://COPYING.LIB;md5=fb504b67c50331fc78734fed90fb0e09 \
+                     file://src/main.c;beginline=1;endline=24;md5=9bc54b93cd7e17bf03f52513f39f926e \
+                     file://sbc/sbc.c;beginline=1;endline=25;md5=1a40781ed30d50d8639323a184aeb191"
+-DEPENDS = "udev alsa-lib libusb dbus-glib glib-2.0"
++DEPENDS = "udev alsa-lib libusb dbus-glib glib-2.0 libcheck"
+ RDEPENDS_${PN}-dev = "bluez-hcidump"
+ 
+ ASNEEDED = ""
+diff --git a/meta/recipes-connectivity/bluez/bluez4_4.98.bb b/meta/recipes-connectivity/bluez/bluez4_4.98.bb
+index 2412b1b..9a4c682 100644
+--- a/meta/recipes-connectivity/bluez/bluez4_4.98.bb
++++ b/meta/recipes-connectivity/bluez/bluez4_4.98.bb
+@@ -1,6 +1,6 @@
+ require bluez4.inc
+ 
+-PR = "r1"
++PR = "r2"
+ 
+ SRC_URI += "file://bluetooth.conf \
+             file://sbc_mmx.patch \
+-- 
+1.7.0.4
+
 
 
