@@ -1,22 +1,24 @@
-Received: from mga03.intel.com ([143.182.124.21])
+Received: from mga14.intel.com ([143.182.124.37])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <lianhao.lu@intel.com>) id 1S5Bct-0000At-FA
+	(envelope-from <dvhart@linux.intel.com>) id 1S5C2h-0002Wl-7A
 	for openembedded-core@lists.openembedded.org;
-	Wed, 07 Mar 2012 08:49:35 +0100
-Received: from azsmga002.ch.intel.com ([10.2.17.35])
-	by azsmga101.ch.intel.com with ESMTP; 06 Mar 2012 23:40:59 -0800
+	Wed, 07 Mar 2012 09:16:15 +0100
+Received: from azsmga001.ch.intel.com ([10.2.17.19])
+	by azsmga102.ch.intel.com with ESMTP; 07 Mar 2012 00:07:37 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="74574495"
-Received: from llu-piketon.sh.intel.com (HELO localhost) ([10.239.36.62])
-	by AZSMGA002.ch.intel.com with ESMTP; 06 Mar 2012 23:40:58 -0800
-From: Lianhao Lu <lianhao.lu@intel.com>
+X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="115740777"
+Received: from unknown (HELO localhost) ([10.255.15.187])
+	by azsmga001.ch.intel.com with ESMTP; 07 Mar 2012 00:07:34 -0800
+From: Darren Hart <dvhart@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Wed,  7 Mar 2012 15:36:45 +0800
-Message-Id: <985672cba7c76c5357200575e206024a940430f3.1331105701.git.lianhao.lu@intel.com>
-X-Mailer: git-send-email 1.7.0.4
-In-Reply-To: <cover.1331105701.git.lianhao.lu@intel.com>
-References: <cover.1331105701.git.lianhao.lu@intel.com>
-Subject: [PATCH 1/1] prservice: Added sanity check for prservice connection.
+Date: Wed,  7 Mar 2012 00:06:46 -0800
+Message-Id: <83eeb4ed11a6a63abda1f3978c849a46516b92a1.1331107546.git.dvhart@linux.intel.com>
+X-Mailer: git-send-email 1.7.6.5
+In-Reply-To: <cover.1331107546.git.dvhart@linux.intel.com>
+References: <cover.1331107546.git.dvhart@linux.intel.com>
+Cc: Paul Eggleton <paul.eggleton@linux.intel.com>,
+	Darren Hart <dvhart@linux.intel.com>
+Subject: [PATCH 1/1] kernel.bbclass: Remove warnings for modutils and modprobe.d
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -31,91 +33,53 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 07 Mar 2012 07:49:35 -0000
+X-List-Received-Date: Wed, 07 Mar 2012 08:16:15 -0000
 
-Fixed bug [YOCTO #2052]. Added sanity check for variables of PRSERV_HOST
-and PRSERV_PORT, also for the connection availabity of prservice.
+Fixes [Yocto #2036]
 
-Signed-off-by: Lianhao Lu <lianhao.lu@intel.com>
+The source and build directories are unused, remove them.
+
+The modutils and modprobe.d directories may be used if modules are built that
+are either autoloaded or have modprobe.d entries. This isn't known at install
+time, so check after the package split if these directories are empty and
+remove them if they are.
+
+Signed-off-by: Darren Hart <dvhart@linux.intel.com>
+CC: Paul Eggleton <paul.eggleton@linux.intel.com>
 ---
- meta/classes/prexport.bbclass |    4 +++-
- meta/classes/primport.bbclass |    3 +++
- meta/lib/oe/prservice.py      |   18 +++++++++++++++++-
- 3 files changed, 23 insertions(+), 2 deletions(-)
+ meta/classes/kernel.bbclass |   10 ++++++++++
+ 1 files changed, 10 insertions(+), 0 deletions(-)
 
-diff --git a/meta/classes/prexport.bbclass b/meta/classes/prexport.bbclass
-index 5b5b707..2b16a66 100644
---- a/meta/classes/prexport.bbclass
-+++ b/meta/classes/prexport.bbclass
-@@ -21,11 +21,13 @@ python prexport_handler () {
-             bb.fatal("prexport_handler: export failed!")
-         (metainfo, datainfo) = retval
-         if not datainfo:
--            bb.error("prexport_handler: No AUROPR values found for %s" % ver)
-+            bb.warn("prexport_handler: No AUROPR values found for %s" % ver)
-             return
-         oe.prservice.prserv_export_tofile(e.data, None, datainfo, False)
-     elif isinstance(e, bb.event.ParseStarted):
-         import bb.utils
-+        import oe.prservice
-+        oe.prservice.prserv_check_avail(e.data)
-         #remove dumpfile
-         bb.utils.remove(e.data.getVar('PRSERV_DUMPFILE', True))
-     elif isinstance(e, bb.event.ParseCompleted):
-diff --git a/meta/classes/primport.bbclass b/meta/classes/primport.bbclass
-index 08e5a8f..37b0d6b 100644
---- a/meta/classes/primport.bbclass
-+++ b/meta/classes/primport.bbclass
-@@ -12,6 +12,9 @@ python primport_handler () {
+diff --git a/meta/classes/kernel.bbclass b/meta/classes/kernel.bbclass
+index 8fbec90..169df33 100644
+--- a/meta/classes/kernel.bbclass
++++ b/meta/classes/kernel.bbclass
+@@ -105,6 +105,8 @@ kernel_do_install() {
+ 		oe_runmake DEPMOD=echo INSTALL_MOD_PATH="${D}" modules_install
+ 		rm -f "${D}/lib/modules/${KERNEL_VERSION}/modules.order"
+ 		rm -f "${D}/lib/modules/${KERNEL_VERSION}/modules.builtin"
++		rm "${D}/lib/modules/${KERNEL_VERSION}/build"
++		rm "${D}/lib/modules/${KERNEL_VERSION}/source"
+ 	else
+ 		bbnote "no modules to install"
+ 	fi
+@@ -450,6 +452,14 @@ python populate_packages_prepend () {
+ 	do_split_packages(d, root='/lib/firmware', file_regex='^(.*)\.cis$', output_pattern='kernel-firmware-%s', description='Firmware for %s', recursive=True, extra_depends='')
+ 	do_split_packages(d, root='/lib/modules', file_regex=module_regex, output_pattern=module_pattern, description='%s kernel module', postinst=postinst, postrm=postrm, recursive=True, hook=frob_metadata, extra_depends='update-modules kernel-%s' % d.getVar("KERNEL_VERSION", True))
  
-         for (version, pkgarch, checksum, value) in imported:
-             bb.note("imported (%s,%s,%s,%d)" % (version, pkgarch, checksum, value))
-+    elif isinstance(e, bb.event.ParseStarted):
-+        import oe.prservice
-+        oe.prservice.prserv_check_avail(e.data)
- }
- 
- addhandler primport_handler
-diff --git a/meta/lib/oe/prservice.py b/meta/lib/oe/prservice.py
-index fa6718e..16785ce 100644
---- a/meta/lib/oe/prservice.py
-+++ b/meta/lib/oe/prservice.py
-@@ -1,12 +1,15 @@
- import bb
- 
--def prserv_make_conn(d):
-+def prserv_make_conn(d, check = False):
-     import prserv.serv
-     host = d.getVar("PRSERV_HOST",True)
-     port = d.getVar("PRSERV_PORT",True)
-     try:
-         conn = None
-         conn = prserv.serv.PRServerConnection(host,int(port))
-+        if check:
-+            if not conn.ping():
-+                raise Exception('service not available')
-         d.setVar("__PRSERV_CONN",conn)
-     except Exception, exc:
-         bb.fatal("Connecting to PR service %s:%s failed: %s" % (host, port, str(exc)))
-@@ -111,3 +114,16 @@ def prserv_export_tofile(d, metainfo, datainfo, lockdown, nomax=False):
-                 f.write("PRAUTO_%s_%s = \"%s\"\n" % (str(datainfo[idx[i]]['version']),str(datainfo[idx[i]]['pkgarch']),str(datainfo[idx[i]]['value'])))
-     f.close()
-     bb.utils.unlockfile(lf)
++	# If modutils and modprobe.d are empty at this point, remove them to
++	# avoid warnings. removedirs only raises an OSError if an empty
++	# directory cannot be removed.
++	dvar = d.getVar('PKGD', True)
++	for dir in ["%s/etc/modutils" % (dvar), "%s/etc/modprobe.d" % (dvar)]:
++		if len(os.listdir(dir)) == 0:
++			os.rmdir(dir)
 +
-+def prserv_check_avail(d):
-+    host = d.getVar("PRSERV_HOST",True)
-+    port = d.getVar("PRSERV_PORT",True)
-+    try:
-+        if not host:
-+            raise TypeError
-+        else:
-+            port = int(port)
-+    except TypeError:
-+        bb.fatal("Undefined or incorrect values of PRSERV_HOST or PRSERV_PORT")
-+    else:
-+        prserv_make_conn(d, True)
+ 	import re
+ 	metapkg = "kernel-modules"
+ 	d.setVar('ALLOW_EMPTY_' + metapkg, "1")
 -- 
-1.7.0.4
+1.7.6.5
 
 
 
