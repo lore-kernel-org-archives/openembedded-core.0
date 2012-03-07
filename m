@@ -1,41 +1,25 @@
-Received: from sputnik.urmx.de ([88.198.51.18])
+Received: from mail.gw90.de ([188.40.100.199])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <Eibach@gdsys.de>) id 1S5D2I-0004Q3-HA
-	for openembedded-core@lists.openembedded.org;
-	Wed, 07 Mar 2012 10:19:54 +0100
-Received: from mailrelay.gdsys.de (unknown [217.6.197.20])
-	by sputnik.urmx.de (Postfix) with ESMTP id D0E6F6020208
-	for <openembedded-core@lists.openembedded.org>;
-	Wed,  7 Mar 2012 10:11:17 +0100 (CET)
-Received: from mailsgw.gdsys.de (localhost [127.0.0.1])
-	by mailsgw.gdsys.de (Postfix) with ESMTP id 075D61F8802
-	for <openembedded-core@lists.openembedded.org>;
-	Wed,  7 Mar 2012 10:11:19 +0100 (CET)
-X-Spam-Processed: srv201.gdsys.de, Wed, 07 Mar 2012 10:11:15 +0100
-	(not processed: message from trusted or authenticated source)
-X-Return-Path: Eibach@gdsys.de
-X-Envelope-From: Eibach@gdsys.de
-X-MDaemon-Deliver-To: openembedded-core@lists.openembedded.org
-MIME-Version: 1.0
-X-MimeOLE: Produced By Microsoft MimeOLE V6.00.3790.4913
-Importance: normal
-Priority: normal
-Date: Wed, 7 Mar 2012 10:11:22 +0100
-Message-ID: <48D3D52125C49B43AE880038E2E5314BB5BFA7@SRV101.gdsys.de>
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-Thread-Topic: [OE-core] [PATCH] arch-powerpc.inc: use default value
-	ofTUNE_PKGARCH
-thread-index: Acz7+EKQc7LX+AQFSWiFTJMtxnHdLAAScZQg
-References: <1331076055-15262-1-git-send-email-msm@freescale.com>
-From: "Eibach, Dirk" <Eibach@gdsys.de>
-To: "Patches and discussions about the oe-core layer"
-	<openembedded-core@lists.openembedded.org>, 
-	<openembedded-core@openembedded.org>
-X-SafeGuard_MailGateway: Version: 5.60.3.11066 SGMG Date: 20120307091118Z
-X-AntiVirus: checked by AntiVir MailGate (version: 2.0.2-5; AVE: 7.9.10.8;
-	VDF: 7.11.24.196; host: mailrelay)
-Subject: Re: [PATCH] arch-powerpc.inc: use default value ofTUNE_PKGARCH
+	(envelope-from <paulepanter@users.sourceforge.net>)
+	id 1S5DVm-0006BC-5m for openembedded-core@lists.openembedded.org;
+	Wed, 07 Mar 2012 10:50:22 +0100
+Received: from g225081112.adsl.alicedsl.de ([92.225.81.112]
+	helo=[192.168.178.43])
+	by mail.gw90.de with esmtpsa (TLS1.0:RSA_AES_256_CBC_SHA1:32)
+	(Exim 4.69) (envelope-from <paulepanter@users.sourceforge.net>)
+	id 1S5DNY-0004RN-GB for openembedded-core@lists.openembedded.org;
+	Wed, 07 Mar 2012 09:41:52 +0000
+Message-ID: <1331113294.3539.5.camel@mattotaupa>
+From: Paul Menzel <paulepanter@users.sourceforge.net>
+To: openembedded-core@lists.openembedded.org
+Date: Wed, 07 Mar 2012 10:41:34 +0100
+In-Reply-To: <840A81C1B782724A8EB52725BD519EFF338079F4@MBX20.4emm.local>
+References: <1331000623-10956-1-git-send-email-james@digitalmatter.com.au>
+	<1331027106.6166.7.camel@mattotaupa>
+	<840A81C1B782724A8EB52725BD519EFF338079F4@MBX20.4emm.local>
+X-Mailer: Evolution 3.2.2-1 
+Mime-Version: 1.0
+Subject: Re: [PATCH v2] gdk-pixbuf: Pick up ${NM} from the environment.
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -50,50 +34,66 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 07 Mar 2012 09:19:54 -0000
-Content-Class: urn:content-classes:message
-Content-Type: text/plain;
-	charset="us-ascii"
+X-List-Received-Date: Wed, 07 Mar 2012 09:50:22 -0000
+X-Groupsio-MsgNum: 18497
+Content-Type: multipart/signed; micalg="pgp-sha1";
+	protocol="application/pgp-signature"; 
+	boundary="=-svdTLRoUbmeeksOZ+0Ri"
+
+--=-svdTLRoUbmeeksOZ+0Ri
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+Dear James,
+
+
+Am Mittwoch, den 07.03.2012, 01:49 +0000 schrieb James Limbouris:
+
+> > thank you for sending an improved version of the patch.
+> >=20
+> ...
+> >=20
+> > as Khem and you discussed, it should be useful for upstream [1]. Maybe
+> > you can add more context [2][3], so upstream can better judge if they
+> > want it.
+> >=20
+> ...
+
+> > [1] http://lists.linuxtogo.org/pipermail/openembedded-core/2012-March/0=
+18554.html
+> > [2] http://www.gnu.org/software/autoconf/manual/autoconf-2.67/html_node=
+/Generic-Programs.html
+> > [3] http://lists.gnu.org/archive/html/bug-ncurses/2011-11/msg00011.html
+
+> This issue has already been patched for gtk+, and is marked Upstream: ina=
+ppropriate there.
+> However, I couldn't find any mention of AC_CHECK_TOOLS in the Gnome bugzi=
+lla, so I have submitted bug reports for both gdk-pixbuf and gtk+.
+>=20
+> https://bugzilla.gnome.org/show_bug.cgi?id=3D671515
+> https://bugzilla.gnome.org/show_bug.cgi?id=3D671516
+
+awesome! Thanks a lot!
+
+Could you add these links to the patch and resend. I guess it will go in
+then.
+
+
+Thanks,
+
+Paul
+
+--=-svdTLRoUbmeeksOZ+0Ri
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: This is a digitally signed message part
 Content-Transfer-Encoding: 7bit
 
- 
+-----BEGIN PGP SIGNATURE-----
+Version: GnuPG v1.4.12 (GNU/Linux)
 
-> We can use the default value for TUNE_PKGARCH, and now we 
-> just append "-nf" if TARGET_FPU is fpu-soft
-> 
-> Signed-off-by: Matthew McClintock <msm@freescale.com>
-> ---
->  meta/conf/machine/include/powerpc/arch-powerpc.inc |    6 ++----
->  1 files changed, 2 insertions(+), 4 deletions(-)
-> 
-> diff --git 
-> a/meta/conf/machine/include/powerpc/arch-powerpc.inc 
-> b/meta/conf/machine/include/powerpc/arch-powerpc.inc
-> index c9b2829..abd72ed 100644
-> --- a/meta/conf/machine/include/powerpc/arch-powerpc.inc
-> +++ b/meta/conf/machine/include/powerpc/arch-powerpc.inc
-> @@ -18,10 +18,8 @@ TARGET_FPU .= 
-> "${@bb.utils.contains("TUNE_FEATURES", "fpu-soft", "soft", "", d)}
->  
->  ABIEXTENSION = "${@['','spe'][d.getVar('TARGET_FPU', True) 
-> in ['ppc-efd', 'ppc-efs']]}"
->  
-> -PPCPKGSFX_FPU = "${@bb.utils.contains("TUNE_FEATURES", 
-> "fpu-hard" , "", "-nf", d)}"
-> -
-> -PPCPKGARCH = "${TUNE_ARCH}${PPCPKGSFX_FPU}"
-> -TUNE_PKGARCH ?= "${PPCPKGARCH}"
-> +PPCPKGSFX_FPU = "${@['', 
-> '-nf'][bb.data.getVar('TARGET_FPU',d,1) in ['fpu-soft']]}"
-> +TUNE_PKGARCH_append = "${PPCPKGSFX_FPU}"
->  
->  # Basic tune definitions
->  AVAILTUNES += "powerpc powerpc-nf" 
+iEYEABECAAYFAk9XLU4ACgkQPX1aK2wOHVgm7gCfT73Y389bFmgrBuKVSes69py8
+iXYAn3YkYCcEKVBCl7OAG0uJdM4OrP5/
+=P37V
+-----END PGP SIGNATURE-----
 
-This fixes my issues with e500v2 cores.
-
-Tested-by: Dirk Eibach <eibach@gdsys.de>
-
-
-
-
+--=-svdTLRoUbmeeksOZ+0Ri--
