@@ -1,41 +1,30 @@
-Received: from mail-wi0-f177.google.com ([209.85.212.177])
-	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <koen@dominion.thruhere.net>) id 1S6FwK-0007JA-5O
-	for openembedded-core@lists.openembedded.org;
-	Sat, 10 Mar 2012 07:38:04 +0100
-Received: by wibhj13 with SMTP id hj13so1160530wib.6
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 09 Mar 2012 22:29:24 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=google.com; s=20120113;
-	h=content-type:mime-version:subject:from:in-reply-to:date
-	:content-transfer-encoding:message-id:references:to:x-mailer
-	:x-gm-message-state;
-	bh=CKuzo5qVIwr1cOikNjvh/zK98apQ+0p6iArsT31YVxo=;
-	b=Z520OnRN+KlmGCDM/FnCD7PzdLyETdKOaSk9PoaPQnEPratFPSmiwQgw0MLM2a3/9V
-	IpUDX8H4KFhIMhqKTkxNr+jkMKQNDCZxD5pmvfz7t7cAkIGe6jECFSY+4Lt8wKfbB3xz
-	rLZGh2kRqbOsZUlfvqaXay3q5LL1hcSMJNY5s5lEFN2Y2XJCHR6VzTv7e+vafmZUym7n
-	U+9JzWeLh+v11s9Yh+jiohqLIdIPTKQPvofHXW+y3KL9A8mcDCOYqcjyQCMRnd8d/du0
-	VzRx0mbjNFpy2zUspbJCAHaFKcS5b6std30rXQ879/r34d1R5/RQ1JEauKWlv1FBqddl
-	UJhA==
-Received: by 10.180.95.197 with SMTP id dm5mr10888293wib.20.1331360964014;
-	Fri, 09 Mar 2012 22:29:24 -0800 (PST)
-Received: from [172.20.1.36] (ip545070eb.adsl-surfen.hetnet.nl.
-	[84.80.112.235])
-	by mx.google.com with ESMTPS id ep17sm11440163wid.2.2012.03.09.22.29.22
-	(version=TLSv1/SSLv3 cipher=OTHER);
-	Fri, 09 Mar 2012 22:29:23 -0800 (PST)
-Mime-Version: 1.0 (Apple Message framework v1257)
-From: Koen Kooi <koen@dominion.thruhere.net>
-In-Reply-To: <CA+M6bXkMdv_bg9bDOYCS=Ng0sSB+2Yu6xRN4V0tKDV9RCJMy+A@mail.gmail.com>
-Date: Sat, 10 Mar 2012 07:29:20 +0100
-Message-Id: <04FC93EF-7089-4EAD-8C1D-14824C8CBB02@dominion.thruhere.net>
-References: <CA+M6bXkMdv_bg9bDOYCS=Ng0sSB+2Yu6xRN4V0tKDV9RCJMy+A@mail.gmail.com>
+Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
+	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <richard.purdie@linuxfoundation.org>)
+	id 1S6HY8-0002Sd-Uu; Sat, 10 Mar 2012 09:21:13 +0100
+Received: from localhost (localhost [127.0.0.1])
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q2A8CWD9023071;
+	Sat, 10 Mar 2012 08:12:32 GMT
+Received: from tim.rpsys.net ([127.0.0.1])
+	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
+	port 10024) with LMTP
+	id 22481-03; Sat, 10 Mar 2012 08:12:27 +0000 (GMT)
+Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q2A8CMNg023063
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO);
+	Sat, 10 Mar 2012 08:12:24 GMT
+Message-ID: <1331142081.25887.42.camel@ted>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-X-Mailer: Apple Mail (2.1257)
-X-Gm-Message-State: ALoCoQkasty4LuJXk7LSpDXLCtHA+kGrsdMGbHIDloLo2FRxMtKIfJ+WVUfJB+TIhKMkM78FaN00
-Subject: Re: Consistency and use cases for IMAGE_FSTYPES
+In-Reply-To: <1331076055-15262-1-git-send-email-msm@freescale.com>
+References: <1331076055-15262-1-git-send-email-msm@freescale.com>
+Date: Wed, 07 Mar 2012 09:41:21 -0800
+Mime-Version: 1.0
+X-Mailer: Evolution 3.2.2- 
+X-Virus-Scanned: amavisd-new at rpsys.net
+Cc: openembedded-core@openembedded.org
+Subject: Re: [PATCH] arch-powerpc.inc: use default value of TUNE_PKGARCH
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -50,41 +39,40 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 10 Mar 2012 06:38:04 -0000
-Content-Type: text/plain; charset=us-ascii
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Sat, 10 Mar 2012 08:21:13 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
+On Tue, 2012-03-06 at 17:20 -0600, Matthew McClintock wrote:
+> We can use the default value for TUNE_PKGARCH, and now we just
+> append "-nf" if TARGET_FPU is fpu-soft
+> 
+> Signed-off-by: Matthew McClintock <msm@freescale.com>
+> ---
+>  meta/conf/machine/include/powerpc/arch-powerpc.inc |    6 ++----
+>  1 files changed, 2 insertions(+), 4 deletions(-)
+> 
+> diff --git a/meta/conf/machine/include/powerpc/arch-powerpc.inc b/meta/conf/machine/include/powerpc/arch-powerpc.inc
+> index c9b2829..abd72ed 100644
+> --- a/meta/conf/machine/include/powerpc/arch-powerpc.inc
+> +++ b/meta/conf/machine/include/powerpc/arch-powerpc.inc
+> @@ -18,10 +18,8 @@ TARGET_FPU .= "${@bb.utils.contains("TUNE_FEATURES", "fpu-soft", "soft", "", d)}
+>  
+>  ABIEXTENSION = "${@['','spe'][d.getVar('TARGET_FPU', True) in ['ppc-efd', 'ppc-efs']]}"
+>  
+> -PPCPKGSFX_FPU = "${@bb.utils.contains("TUNE_FEATURES", "fpu-hard" , "", "-nf", d)}"
+> -
+> -PPCPKGARCH = "${TUNE_ARCH}${PPCPKGSFX_FPU}"
+> -TUNE_PKGARCH ?= "${PPCPKGARCH}"
+> +PPCPKGSFX_FPU = "${@['', '-nf'][bb.data.getVar('TARGET_FPU',d,1) in ['fpu-soft']]}"
 
-Op 9 mrt. 2012, om 22:39 heeft Tom Rini het volgende geschreven:
+bb.data is deprecated and we should translate:
 
-> Hey all,
->=20
-> Over in meta-ti I kicked off a discussion
-> =
-(https://lists.yoctoproject.org/pipermail/meta-ti/2012-March/000779.html)
-> about if we should be using '?=3D' or '+=3D' with IMAGE_FSTYPES in the
-> machine conf files.  This has been discussed a little bit before
-> =
-(http://thread.gmane.org/gmane.comp.handhelds.openembedded.core/2060/focus=
-=3D2061).
-> The problem is we have the following and I believe ultimately
-> conflicting use cases:
-> - The machine needs to say 'I need or support the following formats'
-> - The distro needs to say 'I always want format X'
-> - The user needs to say 'I know best, give me only format X'
-> - The user needs to say 'I know best, give me what you support + X'
->=20
-> We achieve this today, but not very nicely.  For the last one you need
-> to start playing order of operations games and that's just not nice.
-> My suggestion is that we need to change what the machine.conf sets to
-> another variable (SOMETHING_IMAGE_FSTYPES), and a default
-> IMAGE_FSTYPES becomes ?=3D ${SOMETHING_IMAGE_FSTYPES}.  Distros, and
-> users can then work more easily with their use cases.  Comments?
+bb.data.getVar('TARGET_FPU',d,1) -> d.getVar('TARGET_FPU', True)
 
-EXTRA_IMAGE_FSTYPES!
+Cheers,
 
-regards,
+Richard
 
-Koen=
 
 
