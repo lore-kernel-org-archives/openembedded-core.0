@@ -1,23 +1,33 @@
-Received: from mail.gw90.de ([188.40.100.199])
+Received: from mail-gx0-f175.google.com ([209.85.161.175])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <paulepanter@users.sourceforge.net>)
-	id 1S5GLG-0001Vl-A6 for openembedded-core@lists.openembedded.org;
-	Wed, 07 Mar 2012 13:51:42 +0100
-Received: from g225081112.adsl.alicedsl.de ([92.225.81.112]
-	helo=[192.168.178.43])
-	by mail.gw90.de with esmtpsa (TLS1.0:RSA_AES_256_CBC_SHA1:32)
-	(Exim 4.69) (envelope-from <paulepanter@users.sourceforge.net>)
-	id 1S5GD2-0004pi-LW; Wed, 07 Mar 2012 12:43:12 +0000
-Message-ID: <1331124185.3539.20.camel@mattotaupa>
-From: Paul Menzel <paulepanter@users.sourceforge.net>
+	(envelope-from <kergoth@gmail.com>) id 1S5Jna-0006uD-4c
+	for openembedded-core@lists.openembedded.org;
+	Wed, 07 Mar 2012 17:33:10 +0100
+Received: by ggcy3 with SMTP id y3so2847461ggc.6
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 07 Mar 2012 08:24:32 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=from:to:cc:subject:date:message-id:x-mailer;
+	bh=JS6OI0Dw4eg4I7BtSyI0AKeYOfJGvz4aJI6pA+QoBbY=;
+	b=V350cCrWPlm1DW4Z2Q27zrbPd4+sIKrYgSQJVhwZJlJbjGO4KWZ+F6QM+++bHZamu8
+	yi8U+LLOYcSVo331Z69tXtuTyNNilxKQECAFCIdkSWQ/cMbNBjXMTl4AFFi4F6ClvTNb
+	iTE6slpiYhQ9n8+J7XmR0SfjSO89ySM/DAWSFgM2W+rE5s4jsH0OQFEKlPpweNwFU5+R
+	1KqWaL3yvKlS7T+PcvVI2plVxv/V1TbR5GNVOfTMkZZ3Rqo3uQ3L7jrGmyTUgO/Yh+Z3
+	ZSKgwO8AzK2VSi8MPeP7uUY4FgEwdrzA+oKv7irkpM7N3RDdMVXAc0HMP6/Sagx5glxM
+	ZaRQ==
+Received: by 10.236.175.36 with SMTP id y24mr5200515yhl.64.1331137471884;
+	Wed, 07 Mar 2012 08:24:31 -0800 (PST)
+Received: from localhost.localdomain (nat-lmt.mentorg.com. [139.181.28.34])
+	by mx.google.com with ESMTPS id z27sm59374291yhh.8.2012.03.07.08.24.29
+	(version=TLSv1/SSLv3 cipher=OTHER);
+	Wed, 07 Mar 2012 08:24:30 -0800 (PST)
+From: Christopher Larson <kergoth@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Wed, 07 Mar 2012 13:43:05 +0100
-In-Reply-To: <1331123568-23178-1-git-send-email-Chase.Maupin@ti.com>
-References: <1331123568-23178-1-git-send-email-Chase.Maupin@ti.com>
-X-Mailer: Evolution 3.2.2-1 
-Mime-Version: 1.0
-Cc: Chase Maupin <Chase.Maupin@ti.com>
-Subject: Re: [PATCHv2] bluez4: add dependency on libcheck to enable test modules
+Date: Wed,  7 Mar 2012 10:24:25 -0600
+Message-Id: <1331137465-24763-1-git-send-email-kergoth@gmail.com>
+X-Mailer: git-send-email 1.7.7
+Cc: Christopher Larson <chris_larson@mentor.com>
+Subject: [PATCH] external-csl-toolchain: override PKGV, not PKGV_${PN}
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -32,97 +42,50 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 07 Mar 2012 12:51:42 -0000
-X-Groupsio-MsgNum: 18500
-Content-Type: multipart/signed; micalg="pgp-sha1";
-	protocol="application/pgp-signature"; 
-	boundary="=-81SHr09cEsX8XgKeH3da"
+X-List-Received-Date: Wed, 07 Mar 2012 16:33:10 -0000
 
---=-81SHr09cEsX8XgKeH3da
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+From: Christopher Larson <chris_larson@mentor.com>
 
-Am Mittwoch, den 07.03.2012, 06:32 -0600 schrieb Chase Maupin:
-> * The later versions of bluez such as 4.98 require libcheck
->   in order to build the test packages as enabled by the
->   --enable-test option passed in EXTRA_OECONF.
-> * Failure to have the libcheck package availalbe results in the
+This is needed to ensure that the RDEPENDS_${PN}-dev,
+RDEPENDS_${PN}-staticdev, and RRECOMMENDS_${PN}-dbg are accurate with respect
+to the PKGV of the ${PN} package, and incidentally fixes an rpm packaging
+issue, as rpm dislikes the recipe PV as PKGV.
 
-availa*bl*e
+Signed-off-by: Christopher Larson <chris_larson@mentor.com>
+---
+ meta/recipes-core/meta/external-csl-toolchain.bb |   17 +----------------
+ 1 files changed, 1 insertions(+), 16 deletions(-)
 
->   configure script ignoring the --enable-test option and not
->   building the test modules.
-> * Adding libcheck, which is greater than the minimum required
->   version of the check library of 0.9.6 allows building the
->   test modules.
-> * Build tested for am335x-evm MACHINE type and run time tested
->   by back porting this fix to the oe-classic and arago setup
->   and booting on am335x-evm.
-
-Do you have a patch for that so that others can profit from this work
-too?
-
-> Signed-off-by: Chase Maupin <Chase.Maupin@ti.com>
-> ---
-> * Updated in version 2:
->     * Bumped the PR of the bluez4_4.98 recipe.  I assume this is the
->       way to handle changes to the .inc file since there is no INC_PR
->=20
-> ---
->  meta/recipes-connectivity/bluez/bluez4.inc     |    2 +-
->  meta/recipes-connectivity/bluez/bluez4_4.98.bb |    2 +-
->  2 files changed, 2 insertions(+), 2 deletions(-)
->=20
-> diff --git a/meta/recipes-connectivity/bluez/bluez4.inc b/meta/recipes-co=
-nnectivity/bluez/bluez4.inc
-> index 9158687..fbbe0bf 100644
-> --- a/meta/recipes-connectivity/bluez/bluez4.inc
-> +++ b/meta/recipes-connectivity/bluez/bluez4.inc
-> @@ -7,7 +7,7 @@ LIC_FILES_CHKSUM =3D "file://COPYING;md5=3D12f884d2ae1ff8=
-7c09e5b7ccc2c4ca7e \
->                      file://COPYING.LIB;md5=3Dfb504b67c50331fc78734fed90f=
-b0e09 \
->                      file://src/main.c;beginline=3D1;endline=3D24;md5=3D9=
-bc54b93cd7e17bf03f52513f39f926e \
->                      file://sbc/sbc.c;beginline=3D1;endline=3D25;md5=3D1a=
-40781ed30d50d8639323a184aeb191"
-> -DEPENDS =3D "udev alsa-lib libusb dbus-glib glib-2.0"
-> +DEPENDS =3D "udev alsa-lib libusb dbus-glib glib-2.0 libcheck"
->  RDEPENDS_${PN}-dev =3D "bluez-hcidump"
-> =20
->  ASNEEDED =3D ""
-> diff --git a/meta/recipes-connectivity/bluez/bluez4_4.98.bb b/meta/recipe=
-s-connectivity/bluez/bluez4_4.98.bb
-> index 2412b1b..9a4c682 100644
-> --- a/meta/recipes-connectivity/bluez/bluez4_4.98.bb
-> +++ b/meta/recipes-connectivity/bluez/bluez4_4.98.bb
-> @@ -1,6 +1,6 @@
->  require bluez4.inc
-> =20
-> -PR =3D "r1"
-> +PR =3D "r2"
-> =20
->  SRC_URI +=3D "file://bluetooth.conf \
->              file://sbc_mmx.patch \
-
-Reviewed-by: Paul Menzel <paulepanter@users.sourceforge.net>
+diff --git a/meta/recipes-core/meta/external-csl-toolchain.bb b/meta/recipes-core/meta/external-csl-toolchain.bb
+index 07c3e30..3e820ff 100644
+--- a/meta/recipes-core/meta/external-csl-toolchain.bb
++++ b/meta/recipes-core/meta/external-csl-toolchain.bb
+@@ -106,22 +106,7 @@ PKG_${PN}-extra-nss = "eglibc-extra-nss"
+ PKG_${PN}-thread-db = "eglibc-thread-db"
+ PKG_${PN}-pcprofile = "eglibc-pcprofile"
+ 
+-PKGV_${PN} = "${CSL_VER_LIBC}"
+-PKGV_${PN}-dev = "${CSL_VER_LIBC}"
+-PKGV_${PN}-staticdev = "${CSL_VER_LIBC}"
+-PKGV_${PN}-doc = "${CSL_VER_LIBC}"
+-PKGV_${PN}-dbg = "${CSL_VER_LIBC}"
+-PKGV_${PN}-pic = "${CSL_VER_LIBC}"
+-PKGV_${PN}-utils = "${CSL_VER_LIBC}"
+-PKGV_${PN}-gconv = "${CSL_VER_LIBC}"
+-PKGV_${PN}-extra-nss = "${CSL_VER_LIBC}"
+-PKGV_${PN}-thread-db = "${CSL_VER_LIBC}"
+-PKGV_${PN}-pcprofile = "${CSL_VER_LIBC}"
+-PKGV_catchsegv = "${CSL_VER_LIBC}"
+-PKGV_libsegfault = "${CSL_VER_LIBC}"
+-PKGV_sln = "${CSL_VER_LIBC}"
+-PKGV_nscd = "${CSL_VER_LIBC}"
+-PKGV_ldd = "${CSL_VER_LIBC}"
++PKGV = "${CSL_VER_LIBC}"
+ PKGV_libgcc = "${CSL_VER_GCC}"
+ PKGV_libgcc-dev = "${CSL_VER_GCC}"
+ PKGV_libstdc++ = "${CSL_VER_GCC}"
+-- 
+1.7.8
 
 
-Thanks,
 
-Paul
-
---=-81SHr09cEsX8XgKeH3da
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: This is a digitally signed message part
-Content-Transfer-Encoding: 7bit
-
------BEGIN PGP SIGNATURE-----
-Version: GnuPG v1.4.12 (GNU/Linux)
-
-iEYEABECAAYFAk9XV9kACgkQPX1aK2wOHVimPQCdG8u6KAUn5vmUeyOtUOHIw3Tr
-s94AnA/9hUMOukzWYV4KZsfCSO//RDG7
-=bxKr
------END PGP SIGNATURE-----
-
---=-81SHr09cEsX8XgKeH3da--
