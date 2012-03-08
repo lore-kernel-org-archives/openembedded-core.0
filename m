@@ -1,44 +1,46 @@
-Received: from ch1ehsobe005.messaging.microsoft.com ([216.32.181.185]
-	helo=ch1outboundpool.messaging.microsoft.com)
+Received: from tx2ehsobe002.messaging.microsoft.com ([65.55.88.12]
+	helo=tx2outboundpool.messaging.microsoft.com)
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <B29882@freescale.com>) id 1S5l4a-0008SY-PL
-	for openembedded-core@openembedded.org; Thu, 08 Mar 2012 22:40:32 +0100
-Received: from mail210-ch1-R.bigfish.com (10.43.68.240) by
-	CH1EHSOBE008.bigfish.com (10.43.70.58) with Microsoft SMTP Server id
-	14.1.225.23; Thu, 8 Mar 2012 21:01:38 +0000
-Received: from mail210-ch1 (localhost [127.0.0.1])	by
-	mail210-ch1-R.bigfish.com (Postfix) with ESMTP id D8A654028B	for
+	(envelope-from <B29882@freescale.com>) id 1S5l6c-0008Vm-C9
+	for openembedded-core@openembedded.org; Thu, 08 Mar 2012 22:42:38 +0100
+Received: from mail108-tx2-R.bigfish.com (10.9.14.241) by
+	TX2EHSOBE001.bigfish.com (10.9.40.21) with Microsoft SMTP Server id
+	14.1.225.23; Thu, 8 Mar 2012 21:03:51 +0000
+Received: from mail108-tx2 (localhost [127.0.0.1])	by
+	mail108-tx2-R.bigfish.com (Postfix) with ESMTP id F1D92180590	for
 	<openembedded-core@openembedded.org>;
-	Thu,  8 Mar 2012 21:01:37 +0000 (UTC)
+	Thu,  8 Mar 2012 21:03:51 +0000 (UTC)
 X-SpamScore: 3
 X-BigFish: VS3(zzzz1202h1082kzz8275bhz2dh2a8h668h839h)
 X-Forefront-Antispam-Report: CIP:70.37.183.190; KIP:(null); UIP:(null); IPV:NLI;
 	H:mail.freescale.net; RD:none; EFVD:NLI
-Received: from mail210-ch1 (localhost.localdomain [127.0.0.1]) by mail210-ch1
-	(MessageSwitch) id 133124049675010_943;
-	Thu,  8 Mar 2012 21:01:36 +0000 (UTC)
-Received: from CH1EHSMHS005.bigfish.com (snatpool2.int.messaging.microsoft.com
-	[10.43.68.236])	by mail210-ch1.bigfish.com (Postfix) with ESMTP id
-	048F224004F	for <openembedded-core@openembedded.org>; Thu,  8 Mar 2012
-	21:01:36 +0000 (UTC)
-Received: from mail.freescale.net (70.37.183.190) by CH1EHSMHS005.bigfish.com
-	(10.43.70.5) with Microsoft SMTP Server (TLS) id 14.1.225.23;
-	Thu, 8 Mar 2012 21:01:34 +0000
-Received: from az33smr01.freescale.net (10.64.34.199) by
-	039-SN1MMR1-002.039d.mgd.msft.net (10.84.1.15) with Microsoft SMTP
-	Server id 14.1.355.3; Thu, 8 Mar 2012 15:01:33 -0600
+Received: from mail108-tx2 (localhost.localdomain [127.0.0.1]) by mail108-tx2
+	(MessageSwitch) id 1331240630985287_20267;
+	Thu,  8 Mar 2012 21:03:50 +0000 (UTC)
+Received: from TX2EHSMHS043.bigfish.com (unknown [10.9.14.246])	by
+	mail108-tx2.bigfish.com (Postfix) with ESMTP id EA845260046	for
+	<openembedded-core@openembedded.org>;
+	Thu,  8 Mar 2012 21:03:50 +0000 (UTC)
+Received: from mail.freescale.net (70.37.183.190) by TX2EHSMHS043.bigfish.com
+	(10.9.99.143) with Microsoft SMTP Server (TLS) id 14.1.225.23;
+	Thu, 8 Mar 2012 21:03:50 +0000
+Received: from tx30smr01.am.freescale.net (10.81.153.31) by
+	039-SN1MMR1-003.039d.mgd.msft.net (10.84.1.16) with Microsoft SMTP
+	Server (TLS) id 14.1.355.3; Thu, 8 Mar 2012 15:03:49 -0600
 Received: from right.am.freescale.net (right.am.freescale.net [10.82.193.13])
-	by az33smr01.freescale.net (8.13.1/8.13.0) with ESMTP id
-	q28L1XKG014824	for <openembedded-core@openembedded.org>;
-	Thu, 8 Mar 2012 15:01:33 -0600 (CST)
+	by tx30smr01.am.freescale.net (8.14.3/8.14.0) with ESMTP id
+	q28L3nS4013335
+	for <openembedded-core@openembedded.org>; Thu, 8 Mar 2012 14:03:49 -0700
 From: Matthew McClintock <msm@freescale.com>
 To: <openembedded-core@openembedded.org>
-Date: Thu, 8 Mar 2012 15:01:32 -0600
-Message-ID: <1331240492-6759-1-git-send-email-msm@freescale.com>
+Date: Thu, 8 Mar 2012 15:03:48 -0600
+Message-ID: <1331240628-7307-1-git-send-email-msm@freescale.com>
 X-Mailer: git-send-email 1.7.6.1
+In-Reply-To: <1331237734.3006.33.camel@ted>
+References: <1331237734.3006.33.camel@ted>
 MIME-Version: 1.0
 X-OriginatorOrg: freescale.com
-Subject: [PATCH] packagedata.py: Fix get_subpkgedata_fn for multilib
+Subject: [PATCH v2] arch-powerpc.inc: use default value of TUNE_PKGARCH
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -53,32 +55,34 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 08 Mar 2012 21:40:33 -0000
+X-List-Received-Date: Thu, 08 Mar 2012 21:42:38 -0000
 Content-Type: text/plain
+
+We can use the default value for TUNE_PKGARCH, and now we just
+append "-nf" if TARGET_FPU is fpu-soft
 
 Signed-off-by: Matthew McClintock <msm@freescale.com>
 ---
- meta/lib/oe/packagedata.py |    7 +++++++
- 1 files changed, 7 insertions(+), 0 deletions(-)
+ meta/conf/machine/include/powerpc/arch-powerpc.inc |    6 ++----
+ 1 files changed, 2 insertions(+), 4 deletions(-)
 
-diff --git a/meta/lib/oe/packagedata.py b/meta/lib/oe/packagedata.py
-index a7a40f0..124a49d 100644
---- a/meta/lib/oe/packagedata.py
-+++ b/meta/lib/oe/packagedata.py
-@@ -27,6 +27,13 @@ def read_pkgdatafile(fn):
+diff --git a/meta/conf/machine/include/powerpc/arch-powerpc.inc b/meta/conf/machine/include/powerpc/arch-powerpc.inc
+index c9b2829..9f588e8 100644
+--- a/meta/conf/machine/include/powerpc/arch-powerpc.inc
++++ b/meta/conf/machine/include/powerpc/arch-powerpc.inc
+@@ -18,10 +18,8 @@ TARGET_FPU .= "${@bb.utils.contains("TUNE_FEATURES", "fpu-soft", "soft", "", d)}
  
- def get_subpkgedata_fn(pkg, d):
-     archs = d.expand("${PACKAGE_ARCHS}").split(" ")
-+    mlarchs = d.expand("${MULTILIB_PACKAGE_ARCHS}", d).split(" ")
-+
-+    for mlarch in mlarchs:
-+        if "_" in mlarch:
-+            prefix, new_arch = mlarch.split("_")
-+            archs.append(new_arch)
-+
-     archs.reverse()
-     pkgdata = d.expand('${TMPDIR}/pkgdata/')
-     targetdir = d.expand('${TARGET_VENDOR}-${TARGET_OS}/runtime/')
+ ABIEXTENSION = "${@['','spe'][d.getVar('TARGET_FPU', True) in ['ppc-efd', 'ppc-efs']]}"
+ 
+-PPCPKGSFX_FPU = "${@bb.utils.contains("TUNE_FEATURES", "fpu-hard" , "", "-nf", d)}"
+-
+-PPCPKGARCH = "${TUNE_ARCH}${PPCPKGSFX_FPU}"
+-TUNE_PKGARCH ?= "${PPCPKGARCH}"
++PPCPKGSFX_FPU = "${@['', '-nf'][d.getVar('TARGET_FPU',d,1) in ['fpu-soft']]}"
++TUNE_PKGARCH_append = "${PPCPKGSFX_FPU}"
+ 
+ # Basic tune definitions
+ AVAILTUNES += "powerpc powerpc-nf" 
 -- 
 1.7.6.1
 
