@@ -1,46 +1,31 @@
-Received: from tx2ehsobe002.messaging.microsoft.com ([65.55.88.12]
-	helo=tx2outboundpool.messaging.microsoft.com)
+Received: from mail.dream-property.net ([82.149.226.172])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <B29882@freescale.com>) id 1S5l6c-0008Vm-C9
-	for openembedded-core@openembedded.org; Thu, 08 Mar 2012 22:42:38 +0100
-Received: from mail108-tx2-R.bigfish.com (10.9.14.241) by
-	TX2EHSOBE001.bigfish.com (10.9.40.21) with Microsoft SMTP Server id
-	14.1.225.23; Thu, 8 Mar 2012 21:03:51 +0000
-Received: from mail108-tx2 (localhost [127.0.0.1])	by
-	mail108-tx2-R.bigfish.com (Postfix) with ESMTP id F1D92180590	for
-	<openembedded-core@openembedded.org>;
-	Thu,  8 Mar 2012 21:03:51 +0000 (UTC)
-X-SpamScore: 3
-X-BigFish: VS3(zzzz1202h1082kzz8275bhz2dh2a8h668h839h)
-X-Forefront-Antispam-Report: CIP:70.37.183.190; KIP:(null); UIP:(null); IPV:NLI;
-	H:mail.freescale.net; RD:none; EFVD:NLI
-Received: from mail108-tx2 (localhost.localdomain [127.0.0.1]) by mail108-tx2
-	(MessageSwitch) id 1331240630985287_20267;
-	Thu,  8 Mar 2012 21:03:50 +0000 (UTC)
-Received: from TX2EHSMHS043.bigfish.com (unknown [10.9.14.246])	by
-	mail108-tx2.bigfish.com (Postfix) with ESMTP id EA845260046	for
-	<openembedded-core@openembedded.org>;
-	Thu,  8 Mar 2012 21:03:50 +0000 (UTC)
-Received: from mail.freescale.net (70.37.183.190) by TX2EHSMHS043.bigfish.com
-	(10.9.99.143) with Microsoft SMTP Server (TLS) id 14.1.225.23;
-	Thu, 8 Mar 2012 21:03:50 +0000
-Received: from tx30smr01.am.freescale.net (10.81.153.31) by
-	039-SN1MMR1-003.039d.mgd.msft.net (10.84.1.16) with Microsoft SMTP
-	Server (TLS) id 14.1.355.3; Thu, 8 Mar 2012 15:03:49 -0600
-Received: from right.am.freescale.net (right.am.freescale.net [10.82.193.13])
-	by tx30smr01.am.freescale.net (8.14.3/8.14.0) with ESMTP id
-	q28L3nS4013335
-	for <openembedded-core@openembedded.org>; Thu, 8 Mar 2012 14:03:49 -0700
-From: Matthew McClintock <msm@freescale.com>
-To: <openembedded-core@openembedded.org>
-Date: Thu, 8 Mar 2012 15:03:48 -0600
-Message-ID: <1331240628-7307-1-git-send-email-msm@freescale.com>
-X-Mailer: git-send-email 1.7.6.1
-In-Reply-To: <1331237734.3006.33.camel@ted>
-References: <1331237734.3006.33.camel@ted>
+	(envelope-from <obi@opendreambox.org>) id 1S5lBI-00008c-Kj
+	for openembedded-core@lists.openembedded.org;
+	Thu, 08 Mar 2012 22:47:29 +0100
+Received: from localhost (localhost [127.0.0.1])
+	by mail.dream-property.net (Postfix) with ESMTP id D34623158F04;
+	Thu,  8 Mar 2012 22:38:51 +0100 (CET)
+X-Virus-Scanned: Debian amavisd-new at mail.dream-property.net
+Received: from mail.dream-property.net ([127.0.0.1])
+	by localhost (mail.dream-property.net [127.0.0.1]) (amavisd-new,
+	port 10024)
+	with LMTP id 8gcpv8quTI2a; Thu,  8 Mar 2012 22:38:38 +0100 (CET)
+Received: from [172.22.22.61] (drms-590ed42d.pool.mediaWays.net [89.14.212.45])
+	(using TLSv1 with cipher DHE-RSA-AES256-SHA (256/256 bits))
+	(No client certificate requested)
+	by mail.dream-property.net (Postfix) with ESMTPSA id CC4C23159184;
+	Thu,  8 Mar 2012 22:38:37 +0100 (CET)
+Message-ID: <4F5926DC.2030705@opendreambox.org>
+Date: Thu, 08 Mar 2012 22:38:36 +0100
+From: Andreas Oberritter <obi@opendreambox.org>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:10.0.2) Gecko/20120216 Thunderbird/10.0.2
 MIME-Version: 1.0
-X-OriginatorOrg: freescale.com
-Subject: [PATCH v2] arch-powerpc.inc: use default value of TUNE_PKGARCH
+To: openembedded-core@lists.openembedded.org
+References: <1331175070-12257-1-git-send-email-obi@opendreambox.org>
+In-Reply-To: <1331175070-12257-1-git-send-email-obi@opendreambox.org>
+Subject: Re: [PATCH][RFC] bitbake.conf: use empty SRC_URI by default
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -55,37 +40,27 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 08 Mar 2012 21:42:38 -0000
-Content-Type: text/plain
+X-List-Received-Date: Thu, 08 Mar 2012 21:47:29 -0000
+Content-Type: text/plain; charset=ISO-8859-1
+Content-Transfer-Encoding: 7bit
 
-We can use the default value for TUNE_PKGARCH, and now we just
-append "-nf" if TARGET_FPU is fpu-soft
+On 08.03.2012 03:51, Andreas Oberritter wrote:
+> * Otherwise, recipes that only append to SRC_URI instead of
+>   overwriting it will get the full path of the recipe written
+>   into the Source: field of the package.
+> 
+> Signed-off-by: Andreas Oberritter <obi@opendreambox.org>
+> ---
+> * I haven't tested this yet, I don't know whether there
+>   are any caveeats. What's the purpose of having ${FILE}
+>   in there, anyway?
 
-Signed-off-by: Matthew McClintock <msm@freescale.com>
----
- meta/conf/machine/include/powerpc/arch-powerpc.inc |    6 ++----
- 1 files changed, 2 insertions(+), 4 deletions(-)
+Richard, did you commit this by accident? In the meantime I've started a
+clean build with this patch applied and noticed eglibc-locale failing,
+because opkg-build complains about a missing "Source" field.
 
-diff --git a/meta/conf/machine/include/powerpc/arch-powerpc.inc b/meta/conf/machine/include/powerpc/arch-powerpc.inc
-index c9b2829..9f588e8 100644
---- a/meta/conf/machine/include/powerpc/arch-powerpc.inc
-+++ b/meta/conf/machine/include/powerpc/arch-powerpc.inc
-@@ -18,10 +18,8 @@ TARGET_FPU .= "${@bb.utils.contains("TUNE_FEATURES", "fpu-soft", "soft", "", d)}
- 
- ABIEXTENSION = "${@['','spe'][d.getVar('TARGET_FPU', True) in ['ppc-efd', 'ppc-efs']]}"
- 
--PPCPKGSFX_FPU = "${@bb.utils.contains("TUNE_FEATURES", "fpu-hard" , "", "-nf", d)}"
--
--PPCPKGARCH = "${TUNE_ARCH}${PPCPKGSFX_FPU}"
--TUNE_PKGARCH ?= "${PPCPKGARCH}"
-+PPCPKGSFX_FPU = "${@['', '-nf'][d.getVar('TARGET_FPU',d,1) in ['fpu-soft']]}"
-+TUNE_PKGARCH_append = "${PPCPKGSFX_FPU}"
- 
- # Basic tune definitions
- AVAILTUNES += "powerpc powerpc-nf" 
--- 
-1.7.6.1
-
+Regards,
+Andreas
 
 
 
