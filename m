@@ -1,31 +1,31 @@
-Received: from mail.dream-property.net ([82.149.226.172])
+Received: from astoria.ccjclearline.com ([64.235.106.9])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <obi@opendreambox.org>) id 1S5lBI-00008c-Kj
+	(envelope-from <rpjday@crashcourse.ca>) id 1S5mG4-0001F3-7f
 	for openembedded-core@lists.openembedded.org;
-	Thu, 08 Mar 2012 22:47:29 +0100
-Received: from localhost (localhost [127.0.0.1])
-	by mail.dream-property.net (Postfix) with ESMTP id D34623158F04;
-	Thu,  8 Mar 2012 22:38:51 +0100 (CET)
-X-Virus-Scanned: Debian amavisd-new at mail.dream-property.net
-Received: from mail.dream-property.net ([127.0.0.1])
-	by localhost (mail.dream-property.net [127.0.0.1]) (amavisd-new,
-	port 10024)
-	with LMTP id 8gcpv8quTI2a; Thu,  8 Mar 2012 22:38:38 +0100 (CET)
-Received: from [172.22.22.61] (drms-590ed42d.pool.mediaWays.net [89.14.212.45])
-	(using TLSv1 with cipher DHE-RSA-AES256-SHA (256/256 bits))
-	(No client certificate requested)
-	by mail.dream-property.net (Postfix) with ESMTPSA id CC4C23159184;
-	Thu,  8 Mar 2012 22:38:37 +0100 (CET)
-Message-ID: <4F5926DC.2030705@opendreambox.org>
-Date: Thu, 08 Mar 2012 22:38:36 +0100
-From: Andreas Oberritter <obi@opendreambox.org>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:10.0.2) Gecko/20120216 Thunderbird/10.0.2
+	Thu, 08 Mar 2012 23:56:28 +0100
+Received: from cpec03f0ed08c7f-cm001ac318e826.cpe.net.cable.rogers.com
+	([99.241.91.63] helo=crashcourse.ca)
+	by astoria.ccjclearline.com with esmtpsa (TLSv1:AES256-SHA:256)
+	(Exim 4.69) (envelope-from <rpjday@crashcourse.ca>)
+	id 1S5lZt-0001mW-KP for openembedded-core@lists.openembedded.org;
+	Thu, 08 Mar 2012 17:12:54 -0500
+Date: Thu, 8 Mar 2012 17:12:46 -0500 (EST)
+From: "Robert P. J. Day" <rpjday@crashcourse.ca>
+X-X-Sender: rpjday@oneiric
+To: OE Core mailing list <openembedded-core@lists.openembedded.org>
+Message-ID: <alpine.DEB.2.02.1203081704020.4991@oneiric>
+User-Agent: Alpine 2.02 (DEB 1266 2009-07-14)
 MIME-Version: 1.0
-To: openembedded-core@lists.openembedded.org
-References: <1331175070-12257-1-git-send-email-obi@opendreambox.org>
-In-Reply-To: <1331175070-12257-1-git-send-email-obi@opendreambox.org>
-Subject: Re: [PATCH][RFC] bitbake.conf: use empty SRC_URI by default
+X-AntiAbuse: This header was added to track abuse,
+	please include it with any abuse report
+X-AntiAbuse: Primary Hostname - astoria.ccjclearline.com
+X-AntiAbuse: Original Domain - lists.openembedded.org
+X-AntiAbuse: Originator/Caller UID/GID - [47 12] / [47 12]
+X-AntiAbuse: Sender Address Domain - crashcourse.ca
+X-Source: 
+X-Source-Args: 
+X-Source-Dir: 
+Subject: want to confirm that include/require is a pure textual substitution
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -40,27 +40,70 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 08 Mar 2012 21:47:29 -0000
-Content-Type: text/plain; charset=ISO-8859-1
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Thu, 08 Mar 2012 22:56:28 -0000
+Content-Type: TEXT/PLAIN; charset=US-ASCII
 
-On 08.03.2012 03:51, Andreas Oberritter wrote:
-> * Otherwise, recipes that only append to SRC_URI instead of
->   overwriting it will get the full path of the recipe written
->   into the Source: field of the package.
-> 
-> Signed-off-by: Andreas Oberritter <obi@opendreambox.org>
-> ---
-> * I haven't tested this yet, I don't know whether there
->   are any caveeats. What's the purpose of having ${FILE}
->   in there, anyway?
 
-Richard, did you commit this by accident? In the meantime I've started a
-clean build with this patch applied and noticed eglibc-locale failing,
-because opkg-build complains about a missing "Source" field.
+  currently writing a tutorial involving OE and working up to yocto
+and want to verify a couple things.  i'm reading the OE manual,
+section on include/require:
 
-Regards,
-Andreas
+http://docs.openembedded.org/usermanual/usermanual.html#recipes_require
 
+and want to verify that that is purely a textual inclusion, so that
+*anything* that is common across a number of .bb files can be
+centralized in a .inc file, correct?
+
+  and on that note, a larger question about the OE manual itself.  in
+that same section, there's a reference to the cherokee package, and
+the alleged .bb file:
+
+PR = "r7"
+
+SRC_URI_append = "file://configure.patch \
+                  file://Makefile.in.patch \
+                  file://Makefile.cget.patch \
+                  file://util.patch"
+
+require cherokee.inc
+
+do_configure() {
+        gnu-configize
+        oe_runconf
+        sed -i 's:-L\$:-L${STAGING_LIBDIR} -L\$:' ${S}/*libtool
+}
+
+  unsurprisingly, that's out of date as the current .bb file is
+simply:
+
+require cherokee.inc
+
+PR = "${INC_PR}.0"
+
+SRC_URI[md5sum] = "21b01e7d45c0e82ecc0c4257a9c27feb"
+SRC_URI[sha256sum] =
+"042b5687b1a3db3ca818167548ce5d32c35e227c6640732dcb622a6f4a078b7d"
+
+but that's not my point.  since i want my tutorial to walk someone
+through various files, given the split into the oe-core and
+meta-openembedded layers, i'm thinking of using examples strictly out
+of oe-core since there's more than enough there.  but the cherokee
+example is in the meta-openembedded layer, and that distinction
+doesn't appear to be made early in the OE manual anywhere.
+
+  is there a plan to revise that manual to incorporate the
+distinction?  is there a newer manual elsewhere?
+
+rday
+
+-- 
+
+========================================================================
+Robert P. J. Day                                 Ottawa, Ontario, CANADA
+                        http://crashcourse.ca
+
+Twitter:                                       http://twitter.com/rpjday
+LinkedIn:                               http://ca.linkedin.com/in/rpjday
+========================================================================
 
 
