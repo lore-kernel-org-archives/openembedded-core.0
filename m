@@ -1,35 +1,36 @@
-Received: from mail.dream-property.net ([82.149.226.172])
+Received: from mail-vx0-f175.google.com ([209.85.220.175])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <obi@opendreambox.org>) id 1S5dsF-0004RH-By
+	(envelope-from <otavio.salvador@gmail.com>) id 1S5f48-0002Rq-AY
 	for openembedded-core@lists.openembedded.org;
-	Thu, 08 Mar 2012 14:59:22 +0100
-Received: from localhost (localhost [127.0.0.1])
-	by mail.dream-property.net (Postfix) with ESMTP id 884043159F53
+	Thu, 08 Mar 2012 16:15:40 +0100
+Received: by vcbfl13 with SMTP id fl13so439675vcb.6
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  8 Mar 2012 14:34:40 +0100 (CET)
-X-Virus-Scanned: Debian amavisd-new at mail.dream-property.net
-Received: from mail.dream-property.net ([127.0.0.1])
-	by localhost (mail.dream-property.net [127.0.0.1]) (amavisd-new,
-	port 10024) with LMTP id lji5fJgKuugc
-	for <openembedded-core@lists.openembedded.org>;
-	Thu,  8 Mar 2012 14:34:29 +0100 (CET)
-Received: from [172.22.22.61] (drms-590ed42d.pool.mediaWays.net [89.14.212.45])
-	(using TLSv1 with cipher DHE-RSA-AES256-SHA (256/256 bits))
-	(No client certificate requested)
-	by mail.dream-property.net (Postfix) with ESMTPSA id 7BE8E3159F51
-	for <openembedded-core@lists.openembedded.org>;
-	Thu,  8 Mar 2012 14:34:29 +0100 (CET)
-Message-ID: <4F58B564.5040708@opendreambox.org>
-Date: Thu, 08 Mar 2012 14:34:28 +0100
-From: Andreas Oberritter <obi@opendreambox.org>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:10.0.2) Gecko/20120216 Thunderbird/10.0.2
+	Thu, 08 Mar 2012 07:07:01 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=mime-version:sender:in-reply-to:references:date
+	:x-google-sender-auth:message-id:subject:from:to:content-type
+	:content-transfer-encoding;
+	bh=MjgT7bUR/FNE6H2rRHKay7a6bnRoOOYedj7ivQpchJY=;
+	b=sqZRta/xdLsERH9RfJrzDm3o9Vz08xdTBMV2cHmUT7CfbMjavVJU2uWdIZhoAQMbR9
+	dcctt1A1CbBXxmEJaWXjvSqQ+dz4MPdAscN3NfpQ0Y/jY3LiTupV1yZA+2pCWQTnzlcM
+	7j5ubaTNOmbjixCgYMIdGEzVjKMz6y6i3WwFRq5Spaz2UwzqJ8b3CoTzUA2dFRApR9h2
+	h74gvMSxtjzmekZkA5hNrTp9Kw+Tq9rt8XJu2scrSrK65P49L8onsCl9CnoKAXyd35hk
+	2cxDXqDX7+jz8iyUeX02Z4lJMSghZ2+Sb+7RmrFoB27c7MCi28OYTdc09pg2C+iKQNa6
+	oWyw==
 MIME-Version: 1.0
-To: openembedded-core@lists.openembedded.org
-References: <CAMKF1srTMHyV+2eDaJKuZs9=2VUYkqhJoqfFqZxrdTCCooWMXA@mail.gmail.com>
-	<CAJG6M_MgcYVomQbn=j_w=+BCDjUAdDe1D==CsQ_eFTJm1=rwQw@mail.gmail.com>
-In-Reply-To: <CAJG6M_MgcYVomQbn=j_w=+BCDjUAdDe1D==CsQ_eFTJm1=rwQw@mail.gmail.com>
-Subject: Re: Recipes with disabled parallel make
+Received: by 10.52.240.177 with SMTP id wb17mr10497178vdc.63.1331219221430;
+	Thu, 08 Mar 2012 07:07:01 -0800 (PST)
+Sender: otavio.salvador@gmail.com
+Received: by 10.220.7.208 with HTTP; Thu, 8 Mar 2012 07:07:01 -0800 (PST)
+In-Reply-To: <1331208530-11938-1-git-send-email-obi@opendreambox.org>
+References: <1331208530-11938-1-git-send-email-obi@opendreambox.org>
+Date: Thu, 8 Mar 2012 12:07:01 -0300
+X-Google-Sender-Auth: M2HuxAy9NcSY1RGen1vN7xRkdUU
+Message-ID: <CAP9ODKr_z+X5RkbUd3j-7AqYtRs0uKKrCurxzRz-WHF3wbQfNQ@mail.gmail.com>
+From: Otavio Salvador <otavio@ossystems.com.br>
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] udev-164: don't hardcode path to pidof
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -44,50 +45,26 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 08 Mar 2012 13:59:22 -0000
+X-List-Received-Date: Thu, 08 Mar 2012 15:15:40 -0000
 Content-Type: text/plain; charset=ISO-8859-1
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: quoted-printable
 
-On 02.03.2012 23:29, Yury Bushmelev wrote:
-> 2012/2/10 Khem Raj <raj.khem@gmail.com>:
->> Hi
->>
->> Just grepped for the occurances of disabled parallel make and I see
->> around 40 cases on oe-core
->>
->> git grep PARALLEL_MAKE.*=.*\"\" recipes* | grep -v "#"
->>
->> If someone has time to kill then it would help to see if some of these
->> are fixed by time or can be fixed
->>
->> it can help in paralleling the build a bit more.
-> 
-> Well, I have some first results! :)
-> 
-> 
-> 1. Recipes (files) confirmed to fail with P_M enabled (need to have
-> P_M disabled as it is now):
-> meta/recipes-connectivity/bind/bind_9.8.1.bb
-> meta/recipes-extended/slang/slang_2.2.4.bb
-> meta/recipes-extended/tcp-wrappers/tcp-wrappers_7.6.bb
-> meta/recipes-support/js/js_1.7.0+1.8.0rc1.bb
-> meta/recipes-support/pth/pth_2.0.7.bb
+Acked-by: Otavio Salvador <otavio@ossystems.com.br>
 
-meta/recipes-devtools/libtool/libtool_2.4.2.bb might need disabled
-P_M, too:
+On Thu, Mar 8, 2012 at 09:08, Andreas Oberritter <obi@opendreambox.org> wro=
+te:
+> * pidof lives in /bin, search it in $PATH.
+> * Assume pidof's presence.
+>
+> Signed-off-by: Andreas Oberritter <obi@opendreambox.org>
 
-| ./mipsel-oe-linux-libtool  --tag=CC   --mode=compile ccache mipsel-oe-linux-gcc  -mel -mabi=32   -mhard-float -march=mips32 --sysroot=.../tmp/sysroots/dm7020hd -DHAVE_CONFIG_H -I.  -DLTDLOPEN=libltdl -DLT_CONFIG_H='<config.h>' -DLTDL -I. -I. -Ilibltdl -I./libltdl -I./libltdl/libltdl   -Os -pipe -g -feliminate-unused-debug-types -c -o libltdl/libltdl_libltdl_la-slist.lo `test -f 'libltdl/slist.c' || echo './'`libltdl/slist.c
-| /bin/sh: ./mipsel-oe-linux-libtool: /bin/sh: bad interpreter: Text file busy
-| make[2]: *** [libltdl/libltdl_libltdl_la-slist.lo] Error 126
-| make[2]: *** Waiting for unfinished jobs....
 
-This was a fresh build with clean tmp and sstate-cache. I've just
-seen this failue for the first time.
 
-BB_NUMBER_THREADS = "4"
-PARALLEL_MAKE = "-j 4"
-
-Regards,
-Andreas
+--=20
+Otavio Salvador=A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0O=
+.S. Systems
+E-mail: otavio@ossystems.com.br=A0 http://www.ossystems.com.br
+Mobile: +55 53 9981-7854=A0 =A0 =A0 =A0=A0 =A0 =A0 =A0http://projetos.ossys=
+tems.com.br
 
 
