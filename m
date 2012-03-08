@@ -1,26 +1,34 @@
-Received: from vms173001pub.verizon.net ([206.46.173.1])
-	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <denis@denix.org>) id 1S5isV-0005DZ-SC
-	for openembedded-core@lists.openembedded.org;
-	Thu, 08 Mar 2012 20:19:56 +0100
-Received: from gandalf.denix.org ([unknown] [71.178.225.66])
-	by vms173001.mailsrvcs.net
-	(Sun Java(tm) System Messaging Server 7u2-7.02 32bit (built Apr 16
-	2009)) with ESMTPA id <0M0K00EQ2VTN5X92@vms173001.mailsrvcs.net> for
-	openembedded-core@lists.openembedded.org;
-	Thu, 08 Mar 2012 12:10:36 -0600 (CST)
-Received: by gandalf.denix.org (Postfix, from userid 1000)	id 69C0B2009F; Thu,
-	08 Mar 2012 13:10:35 -0500 (EST)
-Date: Thu, 08 Mar 2012 13:10:35 -0500
-From: Denys Dmytriyenko <denis@denix.org>
+Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
+	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <richard.purdie@linuxfoundation.org>)
+	id 1S5jSp-0005bT-1c for openembedded-core@lists.openembedded.org;
+	Thu, 08 Mar 2012 20:57:27 +0100
+Received: from localhost (localhost [127.0.0.1])
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q28JmmC9029696
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 8 Mar 2012 19:48:48 GMT
+Received: from tim.rpsys.net ([127.0.0.1])
+	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
+	port 10024) with LMTP
+	id 12542-09 for <openembedded-core@lists.openembedded.org>;
+	Thu,  8 Mar 2012 19:48:44 +0000 (GMT)
+Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q28JmbUt029688
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO)
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 8 Mar 2012 19:48:40 GMT
+Message-ID: <1331235953.3006.24.camel@ted>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Message-id: <20120308181035.GA10587@denix.org>
-References: <1331208530-11938-1-git-send-email-obi@opendreambox.org>
-MIME-version: 1.0
-In-reply-to: <1331208530-11938-1-git-send-email-obi@opendreambox.org>
-User-Agent: Mutt/1.5.20 (2009-06-14)
-Subject: Re: [PATCH] udev-164: don't hardcode path to pidof
+Date: Thu, 08 Mar 2012 11:45:53 -0800
+In-Reply-To: <4efd2e00d0cd6cc765da809b47d239664fc8922d.1331053126.git.sgw@linux.intel.com>
+References: <cover.1331053126.git.sgw@linux.intel.com>
+	<4efd2e00d0cd6cc765da809b47d239664fc8922d.1331053126.git.sgw@linux.intel.com>
+X-Mailer: Evolution 3.2.2- 
+Mime-Version: 1.0
+X-Virus-Scanned: amavisd-new at rpsys.net
+Subject: Re: [CONSOLIDATED PULL 02/20] self-hosted: Fix multiple libx11 error
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -35,62 +43,28 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 08 Mar 2012 19:19:56 -0000
-Content-type: text/plain; charset=us-ascii
-Content-disposition: inline
+X-List-Received-Date: Thu, 08 Mar 2012 19:57:27 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-On Thu, Mar 08, 2012 at 01:08:50PM +0100, Andreas Oberritter wrote:
-> * pidof lives in /bin, search it in $PATH.
-
-Nice catch! It does indeed live in /bin
-
-> * Assume pidof's presence.
+On Tue, 2012-03-06 at 09:03 -0800, Saul Wold wrote:
+> From: Zhai Edwin <edwin.zhai@intel.com>
 > 
-> Signed-off-by: Andreas Oberritter <obi@opendreambox.org>
-
-Acked-by: Denys Dmytriyenko <denys@ti.com>
-
+> Self-hosted needs package libx11-dev, which is ambiguous as virtual/libx11 is
+> provided by libx11 or libx11-trim. This patch explictly set the perferred one,
+> libx11-trim-dev, to avoid this.
+> 
+> Signed-off-by: Zhai Edwin <edwin.zhai@intel.com>
 > ---
->  meta/recipes-core/udev/udev/init   |    6 ++----
->  meta/recipes-core/udev/udev_164.bb |    2 +-
->  2 files changed, 3 insertions(+), 5 deletions(-)
-> 
-> diff --git a/meta/recipes-core/udev/udev/init b/meta/recipes-core/udev/udev/init
-> index 78b5b1c..f9e9014 100644
-> --- a/meta/recipes-core/udev/udev/init
-> +++ b/meta/recipes-core/udev/udev/init
-> @@ -28,10 +28,8 @@ readfile () {
->  }
->  
->  kill_udevd() {
-> -	if [ -x /sbin/pidof ]; then
-> -		pid=`/sbin/pidof -x udevd`
-> -		[ -n "$pid" ] && kill $pid
-> -	fi
-> +	pid=`pidof -x udevd`
-> +	[ -n "$pid" ] && kill $pid
->  }
->  
->  export ACTION=add
-> diff --git a/meta/recipes-core/udev/udev_164.bb b/meta/recipes-core/udev/udev_164.bb
-> index b993a13..d661044 100644
-> --- a/meta/recipes-core/udev/udev_164.bb
-> +++ b/meta/recipes-core/udev/udev_164.bb
-> @@ -1,6 +1,6 @@
->  include udev.inc
->  
-> -PR = "r11"
-> +PR = "r12"
->  
->  SRC_URI += "file://udev-166-v4l1-1.patch"
->  
-> -- 
-> 1.7.5.4
-> 
-> 
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
+>  meta/recipes-core/tasks/task-self-hosted.bb |    4 ++--
+>  1 files changed, 2 insertions(+), 2 deletions(-)
+
+This patch should be dropped, an alternative fix has been merged
+(http://git.yoctoproject.org/cgit.cgi/poky/commit/?id=157b44cf72c8660ba53b8fe1b321d2ef314c07ef)
+
+Cheers,
+
+Richard
+
 
 
