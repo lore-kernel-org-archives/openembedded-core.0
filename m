@@ -1,31 +1,31 @@
 Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
 	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
 	(envelope-from <richard.purdie@linuxfoundation.org>)
-	id 1S5jrT-0006zO-BY for openembedded-core@lists.openembedded.org;
-	Thu, 08 Mar 2012 21:22:55 +0100
+	id 1S5jsy-00071j-0n for openembedded-core@lists.openembedded.org;
+	Thu, 08 Mar 2012 21:24:28 +0100
 Received: from localhost (localhost [127.0.0.1])
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q28KEGQn030280;
-	Thu, 8 Mar 2012 20:14:16 GMT
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q28KFmne030410;
+	Thu, 8 Mar 2012 20:15:48 GMT
 Received: from tim.rpsys.net ([127.0.0.1])
 	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
 	port 10024) with LMTP
-	id 29725-09; Thu,  8 Mar 2012 20:14:11 +0000 (GMT)
+	id 30330-01; Thu,  8 Mar 2012 20:15:43 +0000 (GMT)
 Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q28KDxHk030274
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q28KFZ2k030404
 	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO);
-	Thu, 8 Mar 2012 20:14:06 GMT
-Message-ID: <1331237624.3006.32.camel@ted>
+	Thu, 8 Mar 2012 20:15:38 GMT
+Message-ID: <1331237734.3006.33.camel@ted>
 From: Richard Purdie <richard.purdie@linuxfoundation.org>
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Date: Thu, 08 Mar 2012 12:13:44 -0800
-In-Reply-To: <1331137465-24763-1-git-send-email-kergoth@gmail.com>
-References: <1331137465-24763-1-git-send-email-kergoth@gmail.com>
+Date: Thu, 08 Mar 2012 12:15:34 -0800
+In-Reply-To: <1331076055-15262-1-git-send-email-msm@freescale.com>
+References: <1331076055-15262-1-git-send-email-msm@freescale.com>
 X-Mailer: Evolution 3.2.2- 
 Mime-Version: 1.0
 X-Virus-Scanned: amavisd-new at rpsys.net
-Cc: Christopher Larson <chris_larson@mentor.com>
-Subject: Re: [PATCH] external-csl-toolchain: override PKGV, not PKGV_${PN}
+Cc: openembedded-core@openembedded.org
+Subject: Re: [PATCH] arch-powerpc.inc: use default value of TUNE_PKGARCH
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -40,24 +40,37 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 08 Mar 2012 20:22:55 -0000
+X-List-Received-Date: Thu, 08 Mar 2012 20:24:28 -0000
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 
-On Wed, 2012-03-07 at 10:24 -0600, Christopher Larson wrote:
-> From: Christopher Larson <chris_larson@mentor.com>
+On Tue, 2012-03-06 at 17:20 -0600, Matthew McClintock wrote:
+> We can use the default value for TUNE_PKGARCH, and now we just
+> append "-nf" if TARGET_FPU is fpu-soft
 > 
-> This is needed to ensure that the RDEPENDS_${PN}-dev,
-> RDEPENDS_${PN}-staticdev, and RRECOMMENDS_${PN}-dbg are accurate with respect
-> to the PKGV of the ${PN} package, and incidentally fixes an rpm packaging
-> issue, as rpm dislikes the recipe PV as PKGV.
-> 
-> Signed-off-by: Christopher Larson <chris_larson@mentor.com>
+> Signed-off-by: Matthew McClintock <msm@freescale.com>
 > ---
->  meta/recipes-core/meta/external-csl-toolchain.bb |   17 +----------------
->  1 files changed, 1 insertions(+), 16 deletions(-)
+>  meta/conf/machine/include/powerpc/arch-powerpc.inc |    6 ++----
+>  1 files changed, 2 insertions(+), 4 deletions(-)
+> 
+> diff --git a/meta/conf/machine/include/powerpc/arch-powerpc.inc b/meta/conf/machine/include/powerpc/arch-powerpc.inc
+> index c9b2829..abd72ed 100644
+> --- a/meta/conf/machine/include/powerpc/arch-powerpc.inc
+> +++ b/meta/conf/machine/include/powerpc/arch-powerpc.inc
+> @@ -18,10 +18,8 @@ TARGET_FPU .= "${@bb.utils.contains("TUNE_FEATURES", "fpu-soft", "soft", "", d)}
+>  
+>  ABIEXTENSION = "${@['','spe'][d.getVar('TARGET_FPU', True) in ['ppc-efd', 'ppc-efs']]}"
+>  
+> -PPCPKGSFX_FPU = "${@bb.utils.contains("TUNE_FEATURES", "fpu-hard" , "", "-nf", d)}"
+> -
+> -PPCPKGARCH = "${TUNE_ARCH}${PPCPKGSFX_FPU}"
+> -TUNE_PKGARCH ?= "${PPCPKGARCH}"
+> +PPCPKGSFX_FPU = "${@['', '-nf'][bb.data.getVar('TARGET_FPU',d,1) in ['fpu-soft']]}"
+> +TUNE_PKGARCH_append = "${PPCPKGSFX_FPU}"
 
-Merged to master, thanks.
+Can we please do d.getVar(xxx, True) and not bb.data and ,1 :)
+
+Cheers,
 
 Richard
 
