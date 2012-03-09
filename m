@@ -1,42 +1,56 @@
-Received: from mail-gy0-f175.google.com ([209.85.160.175])
+Received: from ch1ehsobe001.messaging.microsoft.com ([216.32.181.181]
+	helo=ch1outboundpool.messaging.microsoft.com)
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <otavio.salvador@gmail.com>) id 1S62ho-0002wC-1h
+	(envelope-from <B29882@freescale.com>) id 1S62sN-0003Iy-SR
 	for openembedded-core@lists.openembedded.org;
-	Fri, 09 Mar 2012 17:30:12 +0100
-Received: by mail-gy0-f175.google.com with SMTP id z2so914526ghb.6
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 09 Mar 2012 08:21:34 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=sender:from:to:subject:date:message-id:x-mailer:in-reply-to
-	:references:in-reply-to:references;
-	bh=Cse74tnBxUEEtImVwCngKqzmwV29rBChJTs+PGx6UYY=;
-	b=bm+FK4WzGU86IaDqGUPG6owLWLeWuU2DI/6TPA/qFRZ9bcvGSE5jASKcMsAIyoMFgP
-	Gox9ErtmiM8zqavoXgfbl8qmUWqRdJ2MvAsKUctYEA6oWDs6FHaOC6o7ZHjwBQ6ze9Op
-	89czY/JxhkReKVhnw6V4XYAMTVxKlq0fwU3YDX2OJqspUxggTUmmHtpIriC5B8YI/Z54
-	KdbCoK8dx6USfdyURKTU0TwNzrBiIg3Czz/P6Nhj0vESS1ZLH3Sr7qLyw9eOVPaD03Wx
-	PfIv1hvHUe03YpF8SB4Q+XIQ7Qn7rwNQ5/UhRv+H1PT4BNhxqZ8Was7/y7iiI5Ho9QU5
-	AXpw==
-Received: by 10.236.192.137 with SMTP id i9mr2937943yhn.115.1331310094600;
-	Fri, 09 Mar 2012 08:21:34 -0800 (PST)
-Received: from localhost.localdomain ([186.218.100.214])
-	by mx.google.com with ESMTPS id o41sm15000143yhj.7.2012.03.09.08.21.33
-	(version=TLSv1/SSLv3 cipher=OTHER);
-	Fri, 09 Mar 2012 08:21:34 -0800 (PST)
-Sender: Otavio Salvador <otavio.salvador@gmail.com>
-From: Otavio Salvador <otavio@ossystems.com.br>
-To: openembedded-core@lists.openembedded.org
-Date: Fri,  9 Mar 2012 16:21:17 +0000
-Message-Id: <6e308c4a114fa163afeb2fa8850b8d784fc68957.1331310044.git.otavio@ossystems.com.br>
-X-Mailer: git-send-email 1.7.2.5
-In-Reply-To: <cover.1331310044.git.otavio@ossystems.com.br>
-References: <cover.1331310044.git.otavio@ossystems.com.br>
-In-Reply-To: <cover.1331310044.git.otavio@ossystems.com.br>
-References: <cover.1331310044.git.otavio@ossystems.com.br>
-Subject: [PATCH 6/6] connman: update to 0.79
+	Fri, 09 Mar 2012 17:41:08 +0100
+Received: from mail61-ch1-R.bigfish.com (10.43.68.252) by
+	CH1EHSOBE013.bigfish.com (10.43.70.63) with Microsoft SMTP Server id
+	14.1.225.23; Fri, 9 Mar 2012 16:32:28 +0000
+Received: from mail61-ch1 (localhost [127.0.0.1])	by mail61-ch1-R.bigfish.com
+	(Postfix) with ESMTP id DB5594201E0	for
+	<openembedded-core@lists.openembedded.org>;
+	Fri,  9 Mar 2012 16:32:27 +0000 (UTC)
+X-SpamScore: -7
+X-BigFish: VS-7(zz9371I1432N98dKzz1202hzz8275bh8275dhz2dh2a8h668h839h8e2h8e3hbe9k)
+X-Forefront-Antispam-Report: CIP:70.37.183.190; KIP:(null); UIP:(null); IPV:NLI;
+	H:mail.freescale.net; RD:none; EFVD:NLI
+Received: from mail61-ch1 (localhost.localdomain [127.0.0.1]) by mail61-ch1
+	(MessageSwitch) id 1331310745976261_15030;
+	Fri,  9 Mar 2012 16:32:25 +0000 (UTC)
+Received: from CH1EHSMHS014.bigfish.com (snatpool2.int.messaging.microsoft.com
+	[10.43.68.231])	by mail61-ch1.bigfish.com (Postfix) with ESMTP id
+	E8ED22C01E7 for <openembedded-core@lists.openembedded.org>;
+	Fri,  9 Mar 2012 16:32:25 +0000 (UTC)
+Received: from mail.freescale.net (70.37.183.190) by CH1EHSMHS014.bigfish.com
+	(10.43.70.14) with Microsoft SMTP Server (TLS) id 14.1.225.23;
+	Fri, 9 Mar 2012 16:32:25 +0000
+Received: from 039-SN1MPN1-001.039d.mgd.msft.net ([169.254.1.5]) by
+	039-SN1MMR1-002.039d.mgd.msft.net ([10.84.1.15]) with mapi id
+	14.01.0355.003; Fri, 9 Mar 2012 10:32:25 -0600
+From: McClintock Matthew-B29882 <B29882@freescale.com>
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Thread-Topic: [OE-core] [oe-core][PATCH] bitbake.conf: use PACKAGE_ARCH
+	instead of TARGET_ARCH in SDK_NAME
+Thread-Index: AQHM/hI1XFEs7U/2yECkjNkVZwAwDQ==
+Date: Fri, 9 Mar 2012 16:32:24 +0000
+Message-ID: <CAEsOVNd4kfQvzaDxku3KOSzMFfcFbUpakM1GvnfLiPxuVdvm5w@mail.gmail.com>
+References: <20120301094052.GB3831@jama.jama.net>
+	<1331275706-6917-1-git-send-email-Martin.Jansa@gmail.com>
+In-Reply-To: <1331275706-6917-1-git-send-email-Martin.Jansa@gmail.com>
+Accept-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [99.47.177.27]
+MIME-Version: 1.0
+X-OriginatorOrg: freescale.com
+Subject: Re: [PATCH] bitbake.conf: use PACKAGE_ARCH instead of TARGET_ARCH in SDK_NAME
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
-Reply-To: Patches and discussions about the oe-core layer
+Reply-To: McClintock Matthew-B29882 <B29882@freescale.com>,
+	Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
 List-Id: Patches and discussions about the oe-core layer
 	<openembedded-core.lists.openembedded.org>
@@ -47,115 +61,50 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 09 Mar 2012 16:30:12 -0000
+X-List-Received-Date: Fri, 09 Mar 2012 16:41:08 -0000
+Content-Language: en-US
+Content-Type: text/plain; charset="iso-8859-1"
+Content-ID: <BAA713136CCEBC4A9B3864C40AFC2B91@mgd.freescale.com>
+Content-Transfer-Encoding: quoted-printable
 
-Signed-off-by: Otavio Salvador <otavio@ossystems.com.br>
----
- .../connman/add_xuser_dbus_permission.patch        |   12 +++++++-----
- .../connman/connman/disable_alg-test.patch         |   18 +++++++++---------
- .../connman/{connman_0.78.bb => connman_0.79.bb}   |    6 ++----
- 3 files changed, 18 insertions(+), 18 deletions(-)
- rename meta/recipes-connectivity/connman/{connman_0.78.bb => connman_0.79.bb} (79%)
+On Fri, Mar 9, 2012 at 12:48 AM, Martin Jansa <martin.jansa@gmail.com> wrot=
+e:
+> * also use weak assignment for SDK_NAME_PREFIX as suggested by khem
+> * PACKAGE_ARCH is not 100% right too, because such SDK image usually has =
+few
+> =A0machine specific packages included (e.g. base-files, securetty, opkg c=
+onfigs)
+> =A0but those are not important for SDK users so it's better to have one S=
+DK for
+> =A0whole e.g. armv7a-vfp-neon then 6 SDK for each machine which would wor=
+k the
+> =A0same.
+> =A0You can see diff between crespo and om-gta04 SDK here:
+> =A0http://build.shr-project.org/shr-core-staging/031/sdk/oecore-i686-armv=
+7a-vfp-neon-toolchain-efl-crespo-om-gta04.diff
+>
+> Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
+> ---
+> =A0meta/conf/bitbake.conf | =A0 =A04 ++--
+> =A01 files changed, 2 insertions(+), 2 deletions(-)
+>
+> diff --git a/meta/conf/bitbake.conf b/meta/conf/bitbake.conf
+> index 87bb71c..91f8397 100644
+> --- a/meta/conf/bitbake.conf
+> +++ b/meta/conf/bitbake.conf
+> @@ -364,8 +364,8 @@ PKGDATA_DIR =3D "${TMPDIR}/pkgdata/${MULTIMACH_TARGET=
+_SYS}"
+> =A0# SDK variables,
+> =A0##################################################################
+>
+> -SDK_NAME_PREFIX =3D "oecore"
+> -SDK_NAME =3D "${SDK_NAME_PREFIX}-${SDK_ARCH}-${TARGET_ARCH}"
+> +SDK_NAME_PREFIX ?=3D "oecore"
+> +SDK_NAME =3D "${SDK_NAME_PREFIX}-${SDK_ARCH}-${PACKAGE_ARCH}"
 
-diff --git a/meta/recipes-connectivity/connman/connman/add_xuser_dbus_permission.patch b/meta/recipes-connectivity/connman/connman/add_xuser_dbus_permission.patch
-index 764c689..aa7a910 100644
---- a/meta/recipes-connectivity/connman/connman/add_xuser_dbus_permission.patch
-+++ b/meta/recipes-connectivity/connman/connman/add_xuser_dbus_permission.patch
-@@ -5,18 +5,20 @@ Upstream-Status: Inappropriate [configuration]
- 
- Signed-off-by: Dongxiao Xu <dongxiao.xu@intel.com>
- 
--diff -ruN connman-0.65-orig/src/connman-dbus.conf connman-0.65/src/connman-dbus.conf
----- connman-0.65-orig/src/connman-dbus.conf	2011-03-04 09:34:49.000000000 +0800
--+++ connman-0.65/src/connman-dbus.conf	2011-03-04 09:35:21.000000000 +0800
--@@ -7,6 +7,12 @@
--         <allow send_interface="net.connman.Agent"/>
-+diff --git a/src/connman-dbus.conf b/src/connman-dbus.conf
-+index 98a773e..cbe2ba3 100644
-+--- a/src/connman-dbus.conf
-++++ b/src/connman-dbus.conf
-+@@ -8,6 +8,13 @@
-          <allow send_interface="net.connman.Counter"/>
-+         <allow send_interface="net.connman.Notification"/>
-      </policy>
- +    <policy user="xuser">
- +        <allow own="net.connman"/>
- +        <allow send_destination="net.connman"/>
- +        <allow send_interface="net.connman.Agent"/>
- +        <allow send_interface="net.connman.Counter"/>
-++        <allow send_interface="net.connman.Notification"/>
- +    </policy>
-      <policy at_console="true">
-          <allow send_destination="net.connman"/>
-diff --git a/meta/recipes-connectivity/connman/connman/disable_alg-test.patch b/meta/recipes-connectivity/connman/connman/disable_alg-test.patch
-index 44ad768..f5cea00 100644
---- a/meta/recipes-connectivity/connman/connman/disable_alg-test.patch
-+++ b/meta/recipes-connectivity/connman/connman/disable_alg-test.patch
-@@ -1,4 +1,4 @@
--From b9a20c8eb61b600ced284646a1bea588fdd8a5ea Mon Sep 17 00:00:00 2001
-+From 3ebba424d56919018733064ad9e0ab8790d2bf1d Mon Sep 17 00:00:00 2001
- From: Otavio Salvador <otavio@ossystems.com.br>
- Date: Fri, 16 Dec 2011 19:31:59 -0200
- Subject: [PATCH] Disable building of alg-test
-@@ -15,23 +15,23 @@ Signed-off-by: Otavio Salvador <otavio@ossystems.com.br>
-  2 files changed, 1 insertions(+), 4 deletions(-)
- 
- diff --git a/Makefile.am b/Makefile.am
--index d5a76f9..d42a766 100644
-+index a6509f1..93618a3 100644
- --- a/Makefile.am
- +++ b/Makefile.am
--@@ -144,7 +144,7 @@ noinst_PROGRAMS += tools/wispr tools/supplicant-test \
-+@@ -145,7 +145,7 @@ noinst_PROGRAMS += tools/wispr tools/supplicant-test \
-  			tools/dbus-test tools/polkit-test \
-  			tools/iptables-test tools/tap-test tools/wpad-test \
-  			tools/stats-tool tools/private-network-test \
---			tools/alg-test unit/test-session
--+			unit/test-session
-+-			tools/alg-test unit/test-session unit/test-ippool \
-++			unit/test-session unit/test-ippool \
-+ 			unit/test-nat
-  
-  tools_wispr_SOURCES = $(gweb_sources) tools/wispr.c
-- tools_wispr_LDADD = @GLIB_LIBS@ @GNUTLS_LIBS@ -lresolv
- diff --git a/configure.ac b/configure.ac
--index f63fea8..67bfe85 100644
-+index 3dca02e..3b2da4d 100644
- --- a/configure.ac
- +++ b/configure.ac
--@@ -437,9 +437,6 @@ if (test "${enable_tools}" = "yes"); then
-+@@ -419,9 +419,6 @@ if (test "${enable_tools}" = "yes"); then
-  				AC_MSG_ERROR(GnuTLS library is required))
-  	AC_SUBST(GNUTLS_CFLAGS)
-  	AC_SUBST(GNUTLS_LIBS)
-@@ -42,5 +42,5 @@ index f63fea8..67bfe85 100644
-  AM_CONDITIONAL(TOOLS, test "${enable_tools}" = "yes")
-  
- -- 
--1.7.7.3
-+1.7.9.1
- 
-diff --git a/meta/recipes-connectivity/connman/connman_0.78.bb b/meta/recipes-connectivity/connman/connman_0.79.bb
-similarity index 79%
-rename from meta/recipes-connectivity/connman/connman_0.78.bb
-rename to meta/recipes-connectivity/connman/connman_0.79.bb
-index c73cad9..0c3a6fe 100644
---- a/meta/recipes-connectivity/connman/connman_0.78.bb
-+++ b/meta/recipes-connectivity/connman/connman_0.79.bb
-@@ -1,9 +1,7 @@
- require connman.inc
- 
--PR = "r6"
--
--# 0.78 tag
--SRCREV = "02f5d5fe2d7c71514a6387ba2b772b42d8e8d297"
-+# 0.79 tag
-+SRCREV = "442b1fe603e005814f592a3dbcf0d0bfb13f961c"
- SRC_URI  = "git://git.kernel.org/pub/scm/network/connman/connman.git \
-             file://add_xuser_dbus_permission.patch \
-             file://ethernet_default.patch \
--- 
-1.7.2.5
+Why PACKAGE_ARCH over TUNE_ARCH?
+
+-M=
 
 
 
