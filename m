@@ -1,14 +1,14 @@
 Received: from ffm.saftware.de ([83.141.3.46])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <obi@opendreambox.org>) id 1S65Sk-0007jH-Ga
+	(envelope-from <obi@opendreambox.org>) id 1S67ar-0003DC-0p
 	for openembedded-core@lists.openembedded.org;
-	Fri, 09 Mar 2012 20:26:50 +0100
+	Fri, 09 Mar 2012 22:43:21 +0100
 From: Andreas Oberritter <obi@opendreambox.org>
 To: openembedded-core@lists.openembedded.org
-Date: Fri,  9 Mar 2012 18:00:38 +0100
-Message-Id: <1331312438-4582-1-git-send-email-obi@opendreambox.org>
+Date: Fri,  9 Mar 2012 22:34:40 +0100
+Message-Id: <1331328880-18256-1-git-send-email-obi@opendreambox.org>
 X-Mailer: git-send-email 1.7.5.4
-Subject: [PATCH] util-linux: explicitly disable udev
+Subject: [PATCH] package.bbclass: sort dynamically generated packages
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -23,41 +23,44 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 09 Mar 2012 19:26:50 -0000
+X-List-Received-Date: Fri, 09 Mar 2012 21:43:21 -0000
 
-* util-linux auto-detects libudev for lsblk, so
-  disable it, because it's not listed in DEPENDS.
+* do_split_packages and package_do_split_locales dynamically add
+  packages in order of appearance of os.walk() or os.listdir().
+  This order varies between multiple build hosts (and probably
+  also between successive builds).
+* Sort the list of dynamically added packages, to get a consistent
+  and reproducible order.
+* This reduces the diffs in buildhistory and improves
+  comparability between builds.
 
 Signed-off-by: Andreas Oberritter <obi@opendreambox.org>
 ---
- meta/recipes-core/util-linux/util-linux.inc     |    2 +-
- meta/recipes-core/util-linux/util-linux_2.21.bb |    2 +-
- 2 files changed, 2 insertions(+), 2 deletions(-)
+ meta/classes/package.bbclass |    4 ++--
+ 1 files changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/meta/recipes-core/util-linux/util-linux.inc b/meta/recipes-core/util-linux/util-linux.inc
-index 1a3d293..e2d354f 100644
---- a/meta/recipes-core/util-linux/util-linux.inc
-+++ b/meta/recipes-core/util-linux/util-linux.inc
-@@ -38,7 +38,7 @@ EXTRA_OECONF = "--libdir=${base_libdir} --disable-use-tty-group \
-                 --enable-kill --enable-last --enable-mesg --enable-partx \
-                 --enable-raw --enable-rdev --enable-reset --disable-login-utils \
-                 --enable-write --enable-arch --enable-mount --with-fsprobe=builtin \
--                --enable-libuuid --enable-libblkid --enable-fsck"
-+                --enable-libuuid --enable-libblkid --enable-fsck --without-udev"
+diff --git a/meta/classes/package.bbclass b/meta/classes/package.bbclass
+index e8c4497..2337c0d 100644
+--- a/meta/classes/package.bbclass
++++ b/meta/classes/package.bbclass
+@@ -116,7 +116,7 @@ def do_split_packages(d, root, file_regex, output_pattern, description, postinst
+ 			mainpkg = mainpkg.replace('-dev', '')
+ 		extra_depends = mainpkg
  
- FILES_${PN}-doc += "${datadir}/getopt/getopt-*.*"
- 
-diff --git a/meta/recipes-core/util-linux/util-linux_2.21.bb b/meta/recipes-core/util-linux/util-linux_2.21.bb
-index 744dbaf..bcf92e0 100644
---- a/meta/recipes-core/util-linux/util-linux_2.21.bb
-+++ b/meta/recipes-core/util-linux/util-linux_2.21.bb
-@@ -1,5 +1,5 @@
- MAJOR_VERSION = "2.21"
--PR = "r2"
-+PR = "r3"
- require util-linux.inc
- 
- # note that `lscpu' is under GPLv3+
+-	for o in objs:
++	for o in sorted(objs):
+ 		import re, stat
+ 		if match_path:
+ 			m = re.match(file_regex, o)
+@@ -415,7 +415,7 @@ python package_do_split_locales() {
+ 	summary = d.getVar('SUMMARY', True) or pn
+ 	description = d.getVar('DESCRIPTION', True) or "" 
+         locale_section = d.getVar('LOCALE_SECTION', True)
+-	for l in locales:
++	for l in sorted(locales):
+ 		ln = legitimize_package_name(l)
+ 		pkg = pn + '-locale-' + ln
+ 		packages.append(pkg)
 -- 
 1.7.5.4
 
