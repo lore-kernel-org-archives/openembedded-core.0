@@ -1,34 +1,33 @@
-Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
-	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <richard.purdie@linuxfoundation.org>)
-	id 1S60u3-0000Ux-M9 for openembedded-core@lists.openembedded.org;
-	Fri, 09 Mar 2012 15:34:43 +0100
-Received: from localhost (localhost [127.0.0.1])
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q29EQ4Jn010271
+Received: from mail-yw0-f47.google.com ([209.85.213.47])
+	by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <otavio.salvador@gmail.com>) id 1S62hg-0002p6-76
+	for openembedded-core@lists.openembedded.org;
+	Fri, 09 Mar 2012 17:30:04 +0100
+Received: by yhjj56 with SMTP id j56so913457yhj.6
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 9 Mar 2012 14:26:04 GMT
-Received: from tim.rpsys.net ([127.0.0.1])
-	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
-	port 10024) with LMTP
-	id 08772-08 for <openembedded-core@lists.openembedded.org>;
-	Fri,  9 Mar 2012 14:25:59 +0000 (GMT)
-Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q29EPrAf010265
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO)
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 9 Mar 2012 14:25:57 GMT
-Message-ID: <1331303151.3006.43.camel@ted>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Date: Fri, 09 Mar 2012 06:25:51 -0800
-In-Reply-To: <4F59BA50.3010309@linux.intel.com>
-References: <1331175070-12257-1-git-send-email-obi@opendreambox.org>
-	<4F5926DC.2030705@opendreambox.org> <4F59BA50.3010309@linux.intel.com>
-X-Mailer: Evolution 3.2.2- 
-Mime-Version: 1.0
-X-Virus-Scanned: amavisd-new at rpsys.net
-Subject: Re: [PATCH][RFC] bitbake.conf: use empty SRC_URI by default
+	Fri, 09 Mar 2012 08:21:24 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=sender:from:to:subject:date:message-id:x-mailer;
+	bh=a21VagH46aZaQa0QIkamR79mwxmF4uvERalKbE3D1S8=;
+	b=jZ8ucv81bfDojgn+U88R7GssQnxBgmnoo5wy4zfYeiom3XwM14yf/KU8zQhwwI3vTC
+	iVaT3bXybL89oH1YuwGkduy2SihZ8mzn4APWhAYOdyM92crQnacG90x/hyokFNvHd939
+	18wfBkTC7On2hteiXA82Dw1euTWYuPK0OprXEuWInjkhoGrmeIAYXlWuWX+vfQvP4fvZ
+	gebms1b5REgL0SWImQLs3lu5ScpBPkauydeXvwZjLrrdpubT44wgT9lGadpqddzfZ+/F
+	XXH5lGuH3khxyYH7195JmF11znCrCNTW1R7kXHk6XTF/QcTkXH22fZXOGXoNzgXPt670
+	uN6A==
+Received: by 10.236.197.41 with SMTP id s29mr3187223yhn.7.1331310084498;
+	Fri, 09 Mar 2012 08:21:24 -0800 (PST)
+Received: from localhost.localdomain ([186.218.100.214])
+	by mx.google.com with ESMTPS id o41sm15000143yhj.7.2012.03.09.08.21.23
+	(version=TLSv1/SSLv3 cipher=OTHER);
+	Fri, 09 Mar 2012 08:21:23 -0800 (PST)
+Sender: Otavio Salvador <otavio.salvador@gmail.com>
+From: Otavio Salvador <otavio@ossystems.com.br>
+To: openembedded-core@lists.openembedded.org
+Date: Fri,  9 Mar 2012 16:21:11 +0000
+Message-Id: <cover.1331310044.git.otavio@ossystems.com.br>
+X-Mailer: git-send-email 1.7.2.5
+Subject: [PATCH 0/6] Pending patches on O.S. Systems' tree
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -43,38 +42,40 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 09 Mar 2012 14:34:44 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Fri, 09 Mar 2012 16:30:04 -0000
 
-On Fri, 2012-03-09 at 00:07 -0800, Saul Wold wrote:
-> On 03/08/2012 01:38 PM, Andreas Oberritter wrote:
-> > On 08.03.2012 03:51, Andreas Oberritter wrote:
-> >> * Otherwise, recipes that only append to SRC_URI instead of
-> >>    overwriting it will get the full path of the recipe written
-> >>    into the Source: field of the package.
-> >>
-> >> Signed-off-by: Andreas Oberritter<obi@opendreambox.org>
-> >> ---
-> >> * I haven't tested this yet, I don't know whether there
-> >>    are any caveeats. What's the purpose of having ${FILE}
-> >>    in there, anyway?
-> >
-> > Richard, did you commit this by accident? In the meantime I've started a
-> > clean build with this patch applied and noticed eglibc-locale failing,
-> > because opkg-build complains about a missing "Source" field.
-> >
-> Agreed, this seems to have been committed by accident, we see the same 
-> failures on the Autobuilder.
+The following changes since commit 50dc8bfbac42b9a9b52a2f7d0568740c41790c13:
 
-I meant to do some local testing but it ended up getting merged, sorry
-about that. Since there weren't too many issues on the autobuilder, I
-pushed a follow up which sets Source to be "None" rather than unset and
-the last set of builds are looking pretty green.
+  rpm 5.4.0: Add rpmdeps-oecore to replace rpmdeps for package.bbclass (2012-03-09 06:39:52 -0800)
 
-Cheers,
+are available in the git repository at:
+  git://github.com/OSSystems/oe-core master
+  https://github.com/OSSystems/oe-core/tree/HEAD
 
-Richard
+Otavio Salvador (6):
+  run-postinsts: fix opkg data path
+  image.bbclass: fix rootfs generation without package management tools
+  rootfs_rpm.bbclass: rename postinst trigger script
+  opkg: rename postinst trigger script
+  dpkg: rename postinst trigger script
+  connman: update to 0.79
+
+ meta/classes/core-image.bbclass                    |    2 --
+ meta/classes/image.bbclass                         |    7 +++++--
+ meta/classes/rootfs_rpm.bbclass                    |    6 +++---
+ .../connman/add_xuser_dbus_permission.patch        |   12 +++++++-----
+ .../connman/connman/disable_alg-test.patch         |   18 +++++++++---------
+ .../connman/{connman_0.78.bb => connman_0.79.bb}   |    6 ++----
+ meta/recipes-devtools/dpkg/dpkg.inc                |    6 +++---
+ .../dpkg/run-postinsts/run-postinsts               |    4 ++--
+ .../dpkg/run-postinsts/run-postinsts.awk           |    2 +-
+ meta/recipes-devtools/dpkg/run-postinsts_1.0.bb    |    2 +-
+ meta/recipes-devtools/opkg/opkg.inc                |    8 ++++----
+ 11 files changed, 37 insertions(+), 36 deletions(-)
+ rename meta/recipes-connectivity/connman/{connman_0.78.bb => connman_0.79.bb} (79%)
+
+-- 
+1.7.2.5
 
 
 
