@@ -1,14 +1,29 @@
-Received: from ffm.saftware.de ([83.141.3.46])
+Received: from mga09.intel.com ([134.134.136.24])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <obi@opendreambox.org>) id 1S69fS-0005JD-NR
+	(envelope-from <dvhart@linux.intel.com>) id 1S69rk-0005t8-UU
 	for openembedded-core@lists.openembedded.org;
-	Sat, 10 Mar 2012 00:56:14 +0100
-From: Andreas Oberritter <obi@opendreambox.org>
-To: openembedded-core@lists.openembedded.org
-Date: Sat, 10 Mar 2012 00:47:31 +0100
-Message-Id: <1331336852-3219-1-git-send-email-obi@opendreambox.org>
-X-Mailer: git-send-email 1.7.7
-Subject: [PATCH 1/2] python-2.7.2: always set platform to linux2
+	Sat, 10 Mar 2012 01:08:57 +0100
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+	by orsmga102.jf.intel.com with ESMTP; 09 Mar 2012 16:00:16 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.67,352,1309762800"; d="scan'208";a="116347014"
+Received: from unknown (HELO envy.home) ([10.255.15.101])
+	by orsmga001.jf.intel.com with ESMTP; 09 Mar 2012 15:59:14 -0800
+Message-ID: <4F5A9927.4000809@linux.intel.com>
+Date: Fri, 09 Mar 2012 15:58:31 -0800
+From: Darren Hart <dvhart@linux.intel.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:10.0.1) Gecko/20120209 Thunderbird/10.0.1
+MIME-Version: 1.0
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+References: <cover.1331107546.git.dvhart@linux.intel.com>
+	<83eeb4ed11a6a63abda1f3978c849a46516b92a1.1331107546.git.dvhart@linux.intel.com>
+	<AE0C8B23-EB0D-4DD3-9BF9-22BAEB66969F@dominion.thruhere.net>
+	<4F579506.90805@linux.intel.com> <4F58EEDF.70101@windriver.com>
+In-Reply-To: <4F58EEDF.70101@windriver.com>
+X-Enigmail-Version: 1.3.5
+Subject: Re: [PATCH 1/1] kernel.bbclass: Remove warnings for modutils and modprobe.d
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -23,192 +38,77 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 09 Mar 2012 23:56:14 -0000
+X-List-Received-Date: Sat, 10 Mar 2012 00:08:57 -0000
+Content-Type: text/plain; charset=ISO-8859-1
+Content-Transfer-Encoding: 7bit
 
-* Fixes many problems with linux2 vs. linux3. At least:
-  - Detected version was from build-host instead of target-host.
-  - linuxaudiodev and ossaudiodev were disabled for linux3.
-  - Files were missing in /usr/lib/python2.7/plat-linux3.
-* Imported from upstream HG rev c816479f6aaf
-* Bugtracker URL: http://bugs.python.org/issue12326
 
-Signed-off-by: Andreas Oberritter <obi@opendreambox.org>
----
- .../sys_platform_is_now_always_linux2.patch        |   39 ++++++++++++++++++++
- .../recipes-devtools/python/python-native_2.7.2.bb |    3 +-
- .../python/python/07-linux3-regen-fix.patch        |   18 ---------
- .../python/sys_platform_is_now_always_linux2.patch |   39 ++++++++++++++++++++
- meta/recipes-devtools/python/python_2.7.2.bb       |    4 +-
- 5 files changed, 82 insertions(+), 21 deletions(-)
- create mode 100644 meta/recipes-devtools/python/python-native/sys_platform_is_now_always_linux2.patch
- delete mode 100644 meta/recipes-devtools/python/python/07-linux3-regen-fix.patch
- create mode 100644 meta/recipes-devtools/python/python/sys_platform_is_now_always_linux2.patch
 
-diff --git a/meta/recipes-devtools/python/python-native/sys_platform_is_now_always_linux2.patch b/meta/recipes-devtools/python/python-native/sys_platform_is_now_always_linux2.patch
-new file mode 100644
-index 0000000..ed52936
---- /dev/null
-+++ b/meta/recipes-devtools/python/python-native/sys_platform_is_now_always_linux2.patch
-@@ -0,0 +1,39 @@
-+Upstream-Status: Accepted [http://hg.python.org/cpython/rev/c816479f6aaf/]
-+Bugtracker: http://bugs.python.org/issue12326
-+
-+[Removed "Misc/NEWS" hunk]
-+
-+Signed-off-by: Andreas Oberritter <obi@opendreambox.org>
-+
-+# HG changeset patch
-+# User Victor Stinner <victor.stinner@haypocalc.com>
-+# Date 1313841758 -7200
-+# Node ID c816479f6aaf71dbd3f3fe4b239186d60c55ce48
-+# Parent  3e093590ac57fdda428c7da3f72ddf0c475ecf2b
-+Issue #12326: sys.platform is now always 'linux2' on Linux
-+
-+Even if Python is compiled on Linux 3.
-+
-+diff --git a/configure b/configure
-+--- a/configure
-++++ b/configure
-+@@ -2995,6 +2995,7 @@ then
-+ 	MACHDEP="$ac_md_system$ac_md_release"
-+ 
-+ 	case $MACHDEP in
-++	linux*) MACHDEP="linux2";;
-+ 	cygwin*) MACHDEP="cygwin";;
-+ 	darwin*) MACHDEP="darwin";;
-+ 	atheos*) MACHDEP="atheos";;
-+diff --git a/configure.in b/configure.in
-+--- a/configure.in
-++++ b/configure.in
-+@@ -293,6 +293,7 @@ then
-+ 	MACHDEP="$ac_md_system$ac_md_release"
-+ 
-+ 	case $MACHDEP in
-++	linux*) MACHDEP="linux2";;
-+ 	cygwin*) MACHDEP="cygwin";;
-+ 	darwin*) MACHDEP="darwin";;
-+ 	atheos*) MACHDEP="atheos";;
-+
-diff --git a/meta/recipes-devtools/python/python-native_2.7.2.bb b/meta/recipes-devtools/python/python-native_2.7.2.bb
-index 8bf0af0..175f31d 100644
---- a/meta/recipes-devtools/python/python-native_2.7.2.bb
-+++ b/meta/recipes-devtools/python/python-native_2.7.2.bb
-@@ -1,6 +1,6 @@
- require python.inc
- DEPENDS = "openssl-native bzip2-full-native zlib-native readline-native sqlite3-native"
--PR = "${INC_PR}.3"
-+PR = "${INC_PR}.4"
- 
- SRC_URI += "file://04-default-is-optimized.patch \
-            file://05-enable-ctypes-cross-build.patch \
-@@ -13,6 +13,7 @@ SRC_URI += "file://04-default-is-optimized.patch \
-            file://nohostlibs.patch \
-            file://multilib.patch \
-            file://add-md5module-support.patch \
-+           file://sys_platform_is_now_always_linux2.patch \
-            "
- S = "${WORKDIR}/Python-${PV}"
- 
-diff --git a/meta/recipes-devtools/python/python/07-linux3-regen-fix.patch b/meta/recipes-devtools/python/python/07-linux3-regen-fix.patch
-deleted file mode 100644
-index d7fb313..0000000
---- a/meta/recipes-devtools/python/python/07-linux3-regen-fix.patch
-+++ /dev/null
-@@ -1,18 +0,0 @@
--Upstream-Status: Inappropriate [embedded specific]
--
--Without this patch it calls cross-compiled python if host is running linux-3.0
--python$EXE ../../Tools/scripts/h2py.py -i '(u_long)' /usr/include/netinet/in.h
--| ./regen: line 3: /OE/shr-core/tmp/work/armv4t-oe-linux-gnueabi/python-2.6.6-nk2.8/Python-2.6.6/python: cannot execute binary file
--
--diff -uNr Python-2.6.6.orig//Lib/plat-linux3/regen Python-2.6.6/Lib/plat-linux3/regen
----- Python-2.6.6.orig//Lib/plat-linux3/regen	1970-01-01 01:00:00.000000000 +0100
--+++ Python-2.6.6/Lib/plat-linux3/regen	2001-08-09 14:48:17.000000000 +0200
--@@ -0,0 +1,8 @@
--+#! /bin/sh
--+case `uname` in
--+Linux*)	;;
--+*)	echo Probably not on a Linux system 1>&2
--+	exit 1;;
--+esac
--+set -v
--+h2py -i '(u_long)' /usr/include/sys/types.h /usr/include/netinet/in.h /usr/include/dlfcn.h
-diff --git a/meta/recipes-devtools/python/python/sys_platform_is_now_always_linux2.patch b/meta/recipes-devtools/python/python/sys_platform_is_now_always_linux2.patch
-new file mode 100644
-index 0000000..ed52936
---- /dev/null
-+++ b/meta/recipes-devtools/python/python/sys_platform_is_now_always_linux2.patch
-@@ -0,0 +1,39 @@
-+Upstream-Status: Accepted [http://hg.python.org/cpython/rev/c816479f6aaf/]
-+Bugtracker: http://bugs.python.org/issue12326
-+
-+[Removed "Misc/NEWS" hunk]
-+
-+Signed-off-by: Andreas Oberritter <obi@opendreambox.org>
-+
-+# HG changeset patch
-+# User Victor Stinner <victor.stinner@haypocalc.com>
-+# Date 1313841758 -7200
-+# Node ID c816479f6aaf71dbd3f3fe4b239186d60c55ce48
-+# Parent  3e093590ac57fdda428c7da3f72ddf0c475ecf2b
-+Issue #12326: sys.platform is now always 'linux2' on Linux
-+
-+Even if Python is compiled on Linux 3.
-+
-+diff --git a/configure b/configure
-+--- a/configure
-++++ b/configure
-+@@ -2995,6 +2995,7 @@ then
-+ 	MACHDEP="$ac_md_system$ac_md_release"
-+ 
-+ 	case $MACHDEP in
-++	linux*) MACHDEP="linux2";;
-+ 	cygwin*) MACHDEP="cygwin";;
-+ 	darwin*) MACHDEP="darwin";;
-+ 	atheos*) MACHDEP="atheos";;
-+diff --git a/configure.in b/configure.in
-+--- a/configure.in
-++++ b/configure.in
-+@@ -293,6 +293,7 @@ then
-+ 	MACHDEP="$ac_md_system$ac_md_release"
-+ 
-+ 	case $MACHDEP in
-++	linux*) MACHDEP="linux2";;
-+ 	cygwin*) MACHDEP="cygwin";;
-+ 	darwin*) MACHDEP="darwin";;
-+ 	atheos*) MACHDEP="atheos";;
-+
-diff --git a/meta/recipes-devtools/python/python_2.7.2.bb b/meta/recipes-devtools/python/python_2.7.2.bb
-index 2b18c53..5ad4109 100644
---- a/meta/recipes-devtools/python/python_2.7.2.bb
-+++ b/meta/recipes-devtools/python/python_2.7.2.bb
-@@ -1,7 +1,7 @@
- require python.inc
- DEPENDS = "python-native db gdbm openssl readline sqlite3 zlib"
- DEPENDS_sharprom = "python-native db readline zlib gdbm openssl"
--PR = "${INC_PR}.6"
-+PR = "${INC_PR}.7"
- 
- DISTRO_SRC_URI ?= "file://sitecustomize.py"
- DISTRO_SRC_URI_linuxstdbase = ""
-@@ -12,7 +12,6 @@ SRC_URI += "\
-   file://05-enable-ctypes-cross-build.patch \
-   file://06-ctypes-libffi-fix-configure.patch \
-   file://06-avoid_usr_lib_termcap_path_in_linking.patch \
--  file://07-linux3-regen-fix.patch \
-   file://99-ignore-optimization-flag.patch \
-   ${DISTRO_SRC_URI} \
-   file://multilib.patch \
-@@ -21,6 +20,7 @@ SRC_URI += "\
-   file://setup_py_skip_cross_import_check.patch \
-   file://add-md5module-support.patch \
-   file://host_include_contamination.patch \
-+  file://sys_platform_is_now_always_linux2.patch \
- "
- 
- S = "${WORKDIR}/Python-${PV}"
+On 03/08/2012 09:39 AM, Mark Hatle wrote:
+> On 3/7/12 11:04 AM, Darren Hart wrote:
+>>
+>>
+>> On 03/07/2012 12:21 AM, Koen Kooi wrote:
+>>>
+>>> Op 7 mrt. 2012, om 09:06 heeft Darren Hart het volgende geschreven:
+>>>
+>>>> Fixes [Yocto #2036]
+>>>>
+>>>> The source and build directories are unused, remove them.
+>>>>
+>>>> The modutils and modprobe.d directories may be used if modules are built that
+>>>> are either autoloaded or have modprobe.d entries. This isn't known at install
+>>>> time, so check after the package split if these directories are empty and
+>>>> remove them if they are.
+>>>>
+>>>> Signed-off-by: Darren Hart<dvhart@linux.intel.com>
+>>>> CC: Paul Eggleton<paul.eggleton@linux.intel.com>
+>>>> ---
+>>>> meta/classes/kernel.bbclass |   10 ++++++++++
+>>>> 1 files changed, 10 insertions(+), 0 deletions(-)
+>>>>
+>>>> diff --git a/meta/classes/kernel.bbclass b/meta/classes/kernel.bbclass
+>>>> index 8fbec90..169df33 100644
+>>>> --- a/meta/classes/kernel.bbclass
+>>>> +++ b/meta/classes/kernel.bbclass
+>>>> @@ -105,6 +105,8 @@ kernel_do_install() {
+>>>> 		oe_runmake DEPMOD=echo INSTALL_MOD_PATH="${D}" modules_install
+>>>> 		rm -f "${D}/lib/modules/${KERNEL_VERSION}/modules.order"
+>>>> 		rm -f "${D}/lib/modules/${KERNEL_VERSION}/modules.builtin"
+>>>> +		rm "${D}/lib/modules/${KERNEL_VERSION}/build"
+>>>> +		rm "${D}/lib/modules/${KERNEL_VERSION}/source"
+>>>
+>>> How do you want to support on-target building of exernal modules?
+>>
+>> That is an open issue that needs to be addressed, but we don't install
+>> the build or source directories now (unless I'm missing something), so
+>> these are links to nowhere at the moment.
+>>
+>> We do have a bug open to support on-target module building. I supect
+>> we'll need to add these as part of a headers package or similar. So
+>> these may come back.
+>>
+> 
+> Just as a note..  headers package(s) are the wrong way to support kernel modules 
+> compilation on the target.  You really need to supply a configured kernel source 
+> tree --- often you can dump the .c files though.  Kernel headers (for module 
+> compilation) and userspace are often intentionally different.. and people get 
+> this confused often.  (I can't express how often I've had to convince someone 
+> that, no you can't guaranty a working kernel module from the stuff in /usr/include!)
+> 
+> The right approach is to provide, as part of the kernel itself, a source 
+> tree/headers package tha installes into the 
+> "{D}/lib/modules/${KERNEL_VERSION}/source" (or similar) directory, and instruct 
+> people to use that location when building kernel modules on the target.
+
+Understood. The terminology is a bit loose I guess. I understand the
+distinction between linux-libc-headers and the "kernel-headers" that
+most distros provide for building modules.
+
+
 -- 
-1.7.7
-
+Darren Hart
+Intel Open Source Technology Center
+Yocto Project - Linux Kernel
 
 
