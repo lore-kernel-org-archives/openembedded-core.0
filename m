@@ -1,57 +1,32 @@
-Received: from ch1ehsobe002.messaging.microsoft.com ([216.32.181.182]
-	helo=ch1outboundpool.messaging.microsoft.com)
+Received: from mail1.windriver.com ([147.11.146.13])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <B29882@freescale.com>) id 1S62tX-0003M0-AN
+	(envelope-from <mark.hatle@windriver.com>) id 1S6355-0003Xu-Mn
 	for openembedded-core@lists.openembedded.org;
-	Fri, 09 Mar 2012 17:42:19 +0100
-Received: from mail154-ch1-R.bigfish.com (10.43.68.240) by
-	CH1EHSOBE009.bigfish.com (10.43.70.59) with Microsoft SMTP Server id
-	14.1.225.23; Fri, 9 Mar 2012 16:33:39 +0000
-Received: from mail154-ch1 (localhost [127.0.0.1])	by
-	mail154-ch1-R.bigfish.com (Postfix) with ESMTP id EAE711605C2	for
-	<openembedded-core@lists.openembedded.org>;
-	Fri,  9 Mar 2012 16:33:38 +0000 (UTC)
-X-SpamScore: -7
-X-BigFish: VS-7(zz9371I1432N98dKzz1202hzz8275bh8275dhz2dh2a8h668h839h8e2h8e3hbe9k)
-X-Forefront-Antispam-Report: CIP:70.37.183.190; KIP:(null); UIP:(null); IPV:NLI;
-	H:mail.freescale.net; RD:none; EFVD:NLI
-Received: from mail154-ch1 (localhost.localdomain [127.0.0.1]) by mail154-ch1
-	(MessageSwitch) id 1331310816928901_10818;
-	Fri,  9 Mar 2012 16:33:36 +0000 (UTC)
-Received: from CH1EHSMHS002.bigfish.com (snatpool3.int.messaging.microsoft.com
-	[10.43.68.228])	by mail154-ch1.bigfish.com (Postfix) with ESMTP id
-	DF10D220049	for <openembedded-core@lists.openembedded.org>;
-	Fri,  9 Mar 2012 16:33:36 +0000 (UTC)
-Received: from mail.freescale.net (70.37.183.190) by CH1EHSMHS002.bigfish.com
-	(10.43.70.2) with Microsoft SMTP Server (TLS) id 14.1.225.23;
-	Fri, 9 Mar 2012 16:33:34 +0000
-Received: from 039-SN1MPN1-001.039d.mgd.msft.net ([169.254.1.5]) by
-	039-SN1MMR1-002.039d.mgd.msft.net ([10.84.1.15]) with mapi id
-	14.01.0355.003; Fri, 9 Mar 2012 10:33:33 -0600
-From: McClintock Matthew-B29882 <B29882@freescale.com>
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Thread-Topic: [OE-core] [oe-core][PATCH] bitbake.conf: use PACKAGE_ARCH
-	instead of TARGET_ARCH in SDK_NAME
-Thread-Index: AQHM/hI1XFEs7U/2yECkjNkVZwAwDZZijRQA
-Date: Fri, 9 Mar 2012 16:33:33 +0000
-Message-ID: <CAEsOVNfpw=FOvmUjvPKaEVp6TO6T-RvhUuC2DJ8sKSMBzK67RA@mail.gmail.com>
-References: <20120301094052.GB3831@jama.jama.net>
-	<1331275706-6917-1-git-send-email-Martin.Jansa@gmail.com>
-	<CAEsOVNd4kfQvzaDxku3KOSzMFfcFbUpakM1GvnfLiPxuVdvm5w@mail.gmail.com>
-In-Reply-To: <CAEsOVNd4kfQvzaDxku3KOSzMFfcFbUpakM1GvnfLiPxuVdvm5w@mail.gmail.com>
-Accept-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [99.47.177.27]
+	Fri, 09 Mar 2012 17:54:16 +0100
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca [147.11.189.40])
+	by mail1.windriver.com (8.14.3/8.14.3) with ESMTP id q29GjYl6005250
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 9 Mar 2012 08:45:34 -0800 (PST)
+Received: from Macintosh-5.local (172.25.36.231) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server id 14.1.255.0;
+	Fri, 9 Mar 2012 08:45:34 -0800
+Message-ID: <4F5A33AD.4060800@windriver.com>
+Date: Fri, 9 Mar 2012 10:45:33 -0600
+From: Mark Hatle <mark.hatle@windriver.com>
+Organization: Wind River Systems
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.6;
+	rv:10.0.2) Gecko/20120216 Thunderbird/10.0.2
 MIME-Version: 1.0
-X-OriginatorOrg: freescale.com
-Subject: Re: [PATCH] bitbake.conf: use PACKAGE_ARCH instead of TARGET_ARCH in SDK_NAME
+To: <openembedded-core@lists.openembedded.org>
+References: <1331076055-15262-1-git-send-email-msm@freescale.com>
+	<1331237734.3006.33.camel@ted>
+In-Reply-To: <1331237734.3006.33.camel@ted>
+Subject: Re: [PATCH] arch-powerpc.inc: use default value of TUNE_PKGARCH
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
-Reply-To: McClintock Matthew-B29882 <B29882@freescale.com>,
-	Patches and discussions about the oe-core layer
+Reply-To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
 List-Id: Patches and discussions about the oe-core layer
 	<openembedded-core.lists.openembedded.org>
@@ -62,54 +37,54 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 09 Mar 2012 16:42:19 -0000
-Content-Language: en-US
-Content-Type: text/plain; charset="iso-8859-1"
-Content-ID: <B392031137AF79448B30A167A67FB453@mgd.freescale.com>
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Fri, 09 Mar 2012 16:54:16 -0000
+Content-Type: text/plain; charset="ISO-8859-1"; format=flowed
+Content-Transfer-Encoding: 7bit
 
-On Fri, Mar 9, 2012 at 10:32 AM, Matthew McClintock <msm@freescale.com> wro=
-te:
-> On Fri, Mar 9, 2012 at 12:48 AM, Martin Jansa <martin.jansa@gmail.com> wr=
-ote:
->> * also use weak assignment for SDK_NAME_PREFIX as suggested by khem
->> * PACKAGE_ARCH is not 100% right too, because such SDK image usually has=
- few
->> =A0machine specific packages included (e.g. base-files, securetty, opkg =
-configs)
->> =A0but those are not important for SDK users so it's better to have one =
-SDK for
->> =A0whole e.g. armv7a-vfp-neon then 6 SDK for each machine which would wo=
-rk the
->> =A0same.
->> =A0You can see diff between crespo and om-gta04 SDK here:
->> =A0http://build.shr-project.org/shr-core-staging/031/sdk/oecore-i686-arm=
-v7a-vfp-neon-toolchain-efl-crespo-om-gta04.diff
+On 3/8/12 2:15 PM, Richard Purdie wrote:
+> On Tue, 2012-03-06 at 17:20 -0600, Matthew McClintock wrote:
+>> We can use the default value for TUNE_PKGARCH, and now we just
+>> append "-nf" if TARGET_FPU is fpu-soft
 >>
->> Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
+>> Signed-off-by: Matthew McClintock<msm@freescale.com>
 >> ---
->> =A0meta/conf/bitbake.conf | =A0 =A04 ++--
->> =A01 files changed, 2 insertions(+), 2 deletions(-)
+>>   meta/conf/machine/include/powerpc/arch-powerpc.inc |    6 ++----
+>>   1 files changed, 2 insertions(+), 4 deletions(-)
 >>
->> diff --git a/meta/conf/bitbake.conf b/meta/conf/bitbake.conf
->> index 87bb71c..91f8397 100644
->> --- a/meta/conf/bitbake.conf
->> +++ b/meta/conf/bitbake.conf
->> @@ -364,8 +364,8 @@ PKGDATA_DIR =3D "${TMPDIR}/pkgdata/${MULTIMACH_TARGE=
-T_SYS}"
->> =A0# SDK variables,
->> =A0##################################################################
+>> diff --git a/meta/conf/machine/include/powerpc/arch-powerpc.inc b/meta/conf/machine/include/powerpc/arch-powerpc.inc
+>> index c9b2829..abd72ed 100644
+>> --- a/meta/conf/machine/include/powerpc/arch-powerpc.inc
+>> +++ b/meta/conf/machine/include/powerpc/arch-powerpc.inc
+>> @@ -18,10 +18,8 @@ TARGET_FPU .= "${@bb.utils.contains("TUNE_FEATURES", "fpu-soft", "soft", "", d)}
 >>
->> -SDK_NAME_PREFIX =3D "oecore"
->> -SDK_NAME =3D "${SDK_NAME_PREFIX}-${SDK_ARCH}-${TARGET_ARCH}"
->> +SDK_NAME_PREFIX ?=3D "oecore"
->> +SDK_NAME =3D "${SDK_NAME_PREFIX}-${SDK_ARCH}-${PACKAGE_ARCH}"
+>>   ABIEXTENSION = "${@['','spe'][d.getVar('TARGET_FPU', True) in ['ppc-efd', 'ppc-efs']]}"
+>>
+>> -PPCPKGSFX_FPU = "${@bb.utils.contains("TUNE_FEATURES", "fpu-hard" , "", "-nf", d)}"
+>> -
+>> -PPCPKGARCH = "${TUNE_ARCH}${PPCPKGSFX_FPU}"
+>> -TUNE_PKGARCH ?= "${PPCPKGARCH}"
+>> +PPCPKGSFX_FPU = "${@['', '-nf'][bb.data.getVar('TARGET_FPU',d,1) in ['fpu-soft']]}"
+>> +TUNE_PKGARCH_append = "${PPCPKGSFX_FPU}"
 >
-> Why PACKAGE_ARCH over TUNE_ARCH?
+> Can we please do d.getVar(xxx, True) and not bb.data and ,1 :)
 
-Or rather TUNE_PKGARCH?
+This was originally done with a check for fpu-hard and not fpu-soft to ensure 
+that fpu-soft became the default value when one or the other wasn't set.
 
--M=
+I don't know if it really matters which is used, but that is why it was done 
+that way.
+
+--Mark
+
+> Cheers,
+>
+> Richard
+>
+>
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
 
 
 
