@@ -1,30 +1,38 @@
-Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
-	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <richard.purdie@linuxfoundation.org>)
-	id 1S6HY8-0002Sd-Uu; Sat, 10 Mar 2012 09:21:13 +0100
+Received: from mail.dream-property.net ([82.149.226.172])
+	by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <obi@opendreambox.org>) id 1S6KH0-0004qf-Bn
+	for openembedded-core@lists.openembedded.org;
+	Sat, 10 Mar 2012 12:15:42 +0100
 Received: from localhost (localhost [127.0.0.1])
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q2A8CWD9023071;
-	Sat, 10 Mar 2012 08:12:32 GMT
-Received: from tim.rpsys.net ([127.0.0.1])
-	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
-	port 10024) with LMTP
-	id 22481-03; Sat, 10 Mar 2012 08:12:27 +0000 (GMT)
-Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q2A8CMNg023063
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO);
-	Sat, 10 Mar 2012 08:12:24 GMT
-Message-ID: <1331142081.25887.42.camel@ted>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-In-Reply-To: <1331076055-15262-1-git-send-email-msm@freescale.com>
-References: <1331076055-15262-1-git-send-email-msm@freescale.com>
-Date: Wed, 07 Mar 2012 09:41:21 -0800
-Mime-Version: 1.0
-X-Mailer: Evolution 3.2.2- 
-X-Virus-Scanned: amavisd-new at rpsys.net
-Cc: openembedded-core@openembedded.org
-Subject: Re: [PATCH] arch-powerpc.inc: use default value of TUNE_PKGARCH
+	by mail.dream-property.net (Postfix) with ESMTP id E940331591B0
+	for <openembedded-core@lists.openembedded.org>;
+	Sat, 10 Mar 2012 12:07:03 +0100 (CET)
+X-Virus-Scanned: Debian amavisd-new at mail.dream-property.net
+Received: from mail.dream-property.net ([127.0.0.1])
+	by localhost (mail.dream-property.net [127.0.0.1]) (amavisd-new,
+	port 10024) with LMTP id D3eQdjrxakjg
+	for <openembedded-core@lists.openembedded.org>;
+	Sat, 10 Mar 2012 12:06:56 +0100 (CET)
+Received: from [172.22.22.61] (drms-590c4a44.pool.mediaWays.net [89.12.74.68])
+	(using TLSv1 with cipher DHE-RSA-AES256-SHA (256/256 bits))
+	(No client certificate requested)
+	by mail.dream-property.net (Postfix) with ESMTPSA id 8FFB6315919C
+	for <openembedded-core@lists.openembedded.org>;
+	Sat, 10 Mar 2012 12:06:56 +0100 (CET)
+Message-ID: <4F5B35CF.4090001@opendreambox.org>
+Date: Sat, 10 Mar 2012 12:06:55 +0100
+From: Andreas Oberritter <obi@opendreambox.org>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:10.0.2) Gecko/20120216 Thunderbird/10.0.2
+MIME-Version: 1.0
+To: openembedded-core@lists.openembedded.org
+References: <CAFZPMoaRKkELBmd1u5SnWF5UDQiHawi9aRJFw72UqGrKLJQNHw@mail.gmail.com>
+	<CAFZPMob-UQNR9Q-_EsumFpWj=49t9TNjFYF8WTNLgfDWQ+qiAQ@mail.gmail.com>
+	<4F566375.30705@intel.com>
+	<CAFZPMob0HRhYLbZLt7zvLQkJxF_mRxuF0w5MATNcOHwhLko0bA@mail.gmail.com>
+	<4F58FF0A.6000400@intel.com> <4F5ADF1D.4050202@intel.com>
+In-Reply-To: <4F5ADF1D.4050202@intel.com>
+Subject: Re: broken ncurses support for python
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -39,40 +47,21 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 10 Mar 2012 08:21:13 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Sat, 10 Mar 2012 11:15:42 -0000
+Content-Type: text/plain; charset=ISO-8859-1
 Content-Transfer-Encoding: 7bit
 
-On Tue, 2012-03-06 at 17:20 -0600, Matthew McClintock wrote:
-> We can use the default value for TUNE_PKGARCH, and now we just
-> append "-nf" if TARGET_FPU is fpu-soft
+Hello Scott,
+
+On 10.03.2012 05:57, Scott Garman wrote:
+> I filed bug #2070 to track this and have created the following fix for it:
 > 
-> Signed-off-by: Matthew McClintock <msm@freescale.com>
-> ---
->  meta/conf/machine/include/powerpc/arch-powerpc.inc |    6 ++----
->  1 files changed, 2 insertions(+), 4 deletions(-)
-> 
-> diff --git a/meta/conf/machine/include/powerpc/arch-powerpc.inc b/meta/conf/machine/include/powerpc/arch-powerpc.inc
-> index c9b2829..abd72ed 100644
-> --- a/meta/conf/machine/include/powerpc/arch-powerpc.inc
-> +++ b/meta/conf/machine/include/powerpc/arch-powerpc.inc
-> @@ -18,10 +18,8 @@ TARGET_FPU .= "${@bb.utils.contains("TUNE_FEATURES", "fpu-soft", "soft", "", d)}
->  
->  ABIEXTENSION = "${@['','spe'][d.getVar('TARGET_FPU', True) in ['ppc-efd', 'ppc-efs']]}"
->  
-> -PPCPKGSFX_FPU = "${@bb.utils.contains("TUNE_FEATURES", "fpu-hard" , "", "-nf", d)}"
-> -
-> -PPCPKGARCH = "${TUNE_ARCH}${PPCPKGSFX_FPU}"
-> -TUNE_PKGARCH ?= "${PPCPKGARCH}"
-> +PPCPKGSFX_FPU = "${@['', '-nf'][bb.data.getVar('TARGET_FPU',d,1) in ['fpu-soft']]}"
+> http://git.yoctoproject.org/cgit/cgit.cgi/poky-contrib/commit/?h=sgarman/python-ncurses-fix&id=23c73da5f13b6c586353edb8143fa21058bf3a55
 
-bb.data is deprecated and we should translate:
+this will break if libdir equals base_libdir. A conditional is required
+around mkdir and mv.
 
-bb.data.getVar('TARGET_FPU',d,1) -> d.getVar('TARGET_FPU', True)
-
-Cheers,
-
-Richard
-
+Regards,
+Andreas
 
 
