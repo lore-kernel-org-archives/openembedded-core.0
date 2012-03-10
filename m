@@ -1,14 +1,14 @@
 Received: from ffm.saftware.de ([83.141.3.46])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <obi@opendreambox.org>) id 1S6ByY-0007xE-PD
+	(envelope-from <obi@opendreambox.org>) id 1S6CE4-00087x-2C
 	for openembedded-core@lists.openembedded.org;
-	Sat, 10 Mar 2012 03:24:06 +0100
+	Sat, 10 Mar 2012 03:40:08 +0100
 From: Andreas Oberritter <obi@opendreambox.org>
 To: openembedded-core@lists.openembedded.org
-Date: Sat, 10 Mar 2012 03:15:26 +0100
-Message-Id: <1331345726-9577-1-git-send-email-obi@opendreambox.org>
+Date: Sat, 10 Mar 2012 03:31:26 +0100
+Message-Id: <1331346686-14454-1-git-send-email-obi@opendreambox.org>
 X-Mailer: git-send-email 1.7.5.4
-Subject: [PATCH] package_ipk: apply umask to control and conffiles
+Subject: [PATCH] linux-firmware: fix permissions of installed files
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -23,42 +23,40 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 10 Mar 2012 02:24:06 -0000
+X-List-Received-Date: Sat, 10 Mar 2012 02:40:08 -0000
 
-* Explicitly set umask to 022. Otherwise the build system's
-  umask leaks into the image.
+* The previous copy command preserved the original
+  owner and permission bits.
+* The new command uses root:root and applies OE's
+  umask.
 
 Signed-off-by: Andreas Oberritter <obi@opendreambox.org>
 ---
-* I tried do_package_ipk[umask] = "022" first, but it didn't work.
+ .../linux-firmware/linux-firmware_git.bb           |    4 ++--
+ 1 files changed, 2 insertions(+), 2 deletions(-)
 
- meta/classes/package_ipk.bbclass |    4 ++++
- 1 files changed, 4 insertions(+), 0 deletions(-)
-
-diff --git a/meta/classes/package_ipk.bbclass b/meta/classes/package_ipk.bbclass
-index 565ef93..e7da07a 100644
---- a/meta/classes/package_ipk.bbclass
-+++ b/meta/classes/package_ipk.bbclass
-@@ -317,7 +317,9 @@ python do_package_ipk () {
- 		controldir = os.path.join(root, 'CONTROL')
- 		bb.mkdirhier(controldir)
- 		try:
-+			mask = os.umask(022)
- 			ctrlfile = file(os.path.join(controldir, 'control'), 'w')
-+			os.umask(mask)
- 		except OSError:
- 			bb.utils.unlockfile(lf)
- 			raise bb.build.FuncFailed("unable to open control file for writing.")
-@@ -410,7 +412,9 @@ python do_package_ipk () {
- 		conffiles_str = localdata.getVar("CONFFILES", True)
- 		if conffiles_str:
- 			try:
-+				mask = os.umask(022)
- 				conffiles = file(os.path.join(controldir, 'conffiles'), 'w')
-+				os.umask(mask)
- 			except OSError:
- 				bb.utils.unlockfile(lf)
- 				raise bb.build.FuncFailed("unable to open conffiles for writing.")
+diff --git a/meta/recipes-kernel/linux-firmware/linux-firmware_git.bb b/meta/recipes-kernel/linux-firmware/linux-firmware_git.bb
+index a99dc7e..52929fa 100644
+--- a/meta/recipes-kernel/linux-firmware/linux-firmware_git.bb
++++ b/meta/recipes-kernel/linux-firmware/linux-firmware_git.bb
+@@ -21,7 +21,7 @@ LIC_FILES_CHKSUM = "file://LICENSE.radeon_rlc;md5=4c243f7854d2884b483abda991adef
+ 
+ SRCREV = "15888a2eab052ac3d3f49334e4f6f05f347a516e"
+ PV = "0.0+git${SRCPV}"
+-PR = "r0"
++PR = "r1"
+ 
+ SRC_URI = "git://git.infradead.org/users/dwmw2/linux-firmware.git;protocol=git"
+ 
+@@ -35,7 +35,7 @@ do_compile() {
+ 
+ do_install() {
+ 	install -d  ${D}/lib/firmware/
+-	cp -RpP * ${D}/lib/firmware/
++	cp -r * ${D}/lib/firmware/
+ 
+ 	# Libertas sd8686
+ 	install -m 0644 libertas/sd8686_v9.bin ${D}/lib/firmware/sd8686.bin
 -- 
 1.7.5.4
 
