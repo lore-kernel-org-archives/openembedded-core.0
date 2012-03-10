@@ -1,33 +1,56 @@
-Received: from mail-vx0-f175.google.com ([209.85.220.175])
+Received: from ch1ehsobe004.messaging.microsoft.com ([216.32.181.184]
+	helo=ch1outboundpool.messaging.microsoft.com)
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <dromede@gmail.com>) id 1S6Oj8-00040g-55
+	(envelope-from <B29882@freescale.com>) id 1S6PJp-0004JU-FX
 	for openembedded-core@lists.openembedded.org;
-	Sat, 10 Mar 2012 17:01:02 +0100
-Received: by vcbfl13 with SMTP id fl13so2688088vcb.6
-	for <openembedded-core@lists.openembedded.org>;
-	Sat, 10 Mar 2012 07:52:21 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:date:message-id:subject:from:to:content-type;
-	bh=heMvvSmIrKnYOpndKmnIdPJNL53MBDlYBZklEZv7FRg=;
-	b=Sc4ero2ldNx52qzl+IqrxUjO5IXOxxRKnRhJsKJGil095EEZ/Yc46MyNdFf1C5uQVr
-	Czjf0um1JQcMQBnrUHTArhhis40JIBeRjA4519uj9mV6IvfOPI5rmTqvGgna6/FtOpgf
-	nVL+TLVn9/27axufD8pfMcfXu6qFRjbJMjvrDjv+IxdO2wju7k5tH96iMejr1frPWP89
-	2dHvI6wtb2yS5Ang6CO1vaNer2v2L6q9XIZ8l9aSAv/7mCcr3RjZymTo8Lx/4KQBnewd
-	PUtJCGiAZ9uGjplwLfV0TIzJfa5zp+FsaXPFX3/L+1Fdx3y1wd028jqHsDdIbwN81yYN
-	A+7g==
+	Sat, 10 Mar 2012 17:38:58 +0100
+Received: from mail41-ch1-R.bigfish.com (10.43.68.242) by
+	CH1EHSOBE002.bigfish.com (10.43.70.52) with Microsoft SMTP Server id
+	14.1.225.23; Sat, 10 Mar 2012 16:30:15 +0000
+Received: from mail41-ch1 (localhost [127.0.0.1])	by mail41-ch1-R.bigfish.com
+	(Postfix) with ESMTP id A041D603FE;
+	Sat, 10 Mar 2012 16:30:15 +0000 (UTC)
+X-SpamScore: -10
+X-BigFish: VS-10(zz9371I936eK1432N98dKzz1202hzz8275bh8275dhz2dh2a8h668h839h8e2h8e3hbe9k)
+X-Forefront-Antispam-Report: CIP:70.37.183.190; KIP:(null); UIP:(null); IPV:NLI;
+	H:mail.freescale.net; RD:none; EFVD:NLI
+Received: from mail41-ch1 (localhost.localdomain [127.0.0.1]) by mail41-ch1
+	(MessageSwitch) id 1331397014342457_18279;
+	Sat, 10 Mar 2012 16:30:14 +0000 (UTC)
+Received: from CH1EHSMHS021.bigfish.com (snatpool2.int.messaging.microsoft.com
+	[10.43.68.238])	by mail41-ch1.bigfish.com (Postfix) with ESMTP id
+	4F6204201D6;	Sat, 10 Mar 2012 16:30:14 +0000 (UTC)
+Received: from mail.freescale.net (70.37.183.190) by CH1EHSMHS021.bigfish.com
+	(10.43.70.21) with Microsoft SMTP Server (TLS) id 14.1.225.23;
+	Sat, 10 Mar 2012 16:30:14 +0000
+Received: from 039-SN1MPN1-001.039d.mgd.msft.net ([169.254.1.5]) by
+	039-SN1MMR1-002.039d.mgd.msft.net ([10.84.1.15]) with mapi id
+	14.01.0355.003; Sat, 10 Mar 2012 10:30:13 -0600
+From: McClintock Matthew-B29882 <B29882@freescale.com>
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>, Richard Purdie
+	<richard.purdie@linuxfoundation.org>
+Thread-Topic: [OE-core] [PATCH] arch-powerpc.inc: use default value of
+	TUNE_PKGARCH
+Thread-Index: AQHM/tsRy3wW4rR/tEOF38qiR4jeAA==
+Date: Sat, 10 Mar 2012 16:30:12 +0000
+Message-ID: <CAEsOVNeqTC1-A3r4EeLyV_YqByPwkOxZtCQ79GbQDskNm64Ecg@mail.gmail.com>
+References: <1331076055-15262-1-git-send-email-msm@freescale.com>
+	<1331142081.25887.42.camel@ted>
+In-Reply-To: <1331142081.25887.42.camel@ted>
+Accept-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [99.47.177.27]
 MIME-Version: 1.0
-Received: by 10.52.93.74 with SMTP id cs10mr9738761vdb.42.1331394741120; Sat,
-	10 Mar 2012 07:52:21 -0800 (PST)
-Received: by 10.52.112.39 with HTTP; Sat, 10 Mar 2012 07:52:21 -0800 (PST)
-Date: Sat, 10 Mar 2012 16:52:21 +0100
-Message-ID: <CAHod+GfPVhg9h4Z6zdbWEARTTy4Ko8onfU=DVszD3y2ORL9iDg@mail.gmail.com>
-From: =?UTF-8?B?TWFya28gS2F0acSH?= <dromede@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Subject: [PATCH 5/5] Split xcb-util into separate packages.
+X-OriginatorOrg: freescale.com
+Cc: "openembedded-core@openembedded.org" <openembedded-core@openembedded.org>
+Subject: Re: [PATCH] arch-powerpc.inc: use default value of TUNE_PKGARCH
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
-Reply-To: Patches and discussions about the oe-core layer
+Reply-To: McClintock Matthew-B29882 <B29882@freescale.com>,
+	Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
 List-Id: Patches and discussions about the oe-core layer
 	<openembedded-core.lists.openembedded.org>
@@ -38,66 +61,51 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 10 Mar 2012 16:01:02 -0000
-Content-Type: multipart/alternative; boundary=bcaec501673999af5d04bae57e05
-
---bcaec501673999af5d04bae57e05
-Content-Type: text/plain; charset=ISO-8859-1
-
-Add recipe for xcb-util-wm.
-
-
-diff --git a/meta/recipes-graphics/xcb/xcb-util-wm_0.3.8.bbb/meta/recipes-graphics/xcb/
-xcb-util-wm_0.3.8.bb
-new file mode 100644
-index 0000000..91f9a81
---- /dev/null
-+++ b/meta/recipes-graphics/xcb/xcb-util-wm_0.3.8.bb
-@@ -0,0 +1,12 @@
-+require xcb-util.inc
-+
-+LICENSE = "MIT"
-+LIC_FILES_CHKSUM =
-"file://ewmh/ewmh.c;endline=27;md5=63fd80552d7dc886f4eb267610d5bb9d \
-+ file://ewmh/xcb_ewmh.h;startline=4;endline=30;md5=7bcd2d64f5615707f95ea8826a93561f
-\
-+ file://icccm/icccm.c;endline=28;md5=e2b3240a0c197e8977adde2a5cf18d50 \
-+ file://icccm/xcb_icccm.h;startline=4;endline=31;md5=0af3f37474085b0517dbbae4cb4ce13c
-\
-+ "
-+PR = "r0"
-+
-+SRC_URI[md5sum] = "dda47289bc846a6a3e07824e9ec3aef8"
-+SRC_URI[sha256sum] =
-"c557abbe4c7d45268f0541ee3d8f9a1a8799692fcc28aa33f39db93cc2e65007"
-
---bcaec501673999af5d04bae57e05
-Content-Type: text/html; charset=ISO-8859-1
+X-List-Received-Date: Sat, 10 Mar 2012 16:38:58 -0000
+Content-Language: en-US
+Content-Type: text/plain; charset="iso-8859-1"
+Content-ID: <965A65DC322A2F4B86311FF0BA641A96@mgd.freescale.com>
 Content-Transfer-Encoding: quoted-printable
 
-Add recipe for xcb-util-wm.<div><br></div><div><br></div><div><div>diff --g=
-it a/meta/recipes-graphics/xcb/<a href=3D"http://xcb-util-wm_0.3.8.bb">xcb-=
-util-wm_0.3.8.bb</a> b/meta/recipes-graphics/xcb/<a href=3D"http://xcb-util=
--wm_0.3.8.bb">xcb-util-wm_0.3.8.bb</a></div>
-<div>new file mode 100644</div><div>index 0000000..91f9a81</div><div>--- /d=
-ev/null</div><div>+++ b/meta/recipes-graphics/xcb/<a href=3D"http://xcb-uti=
-l-wm_0.3.8.bb">xcb-util-wm_0.3.8.bb</a></div><div>@@ -0,0 +1,12 @@</div><di=
-v>
-+require xcb-util.inc</div><div>+</div><div>+LICENSE =3D &quot;MIT&quot;</d=
-iv><div>+LIC_FILES_CHKSUM =3D &quot;file://ewmh/ewmh.c;endline=3D27;md5=3D6=
-3fd80552d7dc886f4eb267610d5bb9d \</div><div>+<span class=3D"Apple-tab-span"=
- style=3D"white-space:pre">					</span>file://ewmh/xcb_ewmh.h;startline=3D4=
-;endline=3D30;md5=3D7bcd2d64f5615707f95ea8826a93561f \</div>
-<div>+<span class=3D"Apple-tab-span" style=3D"white-space:pre">					</span>=
-file://icccm/icccm.c;endline=3D28;md5=3De2b3240a0c197e8977adde2a5cf18d50 \<=
-/div><div>+<span class=3D"Apple-tab-span" style=3D"white-space:pre">					</=
-span>file://icccm/xcb_icccm.h;startline=3D4;endline=3D31;md5=3D0af3f3747408=
-5b0517dbbae4cb4ce13c \</div>
-<div>+<span class=3D"Apple-tab-span" style=3D"white-space:pre">					</span>=
-&quot;</div><div>+PR =3D &quot;r0&quot;</div><div>+</div><div>+SRC_URI[md5s=
-um] =3D &quot;dda47289bc846a6a3e07824e9ec3aef8&quot;</div><div>+SRC_URI[sha=
-256sum] =3D &quot;c557abbe4c7d45268f0541ee3d8f9a1a8799692fcc28aa33f39db93cc=
-2e65007&quot;</div>
-</div>
+On Wed, Mar 7, 2012 at 11:41 AM, Richard Purdie
+<richard.purdie@linuxfoundation.org> wrote:
+> On Tue, 2012-03-06 at 17:20 -0600, Matthew McClintock wrote:
+>> We can use the default value for TUNE_PKGARCH, and now we just
+>> append "-nf" if TARGET_FPU is fpu-soft
+>>
+>> Signed-off-by: Matthew McClintock <msm@freescale.com>
+>> ---
+>> =A0meta/conf/machine/include/powerpc/arch-powerpc.inc | =A0 =A06 ++----
+>> =A01 files changed, 2 insertions(+), 4 deletions(-)
+>>
+>> diff --git a/meta/conf/machine/include/powerpc/arch-powerpc.inc b/meta/c=
+onf/machine/include/powerpc/arch-powerpc.inc
+>> index c9b2829..abd72ed 100644
+>> --- a/meta/conf/machine/include/powerpc/arch-powerpc.inc
+>> +++ b/meta/conf/machine/include/powerpc/arch-powerpc.inc
+>> @@ -18,10 +18,8 @@ TARGET_FPU .=3D "${@bb.utils.contains("TUNE_FEATURES"=
+, "fpu-soft", "soft", "", d)}
+>>
+>> =A0ABIEXTENSION =3D "${@['','spe'][d.getVar('TARGET_FPU', True) in ['ppc=
+-efd', 'ppc-efs']]}"
+>>
+>> -PPCPKGSFX_FPU =3D "${@bb.utils.contains("TUNE_FEATURES", "fpu-hard" , "=
+", "-nf", d)}"
+>> -
+>> -PPCPKGARCH =3D "${TUNE_ARCH}${PPCPKGSFX_FPU}"
+>> -TUNE_PKGARCH ?=3D "${PPCPKGARCH}"
+>> +PPCPKGSFX_FPU =3D "${@['', '-nf'][bb.data.getVar('TARGET_FPU',d,1) in [=
+'fpu-soft']]}"
+>
+> bb.data is deprecated and we should translate:
+>
+> bb.data.getVar('TARGET_FPU',d,1) -> d.getVar('TARGET_FPU', True)
 
---bcaec501673999af5d04bae57e05--
+I already sent a new patch here:
+
+http://patches.openembedded.org/patch/22931/
+
+-M=
+
+
+
