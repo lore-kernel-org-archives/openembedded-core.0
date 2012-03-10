@@ -1,46 +1,41 @@
-Received: from mga12.intel.com ([143.182.124.36] helo=azsmga102.ch.intel.com)
+Received: from mail-wi0-f177.google.com ([209.85.212.177])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <scott.a.garman@intel.com>) id 1S6EVJ-0001wo-On
+	(envelope-from <koen@dominion.thruhere.net>) id 1S6FwK-0007JA-5O
 	for openembedded-core@lists.openembedded.org;
-	Sat, 10 Mar 2012 06:06:05 +0100
-Received: from mail-iy0-f180.google.com ([209.85.210.180])
-	by mga14.intel.com with ESMTP/TLS/RC4-SHA; 09 Mar 2012 20:57:22 -0800
-Received: by iage36 with SMTP id e36so3215351iag.25
+	Sat, 10 Mar 2012 07:38:04 +0100
+Received: by wibhj13 with SMTP id hj13so1160530wib.6
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 09 Mar 2012 20:57:02 -0800 (PST)
+	Fri, 09 Mar 2012 22:29:24 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=google.com; s=20120113;
-	h=message-id:date:from:user-agent:mime-version:to:subject:references
-	:in-reply-to:content-type:content-transfer-encoding
+	h=content-type:mime-version:subject:from:in-reply-to:date
+	:content-transfer-encoding:message-id:references:to:x-mailer
 	:x-gm-message-state;
-	bh=h9oB2gh59JKsnVmfBnFx6kgY5zJHfEeqXl5nZt7IR60=;
-	b=g96zuwVDewYE24KxGvbUwUGAeSZYfuAXUBuWBnKVTQK78UvYWB/yeq0JQOdlexcnmI
-	7a9vOkU+BgwSNFUgw67O3YMZnmcTPP0BDVBjFypGShhuexISe5mSGFrvPM7PitPZXMDG
-	H+hY6OA23sLIW/O7gM3OwZt593KpFvn0cdE5BnI9OV5eLVM2A3gFAwzytQF+lUfMwdIb
-	XELlDfVKBxvV0EJfeC4agtULfL+4irzby4pCetgX4DGTwL+SsRuy01r20jUcqfoUuTB/
-	6nT4F9zEpZ4xCSJ4hgK3o4sMl5twgIqk1JqnktFWHntYVCzMQb7biP6MCIHWo8vij6ih
-	Gx7g==
-Received: by 10.182.119.101 with SMTP id kt5mr1758621obb.70.1331355422106;
-	Fri, 09 Mar 2012 20:57:02 -0800 (PST)
-Received: from [192.168.1.12] (c-76-105-137-48.hsd1.or.comcast.net.
-	[76.105.137.48])
-	by mx.google.com with ESMTPS id g6sm4128101oeb.10.2012.03.09.20.57.00
-	(version=SSLv3 cipher=OTHER); Fri, 09 Mar 2012 20:57:00 -0800 (PST)
-Message-ID: <4F5ADF1D.4050202@intel.com>
-Date: Fri, 09 Mar 2012 20:57:01 -0800
-From: Scott Garman <scott.a.garman@intel.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:10.0.2) Gecko/20120216 Thunderbird/10.0.2
-MIME-Version: 1.0
-To: openembedded-core@lists.openembedded.org
-References: <CAFZPMoaRKkELBmd1u5SnWF5UDQiHawi9aRJFw72UqGrKLJQNHw@mail.gmail.com>
-	<CAFZPMob-UQNR9Q-_EsumFpWj=49t9TNjFYF8WTNLgfDWQ+qiAQ@mail.gmail.com>
-	<4F566375.30705@intel.com>
-	<CAFZPMob0HRhYLbZLt7zvLQkJxF_mRxuF0w5MATNcOHwhLko0bA@mail.gmail.com>
-	<4F58FF0A.6000400@intel.com>
-In-Reply-To: <4F58FF0A.6000400@intel.com>
-X-Gm-Message-State: ALoCoQkc4BMqq9H6dGOrjNx6DeDmlyH9kHEL7pFE+WD9M+3g6t+D0vziYdOKaKAooV5mYbw6peQE
-Subject: Re: broken ncurses support for python
+	bh=CKuzo5qVIwr1cOikNjvh/zK98apQ+0p6iArsT31YVxo=;
+	b=Z520OnRN+KlmGCDM/FnCD7PzdLyETdKOaSk9PoaPQnEPratFPSmiwQgw0MLM2a3/9V
+	IpUDX8H4KFhIMhqKTkxNr+jkMKQNDCZxD5pmvfz7t7cAkIGe6jECFSY+4Lt8wKfbB3xz
+	rLZGh2kRqbOsZUlfvqaXay3q5LL1hcSMJNY5s5lEFN2Y2XJCHR6VzTv7e+vafmZUym7n
+	U+9JzWeLh+v11s9Yh+jiohqLIdIPTKQPvofHXW+y3KL9A8mcDCOYqcjyQCMRnd8d/du0
+	VzRx0mbjNFpy2zUspbJCAHaFKcS5b6std30rXQ879/r34d1R5/RQ1JEauKWlv1FBqddl
+	UJhA==
+Received: by 10.180.95.197 with SMTP id dm5mr10888293wib.20.1331360964014;
+	Fri, 09 Mar 2012 22:29:24 -0800 (PST)
+Received: from [172.20.1.36] (ip545070eb.adsl-surfen.hetnet.nl.
+	[84.80.112.235])
+	by mx.google.com with ESMTPS id ep17sm11440163wid.2.2012.03.09.22.29.22
+	(version=TLSv1/SSLv3 cipher=OTHER);
+	Fri, 09 Mar 2012 22:29:23 -0800 (PST)
+Mime-Version: 1.0 (Apple Message framework v1257)
+From: Koen Kooi <koen@dominion.thruhere.net>
+In-Reply-To: <CA+M6bXkMdv_bg9bDOYCS=Ng0sSB+2Yu6xRN4V0tKDV9RCJMy+A@mail.gmail.com>
+Date: Sat, 10 Mar 2012 07:29:20 +0100
+Message-Id: <04FC93EF-7089-4EAD-8C1D-14824C8CBB02@dominion.thruhere.net>
+References: <CA+M6bXkMdv_bg9bDOYCS=Ng0sSB+2Yu6xRN4V0tKDV9RCJMy+A@mail.gmail.com>
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+X-Mailer: Apple Mail (2.1257)
+X-Gm-Message-State: ALoCoQkasty4LuJXk7LSpDXLCtHA+kGrsdMGbHIDloLo2FRxMtKIfJ+WVUfJB+TIhKMkM78FaN00
+Subject: Re: Consistency and use cases for IMAGE_FSTYPES
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -55,52 +50,41 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 10 Mar 2012 05:06:06 -0000
-Content-Type: text/plain; charset=ISO-8859-1; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Sat, 10 Mar 2012 06:38:04 -0000
+Content-Type: text/plain; charset=us-ascii
+Content-Transfer-Encoding: quoted-printable
 
-On 03/08/2012 10:48 AM, Scott Garman wrote:
-> On 03/06/2012 02:33 PM, Sergey Lapin wrote:
->>>>> breaks python ncurses support.
->>>>>
->>>>> Any ideas on proper fixing? For myself I revert this locally and
->>>>> everything works perfectly.
->>>>> (I think .so files and .a archives should be in usr/lib while .so
->>>>> can go to /lib which is not the case with current ncurses.)
->>>>> so mv in do_install should be sufficient, not --libdir=${base_libdir}.
->>>
->>>
->>> Could you be more specific about how python ncurses support is broken? I
->>> assume you're getting errors of unresolved symbols. If that's the
->>> case, you
->>> may need to rebuild the application so it links to ncurses from
->>> base_libdir.
->> No, python fails to find the library.
->> And it is bad practice to put develeopment files in /lib anyway.
->> I think, putting .so.x.x intu lib was sufficient instead of setting
->> whole libdir to /lib.
->> Or development files might be moved to /usr/lib back (and .so symlink
->> re-created
->> to address this).
->
-> Thanks, I understand what you're saying now. I hope to look into this
-> tomorrow and develop a fix; I've been away at a conference all week so far.
 
-Thanks again Sergey for troubleshooting this and suggesting a solution. 
-I filed bug #2070 to track this and have created the following fix for it:
+Op 9 mrt. 2012, om 22:39 heeft Tom Rini het volgende geschreven:
 
-http://git.yoctoproject.org/cgit/cgit.cgi/poky-contrib/commit/?h=sgarman/python-ncurses-fix&id=23c73da5f13b6c586353edb8143fa21058bf3a55
+> Hey all,
+>=20
+> Over in meta-ti I kicked off a discussion
+> =
+(https://lists.yoctoproject.org/pipermail/meta-ti/2012-March/000779.html)
+> about if we should be using '?=3D' or '+=3D' with IMAGE_FSTYPES in the
+> machine conf files.  This has been discussed a little bit before
+> =
+(http://thread.gmane.org/gmane.comp.handhelds.openembedded.core/2060/focus=
+=3D2061).
+> The problem is we have the following and I believe ultimately
+> conflicting use cases:
+> - The machine needs to say 'I need or support the following formats'
+> - The distro needs to say 'I always want format X'
+> - The user needs to say 'I know best, give me only format X'
+> - The user needs to say 'I know best, give me what you support + X'
+>=20
+> We achieve this today, but not very nicely.  For the last one you need
+> to start playing order of operations games and that's just not nice.
+> My suggestion is that we need to change what the machine.conf sets to
+> another variable (SOMETHING_IMAGE_FSTYPES), and a default
+> IMAGE_FSTYPES becomes ?=3D ${SOMETHING_IMAGE_FSTYPES}.  Distros, and
+> users can then work more easily with their use cases.  Comments?
 
-I'm going to queue up some build tests to run over the weekend and plan 
-to submit this first thing on Monday should that go well.
+EXTRA_IMAGE_FSTYPES!
 
-Regards,
+regards,
 
-Scott
-
--- 
-Scott Garman
-Embedded Linux Engineer - Yocto Project
-Intel Open Source Technology Center
+Koen=
 
 
