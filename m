@@ -1,27 +1,25 @@
-Received: from vms173015pub.verizon.net ([206.46.173.15])
+Received: from hermes.mlbassoc.com ([64.234.241.98] helo=mail.chez-thomas.org)
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <denis@denix.org>) id 1S7Ct5-0006ym-L8
-	for openembedded-core@lists.openembedded.org;
-	Mon, 12 Mar 2012 22:34:39 +0100
-Received: from gandalf.denix.org ([unknown] [71.178.225.66])
-	by vms173015.mailsrvcs.net
-	(Sun Java(tm) System Messaging Server 7u2-7.02 32bit (built Apr 16
-	2009)) with ESMTPA id <0M0S004IZGQCBSY1@vms173015.mailsrvcs.net> for
-	openembedded-core@lists.openembedded.org;
-	Mon, 12 Mar 2012 15:25:24 -0500 (CDT)
-Received: by gandalf.denix.org (Postfix, from userid 1000)	id 36EFD20264; Mon,
-	12 Mar 2012 16:25:24 -0400 (EDT)
-Date: Mon, 12 Mar 2012 16:25:24 -0400
-From: Denys Dmytriyenko <denis@denix.org>
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Message-id: <20120312202524.GB9300@denix.org>
-References: <CA+M6bXkMdv_bg9bDOYCS=Ng0sSB+2Yu6xRN4V0tKDV9RCJMy+A@mail.gmail.com>
-	<04FC93EF-7089-4EAD-8C1D-14824C8CBB02@dominion.thruhere.net>
-MIME-version: 1.0
-In-reply-to: <04FC93EF-7089-4EAD-8C1D-14824C8CBB02@dominion.thruhere.net>
-User-Agent: Mutt/1.5.20 (2009-06-14)
-Subject: Re: Consistency and use cases for IMAGE_FSTYPES
+	(envelope-from <gary@mlbassoc.com>) id 1S7D4K-0008WR-31
+	for openembedded-core@openembedded.org; Mon, 12 Mar 2012 22:46:16 +0100
+Received: by mail.chez-thomas.org (Postfix, from userid 1998)
+	id 5BDAFF81272; Mon, 12 Mar 2012 15:28:23 -0600 (MDT)
+X-Spam-Checker-Version: SpamAssassin 3.3.2 (2011-06-06) on
+	hermes.chez-thomas.org
+X-Spam-Level: 
+X-Spam-Status: No, score=-2.9 required=4.0 tests=ALL_TRUSTED,BAYES_00
+	autolearn=unavailable version=3.3.2
+Received: from hermes.chez-thomas.org (localhost.localdomain [127.0.0.1])
+	by mail.chez-thomas.org (Postfix) with ESMTP id A58BBF81271;
+	Mon, 12 Mar 2012 15:28:21 -0600 (MDT)
+Message-ID: <4F5E6A75.8050904@mlbassoc.com>
+Date: Mon, 12 Mar 2012 15:28:21 -0600
+From: Gary Thomas <gary@mlbassoc.com>
+User-Agent: Mozilla/5.0 (X11; Linux i686;
+	rv:10.0.1) Gecko/20120216 Thunderbird/10.0.1
+MIME-Version: 1.0
+To: "openembedded-core@openembedded.org" <openembedded-core@openembedded.org>
+Subject: Icon problems with Sato theme
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -36,42 +34,56 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 12 Mar 2012 21:34:39 -0000
-Content-type: text/plain; charset=us-ascii
-Content-disposition: inline
+X-List-Received-Date: Mon, 12 Mar 2012 21:46:16 -0000
+Content-Type: text/plain; charset=ISO-8859-1; format=flowed
+Content-Transfer-Encoding: 7bit
 
-On Sat, Mar 10, 2012 at 07:29:20AM +0100, Koen Kooi wrote:
-> 
-> Op 9 mrt. 2012, om 22:39 heeft Tom Rini het volgende geschreven:
-> 
-> > Hey all,
-> > 
-> > Over in meta-ti I kicked off a discussion
-> > (https://lists.yoctoproject.org/pipermail/meta-ti/2012-March/000779.html)
-> > about if we should be using '?=' or '+=' with IMAGE_FSTYPES in the
-> > machine conf files.  This has been discussed a little bit before
-> > (http://thread.gmane.org/gmane.comp.handhelds.openembedded.core/2060/focus=2061).
-> > The problem is we have the following and I believe ultimately
-> > conflicting use cases:
-> > - The machine needs to say 'I need or support the following formats'
-> > - The distro needs to say 'I always want format X'
-> > - The user needs to say 'I know best, give me only format X'
-> > - The user needs to say 'I know best, give me what you support + X'
-> > 
-> > We achieve this today, but not very nicely.  For the last one you need
-> > to start playing order of operations games and that's just not nice.
-> > My suggestion is that we need to change what the machine.conf sets to
-> > another variable (SOMETHING_IMAGE_FSTYPES), and a default
-> > IMAGE_FSTYPES becomes ?= ${SOMETHING_IMAGE_FSTYPES}.  Distros, and
-> > users can then work more easily with their use cases.  Comments?
-> 
-> EXTRA_IMAGE_FSTYPES!
+Note: This problem was originally sent to the Poky list, but it's not
+Poky specific (I've verified it happens with other oe-core based setups)
 
-+1
+I'm trying to run the midori browser on my Poky based system.  I have
+an image which is based on core-image-sato.  I imported the midori
+recipe from OE and it builds fine.  When I run midori, it fails
+like this:
+   %midori
+   (midori:1629): Gtk-WARNING **: Error loading theme icon 'stock_new-tab' for stock: Icon 'stock_new-tab' not present in te
+   (midori:1629): Gtk-WARNING **: Error loading theme icon 'gnome-stock-trash' for stock: Icon 'gnome-stock-trash' not prese
+   (midori:1629): Gtk-WARNING **: Error loading theme icon 'gtk-undo-ltr' for stock: Icon 'gtk-undo-ltr' not present in thee
+   Segmentation fault
 
-MACHINE_IMAGE_FSTYPES + DISTRO_IMAGE_FSTYPES? jk :)
+I do have those icons - they come from the gnome-icon-theme package
+which I also installed.  I even tried duplicating them into the Sato
+icon tree and ran 'gtk-update-icon-cache -q /usr/share/icons/Sato'
+afterwards.  I now have these files:
+   root@logopak8347tbga:~# find /usr/share/icons -name "stock_new-tab*"
+   /usr/share/icons/Sato/16x16/actions/stock_new-tab.png
+   /usr/share/icons/Sato/22x22/actions/stock_new-tab.png
+   /usr/share/icons/gnome/24x24/actions/stock_new-tab.png
+   /usr/share/icons/gnome/16x16/actions/stock_new-tab.png
+   /usr/share/icons/gnome/22x22/actions/stock_new-tab.png
+but I still get the same failure.
+
+The really strange thing is this is what happens if I run midori
+to the local X server.  If I 'ssh -X' into my board it works properly!
+I've run strace on it in this mode and I can see that it's using a
+different GTK theme - Raleigh, which does seem to find the icons.
+
+Any ideas how I can get this to work on my local X server?
+
+n.b. there seems to be a bug in the GTK libraries that make them fail if the default
+icons are not available.  It tries to render GTK_STOCK_MISSING_IMAGE for the missing
+icons and this fails if there is no such icon available in the set (e.g. in sato).
+On ARM at least, this is a fatal segmentation error.  Should I report this as a bug?
+Where?
+
+I've also tried to add the missing icon(s) to the sato-icon-theme package, but
+no matter what I do, GTK can't ever seem to find the GTK_STOCK_MISSING_IMAGE ('gtk-missing-image.png')
+Any ideas how to debug this?
 
 -- 
-Denys
+------------------------------------------------------------
+Gary Thomas                 |  Consulting for the
+MLB Associates              |    Embedded world
+------------------------------------------------------------
 
 
