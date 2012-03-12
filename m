@@ -1,20 +1,22 @@
-Received: from mga09.intel.com ([134.134.136.24])
+Received: from mga03.intel.com ([143.182.124.21])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <nitin.a.kamble@intel.com>) id 1S78Ew-0003WM-Qe
+	(envelope-from <nitin.a.kamble@intel.com>) id 1S78Ey-0003WN-1G
 	for openembedded-core@lists.openembedded.org;
-	Mon, 12 Mar 2012 17:36:55 +0100
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-	by orsmga102.jf.intel.com with ESMTP; 12 Mar 2012 09:28:10 -0700
+	Mon, 12 Mar 2012 17:36:56 +0100
+Received: from azsmga001.ch.intel.com ([10.2.17.19])
+	by azsmga101.ch.intel.com with ESMTP; 12 Mar 2012 09:28:12 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.67,352,1309762800"; d="scan'208";a="116938232"
+X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="117819261"
 Received: from nbuild0.sc.intel.com ([172.25.110.36])
-	by orsmga001.jf.intel.com with ESMTP; 12 Mar 2012 09:28:10 -0700
+	by azsmga001.ch.intel.com with ESMTP; 12 Mar 2012 09:28:11 -0700
 From: nitin.a.kamble@intel.com
 To: openembedded-core@lists.openembedded.org
-Date: Mon, 12 Mar 2012 09:28:06 -0700
-Message-Id: <cover.1331569628.git.nitin.a.kamble@intel.com>
+Date: Mon, 12 Mar 2012 09:28:10 -0700
+Message-Id: <537de2381d30818bbc1bd0758f4fb1a8dc7f49de.1331569628.git.nitin.a.kamble@intel.com>
 X-Mailer: git-send-email 1.7.6.4
-Subject: [PATCH 0/1] a bugfix for cmake.bblcass
+In-Reply-To: <cover.1331569628.git.nitin.a.kamble@intel.com>
+References: <cover.1331569628.git.nitin.a.kamble@intel.com>
+Subject: [PATCH 1/1] cmake.bbclass: add ${base_libdir} to CMAKE_LIBRARY_PATH
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -29,24 +31,35 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 12 Mar 2012 16:36:55 -0000
+X-List-Received-Date: Mon, 12 Mar 2012 16:36:56 -0000
 
 From: Nitin A Kamble <nitin.a.kamble@intel.com>
 
-The following changes since commit c27b7aab3c37f182bf9acc5d459185f32fb195d0:
+Some libraries like libcrypto.so are installed at base_libdir
+instead of libdir. So add the base_libdir to CMAKE_LIBRARY_PATH
+so that these libraries can be found correctly.
 
-  codeparser: Call intern over the set contents for better cache performance (2012-03-12 15:52:33 +0000)
+This resolves an issues with libzypp, which was not finding the
+libcrypo library correctly in an x32 build.
 
-are available in the git repository at:
-  git://git.pokylinux.org/poky-contrib nitin/work
-  http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=nitin/work
-
-Nitin A Kamble (1):
-  cmake.bbclass: add ${base_libdir} to CMAKE_LIBRARY_PATH
-
+Signed-off-by: Nitin A Kamble <nitin.a.kamble@intel.com>
+---
  meta/classes/cmake.bbclass |    2 +-
  1 files changed, 1 insertions(+), 1 deletions(-)
 
+diff --git a/meta/classes/cmake.bbclass b/meta/classes/cmake.bbclass
+index 8aec759..dcd974a 100644
+--- a/meta/classes/cmake.bbclass
++++ b/meta/classes/cmake.bbclass
+@@ -59,7 +59,7 @@ set( CMAKE_INSTALL_RPATH ${OECMAKE_RPATH} )
+ set( CMAKE_MODULE_PATH ${STAGING_DATADIR}/cmake/Modules/ )
+ 
+ # add for non /usr/lib libdir, e.g. /usr/lib64
+-set( CMAKE_LIBRARY_PATH ${libdir} )
++set( CMAKE_LIBRARY_PATH ${libdir} ${base_libdir})
+ 
+ EOF
+ }
 -- 
 1.7.6.4
 
