@@ -1,37 +1,26 @@
-Received: from mail-ey0-f175.google.com ([209.85.215.175])
+Received: from mga11.intel.com ([192.55.52.93])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <otavio.salvador@gmail.com>) id 1S78vI-0004Qg-7n
+	(envelope-from <sgw@linux.intel.com>) id 1S79Md-0004vT-Tc
 	for openembedded-core@lists.openembedded.org;
-	Mon, 12 Mar 2012 18:20:40 +0100
-Received: by eaae1 with SMTP id e1so1059008eaa.6
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 12 Mar 2012 10:11:57 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:sender:in-reply-to:references:date
-	:x-google-sender-auth:message-id:subject:from:to:content-type
-	:content-transfer-encoding;
-	bh=kqdYA8Z/7cCZ36MC2IF+2qZbHNuD5wftEIe3Gb4CTzk=;
-	b=i671XWvCrQvQhoX4MtCl0Jy4b/OzuIuV63WIy0gNNBAi+AWYUxMpjeB5HjC7PULW3g
-	ZIet+UQuryG2Z8oAkqoOpAjrinWoVThV8covUSRdnO+kgfSdtluzfMll71lV/pRs4b0j
-	FkqY1RN3ds7AyX+HAMKwTanmRz6vgK46I15IsLGo47iDY9DZmpt/W8Yz9jaUZZyKc1Zo
-	Aw+k9Y05WMm0WH7uqtijLk1k6oeDeUHcA8uPjn7TCWTZl1k3hqPFXItyD/Y4/OCmQefE
-	PnAGtkHi0+jP/XKEacBzRbIRhc/HUibq1OjVkYPaD5UthTMe+sKjNymasdvG6ZUXfbwb
-	C0oA==
+	Mon, 12 Mar 2012 18:48:56 +0100
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+	by fmsmga102.fm.intel.com with ESMTP; 12 Mar 2012 10:40:11 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="137531594"
+Received: from unknown (HELO [10.255.15.137]) ([10.255.15.137])
+	by fmsmga002.fm.intel.com with ESMTP; 12 Mar 2012 10:40:11 -0700
+Message-ID: <4F5E34FB.2050409@linux.intel.com>
+Date: Mon, 12 Mar 2012 10:40:11 -0700
+From: Saul Wold <sgw@linux.intel.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:10.0.1) Gecko/20120216 Thunderbird/10.0.1
 MIME-Version: 1.0
-Received: by 10.52.35.69 with SMTP id f5mr14990963vdj.29.1331572316850; Mon,
-	12 Mar 2012 10:11:56 -0700 (PDT)
-Sender: otavio.salvador@gmail.com
-Received: by 10.220.7.208 with HTTP; Mon, 12 Mar 2012 10:11:56 -0700 (PDT)
-In-Reply-To: <537de2381d30818bbc1bd0758f4fb1a8dc7f49de.1331569628.git.nitin.a.kamble@intel.com>
-References: <cover.1331569628.git.nitin.a.kamble@intel.com>
-	<537de2381d30818bbc1bd0758f4fb1a8dc7f49de.1331569628.git.nitin.a.kamble@intel.com>
-Date: Mon, 12 Mar 2012 14:11:56 -0300
-X-Google-Sender-Auth: 9G6zgp7XSQTfnqeKFlosAFDGePg
-Message-ID: <CAP9ODKoJ-OJgfujfTybm9Nbg-xXuoJC-WBoR7HSX1aP24+JP+A@mail.gmail.com>
-From: Otavio Salvador <otavio@ossystems.com.br>
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 1/1] cmake.bbclass: add ${base_libdir} to CMAKE_LIBRARY_PATH
+References: <cover.1331085934.git.lianhao.lu@intel.com>
+	<324c375ed3e7c0fb061b52c9dd6a57afdfe4f5fa.1331085934.git.lianhao.lu@intel.com>
+In-Reply-To: <324c375ed3e7c0fb061b52c9dd6a57afdfe4f5fa.1331085934.git.lianhao.lu@intel.com>
+Subject: Re: [PATCH 1/1] adt-installer: Corrected wrong environment file names.
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -46,56 +35,62 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 12 Mar 2012 17:20:40 -0000
-Content-Type: text/plain; charset=ISO-8859-1
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Mon, 12 Mar 2012 17:48:56 -0000
+Content-Type: text/plain; charset=ISO-8859-1; format=flowed
+Content-Transfer-Encoding: 7bit
 
-Acked-by: Otavio Salvador <otavio@ossystems.com.br>
-
-On Mon, Mar 12, 2012 at 13:28,  <nitin.a.kamble@intel.com> wrote:
-> From: Nitin A Kamble <nitin.a.kamble@intel.com>
+On 03/06/2012 06:06 PM, Lianhao Lu wrote:
+> [YOCTO #2055]
+> 1. Corrected the wrong environment file name for powerpc.
 >
-> Some libraries like libcrypto.so are installed at base_libdir
-> instead of libdir. So add the base_libdir to CMAKE_LIBRARY_PATH
-> so that these libraries can be found correctly.
+> 2. Removed unnecessary variables in adt_installer.conf.
 >
-> This resolves an issues with libzypp, which was not finding the
-> libcrypo library correctly in an x32 build.
->
-> Signed-off-by: Nitin A Kamble <nitin.a.kamble@intel.com>
+> Signed-off-by: Lianhao Lu<lianhao.lu@intel.com>
 > ---
-> =A0meta/classes/cmake.bbclass | =A0 =A02 +-
-> =A01 files changed, 1 insertions(+), 1 deletions(-)
+>   .../adt-installer/scripts/adt_installer_internal   |    2 ++
+>   .../installer/adt-installer_1.0.bb                 |    5 +----
+>   2 files changed, 3 insertions(+), 4 deletions(-)
 >
-> diff --git a/meta/classes/cmake.bbclass b/meta/classes/cmake.bbclass
-> index 8aec759..dcd974a 100644
-> --- a/meta/classes/cmake.bbclass
-> +++ b/meta/classes/cmake.bbclass
-> @@ -59,7 +59,7 @@ set( CMAKE_INSTALL_RPATH ${OECMAKE_RPATH} )
-> =A0set( CMAKE_MODULE_PATH ${STAGING_DATADIR}/cmake/Modules/ )
+> diff --git a/meta/recipes-devtools/installer/adt-installer/scripts/adt_installer_internal b/meta/recipes-devtools/installer/adt-installer/scripts/adt_installer_internal
+> index 6201095..684dc88 100755
+> --- a/meta/recipes-devtools/installer/adt-installer/scripts/adt_installer_internal
+> +++ b/meta/recipes-devtools/installer/adt-installer/scripts/adt_installer_internal
+> @@ -175,6 +175,8 @@ check_result
+>   echo_info "Updating environment script with target sysroot location."
+>   if [ "$1" == "x86"  ]; then
+>     env_filename=`ls $INSTALL_FOLDER/environment-setup-i586*`
+> +elif [ "$1" == "ppc" ]; then
+> +  env_filename=`ls $INSTALL_FOLDER/environment-setup-powerpc*`
+>   else
+>     env_filename=`ls $INSTALL_FOLDER/environment-setup-$1*`
+>   fi
+> diff --git a/meta/recipes-devtools/installer/adt-installer_1.0.bb b/meta/recipes-devtools/installer/adt-installer_1.0.bb
+> index 340349d..27937d9 100644
+> --- a/meta/recipes-devtools/installer/adt-installer_1.0.bb
+> +++ b/meta/recipes-devtools/installer/adt-installer_1.0.bb
+> @@ -30,7 +30,7 @@ ALLOW_EMPTY = "1"
 >
-> =A0# add for non /usr/lib libdir, e.g. /usr/lib64
-> -set( CMAKE_LIBRARY_PATH ${libdir} )
-> +set( CMAKE_LIBRARY_PATH ${libdir} ${base_libdir})
+>   PACKAGES = ""
 >
-> =A0EOF
-> =A0}
-> --
-> 1.7.6.4
+> -PR = "r6"
+> +PR = "r7"
 >
->
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
+>   ADT_DEPLOY = "${TMPDIR}/deploy/sdk/"
+>   ADT_DIR = "${WORKDIR}/adt-installer/"
+> @@ -68,9 +68,6 @@ fakeroot do_populate_adt () {
+>   	cp -r scripts ${ADT_DIR}/
+>   	cp adt_installer ${ADT_DIR}
+>   	cp adt_installer.conf ${ADT_DIR}
+> -	echo 'YOCTOADT_VERSION=${SDK_VERSION}'>  ${ADT_DIR}/temp.conf
+> -        cat ${ADT_DIR}/adt_installer.conf>>  ${ADT_DIR}/temp.conf
+> -        mv ${ADT_DIR}/temp.conf ${ADT_DIR}/adt_installer.conf
+>   	sed -i -e 's#YOCTOADT_VERSION#${SDK_VERSION}#' ${ADT_DIR}/adt_installer.conf
+>           echo 'SDK_VENDOR=${SDK_VENDOR}'>>  ${ADT_DIR}/scripts/data_define
+>           echo 'INSTALL_FOLDER=${SDKPATH}'>>  ${ADT_DIR}/scripts/data_define
 
+Merged into OE-Core
 
-
---=20
-Otavio Salvador=A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0O=
-.S. Systems
-E-mail: otavio@ossystems.com.br=A0 http://www.ossystems.com.br
-Mobile: +55 53 9981-7854=A0 =A0 =A0 =A0=A0 =A0 =A0 =A0http://projetos.ossys=
-tems.com.br
+Thanks
+	Sau!
 
 
