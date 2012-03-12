@@ -1,25 +1,20 @@
-Received: from hermes.mlbassoc.com ([64.234.241.98] helo=mail.chez-thomas.org)
+Received: from mga14.intel.com ([143.182.124.37])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <gary@mlbassoc.com>) id 1S7D4K-0008WR-31
-	for openembedded-core@openembedded.org; Mon, 12 Mar 2012 22:46:16 +0100
-Received: by mail.chez-thomas.org (Postfix, from userid 1998)
-	id 5BDAFF81272; Mon, 12 Mar 2012 15:28:23 -0600 (MDT)
-X-Spam-Checker-Version: SpamAssassin 3.3.2 (2011-06-06) on
-	hermes.chez-thomas.org
-X-Spam-Level: 
-X-Spam-Status: No, score=-2.9 required=4.0 tests=ALL_TRUSTED,BAYES_00
-	autolearn=unavailable version=3.3.2
-Received: from hermes.chez-thomas.org (localhost.localdomain [127.0.0.1])
-	by mail.chez-thomas.org (Postfix) with ESMTP id A58BBF81271;
-	Mon, 12 Mar 2012 15:28:21 -0600 (MDT)
-Message-ID: <4F5E6A75.8050904@mlbassoc.com>
-Date: Mon, 12 Mar 2012 15:28:21 -0600
-From: Gary Thomas <gary@mlbassoc.com>
-User-Agent: Mozilla/5.0 (X11; Linux i686;
-	rv:10.0.1) Gecko/20120216 Thunderbird/10.0.1
-MIME-Version: 1.0
-To: "openembedded-core@openembedded.org" <openembedded-core@openembedded.org>
-Subject: Icon problems with Sato theme
+	(envelope-from <sgw@linux.intel.com>) id 1S7Dr8-0007Ze-AR
+	for openembedded-core@lists.openembedded.org;
+	Mon, 12 Mar 2012 23:36:42 +0100
+Received: from azsmga002.ch.intel.com ([10.2.17.35])
+	by azsmga102.ch.intel.com with ESMTP; 12 Mar 2012 15:27:57 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="76648714"
+Received: from unknown (HELO swold-mobl.bigsur.com) ([10.255.15.137])
+	by AZSMGA002.ch.intel.com with ESMTP; 12 Mar 2012 15:27:57 -0700
+From: Saul Wold <sgw@linux.intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Mon, 12 Mar 2012 15:27:57 -0700
+Message-Id: <1331591277-19173-1-git-send-email-sgw@linux.intel.com>
+X-Mailer: git-send-email 1.7.7.6
+Subject: [PATCH] gettext: Set the LICENSE field to GPLv3
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -34,56 +29,28 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 12 Mar 2012 21:46:16 -0000
-Content-Type: text/plain; charset=ISO-8859-1; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Mon, 12 Mar 2012 22:36:42 -0000
 
-Note: This problem was originally sent to the Poky list, but it's not
-Poky specific (I've verified it happens with other oe-core based setups)
+Signed-off-by: Saul Wold <sgw@linux.intel.com>
+---
+ meta/recipes-core/gettext/gettext_0.18.1.1.bb |    2 +-
+ 1 files changed, 1 insertions(+), 1 deletions(-)
 
-I'm trying to run the midori browser on my Poky based system.  I have
-an image which is based on core-image-sato.  I imported the midori
-recipe from OE and it builds fine.  When I run midori, it fails
-like this:
-   %midori
-   (midori:1629): Gtk-WARNING **: Error loading theme icon 'stock_new-tab' for stock: Icon 'stock_new-tab' not present in te
-   (midori:1629): Gtk-WARNING **: Error loading theme icon 'gnome-stock-trash' for stock: Icon 'gnome-stock-trash' not prese
-   (midori:1629): Gtk-WARNING **: Error loading theme icon 'gtk-undo-ltr' for stock: Icon 'gtk-undo-ltr' not present in thee
-   Segmentation fault
-
-I do have those icons - they come from the gnome-icon-theme package
-which I also installed.  I even tried duplicating them into the Sato
-icon tree and ran 'gtk-update-icon-cache -q /usr/share/icons/Sato'
-afterwards.  I now have these files:
-   root@logopak8347tbga:~# find /usr/share/icons -name "stock_new-tab*"
-   /usr/share/icons/Sato/16x16/actions/stock_new-tab.png
-   /usr/share/icons/Sato/22x22/actions/stock_new-tab.png
-   /usr/share/icons/gnome/24x24/actions/stock_new-tab.png
-   /usr/share/icons/gnome/16x16/actions/stock_new-tab.png
-   /usr/share/icons/gnome/22x22/actions/stock_new-tab.png
-but I still get the same failure.
-
-The really strange thing is this is what happens if I run midori
-to the local X server.  If I 'ssh -X' into my board it works properly!
-I've run strace on it in this mode and I can see that it's using a
-different GTK theme - Raleigh, which does seem to find the icons.
-
-Any ideas how I can get this to work on my local X server?
-
-n.b. there seems to be a bug in the GTK libraries that make them fail if the default
-icons are not available.  It tries to render GTK_STOCK_MISSING_IMAGE for the missing
-icons and this fails if there is no such icon available in the set (e.g. in sato).
-On ARM at least, this is a fatal segmentation error.  Should I report this as a bug?
-Where?
-
-I've also tried to add the missing icon(s) to the sato-icon-theme package, but
-no matter what I do, GTK can't ever seem to find the GTK_STOCK_MISSING_IMAGE ('gtk-missing-image.png')
-Any ideas how to debug this?
-
+diff --git a/meta/recipes-core/gettext/gettext_0.18.1.1.bb b/meta/recipes-core/gettext/gettext_0.18.1.1.bb
+index 3c65dca..53e7e4e 100644
+--- a/meta/recipes-core/gettext/gettext_0.18.1.1.bb
++++ b/meta/recipes-core/gettext/gettext_0.18.1.1.bb
+@@ -2,7 +2,7 @@ SUMMARY = "Utilities and libraries for producing multi-lingual messages."
+ DESCRIPTION = "Gettext offers to programmers, translators, and even users, a well integrated set of tools and documentation. Specifically, the GNU `gettext' utilities are a set of tools that provides a framework to help other GNU packages produce multi-lingual messages. These tools include a set of conventions about how programs should be written to support message catalogs, a directory and file naming organization for the message catalogs themselves, a runtime library supporting the retrieval of translated messages, and a few stand-alone programs to massage in various ways the sets of translatable strings, or already translated strings."
+ HOMEPAGE = "http://www.gnu.org/software/gettext/gettext.html"
+ SECTION = "libs"
+-LICENSE = "GPL-3+ & LGPL-2.1+"
++LICENSE = "GPLv3+ & LGPL-2.1+"
+ LIC_FILES_CHKSUM = "file://COPYING;md5=d32239bcb673463ab874e80d47fae504"
+ 
+ PR = "r7"
 -- 
-------------------------------------------------------------
-Gary Thomas                 |  Consulting for the
-MLB Associates              |    Embedded world
-------------------------------------------------------------
+1.7.7.6
+
 
 
