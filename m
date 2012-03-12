@@ -1,18 +1,18 @@
 Received: from mail1.windriver.com ([147.11.146.13])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <mark.hatle@windriver.com>) id 1S7AX3-0008GZ-Gx
+	(envelope-from <mark.hatle@windriver.com>) id 1S7Aaj-0008L9-TB
 	for openembedded-core@lists.openembedded.org;
-	Mon, 12 Mar 2012 20:03:45 +0100
+	Mon, 12 Mar 2012 20:07:34 +0100
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca [147.11.189.40])
-	by mail1.windriver.com (8.14.3/8.14.3) with ESMTP id q2CIt0iY014826
+	by mail1.windriver.com (8.14.3/8.14.3) with ESMTP id q2CIwoN2014859
 	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 12 Mar 2012 11:55:01 -0700 (PDT)
+	Mon, 12 Mar 2012 11:58:50 -0700 (PDT)
 Received: from Macintosh-5.local (172.25.36.226) by ALA-HCA.corp.ad.wrs.com
 	(147.11.189.50) with Microsoft SMTP Server id 14.1.255.0;
-	Mon, 12 Mar 2012 11:55:00 -0700
-Message-ID: <4F5E4682.1030208@windriver.com>
-Date: Mon, 12 Mar 2012 13:54:58 -0500
+	Mon, 12 Mar 2012 11:58:50 -0700
+Message-ID: <4F5E4768.7030906@windriver.com>
+Date: Mon, 12 Mar 2012 13:58:48 -0500
 From: Mark Hatle <mark.hatle@windriver.com>
 Organization: Wind River Systems
 User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.6;
@@ -20,9 +20,9 @@ User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.6;
 MIME-Version: 1.0
 To: <openembedded-core@lists.openembedded.org>
 References: <cover.1330771239.git.xiaofeng.yan@windriver.com>
-	<0a62458fb91efc29de71daaf0feef58baa1e7f54.1330771239.git.xiaofeng.yan@windriver.com>
-In-Reply-To: <0a62458fb91efc29de71daaf0feef58baa1e7f54.1330771239.git.xiaofeng.yan@windriver.com>
-Subject: Re: [PATCH 2/3] archiver.bbclass: archive sources, patches, logs to tarball
+	<6b45ee6d33a54d9abcbc0dd28f383a4993795017.1330771239.git.xiaofeng.yan@windriver.com>
+In-Reply-To: <6b45ee6d33a54d9abcbc0dd28f383a4993795017.1330771239.git.xiaofeng.yan@windriver.com>
+Subject: Re: [PATCH 3/3] archiver_configure.bbclass: configure the content for archiving package
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -37,142 +37,91 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 12 Mar 2012 19:03:46 -0000
+X-List-Received-Date: Mon, 12 Mar 2012 19:07:34 -0000
 Content-Type: text/plain; charset="ISO-8859-1"; format=flowed
 Content-Transfer-Encoding: 7bit
 
-Apologies for the very late review...  see comments below.  All in all it looks 
-good.  But I have not applied it and tried it yet.
+A few quick comments to match up with the patch 2/3 comments..
 
 On 3/3/12 4:54 AM, Xiaofeng Yan wrote:
 > From: Xiaofeng Yan<xiaofeng.yan@windriver.com>
 >
-> Support the following functions in this bbclass:
+> This is configuration file to point to what content a archive package
+> should include in the different stage of task by pointing to different variable and
+> stage.
 >
-> 1 Archive sources in ${S} in the different stage to tarball (do_unpack,do_patch,do_configure).
-> 2 Archive patches including series to tarball
-> 3 Archive logs including scripts (.bb and .inc files) to tarball
-> 4 dump environment resources which show all variable and functions to be
->    used to xxx.showdata.dump when running a task
-> 5 dump all content in 's' including patches to file xxx.diff.gz
+> [YOCTO #1977]
 >
-> All of tarballs will be deployed to ${DEPLOY_DIR}/sources/
->
-> [#YOCTO 1977]
+> Signed-off-by: Xiaofeng Yan<xiaofeng.yan@windriver.com>
 >
 > Signed-off-by: Xiaofeng Yan<xiaofeng.yan@windriver.com>
 > ---
->   meta/classes/archiver.bbclass |  393 +++++++++++++++++++++++++++++++++++++++++
->   1 files changed, 393 insertions(+), 0 deletions(-)
->   create mode 100644 meta/classes/archiver.bbclass
+>   meta/classes/archiver_configure.bbclass |   35 +++++++++++++++++++++++++++++++
+>   1 files changed, 35 insertions(+), 0 deletions(-)
+>   create mode 100644 meta/classes/archiver_configure.bbclass
 >
-...
+> diff --git a/meta/classes/archiver_configure.bbclass b/meta/classes/archiver_configure.bbclass
+> new file mode 100644
+> index 0000000..c9892d3
+> --- /dev/null
+> +++ b/meta/classes/archiver_configure.bbclass
 
-> +def verify_var(d):
-> +	'''check the type for archiving package('tar' or 'srpm')'''
-> +	try:
-> +		if d.getVar('SOURCE_ARCHIVE_PACKAGE_TYPE', True).upper() not in d.getVar('ARCHIVE_TYPE', True).split():
-> +			raise AttributeError	
-> +	except AttributeError:
-> +			bb.fatal("\"SOURCE_ARCHIVE_PACKAGE_TYPE\" is \'tar\' or \'srpm\', no other types")
+This seems odd that configuration items would be in a .bbclass file.  I would 
+have expected the configuration to inherit the archiver, and then either a 
+default set of values be specified in the archive.bbclass or in the bitbake.conf 
+(or similar)....
 
-Error message should be something like:
+As for the defaults below, I think they are fine....
 
-bb.fatal("\"SOURCE_ARCHIVE_PACKAGE_TYPE\" should be \'tar\' or '\srpm\'")
-
-...
-
-> +def archive_sources_patches(d,middle_name):
-> +	'''archive sources and patches to tarball. middle_name will append strings ${middle_name} to ${PR} as middle name. for example, zlib-1.4.6-prepatch(middle_name).tar.gz '''
-> +	verify_var(d)	
-> +	if not_tarball(d):
-> +		return
-> +	
-> +	source_tar_name = archive_sources(d,middle_name)
-> +	if middle_name == "prepatch":
-> +		if d.getVar('PATCHES_ARCHIVE_WITH_SERIES',True).upper() == 'TRUE':
-> +			patch_tar_name = select_archive_patches(d,"all")
-> +		elif d.getVar('PATCHES_ARCHIVE_WITH_SERIES',True).upper() == 'FALSE':
-> +			patch_tar_name = select_archive_patches(d,"applying")
-> +		else:
-> +			bb.fatal("Please define 'PATCHES_ARCHIVE_WITH_SERIES' is strings 'True' or 'False' ")
-
-Instead of an explicit TRUE/FALSE setting, does it make sense for one to be the 
-default?  I'd suspect in this case "True" is the better default, but I'm not 
-completely sure.
-
-> +	else:
-> +		patch_tar_name = ''
+> @@ -0,0 +1,35 @@
+> +# This file is for getting tarball in different stage for sources, patches, and logs by configuring
+> +# the following variable and tasks
 > +
-> +	if d.getVar('SOURCE_ARCHIVE_PACKAGE_TYPE', True).upper() not in 'SRPM':
-> +		move_tarball_deploy(d,[source_tar_name,patch_tar_name])
+> +inherit archiver
 > +
-> +def archive_sources_patches_logs_copyleft(d,middle_name):
-> +	'''archive source, patches and logs according to the variable "COPYLEFT_COMPLIANCE", If this variable is 'True', then archive the packages for copy-left, or else archive all packages'''
-> +	verify_var(d)	
-> +	if not_tarball(d):
-> +		return
-> +	copyleft_compliance = d.getVar('COPYLEFT_COMPLIANCE', True)
-> +	if copyleft_compliance is None:
-> +		archive_sources_patches(d,middle_name)
-> +	elif copyleft_compliance.upper() == 'TRUE' and archive_copyleft(d):
-> +		archive_sources_patches(d,middle_name)
-
-I'm not sure I understand what is happening in this patch.  The way I read it:
-
-If COPYLEFT_COMPLIANCE is -not- set, then we archive..  otherwise if it is set 
-(true), and the copyleft item was inherited we also archive?
-
-But I'm not sure I understand why this set of checks.
-
-
-...
-
-> +def dumpdata(d):
-> +	'''dump environment to "${P}-${PR}.showdata.dump" including all kinds of varibale and functions when running a task'''
-
-Simple typo above, should be "variable".
-
-...
-
-> +# This functions prepare for archiving "linux-yocto" because this package create directory 's' before do_patch instead of after do_unpack.
-> +# This is special control for archiving linux-yocto only.
-> +python do_archive_linux_yocto(){
-> +	s = d.getVar('S', True)
-> +	if 'linux-yocto' in s:
-> +		source_tar_name = archive_sources(d,'')
-> +	if d.getVar('SOURCE_ARCHIVE_PACKAGE_TYPE', True).upper() not in 'SRPM':
-> +		move_tarball_deploy(d,[source_tar_name,''])
-> +}
-
-Is there something we can change in linux-yocto to make the standard methods 
-work?  I'm hesitant to put special logic in the archiver class for a single 
-package.  (Note, I'm more likely to think it's reasonable for the kernel's 
-package then a random userspace package!)
-
-> +do_kernel_checkout[postfuncs] += "do_archive_linux_yocto "
+> +# SOURCE_ARCHIVE_PACKAGE_TYPE = {'tar','srpm'}
+> +SOURCE_ARCHIVE_PACKAGE_TYPE = 'tar'
 > +
+> +# SOURCE_ARCHIVE_LOG_WITH_SCRIPTS = {'logs_with_scripts', 'logs'}
+> +# String 'logs_with_scripts' include temp directory and .bb and .inc file
+> +# String 'logs' only include temp
+> +SOURCE_ARCHIVE_LOG_WITH_SCRIPTS = 'logs_with_scripts'
+> +
+> +# PATCHES_ARCHIVE_WITH_SERIES = {'true', 'false'}
+> +# Strings 'true' means that patches including series files(series + non-applying)
+> +# String 'false' means that no series and only archive applying patches
+> +PATCHES_ARCHIVE_WITH_SERIES = 'true'
+> +
+> +# Archive packages for copy-left
+> +#COPYLEFT_COMPLIANCE = 'true'
+> +
+> +# Open this item when you want to get original sources tarball with patches
+> +do_unpack[postfuncs] += "do_archive_original_sources_patches "
 
-Is the real issue that we want to run something just before do_patch, but we 
-also want to let any arbitrary tasks between do_unpack and do_patch to run 
-first?  Is there an alternative way to state this?  [or at least detect a 
-situation where we haven't waited?]
+Instead of do_unpack[postfuncs] would a do_patch[prefuncs] be better?  This 
+would ensure that do_unpack and all other tasks between do_unpack and do_patch 
+were run first... then do we can archive the results..
 
-> +# remove tarball for sources, patches and logs after creating srpm.
-> +python do_remove_tarball(){
-> +	if d.getVar('SOURCE_ARCHIVE_PACKAGE_TYPE', True).upper() == 'SRPM':
-> +		work_dir = d.getVar('WORKDIR', True)
-> +		os.chdir(work_dir)
-> +		for file in os.listdir(os.getcwd()):
-> +			if '.tar.gz' in file:
-> +				os.remove(file)
-> +}
-> +do_remove_taball[deptask] = "do_archive_scripts_logs"
-> +do_package_write_rpm[postfuncs] += "do_remove_tarball "
+> +
+> +# Open this item when you want to get tarball for patched sources including patches
+> +#do_patch[postfuncs] += "do_archive_patched_sources "
 
-Finally do we really need to remove the tarball?  It can likely just stay 
-around, when the user wipes out/cleans the WORKDIR it will go away on it's own?
+Perhaps the same here between do_patch and do_configure...
 
 --Mark
+
+> +
+> +# Open this item when you want to get tarball for configured sources including patches
+> +#do_configure[postfuncs] += "do_archive_configured_sources "
+> +
+> +# Open this item when you want to get tarball for logs tarball
+> +do_package_write_rpm[prefuncs] += "do_archive_scripts_logs "
+> +
+> +# Get dump date and create diff file
+> +do_package_write_rpm[postfuncs] += "do_dumpdata_create_diff_gz "
+> -- 1.7.0.4 _______________________________________________ Openembedded-core
+> mailing list Openembedded-core@lists.openembedded.org
+> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
+>
 
 
