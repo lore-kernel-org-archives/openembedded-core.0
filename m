@@ -1,16 +1,16 @@
 Received: from ffm.saftware.de ([83.141.3.46])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <obi@opendreambox.org>) id 1S7CrT-0006Vt-Ou
+	(envelope-from <obi@opendreambox.org>) id 1S7CrU-0006W5-BJ
 	for openembedded-core@lists.openembedded.org;
-	Mon, 12 Mar 2012 22:32:59 +0100
+	Mon, 12 Mar 2012 22:33:00 +0100
 From: Andreas Oberritter <obi@opendreambox.org>
 To: openembedded-core@lists.openembedded.org
-Date: Mon, 12 Mar 2012 22:24:11 +0100
-Message-Id: <1331587452-27755-5-git-send-email-obi@opendreambox.org>
+Date: Mon, 12 Mar 2012 22:24:10 +0100
+Message-Id: <1331587452-27755-4-git-send-email-obi@opendreambox.org>
 X-Mailer: git-send-email 1.7.5.4
 In-Reply-To: <1331587452-27755-1-git-send-email-obi@opendreambox.org>
 References: <1331587452-27755-1-git-send-email-obi@opendreambox.org>
-Subject: [PATCH 4/5] python-native: distutils: don't use libdir, remove dead code path
+Subject: [PATCH 3/5] python: depend on bzip2
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -25,42 +25,28 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 12 Mar 2012 21:32:59 -0000
+X-List-Received-Date: Mon, 12 Mar 2012 21:33:00 -0000
 
-* Coming from OE-classic it was surprising that python-native now
-  requires 'libdir' to be exported. Otherwise autoconf would fail
-  to detect python libraries. This happend using a customized
-  environment setup script to use OE's compiler and libs without
-  bitbake.
-* Use STAGING_LIBDIR instead of libdir.
-* While at it, remove redundant 'and' statments.
+* Python auto-detects libbz2 and there's no way to
+  force-disable it, so just enable it.
+* Adds bz2 support to python-compression.
 
 Signed-off-by: Andreas Oberritter <obi@opendreambox.org>
 ---
- ...2-distutils-prefix-is-inside-staging-area.patch |    6 +++---
- 1 files changed, 3 insertions(+), 3 deletions(-)
+ meta/recipes-devtools/python/python_2.7.2.bb |    2 +-
+ 1 files changed, 1 insertions(+), 1 deletions(-)
 
-diff --git a/meta/recipes-devtools/python/python-native/12-distutils-prefix-is-inside-staging-area.patch b/meta/recipes-devtools/python/python-native/12-distutils-prefix-is-inside-staging-area.patch
-index b46caf6..f89aaff 100644
---- a/meta/recipes-devtools/python/python-native/12-distutils-prefix-is-inside-staging-area.patch
-+++ b/meta/recipes-devtools/python/python-native/12-distutils-prefix-is-inside-staging-area.patch
-@@ -30,13 +30,13 @@ Upstream-Status: Inappropriate [embedded specific]
-      If 'prefix' is supplied, use it instead of sys.prefix or
-      sys.exec_prefix -- i.e., ignore 'plat_specific'.
-      """
--+    lib_basename = os.getenv("libdir").split('/')[-1]
-++    lib_basename = os.environ['STAGING_LIBDIR'].split('/')[-1]
-      if prefix is None:
- -        prefix = plat_specific and EXEC_PREFIX or PREFIX
- +        if plat_specific:
--+            prefix = plat_specific and os.environ['STAGING_LIBDIR'].rstrip(lib_basename)
-++            prefix = os.environ['STAGING_LIBDIR'].rstrip(lib_basename)
- +        else:
--+            prefix = plat_specific and EXEC_PREFIX or PREFIX
-++            prefix = PREFIX
-  
-      if os.name == "posix":
-          libpython = os.path.join(prefix,
+diff --git a/meta/recipes-devtools/python/python_2.7.2.bb b/meta/recipes-devtools/python/python_2.7.2.bb
+index 6317bb9..6214c71 100644
+--- a/meta/recipes-devtools/python/python_2.7.2.bb
++++ b/meta/recipes-devtools/python/python_2.7.2.bb
+@@ -1,5 +1,5 @@
+ require python.inc
+-DEPENDS = "python-native db gdbm openssl readline sqlite3 zlib"
++DEPENDS = "python-native bzip2 db gdbm openssl readline sqlite3 zlib"
+ DEPENDS_sharprom = "python-native db readline zlib gdbm openssl"
+ PR = "${INC_PR}.6"
+ 
 -- 
 1.7.5.4
 
