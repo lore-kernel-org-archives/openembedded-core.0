@@ -1,44 +1,36 @@
-Received: from mga12.intel.com ([143.182.124.36] helo=azsmga102.ch.intel.com)
+Received: from mail.dream-property.net ([82.149.226.172])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <scott.a.garman@intel.com>) id 1S7Xzp-00021Z-Bq
+	(envelope-from <obi@opendreambox.org>) id 1S7Ypt-0002yB-G6
 	for openembedded-core@lists.openembedded.org;
-	Tue, 13 Mar 2012 21:07:01 +0100
-Received: from mail-gx0-f180.google.com ([209.85.161.180])
-	by mga14.intel.com with ESMTP/TLS/RC4-SHA; 13 Mar 2012 12:58:10 -0700
-Received: by gglu1 with SMTP id u1so1347707ggl.25
+	Tue, 13 Mar 2012 22:00:49 +0100
+Received: from localhost (localhost [127.0.0.1])
+	by mail.dream-property.net (Postfix) with ESMTP id DB1123159D13
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 13 Mar 2012 12:58:09 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=google.com; s=20120113;
-	h=message-id:date:from:user-agent:mime-version:to:subject:references
-	:in-reply-to:content-type:content-transfer-encoding
-	:x-gm-message-state;
-	bh=meYSeaSQNts3juSQMapd+owRWIlwdbY7JOhvipOKeZc=;
-	b=ULYvd54FqrXH+E0QqQWcKnl2T5NV7G8tJTQvtOCiLc9YxZ9dnHzolGD7bAKB+ksld6
-	9Ofhd+fQyQPEmZa97Ys3aCyna1ilg7zgKZOJnSbvELyqIowypML7MMOBbkS2MXErKNDA
-	NwM2LyQSSZ+uY3TfHzxfRjl5ftUELWvQgMNQoENORCCa9PyjgLDU1nXXmm4ZDsTm8J4G
-	u7KUedlxgDQYTZEyBVGS8JiWuwplvU/spkeUPLSLtdBV2QzCaBe1iOi4urLAj0g/BPvm
-	GqitINbFvjnjvFSP+akiqS1ZzmtQpiy4GR0r8YnXziZNh7iMXSE8KrLVnCmy/gWvEDJT
-	chxg==
-Received: by 10.60.4.106 with SMTP id j10mr12863009oej.47.1331668689244;
-	Tue, 13 Mar 2012 12:58:09 -0700 (PDT)
-Received: from [192.168.1.12] (c-76-105-137-48.hsd1.or.comcast.net.
-	[76.105.137.48])
-	by mx.google.com with ESMTPS id b6sm2288991obe.12.2012.03.13.12.58.07
-	(version=SSLv3 cipher=OTHER); Tue, 13 Mar 2012 12:58:08 -0700 (PDT)
-Message-ID: <4F5FA6D7.6070501@intel.com>
-Date: Tue, 13 Mar 2012 12:58:15 -0700
-From: Scott Garman <scott.a.garman@intel.com>
+	Tue, 13 Mar 2012 21:52:06 +0100 (CET)
+X-Virus-Scanned: Debian amavisd-new at mail.dream-property.net
+Received: from mail.dream-property.net ([127.0.0.1])
+	by localhost (mail.dream-property.net [127.0.0.1]) (amavisd-new,
+	port 10024) with LMTP id 6by5Y-iCw1dJ
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 13 Mar 2012 21:51:55 +0100 (CET)
+Received: from [172.22.22.61] (drms-590cf1f2.pool.mediaWays.net
+	[89.12.241.242])
+	(using TLSv1 with cipher DHE-RSA-AES256-SHA (256/256 bits))
+	(No client certificate requested)
+	by mail.dream-property.net (Postfix) with ESMTPSA id 59F1A3159912
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 13 Mar 2012 21:51:55 +0100 (CET)
+Message-ID: <4F5FB36A.8020007@opendreambox.org>
+Date: Tue, 13 Mar 2012 21:51:54 +0100
+From: Andreas Oberritter <obi@opendreambox.org>
 User-Agent: Mozilla/5.0 (X11; Linux x86_64;
 	rv:10.0.2) Gecko/20120216 Thunderbird/10.0.2
 MIME-Version: 1.0
 To: openembedded-core@lists.openembedded.org
 References: <cover.1331604310.git.scott.a.garman@intel.com>
-	<2e3c4ca4c3c2dfc8b8e1333e61b239251b4f4efb.1331604310.git.scott.a.garman@intel.com>
-	<1331644607.16878.0.camel@ted>
-In-Reply-To: <1331644607.16878.0.camel@ted>
-X-Gm-Message-State: ALoCoQkYbapc84VpgqqPmwHIuyyFDOp2TE3CxB8vQEgNMe3lnWR6k83dduWf0yHouEBKeqHf28NK
-Subject: Re: [PATCH 3/3] gettext: do not set libncurses prefix explicitly
+	<f876555e0b49baed50840adb1d93e8338ab9d7ef.1331604310.git.scott.a.garman@intel.com>
+In-Reply-To: <f876555e0b49baed50840adb1d93e8338ab9d7ef.1331604310.git.scott.a.garman@intel.com>
+Subject: Re: [PATCH 2/3] ncurses: move only libncurses and libtinfo to base_libdir
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -53,70 +45,139 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 13 Mar 2012 20:07:01 -0000
-Content-Type: text/plain; charset=ISO-8859-1; format=flowed
+X-List-Received-Date: Tue, 13 Mar 2012 21:00:49 -0000
+Content-Type: text/plain; charset=ISO-8859-1
 Content-Transfer-Encoding: 7bit
 
-On 03/13/2012 06:16 AM, Richard Purdie wrote:
-> On Mon, 2012-03-12 at 19:08 -0700, Scott Garman wrote:
->> The --with-libncurses-prefix configure option was added before
->> this recipe had ncurses in DEPENDS, so it should be safe to
->> remove it.
->>
->> Signed-off-by: Scott Garman<scott.a.garman@intel.com>
->> ---
->>   meta/recipes-core/gettext/gettext_0.18.1.1.bb |    5 +----
->>   1 files changed, 1 insertions(+), 4 deletions(-)
->>
->> diff --git a/meta/recipes-core/gettext/gettext_0.18.1.1.bb b/meta/recipes-core/gettext/gettext_0.18.1.1.bb
->> index 3c65dca..daee5c0 100644
->> --- a/meta/recipes-core/gettext/gettext_0.18.1.1.bb
->> +++ b/meta/recipes-core/gettext/gettext_0.18.1.1.bb
->> @@ -5,7 +5,7 @@ SECTION = "libs"
->>   LICENSE = "GPL-3+&  LGPL-2.1+"
->>   LIC_FILES_CHKSUM = "file://COPYING;md5=d32239bcb673463ab874e80d47fae504"
->>
->> -PR = "r7"
->> +PR = "r8"
->>   DEPENDS = "libxml2-native gettext-native virtual/libiconv ncurses expat"
->>   DEPENDS_virtclass-native = "libxml2-native"
->>   PROVIDES = "virtual/libintl virtual/gettext"
->> @@ -21,8 +21,6 @@ SRC_URI_append_libc-uclibc = " file://wchar-uclibc.patch \
->>   SRC_URI[md5sum] = "3dd55b952826d2b32f51308f2f91aa89"
->>   SRC_URI[sha256sum] = "93ac71a7afa5b70c1b1032516663658c51e653087f42a3fc8044752c026443e9"
->>
->> -#PARALLEL_MAKE = ""
->> -
->>   inherit autotools
->>
->>   EXTRA_OECONF += "--without-lispdir \
->> @@ -32,7 +30,6 @@ EXTRA_OECONF += "--without-lispdir \
->>                    --disable-native-java \
->>                    --disable-openmp \
->>                    --with-included-glib \
->> -                 --with-libncurses-prefix=${STAGING_LIBDIR}/.. \
->>                    --without-emacs \
->>                    --without-cvs \
->>                    --without-git \
->
-> Sadly this breaks gettext for me as I'm now seeing things like:
->
-> i586-poky-linux-libtool: link: i586-poky-linux-gcc -m32 -march=i586 --sysroot=/media/build1/poky/build/tmp/sysroots/qemux86 -std=gnu99 -O2 -pipe -g -feliminate-unused-debug-types -Wl,-O1 -Wl,--hash-style=gnu -Wl,--as-needed -o .libs/recode-sr-latin recode_sr_latin-recode-sr-latin.o recode_sr_latin-filter-sr-latin.o  ../gnulib-lib/.libs/libgettextlib.so -L/usr/lib -lc -lncurses
-> /media/build1/poky/build/tmp/sysroots/x86_64-linux/usr/libexec/i586-poky-linux/gcc/i586-poky-linux/4.6.4/ld: warning: library search path "/usr/lib" is unsafe for cross-compilation
-> /media/build1/poky/build/tmp/sysroots/x86_64-linux/usr/libexec/i586-poky-linux/gcc/i586-poky-linux/4.6.4/ld: skipping incompatible /usr/lib/libtinfo.so when searching for -ltinfo
-> /media/build1/poky/build/tmp/sysroots/x86_64-linux/usr/libexec/i586-poky-linux/gcc/i586-poky-linux/4.6.4/ld: skipping incompatible /usr/lib/libtinfo.a when searching for -ltinfo
->
-> in the logs which triggers a QA warning.
+On 13.03.2012 03:08, Scott Garman wrote:
+> The previous approach to moving the ncurses libraries to
+> base_libdir was too aggressive, and it broke curses support
+> in python.
+> 
+> Instead, move only libncurses, libncursesw, and libtinfo to
+> base_libdir and leave the remaining libraries in libdir.
+> 
+> Also delete ${libdir}/terminfo as it never gets packaged to
+> avoid a QA warning.
+> 
+> This fixes [YOCTO #2070] and is a partial fix for [YOCTO #1937].
 
-Argh. Please revert that commit then. It was harmless on my two build 
-test systems, but apparently it is needed on others to avoid host 
-contamination.
+Hello Scott,
 
-Scott
+package splitting doesn't seem to work anymore. Libs that previously had
+their own package now end up being stored in the main ncurses package.
 
--- 
-Scott Garman
-Embedded Linux Engineer - Yocto Project
-Intel Open Source Technology Center
+Regards,
+Andreas
+
+> Signed-off-by: Scott Garman <scott.a.garman@intel.com>
+> ---
+>  meta/recipes-core/ncurses/ncurses.inc |   40 +++++++++++++++++++++++----------
+>  1 files changed, 28 insertions(+), 12 deletions(-)
+> 
+> diff --git a/meta/recipes-core/ncurses/ncurses.inc b/meta/recipes-core/ncurses/ncurses.inc
+> index 3b10c43..e450868 100644
+> --- a/meta/recipes-core/ncurses/ncurses.inc
+> +++ b/meta/recipes-core/ncurses/ncurses.inc
+> @@ -6,7 +6,7 @@ LIC_FILES_CHKSUM = "file://ncurses/base/version.c;beginline=1;endline=27;md5=cbc
+>  SECTION = "libs"
+>  DEPENDS = "ncurses-native"
+>  DEPENDS_virtclass-native = ""
+> -INC_PR = "r4"
+> +INC_PR = "r5"
+>  
+>  inherit autotools binconfig multilib_header
+>  
+> @@ -44,7 +44,6 @@ ncurses_configure() {
+>  	        --enable-hard-tabs \
+>  	        --enable-xmc-glitch \
+>  	        --enable-colorfgbg \
+> -	        --libdir=${base_libdir} \
+>  	        --with-termpath='${sysconfdir}/termcap:${datadir}/misc/termcap' \
+>  	        --with-terminfo-dirs='${sysconfdir}/terminfo:${datadir}/terminfo' \
+>  	        --with-shared \
+> @@ -114,7 +113,12 @@ _install_opts = "\
+>    install.libs install.includes install.man \
+>  "
+>  
+> -do_install() {
+> +python do_install () {
+> +	bb.build.exec_func("shell_do_install", d)
+> +	oe.path.make_relative_symlink(d.expand("${D}${libdir}/libtinfo.so"))
+> +}
+> +
+> +shell_do_install() {
+>          # Order of installation is important; widec installs a 'curses.h'
+>          # header with more definitions and must be installed last hence.
+>          # Compatibility of these headers will be checked in 'do_test()'.
+> @@ -147,6 +151,8 @@ do_install() {
+>                  ln -sf xterm-color ${D}${sysconfdir}/terminfo/x/xterm
+>          fi
+>  
+> +        rm ${D}${libdir}/terminfo
+> +
+>          if [ "${PN}" = "ncurses" ]; then
+>                  mv ${D}${bindir}/clear ${D}${bindir}/clear.${PN}
+>                  mv ${D}${bindir}/reset ${D}${bindir}/reset.${PN}
+> @@ -158,7 +164,7 @@ do_install() {
+>          # else when '-Wl,--no-copy-dt-needed-entries' has been set in
+>          # linker flags.
+>          for i in libncurses libncursesw; do
+> -                f=${D}${base_libdir}/$i.so
+> +                f=${D}${libdir}/$i.so
+>                  test -h $f || continue
+>                  rm -f $f
+>                  echo '/* GNU ld script */'  >$f
+> @@ -167,20 +173,33 @@ do_install() {
+>  
+>          # Make sure that libcurses is linked so that it gets -ltinfo
+>          # also, this should be addressed upstream really.
+> -        ln -sf libncurses.so ${D}${base_libdir}/libcurses.so
+> +        ln -sf libncurses.so ${D}${libdir}/libcurses.so
+>  
+>          # create libtermcap.so linker script for backward compatibility
+> -        f=${D}${base_libdir}/libtermcap.so
+> +        f=${D}${libdir}/libtermcap.so
+>          echo '/* GNU ld script */' >$f
+>          echo 'INPUT(AS_NEEDED(-ltinfo))' >>$f
+>  
+> +        if [ ! -d "${D}${base_libdir}" ]; then
+> +            # Setting base_libdir to libdir as is done in the -native
+> +            # case will skip this code
+> +            mkdir ${D}${base_libdir}
+> +            mv ${D}${libdir}/libncurses.so.* ${D}${base_libdir}
+> +            mv ${D}${libdir}/libncursesw.so.* ${D}${base_libdir}
+> +
+> +            mv ${D}${libdir}/libtinfo.so.* ${D}${base_libdir}
+> +            rm ${D}${libdir}/libtinfo.so
+> +            # We'll turn this into a relative symlink after do_install returns
+> +            ln -sf ${D}${base_libdir}/libtinfo.so.5 ${D}${libdir}/libtinfo.so
+> +        fi
+> +
+>          oe_multilib_header curses.h
+>  }
+>  
+>  python populate_packages_prepend () {
+> -        base_libdir = d.expand("${base_libdir}")
+> +        libdir = d.expand("${libdir}")
+>          pnbase = d.expand("${PN}-lib%s")
+> -        do_split_packages(d, base_libdir, '^lib(.*)\.so\..*', pnbase, 'ncurses %s library', prepend=True, extra_depends = '', allow_links=True)
+> +        do_split_packages(d, libdir, '^lib(.*)\.so\..*', pnbase, 'ncurses %s library', prepend=True, extra_depends = '', allow_links=True)
+>  }
+>  
+>  
+> @@ -212,10 +231,7 @@ FILES_${PN} = "\
+>    ${bindir}/ncurses5-config \
+>    ${bindir}/ncursesw5-config \
+>    ${datadir}/tabset \
+> -"
+> -
+> -FILES_${PN}-dev += "\
+> - ${base_libdir}/*.so \
+> +  ${base_libdir}/* \
+>  "
+>  
+>  # This keeps only tput/tset in ncurses
+
 
 
