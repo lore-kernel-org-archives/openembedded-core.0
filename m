@@ -1,32 +1,27 @@
-Received: from mail-iy0-f175.google.com ([209.85.210.175])
+Received: from masterfoo.zenlinux.com ([207.192.74.254])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <jefro.net@gmail.com>)
-	id 1S7Fps-0001jm-NE; Tue, 13 Mar 2012 01:43:32 +0100
-Received: by iaag37 with SMTP id g37so7219822iaa.6
-	for <multiple recipients>; Mon, 12 Mar 2012 17:34:48 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:sender:date:x-google-sender-auth:message-id:subject
-	:from:to:content-type;
-	bh=UkREer0mShOQmez2pKWUXOIcQHRFCQBN2PUebTg/+NQ=;
-	b=sKxl+c3LTAzD62ZFOnWy+y0eTPNsnI8ehpkkuRAi7qmFRx1wcuGH/Otqp8kOU9UDbc
-	ereoDTMKWtZ+4Ctx3AMALVf2SyXOLI3vOuUrXTXYPs0OvYW2VNZB8xOFwpYUD4NZoQND
-	dOFjtx9u0B0hleVDVc5NMqh1UpJ2pm8BcfaO6U3oRlS3LROdsFci0kL391hnAvHRMoTG
-	64muBB5vDoa+fxggtUT8W8orPYUiwrw5st4Ij7ksvpp6q//louWYR/ILpSffu9N+rDcb
-	qA/RX+mDuS/mZNXSAMC+gaLVKfwe0OZfp/jQr6VV5huRmQJNM+vRj6hGtbVucxMkhuHl
-	hVQg==
-MIME-Version: 1.0
-Received: by 10.50.11.201 with SMTP id s9mr1530038igb.3.1331598888283; Mon, 12
-	Mar 2012 17:34:48 -0700 (PDT)
-Sender: jefro.net@gmail.com
-Received: by 10.50.127.38 with HTTP; Mon, 12 Mar 2012 17:34:48 -0700 (PDT)
-Date: Mon, 12 Mar 2012 17:34:48 -0700
-X-Google-Sender-Auth: W7ZUQThvhWPTkp-c5uYRb7fE3GA
-Message-ID: <CA+YB3rYaH8enP8htuvXX-XHExJWwL7cepX5ckKtq7QMqFD-q3g@mail.gmail.com>
-From: Jeff Osier-Mixon <jefro@jefro.net>
-To: openembedded-core <openembedded-core@lists.openembedded.org>, 
-	openembedded-devel@lists.openembedded.org, 
-	openembedded-members@lists.openembedded.org
-Subject: Linux Foundation Collaboration Summit April 3-5 San Francisco
+	(envelope-from <scott.a.garman@intel.com>) id 1S7HIx-0003Qa-QP
+	for openembedded-core@lists.openembedded.org;
+	Tue, 13 Mar 2012 03:17:39 +0100
+Received: from localhost (c-76-105-137-48.hsd1.or.comcast.net [76.105.137.48])
+	(using TLSv1 with cipher DHE-RSA-AES128-SHA (128/128 bits))
+	(No client certificate requested)
+	by masterfoo.zenlinux.com (Postfix) with ESMTP id 8A18330511
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 12 Mar 2012 22:08:48 -0400 (EDT)
+From: Scott Garman <scott.a.garman@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Mon, 12 Mar 2012 19:08:44 -0700
+Message-Id: <cover.1331604310.git.scott.a.garman@intel.com>
+X-Mailer: git-send-email 1.7.5.4
+X-MasterFoo-MailScanner-Information: Please contact the ISP for more
+	information
+X-MailScanner-ID: 8A18330511.0B4DC
+X-MasterFoo-MailScanner: Found to be clean
+X-MasterFoo-MailScanner-SpamCheck: not spam
+X-MasterFoo-MailScanner-From: scott.a.garman@intel.com
+X-Spam-Status: No
+Subject: [PATCH 0/3] ncurses library location fix
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -41,59 +36,39 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 13 Mar 2012 00:43:33 -0000
-Content-Type: multipart/alternative; boundary=e89a8f646c21b82fba04bb150606
+X-List-Received-Date: Tue, 13 Mar 2012 02:17:40 -0000
 
---e89a8f646c21b82fba04bb150606
-Content-Type: text/plain; charset=ISO-8859-1
+Hello,
 
-The Linux Foundation is holding their annual Collaboration Summit in San
-Francisco April 3-5. This is a free, invitation-only event that is set up
-as a place for Linux Foundation workgroups to collaborate. This year the
-Yocto Project will host a day-long working session on Wednesday, April
-4, outlined on the Collab Summit schedule at
-https://events.linuxfoundation.org/events/collaboration-summit/schedule. As
-the Yocto Project's community manager, I want to encourage you to request
-an invitation and attend the Yocto Project workday,
+This pull request improves the way ncurses libraries are installed,
+moving only libncurses, libncursesw, and libtinfo soname libs into
+base_libdir, and leaving everything else in libdir. This is how
+ncurses is packaged on my Ubuntu host, and doing things this way
+fixes bug #2070 so ncurses will work within python again. It is
+also a partial bugfix for bug #1937.
 
-You can request an invitation here:
-https://events.linuxfoundation.org/events/collaboration-summit/request-an-invitation
+Scott
 
-Please note: the number of attendees at Collab Summit is very limited and
-invitation requests are *not* guaranteed to provide invitations. Also
-please note that I have no control over who receives an invitation. :)
- Hope to see you there.
+The following changes since commit f47ada62a3da879006e7cb27479dc9b72c56e923:
+
+  cmake.bbclass: add ${base_libdir} to CMAKE_LIBRARY_PATH (2012-03-12 17:46:16 +0000)
+
+are available in the git repository at:
+  git://git.pokylinux.org/poky-contrib sgarman/python-ncurses-fix-oe
+  http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=sgarman/python-ncurses-fix-oe
+
+Scott Garman (3):
+  path.py: add make_relative_symlink method
+  ncurses: move only libncurses and libtinfo to base_libdir
+  gettext: do not set libncurses prefix explicitly
+
+ meta/lib/oe/path.py                           |   27 +++++++++++++++++
+ meta/recipes-core/gettext/gettext_0.18.1.1.bb |    5 +--
+ meta/recipes-core/ncurses/ncurses.inc         |   40 +++++++++++++++++-------
+ 3 files changed, 56 insertions(+), 16 deletions(-)
 
 -- 
-Jeff Osier-Mixon http://jefro.net/blog
-Yocto Project Community Manager @Intel http://yoctoproject.org
+1.7.5.4
 
---e89a8f646c21b82fba04bb150606
-Content-Type: text/html; charset=ISO-8859-1
-Content-Transfer-Encoding: quoted-printable
 
-The Linux Foundation is holding their annual Collaboration Summit in San Fr=
-ancisco April 3-5. This is a free, invitation-only event that is set up as =
-a place for Linux Foundation workgroups to collaborate. This year the Yocto=
- Project will host a day-long working session=A0on Wednesday, April 4,=A0ou=
-tlined on the Collab Summit schedule at=A0<a href=3D"https://events.linuxfo=
-undation.org/events/collaboration-summit/schedule">https://events.linuxfoun=
-dation.org/events/collaboration-summit/schedule</a>.=A0As the Yocto Project=
-&#39;s community manager, I want to encourage you to request an invitation =
-and attend the Yocto Project workday,=A0<div>
-<div><br></div><div>You can request an invitation here:=A0<a href=3D"https:=
-//events.linuxfoundation.org/events/collaboration-summit/request-an-invitat=
-ion">https://events.linuxfoundation.org/events/collaboration-summit/request=
--an-invitation</a><br>
-<div><br></div><div>Please note: the number of attendees at Collab Summit i=
-s very limited and invitation requests are *not* guaranteed to provide invi=
-tations. Also please note that I have no control over who receives an invit=
-ation. :) =A0Hope to see you there.</div>
-<div><br></div>-- <br>Jeff Osier-Mixon <a href=3D"http://jefro.net/blog" ta=
-rget=3D"_blank">http://jefro.net/blog</a><div>Yocto Project Community Manag=
-er @Intel <a href=3D"http://yoctoproject.org" target=3D"_blank">http://yoct=
-oproject.org</a></div>
-<br>
-</div></div>
 
---e89a8f646c21b82fba04bb150606--
