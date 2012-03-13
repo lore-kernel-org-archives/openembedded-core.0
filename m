@@ -1,14 +1,28 @@
-Received: from ffm.saftware.de ([83.141.3.46])
+Received: from mail.windriver.com ([147.11.1.11])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <obi@opendreambox.org>) id 1S7XJd-00010W-9V
+	(envelope-from <Randy.MacLeod@windriver.com>) id 1S7XKb-00012w-Be
 	for openembedded-core@lists.openembedded.org;
-	Tue, 13 Mar 2012 20:23:25 +0100
-From: Andreas Oberritter <obi@opendreambox.org>
-To: openembedded-core@lists.openembedded.org
-Date: Tue, 13 Mar 2012 20:14:40 +0100
-Message-Id: <1331666080-25116-1-git-send-email-obi@opendreambox.org>
-X-Mailer: git-send-email 1.7.5.4
-Subject: [PATCH] initscripts: test whether /etc/init.d/hwclock.sh exists
+	Tue, 13 Mar 2012 20:24:25 +0100
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca [147.11.189.40])
+	by mail.windriver.com (8.14.3/8.14.3) with ESMTP id q2DG0KMP029921
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
+	Tue, 13 Mar 2012 09:00:20 -0700 (PDT)
+Received: from [128.224.147.222] (128.224.147.222) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server id 14.1.255.0;
+	Tue, 13 Mar 2012 09:00:20 -0700
+Message-ID: <4F5F6F13.9000805@windriver.com>
+Date: Tue, 13 Mar 2012 12:00:19 -0400
+From: Randy MacLeod <randy.macleod@windriver.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:10.0.2) Gecko/20120216 Thunderbird/10.0.2
+MIME-Version: 1.0
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+References: <cover.1328226197.git.sgw@linux.intel.com>
+	<1b3db3597c2b644e61394014886082eb212eef1a.1328226197.git.sgw@linux.intel.com>
+In-Reply-To: <1b3db3597c2b644e61394014886082eb212eef1a.1328226197.git.sgw@linux.intel.com>
+X-Originating-IP: [128.224.147.222]
+Subject: Re: [PATCH 12/14] xinit: Update to 1.3.2 -- Typo fix.
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -23,53 +37,67 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 13 Mar 2012 19:23:25 -0000
+X-List-Received-Date: Tue, 13 Mar 2012 19:24:25 -0000
+Content-Type: text/plain; charset="ISO-8859-1"; format=flowed
+Content-Transfer-Encoding: 7bit
 
-* bootmisc.sh executes /etc/init.d/hwclock.sh, which
-  is optional (depends on CONFIG_HWCLOCK in busybox).
+On 12-02-02 06:47 PM, Saul Wold wrote:
+> Signed-off-by: Saul Wold<sgw@linux.intel.com>
+> ---
+>   .../xorg-app/{xinit_1.3.1.bb =>  xinit_1.3.2.bb}    |    6 +++---
+>   1 files changed, 3 insertions(+), 3 deletions(-)
+>   rename meta/recipes-graphics/xorg-app/{xinit_1.3.1.bb =>  xinit_1.3.2.bb} (79%)
+>
+> diff --git a/meta/recipes-graphics/xorg-app/xinit_1.3.1.bb b/meta/recipes-graphics/xorg-app/xinit_1.3.2.bb
+> similarity index 79%
+> rename from meta/recipes-graphics/xorg-app/xinit_1.3.1.bb
+> rename to meta/recipes-graphics/xorg-app/xinit_1.3.2.bb
+> index 2ddebe6..e029a03 100644
+> --- a/meta/recipes-graphics/xorg-app/xinit_1.3.1.bb
+> +++ b/meta/recipes-graphics/xorg-app/xinit_1.3.2.bb
+> @@ -10,11 +10,11 @@ then terminate."
+>
+>   LIC_FILES_CHKSUM = "file://COPYING;md5=0d4b5eef75f1584ccbdc5e4a34314407"
+>
+> -PR = "r2"
+> +PR = "r0"
+>   PE = "1"
+>
+> -SRC_URI[md5sum] = "ee234056d8a3dbf37b61b4bcb35b88e4"
+> -SRC_URI[sha256sum] = "c7468dfae94bdb42785d79623c27156dc4bf379d8372992830482cb04d8439b0"
+> +RC_URI[md5sum] = "9c0943cbd83e489ad1b05221b97efd44"
+> +SRC_URI[sha256sum] = "a1867fdaa83f68750b12ba4305c3c62f5992d0f52cfeb98e96c27a8e690e0235"
+>
+>   EXTRA_OECONF = "ac_cv_path_MCOOKIE=${bindir}/mcookie"
+>
+Fix this warning:
+WARNING: Missing md5 SRC_URI checksum for
+   /.../downloads/xinit-1.3.2.tar.bz2, consider adding to the recipe:
+SRC_URI[md5sum] = "9c0943cbd83e489ad1b05221b97efd44"
 
-Signed-off-by: Andreas Oberritter <obi@opendreambox.org>
----
- .../initscripts/initscripts-1.0/bootmisc.sh        |    4 ++--
- meta/recipes-core/initscripts/initscripts_1.0.bb   |    2 +-
- 2 files changed, 3 insertions(+), 3 deletions(-)
 
-diff --git a/meta/recipes-core/initscripts/initscripts-1.0/bootmisc.sh b/meta/recipes-core/initscripts/initscripts-1.0/bootmisc.sh
-index 5b86e79..4f76cb4 100755
---- a/meta/recipes-core/initscripts/initscripts-1.0/bootmisc.sh
-+++ b/meta/recipes-core/initscripts/initscripts-1.0/bootmisc.sh
-@@ -65,14 +65,14 @@ fi
- # Set the system clock from hardware clock
- # If the timestamp is more recent than the current time,
- # use the timestamp instead.
--/etc/init.d/hwclock.sh start
-+test -x /etc/init.d/hwclock.sh && /etc/init.d/hwclock.sh start
- if test -e /etc/timestamp
- then
- 	SYSTEMDATE=`date -u +%4Y%2m%2d%2H%2M`
- 	read TIMESTAMP < /etc/timestamp
- 	if [ ${TIMESTAMP} -gt $SYSTEMDATE ]; then
- 		date -u ${TIMESTAMP#????}${TIMESTAMP%????????}
--		/etc/init.d/hwclock.sh stop
-+		test -x /etc/init.d/hwclock.sh && /etc/init.d/hwclock.sh stop
- 	fi
- fi
- : exit 0
-diff --git a/meta/recipes-core/initscripts/initscripts_1.0.bb b/meta/recipes-core/initscripts/initscripts_1.0.bb
-index f3dc852..829694b 100644
---- a/meta/recipes-core/initscripts/initscripts_1.0.bb
-+++ b/meta/recipes-core/initscripts/initscripts_1.0.bb
-@@ -3,7 +3,7 @@ DESCRIPTION = "Initscripts provide the basic system startup initialization scrip
- SECTION = "base"
- LICENSE = "GPLv2"
- LIC_FILES_CHKSUM = "file://COPYING;md5=751419260aa954499f7abaabaa882bbe"
--PR = "r133"
-+PR = "r134"
- 
- INHIBIT_DEFAULT_DEPS = "1"
- 
+$ git diff meta/recipes-graphics/xorg-app/xinit_1.3.2.bb
+diff --git a/meta/recipes-graphics/xorg-app/xinit_1.3.2.bb 
+b/meta/recipes-graphics/xorg-app/xinit_1.3.2.bb
+index e029a03..cb3e028 100644
+--- a/meta/recipes-graphics/xorg-app/xinit_1.3.2.bb
++++ b/meta/recipes-graphics/xorg-app/xinit_1.3.2.bb
+@@ -13,7 +13,7 @@ LIC_FILES_CHKSUM = 
+"file://COPYING;md5=0d4b5eef75f1584ccbdc5e4a34314407"
+  PR = "r0"
+  PE = "1"
+
+-RC_URI[md5sum] = "9c0943cbd83e489ad1b05221b97efd44"
++SRC_URI[md5sum] = "9c0943cbd83e489ad1b05221b97efd44"
+  SRC_URI[sha256sum] = 
+"a1867fdaa83f68750b12ba4305c3c62f5992d0f52cfeb98e96c27a8e690e0235"
+
+  EXTRA_OECONF = "ac_cv_path_MCOOKIE=${bindir}/mcookie"
+
+
+Signed-off-by: Randy MacLeod <Randy.MacLeod@windriver.com>
 -- 
-1.7.5.4
-
+# Randy MacLeod. MTS, Linux, Wind River
+Direct: 613.963.1350
 
 
