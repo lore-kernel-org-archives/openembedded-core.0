@@ -1,30 +1,24 @@
-Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
-	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <richard.purdie@linuxfoundation.org>)
-	id 1S7TQr-0005Cw-2G for openembedded-core@lists.openembedded.org;
-	Tue, 13 Mar 2012 16:14:37 +0100
-Received: from localhost (localhost [127.0.0.1])
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q2DF5rWJ028137
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 13 Mar 2012 15:05:53 GMT
-Received: from tim.rpsys.net ([127.0.0.1])
-	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
-	port 10024) with LMTP
-	id 26998-07 for <openembedded-core@lists.openembedded.org>;
-	Tue, 13 Mar 2012 15:05:49 +0000 (GMT)
-Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q2DF5iFp028131
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO)
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 13 Mar 2012 15:05:45 GMT
-Message-ID: <1331651144.17122.2.camel@ted>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: openembedded-core <openembedded-core@lists.openembedded.org>
-Date: Tue, 13 Mar 2012 15:05:44 +0000
-X-Mailer: Evolution 3.2.2- 
-Mime-Version: 1.0
-X-Virus-Scanned: amavisd-new at rpsys.net
-Subject: [PATCH] matchbox-keyboard: Fix unpackaged files warning
+Received: from mga01.intel.com ([192.55.52.88])
+	by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <paul.eggleton@linux.intel.com>) id 1S7TQt-0005Cy-56
+	for openembedded-core@lists.openembedded.org;
+	Tue, 13 Mar 2012 16:14:39 +0100
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+	by fmsmga101.fm.intel.com with ESMTP; 13 Mar 2012 08:05:33 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="138089722"
+Received: from unknown (HELO helios.localnet) ([10.252.123.185])
+	by fmsmga002.fm.intel.com with ESMTP; 13 Mar 2012 08:05:32 -0700
+From: Paul Eggleton <paul.eggleton@linux.intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Tue, 13 Mar 2012 15:05:31 +0000
+Message-ID: <2142033.FIQWIVi2oI@helios>
+Organization: Intel Corporation
+User-Agent: KMail/4.8.0 (Linux/3.0.0-16-generic-pae; KDE/4.8.1; i686; ; )
+In-Reply-To: <1331650371-6055-1-git-send-email-bjst@enea.com>
+References: <1331650371-6055-1-git-send-email-bjst@enea.com>
+MIME-Version: 1.0
+Subject: Re: [PATCH] Add pigz as gzip-native alternative.
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -39,42 +33,41 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 13 Mar 2012 15:14:37 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Tue, 13 Mar 2012 15:14:39 -0000
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="iso-8859-1"
 
-Addresses the warnings:
+Hi Bj=F6rn,
 
-WARNING: For recipe matchbox-keyboard, the following files/directories were installed but not shipped in any package:
-WARNING:   /usr/lib/gtk-2.0/2.10.0/immodules/libmb-im-invoker.la
-WARNING:   /usr/lib/matchbox-panel/libkeyboard.la
+On Tuesday 13 March 2012 15:52:51 Bj=F6rn Stenberg wrote:
+> pigz, which stands for parallel implementation of gzip, is a fully
+> functional replacement for gzip that exploits multiple processors and=
 
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
----
-diff --git a/meta/recipes-sato/matchbox-keyboard/matchbox-keyboard_git.bb b/meta/recipes-sato/matchbox-keyboard/matchbox-keyboard_git.bb
-index 74d8757..4c03541 100644
---- a/meta/recipes-sato/matchbox-keyboard/matchbox-keyboard_git.bb
-+++ b/meta/recipes-sato/matchbox-keyboard/matchbox-keyboard_git.bb
-@@ -12,7 +12,7 @@ RDEPENDS_${PN} = "formfactor dbus-wait"
- SECTION = "x11"
- SRCREV = "b38f24036cff3be6c2fbcf9ca9881803e69003ac"
- PV = "0.0+git${SRCPV}"
--PR = "r1"
-+PR = "r2"
- 
- SRC_URI = "git://git.yoctoproject.org/${BPN};protocol=git \
-            file://configure_fix.patch;maxrev=1819 \
-@@ -43,6 +43,9 @@ FILES_matchbox-keyboard-applet-dbg += "${libdir}/matchbox-panel/.debug"
- do_install_append () {
- 	install -d ${D}/${sysconfdir}/X11/Xsession.d/
- 	install -m 755 ${WORKDIR}/80matchboxkeyboard.shbg ${D}/${sysconfdir}/X11/Xsession.d/
-+
-+	rm -f ${D}${libdir}/gtk-2.0/*/immodules/*.la
-+	rm -f ${D}${libdir}/matchbox-panel/*.la
- }
- 
- pkg_postinst_matchbox-keyboard-im () {
+> multiple cores to the hilt when compressing data. pigz was written by=
+ Mark
+> Adler, and uses the zlib and pthread libraries.
+>=20
+> This recipe adds pigz as an alternative provider of gzip-native. Pigz=
+ is
+> much faster than gzip on multi-core machines.
+>=20
+> Upstream-status: Pending
 
+This needs to be moved to the inner ldflags.patch, and..
 
+> Signed-off-by: Bj=F6rn Stenberg <bjst@enea.com>
+
+this should be copied to there. The patch should also start with an=20
+explanation of what the patch does (in this case it's trivial, but stil=
+l worth=20
+having in there.)
+
+Thanks,
+Paul
+
+--=20
+
+Paul Eggleton
+Intel Open Source Technology Centre
 
 
