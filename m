@@ -1,24 +1,24 @@
 Received: from mga11.intel.com ([192.55.52.93])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <sgw@linux.intel.com>) id 1S7Mlo-0000Hr-VO
+	(envelope-from <sgw@linux.intel.com>) id 1S7Mlp-0000I0-Cw
 	for openembedded-core@lists.openembedded.org;
 	Tue, 13 Mar 2012 09:07:49 +0100
 Received: from fmsmga001.fm.intel.com ([10.253.24.23])
 	by fmsmga102.fm.intel.com with ESMTP; 13 Mar 2012 00:59:02 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="128321809"
+X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="128321814"
 Received: from unknown (HELO swold-mobl.bigsur.com) ([10.255.15.137])
 	by fmsmga001.fm.intel.com with ESMTP; 13 Mar 2012 00:59:02 -0700
 From: Saul Wold <sgw@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Tue, 13 Mar 2012 00:58:46 -0700
-Message-Id: <325c9ad123640bb388967f36b63fc99ced9ebd56.1331589797.git.sgw@linux.intel.com>
+Date: Tue, 13 Mar 2012 00:58:48 -0700
+Message-Id: <53c38b9b030f3a2aa3f48baf84914596b46027c6.1331589797.git.sgw@linux.intel.com>
 X-Mailer: git-send-email 1.7.7.6
 In-Reply-To: <cover.1331589797.git.sgw@linux.intel.com>
 References: <cover.1331589797.git.sgw@linux.intel.com>
 In-Reply-To: <cover.1331589797.git.sgw@linux.intel.com>
 References: <cover.1331589797.git.sgw@linux.intel.com>
-Subject: [CONSOLIDATED PULL 12/23] qt4: fix deps in libQtWebkit.la and QtWebKit.pc
+Subject: [CONSOLIDATED PULL 14/23] image_types: ensure .rootfs.ext3 is created before vmdk is created.
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -35,59 +35,44 @@ List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedde
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Tue, 13 Mar 2012 08:07:49 -0000
 
-From: Andreas Oberritter <obi@opendreambox.org>
+From: Dexuan Cui <dexuan.cui@intel.com>
 
-* Both files contain -L../../WebCore/release -L../../JavaScriptCore/release -lwebcore -ljscore
-* These paths and libs don't get installed.
-* When building a shared lib with libtool, that links
-  with libQtWebKit, libtool adds these unneeded parameters
-  to the linker command-line, thus linking fails.
+In the case of self-hosted-image.bb, IMAGE_FSTYPES = "vmdk", so the
+variables alltypes and subimages don't contain ext3, and  .rootfs.ext3
+won't be created, and finally the generated .hddimg and .vmdk don't have
+an actual rootfs -- the size of the .vmdk file is only about 9MB.
 
-Signed-off-by: Andreas Oberritter <obi@opendreambox.org>
+[YOCTO #2067]
+
+Signed-off-by: Dexuan Cui <dexuan.cui@intel.com>
 ---
- meta/recipes-qt/qt4/qt4-embedded.inc |    2 +-
- meta/recipes-qt/qt4/qt4-x11-free.inc |    2 +-
- meta/recipes-qt/qt4/qt4.inc          |    1 +
- 3 files changed, 3 insertions(+), 2 deletions(-)
+ meta/classes/image_types.bbclass |    6 ++++++
+ 1 files changed, 6 insertions(+), 0 deletions(-)
 
-diff --git a/meta/recipes-qt/qt4/qt4-embedded.inc b/meta/recipes-qt/qt4/qt4-embedded.inc
-index 80948f3..0e57e5a 100644
---- a/meta/recipes-qt/qt4/qt4-embedded.inc
-+++ b/meta/recipes-qt/qt4/qt4-embedded.inc
-@@ -2,7 +2,7 @@ DESCRIPTION = "Qt is a versatile cross-platform application framework -- this is
- SECTION = "libs"
- HOMEPAGE = "http://qt.nokia.com"
- DEPENDS += "directfb tslib"
--INC_PR = "r41"
-+INC_PR = "r42"
+diff --git a/meta/classes/image_types.bbclass b/meta/classes/image_types.bbclass
+index 8b82018..e92f519 100644
+--- a/meta/classes/image_types.bbclass
++++ b/meta/classes/image_types.bbclass
+@@ -26,13 +26,19 @@ def get_imagecmds(d):
+     # Live and VMDK images will be processed via inheriting
+     # bbclass and does not get processed here.
+     # vmdk depend on live images also depend on ext3 so ensure its present
++    # Note: we need to ensure ext3 is in alltypes, otherwise, subimages may
++    # not contain ext3 and the .rootfs.ext3 file won't be created.
+     if "vmdk" in types:
+         if "ext3" not in types:
+             types.append("ext3")
++        if "ext3" not in alltypes:
++            alltypes.append("ext3")
+         types.remove("vmdk")
+     if "live" in types:
+         if "ext3" not in types:
+             types.append("ext3")
++        if "ext3" not in alltypes:
++            alltypes.append("ext3")
+         types.remove("live")
  
- QT_BASE_LIB  ?= "libqt-embedded"
- 
-diff --git a/meta/recipes-qt/qt4/qt4-x11-free.inc b/meta/recipes-qt/qt4/qt4-x11-free.inc
-index 75487f7..56f349a 100644
---- a/meta/recipes-qt/qt4/qt4-x11-free.inc
-+++ b/meta/recipes-qt/qt4/qt4-x11-free.inc
-@@ -5,7 +5,7 @@ HOMEPAGE = "http://qt.nokia.com"
- SECTION = "x11/libs"
- DEPENDS += "virtual/libgl virtual/libx11 fontconfig libxft libxext libxrender libxrandr libxcursor"
- 
--INC_PR = "r38"
-+INC_PR = "r39"
- 
- QT_GLFLAGS ?= "${@base_contains('DISTRO_FEATURES', 'opengl', '-opengl', '-no-opengl', d)} "
- QT_GLFLAGS_qemux86 = "-opengl"
-diff --git a/meta/recipes-qt/qt4/qt4.inc b/meta/recipes-qt/qt4/qt4.inc
-index 2e70bd9..77fb06f 100644
---- a/meta/recipes-qt/qt4/qt4.inc
-+++ b/meta/recipes-qt/qt4/qt4.inc
-@@ -328,6 +328,7 @@ do_install() {
- 			-e 's#" -Wl,-rpath-link,${S}/lib/\?"##g' \
- 			-e 's#" -Wl,-rpath-link,${libdir}/\?"##g' \
- 			-e 's#Iin#I${in#g' \
-+			-e 's#-L\.\./\.\./WebCore/release\s\+-L\.\./\.\./JavaScriptCore/release\s\+-lwebcore\s\+-ljscore##g' \
- 			${D}${libdir}/*.la ${D}${libdir}/*.prl ${D}${libdir}/pkgconfig/*.pc
- 
- 	sed -i -e s#" -Wl,-rpath-link,${S}/lib"##g \
+     if d.getVar('IMAGE_LINK_NAME', True):
 -- 
 1.7.7.6
 
