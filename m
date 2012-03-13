@@ -1,30 +1,26 @@
-Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
-	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <richard.purdie@linuxfoundation.org>)
-	id 1S7TUF-0005Tv-S4 for openembedded-core@lists.openembedded.org;
-	Tue, 13 Mar 2012 16:18:08 +0100
-Received: from localhost (localhost [127.0.0.1])
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q2DF9OpD028188
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 13 Mar 2012 15:09:24 GMT
-Received: from tim.rpsys.net ([127.0.0.1])
-	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
-	port 10024) with LMTP
-	id 26998-09 for <openembedded-core@lists.openembedded.org>;
-	Tue, 13 Mar 2012 15:09:20 +0000 (GMT)
-Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q2DF9FAu028181
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO)
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 13 Mar 2012 15:09:16 GMT
-Message-ID: <1331651355.17122.6.camel@ted>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: openembedded-core <openembedded-core@lists.openembedded.org>
-Date: Tue, 13 Mar 2012 15:09:15 +0000
-X-Mailer: Evolution 3.2.2- 
-Mime-Version: 1.0
-X-Virus-Scanned: amavisd-new at rpsys.net
-Subject: [PATCH] ppp: Clean up PACKAGES vs. variable mismatch and drop unused RDEPENDS
+Received: from mga09.intel.com ([134.134.136.24])
+	by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <sgw@linux.intel.com>) id 1S7UBG-0004WF-Fv
+	for openembedded-core@lists.openembedded.org;
+	Tue, 13 Mar 2012 17:02:34 +0100
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+	by orsmga102.jf.intel.com with ESMTP; 13 Mar 2012 08:53:49 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.67,351,1309762800"; d="scan'208";a="120606720"
+Received: from unknown (HELO [10.255.15.137]) ([10.255.15.137])
+	by orsmga002.jf.intel.com with ESMTP; 13 Mar 2012 08:53:49 -0700
+Message-ID: <4F5F6D8C.3030106@linux.intel.com>
+Date: Tue, 13 Mar 2012 08:53:48 -0700
+From: Saul Wold <sgw@linux.intel.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:10.0.1) Gecko/20120216 Thunderbird/10.0.1
+MIME-Version: 1.0
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+References: <4F4C596A.3050301@linux.intel.com>
+	<1330428268-9338-1-git-send-email-obi@opendreambox.org>
+In-Reply-To: <1330428268-9338-1-git-send-email-obi@opendreambox.org>
+Subject: Re: [PATCH v3] libsdl: add DirectFB support
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -39,54 +35,58 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 13 Mar 2012 15:18:08 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Tue, 13 Mar 2012 16:02:34 -0000
+Content-Type: text/plain; charset=ISO-8859-1; format=flowed
 Content-Transfer-Encoding: 7bit
 
-The RPDEPENDS format is wrong and couldn't have been doing anything useful. The
-mismatch between PACKAGES and the DESCRIPTION_* and FILES_*  variable names could
-confuse the system under certain conditions so this is a good cleanup to make.
+On 02/28/2012 03:24 AM, Andreas Oberritter wrote:
+> * Use conditional dependencies for DirectFB, like
+>    it's already done for OpenGL and X11.
+>
+> Signed-off-by: Andreas Oberritter<obi@opendreambox.org>
+> ---
+> * v2: Rebased after X11 was already made conditional.
+> * v3: Add back PR bump, which was auto-merged during rebase.
+>
+>   meta/recipes-graphics/libsdl/libsdl_1.2.14.bb |    8 +++++---
+>   1 files changed, 5 insertions(+), 3 deletions(-)
+>
+> diff --git a/meta/recipes-graphics/libsdl/libsdl_1.2.14.bb b/meta/recipes-graphics/libsdl/libsdl_1.2.14.bb
+> index 62a2d1f..5c9e645 100644
+> --- a/meta/recipes-graphics/libsdl/libsdl_1.2.14.bb
+> +++ b/meta/recipes-graphics/libsdl/libsdl_1.2.14.bb
+> @@ -12,12 +12,13 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=27818cd7fd83877a8e3ef82b82798ef4"
+>
+>   PROVIDES = "virtual/libsdl"
+>
+> -DEPENDS = "${@base_contains('DISTRO_FEATURES', 'opengl', 'virtual/libgl', '', d)} \
+> +DEPENDS = "${@base_contains('DISTRO_FEATURES', 'directfb', 'directfb', '', d)} \
+> +           ${@base_contains('DISTRO_FEATURES', 'opengl', 'virtual/libgl', '', d)} \
+>              ${@base_contains('DISTRO_FEATURES', 'x11', 'virtual/libx11 libxext libxrandr libxrender', '', d)} \
+>              tslib"
+>   DEPENDS_virtclass-nativesdk = "${@base_contains('DISTRO_FEATURES', 'x11', 'libx11-nativesdk libxrandr-nativesdk libxrender-nativesdk libxext-nativesdk', '', d)}"
+>
+> -PR = "r6"
+> +PR = "r7"
+>
+>   SRC_URI = "http://www.libsdl.org/release/SDL-${PV}.tar.gz \
+>              file://configure_tweak.patch \
+> @@ -35,9 +36,10 @@ EXTRA_OECONF = "--disable-static --disable-debug --enable-cdrom --enable-threads
+>                   --enable-file --disable-oss --disable-esd --disable-arts \
+>                   --disable-diskaudio --disable-nas --disable-esd-shared --disable-esdtest \
+>                   --disable-mintaudio --disable-nasm --disable-video-dga \
+> -                --disable-video-fbcon --disable-video-directfb --disable-video-ps2gs --disable-video-ps3 \
+> +                --disable-video-fbcon --disable-video-ps2gs --disable-video-ps3 \
+>                   --disable-video-xbios --disable-video-gem --disable-video-dummy \
+>                   --enable-input-events --enable-input-tslib --enable-pthreads \
+> +                ${@base_contains('DISTRO_FEATURES', 'directfb', '--enable-video-directfb', '--disable-video-directfb', d)} \
+>                   ${@base_contains('DISTRO_FEATURES', 'opengl', '--enable-video-opengl', '--disable-video-opengl', d)} \
+>                   ${@base_contains('DISTRO_FEATURES', 'x11', '--enable-video-x11', '--disable-video-x11', d)} \
+>                   --disable-video-svga \
 
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
----
-diff --git a/meta/recipes-connectivity/ppp/ppp_2.4.5.bb b/meta/recipes-connectivity/ppp/ppp_2.4.5.bb
-index 13216e3..9232e6f 100644
---- a/meta/recipes-connectivity/ppp/ppp_2.4.5.bb
-+++ b/meta/recipes-connectivity/ppp/ppp_2.4.5.bb
-@@ -52,7 +52,7 @@ do_install_append () {
- }
- 
- CONFFILES_${PN} = "${sysconfdir}/ppp/pap-secrets ${sysconfdir}/ppp/chap-secrets ${sysconfdir}/ppp/options"
--PACKAGES =+ "ppp-oa ppp-oe ppp-radius ppp-winbind ppp-minconn ppp-password ppp-l2tp ppp-tools"
-+PACKAGES =+ "${PN}-oa ${PN}-oe ${PN}-radius ${PN}-winbind ${PN}-minconn ${PN}-password ${PN}-l2tp ${PN}-tools"
- FILES_${PN}        = "${sysconfdir} ${bindir} ${sbindir}/chat ${sbindir}/pppd"
- FILES_${PN}_nylon  = "${sysconfdir} ${bindir} ${sbindir}/chat ${sbindir}/pppd ${sbindir}/tdbread"
- FILES_${PN}-dbg += "${libdir}/pppd/${PV}/.debug"
-@@ -64,15 +64,14 @@ FILES_${PN}-minconn  = "${libdir}/pppd/${PV}/minconn.so"
- FILES_${PN}-password = "${libdir}/pppd/${PV}/pass*.so"
- FILES_${PN}-l2tp     = "${libdir}/pppd/${PV}/*l2tp.so"
- FILES_${PN}-tools    = "${sbindir}/pppstats ${sbindir}/pppdump"
--DESCRIPTION_ppp-oa       = "Plugin for PPP needed for PPP-over-ATM"
--DESCRIPTION_ppp-oe       = "Plugin for PPP needed for PPP-over-Ethernet"
--DESCRIPTION_ppp-radius   = "Plugin for PPP that are related to RADIUS"
--DESCRIPTION_ppp-winbind  = "Plugin for PPP to authenticate against Samba or Windows"
--DESCRIPTION_ppp-minconn  = "Plugin for PPP to specify a minimum connect time before the idle timeout applies"
--DESCRIPTION_ppp-password = "Plugin for PPP to get passwords via a pipe"
--DESCRIPTION_ppp-l2tp     = "Plugin for PPP for l2tp support"
--DESCRIPTION_ppp-tools    = "The pppdump and pppstats utitilities"
--RDEPENDS_ppp_minconn    += "libpcap0.8"
-+DESCRIPTION_${PN}-oa       = "Plugin for PPP needed for PPP-over-ATM"
-+DESCRIPTION_${PN}-oe       = "Plugin for PPP needed for PPP-over-Ethernet"
-+DESCRIPTION_${PN}-radius   = "Plugin for PPP that are related to RADIUS"
-+DESCRIPTION_${PN}-winbind  = "Plugin for PPP to authenticate against Samba or Windows"
-+DESCRIPTION_${PN}-minconn  = "Plugin for PPP to specify a minimum connect time before the idle timeout applies"
-+DESCRIPTION_${PN}-password = "Plugin for PPP to get passwords via a pipe"
-+DESCRIPTION_${PN}-l2tp     = "Plugin for PPP for l2tp support"
-+DESCRIPTION_${PN}-tools    = "The pppdump and pppstats utitilities"
- 
- pkg_postinst_${PN}() {
- if test "x$D" != "x"; then
+Merged into OE-Core
 
-
+Thanks
+	Sau!
 
 
