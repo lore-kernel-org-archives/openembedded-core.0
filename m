@@ -1,25 +1,37 @@
-Received: from mga14.intel.com ([143.182.124.37])
+Received: from mail-ey0-f175.google.com ([209.85.215.175])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <sgw@linux.intel.com>) id 1S7UJT-0007BD-O1
+	(envelope-from <martin.jansa@gmail.com>) id 1S7UR0-0001Je-Td
 	for openembedded-core@lists.openembedded.org;
-	Tue, 13 Mar 2012 17:11:04 +0100
-Received: from azsmga002.ch.intel.com ([10.2.17.35])
-	by azsmga102.ch.intel.com with ESMTP; 13 Mar 2012 09:02:18 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="76993520"
-Received: from unknown (HELO [10.255.15.137]) ([10.255.15.137])
-	by AZSMGA002.ch.intel.com with ESMTP; 13 Mar 2012 09:02:17 -0700
-Message-ID: <4F5F6F89.1090309@linux.intel.com>
-Date: Tue, 13 Mar 2012 09:02:17 -0700
-From: Saul Wold <sgw@linux.intel.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:10.0.1) Gecko/20120216 Thunderbird/10.0.1
-MIME-Version: 1.0
+	Tue, 13 Mar 2012 17:18:54 +0100
+Received: by eaae1 with SMTP id e1so343255eaa.6
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 13 Mar 2012 09:10:01 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=date:from:to:subject:message-id:references:mime-version
+	:content-type:content-disposition:in-reply-to:user-agent;
+	bh=/zwBRYFAfDlkPgzCrN+iAfS74jMVvdGupCdAZXBgMTo=;
+	b=xTn2rHpCpYsx6HPGBZ5Vtsv2DJTQ64S3ihDfEXgcuvhF3QdhrTxcGBWElGOTXC6cPD
+	YDrwYaSPc3ZQmBfca4WxTAoHbJL95B1KxLbnkOmigkYJwmf4inhCTXfyKdCoCDms2Zmx
+	OKx2wgcT0bNEFeVNOrHM1b8MGYlH9Tgh7GoJMjOHxaGkywa5CKSgZOXo83c89NIuL7Ib
+	yOhUOuqWaY8sUQkBk7VAtO09F3kGiF3klVkyJl9i/Mo2l7f2h114stUXA/Z1pHVvMVDl
+	drqE5rcsYiKfccVf3vFXrMS1Tm3JuK2821MiYL6KiErzfNa2+UA9ZhlLFDlDNvSZ4jIJ
+	u04Q==
+Received: by 10.213.17.14 with SMTP id q14mr1271078eba.273.1331655001399;
+	Tue, 13 Mar 2012 09:10:01 -0700 (PDT)
+Received: from localhost ([94.230.152.246])
+	by mx.google.com with ESMTPS id s48sm3445367eem.0.2012.03.13.09.09.58
+	(version=TLSv1/SSLv3 cipher=OTHER);
+	Tue, 13 Mar 2012 09:10:00 -0700 (PDT)
+Date: Tue, 13 Mar 2012 17:09:56 +0100
+From: Martin Jansa <martin.jansa@gmail.com>
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-References: <cover.1331054558.git.otavio@ossystems.com.br>
-In-Reply-To: <cover.1331054558.git.otavio@ossystems.com.br>
-Subject: Re: [PATCH v2 0/5] Postinst trigger improvements for images
+Message-ID: <20120313160956.GE3861@jama.jama.net>
+References: <1331651240.17122.4.camel@ted>
+MIME-Version: 1.0
+In-Reply-To: <1331651240.17122.4.camel@ted>
+User-Agent: Mutt/1.5.21 (2010-09-15)
+Subject: Re: [PATCH] libxlst: Fix unpackaged directory warning
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -34,43 +46,77 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 13 Mar 2012 16:11:04 -0000
-Content-Type: text/plain; charset=ISO-8859-1; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Tue, 13 Mar 2012 16:18:55 -0000
+X-Groupsio-MsgNum: 18713
+Content-Type: multipart/signed; micalg=pgp-sha1;
+	protocol="application/pgp-signature"; boundary="qp4W5+cUSnZs0RIF"
+Content-Disposition: inline
 
-On 03/06/2012 09:24 AM, Otavio Salvador wrote:
-> This patchset make consistent and more meanful the name used as
-> postinst trigger in rootfs.
->
-> The following changes since commit d7b8c247227f3cc82f92292407f548927e9fde78:
->
->    base.bbclass: Fix PACKAGECONFIG handling when no flags are set (2012-03-05 13:03:41 -0800)
->
-> are available in the git repository at:
->    git://github.com/OSSystems/oe-core master
->    https://github.com/OSSystems/oe-core/tree/HEAD
->
-> Otavio Salvador (5):
->    run-postinsts: fix opkg data path
->    image.bbclass: fix rootfs generation without package management tools
->    rootfs_rpm.bbclass: rename postinst trigger script
->    opkg: rename postinst trigger script
->    dpkg: rename postinst trigger script
->
->   meta/classes/core-image.bbclass                    |    2 --
->   meta/classes/image.bbclass                         |    7 +++++--
->   meta/classes/rootfs_rpm.bbclass                    |    6 +++---
->   meta/recipes-devtools/dpkg/dpkg.inc                |    8 ++++----
->   .../dpkg/run-postinsts/run-postinsts               |    4 ++--
->   .../dpkg/run-postinsts/run-postinsts.awk           |    2 +-
->   meta/recipes-devtools/dpkg/run-postinsts_1.0.bb    |    2 +-
->   meta/recipes-devtools/opkg/opkg.inc                |    8 ++++----
->   8 files changed, 20 insertions(+), 19 deletions(-)
->
+--qp4W5+cUSnZs0RIF
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Merged into OE-Core
+On Tue, Mar 13, 2012 at 03:07:20PM +0000, Richard Purdie wrote:
+> Fixes the warning:
 
-Thanks
-	Sau!
+Typo in subject
+-libxlst:
++libxslt:
 
+>=20
+> WARNING: For recipe libxslt, the following files/directories were install=
+ed but not shipped in any package:
+> WARNING:   /usr/lib/libxslt-plugins
+>=20
+> It makes sense for the package to own the plugins directory.
+>=20
+> Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+> ---
+> diff --git a/meta/recipes-support/libxslt/libxslt_1.1.26.bb b/meta/recipe=
+s-support/libxslt/libxslt_1.1.26.bb
+> index f3e806d..8986e20 100644
+> --- a/meta/recipes-support/libxslt/libxslt_1.1.26.bb
+> +++ b/meta/recipes-support/libxslt/libxslt_1.1.26.bb
+> @@ -7,7 +7,7 @@ LIC_FILES_CHKSUM =3D "file://Copyright;md5=3D0cd9a07afbeb=
+24026c9b03aecfeba458"
+> =20
+>  SECTION =3D "libs"
+>  DEPENDS =3D "libxml2"
+> -PR =3D "r6"
+> +PR =3D "r7"
+> =20
+>  SRC_URI =3D "ftp://xmlsoft.org/libxslt//libxslt-${PV}.tar.gz \
+>             file://pkgconfig_fix.patch"
+> @@ -24,6 +24,7 @@ RPROVIDES_${PN}-bin +=3D "${PN}-utils"
+>  RCONFLICTS_${PN}-bin +=3D "${PN}-utils"
+>  RREPLACES_${PN}-bin +=3D "${PN}-utils"
+> =20
+> +FILES_${PN} +=3D "${libdir}/libxslt-plugins"
+>  FILES_${PN}-dev +=3D "${libdir}/xsltConf.sh"
+> =20
+>  BBCLASSEXTEND =3D "native"
+>=20
+>=20
+>=20
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
 
+--=20
+Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
+
+--qp4W5+cUSnZs0RIF
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: Digital signature
+
+-----BEGIN PGP SIGNATURE-----
+Version: GnuPG v2.0.18 (GNU/Linux)
+
+iEYEARECAAYFAk9fcVMACgkQN1Ujt2V2gBxtgQCfaCaqeZBKg0VQAsSExGt/w/N2
+gjUAoJmdZNhiTZmT9UHBuRygXSH2tPnO
+=fAJX
+-----END PGP SIGNATURE-----
+
+--qp4W5+cUSnZs0RIF--
