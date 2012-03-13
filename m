@@ -1,33 +1,36 @@
-Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
-	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <richard.purdie@linuxfoundation.org>)
-	id 1S7QM8-0001DG-QH for openembedded-core@lists.openembedded.org;
-	Tue, 13 Mar 2012 12:57:33 +0100
-Received: from localhost (localhost [127.0.0.1])
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q2DBmov9025947
+Received: from mail-wi0-f171.google.com ([209.85.212.171])
+	by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <schnitzeltony@googlemail.com>) id 1S7QWL-0001mK-RC
+	for openembedded-core@lists.openembedded.org;
+	Tue, 13 Mar 2012 13:08:05 +0100
+Received: by wibhj13 with SMTP id hj13so4549445wib.6
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 13 Mar 2012 11:48:50 GMT
-Received: from tim.rpsys.net ([127.0.0.1])
-	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
-	port 10024) with LMTP
-	id 22522-09 for <openembedded-core@lists.openembedded.org>;
-	Tue, 13 Mar 2012 11:48:46 +0000 (GMT)
-Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q2DBmi1c025940
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO)
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 13 Mar 2012 11:48:45 GMT
-Message-ID: <1331639323.15192.38.camel@ted>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Date: Tue, 13 Mar 2012 11:48:43 +0000
-In-Reply-To: <cover.1331589797.git.sgw@linux.intel.com>
-References: <cover.1331589797.git.sgw@linux.intel.com>
-X-Mailer: Evolution 3.2.2- 
-Mime-Version: 1.0
-X-Virus-Scanned: amavisd-new at rpsys.net
-Subject: Re: [CONSOLIDATED PULL 00/23] Catching up after conference Time
+	Tue, 13 Mar 2012 04:59:21 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=googlemail.com; s=20120113;
+	h=from:to:subject:date:message-id:x-mailer:mime-version:content-type
+	:content-transfer-encoding;
+	bh=oBp5CDAsXhCubFdklS8p//+mJrb2VBQMEm5H7TkuuoA=;
+	b=v+rCe0Gm2tFsV3v/EUeL5FeCq47u59AeT3+NTA4PMYXak9Bk/gsUxA8pMQEU8mVj5x
+	B7bKUu+uFAtopCCumMrBjMnKBwSxKg+zwUMXK1fIURTcSykyLQGT18GVhzbVB5RjUQAK
+	eUbPD0wdtRyv0SnIBj/UYFQmoWkE3rOlYvS1X8kdLBL5GcN5Vo18JuP7He5U0r4rv3dJ
+	9f1TzH4pYHuKVIZ/+GzVbpCOYxTCyOW2L71Hl3FkObcN3n1dG9J/Y/X00nTgYEdJTLTW
+	9Dnw3ov+Hb0r0vM/HYA+ii/LmDlgrrugrUWHz92SAOb4zlJ+as+prwNl04WRHTwO0JXk
+	Ib6g==
+Received: by 10.180.96.168 with SMTP id dt8mr6719835wib.18.1331639961680;
+	Tue, 13 Mar 2012 04:59:21 -0700 (PDT)
+Received: from localhost.localdomain (ip-95-222-156-83.unitymediagroup.de.
+	[95.222.156.83])
+	by mx.google.com with ESMTPS id w14sm42557990wiv.11.2012.03.13.04.59.19
+	(version=TLSv1/SSLv3 cipher=OTHER);
+	Tue, 13 Mar 2012 04:59:19 -0700 (PDT)
+From: =?UTF-8?q?Andreas=20M=C3=BCller?= <schnitzeltony@googlemail.com>
+To: openembedded-core@lists.openembedded.org
+Date: Tue, 13 Mar 2012 12:59:19 +0100
+Message-Id: <1331639959-15978-1-git-send-email-schnitzeltony@googlemail.com>
+X-Mailer: git-send-email 1.7.6.5
+MIME-Version: 1.0
+Subject: [PATCH] busybox: enable eject
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -42,51 +45,49 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 13 Mar 2012 11:57:33 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Tue, 13 Mar 2012 12:08:05 -0000
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-On Tue, 2012-03-13 at 00:58 -0700, Saul Wold wrote:
-> The following changes since commit f47ada62a3da879006e7cb27479dc9b72c56e923:
-> 
->   cmake.bbclass: add ${base_libdir} to CMAKE_LIBRARY_PATH (2012-03-12 17:46:16 +0000)
-> 
-> are available in the git repository at:
->   git://git.openembedded.org/openembedded-core-contrib sgw/stage
->   http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=sgw/stage
-> 
-> Andreas Oberritter (10):
->   qt4: fix deps in libQtWebkit.la and QtWebKit.pc
->   udev-164: fixup "don't hardcode path to pidof"
->   package.bbclass: sort dynamically generated packages
->   util-linux: explicitly disable udev
->   linux-firmware: fix permissions of installed files
->   python, python-native: always set platform to linux2
->   python: regenerate plat-linux2/*.py
->   python: depend on bzip2
->   python-native: distutils: don't use libdir, remove dead code path
->   python, python-native: bump PR
-> 
-> Bruce Ashfield (1):
->   linux-yocto: respect FILESPATH directories
-> 
-> Dexuan Cui (1):
->   image_types: ensure .rootfs.ext3 is created before vmdk is created.
-> 
-> Jeff Lance (1):
->   trace-cmd: modifying License information
-> 
-> Matthew McClintock (2):
->   packagedata.py: Fix get_subpkgedata_fn for multilib
->   arch-powerpc.inc: use default value of TUNE_PKGARCH
+In xfce-environment ejecting USB-memory stick caused:
+Error starting job: Failed to execute child process "eject" (No such file or directory)
 
-I took everything except the two from Matthew. One clearly has incorrect
-code, the packagedata one I'm worried is going to have some subtle side
-effects. I'd like a little more time to think that one through.
+size of armv7a busybox binary increases from 2427962 to 2430389 bytes
 
-Cheers,
+run-tested with angstrom/meta-oe environment on overo
 
-Richard
+Signed-off-by: Andreas Müller <schnitzeltony@googlemail.com>
+---
+ meta/recipes-core/busybox/busybox-1.19.3/defconfig |    2 +-
+ meta/recipes-core/busybox/busybox_1.19.3.bb        |    2 +-
+ 2 files changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/meta/recipes-core/busybox/busybox-1.19.3/defconfig b/meta/recipes-core/busybox/busybox-1.19.3/defconfig
+index 372d7b5..279933b 100644
+--- a/meta/recipes-core/busybox/busybox-1.19.3/defconfig
++++ b/meta/recipes-core/busybox/busybox-1.19.3/defconfig
+@@ -669,7 +669,7 @@ CONFIG_DC=y
+ # CONFIG_DEVFSD_VERBOSE is not set
+ # CONFIG_FEATURE_DEVFS is not set
+ # CONFIG_DEVMEM is not set
+-# CONFIG_EJECT is not set
++CONFIG_EJECT=y
+ # CONFIG_FEATURE_EJECT_SCSI is not set
+ # CONFIG_FBSPLASH is not set
+ # CONFIG_FLASHCP is not set
+diff --git a/meta/recipes-core/busybox/busybox_1.19.3.bb b/meta/recipes-core/busybox/busybox_1.19.3.bb
+index 49ac859..728b74e 100644
+--- a/meta/recipes-core/busybox/busybox_1.19.3.bb
++++ b/meta/recipes-core/busybox/busybox_1.19.3.bb
+@@ -1,5 +1,5 @@
+ require busybox.inc
+-PR = "r5"
++PR = "r6"
+ 
+ SRC_URI = "http://www.busybox.net/downloads/busybox-${PV}.tar.bz2;name=tarball \
+            file://udhcpscript.patch \
+-- 
+1.7.6.5
 
 
 
