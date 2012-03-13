@@ -1,26 +1,25 @@
-Received: from mga14.intel.com ([143.182.124.37])
+Received: from mga03.intel.com ([143.182.124.21])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <sgw@linux.intel.com>) id 1S7UdI-0003UB-5z
+	(envelope-from <sgw@linux.intel.com>) id 1S7Udt-0003WK-30
 	for openembedded-core@lists.openembedded.org;
-	Tue, 13 Mar 2012 17:31:32 +0100
+	Tue, 13 Mar 2012 17:32:09 +0100
 Received: from azsmga002.ch.intel.com ([10.2.17.35])
-	by azsmga102.ch.intel.com with ESMTP; 13 Mar 2012 09:20:28 -0700
+	by azsmga101.ch.intel.com with ESMTP; 13 Mar 2012 09:22:26 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="77003269"
+X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="77004262"
 Received: from unknown (HELO [10.255.15.137]) ([10.255.15.137])
-	by AZSMGA002.ch.intel.com with ESMTP; 13 Mar 2012 09:20:27 -0700
-Message-ID: <4F5F73CB.7040602@linux.intel.com>
-Date: Tue, 13 Mar 2012 09:20:27 -0700
+	by AZSMGA002.ch.intel.com with ESMTP; 13 Mar 2012 09:22:26 -0700
+Message-ID: <4F5F7441.9040602@linux.intel.com>
+Date: Tue, 13 Mar 2012 09:22:25 -0700
 From: Saul Wold <sgw@linux.intel.com>
 User-Agent: Mozilla/5.0 (X11; Linux x86_64;
 	rv:10.0.1) Gecko/20120216 Thunderbird/10.0.1
 MIME-Version: 1.0
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-References: <1331060029-6748-1-git-send-email-j-lance1@ti.com>
-In-Reply-To: <1331060029-6748-1-git-send-email-j-lance1@ti.com>
-Cc: Jeff Lance <j-lance1@ti.com>
-Subject: Re: [PATCH 1/1 v2] trace-cmd: modifying License information
+References: <1331000623-10956-1-git-send-email-james@digitalmatter.com.au>
+In-Reply-To: <1331000623-10956-1-git-send-email-james@digitalmatter.com.au>
+Subject: Re: [PATCH v2] gdk-pixbuf: Pick up ${NM} from the environment.
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -35,46 +34,68 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 13 Mar 2012 16:31:32 -0000
+X-List-Received-Date: Tue, 13 Mar 2012 16:32:09 -0000
 Content-Type: text/plain; charset=ISO-8859-1; format=flowed
 Content-Transfer-Encoding: 7bit
 
-On 03/06/2012 10:53 AM, Jeff Lance wrote:
-> * Adding "GPLv2&  LGPLv2.1" to create a dual license to cover the libraries.
-> * Bump up PR
->
-> Signed-off-by: Jeff Lance<j-lance1@ti.com>
+On 03/05/2012 06:23 PM, James Limbouris wrote:
+> Signed-off-by: James Limbouris<james@digitalmatter.com.au>
 > ---
-> Updated in version 2:
->    Added '&' to indicate both licenses apply
-> ---
->   meta/recipes-kernel/trace-cmd/trace-cmd_1.2.bb |    8 +++++---
->   1 files changed, 5 insertions(+), 3 deletions(-)
+>   .../gdk-pixbuf-2.24.0/configure_nm.patch           |   18 ++++++++++++++++++
+>   meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf_2.24.0.bb |    3 ++-
+>   2 files changed, 20 insertions(+), 1 deletions(-)
+>   create mode 100644 meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf-2.24.0/configure_nm.patch
 >
-> diff --git a/meta/recipes-kernel/trace-cmd/trace-cmd_1.2.bb b/meta/recipes-kernel/trace-cmd/trace-cmd_1.2.bb
-> index d40dc6e..7f6f6cf 100644
-> --- a/meta/recipes-kernel/trace-cmd/trace-cmd_1.2.bb
-> +++ b/meta/recipes-kernel/trace-cmd/trace-cmd_1.2.bb
-> @@ -1,10 +1,12 @@
->   DESCRIPTION = "User interface to Ftrace"
-> -LICENSE = "GPLv2"
-> +LICENSE = "GPLv2&  LGPLv2.1"
->   LIC_FILES_CHKSUM = "file://COPYING;md5=751419260aa954499f7abaabaa882bbe \
-> -                    file://trace-cmd.c;beginline=6;endline=8;md5=2c22c965a649ddd7973d7913c5634a5e"
-> +                    file://trace-cmd.c;beginline=6;endline=8;md5=2c22c965a649ddd7973d7913c5634a5e \
-> +                    file://COPYING.LIB;md5=bbb461211a33b134d42ed5ee802b37ff \
-> +                    file://trace-input.c;beginline=5;endine=8;md5=c9c405aaf5cfc09582ec83cf6e83a020"
+> diff --git a/meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf-2.24.0/configure_nm.patch b/meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf-2.24.0/configure_nm.patch
+> new file mode 100644
+> index 0000000..0460824
+> --- /dev/null
+> +++ b/meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf-2.24.0/configure_nm.patch
+> @@ -0,0 +1,18 @@
+> +Pick up ${NM} from the environment.
+> +Upstream-Status: Inappropriate [configuration]
+> +Signed-off-by: James Limbouris<james@digitalmatter.com.au>
+> +
+> +Index: gdk-pixbuf-2.24.0/configure.ac
+> +===================================================================
+> +diff -uNr gdk-pixbuf-2.24.0/configure.ac gdk-pixbuf-2.24.0.mod/configure.ac
+> +--- gdk-pixbuf-2.24.0/configure.ac	2011-08-27 11:27:52.000000000 +0800
+> ++++ gdk-pixbuf-2.24.0.mod/configure.ac	2012-02-28 14:48:36.481126410 +0800
+> +@@ -147,7 +147,7 @@
+> + AC_SYS_LARGEFILE
+> +
+> + AM_PROG_AS
+> +-AC_PATH_PROG(NM, nm, nm)
+> ++AC_CHECK_TOOLS(NM, [$NM nm], nm)
+> +
+> + AC_MSG_CHECKING([for some Win32 platform])
+> + AS_CASE(["$host"],
+> diff --git a/meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf_2.24.0.bb b/meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf_2.24.0.bb
+> index 121babd..d75bf2a 100644
+> --- a/meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf_2.24.0.bb
+> +++ b/meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf_2.24.0.bb
+> @@ -11,6 +11,7 @@ SECTION = "libs"
+>   DEPENDS = "libpng glib-2.0 jpeg"
 >
->   SRCREV = "7055ffd37beeb44714e86a4abc703f7e175a0db5"
-> -PR = "r1"
-> +PR = "r2"
->   PV = "1.2+git${SRCPV}"
+>   SRC_URI = "http://ftp.acc.umu.se/pub/GNOME/sources/gdk-pixbuf/2.24/gdk-pixbuf-${PV}.tar.bz2 \
+> +           file://configure_nm.patch \
+>              file://hardcoded_libtool.patch \
+>              file://configure_fix.patch \
+>              "
+> @@ -18,7 +19,7 @@ SRC_URI = "http://ftp.acc.umu.se/pub/GNOME/sources/gdk-pixbuf/2.24/gdk-pixbuf-${
+>   SRC_URI[md5sum] = "d8ece3a4ade4a91c768328620e473ab8"
+>   SRC_URI[sha256sum] = "38d2630314e6d91976bffd833236f84fefa440a9038f86dc422820a39f2e3700"
 >
->   inherit pkgconfig
+> -PR = "r4"
+> +PR = "r5"
+>
+>   inherit autotools pkgconfig gettext
+>
 
 Merged into OE-Core
 
 Thanks
 	Sau!
+
 
 
