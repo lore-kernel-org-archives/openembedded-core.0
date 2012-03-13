@@ -1,40 +1,40 @@
 Received: from dan.rpsys.net ([93.97.175.187])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <richard@rpsys.net>) id 1S7Fdy-00011T-20
+	(envelope-from <richard@rpsys.net>) id 1S7Fdy-00011V-3G
 	for openembedded-core@lists.openembedded.org;
 	Tue, 13 Mar 2012 01:31:14 +0100
 Received: from localhost (dan.rpsys.net [127.0.0.1])
 	by dan.rpsys.net (8.14.2/8.14.2/Debian-2build1) with ESMTP id
-	q2D0ccOv004580 for <openembedded-core@lists.openembedded.org>;
-	Tue, 13 Mar 2012 00:38:38 GMT
-X-Quarantine-ID: <9LBYGCqrhi7T>
+	q2D0cdeY004588 for <openembedded-core@lists.openembedded.org>;
+	Tue, 13 Mar 2012 00:38:39 GMT
+X-Quarantine-ID: <25uUWwAtWkx0>
 X-Virus-Scanned: Debian amavisd-new at dan.rpsys.net
 X-Amavis-Alert: BAD HEADER, Duplicate header field: "In-Reply-To"
 Received: from dan.rpsys.net ([127.0.0.1])
 	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
-	with LMTP id 9LBYGCqrhi7T
+	with LMTP id 25uUWwAtWkx0
 	for <openembedded-core@lists.openembedded.org>;
 	Tue, 13 Mar 2012 00:38:38 +0000 (GMT)
 Received: from ted (ted.config [192.168.1.70]) (authenticated bits=0)
 	by dan.rpsys.net (8.14.2/8.14.2/Debian-2build1) with ESMTP id
-	q2D0cYIG004531
+	q2D0cZ8S004535
 	(version=TLSv1/SSLv3 cipher=AES256-SHA bits=256 verify=NOT)
 	for <openembedded-core@lists.openembedded.org>;
 	Tue, 13 Mar 2012 00:38:36 GMT
 Received: from richard by ted with local (Exim 4.76)
-	(envelope-from <richard@dan.rpsys.net>) id 1S7FVS-0002eL-WE
+	(envelope-from <richard@dan.rpsys.net>) id 1S7FVT-0002eQ-9q
 	for openembedded-core@lists.openembedded.org;
 	Tue, 13 Mar 2012 00:22:27 +0000
 From: Richard Purdie <richard.purdie@linuxfoundation.org>
 To: openembedded-core@lists.openembedded.org
-Date: Tue, 13 Mar 2012 00:22:12 +0000
-Message-Id: <b6906c8c08dff9f8b3dac0d2d637856296cb4a60.1331598077.git.richard.purdie@linuxfoundation.org>
+Date: Tue, 13 Mar 2012 00:22:14 +0000
+Message-Id: <25109aa2a4c2814ad89b4b416b4de31d14b65e93.1331598077.git.richard.purdie@linuxfoundation.org>
 X-Mailer: git-send-email 1.7.5.4
 In-Reply-To: <df48742cfc0c46ae33f28900cfd5a7a2f94c326c.1331598077.git.richard.purdie@linuxfoundation.org>
 References: <df48742cfc0c46ae33f28900cfd5a7a2f94c326c.1331598077.git.richard.purdie@linuxfoundation.org>
 In-Reply-To: <cover.1331598077.git.richard.purdie@linuxfoundation.org>
 References: <cover.1331598077.git.richard.purdie@linuxfoundation.org>
-Subject: [PATCH 05/17] matchbox-session: Clarify LICENSE as GPLv2
+Subject: [PATCH 07/17] gtk-doc: Clarify license as GPLv2
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -51,33 +51,27 @@ List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedde
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Tue, 13 Mar 2012 00:31:14 -0000
 
+The .m4 file has no details but the upstream project is clearly GPLv2
+so update the LICENSE file to match.
+
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 ---
- .../matchbox-session/matchbox-session_0.1.bb       |    4 +++-
- 1 files changed, 3 insertions(+), 1 deletions(-)
+ meta/recipes-gnome/gtk-doc/gtk-doc.bb |    2 +-
+ 1 files changed, 1 insertions(+), 1 deletions(-)
 
-diff --git a/meta/recipes-graphics/matchbox-session/matchbox-session_0.1.bb b/meta/recipes-graphics/matchbox-session/matchbox-session_0.1.bb
-index df9f2ab..dc10031 100644
---- a/meta/recipes-graphics/matchbox-session/matchbox-session_0.1.bb
-+++ b/meta/recipes-graphics/matchbox-session/matchbox-session_0.1.bb
-@@ -2,7 +2,7 @@ DESCRIPTION = "Custom MB session files for poky"
- HOMEPAGE = "http://www.matchbox-project.org/"
- BUGTRACKER = "http://bugzilla.openedhand.com/"
- 
--LICENSE = "GPL"
+diff --git a/meta/recipes-gnome/gtk-doc/gtk-doc.bb b/meta/recipes-gnome/gtk-doc/gtk-doc.bb
+index 765304e..3147d4a 100644
+--- a/meta/recipes-gnome/gtk-doc/gtk-doc.bb
++++ b/meta/recipes-gnome/gtk-doc/gtk-doc.bb
+@@ -4,7 +4,7 @@ It is used for generating the documentation for GTK+, GLib \
+ and GNOME."
+ SECTION = "x11/base"
+ SRC_URI = "file://gtk-doc.m4"
+-LICENSE = "LGPL"
 +LICENSE = "GPLv2"
- LIC_FILES_CHKSUM = "file://matchbox-session;endline=20;md5=180f1c169a15d059a56c30094f6fb5ea"
+ LIC_FILES_CHKSUM = "file://../gtk-doc.m4;endline=10;md5=868a952d8bb2d825d724854cfaf8f14e"
  
- SECTION = "x11"
-@@ -11,6 +11,8 @@ RCONFLICTS = "matchbox-common"
- SRC_URI = "file://matchbox-session"
- S = "${WORKDIR}"
- 
-+PR = "r1"
-+
- inherit update-alternatives
- 
- ALTERNATIVE_NAME = "x-session-manager"
+ PR = "r4"
 -- 
 1.7.5.4
 
