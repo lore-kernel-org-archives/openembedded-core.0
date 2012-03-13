@@ -1,20 +1,43 @@
-Received: from mga11.intel.com ([192.55.52.93])
+Received: from mga10.intel.com ([192.55.52.92] helo=fmsmga102.fm.intel.com)
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <sgw@linux.intel.com>) id 1S7Zk9-0003k6-KO
+	(envelope-from <scott.a.garman@intel.com>) id 1S7a6F-0004Jw-0A
 	for openembedded-core@lists.openembedded.org;
-	Tue, 13 Mar 2012 22:58:57 +0100
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-	by fmsmga102.fm.intel.com with ESMTP; 13 Mar 2012 14:50:12 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="128621559"
-Received: from unknown (HELO swold-mobl.bigsur.com) ([10.255.15.137])
-	by fmsmga001.fm.intel.com with ESMTP; 13 Mar 2012 14:50:11 -0700
-From: Saul Wold <sgw@linux.intel.com>
+	Tue, 13 Mar 2012 23:21:47 +0100
+Received: from mail-we0-f180.google.com ([74.125.82.180])
+	by mga11.intel.com with ESMTP/TLS/RC4-SHA; 13 Mar 2012 15:11:56 -0700
+Received: by werf3 with SMTP id f3so1050302wer.25
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 13 Mar 2012 15:11:54 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=google.com; s=20120113;
+	h=message-id:date:from:user-agent:mime-version:to:subject:references
+	:in-reply-to:content-type:content-transfer-encoding
+	:x-gm-message-state;
+	bh=/+PNZFWgZQbM9rXncRZVjyN3Btga/WNC5KupvoaElgg=;
+	b=cfPYkcU5Brl8Tj9D59mGGwqMeNHwTpsJNuG/Naqg/jMo6JP5lE3TDArkxtY+g6X3yG
+	O/VJdaMK/GUBCUG3Or4QShjTScNg957XvbMEXGSOA6vFGdfWENIkewYffoxZus5ipg9f
+	kZ+W4IOew5E1ZpaCDQslhkQZXyRA/oEXHxl4k0Lm64BXxK0b39RRnk/vnoBDYi3Htyin
+	w2GdVyyo96sgYthHnJfVTpJ2Ln+mWuLWj/iDqqjPuLLJh8xq9H9K6icxvJ7mbjbOe01C
+	Phu04FF1Yw2JUl6KIqwdnfxAdaPwm/jE7rMtot6nJ3SlVFZE9FcsrHk7gkAUKJcdSAIx
+	5fvw==
+Received: by 10.180.107.162 with SMTP id hd2mr11200887wib.8.1331676714432;
+	Tue, 13 Mar 2012 15:11:54 -0700 (PDT)
+Received: from [127.0.0.1] (masterfoo.zenlinux.com. [207.192.74.254])
+	by mx.google.com with ESMTPS id k6sm23120134wie.9.2012.03.13.15.11.52
+	(version=SSLv3 cipher=OTHER); Tue, 13 Mar 2012 15:11:54 -0700 (PDT)
+Message-ID: <4F5FC61E.1040708@intel.com>
+Date: Tue, 13 Mar 2012 15:11:42 -0700
+From: Scott Garman <scott.a.garman@intel.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:10.0.2) Gecko/20120216 Thunderbird/10.0.2
+MIME-Version: 1.0
 To: openembedded-core@lists.openembedded.org
-Date: Tue, 13 Mar 2012 14:50:11 -0700
-Message-Id: <1331675411-8930-1-git-send-email-sgw@linux.intel.com>
-X-Mailer: git-send-email 1.7.7.6
-Subject: [PATCH v2] docbook-utils: Add check to not sed files twice
+References: <cover.1331604310.git.scott.a.garman@intel.com>
+	<f876555e0b49baed50840adb1d93e8338ab9d7ef.1331604310.git.scott.a.garman@intel.com>
+	<4F5FB36A.8020007@opendreambox.org>
+In-Reply-To: <4F5FB36A.8020007@opendreambox.org>
+X-Gm-Message-State: ALoCoQlSMNUR2GN9o+ZOooKgOw52wQRACR6S+3q4wDlQaVY6TuKoq+8dhimtt4Hcs59JVVOn3qjq
+Subject: Re: [PATCH 2/3] ncurses: move only libncurses and libtinfo to base_libdir
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -29,56 +52,37 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 13 Mar 2012 21:58:57 -0000
+X-List-Received-Date: Tue, 13 Mar 2012 22:21:47 -0000
+Content-Type: text/plain; charset=ISO-8859-1; format=flowed
+Content-Transfer-Encoding: 7bit
 
-This comes about from the code configure code getting run
-multiple times on the same WORKDIR and re-sed'ing already
-modified files.
+On 03/13/2012 01:51 PM, Andreas Oberritter wrote:
+> On 13.03.2012 03:08, Scott Garman wrote:
+>> The previous approach to moving the ncurses libraries to
+>> base_libdir was too aggressive, and it broke curses support
+>> in python.
+>>
+>> Instead, move only libncurses, libncursesw, and libtinfo to
+>> base_libdir and leave the remaining libraries in libdir.
+>>
+>> Also delete ${libdir}/terminfo as it never gets packaged to
+>> avoid a QA warning.
+>>
+>> This fixes [YOCTO #2070] and is a partial fix for [YOCTO #1937].
+>
+> Hello Scott,
+>
+> package splitting doesn't seem to work anymore. Libs that previously had
+> their own package now end up being stored in the main ncurses package.
 
-v2: add space after .sed_done (tested with this version)
+Thanks for reporting this, Andreas. I am working on a fix for it now. My 
+apologies for the trouble.
 
-Signed-off-by: Saul Wold <sgw@linux.intel.com>
----
- .../docbook-utils/docbook-utils-native_0.6.14.bb   |   17 ++++++++++-------
- 1 files changed, 10 insertions(+), 7 deletions(-)
+Scott
 
-diff --git a/meta/recipes-devtools/docbook-utils/docbook-utils-native_0.6.14.bb b/meta/recipes-devtools/docbook-utils/docbook-utils-native_0.6.14.bb
-index c2ccef3..96459dc 100644
---- a/meta/recipes-devtools/docbook-utils/docbook-utils-native_0.6.14.bb
-+++ b/meta/recipes-devtools/docbook-utils/docbook-utils-native_0.6.14.bb
-@@ -7,7 +7,7 @@ LICENSE = "GPLv2"
- LIC_FILES_CHKSUM = "file://COPYING;md5=94d55d512a9ba36caa9b7df079bae19f"
- DEPENDS = "openjade-native sgmlspl-native docbook-dsssl-stylesheets-native docbook-sgml-dtd-3.1-native"
- 
--PR = "r1"
-+PR = "r2"
- 
- SRC_URI = "ftp://sources.redhat.com/pub/docbook-tools/new-trials/SOURCES/docbook-utils-${PV}.tar.gz"
- 
-@@ -18,12 +18,15 @@ inherit autotools native
- 
- do_configure_prepend() {
- 	# Fix hard-coded references to /etc/sgml
--	sed -i -e "s|/etc/sgml|${sysconfdir}/sgml|g" bin/jw.in
--	sed -i -e "s|/etc/sgml|${sysconfdir}/sgml|g" doc/man/Makefile.am
--	sed -i -e "s|/etc/sgml|${sysconfdir}/sgml|g" doc/HTML/Makefile.am
--
--	# Point jw to the native sysroot catalog
--	sed -i -e 's|^SGML_EXTRA_CATALOGS=""|SGML_EXTRA_CATALOGS=":${sysconfdir}/sgml/catalog"|g' bin/jw.in
-+	if [ ! -e ${WORKDIR}/.sed_done ]; then
-+		sed -i -e "s|/etc/sgml|${sysconfdir}/sgml|g" bin/jw.in
-+		sed -i -e "s|/etc/sgml|${sysconfdir}/sgml|g" doc/man/Makefile.am
-+		sed -i -e "s|/etc/sgml|${sysconfdir}/sgml|g" doc/HTML/Makefile.am
-+
-+		# Point jw to the native sysroot catalog
-+		sed -i -e 's|^SGML_EXTRA_CATALOGS=""|SGML_EXTRA_CATALOGS=":${sysconfdir}/sgml/catalog"|g' bin/jw.in
-+		touch ${WORKDIR}/.sed_done
-+	fi
- }
- 
- do_install() {
 -- 
-1.7.7.6
-
+Scott Garman
+Embedded Linux Engineer - Yocto Project
+Intel Open Source Technology Center
 
 
