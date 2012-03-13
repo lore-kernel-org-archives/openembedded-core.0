@@ -1,40 +1,29 @@
 Received: from dan.rpsys.net ([93.97.175.187])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <richard@rpsys.net>) id 1S7Fdy-00011X-Dt
+	(envelope-from <richard@rpsys.net>) id 1S7Fe0-00011u-0y
 	for openembedded-core@lists.openembedded.org;
-	Tue, 13 Mar 2012 01:31:14 +0100
+	Tue, 13 Mar 2012 01:31:16 +0100
 Received: from localhost (dan.rpsys.net [127.0.0.1])
 	by dan.rpsys.net (8.14.2/8.14.2/Debian-2build1) with ESMTP id
-	q2D0cdsm004594 for <openembedded-core@lists.openembedded.org>;
-	Tue, 13 Mar 2012 00:38:39 GMT
-X-Quarantine-ID: <uolHCdNprHiS>
+	q2D0cY4t004525; Tue, 13 Mar 2012 00:38:34 GMT
 X-Virus-Scanned: Debian amavisd-new at dan.rpsys.net
-X-Amavis-Alert: BAD HEADER, Duplicate header field: "In-Reply-To"
 Received: from dan.rpsys.net ([127.0.0.1])
 	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
-	with LMTP id uolHCdNprHiS
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 13 Mar 2012 00:38:39 +0000 (GMT)
+	with LMTP id kHuRB9r8kUz9; Tue, 13 Mar 2012 00:38:34 +0000 (GMT)
 Received: from ted (ted.config [192.168.1.70]) (authenticated bits=0)
 	by dan.rpsys.net (8.14.2/8.14.2/Debian-2build1) with ESMTP id
-	q2D0cZYv004537
-	(version=TLSv1/SSLv3 cipher=AES256-SHA bits=256 verify=NOT)
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 13 Mar 2012 00:38:36 GMT
+	q2D0cTrx004516
+	(version=TLSv1/SSLv3 cipher=AES256-SHA bits=256 verify=NOT);
+	Tue, 13 Mar 2012 00:38:31 GMT
 Received: from richard by ted with local (Exim 4.76)
-	(envelope-from <richard@dan.rpsys.net>) id 1S7FVT-0002eX-KS
-	for openembedded-core@lists.openembedded.org;
-	Tue, 13 Mar 2012 00:22:27 +0000
+	(envelope-from <richard@dan.rpsys.net>)
+	id 1S7FVN-0002dK-S3; Tue, 13 Mar 2012 00:22:21 +0000
 From: Richard Purdie <richard.purdie@linuxfoundation.org>
 To: openembedded-core@lists.openembedded.org
-Date: Tue, 13 Mar 2012 00:22:16 +0000
-Message-Id: <fe8282824f54fd49a9b53d63b45c76132c3dc04f.1331598077.git.richard.purdie@linuxfoundation.org>
+Date: Tue, 13 Mar 2012 00:22:20 +0000
+Message-Id: <cover.1331598077.git.richard.purdie@linuxfoundation.org>
 X-Mailer: git-send-email 1.7.5.4
-In-Reply-To: <df48742cfc0c46ae33f28900cfd5a7a2f94c326c.1331598077.git.richard.purdie@linuxfoundation.org>
-References: <df48742cfc0c46ae33f28900cfd5a7a2f94c326c.1331598077.git.richard.purdie@linuxfoundation.org>
-In-Reply-To: <cover.1331598077.git.richard.purdie@linuxfoundation.org>
-References: <cover.1331598077.git.richard.purdie@linuxfoundation.org>
-Subject: [PATCH 09/17] boost: Correct license name BSL-1 -> BSL-1.0
+Subject: [PATCH 00/17] Various warning fixes
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -49,35 +38,59 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 13 Mar 2012 00:31:14 -0000
+X-List-Received-Date: Tue, 13 Mar 2012 00:31:16 -0000
 
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
----
- meta/recipes-support/boost/boost.inc |    4 ++--
- 1 files changed, 2 insertions(+), 2 deletions(-)
+The following changes since commit f47ada62a3da879006e7cb27479dc9b72c56e923:
 
-diff --git a/meta/recipes-support/boost/boost.inc b/meta/recipes-support/boost/boost.inc
-index c15a04c..d70a7e2 100644
---- a/meta/recipes-support/boost/boost.inc
-+++ b/meta/recipes-support/boost/boost.inc
-@@ -8,7 +8,7 @@ HOMEPAGE = "http://www.boost.org/"
- SECTION = "libs"
- DEPENDS = "boost-native zlib"
- DEPENDS_virtclass-native = ""
--LICENSE = "BSL-1 & MIT & Python-2.0"
-+LICENSE = "BSL-1.0 & MIT & Python-2.0"
- 
- ARM_INSTRUCTION_SET = "arm"
- 
-@@ -16,7 +16,7 @@ BOOST_VER = "${@"_".join(d.getVar("PV",1).split("."))}"
- BOOST_MAJ = "${@"_".join(d.getVar("PV",1).split(".")[0:2])}"
- BOOST_P = "boost_${BOOST_VER}"
- 
--INC_PR = "r1"
-+INC_PR = "r2"
- 
- SRC_URI = "${SOURCEFORGE_MIRROR}/${BPN}/${BOOST_P}.tar.bz2"
- 
+  cmake.bbclass: add ${base_libdir} to CMAKE_LIBRARY_PATH (2012-03-12 17:46:16 +0000)
+
+are available in the git repository at:
+  git://git.pokylinux.org/poky-contrib rpurdie/t7
+  http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=rpurdie/t7
+
+and fix various warning messages.
+
+Richard Purdie (17):
+  leafpad: Package currently unpackaged files.
+  xf86-input-vmmouse: Package unpackaged files
+  sato-screenshot: Remove unneeded .la file
+  librsvg: Fix unpackaged directory warnings
+  matchbox-session: Clarify LICENSE as GPLv2
+  wireless-tools: Clarify LICENSE field to avoid warnings
+  gtk-doc: Clarify license as GPLv2
+  gnome-doc-utils: Clarify license as GPLv2 and LGPLv2.1
+  boost: Correct license name BSL-1 -> BSL-1.0
+  shadow: Correct license Artistic -> Artistic-1.0
+  perl: Clarify LICENSE with versions. Yes, its really GPLv1
+  license.bbclass: Add mapping for LGPLv2.0, pango uses it
+  qemu-config: Clarify license as GPLv2
+  bluez4: Ensure the plugins directory is packaged to avoid warnings
+  rpm: Add rpmdeps-oecore to appropriate package
+  python-pycairo: Fix incorrect versions in license field
+  xserver-xorg: Remove unneeded empty directory, fixing QA warning
+
+ meta/classes/license.bbclass                       |    1 +
+ meta/recipes-bsp/qemu-config/qemu-config.bb        |    4 ++--
+ meta/recipes-connectivity/bluez/bluez4_4.98.bb     |    2 +-
+ .../wireless-tools/wireless-tools_29.bb            |    4 ++--
+ meta/recipes-devtools/perl/perl_5.14.2.bb          |    4 ++--
+ .../python/python-pycairo_1.10.0.bb                |    4 ++--
+ meta/recipes-devtools/rpm/rpm_5.4.0.bb             |    3 ++-
+ .../shadow/shadow-native_4.1.4.3.bb                |    4 ++--
+ .../shadow/shadow-sysroot_4.1.4.3.bb               |    4 ++--
+ meta/recipes-extended/shadow/shadow_4.1.4.3.bb     |    4 ++--
+ meta/recipes-gnome/gnome/gnome-doc-utils.inc       |    2 +-
+ meta/recipes-gnome/gnome/gnome-doc-utils_0.20.6.bb |    2 +-
+ meta/recipes-gnome/gtk-doc/gtk-doc.bb              |    2 +-
+ meta/recipes-gnome/librsvg/librsvg_2.32.1.bb       |    7 ++++++-
+ .../matchbox-session/matchbox-session_0.1.bb       |    4 +++-
+ .../xorg-driver/xf86-input-vmmouse_12.7.0.bb       |   10 +++++++++-
+ .../xorg-xserver/xserver-xorg-common.inc           |    4 ++++
+ meta/recipes-sato/leafpad/leafpad_0.8.18.1.bb      |    6 ++++--
+ .../sato-screenshot/sato-screenshot_git.bb         |    6 +++++-
+ meta/recipes-support/boost/boost.inc               |    4 ++--
+ 20 files changed, 54 insertions(+), 27 deletions(-)
+
 -- 
 1.7.5.4
 
