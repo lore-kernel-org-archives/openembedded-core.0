@@ -1,20 +1,24 @@
 Received: from mga11.intel.com ([192.55.52.93])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <sgw@linux.intel.com>) id 1S7Mlk-0000Hp-Ee
+	(envelope-from <sgw@linux.intel.com>) id 1S7Mll-0000Hp-EQ
 	for openembedded-core@lists.openembedded.org;
-	Tue, 13 Mar 2012 09:07:44 +0100
+	Tue, 13 Mar 2012 09:07:45 +0100
 Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-	by fmsmga102.fm.intel.com with ESMTP; 13 Mar 2012 00:58:59 -0700
+	by fmsmga102.fm.intel.com with ESMTP; 13 Mar 2012 00:59:00 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="128321777"
+X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="128321778"
 Received: from unknown (HELO swold-mobl.bigsur.com) ([10.255.15.137])
 	by fmsmga001.fm.intel.com with ESMTP; 13 Mar 2012 00:58:59 -0700
 From: Saul Wold <sgw@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Tue, 13 Mar 2012 00:58:34 -0700
-Message-Id: <cover.1331589797.git.sgw@linux.intel.com>
+Date: Tue, 13 Mar 2012 00:58:35 -0700
+Message-Id: <919cc86cbcc5261eafa19dc7c81d505edb3df177.1331589797.git.sgw@linux.intel.com>
 X-Mailer: git-send-email 1.7.7.6
-Subject: [CONSOLIDATED PULL 00/23] Catching up after conference Time
+In-Reply-To: <cover.1331589797.git.sgw@linux.intel.com>
+References: <cover.1331589797.git.sgw@linux.intel.com>
+In-Reply-To: <cover.1331589797.git.sgw@linux.intel.com>
+References: <cover.1331589797.git.sgw@linux.intel.com>
+Subject: [CONSOLIDATED PULL 01/23] linux-yocto: respect FILESPATH directories
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -31,104 +35,105 @@ List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedde
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Tue, 13 Mar 2012 08:07:45 -0000
 
-Richard,
+From: Bruce Ashfield <bruce.ashfield@windriver.com>
 
-Here is a collection of patches that have been pending for a little 
-while.
+During the work to enhance the ability to specify out of tree kernel
+features, an assumption was made about PN being part of a patch
+path. This assumption is incorrect, since patches can be anywhere in
+the valid FILESPATH.
 
-There is one pending change from Bruce for poky (meta-yocto) in the
-MUT branch
+To make locating the patches in WORKDIR simple, we can just query
+patch.bbclass and return both the absolute directory of the patch
+and the subdirectory as it was specified on the src_uri.
 
-Have built world with this code, and booted a minimal image
+Signed-off-by: Bruce Ashfield <bruce.ashfield@windriver.com>
+---
+ meta/classes/kernel-yocto.bbclass |   30 ++++++++++++++++++++++++++----
+ 1 files changed, 26 insertions(+), 4 deletions(-)
 
-
-
-The following changes since commit f47ada62a3da879006e7cb27479dc9b72c56e923:
-
-  cmake.bbclass: add ${base_libdir} to CMAKE_LIBRARY_PATH (2012-03-12 17:46:16 +0000)
-
-are available in the git repository at:
-  git://git.openembedded.org/openembedded-core-contrib sgw/stage
-  http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=sgw/stage
-
-Andreas Oberritter (10):
-  qt4: fix deps in libQtWebkit.la and QtWebKit.pc
-  udev-164: fixup "don't hardcode path to pidof"
-  package.bbclass: sort dynamically generated packages
-  util-linux: explicitly disable udev
-  linux-firmware: fix permissions of installed files
-  python, python-native: always set platform to linux2
-  python: regenerate plat-linux2/*.py
-  python: depend on bzip2
-  python-native: distutils: don't use libdir, remove dead code path
-  python, python-native: bump PR
-
-Bruce Ashfield (1):
-  linux-yocto: respect FILESPATH directories
-
-Dexuan Cui (1):
-  image_types: ensure .rootfs.ext3 is created before vmdk is created.
-
-Jeff Lance (1):
-  trace-cmd: modifying License information
-
-Matthew McClintock (2):
-  packagedata.py: Fix get_subpkgedata_fn for multilib
-  arch-powerpc.inc: use default value of TUNE_PKGARCH
-
-Otavio Salvador (6):
-  run-postinsts: fix opkg data path
-  image.bbclass: fix rootfs generation without package management tools
-  rootfs_rpm.bbclass: rename postinst trigger script
-  opkg: rename postinst trigger script
-  dpkg: rename postinst trigger script
-  connman: update to 0.79
-
-Saul Wold (2):
-  glib-2.0: Add Upstream Status for nodbus.patch
-  image-vmdk: add NOISO to disable iso image creation since it's not
-    needed
-
- meta/classes/core-image.bbclass                    |    2 -
- meta/classes/image-vmdk.bbclass                    |    1 +
- meta/classes/image.bbclass                         |    7 +++-
- meta/classes/image_types.bbclass                   |    6 +++
- meta/classes/kernel-yocto.bbclass                  |   30 +++++++++++++--
- meta/classes/package.bbclass                       |    4 +-
- meta/classes/rootfs_rpm.bbclass                    |    6 ++--
- meta/conf/machine/include/powerpc/arch-powerpc.inc |    6 +--
- meta/lib/oe/packagedata.py                         |    8 ++++
- .../connman/add_xuser_dbus_permission.patch        |   12 ++++---
- .../connman/connman/disable_alg-test.patch         |   18 +++++-----
- .../connman/{connman_0.78.bb => connman_0.79.bb}   |    6 +--
- meta/recipes-core/glib-2.0/glib-2.0/nodbus.patch   |    2 +
- meta/recipes-core/udev/udev/init                   |    2 +-
- meta/recipes-core/udev/udev_164.bb                 |    2 +-
- meta/recipes-core/util-linux/util-linux.inc        |    2 +-
- meta/recipes-core/util-linux/util-linux_2.21.bb    |    2 +-
- meta/recipes-devtools/dpkg/dpkg.inc                |    6 ++--
- .../dpkg/run-postinsts/run-postinsts               |    4 +-
- .../dpkg/run-postinsts/run-postinsts.awk           |    2 +-
- meta/recipes-devtools/dpkg/run-postinsts_1.0.bb    |    2 +-
- meta/recipes-devtools/opkg/opkg.inc                |    8 ++--
- ...2-distutils-prefix-is-inside-staging-area.patch |    6 ++--
- .../sys_platform_is_now_always_linux2.patch        |   39 ++++++++++++++++++++
- .../recipes-devtools/python/python-native_2.7.2.bb |    1 +
- meta/recipes-devtools/python/python.inc            |    2 +-
- .../python/python/07-linux3-regen-fix.patch        |   18 ---------
- .../python/sys_platform_is_now_always_linux2.patch |   39 ++++++++++++++++++++
- meta/recipes-devtools/python/python_2.7.2.bb       |   15 +++++++-
- .../linux-firmware/linux-firmware_git.bb           |    4 +-
- meta/recipes-kernel/trace-cmd/trace-cmd_1.2.bb     |    8 +++--
- meta/recipes-qt/qt4/qt4-embedded.inc               |    2 +-
- meta/recipes-qt/qt4/qt4-x11-free.inc               |    2 +-
- meta/recipes-qt/qt4/qt4.inc                        |    1 +
- 34 files changed, 194 insertions(+), 81 deletions(-)
- rename meta/recipes-connectivity/connman/{connman_0.78.bb => connman_0.79.bb} (79%)
- create mode 100644 meta/recipes-devtools/python/python-native/sys_platform_is_now_always_linux2.patch
- delete mode 100644 meta/recipes-devtools/python/python/07-linux3-regen-fix.patch
- create mode 100644 meta/recipes-devtools/python/python/sys_platform_is_now_always_linux2.patch
-
+diff --git a/meta/classes/kernel-yocto.bbclass b/meta/classes/kernel-yocto.bbclass
+index aabca78..ce125b4 100644
+--- a/meta/classes/kernel-yocto.bbclass
++++ b/meta/classes/kernel-yocto.bbclass
+@@ -1,6 +1,8 @@
+ S = "${WORKDIR}/linux"
+ 
+ 
++# returns local (absolute) path names for all valid patches in the
++# src_uri
+ def find_patches(d):
+ 	patches=src_patches(d)
+ 	patch_list=[]
+@@ -10,6 +12,7 @@ def find_patches(d):
+ 
+ 	return patch_list
+ 
++# returns all the elements from the src uri that are .scc files
+ def find_sccs(d):
+ 	sources=src_patches(d, True)
+ 	sources_list=[]
+@@ -20,6 +23,22 @@ def find_sccs(d):
+ 
+ 	return sources_list
+ 
++# this is different from find_patches, in that it returns a colon separated
++# list of <patches>:<subdir> instead of just a list of patches
++def find_urls(d):
++	patches=src_patches(d)
++	fetch = bb.fetch2.Fetch([], d)
++	patch_list=[]
++	for p in patches:
++		_, _, local, _, _, _ = bb.decodeurl(p)
++		for url in fetch.urls:
++			urldata = fetch.ud[url]
++			if urldata.localpath == local:
++				patch_list.append(local+':'+urldata.path)
++
++        return patch_list
++
++
+ do_patch() {
+ 	cd ${S}
+ 	if [ -f ${WORKDIR}/defconfig ]; then
+@@ -51,8 +70,8 @@ do_patch() {
+ 		exit 1
+ 	fi
+ 
+-	patches="${@" ".join(find_patches(d))}"
+ 	sccs="${@" ".join(find_sccs(d))}"
++	patches_and_dirs="${@" ".join(find_urls(d))}"
+ 
+ 	# This loops through all patches, and looks for directories that do
+ 	# not already have feature descriptions. If a directory doesn't have
+@@ -66,14 +85,16 @@ do_patch() {
+ 	# to be repeated on the SRC_URI line .. which is more intutive
+ 	set +e
+ 	patch_dirs=
+-	for p in ${patches}; do
++	for pp in ${patches_and_dirs}; do
++	        p=`echo $pp | cut -f1 -d:`
++		wp=`echo $pp | cut -f2 -d:`
+ 		pdir=`dirname ${p}`
+ 		pname=`basename ${p}`
+ 		scc=`find ${pdir} -maxdepth 1 -name '*.scc'`
+ 		if [ -z "${scc}" ]; then
+ 			# there is no scc file. We need to switch to someplace that we know
+ 		        # we can create content (the workdir)
+-			workdir_subdir=`echo ${pdir} | sed "s%^.*/${PN}%%" | sed 's%^/%%'`
++			workdir_subdir=`dirname ${wp}`
+ 			suggested_dir="${WORKDIR}/${workdir_subdir}"
+ 			echo ${gen_feature_dirs} | grep -q ${suggested_dir}
+ 			if [ $? -ne 0 ]; then
+@@ -82,7 +103,8 @@ do_patch() {
+ 			# we call the file *.scc_tmp, so the test above will continue to find
+ 			# that patches from a common subdirectory don't have a scc file and 
+ 			# they'll be placed in order, into this file. We'll rename it later.
+-			echo "patch ${pname}" >> ${suggested_dir}/gen_${workdir_subdir}_desc.scc_tmp
++			gen_feature_name="gen_`echo ${workdir_subdir} | sed 's%/%%g'`_desc.scc_tmp"
++			echo "patch ${pname}" >> ${WORKDIR}/${workdir_subdir}/${gen_feature_name}
+ 		else
+ 			suggested_dir="${pdir}"
+ 		fi
 -- 
 1.7.7.6
 
