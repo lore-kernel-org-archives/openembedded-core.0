@@ -1,30 +1,30 @@
 Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
 	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
 	(envelope-from <richard.purdie@linuxfoundation.org>)
-	id 1S7bXa-0005nq-7W for openembedded-core@lists.openembedded.org;
-	Wed, 14 Mar 2012 00:54:06 +0100
+	id 1S7bYZ-0005qr-J4 for openembedded-core@lists.openembedded.org;
+	Wed, 14 Mar 2012 00:55:08 +0100
 Received: from localhost (localhost [127.0.0.1])
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q2DNjLhf001204
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q2DNkMxo001218
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 13 Mar 2012 23:45:21 GMT
+	Tue, 13 Mar 2012 23:46:22 GMT
 Received: from tim.rpsys.net ([127.0.0.1])
 	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
 	port 10024) with LMTP
-	id 31871-09 for <openembedded-core@lists.openembedded.org>;
-	Tue, 13 Mar 2012 23:45:18 +0000 (GMT)
+	id 32245-06 for <openembedded-core@lists.openembedded.org>;
+	Tue, 13 Mar 2012 23:46:18 +0000 (GMT)
 Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q2DNjCCT001197
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q2DNkEHs001212
 	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO)
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 13 Mar 2012 23:45:14 GMT
-Message-ID: <1331682312.18586.12.camel@ted>
+	Tue, 13 Mar 2012 23:46:15 GMT
+Message-ID: <1331682374.18586.13.camel@ted>
 From: Richard Purdie <richard.purdie@linuxfoundation.org>
 To: openembedded-core <openembedded-core@lists.openembedded.org>
-Date: Tue, 13 Mar 2012 23:45:12 +0000
+Date: Tue, 13 Mar 2012 23:46:14 +0000
 X-Mailer: Evolution 3.2.2- 
 Mime-Version: 1.0
 X-Virus-Scanned: amavisd-new at rpsys.net
-Subject: [PATCH] xorg-cf-files: Fix unpackaged files warning
+Subject: [PATCH] perl-modules: Fix LICENSE fields to mention the correct license versions
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -39,156 +39,152 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 13 Mar 2012 23:54:06 -0000
+X-List-Received-Date: Tue, 13 Mar 2012 23:55:08 -0000
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 
-This fixes the warnings:
-
-WARNING: For recipe xorg-cf-files, the following files/directories were installed but not shipped in any package:
-WARNING:   /usr
-WARNING:   /usr/lib
-WARNING:   /usr/lib/X11
-WARNING:   /usr/lib/X11/config
-WARNING:   /usr/lib/X11/config/mingw.rules
-WARNING:   /usr/lib/X11/config/Oki.cf
-WARNING:   /usr/lib/X11/config/cray.cf
-WARNING:   /usr/lib/X11/config/OpenBSD.cf
-WARNING:   /usr/lib/X11/config/lnxdoc.tmpl
-WARNING:   /usr/lib/X11/config/Motif.rules
-WARNING:   /usr/lib/X11/config/nec.cf
-WARNING:   /usr/lib/X11/config/sv3Lib.rules
-WARNING:   /usr/lib/X11/config/sco5.cf
-WARNING:   /usr/lib/X11/config/xorgsite.def
-WARNING:   /usr/lib/X11/config/minix.cf
-WARNING:   /usr/lib/X11/config/cross.rules
-WARNING:   /usr/lib/X11/config/bsdi.cf
-WARNING:   /usr/lib/X11/config/ServerLib.tmpl
-WARNING:   /usr/lib/X11/config/sequentLib.rules
-WARNING:   /usr/lib/X11/config/darwin.cf
-WARNING:   /usr/lib/X11/config/version.def
-WARNING:   /usr/lib/X11/config/scoLib.rules
-WARNING:   /usr/lib/X11/config/OpenBSDLib.tmpl
-WARNING:   /usr/lib/X11/config/hpLib.tmpl
-WARNING:   /usr/lib/X11/config/xf86.tmpl
-WARNING:   /usr/lib/X11/config/moto.cf
-WARNING:   /usr/lib/X11/config/sv4Lib.tmpl
-WARNING:   /usr/lib/X11/config/Library.tmpl
-WARNING:   /usr/lib/X11/config/sunLib.tmpl
-WARNING:   /usr/lib/X11/config/necLib.tmpl
-WARNING:   /usr/lib/X11/config/Imake.tmpl
-WARNING:   /usr/lib/X11/config/sv3Lib.tmpl
-WARNING:   /usr/lib/X11/config/apollo.cf
-WARNING:   /usr/lib/X11/config/sco.cf
-WARNING:   /usr/lib/X11/config/linux.cf
-WARNING:   /usr/lib/X11/config/osfLib.rules
-WARNING:   /usr/lib/X11/config/usl.cf
-WARNING:   /usr/lib/X11/config/cygwin.rules
-WARNING:   /usr/lib/X11/config/Motif.tmpl
-WARNING:   /usr/lib/X11/config/lynx.cf
-WARNING:   /usr/lib/X11/config/FreeBSD.cf
-WARNING:   /usr/lib/X11/config/cygwin.cf
-WARNING:   /usr/lib/X11/config/lnxdoc.rules
-WARNING:   /usr/lib/X11/config/sgiLib.rules
-WARNING:   /usr/lib/X11/config/Mips.cf
-WARNING:   /usr/lib/X11/config/QNX4.rules
-WARNING:   /usr/lib/X11/config/lnxLib.tmpl
-WARNING:   /usr/lib/X11/config/QNX4.cf
-WARNING:   /usr/lib/X11/config/osf1.cf
-WARNING:   /usr/lib/X11/config/gnuLib.rules
-WARNING:   /usr/lib/X11/config/dmx.cf
-WARNING:   /usr/lib/X11/config/cde.tmpl
-WARNING:   /usr/lib/X11/config/Imake.rules
-WARNING:   /usr/lib/X11/config/xfree86.cf
-WARNING:   /usr/lib/X11/config/mingw.cf
-WARNING:   /usr/lib/X11/config/pegasus.cf
-WARNING:   /usr/lib/X11/config/gnuLib.tmpl
-WARNING:   /usr/lib/X11/config/Threads.tmpl
-WARNING:   /usr/lib/X11/config/nto.rules
-WARNING:   /usr/lib/X11/config/macII.cf
-WARNING:   /usr/lib/X11/config/convex.cf
-WARNING:   /usr/lib/X11/config/bsdLib.rules
-WARNING:   /usr/lib/X11/config/xorgversion.def
-WARNING:   /usr/lib/X11/config/bsdiLib.tmpl
-WARNING:   /usr/lib/X11/config/date.def
-WARNING:   /usr/lib/X11/config/mach.cf
-WARNING:   /usr/lib/X11/config/os2Lib.tmpl
-WARNING:   /usr/lib/X11/config/lnxLib.rules
-WARNING:   /usr/lib/X11/config/os2.rules
-WARNING:   /usr/lib/X11/config/mingw.tmpl
-WARNING:   /usr/lib/X11/config/svr3.cf
-WARNING:   /usr/lib/X11/config/os2Lib.rules
-WARNING:   /usr/lib/X11/config/nto.cf
-WARNING:   /usr/lib/X11/config/noop.rules
-WARNING:   /usr/lib/X11/config/xf86.rules
-WARNING:   /usr/lib/X11/config/cross.def
-WARNING:   /usr/lib/X11/config/osfLib.tmpl
-WARNING:   /usr/lib/X11/config/darwinLib.rules
-WARNING:   /usr/lib/X11/config/Server.tmpl
-WARNING:   /usr/lib/X11/config/Amoeba.cf
-WARNING:   /usr/lib/X11/config/sequent.cf
-WARNING:   /usr/lib/X11/config/gnu.cf
-WARNING:   /usr/lib/X11/config/DGUX.cf
-WARNING:   /usr/lib/X11/config/host.def
-WARNING:   /usr/lib/X11/config/WinLib.tmpl
-WARNING:   /usr/lib/X11/config/sunLib.rules
-WARNING:   /usr/lib/X11/config/OpenBSDLib.rules
-WARNING:   /usr/lib/X11/config/X11.tmpl
-WARNING:   /usr/lib/X11/config/sony.cf
-WARNING:   /usr/lib/X11/config/darwinLib.tmpl
-WARNING:   /usr/lib/X11/config/cde.rules
-WARNING:   /usr/lib/X11/config/hp.cf
-WARNING:   /usr/lib/X11/config/xorg.cf
-WARNING:   /usr/lib/X11/config/Imake.cf
-WARNING:   /usr/lib/X11/config/sgi.cf
-WARNING:   /usr/lib/X11/config/necLib.rules
-WARNING:   /usr/lib/X11/config/ultrix.cf
-WARNING:   /usr/lib/X11/config/Win32.cf
-WARNING:   /usr/lib/X11/config/bsd.cf
-WARNING:   /usr/lib/X11/config/isc.cf
-WARNING:   /usr/lib/X11/config/oldlib.rules
-WARNING:   /usr/lib/X11/config/sv4Lib.rules
-WARNING:   /usr/lib/X11/config/svr4.cf
-WARNING:   /usr/lib/X11/config/generic.cf
-WARNING:   /usr/lib/X11/config/os2.cf
-WARNING:   /usr/lib/X11/config/luna.cf
-WARNING:   /usr/lib/X11/config/xorg.tmpl
-WARNING:   /usr/lib/X11/config/sun.cf
-WARNING:   /usr/lib/X11/config/bsdLib.tmpl
-WARNING:   /usr/lib/X11/config/DragonFly.cf
-WARNING:   /usr/lib/X11/config/x386.cf
-WARNING:   /usr/lib/X11/config/X11.rules
-WARNING:   /usr/lib/X11/config/bsdiLib.rules
-WARNING:   /usr/lib/X11/config/ibmLib.tmpl
-WARNING:   /usr/lib/X11/config/Win32.rules
-WARNING:   /usr/lib/X11/config/hpLib.rules
-WARNING:   /usr/lib/X11/config/ibm.cf
-WARNING:   /usr/lib/X11/config/ibmLib.rules
-WARNING:   /usr/lib/X11/config/sgiLib.tmpl
-WARNING:   /usr/lib/X11/config/cygwin.tmpl
-WARNING:   /usr/lib/X11/config/ncr.cf
-WARNING:   /usr/lib/X11/config/site.def
-WARNING:   /usr/lib/X11/config/xf86site.def
-WARNING:   /usr/lib/X11/config/NetBSD.cf
-WARNING:   /usr/lib/X11/config/fujitsu.cf
-
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 ---
-diff --git a/meta/recipes-graphics/xorg-util/xorg-cf-files_1.0.4.bb b/meta/recipes-graphics/xorg-util/xorg-cf-files_1.0.4.bb
-index a5de00a..797d917 100644
---- a/meta/recipes-graphics/xorg-util/xorg-cf-files_1.0.4.bb
-+++ b/meta/recipes-graphics/xorg-util/xorg-cf-files_1.0.4.bb
-@@ -6,7 +6,9 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=0f334a06f2de517e37e86d6757167d88"
+diff --git a/meta/recipes-devtools/perl/liburi-perl_1.59.bb b/meta/recipes-devtools/perl/liburi-perl_1.59.bb
+index 877b252..3916b1e 100644
+--- a/meta/recipes-devtools/perl/liburi-perl_1.59.bb
++++ b/meta/recipes-devtools/perl/liburi-perl_1.59.bb
+@@ -3,8 +3,8 @@ The module implements the URI class. URI objects can be used to access \
+ and manipulate the various components that make up these strings."
  
- DEPENDS = "font-util"
+ SECTION = "libs"
+-LICENSE = "Artistic | GPLv1+"
+-PR = "r0"
++LICENSE = "Artistic-1.0 | GPL-1.0+"
++PR = "r1"
  
+ LIC_FILES_CHKSUM = "file://README;beginline=26;endline=30;md5=6c33ae5c87fd1c4897714e122dd9c23d"
+ 
+diff --git a/meta/recipes-devtools/perl/libxml-parser-perl_2.41.bb b/meta/recipes-devtools/perl/libxml-parser-perl_2.41.bb
+index ff61078..be41578 100644
+--- a/meta/recipes-devtools/perl/libxml-parser-perl_2.41.bb
++++ b/meta/recipes-devtools/perl/libxml-parser-perl_2.41.bb
+@@ -1,11 +1,11 @@
+ DESCRIPTION = "XML::Parser - A perl module for parsing XML documents"
+ SECTION = "libs"
+-LICENSE = "Artistic"
++LICENSE = "Artistic-1.0 | GPL-1.0"
+ LIC_FILES_CHKSUM = "file://README;beginline=2;endline=6;md5=c8767d7516229f07b26e42d1cf8b51f1"
+ 
+ DEPENDS += "expat expat-native"
+ 
+-PR = "r1"
++PR = "r2"
+ 
+ SRC_URI = "http://www.cpan.org/modules/by-module/XML/XML-Parser-${PV}.tar.gz"
+ SRC_URI[md5sum] = "c320d2ffa459e6cdc6f9f59c1185855e"
+diff --git a/meta/recipes-devtools/perl/libxml-perl_0.08.bb b/meta/recipes-devtools/perl/libxml-perl_0.08.bb
+index ba5ebd0..163dc76 100644
+--- a/meta/recipes-devtools/perl/libxml-perl_0.08.bb
++++ b/meta/recipes-devtools/perl/libxml-perl_0.08.bb
+@@ -4,8 +4,8 @@ works in combination with XML::Parser, PerlSAX, XML::DOM, \
+ XML::Grove and others."
+ SUMMARY = "Collection of Perl modules for working with XML."
+ SECTION = "libs"
+-LICENSE = "Artistic | GPLv1+"
+-PR = "r2"
++LICENSE = "Artistic-1.0 | GPL-1.0+"
++PR = "r3"
+ 
+ LIC_FILES_CHKSUM = "file://README;beginline=33;endline=35;md5=1705549eef7577a3d6ba71123a1f0ce8"
+ 
+diff --git a/meta/recipes-devtools/perl/libxml-simple-perl_2.18.bb b/meta/recipes-devtools/perl/libxml-simple-perl_2.18.bb
+index 205aa4d..1e22cdd 100644
+--- a/meta/recipes-devtools/perl/libxml-simple-perl_2.18.bb
++++ b/meta/recipes-devtools/perl/libxml-simple-perl_2.18.bb
+@@ -1,8 +1,8 @@
+ SECTION = "libs"
+-LICENSE = "Artistic"
++LICENSE = "Artistic-1.0 | GPL-1.0"
+ LIC_FILES_CHKSUM = "file://README;beginline=70;md5=94aa5d46682b411a53a5494cfb22640e"
+ DEPENDS += "libxml-parser-perl"
+-PR = "r4"
++PR = "r5"
+ 
+ SRC_URI = "http://www.cpan.org/modules/by-module/XML/XML-Simple-${PV}.tar.gz"
+ 
+diff --git a/meta/recipes-devtools/perl/perl-native_5.14.2.bb b/meta/recipes-devtools/perl/perl-native_5.14.2.bb
+index 0f49950..c904c37 100644
+--- a/meta/recipes-devtools/perl/perl-native_5.14.2.bb
++++ b/meta/recipes-devtools/perl/perl-native_5.14.2.bb
+@@ -1,7 +1,7 @@
+ DESCRIPTION = "Perl is a popular scripting language."
+ HOMEPAGE = "http://www.perl.org/"
+ SECTION = "libs"
+-LICENSE = "Artistic|GPL"
++LICENSE = "Artistic-1.0 | GPL-1.0"
+ LIC_FILES_CHKSUM = "file://Copying;md5=2b4c6ffbcfcbdee469f02565f253d81a \
+ 		    file://Artistic;md5=f921793d03cc6d63ec4b15e9be8fd3f8"
+ PR = "r0"
+diff --git a/meta/recipes-extended/perl/libconvert-asn1-perl_0.22.bb b/meta/recipes-extended/perl/libconvert-asn1-perl_0.22.bb
+index 98ca804..dc950f1 100644
+--- a/meta/recipes-extended/perl/libconvert-asn1-perl_0.22.bb
++++ b/meta/recipes-extended/perl/libconvert-asn1-perl_0.22.bb
+@@ -1,8 +1,8 @@
+ DESCRIPTION = "Convert::ASN1 - ASN.1 Encode/Decode library"
+ SECTION = "libs"
+-LICENSE = "Artistic|GPLv1+"
++LICENSE = "Artistic-1.0 | GPL-1.0+"
+ LIC_FILES_CHKSUM = "file://README;beginline=10;endline=12;md5=a64b291b13ffddeef33b14f047ee8b26"
+-PR = "r2"
++PR = "r3"
+ 
+ SRC_URI = "http://search.cpan.org/CPAN/authors/id/G/GB/GBARR/Convert-ASN1-${PV}.tar.gz"
+ 
+diff --git a/meta/recipes-extended/perl/libtimedate-perl_1.20.bb b/meta/recipes-extended/perl/libtimedate-perl_1.20.bb
+index 67c5836..12439cf 100644
+--- a/meta/recipes-extended/perl/libtimedate-perl_1.20.bb
++++ b/meta/recipes-extended/perl/libtimedate-perl_1.20.bb
+@@ -1,10 +1,9 @@
+ DESCRIPTION = "TimeDate - parser for absolute times"
+ SECTION = "libs"
+ # You can redistribute it and/or modify it under the same terms as Perl itself.
+-LICENSE = "Artistic|GPLv1+"
++LICENSE = "Artistic-1.0 | GPL-1.0+"
+ LIC_FILES_CHKSUM = "file://README;beginline=21;md5=576b7cb41e5e821501a01ed66f0f9d9e"
+-PR = "r3"
+-
++PR = "r4"
+ 
+ SRC_URI = "http://search.cpan.org/CPAN/authors/id/G/GB/GBARR/TimeDate-${PV}.tar.gz"
+ 
+diff --git a/meta/recipes-extended/perl/libxml-namespacesupport-perl_1.11.bb b/meta/recipes-extended/perl/libxml-namespacesupport-perl_1.11.bb
+index f306ff1..cf89cb6 100644
+--- a/meta/recipes-extended/perl/libxml-namespacesupport-perl_1.11.bb
++++ b/meta/recipes-extended/perl/libxml-namespacesupport-perl_1.11.bb
+@@ -4,8 +4,8 @@ DESCRIPTION = "XML::NamespaceSupport offers a simple way to process namespace-ba
+                 basic checks. "
+ 
+ SECTION = "libs"
+-LICENSE = "Artistic|GPLv1+"
+-PR = "r1"
++LICENSE = "Artistic-1.0 | GPL-1.0+"
++PR = "r2"
+ 
+ LIC_FILES_CHKSUM = "file://META.yml;beginline=22;endline=22;md5=3b2b564dae8b9af9e8896e85c07dcbe5"
+ 
+diff --git a/meta/recipes-extended/perl/libxml-sax-perl_0.99.bb b/meta/recipes-extended/perl/libxml-sax-perl_0.99.bb
+index ee9ac30..3a0873f 100644
+--- a/meta/recipes-extended/perl/libxml-sax-perl_0.99.bb
++++ b/meta/recipes-extended/perl/libxml-sax-perl_0.99.bb
+@@ -8,10 +8,10 @@ come from the Java JAXP specification (SAX part), only without the \
+ javaness."
+ 
+ SECTION = "libs"
+-LICENSE = "Artistic|GPLv1+"
++LICENSE = "Artistic-1.0 | GPL-1.0+"
+ DEPENDS += "libxml-namespacesupport-perl-native"
+ RDEPENDS_${PN} += "libxml-namespacesupport-perl perl-module-file-temp"
 -PR = "r0"
 +PR = "r1"
-+
-+FILES_${PN} += "${libdir}/X11/config/*"
  
- SRC_URI[md5sum] = "ff4502b6e31aac90e24ce134090d0e46"
- SRC_URI[sha256sum] = "8fc8a1224d2a716b1f3f1ca85dfda02387ab215251b8eddd03551eac998c9cb8"
+ LIC_FILES_CHKSUM = "file://LICENSE;md5=65c4cd8f39c24c7135ed70dacbcb09e3"
+ 
 
 
 
