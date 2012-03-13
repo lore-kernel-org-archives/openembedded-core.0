@@ -1,20 +1,20 @@
 Received: from mga11.intel.com ([192.55.52.93])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <sgw@linux.intel.com>) id 1S7ZVr-0003bD-4Q
+	(envelope-from <sgw@linux.intel.com>) id 1S7Zk9-0003k6-KO
 	for openembedded-core@lists.openembedded.org;
-	Tue, 13 Mar 2012 22:44:11 +0100
+	Tue, 13 Mar 2012 22:58:57 +0100
 Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-	by fmsmga102.fm.intel.com with ESMTP; 13 Mar 2012 14:35:25 -0700
+	by fmsmga102.fm.intel.com with ESMTP; 13 Mar 2012 14:50:12 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="128617934"
+X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="128621559"
 Received: from unknown (HELO swold-mobl.bigsur.com) ([10.255.15.137])
-	by fmsmga001.fm.intel.com with ESMTP; 13 Mar 2012 14:35:25 -0700
+	by fmsmga001.fm.intel.com with ESMTP; 13 Mar 2012 14:50:11 -0700
 From: Saul Wold <sgw@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Tue, 13 Mar 2012 14:35:25 -0700
-Message-Id: <1331674525-24861-1-git-send-email-sgw@linux.intel.com>
+Date: Tue, 13 Mar 2012 14:50:11 -0700
+Message-Id: <1331675411-8930-1-git-send-email-sgw@linux.intel.com>
 X-Mailer: git-send-email 1.7.7.6
-Subject: [PATCH] docbook-utils: Add check to not sed files twice
+Subject: [PATCH v2] docbook-utils: Add check to not sed files twice
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -29,11 +29,13 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 13 Mar 2012 21:44:11 -0000
+X-List-Received-Date: Tue, 13 Mar 2012 21:58:57 -0000
 
-This comes about because the configure code gets run
+This comes about from the code configure code getting run
 multiple times on the same WORKDIR and re-sed'ing already
 modified files.
+
+v2: add space after .sed_done (tested with this version)
 
 Signed-off-by: Saul Wold <sgw@linux.intel.com>
 ---
@@ -41,7 +43,7 @@ Signed-off-by: Saul Wold <sgw@linux.intel.com>
  1 files changed, 10 insertions(+), 7 deletions(-)
 
 diff --git a/meta/recipes-devtools/docbook-utils/docbook-utils-native_0.6.14.bb b/meta/recipes-devtools/docbook-utils/docbook-utils-native_0.6.14.bb
-index c2ccef3..6f1a53a 100644
+index c2ccef3..96459dc 100644
 --- a/meta/recipes-devtools/docbook-utils/docbook-utils-native_0.6.14.bb
 +++ b/meta/recipes-devtools/docbook-utils/docbook-utils-native_0.6.14.bb
 @@ -7,7 +7,7 @@ LICENSE = "GPLv2"
@@ -63,7 +65,7 @@ index c2ccef3..6f1a53a 100644
 -
 -	# Point jw to the native sysroot catalog
 -	sed -i -e 's|^SGML_EXTRA_CATALOGS=""|SGML_EXTRA_CATALOGS=":${sysconfdir}/sgml/catalog"|g' bin/jw.in
-+	if [ ! -e ${WORKDIR}/.sed_done]; then
++	if [ ! -e ${WORKDIR}/.sed_done ]; then
 +		sed -i -e "s|/etc/sgml|${sysconfdir}/sgml|g" bin/jw.in
 +		sed -i -e "s|/etc/sgml|${sysconfdir}/sgml|g" doc/man/Makefile.am
 +		sed -i -e "s|/etc/sgml|${sysconfdir}/sgml|g" doc/HTML/Makefile.am
