@@ -1,30 +1,20 @@
-Received: from mail.windriver.com ([147.11.1.11])
+Received: from mga11.intel.com ([192.55.52.93])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <Xiaofeng.Yan@windriver.com>) id 1S7MIe-00044j-Qb
+	(envelope-from <sgw@linux.intel.com>) id 1S7Mlk-0000Hp-Ee
 	for openembedded-core@lists.openembedded.org;
-	Tue, 13 Mar 2012 08:37:41 +0100
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca [147.11.189.40])
-	by mail.windriver.com (8.14.3/8.14.3) with ESMTP id q2D7Std6018415
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 13 Mar 2012 00:28:55 -0700 (PDT)
-Received: from [128.224.162.223] (128.224.162.223) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server (TLS) id 14.1.255.0;
-	Tue, 13 Mar 2012 00:28:54 -0700
-Message-ID: <4F5EF73C.8060105@windriver.com>
-Date: Tue, 13 Mar 2012 15:29:00 +0800
-From: Xiaofeng Yan <xiaofeng.yan@windriver.com>
-User-Agent: Mozilla/5.0 (X11; U; Linux i686; en-US;
-	rv:1.9.2.23) Gecko/20110921 Thunderbird/3.1.15
-MIME-Version: 1.0
-To: <openembedded-core@lists.openembedded.org>
-References: <cover.1330771239.git.xiaofeng.yan@windriver.com>	<0a62458fb91efc29de71daaf0feef58baa1e7f54.1330771239.git.xiaofeng.yan@windriver.com>
-	<4F5E4682.1030208@windriver.com>
-In-Reply-To: <4F5E4682.1030208@windriver.com>
-X-Originating-IP: [128.224.162.223]
-X-MIME-Autoconverted: from 8bit to quoted-printable by mail.windriver.com id
-	q2D7Std6018415
-Subject: Re: [PATCH 2/3] archiver.bbclass: archive sources, patches, logs to tarball
+	Tue, 13 Mar 2012 09:07:44 +0100
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+	by fmsmga102.fm.intel.com with ESMTP; 13 Mar 2012 00:58:59 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="128321777"
+Received: from unknown (HELO swold-mobl.bigsur.com) ([10.255.15.137])
+	by fmsmga001.fm.intel.com with ESMTP; 13 Mar 2012 00:58:59 -0700
+From: Saul Wold <sgw@linux.intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Tue, 13 Mar 2012 00:58:34 -0700
+Message-Id: <cover.1331589797.git.sgw@linux.intel.com>
+X-Mailer: git-send-email 1.7.7.6
+Subject: [CONSOLIDATED PULL 00/23] Catching up after conference Time
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -39,204 +29,108 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 13 Mar 2012 07:37:41 -0000
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Tue, 13 Mar 2012 08:07:45 -0000
 
-Hi Mark,
+Richard,
 
-Thanks for your detailed comment.
-On 2012=E5=B9=B403=E6=9C=8813=E6=97=A5 02:54, Mark Hatle wrote:
-> Apologies for the very late review... see comments below. All in all=20
-> it looks good. But I have not applied it and tried it yet.
->
-> On 3/3/12 4:54 AM, Xiaofeng Yan wrote:
->> From: Xiaofeng Yan<xiaofeng.yan@windriver.com>
->>
->> Support the following functions in this bbclass:
->>
->> 1 Archive sources in ${S} in the different stage to tarball=20
->> (do_unpack,do_patch,do_configure).
->> 2 Archive patches including series to tarball
->> 3 Archive logs including scripts (.bb and .inc files) to tarball
->> 4 dump environment resources which show all variable and functions to =
-be
->> used to xxx.showdata.dump when running a task
->> 5 dump all content in 's' including patches to file xxx.diff.gz
->>
->> All of tarballs will be deployed to ${DEPLOY_DIR}/sources/
->>
->> [#YOCTO 1977]
->>
->> Signed-off-by: Xiaofeng Yan<xiaofeng.yan@windriver.com>
->> ---
->> meta/classes/archiver.bbclass | 393=20
->> +++++++++++++++++++++++++++++++++++++++++
->> 1 files changed, 393 insertions(+), 0 deletions(-)
->> create mode 100644 meta/classes/archiver.bbclass
->>
-> ...
->
->> +def verify_var(d):
->> + '''check the type for archiving package('tar' or 'srpm')'''
->> + try:
->> + if d.getVar('SOURCE_ARCHIVE_PACKAGE_TYPE', True).upper() not in=20
->> d.getVar('ARCHIVE_TYPE', True).split():
->> + raise AttributeError
->> + except AttributeError:
->> + bb.fatal("\"SOURCE_ARCHIVE_PACKAGE_TYPE\" is \'tar\' or \'srpm\',=20
->> no other types")
->
-> Error message should be something like:
->
-> bb.fatal("\"SOURCE_ARCHIVE_PACKAGE_TYPE\" should be \'tar\' or '\srpm\'=
-")
->
-Thanks for correcting my grammar.
+Here is a collection of patches that have been pending for a little 
+while.
 
-> ...
->
->> +def archive_sources_patches(d,middle_name):
->> + '''archive sources and patches to tarball. middle_name will append=20
->> strings ${middle_name} to ${PR} as middle name. for example,=20
->> zlib-1.4.6-prepatch(middle_name).tar.gz '''
->> + verify_var(d)
->> + if not_tarball(d):
->> + return
->> +
->> + source_tar_name =3D archive_sources(d,middle_name)
->> + if middle_name =3D=3D "prepatch":
->> + if d.getVar('PATCHES_ARCHIVE_WITH_SERIES',True).upper() =3D=3D 'TRUE=
-':
->> + patch_tar_name =3D select_archive_patches(d,"all")
->> + elif d.getVar('PATCHES_ARCHIVE_WITH_SERIES',True).upper() =3D=3D 'FA=
-LSE':
->> + patch_tar_name =3D select_archive_patches(d,"applying")
->> + else:
->> + bb.fatal("Please define 'PATCHES_ARCHIVE_WITH_SERIES' is strings=20
->> 'True' or 'False' ")
->
-> Instead of an explicit TRUE/FALSE setting, does it make sense for one=20
-> to be the default? I'd suspect in this case "True" is the better=20
-> default, but I'm not completely sure.
->
-I can move this setting to local.conf.sample and TRUE is default setting.
->> + else:
->> + patch_tar_name =3D ''
->> +
->> + if d.getVar('SOURCE_ARCHIVE_PACKAGE_TYPE', True).upper() not in=20
->> 'SRPM':
->> + move_tarball_deploy(d,[source_tar_name,patch_tar_name])
->> +
->> +def archive_sources_patches_logs_copyleft(d,middle_name):
->> + '''archive source, patches and logs according to the variable=20
->> "COPYLEFT_COMPLIANCE", If this variable is 'True', then archive the=20
->> packages for copy-left, or else archive all packages'''
->> + verify_var(d)
->> + if not_tarball(d):
->> + return
->> + copyleft_compliance =3D d.getVar('COPYLEFT_COMPLIANCE', True)
->> + if copyleft_compliance is None:
->> + archive_sources_patches(d,middle_name)
->> + elif copyleft_compliance.upper() =3D=3D 'TRUE' and archive_copyleft(=
-d):
->> + archive_sources_patches(d,middle_name)
->
-> I'm not sure I understand what is happening in this patch. The way I=20
-> read it:
->
-> If COPYLEFT_COMPLIANCE is -not- set, then we archive.. otherwise if it=20
-> is set (true), and the copyleft item was inherited we also archive?
->
-If COPYLEFT_COMPLIANCE is -not- set, then we archive all resources=20
-without considering copyrights problem which is typed in=20
-copyleft_compliance.bbclass.
-otherwise if it is set (true), and the copyleft item was inherited we=20
-only archive packages which be allowed by copyleft.
-> But I'm not sure I understand why this set of checks.
->
->
-> ...
->
->> +def dumpdata(d):
->> + '''dump environment to "${P}-${PR}.showdata.dump" including all=20
->> kinds of varibale and functions when running a task'''
->
-> Simple typo above, should be "variable".
->
-Thanks for your detailed reviewing.
-> ...
->
->> +# This functions prepare for archiving "linux-yocto" because this=20
->> package create directory 's' before do_patch instead of after do_unpac=
-k.
->> +# This is special control for archiving linux-yocto only.
->> +python do_archive_linux_yocto(){
->> + s =3D d.getVar('S', True)
->> + if 'linux-yocto' in s:
->> + source_tar_name =3D archive_sources(d,'')
->> + if d.getVar('SOURCE_ARCHIVE_PACKAGE_TYPE', True).upper() not in=20
->> 'SRPM':
->> + move_tarball_deploy(d,[source_tar_name,''])
->> +}
->
-> Is there something we can change in linux-yocto to make the standard=20
-> methods work? I'm hesitant to put special logic in the archiver class=20
-> for a single package. (Note, I'm more likely to think it's reasonable=20
-> for the kernel's package then a random userspace package!)
->
-because the 's' is created after do_kernel_checkout (after do_unpack=20
-before do_patch), so we will not get original sources for kernel if we=20
-archive 's' after do_unpack.
-Some bb files do some changes after do_unpack before do_patch actually .=20
-The following bb files are the case. Perhaps some other bb files could=20
-also change some stuff before do_patch in future. So I archive sources=20
-codes in do_unpack[postfuncs] instead of do_patch[prefuncs].
+There is one pending change from Bruce for poky (meta-yocto) in the
+MUT branch
 
-meta$ grep "do_unpack_append" . -nr
-./recipes-core/eglibc/eglibc_2.15.bb:76:do_unpack_append() {
-./recipes-core/eglibc/eglibc_2.13.bb:73:do_unpack_append() {
-./recipes-sato/web/web_git.bb:19:do_unpack_append () {
-./recipes-extended/ltp/ltp_20120104.bb:46:do_unpack_append() {
+Have built world with this code, and booted a minimal image
 
->> +do_kernel_checkout[postfuncs] +=3D "do_archive_linux_yocto "
->> +
->
-> Is the real issue that we want to run something just before do_patch,=20
-> but we also want to let any arbitrary tasks between do_unpack and=20
-> do_patch to run first? Is there an alternative way to state this? [or=20
-> at least detect a situation where we haven't waited?]
->
-My reasons why doing this is same as above
->> +# remove tarball for sources, patches and logs after creating srpm.
->> +python do_remove_tarball(){
->> + if d.getVar('SOURCE_ARCHIVE_PACKAGE_TYPE', True).upper() =3D=3D 'SRP=
-M':
->> + work_dir =3D d.getVar('WORKDIR', True)
->> + os.chdir(work_dir)
->> + for file in os.listdir(os.getcwd()):
->> + if '.tar.gz' in file:
->> + os.remove(file)
->> +}
->> +do_remove_taball[deptask] =3D "do_archive_scripts_logs"
->> +do_package_write_rpm[postfuncs] +=3D "do_remove_tarball "
->
-> Finally do we really need to remove the tarball? It can likely just=20
-> stay around, when the user wipes out/cleans the WORKDIR it will go=20
-> away on it's own?
->
-These archiving packages will waste much disk space, so I will remove=20
-them after srpm package generating. but that just seemed excessive, right=
-?
 
-Thanks for your comment again.
-> --Mark
->
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
->
+
+The following changes since commit f47ada62a3da879006e7cb27479dc9b72c56e923:
+
+  cmake.bbclass: add ${base_libdir} to CMAKE_LIBRARY_PATH (2012-03-12 17:46:16 +0000)
+
+are available in the git repository at:
+  git://git.openembedded.org/openembedded-core-contrib sgw/stage
+  http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=sgw/stage
+
+Andreas Oberritter (10):
+  qt4: fix deps in libQtWebkit.la and QtWebKit.pc
+  udev-164: fixup "don't hardcode path to pidof"
+  package.bbclass: sort dynamically generated packages
+  util-linux: explicitly disable udev
+  linux-firmware: fix permissions of installed files
+  python, python-native: always set platform to linux2
+  python: regenerate plat-linux2/*.py
+  python: depend on bzip2
+  python-native: distutils: don't use libdir, remove dead code path
+  python, python-native: bump PR
+
+Bruce Ashfield (1):
+  linux-yocto: respect FILESPATH directories
+
+Dexuan Cui (1):
+  image_types: ensure .rootfs.ext3 is created before vmdk is created.
+
+Jeff Lance (1):
+  trace-cmd: modifying License information
+
+Matthew McClintock (2):
+  packagedata.py: Fix get_subpkgedata_fn for multilib
+  arch-powerpc.inc: use default value of TUNE_PKGARCH
+
+Otavio Salvador (6):
+  run-postinsts: fix opkg data path
+  image.bbclass: fix rootfs generation without package management tools
+  rootfs_rpm.bbclass: rename postinst trigger script
+  opkg: rename postinst trigger script
+  dpkg: rename postinst trigger script
+  connman: update to 0.79
+
+Saul Wold (2):
+  glib-2.0: Add Upstream Status for nodbus.patch
+  image-vmdk: add NOISO to disable iso image creation since it's not
+    needed
+
+ meta/classes/core-image.bbclass                    |    2 -
+ meta/classes/image-vmdk.bbclass                    |    1 +
+ meta/classes/image.bbclass                         |    7 +++-
+ meta/classes/image_types.bbclass                   |    6 +++
+ meta/classes/kernel-yocto.bbclass                  |   30 +++++++++++++--
+ meta/classes/package.bbclass                       |    4 +-
+ meta/classes/rootfs_rpm.bbclass                    |    6 ++--
+ meta/conf/machine/include/powerpc/arch-powerpc.inc |    6 +--
+ meta/lib/oe/packagedata.py                         |    8 ++++
+ .../connman/add_xuser_dbus_permission.patch        |   12 ++++---
+ .../connman/connman/disable_alg-test.patch         |   18 +++++-----
+ .../connman/{connman_0.78.bb => connman_0.79.bb}   |    6 +--
+ meta/recipes-core/glib-2.0/glib-2.0/nodbus.patch   |    2 +
+ meta/recipes-core/udev/udev/init                   |    2 +-
+ meta/recipes-core/udev/udev_164.bb                 |    2 +-
+ meta/recipes-core/util-linux/util-linux.inc        |    2 +-
+ meta/recipes-core/util-linux/util-linux_2.21.bb    |    2 +-
+ meta/recipes-devtools/dpkg/dpkg.inc                |    6 ++--
+ .../dpkg/run-postinsts/run-postinsts               |    4 +-
+ .../dpkg/run-postinsts/run-postinsts.awk           |    2 +-
+ meta/recipes-devtools/dpkg/run-postinsts_1.0.bb    |    2 +-
+ meta/recipes-devtools/opkg/opkg.inc                |    8 ++--
+ ...2-distutils-prefix-is-inside-staging-area.patch |    6 ++--
+ .../sys_platform_is_now_always_linux2.patch        |   39 ++++++++++++++++++++
+ .../recipes-devtools/python/python-native_2.7.2.bb |    1 +
+ meta/recipes-devtools/python/python.inc            |    2 +-
+ .../python/python/07-linux3-regen-fix.patch        |   18 ---------
+ .../python/sys_platform_is_now_always_linux2.patch |   39 ++++++++++++++++++++
+ meta/recipes-devtools/python/python_2.7.2.bb       |   15 +++++++-
+ .../linux-firmware/linux-firmware_git.bb           |    4 +-
+ meta/recipes-kernel/trace-cmd/trace-cmd_1.2.bb     |    8 +++--
+ meta/recipes-qt/qt4/qt4-embedded.inc               |    2 +-
+ meta/recipes-qt/qt4/qt4-x11-free.inc               |    2 +-
+ meta/recipes-qt/qt4/qt4.inc                        |    1 +
+ 34 files changed, 194 insertions(+), 81 deletions(-)
+ rename meta/recipes-connectivity/connman/{connman_0.78.bb => connman_0.79.bb} (79%)
+ create mode 100644 meta/recipes-devtools/python/python-native/sys_platform_is_now_always_linux2.patch
+ delete mode 100644 meta/recipes-devtools/python/python/07-linux3-regen-fix.patch
+ create mode 100644 meta/recipes-devtools/python/python/sys_platform_is_now_always_linux2.patch
+
+-- 
+1.7.7.6
 
 
 
