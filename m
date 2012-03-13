@@ -1,31 +1,23 @@
-Received: from masterfoo.zenlinux.com ([207.192.74.254])
+Received: from mail1.windriver.com ([147.11.146.13])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <scott.a.garman@intel.com>) id 1S7HJ5-0003Ta-BQ
+	(envelope-from <Liezhi.Yang@windriver.com>) id 1S7HxU-00043a-7g
 	for openembedded-core@lists.openembedded.org;
-	Tue, 13 Mar 2012 03:17:47 +0100
-Received: from localhost (c-76-105-137-48.hsd1.or.comcast.net [76.105.137.48])
-	(using TLSv1 with cipher DHE-RSA-AES128-SHA (128/128 bits))
-	(No client certificate requested)
-	by masterfoo.zenlinux.com (Postfix) with ESMTP id D0A7730511
+	Tue, 13 Mar 2012 03:59:32 +0100
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca [147.11.189.40])
+	by mail1.windriver.com (8.14.3/8.14.3) with ESMTP id q2D2olXo020578
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 12 Mar 2012 22:08:57 -0400 (EDT)
-From: Scott Garman <scott.a.garman@intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Mon, 12 Mar 2012 19:08:47 -0700
-Message-Id: <2e3c4ca4c3c2dfc8b8e1333e61b239251b4f4efb.1331604310.git.scott.a.garman@intel.com>
-X-Mailer: git-send-email 1.7.5.4
-In-Reply-To: <cover.1331604310.git.scott.a.garman@intel.com>
-References: <cover.1331604310.git.scott.a.garman@intel.com>
-In-Reply-To: <cover.1331604310.git.scott.a.garman@intel.com>
-References: <cover.1331604310.git.scott.a.garman@intel.com>
-X-MasterFoo-MailScanner-Information: Please contact the ISP for more
-	information
-X-MailScanner-ID: D0A7730511.C9B21
-X-MasterFoo-MailScanner: Found to be clean
-X-MasterFoo-MailScanner-SpamCheck: not spam
-X-MasterFoo-MailScanner-From: scott.a.garman@intel.com
-X-Spam-Status: No
-Subject: [PATCH 3/3] gettext: do not set libncurses prefix explicitly
+	Mon, 12 Mar 2012 19:50:47 -0700 (PDT)
+Received: from build-PowerEdge-T100.corp.ad.wrs.com (128.224.163.66) by
+	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server id
+	14.1.255.0; Mon, 12 Mar 2012 19:50:44 -0700
+From: Robert Yang <liezhi.yang@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Tue, 13 Mar 2012 10:50:24 +0800
+Message-ID: <cover.1331605922.git.liezhi.yang@windriver.com>
+X-Mailer: git-send-email 1.7.4.1
+MIME-Version: 1.0
+Subject: [PATCH 0/1] package.bbclass: create debugsources.list if it doesn't exist
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -40,49 +32,35 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 13 Mar 2012 02:17:47 -0000
+X-List-Received-Date: Tue, 13 Mar 2012 02:59:32 -0000
+Content-Type: text/plain
 
-The --with-libncurses-prefix configure option was added before
-this recipe had ncurses in DEPENDS, so it should be safe to
-remove it.
+The testing information:
+# Take MACHINE=qemux86 as example:
+1) $ bitbake core-image-sato
+2) $ find tmp/work/i586-poky-linux/ -maxdepth 3 -name 'log.do*' -exec \
+        grep -H 'debugsources.list: No such file or directory' {} \;
 
-Signed-off-by: Scott Garman <scott.a.garman@intel.com>
----
- meta/recipes-core/gettext/gettext_0.18.1.1.bb |    5 +----
- 1 files changed, 1 insertions(+), 4 deletions(-)
+   # There should be no output(more than 100 lines without this patch).
 
-diff --git a/meta/recipes-core/gettext/gettext_0.18.1.1.bb b/meta/recipes-core/gettext/gettext_0.18.1.1.bb
-index 3c65dca..daee5c0 100644
---- a/meta/recipes-core/gettext/gettext_0.18.1.1.bb
-+++ b/meta/recipes-core/gettext/gettext_0.18.1.1.bb
-@@ -5,7 +5,7 @@ SECTION = "libs"
- LICENSE = "GPL-3+ & LGPL-2.1+"
- LIC_FILES_CHKSUM = "file://COPYING;md5=d32239bcb673463ab874e80d47fae504"
- 
--PR = "r7"
-+PR = "r8"
- DEPENDS = "libxml2-native gettext-native virtual/libiconv ncurses expat"
- DEPENDS_virtclass-native = "libxml2-native"
- PROVIDES = "virtual/libintl virtual/gettext"
-@@ -21,8 +21,6 @@ SRC_URI_append_libc-uclibc = " file://wchar-uclibc.patch \
- SRC_URI[md5sum] = "3dd55b952826d2b32f51308f2f91aa89"
- SRC_URI[sha256sum] = "93ac71a7afa5b70c1b1032516663658c51e653087f42a3fc8044752c026443e9"
- 
--#PARALLEL_MAKE = ""
--
- inherit autotools
- 
- EXTRA_OECONF += "--without-lispdir \
-@@ -32,7 +30,6 @@ EXTRA_OECONF += "--without-lispdir \
-                  --disable-native-java \
-                  --disable-openmp \
-                  --with-included-glib \
--                 --with-libncurses-prefix=${STAGING_LIBDIR}/.. \
-                  --without-emacs \
-                  --without-cvs \
-                  --without-git \
+// Robert
+
+The following changes since commit f47ada62a3da879006e7cb27479dc9b72c56e923:
+
+  cmake.bbclass: add ${base_libdir} to CMAKE_LIBRARY_PATH (2012-03-12 17:46:16 +0000)
+
+are available in the git repository at:
+  git://git.pokylinux.org/poky-contrib robert/debugsources
+  http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=robert/debugsources
+
+Robert Yang (1):
+  package.bbclass: create debugsources.list if it doesn't exist
+
+ meta/classes/package.bbclass |    5 +++++
+ 1 files changed, 5 insertions(+), 0 deletions(-)
+
 -- 
-1.7.5.4
+1.7.4.1
 
 
 
