@@ -1,39 +1,14 @@
-Received: from mail-ey0-f175.google.com ([209.85.215.175])
+Received: from ffm.saftware.de ([83.141.3.46])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <jay@jay-tech.ru>) id 1S7Wxw-0000dV-Oz
+	(envelope-from <obi@opendreambox.org>) id 1S7XJd-00010W-9V
 	for openembedded-core@lists.openembedded.org;
-	Tue, 13 Mar 2012 20:01:00 +0100
-Received: by eaae1 with SMTP id e1so516019eaa.6
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 13 Mar 2012 11:52:16 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=google.com; s=20120113;
-	h=mime-version:sender:x-originating-ip:in-reply-to:references:from
-	:date:x-google-sender-auth:message-id:subject:to:content-type
-	:content-transfer-encoding:x-gm-message-state;
-	bh=6s/Jgf5g2rXbANoawZD4sbbpH4KbpFbIlCy0jCdlPF4=;
-	b=jFLi5lOioqg8kRG59dWbFTw7ZZ6H3kLPVJmn1Dl2rdeN0Kt0jPBSn0YL0nLDYaonGN
-	JSorBUXL1IQ2jxpQ+ySEfxaf4XzsWXra2fpWsLZDqUmCAKbuwK6WrLGMPWc9W7yRDjep
-	wMHFgBg+pV/7OhdWVSTXodGHZobjqZdSMtqDMAmjTOUptxAvZB9nPrXm8sNxiywZ+QTM
-	6yI1lu7LTw4ilHU5b+he0inMI4YDHTx0+gbwwNzNqYfHugMnW9FYUq5kcdT+RcWoryx3
-	XdajntLYhhZgPl4may0PhElpc0utNSSMxbvx43GKsJidD88+ZFJUgpssaUHulibSUQmu
-	LeAA==
-Received: by 10.213.20.212 with SMTP id g20mr1365635ebb.148.1331664736330;
-	Tue, 13 Mar 2012 11:52:16 -0700 (PDT)
-MIME-Version: 1.0
-Sender: jay@jay-tech.ru
-Received: by 10.213.4.15 with HTTP; Tue, 13 Mar 2012 11:51:56 -0700 (PDT)
-X-Originating-IP: [2.94.168.161]
-In-Reply-To: <CAHod+Ge8QmNp5TXhoKnqLR_2s+eGg=jOWLG2keAoCYFjTs3ByA@mail.gmail.com>
-References: <CAHod+Ge8QmNp5TXhoKnqLR_2s+eGg=jOWLG2keAoCYFjTs3ByA@mail.gmail.com>
-From: Yury Bushmelev <jay4mail@gmail.com>
-Date: Tue, 13 Mar 2012 21:51:56 +0300
-X-Google-Sender-Auth: UvuXJwYvIFsNdM4Mm_yfU23LUG0
-Message-ID: <CAJG6M_PNKiaTT9HcCFNdo1d2cSON98nY=OQ+p1RvB0VkcT=ZOw@mail.gmail.com>
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-X-Gm-Message-State: ALoCoQmF1wpOm0eR0gX7NaqYo3MuUvigfqZzsPwL6Sh4naJn66bD4ZueG8DOQhf5W29oK/XO9+Xd
-Subject: Re: [PATCH 1/5] Split xcb-util into separate packages.
+	Tue, 13 Mar 2012 20:23:25 +0100
+From: Andreas Oberritter <obi@opendreambox.org>
+To: openembedded-core@lists.openembedded.org
+Date: Tue, 13 Mar 2012 20:14:40 +0100
+Message-Id: <1331666080-25116-1-git-send-email-obi@opendreambox.org>
+X-Mailer: git-send-email 1.7.5.4
+Subject: [PATCH] initscripts: test whether /etc/init.d/hwclock.sh exists
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -48,59 +23,53 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 13 Mar 2012 19:01:00 -0000
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Tue, 13 Mar 2012 19:23:25 -0000
 
-2012/3/10 Marko Kati=C4=87 <dromede@gmail.com>:
-> xcb-util was split into separate packages during the 0.3.6 -> 0.3.8
-> transition.
-> Change xcb-util.inc to reflect that.
->
->
->
-> diff --git a/meta/recipes-graphics/xcb/xcb-util.inc
-> b/meta/recipes-graphics/xcb/xcb-util.inc
-> index cd9923d..5e77a22 100644
-> --- a/meta/recipes-graphics/xcb/xcb-util.inc
-> +++ b/meta/recipes-graphics/xcb/xcb-util.inc
-> @@ -18,20 +18,6 @@ DEPENDS +=3D "gperf-native"
->
-> =C2=A0PARALLEL_MAKE =3D ""
+* bootmisc.sh executes /etc/init.d/hwclock.sh, which
+  is optional (depends on CONFIG_HWCLOCK in busybox).
 
-BTW, I haven't seen any trouble with PARALLEL_MAKE and
-xcb-util_0.3.8.bb. So we may try to remove this line.
+Signed-off-by: Andreas Oberritter <obi@opendreambox.org>
+---
+ .../initscripts/initscripts-1.0/bootmisc.sh        |    4 ++--
+ meta/recipes-core/initscripts/initscripts_1.0.bb   |    2 +-
+ 2 files changed, 3 insertions(+), 3 deletions(-)
 
->
-> -SRC_URI =3D "http://xcb.freedesktop.org/dist/xcb-util-${PV}.tar.bz2"
-> -
-> -PACKAGES =3D+ "libxcbatom libxcbaux libxcbevent libxcbicccm \
-> - =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 libxcbimage libxcbkeysyms lib=
-xcbproperty \
-> - =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 libxcbreply libxcbwm"
-> -
-> -FILES_libxcbatom =3D "${libdir}/libXCBAtom.so.*"
-> -FILES_libxcbaux =3D "${libdir}/libXCBAux.so.*"
-> -FILES_libxcbevent =3D "${libdir}/libXCBEvent.so.*"
-> -FILES_libxcbicccm =3D "${libdir}/libXCBICCCM.so.*"
-> -FILES_libxcbimage =3D "${libdir}/libXCBImage.so.*"
-> -FILES_libxcbkeysyms =3D "${libdir}/libXCBKeysyms.so.*"
-> -FILES_libxcbproperty =3D "${libdir}/libXCBProperty.so.*"
-> -FILES_libxcbreply =3D "${libdir}/libXCBReply.so.*"
-> -FILES_libxcbwm =3D "${libdir}/libXCBWM.so.*"
-> +SRC_URI =3D "http://xcb.freedesktop.org/dist/${PN}-${PV}.tar.bz2"
->
-> =C2=A0inherit autotools pkgconfig
->
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
->
+diff --git a/meta/recipes-core/initscripts/initscripts-1.0/bootmisc.sh b/meta/recipes-core/initscripts/initscripts-1.0/bootmisc.sh
+index 5b86e79..4f76cb4 100755
+--- a/meta/recipes-core/initscripts/initscripts-1.0/bootmisc.sh
++++ b/meta/recipes-core/initscripts/initscripts-1.0/bootmisc.sh
+@@ -65,14 +65,14 @@ fi
+ # Set the system clock from hardware clock
+ # If the timestamp is more recent than the current time,
+ # use the timestamp instead.
+-/etc/init.d/hwclock.sh start
++test -x /etc/init.d/hwclock.sh && /etc/init.d/hwclock.sh start
+ if test -e /etc/timestamp
+ then
+ 	SYSTEMDATE=`date -u +%4Y%2m%2d%2H%2M`
+ 	read TIMESTAMP < /etc/timestamp
+ 	if [ ${TIMESTAMP} -gt $SYSTEMDATE ]; then
+ 		date -u ${TIMESTAMP#????}${TIMESTAMP%????????}
+-		/etc/init.d/hwclock.sh stop
++		test -x /etc/init.d/hwclock.sh && /etc/init.d/hwclock.sh stop
+ 	fi
+ fi
+ : exit 0
+diff --git a/meta/recipes-core/initscripts/initscripts_1.0.bb b/meta/recipes-core/initscripts/initscripts_1.0.bb
+index f3dc852..829694b 100644
+--- a/meta/recipes-core/initscripts/initscripts_1.0.bb
++++ b/meta/recipes-core/initscripts/initscripts_1.0.bb
+@@ -3,7 +3,7 @@ DESCRIPTION = "Initscripts provide the basic system startup initialization scrip
+ SECTION = "base"
+ LICENSE = "GPLv2"
+ LIC_FILES_CHKSUM = "file://COPYING;md5=751419260aa954499f7abaabaa882bbe"
+-PR = "r133"
++PR = "r134"
+ 
+ INHIBIT_DEFAULT_DEPS = "1"
+ 
+-- 
+1.7.5.4
 
-
-
---=20
-Yury Bushmelev
 
 
