@@ -1,40 +1,32 @@
-Received: from dan.rpsys.net ([93.97.175.187])
+Received: from mail-iy0-f175.google.com ([209.85.210.175])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <richard@rpsys.net>) id 1S7Fe1-00014G-VP
-	for openembedded-core@lists.openembedded.org;
-	Tue, 13 Mar 2012 01:31:18 +0100
-Received: from localhost (dan.rpsys.net [127.0.0.1])
-	by dan.rpsys.net (8.14.2/8.14.2/Debian-2build1) with ESMTP id
-	q2D0cgLb004626 for <openembedded-core@lists.openembedded.org>;
-	Tue, 13 Mar 2012 00:38:43 GMT
-X-Quarantine-ID: <6HVJGgeZXrEz>
-X-Virus-Scanned: Debian amavisd-new at dan.rpsys.net
-X-Amavis-Alert: BAD HEADER, Duplicate header field: "In-Reply-To"
-Received: from dan.rpsys.net ([127.0.0.1])
-	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
-	with LMTP id 6HVJGgeZXrEz
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 13 Mar 2012 00:38:42 +0000 (GMT)
-Received: from ted (ted.config [192.168.1.70]) (authenticated bits=0)
-	by dan.rpsys.net (8.14.2/8.14.2/Debian-2build1) with ESMTP id
-	q2D0caG3004555
-	(version=TLSv1/SSLv3 cipher=AES256-SHA bits=256 verify=NOT)
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 13 Mar 2012 00:38:37 GMT
-Received: from richard by ted with local (Exim 4.76)
-	(envelope-from <richard@dan.rpsys.net>) id 1S7FVU-0002ev-Qn
-	for openembedded-core@lists.openembedded.org;
-	Tue, 13 Mar 2012 00:22:28 +0000
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: openembedded-core@lists.openembedded.org
-Date: Tue, 13 Mar 2012 00:22:24 +0000
-Message-Id: <689c9e6e5487292e3e54faceb741fa59478d9386.1331598077.git.richard.purdie@linuxfoundation.org>
-X-Mailer: git-send-email 1.7.5.4
-In-Reply-To: <df48742cfc0c46ae33f28900cfd5a7a2f94c326c.1331598077.git.richard.purdie@linuxfoundation.org>
-References: <df48742cfc0c46ae33f28900cfd5a7a2f94c326c.1331598077.git.richard.purdie@linuxfoundation.org>
-In-Reply-To: <cover.1331598077.git.richard.purdie@linuxfoundation.org>
-References: <cover.1331598077.git.richard.purdie@linuxfoundation.org>
-Subject: [PATCH 17/17] xserver-xorg: Remove unneeded empty directory, fixing QA warning
+	(envelope-from <jefro.net@gmail.com>)
+	id 1S7Fps-0001jm-NE; Tue, 13 Mar 2012 01:43:32 +0100
+Received: by iaag37 with SMTP id g37so7219822iaa.6
+	for <multiple recipients>; Mon, 12 Mar 2012 17:34:48 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=mime-version:sender:date:x-google-sender-auth:message-id:subject
+	:from:to:content-type;
+	bh=UkREer0mShOQmez2pKWUXOIcQHRFCQBN2PUebTg/+NQ=;
+	b=sKxl+c3LTAzD62ZFOnWy+y0eTPNsnI8ehpkkuRAi7qmFRx1wcuGH/Otqp8kOU9UDbc
+	ereoDTMKWtZ+4Ctx3AMALVf2SyXOLI3vOuUrXTXYPs0OvYW2VNZB8xOFwpYUD4NZoQND
+	dOFjtx9u0B0hleVDVc5NMqh1UpJ2pm8BcfaO6U3oRlS3LROdsFci0kL391hnAvHRMoTG
+	64muBB5vDoa+fxggtUT8W8orPYUiwrw5st4Ij7ksvpp6q//louWYR/ILpSffu9N+rDcb
+	qA/RX+mDuS/mZNXSAMC+gaLVKfwe0OZfp/jQr6VV5huRmQJNM+vRj6hGtbVucxMkhuHl
+	hVQg==
+MIME-Version: 1.0
+Received: by 10.50.11.201 with SMTP id s9mr1530038igb.3.1331598888283; Mon, 12
+	Mar 2012 17:34:48 -0700 (PDT)
+Sender: jefro.net@gmail.com
+Received: by 10.50.127.38 with HTTP; Mon, 12 Mar 2012 17:34:48 -0700 (PDT)
+Date: Mon, 12 Mar 2012 17:34:48 -0700
+X-Google-Sender-Auth: W7ZUQThvhWPTkp-c5uYRb7fE3GA
+Message-ID: <CA+YB3rYaH8enP8htuvXX-XHExJWwL7cepX5ckKtq7QMqFD-q3g@mail.gmail.com>
+From: Jeff Osier-Mixon <jefro@jefro.net>
+To: openembedded-core <openembedded-core@lists.openembedded.org>, 
+	openembedded-devel@lists.openembedded.org, 
+	openembedded-members@lists.openembedded.org
+Subject: Linux Foundation Collaboration Summit April 3-5 San Francisco
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -49,27 +41,59 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 13 Mar 2012 00:31:19 -0000
+X-List-Received-Date: Tue, 13 Mar 2012 00:43:33 -0000
+Content-Type: multipart/alternative; boundary=e89a8f646c21b82fba04bb150606
 
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
----
- .../xorg-xserver/xserver-xorg-common.inc           |    4 ++++
- 1 files changed, 4 insertions(+), 0 deletions(-)
+--e89a8f646c21b82fba04bb150606
+Content-Type: text/plain; charset=ISO-8859-1
 
-diff --git a/meta/recipes-graphics/xorg-xserver/xserver-xorg-common.inc b/meta/recipes-graphics/xorg-xserver/xserver-xorg-common.inc
-index 300704a..98f3d14 100644
---- a/meta/recipes-graphics/xorg-xserver/xserver-xorg-common.inc
-+++ b/meta/recipes-graphics/xorg-xserver/xserver-xorg-common.inc
-@@ -120,3 +120,7 @@ PACKAGECONFIG ??= "udev"
- PACKAGECONFIG[hal] = "--enable-config-hal,--disable-config-hal,,hal"
- PACKAGECONFIG[udev] = "--enable-config-udev,--disable-config-udev,udev"
- 
-+do_install_append () {
-+	# Its assumed base-files creates this for us
-+	rmdir ${D}${localstatedir}/log/
-+}
+The Linux Foundation is holding their annual Collaboration Summit in San
+Francisco April 3-5. This is a free, invitation-only event that is set up
+as a place for Linux Foundation workgroups to collaborate. This year the
+Yocto Project will host a day-long working session on Wednesday, April
+4, outlined on the Collab Summit schedule at
+https://events.linuxfoundation.org/events/collaboration-summit/schedule. As
+the Yocto Project's community manager, I want to encourage you to request
+an invitation and attend the Yocto Project workday,
+
+You can request an invitation here:
+https://events.linuxfoundation.org/events/collaboration-summit/request-an-invitation
+
+Please note: the number of attendees at Collab Summit is very limited and
+invitation requests are *not* guaranteed to provide invitations. Also
+please note that I have no control over who receives an invitation. :)
+ Hope to see you there.
+
 -- 
-1.7.5.4
+Jeff Osier-Mixon http://jefro.net/blog
+Yocto Project Community Manager @Intel http://yoctoproject.org
 
+--e89a8f646c21b82fba04bb150606
+Content-Type: text/html; charset=ISO-8859-1
+Content-Transfer-Encoding: quoted-printable
 
+The Linux Foundation is holding their annual Collaboration Summit in San Fr=
+ancisco April 3-5. This is a free, invitation-only event that is set up as =
+a place for Linux Foundation workgroups to collaborate. This year the Yocto=
+ Project will host a day-long working session=A0on Wednesday, April 4,=A0ou=
+tlined on the Collab Summit schedule at=A0<a href=3D"https://events.linuxfo=
+undation.org/events/collaboration-summit/schedule">https://events.linuxfoun=
+dation.org/events/collaboration-summit/schedule</a>.=A0As the Yocto Project=
+&#39;s community manager, I want to encourage you to request an invitation =
+and attend the Yocto Project workday,=A0<div>
+<div><br></div><div>You can request an invitation here:=A0<a href=3D"https:=
+//events.linuxfoundation.org/events/collaboration-summit/request-an-invitat=
+ion">https://events.linuxfoundation.org/events/collaboration-summit/request=
+-an-invitation</a><br>
+<div><br></div><div>Please note: the number of attendees at Collab Summit i=
+s very limited and invitation requests are *not* guaranteed to provide invi=
+tations. Also please note that I have no control over who receives an invit=
+ation. :) =A0Hope to see you there.</div>
+<div><br></div>-- <br>Jeff Osier-Mixon <a href=3D"http://jefro.net/blog" ta=
+rget=3D"_blank">http://jefro.net/blog</a><div>Yocto Project Community Manag=
+er @Intel <a href=3D"http://yoctoproject.org" target=3D"_blank">http://yoct=
+oproject.org</a></div>
+<br>
+</div></div>
 
+--e89a8f646c21b82fba04bb150606--
