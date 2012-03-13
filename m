@@ -1,36 +1,23 @@
-Received: from mail-wi0-f171.google.com ([209.85.212.171])
+Received: from mail.windriver.com ([147.11.1.11])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <schnitzeltony@googlemail.com>) id 1S7QWL-0001mK-RC
+	(envelope-from <Xiaofeng.Yan@windriver.com>) id 1S7RHe-0002Pn-Vu
 	for openembedded-core@lists.openembedded.org;
-	Tue, 13 Mar 2012 13:08:05 +0100
-Received: by wibhj13 with SMTP id hj13so4549445wib.6
+	Tue, 13 Mar 2012 13:56:59 +0100
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca [147.11.189.40])
+	by mail.windriver.com (8.14.3/8.14.3) with ESMTP id q2DCmDaT028749
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 13 Mar 2012 04:59:21 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=googlemail.com; s=20120113;
-	h=from:to:subject:date:message-id:x-mailer:mime-version:content-type
-	:content-transfer-encoding;
-	bh=oBp5CDAsXhCubFdklS8p//+mJrb2VBQMEm5H7TkuuoA=;
-	b=v+rCe0Gm2tFsV3v/EUeL5FeCq47u59AeT3+NTA4PMYXak9Bk/gsUxA8pMQEU8mVj5x
-	B7bKUu+uFAtopCCumMrBjMnKBwSxKg+zwUMXK1fIURTcSykyLQGT18GVhzbVB5RjUQAK
-	eUbPD0wdtRyv0SnIBj/UYFQmoWkE3rOlYvS1X8kdLBL5GcN5Vo18JuP7He5U0r4rv3dJ
-	9f1TzH4pYHuKVIZ/+GzVbpCOYxTCyOW2L71Hl3FkObcN3n1dG9J/Y/X00nTgYEdJTLTW
-	9Dnw3ov+Hb0r0vM/HYA+ii/LmDlgrrugrUWHz92SAOb4zlJ+as+prwNl04WRHTwO0JXk
-	Ib6g==
-Received: by 10.180.96.168 with SMTP id dt8mr6719835wib.18.1331639961680;
-	Tue, 13 Mar 2012 04:59:21 -0700 (PDT)
-Received: from localhost.localdomain (ip-95-222-156-83.unitymediagroup.de.
-	[95.222.156.83])
-	by mx.google.com with ESMTPS id w14sm42557990wiv.11.2012.03.13.04.59.19
-	(version=TLSv1/SSLv3 cipher=OTHER);
-	Tue, 13 Mar 2012 04:59:19 -0700 (PDT)
-From: =?UTF-8?q?Andreas=20M=C3=BCller?= <schnitzeltony@googlemail.com>
-To: openembedded-core@lists.openembedded.org
-Date: Tue, 13 Mar 2012 12:59:19 +0100
-Message-Id: <1331639959-15978-1-git-send-email-schnitzeltony@googlemail.com>
-X-Mailer: git-send-email 1.7.6.5
+	Tue, 13 Mar 2012 05:48:13 -0700 (PDT)
+Received: from localhost (128.224.162.28) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server (TLS) id 14.1.255.0;
+	Tue, 13 Mar 2012 05:48:13 -0700
+Message-ID: <cover.1331642569.git.xiaofeng.yan@windriver.com>
+Old-Date: Tue, 13 Mar 2012 20:42:49 +0800
+Date: Tue, 13 Mar 2012 20:52:16 +0800
+To: <openembedded-core@lists.openembedded.org>
+From: Xiaofeng Yan <xiaofeng.yan@windriver.com>
 MIME-Version: 1.0
-Subject: [PATCH] busybox: enable eject
+Subject: [PATCH 0/7] Realize archiving functions
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -45,49 +32,51 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 13 Mar 2012 12:08:05 -0000
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Tue, 13 Mar 2012 12:56:59 -0000
+Content-Type: text/plain
 
-In xfce-environment ejecting USB-memory stick caused:
-Error starting job: Failed to execute child process "eject" (No such file or directory)
+From: Xiaofeng Yan <xiaofeng.yan@windriver.com>
 
-size of armv7a busybox binary increases from 2427962 to 2430389 bytes
+archiver.bbclass is for archiving sources , patches and logs including .bb and .inc files by configuring conf/local.conf  which control what a archiving package should include.
+For archiving a source rpm package, I add some functions to package_rpm.bbclass.
+I also merge source_pkg.bbclass src_distribute.bbclass src_distribute_local.bbclass to archiver.bbclass due to their similar functions.
 
-run-tested with angstrom/meta-oe environment on overo
+Pull URL: git://git.pokylinux.org/poky-contrib.git
+  Branch: xiaofeng/1977
+  Browse: http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=xiaofeng/1977
 
-Signed-off-by: Andreas Müller <schnitzeltony@googlemail.com>
+Thanks,
+    Xiaofeng Yan <xiaofeng.yan@windriver.com>
 ---
- meta/recipes-core/busybox/busybox-1.19.3/defconfig |    2 +-
- meta/recipes-core/busybox/busybox_1.19.3.bb        |    2 +-
- 2 files changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/meta/recipes-core/busybox/busybox-1.19.3/defconfig b/meta/recipes-core/busybox/busybox-1.19.3/defconfig
-index 372d7b5..279933b 100644
---- a/meta/recipes-core/busybox/busybox-1.19.3/defconfig
-+++ b/meta/recipes-core/busybox/busybox-1.19.3/defconfig
-@@ -669,7 +669,7 @@ CONFIG_DC=y
- # CONFIG_DEVFSD_VERBOSE is not set
- # CONFIG_FEATURE_DEVFS is not set
- # CONFIG_DEVMEM is not set
--# CONFIG_EJECT is not set
-+CONFIG_EJECT=y
- # CONFIG_FEATURE_EJECT_SCSI is not set
- # CONFIG_FBSPLASH is not set
- # CONFIG_FLASHCP is not set
-diff --git a/meta/recipes-core/busybox/busybox_1.19.3.bb b/meta/recipes-core/busybox/busybox_1.19.3.bb
-index 49ac859..728b74e 100644
---- a/meta/recipes-core/busybox/busybox_1.19.3.bb
-+++ b/meta/recipes-core/busybox/busybox_1.19.3.bb
-@@ -1,5 +1,5 @@
- require busybox.inc
--PR = "r5"
-+PR = "r6"
- 
- SRC_URI = "http://www.busybox.net/downloads/busybox-${PV}.tar.bz2;name=tarball \
-            file://udhcpscript.patch \
--- 
-1.7.6.5
+
+Xiaofeng Yan (7):
+  package_rpm: Add srpm function to this bbclass
+  archiver.bbclass: New bbclass for archiving sources, patches,logs and
+    scripts
+  archive-patched-source.bbclass: Archive patched source
+  archive-configured-source.bbclass: Archive configured source
+  archive-original-source.bbclass: Archive original source
+  local.conf.sample: Add set for archiving packages
+  sourcepkg, src_distribute, src_distribute_local: remove three bbclass
+
+ meta-yocto/conf/local.conf.sample              |   25 ++
+ meta/classes/archive-configured-source.bbclass |   14 +
+ meta/classes/archive-original-source.bbclass   |   14 +
+ meta/classes/archive-patched-source.bbclass    |   14 +
+ meta/classes/archiver.bbclass                  |  421 ++++++++++++++++++++++++
+ meta/classes/package_rpm.bbclass               |   63 ++++
+ meta/classes/sourcepkg.bbclass                 |  107 ------
+ meta/classes/src_distribute.bbclass            |   49 ---
+ meta/classes/src_distribute_local.bbclass      |   33 --
+ 9 files changed, 551 insertions(+), 189 deletions(-)
+ create mode 100644 meta/classes/archive-configured-source.bbclass
+ create mode 100644 meta/classes/archive-original-source.bbclass
+ create mode 100644 meta/classes/archive-patched-source.bbclass
+ create mode 100644 meta/classes/archiver.bbclass
+ delete mode 100644 meta/classes/sourcepkg.bbclass
+ delete mode 100644 meta/classes/src_distribute.bbclass
+ delete mode 100644 meta/classes/src_distribute_local.bbclass
 
 
 
