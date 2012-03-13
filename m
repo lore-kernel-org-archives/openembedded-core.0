@@ -1,40 +1,40 @@
 Received: from dan.rpsys.net ([93.97.175.187])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <richard@rpsys.net>) id 1S7Fe0-00011v-7O
+	(envelope-from <richard@rpsys.net>) id 1S7Fe0-000129-O9
 	for openembedded-core@lists.openembedded.org;
 	Tue, 13 Mar 2012 01:31:16 +0100
 Received: from localhost (dan.rpsys.net [127.0.0.1])
 	by dan.rpsys.net (8.14.2/8.14.2/Debian-2build1) with ESMTP id
-	q2D0cfc0004604 for <openembedded-core@lists.openembedded.org>;
+	q2D0cfC6004613 for <openembedded-core@lists.openembedded.org>;
 	Tue, 13 Mar 2012 00:38:41 GMT
-X-Quarantine-ID: <sgf-Uyoal5I5>
+X-Quarantine-ID: <b3V1SYZTOA41>
 X-Virus-Scanned: Debian amavisd-new at dan.rpsys.net
 X-Amavis-Alert: BAD HEADER, Duplicate header field: "In-Reply-To"
 Received: from dan.rpsys.net ([127.0.0.1])
 	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
-	with LMTP id sgf-Uyoal5I5
+	with LMTP id b3V1SYZTOA41
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 13 Mar 2012 00:38:40 +0000 (GMT)
+	Tue, 13 Mar 2012 00:38:41 +0000 (GMT)
 Received: from ted (ted.config [192.168.1.70]) (authenticated bits=0)
 	by dan.rpsys.net (8.14.2/8.14.2/Debian-2build1) with ESMTP id
-	q2D0cZAD004538
+	q2D0cZZZ004549
 	(version=TLSv1/SSLv3 cipher=AES256-SHA bits=256 verify=NOT)
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 13 Mar 2012 00:38:36 GMT
+	Tue, 13 Mar 2012 00:38:37 GMT
 Received: from richard by ted with local (Exim 4.76)
-	(envelope-from <richard@dan.rpsys.net>) id 1S7FVT-0002ea-Pd
+	(envelope-from <richard@dan.rpsys.net>) id 1S7FVU-0002eg-3V
 	for openembedded-core@lists.openembedded.org;
-	Tue, 13 Mar 2012 00:22:27 +0000
+	Tue, 13 Mar 2012 00:22:28 +0000
 From: Richard Purdie <richard.purdie@linuxfoundation.org>
 To: openembedded-core@lists.openembedded.org
-Date: Tue, 13 Mar 2012 00:22:17 +0000
-Message-Id: <14ae4991d8067eb047acf77b30b3abef2cecef5f.1331598077.git.richard.purdie@linuxfoundation.org>
+Date: Tue, 13 Mar 2012 00:22:19 +0000
+Message-Id: <3b9256140bde09f8319a96bc8cbe15288ff5899b.1331598077.git.richard.purdie@linuxfoundation.org>
 X-Mailer: git-send-email 1.7.5.4
 In-Reply-To: <df48742cfc0c46ae33f28900cfd5a7a2f94c326c.1331598077.git.richard.purdie@linuxfoundation.org>
 References: <df48742cfc0c46ae33f28900cfd5a7a2f94c326c.1331598077.git.richard.purdie@linuxfoundation.org>
 In-Reply-To: <cover.1331598077.git.richard.purdie@linuxfoundation.org>
 References: <cover.1331598077.git.richard.purdie@linuxfoundation.org>
-Subject: [PATCH 10/17] shadow: Correct license Artistic -> Artistic-1.0
+Subject: [PATCH 12/17] license.bbclass: Add mapping for LGPLv2.0, pango uses it
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -49,72 +49,25 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 13 Mar 2012 00:31:16 -0000
+X-List-Received-Date: Tue, 13 Mar 2012 00:31:17 -0000
 
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 ---
- .../shadow/shadow-native_4.1.4.3.bb                |    4 ++--
- .../shadow/shadow-sysroot_4.1.4.3.bb               |    4 ++--
- meta/recipes-extended/shadow/shadow_4.1.4.3.bb     |    4 ++--
- 3 files changed, 6 insertions(+), 6 deletions(-)
+ meta/classes/license.bbclass |    1 +
+ 1 files changed, 1 insertions(+), 0 deletions(-)
 
-diff --git a/meta/recipes-extended/shadow/shadow-native_4.1.4.3.bb b/meta/recipes-extended/shadow/shadow-native_4.1.4.3.bb
-index 1f6ef1b..42ecc6a 100644
---- a/meta/recipes-extended/shadow/shadow-native_4.1.4.3.bb
-+++ b/meta/recipes-extended/shadow/shadow-native_4.1.4.3.bb
-@@ -3,11 +3,11 @@ DESCRIPTION = "Tools to change and administer password and group data"
- HOMEPAGE = "http://pkg-shadow.alioth.debian.org"
- BUGTRACKER = "https://alioth.debian.org/tracker/?group_id=30580"
- SECTION = "base utils"
--LICENSE = "BSD | Artistic"
-+LICENSE = "BSD | Artistic-1.0"
- LIC_FILES_CHKSUM = "file://COPYING;md5=08c553a87d4e51bbed50b20e0adcaede \
-                     file://src/passwd.c;firstline=8;endline=30;md5=2899a045e90511d0e043b85a7db7e2fe"
+diff --git a/meta/classes/license.bbclass b/meta/classes/license.bbclass
+index 3de704f..3126318 100644
+--- a/meta/classes/license.bbclass
++++ b/meta/classes/license.bbclass
+@@ -33,6 +33,7 @@ SPDXLICENSEMAP[GPLv3.0] = "GPL-3.0"
  
--PR = "r2"
-+PR = "r3"
- 
- SRC_URI = "http://pkg-shadow.alioth.debian.org/releases/${BPN}-${PV}.tar.bz2 \
-            file://shadow.automake-1.11.patch \
-diff --git a/meta/recipes-extended/shadow/shadow-sysroot_4.1.4.3.bb b/meta/recipes-extended/shadow/shadow-sysroot_4.1.4.3.bb
-index 1fb6c56..d379c1f 100644
---- a/meta/recipes-extended/shadow/shadow-sysroot_4.1.4.3.bb
-+++ b/meta/recipes-extended/shadow/shadow-sysroot_4.1.4.3.bb
-@@ -3,12 +3,12 @@ DESCRIPTION = "Shadow utils requirements for useradd.bbclass"
- HOMEPAGE = "http://pkg-shadow.alioth.debian.org"
- BUGTRACKER = "https://alioth.debian.org/tracker/?group_id=30580"
- SECTION = "base utils"
--LICENSE = "BSD | Artistic"
-+LICENSE = "BSD | Artistic-1.0"
- LIC_FILES_CHKSUM = "file://login.defs_shadow-sysroot;md5=25e2f2de4dfc8f966ac5cdfce45cd7d5"
- 
- DEPENDS = "base-passwd"
- 
--PR = "r2"
-+PR = "r3"
- 
- # The sole purpose of this recipe is to provide the /etc/login.defs
- # file for the target sysroot - needed so the shadow-native utilities
-diff --git a/meta/recipes-extended/shadow/shadow_4.1.4.3.bb b/meta/recipes-extended/shadow/shadow_4.1.4.3.bb
-index a69eb7c..f892eb9 100644
---- a/meta/recipes-extended/shadow/shadow_4.1.4.3.bb
-+++ b/meta/recipes-extended/shadow/shadow_4.1.4.3.bb
-@@ -3,13 +3,13 @@ DESCRIPTION = "Tools to change and administer password and group data"
- HOMEPAGE = "http://pkg-shadow.alioth.debian.org"
- BUGTRACKER = "https://alioth.debian.org/tracker/?group_id=30580"
- SECTION = "base utils"
--LICENSE = "BSD | Artistic"
-+LICENSE = "BSD | Artistic-1.0"
- LIC_FILES_CHKSUM = "file://COPYING;md5=08c553a87d4e51bbed50b20e0adcaede \
-                     file://src/passwd.c;firstline=8;endline=30;md5=2899a045e90511d0e043b85a7db7e2fe"
- 
- DEPENDS = "${@base_contains('DISTRO_FEATURES', 'pam', 'libpam', '', d)}"
- RDEPENDS_${PN} = "shadow-securetty ${@base_contains('DISTRO_FEATURES', 'pam', '${PAM_PLUGINS}', '', d)}"
--PR = "r7"
-+PR = "r8"
- 
- SRC_URI = "http://pkg-shadow.alioth.debian.org/releases/${BPN}-${PV}.tar.bz2 \
-            file://login_defs_pam.sed \
+ #LGPL variations
+ SPDXLICENSEMAP[LGPLv2] = "LGPL-2.0"
++SPDXLICENSEMAP[LGPLv2.0] = "LGPL-2.0"
+ SPDXLICENSEMAP[LGPL2.1] = "LGPL-2.1"
+ SPDXLICENSEMAP[LGPLv2.1] = "LGPL-2.1"
+ SPDXLICENSEMAP[LGPLv3] = "LGPL-3.0"
 -- 
 1.7.5.4
 
