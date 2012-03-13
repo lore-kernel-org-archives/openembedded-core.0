@@ -1,25 +1,34 @@
-Received: from mail1.windriver.com ([147.11.146.13])
-	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <Xiaofeng.Yan@windriver.com>) id 1S7RHu-0002Y5-Ck
-	for openembedded-core@lists.openembedded.org;
-	Tue, 13 Mar 2012 13:57:14 +0100
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca [147.11.189.40])
-	by mail1.windriver.com (8.14.3/8.14.3) with ESMTP id q2DCmUH2012178
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
+Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
+	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <richard.purdie@linuxfoundation.org>)
+	id 1S7RjR-0003Ju-MJ for openembedded-core@lists.openembedded.org;
+	Tue, 13 Mar 2012 14:25:41 +0100
+Received: from localhost (localhost [127.0.0.1])
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q2DDGwYS026810
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 13 Mar 2012 05:48:30 -0700 (PDT)
-Received: from localhost (128.224.162.28) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server (TLS) id 14.1.255.0;
-	Tue, 13 Mar 2012 05:48:29 -0700
-Message-ID: <8cf0baae564d3c6889ceb978ae79f03c93a5fae7.1331642569.git.xiaofeng.yan@windriver.com>
-In-Reply-To: <cover.1331642569.git.xiaofeng.yan@windriver.com>
-References: <cover.1331642569.git.xiaofeng.yan@windriver.com>
-Old-Date: Tue, 13 Mar 2012 20:38:28 +0800
-Date: Tue, 13 Mar 2012 20:52:32 +0800
-To: <openembedded-core@lists.openembedded.org>
-From: Xiaofeng Yan <xiaofeng.yan@windriver.com>
-MIME-Version: 1.0
-Subject: [PATCH 7/7] sourcepkg, src_distribute, src_distribute_local: remove three bbclass
+	Tue, 13 Mar 2012 13:16:58 GMT
+Received: from tim.rpsys.net ([127.0.0.1])
+	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
+	port 10024) with LMTP
+	id 26104-03 for <openembedded-core@lists.openembedded.org>;
+	Tue, 13 Mar 2012 13:16:52 +0000 (GMT)
+Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q2DDGk0b026804
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO)
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 13 Mar 2012 13:16:48 GMT
+Message-ID: <1331644607.16878.0.camel@ted>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Date: Tue, 13 Mar 2012 13:16:47 +0000
+In-Reply-To: <2e3c4ca4c3c2dfc8b8e1333e61b239251b4f4efb.1331604310.git.scott.a.garman@intel.com>
+References: <cover.1331604310.git.scott.a.garman@intel.com>
+	<2e3c4ca4c3c2dfc8b8e1333e61b239251b4f4efb.1331604310.git.scott.a.garman@intel.com>
+X-Mailer: Evolution 3.2.2- 
+Mime-Version: 1.0
+X-Virus-Scanned: amavisd-new at rpsys.net
+Subject: Re: [PATCH 3/3] gettext: do not set libncurses prefix explicitly
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -34,234 +43,63 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 13 Mar 2012 12:57:14 -0000
-Content-Type: text/plain
+X-List-Received-Date: Tue, 13 Mar 2012 13:25:41 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-From: Xiaofeng Yan <xiaofeng.yan@windriver.com>
+On Mon, 2012-03-12 at 19:08 -0700, Scott Garman wrote:
+> The --with-libncurses-prefix configure option was added before
+> this recipe had ncurses in DEPENDS, so it should be safe to
+> remove it.
+> 
+> Signed-off-by: Scott Garman <scott.a.garman@intel.com>
+> ---
+>  meta/recipes-core/gettext/gettext_0.18.1.1.bb |    5 +----
+>  1 files changed, 1 insertions(+), 4 deletions(-)
+> 
+> diff --git a/meta/recipes-core/gettext/gettext_0.18.1.1.bb b/meta/recipes-core/gettext/gettext_0.18.1.1.bb
+> index 3c65dca..daee5c0 100644
+> --- a/meta/recipes-core/gettext/gettext_0.18.1.1.bb
+> +++ b/meta/recipes-core/gettext/gettext_0.18.1.1.bb
+> @@ -5,7 +5,7 @@ SECTION = "libs"
+>  LICENSE = "GPL-3+ & LGPL-2.1+"
+>  LIC_FILES_CHKSUM = "file://COPYING;md5=d32239bcb673463ab874e80d47fae504"
+>  
+> -PR = "r7"
+> +PR = "r8"
+>  DEPENDS = "libxml2-native gettext-native virtual/libiconv ncurses expat"
+>  DEPENDS_virtclass-native = "libxml2-native"
+>  PROVIDES = "virtual/libintl virtual/gettext"
+> @@ -21,8 +21,6 @@ SRC_URI_append_libc-uclibc = " file://wchar-uclibc.patch \
+>  SRC_URI[md5sum] = "3dd55b952826d2b32f51308f2f91aa89"
+>  SRC_URI[sha256sum] = "93ac71a7afa5b70c1b1032516663658c51e653087f42a3fc8044752c026443e9"
+>  
+> -#PARALLEL_MAKE = ""
+> -
+>  inherit autotools
+>  
+>  EXTRA_OECONF += "--without-lispdir \
+> @@ -32,7 +30,6 @@ EXTRA_OECONF += "--without-lispdir \
+>                   --disable-native-java \
+>                   --disable-openmp \
+>                   --with-included-glib \
+> -                 --with-libncurses-prefix=${STAGING_LIBDIR}/.. \
+>                   --without-emacs \
+>                   --without-cvs \
+>                   --without-git \
 
-These bbclasses have been merged into archiver.bbclass.
+Sadly this breaks gettext for me as I'm now seeing things like:
 
-[YOCTO #1977]
+i586-poky-linux-libtool: link: i586-poky-linux-gcc -m32 -march=i586 --sysroot=/media/build1/poky/build/tmp/sysroots/qemux86 -std=gnu99 -O2 -pipe -g -feliminate-unused-debug-types -Wl,-O1 -Wl,--hash-style=gnu -Wl,--as-needed -o .libs/recode-sr-latin recode_sr_latin-recode-sr-latin.o recode_sr_latin-filter-sr-latin.o  ../gnulib-lib/.libs/libgettextlib.so -L/usr/lib -lc -lncurses
+/media/build1/poky/build/tmp/sysroots/x86_64-linux/usr/libexec/i586-poky-linux/gcc/i586-poky-linux/4.6.4/ld: warning: library search path "/usr/lib" is unsafe for cross-compilation
+/media/build1/poky/build/tmp/sysroots/x86_64-linux/usr/libexec/i586-poky-linux/gcc/i586-poky-linux/4.6.4/ld: skipping incompatible /usr/lib/libtinfo.so when searching for -ltinfo
+/media/build1/poky/build/tmp/sysroots/x86_64-linux/usr/libexec/i586-poky-linux/gcc/i586-poky-linux/4.6.4/ld: skipping incompatible /usr/lib/libtinfo.a when searching for -ltinfo
 
-Signed-off-by: Xiaofeng Yan <xiaofeng.yan@windriver.com>
----
- meta/classes/sourcepkg.bbclass            |  107 -----------------------------
- meta/classes/src_distribute.bbclass       |   49 -------------
- meta/classes/src_distribute_local.bbclass |   33 ---------
- 3 files changed, 0 insertions(+), 189 deletions(-)
- delete mode 100644 meta/classes/sourcepkg.bbclass
- delete mode 100644 meta/classes/src_distribute.bbclass
- delete mode 100644 meta/classes/src_distribute_local.bbclass
+in the logs which triggers a QA warning.
 
-diff --git a/meta/classes/sourcepkg.bbclass b/meta/classes/sourcepkg.bbclass
-deleted file mode 100644
-index 102c109..0000000
---- a/meta/classes/sourcepkg.bbclass
-+++ /dev/null
-@@ -1,107 +0,0 @@
--DEPLOY_DIR_SRC ?= "${DEPLOY_DIR}/source"
--EXCLUDE_FROM ?= ".pc autom4te.cache"
--
--# used as part of a path. make sure it's set
--DISTRO ?= "openembedded"
--
--def get_src_tree(d):
--
--	workdir = d.getVar('WORKDIR', True)
--	if not workdir:
--		bb.error("WORKDIR not defined, unable to find source tree.")
--		return
--
--	s = d.getVar('S', 0)
--	if not s:
--		bb.error("S not defined, unable to find source tree.")
--		return
--
--	s_tree_raw = s.split('/')[1]
--	s_tree = d.expand(s_tree_raw)
--
--	src_tree_path = os.path.join(workdir, s_tree)
--	try:
--		os.listdir(src_tree_path)
--	except OSError:
--		bb.fatal("Expected to find source tree in '%s' which doesn't exist." % src_tree_path)
--	bb.debug("Assuming source tree is '%s'" % src_tree_path)
--
--	return s_tree
--
--sourcepkg_do_create_orig_tgz(){
--
--	mkdir -p ${DEPLOY_DIR_SRC}
--	cd ${WORKDIR}
--	for i in ${EXCLUDE_FROM}; do
--		echo $i >> temp/exclude-from-file
--	done
--
--	src_tree=${@get_src_tree(d)}
--	
--	echo $src_tree
--	bbnote "Creating .orig.tar.gz in ${DEPLOY_DIR_SRC}/${P}.orig.tar.gz"
--	tar cvzf ${DEPLOY_DIR_SRC}/${P}.orig.tar.gz --exclude-from temp/exclude-from-file $src_tree
--	tar -cf - -C $src_tree -ps . | tar -xf - -C $src_tree.orig
--}
--
--sourcepkg_do_archive_bb() {
--
--	src_tree=${@get_src_tree(d)}
--	dest=${WORKDIR}/$src_tree/${DISTRO}
--	mkdir -p $dest
--
--	cp ${FILE} $dest
--}
--
--python sourcepkg_do_dumpdata() {
--
--	workdir = d.getVar('WORKDIR', True)
--	distro = d.getVar('DISTRO', True)
--	s_tree = get_src_tree(d)
--	openembeddeddir = os.path.join(workdir, s_tree, distro)
--	dumpfile = os.path.join(openembeddeddir, d.expand("${P}-${PR}.showdata.dump"))
--	
--	try:
--		os.mkdir(openembeddeddir)
--	except OSError:
--		# dir exists
--		pass
--
--	bb.note("Dumping metadata into '%s'" % dumpfile)
--	f = open(dumpfile, "w")
--	# emit variables and shell functions
--        bb.data.emit_env(f, d, True)
--	# emit the metadata which isnt valid shell
--	for e in d.keys():
--		if d.getVarFlag(e, 'python'):
--			f.write("\npython %s () {\n%s}\n" % (e, d.getVar(e, True)))
--	f.close()
--}
--
--sourcepkg_do_create_diff_gz(){
--
--	cd ${WORKDIR}
--	for i in ${EXCLUDE_FROM}; do
--		echo $i >> temp/exclude-from-file
--	done
--
--
--	src_tree=${@get_src_tree(d)}
--
--	for i in `find . -maxdepth 1 -type f`; do
--		mkdir -p $src_tree/${DISTRO}/files
--		cp $i $src_tree/${DISTRO}/files
--	done
--	
--	bbnote "Creating .diff.gz in ${DEPLOY_DIR_SRC}/${P}-${PR}.diff.gz"
--	LC_ALL=C TZ=UTC0 diff --exclude-from=temp/exclude-from-file -Naur $src_tree.orig $src_tree | gzip -c > ${DEPLOY_DIR_SRC}/${P}-${PR}.diff.gz
--	rm -rf $src_tree.orig
--}
--
--EXPORT_FUNCTIONS do_create_orig_tgz do_archive_bb do_dumpdata do_create_diff_gz
--
--addtask create_orig_tgz after do_unpack before do_patch
--addtask archive_bb after do_patch before do_dumpdata
--addtask dumpdata after archive_bb before do_create_diff_gz
--addtask create_diff_gz after do_dump_data before do_configure
--
-diff --git a/meta/classes/src_distribute.bbclass b/meta/classes/src_distribute.bbclass
-deleted file mode 100644
-index efa2720..0000000
---- a/meta/classes/src_distribute.bbclass
-+++ /dev/null
-@@ -1,49 +0,0 @@
--SRC_DISTRIBUTECOMMAND[func] = "1"
--python do_distribute_sources () {
--	l = bb.data.createCopy(d)
--	bb.data.update_data(l)
--
--	sources_dir = d.getVar('SRC_DISTRIBUTEDIR', True)
--	src_uri = d.getVar('SRC_URI', True).split()
--	fetcher = bb.fetch2.Fetch(src_uri, d)
--	ud = fetcher.ud
--
--	licenses = d.getVar('LICENSE', True).replace('&', '|')
--	licenses = licenses.replace('(', '').replace(')', '')
--	clean_licenses = ""
--	for x in licenses.split():
--		if x.strip() == '' or x == 'CLOSED':
--			continue
--
--		if x != "|":
--			clean_licenses += x
--
--	for license in clean_licenses.split('|'):
--		for url in ud.values():
--			cmd = d.getVar('SRC_DISTRIBUTECOMMAND', True)
--			if not cmd:
--				raise bb.build.FuncFailed("Unable to distribute sources, SRC_DISTRIBUTECOMMAND not defined")
--			url.setup_localpath(d)
--			d.setVar('SRC', url.localpath)
--			if url.type == 'file':
--				if url.basename == '*':
--					import os.path
--					dest_dir = os.path.basename(os.path.dirname(os.path.abspath(url.localpath)))
--					d.setVar('DEST', "%s_%s/" % (d.getVar('PF', True), dest_dir))
--				else:
--					d.setVar('DEST', "%s_%s" % (d.getVar('PF', True), url.basename))
--			else:
--				d.setVar('DEST', '')
--
--			d.setVar('SRC_DISTRIBUTEDIR', "%s/%s" % (sources_dir, license))
--			bb.build.exec_func('SRC_DISTRIBUTECOMMAND', d)
--}
--
--addtask distribute_sources before do_build after do_fetch
--
--addtask distribute_sources_all after do_distribute_sources
--do_distribute_sources_all[recrdeptask] = "do_distribute_sources"
--do_distribute_sources_all[nostamp] = "1"
--do_distribute_sources_all () {
--	:
--}
-diff --git a/meta/classes/src_distribute_local.bbclass b/meta/classes/src_distribute_local.bbclass
-deleted file mode 100644
-index 17b67e3..0000000
---- a/meta/classes/src_distribute_local.bbclass
-+++ /dev/null
-@@ -1,33 +0,0 @@
--inherit src_distribute
--
--# SRC_DIST_LOCAL possible values:
--# copy		copies the files to the distributedir
--# symlink	symlinks the files to the distributedir
--# move+symlink	moves the files into distributedir, and symlinks them back
--SRC_DIST_LOCAL ?= "move+symlink"
--SRC_DISTRIBUTEDIR ?= "${DEPLOY_DIR}/sources"
--SRC_DISTRIBUTECOMMAND () {
--	s="${SRC}"
--	d="${DEST}"
--
--	mkdir -p ${SRC_DISTRIBUTEDIR}
--
--	if echo $d | grep -q '/$'; then
--		mkdir -p ${SRC_DISTRIBUTEDIR}/$d
--	fi
--
--	case "${SRC_DIST_LOCAL}" in
--		copy)
--			test -e $s.md5 && cp -f $s.md5 ${SRC_DISTRIBUTEDIR}/$d.md5
--			cp -f $s ${SRC_DISTRIBUTEDIR}/$d
--			;;
--		symlink)
--			test -e $s.md5 && ln -sf $s.md5 ${SRC_DISTRIBUTEDIR}/$d.md5
--			ln -sf $s ${SRC_DISTRIBUTEDIR}/$d
--			;;
--		move+symlink)
--			mv $s ${SRC_DISTRIBUTEDIR}/$d
--			ln -sf ${SRC_DISTRIBUTEDIR}/$d $s
--			;;
--	esac
--}
--- 
-1.7.0.4
+Cheers,
+
+Richard
 
 
 
