@@ -1,43 +1,31 @@
-Received: from mga10.intel.com ([192.55.52.92] helo=fmsmga102.fm.intel.com)
+Received: from mail-iy0-f175.google.com ([209.85.210.175])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <scott.a.garman@intel.com>) id 1S7a6F-0004Jw-0A
-	for openembedded-core@lists.openembedded.org;
-	Tue, 13 Mar 2012 23:21:47 +0100
-Received: from mail-we0-f180.google.com ([74.125.82.180])
-	by mga11.intel.com with ESMTP/TLS/RC4-SHA; 13 Mar 2012 15:11:56 -0700
-Received: by werf3 with SMTP id f3so1050302wer.25
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 13 Mar 2012 15:11:54 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=google.com; s=20120113;
-	h=message-id:date:from:user-agent:mime-version:to:subject:references
-	:in-reply-to:content-type:content-transfer-encoding
-	:x-gm-message-state;
-	bh=/+PNZFWgZQbM9rXncRZVjyN3Btga/WNC5KupvoaElgg=;
-	b=cfPYkcU5Brl8Tj9D59mGGwqMeNHwTpsJNuG/Naqg/jMo6JP5lE3TDArkxtY+g6X3yG
-	O/VJdaMK/GUBCUG3Or4QShjTScNg957XvbMEXGSOA6vFGdfWENIkewYffoxZus5ipg9f
-	kZ+W4IOew5E1ZpaCDQslhkQZXyRA/oEXHxl4k0Lm64BXxK0b39RRnk/vnoBDYi3Htyin
-	w2GdVyyo96sgYthHnJfVTpJ2Ln+mWuLWj/iDqqjPuLLJh8xq9H9K6icxvJ7mbjbOe01C
-	Phu04FF1Yw2JUl6KIqwdnfxAdaPwm/jE7rMtot6nJ3SlVFZE9FcsrHk7gkAUKJcdSAIx
-	5fvw==
-Received: by 10.180.107.162 with SMTP id hd2mr11200887wib.8.1331676714432;
-	Tue, 13 Mar 2012 15:11:54 -0700 (PDT)
-Received: from [127.0.0.1] (masterfoo.zenlinux.com. [207.192.74.254])
-	by mx.google.com with ESMTPS id k6sm23120134wie.9.2012.03.13.15.11.52
-	(version=SSLv3 cipher=OTHER); Tue, 13 Mar 2012 15:11:54 -0700 (PDT)
-Message-ID: <4F5FC61E.1040708@intel.com>
-Date: Tue, 13 Mar 2012 15:11:42 -0700
-From: Scott Garman <scott.a.garman@intel.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:10.0.2) Gecko/20120216 Thunderbird/10.0.2
+	(envelope-from <jefro.net@gmail.com>)
+	id 1S7aD3-0004Oq-HU; Tue, 13 Mar 2012 23:28:49 +0100
+Received: by iaag37 with SMTP id g37so1318707iaa.6
+	for <multiple recipients>; Tue, 13 Mar 2012 15:20:03 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=mime-version:sender:date:x-google-sender-auth:message-id:subject
+	:from:to:content-type;
+	bh=aJVdWY2sHyGNDqWBHFcjUrxkhaJNCZNlAvsjz7iPa2g=;
+	b=yV11yOc3N+oC/0pQOG1G0nJDjNUr1EaVKIvCVAAt2FKfMlAzmJ18SBuFsdwpy4wjXN
+	hA9weLo0SakQsARUQ7kbxPd4zCgG3j6qjB2gYKStFJvM7PyjbleGi7Qu27/g+FLSztKE
+	3/AuCeMfXcKVHNWVqdvuSopwM9ds6U2qyziE6rZlCmd2dEfJImrlxkPZsqZMxMTtWIuy
+	3Jp3CB/S/RReYE0JrfZNmAZ5Udfk6lY9jzggZNMZEls1/1K4flITpRZ84KxK26GrOlhi
+	gRXcmMmVmnWsWuUdPPyNgldkUFO1y245PGDcj3qW0Hhw5DRSbHBdI+37JikaJBwBmbvd
+	cnLQ==
 MIME-Version: 1.0
-To: openembedded-core@lists.openembedded.org
-References: <cover.1331604310.git.scott.a.garman@intel.com>
-	<f876555e0b49baed50840adb1d93e8338ab9d7ef.1331604310.git.scott.a.garman@intel.com>
-	<4F5FB36A.8020007@opendreambox.org>
-In-Reply-To: <4F5FB36A.8020007@opendreambox.org>
-X-Gm-Message-State: ALoCoQlSMNUR2GN9o+ZOooKgOw52wQRACR6S+3q4wDlQaVY6TuKoq+8dhimtt4Hcs59JVVOn3qjq
-Subject: Re: [PATCH 2/3] ncurses: move only libncurses and libtinfo to base_libdir
+Received: by 10.50.89.168 with SMTP id bp8mr7713440igb.3.1331677203452; Tue,
+	13 Mar 2012 15:20:03 -0700 (PDT)
+Sender: jefro.net@gmail.com
+Received: by 10.50.127.38 with HTTP; Tue, 13 Mar 2012 15:20:03 -0700 (PDT)
+Date: Tue, 13 Mar 2012 15:20:03 -0700
+X-Google-Sender-Auth: WkS1n4q585wJn78eehhc6xNIRGo
+Message-ID: <CA+YB3rapmuP1868ag1CjQ3-_=-PEFZR5VEc85asUtVhepQB06Q@mail.gmail.com>
+From: Jeff Osier-Mixon <jefro@jefro.net>
+To: openembedded-core <openembedded-core@lists.openembedded.org>, 
+	openembedded-devel@lists.openembedded.org, tsc <tsc@lists.openembedded.org>
+Subject: OE TSC Minutes: 15 Feb 2012
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -52,37 +40,124 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 13 Mar 2012 22:21:47 -0000
-Content-Type: text/plain; charset=ISO-8859-1; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Tue, 13 Mar 2012 22:28:50 -0000
+Content-Type: multipart/alternative; boundary=e89a8f3ba959aad1d804bb274260
 
-On 03/13/2012 01:51 PM, Andreas Oberritter wrote:
-> On 13.03.2012 03:08, Scott Garman wrote:
->> The previous approach to moving the ncurses libraries to
->> base_libdir was too aggressive, and it broke curses support
->> in python.
->>
->> Instead, move only libncurses, libncursesw, and libtinfo to
->> base_libdir and leave the remaining libraries in libdir.
->>
->> Also delete ${libdir}/terminfo as it never gets packaged to
->> avoid a QA warning.
->>
->> This fixes [YOCTO #2070] and is a partial fix for [YOCTO #1937].
->
-> Hello Scott,
->
-> package splitting doesn't seem to work anymore. Libs that previously had
-> their own package now end up being stored in the main ncurses package.
+--e89a8f3ba959aad1d804bb274260
+Content-Type: text/plain; charset=ISO-8859-1
 
-Thanks for reporting this, Andreas. I am working on a fix for it now. My 
-apologies for the trouble.
+NOTE: I apologize for the lateness of these minutes; they go a lot faster
+when the meeting is held online!
 
-Scott
+OpenEmbedded Technical Steering Committee
+15 February, 2012
+face-to-face meeting at Embedded Linux Conference
+
+Attending:
+
+Richard Purdie
+Mark Hatle
+Tom Rini
+Khem Raj
+Paul Eggleton
+minutes: Jeff Osier-Mixon
+
+Agenda:
+
+There was no fixed agenda for this meeting - the notes below
+describe what was discussed.
+
+Yocto Project DevDay discussion
+  The Yocto Project had its first Developer Day the day before this
+  meeting. There were several presentations as well as hands-on labs
+  for both new and experienced users.
+
+BitBake interrupts
+  When BitBake hangs, there is no feedback from it, can't ctrl-c
+  Richard believes it is a threading problem, following up with Chris L
+  UPDATE: found to be a double shutdown, patches have been merged
+
+Moving to Python 3
+  Possible, not really a problem if want to do it
+  Many technical issues discussed, no action items assigned
+
+Elections
+  After next week, remind the board
+  Mark is up now, then Tom, then cycle is done
+
+zlib
+  Khem, Matt McClintock submitted many patches
+  Have been doing shakeout, decided not to inflict on issues
+  Gary Thomas found many isses as well
+  Issue - enabling basic hash, should resolve zlib issue in future
+  Proposal on oe list, doing this in yocto, could do in oe-core
+  AR: RP did this after meeting
+
+TSC Retrospective meeting with board
+  Agreed to meet with board for lunch for an annual retrospective
+
+memory usage issues
+  Discussion about current BitBake memory footprint growth
+  Use of fetchers to fetch metadata, suggested from previous
+    discussions - Jeremy Puhlman, Richard, Paul
+    do as part of bb build process or as separate step
+  Many other memory issues discussed
+  Found some memory issue and changes merged recently to improve
+    the codeparser cache.
+
 
 -- 
-Scott Garman
-Embedded Linux Engineer - Yocto Project
-Intel Open Source Technology Center
+Jeff Osier-Mixon http://jefro.net/blog
+Yocto Project Community Manager @Intel http://yoctoproject.org
 
+--e89a8f3ba959aad1d804bb274260
+Content-Type: text/html; charset=ISO-8859-1
+Content-Transfer-Encoding: quoted-printable
 
+<div>NOTE: I apologize for the lateness of these minutes; they go a lot fas=
+ter when the meeting is held online!</div><div><br></div><div>OpenEmbedded =
+Technical Steering Committee</div><div>15 February, 2012</div><div>face-to-=
+face meeting at Embedded Linux Conference</div>
+<div><br></div><div>Attending:</div><div><br></div><div>Richard Purdie</div=
+><div>Mark Hatle</div><div>Tom Rini</div><div>Khem Raj</div><div>Paul Eggle=
+ton</div><div>minutes: Jeff Osier-Mixon</div><div><br></div><div>Agenda:</d=
+iv>
+<div><br></div><div>There was no fixed agenda for this meeting - the notes =
+below</div><div>describe what was discussed.</div><div><br></div><div>Yocto=
+ Project DevDay discussion</div><div>=A0 The Yocto Project had its first De=
+veloper Day the day before this</div>
+<div>=A0 meeting. There were several presentations as well as hands-on labs=
+</div><div>=A0 for both new and experienced users.</div><div><br></div><div=
+>BitBake interrupts</div><div>=A0 When BitBake hangs, there is no feedback =
+from it, can&#39;t ctrl-c</div>
+<div>=A0 Richard believes it is a threading problem, following up with Chri=
+s L</div><div>=A0 UPDATE: found to be a double shutdown, patches have been =
+merged</div><div><br></div><div>Moving to Python 3</div><div>=A0 Possible, =
+not really a problem if want to do it</div>
+<div>=A0 Many technical issues discussed, no action items assigned</div><di=
+v><br></div><div>Elections</div><div>=A0 After next week, remind the board<=
+/div><div>=A0 Mark is up now, then Tom, then cycle is done</div><div><br></=
+div>
+<div>zlib</div><div>=A0 Khem, Matt McClintock submitted many patches</div><=
+div>=A0 Have been doing shakeout, decided not to inflict on issues</div><di=
+v>=A0 Gary Thomas found many isses as well</div><div>=A0 Issue - enabling b=
+asic hash, should resolve zlib issue in future</div>
+<div>=A0 Proposal on oe list, doing this in yocto, could do in oe-core</div=
+><div>=A0 AR: RP did this after meeting</div><div><br></div><div>TSC Retros=
+pective meeting with board</div><div>=A0 Agreed to meet with board for lunc=
+h for an annual retrospective</div>
+<div><br></div><div>memory usage issues</div><div>=A0 Discussion about curr=
+ent BitBake memory footprint growth</div><div>=A0 Use of fetchers to fetch =
+metadata, suggested from previous</div><div>=A0 =A0 discussions - Jeremy Pu=
+hlman, Richard, Paul</div>
+<div>=A0 =A0 do as part of bb build process or as separate step</div><div>=
+=A0 Many other memory issues discussed</div><div>=A0 Found some memory issu=
+e and changes merged recently to improve</div><div>=A0 =A0 the codeparser c=
+ache.</div>
+<div><br></div><div><br></div>-- <br>Jeff Osier-Mixon <a href=3D"http://jef=
+ro.net/blog" target=3D"_blank">http://jefro.net/blog</a><div>Yocto Project =
+Community Manager @Intel <a href=3D"http://yoctoproject.org" target=3D"_bla=
+nk">http://yoctoproject.org</a></div>
+<br>
+
+--e89a8f3ba959aad1d804bb274260--
