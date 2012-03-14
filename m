@@ -1,43 +1,26 @@
-Received: from mga10.intel.com ([192.55.52.92] helo=fmsmga102.fm.intel.com)
+Received: from mga09.intel.com ([134.134.136.24])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <scott.a.garman@intel.com>) id 1S7r9t-0008Op-Di
+	(envelope-from <paul.eggleton@linux.intel.com>) id 1S7rBO-0008Sl-7i
 	for openembedded-core@lists.openembedded.org;
-	Wed, 14 Mar 2012 17:34:41 +0100
-Received: from mail-gx0-f180.google.com ([209.85.161.180])
-	by mga11.intel.com with ESMTP/TLS/RC4-SHA; 14 Mar 2012 09:25:54 -0700
-Received: by gglu1 with SMTP id u1so2769087ggl.25
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 14 Mar 2012 09:25:53 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=google.com; s=20120113;
-	h=message-id:date:from:user-agent:mime-version:to:subject:references
-	:in-reply-to:content-type:content-transfer-encoding
-	:x-gm-message-state;
-	bh=51VwcTlr9YMcaCKsuESK21Lo14liQoaDjuUAsSyYquY=;
-	b=FYWpiMDxUCBZBU03gXIh/I4sMRr1aoQYjvSo1mvcQjSBzyu2ci0BGKmAWlEfkkKpKX
-	NFK2Hu1KYTWzGic3BNtNJqNP8G+miliLFxPBbKtaMD3RNomSDdJNg02+kzbgJxYMRPnY
-	flzXC5D049b3+YY0zp1180bAuo/zzQk00FHv/UYOjTpP+yFw9snWQ20dcpvMgR/Z6+Ux
-	SGisfy1ZbstigTtyDk24InoZ6r+HjafB9rqLEYP02+PELvxJ7wwZo1GOaVqbhZ7zlCoF
-	92g7/UcLpMxgO+36oQ+O0f+YVQ8qkwKl2U1lGmZ3QaWJfZKMYOplbUjdpDt/PNiVYAyJ
-	2sew==
-Received: by 10.182.2.135 with SMTP id 7mr4088218obu.78.1331742353455;
-	Wed, 14 Mar 2012 09:25:53 -0700 (PDT)
-Received: from [192.168.1.12] (c-76-105-137-48.hsd1.or.comcast.net.
-	[76.105.137.48])
-	by mx.google.com with ESMTPS id n1sm5933581obm.11.2012.03.14.09.25.51
-	(version=SSLv3 cipher=OTHER); Wed, 14 Mar 2012 09:25:52 -0700 (PDT)
-Message-ID: <4F60C699.5050401@intel.com>
-Date: Wed, 14 Mar 2012 09:26:01 -0700
-From: Scott Garman <scott.a.garman@intel.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:10.0.2) Gecko/20120216 Thunderbird/10.0.2
+	Wed, 14 Mar 2012 17:36:14 +0100
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+	by orsmga102.jf.intel.com with ESMTP; 14 Mar 2012 09:27:28 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.67,351,1309762800"; d="scan'208";a="120983047"
+Received: from unknown (HELO helios.localnet) ([10.252.123.190])
+	by orsmga002.jf.intel.com with ESMTP; 14 Mar 2012 09:27:27 -0700
+From: Paul Eggleton <paul.eggleton@linux.intel.com>
+To: =?ISO-8859-1?Q?Bj=F6rn?= Stenberg <bjst@enea.com>
+Date: Wed, 14 Mar 2012 16:27:26 +0000
+Message-ID: <22576197.WV0krj9sgO@helios>
+Organization: Intel Corporation
+User-Agent: KMail/4.8.0 (Linux/3.0.0-16-generic-pae; KDE/4.8.1; i686; ; )
+In-Reply-To: <1331740771-32303-1-git-send-email-bjst@enea.com>
+References: <2142033.FIQWIVi2oI@helios>
+	<1331740771-32303-1-git-send-email-bjst@enea.com>
 MIME-Version: 1.0
-To: openembedded-core@lists.openembedded.org
-References: <cover.1331684953.git.scott.a.garman@intel.com>
-	<D98E48A1-026D-4995-B63D-C3B422207B9A@dominion.thruhere.net>
-In-Reply-To: <D98E48A1-026D-4995-B63D-C3B422207B9A@dominion.thruhere.net>
-X-Gm-Message-State: ALoCoQl8OSr/amiT2fyK5fEwUPoe9KxjNHY+p5ox5zXp3K9zRvaYfJxkMnqBsU4T/qwwSo1I36B6
-Subject: Re: [PATCH 0/1] ncurses packaging fix
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH] Add pigz as gzip-native alternative.
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -52,48 +35,56 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 14 Mar 2012 16:34:41 -0000
-Content-Type: text/plain; charset=ISO-8859-1; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Wed, 14 Mar 2012 16:36:14 -0000
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="iso-8859-1"
 
-On 03/14/2012 01:22 AM, Koen Kooi wrote:
->
-> Op 14 mrt. 2012, om 01:31 heeft Scott Garman het volgende geschreven:
->
->> Hello,
->>
->> This fixes the ncurses library packaging. Thanks to Andreas Oberritter
->> for pointing it out.
->>
->> Scott
->>
->> The following changes since commit 81379dc141e245307ca391a02b7490b199128991:
->>
->>   dates: Fix unpackaged files warning (2012-03-13 23:18:19 +0000)
->>
->> are available in the git repository at:
->>   git://git.pokylinux.org/poky-contrib sgarman/ncurses-pkg-fix-oe
->>   http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=sgarman/ncurses-pkg-fix-oe
->>
->> Scott Garman (1):
->>   ncurses: fix packaging of moved libraries
->
-> You're missing a PR bump for the affected packages.
+On Wednesday 14 March 2012 16:59:31 Bj=F6rn Stenberg wrote:
+> pigz, which stands for parallel implementation of gzip, is a fully
+> functional replacement for gzip that exploits multiple processors and=
 
-My patch included incrementing INC_PR, but I'm guessing you're pointing 
-this out because overnight Paul Eggleton got a patch into master which 
-incremented INC_PR to the same number as I did in this patch. So I'm 
-going to respin the branch with another increase to INC_PR.
+> multiple cores to the hilt when compressing data. pigz was written by=
+ Mark
+> Adler, and uses the zlib and pthread libraries.
+>=20
+> This recipe adds pigz as an alternative gzip-native implementation on=
+ly.
+>...
+> diff --git a/meta/recipes-extended/pigz/pigz.inc
+> b/meta/recipes-extended/pigz/pigz.inc new file mode 100644
+> index 0000000..b501d7a
+> --- /dev/null
+> +++ b/meta/recipes-extended/pigz/pigz.inc
+> @@ -0,0 +1,21 @@
+> +SUMMARY =3D "A parallel implementation of gzip"
+> +DESCRIPTION =3D "pigz, which stands for parallel implementation of g=
+zip, is a
+> \ +fully functional replacement for gzip that exploits multiple proce=
+ssors
+> and \ +multiple cores to the hilt when compressing data. pigz was wri=
+tten
+> by Mark \ +Adler, and uses the zlib and pthread libraries."
+> +HOMEPAGE =3D "http://zlib.net/pigz/"
+> +SECTION =3D "console/utils"
+> +LICENSE =3D "Zlib"
+> +
+> +SRC_URI =3D "http://zlib.net/pigz/pigz-${PV}.tar.gz \
+> +           file://ldflags.patch"
+> +
+> +PROVIDES +=3D "gzip-native"
 
-If I'm mistaken, please let me know.
+Sorry for not picking up on this earlier, but I think this needs to be=20=
 
-Thanks,
+PROVIDES_virtclass-native, otherwise the target recipe will also provid=
+e gzip-
+native.
 
-Scott
+Cheers,
+Paul
 
--- 
-Scott Garman
-Embedded Linux Engineer - Yocto Project
-Intel Open Source Technology Center
+--=20
+
+Paul Eggleton
+Intel Open Source Technology Centre
 
 
