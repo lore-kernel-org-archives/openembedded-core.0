@@ -1,24 +1,24 @@
 Received: from mga11.intel.com ([192.55.52.93])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <sgw@linux.intel.com>) id 1S7jmg-0004Xg-BL
+	(envelope-from <sgw@linux.intel.com>) id 1S7jmh-0004Xk-6R
 	for openembedded-core@lists.openembedded.org;
-	Wed, 14 Mar 2012 09:42:14 +0100
+	Wed, 14 Mar 2012 09:42:15 +0100
 Received: from fmsmga002.fm.intel.com ([10.253.24.26])
 	by fmsmga102.fm.intel.com with ESMTP; 14 Mar 2012 01:33:27 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="138551603"
+X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="138551605"
 Received: from unknown (HELO swold-mobl.bigsur.com) ([10.255.15.152])
 	by fmsmga002.fm.intel.com with ESMTP; 14 Mar 2012 01:33:27 -0700
 From: Saul Wold <sgw@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Wed, 14 Mar 2012 01:33:13 -0700
-Message-Id: <d989fddba5c086ecabe77aff7fd8c0d05a36b2a5.1331713807.git.sgw@linux.intel.com>
+Date: Wed, 14 Mar 2012 01:33:14 -0700
+Message-Id: <b9834c7725420ea22df604edb994f6735927b2e7.1331713807.git.sgw@linux.intel.com>
 X-Mailer: git-send-email 1.7.7.6
 In-Reply-To: <cover.1331713807.git.sgw@linux.intel.com>
 References: <cover.1331713807.git.sgw@linux.intel.com>
 In-Reply-To: <cover.1331713807.git.sgw@linux.intel.com>
 References: <cover.1331713807.git.sgw@linux.intel.com>
-Subject: [PATCH 02/14] ltp: Package static library in -staticdev
+Subject: [PATCH 03/14] quilt: Fix docs packaging warnings
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -33,36 +33,43 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 14 Mar 2012 08:42:14 -0000
+X-List-Received-Date: Wed, 14 Mar 2012 08:42:15 -0000
 
-WARNING: QA Issue: non -staticdev package contains static .a library: ltp path '/work/i586-poky-linux/ltp-20120104-r0/packages-split/ltp/opt/ltp/lib/libmem.a'
+WARNING: For recipe quilt, the following files/directories were installed but not shipped in any package:
+WARNING:   /usr/share/doc
+WARNING:   /usr/share/doc/quilt
+WARNING:   /usr/share/doc/quilt/README
+WARNING:   /usr/share/doc/quilt/quilt.pdf
+WARNING:   /usr/share/doc/quilt/README.MAIL
 Signed-off-by: Saul Wold <sgw@linux.intel.com>
 ---
- meta/recipes-extended/ltp/ltp_20120104.bb |    4 ++++
- 1 files changed, 4 insertions(+), 0 deletions(-)
+ meta/recipes-devtools/quilt/quilt-0.51.inc |    2 +-
+ meta/recipes-devtools/quilt/quilt_0.51.bb  |    2 +-
+ 2 files changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/meta/recipes-extended/ltp/ltp_20120104.bb b/meta/recipes-extended/ltp/ltp_20120104.bb
-index 07e1fcc..c82203a 100644
---- a/meta/recipes-extended/ltp/ltp_20120104.bb
-+++ b/meta/recipes-extended/ltp/ltp_20120104.bb
-@@ -19,6 +19,8 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=0636e73ff0215e8d672dc4c32c317bb3 \
- 		    file://utils/benchmark/kernbench-0.42/COPYING;md5=94d55d512a9ba36caa9b7df079bae19f \
- 		"
+diff --git a/meta/recipes-devtools/quilt/quilt-0.51.inc b/meta/recipes-devtools/quilt/quilt-0.51.inc
+index c41e25e..e89013a 100644
+--- a/meta/recipes-devtools/quilt/quilt-0.51.inc
++++ b/meta/recipes-devtools/quilt/quilt-0.51.inc
+@@ -16,7 +16,7 @@ PACKAGES += "guards guards-doc"
+ FILES_${PN} = "${sysconfdir} ${datadir}/quilt \
+                ${bindir}/quilt ${libdir}/quilt"
+ FILES_guards = "${bindir}/guards"
+-FILES_${PN}-doc = "${mandir}/man1/quilt.1 ${docdir}/${P}"
++FILES_${PN}-doc = "${mandir}/man1/quilt.1 ${docdir}/${BPN}"
+ FILES_guards-doc = "${mandir}/man1/guards.1"
  
-+PR = "r1"
-+
- SRC_URI = "${SOURCEFORGE_MIRROR}/ltp/ltp-full-${PV}.bz2 \
-            file://uclibc-getcontext.patch \
-           "
-@@ -39,6 +41,8 @@ FILES_${PN}-dbg += "/opt/ltp/scenario_groups/.debug"
- FILES_${PN}-dbg += "/opt/ltp/testscripts/.debug"
- FILES_${PN}-dbg += "/opt/ltp/testscripts/open_posix_testsuite/.debug"
- 
-+FILES_${PN}-staticdev += "/opt/ltp/lib/libmem.a"
-+
- FILES_${PN} += "/opt/ltp/* /opt/ltp/runtest/* /opt/ltp/scenario_groups/* /opt/ltp/testcases/bin/* /opt/ltp/testcases/bin/*/bin/* /opt/ltp/testscripts/* /opt/ltp/testcases/open_posix_testsuite/* /opt/ltp/testcases/open_posix_testsuite/conformance/* /opt/ltp/testcases/open_posix_testsuite/Documentation/* /opt/ltp/testcases/open_posix_testsuite/functional/* /opt/ltp/testcases/open_posix_testsuite/include/* /opt/ltp/testcases/open_posix_testsuite/scripts/* /opt/ltp/testcases/open_posix_testsuite/stress/* /opt/ltp/testcases/open_posix_testsuite/tools/*"
- 
- TARGET_CC_ARCH += "${LDFLAGS}"
+ RDEPENDS_${PN} = "bash"
+diff --git a/meta/recipes-devtools/quilt/quilt_0.51.bb b/meta/recipes-devtools/quilt/quilt_0.51.bb
+index 1c6ca73..bc62161 100644
+--- a/meta/recipes-devtools/quilt/quilt_0.51.bb
++++ b/meta/recipes-devtools/quilt/quilt_0.51.bb
+@@ -4,4 +4,4 @@ RDEPENDS_${PN} += "patch diffstat bzip2 util-linux"
+ SRC_URI += "file://aclocal.patch \
+             file://gnu_patch_test_fix_target.patch \
+            "
+-PR = "r1"
++PR = "r2"
 -- 
 1.7.7.6
 
