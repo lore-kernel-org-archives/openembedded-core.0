@@ -1,38 +1,24 @@
-Received: from mail-wi0-f177.google.com ([209.85.212.177])
+Received: from mail1.windriver.com ([147.11.146.13])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <martin.jansa@gmail.com>) id 1S7jwj-0005Jq-7y
+	(envelope-from <Kai.Kang@windriver.com>) id 1S7kG2-00062z-T7
 	for openembedded-core@lists.openembedded.org;
-	Wed, 14 Mar 2012 09:52:37 +0100
-Received: by wibhj13 with SMTP id hj13so1865895wib.6
+	Wed, 14 Mar 2012 10:12:35 +0100
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca [147.11.189.40])
+	by mail1.windriver.com (8.14.3/8.14.3) with ESMTP id q2E93nxi011837
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 14 Mar 2012 01:43:52 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=date:from:to:subject:message-id:references:mime-version
-	:content-type:content-disposition:in-reply-to:user-agent;
-	bh=tNF9IpW83LhK+uF5PsKHpdMmVfWznwHSDwkDx/h5BXQ=;
-	b=0kyD7obalKCB1jLz3D/qv58KM5BtWDZFZI6PdlY7qtm7EsvCMAV7/+a4Y0Le77F46t
-	q4qEgS2Anc9G1QPIyqiQFRzo+qI4P0cmnCEPdPAZilshjYTHI5/BU/X96aKEaAEQRrtk
-	Q7FcP1/XPJ2TFdWVZWv1tM6cRRoE50s0bKwtSttqEvoVkl8jOF+SlCfZJw4hkc2dceLB
-	jkgi05giAyXOuPCGvdQJexnJcfcBQ6Mir5BBy4kMD7NR/MlnAC/UVSDkkzndp/JORQ/L
-	DB1jM0YhnxrChnBMGtkfJNznI3FaqoCkjUVKo8PHKbJAZBL2csFtLokjCujpSXvwTxse
-	zM+Q==
-Received: by 10.216.134.205 with SMTP id s55mr1001850wei.100.1331714632234;
-	Wed, 14 Mar 2012 01:43:52 -0700 (PDT)
-Received: from localhost ([94.230.152.246])
-	by mx.google.com with ESMTPS id j3sm13965908wiw.1.2012.03.14.01.43.50
-	(version=TLSv1/SSLv3 cipher=OTHER);
-	Wed, 14 Mar 2012 01:43:51 -0700 (PDT)
-Date: Wed, 14 Mar 2012 09:43:49 +0100
-From: Martin Jansa <martin.jansa@gmail.com>
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Message-ID: <20120314084349.GE3919@jama.jama.net>
-References: <cover.1331713807.git.sgw@linux.intel.com>
-	<81cd435ddb8a75dd1d8a0d559467bcb95621aaa7.1331713807.git.sgw@linux.intel.com>
+	Wed, 14 Mar 2012 02:03:49 -0700 (PDT)
+Received: from localhost.localdomain (128.224.162.241) by
+	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server
+	(TLS) id 14.1.255.0; Wed, 14 Mar 2012 02:03:49 -0700
+From: Kang Kai <kai.kang@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Wed, 14 Mar 2012 17:03:35 +0800
+Message-ID: <cover.1331713107.git.kai.kang@windriver.com>
+X-Mailer: git-send-email 1.7.5.4
 MIME-Version: 1.0
-In-Reply-To: <81cd435ddb8a75dd1d8a0d559467bcb95621aaa7.1331713807.git.sgw@linux.intel.com>
-User-Agent: Mutt/1.5.21 (2010-09-15)
-Subject: Re: [PATCH 07/14] python: package static libraries correctly in -staticdev
+X-Originating-IP: [128.224.162.241]
+Subject: [PATCH 0/8] Update packages
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -47,141 +33,72 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 14 Mar 2012 08:52:37 -0000
-X-Groupsio-MsgNum: 18785
-Content-Type: multipart/signed; micalg=pgp-sha1;
-	protocol="application/pgp-signature"; boundary="7LkOrbQMr4cezO2T"
-Content-Disposition: inline
+X-List-Received-Date: Wed, 14 Mar 2012 09:12:35 -0000
+Content-Type: text/plain
 
---7LkOrbQMr4cezO2T
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Hello,
 
-On Wed, Mar 14, 2012 at 01:33:18AM -0700, Saul Wold wrote:
-> WARNING: QA Issue: non -staticdev package contains static .a library: pyt=
-hon-distutils path '/work/i586-poky-linux/python-2.7.2-r1.7/packages-split/=
-python-distutils/usr/lib/python2.7/config/libpython2.7.a'
-> Signed-off-by: Saul Wold <sgw@linux.intel.com>
-> ---
->  .../python/python-2.7-manifest.inc                 |    6 +++++-
->  meta/recipes-devtools/python/python_2.7.2.bb       |    2 +-
->  2 files changed, 6 insertions(+), 2 deletions(-)
->=20
-> diff --git a/meta/recipes-devtools/python/python-2.7-manifest.inc b/meta/=
-recipes-devtools/python/python-2.7-manifest.inc
-> index e4017ba..5f8b7cf 100644
-> --- a/meta/recipes-devtools/python/python-2.7-manifest.inc
-> +++ b/meta/recipes-devtools/python/python-2.7-manifest.inc
+This serious patches try to update some packages.
 
-Please change this in scripts/contrib/python/generate-manifest-2.7.py=20
-and regenerate python-2.7-manifest.inc with that
+Regards,
 
-python-2.7-manifest.inc:
-# WARNING: This file is AUTO GENERATED: Manual edits will be lost next time=
- I regenerate the file.
-# Generator: 'scripts/contrib/python/generate-manifest-2.7.py' Version 2011=
-0222.2 (C) 2002-2010 Michael 'Mickey' Lauer <mlauer@vanille-media.de>
-# Visit the Python for Embedded Systems Site =3D> http://www.Vanille.de/pro=
-jects/python.spy
 
-> @@ -7,7 +7,7 @@
-> =20
->  PROVIDES+=3D"${PN}-2to3 ${PN}-audio ${PN}-bsddb ${PN}-codecs ${PN}-compi=
-le ${PN}-compiler ${PN}-compression ${PN}-core ${PN}-crypt ${PN}-ctypes ${P=
-N}-curses ${PN}-datetime ${PN}-db ${PN}-debugger ${PN}-dev ${PN}-difflib ${=
-PN}-distutils ${PN}-doctest ${PN}-elementtree ${PN}-email ${PN}-fcntl ${PN}=
--gdbm ${PN}-hotshot ${PN}-html ${PN}-idle ${PN}-image ${PN}-io ${PN}-json $=
-{PN}-lang ${PN}-logging ${PN}-mailbox ${PN}-math ${PN}-mime ${PN}-mmap ${PN=
-}-multiprocessing ${PN}-netclient ${PN}-netserver ${PN}-numbers ${PN}-pickl=
-e ${PN}-pkgutil ${PN}-pprint ${PN}-profile ${PN}-pydoc ${PN}-re ${PN}-readl=
-ine ${PN}-resource ${PN}-robotparser ${PN}-shell ${PN}-smtpd ${PN}-sqlite3 =
-${PN}-sqlite3-tests ${PN}-stringold ${PN}-subprocess ${PN}-syslog ${PN}-ter=
-minal ${PN}-tests ${PN}-textutils ${PN}-threading ${PN}-tkinter ${PN}-unitt=
-est ${PN}-unixadmin ${PN}-xml ${PN}-xmlrpc ${PN}-zlib "
-> =20
-> -PACKAGES=3D"${PN}-dbg ${PN}-2to3 ${PN}-audio ${PN}-bsddb ${PN}-codecs ${=
-PN}-compile ${PN}-compiler ${PN}-compression ${PN}-core ${PN}-crypt ${PN}-c=
-types ${PN}-curses ${PN}-datetime ${PN}-db ${PN}-debugger ${PN}-dev ${PN}-d=
-ifflib ${PN}-distutils ${PN}-doctest ${PN}-elementtree ${PN}-email ${PN}-fc=
-ntl ${PN}-gdbm ${PN}-hotshot ${PN}-html ${PN}-idle ${PN}-image ${PN}-io ${P=
-N}-json ${PN}-lang ${PN}-logging ${PN}-mailbox ${PN}-math ${PN}-mime ${PN}-=
-mmap ${PN}-multiprocessing ${PN}-netclient ${PN}-netserver ${PN}-numbers ${=
-PN}-pickle ${PN}-pkgutil ${PN}-pprint ${PN}-profile ${PN}-pydoc ${PN}-re ${=
-PN}-readline ${PN}-resource ${PN}-robotparser ${PN}-shell ${PN}-smtpd ${PN}=
--sqlite3 ${PN}-sqlite3-tests ${PN}-stringold ${PN}-subprocess ${PN}-syslog =
-${PN}-terminal ${PN}-tests ${PN}-textutils ${PN}-threading ${PN}-tkinter ${=
-PN}-unittest ${PN}-unixadmin ${PN}-xml ${PN}-xmlrpc ${PN}-zlib ${PN}-module=
-s"
-> +PACKAGES=3D"${PN}-dbg ${PN}-2to3 ${PN}-audio ${PN}-bsddb ${PN}-codecs ${=
-PN}-compile ${PN}-compiler ${PN}-compression ${PN}-core ${PN}-crypt ${PN}-c=
-types ${PN}-curses ${PN}-datetime ${PN}-db ${PN}-debugger ${PN}-dev ${PN}-d=
-ifflib ${PN}-distutils-staticdev ${PN}-distutils ${PN}-doctest ${PN}-elemen=
-ttree ${PN}-email ${PN}-fcntl ${PN}-gdbm ${PN}-hotshot ${PN}-html ${PN}-idl=
-e ${PN}-image ${PN}-io ${PN}-json ${PN}-lang ${PN}-logging ${PN}-mailbox ${=
-PN}-math ${PN}-mime ${PN}-mmap ${PN}-multiprocessing ${PN}-netclient ${PN}-=
-netserver ${PN}-numbers ${PN}-pickle ${PN}-pkgutil ${PN}-pprint ${PN}-profi=
-le ${PN}-pydoc ${PN}-re ${PN}-readline ${PN}-resource ${PN}-robotparser ${P=
-N}-shell ${PN}-smtpd ${PN}-sqlite3 ${PN}-sqlite3-tests ${PN}-stringold ${PN=
-}-subprocess ${PN}-syslog ${PN}-terminal ${PN}-tests ${PN}-textutils ${PN}-=
-threading ${PN}-tkinter ${PN}-unittest ${PN}-unixadmin ${PN}-xml ${PN}-xmlr=
-pc ${PN}-zlib ${PN}-modules"
-> =20
->  DESCRIPTION_${PN}-2to3=3D"Python Automated Python 2 to 3 code translatio=
-n"
->  RDEPENDS_${PN}-2to3=3D"${PN}-core"
-> @@ -78,6 +78,10 @@ DESCRIPTION_${PN}-distutils=3D"Python Distribution Uti=
-lities"
->  RDEPENDS_${PN}-distutils=3D"${PN}-core"
->  FILES_${PN}-distutils=3D"${libdir}/python2.7/config ${libdir}/python2.7/=
-distutils "
-> =20
-> +DESCRIPTION_${PN}-distutils-staticdev=3D"Python Distribution Utilities (=
-Static Libraries)"
-> +RDEPENDS_${PN}-distutils-staticdev=3D"${PN}-distutils"
-> +FILES_${PN}-distutils-staticdev=3D"${libdir}/python2.7/config/lib*.a"
-> +
->  DESCRIPTION_${PN}-doctest=3D"Python framework for running examples in do=
-cstrings."
->  RDEPENDS_${PN}-doctest=3D"${PN}-core ${PN}-lang ${PN}-io ${PN}-re ${PN}-=
-unittest ${PN}-debugger ${PN}-difflib"
->  FILES_${PN}-doctest=3D"${libdir}/python2.7/doctest.* "
-> diff --git a/meta/recipes-devtools/python/python_2.7.2.bb b/meta/recipes-=
-devtools/python/python_2.7.2.bb
-> index b14b82e..d2100be 100644
-> --- a/meta/recipes-devtools/python/python_2.7.2.bb
-> +++ b/meta/recipes-devtools/python/python_2.7.2.bb
-> @@ -1,7 +1,7 @@
->  require python.inc
->  DEPENDS =3D "python-native bzip2 db gdbm openssl readline sqlite3 zlib"
->  DEPENDS_sharprom =3D "python-native db readline zlib gdbm openssl"
-> -PR =3D "${INC_PR}.7"
-> +PR =3D "${INC_PR}.8"
-> =20
->  DISTRO_SRC_URI ?=3D "file://sitecustomize.py"
->  DISTRO_SRC_URI_linuxstdbase =3D ""
-> --=20
-> 1.7.7.6
->=20
->=20
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
+The following changes since commit 19b38a6486086b62efbff2bf8192adbaa34ecc0a:
 
---=20
-Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
+  package.bbclass: Drop python depends from rpmdeps (2012-03-11 18:27:45 +0000)
 
---7LkOrbQMr4cezO2T
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: Digital signature
+are available in the git repository at:
+  git://git.pokylinux.org/poky-contrib kangkai/update-packages
+  http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=kangkai/update-packages
 
------BEGIN PGP SIGNATURE-----
-Version: GnuPG v2.0.18 (GNU/Linux)
+Kang Kai (8):
+  gobject-introspection: update to 1.31.20
+  newt: update to 0.52.14
+  libsdl: update to 1.2.15
+  alsa-lib: update to 1.0.25
+  alsa-utils: update to 1.0.25
+  alsa-tools: update to 1.0.25
+  ghostscript: update to 9.05
+  distro_tracking_fields: udpate package status
 
-iEYEARECAAYFAk9gWkUACgkQN1Ujt2V2gBxiCwCgka6FWqhhc5hjXlgXlsW6Ubka
-ujAAn30EM+9c3YV55GxzX1xX/8DZJOi6
-=EcFW
------END PGP SIGNATURE-----
+ .../conf/distro/include/distro_tracking_fields.inc |   48 ++++++------
+ .../ghostscript/ghostscript-9.02-genarch.patch     |   12 ++--
+ .../ghostscript-9.05-NOT-check-endian.patch        |   54 +++++++++++++
+ .../{ghostscript_9.04.bb => ghostscript_9.05.bb}   |    9 +-
+ .../{libnewt_0.52.13.bb => libnewt_0.52.14.bb}     |    6 +-
+ .../gnome/gobject-introspection_1.31.20.bb         |   28 +++++++
+ .../libsdl-1.2.14/add.XGetRequest.symbol.patch     |   79 --------------------
+ .../configure_tweak.patch                          |    0
+ .../libsdl/{libsdl_1.2.14.bb => libsdl_1.2.15.bb}  |    7 +-
+ .../fix-tstamp-declaration.patch                   |    0
+ .../unbreak_plugindir.patch                        |    0
+ .../{alsa-lib_1.0.24.1.bb => alsa-lib_1.0.25.bb}   |    6 +-
+ .../autotools.patch                                |    0
+ ...alsa-tools_1.0.24.1.bb => alsa-tools_1.0.25.bb} |    6 +-
+ ...-t-let-systemd-unit-restore-the-volume-wh.patch |    4 +-
+ .../ncursesfix.patch                               |    0
+ .../uclibc-exp10-replacement.patch                 |    0
+ ...alsa-utils_1.0.24.2.bb => alsa-utils_1.0.25.bb} |    8 +-
+ 18 files changed, 134 insertions(+), 133 deletions(-)
+ create mode 100644 meta/recipes-extended/ghostscript/ghostscript/ghostscript-9.05-NOT-check-endian.patch
+ rename meta/recipes-extended/ghostscript/{ghostscript_9.04.bb => ghostscript_9.05.bb} (92%)
+ rename meta/recipes-extended/newt/{libnewt_0.52.13.bb => libnewt_0.52.14.bb} (84%)
+ create mode 100644 meta/recipes-gnome/gnome/gobject-introspection_1.31.20.bb
+ delete mode 100644 meta/recipes-graphics/libsdl/libsdl-1.2.14/add.XGetRequest.symbol.patch
+ rename meta/recipes-graphics/libsdl/{libsdl-1.2.14 => libsdl-1.2.15}/configure_tweak.patch (100%)
+ rename meta/recipes-graphics/libsdl/{libsdl_1.2.14.bb => libsdl_1.2.15.bb} (93%)
+ rename meta/recipes-multimedia/alsa/{alsa-lib-1.0.24.1 => alsa-lib-1.0.25}/fix-tstamp-declaration.patch (100%)
+ rename meta/recipes-multimedia/alsa/{alsa-lib-1.0.24.1 => alsa-lib-1.0.25}/unbreak_plugindir.patch (100%)
+ rename meta/recipes-multimedia/alsa/{alsa-lib_1.0.24.1.bb => alsa-lib_1.0.25.bb} (92%)
+ rename meta/recipes-multimedia/alsa/{alsa-tools-1.0.24.1 => alsa-tools-1.0.25}/autotools.patch (100%)
+ rename meta/recipes-multimedia/alsa/{alsa-tools_1.0.24.1.bb => alsa-tools_1.0.25.bb} (83%)
+ rename meta/recipes-multimedia/alsa/{alsa-utils-1.0.24.2 => alsa-utils-1.0.25}/0001-alsactl-don-t-let-systemd-unit-restore-the-volume-wh.patch (87%)
+ rename meta/recipes-multimedia/alsa/{alsa-utils-1.0.24.2 => alsa-utils-1.0.25}/ncursesfix.patch (100%)
+ rename meta/recipes-multimedia/alsa/{alsa-utils-1.0.24.2 => alsa-utils-1.0.25}/uclibc-exp10-replacement.patch (100%)
+ rename meta/recipes-multimedia/alsa/{alsa-utils_1.0.24.2.bb => alsa-utils_1.0.25.bb} (93%)
 
---7LkOrbQMr4cezO2T--
+-- 
+1.7.5.4
+
+
+
