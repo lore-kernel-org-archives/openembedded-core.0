@@ -1,28 +1,28 @@
-Received: from mga03.intel.com ([143.182.124.21])
+Received: from mga11.intel.com ([192.55.52.93])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <darren.hart@intel.com>) id 1S7q2f-0006aN-2H
+	(envelope-from <dvhart@linux.intel.com>) id 1S7q7R-0006gn-70
 	for openembedded-core@lists.openembedded.org;
-	Wed, 14 Mar 2012 16:23:09 +0100
-Received: from azsmga001.ch.intel.com ([10.2.17.19])
-	by azsmga101.ch.intel.com with ESMTP; 14 Mar 2012 08:13:07 -0700
+	Wed, 14 Mar 2012 16:28:05 +0100
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+	by fmsmga102.fm.intel.com with ESMTP; 14 Mar 2012 08:19:19 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="118828092"
+X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="128925172"
 Received: from unknown (HELO envy.home) ([10.255.15.199])
-	by azsmga001.ch.intel.com with ESMTP; 14 Mar 2012 08:13:07 -0700
-Message-ID: <4F60B557.5060304@intel.com>
-Date: Wed, 14 Mar 2012 08:12:23 -0700
-From: Darren Hart <darren.hart@intel.com>
+	by fmsmga001.fm.intel.com with ESMTP; 14 Mar 2012 08:19:18 -0700
+Message-ID: <4F60B6CA.3040401@linux.intel.com>
+Date: Wed, 14 Mar 2012 08:18:34 -0700
+From: Darren Hart <dvhart@linux.intel.com>
 User-Agent: Mozilla/5.0 (X11; Linux x86_64;
 	rv:10.0.1) Gecko/20120209 Thunderbird/10.0.1
 MIME-Version: 1.0
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
 References: <cover.1331684953.git.scott.a.garman@intel.com>
-	<78b7df910bf1d5d25f5cc637a15c8e867d7bd712.1331684953.git.scott.a.garman@intel.com>
 	<4F60B1F4.4040705@linux.intel.com>
-	<20120314150033.GJ3919@jama.jama.net>
-In-Reply-To: <20120314150033.GJ3919@jama.jama.net>
-Cc: Scott Rifenbark <scott.m.rifenbark@linux.intel.com>,
+	<20120314150033.GJ3919@jama.jama.net> <1531514.2kqRaLqA4b@helios>
+In-Reply-To: <1531514.2kqRaLqA4b@helios>
+X-Enigmail-Version: 1.3.5
+Cc: Paul Eggleton <paul.eggleton@linux.intel.com>,
 	Martin Jansa <martin.jansa@gmail.com>,
 	Scott Garman <scott.a.garman@intel.com>
 Subject: Re: [PATCH 1/1] ncurses: fix packaging of moved libraries
@@ -40,37 +40,25 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 14 Mar 2012 15:23:09 -0000
+X-List-Received-Date: Wed, 14 Mar 2012 15:28:05 -0000
 Content-Type: text/plain; charset=ISO-8859-1
 Content-Transfer-Encoding: 7bit
 
-On 03/14/2012 08:00 AM, Martin Jansa wrote:
-> On Wed, Mar 14, 2012 at 07:57:56AM -0700, Darren Hart wrote:
->>
->>
->> On 03/13/2012 05:31 PM, Scott Garman wrote:
 
-...
 
->>>  PACKAGES += " \
->>> +  ${PN}-libncurses \
->>> +  ${PN}-libncursesw \
->>
->> This one needs to be dependent on ENABLE_WIDEC
+On 03/14/2012 08:07 AM, Paul Eggleton wrote:
+> On Wednesday 14 March 2012 16:00:33 Martin Jansa wrote:
+>> isn't just
+>> ALLOW_EMPTY_${PN}-libncursesw = "1"
+>> enough?
 > 
-> isn't just
-> ALLOW_EMPTY_${PN}-libncursesw = "1"
-> enough?
+> I suspect we don't care if the libncursesw package isn't created when wide 
+> character support is disabled, if so, we don't even need that.
 
-Perhaps. ALLOW_EMPTY is not defined in poky/documentation/* nor in
-poky/conf/documentation.conf.
+OK, so if a package is defined and none of the files exist, bitbake will
+simply not create the package - and no errors or warnings will be raised?
 
-(I realize this oe-core and not poky, but this is the best reference I
-know of)
-
-Could you provide a terse description of how ALLOW_EMPTY* is meant to be
-used, its effects, and any needful cautionary text? Scott can then add
-it to the above documentation.
+If so, then kindly disregard my comments.
 
 -- 
 Darren Hart
