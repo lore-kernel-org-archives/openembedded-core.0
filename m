@@ -1,38 +1,38 @@
-Received: from familie-heinold.de ([85.214.48.103]
-	helo=mail.familie-heinold.de) by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <heinold@inf.fu-berlin.de>) id 1S7jvl-0005HZ-Ac
+Received: from mail-wi0-f177.google.com ([209.85.212.177])
+	by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <martin.jansa@gmail.com>) id 1S7jwj-0005Jq-7y
 	for openembedded-core@lists.openembedded.org;
-	Wed, 14 Mar 2012 09:51:37 +0100
-Received: from mail.familie-heinold.de (localhost [127.0.0.1])
-	by mail.familie-heinold.de (Postfix) with ESMTP id F02832232636
+	Wed, 14 Mar 2012 09:52:37 +0100
+Received: by wibhj13 with SMTP id hj13so1865895wib.6
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 14 Mar 2012 09:35:11 +0100 (CET)
-Received: from mail.familie-heinold.de (localhost [127.0.0.1])
-	by mail.familie-heinold.de (Postfix) with ESMTP id 54A612232635
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 14 Mar 2012 09:35:11 +0100 (CET)
-X-Spam-Checker-Version: SpamAssassin 3.3.1 (2010-03-16) on
-	h873313.serverkompetenz.net
-X-Spam-Level: 
-X-Spam-Status: No, score=-2.5 required=5.0 tests=ALL_TRUSTED,BAYES_00
-	autolearn=ham version=3.3.1
-Received: from rhein.familie-heinold.de (g229045138.adsl.alicedsl.de
-	[92.229.45.138]) by mail.familie-heinold.de (Postfix) with ESMTPA
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 14 Mar 2012 09:35:11 +0100 (CET)
-Received: by rhein.familie-heinold.de (Postfix, from userid 1000)
-	id A3E623C4B9; Wed, 14 Mar 2012 09:35:09 +0100 (CET)
-Date: Wed, 14 Mar 2012 09:35:09 +0100
-From: Henning Heinold <heinold@inf.fu-berlin.de>
+	Wed, 14 Mar 2012 01:43:52 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=date:from:to:subject:message-id:references:mime-version
+	:content-type:content-disposition:in-reply-to:user-agent;
+	bh=tNF9IpW83LhK+uF5PsKHpdMmVfWznwHSDwkDx/h5BXQ=;
+	b=0kyD7obalKCB1jLz3D/qv58KM5BtWDZFZI6PdlY7qtm7EsvCMAV7/+a4Y0Le77F46t
+	q4qEgS2Anc9G1QPIyqiQFRzo+qI4P0cmnCEPdPAZilshjYTHI5/BU/X96aKEaAEQRrtk
+	Q7FcP1/XPJ2TFdWVZWv1tM6cRRoE50s0bKwtSttqEvoVkl8jOF+SlCfZJw4hkc2dceLB
+	jkgi05giAyXOuPCGvdQJexnJcfcBQ6Mir5BBy4kMD7NR/MlnAC/UVSDkkzndp/JORQ/L
+	DB1jM0YhnxrChnBMGtkfJNznI3FaqoCkjUVKo8PHKbJAZBL2csFtLokjCujpSXvwTxse
+	zM+Q==
+Received: by 10.216.134.205 with SMTP id s55mr1001850wei.100.1331714632234;
+	Wed, 14 Mar 2012 01:43:52 -0700 (PDT)
+Received: from localhost ([94.230.152.246])
+	by mx.google.com with ESMTPS id j3sm13965908wiw.1.2012.03.14.01.43.50
+	(version=TLSv1/SSLv3 cipher=OTHER);
+	Wed, 14 Mar 2012 01:43:51 -0700 (PDT)
+Date: Wed, 14 Mar 2012 09:43:49 +0100
+From: Martin Jansa <martin.jansa@gmail.com>
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Message-ID: <20120314083509.GA22878@rhein.zuhause.netz>
-References: <4F5FF91F.5010407@opendreambox.org>
+Message-ID: <20120314084349.GE3919@jama.jama.net>
+References: <cover.1331713807.git.sgw@linux.intel.com>
+	<81cd435ddb8a75dd1d8a0d559467bcb95621aaa7.1331713807.git.sgw@linux.intel.com>
 MIME-Version: 1.0
-In-Reply-To: <4F5FF91F.5010407@opendreambox.org>
+In-Reply-To: <81cd435ddb8a75dd1d8a0d559467bcb95621aaa7.1331713807.git.sgw@linux.intel.com>
 User-Agent: Mutt/1.5.21 (2010-09-15)
-X-Virus-Scanned: ClamAV using ClamSMTP
-Subject: Re: gdb 7.4 and libexpat
+Subject: Re: [PATCH 07/14] python: package static libraries correctly in -staticdev
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -47,40 +47,141 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 14 Mar 2012 08:51:37 -0000
-Content-Type: text/plain; charset=us-ascii
+X-List-Received-Date: Wed, 14 Mar 2012 08:52:37 -0000
+X-Groupsio-MsgNum: 18785
+Content-Type: multipart/signed; micalg=pgp-sha1;
+	protocol="application/pgp-signature"; boundary="7LkOrbQMr4cezO2T"
 Content-Disposition: inline
 
-On Wed, Mar 14, 2012 at 02:49:19AM +0100, Andreas Oberritter wrote:
-> Hi everybody,
-> 
-> in our rootfs, when debugging remotely with gdbserver on mips32el, gdb
-> 7.4 fails to find symbol names for use in backtraces. gdb 7.3.1 works
-> well. One of my colleagues ran git bisect and discovered the culprit:
-> 
-> gdb git revision 22d678fdfdfc56ec75555f8f44ae5f0c4fc97e9a
-> http://sourceware.org/ml/gdb-patches/2011-11/msg00103.html
-> 
-> We haven't found out why this patch breaks symbol lookup. However, we
-> found three options to fix backtraces with version 7.4:
-> 
-> 1.) Revert the changeset, possibly without understanding it fully.
-> 2.) Enable expat in gdb, dragging libexpat into the image.
-> 3.) Disable expat in gdb-cross, possibly losing functionality.
-> 
-> It seems that if one side is compiled with expat and the other is not,
-> then gdb and gdbserver now have problems communicating with each other.
-> 
-> Which way would you prefer?
-> 
-> Regards,
-> Andreas
-> 
+--7LkOrbQMr4cezO2T
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Hi,
+On Wed, Mar 14, 2012 at 01:33:18AM -0700, Saul Wold wrote:
+> WARNING: QA Issue: non -staticdev package contains static .a library: pyt=
+hon-distutils path '/work/i586-poky-linux/python-2.7.2-r1.7/packages-split/=
+python-distutils/usr/lib/python2.7/config/libpython2.7.a'
+> Signed-off-by: Saul Wold <sgw@linux.intel.com>
+> ---
+>  .../python/python-2.7-manifest.inc                 |    6 +++++-
+>  meta/recipes-devtools/python/python_2.7.2.bb       |    2 +-
+>  2 files changed, 6 insertions(+), 2 deletions(-)
+>=20
+> diff --git a/meta/recipes-devtools/python/python-2.7-manifest.inc b/meta/=
+recipes-devtools/python/python-2.7-manifest.inc
+> index e4017ba..5f8b7cf 100644
+> --- a/meta/recipes-devtools/python/python-2.7-manifest.inc
+> +++ b/meta/recipes-devtools/python/python-2.7-manifest.inc
 
-option 2 is my favourite.
+Please change this in scripts/contrib/python/generate-manifest-2.7.py=20
+and regenerate python-2.7-manifest.inc with that
 
-Bye Henning
+python-2.7-manifest.inc:
+# WARNING: This file is AUTO GENERATED: Manual edits will be lost next time=
+ I regenerate the file.
+# Generator: 'scripts/contrib/python/generate-manifest-2.7.py' Version 2011=
+0222.2 (C) 2002-2010 Michael 'Mickey' Lauer <mlauer@vanille-media.de>
+# Visit the Python for Embedded Systems Site =3D> http://www.Vanille.de/pro=
+jects/python.spy
 
+> @@ -7,7 +7,7 @@
+> =20
+>  PROVIDES+=3D"${PN}-2to3 ${PN}-audio ${PN}-bsddb ${PN}-codecs ${PN}-compi=
+le ${PN}-compiler ${PN}-compression ${PN}-core ${PN}-crypt ${PN}-ctypes ${P=
+N}-curses ${PN}-datetime ${PN}-db ${PN}-debugger ${PN}-dev ${PN}-difflib ${=
+PN}-distutils ${PN}-doctest ${PN}-elementtree ${PN}-email ${PN}-fcntl ${PN}=
+-gdbm ${PN}-hotshot ${PN}-html ${PN}-idle ${PN}-image ${PN}-io ${PN}-json $=
+{PN}-lang ${PN}-logging ${PN}-mailbox ${PN}-math ${PN}-mime ${PN}-mmap ${PN=
+}-multiprocessing ${PN}-netclient ${PN}-netserver ${PN}-numbers ${PN}-pickl=
+e ${PN}-pkgutil ${PN}-pprint ${PN}-profile ${PN}-pydoc ${PN}-re ${PN}-readl=
+ine ${PN}-resource ${PN}-robotparser ${PN}-shell ${PN}-smtpd ${PN}-sqlite3 =
+${PN}-sqlite3-tests ${PN}-stringold ${PN}-subprocess ${PN}-syslog ${PN}-ter=
+minal ${PN}-tests ${PN}-textutils ${PN}-threading ${PN}-tkinter ${PN}-unitt=
+est ${PN}-unixadmin ${PN}-xml ${PN}-xmlrpc ${PN}-zlib "
+> =20
+> -PACKAGES=3D"${PN}-dbg ${PN}-2to3 ${PN}-audio ${PN}-bsddb ${PN}-codecs ${=
+PN}-compile ${PN}-compiler ${PN}-compression ${PN}-core ${PN}-crypt ${PN}-c=
+types ${PN}-curses ${PN}-datetime ${PN}-db ${PN}-debugger ${PN}-dev ${PN}-d=
+ifflib ${PN}-distutils ${PN}-doctest ${PN}-elementtree ${PN}-email ${PN}-fc=
+ntl ${PN}-gdbm ${PN}-hotshot ${PN}-html ${PN}-idle ${PN}-image ${PN}-io ${P=
+N}-json ${PN}-lang ${PN}-logging ${PN}-mailbox ${PN}-math ${PN}-mime ${PN}-=
+mmap ${PN}-multiprocessing ${PN}-netclient ${PN}-netserver ${PN}-numbers ${=
+PN}-pickle ${PN}-pkgutil ${PN}-pprint ${PN}-profile ${PN}-pydoc ${PN}-re ${=
+PN}-readline ${PN}-resource ${PN}-robotparser ${PN}-shell ${PN}-smtpd ${PN}=
+-sqlite3 ${PN}-sqlite3-tests ${PN}-stringold ${PN}-subprocess ${PN}-syslog =
+${PN}-terminal ${PN}-tests ${PN}-textutils ${PN}-threading ${PN}-tkinter ${=
+PN}-unittest ${PN}-unixadmin ${PN}-xml ${PN}-xmlrpc ${PN}-zlib ${PN}-module=
+s"
+> +PACKAGES=3D"${PN}-dbg ${PN}-2to3 ${PN}-audio ${PN}-bsddb ${PN}-codecs ${=
+PN}-compile ${PN}-compiler ${PN}-compression ${PN}-core ${PN}-crypt ${PN}-c=
+types ${PN}-curses ${PN}-datetime ${PN}-db ${PN}-debugger ${PN}-dev ${PN}-d=
+ifflib ${PN}-distutils-staticdev ${PN}-distutils ${PN}-doctest ${PN}-elemen=
+ttree ${PN}-email ${PN}-fcntl ${PN}-gdbm ${PN}-hotshot ${PN}-html ${PN}-idl=
+e ${PN}-image ${PN}-io ${PN}-json ${PN}-lang ${PN}-logging ${PN}-mailbox ${=
+PN}-math ${PN}-mime ${PN}-mmap ${PN}-multiprocessing ${PN}-netclient ${PN}-=
+netserver ${PN}-numbers ${PN}-pickle ${PN}-pkgutil ${PN}-pprint ${PN}-profi=
+le ${PN}-pydoc ${PN}-re ${PN}-readline ${PN}-resource ${PN}-robotparser ${P=
+N}-shell ${PN}-smtpd ${PN}-sqlite3 ${PN}-sqlite3-tests ${PN}-stringold ${PN=
+}-subprocess ${PN}-syslog ${PN}-terminal ${PN}-tests ${PN}-textutils ${PN}-=
+threading ${PN}-tkinter ${PN}-unittest ${PN}-unixadmin ${PN}-xml ${PN}-xmlr=
+pc ${PN}-zlib ${PN}-modules"
+> =20
+>  DESCRIPTION_${PN}-2to3=3D"Python Automated Python 2 to 3 code translatio=
+n"
+>  RDEPENDS_${PN}-2to3=3D"${PN}-core"
+> @@ -78,6 +78,10 @@ DESCRIPTION_${PN}-distutils=3D"Python Distribution Uti=
+lities"
+>  RDEPENDS_${PN}-distutils=3D"${PN}-core"
+>  FILES_${PN}-distutils=3D"${libdir}/python2.7/config ${libdir}/python2.7/=
+distutils "
+> =20
+> +DESCRIPTION_${PN}-distutils-staticdev=3D"Python Distribution Utilities (=
+Static Libraries)"
+> +RDEPENDS_${PN}-distutils-staticdev=3D"${PN}-distutils"
+> +FILES_${PN}-distutils-staticdev=3D"${libdir}/python2.7/config/lib*.a"
+> +
+>  DESCRIPTION_${PN}-doctest=3D"Python framework for running examples in do=
+cstrings."
+>  RDEPENDS_${PN}-doctest=3D"${PN}-core ${PN}-lang ${PN}-io ${PN}-re ${PN}-=
+unittest ${PN}-debugger ${PN}-difflib"
+>  FILES_${PN}-doctest=3D"${libdir}/python2.7/doctest.* "
+> diff --git a/meta/recipes-devtools/python/python_2.7.2.bb b/meta/recipes-=
+devtools/python/python_2.7.2.bb
+> index b14b82e..d2100be 100644
+> --- a/meta/recipes-devtools/python/python_2.7.2.bb
+> +++ b/meta/recipes-devtools/python/python_2.7.2.bb
+> @@ -1,7 +1,7 @@
+>  require python.inc
+>  DEPENDS =3D "python-native bzip2 db gdbm openssl readline sqlite3 zlib"
+>  DEPENDS_sharprom =3D "python-native db readline zlib gdbm openssl"
+> -PR =3D "${INC_PR}.7"
+> +PR =3D "${INC_PR}.8"
+> =20
+>  DISTRO_SRC_URI ?=3D "file://sitecustomize.py"
+>  DISTRO_SRC_URI_linuxstdbase =3D ""
+> --=20
+> 1.7.7.6
+>=20
+>=20
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
 
+--=20
+Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
+
+--7LkOrbQMr4cezO2T
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: Digital signature
+
+-----BEGIN PGP SIGNATURE-----
+Version: GnuPG v2.0.18 (GNU/Linux)
+
+iEYEARECAAYFAk9gWkUACgkQN1Ujt2V2gBxiCwCgka6FWqhhc5hjXlgXlsW6Ubka
+ujAAn30EM+9c3YV55GxzX1xX/8DZJOi6
+=EcFW
+-----END PGP SIGNATURE-----
+
+--7LkOrbQMr4cezO2T--
