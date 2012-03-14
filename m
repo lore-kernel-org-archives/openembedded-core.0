@@ -1,24 +1,26 @@
-Received: from mail1.windriver.com ([147.11.146.13])
+Received: from mail.windriver.com ([147.11.1.11])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <Kai.Kang@windriver.com>) id 1S7kG2-00062z-T7
+	(envelope-from <Kai.Kang@windriver.com>) id 1S7kG4-000630-8x
 	for openembedded-core@lists.openembedded.org;
-	Wed, 14 Mar 2012 10:12:35 +0100
+	Wed, 14 Mar 2012 10:12:36 +0100
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca [147.11.189.40])
-	by mail1.windriver.com (8.14.3/8.14.3) with ESMTP id q2E93nxi011837
+	by mail.windriver.com (8.14.3/8.14.3) with ESMTP id q2E93oDo024781
 	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 14 Mar 2012 02:03:49 -0700 (PDT)
+	Wed, 14 Mar 2012 02:03:50 -0700 (PDT)
 Received: from localhost.localdomain (128.224.162.241) by
 	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server
-	(TLS) id 14.1.255.0; Wed, 14 Mar 2012 02:03:49 -0700
+	(TLS) id 14.1.255.0; Wed, 14 Mar 2012 02:03:50 -0700
 From: Kang Kai <kai.kang@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Wed, 14 Mar 2012 17:03:35 +0800
-Message-ID: <cover.1331713107.git.kai.kang@windriver.com>
+Date: Wed, 14 Mar 2012 17:03:36 +0800
+Message-ID: <21ab78e018069c64f0ce142a617efc6ca5cee0ce.1331713107.git.kai.kang@windriver.com>
 X-Mailer: git-send-email 1.7.5.4
+In-Reply-To: <cover.1331713107.git.kai.kang@windriver.com>
+References: <cover.1331713107.git.kai.kang@windriver.com>
 MIME-Version: 1.0
 X-Originating-IP: [128.224.162.241]
-Subject: [PATCH 0/8] Update packages
+Subject: [PATCH 1/8] gobject-introspection: update to 1.31.20
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -33,70 +35,52 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 14 Mar 2012 09:12:35 -0000
+X-List-Received-Date: Wed, 14 Mar 2012 09:12:36 -0000
 Content-Type: text/plain
 
-Hello,
+Add a new recipe file to update gobject-introspection to 1.31.20,
+instead of git version.
 
-This serious patches try to update some packages.
-
-Regards,
-
-
-The following changes since commit 19b38a6486086b62efbff2bf8192adbaa34ecc0a:
-
-  package.bbclass: Drop python depends from rpmdeps (2012-03-11 18:27:45 +0000)
-
-are available in the git repository at:
-  git://git.pokylinux.org/poky-contrib kangkai/update-packages
-  http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=kangkai/update-packages
-
-Kang Kai (8):
-  gobject-introspection: update to 1.31.20
-  newt: update to 0.52.14
-  libsdl: update to 1.2.15
-  alsa-lib: update to 1.0.25
-  alsa-utils: update to 1.0.25
-  alsa-tools: update to 1.0.25
-  ghostscript: update to 9.05
-  distro_tracking_fields: udpate package status
-
- .../conf/distro/include/distro_tracking_fields.inc |   48 ++++++------
- .../ghostscript/ghostscript-9.02-genarch.patch     |   12 ++--
- .../ghostscript-9.05-NOT-check-endian.patch        |   54 +++++++++++++
- .../{ghostscript_9.04.bb => ghostscript_9.05.bb}   |    9 +-
- .../{libnewt_0.52.13.bb => libnewt_0.52.14.bb}     |    6 +-
- .../gnome/gobject-introspection_1.31.20.bb         |   28 +++++++
- .../libsdl-1.2.14/add.XGetRequest.symbol.patch     |   79 --------------------
- .../configure_tweak.patch                          |    0
- .../libsdl/{libsdl_1.2.14.bb => libsdl_1.2.15.bb}  |    7 +-
- .../fix-tstamp-declaration.patch                   |    0
- .../unbreak_plugindir.patch                        |    0
- .../{alsa-lib_1.0.24.1.bb => alsa-lib_1.0.25.bb}   |    6 +-
- .../autotools.patch                                |    0
- ...alsa-tools_1.0.24.1.bb => alsa-tools_1.0.25.bb} |    6 +-
- ...-t-let-systemd-unit-restore-the-volume-wh.patch |    4 +-
- .../ncursesfix.patch                               |    0
- .../uclibc-exp10-replacement.patch                 |    0
- ...alsa-utils_1.0.24.2.bb => alsa-utils_1.0.25.bb} |    8 +-
- 18 files changed, 134 insertions(+), 133 deletions(-)
- create mode 100644 meta/recipes-extended/ghostscript/ghostscript/ghostscript-9.05-NOT-check-endian.patch
- rename meta/recipes-extended/ghostscript/{ghostscript_9.04.bb => ghostscript_9.05.bb} (92%)
- rename meta/recipes-extended/newt/{libnewt_0.52.13.bb => libnewt_0.52.14.bb} (84%)
+Signed-off-by: Kang Kai <kai.kang@windriver.com>
+---
+ .../gnome/gobject-introspection_1.31.20.bb         |   28 ++++++++++++++++++++
+ 1 files changed, 28 insertions(+), 0 deletions(-)
  create mode 100644 meta/recipes-gnome/gnome/gobject-introspection_1.31.20.bb
- delete mode 100644 meta/recipes-graphics/libsdl/libsdl-1.2.14/add.XGetRequest.symbol.patch
- rename meta/recipes-graphics/libsdl/{libsdl-1.2.14 => libsdl-1.2.15}/configure_tweak.patch (100%)
- rename meta/recipes-graphics/libsdl/{libsdl_1.2.14.bb => libsdl_1.2.15.bb} (93%)
- rename meta/recipes-multimedia/alsa/{alsa-lib-1.0.24.1 => alsa-lib-1.0.25}/fix-tstamp-declaration.patch (100%)
- rename meta/recipes-multimedia/alsa/{alsa-lib-1.0.24.1 => alsa-lib-1.0.25}/unbreak_plugindir.patch (100%)
- rename meta/recipes-multimedia/alsa/{alsa-lib_1.0.24.1.bb => alsa-lib_1.0.25.bb} (92%)
- rename meta/recipes-multimedia/alsa/{alsa-tools-1.0.24.1 => alsa-tools-1.0.25}/autotools.patch (100%)
- rename meta/recipes-multimedia/alsa/{alsa-tools_1.0.24.1.bb => alsa-tools_1.0.25.bb} (83%)
- rename meta/recipes-multimedia/alsa/{alsa-utils-1.0.24.2 => alsa-utils-1.0.25}/0001-alsactl-don-t-let-systemd-unit-restore-the-volume-wh.patch (87%)
- rename meta/recipes-multimedia/alsa/{alsa-utils-1.0.24.2 => alsa-utils-1.0.25}/ncursesfix.patch (100%)
- rename meta/recipes-multimedia/alsa/{alsa-utils-1.0.24.2 => alsa-utils-1.0.25}/uclibc-exp10-replacement.patch (100%)
- rename meta/recipes-multimedia/alsa/{alsa-utils_1.0.24.2.bb => alsa-utils_1.0.25.bb} (93%)
 
+diff --git a/meta/recipes-gnome/gnome/gobject-introspection_1.31.20.bb b/meta/recipes-gnome/gnome/gobject-introspection_1.31.20.bb
+new file mode 100644
+index 0000000..beb96a6
+--- /dev/null
++++ b/meta/recipes-gnome/gnome/gobject-introspection_1.31.20.bb
+@@ -0,0 +1,28 @@
++# NOTE: WIP! This recipe does not cross-compile atm., only -native
++DEPENDS = "glib-2.0 libffi python-native gobject-introspection-native"
++DEPENDS_virtclass-native = "glib-2.0-native libffi-native python-native bison-native flex-native"
++BBCLASSEXTEND = "native"
++
++SRC_URI = "http://ftp.gnome.org/pub/GNOME/sources/gobject-introspection/1.31/gobject-introspection-1.31.20.tar.xz \
++  file://use-usr-bin-env-for-python.patch \
++"
++
++SRC_URI[md5sum] = "05d9ac99a5929d002867b86a2a69b8b5"
++SRC_URI[sha256sum] = "e1552884b642e7e5a56a175ae85bfdebfd16c29a7bbe4f6ca9cdf591e333f070"
++
++LICENSE = "GPLv2+ & LGPLv2+"
++LIC_FILES_CHKSUM = "file://COPYING.GPL;md5=94d55d512a9ba36caa9b7df079bae19f \
++		    file://COPYING.LGPL;md5=3bf50002aefd002f49e7bb854063f7e7"
++
++inherit autotools
++
++do_configure_prepend () {
++        echo "EXTRA_DIST = " > ${S}/gtk-doc.make
++}
++
++EXTRA_OECONF = "\
++  --disable-gtk-doc \
++  --disable-gtk-doc-html \
++  --disable-gtk-doc-pdf \
++  --disable-tests \
++"
 -- 
 1.7.5.4
 
