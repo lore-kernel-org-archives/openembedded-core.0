@@ -1,27 +1,31 @@
-Received: from mga09.intel.com ([134.134.136.24])
+Received: from mga03.intel.com ([143.182.124.21])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <paul.eggleton@linux.intel.com>) id 1S7pyV-0007BV-WC
+	(envelope-from <darren.hart@intel.com>) id 1S7q2f-0006aN-2H
 	for openembedded-core@lists.openembedded.org;
-	Wed, 14 Mar 2012 16:18:53 +0100
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-	by orsmga102.jf.intel.com with ESMTP; 14 Mar 2012 08:09:56 -0700
+	Wed, 14 Mar 2012 16:23:09 +0100
+Received: from azsmga001.ch.intel.com ([10.2.17.19])
+	by azsmga101.ch.intel.com with ESMTP; 14 Mar 2012 08:13:07 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.67,352,1309762800"; d="scan'208";a="117633294"
-Received: from unknown (HELO helios.localnet) ([10.252.123.190])
-	by orsmga001.jf.intel.com with ESMTP; 14 Mar 2012 08:09:55 -0700
-From: Paul Eggleton <paul.eggleton@linux.intel.com>
-To: Darren Hart <dvhart@linux.intel.com>
-Date: Wed, 14 Mar 2012 15:09:54 +0000
-Message-ID: <2443372.s5EABu74ja@helios>
-Organization: Intel Corporation
-User-Agent: KMail/4.8.0 (Linux/3.0.0-16-generic-pae; KDE/4.8.1; i686; ; )
-In-Reply-To: <4F60B091.9010005@linux.intel.com>
-References: <cover.1331685330.git.paul.eggleton@linux.intel.com>
-	<e4d001f8c6f8945c8c70c2558ad5f9e1fd85dfad.1331685330.git.paul.eggleton@linux.intel.com>
-	<4F60B091.9010005@linux.intel.com>
+X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="118828092"
+Received: from unknown (HELO envy.home) ([10.255.15.199])
+	by azsmga001.ch.intel.com with ESMTP; 14 Mar 2012 08:13:07 -0700
+Message-ID: <4F60B557.5060304@intel.com>
+Date: Wed, 14 Mar 2012 08:12:23 -0700
+From: Darren Hart <darren.hart@intel.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:10.0.1) Gecko/20120209 Thunderbird/10.0.1
 MIME-Version: 1.0
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 1/6] scripts/bitbake: ensure user is in build directory
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+References: <cover.1331684953.git.scott.a.garman@intel.com>
+	<78b7df910bf1d5d25f5cc637a15c8e867d7bd712.1331684953.git.scott.a.garman@intel.com>
+	<4F60B1F4.4040705@linux.intel.com>
+	<20120314150033.GJ3919@jama.jama.net>
+In-Reply-To: <20120314150033.GJ3919@jama.jama.net>
+Cc: Scott Rifenbark <scott.m.rifenbark@linux.intel.com>,
+	Martin Jansa <martin.jansa@gmail.com>,
+	Scott Garman <scott.a.garman@intel.com>
+Subject: Re: [PATCH 1/1] ncurses: fix packaging of moved libraries
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -36,25 +40,41 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 14 Mar 2012 15:18:53 -0000
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
+X-List-Received-Date: Wed, 14 Mar 2012 15:23:09 -0000
+Content-Type: text/plain; charset=ISO-8859-1
+Content-Transfer-Encoding: 7bit
 
-On Wednesday 14 March 2012 07:52:01 Darren Hart wrote:
-> Should this have some kind of prefix? "ERROR: " or something along those
-> lines for consistency with other output?
+On 03/14/2012 08:00 AM, Martin Jansa wrote:
+> On Wed, Mar 14, 2012 at 07:57:56AM -0700, Darren Hart wrote:
+>>
+>>
+>> On 03/13/2012 05:31 PM, Scott Garman wrote:
 
-I did wonder about that; in the end I elected to be consistent with the python 
-version errors in the same script (although I was the one who added those 
-IIRC... heh). Perhaps we ought to add the "ERROR: " prefix to all of the errors 
-in the wrapper script.
+...
 
-Cheers,
-Paul
+>>>  PACKAGES += " \
+>>> +  ${PN}-libncurses \
+>>> +  ${PN}-libncursesw \
+>>
+>> This one needs to be dependent on ENABLE_WIDEC
+> 
+> isn't just
+> ALLOW_EMPTY_${PN}-libncursesw = "1"
+> enough?
+
+Perhaps. ALLOW_EMPTY is not defined in poky/documentation/* nor in
+poky/conf/documentation.conf.
+
+(I realize this oe-core and not poky, but this is the best reference I
+know of)
+
+Could you provide a terse description of how ALLOW_EMPTY* is meant to be
+used, its effects, and any needful cautionary text? Scott can then add
+it to the above documentation.
 
 -- 
-
-Paul Eggleton
-Intel Open Source Technology Centre
+Darren Hart
+Intel Open Source Technology Center
+Yocto Project - Linux Kernel
 
 
