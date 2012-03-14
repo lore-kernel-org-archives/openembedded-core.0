@@ -1,27 +1,32 @@
-Received: from mga09.intel.com ([134.134.136.24])
+Received: from mail-wi0-f169.google.com ([209.85.212.169])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <paul.eggleton@linux.intel.com>) id 1S7ne7-0007YQ-51
+	(envelope-from <martin.jansa@gmail.com>) id 1S7nhK-0000JW-C6
 	for openembedded-core@lists.openembedded.org;
-	Wed, 14 Mar 2012 13:49:39 +0100
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-	by orsmga102.jf.intel.com with ESMTP; 14 Mar 2012 05:40:52 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.67,352,1309762800"; d="scan'208";a="117596392"
-Received: from unknown (HELO helios.localnet) ([10.252.123.190])
-	by orsmga001.jf.intel.com with ESMTP; 14 Mar 2012 05:39:51 -0700
-From: Paul Eggleton <paul.eggleton@linux.intel.com>
-To: Bruce Ashfield <bruce.ashfield@gmail.com>
-Date: Wed, 14 Mar 2012 12:39:50 +0000
-Message-ID: <2970280.1QavEf7R15@helios>
-Organization: Intel Corporation
-User-Agent: KMail/4.8.0 (Linux/3.0.0-16-generic-pae; KDE/4.8.1; i686; ; )
-In-Reply-To: <CADkTA4M6XgC3vo-GR5MnK1HcS58tz0-WrwSX0KOhaeRMMhqnvA@mail.gmail.com>
-References: <cover.1331685330.git.paul.eggleton@linux.intel.com>
-	<5205752.2zb4P1afWQ@helios>
-	<CADkTA4M6XgC3vo-GR5MnK1HcS58tz0-WrwSX0KOhaeRMMhqnvA@mail.gmail.com>
-MIME-Version: 1.0
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 6/6] linux-yocto-tiny: add dependency on xz-native
+	Wed, 14 Mar 2012 13:53:00 +0100
+Received: by wibhm17 with SMTP id hm17so5882158wib.0
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 14 Mar 2012 05:44:13 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=from:to:cc:subject:date:message-id:x-mailer;
+	bh=S7PunwZykHO11sr2N+Wd1D15U1UQG7qMwKqGOVJ4GHw=;
+	b=xW+7s65DZaj+XIwA1nhcoZlr3VAlNFrIlKfxezBRdyRC1zJD+WWwuixs1BkMJ5gjJQ
+	gT4KPB6aCj5OtC/FQYCjcvEpc2Pl/Bs6phzDGEdRQZ03TvtClDvHWbKV9mRNGyQJpMeb
+	J7YfYOPqMY3u+SfNQjg29/uB3HO/ib/cy96bD76DThH1MEySRF8UT80b3hiIpCKLD0BC
+	DfadUWSjKD76zcEM1aI+AAgakAuKmikBhntt4J4RR4vKjDVd65NRg60xk6jHldPE024B
+	uCSoUQ1v8E7CrH61suan83YHir/wv2lz1Yopkny+WG9K4NSxbfqlQdBw0pYWbfEDgcjv
+	jiAA==
+Received: by 10.180.104.65 with SMTP id gc1mr6066764wib.13.1331729053348;
+	Wed, 14 Mar 2012 05:44:13 -0700 (PDT)
+Received: from localhost ([94.230.152.246])
+	by mx.google.com with ESMTPS id fw5sm51651297wib.0.2012.03.14.05.44.11
+	(version=TLSv1/SSLv3 cipher=OTHER);
+	Wed, 14 Mar 2012 05:44:12 -0700 (PDT)
+From: Martin Jansa <martin.jansa@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Date: Wed, 14 Mar 2012 13:44:04 +0100
+Message-Id: <1331729044-19187-1-git-send-email-Martin.Jansa@gmail.com>
+X-Mailer: git-send-email 1.7.8.5
+Subject: [PATCH] librsvg: really bump PR
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -36,26 +41,32 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 14 Mar 2012 12:49:39 -0000
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
+X-List-Received-Date: Wed, 14 Mar 2012 12:53:02 -0000
 
-Hi Bruce,
+* it was downgraded from r4 to r1 in
+  http://git.openembedded.org/openembedded-core/commit/meta/recipes-gnome/librsvg/librsvg_2.32.1.bb?id=50ad5230ea9e0982cdfda23fb9fcfccf89d28f29
+  so even with latest change making it r3 we had still on lower version that we had before for 2.32.1
 
-On Wednesday 14 March 2012 08:29:20 Bruce Ashfield wrote:
-> In this case, you wouldn't go through the fragments, you'd just add one that
-> turns it on when you want it. Don't audit a defconfig, push the few options
-> that you want onto the build.
+Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
+---
+ meta/recipes-gnome/librsvg/librsvg_2.32.1.bb |    2 +-
+ 1 files changed, 1 insertions(+), 1 deletions(-)
 
-I'm not sure what you mean here, in the context of generically figuring out 
-whether lzma is needed...?
-
-Cheers,
-Paul
-
+diff --git a/meta/recipes-gnome/librsvg/librsvg_2.32.1.bb b/meta/recipes-gnome/librsvg/librsvg_2.32.1.bb
+index 74286fd..1e57647 100644
+--- a/meta/recipes-gnome/librsvg/librsvg_2.32.1.bb
++++ b/meta/recipes-gnome/librsvg/librsvg_2.32.1.bb
+@@ -9,7 +9,7 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=94d55d512a9ba36caa9b7df079bae19f \
+ SECTION = "x11/utils"
+ DEPENDS = "gtk+ libcroco cairo libxml2 popt"
+ 
+-PR = "r3"
++PR = "r5"
+ 
+ inherit autotools pkgconfig gnome
+ 
 -- 
+1.7.8.5
 
-Paul Eggleton
-Intel Open Source Technology Centre
 
 
