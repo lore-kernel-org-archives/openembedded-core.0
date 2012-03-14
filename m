@@ -1,34 +1,36 @@
-Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
-	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <richard.purdie@linuxfoundation.org>)
-	id 1S7nm9-0001X8-DU for openembedded-core@lists.openembedded.org;
-	Wed, 14 Mar 2012 13:57:59 +0100
-Received: from localhost (localhost [127.0.0.1])
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q2ECnD0B007695
+Received: from mail-wi0-f177.google.com ([209.85.212.177])
+	by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <bruce.ashfield@gmail.com>) id 1S7nwB-0005Uf-Go
+	for openembedded-core@lists.openembedded.org;
+	Wed, 14 Mar 2012 14:08:19 +0100
+Received: by wibhj13 with SMTP id hj13so2192985wib.6
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 14 Mar 2012 12:49:13 GMT
-Received: from tim.rpsys.net ([127.0.0.1])
-	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
-	port 10024) with LMTP
-	id 05480-07 for <openembedded-core@lists.openembedded.org>;
-	Wed, 14 Mar 2012 12:49:08 +0000 (GMT)
-Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q2ECn3eu007689
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO)
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 14 Mar 2012 12:49:03 GMT
-Message-ID: <1331729342.18586.18.camel@ted>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Date: Wed, 14 Mar 2012 12:49:02 +0000
-In-Reply-To: <947982d54b42df85d30c9a7b5e67a0c0a16bb949.1331713807.git.sgw@linux.intel.com>
-References: <cover.1331713807.git.sgw@linux.intel.com>
-	<947982d54b42df85d30c9a7b5e67a0c0a16bb949.1331713807.git.sgw@linux.intel.com>
-X-Mailer: Evolution 3.2.2- 
-Mime-Version: 1.0
-X-Virus-Scanned: amavisd-new at rpsys.net
-Subject: Re: [PATCH 12/14] gpgme: fix packaging warnings
+	Wed, 14 Mar 2012 05:59:34 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
+	:cc:content-type;
+	bh=DqFrWUcpxd9K42Tnks9cfp8qPpT7Q9hd5wcxjwxu81I=;
+	b=bIXC9bErXAeBnygMgsXYW3VOmRwN58RqnFpOvpX6vF0FTx3Ivzxd7poEgvak/qtXBF
+	0cvX39w1P21kScdjtScAvszN6J4a7zMnT5qDRXiP0Sh35+oumJ9kjgPskzOM0d1z7Pu+
+	x8J3lO6QbeOGJ8sWHeTQA9NALws4d7B4Up0ISbughIJm6xmRDM5Jiplj0XRRJVXl3tqT
+	r1txePt+ySasQrrmHPbsyqCoLjOap1EXCN2eDEvOYczM8OJj7zXW2b25kx2HGhmFB63V
+	+TF1Y6rIcW0qiqPjJkjhRUOAIIJJ4+3MVp0Wa3kLMiCLn/dXVfqKSnoS+Ae6//QfMpnm
+	zraA==
+MIME-Version: 1.0
+Received: by 10.180.105.194 with SMTP id go2mr6096143wib.22.1331729974366;
+	Wed, 14 Mar 2012 05:59:34 -0700 (PDT)
+Received: by 10.216.28.196 with HTTP; Wed, 14 Mar 2012 05:59:34 -0700 (PDT)
+In-Reply-To: <2970280.1QavEf7R15@helios>
+References: <cover.1331685330.git.paul.eggleton@linux.intel.com>
+	<5205752.2zb4P1afWQ@helios>
+	<CADkTA4M6XgC3vo-GR5MnK1HcS58tz0-WrwSX0KOhaeRMMhqnvA@mail.gmail.com>
+	<2970280.1QavEf7R15@helios>
+Date: Wed, 14 Mar 2012 08:59:34 -0400
+Message-ID: <CADkTA4OdMwB4gPNaYF7paaY9TLZV5YuQgqAVXzK4wT1pCxtrCw@mail.gmail.com>
+From: Bruce Ashfield <bruce.ashfield@gmail.com>
+To: Paul Eggleton <paul.eggleton@linux.intel.com>
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH 6/6] linux-yocto-tiny: add dependency on xz-native
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -43,47 +45,50 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 14 Mar 2012 12:57:59 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Wed, 14 Mar 2012 13:08:19 -0000
+Content-Type: text/plain; charset=ISO-8859-1
 
-On Wed, 2012-03-14 at 01:33 -0700, Saul Wold wrote:
-> Signed-off-by: Saul Wold <sgw@linux.intel.com>
-> ---
->  meta/recipes-support/gpgme/gpgme_1.3.1.bb |    6 +++++-
->  1 files changed, 5 insertions(+), 1 deletions(-)
-> 
-> diff --git a/meta/recipes-support/gpgme/gpgme_1.3.1.bb b/meta/recipes-support/gpgme/gpgme_1.3.1.bb
-> index 9ffedba..33858bf 100644
-> --- a/meta/recipes-support/gpgme/gpgme_1.3.1.bb
-> +++ b/meta/recipes-support/gpgme/gpgme_1.3.1.bb
-> @@ -14,7 +14,7 @@ SRC_URI = "ftp://ftp.gnupg.org/gcrypt/gpgme/gpgme-${PV}.tar.bz2 \
->  SRC_URI[md5sum] = "90afa8436ce2b2683c001c824bd22601"
->  SRC_URI[sha256sum] = "15ef27a875ae0d79d7446fd931deda11438e724ffbeac74449ed19cba23df4d4"
->  DEPENDS = "libgpg-error libassuan pth"
-> -PR = "r0"
-> +PR = "r1"
->  
->  EXTRA_OECONF = "--with-pth=${STAGING_DIR_HOST} --without-pth-test \
->                  --with-gpg=${bindir}/gpg --without-gpgsm"
-> @@ -26,3 +26,7 @@ FILES_${PN}-pth = "${libdir}/libgpgme-pth.so.*"
->  FILES_${PN}-pthread = "${libdir}/libgpgme-pthread.so.*"
->  FILES_${PN} = "${libdir}/libgpgme.so.*"
->  FILES_${PN}-dev += "${bindir}/gpgme-config ${datadir}/common-lisp/source/gpgme/*"
-> +
-> +do_install_append() {
-> +	rm -rf ${D}/usr/libexec
-> +}
+On Wed, Mar 14, 2012 at 8:39 AM, Paul Eggleton
+<paul.eggleton@linux.intel.com> wrote:
+> Hi Bruce,
+>
+> On Wednesday 14 March 2012 08:29:20 Bruce Ashfield wrote:
+>> In this case, you wouldn't go through the fragments, you'd just add one that
+>> turns it on when you want it. Don't audit a defconfig, push the few options
+>> that you want onto the build.
+>
+> I'm not sure what you mean here, in the context of generically figuring out
+> whether lzma is needed...?
 
-Since this is an empty directory, could you just do a rmdir here please?
+Maybe I misread/misunderstood the question at hand then :) Let me just
+rephrase it this way, we have the recipe and the control in this case, so
+adding the dependency and making sure that the kernel option to use
+it via a config fragment is valid .. which is what you did, minus the fragment,
+and we don't really need the fragment, since we know it is on.
 
-The reason is that if the package then does start installing files
-there, we'd hit a build failure.
+You could audit the constructed .config as well, since that's the final word
+on whether it actually makes it into the kernel build, but also not really
+required here.
+
+So consider this random noise, before I drank my coffee this morning :)
 
 Cheers,
 
-Richard
+Bruce
+
+>
+> Cheers,
+> Paul
+>
+> --
+>
+> Paul Eggleton
+> Intel Open Source Technology Centre
 
 
+
+-- 
+"Thou shalt not follow the NULL pointer, for chaos and madness await
+thee at its end"
 
 
