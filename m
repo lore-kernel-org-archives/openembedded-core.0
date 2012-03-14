@@ -1,34 +1,30 @@
-Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
-	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <richard.purdie@linuxfoundation.org>)
-	id 1S7qEf-0006wv-4N for openembedded-core@lists.openembedded.org;
-	Wed, 14 Mar 2012 16:35:33 +0100
-Received: from localhost (localhost [127.0.0.1])
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q2EFQlGH009377
+Received: from mail-yx0-f175.google.com ([209.85.213.175])
+	by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <sakoman@gmail.com>) id 1S7qPq-0007Cp-Ce
+	for openembedded-core@lists.openembedded.org;
+	Wed, 14 Mar 2012 16:47:06 +0100
+Received: by yenm3 with SMTP id m3so1937876yen.6
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 14 Mar 2012 15:26:47 GMT
-Received: from tim.rpsys.net ([127.0.0.1])
-	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
-	port 10024) with LMTP
-	id 09195-02 for <openembedded-core@lists.openembedded.org>;
-	Wed, 14 Mar 2012 15:26:43 +0000 (GMT)
-Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q2EFQeuX009371
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO)
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 14 Mar 2012 15:26:41 GMT
-Message-ID: <1331738800.18586.39.camel@ted>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
+	Wed, 14 Mar 2012 08:38:20 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=mime-version:date:message-id:subject:from:to:content-type;
+	bh=/l8TaZhDwIL/clO93nLxQ+SSK1FwPUToMyKL9bnKH6g=;
+	b=qs5i9upheIUtLlnjtHui6RKkLwZi6J44qLlLPtr8LUqYsMMHWrR24mgEHrL6xUrDEY
+	smMdKZ81H9H7FM0eQawA+vrL5yMdare6gl3qMQPBxkxkgCqMF488rv6XSNCQOkgweArs
+	Qed2VZ7WY73x7ugHXzWObgjb9Y6xIktCe1Si9DAJ5riJP+fhpz1IK7jiG4iJxvynOCvB
+	/fDwvY//sG7K4VkFj9nz/90zFmQrAdrkhZWlbXYMeBFgtNsNK6Zs2E1jVJVYq4/4dwMt
+	kVI8O8P3GEyJ71WxUcW6YI0t99gICXCP/cCXAdBeSXQqgUz0UaL+bnYQ6bXbJp2pVN/b
+	FEPw==
+MIME-Version: 1.0
+Received: by 10.182.119.71 with SMTP id ks7mr3570996obb.9.1331739496200; Wed,
+	14 Mar 2012 08:38:16 -0700 (PDT)
+Received: by 10.182.246.8 with HTTP; Wed, 14 Mar 2012 08:38:16 -0700 (PDT)
+Date: Wed, 14 Mar 2012 08:38:16 -0700
+Message-ID: <CAGDS+nnPt6zgHGM99xMqnuVhEwZTuDwdEkvJ0E90mpQKDv=RAw@mail.gmail.com>
+From: Steve Sakoman <sakoman@gmail.com>
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Date: Wed, 14 Mar 2012 15:26:40 +0000
-In-Reply-To: <34489f7f0d7f0457df45e2ee4606b51a09ed1704.1331716010.git.liezhi.yang@windriver.com>
-References: <cover.1331716010.git.liezhi.yang@windriver.com>
-	<34489f7f0d7f0457df45e2ee4606b51a09ed1704.1331716010.git.liezhi.yang@windriver.com>
-X-Mailer: Evolution 3.2.2- 
-Mime-Version: 1.0
-X-Virus-Scanned: amavisd-new at rpsys.net
-Subject: Re: [PATCH 1/1] gcc-cross: aviod creating invalid symlinks
+Subject: net-tools breaks on rebuild
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -43,76 +39,85 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 14 Mar 2012 15:35:33 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Wed, 14 Mar 2012 15:47:06 -0000
+Content-Type: text/plain; charset=ISO-8859-1
 
-On Wed, 2012-03-14 at 17:13 +0800, Robert Yang wrote:
-> There are several invalid symlinks in gcc-cross-initial,
-> gcc-cross-intermediate and gcc-cross, these cause the error:(56 errors)
-> 
-> tmp/work/i586-poky-linux/gcc-cross-initial-4.6.3+svnr184847-r23/temp/log.do_populate_sysroot:
-> log.do_populate_sysroot:grep: /path/to/invalid/symlink: No such file or directory
-> 
-> Avoid creating invalid symlinks would fix this problem.
-> 
-> Use the:
-> [ ! -e file ] || do_something
-> But not use:
-> [ -e file ] && do_something
-> is because that if the "file" doesn't exist, then the whole statement
-> would return false, and bitbake treats this an error, so use the "||" to
-> let it always be true.
-> 
-> [YOCTO #2095]
-> 
-> Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
-> ---
->  .../gcc/gcc-cross-intermediate.inc                 |    3 ++-
->  meta/recipes-devtools/gcc/gcc-package-cross.inc    |    6 ++++--
->  2 files changed, 6 insertions(+), 3 deletions(-)
-> 
-> diff --git a/meta/recipes-devtools/gcc/gcc-cross-intermediate.inc b/meta/recipes-devtools/gcc/gcc-cross-intermediate.inc
-> index ea105e6..87d11ab 100644
-> --- a/meta/recipes-devtools/gcc/gcc-cross-intermediate.inc
-> +++ b/meta/recipes-devtools/gcc/gcc-cross-intermediate.inc
-> @@ -51,7 +51,8 @@ do_install () {
->  	dest=${D}${libexecdir}/gcc/${TARGET_SYS}/${BINV}/
->  	install -d $dest
->  	for t in ar as ld nm objcopy objdump ranlib strip g77 gcc cpp gfortran; do
-> -		ln -sf ${BINRELPATH}/${TARGET_PREFIX}$t $dest$t
-> +		[ ! -e ${BINRELPATH}/${TARGET_PREFIX}$t ] || \
-> +	        ln -sf ${BINRELPATH}/${TARGET_PREFIX}$t $dest$t
->  	done
->  }
->  
-> diff --git a/meta/recipes-devtools/gcc/gcc-package-cross.inc b/meta/recipes-devtools/gcc/gcc-package-cross.inc
-> index e32412c..3d52d23 100644
-> --- a/meta/recipes-devtools/gcc/gcc-package-cross.inc
-> +++ b/meta/recipes-devtools/gcc/gcc-package-cross.inc
-> @@ -19,8 +19,10 @@ do_install () {
->  	dest=${D}${libexecdir}/gcc/${TARGET_SYS}/${BINV}/
->  	install -d $dest
->  	for t in ar as ld nm objcopy objdump ranlib strip g77 gcc cpp gfortran; do
-> -		ln -sf ${BINRELPATH}/${TARGET_PREFIX}$t $dest$t
-> -		ln -sf ${BINRELPATH}/${TARGET_PREFIX}$t ${dest}${TARGET_PREFIX}$t
-> +        if [ -e ${BINRELPATH}/${TARGET_PREFIX}$t ]; then
-> +		    ln -sf ${BINRELPATH}/${TARGET_PREFIX}$t $dest$t
-> +		    ln -sf ${BINRELPATH}/${TARGET_PREFIX}$t ${dest}${TARGET_PREFIX}$t
-> +        fi
->  	done
->  
->  	# Remove things we don't need but keep share/java
+I'm still encountering recipes that fail when sstate hash forces a
+rebuild after a pull.
 
+The latest is net-tools in nettools_do_patch:
 
-I've had to revert this, it totally broke the mips/ppc/arm toolchains.
-See the failures on the autobuilder, e.g.
-http://autobuilder.yoctoproject.org:8010/builders/nightly-arm/builds/338/steps/shell_33/logs/stdio in eglibc-initial. The problem is that the location we're symlinking to may not be installed yet. For example, gcc provides "${TARGET_PREFIX}gcc" but it won't be installed at the location we point at until after gcc's populate_sysroot function runs. The tests you're using are therefore not adding as many symlinks as we need.
+| ERROR: Function failed: nettools_do_patch (see
+/media/Work/yocto/tmp/work/armv7a-vfp-neon-poky-linux-gnueabi/net-tools-1.60-23-r0/temp/log.do_patch.658
+for further information)
+| patching file debian/compat
+| patching file debian/README.source
+| patching file debian/rules
+| patching file debian/config.h
+| patching file debian/config.make
+| patching file debian/install
+| patching file debian/control
+| patching file debian/copyright
+| patching file debian/changelog
+| patching file debian/watch
+| patching file debian/patches/CVS-20081003-config.in_sync.patch
+| patching file debian/patches/local-manpages.patch
+| patching file debian/patches/CVS-20020730-route.c_opts_64.patch
+| patching file debian/patches/CVS-lib_sync.patch
+| patching file debian/patches/CVS-20051204-slttach.c_sync.patch
+| patching file debian/patches/CVS-20071202-rarp.c_sync.patch
+| patching file debian/patches/CVS-20081003-statistics.c_sync.patch
+| patching file debian/patches/CVS-20051204-arp.c_sync.patch
+| patching file debian/patches/CVS-20081002-ifconfig.c_sync.patch
+| patching file debian/patches/CVS-20060927-mii-tool.c_sync.patch
+| patching file debian/patches/CVS-20070316-netstat.c_sync.patch
+| patching file debian/patches/netstat.c-local_changes.patch
+| patching file debian/patches/CVS-20061011-ipmaddr.c_buffer_overflow.patch
+| patching file debian/patches/series
+| patching file debian/patches/Bug#345331-socket_overflow.patch
+| patching file debian/patches/lib_local_changes.patch
+| patching file debian/patches/CVS-20061011-includes_sync.patch
+| patching file debian/patches/CVS-20031011-hostname.c_sync.patch
+| patching file debian/patches/Bug#254243-netstat.c-wide-opt.patch
+| patching file debian/patches/CVS-20081002-manpages_sync.patch
+| patching file debian/patches/translations.patch
+| patching file debian/patches/CVS-20030911-nameif.c_sync.patch
+| patching file debian/patches/netstat.c-assorted_changes.patch
+| Applying patch
+/media/Work/yocto/tmp/work/armv7a-vfp-neon-poky-linux-gnueabi/net-tools-1.60-23-r0/net-tools-1.60/debian/patches/CVS-20020730-route.c_opts_64.patch
+| patching file route.c
+| Hunk #1 FAILED at 2.
+| Hunk #2 FAILED at 142.
+| Hunk #3 succeeded at 184 with fuzz 1 (offset 8 lines).
+| 2 out of 3 hunks FAILED -- rejects in file route.c
+| patching file route.c
+| Hunk #1 FAILED at 2.
+| Hunk #2 FAILED at 142.
+| Hunk #3 succeeded at 192 with fuzz 1 (offset 16 lines).
+| 2 out of 3 hunks FAILED -- rejects in file route.c
+| patching file route.c
+| Hunk #1 FAILED at 2.
+| Hunk #2 FAILED at 142.
+| Hunk #3 succeeded at 200 with fuzz 1 (offset 24 lines).
+| 2 out of 3 hunks FAILED -- rejects in file route.c
+| Patch /media/Work/yocto/tmp/work/armv7a-vfp-neon-poky-linux-gnueabi/net-tools-1.60-23-r0/net-tools-1.60/debian/patches/CVS-20020730-route.c_opts_64.patch
+does not apply (enforce with -f)
+NOTE: package net-tools-1.60-23-r0: task do_patch: Failed
+ERROR: Task 1 (/home/sakoman/source/yocto/poky/meta/recipes-extended/net-tools/net-tools_1.60-23.bb,
+do_patch) failed with exit code '1'
+Waiting for 7 active tasks to finish:
 
-Cheers,
+I suspect the issue is in the recipes python do_patch:
 
-Richard
+# We invoke base do_patch at end, to incorporate any local patch
+python do_patch() {
+	bb.build.exec_func('nettools_do_patch', d)
+	bb.build.exec_func('patch_do_patch', d)
+}
 
+Not sure how to fix this, but thought I would document the issue for
+those more knowledgeable.
 
+Steve
 
 
