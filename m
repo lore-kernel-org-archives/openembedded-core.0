@@ -1,35 +1,23 @@
-Received: from mail-wi0-f171.google.com ([209.85.212.171])
+Received: from mail1.windriver.com ([147.11.146.13])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <martin.jansa@gmail.com>)
-	id 1S7iS3-000193-IL; Wed, 14 Mar 2012 08:16:51 +0100
-Received: by wibhj13 with SMTP id hj13so5745404wib.6
-	for <multiple recipients>; Wed, 14 Mar 2012 00:08:06 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=date:from:to:cc:subject:message-id:references:mime-version
-	:content-type:content-disposition:in-reply-to:user-agent;
-	bh=Vv2xRUBG2xEWunvn2x8SJpCEM9NJfmpplrGmyd4lPXc=;
-	b=jBKkrserQaAi9VPKxnElkvT/vFmPNL0osluhWqPXbD4DH2J+LgTh2ituVAxk9onUDN
-	J2tSzB3kLRjB3WxmVuwRfbxcc7ix2JcdFBJ45ehJirejpxrYlZ1nMdEyDDnaM+VlU6ac
-	csGO2vQrNTI9BkVlsyuCWLeC6SuwyrRN/9xm/5ENcbNB/QnuoQAIR+Ba1QS9gcm017XE
-	OWWa0p4cbq4zeEyns7bqZSWMPjocLb+2tNYyRS/QSbsThqdD1vo/VNvfUi0TeQEX7FWQ
-	9xjIlInKTMIoqdARVdwOiCEGNP6+bXalBiN9qyc+c/2zYF8uR9xFcHofq754g/nocT1J
-	qxJw==
-Received: by 10.216.197.211 with SMTP id t61mr931087wen.1.1331708886583;
-	Wed, 14 Mar 2012 00:08:06 -0700 (PDT)
-Received: from localhost ([94.230.152.246])
-	by mx.google.com with ESMTPS id k7sm12982036wia.5.2012.03.14.00.08.05
-	(version=TLSv1/SSLv3 cipher=OTHER);
-	Wed, 14 Mar 2012 00:08:05 -0700 (PDT)
-Date: Wed, 14 Mar 2012 08:08:03 +0100
-From: Martin Jansa <martin.jansa@gmail.com>
-To: openembedded-devel@lists.openembedded.org
-Message-ID: <20120314070803.GB3919@jama.jama.net>
-References: <20120313114820.9572210335@opal>
+	(envelope-from <Liezhi.Yang@windriver.com>) id 1S7ia4-0001MG-R1
+	for openembedded-core@lists.openembedded.org;
+	Wed, 14 Mar 2012 08:25:09 +0100
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca [147.11.189.40])
+	by mail1.windriver.com (8.14.3/8.14.3) with ESMTP id q2E7GNZn010524
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 14 Mar 2012 00:16:23 -0700 (PDT)
+Received: from build-PowerEdge-T100.corp.ad.wrs.com (128.224.163.66) by
+	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server id
+	14.1.255.0; Wed, 14 Mar 2012 00:16:23 -0700
+From: Robert Yang <liezhi.yang@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Wed, 14 Mar 2012 15:16:02 +0800
+Message-ID: <cover.1331709176.git.liezhi.yang@windriver.com>
+X-Mailer: git-send-email 1.7.4.1
 MIME-Version: 1.0
-In-Reply-To: <20120313114820.9572210335@opal>
-User-Agent: Mutt/1.5.21 (2010-09-15)
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [oe-commits] Andreas Oberritter : qt4: fix deps in libQtWebkit.la and QtWebKit.pc
+Subject: [PATCH 0/1 V2] do not split debug pkg when no debugsources.list
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -44,58 +32,32 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 14 Mar 2012 07:16:51 -0000
-X-Groupsio-MsgNum: 18760
-Content-Type: multipart/signed; micalg=pgp-sha1;
-	protocol="application/pgp-signature"; boundary="0eh6TmSyL6TZE2Uz"
-Content-Disposition: inline
+X-List-Received-Date: Wed, 14 Mar 2012 07:25:09 -0000
+Content-Type: text/plain
 
---0eh6TmSyL6TZE2Uz
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Changes of V2:
 
-On Tue, Mar 13, 2012 at 11:48:20AM +0000, git@git.openembedded.org wrote:
-> Module: openembedded-core.git
-> Branch: master
-> Commit: 4c41a3204ef72f53813ddc86fe525fa9c6714daa
-> URL:    http://git.openembedded.org/?p=3Dopenembedded-core.git&a=3Dcommit=
-;h=3D4c41a3204ef72f53813ddc86fe525fa9c6714daa
->=20
-> Author: Andreas Oberritter <obi@opendreambox.org>
-> Date:   Wed Mar  7 21:36:28 2012 +0100
->=20
-> qt4: fix deps in libQtWebkit.la and QtWebKit.pc
->=20
-> * Both files contain -L../../WebCore/release -L../../JavaScriptCore/relea=
-se -lwebcore -ljscore
-> * These paths and libs don't get installed.
-> * When building a shared lib with libtool, that links
->   with libQtWebKit, libtool adds these unneeded parameters
->   to the linker command-line, thus linking fails.
+* Do not split debug pkg when no debugsources.list rather than create an
+  empty debugsources.list as Richard suggested.
 
-BTW: here with bitbake having R/W to rootfs every qt4-x11-free build
-creates /include/WebCore/libdummy.prl (yes really in root)
-anynone seen this?
--rw-r--r-- 1 bitbake bitbake 680 Mar 14 01:13 /include/WebCore/libdummy.prl
+// Robert
 
-Maybe it's sign of another small issue in qt4 build.
+The following changes since commit 81379dc141e245307ca391a02b7490b199128991:
 
-Cheers,
+  dates: Fix unpackaged files warning (2012-03-13 23:18:19 +0000)
 
---=20
-Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
+are available in the git repository at:
+  git://git.pokylinux.org/poky-contrib robert/debugpkg
+  http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=robert/debugpkg
 
---0eh6TmSyL6TZE2Uz
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: Digital signature
+Robert Yang (1):
+  package.bbclass: do not split debug pkg when no debugsources.list
 
------BEGIN PGP SIGNATURE-----
-Version: GnuPG v2.0.18 (GNU/Linux)
+ meta/classes/package.bbclass |   18 +++++++++---------
+ 1 files changed, 9 insertions(+), 9 deletions(-)
 
-iEYEARECAAYFAk9gQ9MACgkQN1Ujt2V2gBzIPACgsHNXdznAj8gDmMfxe0jeTiD2
-bU4AoLcixPL72RmIkYb2IIaTQHkXNbbN
-=z6GF
------END PGP SIGNATURE-----
+-- 
+1.7.4.1
 
---0eh6TmSyL6TZE2Uz--
+
+
