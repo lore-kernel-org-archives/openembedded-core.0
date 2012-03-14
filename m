@@ -1,24 +1,24 @@
 Received: from mga03.intel.com ([143.182.124.21])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <paul.eggleton@linux.intel.com>) id 1S7cLG-0006nj-J1
+	(envelope-from <paul.eggleton@linux.intel.com>) id 1S7cLI-0006nj-3V
 	for openembedded-core@lists.openembedded.org;
-	Wed, 14 Mar 2012 01:45:26 +0100
+	Wed, 14 Mar 2012 01:45:28 +0100
 Received: from azsmga002.ch.intel.com ([10.2.17.35])
-	by azsmga101.ch.intel.com with ESMTP; 13 Mar 2012 17:36:43 -0700
+	by azsmga101.ch.intel.com with ESMTP; 13 Mar 2012 17:36:45 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="77188071"
+X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="77188082"
 Received: from unknown (HELO helios.ger.corp.intel.com) ([10.252.123.185])
-	by AZSMGA002.ch.intel.com with ESMTP; 13 Mar 2012 17:36:42 -0700
+	by AZSMGA002.ch.intel.com with ESMTP; 13 Mar 2012 17:36:44 -0700
 From: Paul Eggleton <paul.eggleton@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Wed, 14 Mar 2012 00:36:31 +0000
-Message-Id: <22f0c46dcba251287bcc3848c1537ad943c53788.1331685330.git.paul.eggleton@linux.intel.com>
+Date: Wed, 14 Mar 2012 00:36:32 +0000
+Message-Id: <9583d660052617740b61feeb6739263f06e5a64f.1331685330.git.paul.eggleton@linux.intel.com>
 X-Mailer: git-send-email 1.7.5.4
 In-Reply-To: <cover.1331685330.git.paul.eggleton@linux.intel.com>
 References: <cover.1331685330.git.paul.eggleton@linux.intel.com>
 In-Reply-To: <cover.1331685330.git.paul.eggleton@linux.intel.com>
 References: <cover.1331685330.git.paul.eggleton@linux.intel.com>
-Subject: [PATCH 5/6] ncurses: fix build when ENABLE_WIDEC is not set
+Subject: [PATCH 6/6] linux-yocto-tiny: add dependency on xz-native
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -33,41 +33,42 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 14 Mar 2012 00:45:26 -0000
+X-List-Received-Date: Wed, 14 Mar 2012 00:45:28 -0000
 
-If wide character support is disabled (as it is with poky-tiny, for
-example) then we won't have libncursesw.so.*, so skip moving these files
-in that case. (Fixes a regression introduced in OE-Core revision
-ccd370ab147b78de7a5bd74818f755f4d3ca6d81).
+The kernel configuration requires lzma to compress the kernel image
+(CONFIG_KERNEL_LZMA=y), so add a dependency on xz-native which provides
+it.
+
+Fixes [YOCTO #1728].
 
 Signed-off-by: Paul Eggleton <paul.eggleton@linux.intel.com>
 ---
- meta/recipes-core/ncurses/ncurses.inc |    5 +++--
- 1 files changed, 3 insertions(+), 2 deletions(-)
+ meta/recipes-kernel/linux/linux-yocto-tiny_3.0.bb |    5 ++++-
+ 1 files changed, 4 insertions(+), 1 deletions(-)
 
-diff --git a/meta/recipes-core/ncurses/ncurses.inc b/meta/recipes-core/ncurses/ncurses.inc
-index e450868..fe2c3e4 100644
---- a/meta/recipes-core/ncurses/ncurses.inc
-+++ b/meta/recipes-core/ncurses/ncurses.inc
-@@ -6,7 +6,7 @@ LIC_FILES_CHKSUM = "file://ncurses/base/version.c;beginline=1;endline=27;md5=cbc
- SECTION = "libs"
- DEPENDS = "ncurses-native"
- DEPENDS_virtclass-native = ""
--INC_PR = "r5"
-+INC_PR = "r6"
+diff --git a/meta/recipes-kernel/linux/linux-yocto-tiny_3.0.bb b/meta/recipes-kernel/linux/linux-yocto-tiny_3.0.bb
+index 5cad513..a3a6167 100644
+--- a/meta/recipes-kernel/linux/linux-yocto-tiny_3.0.bb
++++ b/meta/recipes-kernel/linux/linux-yocto-tiny_3.0.bb
+@@ -1,6 +1,9 @@
+ inherit kernel
+ require recipes-kernel/linux/linux-yocto.inc
  
- inherit autotools binconfig multilib_header
++# We need lzma (as CONFIG_KERNEL_LZMA=y)
++DEPENDS += "xz-native"
++
+ #KMACHINE = "yocto/standard/tiny/base"
+ KMACHINE = "yocto/standard/base"
+ KBRANCH = "${KMACHINE}"
+@@ -10,7 +13,7 @@ LINUX_VERSION ?= "3.0.23"
+ SRCREV_machine ?= "8fd24b3570ab995848e4123ef13bac64e2c924be"
+ SRCREV_meta ?= "e559129b4a6f39f68b75141096b2d516cf7a7f35"
  
-@@ -185,7 +185,8 @@ shell_do_install() {
-             # case will skip this code
-             mkdir ${D}${base_libdir}
-             mv ${D}${libdir}/libncurses.so.* ${D}${base_libdir}
--            mv ${D}${libdir}/libncursesw.so.* ${D}${base_libdir}
-+            ! ${ENABLE_WIDEC} || \
-+                mv ${D}${libdir}/libncursesw.so.* ${D}${base_libdir}
+-PR = "r2"
++PR = "r3"
+ PV = "${LINUX_VERSION}+git${SRCPV}"
  
-             mv ${D}${libdir}/libtinfo.so.* ${D}${base_libdir}
-             rm ${D}${libdir}/libtinfo.so
+ SRC_URI = "git://git.yoctoproject.org/linux-yocto-3.0;protocol=git;bareclone=1;branch=${KBRANCH},meta;name=machine,meta \
 -- 
 1.7.5.4
 
