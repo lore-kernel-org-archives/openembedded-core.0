@@ -1,27 +1,20 @@
-Received: from mga09.intel.com ([134.134.136.24])
+Received: from mga11.intel.com ([192.55.52.93])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <paul.eggleton@linux.intel.com>) id 1S7jmF-0004VB-B0
+	(envelope-from <sgw@linux.intel.com>) id 1S7jme-0004Xg-UW
 	for openembedded-core@lists.openembedded.org;
-	Wed, 14 Mar 2012 09:41:47 +0100
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-	by orsmga102.jf.intel.com with ESMTP; 14 Mar 2012 01:33:01 -0700
+	Wed, 14 Mar 2012 09:42:13 +0100
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+	by fmsmga102.fm.intel.com with ESMTP; 14 Mar 2012 01:33:26 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.67,351,1309762800"; d="scan'208";a="120850270"
-Received: from unknown (HELO helios.localnet) ([10.252.123.159])
-	by orsmga002.jf.intel.com with ESMTP; 14 Mar 2012 01:33:00 -0700
-From: Paul Eggleton <paul.eggleton@linux.intel.com>
-To: Koen Kooi <koen@dominion.thruhere.net>
-Date: Wed, 14 Mar 2012 08:32:58 +0000
-Message-ID: <5205752.2zb4P1afWQ@helios>
-Organization: Intel Corporation
-User-Agent: KMail/4.8.0 (Linux/3.0.0-16-generic-pae; KDE/4.8.1; i686; ; )
-In-Reply-To: <512FF648-8A82-4307-BEB7-0EC1A8FD15A7@dominion.thruhere.net>
-References: <cover.1331685330.git.paul.eggleton@linux.intel.com>
-	<9583d660052617740b61feeb6739263f06e5a64f.1331685330.git.paul.eggleton@linux.intel.com>
-	<512FF648-8A82-4307-BEB7-0EC1A8FD15A7@dominion.thruhere.net>
-MIME-Version: 1.0
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 6/6] linux-yocto-tiny: add dependency on xz-native
+X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="138551601"
+Received: from unknown (HELO swold-mobl.bigsur.com) ([10.255.15.152])
+	by fmsmga002.fm.intel.com with ESMTP; 14 Mar 2012 01:33:26 -0700
+From: Saul Wold <sgw@linux.intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Wed, 14 Mar 2012 01:33:11 -0700
+Message-Id: <cover.1331713807.git.sgw@linux.intel.com>
+X-Mailer: git-send-email 1.7.7.6
+Subject: [PATCH 00/14] Warning Fixes and some Updates
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -36,30 +29,77 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 14 Mar 2012 08:41:47 -0000
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
+X-List-Received-Date: Wed, 14 Mar 2012 08:42:13 -0000
 
-On Wednesday 14 March 2012 09:21:06 Koen Kooi wrote:
-> Op 14 mrt. 2012, om 01:36 heeft Paul Eggleton het volgende geschreven:
-> > The kernel configuration requires lzma to compress the kernel image
-> > (CONFIG_KERNEL_LZMA=y), so add a dependency on xz-native which provides
-> > it.
-> 
-> Have a look at
-> https://github.com/Angstrom-distribution/meta-ti/commit/b72cb13fcf83b9d3428
-> 08ea30379bfb6a1321b54 :)
+Richard,
 
-Right, I thought about that already - but we do not (by default) use defconfigs 
-with linux-yocto*, so you'd have to go through all config fragments with this 
-check. I figured it probably wasn't worth the effort in this case.
+This has some warning fixes along with some update.
 
-Cheers,
-Paul
+Biggest change is to bitbake.conf, which re-orders PACKAGE and addes 
+${libdir}/${BPN}/*.a to the staticdev list, this was seen in a number 
+of packages and seems to make sense.  But I would understand if there
+are other issues I am not aware of.
+
+The FILES_${PN} was grabbing from ${libdir}/${BPN}/* so we needed to 
+get the staticdev in before that.
+
+Other thoughts?
+
+Sau!
+
+
+The following changes since commit 81379dc141e245307ca391a02b7490b199128991:
+
+  dates: Fix unpackaged files warning (2012-03-13 23:18:19 +0000)
+
+are available in the git repository at:
+  git://git.openembedded.org/openembedded-core-contrib sgw/stage
+  http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=sgw/stage
+
+Saul Wold (14):
+  owl-video: Fix unpackaged file warning
+  ltp: Package static library in -staticdev
+  quilt: Fix docs packaging warnings
+  autoconf: remove emacs mode files to fix warnings
+  qt4: package static libraries correctly to fix warnings
+  rpm: Package python-rpm static archive correctly
+  python: package static libraries correctly in -staticdev
+  distro_tracking: Updates for manual checks
+  avahi: Update to 0.6.31
+  man-pages: Update to 3.36
+  libgalago: Fix package warnings by not packaging autopackage
+  gpgme: fix packaging warnings
+  man: fix configure issue to solve warnings
+  bitbake.conf: Modify PACKAGE list ordering to insert -staticdev file
+    before PN
+
+ meta/conf/bitbake.conf                             |    4 +-
+ .../conf/distro/include/distro_tracking_fields.inc |   36 ++++++++++++++++----
+ .../{avahi-ui_0.6.30.bb => avahi-ui_0.6.31.bb}     |    8 ++--
+ meta/recipes-connectivity/avahi/avahi.inc          |    6 ++--
+ .../avahi/{avahi_0.6.30.bb => avahi_0.6.31.bb}     |    6 ++--
+ .../recipes-connectivity/galago/libgalago_0.5.2.bb |    5 +++
+ meta/recipes-devtools/autoconf/autoconf.inc        |    4 ++
+ meta/recipes-devtools/autoconf/autoconf_2.68.bb    |    2 +-
+ .../python/python-2.7-manifest.inc                 |    6 +++-
+ meta/recipes-devtools/python/python_2.7.2.bb       |    2 +-
+ meta/recipes-devtools/quilt/quilt-0.51.inc         |    2 +-
+ meta/recipes-devtools/quilt/quilt_0.51.bb          |    2 +-
+ meta/recipes-devtools/rpm/rpm_5.4.0.bb             |    5 ++-
+ meta/recipes-extended/ltp/ltp_20120104.bb          |    4 ++
+ .../{man-pages_3.32.bb => man-pages_3.36.bb}       |    8 ++--
+ meta/recipes-extended/man/man_1.6f.bb              |    4 +-
+ meta/recipes-qt/qt4/qt4-x11-free.inc               |    2 +-
+ meta/recipes-qt/qt4/qt4.inc                        |   19 +++++++++--
+ .../recipes-sato/owl-video-widget/owl-video_git.bb |    4 ++-
+ meta/recipes-support/gpgme/gpgme_1.3.1.bb          |    6 +++-
+ 20 files changed, 97 insertions(+), 38 deletions(-)
+ rename meta/recipes-connectivity/avahi/{avahi-ui_0.6.30.bb => avahi-ui_0.6.31.bb} (93%)
+ rename meta/recipes-connectivity/avahi/{avahi_0.6.30.bb => avahi_0.6.31.bb} (80%)
+ rename meta/recipes-extended/man-pages/{man-pages_3.32.bb => man-pages_3.36.bb} (80%)
 
 -- 
+1.7.7.6
 
-Paul Eggleton
-Intel Open Source Technology Centre
 
 
