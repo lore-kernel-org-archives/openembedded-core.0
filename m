@@ -1,38 +1,32 @@
-Received: from mail-we0-f175.google.com ([74.125.82.175])
+Received: from mail1.windriver.com ([147.11.146.13])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <martin.jansa@gmail.com>) id 1S7mgQ-000353-31
+	(envelope-from <Xiaofeng.Yan@windriver.com>) id 1S7nQp-00043W-Ps
 	for openembedded-core@lists.openembedded.org;
-	Wed, 14 Mar 2012 12:47:58 +0100
-Received: by wera1 with SMTP id a1so1555371wer.6
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 14 Mar 2012 04:39:13 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=date:from:to:subject:message-id:references:mime-version
-	:content-type:content-disposition:in-reply-to:user-agent;
-	bh=rmQ1Oyxc1jzY23bwgoFPWIRhh8cbUp0HJ2ffXy2ttyI=;
-	b=rtXdAEcP3NKj0pyypzJwJiBlFZ4H5N+GTJjKzJoDc3IQIokAsYjfQD0maJWGJrZcft
-	Bg3FMXYqwEDkrvBJss89vnD/GGcU8zx/2T0HuhVPUZbaGODBYy079Fe7BmcggxK8mrIE
-	iCRmnslkc5Ge6Qjsa5XHeH2gmBpiglvMQpTBFdASEFDn1J/JS2chF0hR4OAH549fbDq9
-	Jn8CBtXTSF4/WBhuSmIdkoiIYpwYou+trUTuoNM+UYFeslg6rHrwLsgta8edDJTVmZU4
-	oHsfAUx8nERjp3PeZkDEXfPWOZm+h3l0dyLOMXM/rYYkolluGgvVecoqKGAHt73Uiw0A
-	Jijg==
-Received: by 10.180.80.35 with SMTP id o3mr5615047wix.5.1331725152980;
-	Wed, 14 Mar 2012 04:39:12 -0700 (PDT)
-Received: from localhost ([94.230.152.246])
-	by mx.google.com with ESMTPS id fi4sm10960885wib.4.2012.03.14.04.39.11
-	(version=TLSv1/SSLv3 cipher=OTHER);
-	Wed, 14 Mar 2012 04:39:12 -0700 (PDT)
-Date: Wed, 14 Mar 2012 12:39:09 +0100
-From: Martin Jansa <martin.jansa@gmail.com>
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Message-ID: <20120314113909.GF3919@jama.jama.net>
-References: <cover.1331713807.git.sgw@linux.intel.com>
-	<7ccb68ddb9280c18740fe989bf00ebb42f9a1fc6.1331713807.git.sgw@linux.intel.com>
+	Wed, 14 Mar 2012 13:35:56 +0100
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca [147.11.189.40])
+	by mail1.windriver.com (8.14.3/8.14.3) with ESMTP id q2ECR87x014761
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
+	Wed, 14 Mar 2012 05:27:08 -0700 (PDT)
+Received: from [128.224.162.223] (128.224.162.223) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server (TLS) id 14.1.255.0;
+	Wed, 14 Mar 2012 05:27:08 -0700
+Message-ID: <4F608EA4.3070708@windriver.com>
+Date: Wed, 14 Mar 2012 20:27:16 +0800
+From: Xiaofeng Yan <xiaofeng.yan@windriver.com>
+User-Agent: Mozilla/5.0 (X11; U; Linux i686; en-US;
+	rv:1.9.2.23) Gecko/20110921 Thunderbird/3.1.15
 MIME-Version: 1.0
-In-Reply-To: <7ccb68ddb9280c18740fe989bf00ebb42f9a1fc6.1331713807.git.sgw@linux.intel.com>
-User-Agent: Mutt/1.5.21 (2010-09-15)
-Subject: Re: [PATCH 05/14] qt4: package static libraries correctly to fix warnings
+To: Saul Wold <sgw@linux.intel.com>
+References: <cover.1331642569.git.xiaofeng.yan@windriver.com>
+	<de0b611934064b68e5eccec92a8e76eba7bb30ba.1331642569.git.xiaofeng.yan@windriver.com>
+	<4F5FD730.6060705@linux.intel.com>
+In-Reply-To: <4F5FD730.6060705@linux.intel.com>
+X-Originating-IP: [128.224.162.223]
+X-MIME-Autoconverted: from 8bit to quoted-printable by mail1.windriver.com id
+	q2ECR87x014761
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 1/7] package_rpm: Add srpm function to this bbclass
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -47,200 +41,168 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 14 Mar 2012 11:47:58 -0000
-X-Groupsio-MsgNum: 18797
-Content-Type: multipart/signed; micalg=pgp-sha1;
-	protocol="application/pgp-signature"; boundary="+jhVVhN62yS6hEJ8"
-Content-Disposition: inline
-
---+jhVVhN62yS6hEJ8
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+X-List-Received-Date: Wed, 14 Mar 2012 12:35:56 -0000
+Content-Type: text/plain; charset="UTF-8"; format=flowed
 Content-Transfer-Encoding: quoted-printable
 
-On Wed, Mar 14, 2012 at 01:33:16AM -0700, Saul Wold wrote:
-> WARNING: QA Issue: non -staticdev package contains static .a library: qt4=
--demos path '/work/i586-poky-linux/qt4-x11-free-4.7.4-r39.7/packages-split/=
-qt4-demos/usr/bin/qt4/demos/shared/libdemo_shared.a'
-> WARNING: QA Issue: non -staticdev package contains static .a library: qt4=
--examples path '/work/i586-poky-linux/qt4-x11-free-4.7.4-r39.7/packages-spl=
-it/qt4-examples/usr/bin/qt4/examples/tools/plugandpaint/plugins/libpnp_basi=
-ctools.a'
-> Signed-off-by: Saul Wold <sgw@linux.intel.com>
+Hi Saul,
 
-Does this depend on 14/14?
+Thanks for your detailed comment
+On 2012=E5=B9=B403=E6=9C=8814=E6=97=A5 07:24, Saul Wold wrote:
+> On 03/13/2012 05:52 AM, Xiaofeng Yan wrote:
+>> From: Xiaofeng Yan<xiaofeng.yan@windriver.com>
+>>
+>> Add a new function to archive source, patches and logs to a source rpm
+>> package. Every source rpm package will be deployed to
+>> ${DEPLOY_DIR}/sources/deploy-srpm.
+>>
+>> [YOCTO #1977]
+>>
+>> Signed-off-by: Xiaofeng Yan<xiaofeng.yan@windriver.com>
+>> ---
+>> meta/classes/package_rpm.bbclass | 63=20
+>> ++++++++++++++++++++++++++++++++++++++
+>> 1 files changed, 63 insertions(+), 0 deletions(-)
+>>
+>> diff --git a/meta/classes/package_rpm.bbclass=20
+>> b/meta/classes/package_rpm.bbclass
+>> index 68313ec..b261a0e 100644
+>> --- a/meta/classes/package_rpm.bbclass
+>> +++ b/meta/classes/package_rpm.bbclass
+>> @@ -6,6 +6,7 @@ RPM=3D"rpm"
+>> RPMBUILD=3D"rpmbuild"
+>>
+>> PKGWRITEDIRRPM =3D "${WORKDIR}/deploy-rpms"
+>> +PKGWRITEDIRSRPM =3D "${DEPLOY_DIR}/sources/deploy-srpm"
+>>
+>> python package_rpm_fn () {
+>> d.setVar('PKGFN', d.getVar('PKG'))
+>> @@ -475,6 +476,37 @@ python write_specfile () {
+>> import textwrap
+>> import oe.packagedata
+>>
+>> + # append information for logs and patches to %prep
+>> + def add_prep(d,spec_files_bottom):
+>> + if d.getVar('SOURCE_ARCHIVE_PACKAGE_TYPE', True) and=20
+>> d.getVar('SOURCE_ARCHIVE_PACKAGE_TYPE', True).upper() =3D=3D 'SRPM':
+>> + spec_files_bottom.append('%%prep -n %s' % d.getVar('PN', True) )
+>> + spec_files_bottom.append('%s' % "echo \"include logs and patches,=20
+>> Please check them in SOURCES\"")
+>> + spec_files_bottom.append('')
+>> +
+>> + # get the name of tarball for sources, patches and logs
+>> + def get_tarballs(d):
+>> + if d.getVar('SOURCE_ARCHIVE_PACKAGE_TYPE', True) and=20
+>> d.getVar('SOURCE_ARCHIVE_PACKAGE_TYPE', True).upper() =3D=3D 'SRPM':
+>> + sourcelist=3D[]
+>> + workdir =3D d.getVar('WORKDIR',True)
+>> + print os.listdir(workdir)
+>> + for source in os.listdir(workdir):
+>> + if 'tar.gz' in source:
+>> + sourcelist.append(source)
+>> + return sourcelist
+>
+> What happens here is there are some other tar.gz file in the WORKDIR?=20
+> Is there a way to ensure you just get the tarballs you are looking for?
+It is reasonable for your query. I need add more information to select=20
+the tarballs srpm wants instead of all.
+>> +
+>> + # append the name of tarball to key word 'SOURCE' in xxx.spec.
+>> + def tail_source(d,source_list=3D[],patch_list=3DNone):
+>> + if d.getVar('SOURCE_ARCHIVE_PACKAGE_TYPE', True) and=20
+>> d.getVar('SOURCE_ARCHIVE_PACKAGE_TYPE', True).upper() =3D=3D 'SRPM':
+>> + source_number =3D 0
+>> + patch_number =3D 0
+>> + for source in source_list:
+>> + spec_preamble_top.append('Source' + str(source_number) + ': %s' %=20
+>> source)
+>> + source_number +=3D 1
+>> + if patch_list:
+>> + for patch in patch_list:
+>> + print_deps(patch, "Patch" + str(patch_number), spec_preamble_top, d)
+>> + patch_number +=3D 1
+>> +
+>> # We need a simple way to remove the MLPREFIX from the package name,
+>> # and dependency information...
+>> def strip_multilib(name, d):
+>> @@ -707,6 +739,8 @@ python write_specfile () {
+>> spec_preamble_bottom.append('License: %s' % splitlicense)
+>> spec_preamble_bottom.append('Group: %s' % splitsection)
+>>
+>> + source_list =3D get_tarballs(d)
+>> + tail_source(d,source_list,None)
+>> # Replaces =3D=3D Obsoletes&& Provides
+>> if splitrreplaces and splitrreplaces.strip() !=3D "":
+>> for dep in splitrreplaces.split(','):
+>> @@ -786,6 +820,7 @@ python write_specfile () {
+>> del localdata
+>> bb.utils.unlockfile(lf)
+>>
+>> + add_prep(d,spec_files_bottom)
+>> spec_preamble_top.append('Summary: %s' % srcsummary)
+>> spec_preamble_top.append('Name: %s' % srcname)
+>> spec_preamble_top.append('Version: %s' % srcversion)
+>> @@ -900,6 +935,25 @@ python write_specfile () {
+>> python do_package_rpm () {
+>> import os
+>>
+>> + def creat_srpm_dir(d):
+>> + if d.getVar('SOURCE_ARCHIVE_PACKAGE_TYPE', True) and=20
+>> d.getVar('SOURCE_ARCHIVE_PACKAGE_TYPE', True).upper() =3D=3D 'SRPM':
+>> + licenses =3D d.getVar('LICENSE', 1).replace('&', '|')
+>> + licenses =3D licenses.replace('(', '').replace(')', '')
+>> + clean_licenses =3D ""
+>> + for x in licenses.split():
+>> + if x.strip() =3D=3D '' or x =3D=3D 'CLOSED':
+> What about "Proprietary"
+the purpose of doing this is for using licenses as a directory. So I=20
+think x =3D=3D 'CLOSED' should be removed instead of adding this case. So=
+=20
+Proprietary does.
+>> + continue
+>> + if x !=3D "|":
+>> + clean_licenses +=3D x
+>> + if '|' in clean_licenses:
+>> + clean_licenses =3D clean_licenses.replace('|','')
+>> +
+> Maybe this spinet should be a function in license.bbclass? Maybe it's=20
+> there already, or is this too RPM specific?
+>
+if 'I' is a part of words from licenses, we should replace it. for=20
+example, this case happen in LICENSE =3D "Artistic|GPL" from perl_5.14.2.=
+bb
+>> + pkgwritesrpmdir =3D=20
+>> bb.data.expand('${PKGWRITEDIRSRPM}/${PACKAGE_ARCH_EXTEND}', d)
+>> + pkgwritesrpmdir =3D pkgwritesrpmdir + '/' + clean_licenses
+>> + bb.mkdirhier(pkgwritesrpmdir)
+>> + os.chmod(pkgwritesrpmdir, 0755)
+>> + return pkgwritesrpmdir
+>> +
+>> # We need a simple way to remove the MLPREFIX from the package name,
+>> # and dependency information...
+>> def strip_multilib(name, d):
+>> @@ -1015,8 +1069,17 @@ python do_package_rpm () {
+>> cmd =3D cmd + " --define 'debug_package %{nil}'"
+>> cmd =3D cmd + " --define '_rpmfc_magic_path " + magicfile + "'"
+>> cmd =3D cmd + " --define '_tmppath " + workdir + "'"
+>> + if d.getVar('SOURCE_ARCHIVE_PACKAGE_TYPE', True) and=20
+>> d.getVar('SOURCE_ARCHIVE_PACKAGE_TYPE', True).upper() =3D=3D 'SRPM':
+>> + cmdsrpm =3D cmd + " --define '_sourcedir " + workdir + "' --define=20
+>> '_srcrpmdir " + creat_srpm_dir(d) + "'"
+>> + cmdsrpm =3D 'fakeroot ' + cmdsrpm + " -bs " + outspecfile
+>> cmd =3D cmd + " -bb " + outspecfile
+>>
+>> + # Build the source rpm package !
+>> + if d.getVar('SOURCE_ARCHIVE_PACKAGE_TYPE', True) and=20
+>> d.getVar('SOURCE_ARCHIVE_PACKAGE_TYPE', True).upper() =3D=3D 'SRPM':
+>> + d.setVar('SBUILDSPEC', cmdsrpm + "\n")
+>> + d.setVarFlag('SBUILDSPEC', 'func', '1')
+>> + bb.build.exec_func('SBUILDSPEC', d)
+>> +
+>> # Build the rpm package!
+>> d.setVar('BUILDSPEC', cmd + "\n")
+>> d.setVarFlag('BUILDSPEC', 'func', '1')
+>
 
-Because even with this patch I still get the first warning about
-/libdemo_shared.a (libpnp_basictools.a warning is gone)
 
-WARNING: QA Issue: non -staticdev package contains static .a library:
-qt4-demos path '/work/armv4t-oe-linux-gnueabi/qt4-x11-free/qt4-x11-free-4.8=
-=2E0-r41.1/packages-split/qt4-demos/usr/bin/qt4/demos/shared/libdemo_shared=
-=2Ea'
 
-Or maybe demos dir is missing?
--FILES_${QT_BASE_NAME}-demos-staticdev      =3D "${bindir}/${QT_DIR_NAME}/s=
-hared/libdemo_shared.a"
-+FILES_${QT_BASE_NAME}-demos-staticdev      =3D "${bindir}/${QT_DIR_NAME}/d=
-emos/shared/libdemo_shared.a"
-
-Cheers,
-
-> ---
->  meta/recipes-qt/qt4/qt4-x11-free.inc |    2 +-
->  meta/recipes-qt/qt4/qt4.inc          |   19 ++++++++++++++++---
->  2 files changed, 17 insertions(+), 4 deletions(-)
->=20
-> diff --git a/meta/recipes-qt/qt4/qt4-x11-free.inc b/meta/recipes-qt/qt4/q=
-t4-x11-free.inc
-> index 56f349a..e1bef64 100644
-> --- a/meta/recipes-qt/qt4/qt4-x11-free.inc
-> +++ b/meta/recipes-qt/qt4/qt4-x11-free.inc
-> @@ -5,7 +5,7 @@ HOMEPAGE =3D "http://qt.nokia.com"
->  SECTION =3D "x11/libs"
->  DEPENDS +=3D "virtual/libgl virtual/libx11 fontconfig libxft libxext lib=
-xrender libxrandr libxcursor"
-> =20
-> -INC_PR =3D "r39"
-> +INC_PR =3D "r40"
-> =20
->  QT_GLFLAGS ?=3D "${@base_contains('DISTRO_FEATURES', 'opengl', '-opengl'=
-, '-no-opengl', d)} "
->  QT_GLFLAGS_qemux86 =3D "-opengl"
-> diff --git a/meta/recipes-qt/qt4/qt4.inc b/meta/recipes-qt/qt4/qt4.inc
-> index 77fb06f..8f2cbd5 100644
-> --- a/meta/recipes-qt/qt4/qt4.inc
-> +++ b/meta/recipes-qt/qt4/qt4.inc
-> @@ -45,30 +45,33 @@ python __anonymous () {
->      lib_packages =3D []
->      dev_packages =3D []
->      dbg_packages =3D []
-> +    staticdev_packages =3D []
->      for name in d.getVar("QT_LIB_NAMES", True).split():
->          pkg =3D d.getVar("QT_BASE_LIB", True) + name.lower().replace("qt=
-", "").replace("_", "-") + "4"
->          # NOTE: the headers for QtAssistantClient are different
->          incname =3D name.replace("QtAssistantClient", "QtAssistant")
->          d.setVar("FILES_%s" % pkg, "${libdir}/lib%(name)s${QT_LIBINFIX}.=
-so.*" % locals())
->          d.setVar("FILES_%s-dev" % pkg, """${libdir}/lib%(name)s${QT_LIBI=
-NFIX}.prl
-> -                  ${libdir}/lib%(name)s${QT_LIBINFIX}.a
->                    ${libdir}/lib%(name)s${QT_LIBINFIX}.la
->                    ${libdir}/lib%(name)s${QT_LIBINFIX}.so
->                    ${includedir}/${QT_DIR_NAME}/%(incname)s
->                    ${libdir}/pkgconfig/%(name)s${QT_LIBINFIX}.pc""" % loc=
-als())
-> +        d.setVar("FILES_%s-staticdev" % pkg, "${libdir}/lib%(name)s${QT_=
-LIBINFIX}.a" % locals())
->          d.setVar("FILES_%s-dbg" % pkg, "${libdir}/.debug/lib%(name)s${QT=
-_LIBINFIX}.so*" % locals())
->          d.setVar("RRECOMMENDS_%s-dbg" % pkg, "${PN}-dbg")
->          lib_packages.append(pkg)
->          dev_packages.append("%s-dev" % pkg)
->          dbg_packages.append("%s-dbg" % pkg)
-> +        staticdev_packages.append("%s-staticdev" % pkg)
->      for name in d.getVar("OTHER_PACKAGES", True).split():
->          dbg_packages.append("%s-dbg" % name)
-> +        dbg_packages.append("%s-staticdev" % name)
-> =20
->      for name in d.getVar("QT_EXTRA_LIBS", True).split():
->          pkg =3D d.getVar("QT_BASE_LIB", True) + name.lower().replace("qt=
-", "").replace("_", "-") + "4"
->          d.setVar("FILES_%s" % pkg, "${libdir}/lib%(name)s.so.*" % locals=
-())
-> +        d.setVar("FILES_%s-staticdev" % pkg, "${libdir}/lib%(name)s.a" %=
- locals())
->          d.setVar("FILES_%s-dev" % pkg, """${libdir}/lib%(name)s.prl
-> -                  ${libdir}/lib%(name)s.a
->                    ${libdir}/lib%(name)s.la
->                    ${libdir}/lib%(name)s.so
->                    ${includedir}/${QT_DIR_NAME}/%(incname)s
-> @@ -78,10 +81,12 @@ python __anonymous () {
->          lib_packages.append(pkg)
->          dev_packages.append("%s-dev" % pkg)
->          dbg_packages.append("%s-dbg" % pkg)
-> +        staticdev_packages.append("%s-staticdev" % pkg)
-> =20
->      d.setVar("LIB_PACKAGES", " ".join(lib_packages))
->      d.setVar("DEV_PACKAGES", " ".join(dev_packages))
->      d.setVar("DBG_PACKAGES", " ".join(dbg_packages))
-> +    d.setVar("STATICDEV_PACKAGES", " ".join(staticdev_packages))
->  }
-> =20
->  OTHER_PACKAGES =3D "\
-> @@ -109,7 +114,13 @@ OTHER_PACKAGES =3D "\
-> =20
->  #We prepend so ${QT_BASE_NAME}-demos-doc comes before ${PN}-doc,so the p=
-ackaging of FILES_ get done before.
->  PACKAGES =3D+ "${QT_BASE_NAME}-demos-doc"
-> -PACKAGES +=3D "${LIB_PACKAGES} ${DEV_PACKAGES} ${DBG_PACKAGES} ${OTHER_P=
-ACKAGES}"
-> +PACKAGES +=3D " \
-> +             ${LIB_PACKAGES} \
-> +             ${DEV_PACKAGES} \
-> +             ${DBG_PACKAGES} \
-> +             ${STATICDEV_PACKAGES} \
-> +             ${OTHER_PACKAGES}"
-> +
->  PACKAGES_DYNAMIC =3D "${QT_BASE_NAME}-plugin-* ${QT_BASE_NAME}-translati=
-on-* ${QT_BASE_NAME}-phrasebook-* ${QT_BASE_NAME}-fonts-*"
-> =20
->  ALLOW_EMPTY_${PN} =3D "1"
-> @@ -153,10 +164,12 @@ FILES_${QT_BASE_NAME}-common-dbg           =3D "${b=
-indir}/.debug/qtconfig"
->  FILES_${QT_BASE_NAME}-dbus                 =3D "${bindir}/qdbus ${bindir=
-}/qdbusxml2cpp ${bindir}/qdbuscpp2xml ${bindir}/qdbusviewer"
->  FILES_${QT_BASE_NAME}-dbus-dbg             =3D "${bindir}/.debug/qdbus $=
-{bindir}/.debug/qdbusxml2cpp ${bindir}/.debug/qdbuscpp2xml ${bindir}/.debug=
-/qdbusviewer"
->  FILES_${QT_BASE_NAME}-demos                =3D "${bindir}/qtdemo* ${bind=
-ir}/${QT_DIR_NAME}/demos/*"
-> +FILES_${QT_BASE_NAME}-demos-staticdev      =3D "${bindir}/${QT_DIR_NAME}=
-/shared/libdemo_shared.a"
->  FILES_${QT_BASE_NAME}-demos-dbg            =3D "${bindir}/.debug/qtdemo*=
- ${bindir}/${QT_DIR_NAME}/demos/.debug/*  ${bindir}/${QT_DIR_NAME}/demos/*/=
-=2Edebug  ${bindir}/${QT_DIR_NAME}/demos/*/*/.debug  ${bindir}/${QT_DIR_NAM=
-E}/demos/*/*/*/.debug"
->  FILES_${QT_BASE_NAME}-designer             =3D "${bindir}/*designer*"
->  FILES_${QT_BASE_NAME}-designer-dbg         =3D "${bindir}/.debug/*design=
-er*"
->  FILES_${QT_BASE_NAME}-examples             =3D "${bindir}/${QT_DIR_NAME}=
-/examples/*"
-> +FILES_${QT_BASE_NAME}-examples-staticdev   =3D "${bindir}/${QT_DIR_NAME}=
-/examples/tools/plugandpaint/plugins/libpnp_basictools.a"
->  FILES_${QT_BASE_NAME}-examples-dbg         =3D "${bindir}/${QT_DIR_NAME}=
-/examples/.debug ${bindir}/${QT_DIR_NAME}/examples/*/.debug ${bindir}/${QT_=
-DIR_NAME}/examples/*/*/.debug ${bindir}/${QT_DIR_NAME}/examples/*/*/*/.debu=
-g ${bindir}/${QT_DIR_NAME}/examples/*/*/*/*/.debug ${bindir}/${QT_DIR_NAME}=
-/examples/declarative/*/*/*/*/*/.debug/* ${bindir}/${QT_DIR_NAME}/examples/=
-declarative/*/*/*/*/.debug/*"
->  FILES_${QT_BASE_NAME}-fonts-ttf-vera       =3D "${libdir}/fonts/Vera*.tt=
-f"
->  FILES_${QT_BASE_NAME}-fonts-ttf-dejavu     =3D "${libdir}/fonts/DejaVu*.=
-ttf"
-> --=20
-> 1.7.7.6
->=20
->=20
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
-
---=20
-Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
-
---+jhVVhN62yS6hEJ8
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: Digital signature
-
------BEGIN PGP SIGNATURE-----
-Version: GnuPG v2.0.18 (GNU/Linux)
-
-iEYEARECAAYFAk9gg10ACgkQN1Ujt2V2gBwrUwCfVf8wpETkadRZDI4HrkGCfsjw
-zREAnAwy/7M/MgzEf1cFXNzijxPZRb8H
-=q26q
------END PGP SIGNATURE-----
-
---+jhVVhN62yS6hEJ8--
