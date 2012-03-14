@@ -1,24 +1,24 @@
 Received: from mga11.intel.com ([192.55.52.93])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <sgw@linux.intel.com>) id 1S7jmj-0004Xu-LZ
+	(envelope-from <sgw@linux.intel.com>) id 1S7jmj-0004Xg-RV
 	for openembedded-core@lists.openembedded.org;
 	Wed, 14 Mar 2012 09:42:18 +0100
 Received: from fmsmga002.fm.intel.com ([10.253.24.26])
 	by fmsmga102.fm.intel.com with ESMTP; 14 Mar 2012 01:33:29 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="138551620"
+X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="138551621"
 Received: from unknown (HELO swold-mobl.bigsur.com) ([10.255.15.152])
-	by fmsmga002.fm.intel.com with ESMTP; 14 Mar 2012 01:33:28 -0700
+	by fmsmga002.fm.intel.com with ESMTP; 14 Mar 2012 01:33:29 -0700
 From: Saul Wold <sgw@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Wed, 14 Mar 2012 01:33:21 -0700
-Message-Id: <e26bacddf814bb85108dc2a8518c87e1727a71b2.1331713807.git.sgw@linux.intel.com>
+Date: Wed, 14 Mar 2012 01:33:22 -0700
+Message-Id: <178bd7b02847bd4bffdf7b78ffd900f078a3d633.1331713807.git.sgw@linux.intel.com>
 X-Mailer: git-send-email 1.7.7.6
 In-Reply-To: <cover.1331713807.git.sgw@linux.intel.com>
 References: <cover.1331713807.git.sgw@linux.intel.com>
 In-Reply-To: <cover.1331713807.git.sgw@linux.intel.com>
 References: <cover.1331713807.git.sgw@linux.intel.com>
-Subject: [PATCH 10/14] man-pages: Update to 3.36
+Subject: [PATCH 11/14] libgalago: Fix package warnings by not packaging autopackage
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -35,38 +35,30 @@ List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedde
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Wed, 14 Mar 2012 08:42:18 -0000
 
+WARNING: For recipe libgalago, the following files/directories were installed but not shipped in any package:
+WARNING:   /usr/share/autopackage
+WARNING:   /usr/share/autopackage/skeletons
+WARNING:   /usr/share/autopackage/skeletons/@galago.info
+WARNING:   /usr/share/autopackage/skeletons/@galago.info/libgalago
+WARNING:   /usr/share/autopackage/skeletons/@galago.info/libgalago/skeleton.1
 Signed-off-by: Saul Wold <sgw@linux.intel.com>
 ---
- .../{man-pages_3.32.bb => man-pages_3.36.bb}       |    8 ++++----
- 1 files changed, 4 insertions(+), 4 deletions(-)
- rename meta/recipes-extended/man-pages/{man-pages_3.32.bb => man-pages_3.36.bb} (80%)
+ .../recipes-connectivity/galago/libgalago_0.5.2.bb |    5 +++++
+ 1 files changed, 5 insertions(+), 0 deletions(-)
 
-diff --git a/meta/recipes-extended/man-pages/man-pages_3.32.bb b/meta/recipes-extended/man-pages/man-pages_3.36.bb
-similarity index 80%
-rename from meta/recipes-extended/man-pages/man-pages_3.32.bb
-rename to meta/recipes-extended/man-pages/man-pages_3.36.bb
-index 26e64e4..4e888dc 100644
---- a/meta/recipes-extended/man-pages/man-pages_3.32.bb
-+++ b/meta/recipes-extended/man-pages/man-pages_3.36.bb
-@@ -2,14 +2,14 @@ SUMMARY = "Linux man-pages"
- DESCRIPTION = "The Linux man-pages project documents the Linux kernel and C library interfaces that are employed by user programs"
- SECTION = "console/utils"
- HOMEPAGE = "http://www.kernel.org/pub/linux/docs/man-pages"
--LICENSE = "GPL"
--PR = "r1"
-+LICENSE = "GPLv2+"
-+PR = "r0"
- 
- LIC_FILES_CHKSUM = "file://README;md5=0422377a748010b2b738342e24f141c1"
- SRC_URI = "${KERNELORG_MIRROR}/linux/docs/man-pages/Archive/${BPN}-${PV}.tar.gz"
- 
--SRC_URI[md5sum] = "cc6c2d4d4eb364fd8da718c412db09d4"
--SRC_URI[sha256sum] = "61ef2fc36421e72eb92d1f533576a439a2fcdae20269393f740dd98abd8be519"
-+SRC_URI[md5sum] = "cfe991b1ce9e0ea5355f29ff9fcac125"
-+SRC_URI[sha256sum] = "c0575e31f73cd9dc2761c274217e06e7130fdfee510170957a9d72d012a5437c"
- 
- RDEPENDS_${PN} = "man"
- 
+diff --git a/meta/recipes-connectivity/galago/libgalago_0.5.2.bb b/meta/recipes-connectivity/galago/libgalago_0.5.2.bb
+index f5aba54..1a5dd23 100644
+--- a/meta/recipes-connectivity/galago/libgalago_0.5.2.bb
++++ b/meta/recipes-connectivity/galago/libgalago_0.5.2.bb
+@@ -22,3 +22,8 @@ EXTRA_OECONF = "--disable-tests --disable-check"
+ do_configure_prepend_libc-uclibc() {
+         touch ${S}/config.rpath
+ }
++
++do_install_append() {
++	# We don't package autopackage files
++	rm -rf ${D}${datadir}/autopackage
++}
 -- 
 1.7.7.6
 
