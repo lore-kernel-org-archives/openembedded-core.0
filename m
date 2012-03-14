@@ -1,36 +1,38 @@
-Received: from mail-wi0-f171.google.com ([209.85.212.171])
-	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <martin.jansa@gmail.com>)
-	id 1S7jtI-000578-0H; Wed, 14 Mar 2012 09:49:04 +0100
-Received: by wibhj13 with SMTP id hj13so5837759wib.6
-	for <multiple recipients>; Wed, 14 Mar 2012 01:40:19 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=date:from:to:cc:subject:message-id:references:mime-version
-	:content-type:content-disposition:in-reply-to:user-agent;
-	bh=DqXaGvGonqmimstFAsG/WrmN6uHFdAg/EwnhPjEyT1k=;
-	b=nf1yznUoURad512ET0fPoK+3Ep3eiAUMQSzMEtXmyxRNDzQ2CxQx6g47C6huwgISXk
-	QYQE8d5iTs6PKdywz4n6ssj9/ASVeB9XoBosSKGpoiLVhTLaozWI7KgZpmMMyLrjq89+
-	ITM5nhKMfGzu8Iq/F8qT4xF/A+QqeKHcwn9Mrj0o8vn+5mLiorOl9le2cIO2FXlU9aL3
-	o+i2sxktVAbL+zq1ySxMv9JoGC67UluaLuajpLDSl4wYEZKbCJM+C0DxdBgfJQprVD/D
-	hkN254ISPTa27PwDaOE5IBqgvRLxBfHLO6myK2YnuIg0iaFO6OA1fKtgGqbPpqla2kGb
-	Tr+Q==
-Received: by 10.180.95.74 with SMTP id di10mr10659621wib.1.1331714418999;
-	Wed, 14 Mar 2012 01:40:18 -0700 (PDT)
-Received: from localhost ([94.230.152.246])
-	by mx.google.com with ESMTPS id fi4sm9921478wib.4.2012.03.14.01.40.17
-	(version=TLSv1/SSLv3 cipher=OTHER);
-	Wed, 14 Mar 2012 01:40:18 -0700 (PDT)
-Date: Wed, 14 Mar 2012 09:40:16 +0100
-From: Martin Jansa <martin.jansa@gmail.com>
-To: openembedded-devel@lists.openembedded.org
-Message-ID: <20120314084016.GD3919@jama.jama.net>
-References: <20120313114820.9572210335@opal>
-	<20120314070803.GB3919@jama.jama.net>
+Received: from familie-heinold.de ([85.214.48.103]
+	helo=mail.familie-heinold.de) by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <heinold@inf.fu-berlin.de>) id 1S7jvl-0005HZ-Ac
+	for openembedded-core@lists.openembedded.org;
+	Wed, 14 Mar 2012 09:51:37 +0100
+Received: from mail.familie-heinold.de (localhost [127.0.0.1])
+	by mail.familie-heinold.de (Postfix) with ESMTP id F02832232636
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 14 Mar 2012 09:35:11 +0100 (CET)
+Received: from mail.familie-heinold.de (localhost [127.0.0.1])
+	by mail.familie-heinold.de (Postfix) with ESMTP id 54A612232635
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 14 Mar 2012 09:35:11 +0100 (CET)
+X-Spam-Checker-Version: SpamAssassin 3.3.1 (2010-03-16) on
+	h873313.serverkompetenz.net
+X-Spam-Level: 
+X-Spam-Status: No, score=-2.5 required=5.0 tests=ALL_TRUSTED,BAYES_00
+	autolearn=ham version=3.3.1
+Received: from rhein.familie-heinold.de (g229045138.adsl.alicedsl.de
+	[92.229.45.138]) by mail.familie-heinold.de (Postfix) with ESMTPA
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 14 Mar 2012 09:35:11 +0100 (CET)
+Received: by rhein.familie-heinold.de (Postfix, from userid 1000)
+	id A3E623C4B9; Wed, 14 Mar 2012 09:35:09 +0100 (CET)
+Date: Wed, 14 Mar 2012 09:35:09 +0100
+From: Henning Heinold <heinold@inf.fu-berlin.de>
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Message-ID: <20120314083509.GA22878@rhein.zuhause.netz>
+References: <4F5FF91F.5010407@opendreambox.org>
 MIME-Version: 1.0
-In-Reply-To: <20120314070803.GB3919@jama.jama.net>
+In-Reply-To: <4F5FF91F.5010407@opendreambox.org>
 User-Agent: Mutt/1.5.21 (2010-09-15)
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [oe-commits] Andreas Oberritter : qt4: fix deps in libQtWebkit.la and QtWebKit.pc
+X-Virus-Scanned: ClamAV using ClamSMTP
+Subject: Re: gdb 7.4 and libexpat
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -45,72 +47,40 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 14 Mar 2012 08:49:04 -0000
-X-Groupsio-MsgNum: 18783
-Content-Type: multipart/signed; micalg=pgp-sha1;
-	protocol="application/pgp-signature"; boundary="MAH+hnPXVZWQ5cD/"
-Content-Disposition: inline
-
---MAH+hnPXVZWQ5cD/
+X-List-Received-Date: Wed, 14 Mar 2012 08:51:37 -0000
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
 
-On Wed, Mar 14, 2012 at 08:08:03AM +0100, Martin Jansa wrote:
-> On Tue, Mar 13, 2012 at 11:48:20AM +0000, git@git.openembedded.org wrote:
-> > Module: openembedded-core.git
-> > Branch: master
-> > Commit: 4c41a3204ef72f53813ddc86fe525fa9c6714daa
-> > URL:    http://git.openembedded.org/?p=3Dopenembedded-core.git&a=3Dcomm=
-it;h=3D4c41a3204ef72f53813ddc86fe525fa9c6714daa
-> >=20
-> > Author: Andreas Oberritter <obi@opendreambox.org>
-> > Date:   Wed Mar  7 21:36:28 2012 +0100
-> >=20
-> > qt4: fix deps in libQtWebkit.la and QtWebKit.pc
-> >=20
-> > * Both files contain -L../../WebCore/release -L../../JavaScriptCore/rel=
-ease -lwebcore -ljscore
-> > * These paths and libs don't get installed.
-> > * When building a shared lib with libtool, that links
-> >   with libQtWebKit, libtool adds these unneeded parameters
-> >   to the linker command-line, thus linking fails.
->=20
-> BTW: here with bitbake having R/W to rootfs every qt4-x11-free build
-> creates /include/WebCore/libdummy.prl (yes really in root)
-> anynone seen this?
-> -rw-r--r-- 1 bitbake bitbake 680 Mar 14 01:13 /include/WebCore/libdummy.p=
-rl
->=20
-> Maybe it's sign of another small issue in qt4 build.
+On Wed, Mar 14, 2012 at 02:49:19AM +0100, Andreas Oberritter wrote:
+> Hi everybody,
+> 
+> in our rootfs, when debugging remotely with gdbserver on mips32el, gdb
+> 7.4 fails to find symbol names for use in backtraces. gdb 7.3.1 works
+> well. One of my colleagues ran git bisect and discovered the culprit:
+> 
+> gdb git revision 22d678fdfdfc56ec75555f8f44ae5f0c4fc97e9a
+> http://sourceware.org/ml/gdb-patches/2011-11/msg00103.html
+> 
+> We haven't found out why this patch breaks symbol lookup. However, we
+> found three options to fix backtraces with version 7.4:
+> 
+> 1.) Revert the changeset, possibly without understanding it fully.
+> 2.) Enable expat in gdb, dragging libexpat into the image.
+> 3.) Disable expat in gdb-cross, possibly losing functionality.
+> 
+> It seems that if one side is compiled with expat and the other is not,
+> then gdb and gdbserver now have problems communicating with each other.
+> 
+> Which way would you prefer?
+> 
+> Regards,
+> Andreas
+> 
 
-It's created during do_configure and probably caused by
-=2E/qt-everywhere-opensource-src-4.8.0/src/3rdparty/webkit/Source/WebKit2/M=
-akefile:all: Makefile /include/WebCore/libdummy.prl  /include/WebCore/$(TAR=
-GET)
-=2E/qt-everywhere-opensource-src-4.8.0/src/3rdparty/webkit/Source/WebKit2/M=
-akefile:/include/WebCore/libdummy.prl:
+Hi,
 
-But in unpacked sources closest thing to libdummy.prl is=20
-=2E/Source/WebKit2/DerivedSources.pro:TARGET =3D dummy
+option 2 is my favourite.
 
-Any idea if we really need that?
+Bye Henning
 
-Cheers,
 
---=20
-Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
-
---MAH+hnPXVZWQ5cD/
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: Digital signature
-
------BEGIN PGP SIGNATURE-----
-Version: GnuPG v2.0.18 (GNU/Linux)
-
-iEYEARECAAYFAk9gWXAACgkQN1Ujt2V2gBxovQCfSe9eTx+s+dV+mCMczSi80KuA
-2osAn2DxZstfmWh1UK7Bl+jKwQRv1yj6
-=UTSN
------END PGP SIGNATURE-----
-
---MAH+hnPXVZWQ5cD/--
