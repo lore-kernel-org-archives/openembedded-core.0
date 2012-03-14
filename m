@@ -1,24 +1,28 @@
-Received: from mga03.intel.com ([143.182.124.21])
+Received: from mail1.windriver.com ([147.11.146.13])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <paul.eggleton@linux.intel.com>) id 1S7cLI-0006nj-3V
+	(envelope-from <Liezhi.Yang@windriver.com>) id 1S7cXr-00077R-T8
 	for openembedded-core@lists.openembedded.org;
-	Wed, 14 Mar 2012 01:45:28 +0100
-Received: from azsmga002.ch.intel.com ([10.2.17.35])
-	by azsmga101.ch.intel.com with ESMTP; 13 Mar 2012 17:36:45 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="77188082"
-Received: from unknown (HELO helios.ger.corp.intel.com) ([10.252.123.185])
-	by AZSMGA002.ch.intel.com with ESMTP; 13 Mar 2012 17:36:44 -0700
-From: Paul Eggleton <paul.eggleton@linux.intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Wed, 14 Mar 2012 00:36:32 +0000
-Message-Id: <9583d660052617740b61feeb6739263f06e5a64f.1331685330.git.paul.eggleton@linux.intel.com>
-X-Mailer: git-send-email 1.7.5.4
-In-Reply-To: <cover.1331685330.git.paul.eggleton@linux.intel.com>
-References: <cover.1331685330.git.paul.eggleton@linux.intel.com>
-In-Reply-To: <cover.1331685330.git.paul.eggleton@linux.intel.com>
-References: <cover.1331685330.git.paul.eggleton@linux.intel.com>
-Subject: [PATCH 6/6] linux-yocto-tiny: add dependency on xz-native
+	Wed, 14 Mar 2012 01:58:28 +0100
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca [147.11.189.40])
+	by mail1.windriver.com (8.14.3/8.14.3) with ESMTP id q2E0ngvk022284
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 13 Mar 2012 17:49:42 -0700 (PDT)
+Received: from [128.224.162.196] (128.224.162.196) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server id 14.1.255.0;
+	Tue, 13 Mar 2012 17:49:42 -0700
+Message-ID: <4F5FEB24.8070001@windriver.com>
+Date: Wed, 14 Mar 2012 08:49:40 +0800
+From: Robert Yang <liezhi.yang@windriver.com>
+User-Agent: Mozilla/5.0 (X11; Linux i686;
+	rv:9.0) Gecko/20111229 Thunderbird/9.0
+MIME-Version: 1.0
+To: <openembedded-core@lists.openembedded.org>
+References: <cover.1331605922.git.liezhi.yang@windriver.com>
+	<195b9ad9e78ea2355c0a5594436293e803bd460e.1331605922.git.liezhi.yang@windriver.com>
+	<1331658943.18586.2.camel@ted>
+In-Reply-To: <1331658943.18586.2.camel@ted>
+Subject: Re: [PATCH 1/1] package.bbclass: create debugsources.list if it doesn't exist
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -33,44 +37,70 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 14 Mar 2012 00:45:28 -0000
+X-List-Received-Date: Wed, 14 Mar 2012 00:58:28 -0000
+Content-Type: text/plain; charset="ISO-8859-1"; format=flowed
+Content-Transfer-Encoding: 7bit
 
-The kernel configuration requires lzma to compress the kernel image
-(CONFIG_KERNEL_LZMA=y), so add a dependency on xz-native which provides
-it.
 
-Fixes [YOCTO #1728].
+On 03/14/2012 01:15 AM, Richard Purdie wrote:
+> On Tue, 2012-03-13 at 10:50 +0800, Robert Yang wrote:
+>> Serval pkg's debug pkg is null, so the find-debuginfo.sh would not
+>> generate the ${WORKDIR}/debugsources.list, but the processdebugsrc
+>> always need it, there are a few such errors currently:(53 pkgs have such
+>> errors in a core-image-sato build):
+>>
+>> log.do_package:sort: open failed: debugsources.list: No such file or directory
+>>
+>> Create debugsources.list if it doesn't exist would fix this problem.
+>
+> Why can't we modify the code that uses debugsources.list not to get
+> upset if it doesn't exist?
+>
 
-Signed-off-by: Paul Eggleton <paul.eggleton@linux.intel.com>
----
- meta/recipes-kernel/linux/linux-yocto-tiny_3.0.bb |    5 ++++-
- 1 files changed, 4 insertions(+), 1 deletions(-)
+Sounds great! I will send an update patch sooner.
 
-diff --git a/meta/recipes-kernel/linux/linux-yocto-tiny_3.0.bb b/meta/recipes-kernel/linux/linux-yocto-tiny_3.0.bb
-index 5cad513..a3a6167 100644
---- a/meta/recipes-kernel/linux/linux-yocto-tiny_3.0.bb
-+++ b/meta/recipes-kernel/linux/linux-yocto-tiny_3.0.bb
-@@ -1,6 +1,9 @@
- inherit kernel
- require recipes-kernel/linux/linux-yocto.inc
- 
-+# We need lzma (as CONFIG_KERNEL_LZMA=y)
-+DEPENDS += "xz-native"
-+
- #KMACHINE = "yocto/standard/tiny/base"
- KMACHINE = "yocto/standard/base"
- KBRANCH = "${KMACHINE}"
-@@ -10,7 +13,7 @@ LINUX_VERSION ?= "3.0.23"
- SRCREV_machine ?= "8fd24b3570ab995848e4123ef13bac64e2c924be"
- SRCREV_meta ?= "e559129b4a6f39f68b75141096b2d516cf7a7f35"
- 
--PR = "r2"
-+PR = "r3"
- PV = "${LINUX_VERSION}+git${SRCPV}"
- 
- SRC_URI = "git://git.yoctoproject.org/linux-yocto-3.0;protocol=git;bareclone=1;branch=${KBRANCH},meta;name=machine,meta \
--- 
-1.7.5.4
+Will I reply the updated patch here or should I send a V2, please?
+I don't know which is popular:-).
 
+// Robert
+
+
+> This change seems a little backwards to me...
+>
+> Cheers,
+>
+> Richard
+>
+>> [YOCTO #2076]
+>>
+>> Signed-off-by: Robert Yang<liezhi.yang@windriver.com>
+>> ---
+>>   meta/classes/package.bbclass |    5 +++++
+>>   1 files changed, 5 insertions(+), 0 deletions(-)
+>>
+>> diff --git a/meta/classes/package.bbclass b/meta/classes/package.bbclass
+>> index 9b6862d..8e76ef8 100644
+>> --- a/meta/classes/package.bbclass
+>> +++ b/meta/classes/package.bbclass
+>> @@ -243,6 +243,11 @@ def splitfile2(debugsrcdir, d):
+>>       workparentdir = os.path.dirname(workdir)
+>>       workbasedir = os.path.basename(workdir)
+>>       sourcefile = d.expand("${WORKDIR}/debugsources.list")
+>> +    # There is no debugsources.list when the debug pkg is null, but the
+>> +    # processdebugsrc needs it, so create one if it doesn't exist.
+>> +    if not os.path.isfile(sourcefile):
+>> +        f = open(sourcefile, 'w')
+>> +        f.close()
+>>
+>>       if debugsrcdir:
+>>          nosuchdir = []
+>
+>
+>
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
+>
 
 
