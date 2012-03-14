@@ -1,20 +1,24 @@
 Received: from mga03.intel.com ([143.182.124.21])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <paul.eggleton@linux.intel.com>) id 1S7cLB-0006ne-JW
+	(envelope-from <paul.eggleton@linux.intel.com>) id 1S7cLC-0006ne-ER
 	for openembedded-core@lists.openembedded.org;
-	Wed, 14 Mar 2012 01:45:21 +0100
+	Wed, 14 Mar 2012 01:45:22 +0100
 Received: from azsmga002.ch.intel.com ([10.2.17.35])
-	by azsmga101.ch.intel.com with ESMTP; 13 Mar 2012 17:36:36 -0700
+	by azsmga101.ch.intel.com with ESMTP; 13 Mar 2012 17:36:37 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="77188026"
+X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="77188033"
 Received: from unknown (HELO helios.ger.corp.intel.com) ([10.252.123.185])
-	by AZSMGA002.ch.intel.com with ESMTP; 13 Mar 2012 17:36:34 -0700
+	by AZSMGA002.ch.intel.com with ESMTP; 13 Mar 2012 17:36:36 -0700
 From: Paul Eggleton <paul.eggleton@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Wed, 14 Mar 2012 00:36:26 +0000
-Message-Id: <cover.1331685330.git.paul.eggleton@linux.intel.com>
+Date: Wed, 14 Mar 2012 00:36:27 +0000
+Message-Id: <e4d001f8c6f8945c8c70c2558ad5f9e1fd85dfad.1331685330.git.paul.eggleton@linux.intel.com>
 X-Mailer: git-send-email 1.7.5.4
-Subject: [PATCH 0/6] Misc build failure fixes
+In-Reply-To: <cover.1331685330.git.paul.eggleton@linux.intel.com>
+References: <cover.1331685330.git.paul.eggleton@linux.intel.com>
+In-Reply-To: <cover.1331685330.git.paul.eggleton@linux.intel.com>
+References: <cover.1331685330.git.paul.eggleton@linux.intel.com>
+Subject: [PATCH 1/6] scripts/bitbake: ensure user is in build directory
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -29,33 +33,34 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 14 Mar 2012 00:45:21 -0000
+X-List-Received-Date: Wed, 14 Mar 2012 00:45:22 -0000
 
-The following changes since commit 81379dc141e245307ca391a02b7490b199128991:
+If the user is in any directory other than $BUILDDIR when the bitbake
+wrapper script is run, then show an error an exit.
 
-  dates: Fix unpackaged files warning (2012-03-13 23:18:19 +0000)
+Fixes [YOCTO #2071].
 
-are available in the git repository at:
-  git://git.openembedded.org/openembedded-core-contrib paule/fixes14
-  http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=paule/fixes14
+Signed-off-by: Paul Eggleton <paul.eggleton@linux.intel.com>
+---
+ scripts/bitbake |    5 +++++
+ 1 files changed, 5 insertions(+), 0 deletions(-)
 
-Paul Eggleton (6):
-  scripts/bitbake: ensure user is in build directory
-  pulseaudio: add X library dependencies
-  gst-plugins-bad: disable directfb in configure
-  mx: add dependencies
-  ncurses: fix build when ENABLE_WIDEC is not set
-  linux-yocto-tiny: add dependency on xz-native
-
- meta/recipes-core/ncurses/ncurses.inc              |    5 +++--
- meta/recipes-graphics/mx/mx_1.4.2.bb               |    2 +-
- meta/recipes-kernel/linux/linux-yocto-tiny_3.0.bb  |    5 ++++-
- .../gstreamer/gst-plugins-bad_0.10.22.bb           |    4 ++--
- meta/recipes-multimedia/pulseaudio/pulseaudio.inc  |    3 ++-
- .../pulseaudio/pulseaudio_1.1.bb                   |    2 +-
- scripts/bitbake                                    |    5 +++++
- 7 files changed, 18 insertions(+), 8 deletions(-)
-
+diff --git a/scripts/bitbake b/scripts/bitbake
+index dda3b26..45c8697 100755
+--- a/scripts/bitbake
++++ b/scripts/bitbake
+@@ -47,6 +47,11 @@ float_test() {
+ # but earlier versions do not
+ float_test "$TARVERSION > 1.23" && needtar="0"
+ 
++if [ "`pwd`" != "$BUILDDIR" ] ; then
++    echo "BitBake must be run from your build directory: $BUILDDIR"
++    exit 1
++fi
++
+ buildpseudo="1"
+ if [ $needpseudo = "1" ] && [ -e "$BUILDDIR/pseudodone" ]; then
+     PSEUDOBINDIR=`cat $BUILDDIR/pseudodone`
 -- 
 1.7.5.4
 
