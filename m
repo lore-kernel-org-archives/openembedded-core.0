@@ -1,44 +1,27 @@
-Received: from mga05.intel.com ([192.55.52.89] helo=fmsmga101.fm.intel.com)
+Received: from masterfoo.zenlinux.com ([207.192.74.254])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <scott.a.garman@intel.com>) id 1S7rqi-000122-2z
+	(envelope-from <scott.a.garman@intel.com>) id 1S7ujt-00051I-Uz
 	for openembedded-core@lists.openembedded.org;
-	Wed, 14 Mar 2012 18:18:56 +0100
-Received: from mail-gy0-f180.google.com ([209.85.160.180])
-	by mga01.intel.com with ESMTP/TLS/RC4-SHA; 14 Mar 2012 10:10:09 -0700
-Received: by ghbz12 with SMTP id z12so2832803ghb.25
+	Wed, 14 Mar 2012 21:24:06 +0100
+Received: from localhost (c-76-105-137-48.hsd1.or.comcast.net [76.105.137.48])
+	(using TLSv1 with cipher DHE-RSA-AES128-SHA (128/128 bits))
+	(No client certificate requested)
+	by masterfoo.zenlinux.com (Postfix) with ESMTP id 238882FF3B
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 14 Mar 2012 10:09:49 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=google.com; s=20120113;
-	h=message-id:date:from:user-agent:mime-version:to:subject:references
-	:in-reply-to:content-type:content-transfer-encoding
-	:x-gm-message-state;
-	bh=8vvX0ejffBaaLH2et9yRvubsMVFQqWiL0tmZszqc6kw=;
-	b=lKv38gTdvCEDZjbxDD6KE3Cjhhzxate09XXChpOiEySOI5iK1k/2KcGQHXIPzRi0ih
-	qQzvxIGZqGkhhUqXYLQsZ4Q1vZQPnQrT8yy88Zn5xJyiT72B8Rgshqa3xM/isuFWr30t
-	l53K2wjPqnBvh6x0FHdwqvHmsfIovydU8IX49QnQ7oupcenoH+GK0hk5wTOVr827qyX9
-	fs9PEn1D1A6kXu+ZItPTmaYHRJJZl5E/3gilzLxh0DIYpYCRy99UYvJ0HngeqDn2YH+I
-	hckg/PQMj35u68/H8DkR9cp0m2Yn21/wzCEss7x+YYo+R/ixhOtAB7rXqFZ+4ZmZ0Ekt
-	g8uA==
-Received: by 10.182.12.37 with SMTP id v5mr4494610obb.16.1331744989094;
-	Wed, 14 Mar 2012 10:09:49 -0700 (PDT)
-Received: from [192.168.1.12] (c-76-105-137-48.hsd1.or.comcast.net.
-	[76.105.137.48])
-	by mx.google.com with ESMTPS id c2sm4737103oeb.13.2012.03.14.10.09.47
-	(version=SSLv3 cipher=OTHER); Wed, 14 Mar 2012 10:09:48 -0700 (PDT)
-Message-ID: <4F60D0E5.20706@intel.com>
-Date: Wed, 14 Mar 2012 10:09:57 -0700
+	Wed, 14 Mar 2012 16:15:14 -0400 (EDT)
 From: Scott Garman <scott.a.garman@intel.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:10.0.2) Gecko/20120216 Thunderbird/10.0.2
-MIME-Version: 1.0
 To: openembedded-core@lists.openembedded.org
-References: <cover.1331742556.git.scott.a.garman@intel.com>
-	<db023a254e70a7cb819a6cab3008a666305ceafd.1331742556.git.scott.a.garman@intel.com>
-	<6E6948ED-51D0-4E19-8D09-E82DB6438AA4@dominion.thruhere.net>
-In-Reply-To: <6E6948ED-51D0-4E19-8D09-E82DB6438AA4@dominion.thruhere.net>
-X-Gm-Message-State: ALoCoQlg39UBQb7zZ34p0Q5LMyZy9wKBMbxjGjSOpg2F1/AEnrHVUdymXnoLRPjxqG26CVVJFiBI
-Subject: Re: [PATCH 1/1] ncurses: fix packaging of moved libraries
+Date: Wed, 14 Mar 2012 13:15:19 -0700
+Message-Id: <cover.1331756004.git.scott.a.garman@intel.com>
+X-Mailer: git-send-email 1.7.5.4
+X-MasterFoo-MailScanner-Information: Please contact the ISP for more
+	information
+X-MailScanner-ID: 238882FF3B.A40AE
+X-MasterFoo-MailScanner: Found to be clean
+X-MasterFoo-MailScanner-SpamCheck: not spam
+X-MasterFoo-MailScanner-From: scott.a.garman@intel.com
+X-Spam-Status: No
+Subject: [PATCH 0/2] ncurses packaging fix [v3]
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -53,32 +36,57 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 14 Mar 2012 17:18:56 -0000
-Content-Type: text/plain; charset=ISO-8859-1; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Wed, 14 Mar 2012 20:24:06 -0000
 
-On 03/14/2012 09:53 AM, Koen Kooi wrote:
->
-> Op 14 mrt. 2012, om 17:36 heeft Scott Garman het volgende geschreven:
->
->> The recent move of some of the ncurses libraries to base_libdir
->> does not work with our automatic library packaging, so this
->> explicity creates packages for libncurses, libncursesw, and
->> libtinfo.
->>
->> Signed-off-by: Scott Garman<scott.a.garman@intel.com>
->
-> This is still missing a PR bump for all the packages depending on ncurses. Those need to get rebuilt to unbreak the package feeds.
+Hello,
 
-Ok, I will spin a v3 of the pull request to make use of do_package_split 
-and include a commit for bumping the PR for all recipes which DEPEND on 
-ncurses.
+This fixes the ncurses library packaging.
+
+v3 of this pull request uses do_split_packages to package the libraries
+in base_libdir, and includes a commit which bumps PR for all recipes
+which DEPEND on ncurses.
 
 Scott
 
+The following changes since commit 8567549a743cb5be157e7988e1f9227d91f48850:
+
+  Revert "alsa-tools: update to 1.0.25" (2012-03-14 15:53:45 +0000)
+
+are available in the git repository at:
+  git://git.pokylinux.org/poky-contrib sgarman/ncurses-pkg-fix3-oe
+  http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=sgarman/ncurses-pkg-fix3-oe
+
+Scott Garman (2):
+  ncurses: fix packaging of moved libraries
+  PR bump for all recipes that DEPEND on ncurses
+
+ meta/recipes-core/gettext/gettext_0.18.1.1.bb      |    2 +-
+ meta/recipes-core/ncurses/ncurses.inc              |    6 ++++--
+ meta/recipes-core/readline/readline_5.2.bb         |    2 +-
+ meta/recipes-core/readline/readline_6.2.bb         |    2 +-
+ meta/recipes-core/uclibc/uclibc.inc                |    2 +-
+ meta/recipes-core/util-linux/util-linux_2.21.bb    |    2 +-
+ meta/recipes-devtools/cmake/cmake.inc              |    2 +-
+ meta/recipes-devtools/gdb/gdb-common.inc           |    2 +-
+ meta/recipes-extended/bash/bash_3.2.48.bb          |    2 +-
+ meta/recipes-extended/bash/bash_4.2.bb             |    2 +-
+ meta/recipes-extended/less/less_444.bb             |    2 +-
+ meta/recipes-extended/mc/mc_4.7.5.2.bb             |    2 +-
+ meta/recipes-extended/mc/mc_4.8.1.bb               |    2 +-
+ meta/recipes-extended/procps/procps_3.2.8.bb       |    2 +-
+ meta/recipes-extended/psmisc/psmisc_22.16.bb       |    2 +-
+ meta/recipes-extended/screen/screen_4.0.3.bb       |    2 +-
+ meta/recipes-extended/texinfo/texinfo_4.13a.bb     |    2 +-
+ meta/recipes-kernel/latencytop/latencytop_0.5.bb   |    2 +-
+ meta/recipes-kernel/powertop/powertop_1.13.bb      |    2 +-
+ .../recipes-multimedia/alsa/alsa-tools_1.0.24.1.bb |    2 +-
+ meta/recipes-support/attr/attr_2.4.46.bb           |    2 +-
+ meta/recipes-support/sqlite/sqlite3_3.7.10.bb      |    2 +-
+ meta/recipes-support/vte/vte_0.28.2.bb             |    2 +-
+ 23 files changed, 26 insertions(+), 24 deletions(-)
+
 -- 
-Scott Garman
-Embedded Linux Engineer - Yocto Project
-Intel Open Source Technology Center
+1.7.5.4
+
 
 
