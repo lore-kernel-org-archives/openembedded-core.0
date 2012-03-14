@@ -1,32 +1,37 @@
-Received: from mail1.windriver.com ([147.11.146.13])
+Received: from mail-we0-f175.google.com ([74.125.82.175])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <Xiaofeng.Yan@windriver.com>) id 1S7nQp-00043W-Ps
+	(envelope-from <bruce.ashfield@gmail.com>) id 1S7nSv-00046j-Ko
 	for openembedded-core@lists.openembedded.org;
-	Wed, 14 Mar 2012 13:35:56 +0100
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca [147.11.189.40])
-	by mail1.windriver.com (8.14.3/8.14.3) with ESMTP id q2ECR87x014761
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
-	Wed, 14 Mar 2012 05:27:08 -0700 (PDT)
-Received: from [128.224.162.223] (128.224.162.223) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server (TLS) id 14.1.255.0;
-	Wed, 14 Mar 2012 05:27:08 -0700
-Message-ID: <4F608EA4.3070708@windriver.com>
-Date: Wed, 14 Mar 2012 20:27:16 +0800
-From: Xiaofeng Yan <xiaofeng.yan@windriver.com>
-User-Agent: Mozilla/5.0 (X11; U; Linux i686; en-US;
-	rv:1.9.2.23) Gecko/20110921 Thunderbird/3.1.15
+	Wed, 14 Mar 2012 13:38:05 +0100
+Received: by wera1 with SMTP id a1so1604806wer.6
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 14 Mar 2012 05:29:20 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
+	:cc:content-type;
+	bh=H/9q0fKD51dFI8Ma8fM+7Yorb7K6H0usO3xy9s4OrIM=;
+	b=B/CCTK9TF79zUgSbTqB1vOTdrL9Ai1zNkdbIDEnhVai320FCUCNFSDgzsYAX5HYiJF
+	iGA3eiJgoym604KKu5AfgHdyLdfDWzlshi/y6G1wQmgGvRl+FTRfFLNAI3o2ngfQozlX
+	YdUSoDCzqfmTMxa3imtaXfnETPlKR9keFutoFqBhc3ta7rMkmI0pLbuLuFymPKSigi+7
+	s2Z+qS5Ew+lLOWequyesBQv6Hfx2pdO5COAEqd53xjTiNRX7kCTRHSvQQFnYNR3dmDT0
+	BzwsigPSfWqjXLLtCbWfRNl702vXV6H/sv8CRs+nbpTFN0cA/OxAnA5qQjDL+zx6fO91
+	zzqQ==
 MIME-Version: 1.0
-To: Saul Wold <sgw@linux.intel.com>
-References: <cover.1331642569.git.xiaofeng.yan@windriver.com>
-	<de0b611934064b68e5eccec92a8e76eba7bb30ba.1331642569.git.xiaofeng.yan@windriver.com>
-	<4F5FD730.6060705@linux.intel.com>
-In-Reply-To: <4F5FD730.6060705@linux.intel.com>
-X-Originating-IP: [128.224.162.223]
-X-MIME-Autoconverted: from 8bit to quoted-printable by mail1.windriver.com id
-	q2ECR87x014761
-Cc: Patches and discussions about the oe-core layer
+Received: by 10.216.133.137 with SMTP id q9mr1531895wei.12.1331728160398; Wed,
+	14 Mar 2012 05:29:20 -0700 (PDT)
+Received: by 10.216.28.196 with HTTP; Wed, 14 Mar 2012 05:29:20 -0700 (PDT)
+In-Reply-To: <5205752.2zb4P1afWQ@helios>
+References: <cover.1331685330.git.paul.eggleton@linux.intel.com>
+	<9583d660052617740b61feeb6739263f06e5a64f.1331685330.git.paul.eggleton@linux.intel.com>
+	<512FF648-8A82-4307-BEB7-0EC1A8FD15A7@dominion.thruhere.net>
+	<5205752.2zb4P1afWQ@helios>
+Date: Wed, 14 Mar 2012 08:29:20 -0400
+Message-ID: <CADkTA4M6XgC3vo-GR5MnK1HcS58tz0-WrwSX0KOhaeRMMhqnvA@mail.gmail.com>
+From: Bruce Ashfield <bruce.ashfield@gmail.com>
+To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 1/7] package_rpm: Add srpm function to this bbclass
+Cc: Koen Kooi <koen@dominion.thruhere.net>
+Subject: Re: [PATCH 6/6] linux-yocto-tiny: add dependency on xz-native
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -41,168 +46,51 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 14 Mar 2012 12:35:56 -0000
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Wed, 14 Mar 2012 12:38:05 -0000
+Content-Type: text/plain; charset=ISO-8859-1
 
-Hi Saul,
+On Wed, Mar 14, 2012 at 4:32 AM, Paul Eggleton
+<paul.eggleton@linux.intel.com> wrote:
+> On Wednesday 14 March 2012 09:21:06 Koen Kooi wrote:
+>> Op 14 mrt. 2012, om 01:36 heeft Paul Eggleton het volgende geschreven:
+>> > The kernel configuration requires lzma to compress the kernel image
+>> > (CONFIG_KERNEL_LZMA=y), so add a dependency on xz-native which provides
+>> > it.
+>>
+>> Have a look at
+>> https://github.com/Angstrom-distribution/meta-ti/commit/b72cb13fcf83b9d3428
+>> 08ea30379bfb6a1321b54 :)
+>
+> Right, I thought about that already - but we do not (by default) use defconfigs
+> with linux-yocto*, so you'd have to go through all config fragments with this
+> check. I figured it probably wasn't worth the effort in this case.
 
-Thanks for your detailed comment
-On 2012=E5=B9=B403=E6=9C=8814=E6=97=A5 07:24, Saul Wold wrote:
-> On 03/13/2012 05:52 AM, Xiaofeng Yan wrote:
->> From: Xiaofeng Yan<xiaofeng.yan@windriver.com>
->>
->> Add a new function to archive source, patches and logs to a source rpm
->> package. Every source rpm package will be deployed to
->> ${DEPLOY_DIR}/sources/deploy-srpm.
->>
->> [YOCTO #1977]
->>
->> Signed-off-by: Xiaofeng Yan<xiaofeng.yan@windriver.com>
->> ---
->> meta/classes/package_rpm.bbclass | 63=20
->> ++++++++++++++++++++++++++++++++++++++
->> 1 files changed, 63 insertions(+), 0 deletions(-)
->>
->> diff --git a/meta/classes/package_rpm.bbclass=20
->> b/meta/classes/package_rpm.bbclass
->> index 68313ec..b261a0e 100644
->> --- a/meta/classes/package_rpm.bbclass
->> +++ b/meta/classes/package_rpm.bbclass
->> @@ -6,6 +6,7 @@ RPM=3D"rpm"
->> RPMBUILD=3D"rpmbuild"
->>
->> PKGWRITEDIRRPM =3D "${WORKDIR}/deploy-rpms"
->> +PKGWRITEDIRSRPM =3D "${DEPLOY_DIR}/sources/deploy-srpm"
->>
->> python package_rpm_fn () {
->> d.setVar('PKGFN', d.getVar('PKG'))
->> @@ -475,6 +476,37 @@ python write_specfile () {
->> import textwrap
->> import oe.packagedata
->>
->> + # append information for logs and patches to %prep
->> + def add_prep(d,spec_files_bottom):
->> + if d.getVar('SOURCE_ARCHIVE_PACKAGE_TYPE', True) and=20
->> d.getVar('SOURCE_ARCHIVE_PACKAGE_TYPE', True).upper() =3D=3D 'SRPM':
->> + spec_files_bottom.append('%%prep -n %s' % d.getVar('PN', True) )
->> + spec_files_bottom.append('%s' % "echo \"include logs and patches,=20
->> Please check them in SOURCES\"")
->> + spec_files_bottom.append('')
->> +
->> + # get the name of tarball for sources, patches and logs
->> + def get_tarballs(d):
->> + if d.getVar('SOURCE_ARCHIVE_PACKAGE_TYPE', True) and=20
->> d.getVar('SOURCE_ARCHIVE_PACKAGE_TYPE', True).upper() =3D=3D 'SRPM':
->> + sourcelist=3D[]
->> + workdir =3D d.getVar('WORKDIR',True)
->> + print os.listdir(workdir)
->> + for source in os.listdir(workdir):
->> + if 'tar.gz' in source:
->> + sourcelist.append(source)
->> + return sourcelist
->
-> What happens here is there are some other tar.gz file in the WORKDIR?=20
-> Is there a way to ensure you just get the tarballs you are looking for?
-It is reasonable for your query. I need add more information to select=20
-the tarballs srpm wants instead of all.
->> +
->> + # append the name of tarball to key word 'SOURCE' in xxx.spec.
->> + def tail_source(d,source_list=3D[],patch_list=3DNone):
->> + if d.getVar('SOURCE_ARCHIVE_PACKAGE_TYPE', True) and=20
->> d.getVar('SOURCE_ARCHIVE_PACKAGE_TYPE', True).upper() =3D=3D 'SRPM':
->> + source_number =3D 0
->> + patch_number =3D 0
->> + for source in source_list:
->> + spec_preamble_top.append('Source' + str(source_number) + ': %s' %=20
->> source)
->> + source_number +=3D 1
->> + if patch_list:
->> + for patch in patch_list:
->> + print_deps(patch, "Patch" + str(patch_number), spec_preamble_top, d)
->> + patch_number +=3D 1
->> +
->> # We need a simple way to remove the MLPREFIX from the package name,
->> # and dependency information...
->> def strip_multilib(name, d):
->> @@ -707,6 +739,8 @@ python write_specfile () {
->> spec_preamble_bottom.append('License: %s' % splitlicense)
->> spec_preamble_bottom.append('Group: %s' % splitsection)
->>
->> + source_list =3D get_tarballs(d)
->> + tail_source(d,source_list,None)
->> # Replaces =3D=3D Obsoletes&& Provides
->> if splitrreplaces and splitrreplaces.strip() !=3D "":
->> for dep in splitrreplaces.split(','):
->> @@ -786,6 +820,7 @@ python write_specfile () {
->> del localdata
->> bb.utils.unlockfile(lf)
->>
->> + add_prep(d,spec_files_bottom)
->> spec_preamble_top.append('Summary: %s' % srcsummary)
->> spec_preamble_top.append('Name: %s' % srcname)
->> spec_preamble_top.append('Version: %s' % srcversion)
->> @@ -900,6 +935,25 @@ python write_specfile () {
->> python do_package_rpm () {
->> import os
->>
->> + def creat_srpm_dir(d):
->> + if d.getVar('SOURCE_ARCHIVE_PACKAGE_TYPE', True) and=20
->> d.getVar('SOURCE_ARCHIVE_PACKAGE_TYPE', True).upper() =3D=3D 'SRPM':
->> + licenses =3D d.getVar('LICENSE', 1).replace('&', '|')
->> + licenses =3D licenses.replace('(', '').replace(')', '')
->> + clean_licenses =3D ""
->> + for x in licenses.split():
->> + if x.strip() =3D=3D '' or x =3D=3D 'CLOSED':
-> What about "Proprietary"
-the purpose of doing this is for using licenses as a directory. So I=20
-think x =3D=3D 'CLOSED' should be removed instead of adding this case. So=
-=20
-Proprietary does.
->> + continue
->> + if x !=3D "|":
->> + clean_licenses +=3D x
->> + if '|' in clean_licenses:
->> + clean_licenses =3D clean_licenses.replace('|','')
->> +
-> Maybe this spinet should be a function in license.bbclass? Maybe it's=20
-> there already, or is this too RPM specific?
->
-if 'I' is a part of words from licenses, we should replace it. for=20
-example, this case happen in LICENSE =3D "Artistic|GPL" from perl_5.14.2.=
-bb
->> + pkgwritesrpmdir =3D=20
->> bb.data.expand('${PKGWRITEDIRSRPM}/${PACKAGE_ARCH_EXTEND}', d)
->> + pkgwritesrpmdir =3D pkgwritesrpmdir + '/' + clean_licenses
->> + bb.mkdirhier(pkgwritesrpmdir)
->> + os.chmod(pkgwritesrpmdir, 0755)
->> + return pkgwritesrpmdir
->> +
->> # We need a simple way to remove the MLPREFIX from the package name,
->> # and dependency information...
->> def strip_multilib(name, d):
->> @@ -1015,8 +1069,17 @@ python do_package_rpm () {
->> cmd =3D cmd + " --define 'debug_package %{nil}'"
->> cmd =3D cmd + " --define '_rpmfc_magic_path " + magicfile + "'"
->> cmd =3D cmd + " --define '_tmppath " + workdir + "'"
->> + if d.getVar('SOURCE_ARCHIVE_PACKAGE_TYPE', True) and=20
->> d.getVar('SOURCE_ARCHIVE_PACKAGE_TYPE', True).upper() =3D=3D 'SRPM':
->> + cmdsrpm =3D cmd + " --define '_sourcedir " + workdir + "' --define=20
->> '_srcrpmdir " + creat_srpm_dir(d) + "'"
->> + cmdsrpm =3D 'fakeroot ' + cmdsrpm + " -bs " + outspecfile
->> cmd =3D cmd + " -bb " + outspecfile
->>
->> + # Build the source rpm package !
->> + if d.getVar('SOURCE_ARCHIVE_PACKAGE_TYPE', True) and=20
->> d.getVar('SOURCE_ARCHIVE_PACKAGE_TYPE', True).upper() =3D=3D 'SRPM':
->> + d.setVar('SBUILDSPEC', cmdsrpm + "\n")
->> + d.setVarFlag('SBUILDSPEC', 'func', '1')
->> + bb.build.exec_func('SBUILDSPEC', d)
->> +
->> # Build the rpm package!
->> d.setVar('BUILDSPEC', cmd + "\n")
->> d.setVarFlag('BUILDSPEC', 'func', '1')
->
+In this case, you wouldn't go through the fragments, you'd just add one that
+turns it on when you want it. Don't audit a defconfig, push the few options that
+you want onto the build.
 
+Cheers,
+
+Bruce
+
+>
+> Cheers,
+> Paul
+>
+> --
+>
+> Paul Eggleton
+> Intel Open Source Technology Centre
+>
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
+
+
+
+-- 
+"Thou shalt not follow the NULL pointer, for chaos and madness await
+thee at its end"
 
 
