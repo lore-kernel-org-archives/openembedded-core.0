@@ -1,27 +1,31 @@
 Received: from masterfoo.zenlinux.com ([207.192.74.254])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <scott.a.garman@intel.com>) id 1S7ujt-00051I-Uz
+	(envelope-from <scott.a.garman@intel.com>) id 1S7uju-00051K-Ei
 	for openembedded-core@lists.openembedded.org;
 	Wed, 14 Mar 2012 21:24:06 +0100
 Received: from localhost (c-76-105-137-48.hsd1.or.comcast.net [76.105.137.48])
 	(using TLSv1 with cipher DHE-RSA-AES128-SHA (128/128 bits))
 	(No client certificate requested)
-	by masterfoo.zenlinux.com (Postfix) with ESMTP id 238882FF3B
+	by masterfoo.zenlinux.com (Postfix) with ESMTP id 7B2AB2FF3C
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 14 Mar 2012 16:15:14 -0400 (EDT)
+	Wed, 14 Mar 2012 16:15:17 -0400 (EDT)
 From: Scott Garman <scott.a.garman@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Wed, 14 Mar 2012 13:15:19 -0700
-Message-Id: <cover.1331756004.git.scott.a.garman@intel.com>
+Date: Wed, 14 Mar 2012 13:15:20 -0700
+Message-Id: <758e3bcd293ff4d4ed4b729f732beca4eeb6d5c1.1331756004.git.scott.a.garman@intel.com>
 X-Mailer: git-send-email 1.7.5.4
+In-Reply-To: <cover.1331756004.git.scott.a.garman@intel.com>
+References: <cover.1331756004.git.scott.a.garman@intel.com>
+In-Reply-To: <cover.1331756004.git.scott.a.garman@intel.com>
+References: <cover.1331756004.git.scott.a.garman@intel.com>
 X-MasterFoo-MailScanner-Information: Please contact the ISP for more
 	information
-X-MailScanner-ID: 238882FF3B.A40AE
+X-MailScanner-ID: 7B2AB2FF3C.C6FB9
 X-MasterFoo-MailScanner: Found to be clean
 X-MasterFoo-MailScanner-SpamCheck: not spam
 X-MasterFoo-MailScanner-From: scott.a.garman@intel.com
 X-Spam-Status: No
-Subject: [PATCH 0/2] ncurses packaging fix [v3]
+Subject: [PATCH 1/2] ncurses: fix packaging of moved libraries
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -38,53 +42,47 @@ List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedde
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Wed, 14 Mar 2012 20:24:06 -0000
 
-Hello,
+This ensures packaging of the ncurses libraries moved to
+base_libdir is done correctly.
 
-This fixes the ncurses library packaging.
+Signed-off-by: Scott Garman <scott.a.garman@intel.com>
+---
+ meta/recipes-core/ncurses/ncurses.inc |    6 ++++--
+ 1 files changed, 4 insertions(+), 2 deletions(-)
 
-v3 of this pull request uses do_split_packages to package the libraries
-in base_libdir, and includes a commit which bumps PR for all recipes
-which DEPEND on ncurses.
-
-Scott
-
-The following changes since commit 8567549a743cb5be157e7988e1f9227d91f48850:
-
-  Revert "alsa-tools: update to 1.0.25" (2012-03-14 15:53:45 +0000)
-
-are available in the git repository at:
-  git://git.pokylinux.org/poky-contrib sgarman/ncurses-pkg-fix3-oe
-  http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=sgarman/ncurses-pkg-fix3-oe
-
-Scott Garman (2):
-  ncurses: fix packaging of moved libraries
-  PR bump for all recipes that DEPEND on ncurses
-
- meta/recipes-core/gettext/gettext_0.18.1.1.bb      |    2 +-
- meta/recipes-core/ncurses/ncurses.inc              |    6 ++++--
- meta/recipes-core/readline/readline_5.2.bb         |    2 +-
- meta/recipes-core/readline/readline_6.2.bb         |    2 +-
- meta/recipes-core/uclibc/uclibc.inc                |    2 +-
- meta/recipes-core/util-linux/util-linux_2.21.bb    |    2 +-
- meta/recipes-devtools/cmake/cmake.inc              |    2 +-
- meta/recipes-devtools/gdb/gdb-common.inc           |    2 +-
- meta/recipes-extended/bash/bash_3.2.48.bb          |    2 +-
- meta/recipes-extended/bash/bash_4.2.bb             |    2 +-
- meta/recipes-extended/less/less_444.bb             |    2 +-
- meta/recipes-extended/mc/mc_4.7.5.2.bb             |    2 +-
- meta/recipes-extended/mc/mc_4.8.1.bb               |    2 +-
- meta/recipes-extended/procps/procps_3.2.8.bb       |    2 +-
- meta/recipes-extended/psmisc/psmisc_22.16.bb       |    2 +-
- meta/recipes-extended/screen/screen_4.0.3.bb       |    2 +-
- meta/recipes-extended/texinfo/texinfo_4.13a.bb     |    2 +-
- meta/recipes-kernel/latencytop/latencytop_0.5.bb   |    2 +-
- meta/recipes-kernel/powertop/powertop_1.13.bb      |    2 +-
- .../recipes-multimedia/alsa/alsa-tools_1.0.24.1.bb |    2 +-
- meta/recipes-support/attr/attr_2.4.46.bb           |    2 +-
- meta/recipes-support/sqlite/sqlite3_3.7.10.bb      |    2 +-
- meta/recipes-support/vte/vte_0.28.2.bb             |    2 +-
- 23 files changed, 26 insertions(+), 24 deletions(-)
-
+diff --git a/meta/recipes-core/ncurses/ncurses.inc b/meta/recipes-core/ncurses/ncurses.inc
+index fe2c3e4..3319949 100644
+--- a/meta/recipes-core/ncurses/ncurses.inc
++++ b/meta/recipes-core/ncurses/ncurses.inc
+@@ -6,7 +6,7 @@ LIC_FILES_CHKSUM = "file://ncurses/base/version.c;beginline=1;endline=27;md5=cbc
+ SECTION = "libs"
+ DEPENDS = "ncurses-native"
+ DEPENDS_virtclass-native = ""
+-INC_PR = "r6"
++INC_PR = "r7"
+ 
+ inherit autotools binconfig multilib_header
+ 
+@@ -199,8 +199,11 @@ shell_do_install() {
+ 
+ python populate_packages_prepend () {
+         libdir = d.expand("${libdir}")
++        base_libdir = d.expand("${base_libdir}")
+         pnbase = d.expand("${PN}-lib%s")
+         do_split_packages(d, libdir, '^lib(.*)\.so\..*', pnbase, 'ncurses %s library', prepend=True, extra_depends = '', allow_links=True)
++        if libdir is not base_libdir:
++            do_split_packages(d, base_libdir, '^lib(.*)\.so\..*', pnbase, 'ncurses %s library', prepend=True, extra_depends = '', allow_links=True)
+ }
+ 
+ 
+@@ -232,7 +235,6 @@ FILES_${PN} = "\
+   ${bindir}/ncurses5-config \
+   ${bindir}/ncursesw5-config \
+   ${datadir}/tabset \
+-  ${base_libdir}/* \
+ "
+ 
+ # This keeps only tput/tset in ncurses
 -- 
 1.7.5.4
 
