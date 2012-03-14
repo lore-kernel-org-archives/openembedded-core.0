@@ -1,30 +1,27 @@
-Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
-	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <richard.purdie@linuxfoundation.org>)
-	id 1S7cBU-0006dM-FG for openembedded-core@lists.openembedded.org;
-	Wed, 14 Mar 2012 01:35:20 +0100
-Received: from localhost (localhost [127.0.0.1])
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q2E0QaXP001568
+Received: from masterfoo.zenlinux.com ([207.192.74.254])
+	by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <scott.a.garman@intel.com>) id 1S7cGA-0006hN-GK
+	for openembedded-core@lists.openembedded.org;
+	Wed, 14 Mar 2012 01:40:10 +0100
+Received: from localhost (c-76-105-137-48.hsd1.or.comcast.net [76.105.137.48])
+	(using TLSv1 with cipher DHE-RSA-AES128-SHA (128/128 bits))
+	(No client certificate requested)
+	by masterfoo.zenlinux.com (Postfix) with ESMTP id 241E62FEFA
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 14 Mar 2012 00:26:36 GMT
-Received: from tim.rpsys.net ([127.0.0.1])
-	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
-	port 10024) with LMTP
-	id 01207-02 for <openembedded-core@lists.openembedded.org>;
-	Wed, 14 Mar 2012 00:26:32 +0000 (GMT)
-Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q2E0QTZ9001562
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO)
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 14 Mar 2012 00:26:30 GMT
-Message-ID: <1331684788.18586.14.camel@ted>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: openembedded-core <openembedded-core@lists.openembedded.org>
-Date: Wed, 14 Mar 2012 00:26:28 +0000
-X-Mailer: Evolution 3.2.2- 
-Mime-Version: 1.0
-X-Virus-Scanned: amavisd-new at rpsys.net
-Subject: [PATCH] opensp: Fix unnecessary rpath warnings
+	Tue, 13 Mar 2012 20:31:20 -0400 (EDT)
+From: Scott Garman <scott.a.garman@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Tue, 13 Mar 2012 17:31:24 -0700
+Message-Id: <cover.1331684953.git.scott.a.garman@intel.com>
+X-Mailer: git-send-email 1.7.5.4
+X-MasterFoo-MailScanner-Information: Please contact the ISP for more
+	information
+X-MailScanner-ID: 241E62FEFA.E66B7
+X-MasterFoo-MailScanner: Found to be clean
+X-MasterFoo-MailScanner-SpamCheck: not spam
+X-MasterFoo-MailScanner-From: scott.a.garman@intel.com
+X-Spam-Status: No
+Subject: [PATCH 0/1] ncurses packaging fix
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -39,48 +36,31 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 14 Mar 2012 00:35:20 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Wed, 14 Mar 2012 00:40:10 -0000
 
-Stale m4 macros seemed to be corrupting the opensp build. By removing
-them, we can fix the warnings:
+Hello,
 
-WARNING: QA Issue: opensp: /work/i586-poky-linux/opensp-1.5-r2/packages-split/opensp/usr/bin/spent contains probably-redundant RPATH /usr/lib
-WARNING: QA Issue: opensp: /work/i586-poky-linux/opensp-1.5-r2/packages-split/opensp/usr/bin/onsgmls contains probably-redundant RPATH /usr/lib
-WARNING: QA Issue: opensp: /work/i586-poky-linux/opensp-1.5-r2/packages-split/opensp/usr/bin/ospcat contains probably-redundant RPATH /usr/lib
-WARNING: QA Issue: opensp: /work/i586-poky-linux/opensp-1.5-r2/packages-split/opensp/usr/bin/osgmlnorm contains probably-redundant RPATH /usr/lib
-WARNING: QA Issue: opensp: /work/i586-poky-linux/opensp-1.5-r2/packages-split/opensp/usr/bin/sgmlnorm contains probably-redundant RPATH /usr/lib
-WARNING: QA Issue: opensp: /work/i586-poky-linux/opensp-1.5-r2/packages-split/opensp/usr/bin/ospent contains probably-redundant RPATH /usr/lib
-WARNING: QA Issue: opensp: /work/i586-poky-linux/opensp-1.5-r2/packages-split/opensp/usr/bin/ospam contains probably-redundant RPATH /usr/lib
-WARNING: QA Issue: opensp: /work/i586-poky-linux/opensp-1.5-r2/packages-split/opensp/usr/bin/nsgmls contains probably-redundant RPATH /usr/lib
-WARNING: QA Issue: opensp: /work/i586-poky-linux/opensp-1.5-r2/packages-split/opensp/usr/bin/spcat contains probably-redundant RPATH /usr/lib
-WARNING: QA Issue: opensp: /work/i586-poky-linux/opensp-1.5-r2/packages-split/opensp/usr/bin/osx contains probably-redundant RPATH /usr/lib
-WARNING: QA Issue: opensp: /work/i586-poky-linux/opensp-1.5-r2/packages-split/opensp/usr/bin/spam contains probably-redundant RPATH /usr/lib
-WARNING: QA Issue: opensp: /work/i586-poky-linux/opensp-1.5-r2/packages-split/opensp/usr/bin/sx contains probably-redundant RPATH /usr/lib
-WARNING: QA Issue: opensp: /work/i586-poky-linux/opensp-1.5-r2/packages-split/opensp/usr/bin/sgml2xml contains probably-redundant RPATH /usr/lib
-WARNING: QA Issue: opensp: /work/i586-poky-linux/opensp-1.5-r2/packages-split/opensp/usr/lib/libosp.so.3.0.0 contains probably-redundant RPATH /usr/lib
-WARNING: QA Issue: opensp: /work/i586-poky-linux/opensp-1.5-r2/packages-split/opensp/usr/lib/libosp.so.3 contains probably-redundant RPATH /usr/lib
+This fixes the ncurses library packaging. Thanks to Andreas Oberritter
+for pointing it out.
 
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
----
-diff --git a/meta/recipes-devtools/opensp/opensp_1.5.bb b/meta/recipes-devtools/opensp/opensp_1.5.bb
-index d692137..e225add 100644
---- a/meta/recipes-devtools/opensp/opensp_1.5.bb
-+++ b/meta/recipes-devtools/opensp/opensp_1.5.bb
-@@ -29,6 +29,11 @@ EXTRA_OECONF_virtclass-native = "\
- 	--enable-default-search-path=${datadir}/sgml \
- 	"
- 
-+do_configure_prepend () {
-+	# Stale m4 macros cause a variety of problems
-+	rm -rf ${S}/m4/*
-+}
-+
- do_install_append() {
- 	# Set up symlinks to often-used alternate names. See
- 	# http://www.linuxfromscratch.org/blfs/view/stable/pst/opensp.html
+Scott
 
+The following changes since commit 81379dc141e245307ca391a02b7490b199128991:
+
+  dates: Fix unpackaged files warning (2012-03-13 23:18:19 +0000)
+
+are available in the git repository at:
+  git://git.pokylinux.org/poky-contrib sgarman/ncurses-pkg-fix-oe
+  http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=sgarman/ncurses-pkg-fix-oe
+
+Scott Garman (1):
+  ncurses: fix packaging of moved libraries
+
+ meta/recipes-core/ncurses/ncurses.inc |   18 ++++++++++++++++--
+ 1 files changed, 16 insertions(+), 2 deletions(-)
+
+-- 
+1.7.5.4
 
 
 
