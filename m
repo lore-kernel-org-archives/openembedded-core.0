@@ -1,25 +1,37 @@
-Received: from mail.windriver.com ([147.11.1.11])
+Received: from mail-wi0-f171.google.com ([209.85.212.171])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <Liezhi.Yang@windriver.com>) id 1S7ia6-0001MN-55
+	(envelope-from <martin.jansa@gmail.com>) id 1S7j7k-0001jt-Lc
 	for openembedded-core@lists.openembedded.org;
-	Wed, 14 Mar 2012 08:25:10 +0100
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca [147.11.189.40])
-	by mail.windriver.com (8.14.3/8.14.3) with ESMTP id q2E7GOwR011823
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
+	Wed, 14 Mar 2012 08:59:56 +0100
+Received: by wibhj13 with SMTP id hj13so5787606wib.6
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 14 Mar 2012 00:16:24 -0700 (PDT)
-Received: from build-PowerEdge-T100.corp.ad.wrs.com (128.224.163.66) by
-	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server id
-	14.1.255.0; Wed, 14 Mar 2012 00:16:24 -0700
-From: Robert Yang <liezhi.yang@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Wed, 14 Mar 2012 15:16:03 +0800
-Message-ID: <8cc6388313595c314347bf98254a4c2489be69e4.1331709176.git.liezhi.yang@windriver.com>
-X-Mailer: git-send-email 1.7.4.1
-In-Reply-To: <cover.1331709176.git.liezhi.yang@windriver.com>
-References: <cover.1331709176.git.liezhi.yang@windriver.com>
+	Wed, 14 Mar 2012 00:51:11 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=date:from:to:subject:message-id:references:mime-version
+	:content-type:content-disposition:in-reply-to:user-agent;
+	bh=t9N7PeDVC7sPfrA9s8GpT6bWF+vkoN/+yeAqIrblA/Y=;
+	b=WXZm9NigJIMeVcSd0swo6GsyGc/Xxiilgv8aDPMqWexyc1dZFcMrlClvMp1DdCY5JX
+	0DIkVLoQX2hj+tHVyUCOsWEDYXYmj+DWpZjRm/07W02q+GCfKbBIIANQ5qxoZpPluqlb
+	42EetoMgDy4nfRh/TwoA5XdKYfFSTfZ84EZ7+ecWDjG8fzuemAIPxsBXm+v3oY1YvxYi
+	hOgSU3napmYe61zq5VBNv9E5IT6Af9pWxcpfrCxZJ/LPmmm7gLSpVaojhVGxdOg3CFr5
+	9noxU1j9kYUlHlDMwJfEgR7gESsj26rwqs24+hxmqtv1FNWYryMj44jK8BPRlppmJvHQ
+	3rHQ==
+Received: by 10.180.81.135 with SMTP id a7mr8751359wiy.16.1331711471846;
+	Wed, 14 Mar 2012 00:51:11 -0700 (PDT)
+Received: from localhost ([94.230.152.246])
+	by mx.google.com with ESMTPS id n15sm49888610wiw.6.2012.03.14.00.51.10
+	(version=TLSv1/SSLv3 cipher=OTHER);
+	Wed, 14 Mar 2012 00:51:10 -0700 (PDT)
+Date: Wed, 14 Mar 2012 08:51:08 +0100
+From: Martin Jansa <martin.jansa@gmail.com>
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Message-ID: <20120314075108.GC3919@jama.jama.net>
+References: <cover.1331684953.git.scott.a.garman@intel.com>
 MIME-Version: 1.0
-Subject: [PATCH 1/1 V2] package.bbclass: do not split debug pkg when no debugsources.list
+In-Reply-To: <cover.1331684953.git.scott.a.garman@intel.com>
+User-Agent: Mutt/1.5.21 (2010-09-15)
+Subject: Re: [PATCH 0/1] ncurses packaging fix
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -34,57 +46,70 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 14 Mar 2012 07:25:10 -0000
-Content-Type: text/plain
+X-List-Received-Date: Wed, 14 Mar 2012 07:59:56 -0000
+X-Groupsio-MsgNum: 18763
+Content-Type: multipart/signed; micalg=pgp-sha1;
+	protocol="application/pgp-signature"; boundary="s9fJI615cBHmzTOP"
+Content-Disposition: inline
 
-We don't have to split the debug pkg if it is null (No debugsources.list
-since the find-debuginfo.sh would not generate it for the null pkg).
+--s9fJI615cBHmzTOP
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Serval pkg's debug pkg is null, and there were a few errors: (53 pkgs
-had such errors in a core-image-sato build):
+On Tue, Mar 13, 2012 at 05:31:24PM -0700, Scott Garman wrote:
+> Hello,
+>=20
+> This fixes the ncurses library packaging. Thanks to Andreas Oberritter
+> for pointing it out.
 
-log.do_package:sort: open failed: debugsources.list: No such file or directory
+Why not use another do_split_packages for base_libdir?
 
-[YOCTO #2076]
+Can it be used only once per recipe? are there any libs left in libdir?
 
-Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
----
- meta/classes/package.bbclass |   18 +++++++++---------
- 1 files changed, 9 insertions(+), 9 deletions(-)
+Cheers,
 
-diff --git a/meta/classes/package.bbclass b/meta/classes/package.bbclass
-index 7bcfa02..bdc4d37 100644
---- a/meta/classes/package.bbclass
-+++ b/meta/classes/package.bbclass
-@@ -234,17 +234,17 @@ def splitfile2(debugsrcdir, d):
- 
-     import commands, stat
- 
--    dvar = d.getVar('PKGD', True)
--    pathprefix = "export PATH=%s; " % d.getVar('PATH', True)
--    strip = d.getVar("STRIP", True)
--    objcopy = d.getVar("OBJCOPY", True)
--    debugedit = d.expand("${STAGING_LIBDIR_NATIVE}/rpm/bin/debugedit")
--    workdir = d.getVar("WORKDIR", True)
--    workparentdir = os.path.dirname(workdir)
--    workbasedir = os.path.basename(workdir)
-     sourcefile = d.expand("${WORKDIR}/debugsources.list")
-+    if debugsrcdir and os.path.isfile(sourcefile):
-+       dvar = d.getVar('PKGD', True)
-+       pathprefix = "export PATH=%s; " % d.getVar('PATH', True)
-+       strip = d.getVar("STRIP", True)
-+       objcopy = d.getVar("OBJCOPY", True)
-+       debugedit = d.expand("${STAGING_LIBDIR_NATIVE}/rpm/bin/debugedit")
-+       workdir = d.getVar("WORKDIR", True)
-+       workparentdir = os.path.dirname(workdir)
-+       workbasedir = os.path.basename(workdir)
- 
--    if debugsrcdir:
-        nosuchdir = []
-        basepath = dvar
-        for p in debugsrcdir.split("/"):
--- 
-1.7.4.1
+>=20
+> Scott
+>=20
+> The following changes since commit 81379dc141e245307ca391a02b7490b1991289=
+91:
+>=20
+>   dates: Fix unpackaged files warning (2012-03-13 23:18:19 +0000)
+>=20
+> are available in the git repository at:
+>   git://git.pokylinux.org/poky-contrib sgarman/ncurses-pkg-fix-oe
+>   http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=3Dsgarman/ncurses=
+-pkg-fix-oe
+>=20
+> Scott Garman (1):
+>   ncurses: fix packaging of moved libraries
+>=20
+>  meta/recipes-core/ncurses/ncurses.inc |   18 ++++++++++++++++--
+>  1 files changed, 16 insertions(+), 2 deletions(-)
+>=20
+> --=20
+> 1.7.5.4
+>=20
+>=20
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
 
+--=20
+Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
 
+--s9fJI615cBHmzTOP
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: Digital signature
 
+-----BEGIN PGP SIGNATURE-----
+Version: GnuPG v2.0.18 (GNU/Linux)
+
+iEYEARECAAYFAk9gTewACgkQN1Ujt2V2gBz9SwCfTY2oVlGzHeoFzZz8kV9U4zGF
+NVoAn33OvEG4E4I+8EW7igq+umudNY2x
+=v5db
+-----END PGP SIGNATURE-----
+
+--s9fJI615cBHmzTOP--
