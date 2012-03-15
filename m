@@ -1,41 +1,14 @@
-Received: from mail-pz0-f47.google.com ([209.85.210.47])
+Received: from ffm.saftware.de ([83.141.3.46])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <darren@apps.dvhart.com>) id 1S8IrF-0006MW-Go
+	(envelope-from <obi@opendreambox.org>) id 1S8J87-0006cI-Q2
 	for openembedded-core@lists.openembedded.org;
-	Thu, 15 Mar 2012 23:09:18 +0100
-Received: by dado14 with SMTP id o14so5656165dad.6
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 15 Mar 2012 15:00:29 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=google.com; s=20120113;
-	h=sender:from:to:subject:date:message-id:x-mailer:in-reply-to
-	:references:in-reply-to:references:x-gm-message-state;
-	bh=cu/c4Ehhx4TDUZ1qcXUYZVhctCV+au6mmK8VLPl/UWE=;
-	b=KYdo0+AUZjGPhD+3OjX4jxJ4wKXiCp50rfKHdweASljzFBv/+7Lpizgm/JpvWoC7FT
-	jsjT5vjYu3VRQ3KS6vZnVz8NFd20pxWZXdZoy/V5nQeOyc0DGsiXRcBzNvsYBNoTizCd
-	rN33PYdELkogOhrGpZklDtxYAvT6ckHMpr4xRvKqvKrqduIGq8/A+u2EFc7/Dgbtw9bs
-	cqaDITq4CpzIs7VFMyts4I0BKKZmoF/IYe+S3MiR0mBWmU2znzsbRTIXlYt0vtoCj+c8
-	Icsicmo9j/dflGh4d4RtaxRywxCAEVKerJFTGxC6Qi4ut7ptSiDlttaXLtx8EMFiCNT0
-	JBjA==
-Received: by 10.68.237.1 with SMTP id uy1mr8121628pbc.151.1331848829915;
-	Thu, 15 Mar 2012 15:00:29 -0700 (PDT)
-Received: from localhost (static-50-53-102-193.bvtn.or.frontiernet.net.
-	[50.53.102.193])
-	by mx.google.com with ESMTPS id q8sm2736929pbi.1.2012.03.15.15.00.28
-	(version=TLSv1/SSLv3 cipher=OTHER);
-	Thu, 15 Mar 2012 15:00:29 -0700 (PDT)
-Sender: Darren Hart <darren@apps.dvhart.com>
-From: Darren Hart <dvhart@linux.intel.com>
+	Thu, 15 Mar 2012 23:26:43 +0100
+From: Andreas Oberritter <obi@opendreambox.org>
 To: openembedded-core@lists.openembedded.org
-Date: Thu, 15 Mar 2012 15:00:17 -0700
-Message-Id: <5ca651eb19c3fcb64de2ce405de0bc7fa2a8c90b.1331848750.git.dvhart@linux.intel.com>
+Date: Thu, 15 Mar 2012 23:17:52 +0100
+Message-Id: <1331849872-7074-1-git-send-email-obi@opendreambox.org>
 X-Mailer: git-send-email 1.7.5.4
-In-Reply-To: <cover.1331848750.git.dvhart@linux.intel.com>
-References: <cover.1331848750.git.dvhart@linux.intel.com>
-In-Reply-To: <cover.1331848750.git.dvhart@linux.intel.com>
-References: <cover.1331848750.git.dvhart@linux.intel.com>
-X-Gm-Message-State: ALoCoQk30fcjqQkcX7dtFDh40lKvtCgsWsbktMC2DnZezZaiPrnb6mGUx7om7YNcxdv3aBv5qEhz
-Subject: [PATCH 1/1] rt-tests: Add src/backfire to FILES_${PN}
+Subject: [PATCH] parted: update to version 3.1
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -50,48 +23,114 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 15 Mar 2012 22:09:19 -0000
+X-List-Received-Date: Thu, 15 Mar 2012 22:26:43 -0000
 
-Fixes [YOCTO #2114]
+* Supports disks > 2TB
 
-The rt-tests recipe was issuing the following WARNINGs:
-
-WARNING: For recipe rt-tests, the following files/directories were installed
-but not shipped in any package:
-WARNING:   /usr/src
-WARNING:   /usr/src/backfire
-WARNING:   /usr/src/backfire/backfire.c
-WARNING:   /usr/src/backfire/Makefile
-
-Add ${prefix}/src/backfire to FILES_${PN} to include these files in the package.
-These depend on the target kernel and are meant to be able to be rebuilt as
-needed.  Ideally we would also build this module and include it with rt-tests or
-the linux-yocto-rt kernel. For now, conform with the intent of the rt-tests
-Makefile and avoid the WARNINGs.
-
-Signed-off-by: Darren Hart <dvhart@linux.intel.com>
+Signed-off-by: Andreas Oberritter <obi@opendreambox.org>
 ---
- meta/recipes-rt/rt-tests/rt-tests_0.83.bb |    3 +++
- 1 files changed, 3 insertions(+), 0 deletions(-)
+ .../parted/parted-3.1/fix-doc-mandir.patch         |   20 ++++++++++++++++
+ .../parted/parted-3.1/fix-git-version-gen.patch    |   24 ++++++++++++++++++++
+ .../{parted-3.0 => parted-3.1}/no_check.patch      |    0
+ .../{parted-3.0 => parted-3.1}/syscalls.patch      |    0
+ .../parted/{parted_3.0.bb => parted_3.1.bb}        |   10 +++++---
+ 5 files changed, 50 insertions(+), 4 deletions(-)
+ create mode 100644 meta/recipes-extended/parted/parted-3.1/fix-doc-mandir.patch
+ create mode 100644 meta/recipes-extended/parted/parted-3.1/fix-git-version-gen.patch
+ rename meta/recipes-extended/parted/{parted-3.0 => parted-3.1}/no_check.patch (100%)
+ rename meta/recipes-extended/parted/{parted-3.0 => parted-3.1}/syscalls.patch (100%)
+ rename meta/recipes-extended/parted/{parted_3.0.bb => parted_3.1.bb} (57%)
 
-diff --git a/meta/recipes-rt/rt-tests/rt-tests_0.83.bb b/meta/recipes-rt/rt-tests/rt-tests_0.83.bb
-index 78d51b3..6425027 100644
---- a/meta/recipes-rt/rt-tests/rt-tests_0.83.bb
-+++ b/meta/recipes-rt/rt-tests/rt-tests_0.83.bb
-@@ -11,6 +11,7 @@ SRCREV = "5f1e84f8b015df3ff950056494134eca3f640d70"
- 
- # git -> 0.83 needs a PE bump
- PE = "1"
-+PR = "r1"
- 
- SRC_URI = "git://github.com/clrkwllms/rt-tests.git"
- 
-@@ -25,3 +26,5 @@ do_install() {
-         oe_runmake install DESTDIR=${D} SBINDIR=${sbindir} MANDIR=${mandir} \
-                            INCLUDEDIR=${includedir}
- }
+diff --git a/meta/recipes-extended/parted/parted-3.1/fix-doc-mandir.patch b/meta/recipes-extended/parted/parted-3.1/fix-doc-mandir.patch
+new file mode 100644
+index 0000000..0711d4e
+--- /dev/null
++++ b/meta/recipes-extended/parted/parted-3.1/fix-doc-mandir.patch
+@@ -0,0 +1,20 @@
++Upstream-Status: Submitted [bug-parted@gnu.org]
 +
-+FILES_${PN} += "${prefix}/src/backfire"
++| for po in `ls -1 ./*.pt_BR.po 2>/dev/null`; do \
++| 		make $(basename ${po%.pt_BR.po}); \
++| 	done
++| Makefile:904: *** Recursive variable `mandir' references itself (eventually).  Stop.
++
++Signed-off-by: Andreas Oberritter <obi@opendreambox.org>
++
++--- parted-3.1/doc/po4a.mk.orig	2012-03-15 14:09:11.555831872 +0100
+++++ parted-3.1/doc/po4a.mk	2012-03-15 14:10:44.243830985 +0100
++@@ -23,7 +23,7 @@
++ # threshold is 80%), it won't be distributed, and the build won't fail.
++ #
++ 
++-mandir = $(mandir)/$(lang)
+++mandir := $(mandir)/$(lang)
++ 
++ # Inform automake that we want to install some man pages in section 1, 5
++ # and 8.
+diff --git a/meta/recipes-extended/parted/parted-3.1/fix-git-version-gen.patch b/meta/recipes-extended/parted/parted-3.1/fix-git-version-gen.patch
+new file mode 100644
+index 0000000..3110a72
+--- /dev/null
++++ b/meta/recipes-extended/parted/parted-3.1/fix-git-version-gen.patch
+@@ -0,0 +1,24 @@
++Upstream-Status: Submitted [bug-parted@gnu.org]
++
++Initialize (version-)prefix to prevent inheritance from
++the build environment during autoreconf.
++
++| sed: -e expression #1, char 9: unknown option to `s'
++| configure.ac:55: error: AC_INIT should be called with package and version arguments
++| aclocal.m4:594: AM_INIT_AUTOMAKE is expanded from...
++| configure.ac:55: the top level
++| autom4te: /usr/bin/m4 failed with exit status: 1
++
++Signed-off-by: Andreas Oberritter <obi@opendreambox.org>
++
++--- parted-3.1/build-aux/git-version-gen.orig	2012-03-15 13:51:38.911841912 +0100
+++++ parted-3.1/build-aux/git-version-gen	2012-03-15 13:51:50.171841800 +0100
++@@ -92,6 +92,8 @@
++ 
++ Running without arguments will suffice in most cases."
++ 
+++prefix="v"
+++
++ while test $# -gt 0; do
++   case $1 in
++     --help) echo "$usage"; exit 0;;
+diff --git a/meta/recipes-extended/parted/parted-3.0/no_check.patch b/meta/recipes-extended/parted/parted-3.1/no_check.patch
+similarity index 100%
+rename from meta/recipes-extended/parted/parted-3.0/no_check.patch
+rename to meta/recipes-extended/parted/parted-3.1/no_check.patch
+diff --git a/meta/recipes-extended/parted/parted-3.0/syscalls.patch b/meta/recipes-extended/parted/parted-3.1/syscalls.patch
+similarity index 100%
+rename from meta/recipes-extended/parted/parted-3.0/syscalls.patch
+rename to meta/recipes-extended/parted/parted-3.1/syscalls.patch
+diff --git a/meta/recipes-extended/parted/parted_3.0.bb b/meta/recipes-extended/parted/parted_3.1.bb
+similarity index 57%
+rename from meta/recipes-extended/parted/parted_3.0.bb
+rename to meta/recipes-extended/parted/parted_3.1.bb
+index 2fba6d1..267e53b 100644
+--- a/meta/recipes-extended/parted/parted_3.0.bb
++++ b/meta/recipes-extended/parted/parted_3.1.bb
+@@ -6,12 +6,14 @@ SECTION = "console/tools"
+ DEPENDS = "readline e2fsprogs"
+ PR = "r0"
+ 
+-SRC_URI = "${GNU_MIRROR}/parted/parted-${PV}.tar.gz \
++SRC_URI = "${GNU_MIRROR}/parted/parted-${PV}.tar.xz \
+            file://no_check.patch \
+-           file://syscalls.patch "
++           file://syscalls.patch \
++           file://fix-git-version-gen.patch \
++           file://fix-doc-mandir.patch"
+ 
+-SRC_URI[md5sum] = "a94e84a9b9944715c4453f82ccc639bf"
+-SRC_URI[sha256sum] = "8886eece015202f6bd5ce8414f4b68838452cef509f2e3389ad56128219837b7"
++SRC_URI[md5sum] = "5d89d64d94bcfefa9ce8f59f4b81bdcb"
++SRC_URI[sha256sum] = "5e9cc1f91eaf016e5033d85b9b893fd6d3ffaca532a48de1082df9b94225ca15"
+ 
+ EXTRA_OECONF = "--disable-device-mapper"
+ 
 -- 
 1.7.5.4
 
