@@ -1,33 +1,23 @@
-Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
-	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <richard.purdie@linuxfoundation.org>)
-	id 1S8AbT-0003zA-PN for openembedded-core@lists.openembedded.org;
-	Thu, 15 Mar 2012 14:20:28 +0100
-Received: from localhost (localhost [127.0.0.1])
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q2FDBf6o021702
+Received: from mail1.windriver.com ([147.11.146.13])
+	by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <Liezhi.Yang@windriver.com>) id 1S8Axn-0004OE-TY
+	for openembedded-core@lists.openembedded.org;
+	Thu, 15 Mar 2012 14:43:32 +0100
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca [147.11.189.40])
+	by mail1.windriver.com (8.14.3/8.14.3) with ESMTP id q2FDYi4V017150
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 15 Mar 2012 13:11:41 GMT
-Received: from tim.rpsys.net ([127.0.0.1])
-	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
-	port 10024) with LMTP
-	id 20946-07 for <openembedded-core@lists.openembedded.org>;
-	Thu, 15 Mar 2012 13:11:36 +0000 (GMT)
-Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q2FDBVjq021682
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO)
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 15 Mar 2012 13:11:33 GMT
-Message-ID: <1331817091.18586.80.camel@ted>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Date: Thu, 15 Mar 2012 13:11:31 +0000
-In-Reply-To: <1331813535-9763-1-git-send-email-obi@opendreambox.org>
-References: <1331813535-9763-1-git-send-email-obi@opendreambox.org>
-X-Mailer: Evolution 3.2.2- 
-Mime-Version: 1.0
-X-Virus-Scanned: amavisd-new at rpsys.net
-Subject: Re: [PATCH] mirrors.bbclass: remove dead GNU mirrors
+	Thu, 15 Mar 2012 06:34:44 -0700 (PDT)
+Received: from build-PowerEdge-T100.corp.ad.wrs.com (128.224.163.66) by
+	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server id
+	14.1.255.0; Thu, 15 Mar 2012 06:34:44 -0700
+From: Robert Yang <liezhi.yang@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Thu, 15 Mar 2012 21:34:19 +0800
+Message-ID: <cover.1331818182.git.liezhi.yang@windriver.com>
+X-Mailer: git-send-email 1.7.4.1
+MIME-Version: 1.0
+Subject: [PATCH 0/3] logrotate: upgrade from 3.7.9 to 3.8.1
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -42,39 +32,41 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 15 Mar 2012 13:20:28 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Thu, 15 Mar 2012 13:43:32 -0000
+Content-Type: text/plain
 
-On Thu, 2012-03-15 at 13:12 +0100, Andreas Oberritter wrote:
-> * ftp.matrix.com.br and sunsite.ust.hk don't have DNS records.
-> * ftp.cs.ubc.ca doesn't host the referenced directory.
-> * ftp.ayamura.org doesn't respond to ping or ftp.
-> 
-> Signed-off-by: Andreas Oberritter <obi@opendreambox.org>
-> ---
->  meta/classes/mirrors.bbclass |    4 ----
->  1 files changed, 0 insertions(+), 4 deletions(-)
-> 
-> diff --git a/meta/classes/mirrors.bbclass b/meta/classes/mirrors.bbclass
-> index c08a3d7..c613595 100644
-> --- a/meta/classes/mirrors.bbclass
-> +++ b/meta/classes/mirrors.bbclass
-> @@ -18,10 +18,6 @@ ${DEBIAN_MIRROR}	ftp://ftp.es.debian.org/debian/pool \n \
->  ${DEBIAN_MIRROR}	ftp://ftp.se.debian.org/debian/pool \n \
->  ${DEBIAN_MIRROR}	ftp://ftp.tr.debian.org/debian/pool \n \
->  ${GNU_MIRROR}	ftp://mirrors.kernel.org/gnu \n \
-> -${GNU_MIRROR}	ftp://ftp.matrix.com.br/pub/gnu \n \
-> -${GNU_MIRROR}	ftp://ftp.cs.ubc.ca/mirror2/gnu \n \
-> -${GNU_MIRROR}	ftp://sunsite.ust.hk/pub/gnu \n \
-> -${GNU_MIRROR}	ftp://ftp.ayamura.org/pub/gnu \n \
->  ${KERNELORG_MIRROR}	http://www.kernel.org/pub \n \
->  ${KERNELORG_MIRROR}	ftp://ftp.us.kernel.org/pub \n \
->  ${KERNELORG_MIRROR}	ftp://ftp.uk.kernel.org/pub \n \
+Test info:
 
-Merged to master, thanks.
+* Has been tested on qemux86, qemuppc, qemuarm.
 
-Richard
+// Robert
+
+The following changes since commit 1e6dce3228a483b2367286e49c4aa8a71733dcbb:
+
+  ncurses: fix install error (2012-03-15 13:14:10 +0000)
+
+are available in the git repository at:
+  git://git.pokylinux.org/poky-contrib robert/logrotate
+  http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=robert/logrotate
+
+Robert Yang (3):
+  upgrade logrotate: split the old patch into 3
+  upgrade logrotate: update the recipe
+  upgrade logrotate: update the distro_tracking_fields.inc
+
+ .../conf/distro/include/distro_tracking_fields.inc |    6 +-
+ .../act-as-mv-when-rotate.patch}                   |   73 ++++----------------
+ .../disable-check-different-filesystems.patch      |   34 +++++++++
+ .../logrotate-3.8.1/update-the-manual.patch        |   42 +++++++++++
+ .../{logrotate_3.7.9.bb => logrotate_3.8.1.bb}     |   11 ++-
+ 5 files changed, 99 insertions(+), 67 deletions(-)
+ rename meta/recipes-extended/logrotate/{logrotate-3.7.9/allow-across-different-filesystems.patch => logrotate-3.8.1/act-as-mv-when-rotate.patch} (54%)
+ create mode 100644 meta/recipes-extended/logrotate/logrotate-3.8.1/disable-check-different-filesystems.patch
+ create mode 100644 meta/recipes-extended/logrotate/logrotate-3.8.1/update-the-manual.patch
+ rename meta/recipes-extended/logrotate/{logrotate_3.7.9.bb => logrotate_3.8.1.bb} (72%)
+
+-- 
+1.7.4.1
 
 
 
