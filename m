@@ -1,24 +1,24 @@
 Received: from mga09.intel.com ([134.134.136.24])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <sgw@linux.intel.com>) id 1S8GHV-00032W-VB
+	(envelope-from <sgw@linux.intel.com>) id 1S8GHW-00032X-2a
 	for openembedded-core@lists.openembedded.org;
 	Thu, 15 Mar 2012 20:24:14 +0100
 Received: from orsmga002.jf.intel.com ([10.7.209.21])
 	by orsmga102.jf.intel.com with ESMTP; 15 Mar 2012 12:15:25 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.67,351,1309762800"; d="scan'208";a="121397453"
+X-IronPort-AV: E=Sophos;i="4.67,351,1309762800"; d="scan'208";a="121397456"
 Received: from unknown (HELO swold-mobl.bigsur.com) ([10.255.15.152])
 	by orsmga002.jf.intel.com with ESMTP; 15 Mar 2012 12:15:25 -0700
 From: Saul Wold <sgw@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Thu, 15 Mar 2012 12:15:15 -0700
-Message-Id: <fb31443ac8dad612f1b41b91d172645f15c09d23.1331837170.git.sgw@linux.intel.com>
+Date: Thu, 15 Mar 2012 12:15:16 -0700
+Message-Id: <ad9b873774938e21036f367cfaa1a4e1a9bda717.1331837170.git.sgw@linux.intel.com>
 X-Mailer: git-send-email 1.7.7.6
 In-Reply-To: <cover.1331837170.git.sgw@linux.intel.com>
 References: <cover.1331837170.git.sgw@linux.intel.com>
 In-Reply-To: <cover.1331837170.git.sgw@linux.intel.com>
 References: <cover.1331837170.git.sgw@linux.intel.com>
-Subject: [PATCH 03/11] eee-acpi-scripts: Fix License warning
+Subject: [PATCH 04/11] usbinit: Fix License warning
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -35,25 +35,24 @@ List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedde
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Thu, 15 Mar 2012 19:24:14 -0000
 
-WARNING: eee-acpi-scripts: No generic license file exists for: GPL in any provider
+WARNING: usbinit: No generic license file exists for: GPL in any provider
 Signed-off-by: Saul Wold <sgw@linux.intel.com>
 ---
- .../eee-acpi-scripts/eee-acpi-scripts_git.bb       |    2 +-
+ meta/recipes-bsp/usbinit/usbinit.bb |    2 +-
  1 files changed, 1 insertions(+), 1 deletions(-)
 
-diff --git a/meta/recipes-bsp/eee-acpi-scripts/eee-acpi-scripts_git.bb b/meta/recipes-bsp/eee-acpi-scripts/eee-acpi-scripts_git.bb
-index 244cd94..1ded416 100644
---- a/meta/recipes-bsp/eee-acpi-scripts/eee-acpi-scripts_git.bb
-+++ b/meta/recipes-bsp/eee-acpi-scripts/eee-acpi-scripts_git.bb
-@@ -2,7 +2,7 @@ DESCRIPTION = "eeePC specific ACPI scripts"
- HOMEPAGE = "http://alioth.debian.org/projects/debian-eeepc/"
- SECTION = "base"
+diff --git a/meta/recipes-bsp/usbinit/usbinit.bb b/meta/recipes-bsp/usbinit/usbinit.bb
+index 3ec2329..e2a036e 100644
+--- a/meta/recipes-bsp/usbinit/usbinit.bb
++++ b/meta/recipes-bsp/usbinit/usbinit.bb
+@@ -1,6 +1,6 @@
+ DESCRIPTION = "Initscript to manage gadget Ethernet"
  
--LICENSE="GPL"
-+LICENSE="GPLv2"
- LIC_FILES_CHKSUM = "file://debian/copyright;md5=77ef83ab5f4af938a93edb61f7b74f2c"
+-LICENSE = "GPL"
++LICENSE = "GPLv2"
+ LIC_FILES_CHKSUM = "file://${WORKDIR}/COPYING.GPL;md5=751419260aa954499f7abaabaa882bbe"
  
- SRCREV = "9d4cdedca25b396405f8587f9c4fbf8229e041c2"
+ PR = "r2"
 -- 
 1.7.7.6
 
