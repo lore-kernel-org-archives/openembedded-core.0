@@ -1,38 +1,37 @@
 Received: from mga09.intel.com ([134.134.136.24])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <nitin.a.kamble@intel.com>) id 1S8D99-0005UU-Rv
+	(envelope-from <nitin.a.kamble@intel.com>) id 1S8DIU-0007Xv-4C
 	for openembedded-core@lists.openembedded.org;
-	Thu, 15 Mar 2012 17:03:24 +0100
+	Thu, 15 Mar 2012 17:13:02 +0100
 Received: from orsmga002.jf.intel.com ([10.7.209.21])
-	by orsmga102.jf.intel.com with ESMTP; 15 Mar 2012 08:54:03 -0700
+	by orsmga102.jf.intel.com with ESMTP; 15 Mar 2012 09:03:44 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.67,351,1309762800"; d="scan'208";a="121332704"
+X-IronPort-AV: E=Sophos;i="4.67,351,1309762800"; d="scan'208";a="121336879"
 Received: from orsmsx604.amr.corp.intel.com ([10.22.226.87])
-	by orsmga002.jf.intel.com with ESMTP; 15 Mar 2012 08:53:03 -0700
-Received: from orsmsx101.amr.corp.intel.com (10.22.225.128) by
+	by orsmga002.jf.intel.com with ESMTP; 15 Mar 2012 09:03:44 -0700
+Received: from orsmsx105.amr.corp.intel.com (10.22.225.132) by
 	orsmsx604.amr.corp.intel.com (10.22.226.87) with Microsoft SMTP Server
-	(TLS) id 8.2.255.0; Thu, 15 Mar 2012 08:53:02 -0700
+	(TLS) id 8.2.255.0; Thu, 15 Mar 2012 09:03:43 -0700
 Received: from orsmsx106.amr.corp.intel.com ([169.254.5.128]) by
-	ORSMSX101.amr.corp.intel.com ([169.254.8.154]) with mapi id
-	14.01.0355.002; Thu, 15 Mar 2012 08:53:02 -0700
+	ORSMSX105.amr.corp.intel.com ([169.254.4.199]) with mapi id
+	14.01.0355.002; Thu, 15 Mar 2012 09:03:43 -0700
 From: "Kamble, Nitin A" <nitin.a.kamble@intel.com>
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Thread-Topic: [OE-core] [PATCH 5/8] python: fix install when libdir is not
-	"lib"
-Thread-Index: AQHNAk+0kuYt965Ny06M0uScCbELvZZrIA8AgABih2A=
-Date: Thu, 15 Mar 2012 15:53:02 +0000
-Message-ID: <ADD6A3980E8C39419A432FF422031B4C01376622@ORSMSX106.amr.corp.intel.com>
+Thread-Topic: [OE-core] [PATCH 7/8] gcc: remove the 64bithack patch
+Thread-Index: AQHNAk+zyQ01G+x9uEG/yXflna3B1pZrfIoAgAAHwrA=
+Date: Thu, 15 Mar 2012 16:03:42 +0000
+Message-ID: <ADD6A3980E8C39419A432FF422031B4C01376643@ORSMSX106.amr.corp.intel.com>
 References: <ad10381bea270e54aeefbbc3af0f9f1dce60e49f.1331776831.git.nitin.a.kamble@intel.com>
-	<1b743bf3864539a8ce1902a269a5cec7d50dba1b.1331776832.git.nitin.a.kamble@intel.com>
-	<4F615B1E.1060004@opendreambox.org>
-In-Reply-To: <4F615B1E.1060004@opendreambox.org>
+	<9152da8c4a5a72705532722a11a3bfdaa0fe4787.1331776832.git.nitin.a.kamble@intel.com>
+	<1331800242.18586.70.camel@ted>
+In-Reply-To: <1331800242.18586.70.camel@ted>
 Accept-Language: en-US
 X-MS-Has-Attach: 
 X-MS-TNEF-Correlator: 
 x-originating-ip: [10.22.254.138]
 MIME-Version: 1.0
-Subject: Re: [PATCH 5/8] python: fix install when libdir is not "lib"
+Subject: Re: [PATCH 7/8] gcc: remove the 64bithack patch
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -47,7 +46,7 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 15 Mar 2012 16:03:24 -0000
+X-List-Received-Date: Thu, 15 Mar 2012 16:13:02 -0000
 Content-Language: en-US
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: quoted-printable
@@ -57,31 +56,43 @@ Content-Transfer-Encoding: quoted-printable
 > -----Original Message-----
 > From: openembedded-core-bounces@lists.openembedded.org
 > [mailto:openembedded-core-bounces@lists.openembedded.org] On Behalf Of
-> Andreas Oberritter
-> Sent: Wednesday, March 14, 2012 8:00 PM
-> To: openembedded-core@lists.openembedded.org
-> Subject: Re: [OE-core] [PATCH 5/8] python: fix install when libdir is
-> not "lib"
+> Richard Purdie
+> Sent: Thursday, March 15, 2012 1:31 AM
+> To: Patches and discussions about the oe-core layer
+> Subject: Re: [OE-core] [PATCH 7/8] gcc: remove the 64bithack patch
 >=20
-> Hello Nitin,
+> On Wed, 2012-03-14 at 19:02 -0700, nitin.a.kamble@intel.com wrote:
+> > From: Nitin A Kamble <nitin.a.kamble@intel.com>
+> >
+> > and bump PR
+> >
+> > Signed-off-by: Nitin A Kamble <nitin.a.kamble@intel.com>
+> > ---
+> >  meta/recipes-devtools/gcc/gcc-4.6.inc             |    1 -
+> >  meta/recipes-devtools/gcc/gcc-4.6/64bithack.patch |   68 -----------
+> ----------
+> >  2 files changed, 0 insertions(+), 69 deletions(-)
+> >  delete mode 100644 meta/recipes-devtools/gcc/gcc-4.6/64bithack.patch
 >=20
-> On 15.03.2012 03:02, nitin.a.kamble@intel.com wrote:
-> > --- a/meta/recipes-devtools/python/python_2.7.2.bb
-> > +++ b/meta/recipes-devtools/python/python_2.7.2.bb
-> > @@ -20,7 +20,7 @@ SRC_URI +=3D "\
-> >    file://setup_py_skip_cross_import_check.patch \
-> >    file://add-md5module-support.patch \
-> >    file://host_include_contamination.patch \
-> > -  file://sys_platform_is_now_always_linux2.patch \
 >=20
-> did you remove this one by accident?
+> As far as I can tell whilst this will make multilib work on the target
+> device, since you've removed this patch, the actual -cross toolchains
+> used for multilib builds will be broken since they may or may not look
+> in the correct libdir?
 >=20
-> Regards,
-> Andreas
+> Cheers,
 >=20
-Andreas,
-Yes, it was an accident. I will correct it. Thanks for catching.
+> Richard
+>=20
 
+Hi Richard,
+  This is not an issue. do_gcc_multilib_setup() is always configuring the g=
+cc multilib files. For cross gcc recipes it is only using DEFAULTTUNE while=
+ for target it is using DEFAULTTUNE & MULTILIB_VARIENTS. Also in my testing=
+ cross gcc recipes did not have any such issues.
+
+Thanks,
 Nitin
+
 
 
