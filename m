@@ -1,35 +1,20 @@
-Received: from mx4.leapfrog.com ([63.114.26.254])
+Received: from mga01.intel.com ([192.55.52.88])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <dlazzari@leapfrog.com>) id 1S7zMT-00028Q-E4
+	(envelope-from <nitin.a.kamble@intel.com>) id 1S809g-00034R-1x
 	for openembedded-core@lists.openembedded.org;
-	Thu, 15 Mar 2012 02:20:13 +0100
-Received: from mx4.leapfrog.com (localhost [127.0.0.1])
-	by localhost.leapfrog.com (Postfix) with ESMTP id B6B325E97
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 14 Mar 2012 18:11:01 -0700 (PDT)
-Received: from NAEXCHHT01.na.leapfrog.com (unknown [10.15.6.13])
-	by mx4.leapfrog.com (Postfix) with ESMTP id 9CBAE5E64
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 14 Mar 2012 18:11:01 -0700 (PDT)
-Received: from NAEMCASHT01.na.leapfrog.com (10.16.4.161) by
-	NAEXCHHT01.na.leapfrog.com (10.15.6.13) with Microsoft SMTP Server
-	(TLS) id 8.2.254.0; Wed, 14 Mar 2012 18:11:01 -0700
-Received: from NAEMMAIL01.na.leapfrog.com ([fe80::252e:28a6:3d8f:6991]) by
-	NAEMCASHT01.na.leapfrog.com ([::1]) with mapi id 14.01.0355.002;
-	Wed, 14 Mar 2012 18:11:01 -0700
-From: Daniel Lazzari <dlazzari@leapfrog.com>
-To: "openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Thread-Topic: Task after do_package repeating despite stamp
-Thread-Index: Ac0CSHocyF7qBMqzTMK+Jfr41OB3rg==
-Date: Thu, 15 Mar 2012 01:11:00 +0000
-Message-ID: <E7A9054A5ACABE48B0E540E46E862B0F0426C4F7@NAEMMAIL01.na.leapfrog.com>
-Accept-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [10.100.2.5]
-MIME-Version: 1.0
-Subject: Task after do_package repeating despite stamp
+	Thu, 15 Mar 2012 03:11:04 +0100
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+	by fmsmga101.fm.intel.com with ESMTP; 14 Mar 2012 19:02:17 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="129155913"
+Received: from nbuild0.sc.intel.com ([172.25.110.36])
+	by fmsmga001.fm.intel.com with ESMTP; 14 Mar 2012 19:02:17 -0700
+From: nitin.a.kamble@intel.com
+To: openembedded-core@lists.openembedded.org
+Date: Wed, 14 Mar 2012 19:02:15 -0700
+Message-Id: <cover.1331776831.git.nitin.a.kamble@intel.com>
+X-Mailer: git-send-email 1.7.6.4
+Subject: [PATCH 0/8] fixes, recipe upgrades, & gcc multilib enabling commits
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -44,38 +29,60 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 15 Mar 2012 01:20:13 -0000
-Content-Language: en-US
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Thu, 15 Mar 2012 02:11:04 -0000
 
-Let me preface this by saying I'm running an older oe-core (Angstrom) so th=
-is may be fixed in the latest, but if so, I'm hoping someone can point me a=
-t the patch to fix it.
+From: Nitin A Kamble <nitin.a.kamble@intel.com>
 
-I have a few recipes in our layer that need to generate proprietary package=
-s from ${D} after the do_package task has copied the files for its own devi=
-ces. To do this, I have a task like:
+For more information look at the individual commit logs.
 
-do_create_foo() {
-	#Generate foo package here
-	foo_pkger ${D} ${DEPLOY_DIR}/foo/${MACHINE}
-}
-addtask create_foo after do_package before do_build
-do_create_foo[dirs] =3D "${DEPLOY_DIR}/foo/${MACHINE}"
+The following changes since commit 8bae18bb358755131f13865abb279ac687a03848:
 
-The problem is, when building any recipe that depends on this recipe, it re=
-runs do_create_foo. This is especially problematic because we use rm_work, =
-so often when it goes back to rerun do_create_foo, ${D} no longer exists. I=
- checked and a stamp exists for the task.
+  slang: Fix rpath QA warnings (2012-03-15 00:11:40 +0000)
 
-Anyone have any insight? Is anyone else seeing something like this?
+are available in the git repository at:
+  git://git.pokylinux.org/poky-contrib gcc-multilib-2-for-push
+  http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=gcc-multilib-2-for-push
 
-Thanks,
+Nitin A Kamble (8):
+  gmp: upgrade from 5.0.3 to 5.0.4
+  automake: upgrade from 1.11.2 to 1.11.3
+  distro-tracking: update status of recipes
+  ncurses: fix install error
+  python: fix install when libdir is not "lib"
+  multilib.conf: add other abi packages to target gcc's dependencies
+  gcc: remove the 64bithack patch
+  gcc: enable multilib for target gcc
 
-Dan Lazzari Jr.
-Firmware Engineer
-dlazzari@leapfrog.com
+ .../conf/distro/include/distro_tracking_fields.inc |   24 ++--
+ meta/conf/multilib.conf                            |    3 +
+ meta/recipes-core/ncurses/ncurses.inc              |    2 +-
+ meta/recipes-devtools/automake/automake.inc        |    2 +-
+ ...utomake_1.11.2_fix_for_pkglibexec_SCRIPTS.patch |  118 ---------------
+ .../prefer-cpio-over-pax-for-ustar-archives.patch  |   30 ++--
+ .../automake/automake/python-libdir.patch          |   32 ++---
+ .../{automake_1.11.2.bb => automake_1.11.3.bb}     |    8 +-
+ meta/recipes-devtools/gcc/gcc-4.6.inc              |    1 -
+ meta/recipes-devtools/gcc/gcc-4.6/64bithack.patch  |   68 ---------
+ meta/recipes-devtools/gcc/gcc-common.inc           |   23 +++
+ meta/recipes-devtools/gcc/gcc-configure-common.inc |    2 +-
+ meta/recipes-devtools/gcc/gcc-configure-target.inc |    1 +
+ meta/recipes-devtools/gcc/gcc-multilib-config.inc  |  155 ++++++++++++++++++++
+ meta/recipes-devtools/gcc/libgcc_4.6.bb            |   42 ++++++
+ .../python/fix_for_using_different_libdir.patch    |   78 ++++++++++
+ meta/recipes-devtools/python/python_2.7.2.bb       |    3 +-
+ meta/recipes-support/gmp/gmp/gmp_bugfix.patch      |   94 ------------
+ .../gmp/{gmp_5.0.3.bb => gmp_5.0.4.bb}             |    7 +-
+ 19 files changed, 358 insertions(+), 335 deletions(-)
+ delete mode 100644 meta/recipes-devtools/automake/automake/automake_1.11.2_fix_for_pkglibexec_SCRIPTS.patch
+ rename meta/recipes-devtools/automake/{automake_1.11.2.bb => automake_1.11.3.bb} (85%)
+ delete mode 100644 meta/recipes-devtools/gcc/gcc-4.6/64bithack.patch
+ create mode 100644 meta/recipes-devtools/gcc/gcc-multilib-config.inc
+ create mode 100644 meta/recipes-devtools/python/python/fix_for_using_different_libdir.patch
+ delete mode 100644 meta/recipes-support/gmp/gmp/gmp_bugfix.patch
+ rename meta/recipes-support/gmp/{gmp_5.0.3.bb => gmp_5.0.4.bb} (54%)
+
+-- 
+1.7.6.4
 
 
 
