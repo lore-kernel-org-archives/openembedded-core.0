@@ -1,34 +1,20 @@
-Received: from mail-gy0-f175.google.com ([209.85.160.175])
+Received: from mga09.intel.com ([134.134.136.24])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <sakoman@gmail.com>) id 1S8GGW-000309-8N
+	(envelope-from <sgw@linux.intel.com>) id 1S8GHU-00032W-9g
 	for openembedded-core@lists.openembedded.org;
-	Thu, 15 Mar 2012 20:23:12 +0100
-Received: by ghbz2 with SMTP id z2so3390064ghb.6
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 15 Mar 2012 12:14:25 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
-	:content-type:content-transfer-encoding;
-	bh=OV0fa+rDtY8JfqT5B8Q+kODVoNl1DJfjaCRP9y3te+8=;
-	b=SVsyV4jGrSv+wMXwD21U1nQ65tQQZl+e5bZ4jXmvgYwFTmoKjflDilMek01zeT1jDu
-	bM/WWMADcPsapmdJfYxcnTMYJh9M/a0zZKvW02oAXOfhhBu05GsCmeecOazupwQGx6+o
-	ll0kx6gMZYGwUM8AGBXTOBBJ0xPiYvCkg1E7q7RN6J8zjIcKKuARzWJatvD/uWRtrwu6
-	Nkxcf8c0nq/qc72tfsEMlQNfyhGrMBGtmm28nhFSiP6oRA/xxLE7jPMjdI4r2K687O2g
-	6Lbp5Gvllgz7dQCalXl4Lre3sla0tYqWUk8+yISsUNr12ruXXR/u0uU2217utshrt1jc
-	D+/g==
-MIME-Version: 1.0
-Received: by 10.60.14.4 with SMTP id l4mr9707261oec.39.1331838864778; Thu, 15
-	Mar 2012 12:14:24 -0700 (PDT)
-Received: by 10.182.246.8 with HTTP; Thu, 15 Mar 2012 12:14:24 -0700 (PDT)
-In-Reply-To: <4F62171B.4060203@windriver.com>
-References: <CAGDS+n=KnzzUvUfv_T5X9yHPtOzQ7cgORh-ZbOJZDbFis9F69Q@mail.gmail.com>
-	<1331818796.18586.85.camel@ted> <4F62171B.4060203@windriver.com>
-Date: Thu, 15 Mar 2012 12:14:24 -0700
-Message-ID: <CAGDS+nmdJNhd4X2=vSFNsexnXZvE_pOy2vjD-k+6DoLGefFpCA@mail.gmail.com>
-From: Steve Sakoman <sakoman@gmail.com>
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: boost breaks on rebuild
+	Thu, 15 Mar 2012 20:24:12 +0100
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+	by orsmga102.jf.intel.com with ESMTP; 15 Mar 2012 12:15:24 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.67,351,1309762800"; d="scan'208";a="121397447"
+Received: from unknown (HELO swold-mobl.bigsur.com) ([10.255.15.152])
+	by orsmga002.jf.intel.com with ESMTP; 15 Mar 2012 12:15:24 -0700
+From: Saul Wold <sgw@linux.intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Thu, 15 Mar 2012 12:15:12 -0700
+Message-Id: <cover.1331837170.git.sgw@linux.intel.com>
+X-Mailer: git-send-email 1.7.7.6
+Subject: [PATCH 00/11] Warning Fixes
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -43,95 +29,55 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 15 Mar 2012 19:23:12 -0000
-Content-Type: text/plain; charset=ISO-8859-1
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Thu, 15 Mar 2012 19:24:12 -0000
 
-On Thu, Mar 15, 2012 at 9:21 AM, Mark Hatle <mark.hatle@windriver.com> wrot=
-e:
-> On 3/15/12 8:39 AM, Richard Purdie wrote:
->>
->> On Wed, 2012-03-14 at 15:28 -0700, Steve Sakoman wrote:
->>>
->>> NOTE: package boost-1.49.0-r2.0: task do_compile: Failed
->>>
->>> I don't have a fix for this but wanted to document the failure.
->>>
->>> As with all the other failures of this type, a -c cleansstate and
->>> rebuild is the workaround.
->>>
->>> It feels to me like there are quite a few recipes that don't handle
->>> rebuilds -- I seem to run into a few after every pull.
->
->
-> I've observed the same thing. =A0There seem to be a lot of packages that =
-once
-> they've been configured, compiled and installed, won't rebuild without be=
-ing
-> cleaned in someway.
+This addesses more warnings.  
 
-This is the one that really pisses me off, happens after every pull on
-my Ubuntu 64 bit build machine:
+I did a check with buildhistory, before and after the bitbake.conf
+change and did not see any negative issues.
 
-Summary: 1 task failed:
-  virtual:native:/home/steve/source/yocto/poky/meta/recipes-devtools/pseudo=
-/pseudo_1.2.bb,
-do_compile
-Summary: There were 8 WARNING messages shown.
-Summary: There was 1 ERROR message shown, returning a non-zero exit code.
+We can discuss this further and I can send you logs if needed
 
-No simple fix since any bitbake command complains about needing to
-rebuild psuedo:
+Sau!
 
-Pseudo is not present but is required, building this first before the main =
-build
 
-And of course the psuedo rebuild instantly fails!
+The following changes since commit d4f1ef6b8297826230a68e535098709d07de1f48:
 
-Steve
+  qt4: package static libraries correctly to fix warnings (2012-03-15 13:33:37 +0000)
 
-> One suggestion, maybe a new flag for a recipe that says that recipe rebui=
-lds
-> need to start from a clean patched tree? =A0Then if the do_configure ->
-> do_install steps have been run, it knows it needs to clean and
-> fetch/unpack/patch before it tries to rebuild the component... =A0(Maybe
-> sstate-cache can help speed this up in some way...)
->
-> Then over time we can find the items with the flags and attempt to fix th=
-em
-> in other ways...
->
-> --Mark
->
->
->> Agreed, there is a problem here. I've filed the bug:
->>
->> https://bugzilla.yoctoproject.org/show_bug.cgi?id=3D2123
->>
->> since I think we systematically need to work through these and eradicate
->> them.
->>
->> An alternative to fix some of the compile cases would be to run a "make
->> clean" before the make. I suspect this would annoy people and its a
->> shame to do that because of a few broken recipes though...
->>
->> Cheers,
->>
->> Richard
->>
->>
->>
->>
->> _______________________________________________
->> Openembedded-core mailing list
->> Openembedded-core@lists.openembedded.org
->> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
->
->
->
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
+are available in the git repository at:
+  git://git.openembedded.org/openembedded-core-contrib sgw/warns
+  http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=sgw/warns
+
+Saul Wold (11):
+  bitbake.conf: Modify PACKAGE list ordering to insert -staticdev file
+    before PN
+  dtc: Fix License warning
+  eee-acpi-scripts: Fix License warning
+  usbinit: Fix License warning
+  wget: Fix License warning
+  watchdog: Fix License warning
+  libnewt: fix license warnings
+  glib-networking: Fix packaging warnings
+  texi2html: fix packages warning
+  telepathy-glib: remove package warnings
+  gtk-theme-torturer: Fix license warning
+
+ meta/conf/bitbake.conf                             |    4 ++--
+ .../eee-acpi-scripts/eee-acpi-scripts_git.bb       |    2 +-
+ meta/recipes-bsp/usbinit/usbinit.bb                |    2 +-
+ .../telepathy/telepathy-glib_0.17.4.bb             |    7 ++++++-
+ .../glib-networking/glib-networking_2.28.7.bb      |    6 ++++--
+ meta/recipes-extended/newt/libnewt_0.52.14.bb      |    2 +-
+ meta/recipes-extended/texi2html/texi2html_5.0.bb   |    4 +++-
+ meta/recipes-extended/watchdog/watchdog_5.11.bb    |    2 +-
+ meta/recipes-extended/wget/wget.inc                |    2 +-
+ .../gtk-theme-torturer/gtk-theme-torturer_git.bb   |    2 +-
+ meta/recipes-kernel/dtc/dtc.inc                    |    2 +-
+ 11 files changed, 22 insertions(+), 13 deletions(-)
+
+-- 
+1.7.7.6
+
 
 
