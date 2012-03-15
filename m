@@ -1,56 +1,36 @@
-Received: from am1ehsobe005.messaging.microsoft.com ([213.199.154.208]
-	helo=am1outboundpool.messaging.microsoft.com)
+Received: from mail1.windriver.com ([147.11.146.13])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <B29882@freescale.com>) id 1S815o-0004nX-Is
+	(envelope-from <Kai.Kang@windriver.com>) id 1S83qV-0002qu-1n
 	for openembedded-core@lists.openembedded.org;
-	Thu, 15 Mar 2012 04:11:08 +0100
-Received: from mail18-am1-R.bigfish.com (10.3.201.252) by
-	AM1EHSOBE003.bigfish.com (10.3.204.23) with Microsoft SMTP Server id
-	14.1.225.23; Thu, 15 Mar 2012 02:47:18 +0000
-Received: from mail18-am1 (localhost [127.0.0.1])	by mail18-am1-R.bigfish.com
-	(Postfix) with ESMTP id 8E14180441	for
-	<openembedded-core@lists.openembedded.org>;
-	Thu, 15 Mar 2012 02:47:18 +0000 (UTC)
-X-SpamScore: -1
-X-BigFish: VS-1(zz9371I98dKzz1202hzz8275bhz2dh2a8h668h839h8e2h8e3hbe9k)
-X-Forefront-Antispam-Report: CIP:70.37.183.190; KIP:(null); UIP:(null); IPV:NLI;
-	H:mail.freescale.net; RD:none; EFVD:NLI
-Received: from mail18-am1 (localhost.localdomain [127.0.0.1]) by mail18-am1
-	(MessageSwitch) id 1331779637276972_4889;
-	Thu, 15 Mar 2012 02:47:17 +0000 (UTC)
-Received: from AM1EHSMHS009.bigfish.com (unknown [10.3.201.235])	by
-	mail18-am1.bigfish.com (Postfix) with ESMTP id 36EAF320045	for
-	<openembedded-core@lists.openembedded.org>;
-	Thu, 15 Mar 2012 02:47:17 +0000 (UTC)
-Received: from mail.freescale.net (70.37.183.190) by AM1EHSMHS009.bigfish.com
-	(10.3.207.109) with Microsoft SMTP Server (TLS) id 14.1.225.23;
-	Thu, 15 Mar 2012 02:47:17 +0000
-Received: from 039-SN1MPN1-001.039d.mgd.msft.net ([169.254.1.230]) by
-	039-SN1MMR1-002.039d.mgd.msft.net ([10.84.1.15]) with mapi id
-	14.01.0355.003; Wed, 14 Mar 2012 21:47:14 -0500
-From: McClintock Matthew-B29882 <B29882@freescale.com>
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Thread-Topic: [OE-core] [PATCH 8/8] gcc: enable multilib for target gcc
-Thread-Index: AQHNAlXskg2PXW4H00ieB0Tmd3PnXg==
-Date: Thu, 15 Mar 2012 02:47:13 +0000
-Message-ID: <CAEsOVNdBma0dRbnzkq05avjSbtJfVuSC67ihWvLi17RK_duaxQ@mail.gmail.com>
-References: <cover.1331776831.git.nitin.a.kamble@intel.com>
-	<ad10381bea270e54aeefbbc3af0f9f1dce60e49f.1331776831.git.nitin.a.kamble@intel.com>
-	<513484b0dacc94af1730ddf919b88f57adc63f53.1331776832.git.nitin.a.kamble@intel.com>
-In-Reply-To: <513484b0dacc94af1730ddf919b88f57adc63f53.1331776832.git.nitin.a.kamble@intel.com>
-Accept-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [99.47.177.27]
+	Thu, 15 Mar 2012 07:07:31 +0100
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca [147.11.189.40])
+	by mail1.windriver.com (8.14.3/8.14.3) with ESMTP id q2F5wNDE027416
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
+	Wed, 14 Mar 2012 22:58:23 -0700 (PDT)
+Received: from [128.224.162.241] (128.224.162.241) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server (TLS) id 14.1.255.0;
+	Wed, 14 Mar 2012 22:58:23 -0700
+Message-ID: <4F6184FF.9090603@windriver.com>
+Date: Thu, 15 Mar 2012 13:58:23 +0800
+From: Kang Kai <Kai.Kang@windriver.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:10.0.2) Gecko/20120216 Thunderbird/10.0.2
 MIME-Version: 1.0
-X-OriginatorOrg: freescale.com
-Subject: Re: [PATCH 8/8] gcc: enable multilib for target gcc
+To: Richard Purdie <richard.purdie@intel.com>
+References: <cover.1331713107.git.kai.kang@windriver.com>
+	<589114a82e66c3378344d0fb0f61a19880b6f7aa.1331713107.git.kai.kang@windriver.com>
+	<1331740508.18586.40.camel@ted>
+In-Reply-To: <1331740508.18586.40.camel@ted>
+X-Originating-IP: [128.224.162.241]
+X-MIME-Autoconverted: from 8bit to quoted-printable by mail1.windriver.com id
+	q2F5wNDE027416
+Cc: "Yang, Liezhi" <Liezhi.Yang@windriver.com>,
+	openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH 6/8] alsa-tools: update to 1.0.25
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
-Reply-To: McClintock Matthew-B29882 <B29882@freescale.com>,
-	Patches and discussions about the oe-core layer
+Reply-To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
 List-Id: Patches and discussions about the oe-core layer
 	<openembedded-core.lists.openembedded.org>
@@ -61,60 +41,104 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 15 Mar 2012 03:11:08 -0000
-Content-Language: en-US
-Content-Type: text/plain; charset="iso-8859-1"
-Content-ID: <62176A848C8F4243A5464C42CA436793@mgd.freescale.com>
+X-List-Received-Date: Thu, 15 Mar 2012 06:07:31 -0000
+Content-Type: text/plain; charset="UTF-8"; format=flowed
 Content-Transfer-Encoding: quoted-printable
 
-On Wed, Mar 14, 2012 at 9:02 PM,  <nitin.a.kamble@intel.com> wrote:
-> + =A0 =A0multilibs =3D d.getVar('MULTILIB_VARIANTS', True)
-> + =A0 =A0target_arch =3D d.getVar('TARGET_ARCH', True)
-> +
-> + =A0 =A0gcc_target_config_files =3D {
-> + =A0 =A0 =A0 =A0'x86_64' =A0 =A0 =A0: ['gcc/config/i386/t-linux64', 'gcc=
-/config/i386/t-linux'],
-> + =A0 =A0 =A0 =A0'i586' =A0 =A0 =A0 =A0: ['gcc/config/mips/t-linux'],
-> + =A0 =A0 =A0 =A0'mips' =A0 =A0 =A0 =A0: ['gcc/config/mips/t-linux64', 'g=
-cc/config/mips/t-linux'],
-> + =A0 =A0 =A0 =A0'ppc' =A0 =A0 =A0 =A0 : ['gcc/config/rs6000/t-linux64'] =
-}
-> +
-> + =A0 =A0gcc_header_config_files =3D {
-> + =A0 =A0 =A0 =A0'x86_64' =A0 =A0 =A0: ['gcc/config/i386/linux64.h'],
-> + =A0 =A0 =A0 =A0'i586' =A0 =A0 =A0 =A0: ['gcc/config/mips/linux.h'],
-> + =A0 =A0 =A0 =A0'mips' =A0 =A0 =A0 =A0: ['gcc/config/mips/linux64.h', 'g=
-cc/config/mips/linux.h'],
-> + =A0 =A0 =A0 =A0'ppc' =A0 =A0 =A0 =A0 : ['gcc/config/rs6000/linux64.h', =
-'gcc/config/rs6000/linux.h'] }
-> +
-> + =A0 =A0if target_arch not in gcc_target_config_files:
-> + =A0 =A0 =A0 =A0bb.warn('gcc multilib setup is not supported for TARGET_=
-ARCH=3D' + target_arch)
-> + =A0 =A0 =A0 =A0return
-> +
-> + =A0 =A0gcc_multilib_target_config_files =3D gcc_target_config_files[tar=
-get_arch]
-> + =A0 =A0gcc_multilib_header_config_files =3D gcc_header_config_files[tar=
-get_arch]
-> +
-> + =A0 =A0ml_list =3D ['DEFAULTTUNE']
-> + =A0 =A0if multilibs !=3D '':
-> + =A0 =A0 =A0 =A0for ml in multilibs.split(' '):
-> + =A0 =A0 =A0 =A0 =A0 =A0ml_list.append('DEFAULTTUNE_virtclass-multilib-'=
- + ml)
+On 2012=E5=B9=B403=E6=9C=8814=E6=97=A5 23:55, Richard Purdie wrote:
+> On Wed, 2012-03-14 at 17:03 +0800, Kang Kai wrote:
+>> Update to version 1.0.25
+>>
+>> Signed-off-by: Kang Kai<kai.kang@windriver.com>
+>> ---
+>>   .../autotools.patch                                |    0
+>>   ...alsa-tools_1.0.24.1.bb =3D>  alsa-tools_1.0.25.bb} |    6 +++---
+>>   2 files changed, 3 insertions(+), 3 deletions(-)
+>>   rename meta/recipes-multimedia/alsa/{alsa-tools-1.0.24.1 =3D>  alsa-=
+tools-1.0.25}/autotools.patch (100%)
+>>   rename meta/recipes-multimedia/alsa/{alsa-tools_1.0.24.1.bb =3D>  al=
+sa-tools_1.0.25.bb} (83%)
+>>
+>> diff --git a/meta/recipes-multimedia/alsa/alsa-tools-1.0.24.1/autotool=
+s.patch b/meta/recipes-multimedia/alsa/alsa-tools-1.0.25/autotools.patch
+>> similarity index 100%
+>> rename from meta/recipes-multimedia/alsa/alsa-tools-1.0.24.1/autotools=
+.patch
+>> rename to meta/recipes-multimedia/alsa/alsa-tools-1.0.25/autotools.pat=
+ch
+>> diff --git a/meta/recipes-multimedia/alsa/alsa-tools_1.0.24.1.bb b/met=
+a/recipes-multimedia/alsa/alsa-tools_1.0.25.bb
+>> similarity index 83%
+>> rename from meta/recipes-multimedia/alsa/alsa-tools_1.0.24.1.bb
+>> rename to meta/recipes-multimedia/alsa/alsa-tools_1.0.25.bb
+>> index ed2886d..1738081 100644
+>> --- a/meta/recipes-multimedia/alsa/alsa-tools_1.0.24.1.bb
+>> +++ b/meta/recipes-multimedia/alsa/alsa-tools_1.0.25.bb
+>> @@ -7,7 +7,7 @@ SECTION =3D "console/utils"
+>>   LICENSE =3D "GPLv2&  LGPLv2+"
+>>   DEPENDS =3D "alsa-lib ncurses"
+>>
+>> -PR =3D "r3"
+>> +PR =3D "r0"
+>>
+>>   LIC_FILES_CHKSUM =3D "file://hdsploader/COPYING;md5=3D94d55d512a9ba3=
+6caa9b7df079bae19f \
+>>                       file://ld10k1/COPYING.LIB;md5=3D7fbc338309ac38fe=
+fcd64b04bb903e34"
+>> @@ -15,8 +15,8 @@ LIC_FILES_CHKSUM =3D "file://hdsploader/COPYING;md5=3D=
+94d55d512a9ba36caa9b7df079bae1
+>>   SRC_URI =3D "ftp://ftp.alsa-project.org/pub/tools/alsa-tools-${PV}.t=
+ar.bz2 \
+>>              file://autotools.patch"
+>>
+>> -SRC_URI[md5sum] =3D "08fe93a12006093e590d7ecc02b119dd"
+>> -SRC_URI[sha256sum] =3D "17d43de93ab2db98886d89a53e45341daa46a4ef6edd4=
+05db87f4b5a5dc64a05"
+>> +SRC_URI[md5sum] =3D "06fe5819020c6684b991dcffc5471304"
+>> +SRC_URI[sha256sum] =3D "5a1a805cf04106316d549ec650116ce6711a162e107ba=
+8b3c551866680e286e6"
+>>
+>>   inherit autotools
+>>
 
-What about adding non-multilib variants? I want to make one toolchain
-for ppce500v2, ppce500mc, ppce5550, and ppc64e5500?
+Hi Richard,
 
-Also, somehow, should we enforce all "toolchains" are built through
-this multilib build process such that I only need to configure things
-properly and then theoretically I can make a toolchain ONCE that
-supports all desired targets? E.g. I don't think we want references to
-DEFAULTTUNE since I don't want the DEFAULTTUNE to matter? Does this
-make any sense?
+> I've reverted this. The checksums are wrong and even with that fixed, i=
+t
+> doesn't build. What testing are you doing?
+I am very sorry about this kind of mistake.
 
--M=
+When update the packages, I did
+1 update the bb file name, SRC_URI and reset revision etc.
+2 run 'bitbake pkg', then bitbake will warn checksum not match, then=20
+update the checksum with the right sums in Error Info
+3 run 'bitbake pkg' again then see if any other errors
+4 finally run 'bitbake pkg ' for other build target. For this serious I=20
+check them for qemux86-64 and powerpc.
+
+I am confused that I still get the alsa-tools successfully build with=20
+the wrong checksums after 'bitbake alsa-tools -c clean && rm -rf=20
+sstate-cache && touch conf/local.conf' for about 3 or 4 times. Then=20
+remove the source tar ball and modify the checksum in bb file, bitbake=20
+complains error again.
+
+I will send the update.
+
+Sorry again.
+
+Kai
+
+
+>
+> Cheers,
+>
+> Richard
+>
+>
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
 
 
 
