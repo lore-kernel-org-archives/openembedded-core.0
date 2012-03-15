@@ -1,25 +1,25 @@
-Received: from mail1.windriver.com ([147.11.146.13])
+Received: from mail.windriver.com ([147.11.1.11])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <Liezhi.Yang@windriver.com>) id 1S8Axp-0004OG-78
+	(envelope-from <Liezhi.Yang@windriver.com>) id 1S8Axq-0004OH-AK
 	for openembedded-core@lists.openembedded.org;
-	Thu, 15 Mar 2012 14:43:33 +0100
+	Thu, 15 Mar 2012 14:43:34 +0100
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca [147.11.189.40])
-	by mail1.windriver.com (8.14.3/8.14.3) with ESMTP id q2FDYkKt017153
+	by mail.windriver.com (8.14.3/8.14.3) with ESMTP id q2FDYlth027475
 	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 15 Mar 2012 06:34:46 -0700 (PDT)
+	Thu, 15 Mar 2012 06:34:47 -0700 (PDT)
 Received: from build-PowerEdge-T100.corp.ad.wrs.com (128.224.163.66) by
 	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server id
-	14.1.255.0; Thu, 15 Mar 2012 06:34:46 -0700
+	14.1.255.0; Thu, 15 Mar 2012 06:34:47 -0700
 From: Robert Yang <liezhi.yang@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Thu, 15 Mar 2012 21:34:21 +0800
-Message-ID: <a09f3df17483a2d144a07966c71b6f27a71d28d9.1331818182.git.liezhi.yang@windriver.com>
+Date: Thu, 15 Mar 2012 21:34:22 +0800
+Message-ID: <eb82f374dd8152c9cf0cae53811c15afcfadf822.1331818182.git.liezhi.yang@windriver.com>
 X-Mailer: git-send-email 1.7.4.1
 In-Reply-To: <cover.1331818182.git.liezhi.yang@windriver.com>
 References: <cover.1331818182.git.liezhi.yang@windriver.com>
 MIME-Version: 1.0
-Subject: [PATCH 2/3] upgrade logrotate: update the recipe
+Subject: [PATCH 3/3] upgrade logrotate: update the distro_tracking_fields.inc
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -34,50 +34,34 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 15 Mar 2012 13:43:33 -0000
+X-List-Received-Date: Thu, 15 Mar 2012 13:43:34 -0000
 Content-Type: text/plain
 
-update the recipe:
-ogrotate_3.7.9.bb -> logrotate_3.8.1.bb
+update the distro_tracking_fields.inc.
 
 Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
 ---
- .../{logrotate_3.7.9.bb => logrotate_3.8.1.bb}     |   11 +++++++----
- 1 files changed, 7 insertions(+), 4 deletions(-)
- rename meta/recipes-extended/logrotate/{logrotate_3.7.9.bb => logrotate_3.8.1.bb} (72%)
+ .../conf/distro/include/distro_tracking_fields.inc |    6 +++---
+ 1 files changed, 3 insertions(+), 3 deletions(-)
 
-diff --git a/meta/recipes-extended/logrotate/logrotate_3.7.9.bb b/meta/recipes-extended/logrotate/logrotate_3.8.1.bb
-similarity index 72%
-rename from meta/recipes-extended/logrotate/logrotate_3.7.9.bb
-rename to meta/recipes-extended/logrotate/logrotate_3.8.1.bb
-index 40d1a38..5a8156b 100644
---- a/meta/recipes-extended/logrotate/logrotate_3.7.9.bb
-+++ b/meta/recipes-extended/logrotate/logrotate_3.8.1.bb
-@@ -2,17 +2,20 @@ DESCRIPTION = "Rotates, compresses, removes and mails system log files"
- SECTION = "console/utils"
- HOMEPAGE = "https://fedorahosted.org/releases/l/o/logrotate"
- LICENSE = "GPLv2"
--PR = "r2"
-+PR = "r0"
+diff --git a/meta/conf/distro/include/distro_tracking_fields.inc b/meta/conf/distro/include/distro_tracking_fields.inc
+index 8ad924b..ae758fa 100644
+--- a/meta/conf/distro/include/distro_tracking_fields.inc
++++ b/meta/conf/distro/include/distro_tracking_fields.inc
+@@ -78,10 +78,10 @@ RECIPE_LAST_UPDATE_pn-linux-firmware = "Dec 30, 2011"
+ RECIPE_MANUAL_CHECK_DATE_pn-linux-firmware = "Dec 30, 2011"
+ RECIPE_MAINTAINER_pn-linux-firmware = "Dongxiao Xu <dongxiao.xu@intel.com>"
  
- DEPENDS="coreutils popt"
+-RECIPE_STATUS_pn-logrotate = "red"
++RECIPE_STATUS_pn-logrotate = "green"
+ RECIPE_LATEST_VERSION_pn-logrotate = "check"
+-RECIPE_LAST_UPDATE_pn-logrotate = "Sep 1, 2010"
+-RECIPE_MAINTAINER_pn-logrotate = "Xiaofeng.Yan <xiaofeng@windriver.com>"
++RECIPE_LAST_UPDATE_pn-logrotate = "Mar 14, 2012"
++RECIPE_MAINTAINER_pn-logrotate = "Robert Yang <liezhi.yang@windriver.com>"
  
- LIC_FILES_CHKSUM = "file://COPYING;md5=18810669f13b87348459e611d31ab760"
- 
- SRC_URI = "https://fedorahosted.org/releases/l/o/logrotate/logrotate-${PV}.tar.gz \
--           file://allow-across-different-filesystems.patch"
-+           file://act-as-mv-when-rotate.patch \
-+           file://disable-check-different-filesystems.patch \
-+           file://update-the-manual.patch \
-+            "
- 
--SRC_URI[md5sum] = "eeba9dbca62a9210236f4b83195e4ea5"
--SRC_URI[sha256sum] = "080caf904e70e04da16b8dfa95a5a787ec7d722ee1af18ccea437d3ffdd6fec0"
-+SRC_URI[md5sum] = "bd2e20d8dc644291b08f9215397d28a5"
-+SRC_URI[sha256sum] = "c12471e70ae8bc923bd5c4f25e8fd6483b68c6301f3cd79f7cfe37bc5b370169"
- 
- 
- EXTRA_OEMAKE = "CC='${CC}'"
+ RECIPE_STATUS_pn-loudmouth = "red"
+ RECIPE_LATEST_VERSION_pn-loudmouth = "check"
 -- 
 1.7.4.1
 
