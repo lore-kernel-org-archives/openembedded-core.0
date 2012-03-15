@@ -1,28 +1,33 @@
-Received: from hermes.mlbassoc.com ([64.234.241.98] helo=mail.chez-thomas.org)
-	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <gary@mlbassoc.com>) id 1S8AEX-00034l-7h
-	for openembedded-core@lists.openembedded.org;
-	Thu, 15 Mar 2012 13:56:45 +0100
-Received: by mail.chez-thomas.org (Postfix, from userid 1998)
-	id 22076F8124D; Thu, 15 Mar 2012 06:48:00 -0600 (MDT)
-X-Spam-Checker-Version: SpamAssassin 3.3.2 (2011-06-06) on
-	hermes.chez-thomas.org
-X-Spam-Level: 
-X-Spam-Status: No, score=-2.9 required=4.0 tests=ALL_TRUSTED,BAYES_00
-	autolearn=ham version=3.3.2
-Received: from hermes.chez-thomas.org (localhost.localdomain [127.0.0.1])
-	by mail.chez-thomas.org (Postfix) with ESMTP id 8CC98F8124C;
-	Thu, 15 Mar 2012 06:47:59 -0600 (MDT)
-Message-ID: <4F61E4FF.4070803@mlbassoc.com>
-Date: Thu, 15 Mar 2012 06:47:59 -0600
-From: Gary Thomas <gary@mlbassoc.com>
-User-Agent: Mozilla/5.0 (X11; Linux i686;
-	rv:10.0.1) Gecko/20120216 Thunderbird/10.0.1
-MIME-Version: 1.0
-To: openembedded-core@lists.openembedded.org
-References: <4F61E038.9020700@mlbassoc.com>
-In-Reply-To: <4F61E038.9020700@mlbassoc.com>
-Subject: Re: Interesting bitbake/fetcher error
+Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
+	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <richard.purdie@linuxfoundation.org>)
+	id 1S8AbT-0003zA-PN for openembedded-core@lists.openembedded.org;
+	Thu, 15 Mar 2012 14:20:28 +0100
+Received: from localhost (localhost [127.0.0.1])
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q2FDBf6o021702
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 15 Mar 2012 13:11:41 GMT
+Received: from tim.rpsys.net ([127.0.0.1])
+	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
+	port 10024) with LMTP
+	id 20946-07 for <openembedded-core@lists.openembedded.org>;
+	Thu, 15 Mar 2012 13:11:36 +0000 (GMT)
+Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q2FDBVjq021682
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO)
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 15 Mar 2012 13:11:33 GMT
+Message-ID: <1331817091.18586.80.camel@ted>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Date: Thu, 15 Mar 2012 13:11:31 +0000
+In-Reply-To: <1331813535-9763-1-git-send-email-obi@opendreambox.org>
+References: <1331813535-9763-1-git-send-email-obi@opendreambox.org>
+X-Mailer: Evolution 3.2.2- 
+Mime-Version: 1.0
+X-Virus-Scanned: amavisd-new at rpsys.net
+Subject: Re: [PATCH] mirrors.bbclass: remove dead GNU mirrors
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -37,38 +42,39 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 15 Mar 2012 12:56:45 -0000
-Content-Type: text/plain; charset=ISO-8859-1; format=flowed
+X-List-Received-Date: Thu, 15 Mar 2012 13:20:28 -0000
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 
-On 2012-03-15 06:27, Gary Thomas wrote:
-> I have two recipes for midori (attached). When I try to build
-> the latest version, I get this error:
-> ERROR: Fetcher failure for URL: 'http://archive.xfce.org/src/apps/midori/0.4/midori-0.4.4.tar.bz2;name=midori'. Checksum mismatch!
-> File: '/local/my_test/downloads/midori-0.4.4.tar.bz2' has md5 checksum a6578ebfd237c0f22cce49113b95f70c when 900037557b82818d79d2dd1c5a7d7fd2 was expected
-> File: '/local/my_test/downloads/midori-0.4.4.tar.bz2' has sha256 checksum fadd43f76c1c9f6a16483e60a804e58fb6817c6a595b1acdd59bcbdd7b35bca2 when
-> fca4a0eab03358f20d7700069dbf2faaf8fa5c11aaad97f4208aea608f4bed9f was expected
->
-> It looks like having qualified checksums doesn't work quite right? It's obviously
-> comparing the sums from the 0.4.3 recipe even though 0.4.4 is being executed.
-> midori_0.4.3
-> SRC_URI[midori.md5sum] = "900037557b82818d79d2dd1c5a7d7fd2"
-> SRC_URI[midori.sha256sum] = "fca4a0eab03358f20d7700069dbf2faaf8fa5c11aaad97f4208aea608f4bed9f"
->
-> Midori_0.4.4
-> SRC_URI[midori.md5sum] = "a6578ebfd237c0f22cce49113b95f70c"
-> SRC_URI[midori.sha256sum] = "fadd43f76c1c9f6a16483e60a804e58fb6817c6a595b1acdd59bcbdd7b35bca2"
->
-> Interestingly, if I comment out those lines in the 0.4.3 recipe,
-> but still leave it in my tree, the fetcher works.
+On Thu, 2012-03-15 at 13:12 +0100, Andreas Oberritter wrote:
+> * ftp.matrix.com.br and sunsite.ust.hk don't have DNS records.
+> * ftp.cs.ubc.ca doesn't host the referenced directory.
+> * ftp.ayamura.org doesn't respond to ping or ftp.
+> 
+> Signed-off-by: Andreas Oberritter <obi@opendreambox.org>
+> ---
+>  meta/classes/mirrors.bbclass |    4 ----
+>  1 files changed, 0 insertions(+), 4 deletions(-)
+> 
+> diff --git a/meta/classes/mirrors.bbclass b/meta/classes/mirrors.bbclass
+> index c08a3d7..c613595 100644
+> --- a/meta/classes/mirrors.bbclass
+> +++ b/meta/classes/mirrors.bbclass
+> @@ -18,10 +18,6 @@ ${DEBIAN_MIRROR}	ftp://ftp.es.debian.org/debian/pool \n \
+>  ${DEBIAN_MIRROR}	ftp://ftp.se.debian.org/debian/pool \n \
+>  ${DEBIAN_MIRROR}	ftp://ftp.tr.debian.org/debian/pool \n \
+>  ${GNU_MIRROR}	ftp://mirrors.kernel.org/gnu \n \
+> -${GNU_MIRROR}	ftp://ftp.matrix.com.br/pub/gnu \n \
+> -${GNU_MIRROR}	ftp://ftp.cs.ubc.ca/mirror2/gnu \n \
+> -${GNU_MIRROR}	ftp://sunsite.ust.hk/pub/gnu \n \
+> -${GNU_MIRROR}	ftp://ftp.ayamura.org/pub/gnu \n \
+>  ${KERNELORG_MIRROR}	http://www.kernel.org/pub \n \
+>  ${KERNELORG_MIRROR}	ftp://ftp.us.kernel.org/pub \n \
+>  ${KERNELORG_MIRROR}	ftp://ftp.uk.kernel.org/pub \n \
 
-Note: this error is also unhelpful in that once the error is reported,
-the file '/local/my_test/downloads/midori-0.4.4.tar.bz2' is deleted!
+Merged to master, thanks.
 
--- 
-------------------------------------------------------------
-Gary Thomas                 |  Consulting for the
-MLB Associates              |    Embedded world
-------------------------------------------------------------
+Richard
+
 
 
