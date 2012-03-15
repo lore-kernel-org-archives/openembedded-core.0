@@ -1,33 +1,36 @@
-Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
-	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <richard.purdie@linuxfoundation.org>)
-	id 1S8HsN-0005Ku-0s for openembedded-core@lists.openembedded.org;
-	Thu, 15 Mar 2012 22:06:23 +0100
-Received: from localhost (localhost [127.0.0.1])
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q2FKvaQ0027078
+Received: from mail-pz0-f47.google.com ([209.85.210.47])
+	by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <darren@apps.dvhart.com>) id 1S8IrD-0006MU-KJ
+	for openembedded-core@lists.openembedded.org;
+	Thu, 15 Mar 2012 23:09:16 +0100
+Received: by dado14 with SMTP id o14so5656116dad.6
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 15 Mar 2012 20:57:36 GMT
-Received: from tim.rpsys.net ([127.0.0.1])
-	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
-	port 10024) with LMTP
-	id 25404-09 for <openembedded-core@lists.openembedded.org>;
-	Thu, 15 Mar 2012 20:57:29 +0000 (GMT)
-Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q2FKvRLS027066
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO)
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 15 Mar 2012 20:57:28 GMT
-Message-ID: <1331845047.18586.136.camel@ted>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Date: Thu, 15 Mar 2012 20:57:27 +0000
-In-Reply-To: <E7A9054A5ACABE48B0E540E46E862B0F0426D8C3@NAEMMAIL01.na.leapfrog.com>
-References: <E7A9054A5ACABE48B0E540E46E862B0F0426D8C3@NAEMMAIL01.na.leapfrog.com>
-X-Mailer: Evolution 3.2.2- 
-Mime-Version: 1.0
-X-Virus-Scanned: amavisd-new at rpsys.net
-Subject: Re: Task after do_package repeating despite stamp
+	Thu, 15 Mar 2012 15:00:27 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=google.com; s=20120113;
+	h=sender:from:to:subject:date:message-id:x-mailer:x-gm-message-state;
+	bh=UsJXVSK92FlXG07nPXjeAVU6YbQLbDji8jatbhlr3U4=;
+	b=OSSwCfcrjoDaDSCFFPoYYDAw7S6xkL07zpuApKD3QLLMusPKkYX8BZCNgd5GKK38pb
+	s500W1fjU+Fxg0a6q9qdqMLoiV6OD4YHa0h0QswpWnhB0tMUMhGPbCRP3507WBoin07E
+	ARTXeUfLEf23BI2mp7cj14yWg55Bn7eGat46TNm0lmlD85XGXrs7LW53ohvqdiHfIi7X
+	IPfghZHLEkDVP5459syorg/O5blnM7nIJkgg43usLLa8MHh+h84vBHAEYV1WF7TaGh1t
+	/jsj1i5fVRhHA4XarHLUEg6gc86fNyXudT+NKdhFuoLfLa6+BB7gJE1wYGp1nPMZib43
+	zm+g==
+Received: by 10.68.129.74 with SMTP id nu10mr8081634pbb.157.1331848827451;
+	Thu, 15 Mar 2012 15:00:27 -0700 (PDT)
+Received: from localhost (static-50-53-102-193.bvtn.or.frontiernet.net.
+	[50.53.102.193])
+	by mx.google.com with ESMTPS id 2sm2718503pbw.57.2012.03.15.15.00.25
+	(version=TLSv1/SSLv3 cipher=OTHER);
+	Thu, 15 Mar 2012 15:00:25 -0700 (PDT)
+Sender: Darren Hart <darren@apps.dvhart.com>
+From: Darren Hart <dvhart@linux.intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Thu, 15 Mar 2012 15:00:16 -0700
+Message-Id: <cover.1331848750.git.dvhart@linux.intel.com>
+X-Mailer: git-send-email 1.7.5.4
+X-Gm-Message-State: ALoCoQmIfo80l8OAmf4GdNlFZbBSX3SVlGFi0hdXnsQuflcZwKGfXZb6056H6lXsB2ZAHW7dAbGT
+Subject: [PATCH 0/1] rt-tests: Add src/backfire to FILES_${PN}
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -42,63 +45,24 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 15 Mar 2012 21:06:23 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Thu, 15 Mar 2012 22:09:16 -0000
 
-On Thu, 2012-03-15 at 19:13 +0000, Daniel Lazzari wrote:
-> >Date: Thu, 15 Mar 2012 08:19:54 +0000
-> >From: Richard Purdie <richard.purdie@linuxfoundation.org>
-> >Subject: Re: [OE-core] Task after do_package repeating despite stamp
-> >To: Patches and discussions about the oe-core layer
-> >	<openembedded-core@lists.openembedded.org>
-> >Message-ID: <1331799594.18586.61.camel@ted>
-> >Content-Type: text/plain; charset="UTF-8"
-> >
-> >On Thu, 2012-03-15 at 01:11 +0000, Daniel Lazzari wrote:
-> >> Let me preface this by saying I'm running an older oe-core (Angstrom) so
-> >this may be fixed in the latest, but if so, I'm hoping someone can point me at
-> >the patch to fix it.
-> >>
-> >> I have a few recipes in our layer that need to generate proprietary packages
-> >from ${D} after the do_package task has copied the files for its own devices.
-> >To do this, I have a task like:
-> >>
-> >> do_create_foo() {
-> >> 	#Generate foo package here
-> >> 	foo_pkger ${D} ${DEPLOY_DIR}/foo/${MACHINE}
-> >> }
-> >> addtask create_foo after do_package before do_build
-> >> do_create_foo[dirs] = "${DEPLOY_DIR}/foo/${MACHINE}"
-> >>
-> >> The problem is, when building any recipe that depends on this recipe,
-> >> it reruns do_create_foo. This is especially problematic because we use
-> >> rm_work, so often when it goes back to rerun do_create_foo, ${D} no
-> >> longer exists. I checked and a stamp exists for the task.
-> >>
-> >> Anyone have any insight? Is anyone else seeing something like this?
-> >
-> >It looks like you're creating something machine specific since you're
-> >placing it in ${MACHINE}. This effectively makes anything depending on
-> >this task machine specific also.
-> >
-> >Cheers,
-> >
-> >Richard
-> >
-> 
-> I finally found the answer to this in case anyone else runs into it.
-> The rm_work class removes stamps if they are not in a case statement
-> in that class. Once I added *do_create_foo* to the case statement, the
-> stamp was left alone and everything is working again.
+The following changes since commit d4f1ef6b8297826230a68e535098709d07de1f48:
 
-Ah, right. The other solution would be to cover this task with sstate,
-see deploy.bbclass as an example.
+  qt4: package static libraries correctly to fix warnings (2012-03-15 13:33:37 +0000)
 
-Cheers,
+are available in the git repository at:
+  git://git.yoctoproject.org/user-contrib/dvhart/oe-core dvhart/updates
+  http://git.yoctoproject.org/cgit.cgi/user-contrib/dvhart/oe-core/log/?h=dvhart/updates
 
-Richard
+Darren Hart (1):
+  rt-tests: Add src/backfire to FILES_${PN}
 
+ meta/recipes-rt/rt-tests/rt-tests_0.83.bb |    3 +++
+ 1 files changed, 3 insertions(+), 0 deletions(-)
+
+-- 
+1.7.5.4
 
 
 
