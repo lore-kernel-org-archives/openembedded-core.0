@@ -1,35 +1,28 @@
-Received: from mx4.leapfrog.com ([63.114.26.254])
+Received: from mail.windriver.com ([147.11.1.11])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <dlazzari@leapfrog.com>) id 1S80M8-0003YH-4j
+	(envelope-from <Liezhi.Yang@windriver.com>) id 1S80Tq-0003dz-0S
 	for openembedded-core@lists.openembedded.org;
-	Thu, 15 Mar 2012 03:23:56 +0100
-Received: from mx4.leapfrog.com (localhost [127.0.0.1])
-	by localhost.leapfrog.com (Postfix) with ESMTP id F1E5F5E97
+	Thu, 15 Mar 2012 03:31:54 +0100
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca [147.11.189.40])
+	by mail.windriver.com (8.14.3/8.14.3) with ESMTP id q2F2N6Uo010534
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 14 Mar 2012 19:15:08 -0700 (PDT)
-Received: from NAEXCHHT01.na.leapfrog.com (unknown [10.15.6.13])
-	by mx4.leapfrog.com (Postfix) with ESMTP id D124B5E7E
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 14 Mar 2012 19:15:08 -0700 (PDT)
-Received: from NAEMCASHT01.na.leapfrog.com (10.16.4.161) by
-	NAEXCHHT01.na.leapfrog.com (10.15.6.13) with Microsoft SMTP Server
-	(TLS) id 8.2.254.0; Wed, 14 Mar 2012 19:15:08 -0700
-Received: from NAEMMAIL01.na.leapfrog.com ([fe80::252e:28a6:3d8f:6991]) by
-	NAEMCASHT01.na.leapfrog.com ([::1]) with mapi id 14.01.0355.002;
-	Wed, 14 Mar 2012 19:15:09 -0700
-From: Daniel Lazzari <dlazzari@leapfrog.com>
-To: "'openembedded-core@lists.openembedded.org'"
-	<openembedded-core@lists.openembedded.org>
-Thread-Topic: Task after do_package repeating despite stamp
-Thread-Index: Ac0CUW/QMiCu8vdBRfKwnqPwlsYDyQ==
-Date: Thu, 15 Mar 2012 02:15:07 +0000
-Message-ID: <E7A9054A5ACABE48B0E540E46E862B0F0426C556@NAEMMAIL01.na.leapfrog.com>
-Accept-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [10.100.2.5]
+	Wed, 14 Mar 2012 19:23:06 -0700 (PDT)
+Received: from [128.224.162.196] (128.224.162.196) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server id 14.1.255.0;
+	Wed, 14 Mar 2012 19:23:06 -0700
+Message-ID: <4F615289.8070801@windriver.com>
+Date: Thu, 15 Mar 2012 10:23:05 +0800
+From: Robert Yang <liezhi.yang@windriver.com>
+User-Agent: Mozilla/5.0 (X11; Linux i686;
+	rv:9.0) Gecko/20111229 Thunderbird/9.0
 MIME-Version: 1.0
-Subject: Re: Task after do_package repeating despite stamp
+To: <openembedded-core@lists.openembedded.org>
+References: <cover.1331716010.git.liezhi.yang@windriver.com>
+	<34489f7f0d7f0457df45e2ee4606b51a09ed1704.1331716010.git.liezhi.yang@windriver.com>
+	<1331738800.18586.39.camel@ted>
+In-Reply-To: <1331738800.18586.39.camel@ted>
+Subject: Re: [PATCH 1/1] gcc-cross: aviod creating invalid symlinks
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -44,51 +37,90 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 15 Mar 2012 02:23:56 -0000
-Content-Language: en-US
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Thu, 15 Mar 2012 02:31:54 -0000
+Content-Type: text/plain; charset="ISO-8859-1"; format=flowed
+Content-Transfer-Encoding: 7bit
 
->Date: Thu, 15 Mar 2012 01:11:00 +0000
->From: Daniel Lazzari <dlazzari@leapfrog.com>
->Subject: [OE-core] Task after do_package repeating despite stamp
->To: "openembedded-core@lists.openembedded.org"
->	<openembedded-core@lists.openembedded.org>
->Message-ID:
->	<E7A9054A5ACABE48B0E540E46E862B0F0426C4F7@NAEMMAIL01.na.l
->eapfrog.com>
->Content-Type: text/plain; charset=3D"us-ascii"
+
+
+On 03/14/2012 11:26 PM, Richard Purdie wrote:
+> On Wed, 2012-03-14 at 17:13 +0800, Robert Yang wrote:
+>> There are several invalid symlinks in gcc-cross-initial,
+>> gcc-cross-intermediate and gcc-cross, these cause the error:(56 errors)
+>>
+>> tmp/work/i586-poky-linux/gcc-cross-initial-4.6.3+svnr184847-r23/temp/log.do_populate_sysroot:
+>> log.do_populate_sysroot:grep: /path/to/invalid/symlink: No such file or directory
+>>
+>> Avoid creating invalid symlinks would fix this problem.
+>>
+>> Use the:
+>> [ ! -e file ] || do_something
+>> But not use:
+>> [ -e file ]&&  do_something
+>> is because that if the "file" doesn't exist, then the whole statement
+>> would return false, and bitbake treats this an error, so use the "||" to
+>> let it always be true.
+>>
+>> [YOCTO #2095]
+>>
+>> Signed-off-by: Robert Yang<liezhi.yang@windriver.com>
+>> ---
+>>   .../gcc/gcc-cross-intermediate.inc                 |    3 ++-
+>>   meta/recipes-devtools/gcc/gcc-package-cross.inc    |    6 ++++--
+>>   2 files changed, 6 insertions(+), 3 deletions(-)
+>>
+>> diff --git a/meta/recipes-devtools/gcc/gcc-cross-intermediate.inc b/meta/recipes-devtools/gcc/gcc-cross-intermediate.inc
+>> index ea105e6..87d11ab 100644
+>> --- a/meta/recipes-devtools/gcc/gcc-cross-intermediate.inc
+>> +++ b/meta/recipes-devtools/gcc/gcc-cross-intermediate.inc
+>> @@ -51,7 +51,8 @@ do_install () {
+>>   	dest=${D}${libexecdir}/gcc/${TARGET_SYS}/${BINV}/
+>>   	install -d $dest
+>>   	for t in ar as ld nm objcopy objdump ranlib strip g77 gcc cpp gfortran; do
+>> -		ln -sf ${BINRELPATH}/${TARGET_PREFIX}$t $dest$t
+>> +		[ ! -e ${BINRELPATH}/${TARGET_PREFIX}$t ] || \
+>> +	        ln -sf ${BINRELPATH}/${TARGET_PREFIX}$t $dest$t
+>>   	done
+>>   }
+>>
+>> diff --git a/meta/recipes-devtools/gcc/gcc-package-cross.inc b/meta/recipes-devtools/gcc/gcc-package-cross.inc
+>> index e32412c..3d52d23 100644
+>> --- a/meta/recipes-devtools/gcc/gcc-package-cross.inc
+>> +++ b/meta/recipes-devtools/gcc/gcc-package-cross.inc
+>> @@ -19,8 +19,10 @@ do_install () {
+>>   	dest=${D}${libexecdir}/gcc/${TARGET_SYS}/${BINV}/
+>>   	install -d $dest
+>>   	for t in ar as ld nm objcopy objdump ranlib strip g77 gcc cpp gfortran; do
+>> -		ln -sf ${BINRELPATH}/${TARGET_PREFIX}$t $dest$t
+>> -		ln -sf ${BINRELPATH}/${TARGET_PREFIX}$t ${dest}${TARGET_PREFIX}$t
+>> +        if [ -e ${BINRELPATH}/${TARGET_PREFIX}$t ]; then
+>> +		    ln -sf ${BINRELPATH}/${TARGET_PREFIX}$t $dest$t
+>> +		    ln -sf ${BINRELPATH}/${TARGET_PREFIX}$t ${dest}${TARGET_PREFIX}$t
+>> +        fi
+>>   	done
+>>
+>>   	# Remove things we don't need but keep share/java
 >
->Let me preface this by saying I'm running an older oe-core (Angstrom) so t=
-his
->may be fixed in the latest, but if so, I'm hoping someone can point me at =
-the
->patch to fix it.
 >
->I have a few recipes in our layer that need to generate proprietary packag=
-es
->from ${D} after the do_package task has copied the files for its own devic=
-es.
->To do this, I have a task like:
->
->do_create_foo() {
->	#Generate foo package here
->	foo_pkger ${D} ${DEPLOY_DIR}/foo/${MACHINE}
->}
->addtask create_foo after do_package before do_build
->do_create_foo[dirs] =3D "${DEPLOY_DIR}/foo/${MACHINE}"
->
->The problem is, when building any recipe that depends on this recipe, it
->reruns do_create_foo. This is especially problematic because we use
->rm_work, so often when it goes back to rerun do_create_foo, ${D} no longer
->exists. I checked and a stamp exists for the task.
->
->Anyone have any insight? Is anyone else seeing something like this?
+> I've had to revert this, it totally broke the mips/ppc/arm toolchains.
+> See the failures on the autobuilder, e.g.
+> http://autobuilder.yoctoproject.org:8010/builders/nightly-arm/builds/338/steps/shell_33/logs/stdio in eglibc-initial. The problem is that the location we're symlinking to may not be installed yet. For example, gcc provides "${TARGET_PREFIX}gcc" but it won't be installed at the location we point at until after gcc's populate_sysroot function runs. The tests you're using are therefore not adding as many symlinks as we need.
 >
 
-Upon closer inspection, there isn't actually a stamp for this, just a sigda=
-ta file. I put a quick tracer in bb.build.make_stamp and it is reaching thi=
-s point. At the very least I am not as stuck as I thought I was. Help is st=
-ill very much appreciated though if anyone knows what's going on.
+I'm really sorry for this, I will drop the it.
+
+// Robert
+
+> Cheers,
+>
+> Richard
+>
+>
+>
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
+>
 
 
