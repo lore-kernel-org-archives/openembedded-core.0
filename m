@@ -1,25 +1,38 @@
-Received: from mga09.intel.com ([134.134.136.24])
+Received: from mga11.intel.com ([192.55.52.93])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <paul.eggleton@linux.intel.com>) id 1S8D4y-000758-Lb
+	(envelope-from <nitin.a.kamble@intel.com>) id 1S8D51-00075C-7E
 	for openembedded-core@lists.openembedded.org;
-	Thu, 15 Mar 2012 16:59:09 +0100
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-	by orsmga102.jf.intel.com with ESMTP; 15 Mar 2012 08:50:08 -0700
+	Thu, 15 Mar 2012 16:59:10 +0100
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+	by fmsmga102.fm.intel.com with ESMTP; 15 Mar 2012 08:50:20 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.67,352,1309762800"; d="scan'208";a="117988267"
-Received: from unknown (HELO helios.localnet) ([10.252.123.170])
-	by orsmga001.jf.intel.com with ESMTP; 15 Mar 2012 08:49:07 -0700
-From: Paul Eggleton <paul.eggleton@linux.intel.com>
-To: "Robert P. J. Day" <rpjday@crashcourse.ca>
-Date: Thu, 15 Mar 2012 15:49:06 +0000
-Message-ID: <1563461.vmjMO1vnYW@helios>
-Organization: Intel Corporation
-User-Agent: KMail/4.8.0 (Linux/3.0.0-16-generic-pae; KDE/4.8.1; i686; ; )
-In-Reply-To: <alpine.DEB.2.02.1203090830180.22520@oneiric>
-References: <alpine.DEB.2.02.1203090830180.22520@oneiric>
+X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="129376368"
+Received: from orsmsx606.amr.corp.intel.com ([10.22.226.128])
+	by fmsmga001.fm.intel.com with ESMTP; 15 Mar 2012 08:50:19 -0700
+Received: from orsmsx105.amr.corp.intel.com (10.22.225.132) by
+	orsmsx606.amr.corp.intel.com (10.22.226.128) with Microsoft SMTP Server
+	(TLS) id 8.2.255.0; Thu, 15 Mar 2012 08:50:19 -0700
+Received: from orsmsx106.amr.corp.intel.com ([169.254.5.128]) by
+	ORSMSX105.amr.corp.intel.com ([169.254.4.199]) with mapi id
+	14.01.0355.002; Thu, 15 Mar 2012 08:50:19 -0700
+From: "Kamble, Nitin A" <nitin.a.kamble@intel.com>
+To: McClintock Matthew-B29882 <B29882@freescale.com>, Patches and discussions
+	about the oe-core layer <openembedded-core@lists.openembedded.org>
+Thread-Topic: [OE-core] [PATCH 8/8] gcc: enable multilib for target gcc
+Thread-Index: AQHNAk+1sXsM6mJfx0aJt6kFIEQGKpZrG0YAgABmkPA=
+Date: Thu, 15 Mar 2012 15:50:18 +0000
+Message-ID: <ADD6A3980E8C39419A432FF422031B4C0137660D@ORSMSX106.amr.corp.intel.com>
+References: <cover.1331776831.git.nitin.a.kamble@intel.com>
+	<ad10381bea270e54aeefbbc3af0f9f1dce60e49f.1331776831.git.nitin.a.kamble@intel.com>
+	<513484b0dacc94af1730ddf919b88f57adc63f53.1331776832.git.nitin.a.kamble@intel.com>
+	<CAEsOVNceckzotWC3xA9emHbW3aW8DxBk_zArYN1KHhn3anUQ1g@mail.gmail.com>
+In-Reply-To: <CAEsOVNceckzotWC3xA9emHbW3aW8DxBk_zArYN1KHhn3anUQ1g@mail.gmail.com>
+Accept-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [10.22.254.138]
 MIME-Version: 1.0
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: IMAGE_FEATURES vs EXTRA_IMAGE_FEATURES?
+Subject: Re: [PATCH 8/8] gcc: enable multilib for target gcc
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -35,60 +48,32 @@ List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Thu, 15 Mar 2012 15:59:11 -0000
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
+Content-Language: en-US
+Content-Type: text/plain; charset="iso-8859-1"
+Content-Transfer-Encoding: quoted-printable
 
-On Friday 09 March 2012 08:38:25 Robert P. J. Day wrote:
->   again, reading the poky ref manual over at yocto, and here's the
-> explanation of EXTRA_IMAGE_FEATURES:
-> 
->   "Allows extra packages to be added to the generated images. You set
-> this variable in the local.conf configuration file. Note that some
-> image features are also added using the IMAGE_FEATURES variable
-> generally configured in image recipes. You can use this variable to
-> add more features in addition to those."
-> 
->   now that *sounds* like you would just *assign* that in your
-> local.conf file to add some features, as in:
-> 
-> EXTRA_IMAGE_FEATURES = "fubar snafu"
-> 
-> or something similar.
-> 
->   but first, how is that different from:
-> 
-> IMAGE_FEATURES += "fubar snafu"
-> 
-> after all, bitbake.conf contains:
-> 
-> IMAGE_FEATURES += "${EXTRA_IMAGE_FEATURES}"
 
-If the image recipe itself sets IMAGE_FEATURES with = instead of += then this 
-will not work; but neither will setting EXTRA_IMAGE_FEATURES unless the recipe 
-adds that as well. FWIW all of the recipes in OE-Core that set IMAGE_FEATURES 
-add to it with +=.
 
-I suspect it was just seen as a bit safer to have EXTRA_IMAGE_FEATURES as the 
-variable you can do whatever you want with in local.conf.
+> -----Original Message-----
+> From: openembedded-core-bounces@lists.openembedded.org
+> [mailto:openembedded-core-bounces@lists.openembedded.org] On Behalf Of
+> McClintock Matthew-B29882
+> Sent: Wednesday, March 14, 2012 7:43 PM
+> To: Patches and discussions about the oe-core layer
+> Subject: Re: [OE-core] [PATCH 8/8] gcc: enable multilib for target gcc
+>=20
+> On Wed, Mar 14, 2012 at 9:02 PM,  <nitin.a.kamble@intel.com> wrote:
+> > =A0 ${libdir}/${TARGET_SYS}/${BINV}/crt* \
+> > + =A0${libdir}/${TARGET_SYS}/${BINV}/32 \
+> > + =A0${libdir}/${TARGET_SYS}/${BINV}/x32 \
+> > + =A0${libdir}/${TARGET_SYS}/${BINV}/n32 \
+>=20
+> Would ${libdir}/${TARGET_SYS}/${BINV}/64 ever exist?
+>=20
+> -M
 
->   also, i notice this in core-image-rt-sdk.bb:
-> 
-> IMAGE_FEATURES += "dev-pkgs tools-sdk"
-> EXTRA_IMAGE_FEATURES += "tools-debug tools-profile tools-testapps
-> debug-tweaks"
-> 
-> what is the point of those features being broken over those two
-> variables?
+It will exist. Thanks for catching this.
 
-Yes, that looks silly to me too. We should probably correct it. (Feel free to 
-file a bug or submit a patch ;)
-
-Cheers,
-Paul
-
--- 
-
-Paul Eggleton
-Intel Open Source Technology Centre
+Nitin
 
 
