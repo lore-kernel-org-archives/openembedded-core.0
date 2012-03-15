@@ -1,32 +1,56 @@
-Received: from mail.windriver.com ([147.11.1.11])
+Received: from am1ehsobe004.messaging.microsoft.com ([213.199.154.207]
+	helo=am1outboundpool.messaging.microsoft.com)
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <Liezhi.Yang@windriver.com>) id 1S80Tq-0003dz-0S
+	(envelope-from <B29882@freescale.com>) id 1S80mj-00048j-4k
 	for openembedded-core@lists.openembedded.org;
-	Thu, 15 Mar 2012 03:31:54 +0100
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca [147.11.189.40])
-	by mail.windriver.com (8.14.3/8.14.3) with ESMTP id q2F2N6Uo010534
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 14 Mar 2012 19:23:06 -0700 (PDT)
-Received: from [128.224.162.196] (128.224.162.196) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server id 14.1.255.0;
-	Wed, 14 Mar 2012 19:23:06 -0700
-Message-ID: <4F615289.8070801@windriver.com>
-Date: Thu, 15 Mar 2012 10:23:05 +0800
-From: Robert Yang <liezhi.yang@windriver.com>
-User-Agent: Mozilla/5.0 (X11; Linux i686;
-	rv:9.0) Gecko/20111229 Thunderbird/9.0
+	Thu, 15 Mar 2012 03:51:25 +0100
+Received: from mail11-am1-R.bigfish.com (10.3.201.246) by
+	AM1EHSOBE004.bigfish.com (10.3.204.24) with Microsoft SMTP Server id
+	14.1.225.23; Thu, 15 Mar 2012 02:42:40 +0000
+Received: from mail11-am1 (localhost [127.0.0.1])	by mail11-am1-R.bigfish.com
+	(Postfix) with ESMTP id 1196D420695	for
+	<openembedded-core@lists.openembedded.org>;
+	Thu, 15 Mar 2012 02:42:40 +0000 (UTC)
+X-SpamScore: -1
+X-BigFish: VS-1(zz9371I98dKzz1202hzz8275bhz2dh2a8h668h839h8e2h8e3hbe9k)
+X-Forefront-Antispam-Report: CIP:70.37.183.190; KIP:(null); UIP:(null); IPV:NLI;
+	H:mail.freescale.net; RD:none; EFVD:NLI
+Received: from mail11-am1 (localhost.localdomain [127.0.0.1]) by mail11-am1
+	(MessageSwitch) id 1331779357948282_13497;
+	Thu, 15 Mar 2012 02:42:37 +0000 (UTC)
+Received: from AM1EHSMHS014.bigfish.com (unknown [10.3.201.231])	by
+	mail11-am1.bigfish.com (Postfix) with ESMTP id DB7E3100046	for
+	<openembedded-core@lists.openembedded.org>;
+	Thu, 15 Mar 2012 02:42:37 +0000 (UTC)
+Received: from mail.freescale.net (70.37.183.190) by AM1EHSMHS014.bigfish.com
+	(10.3.207.152) with Microsoft SMTP Server (TLS) id 14.1.225.23;
+	Thu, 15 Mar 2012 02:42:37 +0000
+Received: from 039-SN1MPN1-001.039d.mgd.msft.net ([169.254.1.230]) by
+	039-SN1MMR1-003.039d.mgd.msft.net ([10.84.1.16]) with mapi id
+	14.01.0355.003; Wed, 14 Mar 2012 21:42:35 -0500
+From: McClintock Matthew-B29882 <B29882@freescale.com>
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Thread-Topic: [OE-core] [PATCH 8/8] gcc: enable multilib for target gcc
+Thread-Index: AQHNAlVGkg2PXW4H00ieB0Tmd3PnXg==
+Date: Thu, 15 Mar 2012 02:42:34 +0000
+Message-ID: <CAEsOVNceckzotWC3xA9emHbW3aW8DxBk_zArYN1KHhn3anUQ1g@mail.gmail.com>
+References: <cover.1331776831.git.nitin.a.kamble@intel.com>
+	<ad10381bea270e54aeefbbc3af0f9f1dce60e49f.1331776831.git.nitin.a.kamble@intel.com>
+	<513484b0dacc94af1730ddf919b88f57adc63f53.1331776832.git.nitin.a.kamble@intel.com>
+In-Reply-To: <513484b0dacc94af1730ddf919b88f57adc63f53.1331776832.git.nitin.a.kamble@intel.com>
+Accept-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [99.47.177.27]
 MIME-Version: 1.0
-To: <openembedded-core@lists.openembedded.org>
-References: <cover.1331716010.git.liezhi.yang@windriver.com>
-	<34489f7f0d7f0457df45e2ee4606b51a09ed1704.1331716010.git.liezhi.yang@windriver.com>
-	<1331738800.18586.39.camel@ted>
-In-Reply-To: <1331738800.18586.39.camel@ted>
-Subject: Re: [PATCH 1/1] gcc-cross: aviod creating invalid symlinks
+X-OriginatorOrg: freescale.com
+Subject: Re: [PATCH 8/8] gcc: enable multilib for target gcc
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
-Reply-To: Patches and discussions about the oe-core layer
+Reply-To: McClintock Matthew-B29882 <B29882@freescale.com>,
+	Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
 List-Id: Patches and discussions about the oe-core layer
 	<openembedded-core.lists.openembedded.org>
@@ -37,90 +61,21 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 15 Mar 2012 02:31:54 -0000
-Content-Type: text/plain; charset="ISO-8859-1"; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Thu, 15 Mar 2012 02:51:25 -0000
+Content-Language: en-US
+Content-Type: text/plain; charset="iso-8859-1"
+Content-ID: <D11C0181905E5344A9D8A6601CD51571@mgd.freescale.com>
+Content-Transfer-Encoding: quoted-printable
 
+On Wed, Mar 14, 2012 at 9:02 PM,  <nitin.a.kamble@intel.com> wrote:
+> =A0 ${libdir}/${TARGET_SYS}/${BINV}/crt* \
+> + =A0${libdir}/${TARGET_SYS}/${BINV}/32 \
+> + =A0${libdir}/${TARGET_SYS}/${BINV}/x32 \
+> + =A0${libdir}/${TARGET_SYS}/${BINV}/n32 \
 
+Would ${libdir}/${TARGET_SYS}/${BINV}/64 ever exist?
 
-On 03/14/2012 11:26 PM, Richard Purdie wrote:
-> On Wed, 2012-03-14 at 17:13 +0800, Robert Yang wrote:
->> There are several invalid symlinks in gcc-cross-initial,
->> gcc-cross-intermediate and gcc-cross, these cause the error:(56 errors)
->>
->> tmp/work/i586-poky-linux/gcc-cross-initial-4.6.3+svnr184847-r23/temp/log.do_populate_sysroot:
->> log.do_populate_sysroot:grep: /path/to/invalid/symlink: No such file or directory
->>
->> Avoid creating invalid symlinks would fix this problem.
->>
->> Use the:
->> [ ! -e file ] || do_something
->> But not use:
->> [ -e file ]&&  do_something
->> is because that if the "file" doesn't exist, then the whole statement
->> would return false, and bitbake treats this an error, so use the "||" to
->> let it always be true.
->>
->> [YOCTO #2095]
->>
->> Signed-off-by: Robert Yang<liezhi.yang@windriver.com>
->> ---
->>   .../gcc/gcc-cross-intermediate.inc                 |    3 ++-
->>   meta/recipes-devtools/gcc/gcc-package-cross.inc    |    6 ++++--
->>   2 files changed, 6 insertions(+), 3 deletions(-)
->>
->> diff --git a/meta/recipes-devtools/gcc/gcc-cross-intermediate.inc b/meta/recipes-devtools/gcc/gcc-cross-intermediate.inc
->> index ea105e6..87d11ab 100644
->> --- a/meta/recipes-devtools/gcc/gcc-cross-intermediate.inc
->> +++ b/meta/recipes-devtools/gcc/gcc-cross-intermediate.inc
->> @@ -51,7 +51,8 @@ do_install () {
->>   	dest=${D}${libexecdir}/gcc/${TARGET_SYS}/${BINV}/
->>   	install -d $dest
->>   	for t in ar as ld nm objcopy objdump ranlib strip g77 gcc cpp gfortran; do
->> -		ln -sf ${BINRELPATH}/${TARGET_PREFIX}$t $dest$t
->> +		[ ! -e ${BINRELPATH}/${TARGET_PREFIX}$t ] || \
->> +	        ln -sf ${BINRELPATH}/${TARGET_PREFIX}$t $dest$t
->>   	done
->>   }
->>
->> diff --git a/meta/recipes-devtools/gcc/gcc-package-cross.inc b/meta/recipes-devtools/gcc/gcc-package-cross.inc
->> index e32412c..3d52d23 100644
->> --- a/meta/recipes-devtools/gcc/gcc-package-cross.inc
->> +++ b/meta/recipes-devtools/gcc/gcc-package-cross.inc
->> @@ -19,8 +19,10 @@ do_install () {
->>   	dest=${D}${libexecdir}/gcc/${TARGET_SYS}/${BINV}/
->>   	install -d $dest
->>   	for t in ar as ld nm objcopy objdump ranlib strip g77 gcc cpp gfortran; do
->> -		ln -sf ${BINRELPATH}/${TARGET_PREFIX}$t $dest$t
->> -		ln -sf ${BINRELPATH}/${TARGET_PREFIX}$t ${dest}${TARGET_PREFIX}$t
->> +        if [ -e ${BINRELPATH}/${TARGET_PREFIX}$t ]; then
->> +		    ln -sf ${BINRELPATH}/${TARGET_PREFIX}$t $dest$t
->> +		    ln -sf ${BINRELPATH}/${TARGET_PREFIX}$t ${dest}${TARGET_PREFIX}$t
->> +        fi
->>   	done
->>
->>   	# Remove things we don't need but keep share/java
->
->
-> I've had to revert this, it totally broke the mips/ppc/arm toolchains.
-> See the failures on the autobuilder, e.g.
-> http://autobuilder.yoctoproject.org:8010/builders/nightly-arm/builds/338/steps/shell_33/logs/stdio in eglibc-initial. The problem is that the location we're symlinking to may not be installed yet. For example, gcc provides "${TARGET_PREFIX}gcc" but it won't be installed at the location we point at until after gcc's populate_sysroot function runs. The tests you're using are therefore not adding as many symlinks as we need.
->
+-M=
 
-I'm really sorry for this, I will drop the it.
-
-// Robert
-
-> Cheers,
->
-> Richard
->
->
->
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
->
 
 
