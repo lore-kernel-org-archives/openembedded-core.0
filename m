@@ -1,29 +1,31 @@
-Received: from mail.windriver.com ([147.11.1.11])
+Received: from mx.insigma.com.cn ([115.236.48.170] helo=WX-Edge.insigma.com.cn)
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <Liezhi.Yang@windriver.com>) id 1S8LjL-0003U7-Jx
+	(envelope-from <niqingliang@insigma.com.cn>) id 1S8NEO-0004yp-CD
 	for openembedded-core@lists.openembedded.org;
-	Fri, 16 Mar 2012 02:13:19 +0100
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca [147.11.189.40])
-	by mail.windriver.com (8.14.3/8.14.3) with ESMTP id q2G14UKa004152
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 15 Mar 2012 18:04:30 -0700 (PDT)
-Received: from build-PowerEdge-T100.corp.ad.wrs.com (128.224.163.66) by
-	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server id
-	14.1.255.0; Thu, 15 Mar 2012 18:04:31 -0700
-From: Robert Yang <liezhi.yang@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Fri, 16 Mar 2012 09:04:07 +0800
-Message-ID: <1977bef18acb1a2ce4f755c034926ec271d79b27.1331859725.git.liezhi.yang@windriver.com>
-X-Mailer: git-send-email 1.7.4.1
-In-Reply-To: <cover.1331859725.git.liezhi.yang@windriver.com>
-References: <cover.1331859725.git.liezhi.yang@windriver.com>
+	Fri, 16 Mar 2012 03:49:29 +0100
+Received: from WX-EXCHMB2.insigma.com.cn (10.0.1.203) by
+	WX-Edge.insigma.com.cn (10.0.1.205) with Microsoft SMTP Server (TLS) id
+	8.1.436.0; Fri, 16 Mar 2012 10:40:19 +0800
+Received: from [192.168.0.98] (122.224.76.38) by Wx-ExchMB2.insigma.com.cn
+	(10.0.1.203) with Microsoft SMTP Server id 8.1.436.0; Fri, 16 Mar 2012
+	10:40:10 +0800
+Message-ID: <1331865488.1041.65.camel@localhost.localdomain>
+From: Ni Qingliang <niqingliang@insigma.com.cn>
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Date: Fri, 16 Mar 2012 10:38:08 +0800
+In-Reply-To: <4F621801.4000308@windriver.com>
+References: <1331799506.1041.55.camel@localhost.localdomain>
+	<4F621801.4000308@windriver.com>
+Organization: Insigma
+X-Mailer: Evolution 3.2.3 
 MIME-Version: 1.0
-Subject: [PATCH 1/1] native.bbclass: make TOOLCHAIN_OPTIONS empty
+Subject: Re: LSB support?
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
-Reply-To: Patches and discussions about the oe-core layer
+Reply-To: niqingliang@insigma.com.cn,
+	Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
 List-Id: Patches and discussions about the oe-core layer
 	<openembedded-core.lists.openembedded.org>
@@ -34,50 +36,77 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 16 Mar 2012 01:13:20 -0000
-Content-Type: text/plain
+X-List-Received-Date: Fri, 16 Mar 2012 02:49:29 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-The native pkg doesn't need the TOOLCHAIN_OPTIONS, but it maybe used by
-native pkgs, for example, the cmake.bbclass uses TOOLCHAIN_OPTIONS:
+first, thanks your reply.
 
-OECMAKE_C_FLAGS ?= "${HOST_CC_ARCH} ${TOOLCHAIN_OPTIONS} ${CPPFLAGS}"
+Because I can't use task-core-lsb on my device (flash space is not
+enough), I have to make a custom lsb-base image (without
+perl/python/graphics).
 
-and TOOLCHAIN_OPTIONS is:
-TOOLCHAIN_OPTIONS = " --sysroot=${STAGING_DIR_TARGET}"
+I have checked the "linuxstdbase", and it will change the configure
+option of some packages.
 
-If a native pkg inherits cmake.bbclass, then:
-TOOLCHAIN_OPTIONS = " --sysroot="
+Indeed, I think the daemon/failure/warning fuctions should be considered
+in package lsb's RDEPENDS.
 
-and OECMAKE_C_FLAGS would be:
-${HOST_CC_ARCH} --sysroot= ${CPPFLAGS}
+what I want to know is the rdepends or where is the
+daemon/failure/warning.
 
-This would cause unexpected errors, I think that we can make
-TOOLCHAIN_OPTIONS empty in native.bbclass since native pkg doesn't need
-it.
+thanks again.
 
-[YOCTO #2124]
 
-Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
----
- meta/classes/native.bbclass |    3 +++
- 1 files changed, 3 insertions(+), 0 deletions(-)
+On Fri, 2012-03-16 at 00:25 +0800, Mark Hatle wrote:
+> On 3/15/12 3:18 AM, Ni Qingliang wrote:
+> > Hello, I'm working on custom lsb-base image using oe-core.
+> >
+> > and when using the lsb script, found error:
+> >
+> > lsb_start_daemon line 44: daemon command not found.
+> >
+> > similar thing happend on lsb_log_message: failure and warning command
+> > not found.
+> >
+> > maybe these function should be defined in /etc/init.d/functions?
+> >
+> > but there are not these function in this file (belongs to initscripts).
+> 
+> Did you enable the LSB distribution settings?  Without this, various components
+> may not be available.
+> 
+> In Poky, there is a "poky-lsb" distribution type:
+> 
+> DISTRO = "poky-lsb"
+> DISTROOVERRIDES = "poky:linuxstdbase"
+> 
+> DISTRO_FEATURES_append = " pam largefile opengl"
+> PREFERRED_PROVIDER_virtual/libx11 = "libx11"
+> 
+> (as well as using the core-image-lsb and/or task-core-lsb components.)
+> 
+> If you've tried this and those items are still broken, let me know and I can
+> help investigate further.  (One final note, only LSB 1.4 is currently supported.)
+> 
+> --Mark
+> 
+> > Any idea?
+> >
+> > thanks!
+> >
+> >
+> 
+> 
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
 
-diff --git a/meta/classes/native.bbclass b/meta/classes/native.bbclass
-index 00196ba..871dda0 100644
---- a/meta/classes/native.bbclass
-+++ b/meta/classes/native.bbclass
-@@ -45,6 +45,9 @@ LDFLAGS_build-darwin = "-L${STAGING_LIBDIR_NATIVE} "
- STAGING_BINDIR = "${STAGING_BINDIR_NATIVE}"
- STAGING_BINDIR_CROSS = "${STAGING_BINDIR_NATIVE}"
- 
-+# native pkg doesn't need the TOOLCHAIN_OPTIONS.
-+TOOLCHAIN_OPTIONS = ""
-+
- DEPENDS_GETTEXT = "gettext-native"
- 
- # Don't use site files for native builds
 -- 
-1.7.4.1
+Yi Qingliang
+niqingliang@insigma.com.cn
+https://niqingliang2003.wordpress.com
 
 
 
