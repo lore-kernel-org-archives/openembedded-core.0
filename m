@@ -1,27 +1,30 @@
-Received: from mail1.windriver.com ([147.11.146.13])
-	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <mark.hatle@windriver.com>) id 1S8Z8S-0007Kj-Jh
-	for openembedded-core@lists.openembedded.org;
-	Fri, 16 Mar 2012 16:32:09 +0100
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca [147.11.189.40])
-	by mail1.windriver.com (8.14.3/8.14.3) with ESMTP id q2GFNKlH005031
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
+Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
+	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <richard.purdie@linuxfoundation.org>)
+	id 1S8Z8Z-0007Mh-04 for openembedded-core@lists.openembedded.org;
+	Fri, 16 Mar 2012 16:32:15 +0100
+Received: from localhost (localhost [127.0.0.1])
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q2GFNRkc004499
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 16 Mar 2012 08:23:20 -0700 (PDT)
-Received: from Macintosh-5.local (172.25.36.226) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server id 14.1.255.0;
-	Fri, 16 Mar 2012 08:23:20 -0700
-Message-ID: <4F635AE7.50602@windriver.com>
-Date: Fri, 16 Mar 2012 10:23:19 -0500
-From: Mark Hatle <mark.hatle@windriver.com>
-Organization: Wind River Systems
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.6;
-	rv:10.0.2) Gecko/20120216 Thunderbird/10.0.2
-MIME-Version: 1.0
-To: <openembedded-core@lists.openembedded.org>
-References: <1331905468.18586.182.camel@ted>
-In-Reply-To: <1331905468.18586.182.camel@ted>
-Subject: Re: [PATCH] directfb: Fix RPATH warnings
+	Fri, 16 Mar 2012 15:23:27 GMT
+Received: from tim.rpsys.net ([127.0.0.1])
+	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
+	port 10024) with LMTP
+	id 03426-07 for <openembedded-core@lists.openembedded.org>;
+	Fri, 16 Mar 2012 15:23:22 +0000 (GMT)
+Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q2GFNJtG004493
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO)
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 16 Mar 2012 15:23:20 GMT
+Message-ID: <1331911400.18586.194.camel@ted>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: openembedded-core <openembedded-core@lists.openembedded.org>
+Date: Fri, 16 Mar 2012 15:23:20 +0000
+X-Mailer: Evolution 3.2.2- 
+Mime-Version: 1.0
+X-Virus-Scanned: amavisd-new at rpsys.net
+Subject: [PATCH] cpio: Fix unpackaged files warnings
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -36,79 +39,41 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 16 Mar 2012 15:32:09 -0000
-Content-Type: text/plain; charset="ISO-8859-1"; format=flowed
+X-List-Received-Date: Fri, 16 Mar 2012 15:32:15 -0000
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 
-On 3/16/12 8:44 AM, Richard Purdie wrote:
-> Fix configure not to remove variables which trigger the unneccessary rpaths to get
-> encoded. Also take the opportunity to clean up the patches directory.
+WARNING: For recipe cpio, the following files/directories were installed but not shipped in any package:
+WARNING:   /usr/bin
 
-...
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+---
+diff --git a/meta/recipes-extended/cpio/cpio_2.11.bb b/meta/recipes-extended/cpio/cpio_2.11.bb
+index 7e82ec0..78da20e 100644
+--- a/meta/recipes-extended/cpio/cpio_2.11.bb
++++ b/meta/recipes-extended/cpio/cpio_2.11.bb
+@@ -3,7 +3,7 @@ include cpio_v2.inc
+ LICENSE = "GPLv3"
+ LIC_FILES_CHKSUM = "file://COPYING;md5=f27defe1e96c2e1ecd4e0c9be8967949"
+ 
+-PR = "r0"
++PR = "r1"
+ 
+ SRC_URI[md5sum] = "1112bb6c45863468b5496ba128792f6c"
+ SRC_URI[sha256sum] = "601b1d774cd6e4cd39416203c91ec59dbd65dd27d79d75e1a9b89497ea643978"
+diff --git a/meta/recipes-extended/cpio/cpio_v2.inc b/meta/recipes-extended/cpio/cpio_v2.inc
+index 3d024af..066e937 100644
+--- a/meta/recipes-extended/cpio/cpio_v2.inc
++++ b/meta/recipes-extended/cpio/cpio_v2.inc
+@@ -18,6 +18,7 @@ do_install () {
+     autotools_do_install
+     install -d ${D}${base_bindir}/
+     mv "${D}${bindir}/cpio" "${D}${base_bindir}/cpio.${PN}"
++    rmdir ${D}${bindir}/
+     case ${TARGET_OS} in
+         *-uclibc*) ;;
+         *) mv "${D}${libexecdir}/rmt" "${D}${libexecdir}/rmt.${PN}" ;;
 
-Was the dont-use-linux-config.patch not being used or something?  I'm a bit 
-confused as to why it was removed.  It appears from the contents that it is 
-still relevant for 8xx and 403GCX processors.  (Mind you, we don't actually 
-support either of these in oe-core currently.. the 403GCX is likely completely 
-dead, from a historical perspective, but I still see the occasionaly 8xx part.)
-
---Mark
-
-> diff --git a/meta/recipes-graphics/directfb/directfb.inc b/meta/recipes-graphics/directfb/directfb.inc
-> index 9061ac1..515d19f 100644
-> --- a/meta/recipes-graphics/directfb/directfb.inc
-> +++ b/meta/recipes-graphics/directfb/directfb.inc
-> @@ -11,11 +11,9 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=dcf3c825659e82539645da41a7908589"
->   HOMEPAGE = "http://directfb.org"
->   DEPENDS = "jpeg libpng freetype zlib tslib"
->
-> -SRC_URI = " \
-> -    http://directfb.org/downloads/Core/DirectFB-1.4/DirectFB-${PV}.tar.gz \
-> -    file://directfb-1.2.x-fix-pkgconfig-cflags.patch \
-> -    file://dont-use-linux-config.patch \
-> -    "
-> +SRC_URI = "http://directfb.org/downloads/Core/DirectFB-1.4/DirectFB-${PV}.tar.gz \
-> +           file://directfb-1.2.x-fix-pkgconfig-cflags.patch \
-> +           file://configurefix.patch"
-
-...
-
-> diff --git a/meta/recipes-graphics/directfb/files/dont-use-linux-config.patch b/meta/recipes-graphics/directfb/files/dont-use-linux-config.patch
-> deleted file mode 100644
-> index ba8ead8..0000000
-> --- a/meta/recipes-graphics/directfb/files/dont-use-linux-config.patch
-> +++ b/dev/null
-> @@ -1,23 +0,0 @@
-> -
-> -directfb: don't use linux/config.h in powerpc assembly
-> -
-> -Author: jeremy_laine at openembedded.org
-> -Branch: org.openembedded.dev
-> -Revision: 73964f8e6912f066c224fed54daeeb44836d9cdf
-> -ViewMTN: http://monotone.openembedded.org/revision/info/73964f8e6912f066c224fed54daeeb44836d9cdf
-> -
-> -Upstream-Status: Inappropriate [configuration]
-> -Signed-off-by: Saul Wold<sgw@linux.intel.com>
-> -
-> -diff -urN DirectFB-1.1.0.orig/lib/direct/ppcasm_memcpy_cachable.S DirectFB-1.1.0/lib/direct/ppcasm_memcpy_cachable.S
-> ---- DirectFB-1.1.0.orig/lib/direct/ppcasm_memcpy_cachable.S	2007-08-07 21:43:00.000000000 +0200
-> -+++ DirectFB-1.1.0/lib/direct/ppcasm_memcpy_cachable.S	2008-06-07 04:14:26.000000000 +0200
-> -@@ -34,8 +34,6 @@
-> -
-> - #define __ASSEMBLY__
-> -
-> --#include<linux/config.h>
-> --
-> - #if defined(CONFIG_8xx) || defined(CONFIG_403GCX)
-> - #define L1_CACHE_LINE_SIZE       16
-> - #define LG_L1_CACHE_LINE_SIZE     4
->
->
->
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
 
 
 
