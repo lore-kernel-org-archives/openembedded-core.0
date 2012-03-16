@@ -1,20 +1,24 @@
-Received: from mga03.intel.com ([143.182.124.21])
+Received: from mga11.intel.com ([192.55.52.93])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <nitin.a.kamble@intel.com>) id 1S8cWN-0004dU-51
+	(envelope-from <nitin.a.kamble@intel.com>) id 1S8cWN-0004dV-JH
 	for openembedded-core@lists.openembedded.org;
 	Fri, 16 Mar 2012 20:09:03 +0100
-Received: from azsmga001.ch.intel.com ([10.2.17.19])
-	by azsmga101.ch.intel.com with ESMTP; 16 Mar 2012 12:00:09 -0700
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+	by fmsmga102.fm.intel.com with ESMTP; 16 Mar 2012 12:00:11 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="119894989"
+X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="129848257"
 Received: from nbuild2.sc.intel.com ([172.25.110.37])
-	by azsmga001.ch.intel.com with ESMTP; 16 Mar 2012 12:00:09 -0700
+	by fmsmga001.fm.intel.com with ESMTP; 16 Mar 2012 12:00:11 -0700
 From: nitin.a.kamble@intel.com
 To: openembedded-core@lists.openembedded.org
-Date: Fri, 16 Mar 2012 12:00:07 -0700
-Message-Id: <cover.1331924359.git.nitin.a.kamble@intel.com>
+Date: Fri, 16 Mar 2012 12:00:08 -0700
+Message-Id: <b10ee19a1ab989049aafcb0f8eefadf8296dc900.1331924359.git.nitin.a.kamble@intel.com>
 X-Mailer: git-send-email 1.7.7.6
-Subject: [PATCH 0/7] Misc Fixes and upgrades
+In-Reply-To: <29a1b86fa5383e17f311314c38972b78d760fd92.1331924359.git.nitin.a.kamble@intel.com>
+References: <29a1b86fa5383e17f311314c38972b78d760fd92.1331924359.git.nitin.a.kamble@intel.com>
+In-Reply-To: <cover.1331924359.git.nitin.a.kamble@intel.com>
+References: <cover.1331924359.git.nitin.a.kamble@intel.com>
+Subject: [PATCH 6/7] python-pycurl: fix packaging warnings
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -33,40 +37,30 @@ X-List-Received-Date: Fri, 16 Mar 2012 19:09:03 -0000
 
 From: Nitin A Kamble <nitin.a.kamble@intel.com>
 
-The following changes since commit 0676db79755b49b660f34e1c00769327fc299c58:
+This commit fixes these packaging warnings:
+ WARNING: For recipe python-pycurl, the following files/directories were
+installed but not shipped in any package:
+ WARNING:   /usr/share/share
 
-  tcl: Fix bad RPATH QA warning (2012-03-16 16:47:44 +0000)
+PR not bumber because no change in the output packages.
 
-are available in the git repository at:
-  git://git.pokylinux.org/poky-contrib nitin/misc
-  http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=nitin/misc
+Signed-off-by: Nitin A Kamble <nitin.a.kamble@intel.com>
+---
+ .../python/python-pycurl_7.19.0.bb                 |    4 ++++
+ 1 files changed, 4 insertions(+), 0 deletions(-)
 
-Nitin A Kamble (7):
-  automake: upgrade from 1.11.2 to 1.11.3
-  distro-tracking: update status of recipes
-  python: fix install when libdir is not "lib"
-  pciutils: fix a do_compile failure
-  python-pyrex: quite packaging warnings
-  python-pycurl: fix packaging warnings
-  git: fix packaging warnings
-
- .../conf/distro/include/distro_tracking_fields.inc |   24 ++--
- meta/recipes-bsp/pciutils/pciutils_3.1.9.bb        |    5 +
- meta/recipes-devtools/automake/automake.inc        |    2 +-
- ...utomake_1.11.2_fix_for_pkglibexec_SCRIPTS.patch |  118 --------------------
- .../prefer-cpio-over-pax-for-ustar-archives.patch  |   30 +++--
- .../automake/automake/python-libdir.patch          |   32 +++---
- .../{automake_1.11.2.bb => automake_1.11.3.bb}     |    8 +-
- meta/recipes-devtools/git/git.inc                  |    2 +
- .../python/python-pycurl_7.19.0.bb                 |    4 +
- meta/recipes-devtools/python/python-pyrex_0.9.9.bb |    4 +-
- .../python/fix_for_using_different_libdir.patch    |   78 +++++++++++++
- meta/recipes-devtools/python/python_2.7.2.bb       |    2 +
- 12 files changed, 143 insertions(+), 166 deletions(-)
- delete mode 100644 meta/recipes-devtools/automake/automake/automake_1.11.2_fix_for_pkglibexec_SCRIPTS.patch
- rename meta/recipes-devtools/automake/{automake_1.11.2.bb => automake_1.11.3.bb} (85%)
- create mode 100644 meta/recipes-devtools/python/python/fix_for_using_different_libdir.patch
-
+diff --git a/meta/recipes-devtools/python/python-pycurl_7.19.0.bb b/meta/recipes-devtools/python/python-pycurl_7.19.0.bb
+index d9fe465..8b849d7 100644
+--- a/meta/recipes-devtools/python/python-pycurl_7.19.0.bb
++++ b/meta/recipes-devtools/python/python-pycurl_7.19.0.bb
+@@ -29,3 +29,7 @@ export STAGING_INCDIR
+ export STAGING_LIBDIR
+ 
+ BBCLASSEXTEND = "native"
++
++do_install_append() {
++	rm -rf ${D}${datadir}/share
++}
 -- 
 1.7.7.6
 
