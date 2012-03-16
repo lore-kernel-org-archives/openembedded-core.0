@@ -1,34 +1,30 @@
-Received: from mail.cvg.de ([62.153.82.30])
-	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <enrico.scholz@sigma-chemnitz.de>) id 1S8Vdu-0001qj-7l
-	for openembedded-core@lists.openembedded.org;
-	Fri, 16 Mar 2012 12:48:22 +0100
-Received: from ensc-virt.intern.sigma-chemnitz.de
-	(ensc-virt.intern.sigma-chemnitz.de [192.168.3.24])
-	by mail.cvg.de (8.14.4/8.14.4) with SMTP id q2GB9Z3V009043
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO);
-	Fri, 16 Mar 2012 12:09:37 +0100
-Received: by ensc-virt.intern.sigma-chemnitz.de (sSMTP sendmail emulation);
-	Fri, 16 Mar 2012 12:09:35 +0100
-From: Enrico Scholz <enrico.scholz@sigma-chemnitz.de>
-To: openembedded-core@lists.openembedded.org
-References: <CAD=xvPu1b2ntY+b46G3N43tUHLrEneo8Y1UzwjKY2GMFBC=kgQ@mail.gmail.com>
-	<CAD=xvPuGXzvLm8p2kOKeDycZQqAZ_cbMn0dfNE9tWf8ewP34Sw@mail.gmail.com>
-Date: Fri, 16 Mar 2012 12:09:35 +0100
-In-Reply-To: <CAD=xvPuGXzvLm8p2kOKeDycZQqAZ_cbMn0dfNE9tWf8ewP34Sw@mail.gmail.com>
-	(VIJAY KUMAR's message of "Fri, 16 Mar 2012 15:33:42 +0530")
-Message-ID: <ly3998reds.fsf@ensc-virt.intern.sigma-chemnitz.de>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/23.3 (gnu/linux)
-MIME-Version: 1.0
-X-DSPAM-Result: Innocent
-X-DSPAM-Probability: 0
-X-DSPAM-Confidence: 1
-X-Spam-Score: -5.2
-X-Spam-Level: -----
-X-Spam-Tests: AWL,BAYES_00,SPF_NEUTRAL,T_RP_MATCHES_RCVD,DSPAM_INNOCENT
-X-Scanned-By: MIMEDefang 2.73
-Cc: VIJAY KUMAR <vijaykumar.pulluri-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Re: ERROR during bitbake
+Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
+	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <richard.purdie@linuxfoundation.org>)
+	id 1S8VlR-000268-70 for openembedded-core@lists.openembedded.org;
+	Fri, 16 Mar 2012 12:56:09 +0100
+Received: from localhost (localhost [127.0.0.1])
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q2GBlLjS002343
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 16 Mar 2012 11:47:21 GMT
+Received: from tim.rpsys.net ([127.0.0.1])
+	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
+	port 10024) with LMTP
+	id 01393-05 for <openembedded-core@lists.openembedded.org>;
+	Fri, 16 Mar 2012 11:47:14 +0000 (GMT)
+Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q2GBlCH6002337
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO)
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 16 Mar 2012 11:47:13 GMT
+Message-ID: <1331898432.18586.177.camel@ted>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: openembedded-core <openembedded-core@lists.openembedded.org>
+Date: Fri, 16 Mar 2012 11:47:12 +0000
+X-Mailer: Evolution 3.2.2- 
+Mime-Version: 1.0
+X-Virus-Scanned: amavisd-new at rpsys.net
+Subject: [PATCH] flac: Fix license warning
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -43,25 +39,28 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 16 Mar 2012 11:48:22 -0000
-Content-Type: text/plain; charset=us-ascii
+X-List-Received-Date: Fri, 16 Mar 2012 11:56:09 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-VIJAY KUMAR <vijaykumar.pulluri-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-writes:
+WARNING: flac: No generic license file exists for: FDLv1.2 in any provider
 
-> I am trying to build openjdk-6 for my imx53sabre board.
-> During my journey, I got sticked here to get out of error.
->
-> | chmod -w grove_inst.cxx
-> | chmod: grove_inst.cxx: new permissions are r-xr-xrwx, not r-xr-xr-x
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+---
+diff --git a/meta/recipes-multimedia/flac/flac_1.2.1.bb b/meta/recipes-multimedia/flac/flac_1.2.1.bb
+index 5a9c66f..3c5b73c 100644
+--- a/meta/recipes-multimedia/flac/flac_1.2.1.bb
++++ b/meta/recipes-multimedia/flac/flac_1.2.1.bb
+@@ -3,7 +3,7 @@ DESCRIPTION = "FLAC stands for Free Lossless Audio Codec, an audio format simila
+ HOMEPAGE = "http://flac.sourceforge.net/"
+ BUGTRACKER = "http://sourceforge.net/tracker/?group_id=13478&atid=113478"
+ SECTION = "libs"
+-LICENSE = "FDLv1.2 & GPLv2+ & LGPLv2.1+ & BSD"
++LICENSE = "GFDL-1.2 & GPLv2+ & LGPLv2.1+ & BSD"
+ LIC_FILES_CHKSUM = "file://COPYING.FDL;md5=ad1419ecc56e060eccf8184a87c4285f \
+                     file://src/Makefile.am;beginline=1;endline=16;md5=8dee151a56a3122f064a9dce771db37d \
+                     file://COPYING.GPL;md5=079b27cd65c86dbc1b6997ffde902735 \
 
-chmod -### operations are broken because they take umask into account
-and result might differ from the expected one hence.
 
-You will have to patch the buildsystem to do 'chmod a-w' instead of
-'chmod -w'.
-
-
-Enrico
 
 
