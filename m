@@ -1,22 +1,43 @@
-Received: from elite.brightsigndigital.co.uk ([81.142.160.137])
+Received: from mga12.intel.com ([143.182.124.36] helo=azsmga102.ch.intel.com)
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <mcrowe@brightsign.biz>) id 1S8aDr-00012S-8u
+	(envelope-from <scott.a.garman@intel.com>) id 1S8aGb-000189-K7
 	for openembedded-core@lists.openembedded.org;
-	Fri, 16 Mar 2012 17:41:47 +0100
-Received: from [172.30.1.25] (helo=chuckie.brightsign)
-	by elite.brightsigndigital.co.uk with esmtp (Exim 4.72)
-	(envelope-from <mcrowe@brightsign.biz>)
-	id 1S8a5M-0004ZG-OS; Fri, 16 Mar 2012 16:33:00 +0000
-Received: from mac by chuckie.brightsign with local (Exim 4.72)
-	(envelope-from <mcrowe@brightsign.biz>)
-	id 1S8a5M-0007OE-NT; Fri, 16 Mar 2012 16:33:00 +0000
-From: Mike Crowe <mac@mcrowe.com>
+	Fri, 16 Mar 2012 17:44:37 +0100
+Received: from mail-gx0-f180.google.com ([209.85.161.180])
+	by mga14.intel.com with ESMTP/TLS/RC4-SHA; 16 Mar 2012 09:35:48 -0700
+Received: by gglu1 with SMTP id u1so6449180ggl.25
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 16 Mar 2012 09:35:47 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=google.com; s=20120113;
+	h=message-id:date:from:user-agent:mime-version:to:subject:references
+	:in-reply-to:content-type:content-transfer-encoding
+	:x-gm-message-state;
+	bh=GzzM7YWFplR+lAb3aXI2eDYLqutWW6wWJZsFRlw5HlA=;
+	b=I2IXCZVpkKlJ0xSyWyZ50he7tH/mJ/liyxUbtVbdLxN8wWHoFeRdBbysAqdAKGGlTH
+	FvO+9zGLJ+Xce7cGBr99yGw/2lDbNL7aATNd23Z26OX0NnEG4XMrxI643rbffjbRaf4R
+	EUq2X9rgL2GesQvrwsyh/iIe6p7TWXNiercZZHjE+0i3P95nM/w2yqmwdGCMpsQJ99FZ
+	ORkZNDSgxBbuDQR6d8hTWWZGD8tlgK1OvIMN9P4ClPHn/j740qsSrWKDBQxh7osjDQHC
+	5gPdEfD19C3yjxMZ5k1mwy/whlgmfMj5woLb2EE5TU/N0HdJyrfk8lDx3i3DRYoKUfep
+	r9rA==
+Received: by 10.68.220.10 with SMTP id ps10mr16288167pbc.94.1331915746937;
+	Fri, 16 Mar 2012 09:35:46 -0700 (PDT)
+Received: from [192.168.1.12] (c-76-105-137-48.hsd1.or.comcast.net.
+	[76.105.137.48])
+	by mx.google.com with ESMTPS id z1sm4626292pbc.38.2012.03.16.09.35.44
+	(version=SSLv3 cipher=OTHER); Fri, 16 Mar 2012 09:35:45 -0700 (PDT)
+Message-ID: <4F636BEE.8040807@intel.com>
+Date: Fri, 16 Mar 2012 09:35:58 -0700
+From: Scott Garman <scott.a.garman@intel.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:10.0.2) Gecko/20120216 Thunderbird/10.0.2
+MIME-Version: 1.0
 To: openembedded-core@lists.openembedded.org
-Date: Fri, 16 Mar 2012 16:32:53 +0000
-Message-Id: <1331915573-28368-1-git-send-email-mac@mcrowe.com>
-X-Mailer: git-send-email 1.7.9
-Cc: Mike Crowe <mac@mcrowe.com>
-Subject: [PATCH] libc-common: Apply Debian-naming to libc debug symbols too
+References: <cover.1331914572.git.scott.a.garman@intel.com>
+	<08f07a7e59d7568f7588574b17a71d9852d1ef89.1331914572.git.scott.a.garman@intel.com>
+In-Reply-To: <08f07a7e59d7568f7588574b17a71d9852d1ef89.1331914572.git.scott.a.garman@intel.com>
+X-Gm-Message-State: ALoCoQkClda40QnFXJhXiUdq4+MWA94LRuJMDaSG431Kub7rAOuXpbjRYJF8S2K5qXiYxJ1Z9fGH
+Subject: Re: [PATCH 2/2] distro_tracking: updates for upgraded recipes and manual checks
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -31,29 +52,20 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 16 Mar 2012 16:41:47 -0000
+X-List-Received-Date: Fri, 16 Mar 2012 16:44:37 -0000
+Content-Type: text/plain; charset=ISO-8859-1; format=flowed
+Content-Transfer-Encoding: 7bit
 
-The magic in rootfs_ipk.bbclass expects to generate debug package
-names by just appending '-dbg'. This breaks for eglibc because whilst
-the binary package has been renamed to libc6 the debug package is
-still called libc-dbg. This patch ensures that the debug package is
-renamed too.
----
- meta/classes/libc-common.bbclass |    1 +
- 1 files changed, 1 insertions(+), 0 deletions(-)
+On 03/16/2012 09:19 AM, Scott Garman wrote:
+> Updates for upgraded recipes e2fsprogs and ...?
 
-diff --git a/meta/classes/libc-common.bbclass b/meta/classes/libc-common.bbclass
-index 962f205..d0c1ab4 100644
---- a/meta/classes/libc-common.bbclass
-+++ b/meta/classes/libc-common.bbclass
-@@ -27,4 +27,5 @@ python populate_packages_prepend () {
- 		bpn = d.getVar('BPN', True)
- 		d.setVar('PKG_'+bpn, 'libc6')
- 		d.setVar('PKG_'+bpn+'-dev', 'libc6-dev')
-+		d.setVar('PKG_'+bpn+'-dbg', 'libc6-dbg')
- }
+Whoops, just rebased my tree to eliminate that typo at the end.
+
+Scott
+
 -- 
-1.7.9
-
+Scott Garman
+Embedded Linux Engineer - Yocto Project
+Intel Open Source Technology Center
 
 
