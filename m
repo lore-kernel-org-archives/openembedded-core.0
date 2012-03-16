@@ -1,27 +1,40 @@
-Received: from mga09.intel.com ([134.134.136.24])
+Received: from mail-wi0-f171.google.com ([209.85.212.171])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <paul.eggleton@linux.intel.com>) id 1S8WGE-0003QF-Gb
+	(envelope-from <koen@dominion.thruhere.net>) id 1S8WRP-0003gr-5d
 	for openembedded-core@lists.openembedded.org;
-	Fri, 16 Mar 2012 13:27:59 +0100
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-	by orsmga102.jf.intel.com with ESMTP; 16 Mar 2012 05:19:09 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.67,351,1309762800"; d="scan'208";a="121633942"
-Received: from unknown (HELO helios.localnet) ([10.252.123.171])
-	by orsmga002.jf.intel.com with ESMTP; 16 Mar 2012 05:19:09 -0700
-From: Paul Eggleton <paul.eggleton@linux.intel.com>
-To: VIJAY KUMAR <vijaykumar.pulluri@gmail.com>
-Date: Fri, 16 Mar 2012 12:19:08 +0000
-Message-ID: <1448333.L62IlB2ypX@helios>
-Organization: Intel Corporation
-User-Agent: KMail/4.8.0 (Linux/3.0.0-16-generic-pae; KDE/4.8.1; i686; ; )
-In-Reply-To: <CAD=xvPuzd-S-kf-5Ns_95J8Sjpo=S0ygY7VnZtvMx3ppfP8UVg@mail.gmail.com>
-References: <cover.1331685330.git.paul.eggleton@linux.intel.com>
-	<1481997.vT15FBqihJ@helios>
-	<CAD=xvPuzd-S-kf-5Ns_95J8Sjpo=S0ygY7VnZtvMx3ppfP8UVg@mail.gmail.com>
-MIME-Version: 1.0
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 1/6] scripts/bitbake: ensure user is in build directory
+	Fri, 16 Mar 2012 13:39:31 +0100
+Received: by wibhj13 with SMTP id hj13so633573wib.6
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 16 Mar 2012 05:30:43 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=google.com; s=20120113;
+	h=content-type:mime-version:subject:from:in-reply-to:date
+	:content-transfer-encoding:message-id:references:to:x-mailer
+	:x-gm-message-state;
+	bh=1Xfnv48YSNbuCYbtRmopLd7FoFeXZdIntHT5iFgqpAg=;
+	b=YeMmTB/UNX1N+Dtxanb93PxI07jK2XN86gln1PhZxRqzC2WuJtIlBLtvM/BttBoVPg
+	693jlpW3WLsBN6fk3fJ02Zmo/bxuCPDXQd0H2WUNGyh/bh31X1Uv6tlxUc3FrKax8nfr
+	GMV97uXc3ZYNHbBUfzzMfUpIY+utyc5pTgc2Frb5WwiZwGIhV43YHPgSwtDMTySRt3BL
+	WUesg6RV9FHF4jk4Kke4q4VD/pa9Ghy/DTEFi3uebW4jU4wdOJsmAmhbFHiciWPEM5tR
+	/5Z+4eRx7HXuNXmbioajHF68Ls3RiQG6Xi5IW+T2B9Oeus0OQjbZx1lIbfAzQIzlNFhd
+	TVUw==
+Received: by 10.180.73.143 with SMTP id l15mr4069569wiv.11.1331901043499;
+	Fri, 16 Mar 2012 05:30:43 -0700 (PDT)
+Received: from [10.68.37.3] ([87.111.147.121])
+	by mx.google.com with ESMTPS id bg3sm13372835wib.10.2012.03.16.05.30.41
+	(version=TLSv1/SSLv3 cipher=OTHER);
+	Fri, 16 Mar 2012 05:30:42 -0700 (PDT)
+Mime-Version: 1.0 (Apple Message framework v1257)
+From: Koen Kooi <koen@dominion.thruhere.net>
+In-Reply-To: <cover.1331859046.git.shane.wang@intel.com>
+Date: Fri, 16 Mar 2012 13:30:43 +0100
+Message-Id: <F29B7771-8017-4CB4-AFCF-19CB857CAAD1@dominion.thruhere.net>
+References: <cover.1331859046.git.shane.wang@intel.com>
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+X-Mailer: Apple Mail (2.1257)
+X-Gm-Message-State: ALoCoQlOtxwqW3ristDFEZ/cRRvpNxKRUK8UFXuycfPp88PcPT8DKNsqUKM/OIJ2VWGBcdnvrKGY
+Subject: Re: [PATCH 00/60] Package Upgrade
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -36,35 +49,106 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 16 Mar 2012 12:27:59 -0000
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
+X-List-Received-Date: Fri, 16 Mar 2012 12:39:31 -0000
+Content-Type: text/plain; charset=us-ascii
+Content-Transfer-Encoding: quoted-printable
 
-Hi Vijay,
+Op 16 mrt. 2012, om 01:52 heeft Shane Wang het volgende geschreven:
 
-On Friday 16 March 2012 17:25:33 VIJAY KUMAR wrote:
->    Iam not specialist in this. I am just following the steps mentioned here
-> 
->      http://icedtea.classpath.org/wiki/CrossCompileOECoreTutorial
-> 
-> I am building from this path  vj@ubuntu:/host/coreembedded/oe-core/build$
-> and it contains pseudodone file.
-> 
-> and in vj@ubuntu:/host/coreembedded/oe-core/build/conf local.conf exits..
-> 
-> and the same is calling bitbake which is present in scripts..
+> Upgrade recipes for M4. Please review.
 
-FYI when you run bitbake after using . ./oe-init-build-env it sets up PATH so 
-that "bitbake" runs the bitbake wrapper script in scripts/, that is intended.
+Judging from experience these mass upgrades always have one or two =
+recipes that break horribly, so:
 
-Are you experiencing a problem relating to this?
+1) does the buildhistory output show any unexpected changes?
+2) did you test upgrade paths?
+3) did you runtime test the upgraded recipes?
+4) did you runtime test any dependants of the upgraded recipes?
 
-Cheers,
-Paul
+Richard/Saul,
 
--- 
+A number of these recipes have bbappends in other layers, so please let =
+us know when this is supposed to go into oe-core, so we can minimize the =
+window of breakage.
 
-Paul Eggleton
-Intel Open Source Technology Centre
+regards,
+
+Koen
+
+>=20
+> The following changes since commit =
+bd2d8904181aa67258b6be8a7bbeaf8d12a8dd5a:
+>=20
+>  xorg-xserver: Explictly disable dtrace, its not in DEPENDS =
+(2012-03-12 17:45:41 +0000)
+>=20
+> are available in the git repository at:
+>  git://git.pokylinux.org/poky-contrib shane/m4upgrade
+>  http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=3Dshane/m4upgrade=
+
+>=20
+> Dongxiao Xu (1):
+>  dbus-glib: upgrade to 0.98
+>=20
+> Shane Wang (59):
+>  distro_tracking: update the recipe info for manual check
+>  glib-2.0: upgrade to 2.30.3
+>  gdk-pixbuf: upgrade to 2.24.1
+>  glproto: update its info in distro tracking
+>  libvorbis: upgrade to 1.3.3
+>  tremor: upgrade to 18221
+>  alsa-lib: upgrade to 1.0.25
+>  alsa-utils: upgrade to 1.0.25
+>  telepathy-glib: upgrade to 0.17.5
+>  telepathy-mission-control: upgrade to 5.11.0
+>  ofono: upgrade to 1.5
+>  bluez4: upgrade to 4.99
+>  bluez-hcidump: upgrade to 2.3
+>  gst-plugin-bluetooth: upgrade to 4.99
+>  gstreamer: upgrade to 0.10.36
+>  gst-plugins-base: upgrade to 0.10.36
+>  gst-plugins-good: upgrade to 0.10.31
+>  gst-plugins-bad: upgrade to 0.10.23
+>  gst-plugins-ugly: upgrade to 0.10.19
+>  libpcap: upgrade to 1.2.1
+>  busybox: upgrade to 1.19.4
+>  curl: upgrade to 7.24.0
+>  dropbear: upgrade to 2012.55
+>  avahi: upgrade to 0.6.31
+>  avahi-ui: upgrade to 0.6.31
+>  apr: upgrade to 1.4.6
+>  minicom: upgrade to 2.6.1
+>  tzdata: upgrade to 2012b
+>  util-macros: upgrade to 1.17
+>  libxcursor: upgrade to 1.1.13
+>  libxinerama: upgrade to 1.1.2
+>  libsm: upgrade to 1.2.1
+>  libxkbfile: upgrade to 1.0.8
+>  libice: upgrade to 1.0.8
+>  pixman: upgrade to 0.25.2
+>  libxdmcp: upgrade to 1.1.1
+>  libXxf86vm: upgrade to 1.1.2
+>  libXrender: upgrade to 0.9.7
+>  libxpm: upgrade to 3.5.10
+>  libXext: upgrade to 1.3.1
+>  libXv: upgrade to 1.0.7
+>  libxt: upgrade to 1.1.2
+>  libXmu: upgrade to 1.1.1
+>  libfontenc: upgrade to 1.1.1
+>  libxscrnsaver: upgrade to 1.2.2
+>  libxau: upgrade to 1.0.7
+>  libdmx: upgrade to 1.1.2
+>  libxft: upgrade to 2.3.0
+>  libxtst: upgrade to 1.2.1
+>  libpciaccess: upgrade to 0.13
+>  libXvMC: upgrade to 1.0.7
+>  libxfont: upgrade to 1.4.5
+>  libxres: upgrade to 1.0.6
+>  inputproto: upgrade to 2.2
+>  font-util: upgrade to 1.3.0
+>  libxcb: upgrade to 1.8.1
+>  libxi: upgrade to 1.4.5
+
+
 
 
