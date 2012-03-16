@@ -1,30 +1,30 @@
 Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
 	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
 	(envelope-from <richard.purdie@linuxfoundation.org>)
-	id 1S8Z8Z-0007Mh-04 for openembedded-core@lists.openembedded.org;
-	Fri, 16 Mar 2012 16:32:15 +0100
+	id 1S8Z9S-0007P6-45 for openembedded-core@lists.openembedded.org;
+	Fri, 16 Mar 2012 16:33:10 +0100
 Received: from localhost (localhost [127.0.0.1])
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q2GFNRkc004499
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q2GFOJTJ004510
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 16 Mar 2012 15:23:27 GMT
+	Fri, 16 Mar 2012 15:24:19 GMT
 Received: from tim.rpsys.net ([127.0.0.1])
 	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
 	port 10024) with LMTP
-	id 03426-07 for <openembedded-core@lists.openembedded.org>;
-	Fri, 16 Mar 2012 15:23:22 +0000 (GMT)
+	id 04374-03 for <openembedded-core@lists.openembedded.org>;
+	Fri, 16 Mar 2012 15:24:13 +0000 (GMT)
 Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q2GFNJtG004493
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q2GFOBwB004504
 	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO)
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 16 Mar 2012 15:23:20 GMT
-Message-ID: <1331911400.18586.194.camel@ted>
+	Fri, 16 Mar 2012 15:24:12 GMT
+Message-ID: <1331911452.18586.195.camel@ted>
 From: Richard Purdie <richard.purdie@linuxfoundation.org>
 To: openembedded-core <openembedded-core@lists.openembedded.org>
-Date: Fri, 16 Mar 2012 15:23:20 +0000
+Date: Fri, 16 Mar 2012 15:24:12 +0000
 X-Mailer: Evolution 3.2.2- 
 Mime-Version: 1.0
 X-Virus-Scanned: amavisd-new at rpsys.net
-Subject: [PATCH] cpio: Fix unpackaged files warnings
+Subject: [PATCH] sed: Fix unpackaged files warnings
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -39,40 +39,36 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 16 Mar 2012 15:32:15 -0000
+X-List-Received-Date: Fri, 16 Mar 2012 15:33:10 -0000
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 
-WARNING: For recipe cpio, the following files/directories were installed but not shipped in any package:
+WARNING: For recipe sed, the following files/directories were installed but not shipped in any package:
 WARNING:   /usr/bin
 
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 ---
-diff --git a/meta/recipes-extended/cpio/cpio_2.11.bb b/meta/recipes-extended/cpio/cpio_2.11.bb
-index 7e82ec0..78da20e 100644
---- a/meta/recipes-extended/cpio/cpio_2.11.bb
-+++ b/meta/recipes-extended/cpio/cpio_2.11.bb
-@@ -3,7 +3,7 @@ include cpio_v2.inc
- LICENSE = "GPLv3"
- LIC_FILES_CHKSUM = "file://COPYING;md5=f27defe1e96c2e1ecd4e0c9be8967949"
+diff --git a/meta/recipes-extended/sed/sed_4.2.1.bb b/meta/recipes-extended/sed/sed_4.2.1.bb
+index d775d44..9fbb6e7 100644
+--- a/meta/recipes-extended/sed/sed_4.2.1.bb
++++ b/meta/recipes-extended/sed/sed_4.2.1.bb
+@@ -4,7 +4,7 @@ LICENSE = "GPLv3+"
+ LIC_FILES_CHKSUM = "file://COPYING;md5=f27defe1e96c2e1ecd4e0c9be8967949 \
+                     file://sed/sed.h;beginline=1;endline=17;md5=767ab3a06d7584f6fd0469abaec4412f"
+ SECTION = "console/utils"
+-PR = "r1"
++PR = "r2"
  
--PR = "r0"
-+PR = "r1"
+ SRC_URI = "${GNU_MIRROR}/sed/sed-${PV}.tar.gz"
  
- SRC_URI[md5sum] = "1112bb6c45863468b5496ba128792f6c"
- SRC_URI[sha256sum] = "601b1d774cd6e4cd39416203c91ec59dbd65dd27d79d75e1a9b89497ea643978"
-diff --git a/meta/recipes-extended/cpio/cpio_v2.inc b/meta/recipes-extended/cpio/cpio_v2.inc
-index 3d024af..066e937 100644
---- a/meta/recipes-extended/cpio/cpio_v2.inc
-+++ b/meta/recipes-extended/cpio/cpio_v2.inc
-@@ -18,6 +18,7 @@ do_install () {
-     autotools_do_install
-     install -d ${D}${base_bindir}/
-     mv "${D}${bindir}/cpio" "${D}${base_bindir}/cpio.${PN}"
-+    rmdir ${D}${bindir}/
-     case ${TARGET_OS} in
-         *-uclibc*) ;;
-         *) mv "${D}${libexecdir}/rmt" "${D}${libexecdir}/rmt.${PN}" ;;
+@@ -17,6 +17,7 @@ do_install () {
+ 	autotools_do_install
+ 	install -d ${D}${base_bindir}
+ 	mv ${D}${bindir}/sed ${D}${base_bindir}/sed.${PN}
++	rmdir ${D}${bindir}/
+ }
+ 
+ ALTERNATIVE_NAME = "sed"
 
 
 
