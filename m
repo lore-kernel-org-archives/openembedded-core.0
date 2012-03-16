@@ -1,31 +1,26 @@
-Received: from mail-vx0-f175.google.com ([209.85.220.175])
+Received: from mga03.intel.com ([143.182.124.21])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <vijaykumar.pulluri@gmail.com>) id 1S8U98-0007go-De
+	(envelope-from <paul.eggleton@linux.intel.com>) id 1S8Uyc-0000mg-Dp
 	for openembedded-core@lists.openembedded.org;
-	Fri, 16 Mar 2012 11:12:30 +0100
-Received: by vcbfl13 with SMTP id fl13so4636628vcb.6
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 16 Mar 2012 03:03:42 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
-	:content-type; bh=mga07C8wmuqz4ooOcRPDCwyfIpORCRR5YXUCMnGrARQ=;
-	b=zcsyl7IxBE//D2eUstGUJbVOyMZs55txHEGa1GhgANVG7NCcoP+GsfqyORTUc8paw2
-	4TSz+ul4fVDQP7f+LjFtOofunPyVenS7CfhDiONZlZQcU1lC7xYotuxZ7sJIoxhb4+oW
-	U+tXqPRzLEt2JKykpxdG0s6gpLLuUgwOt6nYrD/xbO/U2w/33rxpIo2K44jFobYDYT7D
-	+RDlrRwrYq/PQ1maqIF0Zw3bVr3VHK4hb6x3qYgwHRDjcUwPYkGr/clLTeRRrBTGozov
-	KcAEcSyIEPxRwgfAeGvYmAKBFXuwHAdcLaXW44Y0gy33fEKZv5j2Esi7Ap4U7RQVf2ak
-	JUJg==
+	Fri, 16 Mar 2012 12:05:42 +0100
+Received: from azsmga002.ch.intel.com ([10.2.17.35])
+	by azsmga101.ch.intel.com with ESMTP; 16 Mar 2012 03:56:53 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="78315564"
+Received: from unknown (HELO helios.localnet) ([10.252.123.171])
+	by AZSMGA002.ch.intel.com with ESMTP; 16 Mar 2012 03:56:52 -0700
+From: Paul Eggleton <paul.eggleton@linux.intel.com>
+To: Andreas Oberritter <obi@opendreambox.org>
+Date: Fri, 16 Mar 2012 10:56:51 +0000
+Message-ID: <1481997.vT15FBqihJ@helios>
+Organization: Intel Corporation
+User-Agent: KMail/4.8.0 (Linux/3.0.0-16-generic-pae; KDE/4.8.1; i686; ; )
+In-Reply-To: <4F62875C.60303@opendreambox.org>
+References: <cover.1331685330.git.paul.eggleton@linux.intel.com>
+	<665936693.QMobc8r8oH@helios> <4F62875C.60303@opendreambox.org>
 MIME-Version: 1.0
-Received: by 10.52.99.231 with SMTP id et7mr1236901vdb.114.1331892222602; Fri,
-	16 Mar 2012 03:03:42 -0700 (PDT)
-Received: by 10.52.158.202 with HTTP; Fri, 16 Mar 2012 03:03:42 -0700 (PDT)
-In-Reply-To: <CAD=xvPu1b2ntY+b46G3N43tUHLrEneo8Y1UzwjKY2GMFBC=kgQ@mail.gmail.com>
-References: <CAD=xvPu1b2ntY+b46G3N43tUHLrEneo8Y1UzwjKY2GMFBC=kgQ@mail.gmail.com>
-Date: Fri, 16 Mar 2012 15:33:42 +0530
-Message-ID: <CAD=xvPuGXzvLm8p2kOKeDycZQqAZ_cbMn0dfNE9tWf8ewP34Sw@mail.gmail.com>
-From: VIJAY KUMAR <vijaykumar.pulluri@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Subject: ERROR during bitbake
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH 1/6] scripts/bitbake: ensure user is in build directory
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -40,93 +35,65 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 16 Mar 2012 10:12:30 -0000
-Content-Type: multipart/alternative; boundary=bcaec50161b7ceaebb04bb595276
+X-List-Received-Date: Fri, 16 Mar 2012 11:05:42 -0000
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
 
---bcaec50161b7ceaebb04bb595276
-Content-Type: text/plain; charset=ISO-8859-1
+On Friday 16 March 2012 01:20:44 Andreas Oberritter wrote:
+> Sorry, I messed up some details. In fact, pseudo-native doesn't get
+> rebuilt, but bitbake pseudo-native still gets executed for every
+> machine, unless $BUILDDIR/pseudodone is present and contains
+> PSEUDOBINDIR. This just wastes time and confuses users who receive a
+> message saying "Pseudo is not present but is required, building this
+> first before the main build".
 
-Hi all,
+It takes a small amount of time just once. However if this is really an issue 
+perhaps we could address it directly rather than hacking around it?
 
-I am trying to build openjdk-6 for my imx53sabre board.
-During my journey, I got sticked here to get out of error.
+> >> BUILDDIR doesn't seem to have any other use than pointing to the
+> >> 'pseudodone' file. I don't understand why it's required to run bitbake
+> >> from there.
+> > 
+> > Well, it's required that bitbake is run from the build directory and when
+> > you use the setup script as intended that's where BUILDDIR points to. I
+> > hadn't anticipated that anyone would be changing BUILDDIR to point to
+> > anything other than the build dir, however I don't really think it's a
+> > good idea to support that.
+> 
+> That's because BUILDDIR has no meaning outside oe-core's setup scripts.
+> In scripts/bitbake, BUILDDIR would better be called PSEUDODONEDIR or
+> similar, because that's what the variable really means in this context
 
-| chmod -w grove_inst.cxx
-| chmod: grove_inst.cxx: new permissions are r-xr-xrwx, not r-xr-xr-x
-| make[2]: *** [grove_inst.cxx] Error 1
-| make[2]: Leaving directory `/host/coreembedded/oe-core/
-build/tmp-
-eglibc/work/i686-linux/openjade-native-1.3.2-r4/openjade-1.3.2/
-spgrove'
-| make[1]: *** [spgrove] Error 2
-| make[1]: Leaving directory `/host/coreembedded/oe-core/build/tmp-
-eglibc/work/i686-linux/openjade-native-1.3.2-r4/openjade-1.3.2'
-| make: *** [depend] Error 2
-| ERROR: oe_runmake failed
+The naming is such that it should point to the build directory because that's 
+where pseudodone is meant to be written. I think when it was introduced there 
+was an idea that it might be useful in other contexts, thus the naming.
 
-NOTE: package openjade-native-1.3.2-r4: task do_compile: Failed
-ERROR: Task 2590 (/host/coreembedded/oe-core/meta/recipes-devtools/
-openjade/openjade-native_1.3.2.bb, do_compile) failed with exit code
-'1'
+> In order to verify that scripts/bitbake is called from the build
+> directory, you could as well just check whether $PWD/conf/local.conf exists.
 
-Waiting for 3 active tasks to finish:
-0: systemd-git-r22 do_fetch (pid 28833)
-1: ant-native-1.8.1-r0 do_fetch (pid 18210)
-2: linux-libc-headers-imx-2.6.35.3-r1 do_fetch (pid 19822)
-Waiting for 2 active tasks to finish:
-0: ant-native-1.8.1-r0 do_fetch (pid 18210)
-1: linux-libc-headers-imx-2.6.35.3-r1 do_fetch (pid 19822)
-NOTE: package systemd-git-r22: task do_fetch: Succeeded
-Waiting for 1 active tasks to finish:
-0: linux-libc-headers-imx-2.6.35.3-r1 do_fetch (pid 19822)
-NOTE: package ant-native-1.8.1-r0: task do_fetch: Succeeded
+Unfortunately it's not that simple. bitbake.conf pulls in local.conf using 
+"include" and not "require", thus it doesn't actually have to exist anywhere.
 
-HELP me to get out of this.
+> I'm not using oe-core's scripts, because they make assumptions about the
+> directory layout that don't fit my project's needs. I think they are
+> overly complex
 
-Regards,
-VJ
+Could you perhaps elaborate on what needs those scripts are not fulfilling?
 
---bcaec50161b7ceaebb04bb595276
-Content-Type: text/html; charset=ISO-8859-1
+> and they display texts that seem to suit yocto's needs but at least not
+> mine.
 
-<br><div class="gmail_quote">Hi all,<br>
-<br>
-I am trying to build openjdk-6 for my imx53sabre board.<br>
-During my journey, I got sticked here to get out of error.<br>
-<br>
-| chmod -w grove_inst.cxx<br>
-| chmod: grove_inst.cxx: new permissions are r-xr-xrwx, not r-xr-xr-x<br>
-| make[2]: *** [grove_inst.cxx] Error 1<br>
-| make[2]: Leaving directory `/host/coreembedded/oe-core/<div>build/tmp-<br>
-eglibc/work/i686-linux/openjade-native-1.3.2-r4/openjade-1.3.2/<br>
-spgrove&#39;<br>
-| make[1]: *** [spgrove] Error 2<br>
-| make[1]: Leaving directory `/host/coreembedded/oe-core/build/tmp-<br>
-eglibc/work/i686-linux/openjade-native-1.3.2-r4/openjade-1.3.2&#39;<br>
-| make: *** [depend] Error 2<br>
-| ERROR: oe_runmake failed<br>
-<br>
-NOTE: package openjade-native-1.3.2-r4: task do_compile: Failed<br>
-ERROR: Task 2590 (/host/coreembedded/oe-core/meta/recipes-devtools/<br>
-openjade/<a href="http://openjade-native_1.3.2.bb/" target="_blank">openjade-native_1.3.2.bb</a>, do_compile) failed with exit code<br>
-&#39;1&#39;<br>
-<br>
-Waiting for 3 active tasks to finish:<br>
-0: systemd-git-r22 do_fetch (pid 28833)<br>
-1: ant-native-1.8.1-r0 do_fetch (pid 18210)<br>
-2: linux-libc-headers-imx-2.6.35.3-r1 do_fetch (pid 19822)<br>
-Waiting for 2 active tasks to finish:<br>
-0: ant-native-1.8.1-r0 do_fetch (pid 18210)<br>
-1: linux-libc-headers-imx-2.6.35.3-r1 do_fetch (pid 19822)<br>
-NOTE: package systemd-git-r22: task do_fetch: Succeeded<br>
-Waiting for 1 active tasks to finish:<br>
-0: linux-libc-headers-imx-2.6.35.3-r1 do_fetch (pid 19822)<br>
-NOTE: package ant-native-1.8.1-r0: task do_fetch: Succeeded<br>
-<br>
-HELP me to get out of this.<br>
-<br>
-Regards,<br>
-VJ</div>
-</div><br>
+We print these messages so that people know what to do and where to find 
+further information. I don't think that's unreasonable. However if you have 
+suggestions on how we might improve those messages or allow them to be 
+customised if necessary, we could look at changing them.
 
---bcaec50161b7ceaebb04bb595276--
+Cheers,
+Paul
+
+-- 
+
+Paul Eggleton
+Intel Open Source Technology Centre
+
+
