@@ -1,24 +1,24 @@
-Received: from mga11.intel.com ([192.55.52.93])
+Received: from mga03.intel.com ([143.182.124.21])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <shane.wang@intel.com>) id 1S8LEa-0001C4-Ib
+	(envelope-from <shane.wang@intel.com>) id 1S8LEk-0001MN-1C
 	for openembedded-core@lists.openembedded.org;
-	Fri, 16 Mar 2012 01:41:32 +0100
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-	by fmsmga102.fm.intel.com with ESMTP; 15 Mar 2012 17:32:45 -0700
+	Fri, 16 Mar 2012 01:41:42 +0100
+Received: from azsmga001.ch.intel.com ([10.2.17.19])
+	by azsmga101.ch.intel.com with ESMTP; 15 Mar 2012 17:32:37 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="139657420"
+X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="119574751"
 Received: from yocto-build5.sh.intel.com (HELO localhost) ([10.239.48.3])
-	by fmsmga002.fm.intel.com with ESMTP; 15 Mar 2012 17:32:44 -0700
+	by azsmga001.ch.intel.com with ESMTP; 15 Mar 2012 17:32:37 -0700
 From: Shane Wang <shane.wang@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Fri, 16 Mar 2012 08:52:19 +0800
-Message-Id: <7cddd583adb74fa793fa498a1a5500ccdc749cae.1331859047.git.shane.wang@intel.com>
+Date: Fri, 16 Mar 2012 08:52:13 +0800
+Message-Id: <2efd09763d5006f72474267c4b77c738bebfcae3.1331859047.git.shane.wang@intel.com>
 X-Mailer: git-send-email 1.7.6
 In-Reply-To: <fa4a26b05739e4f22b999571ff20a35ec84d29e7.1331859046.git.shane.wang@intel.com>
 References: <fa4a26b05739e4f22b999571ff20a35ec84d29e7.1331859046.git.shane.wang@intel.com>
 In-Reply-To: <cover.1331859046.git.shane.wang@intel.com>
 References: <cover.1331859046.git.shane.wang@intel.com>
-Subject: [PATCH 22/60] busybox: upgrade to 1.19.4
+Subject: [PATCH 16/60] gstreamer: upgrade to 0.10.36
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -33,121 +33,63 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 16 Mar 2012 00:41:33 -0000
-
-Removing the patch busybox-1.19.3-getty.patch is because it is already in the upstream.
+X-List-Received-Date: Fri, 16 Mar 2012 00:41:42 -0000
 
 Signed-off-by: Shane Wang <shane.wang@intel.com>
 ---
- .../busybox-1.19.3/busybox-1.19.3-getty.patch      |   17 -----------------
- .../B921600.patch                                  |    0
- .../busybox-appletlib-dependency.patch             |    0
- .../busybox-udhcpc-no_deconfig.patch               |    0
- .../{busybox-1.19.3 => busybox-1.19.4}/defconfig   |    0
- .../get_header_tar.patch                           |    0
- .../run-parts.in.usr-bin.patch                     |    0
- .../udhcpc-fix-nfsroot.patch                       |    0
- .../udhcpscript.patch                              |    0
- .../{busybox_1.19.3.bb => busybox_1.19.4.bb}       |    7 +++----
- 10 files changed, 3 insertions(+), 21 deletions(-)
- delete mode 100644 meta/recipes-core/busybox/busybox-1.19.3/busybox-1.19.3-getty.patch
- rename meta/recipes-core/busybox/{busybox-1.19.3 => busybox-1.19.4}/B921600.patch (100%)
- rename meta/recipes-core/busybox/{busybox-1.19.3 => busybox-1.19.4}/busybox-appletlib-dependency.patch (100%)
- rename meta/recipes-core/busybox/{busybox-1.19.3 => busybox-1.19.4}/busybox-udhcpc-no_deconfig.patch (100%)
- rename meta/recipes-core/busybox/{busybox-1.19.3 => busybox-1.19.4}/defconfig (100%)
- rename meta/recipes-core/busybox/{busybox-1.19.3 => busybox-1.19.4}/get_header_tar.patch (100%)
- rename meta/recipes-core/busybox/{busybox-1.19.3 => busybox-1.19.4}/run-parts.in.usr-bin.patch (100%)
- rename meta/recipes-core/busybox/{busybox-1.19.3 => busybox-1.19.4}/udhcpc-fix-nfsroot.patch (100%)
- rename meta/recipes-core/busybox/{busybox-1.19.3 => busybox-1.19.4}/udhcpscript.patch (100%)
- rename meta/recipes-core/busybox/{busybox_1.19.3.bb => busybox_1.19.4.bb} (82%)
+ .../check_fix.patch                                |    0
+ .../gst-inspect-check-error.patch                  |    0
+ .../gstregistrybinary.c                            |    0
+ .../gstregistrybinary.h                            |    0
+ .../{gstreamer_0.10.35.bb => gstreamer_0.10.36.bb} |    6 +++---
+ 5 files changed, 3 insertions(+), 3 deletions(-)
+ rename meta/recipes-multimedia/gstreamer/{gstreamer-0.10.35 => gstreamer-0.10.36}/check_fix.patch (100%)
+ rename meta/recipes-multimedia/gstreamer/{gstreamer-0.10.35 => gstreamer-0.10.36}/gst-inspect-check-error.patch (100%)
+ rename meta/recipes-multimedia/gstreamer/{gstreamer-0.10.35 => gstreamer-0.10.36}/gstregistrybinary.c (100%)
+ rename meta/recipes-multimedia/gstreamer/{gstreamer-0.10.35 => gstreamer-0.10.36}/gstregistrybinary.h (100%)
+ rename meta/recipes-multimedia/gstreamer/{gstreamer_0.10.35.bb => gstreamer_0.10.36.bb} (90%)
 
-diff --git a/meta/recipes-core/busybox/busybox-1.19.3/busybox-1.19.3-getty.patch b/meta/recipes-core/busybox/busybox-1.19.3/busybox-1.19.3-getty.patch
-deleted file mode 100644
-index 0578d78..0000000
---- a/meta/recipes-core/busybox/busybox-1.19.3/busybox-1.19.3-getty.patch
-+++ /dev/null
-@@ -1,17 +0,0 @@
--Upstream-Status: Backport
--
--Patch is taken from upstream 
--http://busybox.net/downloads/fixes-1.19.3/busybox-1.19.3-getty.patch
--
----- busybox-1.19.3/loginutils/getty.c
--+++ busybox-1.19.3-getty/loginutils/getty.c
--@@ -271,7 +271,9 @@ static void termios_init(int speed)
-- #ifdef CMSPAR
-- 		| CMSPAR  /* mark or space parity */
-- #endif
--+#ifdef CBAUD
-- 		| CBAUD   /* (output) baud rate */
--+#endif
-- #ifdef CBAUDEX
-- 		| CBAUDEX /* (output) baud rate */
-- #endif
-diff --git a/meta/recipes-core/busybox/busybox-1.19.3/B921600.patch b/meta/recipes-core/busybox/busybox-1.19.4/B921600.patch
+diff --git a/meta/recipes-multimedia/gstreamer/gstreamer-0.10.35/check_fix.patch b/meta/recipes-multimedia/gstreamer/gstreamer-0.10.36/check_fix.patch
 similarity index 100%
-rename from meta/recipes-core/busybox/busybox-1.19.3/B921600.patch
-rename to meta/recipes-core/busybox/busybox-1.19.4/B921600.patch
-diff --git a/meta/recipes-core/busybox/busybox-1.19.3/busybox-appletlib-dependency.patch b/meta/recipes-core/busybox/busybox-1.19.4/busybox-appletlib-dependency.patch
+rename from meta/recipes-multimedia/gstreamer/gstreamer-0.10.35/check_fix.patch
+rename to meta/recipes-multimedia/gstreamer/gstreamer-0.10.36/check_fix.patch
+diff --git a/meta/recipes-multimedia/gstreamer/gstreamer-0.10.35/gst-inspect-check-error.patch b/meta/recipes-multimedia/gstreamer/gstreamer-0.10.36/gst-inspect-check-error.patch
 similarity index 100%
-rename from meta/recipes-core/busybox/busybox-1.19.3/busybox-appletlib-dependency.patch
-rename to meta/recipes-core/busybox/busybox-1.19.4/busybox-appletlib-dependency.patch
-diff --git a/meta/recipes-core/busybox/busybox-1.19.3/busybox-udhcpc-no_deconfig.patch b/meta/recipes-core/busybox/busybox-1.19.4/busybox-udhcpc-no_deconfig.patch
+rename from meta/recipes-multimedia/gstreamer/gstreamer-0.10.35/gst-inspect-check-error.patch
+rename to meta/recipes-multimedia/gstreamer/gstreamer-0.10.36/gst-inspect-check-error.patch
+diff --git a/meta/recipes-multimedia/gstreamer/gstreamer-0.10.35/gstregistrybinary.c b/meta/recipes-multimedia/gstreamer/gstreamer-0.10.36/gstregistrybinary.c
 similarity index 100%
-rename from meta/recipes-core/busybox/busybox-1.19.3/busybox-udhcpc-no_deconfig.patch
-rename to meta/recipes-core/busybox/busybox-1.19.4/busybox-udhcpc-no_deconfig.patch
-diff --git a/meta/recipes-core/busybox/busybox-1.19.3/defconfig b/meta/recipes-core/busybox/busybox-1.19.4/defconfig
+rename from meta/recipes-multimedia/gstreamer/gstreamer-0.10.35/gstregistrybinary.c
+rename to meta/recipes-multimedia/gstreamer/gstreamer-0.10.36/gstregistrybinary.c
+diff --git a/meta/recipes-multimedia/gstreamer/gstreamer-0.10.35/gstregistrybinary.h b/meta/recipes-multimedia/gstreamer/gstreamer-0.10.36/gstregistrybinary.h
 similarity index 100%
-rename from meta/recipes-core/busybox/busybox-1.19.3/defconfig
-rename to meta/recipes-core/busybox/busybox-1.19.4/defconfig
-diff --git a/meta/recipes-core/busybox/busybox-1.19.3/get_header_tar.patch b/meta/recipes-core/busybox/busybox-1.19.4/get_header_tar.patch
-similarity index 100%
-rename from meta/recipes-core/busybox/busybox-1.19.3/get_header_tar.patch
-rename to meta/recipes-core/busybox/busybox-1.19.4/get_header_tar.patch
-diff --git a/meta/recipes-core/busybox/busybox-1.19.3/run-parts.in.usr-bin.patch b/meta/recipes-core/busybox/busybox-1.19.4/run-parts.in.usr-bin.patch
-similarity index 100%
-rename from meta/recipes-core/busybox/busybox-1.19.3/run-parts.in.usr-bin.patch
-rename to meta/recipes-core/busybox/busybox-1.19.4/run-parts.in.usr-bin.patch
-diff --git a/meta/recipes-core/busybox/busybox-1.19.3/udhcpc-fix-nfsroot.patch b/meta/recipes-core/busybox/busybox-1.19.4/udhcpc-fix-nfsroot.patch
-similarity index 100%
-rename from meta/recipes-core/busybox/busybox-1.19.3/udhcpc-fix-nfsroot.patch
-rename to meta/recipes-core/busybox/busybox-1.19.4/udhcpc-fix-nfsroot.patch
-diff --git a/meta/recipes-core/busybox/busybox-1.19.3/udhcpscript.patch b/meta/recipes-core/busybox/busybox-1.19.4/udhcpscript.patch
-similarity index 100%
-rename from meta/recipes-core/busybox/busybox-1.19.3/udhcpscript.patch
-rename to meta/recipes-core/busybox/busybox-1.19.4/udhcpscript.patch
-diff --git a/meta/recipes-core/busybox/busybox_1.19.3.bb b/meta/recipes-core/busybox/busybox_1.19.4.bb
-similarity index 82%
-rename from meta/recipes-core/busybox/busybox_1.19.3.bb
-rename to meta/recipes-core/busybox/busybox_1.19.4.bb
-index 49ac859..dff616d 100644
---- a/meta/recipes-core/busybox/busybox_1.19.3.bb
-+++ b/meta/recipes-core/busybox/busybox_1.19.4.bb
-@@ -1,5 +1,5 @@
- require busybox.inc
--PR = "r5"
+rename from meta/recipes-multimedia/gstreamer/gstreamer-0.10.35/gstregistrybinary.h
+rename to meta/recipes-multimedia/gstreamer/gstreamer-0.10.36/gstregistrybinary.h
+diff --git a/meta/recipes-multimedia/gstreamer/gstreamer_0.10.35.bb b/meta/recipes-multimedia/gstreamer/gstreamer_0.10.36.bb
+similarity index 90%
+rename from meta/recipes-multimedia/gstreamer/gstreamer_0.10.35.bb
+rename to meta/recipes-multimedia/gstreamer/gstreamer_0.10.36.bb
+index 8d3bc75..3c03c0d 100644
+--- a/meta/recipes-multimedia/gstreamer/gstreamer_0.10.35.bb
++++ b/meta/recipes-multimedia/gstreamer/gstreamer_0.10.36.bb
+@@ -9,14 +9,14 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=55ca817ccb7d5b5b66355690e9abc605 \
+                     file://gst/gst.h;beginline=1;endline=21;md5=8e5fe5e87d33a04479fde862e238eaa4"
+ DEPENDS = "glib-2.0 libxml2 bison-native flex-native"
+ 
+-PR = "r3"
 +PR = "r0"
  
- SRC_URI = "http://www.busybox.net/downloads/busybox-${PV}.tar.bz2;name=tarball \
-            file://udhcpscript.patch \
-@@ -7,7 +7,6 @@ SRC_URI = "http://www.busybox.net/downloads/busybox-${PV}.tar.bz2;name=tarball \
-            file://B921600.patch \
-            file://get_header_tar.patch \
-            file://busybox-appletlib-dependency.patch \
--           file://busybox-1.19.3-getty.patch \
-            file://run-parts.in.usr-bin.patch \
-            file://busybox-udhcpc-no_deconfig.patch \
-            file://find-touchscreen.sh \
-@@ -26,7 +25,7 @@ SRC_URI = "http://www.busybox.net/downloads/busybox-${PV}.tar.bz2;name=tarball \
-            file://umount.busybox \
-            file://defconfig"
+ SRC_URI = "http://gstreamer.freedesktop.org/src/gstreamer/gstreamer-${PV}.tar.bz2 \
+            file://check_fix.patch \
+            file://gst-inspect-check-error.patch"
  
--SRC_URI[tarball.md5sum] = "c3938e1ac59602387009bbf1dd1af7f6"
--SRC_URI[tarball.sha256sum] = "a1a9a35732c719ef384f02b6e357c324d8be25bc154af91a48c4264b1e6038f0"
-+SRC_URI[tarball.md5sum] = "9c0cae5a0379228e7b55e5b29528df8e"
-+SRC_URI[tarball.sha256sum] = "9b853406da61ffb59eb488495fe99cbb7fb3dd29a31307fcfa9cf070543710ee"
+-SRC_URI[md5sum] = "4a0a00edad7a2c83de5211ca679dfaf9"
+-SRC_URI[sha256sum] = "817bfea2cd46e2487b97e2ed9218f0299b32a3de1e5e80b4c7868d17e9089786"
++SRC_URI[md5sum] = "a0cf7d6877f694a1a2ad2b4d1ecb890b"
++SRC_URI[sha256sum] = "e556a529e0a8cf1cd0afd0cab2af5488c9524e7c3f409de29b5d82bb41ae7a30"
  
- EXTRA_OEMAKE += "V=1 ARCH=${TARGET_ARCH} CROSS_COMPILE=${TARGET_PREFIX} SKIP_STRIP=y"
+ inherit autotools pkgconfig gettext
+ 
 -- 
 1.7.6
 
