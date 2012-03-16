@@ -1,41 +1,41 @@
-Received: from mail-wi0-f171.google.com ([209.85.212.171])
+Received: from mail-wi0-f177.google.com ([209.85.212.177])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <koen@dominion.thruhere.net>) id 1S8d8N-0005UP-Vn
+	(envelope-from <koen@dominion.thruhere.net>) id 1S8d9h-0005We-FD
 	for openembedded-core@lists.openembedded.org;
-	Fri, 16 Mar 2012 20:48:20 +0100
-Received: by wibhj13 with SMTP id hj13so1154974wib.6
+	Fri, 16 Mar 2012 20:49:41 +0100
+Received: by wibhj13 with SMTP id hj13so1192897wib.6
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 16 Mar 2012 12:39:32 -0700 (PDT)
+	Fri, 16 Mar 2012 12:40:53 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=google.com; s=20120113;
-	h=subject:mime-version:content-type:from:in-reply-to:date:cc
+	h=content-type:mime-version:subject:from:in-reply-to:date
 	:content-transfer-encoding:message-id:references:to:x-mailer
 	:x-gm-message-state;
-	bh=ENNf6HvgSf+9FCDGiVy0ALGWfNqEtJidCA8w0OVXIBc=;
-	b=mPGGS2lEGQW+npya9ZKN8CSrJkUd8StP4cd+onHFP5DItCAiW4sgHaoWidTHPh+qPc
-	i8yeHxithPQ9S85Zd26KqTHx1ZGztjroM+7AikedgHsgl/RBUx/bXdQHUoKfPG/b0rK8
-	m/WENYDZLSTF4PxUmiRvgtaD7VKU64mpr1t36EDD86qoqwNMURxCl4O6dZZ0H1lPvomG
-	FL6wl4xylvqw8WivMKjxv5242DOLVezD1LafwlCRa3odJP/ZgNg4hn/9LYnOXbGyfe+w
-	XIGHd3B5HPeUIdFywypXTCoJ5+3Vm7p0uNKkBsBxgRh7kFHuUSZoyKyEs7wIrG373Krw
-	ynwQ==
-Received: by 10.180.19.37 with SMTP id b5mr1148545wie.9.1331926772054;
-	Fri, 16 Mar 2012 12:39:32 -0700 (PDT)
+	bh=iPmT/BfR4RfrSRA91AvvbPv1RLcpEft/sZ4iE46DYmo=;
+	b=dfvASFE1yTgoccpvMtDguUrSH6g26VS+BW1nqPk8r8l1BQb9+3GDzYsvY6Z65jCXkm
+	ShjKbTIRbw0Cr5hHjPuETp8yJjG6ZAVLE0ZANS1mqrgwtSBfLkOIR3S7fROdXU3TONgR
+	Li6sEJOOtt4xfwx2BEumGEUfXrJEoDHuqLQvUkbERgYm2iToQhXpTcJ1anQdiElZiyCg
+	xeRYscIMrKNS2EN9GjTnFvtk0j0YX2Jp1bHxcsU3gBOy42dw+1RPgQZ4Rr/oV8ywMTNH
+	HVAEUZGSZ1si8IrPTxeD7wIDO8kkH4/zFQYKb37/Rf+bTOQU3/bNye6F7CzwZeqV5sNz
+	SRKg==
+Received: by 10.180.94.33 with SMTP id cz1mr1133775wib.13.1331926853653;
+	Fri, 16 Mar 2012 12:40:53 -0700 (PDT)
 Received: from [10.68.37.3] ([87.111.147.121])
-	by mx.google.com with ESMTPS id w10sm1865359wiy.3.2012.03.16.12.39.12
+	by mx.google.com with ESMTPS id gp8sm1232326wib.5.2012.03.16.12.40.51
 	(version=TLSv1/SSLv3 cipher=OTHER);
-	Fri, 16 Mar 2012 12:39:31 -0700 (PDT)
+	Fri, 16 Mar 2012 12:40:52 -0700 (PDT)
 Mime-Version: 1.0 (Apple Message framework v1257)
 From: Koen Kooi <koen@dominion.thruhere.net>
-In-Reply-To: <1331915573-28368-1-git-send-email-mac@mcrowe.com>
-Date: Fri, 16 Mar 2012 20:39:00 +0100
-Message-Id: <BE489DAB-2E22-4B8F-A565-10C5DF842857@dominion.thruhere.net>
-References: <1331915573-28368-1-git-send-email-mac@mcrowe.com>
+In-Reply-To: <a5511eca1ef6ce9b8556257907a4023ec3dcf567.1331924409.git.paul.eggleton@linux.intel.com>
+Date: Fri, 16 Mar 2012 20:40:36 +0100
+Message-Id: <490619CF-CAC4-4860-A671-8473994D6DF4@dominion.thruhere.net>
+References: <cover.1331924409.git.paul.eggleton@linux.intel.com>
+	<a5511eca1ef6ce9b8556257907a4023ec3dcf567.1331924409.git.paul.eggleton@linux.intel.com>
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
 X-Mailer: Apple Mail (2.1257)
-X-Gm-Message-State: ALoCoQkYm/SOFeRXu4r0V9/AMBhWbW3P/0DKLEBD9eoIHtLZwzvKKer3yrj+Tf201krehR5mFYwJ
-Cc: Mike Crowe <mac@mcrowe.com>
-Subject: Re: [PATCH] libc-common: Apply Debian-naming to libc debug symbols too
+X-Gm-Message-State: ALoCoQka1ulj7+G0aBzbr/rCvQGo2+dGxpsJZXr2JeRE/FyTi75X1Mm4vSmzcUR8Zw1NPBV2L3Xs
+Subject: Re: [PATCH 6/6] qt4: add RPROVIDES/RREPLACES for qmake2 recipe
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -50,34 +50,89 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 16 Mar 2012 19:48:20 -0000
+X-List-Received-Date: Fri, 16 Mar 2012 19:49:41 -0000
 Content-Type: text/plain; charset=us-ascii
 Content-Transfer-Encoding: quoted-printable
 
 
-Op 16 mrt. 2012, om 17:32 heeft Mike Crowe het volgende geschreven:
+Op 16 mrt. 2012, om 20:01 heeft Paul Eggleton het volgende geschreven:
 
-> The magic in rootfs_ipk.bbclass expects to generate debug package
-> names by just appending '-dbg'. This breaks for eglibc because whilst
-> the binary package has been renamed to libc6 the debug package is
-> still called libc-dbg. This patch ensures that the debug package is
-> renamed too.
-> ---
-> meta/classes/libc-common.bbclass |    1 +
-> 1 files changed, 1 insertions(+), 0 deletions(-)
+> OE-Classic and meta-oe provide a qmake2 recipe; since this has been
+> obsoleted by the recent change to provide qmake within the tools =
+package
+> and (in the latter case) will soon be removed, add an RREPLACES to aid
+> upgrades and RPROVIDES to make it easy to install.
 >=20
-> diff --git a/meta/classes/libc-common.bbclass =
-b/meta/classes/libc-common.bbclass
-> index 962f205..d0c1ab4 100644
-> --- a/meta/classes/libc-common.bbclass
-> +++ b/meta/classes/libc-common.bbclass
-> @@ -27,4 +27,5 @@ python populate_packages_prepend () {
-> 		bpn =3D d.getVar('BPN', True)
-> 		d.setVar('PKG_'+bpn, 'libc6')
-> 		d.setVar('PKG_'+bpn+'-dev', 'libc6-dev')
-> +		d.setVar('PKG_'+bpn+'-dbg', 'libc6-dbg')
-> }
+> Signed-off-by: Paul Eggleton <paul.eggleton@linux.intel.com>
 
-Missing PR bump and broken upgrade path.=
+Acked-by: Koen Kooi <koen@dominion.thruhere.net>
+
+> ---
+> meta/recipes-qt/qt4/qt4-embedded.inc |    2 +-
+> meta/recipes-qt/qt4/qt4-x11-free.inc |    2 +-
+> meta/recipes-qt/qt4/qt4.inc          |    3 +++
+> 3 files changed, 5 insertions(+), 2 deletions(-)
+>=20
+> diff --git a/meta/recipes-qt/qt4/qt4-embedded.inc =
+b/meta/recipes-qt/qt4/qt4-embedded.inc
+> index 0e57e5a..8c15352 100644
+> --- a/meta/recipes-qt/qt4/qt4-embedded.inc
+> +++ b/meta/recipes-qt/qt4/qt4-embedded.inc
+> @@ -2,7 +2,7 @@ DESCRIPTION =3D "Qt is a versatile cross-platform =
+application framework -- this is
+> SECTION =3D "libs"
+> HOMEPAGE =3D "http://qt.nokia.com"
+> DEPENDS +=3D "directfb tslib"
+> -INC_PR =3D "r42"
+> +INC_PR =3D "r43"
+>=20
+> QT_BASE_LIB  ?=3D "libqt-embedded"
+>=20
+> diff --git a/meta/recipes-qt/qt4/qt4-x11-free.inc =
+b/meta/recipes-qt/qt4/qt4-x11-free.inc
+> index e1bef64..072c522 100644
+> --- a/meta/recipes-qt/qt4/qt4-x11-free.inc
+> +++ b/meta/recipes-qt/qt4/qt4-x11-free.inc
+> @@ -5,7 +5,7 @@ HOMEPAGE =3D "http://qt.nokia.com"
+> SECTION =3D "x11/libs"
+> DEPENDS +=3D "virtual/libgl virtual/libx11 fontconfig libxft libxext =
+libxrender libxrandr libxcursor"
+>=20
+> -INC_PR =3D "r40"
+> +INC_PR =3D "r41"
+>=20
+> QT_GLFLAGS ?=3D "${@base_contains('DISTRO_FEATURES', 'opengl', =
+'-opengl', '-no-opengl', d)} "
+> QT_GLFLAGS_qemux86 =3D "-opengl"
+> diff --git a/meta/recipes-qt/qt4/qt4.inc b/meta/recipes-qt/qt4/qt4.inc
+> index 7f1f6f0..468a46f 100644
+> --- a/meta/recipes-qt/qt4/qt4.inc
+> +++ b/meta/recipes-qt/qt4/qt4.inc
+> @@ -155,6 +155,9 @@ RRECOMMENDS_${QT_BASE_NAME}-qmlviewer +=3D " \
+> RRECOMMENDS_${QT_BASE_NAME}-doc +=3D " \
+>             ${QT_BASE_NAME}-demos-doc"
+>=20
+> +RPROVIDES_${QT_BASE_NAME}-tools +=3D "qmake2"
+> +RREPLACES_${QT_BASE_NAME}-tools +=3D "qmake2"
+> +
+> FILES_${QT_BASE_NAME}-tools                =3D =
+"${bindir}/qttracereplay ${bindir}/qdoc* ${bindir}/qmake ${bindir}/moc =
+${bindir}/uic* ${bindir}/rcc"
+> FILES_${QT_BASE_NAME}-tools-dbg            =3D =
+"${bindir}/.debug/qttracereplay ${bindir}/.debug/qdoc* =
+${bindir}/.debug/qmake ${bindir}/.debug/uic* ${bindir}/.debug/moc =
+${bindir}/.debug/rcc"
+> FILES_${QT_BASE_NAME}-assistant            =3D "${bindir}/*assistant* =
+${bindir}/qcollectiongenerator ${bindir}/qhelpconverter =
+${bindir}/qhelpgenerator"
+> --=20
+> 1.7.5.4
+>=20
+>=20
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
+
 
 
