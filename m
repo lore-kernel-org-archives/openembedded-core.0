@@ -1,18 +1,18 @@
 Received: from masterfoo.zenlinux.com ([207.192.74.254])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <scott.a.garman@intel.com>) id 1S8a0v-0000ZG-B3
+	(envelope-from <scott.a.garman@intel.com>) id 1S8a0x-0000cK-Gx
 	for openembedded-core@lists.openembedded.org;
-	Fri, 16 Mar 2012 17:28:25 +0100
+	Fri, 16 Mar 2012 17:28:27 +0100
 Received: from localhost (c-76-105-137-48.hsd1.or.comcast.net [76.105.137.48])
 	(using TLSv1 with cipher DHE-RSA-AES128-SHA (128/128 bits))
 	(No client certificate requested)
-	by masterfoo.zenlinux.com (Postfix) with ESMTP id 567E52FF60
+	by masterfoo.zenlinux.com (Postfix) with ESMTP id CF9842FF5F
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 16 Mar 2012 12:19:33 -0400 (EDT)
+	Fri, 16 Mar 2012 12:19:35 -0400 (EDT)
 From: Scott Garman <scott.a.garman@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Fri, 16 Mar 2012 09:19:39 -0700
-Message-Id: <dfb0c9ffaeb8765db888956ed0f35f056778194e.1331914572.git.scott.a.garman@intel.com>
+Date: Fri, 16 Mar 2012 09:19:40 -0700
+Message-Id: <08f07a7e59d7568f7588574b17a71d9852d1ef89.1331914572.git.scott.a.garman@intel.com>
 X-Mailer: git-send-email 1.7.5.4
 In-Reply-To: <cover.1331914572.git.scott.a.garman@intel.com>
 References: <cover.1331914572.git.scott.a.garman@intel.com>
@@ -20,12 +20,12 @@ In-Reply-To: <cover.1331914572.git.scott.a.garman@intel.com>
 References: <cover.1331914572.git.scott.a.garman@intel.com>
 X-MasterFoo-MailScanner-Information: Please contact the ISP for more
 	information
-X-MailScanner-ID: 567E52FF60.597A0
+X-MailScanner-ID: CF9842FF5F.B4843
 X-MasterFoo-MailScanner: Found to be clean
 X-MasterFoo-MailScanner-SpamCheck: not spam
 X-MasterFoo-MailScanner-From: scott.a.garman@intel.com
 X-Spam-Status: No
-Subject: [PATCH 1/2] e2fsprogs: upgrade to 1.42.1
+Subject: [PATCH 2/2] distro_tracking: updates for upgraded recipes and manual checks
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -40,114 +40,108 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 16 Mar 2012 16:28:25 -0000
+X-List-Received-Date: Fri, 16 Mar 2012 16:28:27 -0000
 
-Includes minor tweaks to the formatting of some patch headers and the
-addition of a SOB line where needed.
+Updates for upgraded recipes e2fsprogs and ...?
+
+Manual checks done for libpng, libgdbus, expat, chrpath, opensp,
+and nfs-utils.
 
 Signed-off-by: Scott Garman <scott.a.garman@intel.com>
 ---
- .../acinclude.m4                                   |    0
- .../fallocate.patch                                |    4 ++--
- .../mkdir.patch                                    |    1 +
- .../remove.ldconfig.call.patch                     |   11 ++++++++---
- .../{e2fsprogs_1.42.bb => e2fsprogs_1.42.1.bb}     |    6 +++---
- 5 files changed, 14 insertions(+), 8 deletions(-)
- rename meta/recipes-devtools/e2fsprogs/{e2fsprogs-1.42 => e2fsprogs-1.42.1}/acinclude.m4 (100%)
- rename meta/recipes-devtools/e2fsprogs/{e2fsprogs-1.42 => e2fsprogs-1.42.1}/fallocate.patch (100%)
- rename meta/recipes-devtools/e2fsprogs/{e2fsprogs-1.42 => e2fsprogs-1.42.1}/mkdir.patch (99%)
- rename meta/recipes-devtools/e2fsprogs/{e2fsprogs-1.42 => e2fsprogs-1.42.1}/remove.ldconfig.call.patch (76%)
- rename meta/recipes-devtools/e2fsprogs/{e2fsprogs_1.42.bb => e2fsprogs_1.42.1.bb} (93%)
+ .../conf/distro/include/distro_tracking_fields.inc |   26 ++++++++++----------
+ 1 files changed, 13 insertions(+), 13 deletions(-)
 
-diff --git a/meta/recipes-devtools/e2fsprogs/e2fsprogs-1.42/acinclude.m4 b/meta/recipes-devtools/e2fsprogs/e2fsprogs-1.42.1/acinclude.m4
-similarity index 100%
-rename from meta/recipes-devtools/e2fsprogs/e2fsprogs-1.42/acinclude.m4
-rename to meta/recipes-devtools/e2fsprogs/e2fsprogs-1.42.1/acinclude.m4
-diff --git a/meta/recipes-devtools/e2fsprogs/e2fsprogs-1.42/fallocate.patch b/meta/recipes-devtools/e2fsprogs/e2fsprogs-1.42.1/fallocate.patch
-similarity index 100%
-rename from meta/recipes-devtools/e2fsprogs/e2fsprogs-1.42/fallocate.patch
-rename to meta/recipes-devtools/e2fsprogs/e2fsprogs-1.42.1/fallocate.patch
-index 4d952a5..d074c15 100644
---- a/meta/recipes-devtools/e2fsprogs/e2fsprogs-1.42/fallocate.patch
-+++ b/meta/recipes-devtools/e2fsprogs/e2fsprogs-1.42.1/fallocate.patch
-@@ -3,10 +3,10 @@ but we need to check if we have fallocate()
- this problem shows up on uclibc systems since
- uclibc does not have fallocate() implemented
+diff --git a/meta/conf/distro/include/distro_tracking_fields.inc b/meta/conf/distro/include/distro_tracking_fields.inc
+index 8ad924b..252c027 100644
+--- a/meta/conf/distro/include/distro_tracking_fields.inc
++++ b/meta/conf/distro/include/distro_tracking_fields.inc
+@@ -249,7 +249,7 @@ RECIPE_TIME_BETWEEN_LAST_TWO_RELEASES_pn-expat = "17 months"
+ RECIPE_LATEST_RELEASE_DATE_pn-expat = "Jun 5, 2007"
+ RECIPE_COMMENTS_pn-expat = ""
+ RECIPE_LAST_UPDATE_pn-expat = "Jul 7, 2010"
+-RECIPE_MANUAL_CHECK_DATE_pn-expat = "Jan 12, 2012"
++RECIPE_MANUAL_CHECK_DATE_pn-expat = "Mar 15, 2012"
+ RECIPE_MAINTAINER_pn-expat = "Scott Garman <scott.a.garman@intel.com>"
  
--Signed-off-by: Khem Raj <raj.khem@gmail.com>
--
- Upstream-Status: Pending
+ RECIPE_STATUS_pn-dbus = "green"
+@@ -285,15 +285,15 @@ RECIPE_MAINTAINER_pn-neon = "Dongxiao Xu <dongxiao.xu@intel.com>"
  
-+Signed-off-by: Khem Raj <raj.khem@gmail.com>
-+
- Index: e2fsprogs-1.42/lib/ext2fs/unix_io.c
- ===================================================================
- --- e2fsprogs-1.42.orig/lib/ext2fs/unix_io.c	2012-01-17 17:24:34.290780625 -0800
-diff --git a/meta/recipes-devtools/e2fsprogs/e2fsprogs-1.42/mkdir.patch b/meta/recipes-devtools/e2fsprogs/e2fsprogs-1.42.1/mkdir.patch
-similarity index 99%
-rename from meta/recipes-devtools/e2fsprogs/e2fsprogs-1.42/mkdir.patch
-rename to meta/recipes-devtools/e2fsprogs/e2fsprogs-1.42.1/mkdir.patch
-index e91ffa9..aa7a298 100644
---- a/meta/recipes-devtools/e2fsprogs/e2fsprogs-1.42/mkdir.patch
-+++ b/meta/recipes-devtools/e2fsprogs/e2fsprogs-1.42.1/mkdir.patch
-@@ -1,4 +1,5 @@
- Upstream-Status: Inappropriate [configuration]
-+
- Signed-off-by: Mei Lei <lei.mei@intel.com>
+ RECIPE_STATUS_pn-libpng = "green"
+ RECIPE_DEPENDENCY_CHECK_pn-libpng = "not done"
+-RECIPE_LATEST_VERSION_pn-libpng = "1.5.7"
++RECIPE_LATEST_VERSION_pn-libpng = "1.5.9"
+ RECIPE_NO_UPDATE_REASON_pn-libpng = "1.4.3 and later changes the API and breaks libmatchbox. Sticking with the 1.2.x series instead"
+ RECIPE_PATCH_pn-libpng+makefile = "by RP; 2008; to define ECHO explicitly for lbitool 2.2.2. need check whether it's still valide for new libtool. candidate for upstream"
+ RECIPE_INTEL_SECTION_pn-libpng = "base libs"
+ RECIPE_TIME_BETWEEN_LAST_TWO_RELEASES_pn-libpng = "unknown"
+-RECIPE_LATEST_RELEASE_DATE_pn-libpng = "Jul 01, 2011"
++RECIPE_LATEST_RELEASE_DATE_pn-libpng = "Mar 08, 2012"
+ RECIPE_COMMENTS_pn-libpng = ""
+ RECIPE_LAST_UPDATE_pn-libpng = "Jul 18, 2011"
+-RECIPE_MANUAL_CHECK_DATE_pn-libpng = "Jan 19, 2012"
++RECIPE_MANUAL_CHECK_DATE_pn-libpng = "Mar 15, 2012"
+ RECIPE_MAINTAINER_pn-libpng = "Scott Garman <scott.a.garman@intel.com>"
  
- Index: e2fsprogs-1.41.5/po/Makefile.in.in
-diff --git a/meta/recipes-devtools/e2fsprogs/e2fsprogs-1.42/remove.ldconfig.call.patch b/meta/recipes-devtools/e2fsprogs/e2fsprogs-1.42.1/remove.ldconfig.call.patch
-similarity index 76%
-rename from meta/recipes-devtools/e2fsprogs/e2fsprogs-1.42/remove.ldconfig.call.patch
-rename to meta/recipes-devtools/e2fsprogs/e2fsprogs-1.42.1/remove.ldconfig.call.patch
-index 0e5fd7d..7be4c3e 100644
---- a/meta/recipes-devtools/e2fsprogs/e2fsprogs-1.42/remove.ldconfig.call.patch
-+++ b/meta/recipes-devtools/e2fsprogs/e2fsprogs-1.42.1/remove.ldconfig.call.patch
-@@ -1,11 +1,16 @@
--When /etc/ld.so.cache is writeable by user running bitbake then it creates invalid cache
--(in my case libstdc++.so cannot be found after building zlib(-native) and I have to call
--touch */libstdc++.so && /sbin/ldconfig to fix it.
-+When /etc/ld.so.cache is writeable by user running bitbake then it
-+creates invalid cache (in my case libstdc++.so cannot be found after
-+building zlib(-native) and I have to call touch */libstdc++.so &&
-+/sbin/ldconfig to fix it.
+ RECIPE_STATUS_pn-libidn = "green"
+@@ -678,16 +678,16 @@ RECIPE_MAINTAINER_pn-dbus-wait= "Zhai Edwin <edwin.zhai@intel.com>"
+ RECIPE_STATUS_pn-e2fsprogs = "yellow" 
+ # patch comment
+ RECIPE_DEPENDENCY_CHECK_pn-e2fsprogs = "not done"
+-RECIPE_LATEST_VERSION_pn-e2fsprogs = "1.42"
++RECIPE_LATEST_VERSION_pn-e2fsprogs = "1.42.1"
+ RECIPE_PATCH_pn-e2fsprogs+quotefix = "to be pushed upstream"
+ RECIPE_PATCH_pn-e2fsprogs+mkdir = "to be pushed upstream; no comment; MKINSTALLDIRS is not supported in new version autotool"
+ RECIPE_PATCH_pn-e2fsprogs+acinclude = "to be pushed upstream;"
+ RECIPE_INTEL_SECTION_pn-e2fsprogs = "base utils"
+-RECIPE_TIME_BETWEEN_LAST_TWO_RELEASES_pn-e2fsprogs = "11 months"
+-RECIPE_LATEST_RELEASE_DATE_pn-e2fsprogs = "Nov 29, 2011"
++RECIPE_TIME_BETWEEN_LAST_TWO_RELEASES_pn-e2fsprogs = "2 months"
++RECIPE_LATEST_RELEASE_DATE_pn-e2fsprogs = "Feb 17, 2012"
+ RECIPE_COMMENTS_pn-e2fsprogs = ""
+-RECIPE_LAST_UPDATE_pn-e2fsprogs = "Jan 12, 2012"
+-RECIPE_MANUAL_CHECK_DATE_pn-e2fsprogs = "Jan 12, 2012"
++RECIPE_LAST_UPDATE_pn-e2fsprogs = "Mar 15, 2012"
++RECIPE_MANUAL_CHECK_DATE_pn-e2fsprogs = "Mar 15, 2012"
+ RECIPE_MAINTAINER_pn-e2fsprogs = "Scott Garman <scott.a.garman@intel.com>"
  
- So remove ldconfig call from make install-libs
+ RECIPE_STATUS_pn-initramfs-boot = "green"
+@@ -1217,7 +1217,7 @@ RECIPE_NO_OF_PATCHES_pn-libgdbus = "0"
+ RECIPE_LATEST_RELEASE_DATE_pn-libgdbus = "Sep 01, 2008"
+ RECIPE_TIME_BETWEEN_LAST_TWO_RELEASES_pn-libgdbus = "unknown"
+ RECIPE_LAST_UPDATE_pn-libgdbus = "Jan 4, 2011"
+-RECIPE_MANUAL_CHECK_DATE_pn-libgdbus = "Jan 19, 2012"
++RECIPE_MANUAL_CHECK_DATE_pn-libgdbus = "Mar 15, 2012"
+ DISTRO_PN_ALIAS_pn-libgdbus = "Intel"
+ RECIPE_MAINTAINER_pn-libgdbus = "Scott Garman <scott.a.garman@intel.com>"
  
-+Patch authored by Martin Jansa.
-+
- Upstream-Status: Inappropriate [disable feature]
+@@ -1245,7 +1245,7 @@ RECIPE_LATEST_VERSION_pn-chrpath = "0.14"
+ RECIPE_LATEST_RELEASE_DATE_pn-chrpath = "Sep 27, 2011"
+ RECIPE_TIME_BETWEEN_LAST_TWO_RELEASES_pn-chrpath = "unknown"
+ RECIPE_LAST_UPDATE_pn-chrpath = "Jan 12, 2012"
+-RECIPE_MANUAL_CHECK_DATE_pn-chrpath = "Jan 12, 2012"
++RECIPE_MANUAL_CHECK_DATE_pn-chrpath = "Mar 15, 2012"
+ RECIPE_MAINTAINER_pn-chrpath = "Scott Garman <scott.a.garman@intel.com>"
  
-+Signed-off-by: Scott Garman <scott.a.garman@intel.com>
-+
- diff -uNr e2fsprogs-1.42.orig/lib/Makefile.elf-lib e2fsprogs-1.42/lib/Makefile.elf-lib
- --- e2fsprogs-1.42.orig/lib/Makefile.elf-lib	2010-06-14 05:07:36.000000000 +0200
- +++ e2fsprogs-1.42/lib/Makefile.elf-lib	2012-02-23 14:26:07.021272275 +0100
-diff --git a/meta/recipes-devtools/e2fsprogs/e2fsprogs_1.42.bb b/meta/recipes-devtools/e2fsprogs/e2fsprogs_1.42.1.bb
-similarity index 93%
-rename from meta/recipes-devtools/e2fsprogs/e2fsprogs_1.42.bb
-rename to meta/recipes-devtools/e2fsprogs/e2fsprogs_1.42.1.bb
-index 6e3f7b8..6df7cea 100644
---- a/meta/recipes-devtools/e2fsprogs/e2fsprogs_1.42.bb
-+++ b/meta/recipes-devtools/e2fsprogs/e2fsprogs_1.42.1.bb
-@@ -1,14 +1,14 @@
- require e2fsprogs.inc
+ RECIPE_STATUS_pn-dosfstools = "red"
+@@ -1658,7 +1658,7 @@ RECIPE_PATCH_pn-nfs-utils+nfsserver = "init script"
+ RECIPE_INTEL_SECTION_pn-nfs-utils = "base utils"
+ RECIPE_TIME_BETWEEN_LAST_TWO_RELEASES_pn-nfs-utils = "3 months"
+ RECIPE_LATEST_RELEASE_DATE_pn-nfs-utils = "Feb 01, 2010"
+-RECIPE_MANUAL_CHECK_DATE_pn-nfs-utils = "Jan 19, 2012"
++RECIPE_MANUAL_CHECK_DATE_pn-nfs-utils = "Mar 15, 2012"
+ RECIPE_MAINTAINER_pn-nfs-utils = "Scott Garman <scott.a.garman@intel.com>"
  
--PR = "r4"
-+PR = "r0"
+ RECIPE_STATUS_pn-dropbear = "green"
+@@ -6133,7 +6133,7 @@ RECIPE_LATEST_RELEASE_DATE_pn-opensp = "Dec 23, 2005"
+ RECIPE_TIME_BETWEEN_LAST_TWO_RELEASES_pn-opensp = "2 years"
+ RECIPE_COMMENTS_pn-opensp = ""
+ RECIPE_LAST_UPDATE_pn-opensp = "Jan 26, 2011"
+-RECIPE_MANUAL_CHECK_DATE_pn-opensp = "Jan 19, 2012"
++RECIPE_MANUAL_CHECK_DATE_pn-opensp = "Mar 15, 2012"
+ RECIPE_MAINTAINER_pn-opensp = "Scott Garman <scott.a.garman@intel.com>"
  
- SRC_URI += "file://fallocate.patch \
-             file://acinclude.m4 \
-             file://remove.ldconfig.call.patch \
- "
- 
--SRC_URI[md5sum] = "a3c4ffd7352310ab5e9412965d575610"
--SRC_URI[sha256sum] = "55b46db0cec3e2eb0e5de14494a88b01ff6c0500edf8ca8927cad6da7b5e4a46"
-+SRC_URI[md5sum] = "8ed1501ae6746e2e735bdd1407211dc9"
-+SRC_URI[sha256sum] = "0f1fdc10c6289b6750714490837df9aab691f352d33f5ecb64507704df6ff991"
- 
- EXTRA_OECONF += "--libdir=${base_libdir} --sbindir=${base_sbindir} --enable-elf-shlibs --disable-libuuid --disable-uuidd"
- EXTRA_OECONF_darwin = "--libdir=${base_libdir} --sbindir=${base_sbindir} --enable-bsd-shlibs"
+ RECIPE_STATUS_pn-openjade = "green"
 -- 
 1.7.5.4
 
