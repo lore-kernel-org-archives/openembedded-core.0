@@ -1,20 +1,24 @@
 Received: from mga03.intel.com ([143.182.124.21])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <paul.eggleton@linux.intel.com>) id 1S8ZdA-0008L3-Lg
+	(envelope-from <paul.eggleton@linux.intel.com>) id 1S8ZdB-0008L3-FG
 	for openembedded-core@lists.openembedded.org;
-	Fri, 16 Mar 2012 17:03:52 +0100
+	Fri, 16 Mar 2012 17:03:53 +0100
 Received: from azsmga002.ch.intel.com ([10.2.17.35])
-	by azsmga101.ch.intel.com with ESMTP; 16 Mar 2012 08:55:03 -0700
+	by azsmga101.ch.intel.com with ESMTP; 16 Mar 2012 08:55:05 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="78402255"
+X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="78402269"
 Received: from unknown (HELO helios.ger.corp.intel.com) ([10.252.123.171])
-	by AZSMGA002.ch.intel.com with ESMTP; 16 Mar 2012 08:55:02 -0700
+	by AZSMGA002.ch.intel.com with ESMTP; 16 Mar 2012 08:55:03 -0700
 From: Paul Eggleton <paul.eggleton@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Fri, 16 Mar 2012 15:55:00 +0000
-Message-Id: <cover.1331913268.git.paul.eggleton@linux.intel.com>
+Date: Fri, 16 Mar 2012 15:55:01 +0000
+Message-Id: <a2e9044ed2b89b5fdbdb28cc6929797e49e8a009.1331913268.git.paul.eggleton@linux.intel.com>
 X-Mailer: git-send-email 1.7.5.4
-Subject: [PATCH 0/1] QA fix
+In-Reply-To: <cover.1331913268.git.paul.eggleton@linux.intel.com>
+References: <cover.1331913268.git.paul.eggleton@linux.intel.com>
+In-Reply-To: <cover.1331913268.git.paul.eggleton@linux.intel.com>
+References: <cover.1331913268.git.paul.eggleton@linux.intel.com>
+Subject: [PATCH 1/1] qt-mobility: fix QA warnings
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -29,24 +33,74 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 16 Mar 2012 16:03:52 -0000
+X-List-Received-Date: Fri, 16 Mar 2012 16:03:53 -0000
 
-The following changes since commit 9950163c91412eb58c3475354cc7f87a7be33c2b:
+Fix the following warnings:
 
-  python-imaging: bring in fixes from meta-oe (2012-03-16 10:56:31 +0000)
+WARNING: QA Issue: package qt-mobility-x11 contains bad RPATH /home/user/qt/lib:/home/user/qt/lib${WORKDIR}/qt-mobility-opensource-src-1.2.0/lib:/home/user/qt/lib/media/large/tmp/sysroots/qemux86/usr/lib:/home/user/qt/lib/usr/lib in file ${WORKDIR}/packages-split/qt-mobility-x11/usr/bin/qt4/examples/QtMobility/qml_device
+WARNING: QA Issue: package qt-mobility-x11 contains bad RPATH /home/user/qt/lib:/home/user/qt/lib${WORKDIR}/qt-mobility-opensource-src-1.2.0/lib:/home/user/qt/lib/media/large/tmp/sysroots/qemux86/usr/lib:/home/user/qt/lib/usr/lib in file ${WORKDIR}/packages-split/qt-mobility-x11/usr/bin/qt4/examples/QtMobility/qml_device
 
-are available in the git repository at:
-  git://git.openembedded.org/openembedded-core-contrib paule/qt-mobility-qa
-  http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=paule/qt-mobility-qa
-
-Paul Eggleton (1):
-  qt-mobility: fix QA warnings
-
+Signed-off-by: Paul Eggleton <paul.eggleton@linux.intel.com>
+---
  ...nnecessary-rpaths-from-qml_device-example.patch |   28 ++++++++++++++++++++
  meta/recipes-qt/qt4/qt-mobility_1.2.0.inc          |    5 ++-
  2 files changed, 31 insertions(+), 2 deletions(-)
  create mode 100644 meta/recipes-qt/qt4/files/0002-Remove-unnecessary-rpaths-from-qml_device-example.patch
 
+diff --git a/meta/recipes-qt/qt4/files/0002-Remove-unnecessary-rpaths-from-qml_device-example.patch b/meta/recipes-qt/qt4/files/0002-Remove-unnecessary-rpaths-from-qml_device-example.patch
+new file mode 100644
+index 0000000..a411640
+--- /dev/null
++++ b/meta/recipes-qt/qt4/files/0002-Remove-unnecessary-rpaths-from-qml_device-example.patch
+@@ -0,0 +1,28 @@
++From 92e0c611f4969c716616d64df64831387e5b1632 Mon Sep 17 00:00:00 2001
++From: Paul Eggleton <paul.eggleton@linux.intel.com>
++Date: Fri, 16 Mar 2012 10:24:00 +0000
++Subject: [PATCH] Remove unnecessary rpaths from qml_device example
++
++These can't be valid in any case.
++
++Upstream-Status: Pending
++
++Signed-off-by: Paul Eggleton <paul.eggleton@linux.intel.com>
++---
++ examples/declarative-systeminfo/device/device.pro |    3 ---
++ 1 files changed, 0 insertions(+), 3 deletions(-)
++
++diff --git a/examples/declarative-systeminfo/device/device.pro b/examples/declarative-systeminfo/device/device.pro
++index 698e5fb..05be9b7 100644
++--- a/examples/declarative-systeminfo/device/device.pro
+++++ b/examples/declarative-systeminfo/device/device.pro
++@@ -17,6 +17,3 @@ symbian {
++ }
++ RESOURCES += device.qrc
++ 
++-QMAKE_LFLAGS_DEBUG += "-Wl,-rpath,/home/user/qt/lib"
++-QMAKE_LFLAGS_RPATH += "-Wl,-rpath,/home/user/qt/lib"
++-QMAKE_LFLAGS_RELEASE += "-Wl,-rpath,/home/user/qt/lib"
++-- 
++1.7.5.4
++
+diff --git a/meta/recipes-qt/qt4/qt-mobility_1.2.0.inc b/meta/recipes-qt/qt4/qt-mobility_1.2.0.inc
+index 593cbd6..1c4611d 100644
+--- a/meta/recipes-qt/qt4/qt-mobility_1.2.0.inc
++++ b/meta/recipes-qt/qt4/qt-mobility_1.2.0.inc
+@@ -7,12 +7,13 @@ LIC_FILES_CHKSUM = "file://LICENSE.LGPL;md5=fbc093901857fcd118f065f900982c24 \
+ 
+ SRC_URI = "http://get.qt.nokia.com/qt/add-ons/qt-mobility-opensource-src-${PV}.tar.gz \
+            file://qt-mobility-configure.patch \
+-           file://0001-gstvideoconnector-fixed-buffers-allocation.patch"
++           file://0001-gstvideoconnector-fixed-buffers-allocation.patch \
++           file://0002-Remove-unnecessary-rpaths-from-qml_device-example.patch"
+ 
+ SRC_URI[md5sum]="ea5db5a8d3dd4709c2926dceda646bd8"
+ SRC_URI[sha256sum]="ee3c88975e04139ac9589f76d4be646d44fcbc4c8c1cf2db621abc154cf0ba44"
+ 
+-PR = "r2"
++PR = "r3"
+ 
+ S = "${WORKDIR}/qt-mobility-opensource-src-${PV}"
+ 
 -- 
 1.7.5.4
 
