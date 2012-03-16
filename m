@@ -1,24 +1,24 @@
-Received: from mga09.intel.com ([134.134.136.24])
+Received: from mga11.intel.com ([192.55.52.93])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <shane.wang@intel.com>) id 1S8LEH-0000rW-PG
+	(envelope-from <shane.wang@intel.com>) id 1S8LEG-0000rV-FM
 	for openembedded-core@lists.openembedded.org;
 	Fri, 16 Mar 2012 01:41:14 +0100
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-	by orsmga102.jf.intel.com with ESMTP; 15 Mar 2012 17:32:26 -0700
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+	by fmsmga102.fm.intel.com with ESMTP; 15 Mar 2012 17:32:24 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.67,352,1309762800"; d="scan'208";a="118171386"
+X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="139657260"
 Received: from yocto-build5.sh.intel.com (HELO localhost) ([10.239.48.3])
-	by orsmga001.jf.intel.com with ESMTP; 15 Mar 2012 17:32:25 -0700
+	by fmsmga002.fm.intel.com with ESMTP; 15 Mar 2012 17:32:24 -0700
 From: Shane Wang <shane.wang@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Fri, 16 Mar 2012 08:52:04 +0800
-Message-Id: <35e6188283de9d2e737c83f83706e5415d1a515f.1331859047.git.shane.wang@intel.com>
+Date: Fri, 16 Mar 2012 08:52:03 +0800
+Message-Id: <2c7455c64e4ea70fef683ebca4be9f0f4e33560b.1331859047.git.shane.wang@intel.com>
 X-Mailer: git-send-email 1.7.6
 In-Reply-To: <fa4a26b05739e4f22b999571ff20a35ec84d29e7.1331859046.git.shane.wang@intel.com>
 References: <fa4a26b05739e4f22b999571ff20a35ec84d29e7.1331859046.git.shane.wang@intel.com>
 In-Reply-To: <cover.1331859046.git.shane.wang@intel.com>
 References: <cover.1331859046.git.shane.wang@intel.com>
-Subject: [PATCH 07/60] tremor: upgrade to 18221
+Subject: [PATCH 06/60] libvorbis: upgrade to 1.3.3
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -37,25 +37,27 @@ X-List-Received-Date: Fri, 16 Mar 2012 00:41:14 -0000
 
 Signed-off-by: Shane Wang <shane.wang@intel.com>
 ---
- .../{tremor_20120122.bb => tremor_20120314.bb}     |    2 +-
- 1 files changed, 1 insertions(+), 1 deletions(-)
- rename meta/recipes-multimedia/tremor/{tremor_20120122.bb => tremor_20120314.bb} (88%)
+ .../{libvorbis_1.3.2.bb => libvorbis_1.3.3.bb}     |    4 ++--
+ 1 files changed, 2 insertions(+), 2 deletions(-)
+ rename meta/recipes-multimedia/libvorbis/{libvorbis_1.3.2.bb => libvorbis_1.3.3.bb} (86%)
 
-diff --git a/meta/recipes-multimedia/tremor/tremor_20120122.bb b/meta/recipes-multimedia/tremor/tremor_20120314.bb
-similarity index 88%
-rename from meta/recipes-multimedia/tremor/tremor_20120122.bb
-rename to meta/recipes-multimedia/tremor/tremor_20120314.bb
-index 055add7..19d03d6 100644
---- a/meta/recipes-multimedia/tremor/tremor_20120122.bb
-+++ b/meta/recipes-multimedia/tremor/tremor_20120314.bb
-@@ -8,7 +8,7 @@ DEPENDS = "libogg"
- SRCDATE = "${PV}"
- PR = "r0"
+diff --git a/meta/recipes-multimedia/libvorbis/libvorbis_1.3.2.bb b/meta/recipes-multimedia/libvorbis/libvorbis_1.3.3.bb
+similarity index 86%
+rename from meta/recipes-multimedia/libvorbis/libvorbis_1.3.2.bb
+rename to meta/recipes-multimedia/libvorbis/libvorbis_1.3.3.bb
+index 5961d9d..e846a63 100644
+--- a/meta/recipes-multimedia/libvorbis/libvorbis_1.3.2.bb
++++ b/meta/recipes-multimedia/libvorbis/libvorbis_1.3.3.bb
+@@ -14,8 +14,8 @@ PR = "r0"
  
--SRC_URI = "svn://svn.xiph.org/trunk;module=Tremor;rev=18163;proto=http"
-+SRC_URI = "svn://svn.xiph.org/trunk;module=Tremor;rev=18221;proto=http"
+ SRC_URI = "http://downloads.xiph.org/releases/vorbis/libvorbis-${PV}.tar.gz"
  
- S = "${WORKDIR}/Tremor"
+-SRC_URI[md5sum] = "c870b9bd5858a0ecb5275c14486d9554"
+-SRC_URI[sha256sum] = "eeb4dcada143846dfba760d982954a02f82e08845cbc33871f5dac547b8b6124"
++SRC_URI[md5sum] = "6b1a36f0d72332fae5130688e65efe1f"
++SRC_URI[sha256sum] = "6d747efe7ac4ad249bf711527882cef79fb61d9194c45b5ca5498aa60f290762"
+ 
+ inherit autotools pkgconfig
  
 -- 
 1.7.6
