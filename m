@@ -1,27 +1,32 @@
-Received: from mga11.intel.com ([192.55.52.93])
-	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <paul.eggleton@linux.intel.com>) id 1S8Jvr-0007en-0a
+Received: from [74.125.82.175] (helo=mail-we0-f175.google.com)
+	by linuxtogo.org with esmtp (Exim 4.72) id 1S8Kj3-00009v-8m
 	for openembedded-core@lists.openembedded.org;
-	Fri, 16 Mar 2012 00:18:07 +0100
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-	by fmsmga102.fm.intel.com with ESMTP; 15 Mar 2012 16:09:18 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="129544731"
-Received: from unknown (HELO helios.localnet) ([10.252.123.170])
-	by fmsmga001.fm.intel.com with ESMTP; 15 Mar 2012 16:09:17 -0700
-From: Paul Eggleton <paul.eggleton@linux.intel.com>
-To: Andreas Oberritter <obi@opendreambox.org>
-Date: Thu, 15 Mar 2012 23:09:16 +0000
-Message-ID: <665936693.QMobc8r8oH@helios>
-Organization: Intel Corporation
-User-Agent: KMail/4.8.0 (Linux/3.0.0-16-generic-pae; KDE/4.8.1; i686; ; )
-In-Reply-To: <4F613827.3040705@opendreambox.org>
-References: <cover.1331685330.git.paul.eggleton@linux.intel.com>
-	<e4d001f8c6f8945c8c70c2558ad5f9e1fd85dfad.1331685330.git.paul.eggleton@linux.intel.com>
-	<4F613827.3040705@opendreambox.org>
-MIME-Version: 1.0
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 1/6] scripts/bitbake: ensure user is in build directory
+	Fri, 16 Mar 2012 01:08:57 +0100
+Received: by wera1 with SMTP id a1so3449215wer.6
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 15 Mar 2012 17:00:10 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=from:to:subject:date:message-id:x-mailer;
+	bh=kacVukQ1cv1snHJI1tz9Ba9dwXpE0jABmg9cFb9hgR8=;
+	b=ZjORiltqJk0xTTu8nGeKWxmjjk9pWcYEsOTOBGD7Ox3uDNwOgQXpj/OoLdGL6vL9os
+	ZCeAND/q49Y6+mxHl/FpUJ8P7Y3QWIBe3n2p4Qp4pXJch/io3Y2UKkbanTEh6Bd0iqhH
+	CbanC5KYxi8NenCF5Smj0fsV1N/ggqeRXwu8DWztOxGCFPTz66tMJpEsTscFxZKIGtTd
+	TkaXEE/V3Qp7OTy39/HWRUbtQ8jTKaRcHUyiDc5sDryzyBtoypfkMiuj5cMqcvgprL8Q
+	yds+V/KAbjqHsmjE5wvYspm9j4z6zyHa7nZkvmdPi1LvY30nVghjVnql5Z4Ooy1Tttgo
+	MvQQ==
+Received: by 10.216.136.13 with SMTP id v13mr313544wei.32.1331856010263;
+	Thu, 15 Mar 2012 17:00:10 -0700 (PDT)
+Received: from localhost.localdomain (93-142-247-48.adsl.net.t-com.hr.
+	[93.142.247.48])
+	by mx.google.com with ESMTPS id l5sm9100883wia.11.2012.03.15.17.00.08
+	(version=TLSv1/SSLv3 cipher=OTHER);
+	Thu, 15 Mar 2012 17:00:09 -0700 (PDT)
+From: Marko Katic <dromede@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Date: Fri, 16 Mar 2012 01:00:04 +0100
+Message-Id: <1331856008-21536-1-git-send-email-user@dromedary>
+X-Mailer: git-send-email 1.7.4.1
+Subject: [PATCH 1/5] xcb_util.inc: Remove packaging and modify SRC_URI for multiple ${BPN} names
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -36,47 +41,47 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 15 Mar 2012 23:18:07 -0000
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
+X-List-Received-Date: Fri, 16 Mar 2012 00:08:57 -0000
 
-On Thursday 15 March 2012 01:30:31 Andreas Oberritter wrote:
-> On 14.03.2012 01:36, Paul Eggleton wrote:
-> > If the user is in any directory other than $BUILDDIR when the bitbake
-> > wrapper script is run, then show an error an exit.
-> 
-> this patch broke my setup.
+Xcb-util was split into separate packages during the 0.3.6 -> 0.3.8 transition. 
+Update xcb_util.inc to reflect that by removing the older packaging.
+Libxcbatom, libxcbaux and libxcbevent are merged into libxcbutil.
+Libxcbicccm, libxcbimage, libxcbkeysyms and libxcbwm are now separate packages.
+Libxcbproperty and libxcbreply were made obsolete with this commit:
 
-Ah, sorry about that.
+http://cgit.freedesktop.org/xcb/util/commit/?id=81c62e7a04213abefa1ea82819887aaaa3c31a74
+---
+ meta/recipes-graphics/xcb/xcb-util.inc |   16 +---------------
+ 1 files changed, 1 insertions(+), 15 deletions(-)
+
+diff --git a/meta/recipes-graphics/xcb/xcb-util.inc b/meta/recipes-graphics/xcb/xcb-util.inc
+index cd9923d..7dad545 100644
+--- a/meta/recipes-graphics/xcb/xcb-util.inc
++++ b/meta/recipes-graphics/xcb/xcb-util.inc
+@@ -18,20 +18,6 @@ DEPENDS += "gperf-native"
  
-> My $BUILDDIR points to tmp, so that pseudo doesn't get rebuilt for every
-> machine. I have a shared tmp for many machines.
-
-So a couple of things:
-
-1) Unless I'm missing something you can share the same TMPDIR between multiple 
-build directories to get the same result.
+ PARALLEL_MAKE = ""
  
-2) pseudo is a native package. It shouldn't be rebuilt when changing MACHINE. 
-In fact I just verified by creating a different build directory with only 
-MACHINE changed in the config, it is not rebuilt.
-
-> BUILDDIR doesn't seem to have any other use than pointing to the
-> 'pseudodone' file. I don't understand why it's required to run bitbake
-> from there.
-
-Well, it's required that bitbake is run from the build directory and when you 
-use the setup script as intended that's where BUILDDIR points to. I hadn't 
-anticipated that anyone would be changing BUILDDIR to point to anything other 
-than the build dir, however I don't really think it's a good idea to support 
-that.
-
-Cheers,
-Paul
-
+-SRC_URI = "http://xcb.freedesktop.org/dist/xcb-util-${PV}.tar.bz2"
+-
+-PACKAGES =+ "libxcbatom libxcbaux libxcbevent libxcbicccm \
+-             libxcbimage libxcbkeysyms libxcbproperty \
+-             libxcbreply libxcbwm"
+-
+-FILES_libxcbatom = "${libdir}/libXCBAtom.so.*"
+-FILES_libxcbaux = "${libdir}/libXCBAux.so.*"
+-FILES_libxcbevent = "${libdir}/libXCBEvent.so.*"
+-FILES_libxcbicccm = "${libdir}/libXCBICCCM.so.*"
+-FILES_libxcbimage = "${libdir}/libXCBImage.so.*"
+-FILES_libxcbkeysyms = "${libdir}/libXCBKeysyms.so.*"
+-FILES_libxcbproperty = "${libdir}/libXCBProperty.so.*"
+-FILES_libxcbreply = "${libdir}/libXCBReply.so.*"
+-FILES_libxcbwm = "${libdir}/libXCBWM.so.*"
++SRC_URI = "http://xcb.freedesktop.org/dist/${BPN}-${PV}.tar.bz2"
+ 
+ inherit autotools pkgconfig
 -- 
+1.7.4.1
 
-Paul Eggleton
-Intel Open Source Technology Centre
 
 
