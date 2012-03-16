@@ -1,30 +1,39 @@
-Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
-	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <richard.purdie@linuxfoundation.org>)
-	id 1S8Xau-00052F-7N for openembedded-core@lists.openembedded.org;
-	Fri, 16 Mar 2012 14:53:24 +0100
-Received: from localhost (localhost [127.0.0.1])
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q2GDiaiP003449
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 16 Mar 2012 13:44:36 GMT
-Received: from tim.rpsys.net ([127.0.0.1])
-	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
-	port 10024) with LMTP
-	id 02357-06 for <openembedded-core@lists.openembedded.org>;
-	Fri, 16 Mar 2012 13:44:31 +0000 (GMT)
-Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q2GDiRGY003430
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO)
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 16 Mar 2012 13:44:28 GMT
-Message-ID: <1331905468.18586.182.camel@ted>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: openembedded-core <openembedded-core@lists.openembedded.org>
-Date: Fri, 16 Mar 2012 13:44:28 +0000
-X-Mailer: Evolution 3.2.2- 
-Mime-Version: 1.0
-X-Virus-Scanned: amavisd-new at rpsys.net
-Subject: [PATCH] directfb: Fix RPATH warnings
+Received: from mga14.intel.com ([143.182.124.37])
+	by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <shane.wang@intel.com>) id 1S8XbM-00054s-V8
+	for openembedded-core@lists.openembedded.org;
+	Fri, 16 Mar 2012 14:53:53 +0100
+Received: from azsmga001.ch.intel.com ([10.2.17.19])
+	by azsmga102.ch.intel.com with ESMTP; 16 Mar 2012 06:45:04 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="119783527"
+Received: from azsmsx601.amr.corp.intel.com ([10.2.121.193])
+	by azsmga001.ch.intel.com with ESMTP; 16 Mar 2012 06:45:04 -0700
+Received: from azsmsx602.amr.corp.intel.com (10.2.121.201) by
+	azsmsx601.amr.corp.intel.com (10.2.121.193) with Microsoft SMTP Server
+	(TLS) id 8.2.255.0; Fri, 16 Mar 2012 06:45:03 -0700
+Received: from shsmsx101.ccr.corp.intel.com (10.239.4.153) by
+	azsmsx602.amr.corp.intel.com (10.2.121.201) with Microsoft SMTP Server
+	(TLS) id 8.2.255.0; Fri, 16 Mar 2012 06:45:02 -0700
+Received: from shsmsx102.ccr.corp.intel.com ([169.254.2.36]) by
+	SHSMSX101.ccr.corp.intel.com ([169.254.1.142]) with mapi id
+	14.01.0355.002; Fri, 16 Mar 2012 21:45:01 +0800
+From: "Wang, Shane" <shane.wang@intel.com>
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Thread-Topic: [OE-core] [PATCH 00/60] Package Upgrade
+Thread-Index: AQHNA3CsQ8+z3aukyk6hGMA3aSAeMJZs7lOA
+Date: Fri, 16 Mar 2012 13:45:01 +0000
+Message-ID: <3AB6CE7F274E534CAFD089D127A8A1FC23AED2D9@SHSMSX102.ccr.corp.intel.com>
+References: <cover.1331859046.git.shane.wang@intel.com>
+	<F29B7771-8017-4CB4-AFCF-19CB857CAAD1@dominion.thruhere.net>
+In-Reply-To: <F29B7771-8017-4CB4-AFCF-19CB857CAAD1@dominion.thruhere.net>
+Accept-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [10.239.127.40]
+MIME-Version: 1.0
+Subject: Re: [PATCH 00/60] Package Upgrade
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -39,394 +48,118 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 16 Mar 2012 13:53:24 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Fri, 16 Mar 2012 13:53:53 -0000
+Content-Language: en-US
+Content-Type: text/plain; charset="iso-8859-1"
 Content-Transfer-Encoding: quoted-printable
 
-Fix configure not to remove variables which trigger the unneccessary rpaths=
- to get
-encoded. Also take the opportunity to clean up the patches directory.
+I built those recipes separately, built core-image-sato on qemux86 and qemu=
+arm, and launched the image in the emulator and ran some applications.
 
-WARNING: QA Issue: directfb: /work/i586-poky-linux/directfb-1.4.15-r1/packa=
-ges-split/directfb/usr/bin/dfblayer contains probably-redundant RPATH /usr/=
-lib
-WARNING: QA Issue: directfb: /work/i586-poky-linux/directfb-1.4.15-r1/packa=
-ges-split/directfb/usr/bin/dfbmaster contains probably-redundant RPATH /usr=
-/lib
-WARNING: QA Issue: directfb: /work/i586-poky-linux/directfb-1.4.15-r1/packa=
-ges-split/directfb/usr/bin/mkdgifft contains probably-redundant RPATH /usr/=
-lib
-WARNING: QA Issue: directfb: /work/i586-poky-linux/directfb-1.4.15-r1/packa=
-ges-split/directfb/usr/bin/dfbdump contains probably-redundant RPATH /usr/l=
-ib
-WARNING: QA Issue: directfb: /work/i586-poky-linux/directfb-1.4.15-r1/packa=
-ges-split/directfb/usr/bin/dfbinput contains probably-redundant RPATH /usr/=
-lib
-WARNING: QA Issue: directfb: /work/i586-poky-linux/directfb-1.4.15-r1/packa=
-ges-split/directfb/usr/bin/dfbfx contains probably-redundant RPATH /usr/lib
-WARNING: QA Issue: directfb: /work/i586-poky-linux/directfb-1.4.15-r1/packa=
-ges-split/directfb/usr/bin/dfbscreen contains probably-redundant RPATH /usr=
-/lib
-WARNING: QA Issue: directfb: /work/i586-poky-linux/directfb-1.4.15-r1/packa=
-ges-split/directfb/usr/bin/mkdgiff contains probably-redundant RPATH /usr/l=
-ib
-WARNING: QA Issue: directfb: /work/i586-poky-linux/directfb-1.4.15-r1/packa=
-ges-split/directfb/usr/bin/dfbinspector contains probably-redundant RPATH /=
-usr/lib
-WARNING: QA Issue: directfb: /work/i586-poky-linux/directfb-1.4.15-r1/packa=
-ges-split/directfb/usr/bin/mkdfiff contains probably-redundant RPATH /usr/l=
-ib
-WARNING: QA Issue: directfb: /work/i586-poky-linux/directfb-1.4.15-r1/packa=
-ges-split/directfb/usr/bin/dfbinfo contains probably-redundant RPATH /usr/l=
-ib
-WARNING: QA Issue: directfb: /work/i586-poky-linux/directfb-1.4.15-r1/packa=
-ges-split/directfb/usr/bin/dfbpenmount contains probably-redundant RPATH /u=
-sr/lib
-WARNING: QA Issue: directfb: /work/i586-poky-linux/directfb-1.4.15-r1/packa=
-ges-split/directfb/usr/bin/dfbg contains probably-redundant RPATH /usr/lib
-WARNING: QA Issue: directfb: /work/i586-poky-linux/directfb-1.4.15-r1/packa=
-ges-split/directfb/usr/lib/libfusion-1.4.so.6 contains probably-redundant R=
-PATH /usr/lib
-WARNING: QA Issue: directfb: /work/i586-poky-linux/directfb-1.4.15-r1/packa=
-ges-split/directfb/usr/lib/libdirectfb-1.4.so.6.0.9 contains probably-redun=
-dant RPATH /usr/lib
-WARNING: QA Issue: directfb: /work/i586-poky-linux/directfb-1.4.15-r1/packa=
-ges-split/directfb/usr/lib/libdirectfb-1.4.so.6 contains probably-redundant=
- RPATH /usr/lib
-WARNING: QA Issue: directfb: /work/i586-poky-linux/directfb-1.4.15-r1/packa=
-ges-split/directfb/usr/lib/libfusion-1.4.so.6.0.9 contains probably-redunda=
-nt RPATH /usr/lib
-WARNING: QA Issue: directfb: /work/i586-poky-linux/directfb-1.4.15-r1/packa=
-ges-split/directfb/usr/lib/directfb-1.4-6/systems/libdirectfb_fbdev.so cont=
-ains probably-redundant RPATH /usr/lib
-WARNING: QA Issue: directfb: /work/i586-poky-linux/directfb-1.4.15-r1/packa=
-ges-split/directfb/usr/lib/directfb-1.4-6/systems/libdirectfb_devmem.so con=
-tains probably-redundant RPATH /usr/lib
-WARNING: QA Issue: directfb: /work/i586-poky-linux/directfb-1.4.15-r1/packa=
-ges-split/directfb/usr/lib/directfb-1.4-6/systems/libdirectfb_dummy.so cont=
-ains probably-redundant RPATH /usr/lib
-WARNING: QA Issue: directfb: /work/i586-poky-linux/directfb-1.4.15-r1/packa=
-ges-split/directfb/usr/lib/directfb-1.4-6/interfaces/IDirectFBVideoProvider=
-/libidirectfbvideoprovider_v4l.so contains probably-redundant RPATH /usr/li=
-b
-WARNING: QA Issue: directfb: /work/i586-poky-linux/directfb-1.4.15-r1/packa=
-ges-split/directfb/usr/lib/directfb-1.4-6/interfaces/IDirectFBVideoProvider=
-/libidirectfbvideoprovider_gif.so contains probably-redundant RPATH /usr/li=
-b
-WARNING: QA Issue: directfb: /work/i586-poky-linux/directfb-1.4.15-r1/packa=
-ges-split/directfb/usr/lib/directfb-1.4-6/interfaces/ICoreResourceManager/l=
-ibicoreresourcemanager_test.so contains probably-redundant RPATH /usr/lib
-WARNING: QA Issue: directfb: /work/i586-poky-linux/directfb-1.4.15-r1/packa=
-ges-split/directfb/usr/lib/directfb-1.4-6/interfaces/IDirectFBImageProvider=
-/libidirectfbimageprovider_jpeg.so contains probably-redundant RPATH /usr/l=
-ib
-WARNING: QA Issue: directfb: /work/i586-poky-linux/directfb-1.4.15-r1/packa=
-ges-split/directfb/usr/lib/directfb-1.4-6/interfaces/IDirectFBImageProvider=
-/libidirectfbimageprovider_png.so contains probably-redundant RPATH /usr/li=
-b
-WARNING: QA Issue: directfb: /work/i586-poky-linux/directfb-1.4.15-r1/packa=
-ges-split/directfb/usr/lib/directfb-1.4-6/interfaces/IDirectFBImageProvider=
-/libidirectfbimageprovider_dfiff.so contains probably-redundant RPATH /usr/=
-lib
-WARNING: QA Issue: directfb: /work/i586-poky-linux/directfb-1.4.15-r1/packa=
-ges-split/directfb/usr/lib/directfb-1.4-6/interfaces/IDirectFBImageProvider=
-/libidirectfbimageprovider_gif.so contains probably-redundant RPATH /usr/li=
-b
-WARNING: QA Issue: directfb: /work/i586-poky-linux/directfb-1.4.15-r1/packa=
-ges-split/directfb/usr/lib/directfb-1.4-6/interfaces/IDirectFBFont/libidire=
-ctfbfont_ft2.so contains probably-redundant RPATH /usr/lib
-WARNING: QA Issue: directfb: /work/i586-poky-linux/directfb-1.4.15-r1/packa=
-ges-split/directfb/usr/lib/directfb-1.4-6/interfaces/IDirectFBFont/libidire=
-ctfbfont_dgiff.so contains probably-redundant RPATH /usr/lib
-WARNING: QA Issue: directfb: /work/i586-poky-linux/directfb-1.4.15-r1/packa=
-ges-split/directfb/usr/lib/directfb-1.4-6/wm/libdirectfbwm_default.so conta=
-ins probably-redundant RPATH /usr/lib
-WARNING: QA Issue: directfb: /work/i586-poky-linux/directfb-1.4.15-r1/packa=
-ges-split/directfb/usr/lib/directfb-1.4-6/inputdrivers/libdirectfb_zytronic=
-.so contains probably-redundant RPATH /usr/lib
-WARNING: QA Issue: directfb: /work/i586-poky-linux/directfb-1.4.15-r1/packa=
-ges-split/directfb/usr/lib/directfb-1.4-6/inputdrivers/libdirectfb_penmount=
-.so contains probably-redundant RPATH /usr/lib
-WARNING: QA Issue: directfb: /work/i586-poky-linux/directfb-1.4.15-r1/packa=
-ges-split/directfb/usr/lib/directfb-1.4-6/inputdrivers/libdirectfb_linux_in=
-put.so contains probably-redundant RPATH /usr/lib
-WARNING: QA Issue: directfb: /work/i586-poky-linux/directfb-1.4.15-r1/packa=
-ges-split/directfb/usr/lib/directfb-1.4-6/inputdrivers/libdirectfb_serialmo=
-use.so contains probably-redundant RPATH /usr/lib
-WARNING: QA Issue: directfb: /work/i586-poky-linux/directfb-1.4.15-r1/packa=
-ges-split/directfb/usr/lib/directfb-1.4-6/inputdrivers/libdirectfb_mutouch.=
-so contains probably-redundant RPATH /usr/lib
-WARNING: QA Issue: directfb: /work/i586-poky-linux/directfb-1.4.15-r1/packa=
-ges-split/directfb/usr/lib/directfb-1.4-6/inputdrivers/libdirectfb_tslib.so=
- contains probably-redundant RPATH /usr/lib
-WARNING: QA Issue: directfb: /work/i586-poky-linux/directfb-1.4.15-r1/packa=
-ges-split/directfb/usr/lib/directfb-1.4-6/inputdrivers/libdirectfb_joystick=
-.so contains probably-redundant RPATH /usr/lib
-WARNING: QA Issue: directfb: /work/i586-poky-linux/directfb-1.4.15-r1/packa=
-ges-split/directfb/usr/lib/directfb-1.4-6/inputdrivers/libdirectfb_sonypi.s=
-o contains probably-redundant RPATH /usr/lib
-WARNING: QA Issue: directfb: /work/i586-poky-linux/directfb-1.4.15-r1/packa=
-ges-split/directfb/usr/lib/directfb-1.4-6/inputdrivers/libdirectfb_lirc.so =
-contains probably-redundant RPATH /usr/lib
-WARNING: QA Issue: directfb: /work/i586-poky-linux/directfb-1.4.15-r1/packa=
-ges-split/directfb/usr/lib/directfb-1.4-6/inputdrivers/libdirectfb_wm97xx_t=
-s.so contains probably-redundant RPATH /usr/lib
-WARNING: QA Issue: directfb: /work/i586-poky-linux/directfb-1.4.15-r1/packa=
-ges-split/directfb/usr/lib/directfb-1.4-6/inputdrivers/libdirectfb_ps2mouse=
-.so contains probably-redundant RPATH /usr/lib
-WARNING: QA Issue: directfb: /work/i586-poky-linux/directfb-1.4.15-r1/packa=
-ges-split/directfb/usr/lib/directfb-1.4-6/inputdrivers/libdirectfb_keyboard=
-.so contains probably-redundant RPATH /usr/lib
-
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
----
-diff --git a/meta/recipes-graphics/directfb/directfb.inc b/meta/recipes-gra=
-phics/directfb/directfb.inc
-index 9061ac1..515d19f 100644
---- a/meta/recipes-graphics/directfb/directfb.inc
-+++ b/meta/recipes-graphics/directfb/directfb.inc
-@@ -11,11 +11,9 @@ LIC_FILES_CHKSUM =3D "file://COPYING;md5=3Ddcf3c825659e8=
-2539645da41a7908589"
- HOMEPAGE =3D "http://directfb.org"
- DEPENDS =3D "jpeg libpng freetype zlib tslib"
-=20
--SRC_URI =3D " \
--    http://directfb.org/downloads/Core/DirectFB-1.4/DirectFB-${PV}.tar.gz =
-\
--    file://directfb-1.2.x-fix-pkgconfig-cflags.patch \
--    file://dont-use-linux-config.patch \
--    "
-+SRC_URI =3D "http://directfb.org/downloads/Core/DirectFB-1.4/DirectFB-${PV=
-}.tar.gz \
-+           file://directfb-1.2.x-fix-pkgconfig-cflags.patch \
-+           file://configurefix.patch"
-=20
- S =3D "${WORKDIR}/DirectFB-${PV}"
-=20
-diff --git a/meta/recipes-graphics/directfb/directfb/configurefix.patch b/m=
-eta/recipes-graphics/directfb/directfb/configurefix.patch
-new file mode 100644
-index 0000000..dd8c019
---- a/dev/null
-+++ b/meta/recipes-graphics/directfb/directfb/configurefix.patch
-@@ -0,0 +1,60 @@
-+Libtool needs these set correctly else we end up with pointless rpaths
-+such as the QA warnings:
-+
-+WARNING: QA Issue: directfb: /work/i586-poky-linux/directfb-1.4.15-r1/pack=
-ages-split/directfb/usr/bin/dfblayer contains probably-redundant RPATH /usr=
-/libWARNING: QA Issue: directfb: /work/i586-poky-linux/directfb-1.4.15-r1/p=
-ackages-split/directfb/usr/bin/dfbmaster contains probably-redundant RPATH =
-/usr/libWARNING: QA Issue: directfb: /work/i586-poky-linux/directfb-1.4.15-=
-r1/packages-split/directfb/usr/bin/mkdgifft contains probably-redundant RPA=
-TH /usr/libWARNING: QA Issue: directfb: /work/i586-poky-linux/directfb-1.4.=
-15-r1/packages-split/directfb/usr/bin/dfbdump contains probably-redundant R=
-PATH /usr/libWARNING: QA Issue: directfb: /work/i586-poky-linux/directfb-1.=
-4.15-r1/packages-split/directfb/usr/bin/dfbinput contains probably-redundan=
-t RPATH /usr/libWARNING: QA Issue: directfb: /work/i586-poky-linux/directfb=
--1.4.15-r1/packages-split/directfb/usr/bin/dfbfx contains probably-redundan=
-t RPATH /usr/libWARNING: QA Issue: directfb: /work/i586-poky-linux/directfb=
--1.4.15-r1/packages-split/directfb/usr/bin/dfbscreen contains probably-redu=
-ndant RPATH /usr/libWARNING: QA Issue: directfb: /work/i586-poky-linux/dire=
-ctfb-1.4.15-r1/packages-split/directfb/usr/bin/mkdgiff contains probably-re=
-dundant RPATH /usr/libWARNING: QA Issue: directfb: /work/i586-poky-linux/di=
-rectfb-1.4.15-r1/packages-split/directfb/usr/bin/dfbinspector contains prob=
-ably-redundant RPATH /usr/lib
-+WARNING: QA Issue: directfb: /work/i586-poky-linux/directfb-1.4.15-r1/pack=
-ages-split/directfb/usr/bin/mkdfiff contains probably-redundant RPATH /usr/=
-lib
-+WARNING: QA Issue: directfb: /work/i586-poky-linux/directfb-1.4.15-r1/pack=
-ages-split/directfb/usr/bin/dfbinfo contains probably-redundant RPATH /usr/=
-lib
-+WARNING: QA Issue: directfb: /work/i586-poky-linux/directfb-1.4.15-r1/pack=
-ages-split/directfb/usr/bin/dfbpenmount contains probably-redundant RPATH /=
-usr/lib
-+WARNING: QA Issue: directfb: /work/i586-poky-linux/directfb-1.4.15-r1/pack=
-ages-split/directfb/usr/bin/dfbg contains probably-redundant RPATH /usr/lib
-+WARNING: QA Issue: directfb: /work/i586-poky-linux/directfb-1.4.15-r1/pack=
-ages-split/directfb/usr/lib/libfusion-1.4.so.6 contains probably-redundant =
-RPATH /usr/lib
-+WARNING: QA Issue: directfb: /work/i586-poky-linux/directfb-1.4.15-r1/pack=
-ages-split/directfb/usr/lib/libdirectfb-1.4.so.6.0.9 contains probably-redu=
-ndant RPATH /usr/lib
-+WARNING: QA Issue: directfb: /work/i586-poky-linux/directfb-1.4.15-r1/pack=
-ages-split/directfb/usr/lib/libdirectfb-1.4.so.6 contains probably-redundan=
-t RPATH /usr/lib
-+WARNING: QA Issue: directfb: /work/i586-poky-linux/directfb-1.4.15-r1/pack=
-ages-split/directfb/usr/lib/libfusion-1.4.so.6.0.9 contains probably-redund=
-ant RPATH /usr/lib
-+WARNING: QA Issue: directfb: /work/i586-poky-linux/directfb-1.4.15-r1/pack=
-ages-split/directfb/usr/lib/directfb-1.4-6/systems/libdirectfb_fbdev.so con=
-tains probably-redundant RPATH /usr/lib
-+WARNING: QA Issue: directfb: /work/i586-poky-linux/directfb-1.4.15-r1/pack=
-ages-split/directfb/usr/lib/directfb-1.4-6/systems/libdirectfb_devmem.so co=
-ntains probably-redundant RPATH /usr/lib
-+WARNING: QA Issue: directfb: /work/i586-poky-linux/directfb-1.4.15-r1/pack=
-ages-split/directfb/usr/lib/directfb-1.4-6/systems/libdirectfb_dummy.so con=
-tains probably-redundant RPATH /usr/lib
-+WARNING: QA Issue: directfb: /work/i586-poky-linux/directfb-1.4.15-r1/pack=
-ages-split/directfb/usr/lib/directfb-1.4-6/interfaces/IDirectFBVideoProvide=
-r/libidirectfbvideoprovider_v4l.so contains probably-redundant RPATH /usr/l=
-ib
-+WARNING: QA Issue: directfb: /work/i586-poky-linux/directfb-1.4.15-r1/pack=
-ages-split/directfb/usr/lib/directfb-1.4-6/interfaces/IDirectFBVideoProvide=
-r/libidirectfbvideoprovider_gif.so contains probably-redundant RPATH /usr/l=
-ib
-+WARNING: QA Issue: directfb: /work/i586-poky-linux/directfb-1.4.15-r1/pack=
-ages-split/directfb/usr/lib/directfb-1.4-6/interfaces/ICoreResourceManager/=
-libicoreresourcemanager_test.so contains probably-redundant RPATH /usr/lib
-+WARNING: QA Issue: directfb: /work/i586-poky-linux/directfb-1.4.15-r1/pack=
-ages-split/directfb/usr/lib/directfb-1.4-6/interfaces/IDirectFBImageProvide=
-r/libidirectfbimageprovider_jpeg.so contains probably-redundant RPATH /usr/=
-lib
-+WARNING: QA Issue: directfb: /work/i586-poky-linux/directfb-1.4.15-r1/pack=
-ages-split/directfb/usr/lib/directfb-1.4-6/interfaces/IDirectFBImageProvide=
-r/libidirectfbimageprovider_png.so contains probably-redundant RPATH /usr/l=
-ib
-+WARNING: QA Issue: directfb: /work/i586-poky-linux/directfb-1.4.15-r1/pack=
-ages-split/directfb/usr/lib/directfb-1.4-6/interfaces/IDirectFBImageProvide=
-r/libidirectfbimageprovider_dfiff.so contains probably-redundant RPATH /usr=
-/lib
-+WARNING: QA Issue: directfb: /work/i586-poky-linux/directfb-1.4.15-r1/pack=
-ages-split/directfb/usr/lib/directfb-1.4-6/interfaces/IDirectFBImageProvide=
-r/libidirectfbimageprovider_gif.so contains probably-redundant RPATH /usr/l=
-ib
-+WARNING: QA Issue: directfb: /work/i586-poky-linux/directfb-1.4.15-r1/pack=
-ages-split/directfb/usr/lib/directfb-1.4-6/interfaces/IDirectFBFont/libidir=
-ectfbfont_ft2.so contains probably-redundant RPATH /usr/lib
-+WARNING: QA Issue: directfb: /work/i586-poky-linux/directfb-1.4.15-r1/pack=
-ages-split/directfb/usr/lib/directfb-1.4-6/interfaces/IDirectFBFont/libidir=
-ectfbfont_dgiff.so contains probably-redundant RPATH /usr/lib
-+WARNING: QA Issue: directfb: /work/i586-poky-linux/directfb-1.4.15-r1/pack=
-ages-split/directfb/usr/lib/directfb-1.4-6/wm/libdirectfbwm_default.so cont=
-ains probably-redundant RPATH /usr/lib
-+WARNING: QA Issue: directfb: /work/i586-poky-linux/directfb-1.4.15-r1/pack=
-ages-split/directfb/usr/lib/directfb-1.4-6/inputdrivers/libdirectfb_zytroni=
-c.so contains probably-redundant RPATH /usr/lib
-+WARNING: QA Issue: directfb: /work/i586-poky-linux/directfb-1.4.15-r1/pack=
-ages-split/directfb/usr/lib/directfb-1.4-6/inputdrivers/libdirectfb_penmoun=
-t.so contains probably-redundant RPATH /usr/lib
-+WARNING: QA Issue: directfb: /work/i586-poky-linux/directfb-1.4.15-r1/pack=
-ages-split/directfb/usr/lib/directfb-1.4-6/inputdrivers/libdirectfb_linux_i=
-nput.so contains probably-redundant RPATH /usr/lib
-+WARNING: QA Issue: directfb: /work/i586-poky-linux/directfb-1.4.15-r1/pack=
-ages-split/directfb/usr/lib/directfb-1.4-6/inputdrivers/libdirectfb_serialm=
-ouse.so contains probably-redundant RPATH /usr/lib
-+WARNING: QA Issue: directfb: /work/i586-poky-linux/directfb-1.4.15-r1/pack=
-ages-split/directfb/usr/lib/directfb-1.4-6/inputdrivers/libdirectfb_mutouch=
-.so contains probably-redundant RPATH /usr/lib
-+WARNING: QA Issue: directfb: /work/i586-poky-linux/directfb-1.4.15-r1/pack=
-ages-split/directfb/usr/lib/directfb-1.4-6/inputdrivers/libdirectfb_tslib.s=
-o contains probably-redundant RPATH /usr/lib
-+WARNING: QA Issue: directfb: /work/i586-poky-linux/directfb-1.4.15-r1/pack=
-ages-split/directfb/usr/lib/directfb-1.4-6/inputdrivers/libdirectfb_joystic=
-k.so contains probably-redundant RPATH /usr/lib
-+WARNING: QA Issue: directfb: /work/i586-poky-linux/directfb-1.4.15-r1/pack=
-ages-split/directfb/usr/lib/directfb-1.4-6/inputdrivers/libdirectfb_sonypi.=
-so contains probably-redundant RPATH /usr/lib
-+WARNING: QA Issue: directfb: /work/i586-poky-linux/directfb-1.4.15-r1/pack=
-ages-split/directfb/usr/lib/directfb-1.4-6/inputdrivers/libdirectfb_lirc.so=
- contains probably-redundant RPATH /usr/lib
-+WARNING: QA Issue: directfb: /work/i586-poky-linux/directfb-1.4.15-r1/pack=
-ages-split/directfb/usr/lib/directfb-1.4-6/inputdrivers/libdirectfb_wm97xx_=
-ts.so contains probably-redundant RPATH /usr/lib
-+WARNING: QA Issue: directfb: /work/i586-poky-linux/directfb-1.4.15-r1/pack=
-ages-split/directfb/usr/lib/directfb-1.4-6/inputdrivers/libdirectfb_ps2mous=
-e.so contains probably-redundant RPATH /usr/lib
-+WARNING: QA Issue: directfb: /work/i586-poky-linux/directfb-1.4.15-r1/pack=
-ages-split/directfb/usr/lib/directfb-1.4-6/inputdrivers/libdirectfb_keyboar=
-d.so contains probably-redundant RPATH /usr/lib
-+
-+Upstream-Status: Pending
-+
-+RP 2012/03/16
-+
-+Index: DirectFB-1.4.15/configure.in
-+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-+--- DirectFB-1.4.15.orig/configure.in	2012-03-16 13:32:23.692402879 +0000
-++++ DirectFB-1.4.15/configure.in	2012-03-16 13:33:22.312400960 +0000
-+@@ -97,13 +97,6 @@
-+ AC_CHECK_SIZEOF(long long)
-+ AC_CHECK_FUNCS(fork)
-+=20
-+-
-+-## Work around libstuhl during cross build...
-+-if test "$host" !=3D "$build"; then
-+-  sys_lib_dlsearch_path_spec=3D""
-+-  sys_lib_search_path_spec=3D""
-+-fi
-+-
-+ AC_PATH_PROGS(PERL, perl5 perl)
-+=20
-+ AC_PATH_PROG(MAN2HTML, man2html, no)
-diff --git a/meta/recipes-graphics/directfb/files/directfb-1.2.x-fix-pkgcon=
-fig-cflags.patch b/meta/recipes-graphics/directfb/directfb/directfb-1.2.x-f=
-ix-pkgconfig-cflags.patch
-index ee60718..ee60718 100644
---- a/meta/recipes-graphics/directfb/files/directfb-1.2.x-fix-pkgconfig-cfl=
-ags.patch
-+++ b/meta/recipes-graphics/directfb/directfb/directfb-1.2.x-fix-pkgconfig-=
-cflags.patch
-diff --git a/meta/recipes-graphics/directfb/directfb_1.4.15.bb b/meta/recip=
-es-graphics/directfb/directfb_1.4.15.bb
-index c322dec..98d6b82 100644
---- a/meta/recipes-graphics/directfb/directfb_1.4.15.bb
-+++ b/meta/recipes-graphics/directfb/directfb_1.4.15.bb
-@@ -1,15 +1,10 @@
- require directfb.inc
-=20
- RV =3D "1.4-6"
--PR =3D "r1"
-+PR =3D "r2"
-=20
- DEPENDS +=3D "sysfsutils"
-=20
--SRC_URI =3D " \
--    http://directfb.org/downloads/Core/DirectFB-1.4/DirectFB-${PV}.tar.gz =
-\
--    file://directfb-1.2.x-fix-pkgconfig-cflags.patch \
--    "
--
- EXTRA_OECONF =3D "\
-   --enable-freetype=3Dyes \
-   --enable-zlib \
-diff --git a/meta/recipes-graphics/directfb/files/dont-use-linux-config.pat=
-ch b/meta/recipes-graphics/directfb/files/dont-use-linux-config.patch
-deleted file mode 100644
-index ba8ead8..0000000
---- a/meta/recipes-graphics/directfb/files/dont-use-linux-config.patch
-+++ b/dev/null
-@@ -1,23 +0,0 @@
--
--directfb: don't use linux/config.h in powerpc assembly
--
--Author: jeremy_laine at openembedded.org
--Branch: org.openembedded.dev
--Revision: 73964f8e6912f066c224fed54daeeb44836d9cdf
--ViewMTN: http://monotone.openembedded.org/revision/info/73964f8e6912f066c2=
-24fed54daeeb44836d9cdf
--
--Upstream-Status: Inappropriate [configuration]
--Signed-off-by: Saul Wold <sgw@linux.intel.com>
--
--diff -urN DirectFB-1.1.0.orig/lib/direct/ppcasm_memcpy_cachable.S DirectFB=
--1.1.0/lib/direct/ppcasm_memcpy_cachable.S
----- DirectFB-1.1.0.orig/lib/direct/ppcasm_memcpy_cachable.S	2007-08-07 21:=
-43:00.000000000 +0200
--+++ DirectFB-1.1.0/lib/direct/ppcasm_memcpy_cachable.S	2008-06-07 04:14:26=
-.000000000 +0200
--@@ -34,8 +34,6 @@
--=20
-- #define __ASSEMBLY__
--=20
---#include <linux/config.h>
 --
-- #if defined(CONFIG_8xx) || defined(CONFIG_403GCX)
-- #define L1_CACHE_LINE_SIZE       16
-- #define LG_L1_CACHE_LINE_SIZE     4=20
+Shane
 
+Koen Kooi wrote on=A02012-03-16:
+
+> Op 16 mrt. 2012, om 01:52 heeft Shane Wang het volgende geschreven:
+>=20
+>> Upgrade recipes for M4. Please review.
+>=20
+> Judging from experience these mass upgrades always have one or two
+> recipes that break horribly, so:
+>=20
+> 1) does the buildhistory output show any unexpected changes?
+> 2) did you test upgrade paths?
+> 3) did you runtime test the upgraded recipes?
+> 4) did you runtime test any dependants of the upgraded recipes?
+>=20
+> Richard/Saul,
+>=20
+> A number of these recipes have bbappends in other layers, so please let u=
+s
+> know when this is supposed to go into oe-core, so we can minimize the
+> window of breakage.
+>=20
+> regards,
+>=20
+> Koen
+>=20
+>>=20
+>> The following changes since commit
+>> bd2d8904181aa67258b6be8a7bbeaf8d12a8dd5a:
+>>=20
+>>  xorg-xserver: Explictly disable dtrace, its not in DEPENDS (2012-03-12
+> 17:45:41 +0000)
+>>=20
+>> are available in the git repository at:
+>>  git://git.pokylinux.org/poky-contrib shane/m4upgrade
+>>  http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=3Dshane/m4upgrade
+>> Dongxiao Xu (1):
+>>  dbus-glib: upgrade to 0.98
+>> Shane Wang (59):
+>>  distro_tracking: update the recipe info for manual check
+>>  glib-2.0: upgrade to 2.30.3
+>>  gdk-pixbuf: upgrade to 2.24.1
+>>  glproto: update its info in distro tracking
+>>  libvorbis: upgrade to 1.3.3
+>>  tremor: upgrade to 18221
+>>  alsa-lib: upgrade to 1.0.25
+>>  alsa-utils: upgrade to 1.0.25
+>>  telepathy-glib: upgrade to 0.17.5
+>>  telepathy-mission-control: upgrade to 5.11.0
+>>  ofono: upgrade to 1.5
+>>  bluez4: upgrade to 4.99
+>>  bluez-hcidump: upgrade to 2.3
+>>  gst-plugin-bluetooth: upgrade to 4.99
+>>  gstreamer: upgrade to 0.10.36
+>>  gst-plugins-base: upgrade to 0.10.36
+>>  gst-plugins-good: upgrade to 0.10.31
+>>  gst-plugins-bad: upgrade to 0.10.23
+>>  gst-plugins-ugly: upgrade to 0.10.19
+>>  libpcap: upgrade to 1.2.1
+>>  busybox: upgrade to 1.19.4
+>>  curl: upgrade to 7.24.0
+>>  dropbear: upgrade to 2012.55
+>>  avahi: upgrade to 0.6.31
+>>  avahi-ui: upgrade to 0.6.31
+>>  apr: upgrade to 1.4.6
+>>  minicom: upgrade to 2.6.1
+>>  tzdata: upgrade to 2012b
+>>  util-macros: upgrade to 1.17
+>>  libxcursor: upgrade to 1.1.13
+>>  libxinerama: upgrade to 1.1.2
+>>  libsm: upgrade to 1.2.1
+>>  libxkbfile: upgrade to 1.0.8
+>>  libice: upgrade to 1.0.8
+>>  pixman: upgrade to 0.25.2
+>>  libxdmcp: upgrade to 1.1.1
+>>  libXxf86vm: upgrade to 1.1.2
+>>  libXrender: upgrade to 0.9.7
+>>  libxpm: upgrade to 3.5.10
+>>  libXext: upgrade to 1.3.1
+>>  libXv: upgrade to 1.0.7
+>>  libxt: upgrade to 1.1.2
+>>  libXmu: upgrade to 1.1.1
+>>  libfontenc: upgrade to 1.1.1
+>>  libxscrnsaver: upgrade to 1.2.2
+>>  libxau: upgrade to 1.0.7
+>>  libdmx: upgrade to 1.1.2
+>>  libxft: upgrade to 2.3.0
+>>  libxtst: upgrade to 1.2.1
+>>  libpciaccess: upgrade to 0.13
+>>  libXvMC: upgrade to 1.0.7
+>>  libxfont: upgrade to 1.4.5
+>>  libxres: upgrade to 1.0.6
+>>  inputproto: upgrade to 2.2
+>>  font-util: upgrade to 1.3.0
+>>  libxcb: upgrade to 1.8.1
+>>  libxi: upgrade to 1.4.5
+>=20
+>=20
+>=20
+> _______________________________________________ Openembedded-core
+> mailing list Openembedded-core@lists.openembedded.org
+> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
 
 
 
