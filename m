@@ -1,23 +1,30 @@
-Received: from mail.windriver.com ([147.11.1.11])
-	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <bruce.ashfield@windriver.com>) id 1S8aJm-0001DP-1a
-	for openembedded-core@lists.openembedded.org;
-	Fri, 16 Mar 2012 17:47:54 +0100
-Received: from yow-bashfiel-l1.corp.ad.wrs.com
-	(yow-bashfiel-d3.ottawa.windriver.com [128.224.147.67])
-	by mail.windriver.com (8.14.3/8.14.3) with ESMTP id q2GGcx38023581;
-	Fri, 16 Mar 2012 09:39:02 -0700 (PDT)
-From: Bruce Ashfield <bruce.ashfield@windriver.com>
-To: richard.purdie@linuxfoundation.org
-Date: Fri, 16 Mar 2012 12:38:48 -0400
-Message-Id: <74f2350cdfd764f022e6a37f5e0c44046c84a786.1331915755.git.bruce.ashfield@windriver.com>
-X-Mailer: git-send-email 1.7.5.4
-In-Reply-To: <cover.1331915755.git.bruce.ashfield@windriver.com>
-References: <cover.1331915755.git.bruce.ashfield@windriver.com>
-In-Reply-To: <cover.1331915755.git.bruce.ashfield@windriver.com>
-References: <cover.1331915755.git.bruce.ashfield@windriver.com>
-Cc: openembedded-core@lists.openembedded.org, saul.wold@intel.com
-Subject: [PATCH 4/4] linux-yocto/3.0: update to v3.0.24
+Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
+	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <richard.purdie@linuxfoundation.org>)
+	id 1S8adP-0002KA-9E for openembedded-core@lists.openembedded.org;
+	Fri, 16 Mar 2012 18:08:11 +0100
+Received: from localhost (localhost [127.0.0.1])
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q2GGxMTg005513;
+	Fri, 16 Mar 2012 16:59:22 GMT
+Received: from tim.rpsys.net ([127.0.0.1])
+	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
+	port 10024) with LMTP
+	id 04815-06; Fri, 16 Mar 2012 16:59:18 +0000 (GMT)
+Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q2GGxEhK005507
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO);
+	Fri, 16 Mar 2012 16:59:15 GMT
+Message-ID: <1331917154.18586.207.camel@ted>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Date: Fri, 16 Mar 2012 16:59:14 +0000
+In-Reply-To: <cover.1331859046.git.shane.wang@intel.com>
+References: <cover.1331859046.git.shane.wang@intel.com>
+X-Mailer: Evolution 3.2.2- 
+Mime-Version: 1.0
+X-Virus-Scanned: amavisd-new at rpsys.net
+Subject: Re: [PATCH 00/60] Package Upgrade
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -32,90 +39,103 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 16 Mar 2012 16:47:54 -0000
+X-List-Received-Date: Fri, 16 Mar 2012 17:08:11 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-Updating the meta and machine branches to the latest 3.0 -stable
-release.
+On Fri, 2012-03-16 at 08:52 +0800, Shane Wang wrote:
+> Upgrade recipes for M4. Please review.
+> 
+> The following changes since commit bd2d8904181aa67258b6be8a7bbeaf8d12a8dd5a:
+> 
+>   xorg-xserver: Explictly disable dtrace, its not in DEPENDS (2012-03-12 17:45:41 +0000)
+> 
+> are available in the git repository at:
+>   git://git.pokylinux.org/poky-contrib shane/m4upgrade
+>   http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=shane/m4upgrade
+> 
+> Dongxiao Xu (1):
+>   dbus-glib: upgrade to 0.98
+> 
+> Shane Wang (59):
+>   distro_tracking: update the recipe info for manual check
+>   glib-2.0: upgrade to 2.30.3
+>   gdk-pixbuf: upgrade to 2.24.1
+>   glproto: update its info in distro tracking
+>   libvorbis: upgrade to 1.3.3
+>   tremor: upgrade to 18221
+>   alsa-lib: upgrade to 1.0.25
+>   alsa-utils: upgrade to 1.0.25
+>   telepathy-glib: upgrade to 0.17.5
+>   telepathy-mission-control: upgrade to 5.11.0
+>   ofono: upgrade to 1.5
+>   bluez4: upgrade to 4.99
+>   bluez-hcidump: upgrade to 2.3
+>   gst-plugin-bluetooth: upgrade to 4.99
+>   gstreamer: upgrade to 0.10.36
+>   gst-plugins-base: upgrade to 0.10.36
+>   gst-plugins-good: upgrade to 0.10.31
+>   gst-plugins-bad: upgrade to 0.10.23
+>   gst-plugins-ugly: upgrade to 0.10.19
+>   libpcap: upgrade to 1.2.1
+>   busybox: upgrade to 1.19.4
+>   curl: upgrade to 7.24.0
+>   dropbear: upgrade to 2012.55
+>   avahi: upgrade to 0.6.31
+>   avahi-ui: upgrade to 0.6.31
+>   apr: upgrade to 1.4.6
+>   minicom: upgrade to 2.6.1
+>   tzdata: upgrade to 2012b
+>   util-macros: upgrade to 1.17
+>   libxcursor: upgrade to 1.1.13
+>   libxinerama: upgrade to 1.1.2
+>   libsm: upgrade to 1.2.1
+>   libxkbfile: upgrade to 1.0.8
+>   libice: upgrade to 1.0.8
+>   pixman: upgrade to 0.25.2
+>   libxdmcp: upgrade to 1.1.1
+>   libXxf86vm: upgrade to 1.1.2
+>   libXrender: upgrade to 0.9.7
+>   libxpm: upgrade to 3.5.10
+>   libXext: upgrade to 1.3.1
+>   libXv: upgrade to 1.0.7
+>   libxt: upgrade to 1.1.2
+>   libXmu: upgrade to 1.1.1
+>   libfontenc: upgrade to 1.1.1
+>   libxscrnsaver: upgrade to 1.2.2
+>   libxau: upgrade to 1.0.7
+>   libdmx: upgrade to 1.1.2
+>   libxft: upgrade to 2.3.0
+>   libxtst: upgrade to 1.2.1
+>   libpciaccess: upgrade to 0.13
+>   libXvMC: upgrade to 1.0.7
+>   libxfont: upgrade to 1.4.5
+>   libxres: upgrade to 1.0.6
+>   inputproto: upgrade to 2.2
+>   font-util: upgrade to 1.3.0
+>   libxcb: upgrade to 1.8.1
+>   libxi: upgrade to 1.4.5
+>   distro_tracking: update the info of the recipes upgraded in the round
+>   distro_tracking: update those NOT UPDATE REASON
 
-To see the full changelog: git log v3.0.23..v3.0.24
+So far I've noticed a few issues. This log has several of them:
 
-Signed-off-by: Bruce Ashfield <bruce.ashfield@windriver.com>
----
- meta/recipes-kernel/linux/linux-yocto-rt_3.0.bb   |    8 ++++----
- meta/recipes-kernel/linux/linux-yocto-tiny_3.0.bb |    6 +++---
- meta/recipes-kernel/linux/linux-yocto_3.0.bb      |   18 +++++++++---------
- 3 files changed, 16 insertions(+), 16 deletions(-)
+http://autobuilder.yoctoproject.org:8010/builders/nightly-mips/builds/316/steps/shell_33/logs/stdio
 
-diff --git a/meta/recipes-kernel/linux/linux-yocto-rt_3.0.bb b/meta/recipes-kernel/linux/linux-yocto-rt_3.0.bb
-index a9a921d..d8644b7 100644
---- a/meta/recipes-kernel/linux/linux-yocto-rt_3.0.bb
-+++ b/meta/recipes-kernel/linux/linux-yocto-rt_3.0.bb
-@@ -11,12 +11,12 @@ KMACHINE_qemumips = "mti-malta32-be"
- KBRANCH = "yocto/standard/preempt-rt/base"
- KBRANCH_qemuppc = "yocto/standard/preempt-rt/qemu-ppc32"
- 
--LINUX_VERSION ?= "3.0.23"
-+LINUX_VERSION ?= "3.0.24"
- LINUX_KERNEL_TYPE = "preempt-rt"
- 
--SRCREV_machine ?= "49d1d57f98a9ac378a1f12f5d23301c11495a5df"
--SRCREV_machine_qemuppc ?= "7b3162e269c49c6a4653d43292c62c188add8d67"
--SRCREV_meta ?= "cac43c16d4c0cbbb857c9c110195208629975b06"
-+SRCREV_machine ?= "cf280f1dc5877d4ca43d21307222326efa68bb27"
-+SRCREV_machine_qemuppc ?= "afaa5baa6a9ca9c8a03a9a3eee2ba9fba089f416"
-+SRCREV_meta ?= "a4ac64fe873f08ef718e2849b88914725dc99c1c"
- 
- PR = "r2"
- PV = "${LINUX_VERSION}+git${SRCPV}"
-diff --git a/meta/recipes-kernel/linux/linux-yocto-tiny_3.0.bb b/meta/recipes-kernel/linux/linux-yocto-tiny_3.0.bb
-index b67ddee..e8bd633 100644
---- a/meta/recipes-kernel/linux/linux-yocto-tiny_3.0.bb
-+++ b/meta/recipes-kernel/linux/linux-yocto-tiny_3.0.bb
-@@ -8,10 +8,10 @@ DEPENDS += "xz-native"
- KMACHINE = "yocto/standard/base"
- KBRANCH = "${KMACHINE}"
- 
--LINUX_VERSION ?= "3.0.23"
-+LINUX_VERSION ?= "3.0.24"
- 
--SRCREV_machine ?= "8fd24b3570ab995848e4123ef13bac64e2c924be"
--SRCREV_meta ?= "cac43c16d4c0cbbb857c9c110195208629975b06"
-+SRCREV_machine ?= "da7c40006b08916ff3a3db104def82aaf9ac2716"
-+SRCREV_meta ?= "a4ac64fe873f08ef718e2849b88914725dc99c1c"
- 
- PR = "r3"
- PV = "${LINUX_VERSION}+git${SRCPV}"
-diff --git a/meta/recipes-kernel/linux/linux-yocto_3.0.bb b/meta/recipes-kernel/linux/linux-yocto_3.0.bb
-index cb4ded2..e56e1d7 100644
---- a/meta/recipes-kernel/linux/linux-yocto_3.0.bb
-+++ b/meta/recipes-kernel/linux/linux-yocto_3.0.bb
-@@ -10,15 +10,15 @@ KMACHINE_qemuarm  = "yocto/standard/arm-versatile-926ejs"
- 
- KBRANCH = "${KMACHINE}"
- 
--LINUX_VERSION ?= "3.0.23"
--
--SRCREV_machine_qemuarm ?= "927c56dcc7dc9199923a86cc0dac741b6b080953"
--SRCREV_machine_qemumips ?= "b1f7eb611a30a46692c11ea1164d17f0d44e911b"
--SRCREV_machine_qemuppc ?= "16f1ebf66ce2b58cbfc0ff7c8883c91c883e216a"
--SRCREV_machine_qemux86 ?= "bc2cb6560d3dedf8337b5df8228a6e8002b6a98c"
--SRCREV_machine_qemux86-64 ?= "b9cbe895ce0c259b4684355ea1602402b2653ca5"
--SRCREV_machine ?= "8fd24b3570ab995848e4123ef13bac64e2c924be"
--SRCREV_meta ?= "cac43c16d4c0cbbb857c9c110195208629975b06"
-+LINUX_VERSION ?= "3.0.24"
-+
-+SRCREV_machine_qemuarm ?= "62bbe1d7a0e5c1200a99dabca889a52c9417b96b"
-+SRCREV_machine_qemumips ?= "66de88919f24f1e590a48dae6de752a68fed2353"
-+SRCREV_machine_qemuppc ?= "7528f1d06ef5665eed8c1498f62d5403b82bbbd6"
-+SRCREV_machine_qemux86 ?= "f153b0eb8264dc1e69f59d4c9173619feb4d5bd9"
-+SRCREV_machine_qemux86-64 ?= "aac580659dc0ce083f250fb05abf82e58d7f4531"
-+SRCREV_machine ?= "da7c40006b08916ff3a3db104def82aaf9ac2716"
-+SRCREV_meta ?= "a4ac64fe873f08ef718e2849b88914725dc99c1c"
- 
- PR = "r4"
- PV = "${LINUX_VERSION}+git${SRCPV}"
--- 
-1.7.5.4
+alsa-utils has patch application issues
+libxxf86dg won't fetch due to a patch issue
+libpciaccess won't build on mips.
+
+In my own build logs I also noticed:
+
+WARNING: Missing sha256 SRC_URI checksum for /media/build1/sources/gdk-pixbuf-2.24.1.tar.xz, consider adding to the recipe:
+SRC_URI[sha256sum] = "da7a3f00db360913716368e19e336402755cafa93769f3cfa28a969303e4bee1"
+
+Cheers,
+
+Richard
+
+
 
 
 
