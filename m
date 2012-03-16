@@ -1,24 +1,27 @@
-Received: from mga01.intel.com ([192.55.52.88])
+Received: from mga09.intel.com ([134.134.136.24])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <edwin.zhai@intel.com>) id 1S8WAQ-0003EA-Fh
+	(envelope-from <paul.eggleton@linux.intel.com>) id 1S8WGE-0003QF-Gb
 	for openembedded-core@lists.openembedded.org;
-	Fri, 16 Mar 2012 13:21:58 +0100
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-	by fmsmga101.fm.intel.com with ESMTP; 16 Mar 2012 05:12:05 -0700
+	Fri, 16 Mar 2012 13:27:59 +0100
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+	by orsmga102.jf.intel.com with ESMTP; 16 Mar 2012 05:19:09 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="129726094"
-Received: from gzhai-xps.sh.intel.com ([10.239.36.76])
-	by fmsmga001.fm.intel.com with ESMTP; 16 Mar 2012 05:12:05 -0700
-From: edwin.zhai@intel.com
-To: openembedded-core@lists.openembedded.org
-Date: Fri, 16 Mar 2012 19:57:02 +0800
-Message-Id: <77917b19e3fc93c1323c3ff357b0f46adc7132d7.1331897967.git.edwin.zhai@intel.com>
-X-Mailer: git-send-email 1.7.5.4
-In-Reply-To: <cover.1331897967.git.edwin.zhai@intel.com>
-References: <cover.1331897967.git.edwin.zhai@intel.com>
-In-Reply-To: <cover.1331897967.git.edwin.zhai@intel.com>
-References: <cover.1331897967.git.edwin.zhai@intel.com>
-Subject: [PATCH 1/1] qemugl: Hide some GLX extensions by default
+X-IronPort-AV: E=Sophos;i="4.67,351,1309762800"; d="scan'208";a="121633942"
+Received: from unknown (HELO helios.localnet) ([10.252.123.171])
+	by orsmga002.jf.intel.com with ESMTP; 16 Mar 2012 05:19:09 -0700
+From: Paul Eggleton <paul.eggleton@linux.intel.com>
+To: VIJAY KUMAR <vijaykumar.pulluri@gmail.com>
+Date: Fri, 16 Mar 2012 12:19:08 +0000
+Message-ID: <1448333.L62IlB2ypX@helios>
+Organization: Intel Corporation
+User-Agent: KMail/4.8.0 (Linux/3.0.0-16-generic-pae; KDE/4.8.1; i686; ; )
+In-Reply-To: <CAD=xvPuzd-S-kf-5Ns_95J8Sjpo=S0ygY7VnZtvMx3ppfP8UVg@mail.gmail.com>
+References: <cover.1331685330.git.paul.eggleton@linux.intel.com>
+	<1481997.vT15FBqihJ@helios>
+	<CAD=xvPuzd-S-kf-5Ns_95J8Sjpo=S0ygY7VnZtvMx3ppfP8UVg@mail.gmail.com>
+MIME-Version: 1.0
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH 1/6] scripts/bitbake: ensure user is in build directory
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -33,85 +36,35 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 16 Mar 2012 12:21:58 -0000
+X-List-Received-Date: Fri, 16 Mar 2012 12:27:59 -0000
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
 
-From: Zhai Edwin <edwin.zhai@intel.com>
+Hi Vijay,
 
-Exporting these extensions make guest call some missing GLX API then crash.
-It's hacky to implement these APIs, so hide these extensions as fix.
+On Friday 16 March 2012 17:25:33 VIJAY KUMAR wrote:
+>    Iam not specialist in this. I am just following the steps mentioned here
+> 
+>      http://icedtea.classpath.org/wiki/CrossCompileOECoreTutorial
+> 
+> I am building from this path  vj@ubuntu:/host/coreembedded/oe-core/build$
+> and it contains pseudodone file.
+> 
+> and in vj@ubuntu:/host/coreembedded/oe-core/build/conf local.conf exits..
+> 
+> and the same is calling bitbake which is present in scripts..
 
-[YOCTO #1927] got fixed
+FYI when you run bitbake after using . ./oe-init-build-env it sets up PATH so 
+that "bitbake" runs the bitbake wrapper script in scripts/, that is intended.
 
-Signed-off-by: Zhai Edwin <edwin.zhai@intel.com>
----
- .../mesa/qemugl/extensions_emulation.patch         |   34 ++++++++++++++++++++
- meta/recipes-graphics/mesa/qemugl_git.bb           |    5 ++-
- 2 files changed, 37 insertions(+), 2 deletions(-)
- create mode 100644 meta/recipes-graphics/mesa/qemugl/extensions_emulation.patch
+Are you experiencing a problem relating to this?
 
-diff --git a/meta/recipes-graphics/mesa/qemugl/extensions_emulation.patch b/meta/recipes-graphics/mesa/qemugl/extensions_emulation.patch
-new file mode 100644
-index 0000000..08418c2
---- /dev/null
-+++ b/meta/recipes-graphics/mesa/qemugl/extensions_emulation.patch
-@@ -0,0 +1,34 @@
-+Hide some GLX extensions by default to avoid guest call missing GLX API. It's
-+hacky to implement these APIs, so hide these extensions as fix.
-+
-+Upstream-Status: Pending
-+
-+Signed-off-by: Zhai Edwin <edwin.zhai@intel.com>
-+
-+Index: git/opengl_client.c
-+===================================================================
-+--- git.orig/opengl_client.c	2012-03-16 18:22:27.000000000 +0800
-++++ git/opengl_client.c	2012-03-16 18:52:06.000000000 +0800
-+@@ -105,6 +105,12 @@
-+   "NO_MOVE",                 /* default : set if TCP/IP communication */
-+ };
-+ 
-++/* Hiding some GLX extensions from guest */
-++static const char* hiding_extensions =
-++  "GLX_MESA_copy_sub_buffer,\
-++   GLX_MESA_multithread_makecurrent,\
-++   GLX_MESA_swap_control,\
-++  ";
-+ 
-+ #ifdef WIN32
-+ 
-+@@ -3516,7 +3522,8 @@
-+ static void removeUnwantedExtensions(char* ret)
-+ {
-+   char* toBeRemoved = getenv("GL_REMOVE_EXTENSIONS");
-+-  if (toBeRemoved == NULL) return;
-++  if (toBeRemoved == NULL)
-++    toBeRemoved = hiding_extensions;
-+   toBeRemoved = strdup(toBeRemoved);
-+   char* iterToBeRemoved = toBeRemoved;
-+   while(*iterToBeRemoved)
-diff --git a/meta/recipes-graphics/mesa/qemugl_git.bb b/meta/recipes-graphics/mesa/qemugl_git.bb
-index 66f4e17..378aa65 100644
---- a/meta/recipes-graphics/mesa/qemugl_git.bb
-+++ b/meta/recipes-graphics/mesa/qemugl_git.bb
-@@ -12,13 +12,14 @@ COMPATIBLE_HOST = '(x86_64.*|i.86.*)-(linux|freebsd.*)'
- SRC_URI = "git://git.yoctoproject.org/qemugl;protocol=git \
-            file://versionfix.patch \
-            file://remove-x11r6-lib-dir.patch \
--           file://call_opengl_fix.patch"
-+           file://call_opengl_fix.patch \
-+           file://extensions_emulation.patch"
- S = "${WORKDIR}/git"
- 
- SRCREV = "d888bbc723c00d197d34a39b5b7448660ec1b1c0"
- 
- PV = "0.0+git${SRCPV}"
--PR = "r9"
-+PR = "r10"
- 
- DEFAULT_PREFERENCE = "-1"
- 
+Cheers,
+Paul
+
 -- 
-1.7.5.4
 
+Paul Eggleton
+Intel Open Source Technology Centre
 
 
