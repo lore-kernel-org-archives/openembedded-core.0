@@ -1,30 +1,30 @@
-Received: from mail1.windriver.com ([147.11.146.13])
-	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <mark.hatle@windriver.com>) id 1S8ZQZ-0007lJ-BP
-	for openembedded-core@lists.openembedded.org;
-	Fri, 16 Mar 2012 16:50:51 +0100
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca [147.11.189.40])
-	by mail1.windriver.com (8.14.3/8.14.3) with ESMTP id q2GFg3Eu005269
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
+Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
+	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <richard.purdie@linuxfoundation.org>)
+	id 1S8ZVV-0007qR-Rv for openembedded-core@lists.openembedded.org;
+	Fri, 16 Mar 2012 16:55:58 +0100
+Received: from localhost (localhost [127.0.0.1])
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q2GFlB21004752
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 16 Mar 2012 08:42:03 -0700 (PDT)
-Received: from Macintosh-5.local (172.25.36.226) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server id 14.1.255.0;
-	Fri, 16 Mar 2012 08:42:02 -0700
-Message-ID: <4F635F49.2030704@windriver.com>
-Date: Fri, 16 Mar 2012 10:42:01 -0500
-From: Mark Hatle <mark.hatle@windriver.com>
-Organization: Wind River Systems
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.6;
-	rv:10.0.2) Gecko/20120216 Thunderbird/10.0.2
-MIME-Version: 1.0
-To: <openembedded-core@lists.openembedded.org>
-References: <840A81C1B782724A8EB52725BD519EFF33809F54@MBX20.4emm.local>
-	<1798766.ZRL8z9Exog@helios>
-	<CABcZANnAXXBa-UQYiMijWVvX7ggGEGh65bzQaFPNq-nFt4KbYQ@mail.gmail.com>
-	<4F635A09.2020900@windriver.com> <4F635C8D.70607@mlbassoc.com>
-In-Reply-To: <4F635C8D.70607@mlbassoc.com>
-Subject: Re: race condition... in cp?
+	Fri, 16 Mar 2012 15:47:11 GMT
+Received: from tim.rpsys.net ([127.0.0.1])
+	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
+	port 10024) with LMTP
+	id 03426-09 for <openembedded-core@lists.openembedded.org>;
+	Fri, 16 Mar 2012 15:47:07 +0000 (GMT)
+Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q2GFl3xP004746
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO)
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 16 Mar 2012 15:47:04 GMT
+Message-ID: <1331912823.18586.196.camel@ted>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: openembedded-core <openembedded-core@lists.openembedded.org>
+Date: Fri, 16 Mar 2012 15:47:03 +0000
+X-Mailer: Evolution 3.2.2- 
+Mime-Version: 1.0
+X-Virus-Scanned: amavisd-new at rpsys.net
+Subject: [PATCH] wget: Fix bad RPATH QA warning
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -39,103 +39,38 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 16 Mar 2012 15:50:51 -0000
-Content-Type: text/plain; charset="ISO-8859-1"; format=flowed
+X-List-Received-Date: Fri, 16 Mar 2012 15:55:58 -0000
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 
-On 3/16/12 10:30 AM, Gary Thomas wrote:
-> On 2012-03-16 09:19, Mark Hatle wrote:
->> On 3/16/12 9:59 AM, Chris Larson wrote:
->>> On Fri, Mar 16, 2012 at 4:35 AM, Paul Eggleton
->>> <paul.eggleton@linux.intel.com>  wrote:
->>>> On Friday 16 March 2012 06:58:40 James Limbouris wrote:
->>>>> Hi,
->>>>>
->>>>> I got a strange error when bitbaking two images after removing some files in
->>>>> the deploy/images folder. It looks a whole lot like the cp's from the
->>>>> individual tasks were racing... I didn't know this sort of thing could
->>>>> happen.
->>>>>
->>>>> bitbake rica-dev-image rica-release-example-image
->>>>> <...>
->>>>> NOTE: Resolving any missing task queue dependencies
->>>>> NOTE: multiple providers are available for runtime libssl
->>>>> (openssl-nativesdk, openssl) NOTE: consider defining a PREFERRED_PROVIDER
->>>>> entry to match libssl NOTE: Preparing runqueue
->>>>> NOTE: Executing SetScene Tasks
->>>>> NOTE: Executing RunQueue Tasks
->>>>> NOTE: Running task 3673 of 3692 (ID: 23,
->>>>> /home/james/oe/meta-rica5/recipes/images/rica-release-example-image.bb,
->>>>> do_rootfs) NOTE: Running task 3685 of 3692 (ID: 8,
->>>>> /home/james/oe/meta-rica5/recipes/images/rica-dev-image.bb, do_rootfs)
->>>>> NOTE: package rica-release-example-image-1.0-r0: task do_rootfs: Started
->>>>> NOTE: package rica-dev-image-1.0-r0: task do_rootfs: Started
->>>>> ERROR: Function failed: do_rootfs (see
->>>>> /home/james/oe/build/tmp-eglibc/work/rica5-rica-linux-gnueabi/rica-dev-imag
->>>>> e-1.0-r0/temp/log.do_rootfs.4011 for further information) ERROR: Logfile of
->>>>> failure stored in:
->>>>> /home/james/oe/build/tmp-eglibc/work/rica5-rica-linux-gnueabi/rica-dev-imag
->>>>> e-1.0-r0/temp/log.do_rootfs.4011
->>>>> Log data follows:
->>>>> | ERROR: Function failed: do_rootfs (see
->>>>> | /home/james/oe/build/tmp-eglibc/work/rica5-rica-linux-gnueabi/rica-dev-im
->>>>> | age-1.0-r0/temp/log.do_rootfs.4011 for further information) cp: cannot
->>>>> | create regular file
->>>>> | `/home/james/oe/build/tmp-eglibc/deploy/images/rica5/README_-_DO_NOT_DELE
->>>>> | TE_FILES_IN_THIS_DIRECTORY.txt': File exists
->>>>> NOTE: package rica-dev-image-1.0-r0: task do_rootfs: Failed
->>>>> ERROR: Task 8 (/home/james/oe/meta-rica5/recipes/images/rica-dev-image.bb,
->>>>> do_rootfs) failed with exit code '1' Waiting for 1 active tasks to finish:
->>>>> 0: rica-release-example-image-1.0-r0 do_rootfs (pid 4008)
->>>>> NOTE: package rica-release-example-image-1.0-r0: task do_rootfs: Succeeded
->>>>> NOTE: Tasks Summary: Attempted 3685 tasks of which 3683 didn't need to be
->>>>> rerun and 1 failed. pseudo: You must set the PSEUDO_PREFIX environment
->>>>> variable to run pseudo. pseudo: You must set the PSEUDO_PREFIX environment
->>>>> variable to run pseudo.
->>>>>
->>>>> Summary: 1 task failed:
->>>>> /home/james/oe/meta-rica5/recipes/images/rica-dev-image.bb, do_rootfs
->>>>> Summary: There was 1 ERROR message shown, returning a non-zero exit code.
->>>>>
->>>>> Perhaps we should be using cp -f, or discarding the result?
->>>>
->>>> I tried to use -n originally, but apparently that's not a standard option we
->>>> can expect to be available everywhere so it had to be removed. I think in this
->>>> case the easiest thing to do is just ignore the failure since if it's genuine
->>>> it's not catastrophic and also it's highly unlikely you won't get a subsequent
->>>> failure elsewhere. I'll prepare a fix.
->>>
->>> I had a fix for this, but apparently I never got it merged. As you
->>> say, the easiest way is to ignore failure. You can't use -f, because
->>> of how cp does its checking - the failure still occurs. And of course
->>> you can't check for existence first, as that's a race. The fix I had
->>> just used shell redirections (>) instead of cp, as they don't care if
->>> the file already exists.
->>
->> Shell redirect has it's own race issues. If two processes happen to redirect at the same time, then you can get the contents mixed together.
->>
->> The way I've always addressed this is replace a "cp" or "cp -f" with a:
->>
->> tmpfile=`mktemp dest.XXXXX`
->> cp source $tmpfile (or use a shell redirect here)
->> mv $tmpfile dest
->>
->> The 'mv' operation is atomic, all other operations are not guaranteed to be...
->
-> 'mv' will be atomic only as long as the two files are on the same file system.
-> What happens when "dest" is on a different file system than "/tmp/dest.XXXXX"?
-> To be fully safe and general purpose, I think you'd need to use something like this:
->     tmpfile=`mktemp dest.XXXXX --tmpdir=$(dirname dest)`
->
+WARNING: QA Issue: package wget contains bad RPATH /media/build1/poky/build/tmp/sysroots/qemux86/lib in file /media/build1/poky/build/tmp/work/i586-poky-linux/wget-1.13.4-r13.1/packages-split/wget/usr/bin/wget.wget
 
-I was assuming the $tmpfile destination was in the same directory as dest... 
-where I had "dest" above, I almost always use the same -- full path -- 
-arguments, such as 
-/foo/build/tmp/work/arm-oe-linux-gnueabi/foobar_13/rootfs/etc/foo.
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+---
+diff --git a/meta/recipes-extended/wget/wget.inc b/meta/recipes-extended/wget/wget.inc
+index 02ea2b8..96d49a5 100644
+--- a/meta/recipes-extended/wget/wget.inc
++++ b/meta/recipes-extended/wget/wget.inc
+@@ -8,7 +8,7 @@ INC_PR = "r13"
+ 
+ inherit autotools gettext update-alternatives
+ 
+-EXTRA_OECONF = "--with-libc --enable-ipv6 --with-libssl-prefix=${STAGING_DIR_HOST} --with-ssl=openssl"
++EXTRA_OECONF = "--with-libc --enable-ipv6 --with-libssl-prefix=${STAGING_DIR_HOST} --with-ssl=openssl --disable-rpath"
+ 
+ do_install_append () {
+ 	mv ${D}${bindir}/wget ${D}${bindir}/wget.${PN}
+diff --git a/meta/recipes-extended/wget/wget_1.13.4.bb b/meta/recipes-extended/wget/wget_1.13.4.bb
+index b2da52f..e20ff48 100644
+--- a/meta/recipes-extended/wget/wget_1.13.4.bb
++++ b/meta/recipes-extended/wget/wget_1.13.4.bb
+@@ -1,4 +1,4 @@
+-PR = "${INC_PR}.1"
++PR = "${INC_PR}.2"
+ 
+ SRC_URI = "${GNU_MIRROR}/wget/wget-${PV}.tar.gz \
+            file://fix_makefile.patch \
 
-But yes, it's only atomic on the same filesystem, and the only reasonable 
-assumption for the same filesystem is the same directory.
 
---Mark
 
 
