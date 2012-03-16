@@ -1,24 +1,24 @@
-Received: from mga03.intel.com ([143.182.124.21])
+Received: from mga01.intel.com ([192.55.52.88])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <shane.wang@intel.com>) id 1S8LRE-00026X-GA
+	(envelope-from <shane.wang@intel.com>) id 1S8LRM-0002AS-VH
 	for openembedded-core@lists.openembedded.org;
-	Fri, 16 Mar 2012 01:54:36 +0100
-Received: from azsmga001.ch.intel.com ([10.2.17.19])
-	by azsmga101.ch.intel.com with ESMTP; 15 Mar 2012 17:45:48 -0700
+	Fri, 16 Mar 2012 01:54:45 +0100
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+	by fmsmga101.fm.intel.com with ESMTP; 15 Mar 2012 17:45:46 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="119579370"
+X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="129567574"
 Received: from yocto-build5.sh.intel.com (HELO localhost) ([10.239.48.3])
-	by azsmga001.ch.intel.com with ESMTP; 15 Mar 2012 17:45:48 -0700
+	by fmsmga001.fm.intel.com with ESMTP; 15 Mar 2012 17:45:45 -0700
 From: Shane Wang <shane.wang@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Fri, 16 Mar 2012 08:52:37 +0800
-Message-Id: <7bfb6c3d7391b9b97d164687d01dd5967df503fa.1331859047.git.shane.wang@intel.com>
+Date: Fri, 16 Mar 2012 08:52:35 +0800
+Message-Id: <c3c06bc9302bebd48ccabde1774baa1d684128cc.1331859047.git.shane.wang@intel.com>
 X-Mailer: git-send-email 1.7.6
 In-Reply-To: <fa4a26b05739e4f22b999571ff20a35ec84d29e7.1331859046.git.shane.wang@intel.com>
 References: <fa4a26b05739e4f22b999571ff20a35ec84d29e7.1331859046.git.shane.wang@intel.com>
 In-Reply-To: <cover.1331859046.git.shane.wang@intel.com>
 References: <cover.1331859046.git.shane.wang@intel.com>
-Subject: [PATCH 40/60] libxpm: upgrade to 3.5.10
+Subject: [PATCH 38/60] libXxf86vm: upgrade to 1.1.2
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -33,40 +33,59 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 16 Mar 2012 00:54:36 -0000
+X-List-Received-Date: Fri, 16 Mar 2012 00:54:45 -0000
+
+The license change is:
+
+--- libXxf86vm-1.1.1/COPYING    2010-01-30 15:40:42.000000000 +0800
++++ libXxf86vm-1.1.2/COPYING    2012-03-08 13:39:59.000000000 +0800
+@@ -14,12 +14,12 @@
+ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
+ EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+ MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.
+-IN NO EVENT SHALL Kaleb S. KEITHLEY BE LIABLE FOR ANY CLAIM, DAMAGES
++IN NO EVENT SHALL Kaleb S. KEITHLEY BE LIABLE FOR ANY CLAIM, DAMAGES
+ OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE,
+ ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
+ OTHER DEALINGS IN THE SOFTWARE.
+
+-Except as contained in this notice, the name of Kaleb S. KEITHLEY
+-shall not be used in advertising or otherwise to promote the sale, use
++Except as contained in this notice, the name of Kaleb S. KEITHLEY
++shall not be used in advertising or otherwise to promote the sale, use
+ or other dealings in this Software without prior written authorization
+ from Kaleb S. KEITHLEY.
 
 Signed-off-by: Shane Wang <shane.wang@intel.com>
 ---
- .../xorg-lib/{libxpm_3.5.9.bb => libxpm_3.5.10.bb} |    6 +++---
+ .../{libxxf86vm_1.1.1.bb => libxxf86vm_1.1.2.bb}   |    6 +++---
  1 files changed, 3 insertions(+), 3 deletions(-)
- rename meta/recipes-graphics/xorg-lib/{libxpm_3.5.9.bb => libxpm_3.5.10.bb} (78%)
+ rename meta/recipes-graphics/xorg-lib/{libxxf86vm_1.1.1.bb => libxxf86vm_1.1.2.bb} (66%)
 
-diff --git a/meta/recipes-graphics/xorg-lib/libxpm_3.5.9.bb b/meta/recipes-graphics/xorg-lib/libxpm_3.5.10.bb
-similarity index 78%
-rename from meta/recipes-graphics/xorg-lib/libxpm_3.5.9.bb
-rename to meta/recipes-graphics/xorg-lib/libxpm_3.5.10.bb
-index 5d4297e..9eaa212 100644
---- a/meta/recipes-graphics/xorg-lib/libxpm_3.5.9.bb
-+++ b/meta/recipes-graphics/xorg-lib/libxpm_3.5.10.bb
-@@ -10,7 +10,7 @@ protocol."
- LICENSE = "BSD"
- LIC_FILES_CHKSUM = "file://COPYING;md5=3e07763d16963c3af12db271a31abaa5"
- DEPENDS += "libxext libsm libxt"
--PR = "r3"
-+PR = "r0"
- PE = "1"
+diff --git a/meta/recipes-graphics/xorg-lib/libxxf86vm_1.1.1.bb b/meta/recipes-graphics/xorg-lib/libxxf86vm_1.1.2.bb
+similarity index 66%
+rename from meta/recipes-graphics/xorg-lib/libxxf86vm_1.1.1.bb
+rename to meta/recipes-graphics/xorg-lib/libxxf86vm_1.1.2.bb
+index 4066f08..a93a399 100644
+--- a/meta/recipes-graphics/xorg-lib/libxxf86vm_1.1.1.bb
++++ b/meta/recipes-graphics/xorg-lib/libxxf86vm_1.1.2.bb
+@@ -8,7 +8,7 @@ xvidtune program in particular."
+ require xorg-lib-common.inc
  
- XORG_PN = "libXpm"
-@@ -19,7 +19,7 @@ PACKAGES =+ "sxpm cxpm"
- FILES_cxpm = "${bindir}/cxpm"
- FILES_sxpm = "${bindir}/sxpm"
+ LICENSE = "MIT"
+-LIC_FILES_CHKSUM = "file://COPYING;md5=0fe722b85f452ce13ca763f323ff5da8"
++LIC_FILES_CHKSUM = "file://COPYING;md5=fa0b9c462d8f2f13eba26492d42ea63d"
  
--SRC_URI[md5sum] = "2de3a1b9541f4b3a6f9d84b69d25530e"
--SRC_URI[sha256sum] = "8add01029cab0598ca86e01a2f7781a636f74b757abe6b50ba61b2a6e2fd621e"
-+SRC_URI[md5sum] = "7ae7eff7a14d411e84a67bd166bcec1a"
-+SRC_URI[sha256sum] = "a6db7e234750e7d60330017972e31d8e1f29f0a8c1391e4ac82f6102d919a735"
+ DEPENDS += "libxext xf86vidmodeproto"
  
- BBCLASSEXTEND = "native"
+@@ -17,5 +17,5 @@ PE = "1"
+ 
+ XORG_PN = "libXxf86vm"
+ 
+-SRC_URI[md5sum] = "34dc3df888c164378da89a7deeb245a0"
+-SRC_URI[sha256sum] = "21cae9239aefd59353a4ddb0d6ed890402b681570ccd4bc977d80a75a020239e"
++SRC_URI[md5sum] = "ffd93bcedd8b2b5aeabf184e7b91f326"
++SRC_URI[sha256sum] = "a564172fb866b1b587bbccb7d041088931029845245e0d15c32ca7f1bb48fc84"
 -- 
 1.7.6
 
