@@ -1,24 +1,24 @@
 Received: from mga11.intel.com ([192.55.52.93])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <nitin.a.kamble@intel.com>) id 1S8cWM-0004dV-SC
+	(envelope-from <nitin.a.kamble@intel.com>) id 1S8cWN-0004dc-7W
 	for openembedded-core@lists.openembedded.org;
 	Fri, 16 Mar 2012 20:09:03 +0100
 Received: from fmsmga001.fm.intel.com ([10.253.24.23])
 	by fmsmga102.fm.intel.com with ESMTP; 16 Mar 2012 12:00:11 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="129848255"
+X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="129848256"
 Received: from nbuild2.sc.intel.com ([172.25.110.37])
 	by fmsmga001.fm.intel.com with ESMTP; 16 Mar 2012 12:00:11 -0700
 From: nitin.a.kamble@intel.com
 To: openembedded-core@lists.openembedded.org
-Date: Fri, 16 Mar 2012 12:00:06 -0700
-Message-Id: <a5089dad538aae9ef7af154a101f78a1912e3190.1331924359.git.nitin.a.kamble@intel.com>
+Date: Fri, 16 Mar 2012 12:00:07 -0700
+Message-Id: <d62c33f002619ec9c455f6fa2362f90f6ab69032.1331924359.git.nitin.a.kamble@intel.com>
 X-Mailer: git-send-email 1.7.7.6
 In-Reply-To: <29a1b86fa5383e17f311314c38972b78d760fd92.1331924359.git.nitin.a.kamble@intel.com>
 References: <29a1b86fa5383e17f311314c38972b78d760fd92.1331924359.git.nitin.a.kamble@intel.com>
 In-Reply-To: <cover.1331924359.git.nitin.a.kamble@intel.com>
 References: <cover.1331924359.git.nitin.a.kamble@intel.com>
-Subject: [PATCH 4/7] pciutils: fix a do_compile failure
+Subject: [PATCH 5/7] python-pyrex: quite packaging warnings
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -37,39 +37,41 @@ X-List-Received-Date: Fri, 16 Mar 2012 19:09:03 -0000
 
 From: Nitin A Kamble <nitin.a.kamble@intel.com>
 
-Avoid this issue:
-
-| ln -s libpci.so.3.1.9 libpci.so
-| ln: failed to create symbolic link `libpci.so': File exists
-| make[1]: *** [libpci.so] Error 1
-| make[1]: Leaving directory `/srv/home/nitin/builds/build-multilib/tmp/work/x86_64-poky-linux/pciutils-3.1.9-r0/pciutils-3.1.9/lib'
-| make: *** [lib/libpci.so] Error 2
-| ERROR: oe_runmake failed
-NOTE: package pciutils-3.1.9-r0: task do_compile: Failed
-
-PR not bumped as there are no changes in the output packages.
+This removes these packaging warnings:
+WARNING: For recipe python-pyrex, the following files/directories were
+installed but not shipped in any package:
+WARNING:   /usr/share
+WARNING:   /usr/share/lib
+WARNING:   /usr/share/lib/python2.7
+WARNING:   /usr/share/lib/python2.7/site-packages
+WARNING:   /usr/share/lib/python2.7/site-packages/Pyrex
+WARNING:   /usr/share/lib/python2.7/site-packages/Pyrex/Compiler
+WARNING:   /usr/share/lib/python2.7/site-packages/Pyrex/Compiler/Lexicon.pickle
 
 Signed-off-by: Nitin A Kamble <nitin.a.kamble@intel.com>
 ---
- meta/recipes-bsp/pciutils/pciutils_3.1.9.bb |    5 +++++
- 1 files changed, 5 insertions(+), 0 deletions(-)
+ meta/recipes-devtools/python/python-pyrex_0.9.9.bb |    4 +++-
+ 1 files changed, 3 insertions(+), 1 deletions(-)
 
-diff --git a/meta/recipes-bsp/pciutils/pciutils_3.1.9.bb b/meta/recipes-bsp/pciutils/pciutils_3.1.9.bb
-index 51e7476..2c969d9 100644
---- a/meta/recipes-bsp/pciutils/pciutils_3.1.9.bb
-+++ b/meta/recipes-bsp/pciutils/pciutils_3.1.9.bb
-@@ -33,6 +33,11 @@ do_configure () {
- 	)
- }
+diff --git a/meta/recipes-devtools/python/python-pyrex_0.9.9.bb b/meta/recipes-devtools/python/python-pyrex_0.9.9.bb
+index 7d80554..568fb0d 100644
+--- a/meta/recipes-devtools/python/python-pyrex_0.9.9.bb
++++ b/meta/recipes-devtools/python/python-pyrex_0.9.9.bb
+@@ -5,7 +5,7 @@ SECTION = "devel/python"
+ LICENSE = "Apache-2.0"
+ LIC_FILES_CHKSUM = "file://LICENSE.txt;md5=771d472f53f933033f57eeee7808e5bd"
+ SRCNAME = "Pyrex"
+-PR = "ml2"
++PR = "r3"
  
-+do_compile_prepend () {
-+	# Avoid this error:  ln: failed to create symbolic link `libpci.so': File exists
-+	rm -f ${S}/lib/libpci.so
-+}
+ SRC_URI = "\
+   http://www.cosc.canterbury.ac.nz/greg.ewing/python/${SRCNAME}/${SRCNAME}-${PV}.tar.gz \
+@@ -17,3 +17,5 @@ SRC_URI[sha256sum] = "5f87df06831d0b3412eb4bc9d3fc2ee7bfae1b913d7da8c23ab2bf5699
+ S = "${WORKDIR}/${SRCNAME}-${PV}"
+ 
+ inherit distutils
 +
- export PREFIX = "${prefix}"
- export SBINDIR = "${sbindir}"
- export SHAREDIR = "${datadir}"
++FILES_${PN} += "${datadir}${base_libdir}/${PYTHON_DIR}/site-packages/Pyrex/Compiler/Lexicon.pickle"
 -- 
 1.7.7.6
 
