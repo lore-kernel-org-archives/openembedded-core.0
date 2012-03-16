@@ -1,24 +1,28 @@
-Received: from mga03.intel.com ([143.182.124.21])
+Received: from mga14.intel.com ([143.182.124.37])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <paul.eggleton@linux.intel.com>) id 1S8ZdB-0008L3-FG
+	(envelope-from <dvhart@linux.intel.com>) id 1S8Zea-0008Qm-Iz
 	for openembedded-core@lists.openembedded.org;
-	Fri, 16 Mar 2012 17:03:53 +0100
+	Fri, 16 Mar 2012 17:05:20 +0100
 Received: from azsmga002.ch.intel.com ([10.2.17.35])
-	by azsmga101.ch.intel.com with ESMTP; 16 Mar 2012 08:55:05 -0700
+	by azsmga102.ch.intel.com with ESMTP; 16 Mar 2012 08:56:31 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="78402269"
-Received: from unknown (HELO helios.ger.corp.intel.com) ([10.252.123.171])
-	by AZSMGA002.ch.intel.com with ESMTP; 16 Mar 2012 08:55:03 -0700
-From: Paul Eggleton <paul.eggleton@linux.intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Fri, 16 Mar 2012 15:55:01 +0000
-Message-Id: <a2e9044ed2b89b5fdbdb28cc6929797e49e8a009.1331913268.git.paul.eggleton@linux.intel.com>
-X-Mailer: git-send-email 1.7.5.4
-In-Reply-To: <cover.1331913268.git.paul.eggleton@linux.intel.com>
-References: <cover.1331913268.git.paul.eggleton@linux.intel.com>
-In-Reply-To: <cover.1331913268.git.paul.eggleton@linux.intel.com>
-References: <cover.1331913268.git.paul.eggleton@linux.intel.com>
-Subject: [PATCH 1/1] qt-mobility: fix QA warnings
+X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="78402736"
+Received: from unknown (HELO envy.home) ([10.255.12.16])
+	by AZSMGA002.ch.intel.com with ESMTP; 16 Mar 2012 08:56:31 -0700
+Message-ID: <4F636283.7040800@linux.intel.com>
+Date: Fri, 16 Mar 2012 08:55:47 -0700
+From: Darren Hart <dvhart@linux.intel.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:10.0.1) Gecko/20120209 Thunderbird/10.0.1
+MIME-Version: 1.0
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+References: <cover.1331848750.git.dvhart@linux.intel.com>
+	<5ca651eb19c3fcb64de2ce405de0bc7fa2a8c90b.1331848750.git.dvhart@linux.intel.com>
+	<4F635D37.2020406@linux.intel.com>
+In-Reply-To: <4F635D37.2020406@linux.intel.com>
+X-Enigmail-Version: 1.4
+Subject: Re: [PATCH 1/1] rt-tests: Add src/backfire to FILES_${PN}
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -33,76 +37,81 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 16 Mar 2012 16:03:53 -0000
+X-List-Received-Date: Fri, 16 Mar 2012 16:05:20 -0000
+Content-Type: text/plain; charset=ISO-8859-1
+Content-Transfer-Encoding: 7bit
 
-Fix the following warnings:
+On 03/16/2012 08:33 AM, Darren Hart wrote:
+> Hrm, this silences the warnings, but the backfire sources are not
+> installed on the rootfs....
+> 
+> Anyone see what is wrong with the below? Is there some magic that purges
+> /usr/src in a minimal build?
 
-WARNING: QA Issue: package qt-mobility-x11 contains bad RPATH /home/user/qt/lib:/home/user/qt/lib${WORKDIR}/qt-mobility-opensource-src-1.2.0/lib:/home/user/qt/lib/media/large/tmp/sysroots/qemux86/usr/lib:/home/user/qt/lib/usr/lib in file ${WORKDIR}/packages-split/qt-mobility-x11/usr/bin/qt4/examples/QtMobility/qml_device
-WARNING: QA Issue: package qt-mobility-x11 contains bad RPATH /home/user/qt/lib:/home/user/qt/lib${WORKDIR}/qt-mobility-opensource-src-1.2.0/lib:/home/user/qt/lib/media/large/tmp/sysroots/qemux86/usr/lib:/home/user/qt/lib/usr/lib in file ${WORKDIR}/packages-split/qt-mobility-x11/usr/bin/qt4/examples/QtMobility/qml_device
+I was adding "/usr/src/backfire" to FILES_${PN}. It seems one should add
+"/usr/src/backfire/*" to actually get the files.
 
-Signed-off-by: Paul Eggleton <paul.eggleton@linux.intel.com>
----
- ...nnecessary-rpaths-from-qml_device-example.patch |   28 ++++++++++++++++++++
- meta/recipes-qt/qt4/qt-mobility_1.2.0.inc          |    5 ++-
- 2 files changed, 31 insertions(+), 2 deletions(-)
- create mode 100644 meta/recipes-qt/qt4/files/0002-Remove-unnecessary-rpaths-from-qml_device-example.patch
+However, I am surprised that the warnings went away and the files were
+still not packaged when I used "/usr/src/backfire". Is this expected
+behavior?
 
-diff --git a/meta/recipes-qt/qt4/files/0002-Remove-unnecessary-rpaths-from-qml_device-example.patch b/meta/recipes-qt/qt4/files/0002-Remove-unnecessary-rpaths-from-qml_device-example.patch
-new file mode 100644
-index 0000000..a411640
---- /dev/null
-+++ b/meta/recipes-qt/qt4/files/0002-Remove-unnecessary-rpaths-from-qml_device-example.patch
-@@ -0,0 +1,28 @@
-+From 92e0c611f4969c716616d64df64831387e5b1632 Mon Sep 17 00:00:00 2001
-+From: Paul Eggleton <paul.eggleton@linux.intel.com>
-+Date: Fri, 16 Mar 2012 10:24:00 +0000
-+Subject: [PATCH] Remove unnecessary rpaths from qml_device example
-+
-+These can't be valid in any case.
-+
-+Upstream-Status: Pending
-+
-+Signed-off-by: Paul Eggleton <paul.eggleton@linux.intel.com>
-+---
-+ examples/declarative-systeminfo/device/device.pro |    3 ---
-+ 1 files changed, 0 insertions(+), 3 deletions(-)
-+
-+diff --git a/examples/declarative-systeminfo/device/device.pro b/examples/declarative-systeminfo/device/device.pro
-+index 698e5fb..05be9b7 100644
-+--- a/examples/declarative-systeminfo/device/device.pro
-++++ b/examples/declarative-systeminfo/device/device.pro
-+@@ -17,6 +17,3 @@ symbian {
-+ }
-+ RESOURCES += device.qrc
-+ 
-+-QMAKE_LFLAGS_DEBUG += "-Wl,-rpath,/home/user/qt/lib"
-+-QMAKE_LFLAGS_RPATH += "-Wl,-rpath,/home/user/qt/lib"
-+-QMAKE_LFLAGS_RELEASE += "-Wl,-rpath,/home/user/qt/lib"
-+-- 
-+1.7.5.4
-+
-diff --git a/meta/recipes-qt/qt4/qt-mobility_1.2.0.inc b/meta/recipes-qt/qt4/qt-mobility_1.2.0.inc
-index 593cbd6..1c4611d 100644
---- a/meta/recipes-qt/qt4/qt-mobility_1.2.0.inc
-+++ b/meta/recipes-qt/qt4/qt-mobility_1.2.0.inc
-@@ -7,12 +7,13 @@ LIC_FILES_CHKSUM = "file://LICENSE.LGPL;md5=fbc093901857fcd118f065f900982c24 \
- 
- SRC_URI = "http://get.qt.nokia.com/qt/add-ons/qt-mobility-opensource-src-${PV}.tar.gz \
-            file://qt-mobility-configure.patch \
--           file://0001-gstvideoconnector-fixed-buffers-allocation.patch"
-+           file://0001-gstvideoconnector-fixed-buffers-allocation.patch \
-+           file://0002-Remove-unnecessary-rpaths-from-qml_device-example.patch"
- 
- SRC_URI[md5sum]="ea5db5a8d3dd4709c2926dceda646bd8"
- SRC_URI[sha256sum]="ee3c88975e04139ac9589f76d4be646d44fcbc4c8c1cf2db621abc154cf0ba44"
- 
--PR = "r2"
-+PR = "r3"
- 
- S = "${WORKDIR}/qt-mobility-opensource-src-${PV}"
- 
+I have pushed the new version to the same branch using
+"/usr/src/backfire/*". Built,booted,and verified on qemux86 using
+core-image-rt.
+
+--
+Darren
+
+> 
+> --
+> Darren
+> 
+> On 03/15/2012 03:00 PM, Darren Hart wrote:
+>> Fixes [YOCTO #2114]
+>>
+>> The rt-tests recipe was issuing the following WARNINGs:
+>>
+>> WARNING: For recipe rt-tests, the following files/directories were installed
+>> but not shipped in any package:
+>> WARNING:   /usr/src
+>> WARNING:   /usr/src/backfire
+>> WARNING:   /usr/src/backfire/backfire.c
+>> WARNING:   /usr/src/backfire/Makefile
+>>
+>> Add ${prefix}/src/backfire to FILES_${PN} to include these files in the package.
+>> These depend on the target kernel and are meant to be able to be rebuilt as
+>> needed.  Ideally we would also build this module and include it with rt-tests or
+>> the linux-yocto-rt kernel. For now, conform with the intent of the rt-tests
+>> Makefile and avoid the WARNINGs.
+>>
+>> Signed-off-by: Darren Hart <dvhart@linux.intel.com>
+>> ---
+>>  meta/recipes-rt/rt-tests/rt-tests_0.83.bb |    3 +++
+>>  1 files changed, 3 insertions(+), 0 deletions(-)
+>>
+>> diff --git a/meta/recipes-rt/rt-tests/rt-tests_0.83.bb b/meta/recipes-rt/rt-tests/rt-tests_0.83.bb
+>> index 78d51b3..6425027 100644
+>> --- a/meta/recipes-rt/rt-tests/rt-tests_0.83.bb
+>> +++ b/meta/recipes-rt/rt-tests/rt-tests_0.83.bb
+>> @@ -11,6 +11,7 @@ SRCREV = "5f1e84f8b015df3ff950056494134eca3f640d70"
+>>  
+>>  # git -> 0.83 needs a PE bump
+>>  PE = "1"
+>> +PR = "r1"
+>>  
+>>  SRC_URI = "git://github.com/clrkwllms/rt-tests.git"
+>>  
+>> @@ -25,3 +26,5 @@ do_install() {
+>>          oe_runmake install DESTDIR=${D} SBINDIR=${sbindir} MANDIR=${mandir} \
+>>                             INCLUDEDIR=${includedir}
+>>  }
+>> +
+>> +FILES_${PN} += "${prefix}/src/backfire"
+> 
+
 -- 
-1.7.5.4
-
+Darren Hart
+Intel Open Source Technology Center
+Yocto Project - Linux Kernel
 
 
