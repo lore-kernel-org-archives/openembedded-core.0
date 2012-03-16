@@ -1,29 +1,30 @@
-Received: from mail.windriver.com ([147.11.1.11])
+Received: from mail1.windriver.com ([147.11.146.13])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <mark.hatle@windriver.com>) id 1S8ZLa-0007gX-9c
+	(envelope-from <mark.hatle@windriver.com>) id 1S8ZQZ-0007lJ-BP
 	for openembedded-core@lists.openembedded.org;
-	Fri, 16 Mar 2012 16:45:42 +0100
+	Fri, 16 Mar 2012 16:50:51 +0100
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca [147.11.189.40])
-	by mail.windriver.com (8.14.3/8.14.3) with ESMTP id q2GFar6k015149
+	by mail1.windriver.com (8.14.3/8.14.3) with ESMTP id q2GFg3Eu005269
 	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 16 Mar 2012 08:36:53 -0700 (PDT)
+	Fri, 16 Mar 2012 08:42:03 -0700 (PDT)
 Received: from Macintosh-5.local (172.25.36.226) by ALA-HCA.corp.ad.wrs.com
 	(147.11.189.50) with Microsoft SMTP Server id 14.1.255.0;
-	Fri, 16 Mar 2012 08:36:53 -0700
-Message-ID: <4F635E14.7000707@windriver.com>
-Date: Fri, 16 Mar 2012 10:36:52 -0500
+	Fri, 16 Mar 2012 08:42:02 -0700
+Message-ID: <4F635F49.2030704@windriver.com>
+Date: Fri, 16 Mar 2012 10:42:01 -0500
 From: Mark Hatle <mark.hatle@windriver.com>
 Organization: Wind River Systems
 User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.6;
 	rv:10.0.2) Gecko/20120216 Thunderbird/10.0.2
 MIME-Version: 1.0
 To: <openembedded-core@lists.openembedded.org>
-References: <1331799506.1041.55.camel@localhost.localdomain>
-	<4F621801.4000308@windriver.com>
-	<1331875115.1041.67.camel@localhost.localdomain>
-In-Reply-To: <1331875115.1041.67.camel@localhost.localdomain>
-Subject: Re: LSB support?
+References: <840A81C1B782724A8EB52725BD519EFF33809F54@MBX20.4emm.local>
+	<1798766.ZRL8z9Exog@helios>
+	<CABcZANnAXXBa-UQYiMijWVvX7ggGEGh65bzQaFPNq-nFt4KbYQ@mail.gmail.com>
+	<4F635A09.2020900@windriver.com> <4F635C8D.70607@mlbassoc.com>
+In-Reply-To: <4F635C8D.70607@mlbassoc.com>
+Subject: Re: race condition... in cp?
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -38,97 +39,103 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 16 Mar 2012 15:45:42 -0000
+X-List-Received-Date: Fri, 16 Mar 2012 15:50:51 -0000
 Content-Type: text/plain; charset="ISO-8859-1"; format=flowed
 Content-Transfer-Encoding: 7bit
 
-On 3/16/12 12:18 AM, Ni Qingliang wrote:
-> when building qemux86-64 arch core-image-lsb (distro is poky-lsb), I got
-> /usr/lib/../lib/libXrandr.so.2: undefined reference to
-> `memcpy@GLIBC_2.14' when 'do_compile' gconf 3.2.3.
+On 3/16/12 10:30 AM, Gary Thomas wrote:
+> On 2012-03-16 09:19, Mark Hatle wrote:
+>> On 3/16/12 9:59 AM, Chris Larson wrote:
+>>> On Fri, Mar 16, 2012 at 4:35 AM, Paul Eggleton
+>>> <paul.eggleton@linux.intel.com>  wrote:
+>>>> On Friday 16 March 2012 06:58:40 James Limbouris wrote:
+>>>>> Hi,
+>>>>>
+>>>>> I got a strange error when bitbaking two images after removing some files in
+>>>>> the deploy/images folder. It looks a whole lot like the cp's from the
+>>>>> individual tasks were racing... I didn't know this sort of thing could
+>>>>> happen.
+>>>>>
+>>>>> bitbake rica-dev-image rica-release-example-image
+>>>>> <...>
+>>>>> NOTE: Resolving any missing task queue dependencies
+>>>>> NOTE: multiple providers are available for runtime libssl
+>>>>> (openssl-nativesdk, openssl) NOTE: consider defining a PREFERRED_PROVIDER
+>>>>> entry to match libssl NOTE: Preparing runqueue
+>>>>> NOTE: Executing SetScene Tasks
+>>>>> NOTE: Executing RunQueue Tasks
+>>>>> NOTE: Running task 3673 of 3692 (ID: 23,
+>>>>> /home/james/oe/meta-rica5/recipes/images/rica-release-example-image.bb,
+>>>>> do_rootfs) NOTE: Running task 3685 of 3692 (ID: 8,
+>>>>> /home/james/oe/meta-rica5/recipes/images/rica-dev-image.bb, do_rootfs)
+>>>>> NOTE: package rica-release-example-image-1.0-r0: task do_rootfs: Started
+>>>>> NOTE: package rica-dev-image-1.0-r0: task do_rootfs: Started
+>>>>> ERROR: Function failed: do_rootfs (see
+>>>>> /home/james/oe/build/tmp-eglibc/work/rica5-rica-linux-gnueabi/rica-dev-imag
+>>>>> e-1.0-r0/temp/log.do_rootfs.4011 for further information) ERROR: Logfile of
+>>>>> failure stored in:
+>>>>> /home/james/oe/build/tmp-eglibc/work/rica5-rica-linux-gnueabi/rica-dev-imag
+>>>>> e-1.0-r0/temp/log.do_rootfs.4011
+>>>>> Log data follows:
+>>>>> | ERROR: Function failed: do_rootfs (see
+>>>>> | /home/james/oe/build/tmp-eglibc/work/rica5-rica-linux-gnueabi/rica-dev-im
+>>>>> | age-1.0-r0/temp/log.do_rootfs.4011 for further information) cp: cannot
+>>>>> | create regular file
+>>>>> | `/home/james/oe/build/tmp-eglibc/deploy/images/rica5/README_-_DO_NOT_DELE
+>>>>> | TE_FILES_IN_THIS_DIRECTORY.txt': File exists
+>>>>> NOTE: package rica-dev-image-1.0-r0: task do_rootfs: Failed
+>>>>> ERROR: Task 8 (/home/james/oe/meta-rica5/recipes/images/rica-dev-image.bb,
+>>>>> do_rootfs) failed with exit code '1' Waiting for 1 active tasks to finish:
+>>>>> 0: rica-release-example-image-1.0-r0 do_rootfs (pid 4008)
+>>>>> NOTE: package rica-release-example-image-1.0-r0: task do_rootfs: Succeeded
+>>>>> NOTE: Tasks Summary: Attempted 3685 tasks of which 3683 didn't need to be
+>>>>> rerun and 1 failed. pseudo: You must set the PSEUDO_PREFIX environment
+>>>>> variable to run pseudo. pseudo: You must set the PSEUDO_PREFIX environment
+>>>>> variable to run pseudo.
+>>>>>
+>>>>> Summary: 1 task failed:
+>>>>> /home/james/oe/meta-rica5/recipes/images/rica-dev-image.bb, do_rootfs
+>>>>> Summary: There was 1 ERROR message shown, returning a non-zero exit code.
+>>>>>
+>>>>> Perhaps we should be using cp -f, or discarding the result?
+>>>>
+>>>> I tried to use -n originally, but apparently that's not a standard option we
+>>>> can expect to be available everywhere so it had to be removed. I think in this
+>>>> case the easiest thing to do is just ignore the failure since if it's genuine
+>>>> it's not catastrophic and also it's highly unlikely you won't get a subsequent
+>>>> failure elsewhere. I'll prepare a fix.
+>>>
+>>> I had a fix for this, but apparently I never got it merged. As you
+>>> say, the easiest way is to ignore failure. You can't use -f, because
+>>> of how cp does its checking - the failure still occurs. And of course
+>>> you can't check for existence first, as that's a race. The fix I had
+>>> just used shell redirections (>) instead of cp, as they don't care if
+>>> the file already exists.
+>>
+>> Shell redirect has it's own race issues. If two processes happen to redirect at the same time, then you can get the contents mixed together.
+>>
+>> The way I've always addressed this is replace a "cp" or "cp -f" with a:
+>>
+>> tmpfile=`mktemp dest.XXXXX`
+>> cp source $tmpfile (or use a shell redirect here)
+>> mv $tmpfile dest
+>>
+>> The 'mv' operation is atomic, all other operations are not guaranteed to be...
 >
-> the default eglibc is 2.13, why it needs 2.14?
+> 'mv' will be atomic only as long as the two files are on the same file system.
+> What happens when "dest" is on a different file system than "/tmp/dest.XXXXX"?
+> To be fully safe and general purpose, I think you'd need to use something like this:
+>     tmpfile=`mktemp dest.XXXXX --tmpdir=$(dirname dest)`
+>
 
-Without anything further, the only guess I can make is that either you aren't 
-using the version of glibc you think you are, it's gotten some host 
-contamination, an explicit reference was added to libXrandr (doubtful), or you 
-are using something that was built/cached from a previous build.  (i.e. did you 
-build w/ eglibc 2.14/2.15 -- and then switch back to eglibc 2.13 for some reason?)
+I was assuming the $tmpfile destination was in the same directory as dest... 
+where I had "dest" above, I almost always use the same -- full path -- 
+arguments, such as 
+/foo/build/tmp/work/arm-oe-linux-gnueabi/foobar_13/rootfs/etc/foo.
 
-On 3/15/12 9:38 PM, Ni Qingliang wrote:
- > first, thanks your reply.
- >
- > Because I can't use task-core-lsb on my device (flash space is not
- > enough), I have to make a custom lsb-base image (without
- > perl/python/graphics).
- >
- > I have checked the "linuxstdbase", and it will change the configure
- > option of some packages.
- >
- > Indeed, I think the daemon/failure/warning fuctions should be considered
- > in package lsb's RDEPENDS.
- >
- > what I want to know is the rdepends or where is the
- > daemon/failure/warning.
-
-It certainly looks like a component is missing somewhere in the shell scrips 
-that are provided by the LSB functions.  I would assume that the 
-depends/provides is setup properly to point to whatever should be providing the 
-missing daemon, failure, warning commands.  If it's not (or if by default -- non 
-lsb mode) they're not being built, it's a definite bug.  You shouldn't be able 
-to build a non-functional systems.
-
-Please file a defect on bugzilla.yoctoproject.org.  I will attempt to 
-investigate it (or someone else can).  Hopefully it's just as a simple as a 
-missing dependency.
+But yes, it's only atomic on the same filesystem, and the only reasonable 
+assumption for the same filesystem is the same directory.
 
 --Mark
-
-> On Fri, 2012-03-16 at 00:25 +0800, Mark Hatle wrote:
->> On 3/15/12 3:18 AM, Ni Qingliang wrote:
->>> Hello, I'm working on custom lsb-base image using oe-core.
->>>
->>> and when using the lsb script, found error:
->>>
->>> lsb_start_daemon line 44: daemon command not found.
->>>
->>> similar thing happend on lsb_log_message: failure and warning command
->>> not found.
->>>
->>> maybe these function should be defined in /etc/init.d/functions?
->>>
->>> but there are not these function in this file (belongs to initscripts).
->>
->> Did you enable the LSB distribution settings?  Without this, various components
->> may not be available.
->>
->> In Poky, there is a "poky-lsb" distribution type:
->>
->> DISTRO = "poky-lsb"
->> DISTROOVERRIDES = "poky:linuxstdbase"
->>
->> DISTRO_FEATURES_append = " pam largefile opengl"
->> PREFERRED_PROVIDER_virtual/libx11 = "libx11"
->>
->> (as well as using the core-image-lsb and/or task-core-lsb components.)
->>
->> If you've tried this and those items are still broken, let me know and I can
->> help investigate further.  (One final note, only LSB 1.4 is currently supported.)
->>
->> --Mark
->>
->>> Any idea?
->>>
->>> thanks!
->>>
->>>
->>
->>
->> _______________________________________________
->> Openembedded-core mailing list
->> Openembedded-core@lists.openembedded.org
->> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
->
-
 
 
