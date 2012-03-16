@@ -1,24 +1,24 @@
 Received: from mga09.intel.com ([134.134.136.24])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <shane.wang@intel.com>) id 1S8LUU-0002PQ-A9
+	(envelope-from <shane.wang@intel.com>) id 1S8LUV-0002PQ-4A
 	for openembedded-core@lists.openembedded.org;
-	Fri, 16 Mar 2012 01:57:58 +0100
+	Fri, 16 Mar 2012 01:57:59 +0100
 Received: from orsmga001.jf.intel.com ([10.7.209.18])
 	by orsmga102.jf.intel.com with ESMTP; 15 Mar 2012 17:49:13 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.67,352,1309762800"; d="scan'208";a="118174787"
+X-IronPort-AV: E=Sophos;i="4.67,352,1309762800"; d="scan'208";a="118174790"
 Received: from yocto-build5.sh.intel.com (HELO localhost) ([10.239.48.3])
-	by orsmga001.jf.intel.com with ESMTP; 15 Mar 2012 17:49:11 -0700
+	by orsmga001.jf.intel.com with ESMTP; 15 Mar 2012 17:49:12 -0700
 From: Shane Wang <shane.wang@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Fri, 16 Mar 2012 08:52:48 +0800
-Message-Id: <44c7560e95e96bf6600b39eb4ae109a5047c0b43.1331859047.git.shane.wang@intel.com>
+Date: Fri, 16 Mar 2012 08:52:49 +0800
+Message-Id: <4ea39cd95118c5f71e721b897eac9e530c1d9e25.1331859047.git.shane.wang@intel.com>
 X-Mailer: git-send-email 1.7.6
 In-Reply-To: <fa4a26b05739e4f22b999571ff20a35ec84d29e7.1331859046.git.shane.wang@intel.com>
 References: <fa4a26b05739e4f22b999571ff20a35ec84d29e7.1331859046.git.shane.wang@intel.com>
 In-Reply-To: <cover.1331859046.git.shane.wang@intel.com>
 References: <cover.1331859046.git.shane.wang@intel.com>
-Subject: [PATCH 51/60] libpciaccess: upgrade to 0.13
+Subject: [PATCH 52/60] libXvMC: upgrade to 1.0.7
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -33,99 +33,38 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 16 Mar 2012 00:57:58 -0000
-
-The patch libpciaccess-0.12.902/fix_deletion_of_last_handle.patch is removed because it is in the upstream.
+X-List-Received-Date: Fri, 16 Mar 2012 00:57:59 -0000
 
 Signed-off-by: Shane Wang <shane.wang@intel.com>
 ---
- .../fix_deletion_of_last_handle.patch              |   51 --------------------
- ...bpciaccess_0.12.902.bb => libpciaccess_0.13.bb} |    6 +--
- 2 files changed, 2 insertions(+), 55 deletions(-)
- delete mode 100644 meta/recipes-graphics/xorg-lib/libpciaccess-0.12.902/fix_deletion_of_last_handle.patch
- rename meta/recipes-graphics/xorg-lib/{libpciaccess_0.12.902.bb => libpciaccess_0.13.bb} (64%)
+ .../{libxvmc_1.0.6.bb => libxvmc_1.0.7.bb}         |    6 +++---
+ 1 files changed, 3 insertions(+), 3 deletions(-)
+ rename meta/recipes-graphics/xorg-lib/{libxvmc_1.0.6.bb => libxvmc_1.0.7.bb} (61%)
 
-diff --git a/meta/recipes-graphics/xorg-lib/libpciaccess-0.12.902/fix_deletion_of_last_handle.patch b/meta/recipes-graphics/xorg-lib/libpciaccess-0.12.902/fix_deletion_of_last_handle.patch
-deleted file mode 100644
-index 1933f45..0000000
---- a/meta/recipes-graphics/xorg-lib/libpciaccess-0.12.902/fix_deletion_of_last_handle.patch
-+++ /dev/null
-@@ -1,51 +0,0 @@
--Upstream-Status: Backport
--
--The below patch is from
--http://cgit.freedesktop.org/xorg/lib/libpciaccess/commit/?id=a798395a1bfd9d06d40e2d8d14377a156c94429a
--It would appear in the next .tar.bz2 release.
--
--------------------------------
--
--commit a798395a1bfd9d06d40e2d8d14377a156c94429a
--Author: Daniel Drake <dsd@laptop.org>
--Date:   Fri Nov 25 12:28:48 2011 -0600
--
--    delete_io_handle: fix deletion of last handle
--    
--    When num_ios goes from 1 to 0, a realloc(ios, 0); call is made.
--    This is equivalent to free(ios) and NULL is returned.
--    
--    However, the previous logic in the code incorrectly discards this NULL
--    return value. When we next call new_io_handle(), realloc(ios, X) is
--    called with "ios" pointing to freed memory. This causes glibc to abort.
--    
--    Correct this logic to detect the 1-to-0 case and handle it correctly.
--    Other cases are unchanged; there is still value in checking the
--    return value from realloc() as it also returns NULL on error.
--    
--    Signed-off-by: Daniel Drake <dsd@laptop.org>
--    Reviewed-by: Alan Coopersmith <alan.coopersmith@oracle.com>
--
--diff --git a/src/common_io.c b/src/common_io.c
--index f1319f8..5b35e07 100644
----- a/src/common_io.c
--+++ b/src/common_io.c
--@@ -64,10 +64,15 @@ delete_io_handle(struct pci_io_handle *handle)
--         }
--     }
-- 
---    new = realloc(ios, sizeof(struct pci_io_handle) * (num_ios - 1));
---    if (new)
---        ios = new;
--     num_ios--;
--+    if (num_ios) {
--+        new = realloc(ios, sizeof(struct pci_io_handle) * num_ios);
--+        if (new)
--+            ios = new;
--+    } else {
--+        free(ios);
--+        ios = NULL;
--+    }
-- }
-- 
-- _pci_hidden void
-diff --git a/meta/recipes-graphics/xorg-lib/libpciaccess_0.12.902.bb b/meta/recipes-graphics/xorg-lib/libpciaccess_0.13.bb
-similarity index 64%
-rename from meta/recipes-graphics/xorg-lib/libpciaccess_0.12.902.bb
-rename to meta/recipes-graphics/xorg-lib/libpciaccess_0.13.bb
-index 5043634..6c6e47c 100644
---- a/meta/recipes-graphics/xorg-lib/libpciaccess_0.12.902.bb
-+++ b/meta/recipes-graphics/xorg-lib/libpciaccess_0.13.bb
-@@ -5,8 +5,6 @@ PCI bus and devices in a platform-independant way."
+diff --git a/meta/recipes-graphics/xorg-lib/libxvmc_1.0.6.bb b/meta/recipes-graphics/xorg-lib/libxvmc_1.0.7.bb
+similarity index 61%
+rename from meta/recipes-graphics/xorg-lib/libxvmc_1.0.6.bb
+rename to meta/recipes-graphics/xorg-lib/libxvmc_1.0.7.bb
+index 1f690b8..70b4816 100644
+--- a/meta/recipes-graphics/xorg-lib/libxvmc_1.0.6.bb
++++ b/meta/recipes-graphics/xorg-lib/libxvmc_1.0.7.bb
+@@ -7,7 +7,7 @@ require xorg-lib-common.inc
  
- require xorg-lib-common.inc
+ LICENSE = "MIT"
+ LIC_FILES_CHKSUM = "file://COPYING;md5=0a207f08d4961489c55046c9a5e500da \
+-                    file://src/XvMCWrapper.c;endline=26;md5=5151daa8172a3f1bb0cb0e0ff157d9de"
++                    file://wrapper/XvMCWrapper.c;endline=26;md5=5151daa8172a3f1bb0cb0e0ff157d9de"
  
--SRC_URI += "file://fix_deletion_of_last_handle.patch"
--
- LICENSE = "MIT & MIT-style"
- LIC_FILES_CHKSUM = "file://COPYING;md5=de01cb89a769dc657d4c321c209ce4fc"
+ DEPENDS += "libxext libxv videoproto"
  
-@@ -14,5 +12,5 @@ PR = "r0"
+@@ -16,5 +16,5 @@ PE = "1"
  
- DEPENDS += "xproto virtual/libx11"
+ XORG_PN = "libXvMC"
  
--SRC_URI[md5sum] = "f1db198398a8a1143822acc230843e8c"
--SRC_URI[sha256sum] = "0861d5bf68b598baa307e5c9b06dfd38ae03096b46e36b236106517bcd14b63a"
-+SRC_URI[md5sum] = "2604307ba43c76ee8aec11ea137ae1e8"
-+SRC_URI[sha256sum] = "24368520b0947487ec73729e3c97c95f3d9bf83704a910bb0abe1d5a63df32fd"
+-SRC_URI[md5sum] = "bfc7524646f890dfc30dea1d676004a3"
+-SRC_URI[sha256sum] = "3dda80e9c71fd14a14f93279c6f661703c5c1c43d104a5db0842377bdf0c3392"
++SRC_URI[md5sum] = "3340c99ff556ea2457b4be47f5cb96fa"
++SRC_URI[sha256sum] = "28f085fc8518a3dadfe355360705d50153051f09898093e69af806c0b437cea3"
 -- 
 1.7.6
 
