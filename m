@@ -1,31 +1,37 @@
-Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
-	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <richard.purdie@linuxfoundation.org>)
-	id 1S8hff-00028Q-UE for openembedded-core@lists.openembedded.org;
-	Sat, 17 Mar 2012 01:39:00 +0100
-Received: from localhost (localhost [127.0.0.1])
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q2H0UAs1010319;
-	Sat, 17 Mar 2012 00:30:10 GMT
-Received: from tim.rpsys.net ([127.0.0.1])
-	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
-	port 10024) with LMTP
-	id 08490-09; Sat, 17 Mar 2012 00:30:06 +0000 (GMT)
-Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q2H0U3la010307
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO);
-	Sat, 17 Mar 2012 00:30:04 GMT
-Message-ID: <1331944203.18586.217.camel@ted>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
+Received: from mga03.intel.com ([143.182.124.21])
+	by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <nitin.a.kamble@intel.com>) id 1S8hlI-0002DX-4U
+	for openembedded-core@lists.openembedded.org;
+	Sat, 17 Mar 2012 01:44:49 +0100
+Received: from azsmga001.ch.intel.com ([10.2.17.19])
+	by azsmga101.ch.intel.com with ESMTP; 16 Mar 2012 17:35:58 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="119990055"
+Received: from orsmsx604.amr.corp.intel.com ([10.22.226.87])
+	by azsmga001.ch.intel.com with ESMTP; 16 Mar 2012 17:35:58 -0700
+Received: from orsmsx105.amr.corp.intel.com (10.22.225.132) by
+	orsmsx604.amr.corp.intel.com (10.22.226.87) with Microsoft SMTP Server
+	(TLS) id 8.2.255.0; Fri, 16 Mar 2012 17:35:57 -0700
+Received: from orsmsx106.amr.corp.intel.com ([169.254.5.128]) by
+	ORSMSX105.amr.corp.intel.com ([169.254.4.199]) with mapi id
+	14.01.0355.002; Fri, 16 Mar 2012 17:35:58 -0700
+From: "Kamble, Nitin A" <nitin.a.kamble@intel.com>
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Date: Sat, 17 Mar 2012 00:30:03 +0000
-In-Reply-To: <4F5E4CF9.3070104@opendreambox.org>
-References: <1331154474-17257-1-git-send-email-obi@opendreambox.org>
-	<4F5E3949.7050307@linux.intel.com> <4F5E4CF9.3070104@opendreambox.org>
-X-Mailer: Evolution 3.2.2- 
-Mime-Version: 1.0
-X-Virus-Scanned: amavisd-new at rpsys.net
-Subject: Re: [PATCH][resend] python-native: distutils: don't use libdir, remove dead code path
+Thread-Topic: [OE-core] [PATCH 6/7] python-pycurl: fix packaging warnings
+Thread-Index: AQHNA6cTySouFNp1wEGhei8c2lsWJ5ZuDOsA//+XUYA=
+Date: Sat, 17 Mar 2012 00:35:57 +0000
+Message-ID: <ADD6A3980E8C39419A432FF422031B4C01378348@ORSMSX106.amr.corp.intel.com>
+References: <29a1b86fa5383e17f311314c38972b78d760fd92.1331924359.git.nitin.a.kamble@intel.com>
+	<b10ee19a1ab989049aafcb0f8eefadf8296dc900.1331924359.git.nitin.a.kamble@intel.com>
+	<1331941774.18586.214.camel@ted>
+In-Reply-To: <1331941774.18586.214.camel@ted>
+Accept-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [10.22.254.138]
+MIME-Version: 1.0
+Subject: Re: [PATCH 6/7] python-pycurl: fix packaging warnings
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -40,97 +46,71 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 17 Mar 2012 00:39:00 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
-
-On Mon, 2012-03-12 at 20:22 +0100, Andreas Oberritter wrote:
-> On 12.03.2012 18:58, Saul Wold wrote:
-> > On 03/07/2012 01:07 PM, Andreas Oberritter wrote:
-> >> * Coming from OE-classic it was surprising that python-native now
-> >>    requires 'libdir' to be exported. Otherwise autoconf would fail
-> >>    to detect python libraries. This happend using a customized
-> >>    environment setup script to use OE's compiler and libs without
-> >>    bitbake.
-> >> * Use sys.lib instead of libdir's suffix.
-> >> * While at it, simplify redundant if/and-statments.
-> >>
-> >> Signed-off-by: Andreas Oberritter<obi@opendreambox.org>
-> >> ---
-> >> * This patch hasn't been commented since its first submission
-> >>    on Feb 21st.
-> >> * Original patch URL: http://patches.openembedded.org/patch/21481/
-> >>
-> >>   ...2-distutils-prefix-is-inside-staging-area.patch |   15
-> >> +++++----------
-> >>   1 files changed, 5 insertions(+), 10 deletions(-)
-> >>
-> > This will need a PR bump so the modified patch will be noticed, I know
-> > this patch was put in a while ago.
-> 
-> Right. I'm waiting before resubmitting it. See below.
-> 
-> > I am not so sure about the changes though, I have been meaning to dig
-> > into this, the orignial code looks strange in that it includes
-> > plat_specific in the else clause!  You are also dropping the EXEC_PREFIX
-> 
-> I'm dropping EXEC_PREFIX, because it's dead code.
-> 
-> The code from the original patch can be rewritten as:
-> 
-> if plat_specific:
-> 	if plat_specific:
-> 		prefix = os.environ['STAGING_LIBDIR'].rstrip(lib_basename)
-> else:
-> 	if plat_specific:
-> 		prefix = EXEC_PREFIX
-> 	else:
-> 		prefix = PREFIX
-> 
-> Does this make it clear?
->  
-> > How have you tested this change?
-> 
-> I built from scratch and also runtime tested it, but without multilib. 
-> 
-> As I'm currently investing a different problem in python, digging into
-> python internals, I doubt that sys.lib really contains the correct
-> value for multilib, unless multilib builds have multiple python-natives.
-> 
-> I think it would be better to just drop the last element of STAGING_LIBDIR,
-> i.e.:
-> 
-> if plat_specific:
-> 	prefix = '/'.join(os.environ['STAGING_LIBDIR'].split('/')[:-1])
-> else:
-> 	prefix = PREFIX
-> 
-> Do you think this would be OK?
-
-Whilst we merged this patch, its now creating all kinds of issues and is
-breaking builds. As a small testcase:
-
-libdir=2 BUILD_SYS=1 HOST_SYS=2 /media/build1/poky/build/tmp/sysroots/x86_64-linux/usr/bin/python -c "import sys; from distutils import sysconfig; sys.stdout.write(sysconfig.get_python_lib(0,0,prefix='foorbar'))"
-Traceback (most recent call last):
-  File "<string>", line 1, in <module>
-  File "/media/build1/poky/build/tmp/sysroots/x86_64-linux/usr/lib/python2.7/distutils/sysconfig.py", line 113, in get_python_lib
-    lib_basename = os.environ['STAGING_LIBDIR'].split('/')[-1]
-  File "/media/build1/poky/build/tmp/sysroots/x86_64-linux/usr/lib/python2.7/UserDict.py", line 23, in __getitem__
-    raise KeyError(key)
-KeyError: 'STAGING_LIBDIR'
-
-which leads to packaging warnings from xcb-proto's python module
-components due to pythondir not being set to anything. Its looking
-likely I'll have to revert this whilst the impact of that patch is
-better understood.
-
-Yes, I appreciate you could export STAGING_LIBDIR everywhere but we
-never used to have to do that and I'd really prefer we didn't have to.
-
-Cheers,
-
-Richard
+X-List-Received-Date: Sat, 17 Mar 2012 00:44:49 -0000
+Content-Language: en-US
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 
 
+
+> -----Original Message-----
+> From: openembedded-core-bounces@lists.openembedded.org
+> [mailto:openembedded-core-bounces@lists.openembedded.org] On Behalf Of
+> Richard Purdie
+> Sent: Friday, March 16, 2012 4:50 PM
+> To: Patches and discussions about the oe-core layer
+> Subject: Re: [OE-core] [PATCH 6/7] python-pycurl: fix packaging
+> warnings
+>=20
+> On Fri, 2012-03-16 at 12:00 -0700, nitin.a.kamble@intel.com wrote:
+> > From: Nitin A Kamble <nitin.a.kamble@intel.com>
+> >
+> > This commit fixes these packaging warnings:
+> >  WARNING: For recipe python-pycurl, the following files/directories
+> were
+> > installed but not shipped in any package:
+> >  WARNING:   /usr/share/share
+> >
+> > PR not bumber because no change in the output packages.
+> >
+> > Signed-off-by: Nitin A Kamble <nitin.a.kamble@intel.com>
+> > ---
+> >  .../python/python-pycurl_7.19.0.bb                 |    4 ++++
+> >  1 files changed, 4 insertions(+), 0 deletions(-)
+> >
+> > diff --git a/meta/recipes-devtools/python/python-pycurl_7.19.0.bb
+> b/meta/recipes-devtools/python/python-pycurl_7.19.0.bb
+> > index d9fe465..8b849d7 100644
+> > --- a/meta/recipes-devtools/python/python-pycurl_7.19.0.bb
+> > +++ b/meta/recipes-devtools/python/python-pycurl_7.19.0.bb
+> > @@ -29,3 +29,7 @@ export STAGING_INCDIR
+> >  export STAGING_LIBDIR
+> >
+> >  BBCLASSEXTEND =3D "native"
+> > +
+> > +do_install_append() {
+> > +	rm -rf ${D}${datadir}/share
+> > +}
+>=20
+> What is actually in there? Is that a file or a directory?
+>=20
+> This is one of the cases it might be worth looking at why it exists at
+> all as something looks wrong there at a deeper level...
+>=20
+That is an empty directory. Yes this need further looking why that director=
+y existed in the 1st place.
+
+Nitin
+
+
+> Cheers,
+>=20
+> Richard
+>=20
+>=20
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
 
 
