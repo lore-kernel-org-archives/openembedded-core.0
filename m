@@ -1,35 +1,21 @@
-Received: from mail-yx0-f175.google.com ([209.85.213.175])
+Received: from mga14.intel.com ([143.182.124.37])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <otavio.salvador@gmail.com>) id 1S8xv1-0005I9-FJ
+	(envelope-from <dexuan.cui@intel.com>) id 1S9903-0004Fq-65
 	for openembedded-core@lists.openembedded.org;
-	Sat, 17 Mar 2012 18:59:55 +0100
-Received: by yenm3 with SMTP id m3so4892314yen.6
-	for <openembedded-core@lists.openembedded.org>;
-	Sat, 17 Mar 2012 10:51:05 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=sender:from:to:subject:date:message-id:x-mailer:in-reply-to
-	:references; bh=T6IapVw5j/Bn9/aVg894w9CD0WPD3lSAyHYJBcpO4z0=;
-	b=GenWJAqPTY9TAgTgLGMeViZOdrAHjVjPgpmVQDU93QZsao+czQPHFbBMKD1WmYLYbF
-	1IiHMMm3mUt6RQEiaFFC+Iz8wl9rwciXeZzrLXCheRi8GYn4+zp/xdTf9kI2Ab2Efr5P
-	8cRRWfSK9BPWK+5IxO/vGCyigaHbvZvsa7TUWRsBBFktXDWmS4sehD8FfLFqOa0w4mVU
-	ylCU3KJcsXwj0JDcs6Wb95G1mwjDBHVKCxA+8hv2YETDzFWgMbzYpA2j+GoTGHncDQFO
-	yCn5lKQL4AvZWMjv/Qaborz8q+VlfENqCy24KFNYBQ/9YO6BxpBD8shvzQOG3rS+aA/w
-	zPXQ==
-Received: by 10.236.186.71 with SMTP id v47mr6868211yhm.115.1332006665903;
-	Sat, 17 Mar 2012 10:51:05 -0700 (PDT)
-Received: from localhost.localdomain ([186.218.100.214])
-	by mx.google.com with ESMTPS id o68sm23194488yhk.16.2012.03.17.10.51.04
-	(version=TLSv1/SSLv3 cipher=OTHER);
-	Sat, 17 Mar 2012 10:51:05 -0700 (PDT)
-Sender: Otavio Salvador <otavio.salvador@gmail.com>
-From: Otavio Salvador <otavio@ossystems.com.br>
-To: openembedded-core@lists.openembedded.org
-Date: Sat, 17 Mar 2012 17:50:57 +0000
-Message-Id: <b4527ef9e2fe5d238e512011c667e91ff83ca20f.1332006643.git.otavio@ossystems.com.br>
-X-Mailer: git-send-email 1.7.2.5
-In-Reply-To: <cover.1332006643.git.otavio@ossystems.com.br>
-References: <cover.1332006643.git.otavio@ossystems.com.br>
-Subject: [PATCH 1/1] package_rpm.bbclass: fix bashims at rpm_common_comand() method
+	Sun, 18 Mar 2012 06:49:51 +0100
+Received: from azsmga001.ch.intel.com ([10.2.17.19])
+	by azsmga102.ch.intel.com with ESMTP; 17 Mar 2012 22:41:00 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="120250385"
+Received: from dcui-desktop.sh.intel.com ([10.239.36.12])
+	by azsmga001.ch.intel.com with ESMTP; 17 Mar 2012 22:40:59 -0700
+From: Dexuan Cui <dexuan.cui@intel.com>
+To: openembedded-core@lists.openembedded.org,
+	sgw@linux.intel.com
+Date: Sun, 18 Mar 2012 13:41:23 +0800
+Message-Id: <cover.1332049148.git.dexuan.cui@intel.com>
+X-Mailer: git-send-email 1.7.6
+Subject: [PATCH 0/1] self-hosted-image: fix bug 2065
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -44,37 +30,24 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 17 Mar 2012 17:59:55 -0000
+X-List-Received-Date: Sun, 18 Mar 2012 05:49:51 -0000
 
-Signed-off-by: Otavio Salvador <otavio@ossystems.com.br>
-Cc: Daiane Angolini <daiane.angolini@freescale.com>
----
- meta/classes/package_rpm.bbclass |    3 +--
- 1 files changed, 1 insertions(+), 2 deletions(-)
+The following changes since commit 26a46938d3ea1821e7bec4fa6cc8379babad238b:
 
-diff --git a/meta/classes/package_rpm.bbclass b/meta/classes/package_rpm.bbclass
-index 68313ec..80b1619 100644
---- a/meta/classes/package_rpm.bbclass
-+++ b/meta/classes/package_rpm.bbclass
-@@ -151,7 +151,6 @@ resolve_package_rpm () {
- rpm_common_comand () {
- 
-     local target_rootfs="${INSTALL_ROOTFS_RPM}"
--    local extra_args="$@"
- 
-     ${RPM} --root ${target_rootfs} \
-         --predefine "_rpmds_sysinfo_path ${target_rootfs}/etc/rpm/sysinfo" \
-@@ -160,7 +159,7 @@ rpm_common_comand () {
-         -D "_dbpath ${rpmlibdir}" \
-         --noparentdirs --nolinktos \
-         -D "__dbi_txn create nofsync private" \
--        -D "_cross_scriptlet_wrapper ${WORKDIR}/scriptlet_wrapper" $extra_args
-+        -D "_cross_scriptlet_wrapper ${WORKDIR}/scriptlet_wrapper" $@
- }
- 
- # install or remove the pkg
+  bitbake/fetch2: Fix typo which broke use of tarballs (2012-03-16 23:44:23 +0000)
+
+are available in the git repository at:
+  git://git.pokylinux.org/poky-contrib dcui/self
+  http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=dcui/self
+
+Dexuan Cui (1):
+  self-hosted-image: pre-populate the builder user with poky source
+
+ meta/recipes-core/images/self-hosted-image.bb |   23 ++++++++++++++++++++++-
+ 1 files changed, 22 insertions(+), 1 deletions(-)
+
 -- 
-1.7.2.5
+1.7.6
 
 
 
