@@ -1,36 +1,42 @@
-Received: from astoria.ccjclearline.com ([64.235.106.9])
+Received: from mail-we0-f175.google.com ([74.125.82.175])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <rpjday@crashcourse.ca>) id 1S9b0k-0005n3-0d
+	(envelope-from <koen@dominion.thruhere.net>) id 1S9bCr-0005x9-EG
 	for openembedded-core@lists.openembedded.org;
-	Mon, 19 Mar 2012 12:44:26 +0100
-Received: from cpec03f0ed08c7f-cm001ac318e826.cpe.net.cable.rogers.com
-	([99.241.91.63] helo=crashcourse.ca)
-	by astoria.ccjclearline.com with esmtpsa (TLSv1:AES256-SHA:256)
-	(Exim 4.69) (envelope-from <rpjday@crashcourse.ca>)
-	id 1S9asC-0000hz-Dd; Mon, 19 Mar 2012 07:35:36 -0400
-Date: Mon, 19 Mar 2012 07:35:26 -0400 (EDT)
-From: "Robert P. J. Day" <rpjday@crashcourse.ca>
-X-X-Sender: rpjday@oneiric
-To: Paul Eggleton <paul.eggleton@linux.intel.com>
-In-Reply-To: <2985022.zyNXVmfpsZ@helios>
-Message-ID: <alpine.DEB.2.02.1203190734390.21900@oneiric>
-References: <alpine.DEB.2.02.1203181537530.5917@oneiric>
-	<4066257.guYM4rpLnX@helios>
-	<alpine.DEB.2.02.1203190727270.21496@oneiric>
-	<2985022.zyNXVmfpsZ@helios>
-User-Agent: Alpine 2.02 (DEB 1266 2009-07-14)
-MIME-Version: 1.0
-X-AntiAbuse: This header was added to track abuse,
-	please include it with any abuse report
-X-AntiAbuse: Primary Hostname - astoria.ccjclearline.com
-X-AntiAbuse: Original Domain - lists.openembedded.org
-X-AntiAbuse: Originator/Caller UID/GID - [47 12] / [47 12]
-X-AntiAbuse: Sender Address Domain - crashcourse.ca
-X-Source: 
-X-Source-Args: 
-X-Source-Dir: 
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: what's the proper place to make comments about the bitbake manual?
+	Mon, 19 Mar 2012 12:56:57 +0100
+Received: by wera1 with SMTP id a1so5799549wer.6
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 19 Mar 2012 04:48:06 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=google.com; s=20120113;
+	h=subject:mime-version:content-type:from:in-reply-to:date:cc
+	:content-transfer-encoding:message-id:references:to:x-mailer
+	:x-gm-message-state;
+	bh=SY6aJf84waVY/GC/waHTnsiq16M4dTggvOZi25if/ms=;
+	b=EiXHmJiWFYVuFCMwOzDWIVc1JU3Bi5B/VWBZnCFZ9xp9c+QooRO2AuQPAQk1Ty36kw
+	9lNFuVqKBohcULymjtoC4VmYNNW0Ki0M+ItCCV5ckMofbvJbiAgvJcp48QDYvJZ1Ip4a
+	lZlHer6pyFSQe8PlkqYIBq1o7uIfEF3j1LwaQ9SGgkKcxyFSTTZQSPKDLd+zzhmH3+SG
+	Mwsk1lmZ+kAU5QKoWuhZhv6L5U1Jc9U+SzRMnvPYVIhgvTUfCM4MsdrL4wecS5EENp6L
+	zPobg2hYsu1Ntm2ne3OJMW7j0wma8phZQ31GKsl+wU/vqrx64X2+VCRveorgAkN9Hi+m
+	83ZA==
+Received: by 10.216.139.229 with SMTP id c79mr8294349wej.16.1332157686298;
+	Mon, 19 Mar 2012 04:48:06 -0700 (PDT)
+Received: from [172.20.0.96] (ip545070eb.adsl-surfen.hetnet.nl.
+	[84.80.112.235])
+	by mx.google.com with ESMTPS id d7sm40369260wiz.6.2012.03.19.04.48.04
+	(version=TLSv1/SSLv3 cipher=OTHER);
+	Mon, 19 Mar 2012 04:48:05 -0700 (PDT)
+Mime-Version: 1.0 (Apple Message framework v1257)
+From: Koen Kooi <koen@dominion.thruhere.net>
+In-Reply-To: <1331852164.18586.166.camel@ted>
+Date: Mon, 19 Mar 2012 12:48:02 +0100
+Message-Id: <A1BEDA1D-66A7-4740-98FF-6FC0FBE9967C@dominion.thruhere.net>
+References: <1331852164.18586.166.camel@ted>
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+X-Mailer: Apple Mail (2.1257)
+X-Gm-Message-State: ALoCoQn9lUdGiUPX+/GPhNaPHAoT7k8HiPq4pU+n8wccTRDfUfyetQV54IKG2lPTNOM8gyWSFBaX
+Cc: bitbake-devel <bitbake-devel@lists.openembedded.org>
+Subject: Re: [PATCH] ui/knotty: Add a footer to the build output for interactive terminals
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -45,40 +51,53 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 19 Mar 2012 11:44:26 -0000
-Content-Type: TEXT/PLAIN; charset=US-ASCII
+X-List-Received-Date: Mon, 19 Mar 2012 11:56:57 -0000
+Content-Type: text/plain; charset=us-ascii
+Content-Transfer-Encoding: quoted-printable
 
-On Mon, 19 Mar 2012, Paul Eggleton wrote:
 
-> On Monday 19 March 2012 07:28:10 Robert P. J. Day wrote:
-> > On Mon, 19 Mar 2012, Paul Eggleton wrote:
-> > > On Sunday 18 March 2012 15:39:26 Robert P. J. Day wrote:
-> > > >   i'm collecting a bunch of observations and suggestions about the
-> > > >
-> > > > current bitbake manual -- should i continue posting them to
-> > > > bitbake-devel...?
-> > >
-> > > Yes, please feel free to discuss the manual here.
-> >
-> >   you said "yes" while replying from the OE list, so i'm confused. :-)
->
-> My apologies, I missed that you'd asked about the bitbake-devel list
-> on the oe-core list. The bitbake-devel list is the correct list.
+Op 15 mrt. 2012, om 23:56 heeft Richard Purdie het volgende geschreven:
 
-  ok, moving it back there, thanks.  and thanks for submitting that
-bitbake-layers patch so quickly.
+> I've sent this before, this is an updated version with several =
+bugfixes
+> and improvements. Its a major change but one I think people will like
+> overall as I hear a lot of complaints about the verbose console
+> messages. v0 never got complaints so I will merge this fairly quickly
+> unless there are objections.
+>=20
+> ---
+> On terminals which support it, add summary information to the end of =
+the
+> build output about the number of tasks currently running and how many =
+tasks
+> we've run so far.
+>=20
+> This provides a summary at a glace of what the current state of the =
+build is
+> and what the build is currently doing which is lacking in the current =
+UI.
+>=20
+> Also disable echo of characters on stdin since this corrupts the =
+disable,
+> particularly Crtl+C.
+>=20
+> The "waiting for X tasks" code can be merged into this code too since
+> that is only useful on interactive terminals and this improves the
+> readability of that output too.
+>=20
+> Improvements since v0:
+>=20
+> * The tasks are ordered in execution order.
+> * The display is only updated when the list of tasks changes or there
+>  is output above the footer.
+> * Errors early in the init process don't corrupt the terminal
+> * Running task x of y and package messages are suppressed from the =
+console
+>=20
+> Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+> ---
+> diff --git a/bitbake/lib/bb/ui/knotty.py b/bitbake/lib/bb/ui/knotty.py
 
-rday
-
--- 
-
-========================================================================
-Robert P. J. Day                                 Ottawa, Ontario, CANADA
-                        http://crashcourse.ca
-
-Twitter:                                       http://twitter.com/rpjday
-LinkedIn:                               http://ca.linkedin.com/in/rpjday
-========================================================================
-
+This doesn't apply for obvious reasons.=
 
 
