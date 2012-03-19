@@ -1,45 +1,33 @@
-Received: from mga14.intel.com ([143.182.124.37])
+Received: from mx.insigma.com.cn ([115.236.48.170] helo=WX-Edge.insigma.com.cn)
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <dexuan.cui@intel.com>) id 1S9Rbv-0005QH-28
+	(envelope-from <niqingliang@insigma.com.cn>) id 1S9Rs9-0005aa-PD
 	for openembedded-core@lists.openembedded.org;
-	Mon, 19 Mar 2012 02:42:11 +0100
-Received: from azsmga002.ch.intel.com ([10.2.17.35])
-	by azsmga102.ch.intel.com with ESMTP; 18 Mar 2012 18:33:18 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="78968754"
-Received: from azsmsx603.amr.corp.intel.com ([10.2.161.23])
-	by AZSMGA002.ch.intel.com with ESMTP; 18 Mar 2012 18:33:18 -0700
-Received: from shsmsx151.ccr.corp.intel.com (10.239.6.50) by
-	azsmsx603.amr.corp.intel.com (10.2.161.23) with Microsoft SMTP Server
-	(TLS) id 8.2.255.0; Sun, 18 Mar 2012 18:33:18 -0700
-Received: from shsmsx102.ccr.corp.intel.com ([169.254.2.36]) by
-	SHSMSX151.ccr.corp.intel.com ([169.254.3.91]) with mapi id
-	14.01.0355.002; Mon, 19 Mar 2012 09:33:16 +0800
-From: "Cui, Dexuan" <dexuan.cui@intel.com>
+	Mon, 19 Mar 2012 02:58:59 +0100
+Received: from WX-EXCHMB2.insigma.com.cn (10.0.1.203) by
+	WX-Edge.insigma.com.cn (10.0.1.205) with Microsoft SMTP Server (TLS) id
+	8.1.436.0; Mon, 19 Mar 2012 09:50:01 +0800
+Received: from [192.168.0.98] (122.224.76.38) by Wx-ExchMB2.insigma.com.cn
+	(10.0.1.203) with Microsoft SMTP Server id 8.1.436.0; Mon, 19 Mar 2012
+	09:49:56 +0800
+Message-ID: <1332121654.1041.78.camel@localhost.localdomain>
+From: Ni Qingliang <niqingliang@insigma.com.cn>
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Thread-Topic: [OE-core] [PATCH 1/1] self-hosted-image: pre-populate	the
-	builder user with poky source
-Thread-Index: AQHNBP+6otTGrR9pSU6fIVTZlhG3tZZw1hrA
-Date: Mon, 19 Mar 2012 01:33:16 +0000
-Message-ID: <A25F549E4D43CD42B4C02DF47A1913230FCE1D0D@SHSMSX102.ccr.corp.intel.com>
-References: <cover.1332049148.git.dexuan.cui@intel.com>
-	<401c27ba4e7f8b5bc0da084cd48d1738157c894b.1332049148.git.dexuan.cui@intel.com>
-	<84AFADF8-9F03-46C2-80EE-F9CDEE8991CF@dominion.thruhere.net>
-	<A25F549E4D43CD42B4C02DF47A1913230FCE1B13@SHSMSX102.ccr.corp.intel.com>
-	<2743E261-B779-4666-9370-B44D582E24BA@dominion.thruhere.net>
-In-Reply-To: <2743E261-B779-4666-9370-B44D582E24BA@dominion.thruhere.net>
-Accept-Language: zh-CN, en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [10.239.127.40]
+Date: Mon, 19 Mar 2012 09:47:34 +0800
+In-Reply-To: <4F635E14.7000707@windriver.com>
+References: <1331799506.1041.55.camel@localhost.localdomain>
+	<4F621801.4000308@windriver.com>
+	<1331875115.1041.67.camel@localhost.localdomain>
+	<4F635E14.7000707@windriver.com>
+Organization: Insigma
+X-Mailer: Evolution 3.2.3 
 MIME-Version: 1.0
-Cc: Koen Kooi <koen@dominion.thruhere.net>
-Subject: Re: [PATCH 1/1] self-hosted-image: pre-populate	the	builder user with poky source
+Subject: Re: LSB support?
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
-Reply-To: Patches and discussions about the oe-core layer
+Reply-To: niqingliang@insigma.com.cn,
+	Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
 List-Id: Patches and discussions about the oe-core layer
 	<openembedded-core.lists.openembedded.org>
@@ -50,35 +38,192 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 19 Mar 2012 01:42:11 -0000
-Content-Language: en-US
-Content-Type: text/plain; charset="us-ascii"
+X-List-Received-Date: Mon, 19 Mar 2012 01:58:59 -0000
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-Koen Kooi wrote on 2012-03-18:
->=20
-> Op 18 mrt. 2012, om 10:52 heeft Cui, Dexuan het volgende geschreven:
->=20
->> Koen Kooi wrote on 2012-03-18:
->>>=20
->>> Op 18 mrt. 2012, om 06:41 heeft Dexuan Cui het volgende geschreven:
->>>=20
->>>> [YOCTO #2065]
->>>=20
->>> What does that mean?
->> Sorry, I should have made it more clear. :-)
->>=20
->> It means bug 2065 is addressed by the patch:
->> https://bugzilla.yoctoproject.org/show_bug.cgi?id=3D2065
->=20
-> So add that and (part of) the bug description into the commit message
-OK, please review and use the updated commit(only the commit description wa=
-s updated):
-http://git.yoctoproject.org/cgit/cgit.cgi/poky-contrib/commit/?h=3Ddcui/sel=
-f&id=3D0882b5e0adb05d4f950c721fcb80b4cff42ce079
+I have encountered a similar problem when do a clean building in another
+VM (running archlinux).
 
-Thanks,
--- Dexuan
+after remove /usr//lib/libXrandr.so.2:
+mv /usr/lib/../lib/libXrandr.so.2 /usr/lib/../lib/libXrandr.so.2.bak
+
+I got a new error:
+/usr/lib/../lib/libXext.so.6: undefined reference to `memcpy@GLIBC_2.14'
+
+so IMO, it used the wrong lib path. following is the output section of
+'do_compile', the key is '/usr/lib/../lib', maybe it should be
+'<xxxdir>/usr/lib/../lib'.
+
+output section:
+Making all in gconf
+make[2]: Entering directory
+`/media/pangu/lsbt/tmp/work/x86_64-poky-linux/gconf-3.2.3-r8/GConf-3.2.3/gc=
+onf'
+make  all-am
+make[3]: Entering directory
+`/media/pangu/lsbt/tmp/work/x86_64-poky-linux/gconf-3.2.3-r8/GConf-3.2.3/gc=
+onf'
+../x86_64-poky-linux-libtool  --tag=3DCC   --mode=3Dlink
+x86_64-poky-linux-gcc    -m64
+--sysroot=3D/media/pangu/lsbt/tmp/sysroots/qemux86-64  -O2 -pipe -g
+-feliminate-unused-debug-types -Wall -DGCONF_ENABLE_DEBUG=3D1  -Wl,-O1
+-Wl,--hash-style=3Dgnu -Wl,--as-needed -o gconf-sanity-check-2
+gconf-sanity-check.o libgconf-2.la   -pthread -Wl,--export-dynamic
+-lgtk-x11-2.0 -lgdk-x11-2.0 -latk-1.0 -lgio-2.0 -lpangoft2-1.0
+-lpangocairo-1.0 -lgdk_pixbuf-2.0 -lcairo -lpango-1.0 -lfreetype
+-lfontconfig -lgobject-2.0 -lgmodule-2.0 -lgthread-2.0 -lrt -lglib-2.0
+-lxml2  =20
+x86_64-poky-linux-libtool: link: x86_64-poky-linux-gcc -m64
+--sysroot=3D/media/pangu/lsbt/tmp/sysroots/qemux86-64 -O2 -pipe -g
+-feliminate-unused-debug-types -Wall -DGCONF_ENABLE_DEBUG=3D1 -Wl,-O1
+-Wl,--hash-style=3Dgnu -Wl,--as-needed -o .libs/gconf-sanity-check-2
+gconf-sanity-check.o -pthread
+-Wl,--export-dynamic  ./.libs/libgconf-2.so /media/pangu/lsbt/tmp/sysroots/=
+qemux86-64/usr/lib/libdbus-glib-1.so /media/pangu/lsbt/tmp/sysroots/qemux86=
+-64/usr/lib/libdbus-1.so /media/pangu/lsbt/tmp/sysroots/qemux86-64/usr/lib/=
+libgtk-x11-2.0.so /media/pangu/lsbt/tmp/sysroots/qemux86-64/usr/lib/libgdk-=
+x11-2.0.so /media/pangu/lsbt/tmp/sysroots/qemux86-64/usr/lib/libatk-1.0.so =
+/media/pangu/lsbt/tmp/sysroots/qemux86-64/usr/lib/libpangocairo-1.0.so -L=
+=3D/usr/lib /media/pangu/lsbt/tmp/sysroots/qemux86-64/usr/lib/libpangoft2-1=
+.0.so /media/pangu/lsbt/tmp/sysroots/qemux86-64/usr/lib/../lib/libstdc++.so=
+ /media/pangu/lsbt/tmp/sysroots/qemux86-64/usr/lib/libgdk_pixbuf-2.0.so /me=
+dia/pangu/lsbt/tmp/sysroots/qemux86-64/usr/lib/libgio-2.0.so -lresolv /medi=
+a/pangu/lsbt/tmp/sysroots/qemux86-64/usr/lib/libcairo.so /media/pangu/lsbt/=
+tmp/sysroots/qemux86-64/usr/lib/libpixman-1.so /media/pangu/lsbt/tmp/sysroo=
+ts/qemux86-64/usr/lib/libpng12.so /media/pangu/lsbt/tmp/sysroots/qemux86-64=
+/usr/lib/libXrender.so /media/pangu/lsbt/tmp/sysroots/qemux86-64/usr/lib/li=
+bX11.so /media/pangu/lsbt/tmp/sysroots/qemux86-64/usr/lib/libxcb.so /media/=
+pangu/lsbt/tmp/sysroots/qemux86-64/usr/lib/libXau.so /media/pangu/lsbt/tmp/=
+sysroots/qemux86-64/usr/lib/libXdmcp.so /media/pangu/lsbt/tmp/sysroots/qemu=
+x86-64/usr/lib/libpango-1.0.so /media/pangu/lsbt/tmp/sysroots/qemux86-64/us=
+r/lib/libfontconfig.so /media/pangu/lsbt/tmp/sysroots/qemux86-64/usr/lib/li=
+bfreetype.so /media/pangu/lsbt/tmp/sysroots/qemux86-64/usr/lib/libexpat.so =
+/media/pangu/lsbt/tmp/sysroots/qemux86-64/usr/lib/libgobject-2.0.so /media/=
+pangu/lsbt/tmp/sysroots/qemux86-64/usr/lib/libffi.so /media/pangu/lsbt/tmp/=
+sysroots/qemux86-64/usr/lib/libgmodule-2.0.so /media/pangu/lsbt/tmp/sysroot=
+s/qemux86-64/usr/lib/libgthread-2.0.so -lpthread /media/pangu/lsbt/tmp/sysr=
+oots/qemux86-64/usr/lib/libglib-2.0.so -lrt /media/pangu/lsbt/tmp/sysroots/=
+qemux86-64/usr/lib/libxml2.so -ldl -lz -lm -pthread -Wl,-rpath -Wl,/usr/lib=
+/../lib
+/usr/lib/../lib/libXext.so.6: undefined reference to `memcpy@GLIBC_2.14'
+collect2: ld returned 1 exit status
+make[3]: *** [gconf-sanity-check-2] Error 1
+
+On Fri, 2012-03-16 at 23:36 +0800, Mark Hatle wrote:
+> On 3/16/12 12:18 AM, Ni Qingliang wrote:
+> > when building qemux86-64 arch core-image-lsb (distro is poky-lsb), I go=
+t
+> > /usr/lib/../lib/libXrandr.so.2: undefined reference to
+> > `memcpy@GLIBC_2.14' when 'do_compile' gconf 3.2.3.
+> >
+> > the default eglibc is 2.13, why it needs 2.14?
+>=20
+> Without anything further, the only guess I can make is that either you ar=
+en't
+> using the version of glibc you think you are, it's gotten some host
+> contamination, an explicit reference was added to libXrandr (doubtful), o=
+r you
+> are using something that was built/cached from a previous build.  (i.e. d=
+id you
+> build w/ eglibc 2.14/2.15 -- and then switch back to eglibc 2.13 for some=
+ reason?)
+>=20
+> On 3/15/12 9:38 PM, Ni Qingliang wrote:
+>  > first, thanks your reply.
+>  >
+>  > Because I can't use task-core-lsb on my device (flash space is not
+>  > enough), I have to make a custom lsb-base image (without
+>  > perl/python/graphics).
+>  >
+>  > I have checked the "linuxstdbase", and it will change the configure
+>  > option of some packages.
+>  >
+>  > Indeed, I think the daemon/failure/warning fuctions should be consider=
+ed
+>  > in package lsb's RDEPENDS.
+>  >
+>  > what I want to know is the rdepends or where is the
+>  > daemon/failure/warning.
+>=20
+> It certainly looks like a component is missing somewhere in the shell scr=
+ips
+> that are provided by the LSB functions.  I would assume that the
+> depends/provides is setup properly to point to whatever should be providi=
+ng the
+> missing daemon, failure, warning commands.  If it's not (or if by default=
+ -- non
+> lsb mode) they're not being built, it's a definite bug.  You shouldn't be=
+ able
+> to build a non-functional systems.
+>=20
+> Please file a defect on bugzilla.yoctoproject.org.  I will attempt to
+> investigate it (or someone else can).  Hopefully it's just as a simple as=
+ a
+> missing dependency.
+>=20
+> --Mark
+>=20
+> > On Fri, 2012-03-16 at 00:25 +0800, Mark Hatle wrote:
+> >> On 3/15/12 3:18 AM, Ni Qingliang wrote:
+> >>> Hello, I'm working on custom lsb-base image using oe-core.
+> >>>
+> >>> and when using the lsb script, found error:
+> >>>
+> >>> lsb_start_daemon line 44: daemon command not found.
+> >>>
+> >>> similar thing happend on lsb_log_message: failure and warning command
+> >>> not found.
+> >>>
+> >>> maybe these function should be defined in /etc/init.d/functions?
+> >>>
+> >>> but there are not these function in this file (belongs to initscripts=
+).
+> >>
+> >> Did you enable the LSB distribution settings?  Without this, various c=
+omponents
+> >> may not be available.
+> >>
+> >> In Poky, there is a "poky-lsb" distribution type:
+> >>
+> >> DISTRO =3D "poky-lsb"
+> >> DISTROOVERRIDES =3D "poky:linuxstdbase"
+> >>
+> >> DISTRO_FEATURES_append =3D " pam largefile opengl"
+> >> PREFERRED_PROVIDER_virtual/libx11 =3D "libx11"
+> >>
+> >> (as well as using the core-image-lsb and/or task-core-lsb components.)
+> >>
+> >> If you've tried this and those items are still broken, let me know and=
+ I can
+> >> help investigate further.  (One final note, only LSB 1.4 is currently =
+supported.)
+> >>
+> >> --Mark
+> >>
+> >>> Any idea?
+> >>>
+> >>> thanks!
+> >>>
+> >>>
+> >>
+> >>
+> >> _______________________________________________
+> >> Openembedded-core mailing list
+> >> Openembedded-core@lists.openembedded.org
+> >> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
+> >
+>=20
+>=20
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
+
+--=20
+Yi Qingliang
+niqingliang@insigma.com.cn
+https://niqingliang2003.wordpress.com
 
 
 
