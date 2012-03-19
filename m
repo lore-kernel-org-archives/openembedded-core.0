@@ -1,42 +1,26 @@
-Received: from mail-we0-f175.google.com ([74.125.82.175])
+Received: from smtpout.karoo.kcom.com ([212.50.160.34])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <koen@dominion.thruhere.net>) id 1S9bCr-0005x9-EG
+	(envelope-from <mac@mcrowe.com>) id 1S9bHN-0006OV-LB
 	for openembedded-core@lists.openembedded.org;
-	Mon, 19 Mar 2012 12:56:57 +0100
-Received: by wera1 with SMTP id a1so5799549wer.6
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 19 Mar 2012 04:48:06 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=google.com; s=20120113;
-	h=subject:mime-version:content-type:from:in-reply-to:date:cc
-	:content-transfer-encoding:message-id:references:to:x-mailer
-	:x-gm-message-state;
-	bh=SY6aJf84waVY/GC/waHTnsiq16M4dTggvOZi25if/ms=;
-	b=EiXHmJiWFYVuFCMwOzDWIVc1JU3Bi5B/VWBZnCFZ9xp9c+QooRO2AuQPAQk1Ty36kw
-	9lNFuVqKBohcULymjtoC4VmYNNW0Ki0M+ItCCV5ckMofbvJbiAgvJcp48QDYvJZ1Ip4a
-	lZlHer6pyFSQe8PlkqYIBq1o7uIfEF3j1LwaQ9SGgkKcxyFSTTZQSPKDLd+zzhmH3+SG
-	Mwsk1lmZ+kAU5QKoWuhZhv6L5U1Jc9U+SzRMnvPYVIhgvTUfCM4MsdrL4wecS5EENp6L
-	zPobg2hYsu1Ntm2ne3OJMW7j0wma8phZQ31GKsl+wU/vqrx64X2+VCRveorgAkN9Hi+m
-	83ZA==
-Received: by 10.216.139.229 with SMTP id c79mr8294349wej.16.1332157686298;
-	Mon, 19 Mar 2012 04:48:06 -0700 (PDT)
-Received: from [172.20.0.96] (ip545070eb.adsl-surfen.hetnet.nl.
-	[84.80.112.235])
-	by mx.google.com with ESMTPS id d7sm40369260wiz.6.2012.03.19.04.48.04
-	(version=TLSv1/SSLv3 cipher=OTHER);
-	Mon, 19 Mar 2012 04:48:05 -0700 (PDT)
-Mime-Version: 1.0 (Apple Message framework v1257)
-From: Koen Kooi <koen@dominion.thruhere.net>
-In-Reply-To: <1331852164.18586.166.camel@ted>
-Date: Mon, 19 Mar 2012 12:48:02 +0100
-Message-Id: <A1BEDA1D-66A7-4740-98FF-6FC0FBE9967C@dominion.thruhere.net>
-References: <1331852164.18586.166.camel@ted>
+	Mon, 19 Mar 2012 13:01:37 +0100
+X-IronPort-AV: E=Sophos;i="4.73,611,1325462400"; d="scan'208";a="606402843"
+Received: from deneb.mcrowe.com ([82.152.148.4])
+	by smtpout.karoo.kcom.com with ESMTP; 19 Mar 2012 11:52:37 +0000
+Received: from mac by deneb.mcrowe.com with local (Exim 4.72)
+	(envelope-from <mac@mcrowe.com>) id 1S9b8e-0000Zd-R1
+	for openembedded-core@lists.openembedded.org;
+	Mon, 19 Mar 2012 11:52:36 +0000
+Date: Mon, 19 Mar 2012 11:52:36 +0000
+From: Mike Crowe <mac@mcrowe.com>
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-X-Mailer: Apple Mail (2.1257)
-X-Gm-Message-State: ALoCoQn9lUdGiUPX+/GPhNaPHAoT7k8HiPq4pU+n8wccTRDfUfyetQV54IKG2lPTNOM8gyWSFBaX
-Cc: bitbake-devel <bitbake-devel@lists.openembedded.org>
-Subject: Re: [PATCH] ui/knotty: Add a footer to the build output for interactive terminals
+Message-ID: <20120319115236.GA1947@mcrowe.com>
+References: <1331915573-28368-1-git-send-email-mac@mcrowe.com>
+	<BE489DAB-2E22-4B8F-A565-10C5DF842857@dominion.thruhere.net>
+MIME-Version: 1.0
+In-Reply-To: <BE489DAB-2E22-4B8F-A565-10C5DF842857@dominion.thruhere.net>
+User-Agent: Mutt/1.5.20 (2009-06-14)
+Subject: Re: [PATCH] libc-common: Apply Debian-naming to libc debug symbols too
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -51,53 +35,64 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 19 Mar 2012 11:56:57 -0000
+X-List-Received-Date: Mon, 19 Mar 2012 12:01:37 -0000
 Content-Type: text/plain; charset=us-ascii
-Content-Transfer-Encoding: quoted-printable
+Content-Disposition: inline
 
+Op 16 mrt. 2012, om 17:32 heeft Mike Crowe het volgende geschreven:
+> > The magic in rootfs_ipk.bbclass expects to generate debug package
+> > names by just appending '-dbg'.
 
-Op 15 mrt. 2012, om 23:56 heeft Richard Purdie het volgende geschreven:
+It turns out that the above was a local change so that statement was
+incorrect. Nevertheless the change probably makes sense anyway.
 
-> I've sent this before, this is an updated version with several =
-bugfixes
-> and improvements. Its a major change but one I think people will like
-> overall as I hear a lot of complaints about the verbose console
-> messages. v0 never got complaints so I will merge this fairly quickly
-> unless there are objections.
->=20
-> ---
-> On terminals which support it, add summary information to the end of =
-the
-> build output about the number of tasks currently running and how many =
-tasks
-> we've run so far.
->=20
-> This provides a summary at a glace of what the current state of the =
-build is
-> and what the build is currently doing which is lacking in the current =
-UI.
->=20
-> Also disable echo of characters on stdin since this corrupts the =
-disable,
-> particularly Crtl+C.
->=20
-> The "waiting for X tasks" code can be merged into this code too since
-> that is only useful on interactive terminals and this improves the
-> readability of that output too.
->=20
-> Improvements since v0:
->=20
-> * The tasks are ordered in execution order.
-> * The display is only updated when the list of tasks changes or there
->  is output above the footer.
-> * Errors early in the init process don't corrupt the terminal
-> * Running task x of y and package messages are suppressed from the =
-console
->=20
-> Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-> ---
-> diff --git a/bitbake/lib/bb/ui/knotty.py b/bitbake/lib/bb/ui/knotty.py
+> >                                 This breaks for eglibc because whilst
+> > the binary package has been renamed to libc6 the debug package is
+> > still called libc-dbg. This patch ensures that the debug package is
+> > renamed too.
+> > ---
+> > meta/classes/libc-common.bbclass |    1 +
+> > 1 files changed, 1 insertions(+), 0 deletions(-)
+> > 
+> > diff --git a/meta/classes/libc-common.bbclass b/meta/classes/libc-common.bbclass
+> > index 962f205..d0c1ab4 100644
+> > --- a/meta/classes/libc-common.bbclass
+> > +++ b/meta/classes/libc-common.bbclass
+> > @@ -27,4 +27,5 @@ python populate_packages_prepend () {
+> > 		bpn = d.getVar('BPN', True)
+> > 		d.setVar('PKG_'+bpn, 'libc6')
+> > 		d.setVar('PKG_'+bpn+'-dev', 'libc6-dev')
+> > +		d.setVar('PKG_'+bpn+'-dbg', 'libc6-dbg')
+> > }
+ 
+On Fri, Mar 16, 2012 at 08:39:00PM +0100, Koen Kooi wrote:
+> Missing PR bump
 
-This doesn't apply for obvious reasons.=
+On eglibc?
+
+>                 and broken upgrade path.
+
+I'm having trouble coming up with a way to solve that. I think the
+libc6-dbg package needs to RPROVIDE, RREPLACE and RCONFLICT with
+libc-dbg but if I add the following:
+
+  d.setVar('RPROVIDES_' + bpn + '-dbg', bpn + '-dbg')
+  d.setVar('RCONFLICTS_' + bpn + '-dbg', bpn + '-dbg')
+  d.setVar('RREPLACES_' + bpn + '-dbg', bpn + '-dbg')
+
+Then the package names undergo translation and I get:
+
+  Provides: libc6-dbg
+  Replaces: libc6-dbg
+  Conflicts: libc6-dbg
+
+Which is clearly wrong. :(
+
+How would you recommend I provide backward compatibility for this
+change (assuming it is still seen as desirable?)
+
+Thanks for your comments.
+
+Mike.
 
 
