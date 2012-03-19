@@ -1,31 +1,31 @@
 Received: from mail-iy0-f175.google.com ([209.85.210.175])
 	by linuxtogo.org with esmtp (Exim 4.72)
 	(envelope-from <jefro.net@gmail.com>)
-	id 1S9ktW-00057x-MU; Mon, 19 Mar 2012 23:17:39 +0100
-Received: by iaag37 with SMTP id g37so9892458iaa.6
-	for <multiple recipients>; Mon, 19 Mar 2012 15:08:45 -0700 (PDT)
+	id 1S9kuz-0005Gh-7I; Mon, 19 Mar 2012 23:19:09 +0100
+Received: by iaag37 with SMTP id g37so9894221iaa.6
+	for <multiple recipients>; Mon, 19 Mar 2012 15:10:16 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
 	h=mime-version:sender:date:x-google-sender-auth:message-id:subject
 	:from:to:content-type;
-	bh=k5BU3xtrypltcmMghAgfVA5mQ9LWAKAT+F9ol9+sZxs=;
-	b=InrsN7PQeFeBOo1ESFr3BvzOFogyKXCF7JVoEqkbgSuAO+fTDXCLtoqAE0aMsu9QEF
-	APuHlQzeluqHSbmI+8eC+YThN1s3uC47wJXrVQS0mwmBNmrWLwplHWF5W3h/Lgzo4lcp
-	5YtJIPvlb7todLOmykrPFjnjjyfdRRPxRcHmBFx7oGdIxhLyu1mE29dLsMOG8PDFcEJT
-	FayKvKJ8mZECLClW8MV41ZvSKHQvGolyvLTUgvkxLloJ2F8eiZtv4VwZeTh9n/7K6Qrk
-	41SD4pyxhKRlfIhkoCAzLxFyi/+MnVxBo+tSOH/FVOiYjB8cOBg1s8XDi/fvS5kMlCfD
-	9JPg==
+	bh=y9laaIvXVK318E18UoMhUmCJ5TDjSBgxHn71Iyb4EBQ=;
+	b=aH1qUNqmhZFNSCmik17qPKBPumAhi1WBaqnWc96/9iCfEXGclxoGUXYpivbFLo0KsO
+	oSDuybIoSLFbKroW2vP02BMch188M6R6GoyJwzqx8pRAfkVBaZkCE/suNoySL8pC3jiJ
+	cVzd+NL1AJM8pUJYnfgckFuWWtqmOHPKijpB0oWC/x35DoORgV5PkTQBmtzv34z0Hxnt
+	wNRnSJqmx0R+XLNFeKFK31hKpREw5lMArahprpSTbSJHR1JadfX9FgLLfdixhCaC4mwo
+	EuWpXJVuZ1HPW9bTcWa1BFVzmibCK2xJwh8xubNCq27Woki4zRWx913ASwb5fCLwbIDf
+	AI7A==
 MIME-Version: 1.0
-Received: by 10.43.44.202 with SMTP id uh10mr7878827icb.3.1332194925671; Mon,
-	19 Mar 2012 15:08:45 -0700 (PDT)
+Received: by 10.50.169.9 with SMTP id aa9mr7296442igc.23.1332195016804; Mon,
+	19 Mar 2012 15:10:16 -0700 (PDT)
 Sender: jefro.net@gmail.com
-Received: by 10.50.127.38 with HTTP; Mon, 19 Mar 2012 15:08:45 -0700 (PDT)
-Date: Mon, 19 Mar 2012 15:08:45 -0700
-X-Google-Sender-Auth: NE5gT7X1cbR808ZPgZ8XkFXIYQw
-Message-ID: <CA+YB3rb2qL4q2Zrhh16aVSSx52sqYWcCnk+bRP0HZ2mvk8MOEw@mail.gmail.com>
+Received: by 10.50.127.38 with HTTP; Mon, 19 Mar 2012 15:10:16 -0700 (PDT)
+Date: Mon, 19 Mar 2012 15:10:16 -0700
+X-Google-Sender-Auth: ShH3f5qg5DUQKPa2nmFyRFhfaUQ
+Message-ID: <CA+YB3rbZqhGf7cCbM=MR5i5OsM31qKZKvaz32eHQ0q92n24F-A@mail.gmail.com>
 From: Jeff Osier-Mixon <jefro@jefro.net>
 To: openembedded-core <openembedded-core@lists.openembedded.org>, 
 	openembedded-devel@lists.openembedded.org, tsc <tsc@lists.openembedded.org>
-Subject: MINUTES: OE TSC 28 February 2012
+Subject: MINUTES: OE TSC 13 March 2012
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -40,1143 +40,421 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 19 Mar 2012 22:17:39 -0000
-Content-Type: multipart/alternative; boundary=bcaec51a76e050f4c904bb9fcd8f
+X-List-Received-Date: Mon, 19 Mar 2012 22:19:09 -0000
+Content-Type: multipart/alternative; boundary=e89a8f3bb045bf87b304bb9fd22e
 
---bcaec51a76e050f4c904bb9fcd8f
+--e89a8f3bb045bf87b304bb9fd22e
 Content-Type: text/plain; charset=ISO-8859-1
 
 OpenEmbedded Technical Steering Committee
-28 February, 2012
+13 March 2012
 
-Attending: Khem, Richard, Mark, Paul
-Apologies: Tom
+Attending: Richard, Paul, Mark, Tom
+Apologies: Khem
 Minutes: Jefro
 
 ________________________________________________
 Agenda
 
 1. pick a chair
-   RP (by default)
+-> RP
 
 2. open issues
-   resolved at ELC, only status is left
+
+   a. IMAGE_FSTYPES (Tartarus)
+=>    poking people to read & reply on list
+
+   b. need more QA - warnings reduction, stress test of sstate,
+      fixing autobuilder regressions (RP)
+
+   c. conferences - Collaboration Summit
+      yocto project working day on weds at collab
+      for working day
+
+   d. raise awareness of "janitor" list, QA "bugs"
+      requires more publicizing, getting more people involved
+      going to rework the wiki page into the bugzilla so we track
+        things in one place, then generate a summary of open tasks
+        for the wiki automagically
+      separate janitorial tasks from actual bug fixes
+=>    RP will mention idea to Darren & Sean
+=>    all - please think of other ways to get people involved
 
 3. status
 
-   a. oe-core
-      lots of churn, patches coming in heavily
-      RP thinks most things merged
+   a. elections
+      fray reelected
+      Tartarus next, then cycle complete
+=>    RP to ping board, roll into new election right away
 
-   b. python 3 transition
-      going slowly
+   b. infrastructure
+      RP acknowledge Michael Halstead's work on the OE server
+        in speeding up git access; Paul agrees, much appreciated
+      web issues brought down ltg & ml archives a few weeks ago
+        list archives back now
 
-   c. bitbake quoting fix merged, now enforce syntax, e.g. FOO = "1"
-
-   d. khem worked on some wiki pages last week
-
-   e. hobv2 merged, please play with it
-
-   f. 4.7 upgrade not yet posted (khem), hold until after April release
-
-   g. agreement on toolchain issue:
-      toolchains not in oe-core will be split out into their own layers,
-      including toolchains in meta-oe
-
-   h. collab summit, bsp summit
-      coming up in April
+   c. oe-core release
+      feature freeze in 1 week
+      final freeze 2-3 weeks from 18 Mar
 
 ________________________________________________
 Raw Transcript
 
-(9:00:04 AM) bluelightning: hi folks
-(9:02:12 AM) RP__: hi bluelightning
-(9:02:16 AM) RP__: hi khem
-(9:02:19 AM) RP__: fray: ping?
-(9:02:35 AM) khem: hi RP__
-(9:02:37 AM) RP__: I think I saw an email saying Tom couldn't make it?
-(9:02:38 AM) fray: hey I'm here..
-(9:02:44 AM) fray: ya, he's out
-(9:02:48 AM) khem: I will grab a cup of tea
-(9:02:57 AM) RP__: cool, we have everyone who will be here then
-(9:02:58 AM) khem: too many police officers on road today :)
-(9:03:32 AM) ***fray is really sick last couple of days.. at least the room
-stopped spinning finally
-(9:03:45 AM) ***fray 's temper is a bit short though.. :(
-(9:04:49 AM) RP__: fray: Sorry to hear that, I hope you have a swift
-recovery
-(9:05:00 AM) RP__: Jefro: do we have an agenda?
-(9:05:18 AM) fray: so do I.. I'm supposed to give an intro to Yocto talk
-and hands-on w/ Poky class at RTECC in Dallas next tuesday.. :P
-(9:06:15 AM) RP__: fray: I'm just getting stressed out by the amount of
-stuff I need to do before I go away on Saturday
-(9:06:35 AM) ***RP__ found water all over the garage floor before. Seems to
-be coming from the Daytona which is scary
-(9:06:45 AM) fray: I understand.. I was supposed to have the hard drive
-prepared for imaging yesterday..
-(9:06:54 AM) RP__: Does anyone have topics for discussion?
-(9:06:57 AM) fray: needless to say, I'm still working on it.. (I was
-completely useless on Sunday and Montday)
-(9:07:00 AM) fray: I don't have anything
-(9:07:15 AM) fray: did we want to mention the wiki day?  (do we want to
-schedule that yet?)
-(9:07:24 AM) khem: I dont have any pressing topics
-(9:07:28 AM) RP__: I think it would be good to give people some notice
-(9:07:37 AM) RP__: Sometime after next week though! ;-)
-(9:07:41 AM) khem: 2 weeks would be good time
-(9:07:43 AM) fray: yes
-(9:07:57 AM) fray: we said mid march in the ELC meetings
-(9:08:12 AM) RP__: so that all approximately fits together
-(9:08:22 AM) RP__: who is going to send out a proposal?
-(9:08:51 AM) bluelightning: I can do it
-(9:09:55 AM) Jefro: sorry - fell of the net again (*)&%
-(9:10:00 AM) RP__: bluelightning: thanks
-(9:10:20 AM) Jefro: we actually fulfilled the major topics at the f2f,
-status is all we have to discuss today
-(9:10:28 AM) RP__: Jefro: thanks
-(9:10:40 AM) RP__: We've had a lot of churn with the patches coming in
-rather heavily
-(9:10:45 AM) RP__: I think most things have merged
-(9:11:00 AM) RP__: I know there are some patches from Khem I've not taken
-yet and need to discuss in more detail
-(9:11:39 AM) RP__: There are some cleanups I would like to make such as the
-", 1" -> ", True" substituition, use appendVar in places and so on
-(9:12:06 AM) khem: RP__: is there plan to go for python 3.x for bitbake
-(9:12:08 AM) RP__: I don't seem to manage to find time to get to those
-though and a merge window is a bad time due to the amount of patches that
-would fail to apply
-(9:12:18 AM) fray: yup
-(9:12:30 AM) RP__: khem: we've done a lot of the ground work so far
-(9:12:36 AM) RP__: khem: so its being worked on slowly
-(9:12:49 AM) khem: ok.
-(9:12:50 AM) fray: we should investigate bitbake w/ python 3 after the
-current release cycle..
-(9:12:59 AM) fray: just to get any idea how close (or not) we are..
-(9:13:24 AM) ***RP__ agrees
-(9:13:33 AM) RP__: I also merged the bitbake quoting fix
-(9:13:44 AM) RP__: nbbody was going to fix things until I did :/
-(9:14:02 AM) fray: which quoting fix?
-(9:14:11 AM) ***bluelightning has already added a note on quoting to the
-metadata migration wiki page, FYI
-(9:14:21 AM) khem: Generally bitbake's error recovery sucks a bit imo
-(9:14:38 AM) khem: I did touch some wiki page's last week
-(9:14:48 AM) khem: to mention about oe-core/oe-dev
-(9:14:54 AM) RP__: fray: We now enforce FOO = "1"
-(9:14:56 AM) bluelightning: khem: I'd like to think we've improved error
-handling quite a bit lately, are there any outstanding error situations you
-can point to?
-(9:14:57 AM) khem: one of the page was getting started page
-(9:15:01 AM) fray: ahh ok
-(9:15:02 AM) RP__: fray: FOO = 1 wont' work
-(9:15:13 AM) fray: excellent
-(9:15:19 AM) RP__: khem: I think bitbake's error handling has massively
-improved thanks to Paul's work
-(9:15:37 AM) khem: RP__: I agree on that it has improved
-(9:15:39 AM) RP__: Or my favourite: FOO = "1 \
-(9:15:43 AM) bluelightning: if I've missed anything by all means highlight
-it so I can attack it :)
-(9:15:48 AM) RP__: with a following blank line
-(9:16:01 AM) RP__: khem: right, if you see issues, file bugs
-(9:16:02 AM) bluelightning: RP__: yes that's a nice one... never realised
-that was legal...
-(9:16:12 AM) RP__: bluelightning: it wasn't meant to be legal
-(9:16:49 AM) khem: multiline strings and multiline comments are tricky even
-C compilers sucked in past on them
-(9:17:38 AM) RP__: So anything else we need to talk about
-(9:17:41 AM) RP__: ?
-(9:17:53 AM) RP__: We should be going into a bit of a stability/bug fixing
-drive now
-(9:18:04 AM) bluelightning: I've got nothing, most of my long-pending
-patches are getting merged finally :)
-(9:18:08 AM) RP__: also,hobv2 merged
-(9:18:14 AM) RP__: people should play with it :)
-(9:18:25 AM) Jefro: I can chime in with one thing - the Yocto event at
-Collab Summit. Philip mentioned that he'd like to have several OE folks
-there.
-(9:18:28 AM) fray: ahh I knew hobv2 was going in soon, but it's there now?
-(9:18:31 AM) ***RP__ has a stack of patches outstanding :(
-(9:18:44 AM) RP__: fray: its in
-(9:18:54 AM) fray: excellent!
-(9:18:56 AM) RP__: fray: run "hob"
-(9:19:03 AM) khem: RP__: I have a working gcc 4.7 which is uncovering
-interting bugs
-(9:19:15 AM) khem: so I will post fixes as I see and fix them
-(9:19:29 AM) RP__: khem: I've held off the gcc patch just yet until I can
-have more of a look at it
-(9:19:36 AM) khem: sure.
-(9:19:48 AM) khem: I did not post 4.7 upgrade yet
-(9:19:53 AM) RP__: khem: we should try and push some of these fixes direct
-to the upstreams
-(9:19:56 AM) khem: since I wanted the prework to first go in
-(9:20:12 AM) khem: RP__: yes, true
-(9:20:30 AM) RP__: khem: right, I'd really like to hold 4.7 on a branch
-until after the April release
-(9:20:36 AM) fray: is 4.7 "stable" release out yet?  or any idea when it
-will be?
-(9:20:40 AM) khem: nooo
-(9:20:47 AM) khem: its a prework
-(9:21:02 AM) fray: I'm almost say a toolchain layer until 4.7 can be
-merged.. maybe a toolchain-next layer?
-(9:21:09 AM) RP__: khem: I know but we are supposed to be entering a
-stablisation window at this point
-(9:21:14 AM) khem: so we can use it offficially the same day its released
-and help gcc find and fix some bugs in return
-(9:21:32 AM) khem: RP__: that noo was meant for fray
-(9:21:57 AM) RP__: fray: I think a branch should be ok
-(9:22:02 AM) fray: ya, I thought 4.7 was still too far off to consider it
-for right now
-(9:22:16 AM) khem: RP__: the reason I did not post 4.7 patches is same
-(9:22:23 AM) bluelightning: I forgot to ask people; were there significant
-discussions at ELC about oe-core/meta-oe reorg that are worth discussing
-here?
-(9:22:37 AM) khem: I wanted prework to be in there so folks can then use
-the 4.7 branch to try it out
-(9:22:40 AM) ***RP__ wasn't party to those
-(9:22:56 AM) khem: bluelightning: I talked a bit
-(9:22:57 AM) RP__: khem: I agree we should put it somewhere obvious so
-people can try it
-(9:22:59 AM) khem: with koen
-(9:23:11 AM) khem: RP__: master-next ?
-(9:23:17 AM) khem: oh well a contrib branch is ok too
-(9:23:39 AM) bluelightning: khem: ah ok... I talked to him at FOSDEM about
-it as well, took some notes... haven't had a chance to formulate a coherent
-plan yet
-(9:23:50 AM) khem: bluelightning: I think we should keep the discussion
-about sprilling meta-oe going
-(9:23:52 AM) RP__: khem: it might be appropriate for master-next, yes
-(9:24:12 AM) bluelightning: khem: definitely... we have a tentative plan I
-think from our existing discussion
-(9:24:25 AM) bluelightning: (on the mailing list)
-(9:24:30 AM) khem: I think, I did some work on oe-core/meta-oe duplication
-but thats pretty much it
-(9:24:55 AM) bluelightning: khem: yes I saw that, thanks for that work :)
-(9:25:32 AM) khem: biggest issue is toolchain for many folks
-(9:25:41 AM) khem: so I think that should be the first one to be spun out
-(9:25:50 AM) RP__: khem: people want 4.5?
-(9:26:01 AM) khem: RP__: angstrom stable uses it
-(9:26:11 AM) khem: and angstrom uses for long cycles
-(9:26:15 AM) RP__: khem: with no plans to update?
-(9:26:25 AM) khem: so I am expecting it to be in use for couple of years
-from now at least
-(9:26:57 AM) khem: RP__: I think once meta-oe releases then there would be
-a chance to have 2012 angstrom
-(9:27:10 AM) bluelightning: is there still concern about arm in gcc > 4.5 ?
-or was that never a serious issue?
-(9:27:55 AM) khem: bluelightning: no idea. I think gcc 4.5 is stable and
-angstrom does not like to tinker with toolchain too much
-(9:28:08 AM) bluelightning: ok
-(9:28:33 AM) fray: but would anyone use 4.5 with an updated oe-core?
-(9:28:46 AM) fray: I'd expect that if you stay with an older toolchain,
-you'd also stay with an older oe-core/angstrom
-(9:28:51 AM) bluelightning: fray: well, angstrom does right now...
-(9:28:51 AM) khem: so far angstrom  has been doing that yes
-(9:29:12 AM) khem: usually its not a problem
-(9:29:17 AM) fray: that very well could be a distro choice, so we need to
-enable the ability to do it.. but do we need it in oe-core itself?
-(9:29:39 AM) khem: its not in oe-core
-(9:29:44 AM) khem: its in meta-oe
-(9:29:49 AM) fray: ohh ok, I misunderstood then
-(9:30:02 AM) khem: same is true for eglibc 2.12
-(9:30:13 AM) bluelightning: fray: it's in meta-oe, but what would make it
-easier is if it was in its own layer (which may well be in the
-meta-openembedded repo still)
-(9:30:27 AM) fray: yes, I agree..
-(9:30:29 AM) khem: and I would love to see X11 from meta-oe/oe-core merge
-(9:30:44 AM) fray: at Wind River we have a tendency to make our toolchains
-into layers, so they are easily replacable (upgradeable)..
-(9:31:12 AM) khem: fray: yes we should have done it to start with but we
-were so new to layers we were afraid of them :)
-(9:31:42 AM) RP__: khem: X11?
-(9:31:45 AM) fray: well there is the fine line between not enough layers
-and too many.. ;)
-(9:31:51 AM) RP__: khem: I thought we had most X11 things sorted now?
-(9:32:07 AM) fray: I didn't realize that meta-oe had anything unique for
-X11 anymore..
-(9:32:18 AM) RP__: I think splitting the toolchain pieces in meta-oe apart
-is a fine idea and nobody seems to object to that :)
-(9:32:20 AM) fray: I thought it had been merged, other then a few utilities
-(9:33:37 AM) khem: I tried core-image-sato build with meta-oe enabled
-(9:33:40 AM) khem: did not work
-(9:34:07 AM) RP__: khem: hmm, any idea what the issue was
-(9:34:11 AM) khem: so I vehemently blamed it
-(9:34:14 AM) RP__: we need to find and deal with things like this
-(9:34:46 AM) khem: RP__: yes, we should but then something else pops up :)
-(9:34:50 AM) fray: yes..  we should probably have someone look into meta-oe
-and plan for a merge if reasonable..  or at least identify issues like this
-(9:35:11 AM) khem: my point is it should be easily overlayed on oe-core and
-not regress oe-core
-(9:36:13 AM) RP__: khem: agreed, just need someone with some time to look
-at it
-(9:36:17 AM) fray: yes
-(9:36:30 AM) khem: bluelightning: will you send follow up to the layer
-split discussions of your meeting at FOSDEM
-(9:36:43 AM) bluelightning: khem: will do yes
-(9:36:57 AM) khem: that should get us some  further in decision process
-(9:37:21 AM) bluelightning: khem: I think we should just press ahead on the
-toolchain split out though
-(9:37:35 AM) RP__: As the TSC, I think we can agree that?
-(9:37:39 AM) khem: bluelightning: yeah
-(9:38:03 AM) fray: yes
-(9:38:05 AM) ***Jefro listens for detractors
-(9:38:16 AM) khem: ok.
-(9:38:45 AM) khem: Jefro: when/where is Collab Summit
-(9:38:54 AM) Jefro: Collab Summit is April 3-5 in San Francisco
-(9:39:07 AM) Jefro: there will be a Yocto working day all day on Weds Apr 4
-(9:39:21 AM) Jefro: Collab is invitation-only- I am working to secure a
-certain number of invitations
-(9:39:22 AM) khem: ok and thats in Fremont ?
-(9:39:40 AM) Jefro: no - there is also an invitation-only Yocto BSP Summit
-in Fremont, that is on April 2
-(9:39:48 AM) khem: Jefro: extend to me if you have spare :)
-(9:40:00 AM) Jefro: khem I will definitely try
-(9:40:09 AM) khem: both yocto/collab that is
-(9:40:22 AM) khem: oh brb
-(9:40:55 AM) RP__: The bsp summit is to try and get everyone on the same
-page around BSPs and layers, the various definitions and so on
-(9:41:21 AM) bluelightning: hmm that would be interesting...
-(9:41:39 AM) RP__: if the yocto people can't reach a consensus amongst
-themselves it seems crazy to involve more people in the discussion
-(9:41:39 AM) Jefro: bluelightning you should have gotten an invitation. any
-chance you'll be in town?
-(9:41:56 AM) RP__: I don't think there is that much of an issue, just need
-to get people together and spend some time talking through what we have
-today
-(9:42:02 AM) RP__: and then see where things go
-(9:43:04 AM) bluelightning: Jefro: I'm not sure... I need to check if I'm
-available, and also would depend on travel approval
-(9:43:17 AM) Jefro: yes, travel will be a problem
-(9:44:03 AM) Jefro: I'm planning to at least record parts of the event.
-Will also talk to Mentor to see if we can let people join via webex, but
-interactive participation would be limited.
-(9:46:00 AM) Jefro: any other items?
-(9:46:21 AM) bluelightning: khem's still afk I think
-(9:46:33 AM) RP__: nothing from me
-(9:46:43 AM) bluelightning: nothing from me either
+(9:16:19 AM) RP__: Jefro: do you have an agenda?
+(9:18:05 AM) ***fray wonders if jefro fell off the internet
+(9:18:42 AM) RP__: lets assume he has :/
+(9:18:49 AM) RP__: agenda items?
+(9:19:09 AM) RP__: Well, lets start with the janitor and QA bugs
+(9:19:15 AM) fray: sounds good
+(9:19:19 AM) fray: (is someone logging?)
+(9:19:27 AM) ***RP__ is
+(9:19:51 AM) RP__: For those who were in the Yocto technical meeting
+before, I laboured a point about the number of warnings our builds generate
+(9:20:00 AM) RP__: I'm rather unhappy about this
+(9:20:21 AM) RP__: I'm doing my bit to reduce the numbers but I'd
+appreciate more people helping out
+(9:20:38 AM) RP__: Sean mentioned there are some sstate issues and that our
+QA tests probably aren't good enough
+(9:20:54 AM) RP__: I pointed out that even the QA issues we know about
+right now aren't getting fixed
+(9:21:17 AM) RP__: This lead into a discussion about our the Yocto janitor
+page - this is like the kernel janitors project
+(9:21:30 AM) RP__: tasks someone could pick up, look into and fix to get
+into the project
+(9:21:55 AM) RP__: We're going to rework the wiki page into the bugzilla so
+we track things in one place, then generate a summary of open tasks for the
+wiki automagically
+(9:22:17 AM) RP__: We need to raise more awareness of the janitor list...
+(9:22:29 AM) RP__: Any comments or shall I just talk to myself? :)
+(9:22:43 AM) Tartarus: Good idea, I thought we had said to do that before
+(9:22:44 AM) fray: yes.. I know there are people willing to do janitor work
+(in oe as well as the Yocto Project)
+(9:22:58 AM) fray: we just need to make it clear to folks we've hit a point
+where janitor work is needed..
+(9:23:10 AM) RP__: Tartarus: I think we've said it but we've not done much
+about it and its not publicised much
+(9:23:11 AM) Jefro: sorry - got called away, here now
+(9:23:14 AM) fray: (actually we're likely past that point.. but anyway..)
+(9:23:18 AM) Jefro: I'm logging
+(9:23:23 AM) Jefro: I even have an agenda
+(9:23:38 AM) RP__: Jefro: If you could share that with us that would be
+useful :)
+(9:23:43 AM) Jefro: http://pastebin.com/TqiVP8dw
+(9:24:08 AM) fray: IMAGE_FSTYPES was Tartarus   ;)
+(9:24:13 AM) Jefro: oops, ok
+(9:24:23 AM) RP__: What the janitor work needs is one or more people to
+champion it
+(9:24:45 AM) RP__: We could ask the membership for volunteers
+(9:25:01 AM) fray: yes, i think thats a good idea..
+(9:25:15 AM) ***RP__ suspects he is chairing
+(9:25:37 AM) ***bluelightning suspects that is the case ;)
+(9:25:49 AM) Jefro: who wants to take AR to alert membership for janitor
+volunteers?
+(9:26:04 AM) RP__: ok, I will mention the above idea to Darren and see if I
+can convince him and Sean to take this on
+(9:26:08 AM) RP__: ;-)
+(9:26:23 AM) fray: I was justa bout to suggest that..
+(9:26:28 AM) RP__: Re: the QA issues in general as well as bug fixing and
+testing
+(9:27:24 AM) RP__: Does anyone have any idea how to get more people
+involved?
+(9:27:55 AM) RP__: I'm finding it hard going atm and will have to start
+refusing changes when the builds are broken
+(9:27:56 AM) fray: I think a request to the oe-core list and a page
+indicating what is needed is hte best way to start..
+(9:28:06 AM) Jefro: it might be useful to separate janitorial duties from
+actual bug fixing, so those of us with less technical expertise can lend
+time
+(9:28:11 AM) fray: we already have people doing some of the work and
+probably not realizing it
+(9:28:18 AM) RP__: Jefro: Totally, I'm raising this as a separate topic
+(9:28:25 AM) Jefro: ok
+(9:28:46 AM) RP__: For example, someone sends a patch X, it merges, it
+breaks things
+(9:29:11 AM) RP__: At present I spend a lot of time fixing things since the
+breakage starts affecting people who have no interest in the patch
+(9:29:35 AM) bluelightning: RP__: do you have some recent examples?
+(9:29:52 AM) RP__: bluelightning: Adding python to gdb-cross-candian
+(9:30:06 AM) bluelightning: ah yes :/
+(9:30:07 AM) RP__: took out meta-toolchain on rpm
+(9:30:23 AM) RP__: This kind of stuff becomes my problem :(
+(9:31:02 AM) RP__: Since there are no comments, might as well move on. I
+don't have answers either
+(9:31:14 AM) RP__: IMAGE_FSTYPES - was there anything you wanted to add
+Tartarus
+(9:31:16 AM) RP__: ?
+(9:31:22 AM) Tartarus: Just poking people to read, reply
+(9:31:35 AM) fray: (and ya, I don't have any answers either..)
+(9:32:13 AM) RP__: ok, Jefro - do you have the collab summit agenda
+(9:32:14 AM) RP__: ?
+(9:32:24 AM) ***RP__ notes himself duly poked
+(9:32:26 AM) Jefro: yes, it is on the collab summit events page - link in 2
+sec
+(9:32:39 AM) Jefro:
+https://events.linuxfoundation.org/events/collaboration-summit/schedule
+(9:32:49 AM) RP__: We're looking to have a Yocto work session at collab
+summt
+(9:33:00 AM) Jefro: the yocto project workgroup day is on Weds 9am-5pm (or
+later)
+(9:33:07 AM) RP__: This is following a BSP summit at Mentor's Freemont site
+earlier in the week
+(9:33:09 AM) Jefro: actual working session is in afternoon
+(9:33:45 AM) RP__: I really don't know who we're going to get at collab or
+what they're going to find useful to do
+(9:33:55 AM) Jefro: I noted to the OE lists about Collab Summit and
+encouraged people to request an invitation (at Philip's request)
+(9:33:56 AM) RP__: I wanted to give the TSC an opportunity to suggest things
+(9:35:06 AM) ***Jefro hears crickets
+(9:35:10 AM) RP__: While people are mulling that over and since I've
+already put input into it, let me touch on elections. We welcome back fray,
+congratulations! :)
+(9:35:30 AM) RP__: Do we want to roll into another election for Tartarus
+straight away?
+(9:35:46 AM) Tartarus: I'd be good with that
+(9:35:49 AM) RP__: We seem to take our time over these things so we might
+as well set the ball rolling
+(9:36:25 AM) Jefro: will someone ping the board?
+(9:36:28 AM) ***RP__ is going to assume people will jump in with earlier
+topics if they have anything to add
+(9:36:31 AM) ***RP__ can do so
+(9:36:52 AM) ***RP__ is taking no comment from fray and bluelightning as
+agreement
+(9:37:02 AM) fray: yup
+(9:37:04 AM) bluelightning: sounds OK to me
+(9:37:18 AM) RP__: re: Infrastructure, I wanted to acknowledge Michael
+Halsted's work on the OE server in speeding up git access
+(9:37:33 AM) bluelightning: yes, that is very much appreciated
+(9:37:45 AM) bluelightning: it has been slow for a very long time
+(9:37:49 AM) RP__: Does anyone have anything to add on infrsatructure?
+(9:38:25 AM) bluelightning: did the web issues that brought down ltg (and
+hence our mailing list archives) get resolved?
+(9:38:41 AM) bluelightning: that was a couple of weeks ago now
+(9:38:43 AM) RP__: bluelightning: I think we got the list archives back
+(9:38:55 AM) RP__: bluelightning: whether their forum problem got resolved
+or not I don't know
+(9:39:06 AM) RP__: bluelightning: that doesn't really affect us
+(9:39:19 AM) bluelightning: indirectly if stuff goes down, it does...
+(9:40:18 AM) RP__: bluelightning: well, I think they've agreed not to do
+that now...
+(9:40:31 AM) RP__: bluelightning: i.e. they've taken down one vhost, not
+them all
+(9:40:41 AM) bluelightning: ok cool, that should resolve that for the future
+(9:40:54 AM) bluelightning: it did seem a touch heavy handed :/
+(9:41:00 AM) RP__: So, if nothing else there, oe-core status
+(9:41:19 AM) RP__: I've been fighting to reduce the warnings and fix the
+autobuilder failures
+(9:41:29 AM) RP__: We have a feature freeze point in about a week now
+(9:41:42 AM) fray: RP__ what is the proposed bug fix/final freeze date?
+(9:42:16 AM) RP__: fray: not sure, 2-3 weeks after the 18th I think
+(9:42:24 AM) RP__: that's when we roll -rc1
+(9:42:27 AM) fray: ok.. rough idea is good enough for the minutes..
+(9:42:41 AM) RP__: its on the yocto calender
+(9:43:10 AM) RP__: Builds aren't looking too red on the autobuilder
+although there are some puzzling failures on some of the newer tests
+(9:43:14 AM) Jefro: https://wiki.yoctoproject.org/wiki/YoctoCalendar
+(9:43:19 AM) RP__: Any other questions, other business?
+(9:44:12 AM) ***Jefro will get minutes out early this time & catch up on
+old ones
+(9:44:59 AM) RP__: If nothing else I'll close the meeting...
+(9:45:09 AM) bluelightning: nothing here
+(9:45:28 AM) Tartarus: nothing here
+(9:45:31 AM) fray: nothing
+(9:46:30 AM) ***RP__ closes
+
 
 -- 
 Jeff Osier-Mixon http://jefro.net/blog
 Yocto Project Community Manager @Intel http://yoctoproject.org
 
---bcaec51a76e050f4c904bb9fcd8f
+--e89a8f3bb045bf87b304bb9fd22e
 Content-Type: text/html; charset=ISO-8859-1
 Content-Transfer-Encoding: quoted-printable
 
-<div><div><div><font class=3D"Apple-style-span" color=3D"#222222" face=3D"a=
-rial, sans-serif"><span class=3D"Apple-style-span" style=3D"border-collapse=
-:collapse">OpenEmbedded Technical Steering Committee</span></font></div><di=
-v><font class=3D"Apple-style-span" color=3D"#222222" face=3D"arial, sans-se=
-rif"><span class=3D"Apple-style-span" style=3D"border-collapse:collapse">28=
- February, 2012</span></font></div>
-<div><font class=3D"Apple-style-span" color=3D"#222222" face=3D"arial, sans=
--serif"><span class=3D"Apple-style-span" style=3D"border-collapse:collapse"=
-><br></span></font></div><div><font class=3D"Apple-style-span" color=3D"#22=
-2222" face=3D"arial, sans-serif"><span class=3D"Apple-style-span" style=3D"=
-border-collapse:collapse">Attending: Khem, Richard, Mark, Paul</span></font=
-></div>
-<div><font class=3D"Apple-style-span" color=3D"#222222" face=3D"arial, sans=
--serif"><span class=3D"Apple-style-span" style=3D"border-collapse:collapse"=
->Apologies: Tom</span></font></div><div><font class=3D"Apple-style-span" co=
-lor=3D"#222222" face=3D"arial, sans-serif"><span class=3D"Apple-style-span"=
- style=3D"border-collapse:collapse">Minutes: Jefro</span></font></div>
-<div><font class=3D"Apple-style-span" color=3D"#222222" face=3D"arial, sans=
--serif"><span class=3D"Apple-style-span" style=3D"border-collapse:collapse"=
-><br></span></font></div><div><font class=3D"Apple-style-span" color=3D"#22=
-2222" face=3D"arial, sans-serif"><span class=3D"Apple-style-span" style=3D"=
-border-collapse:collapse">________________________________________________<=
-/span></font></div>
-<div><font class=3D"Apple-style-span" color=3D"#222222" face=3D"arial, sans=
--serif"><span class=3D"Apple-style-span" style=3D"border-collapse:collapse"=
->Agenda</span></font></div><div><font class=3D"Apple-style-span" color=3D"#=
-222222" face=3D"arial, sans-serif"><span class=3D"Apple-style-span" style=
-=3D"border-collapse:collapse"><br>
-</span></font></div><div><font class=3D"Apple-style-span" color=3D"#222222"=
- face=3D"arial, sans-serif"><span class=3D"Apple-style-span" style=3D"borde=
-r-collapse:collapse">1. pick a chair</span></font></div><div><font class=3D=
-"Apple-style-span" color=3D"#222222" face=3D"arial, sans-serif"><span class=
-=3D"Apple-style-span" style=3D"border-collapse:collapse">=A0 =A0RP (by defa=
-ult)</span></font></div>
-<div><font class=3D"Apple-style-span" color=3D"#222222" face=3D"arial, sans=
--serif"><span class=3D"Apple-style-span" style=3D"border-collapse:collapse"=
-><br></span></font></div><div><font class=3D"Apple-style-span" color=3D"#22=
-2222" face=3D"arial, sans-serif"><span class=3D"Apple-style-span" style=3D"=
-border-collapse:collapse">2. open issues</span></font></div>
-<div><font class=3D"Apple-style-span" color=3D"#222222" face=3D"arial, sans=
--serif"><span class=3D"Apple-style-span" style=3D"border-collapse:collapse"=
->=A0 =A0resolved at ELC, only status is left</span></font></div><div><font =
-class=3D"Apple-style-span" color=3D"#222222" face=3D"arial, sans-serif"><sp=
-an class=3D"Apple-style-span" style=3D"border-collapse:collapse"><br>
-</span></font></div><div><font class=3D"Apple-style-span" color=3D"#222222"=
- face=3D"arial, sans-serif"><span class=3D"Apple-style-span" style=3D"borde=
-r-collapse:collapse">3. status</span></font></div><div><font class=3D"Apple=
--style-span" color=3D"#222222" face=3D"arial, sans-serif"><span class=3D"Ap=
-ple-style-span" style=3D"border-collapse:collapse"><br>
-</span></font></div><div><font class=3D"Apple-style-span" color=3D"#222222"=
- face=3D"arial, sans-serif"><span class=3D"Apple-style-span" style=3D"borde=
-r-collapse:collapse">=A0 =A0a. oe-core</span></font></div><div><font class=
-=3D"Apple-style-span" color=3D"#222222" face=3D"arial, sans-serif"><span cl=
-ass=3D"Apple-style-span" style=3D"border-collapse:collapse">=A0 =A0 =A0 lot=
-s of churn, patches coming in heavily</span></font></div>
-<div><font class=3D"Apple-style-span" color=3D"#222222" face=3D"arial, sans=
--serif"><span class=3D"Apple-style-span" style=3D"border-collapse:collapse"=
->=A0 =A0 =A0 RP thinks most things merged</span></font></div><div><font cla=
-ss=3D"Apple-style-span" color=3D"#222222" face=3D"arial, sans-serif"><span =
-class=3D"Apple-style-span" style=3D"border-collapse:collapse"><br>
-</span></font></div><div><font class=3D"Apple-style-span" color=3D"#222222"=
- face=3D"arial, sans-serif"><span class=3D"Apple-style-span" style=3D"borde=
-r-collapse:collapse">=A0 =A0b. python 3 transition</span></font></div><div>=
-<font class=3D"Apple-style-span" color=3D"#222222" face=3D"arial, sans-seri=
-f"><span class=3D"Apple-style-span" style=3D"border-collapse:collapse">=A0 =
-=A0 =A0 going slowly</span></font></div>
-<div><font class=3D"Apple-style-span" color=3D"#222222" face=3D"arial, sans=
--serif"><span class=3D"Apple-style-span" style=3D"border-collapse:collapse"=
-><br></span></font></div><div><font class=3D"Apple-style-span" color=3D"#22=
-2222" face=3D"arial, sans-serif"><span class=3D"Apple-style-span" style=3D"=
-border-collapse:collapse">=A0 =A0c. bitbake quoting fix merged, now enforce=
- syntax, e.g. FOO =3D &quot;1&quot;</span></font></div>
-<div><font class=3D"Apple-style-span" color=3D"#222222" face=3D"arial, sans=
--serif"><span class=3D"Apple-style-span" style=3D"border-collapse:collapse"=
-><br></span></font></div><div><font class=3D"Apple-style-span" color=3D"#22=
-2222" face=3D"arial, sans-serif"><span class=3D"Apple-style-span" style=3D"=
-border-collapse:collapse">=A0 =A0d. khem worked on some wiki pages last wee=
-k</span></font></div>
-<div><font class=3D"Apple-style-span" color=3D"#222222" face=3D"arial, sans=
--serif"><span class=3D"Apple-style-span" style=3D"border-collapse:collapse"=
-><br></span></font></div><div><font class=3D"Apple-style-span" color=3D"#22=
-2222" face=3D"arial, sans-serif"><span class=3D"Apple-style-span" style=3D"=
-border-collapse:collapse">=A0 =A0e. hobv2 merged, please play with it</span=
-></font></div>
-<div><font class=3D"Apple-style-span" color=3D"#222222" face=3D"arial, sans=
--serif"><span class=3D"Apple-style-span" style=3D"border-collapse:collapse"=
-><br></span></font></div><div><font class=3D"Apple-style-span" color=3D"#22=
-2222" face=3D"arial, sans-serif"><span class=3D"Apple-style-span" style=3D"=
-border-collapse:collapse">=A0 =A0f. 4.7 upgrade not yet posted (khem), hold=
- until after April release</span></font></div>
-<div><font class=3D"Apple-style-span" color=3D"#222222" face=3D"arial, sans=
--serif"><span class=3D"Apple-style-span" style=3D"border-collapse:collapse"=
-><br></span></font></div><div><font class=3D"Apple-style-span" color=3D"#22=
-2222" face=3D"arial, sans-serif"><span class=3D"Apple-style-span" style=3D"=
-border-collapse:collapse">=A0 =A0g. agreement on toolchain issue:</span></f=
-ont></div>
-<div><font class=3D"Apple-style-span" color=3D"#222222" face=3D"arial, sans=
--serif"><span class=3D"Apple-style-span" style=3D"border-collapse:collapse"=
->=A0 =A0 =A0 toolchains not in oe-core will be split out into their own lay=
-ers,</span></font></div>
-<div><font class=3D"Apple-style-span" color=3D"#222222" face=3D"arial, sans=
--serif"><span class=3D"Apple-style-span" style=3D"border-collapse:collapse"=
->=A0 =A0 =A0 including toolchains in meta-oe</span></font></div><div><font =
-class=3D"Apple-style-span" color=3D"#222222" face=3D"arial, sans-serif"><sp=
-an class=3D"Apple-style-span" style=3D"border-collapse:collapse"><br>
-</span></font></div><div><font class=3D"Apple-style-span" color=3D"#222222"=
- face=3D"arial, sans-serif"><span class=3D"Apple-style-span" style=3D"borde=
-r-collapse:collapse">=A0 =A0h. collab summit, bsp summit</span></font></div=
-><div><font class=3D"Apple-style-span" color=3D"#222222" face=3D"arial, san=
-s-serif"><span class=3D"Apple-style-span" style=3D"border-collapse:collapse=
-">=A0 =A0 =A0 coming up in April</span></font></div>
-<div><font class=3D"Apple-style-span" color=3D"#222222" face=3D"arial, sans=
--serif"><span class=3D"Apple-style-span" style=3D"border-collapse:collapse"=
-><br></span></font></div><div><font class=3D"Apple-style-span" color=3D"#22=
-2222" face=3D"arial, sans-serif"><span class=3D"Apple-style-span" style=3D"=
-border-collapse:collapse">________________________________________________<=
-/span></font></div>
-<div><font class=3D"Apple-style-span" color=3D"#222222" face=3D"arial, sans=
--serif"><span class=3D"Apple-style-span" style=3D"border-collapse:collapse"=
->Raw Transcript</span></font></div><div><font class=3D"Apple-style-span" co=
-lor=3D"#222222" face=3D"arial, sans-serif"><span class=3D"Apple-style-span"=
- style=3D"border-collapse:collapse"><br>
-</span></font></div><div><font class=3D"Apple-style-span" color=3D"#222222"=
- face=3D"arial, sans-serif"><span class=3D"Apple-style-span" style=3D"borde=
-r-collapse:collapse">(9:00:04 AM) bluelightning: hi folks</span></font></di=
-v><div>
-<font class=3D"Apple-style-span" color=3D"#222222" face=3D"arial, sans-seri=
-f"><span class=3D"Apple-style-span" style=3D"border-collapse:collapse">(9:0=
-2:12 AM) RP__: hi bluelightning</span></font></div><div><font class=3D"Appl=
-e-style-span" color=3D"#222222" face=3D"arial, sans-serif"><span class=3D"A=
-pple-style-span" style=3D"border-collapse:collapse">(9:02:16 AM) RP__: hi k=
-hem</span></font></div>
-<div><font class=3D"Apple-style-span" color=3D"#222222" face=3D"arial, sans=
--serif"><span class=3D"Apple-style-span" style=3D"border-collapse:collapse"=
->(9:02:19 AM) RP__: fray: ping?</span></font></div><div><font class=3D"Appl=
-e-style-span" color=3D"#222222" face=3D"arial, sans-serif"><span class=3D"A=
-pple-style-span" style=3D"border-collapse:collapse">(9:02:35 AM) khem: hi R=
-P__</span></font></div>
-<div><font class=3D"Apple-style-span" color=3D"#222222" face=3D"arial, sans=
--serif"><span class=3D"Apple-style-span" style=3D"border-collapse:collapse"=
->(9:02:37 AM) RP__: I think I saw an email saying Tom couldn&#39;t make it?=
-</span></font></div>
-<div><font class=3D"Apple-style-span" color=3D"#222222" face=3D"arial, sans=
--serif"><span class=3D"Apple-style-span" style=3D"border-collapse:collapse"=
->(9:02:38 AM) fray: hey I&#39;m here..</span></font></div><div><font class=
-=3D"Apple-style-span" color=3D"#222222" face=3D"arial, sans-serif"><span cl=
-ass=3D"Apple-style-span" style=3D"border-collapse:collapse">(9:02:44 AM) fr=
-ay: ya, he&#39;s out</span></font></div>
-<div><font class=3D"Apple-style-span" color=3D"#222222" face=3D"arial, sans=
--serif"><span class=3D"Apple-style-span" style=3D"border-collapse:collapse"=
->(9:02:48 AM) khem: I will grab a cup of tea</span></font></div><div><font =
-class=3D"Apple-style-span" color=3D"#222222" face=3D"arial, sans-serif"><sp=
-an class=3D"Apple-style-span" style=3D"border-collapse:collapse">(9:02:57 A=
-M) RP__: cool, we have everyone who will be here then</span></font></div>
-<div><font class=3D"Apple-style-span" color=3D"#222222" face=3D"arial, sans=
--serif"><span class=3D"Apple-style-span" style=3D"border-collapse:collapse"=
->(9:02:58 AM) khem: too many police officers on road today :)</span></font>=
-</div>
-<div><font class=3D"Apple-style-span" color=3D"#222222" face=3D"arial, sans=
--serif"><span class=3D"Apple-style-span" style=3D"border-collapse:collapse"=
->(9:03:32 AM) ***fray is really sick last couple of days.. at least the roo=
-m stopped spinning finally</span></font></div>
-<div><font class=3D"Apple-style-span" color=3D"#222222" face=3D"arial, sans=
--serif"><span class=3D"Apple-style-span" style=3D"border-collapse:collapse"=
->(9:03:45 AM) ***fray &#39;s temper is a bit short though.. :(</span></font=
-></div>
-<div><font class=3D"Apple-style-span" color=3D"#222222" face=3D"arial, sans=
--serif"><span class=3D"Apple-style-span" style=3D"border-collapse:collapse"=
->(9:04:49 AM) RP__: fray: Sorry to hear that, I hope you have a swift recov=
-ery</span></font></div>
-<div><font class=3D"Apple-style-span" color=3D"#222222" face=3D"arial, sans=
--serif"><span class=3D"Apple-style-span" style=3D"border-collapse:collapse"=
->(9:05:00 AM) RP__: Jefro: do we have an agenda?</span></font></div><div><f=
-ont class=3D"Apple-style-span" color=3D"#222222" face=3D"arial, sans-serif"=
-><span class=3D"Apple-style-span" style=3D"border-collapse:collapse">(9:05:=
-18 AM) fray: so do I.. I&#39;m supposed to give an intro to Yocto talk and =
-hands-on w/ Poky class at RTECC in Dallas next tuesday.. :P</span></font></=
-div>
-<div><font class=3D"Apple-style-span" color=3D"#222222" face=3D"arial, sans=
--serif"><span class=3D"Apple-style-span" style=3D"border-collapse:collapse"=
->(9:06:15 AM) RP__: fray: I&#39;m just getting stressed out by the amount o=
-f stuff I need to do before I go away on Saturday</span></font></div>
-<div><font class=3D"Apple-style-span" color=3D"#222222" face=3D"arial, sans=
--serif"><span class=3D"Apple-style-span" style=3D"border-collapse:collapse"=
->(9:06:35 AM) ***RP__ found water all over the garage floor before. Seems t=
-o be coming from the Daytona which is scary</span></font></div>
-<div><font class=3D"Apple-style-span" color=3D"#222222" face=3D"arial, sans=
--serif"><span class=3D"Apple-style-span" style=3D"border-collapse:collapse"=
->(9:06:45 AM) fray: I understand.. I was supposed to have the hard drive pr=
-epared for imaging yesterday..</span></font></div>
-<div><font class=3D"Apple-style-span" color=3D"#222222" face=3D"arial, sans=
--serif"><span class=3D"Apple-style-span" style=3D"border-collapse:collapse"=
->(9:06:54 AM) RP__: Does anyone have topics for discussion?</span></font></=
-div><div>
-<font class=3D"Apple-style-span" color=3D"#222222" face=3D"arial, sans-seri=
-f"><span class=3D"Apple-style-span" style=3D"border-collapse:collapse">(9:0=
-6:57 AM) fray: needless to say, I&#39;m still working on it.. (I was comple=
-tely useless on Sunday and Montday)</span></font></div>
-<div><font class=3D"Apple-style-span" color=3D"#222222" face=3D"arial, sans=
--serif"><span class=3D"Apple-style-span" style=3D"border-collapse:collapse"=
->(9:07:00 AM) fray: I don&#39;t have anything</span></font></div><div><font=
- class=3D"Apple-style-span" color=3D"#222222" face=3D"arial, sans-serif"><s=
-pan class=3D"Apple-style-span" style=3D"border-collapse:collapse">(9:07:15 =
-AM) fray: did we want to mention the wiki day? =A0(do we want to schedule t=
-hat yet?)</span></font></div>
-<div><font class=3D"Apple-style-span" color=3D"#222222" face=3D"arial, sans=
--serif"><span class=3D"Apple-style-span" style=3D"border-collapse:collapse"=
->(9:07:24 AM) khem: I dont have any pressing topics</span></font></div><div=
-><font class=3D"Apple-style-span" color=3D"#222222" face=3D"arial, sans-ser=
-if"><span class=3D"Apple-style-span" style=3D"border-collapse:collapse">(9:=
-07:28 AM) RP__: I think it would be good to give people some notice</span><=
-/font></div>
-<div><font class=3D"Apple-style-span" color=3D"#222222" face=3D"arial, sans=
--serif"><span class=3D"Apple-style-span" style=3D"border-collapse:collapse"=
->(9:07:37 AM) RP__: Sometime after next week though! ;-)</span></font></div=
-><div>
-<font class=3D"Apple-style-span" color=3D"#222222" face=3D"arial, sans-seri=
-f"><span class=3D"Apple-style-span" style=3D"border-collapse:collapse">(9:0=
-7:41 AM) khem: 2 weeks would be good time</span></font></div><div><font cla=
-ss=3D"Apple-style-span" color=3D"#222222" face=3D"arial, sans-serif"><span =
-class=3D"Apple-style-span" style=3D"border-collapse:collapse">(9:07:43 AM) =
-fray: yes</span></font></div>
-<div><font class=3D"Apple-style-span" color=3D"#222222" face=3D"arial, sans=
--serif"><span class=3D"Apple-style-span" style=3D"border-collapse:collapse"=
->(9:07:57 AM) fray: we said mid march in the ELC meetings</span></font></di=
-v><div>
-<font class=3D"Apple-style-span" color=3D"#222222" face=3D"arial, sans-seri=
-f"><span class=3D"Apple-style-span" style=3D"border-collapse:collapse">(9:0=
-8:12 AM) RP__: so that all approximately fits together</span></font></div><=
-div><font class=3D"Apple-style-span" color=3D"#222222" face=3D"arial, sans-=
-serif"><span class=3D"Apple-style-span" style=3D"border-collapse:collapse">=
-(9:08:22 AM) RP__: who is going to send out a proposal?</span></font></div>
-<div><font class=3D"Apple-style-span" color=3D"#222222" face=3D"arial, sans=
--serif"><span class=3D"Apple-style-span" style=3D"border-collapse:collapse"=
->(9:08:51 AM) bluelightning: I can do it</span></font></div><div><font clas=
-s=3D"Apple-style-span" color=3D"#222222" face=3D"arial, sans-serif"><span c=
-lass=3D"Apple-style-span" style=3D"border-collapse:collapse">(9:09:55 AM) J=
-efro: sorry - fell of the net again (*)&amp;%</span></font></div>
-<div><font class=3D"Apple-style-span" color=3D"#222222" face=3D"arial, sans=
--serif"><span class=3D"Apple-style-span" style=3D"border-collapse:collapse"=
->(9:10:00 AM) RP__: bluelightning: thanks</span></font></div><div><font cla=
-ss=3D"Apple-style-span" color=3D"#222222" face=3D"arial, sans-serif"><span =
-class=3D"Apple-style-span" style=3D"border-collapse:collapse">(9:10:20 AM) =
-Jefro: we actually fulfilled the major topics at the f2f, status is all we =
-have to discuss today</span></font></div>
-<div><font class=3D"Apple-style-span" color=3D"#222222" face=3D"arial, sans=
--serif"><span class=3D"Apple-style-span" style=3D"border-collapse:collapse"=
->(9:10:28 AM) RP__: Jefro: thanks</span></font></div><div><font class=3D"Ap=
-ple-style-span" color=3D"#222222" face=3D"arial, sans-serif"><span class=3D=
-"Apple-style-span" style=3D"border-collapse:collapse">(9:10:40 AM) RP__: We=
-&#39;ve had a lot of churn with the patches coming in rather heavily</span>=
-</font></div>
-<div><font class=3D"Apple-style-span" color=3D"#222222" face=3D"arial, sans=
--serif"><span class=3D"Apple-style-span" style=3D"border-collapse:collapse"=
->(9:10:45 AM) RP__: I think most things have merged</span></font></div><div=
-><font class=3D"Apple-style-span" color=3D"#222222" face=3D"arial, sans-ser=
-if"><span class=3D"Apple-style-span" style=3D"border-collapse:collapse">(9:=
-11:00 AM) RP__: I know there are some patches from Khem I&#39;ve not taken =
-yet and need to discuss in more detail</span></font></div>
-<div><font class=3D"Apple-style-span" color=3D"#222222" face=3D"arial, sans=
--serif"><span class=3D"Apple-style-span" style=3D"border-collapse:collapse"=
->(9:11:39 AM) RP__: There are some cleanups I would like to make such as th=
-e &quot;, 1&quot; -&gt; &quot;, True&quot; substituition, use appendVar in =
-places and so on</span></font></div>
-<div><font class=3D"Apple-style-span" color=3D"#222222" face=3D"arial, sans=
--serif"><span class=3D"Apple-style-span" style=3D"border-collapse:collapse"=
->(9:12:06 AM) khem: RP__: is there plan to go for python 3.x for bitbake</s=
-pan></font></div>
-<div><font class=3D"Apple-style-span" color=3D"#222222" face=3D"arial, sans=
--serif"><span class=3D"Apple-style-span" style=3D"border-collapse:collapse"=
->(9:12:08 AM) RP__: I don&#39;t seem to manage to find time to get to those=
- though and a merge window is a bad time due to the amount of patches that =
-would fail to apply</span></font></div>
-<div><font class=3D"Apple-style-span" color=3D"#222222" face=3D"arial, sans=
--serif"><span class=3D"Apple-style-span" style=3D"border-collapse:collapse"=
->(9:12:18 AM) fray: yup</span></font></div><div><font class=3D"Apple-style-=
-span" color=3D"#222222" face=3D"arial, sans-serif"><span class=3D"Apple-sty=
-le-span" style=3D"border-collapse:collapse">(9:12:30 AM) RP__: khem: we&#39=
-;ve done a lot of the ground work so far</span></font></div>
-<div><font class=3D"Apple-style-span" color=3D"#222222" face=3D"arial, sans=
--serif"><span class=3D"Apple-style-span" style=3D"border-collapse:collapse"=
->(9:12:36 AM) RP__: khem: so its being worked on slowly</span></font></div>=
-<div><font class=3D"Apple-style-span" color=3D"#222222" face=3D"arial, sans=
--serif"><span class=3D"Apple-style-span" style=3D"border-collapse:collapse"=
->(9:12:49 AM) khem: ok.</span></font></div>
-<div><font class=3D"Apple-style-span" color=3D"#222222" face=3D"arial, sans=
--serif"><span class=3D"Apple-style-span" style=3D"border-collapse:collapse"=
->(9:12:50 AM) fray: we should investigate bitbake w/ python 3 after the cur=
-rent release cycle..</span></font></div>
-<div><font class=3D"Apple-style-span" color=3D"#222222" face=3D"arial, sans=
--serif"><span class=3D"Apple-style-span" style=3D"border-collapse:collapse"=
->(9:12:59 AM) fray: just to get any idea how close (or not) we are..</span>=
-</font></div>
-<div><font class=3D"Apple-style-span" color=3D"#222222" face=3D"arial, sans=
--serif"><span class=3D"Apple-style-span" style=3D"border-collapse:collapse"=
->(9:13:24 AM) ***RP__ agrees</span></font></div><div><font class=3D"Apple-s=
-tyle-span" color=3D"#222222" face=3D"arial, sans-serif"><span class=3D"Appl=
-e-style-span" style=3D"border-collapse:collapse">(9:13:33 AM) RP__: I also =
-merged the bitbake quoting fix</span></font></div>
-<div><font class=3D"Apple-style-span" color=3D"#222222" face=3D"arial, sans=
--serif"><span class=3D"Apple-style-span" style=3D"border-collapse:collapse"=
->(9:13:44 AM) RP__: nbbody was going to fix things until I did :/</span></f=
-ont></div>
-<div><font class=3D"Apple-style-span" color=3D"#222222" face=3D"arial, sans=
--serif"><span class=3D"Apple-style-span" style=3D"border-collapse:collapse"=
->(9:14:02 AM) fray: which quoting fix?</span></font></div><div><font class=
-=3D"Apple-style-span" color=3D"#222222" face=3D"arial, sans-serif"><span cl=
-ass=3D"Apple-style-span" style=3D"border-collapse:collapse">(9:14:11 AM) **=
-*bluelightning has already added a note on quoting to the metadata migratio=
-n wiki page, FYI</span></font></div>
-<div><font class=3D"Apple-style-span" color=3D"#222222" face=3D"arial, sans=
--serif"><span class=3D"Apple-style-span" style=3D"border-collapse:collapse"=
->(9:14:21 AM) khem: Generally bitbake&#39;s error recovery sucks a bit imo<=
-/span></font></div>
-<div><font class=3D"Apple-style-span" color=3D"#222222" face=3D"arial, sans=
--serif"><span class=3D"Apple-style-span" style=3D"border-collapse:collapse"=
->(9:14:38 AM) khem: I did touch some wiki page&#39;s last week</span></font=
-></div>
-<div><font class=3D"Apple-style-span" color=3D"#222222" face=3D"arial, sans=
--serif"><span class=3D"Apple-style-span" style=3D"border-collapse:collapse"=
->(9:14:48 AM) khem: to mention about oe-core/oe-dev</span></font></div><div=
-><font class=3D"Apple-style-span" color=3D"#222222" face=3D"arial, sans-ser=
-if"><span class=3D"Apple-style-span" style=3D"border-collapse:collapse">(9:=
-14:54 AM) RP__: fray: We now enforce FOO =3D &quot;1&quot;</span></font></d=
-iv>
-<div><font class=3D"Apple-style-span" color=3D"#222222" face=3D"arial, sans=
--serif"><span class=3D"Apple-style-span" style=3D"border-collapse:collapse"=
->(9:14:56 AM) bluelightning: khem: I&#39;d like to think we&#39;ve improved=
- error handling quite a bit lately, are there any outstanding error situati=
-ons you can point to?</span></font></div>
-<div><font class=3D"Apple-style-span" color=3D"#222222" face=3D"arial, sans=
--serif"><span class=3D"Apple-style-span" style=3D"border-collapse:collapse"=
->(9:14:57 AM) khem: one of the page was getting started page</span></font><=
-/div><div>
-<font class=3D"Apple-style-span" color=3D"#222222" face=3D"arial, sans-seri=
-f"><span class=3D"Apple-style-span" style=3D"border-collapse:collapse">(9:1=
-5:01 AM) fray: ahh ok</span></font></div><div><font class=3D"Apple-style-sp=
-an" color=3D"#222222" face=3D"arial, sans-serif"><span class=3D"Apple-style=
--span" style=3D"border-collapse:collapse">(9:15:02 AM) RP__: fray: FOO =3D =
-1 wont&#39; work</span></font></div>
-<div><font class=3D"Apple-style-span" color=3D"#222222" face=3D"arial, sans=
--serif"><span class=3D"Apple-style-span" style=3D"border-collapse:collapse"=
->(9:15:13 AM) fray: excellent</span></font></div><div><font class=3D"Apple-=
-style-span" color=3D"#222222" face=3D"arial, sans-serif"><span class=3D"App=
-le-style-span" style=3D"border-collapse:collapse">(9:15:19 AM) RP__: khem: =
-I think bitbake&#39;s error handling has massively improved thanks to Paul&=
-#39;s work</span></font></div>
-<div><font class=3D"Apple-style-span" color=3D"#222222" face=3D"arial, sans=
--serif"><span class=3D"Apple-style-span" style=3D"border-collapse:collapse"=
->(9:15:37 AM) khem: RP__: I agree on that it has improved</span></font></di=
-v><div>
-<font class=3D"Apple-style-span" color=3D"#222222" face=3D"arial, sans-seri=
-f"><span class=3D"Apple-style-span" style=3D"border-collapse:collapse">(9:1=
-5:39 AM) RP__: Or my favourite: FOO =3D &quot;1 \</span></font></div><div><=
-font class=3D"Apple-style-span" color=3D"#222222" face=3D"arial, sans-serif=
-"><span class=3D"Apple-style-span" style=3D"border-collapse:collapse">(9:15=
-:43 AM) bluelightning: if I&#39;ve missed anything by all means highlight i=
-t so I can attack it :)</span></font></div>
-<div><font class=3D"Apple-style-span" color=3D"#222222" face=3D"arial, sans=
--serif"><span class=3D"Apple-style-span" style=3D"border-collapse:collapse"=
->(9:15:48 AM) RP__: with a following blank line</span></font></div><div><fo=
-nt class=3D"Apple-style-span" color=3D"#222222" face=3D"arial, sans-serif">=
-<span class=3D"Apple-style-span" style=3D"border-collapse:collapse">(9:16:0=
-1 AM) RP__: khem: right, if you see issues, file bugs</span></font></div>
-<div><font class=3D"Apple-style-span" color=3D"#222222" face=3D"arial, sans=
--serif"><span class=3D"Apple-style-span" style=3D"border-collapse:collapse"=
->(9:16:02 AM) bluelightning: RP__: yes that&#39;s a nice one... never reali=
-sed that was legal...</span></font></div>
-<div><font class=3D"Apple-style-span" color=3D"#222222" face=3D"arial, sans=
--serif"><span class=3D"Apple-style-span" style=3D"border-collapse:collapse"=
->(9:16:12 AM) RP__: bluelightning: it wasn&#39;t meant to be legal</span></=
-font></div>
-<div><font class=3D"Apple-style-span" color=3D"#222222" face=3D"arial, sans=
--serif"><span class=3D"Apple-style-span" style=3D"border-collapse:collapse"=
->(9:16:49 AM) khem: multiline strings and multiline comments are tricky eve=
-n C compilers sucked in past on them</span></font></div>
-<div><font class=3D"Apple-style-span" color=3D"#222222" face=3D"arial, sans=
--serif"><span class=3D"Apple-style-span" style=3D"border-collapse:collapse"=
->(9:17:38 AM) RP__: So anything else we need to talk about</span></font></d=
-iv><div>
-<font class=3D"Apple-style-span" color=3D"#222222" face=3D"arial, sans-seri=
-f"><span class=3D"Apple-style-span" style=3D"border-collapse:collapse">(9:1=
-7:41 AM) RP__: ?</span></font></div><div><font class=3D"Apple-style-span" c=
-olor=3D"#222222" face=3D"arial, sans-serif"><span class=3D"Apple-style-span=
-" style=3D"border-collapse:collapse">(9:17:53 AM) RP__: We should be going =
-into a bit of a stability/bug fixing drive now</span></font></div>
-<div><font class=3D"Apple-style-span" color=3D"#222222" face=3D"arial, sans=
--serif"><span class=3D"Apple-style-span" style=3D"border-collapse:collapse"=
->(9:18:04 AM) bluelightning: I&#39;ve got nothing, most of my long-pending =
-patches are getting merged finally :)</span></font></div>
-<div><font class=3D"Apple-style-span" color=3D"#222222" face=3D"arial, sans=
--serif"><span class=3D"Apple-style-span" style=3D"border-collapse:collapse"=
->(9:18:08 AM) RP__: also,hobv2 merged</span></font></div><div><font class=
-=3D"Apple-style-span" color=3D"#222222" face=3D"arial, sans-serif"><span cl=
-ass=3D"Apple-style-span" style=3D"border-collapse:collapse">(9:18:14 AM) RP=
-__: people should play with it :)</span></font></div>
-<div><font class=3D"Apple-style-span" color=3D"#222222" face=3D"arial, sans=
--serif"><span class=3D"Apple-style-span" style=3D"border-collapse:collapse"=
->(9:18:25 AM) Jefro: I can chime in with one thing - the Yocto event at Col=
-lab Summit. Philip mentioned that he&#39;d like to have several OE folks th=
-ere.</span></font></div>
-<div><font class=3D"Apple-style-span" color=3D"#222222" face=3D"arial, sans=
--serif"><span class=3D"Apple-style-span" style=3D"border-collapse:collapse"=
->(9:18:28 AM) fray: ahh I knew hobv2 was going in soon, but it&#39;s there =
-now?</span></font></div>
-<div><font class=3D"Apple-style-span" color=3D"#222222" face=3D"arial, sans=
--serif"><span class=3D"Apple-style-span" style=3D"border-collapse:collapse"=
->(9:18:31 AM) ***RP__ has a stack of patches outstanding :(</span></font></=
-div><div>
-<font class=3D"Apple-style-span" color=3D"#222222" face=3D"arial, sans-seri=
-f"><span class=3D"Apple-style-span" style=3D"border-collapse:collapse">(9:1=
-8:44 AM) RP__: fray: its in</span></font></div><div><font class=3D"Apple-st=
-yle-span" color=3D"#222222" face=3D"arial, sans-serif"><span class=3D"Apple=
--style-span" style=3D"border-collapse:collapse">(9:18:54 AM) fray: excellen=
-t!</span></font></div>
-<div><font class=3D"Apple-style-span" color=3D"#222222" face=3D"arial, sans=
--serif"><span class=3D"Apple-style-span" style=3D"border-collapse:collapse"=
->(9:18:56 AM) RP__: fray: run &quot;hob&quot;</span></font></div><div><font=
- class=3D"Apple-style-span" color=3D"#222222" face=3D"arial, sans-serif"><s=
-pan class=3D"Apple-style-span" style=3D"border-collapse:collapse">(9:19:03 =
-AM) khem: RP__: I have a working gcc 4.7 which is uncovering interting bugs=
-</span></font></div>
-<div><font class=3D"Apple-style-span" color=3D"#222222" face=3D"arial, sans=
--serif"><span class=3D"Apple-style-span" style=3D"border-collapse:collapse"=
->(9:19:15 AM) khem: so I will post fixes as I see and fix them</span></font=
-></div>
-<div><font class=3D"Apple-style-span" color=3D"#222222" face=3D"arial, sans=
--serif"><span class=3D"Apple-style-span" style=3D"border-collapse:collapse"=
->(9:19:29 AM) RP__: khem: I&#39;ve held off the gcc patch just yet until I =
-can have more of a look at it</span></font></div>
-<div><font class=3D"Apple-style-span" color=3D"#222222" face=3D"arial, sans=
--serif"><span class=3D"Apple-style-span" style=3D"border-collapse:collapse"=
->(9:19:36 AM) khem: sure.</span></font></div><div><font class=3D"Apple-styl=
-e-span" color=3D"#222222" face=3D"arial, sans-serif"><span class=3D"Apple-s=
-tyle-span" style=3D"border-collapse:collapse">(9:19:48 AM) khem: I did not =
-post 4.7 upgrade yet</span></font></div>
-<div><font class=3D"Apple-style-span" color=3D"#222222" face=3D"arial, sans=
--serif"><span class=3D"Apple-style-span" style=3D"border-collapse:collapse"=
->(9:19:53 AM) RP__: khem: we should try and push some of these fixes direct=
- to the upstreams</span></font></div>
-<div><font class=3D"Apple-style-span" color=3D"#222222" face=3D"arial, sans=
--serif"><span class=3D"Apple-style-span" style=3D"border-collapse:collapse"=
->(9:19:56 AM) khem: since I wanted the prework to first go in</span></font>=
-</div>
-<div><font class=3D"Apple-style-span" color=3D"#222222" face=3D"arial, sans=
--serif"><span class=3D"Apple-style-span" style=3D"border-collapse:collapse"=
->(9:20:12 AM) khem: RP__: yes, true</span></font></div><div><font class=3D"=
-Apple-style-span" color=3D"#222222" face=3D"arial, sans-serif"><span class=
-=3D"Apple-style-span" style=3D"border-collapse:collapse">(9:20:30 AM) RP__:=
- khem: right, I&#39;d really like to hold 4.7 on a branch until after the A=
-pril release</span></font></div>
-<div><font class=3D"Apple-style-span" color=3D"#222222" face=3D"arial, sans=
--serif"><span class=3D"Apple-style-span" style=3D"border-collapse:collapse"=
->(9:20:36 AM) fray: is 4.7 &quot;stable&quot; release out yet? =A0or any id=
-ea when it will be?</span></font></div>
-<div><font class=3D"Apple-style-span" color=3D"#222222" face=3D"arial, sans=
--serif"><span class=3D"Apple-style-span" style=3D"border-collapse:collapse"=
->(9:20:40 AM) khem: nooo</span></font></div><div><font class=3D"Apple-style=
--span" color=3D"#222222" face=3D"arial, sans-serif"><span class=3D"Apple-st=
-yle-span" style=3D"border-collapse:collapse">(9:20:47 AM) khem: its a prewo=
-rk</span></font></div>
-<div><font class=3D"Apple-style-span" color=3D"#222222" face=3D"arial, sans=
--serif"><span class=3D"Apple-style-span" style=3D"border-collapse:collapse"=
->(9:21:02 AM) fray: I&#39;m almost say a toolchain layer until 4.7 can be m=
-erged.. maybe a toolchain-next layer?</span></font></div>
-<div><font class=3D"Apple-style-span" color=3D"#222222" face=3D"arial, sans=
--serif"><span class=3D"Apple-style-span" style=3D"border-collapse:collapse"=
->(9:21:09 AM) RP__: khem: I know but we are supposed to be entering a stabl=
-isation window at this point</span></font></div>
-<div><font class=3D"Apple-style-span" color=3D"#222222" face=3D"arial, sans=
--serif"><span class=3D"Apple-style-span" style=3D"border-collapse:collapse"=
->(9:21:14 AM) khem: so we can use it offficially the same day its released =
-and help gcc find and fix some bugs in return</span></font></div>
-<div><font class=3D"Apple-style-span" color=3D"#222222" face=3D"arial, sans=
--serif"><span class=3D"Apple-style-span" style=3D"border-collapse:collapse"=
->(9:21:32 AM) khem: RP__: that noo was meant for fray</span></font></div><d=
-iv><font class=3D"Apple-style-span" color=3D"#222222" face=3D"arial, sans-s=
-erif"><span class=3D"Apple-style-span" style=3D"border-collapse:collapse">(=
-9:21:57 AM) RP__: fray: I think a branch should be ok</span></font></div>
-<div><font class=3D"Apple-style-span" color=3D"#222222" face=3D"arial, sans=
--serif"><span class=3D"Apple-style-span" style=3D"border-collapse:collapse"=
->(9:22:02 AM) fray: ya, I thought 4.7 was still too far off to consider it =
-for right now</span></font></div>
-<div><font class=3D"Apple-style-span" color=3D"#222222" face=3D"arial, sans=
--serif"><span class=3D"Apple-style-span" style=3D"border-collapse:collapse"=
->(9:22:16 AM) khem: RP__: the reason I did not post 4.7 patches is same</sp=
-an></font></div>
-<div><font class=3D"Apple-style-span" color=3D"#222222" face=3D"arial, sans=
--serif"><span class=3D"Apple-style-span" style=3D"border-collapse:collapse"=
->(9:22:23 AM) bluelightning: I forgot to ask people; were there significant=
- discussions at ELC about oe-core/meta-oe reorg that are worth discussing h=
-ere?</span></font></div>
-<div><font class=3D"Apple-style-span" color=3D"#222222" face=3D"arial, sans=
--serif"><span class=3D"Apple-style-span" style=3D"border-collapse:collapse"=
->(9:22:37 AM) khem: I wanted prework to be in there so folks can then use t=
-he 4.7 branch to try it out</span></font></div>
-<div><font class=3D"Apple-style-span" color=3D"#222222" face=3D"arial, sans=
--serif"><span class=3D"Apple-style-span" style=3D"border-collapse:collapse"=
->(9:22:40 AM) ***RP__ wasn&#39;t party to those</span></font></div><div><fo=
-nt class=3D"Apple-style-span" color=3D"#222222" face=3D"arial, sans-serif">=
-<span class=3D"Apple-style-span" style=3D"border-collapse:collapse">(9:22:5=
-6 AM) khem: bluelightning: I talked a bit</span></font></div>
-<div><font class=3D"Apple-style-span" color=3D"#222222" face=3D"arial, sans=
--serif"><span class=3D"Apple-style-span" style=3D"border-collapse:collapse"=
->(9:22:57 AM) RP__: khem: I agree we should put it somewhere obvious so peo=
-ple can try it</span></font></div>
-<div><font class=3D"Apple-style-span" color=3D"#222222" face=3D"arial, sans=
--serif"><span class=3D"Apple-style-span" style=3D"border-collapse:collapse"=
->(9:22:59 AM) khem: with koen</span></font></div><div><font class=3D"Apple-=
-style-span" color=3D"#222222" face=3D"arial, sans-serif"><span class=3D"App=
-le-style-span" style=3D"border-collapse:collapse">(9:23:11 AM) khem: RP__: =
-master-next ?</span></font></div>
-<div><font class=3D"Apple-style-span" color=3D"#222222" face=3D"arial, sans=
--serif"><span class=3D"Apple-style-span" style=3D"border-collapse:collapse"=
->(9:23:17 AM) khem: oh well a contrib branch is ok too</span></font></div><=
-div><font class=3D"Apple-style-span" color=3D"#222222" face=3D"arial, sans-=
-serif"><span class=3D"Apple-style-span" style=3D"border-collapse:collapse">=
-(9:23:39 AM) bluelightning: khem: ah ok... I talked to him at FOSDEM about =
-it as well, took some notes... haven&#39;t had a chance to formulate a cohe=
-rent plan yet</span></font></div>
-<div><font class=3D"Apple-style-span" color=3D"#222222" face=3D"arial, sans=
--serif"><span class=3D"Apple-style-span" style=3D"border-collapse:collapse"=
->(9:23:50 AM) khem: bluelightning: I think we should keep the discussion ab=
-out sprilling meta-oe going</span></font></div>
-<div><font class=3D"Apple-style-span" color=3D"#222222" face=3D"arial, sans=
--serif"><span class=3D"Apple-style-span" style=3D"border-collapse:collapse"=
->(9:23:52 AM) RP__: khem: it might be appropriate for master-next, yes</spa=
-n></font></div>
-<div><font class=3D"Apple-style-span" color=3D"#222222" face=3D"arial, sans=
--serif"><span class=3D"Apple-style-span" style=3D"border-collapse:collapse"=
->(9:24:12 AM) bluelightning: khem: definitely... we have a tentative plan I=
- think from our existing discussion</span></font></div>
-<div><font class=3D"Apple-style-span" color=3D"#222222" face=3D"arial, sans=
--serif"><span class=3D"Apple-style-span" style=3D"border-collapse:collapse"=
->(9:24:25 AM) bluelightning: (on the mailing list)</span></font></div><div>=
-<font class=3D"Apple-style-span" color=3D"#222222" face=3D"arial, sans-seri=
-f"><span class=3D"Apple-style-span" style=3D"border-collapse:collapse">(9:2=
-4:30 AM) khem: I think, I did some work on oe-core/meta-oe duplication but =
-thats pretty much it</span></font></div>
-<div><font class=3D"Apple-style-span" color=3D"#222222" face=3D"arial, sans=
--serif"><span class=3D"Apple-style-span" style=3D"border-collapse:collapse"=
->(9:24:55 AM) bluelightning: khem: yes I saw that, thanks for that work :)<=
-/span></font></div>
-<div><font class=3D"Apple-style-span" color=3D"#222222" face=3D"arial, sans=
--serif"><span class=3D"Apple-style-span" style=3D"border-collapse:collapse"=
->(9:25:32 AM) khem: biggest issue is toolchain for many folks</span></font>=
-</div>
-<div><font class=3D"Apple-style-span" color=3D"#222222" face=3D"arial, sans=
--serif"><span class=3D"Apple-style-span" style=3D"border-collapse:collapse"=
->(9:25:41 AM) khem: so I think that should be the first one to be spun out<=
-/span></font></div>
-<div><font class=3D"Apple-style-span" color=3D"#222222" face=3D"arial, sans=
--serif"><span class=3D"Apple-style-span" style=3D"border-collapse:collapse"=
->(9:25:50 AM) RP__: khem: people want 4.5?</span></font></div><div><font cl=
-ass=3D"Apple-style-span" color=3D"#222222" face=3D"arial, sans-serif"><span=
- class=3D"Apple-style-span" style=3D"border-collapse:collapse">(9:26:01 AM)=
- khem: RP__: angstrom stable uses it</span></font></div>
-<div><font class=3D"Apple-style-span" color=3D"#222222" face=3D"arial, sans=
--serif"><span class=3D"Apple-style-span" style=3D"border-collapse:collapse"=
->(9:26:11 AM) khem: and angstrom uses for long cycles</span></font></div><d=
-iv><font class=3D"Apple-style-span" color=3D"#222222" face=3D"arial, sans-s=
-erif"><span class=3D"Apple-style-span" style=3D"border-collapse:collapse">(=
-9:26:15 AM) RP__: khem: with no plans to update?</span></font></div>
-<div><font class=3D"Apple-style-span" color=3D"#222222" face=3D"arial, sans=
--serif"><span class=3D"Apple-style-span" style=3D"border-collapse:collapse"=
->(9:26:25 AM) khem: so I am expecting it to be in use for couple of years f=
-rom now at least</span></font></div>
-<div><font class=3D"Apple-style-span" color=3D"#222222" face=3D"arial, sans=
--serif"><span class=3D"Apple-style-span" style=3D"border-collapse:collapse"=
->(9:26:57 AM) khem: RP__: I think once meta-oe releases then there would be=
- a chance to have 2012 angstrom</span></font></div>
-<div><font class=3D"Apple-style-span" color=3D"#222222" face=3D"arial, sans=
--serif"><span class=3D"Apple-style-span" style=3D"border-collapse:collapse"=
->(9:27:10 AM) bluelightning: is there still concern about arm in gcc &gt; 4=
-.5 ? or was that never a serious issue?</span></font></div>
-<div><font class=3D"Apple-style-span" color=3D"#222222" face=3D"arial, sans=
--serif"><span class=3D"Apple-style-span" style=3D"border-collapse:collapse"=
->(9:27:55 AM) khem: bluelightning: no idea. I think gcc 4.5 is stable and a=
-ngstrom does not like to tinker with toolchain too much</span></font></div>
-<div><font class=3D"Apple-style-span" color=3D"#222222" face=3D"arial, sans=
--serif"><span class=3D"Apple-style-span" style=3D"border-collapse:collapse"=
->(9:28:08 AM) bluelightning: ok</span></font></div><div><font class=3D"Appl=
-e-style-span" color=3D"#222222" face=3D"arial, sans-serif"><span class=3D"A=
-pple-style-span" style=3D"border-collapse:collapse">(9:28:33 AM) fray: but =
-would anyone use 4.5 with an updated oe-core?</span></font></div>
-<div><font class=3D"Apple-style-span" color=3D"#222222" face=3D"arial, sans=
--serif"><span class=3D"Apple-style-span" style=3D"border-collapse:collapse"=
->(9:28:46 AM) fray: I&#39;d expect that if you stay with an older toolchain=
-, you&#39;d also stay with an older oe-core/angstrom</span></font></div>
-<div><font class=3D"Apple-style-span" color=3D"#222222" face=3D"arial, sans=
--serif"><span class=3D"Apple-style-span" style=3D"border-collapse:collapse"=
->(9:28:51 AM) bluelightning: fray: well, angstrom does right now...</span><=
-/font></div>
-<div><font class=3D"Apple-style-span" color=3D"#222222" face=3D"arial, sans=
--serif"><span class=3D"Apple-style-span" style=3D"border-collapse:collapse"=
->(9:28:51 AM) khem: so far angstrom =A0has been doing that yes</span></font=
-></div><div>
-<font class=3D"Apple-style-span" color=3D"#222222" face=3D"arial, sans-seri=
-f"><span class=3D"Apple-style-span" style=3D"border-collapse:collapse">(9:2=
-9:12 AM) khem: usually its not a problem</span></font></div><div><font clas=
-s=3D"Apple-style-span" color=3D"#222222" face=3D"arial, sans-serif"><span c=
-lass=3D"Apple-style-span" style=3D"border-collapse:collapse">(9:29:17 AM) f=
-ray: that very well could be a distro choice, so we need to enable the abil=
-ity to do it.. but do we need it in oe-core itself?</span></font></div>
-<div><font class=3D"Apple-style-span" color=3D"#222222" face=3D"arial, sans=
--serif"><span class=3D"Apple-style-span" style=3D"border-collapse:collapse"=
->(9:29:39 AM) khem: its not in oe-core</span></font></div><div><font class=
-=3D"Apple-style-span" color=3D"#222222" face=3D"arial, sans-serif"><span cl=
-ass=3D"Apple-style-span" style=3D"border-collapse:collapse">(9:29:44 AM) kh=
-em: its in meta-oe</span></font></div>
-<div><font class=3D"Apple-style-span" color=3D"#222222" face=3D"arial, sans=
--serif"><span class=3D"Apple-style-span" style=3D"border-collapse:collapse"=
->(9:29:49 AM) fray: ohh ok, I misunderstood then</span></font></div><div><f=
-ont class=3D"Apple-style-span" color=3D"#222222" face=3D"arial, sans-serif"=
-><span class=3D"Apple-style-span" style=3D"border-collapse:collapse">(9:30:=
-02 AM) khem: same is true for eglibc 2.12</span></font></div>
-<div><font class=3D"Apple-style-span" color=3D"#222222" face=3D"arial, sans=
--serif"><span class=3D"Apple-style-span" style=3D"border-collapse:collapse"=
->(9:30:13 AM) bluelightning: fray: it&#39;s in meta-oe, but what would make=
- it easier is if it was in its own layer (which may well be in the meta-ope=
-nembedded repo still)</span></font></div>
-<div><font class=3D"Apple-style-span" color=3D"#222222" face=3D"arial, sans=
--serif"><span class=3D"Apple-style-span" style=3D"border-collapse:collapse"=
->(9:30:27 AM) fray: yes, I agree..</span></font></div><div><font class=3D"A=
-pple-style-span" color=3D"#222222" face=3D"arial, sans-serif"><span class=
-=3D"Apple-style-span" style=3D"border-collapse:collapse">(9:30:29 AM) khem:=
- and I would love to see X11 from meta-oe/oe-core merge</span></font></div>
-<div><font class=3D"Apple-style-span" color=3D"#222222" face=3D"arial, sans=
--serif"><span class=3D"Apple-style-span" style=3D"border-collapse:collapse"=
->(9:30:44 AM) fray: at Wind River we have a tendency to make our toolchains=
- into layers, so they are easily replacable (upgradeable)..</span></font></=
-div>
-<div><font class=3D"Apple-style-span" color=3D"#222222" face=3D"arial, sans=
--serif"><span class=3D"Apple-style-span" style=3D"border-collapse:collapse"=
->(9:31:12 AM) khem: fray: yes we should have done it to start with but we w=
-ere so new to layers we were afraid of them :)</span></font></div>
-<div><font class=3D"Apple-style-span" color=3D"#222222" face=3D"arial, sans=
--serif"><span class=3D"Apple-style-span" style=3D"border-collapse:collapse"=
->(9:31:42 AM) RP__: khem: X11?</span></font></div><div><font class=3D"Apple=
--style-span" color=3D"#222222" face=3D"arial, sans-serif"><span class=3D"Ap=
-ple-style-span" style=3D"border-collapse:collapse">(9:31:45 AM) fray: well =
-there is the fine line between not enough layers and too many.. ;)</span></=
-font></div>
-<div><font class=3D"Apple-style-span" color=3D"#222222" face=3D"arial, sans=
--serif"><span class=3D"Apple-style-span" style=3D"border-collapse:collapse"=
->(9:31:51 AM) RP__: khem: I thought we had most X11 things sorted now?</spa=
-n></font></div>
-<div><font class=3D"Apple-style-span" color=3D"#222222" face=3D"arial, sans=
--serif"><span class=3D"Apple-style-span" style=3D"border-collapse:collapse"=
->(9:32:07 AM) fray: I didn&#39;t realize that meta-oe had anything unique f=
-or X11 anymore..</span></font></div>
-<div><font class=3D"Apple-style-span" color=3D"#222222" face=3D"arial, sans=
--serif"><span class=3D"Apple-style-span" style=3D"border-collapse:collapse"=
->(9:32:18 AM) RP__: I think splitting the toolchain pieces in meta-oe apart=
- is a fine idea and nobody seems to object to that :)</span></font></div>
-<div><font class=3D"Apple-style-span" color=3D"#222222" face=3D"arial, sans=
--serif"><span class=3D"Apple-style-span" style=3D"border-collapse:collapse"=
->(9:32:20 AM) fray: I thought it had been merged, other then a few utilitie=
-s</span></font></div>
-<div><font class=3D"Apple-style-span" color=3D"#222222" face=3D"arial, sans=
--serif"><span class=3D"Apple-style-span" style=3D"border-collapse:collapse"=
->(9:33:37 AM) khem: I tried core-image-sato build with meta-oe enabled</spa=
-n></font></div>
-<div><font class=3D"Apple-style-span" color=3D"#222222" face=3D"arial, sans=
--serif"><span class=3D"Apple-style-span" style=3D"border-collapse:collapse"=
->(9:33:40 AM) khem: did not work</span></font></div><div><font class=3D"App=
-le-style-span" color=3D"#222222" face=3D"arial, sans-serif"><span class=3D"=
-Apple-style-span" style=3D"border-collapse:collapse">(9:34:07 AM) RP__: khe=
-m: hmm, any idea what the issue was</span></font></div>
-<div><font class=3D"Apple-style-span" color=3D"#222222" face=3D"arial, sans=
--serif"><span class=3D"Apple-style-span" style=3D"border-collapse:collapse"=
->(9:34:11 AM) khem: so I vehemently blamed it</span></font></div><div><font=
- class=3D"Apple-style-span" color=3D"#222222" face=3D"arial, sans-serif"><s=
-pan class=3D"Apple-style-span" style=3D"border-collapse:collapse">(9:34:14 =
-AM) RP__: we need to find and deal with things like this</span></font></div=
+<div>OpenEmbedded Technical Steering Committee</div><div>13 March 2012</div=
+><div><br></div><div>Attending: Richard, Paul, Mark, Tom</div><div>Apologie=
+s: Khem</div><div>Minutes: Jefro</div><div><br></div><div>_________________=
+_______________________________</div>
+<div>Agenda</div><div><br></div><div>1. pick a chair</div><div>-&gt; RP</di=
+v><div><br></div><div>2. open issues</div><div><br></div><div>=A0 =A0a. IMA=
+GE_FSTYPES (Tartarus)</div><div>=3D&gt; =A0 =A0poking people to read &amp; =
+reply on list</div>
+<div><br></div><div>=A0 =A0b. need more QA - warnings reduction, stress tes=
+t of sstate,=A0</div><div>=A0 =A0 =A0 fixing autobuilder regressions (RP)</=
+div><div><br></div><div>=A0 =A0c. conferences - Collaboration Summit</div><=
+div>=A0 =A0 =A0 yocto project working day on weds at collab</div>
+<div>=A0 =A0 =A0 for working day</div><div><br></div><div>=A0 =A0d. raise a=
+wareness of &quot;janitor&quot; list, QA &quot;bugs&quot;</div><div>=A0 =A0=
+ =A0 requires more publicizing, getting more people involved</div><div>=A0 =
+=A0 =A0 going to rework the wiki page into the bugzilla so we track=A0</div=
 >
-<div><font class=3D"Apple-style-span" color=3D"#222222" face=3D"arial, sans=
--serif"><span class=3D"Apple-style-span" style=3D"border-collapse:collapse"=
->(9:34:46 AM) khem: RP__: yes, we should but then something else pops up :)=
-</span></font></div>
-<div><font class=3D"Apple-style-span" color=3D"#222222" face=3D"arial, sans=
--serif"><span class=3D"Apple-style-span" style=3D"border-collapse:collapse"=
->(9:34:50 AM) fray: yes.. =A0we should probably have someone look into meta=
--oe and plan for a merge if reasonable.. =A0or at least identify issues lik=
-e this</span></font></div>
-<div><font class=3D"Apple-style-span" color=3D"#222222" face=3D"arial, sans=
--serif"><span class=3D"Apple-style-span" style=3D"border-collapse:collapse"=
->(9:35:11 AM) khem: my point is it should be easily overlayed on oe-core an=
-d not regress oe-core</span></font></div>
-<div><font class=3D"Apple-style-span" color=3D"#222222" face=3D"arial, sans=
--serif"><span class=3D"Apple-style-span" style=3D"border-collapse:collapse"=
->(9:36:13 AM) RP__: khem: agreed, just need someone with some time to look =
-at it</span></font></div>
-<div><font class=3D"Apple-style-span" color=3D"#222222" face=3D"arial, sans=
--serif"><span class=3D"Apple-style-span" style=3D"border-collapse:collapse"=
->(9:36:17 AM) fray: yes</span></font></div><div><font class=3D"Apple-style-=
-span" color=3D"#222222" face=3D"arial, sans-serif"><span class=3D"Apple-sty=
-le-span" style=3D"border-collapse:collapse">(9:36:30 AM) khem: bluelightnin=
-g: will you send follow up to the layer split discussions of your meeting a=
-t FOSDEM</span></font></div>
-<div><font class=3D"Apple-style-span" color=3D"#222222" face=3D"arial, sans=
--serif"><span class=3D"Apple-style-span" style=3D"border-collapse:collapse"=
->(9:36:43 AM) bluelightning: khem: will do yes</span></font></div><div><fon=
-t class=3D"Apple-style-span" color=3D"#222222" face=3D"arial, sans-serif"><=
-span class=3D"Apple-style-span" style=3D"border-collapse:collapse">(9:36:57=
- AM) khem: that should get us some =A0further in decision process</span></f=
-ont></div>
-<div><font class=3D"Apple-style-span" color=3D"#222222" face=3D"arial, sans=
--serif"><span class=3D"Apple-style-span" style=3D"border-collapse:collapse"=
->(9:37:21 AM) bluelightning: khem: I think we should just press ahead on th=
-e toolchain split out though</span></font></div>
-<div><font class=3D"Apple-style-span" color=3D"#222222" face=3D"arial, sans=
--serif"><span class=3D"Apple-style-span" style=3D"border-collapse:collapse"=
->(9:37:35 AM) RP__: As the TSC, I think we can agree that?</span></font></d=
-iv><div>
-<font class=3D"Apple-style-span" color=3D"#222222" face=3D"arial, sans-seri=
-f"><span class=3D"Apple-style-span" style=3D"border-collapse:collapse">(9:3=
-7:39 AM) khem: bluelightning: yeah</span></font></div><div><font class=3D"A=
-pple-style-span" color=3D"#222222" face=3D"arial, sans-serif"><span class=
-=3D"Apple-style-span" style=3D"border-collapse:collapse">(9:38:03 AM) fray:=
- yes</span></font></div>
-<div><font class=3D"Apple-style-span" color=3D"#222222" face=3D"arial, sans=
--serif"><span class=3D"Apple-style-span" style=3D"border-collapse:collapse"=
->(9:38:05 AM) ***Jefro listens for detractors</span></font></div><div><font=
- class=3D"Apple-style-span" color=3D"#222222" face=3D"arial, sans-serif"><s=
-pan class=3D"Apple-style-span" style=3D"border-collapse:collapse">(9:38:16 =
-AM) khem: ok.</span></font></div>
-<div><font class=3D"Apple-style-span" color=3D"#222222" face=3D"arial, sans=
--serif"><span class=3D"Apple-style-span" style=3D"border-collapse:collapse"=
->(9:38:45 AM) khem: Jefro: when/where is Collab Summit</span></font></div><=
-div><font class=3D"Apple-style-span" color=3D"#222222" face=3D"arial, sans-=
-serif"><span class=3D"Apple-style-span" style=3D"border-collapse:collapse">=
-(9:38:54 AM) Jefro: Collab Summit is April 3-5 in San Francisco</span></fon=
-t></div>
-<div><font class=3D"Apple-style-span" color=3D"#222222" face=3D"arial, sans=
--serif"><span class=3D"Apple-style-span" style=3D"border-collapse:collapse"=
->(9:39:07 AM) Jefro: there will be a Yocto working day all day on Weds Apr =
-4</span></font></div>
-<div><font class=3D"Apple-style-span" color=3D"#222222" face=3D"arial, sans=
--serif"><span class=3D"Apple-style-span" style=3D"border-collapse:collapse"=
->(9:39:21 AM) Jefro: Collab is invitation-only- I am working to secure a ce=
-rtain number of invitations</span></font></div>
-<div><font class=3D"Apple-style-span" color=3D"#222222" face=3D"arial, sans=
--serif"><span class=3D"Apple-style-span" style=3D"border-collapse:collapse"=
->(9:39:22 AM) khem: ok and thats in Fremont ?</span></font></div><div><font=
- class=3D"Apple-style-span" color=3D"#222222" face=3D"arial, sans-serif"><s=
-pan class=3D"Apple-style-span" style=3D"border-collapse:collapse">(9:39:40 =
-AM) Jefro: no - there is also an invitation-only Yocto BSP Summit in Fremon=
-t, that is on April 2</span></font></div>
-<div><font class=3D"Apple-style-span" color=3D"#222222" face=3D"arial, sans=
--serif"><span class=3D"Apple-style-span" style=3D"border-collapse:collapse"=
->(9:39:48 AM) khem: Jefro: extend to me if you have spare :)</span></font><=
-/div><div>
-<font class=3D"Apple-style-span" color=3D"#222222" face=3D"arial, sans-seri=
-f"><span class=3D"Apple-style-span" style=3D"border-collapse:collapse">(9:4=
-0:00 AM) Jefro: khem I will definitely try</span></font></div><div><font cl=
-ass=3D"Apple-style-span" color=3D"#222222" face=3D"arial, sans-serif"><span=
- class=3D"Apple-style-span" style=3D"border-collapse:collapse">(9:40:09 AM)=
- khem: both yocto/collab that is</span></font></div>
-<div><font class=3D"Apple-style-span" color=3D"#222222" face=3D"arial, sans=
--serif"><span class=3D"Apple-style-span" style=3D"border-collapse:collapse"=
->(9:40:22 AM) khem: oh brb</span></font></div><div><font class=3D"Apple-sty=
-le-span" color=3D"#222222" face=3D"arial, sans-serif"><span class=3D"Apple-=
-style-span" style=3D"border-collapse:collapse">(9:40:55 AM) RP__: The bsp s=
-ummit is to try and get everyone on the same page around BSPs and layers, t=
-he various definitions and so on</span></font></div>
-<div><font class=3D"Apple-style-span" color=3D"#222222" face=3D"arial, sans=
--serif"><span class=3D"Apple-style-span" style=3D"border-collapse:collapse"=
->(9:41:21 AM) bluelightning: hmm that would be interesting...</span></font>=
+<div>=A0 =A0 =A0 =A0 things in one place, then generate a summary of open t=
+asks=A0</div><div>=A0 =A0 =A0 =A0 for the wiki automagically</div><div>=A0 =
+=A0 =A0 separate janitorial tasks from actual bug fixes</div><div>=3D&gt; =
+=A0 =A0RP will mention idea to Darren &amp; Sean</div>
+<div>=3D&gt; =A0 =A0all - please think of other ways to get people involved=
+</div><div><br></div><div>3. status</div><div><br></div><div>=A0 =A0a. elec=
+tions</div><div>=A0 =A0 =A0 fray reelected</div><div>=A0 =A0 =A0 Tartarus n=
+ext, then cycle complete</div>
+<div>=3D&gt; =A0 =A0RP to ping board, roll into new election right away</di=
+v><div><br></div><div>=A0 =A0b. infrastructure</div><div>=A0 =A0 =A0 RP ack=
+nowledge Michael Halstead&#39;s work on the OE server=A0</div><div>=A0 =A0 =
+=A0 =A0 in speeding up git access; Paul agrees, much appreciated</div>
+<div>=A0 =A0 =A0 web issues brought down ltg &amp; ml archives a few weeks =
+ago</div><div>=A0 =A0 =A0 =A0 list archives back now</div><div><br></div><d=
+iv>=A0 =A0c. oe-core release</div><div>=A0 =A0 =A0 feature freeze in 1 week=
+</div><div>=A0 =A0 =A0 final freeze 2-3 weeks from 18 Mar</div>
+<div><br></div><div>________________________________________________</div><=
+div>Raw Transcript</div><div><br></div><div>(9:16:19 AM) RP__: Jefro: do yo=
+u have an agenda?</div><div>(9:18:05 AM) ***fray wonders if jefro fell off =
+the internet</div>
+<div>(9:18:42 AM) RP__: lets assume he has :/</div><div>(9:18:49 AM) RP__: =
+agenda items?</div><div>(9:19:09 AM) RP__: Well, lets start with the janito=
+r and QA bugs</div><div>(9:19:15 AM) fray: sounds good</div><div>(9:19:19 A=
+M) fray: (is someone logging?)</div>
+<div>(9:19:27 AM) ***RP__ is</div><div>(9:19:51 AM) RP__: For those who wer=
+e in the Yocto technical meeting before, I laboured a point about the numbe=
+r of warnings our builds generate</div><div>(9:20:00 AM) RP__: I&#39;m rath=
+er unhappy about this</div>
+<div>(9:20:21 AM) RP__: I&#39;m doing my bit to reduce the numbers but I&#3=
+9;d appreciate more people helping out</div><div>(9:20:38 AM) RP__: Sean me=
+ntioned there are some sstate issues and that our QA tests probably aren&#3=
+9;t good enough</div>
+<div>(9:20:54 AM) RP__: I pointed out that even the QA issues we know about=
+ right now aren&#39;t getting fixed</div><div>(9:21:17 AM) RP__: This lead =
+into a discussion about our the Yocto janitor page - this is like the kerne=
+l janitors project</div>
+<div>(9:21:30 AM) RP__: tasks someone could pick up, look into and fix to g=
+et into the project</div><div>(9:21:55 AM) RP__: We&#39;re going to rework =
+the wiki page into the bugzilla so we track things in one place, then gener=
+ate a summary of open tasks for the wiki automagically</div>
+<div>(9:22:17 AM) RP__: We need to raise more awareness of the janitor list=
+...</div><div>(9:22:29 AM) RP__: Any comments or shall I just talk to mysel=
+f? :)</div><div>(9:22:43 AM) Tartarus: Good idea, I thought we had said to =
+do that before</div>
+<div>(9:22:44 AM) fray: yes.. I know there are people willing to do janitor=
+ work (in oe as well as the Yocto Project)</div><div>(9:22:58 AM) fray: we =
+just need to make it clear to folks we&#39;ve hit a point where janitor wor=
+k is needed..</div>
+<div>(9:23:10 AM) RP__: Tartarus: I think we&#39;ve said it but we&#39;ve n=
+ot done much about it and its not publicised much</div><div>(9:23:11 AM) Je=
+fro: sorry - got called away, here now</div><div>(9:23:14 AM) fray: (actual=
+ly we&#39;re likely past that point.. but anyway..)</div>
+<div>(9:23:18 AM) Jefro: I&#39;m logging</div><div>(9:23:23 AM) Jefro: I ev=
+en have an agenda</div><div>(9:23:38 AM) RP__: Jefro: If you could share th=
+at with us that would be useful :)</div><div>(9:23:43 AM) Jefro: <a href=3D=
+"http://pastebin.com/TqiVP8dw">http://pastebin.com/TqiVP8dw</a></div>
+<div>(9:24:08 AM) fray: IMAGE_FSTYPES was Tartarus =A0 ;)</div><div>(9:24:1=
+3 AM) Jefro: oops, ok</div><div>(9:24:23 AM) RP__: What the janitor work ne=
+eds is one or more people to champion it</div><div>(9:24:45 AM) RP__: We co=
+uld ask the membership for volunteers</div>
+<div>(9:25:01 AM) fray: yes, i think thats a good idea..</div><div>(9:25:15=
+ AM) ***RP__ suspects he is chairing</div><div>(9:25:37 AM) ***bluelightnin=
+g suspects that is the case ;)</div><div>(9:25:49 AM) Jefro: who wants to t=
+ake AR to alert membership for janitor volunteers?</div>
+<div>(9:26:04 AM) RP__: ok, I will mention the above idea to Darren and see=
+ if I can convince him and Sean to take this on</div><div>(9:26:08 AM) RP__=
+: ;-)</div><div>(9:26:23 AM) fray: I was justa bout to suggest that..</div>
+<div>(9:26:28 AM) RP__: Re: the QA issues in general as well as bug fixing =
+and testing</div><div>(9:27:24 AM) RP__: Does anyone have any idea how to g=
+et more people involved?</div><div>(9:27:55 AM) RP__: I&#39;m finding it ha=
+rd going atm and will have to start refusing changes when the builds are br=
+oken</div>
+<div>(9:27:56 AM) fray: I think a request to the oe-core list and a page in=
+dicating what is needed is hte best way to start..</div><div>(9:28:06 AM) J=
+efro: it might be useful to separate janitorial duties from actual bug fixi=
+ng, so those of us with less technical expertise can lend time</div>
+<div>(9:28:11 AM) fray: we already have people doing some of the work and p=
+robably not realizing it</div><div>(9:28:18 AM) RP__: Jefro: Totally, I&#39=
+;m raising this as a separate topic</div><div>(9:28:25 AM) Jefro: ok</div>
+<div>(9:28:46 AM) RP__: For example, someone sends a patch X, it merges, it=
+ breaks things</div><div>(9:29:11 AM) RP__: At present I spend a lot of tim=
+e fixing things since the breakage starts affecting people who have no inte=
+rest in the patch</div>
+<div>(9:29:35 AM) bluelightning: RP__: do you have some recent examples?</d=
+iv><div>(9:29:52 AM) RP__: bluelightning: Adding python to gdb-cross-candia=
+n</div><div>(9:30:06 AM) bluelightning: ah yes :/</div><div>(9:30:07 AM) RP=
+__: took out meta-toolchain on rpm</div>
+<div>(9:30:23 AM) RP__: This kind of stuff becomes my problem :(</div><div>=
+(9:31:02 AM) RP__: Since there are no comments, might as well move on. I do=
+n&#39;t have answers either</div><div>(9:31:14 AM) RP__: IMAGE_FSTYPES - wa=
+s there anything you wanted to add Tartarus</div>
+<div>(9:31:16 AM) RP__: ?</div><div>(9:31:22 AM) Tartarus: Just poking peop=
+le to read, reply</div><div>(9:31:35 AM) fray: (and ya, I don&#39;t have an=
+y answers either..)</div><div>(9:32:13 AM) RP__: ok, Jefro - do you have th=
+e collab summit agenda</div>
+<div>(9:32:14 AM) RP__: ?</div><div>(9:32:24 AM) ***RP__ notes himself duly=
+ poked=A0</div><div>(9:32:26 AM) Jefro: yes, it is on the collab summit eve=
+nts page - link in 2 sec</div><div>(9:32:39 AM) Jefro: <a href=3D"https://e=
+vents.linuxfoundation.org/events/collaboration-summit/schedule">https://eve=
+nts.linuxfoundation.org/events/collaboration-summit/schedule</a></div>
+<div>(9:32:49 AM) RP__: We&#39;re looking to have a Yocto work session at c=
+ollab summt</div><div>(9:33:00 AM) Jefro: the yocto project workgroup day i=
+s on Weds 9am-5pm (or later)</div><div>(9:33:07 AM) RP__: This is following=
+ a BSP summit at Mentor&#39;s Freemont site earlier in the week</div>
+<div>(9:33:09 AM) Jefro: actual working session is in afternoon</div><div>(=
+9:33:45 AM) RP__: I really don&#39;t know who we&#39;re going to get at col=
+lab or what they&#39;re going to find useful to do</div><div>(9:33:55 AM) J=
+efro: I noted to the OE lists about Collab Summit and encouraged people to =
+request an invitation (at Philip&#39;s request)</div>
+<div>(9:33:56 AM) RP__: I wanted to give the TSC an opportunity to suggest =
+things</div><div>(9:35:06 AM) ***Jefro hears crickets</div><div>(9:35:10 AM=
+) RP__: While people are mulling that over and since I&#39;ve already put i=
+nput into it, let me touch on elections. We welcome back fray, congratulati=
+ons! :)</div>
+<div>(9:35:30 AM) RP__: Do we want to roll into another election for Tartar=
+us straight away?</div><div>(9:35:46 AM) Tartarus: I&#39;d be good with tha=
+t</div><div>(9:35:49 AM) RP__: We seem to take our time over these things s=
+o we might as well set the ball rolling</div>
+<div>(9:36:25 AM) Jefro: will someone ping the board?</div><div>(9:36:28 AM=
+) ***RP__ is going to assume people will jump in with earlier topics if the=
+y have anything to add</div><div>(9:36:31 AM) ***RP__ can do so</div><div>
+(9:36:52 AM) ***RP__ is taking no comment from fray and bluelightning as ag=
+reement</div><div>(9:37:02 AM) fray: yup</div><div>(9:37:04 AM) bluelightni=
+ng: sounds OK to me</div><div>(9:37:18 AM) RP__: re: Infrastructure, I want=
+ed to acknowledge Michael Halsted&#39;s work on the OE server in speeding u=
+p git access</div>
+<div>(9:37:33 AM) bluelightning: yes, that is very much appreciated</div><d=
+iv>(9:37:45 AM) bluelightning: it has been slow for a very long time</div><=
+div>(9:37:49 AM) RP__: Does anyone have anything to add on infrsatructure?<=
+/div>
+<div>(9:38:25 AM) bluelightning: did the web issues that brought down ltg (=
+and hence our mailing list archives) get resolved?</div><div>(9:38:41 AM) b=
+luelightning: that was a couple of weeks ago now</div><div>(9:38:43 AM) RP_=
+_: bluelightning: I think we got the list archives back</div>
+<div>(9:38:55 AM) RP__: bluelightning: whether their forum problem got reso=
+lved or not I don&#39;t know</div><div>(9:39:06 AM) RP__: bluelightning: th=
+at doesn&#39;t really affect us</div><div>(9:39:19 AM) bluelightning: indir=
+ectly if stuff goes down, it does...</div>
+<div>(9:40:18 AM) RP__: bluelightning: well, I think they&#39;ve agreed not=
+ to do that now...</div><div>(9:40:31 AM) RP__: bluelightning: i.e. they&#3=
+9;ve taken down one vhost, not them all</div><div>(9:40:41 AM) bluelightnin=
+g: ok cool, that should resolve that for the future</div>
+<div>(9:40:54 AM) bluelightning: it did seem a touch heavy handed :/</div><=
+div>(9:41:00 AM) RP__: So, if nothing else there, oe-core status</div><div>=
+(9:41:19 AM) RP__: I&#39;ve been fighting to reduce the warnings and fix th=
+e autobuilder failures</div>
+<div>(9:41:29 AM) RP__: We have a feature freeze point in about a week now<=
+/div><div>(9:41:42 AM) fray: RP__ what is the proposed bug fix/final freeze=
+ date?</div><div>(9:42:16 AM) RP__: fray: not sure, 2-3 weeks after the 18t=
+h I think</div>
+<div>(9:42:24 AM) RP__: that&#39;s when we roll -rc1</div><div>(9:42:27 AM)=
+ fray: ok.. rough idea is good enough for the minutes..</div><div>(9:42:41 =
+AM) RP__: its on the yocto calender</div><div>(9:43:10 AM) RP__: Builds are=
+n&#39;t looking too red on the autobuilder although there are some puzzling=
+ failures on some of the newer tests</div>
+<div>(9:43:14 AM) Jefro: <a href=3D"https://wiki.yoctoproject.org/wiki/Yoct=
+oCalendar">https://wiki.yoctoproject.org/wiki/YoctoCalendar</a></div><div>(=
+9:43:19 AM) RP__: Any other questions, other business?</div><div>(9:44:12 A=
+M) ***Jefro will get minutes out early this time &amp; catch up on old ones=
 </div>
-<div><font class=3D"Apple-style-span" color=3D"#222222" face=3D"arial, sans=
--serif"><span class=3D"Apple-style-span" style=3D"border-collapse:collapse"=
->(9:41:39 AM) RP__: if the yocto people can&#39;t reach a consensus amongst=
- themselves it seems crazy to involve more people in the discussion</span><=
-/font></div>
-<div><font class=3D"Apple-style-span" color=3D"#222222" face=3D"arial, sans=
--serif"><span class=3D"Apple-style-span" style=3D"border-collapse:collapse"=
->(9:41:39 AM) Jefro: bluelightning you should have gotten an invitation. an=
-y chance you&#39;ll be in town?</span></font></div>
-<div><font class=3D"Apple-style-span" color=3D"#222222" face=3D"arial, sans=
--serif"><span class=3D"Apple-style-span" style=3D"border-collapse:collapse"=
->(9:41:56 AM) RP__: I don&#39;t think there is that much of an issue, just =
-need to get people together and spend some time talking through what we hav=
-e today</span></font></div>
-<div><font class=3D"Apple-style-span" color=3D"#222222" face=3D"arial, sans=
--serif"><span class=3D"Apple-style-span" style=3D"border-collapse:collapse"=
->(9:42:02 AM) RP__: and then see where things go</span></font></div><div><f=
-ont class=3D"Apple-style-span" color=3D"#222222" face=3D"arial, sans-serif"=
-><span class=3D"Apple-style-span" style=3D"border-collapse:collapse">(9:43:=
-04 AM) bluelightning: Jefro: I&#39;m not sure... I need to check if I&#39;m=
- available, and also would depend on travel approval</span></font></div>
-<div><font class=3D"Apple-style-span" color=3D"#222222" face=3D"arial, sans=
--serif"><span class=3D"Apple-style-span" style=3D"border-collapse:collapse"=
->(9:43:17 AM) Jefro: yes, travel will be a problem</span></font></div><div>=
-<font class=3D"Apple-style-span" color=3D"#222222" face=3D"arial, sans-seri=
-f"><span class=3D"Apple-style-span" style=3D"border-collapse:collapse">(9:4=
-4:03 AM) Jefro: I&#39;m planning to at least record parts of the event. Wil=
-l also talk to Mentor to see if we can let people join via webex, but inter=
-active participation would be limited.</span></font></div>
-<div><font class=3D"Apple-style-span" color=3D"#222222" face=3D"arial, sans=
--serif"><span class=3D"Apple-style-span" style=3D"border-collapse:collapse"=
->(9:46:00 AM) Jefro: any other items?</span></font></div><div><font class=
-=3D"Apple-style-span" color=3D"#222222" face=3D"arial, sans-serif"><span cl=
-ass=3D"Apple-style-span" style=3D"border-collapse:collapse">(9:46:21 AM) bl=
-uelightning: khem&#39;s still afk I think</span></font></div>
-<div><font class=3D"Apple-style-span" color=3D"#222222" face=3D"arial, sans=
--serif"><span class=3D"Apple-style-span" style=3D"border-collapse:collapse"=
->(9:46:33 AM) RP__: nothing from me</span></font></div><div><font class=3D"=
-Apple-style-span" color=3D"#222222" face=3D"arial, sans-serif"><span class=
-=3D"Apple-style-span" style=3D"border-collapse:collapse">(9:46:43 AM) bluel=
-ightning: nothing from me either</span></font></div>
-</div></div><div style=3D"border-collapse:collapse;color:rgb(34,34,34);font=
--family:arial,sans-serif;font-size:13px"><br></div>-- <br>Jeff Osier-Mixon =
-<a href=3D"http://jefro.net/blog" target=3D"_blank">http://jefro.net/blog</=
-a><div>
-Yocto Project Community Manager @Intel <a href=3D"http://yoctoproject.org" =
-target=3D"_blank">http://yoctoproject.org</a></div><br>
+<div>(9:44:59 AM) RP__: If nothing else I&#39;ll close the meeting...</div>=
+<div>(9:45:09 AM) bluelightning: nothing here</div><div>(9:45:28 AM) Tartar=
+us: nothing here</div><div>(9:45:31 AM) fray: nothing</div><div>(9:46:30 AM=
+) ***RP__ closes</div>
+<div><br></div><div><br></div>-- <br>Jeff Osier-Mixon <a href=3D"http://jef=
+ro.net/blog" target=3D"_blank">http://jefro.net/blog</a><div>Yocto Project =
+Community Manager @Intel <a href=3D"http://yoctoproject.org" target=3D"_bla=
+nk">http://yoctoproject.org</a></div>
+<br>
 
---bcaec51a76e050f4c904bb9fcd8f--
+--e89a8f3bb045bf87b304bb9fd22e--
