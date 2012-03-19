@@ -1,22 +1,33 @@
-Received: from mga11.intel.com ([192.55.52.93])
+Received: from mail1.windriver.com ([147.11.146.13])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <lianhao.lu@intel.com>) id 1S9Rvd-00063e-Oj
+	(envelope-from <Kai.Kang@windriver.com>) id 1S9S6v-0006EU-Fi
 	for openembedded-core@lists.openembedded.org;
-	Mon, 19 Mar 2012 03:02:34 +0100
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-	by fmsmga102.fm.intel.com with ESMTP; 18 Mar 2012 18:53:39 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="130366815"
-Received: from llu-piketon.sh.intel.com (HELO localhost) ([10.239.36.62])
-	by fmsmga001.fm.intel.com with ESMTP; 18 Mar 2012 18:53:38 -0700
-From: Lianhao Lu <lianhao.lu@intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Mon, 19 Mar 2012 09:52:04 +0800
-Message-Id: <14ba30517e7ece9590e5ea76a963ed9b6720df09.1332121842.git.lianhao.lu@intel.com>
-X-Mailer: git-send-email 1.7.0.4
-In-Reply-To: <cover.1332121842.git.lianhao.lu@intel.com>
-References: <cover.1332121842.git.lianhao.lu@intel.com>
-Subject: [PATCH 1/1] sysvinit-inittab: Fixed license warning.
+	Mon, 19 Mar 2012 03:14:13 +0100
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca [147.11.189.40])
+	by mail1.windriver.com (8.14.3/8.14.3) with ESMTP id q2J25K4T024791
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
+	Sun, 18 Mar 2012 19:05:20 -0700 (PDT)
+Received: from [128.224.162.241] (128.224.162.241) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server (TLS) id 14.1.255.0;
+	Sun, 18 Mar 2012 19:05:20 -0700
+Message-ID: <4F669461.4020605@windriver.com>
+Date: Mon, 19 Mar 2012 10:05:21 +0800
+From: Kang Kai <Kai.Kang@windriver.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:10.0.2) Gecko/20120216 Thunderbird/10.0.2
+MIME-Version: 1.0
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+References: <cover.1331713107.git.kai.kang@windriver.com>
+	<8e34c071af55fbd1bf52da1c78337ee9ea23e9e5.1331713107.git.kai.kang@windriver.com>
+	<3AB6CE7F274E534CAFD089D127A8A1FC23AED058@SHSMSX102.ccr.corp.intel.com>
+In-Reply-To: <3AB6CE7F274E534CAFD089D127A8A1FC23AED058@SHSMSX102.ccr.corp.intel.com>
+X-Originating-IP: [128.224.162.241]
+X-MIME-Autoconverted: from 8bit to quoted-printable by mail1.windriver.com id
+	q2J25K4T024791
+Cc: "Wold, Saul" <saul.wold@intel.com>, "Purdie,
+	Richard" <richard.purdie@intel.com>
+Subject: Re: [PATCH 5/8] alsa-utils: update to 1.0.25
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -31,35 +42,43 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 19 Mar 2012 02:02:34 -0000
+X-List-Received-Date: Mon, 19 Mar 2012 02:14:13 -0000
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: quoted-printable
 
-WARNING: .../sysvinit-inittab-2.88dsf-r6/sysvinit-2.88dsf/COPYING could
-not be copied for some reason. It may not exist. WARN for now.
+On 2012=E5=B9=B403=E6=9C=8816=E6=97=A5 15:25, Wang, Shane wrote:
+> Kang Kai wrote on 2012-03-14:
+>
+>> Update to version 1.0.25, and update patch
+>> 0001-alsactl-don-t-let-systemd-unit-restore-the-volume-wh.patch becaus=
+e
+>> rejected when apply it.
+>>
+>> Signed-off-by: Kang Kai<kai.kang@windriver.com>
+>
+> Kai, why did you drop the patch? You can port it to alsa-utils v1.0.25 =
+code base, as I did.
+> http://git.yoctoproject.org/cgit/cgit.cgi/poky-contrib/commit/?h=3Dshan=
+e/m4upgrade&id=3D924cdfe1a0069ff53526afe67b11cbd9405472de
 
-Signed-off-by: Lianhao Lu <lianhao.lu@intel.com>
----
- .../sysvinit/sysvinit-inittab_2.88dsf.bb           |    6 +++++-
- 1 files changed, 5 insertions(+), 1 deletions(-)
+Hi Shane,
 
-diff --git a/meta/recipes-core/sysvinit/sysvinit-inittab_2.88dsf.bb b/meta/recipes-core/sysvinit/sysvinit-inittab_2.88dsf.bb
-index 3a716d7..85e34c8 100644
---- a/meta/recipes-core/sysvinit/sysvinit-inittab_2.88dsf.bb
-+++ b/meta/recipes-core/sysvinit/sysvinit-inittab_2.88dsf.bb
-@@ -11,7 +11,11 @@ S = "${WORKDIR}/sysvinit-${PV}"
- 
- INHIBIT_DEFAULT_DEPS = "1"
- 
--do_configure() {
-+do_unpack_append() {
-+	bb.build.exec_func('do_copy_lic', d)
-+}
-+
-+do_copy_lic () {
- 	cp ${WORKDIR}/COPYING ${S}/
- }
- 
--- 
-1.7.0.4
+Yes, I just update the patch and don't drop it.
+Maybe the comments is not clear, that I mean the patch is jejected by=20
+bitbake when run do_patch.
+
+Regards,
+Kai
+
+
+>
+> --
+> Shane
+>
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
 
 
 
