@@ -1,36 +1,55 @@
-Received: from mail-lb0-f175.google.com ([209.85.217.175])
+Received: from va3ehsobe005.messaging.microsoft.com ([216.32.180.31]
+	helo=va3outboundpool.messaging.microsoft.com)
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <raj.khem@gmail.com>) id 1S9hSi-0000Va-L6
+	(envelope-from <B29882@freescale.com>) id 1S9hty-0001BC-Uc
 	for openembedded-core@lists.openembedded.org;
-	Mon, 19 Mar 2012 19:37:44 +0100
-Received: by lbbgi4 with SMTP id gi4so3558469lbb.6
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 19 Mar 2012 11:28:53 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:content-type; bh=TMl2ozAE3QNiftVDcilk8LCq0Su7rPjezv0rhlHwfBY=;
-	b=O+/7YzVW3rKMXm8D9jdcJV1btpLe1g19EYnacW1iyi/6LZ3iLbPWtyNv8LUCN/lm6Q
-	AXKWRppSo34q+nqxzbZeLrXBY4B81LkifuEzcSqnW4sx3uJUmF25bmIosDUFttgcW5Kp
-	xzcs/hV1ng8HY7xYjVnP9Rt66aC79CDdJR+bXj2rnVkKaHnqXzM3kLUBUX/PyM15PaA8
-	Sl+QDceBcFe72E14RYYK/ba8Sl0sxwCBoQDwa7HRaNo0xb91hks9TD7THiv+doEg18f0
-	83MCCntjiQqAj4CST6ReNnA1cD3wawo6dnAry9vA6McmLf+a7yWHrAoCC9C4mo21yH8W
-	nCWw==
-Received: by 10.112.37.73 with SMTP id w9mr4910956lbj.22.1332181733074; Mon,
-	19 Mar 2012 11:28:53 -0700 (PDT)
-MIME-Version: 1.0
-Received: by 10.152.2.71 with HTTP; Mon, 19 Mar 2012 11:28:22 -0700 (PDT)
-In-Reply-To: <1332172520.9740.35.camel@ted>
-References: <1332172520.9740.35.camel@ted>
-From: Khem Raj <raj.khem@gmail.com>
-Date: Mon, 19 Mar 2012 11:28:22 -0700
-Message-ID: <CAMKF1srv-HUEGOWG4JiH8F21DUYHf-GBAodo7qsOG-XeBDKSXA@mail.gmail.com>
+	Mon, 19 Mar 2012 20:05:55 +0100
+Received: from mail157-va3-R.bigfish.com (10.7.14.241) by
+	VA3EHSOBE010.bigfish.com (10.7.40.12) with Microsoft SMTP Server id
+	14.1.225.22; Mon, 19 Mar 2012 18:11:39 +0000
+Received: from mail157-va3 (localhost [127.0.0.1])	by
+	mail157-va3-R.bigfish.com (Postfix) with ESMTP id 739473000A4	for
+	<openembedded-core@lists.openembedded.org>;
+	Mon, 19 Mar 2012 18:11:39 +0000 (UTC)
+X-SpamScore: -1
+X-BigFish: VS-1(zz9371I98dKzz1202hzzz2dh2a8h668h839h8e2h8e3hbe9k)
+X-Forefront-Antispam-Report: CIP:70.37.183.190; KIP:(null); UIP:(null); IPV:NLI;
+	H:mail.freescale.net; RD:none; EFVD:NLI
+Received: from mail157-va3 (localhost.localdomain [127.0.0.1]) by mail157-va3
+	(MessageSwitch) id 1332180697879131_4174;
+	Mon, 19 Mar 2012 18:11:37 +0000 (UTC)
+Received: from VA3EHSMHS020.bigfish.com (unknown [10.7.14.253])	by
+	mail157-va3.bigfish.com (Postfix) with ESMTP id C0760E0050	for
+	<openembedded-core@lists.openembedded.org>;
+	Mon, 19 Mar 2012 18:11:37 +0000 (UTC)
+Received: from mail.freescale.net (70.37.183.190) by VA3EHSMHS020.bigfish.com
+	(10.7.99.30) with Microsoft SMTP Server (TLS) id 14.1.225.23;
+	Mon, 19 Mar 2012 18:11:34 +0000
+Received: from 039-SN1MPN1-001.039d.mgd.msft.net ([169.254.1.230]) by
+	039-SN1MMR1-002.039d.mgd.msft.net ([10.84.1.15]) with mapi id
+	14.01.0355.003; Mon, 19 Mar 2012 13:11:38 -0500
+From: McClintock Matthew-B29882 <B29882@freescale.com>
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Subject: Re: apt: Fix parallel make race
+Thread-Topic: [OE-core] how can i share the "native" content across multiple
+	builds?
+Thread-Index: AQHNBfu5vEvtXIofvUuRPyJwe2dArQ==
+Date: Mon, 19 Mar 2012 18:11:37 +0000
+Message-ID: <CAEsOVNfVZbizxP6qnmFXs6NqHN=qDimpqPy4W4i7oPZgocUm3w@mail.gmail.com>
+References: <alpine.DEB.2.02.1203191406040.6960@oneiric>
+In-Reply-To: <alpine.DEB.2.02.1203191406040.6960@oneiric>
+Accept-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [99.47.177.27]
+MIME-Version: 1.0
+X-OriginatorOrg: freescale.com
+Subject: Re: how can i share the "native" content across multiple builds?
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
-Reply-To: Patches and discussions about the oe-core layer
+Reply-To: McClintock Matthew-B29882 <B29882@freescale.com>,
+	Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
 List-Id: Patches and discussions about the oe-core layer
 	<openembedded-core.lists.openembedded.org>
@@ -41,19 +60,21 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 19 Mar 2012 18:37:44 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Mon, 19 Mar 2012 19:05:55 -0000
+Content-Language: en-US
+Content-Type: text/plain; charset="iso-8859-1"
+Content-ID: <8C6A43604D518347B6B571C1E636D034@mgd.freescale.com>
+Content-Transfer-Encoding: quoted-printable
 
-On Mon, Mar 19, 2012 at 8:55 AM, Richard Purdie
-<richard.purdie@linuxfoundation.org> wrote:
-> I was just going to turn off parallel make but ended up fixing this properly.
->
-> Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+On Mon, Mar 19, 2012 at 1:07 PM, Robert P. J. Day <rpjday@crashcourse.ca> w=
+rote:
+> =A0i'm sure i'm just missing where it's explained but given that i'm
+> about to do a number of builds, how can i reuse all of the native
+> content that's compiled for each build?
 
-Thanks for fixing the underlying problem. I would like to encourage
-that we try this all the time I know many times it may not be possible
-for us to fix a given package but then we should report it upstream as
-a plan b
-before we add PARALLE_MAKE = "" to packages
+Use a common SSTATE_DIR and/or common TMPDIR
+
+-M=
+
 
 
