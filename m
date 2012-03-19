@@ -1,35 +1,25 @@
-Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
-	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <richard.purdie@linuxfoundation.org>)
-	id 1S9ZUD-0003E0-4R for openembedded-core@lists.openembedded.org;
-	Mon, 19 Mar 2012 11:06:46 +0100
-Received: from localhost (localhost [127.0.0.1])
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q2J9vqx2029012
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 19 Mar 2012 09:57:52 GMT
-Received: from tim.rpsys.net ([127.0.0.1])
-	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
-	port 10024) with LMTP
-	id 25379-09 for <openembedded-core@lists.openembedded.org>;
-	Mon, 19 Mar 2012 09:57:39 +0000 (GMT)
-Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q2J9vbKR029006
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO)
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 19 Mar 2012 09:57:39 GMT
-Message-ID: <1332151058.9740.0.camel@ted>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Date: Mon, 19 Mar 2012 09:57:38 +0000
-In-Reply-To: <3AB6CE7F274E534CAFD089D127A8A1FC23AEFE56@SHSMSX102.ccr.corp.intel.com>
-References: <cover.1331859046.git.shane.wang@intel.com>
-	<1331917154.18586.207.camel@ted>
-	<3AB6CE7F274E534CAFD089D127A8A1FC23AEFE56@SHSMSX102.ccr.corp.intel.com>
-X-Mailer: Evolution 3.2.2- 
-Mime-Version: 1.0
-X-Virus-Scanned: amavisd-new at rpsys.net
-Subject: Re: [PATCH 00/60] Package Upgrade
+Received: from mga09.intel.com ([134.134.136.24])
+	by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <paul.eggleton@linux.intel.com>) id 1S9aoE-0005bT-8P
+	for openembedded-core@lists.openembedded.org;
+	Mon, 19 Mar 2012 12:31:30 +0100
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+	by orsmga102.jf.intel.com with ESMTP; 19 Mar 2012 04:22:38 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.67,351,1309762800"; d="scan'208";a="122440909"
+Received: from unknown (HELO helios.localnet) ([10.252.123.198])
+	by orsmga002.jf.intel.com with ESMTP; 19 Mar 2012 04:22:37 -0700
+From: Paul Eggleton <paul.eggleton@linux.intel.com>
+To: "Robert P. J. Day" <rpjday@crashcourse.ca>
+Date: Mon, 19 Mar 2012 11:22:36 +0000
+Message-ID: <4066257.guYM4rpLnX@helios>
+Organization: Intel Corporation
+User-Agent: KMail/4.8.0 (Linux/3.0.0-16-generic-pae; KDE/4.8.1; i686; ; )
+In-Reply-To: <alpine.DEB.2.02.1203181537530.5917@oneiric>
+References: <alpine.DEB.2.02.1203181537530.5917@oneiric>
+MIME-Version: 1.0
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: what's the proper place to make comments about the bitbake manual?
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -44,43 +34,23 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 19 Mar 2012 10:06:47 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Mon, 19 Mar 2012 11:31:30 -0000
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
 
-On Mon, 2012-03-19 at 08:42 +0000, Wang, Shane wrote:
-> Richard Purdie wrote on 2012-03-17:
-> 
-> > On Fri, 2012-03-16 at 08:52 +0800, Shane Wang wrote:
-> > So far I've noticed a few issues. This log has several of them:
-> > 
-> > http://autobuilder.yoctoproject.org:8010/builders/nightly-mips/builds/316
-> > /ste ps/shell_33/logs/stdio
-> > 
-> > alsa-utils has patch application issues
-> > libxxf86dg won't fetch due to a patch issue
-> > libpciaccess won't build on mips.
-> > 
-> > In my own build logs I also noticed:
-> > 
-> > WARNING: Missing sha256 SRC_URI checksum for
-> > /media/build1/sources/gdk-pixbuf-2.24.1.tar.xz, consider adding to the
-> > recipe: SRC_URI[sha256sum] =
-> > "da7a3f00db360913716368e19e336402755cafa93769f3cfa28a969303e4bee1 "
-> > 
-> > Cheers,
-> > 
-> > Richard
-> 
-> alsa-utils has patch application issue because Kang Kai upgraded to the latest before me.
-> I will address the others issues these days.
+On Sunday 18 March 2012 15:39:26 Robert P. J. Day wrote:
+>   i'm collecting a bunch of observations and suggestions about the
+> current bitbake manual -- should i continue posting them to
+> bitbake-devel...?
 
-Please check Sauls latest branches as I don't know what he's fixed at
-this point.
+Yes, please feel free to discuss the manual here.
 
 Cheers,
+Paul
 
-Richard
+-- 
 
+Paul Eggleton
+Intel Open Source Technology Centre
 
 
