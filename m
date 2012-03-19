@@ -1,31 +1,19 @@
-Received: from astoria.ccjclearline.com ([64.235.106.9])
+Received: from mail.windriver.com ([147.11.1.11])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <rpjday@crashcourse.ca>) id 1S9g34-0005Ci-F0
+	(envelope-from <bruce.ashfield@windriver.com>) id 1S9gvE-0008QW-Pt
 	for openembedded-core@lists.openembedded.org;
-	Mon, 19 Mar 2012 18:07:10 +0100
-Received: from cpec03f0ed08c7f-cm001ac318e826.cpe.net.cable.rogers.com
-	([99.241.91.63] helo=crashcourse.ca)
-	by astoria.ccjclearline.com with esmtpsa (TLSv1:AES256-SHA:256)
-	(Exim 4.69) (envelope-from <rpjday@crashcourse.ca>)
-	id 1S9fuW-0001vA-6L for openembedded-core@lists.openembedded.org;
-	Mon, 19 Mar 2012 12:58:20 -0400
-Date: Mon, 19 Mar 2012 12:58:10 -0400 (EDT)
-From: "Robert P. J. Day" <rpjday@crashcourse.ca>
-X-X-Sender: rpjday@oneiric
-To: OE Core mailing list <openembedded-core@lists.openembedded.org>
-Message-ID: <alpine.DEB.2.02.1203191257110.31447@oneiric>
-User-Agent: Alpine 2.02 (DEB 1266 2009-07-14)
-MIME-Version: 1.0
-X-AntiAbuse: This header was added to track abuse,
-	please include it with any abuse report
-X-AntiAbuse: Primary Hostname - astoria.ccjclearline.com
-X-AntiAbuse: Original Domain - lists.openembedded.org
-X-AntiAbuse: Originator/Caller UID/GID - [47 12] / [47 12]
-X-AntiAbuse: Sender Address Domain - crashcourse.ca
-X-Source: 
-X-Source-Args: 
-X-Source-Dir: 
-Subject: [PATCH] Simple typo in qemuarm.conf file: "versaile" -> "versatile"
+	Mon, 19 Mar 2012 19:03:09 +0100
+Received: from yow-bashfiel-l1.corp.ad.wrs.com
+	(yow-bashfiel-d3.ottawa.windriver.com [128.224.147.67])
+	by mail.windriver.com (8.14.3/8.14.3) with ESMTP id q2JHsCYV011320;
+	Mon, 19 Mar 2012 10:54:12 -0700 (PDT)
+From: Bruce Ashfield <bruce.ashfield@windriver.com>
+To: richard.purdie@linuxfoundation.org
+Date: Mon, 19 Mar 2012 13:53:56 -0400
+Message-Id: <cover.1332179433.git.bruce.ashfield@windriver.com>
+X-Mailer: git-send-email 1.7.5.4
+Cc: openembedded-core@lists.openembedded.org, saul.wold@intel.com
+Subject: [PATCH 0/1] lttng-2.0: fix compiliation error
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -40,36 +28,38 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 19 Mar 2012 17:07:10 -0000
-Content-Type: TEXT/PLAIN; charset=US-ASCII
+X-List-Received-Date: Mon, 19 Mar 2012 18:03:09 -0000
 
+Richard/Saul,
 
-Signed-off-by: Robert P. J. Day <rpjday@crashcourse.ca>
+Here's a fix for the recent lttng-2.0 modules build error that
+was reported. The recent -stable update created a collision with
+is_compat_task() that was already being defined as a fallback
+within lttng 2.0.
 
----
+I've made a patch fix, versus updating lttng-2.0 .. since churning
+this package would be a good idea right now.
 
-diff --git a/meta/conf/machine/qemuarm.conf b/meta/conf/machine/qemuarm.conf
-index 526d713..d07084b 100644
---- a/meta/conf/machine/qemuarm.conf
-+++ b/meta/conf/machine/qemuarm.conf
-@@ -1,6 +1,6 @@
- #@TYPE: Machine
--#@NAME: arm_versaile_926ejs
--#@DESCRIPTION: arm_versaile_926ejs
-+#@NAME: arm_versatile_926ejs
-+#@DESCRIPTION: arm_versatile_926ejs
+Cheers,
 
- require conf/machine/include/qemu.inc
- require conf/machine/include/tune-arm926ejs.inc
+Bruce
+
+The following changes since commit a9873f12e5ba11e1307440901d07e9642e9f53bf:
+
+  pigz: Ensure DEPENDS on zlib exists for native and target versions (2012-03-19 14:37:46 +0000)
+
+are available in the git repository at:
+  git://git.pokylinux.org/poky-contrib zedd/kernel
+  http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=zedd/kernel
+ compliation error with 3.2.x -stable kernels
+
+ ...ls-protect-is_compat_task-from-redefiniti.patch |   41 ++++++++++++++++++++
+ .../lttng-2.0/lttng-modules_2.0.pre11.bb           |    3 +-
+ 2 files changed, 43 insertions(+), 1 deletions(-)
+ create mode 100644 meta/recipes-kernel/lttng-2.0/lttng-modules/lttng-sycalls-protect-is_compat_task-from-redefiniti.patch
 
 -- 
+1.7.5.4
 
-========================================================================
-Robert P. J. Day                                 Ottawa, Ontario, CANADA
-                        http://crashcourse.ca
-
-Twitter:                                       http://twitter.com/rpjday
-LinkedIn:                               http://ca.linkedin.com/in/rpjday
-========================================================================
 
 
