@@ -1,25 +1,42 @@
-Received: from mail-we0-f175.google.com ([74.125.82.175])
+Received: from mail-wi0-f169.google.com ([209.85.212.169])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <eballetbo@gmail.com>) id 1S9dwb-0007B3-1I
+	(envelope-from <koen@dominion.thruhere.net>) id 1S9dzn-0007IU-MT
 	for openembedded-core@lists.openembedded.org;
-	Mon, 19 Mar 2012 15:52:21 +0100
-Received: by wera1 with SMTP id a1so5961463wer.6
+	Mon, 19 Mar 2012 15:55:39 +0100
+Received: by wibhm17 with SMTP id hm17so3232345wib.0
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 19 Mar 2012 07:43:29 -0700 (PDT)
-Received: by 10.180.88.67 with SMTP id be3mr20337451wib.20.1332168209757;
-	Mon, 19 Mar 2012 07:43:29 -0700 (PDT)
-Received: from localhost.localdomain (249.Red-80-33-164.staticIP.rima-tde.net.
-	[80.33.164.249])
-	by mx.google.com with ESMTPS id n8sm41986361wix.10.2012.03.19.07.43.28
+	Mon, 19 Mar 2012 07:46:48 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=google.com; s=20120113;
+	h=content-type:mime-version:subject:from:in-reply-to:date
+	:content-transfer-encoding:message-id:references:to:x-mailer
+	:x-gm-message-state;
+	bh=bCoOtMXYtsdz4u6JlRpeFAAKj0Qf8p9RCJWDOZhEYU0=;
+	b=lM2NM5TvCtYnBTsKItIVZarwVachn8Rc8k40Q3KLgSx+9HOSXOtRpUPI22Up57Qr4e
+	Hwt3cblkZxxFcTE1nZYsB839GQ0FwWlgNoJwVqU9cjHglUXvheumvUzxl3Y2/zkUwjDI
+	J/XyHuYfUupHtIzmxox6h+fLg/8s0XpMPoKkgiBv4RLSyxlVrtMXgEigmN/Jf5dr8Cjs
+	WTbl7OIVlEWx/xc+T/zyoLw0yPhShwb2/d5l5zFPkVmpsNv13/DqFG6N9XzSR4wBWKmk
+	CVAZYejHFtZhIZmqUw8wExZHZqV6x3Jk+Lp8QRl3Gs/rwxlMnoP8bBlwF5exThBSY0Zf
+	5iVg==
+Received: by 10.180.104.137 with SMTP id ge9mr20360536wib.20.1332168408492;
+	Mon, 19 Mar 2012 07:46:48 -0700 (PDT)
+Received: from [172.20.0.96] (ip545070eb.adsl-surfen.hetnet.nl.
+	[84.80.112.235])
+	by mx.google.com with ESMTPS id fz9sm26094579wib.3.2012.03.19.07.46.46
 	(version=TLSv1/SSLv3 cipher=OTHER);
-	Mon, 19 Mar 2012 07:43:29 -0700 (PDT)
-From: Enric Balletbo i Serra <eballetbo@iseebcn.com>
-To: openembedded-core@lists.openembedded.org
-Date: Mon, 19 Mar 2012 15:43:27 +0100
-Message-Id: <1332168207-18894-1-git-send-email-eballetbo@iseebcn.com>
-X-Mailer: git-send-email 1.7.1
-Cc: Enric Balletbo i Serra <eballetbo@iseebcn.com>
-Subject: [PATCH] alsa-utils: move ${datadir}/init files to alsactl package.
+	Mon, 19 Mar 2012 07:46:46 -0700 (PDT)
+Mime-Version: 1.0 (Apple Message framework v1257)
+From: Koen Kooi <koen@dominion.thruhere.net>
+In-Reply-To: <1331799945-14172-1-git-send-email-bjst@enea.com>
+Date: Mon, 19 Mar 2012 15:46:44 +0100
+Message-Id: <20671C9C-1AC1-482A-9B4A-C40EE9087BD7@dominion.thruhere.net>
+References: <22576197.WV0krj9sgO@helios>
+	<1331799945-14172-1-git-send-email-bjst@enea.com>
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+X-Mailer: Apple Mail (2.1257)
+X-Gm-Message-State: ALoCoQmXj+30x86PHiMv7/cpZDHgyluPaUuZn3DvOZfeHjyON9iayRNjllW1m/wb1RCh250rpeJU
+Subject: Re: [PATCH] Add pigz as gzip-native alternative.
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -34,52 +51,46 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 19 Mar 2012 14:52:21 -0000
+X-List-Received-Date: Mon, 19 Mar 2012 14:55:39 -0000
+Content-Type: text/plain; charset=iso-8859-1
+Content-Transfer-Encoding: quoted-printable
 
-The alsa-utils-speakertest contains some files from ${datadir} directory
-that are not correct, the files from  ${datadir}/init directory should
-be included in alsa-utils-alsactl package instead.
 
-This patch moves the ${datadir}/init files to alsactl package and fixes
-following error at boot stage:
+Op 15 mrt. 2012, om 09:25 heeft Bj=F6rn Stenberg het volgende =
+geschreven:
+>=20
+> +++ b/meta/recipes-extended/pigz/pigz.inc
+> @@ -0,0 +1,21 @@
+> +SUMMARY =3D "A parallel implementation of gzip"
+> +DESCRIPTION =3D "pigz, which stands for parallel implementation of =
+gzip, is a \
+> +fully functional replacement for gzip that exploits multiple =
+processors and \
+> +multiple cores to the hilt when compressing data. pigz was written by =
+Mark \
+> +Adler, and uses the zlib and pthread libraries."
+> +HOMEPAGE =3D "http://zlib.net/pigz/"
+> +SECTION =3D "console/utils"
+> +LICENSE =3D "Zlib"
+> +
+> +SRC_URI =3D "http://zlib.net/pigz/pigz-${PV}.tar.gz \
+> +           file://ldflags.patch"
+> +
+> +PROVIDES_virtclass-native +=3D "gzip-native"
+> +
+> +DEPENDS_virtclass-native =3D "zlib-native"
+> +
+> +do_install () {
+> +        install -d ${D}${bindir}
+> +        install ${B}/pigz ${D}${bindir}/gzip
+> +        install ${B}/unpigz ${D}${bindir}/gunzip
+> +}
 
-  /usr/sbin/alsactl: parse:1655: Unable to open file '/usr/share/alsa/init/00main': No such file or directory
+This is either missing update-alternatives entries or it is missing =
+RREPLACES/RCONFLICTS with gzip/busybox/etc. Or both.
 
-Signed-off-by: Enric Balletbo i Serra <eballetbo@iseebcn.com>
----
- meta/recipes-multimedia/alsa/alsa-utils_1.0.25.bb |    6 +++---
- 1 files changed, 3 insertions(+), 3 deletions(-)
+regards,
 
-diff --git a/meta/recipes-multimedia/alsa/alsa-utils_1.0.25.bb b/meta/recipes-multimedia/alsa/alsa-utils_1.0.25.bb
-index 879a117..fa11479 100644
---- a/meta/recipes-multimedia/alsa/alsa-utils_1.0.25.bb
-+++ b/meta/recipes-multimedia/alsa/alsa-utils_1.0.25.bb
-@@ -6,7 +6,7 @@ LICENSE = "GPLv2+"
- LIC_FILES_CHKSUM = "file://COPYING;md5=59530bdf33659b29e73d4adb9f9f6552 \
-                     file://alsactl/utils.c;beginline=1;endline=20;md5=fe9526b055e246b5558809a5ae25c0b9"
- DEPENDS = "alsa-lib ncurses libsamplerate0"
--PR = "r0"
-+PR = "r1"
- 
- SRC_URI = "ftp://ftp.alsa-project.org/pub/utils/alsa-utils-${PV}.tar.bz2 \
-            file://ncursesfix.patch \
-@@ -56,12 +56,12 @@ FILES_${PN} = ""
- FILES_alsa-utils-aplay       = "${bindir}/aplay ${bindir}/arecord"
- FILES_alsa-utils-amixer      = "${bindir}/amixer"
- FILES_alsa-utils-alsamixer   = "${bindir}/alsamixer"
--FILES_alsa-utils-speakertest = "${bindir}/speaker-test ${datadir}/sounds/alsa/ ${datadir}/alsa/"
-+FILES_alsa-utils-speakertest = "${bindir}/speaker-test ${datadir}/sounds/alsa/ ${datadir}/alsa/speaker-test/"
- FILES_alsa-utils-midi        = "${bindir}/aplaymidi ${bindir}/arecordmidi ${bindir}/amidi"
- FILES_alsa-utils-aconnect    = "${bindir}/aconnect"
- FILES_alsa-utils-aseqnet     = "${bindir}/aseqnet"
- FILES_alsa-utils-iecset      = "${bindir}/iecset"
--FILES_alsa-utils-alsactl     = "${sbindir}/alsactl ${base_libdir}/udev/rules.d ${base_libdir}/systemd ${localstatedir}/lib/alsa"
-+FILES_alsa-utils-alsactl     = "${sbindir}/alsactl ${base_libdir}/udev/rules.d ${base_libdir}/systemd ${localstatedir}/lib/alsa ${datadir}/alsa/init/"
- FILES_alsa-utils-aseqdump    = "${bindir}/aseqdump"
- FILES_alsa-utils-alsaconf    = "${sbindir}/alsaconf"
- FILES_alsa-utils-alsaloop    = "${bindir}/alsaloop"
--- 
-1.7.1
-
+Koen=
 
 
