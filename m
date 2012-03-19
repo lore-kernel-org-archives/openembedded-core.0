@@ -1,42 +1,27 @@
-Received: from mail-wi0-f169.google.com ([209.85.212.169])
+Received: from mga02.intel.com ([134.134.136.20])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <koen@dominion.thruhere.net>) id 1S9dzn-0007IU-MT
+	(envelope-from <sgw@linux.intel.com>) id 1S9ev6-0001Dc-7M
 	for openembedded-core@lists.openembedded.org;
-	Mon, 19 Mar 2012 15:55:39 +0100
-Received: by wibhm17 with SMTP id hm17so3232345wib.0
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 19 Mar 2012 07:46:48 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=google.com; s=20120113;
-	h=content-type:mime-version:subject:from:in-reply-to:date
-	:content-transfer-encoding:message-id:references:to:x-mailer
-	:x-gm-message-state;
-	bh=bCoOtMXYtsdz4u6JlRpeFAAKj0Qf8p9RCJWDOZhEYU0=;
-	b=lM2NM5TvCtYnBTsKItIVZarwVachn8Rc8k40Q3KLgSx+9HOSXOtRpUPI22Up57Qr4e
-	Hwt3cblkZxxFcTE1nZYsB839GQ0FwWlgNoJwVqU9cjHglUXvheumvUzxl3Y2/zkUwjDI
-	J/XyHuYfUupHtIzmxox6h+fLg/8s0XpMPoKkgiBv4RLSyxlVrtMXgEigmN/Jf5dr8Cjs
-	WTbl7OIVlEWx/xc+T/zyoLw0yPhShwb2/d5l5zFPkVmpsNv13/DqFG6N9XzSR4wBWKmk
-	CVAZYejHFtZhIZmqUw8wExZHZqV6x3Jk+Lp8QRl3Gs/rwxlMnoP8bBlwF5exThBSY0Zf
-	5iVg==
-Received: by 10.180.104.137 with SMTP id ge9mr20360536wib.20.1332168408492;
-	Mon, 19 Mar 2012 07:46:48 -0700 (PDT)
-Received: from [172.20.0.96] (ip545070eb.adsl-surfen.hetnet.nl.
-	[84.80.112.235])
-	by mx.google.com with ESMTPS id fz9sm26094579wib.3.2012.03.19.07.46.46
-	(version=TLSv1/SSLv3 cipher=OTHER);
-	Mon, 19 Mar 2012 07:46:46 -0700 (PDT)
-Mime-Version: 1.0 (Apple Message framework v1257)
-From: Koen Kooi <koen@dominion.thruhere.net>
-In-Reply-To: <1331799945-14172-1-git-send-email-bjst@enea.com>
-Date: Mon, 19 Mar 2012 15:46:44 +0100
-Message-Id: <20671C9C-1AC1-482A-9B4A-C40EE9087BD7@dominion.thruhere.net>
-References: <22576197.WV0krj9sgO@helios>
-	<1331799945-14172-1-git-send-email-bjst@enea.com>
+	Mon, 19 Mar 2012 16:54:52 +0100
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+	by orsmga101.jf.intel.com with ESMTP; 19 Mar 2012 08:46:00 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.67,352,1309762800"; d="scan'208";a="119153632"
+Received: from unknown (HELO [10.255.15.160]) ([10.255.15.160])
+	by orsmga001.jf.intel.com with ESMTP; 19 Mar 2012 08:45:59 -0700
+Message-ID: <4F6754B7.4070701@linux.intel.com>
+Date: Mon, 19 Mar 2012 08:45:59 -0700
+From: Saul Wold <sgw@linux.intel.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:10.0.1) Gecko/20120216 Thunderbird/10.0.1
+MIME-Version: 1.0
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-X-Mailer: Apple Mail (2.1257)
-X-Gm-Message-State: ALoCoQmXj+30x86PHiMv7/cpZDHgyluPaUuZn3DvOZfeHjyON9iayRNjllW1m/wb1RCh250rpeJU
-Subject: Re: [PATCH] Add pigz as gzip-native alternative.
+References: <cover.1331913268.git.paul.eggleton@linux.intel.com>
+	<a2e9044ed2b89b5fdbdb28cc6929797e49e8a009.1331913268.git.paul.eggleton@linux.intel.com>
+In-Reply-To: <a2e9044ed2b89b5fdbdb28cc6929797e49e8a009.1331913268.git.paul.eggleton@linux.intel.com>
+Cc: Paul Eggleton <paul.eggleton@linux.intel.com>
+Subject: Re: [PATCH 1/1] qt-mobility: fix QA warnings
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -51,46 +36,81 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 19 Mar 2012 14:55:39 -0000
-Content-Type: text/plain; charset=iso-8859-1
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Mon, 19 Mar 2012 15:54:52 -0000
+Content-Type: text/plain; charset=ISO-8859-1; format=flowed
+Content-Transfer-Encoding: 7bit
 
-
-Op 15 mrt. 2012, om 09:25 heeft Bj=F6rn Stenberg het volgende =
-geschreven:
->=20
-> +++ b/meta/recipes-extended/pigz/pigz.inc
-> @@ -0,0 +1,21 @@
-> +SUMMARY =3D "A parallel implementation of gzip"
-> +DESCRIPTION =3D "pigz, which stands for parallel implementation of =
-gzip, is a \
-> +fully functional replacement for gzip that exploits multiple =
-processors and \
-> +multiple cores to the hilt when compressing data. pigz was written by =
-Mark \
-> +Adler, and uses the zlib and pthread libraries."
-> +HOMEPAGE =3D "http://zlib.net/pigz/"
-> +SECTION =3D "console/utils"
-> +LICENSE =3D "Zlib"
+On 03/16/2012 08:55 AM, Paul Eggleton wrote:
+> Fix the following warnings:
+>
+> WARNING: QA Issue: package qt-mobility-x11 contains bad RPATH /home/user/qt/lib:/home/user/qt/lib${WORKDIR}/qt-mobility-opensource-src-1.2.0/lib:/home/user/qt/lib/media/large/tmp/sysroots/qemux86/usr/lib:/home/user/qt/lib/usr/lib in file ${WORKDIR}/packages-split/qt-mobility-x11/usr/bin/qt4/examples/QtMobility/qml_device
+> WARNING: QA Issue: package qt-mobility-x11 contains bad RPATH /home/user/qt/lib:/home/user/qt/lib${WORKDIR}/qt-mobility-opensource-src-1.2.0/lib:/home/user/qt/lib/media/large/tmp/sysroots/qemux86/usr/lib:/home/user/qt/lib/usr/lib in file ${WORKDIR}/packages-split/qt-mobility-x11/usr/bin/qt4/examples/QtMobility/qml_device
+>
+> Signed-off-by: Paul Eggleton<paul.eggleton@linux.intel.com>
+> ---
+>   ...nnecessary-rpaths-from-qml_device-example.patch |   28 ++++++++++++++++++++
+>   meta/recipes-qt/qt4/qt-mobility_1.2.0.inc          |    5 ++-
+>   2 files changed, 31 insertions(+), 2 deletions(-)
+>   create mode 100644 meta/recipes-qt/qt4/files/0002-Remove-unnecessary-rpaths-from-qml_device-example.patch
+>
+> diff --git a/meta/recipes-qt/qt4/files/0002-Remove-unnecessary-rpaths-from-qml_device-example.patch b/meta/recipes-qt/qt4/files/0002-Remove-unnecessary-rpaths-from-qml_device-example.patch
+> new file mode 100644
+> index 0000000..a411640
+> --- /dev/null
+> +++ b/meta/recipes-qt/qt4/files/0002-Remove-unnecessary-rpaths-from-qml_device-example.patch
+> @@ -0,0 +1,28 @@
+> +From 92e0c611f4969c716616d64df64831387e5b1632 Mon Sep 17 00:00:00 2001
+> +From: Paul Eggleton<paul.eggleton@linux.intel.com>
+> +Date: Fri, 16 Mar 2012 10:24:00 +0000
+> +Subject: [PATCH] Remove unnecessary rpaths from qml_device example
 > +
-> +SRC_URI =3D "http://zlib.net/pigz/pigz-${PV}.tar.gz \
-> +           file://ldflags.patch"
+> +These can't be valid in any case.
 > +
-> +PROVIDES_virtclass-native +=3D "gzip-native"
+> +Upstream-Status: Pending
 > +
-> +DEPENDS_virtclass-native =3D "zlib-native"
+> +Signed-off-by: Paul Eggleton<paul.eggleton@linux.intel.com>
+> +---
+> + examples/declarative-systeminfo/device/device.pro |    3 ---
+> + 1 files changed, 0 insertions(+), 3 deletions(-)
 > +
-> +do_install () {
-> +        install -d ${D}${bindir}
-> +        install ${B}/pigz ${D}${bindir}/gzip
-> +        install ${B}/unpigz ${D}${bindir}/gunzip
-> +}
+> +diff --git a/examples/declarative-systeminfo/device/device.pro b/examples/declarative-systeminfo/device/device.pro
+> +index 698e5fb..05be9b7 100644
+> +--- a/examples/declarative-systeminfo/device/device.pro
+> ++++ b/examples/declarative-systeminfo/device/device.pro
+> +@@ -17,6 +17,3 @@ symbian {
+> + }
+> + RESOURCES += device.qrc
+> +
+> +-QMAKE_LFLAGS_DEBUG += "-Wl,-rpath,/home/user/qt/lib"
+> +-QMAKE_LFLAGS_RPATH += "-Wl,-rpath,/home/user/qt/lib"
+> +-QMAKE_LFLAGS_RELEASE += "-Wl,-rpath,/home/user/qt/lib"
+> +--
+> +1.7.5.4
+> +
+> diff --git a/meta/recipes-qt/qt4/qt-mobility_1.2.0.inc b/meta/recipes-qt/qt4/qt-mobility_1.2.0.inc
+> index 593cbd6..1c4611d 100644
+> --- a/meta/recipes-qt/qt4/qt-mobility_1.2.0.inc
+> +++ b/meta/recipes-qt/qt4/qt-mobility_1.2.0.inc
+> @@ -7,12 +7,13 @@ LIC_FILES_CHKSUM = "file://LICENSE.LGPL;md5=fbc093901857fcd118f065f900982c24 \
+>
+>   SRC_URI = "http://get.qt.nokia.com/qt/add-ons/qt-mobility-opensource-src-${PV}.tar.gz \
+>              file://qt-mobility-configure.patch \
+> -           file://0001-gstvideoconnector-fixed-buffers-allocation.patch"
+> +           file://0001-gstvideoconnector-fixed-buffers-allocation.patch \
+> +           file://0002-Remove-unnecessary-rpaths-from-qml_device-example.patch"
+>
+>   SRC_URI[md5sum]="ea5db5a8d3dd4709c2926dceda646bd8"
+>   SRC_URI[sha256sum]="ee3c88975e04139ac9589f76d4be646d44fcbc4c8c1cf2db621abc154cf0ba44"
+>
+> -PR = "r2"
+> +PR = "r3"
+>
+>   S = "${WORKDIR}/qt-mobility-opensource-src-${PV}"
+>
 
-This is either missing update-alternatives entries or it is missing =
-RREPLACES/RCONFLICTS with gzip/busybox/etc. Or both.
+Merged into OE-Core
 
-regards,
-
-Koen=
+Thanks
+	Sau!
 
 
