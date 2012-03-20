@@ -1,31 +1,31 @@
-Received: from masterfoo.zenlinux.com ([207.192.74.254])
+Received: from mga02.intel.com ([134.134.136.20])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <scott.a.garman@intel.com>) id 1SA3fA-00018q-Uy
+	(envelope-from <dvhart@linux.intel.com>) id 1SA479-0001UE-1q
 	for openembedded-core@lists.openembedded.org;
-	Tue, 20 Mar 2012 19:20:05 +0100
-Received: from localhost (c-76-105-137-48.hsd1.or.comcast.net [76.105.137.48])
-	(using TLSv1 with cipher DHE-RSA-AES128-SHA (128/128 bits))
-	(No client certificate requested)
-	by masterfoo.zenlinux.com (Postfix) with ESMTP id C658F2FD97
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 20 Mar 2012 14:11:06 -0400 (EDT)
-From: Scott Garman <scott.a.garman@intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Tue, 20 Mar 2012 11:11:00 -0700
-Message-Id: <558a58869ee345c82d65fdc1521c562b3c7e310e.1332266918.git.scott.a.garman@intel.com>
-X-Mailer: git-send-email 1.7.5.4
-In-Reply-To: <cover.1332266918.git.scott.a.garman@intel.com>
-References: <cover.1332266918.git.scott.a.garman@intel.com>
-In-Reply-To: <cover.1332266918.git.scott.a.garman@intel.com>
-References: <cover.1332266918.git.scott.a.garman@intel.com>
-X-MasterFoo-MailScanner-Information: Please contact the ISP for more
-	information
-X-MailScanner-ID: C658F2FD97.51930
-X-MasterFoo-MailScanner: Found to be clean
-X-MasterFoo-MailScanner-SpamCheck: not spam
-X-MasterFoo-MailScanner-From: scott.a.garman@intel.com
-X-Spam-Status: No
-Subject: [PATCH 1/1] openssl: upgrade to 1.0.0.h
+	Tue, 20 Mar 2012 19:48:59 +0100
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+	by orsmga101.jf.intel.com with ESMTP; 20 Mar 2012 11:40:05 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.67,352,1309762800"; d="scan'208";a="119667612"
+Received: from unknown (HELO envy.home) ([10.255.15.194])
+	by orsmga001.jf.intel.com with ESMTP; 20 Mar 2012 11:40:04 -0700
+Message-ID: <4F68CEDA.2060101@linux.intel.com>
+Date: Tue, 20 Mar 2012 11:39:22 -0700
+From: Darren Hart <dvhart@linux.intel.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:10.0.1) Gecko/20120209 Thunderbird/10.0.1
+MIME-Version: 1.0
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+References: <1332202974-27977-1-git-send-email-denis@denix.org>
+	<4F689BD8.4040201@linux.intel.com>
+	<20120320152846.GA22965@denix.org>
+	<4F68A33A.7060604@linux.intel.com>
+	<20120320160928.GB22965@denix.org>
+In-Reply-To: <20120320160928.GB22965@denix.org>
+X-Enigmail-Version: 1.4
+Cc: Denys Dmytriyenko <denys@ti.com>
+Subject: Re: [PATCH] rt-tests: fix dependency on eglibc, clean LDFLAGS passing
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -40,186 +40,148 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 20 Mar 2012 18:20:05 -0000
+X-List-Received-Date: Tue, 20 Mar 2012 18:48:59 -0000
+Content-Type: text/plain; charset=ISO-8859-1
+Content-Transfer-Encoding: 7bit
 
-Removed pkg-config.patch, which was incorporated upstream.
+On 03/20/2012 09:09 AM, Denys Dmytriyenko wrote:
+> On Tue, Mar 20, 2012 at 08:33:14AM -0700, Darren Hart wrote:
+>>
+>>
+>> On 03/20/2012 08:28 AM, Denys Dmytriyenko wrote:
+>>> On Tue, Mar 20, 2012 at 08:01:44AM -0700, Darren Hart wrote:
+>>>>
+>>>>
+>>>> On 03/19/2012 05:22 PM, Denys Dmytriyenko wrote:
+>>>>> From: Denys Dmytriyenko <denys@ti.com>
+>>>>>
+>>>>> Replace dependency on eglibc with virtual/libc
+>>>>> Pass LDFLAGS to TARGET_CC_ARCH, instead of CFLAGS as Makefile overrides it
+>>>>>
+>>>>> Signed-off-by: Denys Dmytriyenko <denys@ti.com>
+>>>>
+>>>> Thanks Denys,
+>>>>
+>>>> Looking through the rt-tests sources I don't see TARGET_CC_ARCH
+>>>> anywhere. Have you confirmed that changes made there make their way into
+>>>> the actual build?
+>>>
+>>> Darren,
+>>>
+>>> TARGET_CC_ARCH is not an rt-tests specific variable, it's used in OE. 
+>>> Although, TARGET_LDFLAGS might be more appropriate for this purpose, 
+>>> historically TARGET_CC_ARCH was heavily used to pass distro LDFLAGS to the 
+>>> app's build process - grepping it would show many such cases in OE-Core and 
+>>> especially in meta-oe...
+>>
+>> OK, thanks for the context. Will you be resubmitting with TARGET_LDFLAGS?
+> 
+> Nope, my bad, it's actually the other way around. From bitbake.conf:
+> 
+> export LDFLAGS = "${TARGET_LDFLAGS}"
+> 
+> So, appending to TARGET_CC_ARCH is the simplest way to pass flags, as that's 
+> embedded into $CC
+> 
+> Another option would have been to call make with -e flag to let environment 
+> variables override the ones in the Makefile, but that's less controlled...
+> 
 
-Addresses CVE-2012-0884.
+How about the follow patch against rt-tests? Clark W. said he's fine taking a
+patch that allows such an override. Does this meet your needs?
 
-Fixes bug [YOCTO #2139].
 
-Signed-off-by: Scott Garman <scott.a.garman@intel.com>
+From 9f1944b0751ccb398a47fc4c3652c459aab44f38 Mon Sep 17 00:00:00 2001
+Message-Id: <9f1944b0751ccb398a47fc4c3652c459aab44f38.1332268655.git.darren@dvhart.com>
+From: Darren Hart <darren@dvhart.com>
+Date: Tue, 20 Mar 2012 11:34:08 -0700
+Subject: [PATCH] rt-tests: Support user supplied CFLAGS and LDFLAGS
+
+Accept user supplied CFLAGS and LDFLAGS, overwriting the
+Makefile supplied versions. This can cause the build to
+fail if the user does not provide at least what the Makefile
+defines, but so be it.
+
+Signed-off-by: Darren Hart <darren@dvhart.com>
+CC: Denys Dmytriyenko <denis@denix.org>
 ---
- .../openssl/openssl-1.0.0g/debian/pkg-config.patch |   36 --------------------
- .../configure-targets.patch                        |    0
- .../debian/c_rehash-compat.patch                   |    0
- .../debian/ca.patch                                |    0
- .../debian/debian-targets.patch                    |    0
- .../debian/make-targets.patch                      |    0
- .../debian/man-dir.patch                           |    0
- .../debian/man-section.patch                       |    0
- .../debian/no-rpath.patch                          |    0
- .../debian/no-symbolic.patch                       |    0
- .../debian/pic.patch                               |    0
- .../debian/version-script.patch                    |    0
- .../engines-install-in-libdir-ssl.patch            |    0
- .../oe-ldflags.patch                               |    0
- .../openssl-fix-link.patch                         |    0
- .../openssl_fix_for_x32.patch                      |    0
- .../shared-libs.patch                              |    0
- .../{openssl_1.0.0g.bb => openssl_1.0.0h.bb}       |    5 +--
- 18 files changed, 2 insertions(+), 39 deletions(-)
- delete mode 100644 meta/recipes-connectivity/openssl/openssl-1.0.0g/debian/pkg-config.patch
- rename meta/recipes-connectivity/openssl/{openssl-1.0.0g => openssl-1.0.0h}/configure-targets.patch (100%)
- rename meta/recipes-connectivity/openssl/{openssl-1.0.0g => openssl-1.0.0h}/debian/c_rehash-compat.patch (100%)
- rename meta/recipes-connectivity/openssl/{openssl-1.0.0g => openssl-1.0.0h}/debian/ca.patch (100%)
- rename meta/recipes-connectivity/openssl/{openssl-1.0.0g => openssl-1.0.0h}/debian/debian-targets.patch (100%)
- rename meta/recipes-connectivity/openssl/{openssl-1.0.0g => openssl-1.0.0h}/debian/make-targets.patch (100%)
- rename meta/recipes-connectivity/openssl/{openssl-1.0.0g => openssl-1.0.0h}/debian/man-dir.patch (100%)
- rename meta/recipes-connectivity/openssl/{openssl-1.0.0g => openssl-1.0.0h}/debian/man-section.patch (100%)
- rename meta/recipes-connectivity/openssl/{openssl-1.0.0g => openssl-1.0.0h}/debian/no-rpath.patch (100%)
- rename meta/recipes-connectivity/openssl/{openssl-1.0.0g => openssl-1.0.0h}/debian/no-symbolic.patch (100%)
- rename meta/recipes-connectivity/openssl/{openssl-1.0.0g => openssl-1.0.0h}/debian/pic.patch (100%)
- rename meta/recipes-connectivity/openssl/{openssl-1.0.0g => openssl-1.0.0h}/debian/version-script.patch (100%)
- rename meta/recipes-connectivity/openssl/{openssl-1.0.0g => openssl-1.0.0h}/engines-install-in-libdir-ssl.patch (100%)
- rename meta/recipes-connectivity/openssl/{openssl-1.0.0g => openssl-1.0.0h}/oe-ldflags.patch (100%)
- rename meta/recipes-connectivity/openssl/{openssl-1.0.0g => openssl-1.0.0h}/openssl-fix-link.patch (100%)
- rename meta/recipes-connectivity/openssl/{openssl-1.0.0g => openssl-1.0.0h}/openssl_fix_for_x32.patch (100%)
- rename meta/recipes-connectivity/openssl/{openssl-1.0.0g => openssl-1.0.0h}/shared-libs.patch (100%)
- rename meta/recipes-connectivity/openssl/{openssl_1.0.0g.bb => openssl_1.0.0h.bb} (87%)
+ Makefile |   25 +++++++++++++------------
+ 1 files changed, 13 insertions(+), 12 deletions(-)
 
-diff --git a/meta/recipes-connectivity/openssl/openssl-1.0.0g/debian/pkg-config.patch b/meta/recipes-connectivity/openssl/openssl-1.0.0g/debian/pkg-config.patch
-deleted file mode 100644
-index 0f1f392..0000000
---- a/meta/recipes-connectivity/openssl/openssl-1.0.0g/debian/pkg-config.patch
-+++ /dev/null
-@@ -1,36 +0,0 @@
--Upstream-Status: Backport [debian]
--
--Index: openssl-1.0.0c/Makefile.org
--===================================================================
----- openssl-1.0.0c.orig/Makefile.org	2010-12-12 16:13:28.000000000 +0100
--+++ openssl-1.0.0c/Makefile.org	2010-12-12 17:01:49.000000000 +0100
--@@ -323,7 +323,8 @@
-- 	    echo 'Description: OpenSSL cryptography library'; \
-- 	    echo 'Version: '$(VERSION); \
-- 	    echo 'Requires: '; \
---	    echo 'Libs: -L$${libdir} -lcrypto $(EX_LIBS)'; \
--+	    echo 'Libs: -L$${libdir} -lcrypto'; \
--+	    echo 'Libs.private: $(EX_LIBS)'; \
-- 	    echo 'Cflags: -I$${includedir} $(KRB5_INCLUDES)' ) > libcrypto.pc
-- 
-- libssl.pc: Makefile
--@@ -336,7 +337,8 @@
-- 	    echo 'Description: Secure Sockets Layer and cryptography libraries'; \
-- 	    echo 'Version: '$(VERSION); \
-- 	    echo 'Requires: '; \
---	    echo 'Libs: -L$${libdir} -lssl -lcrypto $(EX_LIBS)'; \
--+	    echo 'Libs: -L$${libdir} -lssl'; \
--+	    echo 'Libs.private: -lcrypto $(EX_LIBS)'; \
-- 	    echo 'Cflags: -I$${includedir} $(KRB5_INCLUDES)' ) > libssl.pc
-- 
-- openssl.pc: Makefile
--@@ -349,7 +351,8 @@
-- 	    echo 'Description: Secure Sockets Layer and cryptography libraries and tools'; \
-- 	    echo 'Version: '$(VERSION); \
-- 	    echo 'Requires: '; \
---	    echo 'Libs: -L$${libdir} -lssl -lcrypto $(EX_LIBS)'; \
--+	    echo 'Libs: -L$${libdir} -lssl -lcrypto'; \
--+	    echo 'Libs.private: $(EX_LIBS)'; \
-- 	    echo 'Cflags: -I$${includedir} $(KRB5_INCLUDES)' ) > openssl.pc
-- 
-- Makefile: Makefile.org Configure config
-diff --git a/meta/recipes-connectivity/openssl/openssl-1.0.0g/configure-targets.patch b/meta/recipes-connectivity/openssl/openssl-1.0.0h/configure-targets.patch
-similarity index 100%
-rename from meta/recipes-connectivity/openssl/openssl-1.0.0g/configure-targets.patch
-rename to meta/recipes-connectivity/openssl/openssl-1.0.0h/configure-targets.patch
-diff --git a/meta/recipes-connectivity/openssl/openssl-1.0.0g/debian/c_rehash-compat.patch b/meta/recipes-connectivity/openssl/openssl-1.0.0h/debian/c_rehash-compat.patch
-similarity index 100%
-rename from meta/recipes-connectivity/openssl/openssl-1.0.0g/debian/c_rehash-compat.patch
-rename to meta/recipes-connectivity/openssl/openssl-1.0.0h/debian/c_rehash-compat.patch
-diff --git a/meta/recipes-connectivity/openssl/openssl-1.0.0g/debian/ca.patch b/meta/recipes-connectivity/openssl/openssl-1.0.0h/debian/ca.patch
-similarity index 100%
-rename from meta/recipes-connectivity/openssl/openssl-1.0.0g/debian/ca.patch
-rename to meta/recipes-connectivity/openssl/openssl-1.0.0h/debian/ca.patch
-diff --git a/meta/recipes-connectivity/openssl/openssl-1.0.0g/debian/debian-targets.patch b/meta/recipes-connectivity/openssl/openssl-1.0.0h/debian/debian-targets.patch
-similarity index 100%
-rename from meta/recipes-connectivity/openssl/openssl-1.0.0g/debian/debian-targets.patch
-rename to meta/recipes-connectivity/openssl/openssl-1.0.0h/debian/debian-targets.patch
-diff --git a/meta/recipes-connectivity/openssl/openssl-1.0.0g/debian/make-targets.patch b/meta/recipes-connectivity/openssl/openssl-1.0.0h/debian/make-targets.patch
-similarity index 100%
-rename from meta/recipes-connectivity/openssl/openssl-1.0.0g/debian/make-targets.patch
-rename to meta/recipes-connectivity/openssl/openssl-1.0.0h/debian/make-targets.patch
-diff --git a/meta/recipes-connectivity/openssl/openssl-1.0.0g/debian/man-dir.patch b/meta/recipes-connectivity/openssl/openssl-1.0.0h/debian/man-dir.patch
-similarity index 100%
-rename from meta/recipes-connectivity/openssl/openssl-1.0.0g/debian/man-dir.patch
-rename to meta/recipes-connectivity/openssl/openssl-1.0.0h/debian/man-dir.patch
-diff --git a/meta/recipes-connectivity/openssl/openssl-1.0.0g/debian/man-section.patch b/meta/recipes-connectivity/openssl/openssl-1.0.0h/debian/man-section.patch
-similarity index 100%
-rename from meta/recipes-connectivity/openssl/openssl-1.0.0g/debian/man-section.patch
-rename to meta/recipes-connectivity/openssl/openssl-1.0.0h/debian/man-section.patch
-diff --git a/meta/recipes-connectivity/openssl/openssl-1.0.0g/debian/no-rpath.patch b/meta/recipes-connectivity/openssl/openssl-1.0.0h/debian/no-rpath.patch
-similarity index 100%
-rename from meta/recipes-connectivity/openssl/openssl-1.0.0g/debian/no-rpath.patch
-rename to meta/recipes-connectivity/openssl/openssl-1.0.0h/debian/no-rpath.patch
-diff --git a/meta/recipes-connectivity/openssl/openssl-1.0.0g/debian/no-symbolic.patch b/meta/recipes-connectivity/openssl/openssl-1.0.0h/debian/no-symbolic.patch
-similarity index 100%
-rename from meta/recipes-connectivity/openssl/openssl-1.0.0g/debian/no-symbolic.patch
-rename to meta/recipes-connectivity/openssl/openssl-1.0.0h/debian/no-symbolic.patch
-diff --git a/meta/recipes-connectivity/openssl/openssl-1.0.0g/debian/pic.patch b/meta/recipes-connectivity/openssl/openssl-1.0.0h/debian/pic.patch
-similarity index 100%
-rename from meta/recipes-connectivity/openssl/openssl-1.0.0g/debian/pic.patch
-rename to meta/recipes-connectivity/openssl/openssl-1.0.0h/debian/pic.patch
-diff --git a/meta/recipes-connectivity/openssl/openssl-1.0.0g/debian/version-script.patch b/meta/recipes-connectivity/openssl/openssl-1.0.0h/debian/version-script.patch
-similarity index 100%
-rename from meta/recipes-connectivity/openssl/openssl-1.0.0g/debian/version-script.patch
-rename to meta/recipes-connectivity/openssl/openssl-1.0.0h/debian/version-script.patch
-diff --git a/meta/recipes-connectivity/openssl/openssl-1.0.0g/engines-install-in-libdir-ssl.patch b/meta/recipes-connectivity/openssl/openssl-1.0.0h/engines-install-in-libdir-ssl.patch
-similarity index 100%
-rename from meta/recipes-connectivity/openssl/openssl-1.0.0g/engines-install-in-libdir-ssl.patch
-rename to meta/recipes-connectivity/openssl/openssl-1.0.0h/engines-install-in-libdir-ssl.patch
-diff --git a/meta/recipes-connectivity/openssl/openssl-1.0.0g/oe-ldflags.patch b/meta/recipes-connectivity/openssl/openssl-1.0.0h/oe-ldflags.patch
-similarity index 100%
-rename from meta/recipes-connectivity/openssl/openssl-1.0.0g/oe-ldflags.patch
-rename to meta/recipes-connectivity/openssl/openssl-1.0.0h/oe-ldflags.patch
-diff --git a/meta/recipes-connectivity/openssl/openssl-1.0.0g/openssl-fix-link.patch b/meta/recipes-connectivity/openssl/openssl-1.0.0h/openssl-fix-link.patch
-similarity index 100%
-rename from meta/recipes-connectivity/openssl/openssl-1.0.0g/openssl-fix-link.patch
-rename to meta/recipes-connectivity/openssl/openssl-1.0.0h/openssl-fix-link.patch
-diff --git a/meta/recipes-connectivity/openssl/openssl-1.0.0g/openssl_fix_for_x32.patch b/meta/recipes-connectivity/openssl/openssl-1.0.0h/openssl_fix_for_x32.patch
-similarity index 100%
-rename from meta/recipes-connectivity/openssl/openssl-1.0.0g/openssl_fix_for_x32.patch
-rename to meta/recipes-connectivity/openssl/openssl-1.0.0h/openssl_fix_for_x32.patch
-diff --git a/meta/recipes-connectivity/openssl/openssl-1.0.0g/shared-libs.patch b/meta/recipes-connectivity/openssl/openssl-1.0.0h/shared-libs.patch
-similarity index 100%
-rename from meta/recipes-connectivity/openssl/openssl-1.0.0g/shared-libs.patch
-rename to meta/recipes-connectivity/openssl/openssl-1.0.0h/shared-libs.patch
-diff --git a/meta/recipes-connectivity/openssl/openssl_1.0.0g.bb b/meta/recipes-connectivity/openssl/openssl_1.0.0h.bb
-similarity index 87%
-rename from meta/recipes-connectivity/openssl/openssl_1.0.0g.bb
-rename to meta/recipes-connectivity/openssl/openssl_1.0.0h.bb
-index 8ffe931..744fe2a 100644
---- a/meta/recipes-connectivity/openssl/openssl_1.0.0g.bb
-+++ b/meta/recipes-connectivity/openssl/openssl_1.0.0h.bb
-@@ -26,14 +26,13 @@ SRC_URI += "file://configure-targets.patch \
-             file://debian/no-rpath.patch \
-             file://debian/man-dir.patch \
-             file://debian/man-section.patch \
--            file://debian/pkg-config.patch \
-             file://debian/no-symbolic.patch \
-             file://debian/debian-targets.patch \
-             file://openssl_fix_for_x32.patch \
-            "
+diff --git a/Makefile b/Makefile
+index 4038dcc..e1edf6c 100644
+--- a/Makefile
++++ b/Makefile
+@@ -20,7 +20,8 @@ ifneq ($(filter x86_64 i386 ia64 mips powerpc,$(machinetype)),)
+ NUMA 	:= 1
+ endif
  
--SRC_URI[md5sum] = "07ecbe4324f140d157478637d6beccf1"
--SRC_URI[sha256sum] = "905106a1505e7d9f7c36ee81408d3aa3d41aac291a9603d0c290c9530c92fc2c"
-+SRC_URI[md5sum] = "a5bc483c570f2ac3758ce5c19b667fab"
-+SRC_URI[sha256sum] = "7e3dfc21aa57ed33ea673170053d1921322803b8a6a624a4f0d2e4c308bd418d"
+-CFLAGS = -D_GNU_SOURCE -Wall -Wno-nonnull -Isrc/include
++CFLAGS ?= -D_GNU_SOURCE -Wall -Wno-nonnull -Isrc/include
++LDFLAGS ?=
  
- PACKAGES =+ " \
- 	${PN}-engines \
+ PYLIB  := $(shell python -c 'import distutils.sysconfig;  print distutils.sysconfig.get_python_lib()')
+ 
+@@ -61,41 +62,41 @@ all: $(TARGETS) hwlatdetect
+ -include $(sources:.c=.d)
+ 
+ cyclictest: cyclictest.o rt-utils.o
+-	$(CC) $(CFLAGS) -o $@ $^ $(LIBS) $(NUMA_LIBS)
++	$(CC) $(CFLAGS) $(LDFLAGS) -o $@ $^ $(LIBS) $(NUMA_LIBS)
+ 
+ signaltest: signaltest.o rt-utils.o
+-	$(CC) $(CFLAGS) -o $@ $^ $(LIBS)
++	$(CC) $(CFLAGS) $(LDFLAGS) -o $@ $^ $(LIBS)
+ 
+ pi_stress: pi_stress.o
+-	$(CC) $(CFLAGS) -o $@ $^ $(LIBS)
++	$(CC) $(CFLAGS) $(LDFLAGS) -o $@ $^ $(LIBS)
+ 
+ hwlatdetect:  src/hwlatdetect/hwlatdetect.py
+ 	chmod +x src/hwlatdetect/hwlatdetect.py
+ 	ln -s src/hwlatdetect/hwlatdetect.py hwlatdetect
+ 
+ rt-migrate-test: rt-migrate-test.o
+-	$(CC) $(CFLAGS) -o $@ $^ $(LIBS)
++	$(CC) $(CFLAGS) $(LDFLAGS) -o $@ $^ $(LIBS)
+ 
+ ptsematest: ptsematest.o rt-utils.o rt-get_cpu.o
+-	$(CC) $(CFLAGS) -o $@ $^ $(LIBS) $(EXTRA_LIBS)
++	$(CC) $(CFLAGS) $(LDFLAGS) -o $@ $^ $(LIBS) $(EXTRA_LIBS)
+ 
+ sigwaittest: sigwaittest.o rt-utils.o rt-get_cpu.o
+-	$(CC) $(CFLAGS) -o $@ $^ $(LIBS) $(EXTRA_LIBS)
++	$(CC) $(CFLAGS) $(LDFLAGS) -o $@ $^ $(LIBS) $(EXTRA_LIBS)
+ 
+ svsematest: svsematest.o rt-utils.o rt-get_cpu.o
+-	$(CC) $(CFLAGS) -o $@ $^ $(LIBS) $(EXTRA_LIBS)
++	$(CC) $(CFLAGS) $(LDFLAGS) -o $@ $^ $(LIBS) $(EXTRA_LIBS)
+ 
+ pmqtest: pmqtest.o rt-utils.o rt-get_cpu.o
+-	$(CC) $(CFLAGS) -o $@ $^ $(LIBS) $(EXTRA_LIBS)
++	$(CC) $(CFLAGS) $(LDFLAGS) -o $@ $^ $(LIBS) $(EXTRA_LIBS)
+ 
+ sendme: sendme.o rt-utils.o rt-get_cpu.o
+-	$(CC) $(CFLAGS) -o $@ $^ $(LIBS) $(EXTRA_LIBS)
++	$(CC) $(CFLAGS) $(LDFLAGS) -o $@ $^ $(LIBS) $(EXTRA_LIBS)
+ 
+ pip_stress: pip_stress.o error.o rt-utils.o
+-	$(CC) $(CFLAGS) -o $@ $^ $(LIBS)
++	$(CC) $(CFLAGS) $(LDFLAGS) -o $@ $^ $(LIBS)
+ 
+ hackbench: hackbench.o
+-	$(CC) $(CFLAGS) -o $@ $^ $(LIBS)
++	$(CC) $(CFLAGS) $(LDFLAGS) -o $@ $^ $(LIBS)
+ 
+ CLEANUP  = $(TARGETS) *.o .depend *.*~ *.orig *.rej rt-tests.spec *.d
+ CLEANUP += $(if $(wildcard .git), ChangeLog)
 -- 
-1.7.5.4
+1.7.6.5
 
+
+-- 
+Darren Hart
+Intel Open Source Technology Center
+Yocto Project - Linux Kernel
 
 
