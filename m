@@ -1,40 +1,32 @@
-Received: from mail-out.m-online.net ([212.18.0.9])
-	by linuxtogo.org with esmtp (Exim 4.72) (envelope-from <wd@denx.de>)
-	id 1S9xSd-0005Nx-R9 for openembedded-core@lists.openembedded.org;
-	Tue, 20 Mar 2012 12:42:43 +0100
-Received: from frontend1.mail.m-online.net (unknown [192.168.8.180])
-	by mail-out.m-online.net (Postfix) with ESMTP id 3VBsV75KYCz4Kh0t;
-	Tue, 20 Mar 2012 12:33:51 +0100 (CET)
-Received: from localhost (dynscan1.mnet-online.de [192.168.8.164])
-	by mail.m-online.net (Postfix) with ESMTP id 3VBsV72VgPz4KK4V;
-	Tue, 20 Mar 2012 12:33:51 +0100 (CET)
-X-Virus-Scanned: amavisd-new at mnet-online.de
-Received: from smtp-auth.mnet-online.de ([192.168.8.180])
-	by localhost (dynscan1.mail.m-online.net [192.168.8.164]) (amavisd-new,
-	port 10024)
-	with ESMTP id n4DslqDKCJyM; Tue, 20 Mar 2012 12:33:50 +0100 (CET)
-Received: from diddl.denx.de (host-80-81-18-216.customer.m-online.net
-	[80.81.18.216]) by smtp-auth.mnet-online.de (Postfix) with ESMTPA;
-	Tue, 20 Mar 2012 12:33:49 +0100 (CET)
-Received: from gemini.denx.de (gemini.denx.de [10.0.0.2])
-	by diddl.denx.de (Postfix) with ESMTP id BEAC71A6535;
-	Tue, 20 Mar 2012 12:33:49 +0100 (CET)
-Received: from gemini.denx.de (localhost [127.0.0.1])
-	by gemini.denx.de (Postfix) with ESMTP id D4362202A50;
-	Tue, 20 Mar 2012 12:33:48 +0100 (CET)
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>, 
-	Denys Dmytriyenko <denis@denix.org>
-From: Wolfgang Denk <wd@denx.de>
+Received: from mail-gy0-f175.google.com ([209.85.160.175])
+	by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <martin.jansa@gmail.com>) id 1S9xeR-0005aI-GJ
+	for openembedded-core@lists.openembedded.org;
+	Tue, 20 Mar 2012 12:54:55 +0100
+Received: by ghbz2 with SMTP id z2so6056352ghb.6
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 20 Mar 2012 04:46:02 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
+	:content-type; bh=yLzQzq7o/85/cGiNXB2Lq1d2IXH1bXvAnCT19fM4ioQ=;
+	b=qvn+Iv1c7BAgIQBs475q9K2Zcz8di1UjHwk20qR5rV4OSkAX+0w0U61httlKws20MY
+	jfQSeSi263xHsLr/KuTznZl+KrnK09rSXk+YnN8uBofObvxFSZNUTRz2lejd9EFyP8Cw
+	zSqPulWeQel3sIecgjhcqRhq/XwIke+41+QCLDwUMgJ7Ftykb+y5CDRzWoNEBy8lMYZU
+	aaOopDOLVzkQFCkSaCfCMRFGm3La1VpN6G/QqQN8BcqYuLLzUXrBZgUuo6mp+30gEPHC
+	200pGiDgJFskSuaTbUU2Dcb/x05pMeLmpL7/LPR2H54MhY2t52M0K9ZzSYddYpe5tdvP
+	i0MA==
 MIME-Version: 1.0
-In-reply-to: <20120320004345.GG15554@denix.org>
-References: <20120319215934.5336A206060@gemini.denx.de>
-	<20120320004345.GG15554@denix.org>
-Comments: In-reply-to Denys Dmytriyenko <denis@denix.org>
-	message dated "Mon, 19 Mar 2012 20:43:45 -0400."
-Date: Tue, 20 Mar 2012 12:33:48 +0100
-Message-Id: <20120320113348.D4362202A50@gemini.denx.de>
-Subject: Re: specific version dependenciews - was: Linking two recipes
+Received: by 10.236.153.70 with SMTP id e46mr15906172yhk.29.1332243962668;
+	Tue, 20 Mar 2012 04:46:02 -0700 (PDT)
+Received: by 10.236.37.131 with HTTP; Tue, 20 Mar 2012 04:46:02 -0700 (PDT)
+In-Reply-To: <CA+YB3rbZqhGf7cCbM=MR5i5OsM31qKZKvaz32eHQ0q92n24F-A@mail.gmail.com>
+References: <CA+YB3rbZqhGf7cCbM=MR5i5OsM31qKZKvaz32eHQ0q92n24F-A@mail.gmail.com>
+Date: Tue, 20 Mar 2012 12:46:02 +0100
+Message-ID: <CA+chaQdv3x7-WEsATLbfoOh+cORMqVNRpPX18deEqMG3CKOR0Q@mail.gmail.com>
+From: Martin Jansa <martin.jansa@gmail.com>
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: MINUTES: OE TSC 13 March 2012
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -49,42 +41,24 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 20 Mar 2012 11:42:44 -0000
-Content-type: text/plain; charset=UTF-8
-Content-transfer-encoding: 8bit
+X-List-Received-Date: Tue, 20 Mar 2012 11:54:55 -0000
+Content-Type: text/plain; charset=UTF-8
 
-Dear Denys,
+On Mon, Mar 19, 2012 at 11:10 PM, Jeff Osier-Mixon <jefro@jefro.net> wrote:
+> (9:28:46 AM) RP__: For example, someone sends a patch X, it merges, it
+> breaks things
+> (9:29:11 AM) RP__: At present I spend a lot of time fixing things since the
+> breakage starts affecting people who have no interest in the patch
+> (9:29:35 AM) bluelightning: RP__: do you have some recent examples?
+> (9:29:52 AM) RP__: bluelightning: Adding python to gdb-cross-candian
+> (9:30:06 AM) bluelightning: ah yes :/
+> (9:30:07 AM) RP__: took out meta-toolchain on rpm
+> (9:30:23 AM) RP__: This kind of stuff becomes my problem :(
 
-In message <20120320004345.GG15554@denix.org> you wrote:
->
-> > Is there a clever way to describe such a multi-level dependency chain?
-> 
-> Will this help? See line #4 in the first example and lines #30-31 in second:
-> 
-> http://cgit.openembedded.org/openembedded-core/tree/meta/recipes-support/gnutls/gnutls.inc#n4
-> http://cgit.openembedded.org/meta-openembedded/tree/meta-oe/recipes-graphics/xserver-nodm-init/xserver-nodm-init_2.0.bb#n30
+FWIW: I haven't seen any report of issues related to this ^ and I also
+haven't interest in gdb-cross-canadian with python, but it was useful
+to reveal bug in oe-core's SDK_PATH settings.
 
-Yes, this looks indeed interesting.
-
-Is there also away to ask for a specific package version, i. e.
-instead of "libgcrypt (>= 1.4.2)" something like "libgcrypt (= 1.4.2)"
-or "libgcrypt-1.4.2" or such?
-
-> There are some caveats with that notation, IIRC...
-
-What would these be?  Is there any documentation about such details?
-I searched the bitbake, poky and yocto docs but could not find it...
-
-Best regards,
-
-Wolfgang Denk
-
--- 
-DENX Software Engineering GmbH,     MD: Wolfgang Denk & Detlev Zundel
-HRB 165235 Munich, Office: Kirchenstr.5, D-82194 Groebenzell, Germany
-Phone: (+49)-8142-66989-10 Fax: (+49)-8142-66989-80 Email: wd@denx.de
-Our OS who art in CPU, UNIX be thy name.
-Thy programs run, thy syscalls done,
-In kernel as it is in user!
+Cheers,
 
 
