@@ -1,35 +1,38 @@
 Received: from mail-we0-f175.google.com ([74.125.82.175])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <koen@dominion.thruhere.net>) id 1S9zPl-0007y4-AW
+	(envelope-from <koen@dominion.thruhere.net>) id 1S9zPn-0007y4-HY
 	for openembedded-core@lists.openembedded.org;
-	Tue, 20 Mar 2012 14:47:53 +0100
-Received: by wera1 with SMTP id a1so37851wer.6
+	Tue, 20 Mar 2012 14:47:55 +0100
+Received: by mail-we0-f175.google.com with SMTP id a1so37851wer.6
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 20 Mar 2012 06:38:59 -0700 (PDT)
+	Tue, 20 Mar 2012 06:39:05 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=google.com; s=20120113;
-	h=from:to:cc:subject:date:message-id:x-mailer:x-gm-message-state;
-	bh=v4+wRYZtC/oBH37AD5MSmF8XtzB5VdQH3MhcggLH/DI=;
-	b=YsPUUT/C2fO1ktUOGM3f7MNCUmH5EMaxYuVu2TNeBod0j/J0PENMdzyv+jm2f03d7+
-	0802kpKUBULMOWMgIIvc9K2LIsGDfqwTaRTJNtgXemzi2Y6MjVIYLJACtT9A6vBx7mwU
-	LwKrbTiupP8DwMjiyix/MOonsEjG6qPd7+W5UUcXu4J8lwMoN7n42HDRQY4USMiRcL61
-	6k7m+L/W9fh3PxTbuPzTAc0x+uI4H07mmK63BVkfR1giKWfBud0FTdDU41WvpPunCv+f
-	f/g5yj1KnV8/6m3JPDiIDqH2Y6fEeL978HiyTFWK3mYyIYAQi4EkRZLOhNbBCuqGSNQI
-	vs6g==
-Received: by 10.216.132.98 with SMTP id n76mr9365173wei.101.1332250739535;
-	Tue, 20 Mar 2012 06:38:59 -0700 (PDT)
+	h=from:to:cc:subject:date:message-id:x-mailer:in-reply-to:references
+	:x-gm-message-state;
+	bh=lVQ1ELGX8O4HwRLvk78QhAhbFoM4Lrd9GXK1Weg0G5A=;
+	b=NEdDnLTLonJxw08em3uV9EToDSnSYoJbl9/KDgOICYOZ3YyfN/laej120mj5XQRgdv
+	Y5LlVpa5wiBE8TIzdNs7aKh51+23pf9Tm8mvwSXGpNWrmvCbjmIh46g4FpvbeK50imgO
+	agx9YDXaVTxL55x8WJfBZDWeHGbub53azhnsJGpYRfHRI4WWA48FVsJw27MjVjJq3eL2
+	RrZKP2yot5LnLzgBqeZ5ekDU6sds4Gi6O1vQHAKGTKAEnqIWbj9jXxHdAJInzAioS5DG
+	s7WAkIK0Lc2HWjx8YQh7+FZ21y271h+jtpci6J0mbTWnHjD6h6ItL3QkNqEOYRfJfdNJ
+	CqrA==
+Received: by 10.180.98.8 with SMTP id ee8mr29230192wib.14.1332250745277;
+	Tue, 20 Mar 2012 06:39:05 -0700 (PDT)
 Received: from localhost (ip545070eb.adsl-surfen.hetnet.nl. [84.80.112.235])
-	by mx.google.com with ESMTPS id 17sm15849032wis.0.2012.03.20.06.38.58
+	by mx.google.com with ESMTPS id fn2sm6802130wib.0.2012.03.20.06.39.03
 	(version=TLSv1/SSLv3 cipher=OTHER);
-	Tue, 20 Mar 2012 06:38:58 -0700 (PDT)
+	Tue, 20 Mar 2012 06:39:04 -0700 (PDT)
 From: Koen Kooi <koen@dominion.thruhere.net>
 To: openembedded-core@lists.openembedded.org
-Date: Tue, 20 Mar 2012 14:38:52 +0100
-Message-Id: <1332250734-14660-1-git-send-email-koen@dominion.thruhere.net>
+Date: Tue, 20 Mar 2012 14:38:54 +0100
+Message-Id: <1332250734-14660-3-git-send-email-koen@dominion.thruhere.net>
 X-Mailer: git-send-email 1.7.2.5
-X-Gm-Message-State: ALoCoQmf9JbVIXXL8FQxRhN7aerPtk1TD8cSb7TF3A24ymZ44hcOTLrSvwkH+nuLEglhESu+hWJR
+In-Reply-To: <1332250734-14660-1-git-send-email-koen@dominion.thruhere.net>
+References: <1332250734-14660-1-git-send-email-koen@dominion.thruhere.net>
+X-Gm-Message-State: ALoCoQmme/XEz/+OXwWu2fN0p41xwyCeAz/xiqMFtwOR2mStjwN9DU9hqMKYqOAxsk3SBoNLEXp+
 Cc: Koen Kooi <koen@dominion.thruhere.net>
-Subject: [RFC v2][PATCH 1/3] buildhistory: record all builds
+Subject: [RFC v2][PATCH 3/3] buildhistory: remove duplicate entries from dot graph
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -44,43 +47,55 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 20 Mar 2012 13:47:53 -0000
+X-List-Received-Date: Tue, 20 Mar 2012 13:47:55 -0000
 
-Allow empty commits, this also give a nice speedup since 'git status --porcelain' doesn't need to get run.
+There are various conditions that lead to duplicate entries in the dot graph which need to get fixed, but this patch is a catchall. A previous attempt to address this only works on rpm which gives a \n seperated output, opkg doesn't.
+
+Another benefit is that the sort order is now know, leading to less spurious diffs in buildhistory commits.
 
 Signed-off-by: Koen Kooi <koen@dominion.thruhere.net>
 ---
- meta/classes/buildhistory.bbclass |   17 +++++++----------
- 1 files changed, 7 insertions(+), 10 deletions(-)
+
+Changes since v1: remove sort | uniq in the for loop, that only works with RPM
+
+ meta/classes/buildhistory.bbclass |   11 +++++++----
+ 1 files changed, 7 insertions(+), 4 deletions(-)
 
 diff --git a/meta/classes/buildhistory.bbclass b/meta/classes/buildhistory.bbclass
-index f99aa7f..1926d12 100644
+index 3aec325..49d1982 100644
 --- a/meta/classes/buildhistory.bbclass
 +++ b/meta/classes/buildhistory.bbclass
-@@ -396,16 +396,13 @@ buildhistory_commit() {
- 		if [ ! -d .git ] ; then
- 			git init -q
+@@ -291,6 +291,7 @@ buildhistory_get_image_installed() {
+ 	# Produce installed package file and size lists and dependency graph
+ 	echo -n > ${BUILDHISTORY_DIR_IMAGE}/installed-packages.txt
+ 	echo -n > ${BUILDHISTORY_DIR_IMAGE}/installed-package-sizes.tmp
++	echo -n > ${BUILDHISTORY_DIR_IMAGE}/depends.tmp	
+ 	echo -e "digraph depends {\n    node [shape=plaintext]" > ${BUILDHISTORY_DIR_IMAGE}/depends.dot
+ 	for pkg in $INSTALLED_PKGS; do
+ 		pkgfile=`get_package_filename $pkg`
+@@ -300,16 +301,18 @@ buildhistory_get_image_installed() {
+ 			echo $pkgsize $pkg >> ${BUILDHISTORY_DIR_IMAGE}/installed-package-sizes.tmp
  		fi
--		# Ensure there are new/changed files to commit
--		repostatus=`git status --porcelain`
--		if [ "$repostatus" != "" ] ; then
--			git add ${BUILDHISTORY_DIR}/*
--			HOSTNAME=`hostname 2>/dev/null || echo unknown`
--			git commit ${BUILDHISTORY_DIR}/ -m "Build ${BUILDNAME} of ${DISTRO} ${DISTRO_VERSION} for machine ${MACHINE} on $HOSTNAME" --author "${BUILDHISTORY_COMMIT_AUTHOR}" > /dev/null
--			if [ "${BUILDHISTORY_PUSH_REPO}" != "" ] ; then
--				git push -q ${BUILDHISTORY_PUSH_REPO}
--			fi
--		fi) || true
-+		git add ${BUILDHISTORY_DIR}/*
-+		HOSTNAME=`hostname 2>/dev/null || echo unknown`
-+		git commit ${BUILDHISTORY_DIR}/ --allow-empty -m "Build ${BUILDNAME} of ${DISTRO} ${DISTRO_VERSION} for machine ${MACHINE} on $HOSTNAME" --author "${BUILDHISTORY_COMMIT_AUTHOR}" > /dev/null
-+		if [ "${BUILDHISTORY_PUSH_REPO}" != "" ] ; then
-+			git push -q ${BUILDHISTORY_PUSH_REPO}
-+		fi
-+	) || true
- }
  
- python buildhistory_eventhandler() {
+-		deps=`list_package_depends $pkg | sort | uniq`
++		deps=`list_package_depends $pkg`
+ 		for dep in $deps ; do
+-			echo "$pkg OPP $dep;" | sed -e 's:-:_:g' -e 's:\.:_:g' -e 's:+::g' | sed 's:OPP:->:g' >> ${BUILDHISTORY_DIR_IMAGE}/depends.dot
++			echo "$pkg OPP $dep;" | sed -e 's:-:_:g' -e 's:\.:_:g' -e 's:+::g' | sed 's:OPP:->:g' >> ${BUILDHISTORY_DIR_IMAGE}/depends.tmp
+ 		done
+ 
+-		recs=`list_package_recommends $pkg | sort | uniq`
++		recs=`list_package_recommends $pkg`
+ 		for rec in $recs ; do
+-			echo "$pkg OPP $rec [style=dotted];" | sed -e 's:-:_:g' -e 's:\.:_:g' -e 's:+::g' | sed 's:OPP:->:g' >> ${BUILDHISTORY_DIR_IMAGE}/depends.dot
++			echo "$pkg OPP $rec [style=dotted];" | sed -e 's:-:_:g' -e 's:\.:_:g' -e 's:+::g' | sed 's:OPP:->:g' >> ${BUILDHISTORY_DIR_IMAGE}/depends.tmp
+ 		done
+ 	done
++	cat ${BUILDHISTORY_DIR_IMAGE}/depends.tmp | sort | uniq >> ${BUILDHISTORY_DIR_IMAGE}/depends.dot
++	rm ${BUILDHISTORY_DIR_IMAGE}/depends.tmp
+ 	echo "}" >>  ${BUILDHISTORY_DIR_IMAGE}/depends.dot
+ 
+ 	cat ${BUILDHISTORY_DIR_IMAGE}/installed-package-sizes.tmp | sort -n -r | awk '{print $1 "\tKiB " $2}' > ${BUILDHISTORY_DIR_IMAGE}/installed-package-sizes.txt
 -- 
 1.7.2.5
 
