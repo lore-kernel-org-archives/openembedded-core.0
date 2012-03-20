@@ -1,26 +1,26 @@
-Received: from mga03.intel.com ([143.182.124.21])
+Received: from mail.windriver.com ([147.11.1.11])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <paul.eggleton@linux.intel.com>) id 1S9xhH-0005es-CM
+	(envelope-from <Liezhi.Yang@windriver.com>) id 1S9xwy-0006Mz-8C
 	for openembedded-core@lists.openembedded.org;
-	Tue, 20 Mar 2012 12:57:51 +0100
-Received: from azsmga002.ch.intel.com ([10.2.17.35])
-	by azsmga101.ch.intel.com with ESMTP; 20 Mar 2012 04:48:58 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="79552698"
-Received: from unknown (HELO helios.localnet) ([10.252.123.195])
-	by AZSMGA002.ch.intel.com with ESMTP; 20 Mar 2012 04:48:57 -0700
-From: Paul Eggleton <paul.eggleton@linux.intel.com>
-To: Koen Kooi <koen@dominion.thruhere.net>
-Date: Tue, 20 Mar 2012 11:48:55 +0000
-Message-ID: <1812139.SkpSglmEkv@helios>
-Organization: Intel Corporation
-User-Agent: KMail/4.8.0 (Linux/3.0.0-16-generic-pae; KDE/4.8.1; i686; ; )
-In-Reply-To: <1332241255-5083-3-git-send-email-koen@dominion.thruhere.net>
-References: <1332241255-5083-1-git-send-email-koen@dominion.thruhere.net>
-	<1332241255-5083-3-git-send-email-koen@dominion.thruhere.net>
+	Tue, 20 Mar 2012 13:14:04 +0100
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca [147.11.189.40])
+	by mail.windriver.com (8.14.3/8.14.3) with ESMTP id q2KC5ARj020227
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
+	Tue, 20 Mar 2012 05:05:10 -0700 (PDT)
+Received: from [128.224.162.196] (128.224.162.196) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server id 14.1.255.0;
+	Tue, 20 Mar 2012 05:05:10 -0700
+Message-ID: <4F687274.5080608@windriver.com>
+Date: Tue, 20 Mar 2012 20:05:08 +0800
+From: Robert Yang <liezhi.yang@windriver.com>
+User-Agent: Mozilla/5.0 (X11; Linux i686;
+	rv:10.0.2) Gecko/20120216 Thunderbird/10.0.2
 MIME-Version: 1.0
+To: Paul Eggleton <paul.eggleton@linux.intel.com>
+References: <4F684301.5060307@windriver.com> <1757423.DE0kMhjxZk@helios>
+In-Reply-To: <1757423.DE0kMhjxZk@helios>
 Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 3/3] buildhistory: remove duplicate entries from dot graph
+Subject: Re: Why qemu-config RDPENDS on distcc ?
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -35,29 +35,36 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 20 Mar 2012 11:57:51 -0000
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
+X-List-Received-Date: Tue, 20 Mar 2012 12:14:04 -0000
+Content-Type: text/plain; charset="ISO-8859-1"; format=flowed
+Content-Transfer-Encoding: 7bit
 
-On Tuesday 20 March 2012 12:00:55 Koen Kooi wrote:
-> There are various conditions that lead to duplicate entries in the dot graph
-> which need to get fixed, but this patch is a catchall.
 
-Dependencies and recommends are already de-duped - are we getting duplicates 
-in the package list as well?
+On 03/20/2012 05:43 PM, Paul Eggleton wrote:
+> On Tuesday 20 March 2012 16:42:41 Robert Yang wrote:
+>> I'm just curious that qemu-config RDPENDS on distcc:
+>>
+>> meta/recipes-bsp/qemu-config/qemu-config.bb:RDEPENDS_${PN} = "distcc ..."
+>>
+>> And there are 4 processes named "distcc" running after boot the target
+>> with "runqemu qemux86".
+>>
+>> We have distcc on the target, but no gcc or g++, can we remove it from
+>> qemu-config's RDEPENDS?
+>
+> I think the idea was that if you wanted to do compilation on the emulated
+> target, having distcc would let you do it with much better performance. I
+> agree it seems that it's not particularly useful if you're never going to do
+> any compilation on the target though.
+>
 
-> Another benefit is that the sort order is now know, leading to less spurious
-> diffs in buildhistory commits.
+Thanks for your reply, so may I send a pull request to remove it from
+qemu-config's RDPENDS?
 
-The package list is already sorted, and so are the dependencies and 
-recommends, so how would the sort order be changing?
+// Robert
 
-Cheers,
-Paul
-
--- 
-
-Paul Eggleton
-Intel Open Source Technology Centre
+> Cheers,
+> Paul
+>
 
 
