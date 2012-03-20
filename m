@@ -1,33 +1,38 @@
-Received: from mx.insigma.com.cn ([115.236.48.170] helo=WX-Edge.insigma.com.cn)
-	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <niqingliang@insigma.com.cn>) id 1S9vQW-0008Um-6O
-	for openembedded-core@lists.openembedded.org;
-	Tue, 20 Mar 2012 10:32:25 +0100
-Received: from WX-EXCHMB2.insigma.com.cn (10.0.1.203) by
-	WX-Edge.insigma.com.cn (10.0.1.205) with Microsoft SMTP Server (TLS) id
-	8.1.436.0; Tue, 20 Mar 2012 17:23:24 +0800
-Received: from [192.168.0.98] (122.224.76.38) by Wx-ExchMB2.insigma.com.cn
-	(10.0.1.203) with Microsoft SMTP Server id 8.1.436.0; Tue, 20 Mar 2012
-	17:23:16 +0800
-Message-ID: <1332235259.1041.92.camel@localhost.localdomain>
-From: Ni Qingliang <niqingliang@insigma.com.cn>
-To: <mark.hatle@windriver.com>
-Date: Tue, 20 Mar 2012 17:20:59 +0800
-In-Reply-To: <4F635E14.7000707@windriver.com>
-References: <1331799506.1041.55.camel@localhost.localdomain>
-	<4F621801.4000308@windriver.com>
-	<1331875115.1041.67.camel@localhost.localdomain>
-	<4F635E14.7000707@windriver.com>
-Organization: Insigma
-X-Mailer: Evolution 3.2.3 
-MIME-Version: 1.0
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: LSB support?
+Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
+	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <richard.purdie@linuxfoundation.org>)
+	id 1S9vSd-00005k-Ua for openembedded-core@lists.openembedded.org;
+	Tue, 20 Mar 2012 10:34:36 +0100
+Received: from localhost (localhost [127.0.0.1])
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q2K9PiFj007885
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 20 Mar 2012 09:25:44 GMT
+Received: from tim.rpsys.net ([127.0.0.1])
+	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
+	port 10024) with LMTP
+	id 07784-01 for <openembedded-core@lists.openembedded.org>;
+	Tue, 20 Mar 2012 09:25:39 +0000 (GMT)
+Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q2K9PbLY007879
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO)
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 20 Mar 2012 09:25:39 GMT
+Message-ID: <1332235538.9740.83.camel@ted>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Date: Tue, 20 Mar 2012 09:25:38 +0000
+In-Reply-To: <20120320004345.GG15554@denix.org>
+References: <20120319215934.5336A206060@gemini.denx.de>
+	<20120320004345.GG15554@denix.org>
+X-Mailer: Evolution 3.2.2- 
+Mime-Version: 1.0
+X-Virus-Scanned: amavisd-new at rpsys.net
+Subject: Re: specific version dependenciews - was: Linking two recipes
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
-Reply-To: niqingliang@insigma.com.cn,
-	Patches and discussions about the oe-core layer
+Reply-To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
 List-Id: Patches and discussions about the oe-core layer
 	<openembedded-core.lists.openembedded.org>
@@ -38,125 +43,66 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 20 Mar 2012 09:32:25 -0000
+X-List-Received-Date: Tue, 20 Mar 2012 09:34:36 -0000
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 
-I do a clean building with the same error. I have not touched the
-specific glibc version.
+On Mon, 2012-03-19 at 20:43 -0400, Denys Dmytriyenko wrote:
+> On Mon, Mar 19, 2012 at 10:59:34PM +0100, Wolfgang Denk wrote:
+> > Dear Richard,
+> > 
+> > In message <1332192150.9740.72.camel@ted> you wrote:
+> > > On Mon, 2012-03-19 at 13:59 -0700, simran singh wrote:
+> > > > Hello,
+> > > > I have recipes for two applications Recipe A and Recipe B. Recipe B
+> > > > requires a lib.so file and init.h file which are installed by Recipe
+> > > > A.
+> > ...
+> > > recipe B needs to do:
+> > > 
+> > > DEPENDS += "recipeA"
+> > 
+> > I have a similar, but more complicated requirement which I don;t know
+> > how to implement (if this is possible at all):
+> > 
+> > Some MACHINEs require a package A (some library), but in specific
+> > versions: say machine X needs version A-1.2, while machine Y needs
+> > version A-1.5.
+> > 
+> > Package A itself depends on another package B (another library).
+> > 
+> > The problem is, that different versions of A require specific versions
+> > of B.  For example, to build A-1.2 we must use B-4.5, but to build
+> > A-1.5 we must use B-8.2.
+> > 
+> > I am aware that I can describe the dependencies at the top leven,
+> > stating for example that machine X needs A-1.2 and B-4.5, while
+> > machine Y needs A-1.5 and B-8.2.
+> > 
+> > However, this seems clumsy, as the version depency A->B is something
+> > that is only defined by the implementation of A, and I would like to
+> > keep it encapsulated at this level.
+> > 
+> > 
+> > Is there a clever way to describe such a multi-level dependency chain?
+> 
+> Will this help? See line #4 in the first example and lines #30-31 in second:
+> 
+> http://cgit.openembedded.org/openembedded-core/tree/meta/recipes-support/gnutls/gnutls.inc#n4
+> http://cgit.openembedded.org/meta-openembedded/tree/meta-oe/recipes-graphics/xserver-nodm-init/xserver-nodm-init_2.0.bb#n30
+> 
+> There are some caveats with that notation, IIRC...
 
-as I said, the do_compile should use the libXrandr in build_sysroot
-directory, but it used it in host system. and I have checked that, there
-IS the lib in build_sysroot directory.
+The RDEPENDS version will work. The parser will tolerate the entry in
+DEPENDS but as the code stands today, ignore it since the code has never
+been implemented.
 
-you can build it successfully, only because your host's lib is using
-glibc 2.13, but I'm using archlinux, all package is the newest.
+Cheers,
 
-the gconf used host's libXrandr, but want check its dependency in
-build_sysroot, that is the reason, MAYBE.
+Richard
 
-I will do a clean building again, and I don't think it will change
-anything.
 
-On Fri, 2012-03-16 at 23:36 +0800, Mark Hatle wrote:
-> On 3/16/12 12:18 AM, Ni Qingliang wrote:
-> > when building qemux86-64 arch core-image-lsb (distro is poky-lsb), I got
-> > /usr/lib/../lib/libXrandr.so.2: undefined reference to
-> > `memcpy@GLIBC_2.14' when 'do_compile' gconf 3.2.3.
-> >
-> > the default eglibc is 2.13, why it needs 2.14?
-> 
-> Without anything further, the only guess I can make is that either you aren't
-> using the version of glibc you think you are, it's gotten some host
-> contamination, an explicit reference was added to libXrandr (doubtful), or you
-> are using something that was built/cached from a previous build.  (i.e. did you
-> build w/ eglibc 2.14/2.15 -- and then switch back to eglibc 2.13 for some reason?)
-> 
-> On 3/15/12 9:38 PM, Ni Qingliang wrote:
->  > first, thanks your reply.
->  >
->  > Because I can't use task-core-lsb on my device (flash space is not
->  > enough), I have to make a custom lsb-base image (without
->  > perl/python/graphics).
->  >
->  > I have checked the "linuxstdbase", and it will change the configure
->  > option of some packages.
->  >
->  > Indeed, I think the daemon/failure/warning fuctions should be considered
->  > in package lsb's RDEPENDS.
->  >
->  > what I want to know is the rdepends or where is the
->  > daemon/failure/warning.
-> 
-> It certainly looks like a component is missing somewhere in the shell scrips
-> that are provided by the LSB functions.  I would assume that the
-> depends/provides is setup properly to point to whatever should be providing the
-> missing daemon, failure, warning commands.  If it's not (or if by default -- non
-> lsb mode) they're not being built, it's a definite bug.  You shouldn't be able
-> to build a non-functional systems.
-> 
-> Please file a defect on bugzilla.yoctoproject.org.  I will attempt to
-> investigate it (or someone else can).  Hopefully it's just as a simple as a
-> missing dependency.
-> 
-> --Mark
-> 
-> > On Fri, 2012-03-16 at 00:25 +0800, Mark Hatle wrote:
-> >> On 3/15/12 3:18 AM, Ni Qingliang wrote:
-> >>> Hello, I'm working on custom lsb-base image using oe-core.
-> >>>
-> >>> and when using the lsb script, found error:
-> >>>
-> >>> lsb_start_daemon line 44: daemon command not found.
-> >>>
-> >>> similar thing happend on lsb_log_message: failure and warning command
-> >>> not found.
-> >>>
-> >>> maybe these function should be defined in /etc/init.d/functions?
-> >>>
-> >>> but there are not these function in this file (belongs to initscripts).
-> >>
-> >> Did you enable the LSB distribution settings?  Without this, various components
-> >> may not be available.
-> >>
-> >> In Poky, there is a "poky-lsb" distribution type:
-> >>
-> >> DISTRO = "poky-lsb"
-> >> DISTROOVERRIDES = "poky:linuxstdbase"
-> >>
-> >> DISTRO_FEATURES_append = " pam largefile opengl"
-> >> PREFERRED_PROVIDER_virtual/libx11 = "libx11"
-> >>
-> >> (as well as using the core-image-lsb and/or task-core-lsb components.)
-> >>
-> >> If you've tried this and those items are still broken, let me know and I can
-> >> help investigate further.  (One final note, only LSB 1.4 is currently supported.)
-> >>
-> >> --Mark
-> >>
-> >>> Any idea?
-> >>>
-> >>> thanks!
-> >>>
-> >>>
-> >>
-> >>
-> >> _______________________________________________
-> >> Openembedded-core mailing list
-> >> Openembedded-core@lists.openembedded.org
-> >> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
-> >
-> 
-> 
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
 
--- 
-Yi Qingliang
-niqingliang@insigma.com.cn
-https://niqingliang2003.wordpress.com
 
 
 
