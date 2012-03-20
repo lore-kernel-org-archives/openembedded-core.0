@@ -1,24 +1,30 @@
-Received: from mga01.intel.com ([192.55.52.88])
+Received: from vms173019pub.verizon.net ([206.46.173.19])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <paul.eggleton@linux.intel.com>) id 1SA1jh-0006ph-Oh
+	(envelope-from <denis@denix.org>) id 1SA1ld-00072a-0I
 	for openembedded-core@lists.openembedded.org;
-	Tue, 20 Mar 2012 17:16:37 +0100
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-	by fmsmga101.fm.intel.com with ESMTP; 20 Mar 2012 09:06:35 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="141958513"
-Received: from unknown (HELO helios.ger.corp.intel.com) ([10.252.123.195])
-	by fmsmga002.fm.intel.com with ESMTP; 20 Mar 2012 09:06:35 -0700
-From: Paul Eggleton <paul.eggleton@linux.intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Tue, 20 Mar 2012 16:06:28 +0000
-Message-Id: <c1eea8eb72559ef608a51e880bd3c9c4bacc860e.1332259383.git.paul.eggleton@linux.intel.com>
-X-Mailer: git-send-email 1.7.5.4
-In-Reply-To: <cover.1332259383.git.paul.eggleton@linux.intel.com>
-References: <cover.1332259383.git.paul.eggleton@linux.intel.com>
-In-Reply-To: <cover.1332259383.git.paul.eggleton@linux.intel.com>
-References: <cover.1332259383.git.paul.eggleton@linux.intel.com>
-Subject: [PATCH 5/5] buildhistory_analysis: avoid printing PE/PV/PR more than once
+	Tue, 20 Mar 2012 17:18:37 +0100
+Received: from gandalf.denix.org ([unknown] [71.178.225.66])
+	by vms173019.mailsrvcs.net
+	(Sun Java(tm) System Messaging Server 7u2-7.02 32bit (built Apr 16
+	2009)) with ESMTPA id <0M1600KK9Y7TVJU0@vms173019.mailsrvcs.net> for
+	openembedded-core@lists.openembedded.org;
+	Tue, 20 Mar 2012 11:09:30 -0500 (CDT)
+Received: by gandalf.denix.org (Postfix, from userid 1000)	id 14EAA201B6; Tue,
+	20 Mar 2012 12:09:28 -0400 (EDT)
+Date: Tue, 20 Mar 2012 12:09:28 -0400
+From: Denys Dmytriyenko <denis@denix.org>
+To: Darren Hart <dvhart@linux.intel.com>
+Message-id: <20120320160928.GB22965@denix.org>
+References: <1332202974-27977-1-git-send-email-denis@denix.org>
+	<4F689BD8.4040201@linux.intel.com> <20120320152846.GA22965@denix.org>
+	<4F68A33A.7060604@linux.intel.com>
+MIME-version: 1.0
+In-reply-to: <4F68A33A.7060604@linux.intel.com>
+User-Agent: Mutt/1.5.20 (2009-06-14)
+Cc: Denys Dmytriyenko <denys@ti.com>,
+	Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] rt-tests: fix dependency on eglibc, clean LDFLAGS passing
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -33,51 +39,69 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 20 Mar 2012 16:16:38 -0000
+X-List-Received-Date: Tue, 20 Mar 2012 16:18:37 -0000
+Content-type: text/plain; charset=us-ascii
+Content-disposition: inline
 
-Don't print PE/PV/PR changes as related field changes of related field
-changes (i.e. only print them once at the top level).
+On Tue, Mar 20, 2012 at 08:33:14AM -0700, Darren Hart wrote:
+> 
+> 
+> On 03/20/2012 08:28 AM, Denys Dmytriyenko wrote:
+> > On Tue, Mar 20, 2012 at 08:01:44AM -0700, Darren Hart wrote:
+> >>
+> >>
+> >> On 03/19/2012 05:22 PM, Denys Dmytriyenko wrote:
+> >>> From: Denys Dmytriyenko <denys@ti.com>
+> >>>
+> >>> Replace dependency on eglibc with virtual/libc
+> >>> Pass LDFLAGS to TARGET_CC_ARCH, instead of CFLAGS as Makefile overrides it
+> >>>
+> >>> Signed-off-by: Denys Dmytriyenko <denys@ti.com>
+> >>
+> >> Thanks Denys,
+> >>
+> >> Looking through the rt-tests sources I don't see TARGET_CC_ARCH
+> >> anywhere. Have you confirmed that changes made there make their way into
+> >> the actual build?
+> > 
+> > Darren,
+> > 
+> > TARGET_CC_ARCH is not an rt-tests specific variable, it's used in OE. 
+> > Although, TARGET_LDFLAGS might be more appropriate for this purpose, 
+> > historically TARGET_CC_ARCH was heavily used to pass distro LDFLAGS to the 
+> > app's build process - grepping it would show many such cases in OE-Core and 
+> > especially in meta-oe...
+> 
+> OK, thanks for the context. Will you be resubmitting with TARGET_LDFLAGS?
 
-Signed-off-by: Paul Eggleton <paul.eggleton@linux.intel.com>
----
- meta/lib/oe/buildhistory_analysis.py |    8 +++++---
- 1 files changed, 5 insertions(+), 3 deletions(-)
+Nope, my bad, it's actually the other way around. From bitbake.conf:
 
-diff --git a/meta/lib/oe/buildhistory_analysis.py b/meta/lib/oe/buildhistory_analysis.py
-index 4f55d9a..313416c 100644
---- a/meta/lib/oe/buildhistory_analysis.py
-+++ b/meta/lib/oe/buildhistory_analysis.py
-@@ -49,8 +49,8 @@ class ChangeRecord:
-     def __str__(self):
-         return self._str_internal(True)
- 
--    def _str_internal(self, pathprefix):
--        if pathprefix:
-+    def _str_internal(self, outer):
-+        if outer:
-             prefix = '%s: ' % self.path
-         else:
-             prefix = ''
-@@ -91,7 +91,7 @@ class ChangeRecord:
-                 percentchg = 100
-             out = '%s changed from %s to %s (%s%d%%)' % (self.fieldname, self.oldvalue or "''", self.newvalue or "''", '+' if percentchg > 0 else '', percentchg)
-         elif self.fieldname in img_monitor_files:
--            if pathprefix:
-+            if outer:
-                 prefix = 'Changes to %s ' % self.path
-             out = '(%s):\n  ' % self.fieldname
-             if self.filechanges:
-@@ -107,6 +107,8 @@ class ChangeRecord:
- 
-         if self.related:
-             for chg in self.related:
-+                if not outer and chg.fieldname in ['PE', 'PV', 'PR']:
-+                    continue
-                 for line in chg._str_internal(False).splitlines():
-                     out += '\n  * %s' % line
- 
+export LDFLAGS = "${TARGET_LDFLAGS}"
+
+So, appending to TARGET_CC_ARCH is the simplest way to pass flags, as that's 
+embedded into $CC
+
+Another option would have been to call make with -e flag to let environment 
+variables override the ones in the Makefile, but that's less controlled...
+
 -- 
-1.7.5.4
+Denys
 
+
+> >> What was the problem you ran into?
+> > 
+> > Not a problem per se, but it was not getting all the LDFLAGS being passed, 
+> > more specifically:
+> > 
+> > -Wl,-O1 -Wl,--hash-style=gnu -Wl,--as-needed
+> > 
+> > BTW, in Classic OE it was failing on GNU Hash QA check w/o this.
+> > 
+> 
+> -- 
+> Darren Hart
+> Intel Open Source Technology Center
+> Yocto Project - Linux Kernel
+> 
 
 
