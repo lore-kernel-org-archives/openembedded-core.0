@@ -1,38 +1,40 @@
-Received: from mail-wi0-f171.google.com ([209.85.212.171])
-	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <koen@dominion.thruhere.net>) id 1S9wwu-0004vS-Rv
-	for openembedded-core@lists.openembedded.org;
-	Tue, 20 Mar 2012 12:09:56 +0100
-Received: by mail-wi0-f171.google.com with SMTP id hj13so4327110wib.6
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 20 Mar 2012 04:01:06 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=google.com; s=20120113;
-	h=from:to:cc:subject:date:message-id:x-mailer:in-reply-to:references
-	:x-gm-message-state;
-	bh=gQAxVMvSd7PmruwP8uTZnNMPlX0i1It1qxPoTYXmC1c=;
-	b=a2Fa5bLXpyhxMJfWD4/YpXM7F00AaZpmwcdTkTDpTaDdSNX51hCFvnuIbKkVL6H6Wv
-	f8cHVy9+h4nhOmY2BygR+hYbduSj0dV+4GPC9jSagHiKRaGgiehO2djAO5YAmTQgoDk6
-	0XU1at2P+ExX1FIdfUW0mg8iExU9qbeTXP8Uhone86WkBAVEclmlCh0u2iCfj9rODlHW
-	7NQC1rNZrgdL5MgqSSC3wDnmBtoZyRtRLxdfrS+HvMxRoAIycJMJWP9i/exJg9VjDp8L
-	pt9wsIrE/mY4Uapu4Oiyvx7Ecl06xGgVL3PQaMvSdchWgqCqmPbHB0ZBRApZOZPay/1O
-	gRDA==
-Received: by 10.216.135.219 with SMTP id u69mr8942419wei.89.1332241266746;
-	Tue, 20 Mar 2012 04:01:06 -0700 (PDT)
-Received: from localhost (ip545070eb.adsl-surfen.hetnet.nl. [84.80.112.235])
-	by mx.google.com with ESMTPS id ff2sm5216788wib.9.2012.03.20.04.01.05
-	(version=TLSv1/SSLv3 cipher=OTHER);
-	Tue, 20 Mar 2012 04:01:05 -0700 (PDT)
-From: Koen Kooi <koen@dominion.thruhere.net>
-To: openembedded-core@lists.openembedded.org
-Date: Tue, 20 Mar 2012 12:00:55 +0100
-Message-Id: <1332241255-5083-3-git-send-email-koen@dominion.thruhere.net>
-X-Mailer: git-send-email 1.7.2.5
-In-Reply-To: <1332241255-5083-1-git-send-email-koen@dominion.thruhere.net>
-References: <1332241255-5083-1-git-send-email-koen@dominion.thruhere.net>
-X-Gm-Message-State: ALoCoQk9VMHzCrtK8e0vcoQO5HSTEj0x4dFk5LAZhwDIeH+ZeLyRRBDqNc/kdiWqQvMNJitVnfN0
-Cc: Koen Kooi <koen@dominion.thruhere.net>
-Subject: [PATCH 3/3] buildhistory: remove duplicate entries from dot graph
+Received: from mail-out.m-online.net ([212.18.0.9])
+	by linuxtogo.org with esmtp (Exim 4.72) (envelope-from <wd@denx.de>)
+	id 1S9xSd-0005Nx-R9 for openembedded-core@lists.openembedded.org;
+	Tue, 20 Mar 2012 12:42:43 +0100
+Received: from frontend1.mail.m-online.net (unknown [192.168.8.180])
+	by mail-out.m-online.net (Postfix) with ESMTP id 3VBsV75KYCz4Kh0t;
+	Tue, 20 Mar 2012 12:33:51 +0100 (CET)
+Received: from localhost (dynscan1.mnet-online.de [192.168.8.164])
+	by mail.m-online.net (Postfix) with ESMTP id 3VBsV72VgPz4KK4V;
+	Tue, 20 Mar 2012 12:33:51 +0100 (CET)
+X-Virus-Scanned: amavisd-new at mnet-online.de
+Received: from smtp-auth.mnet-online.de ([192.168.8.180])
+	by localhost (dynscan1.mail.m-online.net [192.168.8.164]) (amavisd-new,
+	port 10024)
+	with ESMTP id n4DslqDKCJyM; Tue, 20 Mar 2012 12:33:50 +0100 (CET)
+Received: from diddl.denx.de (host-80-81-18-216.customer.m-online.net
+	[80.81.18.216]) by smtp-auth.mnet-online.de (Postfix) with ESMTPA;
+	Tue, 20 Mar 2012 12:33:49 +0100 (CET)
+Received: from gemini.denx.de (gemini.denx.de [10.0.0.2])
+	by diddl.denx.de (Postfix) with ESMTP id BEAC71A6535;
+	Tue, 20 Mar 2012 12:33:49 +0100 (CET)
+Received: from gemini.denx.de (localhost [127.0.0.1])
+	by gemini.denx.de (Postfix) with ESMTP id D4362202A50;
+	Tue, 20 Mar 2012 12:33:48 +0100 (CET)
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>, 
+	Denys Dmytriyenko <denis@denix.org>
+From: Wolfgang Denk <wd@denx.de>
+MIME-Version: 1.0
+In-reply-to: <20120320004345.GG15554@denix.org>
+References: <20120319215934.5336A206060@gemini.denx.de>
+	<20120320004345.GG15554@denix.org>
+Comments: In-reply-to Denys Dmytriyenko <denis@denix.org>
+	message dated "Mon, 19 Mar 2012 20:43:45 -0400."
+Date: Tue, 20 Mar 2012 12:33:48 +0100
+Message-Id: <20120320113348.D4362202A50@gemini.denx.de>
+Subject: Re: specific version dependenciews - was: Linking two recipes
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -47,50 +49,42 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 20 Mar 2012 11:09:57 -0000
+X-List-Received-Date: Tue, 20 Mar 2012 11:42:44 -0000
+Content-type: text/plain; charset=UTF-8
+Content-transfer-encoding: 8bit
 
-There are various conditions that lead to duplicate entries in the dot graph which need to get fixed, but this patch is a catchall.
+Dear Denys,
 
-Another benefit is that the sort order is now know, leading to less spurious diffs in buildhistory commits.
+In message <20120320004345.GG15554@denix.org> you wrote:
+>
+> > Is there a clever way to describe such a multi-level dependency chain?
+> 
+> Will this help? See line #4 in the first example and lines #30-31 in second:
+> 
+> http://cgit.openembedded.org/openembedded-core/tree/meta/recipes-support/gnutls/gnutls.inc#n4
+> http://cgit.openembedded.org/meta-openembedded/tree/meta-oe/recipes-graphics/xserver-nodm-init/xserver-nodm-init_2.0.bb#n30
 
-Signed-off-by: Koen Kooi <koen@dominion.thruhere.net>
----
- meta/classes/buildhistory.bbclass |    7 +++++--
- 1 files changed, 5 insertions(+), 2 deletions(-)
+Yes, this looks indeed interesting.
 
-diff --git a/meta/classes/buildhistory.bbclass b/meta/classes/buildhistory.bbclass
-index 3aec325..6502b04 100644
---- a/meta/classes/buildhistory.bbclass
-+++ b/meta/classes/buildhistory.bbclass
-@@ -291,6 +291,7 @@ buildhistory_get_image_installed() {
- 	# Produce installed package file and size lists and dependency graph
- 	echo -n > ${BUILDHISTORY_DIR_IMAGE}/installed-packages.txt
- 	echo -n > ${BUILDHISTORY_DIR_IMAGE}/installed-package-sizes.tmp
-+	echo -n > ${BUILDHISTORY_DIR_IMAGE}/depends.tmp	
- 	echo -e "digraph depends {\n    node [shape=plaintext]" > ${BUILDHISTORY_DIR_IMAGE}/depends.dot
- 	for pkg in $INSTALLED_PKGS; do
- 		pkgfile=`get_package_filename $pkg`
-@@ -302,14 +303,16 @@ buildhistory_get_image_installed() {
- 
- 		deps=`list_package_depends $pkg | sort | uniq`
- 		for dep in $deps ; do
--			echo "$pkg OPP $dep;" | sed -e 's:-:_:g' -e 's:\.:_:g' -e 's:+::g' | sed 's:OPP:->:g' >> ${BUILDHISTORY_DIR_IMAGE}/depends.dot
-+			echo "$pkg OPP $dep;" | sed -e 's:-:_:g' -e 's:\.:_:g' -e 's:+::g' | sed 's:OPP:->:g' >> ${BUILDHISTORY_DIR_IMAGE}/depends.tmp
- 		done
- 
- 		recs=`list_package_recommends $pkg | sort | uniq`
- 		for rec in $recs ; do
--			echo "$pkg OPP $rec [style=dotted];" | sed -e 's:-:_:g' -e 's:\.:_:g' -e 's:+::g' | sed 's:OPP:->:g' >> ${BUILDHISTORY_DIR_IMAGE}/depends.dot
-+			echo "$pkg OPP $rec [style=dotted];" | sed -e 's:-:_:g' -e 's:\.:_:g' -e 's:+::g' | sed 's:OPP:->:g' >> ${BUILDHISTORY_DIR_IMAGE}/depends.tmp
- 		done
- 	done
-+	cat ${BUILDHISTORY_DIR_IMAGE}/depends.tmp | sort | uniq >> ${BUILDHISTORY_DIR_IMAGE}/depends.dot
-+	rm ${BUILDHISTORY_DIR_IMAGE}/depends.tmp
- 	echo "}" >>  ${BUILDHISTORY_DIR_IMAGE}/depends.dot
- 
- 	cat ${BUILDHISTORY_DIR_IMAGE}/installed-package-sizes.tmp | sort -n -r | awk '{print $1 "\tKiB " $2}' > ${BUILDHISTORY_DIR_IMAGE}/installed-package-sizes.txt
+Is there also away to ask for a specific package version, i. e.
+instead of "libgcrypt (>= 1.4.2)" something like "libgcrypt (= 1.4.2)"
+or "libgcrypt-1.4.2" or such?
+
+> There are some caveats with that notation, IIRC...
+
+What would these be?  Is there any documentation about such details?
+I searched the bitbake, poky and yocto docs but could not find it...
+
+Best regards,
+
+Wolfgang Denk
+
 -- 
-1.7.2.5
-
+DENX Software Engineering GmbH,     MD: Wolfgang Denk & Detlev Zundel
+HRB 165235 Munich, Office: Kirchenstr.5, D-82194 Groebenzell, Germany
+Phone: (+49)-8142-66989-10 Fax: (+49)-8142-66989-80 Email: wd@denx.de
+Our OS who art in CPU, UNIX be thy name.
+Thy programs run, thy syscalls done,
+In kernel as it is in user!
 
 
