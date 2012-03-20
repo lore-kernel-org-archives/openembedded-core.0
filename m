@@ -1,39 +1,35 @@
-Received: from mail-out.m-online.net ([212.18.0.9])
-	by linuxtogo.org with esmtp (Exim 4.72) (envelope-from <wd@denx.de>)
-	id 1S9wh7-0004Dk-Er for openembedded-core@lists.openembedded.org;
-	Tue, 20 Mar 2012 11:53:37 +0100
-Received: from frontend1.mail.m-online.net (unknown [192.168.8.180])
-	by mail-out.m-online.net (Postfix) with ESMTP id 3VBrBd26T8z4LDfG;
-	Tue, 20 Mar 2012 11:35:21 +0100 (CET)
-Received: from localhost (dynscan1.mnet-online.de [192.168.8.164])
-	by mail.m-online.net (Postfix) with ESMTP id 3VBrBd0WvGz4KK3D;
-	Tue, 20 Mar 2012 11:35:21 +0100 (CET)
-X-Virus-Scanned: amavisd-new at mnet-online.de
-Received: from smtp-auth.mnet-online.de ([192.168.8.180])
-	by localhost (dynscan1.mail.m-online.net [192.168.8.164]) (amavisd-new,
-	port 10024)
-	with ESMTP id d6gpOcIzvdFR; Tue, 20 Mar 2012 11:35:20 +0100 (CET)
-Received: from diddl.denx.de (host-80-81-18-216.customer.m-online.net
-	[80.81.18.216]) by smtp-auth.mnet-online.de (Postfix) with ESMTPA;
-	Tue, 20 Mar 2012 11:35:20 +0100 (CET)
-Received: from gemini.denx.de (unknown [10.0.0.2])
-	by diddl.denx.de (Postfix) with ESMTP id 2D1C11A6535;
-	Tue, 20 Mar 2012 11:35:20 +0100 (CET)
-Received: from gemini.denx.de (localhost [127.0.0.1])
-	by gemini.denx.de (Postfix) with ESMTP id 22B00202A50;
-	Tue, 20 Mar 2012 11:35:20 +0100 (CET)
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-From: Wolfgang Denk <wd@denx.de>
-MIME-Version: 1.0
-In-reply-to: <1332203843.9740.76.camel@ted>
-References: <20120319215934.5336A206060@gemini.denx.de>
-	<1332203843.9740.76.camel@ted>
-Comments: In-reply-to Richard Purdie <richard.purdie@linuxfoundation.org>
-	message dated "Tue, 20 Mar 2012 00:37:23 +0000."
-Date: Tue, 20 Mar 2012 11:35:20 +0100
-Message-Id: <20120320103520.22B00202A50@gemini.denx.de>
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: specific version dependenciews
+Received: from mail-we0-f175.google.com ([74.125.82.175])
+	by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <koen@dominion.thruhere.net>) id 1S9wws-0004v4-Pt
+	for openembedded-core@lists.openembedded.org;
+	Tue, 20 Mar 2012 12:09:54 +0100
+Received: by wera1 with SMTP id a1so6716896wer.6
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 20 Mar 2012 04:01:02 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=google.com; s=20120113;
+	h=from:to:cc:subject:date:message-id:x-mailer:x-gm-message-state;
+	bh=v4+wRYZtC/oBH37AD5MSmF8XtzB5VdQH3MhcggLH/DI=;
+	b=h793KfAXrrINevDQgR/0NPgWKOpLTX+z3Jgx1OJqY6FUAfP03uYNxfYYM77HfXE4gT
+	WZsWGJucFKlsKkSqWBPbi7PIl/YUwDgBIctGz+A53KDpEjbh1LpUd6nn/uwfY7fCBSX9
+	8UFqulUhm41Cfn92zJK3pJroL+PudtRfdtCo4HrXrRQsf2kYAGCx6+cf0/JoEiJSarP9
+	WSufgV0bpHwePNoALQkme/MgpsMy0m0q0vpXXNrfc6VQKP2SAjNwgNTRhlRzwIfx7a3g
+	TB25g/RryCX4xzMXx8fpJHwQcclu/n/kmIPOa+jhL5QlEVLM8VCQzyqW2go3nJOgd+Gr
+	roTQ==
+Received: by 10.180.80.104 with SMTP id q8mr27725716wix.14.1332241262383;
+	Tue, 20 Mar 2012 04:01:02 -0700 (PDT)
+Received: from localhost (ip545070eb.adsl-surfen.hetnet.nl. [84.80.112.235])
+	by mx.google.com with ESMTPS id fn2sm5316533wib.0.2012.03.20.04.01.01
+	(version=TLSv1/SSLv3 cipher=OTHER);
+	Tue, 20 Mar 2012 04:01:01 -0700 (PDT)
+From: Koen Kooi <koen@dominion.thruhere.net>
+To: openembedded-core@lists.openembedded.org
+Date: Tue, 20 Mar 2012 12:00:53 +0100
+Message-Id: <1332241255-5083-1-git-send-email-koen@dominion.thruhere.net>
+X-Mailer: git-send-email 1.7.2.5
+X-Gm-Message-State: ALoCoQlesjiI5iJMnhvuOnltLq19/iBgcmbdYfvEkpRokAlK3r0MUDpppAIhPnLKuYp3rETGQWZK
+Cc: Koen Kooi <koen@dominion.thruhere.net>
+Subject: [PATCH 1/3] buildhistory: record all builds
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -48,62 +44,45 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 20 Mar 2012 10:53:37 -0000
-Content-type: text/plain; charset=UTF-8
-Content-transfer-encoding: 8bit
+X-List-Received-Date: Tue, 20 Mar 2012 11:09:54 -0000
 
-Dear Richard,
+Allow empty commits, this also give a nice speedup since 'git status --porcelain' doesn't need to get run.
 
-In message <1332203843.9740.76.camel@ted> you wrote:
-...
-> > Some MACHINEs require a package A (some library), but in specific
-> > versions: say machine X needs version A-1.2, while machine Y needs
-> > version A-1.5.
-> > 
-> > Package A itself depends on another package B (another library).
-> > 
-> > The problem is, that different versions of A require specific versions
-> > of B.  For example, to build A-1.2 we must use B-4.5, but to build
-> > A-1.5 we must use B-8.2.
-> > 
-> > I am aware that I can describe the dependencies at the top leven,
-> > stating for example that machine X needs A-1.2 and B-4.5, while
-> > machine Y needs A-1.5 and B-8.2.
-> > 
-> > However, this seems clumsy, as the version depency A->B is something
-> > that is only defined by the implementation of A, and I would like to
-> > keep it encapsulated at this level.
-> > 
-> > 
-> > Is there a clever way to describe such a multi-level dependency chain?
-> 
-> If you mark A and B as machine specific, the system should be able to
-> cope with the problem and set the preferred versions at the machine
-> level.
+Signed-off-by: Koen Kooi <koen@dominion.thruhere.net>
+---
+ meta/classes/buildhistory.bbclass |   17 +++++++----------
+ 1 files changed, 7 insertions(+), 10 deletions(-)
 
-I'm sorry, but I don't understand what you mean.
-
-How do I mark a package as machine specific?
-
-And would setting "the preferred versions at the machine level" not be
-exactly what I am trying to avoid?
-
-I don't want to make the machine descriptions aware of any version
-dependencies between A and B.  I would like to put this information
-into the description of A, so that when a specific version of A gets
-built, automatically the matching version of B will be chosen.
-
-Can this be done?
-
-Best regards,
-
-Wolfgang Denk
-
+diff --git a/meta/classes/buildhistory.bbclass b/meta/classes/buildhistory.bbclass
+index f99aa7f..1926d12 100644
+--- a/meta/classes/buildhistory.bbclass
++++ b/meta/classes/buildhistory.bbclass
+@@ -396,16 +396,13 @@ buildhistory_commit() {
+ 		if [ ! -d .git ] ; then
+ 			git init -q
+ 		fi
+-		# Ensure there are new/changed files to commit
+-		repostatus=`git status --porcelain`
+-		if [ "$repostatus" != "" ] ; then
+-			git add ${BUILDHISTORY_DIR}/*
+-			HOSTNAME=`hostname 2>/dev/null || echo unknown`
+-			git commit ${BUILDHISTORY_DIR}/ -m "Build ${BUILDNAME} of ${DISTRO} ${DISTRO_VERSION} for machine ${MACHINE} on $HOSTNAME" --author "${BUILDHISTORY_COMMIT_AUTHOR}" > /dev/null
+-			if [ "${BUILDHISTORY_PUSH_REPO}" != "" ] ; then
+-				git push -q ${BUILDHISTORY_PUSH_REPO}
+-			fi
+-		fi) || true
++		git add ${BUILDHISTORY_DIR}/*
++		HOSTNAME=`hostname 2>/dev/null || echo unknown`
++		git commit ${BUILDHISTORY_DIR}/ --allow-empty -m "Build ${BUILDNAME} of ${DISTRO} ${DISTRO_VERSION} for machine ${MACHINE} on $HOSTNAME" --author "${BUILDHISTORY_COMMIT_AUTHOR}" > /dev/null
++		if [ "${BUILDHISTORY_PUSH_REPO}" != "" ] ; then
++			git push -q ${BUILDHISTORY_PUSH_REPO}
++		fi
++	) || true
+ }
+ 
+ python buildhistory_eventhandler() {
 -- 
-DENX Software Engineering GmbH,     MD: Wolfgang Denk & Detlev Zundel
-HRB 165235 Munich, Office: Kirchenstr.5, D-82194 Groebenzell, Germany
-Phone: (+49)-8142-66989-10 Fax: (+49)-8142-66989-80 Email: wd@denx.de
-It is easier to change the specification to fit the program than vice
-versa.
+1.7.2.5
+
 
 
