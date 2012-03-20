@@ -1,30 +1,14 @@
-Received: from col0-omc3-s18.col0.hotmail.com ([65.55.34.157])
+Received: from ffm.saftware.de ([83.141.3.46])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <kyoonn@hotmail.com>) id 1SA4qP-0002Ob-8i
+	(envelope-from <obi@opendreambox.org>) id 1SA7yk-00035I-49
 	for openembedded-core@lists.openembedded.org;
-	Tue, 20 Mar 2012 20:35:45 +0100
-Received: from COL120-W58 ([65.55.34.137]) by col0-omc3-s18.col0.hotmail.com
-	with Microsoft SMTPSVC(6.0.3790.4675); 
-	Tue, 20 Mar 2012 12:25:44 -0700
-Message-ID: <COL120-W589EFDCD1837C8DE58A37FDD430@phx.gbl>
-X-Originating-IP: [67.164.104.98]
-From: simran singh <kyoonn@hotmail.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Tue, 20 Mar 2012 12:25:44 -0700
-Importance: Normal
-In-Reply-To: <1332197654.9740.73.camel@ted>
-References: <COL120-W391CDA1CEF0C6CE16540C8DD420@phx.gbl> <,>
-	<,>,,<1332192150.9740.72.camel@ted>
-	<,>,,<COL120-W278115027639B2C6CC9F7BDD420@phx.gbl> <, >,,
-	<EBB81F82C91641E49DD69302B85DB8BF@gmail.com>,,
-	<COL120-W6346678F9768AEFEA35D5EDD420@phx.gbl>,,
-	<B0098CE307294E64ABD9A4F359B2382D@gmail.com>,
-	<COL120-W436E890CF0879C1F67450CDD420@phx.gbl>,
-	<1332197654.9740.73.camel@ted>
-MIME-Version: 1.0
-X-OriginalArrivalTime: 20 Mar 2012 19:25:44.0487 (UTC)
-	FILETIME=[3EC77B70:01CD06CF]
-Subject: Re: Linking two recipes
+	Tue, 20 Mar 2012 23:56:34 +0100
+From: Andreas Oberritter <obi@opendreambox.org>
+To: openembedded-core@lists.openembedded.org
+Date: Tue, 20 Mar 2012 23:47:37 +0100
+Message-Id: <1332283657-5978-1-git-send-email-obi@opendreambox.org>
+X-Mailer: git-send-email 1.7.5.4
+Subject: [PATCH v2] parted: update to version 3.1
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -39,88 +23,142 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 20 Mar 2012 19:35:45 -0000
-Content-Type: multipart/alternative;
-	boundary="_7bff059c-a059-419c-af20-d975a39240af_"
+X-List-Received-Date: Tue, 20 Mar 2012 22:56:34 -0000
 
---_7bff059c-a059-419c-af20-d975a39240af_
-Content-Type: text/plain; charset="iso-8859-1"
-Content-Transfer-Encoding: quoted-printable
+* Supports disks > 2TB
+
+Signed-off-by: Andreas Oberritter <obi@opendreambox.org>
+---
+* v2: Updated DEPENDS to match shlibs.
+      Updated fix-git-version-gen.patch (applied upstream).
+
+ .../parted/parted-3.1/fix-doc-mandir.patch         |   20 +++++++++
+ .../parted/parted-3.1/fix-git-version-gen.patch    |   43 ++++++++++++++++++++
+ .../{parted-3.0 => parted-3.1}/no_check.patch      |    0
+ .../{parted-3.0 => parted-3.1}/syscalls.patch      |    0
+ .../parted/{parted_3.0.bb => parted_3.1.bb}        |   12 +++--
+ 5 files changed, 70 insertions(+), 5 deletions(-)
+ create mode 100644 meta/recipes-extended/parted/parted-3.1/fix-doc-mandir.patch
+ create mode 100644 meta/recipes-extended/parted/parted-3.1/fix-git-version-gen.patch
+ rename meta/recipes-extended/parted/{parted-3.0 => parted-3.1}/no_check.patch (100%)
+ rename meta/recipes-extended/parted/{parted-3.0 => parted-3.1}/syscalls.patch (100%)
+ rename meta/recipes-extended/parted/{parted_3.0.bb => parted_3.1.bb} (52%)
+
+diff --git a/meta/recipes-extended/parted/parted-3.1/fix-doc-mandir.patch b/meta/recipes-extended/parted/parted-3.1/fix-doc-mandir.patch
+new file mode 100644
+index 0000000..0711d4e
+--- /dev/null
++++ b/meta/recipes-extended/parted/parted-3.1/fix-doc-mandir.patch
+@@ -0,0 +1,20 @@
++Upstream-Status: Submitted [bug-parted@gnu.org]
++
++| for po in `ls -1 ./*.pt_BR.po 2>/dev/null`; do \
++| 		make $(basename ${po%.pt_BR.po}); \
++| 	done
++| Makefile:904: *** Recursive variable `mandir' references itself (eventually).  Stop.
++
++Signed-off-by: Andreas Oberritter <obi@opendreambox.org>
++
++--- parted-3.1/doc/po4a.mk.orig	2012-03-15 14:09:11.555831872 +0100
+++++ parted-3.1/doc/po4a.mk	2012-03-15 14:10:44.243830985 +0100
++@@ -23,7 +23,7 @@
++ # threshold is 80%), it won't be distributed, and the build won't fail.
++ #
++ 
++-mandir = $(mandir)/$(lang)
+++mandir := $(mandir)/$(lang)
++ 
++ # Inform automake that we want to install some man pages in section 1, 5
++ # and 8.
+diff --git a/meta/recipes-extended/parted/parted-3.1/fix-git-version-gen.patch b/meta/recipes-extended/parted/parted-3.1/fix-git-version-gen.patch
+new file mode 100644
+index 0000000..a9f26e9
+--- /dev/null
++++ b/meta/recipes-extended/parted/parted-3.1/fix-git-version-gen.patch
+@@ -0,0 +1,43 @@
++Upstream-Status: Accepted [Expected to be included in parted versions > 3.1]
++Upstream-URL: http://git.savannah.gnu.org/cgit/gnulib.git/patch/?id=cbc11ff0020eb9c04caea6b3e7dc4e4281dff1f9
++
++From cbc11ff0020eb9c04caea6b3e7dc4e4281dff1f9 Mon Sep 17 00:00:00 2001
++From: Andreas Oberritter <obi@opendreambox.org>
++Date: Sun, 18 Mar 2012 17:39:14 +0000
++Subject: git-version-gen: don't let "prefix" envvar cause trouble
++
++* build-aux/git-version-gen (prefix): Initialize properly,
++so as not to use a value specified via the environment.
++Details here: http://thread.gmane.org/gmane.comp.gnu.parted.bugs/10810
++---
++diff --git a/build-aux/git-version-gen b/build-aux/git-version-gen
++index d5542a2..0fa9063 100755
++--- a/build-aux/git-version-gen
+++++ b/build-aux/git-version-gen
++@@ -1,6 +1,6 @@
++ #!/bin/sh
++ # Print a version string.
++-scriptversion=2012-01-06.07; # UTC
+++scriptversion=2012-03-18.17; # UTC
++ 
++ # Copyright (C) 2007-2012 Free Software Foundation, Inc.
++ #
++@@ -92,6 +92,8 @@ Options:
++ 
++ Running without arguments will suffice in most cases."
++ 
+++prefix=v
+++
++ while test $# -gt 0; do
++   case $1 in
++     --help) echo "$usage"; exit 0;;
++@@ -120,7 +122,6 @@ if test -z "$tarball_version_file"; then
++ fi
++ 
++ tag_sed_script="${tag_sed_script:-s/x/x/}"
++-prefix="${prefix:-v}"
++ 
++ nl='
++ '
++--
++cgit v0.9.0.2
+diff --git a/meta/recipes-extended/parted/parted-3.0/no_check.patch b/meta/recipes-extended/parted/parted-3.1/no_check.patch
+similarity index 100%
+rename from meta/recipes-extended/parted/parted-3.0/no_check.patch
+rename to meta/recipes-extended/parted/parted-3.1/no_check.patch
+diff --git a/meta/recipes-extended/parted/parted-3.0/syscalls.patch b/meta/recipes-extended/parted/parted-3.1/syscalls.patch
+similarity index 100%
+rename from meta/recipes-extended/parted/parted-3.0/syscalls.patch
+rename to meta/recipes-extended/parted/parted-3.1/syscalls.patch
+diff --git a/meta/recipes-extended/parted/parted_3.0.bb b/meta/recipes-extended/parted/parted_3.1.bb
+similarity index 52%
+rename from meta/recipes-extended/parted/parted_3.0.bb
+rename to meta/recipes-extended/parted/parted_3.1.bb
+index 2fba6d1..21d3a66 100644
+--- a/meta/recipes-extended/parted/parted_3.0.bb
++++ b/meta/recipes-extended/parted/parted_3.1.bb
+@@ -3,15 +3,17 @@ HOMEPAGE = "http://www.gnu.org/software/parted/parted.html"
+ LICENSE = "GPLv3+"
+ LIC_FILES_CHKSUM = "file://COPYING;md5=2f31b266d3440dd7ee50f92cf67d8e6c"
+ SECTION = "console/tools"
+-DEPENDS = "readline e2fsprogs"
++DEPENDS = "ncurses readline util-linux"
+ PR = "r0"
+ 
+-SRC_URI = "${GNU_MIRROR}/parted/parted-${PV}.tar.gz \
++SRC_URI = "${GNU_MIRROR}/parted/parted-${PV}.tar.xz \
+            file://no_check.patch \
+-           file://syscalls.patch "
++           file://syscalls.patch \
++           file://fix-git-version-gen.patch \
++           file://fix-doc-mandir.patch"
+ 
+-SRC_URI[md5sum] = "a94e84a9b9944715c4453f82ccc639bf"
+-SRC_URI[sha256sum] = "8886eece015202f6bd5ce8414f4b68838452cef509f2e3389ad56128219837b7"
++SRC_URI[md5sum] = "5d89d64d94bcfefa9ce8f59f4b81bdcb"
++SRC_URI[sha256sum] = "5e9cc1f91eaf016e5033d85b9b893fd6d3ffaca532a48de1082df9b94225ca15"
+ 
+ EXTRA_OECONF = "--disable-device-mapper"
+ 
+-- 
+1.7.5.4
 
 
-Hello=2C
-I was able to have the recipes find each other but I think the problem lies=
- somewhere else as to why the build is failing.But thanks for all the help.
-Simran
 
-> From: richard.purdie@linuxfoundation.org
-> To: openembedded-core@lists.openembedded.org
-> Date: Mon=2C 19 Mar 2012 22:54:14 +0000
-> Subject: Re: [OE-core] Linking two recipes
->=20
-> On Mon=2C 2012-03-19 at 15:10 -0700=2C simran singh wrote:
-> > This is how I was able to install it:
-> >=20
-> >=20
-> > do_install(){
-> >        python configure.py --prefix=3D${D}/${libdir}/botan
-> > }
-> >
-> >=20
-> > But still the other recipe is unable to locate the files.
-> >=20
->=20
-> In the other recipe=2C look in ${STAGING_LIBDIR}...
->=20
-> Cheers=2C
->=20
-> Richard
->=20
->=20
->=20
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
- 		 	   		  =
-
---_7bff059c-a059-419c-af20-d975a39240af_
-Content-Type: text/html; charset="iso-8859-1"
-Content-Transfer-Encoding: quoted-printable
-
-<html>
-<head>
-<style><!--
-.hmmessage P
-{
-margin:0px=3B
-padding:0px
-}
-body.hmmessage
-{
-font-size: 10pt=3B
-font-family:Tahoma
-}
---></style></head>
-<body class=3D'hmmessage'><div dir=3D'ltr'>
-Hello=2C<div><br></div><div>I was able to have the recipes find each other =
-but I think the problem lies somewhere else as to why the build is failing.=
-</div><div>But thanks for all the help.</div><div><br></div><div>Simran<br>=
-<br><div><div id=3D"SkyDrivePlaceholder"></div>&gt=3B From: richard.purdie@=
-linuxfoundation.org<br>&gt=3B To: openembedded-core@lists.openembedded.org<=
-br>&gt=3B Date: Mon=2C 19 Mar 2012 22:54:14 +0000<br>&gt=3B Subject: Re: [O=
-E-core] Linking two recipes<br>&gt=3B <br>&gt=3B On Mon=2C 2012-03-19 at 15=
-:10 -0700=2C simran singh wrote:<br>&gt=3B &gt=3B This is how I was able to=
- install it:<br>&gt=3B &gt=3B <br>&gt=3B &gt=3B <br>&gt=3B &gt=3B do_instal=
-l(){<br>&gt=3B &gt=3B        python configure.py --prefix=3D${D}/${libdir}/=
-botan<br>&gt=3B &gt=3B }<br>&gt=3B &gt=3B<br>&gt=3B &gt=3B <br>&gt=3B &gt=
-=3B But still the other recipe is unable to locate the files.<br>&gt=3B &gt=
-=3B <br>&gt=3B <br>&gt=3B In the other recipe=2C look in ${STAGING_LIBDIR}.=
-..<br>&gt=3B <br>&gt=3B Cheers=2C<br>&gt=3B <br>&gt=3B Richard<br>&gt=3B <b=
-r>&gt=3B <br>&gt=3B <br>&gt=3B ____________________________________________=
-___<br>&gt=3B Openembedded-core mailing list<br>&gt=3B Openembedded-core@li=
-sts.openembedded.org<br>&gt=3B http://lists.linuxtogo.org/cgi-bin/mailman/l=
-istinfo/openembedded-core<br></div></div> 		 	   		  </div></body>
-</html>=
-
---_7bff059c-a059-419c-af20-d975a39240af_--
