@@ -1,35 +1,24 @@
-Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
-	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <richard.purdie@linuxfoundation.org>)
-	id 1S9nKT-0008Q5-Qn for openembedded-core@lists.openembedded.org;
-	Tue, 20 Mar 2012 01:53:38 +0100
-Received: from localhost (localhost [127.0.0.1])
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q2K0ikXP004307
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 20 Mar 2012 00:44:46 GMT
-Received: from tim.rpsys.net ([127.0.0.1])
-	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
-	port 10024) with LMTP
-	id 03666-07 for <openembedded-core@lists.openembedded.org>;
-	Tue, 20 Mar 2012 00:44:42 +0000 (GMT)
-Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q2K0ibSd004301
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO)
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 20 Mar 2012 00:44:38 GMT
-Message-ID: <1332204279.9740.78.camel@ted>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Date: Tue, 20 Mar 2012 00:44:39 +0000
-In-Reply-To: <4F6759C8.5060200@linux.intel.com>
-References: <cover.1332121842.git.lianhao.lu@intel.com>
-	<14ba30517e7ece9590e5ea76a963ed9b6720df09.1332121842.git.lianhao.lu@intel.com>
-	<4F6759C8.5060200@linux.intel.com>
-X-Mailer: Evolution 3.2.2- 
-Mime-Version: 1.0
-X-Virus-Scanned: amavisd-new at rpsys.net
-Subject: Re: [PATCH 1/1] sysvinit-inittab: Fixed license warning.
+Received: from vms173017pub.verizon.net ([206.46.173.17])
+	by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <denis@denix.org>) id 1S9nvq-0000mI-K4
+	for openembedded-core@lists.openembedded.org;
+	Tue, 20 Mar 2012 02:32:14 +0100
+Received: from gandalf.denix.org ([unknown] [71.178.225.66])
+	by vms173017.mailsrvcs.net
+	(Sun Java(tm) System Messaging Server 7u2-7.02 32bit (built Apr 16
+	2009)) with ESMTPA id <0M150008WQEGW362@vms173017.mailsrvcs.net> for
+	openembedded-core@lists.openembedded.org;
+	Mon, 19 Mar 2012 19:23:10 -0500 (CDT)
+Received: from localhost.localdomain (elrond [192.168.0.7])
+	by gandalf.denix.org (Postfix) with ESMTP id F15C52016F; Mon,
+	19 Mar 2012 20:23:03 -0400 (EDT)
+From: Denys Dmytriyenko <denis@denix.org>
+To: openembedded-core@lists.openembedded.org
+Date: Mon, 19 Mar 2012 20:22:54 -0400
+Message-id: <1332202974-27977-1-git-send-email-denis@denix.org>
+X-Mailer: git-send-email 1.7.8.5
+Cc: Denys Dmytriyenko <denys@ti.com>
+Subject: [PATCH] rt-tests: fix dependency on eglibc, clean LDFLAGS passing
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -44,51 +33,49 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 20 Mar 2012 00:53:38 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Tue, 20 Mar 2012 01:32:14 -0000
 
-On Mon, 2012-03-19 at 09:07 -0700, Saul Wold wrote:
-> On 03/18/2012 06:52 PM, Lianhao Lu wrote:
-> > WARNING: .../sysvinit-inittab-2.88dsf-r6/sysvinit-2.88dsf/COPYING could
-> > not be copied for some reason. It may not exist. WARN for now.
-> >
-> > Signed-off-by: Lianhao Lu<lianhao.lu@intel.com>
-> > ---
-> >   .../sysvinit/sysvinit-inittab_2.88dsf.bb           |    6 +++++-
-> >   1 files changed, 5 insertions(+), 1 deletions(-)
-> >
-> > diff --git a/meta/recipes-core/sysvinit/sysvinit-inittab_2.88dsf.bb b/meta/recipes-core/sysvinit/sysvinit-inittab_2.88dsf.bb
-> > index 3a716d7..85e34c8 100644
-> > --- a/meta/recipes-core/sysvinit/sysvinit-inittab_2.88dsf.bb
-> > +++ b/meta/recipes-core/sysvinit/sysvinit-inittab_2.88dsf.bb
-> > @@ -11,7 +11,11 @@ S = "${WORKDIR}/sysvinit-${PV}"
-> >
-> >   INHIBIT_DEFAULT_DEPS = "1"
-> >
-> > -do_configure() {
-> > +do_unpack_append() {
-> > +	bb.build.exec_func('do_copy_lic', d)
-> > +}
-> > +
-> I think it would be better to do the copy in a do_configure_prepend() Or 
-> can we set ${S} to ${WORKDIR} and not have to copy it at all?
-> 
-> 
-> > +do_copy_lic () {
-> >   	cp ${WORKDIR}/COPYING ${S}/
-> >   }
-> >
+From: Denys Dmytriyenko <denys@ti.com>
 
-How about changing the license URL to point at:
+Replace dependency on eglibc with virtual/libc
+Pass LDFLAGS to TARGET_CC_ARCH, instead of CFLAGS as Makefile overrides it
 
-file://${COREBASE}/meta/files/common-licenses/GPL-2.0
+Signed-off-by: Denys Dmytriyenko <denys@ti.com>
+---
+ meta/recipes-rt/rt-tests/rt-tests_0.83.bb |    6 +++---
+ 1 files changed, 3 insertions(+), 3 deletions(-)
 
-?
-
-Cheers,
-
-Richard
+diff --git a/meta/recipes-rt/rt-tests/rt-tests_0.83.bb b/meta/recipes-rt/rt-tests/rt-tests_0.83.bb
+index 6425027..3755c79 100644
+--- a/meta/recipes-rt/rt-tests/rt-tests_0.83.bb
++++ b/meta/recipes-rt/rt-tests/rt-tests_0.83.bb
+@@ -1,7 +1,7 @@
+ DESCRIPTION = "Real-Time preemption testcases"
+ HOMEPAGE = "https://rt.wiki.kernel.org/index.php/Cyclictest"
+ SECTION = "tests"
+-DEPENDS = "linux-libc-headers eglibc"
++DEPENDS = "linux-libc-headers virtual/libc"
+ LICENSE = "GPLv2 & GPLv2+"
+ LIC_FILES_CHKSUM = "file://COPYING;md5=751419260aa954499f7abaabaa882bbe \
+                     file://src/cyclictest/cyclictest.c;beginline=7;endline=9;md5=ce162fe491d19d2ec67dff6dbc938d50 \
+@@ -11,13 +11,13 @@ SRCREV = "5f1e84f8b015df3ff950056494134eca3f640d70"
+ 
+ # git -> 0.83 needs a PE bump
+ PE = "1"
+-PR = "r1"
++PR = "r2"
+ 
+ SRC_URI = "git://github.com/clrkwllms/rt-tests.git"
+ 
+ S = "${WORKDIR}/git"
+ 
+-CFLAGS += "-I${S}/src/include -D_GNU_SOURCE -Wall -Wno-nonnulli ${LDFLAGS}"
++TARGET_CC_ARCH += "${LDFLAGS}"
+ 
+ # calling 'uname -m' is broken on crossbuilds
+ EXTRA_OEMAKE = "NUMA=0"
+-- 
+1.7.8.5
 
 
 
