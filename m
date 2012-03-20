@@ -1,43 +1,33 @@
-Received: from mail-wg0-f43.google.com ([74.125.82.43])
+Received: from mail-iy0-f175.google.com ([209.85.210.175])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <koen@dominion.thruhere.net>) id 1S9y3G-0006Ts-0E
+	(envelope-from <schnitzeltony@googlemail.com>) id 1S9yA2-0006ap-T2
 	for openembedded-core@lists.openembedded.org;
-	Tue, 20 Mar 2012 13:20:34 +0100
-Received: by wgbdr12 with SMTP id dr12so1182508wgb.24
+	Tue, 20 Mar 2012 13:27:35 +0100
+Received: by iaag37 with SMTP id g37so10778114iaa.6
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 20 Mar 2012 05:11:41 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=google.com; s=20120113;
-	h=content-type:mime-version:subject:from:in-reply-to:date
-	:content-transfer-encoding:message-id:references:to:x-mailer
-	:x-gm-message-state;
-	bh=VIKnWUccUNKLAA/SuGs3H2cyEYVHPuWVoaqtyHxYY+g=;
-	b=OhPMenZFMZq7OfrsDLSRKDnYEAxcr3PPL3DqY6cas5dxl/25qgsuVDKVTkkXa7DAk7
-	Ywe5HvlFf688B829SZr9mMpaQs2DRu/Tvw8q4kMhdiX9fsPVp6GzZ0HNK4HBGAt0bMuh
-	ltq2bniHlcGBgXZpW50S0VyLNmJ074oGiVeOQ1Ufv2otmOWEi+gdUraRfS9IsyWEynrv
-	Cn9zuylQBXF0QDxP2qagLsg8X5C8dTd1rgRsH6JIThJfrUdlCTXC6wVrF0pBa/6U5YSk
-	qDo6P14aVdKNS/lla0+OSaPH5oJmxXbr2hKoqUopElnHYi5aYV3zOou14r4KlhlsASFX
-	YxLw==
-Received: by 10.216.131.98 with SMTP id l76mr9204351wei.62.1332245501557;
-	Tue, 20 Mar 2012 05:11:41 -0700 (PDT)
-Received: from [172.20.0.96] (ip545070eb.adsl-surfen.hetnet.nl.
-	[84.80.112.235])
-	by mx.google.com with ESMTPS id fz9sm33600018wib.3.2012.03.20.05.11.40
-	(version=TLSv1/SSLv3 cipher=OTHER);
-	Tue, 20 Mar 2012 05:11:40 -0700 (PDT)
-Mime-Version: 1.0 (Apple Message framework v1257)
-From: Koen Kooi <koen@dominion.thruhere.net>
-In-Reply-To: <1812139.SkpSglmEkv@helios>
-Date: Tue, 20 Mar 2012 13:11:38 +0100
-Message-Id: <C78FED4E-E3C7-4369-9622-0A4C6AA009DC@dominion.thruhere.net>
-References: <1332241255-5083-1-git-send-email-koen@dominion.thruhere.net>
-	<1332241255-5083-3-git-send-email-koen@dominion.thruhere.net>
-	<1812139.SkpSglmEkv@helios>
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-X-Mailer: Apple Mail (2.1257)
-X-Gm-Message-State: ALoCoQklrCVNuBXUL5ehNS5sLG/4rSbmreFp97iwTkVYEJo28TjBZ9eFwJ3tYDB/KRPrDRRcKGGn
-Subject: Re: [PATCH 3/3] buildhistory: remove duplicate entries from dot graph
+	Tue, 20 Mar 2012 05:18:41 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=googlemail.com; s=20120113;
+	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
+	:content-type:content-transfer-encoding;
+	bh=TYI/BRXoWWFPRSJOVImg4bpqsnsiOH5SOd16XANc/Gw=;
+	b=ddAONc0S03HTZYAboGcjrudJfvC85slTZRBZZUUqakUW1FWq04JpKAKqJ7yniSCYJ5
+	UbMdy+NOcyVvYMC60qy3LS/EIN6rboc3zF0f1hCLToFjPK18/IkjjgiA3ARUTQQ3MY+r
+	oRVol9Wz3khyXg4PHiq/q5aOUJaWNHx8drCzzbVwC+cqCYm5c7DQ9tQlH1xXO4w0WAmZ
+	mxASxU5a5YzE/U20y8uXxreBeE8Fkn8mk21nXxbrS2A6lE5JUjKJlC1X7lVMwvXSKUkM
+	xPDCZxLBOv25afq76auY+CCARNWk1gRLtXqu+DpCDzBK95+yB9ylYixkT3/h2aE1EyXs
+	EmaQ==
+MIME-Version: 1.0
+Received: by 10.50.159.202 with SMTP id xe10mr8434914igb.66.1332245920946;
+	Tue, 20 Mar 2012 05:18:40 -0700 (PDT)
+Received: by 10.42.75.137 with HTTP; Tue, 20 Mar 2012 05:18:40 -0700 (PDT)
+In-Reply-To: <CALbNGRSm2KV_RsV+rR4hFNcEg7Oi5Z57N1nGXS73Z17G6gqS1g@mail.gmail.com>
+References: <CALbNGRSm2KV_RsV+rR4hFNcEg7Oi5Z57N1nGXS73Z17G6gqS1g@mail.gmail.com>
+Date: Tue, 20 Mar 2012 13:18:40 +0100
+Message-ID: <CALbNGRQ-DWnKZxDeZCWXVPRL-KqyNkZwPrhs4YB=ENk3MoVkCw@mail.gmail.com>
+From: =?ISO-8859-1?Q?Andreas_M=FCller?= <schnitzeltony@googlemail.com>
+To: openembedded-core@lists.openembedded.org
+Subject: Re: Debugging with gdb
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -52,72 +42,42 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 20 Mar 2012 12:20:34 -0000
-Content-Type: text/plain; charset=us-ascii
+X-List-Received-Date: Tue, 20 Mar 2012 12:27:35 -0000
+Content-Type: text/plain; charset=ISO-8859-1
 Content-Transfer-Encoding: quoted-printable
 
+On Tue, Mar 20, 2012 at 12:18 AM, Andreas M=FCller
+<schnitzeltony@googlemail.com> wrote:
+> Hi,
+>
+> midori crashes with segmentation fault since a while (0.4.3 & 0.4.4).
+> To understand why I would like to start a gdb remote debug session. In
+> the past I prepared the image in the following way to get as much
+> libraries as possible compiled with -O0 since I do not know which
+> component might be responsible:
+>
+> 1. clean all tmp dirs
+> 2. build all recipes where -O0 is not wanted
+> (u-boot/kernel/gdb/gdb-cross) or not possible (eglibc/lttng-ust)
+> 3. added in local.conf: 'SELECTED_OPTIMIZATION =3D "${DEBUG_OPTIMIZATION}=
+ -O0'
+> 4. build image
+>
+> This sequence does not work anymore since the change in local.conf
+> causes most (all?) recipes to rebuild which crashes at least at
+> eglibc.
+>
+> I am running a bit out of ideas to get this done. The only solution I
+> see is a minimum optimization passed in the recipe together with 3.
+> and build from scratch.
+>
+> Comments / better ideas?
 
-Op 20 mrt. 2012, om 12:48 heeft Paul Eggleton het volgende geschreven:
+[1] should bring back old behavior - thanks
 
-> On Tuesday 20 March 2012 12:00:55 Koen Kooi wrote:
->> There are various conditions that lead to duplicate entries in the =
-dot graph
->> which need to get fixed, but this patch is a catchall.
->=20
-> Dependencies and recommends are already de-duped - are we getting =
-duplicates=20
-> in the package list as well?
+Andreas
 
-=46rom what I'm seeing, only dupes in the dot files:
-
-=
-https://github.com/Angstrom-distribution/buildhistory/commit/b2a256e02e043=
-49db51e663e35b2bb9989acc854#diff-1
-
->> Another benefit is that the sort order is now know, leading to less =
-spurious
->> diffs in buildhistory commits.
->=20
-> The package list is already sorted, and so are the dependencies and=20
-> recommends, so how would the sort order be changing?
-
-Those fields are not sorted in the package itself[1], re-running bitbake =
-systemd-image after these changes:
-
- angstrom_feed_configs -> opkg [style=3Ddotted];
--angstrom_task_boot -> task_boot;
- angstrom_task_boot -> angstrom_version;
-+angstrom_task_boot -> task_boot;
-[..]
--htop -> ncurses_terminfo;
--htop -> libtinfo5;
- htop -> libncurses5;
--iw -> libnl_genl_3_200;
-+htop -> libtinfo5;
-+htop -> ncurses_terminfo;
- iw -> libnl_3_200;
-
-I think I know why [2] doesn't work:
-
-koen@dominion:/data/ssd/OE/buildhistory$ echo b c a | sort
-b c a
-koen@dominion:/data/ssd/OE/buildhistory$ echo -e b\\nc\\na | sort
-a
-b
-c
-
-Let me know how you want me to respin this series, each commit is an RFC =
-on its own.
-
-regards,
-
-Koen
-
-[1] =
-https://github.com/openembedded/oe-core/commit/06b740d4ca077fb4c89ee6d1065=
-fabb02da45ec6
-[2] =
-https://github.com/openembedded/oe-core/commit/830df6067c1ea4a5aab580b42ba=
-7e1e84fe1bcbf=
+[1] http://lists.linuxtogo.org/pipermail/angstrom-distro-devel/2012-March/0=
+05842.html
 
 
