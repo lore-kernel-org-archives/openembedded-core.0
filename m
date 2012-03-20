@@ -1,14 +1,44 @@
-Received: from ffm.saftware.de ([83.141.3.46])
+Received: from mga06.intel.com ([134.134.136.21] helo=orsmga101.jf.intel.com)
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <obi@opendreambox.org>) id 1SA7yk-00035I-49
+	(envelope-from <saul.wold@intel.com>) id 1SA80O-0003DD-PM
 	for openembedded-core@lists.openembedded.org;
-	Tue, 20 Mar 2012 23:56:34 +0100
-From: Andreas Oberritter <obi@opendreambox.org>
-To: openembedded-core@lists.openembedded.org
-Date: Tue, 20 Mar 2012 23:47:37 +0100
-Message-Id: <1332283657-5978-1-git-send-email-obi@opendreambox.org>
-X-Mailer: git-send-email 1.7.5.4
-Subject: [PATCH v2] parted: update to version 3.1
+	Tue, 20 Mar 2012 23:58:16 +0100
+Received: from mail-pb0-f52.google.com ([209.85.160.52])
+	by mga02.intel.com with ESMTP/TLS/RC4-SHA; 20 Mar 2012 15:49:22 -0700
+Received: by pbcuo15 with SMTP id uo15so1528543pbc.25
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 20 Mar 2012 15:49:22 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=google.com; s=20120113;
+	h=message-id:date:from:organization:user-agent:mime-version:to:cc
+	:subject:references:in-reply-to:content-type
+	:content-transfer-encoding:x-gm-message-state;
+	bh=DBKBp5yeNpy2EDHX1B6qMefy5wEBwiaK7lLqx4k/hZg=;
+	b=FqJJkiTZfRw8RFSUjXhsaFHXQynuUjYY+YDlNYcjg/3OLjcvd/O0izn8OXfVPR6oM4
+	FSWmK6kT7B3/QKy3baUPFo/DZrT6ZFcmnk/DZQPK2sIqoFB0yHjQKHFbeSYqP4KtB+bd
+	p5gj4epmYd+v/W1M66Ymrz8CLIGtkAl1RY0TV+J3Xkk8RHGX2rtuvvHlT/Pp4Keu5sjC
+	fpHu0vL0u0wf90fa6jV3U2Obt1T8Lf0DktUEsXi3RsGhFkeZ3E6nQ3hKDydoNbHCuMbX
+	I+o9VlQ0pQ/fiKTHa9m/JZYS7JqIG/eLWRbZNWWhpptZNckWg/XlU9t/D2LiPPlyzcW1
+	jp1g==
+Received: by 10.68.230.99 with SMTP id sx3mr5298157pbc.55.1332283762231;
+	Tue, 20 Mar 2012 15:49:22 -0700 (PDT)
+Received: from [10.6.18.71] (c-71-193-189-117.hsd1.wa.comcast.net.
+	[71.193.189.117])
+	by mx.google.com with ESMTPS id f6sm2211213pbt.4.2012.03.20.15.49.20
+	(version=SSLv3 cipher=OTHER); Tue, 20 Mar 2012 15:49:21 -0700 (PDT)
+Message-ID: <4F69096F.8050604@intel.com>
+Date: Tue, 20 Mar 2012 15:49:19 -0700
+From: Saul Wold <saul.wold@intel.com>
+Organization: Intel
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:10.0.1) Gecko/20120216 Thunderbird/10.0.1
+MIME-Version: 1.0
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+References: <cover.1332179433.git.bruce.ashfield@windriver.com>
+In-Reply-To: <cover.1332179433.git.bruce.ashfield@windriver.com>
+X-Gm-Message-State: ALoCoQmNmhOz4iwEptu72K2txSug4E29tV6szgGJlmrnYrlVwjicmToEXIs/Hd/hyUdWdIV1FRtm
+Subject: Re: [PATCH 0/1] lttng-2.0: fix compiliation error
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -23,142 +53,43 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 20 Mar 2012 22:56:34 -0000
+X-List-Received-Date: Tue, 20 Mar 2012 22:58:17 -0000
+Content-Type: text/plain; charset=ISO-8859-1; format=flowed
+Content-Transfer-Encoding: 7bit
 
-* Supports disks > 2TB
+On 03/19/2012 10:53 AM, Bruce Ashfield wrote:
+> Richard/Saul,
+>
+> Here's a fix for the recent lttng-2.0 modules build error that
+> was reported. The recent -stable update created a collision with
+> is_compat_task() that was already being defined as a fallback
+> within lttng 2.0.
+>
+> I've made a patch fix, versus updating lttng-2.0 .. since churning
+> this package would be a good idea right now.
+>
+> Cheers,
+>
+> Bruce
+>
+> The following changes since commit a9873f12e5ba11e1307440901d07e9642e9f53bf:
+>
+>    pigz: Ensure DEPENDS on zlib exists for native and target versions (2012-03-19 14:37:46 +0000)
+>
+> are available in the git repository at:
+>    git://git.pokylinux.org/poky-contrib zedd/kernel
+>    http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=zedd/kernel
+>   compliation error with 3.2.x -stable kernels
+>
+>   ...ls-protect-is_compat_task-from-redefiniti.patch |   41 ++++++++++++++++++++
+>   .../lttng-2.0/lttng-modules_2.0.pre11.bb           |    3 +-
+>   2 files changed, 43 insertions(+), 1 deletions(-)
+>   create mode 100644 meta/recipes-kernel/lttng-2.0/lttng-modules/lttng-sycalls-protect-is_compat_task-from-redefiniti.patch
+>
+Merged into OE-Core
 
-Signed-off-by: Andreas Oberritter <obi@opendreambox.org>
----
-* v2: Updated DEPENDS to match shlibs.
-      Updated fix-git-version-gen.patch (applied upstream).
-
- .../parted/parted-3.1/fix-doc-mandir.patch         |   20 +++++++++
- .../parted/parted-3.1/fix-git-version-gen.patch    |   43 ++++++++++++++++++++
- .../{parted-3.0 => parted-3.1}/no_check.patch      |    0
- .../{parted-3.0 => parted-3.1}/syscalls.patch      |    0
- .../parted/{parted_3.0.bb => parted_3.1.bb}        |   12 +++--
- 5 files changed, 70 insertions(+), 5 deletions(-)
- create mode 100644 meta/recipes-extended/parted/parted-3.1/fix-doc-mandir.patch
- create mode 100644 meta/recipes-extended/parted/parted-3.1/fix-git-version-gen.patch
- rename meta/recipes-extended/parted/{parted-3.0 => parted-3.1}/no_check.patch (100%)
- rename meta/recipes-extended/parted/{parted-3.0 => parted-3.1}/syscalls.patch (100%)
- rename meta/recipes-extended/parted/{parted_3.0.bb => parted_3.1.bb} (52%)
-
-diff --git a/meta/recipes-extended/parted/parted-3.1/fix-doc-mandir.patch b/meta/recipes-extended/parted/parted-3.1/fix-doc-mandir.patch
-new file mode 100644
-index 0000000..0711d4e
---- /dev/null
-+++ b/meta/recipes-extended/parted/parted-3.1/fix-doc-mandir.patch
-@@ -0,0 +1,20 @@
-+Upstream-Status: Submitted [bug-parted@gnu.org]
-+
-+| for po in `ls -1 ./*.pt_BR.po 2>/dev/null`; do \
-+| 		make $(basename ${po%.pt_BR.po}); \
-+| 	done
-+| Makefile:904: *** Recursive variable `mandir' references itself (eventually).  Stop.
-+
-+Signed-off-by: Andreas Oberritter <obi@opendreambox.org>
-+
-+--- parted-3.1/doc/po4a.mk.orig	2012-03-15 14:09:11.555831872 +0100
-++++ parted-3.1/doc/po4a.mk	2012-03-15 14:10:44.243830985 +0100
-+@@ -23,7 +23,7 @@
-+ # threshold is 80%), it won't be distributed, and the build won't fail.
-+ #
-+ 
-+-mandir = $(mandir)/$(lang)
-++mandir := $(mandir)/$(lang)
-+ 
-+ # Inform automake that we want to install some man pages in section 1, 5
-+ # and 8.
-diff --git a/meta/recipes-extended/parted/parted-3.1/fix-git-version-gen.patch b/meta/recipes-extended/parted/parted-3.1/fix-git-version-gen.patch
-new file mode 100644
-index 0000000..a9f26e9
---- /dev/null
-+++ b/meta/recipes-extended/parted/parted-3.1/fix-git-version-gen.patch
-@@ -0,0 +1,43 @@
-+Upstream-Status: Accepted [Expected to be included in parted versions > 3.1]
-+Upstream-URL: http://git.savannah.gnu.org/cgit/gnulib.git/patch/?id=cbc11ff0020eb9c04caea6b3e7dc4e4281dff1f9
-+
-+From cbc11ff0020eb9c04caea6b3e7dc4e4281dff1f9 Mon Sep 17 00:00:00 2001
-+From: Andreas Oberritter <obi@opendreambox.org>
-+Date: Sun, 18 Mar 2012 17:39:14 +0000
-+Subject: git-version-gen: don't let "prefix" envvar cause trouble
-+
-+* build-aux/git-version-gen (prefix): Initialize properly,
-+so as not to use a value specified via the environment.
-+Details here: http://thread.gmane.org/gmane.comp.gnu.parted.bugs/10810
-+---
-+diff --git a/build-aux/git-version-gen b/build-aux/git-version-gen
-+index d5542a2..0fa9063 100755
-+--- a/build-aux/git-version-gen
-++++ b/build-aux/git-version-gen
-+@@ -1,6 +1,6 @@
-+ #!/bin/sh
-+ # Print a version string.
-+-scriptversion=2012-01-06.07; # UTC
-++scriptversion=2012-03-18.17; # UTC
-+ 
-+ # Copyright (C) 2007-2012 Free Software Foundation, Inc.
-+ #
-+@@ -92,6 +92,8 @@ Options:
-+ 
-+ Running without arguments will suffice in most cases."
-+ 
-++prefix=v
-++
-+ while test $# -gt 0; do
-+   case $1 in
-+     --help) echo "$usage"; exit 0;;
-+@@ -120,7 +122,6 @@ if test -z "$tarball_version_file"; then
-+ fi
-+ 
-+ tag_sed_script="${tag_sed_script:-s/x/x/}"
-+-prefix="${prefix:-v}"
-+ 
-+ nl='
-+ '
-+--
-+cgit v0.9.0.2
-diff --git a/meta/recipes-extended/parted/parted-3.0/no_check.patch b/meta/recipes-extended/parted/parted-3.1/no_check.patch
-similarity index 100%
-rename from meta/recipes-extended/parted/parted-3.0/no_check.patch
-rename to meta/recipes-extended/parted/parted-3.1/no_check.patch
-diff --git a/meta/recipes-extended/parted/parted-3.0/syscalls.patch b/meta/recipes-extended/parted/parted-3.1/syscalls.patch
-similarity index 100%
-rename from meta/recipes-extended/parted/parted-3.0/syscalls.patch
-rename to meta/recipes-extended/parted/parted-3.1/syscalls.patch
-diff --git a/meta/recipes-extended/parted/parted_3.0.bb b/meta/recipes-extended/parted/parted_3.1.bb
-similarity index 52%
-rename from meta/recipes-extended/parted/parted_3.0.bb
-rename to meta/recipes-extended/parted/parted_3.1.bb
-index 2fba6d1..21d3a66 100644
---- a/meta/recipes-extended/parted/parted_3.0.bb
-+++ b/meta/recipes-extended/parted/parted_3.1.bb
-@@ -3,15 +3,17 @@ HOMEPAGE = "http://www.gnu.org/software/parted/parted.html"
- LICENSE = "GPLv3+"
- LIC_FILES_CHKSUM = "file://COPYING;md5=2f31b266d3440dd7ee50f92cf67d8e6c"
- SECTION = "console/tools"
--DEPENDS = "readline e2fsprogs"
-+DEPENDS = "ncurses readline util-linux"
- PR = "r0"
- 
--SRC_URI = "${GNU_MIRROR}/parted/parted-${PV}.tar.gz \
-+SRC_URI = "${GNU_MIRROR}/parted/parted-${PV}.tar.xz \
-            file://no_check.patch \
--           file://syscalls.patch "
-+           file://syscalls.patch \
-+           file://fix-git-version-gen.patch \
-+           file://fix-doc-mandir.patch"
- 
--SRC_URI[md5sum] = "a94e84a9b9944715c4453f82ccc639bf"
--SRC_URI[sha256sum] = "8886eece015202f6bd5ce8414f4b68838452cef509f2e3389ad56128219837b7"
-+SRC_URI[md5sum] = "5d89d64d94bcfefa9ce8f59f4b81bdcb"
-+SRC_URI[sha256sum] = "5e9cc1f91eaf016e5033d85b9b893fd6d3ffaca532a48de1082df9b94225ca15"
- 
- EXTRA_OECONF = "--disable-device-mapper"
- 
--- 
-1.7.5.4
+Thanks
+	Sau!
 
 
 
