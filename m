@@ -1,15 +1,25 @@
-Received: from ffm.saftware.de ([83.141.3.46])
+Received: from mga02.intel.com ([134.134.136.20])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <obi@opendreambox.org>) id 1S9zRO-00086m-VO
+	(envelope-from <paul.eggleton@linux.intel.com>) id 1S9zcL-00009j-8D
 	for openembedded-core@lists.openembedded.org;
-	Tue, 20 Mar 2012 14:49:34 +0100
-From: Andreas Oberritter <obi@opendreambox.org>
+	Tue, 20 Mar 2012 15:00:53 +0100
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+	by orsmga101.jf.intel.com with ESMTP; 20 Mar 2012 06:51:59 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.67,352,1309762800"; d="scan'208";a="119545502"
+Received: from unknown (HELO helios.localnet) ([10.252.123.195])
+	by orsmga001.jf.intel.com with ESMTP; 20 Mar 2012 06:51:58 -0700
+From: Paul Eggleton <paul.eggleton@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Tue, 20 Mar 2012 14:37:05 +0100
-Message-Id: <1332250625-18091-1-git-send-email-obi@opendreambox.org>
-X-Mailer: git-send-email 1.7.5.4
-Cc: paul.eggleton@linux.intel.com
-Subject: [PATCH] scripts/bitbake: Allow to override path to pseudodone, make BUILDDIR optional
+Date: Tue, 20 Mar 2012 13:51:57 +0000
+Message-ID: <16657624.ejDoFzWrx1@helios>
+Organization: Intel Corporation
+User-Agent: KMail/4.8.0 (Linux/3.0.0-16-generic-pae; KDE/4.8.1; i686; ; )
+In-Reply-To: <1332250734-14660-1-git-send-email-koen@dominion.thruhere.net>
+References: <1332250734-14660-1-git-send-email-koen@dominion.thruhere.net>
+MIME-Version: 1.0
+Cc: Koen Kooi <koen@dominion.thruhere.net>
+Subject: Re: [RFC v2][PATCH 1/3] buildhistory: record all builds
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -24,72 +34,31 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 20 Mar 2012 13:49:35 -0000
+X-List-Received-Date: Tue, 20 Mar 2012 14:00:53 -0000
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
 
-* Allows to workaround breakage caused by commit
-  b4df1c7c79b5c801658bcf890ba3a8eab3d83189.
+On Tuesday 20 March 2012 14:38:52 Koen Kooi wrote:
+> Allow empty commits, this also give a nice speedup since 'git status
+> --porcelain' doesn't need to get run.
 
-* Related thread on OE-core mailing list:
-  http://lists.linuxtogo.org/pipermail/openembedded-core/2012-March/019136.html
+I guess my thinking before (without any verification) was that git commit would 
+need to be running the equivalent of 'git status --porcelain' anyway and the 
+second time it would be cached so there wouldn't be much impact. If the 
+buildhistory repo is quite large or the machine is busy then it's entirely 
+possible that wouldn't work out however.
 
-Signed-off-by: Andreas Oberritter <obi@opendreambox.org>
----
- scripts/bitbake |   22 ++++++++++++++++------
- 1 files changed, 16 insertions(+), 6 deletions(-)
+Since all image builds will force a commit anyway (as at least build-id must 
+change), and for the majority of people most builds will be image builds, I 
+think this is going to be a net improvement.
 
-diff --git a/scripts/bitbake b/scripts/bitbake
-index 45c8697..3377b26 100755
---- a/scripts/bitbake
-+++ b/scripts/bitbake
-@@ -47,14 +47,24 @@ float_test() {
- # but earlier versions do not
- float_test "$TARVERSION > 1.23" && needtar="0"
- 
--if [ "`pwd`" != "$BUILDDIR" ] ; then
--    echo "BitBake must be run from your build directory: $BUILDDIR"
-+if [ -n "$BUILDDIR" ]; then
-+    if [ "`pwd`" != "$BUILDDIR" ] ; then
-+        echo "BitBake must be run from your build directory: $BUILDDIR"
-+        exit 1
-+    fi
-+    if [ -z "$PSEUDODONE" ]; then
-+        PSEUDODONE="$BUILDDIR/pseudodone"
-+    fi
-+fi
-+
-+if [ -z "$PSEUDODONE" ]; then
-+    echo "BitBake requires PSEUDODONE to be set."
-     exit 1
- fi
- 
- buildpseudo="1"
--if [ $needpseudo = "1" ] && [ -e "$BUILDDIR/pseudodone" ]; then
--    PSEUDOBINDIR=`cat $BUILDDIR/pseudodone`
-+if [ $needpseudo = "1" ] && [ -e "$PSEUDODONE" ]; then
-+    PSEUDOBINDIR=`cat $PSEUDODONE`
-     if [ -e "$PSEUDOBINDIR/pseudo" -a -e "$PSEUDOBINDIR/tar" -a "$needtar" = "1" ]; then
-         buildpseudo="0"
-     fi
-@@ -96,7 +106,7 @@ if [ $buildpseudo = "1" ]; then
-     if [ "$ret" != "0" ]; then
-         exit 1
-     fi
--    echo $PSEUDOBINDIR > $BUILDDIR/pseudodone
-+    echo $PSEUDOBINDIR > $PSEUDODONE
-     # This needs to exist in case pseudo has to log somewhere
-     mkdir -p $PSEUDOBINDIR/../../var/pseudo
- fi
-@@ -104,7 +114,7 @@ BITBAKE=`which bitbake`
- export PATH=$OLDPATH
- if [ $needpseudo = "1" ]; then
-     export PSEUDO_BUILD=2
--    PSEUDOBINDIR=`cat $BUILDDIR/pseudodone`
-+    PSEUDOBINDIR=`cat $PSEUDODONE`
-     PSEUDO_BINDIR=$PSEUDOBINDIR PSEUDO_LIBDIR=$PSEUDOBINDIR/../lib/pseudo/lib PSEUDO_PREFIX=$PSEUDOBINDIR/../../ PSEUDO_DISABLED=1 $PSEUDOBINDIR/pseudo $BITBAKE $@
- else
-     export PSEUDO_BUILD=0
+Therefore I'll say:
+
+Acked-by: Paul Eggleton <paul.eggleton@linux.intel.com>
+
 -- 
-1.7.5.4
 
+Paul Eggleton
+Intel Open Source Technology Centre
 
 
