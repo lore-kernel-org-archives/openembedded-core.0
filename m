@@ -1,27 +1,35 @@
-Received: from mga11.intel.com ([192.55.52.93])
+Received: from mail-we0-f175.google.com ([74.125.82.175])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <paul.eggleton@linux.intel.com>) id 1S9z23-0007en-Do
+	(envelope-from <koen@dominion.thruhere.net>) id 1S9zPl-0007y4-AW
 	for openembedded-core@lists.openembedded.org;
-	Tue, 20 Mar 2012 14:23:23 +0100
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-	by fmsmga102.fm.intel.com with ESMTP; 20 Mar 2012 06:14:29 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="141861004"
-Received: from unknown (HELO helios.localnet) ([10.252.123.195])
-	by fmsmga002.fm.intel.com with ESMTP; 20 Mar 2012 06:14:29 -0700
-From: Paul Eggleton <paul.eggleton@linux.intel.com>
-To: Koen Kooi <koen@dominion.thruhere.net>
-Date: Tue, 20 Mar 2012 13:14:28 +0000
-Message-ID: <27193241.TpUGZafhRb@helios>
-Organization: Intel Corporation
-User-Agent: KMail/4.8.0 (Linux/3.0.0-16-generic-pae; KDE/4.8.1; i686; ; )
-In-Reply-To: <C78FED4E-E3C7-4369-9622-0A4C6AA009DC@dominion.thruhere.net>
-References: <1332241255-5083-1-git-send-email-koen@dominion.thruhere.net>
-	<1812139.SkpSglmEkv@helios>
-	<C78FED4E-E3C7-4369-9622-0A4C6AA009DC@dominion.thruhere.net>
-MIME-Version: 1.0
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 3/3] buildhistory: remove duplicate entries from dot graph
+	Tue, 20 Mar 2012 14:47:53 +0100
+Received: by wera1 with SMTP id a1so37851wer.6
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 20 Mar 2012 06:38:59 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=google.com; s=20120113;
+	h=from:to:cc:subject:date:message-id:x-mailer:x-gm-message-state;
+	bh=v4+wRYZtC/oBH37AD5MSmF8XtzB5VdQH3MhcggLH/DI=;
+	b=YsPUUT/C2fO1ktUOGM3f7MNCUmH5EMaxYuVu2TNeBod0j/J0PENMdzyv+jm2f03d7+
+	0802kpKUBULMOWMgIIvc9K2LIsGDfqwTaRTJNtgXemzi2Y6MjVIYLJACtT9A6vBx7mwU
+	LwKrbTiupP8DwMjiyix/MOonsEjG6qPd7+W5UUcXu4J8lwMoN7n42HDRQY4USMiRcL61
+	6k7m+L/W9fh3PxTbuPzTAc0x+uI4H07mmK63BVkfR1giKWfBud0FTdDU41WvpPunCv+f
+	f/g5yj1KnV8/6m3JPDiIDqH2Y6fEeL978HiyTFWK3mYyIYAQi4EkRZLOhNbBCuqGSNQI
+	vs6g==
+Received: by 10.216.132.98 with SMTP id n76mr9365173wei.101.1332250739535;
+	Tue, 20 Mar 2012 06:38:59 -0700 (PDT)
+Received: from localhost (ip545070eb.adsl-surfen.hetnet.nl. [84.80.112.235])
+	by mx.google.com with ESMTPS id 17sm15849032wis.0.2012.03.20.06.38.58
+	(version=TLSv1/SSLv3 cipher=OTHER);
+	Tue, 20 Mar 2012 06:38:58 -0700 (PDT)
+From: Koen Kooi <koen@dominion.thruhere.net>
+To: openembedded-core@lists.openembedded.org
+Date: Tue, 20 Mar 2012 14:38:52 +0100
+Message-Id: <1332250734-14660-1-git-send-email-koen@dominion.thruhere.net>
+X-Mailer: git-send-email 1.7.2.5
+X-Gm-Message-State: ALoCoQmf9JbVIXXL8FQxRhN7aerPtk1TD8cSb7TF3A24ymZ44hcOTLrSvwkH+nuLEglhESu+hWJR
+Cc: Koen Kooi <koen@dominion.thruhere.net>
+Subject: [RFC v2][PATCH 1/3] buildhistory: record all builds
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -36,38 +44,45 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 20 Mar 2012 13:23:23 -0000
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
+X-List-Received-Date: Tue, 20 Mar 2012 13:47:53 -0000
 
-On Tuesday 20 March 2012 13:11:38 Koen Kooi wrote:
-> I think I know why [2] doesn't work:
-> 
-> koen@dominion:/data/ssd/OE/buildhistory$ echo b c a | sort
-> b c a
-> koen@dominion:/data/ssd/OE/buildhistory$ echo -e b\\nc\\na | sort
-> a
-> b
-> c
+Allow empty commits, this also give a nice speedup since 'git status --porcelain' doesn't need to get run.
 
-Ah, yes, that would explain it. I've primarily been testing with rpm for which 
-list_package_depends produces the output on separate lines, whereas the ipk 
-version is all on one line; it only matters when doing the sort. Oops!
+Signed-off-by: Koen Kooi <koen@dominion.thruhere.net>
+---
+ meta/classes/buildhistory.bbclass |   17 +++++++----------
+ 1 files changed, 7 insertions(+), 10 deletions(-)
 
-> Let me know how you want me to respin this series, each commit is an RFC on
-> its own.
-
-If you wouldn't mind I think the easiest thing is to drop the sort/uniq on the 
-depends/recommends and just rely on the one at the end that you're adding. It 
-does mean we'll have a one-time resort of the recommends and depends together 
-but at least it will work properly for all package backends.
-
-Thanks,
-Paul
-
+diff --git a/meta/classes/buildhistory.bbclass b/meta/classes/buildhistory.bbclass
+index f99aa7f..1926d12 100644
+--- a/meta/classes/buildhistory.bbclass
++++ b/meta/classes/buildhistory.bbclass
+@@ -396,16 +396,13 @@ buildhistory_commit() {
+ 		if [ ! -d .git ] ; then
+ 			git init -q
+ 		fi
+-		# Ensure there are new/changed files to commit
+-		repostatus=`git status --porcelain`
+-		if [ "$repostatus" != "" ] ; then
+-			git add ${BUILDHISTORY_DIR}/*
+-			HOSTNAME=`hostname 2>/dev/null || echo unknown`
+-			git commit ${BUILDHISTORY_DIR}/ -m "Build ${BUILDNAME} of ${DISTRO} ${DISTRO_VERSION} for machine ${MACHINE} on $HOSTNAME" --author "${BUILDHISTORY_COMMIT_AUTHOR}" > /dev/null
+-			if [ "${BUILDHISTORY_PUSH_REPO}" != "" ] ; then
+-				git push -q ${BUILDHISTORY_PUSH_REPO}
+-			fi
+-		fi) || true
++		git add ${BUILDHISTORY_DIR}/*
++		HOSTNAME=`hostname 2>/dev/null || echo unknown`
++		git commit ${BUILDHISTORY_DIR}/ --allow-empty -m "Build ${BUILDNAME} of ${DISTRO} ${DISTRO_VERSION} for machine ${MACHINE} on $HOSTNAME" --author "${BUILDHISTORY_COMMIT_AUTHOR}" > /dev/null
++		if [ "${BUILDHISTORY_PUSH_REPO}" != "" ] ; then
++			git push -q ${BUILDHISTORY_PUSH_REPO}
++		fi
++	) || true
+ }
+ 
+ python buildhistory_eventhandler() {
 -- 
+1.7.2.5
 
-Paul Eggleton
-Intel Open Source Technology Centre
 
 
