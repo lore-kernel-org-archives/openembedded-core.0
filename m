@@ -1,34 +1,30 @@
-Received: from mga03.intel.com ([143.182.124.21])
+Received: from col0-omc3-s18.col0.hotmail.com ([65.55.34.157])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <dvhart@linux.intel.com>) id 1SA4Uq-000282-D3
+	(envelope-from <kyoonn@hotmail.com>) id 1SA4qP-0002Ob-8i
 	for openembedded-core@lists.openembedded.org;
-	Tue, 20 Mar 2012 20:13:28 +0100
-Received: from azsmga002.ch.intel.com ([10.2.17.35])
-	by azsmga101.ch.intel.com with ESMTP; 20 Mar 2012 12:04:34 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="79693850"
-Received: from unknown (HELO envy.home) ([10.255.15.194])
-	by AZSMGA002.ch.intel.com with ESMTP; 20 Mar 2012 12:04:34 -0700
-Message-ID: <4F68D497.9040704@linux.intel.com>
-Date: Tue, 20 Mar 2012 12:03:51 -0700
-From: Darren Hart <dvhart@linux.intel.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:10.0.1) Gecko/20120209 Thunderbird/10.0.1
+	Tue, 20 Mar 2012 20:35:45 +0100
+Received: from COL120-W58 ([65.55.34.137]) by col0-omc3-s18.col0.hotmail.com
+	with Microsoft SMTPSVC(6.0.3790.4675); 
+	Tue, 20 Mar 2012 12:25:44 -0700
+Message-ID: <COL120-W589EFDCD1837C8DE58A37FDD430@phx.gbl>
+X-Originating-IP: [67.164.104.98]
+From: simran singh <kyoonn@hotmail.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Tue, 20 Mar 2012 12:25:44 -0700
+Importance: Normal
+In-Reply-To: <1332197654.9740.73.camel@ted>
+References: <COL120-W391CDA1CEF0C6CE16540C8DD420@phx.gbl> <,>
+	<,>,,<1332192150.9740.72.camel@ted>
+	<,>,,<COL120-W278115027639B2C6CC9F7BDD420@phx.gbl> <, >,,
+	<EBB81F82C91641E49DD69302B85DB8BF@gmail.com>,,
+	<COL120-W6346678F9768AEFEA35D5EDD420@phx.gbl>,,
+	<B0098CE307294E64ABD9A4F359B2382D@gmail.com>,
+	<COL120-W436E890CF0879C1F67450CDD420@phx.gbl>,
+	<1332197654.9740.73.camel@ted>
 MIME-Version: 1.0
-To: Denys Dmytriyenko <denis@denix.org>
-References: <1332202974-27977-1-git-send-email-denis@denix.org>
-	<4F689BD8.4040201@linux.intel.com>
-	<20120320152846.GA22965@denix.org>
-	<4F68A33A.7060604@linux.intel.com>
-	<20120320160928.GB22965@denix.org>
-	<4F68CEDA.2060101@linux.intel.com>
-	<20120320185937.GC22965@denix.org>
-In-Reply-To: <20120320185937.GC22965@denix.org>
-X-Enigmail-Version: 1.4
-Cc: Denys Dmytriyenko <denys@ti.com>,
-	Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] rt-tests: fix dependency on eglibc, clean LDFLAGS passing
+X-OriginalArrivalTime: 20 Mar 2012 19:25:44.0487 (UTC)
+	FILETIME=[3EC77B70:01CD06CF]
+Subject: Re: Linking two recipes
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -43,83 +39,88 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 20 Mar 2012 19:13:28 -0000
-Content-Type: text/plain; charset=ISO-8859-1
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Tue, 20 Mar 2012 19:35:45 -0000
+Content-Type: multipart/alternative;
+	boundary="_7bff059c-a059-419c-af20-d975a39240af_"
+
+--_7bff059c-a059-419c-af20-d975a39240af_
+Content-Type: text/plain; charset="iso-8859-1"
+Content-Transfer-Encoding: quoted-printable
 
 
+Hello=2C
+I was able to have the recipes find each other but I think the problem lies=
+ somewhere else as to why the build is failing.But thanks for all the help.
+Simran
 
-On 03/20/2012 11:59 AM, Denys Dmytriyenko wrote:
-> On Tue, Mar 20, 2012 at 11:39:22AM -0700, Darren Hart wrote:
->> On 03/20/2012 09:09 AM, Denys Dmytriyenko wrote:
->>> On Tue, Mar 20, 2012 at 08:33:14AM -0700, Darren Hart wrote:
->>>>
->>>>
->>>> On 03/20/2012 08:28 AM, Denys Dmytriyenko wrote:
->>>>> On Tue, Mar 20, 2012 at 08:01:44AM -0700, Darren Hart wrote:
->>>>>>
->>>>>>
->>>>>> On 03/19/2012 05:22 PM, Denys Dmytriyenko wrote:
->>>>>>> From: Denys Dmytriyenko <denys@ti.com>
->>>>>>>
->>>>>>> Replace dependency on eglibc with virtual/libc
->>>>>>> Pass LDFLAGS to TARGET_CC_ARCH, instead of CFLAGS as Makefile overrides it
->>>>>>>
->>>>>>> Signed-off-by: Denys Dmytriyenko <denys@ti.com>
->>>>>>
->>>>>> Thanks Denys,
->>>>>>
->>>>>> Looking through the rt-tests sources I don't see TARGET_CC_ARCH
->>>>>> anywhere. Have you confirmed that changes made there make their way into
->>>>>> the actual build?
->>>>>
->>>>> Darren,
->>>>>
->>>>> TARGET_CC_ARCH is not an rt-tests specific variable, it's used in OE. 
->>>>> Although, TARGET_LDFLAGS might be more appropriate for this purpose, 
->>>>> historically TARGET_CC_ARCH was heavily used to pass distro LDFLAGS to the 
->>>>> app's build process - grepping it would show many such cases in OE-Core and 
->>>>> especially in meta-oe...
->>>>
->>>> OK, thanks for the context. Will you be resubmitting with TARGET_LDFLAGS?
->>>
->>> Nope, my bad, it's actually the other way around. From bitbake.conf:
->>>
->>> export LDFLAGS = "${TARGET_LDFLAGS}"
->>>
->>> So, appending to TARGET_CC_ARCH is the simplest way to pass flags, as that's 
->>> embedded into $CC
->>>
->>> Another option would have been to call make with -e flag to let environment 
->>> variables override the ones in the Makefile, but that's less controlled...
->>>
->>
->> How about the follow patch against rt-tests? Clark W. said he's fine taking a
->> patch that allows such an override. Does this meet your needs?
-> 
-> It does look good. Especially if it gets upstreamed! :)
-> 
-> If those default CFLAGS should always be there, then you can do something 
-> like:
-> 
-> CFLAGS ?=
-> CFLAGS += -D_GNU_SOURCE -Wall -Wno-nonnull -Isrc/include
-> 
-> But that would mean there's no way to override those from outside, only add to 
-> them...
-> 
-> Thanks for taking time to upstream the fix. I'll need to re-submit my patch to 
-> only do the eglibc -> virtual/libc change.
-> 
+> From: richard.purdie@linuxfoundation.org
+> To: openembedded-core@lists.openembedded.org
+> Date: Mon=2C 19 Mar 2012 22:54:14 +0000
+> Subject: Re: [OE-core] Linking two recipes
+>=20
+> On Mon=2C 2012-03-19 at 15:10 -0700=2C simran singh wrote:
+> > This is how I was able to install it:
+> >=20
+> >=20
+> > do_install(){
+> >        python configure.py --prefix=3D${D}/${libdir}/botan
+> > }
+> >
+> >=20
+> > But still the other recipe is unable to locate the files.
+> >=20
+>=20
+> In the other recipe=2C look in ${STAGING_LIBDIR}...
+>=20
+> Cheers=2C
+>=20
+> Richard
+>=20
+>=20
+>=20
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
+ 		 	   		  =
 
-Great,
+--_7bff059c-a059-419c-af20-d975a39240af_
+Content-Type: text/html; charset="iso-8859-1"
+Content-Transfer-Encoding: quoted-printable
 
-I'll submit to rt-users now then. We should be able to pull the patch
-into oe-core as well.
+<html>
+<head>
+<style><!--
+.hmmessage P
+{
+margin:0px=3B
+padding:0px
+}
+body.hmmessage
+{
+font-size: 10pt=3B
+font-family:Tahoma
+}
+--></style></head>
+<body class=3D'hmmessage'><div dir=3D'ltr'>
+Hello=2C<div><br></div><div>I was able to have the recipes find each other =
+but I think the problem lies somewhere else as to why the build is failing.=
+</div><div>But thanks for all the help.</div><div><br></div><div>Simran<br>=
+<br><div><div id=3D"SkyDrivePlaceholder"></div>&gt=3B From: richard.purdie@=
+linuxfoundation.org<br>&gt=3B To: openembedded-core@lists.openembedded.org<=
+br>&gt=3B Date: Mon=2C 19 Mar 2012 22:54:14 +0000<br>&gt=3B Subject: Re: [O=
+E-core] Linking two recipes<br>&gt=3B <br>&gt=3B On Mon=2C 2012-03-19 at 15=
+:10 -0700=2C simran singh wrote:<br>&gt=3B &gt=3B This is how I was able to=
+ install it:<br>&gt=3B &gt=3B <br>&gt=3B &gt=3B <br>&gt=3B &gt=3B do_instal=
+l(){<br>&gt=3B &gt=3B        python configure.py --prefix=3D${D}/${libdir}/=
+botan<br>&gt=3B &gt=3B }<br>&gt=3B &gt=3B<br>&gt=3B &gt=3B <br>&gt=3B &gt=
+=3B But still the other recipe is unable to locate the files.<br>&gt=3B &gt=
+=3B <br>&gt=3B <br>&gt=3B In the other recipe=2C look in ${STAGING_LIBDIR}.=
+..<br>&gt=3B <br>&gt=3B Cheers=2C<br>&gt=3B <br>&gt=3B Richard<br>&gt=3B <b=
+r>&gt=3B <br>&gt=3B <br>&gt=3B ____________________________________________=
+___<br>&gt=3B Openembedded-core mailing list<br>&gt=3B Openembedded-core@li=
+sts.openembedded.org<br>&gt=3B http://lists.linuxtogo.org/cgi-bin/mailman/l=
+istinfo/openembedded-core<br></div></div> 		 	   		  </div></body>
+</html>=
 
--- 
-Darren Hart
-Intel Open Source Technology Center
-Yocto Project - Linux Kernel
-
-
+--_7bff059c-a059-419c-af20-d975a39240af_--
