@@ -1,42 +1,28 @@
-Received: from mail-wi0-f177.google.com ([209.85.212.177])
+Received: from mail.windriver.com ([147.11.1.11])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <koen@dominion.thruhere.net>) id 1S9yFD-0006gu-5B
+	(envelope-from <Liezhi.Yang@windriver.com>) id 1S9ydh-0006wl-03
 	for openembedded-core@lists.openembedded.org;
-	Tue, 20 Mar 2012 13:32:55 +0100
-Received: by wibhj13 with SMTP id hj13so4563325wib.6
+	Tue, 20 Mar 2012 13:58:13 +0100
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca [147.11.189.40])
+	by mail.windriver.com (8.14.3/8.14.3) with ESMTP id q2KCnJNN025335
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 20 Mar 2012 05:24:02 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=google.com; s=20120113;
-	h=subject:mime-version:content-type:from:in-reply-to:date:cc
-	:content-transfer-encoding:message-id:references:to:x-mailer
-	:x-gm-message-state;
-	bh=AOqsSOsv/SKmqBRLkFD/RyQFBXy/84zNYGY9QiWrKWA=;
-	b=hPzbHFDl8paGps73wdF2a/b9C97Zh2c9notNupKSrTpBCWPGLhUWqMwmGOACeUbq3E
-	xnr7tIwVHQqqvPfZ+ExTF/fmxaosHdcxUu8cF9t7vvLIJAdBzucDHG9hRO/sd1A5SVnL
-	1hlTdn4W5GLaPLwy6Ljbd1ec9DWNWaunEDnlrkfMMrLsfu3IfHZ16t4FpC9ZHi8LrFSJ
-	f1MI0hQy5ZXdf1I5zw7PHSeIfFLHBsg2kmmsawpAMtYem5IV3vvAiN4foCjcxHA0hrbv
-	hWbiwUDs6/m0nxEn4iexAxm1GNLehTbMm04TQ7136AdW8/znjpBKRgwPNkZP9hEdj2l5
-	emBw==
-Received: by 10.216.133.39 with SMTP id p39mr8965392wei.40.1332246242797;
-	Tue, 20 Mar 2012 05:24:02 -0700 (PDT)
-Received: from [172.20.0.96] (ip545070eb.adsl-surfen.hetnet.nl.
-	[84.80.112.235])
-	by mx.google.com with ESMTPS id e6sm33637840wix.8.2012.03.20.05.24.01
-	(version=TLSv1/SSLv3 cipher=OTHER);
-	Tue, 20 Mar 2012 05:24:01 -0700 (PDT)
-Mime-Version: 1.0 (Apple Message framework v1257)
-From: Koen Kooi <koen@dominion.thruhere.net>
-In-Reply-To: <1331852164.18586.166.camel@ted>
-Date: Tue, 20 Mar 2012 13:24:00 +0100
-Message-Id: <A4FAC08D-E547-40BF-9CAF-98D82B152CE9@dominion.thruhere.net>
-References: <1331852164.18586.166.camel@ted>
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-X-Mailer: Apple Mail (2.1257)
-X-Gm-Message-State: ALoCoQk/+XTX4lU8KXDwTwd4Bv9Du0g3NyAG2wyz8SY+liZHeGEbG11U5f/9EaCVOMWcxvgaJIuj
-Cc: bitbake-devel <bitbake-devel@lists.openembedded.org>
-Subject: Re: [PATCH] ui/knotty: Add a footer to the build output for interactive terminals
+	Tue, 20 Mar 2012 05:49:19 -0700 (PDT)
+Received: from [128.224.162.196] (128.224.162.196) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server id 14.1.255.0;
+	Tue, 20 Mar 2012 05:49:20 -0700
+Message-ID: <4F687CCE.2050602@windriver.com>
+Date: Tue, 20 Mar 2012 20:49:18 +0800
+From: Robert Yang <liezhi.yang@windriver.com>
+User-Agent: Mozilla/5.0 (X11; Linux i686;
+	rv:10.0.2) Gecko/20120216 Thunderbird/10.0.2
+MIME-Version: 1.0
+To: <openembedded-core@lists.openembedded.org>
+References: <4F684301.5060307@windriver.com> <1757423.DE0kMhjxZk@helios>
+	<4F687274.5080608@windriver.com>
+	<2CAE1B9A-090E-4FE2-BFBE-74ECE9646C3E@dominion.thruhere.net>
+In-Reply-To: <2CAE1B9A-090E-4FE2-BFBE-74ECE9646C3E@dominion.thruhere.net>
+Subject: Re: Why qemu-config RDPENDS on distcc ?
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -51,110 +37,53 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 20 Mar 2012 12:32:55 -0000
-Content-Type: text/plain; charset=us-ascii
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Tue, 20 Mar 2012 12:58:13 -0000
+Content-Type: text/plain; charset="ISO-8859-1"; format=flowed
+Content-Transfer-Encoding: 7bit
 
 
-Op 15 mrt. 2012, om 23:56 heeft Richard Purdie het volgende geschreven:
 
-> I've sent this before, this is an updated version with several =
-bugfixes
-> and improvements. Its a major change but one I think people will like
-> overall as I hear a lot of complaints about the verbose console
-> messages. v0 never got complaints so I will merge this fairly quickly
-> unless there are objections.
->=20
-> ---
-> On terminals which support it, add summary information to the end of =
-the
-> build output about the number of tasks currently running and how many =
-tasks
-> we've run so far.
->=20
-> This provides a summary at a glace of what the current state of the =
-build is
-> and what the build is currently doing which is lacking in the current =
-UI.
->=20
-> Also disable echo of characters on stdin since this corrupts the =
-disable,
-> particularly Crtl+C.
->=20
-> The "waiting for X tasks" code can be merged into this code too since
-> that is only useful on interactive terminals and this improves the
-> readability of that output too.
->=20
-> Improvements since v0:
->=20
-> * The tasks are ordered in execution order.
-> * The display is only updated when the list of tasks changes or there
->  is output above the footer.
-> * Errors early in the init process don't corrupt the terminal
-> * Running task x of y and package messages are suppressed from the =
-console
+On 03/20/2012 08:19 PM, Koen Kooi wrote:
+>
+> Op 20 mrt. 2012, om 13:05 heeft Robert Yang het volgende geschreven:
+>
+>>
+>> On 03/20/2012 05:43 PM, Paul Eggleton wrote:
+>>> On Tuesday 20 March 2012 16:42:41 Robert Yang wrote:
+>>>> I'm just curious that qemu-config RDPENDS on distcc:
+>>>>
+>>>> meta/recipes-bsp/qemu-config/qemu-config.bb:RDEPENDS_${PN} = "distcc ..."
+>>>>
+>>>> And there are 4 processes named "distcc" running after boot the target
+>>>> with "runqemu qemux86".
+>>>>
+>>>> We have distcc on the target, but no gcc or g++, can we remove it from
+>>>> qemu-config's RDEPENDS?
+>>>
+>>> I think the idea was that if you wanted to do compilation on the emulated
+>>> target, having distcc would let you do it with much better performance. I
+>>> agree it seems that it's not particularly useful if you're never going to do
+>>> any compilation on the target though.
+>>>
+>>
+>> Thanks for your reply, so may I send a pull request to remove it from
+>> qemu-config's RDPENDS?
+>
+> I'll argue that qemu-config should be an image choice, not a machine choice :)
+>
 
-I like it a lot, but there is one missing thing. Have a look at the =
-following output:
+I'm sorry, but what does the "qemu-config should be an image choice, not a
+machine choice" mean, please?
 
--------------------------------------------
-Loading cache: 100% =
-|#########################################################################=
-##########################################################################=
-##########################################################################=
-##########################################################################=
-##########################################################################=
-###################| ETA:  00:00:00
-Loaded 2642 entries from dependency cache.
+// Robert
 
-OE Build Configuration:
-BB_VERSION        =3D "1.15.1"
-TARGET_ARCH       =3D "arm"
-TARGET_OS         =3D "linux-gnueabi"
-MACHINE           =3D "beaglebone"
-DISTRO            =3D "angstrom"
-DISTRO_VERSION    =3D "v2012.03-core"
-TUNE_FEATURES     =3D "armv7a vfp neon cortexa8"
-TARGET_FPU        =3D "vfp-neon"
-meta-angstrom     =3D "master:51ba0dd081af1d7de56ffc9fb318044bc3c7c47e"
-meta-oe          =20
-meta-efl         =20
-meta-gpe         =20
-meta-gnome       =20
-meta-xfce        =20
-meta-initramfs    =3D "master:b0a7f2e761f79e8967b1d3f7c67177283805bf75"
-meta-opie         =3D "master:efa3892b20a4ef80274e56e5633ebd62c16f9731"
-meta-java         =3D "master:e90110b85733f9cdda26861bc29588257173c11c"
-meta-ti           =3D "master:8f1fc028be8567c57ed7d40b1800ece37128b9ac"
-meta-efikamx      =3D "master:2c09a3a780b23448e8a6ca964256ff7f5ccba65d"
-meta-nslu2        =3D "master:3d9fc951b05b4df476374b6fc3085ebac7f293ee"
-meta-htc         =20
-meta-nokia       =20
-meta-openmoko    =20
-meta-palm         =3D "master:57cd9600e285f394873b943644879b166a256769"
-meta-handheld     =3D "master:f2904e00c9c709d1f40e4a93f0f552f882bacf4f"
-meta-intel       =20
-meta-sugarbay    =20
-meta-crownbay    =20
-meta-emenlow     =20
-meta-fishriver   =20
-meta-jasperforest=20
-meta-n450         =3D "master:9124870a6bcd99ebaeb0342f4fedf14dc1afebd8"
-meta              =3D "master:c981fa4fad8a457882293157b7bdca05aad5a778"
-
-NOTE: Resolving any missing task queue dependencies
-NOTE: Preparing runqueue
-NOTE: Executing SetScene Tasks
-NOTE: Executing RunQueue Tasks
-NOTE: Tasks Summary: Attempted 3179 tasks of which 3165 didn't need to =
-be rerun and all succeeded.
--------------------------------------------
-
-What did I just build? A mention of the '<foo>' in 'bitbake <foo>' would =
-be nice :)
-
-regards,
-
-Koen=
+> regards,
+>
+> Koen
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
+>
 
 
