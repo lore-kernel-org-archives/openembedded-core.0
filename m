@@ -1,28 +1,17 @@
-Received: from mail.windriver.com ([147.11.1.11])
+Received: from bluegiga.fi ([194.100.31.45] helo=blue-gw.bluegiga.fi)
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <Liezhi.Yang@windriver.com>) id 1S9ydh-0006wl-03
+	(envelope-from <lauri.hintsala@bluegiga.com>) id 1S9ymJ-0007Of-BM
 	for openembedded-core@lists.openembedded.org;
-	Tue, 20 Mar 2012 13:58:13 +0100
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca [147.11.189.40])
-	by mail.windriver.com (8.14.3/8.14.3) with ESMTP id q2KCnJNN025335
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 20 Mar 2012 05:49:19 -0700 (PDT)
-Received: from [128.224.162.196] (128.224.162.196) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server id 14.1.255.0;
-	Tue, 20 Mar 2012 05:49:20 -0700
-Message-ID: <4F687CCE.2050602@windriver.com>
-Date: Tue, 20 Mar 2012 20:49:18 +0800
-From: Robert Yang <liezhi.yang@windriver.com>
-User-Agent: Mozilla/5.0 (X11; Linux i686;
-	rv:10.0.2) Gecko/20120216 Thunderbird/10.0.2
-MIME-Version: 1.0
-To: <openembedded-core@lists.openembedded.org>
-References: <4F684301.5060307@windriver.com> <1757423.DE0kMhjxZk@helios>
-	<4F687274.5080608@windriver.com>
-	<2CAE1B9A-090E-4FE2-BFBE-74ECE9646C3E@dominion.thruhere.net>
-In-Reply-To: <2CAE1B9A-090E-4FE2-BFBE-74ECE9646C3E@dominion.thruhere.net>
-Subject: Re: Why qemu-config RDPENDS on distcc ?
+	Tue, 20 Mar 2012 14:07:07 +0100
+Received: from bgtlh.bgt.local (unknown [10.1.1.28])
+	by blue-gw.bluegiga.fi (Postfix) with ESMTP id 5EBA07BE26E;
+	Tue, 20 Mar 2012 14:58:16 +0200 (EET)
+From: Lauri Hintsala <lauri.hintsala@bluegiga.com>
+To: openembedded-core@lists.openembedded.org
+Date: Tue, 20 Mar 2012 14:58:02 +0200
+Message-Id: <1332248282-5226-1-git-send-email-lauri.hintsala@bluegiga.com>
+X-Mailer: git-send-email 1.7.4.1
+Subject: [PATCH 1/1] xserver-kdrive: compile xserver without dtrace support
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -37,53 +26,49 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 20 Mar 2012 12:58:13 -0000
-Content-Type: text/plain; charset="ISO-8859-1"; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Tue, 20 Mar 2012 13:07:07 -0000
 
+Cross compiling of xserver-kdrive fails if dtrace is enabled. Configure
+script enables dtrace automatically if dtrace binary exists. xserver-kdrive
+compiling was failed if systemtap package was builded beforehand because
+systemtap provides dtrace binary.
 
+Signed-off-by: Lauri Hintsala <lauri.hintsala@bluegiga.com>
+---
+This issue has been existed also with xserver-xorg. It was already fixed
+to xserver-xorg by commit 01c1a0f7.
+---
+ .../xorg-xserver/xserver-kdrive.inc                |    1 +
+ .../xorg-xserver/xserver-kdrive_1.7.99.2.bb        |    2 +-
+ 2 files changed, 2 insertions(+), 1 deletions(-)
 
-On 03/20/2012 08:19 PM, Koen Kooi wrote:
->
-> Op 20 mrt. 2012, om 13:05 heeft Robert Yang het volgende geschreven:
->
->>
->> On 03/20/2012 05:43 PM, Paul Eggleton wrote:
->>> On Tuesday 20 March 2012 16:42:41 Robert Yang wrote:
->>>> I'm just curious that qemu-config RDPENDS on distcc:
->>>>
->>>> meta/recipes-bsp/qemu-config/qemu-config.bb:RDEPENDS_${PN} = "distcc ..."
->>>>
->>>> And there are 4 processes named "distcc" running after boot the target
->>>> with "runqemu qemux86".
->>>>
->>>> We have distcc on the target, but no gcc or g++, can we remove it from
->>>> qemu-config's RDEPENDS?
->>>
->>> I think the idea was that if you wanted to do compilation on the emulated
->>> target, having distcc would let you do it with much better performance. I
->>> agree it seems that it's not particularly useful if you're never going to do
->>> any compilation on the target though.
->>>
->>
->> Thanks for your reply, so may I send a pull request to remove it from
->> qemu-config's RDPENDS?
->
-> I'll argue that qemu-config should be an image choice, not a machine choice :)
->
+diff --git a/meta/recipes-graphics/xorg-xserver/xserver-kdrive.inc b/meta/recipes-graphics/xorg-xserver/xserver-kdrive.inc
+index 52b63ed..58dee27 100644
+--- a/meta/recipes-graphics/xorg-xserver/xserver-kdrive.inc
++++ b/meta/recipes-graphics/xorg-xserver/xserver-kdrive.inc
+@@ -102,6 +102,7 @@ EXTRA_OECONF = "--enable-composite --enable-kdrive \
+                 --disable-xkb --disable-xnest --disable-xvfb \
+                 --disable-xevie --disable-xprint --disable-xtrap \
+                 --disable-dmx \
++                --without-dtrace \
+                 --with-default-font-path=built-ins \
+                 --enable-tslib --enable-xcalibrate \
+                 ac_cv_file__usr_share_X11_sgml_defs_ent=no"
+diff --git a/meta/recipes-graphics/xorg-xserver/xserver-kdrive_1.7.99.2.bb b/meta/recipes-graphics/xorg-xserver/xserver-kdrive_1.7.99.2.bb
+index 3b3a004..360a0f3 100644
+--- a/meta/recipes-graphics/xorg-xserver/xserver-kdrive_1.7.99.2.bb
++++ b/meta/recipes-graphics/xorg-xserver/xserver-kdrive_1.7.99.2.bb
+@@ -7,7 +7,7 @@ RDEPENDS_${PN} += "xkeyboard-config"
+ EXTRA_OECONF += "--disable-glx"
+ 
+ PE = "1"
+-PR = "r28"
++PR = "r29"
+ 
+ SRC_URI = "${XORG_MIRROR}/individual/xserver/xorg-server-${PV}.tar.bz2 \
+ 	file://extra-kmodes.patch \
+-- 
+1.7.4.1
 
-I'm sorry, but what does the "qemu-config should be an image choice, not a
-machine choice" mean, please?
-
-// Robert
-
-> regards,
->
-> Koen
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
->
 
 
