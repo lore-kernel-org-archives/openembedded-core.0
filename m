@@ -1,34 +1,36 @@
-Received: from mx.insigma.com.cn ([115.236.48.170] helo=WX-Edge.insigma.com.cn)
+Received: from mail.windriver.com ([147.11.1.11])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <niqingliang@insigma.com.cn>) id 1S9pQQ-0002in-Vg
+	(envelope-from <Xiaofeng.Yan@windriver.com>) id 1S9s5p-0008Uh-Ji
 	for openembedded-core@lists.openembedded.org;
-	Tue, 20 Mar 2012 04:07:55 +0100
-Received: from WX-EXCHMB2.insigma.com.cn (10.0.1.203) by
-	WX-Edge.insigma.com.cn (10.0.1.205) with Microsoft SMTP Server (TLS) id
-	8.1.436.0; Tue, 20 Mar 2012 10:58:56 +0800
-Received: from [192.168.0.98] (122.224.76.38) by Wx-ExchMB2.insigma.com.cn
-	(10.0.1.203) with Microsoft SMTP Server id 8.1.436.0; Tue, 20 Mar 2012
-	10:58:49 +0800
-Message-ID: <1332212182.1041.87.camel@localhost.localdomain>
-From: Ni Qingliang <niqingliang@insigma.com.cn>
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Date: Tue, 20 Mar 2012 10:56:22 +0800
-In-Reply-To: <1332121654.1041.78.camel@localhost.localdomain>
-References: <1331799506.1041.55.camel@localhost.localdomain>
-	<4F621801.4000308@windriver.com>
-	<1331875115.1041.67.camel@localhost.localdomain>
-	<4F635E14.7000707@windriver.com>
-	<1332121654.1041.78.camel@localhost.localdomain>
-Organization: Insigma
-X-Mailer: Evolution 3.2.3 
+	Tue, 20 Mar 2012 06:58:49 +0100
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca [147.11.189.40])
+	by mail.windriver.com (8.14.3/8.14.3) with ESMTP id q2K5nttS002107
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
+	Mon, 19 Mar 2012 22:49:55 -0700 (PDT)
+Received: from [128.224.162.223] (128.224.162.223) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server (TLS) id 14.1.255.0;
+	Mon, 19 Mar 2012 22:49:56 -0700
+Message-ID: <4F681A97.4020201@windriver.com>
+Date: Tue, 20 Mar 2012 13:50:15 +0800
+From: Xiaofeng Yan <xiaofeng.yan@windriver.com>
+User-Agent: Mozilla/5.0 (X11; U; Linux i686; en-US;
+	rv:1.9.2.23) Gecko/20110921 Thunderbird/3.1.15
 MIME-Version: 1.0
-Subject: Re: LSB support?
+To: Saul Wold <sgw@linux.intel.com>
+References: <cover.1331877464.git.xiaofeng.yan@windriver.com>
+	<22ff60ec34d2c54393d4ceb2a81394c6512baa17.1331877464.git.xiaofeng.yan@windriver.com>
+	<4F679F53.40302@linux.intel.com>
+In-Reply-To: <4F679F53.40302@linux.intel.com>
+X-Originating-IP: [128.224.162.223]
+X-MIME-Autoconverted: from 8bit to quoted-printable by mail.windriver.com id
+	q2K5nttS002107
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 2/7] archiver.bbclass: New bbclass for archiving sources, patches, logs and scripts
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
-Reply-To: niqingliang@insigma.com.cn,
-	Patches and discussions about the oe-core layer
+Reply-To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
 List-Id: Patches and discussions about the oe-core layer
 	<openembedded-core.lists.openembedded.org>
@@ -39,204 +41,517 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 20 Mar 2012 03:07:56 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Tue, 20 Mar 2012 05:58:50 -0000
+Content-Type: text/plain; charset="UTF-8"; format=flowed
 Content-Transfer-Encoding: quoted-printable
 
-no echo?
-
-On Mon, 2012-03-19 at 09:47 +0800, =E5=80=AA=E5=BA=86=E4=BA=AE wrote:
-> I have encountered a similar problem when do a clean building in another
-> VM (running archlinux).
->=20
-> after remove /usr//lib/libXrandr.so.2:
-> mv /usr/lib/../lib/libXrandr.so.2 /usr/lib/../lib/libXrandr.so.2.bak
->=20
-> I got a new error:
-> /usr/lib/../lib/libXext.so.6: undefined reference to `memcpy@GLIBC_2.14'
->=20
-> so IMO, it used the wrong lib path. following is the output section of
-> 'do_compile', the key is '/usr/lib/../lib', maybe it should be
-> '<xxxdir>/usr/lib/../lib'.
->=20
-> output section:
-> Making all in gconf
-> make[2]: Entering directory
-> `/media/pangu/lsbt/tmp/work/x86_64-poky-linux/gconf-3.2.3-r8/GConf-3.2.3/=
-gconf'
-> make  all-am
-> make[3]: Entering directory
-> `/media/pangu/lsbt/tmp/work/x86_64-poky-linux/gconf-3.2.3-r8/GConf-3.2.3/=
-gconf'
-> ../x86_64-poky-linux-libtool  --tag=3DCC   --mode=3Dlink
-> x86_64-poky-linux-gcc    -m64
-> --sysroot=3D/media/pangu/lsbt/tmp/sysroots/qemux86-64  -O2 -pipe -g
-> -feliminate-unused-debug-types -Wall -DGCONF_ENABLE_DEBUG=3D1  -Wl,-O1
-> -Wl,--hash-style=3Dgnu -Wl,--as-needed -o gconf-sanity-check-2
-> gconf-sanity-check.o libgconf-2.la   -pthread -Wl,--export-dynamic
-> -lgtk-x11-2.0 -lgdk-x11-2.0 -latk-1.0 -lgio-2.0 -lpangoft2-1.0
-> -lpangocairo-1.0 -lgdk_pixbuf-2.0 -lcairo -lpango-1.0 -lfreetype
-> -lfontconfig -lgobject-2.0 -lgmodule-2.0 -lgthread-2.0 -lrt -lglib-2.0
-> -lxml2
-> x86_64-poky-linux-libtool: link: x86_64-poky-linux-gcc -m64
-> --sysroot=3D/media/pangu/lsbt/tmp/sysroots/qemux86-64 -O2 -pipe -g
-> -feliminate-unused-debug-types -Wall -DGCONF_ENABLE_DEBUG=3D1 -Wl,-O1
-> -Wl,--hash-style=3Dgnu -Wl,--as-needed -o .libs/gconf-sanity-check-2
-> gconf-sanity-check.o -pthread
-> -Wl,--export-dynamic  ./.libs/libgconf-2.so /media/pangu/lsbt/tmp/sysroot=
-s/qemux86-64/usr/lib/libdbus-glib-1.so /media/pangu/lsbt/tmp/sysroots/qemux=
-86-64/usr/lib/libdbus-1.so /media/pangu/lsbt/tmp/sysroots/qemux86-64/usr/li=
-b/libgtk-x11-2.0.so /media/pangu/lsbt/tmp/sysroots/qemux86-64/usr/lib/libgd=
-k-x11-2.0.so /media/pangu/lsbt/tmp/sysroots/qemux86-64/usr/lib/libatk-1.0.s=
-o /media/pangu/lsbt/tmp/sysroots/qemux86-64/usr/lib/libpangocairo-1.0.so -L=
-=3D/usr/lib /media/pangu/lsbt/tmp/sysroots/qemux86-64/usr/lib/libpangoft2-1=
-.0.so /media/pangu/lsbt/tmp/sysroots/qemux86-64/usr/lib/../lib/libstdc++.so=
- /media/pangu/lsbt/tmp/sysroots/qemux86-64/usr/lib/libgdk_pixbuf-2.0.so /me=
-dia/pangu/lsbt/tmp/sysroots/qemux86-64/usr/lib/libgio-2.0.so -lresolv /medi=
-a/pangu/lsbt/tmp/sysroots/qemux86-64/usr/lib/libcairo.so /media/pangu/lsbt/=
-tmp/sysroots/qemux86-64/usr/lib/libpixman-1.so /media/pangu/lsbt/tmp/sysroo=
-ts/qemux86-64/usr/lib/libpng12.so /media/pangu/lsbt/tmp/sysroots/qemux86-64=
-/usr/lib/libXrender.so /media/pangu/lsbt/tmp/sysroots/qemux86-64/usr/lib/li=
-bX11.so /media/pangu/lsbt/tmp/sysroots/qemux86-64/usr/lib/libxcb.so /media/=
-pangu/lsbt/tmp/sysroots/qemux86-64/usr/lib/libXau.so /media/pangu/lsbt/tmp/=
-sysroots/qemux86-64/usr/lib/libXdmcp.so /media/pangu/lsbt/tmp/sysroots/qemu=
-x86-64/usr/lib/libpango-1.0.so /media/pangu/lsbt/tmp/sysroots/qemux86-64/us=
-r/lib/libfontconfig.so /media/pangu/lsbt/tmp/sysroots/qemux86-64/usr/lib/li=
-bfreetype.so /media/pangu/lsbt/tmp/sysroots/qemux86-64/usr/lib/libexpat.so =
-/media/pangu/lsbt/tmp/sysroots/qemux86-64/usr/lib/libgobject-2.0.so /media/=
-pangu/lsbt/tmp/sysroots/qemux86-64/usr/lib/libffi.so /media/pangu/lsbt/tmp/=
-sysroots/qemux86-64/usr/lib/libgmodule-2.0.so /media/pangu/lsbt/tmp/sysroot=
-s/qemux86-64/usr/lib/libgthread-2.0.so -lpthread /media/pangu/lsbt/tmp/sysr=
-oots/qemux86-64/usr/lib/libglib-2.0.so -lrt /media/pangu/lsbt/tmp/sysroots/=
-qemux86-64/usr/lib/libxml2.so -ldl -lz -lm -pthread -Wl,-rpath -Wl,/usr/lib=
-/../lib
-> /usr/lib/../lib/libXext.so.6: undefined reference to `memcpy@GLIBC_2.14'
-> collect2: ld returned 1 exit status
-> make[3]: *** [gconf-sanity-check-2] Error 1
->=20
-> On Fri, 2012-03-16 at 23:36 +0800, Mark Hatle wrote:
-> > On 3/16/12 12:18 AM, Ni Qingliang wrote:
-> > > when building qemux86-64 arch core-image-lsb (distro is poky-lsb), I =
-got
-> > > /usr/lib/../lib/libXrandr.so.2: undefined reference to
-> > > `memcpy@GLIBC_2.14' when 'do_compile' gconf 3.2.3.
-> > >
-> > > the default eglibc is 2.13, why it needs 2.14?
-> >
-> > Without anything further, the only guess I can make is that either you =
-aren't
-> > using the version of glibc you think you are, it's gotten some host
-> > contamination, an explicit reference was added to libXrandr (doubtful),=
- or you
-> > are using something that was built/cached from a previous build.  (i.e.=
- did you
-> > build w/ eglibc 2.14/2.15 -- and then switch back to eglibc 2.13 for so=
-me reason?)
-> >
-> > On 3/15/12 9:38 PM, Ni Qingliang wrote:
-> >  > first, thanks your reply.
-> >  >
-> >  > Because I can't use task-core-lsb on my device (flash space is not
-> >  > enough), I have to make a custom lsb-base image (without
-> >  > perl/python/graphics).
-> >  >
-> >  > I have checked the "linuxstdbase", and it will change the configure
-> >  > option of some packages.
-> >  >
-> >  > Indeed, I think the daemon/failure/warning fuctions should be consid=
-ered
-> >  > in package lsb's RDEPENDS.
-> >  >
-> >  > what I want to know is the rdepends or where is the
-> >  > daemon/failure/warning.
-> >
-> > It certainly looks like a component is missing somewhere in the shell s=
-crips
-> > that are provided by the LSB functions.  I would assume that the
-> > depends/provides is setup properly to point to whatever should be provi=
-ding the
-> > missing daemon, failure, warning commands.  If it's not (or if by defau=
-lt -- non
-> > lsb mode) they're not being built, it's a definite bug.  You shouldn't =
-be able
-> > to build a non-functional systems.
-> >
-> > Please file a defect on bugzilla.yoctoproject.org.  I will attempt to
-> > investigate it (or someone else can).  Hopefully it's just as a simple =
-as a
-> > missing dependency.
-> >
-> > --Mark
-> >
-> > > On Fri, 2012-03-16 at 00:25 +0800, Mark Hatle wrote:
-> > >> On 3/15/12 3:18 AM, Ni Qingliang wrote:
-> > >>> Hello, I'm working on custom lsb-base image using oe-core.
-> > >>>
-> > >>> and when using the lsb script, found error:
-> > >>>
-> > >>> lsb_start_daemon line 44: daemon command not found.
-> > >>>
-> > >>> similar thing happend on lsb_log_message: failure and warning comma=
-nd
-> > >>> not found.
-> > >>>
-> > >>> maybe these function should be defined in /etc/init.d/functions?
-> > >>>
-> > >>> but there are not these function in this file (belongs to initscrip=
-ts).
-> > >>
-> > >> Did you enable the LSB distribution settings?  Without this, various=
- components
-> > >> may not be available.
-> > >>
-> > >> In Poky, there is a "poky-lsb" distribution type:
-> > >>
-> > >> DISTRO =3D "poky-lsb"
-> > >> DISTROOVERRIDES =3D "poky:linuxstdbase"
-> > >>
-> > >> DISTRO_FEATURES_append =3D " pam largefile opengl"
-> > >> PREFERRED_PROVIDER_virtual/libx11 =3D "libx11"
-> > >>
-> > >> (as well as using the core-image-lsb and/or task-core-lsb components=
-.)
-> > >>
-> > >> If you've tried this and those items are still broken, let me know a=
-nd I can
-> > >> help investigate further.  (One final note, only LSB 1.4 is currentl=
-y supported.)
-> > >>
-> > >> --Mark
-> > >>
-> > >>> Any idea?
-> > >>>
-> > >>> thanks!
-> > >>>
-> > >>>
-> > >>
-> > >>
-> > >> _______________________________________________
-> > >> Openembedded-core mailing list
-> > >> Openembedded-core@lists.openembedded.org
-> > >> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-cor=
-e
-> > >
-> >
-> >
-> > _______________________________________________
-> > Openembedded-core mailing list
-> > Openembedded-core@lists.openembedded.org
-> > http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
->=20
-> --
-> Yi Qingliang
-> niqingliang@insigma.com.cn
-> https://niqingliang2003.wordpress.com
->=20
-
---=20
-Yi Qingliang
-niqingliang@insigma.com.cn
-https://niqingliang2003.wordpress.com
+On 2012=E5=B9=B403=E6=9C=8820=E6=97=A5 05:04, Saul Wold wrote:
+> On 03/15/2012 11:23 PM, Xiaofeng Yan wrote:
+>> From: Xiaofeng Yan<xiaofeng.yan@windriver.com>
+>>
+>> 1 Archive sources in ${S} in the different stage=20
+>> (do_unpack,do_patch,do_configure).
+>> 2 Archive patches including series
+>> 3 Archive logs including scripts (.bb and .inc files)
+>> 4 dump environment resources which show all variable and
+>> functions used to xxx.showdata.dump when running a task
+>> 5 dump all content in 's' including patches to file xxx.diff.gz
+>>
+>> All archiving packages will be deployed to ${DEPLOY_DIR}/sources/
+>>
+>> [#YOCTO 1977]
+>>
+>> Signed-off-by: Xiaofeng Yan<xiaofeng.yan@windriver.com>
+>> ---
+>> meta/classes/archiver.bbclass | 419=20
+>> +++++++++++++++++++++++++++++++++++++++++
+>> 1 files changed, 419 insertions(+), 0 deletions(-)
+>> create mode 100644 meta/classes/archiver.bbclass
+>>
+>> diff --git a/meta/classes/archiver.bbclass=20
+>> b/meta/classes/archiver.bbclass
+>> new file mode 100644
+>> index 0000000..de90c75
+>> --- /dev/null
+>> +++ b/meta/classes/archiver.bbclass
+>> @@ -0,0 +1,419 @@
+>> +# This file is used for archiving sources ,patches,and logs to tarbal=
+l.
+>> +# It also output building environment to xxx.dump.data and create=20
+>> xxx.diff.gz to record
+>> +# all content in ${S} to a diff file.
+>> +
+>> +EXCLUDE_FROM ?=3D ".pc autom4te.cache"
+>> +ARCHIVE_TYPE ?=3D "TAR SRPM"
+>> +DISTRO ?=3D "poky"
+>> +PATCHES_ARCHIVE_WITH_SERIES =3D 'TRUE'
+>> +
+>> +def parse_var(d,var):
+>> + ''' parse variable like ${PV} in "require xxx_${PV}.inc" to a real=20
+>> value. for example, change "require xxx_${PV}.inc" to "require=20
+>> xxx_1.2.inc" '''
+>> + import re
+>> + pat =3D re.compile('.*\$({(.*)}).*')
+>> + if '$' not in var and '/' not in var:
+>> + return var
+>> + else:
+>> + if '/' in var:
+>> + return [i for i in var.split('/') if i.endswith('.inc')][0]
+>> + elif '$' in var:
+>> + m =3D pat.match(var)
+>> + patstr =3D '\$' + m.group(1)
+>> + var_str =3D m.group(2)
+>> + return re.sub(patstr,d.getVar(var_str,True),var)
+>> + else:
+>> + return var
+>> +
+>> +def get_bb_inc(d):
+>> + '''create a directory "script-logs" including .bb and .inc file in=20
+>> ${WORKDIR}'''
+>> + import re
+>> + import os
+>> + import shutil
+>> +
+>> + bbinc =3D []
+>> + pat=3Dre.compile('require\s*([^\s]*\.*)(.*)')
+>> + file_dir =3D d.getVar('FILE', True)
+>> + bbdir =3D os.path.dirname(file_dir)
+>> + work_dir =3D d.getVar('WORKDIR', True)
+>> + os.chdir(work_dir)
+>> + bb.mkdirhier("script-logs")
+>> + os.chdir(bbdir)
+>> + bbfile =3D os.path.basename(file_dir)
+>> + bbinc.append(bbfile)
+>> +
+>> + def get_inc (file):
+>> + f =3D open(file,'r')
+>> + for line in f.readlines():
+>> + if 'require' not in line:
+>> + bbinc.append(file)
+>> + else:
+>> + try:
+>> + incfile =3D pat.match(line).group(1)
+>> + incfile =3D parse_var(d,incfile)
+>> + bbinc.append(incfile)
+>> + get_inc(incfile)
+>> + except (IOError,AttributeError):
+>> + pass
+>> + get_inc(bbfile)
+>> + os.chdir(work_dir)
+>> + for root, dirs, files in os.walk(bbdir):
+>> + for file in bbinc:
+>> + if file in files:
+>> + shutil.copy(root + '/' + file,'script-logs')
+>> + oe.path.copytree('temp', 'script-logs')
+>> + return work_dir + '/script-logs'
+>> +
+>> +def get_all_patches(d):
+>> + '''copy patches and series file to a pointed directory which will=20
+>> be archived to tarball in ${WORKDIR}'''
+>> + import shutil
+>> +
+>> + src_patches=3D[]
+>> + pf =3D d.getVar('PF', True)
+>> + work_dir =3D d.getVar('WORKDIR', True)
+>> + dest =3D os.path.join(work_dir, pf + '-patches')
+>> + shutil.rmtree(dest, ignore_errors=3DTrue)
+>> + bb.mkdirhier(dest)
+>> +
+>> + src_uri =3D d.getVar('SRC_URI', 1).split()
+>> + fetch =3D bb.fetch2.Fetch(src_uri, d)
+>> + locals =3D (fetch.localpath(url) for url in fetch.urls)
+>> + for local in locals:
+>> + src_patches.append(local)
+>> + for patch in src_patches[1:]:
+>> + shutil.copy(patch,dest)
+>> + return dest
+>> +
+>> +def get_applying_patches(d):
+>> + """only copy applying patches to a pointed directory which will be=20
+>> archived to tarball"""
+>> + import os
+>> + import shutil
+>> +
+>> +
+>> + pf =3D d.getVar('PF', True)
+>> + work_dir =3D d.getVar('WORKDIR', True)
+>> + dest =3D os.path.join(work_dir, pf + '-patches')
+>> + shutil.rmtree(dest, ignore_errors=3DTrue)
+>> + bb.mkdirhier(dest)
+>> +
+>> +
+>> + patches =3D src_patches(d)
+>> + for patch in patches:
+>> + _, _, local, _, _, parm =3D bb.decodeurl(patch)
+>> + if local:
+>> + shutil.copy(local,dest)
+>> + return dest
+>> +
+>> +def not_tarball(d):
+>> + '''packages including key words 'work-shared','native', 'task-'=20
+>> will be passed'''
+>> + import os
+>> +
+>> + workdir =3D d.getVar('WORKDIR',True)
+>> + s =3D d.getVar('S',True)
+>> + if 'work-shared' in s or 'task-' in workdir or 'native' in workdir:
+>> + return True
+>> + else:
+>> + return False
+>> +
+>> +def archive_sources(d,middle_name):
+>> + '''archive sources codes tree to tarball'''
+>> + import tarfile
+>> + import shutil
+>> +
+>> + s =3D d.getVar('S',True)
+>> + workdir=3Dd.getVar('WORKDIR', True)
+>> + PF =3D d.getVar('PF',True)
+>> + tarname =3D PF + '-' + middle_name + ".tar.gz"
+>> +
+>> + if os.path.exists(s) and s is not workdir:
+>> + sourcedir =3D os.path.basename(s)
+>> + tarbase =3D os.path.dirname(s)
+>> + if not sourcedir or os.path.dirname(tarbase) =3D=3D workdir:
+>> + sourcedir =3D os.path.basename(os.path.dirname(s))
+>> + tarbase =3D os.path.dirname(os.path.dirname(s))
+>> + os.chdir(tarbase)
+>> + else:
+>> + sourcedir =3D os.path.basename(s)
+>> + if not os.path.exists(sourcedir):
+>> + os.mkdir(sourcedir)
+>> + try:
+>> + for file in os.listdir(s):
+>> + if file is not 'temp' and file is not sourcedir:
+>> + shutil.copy(file,sourcedir)
+>> + except (IOError,OSError):
+>> + pass
+>> +
+>> + if (len(os.listdir(sourcedir))) !=3D 0:
+>> + tar =3D tarfile.open( tarname, "w:gz")
+>> + tar.add(sourcedir)
+>> + tar.close()
+>> + if cmp(workdir,os.path.dirname(s)) and not os.path.exists(workdir +=20
+>> '/' + tarname):
+>> + shutil.move(os.path.dirname(s) + '/' + tarname,workdir)
+>> + else:
+>> + return
+>> + return tarname
+>> +
+>> +def archive_patches(d,patchdir,series):
+>> + '''archive patches to tarball and also include series files if=20
+>> 'series' is True'''
+>> + import tarfile
+>> + import shutil
+>> +
+>> + s =3D d.getVar('S',True)
+>> + work_dir =3D d.getVar('WORKDIR', True)
+>> + os.chdir(work_dir)
+>> + patch_dir =3D os.path.basename(patchdir)
+>> + tarname =3D patch_dir + ".tar.gz"
+>> + if series =3D=3D 'all' and os.path.exists(s + '/patches/series'):
+>> + shutil.copy(s + '/patches/series',patch_dir)
+>> + tar =3D tarfile.open(tarname, "w:gz")
+>> + tar.add(patch_dir)
+>> + tar.close()
+>> + shutil.rmtree(patch_dir, ignore_errors=3DTrue)
+>> + return tarname
+>> +
+>> +def select_archive_patches(d,option):
+>> + '''select to archive all patches including non-applying and series=20
+>> or applying patches '''
+>> + if option =3D=3D "all":
+>> + patchdir =3D get_all_patches(d)
+>> + elif option =3D=3D "applying":
+>> + patchdir =3D get_applying_patches(d)
+>> + try:
+>> + os.rmdir(patchdir)
+>> + except OSError:
+>> + tarpatch =3D archive_patches(d,patchdir,option)
+>> + return tarpatch
+>> + return
+>> +
+>> +def archive_logs(d,logdir,bbinc=3DFalse):
+>> + '''archive logs in temp to tarball and .bb and .inc files if bbinc=20
+>> is True '''
+>> + import tarfile
+>> + import shutil
+>> +
+>> + log_dir =3D os.path.basename(logdir)
+>> + pf =3D d.getVar('PF',True)
+>> + tarname =3D pf + '-' + log_dir + ".tar.gz"
+>> + tar =3D tarfile.open(tarname, "w:gz")
+>> + tar.add(log_dir)
+>> + tar.close()
+>> + if bbinc:
+>> + shutil.rmtree(log_dir, ignore_errors=3DTrue)
+>> + return tarname
+>> +
+>> +def get_licenses(d):
+>> + '''get licenses for running .bb file'''
+>> + licenses =3D d.getVar('LICENSE', 1).replace('&', '|')
+>> + licenses =3D licenses.replace('(', '').replace(')', '')
+>> + clean_licenses =3D ""
+>> + for x in licenses.split():
+>> + if x.strip() =3D=3D '' or x =3D=3D 'CLOSED':
+>> + continue
+>> + if x !=3D "|":
+>> + clean_licenses +=3D x
+>> + if '|' in clean_licenses:
+>> + clean_licenses =3D clean_licenses.replace('|','')
+>> + return clean_licenses
+>> +
+>> +
+>> +def move_tarball_deploy(d,tarball_list):
+>> + '''move tarball in location to ${DEPLOY_DIR}/sources'''
+>> + import shutil
+>> +
+>> + if tarball_list is []:
+>> + return
+>> + target_sys =3D d.getVar('TARGET_SYS', True)
+>> + pf =3D d.getVar('PF', True)
+>> + licenses =3D get_licenses(d)
+>> + tar_sources =3D d.getVar('DEPLOY_DIR', True) + '/sources/' +=20
+>> target_sys + '/' + licenses + '/' + pf
+>> + if not os.path.exists(tar_sources):
+>> + bb.mkdirhier(tar_sources)
+>> + for source in tarball_list:
+>> + if source:
+>> + if os.path.exists(tar_sources + '/' + source):
+>> + os.remove(tar_sources + '/' + source)
+>> + shutil.move(source,tar_sources)
+>> +
+>> +def verify_var(d):
+>> + '''check the type for archiving package('tar' or 'srpm')'''
+>> + try:
+>> + if d.getVar('SOURCE_ARCHIVE_PACKAGE_TYPE', True).upper() not in=20
+>> d.getVar('ARCHIVE_TYPE', True).split():
+>> + raise AttributeError
+>> + except AttributeError:
+>> + bb.fatal("\"SOURCE_ARCHIVE_PACKAGE_TYPE\" is \'tar\' or \'srpm\',=20
+>> no other types")
+>> +
+>> +def store_package(d,package_name):
+>> + '''store tarbablls name to file "tar-package"'''
+>> + f =3D open(d.getVar('WORKDIR',True )+ '/tar-package','a')
+>> + f.write(package_name + ' ')
+>> + f.close()
+>> +
+>> +def get_package(d):
+>> + '''get tarballs name from "tar-package"'''
+>> + os.chdir(d.getVar('WORKDIR', True))
+>> + f =3D open('tar-package','r')
+>> + line =3D list(set(f.readline().replace('\n','').split()))
+>> + f.close()
+>> + return line
+>> +
+>> +
+>> +def archive_sources_patches(d,middle_name):
+>> + '''archive sources and patches to tarball. middle_name will append=20
+>> strings ${middle_name} to ${PR} as middle name. for example,=20
+>> zlib-1.4.6-prepatch(middle_name).tar.gz '''
+>> + import shutil
+>> + verify_var(d)
+>> + if not_tarball(d):
+>> + return
+>> +
+>> + source_tar_name =3D archive_sources(d,middle_name)
+>> + if middle_name =3D=3D "prepatch":
+>> + if d.getVar('PATCHES_ARCHIVE_WITH_SERIES',True).upper() =3D=3D 'TRUE=
+':
+>> + patch_tar_name =3D select_archive_patches(d,"all")
+>> + elif d.getVar('PATCHES_ARCHIVE_WITH_SERIES',True).upper() =3D=3D 'FA=
+LSE':
+>> + patch_tar_name =3D select_archive_patches(d,"applying")
+>> + else:
+>> + bb.fatal("Please define 'PATCHES_ARCHIVE_WITH_SERIES' is strings=20
+>> 'True' or 'False' ")
+>> + else:
+>> + patch_tar_name =3D ''
+>> +
+>> + if d.getVar('SOURCE_ARCHIVE_PACKAGE_TYPE', True).upper() not in=20
+>> 'SRPM':
+>> + move_tarball_deploy(d,[source_tar_name,patch_tar_name])
+>> + else:
+>> + tarpackage =3D d.getVar('WORKDIR', True) + '/tar-package'
+>> + if os.path.exists(tarpackage):
+>> + os.remove(tarpackage)
+>> + for package in source_tar_name, patch_tar_name:
+>> + if package:
+>> + store_package(d,str(package) + ' ')
+>> +
+>> +def archive_scripts_logs(d):
+>> + '''archive scripts and logs. scripts include .bb and .inc files and=20
+>> logs include stuff in "temp".'''
+>> +
+>> + work_dir =3D d.getVar('WORKDIR', True)
+>> + os.chdir(work_dir)
+>> + source_archive_log_with_scripts =3D=20
+>> d.getVar('SOURCE_ARCHIVE_LOG_WITH_SCRIPTS', True)
+>> + if source_archive_log_with_scripts =3D=3D 'logs_with_scripts':
+>> + logdir =3D get_bb_inc(d)
+>> + tarlog =3D archive_logs(d,logdir,True)
+>> + elif source_archive_log_with_scripts =3D=3D 'logs':
+>> + if os.path.exists('temp'):
+>> + tarlog =3D archive_logs(d,'temp',False)
+>> + else:
+>> + return
+>> +
+>> + if d.getVar('SOURCE_ARCHIVE_PACKAGE_TYPE', True).upper() not in=20
+>> 'SRPM':
+>> + move_tarball_deploy(d,[tarlog])
+>> +
+>> + else:
+>> + store_package(d,tarlog)
+>> +
+>> +def dumpdata(d):
+>> + '''dump environment to "${P}-${PR}.showdata.dump" including all=20
+>> kinds of variables and functions when running a task'''
+>> + workdir =3D bb.data.getVar('WORKDIR', d, 1)
+>> + distro =3D bb.data.getVar('DISTRO', d, 1)
+>> + s =3D d.getVar('S', True)
+>> + pf =3D d.getVar('PF', True)
+>> + target_sys =3D d.getVar('TARGET_SYS', True)
+>> + licenses =3D get_licenses(d)
+>> + dumpdir =3D d.getVar('DEPLOY_DIR', True) + '/sources/' + target_sys =
++=20
+>> '/' + licenses + '/' + pf
+>> + if not os.path.exists(dumpdir):
+>> + bb.mkdirhier(dumpdir)
+>> +
+>> + dumpfile =3D os.path.join(dumpdir,=20
+>> bb.data.expand("${P}-${PR}.showdata.dump",d))
+>> +
+>> + bb.note("Dumping metadata into '%s'" % dumpfile)
+>> + f =3D open(dumpfile, "w")
+>> + # emit variables and shell functions
+>> + bb.data.emit_env(f, d, True)
+>> + # emit the metadata which isnt valid shell
+>> + for e in d.keys():
+>> + if bb.data.getVarFlag(e, 'python', d):
+>> + f.write("\npython %s () {\n%s}\n" % (e, bb.data.getVar(e, d, 1)))
+>> + f.close()
+>> +
+>> +def create_diff_gz(d):
+>> + '''creating .diff.gz in ${DEPLOY_DIR_SRC}/${P}-${PR}.diff.g gz for=20
+>> mapping all content in 's' including patches to xxx.diff.gz'''
+>> + import shutil
+>> +
+>> + work_dir =3D d.getVar('WORKDIR', True)
+>> + exclude_from =3D d.getVar('EXCLUDE_FROM', True).split()
+>> + pf =3D d.getVar('PF', True)
+>> + licenses =3D get_licenses(d)
+>> + target_sys =3D d.getVar('TARGET_SYS', True)
+>> + diff_dir =3D d.getVar('DEPLOY_DIR', True) + '/sources/' + target_sys=
+=20
+>> + '/' + licenses + '/' + pf
+>> + diff_file =3D os.path.join(diff_dir,=20
+>> bb.data.expand("${P}-${PR}.diff.gz",d))
+>> + os.chdir(work_dir)
+>> + f =3D open('temp/exclude-from-file', 'a')
+>> + for i in exclude_from:
+>> + f.write(i)
+>> + f.write("\n")
+>> + f.close()
+>> +
+>> + s=3Dd.getVar('S', True)
+>> + distro =3D d.getVar('DISTRO',True)
+>> + dest =3D s + '/' + distro + '/files'
+>> + if not os.path.exists(dest):
+>> + bb.mkdirhier(dest)
+>> + for i in os.listdir(os.getcwd()):
+>> + if os.path.isfile(i):
+>> + shutil.copy(i, dest)
+>> +
+>> + bb.note("Creating .diff.gz in ${DEPLOY_DIR_SRC}/${P}-${PR}.diff.gz")
+>> + cmd =3D "LC_ALL=3DC TZ=3DUTC0 diff --exclude-from=3D" + work_dir +=20
+>> "/temp/exclude-from-file -Naur " + s + '.org' + ' ' + s + " | gzip=20
+>> -c> " + diff_file
+>> + d.setVar('DIFF', cmd + "\n")
+>> + d.setVarFlag('DIFF', 'func', '1')
+>> + bb.build.exec_func('DIFF', d)
+>> + shutil.rmtree(s + '.org', ignore_errors=3DTrue)
+>> +
+>> +# This function will run when user want to get tarball for sources=20
+>> and patches after do_unpack
+>> +python do_archive_original_sources_patches(){
+>> + archive_sources_patches(d,'prepatch')
+> Why do you rebuild the tarball here are rename it instead of just=20
+> copying the original tarball?
+>
+because many packages come from non-tarball and they could be git=20
+sources , So I archive these sources after do_unpack.
+> I could understand this for SCM based packages, and even then we have=20
+> tarballs created in the DL_DIR.
+>
+> I think I understand why you name it _prepatch, since it's not the=20
+> exact original tarball.
+>
+> Sau!
+>
+>
+>> +}
+>> +
+>> +# This function will run when user want to get tarball for patched=20
+>> sources after do_patch
+>> +python do_archive_patched_sources(){
+>> + archive_sources_patches(d,'patched')
+>> +}
+>> +
+>> +# This function will run when user want to get tarball for=20
+>> configured sources after do_configure
+>> +python do_archive_configured_sources(){
+>> + archive_sources_patches(d,'configured')
+>> +}
+>> +
+>> +# This function will run when user want to get tarball for logs or=20
+>> both logs and scripts(.bb and .inc files)
+>> +python do_archive_scripts_logs(){
+>> + archive_scripts_logs(d)
+>> +}
+>> +
+>> +# This function will run when user want to know what variable and=20
+>> functions in a running task are and also can get a diff file including
+>> +# all content a package should include.
+>> +python do_dumpdata_create_diff_gz(){
+>> + dumpdata(d)
+>> + create_diff_gz(d)
+>> +}
+>> +
+>> +# This functions prepare for archiving "linux-yocto" because this=20
+>> package create directory 's' before do_patch instead of after do_unpac=
+k.
+>> +# This is special control for archiving linux-yocto only.
+>> +python do_archive_linux_yocto(){
+>> + s =3D d.getVar('S', True)
+>> + if 'linux-yocto' in s:
+>> + source_tar_name =3D archive_sources(d,'')
+>> + if d.getVar('SOURCE_ARCHIVE_PACKAGE_TYPE', True).upper() not in=20
+>> 'SRPM':
+>> + move_tarball_deploy(d,[source_tar_name,''])
+>> +}
+>> +do_kernel_checkout[postfuncs] +=3D "do_archive_linux_yocto "
+>> +
+>> +# remove tarball for sources, patches and logs after creating srpm.
+>> +python do_remove_tarball(){
+>> + if d.getVar('SOURCE_ARCHIVE_PACKAGE_TYPE', True).upper() =3D=3D 'SRP=
+M':
+>> + work_dir =3D d.getVar('WORKDIR', True)
+>> + os.chdir(work_dir)
+>> + for file in os.listdir(os.getcwd()):
+>> + if file in get_package(d):
+>> + try:
+>> + os.remove(file)
+>> + except OSError:
+>> + pass
+>> + if os.path.exists('tar-package'):
+>> + os.remove('tar-package')
+>> +}
+>> +do_remove_taball[deptask] =3D "do_archive_scripts_logs"
+>> +do_package_write_rpm[postfuncs] +=3D "do_remove_tarball "
+>> +export get_licenses
+>> +export get_package
+>
 
 
 
