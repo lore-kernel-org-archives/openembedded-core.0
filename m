@@ -1,37 +1,39 @@
-Received: from mail-lb0-f175.google.com ([209.85.217.175])
-	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <anders.darander@gmail.com>) id 1S9w0j-0001Ku-4u
-	for openembedded-core@lists.openembedded.org;
-	Tue, 20 Mar 2012 11:09:49 +0100
-Received: by lbbgi4 with SMTP id gi4so3965132lbb.6
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 20 Mar 2012 03:00:56 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
-	:content-type:content-transfer-encoding;
-	bh=jTtBlUEMOvAlx5KO79WMUUUSH6JXl7Y03fU/jk53F4g=;
-	b=xXcshfmV03bTCZD7YXxHKZeO+2L7vWkt4Aya6E0jAHZFW0PVFEgXbOqFKyTqRRDouq
-	yRXd/SBAr0iX+XOwL21+PmzVMWD2d2IRNN9qygcb7vClBwnlcRwblSwGmJjBVs1ps0wU
-	goVu8tA6Db1fgthXI5PKSZIwX/fj81H4HIsPyiA4gi5SCxMTOkoWbfaajiM016a9+pXZ
-	jf5nadW2EBWvtzcEFS08C/5Wtj0CU4DR0rzkU7PTtgc5WcCZAjhuw9O3M5sr9oVypMmN
-	+AXQSpG37Vgg0bioHMWFQ0sBWIeMzNxlV84wP5O4RG0OU7SHMMvWw7IEz2isZrh0xaTr
-	JP5w==
+Received: from mail-out.m-online.net ([212.18.0.9])
+	by linuxtogo.org with esmtp (Exim 4.72) (envelope-from <wd@denx.de>)
+	id 1S9wh7-0004Dk-Er for openembedded-core@lists.openembedded.org;
+	Tue, 20 Mar 2012 11:53:37 +0100
+Received: from frontend1.mail.m-online.net (unknown [192.168.8.180])
+	by mail-out.m-online.net (Postfix) with ESMTP id 3VBrBd26T8z4LDfG;
+	Tue, 20 Mar 2012 11:35:21 +0100 (CET)
+Received: from localhost (dynscan1.mnet-online.de [192.168.8.164])
+	by mail.m-online.net (Postfix) with ESMTP id 3VBrBd0WvGz4KK3D;
+	Tue, 20 Mar 2012 11:35:21 +0100 (CET)
+X-Virus-Scanned: amavisd-new at mnet-online.de
+Received: from smtp-auth.mnet-online.de ([192.168.8.180])
+	by localhost (dynscan1.mail.m-online.net [192.168.8.164]) (amavisd-new,
+	port 10024)
+	with ESMTP id d6gpOcIzvdFR; Tue, 20 Mar 2012 11:35:20 +0100 (CET)
+Received: from diddl.denx.de (host-80-81-18-216.customer.m-online.net
+	[80.81.18.216]) by smtp-auth.mnet-online.de (Postfix) with ESMTPA;
+	Tue, 20 Mar 2012 11:35:20 +0100 (CET)
+Received: from gemini.denx.de (unknown [10.0.0.2])
+	by diddl.denx.de (Postfix) with ESMTP id 2D1C11A6535;
+	Tue, 20 Mar 2012 11:35:20 +0100 (CET)
+Received: from gemini.denx.de (localhost [127.0.0.1])
+	by gemini.denx.de (Postfix) with ESMTP id 22B00202A50;
+	Tue, 20 Mar 2012 11:35:20 +0100 (CET)
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
+From: Wolfgang Denk <wd@denx.de>
 MIME-Version: 1.0
-Received: by 10.152.128.38 with SMTP id nl6mr11681675lab.15.1332237656767;
-	Tue, 20 Mar 2012 03:00:56 -0700 (PDT)
-Received: by 10.152.114.72 with HTTP; Tue, 20 Mar 2012 03:00:56 -0700 (PDT)
-In-Reply-To: <4F6852C0.4050409@windriver.com>
-References: <cover.1331877464.git.xiaofeng.yan@windriver.com>
-	<22ff60ec34d2c54393d4ceb2a81394c6512baa17.1331877464.git.xiaofeng.yan@windriver.com>
-	<4F679F53.40302@linux.intel.com> <4F681A97.4020201@windriver.com>
-	<665F9083-9747-4972-BCDE-BCE209266221@dominion.thruhere.net>
-	<4F685087.6080303@windriver.com> <4F6852C0.4050409@windriver.com>
-Date: Tue, 20 Mar 2012 11:00:56 +0100
-Message-ID: <CAE4k23-U8gr0_B9jyZb8qXhwQQZLFA6O20PdG7j1SohpdQdx6Q@mail.gmail.com>
-From: Anders Darander <anders.darander@gmail.com>
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 2/7] archiver.bbclass: New bbclass for archiving sources, patches, logs and scripts
+In-reply-to: <1332203843.9740.76.camel@ted>
+References: <20120319215934.5336A206060@gemini.denx.de>
+	<1332203843.9740.76.camel@ted>
+Comments: In-reply-to Richard Purdie <richard.purdie@linuxfoundation.org>
+	message dated "Tue, 20 Mar 2012 00:37:23 +0000."
+Date: Tue, 20 Mar 2012 11:35:20 +0100
+Message-Id: <20120320103520.22B00202A50@gemini.denx.de>
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: specific version dependenciews
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -46,49 +48,62 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 20 Mar 2012 10:09:49 -0000
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Tue, 20 Mar 2012 10:53:37 -0000
+Content-type: text/plain; charset=UTF-8
+Content-transfer-encoding: 8bit
 
-On Tue, Mar 20, 2012 at 10:49, Xiaofeng Yan <xiaofeng.yan@windriver.com> wr=
-ote:
-> On 2012=E5=B9=B403=E6=9C=8820=E6=97=A5 17:40, Xiaofeng Yan wrote:
->>
->> On 2012=E5=B9=B403=E6=9C=8820=E6=97=A5 16:07, Koen Kooi wrote:
->>>
->>> Op 20 mrt. 2012, om 06:50 heeft Xiaofeng Yan het volgende geschreven:
->>>
->>>> On 2012=E5=B9=B403=E6=9C=8820=E6=97=A5 05:04, Saul Wold wrote:
->>>>>
->>>>> On 03/15/2012 11:23 PM, Xiaofeng Yan wrote:
->>>>>>
->>>>>> From: Xiaofeng Yan<xiaofeng.yan@windriver.com>
->>>>>>
->>>>> Why do you rebuild the tarball here are rename it instead of just
->>>>> copying the original tarball?
->>>>>
->>>> because many packages come from non-tarball and they could be git
->>>> sources , So I archive these sources after do_unpack.
->>>
->>> But if you have the original tarball and reuse it, you'll get the warm
->>> fuzzy feeling of matching checksums.
->>
->> So How about =C2=A0renaming archive-original-source to
->> archive-prepatched-source?
->
-> Hi Saul,
->
-> Or I can add a new functions to get tarball from downloads if have tarbal=
-l
-> and archive source codes directory if have directory without tarball.
-> Do you think it is necessary for us to add this function?
+Dear Richard,
 
-I'd say that this is a change that should be made. If nothing else,
-just to get the assurance that the archived tarball's are the same as
-the ones that was used to build the system. (This is beneficial both
-when it comes to using the archived tarballs for rebuilding the
-system, as well as for ensuring licence compliance).
+In message <1332203843.9740.76.camel@ted> you wrote:
+...
+> > Some MACHINEs require a package A (some library), but in specific
+> > versions: say machine X needs version A-1.2, while machine Y needs
+> > version A-1.5.
+> > 
+> > Package A itself depends on another package B (another library).
+> > 
+> > The problem is, that different versions of A require specific versions
+> > of B.  For example, to build A-1.2 we must use B-4.5, but to build
+> > A-1.5 we must use B-8.2.
+> > 
+> > I am aware that I can describe the dependencies at the top leven,
+> > stating for example that machine X needs A-1.2 and B-4.5, while
+> > machine Y needs A-1.5 and B-8.2.
+> > 
+> > However, this seems clumsy, as the version depency A->B is something
+> > that is only defined by the implementation of A, and I would like to
+> > keep it encapsulated at this level.
+> > 
+> > 
+> > Is there a clever way to describe such a multi-level dependency chain?
+> 
+> If you mark A and B as machine specific, the system should be able to
+> cope with the problem and set the preferred versions at the machine
+> level.
 
-/Anders
+I'm sorry, but I don't understand what you mean.
+
+How do I mark a package as machine specific?
+
+And would setting "the preferred versions at the machine level" not be
+exactly what I am trying to avoid?
+
+I don't want to make the machine descriptions aware of any version
+dependencies between A and B.  I would like to put this information
+into the description of A, so that when a specific version of A gets
+built, automatically the matching version of B will be chosen.
+
+Can this be done?
+
+Best regards,
+
+Wolfgang Denk
+
+-- 
+DENX Software Engineering GmbH,     MD: Wolfgang Denk & Detlev Zundel
+HRB 165235 Munich, Office: Kirchenstr.5, D-82194 Groebenzell, Germany
+Phone: (+49)-8142-66989-10 Fax: (+49)-8142-66989-80 Email: wd@denx.de
+It is easier to change the specification to fit the program than vice
+versa.
 
 
