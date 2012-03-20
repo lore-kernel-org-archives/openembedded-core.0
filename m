@@ -1,26 +1,34 @@
-Received: from mga09.intel.com ([134.134.136.24])
+Received: from mx.insigma.com.cn ([115.236.48.170] helo=WX-Edge.insigma.com.cn)
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <lianhao.lu@intel.com>) id 1S9p5r-000263-UV
+	(envelope-from <niqingliang@insigma.com.cn>) id 1S9pQQ-0002in-Vg
 	for openembedded-core@lists.openembedded.org;
-	Tue, 20 Mar 2012 03:46:41 +0100
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-	by orsmga102.jf.intel.com with ESMTP; 19 Mar 2012 19:37:47 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.67,352,1309762800"; d="scan'208";a="119344527"
-Received: from llu-piketon.sh.intel.com (HELO localhost) ([10.239.36.62])
-	by orsmga001.jf.intel.com with ESMTP; 19 Mar 2012 19:37:46 -0700
-From: Lianhao Lu <lianhao.lu@intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Tue, 20 Mar 2012 10:36:11 +0800
-Message-Id: <8900db51c6d31c8e968d4a582c9098e028bf85d2.1332210868.git.lianhao.lu@intel.com>
-X-Mailer: git-send-email 1.7.0.4
-In-Reply-To: <cover.1332210868.git.lianhao.lu@intel.com>
-References: <cover.1332210868.git.lianhao.lu@intel.com>
-Subject: [PATCH V2 1/1] sysvinit-inittab: Fixed license warning.
+	Tue, 20 Mar 2012 04:07:55 +0100
+Received: from WX-EXCHMB2.insigma.com.cn (10.0.1.203) by
+	WX-Edge.insigma.com.cn (10.0.1.205) with Microsoft SMTP Server (TLS) id
+	8.1.436.0; Tue, 20 Mar 2012 10:58:56 +0800
+Received: from [192.168.0.98] (122.224.76.38) by Wx-ExchMB2.insigma.com.cn
+	(10.0.1.203) with Microsoft SMTP Server id 8.1.436.0; Tue, 20 Mar 2012
+	10:58:49 +0800
+Message-ID: <1332212182.1041.87.camel@localhost.localdomain>
+From: Ni Qingliang <niqingliang@insigma.com.cn>
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Date: Tue, 20 Mar 2012 10:56:22 +0800
+In-Reply-To: <1332121654.1041.78.camel@localhost.localdomain>
+References: <1331799506.1041.55.camel@localhost.localdomain>
+	<4F621801.4000308@windriver.com>
+	<1331875115.1041.67.camel@localhost.localdomain>
+	<4F635E14.7000707@windriver.com>
+	<1332121654.1041.78.camel@localhost.localdomain>
+Organization: Insigma
+X-Mailer: Evolution 3.2.3 
+MIME-Version: 1.0
+Subject: Re: LSB support?
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
-Reply-To: Patches and discussions about the oe-core layer
+Reply-To: niqingliang@insigma.com.cn,
+	Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
 List-Id: Patches and discussions about the oe-core layer
 	<openembedded-core.lists.openembedded.org>
@@ -31,392 +39,204 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 20 Mar 2012 02:46:41 -0000
+X-List-Received-Date: Tue, 20 Mar 2012 03:07:56 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-WARNING: .../sysvinit-inittab-2.88dsf-r6/sysvinit-2.88dsf/COPYING could
-not be copied for some reason. It may not exist. WARN for now.
+no echo?
 
-Signed-off-by: Lianhao Lu <lianhao.lu@intel.com>
----
- .../recipes-core/sysvinit/sysvinit-inittab/COPYING |  339 --------------------
- .../sysvinit/sysvinit-inittab_2.88dsf.bb           |    9 +-
- 2 files changed, 2 insertions(+), 346 deletions(-)
- delete mode 100644 meta/recipes-core/sysvinit/sysvinit-inittab/COPYING
+On Mon, 2012-03-19 at 09:47 +0800, =E5=80=AA=E5=BA=86=E4=BA=AE wrote:
+> I have encountered a similar problem when do a clean building in another
+> VM (running archlinux).
+>=20
+> after remove /usr//lib/libXrandr.so.2:
+> mv /usr/lib/../lib/libXrandr.so.2 /usr/lib/../lib/libXrandr.so.2.bak
+>=20
+> I got a new error:
+> /usr/lib/../lib/libXext.so.6: undefined reference to `memcpy@GLIBC_2.14'
+>=20
+> so IMO, it used the wrong lib path. following is the output section of
+> 'do_compile', the key is '/usr/lib/../lib', maybe it should be
+> '<xxxdir>/usr/lib/../lib'.
+>=20
+> output section:
+> Making all in gconf
+> make[2]: Entering directory
+> `/media/pangu/lsbt/tmp/work/x86_64-poky-linux/gconf-3.2.3-r8/GConf-3.2.3/=
+gconf'
+> make  all-am
+> make[3]: Entering directory
+> `/media/pangu/lsbt/tmp/work/x86_64-poky-linux/gconf-3.2.3-r8/GConf-3.2.3/=
+gconf'
+> ../x86_64-poky-linux-libtool  --tag=3DCC   --mode=3Dlink
+> x86_64-poky-linux-gcc    -m64
+> --sysroot=3D/media/pangu/lsbt/tmp/sysroots/qemux86-64  -O2 -pipe -g
+> -feliminate-unused-debug-types -Wall -DGCONF_ENABLE_DEBUG=3D1  -Wl,-O1
+> -Wl,--hash-style=3Dgnu -Wl,--as-needed -o gconf-sanity-check-2
+> gconf-sanity-check.o libgconf-2.la   -pthread -Wl,--export-dynamic
+> -lgtk-x11-2.0 -lgdk-x11-2.0 -latk-1.0 -lgio-2.0 -lpangoft2-1.0
+> -lpangocairo-1.0 -lgdk_pixbuf-2.0 -lcairo -lpango-1.0 -lfreetype
+> -lfontconfig -lgobject-2.0 -lgmodule-2.0 -lgthread-2.0 -lrt -lglib-2.0
+> -lxml2
+> x86_64-poky-linux-libtool: link: x86_64-poky-linux-gcc -m64
+> --sysroot=3D/media/pangu/lsbt/tmp/sysroots/qemux86-64 -O2 -pipe -g
+> -feliminate-unused-debug-types -Wall -DGCONF_ENABLE_DEBUG=3D1 -Wl,-O1
+> -Wl,--hash-style=3Dgnu -Wl,--as-needed -o .libs/gconf-sanity-check-2
+> gconf-sanity-check.o -pthread
+> -Wl,--export-dynamic  ./.libs/libgconf-2.so /media/pangu/lsbt/tmp/sysroot=
+s/qemux86-64/usr/lib/libdbus-glib-1.so /media/pangu/lsbt/tmp/sysroots/qemux=
+86-64/usr/lib/libdbus-1.so /media/pangu/lsbt/tmp/sysroots/qemux86-64/usr/li=
+b/libgtk-x11-2.0.so /media/pangu/lsbt/tmp/sysroots/qemux86-64/usr/lib/libgd=
+k-x11-2.0.so /media/pangu/lsbt/tmp/sysroots/qemux86-64/usr/lib/libatk-1.0.s=
+o /media/pangu/lsbt/tmp/sysroots/qemux86-64/usr/lib/libpangocairo-1.0.so -L=
+=3D/usr/lib /media/pangu/lsbt/tmp/sysroots/qemux86-64/usr/lib/libpangoft2-1=
+.0.so /media/pangu/lsbt/tmp/sysroots/qemux86-64/usr/lib/../lib/libstdc++.so=
+ /media/pangu/lsbt/tmp/sysroots/qemux86-64/usr/lib/libgdk_pixbuf-2.0.so /me=
+dia/pangu/lsbt/tmp/sysroots/qemux86-64/usr/lib/libgio-2.0.so -lresolv /medi=
+a/pangu/lsbt/tmp/sysroots/qemux86-64/usr/lib/libcairo.so /media/pangu/lsbt/=
+tmp/sysroots/qemux86-64/usr/lib/libpixman-1.so /media/pangu/lsbt/tmp/sysroo=
+ts/qemux86-64/usr/lib/libpng12.so /media/pangu/lsbt/tmp/sysroots/qemux86-64=
+/usr/lib/libXrender.so /media/pangu/lsbt/tmp/sysroots/qemux86-64/usr/lib/li=
+bX11.so /media/pangu/lsbt/tmp/sysroots/qemux86-64/usr/lib/libxcb.so /media/=
+pangu/lsbt/tmp/sysroots/qemux86-64/usr/lib/libXau.so /media/pangu/lsbt/tmp/=
+sysroots/qemux86-64/usr/lib/libXdmcp.so /media/pangu/lsbt/tmp/sysroots/qemu=
+x86-64/usr/lib/libpango-1.0.so /media/pangu/lsbt/tmp/sysroots/qemux86-64/us=
+r/lib/libfontconfig.so /media/pangu/lsbt/tmp/sysroots/qemux86-64/usr/lib/li=
+bfreetype.so /media/pangu/lsbt/tmp/sysroots/qemux86-64/usr/lib/libexpat.so =
+/media/pangu/lsbt/tmp/sysroots/qemux86-64/usr/lib/libgobject-2.0.so /media/=
+pangu/lsbt/tmp/sysroots/qemux86-64/usr/lib/libffi.so /media/pangu/lsbt/tmp/=
+sysroots/qemux86-64/usr/lib/libgmodule-2.0.so /media/pangu/lsbt/tmp/sysroot=
+s/qemux86-64/usr/lib/libgthread-2.0.so -lpthread /media/pangu/lsbt/tmp/sysr=
+oots/qemux86-64/usr/lib/libglib-2.0.so -lrt /media/pangu/lsbt/tmp/sysroots/=
+qemux86-64/usr/lib/libxml2.so -ldl -lz -lm -pthread -Wl,-rpath -Wl,/usr/lib=
+/../lib
+> /usr/lib/../lib/libXext.so.6: undefined reference to `memcpy@GLIBC_2.14'
+> collect2: ld returned 1 exit status
+> make[3]: *** [gconf-sanity-check-2] Error 1
+>=20
+> On Fri, 2012-03-16 at 23:36 +0800, Mark Hatle wrote:
+> > On 3/16/12 12:18 AM, Ni Qingliang wrote:
+> > > when building qemux86-64 arch core-image-lsb (distro is poky-lsb), I =
+got
+> > > /usr/lib/../lib/libXrandr.so.2: undefined reference to
+> > > `memcpy@GLIBC_2.14' when 'do_compile' gconf 3.2.3.
+> > >
+> > > the default eglibc is 2.13, why it needs 2.14?
+> >
+> > Without anything further, the only guess I can make is that either you =
+aren't
+> > using the version of glibc you think you are, it's gotten some host
+> > contamination, an explicit reference was added to libXrandr (doubtful),=
+ or you
+> > are using something that was built/cached from a previous build.  (i.e.=
+ did you
+> > build w/ eglibc 2.14/2.15 -- and then switch back to eglibc 2.13 for so=
+me reason?)
+> >
+> > On 3/15/12 9:38 PM, Ni Qingliang wrote:
+> >  > first, thanks your reply.
+> >  >
+> >  > Because I can't use task-core-lsb on my device (flash space is not
+> >  > enough), I have to make a custom lsb-base image (without
+> >  > perl/python/graphics).
+> >  >
+> >  > I have checked the "linuxstdbase", and it will change the configure
+> >  > option of some packages.
+> >  >
+> >  > Indeed, I think the daemon/failure/warning fuctions should be consid=
+ered
+> >  > in package lsb's RDEPENDS.
+> >  >
+> >  > what I want to know is the rdepends or where is the
+> >  > daemon/failure/warning.
+> >
+> > It certainly looks like a component is missing somewhere in the shell s=
+crips
+> > that are provided by the LSB functions.  I would assume that the
+> > depends/provides is setup properly to point to whatever should be provi=
+ding the
+> > missing daemon, failure, warning commands.  If it's not (or if by defau=
+lt -- non
+> > lsb mode) they're not being built, it's a definite bug.  You shouldn't =
+be able
+> > to build a non-functional systems.
+> >
+> > Please file a defect on bugzilla.yoctoproject.org.  I will attempt to
+> > investigate it (or someone else can).  Hopefully it's just as a simple =
+as a
+> > missing dependency.
+> >
+> > --Mark
+> >
+> > > On Fri, 2012-03-16 at 00:25 +0800, Mark Hatle wrote:
+> > >> On 3/15/12 3:18 AM, Ni Qingliang wrote:
+> > >>> Hello, I'm working on custom lsb-base image using oe-core.
+> > >>>
+> > >>> and when using the lsb script, found error:
+> > >>>
+> > >>> lsb_start_daemon line 44: daemon command not found.
+> > >>>
+> > >>> similar thing happend on lsb_log_message: failure and warning comma=
+nd
+> > >>> not found.
+> > >>>
+> > >>> maybe these function should be defined in /etc/init.d/functions?
+> > >>>
+> > >>> but there are not these function in this file (belongs to initscrip=
+ts).
+> > >>
+> > >> Did you enable the LSB distribution settings?  Without this, various=
+ components
+> > >> may not be available.
+> > >>
+> > >> In Poky, there is a "poky-lsb" distribution type:
+> > >>
+> > >> DISTRO =3D "poky-lsb"
+> > >> DISTROOVERRIDES =3D "poky:linuxstdbase"
+> > >>
+> > >> DISTRO_FEATURES_append =3D " pam largefile opengl"
+> > >> PREFERRED_PROVIDER_virtual/libx11 =3D "libx11"
+> > >>
+> > >> (as well as using the core-image-lsb and/or task-core-lsb components=
+.)
+> > >>
+> > >> If you've tried this and those items are still broken, let me know a=
+nd I can
+> > >> help investigate further.  (One final note, only LSB 1.4 is currentl=
+y supported.)
+> > >>
+> > >> --Mark
+> > >>
+> > >>> Any idea?
+> > >>>
+> > >>> thanks!
+> > >>>
+> > >>>
+> > >>
+> > >>
+> > >> _______________________________________________
+> > >> Openembedded-core mailing list
+> > >> Openembedded-core@lists.openembedded.org
+> > >> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-cor=
+e
+> > >
+> >
+> >
+> > _______________________________________________
+> > Openembedded-core mailing list
+> > Openembedded-core@lists.openembedded.org
+> > http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
+>=20
+> --
+> Yi Qingliang
+> niqingliang@insigma.com.cn
+> https://niqingliang2003.wordpress.com
+>=20
 
-diff --git a/meta/recipes-core/sysvinit/sysvinit-inittab/COPYING b/meta/recipes-core/sysvinit/sysvinit-inittab/COPYING
-deleted file mode 100644
-index d511905..0000000
---- a/meta/recipes-core/sysvinit/sysvinit-inittab/COPYING
-+++ /dev/null
-@@ -1,339 +0,0 @@
--		    GNU GENERAL PUBLIC LICENSE
--		       Version 2, June 1991
--
-- Copyright (C) 1989, 1991 Free Software Foundation, Inc.,
-- 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA
-- Everyone is permitted to copy and distribute verbatim copies
-- of this license document, but changing it is not allowed.
--
--			    Preamble
--
--  The licenses for most software are designed to take away your
--freedom to share and change it.  By contrast, the GNU General Public
--License is intended to guarantee your freedom to share and change free
--software--to make sure the software is free for all its users.  This
--General Public License applies to most of the Free Software
--Foundation's software and to any other program whose authors commit to
--using it.  (Some other Free Software Foundation software is covered by
--the GNU Lesser General Public License instead.)  You can apply it to
--your programs, too.
--
--  When we speak of free software, we are referring to freedom, not
--price.  Our General Public Licenses are designed to make sure that you
--have the freedom to distribute copies of free software (and charge for
--this service if you wish), that you receive source code or can get it
--if you want it, that you can change the software or use pieces of it
--in new free programs; and that you know you can do these things.
--
--  To protect your rights, we need to make restrictions that forbid
--anyone to deny you these rights or to ask you to surrender the rights.
--These restrictions translate to certain responsibilities for you if you
--distribute copies of the software, or if you modify it.
--
--  For example, if you distribute copies of such a program, whether
--gratis or for a fee, you must give the recipients all the rights that
--you have.  You must make sure that they, too, receive or can get the
--source code.  And you must show them these terms so they know their
--rights.
--
--  We protect your rights with two steps: (1) copyright the software, and
--(2) offer you this license which gives you legal permission to copy,
--distribute and/or modify the software.
--
--  Also, for each author's protection and ours, we want to make certain
--that everyone understands that there is no warranty for this free
--software.  If the software is modified by someone else and passed on, we
--want its recipients to know that what they have is not the original, so
--that any problems introduced by others will not reflect on the original
--authors' reputations.
--
--  Finally, any free program is threatened constantly by software
--patents.  We wish to avoid the danger that redistributors of a free
--program will individually obtain patent licenses, in effect making the
--program proprietary.  To prevent this, we have made it clear that any
--patent must be licensed for everyone's free use or not licensed at all.
--
--  The precise terms and conditions for copying, distribution and
--modification follow.
--
--		    GNU GENERAL PUBLIC LICENSE
--   TERMS AND CONDITIONS FOR COPYING, DISTRIBUTION AND MODIFICATION
--
--  0. This License applies to any program or other work which contains
--a notice placed by the copyright holder saying it may be distributed
--under the terms of this General Public License.  The "Program", below,
--refers to any such program or work, and a "work based on the Program"
--means either the Program or any derivative work under copyright law:
--that is to say, a work containing the Program or a portion of it,
--either verbatim or with modifications and/or translated into another
--language.  (Hereinafter, translation is included without limitation in
--the term "modification".)  Each licensee is addressed as "you".
--
--Activities other than copying, distribution and modification are not
--covered by this License; they are outside its scope.  The act of
--running the Program is not restricted, and the output from the Program
--is covered only if its contents constitute a work based on the
--Program (independent of having been made by running the Program).
--Whether that is true depends on what the Program does.
--
--  1. You may copy and distribute verbatim copies of the Program's
--source code as you receive it, in any medium, provided that you
--conspicuously and appropriately publish on each copy an appropriate
--copyright notice and disclaimer of warranty; keep intact all the
--notices that refer to this License and to the absence of any warranty;
--and give any other recipients of the Program a copy of this License
--along with the Program.
--
--You may charge a fee for the physical act of transferring a copy, and
--you may at your option offer warranty protection in exchange for a fee.
--
--  2. You may modify your copy or copies of the Program or any portion
--of it, thus forming a work based on the Program, and copy and
--distribute such modifications or work under the terms of Section 1
--above, provided that you also meet all of these conditions:
--
--    a) You must cause the modified files to carry prominent notices
--    stating that you changed the files and the date of any change.
--
--    b) You must cause any work that you distribute or publish, that in
--    whole or in part contains or is derived from the Program or any
--    part thereof, to be licensed as a whole at no charge to all third
--    parties under the terms of this License.
--
--    c) If the modified program normally reads commands interactively
--    when run, you must cause it, when started running for such
--    interactive use in the most ordinary way, to print or display an
--    announcement including an appropriate copyright notice and a
--    notice that there is no warranty (or else, saying that you provide
--    a warranty) and that users may redistribute the program under
--    these conditions, and telling the user how to view a copy of this
--    License.  (Exception: if the Program itself is interactive but
--    does not normally print such an announcement, your work based on
--    the Program is not required to print an announcement.)
--
--These requirements apply to the modified work as a whole.  If
--identifiable sections of that work are not derived from the Program,
--and can be reasonably considered independent and separate works in
--themselves, then this License, and its terms, do not apply to those
--sections when you distribute them as separate works.  But when you
--distribute the same sections as part of a whole which is a work based
--on the Program, the distribution of the whole must be on the terms of
--this License, whose permissions for other licensees extend to the
--entire whole, and thus to each and every part regardless of who wrote it.
--
--Thus, it is not the intent of this section to claim rights or contest
--your rights to work written entirely by you; rather, the intent is to
--exercise the right to control the distribution of derivative or
--collective works based on the Program.
--
--In addition, mere aggregation of another work not based on the Program
--with the Program (or with a work based on the Program) on a volume of
--a storage or distribution medium does not bring the other work under
--the scope of this License.
--
--  3. You may copy and distribute the Program (or a work based on it,
--under Section 2) in object code or executable form under the terms of
--Sections 1 and 2 above provided that you also do one of the following:
--
--    a) Accompany it with the complete corresponding machine-readable
--    source code, which must be distributed under the terms of Sections
--    1 and 2 above on a medium customarily used for software interchange; or,
--
--    b) Accompany it with a written offer, valid for at least three
--    years, to give any third party, for a charge no more than your
--    cost of physically performing source distribution, a complete
--    machine-readable copy of the corresponding source code, to be
--    distributed under the terms of Sections 1 and 2 above on a medium
--    customarily used for software interchange; or,
--
--    c) Accompany it with the information you received as to the offer
--    to distribute corresponding source code.  (This alternative is
--    allowed only for noncommercial distribution and only if you
--    received the program in object code or executable form with such
--    an offer, in accord with Subsection b above.)
--
--The source code for a work means the preferred form of the work for
--making modifications to it.  For an executable work, complete source
--code means all the source code for all modules it contains, plus any
--associated interface definition files, plus the scripts used to
--control compilation and installation of the executable.  However, as a
--special exception, the source code distributed need not include
--anything that is normally distributed (in either source or binary
--form) with the major components (compiler, kernel, and so on) of the
--operating system on which the executable runs, unless that component
--itself accompanies the executable.
--
--If distribution of executable or object code is made by offering
--access to copy from a designated place, then offering equivalent
--access to copy the source code from the same place counts as
--distribution of the source code, even though third parties are not
--compelled to copy the source along with the object code.
--
--  4. You may not copy, modify, sublicense, or distribute the Program
--except as expressly provided under this License.  Any attempt
--otherwise to copy, modify, sublicense or distribute the Program is
--void, and will automatically terminate your rights under this License.
--However, parties who have received copies, or rights, from you under
--this License will not have their licenses terminated so long as such
--parties remain in full compliance.
--
--  5. You are not required to accept this License, since you have not
--signed it.  However, nothing else grants you permission to modify or
--distribute the Program or its derivative works.  These actions are
--prohibited by law if you do not accept this License.  Therefore, by
--modifying or distributing the Program (or any work based on the
--Program), you indicate your acceptance of this License to do so, and
--all its terms and conditions for copying, distributing or modifying
--the Program or works based on it.
--
--  6. Each time you redistribute the Program (or any work based on the
--Program), the recipient automatically receives a license from the
--original licensor to copy, distribute or modify the Program subject to
--these terms and conditions.  You may not impose any further
--restrictions on the recipients' exercise of the rights granted herein.
--You are not responsible for enforcing compliance by third parties to
--this License.
--
--  7. If, as a consequence of a court judgment or allegation of patent
--infringement or for any other reason (not limited to patent issues),
--conditions are imposed on you (whether by court order, agreement or
--otherwise) that contradict the conditions of this License, they do not
--excuse you from the conditions of this License.  If you cannot
--distribute so as to satisfy simultaneously your obligations under this
--License and any other pertinent obligations, then as a consequence you
--may not distribute the Program at all.  For example, if a patent
--license would not permit royalty-free redistribution of the Program by
--all those who receive copies directly or indirectly through you, then
--the only way you could satisfy both it and this License would be to
--refrain entirely from distribution of the Program.
--
--If any portion of this section is held invalid or unenforceable under
--any particular circumstance, the balance of the section is intended to
--apply and the section as a whole is intended to apply in other
--circumstances.
--
--It is not the purpose of this section to induce you to infringe any
--patents or other property right claims or to contest validity of any
--such claims; this section has the sole purpose of protecting the
--integrity of the free software distribution system, which is
--implemented by public license practices.  Many people have made
--generous contributions to the wide range of software distributed
--through that system in reliance on consistent application of that
--system; it is up to the author/donor to decide if he or she is willing
--to distribute software through any other system and a licensee cannot
--impose that choice.
--
--This section is intended to make thoroughly clear what is believed to
--be a consequence of the rest of this License.
--
--  8. If the distribution and/or use of the Program is restricted in
--certain countries either by patents or by copyrighted interfaces, the
--original copyright holder who places the Program under this License
--may add an explicit geographical distribution limitation excluding
--those countries, so that distribution is permitted only in or among
--countries not thus excluded.  In such case, this License incorporates
--the limitation as if written in the body of this License.
--
--  9. The Free Software Foundation may publish revised and/or new versions
--of the General Public License from time to time.  Such new versions will
--be similar in spirit to the present version, but may differ in detail to
--address new problems or concerns.
--
--Each version is given a distinguishing version number.  If the Program
--specifies a version number of this License which applies to it and "any
--later version", you have the option of following the terms and conditions
--either of that version or of any later version published by the Free
--Software Foundation.  If the Program does not specify a version number of
--this License, you may choose any version ever published by the Free Software
--Foundation.
--
--  10. If you wish to incorporate parts of the Program into other free
--programs whose distribution conditions are different, write to the author
--to ask for permission.  For software which is copyrighted by the Free
--Software Foundation, write to the Free Software Foundation; we sometimes
--make exceptions for this.  Our decision will be guided by the two goals
--of preserving the free status of all derivatives of our free software and
--of promoting the sharing and reuse of software generally.
--
--			    NO WARRANTY
--
--  11. BECAUSE THE PROGRAM IS LICENSED FREE OF CHARGE, THERE IS NO WARRANTY
--FOR THE PROGRAM, TO THE EXTENT PERMITTED BY APPLICABLE LAW.  EXCEPT WHEN
--OTHERWISE STATED IN WRITING THE COPYRIGHT HOLDERS AND/OR OTHER PARTIES
--PROVIDE THE PROGRAM "AS IS" WITHOUT WARRANTY OF ANY KIND, EITHER EXPRESSED
--OR IMPLIED, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF
--MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.  THE ENTIRE RISK AS
--TO THE QUALITY AND PERFORMANCE OF THE PROGRAM IS WITH YOU.  SHOULD THE
--PROGRAM PROVE DEFECTIVE, YOU ASSUME THE COST OF ALL NECESSARY SERVICING,
--REPAIR OR CORRECTION.
--
--  12. IN NO EVENT UNLESS REQUIRED BY APPLICABLE LAW OR AGREED TO IN WRITING
--WILL ANY COPYRIGHT HOLDER, OR ANY OTHER PARTY WHO MAY MODIFY AND/OR
--REDISTRIBUTE THE PROGRAM AS PERMITTED ABOVE, BE LIABLE TO YOU FOR DAMAGES,
--INCLUDING ANY GENERAL, SPECIAL, INCIDENTAL OR CONSEQUENTIAL DAMAGES ARISING
--OUT OF THE USE OR INABILITY TO USE THE PROGRAM (INCLUDING BUT NOT LIMITED
--TO LOSS OF DATA OR DATA BEING RENDERED INACCURATE OR LOSSES SUSTAINED BY
--YOU OR THIRD PARTIES OR A FAILURE OF THE PROGRAM TO OPERATE WITH ANY OTHER
--PROGRAMS), EVEN IF SUCH HOLDER OR OTHER PARTY HAS BEEN ADVISED OF THE
--POSSIBILITY OF SUCH DAMAGES.
--
--		     END OF TERMS AND CONDITIONS
--
--	    How to Apply These Terms to Your New Programs
--
--  If you develop a new program, and you want it to be of the greatest
--possible use to the public, the best way to achieve this is to make it
--free software which everyone can redistribute and change under these terms.
--
--  To do so, attach the following notices to the program.  It is safest
--to attach them to the start of each source file to most effectively
--convey the exclusion of warranty; and each file should have at least
--the "copyright" line and a pointer to where the full notice is found.
--
--    <one line to give the program's name and a brief idea of what it does.>
--    Copyright (C) <year>  <name of author>
--
--    This program is free software; you can redistribute it and/or modify
--    it under the terms of the GNU General Public License as published by
--    the Free Software Foundation; either version 2 of the License, or
--    (at your option) any later version.
--
--    This program is distributed in the hope that it will be useful,
--    but WITHOUT ANY WARRANTY; without even the implied warranty of
--    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
--    GNU General Public License for more details.
--
--    You should have received a copy of the GNU General Public License along
--    with this program; if not, write to the Free Software Foundation, Inc.,
--    51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
--
--Also add information on how to contact you by electronic and paper mail.
--
--If the program is interactive, make it output a short notice like this
--when it starts in an interactive mode:
--
--    Gnomovision version 69, Copyright (C) year name of author
--    Gnomovision comes with ABSOLUTELY NO WARRANTY; for details type `show w'.
--    This is free software, and you are welcome to redistribute it
--    under certain conditions; type `show c' for details.
--
--The hypothetical commands `show w' and `show c' should show the appropriate
--parts of the General Public License.  Of course, the commands you use may
--be called something other than `show w' and `show c'; they could even be
--mouse-clicks or menu items--whatever suits your program.
--
--You should also get your employer (if you work as a programmer) or your
--school, if any, to sign a "copyright disclaimer" for the program, if
--necessary.  Here is a sample; alter the names:
--
--  Yoyodyne, Inc., hereby disclaims all copyright interest in the program
--  `Gnomovision' (which makes passes at compilers) written by James Hacker.
--
--  <signature of Ty Coon>, 1 April 1989
--  Ty Coon, President of Vice
--
--This General Public License does not permit incorporating your program into
--proprietary programs.  If your program is a subroutine library, you may
--consider it more useful to permit linking proprietary applications with the
--library.  If this is what you want to do, use the GNU Lesser General
--Public License instead of this License.
-diff --git a/meta/recipes-core/sysvinit/sysvinit-inittab_2.88dsf.bb b/meta/recipes-core/sysvinit/sysvinit-inittab_2.88dsf.bb
-index 3a716d7..9bd087c 100644
---- a/meta/recipes-core/sysvinit/sysvinit-inittab_2.88dsf.bb
-+++ b/meta/recipes-core/sysvinit/sysvinit-inittab_2.88dsf.bb
-@@ -1,20 +1,15 @@
- DESCRIPTION = "Inittab for sysvinit"
- LICENSE = "GPLv2"
--LIC_FILES_CHKSUM = "file://COPYING;md5=751419260aa954499f7abaabaa882bbe"
-+LIC_FILES_CHKSUM = "file://${COREBASE}/meta/files/common-licenses/GPL-2.0;md5=801f80980d171dd6425610833a22dbe6"
- 
- PR = "r6"
- 
--SRC_URI = "file://COPYING \
--           file://inittab"
-+SRC_URI = "file://inittab"
- 
- S = "${WORKDIR}/sysvinit-${PV}"
- 
- INHIBIT_DEFAULT_DEPS = "1"
- 
--do_configure() {
--	cp ${WORKDIR}/COPYING ${S}/
--}
--
- do_compile() {
- 	:
- }
--- 
-1.7.0.4
+--=20
+Yi Qingliang
+niqingliang@insigma.com.cn
+https://niqingliang2003.wordpress.com
 
 
 
