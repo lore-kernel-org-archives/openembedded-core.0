@@ -1,17 +1,27 @@
-Received: from bluegiga.fi ([194.100.31.45] helo=blue-gw.bluegiga.fi)
+Received: from mga11.intel.com ([192.55.52.93])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <lauri.hintsala@bluegiga.com>) id 1S9ymJ-0007Of-BM
+	(envelope-from <paul.eggleton@linux.intel.com>) id 1S9z23-0007en-Do
 	for openembedded-core@lists.openembedded.org;
-	Tue, 20 Mar 2012 14:07:07 +0100
-Received: from bgtlh.bgt.local (unknown [10.1.1.28])
-	by blue-gw.bluegiga.fi (Postfix) with ESMTP id 5EBA07BE26E;
-	Tue, 20 Mar 2012 14:58:16 +0200 (EET)
-From: Lauri Hintsala <lauri.hintsala@bluegiga.com>
-To: openembedded-core@lists.openembedded.org
-Date: Tue, 20 Mar 2012 14:58:02 +0200
-Message-Id: <1332248282-5226-1-git-send-email-lauri.hintsala@bluegiga.com>
-X-Mailer: git-send-email 1.7.4.1
-Subject: [PATCH 1/1] xserver-kdrive: compile xserver without dtrace support
+	Tue, 20 Mar 2012 14:23:23 +0100
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+	by fmsmga102.fm.intel.com with ESMTP; 20 Mar 2012 06:14:29 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="141861004"
+Received: from unknown (HELO helios.localnet) ([10.252.123.195])
+	by fmsmga002.fm.intel.com with ESMTP; 20 Mar 2012 06:14:29 -0700
+From: Paul Eggleton <paul.eggleton@linux.intel.com>
+To: Koen Kooi <koen@dominion.thruhere.net>
+Date: Tue, 20 Mar 2012 13:14:28 +0000
+Message-ID: <27193241.TpUGZafhRb@helios>
+Organization: Intel Corporation
+User-Agent: KMail/4.8.0 (Linux/3.0.0-16-generic-pae; KDE/4.8.1; i686; ; )
+In-Reply-To: <C78FED4E-E3C7-4369-9622-0A4C6AA009DC@dominion.thruhere.net>
+References: <1332241255-5083-1-git-send-email-koen@dominion.thruhere.net>
+	<1812139.SkpSglmEkv@helios>
+	<C78FED4E-E3C7-4369-9622-0A4C6AA009DC@dominion.thruhere.net>
+MIME-Version: 1.0
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH 3/3] buildhistory: remove duplicate entries from dot graph
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -26,49 +36,38 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 20 Mar 2012 13:07:07 -0000
+X-List-Received-Date: Tue, 20 Mar 2012 13:23:23 -0000
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
 
-Cross compiling of xserver-kdrive fails if dtrace is enabled. Configure
-script enables dtrace automatically if dtrace binary exists. xserver-kdrive
-compiling was failed if systemtap package was builded beforehand because
-systemtap provides dtrace binary.
+On Tuesday 20 March 2012 13:11:38 Koen Kooi wrote:
+> I think I know why [2] doesn't work:
+> 
+> koen@dominion:/data/ssd/OE/buildhistory$ echo b c a | sort
+> b c a
+> koen@dominion:/data/ssd/OE/buildhistory$ echo -e b\\nc\\na | sort
+> a
+> b
+> c
 
-Signed-off-by: Lauri Hintsala <lauri.hintsala@bluegiga.com>
----
-This issue has been existed also with xserver-xorg. It was already fixed
-to xserver-xorg by commit 01c1a0f7.
----
- .../xorg-xserver/xserver-kdrive.inc                |    1 +
- .../xorg-xserver/xserver-kdrive_1.7.99.2.bb        |    2 +-
- 2 files changed, 2 insertions(+), 1 deletions(-)
+Ah, yes, that would explain it. I've primarily been testing with rpm for which 
+list_package_depends produces the output on separate lines, whereas the ipk 
+version is all on one line; it only matters when doing the sort. Oops!
 
-diff --git a/meta/recipes-graphics/xorg-xserver/xserver-kdrive.inc b/meta/recipes-graphics/xorg-xserver/xserver-kdrive.inc
-index 52b63ed..58dee27 100644
---- a/meta/recipes-graphics/xorg-xserver/xserver-kdrive.inc
-+++ b/meta/recipes-graphics/xorg-xserver/xserver-kdrive.inc
-@@ -102,6 +102,7 @@ EXTRA_OECONF = "--enable-composite --enable-kdrive \
-                 --disable-xkb --disable-xnest --disable-xvfb \
-                 --disable-xevie --disable-xprint --disable-xtrap \
-                 --disable-dmx \
-+                --without-dtrace \
-                 --with-default-font-path=built-ins \
-                 --enable-tslib --enable-xcalibrate \
-                 ac_cv_file__usr_share_X11_sgml_defs_ent=no"
-diff --git a/meta/recipes-graphics/xorg-xserver/xserver-kdrive_1.7.99.2.bb b/meta/recipes-graphics/xorg-xserver/xserver-kdrive_1.7.99.2.bb
-index 3b3a004..360a0f3 100644
---- a/meta/recipes-graphics/xorg-xserver/xserver-kdrive_1.7.99.2.bb
-+++ b/meta/recipes-graphics/xorg-xserver/xserver-kdrive_1.7.99.2.bb
-@@ -7,7 +7,7 @@ RDEPENDS_${PN} += "xkeyboard-config"
- EXTRA_OECONF += "--disable-glx"
- 
- PE = "1"
--PR = "r28"
-+PR = "r29"
- 
- SRC_URI = "${XORG_MIRROR}/individual/xserver/xorg-server-${PV}.tar.bz2 \
- 	file://extra-kmodes.patch \
+> Let me know how you want me to respin this series, each commit is an RFC on
+> its own.
+
+If you wouldn't mind I think the easiest thing is to drop the sort/uniq on the 
+depends/recommends and just rely on the one at the end that you're adding. It 
+does mean we'll have a one-time resort of the recommends and depends together 
+but at least it will work properly for all package backends.
+
+Thanks,
+Paul
+
 -- 
-1.7.4.1
 
+Paul Eggleton
+Intel Open Source Technology Centre
 
 
