@@ -1,31 +1,25 @@
-Received: from mail.windriver.com ([147.11.1.11])
+Received: from mga02.intel.com ([134.134.136.20])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <Xiaofeng.Yan@windriver.com>) id 1S9vgW-0000MO-Gy
+	(envelope-from <paul.eggleton@linux.intel.com>) id 1S9vjf-0000QF-Oe
 	for openembedded-core@lists.openembedded.org;
-	Tue, 20 Mar 2012 10:48:56 +0100
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca [147.11.189.40])
-	by mail.windriver.com (8.14.3/8.14.3) with ESMTP id q2K9e2Vx029782
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 20 Mar 2012 02:40:02 -0700 (PDT)
-Received: from [128.224.162.223] (128.224.162.223) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server (TLS) id 14.1.255.0;
-	Tue, 20 Mar 2012 02:40:02 -0700
-Message-ID: <4F685087.6080303@windriver.com>
-Date: Tue, 20 Mar 2012 17:40:23 +0800
-From: Xiaofeng Yan <xiaofeng.yan@windriver.com>
-User-Agent: Mozilla/5.0 (X11; U; Linux i686; en-US;
-	rv:1.9.2.23) Gecko/20110921 Thunderbird/3.1.15
+	Tue, 20 Mar 2012 10:52:12 +0100
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+	by orsmga101.jf.intel.com with ESMTP; 20 Mar 2012 02:43:18 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.67,351,1309762800"; d="scan'208";a="122849503"
+Received: from unknown (HELO helios.localnet) ([10.252.123.195])
+	by orsmga002.jf.intel.com with ESMTP; 20 Mar 2012 02:43:17 -0700
+From: Paul Eggleton <paul.eggleton@linux.intel.com>
+To: Robert Yang <liezhi.yang@windriver.com>
+Date: Tue, 20 Mar 2012 09:43:16 +0000
+Message-ID: <1757423.DE0kMhjxZk@helios>
+Organization: Intel Corporation
+User-Agent: KMail/4.8.0 (Linux/3.0.0-16-generic-pae; KDE/4.8.1; i686; ; )
+In-Reply-To: <4F684301.5060307@windriver.com>
+References: <4F684301.5060307@windriver.com>
 MIME-Version: 1.0
-To: <openembedded-core@lists.openembedded.org>
-References: <cover.1331877464.git.xiaofeng.yan@windriver.com>	<22ff60ec34d2c54393d4ceb2a81394c6512baa17.1331877464.git.xiaofeng.yan@windriver.com>	<4F679F53.40302@linux.intel.com>
-	<4F681A97.4020201@windriver.com>
-	<665F9083-9747-4972-BCDE-BCE209266221@dominion.thruhere.net>
-In-Reply-To: <665F9083-9747-4972-BCDE-BCE209266221@dominion.thruhere.net>
-X-Originating-IP: [128.224.162.223]
-X-MIME-Autoconverted: from 8bit to quoted-printable by mail.windriver.com id
-	q2K9e2Vx029782
-Subject: Re: [PATCH 2/7] archiver.bbclass: New bbclass for	archiving sources, patches, logs and scripts
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: Why qemu-config RDPENDS on distcc ?
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -40,33 +34,32 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 20 Mar 2012 09:48:56 -0000
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Tue, 20 Mar 2012 09:52:12 -0000
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
 
-On 2012=E5=B9=B403=E6=9C=8820=E6=97=A5 16:07, Koen Kooi wrote:
-> Op 20 mrt. 2012, om 06:50 heeft Xiaofeng Yan het volgende geschreven:
->
->> On 2012=E5=B9=B403=E6=9C=8820=E6=97=A5 05:04, Saul Wold wrote:
->>> On 03/15/2012 11:23 PM, Xiaofeng Yan wrote:
->>>> From: Xiaofeng Yan<xiaofeng.yan@windriver.com>
->>>>
->>> Why do you rebuild the tarball here are rename it instead of just cop=
-ying the original tarball?
->>>
->> because many packages come from non-tarball and they could be git sour=
-ces , So I archive these sources after do_unpack.
-> But if you have the original tarball and reuse it, you'll get the warm =
-fuzzy feeling of matching checksums.
-So How about  renaming archive-original-source to archive-prepatched-sour=
-ce?
-> regards,
->
-> Koen
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
+On Tuesday 20 March 2012 16:42:41 Robert Yang wrote:
+> I'm just curious that qemu-config RDPENDS on distcc:
+> 
+> meta/recipes-bsp/qemu-config/qemu-config.bb:RDEPENDS_${PN} = "distcc ..."
+> 
+> And there are 4 processes named "distcc" running after boot the target
+> with "runqemu qemux86".
+> 
+> We have distcc on the target, but no gcc or g++, can we remove it from
+> qemu-config's RDEPENDS?
 
+I think the idea was that if you wanted to do compilation on the emulated 
+target, having distcc would let you do it with much better performance. I  
+agree it seems that it's not particularly useful if you're never going to do 
+any compilation on the target though.
+
+Cheers,
+Paul
+
+-- 
+
+Paul Eggleton
+Intel Open Source Technology Centre
 
 
