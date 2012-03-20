@@ -1,44 +1,25 @@
-Received: from mga06.intel.com ([134.134.136.21] helo=orsmga101.jf.intel.com)
+Received: from mga02.intel.com ([134.134.136.20])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <saul.wold@intel.com>) id 1SA80O-0003DD-PM
+	(envelope-from <sgw@linux.intel.com>) id 1SA81e-0003Fd-PE
 	for openembedded-core@lists.openembedded.org;
-	Tue, 20 Mar 2012 23:58:16 +0100
-Received: from mail-pb0-f52.google.com ([209.85.160.52])
-	by mga02.intel.com with ESMTP/TLS/RC4-SHA; 20 Mar 2012 15:49:22 -0700
-Received: by pbcuo15 with SMTP id uo15so1528543pbc.25
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 20 Mar 2012 15:49:22 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=google.com; s=20120113;
-	h=message-id:date:from:organization:user-agent:mime-version:to:cc
-	:subject:references:in-reply-to:content-type
-	:content-transfer-encoding:x-gm-message-state;
-	bh=DBKBp5yeNpy2EDHX1B6qMefy5wEBwiaK7lLqx4k/hZg=;
-	b=FqJJkiTZfRw8RFSUjXhsaFHXQynuUjYY+YDlNYcjg/3OLjcvd/O0izn8OXfVPR6oM4
-	FSWmK6kT7B3/QKy3baUPFo/DZrT6ZFcmnk/DZQPK2sIqoFB0yHjQKHFbeSYqP4KtB+bd
-	p5gj4epmYd+v/W1M66Ymrz8CLIGtkAl1RY0TV+J3Xkk8RHGX2rtuvvHlT/Pp4Keu5sjC
-	fpHu0vL0u0wf90fa6jV3U2Obt1T8Lf0DktUEsXi3RsGhFkeZ3E6nQ3hKDydoNbHCuMbX
-	I+o9VlQ0pQ/fiKTHa9m/JZYS7JqIG/eLWRbZNWWhpptZNckWg/XlU9t/D2LiPPlyzcW1
-	jp1g==
-Received: by 10.68.230.99 with SMTP id sx3mr5298157pbc.55.1332283762231;
-	Tue, 20 Mar 2012 15:49:22 -0700 (PDT)
-Received: from [10.6.18.71] (c-71-193-189-117.hsd1.wa.comcast.net.
-	[71.193.189.117])
-	by mx.google.com with ESMTPS id f6sm2211213pbt.4.2012.03.20.15.49.20
-	(version=SSLv3 cipher=OTHER); Tue, 20 Mar 2012 15:49:21 -0700 (PDT)
-Message-ID: <4F69096F.8050604@intel.com>
-Date: Tue, 20 Mar 2012 15:49:19 -0700
-From: Saul Wold <saul.wold@intel.com>
-Organization: Intel
+	Tue, 20 Mar 2012 23:59:34 +0100
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+	by orsmga101.jf.intel.com with ESMTP; 20 Mar 2012 15:50:41 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.67,352,1309762800"; d="scan'208";a="119753958"
+Received: from unknown (HELO [10.255.15.160]) ([10.255.15.160])
+	by orsmga001.jf.intel.com with ESMTP; 20 Mar 2012 15:50:40 -0700
+Message-ID: <4F6909C0.8060900@linux.intel.com>
+Date: Tue, 20 Mar 2012 15:50:40 -0700
+From: Saul Wold <sgw@linux.intel.com>
 User-Agent: Mozilla/5.0 (X11; Linux x86_64;
 	rv:10.0.1) Gecko/20120216 Thunderbird/10.0.1
 MIME-Version: 1.0
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-References: <cover.1332179433.git.bruce.ashfield@windriver.com>
-In-Reply-To: <cover.1332179433.git.bruce.ashfield@windriver.com>
-X-Gm-Message-State: ALoCoQmNmhOz4iwEptu72K2txSug4E29tV6szgGJlmrnYrlVwjicmToEXIs/Hd/hyUdWdIV1FRtm
-Subject: Re: [PATCH 0/1] lttng-2.0: fix compiliation error
+References: <1332248282-5226-1-git-send-email-lauri.hintsala@bluegiga.com>
+In-Reply-To: <1332248282-5226-1-git-send-email-lauri.hintsala@bluegiga.com>
+Subject: Re: [PATCH 1/1] xserver-kdrive: compile xserver without dtrace support
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -53,43 +34,54 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 20 Mar 2012 22:58:17 -0000
+X-List-Received-Date: Tue, 20 Mar 2012 22:59:35 -0000
 Content-Type: text/plain; charset=ISO-8859-1; format=flowed
 Content-Transfer-Encoding: 7bit
 
-On 03/19/2012 10:53 AM, Bruce Ashfield wrote:
-> Richard/Saul,
+On 03/20/2012 05:58 AM, Lauri Hintsala wrote:
+> Cross compiling of xserver-kdrive fails if dtrace is enabled. Configure
+> script enables dtrace automatically if dtrace binary exists. xserver-kdrive
+> compiling was failed if systemtap package was builded beforehand because
+> systemtap provides dtrace binary.
 >
-> Here's a fix for the recent lttng-2.0 modules build error that
-> was reported. The recent -stable update created a collision with
-> is_compat_task() that was already being defined as a fallback
-> within lttng 2.0.
+> Signed-off-by: Lauri Hintsala<lauri.hintsala@bluegiga.com>
+> ---
+> This issue has been existed also with xserver-xorg. It was already fixed
+> to xserver-xorg by commit 01c1a0f7.
+> ---
+>   .../xorg-xserver/xserver-kdrive.inc                |    1 +
+>   .../xorg-xserver/xserver-kdrive_1.7.99.2.bb        |    2 +-
+>   2 files changed, 2 insertions(+), 1 deletions(-)
 >
-> I've made a patch fix, versus updating lttng-2.0 .. since churning
-> this package would be a good idea right now.
+> diff --git a/meta/recipes-graphics/xorg-xserver/xserver-kdrive.inc b/meta/recipes-graphics/xorg-xserver/xserver-kdrive.inc
+> index 52b63ed..58dee27 100644
+> --- a/meta/recipes-graphics/xorg-xserver/xserver-kdrive.inc
+> +++ b/meta/recipes-graphics/xorg-xserver/xserver-kdrive.inc
+> @@ -102,6 +102,7 @@ EXTRA_OECONF = "--enable-composite --enable-kdrive \
+>                   --disable-xkb --disable-xnest --disable-xvfb \
+>                   --disable-xevie --disable-xprint --disable-xtrap \
+>                   --disable-dmx \
+> +                --without-dtrace \
+>                   --with-default-font-path=built-ins \
+>                   --enable-tslib --enable-xcalibrate \
+>                   ac_cv_file__usr_share_X11_sgml_defs_ent=no"
+> diff --git a/meta/recipes-graphics/xorg-xserver/xserver-kdrive_1.7.99.2.bb b/meta/recipes-graphics/xorg-xserver/xserver-kdrive_1.7.99.2.bb
+> index 3b3a004..360a0f3 100644
+> --- a/meta/recipes-graphics/xorg-xserver/xserver-kdrive_1.7.99.2.bb
+> +++ b/meta/recipes-graphics/xorg-xserver/xserver-kdrive_1.7.99.2.bb
+> @@ -7,7 +7,7 @@ RDEPENDS_${PN} += "xkeyboard-config"
+>   EXTRA_OECONF += "--disable-glx"
 >
-> Cheers,
+>   PE = "1"
+> -PR = "r28"
+> +PR = "r29"
 >
-> Bruce
->
-> The following changes since commit a9873f12e5ba11e1307440901d07e9642e9f53bf:
->
->    pigz: Ensure DEPENDS on zlib exists for native and target versions (2012-03-19 14:37:46 +0000)
->
-> are available in the git repository at:
->    git://git.pokylinux.org/poky-contrib zedd/kernel
->    http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=zedd/kernel
->   compliation error with 3.2.x -stable kernels
->
->   ...ls-protect-is_compat_task-from-redefiniti.patch |   41 ++++++++++++++++++++
->   .../lttng-2.0/lttng-modules_2.0.pre11.bb           |    3 +-
->   2 files changed, 43 insertions(+), 1 deletions(-)
->   create mode 100644 meta/recipes-kernel/lttng-2.0/lttng-modules/lttng-sycalls-protect-is_compat_task-from-redefiniti.patch
->
+>   SRC_URI = "${XORG_MIRROR}/individual/xserver/xorg-server-${PV}.tar.bz2 \
+>   	file://extra-kmodes.patch \
+
 Merged into OE-Core
 
 Thanks
 	Sau!
-
 
 
