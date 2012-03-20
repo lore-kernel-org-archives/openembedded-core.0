@@ -1,30 +1,42 @@
-Received: from mga03.intel.com ([143.182.124.21])
-	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <dvhart@linux.intel.com>) id 1SA1Dy-0004c9-C0
-	for openembedded-core@lists.openembedded.org;
-	Tue, 20 Mar 2012 16:43:50 +0100
-Received: from azsmga002.ch.intel.com ([10.2.17.35])
-	by azsmga101.ch.intel.com with ESMTP; 20 Mar 2012 08:34:56 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="79615758"
-Received: from unknown (HELO envy.home) ([10.255.15.194])
-	by AZSMGA002.ch.intel.com with ESMTP; 20 Mar 2012 08:33:56 -0700
-Message-ID: <4F68A33A.7060604@linux.intel.com>
-Date: Tue, 20 Mar 2012 08:33:14 -0700
-From: Darren Hart <dvhart@linux.intel.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:10.0.1) Gecko/20120209 Thunderbird/10.0.1
+Received: from mail-out.m-online.net ([212.18.0.10])
+	by linuxtogo.org with esmtp (Exim 4.72) (envelope-from <wd@denx.de>)
+	id 1SA1iq-0006nU-3C for openembedded-core@lists.openembedded.org;
+	Tue, 20 Mar 2012 17:15:44 +0100
+Received: from frontend1.mail.m-online.net (frontend1.mail.intern.m-online.net
+	[192.168.8.180])
+	by mail-out.m-online.net (Postfix) with ESMTP id 3VBzY93MPJz3hhwH;
+	Tue, 20 Mar 2012 17:06:53 +0100 (CET)
+Received: from localhost (dynscan1.mnet-online.de [192.168.8.164])
+	by mail.m-online.net (Postfix) with ESMTP id 3VBzY93XxWz4KK7M;
+	Tue, 20 Mar 2012 17:06:53 +0100 (CET)
+X-Virus-Scanned: amavisd-new at mnet-online.de
+Received: from smtp-auth.mnet-online.de ([192.168.8.180])
+	by localhost (dynscan1.mail.m-online.net [192.168.8.164]) (amavisd-new,
+	port 10024)
+	with ESMTP id nnTbRBC1GGwX; Tue, 20 Mar 2012 17:06:53 +0100 (CET)
+Received: from diddl.denx.de (host-80-81-18-216.customer.m-online.net
+	[80.81.18.216]) by smtp-auth.mnet-online.de (Postfix) with ESMTPA;
+	Tue, 20 Mar 2012 17:06:52 +0100 (CET)
+Received: from gemini.denx.de (gemini.denx.de [10.0.0.2])
+	by diddl.denx.de (Postfix) with ESMTP id 997211A6535;
+	Tue, 20 Mar 2012 17:06:52 +0100 (CET)
+Received: from gemini.denx.de (localhost [127.0.0.1])
+	by gemini.denx.de (Postfix) with ESMTP id A53E1202A50;
+	Tue, 20 Mar 2012 17:06:51 +0100 (CET)
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
+From: Wolfgang Denk <wd@denx.de>
 MIME-Version: 1.0
-To: Denys Dmytriyenko <denis@denix.org>
-References: <1332202974-27977-1-git-send-email-denis@denix.org>
-	<4F689BD8.4040201@linux.intel.com>
-	<20120320152846.GA22965@denix.org>
-In-Reply-To: <20120320152846.GA22965@denix.org>
-X-Enigmail-Version: 1.4
-Cc: Denys Dmytriyenko <denys@ti.com>,
-	Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] rt-tests: fix dependency on eglibc, clean LDFLAGS passing
+In-reply-to: <1332254996.9740.97.camel@ted>
+References: <20120319215934.5336A206060@gemini.denx.de>
+	<1332203843.9740.76.camel@ted>
+	<20120320103520.22B00202A50@gemini.denx.de>
+	<1332254996.9740.97.camel@ted>
+Comments: In-reply-to Richard Purdie <richard.purdie@linuxfoundation.org>
+	message dated "Tue, 20 Mar 2012 14:49:56 +0000."
+Date: Tue, 20 Mar 2012 17:06:51 +0100
+Message-Id: <20120320160651.A53E1202A50@gemini.denx.de>
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: specific version dependenciews
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -39,55 +51,50 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 20 Mar 2012 15:43:50 -0000
-Content-Type: text/plain; charset=ISO-8859-1
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Tue, 20 Mar 2012 16:15:44 -0000
+Content-type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
+Dear Richard,
 
+In message <1332254996.9740.97.camel@ted> you wrote:
+>
+> > How do I mark a package as machine specific?
+>=20
+> PACKAGE_ARCH =3D "${MACHINE_ARCH}"
+>=20
+> > And would setting "the preferred versions at the machine level" not b=
+e
+> > exactly what I am trying to avoid?
+> >=20
+> > I don't want to make the machine descriptions aware of any version
+> > dependencies between A and B.  I would like to put this information
+> > into the description of A, so that when a specific version of A gets
+> > built, automatically the matching version of B will be chosen.
+> >=20
+> > Can this be done?
+>=20
+> You could write the dependency A in the form:
+>=20
+> DEPENDS =3D "B-1.2"
+>=20
+> where 1.2 is version of B you want. This has been known to work in the
+> past but isn't well supported/well tested. It can work since B PROVIDES
+> "${PN}-${PV}".
 
-On 03/20/2012 08:28 AM, Denys Dmytriyenko wrote:
-> On Tue, Mar 20, 2012 at 08:01:44AM -0700, Darren Hart wrote:
->>
->>
->> On 03/19/2012 05:22 PM, Denys Dmytriyenko wrote:
->>> From: Denys Dmytriyenko <denys@ti.com>
->>>
->>> Replace dependency on eglibc with virtual/libc
->>> Pass LDFLAGS to TARGET_CC_ARCH, instead of CFLAGS as Makefile overrides it
->>>
->>> Signed-off-by: Denys Dmytriyenko <denys@ti.com>
->>
->> Thanks Denys,
->>
->> Looking through the rt-tests sources I don't see TARGET_CC_ARCH
->> anywhere. Have you confirmed that changes made there make their way into
->> the actual build?
-> 
-> Darren,
-> 
-> TARGET_CC_ARCH is not an rt-tests specific variable, it's used in OE. 
-> Although, TARGET_LDFLAGS might be more appropriate for this purpose, 
-> historically TARGET_CC_ARCH was heavily used to pass distro LDFLAGS to the 
-> app's build process - grepping it would show many such cases in OE-Core and 
-> especially in meta-oe...
+We will try this.
 
+Thanks a lot!
 
-OK, thanks for the context. Will you be resubmitting with TARGET_LDFLAGS?
+Best regards,
 
+Wolfgang Denk
 
->> What was the problem you ran into?
-> 
-> Not a problem per se, but it was not getting all the LDFLAGS being passed, 
-> more specifically:
-> 
-> -Wl,-O1 -Wl,--hash-style=gnu -Wl,--as-needed
-> 
-> BTW, in Classic OE it was failing on GNU Hash QA check w/o this.
-> 
-
--- 
-Darren Hart
-Intel Open Source Technology Center
-Yocto Project - Linux Kernel
+--=20
+DENX Software Engineering GmbH,     MD: Wolfgang Denk & Detlev Zundel
+HRB 165235 Munich, Office: Kirchenstr.5, D-82194 Groebenzell, Germany
+Phone: (+49)-8142-66989-10 Fax: (+49)-8142-66989-80 Email: wd@denx.de
+"Everybody is talking about the  weather  but  nobody  does  anything
+about it."                                               - Mark Twain
 
 
