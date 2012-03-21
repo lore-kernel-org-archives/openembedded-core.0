@@ -1,25 +1,42 @@
-Received: from mga02.intel.com ([134.134.136.20])
+Received: from mga05.intel.com ([192.55.52.89] helo=fmsmga101.fm.intel.com)
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <sgw@linux.intel.com>) id 1SA81e-0003Fd-PE
+	(envelope-from <scott.a.garman@intel.com>) id 1SA9f4-0004wU-3Y
 	for openembedded-core@lists.openembedded.org;
-	Tue, 20 Mar 2012 23:59:34 +0100
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-	by orsmga101.jf.intel.com with ESMTP; 20 Mar 2012 15:50:41 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.67,352,1309762800"; d="scan'208";a="119753958"
-Received: from unknown (HELO [10.255.15.160]) ([10.255.15.160])
-	by orsmga001.jf.intel.com with ESMTP; 20 Mar 2012 15:50:40 -0700
-Message-ID: <4F6909C0.8060900@linux.intel.com>
-Date: Tue, 20 Mar 2012 15:50:40 -0700
-From: Saul Wold <sgw@linux.intel.com>
+	Wed, 21 Mar 2012 01:44:22 +0100
+Received: from mail-pb0-f52.google.com ([209.85.160.52])
+	by mga01.intel.com with ESMTP/TLS/RC4-SHA; 20 Mar 2012 17:35:27 -0700
+Received: by pbcuo15 with SMTP id uo15so1725715pbc.25
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 20 Mar 2012 17:35:27 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=google.com; s=20120113;
+	h=message-id:date:from:user-agent:mime-version:to:subject:references
+	:in-reply-to:content-type:content-transfer-encoding
+	:x-gm-message-state;
+	bh=FzKZ4mQXuZsP1FY1axoqwFUqRe98YqljUtNFSkUi4dE=;
+	b=bH2jYaJ9opMT1C81mocTOX4v1VFN7VGdQlNXybJYsHUrKNSCWZHqJIAeE+8aSKu/9p
+	9vUMRA+4kBz1TAIwBsd+zMCI5Df+Txo6QawG+Z6kvAWulqRlHIAx06z9r3npBc0KEyWh
+	B8U7tcL7XU7yFChvl2IvhMbLteoxGPPYEN+ulpQ0i7BC/suUsoZLdomAAcoKtvogk/TY
+	KzUBMJXh5cDXRJh6VQuikVF0sV2+Fhic4aXo+oYcntVyJr6PvtbQ7QRS7vfFK9mCrtyl
+	a9M4utNAJT8QXVv5vuLEntWpPN16HaVEtZxcel7WYKCgm3hXRsDADmnJL6TbamXmBjIA
+	1QKA==
+Received: by 10.68.74.138 with SMTP id t10mr5733006pbv.126.1332290127520;
+	Tue, 20 Mar 2012 17:35:27 -0700 (PDT)
+Received: from [192.168.1.12] (c-76-105-137-48.hsd1.or.comcast.net.
+	[76.105.137.48])
+	by mx.google.com with ESMTPS id 6sm21002pbh.65.2012.03.20.17.35.25
+	(version=SSLv3 cipher=OTHER); Tue, 20 Mar 2012 17:35:26 -0700 (PDT)
+Message-ID: <4F69224E.7050901@intel.com>
+Date: Tue, 20 Mar 2012 17:35:26 -0700
+From: Scott Garman <scott.a.garman@intel.com>
 User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:10.0.1) Gecko/20120216 Thunderbird/10.0.1
+	rv:10.0.2) Gecko/20120216 Thunderbird/10.0.2
 MIME-Version: 1.0
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-References: <1332248282-5226-1-git-send-email-lauri.hintsala@bluegiga.com>
-In-Reply-To: <1332248282-5226-1-git-send-email-lauri.hintsala@bluegiga.com>
-Subject: Re: [PATCH 1/1] xserver-kdrive: compile xserver without dtrace support
+To: openembedded-core@lists.openembedded.org
+References: <cover.1332266918.git.scott.a.garman@intel.com>
+In-Reply-To: <cover.1332266918.git.scott.a.garman@intel.com>
+X-Gm-Message-State: ALoCoQlnXXlKTTiiTtKYu2n1odEnqwxP6Tf1TkuGuHZtIzlqEZQZpC6MII0Fbhx7Yq6yn8ynWc5g
+Subject: Re: [PATCH 0/1] openssl security upgrade
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -34,54 +51,30 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 20 Mar 2012 22:59:35 -0000
+X-List-Received-Date: Wed, 21 Mar 2012 00:44:22 -0000
 Content-Type: text/plain; charset=ISO-8859-1; format=flowed
 Content-Transfer-Encoding: 7bit
 
-On 03/20/2012 05:58 AM, Lauri Hintsala wrote:
-> Cross compiling of xserver-kdrive fails if dtrace is enabled. Configure
-> script enables dtrace automatically if dtrace binary exists. xserver-kdrive
-> compiling was failed if systemtap package was builded beforehand because
-> systemtap provides dtrace binary.
+On 03/20/2012 11:10 AM, Scott Garman wrote:
+> Hello,
 >
-> Signed-off-by: Lauri Hintsala<lauri.hintsala@bluegiga.com>
-> ---
-> This issue has been existed also with xserver-xorg. It was already fixed
-> to xserver-xorg by commit 01c1a0f7.
-> ---
->   .../xorg-xserver/xserver-kdrive.inc                |    1 +
->   .../xorg-xserver/xserver-kdrive_1.7.99.2.bb        |    2 +-
->   2 files changed, 2 insertions(+), 1 deletions(-)
+> This upgrade to the openssl recipe addresses a security vulnerability,
+> CVE-2012-0884. I would like to ensure it gets included in our upcoming
+> 1.2 release.
 >
-> diff --git a/meta/recipes-graphics/xorg-xserver/xserver-kdrive.inc b/meta/recipes-graphics/xorg-xserver/xserver-kdrive.inc
-> index 52b63ed..58dee27 100644
-> --- a/meta/recipes-graphics/xorg-xserver/xserver-kdrive.inc
-> +++ b/meta/recipes-graphics/xorg-xserver/xserver-kdrive.inc
-> @@ -102,6 +102,7 @@ EXTRA_OECONF = "--enable-composite --enable-kdrive \
->                   --disable-xkb --disable-xnest --disable-xvfb \
->                   --disable-xevie --disable-xprint --disable-xtrap \
->                   --disable-dmx \
-> +                --without-dtrace \
->                   --with-default-font-path=built-ins \
->                   --enable-tslib --enable-xcalibrate \
->                   ac_cv_file__usr_share_X11_sgml_defs_ent=no"
-> diff --git a/meta/recipes-graphics/xorg-xserver/xserver-kdrive_1.7.99.2.bb b/meta/recipes-graphics/xorg-xserver/xserver-kdrive_1.7.99.2.bb
-> index 3b3a004..360a0f3 100644
-> --- a/meta/recipes-graphics/xorg-xserver/xserver-kdrive_1.7.99.2.bb
-> +++ b/meta/recipes-graphics/xorg-xserver/xserver-kdrive_1.7.99.2.bb
-> @@ -7,7 +7,7 @@ RDEPENDS_${PN} += "xkeyboard-config"
->   EXTRA_OECONF += "--disable-glx"
->
->   PE = "1"
-> -PR = "r28"
-> +PR = "r29"
->
->   SRC_URI = "${XORG_MIRROR}/individual/xserver/xorg-server-${PV}.tar.bz2 \
->   	file://extra-kmodes.patch \
+> This upgrade has been build-tested on all 5 of our qemu architectures,
+> and I have inspected the image and package output to ensure there were
+> no significant differences between the output of this recipe upgrade
+> and the last version of openssl we were using.
 
-Merged into OE-Core
+I had forgotten to update the distro_tracking fields with this pull 
+request - so I've pushed a commit onto this branch to do so.
 
-Thanks
-	Sau!
+Scott
+
+-- 
+Scott Garman
+Embedded Linux Engineer - Yocto Project
+Intel Open Source Technology Center
 
 
