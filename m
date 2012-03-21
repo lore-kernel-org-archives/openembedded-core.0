@@ -1,23 +1,34 @@
-Received: from mga11.intel.com ([192.55.52.93])
-	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <nitin.a.kamble@intel.com>) id 1SAOdw-0003r2-RJ
-	for openembedded-core@lists.openembedded.org;
-	Wed, 21 Mar 2012 17:44:13 +0100
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-	by fmsmga102.fm.intel.com with ESMTP; 21 Mar 2012 09:35:18 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="131571765"
-Received: from nbuild0.sc.intel.com ([172.25.110.36])
-	by fmsmga001.fm.intel.com with ESMTP; 21 Mar 2012 09:35:17 -0700
-From: nitin.a.kamble@intel.com
-To: openembedded-core@lists.openembedded.org, eric@eukrea.com, fcooper@ti.com,
-	Martin.Jansa@gmail.com, richard.purdie@linuxfoundation.org
-Date: Wed, 21 Mar 2012 09:35:16 -0700
-Message-Id: <bfe0a5400cad2436b7be7d35a173c62349e47c0a.1332347414.git.nitin.a.kamble@intel.com>
-X-Mailer: git-send-email 1.7.6.4
-In-Reply-To: <cover.1332347414.git.nitin.a.kamble@intel.com>
-References: <cover.1332347414.git.nitin.a.kamble@intel.com>
-Subject: [PATCH 1/1] Revert "gdb-cross-canadian: build gdb with python support"
+Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
+	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <richard.purdie@linuxfoundation.org>)
+	id 1SAOx8-0004aB-0w for openembedded-core@lists.openembedded.org;
+	Wed, 21 Mar 2012 18:04:02 +0100
+Received: from localhost (localhost [127.0.0.1])
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q2LGt7Ex003903
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 21 Mar 2012 16:55:07 GMT
+Received: from tim.rpsys.net ([127.0.0.1])
+	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
+	port 10024) with LMTP
+	id 02610-07 for <openembedded-core@lists.openembedded.org>;
+	Wed, 21 Mar 2012 16:55:03 +0000 (GMT)
+Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q2LGt0RX003866
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO)
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 21 Mar 2012 16:55:01 GMT
+Message-ID: <1332348902.9740.175.camel@ted>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Date: Wed, 21 Mar 2012 16:55:02 +0000
+In-Reply-To: <1332323639.9740.125.camel@ted>
+References: <CAP9ODKq3vD6u4TQnWw4Ux9c5L5fB3FVcstY_pCkmzp_HWddhRg@mail.gmail.com>
+	<1332323639.9740.125.camel@ted>
+X-Mailer: Evolution 3.2.2- 
+Mime-Version: 1.0
+X-Virus-Scanned: amavisd-new at rpsys.net
+Subject: Re: Build failures due zlib problem
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -32,67 +43,47 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 21 Mar 2012 16:44:13 -0000
+X-List-Received-Date: Wed, 21 Mar 2012 17:04:02 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-From: Nitin A Kamble <nitin.a.kamble@intel.com>
+On Wed, 2012-03-21 at 09:53 +0000, Richard Purdie wrote:
+> On Tue, 2012-03-20 at 22:40 -0300, Otavio Salvador wrote:
+> > | NOTE: Unpacking
+> > /home/ostt-devel/src/embedded-systems/downloads/gcc-4_6-branch_gcc.gnu.org_.svn.gcc.branches_184847_.tar.gz
+> > to /home/ostt-devel/src/embedded-systems/tmp-eglibc-eglibc/work-shared/gcc-4.6.3+svnr184847-r28/
+> > | gzip: /usr/lib/libz.so.1: version `ZLIB_1.2.5.1' not found (required by gzip)
+> > | tar: Child returned status 1
+> > 
+> > Does anyone sees it? Our autobuilder is failing this way.
+> 
+> Yes, its being seen. I think its appeared after the pigz-native change
+> but it exposes an underlying problem.
+> 
+> The issue is that we have a gzip binary in the sysroot linking against
+> libz. We can get into a situation where we remove libz to rebuild but we
+> don't remove the gzip binary yet.
+> 
+> gzip-native is a tricky one since its one of those recipes we don't
+> correctly have a dependency chain for and is also implied in
+> ASSUME_PROVIDED (else how to we extract tarballs?).
+> 
+> Whilst I've implicated pigz-native, we could potentially see this with
+> gzip-native too, I'd guess its just more flexible about the libz symbols
+> it uses.
+> 
+> I'm trying to come up with a good way of handling this but at the moment
+> I'm drawing a blank for a neat solution :(. 
+> 
+> Something along the lines of perl-native might be necessary. We could
+> also decide its a special case and remove gzip whenever libz is
+> removed...
 
-This reverts commit 1cb4614f1d5e482b88ea372d1841a6c313a49941.
+I've pushed a couple of fixes in this area which should help.
 
-and bump PR
+Cheers,
 
-This fixes this bug:
-[YOCTO #2077] - memory buffer mess up of i586-poky-linux-gdb in meta-toolchain
-https://bugzilla.yoctoproject.org/show_bug.cgi?id=2077
-
-Signed-off-by: Nitin A Kamble <nitin.a.kamble@intel.com>
----
- meta/recipes-devtools/gdb/gdb-cross-canadian.inc   |   20 +-------------------
- .../recipes-devtools/gdb/gdb-cross-canadian_7.4.bb |    2 +-
- 2 files changed, 2 insertions(+), 20 deletions(-)
-
-diff --git a/meta/recipes-devtools/gdb/gdb-cross-canadian.inc b/meta/recipes-devtools/gdb/gdb-cross-canadian.inc
-index a7cac61..ec0748e 100644
---- a/meta/recipes-devtools/gdb/gdb-cross-canadian.inc
-+++ b/meta/recipes-devtools/gdb/gdb-cross-canadian.inc
-@@ -4,22 +4,4 @@ DESCRIPTION = "cross-canadian gdb for ${TARGET_ARCH} target - GNU debugger"
- PN = "gdb-cross-canadian-${TRANSLATED_TARGET_ARCH}"
- BPN = "gdb"
- 
--DEPENDS = "ncurses-nativesdk expat-nativesdk gettext-nativesdk readline-nativesdk python-nativesdk"
--RDEPENDS += "python-nativesdk-core python-nativesdk-lang python-nativesdk-re \
--             python-nativesdk-codecs python-nativesdk-netclient"
--
--EXTRA_OECONF_append = "--with-python=${WORKDIR}/python"
--
--do_configure_prepend() {
--cat > ${WORKDIR}/python << EOF
--#! /bin/sh
--case "\$2" in
--        --includes) echo "-I${STAGING_INCDIR}/python${PYTHON_BASEVERSION}/" ;;
--        --ldflags) echo "-L${STAGING_LIBDIR}/../python${PYTHON_BASEVERSION}/config -lpthread -ldl -lutil -lm -lpython${PYTHON_BASEVERSION}" ;;
--        --exec-prefix) echo "/usr" ;;
--        *) exit 1 ;;
--esac
--exit 0
--EOF
--        chmod +x ${WORKDIR}/python
--}
-+DEPENDS = "ncurses-nativesdk expat-nativesdk gettext-nativesdk readline-nativesdk"
-diff --git a/meta/recipes-devtools/gdb/gdb-cross-canadian_7.4.bb b/meta/recipes-devtools/gdb/gdb-cross-canadian_7.4.bb
-index dbcffde..dfb7d81 100644
---- a/meta/recipes-devtools/gdb/gdb-cross-canadian_7.4.bb
-+++ b/meta/recipes-devtools/gdb/gdb-cross-canadian_7.4.bb
-@@ -1,7 +1,7 @@
- require gdb-common.inc
- require gdb-cross-canadian.inc
- 
--PR = "${INC_PR}.3"
-+PR = "${INC_PR}.4"
- 
- GDBPROPREFIX = "--program-prefix='${TARGET_PREFIX}'"
- EXPAT = "--with-expat"
--- 
-1.7.6.4
+Richard
 
 
 
