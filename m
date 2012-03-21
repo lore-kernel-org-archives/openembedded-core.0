@@ -1,37 +1,36 @@
-Received: from mail.dream-property.net ([82.149.226.172])
-	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <obi@opendreambox.org>) id 1SAMAZ-0007xf-VT
-	for openembedded-core@lists.openembedded.org;
-	Wed, 21 Mar 2012 15:05:43 +0100
+Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
+	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <richard.purdie@linuxfoundation.org>)
+	id 1SAMFS-00083X-Tn for openembedded-core@lists.openembedded.org;
+	Wed, 21 Mar 2012 15:10:47 +0100
 Received: from localhost (localhost [127.0.0.1])
-	by mail.dream-property.net (Postfix) with ESMTP id 7506A315A42A
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q2LE1r0G002307
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 21 Mar 2012 14:56:52 +0100 (CET)
-X-Virus-Scanned: Debian amavisd-new at mail.dream-property.net
-Received: from mail.dream-property.net ([127.0.0.1])
-	by localhost (mail.dream-property.net [127.0.0.1]) (amavisd-new,
-	port 10024) with LMTP id 3Lv-buNfS2Xg
+	Wed, 21 Mar 2012 14:01:53 GMT
+Received: from tim.rpsys.net ([127.0.0.1])
+	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
+	port 10024) with LMTP
+	id 01793-05 for <openembedded-core@lists.openembedded.org>;
+	Wed, 21 Mar 2012 14:01:49 +0000 (GMT)
+Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q2LE1ixt002301
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO)
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 21 Mar 2012 14:56:44 +0100 (CET)
-Received: from [172.22.22.61] (drms-590ecc5b.pool.mediaWays.net [89.14.204.91])
-	(using TLSv1 with cipher DHE-RSA-AES256-SHA (256/256 bits))
-	(No client certificate requested)
-	by mail.dream-property.net (Postfix) with ESMTPSA id 30CC9315A422
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 21 Mar 2012 14:56:44 +0100 (CET)
-Message-ID: <4F69DE1A.7080903@opendreambox.org>
-Date: Wed, 21 Mar 2012 14:56:42 +0100
-From: Andreas Oberritter <obi@opendreambox.org>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:10.0.2) Gecko/20120216 Thunderbird/10.0.2
-MIME-Version: 1.0
-To: openembedded-core@lists.openembedded.org
-References: <1332283657-5978-1-git-send-email-obi@opendreambox.org>
-	<CAP9ODKqD4D05U8ursNq7_Z-oWDx869ANGrh2Gh4E4CraZpqHCQ@mail.gmail.com>
-	<4F69DCD1.8050502@opendreambox.org>
-	<CAP9ODKo-aGT6hHX23BH2MKLyBMezcOqV4k5q_u3G0AXr=YvCmg@mail.gmail.com>
-In-Reply-To: <CAP9ODKo-aGT6hHX23BH2MKLyBMezcOqV4k5q_u3G0AXr=YvCmg@mail.gmail.com>
-Subject: Re: [PATCH v2] parted: update to version 3.1
+	Wed, 21 Mar 2012 14:01:46 GMT
+Message-ID: <1332338506.9740.153.camel@ted>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Date: Wed, 21 Mar 2012 14:01:46 +0000
+In-Reply-To: <20120321135636.16995ebc@eb-e6520>
+References: <1332328101-22779-1-git-send-email-eric@eukrea.com>
+	<1332332772.9740.146.camel@ted> <20120321135636.16995ebc@eb-e6520>
+X-Mailer: Evolution 3.2.2- 
+Mime-Version: 1.0
+X-Virus-Scanned: amavisd-new at rpsys.net
+X-MIME-Autoconverted: from 8bit to quoted-printable by tim.rpsys.net id
+	q2LE1r0G002307
+Subject: Re: [PATCH] speex: fix FILES variables
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -46,17 +45,70 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 21 Mar 2012 14:05:44 -0000
-Content-Type: text/plain; charset=ISO-8859-1
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Wed, 21 Mar 2012 14:10:47 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On 21.03.2012 14:52, Otavio Salvador wrote:
-> On Wed, Mar 21, 2012 at 10:51, Andreas Oberritter <obi@opendreambox.org> wrote:
->> you committed v1 instead of v2. Shall I send an incremental patch?
-> 
-> Yes as he can't destroy the history in a public repository.
+On Wed, 2012-03-21 at 13:56 +0100, Eric B=C3=A9nard wrote:
+> Le Wed, 21 Mar 2012 12:26:12 +0000,
+> Richard Purdie <richard.purdie@linuxfoundation.org> a =C3=A9crit :
+>=20
+> > On Wed, 2012-03-21 at 12:08 +0100, Eric B=C3=A9nard wrote:
+> > > @@ -24,5 +24,4 @@ EXTRA_OECONF =3D " --enable-fixed-point --with-og=
+g-libraries=3D${STAGING_LIBDIR} \
+> > > =20
+> > >  PACKAGES +=3D "${PN}-bin"
+> > >  FILES_${PN} =3D "${libdir}/lib*.so.*"
+> > > -FILES_${PN}-dev +=3D "${libdir}/lib*.so.*"
+> > >  FILES_${PN}-bin =3D "${bindir}"
+> >=20
+> > Doesn't this mean -dev files are ending up in the main package?
+> >=20
+> this seems to work fine as this (with no other layer than oe-core).
+>=20
+> packages-split/speex
+> `-- usr
+>     `-- lib
+>         |-- libspeexdsp.so.1 -> libspeexdsp.so.1.5.0
+>         |-- libspeexdsp.so.1.5.0
+>         |-- libspeex.so.1 -> libspeex.so.1.5.0
+>         `-- libspeex.so.1.5.0
+>=20
+> 2 directories, 4 files
+>=20
+> packages-split/speex-dev/
+> .../...
+>     |-- lib
+>     |   |-- libspeexdsp.la
+>     |   |-- libspeexdsp.so -> libspeexdsp.so.1.5.0
+>     |   |-- libspeex.la
+>     |   |-- libspeex.so -> libspeex.so.1.5.0
+>     |   `-- pkgconfig
+>     |       |-- speexdsp.pc
+>     |       `-- speex.pc
+> .../...
+>=20
+> > Shouldn't this be:
+> >=20
+> > FILES_${PN} =3D "${libdir}/lib*${SOLIBS}"
+> > FILES_${PN}-dev =3D "${libdir}/lib*${SOLIBSDEV}"
+> >=20
+> > or better, remove these and add:
+> >=20
+> > inherit lib_package
+> >=20
+> > ?
+> >=20
+> no clear idea on that, you are the boss to tell me which one you
+> prefer ;-)
 
-Thanks, but what I wanted to know was whether Richard is going to fix
-this or whether he wants me to fix it.
+Well, I think "inherit lib_package" is going to be cleanest. Your
+original patch is correct in its own right though, this just gives some
+better cleanup :)
+
+Cheers,
+
+Richard
+
 
 
