@@ -1,37 +1,37 @@
-Received: from mail-we0-f175.google.com ([74.125.82.175])
+Received: from mail-wi0-f169.google.com ([209.85.212.169])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <martin.jansa@gmail.com>) id 1SATLm-0002ZW-J0
+	(envelope-from <martin.jansa@gmail.com>) id 1SATLv-0002nS-Qv
 	for openembedded-core@lists.openembedded.org;
-	Wed, 21 Mar 2012 22:45:46 +0100
-Received: by mail-we0-f175.google.com with SMTP id a1so1340601wer.6
+	Wed, 21 Mar 2012 22:45:55 +0100
+Received: by wibhm17 with SMTP id hm17so13118wib.0
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 21 Mar 2012 14:36:54 -0700 (PDT)
+	Wed, 21 Mar 2012 14:37:01 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
 	h=from:to:subject:date:message-id:x-mailer:in-reply-to:references
 	:in-reply-to:references;
-	bh=WH6JiMmG96GlX4fXITQQ1YSwFHxxZD/q4G/kgX1Feno=;
-	b=cqi2CENZ4+OkJrj9Hl2bSPXwTYrRNHlOSFc+wD/REX4MHJV6kZNeH8FVEF8STMFLlH
-	/R7DCYH9TW7WLW5JbaosDNf/9sb7l934VDhC+nTNHWbLc2f0Z2ROfnq3S1HEH0q9Fnvo
-	1bhT+LJ+XggBe7FnR9ZZwzXjIC6Vuuq6vKtempCrqItG06Sp8PRjg77iJg7HCq9gn36d
-	V6psiOyFutAQTYBFfiUG+1kjTtetXFX/ooaOCXxwWAi2C8c8TqMudfOm4sSwxgyzSuYU
-	E3UhD4hWD8loELdwuAMH/hNx5QA8nVjOcyeuPzKjQV2wLuOPC8UPXtJojymc1HkBM2zb
-	W1wA==
-Received: by 10.216.136.100 with SMTP id v78mr3157592wei.88.1332365814745;
-	Wed, 21 Mar 2012 14:36:54 -0700 (PDT)
+	bh=Vjmh8f4UN4F84pfrPY2bpsSGacy1raWp45DSAGFUguw=;
+	b=oZv4Np31cgcT7G1UOsyeyRIVVGgTO20DZ5XUYSl7b7BA7KVQkXRWCuska7YzUQxWyK
+	5kG+nlJ2WiZR2X4UVN0zJJ6pgzRrR7RUJE7QBg+CTupnpV90MvCmOElOiXvUXbylo6PD
+	pEtvIJckmwhe5G3fWeJfDY9lFY5ib3TE/Uw0mk7vK5ZVWP/7Wzfdkb3x4c7uj4crawin
+	j51OGPj9O3FLmjjLDa2uaMy5dM5YV2sp1hb/JLw1FwUZ5vQK8zVEtMI0Hira+esmDseh
+	g2MBV2uuE+isygLw7eZxuoYwX0R8zG4Qerqb1oUODdyOBYS4b9sr6c8n9FSXy98O/Azx
+	yiBQ==
+Received: by 10.180.103.35 with SMTP id ft3mr12485368wib.0.1332365821848;
+	Wed, 21 Mar 2012 14:37:01 -0700 (PDT)
 Received: from localhost ([94.230.152.246])
-	by mx.google.com with ESMTPS id j3sm12461315wiw.1.2012.03.21.14.36.53
+	by mx.google.com with ESMTPS id fw5sm7709598wib.0.2012.03.21.14.37.00
 	(version=TLSv1/SSLv3 cipher=OTHER);
-	Wed, 21 Mar 2012 14:36:54 -0700 (PDT)
+	Wed, 21 Mar 2012 14:37:01 -0700 (PDT)
 From: Martin Jansa <martin.jansa@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Wed, 21 Mar 2012 22:36:10 +0100
-Message-Id: <986d209ed15c217b647b10f9e71ff34d060c1566.1332365336.git.Martin.Jansa@gmail.com>
+Date: Wed, 21 Mar 2012 22:36:11 +0100
+Message-Id: <f21ffad75e377042ebb9d59a01d6b424c6bba711.1332365336.git.Martin.Jansa@gmail.com>
 X-Mailer: git-send-email 1.7.8.5
 In-Reply-To: <2ec6e0c134d708687c5d3d439b31607cda478dfc.1332365336.git.Martin.Jansa@gmail.com>
 References: <2ec6e0c134d708687c5d3d439b31607cda478dfc.1332365336.git.Martin.Jansa@gmail.com>
 In-Reply-To: <cover.1332365336.git.Martin.Jansa@gmail.com>
 References: <cover.1332365336.git.Martin.Jansa@gmail.com>
-Subject: [PATCH 05/13] xorg: add more native BBCLASSEXTENDs for gtk+-native
+Subject: [PATCH 06/13] gtk+: import native support from meta-oe
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -46,140 +46,35 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 21 Mar 2012 21:45:46 -0000
-
-* those are needed for gtk+-native after this patch
-  http://lists.linuxtogo.org/pipermail/openembedded-core/2012-February/017772.html
-  is applied
-* I had them in .bbappends for meta-oe, but adding native BBCLASSEXTEND
-  doesn't add any maintenance cost to oe-core and makes recipe upgrades
-  easier (no need to wait for .bbappend renames ready for meta-oe).
+X-List-Received-Date: Wed, 21 Mar 2012 21:45:55 -0000
 
 Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
 ---
- .../xorg-lib/libxcomposite_0.4.3.bb                |    1 +
- .../recipes-graphics/xorg-lib/libxcursor_1.1.13.bb |    1 +
- meta/recipes-graphics/xorg-lib/libxdamage_1.1.3.bb |    1 +
- meta/recipes-graphics/xorg-lib/libxfixes_5.0.bb    |    2 +-
- meta/recipes-graphics/xorg-lib/libxrandr_1.3.2.bb  |    2 +-
- .../xorg-proto/compositeproto_0.4.2.bb             |    1 +
- .../xorg-proto/damageproto_1.2.1.bb                |    1 +
- meta/recipes-graphics/xorg-proto/fixesproto_5.0.bb |    2 +-
- .../xorg-proto/randrproto_1.3.2.bb                 |    2 +-
- 9 files changed, 9 insertions(+), 4 deletions(-)
+ meta/recipes-gnome/gtk+/gtk+.inc |    4 ++++
+ 1 files changed, 4 insertions(+), 0 deletions(-)
 
-diff --git a/meta/recipes-graphics/xorg-lib/libxcomposite_0.4.3.bb b/meta/recipes-graphics/xorg-lib/libxcomposite_0.4.3.bb
-index deaa366..7377711 100644
---- a/meta/recipes-graphics/xorg-lib/libxcomposite_0.4.3.bb
-+++ b/meta/recipes-graphics/xorg-lib/libxcomposite_0.4.3.bb
-@@ -16,6 +16,7 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=3f2907aad541f6f226fbc58cc1b3cdf1"
+diff --git a/meta/recipes-gnome/gtk+/gtk+.inc b/meta/recipes-gnome/gtk+/gtk+.inc
+index 4e03670..1700117 100644
+--- a/meta/recipes-gnome/gtk+/gtk+.inc
++++ b/meta/recipes-gnome/gtk+/gtk+.inc
+@@ -23,6 +23,9 @@ PACKAGECONFIG ??= "${@base_contains('DISTRO_FEATURES', 'x11', 'x11', '', d)} \
+ PACKAGECONFIG[x11] = "--with-x=yes --with-gdktarget=x11,--with-x=no,${X11DEPENDS}"
+ PACKAGECONFIG[gtk-directfb] = "--with-gdktarget=directfb,,directfb"
  
- DEPENDS += " compositeproto virtual/libx11 libxfixes libxext"
- PROVIDES = "xcomposite"
 +BBCLASSEXTEND = "native"
++EXTRA_OECONF_virtclass-native += "--disable-introspection"
++
+ inherit autotools pkgconfig
  
- PE = "1"
- PR = "r0"
-diff --git a/meta/recipes-graphics/xorg-lib/libxcursor_1.1.13.bb b/meta/recipes-graphics/xorg-lib/libxcursor_1.1.13.bb
-index c0f1a0f..4388596 100644
---- a/meta/recipes-graphics/xorg-lib/libxcursor_1.1.13.bb
-+++ b/meta/recipes-graphics/xorg-lib/libxcursor_1.1.13.bb
-@@ -12,6 +12,7 @@ LICENSE = "MIT-style"
- LIC_FILES_CHKSUM = "file://COPYING;md5=8902e6643f7bcd7793b23dcd5d8031a4"
+ PACKAGES += "libgail gtk-demo"
+@@ -65,6 +68,7 @@ GTKGLIBC_RRECOMMENDS ?= "${GTKBASE_RRECOMMENDS} glibc-gconv-iso8859-1"
  
- DEPENDS += "libxrender libxfixes"
-+BBCLASSEXTEND = "native"
+ RRECOMMENDS_${PN} = "${GTKBASE_RRECOMMENDS}"
+ RRECOMMENDS_${PN}_libc-glibc = "${GTKGLIBC_RRECOMMENDS}"
++RRECOMMENDS_${PN}_virtclass-native = ""
  
- PR = "r0"
- PE = "1"
-diff --git a/meta/recipes-graphics/xorg-lib/libxdamage_1.1.3.bb b/meta/recipes-graphics/xorg-lib/libxdamage_1.1.3.bb
-index f2b4eac..dfc2425 100644
---- a/meta/recipes-graphics/xorg-lib/libxdamage_1.1.3.bb
-+++ b/meta/recipes-graphics/xorg-lib/libxdamage_1.1.3.bb
-@@ -18,6 +18,7 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=9fe101f30dd24134cf43146863241868"
- 
- DEPENDS += "virtual/libx11 damageproto libxfixes"
- PROVIDES = "xdamage"
-+BBCLASSEXTEND = "native"
- 
- PR = "r1"
- PE = "1"
-diff --git a/meta/recipes-graphics/xorg-lib/libxfixes_5.0.bb b/meta/recipes-graphics/xorg-lib/libxfixes_5.0.bb
-index 0883cd1..1bdc3c0 100644
---- a/meta/recipes-graphics/xorg-lib/libxfixes_5.0.bb
-+++ b/meta/recipes-graphics/xorg-lib/libxfixes_5.0.bb
-@@ -17,7 +17,7 @@ PE = "1"
- 
- XORG_PN = "libXfixes"
- 
--BBCLASSEXTEND = "nativesdk"
-+BBCLASSEXTEND = "native nativesdk"
- 
- SRC_URI[md5sum] = "678071bd7f9f7467e2fc712d81022318"
- SRC_URI[sha256sum] = "537a2446129242737a35db40081be4bbcc126e56c03bf5f2b142b10a79cda2e3"
-diff --git a/meta/recipes-graphics/xorg-lib/libxrandr_1.3.2.bb b/meta/recipes-graphics/xorg-lib/libxrandr_1.3.2.bb
-index 7bc805f..6fc3cf5 100644
---- a/meta/recipes-graphics/xorg-lib/libxrandr_1.3.2.bb
-+++ b/meta/recipes-graphics/xorg-lib/libxrandr_1.3.2.bb
-@@ -18,7 +18,7 @@ PE = "1"
- 
- XORG_PN = "libXrandr"
- 
--BBCLASSEXTEND = "nativesdk"
-+BBCLASSEXTEND = "native nativesdk"
- 
- SRC_URI[md5sum] = "92473da2fccf5fac665be4fa4f2037fa"
- SRC_URI[sha256sum] = "7eaca216ab5233d7396119eb87c1989d350a3efead104d54b55f22cdd1d99b81"
-diff --git a/meta/recipes-graphics/xorg-proto/compositeproto_0.4.2.bb b/meta/recipes-graphics/xorg-proto/compositeproto_0.4.2.bb
-index 5917f20..093ee99 100644
---- a/meta/recipes-graphics/xorg-proto/compositeproto_0.4.2.bb
-+++ b/meta/recipes-graphics/xorg-proto/compositeproto_0.4.2.bb
-@@ -11,6 +11,7 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=2c4bfe136f4a4418ea2f2a96b7c8f3c5 \
-                     file://composite.h;endline=43;md5=cbd44d4079053aa75930ed2f02b92926"
- 
- CONFLICTS = "compositeext"
-+BBCLASSEXTEND = "native"
- 
- PR = "r0"
- PE = "1"
-diff --git a/meta/recipes-graphics/xorg-proto/damageproto_1.2.1.bb b/meta/recipes-graphics/xorg-proto/damageproto_1.2.1.bb
-index 6bfa1b2..de2d69c 100644
---- a/meta/recipes-graphics/xorg-proto/damageproto_1.2.1.bb
-+++ b/meta/recipes-graphics/xorg-proto/damageproto_1.2.1.bb
-@@ -12,6 +12,7 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=d5f5a2de65c3a84cbde769f07a769608 \
-                     file://damagewire.h;endline=23;md5=4a4501a592dbc7de5ce89255e50d0296"
- 
- CONFLICTS = "damageext"
-+BBCLASSEXTEND = "native"
- PR = "r0"
- PE = "1"
- 
-diff --git a/meta/recipes-graphics/xorg-proto/fixesproto_5.0.bb b/meta/recipes-graphics/xorg-proto/fixesproto_5.0.bb
-index d65922b..2c05cf7 100644
---- a/meta/recipes-graphics/xorg-proto/fixesproto_5.0.bb
-+++ b/meta/recipes-graphics/xorg-proto/fixesproto_5.0.bb
-@@ -16,7 +16,7 @@ CONFLICTS = "fixesext"
- PR = "r0"
- PE = "1"
- 
--BBCLASSEXTEND = "nativesdk"
-+BBCLASSEXTEND = "native nativesdk"
- 
- SRC_URI[md5sum] = "e7431ab84d37b2678af71e29355e101d"
- SRC_URI[sha256sum] = "ba2f3f31246bdd3f2a0acf8bd3b09ba99cab965c7fb2c2c92b7dc72870e424ce"
-diff --git a/meta/recipes-graphics/xorg-proto/randrproto_1.3.2.bb b/meta/recipes-graphics/xorg-proto/randrproto_1.3.2.bb
-index f0f81bc..e4fe37b 100644
---- a/meta/recipes-graphics/xorg-proto/randrproto_1.3.2.bb
-+++ b/meta/recipes-graphics/xorg-proto/randrproto_1.3.2.bb
-@@ -14,7 +14,7 @@ CONFLICTS = "randrext"
- PR = "r0"
- PE = "1"
- 
--BBCLASSEXTEND = "nativesdk"
-+BBCLASSEXTEND = "native nativesdk"
- 
- SRC_URI[md5sum] = "597491c0d8055e2a66f11350c4985775"
- SRC_URI[sha256sum] = "d90d00612cc49292bd8d9dc19efb1c9187385fbe87590d7279a02e5e1066dc71"
+ do_install () {
+ 	autotools_do_install
 -- 
 1.7.8.5
 
