@@ -1,34 +1,23 @@
-Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
-	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <richard.purdie@linuxfoundation.org>)
-	id 1SAOx8-0004aB-0w for openembedded-core@lists.openembedded.org;
-	Wed, 21 Mar 2012 18:04:02 +0100
-Received: from localhost (localhost [127.0.0.1])
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q2LGt7Ex003903
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 21 Mar 2012 16:55:07 GMT
-Received: from tim.rpsys.net ([127.0.0.1])
-	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
-	port 10024) with LMTP
-	id 02610-07 for <openembedded-core@lists.openembedded.org>;
-	Wed, 21 Mar 2012 16:55:03 +0000 (GMT)
-Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q2LGt0RX003866
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO)
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 21 Mar 2012 16:55:01 GMT
-Message-ID: <1332348902.9740.175.camel@ted>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Date: Wed, 21 Mar 2012 16:55:02 +0000
-In-Reply-To: <1332323639.9740.125.camel@ted>
-References: <CAP9ODKq3vD6u4TQnWw4Ux9c5L5fB3FVcstY_pCkmzp_HWddhRg@mail.gmail.com>
-	<1332323639.9740.125.camel@ted>
-X-Mailer: Evolution 3.2.2- 
+Received: from smtp3-g21.free.fr ([212.27.42.3])
+	by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <eric@eukrea.com>) id 1SAP9T-0004qa-8y
+	for openembedded-core@lists.openembedded.org;
+	Wed, 21 Mar 2012 18:16:47 +0100
+Received: from eb-e6520 (unknown [82.233.81.124])
+	by smtp3-g21.free.fr (Postfix) with ESMTP id 426CDA6248;
+	Wed, 21 Mar 2012 18:07:49 +0100 (CET)
+Date: Wed, 21 Mar 2012 18:07:48 +0100
+From: Eric =?ISO-8859-1?B?QuluYXJk?= <eric@eukrea.com>
+To: nitin.a.kamble@intel.com
+Message-ID: <20120321180748.7cc58e67@eb-e6520>
+In-Reply-To: <bfe0a5400cad2436b7be7d35a173c62349e47c0a.1332347414.git.nitin.a.kamble@intel.com>
+References: <cover.1332347414.git.nitin.a.kamble@intel.com>
+	<bfe0a5400cad2436b7be7d35a173c62349e47c0a.1332347414.git.nitin.a.kamble@intel.com>
+Organization: =?ISO-8859-1?B?RXVrculh?= Electromatique
+X-Mailer: Claws Mail 3.8.0 (GTK+ 2.24.8; x86_64-redhat-linux-gnu)
 Mime-Version: 1.0
-X-Virus-Scanned: amavisd-new at rpsys.net
-Subject: Re: Build failures due zlib problem
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH 1/1] Revert "gdb-cross-canadian: build gdb with python support"
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -43,47 +32,39 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 21 Mar 2012 17:04:02 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Wed, 21 Mar 2012 17:16:47 -0000
+Content-Type: text/plain; charset=ISO-8859-1
+Content-Transfer-Encoding: quoted-printable
 
-On Wed, 2012-03-21 at 09:53 +0000, Richard Purdie wrote:
-> On Tue, 2012-03-20 at 22:40 -0300, Otavio Salvador wrote:
-> > | NOTE: Unpacking
-> > /home/ostt-devel/src/embedded-systems/downloads/gcc-4_6-branch_gcc.gnu.org_.svn.gcc.branches_184847_.tar.gz
-> > to /home/ostt-devel/src/embedded-systems/tmp-eglibc-eglibc/work-shared/gcc-4.6.3+svnr184847-r28/
-> > | gzip: /usr/lib/libz.so.1: version `ZLIB_1.2.5.1' not found (required by gzip)
-> > | tar: Child returned status 1
-> > 
-> > Does anyone sees it? Our autobuilder is failing this way.
-> 
-> Yes, its being seen. I think its appeared after the pigz-native change
-> but it exposes an underlying problem.
-> 
-> The issue is that we have a gzip binary in the sysroot linking against
-> libz. We can get into a situation where we remove libz to rebuild but we
-> don't remove the gzip binary yet.
-> 
-> gzip-native is a tricky one since its one of those recipes we don't
-> correctly have a dependency chain for and is also implied in
-> ASSUME_PROVIDED (else how to we extract tarballs?).
-> 
-> Whilst I've implicated pigz-native, we could potentially see this with
-> gzip-native too, I'd guess its just more flexible about the libz symbols
-> it uses.
-> 
-> I'm trying to come up with a good way of handling this but at the moment
-> I'm drawing a blank for a neat solution :(. 
-> 
-> Something along the lines of perl-native might be necessary. We could
-> also decide its a special case and remove gzip whenever libz is
-> removed...
+Hi Nitin,
 
-I've pushed a couple of fixes in this area which should help.
+Le Wed, 21 Mar 2012 09:35:16 -0700,
+nitin.a.kamble@intel.com a =E9crit :
 
-Cheers,
+> From: Nitin A Kamble <nitin.a.kamble@intel.com>
+>=20
+> This reverts commit 1cb4614f1d5e482b88ea372d1841a6c313a49941.
+>=20
+> and bump PR
+>=20
+> This fixes this bug:
+> [YOCTO #2077] - memory buffer mess up of i586-poky-linux-gdb in meta-tool=
+chain
+> https://bugzilla.yoctoproject.org/show_bug.cgi?id=3D2077
+>=20
+this configuration should work as python is enabled in gdb in most
+modern distribution, the problem here may be in the libreadline of the
+host system.
+May you please try to remove --with-system-readline from
+EXTRA_OECONF in gdb-common.inc so that gdb doesn't try to use the
+libreadline of your old ubuntu system ?
 
-Richard
+If that solves the problem this would allow us not to loose this python
+scripting capability which is quite useful in gdb.
 
+Thanks
+Eric
+--=20
+http://eukrea.com/en/news/104-2012
 
 
