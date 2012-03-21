@@ -1,30 +1,25 @@
-Received: from smtp3-g21.free.fr ([212.27.42.3])
+Received: from mga03.intel.com ([143.182.124.21])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <eric@eukrea.com>) id 1SARTY-0007zw-TW
+	(envelope-from <sgw@linux.intel.com>) id 1SARaE-00086i-Uy
 	for openembedded-core@lists.openembedded.org;
-	Wed, 21 Mar 2012 20:45:41 +0100
-Received: from eb-e6520 (unknown [82.233.81.124])
-	by smtp3-g21.free.fr (Postfix) with ESMTP id 2840AA624D;
-	Wed, 21 Mar 2012 20:36:43 +0100 (CET)
-Date: Wed, 21 Mar 2012 20:36:42 +0100
-From: Eric =?ISO-8859-1?B?QuluYXJk?= <eric@eukrea.com>
-To: "Kamble, Nitin A" <nitin.a.kamble@intel.com>
-Message-ID: <20120321203642.032e28a1@eb-e6520>
-In-Reply-To: <ADD6A3980E8C39419A432FF422031B4C0137B46A@ORSMSX106.amr.corp.intel.com>
-References: <cover.1332347414.git.nitin.a.kamble@intel.com>
-	<bfe0a5400cad2436b7be7d35a173c62349e47c0a.1332347414.git.nitin.a.kamble@intel.com>
-	<20120321180748.7cc58e67@eb-e6520>
-	<ADD6A3980E8C39419A432FF422031B4C0137B3C3@ORSMSX106.amr.corp.intel.com>
-	<20120321185216.440a6353@eb-e6520>
-	<ADD6A3980E8C39419A432FF422031B4C0137B3E3@ORSMSX106.amr.corp.intel.com>
-	<20120321190208.25dc0387@eb-e6520>
-	<ADD6A3980E8C39419A432FF422031B4C0137B46A@ORSMSX106.amr.corp.intel.com>
-Organization: =?ISO-8859-1?B?RXVrculh?= Electromatique
-X-Mailer: Claws Mail 3.8.0 (GTK+ 2.24.8; x86_64-redhat-linux-gnu)
-Mime-Version: 1.0
-Cc: "openembedded-core@lists.openembedded.org"
+	Wed, 21 Mar 2012 20:52:35 +0100
+Received: from azsmga001.ch.intel.com ([10.2.17.19])
+	by azsmga101.ch.intel.com with ESMTP; 21 Mar 2012 12:43:40 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="121634814"
+Received: from unknown (HELO [10.255.12.49]) ([10.255.12.49])
+	by azsmga001.ch.intel.com with ESMTP; 21 Mar 2012 12:42:39 -0700
+Message-ID: <4F6A2F2F.2090607@linux.intel.com>
+Date: Wed, 21 Mar 2012 12:42:39 -0700
+From: Saul Wold <sgw@linux.intel.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:10.0.1) Gecko/20120216 Thunderbird/10.0.1
+MIME-Version: 1.0
+To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 1/1] Revert "gdb-cross-canadian: build gdb with python support"
+References: <1332339926-27043-1-git-send-email-s.stirtzel@googlemail.com>
+In-Reply-To: <1332339926-27043-1-git-send-email-s.stirtzel@googlemail.com>
+Subject: Re: [PATCH] giflib: Move to OE-Core
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -39,44 +34,55 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 21 Mar 2012 19:45:41 -0000
-Content-Type: text/plain; charset=ISO-8859-1
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Wed, 21 Mar 2012 19:52:35 -0000
+Content-Type: text/plain; charset=ISO-8859-1; format=flowed
+Content-Transfer-Encoding: 7bit
 
-Hi Nitin,
+On 03/21/2012 07:25 AM, Samuel Stirtzel wrote:
+> * This move will allow the testing of meta-kde for users without meta-openembedded.
+>
+So what other layers are using giflib?
 
-Le Wed, 21 Mar 2012 19:04:14 +0000,
-"Kamble, Nitin A" <nitin.a.kamble@intel.com> a =E9crit :
->   The sdk gdb from meta-toolchain for qemuarm is also failing similarly:
->=20
-> *** glibc detected *** arm-poky-linux-gnueabi-gdb: double free or corrupt=
-ion (out): 0x00007f8ef7992030 ***
-> Aborted (core dumped)
->=20
-can you provide more details on your configuration as it seems you
-have a problem somewhere else ?
+Your suggesting that we need to have it in oe-core so people don't need 
+to add the meta-openembedded layer when using meta-kde?
 
-here is my config (you already have host details in the previous email)
-[ebenard@eb-e6520 build]$ bitbake-layers  show-layers
-Parsing recipes..done.
+I am just trying to get more data before making a decision.
 
-layer                 path                                      priority
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-meta                  /home/ebenard/OE-CORE/openembedded-core/meta =20
+Thanks
+	Sau!
 
-OE Build Configuration:
-BB_VERSION        =3D "1.15.1"
-TARGET_ARCH       =3D "i586"
-TARGET_OS         =3D "linux"
-MACHINE           =3D "qemux86"
-DISTRO            =3D ""
-DISTRO_VERSION    =3D "oe-core.0"
-TUNE_FEATURES     =3D "m32 i586"
-TARGET_FPU        =3D ""
-meta              =3D "master:ee00c3146525e481beaefd2149c61cfe51de2797"
 
-Eric
+> Signed-off-by: Samuel Stirtzel<s.stirtzel@googlemail.com>
+> ---
+>   meta/recipes-devtools/giflib/giflib_4.1.6.bb |   20 ++++++++++++++++++++
+>   1 files changed, 20 insertions(+), 0 deletions(-)
+>   create mode 100644 meta/recipes-devtools/giflib/giflib_4.1.6.bb
+>
+> diff --git a/meta/recipes-devtools/giflib/giflib_4.1.6.bb b/meta/recipes-devtools/giflib/giflib_4.1.6.bb
+> new file mode 100644
+> index 0000000..bd7b495
+> --- /dev/null
+> +++ b/meta/recipes-devtools/giflib/giflib_4.1.6.bb
+> @@ -0,0 +1,20 @@
+> +DESCRIPTION = "shared library for GIF images"
+> +SECTION = "libs"
+> +LICENSE = "MIT"
+> +LIC_FILES_CHKSUM = "file://COPYING;md5=ae11c61b04b2917be39b11f78d71519a"
+> +PR = "r2"
+> +
+> +SRC_URI = "${SOURCEFORGE_MIRROR}/giflib/${BP}.tar.bz2"
+> +
+> +inherit autotools
+> +
+> +DEPENDS = "libsm"
+> +
+> +PACKAGES += "${PN}-utils"
+> +FILES_${PN} = "${libdir}/libgif.so.*"
+> +FILES_${PN}-utils = "${bindir}"
+> +
+> +BBCLASSEXTEND = "native"
+> +
+> +SRC_URI[md5sum] = "7125644155ae6ad33dbc9fc15a14735f"
+> +SRC_URI[sha256sum] = "e1c1ced9c5bc8f93ef0faf0a8c7717abf784d10a7b270d2285e8e1f3b93f2bed"
 
 
