@@ -1,40 +1,27 @@
-Received: from mga02.intel.com ([134.134.136.20])
+Received: from smtp3-g21.free.fr ([212.27.42.3])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <nitin.a.kamble@intel.com>) id 1SAQyE-0007XX-H5
+	(envelope-from <eric@eukrea.com>) id 1SARPo-0007vi-2N
 	for openembedded-core@lists.openembedded.org;
-	Wed, 21 Mar 2012 20:13:18 +0100
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-	by orsmga101.jf.intel.com with ESMTP; 21 Mar 2012 12:04:16 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.67,352,1309762800"; d="scan'208";a="120126248"
-Received: from orsmsx604.amr.corp.intel.com ([10.22.226.87])
-	by orsmga001.jf.intel.com with ESMTP; 21 Mar 2012 12:04:16 -0700
-Received: from orsmsx103.amr.corp.intel.com (10.22.225.130) by
-	orsmsx604.amr.corp.intel.com (10.22.226.87) with Microsoft SMTP Server
-	(TLS) id 8.2.255.0; Wed, 21 Mar 2012 12:04:15 -0700
-Received: from orsmsx106.amr.corp.intel.com ([169.254.5.128]) by
-	ORSMSX103.amr.corp.intel.com ([169.254.2.207]) with mapi id
-	14.01.0355.002; Wed, 21 Mar 2012 12:04:14 -0700
-From: "Kamble, Nitin A" <nitin.a.kamble@intel.com>
-To: "Kamble, Nitin A" <nitin.a.kamble@intel.com>,
-	=?iso-8859-1?Q?Eric_B=E9nard?= <eric@eukrea.com>
-Thread-Topic: [PATCH 1/1] Revert "gdb-cross-canadian: build gdb with python
-	support"
-Thread-Index: AQHNB4VDG6/xwLeUgEWTysDmkk+IHpZ1BaqAgAB3WAD//4s7gIAAd4cA//+K+DCAABC9YA==
-Date: Wed, 21 Mar 2012 19:04:14 +0000
-Message-ID: <ADD6A3980E8C39419A432FF422031B4C0137B46A@ORSMSX106.amr.corp.intel.com>
+	Wed, 21 Mar 2012 20:41:48 +0100
+Received: from eb-e6520 (unknown [82.233.81.124])
+	by smtp3-g21.free.fr (Postfix) with ESMTP id CA211A62A3;
+	Wed, 21 Mar 2012 20:32:50 +0100 (CET)
+Date: Wed, 21 Mar 2012 20:32:49 +0100
+From: Eric =?ISO-8859-1?B?QuluYXJk?= <eric@eukrea.com>
+To: "Kamble, Nitin A" <nitin.a.kamble@intel.com>
+Message-ID: <20120321203249.54411613@eb-e6520>
+In-Reply-To: <ADD6A3980E8C39419A432FF422031B4C0137B406@ORSMSX106.amr.corp.intel.com>
 References: <cover.1332347414.git.nitin.a.kamble@intel.com>
 	<bfe0a5400cad2436b7be7d35a173c62349e47c0a.1332347414.git.nitin.a.kamble@intel.com>
 	<20120321180748.7cc58e67@eb-e6520>
 	<ADD6A3980E8C39419A432FF422031B4C0137B3C3@ORSMSX106.amr.corp.intel.com>
 	<20120321185216.440a6353@eb-e6520>
 	<ADD6A3980E8C39419A432FF422031B4C0137B3E3@ORSMSX106.amr.corp.intel.com>
-	<20120321190208.25dc0387@eb-e6520> 
-Accept-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [10.22.254.140]
-MIME-Version: 1.0
+	<20120321190208.25dc0387@eb-e6520>
+	<ADD6A3980E8C39419A432FF422031B4C0137B406@ORSMSX106.amr.corp.intel.com>
+Organization: =?ISO-8859-1?B?RXVrculh?= Electromatique
+X-Mailer: Claws Mail 3.8.0 (GTK+ 2.24.8; x86_64-redhat-linux-gnu)
+Mime-Version: 1.0
 Cc: "openembedded-core@lists.openembedded.org"
 	<openembedded-core@lists.openembedded.org>
 Subject: Re: [PATCH 1/1] Revert "gdb-cross-canadian: build gdb with python support"
@@ -52,53 +39,54 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 21 Mar 2012 19:13:18 -0000
-Content-Language: en-US
-Content-Type: text/plain; charset="iso-8859-1"
+X-List-Received-Date: Wed, 21 Mar 2012 19:41:48 -0000
+Content-Type: text/plain; charset=ISO-8859-1
 Content-Transfer-Encoding: quoted-printable
 
->=20
->=20
->=20
-> > -----Original Message-----
+Hi Nitin,
+
+Le Wed, 21 Mar 2012 18:07:50 +0000,
+"Kamble, Nitin A" <nitin.a.kamble@intel.com> a =E9crit :
 > > From: Eric B=E9nard [mailto:eric@eukrea.com]
-> > Sent: Wednesday, March 21, 2012 11:02 AM
-> > To: Kamble, Nitin A
-> > Cc: openembedded-core@lists.openembedded.org; Martin.Jansa@gmail.com;
-> > richard.purdie@linuxfoundation.org
-> > Subject: Re: [PATCH 1/1] Revert "gdb-cross-canadian: build gdb with
-> > python support"
-> >
-> > Le Wed, 21 Mar 2012 17:57:57 +0000,
-> > "Kamble, Nitin A" <nitin.a.kamble@intel.com> a =E9crit :
-> > > Can you try meta-toolchain for qemux86 or qemux86-64 machine ?
-> > > I found that sdk gdb is failing for these machines since that
-> commit
-> > went in the oe-core.
-> > >
-> > I'm launching a build and will keep you informed of the result. If
-> that
+> > I'm launching a build and will keep you informed of the result. If that
 > > only fails for x86 or x86_64 targets, we can use overrides to disable
 > > python support only for these targets.
-> >
+> >=20
 > > Eric
 >=20
-> I also starting test for sdk gdb for qemuarm target. Will keep you
-> posted. Any solution that gives a working sdk gdb for all arches will
-> be good.
+> I also starting test for sdk gdb for qemuarm target. Will keep you posted=
+. Any solution that gives a working sdk gdb for all arches will be good.
 >=20
-> Thanks,
-> Nitin
+that works fine here at least for target qemux86 :
+[ebenard@eb-e6520 ~]$ cat /etc/fedora-release=20
+Fedora release 16 (Verne)
 
-Eric,
-  The sdk gdb from meta-toolchain for qemuarm is also failing similarly:
+[ebenard@eb-e6520 ~]$ uname -a
+Linux eb-e6520 3.2.9-2.fc16.x86_64 #1 SMP Mon Mar 5 20:55:39 UTC 2012
+x86_64 x86_64 x86_64 GNU/Linux
 
-*** glibc detected *** arm-poky-linux-gnueabi-gdb: double free or corruptio=
-n (out): 0x00007f8ef7992030 ***
-Aborted (core dumped)
+[ebenard@eb-e6520 ~]$
+source /usr/local/oecore-x86_64/environment-setup-i586-oe-linux=20
 
-Thanks,
-Nitin
+[ebenard@eb-e6520 ~]$ which i586-oe-linux-gdb
+/usr/local/oecore-x86_64/sysroots/x86_64-oesdk-linux/usr/bin/i586-oe-linux/=
+i586-oe-linux-gdb
 
+[ebenard@eb-e6520 ~]$ i586-oe-linux-gdb
+GNU gdb (GDB) 7.4
+Copyright (C) 2012 Free Software Foundation, Inc.
+License GPLv3+: GNU GPL version 3 or later
+<http://gnu.org/licenses/gpl.html> This is free software: you are free
+to change and redistribute it. There is NO WARRANTY, to the extent
+permitted by law.  Type "show copying" and "show warranty" for details.
+This GDB was configured as "--host=3Dx86_64-oesdk-linux
+--target=3Di586-oe-linux". For bug reporting instructions, please see:
+<http://www.gnu.org/software/gdb/bugs/>.
+(gdb) python import sys
+(gdb) python sys.stdout.write("hello, world\n")
+hello, world
+(gdb)=20
+
+Eric
 
 
