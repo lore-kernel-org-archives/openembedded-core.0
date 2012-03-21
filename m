@@ -1,42 +1,33 @@
-Received: from mga05.intel.com ([192.55.52.89] helo=fmsmga101.fm.intel.com)
+Received: from mail-vb0-f47.google.com ([209.85.212.47])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <scott.a.garman@intel.com>) id 1SA9f4-0004wU-3Y
+	(envelope-from <otavio.salvador@gmail.com>) id 1SAAg0-00063I-DZ
 	for openembedded-core@lists.openembedded.org;
-	Wed, 21 Mar 2012 01:44:22 +0100
-Received: from mail-pb0-f52.google.com ([209.85.160.52])
-	by mga01.intel.com with ESMTP/TLS/RC4-SHA; 20 Mar 2012 17:35:27 -0700
-Received: by pbcuo15 with SMTP id uo15so1725715pbc.25
+	Wed, 21 Mar 2012 02:49:24 +0100
+Received: by vbbfr13 with SMTP id fr13so335564vbb.6
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 20 Mar 2012 17:35:27 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=google.com; s=20120113;
-	h=message-id:date:from:user-agent:mime-version:to:subject:references
-	:in-reply-to:content-type:content-transfer-encoding
-	:x-gm-message-state;
-	bh=FzKZ4mQXuZsP1FY1axoqwFUqRe98YqljUtNFSkUi4dE=;
-	b=bH2jYaJ9opMT1C81mocTOX4v1VFN7VGdQlNXybJYsHUrKNSCWZHqJIAeE+8aSKu/9p
-	9vUMRA+4kBz1TAIwBsd+zMCI5Df+Txo6QawG+Z6kvAWulqRlHIAx06z9r3npBc0KEyWh
-	B8U7tcL7XU7yFChvl2IvhMbLteoxGPPYEN+ulpQ0i7BC/suUsoZLdomAAcoKtvogk/TY
-	KzUBMJXh5cDXRJh6VQuikVF0sV2+Fhic4aXo+oYcntVyJr6PvtbQ7QRS7vfFK9mCrtyl
-	a9M4utNAJT8QXVv5vuLEntWpPN16HaVEtZxcel7WYKCgm3hXRsDADmnJL6TbamXmBjIA
-	1QKA==
-Received: by 10.68.74.138 with SMTP id t10mr5733006pbv.126.1332290127520;
-	Tue, 20 Mar 2012 17:35:27 -0700 (PDT)
-Received: from [192.168.1.12] (c-76-105-137-48.hsd1.or.comcast.net.
-	[76.105.137.48])
-	by mx.google.com with ESMTPS id 6sm21002pbh.65.2012.03.20.17.35.25
-	(version=SSLv3 cipher=OTHER); Tue, 20 Mar 2012 17:35:26 -0700 (PDT)
-Message-ID: <4F69224E.7050901@intel.com>
-Date: Tue, 20 Mar 2012 17:35:26 -0700
-From: Scott Garman <scott.a.garman@intel.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:10.0.2) Gecko/20120216 Thunderbird/10.0.2
+	Tue, 20 Mar 2012 18:40:30 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=mime-version:sender:date:x-google-sender-auth:message-id:subject
+	:from:to:content-type:content-transfer-encoding;
+	bh=DyR2v9jx/XRndOTid1mDGXA02kSOg6bMZZCrWTU4te4=;
+	b=qMDdntGVwxsiBEMakez/Dt1NpbB3H995IPSx0xpxRGVhenN84I+xKcB7r9Nh2tjhkm
+	5HAlG1AqhMgMUxCwZjOTuIYcpZEICnDUwYc0ZtUKZVeazNdolsAveLLBKxP7MqsdDsph
+	NhqjsQrbsatikYdGOv2pmHw4nIr1+Jeq7E+7/jVJRuxiTkHC/rDrShTDgJ21vS/XPV9D
+	pwpflzQCyxvtNEI59ZTlWrReJyMuWtFTnKGguAGXNR5L7IkybGJkvGpUD04rtssFAdC3
+	bSQzJs1Wz13es1KDceoBV/B2LWrUUY6sX3bkpKZmdbQyPGEODwCB8R9+VmSEtnSqcX+Y
+	t8FQ==
 MIME-Version: 1.0
-To: openembedded-core@lists.openembedded.org
-References: <cover.1332266918.git.scott.a.garman@intel.com>
-In-Reply-To: <cover.1332266918.git.scott.a.garman@intel.com>
-X-Gm-Message-State: ALoCoQlnXXlKTTiiTtKYu2n1odEnqwxP6Tf1TkuGuHZtIzlqEZQZpC6MII0Fbhx7Yq6yn8ynWc5g
-Subject: Re: [PATCH 0/1] openssl security upgrade
+Received: by 10.220.115.8 with SMTP id g8mr1027007vcq.8.1332294030871; Tue, 20
+	Mar 2012 18:40:30 -0700 (PDT)
+Sender: otavio.salvador@gmail.com
+Received: by 10.220.7.208 with HTTP; Tue, 20 Mar 2012 18:40:30 -0700 (PDT)
+Date: Tue, 20 Mar 2012 22:40:30 -0300
+X-Google-Sender-Auth: tp0o-gp-8YCi5zXf6h-k49oR81Y
+Message-ID: <CAP9ODKq3vD6u4TQnWw4Ux9c5L5fB3FVcstY_pCkmzp_HWddhRg@mail.gmail.com>
+From: Otavio Salvador <otavio@ossystems.com.br>
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Build failures due zlib problem
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -51,30 +42,26 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 21 Mar 2012 00:44:22 -0000
-Content-Type: text/plain; charset=ISO-8859-1; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Wed, 21 Mar 2012 01:49:24 -0000
+Content-Type: text/plain; charset=ISO-8859-1
+Content-Transfer-Encoding: quoted-printable
 
-On 03/20/2012 11:10 AM, Scott Garman wrote:
-> Hello,
->
-> This upgrade to the openssl recipe addresses a security vulnerability,
-> CVE-2012-0884. I would like to ensure it gets included in our upcoming
-> 1.2 release.
->
-> This upgrade has been build-tested on all 5 of our qemu architectures,
-> and I have inspected the image and package output to ensure there were
-> no significant differences between the output of this recipe upgrade
-> and the last version of openssl we were using.
+| NOTE: Unpacking
+/home/ostt-devel/src/embedded-systems/downloads/gcc-4_6-branch_gcc.gnu.org_=
+.svn.gcc.branches_184847_.tar.gz
+to /home/ostt-devel/src/embedded-systems/tmp-eglibc-eglibc/work-shared/gcc-=
+4.6.3+svnr184847-r28/
+| gzip: /usr/lib/libz.so.1: version `ZLIB_1.2.5.1' not found (required by g=
+zip)
+| tar: Child returned status 1
 
-I had forgotten to update the distro_tracking fields with this pull 
-request - so I've pushed a commit onto this branch to do so.
+Does anyone sees it? Our autobuilder is failing this way.
 
-Scott
-
--- 
-Scott Garman
-Embedded Linux Engineer - Yocto Project
-Intel Open Source Technology Center
+--=20
+Otavio Salvador=A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0O=
+.S. Systems
+E-mail: otavio@ossystems.com.br=A0 http://www.ossystems.com.br
+Mobile: +55 53 9981-7854=A0 =A0 =A0 =A0=A0 =A0 =A0 =A0http://projetos.ossys=
+tems.com.br
 
 
