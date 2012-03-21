@@ -1,35 +1,52 @@
-Received: from astoria.ccjclearline.com ([64.235.106.9])
+Received: from mga11.intel.com ([192.55.52.93])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <rpjday@crashcourse.ca>) id 1SAUyV-0005i5-8J
+	(envelope-from <nitin.a.kamble@intel.com>) id 1SAV2l-0005n1-Ew
 	for openembedded-core@lists.openembedded.org;
-	Thu, 22 Mar 2012 00:29:51 +0100
-Received: from cpec03f0ed08c7f-cm001ac318e826.cpe.net.cable.rogers.com
-	([99.241.91.63] helo=crashcourse.ca)
-	by astoria.ccjclearline.com with esmtpsa (TLSv1:AES256-SHA:256)
-	(Exim 4.69) (envelope-from <rpjday@crashcourse.ca>)
-	id 1SAUpu-0006cF-OJ for openembedded-core@lists.openembedded.org;
-	Wed, 21 Mar 2012 19:20:58 -0400
-Date: Wed, 21 Mar 2012 19:20:53 -0400 (EDT)
-From: "Robert P. J. Day" <rpjday@crashcourse.ca>
-X-X-Sender: rpjday@oneiric
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-In-Reply-To: <1332371826.9740.222.camel@ted>
-Message-ID: <alpine.DEB.2.02.1203211920360.16949@oneiric>
-References: <alpine.DEB.2.02.1203211859490.15915@oneiric>
-	<1332371826.9740.222.camel@ted>
-User-Agent: Alpine 2.02 (DEB 1266 2009-07-14)
+	Thu, 22 Mar 2012 00:34:15 +0100
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+	by fmsmga102.fm.intel.com with ESMTP; 21 Mar 2012 16:25:20 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="142838939"
+Received: from orsmsx605.amr.corp.intel.com ([10.22.226.10])
+	by fmsmga002.fm.intel.com with ESMTP; 21 Mar 2012 16:25:20 -0700
+Received: from orsmsx105.amr.corp.intel.com (10.22.225.132) by
+	orsmsx605.amr.corp.intel.com (10.22.226.10) with Microsoft SMTP Server
+	(TLS) id 8.2.255.0; Wed, 21 Mar 2012 16:25:20 -0700
+Received: from orsmsx106.amr.corp.intel.com ([169.254.5.128]) by
+	ORSMSX105.amr.corp.intel.com ([169.254.4.199]) with mapi id
+	14.01.0355.002; Wed, 21 Mar 2012 16:25:19 -0700
+From: "Kamble, Nitin A" <nitin.a.kamble@intel.com>
+To: =?iso-8859-1?Q?Eric_B=E9nard?= <eric@eukrea.com>
+Thread-Topic: [PATCH 1/1] Revert "gdb-cross-canadian: build gdb with python
+	support"
+Thread-Index: AQHNB4VDG6/xwLeUgEWTysDmkk+IHpZ1BaqAgAB3WAD//4s7gIAAd4cA//+K+DCAAI5egIAABI0A//+ae8AAD0RXgAAOkVAg//+Uh4CAAHG8cIAA3ybA//64lgCAAGBtkA==
+Date: Wed, 21 Mar 2012 23:25:19 +0000
+Message-ID: <ADD6A3980E8C39419A432FF422031B4C0137B7B4@ORSMSX106.amr.corp.intel.com>
+References: <cover.1332347414.git.nitin.a.kamble@intel.com>
+	<bfe0a5400cad2436b7be7d35a173c62349e47c0a.1332347414.git.nitin.a.kamble@intel.com>
+	<20120321180748.7cc58e67@eb-e6520>
+	<ADD6A3980E8C39419A432FF422031B4C0137B3C3@ORSMSX106.amr.corp.intel.com>
+	<20120321185216.440a6353@eb-e6520>
+	<ADD6A3980E8C39419A432FF422031B4C0137B3E3@ORSMSX106.amr.corp.intel.com>
+	<20120321190208.25dc0387@eb-e6520>
+	<ADD6A3980E8C39419A432FF422031B4C0137B406@ORSMSX106.amr.corp.intel.com>
+	<20120321203249.54411613@eb-e6520>	<20120321194906.GC3659@jama.jama.net>
+	<ADD6A3980E8C39419A432FF422031B4C0137B557@ORSMSX106.amr.corp.intel.com>
+	<20120321220253.00c4f254@eb-e6520>
+	<ADD6A3980E8C39419A432FF422031B4C0137B5A8@ORSMSX106.amr.corp.intel.com>
+	<20120321223521.36e49bba@eb-e6520>
+	<ADD6A3980E8C39419A432FF422031B4C0137B684@ORSMSX106.amr.corp.intel.com>
+	<20120321230914.37861302@eb-e6520>
+In-Reply-To: <20120321230914.37861302@eb-e6520>
+Accept-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [10.22.254.140]
 MIME-Version: 1.0
-X-AntiAbuse: This header was added to track abuse,
-	please include it with any abuse report
-X-AntiAbuse: Primary Hostname - astoria.ccjclearline.com
-X-AntiAbuse: Original Domain - lists.openembedded.org
-X-AntiAbuse: Originator/Caller UID/GID - [47 12] / [47 12]
-X-AntiAbuse: Sender Address Domain - crashcourse.ca
-X-Source: 
-X-Source-Args: 
-X-Source-Dir: 
-Subject: Re: one more curiosity about oe-buildenv-internal: what's with BBEXTRA?
+Cc: Martin Jansa <martin.jansa@gmail.com>,
+	"openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 1/1] Revert "gdb-cross-canadian: build gdb with python support"
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -44,43 +61,26 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 21 Mar 2012 23:29:51 -0000
-Content-Type: TEXT/PLAIN; charset=US-ASCII
+X-List-Received-Date: Wed, 21 Mar 2012 23:34:15 -0000
+Content-Language: en-US
+Content-Type: text/plain; charset="iso-8859-1"
+Content-Transfer-Encoding: quoted-printable
 
-On Wed, 21 Mar 2012, Richard Purdie wrote:
-
-> On Wed, 2012-03-21 at 19:02 -0400, Robert P. J. Day wrote:
-> > apparently, given the following in oe-buildenv-internal:
+>=20
+> > Also executing sdk gdb on the same build system (suse) is giving the
+> same error.
 > >
-> > BITBAKEDIR="$OEROOT/bitbake$BBEXTRA/"
-> >
-> > you can use BBEXTRA to use a different bitbake directory than the
-> > default.  is this a debugging aid?  are normal users meant to know
-> > about this?  i don't see any mention of it anywhere.  in fact, from
-> > the top level of oe-core:
-> >
-> > $ grep -r BBEXTRA *
-> > scripts/oe-buildenv-internal:BITBAKEDIR="$OEROOT/bitbake$BBEXTRA/"
-> > $
->
-> I was responsible for this one a long time ago and it was simply a
-> development aid. I was probably its main user although I haven't used it
-> in a while. We don't have multiple versions of bitbake being used
-> heavily anymore, thankfully.
+> do you have the possibility to launch a build on an other build system
+> ?
+>=20
+> Eric
 
-  is it worth just removing?  i can send in a patch unless you'd
-rather quietly keep it around.
 
-rday
+Building on Fedora 15 (64bit) has given me same results. I am starting a bu=
+ild on fedora 16 (64 bit).
 
--- 
+Nitin
 
-========================================================================
-Robert P. J. Day                                 Ottawa, Ontario, CANADA
-                        http://crashcourse.ca
 
-Twitter:                                       http://twitter.com/rpjday
-LinkedIn:                               http://ca.linkedin.com/in/rpjday
-========================================================================
 
 
