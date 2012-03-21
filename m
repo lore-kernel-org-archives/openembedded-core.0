@@ -1,27 +1,34 @@
-Received: from vms173021pub.verizon.net ([206.46.173.21])
+Received: from smtp3-g21.free.fr ([212.27.42.3])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <denis@denix.org>) id 1SASgI-0001fz-Ru
+	(envelope-from <eric@eukrea.com>) id 1SASoz-0001pZ-6j
 	for openembedded-core@lists.openembedded.org;
-	Wed, 21 Mar 2012 22:02:55 +0100
-Received: from gandalf.denix.org ([unknown] [71.178.225.66])
-	by vms173021.mailsrvcs.net
-	(Sun Java(tm) System Messaging Server 7u2-7.02 32bit (built Apr 16
-	2009)) with ESMTPA id <0M1900ATG390QLW0@vms173021.mailsrvcs.net> for
-	openembedded-core@lists.openembedded.org;
-	Wed, 21 Mar 2012 14:53:25 -0500 (CDT)
-Received: by gandalf.denix.org (Postfix, from userid 1000)	id D37AA2018B; Wed,
-	21 Mar 2012 15:53:24 -0400 (EDT)
-Date: Wed, 21 Mar 2012 15:53:24 -0400
-From: Denys Dmytriyenko <denis@denix.org>
-To: Patches and discussions about the oe-core layer
+	Wed, 21 Mar 2012 22:11:53 +0100
+Received: from eb-e6520 (unknown [82.233.81.124])
+	by smtp3-g21.free.fr (Postfix) with ESMTP id 9E493A60E8;
+	Wed, 21 Mar 2012 22:02:55 +0100 (CET)
+Date: Wed, 21 Mar 2012 22:02:53 +0100
+From: Eric =?ISO-8859-1?B?QuluYXJk?= <eric@eukrea.com>
+To: "Kamble, Nitin A" <nitin.a.kamble@intel.com>
+Message-ID: <20120321220253.00c4f254@eb-e6520>
+In-Reply-To: <ADD6A3980E8C39419A432FF422031B4C0137B557@ORSMSX106.amr.corp.intel.com>
+References: <cover.1332347414.git.nitin.a.kamble@intel.com>
+	<bfe0a5400cad2436b7be7d35a173c62349e47c0a.1332347414.git.nitin.a.kamble@intel.com>
+	<20120321180748.7cc58e67@eb-e6520>
+	<ADD6A3980E8C39419A432FF422031B4C0137B3C3@ORSMSX106.amr.corp.intel.com>
+	<20120321185216.440a6353@eb-e6520>
+	<ADD6A3980E8C39419A432FF422031B4C0137B3E3@ORSMSX106.amr.corp.intel.com>
+	<20120321190208.25dc0387@eb-e6520>
+	<ADD6A3980E8C39419A432FF422031B4C0137B406@ORSMSX106.amr.corp.intel.com>
+	<20120321203249.54411613@eb-e6520>
+	<20120321194906.GC3659@jama.jama.net>
+	<ADD6A3980E8C39419A432FF422031B4C0137B557@ORSMSX106.amr.corp.intel.com>
+Organization: =?ISO-8859-1?B?RXVrculh?= Electromatique
+X-Mailer: Claws Mail 3.8.0 (GTK+ 2.24.8; x86_64-redhat-linux-gnu)
+Mime-Version: 1.0
+Cc: Martin Jansa <martin.jansa@gmail.com>,
+	"openembedded-core@lists.openembedded.org"
 	<openembedded-core@lists.openembedded.org>
-Message-id: <20120321195324.GB6857@denix.org>
-References: <CAP9ODKq3vD6u4TQnWw4Ux9c5L5fB3FVcstY_pCkmzp_HWddhRg@mail.gmail.com>
-	<1332323639.9740.125.camel@ted>
-MIME-version: 1.0
-In-reply-to: <1332323639.9740.125.camel@ted>
-User-Agent: Mutt/1.5.20 (2009-06-14)
-Subject: Re: Build failures due zlib problem
+Subject: Re: [PATCH 1/1] Revert "gdb-cross-canadian: build gdb with python support"
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -36,48 +43,33 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 21 Mar 2012 21:02:55 -0000
-Content-type: text/plain; charset=us-ascii
-Content-disposition: inline
+X-List-Received-Date: Wed, 21 Mar 2012 21:11:53 -0000
+Content-Type: text/plain; charset=ISO-8859-1
+Content-Transfer-Encoding: quoted-printable
 
-On Wed, Mar 21, 2012 at 09:53:59AM +0000, Richard Purdie wrote:
-> On Tue, 2012-03-20 at 22:40 -0300, Otavio Salvador wrote:
-> > | NOTE: Unpacking
-> > /home/ostt-devel/src/embedded-systems/downloads/gcc-4_6-branch_gcc.gnu.org_.svn.gcc.branches_184847_.tar.gz
-> > to /home/ostt-devel/src/embedded-systems/tmp-eglibc-eglibc/work-shared/gcc-4.6.3+svnr184847-r28/
-> > | gzip: /usr/lib/libz.so.1: version `ZLIB_1.2.5.1' not found (required by gzip)
-> > | tar: Child returned status 1
-> > 
-> > Does anyone sees it? Our autobuilder is failing this way.
-> 
-> Yes, its being seen. I think its appeared after the pigz-native change
-> but it exposes an underlying problem.
-> 
-> The issue is that we have a gzip binary in the sysroot linking against
-> libz. We can get into a situation where we remove libz to rebuild but we
-> don't remove the gzip binary yet.
-> 
-> gzip-native is a tricky one since its one of those recipes we don't
-> correctly have a dependency chain for and is also implied in
-> ASSUME_PROVIDED (else how to we extract tarballs?).
-> 
-> Whilst I've implicated pigz-native, we could potentially see this with
-> gzip-native too, I'd guess its just more flexible about the libz symbols
-> it uses.
-> 
-> I'm trying to come up with a good way of handling this but at the moment
-> I'm drawing a blank for a neat solution :(. 
-> 
-> Something along the lines of perl-native might be necessary. We could
-> also decide its a special case and remove gzip whenever libz is
-> removed...
+Le Wed, 21 Mar 2012 20:48:23 +0000,
+"Kamble, Nitin A" <nitin.a.kamble@intel.com> a =E9crit :
+>   I removed the meta-yocto layer, which removed poky distro from the conf=
+ig. And I am still seeing same issue.
+>=20
+> [nitin@nbuild0 /]$ cd /usr/local/oecore-x86_64/
+> [nitin@nbuild0 oecore-x86_64]$ ls
+> environment-setup-x86_64-oe-linux  site-config-x86_64-oe-linux  sysroots =
+ version-x86_64-oe-linux
+> [nitin@nbuild0 oecore-x86_64]$ . environment-setup-x86_64-oe-linux
+>  [nitin@nbuild0 oecore-x86_64]$ sysroots/x86_64-oesdk-linux/usr/bin/x86_6=
+4-oe-linux/x86_64-oe-linux-gdb
+> *** glibc detected *** sysroots/x86_64-oesdk-linux/usr/bin/x86_64-oe-linu=
+x/x86_64-oe-linux-gdb: double free or corruption (out): 0x00007f3221852030 =
+***
+> Aborted (core dumped)
+>=20
+may you please provide details on :
+- log reported by bitbake when you launch it to know a little bit more
+  your configuration,
+- host distribution and arch of your build host
 
-Actually, the original gzip, unlike pigz, does not link against zlib/libz. 
-Same with tar, as Matthew was asking.
-
-What about statically linking pigz against zlib?
-
--- 
-Denys
+Thanks
+Eric
 
 
