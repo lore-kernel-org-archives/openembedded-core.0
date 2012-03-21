@@ -1,24 +1,36 @@
-Received: from mail.pbcl.net ([88.198.119.4] helo=hetzner.pbcl.net)
+Received: from astoria.ccjclearline.com ([64.235.106.9])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <philb@gnu.org>) id 1SAJaG-00010D-3N
+	(envelope-from <rpjday@crashcourse.ca>) id 1SAJod-0001AD-UI
 	for openembedded-core@lists.openembedded.org;
-	Wed, 21 Mar 2012 12:20:04 +0100
-Received: from elite.brightsigndigital.co.uk ([81.142.160.137]
-	helo=[172.30.1.145])
-	by hetzner.pbcl.net with esmtpsa (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
-	(Exim 4.72) (envelope-from <philb@gnu.org>) id 1SAJRg-0002ay-Mo
-	for openembedded-core@lists.openembedded.org;
-	Wed, 21 Mar 2012 12:11:12 +0100
-From: Phil Blundell <philb@gnu.org>
+	Wed, 21 Mar 2012 12:34:56 +0100
+Received: from cpec03f0ed08c7f-cm001ac318e826.cpe.net.cable.rogers.com
+	([99.241.91.63] helo=crashcourse.ca)
+	by astoria.ccjclearline.com with esmtpsa (TLSv1:AES256-SHA:256)
+	(Exim 4.69) (envelope-from <rpjday@crashcourse.ca>)
+	id 1SAJg3-0003lV-Lx for openembedded-core@lists.openembedded.org;
+	Wed, 21 Mar 2012 07:26:03 -0400
+Date: Wed, 21 Mar 2012 07:25:59 -0400 (EDT)
+From: "Robert P. J. Day" <rpjday@crashcourse.ca>
+X-X-Sender: rpjday@oneiric
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Date: Wed, 21 Mar 2012 11:11:11 +0000
-In-Reply-To: <alpine.DEB.2.02.1203210625530.16813@oneiric>
+In-Reply-To: <4F69B2B5.1010607@slimlogic.co.uk>
+Message-ID: <alpine.DEB.2.02.1203210722070.18088@oneiric>
 References: <alpine.DEB.2.02.1203210615100.21394@oneiric>
 	<alpine.DEB.2.02.1203210625530.16813@oneiric>
-X-Mailer: Evolution 3.0.2- 
-Message-ID: <1332328272.14363.983.camel@phil-desktop>
-Mime-Version: 1.0
+	<101A2F63-917B-40EA-809F-E42FF0C1DE14@dominion.thruhere.net>
+	<4F69B2B5.1010607@slimlogic.co.uk>
+User-Agent: Alpine 2.02 (DEB 1266 2009-07-14)
+MIME-Version: 1.0
+X-AntiAbuse: This header was added to track abuse,
+	please include it with any abuse report
+X-AntiAbuse: Primary Hostname - astoria.ccjclearline.com
+X-AntiAbuse: Original Domain - lists.openembedded.org
+X-AntiAbuse: Originator/Caller UID/GID - [47 12] / [47 12]
+X-AntiAbuse: Sender Address Domain - crashcourse.ca
+X-Source: 
+X-Source-Args: 
+X-Source-Dir: 
 Subject: Re: what is meaning of "SRC_URI_append_whatever +=" ??
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
@@ -34,59 +46,43 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 21 Mar 2012 11:20:04 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Wed, 21 Mar 2012 11:34:56 -0000
+Content-Type: TEXT/PLAIN; charset=US-ASCII
 
-On Wed, 2012-03-21 at 06:28 -0400, Robert P. J. Day wrote:
->   of course, if all of the above is perfectly valid, i'm going to be
-> embarrassed.
+On Wed, 21 Mar 2012, Graeme Gregory wrote:
 
-All the constructs you mentioned are syntactically valid, though it
-isn't clear that all of them are very useful.
+> I beleive its valid to do
+>
+> BLAH_append = "spanner"
+> BLAH_append += "toolbox"
+>
+> then final result is BLAH_append variable is "spanner toolbox" then
+> the overrides happen.
 
-There is a subtle difference between SRC_URI_append = "..." and
-SRC_URI_append += "..." in that the latter will insert a space whereas
-the former will not.  But I don't think there is any situation where
-this distinction serves any useful purpose.  As far as I know, with
-current bitbake at least,
+  admitting my ignorance of the mechanics of "_append", what would it
+then mean to do:
 
-SRC_URI = "a"
-SRC_URI_append = "b"
-SRC_URI_append += "c"
+BLAH_append = "spanner"
+... snip ...
+BLAH_append = "toolbox"
 
-and
+if, say, someone does that accidentally?  and at this point, i will
+leave this in the hands of people much smarter than me and move on.
 
-SRC_URI = "a"
-SRC_URI_append = "b"
-SRC_URI_append = " c"
+  it may very well be that all of the oddities i ran across are
+technically valid but, for the sake of someone perusing the source,
+they should probably be cleaned up to prevent confusion.
 
-will both produce exactly the same effect, viz. SRC_URI = "ab c".  I
-think it might have been the case with some older bitbakes that the
-middle line would have no effect in this situation but that doesn't
-appear to be true now.
+rday
 
->  SRC_URI_append = "..."                (why not just SRC_URI +=?)
+-- 
 
-There are two differences in behaviour between these two.  First,
-trivially, _append doesn't add a space (i.e. it's closer to ".=" than
-"+=").  Secondly, and more significantly, the effect of _append is
-delayed whereas the effect of +=/.= is immediate.  So, given:
+========================================================================
+Robert P. J. Day                                 Ottawa, Ontario, CANADA
+                        http://crashcourse.ca
 
-SRC_URI_append = "b"
-SRC_URI = "a"
-
-you will get the result SRC_URI = "ab".  Whereas if you had written:
-
-SRC_URI += "b"
-SRC_URI = "a"
-
-you would get SRC_URI = "a".  There are places in the metadata that rely
-on these semantics, though in many ways this is unwholesome behaviour
-and it would be nice to eliminate the places where it is used.
-
-p.
-
-
+Twitter:                                       http://twitter.com/rpjday
+LinkedIn:                               http://ca.linkedin.com/in/rpjday
+========================================================================
 
 
