@@ -1,20 +1,33 @@
-Received: from mga03.intel.com ([143.182.124.21])
-	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <lianhao.lu@intel.com>) id 1SAID2-0005tP-To
-	for openembedded-core@lists.openembedded.org;
-	Wed, 21 Mar 2012 10:52:01 +0100
-Received: from azsmga002.ch.intel.com ([10.2.17.35])
-	by azsmga101.ch.intel.com with ESMTP; 21 Mar 2012 02:42:50 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="79909658"
-Received: from llu-piketon.sh.intel.com (HELO localhost) ([10.239.36.110])
-	by AZSMGA002.ch.intel.com with ESMTP; 21 Mar 2012 02:42:49 -0700
-From: Lianhao Lu <lianhao.lu@intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Wed, 21 Mar 2012 17:41:04 +0800
-Message-Id: <cover.1332315222.git.lianhao.lu@intel.com>
-X-Mailer: git-send-email 1.7.0.4
-Subject: [PATCH 0/1] change name of lttng-ust from lttng-2.0
+Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
+	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <richard.purdie@linuxfoundation.org>)
+	id 1SAINo-0007si-Pp for openembedded-core@lists.openembedded.org;
+	Wed, 21 Mar 2012 11:03:09 +0100
+Received: from localhost (localhost [127.0.0.1])
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q2L9sCYJ032763
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 21 Mar 2012 09:54:12 GMT
+Received: from tim.rpsys.net ([127.0.0.1])
+	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
+	port 10024) with LMTP
+	id 32590-02 for <openembedded-core@lists.openembedded.org>;
+	Wed, 21 Mar 2012 09:54:07 +0000 (GMT)
+Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q2L9rwrP032757
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO)
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 21 Mar 2012 09:54:05 GMT
+Message-ID: <1332323639.9740.125.camel@ted>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Date: Wed, 21 Mar 2012 09:53:59 +0000
+In-Reply-To: <CAP9ODKq3vD6u4TQnWw4Ux9c5L5fB3FVcstY_pCkmzp_HWddhRg@mail.gmail.com>
+References: <CAP9ODKq3vD6u4TQnWw4Ux9c5L5fB3FVcstY_pCkmzp_HWddhRg@mail.gmail.com>
+X-Mailer: Evolution 3.2.2- 
+Mime-Version: 1.0
+X-Virus-Scanned: amavisd-new at rpsys.net
+Subject: Re: Build failures due zlib problem
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -29,27 +42,47 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 21 Mar 2012 09:52:01 -0000
+X-List-Received-Date: Wed, 21 Mar 2012 10:03:09 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-This patch change the recipe name of lttng-ust from lttng-2.0 to lttng2-ust, 
-so the lttng-ust(s) from both the old lttng and the new lttng-2.0 can coexist.
+On Tue, 2012-03-20 at 22:40 -0300, Otavio Salvador wrote:
+> | NOTE: Unpacking
+> /home/ostt-devel/src/embedded-systems/downloads/gcc-4_6-branch_gcc.gnu.org_.svn.gcc.branches_184847_.tar.gz
+> to /home/ostt-devel/src/embedded-systems/tmp-eglibc-eglibc/work-shared/gcc-4.6.3+svnr184847-r28/
+> | gzip: /usr/lib/libz.so.1: version `ZLIB_1.2.5.1' not found (required by gzip)
+> | tar: Child returned status 1
+> 
+> Does anyone sees it? Our autobuilder is failing this way.
 
-The following changes since commit 5d404fdb36b0535ce758d98408b02134cdbce4ee:
-  Lauri Hintsala (1):
-        xserver-kdrive: compile xserver without dtrace support
+Yes, its being seen. I think its appeared after the pigz-native change
+but it exposes an underlying problem.
 
-are available in the git repository at:
+The issue is that we have a gzip binary in the sysroot linking against
+libz. We can get into a situation where we remove libz to rebuild but we
+don't remove the gzip binary yet.
 
-  git://git.yoctoproject.org/poky-contrib llu/bug2062
-  http://git.yoctoproject.org/cgit.cgi/poky-contrib/log/?h=llu/bug2062
+gzip-native is a tricky one since its one of those recipes we don't
+correctly have a dependency chain for and is also implied in
+ASSUME_PROVIDED (else how to we extract tarballs?).
 
-Lianhao Lu (1):
-  lttng-2.0/lttng-ust: Change recipe name to lttng2-ust.
+Whilst I've implicated pigz-native, we could potentially see this with
+gzip-native too, I'd guess its just more flexible about the libz symbols
+it uses.
 
- .../lttng-2.0/lttng-tools_2.0-pre16.bb             |    2 +-
- .../{lttng-ust_1.9.4.bb => lttng2-ust_1.9.4.bb}    |    0
- 2 files changed, 1 insertions(+), 1 deletions(-)
- rename meta/recipes-kernel/lttng-2.0/{lttng-ust_1.9.4.bb => lttng2-ust_1.9.4.bb} (100%)
+I'm trying to come up with a good way of handling this but at the moment
+I'm drawing a blank for a neat solution :(. 
+
+Something along the lines of perl-native might be necessary. We could
+also decide its a special case and remove gzip whenever libz is
+removed...
+
+Cheers,
+
+Richard
+
+
+
 
 
 
