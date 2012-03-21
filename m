@@ -1,27 +1,31 @@
-Received: from mga01.intel.com ([192.55.52.88])
+Received: from mail-wg0-f43.google.com ([74.125.82.43])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <nitin.a.kamble@intel.com>) id 1SARf4-0008DM-3N
+	(envelope-from <martin.jansa@gmail.com>) id 1SARfV-0008FL-TW
 	for openembedded-core@lists.openembedded.org;
-	Wed, 21 Mar 2012 20:57:34 +0100
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-	by fmsmga101.fm.intel.com with ESMTP; 21 Mar 2012 12:48:39 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="142732586"
-Received: from orsmsx606.amr.corp.intel.com ([10.22.226.128])
-	by fmsmga002.fm.intel.com with ESMTP; 21 Mar 2012 12:48:39 -0700
-Received: from orsmsx151.amr.corp.intel.com (10.22.226.38) by
-	orsmsx606.amr.corp.intel.com (10.22.226.128) with Microsoft SMTP Server
-	(TLS) id 8.2.255.0; Wed, 21 Mar 2012 12:48:38 -0700
-Received: from orsmsx106.amr.corp.intel.com ([169.254.5.128]) by
-	ORSMSX151.amr.corp.intel.com ([169.254.7.218]) with mapi id
-	14.01.0355.002; Wed, 21 Mar 2012 12:48:38 -0700
-From: "Kamble, Nitin A" <nitin.a.kamble@intel.com>
-To: =?iso-8859-1?Q?Eric_B=E9nard?= <eric@eukrea.com>
-Thread-Topic: [PATCH 1/1] Revert "gdb-cross-canadian: build gdb with python
-	support"
-Thread-Index: AQHNB4VDG6/xwLeUgEWTysDmkk+IHpZ1BaqAgAB3WAD//4s7gIAAd4cA//+K+DCAABC9YIAAfrcA//+LsHA=
-Date: Wed, 21 Mar 2012 19:48:38 +0000
-Message-ID: <ADD6A3980E8C39419A432FF422031B4C0137B4C9@ORSMSX106.amr.corp.intel.com>
+	Wed, 21 Mar 2012 20:58:02 +0100
+Received: by wgbdr12 with SMTP id dr12so779281wgb.24
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 21 Mar 2012 12:49:07 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=date:from:to:cc:subject:message-id:references:mime-version
+	:content-type:content-disposition:in-reply-to:user-agent;
+	bh=Tqm8mza+rrdiDlrOgMF6wmnSOggbaeYk9tTeZOEpwFo=;
+	b=SKoo4BxfB8rGPZlfMEGlph02xIlsJAM0QEp2fLeX3Nz8GA8DRXtQRB281GdokbY74l
+	0vgNFGpcYaHdTl3hzcwLsh+kde4mrkh94q0+LXXjteDMak0wvxFyG4NPRZM85chIyS6Y
+	5FSaVp1wVDm2BmJKo1MWnB/1zlVASCOvOs++O49Rj70+aTGpHGkYF5ZFDUvtsgpFCaxO
+	M1MD74JHT8rxQfJFWHLrIjGgewyqWSfWrFRw3ahfZ86ZnCuNah/InnTL9NzuJwWFmSwi
+	V5ABsR77nW6dHkjlBh6+yv+RJZeB9ku71I/ybcHXOS+7Hc9OvRRsH4IQDIrX+RG7teLW
+	nnXw==
+Received: by 10.180.95.74 with SMTP id di10mr54255701wib.1.1332359347784;
+	Wed, 21 Mar 2012 12:49:07 -0700 (PDT)
+Received: from localhost ([94.230.152.246])
+	by mx.google.com with ESMTPS id j3sm11329265wiw.1.2012.03.21.12.49.06
+	(version=TLSv1/SSLv3 cipher=OTHER);
+	Wed, 21 Mar 2012 12:49:07 -0700 (PDT)
+Date: Wed, 21 Mar 2012 20:49:06 +0100
+From: Martin Jansa <martin.jansa@gmail.com>
+To: Eric =?iso-8859-1?Q?B=E9nard?= <eric@eukrea.com>
+Message-ID: <20120321194906.GC3659@jama.jama.net>
 References: <cover.1332347414.git.nitin.a.kamble@intel.com>
 	<bfe0a5400cad2436b7be7d35a173c62349e47c0a.1332347414.git.nitin.a.kamble@intel.com>
 	<20120321180748.7cc58e67@eb-e6520>
@@ -29,14 +33,11 @@ References: <cover.1332347414.git.nitin.a.kamble@intel.com>
 	<20120321185216.440a6353@eb-e6520>
 	<ADD6A3980E8C39419A432FF422031B4C0137B3E3@ORSMSX106.amr.corp.intel.com>
 	<20120321190208.25dc0387@eb-e6520>
-	<ADD6A3980E8C39419A432FF422031B4C0137B46A@ORSMSX106.amr.corp.intel.com>
-	<20120321203642.032e28a1@eb-e6520>
-In-Reply-To: <20120321203642.032e28a1@eb-e6520>
-Accept-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [10.22.254.140]
+	<ADD6A3980E8C39419A432FF422031B4C0137B406@ORSMSX106.amr.corp.intel.com>
+	<20120321203249.54411613@eb-e6520>
 MIME-Version: 1.0
+In-Reply-To: <20120321203249.54411613@eb-e6520>
+User-Agent: Mutt/1.5.21 (2010-09-15)
 Cc: "openembedded-core@lists.openembedded.org"
 	<openembedded-core@lists.openembedded.org>
 Subject: Re: [PATCH 1/1] Revert "gdb-cross-canadian: build gdb with python support"
@@ -54,71 +55,121 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 21 Mar 2012 19:57:34 -0000
-Content-Language: en-US
-Content-Type: text/plain; charset="iso-8859-1"
+X-List-Received-Date: Wed, 21 Mar 2012 19:58:02 -0000
+X-Groupsio-MsgNum: 19321
+Content-Type: multipart/signed; micalg=pgp-sha1;
+	protocol="application/pgp-signature"; boundary="vni90+aGYgRvsTuO"
+Content-Disposition: inline
+
+--vni90+aGYgRvsTuO
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-
-
-> -----Original Message-----
-> From: Eric B=E9nard [mailto:eric@eukrea.com]
-> Sent: Wednesday, March 21, 2012 12:37 PM
-> To: Kamble, Nitin A
-> Cc: openembedded-core@lists.openembedded.org; Martin.Jansa@gmail.com;
-> richard.purdie@linuxfoundation.org
-> Subject: Re: [PATCH 1/1] Revert "gdb-cross-canadian: build gdb with
-> python support"
->=20
+On Wed, Mar 21, 2012 at 08:32:49PM +0100, Eric B=E9nard wrote:
 > Hi Nitin,
 >=20
-> Le Wed, 21 Mar 2012 19:04:14 +0000,
+> Le Wed, 21 Mar 2012 18:07:50 +0000,
 > "Kamble, Nitin A" <nitin.a.kamble@intel.com> a =E9crit :
-> >   The sdk gdb from meta-toolchain for qemuarm is also failing
-> similarly:
-> >
-> > *** glibc detected *** arm-poky-linux-gnueabi-gdb: double free or
-> corruption (out): 0x00007f8ef7992030 ***
-> > Aborted (core dumped)
-> >
-> can you provide more details on your configuration as it seems you
-> have a problem somewhere else ?
+> > > From: Eric B=E9nard [mailto:eric@eukrea.com]
+> > > I'm launching a build and will keep you informed of the result. If th=
+at
+> > > only fails for x86 or x86_64 targets, we can use overrides to disable
+> > > python support only for these targets.
+> > >=20
+> > > Eric
+> >=20
+> > I also starting test for sdk gdb for qemuarm target. Will keep you post=
+ed. Any solution that gives a working sdk gdb for all arches will be good.
+> >=20
+> that works fine here at least for target qemux86 :
+> [ebenard@eb-e6520 ~]$ cat /etc/fedora-release=20
+> Fedora release 16 (Verne)
 >=20
-> here is my config (you already have host details in the previous email)
-> [ebenard@eb-e6520 build]$ bitbake-layers  show-layers
-> Parsing recipes..done.
+> [ebenard@eb-e6520 ~]$ uname -a
+> Linux eb-e6520 3.2.9-2.fc16.x86_64 #1 SMP Mon Mar 5 20:55:39 UTC 2012
+> x86_64 x86_64 x86_64 GNU/Linux
 >=20
-> layer                 path
-> priority
-> =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-> =3D=3D=3D
-> meta                  /home/ebenard/OE-CORE/openembedded-core/meta
+> [ebenard@eb-e6520 ~]$
+> source /usr/local/oecore-x86_64/environment-setup-i586-oe-linux=20
 >=20
-> OE Build Configuration:
-> BB_VERSION        =3D "1.15.1"
-> TARGET_ARCH       =3D "i586"
-> TARGET_OS         =3D "linux"
-> MACHINE           =3D "qemux86"
-> DISTRO            =3D ""
-> DISTRO_VERSION    =3D "oe-core.0"
-> TUNE_FEATURES     =3D "m32 i586"
-> TARGET_FPU        =3D ""
-> meta              =3D "master:ee00c3146525e481beaefd2149c61cfe51de2797"
+> [ebenard@eb-e6520 ~]$ which i586-oe-linux-gdb
+> /usr/local/oecore-x86_64/sysroots/x86_64-oesdk-linux/usr/bin/i586-oe-linu=
+x/i586-oe-linux-gdb
 >=20
-> Eric
+> [ebenard@eb-e6520 ~]$ i586-oe-linux-gdb
+> GNU gdb (GDB) 7.4
+> Copyright (C) 2012 Free Software Foundation, Inc.
+> License GPLv3+: GNU GPL version 3 or later
+> <http://gnu.org/licenses/gpl.html> This is free software: you are free
+> to change and redistribute it. There is NO WARRANTY, to the extent
+> permitted by law.  Type "show copying" and "show warranty" for details.
+> This GDB was configured as "--host=3Dx86_64-oesdk-linux
+> --target=3Di586-oe-linux". For bug reporting instructions, please see:
+> <http://www.gnu.org/software/gdb/bugs/>.
+> (gdb) python import sys
+> (gdb) python sys.stdout.write("hello, world\n")
+> hello, world
+> (gdb)=20
 
-I am on the yocto/oe-core master branch: http://git.yoctoproject.org/cgit/c=
-git.cgi/poky/log/
+Just retested with qemux86-64 and distroless oe-core and also works
 
-I can try reproducing this issue with http://cgit.openembedded.org/openembe=
-dded-core/log/ and see what happens.
+OE @ /usr/local/oecore-i686 $ x86_64-oe-linux-gdb=20
+GNU gdb (GDB) 7.4
+Copyright (C) 2012 Free Software Foundation, Inc.
+License GPLv3+: GNU GPL version 3 or later
+<http://gnu.org/licenses/gpl.html>
+This is free software: you are free to change and redistribute it.
+There is NO WARRANTY, to the extent permitted by law.  Type "show
+copying"
+and "show warranty" for details.
+This GDB was configured as "--host=3Di686-oesdk-linux
+--target=3Dx86_64-oe-linux".
+For bug reporting instructions, please see:
+<http://www.gnu.org/software/gdb/bugs/>.
+(gdb) python print 42
+42
 
-Thanks,
-Nitin
+the same with armv7a (and my normal SHR layers on top of oe-core)
 
+OE @ /usr/local/oecore-i686 $
+sysroots/i686-oesdk-linux/usr/bin/armv7a-vfp-neon-oe-linux-gnueabi/arm-oe-l=
+inux-gnueabi-gdb
+GNU gdb (GDB) 7.4
+Copyright (C) 2012 Free Software Foundation, Inc.
+License GPLv3+: GNU GPL version 3 or later
+<http://gnu.org/licenses/gpl.html>
+This is free software: you are free to change and redistribute it.
+There is NO WARRANTY, to the extent permitted by law.  Type "show
+copying"
+and "show warranty" for details.
+This GDB was configured as "--host=3Di686-oesdk-linux
+--target=3Darm-oe-linux-gnueabi".
+For bug reporting instructions, please see:
+<http://www.gnu.org/software/gdb/bugs/>.
+(gdb) python print 42
+42
 
+And host system is gentoo..
 
+Nitin: please try with distroless oe-core to see if it's host or poky
+issue (poky still has own SDK_* paths..).
 
+Cheers,
 
+--=20
+Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
+
+--vni90+aGYgRvsTuO
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: Digital signature
+
+-----BEGIN PGP SIGNATURE-----
+Version: GnuPG v2.0.18 (GNU/Linux)
+
+iEYEARECAAYFAk9qMLEACgkQN1Ujt2V2gBwdRwCfQMOvf0g317Kz6Kcm6KZXQxql
+4k0AniFr3uD1Lwq0S8Sxq4f8StU/sixn
+=Fbta
+-----END PGP SIGNATURE-----
+
+--vni90+aGYgRvsTuO--
