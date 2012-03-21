@@ -1,25 +1,43 @@
-Received: from mga11.intel.com ([192.55.52.93])
+Received: from mga02.intel.com ([134.134.136.20])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <sgw@linux.intel.com>) id 1SAQtg-0007Rs-Vv
+	(envelope-from <nitin.a.kamble@intel.com>) id 1SAQyE-0007XX-H5
 	for openembedded-core@lists.openembedded.org;
-	Wed, 21 Mar 2012 20:08:37 +0100
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-	by fmsmga102.fm.intel.com with ESMTP; 21 Mar 2012 11:59:42 -0700
+	Wed, 21 Mar 2012 20:13:18 +0100
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+	by orsmga101.jf.intel.com with ESMTP; 21 Mar 2012 12:04:16 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="131633136"
-Received: from unknown (HELO [10.255.12.49]) ([10.255.12.49])
-	by fmsmga001.fm.intel.com with ESMTP; 21 Mar 2012 11:59:42 -0700
-Message-ID: <4F6A251E.3090609@linux.intel.com>
-Date: Wed, 21 Mar 2012 11:59:42 -0700
-From: Saul Wold <sgw@linux.intel.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:10.0.1) Gecko/20120216 Thunderbird/10.0.1
+X-IronPort-AV: E=Sophos;i="4.67,352,1309762800"; d="scan'208";a="120126248"
+Received: from orsmsx604.amr.corp.intel.com ([10.22.226.87])
+	by orsmga001.jf.intel.com with ESMTP; 21 Mar 2012 12:04:16 -0700
+Received: from orsmsx103.amr.corp.intel.com (10.22.225.130) by
+	orsmsx604.amr.corp.intel.com (10.22.226.87) with Microsoft SMTP Server
+	(TLS) id 8.2.255.0; Wed, 21 Mar 2012 12:04:15 -0700
+Received: from orsmsx106.amr.corp.intel.com ([169.254.5.128]) by
+	ORSMSX103.amr.corp.intel.com ([169.254.2.207]) with mapi id
+	14.01.0355.002; Wed, 21 Mar 2012 12:04:14 -0700
+From: "Kamble, Nitin A" <nitin.a.kamble@intel.com>
+To: "Kamble, Nitin A" <nitin.a.kamble@intel.com>,
+	=?iso-8859-1?Q?Eric_B=E9nard?= <eric@eukrea.com>
+Thread-Topic: [PATCH 1/1] Revert "gdb-cross-canadian: build gdb with python
+	support"
+Thread-Index: AQHNB4VDG6/xwLeUgEWTysDmkk+IHpZ1BaqAgAB3WAD//4s7gIAAd4cA//+K+DCAABC9YA==
+Date: Wed, 21 Mar 2012 19:04:14 +0000
+Message-ID: <ADD6A3980E8C39419A432FF422031B4C0137B46A@ORSMSX106.amr.corp.intel.com>
+References: <cover.1332347414.git.nitin.a.kamble@intel.com>
+	<bfe0a5400cad2436b7be7d35a173c62349e47c0a.1332347414.git.nitin.a.kamble@intel.com>
+	<20120321180748.7cc58e67@eb-e6520>
+	<ADD6A3980E8C39419A432FF422031B4C0137B3C3@ORSMSX106.amr.corp.intel.com>
+	<20120321185216.440a6353@eb-e6520>
+	<ADD6A3980E8C39419A432FF422031B4C0137B3E3@ORSMSX106.amr.corp.intel.com>
+	<20120321190208.25dc0387@eb-e6520> 
+Accept-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [10.22.254.140]
 MIME-Version: 1.0
-To: Patches and discussions about the oe-core layer
+Cc: "openembedded-core@lists.openembedded.org"
 	<openembedded-core@lists.openembedded.org>
-References: <cover.1331776831.git.nitin.a.kamble@intel.com>
-In-Reply-To: <cover.1331776831.git.nitin.a.kamble@intel.com>
-Subject: Re: [PATCH 0/8] fixes, recipe upgrades, & gcc multilib enabling commits
+Subject: Re: [PATCH 1/1] Revert "gdb-cross-canadian: build gdb with python support"
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -34,70 +52,53 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 21 Mar 2012 19:08:37 -0000
-Content-Type: text/plain; charset=ISO-8859-1; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Wed, 21 Mar 2012 19:13:18 -0000
+Content-Language: en-US
+Content-Type: text/plain; charset="iso-8859-1"
+Content-Transfer-Encoding: quoted-printable
 
-On 03/14/2012 07:02 PM, nitin.a.kamble@intel.com wrote:
-> From: Nitin A Kamble<nitin.a.kamble@intel.com>
->
-> For more information look at the individual commit logs.
->
-> The following changes since commit 8bae18bb358755131f13865abb279ac687a03848:
->
->    slang: Fix rpath QA warnings (2012-03-15 00:11:40 +0000)
->
-> are available in the git repository at:
->    git://git.pokylinux.org/poky-contrib gcc-multilib-2-for-push
->    http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=gcc-multilib-2-for-push
->
-> Nitin A Kamble (8):
->    gmp: upgrade from 5.0.3 to 5.0.4
-Merged
+>=20
+>=20
+>=20
+> > -----Original Message-----
+> > From: Eric B=E9nard [mailto:eric@eukrea.com]
+> > Sent: Wednesday, March 21, 2012 11:02 AM
+> > To: Kamble, Nitin A
+> > Cc: openembedded-core@lists.openembedded.org; Martin.Jansa@gmail.com;
+> > richard.purdie@linuxfoundation.org
+> > Subject: Re: [PATCH 1/1] Revert "gdb-cross-canadian: build gdb with
+> > python support"
+> >
+> > Le Wed, 21 Mar 2012 17:57:57 +0000,
+> > "Kamble, Nitin A" <nitin.a.kamble@intel.com> a =E9crit :
+> > > Can you try meta-toolchain for qemux86 or qemux86-64 machine ?
+> > > I found that sdk gdb is failing for these machines since that
+> commit
+> > went in the oe-core.
+> > >
+> > I'm launching a build and will keep you informed of the result. If
+> that
+> > only fails for x86 or x86_64 targets, we can use overrides to disable
+> > python support only for these targets.
+> >
+> > Eric
+>=20
+> I also starting test for sdk gdb for qemuarm target. Will keep you
+> posted. Any solution that gives a working sdk gdb for all arches will
+> be good.
+>=20
+> Thanks,
+> Nitin
 
->    automake: upgrade from 1.11.2 to 1.11.3
-Holding on on this change due to issue already seen.
->    distro-tracking: update status of recipes
->    ncurses: fix install error
->    python: fix install when libdir is not "lib"
-Merged these into OE-Core
+Eric,
+  The sdk gdb from meta-toolchain for qemuarm is also failing similarly:
 
->    multilib.conf: add other abi packages to target gcc's dependencies
->    gcc: remove the 64bithack patch
->    gcc: enable multilib for target gcc
->
-We are going to hold off on the multilib changes for after 1.2
+*** glibc detected *** arm-poky-linux-gnueabi-gdb: double free or corruptio=
+n (out): 0x00007f8ef7992030 ***
+Aborted (core dumped)
 
-Thanks
-Sau!
+Thanks,
+Nitin
 
->   .../conf/distro/include/distro_tracking_fields.inc |   24 ++--
->   meta/conf/multilib.conf                            |    3 +
->   meta/recipes-core/ncurses/ncurses.inc              |    2 +-
->   meta/recipes-devtools/automake/automake.inc        |    2 +-
->   ...utomake_1.11.2_fix_for_pkglibexec_SCRIPTS.patch |  118 ---------------
->   .../prefer-cpio-over-pax-for-ustar-archives.patch  |   30 ++--
->   .../automake/automake/python-libdir.patch          |   32 ++---
->   .../{automake_1.11.2.bb =>  automake_1.11.3.bb}     |    8 +-
->   meta/recipes-devtools/gcc/gcc-4.6.inc              |    1 -
->   meta/recipes-devtools/gcc/gcc-4.6/64bithack.patch  |   68 ---------
->   meta/recipes-devtools/gcc/gcc-common.inc           |   23 +++
->   meta/recipes-devtools/gcc/gcc-configure-common.inc |    2 +-
->   meta/recipes-devtools/gcc/gcc-configure-target.inc |    1 +
->   meta/recipes-devtools/gcc/gcc-multilib-config.inc  |  155 ++++++++++++++++++++
->   meta/recipes-devtools/gcc/libgcc_4.6.bb            |   42 ++++++
->   .../python/fix_for_using_different_libdir.patch    |   78 ++++++++++
->   meta/recipes-devtools/python/python_2.7.2.bb       |    3 +-
->   meta/recipes-support/gmp/gmp/gmp_bugfix.patch      |   94 ------------
->   .../gmp/{gmp_5.0.3.bb =>  gmp_5.0.4.bb}             |    7 +-
->   19 files changed, 358 insertions(+), 335 deletions(-)
->   delete mode 100644 meta/recipes-devtools/automake/automake/automake_1.11.2_fix_for_pkglibexec_SCRIPTS.patch
->   rename meta/recipes-devtools/automake/{automake_1.11.2.bb =>  automake_1.11.3.bb} (85%)
->   delete mode 100644 meta/recipes-devtools/gcc/gcc-4.6/64bithack.patch
->   create mode 100644 meta/recipes-devtools/gcc/gcc-multilib-config.inc
->   create mode 100644 meta/recipes-devtools/python/python/fix_for_using_different_libdir.patch
->   delete mode 100644 meta/recipes-support/gmp/gmp/gmp_bugfix.patch
->   rename meta/recipes-support/gmp/{gmp_5.0.3.bb =>  gmp_5.0.4.bb} (54%)
->
 
 
