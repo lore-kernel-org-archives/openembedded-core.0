@@ -1,55 +1,45 @@
-Received: from ch1ehsobe001.messaging.microsoft.com ([216.32.181.181]
-	helo=ch1outboundpool.messaging.microsoft.com)
+Received: from mga03.intel.com ([143.182.124.21])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <B29882@freescale.com>) id 1SAPt3-00061T-2G
+	(envelope-from <nitin.a.kamble@intel.com>) id 1SAPwW-00065m-LD
 	for openembedded-core@lists.openembedded.org;
-	Wed, 21 Mar 2012 19:03:53 +0100
-Received: from mail159-ch1-R.bigfish.com (10.43.68.238) by
-	CH1EHSOBE007.bigfish.com (10.43.70.57) with Microsoft SMTP Server id
-	14.1.225.23; Wed, 21 Mar 2012 17:54:52 +0000
-Received: from mail159-ch1 (localhost [127.0.0.1])	by
-	mail159-ch1-R.bigfish.com (Postfix) with ESMTP id BC8C84405AC	for
-	<openembedded-core@lists.openembedded.org>;
-	Wed, 21 Mar 2012 17:54:51 +0000 (UTC)
-X-SpamScore: -7
-X-BigFish: VS-7(zz9371I1432N98dKzz1202hzz8275dhz2dh2a8h668h839h8e2h8e3hbe9k)
-X-Forefront-Antispam-Report: CIP:70.37.183.190; KIP:(null); UIP:(null); IPV:NLI;
-	H:mail.freescale.net; RD:none; EFVD:NLI
-Received: from mail159-ch1 (localhost.localdomain [127.0.0.1]) by mail159-ch1
-	(MessageSwitch) id 133235249080246_22057;
-	Wed, 21 Mar 2012 17:54:50 +0000 (UTC)
-Received: from CH1EHSMHS002.bigfish.com (snatpool1.int.messaging.microsoft.com
-	[10.43.68.252])	by mail159-ch1.bigfish.com (Postfix) with ESMTP id
-	060D44018F for <openembedded-core@lists.openembedded.org>;
-	Wed, 21 Mar 2012 17:54:50 +0000 (UTC)
-Received: from mail.freescale.net (70.37.183.190) by CH1EHSMHS002.bigfish.com
-	(10.43.70.2) with Microsoft SMTP Server (TLS) id 14.1.225.23;
-	Wed, 21 Mar 2012 17:54:49 +0000
-Received: from 039-SN1MPN1-001.039d.mgd.msft.net ([169.254.1.230]) by
-	039-SN1MMR1-001.039d.mgd.msft.net ([10.84.1.13]) with mapi id
-	14.01.0355.003; Wed, 21 Mar 2012 12:54:55 -0500
-From: McClintock Matthew-B29882 <B29882@freescale.com>
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Thread-Topic: [OE-core] [PATCH] bitbake.conf/sstate.bbclass: Change PATH
-	when installing sstate files to avoid issues
-Thread-Index: AQHNB4u5blAnmg2J7kS03RUMxVYD5w==
-Date: Wed, 21 Mar 2012 17:54:55 +0000
-Message-ID: <CAEsOVNcy6kwQQ0oank6gO4yOSuUM6NNG0fYk752sQvYWy+9GDA@mail.gmail.com>
-References: <1332326683.9740.136.camel@ted>
-In-Reply-To: <1332326683.9740.136.camel@ted>
+	Wed, 21 Mar 2012 19:07:28 +0100
+Received: from azsmga002.ch.intel.com ([10.2.17.35])
+	by azsmga101.ch.intel.com with ESMTP; 21 Mar 2012 10:58:11 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="80049525"
+Received: from orsmsx606.amr.corp.intel.com ([10.22.226.128])
+	by AZSMGA002.ch.intel.com with ESMTP; 21 Mar 2012 10:58:09 -0700
+Received: from orsmsx104.amr.corp.intel.com (10.22.225.131) by
+	orsmsx606.amr.corp.intel.com (10.22.226.128) with Microsoft SMTP Server
+	(TLS) id 8.2.255.0; Wed, 21 Mar 2012 10:57:58 -0700
+Received: from orsmsx106.amr.corp.intel.com ([169.254.5.128]) by
+	ORSMSX104.amr.corp.intel.com ([169.254.3.46]) with mapi id
+	14.01.0355.002; Wed, 21 Mar 2012 10:57:58 -0700
+From: "Kamble, Nitin A" <nitin.a.kamble@intel.com>
+To: =?iso-8859-1?Q?Eric_B=E9nard?= <eric@eukrea.com>
+Thread-Topic: [PATCH 1/1] Revert "gdb-cross-canadian: build gdb with python
+	support"
+Thread-Index: AQHNB4VDG6/xwLeUgEWTysDmkk+IHpZ1BaqAgAB3WAD//4s7gA==
+Date: Wed, 21 Mar 2012 17:57:57 +0000
+Message-ID: <ADD6A3980E8C39419A432FF422031B4C0137B3E3@ORSMSX106.amr.corp.intel.com>
+References: <cover.1332347414.git.nitin.a.kamble@intel.com>
+	<bfe0a5400cad2436b7be7d35a173c62349e47c0a.1332347414.git.nitin.a.kamble@intel.com>
+	<20120321180748.7cc58e67@eb-e6520>
+	<ADD6A3980E8C39419A432FF422031B4C0137B3C3@ORSMSX106.amr.corp.intel.com>
+	<20120321185216.440a6353@eb-e6520>
+In-Reply-To: <20120321185216.440a6353@eb-e6520>
 Accept-Language: en-US
 X-MS-Has-Attach: 
 X-MS-TNEF-Correlator: 
-x-originating-ip: [99.47.177.27]
+x-originating-ip: [10.22.254.140]
 MIME-Version: 1.0
-X-OriginatorOrg: freescale.com
-Subject: Re: [PATCH] bitbake.conf/sstate.bbclass: Change PATH when installing sstate files to avoid issues
+Cc: "openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 1/1] Revert "gdb-cross-canadian: build gdb with python support"
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
-Reply-To: McClintock Matthew-B29882 <B29882@freescale.com>,
-	Patches and discussions about the oe-core layer
+Reply-To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
 List-Id: Patches and discussions about the oe-core layer
 	<openembedded-core.lists.openembedded.org>
@@ -60,78 +50,39 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 21 Mar 2012 18:03:53 -0000
+X-List-Received-Date: Wed, 21 Mar 2012 18:07:28 -0000
 Content-Language: en-US
 Content-Type: text/plain; charset="iso-8859-1"
-Content-ID: <0E4A5BBB7D9CBE4981E8EBD6CA662FBF@mgd.freescale.com>
 Content-Transfer-Encoding: quoted-printable
 
-On Wed, Mar 21, 2012 at 5:44 AM, Richard Purdie
-<richard.purdie@linuxfoundation.org> wrote:
-> This resolves issues related to pigz-native when installing from sstate t=
-hat people
-> have been seeing. It also gives us a way to solve issues like the gzip-na=
-tive race
-> during sstate package creation covered in Yocto #1774.
->
-> Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-> ---
-> diff --git a/meta/classes/sstate.bbclass b/meta/classes/sstate.bbclass
-> index 0d16d11..1570654 100644
-> --- a/meta/classes/sstate.bbclass
-> +++ b/meta/classes/sstate.bbclass
-> @@ -153,6 +153,12 @@ def sstate_installpkg(ss, d):
-> =A0 =A0 =A0 =A0 bb.mkdirhier(dir)
-> =A0 =A0 =A0 =A0 oe.path.remove(dir)
->
-> + =A0 =A0# We're adding binaries into the sysroots, we don't want to exec=
-ute them
-> + =A0 =A0# whilst they're half installed or being installed so we need to
-> + =A0 =A0# remove the sysroots from PATH
-> + =A0 =A0savedpath =3D d.getVar("PATH")
-> + =A0 =A0d.setVar("PATH", "${ORIGPATH}")
-> +
-> =A0 =A0 sstateinst =3D d.expand("${WORKDIR}/sstate-install-%s/" % ss['nam=
-e'])
-> =A0 =A0 sstatepkg =3D d.getVar('SSTATE_PKG', True) + '_' + ss['name'] + "=
-.tgz"
->
-> @@ -190,6 +196,8 @@ def sstate_installpkg(ss, d):
-> =A0 =A0 =A0 =A0 # conflict with another writer
-> =A0 =A0 =A0 =A0 os.remove(fixmefn)
->
-> + =A0 =A0d.setVar("PATH", savedpath)
-> +
 
-So we always use the host tar and gzip here? Isn't there a reason we
-build tar-native explicitly? Could be fine if it's not needed for
-sstate-cache...
+> -----Original Message-----
+> From: Eric B=E9nard [mailto:eric@eukrea.com]
+> Sent: Wednesday, March 21, 2012 10:52 AM
+> To: Kamble, Nitin A
+> Cc: openembedded-core@lists.openembedded.org; Martin.Jansa@gmail.com;
+> richard.purdie@linuxfoundation.org
+> Subject: Re: [PATCH 1/1] Revert "gdb-cross-canadian: build gdb with
+> python support"
+>=20
+> Le Wed, 21 Mar 2012 17:47:53 +0000,
+> "Kamble, Nitin A" <nitin.a.kamble@intel.com> a =E9crit :
+> >   I tried removing the "--with-system-readline" from the
+> EXTRA_OECONF. It did not change the behavior of the issue.
+> > Also I noticed that that commit never worked in the tree. I have
+> built it on fedora and suse systems.
+>=20
+> it works fine here (Fedora 16 x86_64 host system, oe-core + qemuarm
+> target + meta-toolchain-qte), tested yersterday.
+>=20
+> Eric
 
-> =A0 =A0 for state in ss['dirs']:
-> =A0 =A0 =A0 =A0 prepdir(state[1])
-> =A0 =A0 =A0 =A0 os.rename(sstateinst + state[0], state[1])
-> diff --git a/meta/conf/bitbake.conf b/meta/conf/bitbake.conf
-> index d4357d1..145a9a2 100644
-> --- a/meta/conf/bitbake.conf
-> +++ b/meta/conf/bitbake.conf
-> @@ -401,6 +401,7 @@ EXTRA_IMAGEDEPENDS =3D ""
-> =A0# Toolchain info.
-> =A0##################################################################
->
-> +ORIGPATH :=3D "${PATH}"
-> =A0PATH_prepend =3D "${STAGING_BINDIR_TOOLCHAIN}:${STAGING_BINDIR_CROSS}:=
-${STAGING_DIR_NATIVE}${sbindir_native}:${STAGING_BINDIR_NATIVE}:${STAGING_D=
-IR_NATIVE}${base_sbindir_native}:${STAGING_DIR_NATIVE}/${base_bindir_native=
-}:"
-> =A0export PATH
->
->
->
->
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core=
+Can you try meta-toolchain for qemux86 or qemux86-64 machine ?
+I found that sdk gdb is failing for these machines since that commit went i=
+n the oe-core.
+
+Thanks,
+Nitin
 
 
 
