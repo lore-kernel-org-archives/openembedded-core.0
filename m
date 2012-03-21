@@ -1,25 +1,25 @@
-Received: from mga01.intel.com ([192.55.52.88])
+Received: from mga11.intel.com ([192.55.52.93])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <sgw@linux.intel.com>) id 1SAQm1-0007Lb-08
+	(envelope-from <sgw@linux.intel.com>) id 1SAQtg-0007Rs-Vv
 	for openembedded-core@lists.openembedded.org;
-	Wed, 21 Mar 2012 20:00:41 +0100
+	Wed, 21 Mar 2012 20:08:37 +0100
 Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-	by fmsmga101.fm.intel.com with ESMTP; 21 Mar 2012 11:51:26 -0700
+	by fmsmga102.fm.intel.com with ESMTP; 21 Mar 2012 11:59:42 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="131630310"
+X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="131633136"
 Received: from unknown (HELO [10.255.12.49]) ([10.255.12.49])
-	by fmsmga001.fm.intel.com with ESMTP; 21 Mar 2012 11:51:25 -0700
-Message-ID: <4F6A232D.3060002@linux.intel.com>
-Date: Wed, 21 Mar 2012 11:51:25 -0700
+	by fmsmga001.fm.intel.com with ESMTP; 21 Mar 2012 11:59:42 -0700
+Message-ID: <4F6A251E.3090609@linux.intel.com>
+Date: Wed, 21 Mar 2012 11:59:42 -0700
 From: Saul Wold <sgw@linux.intel.com>
 User-Agent: Mozilla/5.0 (X11; Linux x86_64;
 	rv:10.0.1) Gecko/20120216 Thunderbird/10.0.1
 MIME-Version: 1.0
-To: Dexuan Cui <dexuan.cui@intel.com>
-References: <cover.1332127031.git.dexuan.cui@intel.com>
-In-Reply-To: <cover.1332127031.git.dexuan.cui@intel.com>
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 0/1] task-self-hosted: add nfs-utils and nfs-utils-client into the target
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+References: <cover.1331776831.git.nitin.a.kamble@intel.com>
+In-Reply-To: <cover.1331776831.git.nitin.a.kamble@intel.com>
+Subject: Re: [PATCH 0/8] fixes, recipe upgrades, & gcc multilib enabling commits
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -34,29 +34,70 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 21 Mar 2012 19:00:41 -0000
+X-List-Received-Date: Wed, 21 Mar 2012 19:08:37 -0000
 Content-Type: text/plain; charset=ISO-8859-1; format=flowed
 Content-Transfer-Encoding: 7bit
 
-On 03/18/2012 08:28 PM, Dexuan Cui wrote:
-> The following changes since commit 0882b5e0adb05d4f950c721fcb80b4cff42ce079:
+On 03/14/2012 07:02 PM, nitin.a.kamble@intel.com wrote:
+> From: Nitin A Kamble<nitin.a.kamble@intel.com>
 >
->    self-hosted-image: pre-populate the builder user with poky source (2012-03-19 09:31:19 +0800)
+> For more information look at the individual commit logs.
+>
+> The following changes since commit 8bae18bb358755131f13865abb279ac687a03848:
+>
+>    slang: Fix rpath QA warnings (2012-03-15 00:11:40 +0000)
 >
 > are available in the git repository at:
->    git://git.pokylinux.org/poky-contrib dcui/self
->    http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=dcui/self
+>    git://git.pokylinux.org/poky-contrib gcc-multilib-2-for-push
+>    http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=gcc-multilib-2-for-push
 >
-> Dexuan Cui (1):
->    task-self-hosted: add nfs-utils and nfs-utils-client into the target
->
->   meta/recipes-core/tasks/task-self-hosted.bb |    4 +++-
->   1 files changed, 3 insertions(+), 1 deletions(-)
->
+> Nitin A Kamble (8):
+>    gmp: upgrade from 5.0.3 to 5.0.4
+Merged
 
-Merged into OE-Core
+>    automake: upgrade from 1.11.2 to 1.11.3
+Holding on on this change due to issue already seen.
+>    distro-tracking: update status of recipes
+>    ncurses: fix install error
+>    python: fix install when libdir is not "lib"
+Merged these into OE-Core
+
+>    multilib.conf: add other abi packages to target gcc's dependencies
+>    gcc: remove the 64bithack patch
+>    gcc: enable multilib for target gcc
+>
+We are going to hold off on the multilib changes for after 1.2
 
 Thanks
-	Sau!
+Sau!
+
+>   .../conf/distro/include/distro_tracking_fields.inc |   24 ++--
+>   meta/conf/multilib.conf                            |    3 +
+>   meta/recipes-core/ncurses/ncurses.inc              |    2 +-
+>   meta/recipes-devtools/automake/automake.inc        |    2 +-
+>   ...utomake_1.11.2_fix_for_pkglibexec_SCRIPTS.patch |  118 ---------------
+>   .../prefer-cpio-over-pax-for-ustar-archives.patch  |   30 ++--
+>   .../automake/automake/python-libdir.patch          |   32 ++---
+>   .../{automake_1.11.2.bb =>  automake_1.11.3.bb}     |    8 +-
+>   meta/recipes-devtools/gcc/gcc-4.6.inc              |    1 -
+>   meta/recipes-devtools/gcc/gcc-4.6/64bithack.patch  |   68 ---------
+>   meta/recipes-devtools/gcc/gcc-common.inc           |   23 +++
+>   meta/recipes-devtools/gcc/gcc-configure-common.inc |    2 +-
+>   meta/recipes-devtools/gcc/gcc-configure-target.inc |    1 +
+>   meta/recipes-devtools/gcc/gcc-multilib-config.inc  |  155 ++++++++++++++++++++
+>   meta/recipes-devtools/gcc/libgcc_4.6.bb            |   42 ++++++
+>   .../python/fix_for_using_different_libdir.patch    |   78 ++++++++++
+>   meta/recipes-devtools/python/python_2.7.2.bb       |    3 +-
+>   meta/recipes-support/gmp/gmp/gmp_bugfix.patch      |   94 ------------
+>   .../gmp/{gmp_5.0.3.bb =>  gmp_5.0.4.bb}             |    7 +-
+>   19 files changed, 358 insertions(+), 335 deletions(-)
+>   delete mode 100644 meta/recipes-devtools/automake/automake/automake_1.11.2_fix_for_pkglibexec_SCRIPTS.patch
+>   rename meta/recipes-devtools/automake/{automake_1.11.2.bb =>  automake_1.11.3.bb} (85%)
+>   delete mode 100644 meta/recipes-devtools/gcc/gcc-4.6/64bithack.patch
+>   create mode 100644 meta/recipes-devtools/gcc/gcc-multilib-config.inc
+>   create mode 100644 meta/recipes-devtools/python/python/fix_for_using_different_libdir.patch
+>   delete mode 100644 meta/recipes-support/gmp/gmp/gmp_bugfix.patch
+>   rename meta/recipes-support/gmp/{gmp_5.0.3.bb =>  gmp_5.0.4.bb} (54%)
+>
 
 
