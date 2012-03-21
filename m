@@ -1,37 +1,48 @@
-Received: from mail-wi0-f177.google.com ([209.85.212.177])
+Received: from mga11.intel.com ([192.55.52.93])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <martin.jansa@gmail.com>) id 1SATMh-0002tN-Is
+	(envelope-from <nitin.a.kamble@intel.com>) id 1SATWh-0003A0-39
 	for openembedded-core@lists.openembedded.org;
-	Wed, 21 Mar 2012 22:46:43 +0100
-Received: by mail-wi0-f177.google.com with SMTP id hj13so1837592wib.6
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 21 Mar 2012 14:37:51 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=from:to:subject:date:message-id:x-mailer:in-reply-to:references
-	:in-reply-to:references;
-	bh=WKQGxXBOeSstGPoYDl0vWzOMzWHSbbpYddDWLxJlb0I=;
-	b=ACe4DfHFjVAftEuRT5ylFEih49tD16264IyC69J6Mhu7FPpodEGtXgOyPoJ1buMLIa
-	zaaVC6L6VrHcSuypK2/bDqKNnXumSl3B5ZcXranlkSGTzP+Rc3Azy53XrL/zV0xPEQeE
-	jgjvKVXGKymbiLJkzwBdESoGAZ9ytRyndnPgGEqyZTbPxZMP9u64wANd4quvMgCW3scF
-	EArzp2sGGH810SdvB/FOBo2xpqXotEzVwVNxV2tVacbo2cEzTStjWBVhzJFbsVUaNHNX
-	5Ku2L3/GnhUaEkld9cABtnlEVsBzfl0rTOVMsqE4KVo2QR+qBfbwLdQdBYOa62O9JYlY
-	incA==
-Received: by 10.180.84.164 with SMTP id a4mr12569996wiz.2.1332365871625;
-	Wed, 21 Mar 2012 14:37:51 -0700 (PDT)
-Received: from localhost ([94.230.152.246])
-	by mx.google.com with ESMTPS id fz9sm7695331wib.3.2012.03.21.14.37.50
-	(version=TLSv1/SSLv3 cipher=OTHER);
-	Wed, 21 Mar 2012 14:37:50 -0700 (PDT)
-From: Martin Jansa <martin.jansa@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Date: Wed, 21 Mar 2012 22:36:18 +0100
-Message-Id: <1d1113a5e6879788fce16a861072481b89ecdbdd.1332365336.git.Martin.Jansa@gmail.com>
-X-Mailer: git-send-email 1.7.8.5
-In-Reply-To: <2ec6e0c134d708687c5d3d439b31607cda478dfc.1332365336.git.Martin.Jansa@gmail.com>
-References: <2ec6e0c134d708687c5d3d439b31607cda478dfc.1332365336.git.Martin.Jansa@gmail.com>
-In-Reply-To: <cover.1332365336.git.Martin.Jansa@gmail.com>
-References: <cover.1332365336.git.Martin.Jansa@gmail.com>
-Subject: [PATCH 13/13] rootfs_ipk: replace 3 opkg-cl calls with one in get_package_filename
+	Wed, 21 Mar 2012 22:57:03 +0100
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+	by fmsmga102.fm.intel.com with ESMTP; 21 Mar 2012 14:48:07 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="131695984"
+Received: from orsmsx604.amr.corp.intel.com ([10.22.226.87])
+	by fmsmga001.fm.intel.com with ESMTP; 21 Mar 2012 14:48:05 -0700
+Received: from orsmsx152.amr.corp.intel.com (10.22.226.39) by
+	orsmsx604.amr.corp.intel.com (10.22.226.87) with Microsoft SMTP Server
+	(TLS) id 8.2.255.0; Wed, 21 Mar 2012 14:48:01 -0700
+Received: from orsmsx106.amr.corp.intel.com ([169.254.5.128]) by
+	ORSMSX152.amr.corp.intel.com ([169.254.8.120]) with mapi id
+	14.01.0355.002; Wed, 21 Mar 2012 14:48:01 -0700
+From: "Kamble, Nitin A" <nitin.a.kamble@intel.com>
+To: "Kamble, Nitin A" <nitin.a.kamble@intel.com>,
+	=?iso-8859-1?Q?Eric_B=E9nard?= <eric@eukrea.com>
+Thread-Topic: [PATCH 1/1] Revert "gdb-cross-canadian: build gdb with python
+	support"
+Thread-Index: AQHNB4VDG6/xwLeUgEWTysDmkk+IHpZ1BaqAgAB3WAD//4s7gIAAd4cA//+K+DCAAI5egIAABI0A//+ae8AAD0RXgAAOkVAgABu39+A=
+Date: Wed, 21 Mar 2012 21:48:00 +0000
+Message-ID: <ADD6A3980E8C39419A432FF422031B4C0137B63F@ORSMSX106.amr.corp.intel.com>
+References: <cover.1332347414.git.nitin.a.kamble@intel.com>
+	<bfe0a5400cad2436b7be7d35a173c62349e47c0a.1332347414.git.nitin.a.kamble@intel.com>
+	<20120321180748.7cc58e67@eb-e6520>
+	<ADD6A3980E8C39419A432FF422031B4C0137B3C3@ORSMSX106.amr.corp.intel.com>
+	<20120321185216.440a6353@eb-e6520>
+	<ADD6A3980E8C39419A432FF422031B4C0137B3E3@ORSMSX106.amr.corp.intel.com>
+	<20120321190208.25dc0387@eb-e6520>
+	<ADD6A3980E8C39419A432FF422031B4C0137B406@ORSMSX106.amr.corp.intel.com>
+	<20120321203249.54411613@eb-e6520>	<20120321194906.GC3659@jama.jama.net>
+	<ADD6A3980E8C39419A432FF422031B4C0137B557@ORSMSX106.amr.corp.intel.com>
+	<20120321220253.00c4f254@eb-e6520> 
+Accept-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [10.22.254.140]
+MIME-Version: 1.0
+Cc: Martin Jansa <martin.jansa@gmail.com>,
+	"openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 1/1] Revert "gdb-cross-canadian: build gdb with python support"
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -46,36 +57,125 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 21 Mar 2012 21:46:43 -0000
+X-List-Received-Date: Wed, 21 Mar 2012 21:57:03 -0000
+Content-Language: en-US
+Content-Type: text/plain; charset="iso-8859-1"
+Content-Transfer-Encoding: quoted-printable
 
-* || true is needed for cases where grep doesn't find anything
-* and quotes around info are needed to keep line breaks
 
-Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
----
- meta/classes/rootfs_ipk.bbclass |    7 ++++---
- 1 files changed, 4 insertions(+), 3 deletions(-)
 
-diff --git a/meta/classes/rootfs_ipk.bbclass b/meta/classes/rootfs_ipk.bbclass
-index 2df8ca4..13bd4bf 100644
---- a/meta/classes/rootfs_ipk.bbclass
-+++ b/meta/classes/rootfs_ipk.bbclass
-@@ -127,9 +127,10 @@ list_installed_packages() {
- }
- 
- get_package_filename() {
--	name=`opkg-cl ${IPKG_ARGS} info $1 | grep -B 7 -A 7 "^Status.* \(\(installed\)\|\(unpacked\)\)" | awk '/^Package/ {printf $2"_"}'`
--	name=$name`opkg-cl ${IPKG_ARGS} info $1 | grep -B 7 -A 7 "^Status.* \(\(installed\)\|\(unpacked\)\)" | awk -F: '/^Version/ {printf $NF"_"}' | sed 's/^\s*//g'`
--	name=$name`opkg-cl ${IPKG_ARGS} info $1 | grep -B 7 -A 7 "^Status.* \(\(installed\)\|\(unpacked\)\)" | awk '/^Archi/ {print $2".ipk"}'`
-+	info=`opkg-cl ${IPKG_ARGS} info $1 | grep -B 7 -A 7 "^Status.* \(\(installed\)\|\(unpacked\)\)" || true`
-+	name=`echo "${info}" | awk '/^Package/ {printf $2"_"}'`
-+	name=$name`echo "${info}" | awk -F: '/^Version/ {printf $NF"_"}' | sed 's/^\s*//g'`
-+	name=$name`echo "${info}" | awk '/^Archi/ {print $2".ipk"}'`
- 
- 	fullname=`find ${DEPLOY_DIR_IPK} -name "$name" || true`
- 	if [ "$fullname" = "" ] ; then
--- 
-1.7.8.5
+> -----Original Message-----
+> From: Kamble, Nitin A
+> Sent: Wednesday, March 21, 2012 2:12 PM
+> To: 'Eric B=E9nard'
+> Cc: Martin Jansa; openembedded-core@lists.openembedded.org;
+> richard.purdie@linuxfoundation.org
+> Subject: RE: [PATCH 1/1] Revert "gdb-cross-canadian: build gdb with
+> python support"
+>=20
+>=20
+>=20
+> > -----Original Message-----
+> > From: Eric B=E9nard [mailto:eric@eukrea.com]
+> > Sent: Wednesday, March 21, 2012 2:03 PM
+> > To: Kamble, Nitin A
+> > Cc: Martin Jansa; openembedded-core@lists.openembedded.org;
+> > richard.purdie@linuxfoundation.org
+> > Subject: Re: [PATCH 1/1] Revert "gdb-cross-canadian: build gdb with
+> > python support"
+> >
+> > Le Wed, 21 Mar 2012 20:48:23 +0000,
+> > "Kamble, Nitin A" <nitin.a.kamble@intel.com> a =E9crit :
+> > >   I removed the meta-yocto layer, which removed poky distro from
+> the
+> > config. And I am still seeing same issue.
+> > >
+> > > [nitin@nbuild0 /]$ cd /usr/local/oecore-x86_64/
+> > > [nitin@nbuild0 oecore-x86_64]$ ls
+> > > environment-setup-x86_64-oe-linux  site-config-x86_64-oe-linux
+> > sysroots  version-x86_64-oe-linux
+> > > [nitin@nbuild0 oecore-x86_64]$ . environment-setup-x86_64-oe-linux
+> > >  [nitin@nbuild0 oecore-x86_64]$ sysroots/x86_64-oesdk-
+> > linux/usr/bin/x86_64-oe-linux/x86_64-oe-linux-gdb
+> > > *** glibc detected *** sysroots/x86_64-oesdk-linux/usr/bin/x86_64-
+> oe-
+> > linux/x86_64-oe-linux-gdb: double free or corruption (out):
+> > 0x00007f3221852030 ***
+> > > Aborted (core dumped)
+> > >
+> > may you please provide details on :
+> > - log reported by bitbake when you launch it to know a little bit
+> more
+> >   your configuration,
+>=20
+> This is with yocto git repo, with just meta layer, I removed the meta-
+> yocto layer from configuration to keep just oecore bits and to take out
+> the poky bits.
+>=20
+> $ bitbake meta-toolchain
+> Pseudo is not present but is required, building this first before the
+> main build
+> Parsing recipes: 100%
+> |######################################################################
+> #######| Time: 00:00:03
+> Parsing of 831 .bb files complete (0 cached, 831 parsed). 1107 targets,
+> 19 skipped, 0 masked, 0 errors.
+>=20
+> OE Build Configuration:
+> BB_VERSION        =3D "1.15.1"
+> TARGET_ARCH       =3D "x86_64"
+> TARGET_OS         =3D "linux"
+> MACHINE           =3D "qemux86-64"
+> DISTRO            =3D ""
+> DISTRO_VERSION    =3D "oe-core.0"
+> TUNE_FEATURES     =3D "m64"
+> TARGET_FPU        =3D ""
+> meta              =3D "master:40f95685e6a3b4359d2ab2fea1418fe5e4bd0aa1"
+>=20
+> > - host distribution and arch of your build host
+> Build host:
+> $ cat /etc/SuSE-release
+> openSUSE 11.4 (x86_64)
+> VERSION =3D 11.4
+> CODENAME =3D Celadon
+> $ uname -a
+> Linux yocto-hm1 2.6.37.6-0.7-default #1 SMP 2011-07-21 02:17:24 +0200
+> x86_64 x86_64 x86_64 GNU/Linux
+>=20
+> SDK machine host:
+> $ cat /etc/redhat-release
+> Fedora release 15 (Lovelock)
+> $ uname -a
+> Linux nbuild0.sc.intel.com 2.6.40.6-0.fc15.x86_64 #1 SMP Tue Oct 4
+> 00:39:50 UTC 2011 x86_64 x86_64 x86_64 GNU/Linux
+>=20
+>=20
+> Next I am also trying to build from the oe-core git tree.
+
+And the sources from oecore repository http://cgit.openembedded.org/openemb=
+edded-core/log/
+are resulting in the same gdb issue.
+
+
+$ bitbake meta-toolchain
+Pseudo is not present but is required, building this first before the main =
+build
+Parsing recipes: 100% |####################################################=
+#########################| Time: 00:00:03
+Parsing of 831 .bb files complete (0 cached, 831 parsed). 1107 targets, 19 =
+skipped, 0 masked, 0 errors.
+
+OE Build Configuration:
+BB_VERSION        =3D "1.15.1"
+TARGET_ARCH       =3D "x86_64"
+TARGET_OS         =3D "linux"
+MACHINE           =3D "qemux86-64"
+DISTRO            =3D ""
+DISTRO_VERSION    =3D "oe-core.0"
+TUNE_FEATURES     =3D "m64"
+TARGET_FPU        =3D ""
+meta              =3D "master:b60d0c57a2e16d690fd11c6349917efc57630004"
+
 
 
 
