@@ -1,26 +1,22 @@
-Received: from mail1.windriver.com ([147.11.146.13])
+Received: from mga09.intel.com ([134.134.136.24])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <Liezhi.Yang@windriver.com>) id 1SAHvY-0005eQ-Di
+	(envelope-from <lianhao.lu@intel.com>) id 1SAICp-0005rG-OM
 	for openembedded-core@lists.openembedded.org;
-	Wed, 21 Mar 2012 10:33:56 +0100
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca [147.11.189.40])
-	by mail1.windriver.com (8.14.3/8.14.3) with ESMTP id q2L9P2uP002217
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
-	Wed, 21 Mar 2012 02:25:02 -0700 (PDT)
-Received: from [128.224.162.196] (128.224.162.196) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server id 14.1.255.0;
-	Wed, 21 Mar 2012 02:25:02 -0700
-Message-ID: <4F699E6C.6070306@windriver.com>
-Date: Wed, 21 Mar 2012 17:25:00 +0800
-From: Robert Yang <liezhi.yang@windriver.com>
-User-Agent: Mozilla/5.0 (X11; Linux i686;
-	rv:10.0.2) Gecko/20120216 Thunderbird/10.0.2
-MIME-Version: 1.0
-To: Paul Eggleton <paul.eggleton@linux.intel.com>
-References: <4F6948EC.5050309@windriver.com> <333082295.tACmPZfEAB@helios>
-In-Reply-To: <333082295.tACmPZfEAB@helios>
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: runqemu doesn't work with graphics through ssh
+	Wed, 21 Mar 2012 10:51:47 +0100
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+	by orsmga102.jf.intel.com with ESMTP; 21 Mar 2012 02:42:53 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.67,351,1309762800"; d="scan'208";a="123319414"
+Received: from llu-piketon.sh.intel.com (HELO localhost) ([10.239.36.110])
+	by orsmga002.jf.intel.com with ESMTP; 21 Mar 2012 02:42:52 -0700
+From: Lianhao Lu <lianhao.lu@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Wed, 21 Mar 2012 17:41:07 +0800
+Message-Id: <001944ced2e6b01e387bf129a4c95ebbb46f5bdb.1332315222.git.lianhao.lu@intel.com>
+X-Mailer: git-send-email 1.7.0.4
+In-Reply-To: <cover.1332315222.git.lianhao.lu@intel.com>
+References: <cover.1332315222.git.lianhao.lu@intel.com>
+Subject: [PATCH 1/1] lttng-2.0/lttng-ust: Change recipe name to lttng2-ust.
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -35,44 +31,40 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 21 Mar 2012 09:33:56 -0000
-Content-Type: text/plain; charset="ISO-8859-1"; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Wed, 21 Mar 2012 09:51:48 -0000
 
+Change the recipe name lttng-ust from lttng-2.0 to lttng2-ust so that
+that both the lttng-ust of the old framework and of the new framework
+lttng-2.0 can coexist.
 
+Fixed bug [YOCTO #2062].
 
-On 03/21/2012 04:52 PM, Paul Eggleton wrote:
-> On Wednesday 21 March 2012 11:20:12 Robert Yang wrote:
->> The runqemu doesn't work with graphics through ssh, here are the
->> reproduce steps:
->>
->> 1) ssh -X (or -Y) to a host
->> 2) runqemu qemux86
->>
->> The qemu window would leap and leap, and can't be closed by click
->> the "close" button or "crtl-c".
->>
->> the "runqemu nographic qemux86"
->>
->> This happens on: Fedora 13 64bit and Ubuntu 11.10 64bit, the ssh connection
->> is from Ubuntu 11.10 32bit.
->
-> I regularly do this from my Fedora 14 64-bit my machine to my Ubuntu 11.10 32-
-> bit machine and do not have any such problem. Has this just started happening
-> for you or had you not tried this configuration until now?
->
+Signed-off-by: Lianhao Lu <lianhao.lu@intel.com>
+---
+ .../lttng-2.0/lttng-tools_2.0-pre16.bb             |    2 +-
+ .../{lttng-ust_1.9.4.bb => lttng2-ust_1.9.4.bb}    |    0
+ 2 files changed, 1 insertions(+), 1 deletions(-)
+ rename meta/recipes-kernel/lttng-2.0/{lttng-ust_1.9.4.bb => lttng2-ust_1.9.4.bb} (100%)
 
-It doesnt' work for me since a long time ago, maybe 3 months ago, I doubted
-this was because of my host(Ubuntu 11.10 64bit), but it still didn't work
-when I changed to FC 13 64bit.
+diff --git a/meta/recipes-kernel/lttng-2.0/lttng-tools_2.0-pre16.bb b/meta/recipes-kernel/lttng-2.0/lttng-tools_2.0-pre16.bb
+index fdebc0e..d3a6a30 100644
+--- a/meta/recipes-kernel/lttng-2.0/lttng-tools_2.0-pre16.bb
++++ b/meta/recipes-kernel/lttng-2.0/lttng-tools_2.0-pre16.bb
+@@ -9,7 +9,7 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=ab682a4729389c3f11913d758affe98e \
+                     file://gpl-2.0.txt;md5=b234ee4d69f5fce4486a80fdaf4a4263 \
+                     file://lgpl-2.1.txt;md5=0f0d71500e6a57fd24d825f33242b9ca"
+ 
+-DEPENDS = "liburcu popt lttng-ust"
++DEPENDS = "liburcu popt lttng2-ust"
+ 
+ SRCREV = "9beed4cb465347c778e4f982c330cef78f2628b7"
+ PV = "v2.0.pre16+git${SRCREV}"
+diff --git a/meta/recipes-kernel/lttng-2.0/lttng-ust_1.9.4.bb b/meta/recipes-kernel/lttng-2.0/lttng2-ust_1.9.4.bb
+similarity index 100%
+rename from meta/recipes-kernel/lttng-2.0/lttng-ust_1.9.4.bb
+rename to meta/recipes-kernel/lttng-2.0/lttng2-ust_1.9.4.bb
+-- 
+1.7.0.4
 
-I tried another host Ubuntu 10.10 32bit just now, this one worked well.
-
-Regards,
-Robert
-
-> Cheers,
-> Paul
->
 
 
