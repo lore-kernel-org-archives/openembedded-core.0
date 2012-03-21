@@ -1,37 +1,37 @@
-Received: from mail-wg0-f43.google.com ([74.125.82.43])
+Received: from mail-we0-f175.google.com ([74.125.82.175])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <martin.jansa@gmail.com>) id 1SATLh-0002jI-NQ
+	(envelope-from <martin.jansa@gmail.com>) id 1SATLm-0002ZW-J0
 	for openembedded-core@lists.openembedded.org;
-	Wed, 21 Mar 2012 22:45:41 +0100
-Received: by wgbdr12 with SMTP id dr12so823501wgb.24
+	Wed, 21 Mar 2012 22:45:46 +0100
+Received: by mail-we0-f175.google.com with SMTP id a1so1340601wer.6
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 21 Mar 2012 14:36:47 -0700 (PDT)
+	Wed, 21 Mar 2012 14:36:54 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
 	h=from:to:subject:date:message-id:x-mailer:in-reply-to:references
 	:in-reply-to:references;
-	bh=m1D1Wxc99Ew4SFv5rlTIgWmX4S/ZNDUMY2OnQ21P09s=;
-	b=EeTapFHkAdOexYN0tJzTj1QRszrUdiDIv23z4Y2gNtyoNF4wvd6wvFUeYDCfAqHt18
-	CrqbGqePAorNbtI02dsHarmurhPdKZwe0rRBcgKrapNAUajLZcTN08oSk4prD1KC4BSL
-	6sKeI92oA6iUa2JXqcYvI/QyGEbWxM929kS1aOOvChSTV+kAdTNKD3mUIW6m/GW2j3SX
-	LW0JT4JyKohZkz8P64M06E4yCrxxQNaeghNl1miNIwCnL5R6/4JI5wyuljGV6SDFoyIY
-	R/uuVkdhY9hRA421xACLfJ5/luT+qEgfno/Ba5gh45HTmLacHBl1rKIMMg5Kdr7Nzj1H
-	6Qeg==
-Received: by 10.180.107.162 with SMTP id hd2mr41421885wib.8.1332365807516;
-	Wed, 21 Mar 2012 14:36:47 -0700 (PDT)
+	bh=WH6JiMmG96GlX4fXITQQ1YSwFHxxZD/q4G/kgX1Feno=;
+	b=cqi2CENZ4+OkJrj9Hl2bSPXwTYrRNHlOSFc+wD/REX4MHJV6kZNeH8FVEF8STMFLlH
+	/R7DCYH9TW7WLW5JbaosDNf/9sb7l934VDhC+nTNHWbLc2f0Z2ROfnq3S1HEH0q9Fnvo
+	1bhT+LJ+XggBe7FnR9ZZwzXjIC6Vuuq6vKtempCrqItG06Sp8PRjg77iJg7HCq9gn36d
+	V6psiOyFutAQTYBFfiUG+1kjTtetXFX/ooaOCXxwWAi2C8c8TqMudfOm4sSwxgyzSuYU
+	E3UhD4hWD8loELdwuAMH/hNx5QA8nVjOcyeuPzKjQV2wLuOPC8UPXtJojymc1HkBM2zb
+	W1wA==
+Received: by 10.216.136.100 with SMTP id v78mr3157592wei.88.1332365814745;
+	Wed, 21 Mar 2012 14:36:54 -0700 (PDT)
 Received: from localhost ([94.230.152.246])
-	by mx.google.com with ESMTPS id ff9sm7695167wib.2.2012.03.21.14.36.46
+	by mx.google.com with ESMTPS id j3sm12461315wiw.1.2012.03.21.14.36.53
 	(version=TLSv1/SSLv3 cipher=OTHER);
-	Wed, 21 Mar 2012 14:36:46 -0700 (PDT)
+	Wed, 21 Mar 2012 14:36:54 -0700 (PDT)
 From: Martin Jansa <martin.jansa@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Wed, 21 Mar 2012 22:36:09 +0100
-Message-Id: <47e81fcc80e7ca5aa4d2f9209d5db65fc4fc0ed5.1332365336.git.Martin.Jansa@gmail.com>
+Date: Wed, 21 Mar 2012 22:36:10 +0100
+Message-Id: <986d209ed15c217b647b10f9e71ff34d060c1566.1332365336.git.Martin.Jansa@gmail.com>
 X-Mailer: git-send-email 1.7.8.5
 In-Reply-To: <2ec6e0c134d708687c5d3d439b31607cda478dfc.1332365336.git.Martin.Jansa@gmail.com>
 References: <2ec6e0c134d708687c5d3d439b31607cda478dfc.1332365336.git.Martin.Jansa@gmail.com>
 In-Reply-To: <cover.1332365336.git.Martin.Jansa@gmail.com>
 References: <cover.1332365336.git.Martin.Jansa@gmail.com>
-Subject: [PATCH 04/13] base.bbclass: extract *virtclass_map_dependencies logic from native/nativesdk bbclasses and call it from packageconfig
+Subject: [PATCH 05/13] xorg: add more native BBCLASSEXTENDs for gtk+-native
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -46,207 +46,140 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 21 Mar 2012 21:45:41 -0000
+X-List-Received-Date: Wed, 21 Mar 2012 21:45:46 -0000
 
-* if some package is using PACKAGECONFIG and also BBCLASSEXTEND then it could be called twice
-  but without this PACKAGECONFIG was adding items to DEPENDS after virtclass handler
-  so foo-native was depending on bar instead of bar-foo when bar was added by PACKAGECONFIG
-  see: http://lists.linuxtogo.org/pipermail/openembedded-core/2012-February/017772.html
+* those are needed for gtk+-native after this patch
+  http://lists.linuxtogo.org/pipermail/openembedded-core/2012-February/017772.html
+  is applied
+* I had them in .bbappends for meta-oe, but adding native BBCLASSEXTEND
+  doesn't add any maintenance cost to oe-core and makes recipe upgrades
+  easier (no need to wait for .bbappend renames ready for meta-oe).
 
 Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
 ---
- meta/classes/base.bbclass      |   77 ++++++++++++++++++++++++++++++++++++---
- meta/classes/native.bbclass    |   25 +------------
- meta/classes/nativesdk.bbclass |   27 +-------------
- 3 files changed, 73 insertions(+), 56 deletions(-)
+ .../xorg-lib/libxcomposite_0.4.3.bb                |    1 +
+ .../recipes-graphics/xorg-lib/libxcursor_1.1.13.bb |    1 +
+ meta/recipes-graphics/xorg-lib/libxdamage_1.1.3.bb |    1 +
+ meta/recipes-graphics/xorg-lib/libxfixes_5.0.bb    |    2 +-
+ meta/recipes-graphics/xorg-lib/libxrandr_1.3.2.bb  |    2 +-
+ .../xorg-proto/compositeproto_0.4.2.bb             |    1 +
+ .../xorg-proto/damageproto_1.2.1.bb                |    1 +
+ meta/recipes-graphics/xorg-proto/fixesproto_5.0.bb |    2 +-
+ .../xorg-proto/randrproto_1.3.2.bb                 |    2 +-
+ 9 files changed, 9 insertions(+), 4 deletions(-)
 
-diff --git a/meta/classes/base.bbclass b/meta/classes/base.bbclass
-index c8ed544..14efa16 100644
---- a/meta/classes/base.bbclass
-+++ b/meta/classes/base.bbclass
-@@ -223,6 +223,59 @@ def get_layers_branch_rev(d):
- 			s1= layers_branch_rev[i][p1:]
- 	return layers_branch_rev
+diff --git a/meta/recipes-graphics/xorg-lib/libxcomposite_0.4.3.bb b/meta/recipes-graphics/xorg-lib/libxcomposite_0.4.3.bb
+index deaa366..7377711 100644
+--- a/meta/recipes-graphics/xorg-lib/libxcomposite_0.4.3.bb
++++ b/meta/recipes-graphics/xorg-lib/libxcomposite_0.4.3.bb
+@@ -16,6 +16,7 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=3f2907aad541f6f226fbc58cc1b3cdf1"
  
-+def native_virtclass_map_dependencies(d):
-+    def map_dependencies(varname, d, suffix = ""):
-+        if suffix:
-+            varname = varname + "_" + suffix
-+        deps = d.getVar(varname, True)
-+        if not deps:
-+            return
-+        deps = bb.utils.explode_deps(deps)
-+        newdeps = []
-+        for dep in deps:
-+            if dep.endswith("-cross"):
-+                newdeps.append(dep.replace("-cross", "-native"))
-+            elif not dep.endswith("-native"):
-+                newdeps.append(dep + "-native")
-+            else:
-+                newdeps.append(dep)
-+        d.setVar(varname, " ".join(newdeps))
-+
-+    map_dependencies("DEPENDS", d)
-+    for pkg in [d.getVar("PN", True), "", "${PN}"]:
-+        map_dependencies("RDEPENDS", d, pkg)
-+        map_dependencies("RRECOMMENDS", d, pkg)
-+        map_dependencies("RSUGGESTS", d, pkg)
-+        map_dependencies("RPROVIDES", d, pkg)
-+        map_dependencies("RREPLACES", d, pkg)
-+
-+def nativesdk_virtclass_map_dependencies(d):
-+    def map_dependencies(varname, d, suffix = ""):
-+        if suffix:
-+            varname = varname + "_" + suffix
-+        deps = d.getVar(varname, True)
-+        if not deps:
-+            return
-+        deps = bb.utils.explode_deps(deps)
-+        newdeps = []
-+        for dep in deps:
-+            if dep.endswith("-native") or dep.endswith("-cross"):
-+                newdeps.append(dep)
-+            elif dep.endswith("-gcc-intermediate") or dep.endswith("-gcc-initial") or dep.endswith("-gcc") or dep.endswith("-g++"):
-+                newdeps.append(dep + "-crosssdk")
-+            elif not dep.endswith("-nativesdk"):
-+                newdeps.append(dep.replace("-nativesdk", "") + "-nativesdk")
-+            else:
-+                newdeps.append(dep)
-+        d.setVar(varname, " ".join(newdeps))
-+
-+    map_dependencies("DEPENDS", d)
-+    #for pkg in (d.getVar("PACKAGES", True).split() + [""]):
-+    #    map_dependencies("RDEPENDS", d, pkg)
-+    #    map_dependencies("RRECOMMENDS", d, pkg)
-+    #    map_dependencies("RSUGGESTS", d, pkg)
-+    #    map_dependencies("RPROVIDES", d, pkg)
-+    #    map_dependencies("RREPLACES", d, pkg)
+ DEPENDS += " compositeproto virtual/libx11 libxfixes libxext"
+ PROVIDES = "xcomposite"
++BBCLASSEXTEND = "native"
  
- addhandler base_eventhandler
- python base_eventhandler() {
-@@ -293,8 +346,10 @@ do_build () {
- 	:
- }
+ PE = "1"
+ PR = "r0"
+diff --git a/meta/recipes-graphics/xorg-lib/libxcursor_1.1.13.bb b/meta/recipes-graphics/xorg-lib/libxcursor_1.1.13.bb
+index c0f1a0f..4388596 100644
+--- a/meta/recipes-graphics/xorg-lib/libxcursor_1.1.13.bb
++++ b/meta/recipes-graphics/xorg-lib/libxcursor_1.1.13.bb
+@@ -12,6 +12,7 @@ LICENSE = "MIT-style"
+ LIC_FILES_CHKSUM = "file://COPYING;md5=8902e6643f7bcd7793b23dcd5d8031a4"
  
--python () {
--    import exceptions, string, re
-+addhandler packageconfig_handler
-+python packageconfig_handler () {
-+    if not isinstance(e, bb.event.RecipePreFinalise):
-+            return
+ DEPENDS += "libxrender libxfixes"
++BBCLASSEXTEND = "native"
  
-     # Handle PACKAGECONFIG
-     #
-@@ -302,14 +357,14 @@ python () {
-     #
-     # PACKAGECONFIG ?? = "<default options>"
-     # PACKAGECONFIG[foo] = "--enable-foo,--disable-foo,foo_depends,foo_runtime_depends"
--    pkgconfigflags = d.getVarFlags("PACKAGECONFIG") or {}
-+    pkgconfigflags = e.data.getVarFlags("PACKAGECONFIG") or {}
-     if pkgconfigflags:
--        pkgconfig = (d.getVar('PACKAGECONFIG', True) or "").split()
-+        pkgconfig = (e.data.getVar('PACKAGECONFIG', True) or "").split()
-         def appendVar(varname, appends):
-             if not appends:
-                 return
--            varname = d.expand(varname)
--            d.appendVar(varname, " " + " ".join(appends))
-+            varname = e.data.expand(varname)
-+            e.data.appendVar(varname, " " + " ".join(appends))
+ PR = "r0"
+ PE = "1"
+diff --git a/meta/recipes-graphics/xorg-lib/libxdamage_1.1.3.bb b/meta/recipes-graphics/xorg-lib/libxdamage_1.1.3.bb
+index f2b4eac..dfc2425 100644
+--- a/meta/recipes-graphics/xorg-lib/libxdamage_1.1.3.bb
++++ b/meta/recipes-graphics/xorg-lib/libxdamage_1.1.3.bb
+@@ -18,6 +18,7 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=9fe101f30dd24134cf43146863241868"
  
-         extradeps = []
-         extrardeps = []
-@@ -332,6 +387,16 @@ python () {
-         appendVar('DEPENDS', extradeps)
-         appendVar('RDEPENDS_${PN}', extrardeps)
-         appendVar('EXTRA_OECONF', extraconf)
-+        classextend = e.data.getVar('BBCLASSEXTEND', True) or ""
-+        pn = e.data.getVar("PN", True)
-+        if "native" in classextend and pn.endswith("-native"):
-+            native_virtclass_map_dependencies(e.data)
-+        if "nativesdk" in classextend and pn.endswith("-nativesdk"):
-+            nativesdk_virtclass_map_dependencies(e.data)
-+}
-+
-+python () {
-+    import exceptions, string, re
+ DEPENDS += "virtual/libx11 damageproto libxfixes"
+ PROVIDES = "xdamage"
++BBCLASSEXTEND = "native"
  
-     # If PRINC is set, try and increase the PR value by the amount specified
-     princ = d.getVar('PRINC', True)
-diff --git a/meta/classes/native.bbclass b/meta/classes/native.bbclass
-index ffab971..7ef3684 100644
---- a/meta/classes/native.bbclass
-+++ b/meta/classes/native.bbclass
-@@ -112,30 +112,7 @@ python native_virtclass_handler () {
-     if not pn.endswith("-native"):
-         return
+ PR = "r1"
+ PE = "1"
+diff --git a/meta/recipes-graphics/xorg-lib/libxfixes_5.0.bb b/meta/recipes-graphics/xorg-lib/libxfixes_5.0.bb
+index 0883cd1..1bdc3c0 100644
+--- a/meta/recipes-graphics/xorg-lib/libxfixes_5.0.bb
++++ b/meta/recipes-graphics/xorg-lib/libxfixes_5.0.bb
+@@ -17,7 +17,7 @@ PE = "1"
  
--    def map_dependencies(varname, d, suffix = ""):
--        if suffix:
--            varname = varname + "_" + suffix
--        deps = d.getVar(varname, True)
--        if not deps:
--            return
--        deps = bb.utils.explode_deps(deps)
--        newdeps = []
--        for dep in deps:
--            if dep.endswith("-cross"):
--                newdeps.append(dep.replace("-cross", "-native"))
--            elif not dep.endswith("-native"):
--                newdeps.append(dep + "-native")
--            else:
--                newdeps.append(dep)
--        d.setVar(varname, " ".join(newdeps))
--
--    map_dependencies("DEPENDS", e.data)
--    for pkg in [e.data.getVar("PN", True), "", "${PN}"]:
--        map_dependencies("RDEPENDS", e.data, pkg)
--        map_dependencies("RRECOMMENDS", e.data, pkg)
--        map_dependencies("RSUGGESTS", e.data, pkg)
--        map_dependencies("RPROVIDES", e.data, pkg)
--        map_dependencies("RREPLACES", e.data, pkg)
-+    native_virtclass_map_dependencies(e.data)
+ XORG_PN = "libXfixes"
  
-     provides = e.data.getVar("PROVIDES", True)
-     for prov in provides.split():
-diff --git a/meta/classes/nativesdk.bbclass b/meta/classes/nativesdk.bbclass
-index ceec53e..af8f9ef 100644
---- a/meta/classes/nativesdk.bbclass
-+++ b/meta/classes/nativesdk.bbclass
-@@ -72,32 +72,7 @@ python () {
-     if not pn.endswith("-nativesdk"):
-         return
+-BBCLASSEXTEND = "nativesdk"
++BBCLASSEXTEND = "native nativesdk"
  
--    def map_dependencies(varname, d, suffix = ""):
--        if suffix:
--            varname = varname + "_" + suffix
--        deps = d.getVar(varname, True)
--        if not deps:
--            return
--        deps = bb.utils.explode_deps(deps)
--        newdeps = []
--        for dep in deps:
--            if dep.endswith("-native") or dep.endswith("-cross"):
--                newdeps.append(dep)
--            elif dep.endswith("-gcc-intermediate") or dep.endswith("-gcc-initial") or dep.endswith("-gcc") or dep.endswith("-g++"):
--                newdeps.append(dep + "-crosssdk")
--            elif not dep.endswith("-nativesdk"):
--                newdeps.append(dep.replace("-nativesdk", "") + "-nativesdk")
--            else:
--                newdeps.append(dep)
--        d.setVar(varname, " ".join(newdeps))
--
--    map_dependencies("DEPENDS", d)
--    #for pkg in (d.getVar("PACKAGES", True).split() + [""]):
--    #    map_dependencies("RDEPENDS", d, pkg)
--    #    map_dependencies("RRECOMMENDS", d, pkg)
--    #    map_dependencies("RSUGGESTS", d, pkg)
--    #    map_dependencies("RPROVIDES", d, pkg)
--    #    map_dependencies("RREPLACES", d, pkg)
-+    nativesdk_virtclass_map_dependencies(d)
+ SRC_URI[md5sum] = "678071bd7f9f7467e2fc712d81022318"
+ SRC_URI[sha256sum] = "537a2446129242737a35db40081be4bbcc126e56c03bf5f2b142b10a79cda2e3"
+diff --git a/meta/recipes-graphics/xorg-lib/libxrandr_1.3.2.bb b/meta/recipes-graphics/xorg-lib/libxrandr_1.3.2.bb
+index 7bc805f..6fc3cf5 100644
+--- a/meta/recipes-graphics/xorg-lib/libxrandr_1.3.2.bb
++++ b/meta/recipes-graphics/xorg-lib/libxrandr_1.3.2.bb
+@@ -18,7 +18,7 @@ PE = "1"
  
-     provides = d.getVar("PROVIDES", True)
-     for prov in provides.split():
+ XORG_PN = "libXrandr"
+ 
+-BBCLASSEXTEND = "nativesdk"
++BBCLASSEXTEND = "native nativesdk"
+ 
+ SRC_URI[md5sum] = "92473da2fccf5fac665be4fa4f2037fa"
+ SRC_URI[sha256sum] = "7eaca216ab5233d7396119eb87c1989d350a3efead104d54b55f22cdd1d99b81"
+diff --git a/meta/recipes-graphics/xorg-proto/compositeproto_0.4.2.bb b/meta/recipes-graphics/xorg-proto/compositeproto_0.4.2.bb
+index 5917f20..093ee99 100644
+--- a/meta/recipes-graphics/xorg-proto/compositeproto_0.4.2.bb
++++ b/meta/recipes-graphics/xorg-proto/compositeproto_0.4.2.bb
+@@ -11,6 +11,7 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=2c4bfe136f4a4418ea2f2a96b7c8f3c5 \
+                     file://composite.h;endline=43;md5=cbd44d4079053aa75930ed2f02b92926"
+ 
+ CONFLICTS = "compositeext"
++BBCLASSEXTEND = "native"
+ 
+ PR = "r0"
+ PE = "1"
+diff --git a/meta/recipes-graphics/xorg-proto/damageproto_1.2.1.bb b/meta/recipes-graphics/xorg-proto/damageproto_1.2.1.bb
+index 6bfa1b2..de2d69c 100644
+--- a/meta/recipes-graphics/xorg-proto/damageproto_1.2.1.bb
++++ b/meta/recipes-graphics/xorg-proto/damageproto_1.2.1.bb
+@@ -12,6 +12,7 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=d5f5a2de65c3a84cbde769f07a769608 \
+                     file://damagewire.h;endline=23;md5=4a4501a592dbc7de5ce89255e50d0296"
+ 
+ CONFLICTS = "damageext"
++BBCLASSEXTEND = "native"
+ PR = "r0"
+ PE = "1"
+ 
+diff --git a/meta/recipes-graphics/xorg-proto/fixesproto_5.0.bb b/meta/recipes-graphics/xorg-proto/fixesproto_5.0.bb
+index d65922b..2c05cf7 100644
+--- a/meta/recipes-graphics/xorg-proto/fixesproto_5.0.bb
++++ b/meta/recipes-graphics/xorg-proto/fixesproto_5.0.bb
+@@ -16,7 +16,7 @@ CONFLICTS = "fixesext"
+ PR = "r0"
+ PE = "1"
+ 
+-BBCLASSEXTEND = "nativesdk"
++BBCLASSEXTEND = "native nativesdk"
+ 
+ SRC_URI[md5sum] = "e7431ab84d37b2678af71e29355e101d"
+ SRC_URI[sha256sum] = "ba2f3f31246bdd3f2a0acf8bd3b09ba99cab965c7fb2c2c92b7dc72870e424ce"
+diff --git a/meta/recipes-graphics/xorg-proto/randrproto_1.3.2.bb b/meta/recipes-graphics/xorg-proto/randrproto_1.3.2.bb
+index f0f81bc..e4fe37b 100644
+--- a/meta/recipes-graphics/xorg-proto/randrproto_1.3.2.bb
++++ b/meta/recipes-graphics/xorg-proto/randrproto_1.3.2.bb
+@@ -14,7 +14,7 @@ CONFLICTS = "randrext"
+ PR = "r0"
+ PE = "1"
+ 
+-BBCLASSEXTEND = "nativesdk"
++BBCLASSEXTEND = "native nativesdk"
+ 
+ SRC_URI[md5sum] = "597491c0d8055e2a66f11350c4985775"
+ SRC_URI[sha256sum] = "d90d00612cc49292bd8d9dc19efb1c9187385fbe87590d7279a02e5e1066dc71"
 -- 
 1.7.8.5
 
