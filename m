@@ -1,33 +1,33 @@
 Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
 	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
 	(envelope-from <richard.purdie@linuxfoundation.org>)
-	id 1SAINo-0007si-Pp for openembedded-core@lists.openembedded.org;
-	Wed, 21 Mar 2012 11:03:09 +0100
+	id 1SAIPd-0007vu-GN for openembedded-core@lists.openembedded.org;
+	Wed, 21 Mar 2012 11:05:01 +0100
 Received: from localhost (localhost [127.0.0.1])
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q2L9sCYJ032763
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q2L9u8pM000391
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 21 Mar 2012 09:54:12 GMT
+	Wed, 21 Mar 2012 09:56:08 GMT
 Received: from tim.rpsys.net ([127.0.0.1])
 	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
 	port 10024) with LMTP
-	id 32590-02 for <openembedded-core@lists.openembedded.org>;
-	Wed, 21 Mar 2012 09:54:07 +0000 (GMT)
+	id 29720-10 for <openembedded-core@lists.openembedded.org>;
+	Wed, 21 Mar 2012 09:56:03 +0000 (GMT)
 Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q2L9rwrP032757
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q2L9tvr0000385
 	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO)
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 21 Mar 2012 09:54:05 GMT
-Message-ID: <1332323639.9740.125.camel@ted>
+	Wed, 21 Mar 2012 09:55:58 GMT
+Message-ID: <1332323759.9740.126.camel@ted>
 From: Richard Purdie <richard.purdie@linuxfoundation.org>
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Date: Wed, 21 Mar 2012 09:53:59 +0000
-In-Reply-To: <CAP9ODKq3vD6u4TQnWw4Ux9c5L5fB3FVcstY_pCkmzp_HWddhRg@mail.gmail.com>
-References: <CAP9ODKq3vD6u4TQnWw4Ux9c5L5fB3FVcstY_pCkmzp_HWddhRg@mail.gmail.com>
+Date: Wed, 21 Mar 2012 09:55:59 +0000
+In-Reply-To: <857BE142E5399E46B20FD45B9DB8A7BC0FD0349C@SHSMSX102.ccr.corp.intel.com>
+References: <857BE142E5399E46B20FD45B9DB8A7BC0FD0349C@SHSMSX102.ccr.corp.intel.com>
 X-Mailer: Evolution 3.2.2- 
 Mime-Version: 1.0
 X-Virus-Scanned: amavisd-new at rpsys.net
-Subject: Re: Build failures due zlib problem
+Subject: Re: packaging errors in some -nativesdk recipes
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -42,47 +42,56 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 21 Mar 2012 10:03:09 -0000
+X-List-Received-Date: Wed, 21 Mar 2012 10:05:01 -0000
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 
-On Tue, 2012-03-20 at 22:40 -0300, Otavio Salvador wrote:
-> | NOTE: Unpacking
-> /home/ostt-devel/src/embedded-systems/downloads/gcc-4_6-branch_gcc.gnu.org_.svn.gcc.branches_184847_.tar.gz
-> to /home/ostt-devel/src/embedded-systems/tmp-eglibc-eglibc/work-shared/gcc-4.6.3+svnr184847-r28/
-> | gzip: /usr/lib/libz.so.1: version `ZLIB_1.2.5.1' not found (required by gzip)
-> | tar: Child returned status 1
+On Wed, 2012-03-21 at 04:45 +0000, Lu, Lianhao wrote:
+> When I'm looking at some package warnings of eglibc-nativesdk(and some
+> other -nativesdk packages' warnings), e.g.
 > 
-> Does anyone sees it? Our autobuilder is failing this way.
+> WARNING: For recipe eglibc-nativesdk, the following files/directories
+> were installed but not shipped in any package:
+> WARNING:   /opt/poky/1.1
+> +snapshot/sysroots/x86_64-pokysdk-linux/lib/libthread_db.so.1
+> WARNING:   /opt/poky/1.1
+> +snapshot/sysroots/x86_64-pokysdk-linux/lib/libnss_hesiod-2.13.so
+> WARNING:   /opt/poky/1.1
+> +snapshot/sysroots/x86_64-pokysdk-linux/lib/libSegFault.so
+> ...... ......
+> 
+> I found this has something to do with the usage of PKGSUFFIX in
+> eglibc-package.inc:
+> 
+> PKGSUFFIX = ""
+> PKGSUFFIX_virtclass-nativesdk = "-nativesdk"
+> FILES_eglibc-thread-db${PKGSUFFIX} = "${base_libdir}/libthread_db.so.*
+> ${base_libdir}/libthread_db-*.so"
+> 
+> Instead of the variable FILES_eglibc-thread-db-nativesdk being
+> defined, the variable FILES_eglibc-thread-db gets defined after
+> parsing the eglib-nativesdk recipe, so many files are not packaged in
+> relevant -nativesdk packages. This is because in the functioin
+> finalize() of ast.py in bitbake, it first calls expandKeys() then
+> update_data(), while the OVERRIDES only takes place in the function of
+> update_data(). 
+> 
+> I saw in the git history there was a commit to fix this issue at
+> http://git.yoctoproject.org/cgit/cgit.cgi/poky/commit/meta/recipes-core/eglibc/eglibc-package.inc?id=f800862555b81dec65f3de09a2f7b1a0c97a09c1, but later was reverted by the commit http://git.yoctoproject.org/cgit/cgit.cgi/poky/commit/meta/recipes-core/eglibc/eglibc-package.inc?id=2a7870778f141b2f29271405ee62b06cc4856920. 
+> 
+> Any suggestions of how to resolve this issue? We're not 100% sure if
+> we can change the sequence of calling expandKeys() and update_data()
+> in the finalize() in ast.py in bitbake without causing any other
+> problems.
 
-Yes, its being seen. I think its appeared after the pigz-native change
-but it exposes an underlying problem.
+We can't change that order, it would create many problems.
 
-The issue is that we have a gzip binary in the sysroot linking against
-libz. We can get into a situation where we remove libz to rebuild but we
-don't remove the gzip binary yet.
-
-gzip-native is a tricky one since its one of those recipes we don't
-correctly have a dependency chain for and is also implied in
-ASSUME_PROVIDED (else how to we extract tarballs?).
-
-Whilst I've implicated pigz-native, we could potentially see this with
-gzip-native too, I'd guess its just more flexible about the libz symbols
-it uses.
-
-I'm trying to come up with a good way of handling this but at the moment
-I'm drawing a blank for a neat solution :(. 
-
-Something along the lines of perl-native might be necessary. We could
-also decide its a special case and remove gzip whenever libz is
-removed...
+How about setting PKGSUFFIX = "-nativesdk" directly in
+nativesdk.bbclass?
 
 Cheers,
 
 Richard
-
-
-
 
 
 
