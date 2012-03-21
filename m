@@ -1,35 +1,31 @@
-Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
-	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <richard.purdie@linuxfoundation.org>)
-	id 1SASGP-0000vJ-Bs for openembedded-core@lists.openembedded.org;
-	Wed, 21 Mar 2012 21:36:09 +0100
-Received: from localhost (localhost [127.0.0.1])
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q2LKREUV005648
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 21 Mar 2012 20:27:14 GMT
-Received: from tim.rpsys.net ([127.0.0.1])
-	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
-	port 10024) with LMTP
-	id 05471-06 for <openembedded-core@lists.openembedded.org>;
-	Wed, 21 Mar 2012 20:27:11 +0000 (GMT)
-Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q2LKR5uj005642
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO)
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 21 Mar 2012 20:27:06 GMT
-Message-ID: <1332361627.9740.180.camel@ted>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Date: Wed, 21 Mar 2012 20:27:07 +0000
-In-Reply-To: <FC6FAFAF-2C6E-4EF7-8AD9-D2C30D2114DD@dominion.thruhere.net>
-References: <1332339926-27043-1-git-send-email-s.stirtzel@googlemail.com>
-	<4F6A2F2F.2090607@linux.intel.com>
-	<FC6FAFAF-2C6E-4EF7-8AD9-D2C30D2114DD@dominion.thruhere.net>
-X-Mailer: Evolution 3.2.2- 
-Mime-Version: 1.0
-X-Virus-Scanned: amavisd-new at rpsys.net
-Subject: Re: [PATCH] giflib: Move to OE-Core
+Received: from astoria.ccjclearline.com ([64.235.106.9])
+	by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <rpjday@crashcourse.ca>) id 1SASa1-0001CN-TV
+	for openembedded-core@lists.openembedded.org;
+	Wed, 21 Mar 2012 21:56:26 +0100
+Received: from cpec03f0ed08c7f-cm001ac318e826.cpe.net.cable.rogers.com
+	([99.241.91.63] helo=crashcourse.ca)
+	by astoria.ccjclearline.com with esmtpsa (TLSv1:AES256-SHA:256)
+	(Exim 4.69) (envelope-from <rpjday@crashcourse.ca>)
+	id 1SASRR-0005WR-5X for openembedded-core@lists.openembedded.org;
+	Wed, 21 Mar 2012 16:47:33 -0400
+Date: Wed, 21 Mar 2012 16:47:27 -0400 (EDT)
+From: "Robert P. J. Day" <rpjday@crashcourse.ca>
+X-X-Sender: rpjday@oneiric
+To: OE Core mailing list <openembedded-core@lists.openembedded.org>
+Message-ID: <alpine.DEB.2.02.1203211644010.8606@oneiric>
+User-Agent: Alpine 2.02 (DEB 1266 2009-07-14)
+MIME-Version: 1.0
+X-AntiAbuse: This header was added to track abuse,
+	please include it with any abuse report
+X-AntiAbuse: Primary Hostname - astoria.ccjclearline.com
+X-AntiAbuse: Original Domain - lists.openembedded.org
+X-AntiAbuse: Originator/Caller UID/GID - [47 12] / [47 12]
+X-AntiAbuse: Sender Address Domain - crashcourse.ca
+X-Source: 
+X-Source-Args: 
+X-Source-Dir: 
+Subject: FILEXEXTRAPATHS advice in wiki doesn't seem to be strictly followed
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -44,37 +40,52 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 21 Mar 2012 20:36:09 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Wed, 21 Mar 2012 20:56:26 -0000
+Content-Type: TEXT/PLAIN; charset=US-ASCII
 
-On Wed, 2012-03-21 at 21:14 +0100, Koen Kooi wrote:
-> Op 21 mrt. 2012, om 20:42 heeft Saul Wold het volgende geschreven:
-> 
-> > On 03/21/2012 07:25 AM, Samuel Stirtzel wrote:
-> >> * This move will allow the testing of meta-kde for users without meta-openembedded.
-> >> 
-> > So what other layers are using giflib?
-> > 
-> > Your suggesting that we need to have it in oe-core so people don't need to add the meta-openembedded layer when using meta-kde?
-> > 
-> > I am just trying to get more data before making a decision.
-> 
-> Let's put everything in oe-core!
 
-Let's try and be constructive ;-).
+  here:
 
-I think to make a good decision about this we need to understand which
-layers use giflib. 
+http://www.openembedded.org/wiki/Migrating_metadata_to_OE-Core
 
-Is this really the only component from meta-oe that meta-kde needs? If
-it is, I think the request is certainly worth thinking about as we do
-want to try and minimise and untangle the dependency spider web if we
-can.
+there is some apparently hard and fast advice:
 
-Cheers,
+"Use FILESEXTRAPATHS to extend file search path: Modifications to
+FILESPATHPKG and/or FILESPATH should be replaced by prepending to
+FILESEXTRAPATHS; in addition, you no longer need to define THISDIR
+(and should not do so). For example, to add a directory to be searched
+for patches and other files which is named with PN, do the following
+(note the immediate evaluation operator := and trailing colon, these
+are important):
 
-Richard
+FILESEXTRAPATHS_prepend := "${THISDIR}/${PN}:"
 
+
+  but it seems the use of that variable is a bit fast and loose:
+
+$ grep -r FILESEXTRAPATHS *
+... snip ...
+meta/recipes-graphics/mesa/mesa-common.inc:FILESEXTRAPATHS_append := "${THISDIR}/mesa:"
+meta/recipes-graphics/mesa/mesa-git.inc:FILESEXTRAPATHS_prepend := "${THISDIR}/mesa-git:"
+meta/recipes-graphics/xorg-xserver/xserver-xorg-lite_1.11.2.bb:FILESEXTRAPATHS_append := "${THISDIR}/xserver-xorg:${THISDIR}/xserver-xorg-${PV}:"
+meta/recipes-qt/qt4/qt4-native_4.7.4.bb:FILESEXTRAPATHS =. "${FILE_DIRNAME}/qt-${PV}:"
+meta/recipes-qt/qt4/qt4-tools-nativesdk.inc:FILESEXTRAPATHS =. "${FILE_DIRNAME}/qt-${PV}:"
+meta/recipes-qt/qt4/qt4-native_4.8.0.bb:FILESEXTRAPATHS =. "${FILE_DIRNAME}/qt-${PV}:"
+meta/classes/utils.bbclass:	extrapaths = (d.getVar("FILESEXTRAPATHS", True) or "")
+$
+
+  does this matter?
+
+rday
+
+-- 
+
+========================================================================
+Robert P. J. Day                                 Ottawa, Ontario, CANADA
+                        http://crashcourse.ca
+
+Twitter:                                       http://twitter.com/rpjday
+LinkedIn:                               http://ca.linkedin.com/in/rpjday
+========================================================================
 
 
