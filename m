@@ -1,43 +1,25 @@
-Received: from mga01.intel.com ([192.55.52.88])
+Received: from mga03.intel.com ([143.182.124.21])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <nitin.a.kamble@intel.com>) id 1SAQ5b-0006K4-Bl
+	(envelope-from <sgw@linux.intel.com>) id 1SAQgW-0006pS-Nb
 	for openembedded-core@lists.openembedded.org;
-	Wed, 21 Mar 2012 19:16:51 +0100
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-	by fmsmga101.fm.intel.com with ESMTP; 21 Mar 2012 11:07:52 -0700
+	Wed, 21 Mar 2012 19:55:00 +0100
+Received: from azsmga002.ch.intel.com ([10.2.17.35])
+	by azsmga101.ch.intel.com with ESMTP; 21 Mar 2012 11:46:05 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="142684017"
-Received: from orsmsx604.amr.corp.intel.com ([10.22.226.87])
-	by fmsmga002.fm.intel.com with ESMTP; 21 Mar 2012 11:07:52 -0700
-Received: from orsmsx103.amr.corp.intel.com (10.22.225.130) by
-	orsmsx604.amr.corp.intel.com (10.22.226.87) with Microsoft SMTP Server
-	(TLS) id 8.2.255.0; Wed, 21 Mar 2012 11:07:51 -0700
-Received: from orsmsx106.amr.corp.intel.com ([169.254.5.128]) by
-	ORSMSX103.amr.corp.intel.com ([169.254.2.207]) with mapi id
-	14.01.0355.002; Wed, 21 Mar 2012 11:07:51 -0700
-From: "Kamble, Nitin A" <nitin.a.kamble@intel.com>
-To: =?iso-8859-1?Q?Eric_B=E9nard?= <eric@eukrea.com>
-Thread-Topic: [PATCH 1/1] Revert "gdb-cross-canadian: build gdb with python
-	support"
-Thread-Index: AQHNB4VDG6/xwLeUgEWTysDmkk+IHpZ1BaqAgAB3WAD//4s7gIAAd4cA//+K+DA=
-Date: Wed, 21 Mar 2012 18:07:50 +0000
-Message-ID: <ADD6A3980E8C39419A432FF422031B4C0137B406@ORSMSX106.amr.corp.intel.com>
-References: <cover.1332347414.git.nitin.a.kamble@intel.com>
-	<bfe0a5400cad2436b7be7d35a173c62349e47c0a.1332347414.git.nitin.a.kamble@intel.com>
-	<20120321180748.7cc58e67@eb-e6520>
-	<ADD6A3980E8C39419A432FF422031B4C0137B3C3@ORSMSX106.amr.corp.intel.com>
-	<20120321185216.440a6353@eb-e6520>
-	<ADD6A3980E8C39419A432FF422031B4C0137B3E3@ORSMSX106.amr.corp.intel.com>
-	<20120321190208.25dc0387@eb-e6520>
-In-Reply-To: <20120321190208.25dc0387@eb-e6520>
-Accept-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [10.22.254.140]
+X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="80064538"
+Received: from unknown (HELO [10.255.12.49]) ([10.255.12.49])
+	by AZSMGA002.ch.intel.com with ESMTP; 21 Mar 2012 11:45:05 -0700
+Message-ID: <4F6A21B1.3080603@linux.intel.com>
+Date: Wed, 21 Mar 2012 11:45:05 -0700
+From: Saul Wold <sgw@linux.intel.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:10.0.1) Gecko/20120216 Thunderbird/10.0.1
 MIME-Version: 1.0
-Cc: "openembedded-core@lists.openembedded.org"
+To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 1/1] Revert "gdb-cross-canadian: build gdb with python support"
+References: <cover.1331859046.git.shane.wang@intel.com>
+In-Reply-To: <cover.1331859046.git.shane.wang@intel.com>
+Subject: Re: [PATCH 00/60] Package Upgrade
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -52,39 +34,91 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 21 Mar 2012 18:16:51 -0000
-Content-Language: en-US
-Content-Type: text/plain; charset="iso-8859-1"
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Wed, 21 Mar 2012 18:55:01 -0000
+Content-Type: text/plain; charset=ISO-8859-1; format=flowed
+Content-Transfer-Encoding: 7bit
 
+On 03/15/2012 05:52 PM, Shane Wang wrote:
+> Upgrade recipes for M4. Please review.
+>
+> The following changes since commit bd2d8904181aa67258b6be8a7bbeaf8d12a8dd5a:
+>
+>    xorg-xserver: Explictly disable dtrace, its not in DEPENDS (2012-03-12 17:45:41 +0000)
+>
+> are available in the git repository at:
+>    git://git.pokylinux.org/poky-contrib shane/m4upgrade
+>    http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=shane/m4upgrade
+>
+> Dongxiao Xu (1):
+>    dbus-glib: upgrade to 0.98
+>
+> Shane Wang (59):
+>    distro_tracking: update the recipe info for manual check
+>    glib-2.0: upgrade to 2.30.3
+>    gdk-pixbuf: upgrade to 2.24.1
+>    glproto: update its info in distro tracking
+>    libvorbis: upgrade to 1.3.3
+>    tremor: upgrade to 18221
+>    alsa-lib: upgrade to 1.0.25
+>    alsa-utils: upgrade to 1.0.25
+>    telepathy-glib: upgrade to 0.17.5
+>    telepathy-mission-control: upgrade to 5.11.0
+>    ofono: upgrade to 1.5
+>    bluez4: upgrade to 4.99
+>    bluez-hcidump: upgrade to 2.3
+>    gst-plugin-bluetooth: upgrade to 4.99
+>    gstreamer: upgrade to 0.10.36
+>    gst-plugins-base: upgrade to 0.10.36
+>    gst-plugins-good: upgrade to 0.10.31
+>    gst-plugins-bad: upgrade to 0.10.23
+>    gst-plugins-ugly: upgrade to 0.10.19
+>    libpcap: upgrade to 1.2.1
+>    busybox: upgrade to 1.19.4
+>    curl: upgrade to 7.24.0
+>    dropbear: upgrade to 2012.55
+>    avahi: upgrade to 0.6.31
+>    avahi-ui: upgrade to 0.6.31
+>    apr: upgrade to 1.4.6
+>    minicom: upgrade to 2.6.1
+>    tzdata: upgrade to 2012b
+>    util-macros: upgrade to 1.17
+>    libxcursor: upgrade to 1.1.13
+>    libxinerama: upgrade to 1.1.2
+>    libsm: upgrade to 1.2.1
+>    libxkbfile: upgrade to 1.0.8
+>    libice: upgrade to 1.0.8
+>    pixman: upgrade to 0.25.2
+>    libxdmcp: upgrade to 1.1.1
+>    libXxf86vm: upgrade to 1.1.2
+>    libXrender: upgrade to 0.9.7
+>    libxpm: upgrade to 3.5.10
+>    libXext: upgrade to 1.3.1
+>    libXv: upgrade to 1.0.7
+>    libxt: upgrade to 1.1.2
+>    libXmu: upgrade to 1.1.1
+>    libfontenc: upgrade to 1.1.1
+>    libxscrnsaver: upgrade to 1.2.2
+>    libxau: upgrade to 1.0.7
+>    libdmx: upgrade to 1.1.2
+>    libxft: upgrade to 2.3.0
+>    libxtst: upgrade to 1.2.1
+>    libpciaccess: upgrade to 0.13
+Had build issues, so not merged
 
+>    libXvMC: upgrade to 1.0.7
+>    libxfont: upgrade to 1.4.5
+>    libxres: upgrade to 1.0.6
+>    inputproto: upgrade to 2.2
+>    font-util: upgrade to 1.3.0
+>    libxcb: upgrade to 1.8.1
+>    libxi: upgrade to 1.4.5
+>    distro_tracking: update the info of the recipes upgraded in the round
+>    distro_tracking: update those NOT UPDATE REASON
 
-> -----Original Message-----
-> From: Eric B=E9nard [mailto:eric@eukrea.com]
-> Sent: Wednesday, March 21, 2012 11:02 AM
-> To: Kamble, Nitin A
-> Cc: openembedded-core@lists.openembedded.org; Martin.Jansa@gmail.com;
-> richard.purdie@linuxfoundation.org
-> Subject: Re: [PATCH 1/1] Revert "gdb-cross-canadian: build gdb with
-> python support"
->=20
-> Le Wed, 21 Mar 2012 17:57:57 +0000,
-> "Kamble, Nitin A" <nitin.a.kamble@intel.com> a =E9crit :
-> > Can you try meta-toolchain for qemux86 or qemux86-64 machine ?
-> > I found that sdk gdb is failing for these machines since that commit
-> went in the oe-core.
-> >
-> I'm launching a build and will keep you informed of the result. If that
-> only fails for x86 or x86_64 targets, we can use overrides to disable
-> python support only for these targets.
->=20
-> Eric
+Mostly Merged into OE-Core, you will need to rebase the distro_tracking 
+changes.
 
-I also starting test for sdk gdb for qemuarm target. Will keep you posted. =
-Any solution that gives a working sdk gdb for all arches will be good.
-
-Thanks,
-Nitin
-
+Thanks
+	Sau!
 
 
