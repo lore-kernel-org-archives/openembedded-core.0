@@ -1,55 +1,35 @@
-Received: from mga02.intel.com ([134.134.136.20])
+Received: from astoria.ccjclearline.com ([64.235.106.9])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <nitin.a.kamble@intel.com>) id 1SAkwf-0003JL-Qd
+	(envelope-from <rpjday@crashcourse.ca>) id 1SAkzg-0003N5-TN
 	for openembedded-core@lists.openembedded.org;
-	Thu, 22 Mar 2012 17:33:03 +0100
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-	by orsmga101.jf.intel.com with ESMTP; 22 Mar 2012 09:22:24 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.67,352,1309762800"; d="scan'208";a="120526523"
-Received: from orsmsx606.amr.corp.intel.com ([10.22.226.128])
-	by orsmga001.jf.intel.com with ESMTP; 22 Mar 2012 09:22:24 -0700
-Received: from orsmsx102.amr.corp.intel.com (10.22.225.129) by
-	orsmsx606.amr.corp.intel.com (10.22.226.128) with Microsoft SMTP Server
-	(TLS) id 8.2.255.0; Thu, 22 Mar 2012 09:20:19 -0700
-Received: from orsmsx106.amr.corp.intel.com ([169.254.5.128]) by
-	ORSMSX102.amr.corp.intel.com ([169.254.1.160]) with mapi id
-	14.01.0355.002; Thu, 22 Mar 2012 09:20:19 -0700
-From: "Kamble, Nitin A" <nitin.a.kamble@intel.com>
-To: =?iso-8859-1?Q?Eric_B=E9nard?= <eric@eukrea.com>, Khem Raj
-	<raj.khem@gmail.com>
-Thread-Topic: [OE-core] [PATCH 1/1] Revert "gdb-cross-canadian: build gdb
-	with python support"
-Thread-Index: AQHNB4VDG6/xwLeUgEWTysDmkk+IHpZ1BaqAgAB3WAD//4s7gIAAd4cA//+K+DCAAI5egIAABI0A//+ae8AAD0RXgAAOkVAg//+Uh4CAAHG8cP//vk0AgABePxD//+QoAIAAbP/w//+eq4AADuUhAAAAJUEAAADrcAAAAH4QAAAAmVaAAAhCLcA=
-Date: Thu, 22 Mar 2012 16:20:18 +0000
-Message-ID: <ADD6A3980E8C39419A432FF422031B4C0137BE5C@ORSMSX106.amr.corp.intel.com>
-References: <cover.1332347414.git.nitin.a.kamble@intel.com>
-	<20120321194906.GC3659@jama.jama.net>
-	<ADD6A3980E8C39419A432FF422031B4C0137B557@ORSMSX106.amr.corp.intel.com>
-	<20120321220253.00c4f254@eb-e6520>
-	<ADD6A3980E8C39419A432FF422031B4C0137B5A8@ORSMSX106.amr.corp.intel.com>
-	<20120321223521.36e49bba@eb-e6520>
-	<ADD6A3980E8C39419A432FF422031B4C0137B66D@ORSMSX106.amr.corp.intel.com>
-	<CAMKF1sq7hcTKrzFBYgmUOTcdQw6sC1FG4jUhsfKauqeXLQMgsg@mail.gmail.com>
-	<ADD6A3980E8C39419A432FF422031B4C0137B889@ORSMSX106.amr.corp.intel.com>
-	<CAMKF1srP52bxqwkaqPZTQbRmhp_V+4-iJ7wTKeKWfC1z4W=fyw@mail.gmail.com>
-	<ADD6A3980E8C39419A432FF422031B4C0137BAA8@ORSMSX106.amr.corp.intel.com>
-	<CAMKF1sobw_wT_ZKhXs9Y-d0jSG-QWzKOprgf7+zM8a_BjjQgEQ@mail.gmail.com>
-	<20120322131310.1c6455d1@eb-e6520>
-	<CAMKF1sqEGjWMpPTQxP3j1bbP6H2FQqAgHZGm399ejC-RyDxboQ@mail.gmail.com>
-	<20120322134340.1af3dfda@eb-e6520>
-	<CAMKF1srORF53h-V+fKTjJn2jWg=f6nOaMf_eUmYPLnW-ovc7NQ@mail.gmail.com>
-	<20120322141455.644058f0@eb-e6520>
-In-Reply-To: <20120322141455.644058f0@eb-e6520>
-Accept-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [10.22.254.140]
-MIME-Version: 1.0
-Cc: Martin Jansa <martin.jansa@gmail.com>,
-	Patches and discussions about the oe-core layer
+	Thu, 22 Mar 2012 17:36:09 +0100
+Received: from cpec03f0ed08c7f-cm001ac318e826.cpe.net.cable.rogers.com
+	([99.241.91.63] helo=crashcourse.ca)
+	by astoria.ccjclearline.com with esmtpsa (TLSv1:AES256-SHA:256)
+	(Exim 4.69) (envelope-from <rpjday@crashcourse.ca>)
+	id 1SAkr5-0008W2-2f for openembedded-core@lists.openembedded.org;
+	Thu, 22 Mar 2012 12:27:15 -0400
+Date: Thu, 22 Mar 2012 12:27:09 -0400 (EDT)
+From: "Robert P. J. Day" <rpjday@crashcourse.ca>
+X-X-Sender: rpjday@oneiric
+To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 1/1] Revert "gdb-cross-canadian: build gdb with python support"
+In-Reply-To: <4F6B4B51.3080806@intel.com>
+Message-ID: <alpine.DEB.2.02.1203221222230.10320@oneiric>
+References: <alpine.DEB.2.02.1203220731420.16149@oneiric>
+	<4F6B4B51.3080806@intel.com>
+User-Agent: Alpine 2.02 (DEB 1266 2009-07-14)
+MIME-Version: 1.0
+X-AntiAbuse: This header was added to track abuse,
+	please include it with any abuse report
+X-AntiAbuse: Primary Hostname - astoria.ccjclearline.com
+X-AntiAbuse: Original Domain - lists.openembedded.org
+X-AntiAbuse: Originator/Caller UID/GID - [47 12] / [47 12]
+X-AntiAbuse: Sender Address Domain - crashcourse.ca
+X-Source: 
+X-Source-Args: 
+X-Source-Dir: 
+Subject: Re: proper way to bounce between two (or more) build directories?
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -64,63 +44,69 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 22 Mar 2012 16:33:03 -0000
-Content-Language: en-US
-Content-Type: text/plain; charset="iso-8859-1"
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Thu, 22 Mar 2012 16:36:09 -0000
+Content-Type: TEXT/PLAIN; charset=US-ASCII
 
+On Thu, 22 Mar 2012, Scott Garman wrote:
 
-
-> -----Original Message-----
-> From: Eric B=E9nard [mailto:eric@eukrea.com]
-> Sent: Thursday, March 22, 2012 6:15 AM
-> To: Khem Raj
-> Cc: Kamble, Nitin A; Patches and discussions about the oe-core layer;
-> Martin Jansa
-> Subject: Re: [OE-core] [PATCH 1/1] Revert "gdb-cross-canadian: build
-> gdb with python support"
->=20
-> Le Thu, 22 Mar 2012 05:57:46 -0700,
-> Khem Raj <raj.khem@gmail.com> a =E9crit :
->=20
-> > On Thu, Mar 22, 2012 at 5:43 AM, Eric B=E9nard <eric@eukrea.com> wrote:
-> > > you are right :
-> > >
-> > > $ sudo rm ../../lib/python2.7/lib-dynload/readline.so
+> On 03/22/2012 04:42 AM, Robert P. J. Day wrote:
 > >
-> > ok another experiment instead of deleting readline.so make a copy of
-> > it and call it
-> > readline_d.so in the same dir or whereever gdb looks for debug
-> symbols
-> > and see if it still works or do you get the segfault again.
->=20
-> true :
->=20
-> [ebenard@eb-e6520 lib-dynload]$ sudo mv readline.so readline_d.so
-> [ebenard@eb-e6520 lib-dynload]$ arm-oe-linux-gnueabi-gdb
-> GNU gdb (GDB) 7.4
-> Copyright (C) 2012 Free Software Foundation, Inc.
-> License GPLv3+: GNU GPL version 3 or later
-> <http://gnu.org/licenses/gpl.html> This is free software: you are free
-> to change and redistribute it. There is NO WARRANTY, to the extent
-> permitted by law.  Type "show copying" and "show warranty" for details.
-> This GDB was configured as "--host=3Dx86_64-oesdk-linux
-> --target=3Darm-oe-linux-gnueabi". For bug reporting instructions, please
-> see: <http://www.gnu.org/software/gdb/bugs/>.
-> (gdb) quit
->=20
-> Eric
+> >    haven't seen this mentioned anywhere and i know it's simple but
+> > i want to confirm this.
+> >
+> >    say i run oe-init-build-env to initialize a new project, part
+> > of the effect of that is to prepend the OE and bitbake related
+> > directories to PATH.  i work there for a while, then want to put
+> > that on hold to start a second build.
+> >
+> >    i rerun oe-init-build-env to set up that second build, which
+> > works fine but, unsurprisingly, that prepends the OE directories
+> > to my PATH *again* (but i really have no choice, it has to be
+> > done).
+> >
+> >    after a while, i want to go back to the first project.  am i
+> > expected to run oe-init-build-env yet again?  (prepending
+> > directories yet again?)
+>
+> I would generally do my best to avoid working with multiple build
+> areas in the same terminal, and it's definitely not a case we test
+> with.
 
-Khem, Eric,
+  i had assumed as much, but i was curious to know the actual
+difference in the working environment between two builds.  sometimes
+info like that is educational.
 
-Renaming the sdk python2.7/lib-dynload/readline.so to python2.7/lib-dynload=
-/readline_d.so gets the sdk gdb working for me too.
-So is this a workaround or solution to the problem? If it is a workaround w=
-hat should be right solution?
+> >    as best i can tell, the only change i need to make in switching
+> > build directories is to reset the BUILDDIR env variable.  is that
+> > all that's necessary?  i don't see anything else in my environment
+> > that would have to be reset.
+>
+> Compare your env before and after running the oe-init-build-env
+> script, then prepend something to unset the variables that were
+> added.
 
-Thanks,
-Nitin
+  i did and the only meaningful differences were (as i suspected):
 
+  * BUILDDIR is updated
+  * PATH kept being prepended unnecessarily with OE/bitbake dirs
 
+> If you want to submit a patch make the oe-init-build-env script
+> idempotent in this way, that could be useful.
+
+  the only thing that i can suggest is that that script check if PATH
+already contains the OE dirs at the front, and not prepend them again,
+but that's obviously not a big deal.
+
+rday
+
+-- 
+
+========================================================================
+Robert P. J. Day                                 Ottawa, Ontario, CANADA
+                        http://crashcourse.ca
+
+Twitter:                                       http://twitter.com/rpjday
+LinkedIn:                               http://ca.linkedin.com/in/rpjday
+========================================================================
 
 
