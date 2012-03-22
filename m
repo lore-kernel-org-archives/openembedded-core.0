@@ -1,41 +1,30 @@
-Received: from mga06.intel.com ([134.134.136.21] helo=orsmga101.jf.intel.com)
+Received: from mga02.intel.com ([134.134.136.20])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <scott.a.garman@intel.com>) id 1SAkVj-0004bL-Cw
+	(envelope-from <sgw@linux.intel.com>) id 1SAkXU-0006z3-7N
 	for openembedded-core@lists.openembedded.org;
-	Thu, 22 Mar 2012 17:05:11 +0100
-Received: from mail-pb0-f52.google.com ([209.85.160.52])
-	by mga02.intel.com with ESMTP/TLS/RC4-SHA; 22 Mar 2012 08:55:10 -0700
-Received: by pbcuo15 with SMTP id uo15so7598034pbc.25
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 22 Mar 2012 08:55:10 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=google.com; s=20120113;
-	h=message-id:date:from:user-agent:mime-version:to:cc:subject
-	:references:in-reply-to:content-type:content-transfer-encoding
-	:x-gm-message-state;
-	bh=O1FCEcfphE+QntROlDLrqFsgXqotYUDZrGprbUcwj1U=;
-	b=EsaEOBTKvVO5Q2zWaqxlNr+BO6SyGrntA5MaSIF5HveK2XhB5N6LTbYDmnYgoggi13
-	ZgpH9UlT2ODU1nQ8VKir2hS4L75G873pskrjNBIIN6khQ7jQp3q7o48qVsE/tLs0BHiC
-	UQJyPz7I5a6i68d0Rw6AFAr9pz9JxlaH3oRtCoUIil7WaVK5sI2oIcfqlSEhbk3c7yCA
-	5teMkGlRaSRVD+GHg312JiSqrS4qLC9eSRwZ0Ywn+qX3Kclw834uHpYCEYf+3jdPnEFu
-	mDci2CA88eD9h2pU9OjpHWRkA/zgxLWdtYweYcj15iYH6Gv3W1i/nWjQQibqlqJAQq4T
-	hP4g==
-Received: by 10.68.217.201 with SMTP id pa9mr2102594pbc.73.1332431710333;
-	Thu, 22 Mar 2012 08:55:10 -0700 (PDT)
-Received: from [127.0.0.1] (masterfoo.zenlinux.com. [207.192.74.254])
-	by mx.google.com with ESMTPS id x8sm4050668pbr.11.2012.03.22.08.55.07
-	(version=SSLv3 cipher=OTHER); Thu, 22 Mar 2012 08:55:09 -0700 (PDT)
-Message-ID: <4F6B4B51.3080806@intel.com>
-Date: Thu, 22 Mar 2012 08:54:57 -0700
-From: Scott Garman <scott.a.garman@intel.com>
+	Thu, 22 Mar 2012 17:07:00 +0100
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+	by orsmga101.jf.intel.com with ESMTP; 22 Mar 2012 08:58:04 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.67,351,1309762800"; d="scan'208";a="123913023"
+Received: from unknown (HELO [10.255.12.49]) ([10.255.12.49])
+	by orsmga002.jf.intel.com with ESMTP; 22 Mar 2012 08:58:04 -0700
+Message-ID: <4F6B4C0B.3030504@linux.intel.com>
+Date: Thu, 22 Mar 2012 08:58:03 -0700
+From: Saul Wold <sgw@linux.intel.com>
 User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:11.0) Gecko/20120310 Thunderbird/11.0
+	rv:10.0.1) Gecko/20120216 Thunderbird/10.0.1
 MIME-Version: 1.0
-To: openembedded-core@lists.openembedded.org
-References: <alpine.DEB.2.02.1203220731420.16149@oneiric>
-In-Reply-To: <alpine.DEB.2.02.1203220731420.16149@oneiric>
-X-Gm-Message-State: ALoCoQm3RgaEzhmE8c+Kb2eufIQr5JB8oM0tjeqU8wEPRnRoGcLYOVwumE7Rq58+UU1w3FE3bXe+
-Subject: Re: proper way to bounce between two (or more) build directories?
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+References: <1332339926-27043-1-git-send-email-s.stirtzel@googlemail.com>
+	<4F6A2F2F.2090607@linux.intel.com>
+	<FC6FAFAF-2C6E-4EF7-8AD9-D2C30D2114DD@dominion.thruhere.net>
+	<CAGiJk9cw9KxmoPcmad1aR64vXaqKujUY7nH_pVePnfVPY-uedw@mail.gmail.com>
+	<CDC69864-7475-4B3C-B966-C3B6CC67B8E7@dominion.thruhere.net>
+	<CAGiJk9cUtvJn2uKRxBzP_0nvs78bYvEJ2JKsCx4HKdo1zxL9DA@mail.gmail.com>
+In-Reply-To: <CAGiJk9cUtvJn2uKRxBzP_0nvs78bYvEJ2JKsCx4HKdo1zxL9DA@mail.gmail.com>
+Subject: Re: [PATCH] giflib: Move to OE-Core
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -50,50 +39,77 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 22 Mar 2012 16:05:11 -0000
+X-List-Received-Date: Thu, 22 Mar 2012 16:07:00 -0000
 Content-Type: text/plain; charset=ISO-8859-1; format=flowed
 Content-Transfer-Encoding: 7bit
 
-On 03/22/2012 04:42 AM, Robert P. J. Day wrote:
+On 03/22/2012 02:41 AM, Samuel Stirtzel wrote:
+> 2012/3/22 Koen Kooi<koen@dominion.thruhere.net>:
+>>
+>> Op 22 mrt. 2012, om 09:48 heeft Samuel Stirtzel het volgende geschreven:
+>>
+>>> 2012/3/21 Koen Kooi<koen@dominion.thruhere.net>:
+>>>>
+>>>> Op 21 mrt. 2012, om 20:42 heeft Saul Wold het volgende geschreven:
+>>>>
+>>>>> On 03/21/2012 07:25 AM, Samuel Stirtzel wrote:
+>>>>>> * This move will allow the testing of meta-kde for users without meta-openembedded.
+>>>>>>
+>>>>> So what other layers are using giflib?
+>>>>>
+>>>>> Your suggesting that we need to have it in oe-core so people don't need to add the meta-openembedded layer when using meta-kde?
+>>>>>
+>>>>> I am just trying to get more data before making a decision.
+>>>>
+>>>> Let's put everything in oe-core!
+>>>
+>>> Otherwise it would require to maintain a redundant copy of giflib in meta-kde.
+>>
+>> I don't think you get the concept of layers and keeping non-core stuff out of oe-core.
 >
->    haven't seen this mentioned anywhere and i know it's simple but i
-> want to confirm this.
+> How can it be that libpng is core stuff and libgif is not?
 >
->    say i run oe-init-build-env to initialize a new project, part of the
-> effect of that is to prepend the OE and bitbake related directories to
-> PATH.  i work there for a while, then want to put that on hold to
-> start a second build.
+libpng is in oe-core because it is used by other parts of oe-core (Sato, 
+GTK+, Gthumb, Cups, ...).  PNG is also more common that GIF because GIF 
+had licensing issues in the past.
+
+Finally, as stated in other emails meta-kde has other dependencies on 
+meta-oe, it's just the base bits that need giflib.
+
+So, no we will not move libgif into oe-core, please use the Layers as 
+they are intended.
+
+Thanks
+	Sau!
+
+>>
+>>> Alternative suggestions are welcome.
+>>>
+>>>
+>>> A grep shows that not many recipes depend on giflib:
+>>> -
+>>> samuel@s-stirtzel-linux:/work/oe-core/setup-scripts/sources$ grep -r 'giflib' *
+>>> meta-java/recipes-core/openjdk/openjdk-6-common.inc:DEPENDS = "giflib
+>>> libpng jpeg cups \
+>>> meta-java/recipes-core/icedtea/icedtea6-native.inc:
+>>> freetype-native zlib-native giflib-native jpeg-native \
+>>> meta-kde/recipes-kde-base/kdelibs4_git.bb:DEPENDS = "automoc4-native
+>>> strigi libdbusmenu-qt soprano shared-desktop-ontologies dbus giflib
+>>> attica jpeg libpng bzip2 libpcre perl-native"
+>>> meta-openembedded/meta-efl/recipes-efl/efl/evas.inc:DEPENDS = "librsvg
+>>> eina eet freetype jpeg libpng virtual/libx11 libxext libxrender
+>>> fontconfig libfribidi giflib"
+>>> -
+>>>
+>>> Any reason against the move?
+>>
+>> The whole layering concept
+>> _______________________________________________
+>> Openembedded-core mailing list
+>> Openembedded-core@lists.openembedded.org
+>> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
 >
->    i rerun oe-init-build-env to set up that second build, which works
-> fine but, unsurprisingly, that prepends the OE directories to my PATH
-> *again* (but i really have no choice, it has to be done).
 >
->    after a while, i want to go back to the first project.  am i
-> expected to run oe-init-build-env yet again?  (prepending directories
-> yet again?)
-
-I would generally do my best to avoid working with multiple build areas 
-in the same terminal, and it's definitely not a case we test with.
-
->    as best i can tell, the only change i need to make in switching
-> build directories is to reset the BUILDDIR env variable.  is that all
-> that's necessary?  i don't see anything else in my environment that
-> would have to be reset.
-
-Compare your env before and after running the oe-init-build-env script, 
-then prepend something to unset the variables that were added.
-
-If you want to submit a patch make the oe-init-build-env script 
-idempotent in this way, that could be useful.
-
-cc: to Beth in case there's something weird we do with our autobuilder 
-environment that she would want to comment on.
-
-Scott
-
--- 
-Scott Garman
-Embedded Linux Engineer - Yocto Project
-Intel Open Source Technology Center
+>
 
 
