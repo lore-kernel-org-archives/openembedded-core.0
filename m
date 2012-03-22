@@ -1,54 +1,37 @@
-Received: from am1ehsobe003.messaging.microsoft.com ([213.199.154.206]
-	helo=am1outboundpool.messaging.microsoft.com)
+Received: from mail-gy0-f175.google.com ([209.85.160.175])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <B29882@freescale.com>) id 1SAjcs-00032z-2S
+	(envelope-from <kergoth@gmail.com>) id 1SAjdS-00035V-T9
 	for openembedded-core@lists.openembedded.org;
-	Thu, 22 Mar 2012 16:08:30 +0100
-Received: from mail65-am1-R.bigfish.com (10.3.201.238) by
-	AM1EHSOBE001.bigfish.com (10.3.204.21) with Microsoft SMTP Server id
-	14.1.225.23; Thu, 22 Mar 2012 14:44:24 +0000
-Received: from mail65-am1 (localhost [127.0.0.1])	by mail65-am1-R.bigfish.com
-	(Postfix) with ESMTP id CC14F2C0256;
-	Thu, 22 Mar 2012 14:44:23 +0000 (UTC)
-X-SpamScore: -7
-X-BigFish: VS-7(zz9371Ic89bh1432N98dKzz1202hzz8275bhz2dh2a8h668h839h8e2h8e3hbe9k)
-X-Forefront-Antispam-Report: CIP:70.37.183.190; KIP:(null); UIP:(null); IPV:NLI;
-	H:mail.freescale.net; RD:none; EFVD:NLI
-Received: from mail65-am1 (localhost.localdomain [127.0.0.1]) by mail65-am1
-	(MessageSwitch) id 1332427461923470_27359;
-	Thu, 22 Mar 2012 14:44:21 +0000 (UTC)
-Received: from AM1EHSMHS006.bigfish.com (unknown [10.3.201.225])	by
-	mail65-am1.bigfish.com (Postfix) with ESMTP id DD4EE2400A4;
-	Thu, 22 Mar 2012 14:44:21 +0000 (UTC)
-Received: from mail.freescale.net (70.37.183.190) by AM1EHSMHS006.bigfish.com
-	(10.3.207.106) with Microsoft SMTP Server (TLS) id 14.1.225.23;
-	Thu, 22 Mar 2012 14:44:20 +0000
-Received: from 039-SN1MPN1-001.039d.mgd.msft.net ([169.254.1.230]) by
-	039-SN1MMR1-001.039d.mgd.msft.net ([10.84.1.13]) with mapi id
-	14.01.0355.003; Thu, 22 Mar 2012 09:44:26 -0500
-From: McClintock Matthew-B29882 <B29882@freescale.com>
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Thread-Topic: [OE-core] [PATCH] busybox: enable eject
-Thread-Index: AQHNCDpHGoDKjA/760+F5Z0j4laMjQ==
-Date: Thu, 22 Mar 2012 14:44:26 +0000
-Message-ID: <CAEsOVNcmrEy4hqE4W6EEuw20yDXt=z5SVr3fn_5Rkwd1_zDEpg@mail.gmail.com>
-References: <1332414627-6512-1-git-send-email-schnitzeltony@googlemail.com>
-	<1332414627-6512-2-git-send-email-schnitzeltony@googlemail.com>
-	<1376344.pbiv3OAoml@helios>
-In-Reply-To: <1376344.pbiv3OAoml@helios>
-Accept-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [99.47.177.27]
-MIME-Version: 1.0
-X-OriginatorOrg: freescale.com
-Subject: Re: [PATCH] busybox: enable eject
+	Thu, 22 Mar 2012 16:09:07 +0100
+Received: by ghbz2 with SMTP id z2so1839547ghb.6
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 22 Mar 2012 08:00:11 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=from:to:cc:subject:date:message-id:x-mailer;
+	bh=FtsT4czXPVIUsdZ/+kKQfAf1MfmsAk/bAufZvtEFAr0=;
+	b=lOfEU3BTqyu1AxOYWa9NvAHai2dp/PN1QufzBcA58+CZ6gxZo63HFzyW5yfcM2BvMM
+	6UnuFbm38AV8JxSTdEKDUFHoB8fkKv6OSCU9NACFOIMDdlyjUvm3mWlgv2/ZDZFqG9DL
+	ZxdLwQltikhVhXAkla7RfXn8a63FbG3XUZaMV2ZZN9jxAiYayrOd43mCjuOvcfpGgDss
+	omzRq0GsK6NGs0EWmXFUg3wT7/IVSpu3gaSi3V/3ihDKxwYxbCJAgZb9dv2PdIhqaLFw
+	L+aJzawkL4uMeCzl7QiGbK0dPFABX21WiuJYd/tHhMR3sdkm3evjRtzMHyMF9DduyShg
+	wyUg==
+Received: by 10.60.3.34 with SMTP id 2mr10085576oez.27.1332428411418;
+	Thu, 22 Mar 2012 08:00:11 -0700 (PDT)
+Received: from localhost.localdomain (nat-lmt.mentorg.com. [139.181.28.34])
+	by mx.google.com with ESMTPS id ch5sm4882349obb.16.2012.03.22.08.00.09
+	(version=TLSv1/SSLv3 cipher=OTHER);
+	Thu, 22 Mar 2012 08:00:10 -0700 (PDT)
+From: Christopher Larson <kergoth@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Date: Thu, 22 Mar 2012 10:00:03 -0500
+Message-Id: <1332428403-25048-1-git-send-email-kergoth@gmail.com>
+X-Mailer: git-send-email 1.7.7
+Cc: Christopher Larson <chris_larson@mentor.com>
+Subject: [PATCH] powerpc: fix overly aggressive TUNE_PKGARCH set
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
-Reply-To: McClintock Matthew-B29882 <B29882@freescale.com>,
-	Patches and discussions about the oe-core layer
+Reply-To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
 List-Id: Patches and discussions about the oe-core layer
 	<openembedded-core.lists.openembedded.org>
@@ -59,32 +42,49 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 22 Mar 2012 15:08:30 -0000
-Content-Language: en-US
-Content-Type: text/plain; charset="iso-8859-1"
-Content-ID: <1C777B18091ED043A40BEC652E961D26@mgd.freescale.com>
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Thu, 22 Mar 2012 15:09:07 -0000
 
-On Thu, Mar 22, 2012 at 9:41 AM, Paul Eggleton
-<paul.eggleton@linux.intel.com> wrote:
-> On Thursday 22 March 2012 12:10:27 Andreas M=FCller wrote:
->> In xfce-environment ejecting USB-memory stick caused:
->> Error starting job: Failed to execute child process "eject" (No such fil=
-e or
->> directory)
->
-> Not to say we shouldn't merge this, but I'm concerned if this continues w=
-e
-> could end up with busybox in the default configuration creeping up in siz=
-e as
-> more and more features get enabled.
->
-> Where do we draw the line?
+From: Christopher Larson <chris_larson@mentor.com>
 
-Perhaps it should be the default settings? We always have 'bitbake -c
-menuconfig busybox' for the "small" cases?
+There's a problem in arch-powerpc.inc today, wherein it directly sets
+TUNE_PKGARCH, rather than setting TUNE_PKGARCH_tune-<tuning>. As a result,
+more specific tuning files (e.g. ppce500mc) then see their
+TUNE_PKGARCH_tune-<tuning> variable definitions no longer obeyed. As
+a consequence, the TUNE_PKGARCH ends up as 'powerpc' or 'powerpc-nf' rather
+than 'ppce500mc', which in turn causes a 'TUNE_PKGARCH not in PACKAGE_ARCHS'
+failure in the build.
 
--M=
+To fix, the .inc now sets TUNE_PKGARCH_tune-powerpc and
+TUNE_PKGARCH_tune-powerpc-nf rather than TUNE_PKGARCH.
+
+Signed-off-by: Christopher Larson <chris_larson@mentor.com>
+---
+ meta/conf/machine/include/powerpc/arch-powerpc.inc |    5 +++--
+ 1 files changed, 3 insertions(+), 2 deletions(-)
+
+diff --git a/meta/conf/machine/include/powerpc/arch-powerpc.inc b/meta/conf/machine/include/powerpc/arch-powerpc.inc
+index c9b2829..f811a3e 100644
+--- a/meta/conf/machine/include/powerpc/arch-powerpc.inc
++++ b/meta/conf/machine/include/powerpc/arch-powerpc.inc
+@@ -21,13 +21,14 @@ ABIEXTENSION = "${@['','spe'][d.getVar('TARGET_FPU', True) in ['ppc-efd', 'ppc-e
+ PPCPKGSFX_FPU = "${@bb.utils.contains("TUNE_FEATURES", "fpu-hard" , "", "-nf", d)}"
+ 
+ PPCPKGARCH = "${TUNE_ARCH}${PPCPKGSFX_FPU}"
+-TUNE_PKGARCH ?= "${PPCPKGARCH}"
+ 
+ # Basic tune definitions
+-AVAILTUNES += "powerpc powerpc-nf" 
++AVAILTUNES += "powerpc powerpc-nf"
+ TUNE_FEATURES_tune-powerpc-nf ?= "m32 fpu-soft"
++TUNE_PKGARCH_tune-powerpc-nf = "${PPCPKGARCH}"
+ BASE_LIB_tune-powerpc-nf = "lib"
+ PACKAGE_EXTRA_ARCHS_tune-powerpc-nf = "powerpc-nf"
+ TUNE_FEATURES_tune-powerpc ?= "m32 fpu-hard"
++TUNE_PKGARCH_tune-powerpc = "${PPCPKGARCH}"
+ BASE_LIB_tune-powerpc = "lib"
+ PACKAGE_EXTRA_ARCHS_tune-powerpc = "powerpc"
+-- 
+1.7.7
 
 
 
