@@ -1,28 +1,34 @@
-Received: from vms173011pub.verizon.net ([206.46.173.11])
+Received: from mail-lb0-f175.google.com ([209.85.217.175])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <denis@denix.org>) id 1SAZtz-0002cW-CX
+	(envelope-from <raj.khem@gmail.com>) id 1SAa5E-0002jl-IV
 	for openembedded-core@lists.openembedded.org;
-	Thu, 22 Mar 2012 05:45:31 +0100
-Received: from gandalf.denix.org ([unknown] [71.178.225.66])
-	by vms173011.mailsrvcs.net
-	(Sun Java(tm) System Messaging Server 7u2-7.02 32bit (built Apr 16
-	2009)) with ESMTPA id <0M19001LEOOP0DR1@vms173011.mailsrvcs.net> for
-	openembedded-core@lists.openembedded.org;
-	Wed, 21 Mar 2012 22:36:26 -0500 (CDT)
-Received: by gandalf.denix.org (Postfix, from userid 1000)	id CF2562016F; Wed,
-	21 Mar 2012 23:36:24 -0400 (EDT)
-Date: Wed, 21 Mar 2012 23:36:24 -0400
-From: Denys Dmytriyenko <denis@denix.org>
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Message-id: <20120322033624.GI6857@denix.org>
+	Thu, 22 Mar 2012 05:57:08 +0100
+Received: by lbbgi4 with SMTP id gi4so1369863lbb.6
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 21 Mar 2012 21:48:14 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:content-type; bh=XBUmv0qxKn97TTU9FWaMitERZwA8IoSwGDaLrdPbcDM=;
+	b=ojVgGmvGCLsXCGc1gFjNCpmuCDKAIqF/NLgoAzC9QmI2AqnAAl0aeoKKiLEzHglJjH
+	S0Lt6w48snsenDuWlkizFP3/D41AOLqEStMte/fQZ4YHiBYuT93d9tIrQrlUlrFaG8Ru
+	pDqR2oEPP60TDS50wK250734Zqkzq9R4BN+DKGT9grshMckfDGdERyX082Z3ql6PgIP2
+	LM/sB1bwM4u0oTCoGHibTMX/FaDV523zV7MrHX5jUFRHIXhsqCGa2R1AXbylKJpGPXEu
+	LLOJNr3eAEOc4KEgGWVKdw0czxiD+tvk14ANd3nvD55jLUifjPbiwBuXq7+z5JfcQQMG
+	HZcw==
+Received: by 10.152.127.136 with SMTP id ng8mr4729035lab.16.1332391693946;
+	Wed, 21 Mar 2012 21:48:13 -0700 (PDT)
+MIME-Version: 1.0
+Received: by 10.152.2.71 with HTTP; Wed, 21 Mar 2012 21:47:43 -0700 (PDT)
+In-Reply-To: <1332361627.9740.180.camel@ted>
 References: <1332339926-27043-1-git-send-email-s.stirtzel@googlemail.com>
 	<4F6A2F2F.2090607@linux.intel.com>
 	<FC6FAFAF-2C6E-4EF7-8AD9-D2C30D2114DD@dominion.thruhere.net>
-	<1332361627.9740.180.camel@ted> <4F6A9B02.7090201@windriver.com>
-MIME-version: 1.0
-In-reply-to: <4F6A9B02.7090201@windriver.com>
-User-Agent: Mutt/1.5.20 (2009-06-14)
+	<1332361627.9740.180.camel@ted>
+From: Khem Raj <raj.khem@gmail.com>
+Date: Wed, 21 Mar 2012 21:47:43 -0700
+Message-ID: <CAMKF1sqvv+x2tf4eT7Y7yf9MYLh4cf+o__kGoL+hup-xnb9q+A@mail.gmail.com>
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
 Subject: Re: [PATCH] giflib: Move to OE-Core
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
@@ -38,43 +44,48 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 22 Mar 2012 04:45:31 -0000
-Content-type: text/plain; charset=us-ascii
-Content-disposition: inline
+X-List-Received-Date: Thu, 22 Mar 2012 04:57:08 -0000
+Content-Type: text/plain; charset=UTF-8
 
-On Thu, Mar 22, 2012 at 11:22:42AM +0800, Robert Yang wrote:
-> 
-> 
-> On 03/22/2012 04:27 AM, Richard Purdie wrote:
-> >On Wed, 2012-03-21 at 21:14 +0100, Koen Kooi wrote:
-> >>Op 21 mrt. 2012, om 20:42 heeft Saul Wold het volgende geschreven:
-> >>
-> >>>On 03/21/2012 07:25 AM, Samuel Stirtzel wrote:
-> >>>>* This move will allow the testing of meta-kde for users without meta-openembedded.
-> >>>>
-> >>>So what other layers are using giflib?
-> >>>
-> >>>Your suggesting that we need to have it in oe-core so people don't need to add the meta-openembedded layer when using meta-kde?
-> >>>
-> >>>I am just trying to get more data before making a decision.
-> >>
-> >>Let's put everything in oe-core!
-> >
-> >Let's try and be constructive ;-).
-> >
-> >I think to make a good decision about this we need to understand which
-> >layers use giflib.
-> >
-> >Is this really the only component from meta-oe that meta-kde needs? If
-> 
-> Yes, as far as we know, this is the only component from meta-oe that
-> meta-kde needs.
+On Wed, Mar 21, 2012 at 1:27 PM, Richard Purdie
+<richard.purdie@linuxfoundation.org> wrote:
+> On Wed, 2012-03-21 at 21:14 +0100, Koen Kooi wrote:
+>> Op 21 mrt. 2012, om 20:42 heeft Saul Wold het volgende geschreven:
+>>
+>> > On 03/21/2012 07:25 AM, Samuel Stirtzel wrote:
+>> >> * This move will allow the testing of meta-kde for users without meta-openembedded.
+>> >>
+>> > So what other layers are using giflib?
+>> >
+>> > Your suggesting that we need to have it in oe-core so people don't need to add the meta-openembedded layer when using meta-kde?
+>> >
+>> > I am just trying to get more data before making a decision.
+>>
+>> Let's put everything in oe-core!
+>
+> Let's try and be constructive ;-).
+>
+> I think to make a good decision about this we need to understand which
+> layers use giflib.
+>
+> Is this really the only component from meta-oe that meta-kde needs? If
+> it is, I think the request is certainly worth thinking about as we do
+> want to try and minimise and untangle the dependency spider web if we
+> can.
+>
 
-Are you talking about kdelibs/kdebase or the entire KDE world? Building any of 
-the standard KDE apps (kdenetwork, kdemultimedia, etc.) will bring additional 
-dependencies...
+I think this library could belong to OE-Core since its a library for GIF images
+its currently used by EFL libs. Putting it in OE-Core would be a better thing
+IMO since it seems common library
 
--- 
-Denys
+> Cheers,
+>
+> Richard
+>
+>
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
 
 
