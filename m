@@ -1,43 +1,37 @@
-Received: from mail-wi0-f171.google.com ([209.85.212.171])
+Received: from smtp3-g21.free.fr ([212.27.42.3])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <koen@dominion.thruhere.net>) id 1SAoPy-0006uC-NE
+	(envelope-from <eric@eukrea.com>) id 1SApkB-0008B5-UQ
 	for openembedded-core@lists.openembedded.org;
-	Thu, 22 Mar 2012 21:15:30 +0100
-Received: by wibhj13 with SMTP id hj13so1111718wib.6
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 22 Mar 2012 13:06:35 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=google.com; s=20120113;
-	h=content-type:mime-version:subject:from:in-reply-to:date
-	:content-transfer-encoding:message-id:references:to:x-mailer
-	:x-gm-message-state;
-	bh=M5WnnOTECkKde4EwNm5YB1HcZSIdGdIrv7AcFnFbgzk=;
-	b=QmheuCXS6TfHPNnlXAX0ex7uM72FWq8QGfK5MjyufFupdhfS5BWRsRoi/vyyrrEo56
-	6et8kVsLwtqe1iu6omkraYdTjXlUUlvCK5bLGuEi6joOGrFRgaj/uYhPFV0gx2xRjspJ
-	SHoDO/5o08yY94yhCbiTCzHwuwLNW7XrYTK5eQsyzKVdXj8+z5xrF+6+wrLuTXm5HtdT
-	dzcvdhlv38FVSoV7qRKbyEkqzh707JBmgoyEsLU92SN8lI4DZe0Bej/WWBmdZmJn+SUc
-	lYBdNGzDrfLMbQM/26gbV0KQnpxiVRP2Ad1b/sghosL9e+Ij3g/2dH68A+gSJuFo69G7
-	izpw==
-Received: by 10.180.105.194 with SMTP id go2mr354296wib.22.1332446795592;
-	Thu, 22 Mar 2012 13:06:35 -0700 (PDT)
-Received: from [172.20.1.36] (ip545070eb.adsl-surfen.hetnet.nl.
-	[84.80.112.235])
-	by mx.google.com with ESMTPS id ex2sm12809874wib.8.2012.03.22.13.06.34
-	(version=TLSv1/SSLv3 cipher=OTHER);
-	Thu, 22 Mar 2012 13:06:34 -0700 (PDT)
-Mime-Version: 1.0 (Apple Message framework v1257)
-From: Koen Kooi <koen@dominion.thruhere.net>
-In-Reply-To: <CALbNGRTN4JV3OoEgqQrQJp0LY3KLcGJC12ZiZMqmNjF7KU5fng@mail.gmail.com>
-Date: Thu, 22 Mar 2012 21:06:39 +0100
-Message-Id: <B915C740-BEED-45EA-92F6-96F600E33DBC@dominion.thruhere.net>
-References: <1332443701-24282-1-git-send-email-schnitzeltony@googlemail.com>
-	<E67D3882-EE14-4CEB-9FDC-E8E99EA0ADB0@dominion.thruhere.net>
-	<CALbNGRTN4JV3OoEgqQrQJp0LY3KLcGJC12ZiZMqmNjF7KU5fng@mail.gmail.com>
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-X-Mailer: Apple Mail (2.1257)
-X-Gm-Message-State: ALoCoQnWwiYmDlXFNGFd13UupHk9TnMnnw2MeUYXkW9EE0MuUtp/WuKql0IW8oF2HpePRRv5IhrT
-Subject: Re: [PATCH] gtk-icon-cache.bbclass: Fix multiple rebuilds of the icon cache on first boot
+	Thu, 22 Mar 2012 22:40:28 +0100
+Received: from eb-e6520 (unknown [82.233.81.124])
+	by smtp3-g21.free.fr (Postfix) with ESMTP id 83B32A6264;
+	Thu, 22 Mar 2012 22:31:29 +0100 (CET)
+Date: Thu, 22 Mar 2012 22:31:27 +0100
+From: Eric =?ISO-8859-1?B?QuluYXJk?= <eric@eukrea.com>
+To: Khem Raj <raj.khem@gmail.com>
+Message-ID: <20120322223127.136698cf@eb-e6520>
+In-Reply-To: <CAMKF1sr=PedPsmpPSGC42Wvof9fHbR26JM2hgEZjA3h621ynxA@mail.gmail.com>
+References: <cover.1332347414.git.nitin.a.kamble@intel.com>
+	<CAMKF1sq7hcTKrzFBYgmUOTcdQw6sC1FG4jUhsfKauqeXLQMgsg@mail.gmail.com>
+	<ADD6A3980E8C39419A432FF422031B4C0137B889@ORSMSX106.amr.corp.intel.com>
+	<CAMKF1srP52bxqwkaqPZTQbRmhp_V+4-iJ7wTKeKWfC1z4W=fyw@mail.gmail.com>
+	<ADD6A3980E8C39419A432FF422031B4C0137BAA8@ORSMSX106.amr.corp.intel.com>
+	<CAMKF1sobw_wT_ZKhXs9Y-d0jSG-QWzKOprgf7+zM8a_BjjQgEQ@mail.gmail.com>
+	<20120322131310.1c6455d1@eb-e6520>
+	<CAMKF1sqEGjWMpPTQxP3j1bbP6H2FQqAgHZGm399ejC-RyDxboQ@mail.gmail.com>
+	<20120322134340.1af3dfda@eb-e6520>
+	<CAMKF1srORF53h-V+fKTjJn2jWg=f6nOaMf_eUmYPLnW-ovc7NQ@mail.gmail.com>
+	<20120322141455.644058f0@eb-e6520>
+	<ADD6A3980E8C39419A432FF422031B4C0137BE5C@ORSMSX106.amr.corp.intel.com>
+	<CAMKF1srd0KanO6NfQtm0U39GZS_ANsu9KdRR0hirpKQrhMCxzg@mail.gmail.com>
+	<ADD6A3980E8C39419A432FF422031B4C0137BEEB@ORSMSX106.amr.corp.intel.com>
+	<CAMKF1sr=PedPsmpPSGC42Wvof9fHbR26JM2hgEZjA3h621ynxA@mail.gmail.com>
+Organization: =?ISO-8859-1?B?RXVrculh?= Electromatique
+X-Mailer: Claws Mail 3.8.0 (GTK+ 2.24.8; x86_64-redhat-linux-gnu)
+Mime-Version: 1.0
+Cc: Jansa <martin.jansa@gmail.com>, Martin, Patches,
+	about the oe-core layer <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 1/1] Revert "gdb-cross-canadian: build gdb with python support"
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -52,47 +46,44 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 22 Mar 2012 20:15:30 -0000
-Content-Type: text/plain; charset=iso-8859-1
+X-List-Received-Date: Thu, 22 Mar 2012 21:40:28 -0000
+Content-Type: text/plain; charset=ISO-8859-1
 Content-Transfer-Encoding: quoted-printable
 
+Hi Khem, Hi Nitin,
 
-Op 22 mrt. 2012, om 20:51 heeft Andreas M=FCller het volgende =
-geschreven:
+Le Thu, 22 Mar 2012 12:16:44 -0700,
+Khem Raj <raj.khem@gmail.com> a =E9crit :
+> On Thu, Mar 22, 2012 at 10:38 AM, Kamble, Nitin A
+> <nitin.a.kamble@intel.com> wrote:
+> > Looks like we need this patch for the python recipe to generate debug m=
+odules:
+> > http://patch-tracker.debian.org/patch/series/view/python2.7/2.7.2-8/deb=
+ug-build.diff
+>=20
+> yep thats the one. Apply it to python and rebuild python-native and
+> stage it then see if that helps. You might have to adjust the FILES
+> and PACKAGES to put the new files in right places.
 
-> On Thu, Mar 22, 2012 at 8:34 PM, Koen Kooi =
-<koen@dominion.thruhere.net> wrote:
->>=20
->> Op 22 mrt. 2012, om 20:15 heeft Andreas M=FCller het volgende =
-geschreven:
->>=20
->>> * Before this patch every inheritance of this class rebuilt the full =
-icon cache at the first boot.
->>> * With this patch the icon cache will only be build once at the =
-first boot and on pkg installations that require it.
->>> * This patch reduces the time needed for the first boot from 96 =
-minutes to 5 minutes on the test machine.
->>> * Build-tested incremental (BB_SIGNATURE_HANDLER =3D "OEBasicHash") =
-& from scratch
->>> * Run-tested with systemd and opkg
->>=20
->> Wouldn't adding it to the opkg intercept code (and likely rpm as =
-well) be a better idea?
->>=20
-> We wanted to be independent of package manager selected and decided to
-> follow the systemd-compat-units approach. Ehm opkg intercept code -
-> teach me :)
+With this patch all the libraries (including libpython2.7) now have a _d
+suffix : is that what we really want ?
 
-Have a look at =
-http://code.google.com/p/opkg/source/browse/#svn%2Ftrunk%2Fintercept
+Once that's hacked in the recipe so that do_compile works - in case
+someone has an idea - I get a failure during installation of
+python-nativesdk :
+build/tmp-eglibc/work/x86_64-nativesdk-oesdk-linux/python-nativesdk-2.7.2-r=
+1.9/image/usr/local/oecore-x86_64/sysroots/x86_64-oesdk-linux/usr/lib/pytho=
+n2.7/sysconfig.py :
+return os.path.join(get_path('platstdlib'), "config" + (sys.pydebug and
+"_d" or ""), "Makefile") | AttributeError: 'module' object has no
+attribute 'pydebug
 
-It is a bit iffy to encode knowledge of postinsts into the package =
-manager, but you show that something like that is needed. Another =
-thought: can the icon updates be done at do_rootfs time and mark the =
-postinsts as done?
+I checked on both debian & fedora and they are using this patch only to
+generate debug packages, not for the standard package.
+Moreover, when I execute gdb on my PC (Fedora 16) it runs fine and I
+don't have readline_d.so installed in lib-dynload so it seems possible
+to get gdb to work with python without having debug symbols.
 
-regards,
-
-Koen=
+Eric
 
 
