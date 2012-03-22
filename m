@@ -1,31 +1,42 @@
-Received: from astoria.ccjclearline.com ([64.235.106.9])
+Received: from mail-wg0-f43.google.com ([74.125.82.43])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <rpjday@crashcourse.ca>) id 1SAfK1-0000Oj-0D
+	(envelope-from <koen@dominion.thruhere.net>) id 1SAfVN-0000eO-AK
 	for openembedded-core@lists.openembedded.org;
-	Thu, 22 Mar 2012 11:32:45 +0100
-Received: from cpec03f0ed08c7f-cm001ac318e826.cpe.net.cable.rogers.com
-	([99.241.91.63] helo=crashcourse.ca)
-	by astoria.ccjclearline.com with esmtpsa (TLSv1:AES256-SHA:256)
-	(Exim 4.69) (envelope-from <rpjday@crashcourse.ca>)
-	id 1SAfBP-00082k-NI for openembedded-core@lists.openembedded.org;
-	Thu, 22 Mar 2012 06:23:51 -0400
-Date: Thu, 22 Mar 2012 06:23:46 -0400 (EDT)
-From: "Robert P. J. Day" <rpjday@crashcourse.ca>
-X-X-Sender: rpjday@oneiric
-To: OE Core mailing list <openembedded-core@lists.openembedded.org>
-Message-ID: <alpine.DEB.2.02.1203220621400.12509@oneiric>
-User-Agent: Alpine 2.02 (DEB 1266 2009-07-14)
-MIME-Version: 1.0
-X-AntiAbuse: This header was added to track abuse,
-	please include it with any abuse report
-X-AntiAbuse: Primary Hostname - astoria.ccjclearline.com
-X-AntiAbuse: Original Domain - lists.openembedded.org
-X-AntiAbuse: Originator/Caller UID/GID - [47 12] / [47 12]
-X-AntiAbuse: Sender Address Domain - crashcourse.ca
-X-Source: 
-X-Source-Args: 
-X-Source-Dir: 
-Subject: [PATCH] Remove superfluous usage of BBEXTRA in oe-buildenv-internal
+	Thu, 22 Mar 2012 11:44:29 +0100
+Received: by wgbdr12 with SMTP id dr12so1089433wgb.24
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 22 Mar 2012 03:35:34 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=google.com; s=20120113;
+	h=subject:mime-version:content-type:from:in-reply-to:date:cc
+	:content-transfer-encoding:message-id:references:to:x-mailer
+	:x-gm-message-state;
+	bh=tYD67CUrZUxE8ObR4jqWp1Xynmvw8meS8TlR0CSCv7w=;
+	b=Mt/x6c8Xaugo7/Js1RUpYHn5mF6GvjHb6vr+fHJ3nyHlfhXNzfuSvCFKdRyMepbvb2
+	TejRSsG7FlZzQklWu8N0S3kmvOPz8r8I4vkE39qSaAHaePhKnn8xxBW9nRhzBqkxWf7c
+	VIvQf8WYCG17/UEdRl/D5RbFrQ6mezN3F2B+bhAoptn8k1fHGFPJT67tungdv1n/TM37
+	iyOaBzJ2KMYqbP7VQ9SMSRtI1/ZWDoDkgoX6ClgW5crPd31soi5ecHeZUzrGsx7moeU9
+	I0+RJzmfQW7qiZkn8VNNnbVUgtIYpFhgZ/cf3IDqHRguPGBsCX1ccOWGEnucTNgF5H4X
+	qryw==
+Received: by 10.216.132.169 with SMTP id o41mr4237597wei.121.1332412534365;
+	Thu, 22 Mar 2012 03:35:34 -0700 (PDT)
+Received: from [172.20.1.36] (ip545070eb.adsl-surfen.hetnet.nl.
+	[84.80.112.235])
+	by mx.google.com with ESMTPS id bx13sm4177155wib.10.2012.03.22.03.35.32
+	(version=TLSv1/SSLv3 cipher=OTHER);
+	Thu, 22 Mar 2012 03:35:32 -0700 (PDT)
+Mime-Version: 1.0 (Apple Message framework v1257)
+From: Koen Kooi <koen@dominion.thruhere.net>
+In-Reply-To: <16657624.ejDoFzWrx1@helios>
+Date: Thu, 22 Mar 2012 11:35:30 +0100
+Message-Id: <0E615ACC-662B-408B-BDAE-032723A55D15@dominion.thruhere.net>
+References: <1332250734-14660-1-git-send-email-koen@dominion.thruhere.net>
+	<16657624.ejDoFzWrx1@helios>
+To: Paul Eggleton <paul.eggleton@linux.intel.com>
+X-Mailer: Apple Mail (2.1257)
+X-Gm-Message-State: ALoCoQl6hxFSfIjoRxAyqsPCCdzLB2DLHKtulHU/PqYeBFTbOtNZiB8E0zALxC4t7lGEe0s+KSlA
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [RFC v2][PATCH 1/3] buildhistory: record all builds
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -40,43 +51,55 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 22 Mar 2012 10:32:45 -0000
-Content-Type: TEXT/PLAIN; charset=US-ASCII
+X-List-Received-Date: Thu, 22 Mar 2012 10:44:29 -0000
+Content-Type: text/plain; charset=us-ascii
+Content-Transfer-Encoding: quoted-printable
 
 
-According to Richard Purdie, this single reference to BBEXTRA is a
-historical holdover and has little value these days.
+Op 20 mrt. 2012, om 14:51 heeft Paul Eggleton het volgende geschreven:
 
-Signed-off-by: Robert P. J. Day <rpjday@crashcourse.ca>
+> On Tuesday 20 March 2012 14:38:52 Koen Kooi wrote:
+>> Allow empty commits, this also give a nice speedup since 'git status
+>> --porcelain' doesn't need to get run.
+>=20
+> I guess my thinking before (without any verification) was that git =
+commit would=20
+> need to be running the equivalent of 'git status --porcelain' anyway =
+and the=20
+> second time it would be cached so there wouldn't be much impact. If =
+the=20
+> buildhistory repo is quite large or the machine is busy then it's =
+entirely=20
+> possible that wouldn't work out however.
+>=20
+> Since all image builds will force a commit anyway (as at least =
+build-id must=20
+> change), and for the majority of people most builds will be image =
+builds, I=20
+> think this is going to be a net improvement.
+>=20
+> Therefore I'll say:
+>=20
+> Acked-by: Paul Eggleton <paul.eggleton@linux.intel.com>
 
----
+After a few more days of usage I'm going to create a follow-up patch =
+that will do:
 
-  wasn't sure if richard was saying that BBEXTRA didn't have any value
-anymore, so he's welcome to NAK this patch.  there is no other
-reference to that variable anywhere within oe-core.
+1) reinstate the global git status --porcelain and make a single, empty =
+commit if nothing changed instead of N empty commits.
+2) either parse the output of git status or re-run it to see which top =
+level entries need to get committed and only run 'git add ; git commit' =
+on those.
 
-diff --git a/scripts/oe-buildenv-internal b/scripts/oe-buildenv-internal
-index 21b92b0..21f0d5f 100755
---- a/scripts/oe-buildenv-internal
-+++ b/scripts/oe-buildenv-internal
-@@ -54,7 +54,7 @@ else
- fi
- unset BDIR
+That will keep tracking all builds, but will be less noisy. But it will =
+be slightly slower when the OS doesn't cache the git status, but I =
+decided that I can personally live with that.
 
--BITBAKEDIR="$OEROOT/bitbake$BBEXTRA/"
-+BITBAKEDIR="$OEROOT/bitbake/"
+So what do you think about that? If you like the idea, would you like it =
+as follow up or as a respin of the series?
 
- BITBAKEDIR=`readlink -f "$BITBAKEDIR"`
- BUILDDIR=`readlink -f "$BUILDDIR"`
+regards,
 
--- 
-
-========================================================================
-Robert P. J. Day                                 Ottawa, Ontario, CANADA
-                        http://crashcourse.ca
-
-Twitter:                                       http://twitter.com/rpjday
-LinkedIn:                               http://ca.linkedin.com/in/rpjday
-========================================================================
+Koen=
 
 
