@@ -1,45 +1,35 @@
-Received: from am1ehsobe006.messaging.microsoft.com ([213.199.154.209]
-	helo=am1outboundpool.messaging.microsoft.com)
+Received: from astoria.ccjclearline.com ([64.235.106.9])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <B29882@freescale.com>) id 1SAlPS-0004MK-6k
+	(envelope-from <rpjday@crashcourse.ca>) id 1SAlUi-0004Rd-4A
 	for openembedded-core@lists.openembedded.org;
-	Thu, 22 Mar 2012 18:02:46 +0100
-Received: from mail36-am1-R.bigfish.com (10.3.201.239) by
-	AM1EHSOBE003.bigfish.com (10.3.204.23) with Microsoft SMTP Server id
-	14.1.225.23; Thu, 22 Mar 2012 16:53:43 +0000
-Received: from mail36-am1 (localhost [127.0.0.1])	by mail36-am1-R.bigfish.com
-	(Postfix) with ESMTP id 384E060290;
-	Thu, 22 Mar 2012 16:53:43 +0000 (UTC)
-X-SpamScore: 3
-X-BigFish: VS3(zzzz1202h1082kzz8275bhz2dh2a8h668h839hd24h)
-X-Forefront-Antispam-Report: CIP:70.37.183.190; KIP:(null); UIP:(null); IPV:NLI;
-	H:mail.freescale.net; RD:none; EFVD:NLI
-Received: from mail36-am1 (localhost.localdomain [127.0.0.1]) by mail36-am1
-	(MessageSwitch) id 1332435221168994_16901;
-	Thu, 22 Mar 2012 16:53:41 +0000 (UTC)
-Received: from AM1EHSMHS008.bigfish.com (unknown [10.3.201.243])	by
-	mail36-am1.bigfish.com (Postfix) with ESMTP id 2505B4E00DB;
-	Thu, 22 Mar 2012 16:53:41 +0000 (UTC)
-Received: from mail.freescale.net (70.37.183.190) by AM1EHSMHS008.bigfish.com
-	(10.3.207.108) with Microsoft SMTP Server (TLS) id 14.1.225.23;
-	Thu, 22 Mar 2012 16:53:38 +0000
-Received: from tx30smr01.am.freescale.net (10.81.153.31) by
-	039-SN1MMR1-003.039d.mgd.msft.net (10.84.1.16) with Microsoft SMTP
-	Server (TLS) id 14.1.355.3; Thu, 22 Mar 2012 11:53:45 -0500
-Received: from right.am.freescale.net (right.am.freescale.net [10.82.193.13])
-	by tx30smr01.am.freescale.net (8.14.3/8.14.0) with ESMTP id
-	q2MGriPB006180; Thu, 22 Mar 2012 09:53:44 -0700
-From: Matthew McClintock <msm@freescale.com>
-To: <openembedded-core@lists.openembedded.org>, <chris_larson@mentor.com>,
-	<richard.purdie@linuxfoundation.org>
-Date: Thu, 22 Mar 2012 11:53:43 -0500
-Message-ID: <1332435223-15320-1-git-send-email-msm@freescale.com>
-X-Mailer: git-send-email 1.7.6.1
-In-Reply-To: <1332434311.9740.250.camel@ted>
-References: <1332434311.9740.250.camel@ted>
+	Thu, 22 Mar 2012 18:08:12 +0100
+Received: from cpec03f0ed08c7f-cm001ac318e826.cpe.net.cable.rogers.com
+	([99.241.91.63] helo=crashcourse.ca)
+	by astoria.ccjclearline.com with esmtpsa (TLSv1:AES256-SHA:256)
+	(Exim 4.69) (envelope-from <rpjday@crashcourse.ca>)
+	id 1SAlM6-0002gH-Bs for openembedded-core@lists.openembedded.org;
+	Thu, 22 Mar 2012 12:59:18 -0400
+Date: Thu, 22 Mar 2012 12:59:12 -0400 (EDT)
+From: "Robert P. J. Day" <rpjday@crashcourse.ca>
+X-X-Sender: rpjday@oneiric
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+In-Reply-To: <CAMKF1srqhR_ETsSGoF4Z9_TQcad5Eb8_dke5RdJxyKoV_dwHMg@mail.gmail.com>
+Message-ID: <alpine.DEB.2.02.1203221252020.12443@oneiric>
+References: <CALbNGRSm2KV_RsV+rR4hFNcEg7Oi5Z57N1nGXS73Z17G6gqS1g@mail.gmail.com>
+	<CAMKF1srqhR_ETsSGoF4Z9_TQcad5Eb8_dke5RdJxyKoV_dwHMg@mail.gmail.com>
+User-Agent: Alpine 2.02 (DEB 1266 2009-07-14)
 MIME-Version: 1.0
-X-OriginatorOrg: freescale.com
-Subject: [PATCH] arch-powerpc.inc: use default value of TUNE_PKGARCH
+X-AntiAbuse: This header was added to track abuse,
+	please include it with any abuse report
+X-AntiAbuse: Primary Hostname - astoria.ccjclearline.com
+X-AntiAbuse: Original Domain - lists.openembedded.org
+X-AntiAbuse: Originator/Caller UID/GID - [47 12] / [47 12]
+X-AntiAbuse: Sender Address Domain - crashcourse.ca
+X-Source: 
+X-Source-Args: 
+X-Source-Dir: 
+Subject: Re: Debugging with gdb
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -54,37 +44,59 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 22 Mar 2012 17:02:46 -0000
-Content-Type: text/plain
+X-List-Received-Date: Thu, 22 Mar 2012 17:08:12 -0000
+Content-Type: TEXT/PLAIN; charset=US-ASCII
 
-We can use the default value for TUNE_PKGARCH, and now we just
-append "-nf" if TARGET_FPU is fpu-soft
+On Thu, 22 Mar 2012, Khem Raj wrote:
 
-Signed-off-by: Matthew McClintock <msm@freescale.com>
----
- meta/conf/machine/include/powerpc/arch-powerpc.inc |    6 ++----
- 1 files changed, 2 insertions(+), 4 deletions(-)
+> in OE-Core world you can add following to local.conf and then you
+> can debug it on target.
+>
+> EXTRA_IMAGE_FEATURES += "dbg-pkgs tools-sdk"
+>
+> and that should have pretty much what you want. You dont have to
+> lower the optlevel since that might let the crash go away. Try to
+> debug the same code thats failing.
 
-diff --git a/meta/conf/machine/include/powerpc/arch-powerpc.inc b/meta/conf/machine/include/powerpc/arch-powerpc.inc
-index c9b2829..c5fd6b7 100644
---- a/meta/conf/machine/include/powerpc/arch-powerpc.inc
-+++ b/meta/conf/machine/include/powerpc/arch-powerpc.inc
-@@ -18,10 +18,8 @@ TARGET_FPU .= "${@bb.utils.contains("TUNE_FEATURES", "fpu-soft", "soft", "", d)}
- 
- ABIEXTENSION = "${@['','spe'][d.getVar('TARGET_FPU', True) in ['ppc-efd', 'ppc-efs']]}"
- 
--PPCPKGSFX_FPU = "${@bb.utils.contains("TUNE_FEATURES", "fpu-hard" , "", "-nf", d)}"
--
--PPCPKGARCH = "${TUNE_ARCH}${PPCPKGSFX_FPU}"
--TUNE_PKGARCH ?= "${PPCPKGARCH}"
-+PPCPKGSFX_FPU = "${@['', '-nf'][d.getVar('TARGET_FPU', True) in ['fpu-soft']]}"
-+TUNE_PKGARCH_append = "${PPCPKGSFX_FPU}"
- 
- # Basic tune definitions
- AVAILTUNES += "powerpc powerpc-nf" 
+  heh ... good timing as i was just about to go all pedantic over
+this.  the current docs are confusing regarding how a user is supposed
+to use that very variable.
+
+  in meta/conf/local/conf.sample, you read:
+
+... snip ...
+EXTRA_IMAGE_FEATURES = "debug-tweaks"
+... snip ...
+
+so a user would be inspired to do this:
+
+EXTRA_IMAGE_FEATURES = "dbg-pkgs tools-sdk"   (note "=", not "+=")
+
+which might not make any difference except that some image recipes
+specifically *already* assign values to that variable (and not even
+consistently):
+
+meta/recipes-sato/images/core-image-sato-sdk.bb:EXTRA_IMAGE_FEATURES += "tools-debug tools-profile tools-testapps debug-tweaks"
+meta/recipes-rt/images/core-image-rt-sdk.bb:EXTRA_IMAGE_FEATURES += "tools-debug tools-profile tools-testapps debug-tweaks"
+meta/recipes-extended/images/core-image-lsb-sdk.bb:EXTRA_IMAGE_FEATURES = "tools-debug tools-profile tools-testapps debug-tweaks"
+
+  so what happens if you choose to build one of these images and
+assign directly to EXTRA_IMAGE_FEATURES in your local.conf?  (i'm
+still grappling with the precedence and ordering of assignment so i'm
+not sure, but it certainly looks this has the potential to surprise
+the user.)
+
+rday
+
 -- 
-1.7.6.1
 
+========================================================================
+Robert P. J. Day                                 Ottawa, Ontario, CANADA
+                        http://crashcourse.ca
+
+Twitter:                                       http://twitter.com/rpjday
+LinkedIn:                               http://ca.linkedin.com/in/rpjday
+========================================================================
 
 
 
