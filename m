@@ -1,54 +1,28 @@
-Received: from mga02.intel.com ([134.134.136.20])
+Received: from [93.97.173.237] (helo=tim.rpsys.net)
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <nitin.a.kamble@intel.com>) id 1SAq0F-0008Q4-L9
-	for openembedded-core@lists.openembedded.org;
-	Thu, 22 Mar 2012 22:57:03 +0100
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-	by orsmga101.jf.intel.com with ESMTP; 22 Mar 2012 14:48:07 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.67,351,1309762800"; d="scan'208";a="124043809"
-Received: from orsmsx604.amr.corp.intel.com ([10.22.226.87])
-	by orsmga002.jf.intel.com with ESMTP; 22 Mar 2012 14:48:07 -0700
-Received: from orsmsx104.amr.corp.intel.com (10.22.225.131) by
-	orsmsx604.amr.corp.intel.com (10.22.226.87) with Microsoft SMTP Server
-	(TLS) id 8.2.255.0; Thu, 22 Mar 2012 14:48:06 -0700
-Received: from orsmsx106.amr.corp.intel.com ([169.254.5.128]) by
-	ORSMSX104.amr.corp.intel.com ([169.254.3.46]) with mapi id
-	14.01.0355.002; Thu, 22 Mar 2012 14:48:06 -0700
-From: "Kamble, Nitin A" <nitin.a.kamble@intel.com>
-To: "Kamble, Nitin A" <nitin.a.kamble@intel.com>,
-	=?iso-8859-1?Q?Eric_B=E9nard?= <eric@eukrea.com>, Khem Raj
-	<raj.khem@gmail.com>
-Thread-Topic: [OE-core] [PATCH 1/1] Revert "gdb-cross-canadian: build gdb
-	with python support"
-Thread-Index: AQHNB4VDG6/xwLeUgEWTysDmkk+IHpZ1BaqAgAB3WAD//4s7gIAAd4cA//+K+DCAAI5egIAABI0A//+ae8AAD0RXgAAOkVAg//+Uh4CAAHG8cP//vk0AgABePxD//+QoAIAAbP/w//+eq4AADuUhAAAAJUEAAADrcAAAAH4QAAAAmVaAAAhCLcAAASiuAAAO5twgAAuu0gAAEqkugAAz6vaAAGdsPkA=
-Date: Thu, 22 Mar 2012 21:48:05 +0000
-Message-ID: <ADD6A3980E8C39419A432FF422031B4C0137C00E@ORSMSX106.amr.corp.intel.com>
-References: <cover.1332347414.git.nitin.a.kamble@intel.com>
-	<CAMKF1sq7hcTKrzFBYgmUOTcdQw6sC1FG4jUhsfKauqeXLQMgsg@mail.gmail.com>
-	<ADD6A3980E8C39419A432FF422031B4C0137B889@ORSMSX106.amr.corp.intel.com>
-	<CAMKF1srP52bxqwkaqPZTQbRmhp_V+4-iJ7wTKeKWfC1z4W=fyw@mail.gmail.com>
-	<ADD6A3980E8C39419A432FF422031B4C0137BAA8@ORSMSX106.amr.corp.intel.com>
-	<CAMKF1sobw_wT_ZKhXs9Y-d0jSG-QWzKOprgf7+zM8a_BjjQgEQ@mail.gmail.com>
-	<20120322131310.1c6455d1@eb-e6520>
-	<CAMKF1sqEGjWMpPTQxP3j1bbP6H2FQqAgHZGm399ejC-RyDxboQ@mail.gmail.com>
-	<20120322134340.1af3dfda@eb-e6520>
-	<CAMKF1srORF53h-V+fKTjJn2jWg=f6nOaMf_eUmYPLnW-ovc7NQ@mail.gmail.com>
-	<20120322141455.644058f0@eb-e6520>
-	<ADD6A3980E8C39419A432FF422031B4C0137BE5C@ORSMSX106.amr.corp.intel.com>
-	<CAMKF1srd0KanO6NfQtm0U39GZS_ANsu9KdRR0hirpKQrhMCxzg@mail.gmail.com>
-	<ADD6A3980E8C39419A432FF422031B4C0137BEEB@ORSMSX106.amr.corp.intel.com>
-	<CAMKF1sr=PedPsmpPSGC42Wvof9fHbR26JM2hgEZjA3h621ynxA@mail.gmail.com>
-	<20120322223127.136698cf@eb-e6520> 
-Accept-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [10.22.254.140]
-MIME-Version: 1.0
-Cc: Martin Jansa <martin.jansa@gmail.com>,
-	Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 1/1] Revert "gdb-cross-canadian: build gdb with python support"
+	(envelope-from <richard.purdie@linuxfoundation.org>)
+	id 1SAqxW-00013v-0c for openembedded-core@lists.openembedded.org;
+	Thu, 22 Mar 2012 23:58:18 +0100
+Received: from localhost (localhost [127.0.0.1])
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q2MMlVqT021163;
+	Thu, 22 Mar 2012 22:47:31 GMT
+Received: from tim.rpsys.net ([127.0.0.1])
+	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
+	port 10024) with LMTP
+	id 20391-10; Thu, 22 Mar 2012 22:47:27 +0000 (GMT)
+Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q2MMlMeL021157
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO);
+	Thu, 22 Mar 2012 22:47:24 GMT
+Message-ID: <1332456444.9740.351.camel@ted>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: openembedded-core <openembedded-core@lists.openembedded.org>
+Date: Thu, 22 Mar 2012 22:47:24 +0000
+X-Mailer: Evolution 3.2.2- 
+Mime-Version: 1.0
+X-Virus-Scanned: amavisd-new at rpsys.net
+Cc: "Polk, Jeffrey" <jeff.polk@windriver.com>
+Subject: [PATCH] sstate.bbclass: Remove possibility of file corruption and make package writing atomic
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -63,21 +37,37 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 22 Mar 2012 21:57:03 -0000
-Content-Language: en-US
-Content-Type: text/plain; charset="iso-8859-1"
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Thu, 22 Mar 2012 22:58:18 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-Khem,
-  Can you help me understand why renaming readline.so to readline_d.so
- is solving the core dump (or double free) issue?
+There is currently a race window when creating sstate packages since we don't
+atomically write the files to SSTATE_DIR. This change ensures we do so by writing
+to a temporary file and then doing an atomic move.
 
-  As noted in another email, the host gdb on fedora is able working fine
- without need of readline_d.so; so providing readline_d.so is also seems
- to be a workaround over a real issue.
-
-Thanks,
-Nitin
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+---
+diff --git a/meta/classes/sstate.bbclass b/meta/classes/sstate.bbclass
+index 1570654..20e66e2 100644
+--- a/meta/classes/sstate.bbclass
++++ b/meta/classes/sstate.bbclass
+@@ -455,12 +455,14 @@ python sstate_task_postfunc () {
+ #
+ sstate_create_package () {
+ 	cd ${SSTATE_BUILDDIR}
++	TFILE=`mktemp ${SSTATE_PKG}.XXXXXXXX`
+ 	# Need to handle empty directories
+ 	if [ "$(ls -A)" ]; then
+-		tar -czf ${SSTATE_PKG} *
++		tar -czf $TFILE *
+ 	else
+-		tar -cz --file=${SSTATE_PKG} --files-from=/dev/null
++		tar -cz --file=$TFILE --files-from=/dev/null
+ 	fi
++	mv $TFILE ${SSTATE_PKG}
+ 
+ 	cd ${WORKDIR}
+ 	rm -rf ${SSTATE_BUILDDIR}
 
 
 
