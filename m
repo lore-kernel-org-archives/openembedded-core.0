@@ -1,33 +1,37 @@
 Received: from mail-lb0-f175.google.com ([209.85.217.175])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <raj.khem@gmail.com>) id 1SAlIz-0003ie-Dg
+	(envelope-from <raj.khem@gmail.com>) id 1SAlKe-0003vE-NA
 	for openembedded-core@lists.openembedded.org;
-	Thu, 22 Mar 2012 17:56:05 +0100
-Received: by lbbgi4 with SMTP id gi4so1790215lbb.6
+	Thu, 22 Mar 2012 17:57:48 +0100
+Received: by lbbgi4 with SMTP id gi4so1791549lbb.6
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 22 Mar 2012 09:47:10 -0700 (PDT)
+	Thu, 22 Mar 2012 09:48:53 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
 	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:content-type:content-transfer-encoding;
-	bh=KG/94tXtdeVljh5sBSKkdJcTbb03BKTH7wkbVgU6LtI=;
-	b=c2U4vxEXg4Z8FiJGjz/p6DYhXgaJKZuNbp0aE+vPq6AapvSUqc2EYzel5IpD0+20P+
-	TJi4ZeIySsAOodmXEQQ/XUBBry7wIzixTmnbs0gydSIlykV3g+2IA558nTCF3Cgi0tUm
-	Xl7IrCvCCbfdWbTNGGT6jLTIyrhNGEJEAFXeLMqRkCsOscG5l19cFf0FsBVieaSXtVpc
-	CVvTFL3TudQecNBvSwye8qAaH3T0N7l2ivlmTQqbALbT3WgUx5nOOnOLg4ErAF9tZRjF
-	+wU93A5NU651FGYd7GpUHSO9MORNH2OXksuJuLDWEr68HAYmNLfY9lmtwmTHNqLE7WNf
-	S+yw==
-Received: by 10.152.127.136 with SMTP id ng8mr6361101lab.16.1332434830345;
-	Thu, 22 Mar 2012 09:47:10 -0700 (PDT)
+	:content-type; bh=FQYGRkKD4ZSlvXKJAIh8cM4Bt6rMU2m050hBxf9p74I=;
+	b=TTA1NcYhZICfoFq2TbCkKmV71iaP40HUbM2RHb46BzpSQ0bvf/aWcuZ4PfypE2r3z6
+	RZJIjSSlGxF8WGnylHD3BTDzXPa9cmZRyZJmCm7TosV2WFSDARpIR3y0IZg+EP2m3wLY
+	7aOwkbHzQIT8WbbC4gu5hSg/yVyUBLgog6Zb8hN54hnq3raH8A8Tc9IhdjmksJqE5Oko
+	R1liTs0axPLJVujqzkB8SlInHB/HOYxhgFyaY5Hk/ZL2CgbedeTQBgoBEiNAVm8Pv66z
+	CTPwG1zMYtgUngS9LnKVt7HBtOkfvwxs9JiVjg/7qE2dhMM+AmJxXEEdAn9DORfF/wOq
+	2REA==
+Received: by 10.152.102.145 with SMTP id fo17mr6364268lab.2.1332434933586;
+	Thu, 22 Mar 2012 09:48:53 -0700 (PDT)
 MIME-Version: 1.0
-Received: by 10.152.2.71 with HTTP; Thu, 22 Mar 2012 09:46:39 -0700 (PDT)
-In-Reply-To: <CALbNGRSm2KV_RsV+rR4hFNcEg7Oi5Z57N1nGXS73Z17G6gqS1g@mail.gmail.com>
-References: <CALbNGRSm2KV_RsV+rR4hFNcEg7Oi5Z57N1nGXS73Z17G6gqS1g@mail.gmail.com>
+Received: by 10.152.2.71 with HTTP; Thu, 22 Mar 2012 09:48:23 -0700 (PDT)
+In-Reply-To: <CAMKF1soKyp62Q7K7xiAY-6YDdP+qezAC281-6qS3XYYf8emY+w@mail.gmail.com>
+References: <cover.1330053959.git.raj.khem@gmail.com>
+	<bab8960657c873358e301979445c8fa4e81cc15f.1330053959.git.raj.khem@gmail.com>
+	<1330100504.5477.6.camel@ted>
+	<CAMKF1srNpxainQ2ZyZ=wKZmmuLdp_fEjyTr1JKMRGVO4X8QV2w@mail.gmail.com>
+	<4F5531C5.30007@linux.intel.com> <20120322012358.GF6857@denix.org>
+	<CAMKF1soKyp62Q7K7xiAY-6YDdP+qezAC281-6qS3XYYf8emY+w@mail.gmail.com>
 From: Khem Raj <raj.khem@gmail.com>
-Date: Thu, 22 Mar 2012 09:46:39 -0700
-Message-ID: <CAMKF1srqhR_ETsSGoF4Z9_TQcad5Eb8_dke5RdJxyKoV_dwHMg@mail.gmail.com>
+Date: Thu, 22 Mar 2012 09:48:23 -0700
+Message-ID: <CAMKF1soTe_6YB+eh_5YLojiAh9=bMP+hu4DUzi8SHSvABv0Nuw@mail.gmail.com>
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Subject: Re: Debugging with gdb
+Subject: Re: [PATCH 3/4] default-distrovars: Add empty weak definition for DISTRO variable
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -42,52 +46,20 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 22 Mar 2012 16:56:06 -0000
+X-List-Received-Date: Thu, 22 Mar 2012 16:57:48 -0000
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
 
-On Mon, Mar 19, 2012 at 4:18 PM, Andreas M=C3=BCller
-<schnitzeltony@googlemail.com> wrote:
-> Hi,
+On Wed, Mar 21, 2012 at 9:22 PM, Khem Raj <raj.khem@gmail.com> wrote:
+> On Wed, Mar 21, 2012 at 6:23 PM, Denys Dmytriyenko <denis@denix.org> wrote:
+>>
+>> -DISTROOVERRIDES ?= "${DISTRO}"
+>> +DISTROOVERRIDES ?= "${@d.getVar('DISTRO', True) or ''}"
 >
-> midori crashes with segmentation fault since a while (0.4.3 & 0.4.4).
-> To understand why I would like to start a gdb remote debug session. In
-> the past I prepared the image in the following way to get as much
-> libraries as possible compiled with -O0 since I do not know which
-> component might be responsible:
->
-> 1. clean all tmp dirs
-> 2. build all recipes where -O0 is not wanted
-> (u-boot/kernel/gdb/gdb-cross) or not possible (eglibc/lttng-ust)
-> 3. added in local.conf: 'SELECTED_OPTIMIZATION =3D "${DEBUG_OPTIMIZATION}=
- -O0'
-> 4. build image
->
-> This sequence does not work anymore since the change in local.conf
-> causes most (all?) recipes to rebuild which crashes at least at
-> eglibc.
->
-> I am running a bit out of ideas to get this done. The only solution I
-> see is a minimum optimization passed in the recipe together with 3.
-> and build from scratch.
->
-> Comments / better ideas?
+> whats wrong with patch I proposed ?
 
-in OE-Core world you can add following to local.conf and then you can
-debug it on target.
+Richard
 
-EXTRA_IMAGE_FEATURES +=3D "dbg-pkgs tools-sdk"
-
-and that should have pretty much what you want. You dont have to lower
-the optlevel since that might let the crash go away. Try to debug the
-same code thats failing.
-
->
-> Andreas
->
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
+I was in same situation as Denys when I did that patch. I think
+this could be a good patch to consider
 
 
