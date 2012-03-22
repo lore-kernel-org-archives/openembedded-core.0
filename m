@@ -1,37 +1,45 @@
-Received: from mail-lb0-f175.google.com ([209.85.217.175])
+Received: from am1ehsobe006.messaging.microsoft.com ([213.199.154.209]
+	helo=am1outboundpool.messaging.microsoft.com)
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <raj.khem@gmail.com>) id 1SAlKe-0003vE-NA
+	(envelope-from <B29882@freescale.com>) id 1SAlPS-0004MK-6k
 	for openembedded-core@lists.openembedded.org;
-	Thu, 22 Mar 2012 17:57:48 +0100
-Received: by lbbgi4 with SMTP id gi4so1791549lbb.6
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 22 Mar 2012 09:48:53 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:content-type; bh=FQYGRkKD4ZSlvXKJAIh8cM4Bt6rMU2m050hBxf9p74I=;
-	b=TTA1NcYhZICfoFq2TbCkKmV71iaP40HUbM2RHb46BzpSQ0bvf/aWcuZ4PfypE2r3z6
-	RZJIjSSlGxF8WGnylHD3BTDzXPa9cmZRyZJmCm7TosV2WFSDARpIR3y0IZg+EP2m3wLY
-	7aOwkbHzQIT8WbbC4gu5hSg/yVyUBLgog6Zb8hN54hnq3raH8A8Tc9IhdjmksJqE5Oko
-	R1liTs0axPLJVujqzkB8SlInHB/HOYxhgFyaY5Hk/ZL2CgbedeTQBgoBEiNAVm8Pv66z
-	CTPwG1zMYtgUngS9LnKVt7HBtOkfvwxs9JiVjg/7qE2dhMM+AmJxXEEdAn9DORfF/wOq
-	2REA==
-Received: by 10.152.102.145 with SMTP id fo17mr6364268lab.2.1332434933586;
-	Thu, 22 Mar 2012 09:48:53 -0700 (PDT)
+	Thu, 22 Mar 2012 18:02:46 +0100
+Received: from mail36-am1-R.bigfish.com (10.3.201.239) by
+	AM1EHSOBE003.bigfish.com (10.3.204.23) with Microsoft SMTP Server id
+	14.1.225.23; Thu, 22 Mar 2012 16:53:43 +0000
+Received: from mail36-am1 (localhost [127.0.0.1])	by mail36-am1-R.bigfish.com
+	(Postfix) with ESMTP id 384E060290;
+	Thu, 22 Mar 2012 16:53:43 +0000 (UTC)
+X-SpamScore: 3
+X-BigFish: VS3(zzzz1202h1082kzz8275bhz2dh2a8h668h839hd24h)
+X-Forefront-Antispam-Report: CIP:70.37.183.190; KIP:(null); UIP:(null); IPV:NLI;
+	H:mail.freescale.net; RD:none; EFVD:NLI
+Received: from mail36-am1 (localhost.localdomain [127.0.0.1]) by mail36-am1
+	(MessageSwitch) id 1332435221168994_16901;
+	Thu, 22 Mar 2012 16:53:41 +0000 (UTC)
+Received: from AM1EHSMHS008.bigfish.com (unknown [10.3.201.243])	by
+	mail36-am1.bigfish.com (Postfix) with ESMTP id 2505B4E00DB;
+	Thu, 22 Mar 2012 16:53:41 +0000 (UTC)
+Received: from mail.freescale.net (70.37.183.190) by AM1EHSMHS008.bigfish.com
+	(10.3.207.108) with Microsoft SMTP Server (TLS) id 14.1.225.23;
+	Thu, 22 Mar 2012 16:53:38 +0000
+Received: from tx30smr01.am.freescale.net (10.81.153.31) by
+	039-SN1MMR1-003.039d.mgd.msft.net (10.84.1.16) with Microsoft SMTP
+	Server (TLS) id 14.1.355.3; Thu, 22 Mar 2012 11:53:45 -0500
+Received: from right.am.freescale.net (right.am.freescale.net [10.82.193.13])
+	by tx30smr01.am.freescale.net (8.14.3/8.14.0) with ESMTP id
+	q2MGriPB006180; Thu, 22 Mar 2012 09:53:44 -0700
+From: Matthew McClintock <msm@freescale.com>
+To: <openembedded-core@lists.openembedded.org>, <chris_larson@mentor.com>,
+	<richard.purdie@linuxfoundation.org>
+Date: Thu, 22 Mar 2012 11:53:43 -0500
+Message-ID: <1332435223-15320-1-git-send-email-msm@freescale.com>
+X-Mailer: git-send-email 1.7.6.1
+In-Reply-To: <1332434311.9740.250.camel@ted>
+References: <1332434311.9740.250.camel@ted>
 MIME-Version: 1.0
-Received: by 10.152.2.71 with HTTP; Thu, 22 Mar 2012 09:48:23 -0700 (PDT)
-In-Reply-To: <CAMKF1soKyp62Q7K7xiAY-6YDdP+qezAC281-6qS3XYYf8emY+w@mail.gmail.com>
-References: <cover.1330053959.git.raj.khem@gmail.com>
-	<bab8960657c873358e301979445c8fa4e81cc15f.1330053959.git.raj.khem@gmail.com>
-	<1330100504.5477.6.camel@ted>
-	<CAMKF1srNpxainQ2ZyZ=wKZmmuLdp_fEjyTr1JKMRGVO4X8QV2w@mail.gmail.com>
-	<4F5531C5.30007@linux.intel.com> <20120322012358.GF6857@denix.org>
-	<CAMKF1soKyp62Q7K7xiAY-6YDdP+qezAC281-6qS3XYYf8emY+w@mail.gmail.com>
-From: Khem Raj <raj.khem@gmail.com>
-Date: Thu, 22 Mar 2012 09:48:23 -0700
-Message-ID: <CAMKF1soTe_6YB+eh_5YLojiAh9=bMP+hu4DUzi8SHSvABv0Nuw@mail.gmail.com>
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 3/4] default-distrovars: Add empty weak definition for DISTRO variable
+X-OriginatorOrg: freescale.com
+Subject: [PATCH] arch-powerpc.inc: use default value of TUNE_PKGARCH
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -46,20 +54,37 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 22 Mar 2012 16:57:48 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Thu, 22 Mar 2012 17:02:46 -0000
+Content-Type: text/plain
 
-On Wed, Mar 21, 2012 at 9:22 PM, Khem Raj <raj.khem@gmail.com> wrote:
-> On Wed, Mar 21, 2012 at 6:23 PM, Denys Dmytriyenko <denis@denix.org> wrote:
->>
->> -DISTROOVERRIDES ?= "${DISTRO}"
->> +DISTROOVERRIDES ?= "${@d.getVar('DISTRO', True) or ''}"
->
-> whats wrong with patch I proposed ?
+We can use the default value for TUNE_PKGARCH, and now we just
+append "-nf" if TARGET_FPU is fpu-soft
 
-Richard
+Signed-off-by: Matthew McClintock <msm@freescale.com>
+---
+ meta/conf/machine/include/powerpc/arch-powerpc.inc |    6 ++----
+ 1 files changed, 2 insertions(+), 4 deletions(-)
 
-I was in same situation as Denys when I did that patch. I think
-this could be a good patch to consider
+diff --git a/meta/conf/machine/include/powerpc/arch-powerpc.inc b/meta/conf/machine/include/powerpc/arch-powerpc.inc
+index c9b2829..c5fd6b7 100644
+--- a/meta/conf/machine/include/powerpc/arch-powerpc.inc
++++ b/meta/conf/machine/include/powerpc/arch-powerpc.inc
+@@ -18,10 +18,8 @@ TARGET_FPU .= "${@bb.utils.contains("TUNE_FEATURES", "fpu-soft", "soft", "", d)}
+ 
+ ABIEXTENSION = "${@['','spe'][d.getVar('TARGET_FPU', True) in ['ppc-efd', 'ppc-efs']]}"
+ 
+-PPCPKGSFX_FPU = "${@bb.utils.contains("TUNE_FEATURES", "fpu-hard" , "", "-nf", d)}"
+-
+-PPCPKGARCH = "${TUNE_ARCH}${PPCPKGSFX_FPU}"
+-TUNE_PKGARCH ?= "${PPCPKGARCH}"
++PPCPKGSFX_FPU = "${@['', '-nf'][d.getVar('TARGET_FPU', True) in ['fpu-soft']]}"
++TUNE_PKGARCH_append = "${PPCPKGSFX_FPU}"
+ 
+ # Basic tune definitions
+ AVAILTUNES += "powerpc powerpc-nf" 
+-- 
+1.7.6.1
+
+
 
 
