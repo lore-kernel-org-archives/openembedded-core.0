@@ -1,37 +1,29 @@
-Received: from mail-qc0-f175.google.com ([209.85.216.175])
+Received: from mail.windriver.com ([147.11.1.11])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <kergoth@gmail.com>) id 1SAkIB-000404-BX
+	(envelope-from <Bruce.Ashfield@windriver.com>) id 1SAkKm-000437-D4
 	for openembedded-core@lists.openembedded.org;
-	Thu, 22 Mar 2012 16:51:11 +0100
-Received: by qcso7 with SMTP id o7so1363442qcs.6
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 22 Mar 2012 08:42:16 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:sender:in-reply-to:references:from:date
-	:x-google-sender-auth:message-id:subject:to:cc:content-type
-	:content-transfer-encoding;
-	bh=8Z7YLg4PHjQsoWSPWZlNL7IJSfn6GSNipvrONREKzvQ=;
-	b=G//KnkQVuwEzTqwexAFkQeuDECe91rMbrxNszunVgQBa3ccBRRWHbuKSt796nRADmd
-	5H47fn4ExL7qscIkS71B7yvS8dOW/H12KXZozdh3JLgw9J89qPiVqVpe9zE1KXmjD6M3
-	2DxXLp0drugc3CkrQjEXFzHJ6ws8dz7UijnivXpkluwa2zhW13apSKSMXyA9eUnJmg1F
-	UbFqABp47jpoFVPEu7+aWz5qcny9XG+Cp48w/394/HsinPegd6Y6SSq9+/rIjZGoEY+1
-	Gnaa+++gdijHzZyAoWRJv/c4oA0n89Ex41w67l5I4jScYmgFiJt7f48kEohqj9RQDQhY
-	03EA==
-Received: by 10.224.205.130 with SMTP id fq2mr11396569qab.53.1332430936077;
-	Thu, 22 Mar 2012 08:42:16 -0700 (PDT)
+	Thu, 22 Mar 2012 16:53:52 +0100
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca [147.11.189.40])
+	by mail.windriver.com (8.14.3/8.14.3) with ESMTP id q2MFisMx029731
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
+	Thu, 22 Mar 2012 08:44:54 -0700 (PDT)
+Received: from [128.224.146.67] (128.224.146.67) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server id 14.1.255.0;
+	Thu, 22 Mar 2012 08:44:55 -0700
+Message-ID: <4F6B48F2.8000107@windriver.com>
+Date: Thu, 22 Mar 2012 11:44:50 -0400
+From: Bruce Ashfield <bruce.ashfield@windriver.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:8.0) Gecko/20111124 Thunderbird/8.0
 MIME-Version: 1.0
-Sender: kergoth@gmail.com
-Received: by 10.229.103.147 with HTTP; Thu, 22 Mar 2012 08:41:55 -0700 (PDT)
-In-Reply-To: <1332429941-19621-1-git-send-email-koen@dominion.thruhere.net>
-References: <1332429941-19621-1-git-send-email-koen@dominion.thruhere.net>
-From: Chris Larson <clarson@kergoth.com>
-Date: Thu, 22 Mar 2012 08:41:55 -0700
-X-Google-Sender-Auth: a9_F55gYaBATdsvKVe2XsYsz9yc
-Message-ID: <CABcZANkO1Ns=1S_=nVPNxmfEPO8UrmPLQNaH+q_2V28kTWrE7Q@mail.gmail.com>
-To: Patches and discussions about the oe-core layer
+To: Koen Kooi <koen@dominion.thruhere.net>
+References: <2207E1AD-E06F-40D6-9FD7-1452805A4CF3@dominion.thruhere.net>
+	<1332427771.9740.240.camel@ted>
+	<7F144BE0-BBF4-4EE0-9A1E-A6842C846E00@dominion.thruhere.net>
+In-Reply-To: <7F144BE0-BBF4-4EE0-9A1E-A6842C846E00@dominion.thruhere.net>
+Cc: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Cc: Koen Kooi <koen@dominion.thruhere.net>
-Subject: Re: [PATCHv3 1/3] buildhistory: remove duplicate entries from dot graph
+Subject: Re: Syscall backporting and linux-libc-headers
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -46,57 +38,83 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 22 Mar 2012 15:51:11 -0000
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Thu, 22 Mar 2012 15:53:52 -0000
+Content-Type: text/plain; charset="ISO-8859-1"; format=flowed
+Content-Transfer-Encoding: 7bit
 
-On Thu, Mar 22, 2012 at 8:25 AM, Koen Kooi <koen@dominion.thruhere.net> wro=
-te:
-> - =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 deps=3D`list_package_d=
-epends $pkg | sort | uniq`
-> + =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 deps=3D`list_package_d=
-epends $pkg`
-> =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0for dep in $deps ;=
- do
-> - =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 echo "$pkg OPP $dep;" | sed -e 's:-:_:g' -e 's:\.:_:g' -e 's:+::g' |=
- sed 's:OPP:->:g' >> ${BUILDHISTORY_DIR_IMAGE}/depends.dot
-> + =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 echo "$pkg OPP $dep;" | sed -e 's:-:_:g' -e 's:\.:_:g' -e 's:+::g' |=
- sed 's:OPP:->:g' >> ${BUILDHISTORY_DIR_IMAGE}/depends.tmp
-> =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0done
+On 12-03-22 11:12 AM, Koen Kooi wrote:
 >
-> - =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 recs=3D`list_package_r=
-ecommends $pkg | sort | uniq`
-> + =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 recs=3D`list_package_r=
-ecommends $pkg`
-> =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0for rec in $recs ;=
- do
-> - =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 echo "$pkg OPP $rec [style=3Ddotted];" | sed -e 's:-:_:g' -e 's:\.:_=
-:g' -e 's:+::g' | sed 's:OPP:->:g' >> ${BUILDHISTORY_DIR_IMAGE}/depends.dot
-> + =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 echo "$pkg OPP $rec [style=3Ddotted];" | sed -e 's:-:_:g' -e 's:\.:_=
-:g' -e 's:+::g' | sed 's:OPP:->:g' >> ${BUILDHISTORY_DIR_IMAGE}/depends.tmp
-> =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0done
-> =C2=A0 =C2=A0 =C2=A0 =C2=A0done
-> + =C2=A0 =C2=A0 =C2=A0 cat ${BUILDHISTORY_DIR_IMAGE}/depends.tmp | sort |=
- uniq >> ${BUILDHISTORY_DIR_IMAGE}/depends.dot
-> + =C2=A0 =C2=A0 =C2=A0 rm ${BUILDHISTORY_DIR_IMAGE}/depends.tmp
+> Op 22 mrt. 2012, om 15:49 heeft Richard Purdie het volgende geschreven:
+>
+>> On Thu, 2012-03-22 at 13:22 +0100, Koen Kooi wrote:
+>>> In my never ending quest to get consolekit/polkit/etc working properly
+>>> I've found that CONFIG_AUDITSYSCALL is really usefull (it's usefull in
+>>> other contexts as well, but that's outside the oe-core set of
+>>> recipes). It has the following problem:
+>>>
+>>> config AUDITSYSCALL
+>>>         bool "Enable system-call auditing support"
+>>>         depends on AUDIT&&  (X86 || PPC || S390 || IA64 || UML ||
+>>> SPARC64 || SUPERH)
+>>>
+>>> No MIPS or ARM support. There recently was a pull request from Al Viro
+>>> to get at least ARM support into mainline, but I'm not sure what
+>>> happened to that. Anyway, I backported the ARM patch to 3.0 and 3.2,
+>>> but to make it usefull I'd need to patch linux-libc-headers and bump
+>>> PR on virtual/libc.
+>>>
+>>> What's the OE-core position on backporting syscalls to
+>>> linux-libc-headers?
+>>
+>> Why can't we just increase the linux-libc-headers version?
 
-{
-    deps=3D`list_package_depends $pkg`
-    for dep in $deps ; do
-        echo "$pkg OPP $dep;" | sed -e 's:-:_:g' -e 's:\.:_:g' -e
-'s:+::g' | sed 's:OPP:->:g'
-    done
-    recs=3D`list_package_recommends $pkg`
-    for rec in $recs ; do
-        echo "$pkg OPP $rec [style=3Ddotted];" | sed -e 's:-:_:g' -e
-'s:\.:_:g' -e 's:+::g' | sed 's:OPP:->:g'
-    done
-} | sort | uniq >> ${BUILDHISTORY_DIR_IMAGE}/depends.dot
---=20
-Christopher Larson
+Sorry for the slow reply, I missed the original and was wrapped
+up in some debugging.
+
+>
+> In this case that would be perfectly fine. And bump PR in virtual/libc of course :)
+
+I was just about to do this. Just a day or so ago, I noticed that
+the version had lagged (again) and needed to be bumped. I'm all
+for this as well, as long as there's a graceful fallback of ENOSYS
+there's no real harm to older kernels.
+
+Richard: an to you on this one .. is it too late to do this for
+the various stabilization points ?
+
+>
+>> Presumably
+>> someone running a kernel without the patches won't see any issue, the
+>> syscall just won't be present and software will fall back?
+>
+> Exactly
+
++1 (I read this after typing my response).
+
+>
+>> I think the big concern would be deviating from mainline as its not so
+>> much a backport as a divergence at this point (and this is why we can't
+>> just upgrade)?
+>
+> Speaking of divergence, what is the point of having linux-libc-headers-yocto_git.bb ?
+
+Very little. It was originally used to export exactly the headers
+as were present in the yocto kernel tree, but Richard and I since
+agreed that tgz based libc-headers where faster and good enough.
+
+We can move it to the yocto layers for use by anyone that really needs
+this 1:1 mapping of kernel tree to headers in the system.
+
+And a second: .. is it too late to do this for stabilization points ?
+
+Cheers,
+
+Bruce
+
+>
+> regards,
+>
+> Koen
+
 
 
