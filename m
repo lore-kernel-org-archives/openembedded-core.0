@@ -1,39 +1,39 @@
-Received: from mail-wi0-f177.google.com ([209.85.212.177])
+Received: from mail-wi0-f171.google.com ([209.85.212.171])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <koen@dominion.thruhere.net>) id 1SAk2E-0003bD-62
+	(envelope-from <koen@dominion.thruhere.net>) id 1SAk2H-0003bT-6D
 	for openembedded-core@lists.openembedded.org;
-	Thu, 22 Mar 2012 16:34:42 +0100
-Received: by wibhj13 with SMTP id hj13so830953wib.6
+	Thu, 22 Mar 2012 16:34:45 +0100
+Received: by wibhj13 with SMTP id hj13so804352wib.6
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 22 Mar 2012 08:25:47 -0700 (PDT)
+	Thu, 22 Mar 2012 08:25:50 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=google.com; s=20120113;
 	h=mime-version:from:to:cc:subject:date:message-id:x-mailer
 	:in-reply-to:references:x-gm-message-state;
-	bh=MoST1CGb7z+5RNLB3xCCQkpM05O8sCPXwfgAIHjYtpg=;
-	b=l06E6GBSLemKI6aV0c4rt9i3QkySgRgZm8Mmethdo9xYVzzeVxMG8GDZA6Lga7XcxI
-	LdbVjMJjfIX9zzk5V465GTiOGmBeIMA7ZTh3KQWyXuYAVR459JOw97IUaTdO/XYHfk6x
-	chK2IhxFM9g6Cufued8wfcb+NsezqD5A2w0fs7Uuf8gFeBFGQtVii9S1uWa19xt7bkeG
-	m13NsAU7PUt8SB4+mI1jVnPDGTVXqGWLlrEgo1+ZQMYHJj6vxsl+QLCTnFM78Yi8w7Ex
-	Mvq49laUUGx5m/J6HWmv362rLvO44xyDLWHM9I2d6fXE4WucjhdKo/BT4wJJRsbBOO+8
-	7UTA==
+	bh=YOzedKhmEQ7kVFFQyOw80hdQ6PAgm6v1q3I6Ru5J5BY=;
+	b=VmArM6KFZWjrqsxABzzhiUYi2QbOlKiqXwfv9PWOr2LTa3yFZ4PW90Cfj84t7yiLGX
+	0I2IAIQmoX78Jla3NyHMyNtr9o8aZq0Gy9LE6XsDWMEksCR6G8i5qTAIEhqQuc6i/j1f
+	pj06UabfBkbJKSanJej+9iXsu+TvBwPTdIsCxt2U+gWh9CuvMHF0I2JNQCj+3aBU1mC9
+	VSG0gzAUkZjp0AuepDKmffaj68ZfD7vymily3chhIAsq9oonao2QUj4BKngBFk6NpnAl
+	pb+lfJRUZpukufmurd4yWGbiGJjIZ7xQzGziHnLsT2Voflz5KrwacvlrW8lYxsBbeauQ
+	2ngQ==
 MIME-Version: 1.0
-Received: by 10.180.24.7 with SMTP id q7mr6064133wif.11.1332429947297;
-	Thu, 22 Mar 2012 08:25:47 -0700 (PDT)
+Received: by 10.180.95.197 with SMTP id dm5mr5960967wib.20.1332429950411;
+	Thu, 22 Mar 2012 08:25:50 -0700 (PDT)
 Received: from localhost (ip545070eb.adsl-surfen.hetnet.nl. [84.80.112.235])
-	by mx.google.com with ESMTPS id w10sm10067545wiy.3.2012.03.22.08.25.45
+	by mx.google.com with ESMTPS id fw5sm6011150wib.0.2012.03.22.08.25.48
 	(version=TLSv1/SSLv3 cipher=OTHER);
-	Thu, 22 Mar 2012 08:25:46 -0700 (PDT)
+	Thu, 22 Mar 2012 08:25:48 -0700 (PDT)
 From: Koen Kooi <koen@dominion.thruhere.net>
 To: openembedded-core@lists.openembedded.org
-Date: Thu, 22 Mar 2012 16:25:40 +0100
-Message-Id: <1332429941-19621-2-git-send-email-koen@dominion.thruhere.net>
+Date: Thu, 22 Mar 2012 16:25:41 +0100
+Message-Id: <1332429941-19621-3-git-send-email-koen@dominion.thruhere.net>
 X-Mailer: git-send-email 1.7.2.5
 In-Reply-To: <1332429941-19621-1-git-send-email-koen@dominion.thruhere.net>
 References: <1332429941-19621-1-git-send-email-koen@dominion.thruhere.net>
-X-Gm-Message-State: ALoCoQnI8Ota+cl3RBlhA5DRgdTTYKOT/+x+PZEh5afSoIFNMmZez+Q+gARrhQvtwT+8o1NaEK+W
+X-Gm-Message-State: ALoCoQk4ZnXUZj1PxT6dud/DF7yxXzVS5SIJvkd89vCO4zIFCsvsLmFbCYk1vGhz3L17UB8iHe96
 Cc: Koen Kooi <koen@dominion.thruhere.net>
-Subject: [PATCHv3 2/3] buildhistory: record all builds
+Subject: [PATCHv3 3/3] buildhistory: make seperate commits for every changed top level entry in the buildhistory dir
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -48,28 +48,31 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 22 Mar 2012 15:34:42 -0000
+X-List-Received-Date: Thu, 22 Mar 2012 15:34:45 -0000
 
-When nothing has changed an empty commit prefixed with "No changes" will get generated
+This seperates out image changes from package changes making the image diffs a lot easier to read.
 
 Signed-off-by: Koen Kooi <koen@dominion.thruhere.net>
 ---
- meta/classes/buildhistory.bbclass |    2 ++
- 1 files changed, 2 insertions(+), 0 deletions(-)
+ meta/classes/buildhistory.bbclass |    5 ++++-
+ 1 files changed, 4 insertions(+), 1 deletions(-)
 
 diff --git a/meta/classes/buildhistory.bbclass b/meta/classes/buildhistory.bbclass
-index 764e1e8..2305b50 100644
+index 2305b50..fad51bc 100644
 --- a/meta/classes/buildhistory.bbclass
 +++ b/meta/classes/buildhistory.bbclass
-@@ -408,6 +408,8 @@ buildhistory_commit() {
+@@ -404,7 +404,10 @@ buildhistory_commit() {
+ 		if [ "$repostatus" != "" ] ; then
+ 			git add ${BUILDHISTORY_DIR}/*
+ 			HOSTNAME=`hostname 2>/dev/null || echo unknown`
+-			git commit ${BUILDHISTORY_DIR}/ -m "Build ${BUILDNAME} of ${DISTRO} ${DISTRO_VERSION} for machine ${MACHINE} on $HOSTNAME" --author "${BUILDHISTORY_COMMIT_AUTHOR}" > /dev/null
++			# porcelain output looks like "?? packages/foo/bar"
++			for entry in `echo $repostatus | awk '{print $2}' | awk -F/ '{print $1}' | sort | uniq` ; do
++				git commit ${BUILDHISTORY_DIR}/$entry -m "$entry: Build ${BUILDNAME} of ${DISTRO} ${DISTRO_VERSION} for machine ${MACHINE} on $HOSTNAME" --author "${BUILDHISTORY_COMMIT_AUTHOR}" > /dev/null
++			done
  			if [ "${BUILDHISTORY_PUSH_REPO}" != "" ] ; then
  				git push -q ${BUILDHISTORY_PUSH_REPO}
  			fi
-+		else
-+			git commit ${BUILDHISTORY_DIR}/ --allow-empty -m "No changes: Build ${BUILDNAME} of ${DISTRO} ${DISTRO_VERSION} for machine ${MACHINE} on $HOSTNAME" --author "${BUILDHISTORY_COMMIT_AUTHOR}" > /dev/null
- 		fi) || true
- }
- 
 -- 
 1.7.2.5
 
