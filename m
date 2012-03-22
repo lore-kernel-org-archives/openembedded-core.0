@@ -1,38 +1,38 @@
-Received: from mail-we0-f175.google.com ([74.125.82.175])
+Received: from mail-wg0-f43.google.com ([74.125.82.43])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <schnitzeltony@googlemail.com>) id 1SAfuu-0001Lu-7W
+	(envelope-from <schnitzeltony@googlemail.com>) id 1SAfuv-0001MI-JU
 	for openembedded-core@lists.openembedded.org;
 	Thu, 22 Mar 2012 12:10:53 +0100
-Received: by mail-we0-f175.google.com with SMTP id a1so1696213wer.6
+Received: by mail-wg0-f43.google.com with SMTP id dr12so1103418wgb.24
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 22 Mar 2012 04:01:59 -0700 (PDT)
+	Thu, 22 Mar 2012 04:02:01 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=googlemail.com; s=20120113;
 	h=from:to:subject:date:message-id:x-mailer:in-reply-to:references
 	:mime-version:content-type:content-transfer-encoding;
-	bh=E2XIIWNE9BuFFP/CE9/hhpT59+BPnfS+mzXYGwc+lNY=;
-	b=Xch0TDvzy0oIgKOma/oAnSH5UEoG+1K00GkYdwgSpe0AiWGx7bOjGylbglBwVC7+mK
-	A5KfZaFOv72RE7O+PLGP8UWpG6lusesMVqrj+OTHIigcS7WgWmBpEsFzWmOLFND4dyEe
-	NzpuLhWzWPToA1yhukescng51MDDhwr5G7+/c3WonwuNxlMSTHxuNJ30YQqRqHuz+VTQ
-	6q/IMeWT/jbBx7qLZogcxJ/iQMwlUhfBqnR8o4EbhebAmDtxsLg1MGTMqqBHoZel5TEI
-	KemS2CZY1vSTFdCxom5+Qm545E6TDGDyvutfmsF7aFxNqUWaHhUtmGWnf3vxTLqTPkNg
-	Rq2Q==
-Received: by 10.180.91.10 with SMTP id ca10mr3918131wib.17.1332414119698;
-	Thu, 22 Mar 2012 04:01:59 -0700 (PDT)
+	bh=m/DQSjvmEzUCY9kGFrQj2OMjtelKGWqKDQXIXkZHZNs=;
+	b=sUg6niWF/17NVWB8UIPvL32h+eAOl8yYKUTmjSIbc0DL90mrbNifFvf3iF0bqBbjSb
+	xzEoINhu7LomNvEf4QtvMnRn1FIPqWqbMaE5lTnt4IVSwwgMhVFm+DbCY7LVdDBum+2R
+	1A19qQvHY/7Q4O3O7R9wXRNZfw/nGSIIvI91UNdShcjX+tnT4ApZXejdY5Z1RmmeAIir
+	haRD3rOebWxZ01itF+c+IQKkw3wwSu+sKrZ0AVpzPnmeHh2oNKPY0883c1JNgXTqp/tb
+	tEM4OzDtRlJrAkXoew87jxq/Q2cFvmzQPKs7IX9D4cUpwiunzed3FfCna4ycsCrpzLKc
+	LQMw==
+Received: by 10.216.138.135 with SMTP id a7mr4468861wej.19.1332414121075;
+	Thu, 22 Mar 2012 04:02:01 -0700 (PDT)
 Received: from localhost.localdomain (p5B0A13EE.dip.t-dialin.net.
 	[91.10.19.238])
-	by mx.google.com with ESMTPS id fn2sm7546875wib.0.2012.03.22.04.01.58
+	by mx.google.com with ESMTPS id fn2sm7546875wib.0.2012.03.22.04.01.59
 	(version=TLSv1/SSLv3 cipher=OTHER);
-	Thu, 22 Mar 2012 04:01:58 -0700 (PDT)
+	Thu, 22 Mar 2012 04:02:00 -0700 (PDT)
 From: =?UTF-8?q?Andreas=20M=C3=BCller?= <schnitzeltony@googlemail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Thu, 22 Mar 2012 12:06:01 +0100
-Message-Id: <1332414362-6406-6-git-send-email-schnitzeltony@googlemail.com>
+Date: Thu, 22 Mar 2012 12:06:02 +0100
+Message-Id: <1332414362-6406-7-git-send-email-schnitzeltony@googlemail.com>
 X-Mailer: git-send-email 1.7.4.4
 In-Reply-To: <1332414362-6406-1-git-send-email-schnitzeltony@googlemail.com>
 References: <1332414362-6406-1-git-send-email-schnitzeltony@googlemail.com>
 MIME-Version: 1.0
-Subject: [PATCH 6/7] alsa-utils: use systemd_unitdir
+Subject: [PATCH 7/7] consolekit: use systemd_unitdir
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -54,31 +54,31 @@ Content-Transfer-Encoding: 8bit
 
 Signed-off-by: Andreas Müller <schnitzeltony@googlemail.com>
 ---
- meta/recipes-multimedia/alsa/alsa-utils_1.0.25.bb |    4 ++--
+ .../recipes-support/consolekit/consolekit_0.4.5.bb |    4 ++--
  1 files changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/meta/recipes-multimedia/alsa/alsa-utils_1.0.25.bb b/meta/recipes-multimedia/alsa/alsa-utils_1.0.25.bb
-index fa11479..597e8b6 100644
---- a/meta/recipes-multimedia/alsa/alsa-utils_1.0.25.bb
-+++ b/meta/recipes-multimedia/alsa/alsa-utils_1.0.25.bb
-@@ -6,7 +6,7 @@ LICENSE = "GPLv2+"
- LIC_FILES_CHKSUM = "file://COPYING;md5=59530bdf33659b29e73d4adb9f9f6552 \
-                     file://alsactl/utils.c;beginline=1;endline=20;md5=fe9526b055e246b5558809a5ae25c0b9"
- DEPENDS = "alsa-lib ncurses libsamplerate0"
--PR = "r1"
-+PR = "r2"
+diff --git a/meta/recipes-support/consolekit/consolekit_0.4.5.bb b/meta/recipes-support/consolekit/consolekit_0.4.5.bb
+index 3a4b04f..d1cc037 100644
+--- a/meta/recipes-support/consolekit/consolekit_0.4.5.bb
++++ b/meta/recipes-support/consolekit/consolekit_0.4.5.bb
+@@ -2,7 +2,7 @@ DESCRIPTION = "ConsoleKit is a framework for defining and tracking users, login
+ HOMEPAGE="http://www.freedesktop.org/wiki/Software/ConsoleKit"
+ BUGTRACKER="https://bugs.freedesktop.org/buglist.cgi?query_format=specific&product=ConsoleKit"
  
- SRC_URI = "ftp://ftp.alsa-project.org/pub/utils/alsa-utils-${PV}.tar.bz2 \
-            file://ncursesfix.patch \
-@@ -61,7 +61,7 @@ FILES_alsa-utils-midi        = "${bindir}/aplaymidi ${bindir}/arecordmidi ${bind
- FILES_alsa-utils-aconnect    = "${bindir}/aconnect"
- FILES_alsa-utils-aseqnet     = "${bindir}/aseqnet"
- FILES_alsa-utils-iecset      = "${bindir}/iecset"
--FILES_alsa-utils-alsactl     = "${sbindir}/alsactl ${base_libdir}/udev/rules.d ${base_libdir}/systemd ${localstatedir}/lib/alsa ${datadir}/alsa/init/"
-+FILES_alsa-utils-alsactl     = "${sbindir}/alsactl ${base_libdir}/udev/rules.d ${systemd_unitdir} ${localstatedir}/lib/alsa ${datadir}/alsa/init/"
- FILES_alsa-utils-aseqdump    = "${bindir}/aseqdump"
- FILES_alsa-utils-alsaconf    = "${sbindir}/alsaconf"
- FILES_alsa-utils-alsaloop    = "${bindir}/alsaloop"
+-PR = "r8"
++PR = "r9"
+ 
+ LICENSE = "GPLv2+"
+ LIC_FILES_CHKSUM = "file://COPYING;md5=59530bdf33659b29e73d4adb9f9f6552 \
+@@ -25,7 +25,7 @@ SRC_URI[sha256sum] = "43e0780c53078e125efcec3f847e484dc3533e49b408ce6a0ab1b22368
+ 
+ S = "${WORKDIR}/ConsoleKit-${PV}"
+ 
+-EXTRA_OECONF = "${POLKITCONF} --with-systemdsystemunitdir=${base_libdir}/systemd/system/ \
++EXTRA_OECONF = "${POLKITCONF} --with-systemdsystemunitdir=${systemd_unitdir}/system/ \
+                 ${@base_contains('DISTRO_FEATURES', 'pam', '--enable-pam-module --with-pam-module-dir=${base_libdir}/security', '--disable-pam-module', d)} \
+                "
+ 
 -- 
 1.7.4.4
 
