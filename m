@@ -1,27 +1,26 @@
-Received: from mga14.intel.com ([143.182.124.37])
+Received: from mail-lb0-f175.google.com ([209.85.217.175])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <nitin.a.kamble@intel.com>) id 1SAaCJ-0003Bs-6g
+	(envelope-from <raj.khem@gmail.com>) id 1SAaNZ-0003Jx-Um
 	for openembedded-core@lists.openembedded.org;
-	Thu, 22 Mar 2012 06:04:27 +0100
-Received: from azsmga002.ch.intel.com ([10.2.17.35])
-	by azsmga102.ch.intel.com with ESMTP; 21 Mar 2012 21:55:31 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="80248732"
-Received: from orsmsx605.amr.corp.intel.com ([10.22.226.10])
-	by AZSMGA002.ch.intel.com with ESMTP; 21 Mar 2012 21:55:31 -0700
-Received: from orsmsx104.amr.corp.intel.com (10.22.225.131) by
-	orsmsx605.amr.corp.intel.com (10.22.226.10) with Microsoft SMTP Server
-	(TLS) id 8.2.255.0; Wed, 21 Mar 2012 21:55:30 -0700
-Received: from orsmsx106.amr.corp.intel.com ([169.254.5.128]) by
-	ORSMSX104.amr.corp.intel.com ([169.254.3.46]) with mapi id
-	14.01.0355.002; Wed, 21 Mar 2012 21:55:30 -0700
-From: "Kamble, Nitin A" <nitin.a.kamble@intel.com>
-To: Khem Raj <raj.khem@gmail.com>
-Thread-Topic: [OE-core] [PATCH 1/1] Revert "gdb-cross-canadian: build gdb
-	with python support"
-Thread-Index: AQHNB4VDG6/xwLeUgEWTysDmkk+IHpZ1BaqAgAB3WAD//4s7gIAAd4cA//+K+DCAAI5egIAABI0A//+ae8AAD0RXgAAOkVAg//+Uh4CAAHG8cP//vk0AgABePxD//+QoAIAAbP/w
-Date: Thu, 22 Mar 2012 04:55:29 +0000
-Message-ID: <ADD6A3980E8C39419A432FF422031B4C0137BAA8@ORSMSX106.amr.corp.intel.com>
+	Thu, 22 Mar 2012 06:16:06 +0100
+Received: by lbbgi4 with SMTP id gi4so1375040lbb.6
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 21 Mar 2012 22:07:11 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc:content-type:content-transfer-encoding;
+	bh=PXYlPLLXqRb3NvCwFtPfdVTO5m/z5BY1EN8J8Tmk4fk=;
+	b=KfVDBN6w3aVXfn18GVVkpkt/wu2xFWK1hLNQFbjLwrv4rF/WHL8wPDmUmx6hx26Fdc
+	kFxcT04nxBhrUkE9P6hnlZLfRbIzESz0WpOX+MJxFXqJPLOE9XzE3EQ4YOxc8Y+/LUxJ
+	QsPAdSdIswPaEmsnV/0pG6o932QJ/eDlftOrlvs8bokg0VjkLQIQEZ7VtDaE42MGmIpY
+	UDOAn4u7Fi7mD/H8FWKIal0IhzF+ZNbnxhYzsDbvWo+F9fRSunc8I6KM4FMI5ko0HKF/
+	8O+QMhmZ0zxwao4eWksEsxUFDCXh/oWFfvHHxnqjyghgZn3Q059tdUP6X/hjAs/92s2W
+	uaUQ==
+Received: by 10.112.47.229 with SMTP id g5mr2398797lbn.36.1332392831468; Wed,
+	21 Mar 2012 22:07:11 -0700 (PDT)
+MIME-Version: 1.0
+Received: by 10.152.2.71 with HTTP; Wed, 21 Mar 2012 22:06:41 -0700 (PDT)
+In-Reply-To: <ADD6A3980E8C39419A432FF422031B4C0137BAA8@ORSMSX106.amr.corp.intel.com>
 References: <cover.1332347414.git.nitin.a.kamble@intel.com>
 	<bfe0a5400cad2436b7be7d35a173c62349e47c0a.1332347414.git.nitin.a.kamble@intel.com>
 	<20120321180748.7cc58e67@eb-e6520>
@@ -40,12 +39,11 @@ References: <cover.1332347414.git.nitin.a.kamble@intel.com>
 	<CAMKF1sq7hcTKrzFBYgmUOTcdQw6sC1FG4jUhsfKauqeXLQMgsg@mail.gmail.com>
 	<ADD6A3980E8C39419A432FF422031B4C0137B889@ORSMSX106.amr.corp.intel.com>
 	<CAMKF1srP52bxqwkaqPZTQbRmhp_V+4-iJ7wTKeKWfC1z4W=fyw@mail.gmail.com>
-In-Reply-To: <CAMKF1srP52bxqwkaqPZTQbRmhp_V+4-iJ7wTKeKWfC1z4W=fyw@mail.gmail.com>
-Accept-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [10.22.254.140]
-MIME-Version: 1.0
+	<ADD6A3980E8C39419A432FF422031B4C0137BAA8@ORSMSX106.amr.corp.intel.com>
+From: Khem Raj <raj.khem@gmail.com>
+Date: Wed, 21 Mar 2012 22:06:41 -0700
+Message-ID: <CAMKF1sobw_wT_ZKhXs9Y-d0jSG-QWzKOprgf7+zM8a_BjjQgEQ@mail.gmail.com>
+To: "Kamble, Nitin A" <nitin.a.kamble@intel.com>
 Cc: Martin Jansa <martin.jansa@gmail.com>,
 	Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
@@ -64,29 +62,37 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 22 Mar 2012 05:04:27 -0000
-Content-Language: en-US
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+X-List-Received-Date: Thu, 22 Mar 2012 05:16:06 -0000
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
-DQoNCj4gLS0tLS1PcmlnaW5hbCBNZXNzYWdlLS0tLS0NCj4gRnJvbTogS2hlbSBSYWogW21haWx0
-bzpyYWoua2hlbUBnbWFpbC5jb21dDQo+IFNlbnQ6IFdlZG5lc2RheSwgTWFyY2ggMjEsIDIwMTIg
-OToyNSBQTQ0KPiBUbzogS2FtYmxlLCBOaXRpbiBBDQo+IENjOiBQYXRjaGVzIGFuZCBkaXNjdXNz
-aW9ucyBhYm91dCB0aGUgb2UtY29yZSBsYXllcjsgTWFydGluIEphbnNhOyBFcmljDQo+IELDqW5h
-cmQNCj4gU3ViamVjdDogUmU6IFtPRS1jb3JlXSBbUEFUQ0ggMS8xXSBSZXZlcnQgImdkYi1jcm9z
-cy1jYW5hZGlhbjogYnVpbGQNCj4gZ2RiIHdpdGggcHl0aG9uIHN1cHBvcnQiDQo+IA0KPiBPbiBX
-ZWQsIE1hciAyMSwgMjAxMiBhdCA2OjU4IFBNLCBLYW1ibGUsIE5pdGluIEENCj4gPG5pdGluLmEu
-a2FtYmxlQGludGVsLmNvbT4gd3JvdGU6DQo+ID4gQWN0dWFsbHkgd2Ugbm90aWNlZCB0aGF0IEVy
-aWPigJlzIHdvcmtpbmcgc2RrIGdkYiB3YXMgZ2V0dGluZyBsaW5rZWQNCj4gd2l0aCB0aGUNCj4g
-PiBob3N0IGxpYnB5dGhvbi5zbywgQW5kIGlmIGl0IGlzIGxpbmtlZCB3aXRoIHRoZSBzZGsgbGli
-cHl0aG9uLnNvIHRoZW4NCj4gaGUgaXMNCj4gPiBhYmxlIHRvIHNlZSBzYW1lIGlzc3VlIHdoYXQg
-SSBhbSBzZWVpbmcuDQo+ID4NCj4gPiBTbyBsb29rIGxpa2UgaXNzdWUgaXMgaW4gdGhlIGdlbmVy
-YXRlZCBsaWJweXRob24uc28uDQo+ID4NCj4gPiBBbmQgaW4gZmFpbGluZyBjYXNlLCBzb21laG93
-IGxkZCBpcyBub3QgcmVwb3J0aW5nIHRoYXQgc2RrIGdkYiBpcw0KPiA+IGR5bmFtaWNhbGx5IGxp
-bmtlZCB3aXRoIGxpYnB5dGhvbi5zby4gVGhhdCBpcyBhbHNvIHN0cmFuZ2UuDQo+ID4NCj4gDQo+
-IE9LIGNhbiB5b3UgZ2VuZXJhdGUgdGhlIGdkYiBjb3JlIGFuZCBwb3N0IGl0LiBJIGNhbiBkZWJ1
-ZyB3aGF0cyBjYXVzaW5nDQo+IGl0Lg0KPiANCg0KS2hlbSwNClRoYW5rcyBmb3IgaGVscGluZyBv
-dXQuIEkgYWxzbyBoYXZlIHVwbG9hZGVkIHRoZSBjb3JlIGZpbGUgaGVyZTogaHR0cDovL21pbi51
-cy9tYmlpMjhRbWtaDQoNCk5pdGluDQo=
+On Wed, Mar 21, 2012 at 9:55 PM, Kamble, Nitin A
+<nitin.a.kamble@intel.com> wrote:
+>> On Wed, Mar 21, 2012 at 6:58 PM, Kamble, Nitin A
+>> <nitin.a.kamble@intel.com> wrote:
+>> > Actually we noticed that Eric=E2=80=99s working sdk gdb was getting li=
+nked
+>> with the
+>> > host libpython.so, And if it is linked with the sdk libpython.so then
+>> he is
+>> > able to see same issue what I am seeing.
+>> >
+>> > So look like issue is in the generated libpython.so.
+>> >
+>> > And in failing case, somehow ldd is not reporting that sdk gdb is
+>> > dynamically linked with libpython.so. That is also strange.
+>> >
+>>
+>> OK can you generate the gdb core and post it. I can debug whats causing
+>> it.
+>>
+>
+> Khem,
+> Thanks for helping out. I also have uploaded the core file here: http://m=
+in.us/mbii28QmkZ
+
+ok also try setting MALLOC_CHECK_=3D2 in environment and run gdb again
+this should dump the core
+I dont have gdb handy right now its building
 
 
