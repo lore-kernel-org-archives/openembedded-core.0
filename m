@@ -1,33 +1,58 @@
-Received: from mail1.windriver.com ([147.11.146.13])
+Received: from am1ehsobe006.messaging.microsoft.com ([213.199.154.209]
+	helo=am1outboundpool.messaging.microsoft.com)
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <Liezhi.Yang@windriver.com>) id 1SAYkV-0001UV-Rl
+	(envelope-from <B29882@freescale.com>) id 1SAZ4P-0001hw-0G
 	for openembedded-core@lists.openembedded.org;
-	Thu, 22 Mar 2012 04:31:40 +0100
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca [147.11.189.40])
-	by mail1.windriver.com (8.14.3/8.14.3) with ESMTP id q2M3Mi7b017000
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 21 Mar 2012 20:22:44 -0700 (PDT)
-Received: from [128.224.162.196] (128.224.162.196) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server id 14.1.255.0;
-	Wed, 21 Mar 2012 20:22:44 -0700
-Message-ID: <4F6A9B02.7090201@windriver.com>
-Date: Thu, 22 Mar 2012 11:22:42 +0800
-From: Robert Yang <liezhi.yang@windriver.com>
-User-Agent: Mozilla/5.0 (X11; Linux i686;
-	rv:10.0.2) Gecko/20120216 Thunderbird/10.0.2
+	Thu, 22 Mar 2012 04:52:13 +0100
+Received: from mail76-am1-R.bigfish.com (10.3.201.243) by
+	AM1EHSOBE005.bigfish.com (10.3.204.25) with Microsoft SMTP Server id
+	14.1.225.23; Thu, 22 Mar 2012 03:28:09 +0000
+Received: from mail76-am1 (localhost [127.0.0.1])	by mail76-am1-R.bigfish.com
+	(Postfix) with ESMTP id 979DE2E0066	for
+	<openembedded-core@lists.openembedded.org>;
+	Thu, 22 Mar 2012 03:28:08 +0000 (UTC)
+X-SpamScore: -10
+X-BigFish: VS-10(zz9371I936eK1432N98dKzz1202hzz8275dhz2dh2a8h668h839h8e2h8e3hbe9k)
+X-Forefront-Antispam-Report: CIP:70.37.183.190; KIP:(null); UIP:(null); IPV:NLI;
+	H:mail.freescale.net; RD:none; EFVD:NLI
+Received: from mail76-am1 (localhost.localdomain [127.0.0.1]) by mail76-am1
+	(MessageSwitch) id 1332386886605561_32479;
+	Thu, 22 Mar 2012 03:28:06 +0000 (UTC)
+Received: from AM1EHSMHS003.bigfish.com (unknown [10.3.201.247])	by
+	mail76-am1.bigfish.com (Postfix) with ESMTP id BF2072C0048	for
+	<openembedded-core@lists.openembedded.org>;
+	Thu, 22 Mar 2012 03:28:05 +0000 (UTC)
+Received: from mail.freescale.net (70.37.183.190) by AM1EHSMHS003.bigfish.com
+	(10.3.207.103) with Microsoft SMTP Server (TLS) id 14.1.225.23;
+	Thu, 22 Mar 2012 03:28:05 +0000
+Received: from 039-SN1MPN1-001.039d.mgd.msft.net ([169.254.1.230]) by
+	039-SN1MMR1-001.039d.mgd.msft.net ([10.84.1.13]) with mapi id
+	14.01.0355.003; Wed, 21 Mar 2012 22:28:10 -0500
+From: McClintock Matthew-B29882 <B29882@freescale.com>
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Thread-Topic: [OE-core] [PATCH] bitbake.conf/sstate.bbclass: Change PATH
+	when installing sstate files to avoid issues
+Thread-Index: AQHNB4u5blAnmg2J7kS03RUMxVYD55Z1k3eAgABoxQA=
+Date: Thu, 22 Mar 2012 03:28:10 +0000
+Message-ID: <CAEsOVNdrfvwi-VvbOT-8QKKNoc8id7s87XcEhbUQWTi0YUZ+3g@mail.gmail.com>
+References: <1332326683.9740.136.camel@ted>
+	<CAEsOVNcy6kwQQ0oank6gO4yOSuUM6NNG0fYk752sQvYWy+9GDA@mail.gmail.com>
+	<1332364369.9740.185.camel@ted>
+In-Reply-To: <1332364369.9740.185.camel@ted>
+Accept-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [99.47.177.27]
 MIME-Version: 1.0
-To: <openembedded-core@lists.openembedded.org>
-References: <1332339926-27043-1-git-send-email-s.stirtzel@googlemail.com>
-	<4F6A2F2F.2090607@linux.intel.com>
-	<FC6FAFAF-2C6E-4EF7-8AD9-D2C30D2114DD@dominion.thruhere.net>
-	<1332361627.9740.180.camel@ted>
-In-Reply-To: <1332361627.9740.180.camel@ted>
-Subject: Re: [PATCH] giflib: Move to OE-Core
+X-OriginatorOrg: freescale.com
+Cc: McClintock Matthew-B29882 <B29882@freescale.com>
+Subject: Re: [PATCH] bitbake.conf/sstate.bbclass: Change PATH when installing sstate files to avoid issues
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
-Reply-To: Patches and discussions about the oe-core layer
+Reply-To: McClintock Matthew-B29882 <B29882@freescale.com>,
+	Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
 List-Id: Patches and discussions about the oe-core layer
 	<openembedded-core.lists.openembedded.org>
@@ -38,52 +63,81 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 22 Mar 2012 03:31:40 -0000
-Content-Type: text/plain; charset="ISO-8859-1"; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Thu, 22 Mar 2012 03:52:13 -0000
+Content-Language: en-US
+Content-Type: text/plain; charset="iso-8859-1"
+Content-ID: <76ED5F350891B24E84BCA88B8F1145D8@mgd.freescale.com>
+Content-Transfer-Encoding: quoted-printable
 
-
-
-On 03/22/2012 04:27 AM, Richard Purdie wrote:
-> On Wed, 2012-03-21 at 21:14 +0100, Koen Kooi wrote:
->> Op 21 mrt. 2012, om 20:42 heeft Saul Wold het volgende geschreven:
+On Wed, Mar 21, 2012 at 4:12 PM, Richard Purdie
+<richard.purdie@linuxfoundation.org> wrote:
+> On Wed, 2012-03-21 at 17:54 +0000, McClintock Matthew-B29882 wrote:
+>> On Wed, Mar 21, 2012 at 5:44 AM, Richard Purdie
+>> <richard.purdie@linuxfoundation.org> wrote:
+>> > This resolves issues related to pigz-native when installing from sstat=
+e that people
+>> > have been seeing. It also gives us a way to solve issues like the gzip=
+-native race
+>> > during sstate package creation covered in Yocto #1774.
+>> >
+>> > Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+>> > ---
+>> > diff --git a/meta/classes/sstate.bbclass b/meta/classes/sstate.bbclass
+>> > index 0d16d11..1570654 100644
+>> > --- a/meta/classes/sstate.bbclass
+>> > +++ b/meta/classes/sstate.bbclass
+>> > @@ -153,6 +153,12 @@ def sstate_installpkg(ss, d):
+>> > =A0 =A0 =A0 =A0 bb.mkdirhier(dir)
+>> > =A0 =A0 =A0 =A0 oe.path.remove(dir)
+>> >
+>> > + =A0 =A0# We're adding binaries into the sysroots, we don't want to e=
+xecute them
+>> > + =A0 =A0# whilst they're half installed or being installed so we need=
+ to
+>> > + =A0 =A0# remove the sysroots from PATH
+>> > + =A0 =A0savedpath =3D d.getVar("PATH")
+>> > + =A0 =A0d.setVar("PATH", "${ORIGPATH}")
+>> > +
+>> > =A0 =A0 sstateinst =3D d.expand("${WORKDIR}/sstate-install-%s/" % ss['=
+name'])
+>> > =A0 =A0 sstatepkg =3D d.getVar('SSTATE_PKG', True) + '_' + ss['name'] =
++ ".tgz"
+>> >
+>> > @@ -190,6 +196,8 @@ def sstate_installpkg(ss, d):
+>> > =A0 =A0 =A0 =A0 # conflict with another writer
+>> > =A0 =A0 =A0 =A0 os.remove(fixmefn)
+>> >
+>> > + =A0 =A0d.setVar("PATH", savedpath)
+>> > +
 >>
->>> On 03/21/2012 07:25 AM, Samuel Stirtzel wrote:
->>>> * This move will allow the testing of meta-kde for users without meta-openembedded.
->>>>
->>> So what other layers are using giflib?
->>>
->>> Your suggesting that we need to have it in oe-core so people don't need to add the meta-openembedded layer when using meta-kde?
->>>
->>> I am just trying to get more data before making a decision.
->>
->> Let's put everything in oe-core!
+>> So we always use the host tar and gzip here? Isn't there a reason we
+>> build tar-native explicitly? Could be fine if it's not needed for
+>> sstate-cache...
 >
-> Let's try and be constructive ;-).
+> I had to hit the archives but:
 >
-> I think to make a good decision about this we need to understand which
-> layers use giflib.
+> http://git.yoctoproject.org/cgit.cgi/poky/commit/?id=3D577dd4b3e5d4861c31=
+824d920fa170ba3a585f63
 >
-> Is this really the only component from meta-oe that meta-kde needs? If
+> so yes, there is a good reason we might want to use our tar and I just
+> broken our old versions of tar workaround :(. We did check that tar code
+> for races and its relatively safe. The gzip situation is of course not
+> so safe and we have the open bugs to prove it :(.
+>
+> So I should probably revert this patch although I'm reluctant since I
+> can think of other ways we can break the sysroots which this patch very
+> neatly solves.
+>
+> The only other option would be to explicitly allow tar through some
+> linking/PATH magic :/.
 
-Yes, as far as we know, this is the only component from meta-oe that
-meta-kde needs.
+Not sure what the best course of action is... we do:
 
-// Robert
+ASSUME_PROVIDED +=3D "${SSTATE_PKG_TARZIPPROG}-native"
 
-> it is, I think the request is certainly worth thinking about as we do
-> want to try and minimise and untangle the dependency spider web if we
-> can.
->
-> Cheers,
->
-> Richard
->
->
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
->
+which fixes the gzip-native issue by not even building it....
+
+-M=
+
 
 
