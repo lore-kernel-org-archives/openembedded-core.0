@@ -1,43 +1,31 @@
-Received: from mail-we0-f175.google.com ([74.125.82.175])
+Received: from astoria.ccjclearline.com ([64.235.106.9])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <martin.jansa@gmail.com>) id 1SAf1T-00087c-JE
+	(envelope-from <rpjday@crashcourse.ca>) id 1SAf2p-0008Aq-7Z
 	for openembedded-core@lists.openembedded.org;
-	Thu, 22 Mar 2012 11:13:36 +0100
-Received: by wera1 with SMTP id a1so1662023wer.6
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 22 Mar 2012 03:04:41 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=date:from:to:subject:message-id:references:mime-version
-	:content-type:content-disposition:in-reply-to:user-agent;
-	bh=mf8Cp0g/rAZdLFzDiH3sYWWFKutysLu1iXv6OI2aq3Y=;
-	b=PkewgtbIv64R3RAkeNi4NIVV/PB00b4MxVeWjc9v2OQlTk1NNjlgAVpZvEbbquKOt5
-	i0XckBAyRHPHkbcD7ZC6kXoxSh4/Xe7I1kfNrK6doG0IJTI5K6T+uZMti/FF4aRMckkg
-	m/BF4nfBoHvg7TdtHBTxaqPaPaOAyXbDQ8wxRgJvO6ebYgEX+JwYefRnb+Sc6Z4MgFAT
-	uGqQZdOGZJPs4jNLlGpqWOgv2d2wLcMgMyJtgX5RF0NbYBg4rlmP6/EYMNoRK4IuiW/P
-	DCISGfOhtekQDe6iBQUjeyVJHX2a9f8w3n/MU9ok8CDrAGNWlCqa7sa/ak4Blk58ATl0
-	VnAg==
-Received: by 10.216.139.229 with SMTP id c79mr5100434wej.16.1332410680874;
-	Thu, 22 Mar 2012 03:04:40 -0700 (PDT)
-Received: from localhost ([94.230.152.246])
-	by mx.google.com with ESMTPS id fn2sm7011963wib.0.2012.03.22.03.04.39
-	(version=TLSv1/SSLv3 cipher=OTHER);
-	Thu, 22 Mar 2012 03:04:40 -0700 (PDT)
-Date: Thu, 22 Mar 2012 11:04:40 +0100
-From: Martin Jansa <martin.jansa@gmail.com>
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Message-ID: <20120322100439.GF4010@jama.jama.net>
-References: <2ec6e0c134d708687c5d3d439b31607cda478dfc.1332365336.git.Martin.Jansa@gmail.com>
-	<f21ffad75e377042ebb9d59a01d6b424c6bba711.1332365336.git.Martin.Jansa@gmail.com>
-	<1332371476.9740.218.camel@ted>
-	<20120321235049.GA4010@jama.jama.net>
-	<1332374564.9740.228.camel@ted>
-	<20120322065113.GB4010@jama.jama.net>
-	<1332409922.9740.235.camel@ted>
+	Thu, 22 Mar 2012 11:14:59 +0100
+Received: from cpec03f0ed08c7f-cm001ac318e826.cpe.net.cable.rogers.com
+	([99.241.91.63] helo=crashcourse.ca)
+	by astoria.ccjclearline.com with esmtpsa (TLSv1:AES256-SHA:256)
+	(Exim 4.69) (envelope-from <rpjday@crashcourse.ca>)
+	id 1SAeuD-0007Dp-LY for openembedded-core@lists.openembedded.org;
+	Thu, 22 Mar 2012 06:06:05 -0400
+Date: Thu, 22 Mar 2012 06:05:59 -0400 (EDT)
+From: "Robert P. J. Day" <rpjday@crashcourse.ca>
+X-X-Sender: rpjday@oneiric
+To: OE Core mailing list <openembedded-core@lists.openembedded.org>
+Message-ID: <alpine.DEB.2.02.1203220604110.11655@oneiric>
+User-Agent: Alpine 2.02 (DEB 1266 2009-07-14)
 MIME-Version: 1.0
-In-Reply-To: <1332409922.9740.235.camel@ted>
-User-Agent: Mutt/1.5.21 (2010-09-15)
-Subject: Re: [PATCH 06/13] gtk+: import native support from meta-oe
+X-AntiAbuse: This header was added to track abuse,
+	please include it with any abuse report
+X-AntiAbuse: Primary Hostname - astoria.ccjclearline.com
+X-AntiAbuse: Original Domain - lists.openembedded.org
+X-AntiAbuse: Originator/Caller UID/GID - [47 12] / [47 12]
+X-AntiAbuse: Sender Address Domain - crashcourse.ca
+X-Source: 
+X-Source-Args: 
+X-Source-Dir: 
+Subject: [PATCH] Fix common typoes "existant", "dependant" and variations
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -52,112 +40,169 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 22 Mar 2012 10:13:36 -0000
-X-Groupsio-MsgNum: 19400
-Content-Type: multipart/signed; micalg=pgp-sha1;
-	protocol="application/pgp-signature"; boundary="4VrXvz3cwkc87Wze"
-Content-Disposition: inline
+X-List-Received-Date: Thu, 22 Mar 2012 10:14:59 -0000
+Content-Type: TEXT/PLAIN; charset=US-ASCII
 
---4VrXvz3cwkc87Wze
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
 
-On Thu, Mar 22, 2012 at 09:52:02AM +0000, Richard Purdie wrote:
-> On Thu, 2012-03-22 at 07:51 +0100, Martin Jansa wrote:
-> > On Thu, Mar 22, 2012 at 12:02:44AM +0000, Richard Purdie wrote:
-> > > On Thu, 2012-03-22 at 00:50 +0100, Martin Jansa wrote:
-> > > > On Wed, Mar 21, 2012 at 11:11:16PM +0000, Richard Purdie wrote:
-> > > > > On Wed, 2012-03-21 at 22:36 +0100, Martin Jansa wrote:
-> > > > > > Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
-> > > > > > ---
-> > > > > >  meta/recipes-gnome/gtk+/gtk+.inc |    4 ++++
-> > > > > >  1 files changed, 4 insertions(+), 0 deletions(-)
-> > > > >=20
-> > > > > I really don't like the message having a gtk+-native around sends=
- out.
-> > > > > Why do we need this?
-> > > >=20
-> > > > See cover letter if you haven't already.
-> > >=20
-> > > Sorry, I'd looked at it but I'd missed the key bit. I think I thought
-> > > the URL was a pull URL and my eyes skimmed it.
-> >=20
-> > No problem,
-> >=20
-> > > To be honest I don't think the update-icon-cache is good enough reason
-> > > to build a full gtk+-native. If we let these pieces in the dependenci=
-es
-> > > have a tendency to grow and people have no incentive to try and fix
-> > > these issues.
-> >=20
-> > Well agreed, but most of those natives are needed for librsvg-native
-> > which in turn is used in navit build to generate icons (which I can
-> > hardly replace with something thiner then librsvg and using e.g.
-> > autodetected ksvgtopng from host is even worse for reproducible builds).
->=20
-> librsvg-native I don't mind as much, I'm ok with taking those patches.
->=20
-> > So for minimal gtk+-native I only need libx11-native and
-> > libxrander-native, but the problem is that PACKAGECONFIG without that
-> > fix ignores all -native depends and with fix it correctly adds -native
-> > to all non-native deps added by PACKAGECONFIG
-> > http://lists.linuxtogo.org/pipermail/openembedded-core/2012-March/01934=
-8.html
->=20
-> Right, I'm aware of that issue and sorry for not responding yet.
-> Basically, I wanted to do some proper patch review and write a
-> reasonable response to it and I've been lacking the time to do so.
->=20
-> Firstly, I agree we need to fix it there is no question of that. The
-> patch moving everything to base.bbclass concerns me though, not least as
-> it undoes a lot of the work I've been trying to do with regard to
-> abstracting the bbclassextend code into lib/oe/*.py. I therefore think
-> an alternative approach is going to be needed but I've not managed to
-> come up with that yet :(.
+Fix a couple common typoes, all contained within comments so there
+should be no effect on functionality.
 
-Ah I haven't noticed lib/oe/classextend.py, well because it's not used in
-native/nativesdk handler only in multilib.
+Signed-off-by: Robert P. J. Day <rpjday@crashcourse.ca>
 
-> > > I'd like to better understand why there is no other way to avoid this.
-> >=20
-> > I can look into gtk+3 build what else we need to provide to be able to
-> > build without --enable-gtk2-dependency or how to disable
-> > update-icon-cache during build so that people with gtk+ installed on
-> > host and without get the same result package, but I'm not really
-> > interested in gtk+3 so I was just fixing another build failure :/ so it=
-=20
-> > can take some time...
->=20
-> This is one case I think we need to do the right thing and not take
-> short cuts. I don't mind the extends for librsvg-native but I don't want
-> to take gtk+-native or pango-native and any of the the dependencies only
-> they need.
->=20
-> I also agree we need to fix PACKAGECONFIG but I don't like the direction
-> the patch takes and haven't had time to come up with an alternative. I
-> wish I had more time and was able to give a better reply.
+---
 
-OK I'll keep this locally to keep gtk+-native building (it's nicer than
-http://git.openembedded.org/meta-openembedded-contrib/commit/?h=3Dshr&id=3D=
-91890091cabbfe40705838ac787be898bae37805
-work around) till you come up with better alternative.
+diff --git a/meta/classes/license.bbclass b/meta/classes/license.bbclass
+index 3126318..9459b00 100644
+--- a/meta/classes/license.bbclass
++++ b/meta/classes/license.bbclass
+@@ -79,7 +79,7 @@ license_create_manifest() {
+     INSTALLED_PKGS=`cat ${LICENSE_DIRECTORY}/${IMAGE_NAME}/package.manifest`
+     # list of installed packages is broken for deb
+     for pkg in ${INSTALLED_PKGS}; do
+-        # not the best way to do this but licenses are not arch dependant iirc
++        # not the best way to do this but licenses are not arch-dependent iirc
+         files=`find ${TMPDIR}/pkgdata/*/runtime -name ${pkg}| head -1`
+         for filename in $files; do
+             pkged_pn="$(sed -n 's/^PN: //p' ${filename})"
+diff --git a/meta/classes/qemu.bbclass b/meta/classes/qemu.bbclass
+index 22ebcfd..c0a5380 100644
+--- a/meta/classes/qemu.bbclass
++++ b/meta/classes/qemu.bbclass
+@@ -1,6 +1,6 @@
+ #
+ # This class contains functions for recipes that need QEMU or test for its
+-# existance.
++# existence.
+ #
 
-Cheers,
+ def qemu_target_binary(data):
+diff --git a/meta/conf/documentation.conf b/meta/conf/documentation.conf
+index d984d0d..f4d6241 100644
+--- a/meta/conf/documentation.conf
++++ b/meta/conf/documentation.conf
+@@ -40,7 +40,7 @@ ASSUME_SHLIBS[doc] = "List of shlib:package[_version] mappings. Useful for lib p
+  for which automatic shlib dependency tracking doesn't work."
 
---=20
-Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
+ PACKAGE_ARCH[doc] = 'The architecture needed for using a resulting package. If you have \
+-machine dependant configuration options in your bitbake file add a \
++machine-dependent configuration options in your bitbake file add a \
+ PACKAGE_ARCH  = "${MACHINE_ARCH}" to the file.'
 
---4VrXvz3cwkc87Wze
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: Digital signature
+ PACKAGE_ARCHS[doc] = 'A list of architectures compatible with the given target in order of priority'
+diff --git a/meta/recipes-connectivity/wpa-supplicant/wpa-supplicant-0.7.3/wpa_supplicant.conf b/meta/recipes-connectivity/wpa-supplicant/wpa-supplicant-0.7.3/wpa_supplicant.conf
+index f0c993d..68258f5 100644
+--- a/meta/recipes-connectivity/wpa-supplicant/wpa-supplicant-0.7.3/wpa_supplicant.conf
++++ b/meta/recipes-connectivity/wpa-supplicant/wpa-supplicant-0.7.3/wpa_supplicant.conf
+@@ -28,7 +28,7 @@
+ # Parameters for the control interface. If this is specified, wpa_supplicant
+ # will open a control interface that is available for external programs to
+ # manage wpa_supplicant. The meaning of this string depends on which control
+-# interface mechanism is used. For all cases, the existance of this parameter
++# interface mechanism is used. For all cases, the existence of this parameter
+ # in configuration is used to determine whether the control interface is
+ # enabled.
+ #
+diff --git a/meta/recipes-devtools/distcc/files/distcc-avahi.patch b/meta/recipes-devtools/distcc/files/distcc-avahi.patch
+index 30b4c91..1f15d4b 100644
+--- a/meta/recipes-devtools/distcc/files/distcc-avahi.patch
++++ b/meta/recipes-devtools/distcc/files/distcc-avahi.patch
+@@ -899,7 +899,7 @@ Upstream-Status: Pending
+ +    AvahiServiceResolver *resolver;
+ +};
+ +
+-+/* A generic, system independant lock routine, similar to sys_lock,
+++/* A generic, system-independent lock routine, similar to sys_lock,
+ + * but more powerful:
+ + *        rw:         if non-zero: r/w lock instead of r/o lock
+ + *        enable:     lock or unlock
+diff --git a/meta/recipes-devtools/opkg/opkg/fix_installorder.patch b/meta/recipes-devtools/opkg/opkg/fix_installorder.patch
+index 5e6c40d..9dd10b2 100644
+--- a/meta/recipes-devtools/opkg/opkg/fix_installorder.patch
++++ b/meta/recipes-devtools/opkg/opkg/fix_installorder.patch
+@@ -55,7 +55,7 @@ Index: trunk/libopkg/opkg_install.c
+ +		    opkg_msg(DEBUG2,"Calling opkg_install_pkg.\n");
+ +		    err = opkg_install_pkg(dep, 0);
+ +		    /* mark this package as having been automatically installed to
+-+		     * satisfy a dependancy */
+++		     * satisfy a dependency */
+ +		    dep->auto_installed = 1;
+ +		    if (err) {
+ +			 pkg_vec_free(depends);
+diff --git a/meta/recipes-devtools/opkg/opkg/track_parents.patch b/meta/recipes-devtools/opkg/opkg/track_parents.patch
+index 1f54256..ef327e3 100644
+--- a/meta/recipes-devtools/opkg/opkg/track_parents.patch
++++ b/meta/recipes-devtools/opkg/opkg/track_parents.patch
+@@ -23,7 +23,7 @@ Index: trunk/libopkg/opkg_install.c
+ +     	                 pkg_vec_insert(dep->wanted_by, pkg);
+  		    err = opkg_install_pkg(dep, 0);
+  		    /* mark this package as having been automatically installed to
+- 		     * satisfy a dependancy */
++ 		     * satisfy a dependency */
+ @@ -115,6 +121,8 @@
+  	  /* The package was uninstalled when we started, but another
+  	     dep earlier in this loop may have depended on it and pulled
+diff --git a/meta/recipes-devtools/perl/perl-rdepends_5.14.2.inc b/meta/recipes-devtools/perl/perl-rdepends_5.14.2.inc
+index 26239d2..ae695c4 100644
+--- a/meta/recipes-devtools/perl/perl-rdepends_5.14.2.inc
++++ b/meta/recipes-devtools/perl/perl-rdepends_5.14.2.inc
+@@ -7,7 +7,7 @@
+ #egrep -r "use|require" perl-module-* | grep ";" | egrep "\.pm:require | \.pm:use" | sed "s-/.*\.pm: *- += -g" | sed "s/[\"\']//g" | sed "s/;.*/\"/g" | sed "s/require */\"perl-module-/g" | sed "s/CPANPLUS::.*/cpanplus/g" | sed "s/CPAN::.*/cpan/g" | tr [:upper:] [:lower:] | sed "s/::/-/g" | grep -v perl-module-5 | sed "s/ [^+\"].*//g" | grep -v "\\$" | sed "s/_/-/g" | sed "s/\.pl\"$/\"/" | grep -v "\-vms\-" | sort -u > /tmp/1
+ #find . -type f | sed "s-\./--" | sed "s-/.*--" | sort -u > /tmp/2
+ #cat /tmp/1 | cut -f3 -d" " | sed "s/[\"\']//g" | sort -u > /tmp/3
+-## these dependancies do not exist
++## these dependencies do not exist
+ #diff -u /tmp/2 /tmp/3 | grep ^+perl-module
 
------BEGIN PGP SIGNATURE-----
-Version: GnuPG v2.0.18 (GNU/Linux)
 
-iEYEARECAAYFAk9q+TcACgkQN1Ujt2V2gBw1kQCdGJNI2Zt5Z0fR+J5FHa3xPUVr
-t5MAoLK7EmzF+oVNjZAqwPdLh7nbJppn
-=OUOl
------END PGP SIGNATURE-----
+diff --git a/meta/recipes-extended/at/files/fix_parallel_build_error.patch b/meta/recipes-extended/at/files/fix_parallel_build_error.patch
+index 877be35..66ff3e1 100644
+--- a/meta/recipes-extended/at/files/fix_parallel_build_error.patch
++++ b/meta/recipes-extended/at/files/fix_parallel_build_error.patch
+@@ -5,7 +5,7 @@ make -j was failing sometimesa like this
+ | make: *** [lex.yy.o] Error 1
+ | make: *** Waiting for unfinished jobs....
 
---4VrXvz3cwkc87Wze--
+-Fixed the issue by adding a dependancy in the makefile.
++Fixed the issue by adding a dependency in the makefile.
+ Nitin <nitin.a.kamble@intel.com>
+ 2010/09/02
+
+diff --git a/meta/recipes-graphics/xorg-lib/libpciaccess_0.12.902.bb b/meta/recipes-graphics/xorg-lib/libpciaccess_0.12.902.bb
+index 5043634..37d291f 100644
+--- a/meta/recipes-graphics/xorg-lib/libpciaccess_0.12.902.bb
++++ b/meta/recipes-graphics/xorg-lib/libpciaccess_0.12.902.bb
+@@ -1,7 +1,7 @@
+ SUMMARY = "Generic PCI access library for X"
+
+ DESCRIPTION = "libpciaccess provides functionality for X to access the \
+-PCI bus and devices in a platform-independant way."
++PCI bus and devices in a platform-independent way."
+
+ require xorg-lib-common.inc
+
+diff --git a/meta/recipes-support/taglib/taglib-1.6.3/nolibtool.patch b/meta/recipes-support/taglib/taglib-1.6.3/nolibtool.patch
+index 18237f2..bf45b2f 100644
+--- a/meta/recipes-support/taglib/taglib-1.6.3/nolibtool.patch
++++ b/meta/recipes-support/taglib/taglib-1.6.3/nolibtool.patch
+@@ -1027,7 +1027,7 @@ Index: taglib-1.6.1/acinclude.m4
+ -   test -n "$_LT_AC_TAGVAR(runpath_var $1)" || \
+ -   test "X$_LT_AC_TAGVAR(hardcode_automatic, $1)"="Xyes" ; then
+ -
+--  # We can hardcode non-existant directories.
++-  # We can hardcode non-existent directories.
+ -  if test "$_LT_AC_TAGVAR(hardcode_direct, $1)" != no &&
+ -     # If the only mechanism to avoid hardcoding is shlibpath_var, we
+ -     # have to relink, otherwise we might link with an installed library
+
+
+-- 
+
+========================================================================
+Robert P. J. Day                                 Ottawa, Ontario, CANADA
+                        http://crashcourse.ca
+
+Twitter:                                       http://twitter.com/rpjday
+LinkedIn:                               http://ca.linkedin.com/in/rpjday
+========================================================================
+
+
