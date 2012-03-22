@@ -1,40 +1,54 @@
-Received: from mail-ob0-f175.google.com ([209.85.214.175])
+Received: from mga02.intel.com ([134.134.136.20])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <tom.rini@gmail.com>) id 1SApsq-0008Hj-HC
+	(envelope-from <nitin.a.kamble@intel.com>) id 1SAq0F-0008Q4-L9
 	for openembedded-core@lists.openembedded.org;
-	Thu, 22 Mar 2012 22:49:24 +0100
-Received: by obqv19 with SMTP id v19so1938182obq.6
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 22 Mar 2012 14:40:28 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=date:from:to:subject:message-id:references:mime-version
-	:content-type:content-disposition:in-reply-to:organization
-	:user-agent; bh=hRC/7WHJnlHtSE+M16kbXLBom6FMpNkxzVobOtp46f8=;
-	b=SVN00VWQbsS8ZlKK1d9VUOPxEiMAvo6T0VKBIB7rJBANMcwEpHCxGwWoPL0ETm14Cb
-	FP4clNT3wd4zUPL5+L9UiW4rpMSDtubfmvhAHccioOW2RGmlH5oVZGq1ts05MZ56fmjQ
-	7pT6iURgIGMtF3hZ98WNkIDW5Pr8bgy1RFLgMI4/Xu7m1iAKl6SiHHUMIYZtlRGAGilH
-	NO6BYaQRaSMgvS6k5USLPDCg2b0LvSctEhuTBZ69RE4z5Ig9Z3Sa7Vhx7rUsQQPIqoxG
-	GJ9AGvA8dmWt8RID2zQIGM9AXNNeHvMCl5nBF8b2EFIEtJtJDjoiFv5VJ3kP2zO9O2WK
-	Dw2Q==
-Received: by 10.182.1.2 with SMTP id 2mr11737931obi.58.1332452428615;
-	Thu, 22 Mar 2012 14:40:28 -0700 (PDT)
-Received: from bill-the-cat (ip68-230-54-74.ph.ph.cox.net. [68.230.54.74])
-	by mx.google.com with ESMTPS id o9sm5091877obd.21.2012.03.22.14.40.26
-	(version=TLSv1/SSLv3 cipher=OTHER);
-	Thu, 22 Mar 2012 14:40:27 -0700 (PDT)
-Date: Thu, 22 Mar 2012 14:40:28 -0700
-From: Tom Rini <tom.rini@gmail.com>
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Message-ID: <20120322214028.GD28378@bill-the-cat>
-References: <CA+M6bXkMdv_bg9bDOYCS=Ng0sSB+2Yu6xRN4V0tKDV9RCJMy+A@mail.gmail.com>
-	<04FC93EF-7089-4EAD-8C1D-14824C8CBB02@dominion.thruhere.net>
-	<20120312202524.GB9300@denix.org>
+	Thu, 22 Mar 2012 22:57:03 +0100
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+	by orsmga101.jf.intel.com with ESMTP; 22 Mar 2012 14:48:07 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.67,351,1309762800"; d="scan'208";a="124043809"
+Received: from orsmsx604.amr.corp.intel.com ([10.22.226.87])
+	by orsmga002.jf.intel.com with ESMTP; 22 Mar 2012 14:48:07 -0700
+Received: from orsmsx104.amr.corp.intel.com (10.22.225.131) by
+	orsmsx604.amr.corp.intel.com (10.22.226.87) with Microsoft SMTP Server
+	(TLS) id 8.2.255.0; Thu, 22 Mar 2012 14:48:06 -0700
+Received: from orsmsx106.amr.corp.intel.com ([169.254.5.128]) by
+	ORSMSX104.amr.corp.intel.com ([169.254.3.46]) with mapi id
+	14.01.0355.002; Thu, 22 Mar 2012 14:48:06 -0700
+From: "Kamble, Nitin A" <nitin.a.kamble@intel.com>
+To: "Kamble, Nitin A" <nitin.a.kamble@intel.com>,
+	=?iso-8859-1?Q?Eric_B=E9nard?= <eric@eukrea.com>, Khem Raj
+	<raj.khem@gmail.com>
+Thread-Topic: [OE-core] [PATCH 1/1] Revert "gdb-cross-canadian: build gdb
+	with python support"
+Thread-Index: AQHNB4VDG6/xwLeUgEWTysDmkk+IHpZ1BaqAgAB3WAD//4s7gIAAd4cA//+K+DCAAI5egIAABI0A//+ae8AAD0RXgAAOkVAg//+Uh4CAAHG8cP//vk0AgABePxD//+QoAIAAbP/w//+eq4AADuUhAAAAJUEAAADrcAAAAH4QAAAAmVaAAAhCLcAAASiuAAAO5twgAAuu0gAAEqkugAAz6vaAAGdsPkA=
+Date: Thu, 22 Mar 2012 21:48:05 +0000
+Message-ID: <ADD6A3980E8C39419A432FF422031B4C0137C00E@ORSMSX106.amr.corp.intel.com>
+References: <cover.1332347414.git.nitin.a.kamble@intel.com>
+	<CAMKF1sq7hcTKrzFBYgmUOTcdQw6sC1FG4jUhsfKauqeXLQMgsg@mail.gmail.com>
+	<ADD6A3980E8C39419A432FF422031B4C0137B889@ORSMSX106.amr.corp.intel.com>
+	<CAMKF1srP52bxqwkaqPZTQbRmhp_V+4-iJ7wTKeKWfC1z4W=fyw@mail.gmail.com>
+	<ADD6A3980E8C39419A432FF422031B4C0137BAA8@ORSMSX106.amr.corp.intel.com>
+	<CAMKF1sobw_wT_ZKhXs9Y-d0jSG-QWzKOprgf7+zM8a_BjjQgEQ@mail.gmail.com>
+	<20120322131310.1c6455d1@eb-e6520>
+	<CAMKF1sqEGjWMpPTQxP3j1bbP6H2FQqAgHZGm399ejC-RyDxboQ@mail.gmail.com>
+	<20120322134340.1af3dfda@eb-e6520>
+	<CAMKF1srORF53h-V+fKTjJn2jWg=f6nOaMf_eUmYPLnW-ovc7NQ@mail.gmail.com>
+	<20120322141455.644058f0@eb-e6520>
+	<ADD6A3980E8C39419A432FF422031B4C0137BE5C@ORSMSX106.amr.corp.intel.com>
+	<CAMKF1srd0KanO6NfQtm0U39GZS_ANsu9KdRR0hirpKQrhMCxzg@mail.gmail.com>
+	<ADD6A3980E8C39419A432FF422031B4C0137BEEB@ORSMSX106.amr.corp.intel.com>
+	<CAMKF1sr=PedPsmpPSGC42Wvof9fHbR26JM2hgEZjA3h621ynxA@mail.gmail.com>
+	<20120322223127.136698cf@eb-e6520> 
+Accept-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [10.22.254.140]
 MIME-Version: 1.0
-In-Reply-To: <20120312202524.GB9300@denix.org>
-Organization: Texas Instruments
-User-Agent: Mutt/1.5.20 (2009-06-14)
-Subject: Re: Consistency and use cases for IMAGE_FSTYPES
+Cc: Martin Jansa <martin.jansa@gmail.com>,
+	Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 1/1] Revert "gdb-cross-canadian: build gdb with python support"
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -49,47 +63,22 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 22 Mar 2012 21:49:24 -0000
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+X-List-Received-Date: Thu, 22 Mar 2012 21:57:03 -0000
+Content-Language: en-US
+Content-Type: text/plain; charset="iso-8859-1"
+Content-Transfer-Encoding: quoted-printable
 
-On Mon, Mar 12, 2012 at 04:25:24PM -0400, Denys Dmytriyenko wrote:
-> On Sat, Mar 10, 2012 at 07:29:20AM +0100, Koen Kooi wrote:
-> > 
-> > Op 9 mrt. 2012, om 22:39 heeft Tom Rini het volgende geschreven:
-> > 
-> > > Hey all,
-> > > 
-> > > Over in meta-ti I kicked off a discussion
-> > > (https://lists.yoctoproject.org/pipermail/meta-ti/2012-March/000779.html)
-> > > about if we should be using '?=' or '+=' with IMAGE_FSTYPES in the
-> > > machine conf files.  This has been discussed a little bit before
-> > > (http://thread.gmane.org/gmane.comp.handhelds.openembedded.core/2060/focus=2061).
-> > > The problem is we have the following and I believe ultimately
-> > > conflicting use cases:
-> > > - The machine needs to say 'I need or support the following formats'
-> > > - The distro needs to say 'I always want format X'
-> > > - The user needs to say 'I know best, give me only format X'
-> > > - The user needs to say 'I know best, give me what you support + X'
-> > > 
-> > > We achieve this today, but not very nicely.  For the last one you need
-> > > to start playing order of operations games and that's just not nice.
-> > > My suggestion is that we need to change what the machine.conf sets to
-> > > another variable (SOMETHING_IMAGE_FSTYPES), and a default
-> > > IMAGE_FSTYPES becomes ?= ${SOMETHING_IMAGE_FSTYPES}.  Distros, and
-> > > users can then work more easily with their use cases.  Comments?
-> > 
-> > EXTRA_IMAGE_FSTYPES!
-> 
-> +1
-> 
-> MACHINE_IMAGE_FSTYPES + DISTRO_IMAGE_FSTYPES? jk :)
+Khem,
+  Can you help me understand why renaming readline.so to readline_d.so
+ is solving the core dump (or double free) issue?
 
-Having gotten no other feedback (*cough*) I'll post a patch for
-SOMETHING_IMAGE_FSTYPES (I'm leaning MACHINE_IMAGE_FSTYPES, sorry Koen :))
-sometime tomorrow I think.
+  As noted in another email, the host gdb on fedora is able working fine
+ without need of readline_d.so; so providing readline_d.so is also seems
+ to be a workaround over a real issue.
 
--- 
-Tom
+Thanks,
+Nitin
+
+
 
 
