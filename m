@@ -1,51 +1,29 @@
-Received: from mail-lpp01m010-f47.google.com ([209.85.215.47])
+Received: from vms173011pub.verizon.net ([206.46.173.11])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <raj.khem@gmail.com>) id 1SAZjB-0002UK-U5
+	(envelope-from <denis@denix.org>) id 1SAZtz-0002cW-CX
 	for openembedded-core@lists.openembedded.org;
-	Thu, 22 Mar 2012 05:34:22 +0100
-Received: by lagw12 with SMTP id w12so1368546lag.6
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 21 Mar 2012 21:25:27 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc:content-type:content-transfer-encoding;
-	bh=he563DEDxxTRmSsNl0OQN/w2RnK/g/Tzd30gMOigDfM=;
-	b=O1hMJdrWBg3oN7FTcWbAM9wjd+Z8fEvsMOnWodROxF2CvAuwyAnPsmEG8zie0WwTVk
-	mwepFruIWxIXVeEy78Y08eojCMjX6k7kPFc3xgtconbdOYt/t6R5Ni1DI4Tj0uOYMY3x
-	tzzFIRFF67lQnplIyST4genzS941PEjrgMLiKw800KHq4fr7MwMi6h8NpOlN7qtOE5V9
-	KZuUvV9Zer95k0sJWWXvZUnVus9XggC/04xP/EhYBAhJIxhT5uaaWpdnCOijOFQjNAhu
-	F7pfcDjoI+nKZ7wqS2g4fP7V5Xv23gpb6IcjPhh/WTMv4jchItruXnlZnMsZSUrPPin+
-	AUcg==
-Received: by 10.152.127.136 with SMTP id ng8mr4694974lab.16.1332390327488;
-	Wed, 21 Mar 2012 21:25:27 -0700 (PDT)
-MIME-Version: 1.0
-Received: by 10.152.2.71 with HTTP; Wed, 21 Mar 2012 21:24:56 -0700 (PDT)
-In-Reply-To: <ADD6A3980E8C39419A432FF422031B4C0137B889@ORSMSX106.amr.corp.intel.com>
-References: <cover.1332347414.git.nitin.a.kamble@intel.com>
-	<bfe0a5400cad2436b7be7d35a173c62349e47c0a.1332347414.git.nitin.a.kamble@intel.com>
-	<20120321180748.7cc58e67@eb-e6520>
-	<ADD6A3980E8C39419A432FF422031B4C0137B3C3@ORSMSX106.amr.corp.intel.com>
-	<20120321185216.440a6353@eb-e6520>
-	<ADD6A3980E8C39419A432FF422031B4C0137B3E3@ORSMSX106.amr.corp.intel.com>
-	<20120321190208.25dc0387@eb-e6520>
-	<ADD6A3980E8C39419A432FF422031B4C0137B406@ORSMSX106.amr.corp.intel.com>
-	<20120321203249.54411613@eb-e6520>
-	<20120321194906.GC3659@jama.jama.net>
-	<ADD6A3980E8C39419A432FF422031B4C0137B557@ORSMSX106.amr.corp.intel.com>
-	<20120321220253.00c4f254@eb-e6520>
-	<ADD6A3980E8C39419A432FF422031B4C0137B5A8@ORSMSX106.amr.corp.intel.com>
-	<20120321223521.36e49bba@eb-e6520>
-	<ADD6A3980E8C39419A432FF422031B4C0137B66D@ORSMSX106.amr.corp.intel.com>
-	<CAMKF1sq7hcTKrzFBYgmUOTcdQw6sC1FG4jUhsfKauqeXLQMgsg@mail.gmail.com>
-	<ADD6A3980E8C39419A432FF422031B4C0137B889@ORSMSX106.amr.corp.intel.com>
-From: Khem Raj <raj.khem@gmail.com>
-Date: Wed, 21 Mar 2012 21:24:56 -0700
-Message-ID: <CAMKF1srP52bxqwkaqPZTQbRmhp_V+4-iJ7wTKeKWfC1z4W=fyw@mail.gmail.com>
-To: "Kamble, Nitin A" <nitin.a.kamble@intel.com>
-Cc: Martin Jansa <martin.jansa@gmail.com>,
-	Patches and discussions about the oe-core layer
+	Thu, 22 Mar 2012 05:45:31 +0100
+Received: from gandalf.denix.org ([unknown] [71.178.225.66])
+	by vms173011.mailsrvcs.net
+	(Sun Java(tm) System Messaging Server 7u2-7.02 32bit (built Apr 16
+	2009)) with ESMTPA id <0M19001LEOOP0DR1@vms173011.mailsrvcs.net> for
+	openembedded-core@lists.openembedded.org;
+	Wed, 21 Mar 2012 22:36:26 -0500 (CDT)
+Received: by gandalf.denix.org (Postfix, from userid 1000)	id CF2562016F; Wed,
+	21 Mar 2012 23:36:24 -0400 (EDT)
+Date: Wed, 21 Mar 2012 23:36:24 -0400
+From: Denys Dmytriyenko <denis@denix.org>
+To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 1/1] Revert "gdb-cross-canadian: build gdb with python support"
+Message-id: <20120322033624.GI6857@denix.org>
+References: <1332339926-27043-1-git-send-email-s.stirtzel@googlemail.com>
+	<4F6A2F2F.2090607@linux.intel.com>
+	<FC6FAFAF-2C6E-4EF7-8AD9-D2C30D2114DD@dominion.thruhere.net>
+	<1332361627.9740.180.camel@ted> <4F6A9B02.7090201@windriver.com>
+MIME-version: 1.0
+In-reply-to: <4F6A9B02.7090201@windriver.com>
+User-Agent: Mutt/1.5.20 (2009-06-14)
+Subject: Re: [PATCH] giflib: Move to OE-Core
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -60,26 +38,43 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 22 Mar 2012 04:34:22 -0000
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Thu, 22 Mar 2012 04:45:31 -0000
+Content-type: text/plain; charset=us-ascii
+Content-disposition: inline
 
-On Wed, Mar 21, 2012 at 6:58 PM, Kamble, Nitin A
-<nitin.a.kamble@intel.com> wrote:
-> Actually we noticed that Eric=E2=80=99s working sdk gdb was getting linke=
-d with the
-> host libpython.so, And if it is linked with the sdk libpython.so then he =
-is
-> able to see same issue what I am seeing.
->
-> So look like issue is in the generated libpython.so.
->
-> And in failing case, somehow ldd is not reporting that sdk gdb is
-> dynamically linked with libpython.so. That is also strange.
->
+On Thu, Mar 22, 2012 at 11:22:42AM +0800, Robert Yang wrote:
+> 
+> 
+> On 03/22/2012 04:27 AM, Richard Purdie wrote:
+> >On Wed, 2012-03-21 at 21:14 +0100, Koen Kooi wrote:
+> >>Op 21 mrt. 2012, om 20:42 heeft Saul Wold het volgende geschreven:
+> >>
+> >>>On 03/21/2012 07:25 AM, Samuel Stirtzel wrote:
+> >>>>* This move will allow the testing of meta-kde for users without meta-openembedded.
+> >>>>
+> >>>So what other layers are using giflib?
+> >>>
+> >>>Your suggesting that we need to have it in oe-core so people don't need to add the meta-openembedded layer when using meta-kde?
+> >>>
+> >>>I am just trying to get more data before making a decision.
+> >>
+> >>Let's put everything in oe-core!
+> >
+> >Let's try and be constructive ;-).
+> >
+> >I think to make a good decision about this we need to understand which
+> >layers use giflib.
+> >
+> >Is this really the only component from meta-oe that meta-kde needs? If
+> 
+> Yes, as far as we know, this is the only component from meta-oe that
+> meta-kde needs.
 
-OK can you generate the gdb core and post it. I can debug whats causing it.
+Are you talking about kdelibs/kdebase or the entire KDE world? Building any of 
+the standard KDE apps (kdenetwork, kdemultimedia, etc.) will bring additional 
+dependencies...
 
-> Thanks,
+-- 
+Denys
 
 
