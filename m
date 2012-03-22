@@ -1,35 +1,37 @@
-Received: from astoria.ccjclearline.com ([64.235.106.9])
+Received: from mail-yw0-f47.google.com ([209.85.213.47])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <rpjday@crashcourse.ca>) id 1SAlUi-0004Rd-4A
+	(envelope-from <otavio.salvador@gmail.com>) id 1SAlhC-0004cr-Ak
 	for openembedded-core@lists.openembedded.org;
-	Thu, 22 Mar 2012 18:08:12 +0100
-Received: from cpec03f0ed08c7f-cm001ac318e826.cpe.net.cable.rogers.com
-	([99.241.91.63] helo=crashcourse.ca)
-	by astoria.ccjclearline.com with esmtpsa (TLSv1:AES256-SHA:256)
-	(Exim 4.69) (envelope-from <rpjday@crashcourse.ca>)
-	id 1SAlM6-0002gH-Bs for openembedded-core@lists.openembedded.org;
-	Thu, 22 Mar 2012 12:59:18 -0400
-Date: Thu, 22 Mar 2012 12:59:12 -0400 (EDT)
-From: "Robert P. J. Day" <rpjday@crashcourse.ca>
-X-X-Sender: rpjday@oneiric
+	Thu, 22 Mar 2012 18:21:06 +0100
+Received: by yhjj56 with SMTP id j56so1996516yhj.6
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 22 Mar 2012 10:12:10 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=mime-version:sender:in-reply-to:references:date
+	:x-google-sender-auth:message-id:subject:from:to:content-type
+	:content-transfer-encoding;
+	bh=kSJtfI9r9dG/a2HTI1nMZDYuOiAYyR40DeGbjHcBDwg=;
+	b=aNNnJyqKa3kFrzsxyEhgFQtCjXN8S4/u+HmDoWXqFk8gOlr/nT+tiwkoiTkMKf6yCa
+	MmK3G/LJYLLzEHTXPHrB1gTSKudvDKciMHbUbQqtxAL6qe5+aMe2flwgipI7y5nyYAf5
+	Txw0VwhDtqp6sanClLw9vK9NowMCQgu1P9Rj0SjOYoAibv0IAYghQP3ZVCyQH7LITkTi
+	DOX+85sFndkrV5kVIP9TxgctPgXWKSdw++1D1a+dsTmIn58S0zKUbpgiY1U5rpOzZStS
+	pqJ0/2Hf5DZSzUH7LYTbN/VTbolc/V62kx5nypTuqmiZIMt6zx/BsmQbdoyouqDeiHvS
+	oogw==
+MIME-Version: 1.0
+Received: by 10.68.216.98 with SMTP id op2mr22113980pbc.93.1332436330095; Thu,
+	22 Mar 2012 10:12:10 -0700 (PDT)
+Sender: otavio.salvador@gmail.com
+Received: by 10.68.13.4 with HTTP; Thu, 22 Mar 2012 10:12:10 -0700 (PDT)
+In-Reply-To: <1332348902.9740.175.camel@ted>
+References: <CAP9ODKq3vD6u4TQnWw4Ux9c5L5fB3FVcstY_pCkmzp_HWddhRg@mail.gmail.com>
+	<1332323639.9740.125.camel@ted> <1332348902.9740.175.camel@ted>
+Date: Thu, 22 Mar 2012 14:12:10 -0300
+X-Google-Sender-Auth: 6H97QlulA4_zqTywDobjOeeNZ5c
+Message-ID: <CAP9ODKrL4RW8+5-MLPB3i0Y6Ke743gDHDPZG2fyiumwf5pE9Nw@mail.gmail.com>
+From: Otavio Salvador <otavio@ossystems.com.br>
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-In-Reply-To: <CAMKF1srqhR_ETsSGoF4Z9_TQcad5Eb8_dke5RdJxyKoV_dwHMg@mail.gmail.com>
-Message-ID: <alpine.DEB.2.02.1203221252020.12443@oneiric>
-References: <CALbNGRSm2KV_RsV+rR4hFNcEg7Oi5Z57N1nGXS73Z17G6gqS1g@mail.gmail.com>
-	<CAMKF1srqhR_ETsSGoF4Z9_TQcad5Eb8_dke5RdJxyKoV_dwHMg@mail.gmail.com>
-User-Agent: Alpine 2.02 (DEB 1266 2009-07-14)
-MIME-Version: 1.0
-X-AntiAbuse: This header was added to track abuse,
-	please include it with any abuse report
-X-AntiAbuse: Primary Hostname - astoria.ccjclearline.com
-X-AntiAbuse: Original Domain - lists.openembedded.org
-X-AntiAbuse: Originator/Caller UID/GID - [47 12] / [47 12]
-X-AntiAbuse: Sender Address Domain - crashcourse.ca
-X-Source: 
-X-Source-Args: 
-X-Source-Dir: 
-Subject: Re: Debugging with gdb
+Subject: Re: Build failures due zlib problem
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -44,59 +46,23 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 22 Mar 2012 17:08:12 -0000
-Content-Type: TEXT/PLAIN; charset=US-ASCII
+X-List-Received-Date: Thu, 22 Mar 2012 17:21:06 -0000
+Content-Type: text/plain; charset=ISO-8859-1
+Content-Transfer-Encoding: quoted-printable
 
-On Thu, 22 Mar 2012, Khem Raj wrote:
+On Wed, Mar 21, 2012 at 13:55, Richard Purdie
+<richard.purdie@linuxfoundation.org> wrote:
+> I've pushed a couple of fixes in this area which should help.
 
-> in OE-Core world you can add following to local.conf and then you
-> can debug it on target.
->
-> EXTRA_IMAGE_FEATURES += "dbg-pkgs tools-sdk"
->
-> and that should have pretty much what you want. You dont have to
-> lower the optlevel since that might let the crash go away. Try to
-> debug the same code thats failing.
+It fixed my issues.
 
-  heh ... good timing as i was just about to go all pedantic over
-this.  the current docs are confusing regarding how a user is supposed
-to use that very variable.
+Thanks a lot.
 
-  in meta/conf/local/conf.sample, you read:
-
-... snip ...
-EXTRA_IMAGE_FEATURES = "debug-tweaks"
-... snip ...
-
-so a user would be inspired to do this:
-
-EXTRA_IMAGE_FEATURES = "dbg-pkgs tools-sdk"   (note "=", not "+=")
-
-which might not make any difference except that some image recipes
-specifically *already* assign values to that variable (and not even
-consistently):
-
-meta/recipes-sato/images/core-image-sato-sdk.bb:EXTRA_IMAGE_FEATURES += "tools-debug tools-profile tools-testapps debug-tweaks"
-meta/recipes-rt/images/core-image-rt-sdk.bb:EXTRA_IMAGE_FEATURES += "tools-debug tools-profile tools-testapps debug-tweaks"
-meta/recipes-extended/images/core-image-lsb-sdk.bb:EXTRA_IMAGE_FEATURES = "tools-debug tools-profile tools-testapps debug-tweaks"
-
-  so what happens if you choose to build one of these images and
-assign directly to EXTRA_IMAGE_FEATURES in your local.conf?  (i'm
-still grappling with the precedence and ordering of assignment so i'm
-not sure, but it certainly looks this has the potential to surprise
-the user.)
-
-rday
-
--- 
-
-========================================================================
-Robert P. J. Day                                 Ottawa, Ontario, CANADA
-                        http://crashcourse.ca
-
-Twitter:                                       http://twitter.com/rpjday
-LinkedIn:                               http://ca.linkedin.com/in/rpjday
-========================================================================
-
+--=20
+Otavio Salvador=A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0O=
+.S. Systems
+E-mail: otavio@ossystems.com.br=A0 http://www.ossystems.com.br
+Mobile: +55 53 9981-7854=A0 =A0 =A0 =A0=A0 =A0 =A0 =A0http://projetos.ossys=
+tems.com.br
 
 
