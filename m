@@ -1,26 +1,29 @@
-Received: from vms173021pub.verizon.net ([206.46.173.21])
+Received: from mail1.windriver.com ([147.11.146.13])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <denis@denix.org>) id 1SAYBQ-0000m5-JS
+	(envelope-from <Liezhi.Yang@windriver.com>) id 1SAYkV-0001UV-Rl
 	for openembedded-core@lists.openembedded.org;
-	Thu, 22 Mar 2012 03:55:24 +0100
-Received: from gandalf.denix.org ([unknown] [71.178.225.66])
-	by vms173021.mailsrvcs.net
-	(Sun Java(tm) System Messaging Server 7u2-7.02 32bit (built Apr 16
-	2009)) with ESMTPA id <0M1900F03MD1J392@vms173021.mailsrvcs.net> for
-	openembedded-core@lists.openembedded.org;
-	Wed, 21 Mar 2012 21:46:14 -0500 (CDT)
-Received: from localhost.localdomain (elrond [192.168.0.7])
-	by gandalf.denix.org (Postfix) with ESMTP id 6C3BD2016D; Wed,
-	21 Mar 2012 22:46:13 -0400 (EDT)
-From: Denys Dmytriyenko <denis@denix.org>
-To: openembedded-core@lists.openembedded.org
-Date: Wed, 21 Mar 2012 22:46:05 -0400
-Message-id: <1332384365-32497-2-git-send-email-denis@denix.org>
-X-Mailer: git-send-email 1.7.8.5
-In-reply-to: <1332384365-32497-1-git-send-email-denis@denix.org>
-References: <1332384365-32497-1-git-send-email-denis@denix.org>
-Cc: Denys Dmytriyenko <denys@ti.com>
-Subject: [PATCH 2/2] rt-tests: add patch to support passing CFLAGS/LDFLAGS
+	Thu, 22 Mar 2012 04:31:40 +0100
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca [147.11.189.40])
+	by mail1.windriver.com (8.14.3/8.14.3) with ESMTP id q2M3Mi7b017000
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 21 Mar 2012 20:22:44 -0700 (PDT)
+Received: from [128.224.162.196] (128.224.162.196) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server id 14.1.255.0;
+	Wed, 21 Mar 2012 20:22:44 -0700
+Message-ID: <4F6A9B02.7090201@windriver.com>
+Date: Thu, 22 Mar 2012 11:22:42 +0800
+From: Robert Yang <liezhi.yang@windriver.com>
+User-Agent: Mozilla/5.0 (X11; Linux i686;
+	rv:10.0.2) Gecko/20120216 Thunderbird/10.0.2
+MIME-Version: 1.0
+To: <openembedded-core@lists.openembedded.org>
+References: <1332339926-27043-1-git-send-email-s.stirtzel@googlemail.com>
+	<4F6A2F2F.2090607@linux.intel.com>
+	<FC6FAFAF-2C6E-4EF7-8AD9-D2C30D2114DD@dominion.thruhere.net>
+	<1332361627.9740.180.camel@ted>
+In-Reply-To: <1332361627.9740.180.camel@ted>
+Subject: Re: [PATCH] giflib: Move to OE-Core
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -35,141 +38,52 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 22 Mar 2012 02:55:24 -0000
+X-List-Received-Date: Thu, 22 Mar 2012 03:31:40 -0000
+Content-Type: text/plain; charset="ISO-8859-1"; format=flowed
+Content-Transfer-Encoding: 7bit
 
-From: Denys Dmytriyenko <denys@ti.com>
 
-Enable passing OE and Distro-specific CFLAGS/LDFLAGS to the Makefile.
 
-Signed-off-by: Denys Dmytriyenko <denys@ti.com>
----
-Feel free to drop this, if the patch gets accepted upstream soon enough.
+On 03/22/2012 04:27 AM, Richard Purdie wrote:
+> On Wed, 2012-03-21 at 21:14 +0100, Koen Kooi wrote:
+>> Op 21 mrt. 2012, om 20:42 heeft Saul Wold het volgende geschreven:
+>>
+>>> On 03/21/2012 07:25 AM, Samuel Stirtzel wrote:
+>>>> * This move will allow the testing of meta-kde for users without meta-openembedded.
+>>>>
+>>> So what other layers are using giflib?
+>>>
+>>> Your suggesting that we need to have it in oe-core so people don't need to add the meta-openembedded layer when using meta-kde?
+>>>
+>>> I am just trying to get more data before making a decision.
+>>
+>> Let's put everything in oe-core!
+>
+> Let's try and be constructive ;-).
+>
+> I think to make a good decision about this we need to understand which
+> layers use giflib.
+>
+> Is this really the only component from meta-oe that meta-kde needs? If
 
- .../makefile-support-user-cflags-ldflags.patch     |   89 ++++++++++++++++++++
- meta/recipes-rt/rt-tests/rt-tests_0.83.bb          |    8 +-
- 2 files changed, 94 insertions(+), 3 deletions(-)
- create mode 100644 meta/recipes-rt/rt-tests/rt-tests-0.83/makefile-support-user-cflags-ldflags.patch
+Yes, as far as we know, this is the only component from meta-oe that
+meta-kde needs.
 
-diff --git a/meta/recipes-rt/rt-tests/rt-tests-0.83/makefile-support-user-cflags-ldflags.patch b/meta/recipes-rt/rt-tests/rt-tests-0.83/makefile-support-user-cflags-ldflags.patch
-new file mode 100644
-index 0000000..09a5d7b
---- /dev/null
-+++ b/meta/recipes-rt/rt-tests/rt-tests-0.83/makefile-support-user-cflags-ldflags.patch
-@@ -0,0 +1,89 @@
-+From: Darren Hart <dvhart@linux.intel.com>
-+Subject: [PATCH rt-tests RFC 4/6] Makefile: Support user supplied CFLAGS and LDFLAGS
-+Date: Thu, 22 Mar 2012 02:14:04 +0100
-+
-+Accept user supplied CFLAGS and LDFLAGS, overwriting the
-+Makefile supplied versions. This can cause the build to
-+fail if the user does not provide at least what the Makefile
-+defines, but so be it.
-+
-+Upstream-Status: Submitted [linux-rt-users@vger.kernel.org]
-+
-+Signed-off-by: Darren Hart <dvhart@linux.intel.com>
-+CC: Clark Williams <williams@redhat.com>
-+CC: John Kacur <jkacur@redhat.com>
-+CC: Denys Dmytriyenko <denis@denix.org>
-+Signed-off-by: John Kacur <jkacur@redhat.com>
-+---
-+ Makefile |   25 +++++++++++++------------
-+ 1 files changed, 13 insertions(+), 12 deletions(-)
-+
-+diff --git a/Makefile b/Makefile
-+index 4038dcc..e1edf6c 100644
-+--- a/Makefile
-++++ b/Makefile
-+@@ -20,7 +20,8 @@ ifneq ($(filter x86_64 i386 ia64 mips powerpc,$(machinetype)),)
-+ NUMA 	:= 1
-+ endif
-+ 
-+-CFLAGS = -D_GNU_SOURCE -Wall -Wno-nonnull -Isrc/include
-++CFLAGS ?= -D_GNU_SOURCE -Wall -Wno-nonnull -Isrc/include
-++LDFLAGS ?=
-+ 
-+ PYLIB  := $(shell python -c 'import distutils.sysconfig;  print distutils.sysconfig.get_python_lib()')
-+ 
-+@@ -61,41 +62,41 @@ all: $(TARGETS) hwlatdetect
-+ -include $(sources:.c=.d)
-+ 
-+ cyclictest: cyclictest.o rt-utils.o
-+-	$(CC) $(CFLAGS) -o $@ $^ $(LIBS) $(NUMA_LIBS)
-++	$(CC) $(CFLAGS) $(LDFLAGS) -o $@ $^ $(LIBS) $(NUMA_LIBS)
-+ 
-+ signaltest: signaltest.o rt-utils.o
-+-	$(CC) $(CFLAGS) -o $@ $^ $(LIBS)
-++	$(CC) $(CFLAGS) $(LDFLAGS) -o $@ $^ $(LIBS)
-+ 
-+ pi_stress: pi_stress.o
-+-	$(CC) $(CFLAGS) -o $@ $^ $(LIBS)
-++	$(CC) $(CFLAGS) $(LDFLAGS) -o $@ $^ $(LIBS)
-+ 
-+ hwlatdetect:  src/hwlatdetect/hwlatdetect.py
-+ 	chmod +x src/hwlatdetect/hwlatdetect.py
-+ 	ln -s src/hwlatdetect/hwlatdetect.py hwlatdetect
-+ 
-+ rt-migrate-test: rt-migrate-test.o
-+-	$(CC) $(CFLAGS) -o $@ $^ $(LIBS)
-++	$(CC) $(CFLAGS) $(LDFLAGS) -o $@ $^ $(LIBS)
-+ 
-+ ptsematest: ptsematest.o rt-utils.o rt-get_cpu.o
-+-	$(CC) $(CFLAGS) -o $@ $^ $(LIBS) $(EXTRA_LIBS)
-++	$(CC) $(CFLAGS) $(LDFLAGS) -o $@ $^ $(LIBS) $(EXTRA_LIBS)
-+ 
-+ sigwaittest: sigwaittest.o rt-utils.o rt-get_cpu.o
-+-	$(CC) $(CFLAGS) -o $@ $^ $(LIBS) $(EXTRA_LIBS)
-++	$(CC) $(CFLAGS) $(LDFLAGS) -o $@ $^ $(LIBS) $(EXTRA_LIBS)
-+ 
-+ svsematest: svsematest.o rt-utils.o rt-get_cpu.o
-+-	$(CC) $(CFLAGS) -o $@ $^ $(LIBS) $(EXTRA_LIBS)
-++	$(CC) $(CFLAGS) $(LDFLAGS) -o $@ $^ $(LIBS) $(EXTRA_LIBS)
-+ 
-+ pmqtest: pmqtest.o rt-utils.o rt-get_cpu.o
-+-	$(CC) $(CFLAGS) -o $@ $^ $(LIBS) $(EXTRA_LIBS)
-++	$(CC) $(CFLAGS) $(LDFLAGS) -o $@ $^ $(LIBS) $(EXTRA_LIBS)
-+ 
-+ sendme: sendme.o rt-utils.o rt-get_cpu.o
-+-	$(CC) $(CFLAGS) -o $@ $^ $(LIBS) $(EXTRA_LIBS)
-++	$(CC) $(CFLAGS) $(LDFLAGS) -o $@ $^ $(LIBS) $(EXTRA_LIBS)
-+ 
-+ pip_stress: pip_stress.o error.o rt-utils.o
-+-	$(CC) $(CFLAGS) -o $@ $^ $(LIBS)
-++	$(CC) $(CFLAGS) $(LDFLAGS) -o $@ $^ $(LIBS)
-+ 
-+ hackbench: hackbench.o
-+-	$(CC) $(CFLAGS) -o $@ $^ $(LIBS)
-++	$(CC) $(CFLAGS) $(LDFLAGS) -o $@ $^ $(LIBS)
-+ 
-+ CLEANUP  = $(TARGETS) *.o .depend *.*~ *.orig *.rej rt-tests.spec *.d
-+ CLEANUP += $(if $(wildcard .git), ChangeLog)
-+-- 
-+1.7.7.6
-diff --git a/meta/recipes-rt/rt-tests/rt-tests_0.83.bb b/meta/recipes-rt/rt-tests/rt-tests_0.83.bb
-index 1a91e86..6c4931e 100644
---- a/meta/recipes-rt/rt-tests/rt-tests_0.83.bb
-+++ b/meta/recipes-rt/rt-tests/rt-tests_0.83.bb
-@@ -11,13 +11,15 @@ SRCREV = "5f1e84f8b015df3ff950056494134eca3f640d70"
- 
- # git -> 0.83 needs a PE bump
- PE = "1"
--PR = "r1"
-+PR = "r2"
- 
--SRC_URI = "git://github.com/clrkwllms/rt-tests.git"
-+SRC_URI = "git://github.com/clrkwllms/rt-tests.git \
-+           file://makefile-support-user-cflags-ldflags.patch"
- 
- S = "${WORKDIR}/git"
- 
--CFLAGS += "-I${S}/src/include -D_GNU_SOURCE -Wall -Wno-nonnulli ${LDFLAGS}"
-+# need to append rt-tests' default CFLAGS to ours
-+CFLAGS += "-I${S}/src/include -D_GNU_SOURCE -Wall -Wno-nonnulli"
- 
- # calling 'uname -m' is broken on crossbuilds
- EXTRA_OEMAKE = "NUMA=0"
--- 
-1.7.8.5
+// Robert
 
+> it is, I think the request is certainly worth thinking about as we do
+> want to try and minimise and untangle the dependency spider web if we
+> can.
+>
+> Cheers,
+>
+> Richard
+>
+>
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
+>
 
 
