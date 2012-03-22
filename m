@@ -1,37 +1,20 @@
-Received: from mail-yw0-f47.google.com ([209.85.213.47])
+Received: from mga11.intel.com ([192.55.52.93])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <otavio.salvador@gmail.com>) id 1SAlhC-0004cr-Ak
+	(envelope-from <paul.eggleton@linux.intel.com>) id 1SAlk3-0004g6-Ur
 	for openembedded-core@lists.openembedded.org;
-	Thu, 22 Mar 2012 18:21:06 +0100
-Received: by yhjj56 with SMTP id j56so1996516yhj.6
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 22 Mar 2012 10:12:10 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:sender:in-reply-to:references:date
-	:x-google-sender-auth:message-id:subject:from:to:content-type
-	:content-transfer-encoding;
-	bh=kSJtfI9r9dG/a2HTI1nMZDYuOiAYyR40DeGbjHcBDwg=;
-	b=aNNnJyqKa3kFrzsxyEhgFQtCjXN8S4/u+HmDoWXqFk8gOlr/nT+tiwkoiTkMKf6yCa
-	MmK3G/LJYLLzEHTXPHrB1gTSKudvDKciMHbUbQqtxAL6qe5+aMe2flwgipI7y5nyYAf5
-	Txw0VwhDtqp6sanClLw9vK9NowMCQgu1P9Rj0SjOYoAibv0IAYghQP3ZVCyQH7LITkTi
-	DOX+85sFndkrV5kVIP9TxgctPgXWKSdw++1D1a+dsTmIn58S0zKUbpgiY1U5rpOzZStS
-	pqJ0/2Hf5DZSzUH7LYTbN/VTbolc/V62kx5nypTuqmiZIMt6zx/BsmQbdoyouqDeiHvS
-	oogw==
-MIME-Version: 1.0
-Received: by 10.68.216.98 with SMTP id op2mr22113980pbc.93.1332436330095; Thu,
-	22 Mar 2012 10:12:10 -0700 (PDT)
-Sender: otavio.salvador@gmail.com
-Received: by 10.68.13.4 with HTTP; Thu, 22 Mar 2012 10:12:10 -0700 (PDT)
-In-Reply-To: <1332348902.9740.175.camel@ted>
-References: <CAP9ODKq3vD6u4TQnWw4Ux9c5L5fB3FVcstY_pCkmzp_HWddhRg@mail.gmail.com>
-	<1332323639.9740.125.camel@ted> <1332348902.9740.175.camel@ted>
-Date: Thu, 22 Mar 2012 14:12:10 -0300
-X-Google-Sender-Auth: 6H97QlulA4_zqTywDobjOeeNZ5c
-Message-ID: <CAP9ODKrL4RW8+5-MLPB3i0Y6Ke743gDHDPZG2fyiumwf5pE9Nw@mail.gmail.com>
-From: Otavio Salvador <otavio@ossystems.com.br>
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: Build failures due zlib problem
+	Thu, 22 Mar 2012 18:24:04 +0100
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+	by fmsmga102.fm.intel.com with ESMTP; 22 Mar 2012 10:15:07 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="143359115"
+Received: from unknown (HELO helios.ger.corp.intel.com) ([10.252.123.227])
+	by fmsmga002.fm.intel.com with ESMTP; 22 Mar 2012 10:15:07 -0700
+From: Paul Eggleton <paul.eggleton@linux.intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Thu, 22 Mar 2012 17:15:03 +0000
+Message-Id: <cover.1332436375.git.paul.eggleton@linux.intel.com>
+X-Mailer: git-send-email 1.7.5.4
+Subject: [PATCH 0/2] combo-layer fixes
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -46,23 +29,29 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 22 Mar 2012 17:21:06 -0000
-Content-Type: text/plain; charset=ISO-8859-1
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Thu, 22 Mar 2012 17:24:04 -0000
 
-On Wed, Mar 21, 2012 at 13:55, Richard Purdie
-<richard.purdie@linuxfoundation.org> wrote:
-> I've pushed a couple of fixes in this area which should help.
+A couple of fixes for combo-layer. Thanks to Otavio Salvador for testing
+the second patch.
 
-It fixed my issues.
 
-Thanks a lot.
+The following changes since commit d036265de1d9931bedb660e01a763d3d1d9e4097:
 
---=20
-Otavio Salvador=A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0O=
-.S. Systems
-E-mail: otavio@ossystems.com.br=A0 http://www.ossystems.com.br
-Mobile: +55 53 9981-7854=A0 =A0 =A0 =A0=A0 =A0 =A0 =A0http://projetos.ossys=
-tems.com.br
+  xserver-kdrive: Fix packaging warnings (2012-03-21 23:17:26 +0000)
+
+are available in the git repository at:
+  git://git.openembedded.org/openembedded-core-contrib paule/combo-layer-fixes4
+  http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=paule/combo-layer-fixes4
+
+Paul Eggleton (2):
+  scripts/combo-layer: limit component repo dirty check
+  scripts/combo-layer: handle diffs in commit messages
+
+ scripts/combo-layer |   56 ++++++++++++++++++++++++++++++++++++++++++--------
+ 1 files changed, 47 insertions(+), 9 deletions(-)
+
+-- 
+1.7.5.4
+
 
 
