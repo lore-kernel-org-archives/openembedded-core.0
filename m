@@ -1,30 +1,55 @@
 Received: from mga02.intel.com ([134.134.136.20])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <sgw@linux.intel.com>) id 1SAkXU-0006z3-7N
+	(envelope-from <nitin.a.kamble@intel.com>) id 1SAkwf-0003JL-Qd
 	for openembedded-core@lists.openembedded.org;
-	Thu, 22 Mar 2012 17:07:00 +0100
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-	by orsmga101.jf.intel.com with ESMTP; 22 Mar 2012 08:58:04 -0700
+	Thu, 22 Mar 2012 17:33:03 +0100
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+	by orsmga101.jf.intel.com with ESMTP; 22 Mar 2012 09:22:24 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.67,351,1309762800"; d="scan'208";a="123913023"
-Received: from unknown (HELO [10.255.12.49]) ([10.255.12.49])
-	by orsmga002.jf.intel.com with ESMTP; 22 Mar 2012 08:58:04 -0700
-Message-ID: <4F6B4C0B.3030504@linux.intel.com>
-Date: Thu, 22 Mar 2012 08:58:03 -0700
-From: Saul Wold <sgw@linux.intel.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:10.0.1) Gecko/20120216 Thunderbird/10.0.1
+X-IronPort-AV: E=Sophos;i="4.67,352,1309762800"; d="scan'208";a="120526523"
+Received: from orsmsx606.amr.corp.intel.com ([10.22.226.128])
+	by orsmga001.jf.intel.com with ESMTP; 22 Mar 2012 09:22:24 -0700
+Received: from orsmsx102.amr.corp.intel.com (10.22.225.129) by
+	orsmsx606.amr.corp.intel.com (10.22.226.128) with Microsoft SMTP Server
+	(TLS) id 8.2.255.0; Thu, 22 Mar 2012 09:20:19 -0700
+Received: from orsmsx106.amr.corp.intel.com ([169.254.5.128]) by
+	ORSMSX102.amr.corp.intel.com ([169.254.1.160]) with mapi id
+	14.01.0355.002; Thu, 22 Mar 2012 09:20:19 -0700
+From: "Kamble, Nitin A" <nitin.a.kamble@intel.com>
+To: =?iso-8859-1?Q?Eric_B=E9nard?= <eric@eukrea.com>, Khem Raj
+	<raj.khem@gmail.com>
+Thread-Topic: [OE-core] [PATCH 1/1] Revert "gdb-cross-canadian: build gdb
+	with python support"
+Thread-Index: AQHNB4VDG6/xwLeUgEWTysDmkk+IHpZ1BaqAgAB3WAD//4s7gIAAd4cA//+K+DCAAI5egIAABI0A//+ae8AAD0RXgAAOkVAg//+Uh4CAAHG8cP//vk0AgABePxD//+QoAIAAbP/w//+eq4AADuUhAAAAJUEAAADrcAAAAH4QAAAAmVaAAAhCLcA=
+Date: Thu, 22 Mar 2012 16:20:18 +0000
+Message-ID: <ADD6A3980E8C39419A432FF422031B4C0137BE5C@ORSMSX106.amr.corp.intel.com>
+References: <cover.1332347414.git.nitin.a.kamble@intel.com>
+	<20120321194906.GC3659@jama.jama.net>
+	<ADD6A3980E8C39419A432FF422031B4C0137B557@ORSMSX106.amr.corp.intel.com>
+	<20120321220253.00c4f254@eb-e6520>
+	<ADD6A3980E8C39419A432FF422031B4C0137B5A8@ORSMSX106.amr.corp.intel.com>
+	<20120321223521.36e49bba@eb-e6520>
+	<ADD6A3980E8C39419A432FF422031B4C0137B66D@ORSMSX106.amr.corp.intel.com>
+	<CAMKF1sq7hcTKrzFBYgmUOTcdQw6sC1FG4jUhsfKauqeXLQMgsg@mail.gmail.com>
+	<ADD6A3980E8C39419A432FF422031B4C0137B889@ORSMSX106.amr.corp.intel.com>
+	<CAMKF1srP52bxqwkaqPZTQbRmhp_V+4-iJ7wTKeKWfC1z4W=fyw@mail.gmail.com>
+	<ADD6A3980E8C39419A432FF422031B4C0137BAA8@ORSMSX106.amr.corp.intel.com>
+	<CAMKF1sobw_wT_ZKhXs9Y-d0jSG-QWzKOprgf7+zM8a_BjjQgEQ@mail.gmail.com>
+	<20120322131310.1c6455d1@eb-e6520>
+	<CAMKF1sqEGjWMpPTQxP3j1bbP6H2FQqAgHZGm399ejC-RyDxboQ@mail.gmail.com>
+	<20120322134340.1af3dfda@eb-e6520>
+	<CAMKF1srORF53h-V+fKTjJn2jWg=f6nOaMf_eUmYPLnW-ovc7NQ@mail.gmail.com>
+	<20120322141455.644058f0@eb-e6520>
+In-Reply-To: <20120322141455.644058f0@eb-e6520>
+Accept-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [10.22.254.140]
 MIME-Version: 1.0
-To: Patches and discussions about the oe-core layer
+Cc: Martin Jansa <martin.jansa@gmail.com>,
+	Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-References: <1332339926-27043-1-git-send-email-s.stirtzel@googlemail.com>
-	<4F6A2F2F.2090607@linux.intel.com>
-	<FC6FAFAF-2C6E-4EF7-8AD9-D2C30D2114DD@dominion.thruhere.net>
-	<CAGiJk9cw9KxmoPcmad1aR64vXaqKujUY7nH_pVePnfVPY-uedw@mail.gmail.com>
-	<CDC69864-7475-4B3C-B966-C3B6CC67B8E7@dominion.thruhere.net>
-	<CAGiJk9cUtvJn2uKRxBzP_0nvs78bYvEJ2JKsCx4HKdo1zxL9DA@mail.gmail.com>
-In-Reply-To: <CAGiJk9cUtvJn2uKRxBzP_0nvs78bYvEJ2JKsCx4HKdo1zxL9DA@mail.gmail.com>
-Subject: Re: [PATCH] giflib: Move to OE-Core
+Subject: Re: [PATCH 1/1] Revert "gdb-cross-canadian: build gdb with python support"
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -39,77 +64,63 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 22 Mar 2012 16:07:00 -0000
-Content-Type: text/plain; charset=ISO-8859-1; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Thu, 22 Mar 2012 16:33:03 -0000
+Content-Language: en-US
+Content-Type: text/plain; charset="iso-8859-1"
+Content-Transfer-Encoding: quoted-printable
 
-On 03/22/2012 02:41 AM, Samuel Stirtzel wrote:
-> 2012/3/22 Koen Kooi<koen@dominion.thruhere.net>:
->>
->> Op 22 mrt. 2012, om 09:48 heeft Samuel Stirtzel het volgende geschreven:
->>
->>> 2012/3/21 Koen Kooi<koen@dominion.thruhere.net>:
->>>>
->>>> Op 21 mrt. 2012, om 20:42 heeft Saul Wold het volgende geschreven:
->>>>
->>>>> On 03/21/2012 07:25 AM, Samuel Stirtzel wrote:
->>>>>> * This move will allow the testing of meta-kde for users without meta-openembedded.
->>>>>>
->>>>> So what other layers are using giflib?
->>>>>
->>>>> Your suggesting that we need to have it in oe-core so people don't need to add the meta-openembedded layer when using meta-kde?
->>>>>
->>>>> I am just trying to get more data before making a decision.
->>>>
->>>> Let's put everything in oe-core!
->>>
->>> Otherwise it would require to maintain a redundant copy of giflib in meta-kde.
->>
->> I don't think you get the concept of layers and keeping non-core stuff out of oe-core.
->
-> How can it be that libpng is core stuff and libgif is not?
->
-libpng is in oe-core because it is used by other parts of oe-core (Sato, 
-GTK+, Gthumb, Cups, ...).  PNG is also more common that GIF because GIF 
-had licensing issues in the past.
 
-Finally, as stated in other emails meta-kde has other dependencies on 
-meta-oe, it's just the base bits that need giflib.
 
-So, no we will not move libgif into oe-core, please use the Layers as 
-they are intended.
+> -----Original Message-----
+> From: Eric B=E9nard [mailto:eric@eukrea.com]
+> Sent: Thursday, March 22, 2012 6:15 AM
+> To: Khem Raj
+> Cc: Kamble, Nitin A; Patches and discussions about the oe-core layer;
+> Martin Jansa
+> Subject: Re: [OE-core] [PATCH 1/1] Revert "gdb-cross-canadian: build
+> gdb with python support"
+>=20
+> Le Thu, 22 Mar 2012 05:57:46 -0700,
+> Khem Raj <raj.khem@gmail.com> a =E9crit :
+>=20
+> > On Thu, Mar 22, 2012 at 5:43 AM, Eric B=E9nard <eric@eukrea.com> wrote:
+> > > you are right :
+> > >
+> > > $ sudo rm ../../lib/python2.7/lib-dynload/readline.so
+> >
+> > ok another experiment instead of deleting readline.so make a copy of
+> > it and call it
+> > readline_d.so in the same dir or whereever gdb looks for debug
+> symbols
+> > and see if it still works or do you get the segfault again.
+>=20
+> true :
+>=20
+> [ebenard@eb-e6520 lib-dynload]$ sudo mv readline.so readline_d.so
+> [ebenard@eb-e6520 lib-dynload]$ arm-oe-linux-gnueabi-gdb
+> GNU gdb (GDB) 7.4
+> Copyright (C) 2012 Free Software Foundation, Inc.
+> License GPLv3+: GNU GPL version 3 or later
+> <http://gnu.org/licenses/gpl.html> This is free software: you are free
+> to change and redistribute it. There is NO WARRANTY, to the extent
+> permitted by law.  Type "show copying" and "show warranty" for details.
+> This GDB was configured as "--host=3Dx86_64-oesdk-linux
+> --target=3Darm-oe-linux-gnueabi". For bug reporting instructions, please
+> see: <http://www.gnu.org/software/gdb/bugs/>.
+> (gdb) quit
+>=20
+> Eric
 
-Thanks
-	Sau!
+Khem, Eric,
 
->>
->>> Alternative suggestions are welcome.
->>>
->>>
->>> A grep shows that not many recipes depend on giflib:
->>> -
->>> samuel@s-stirtzel-linux:/work/oe-core/setup-scripts/sources$ grep -r 'giflib' *
->>> meta-java/recipes-core/openjdk/openjdk-6-common.inc:DEPENDS = "giflib
->>> libpng jpeg cups \
->>> meta-java/recipes-core/icedtea/icedtea6-native.inc:
->>> freetype-native zlib-native giflib-native jpeg-native \
->>> meta-kde/recipes-kde-base/kdelibs4_git.bb:DEPENDS = "automoc4-native
->>> strigi libdbusmenu-qt soprano shared-desktop-ontologies dbus giflib
->>> attica jpeg libpng bzip2 libpcre perl-native"
->>> meta-openembedded/meta-efl/recipes-efl/efl/evas.inc:DEPENDS = "librsvg
->>> eina eet freetype jpeg libpng virtual/libx11 libxext libxrender
->>> fontconfig libfribidi giflib"
->>> -
->>>
->>> Any reason against the move?
->>
->> The whole layering concept
->> _______________________________________________
->> Openembedded-core mailing list
->> Openembedded-core@lists.openembedded.org
->> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
->
->
->
+Renaming the sdk python2.7/lib-dynload/readline.so to python2.7/lib-dynload=
+/readline_d.so gets the sdk gdb working for me too.
+So is this a workaround or solution to the problem? If it is a workaround w=
+hat should be right solution?
+
+Thanks,
+Nitin
+
+
 
 
