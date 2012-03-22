@@ -1,35 +1,33 @@
-Received: from mail-wi0-f169.google.com ([209.85.212.169])
+Received: from smtp3-g21.free.fr ([212.27.42.3])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <s.stirtzel@googlemail.com>) id 1SAdpJ-0005kV-Bq
+	(envelope-from <eric@eukrea.com>) id 1SAdrj-0005nD-8R
 	for openembedded-core@lists.openembedded.org;
-	Thu, 22 Mar 2012 09:56:57 +0100
-Received: by wibhm17 with SMTP id hm17so378395wib.0
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 22 Mar 2012 01:48:02 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=googlemail.com; s=20120113;
-	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
-	:content-type; bh=EfgH10draUpugOyEQzmgFVTlke07L6KkMVRxRT8ZPeY=;
-	b=XYZ6eDMLitLd+pP4X9PGxSahXMeB6ympsWp6/JM8+K0/BseA6ZtwJXmQUrtU+mBRZQ
-	lna+K1XWvcFzFCiYdvr5OEEWt+g6CNVBDN2YBnx27uVEv4pHUhZGf+MwnKhdM1ZBmhqw
-	+KOU2k9ZhApseE8NfePQrnzulKNocq8Sir9sn6eLnCXH0zQcsTxYjaqqvh6wUB1+94pW
-	R9SX/wI6BlTEPNR7D6CMzac7lLu3v5QX1/bKjfii3lcJjylor8BS54pUjmGEioLRYOgP
-	/DAu0sSA2Y2HpINnWciihqUZYwQHpJT8XVxhkmm9RaHxgLXJ2Z/qTFbepzmIRocYr3rG
-	/i5A==
-MIME-Version: 1.0
-Received: by 10.216.132.140 with SMTP id o12mr4016291wei.67.1332406082776;
-	Thu, 22 Mar 2012 01:48:02 -0700 (PDT)
-Received: by 10.223.97.77 with HTTP; Thu, 22 Mar 2012 01:48:02 -0700 (PDT)
-In-Reply-To: <FC6FAFAF-2C6E-4EF7-8AD9-D2C30D2114DD@dominion.thruhere.net>
-References: <1332339926-27043-1-git-send-email-s.stirtzel@googlemail.com>
-	<4F6A2F2F.2090607@linux.intel.com>
-	<FC6FAFAF-2C6E-4EF7-8AD9-D2C30D2114DD@dominion.thruhere.net>
-Date: Thu, 22 Mar 2012 09:48:02 +0100
-Message-ID: <CAGiJk9cw9KxmoPcmad1aR64vXaqKujUY7nH_pVePnfVPY-uedw@mail.gmail.com>
-From: Samuel Stirtzel <s.stirtzel@googlemail.com>
-To: Patches and discussions about the oe-core layer
+	Thu, 22 Mar 2012 09:59:27 +0100
+Received: from eb-e6520 (unknown [82.233.81.124])
+	by smtp3-g21.free.fr (Postfix) with ESMTP id 57CA7A624C;
+	Thu, 22 Mar 2012 09:50:29 +0100 (CET)
+Date: Thu, 22 Mar 2012 09:50:27 +0100
+From: Eric =?ISO-8859-1?B?QuluYXJk?= <eric@eukrea.com>
+To: Martin Jansa <martin.jansa@gmail.com>
+Message-ID: <20120322095027.266684a8@eb-e6520>
+In-Reply-To: <20120322084732.GD4010@jama.jama.net>
+References: <20120321190208.25dc0387@eb-e6520>
+	<ADD6A3980E8C39419A432FF422031B4C0137B406@ORSMSX106.amr.corp.intel.com>
+	<20120321203249.54411613@eb-e6520>
+	<20120321194906.GC3659@jama.jama.net>
+	<ADD6A3980E8C39419A432FF422031B4C0137B557@ORSMSX106.amr.corp.intel.com>
+	<20120321220253.00c4f254@eb-e6520>
+	<ADD6A3980E8C39419A432FF422031B4C0137B5A8@ORSMSX106.amr.corp.intel.com>
+	<20120321223521.36e49bba@eb-e6520>
+	<ADD6A3980E8C39419A432FF422031B4C0137B66D@ORSMSX106.amr.corp.intel.com>
+	<20120321230514.1c170480@eb-e6520>
+	<20120322084732.GD4010@jama.jama.net>
+Organization: =?ISO-8859-1?B?RXVrculh?= Electromatique
+X-Mailer: Claws Mail 3.8.0 (GTK+ 2.24.8; x86_64-redhat-linux-gnu)
+Mime-Version: 1.0
+Cc: "openembedded-core@lists.openembedded.org"
 	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] giflib: Move to OE-Core
+Subject: Re: [PATCH 1/1] Revert "gdb-cross-canadian: build gdb with python support"
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -44,47 +42,28 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 22 Mar 2012 08:56:57 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Thu, 22 Mar 2012 08:59:28 -0000
+Content-Type: text/plain; charset=ISO-8859-1
+Content-Transfer-Encoding: quoted-printable
 
-2012/3/21 Koen Kooi <koen@dominion.thruhere.net>:
->
-> Op 21 mrt. 2012, om 20:42 heeft Saul Wold het volgende geschreven:
->
->> On 03/21/2012 07:25 AM, Samuel Stirtzel wrote:
->>> * This move will allow the testing of meta-kde for users without meta-openembedded.
->>>
->> So what other layers are using giflib?
->>
->> Your suggesting that we need to have it in oe-core so people don't need to add the meta-openembedded layer when using meta-kde?
->>
->> I am just trying to get more data before making a decision.
->
-> Let's put everything in oe-core!
+Le Thu, 22 Mar 2012 09:47:33 +0100,
+Martin Jansa <martin.jansa@gmail.com> a =E9crit :
 
-Otherwise it would require to maintain a redundant copy of giflib in meta-kde.
-Alternative suggestions are welcome.
+> On Wed, Mar 21, 2012 at 11:05:14PM +0100, Eric B=E9nard wrote:
+> > Le Wed, 21 Mar 2012 21:53:10 +0000,
+> > "Kamble, Nitin A" <nitin.a.kamble@intel.com> a =E9crit :
+> > >  If it is working for you, I don't understand why is it not working h=
+ere.=20
+> > >=20
+> > it's not working _only_ for me, Martin also had success.
+>=20
+> Tested again this time with SDKMACHINE ?=3D "x86-64"
+>=20
+> and notice that for me it uses libz libpython2.7 from sdk.
+>=20
+I cleaned my tmp, removed the installed SDK and now I reproduce Nitin's
+problem. So there is something strange here.
 
-
-A grep shows that not many recipes depend on giflib:
--
-samuel@s-stirtzel-linux:/work/oe-core/setup-scripts/sources$ grep -r 'giflib' *
-meta-java/recipes-core/openjdk/openjdk-6-common.inc:DEPENDS = "giflib
-libpng jpeg cups \
-meta-java/recipes-core/icedtea/icedtea6-native.inc:
-freetype-native zlib-native giflib-native jpeg-native \
-meta-kde/recipes-kde-base/kdelibs4_git.bb:DEPENDS = "automoc4-native
-strigi libdbusmenu-qt soprano shared-desktop-ontologies dbus giflib
-attica jpeg libpng bzip2 libpcre perl-native"
-meta-openembedded/meta-efl/recipes-efl/efl/evas.inc:DEPENDS = "librsvg
-eina eet freetype jpeg libpng virtual/libx11 libxext libxrender
-fontconfig libfribidi giflib"
--
-
-Any reason against the move?
-
--- 
-Regards
-Samuel
+Eric
 
 
