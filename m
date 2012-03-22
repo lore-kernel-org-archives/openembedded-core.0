@@ -1,16 +1,26 @@
-Received: from smtp2-g21.free.fr ([212.27.42.2])
+Received: from mail-lb0-f175.google.com ([209.85.217.175])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <eric@eukrea.com>) id 1SAhVP-0008Eu-9r
+	(envelope-from <raj.khem@gmail.com>) id 1SAhjT-0000JW-Rn
 	for openembedded-core@lists.openembedded.org;
-	Thu, 22 Mar 2012 13:52:39 +0100
-Received: from eb-e6520 (unknown [82.240.38.71])
-	by smtp2-g21.free.fr (Postfix) with ESMTP id 619EB4B0080;
-	Thu, 22 Mar 2012 13:43:41 +0100 (CET)
-Date: Thu, 22 Mar 2012 13:43:40 +0100
-From: Eric =?ISO-8859-1?B?QuluYXJk?= <eric@eukrea.com>
-To: Khem Raj <raj.khem@gmail.com>
-Message-ID: <20120322134340.1af3dfda@eb-e6520>
-In-Reply-To: <CAMKF1sqEGjWMpPTQxP3j1bbP6H2FQqAgHZGm399ejC-RyDxboQ@mail.gmail.com>
+	Thu, 22 Mar 2012 14:07:11 +0100
+Received: by lbbgi4 with SMTP id gi4so1593611lbb.6
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 22 Mar 2012 05:58:17 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc:content-type:content-transfer-encoding;
+	bh=oQAe75PuWb2O5v3t2yT4PWgp0hNr2cKg5ujojV4aOTU=;
+	b=vOeHprsv4b/0s+xYjWEFR6QSfR57nhfOx4G3zRP46S3XbAfQ0KdSHHagxknh/feU/s
+	DWGe9XdWXSh0HWlEzj0CIjK4U1t3m/gWg7VNCwv3PAYYr3nIJXzhzwcwhtD2UNHOlm2c
+	SgHqObO35PnZEgUgXJKADWZuz/DrE8hBkSZlVv6sEoGsNmBPb/J1O6ZyVZGlYoGa0CQt
+	Cih+7rnRMfM68YSSkaCqy2OfrRdGRv0yzYfSkSevy/RbR+VMTGYIJUMFFMm58dO09CmJ
+	D5A+Y+9KtCGgOnQzt/vnC8p+VJhnIvv2Lbi7q1H90BF6L4lZsR2Jf4ulY2VOrAxnTrF1
+	Xuaw==
+Received: by 10.152.129.69 with SMTP id nu5mr5842570lab.9.1332421096977; Thu,
+	22 Mar 2012 05:58:16 -0700 (PDT)
+MIME-Version: 1.0
+Received: by 10.152.2.71 with HTTP; Thu, 22 Mar 2012 05:57:46 -0700 (PDT)
+In-Reply-To: <20120322134340.1af3dfda@eb-e6520>
 References: <cover.1332347414.git.nitin.a.kamble@intel.com>
 	<ADD6A3980E8C39419A432FF422031B4C0137B406@ORSMSX106.amr.corp.intel.com>
 	<20120321203249.54411613@eb-e6520>
@@ -27,11 +37,14 @@ References: <cover.1332347414.git.nitin.a.kamble@intel.com>
 	<CAMKF1sobw_wT_ZKhXs9Y-d0jSG-QWzKOprgf7+zM8a_BjjQgEQ@mail.gmail.com>
 	<20120322131310.1c6455d1@eb-e6520>
 	<CAMKF1sqEGjWMpPTQxP3j1bbP6H2FQqAgHZGm399ejC-RyDxboQ@mail.gmail.com>
-Organization: =?ISO-8859-1?B?RXVrculh?= Electromatique
-X-Mailer: Claws Mail 3.8.0 (GTK+ 2.24.8; x86_64-redhat-linux-gnu)
-Mime-Version: 1.0
-Cc: Jansa <martin.jansa@gmail.com>, Martin, Patches,
-	about the oe-core layer <openembedded-core@lists.openembedded.org>
+	<20120322134340.1af3dfda@eb-e6520>
+From: Khem Raj <raj.khem@gmail.com>
+Date: Thu, 22 Mar 2012 05:57:46 -0700
+Message-ID: <CAMKF1srORF53h-V+fKTjJn2jWg=f6nOaMf_eUmYPLnW-ovc7NQ@mail.gmail.com>
+To: =?UTF-8?B?RXJpYyBCw6luYXJk?= <eric@eukrea.com>
+Cc: Martin Jansa <martin.jansa@gmail.com>,
+	Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
 Subject: Re: [PATCH 1/1] Revert "gdb-cross-canadian: build gdb with python support"
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
@@ -47,39 +60,18 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 22 Mar 2012 12:52:39 -0000
-Content-Type: text/plain; charset=ISO-8859-1
+X-List-Received-Date: Thu, 22 Mar 2012 13:07:12 -0000
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
 
-Hi Khem,
+On Thu, Mar 22, 2012 at 5:43 AM, Eric B=C3=A9nard <eric@eukrea.com> wrote:
+> you are right :
+>
+> $ sudo rm ../../lib/python2.7/lib-dynload/readline.so
 
-Le Thu, 22 Mar 2012 05:17:20 -0700,
-Khem Raj <raj.khem@gmail.com> a =E9crit :
-
-> On Thu, Mar 22, 2012 at 5:13 AM, Eric B=E9nard <eric@eukrea.com> wrote:
-> >
-> > so the problem seems to be in the libpython of the SDK
->=20
-> delete the readline.so in python modules and use the SDK python
-> does that make the crash go away ?
-> libpython sometimes expect debug versions of plugins and thats what I
-> am getting to
-
-you are right :
-
-$ sudo rm ../../lib/python2.7/lib-dynload/readline.so
-$ ./arm-oe-linux-gnueabi-gdb=20
-GNU gdb (GDB) 7.4
-Copyright (C) 2012 Free Software Foundation, Inc.
-License GPLv3+: GNU GPL version 3 or later
-<http://gnu.org/licenses/gpl.html> This is free software: you are free
-to change and redistribute it. There is NO WARRANTY, to the extent
-permitted by law.  Type "show copying" and "show warranty" for details.
-This GDB was configured as "--host=3Dx86_64-oesdk-linux
---target=3Darm-oe-linux-gnueabi". For bug reporting instructions, please
-see: <http://www.gnu.org/software/gdb/bugs/>.
-(gdb)=20
-
-Eric
+ok another experiment instead of deleting readline.so make a copy of
+it and call it
+readline_d.so in the same dir or whereever gdb looks for debug symbols
+and see if it still works or do you get the segfault again.
 
 
