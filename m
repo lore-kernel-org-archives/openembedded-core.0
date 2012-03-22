@@ -1,54 +1,39 @@
-Received: from tx2ehsobe003.messaging.microsoft.com ([65.55.88.13]
-	helo=tx2outboundpool.messaging.microsoft.com)
+Received: from mail-we0-f175.google.com ([74.125.82.175])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <B29882@freescale.com>) id 1SAjyS-0003Xc-C8
+	(envelope-from <koen@dominion.thruhere.net>) id 1SAk2B-0003b5-Ta
 	for openembedded-core@lists.openembedded.org;
-	Thu, 22 Mar 2012 16:30:48 +0100
-Received: from mail70-tx2-R.bigfish.com (10.9.14.248) by
-	TX2EHSOBE006.bigfish.com (10.9.40.26) with Microsoft SMTP Server id
-	14.1.225.23; Thu, 22 Mar 2012 15:21:44 +0000
-Received: from mail70-tx2 (localhost [127.0.0.1])	by mail70-tx2-R.bigfish.com
-	(Postfix) with ESMTP id F26FA2045D;
-	Thu, 22 Mar 2012 15:21:43 +0000 (UTC)
-X-SpamScore: -13
-X-BigFish: VS-13(zz9371I179dN1432N98dKzz1202hzz8275bhz2dh2a8h668h839h8e2h8e3hbe9k)
-X-Forefront-Antispam-Report: CIP:70.37.183.190; KIP:(null); UIP:(null); IPV:NLI;
-	H:mail.freescale.net; RD:none; EFVD:NLI
-Received: from mail70-tx2 (localhost.localdomain [127.0.0.1]) by mail70-tx2
-	(MessageSwitch) id 1332429702562946_31244;
-	Thu, 22 Mar 2012 15:21:42 +0000 (UTC)
-Received: from TX2EHSMHS034.bigfish.com (unknown [10.9.14.246])	by
-	mail70-tx2.bigfish.com (Postfix) with ESMTP id 79D04100095;
-	Thu, 22 Mar 2012 15:21:42 +0000 (UTC)
-Received: from mail.freescale.net (70.37.183.190) by TX2EHSMHS034.bigfish.com
-	(10.9.99.134) with Microsoft SMTP Server (TLS) id 14.1.225.23;
-	Thu, 22 Mar 2012 15:21:41 +0000
-Received: from 039-SN1MPN1-001.039d.mgd.msft.net ([169.254.1.230]) by
-	039-SN1MMR1-001.039d.mgd.msft.net ([10.84.1.13]) with mapi id
-	14.01.0355.003; Thu, 22 Mar 2012 10:21:48 -0500
-From: McClintock Matthew-B29882 <B29882@freescale.com>
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Thread-Topic: [OE-core] [PATCH] powerpc: fix overly aggressive TUNE_PKGARCH set
-Thread-Index: AQHNCD9/C/jfKhUOTUmp3NNb81rx7A==
-Date: Thu, 22 Mar 2012 15:21:48 +0000
-Message-ID: <CAEsOVNcFM35wUOMz+mHnCbDnWe1VAoUA-G79Wvco8MYaa=XF3Q@mail.gmail.com>
-References: <1332428403-25048-1-git-send-email-kergoth@gmail.com>
-	<CABcZANmc2Apcv3WyyX-JN4JV10RLV3_ARCOLq5+x1KSMrJjxPQ@mail.gmail.com>
-In-Reply-To: <CABcZANmc2Apcv3WyyX-JN4JV10RLV3_ARCOLq5+x1KSMrJjxPQ@mail.gmail.com>
-Accept-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [99.47.177.27]
-MIME-Version: 1.0
-X-OriginatorOrg: freescale.com
-Cc: Christopher Larson <chris_larson@mentor.com>
-Subject: Re: [PATCH] powerpc: fix overly aggressive TUNE_PKGARCH set
+	Thu, 22 Mar 2012 16:34:39 +0100
+Received: by wera1 with SMTP id a1so1928522wer.6
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 22 Mar 2012 08:25:45 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=google.com; s=20120113;
+	h=from:to:cc:subject:date:message-id:x-mailer:x-gm-message-state;
+	bh=bf6LW3OTYgS6VLrzKen2slKjBy5CEXT+KtYDieIR6zw=;
+	b=fXkI5HbeUgisJ6ooBf7Jme34RYWwpm4Nd3OXLqYoDjqkzWMkckvJ85RLyAJ9ZlwPlE
+	qr5OiF2l1Zo+cGCAjjSwQLEjEII+yqEJIWDWzNfcNiAnPgJLQ8m+47JLqUc8kD4FSGn0
+	Pizv9sn9rRExViCYCa3STsdJRKn90EqE7qMDhXl+bx+00Xvm7grZWcupjcPdC/oDS7SN
+	1HTBlHrBOmM4CDPMGEGAsyQa4Eg6iMXu+bXQT7321qr6opXZnflKKysFUorRt7s/oVtl
+	kbKse/o7+tK4+Qxo5e9vQ7ZBtPAQs/utq+n8Rc/Rd4uT1dxDuKuc3vo0kvqUYpexftlu
+	QXGw==
+Received: by 10.216.138.223 with SMTP id a73mr4835883wej.86.1332429945027;
+	Thu, 22 Mar 2012 08:25:45 -0700 (PDT)
+Received: from localhost (ip545070eb.adsl-surfen.hetnet.nl. [84.80.112.235])
+	by mx.google.com with ESMTPS id fz9sm5984628wib.3.2012.03.22.08.25.43
+	(version=TLSv1/SSLv3 cipher=OTHER);
+	Thu, 22 Mar 2012 08:25:44 -0700 (PDT)
+From: Koen Kooi <koen@dominion.thruhere.net>
+To: openembedded-core@lists.openembedded.org
+Date: Thu, 22 Mar 2012 16:25:39 +0100
+Message-Id: <1332429941-19621-1-git-send-email-koen@dominion.thruhere.net>
+X-Mailer: git-send-email 1.7.2.5
+X-Gm-Message-State: ALoCoQlnfSDPEIYbRpejtNfDnJ9BbvSZNcxzCf0D7u1rgHD6wjhXOkG/H+jdMZXRMiC5dgjNFFpW
+Cc: Koen Kooi <koen@dominion.thruhere.net>
+Subject: [PATCHv3 1/3] buildhistory: remove duplicate entries from dot graph
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
-Reply-To: McClintock Matthew-B29882 <B29882@freescale.com>,
-	Patches and discussions about the oe-core layer
+Reply-To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
 List-Id: Patches and discussions about the oe-core layer
 	<openembedded-core.lists.openembedded.org>
@@ -59,104 +44,54 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 22 Mar 2012 15:30:48 -0000
-Content-Language: en-US
-Content-Type: text/plain; charset="iso-8859-1"
-Content-ID: <2E70D7DA83F2434CBC1A930DE37BC177@mgd.freescale.com>
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Thu, 22 Mar 2012 15:34:40 -0000
 
-On Thu, Mar 22, 2012 at 10:08 AM, Chris Larson <kergoth@gmail.com> wrote:
-> On Thu, Mar 22, 2012 at 8:00 AM, Christopher Larson <kergoth@gmail.com> w=
-rote:
->> From: Christopher Larson <chris_larson@mentor.com>
->>
->> There's a problem in arch-powerpc.inc today, wherein it directly sets
->> TUNE_PKGARCH, rather than setting TUNE_PKGARCH_tune-<tuning>. As a resul=
-t,
->> more specific tuning files (e.g. ppce500mc) then see their
->> TUNE_PKGARCH_tune-<tuning> variable definitions no longer obeyed. As
->> a consequence, the TUNE_PKGARCH ends up as 'powerpc' or 'powerpc-nf' rat=
-her
->> than 'ppce500mc', which in turn causes a 'TUNE_PKGARCH not in PACKAGE_AR=
-CHS'
->> failure in the build.
->>
->> To fix, the .inc now sets TUNE_PKGARCH_tune-powerpc and
->> TUNE_PKGARCH_tune-powerpc-nf rather than TUNE_PKGARCH.
->>
->> Signed-off-by: Christopher Larson <chris_larson@mentor.com>
->> ---
->> =A0meta/conf/machine/include/powerpc/arch-powerpc.inc | =A0 =A05 +++--
->> =A01 files changed, 3 insertions(+), 2 deletions(-)
->>
->> diff --git a/meta/conf/machine/include/powerpc/arch-powerpc.inc b/meta/c=
-onf/machine/include/powerpc/arch-powerpc.inc
->> index c9b2829..f811a3e 100644
->> --- a/meta/conf/machine/include/powerpc/arch-powerpc.inc
->> +++ b/meta/conf/machine/include/powerpc/arch-powerpc.inc
->> @@ -21,13 +21,14 @@ ABIEXTENSION =3D "${@['','spe'][d.getVar('TARGET_FPU=
-', True) in ['ppc-efd', 'ppc-e
->> =A0PPCPKGSFX_FPU =3D "${@bb.utils.contains("TUNE_FEATURES", "fpu-hard" ,=
- "", "-nf", d)}"
->>
->> =A0PPCPKGARCH =3D "${TUNE_ARCH}${PPCPKGSFX_FPU}"
->> -TUNE_PKGARCH ?=3D "${PPCPKGARCH}"
->>
->> =A0# Basic tune definitions
->> -AVAILTUNES +=3D "powerpc powerpc-nf"
->> +AVAILTUNES +=3D "powerpc powerpc-nf"
->> =A0TUNE_FEATURES_tune-powerpc-nf ?=3D "m32 fpu-soft"
->> +TUNE_PKGARCH_tune-powerpc-nf =3D "${PPCPKGARCH}"
->> =A0BASE_LIB_tune-powerpc-nf =3D "lib"
->> =A0PACKAGE_EXTRA_ARCHS_tune-powerpc-nf =3D "powerpc-nf"
->> =A0TUNE_FEATURES_tune-powerpc ?=3D "m32 fpu-hard"
->> +TUNE_PKGARCH_tune-powerpc =3D "${PPCPKGARCH}"
->> =A0BASE_LIB_tune-powerpc =3D "lib"
->> =A0PACKAGE_EXTRA_ARCHS_tune-powerpc =3D "powerpc
->
-> Hmm, actually, there's no reason these can't just set
-> TUNE_PKGARCH_tune-powerpc =3D "powerpc", etc rather than using the
-> PPCPKGARCH indirection. Anyone more familiar with the tuning code have
-> an opinion here?
+There are various conditions that lead to duplicate entries in the dot graph which need to get fixed, but this patch is a catchall. A previous attempt to address this only works on rpm which gives a \n seperated output, opkg doesn't.
 
-I thought this was already fixed in my patch. Seems like it was not applied=
-?
+Another benefit is that the sort order is now know, leading to less spurious diffs in buildhistory commits.
 
--M
+Signed-off-by: Koen Kooi <koen@dominion.thruhere.net>
+---
+ meta/classes/buildhistory.bbclass |   11 +++++++----
+ 1 files changed, 7 insertions(+), 4 deletions(-)
 
-commit 216b54e23a995aea79499b88a99f606bb65579af
-Author: Matthew McClintock <msm@freescale.com>
-Date:   Mon Feb 27 10:58:45 2012 -0600
-
-    arch-powerpc.inc: use default value of TUNE_PKGARCH
-
-    We can use the default value for TUNE_PKGARCH, and now we just
-    append "-nf" if TARGET_FPU is fpu-soft
-
-    Signed-off-by: Matthew McClintock <msm@freescale.com>
-
-diff --git a/meta/conf/machine/include/powerpc/arch-powerpc.inc
-b/meta/conf/machine/include/powerpc/arch-powerp
-index c9b2829..9f588e8 100644
---- a/meta/conf/machine/include/powerpc/arch-powerpc.inc
-+++ b/meta/conf/machine/include/powerpc/arch-powerpc.inc
-@@ -18,10 +18,8 @@ TARGET_FPU .=3D
-"${@bb.utils.contains("TUNE_FEATURES", "fpu-soft", "soft", "", d)}
-
- ABIEXTENSION =3D "${@['','spe'][d.getVar('TARGET_FPU', True) in
-['ppc-efd', 'ppc-efs']]}"
-
--PPCPKGSFX_FPU =3D "${@bb.utils.contains("TUNE_FEATURES", "fpu-hard" ,
-"", "-nf", d)}"
--
--PPCPKGARCH =3D "${TUNE_ARCH}${PPCPKGSFX_FPU}"
--TUNE_PKGARCH ?=3D "${PPCPKGARCH}"
-+PPCPKGSFX_FPU =3D "${@['', '-nf'][d.getVar('TARGET_FPU',d,1) in ['fpu-soft=
-']]}"
-+TUNE_PKGARCH_append =3D "${PPCPKGSFX_FPU}"
-
- # Basic tune definitions
- AVAILTUNES +=3D "powerpc powerpc-nf"=
+diff --git a/meta/classes/buildhistory.bbclass b/meta/classes/buildhistory.bbclass
+index f99aa7f..764e1e8 100644
+--- a/meta/classes/buildhistory.bbclass
++++ b/meta/classes/buildhistory.bbclass
+@@ -291,6 +291,7 @@ buildhistory_get_image_installed() {
+ 	# Produce installed package file and size lists and dependency graph
+ 	echo -n > ${BUILDHISTORY_DIR_IMAGE}/installed-packages.txt
+ 	echo -n > ${BUILDHISTORY_DIR_IMAGE}/installed-package-sizes.tmp
++	echo -n > ${BUILDHISTORY_DIR_IMAGE}/depends.tmp	
+ 	echo -e "digraph depends {\n    node [shape=plaintext]" > ${BUILDHISTORY_DIR_IMAGE}/depends.dot
+ 	for pkg in $INSTALLED_PKGS; do
+ 		pkgfile=`get_package_filename $pkg`
+@@ -300,16 +301,18 @@ buildhistory_get_image_installed() {
+ 			echo $pkgsize $pkg >> ${BUILDHISTORY_DIR_IMAGE}/installed-package-sizes.tmp
+ 		fi
+ 
+-		deps=`list_package_depends $pkg | sort | uniq`
++		deps=`list_package_depends $pkg`
+ 		for dep in $deps ; do
+-			echo "$pkg OPP $dep;" | sed -e 's:-:_:g' -e 's:\.:_:g' -e 's:+::g' | sed 's:OPP:->:g' >> ${BUILDHISTORY_DIR_IMAGE}/depends.dot
++			echo "$pkg OPP $dep;" | sed -e 's:-:_:g' -e 's:\.:_:g' -e 's:+::g' | sed 's:OPP:->:g' >> ${BUILDHISTORY_DIR_IMAGE}/depends.tmp
+ 		done
+ 
+-		recs=`list_package_recommends $pkg | sort | uniq`
++		recs=`list_package_recommends $pkg`
+ 		for rec in $recs ; do
+-			echo "$pkg OPP $rec [style=dotted];" | sed -e 's:-:_:g' -e 's:\.:_:g' -e 's:+::g' | sed 's:OPP:->:g' >> ${BUILDHISTORY_DIR_IMAGE}/depends.dot
++			echo "$pkg OPP $rec [style=dotted];" | sed -e 's:-:_:g' -e 's:\.:_:g' -e 's:+::g' | sed 's:OPP:->:g' >> ${BUILDHISTORY_DIR_IMAGE}/depends.tmp
+ 		done
+ 	done
++	cat ${BUILDHISTORY_DIR_IMAGE}/depends.tmp | sort | uniq >> ${BUILDHISTORY_DIR_IMAGE}/depends.dot
++	rm ${BUILDHISTORY_DIR_IMAGE}/depends.tmp
+ 	echo "}" >>  ${BUILDHISTORY_DIR_IMAGE}/depends.dot
+ 
+ 	cat ${BUILDHISTORY_DIR_IMAGE}/installed-package-sizes.tmp | sort -n -r | awk '{print $1 "\tKiB " $2}' > ${BUILDHISTORY_DIR_IMAGE}/installed-package-sizes.txt
+-- 
+1.7.2.5
 
 
 
