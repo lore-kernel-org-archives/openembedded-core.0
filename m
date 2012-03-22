@@ -1,22 +1,30 @@
-Received: from mga09.intel.com ([134.134.136.24])
+Received: from mail.windriver.com ([147.11.1.11])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <lianhao.lu@intel.com>) id 1SAbaI-0008Ag-Kx
+	(envelope-from <Liezhi.Yang@windriver.com>) id 1SAbvi-0008Qm-Gi
 	for openembedded-core@lists.openembedded.org;
-	Thu, 22 Mar 2012 07:33:19 +0100
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-	by orsmga102.jf.intel.com with ESMTP; 21 Mar 2012 23:24:23 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.67,351,1309762800"; d="scan'208";a="123722498"
-Received: from llu-piketon.sh.intel.com (HELO localhost) ([10.239.36.110])
-	by orsmga002.jf.intel.com with ESMTP; 21 Mar 2012 23:24:22 -0700
-From: Lianhao Lu <lianhao.lu@intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Thu, 22 Mar 2012 14:22:26 +0800
-Message-Id: <72b58aa5265b91b42b4b7313c466ee66926f6d15.1332397079.git.lianhao.lu@intel.com>
-X-Mailer: git-send-email 1.7.0.4
-In-Reply-To: <cover.1332397079.git.lianhao.lu@intel.com>
-References: <cover.1332397079.git.lianhao.lu@intel.com>
-Subject: [PATCH 1/1] tcf-agent: Using git repository instead of svn.
+	Thu, 22 Mar 2012 07:55:26 +0100
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca [147.11.189.40])
+	by mail.windriver.com (8.14.3/8.14.3) with ESMTP id q2M6kUoM014926
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 21 Mar 2012 23:46:30 -0700 (PDT)
+Received: from [128.224.162.196] (128.224.162.196) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server id 14.1.255.0;
+	Wed, 21 Mar 2012 23:46:31 -0700
+Message-ID: <4F6ACAC4.1060501@windriver.com>
+Date: Thu, 22 Mar 2012 14:46:28 +0800
+From: Robert Yang <liezhi.yang@windriver.com>
+User-Agent: Mozilla/5.0 (X11; Linux i686;
+	rv:10.0.2) Gecko/20120216 Thunderbird/10.0.2
+MIME-Version: 1.0
+To: <openembedded-core@lists.openembedded.org>
+References: <1332339926-27043-1-git-send-email-s.stirtzel@googlemail.com>
+	<4F6A2F2F.2090607@linux.intel.com>
+	<FC6FAFAF-2C6E-4EF7-8AD9-D2C30D2114DD@dominion.thruhere.net>
+	<1332361627.9740.180.camel@ted> <4F6A9B02.7090201@windriver.com>
+	<20120322033624.GI6857@denix.org>
+In-Reply-To: <20120322033624.GI6857@denix.org>
+Subject: Re: [PATCH] giflib: Move to OE-Core
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -31,52 +39,50 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 22 Mar 2012 06:33:19 -0000
+X-List-Received-Date: Thu, 22 Mar 2012 06:55:26 -0000
+Content-Type: text/plain; charset="ISO-8859-1"; format=flowed
+Content-Transfer-Encoding: 7bit
 
-Fixed bug [YOCTO #2152].
 
-Signed-off-by: Lianhao Lu <lianhao.lu@intel.com>
----
- .../{tcf-agent_svn.bb => tcf-agent_git.bb}         |   12 ++++++------
- 1 files changed, 6 insertions(+), 6 deletions(-)
- rename meta/recipes-devtools/tcf-agent/{tcf-agent_svn.bb => tcf-agent_git.bb} (83%)
 
-diff --git a/meta/recipes-devtools/tcf-agent/tcf-agent_svn.bb b/meta/recipes-devtools/tcf-agent/tcf-agent_git.bb
-similarity index 83%
-rename from meta/recipes-devtools/tcf-agent/tcf-agent_svn.bb
-rename to meta/recipes-devtools/tcf-agent/tcf-agent_git.bb
-index 55bed76..8ac8022 100644
---- a/meta/recipes-devtools/tcf-agent/tcf-agent_svn.bb
-+++ b/meta/recipes-devtools/tcf-agent/tcf-agent_git.bb
-@@ -6,12 +6,12 @@ LICENSE = "EPL-1.0 | EDL-1.0"
- LIC_FILES_CHKSUM = "file://../epl-v10.html;md5=7aa4215a330a0a4f6a1cbf8da1a0879f \
-                     file://edl-v10.html;md5=522a390a83dc186513f0500543ad3679"
- 
--SRCREV = "1855"
--PV = "0.0+svnr${SRCPV}"
--PR = "r3"
-+SRCREV = "4ef94ecb927a8912c3d79ce137182247786cff8f"
-+PV = "0.4.0+git${SRCPV}"
-+PR = "r0"
- 
--SRC_URI = "svn://dev.eclipse.org/svnroot/dsdp/org.eclipse.tm.tcf/trunk;module=agent;proto=http \
--           http://dev.eclipse.org/svnroot/dsdp/org.eclipse.tm.tcf/trunk/epl-v10.html;name=epl \
-+SRC_URI = "git://git.eclipse.org/gitroot/tcf/org.eclipse.tcf.agent.git;proto=git \
-+           http://www.eclipse.org/legal/epl-v10.html;name=epl \
-            file://fix_ranlib.patch \
-            file://fix_tcf-agent.init.patch \
-           "
-@@ -22,7 +22,7 @@ SRC_URI[epl.sha256sum] = "4fd64aeed340d62a64a8da4b371efe0f6d0d745f4d2dbefacba86c
- DEPENDS = "util-linux openssl"
- RDEPENDS_${PN} = "bash"
- 
--S = "${WORKDIR}/agent"
-+S = "${WORKDIR}/git"
- 
- inherit update-rc.d
- 
--- 
-1.7.0.4
+On 03/22/2012 11:36 AM, Denys Dmytriyenko wrote:
+> On Thu, Mar 22, 2012 at 11:22:42AM +0800, Robert Yang wrote:
+>>
+>>
+>> On 03/22/2012 04:27 AM, Richard Purdie wrote:
+>>> On Wed, 2012-03-21 at 21:14 +0100, Koen Kooi wrote:
+>>>> Op 21 mrt. 2012, om 20:42 heeft Saul Wold het volgende geschreven:
+>>>>
+>>>>> On 03/21/2012 07:25 AM, Samuel Stirtzel wrote:
+>>>>>> * This move will allow the testing of meta-kde for users without meta-openembedded.
+>>>>>>
+>>>>> So what other layers are using giflib?
+>>>>>
+>>>>> Your suggesting that we need to have it in oe-core so people don't need to add the meta-openembedded layer when using meta-kde?
+>>>>>
+>>>>> I am just trying to get more data before making a decision.
+>>>>
+>>>> Let's put everything in oe-core!
+>>>
+>>> Let's try and be constructive ;-).
+>>>
+>>> I think to make a good decision about this we need to understand which
+>>> layers use giflib.
+>>>
+>>> Is this really the only component from meta-oe that meta-kde needs? If
+>>
+>> Yes, as far as we know, this is the only component from meta-oe that
+>> meta-kde needs.
+>
+> Are you talking about kdelibs/kdebase or the entire KDE world? Building any of
 
+I just meant the kdebase, a base kde desktop, the kde-workspace which
+can start the kde by command "startkde".
+
+// Robert
+
+> the standard KDE apps (kdenetwork, kdemultimedia, etc.) will bring additional
+> dependencies...
+>
 
 
