@@ -1,36 +1,54 @@
-Received: from mail-wg0-f43.google.com ([74.125.82.43])
+Received: from mail-lpp01m010-f47.google.com ([209.85.215.47])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <schnitzeltony@googlemail.com>) id 1SAnc9-0004sQ-1d
+	(envelope-from <raj.khem@gmail.com>) id 1SAneE-00050l-5b
 	for openembedded-core@lists.openembedded.org;
-	Thu, 22 Mar 2012 20:24:01 +0100
-Received: by wgbdr12 with SMTP id dr12so1429656wgb.24
+	Thu, 22 Mar 2012 20:26:10 +0100
+Received: by lagw12 with SMTP id w12so1913868lag.6
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 22 Mar 2012 12:15:05 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=googlemail.com; s=20120113;
-	h=from:to:subject:date:message-id:x-mailer:mime-version:content-type
-	:content-transfer-encoding;
-	bh=Tz9axCzRzEwj5JlvHuhiep0Ic62Tb471ZSrqsMKarIA=;
-	b=q1Vbxg1rgQhBg4yIJ4iTUI6gBDpeyy4J/c8TkWJNCxV5LgkJLDmb9XdL3RIJ1W7hOk
-	76K1ev8/CBOZ1IY+MAAPcTgRM0Vq3r5vF91wXRbaufM1Jz/v6z2JfINBZtXCwX/AGLlx
-	lnEj0vUWhi8yfJcpt/nbXNyJf+QOsXx05wxVv/MxTJZEYBoE+9eqnvJDDwyyGe1hsAAc
-	hvZqmJKkiV4LH9gtJ40uerRxiiOtTtWwKOmDxNVxSzcoHGy6SFWezrTTgJIArb6s/66b
-	OFdlL9Y6Zfb40EEGRSttv+2NVy5VlrpQMtAIwjI3Y+VMSz7713vDOwjpKYriUtzjYUU/
-	WfSQ==
-Received: by 10.216.133.139 with SMTP id q11mr5315278wei.44.1332443705485;
-	Thu, 22 Mar 2012 12:15:05 -0700 (PDT)
-Received: from localhost.localdomain (ip-95-222-156-83.unitymediagroup.de.
-	[95.222.156.83])
-	by mx.google.com with ESMTPS id ff2sm12254757wib.9.2012.03.22.12.15.04
-	(version=TLSv1/SSLv3 cipher=OTHER);
-	Thu, 22 Mar 2012 12:15:04 -0700 (PDT)
-From: =?UTF-8?q?Andreas=20M=C3=BCller?= <schnitzeltony@googlemail.com>
-To: openembedded-core@lists.openembedded.org
-Date: Thu, 22 Mar 2012 20:15:01 +0100
-Message-Id: <1332443701-24282-1-git-send-email-schnitzeltony@googlemail.com>
-X-Mailer: git-send-email 1.7.6.5
+	Thu, 22 Mar 2012 12:17:14 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc:content-type;
+	bh=FDReiRtBnfKQLnGiOVOToNRdo4JYRIaBmBwF650BIPo=;
+	b=RZV+Fon66HIbEBR5x9n255s/DTIXBoKlXoLoxObWo81IpE3/HtxkKkrJtwovdRrjdV
+	6y9+IKUsh+/fU9BOeBu47+7haQWQrq8n8F1SGdvmfgVvhx4ugmMC4cYaB0xn3cVpaPQk
+	WTnufC/akj1TaSLhjIiK+KXTdtsiRZgTuZn6HZLIqwT/6HEhJH9tRRgAN05BIfrhZM9W
+	zw32Chz2EGQcVa2SgxdvIdeCps5t7sIMWmWexsAUsCvuGXfM26XVeehGqmjwfn48jMrL
+	lv0H7RwBikRowEpB/ayx6b98O3Gc6nBvX69bk8J62mu2Bm0nmOjDSTE0WL6lV+aU5tAV
+	EwSA==
+Received: by 10.152.127.136 with SMTP id ng8mr6735117lab.16.1332443834897;
+	Thu, 22 Mar 2012 12:17:14 -0700 (PDT)
 MIME-Version: 1.0
-Subject: [PATCH] gtk-icon-cache.bbclass: Fix multiple rebuilds of the icon cache on first boot
+Received: by 10.152.2.71 with HTTP; Thu, 22 Mar 2012 12:16:44 -0700 (PDT)
+In-Reply-To: <ADD6A3980E8C39419A432FF422031B4C0137BEEB@ORSMSX106.amr.corp.intel.com>
+References: <cover.1332347414.git.nitin.a.kamble@intel.com>
+	<20120321194906.GC3659@jama.jama.net>
+	<ADD6A3980E8C39419A432FF422031B4C0137B557@ORSMSX106.amr.corp.intel.com>
+	<20120321220253.00c4f254@eb-e6520>
+	<ADD6A3980E8C39419A432FF422031B4C0137B5A8@ORSMSX106.amr.corp.intel.com>
+	<20120321223521.36e49bba@eb-e6520>
+	<ADD6A3980E8C39419A432FF422031B4C0137B66D@ORSMSX106.amr.corp.intel.com>
+	<CAMKF1sq7hcTKrzFBYgmUOTcdQw6sC1FG4jUhsfKauqeXLQMgsg@mail.gmail.com>
+	<ADD6A3980E8C39419A432FF422031B4C0137B889@ORSMSX106.amr.corp.intel.com>
+	<CAMKF1srP52bxqwkaqPZTQbRmhp_V+4-iJ7wTKeKWfC1z4W=fyw@mail.gmail.com>
+	<ADD6A3980E8C39419A432FF422031B4C0137BAA8@ORSMSX106.amr.corp.intel.com>
+	<CAMKF1sobw_wT_ZKhXs9Y-d0jSG-QWzKOprgf7+zM8a_BjjQgEQ@mail.gmail.com>
+	<20120322131310.1c6455d1@eb-e6520>
+	<CAMKF1sqEGjWMpPTQxP3j1bbP6H2FQqAgHZGm399ejC-RyDxboQ@mail.gmail.com>
+	<20120322134340.1af3dfda@eb-e6520>
+	<CAMKF1srORF53h-V+fKTjJn2jWg=f6nOaMf_eUmYPLnW-ovc7NQ@mail.gmail.com>
+	<20120322141455.644058f0@eb-e6520>
+	<ADD6A3980E8C39419A432FF422031B4C0137BE5C@ORSMSX106.amr.corp.intel.com>
+	<CAMKF1srd0KanO6NfQtm0U39GZS_ANsu9KdRR0hirpKQrhMCxzg@mail.gmail.com>
+	<ADD6A3980E8C39419A432FF422031B4C0137BEEB@ORSMSX106.amr.corp.intel.com>
+From: Khem Raj <raj.khem@gmail.com>
+Date: Thu, 22 Mar 2012 12:16:44 -0700
+Message-ID: <CAMKF1sr=PedPsmpPSGC42Wvof9fHbR26JM2hgEZjA3h621ynxA@mail.gmail.com>
+To: "Kamble, Nitin A" <nitin.a.kamble@intel.com>
+Cc: Martin Jansa <martin.jansa@gmail.com>,
+	Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 1/1] Revert "gdb-cross-canadian: build gdb with python support"
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -45,113 +63,29 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 22 Mar 2012 19:24:01 -0000
+X-List-Received-Date: Thu, 22 Mar 2012 19:26:10 -0000
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
 
-* Before this patch every inheritance of this class rebuilt the full icon cache at the first boot.
-* With this patch the icon cache will only be build once at the first boot and on pkg installations that require it.
-* This patch reduces the time needed for the first boot from 96 minutes to 5 minutes on the test machine.
-* Build-tested incremental (BB_SIGNATURE_HANDLER = "OEBasicHash") & from scratch
-* Run-tested with systemd and opkg
+On Thu, Mar 22, 2012 at 10:38 AM, Kamble, Nitin A
+<nitin.a.kamble@intel.com> wrote:
+>> On Thu, Mar 22, 2012 at 9:20 AM, Kamble, Nitin A
+>> <nitin.a.kamble@intel.com> wrote:
+>> >
+>> > Renaming the sdk python2.7/lib-dynload/readline.so to python2.7/lib-
+>> dynload/readline_d.so gets the sdk gdb working for me too.
+>> > So is this a workaround or solution to the problem? If it is a
+>> workaround what should be right solution?
+>>
+>> I think we should be generating these _d.so files during python-native
+>> build. So please look into why its not happening. I wont have much
+>> chance
+>> during the day to look at that
+>
+> Looks like we need this patch for the python recipe to generate debug modules:
+> http://patch-tracker.debian.org/patch/series/view/python2.7/2.7.2-8/debug-build.diff
 
-Signed-off-by: Samuel Stirtzel <s.stirtzel@googlemail.com>
-Signed-off-by: Andreas Müller <schnitzeltony@googlemail.com>
----
- meta/classes/gtk-icon-cache.bbclass                |   19 +++++++++-------
- .../gtk+/gtk-update-icon-cache-runonce.bb          |   23 ++++++++++++++++++++
- .../gtk-update-icon-cache-runonce.in               |   16 +++++++++++++
- 3 files changed, 50 insertions(+), 8 deletions(-)
- create mode 100644 meta/recipes-gnome/gtk+/gtk-update-icon-cache-runonce.bb
- create mode 100644 meta/recipes-gnome/gtk+/gtk-update-icon-cache-runonce/gtk-update-icon-cache-runonce.in
-
-diff --git a/meta/classes/gtk-icon-cache.bbclass b/meta/classes/gtk-icon-cache.bbclass
-index 60e3401..b48aabe 100644
---- a/meta/classes/gtk-icon-cache.bbclass
-+++ b/meta/classes/gtk-icon-cache.bbclass
-@@ -9,14 +9,16 @@ if [ "x$D" != "x" ]; then
-         exit 1
- fi
- 
--# Update the pixbuf loaders in case they haven't been registered yet
--GDK_PIXBUF_MODULEDIR=${libdir}/gdk-pixbuf-2.0/2.10.0/loaders gdk-pixbuf-query-loaders --update-cache
--
--for icondir in /usr/share/icons/* ; do
--    if [ -d $icondir ] ; then
--        gtk-update-icon-cache -fqt  $icondir
--    fi
--done
-+# do not execute in case a final run-once is waiting
-+if [ ! -e ${sysconfdir}/init.d/gtk-update-icon-cache-runonce ]; then
-+    # Update the pixbuf loaders in case they haven't been registered yet
-+    GDK_PIXBUF_MODULEDIR=${libdir}/gdk-pixbuf-2.0/2.10.0/loaders gdk-pixbuf-query-loaders --update-cache
-+    for icondir in /usr/share/icons/* ; do
-+        if [ -d $icondir ] ; then
-+            gtk-update-icon-cache -fqt  $icondir
-+        fi
-+    done
-+fi
- }
- 
- gtk_icon_cache_postrm() {
-@@ -56,3 +58,4 @@ python populate_packages_append () {
- 		d.setVar('pkg_postrm_%s' % pkg, postrm)
- }
- 
-+RDEPENDS += "gtk-update-icon-cache-runonce"
-diff --git a/meta/recipes-gnome/gtk+/gtk-update-icon-cache-runonce.bb b/meta/recipes-gnome/gtk+/gtk-update-icon-cache-runonce.bb
-new file mode 100644
-index 0000000..55bec67
---- /dev/null
-+++ b/meta/recipes-gnome/gtk+/gtk-update-icon-cache-runonce.bb
-@@ -0,0 +1,23 @@
-+DESCRIPTION = "Init script calling gtk-update-icon-cache once"
-+LICENSE = "MIT"
-+LIC_FILES_CHKSUM = "file://${COREBASE}/LICENSE;md5=3f40d7994397109285ec7b81fdeb3b58"
-+
-+SRC_URI = "file://gtk-update-icon-cache-runonce.in"
-+
-+INIT_SEQ_NUM = "99"
-+
-+inherit update-rc.d
-+
-+do_install() {
-+	install -d ${D}${sysconfdir}/init.d
-+	sed -e 's,@libdir@,${libdir},g' \
-+            -e 's,@datadir@,${datadir},g' \
-+            -e 's,@sysconfdir@,${sysconfdir},g' \
-+            -e 's,@INIT_SEQ_NUM@,${INIT_SEQ_NUM},g' \
-+             < ${WORKDIR}/gtk-update-icon-cache-runonce.in \
-+             > ${D}${sysconfdir}/init.d/gtk-update-icon-cache-runonce
-+	chmod 755 ${D}${sysconfdir}/init.d/gtk-update-icon-cache-runonce
-+}
-+
-+INITSCRIPT_NAME = "gtk-update-icon-cache-runonce"
-+INITSCRIPT_PARAMS = "start ${INIT_SEQ_NUM} S ."
-diff --git a/meta/recipes-gnome/gtk+/gtk-update-icon-cache-runonce/gtk-update-icon-cache-runonce.in b/meta/recipes-gnome/gtk+/gtk-update-icon-cache-runonce/gtk-update-icon-cache-runonce.in
-new file mode 100644
-index 0000000..8952e1a
---- /dev/null
-+++ b/meta/recipes-gnome/gtk+/gtk-update-icon-cache-runonce/gtk-update-icon-cache-runonce.in
-@@ -0,0 +1,16 @@
-+#!/bin/sh
-+
-+echo 'Updating the GTK icon cache...'
-+
-+# Update the pixbuf loaders in case they haven't been registered yet
-+GDK_PIXBUF_MODULEDIR=@libdir@/gdk-pixbuf-2.0/2.10.0/loaders gdk-pixbuf-query-loaders --update-cache
-+
-+for icondir in @datadir@/icons/* ; do
-+    if [ -d $icondir ] ; then
-+        gtk-update-icon-cache -fqt $icondir
-+    fi
-+done
-+
-+# This script should only run once at the first boot of the machine
-+rm -f @sysconfdir@/rcS.d/S@INIT_SEQ_NUM@gtk-update-icon-cache-runonce
-+rm -f @sysconfdir@/init.d/gtk-update-icon-cache-runonce
--- 
-1.7.6.5
-
+yep thats the one. Apply it to python and rebuild python-native and
+stage it then see if that helps. You might have to adjust the FILES
+and PACKAGES to put the new files in right places.
 
 
