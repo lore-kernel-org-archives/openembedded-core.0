@@ -1,38 +1,38 @@
-Received: from mail-we0-f175.google.com ([74.125.82.175])
+Received: from mail-wg0-f43.google.com ([74.125.82.43])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <schnitzeltony@googlemail.com>) id 1SAfuq-0001Lv-OB
+	(envelope-from <schnitzeltony@googlemail.com>) id 1SAfut-0001MI-23
 	for openembedded-core@lists.openembedded.org;
-	Thu, 22 Mar 2012 12:10:48 +0100
-Received: by wera1 with SMTP id a1so1696240wer.6
+	Thu, 22 Mar 2012 12:10:51 +0100
+Received: by wgbdr12 with SMTP id dr12so1103418wgb.24
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 22 Mar 2012 04:01:54 -0700 (PDT)
+	Thu, 22 Mar 2012 04:01:56 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=googlemail.com; s=20120113;
 	h=from:to:subject:date:message-id:x-mailer:in-reply-to:references
 	:mime-version:content-type:content-transfer-encoding;
-	bh=7gopItEngyJHdREhzaxLVodUVd+Pl63buS8hFlbEahk=;
-	b=eCz68EXHBAG32f5oXjGJEQftf5GbkkPS4muY3cOnr3udFev8Gt56iJwdvsSa0hcUsU
-	18D3bbJauaAHBwRi31/WH2hUrMpLsk6xm+RQEuDAEE1vWe3U/HN0jA43mt5o6E1cTn9k
-	70FxXqsXLJG0dqjZ+mFArp0l8Xqm8VMEzeqV/K2WFJOT5U2Z1CXn9FtGTZxKIBiqfiDk
-	MdYYqveiFON3lg5GYsJC7LMySRabZhHqJ2WY5hw1T2pzhYd6AXL8khyHaGbvbKanuvof
-	GlHWoP6rGC15Stv4yoMcnbWwmWxoWM0I8jOIvC0eSzb+rv8jVIEE/nyGw3fGseC0upqH
-	7w0w==
-Received: by 10.180.79.72 with SMTP id h8mr4038556wix.1.1332414113607;
-	Thu, 22 Mar 2012 04:01:53 -0700 (PDT)
+	bh=ZUL9OY2P7i5lRIHhS9cMg4MPXsOunVuyGOzMphF6uIc=;
+	b=qIfyY+fKpgPQ7PsjIi1w87NOgw+S/MBjSsslL9ftETgAW5dXbnw+Jud96e8s2tkS6i
+	MatX0KPsL657KGuwc/u8YKGgXgZuk/ZmLO5I/jkXqVEmeAjMn8k6EBsgVRx3Xy++tDoV
+	5yza1A6GO1MsQwSEnm36/DlLwPewGP31Gj1n0CoUmGfROz9XKUe9O0jJBIpGFSJltx9p
+	az1vB1Zv4G41LbYKQRtGpilEPANbB0HSpXV+ATCVc9gWMVLEGZhV3ssOr28qgiB6cKJx
+	yYOeE5GQ0einezC/XDvDCgZd0UYe8b1YKsckKiWDqMsClEJpdgwwWToInSHGyEjCPNtD
+	louQ==
+Received: by 10.216.52.14 with SMTP id d14mr4228734wec.35.1332414116455;
+	Thu, 22 Mar 2012 04:01:56 -0700 (PDT)
 Received: from localhost.localdomain (p5B0A13EE.dip.t-dialin.net.
 	[91.10.19.238])
-	by mx.google.com with ESMTPS id fn2sm7546875wib.0.2012.03.22.04.01.52
+	by mx.google.com with ESMTPS id fn2sm7546875wib.0.2012.03.22.04.01.55
 	(version=TLSv1/SSLv3 cipher=OTHER);
-	Thu, 22 Mar 2012 04:01:52 -0700 (PDT)
+	Thu, 22 Mar 2012 04:01:55 -0700 (PDT)
 From: =?UTF-8?q?Andreas=20M=C3=BCller?= <schnitzeltony@googlemail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Thu, 22 Mar 2012 12:05:57 +0100
-Message-Id: <1332414362-6406-2-git-send-email-schnitzeltony@googlemail.com>
+Date: Thu, 22 Mar 2012 12:05:59 +0100
+Message-Id: <1332414362-6406-4-git-send-email-schnitzeltony@googlemail.com>
 X-Mailer: git-send-email 1.7.4.4
 In-Reply-To: <1332414362-6406-1-git-send-email-schnitzeltony@googlemail.com>
 References: <1332414362-6406-1-git-send-email-schnitzeltony@googlemail.com>
 MIME-Version: 1.0
-Subject: [PATCH 2/7] avahi.inc: use systemd_unitdir
+Subject: [PATCH 4/7] ofono: use systemd_unitdir
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -47,47 +47,59 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 22 Mar 2012 11:10:48 -0000
+X-List-Received-Date: Thu, 22 Mar 2012 11:10:51 -0000
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
 
 Signed-off-by: Andreas Müller <schnitzeltony@googlemail.com>
 ---
- meta/recipes-connectivity/avahi/avahi.inc |    6 +++---
- 1 files changed, 3 insertions(+), 3 deletions(-)
+ meta/recipes-connectivity/ofono/ofono.inc    |    2 +-
+ meta/recipes-connectivity/ofono/ofono_1.5.bb |    2 +-
+ meta/recipes-connectivity/ofono/ofono_git.bb |    4 +---
+ 3 files changed, 3 insertions(+), 5 deletions(-)
 
-diff --git a/meta/recipes-connectivity/avahi/avahi.inc b/meta/recipes-connectivity/avahi/avahi.inc
-index 0308095..731ad9a 100644
---- a/meta/recipes-connectivity/avahi/avahi.inc
-+++ b/meta/recipes-connectivity/avahi/avahi.inc
-@@ -14,7 +14,7 @@ SECTION = "network"
- # python scripts are under GPLv2+
- LICENSE = "GPLv2+ & LGPLv2.1+"
+diff --git a/meta/recipes-connectivity/ofono/ofono.inc b/meta/recipes-connectivity/ofono/ofono.inc
+index f6cd895..f4b2317 100644
+--- a/meta/recipes-connectivity/ofono/ofono.inc
++++ b/meta/recipes-connectivity/ofono/ofono.inc
+@@ -19,6 +19,6 @@ do_install_append() {
  
--INC_PR = "r0"
-+INC_PR = "r1"
+ PACKAGES =+ "${PN}-tests"
  
- DEPENDS = "expat libcap libdaemon dbus glib-2.0"
+-FILES_${PN} += "${base_libdir}/udev ${base_libdir}/systemd"
++FILES_${PN} += "${base_libdir}/udev ${systemd_unitdir}"
+ FILES_${PN}-tests = "${libdir}/ofono"
+ RDEPENDS_${PN}-tests = "python"
+diff --git a/meta/recipes-connectivity/ofono/ofono_1.5.bb b/meta/recipes-connectivity/ofono/ofono_1.5.bb
+index d0f273b..dad813f 100644
+--- a/meta/recipes-connectivity/ofono/ofono_1.5.bb
++++ b/meta/recipes-connectivity/ofono/ofono_1.5.bb
+@@ -1,6 +1,6 @@
+ require ofono.inc
  
-@@ -41,7 +41,7 @@ EXTRA_OECONF = "--with-distro=debian \
-              --disable-qt4 \
-              --disable-python \
-              --disable-doxygen-doc \
--             --with-systemdsystemunitdir=${base_libdir}/systemd/system/ \
-+             --with-systemdsystemunitdir=${systemd_unitdir}/system/ \
-              ${AVAHI_GTK} \
-            "
+-PR = "r0"
++PR = "r1"
  
-@@ -57,7 +57,7 @@ do_configure_prepend() {
+ SRC_URI  = "${KERNELORG_MIRROR}/linux/network/ofono/${BPN}-${PV}.tar.bz2 \
+ 	          file://ofono"
+diff --git a/meta/recipes-connectivity/ofono/ofono_git.bb b/meta/recipes-connectivity/ofono/ofono_git.bb
+index 966d315..a44b411 100644
+--- a/meta/recipes-connectivity/ofono/ofono_git.bb
++++ b/meta/recipes-connectivity/ofono/ofono_git.bb
+@@ -1,11 +1,9 @@
+ require ofono.inc
  
- PACKAGES =+ "avahi-systemd avahi-daemon libavahi-common libavahi-core libavahi-client avahi-dnsconfd libavahi-glib libavahi-ui avahi-autoipd avahi-utils"
+-PR = "r2"
+-
+ S	 = "${WORKDIR}/git"
+ SRCREV = "14544d5996836f628613c2ce544380ee6fc8f514"
+ PV	 = "0.12-git${SRCPV}"
+-PR = "r1"
++PR = "r3"
  
--FILES_avahi-systemd = "${base_libdir}/systemd"
-+FILES_avahi-systemd = "${systemd_unitdir}"
- FILES_avahi-autoipd = "${sbindir}/avahi-autoipd \
-                        ${sysconfdir}/avahi/avahi-autoipd.action \
-                        ${sysconfdir}/dhcp3/*/avahi-autoipd"
+ SRC_URI  = "git://git.kernel.org/pub/scm/network/ofono/ofono.git;protocol=git \
+ 	    file://ofono"
 -- 
 1.7.4.4
 
