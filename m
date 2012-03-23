@@ -1,38 +1,46 @@
-Received: from mail-we0-f175.google.com ([74.125.82.175])
+Received: from mail-wi0-f171.google.com ([209.85.212.171])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <koen@dominion.thruhere.net>) id 1SB3ed-0001HZ-G9
+	(envelope-from <koen@dominion.thruhere.net>) id 1SB3jE-0001Lt-GN
 	for openembedded-core@lists.openembedded.org;
-	Fri, 23 Mar 2012 13:31:39 +0100
-Received: by wera1 with SMTP id a1so2611155wer.6
+	Fri, 23 Mar 2012 13:36:24 +0100
+Received: by wibhj13 with SMTP id hj13so1740340wib.6
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 23 Mar 2012 05:22:43 -0700 (PDT)
+	Fri, 23 Mar 2012 05:27:28 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=google.com; s=20120113;
-	h=from:content-type:content-transfer-encoding:subject:date:message-id
-	:to:mime-version:x-mailer:x-gm-message-state;
-	bh=2QCb48bNdMRH9F9irsERJXWPimxpCiMvjkoWocujsfk=;
-	b=Az/F/S5wJ2M1VMfJ3bgs07p+2FSPmy+SHRIbqPtQWJz9PNM4dKbc2GyesJqaSFRORh
-	0nYWL2xIOgEfW7yNKYCpcEaIeT4UYEUtGcl/CLzzMG/EkYZC/G+vSaIfN3Gk1ZQXviFL
-	hoRLBwffNdzJwYnYB0DldV7e7d3oAJZT8XXdzeDiDg7bAt84DY8O5m3Am3wR55++2KzU
-	wiOoGPge0j1FEOaWFq8y06or3gnYszHQC6+oKlhHCqYt6GUeW3vg3b9dOvuX3viAXQJq
-	Upzynw6w0fYYhgkQXzztnaFO3VpX38Vndz8bhYEw0W23j3XAtmHqQyJfwPqmUhaUqt+o
-	3eXA==
-Received: by 10.216.138.38 with SMTP id z38mr6844229wei.63.1332505363226;
-	Fri, 23 Mar 2012 05:22:43 -0700 (PDT)
+	h=content-type:mime-version:subject:from:in-reply-to:date
+	:content-transfer-encoding:message-id:references:to:x-mailer
+	:x-gm-message-state;
+	bh=ovsH0q/HKbtsySeYEHrx6G6DaffejH2icSJXDiWMdH4=;
+	b=jQcpIVmwWAIW3b0oI3sVf+584ft3CDcR5THh3l8+AQ9Q/3v1OV+tJ6HhvwhIeXzPAV
+	Dj/WA+9Ts9tjqmY22wGCMzKDe53CmRLCaRwAlTZsQO98GAhCb2ByIxViV/ENK0CRr5CJ
+	Tw3B9i3N/IUcrTo9PwukUxe22diogG2CrAF4iPUd/NX/FBidnD2kqKQr2wtytJ2YJu+V
+	yW3aYjcVXu4ut4MVQp/KWLHD3ndiYJUVZwvcNSINF+XcHajeOfu/Ihoup/3PbYrrihZd
+	MjMYzGq5MRiIFz3Ua5j5DVn5W8WzRgNBIufZ+zYD9SEKCTfB2P9FWKSEg5IhDVT7t1Sz
+	y8Qg==
+Received: by 10.216.137.74 with SMTP id x52mr7017751wei.77.1332505648480;
+	Fri, 23 Mar 2012 05:27:28 -0700 (PDT)
 Received: from [172.20.1.36] (ip545070eb.adsl-surfen.hetnet.nl.
 	[84.80.112.235])
-	by mx.google.com with ESMTPS id 17sm13934665wis.0.2012.03.23.05.22.42
+	by mx.google.com with ESMTPS id fz9sm13492581wib.3.2012.03.23.05.27.27
 	(version=TLSv1/SSLv3 cipher=OTHER);
-	Fri, 23 Mar 2012 05:22:42 -0700 (PDT)
+	Fri, 23 Mar 2012 05:27:27 -0700 (PDT)
+Mime-Version: 1.0 (Apple Message framework v1257)
 From: Koen Kooi <koen@dominion.thruhere.net>
-Date: Fri, 23 Mar 2012 13:22:39 +0100
-Message-Id: <4DCCC4C4-51F4-43CF-ACF2-BF3D2BAD7BDC@dominion.thruhere.net>
+In-Reply-To: <1332505323.9740.402.camel@ted>
+Date: Fri, 23 Mar 2012 13:27:24 +0100
+Message-Id: <989CC43B-0C42-48A4-8C93-3FFCBB8135E0@dominion.thruhere.net>
+References: <1332485029-9148-1-git-send-email-Martin.Jansa@gmail.com>
+	<1332494193.9740.382.camel@ted>
+	<20120323093623.GB3879@jama.jama.net>
+	<1332502793.9740.385.camel@ted>
+	<20120323114938.GC3879@jama.jama.net>
+	<1332505323.9740.402.camel@ted>
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Mime-Version: 1.0 (Apple Message framework v1257)
 X-Mailer: Apple Mail (2.1257)
-X-Gm-Message-State: ALoCoQmGvUfaC6wRTWpC/HvrB077xwziXVICTpo5zHNomgvNvlIxMy5zRvUlLg3gHJ6ZymGOldRk
-Subject: sstate reuse for -native, -cross across different host glibc version, how to make it work?
+X-Gm-Message-State: ALoCoQlL9LBB17NwpeylgypqeqfLrvYQS8bjnXOZIP30MMnko+yW4LrcA7SJqWdgDSas4iagNEIN
+Subject: Re: [PATCH] kernel.bbclass: populate /etc/modules-load.d/ with module_autoload entries too
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -47,29 +55,56 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 23 Mar 2012 12:31:39 -0000
+X-List-Received-Date: Fri, 23 Mar 2012 12:36:24 -0000
 Content-Type: text/plain; charset=us-ascii
 Content-Transfer-Encoding: quoted-printable
 
-Hi,
 
-I turned on sstate mirroring for angstrom recently and I'm getting =
-reports of build failures due to missing GLIBC_2.14 symbols:
+Op 23 mrt. 2012, om 13:22 heeft Richard Purdie het volgende geschreven:
 
-arm-angstrom-linux-gnueabi-gcc: /lib/x86_64-linux-gnu/libc.so.6: version =
-`GLIBC_2.14' not found (required by arm-angstrom-linux-gnueabi-gcc)
+> On Fri, 2012-03-23 at 12:49 +0100, Martin Jansa wrote:
+>> On Fri, Mar 23, 2012 at 11:39:53AM +0000, Richard Purdie wrote:
+>>> On Fri, 2012-03-23 at 10:36 +0100, Martin Jansa wrote:
+>>>> On Fri, Mar 23, 2012 at 09:16:33AM +0000, Richard Purdie wrote:
+>>>>> On Fri, 2012-03-23 at 07:43 +0100, Martin Jansa wrote:
+>>>>>> * /etc/modules-load.d/foo.conf is used by systemd like =
+/etc/modutils/foo was with sysvinit
+>>>>>>=20
+>>>>>> Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
+>>>>>> ---
+>>>>>> meta/classes/kernel.bbclass |   10 ++++++++--
+>>>>>> 1 files changed, 8 insertions(+), 2 deletions(-)
+>>>>>=20
+>>>>> Since these look identical couldn't we symlink them? I'm not a big =
+fan
+>>>>> of writing duplicate data to a package :/.
+>>>>=20
+>>>> OK I'll change it in v2
+>>>=20
+>>> Note that I'm wondering if we can just symlink the directory =
+entirely
+>>> rather than the files themselves. There may be a reason that is a =
+bad
+>>> idea but I don't know...
+>>=20
+>> There are different filenames (notice .conf in the end) so I have =
+patch
+>> doing symlinks for files not directories.
+>=20
+> I'd seen the modprobe.d conf files and thought here was some =
+similarity.
+> I have to admit I think systemd is nuts for requiring a copy of these
+> files when it could have used the existing layout. It looks like =
+change
+> for the sake of change :(.
+>=20
+> I'm nearly tempted to suggest we should just patch systemd to use the
+> other filenames...
 
-The sstate tarballs are built on a Fedora16 VM and the breakage occurs =
-when it being used on systems with an older c library (e.g. debian). To =
-get rid of this problem there are multiple options, but I think the 2 =
-most obvious are:
-
-1) inject host distroname and distroversion into the checksums
-2) build everything against a native libc
-
-Would it be appropriate to get 1) into oe-core before the branchpoint? =
-Right now my workaround is 'rm *native* *cross* -f' from time to time. =
-But that sucks for identical autobuilders.
+The point the systemd developers want to make is to use the same path =
+across all distros out there. Patching it would defeat the purpose. =
+Unless we want to fork and maintain our own init system and scripts, =
+like we do with sysvinit currently.
 
 regards,
 
