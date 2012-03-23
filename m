@@ -1,14 +1,16 @@
 Received: from ffm.saftware.de ([83.141.3.46])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <obi@opendreambox.org>) id 1SB7dS-00087p-64
+	(envelope-from <obi@opendreambox.org>) id 1SB7dR-00087n-Jw
 	for openembedded-core@lists.openembedded.org;
 	Fri, 23 Mar 2012 17:46:42 +0100
 From: Andreas Oberritter <obi@opendreambox.org>
 To: openembedded-core@lists.openembedded.org
-Date: Fri, 23 Mar 2012 17:37:36 +0100
-Message-Id: <1332520659-12233-1-git-send-email-obi@opendreambox.org>
+Date: Fri, 23 Mar 2012 17:37:37 +0100
+Message-Id: <1332520659-12233-2-git-send-email-obi@opendreambox.org>
 X-Mailer: git-send-email 1.7.5.4
-Subject: [PATCH 1/4] procps: use update-alternatives for pwdx, pgrep and watch
+In-Reply-To: <1332520659-12233-1-git-send-email-obi@opendreambox.org>
+References: <1332520659-12233-1-git-send-email-obi@opendreambox.org>
+Subject: [PATCH 2/4] module.bbclass: sync pkg_post{inst, rm} with kernel.bbclass
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -25,33 +27,38 @@ List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedde
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Fri, 23 Mar 2012 16:46:42 -0000
 
-* pwdx, pgrep and watch may be provided by busybox.
-* Use update-alternatives to avoid conflict.
+* Run depmod when the rootfs gets generated.
 
 Signed-off-by: Andreas Oberritter <obi@opendreambox.org>
 ---
- meta/recipes-extended/procps/procps_3.2.8.bb |    5 +++--
- 1 files changed, 3 insertions(+), 2 deletions(-)
+ meta/classes/module.bbclass |    9 +++++----
+ 1 files changed, 5 insertions(+), 4 deletions(-)
 
-diff --git a/meta/recipes-extended/procps/procps_3.2.8.bb b/meta/recipes-extended/procps/procps_3.2.8.bb
-index 27d2b5c..683badc 100644
---- a/meta/recipes-extended/procps/procps_3.2.8.bb
-+++ b/meta/recipes-extended/procps/procps_3.2.8.bb
-@@ -1,11 +1,12 @@
- require procps.inc
+diff --git a/meta/classes/module.bbclass b/meta/classes/module.bbclass
+index 53c16b7..e370b24 100644
+--- a/meta/classes/module.bbclass
++++ b/meta/classes/module.bbclass
+@@ -37,15 +37,16 @@ module_do_install() {
+ }
  
--PR = "r5"
-+PR = "r6"
+ pkg_postinst_append () {
+-	if [ -n "$D" ]; then
+-		exit 1
+-	fi
++if [ -n "$D" ]; then
++	${HOST_PREFIX}depmod -A -b $D -F ${STAGING_KERNEL_DIR}/System.map-${KERNEL_VERSION} ${KERNEL_VERSION}
++else
+ 	depmod -a
+ 	update-modules || true
++fi
+ }
  
- inherit update-alternatives
+ pkg_postrm_append () {
+-	update-modules || true
++update-modules || true
+ }
  
- ALTERNATIVE_LINKS = "${bindir}/top ${bindir}/uptime ${bindir}/free ${bindir}/pkill ${bindir}/pmap \
--                     ${base_bindir}/kill ${base_sbindir}/sysctl ${base_bindir}/ps"
-+                     ${base_bindir}/kill ${base_sbindir}/sysctl ${base_bindir}/ps \
-+                     ${bindir}/pgrep ${bindir}/pwdx ${bindir}/watch"
- ALTERNATIVE_PRIORITY = "110"
- 
- SRC_URI += "file://procmodule.patch \
+ EXPORT_FUNCTIONS do_compile do_install
 -- 
 1.7.5.4
 
