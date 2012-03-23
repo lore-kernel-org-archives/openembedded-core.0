@@ -1,32 +1,27 @@
-Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
-	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <richard.purdie@linuxfoundation.org>)
-	id 1SB5H9-0004Ui-WC for openembedded-core@lists.openembedded.org;
-	Fri, 23 Mar 2012 15:15:32 +0100
-Received: from localhost (localhost [127.0.0.1])
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q2NE6Z0b027953
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 23 Mar 2012 14:06:35 GMT
-Received: from tim.rpsys.net ([127.0.0.1])
-	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
-	port 10024) with LMTP
-	id 26743-07 for <openembedded-core@lists.openembedded.org>;
-	Fri, 23 Mar 2012 14:06:32 +0000 (GMT)
-Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q2NE6TsN027946
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO)
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 23 Mar 2012 14:06:30 GMT
-Message-ID: <1332511592.9740.419.camel@ted>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Date: Fri, 23 Mar 2012 14:06:32 +0000
-In-Reply-To: <4F6C7DF6.2060805@mlbassoc.com>
-References: <4F6C7DF6.2060805@mlbassoc.com>
-X-Mailer: Evolution 3.2.2- 
-Mime-Version: 1.0
-X-Virus-Scanned: amavisd-new at rpsys.net
+Received: from hermes.mlbassoc.com ([64.234.241.98] helo=mail.chez-thomas.org)
+	by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <gary@mlbassoc.com>) id 1SB5KV-0004aR-Su
+	for openembedded-core@lists.openembedded.org;
+	Fri, 23 Mar 2012 15:19:00 +0100
+Received: by mail.chez-thomas.org (Postfix, from userid 1998)
+	id 558D3F81240; Fri, 23 Mar 2012 08:10:05 -0600 (MDT)
+X-Spam-Checker-Version: SpamAssassin 3.3.2 (2011-06-06) on
+	hermes.chez-thomas.org
+X-Spam-Level: 
+X-Spam-Status: No, score=-2.9 required=4.0 tests=ALL_TRUSTED,BAYES_00
+	autolearn=unavailable version=3.3.2
+Received: from hermes.chez-thomas.org (localhost.localdomain [127.0.0.1])
+	by mail.chez-thomas.org (Postfix) with ESMTP id EC29DF8123F;
+	Fri, 23 Mar 2012 08:09:59 -0600 (MDT)
+Message-ID: <4F6C8437.8020808@mlbassoc.com>
+Date: Fri, 23 Mar 2012 08:09:59 -0600
+From: Gary Thomas <gary@mlbassoc.com>
+User-Agent: Mozilla/5.0 (X11; Linux i686;
+	rv:10.0.1) Gecko/20120216 Thunderbird/10.0.1
+MIME-Version: 1.0
+To: openembedded-core@lists.openembedded.org
+References: <4F6C7DF6.2060805@mlbassoc.com> <1332511592.9740.419.camel@ted>
+In-Reply-To: <1332511592.9740.419.camel@ted>
 Subject: Re: Python recipe
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
@@ -42,24 +37,29 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 23 Mar 2012 14:15:32 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Fri, 23 Mar 2012 14:19:00 -0000
+Content-Type: text/plain; charset=ISO-8859-1; format=flowed
 Content-Transfer-Encoding: 7bit
 
-On Fri, 2012-03-23 at 07:43 -0600, Gary Thomas wrote:
-> Just curious, what is this line doing in .../recipes-devtools/python/python_2.7.2.bb
->    DEPENDS_sharprom = "python-native db readline zlib gdbm openssl"
-> 
-> n.b. I know what it does, I just don't know why it's there in
-> a "core" recipe.
+On 2012-03-23 08:06, Richard Purdie wrote:
+> On Fri, 2012-03-23 at 07:43 -0600, Gary Thomas wrote:
+>> Just curious, what is this line doing in .../recipes-devtools/python/python_2.7.2.bb
+>>     DEPENDS_sharprom = "python-native db readline zlib gdbm openssl"
+>>
+>> n.b. I know what it does, I just don't know why it's there in
+>> a "core" recipe.
+>
+> Is the sharprom distro still active? I doubt it uses OE-Core? I think
+> that can be removed.
 
-Is the sharprom distro still active? I doubt it uses OE-Core? I think
-that can be removed. 
+Even if it is still active, this should go in a .bbappend, don't you think?
 
-Cheers,
+I have another change to this recipe - should I send them as two separate patches?
 
-Richard
-
-
+-- 
+------------------------------------------------------------
+Gary Thomas                 |  Consulting for the
+MLB Associates              |    Embedded world
+------------------------------------------------------------
 
 
