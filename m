@@ -1,24 +1,27 @@
-Received: from mga14.intel.com ([143.182.124.37])
+Received: from masterfoo.zenlinux.com ([207.192.74.254])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <lianhao.lu@intel.com>) id 1SAwL7-0006em-Lf
+	(envelope-from <scott.a.garman@intel.com>) id 1SAwUT-0006u4-Mu
 	for openembedded-core@lists.openembedded.org;
-	Fri, 23 Mar 2012 05:43:01 +0100
-Received: from azsmga001.ch.intel.com ([10.2.17.19])
-	by azsmga102.ch.intel.com with ESMTP; 22 Mar 2012 21:34:05 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="122290802"
-Received: from llu-piketon.sh.intel.com (HELO localhost) ([10.239.36.110])
-	by azsmga001.ch.intel.com with ESMTP; 22 Mar 2012 21:34:04 -0700
-From: Lianhao Lu <lianhao.lu@intel.com>
+	Fri, 23 Mar 2012 05:52:41 +0100
+Received: from localhost (c-76-105-137-48.hsd1.or.comcast.net [76.105.137.48])
+	(using TLSv1 with cipher DHE-RSA-AES128-SHA (128/128 bits))
+	(No client certificate requested)
+	by masterfoo.zenlinux.com (Postfix) with ESMTP id 2DD3F2FD1D
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 23 Mar 2012 00:43:42 -0400 (EDT)
+From: Scott Garman <scott.a.garman@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Fri, 23 Mar 2012 12:31:51 +0800
-Message-Id: <27dab674140b90bbdbdfa7f76b9b7142717cf140.1332474082.git.lianhao.lu@intel.com>
-X-Mailer: git-send-email 1.7.0.4
-In-Reply-To: <c1505ead113c0bac42d2481bbd75e1bf367bbfd2.1332474082.git.lianhao.lu@intel.com>
-References: <c1505ead113c0bac42d2481bbd75e1bf367bbfd2.1332474082.git.lianhao.lu@intel.com>
-In-Reply-To: <cover.1332474081.git.lianhao.lu@intel.com>
-References: <cover.1332474081.git.lianhao.lu@intel.com>
-Subject: [PATCH 4/5] nativesdk/misc: set PKGSUFFIX for correct variable name expansion.
+Date: Thu, 22 Mar 2012 21:43:40 -0700
+Message-Id: <cover.1332453478.git.scott.a.garman@intel.com>
+X-Mailer: git-send-email 1.7.5.4
+X-MasterFoo-MailScanner-Information: Please contact the ISP for more
+	information
+X-MailScanner-ID: 2DD3F2FD1D.E70C6
+X-MasterFoo-MailScanner: Found to be clean
+X-MasterFoo-MailScanner-SpamCheck: not spam
+X-MasterFoo-MailScanner-From: scott.a.garman@intel.com
+X-Spam-Status: No
+Subject: [PATCH 0/2] Two useradd fixes
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -33,115 +36,54 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 23 Mar 2012 04:43:02 -0000
+X-List-Received-Date: Fri, 23 Mar 2012 04:52:41 -0000
 
-Set PKGSUFFIX in nativesdk.bbclass for correct variable name expansion.
-This would fix bunch of "not shipped" packaging warnings in "-nativesdk"
-recipes. And also bumping the corresponding PR.
+Hello,
 
-Signed-off-by: Lianhao Lu <lianhao.lu@intel.com>
----
- meta/classes/nativesdk.bbclass                  |    2 ++
- meta/recipes-core/eglibc/eglibc-locale.inc      |    2 +-
- meta/recipes-core/eglibc/eglibc_2.13.bb         |    2 +-
- meta/recipes-core/eglibc/eglibc_2.15.bb         |    2 +-
- meta/recipes-devtools/opkg/opkg.inc             |    2 +-
- meta/recipes-multimedia/alsa/alsa-lib_1.0.25.bb |    2 +-
- meta/recipes-support/sqlite/sqlite3_3.7.10.bb   |    2 +-
- 7 files changed, 8 insertions(+), 6 deletions(-)
+This pull request fixes two race conditions related to the useradd code.
 
-diff --git a/meta/classes/nativesdk.bbclass b/meta/classes/nativesdk.bbclass
-index ceec53e..97c460c 100644
---- a/meta/classes/nativesdk.bbclass
-+++ b/meta/classes/nativesdk.bbclass
-@@ -56,6 +56,8 @@ baselib = "lib"
- export PKG_CONFIG_DIR = "${STAGING_DIR_HOST}${libdir}/pkgconfig"
- export PKG_CONFIG_SYSROOT_DIR = "${STAGING_DIR_HOST}"
- 
-+PKGSUFFIX = "-nativesdk"
-+
- python nativesdk_virtclass_handler () {
-     if not isinstance(e, bb.event.RecipePreFinalise):
-         return
-diff --git a/meta/recipes-core/eglibc/eglibc-locale.inc b/meta/recipes-core/eglibc/eglibc-locale.inc
-index 2e9b4d4..9d5434f 100644
---- a/meta/recipes-core/eglibc/eglibc-locale.inc
-+++ b/meta/recipes-core/eglibc/eglibc-locale.inc
-@@ -26,7 +26,7 @@ BINARY_LOCALE_ARCHES ?= "arm.* i[3-6]86 x86_64 powerpc mips"
- # set "0" for qemu emulation of native localedef for locale generation
- LOCALE_GENERATION_WITH_CROSS-LOCALEDEF = "1"
- 
--PR = "r19"
-+PR = "r20"
- 
- PKGSUFFIX = ""
- PKGSUFFIX_virtclass-nativesdk = "-nativesdk"
-diff --git a/meta/recipes-core/eglibc/eglibc_2.13.bb b/meta/recipes-core/eglibc/eglibc_2.13.bb
-index a4f59b6..e02c80f 100644
---- a/meta/recipes-core/eglibc/eglibc_2.13.bb
-+++ b/meta/recipes-core/eglibc/eglibc_2.13.bb
-@@ -3,7 +3,7 @@ require eglibc.inc
- SRCREV = "15508"
- 
- DEPENDS += "gperf-native"
--PR = "r21"
-+PR = "r22"
- PR_append = "+svnr${SRCPV}"
- 
- EGLIBC_BRANCH="eglibc-2_13"
-diff --git a/meta/recipes-core/eglibc/eglibc_2.15.bb b/meta/recipes-core/eglibc/eglibc_2.15.bb
-index 3820f5a..644d904 100644
---- a/meta/recipes-core/eglibc/eglibc_2.15.bb
-+++ b/meta/recipes-core/eglibc/eglibc_2.15.bb
-@@ -3,7 +3,7 @@ require eglibc.inc
- SRCREV = "16540"
- 
- DEPENDS += "gperf-native"
--PR = "r1"
-+PR = "r2"
- PR_append = "+svnr${SRCPV}"
- 
- EGLIBC_BRANCH="eglibc-2_15"
-diff --git a/meta/recipes-devtools/opkg/opkg.inc b/meta/recipes-devtools/opkg/opkg.inc
-index 689bd4a..14083d0 100644
---- a/meta/recipes-devtools/opkg/opkg.inc
-+++ b/meta/recipes-devtools/opkg/opkg.inc
-@@ -11,7 +11,7 @@ DEPENDS_virtclass-native = "curl-native"
- DEPENDS_virtclass-nativesdk = "curl-nativesdk"
- 
- PE = "1"
--INC_PR = "r8"
-+INC_PR = "r9"
- 
- FILESDIR = "${@os.path.dirname(d.getVar('FILE',1))}/opkg"
- 
-diff --git a/meta/recipes-multimedia/alsa/alsa-lib_1.0.25.bb b/meta/recipes-multimedia/alsa/alsa-lib_1.0.25.bb
-index 90b0cba..b128d77 100644
---- a/meta/recipes-multimedia/alsa/alsa-lib_1.0.25.bb
-+++ b/meta/recipes-multimedia/alsa/alsa-lib_1.0.25.bb
-@@ -14,7 +14,7 @@ BBCLASSEXTEND = "native nativesdk"
- #FIXME: remove the following
- ARM_INSTRUCTION_SET = "arm"
- 
--PR = "r0"
-+PR = "r1"
- 
- SRC_URI = "ftp://ftp.alsa-project.org/pub/lib/alsa-lib-${PV}.tar.bz2 \
-            file://fix-tstamp-declaration.patch"
-diff --git a/meta/recipes-support/sqlite/sqlite3_3.7.10.bb b/meta/recipes-support/sqlite/sqlite3_3.7.10.bb
-index 25e2b24..ec6ded6 100644
---- a/meta/recipes-support/sqlite/sqlite3_3.7.10.bb
-+++ b/meta/recipes-support/sqlite/sqlite3_3.7.10.bb
-@@ -1,6 +1,6 @@
- require sqlite3.inc
- 
--PR = "r1"
-+PR = "r2"
- 
- LIC_FILES_CHKSUM = "file://sqlite3.h;endline=11;md5=65f0a57ca6928710b418c094b3570bb0"
- 
+Yocto bug #2127 describes how when using the RPM package manager, the
+order of package installation during generatin of the rootfs did not
+guarantee that base-passwd and shadow would be installed before other
+packages which need to install custom users/groups in their postinstall
+functions. This fix ensures that when base-passwd and/or shadow are
+part of an image, they will be installed first during image generation.
+
+The second race condition is described in Yocto bug #1794, and can occur
+if two build steps try to update the sysroot passwd/group files at the
+same time. Since the shadow utilities enforce file locking, the commands
+will fail to run. The fix for this involves checking for failure and
+retrying the commands up to 10 times, with a 1s delay between attempts
+before giving up.
+
+Verifying these fixes involved creating numerous images and useradd-based
+packages repeatedly on a build host with high parallelism, and also doing
+so from a pre-populated sstate-cache. I was able to reliably simulate the
+file locking behavior by making the passwd/group files read only when
+developing the fix for #1794. 
+
+Scott
+
+The following changes since commit 87e581bb7da9f1530d190cd023fcf892c8b858f5:
+
+  ddimage: Add script for writing images to boot media (2012-03-22 19:17:54 +0000)
+
+are available in the git repository at:
+  git://git.pokylinux.org/poky-contrib sgarman/useradd-lock-fix-oe
+  http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=sgarman/useradd-lock-fix-oe
+
+Scott Garman (2):
+  package_rpm.bbclass: ensure base-passwd and shadow get installed
+    first
+  useradd.bbclass: retry useradd/groupadd commands to avoid lock race
+    issues
+
+ meta/classes/package_rpm.bbclass |    9 ++++++++-
+ meta/classes/useradd.bbclass     |   36 ++++++++++++++++++++++++++++++++++--
+ 2 files changed, 42 insertions(+), 3 deletions(-)
+
 -- 
-1.7.0.4
+1.7.5.4
 
 
 
