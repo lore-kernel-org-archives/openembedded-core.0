@@ -1,24 +1,24 @@
 Received: from mga11.intel.com ([192.55.52.93])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <elizabeth.flanagan@intel.com>) id 1SBEQa-0000au-HH
+	(envelope-from <elizabeth.flanagan@intel.com>) id 1SBEQb-0000au-Jp
 	for openembedded-core@lists.openembedded.org;
 	Sat, 24 Mar 2012 01:01:53 +0100
 Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-	by fmsmga102.fm.intel.com with ESMTP; 23 Mar 2012 16:51:49 -0700
+	by fmsmga102.fm.intel.com with ESMTP; 23 Mar 2012 16:51:50 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="144370027"
+X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="144370032"
 Received: from unknown (HELO cenodoxus.amr.corp.intel.com) ([10.255.15.233])
-	by fmsmga002.fm.intel.com with ESMTP; 23 Mar 2012 16:51:49 -0700
+	by fmsmga002.fm.intel.com with ESMTP; 23 Mar 2012 16:51:50 -0700
 From: Beth Flanagan <elizabeth.flanagan@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Fri, 23 Mar 2012 16:51:44 -0700
-Message-Id: <87a506b8715a07aaf33e3e8ee6c781ce5033d456.1332546190.git.elizabeth.flanagan@intel.com>
+Date: Fri, 23 Mar 2012 16:51:47 -0700
+Message-Id: <fac3cb7a8e4e6792622a7b3484aa9c6e055ab192.1332546190.git.elizabeth.flanagan@intel.com>
 X-Mailer: git-send-email 1.7.1
 In-Reply-To: <f0393ed61291561b5823079b9528e8df24d56a3f.1332546190.git.elizabeth.flanagan@intel.com>
 References: <f0393ed61291561b5823079b9528e8df24d56a3f.1332546190.git.elizabeth.flanagan@intel.com>
 In-Reply-To: <cover.1332546190.git.elizabeth.flanagan@intel.com>
 References: <cover.1332546190.git.elizabeth.flanagan@intel.com>
-Subject: [PATCH 5/8] license.bbclass: Style guide compliance
+Subject: [PATCH 8/8] setserial: Correct LICENSE
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -37,139 +37,32 @@ X-List-Received-Date: Sat, 24 Mar 2012 00:01:53 -0000
 
 From: Elizabeth Flanagan <elizabeth.flanagan@intel.com>
 
-From my understanding, bash indents should be tabbed and python
-4 spaces. Correcting some bash whitespace in license to comply
-with the style guide.
+setserial's license is GPL version 2.0 per:
+
+http://sourceforge.net/projects/setserial/develop
 
 Signed-off-by: Elizabeth Flanagan <elizabeth.flanagan@intel.com>
 ---
- meta/classes/license.bbclass |  114 +++++++++++++++++++++---------------------
- 1 files changed, 57 insertions(+), 57 deletions(-)
+ meta/recipes-bsp/setserial/setserial_2.17.bb |    4 ++--
+ 1 files changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/meta/classes/license.bbclass b/meta/classes/license.bbclass
-index eab630e..394a6d4 100644
---- a/meta/classes/license.bbclass
-+++ b/meta/classes/license.bbclass
-@@ -75,63 +75,63 @@ SPDXLICENSEMAP[AFLv1] = "AFL-1.2"
- SPDXLICENSEMAP[EPLv1.0] = "EPL-1.0"
- 
- license_create_manifest() {
--    mkdir -p ${LICENSE_DIRECTORY}/${IMAGE_NAME}
--    # Get list of installed packages
--    list_installed_packages | grep -v "locale" |sort > ${LICENSE_DIRECTORY}/${IMAGE_NAME}/package.manifest
--    INSTALLED_PKGS=`cat ${LICENSE_DIRECTORY}/${IMAGE_NAME}/package.manifest`
--    # list of installed packages is broken for deb
--    for pkg in ${INSTALLED_PKGS}; do
--        # not the best way to do this but licenses are not arch dependant iirc
--        files=`find ${TMPDIR}/pkgdata/*/runtime -name ${pkg}| head -1`
--        for filename in $files; do
--            pkged_pn="$(sed -n 's/^PN: //p' ${filename})"
--            pkged_lic="$(sed -n '/^LICENSE: /{ s/^LICENSE: //; s/[+|&()*]/ /g; s/  */ /g; p }' ${filename})"
--            # check to see if the package name exists in the manifest. if so, bail.
--            if ! grep -q "PACKAGE NAME: ${pkg}" ${filename}; then
--                # exclude local recipes
--                if [ ! "${pkged_pn}" = "*locale*" ]; then
--                    echo "PACKAGE NAME:" ${pkg} >> ${LICENSE_DIRECTORY}/${IMAGE_NAME}/license.manifest
--                    echo "RECIPE NAME:" ${pkged_pn} >> ${LICENSE_DIRECTORY}/${IMAGE_NAME}/license.manifest
--                    echo "LICENSE: " >> ${LICENSE_DIRECTORY}/${IMAGE_NAME}/license.manifest
--                    for lic in ${pkged_lic}; do
--                        if [ -e "${LICENSE_DIRECTORY}/${pkged_pn}/generic_${lic}" ]; then
--                            echo ${lic}|sed s'/generic_//'g >> ${LICENSE_DIRECTORY}/${IMAGE_NAME}/license.manifest
--                        else
--                            echo "WARNING: The license listed, " ${lic} " was not in the licenses collected for " ${pkged_pn}>> ${LICENSE_DIRECTORY}/${IMAGE_NAME}/license.manifest
--                        fi
--                    done
--                    echo "" >> ${LICENSE_DIRECTORY}/${IMAGE_NAME}/license.manifest
--                fi
--            fi
--        done
--    done
--
--    # Two options here:
--    # - Just copy the manifest
--    # - Copy the manifest and the license directories
--    # With both options set we see a .5 M increase in core-image-minimal
--    if [ -n "${COPY_LIC_MANIFEST}" ]; then
--        mkdir -p ${IMAGE_ROOTFS}/usr/share/common-licenses/
--        cp ${LICENSE_DIRECTORY}/${IMAGE_NAME}/license.manifest ${IMAGE_ROOTFS}/usr/share/common-licenses/license.manifest
--        if [ -n "${COPY_LIC_DIRS}" ]; then
--            for pkg in ${INSTALLED_PKGS}; do
--                mkdir -p ${IMAGE_ROOTFS}/usr/share/common-licenses/${pkg}
--                for lic in `ls ${LICENSE_DIRECTORY}/${pkg}`; do
--                    # Really don't need to copy the generics as they're 
--                    # represented in the manifest and in the actual pkg licenses
--                    # Doing so would make your image quite a bit larger
--                    if [[ "${lic}" != "generic_"* ]]; then
--                        cp ${LICENSE_DIRECTORY}/${pkg}/${lic} ${IMAGE_ROOTFS}/usr/share/common-licenses/${pkg}/${lic}
--                    elif [[ "${lic}" == "generic_"* ]]; then
--                        if [ ! -f ${IMAGE_ROOTFS}/usr/share/common-licenses/${lic} ]; then
--                            cp ${LICENSE_DIRECTORY}/${pkg}/${lic} ${IMAGE_ROOTFS}/usr/share/common-licenses/
--                        fi
--                        ln -s ../${lic} ${IMAGE_ROOTFS}/usr/share/common-licenses/${pkg}/${lic}
--                    fi
--                done
--            done
--        fi
--    fi
-+	mkdir -p ${LICENSE_DIRECTORY}/${IMAGE_NAME}
-+	# Get list of installed packages
-+	list_installed_packages | grep -v "locale" |sort > ${LICENSE_DIRECTORY}/${IMAGE_NAME}/package.manifest
-+	INSTALLED_PKGS=`cat ${LICENSE_DIRECTORY}/${IMAGE_NAME}/package.manifest`
-+	# list of installed packages is broken for deb
-+	for pkg in ${INSTALLED_PKGS}; do
-+		# not the best way to do this but licenses are not arch dependant iirc
-+		files=`find ${TMPDIR}/pkgdata/*/runtime -name ${pkg}| head -1`
-+		for filename in $files; do
-+			pkged_pn="$(sed -n 's/^PN: //p' ${filename})"
-+			pkged_lic="$(sed -n '/^LICENSE: /{ s/^LICENSE: //; s/[+|&()*]/ /g; s/  */ /g; p }' ${filename})"
-+			# check to see if the package name exists in the manifest. if so, bail.
-+			if ! grep -q "PACKAGE NAME: ${pkg}" ${filename}; then
-+				# exclude local recipes
-+				if [ ! "${pkged_pn}" = "*locale*" ]; then
-+					echo "PACKAGE NAME:" ${pkg} >> ${LICENSE_DIRECTORY}/${IMAGE_NAME}/license.manifest
-+					echo "RECIPE NAME:" ${pkged_pn} >> ${LICENSE_DIRECTORY}/${IMAGE_NAME}/license.manifest
-+					echo "LICENSE: " >> ${LICENSE_DIRECTORY}/${IMAGE_NAME}/license.manifest
-+					for lic in ${pkged_lic}; do
-+						if [ -e "${LICENSE_DIRECTORY}/${pkged_pn}/generic_${lic}" ]; then
-+							echo ${lic}|sed s'/generic_//'g >> ${LICENSE_DIRECTORY}/${IMAGE_NAME}/license.manifest
-+						else
-+							echo "WARNING: The license listed, " ${lic} " was not in the licenses collected for " ${pkged_pn}>> ${LICENSE_DIRECTORY}/${IMAGE_NAME}/license.manifest
-+						fi
-+					done
-+					echo "" >> ${LICENSE_DIRECTORY}/${IMAGE_NAME}/license.manifest
-+				fi
-+			fi
-+		done
-+	done
+diff --git a/meta/recipes-bsp/setserial/setserial_2.17.bb b/meta/recipes-bsp/setserial/setserial_2.17.bb
+index 64f541c..5666be7 100644
+--- a/meta/recipes-bsp/setserial/setserial_2.17.bb
++++ b/meta/recipes-bsp/setserial/setserial_2.17.bb
+@@ -1,11 +1,11 @@
 +
-+	# Two options here:
-+	# - Just copy the manifest
-+	# - Copy the manifest and the license directories
-+	# With both options set we see a .5 M increase in core-image-minimal
-+	if [ -n "${COPY_LIC_MANIFEST}" ]; then
-+		mkdir -p ${IMAGE_ROOTFS}/usr/share/common-licenses/
-+		cp ${LICENSE_DIRECTORY}/${IMAGE_NAME}/license.manifest ${IMAGE_ROOTFS}/usr/share/common-licenses/license.manifest
-+		if [ -n "${COPY_LIC_DIRS}" ]; then
-+			for pkg in ${INSTALLED_PKGS}; do
-+				mkdir -p ${IMAGE_ROOTFS}/usr/share/common-licenses/${pkg}
-+				for lic in `ls ${LICENSE_DIRECTORY}/${pkg}`; do
-+					# Really don't need to copy the generics as they're 
-+					# represented in the manifest and in the actual pkg licenses
-+					# Doing so would make your image quite a bit larger
-+					if [[ "${lic}" != "generic_"* ]]; then
-+						cp ${LICENSE_DIRECTORY}/${pkg}/${lic} ${IMAGE_ROOTFS}/usr/share/common-licenses/${pkg}/${lic}
-+					elif [[ "${lic}" == "generic_"* ]]; then
-+						if [ ! -f ${IMAGE_ROOTFS}/usr/share/common-licenses/${lic} ]; then
-+							cp ${LICENSE_DIRECTORY}/${pkg}/${lic} ${IMAGE_ROOTFS}/usr/share/common-licenses/
-+						fi
-+						ln -s ../${lic} ${IMAGE_ROOTFS}/usr/share/common-licenses/${pkg}/${lic}
-+					fi
-+				done
-+			done
-+		fi
-+	fi
+ SUMMARY = "Controls the configuration of serial ports"
+ DESCRIPTION = "setserial is a program designed to set and/or report the configuration information associated with a serial port"
+ HOMEPAGE = "http://setserial.sourceforge.net"
+ AUTHOR = "Theodore Ts'o <tytso@mit.edu>"
+ SECTION = "console/utils"
  
- }
+-# general GPL, no specific version
+-LICENSE = "GPL"
++LICENSE = "GPLv2.0"
+ LIC_FILES_CHKSUM = "file://version.h;beginline=1;endline=6;md5=2e7c59cb9e57e356ae81f50f4e4dfd99"
+ PR = "r3"
  
 -- 
 1.7.1
