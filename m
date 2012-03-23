@@ -1,34 +1,34 @@
 Received: from mail.dream-property.net ([82.149.226.172])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <obi@opendreambox.org>) id 1SBB4L-0004G3-P2
+	(envelope-from <obi@opendreambox.org>) id 1SBB76-0004Iz-9o
 	for openembedded-core@lists.openembedded.org;
-	Fri, 23 Mar 2012 21:26:41 +0100
+	Fri, 23 Mar 2012 21:29:32 +0100
 Received: from localhost (localhost [127.0.0.1])
-	by mail.dream-property.net (Postfix) with ESMTP id 7A2B5315A45D;
-	Fri, 23 Mar 2012 21:17:47 +0100 (CET)
+	by mail.dream-property.net (Postfix) with ESMTP id 1DBA9315A45B;
+	Fri, 23 Mar 2012 21:20:38 +0100 (CET)
 X-Virus-Scanned: Debian amavisd-new at mail.dream-property.net
 Received: from mail.dream-property.net ([127.0.0.1])
 	by localhost (mail.dream-property.net [127.0.0.1]) (amavisd-new,
 	port 10024)
-	with LMTP id dNG3QibSfWPD; Fri, 23 Mar 2012 21:17:40 +0100 (CET)
+	with LMTP id 6kW91hjUD9vx; Fri, 23 Mar 2012 21:20:30 +0100 (CET)
 Received: from [172.22.22.61] (drms-590ec3b4.pool.mediaWays.net
 	[89.14.195.180])
 	(using TLSv1 with cipher DHE-RSA-AES256-SHA (256/256 bits))
 	(No client certificate requested)
-	by mail.dream-property.net (Postfix) with ESMTPSA id 02EBE315A45A;
-	Fri, 23 Mar 2012 21:17:39 +0100 (CET)
-Message-ID: <4F6CDA62.3070908@opendreambox.org>
-Date: Fri, 23 Mar 2012 21:17:38 +0100
+	by mail.dream-property.net (Postfix) with ESMTPSA id 20D7D315A45D;
+	Fri, 23 Mar 2012 21:20:30 +0100 (CET)
+Message-ID: <4F6CDB0C.6080809@opendreambox.org>
+Date: Fri, 23 Mar 2012 21:20:28 +0100
 From: Andreas Oberritter <obi@opendreambox.org>
 User-Agent: Mozilla/5.0 (X11; Linux x86_64;
 	rv:11.0) Gecko/20120310 Thunderbird/11.0
 MIME-Version: 1.0
-To: Patches and discussions about the oe-core layer
+To: paul.eggleton@linux.intel.com
+References: <1332250625-18091-1-git-send-email-obi@opendreambox.org>
+In-Reply-To: <1332250625-18091-1-git-send-email-obi@opendreambox.org>
+Cc: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-References: <1331345726-9577-1-git-send-email-obi@opendreambox.org>
-	<4F5E1672.7090706@windriver.com> <1331567634.15192.20.camel@ted>
-In-Reply-To: <1331567634.15192.20.camel@ted>
-Subject: Re: [PATCH] package_ipk: apply umask to control and conffiles
+Subject: Re: [PATCH] scripts/bitbake: Allow to override path to pseudodone, make BUILDDIR optional
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -43,42 +43,80 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 23 Mar 2012 20:26:41 -0000
+X-List-Received-Date: Fri, 23 Mar 2012 20:29:32 -0000
 Content-Type: text/plain; charset=ISO-8859-1
 Content-Transfer-Encoding: 7bit
 
-On 12.03.2012 16:53, Richard Purdie wrote:
-> On Mon, 2012-03-12 at 10:29 -0500, Mark Hatle wrote:
->> On 3/9/12 8:15 PM, Andreas Oberritter wrote:
->>> * Explicitly set umask to 022. Otherwise the build system's
->>>    umask leaks into the image.
->>
->> I'm surprised that do_package_ipk[umask] didn't work.  Perhaps its the way it's 
->> being invoked that is the issue.  (If bitbake doesn't run it, but something else 
->> does.. then the umask setting doesn't get used.)
->>
->> As for the change of the umask, the changes appear to be specific to the ipk 
->> case.  Is this the desired behavior, or could deb and rpm suffer from similar 
->> issues?  (I'm not familiar enough with opkg to know how it handles umask 
->> settings during package install/rootfs construction..)
->>
->> I believe that RPM sets a default umask when it goes through it's package 
->> installs/rootfs generation.  But does DEB?
-> 
-> I'm also a bit worried about this patch. I'd like to understand why a
-> task level umask doesn't work. That shouldn't even make any difference
-> since the permissions/owners/users from install should be getting
-> used...
-> 
-> Cheers,
-> 
-> Richard
+Paul,
 
-Richard,
-
-can you please give some advise on how to continue with this issue?
+how do you propose to go on solving this problem?
 
 Regards,
 Andreas
+
+On 20.03.2012 14:37, Andreas Oberritter wrote:
+> * Allows to workaround breakage caused by commit
+>   b4df1c7c79b5c801658bcf890ba3a8eab3d83189.
+> 
+> * Related thread on OE-core mailing list:
+>   http://lists.linuxtogo.org/pipermail/openembedded-core/2012-March/019136.html
+> 
+> Signed-off-by: Andreas Oberritter <obi@opendreambox.org>
+> ---
+>  scripts/bitbake |   22 ++++++++++++++++------
+>  1 files changed, 16 insertions(+), 6 deletions(-)
+> 
+> diff --git a/scripts/bitbake b/scripts/bitbake
+> index 45c8697..3377b26 100755
+> --- a/scripts/bitbake
+> +++ b/scripts/bitbake
+> @@ -47,14 +47,24 @@ float_test() {
+>  # but earlier versions do not
+>  float_test "$TARVERSION > 1.23" && needtar="0"
+>  
+> -if [ "`pwd`" != "$BUILDDIR" ] ; then
+> -    echo "BitBake must be run from your build directory: $BUILDDIR"
+> +if [ -n "$BUILDDIR" ]; then
+> +    if [ "`pwd`" != "$BUILDDIR" ] ; then
+> +        echo "BitBake must be run from your build directory: $BUILDDIR"
+> +        exit 1
+> +    fi
+> +    if [ -z "$PSEUDODONE" ]; then
+> +        PSEUDODONE="$BUILDDIR/pseudodone"
+> +    fi
+> +fi
+> +
+> +if [ -z "$PSEUDODONE" ]; then
+> +    echo "BitBake requires PSEUDODONE to be set."
+>      exit 1
+>  fi
+>  
+>  buildpseudo="1"
+> -if [ $needpseudo = "1" ] && [ -e "$BUILDDIR/pseudodone" ]; then
+> -    PSEUDOBINDIR=`cat $BUILDDIR/pseudodone`
+> +if [ $needpseudo = "1" ] && [ -e "$PSEUDODONE" ]; then
+> +    PSEUDOBINDIR=`cat $PSEUDODONE`
+>      if [ -e "$PSEUDOBINDIR/pseudo" -a -e "$PSEUDOBINDIR/tar" -a "$needtar" = "1" ]; then
+>          buildpseudo="0"
+>      fi
+> @@ -96,7 +106,7 @@ if [ $buildpseudo = "1" ]; then
+>      if [ "$ret" != "0" ]; then
+>          exit 1
+>      fi
+> -    echo $PSEUDOBINDIR > $BUILDDIR/pseudodone
+> +    echo $PSEUDOBINDIR > $PSEUDODONE
+>      # This needs to exist in case pseudo has to log somewhere
+>      mkdir -p $PSEUDOBINDIR/../../var/pseudo
+>  fi
+> @@ -104,7 +114,7 @@ BITBAKE=`which bitbake`
+>  export PATH=$OLDPATH
+>  if [ $needpseudo = "1" ]; then
+>      export PSEUDO_BUILD=2
+> -    PSEUDOBINDIR=`cat $BUILDDIR/pseudodone`
+> +    PSEUDOBINDIR=`cat $PSEUDODONE`
+>      PSEUDO_BINDIR=$PSEUDOBINDIR PSEUDO_LIBDIR=$PSEUDOBINDIR/../lib/pseudo/lib PSEUDO_PREFIX=$PSEUDOBINDIR/../../ PSEUDO_DISABLED=1 $PSEUDOBINDIR/pseudo $BITBAKE $@
+>  else
+>      export PSEUDO_BUILD=0
+
 
 
