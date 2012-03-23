@@ -1,35 +1,33 @@
 Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
 	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
 	(envelope-from <richard.purdie@linuxfoundation.org>)
-	id 1SB3Uj-0000of-Si for openembedded-core@lists.openembedded.org;
-	Fri, 23 Mar 2012 13:21:26 +0100
+	id 1SB3V6-0000qj-Em for openembedded-core@lists.openembedded.org;
+	Fri, 23 Mar 2012 13:21:48 +0100
 Received: from localhost (localhost [127.0.0.1])
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q2NCCURK026410
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q2NCCqL6026436
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 23 Mar 2012 12:12:30 GMT
+	Fri, 23 Mar 2012 12:12:52 GMT
 Received: from tim.rpsys.net ([127.0.0.1])
 	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
 	port 10024) with LMTP
-	id 26101-04 for <openembedded-core@lists.openembedded.org>;
-	Fri, 23 Mar 2012 12:12:26 +0000 (GMT)
+	id 26101-05 for <openembedded-core@lists.openembedded.org>;
+	Fri, 23 Mar 2012 12:12:46 +0000 (GMT)
 Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q2NCCMAx026403
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q2NCCjCu026429
 	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO)
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 23 Mar 2012 12:12:23 GMT
-Message-ID: <1332504745.9740.398.camel@ted>
+	Fri, 23 Mar 2012 12:12:46 GMT
+Message-ID: <1332504768.9740.399.camel@ted>
 From: Richard Purdie <richard.purdie@linuxfoundation.org>
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Date: Fri, 23 Mar 2012 12:12:25 +0000
-In-Reply-To: <1332443701-24282-1-git-send-email-schnitzeltony@googlemail.com>
-References: <1332443701-24282-1-git-send-email-schnitzeltony@googlemail.com>
+Date: Fri, 23 Mar 2012 12:12:48 +0000
+In-Reply-To: <1332440445-21028-1-git-send-email-obi@opendreambox.org>
+References: <1332440445-21028-1-git-send-email-obi@opendreambox.org>
 X-Mailer: Evolution 3.2.2- 
 Mime-Version: 1.0
 X-Virus-Scanned: amavisd-new at rpsys.net
-X-MIME-Autoconverted: from 8bit to quoted-printable by tim.rpsys.net id
-	q2NCCURK026410
-Subject: Re: [PATCH] gtk-icon-cache.bbclass: Fix multiple rebuilds of the icon cache on first boot
+Subject: Re: [PATCH] gst-plugins: remove obsolete orcc hack
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -44,73 +42,30 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 23 Mar 2012 12:21:26 -0000
+X-List-Received-Date: Fri, 23 Mar 2012 12:21:48 -0000
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 7bit
 
-On Thu, 2012-03-22 at 20:15 +0100, Andreas M=C3=BCller wrote:
-> * Before this patch every inheritance of this class rebuilt the full ic=
-on cache at the first boot.
-> * With this patch the icon cache will only be build once at the first b=
-oot and on pkg installations that require it.
-> * This patch reduces the time needed for the first boot from 96 minutes=
- to 5 minutes on the test machine.
-> * Build-tested incremental (BB_SIGNATURE_HANDLER =3D "OEBasicHash") & f=
-rom scratch
-> * Run-tested with systemd and opkg
->=20
-> Signed-off-by: Samuel Stirtzel <s.stirtzel@googlemail.com>
-> Signed-off-by: Andreas M=C3=BCller <schnitzeltony@googlemail.com>
+On Thu, 2012-03-22 at 19:20 +0100, Andreas Oberritter wrote:
+> * The sed script replacing ${bindir}/orcc with
+>   ${STAGING_BINDIR_NATIVE}/orcc causes orcc to not be found.
+>   It may have been a workaround for older versions of pkg-config
+>   or older gst-plugins. Removing it makes gst-plugins use
+>   orcc from 'orc-native' successfully, if available.
+> 
+> Signed-off-by: Andreas Oberritter <obi@opendreambox.org>
 > ---
->  meta/classes/gtk-icon-cache.bbclass                |   19 +++++++++---=
-----
->  .../gtk+/gtk-update-icon-cache-runonce.bb          |   23 ++++++++++++=
-++++++++
->  .../gtk-update-icon-cache-runonce.in               |   16 ++++++++++++=
-+
->  3 files changed, 50 insertions(+), 8 deletions(-)
->  create mode 100644 meta/recipes-gnome/gtk+/gtk-update-icon-cache-runon=
-ce.bb
->  create mode 100644 meta/recipes-gnome/gtk+/gtk-update-icon-cache-runon=
-ce/gtk-update-icon-cache-runonce.in
->=20
-> diff --git a/meta/classes/gtk-icon-cache.bbclass b/meta/classes/gtk-ico=
-n-cache.bbclass
-> index 60e3401..b48aabe 100644
-> --- a/meta/classes/gtk-icon-cache.bbclass
-> +++ b/meta/classes/gtk-icon-cache.bbclass
-> @@ -9,14 +9,16 @@ if [ "x$D" !=3D "x" ]; then
->          exit 1
->  fi
-> =20
-> -# Update the pixbuf loaders in case they haven't been registered yet
-> -GDK_PIXBUF_MODULEDIR=3D${libdir}/gdk-pixbuf-2.0/2.10.0/loaders gdk-pix=
-buf-query-loaders --update-cache
-> -
-> -for icondir in /usr/share/icons/* ; do
-> -    if [ -d $icondir ] ; then
-> -        gtk-update-icon-cache -fqt  $icondir
-> -    fi
-> -done
-> +# do not execute in case a final run-once is waiting
-> +if [ ! -e ${sysconfdir}/init.d/gtk-update-icon-cache-runonce ]; then
-> +    # Update the pixbuf loaders in case they haven't been registered y=
-et
-> +    GDK_PIXBUF_MODULEDIR=3D${libdir}/gdk-pixbuf-2.0/2.10.0/loaders gdk=
--pixbuf-query-loaders --update-cache
-> +    for icondir in /usr/share/icons/* ; do
-> +        if [ -d $icondir ] ; then
-> +            gtk-update-icon-cache -fqt  $icondir
-> +        fi
-> +    done
-> +fi
+> * v2: Added --disable-orc to gst-plugins-{base,good,base,ugly}_*.bb.
+>       Removed unused PR from gst-plugins.inc.
+> 
+>  .../gstreamer/gst-plugins-bad_0.10.23.bb           |    5 +++--
+>  .../gstreamer/gst-plugins-base_0.10.36.bb          |    4 ++--
+>  .../gstreamer/gst-plugins-good_0.10.31.bb          |    5 +++--
+>  .../gstreamer/gst-plugins-ugly_0.10.19.bb          |    5 +++--
+>  meta/recipes-multimedia/gstreamer/gst-plugins.inc  |   10 ----------
+>  5 files changed, 11 insertions(+), 18 deletions(-)
 
-
-Can't we just reduce this to adding a "touch
-${sysconfdir}/init.d/gtk-update-icon-cache-runonce" to the above code
-and then clear that file at boot time?
-
-Cheers,
+Merged to master, thanks.
 
 Richard
 
