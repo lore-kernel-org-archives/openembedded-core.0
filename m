@@ -1,20 +1,35 @@
-Received: from mga14.intel.com ([143.182.124.37])
-	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <dongxiao.xu@intel.com>) id 1SB6IU-000693-DL
-	for openembedded-core@lists.openembedded.org;
-	Fri, 23 Mar 2012 16:20:58 +0100
-Received: from azsmga002.ch.intel.com ([10.2.17.35])
-	by azsmga102.ch.intel.com with ESMTP; 23 Mar 2012 08:10:56 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="80871551"
-Received: from dongxiao-osel.sh.intel.com (HELO localhost) ([10.239.36.11])
-	by AZSMGA002.ch.intel.com with ESMTP; 23 Mar 2012 08:10:40 -0700
-From: Dongxiao Xu <dongxiao.xu@intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Fri, 23 Mar 2012 23:08:28 +0800
-Message-Id: <cover.1332514975.git.dongxiao.xu@intel.com>
-X-Mailer: git-send-email 1.7.4.1
-Subject: [PATCH 0/2][PULL] bitbake.conf: runqemu/deploy filter and XAUTHORITY
+Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
+	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <richard.purdie@linuxfoundation.org>)
+	id 1SB6K0-0006BY-RW for openembedded-core@lists.openembedded.org;
+	Fri, 23 Mar 2012 16:22:33 +0100
+Received: from localhost (localhost [127.0.0.1])
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q2NFDaWS028766
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 23 Mar 2012 15:13:36 GMT
+Received: from tim.rpsys.net ([127.0.0.1])
+	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
+	port 10024) with LMTP
+	id 28271-06 for <openembedded-core@lists.openembedded.org>;
+	Fri, 23 Mar 2012 15:13:32 +0000 (GMT)
+Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q2NFDRPo028760
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO)
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 23 Mar 2012 15:13:28 GMT
+Message-ID: <1332515611.9740.428.camel@ted>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Date: Fri, 23 Mar 2012 15:13:31 +0000
+In-Reply-To: <CABcZANm-V7QSXhdu2aUj6G-oekaHpdNohVxFRywrwmTB_GoXGQ@mail.gmail.com>
+References: <4DCCC4C4-51F4-43CF-ACF2-BF3D2BAD7BDC@dominion.thruhere.net>
+	<1332506475.9740.409.camel@ted>
+	<CABcZANm-V7QSXhdu2aUj6G-oekaHpdNohVxFRywrwmTB_GoXGQ@mail.gmail.com>
+X-Mailer: Evolution 3.2.2- 
+Mime-Version: 1.0
+X-Virus-Scanned: amavisd-new at rpsys.net
+Subject: Re: sstate reuse for -native, -cross across different host glibc version, how to make it work?
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -29,32 +44,57 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 23 Mar 2012 15:20:58 -0000
+X-List-Received-Date: Fri, 23 Mar 2012 15:22:33 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-Hi Richard,
+On Fri, 2012-03-23 at 07:12 -0700, Chris Larson wrote:
+> On Fri, Mar 23, 2012 at 5:41 AM, Richard Purdie
+> <richard.purdie@linuxfoundation.org> wrote:
+> > On Fri, 2012-03-23 at 13:22 +0100, Koen Kooi wrote:
+> >> I turned on sstate mirroring for angstrom recently and I'm getting
+> >> reports of build failures due to missing GLIBC_2.14 symbols:
+> >>
+> >> arm-angstrom-linux-gnueabi-gcc: /lib/x86_64-linux-gnu/libc.so.6:
+> >> version `GLIBC_2.14' not found (required by
+> >> arm-angstrom-linux-gnueabi-gcc)
+> >>
+> >> The sstate tarballs are built on a Fedora16 VM and the breakage occurs
+> >> when it being used on systems with an older c library (e.g. debian).
+> >> To get rid of this problem there are multiple options, but I think the
+> >> 2 most obvious are:
+> >>
+> >> 1) inject host distroname and distroversion into the checksums
+> >> 2) build everything against a native libc
+> >>
+> > 3) Use an older version on the VM which is the oldest distro you plan to
+> > build against.
+> >
+> >> Would it be appropriate to get 1) into oe-core before the branchpoint?
+> >
+> > We've talked about this and its been on the "to fix" list but nobody has
+> > got around to it. Its hard as we need to come up with something that
+> > isn't going to kill performance of the checksum calculations. A cat
+> > operation on a few files for each checksum for example isn't
+> > appropriate. We may need to do something at the bitbake level as there
+> > is also the issue of checksuming local files such as those in file://
+> > urls and including that in the sstate checksums.
+> >
+> > So whilst I'd love to see fixes for these and they are bugfixes, they're
+> > going to have to be well written patches and its late in cycle for
+> > invasive changes :(.
+> 
+> At Mentor, right now, I'm using a ConfigParsed event handler to run
+> lsb_release and inject the DISTRO/DISTRO_VERSION into the metadata,
+> which I then use vardeps to ensure get into the appropriate
+> signatures. Not perfect, but gets the job done.
 
-This pull request is for runqemu/deploy filter and adding XAUTHORITY into parsing config white list, please help to review and pull.
+Are those patches available anywhere we can look at?
 
-Thanks,
-Dongxiao
+Cheers,
 
-The following changes since commit d56177c59b5e237a501281d806724885456f0193:
+Richard
 
-  gdb-cross-canadian: Fix linking issues when python support is enabled (2012-03-23 14:00:43 +0000)
-
-are available in the git repository at:
-  git://git.pokylinux.org/poky-contrib dxu4/hob-bugfix-oecore
-  http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=dxu4/hob-bugfix-oecore
-
-Dongxiao Xu (2):
-  bitbake.conf: Define runnable and deployable pattern
-  bitbake.conf: Add XAUTHORITY into config white list
-
- meta/conf/bitbake.conf |    7 ++++++-
- 1 files changed, 6 insertions(+), 1 deletions(-)
-
--- 
-1.7.4.1
 
 
 
