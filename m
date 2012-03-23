@@ -1,45 +1,41 @@
-Received: from mail-wi0-f171.google.com ([209.85.212.171])
+Received: from mail-wg0-f43.google.com ([74.125.82.43])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <koen@dominion.thruhere.net>) id 1SB3jE-0001Lt-GN
+	(envelope-from <martin.jansa@gmail.com>) id 1SB3m6-0001T2-IY
 	for openembedded-core@lists.openembedded.org;
-	Fri, 23 Mar 2012 13:36:24 +0100
-Received: by wibhj13 with SMTP id hj13so1740340wib.6
+	Fri, 23 Mar 2012 13:39:23 +0100
+Received: by wgbdr12 with SMTP id dr12so1836993wgb.24
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 23 Mar 2012 05:27:28 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=google.com; s=20120113;
-	h=content-type:mime-version:subject:from:in-reply-to:date
-	:content-transfer-encoding:message-id:references:to:x-mailer
-	:x-gm-message-state;
-	bh=ovsH0q/HKbtsySeYEHrx6G6DaffejH2icSJXDiWMdH4=;
-	b=jQcpIVmwWAIW3b0oI3sVf+584ft3CDcR5THh3l8+AQ9Q/3v1OV+tJ6HhvwhIeXzPAV
-	Dj/WA+9Ts9tjqmY22wGCMzKDe53CmRLCaRwAlTZsQO98GAhCb2ByIxViV/ENK0CRr5CJ
-	Tw3B9i3N/IUcrTo9PwukUxe22diogG2CrAF4iPUd/NX/FBidnD2kqKQr2wtytJ2YJu+V
-	yW3aYjcVXu4ut4MVQp/KWLHD3ndiYJUVZwvcNSINF+XcHajeOfu/Ihoup/3PbYrrihZd
-	MjMYzGq5MRiIFz3Ua5j5DVn5W8WzRgNBIufZ+zYD9SEKCTfB2P9FWKSEg5IhDVT7t1Sz
-	y8Qg==
-Received: by 10.216.137.74 with SMTP id x52mr7017751wei.77.1332505648480;
-	Fri, 23 Mar 2012 05:27:28 -0700 (PDT)
-Received: from [172.20.1.36] (ip545070eb.adsl-surfen.hetnet.nl.
-	[84.80.112.235])
-	by mx.google.com with ESMTPS id fz9sm13492581wib.3.2012.03.23.05.27.27
+	Fri, 23 Mar 2012 05:30:26 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=date:from:to:subject:message-id:references:mime-version
+	:content-type:content-disposition:in-reply-to:user-agent;
+	bh=LHfqU2nSep/b1eIn09cwV7ZX3LHde3TpOrqungUGoiM=;
+	b=hl0LmjmiMCkeh6I/0PqUE5WnilHjjGA56HxrsJ3ggx7UlmrQTJPQNXBkcP88gd3Hj7
+	hfjiCGRlAsK0BxOryB4885rZqSB8d531Al5i8Qf2aJjMJ1sQRSfF0c62bJU/2D4Bex1Z
+	xSKXevaRjazocdgPftYFyG2MmADWETgEQozSvMxM1fj6pOVSubrtVnORAN7ThEmM+WQ9
+	qKaQQAX3YlqU/CLspgDFyFtAN4EwoVp0CSCAX0BoZVxD4TxkZtsJjAUQODG4YeUvyc6I
+	zfAqSmeHpzE1+mb8nJjd3XkMut92y9gybYUIoKL3s0jUtRpoQtH1mbltZVj79d8u2CuR
+	z2hw==
+Received: by 10.216.137.163 with SMTP id y35mr6804359wei.33.1332505826642;
+	Fri, 23 Mar 2012 05:30:26 -0700 (PDT)
+Received: from localhost ([94.230.152.246])
+	by mx.google.com with ESMTPS id ff2sm22418478wib.9.2012.03.23.05.30.25
 	(version=TLSv1/SSLv3 cipher=OTHER);
-	Fri, 23 Mar 2012 05:27:27 -0700 (PDT)
-Mime-Version: 1.0 (Apple Message framework v1257)
-From: Koen Kooi <koen@dominion.thruhere.net>
-In-Reply-To: <1332505323.9740.402.camel@ted>
-Date: Fri, 23 Mar 2012 13:27:24 +0100
-Message-Id: <989CC43B-0C42-48A4-8C93-3FFCBB8135E0@dominion.thruhere.net>
+	Fri, 23 Mar 2012 05:30:25 -0700 (PDT)
+Date: Fri, 23 Mar 2012 13:30:27 +0100
+From: Martin Jansa <martin.jansa@gmail.com>
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Message-ID: <20120323123027.GE3879@jama.jama.net>
 References: <1332485029-9148-1-git-send-email-Martin.Jansa@gmail.com>
 	<1332494193.9740.382.camel@ted>
 	<20120323093623.GB3879@jama.jama.net>
 	<1332502793.9740.385.camel@ted>
 	<20120323114938.GC3879@jama.jama.net>
 	<1332505323.9740.402.camel@ted>
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-X-Mailer: Apple Mail (2.1257)
-X-Gm-Message-State: ALoCoQlL9LBB17NwpeylgypqeqfLrvYQS8bjnXOZIP30MMnko+yW4LrcA7SJqWdgDSas4iagNEIN
+MIME-Version: 1.0
+In-Reply-To: <1332505323.9740.402.camel@ted>
+User-Agent: Mutt/1.5.21 (2010-09-15)
 Subject: Re: [PATCH] kernel.bbclass: populate /etc/modules-load.d/ with module_autoload entries too
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
@@ -55,59 +51,90 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 23 Mar 2012 12:36:24 -0000
+X-List-Received-Date: Fri, 23 Mar 2012 12:39:23 -0000
+X-Groupsio-MsgNum: 19532
+Content-Type: multipart/signed; micalg=pgp-sha1;
+	protocol="application/pgp-signature"; boundary="YkJPYEFdoxh/AXLE"
+Content-Disposition: inline
+
+--YkJPYEFdoxh/AXLE
 Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-
-Op 23 mrt. 2012, om 13:22 heeft Richard Purdie het volgende geschreven:
-
+On Fri, Mar 23, 2012 at 12:22:03PM +0000, Richard Purdie wrote:
 > On Fri, 2012-03-23 at 12:49 +0100, Martin Jansa wrote:
->> On Fri, Mar 23, 2012 at 11:39:53AM +0000, Richard Purdie wrote:
->>> On Fri, 2012-03-23 at 10:36 +0100, Martin Jansa wrote:
->>>> On Fri, Mar 23, 2012 at 09:16:33AM +0000, Richard Purdie wrote:
->>>>> On Fri, 2012-03-23 at 07:43 +0100, Martin Jansa wrote:
->>>>>> * /etc/modules-load.d/foo.conf is used by systemd like =
-/etc/modutils/foo was with sysvinit
->>>>>>=20
->>>>>> Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
->>>>>> ---
->>>>>> meta/classes/kernel.bbclass |   10 ++++++++--
->>>>>> 1 files changed, 8 insertions(+), 2 deletions(-)
->>>>>=20
->>>>> Since these look identical couldn't we symlink them? I'm not a big =
-fan
->>>>> of writing duplicate data to a package :/.
->>>>=20
->>>> OK I'll change it in v2
->>>=20
->>> Note that I'm wondering if we can just symlink the directory =
-entirely
->>> rather than the files themselves. There may be a reason that is a =
-bad
->>> idea but I don't know...
->>=20
->> There are different filenames (notice .conf in the end) so I have =
-patch
->> doing symlinks for files not directories.
+> > On Fri, Mar 23, 2012 at 11:39:53AM +0000, Richard Purdie wrote:
+> > > On Fri, 2012-03-23 at 10:36 +0100, Martin Jansa wrote:
+> > > > On Fri, Mar 23, 2012 at 09:16:33AM +0000, Richard Purdie wrote:
+> > > > > On Fri, 2012-03-23 at 07:43 +0100, Martin Jansa wrote:
+> > > > > > * /etc/modules-load.d/foo.conf is used by systemd like /etc/mod=
+utils/foo was with sysvinit
+> > > > > >=20
+> > > > > > Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
+> > > > > > ---
+> > > > > >  meta/classes/kernel.bbclass |   10 ++++++++--
+> > > > > >  1 files changed, 8 insertions(+), 2 deletions(-)
+> > > > >=20
+> > > > > Since these look identical couldn't we symlink them? I'm not a bi=
+g fan
+> > > > > of writing duplicate data to a package :/.
+> > > >=20
+> > > > OK I'll change it in v2
+> > >=20
+> > > Note that I'm wondering if we can just symlink the directory entirely
+> > > rather than the files themselves. There may be a reason that is a bad
+> > > idea but I don't know...
+> >=20
+> > There are different filenames (notice .conf in the end) so I have patch
+> > doing symlinks for files not directories.
 >=20
-> I'd seen the modprobe.d conf files and thought here was some =
-similarity.
+> I'd seen the modprobe.d conf files and thought here was some similarity.
+
+but that's for module options e.g.
+
+SHR root@gjama ~ $ cat /etc/modprobe.d/g_ether.conf
+options g_ether dev_addr=3D00:1F:11:01:2C:9F host_addr=3D00:1F:11:01:2C:A0
+
+not for module_autoload
+
 > I have to admit I think systemd is nuts for requiring a copy of these
-> files when it could have used the existing layout. It looks like =
-change
+> files when it could have used the existing layout. It looks like change
 > for the sake of change :(.
->=20
+
+then why not patch=20
+/usr/sbin/update-modules
+to read /etc/modules-load.d/*.conf instead of /etc/modutils/* as this is
+just simple script imported from debian to produce /etc/modules file
+which is IMHO all what we need for old init script
+(modutils-initscripts) to read.
+
 > I'm nearly tempted to suggest we should just patch systemd to use the
 > other filenames...
+>=20
+> Cheers,
+>=20
+> Richard
+>=20
+>=20
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
 
-The point the systemd developers want to make is to use the same path =
-across all distros out there. Patching it would defeat the purpose. =
-Unless we want to fork and maintain our own init system and scripts, =
-like we do with sysvinit currently.
+--=20
+Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
 
-regards,
+--YkJPYEFdoxh/AXLE
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: Digital signature
 
-Koen=
+-----BEGIN PGP SIGNATURE-----
+Version: GnuPG v2.0.18 (GNU/Linux)
 
+iEYEARECAAYFAk9sbOIACgkQN1Ujt2V2gBzw5gCbBe24NzPVFT+8rXXAlSazfqPh
+alwAnja3So4+QZTXa3hsdakMyZho3+ua
+=2ZJG
+-----END PGP SIGNATURE-----
 
+--YkJPYEFdoxh/AXLE--
