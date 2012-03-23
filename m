@@ -1,55 +1,32 @@
-Received: from mail-yx0-f175.google.com ([209.85.213.175])
+Received: from mail-wi0-f177.google.com ([209.85.212.177])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <raj.khem@gmail.com>) id 1SAy8q-0004m9-9p
+	(envelope-from <martin.jansa@gmail.com>) id 1SAyMk-0005sO-Jh
 	for openembedded-core@lists.openembedded.org;
-	Fri, 23 Mar 2012 07:38:28 +0100
-Received: by yenm3 with SMTP id m3so2484749yen.6
+	Fri, 23 Mar 2012 07:52:50 +0100
+Received: by wibhj13 with SMTP id hj13so1515699wib.6
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 22 Mar 2012 23:29:32 -0700 (PDT)
+	Thu, 22 Mar 2012 23:43:54 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=message-id:date:from:user-agent:mime-version:to:cc:subject
-	:references:in-reply-to:content-type:content-transfer-encoding;
-	bh=xTttl9Tv2igFXKq1kDbGP5YsqFw/EXcvgRL7PP34LaA=;
-	b=npn51fmaHMHBh1GRglhkFP3w+3p576AyJ3jpLDsq7qy9iU0DpnDKFS0+lctobkIh0e
-	m8aSkPRRvNTbBskPEqjhVBWPWddm7UdGnNDKEjSuwBRi/oTe8oSUV4rUw7P1u7mohV08
-	DAGrn3GquzTeQXTg/3VQZlKZImxmOvEHbVcP0Lot3ouVZFPk/XGhIzv7+1hfcrI7ey8o
-	wMutfB5wKRYT2QAhbk/7oLJNDWY9xEmInmHiQyR2cRl92rsb9gvMYn8MDL4q0NF+azwB
-	EqyfaKlpG5GHSxiBzfYKHvfPLJTezFhOaby6BepWwORuzG4EhmtVHODbOodIZU8pRskG
-	m3mQ==
-Received: by 10.68.211.135 with SMTP id nc7mr26359926pbc.113.1332484171680;
-	Thu, 22 Mar 2012 23:29:31 -0700 (PDT)
-Received: from [192.168.1.79] (99-57-140-209.lightspeed.sntcca.sbcglobal.net.
-	[99.57.140.209])
-	by mx.google.com with ESMTPS id r10sm5165481pbf.22.2012.03.22.23.29.29
-	(version=SSLv3 cipher=OTHER); Thu, 22 Mar 2012 23:29:30 -0700 (PDT)
-Message-ID: <4F6C1847.8090708@gmail.com>
-Date: Thu, 22 Mar 2012 23:29:27 -0700
-From: Khem Raj <raj.khem@gmail.com>
-User-Agent: Mozilla/5.0 (X11; Linux i686;
-	rv:11.0) Gecko/20120313 Thunderbird/11.0
-MIME-Version: 1.0
-To: =?ISO-8859-1?Q?Eric_B=E9nard?= <eric@eukrea.com>
-References: <cover.1332347414.git.nitin.a.kamble@intel.com>
-	<CAMKF1sq7hcTKrzFBYgmUOTcdQw6sC1FG4jUhsfKauqeXLQMgsg@mail.gmail.com>
-	<ADD6A3980E8C39419A432FF422031B4C0137B889@ORSMSX106.amr.corp.intel.com>
-	<CAMKF1srP52bxqwkaqPZTQbRmhp_V+4-iJ7wTKeKWfC1z4W=fyw@mail.gmail.com>
-	<ADD6A3980E8C39419A432FF422031B4C0137BAA8@ORSMSX106.amr.corp.intel.com>
-	<CAMKF1sobw_wT_ZKhXs9Y-d0jSG-QWzKOprgf7+zM8a_BjjQgEQ@mail.gmail.com>
-	<20120322131310.1c6455d1@eb-e6520>
-	<CAMKF1sqEGjWMpPTQxP3j1bbP6H2FQqAgHZGm399ejC-RyDxboQ@mail.gmail.com>
-	<20120322134340.1af3dfda@eb-e6520>
-	<CAMKF1srORF53h-V+fKTjJn2jWg=f6nOaMf_eUmYPLnW-ovc7NQ@mail.gmail.com>
-	<20120322141455.644058f0@eb-e6520>
-	<ADD6A3980E8C39419A432FF422031B4C0137BE5C@ORSMSX106.amr.corp.intel.com>
-	<CAMKF1srd0KanO6NfQtm0U39GZS_ANsu9KdRR0hirpKQrhMCxzg@mail.gmail.com>
-	<ADD6A3980E8C39419A432FF422031B4C0137BEEB@ORSMSX106.amr.corp.intel.com>
-	<CAMKF1sr=PedPsmpPSGC42Wvof9fHbR26JM2hgEZjA3h621ynxA@mail.gmail.com>
-	<20120322223127.136698cf@eb-e6520>
-In-Reply-To: <20120322223127.136698cf@eb-e6520>
-Cc: Martin Jansa <martin.jansa@gmail.com>,
-	Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 1/1] Revert "gdb-cross-canadian: build gdb with python support"
+	h=from:to:cc:subject:date:message-id:x-mailer;
+	bh=B5bQ+fkMt38vtJoEThWVIPVnGo+axPU4Hu6HzojfpAo=;
+	b=tdXispUyCf7HNpCfl2H68eGTJTG/r0STUMSGMl+CAkUk9oy2MWmNXZs2xQJcD1Jhce
+	liJ6Ib95fFUbxELADSLkyjEoAClMcjTU0joVlU8wAFcDBSC+ArJBa42lmq4GV4P78J8m
+	urAA9X95B/Bo4WvUciWTO6sl/qHjsINH3xId/7cZOC8arb+ennq76d5xT8pYoF9t2Ytn
+	21BuYp6+B+mXqQeBygQvcGtSNaaRTbj0nqddI9LBEEGgZ7aBPJdrEDIAO9pfztwBOBdU
+	/FcNJDQcWI6RuxTIM3nRQeIjUnUNBvbhT26ayaXiYzeRBCXPmx6GLIiW16l5ixdPpvcn
+	9FvQ==
+Received: by 10.180.79.135 with SMTP id j7mr3710448wix.19.1332485034773;
+	Thu, 22 Mar 2012 23:43:54 -0700 (PDT)
+Received: from localhost ([94.230.152.246])
+	by mx.google.com with ESMTPS id gp8sm11356199wib.5.2012.03.22.23.43.53
+	(version=TLSv1/SSLv3 cipher=OTHER);
+	Thu, 22 Mar 2012 23:43:53 -0700 (PDT)
+From: Martin Jansa <martin.jansa@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Date: Fri, 23 Mar 2012 07:43:49 +0100
+Message-Id: <1332485029-9148-1-git-send-email-Martin.Jansa@gmail.com>
+X-Mailer: git-send-email 1.7.8.5
+Subject: [PATCH] kernel.bbclass: populate /etc/modules-load.d/ with module_autoload entries too
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -64,68 +41,59 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 23 Mar 2012 06:38:28 -0000
-Content-Type: text/plain; charset=ISO-8859-1; format=flowed
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Fri, 23 Mar 2012 06:52:52 -0000
 
-On 03/22/2012 02:31 PM, Eric Bénard wrote:
-> Hi Khem, Hi Nitin,
->
-> Le Thu, 22 Mar 2012 12:16:44 -0700,
-> Khem Raj<raj.khem@gmail.com>  a écrit :
->> On Thu, Mar 22, 2012 at 10:38 AM, Kamble, Nitin A
->> <nitin.a.kamble@intel.com>  wrote:
->>> Looks like we need this patch for the python recipe to generate debug modules:
->>> http://patch-tracker.debian.org/patch/series/view/python2.7/2.7.2-8/debug-build.diff
->>
->> yep thats the one. Apply it to python and rebuild python-native and
->> stage it then see if that helps. You might have to adjust the FILES
->> and PACKAGES to put the new files in right places.
->
-> With this patch all the libraries (including libpython2.7) now have a _d
-> suffix : is that what we really want ?
->
-> Once that's hacked in the recipe so that do_compile works - in case
-> someone has an idea - I get a failure during installation of
-> python-nativesdk :
-> build/tmp-eglibc/work/x86_64-nativesdk-oesdk-linux/python-nativesdk-2.7.2-r1.9/image/usr/local/oecore-x86_64/sysroots/x86_64-oesdk-linux/usr/lib/python2.7/sysconfig.py :
-> return os.path.join(get_path('platstdlib'), "config" + (sys.pydebug and
-> "_d" or ""), "Makefile") | AttributeError: 'module' object has no
-> attribute 'pydebug
->
-> I checked on both debian&  fedora and they are using this patch only to
-> generate debug packages, not for the standard package.
-> Moreover, when I execute gdb on my PC (Fedora 16) it runs fine and I
-> don't have readline_d.so installed in lib-dynload so it seems possible
-> to get gdb to work with python without having debug symbols.
->
-> Eric
+* /etc/modules-load.d/foo.conf is used by systemd like /etc/modutils/foo was with sysvinit
 
-when I launch gdb I end up with
+Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
+---
+ meta/classes/kernel.bbclass |   10 ++++++++--
+ 1 files changed, 8 insertions(+), 2 deletions(-)
 
-Traceback (most recent call last):
-   File "/usr/lib/python2.7/site.py", line 562, in <module>
-     main()
-   File "/usr/lib/python2.7/site.py", line 544, in main
-     known_paths = addusersitepackages(known_paths)
-   File "/usr/lib/python2.7/site.py", line 271, in addusersitepackages
-     user_site = getusersitepackages()
-   File "/usr/lib/python2.7/site.py", line 246, in getusersitepackages
-     user_base = getuserbase() # this will also set USER_BASE
-   File "/usr/lib/python2.7/site.py", line 236, in getuserbase
-     USER_BASE = get_config_var('userbase')
-   File "/usr/lib/python2.7/sysconfig.py", line 543, in get_config_var
-     return get_config_vars().get(name)
-   File "/usr/lib/python2.7/sysconfig.py", line 442, in get_config_vars
-     _init_posix(_CONFIG_VARS)
-   File "/usr/lib/python2.7/sysconfig.py", line 303, in _init_posix
-     makefile = _get_makefile_filename()
-   File "/usr/lib/python2.7/sysconfig.py", line 297, in 
-_get_makefile_filename
-     return 
-os.path.join(get_path('platstdlib').replace("/usr/local","/usr",1), 
-"config" + (sys.pydebug and "_d" or ""), "Makefile")
-AttributeError: 'module' object has no attribute 'pydebug'
+diff --git a/meta/classes/kernel.bbclass b/meta/classes/kernel.bbclass
+index 169df33..975ae13 100644
+--- a/meta/classes/kernel.bbclass
++++ b/meta/classes/kernel.bbclass
+@@ -122,6 +122,7 @@ kernel_do_install() {
+ 	install -m 0644 vmlinux ${D}/boot/vmlinux-${KERNEL_VERSION}
+ 	[ -e Module.symvers ] && install -m 0644 Module.symvers ${D}/boot/Module.symvers-${KERNEL_VERSION}
+ 	install -d ${D}/etc/modutils
++	install -d ${D}/etc/modules-load.d
+ 	install -d ${D}/etc/modprobe.d
+ 
+ 	#
+@@ -411,6 +412,11 @@ python populate_packages_prepend () {
+ 			for m in autoload.split():
+ 				f.write('%s\n' % m)
+ 			f.close()
++			name = '%s/etc/modules-load.d/%s.conf' % (dvar, basename)
++			f = open(name, 'w')
++			for m in autoload.split():
++				f.write('%s\n' % m)
++			f.close()
+ 			postinst = d.getVar('pkg_postinst_%s' % pkg, True)
+ 			if not postinst:
+ 				bb.fatal("pkg_postinst_%s not defined" % pkg)
+@@ -426,7 +432,7 @@ python populate_packages_prepend () {
+ 			f.close()
+ 
+ 		files = d.getVar('FILES_%s' % pkg, True)
+-		files = "%s /etc/modutils/%s /etc/modutils/%s.conf /etc/modprobe.d/%s.conf" % (files, basename, basename, basename)
++		files = "%s /etc/modutils/%s /etc/modutils/%s.conf /etc/modules-load.d/%s.conf /etc/modprobe.d/%s.conf" % (files, basename, basename, basename, basename)
+ 		d.setVar('FILES_%s' % pkg, files)
+ 
+ 		if vals.has_key("description"):
+@@ -456,7 +462,7 @@ python populate_packages_prepend () {
+ 	# avoid warnings. removedirs only raises an OSError if an empty
+ 	# directory cannot be removed.
+ 	dvar = d.getVar('PKGD', True)
+-	for dir in ["%s/etc/modutils" % (dvar), "%s/etc/modprobe.d" % (dvar)]:
++	for dir in ["%s/etc/modutils" % (dvar), "%s/etc/modprobe.d" % (dvar), "%s/etc/modules-load.d" % (dvar)]:
+ 		if len(os.listdir(dir)) == 0:
+ 			os.rmdir(dir)
+ 
+-- 
+1.7.8.5
 
 
 
