@@ -1,37 +1,37 @@
-Received: from mail-wg0-f43.google.com ([74.125.82.43])
+Received: from mail-we0-f175.google.com ([74.125.82.175])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <martin.jansa@gmail.com>) id 1SBDA6-00079K-DZ
+	(envelope-from <martin.jansa@gmail.com>) id 1SBDAB-00075m-Ri
 	for openembedded-core@lists.openembedded.org;
-	Fri, 23 Mar 2012 23:40:47 +0100
-Received: by wgbdr12 with SMTP id dr12so2180917wgb.24
+	Fri, 23 Mar 2012 23:40:51 +0100
+Received: by mail-we0-f175.google.com with SMTP id a1so3010738wer.6
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 23 Mar 2012 15:31:50 -0700 (PDT)
+	Fri, 23 Mar 2012 15:31:57 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
 	h=from:to:subject:date:message-id:x-mailer:in-reply-to:references
 	:in-reply-to:references;
-	bh=iULZvlk2axDPigkZZenaftXS2mw9rfmzkatAtBXDss4=;
-	b=Duj3WfsIBRgJdhuebpE5WhrNSMqffmEZgD5m7RK+Y8il4OZ0aBAoiACMO83Z3s0shs
-	JLWJtwng4VsaiJw2fE8AYS/o/fhAx4XQTdrpIsHrArNNQt0FrogiPknaUFAkiCHGzEa8
-	Fz8RW6k2Tr5Y8pnbPeZ68xVCAUOv6ebENyB7cegG+DvBc9GBsqGb4F1Wnd3FzZBBZ0br
-	MekhoQ02myHOIwvR8lc97RdRA8bV96/DY3AbRbikKX9XrbPLOrypRwMmCDYJ4K63I+56
-	9s1Pt6MkCqTuN80EjgKNWYDZQeaqBZ+WgfqwH5ir/ldQcSi1iOcDHZnVrRtRTDWzsOuy
-	LhUQ==
-Received: by 10.180.85.70 with SMTP id f6mr663698wiz.5.1332541910091;
-	Fri, 23 Mar 2012 15:31:50 -0700 (PDT)
+	bh=WKQGxXBOeSstGPoYDl0vWzOMzWHSbbpYddDWLxJlb0I=;
+	b=PaT/WPKBsi0nXdU+580uCxtpgYd3yyiZdZGSu4z97uyImdp+jnN2ocP968Q/wQjGyN
+	H5el0tzj92oXwP+edcP1be+AUwupo3j/jp1vgfNjiB6webNmQXxO/ENPGEadTdmXYO2I
+	Dco2jtksNZPF4/hGQm4U/qEpPX6BqmgPPVM7to/fhHIyvoLEJzAcVeqwt7Q8PT8A9co6
+	jilrrtd279MQqGa243Y+t2Jj/ZpLeEWP6DqHh3tjZoeesDy+TAGa6/NiJ34eKf5C6FYG
+	CnWPYWvDxj5O9UbS44LICutUJXjYnDn0dJ2vsQTHE270nXNa+irTEaDa7wXWjGyDGVZJ
+	yu2Q==
+Received: by 10.216.52.14 with SMTP id d14mr7645058wec.35.1332541917599;
+	Fri, 23 Mar 2012 15:31:57 -0700 (PDT)
 Received: from localhost ([94.230.152.246])
-	by mx.google.com with ESMTPS id w10sm28710515wiy.3.2012.03.23.15.31.48
+	by mx.google.com with ESMTPS id 17sm18038991wis.0.2012.03.23.15.31.56
 	(version=TLSv1/SSLv3 cipher=OTHER);
-	Fri, 23 Mar 2012 15:31:49 -0700 (PDT)
+	Fri, 23 Mar 2012 15:31:56 -0700 (PDT)
 From: Martin Jansa <martin.jansa@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Fri, 23 Mar 2012 23:30:48 +0100
-Message-Id: <4bce96ced483a59426562afa63b4a79ec6e92d38.1332541342.git.Martin.Jansa@gmail.com>
+Date: Fri, 23 Mar 2012 23:30:49 +0100
+Message-Id: <f5729dee0c8d33a3974907320af54bdb62f4904e.1332541342.git.Martin.Jansa@gmail.com>
 X-Mailer: git-send-email 1.7.8.5
 In-Reply-To: <af4afbb6196cc0f3bacdca43776ae952c7bf4b05.1332541342.git.Martin.Jansa@gmail.com>
 References: <af4afbb6196cc0f3bacdca43776ae952c7bf4b05.1332541342.git.Martin.Jansa@gmail.com>
 In-Reply-To: <cover.1332541342.git.Martin.Jansa@gmail.com>
 References: <cover.1332541342.git.Martin.Jansa@gmail.com>
-Subject: [PATCHv 09/10] pango: import native support and --disable-introspection from meta-oe
+Subject: [PATCHv 10/10] rootfs_ipk: replace 3 opkg-cl calls with one in get_package_filename
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -46,37 +46,34 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 23 Mar 2012 22:40:47 -0000
+X-List-Received-Date: Fri, 23 Mar 2012 22:40:51 -0000
 
-* see http://git.openembedded.org/meta-openembedded/commit/?id=3f4c8edc60b3426dd96f76504169d742a04c1ce1
-  for details about --disable-introspection
+* || true is needed for cases where grep doesn't find anything
+* and quotes around info are needed to keep line breaks
 
 Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
 ---
- meta/recipes-graphics/pango/pango.inc |    3 +++
- 1 files changed, 3 insertions(+), 0 deletions(-)
+ meta/classes/rootfs_ipk.bbclass |    7 ++++---
+ 1 files changed, 4 insertions(+), 3 deletions(-)
 
-diff --git a/meta/recipes-graphics/pango/pango.inc b/meta/recipes-graphics/pango/pango.inc
-index a2d5dc3..e7681b6 100644
---- a/meta/recipes-graphics/pango/pango.inc
-+++ b/meta/recipes-graphics/pango/pango.inc
-@@ -15,6 +15,8 @@ DEPENDS = "glib-2.0 fontconfig freetype zlib virtual/libiconv gtk-doc-native cai
- PACKAGECONFIG ??= "${@base_contains('DISTRO_FEATURES', 'x11', 'x11', '', d)}"
- PACKAGECONFIG[x11] = "--with-x,--without-x,${X11DEPENDS}"
+diff --git a/meta/classes/rootfs_ipk.bbclass b/meta/classes/rootfs_ipk.bbclass
+index 2df8ca4..13bd4bf 100644
+--- a/meta/classes/rootfs_ipk.bbclass
++++ b/meta/classes/rootfs_ipk.bbclass
+@@ -127,9 +127,10 @@ list_installed_packages() {
+ }
  
-+BBCLASSEXTEND = "native"
-+DEPENDS_virtclass-native = "glib-2.0-native cairo-native"
+ get_package_filename() {
+-	name=`opkg-cl ${IPKG_ARGS} info $1 | grep -B 7 -A 7 "^Status.* \(\(installed\)\|\(unpacked\)\)" | awk '/^Package/ {printf $2"_"}'`
+-	name=$name`opkg-cl ${IPKG_ARGS} info $1 | grep -B 7 -A 7 "^Status.* \(\(installed\)\|\(unpacked\)\)" | awk -F: '/^Version/ {printf $NF"_"}' | sed 's/^\s*//g'`
+-	name=$name`opkg-cl ${IPKG_ARGS} info $1 | grep -B 7 -A 7 "^Status.* \(\(installed\)\|\(unpacked\)\)" | awk '/^Archi/ {print $2".ipk"}'`
++	info=`opkg-cl ${IPKG_ARGS} info $1 | grep -B 7 -A 7 "^Status.* \(\(installed\)\|\(unpacked\)\)" || true`
++	name=`echo "${info}" | awk '/^Package/ {printf $2"_"}'`
++	name=$name`echo "${info}" | awk -F: '/^Version/ {printf $NF"_"}' | sed 's/^\s*//g'`
++	name=$name`echo "${info}" | awk '/^Archi/ {print $2".ipk"}'`
  
- PACKAGES_DYNAMIC = "pango-module-*"
- 
-@@ -33,6 +35,7 @@ EXTRA_AUTORECONF = ""
- FULL_OPTIMIZATION_arm = "-O2"
- 
- EXTRA_OECONF = "--disable-glibtest \
-+		--disable-introspection \
- 		--enable-explicit-deps=no \
- 	        --disable-debug"
- 
+ 	fullname=`find ${DEPLOY_DIR_IPK} -name "$name" || true`
+ 	if [ "$fullname" = "" ] ; then
 -- 
 1.7.8.5
 
