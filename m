@@ -1,41 +1,35 @@
-Received: from mail-we0-f175.google.com ([74.125.82.175])
+Received: from mail-yx0-f175.google.com ([209.85.213.175])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <martin.jansa@gmail.com>) id 1SB7cP-00083R-V7
+	(envelope-from <raj.khem@gmail.com>) id 1SB7ce-00085i-Tm
 	for openembedded-core@lists.openembedded.org;
-	Fri, 23 Mar 2012 17:45:38 +0100
-Received: by wera1 with SMTP id a1so2804150wer.6
+	Fri, 23 Mar 2012 17:45:53 +0100
+Received: by yenm3 with SMTP id m3so2894300yen.6
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 23 Mar 2012 09:36:41 -0700 (PDT)
+	Fri, 23 Mar 2012 09:36:56 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=date:from:to:subject:message-id:references:mime-version
-	:content-type:content-disposition:in-reply-to:user-agent;
-	bh=gEjjeGKuoSuOuh5v1iaZpNiYKyHrTXHf88Y1vOb/+NQ=;
-	b=vz3TdIsj0bMr+sMNpyEAuSFHvdZvE8GYx+zL8rNQxKK4kytlSQdwe0p+a5Hubvx6bA
-	zyjQTgIWukRtiu0Afg3AXV3/40pvBcN7AUysn3MZmhakZmnxBYJ3hMpKwM6NdIOfnAnx
-	R05JhatYwpD9eiakyZmhiFdRa05owZbde/EBR717VrN8NWuxTfB1hbb5F9yt3TeYfsXu
-	2FrctTTd46De7Hcx1UMVawFrkPfN42mzbOGte/jHzQbWxPN3oKt+CGva+TEulMOxGuey
-	VpxVXoVOgAEjPazVHCutjiCMGt1a/S3pVPSZFrEDGovuDutIvDrHJ96uh7pNPtP1h6eh
-	7yHg==
-Received: by 10.216.135.199 with SMTP id u49mr7700546wei.7.1332520601454;
-	Fri, 23 Mar 2012 09:36:41 -0700 (PDT)
-Received: from localhost ([94.230.152.246])
-	by mx.google.com with ESMTPS id gp8sm15057548wib.5.2012.03.23.09.36.39
-	(version=TLSv1/SSLv3 cipher=OTHER);
-	Fri, 23 Mar 2012 09:36:40 -0700 (PDT)
-Date: Fri, 23 Mar 2012 17:36:41 +0100
-From: Martin Jansa <martin.jansa@gmail.com>
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Message-ID: <20120323163641.GL3879@jama.jama.net>
-References: <1332516428-9675-1-git-send-email-gary@mlbassoc.com>
-	<1332516428-9675-3-git-send-email-gary@mlbassoc.com>
-	<20120323153553.GJ3879@jama.jama.net>
-	<20120323154819.GK3879@jama.jama.net>
-	<4F6CA27B.5050800@mlbassoc.com> <4F6CA4C7.3080600@mlbassoc.com>
+	h=date:subject:message-id:from:to:cc:mime-version:content-type
+	:content-transfer-encoding;
+	bh=y0k8XXyFAjMZ09XdFMZKU+WpOlVBfNoEYmZKJktfY5s=;
+	b=JcEIBll5baxIpCYE3PrRK25d6HE564YjdTXttrbwkDW83Fr7WYNO+BvO3CU14+leR2
+	trNAayUN+HtEROMwm4TqwOWSX1SwS04vAbiNPGsp9qSIGyIZ5ObVkG3smxhhUaMzSIv+
+	tmAYFPtPty9ssZI01S0swCrChL8jlJx2VZgiX/dFui8bn+hy3BmJKU6SX+F4poHREOsz
+	AFBMJt3gjS3wiKLqZlu1r32/8ZXYq2sZ9HtBmwqvG/jN1Zgm0N8pIXvr+jNERTtiEmTI
+	o6wr0SAxNS/5JkpOyr+IMBPLJRgkGs5lluXwAixSJj8zT0iTj3DHHL/RTctnisKtr0cc
+	F4PQ==
+Received: by 10.68.131.1 with SMTP id oi1mr30394890pbb.102.1332520615812;
+	Fri, 23 Mar 2012 09:36:55 -0700 (PDT)
+Received: from [22.167.165.37] (mf10536d0.tmodns.net. [208.54.5.241])
+	by mx.google.com with ESMTPS id g4sm6133998pbt.58.2012.03.23.09.36.53
+	(version=SSLv3 cipher=OTHER); Fri, 23 Mar 2012 09:36:54 -0700 (PDT)
+Date: Fri, 23 Mar 2012 09:36:46 -0700
+Message-ID: <xna3ujdvoyvh9m51g7hfhmvu.1332520606617@email.android.com>
+From: Khem Raj <raj.khem@gmail.com>
+To: "Kamble, Nitin A" <nitin.a.kamble@intel.com>
 MIME-Version: 1.0
-In-Reply-To: <4F6CA4C7.3080600@mlbassoc.com>
-User-Agent: Mutt/1.5.21 (2010-09-15)
-Subject: Re: [PATCH 2/2] python: Fix minimal packaging dependencies
+Cc: Martin Jansa <martin.jansa@gmail.com>,
+	Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 1/1] Revert "gdb-cross-canadian: build gdb with python support"
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -50,180 +44,47 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 23 Mar 2012 16:45:38 -0000
-X-Groupsio-MsgNum: 19584
-Content-Type: multipart/signed; micalg=pgp-sha1;
-	protocol="application/pgp-signature"; boundary="eMP3JyRexyk9c0Bv"
-Content-Disposition: inline
+X-List-Received-Date: Fri, 23 Mar 2012 16:45:53 -0000
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: base64
 
---eMP3JyRexyk9c0Bv
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+TXkgcGF0Y2ggdG9vayBjYXJlIG9mIGV2ZXJ5dGhpbmcgaW5jbHVkaW5nIHBhdGhzCi1raGVtCgoi
+S2FtYmxlLCBOaXRpbiBBIiA8bml0aW4uYS5rYW1ibGVAaW50ZWwuY29tPiB3cm90ZToKCj4+IC0t
+LS0tT3JpZ2luYWwgTWVzc2FnZS0tLS0tCj4+IEZyb206IEtoZW0gUmFqIFttYWlsdG86cmFqLmto
+ZW1AZ21haWwuY29tXQo+PiBTZW50OiBGcmlkYXksIE1hcmNoIDIzLCAyMDEyIDU6MDcgQU0KPj4g
+VG86IEVyaWMgQsOpbmFyZAo+PiBDYzogS2FtYmxlLCBOaXRpbiBBOyBQYXRjaGVzIGFuZCBkaXNj
+dXNzaW9ucyBhYm91dCB0aGUgb2UtY29yZSBsYXllcjsKPj4gTWFydGluIEphbnNhCj4+IFN1Ympl
+Y3Q6IFJlOiBbT0UtY29yZV0gW1BBVENIIDEvMV0gUmV2ZXJ0ICJnZGItY3Jvc3MtY2FuYWRpYW46
+IGJ1aWxkCj4+IGdkYiB3aXRoIHB5dGhvbiBzdXBwb3J0Igo+PiAKPj4gT24gMDMvMjMvMjAxMiAw
+MTozMSBBTSwgRXJpYyBCw6luYXJkIHdyb3RlOgo+PiA+IEhpIEtoZW0sCj4+ID4KPj4gPiBMZSBG
+cmksIDIzIE1hciAyMDEyIDAwOjEyOjI1IC0wNzAwLAo+PiA+IEtoZW0gUmFqPHJhai5raGVtQGdt
+YWlsLmNvbT4gIGEgw6ljcml0IDoKPj4gPj4gT0sgY2FuIHlvdSB0cnkgZm9sbG93aW5nIHBhdGNo
+ID8gKHVudGVzdGVkKSBpdCBkb2VzIG5vdCBmaXggdGhlCj4+IHBhdGhzIHNvCj4+ID4+IG9uY2Ug
+eW91IGluc3RhbGwgc2RrIGl0IHdpbGwgaGF2ZSB0byBiZSBmaXhlZCBhcyB5b3UgZGlkIHdpdGgK
+Pj4gY2hycGF0aAo+PiA+PiBmb3IgdGVzdGluZwo+PiA+Pgo+PiA+PiBodHRwOi8vcGFzdGUudWJ1
+bnR1LmNvbS84OTYwODIvCj4+ID4+Cj4+ID4+IEkgdGhpbmsgaXNzdWUgaXMgY3VycmVudGx5IHdl
+IGFyZSBsaW5raW5nIHdpdGggc3RhdGljIHZlcnNpb24gb2YKPj4gPj4gbGlicHl0aG9uIGFuZCBh
+bHNvIHRoZSBzZWFyY2ggcGF0aCB0byBmaW5kIHB5dGhvbiBleGVjdXRhYmxlIGZvciBnZGIKPj4g
+Pj4gd2hlbiBydW5uaW5nIGlzIC91c3IvYmluIGFuZCBub3QgdGhlIHB5dGhvbiBmcm9tIFNESyBz
+byB0aGlzIHBhdGNoCj4+ID4+IHRha2VzIGNhcmUgb2YgYm90aAo+PiA+Pgo+PiA+IHZlcnkgZ29v
+ZCBjYXRjaCwgbm93IGdkYiBydW5zIGZpbmUgYW5kIHN0cmFjZSBzaG93cyB0aGF0IGl0IGxvYWRz
+Cj4+ID4gdGhlIHJpZ2h0IGxpYnJhcnkgOgo+PiA+Cj4+ID4gb3BlbigiL3Vzci9sb2NhbC9vZWNv
+cmUteDg2XzY0L3N5c3Jvb3RzL3g4Nl82NC1vZXNkay0KPj4gbGludXgvdXNyL2xpYi9weXRob24y
+LjcvbGliLWR5bmxvYWQvcmVhZGxpbmUuc28iLAo+PiA+IE9fUkRPTkxZKSA9IDYgZnN0YXQoNiwg
+e3N0X21vZGU9U19JRlJFR3wwNzU1LCBzdF9zaXplPTIzNTIwLCAuLi59KSA9Cj4+IDAKPj4gPiBm
+dXRleCgweDdmM2FkYTQ4ZTBhOCwgRlVURVhfV0FLRV9QUklWQVRFLCAyMTQ3NDgzNjQ3KSA9IDAK
+Pj4gPiBvcGVuKCIvdXNyL2xvY2FsL29lY29yZS14ODZfNjQvc3lzcm9vdHMveDg2XzY0LW9lc2Rr
+LQo+PiBsaW51eC91c3IvbGliL3B5dGhvbjIuNy9saWItZHlubG9hZC9yZWFkbGluZS5zbyIsCj4+
+ID4gT19SRE9OTFkpID0gNyByZWFkKDcsCj4+ID4gIlwxNzdFTEZcMlwxXDFcMFwwXDBcMFwwXDBc
+MFwwXDBcM1wwPlwwXDFcMFwwXDBgJVwwXDBcMFwwXDBcMCIuLi4sCj4+IDgzMikKPj4gPiA9IDgz
+MiBmc3RhdCg3LCB7c3RfbW9kZT1TX0lGUkVHfDA3NTUsIHN0X3NpemU9MjM1MjAsIC4uLn0pID0g
+MAo+PiA+IG1tYXAoTlVMTCwgMjExODk1MiwgUFJPVF9SRUFEfFBST1RfRVhFQywgTUFQX1BSSVZB
+VEV8TUFQX0RFTllXUklURSwKPj4gNywKPj4gPiAwKSA9IDB4N2YzYWQ4YTA1MDAwCj4+ID4KPj4g
+PiBFcmljCj4+IAo+PiBnb29kLiBTbyB0aGlzIHBhdGNoIGRvZXMgdGhlIHRyaWNrLiBJIHdpbGwg
+cG9zdCBwcm9wZXIgcGF0Y2ggc2hvcnRseQo+PiB3ZSBzdGlsbCBuZWVkIHRvIGZpeCB0aGUgcnBh
+dGggcHJvYmxlbSB0aG91Z2gKPgo+S2hlbSwKPiAgIFRoYW5rcyBmb3IgZml4aW5nIHRoZSBnZGIg
+aXNzdWUgYXQgdGhlIHJvb3QgY2F1c2UuIEFuZCBJIGhhdmUgYSBmaXggZm9yIHRoZSBycGF0aCBp
+c3N1ZS4KPlRoYW5rcywKPk5pdGluCj4K
 
-On Fri, Mar 23, 2012 at 10:28:55AM -0600, Gary Thomas wrote:
-> On 2012-03-23 10:19, Gary Thomas wrote:
-> > On 2012-03-23 09:48, Martin Jansa wrote:
-> >> On Fri, Mar 23, 2012 at 04:35:53PM +0100, Martin Jansa wrote:
-> >>> On Fri, Mar 23, 2012 at 09:27:08AM -0600, Gary Thomas wrote:
-> >>>> If you install the top-level python package only on a minimal
-> >>>> system which has no other python packages installed then python
-> >>>> is not functional at all. Without any extra packages installed
-> >>>> this error is seen:
-> >>>> # python
-> >>>> Traceback (most recent call last):
-> >>>> File "/usr/lib/python2.7/site.py", line 64, in<module>
-> >>>> import traceback
-> >>>> ImportError: No module named traceback
-> >>>>
-> >>>> Installing python-lang only partly fixes the problem as this
-> >>>> error still exists:
-> >>>> # python
-> >>>> Traceback (most recent call last):
-> >>>> File "/usr/lib/python2.7/site.py", line 569, in<module>
-> >>>> main()
-> >>>> File "/usr/lib/python2.7/site.py", line 551, in main
-> >>>> known_paths =3D addusersitepackages(known_paths)
-> >>>> File "/usr/lib/python2.7/site.py", line 278, in addusersitepackages
-> >>>> user_site =3D getusersitepackages()
-> >>>> File "/usr/lib/python2.7/site.py", line 253, in getusersitepackages
-> >>>> user_base =3D getuserbase() # this will also set USER_BASE
-> >>>> File "/usr/lib/python2.7/site.py", line 243, in getuserbase
-> >>>> USER_BASE =3D get_config_var('userbase')
-> >>>> File "/usr/lib/python2.7/sysconfig.py", line 520, in get_config_var
-> >>>> return get_config_vars().get(name)
-> >>>> File "/usr/lib/python2.7/sysconfig.py", line 400, in get_config_vars
-> >>>> import re
-> >>>> ImportError: No module named re
-> >>>>
-> >>>> Signed-off-by: Gary Thomas<gary@mlbassoc.com>
-> >>>> ---
-> >>>> meta/recipes-devtools/python/python_2.7.2.bb | 3 ++-
-> >>>> 1 files changed, 2 insertions(+), 1 deletions(-)
-> >>>>
-> >>>> diff --git a/meta/recipes-devtools/python/python_2.7.2.bb b/meta/rec=
-ipes-devtools/python/python_2.7.2.bb
-> >>>> index 8111b31..f1ba42d 100644
-> >>>> --- a/meta/recipes-devtools/python/python_2.7.2.bb
-> >>>> +++ b/meta/recipes-devtools/python/python_2.7.2.bb
-> >>>> @@ -1,6 +1,6 @@
-> >>>> require python.inc
-> >>>> DEPENDS =3D "python-native bzip2 db gdbm openssl readline sqlite3 zl=
-ib"
-> >>>> -PR =3D "${INC_PR}.8"
-> >>>> +PR =3D "${INC_PR}.9"
-> >>>>
-> >>>> DISTRO_SRC_URI ?=3D "file://sitecustomize.py"
-> >>>> DISTRO_SRC_URI_linuxstdbase =3D ""
-> >>>> @@ -123,6 +123,7 @@ py_package_preprocess () {
-> >>>> require python-${PYTHON_MAJMIN}-manifest.inc
-> >>>
-> >>> This should be fixed probably in
-> >>> scripts/contrib/python/generate-manifest-2.7.py
-> >>>
-> >>>>
-> >>>> # manual dependency additions
-> >>>> +RRDEPENDS_${PN} =3D "${PN}-lang ${PN}-re"
-> >>>
-> >>> And here is typo, how did you test this change?
-> >>
-> >> And also notice that there is no ${PN} in PACKAGES, so by "top-level
-> >> python package" you mean python-core right?
-> >
-> > Yes. As far as my testing, it got muddled with something else and
-> > what I've proposed doesn't help, sorry. I'm looking into how to fix
-> > this via the generate-manifest script and will send a different patch
-> > shortly [I hope].
->=20
-> Sadly, my attempt to fix this doesn't work.  Here's what I tried, but
-> it has no effect:
 
-have you executed updated script to actually regenerate manifest and
-rebuild python with updated manifest?
 
-> diff --git a/scripts/contrib/python/generate-manifest-2.7.py b/scripts/co=
-ntrib/python/generate-manifest-2.7.py
-> index 85ca353..bde7db9 100755
-> --- a/scripts/contrib/python/generate-manifest-2.7.py
-> +++ b/scripts/contrib/python/generate-manifest-2.7.py
-> @@ -160,7 +160,7 @@ if __name__ =3D=3D "__main__":
->       # Parameters: revision, name, description, dependencies, filenames
->       #
->=20
-> -    m.addPackage( "${PN}-core", "Python Interpreter and core modules (ne=
-eded!)", "",
-> +    m.addPackage( "${PN}-core", "Python Interpreter and core modules (ne=
-eded!)", "${PN}-lang ${PN}-re",
->       "__future__.* _abcoll.* abc.* copy.* copy_reg.* ConfigParser.* " +
->       "genericpath.* getopt.* linecache.* new.* " +
->       "os.* posixpath.* struct.* " +
-> @@ -276,7 +276,7 @@ if __name__ =3D=3D "__main__":
->       m.addPackage( "${PN}-json", "Python JSON Support", "${PN}-core ${PN=
-}-math ${PN}-re",
->       "json lib-dynload/_json.so" ) # package
->=20
-> -    m.addPackage( "${PN}-lang", "Python Low-Level Language Support", "${=
-PN}-core",
-> +    m.addPackage( "${PN}-lang", "Python Low-Level Language Support", "",
-
-why? what if someone tries to install python-lang, how he get
-python-core?
-
->       "lib-dynload/_bisect.so lib-dynload/_collections.so lib-dynload/_he=
-apq.so lib-dynload/_weakref.so lib-dynload/_funct
->       "lib-dynload/array.so lib-dynload/itertools.so lib-dynload/operator=
-=2Eso lib-dynload/parser.so " +
->       "atexit.* bisect.* code.* codeop.* collections.* dis.* functools.* =
-heapq.* inspect.* keyword.* opcode.* symbol.* rep
-> @@ -322,7 +322,7 @@ if __name__ =3D=3D "__main__":
->       m.addPackage( "${PN}-profile", "Python Basic Profiling Support", "$=
-{PN}-core ${PN}-textutils",
->       "profile.* pstats.* cProfile.* lib-dynload/_lsprof.so" )
->=20
-> -    m.addPackage( "${PN}-re", "Python Regular Expression APIs", "${PN}-c=
-ore",
-> +    m.addPackage( "${PN}-re", "Python Regular Expression APIs", "",
-
-the same, why? what if someone tries to install python-re, how he get
-python-core?
-
->       "re.* sre.* sre_compile.* sre_constants* sre_parse.*" ) # _sre is b=
-uiltin
->=20
->       m.addPackage( "${PN}-readline", "Python Readline Support", "${PN}-c=
-ore",
->=20
-> >
-> > Query: if I change the script, should I also bum PR in this recipe?
-> >
-> >
->=20
-> For now, I'll just have to install python-lang and python-re manually...
->=20
-> --=20
-> ------------------------------------------------------------
-> Gary Thomas                 |  Consulting for the
-> MLB Associates              |    Embedded world
-> ------------------------------------------------------------
->=20
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
-
---=20
-Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
-
---eMP3JyRexyk9c0Bv
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: Digital signature
-
------BEGIN PGP SIGNATURE-----
-Version: GnuPG v2.0.18 (GNU/Linux)
-
-iEYEARECAAYFAk9sppkACgkQN1Ujt2V2gBxkBACgoBm9EOYDJGavsZVskdF0Qr1s
-INQAnR++HRGz89wId9TIyOIKgGW2Nie+
-=QbIr
------END PGP SIGNATURE-----
-
---eMP3JyRexyk9c0Bv--
