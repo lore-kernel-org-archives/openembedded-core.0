@@ -1,16 +1,16 @@
 Received: from ffm.saftware.de ([83.141.3.46])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <obi@opendreambox.org>) id 1SB7dW-0008Bj-K4
+	(envelope-from <obi@opendreambox.org>) id 1SB7dX-0008Bo-2G
 	for openembedded-core@lists.openembedded.org;
-	Fri, 23 Mar 2012 17:46:46 +0100
+	Fri, 23 Mar 2012 17:46:47 +0100
 From: Andreas Oberritter <obi@opendreambox.org>
 To: openembedded-core@lists.openembedded.org
-Date: Fri, 23 Mar 2012 17:37:39 +0100
-Message-Id: <1332520659-12233-4-git-send-email-obi@opendreambox.org>
+Date: Fri, 23 Mar 2012 17:37:38 +0100
+Message-Id: <1332520659-12233-3-git-send-email-obi@opendreambox.org>
 X-Mailer: git-send-email 1.7.5.4
 In-Reply-To: <1332520659-12233-1-git-send-email-obi@opendreambox.org>
 References: <1332520659-12233-1-git-send-email-obi@opendreambox.org>
-Subject: [PATCH 4/4] ppp: drop unneeded pkg-postinst
+Subject: [PATCH 3/4] sysvinit: use update-alternatives for mountpoint and runlevel
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -25,49 +25,63 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 23 Mar 2012 16:46:46 -0000
+X-List-Received-Date: Fri, 23 Mar 2012 16:46:47 -0000
 
-* pkg-postinst was used to make pppd setuid root, which
-  can now be done in do_install() instead.
+* mountpoint and runlevel may be provided by busybox.
+* Use update-alternatives to avoid conflict.
 
 Signed-off-by: Andreas Oberritter <obi@opendreambox.org>
 ---
- meta/recipes-connectivity/ppp/ppp_2.4.5.bb |   11 ++---------
- 1 files changed, 2 insertions(+), 9 deletions(-)
+ meta/recipes-core/sysvinit/sysvinit_2.88dsf.bb |    8 +++++++-
+ 1 files changed, 7 insertions(+), 1 deletions(-)
 
-diff --git a/meta/recipes-connectivity/ppp/ppp_2.4.5.bb b/meta/recipes-connectivity/ppp/ppp_2.4.5.bb
-index 9232e6f..6af0d42 100644
---- a/meta/recipes-connectivity/ppp/ppp_2.4.5.bb
-+++ b/meta/recipes-connectivity/ppp/ppp_2.4.5.bb
-@@ -10,7 +10,7 @@ LIC_FILES_CHKSUM = "file://pppd/ccp.c;beginline=1;endline=29;md5=e2c43fe6e81ff77
-                     file://pppd/plugins/passprompt.c;beginline=1;endline=10;md5=3bcbcdbf0e369c9a3e0b8c8275b065d8 \
-                     file://pppd/tdb.c;beginline=1;endline=27;md5=4ca3a9991b011038d085d6675ae7c4e6 \
-                     file://chat/chat.c;beginline=1;endline=15;md5=0d374b8545ee5c62d7aff1acbd38add2"
--PR = "r3"
-+PR = "r4"
+diff --git a/meta/recipes-core/sysvinit/sysvinit_2.88dsf.bb b/meta/recipes-core/sysvinit/sysvinit_2.88dsf.bb
+index 663e298..d3e430c 100644
+--- a/meta/recipes-core/sysvinit/sysvinit_2.88dsf.bb
++++ b/meta/recipes-core/sysvinit/sysvinit_2.88dsf.bb
+@@ -5,7 +5,7 @@ SECTION = "base"
+ LICENSE = "GPLv2+"
+ LIC_FILES_CHKSUM = "file://COPYING;md5=751419260aa954499f7abaabaa882bbe \
+                     file://COPYRIGHT;endline=15;md5=349c872e0066155e1818b786938876a4"
+-PR = "r5"
++PR = "r6"
  
- SRC_URI = "http://ppp.samba.org/ftp/ppp/ppp-${PV}.tar.gz \
-            file://makefile.patch \
-@@ -49,6 +49,7 @@ do_install_append () {
- 	install -m 0755 ${WORKDIR}/08setupdns ${D}${sysconfdir}/ppp/ip-up.d/
- 	install -m 0755 ${WORKDIR}/92removedns ${D}${sysconfdir}/ppp/ip-down.d/
- 	rm -rf ${D}/${mandir}/man8/man8
-+	chmod u+s ${D}${sbindir}/pppd
+ RDEPENDS_${PN} = "${PN}-inittab"
+ 
+@@ -66,9 +66,11 @@ do_install () {
+ 		ln -s ../init.d/stop-bootlogd ${D}${sysconfdir}/rc$level.d/S99stop-bootlogd
+ 	done
+ 	mv                 ${D}${base_sbindir}/init               ${D}${base_sbindir}/init.${BPN}
++	mv ${D}${base_bindir}/mountpoint ${D}${base_bindir}/mountpoint.${BPN}
+ 	mv ${D}${base_bindir}/pidof ${D}${base_bindir}/pidof.${BPN}
+ 	mv ${D}${base_sbindir}/halt ${D}${base_sbindir}/halt.${BPN}
+ 	mv ${D}${base_sbindir}/reboot ${D}${base_sbindir}/reboot.${BPN}
++	mv ${D}${base_sbindir}/runlevel ${D}${base_sbindir}/runlevel.${BPN}
+ 	mv ${D}${base_sbindir}/shutdown ${D}${base_sbindir}/shutdown.${BPN}
+ 	mv ${D}${base_sbindir}/poweroff ${D}${base_sbindir}/poweroff.${BPN}
+ 	mv ${D}${bindir}/last ${D}${bindir}/last.${BPN}
+@@ -77,8 +79,10 @@ do_install () {
  }
  
- CONFFILES_${PN} = "${sysconfdir}/ppp/pap-secrets ${sysconfdir}/ppp/chap-secrets ${sysconfdir}/ppp/options"
-@@ -72,11 +73,3 @@ DESCRIPTION_${PN}-minconn  = "Plugin for PPP to specify a minimum connect time b
- DESCRIPTION_${PN}-password = "Plugin for PPP to get passwords via a pipe"
- DESCRIPTION_${PN}-l2tp     = "Plugin for PPP for l2tp support"
- DESCRIPTION_${PN}-tools    = "The pppdump and pppstats utitilities"
--
--pkg_postinst_${PN}() {
--if test "x$D" != "x"; then
--	exit 1
--else
--	chmod u+s ${sbindir}/pppd
--fi
--}
+ pkg_postinst_${PN} () {
++	update-alternatives --install ${base_bindir}/mountpoint mountpoint mountpoint.${BPN} 200
+ 	update-alternatives --install ${base_sbindir}/halt halt halt.${BPN} 200
+ 	update-alternatives --install ${base_sbindir}/reboot reboot reboot.${BPN} 200
++	update-alternatives --install ${base_sbindir}/runlevel runlevel runlevel.${BPN} 200
+ 	update-alternatives --install ${base_sbindir}/shutdown shutdown shutdown.${BPN} 200
+ 	update-alternatives --install ${base_sbindir}/poweroff poweroff poweroff.${BPN} 200
+ 	update-alternatives --install ${bindir}/last last last.${BPN} 200
+@@ -87,8 +91,10 @@ pkg_postinst_${PN} () {
+ }
+ 
+ pkg_prerm_${PN} () {
++	update-alternatives --remove mountpoint mountpoint.${BPN}
+ 	update-alternatives --remove halt halt.${BPN}
+ 	update-alternatives --remove reboot reboot.${BPN}
++	update-alternatives --remove runlevel runlevel.${BPN}
+ 	update-alternatives --remove shutdown shutdown.${BPN}
+ 	update-alternatives --remove poweroff poweroff.${BPN}
+ 	update-alternatives --remove last last.${BPN}
 -- 
 1.7.5.4
 
