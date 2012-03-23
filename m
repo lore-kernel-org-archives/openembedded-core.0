@@ -1,31 +1,44 @@
-Received: from hermes.mlbassoc.com ([64.234.241.98] helo=mail.chez-thomas.org)
+Received: from mail-wi0-f171.google.com ([209.85.212.171])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <gary@mlbassoc.com>) id 1SB7LZ-0007kD-97
+	(envelope-from <koen@dominion.thruhere.net>) id 1SB7Qq-0007pe-70
 	for openembedded-core@lists.openembedded.org;
-	Fri, 23 Mar 2012 17:28:13 +0100
-Received: by mail.chez-thomas.org (Postfix, from userid 1998)
-	id 76284F8126F; Fri, 23 Mar 2012 10:19:18 -0600 (MDT)
-X-Spam-Checker-Version: SpamAssassin 3.3.2 (2011-06-06) on
-	hermes.chez-thomas.org
-X-Spam-Level: 
-X-Spam-Status: No, score=-2.9 required=4.0 tests=ALL_TRUSTED,BAYES_00
-	autolearn=ham version=3.3.2
-Received: from hermes.chez-thomas.org (localhost.localdomain [127.0.0.1])
-	by mail.chez-thomas.org (Postfix) with ESMTP id B4A8DF8126E;
-	Fri, 23 Mar 2012 10:19:07 -0600 (MDT)
-Message-ID: <4F6CA27B.5050800@mlbassoc.com>
-Date: Fri, 23 Mar 2012 10:19:07 -0600
-From: Gary Thomas <gary@mlbassoc.com>
-User-Agent: Mozilla/5.0 (X11; Linux i686;
-	rv:10.0.1) Gecko/20120216 Thunderbird/10.0.1
-MIME-Version: 1.0
-To: openembedded-core@lists.openembedded.org
-References: <1332516428-9675-1-git-send-email-gary@mlbassoc.com>
-	<1332516428-9675-3-git-send-email-gary@mlbassoc.com>
-	<20120323153553.GJ3879@jama.jama.net>
-	<20120323154819.GK3879@jama.jama.net>
-In-Reply-To: <20120323154819.GK3879@jama.jama.net>
-Subject: Re: [PATCH 2/2] python: Fix minimal packaging dependencies
+	Fri, 23 Mar 2012 17:33:40 +0100
+Received: by wibhj13 with SMTP id hj13so1979623wib.6
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 23 Mar 2012 09:24:44 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=google.com; s=20120113;
+	h=subject:mime-version:content-type:from:in-reply-to:date:cc
+	:content-transfer-encoding:message-id:references:to:x-mailer
+	:x-gm-message-state;
+	bh=yPOHyTfEJ+wQCirvtWWT0pT9GMoJ6oBuN2/pI9q5YGs=;
+	b=Ctv9O1wrJmoT7bO959mHAOc0sPn0K/bPZNCB2nSBxtSB8h3fHlaVFocJ7nUEJ2cI4W
+	xxmBaa3KcPVanH0j5piKpTw1eax3go61+l7wuxWIOnIgWh5XCQV960+UMTsSvblVvA6q
+	qrmz9J6Lv0FnWDLCGQpd4hXfxNee/pO6+rtir6E5+rkMYfsy//wkqXf5m/z7SEO0Fcgq
+	vF1wgRiQU//D5oIVtuPpEr2F8psk1lCo4JWifg7L+UQQLjMCAAUjFPjTGO4E57QPR6pS
+	S9F5W8f9ORguINgSS1vaVolOhC+FbZ+3cCG9cSmbUKCMzTHcb1GEuBnYYkC3re6u55H+
+	PTQA==
+Received: by 10.180.102.231 with SMTP id fr7mr7923992wib.10.1332519884132;
+	Fri, 23 Mar 2012 09:24:44 -0700 (PDT)
+Received: from [172.20.1.36] (ip545070eb.adsl-surfen.hetnet.nl.
+	[84.80.112.235])
+	by mx.google.com with ESMTPS id n15sm14972663wiw.6.2012.03.23.09.24.42
+	(version=TLSv1/SSLv3 cipher=OTHER);
+	Fri, 23 Mar 2012 09:24:43 -0700 (PDT)
+Mime-Version: 1.0 (Apple Message framework v1257)
+From: Koen Kooi <koen@dominion.thruhere.net>
+In-Reply-To: <3214701.W7HFGlpmRA@helios>
+Date: Fri, 23 Mar 2012 17:24:38 +0100
+Message-Id: <B31C3748-FFDF-4546-AB8F-4063AD96401D@dominion.thruhere.net>
+References: <1332429941-19621-1-git-send-email-koen@dominion.thruhere.net>
+	<4330166.INQO86P9ch@helios>
+	<DB5813F2-48CD-4353-BE92-A090AEA00FBC@dominion.thruhere.net>
+	<3214701.W7HFGlpmRA@helios>
+To: Paul Eggleton <paul.eggleton@linux.intel.com>
+X-Mailer: Apple Mail (2.1257)
+X-Gm-Message-State: ALoCoQkhrETzESZoZ1j8LLfuRyrQ8w04qqkSs6GvzvxHwfCZDliyeUyZ8LQwSveeWpV4oAaKuC5y
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCHv3 2/3] buildhistory: record all builds
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -40,87 +53,30 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 23 Mar 2012 16:28:13 -0000
-Content-Type: text/plain; charset=ISO-8859-1; format=flowed
-Content-Transfer-Encoding: 7bit
-
-On 2012-03-23 09:48, Martin Jansa wrote:
-> On Fri, Mar 23, 2012 at 04:35:53PM +0100, Martin Jansa wrote:
->> On Fri, Mar 23, 2012 at 09:27:08AM -0600, Gary Thomas wrote:
->>> If you install the top-level python package only on a minimal
->>> system which has no other python packages installed then python
->>> is not functional at all.  Without any extra packages installed
->>> this error is seen:
->>>    # python
->>>    Traceback (most recent call last):
->>>      File "/usr/lib/python2.7/site.py", line 64, in<module>
->>>        import traceback
->>>    ImportError: No module named traceback
->>>
->>> Installing python-lang only partly fixes the problem as this
->>> error still exists:
->>>    # python
->>>    Traceback (most recent call last):
->>>      File "/usr/lib/python2.7/site.py", line 569, in<module>
->>>        main()
->>>      File "/usr/lib/python2.7/site.py", line 551, in main
->>>        known_paths = addusersitepackages(known_paths)
->>>      File "/usr/lib/python2.7/site.py", line 278, in addusersitepackages
->>>        user_site = getusersitepackages()
->>>      File "/usr/lib/python2.7/site.py", line 253, in getusersitepackages
->>>        user_base = getuserbase() # this will also set USER_BASE
->>>      File "/usr/lib/python2.7/site.py", line 243, in getuserbase
->>>        USER_BASE = get_config_var('userbase')
->>>      File "/usr/lib/python2.7/sysconfig.py", line 520, in get_config_var
->>>        return get_config_vars().get(name)
->>>      File "/usr/lib/python2.7/sysconfig.py", line 400, in get_config_vars
->>>        import re
->>>    ImportError: No module named re
->>>
->>> Signed-off-by: Gary Thomas<gary@mlbassoc.com>
->>> ---
->>>   meta/recipes-devtools/python/python_2.7.2.bb |    3 ++-
->>>   1 files changed, 2 insertions(+), 1 deletions(-)
->>>
->>> diff --git a/meta/recipes-devtools/python/python_2.7.2.bb b/meta/recipes-devtools/python/python_2.7.2.bb
->>> index 8111b31..f1ba42d 100644
->>> --- a/meta/recipes-devtools/python/python_2.7.2.bb
->>> +++ b/meta/recipes-devtools/python/python_2.7.2.bb
->>> @@ -1,6 +1,6 @@
->>>   require python.inc
->>>   DEPENDS = "python-native bzip2 db gdbm openssl readline sqlite3 zlib"
->>> -PR = "${INC_PR}.8"
->>> +PR = "${INC_PR}.9"
->>>
->>>   DISTRO_SRC_URI ?= "file://sitecustomize.py"
->>>   DISTRO_SRC_URI_linuxstdbase = ""
->>> @@ -123,6 +123,7 @@ py_package_preprocess () {
->>>   require python-${PYTHON_MAJMIN}-manifest.inc
->>
->> This should be fixed probably in
->> scripts/contrib/python/generate-manifest-2.7.py
->>
->>>
->>>   # manual dependency additions
->>> +RRDEPENDS_${PN} = "${PN}-lang ${PN}-re"
->>
->> And here is typo, how did you test this change?
->
-> And also notice that there is no ${PN} in PACKAGES, so by "top-level
-> python package" you mean python-core right?
-
-Yes.  As far as my testing, it got muddled with something else and
-what I've proposed doesn't help, sorry.  I'm looking into how to fix
-this via the generate-manifest script and will send a different patch
-shortly [I hope].
-
-Query: if I change the script, should I also bum PR in this recipe?
+X-List-Received-Date: Fri, 23 Mar 2012 16:33:40 -0000
+Content-Type: text/plain; charset=us-ascii
+Content-Transfer-Encoding: quoted-printable
 
 
--- 
-------------------------------------------------------------
-Gary Thomas                 |  Consulting for the
-MLB Associates              |    Embedded world
-------------------------------------------------------------
+Op 23 mrt. 2012, om 16:53 heeft Paul Eggleton het volgende geschreven:
+
+> On Friday 23 March 2012 16:48:35 Koen Kooi wrote:
+>> I get that, but I'm having trouble coming up with something that =
+isn't
+>> already covered but the "record all builds" statement :(
+>=20
+> I know what you mean, but I think that just stating its "so that the =
+commit=20
+> log of the buildhistory repo provides a complete log of all builds =
+performed,=20
+> not just those that resulted in changes" would be sufficient.
+
+Added that, thanks!
+
+I'll respin 3/3 with Chris' feedback as well.
+
+regards,
+
+Koen=
 
 
