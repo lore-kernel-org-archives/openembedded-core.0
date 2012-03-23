@@ -1,27 +1,31 @@
 Received: from masterfoo.zenlinux.com ([207.192.74.254])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <scott.a.garman@intel.com>) id 1SAwUT-0006u4-Mu
+	(envelope-from <scott.a.garman@intel.com>) id 1SAwUW-0006v7-UG
 	for openembedded-core@lists.openembedded.org;
-	Fri, 23 Mar 2012 05:52:41 +0100
+	Fri, 23 Mar 2012 05:52:45 +0100
 Received: from localhost (c-76-105-137-48.hsd1.or.comcast.net [76.105.137.48])
 	(using TLSv1 with cipher DHE-RSA-AES128-SHA (128/128 bits))
 	(No client certificate requested)
-	by masterfoo.zenlinux.com (Postfix) with ESMTP id 2DD3F2FD1D
+	by masterfoo.zenlinux.com (Postfix) with ESMTP id 9A9732FD24
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 23 Mar 2012 00:43:42 -0400 (EDT)
+	Fri, 23 Mar 2012 00:43:44 -0400 (EDT)
 From: Scott Garman <scott.a.garman@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Thu, 22 Mar 2012 21:43:40 -0700
-Message-Id: <cover.1332453478.git.scott.a.garman@intel.com>
+Date: Thu, 22 Mar 2012 21:43:41 -0700
+Message-Id: <e7e0cacf7bc478c69f9798846d8bdeb9ff4da6a6.1332453478.git.scott.a.garman@intel.com>
 X-Mailer: git-send-email 1.7.5.4
+In-Reply-To: <cover.1332453478.git.scott.a.garman@intel.com>
+References: <cover.1332453478.git.scott.a.garman@intel.com>
+In-Reply-To: <cover.1332453478.git.scott.a.garman@intel.com>
+References: <cover.1332453478.git.scott.a.garman@intel.com>
 X-MasterFoo-MailScanner-Information: Please contact the ISP for more
 	information
-X-MailScanner-ID: 2DD3F2FD1D.E70C6
+X-MailScanner-ID: 9A9732FD24.EF1C2
 X-MasterFoo-MailScanner: Found to be clean
 X-MasterFoo-MailScanner-SpamCheck: not spam
 X-MasterFoo-MailScanner-From: scott.a.garman@intel.com
 X-Spam-Status: No
-Subject: [PATCH 0/2] Two useradd fixes
+Subject: [PATCH 1/2] package_rpm.bbclass: ensure base-passwd and shadow get installed first
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -36,52 +40,41 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 23 Mar 2012 04:52:41 -0000
+X-List-Received-Date: Fri, 23 Mar 2012 04:52:45 -0000
 
-Hello,
+When generating images, we need to make sure that base-passwd and
+shadow get installed before other packages, which might need to create
+custom user accounts.
 
-This pull request fixes two race conditions related to the useradd code.
+Thanks to Richard Purdie for the initial version of this fix.
 
-Yocto bug #2127 describes how when using the RPM package manager, the
-order of package installation during generatin of the rootfs did not
-guarantee that base-passwd and shadow would be installed before other
-packages which need to install custom users/groups in their postinstall
-functions. This fix ensures that when base-passwd and/or shadow are
-part of an image, they will be installed first during image generation.
+This fixes [YOCTO #2127]
 
-The second race condition is described in Yocto bug #1794, and can occur
-if two build steps try to update the sysroot passwd/group files at the
-same time. Since the shadow utilities enforce file locking, the commands
-will fail to run. The fix for this involves checking for failure and
-retrying the commands up to 10 times, with a 1s delay between attempts
-before giving up.
-
-Verifying these fixes involved creating numerous images and useradd-based
-packages repeatedly on a build host with high parallelism, and also doing
-so from a pre-populated sstate-cache. I was able to reliably simulate the
-file locking behavior by making the passwd/group files read only when
-developing the fix for #1794. 
-
-Scott
-
-The following changes since commit 87e581bb7da9f1530d190cd023fcf892c8b858f5:
-
-  ddimage: Add script for writing images to boot media (2012-03-22 19:17:54 +0000)
-
-are available in the git repository at:
-  git://git.pokylinux.org/poky-contrib sgarman/useradd-lock-fix-oe
-  http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=sgarman/useradd-lock-fix-oe
-
-Scott Garman (2):
-  package_rpm.bbclass: ensure base-passwd and shadow get installed
-    first
-  useradd.bbclass: retry useradd/groupadd commands to avoid lock race
-    issues
-
+Signed-off-by: Scott Garman <scott.a.garman@intel.com>
+---
  meta/classes/package_rpm.bbclass |    9 ++++++++-
- meta/classes/useradd.bbclass     |   36 ++++++++++++++++++++++++++++++++++--
- 2 files changed, 42 insertions(+), 3 deletions(-)
+ 1 files changed, 8 insertions(+), 1 deletions(-)
 
+diff --git a/meta/classes/package_rpm.bbclass b/meta/classes/package_rpm.bbclass
+index 80b1619..e83fc55 100644
+--- a/meta/classes/package_rpm.bbclass
++++ b/meta/classes/package_rpm.bbclass
+@@ -439,7 +439,14 @@ package_install_internal_rpm () {
+ 
+ 	fi
+ 
+-	cat ${target_rootfs}/install/install_solution.manifest > ${target_rootfs}/install/total_solution.manifest
++	# If base-passwd or shadow are in the list of packages to install,
++	# ensure they are installed first to support later packages that
++	# may create custom users/groups (fixes Yocto bug #2127)
++	infile=${target_rootfs}/install/install_solution.manifest
++	outfile=${target_rootfs}/install/total_solution.manifest
++	cat $infile | grep /base-passwd-[0-9] > $outfile || true
++	cat $infile | grep /shadow-[0-9] >> $outfile || true
++	cat $infile | grep -v /shadow-[0-9] | grep -v /base-passwd-[0-9] >> $outfile
+ 	cat ${target_rootfs}/install/install_multilib_solution.manifest >> ${target_rootfs}/install/total_solution.manifest
+ 
+ 	# Construct install scriptlet wrapper
 -- 
 1.7.5.4
 
