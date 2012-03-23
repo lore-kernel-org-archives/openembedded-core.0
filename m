@@ -1,42 +1,42 @@
-Received: from mail-wg0-f43.google.com ([74.125.82.43])
+Received: from mail-wi0-f171.google.com ([209.85.212.171])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <koen@dominion.thruhere.net>) id 1SB8IT-0000r7-IL
+	(envelope-from <koen@dominion.thruhere.net>) id 1SB8KV-0000v1-8f
 	for openembedded-core@lists.openembedded.org;
-	Fri, 23 Mar 2012 18:29:05 +0100
-Received: by wgbdr12 with SMTP id dr12so2018498wgb.24
+	Fri, 23 Mar 2012 18:31:11 +0100
+Received: by wibhj13 with SMTP id hj13so2035071wib.6
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 23 Mar 2012 10:20:09 -0700 (PDT)
+	Fri, 23 Mar 2012 10:22:15 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=google.com; s=20120113;
-	h=content-type:mime-version:subject:from:in-reply-to:date
+	h=subject:mime-version:content-type:from:in-reply-to:date:cc
 	:content-transfer-encoding:message-id:references:to:x-mailer
 	:x-gm-message-state;
-	bh=c42Ia5L4YkJCokn3gTuKeZYI1AUU3iY/VMys+gM9hGs=;
-	b=ALIR3XsbRY2KglpwhZ4imlfjXnszDY74MV3l9TnoOMG0eo4PCWzxAgS4PKhPzWAPC2
-	NXOX7xXH0BWynlJZSEKqqFZ1uB2iUYYEhiOA8Up9SIe/8AHU2JK0rr1cZyKfDxtEpm4a
-	1nrUM2hx6VThs6SpLGsMQI+XtJe/G+7ZeExCxnE9qeYgfkWUdXDfp/FaGfIq1Gsxo/QP
-	uQuZbpbdjfcA9Ydgw1ToRJpFk29t2dSaJEzkmZG2N5lhPo61KgXZ/a2A9ggz//EFdvTQ
-	h3fK/9Rz7k8l8GDLuKMnrZn20Sa2cHgpRhf5iuGoE3B257NLn9fnPR1H9b4OVW4tz1Vm
-	klzw==
-Received: by 10.180.94.33 with SMTP id cz1mr8357956wib.13.1332523209191;
-	Fri, 23 Mar 2012 10:20:09 -0700 (PDT)
+	bh=mpwdpTM3JKOZmHsxSsrJXCjVLWdrknVbUCaLM0CmAzE=;
+	b=Qc3V2YFUVmRZUKvtW/PJrvI86SpwOnRsC97y29rPMz2eHfjYwjoNbjTwj6DAuvB6HR
+	4Xm5Ugj+RRwXWh5rt/xDYdu4m7hbQUeVHgrkplID/Jj8U9sopNPFQlMr8oVCwJ3tFJ+d
+	4273r+lx1dcn+wXkgStwgG5RsG1SxX+Xdrm8x5Eil48nvQIKk4etkxfmIFPprBWAA9yA
+	CK4fTkCFrHvyJ57OUO+JTlLHU8PO3bEtwbmsVfE+qWCQkCrPaM5coyElQkp7SqLPgunx
+	igPjwy4ax8Sk5oaUDgE2foTTePGExireT/4xOVQvhum4uKvHZzwK2ApbVt0sOjXyEEMV
+	n+Dg==
+Received: by 10.216.139.204 with SMTP id c54mr7321757wej.103.1332523334867;
+	Fri, 23 Mar 2012 10:22:14 -0700 (PDT)
 Received: from [172.20.1.36] (ip545070eb.adsl-surfen.hetnet.nl.
 	[84.80.112.235])
-	by mx.google.com with ESMTPS id fn2sm25433020wib.0.2012.03.23.10.20.07
+	by mx.google.com with ESMTPS id ex2sm25360942wib.8.2012.03.23.10.22.13
 	(version=TLSv1/SSLv3 cipher=OTHER);
-	Fri, 23 Mar 2012 10:20:08 -0700 (PDT)
+	Fri, 23 Mar 2012 10:22:14 -0700 (PDT)
 Mime-Version: 1.0 (Apple Message framework v1257)
 From: Koen Kooi <koen@dominion.thruhere.net>
-In-Reply-To: <1332520659-12233-2-git-send-email-obi@opendreambox.org>
-Date: Fri, 23 Mar 2012 18:20:05 +0100
-Message-Id: <6382DE52-47CF-478A-A10A-26F27EF1AE06@dominion.thruhere.net>
-References: <1332520659-12233-1-git-send-email-obi@opendreambox.org>
-	<1332520659-12233-2-git-send-email-obi@opendreambox.org>
+In-Reply-To: <cover.1332522200.git.bruce.ashfield@windriver.com>
+Date: Fri, 23 Mar 2012 18:22:10 +0100
+Message-Id: <C7DE296F-975E-4CCE-91BD-5C562C50CC8D@dominion.thruhere.net>
+References: <cover.1332522200.git.bruce.ashfield@windriver.com>
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
 X-Mailer: Apple Mail (2.1257)
-X-Gm-Message-State: ALoCoQkJNIw9Ho9697pdl4mX6WyXBjwbcCiXD6ptENoUCQBooGMSsIjOOogHsQovmUkhk69iylF5
-Subject: Re: [PATCH 2/4] module.bbclass: sync pkg_post{inst, rm} with kernel.bbclass
+X-Gm-Message-State: ALoCoQna0wL5bCX096kZlx3GlzwTV5Hn4rfMRMzvYw2XbjFQELk7DfMezxv/Dtag5msArb/eBtQd
+Cc: saul.wold@intel.com
+Subject: Re: [PATCH 0/3] linux-libc-headers: 3.2 and linux-libc-headers-yocto movement
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -51,42 +51,49 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 23 Mar 2012 17:29:05 -0000
+X-List-Received-Date: Fri, 23 Mar 2012 17:31:11 -0000
 Content-Type: text/plain; charset=us-ascii
 Content-Transfer-Encoding: quoted-printable
 
 
-Op 23 mrt. 2012, om 17:37 heeft Andreas Oberritter het volgende =
-geschreven:
+Op 23 mrt. 2012, om 18:07 heeft Bruce Ashfield het volgende geschreven:
 
-> * Run depmod when the rootfs gets generated.
+> Richard/Saul,
 >=20
-> Signed-off-by: Andreas Oberritter <obi@opendreambox.org>
-> ---
-> meta/classes/module.bbclass |    9 +++++----
-> 1 files changed, 5 insertions(+), 4 deletions(-)
+> As discussed on the mailing list here is a libc-headers series. I've =
+kept it in
+> three parts so you can pick what you want (except for the minor detail =
+of=20
+> needing to split patch 1/1 to keep 3.1 around if you don't want 2/3).
 >=20
-> diff --git a/meta/classes/module.bbclass b/meta/classes/module.bbclass
-> index 53c16b7..e370b24 100644
-> --- a/meta/classes/module.bbclass
-> +++ b/meta/classes/module.bbclass
-> @@ -37,15 +37,16 @@ module_do_install() {
-> }
+> I've built and booted this on all the emulated targets, and have some =
+other
+> builds running against larger numbers of packages as well.
 >=20
-> pkg_postinst_append () {
-> -	if [ -n "$D" ]; then
-> -		exit 1
-> -	fi
-> +if [ -n "$D" ]; then
-> +	${HOST_PREFIX}depmod -A -b $D -F =
-${STAGING_KERNEL_DIR}/System.map-${KERNEL_VERSION} ${KERNEL_VERSION}
-> +else
-> 	depmod -a
-> 	update-modules || true
-> +fi
+> Cheers,
+>=20
+> Bruce
+>=20
+> The following changes since commit =
+bb1d7fad7ff8515939f2b5f0b540b9b09604be3c:
+>  Richard Purdie (1):
+>        Revert "bitbake.conf/sstate.bbclass: Change PATH when =
+installing sstate files to avoid issues"
+>=20
+> are available in the git repository at:
+>=20
+>  git://git.pokylinux.org/poky-contrib zedd/libc-headers-oe
+>  =
+http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=3Dzedd/libc-headers-=
+oe
+>=20
+> Bruce Ashfield (3):
+>  linux-libc-headers: add 3.2 headers and remove 3.1
+>  linux-libc-headers: set default LINUXLIBCVERSION to 3.2
+>  linux-libc-headers-yocto: remove from oe-core
 
-That encodes host system paths into the package, which is not a good =
-thing for tools like narcissus and hob.
+Would it make more sense to move to 3.3 or is that too risky at this =
+point? I'm fine with the patchset either way, though.
 
 regards,
 
