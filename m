@@ -1,40 +1,35 @@
-Received: from mail-wg0-f41.google.com ([74.125.82.41])
+Received: from mail.dream-property.net ([82.149.226.172])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <andrei@gherzan.ro>) id 1SBDZP-0007uf-2A
+	(envelope-from <obi@opendreambox.org>) id 1SBDbY-0007zj-VR
 	for openembedded-core@lists.openembedded.org;
-	Sat, 24 Mar 2012 00:06:55 +0100
-Received: by wgbds1 with SMTP id ds1so1298670wgb.0
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 23 Mar 2012 15:57:58 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=google.com; s=20120113;
-	h=mime-version:from:to:subject:date:message-id:x-mailer:in-reply-to
-	:references:in-reply-to:references:x-gm-message-state;
-	bh=7ZrM3oE/5VD89KSRNMGzlJ9MoF0SC1P9MNEsryeMzew=;
-	b=l2Bu902gkcLt5s3B7k48eheCDekKIYNgEMm4NP/NhL4JiEd+DZpaMutzynBY+7Zmh6
-	WcLowPdc/xw9fV39QyNpiyzOxaOt6dNM5TKknPWYe2Twj1NiUuRygNarLBkzyUZf9Y8Z
-	YbUcMhQNhpuIS72IV8/fNEKOPuSnRnuoV4HKscQkh4elIP7Auqxk5olUCFVgzJAvaic2
-	wKhIzr/3PcqAvpmTsFroIcWus+7iY8jn414W6z6mlAS9+Ycy7hlI31st2US+ob5CscIE
-	F8zr/b+Aezbztsz7jJ1EZNC2HbjUP6xn6z0BYUkSobaZLDg/zpzwnXOi0ZpH99TWumRl
-	WFcA==
+	Sat, 24 Mar 2012 00:09:09 +0100
+Received: from localhost (localhost [127.0.0.1])
+	by mail.dream-property.net (Postfix) with ESMTP id 90E99315A482;
+	Sat, 24 Mar 2012 00:00:14 +0100 (CET)
+X-Virus-Scanned: Debian amavisd-new at mail.dream-property.net
+Received: from mail.dream-property.net ([127.0.0.1])
+	by localhost (mail.dream-property.net [127.0.0.1]) (amavisd-new,
+	port 10024)
+	with LMTP id OTE1Vcjw7HAw; Sat, 24 Mar 2012 00:00:06 +0100 (CET)
+Received: from [172.22.22.61] (drms-590ec3b4.pool.mediaWays.net
+	[89.14.195.180])
+	(using TLSv1 with cipher DHE-RSA-AES256-SHA (256/256 bits))
+	(No client certificate requested)
+	by mail.dream-property.net (Postfix) with ESMTPSA id 12B08315A478;
+	Sat, 24 Mar 2012 00:00:06 +0100 (CET)
+Message-ID: <4F6D0074.8020708@opendreambox.org>
+Date: Sat, 24 Mar 2012 00:00:04 +0100
+From: Andreas Oberritter <obi@opendreambox.org>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:11.0) Gecko/20120310 Thunderbird/11.0
 MIME-Version: 1.0
-Received: by 10.180.85.70 with SMTP id f6mr775442wiz.5.1332543478639;
-	Fri, 23 Mar 2012 15:57:58 -0700 (PDT)
-Received: from localhost.localdomain ([79.117.107.69])
-	by mx.google.com with ESMTPS id gg2sm28926628wib.7.2012.03.23.15.57.57
-	(version=TLSv1/SSLv3 cipher=OTHER);
-	Fri, 23 Mar 2012 15:57:58 -0700 (PDT)
-From: Andrei Gherzan <andrei@gherzan.ro>
-To: openembedded-core@lists.openembedded.org
-Date: Sat, 24 Mar 2012 00:57:51 +0200
-Message-Id: <86eb5c670aaf39a2d9858065979cf7d5af80e6b0.1332543292.git.andrei@gherzan.ro>
-X-Mailer: git-send-email 1.7.5.4
-In-Reply-To: <6d8cb56a00a2d0f140b6b569f8577f96c6113e14.1332543292.git.andrei@gherzan.ro>
-References: <6d8cb56a00a2d0f140b6b569f8577f96c6113e14.1332543292.git.andrei@gherzan.ro>
-In-Reply-To: <cover.1332543292.git.andrei@gherzan.ro>
-References: <cover.1332543292.git.andrei@gherzan.ro>
-X-Gm-Message-State: ALoCoQlqWY+9cI3BrNY7CW8+e2x1w3Rl2OYCpmELFYiwMoHzsQBNZDb+ToBJr9+qZ5xZuYU2HTCC
-Subject: [PATCH 2/2] tk: Integrate tk v8.5.11
+To: Martin Jansa <martin.jansa@gmail.com>
+References: <cover.1332507302.git.Martin.Jansa@gmail.com>
+	<dc50f1d1204c1c48d8d4a5acb40edf619b306522.1332507302.git.Martin.Jansa@gmail.com>
+In-Reply-To: <dc50f1d1204c1c48d8d4a5acb40edf619b306522.1332507302.git.Martin.Jansa@gmail.com>
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 1/6] kernel.bbclass: populate /etc/modules-load.d/ with module_autoload entries too
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -49,94 +44,73 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 23 Mar 2012 23:06:55 -0000
+X-List-Received-Date: Fri, 23 Mar 2012 23:09:09 -0000
+Content-Type: text/plain; charset=ISO-8859-1
+Content-Transfer-Encoding: 7bit
 
-Tk (along with Tcl) is needed in python for module _tkinter.
+On 23.03.2012 13:56, Martin Jansa wrote:
+> * /etc/modules-load.d/foo.conf is used by systemd like /etc/modutils/foo was with sysvinit
 
-[YOCTO #1937]
+Martin,
 
-Signed-off-by: Andrei Gherzan <andrei@gherzan.ro>
----
- meta/recipes-devtools/tcltk/tk_8.5.11.bb |   68 ++++++++++++++++++++++++++++++
- 1 files changed, 68 insertions(+), 0 deletions(-)
- create mode 100644 meta/recipes-devtools/tcltk/tk_8.5.11.bb
+the man-page[1] for modules-load.d says that packages should install
+.conf files to /usr/lib/modules-load.d, because /etc/modules-load.d is
+reserved for the system administrator. Did you take this into account
+when you decided to support /etc/modules-load.d?
 
-diff --git a/meta/recipes-devtools/tcltk/tk_8.5.11.bb b/meta/recipes-devtools/tcltk/tk_8.5.11.bb
-new file mode 100644
-index 0000000..9be31f0
---- /dev/null
-+++ b/meta/recipes-devtools/tcltk/tk_8.5.11.bb
-@@ -0,0 +1,68 @@
-+DESCRIPTION = "Tk graphical toolkit for the Tcl scripting language."
-+LICENSE = "BSD-3-Clause"
-+SECTION = "devel/tcltk"
-+HOMEPAGE = "http://tcl.sourceforge.net"
-+DEPENDS = "tcl xproto"
-+
-+LIC_FILES_CHKSUM = "file://../license.terms;md5=33c2a4845e058f33c0f52f375625f650 \
-+                    file://../compat/license.terms;md5=33c2a4845e058f33c0f52f375625f650 \
-+                    file://../library/license.terms;md5=33c2a4845e058f33c0f52f375625f650 \
-+                    file://../macosx/license.terms;md5=33c2a4845e058f33c0f52f375625f650 \
-+                    file://../tests/license.terms;md5=33c2a4845e058f33c0f52f375625f650 \
-+                    file://../win/license.terms;md5=33c2a4845e058f33c0f52f375625f650 \
-+                    "
-+
-+PR = "r0"
-+
-+SRC_URI = "${SOURCEFORGE_MIRROR}/tcl/tk${PV}-src.tar.gz"
-+SRC_URI[md5sum] = "b61b72f0aad230091b100746f078b8f1"
-+SRC_URI[sha256sum] = "d35810b33a0931656f1d128e7e0776cc0c4d8b9c72af322cab5a7ee30485eb70"
-+
-+S = "${WORKDIR}/tk${PV}/unix"
-+
-+inherit autotools
-+
-+EXTRA_OECONF = "--enable-threads \
-+                --disable-rpath \
-+                --with-tcl=${STAGING_BINDIR_CROSS} \
-+                "
-+
-+do_configure() {
-+	gnu-configize
-+	oe_runconf
-+}
-+
-+do_install() {
-+	autotools_do_install
-+	oe_libinstall -so libtk8.5 ${STAGING_LIBDIR}
-+	sed -i "s+${WORKDIR}+${STAGING_INCDIR}+g" tkConfig.sh
-+	sed -i "s,-L${libdir},," tkConfig.sh
-+	install -d ${STAGING_BINDIR_CROSS}/
-+	install -m 0755 tkConfig.sh ${STAGING_BINDIR_CROSS}
-+	cd ..
-+	for dir in compat generic unix
-+	do
-+		install -d ${STAGING_INCDIR}/tk${PV}/$dir
-+		install -m 0644 $dir/*.h ${STAGING_INCDIR}/tk${PV}/$dir/
-+	done
-+}
-+
-+PACKAGES =+ "${PN}-demos \
-+	     ${PN}-lib \
-+	     "
-+FILES_${PN}-lib   = "${libdir}/libtk8.5.so* \
-+                     "
-+FILES_${PN}-demos = "${libdir}/tk8.5/demos/* \
-+                     "
-+FILES_${PN}      += "${libdir}/tk8.5/ttk/* \
-+		     ${libdir}/tk8.5/images/* \
-+		     ${libdir}/tk8.5/msgs/* \
-+		     ${libdir}/tk8.5/*.tcl \
-+		     ${libdir}/tk8.5/tclIndex \
-+		     "
-+FILES_${PN}-dev += "${libdir}/tkConfig.sh \
-+		    ${libdir}/tk8.5/tkAppInit.c \
-+		    "
-+
-+RDEPENDS_${PN} += "tk-lib"
-+
--- 
-1.7.5.4
+Regards,
+Andreas
+
+[1] http://0pointer.de/public/systemd-man/modules-load.d.html
+
+> 
+> Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
+> ---
+>  meta/classes/kernel.bbclass |   10 ++++++++--
+>  1 files changed, 8 insertions(+), 2 deletions(-)
+> 
+> diff --git a/meta/classes/kernel.bbclass b/meta/classes/kernel.bbclass
+> index 169df33..975ae13 100644
+> --- a/meta/classes/kernel.bbclass
+> +++ b/meta/classes/kernel.bbclass
+> @@ -122,6 +122,7 @@ kernel_do_install() {
+>  	install -m 0644 vmlinux ${D}/boot/vmlinux-${KERNEL_VERSION}
+>  	[ -e Module.symvers ] && install -m 0644 Module.symvers ${D}/boot/Module.symvers-${KERNEL_VERSION}
+>  	install -d ${D}/etc/modutils
+> +	install -d ${D}/etc/modules-load.d
+>  	install -d ${D}/etc/modprobe.d
+>  
+>  	#
+> @@ -411,6 +412,11 @@ python populate_packages_prepend () {
+>  			for m in autoload.split():
+>  				f.write('%s\n' % m)
+>  			f.close()
+> +			name = '%s/etc/modules-load.d/%s.conf' % (dvar, basename)
+> +			f = open(name, 'w')
+> +			for m in autoload.split():
+> +				f.write('%s\n' % m)
+> +			f.close()
+>  			postinst = d.getVar('pkg_postinst_%s' % pkg, True)
+>  			if not postinst:
+>  				bb.fatal("pkg_postinst_%s not defined" % pkg)
+> @@ -426,7 +432,7 @@ python populate_packages_prepend () {
+>  			f.close()
+>  
+>  		files = d.getVar('FILES_%s' % pkg, True)
+> -		files = "%s /etc/modutils/%s /etc/modutils/%s.conf /etc/modprobe.d/%s.conf" % (files, basename, basename, basename)
+> +		files = "%s /etc/modutils/%s /etc/modutils/%s.conf /etc/modules-load.d/%s.conf /etc/modprobe.d/%s.conf" % (files, basename, basename, basename, basename)
+>  		d.setVar('FILES_%s' % pkg, files)
+>  
+>  		if vals.has_key("description"):
+> @@ -456,7 +462,7 @@ python populate_packages_prepend () {
+>  	# avoid warnings. removedirs only raises an OSError if an empty
+>  	# directory cannot be removed.
+>  	dvar = d.getVar('PKGD', True)
+> -	for dir in ["%s/etc/modutils" % (dvar), "%s/etc/modprobe.d" % (dvar)]:
+> +	for dir in ["%s/etc/modutils" % (dvar), "%s/etc/modprobe.d" % (dvar), "%s/etc/modules-load.d" % (dvar)]:
+>  		if len(os.listdir(dir)) == 0:
+>  			os.rmdir(dir)
+>  
 
 
 
