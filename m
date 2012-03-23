@@ -1,23 +1,19 @@
 Received: from mail.windriver.com ([147.11.1.11])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <bruce.ashfield@windriver.com>) id 1SB859-0000Xg-Bk
+	(envelope-from <bruce.ashfield@windriver.com>) id 1SB859-0000Xf-Fz
 	for openembedded-core@lists.openembedded.org;
 	Fri, 23 Mar 2012 18:15:19 +0100
 Received: from localhost.localdomain (yow-bashfiel-d2.ottawa.windriver.com
 	[128.224.146.167])
-	by mail.windriver.com (8.14.3/8.14.3) with ESMTP id q2NH6IQk007657;
+	by mail.windriver.com (8.14.3/8.14.3) with ESMTP id q2NH6IQj007657;
 	Fri, 23 Mar 2012 10:06:19 -0700 (PDT)
 From: Bruce Ashfield <bruce.ashfield@windriver.com>
 To: richard.purdie@linuxfoundation.org
-Date: Fri, 23 Mar 2012 13:07:46 -0400
-Message-Id: <e19729b388d03502a56b35325a7d2fc1eba278fd.1332522200.git.bruce.ashfield@windriver.com>
+Date: Fri, 23 Mar 2012 13:07:45 -0400
+Message-Id: <cover.1332522200.git.bruce.ashfield@windriver.com>
 X-Mailer: git-send-email 1.7.0.4
-In-Reply-To: <cover.1332522200.git.bruce.ashfield@windriver.com>
-References: <cover.1332522200.git.bruce.ashfield@windriver.com>
-In-Reply-To: <cover.1332522200.git.bruce.ashfield@windriver.com>
-References: <cover.1332522200.git.bruce.ashfield@windriver.com>
 Cc: openembedded-core@lists.openembedded.org, saul.wold@intel.com
-Subject: [PATCH 1/3] linux-libc-headers: add 3.2 headers and remove 3.1
+Subject: [PATCH 0/3] linux-libc-headers: 3.2 and linux-libc-headers-yocto movement
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -34,47 +30,41 @@ List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedde
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Fri, 23 Mar 2012 17:15:19 -0000
 
-The 3.1 kernel was never released or directly supported via
-oe-core. So as part of update the libc-headers to 3.2 we can
-take the opportunity to remove it.
+Richard/Saul,
 
-Built and booted on the qemu* targets.
+As discussed on the mailing list here is a libc-headers series. I've kept it in
+three parts so you can pick what you want (except for the minor detail of 
+needing to split patch 1/1 to keep 3.1 around if you don't want 2/3).
 
-Signed-off-by: Bruce Ashfield <bruce.ashfield@windriver.com>
----
- .../linux-libc-headers/linux-libc-headers_3.1.bb   |    7 -------
- .../linux-libc-headers/linux-libc-headers_3.2.bb   |    6 ++++++
- 2 files changed, 6 insertions(+), 7 deletions(-)
+I've built and booted this on all the emulated targets, and have some other
+builds running against larger numbers of packages as well.
+
+Cheers,
+
+Bruce
+
+The following changes since commit bb1d7fad7ff8515939f2b5f0b540b9b09604be3c:
+  Richard Purdie (1):
+        Revert "bitbake.conf/sstate.bbclass: Change PATH when installing sstate files to avoid issues"
+
+are available in the git repository at:
+
+  git://git.pokylinux.org/poky-contrib zedd/libc-headers-oe
+  http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=zedd/libc-headers-oe
+
+Bruce Ashfield (3):
+  linux-libc-headers: add 3.2 headers and remove 3.1
+  linux-libc-headers: set default LINUXLIBCVERSION to 3.2
+  linux-libc-headers-yocto: remove from oe-core
+
+ meta/conf/distro/include/tcmode-default.inc        |    2 +-
+ .../linux-libc-headers-yocto_git.bb                |   64 --------------------
+ .../linux-libc-headers/linux-libc-headers_3.1.bb   |    7 --
+ .../linux-libc-headers/linux-libc-headers_3.2.bb   |    6 ++
+ 4 files changed, 7 insertions(+), 72 deletions(-)
+ delete mode 100644 meta/recipes-kernel/linux-libc-headers/linux-libc-headers-yocto_git.bb
  delete mode 100644 meta/recipes-kernel/linux-libc-headers/linux-libc-headers_3.1.bb
  create mode 100644 meta/recipes-kernel/linux-libc-headers/linux-libc-headers_3.2.bb
-
-diff --git a/meta/recipes-kernel/linux-libc-headers/linux-libc-headers_3.1.bb b/meta/recipes-kernel/linux-libc-headers/linux-libc-headers_3.1.bb
-deleted file mode 100644
-index b87ecde..0000000
---- a/meta/recipes-kernel/linux-libc-headers/linux-libc-headers_3.1.bb
-+++ /dev/null
-@@ -1,7 +0,0 @@
--require linux-libc-headers.inc
--
--PR = "r1"
--
--SRC_URI += " file://connector-msg-size-fix.patch"
--SRC_URI[md5sum] = "8d43453f8159b2332ad410b19d86a931"
--SRC_URI[sha256sum] = "2573d2378c754b0c602b57586e9311e5b38c5d1e6c137f02873833633a4b9359"
-diff --git a/meta/recipes-kernel/linux-libc-headers/linux-libc-headers_3.2.bb b/meta/recipes-kernel/linux-libc-headers/linux-libc-headers_3.2.bb
-new file mode 100644
-index 0000000..9bee02b
---- /dev/null
-+++ b/meta/recipes-kernel/linux-libc-headers/linux-libc-headers_3.2.bb
-@@ -0,0 +1,6 @@
-+require linux-libc-headers.inc
-+
-+PR = "r1"
-+
-+SRC_URI[md5sum] = "7ceb61f87c097fc17509844b71268935"
-+SRC_URI[sha256sum] = "c881fc2b53cf0da7ca4538aa44623a7de043a41f76fd5d0f51a31f6ed699d463"
--- 
-1.7.0.4
 
 
 
