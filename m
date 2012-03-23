@@ -1,35 +1,38 @@
-Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
-	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <richard.purdie@linuxfoundation.org>)
-	id 1SB3e3-0001FV-S1 for openembedded-core@lists.openembedded.org;
-	Fri, 23 Mar 2012 13:31:04 +0100
-Received: from localhost (localhost [127.0.0.1])
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q2NCM894026512
+Received: from mail-we0-f175.google.com ([74.125.82.175])
+	by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <koen@dominion.thruhere.net>) id 1SB3ed-0001HZ-G9
+	for openembedded-core@lists.openembedded.org;
+	Fri, 23 Mar 2012 13:31:39 +0100
+Received: by wera1 with SMTP id a1so2611155wer.6
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 23 Mar 2012 12:22:08 GMT
-Received: from tim.rpsys.net ([127.0.0.1])
-	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
-	port 10024) with LMTP
-	id 25941-08 for <openembedded-core@lists.openembedded.org>;
-	Fri, 23 Mar 2012 12:22:04 +0000 (GMT)
-Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q2NCM11J026506
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO)
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 23 Mar 2012 12:22:02 GMT
-Message-ID: <1332505323.9740.402.camel@ted>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
+	Fri, 23 Mar 2012 05:22:43 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=google.com; s=20120113;
+	h=from:content-type:content-transfer-encoding:subject:date:message-id
+	:to:mime-version:x-mailer:x-gm-message-state;
+	bh=2QCb48bNdMRH9F9irsERJXWPimxpCiMvjkoWocujsfk=;
+	b=Az/F/S5wJ2M1VMfJ3bgs07p+2FSPmy+SHRIbqPtQWJz9PNM4dKbc2GyesJqaSFRORh
+	0nYWL2xIOgEfW7yNKYCpcEaIeT4UYEUtGcl/CLzzMG/EkYZC/G+vSaIfN3Gk1ZQXviFL
+	hoRLBwffNdzJwYnYB0DldV7e7d3oAJZT8XXdzeDiDg7bAt84DY8O5m3Am3wR55++2KzU
+	wiOoGPge0j1FEOaWFq8y06or3gnYszHQC6+oKlhHCqYt6GUeW3vg3b9dOvuX3viAXQJq
+	Upzynw6w0fYYhgkQXzztnaFO3VpX38Vndz8bhYEw0W23j3XAtmHqQyJfwPqmUhaUqt+o
+	3eXA==
+Received: by 10.216.138.38 with SMTP id z38mr6844229wei.63.1332505363226;
+	Fri, 23 Mar 2012 05:22:43 -0700 (PDT)
+Received: from [172.20.1.36] (ip545070eb.adsl-surfen.hetnet.nl.
+	[84.80.112.235])
+	by mx.google.com with ESMTPS id 17sm13934665wis.0.2012.03.23.05.22.42
+	(version=TLSv1/SSLv3 cipher=OTHER);
+	Fri, 23 Mar 2012 05:22:42 -0700 (PDT)
+From: Koen Kooi <koen@dominion.thruhere.net>
+Date: Fri, 23 Mar 2012 13:22:39 +0100
+Message-Id: <4DCCC4C4-51F4-43CF-ACF2-BF3D2BAD7BDC@dominion.thruhere.net>
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Date: Fri, 23 Mar 2012 12:22:03 +0000
-In-Reply-To: <20120323114938.GC3879@jama.jama.net>
-References: <1332485029-9148-1-git-send-email-Martin.Jansa@gmail.com>
-	<1332494193.9740.382.camel@ted> <20120323093623.GB3879@jama.jama.net>
-	<1332502793.9740.385.camel@ted> <20120323114938.GC3879@jama.jama.net>
-X-Mailer: Evolution 3.2.2- 
-Mime-Version: 1.0
-X-Virus-Scanned: amavisd-new at rpsys.net
-Subject: Re: [PATCH] kernel.bbclass: populate /etc/modules-load.d/ with module_autoload entries too
+Mime-Version: 1.0 (Apple Message framework v1257)
+X-Mailer: Apple Mail (2.1257)
+X-Gm-Message-State: ALoCoQmGvUfaC6wRTWpC/HvrB077xwziXVICTpo5zHNomgvNvlIxMy5zRvUlLg3gHJ6ZymGOldRk
+Subject: sstate reuse for -native, -cross across different host glibc version, how to make it work?
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -44,45 +47,32 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 23 Mar 2012 12:31:04 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Fri, 23 Mar 2012 12:31:39 -0000
+Content-Type: text/plain; charset=us-ascii
+Content-Transfer-Encoding: quoted-printable
 
-On Fri, 2012-03-23 at 12:49 +0100, Martin Jansa wrote:
-> On Fri, Mar 23, 2012 at 11:39:53AM +0000, Richard Purdie wrote:
-> > On Fri, 2012-03-23 at 10:36 +0100, Martin Jansa wrote:
-> > > On Fri, Mar 23, 2012 at 09:16:33AM +0000, Richard Purdie wrote:
-> > > > On Fri, 2012-03-23 at 07:43 +0100, Martin Jansa wrote:
-> > > > > * /etc/modules-load.d/foo.conf is used by systemd like /etc/modutils/foo was with sysvinit
-> > > > > 
-> > > > > Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
-> > > > > ---
-> > > > >  meta/classes/kernel.bbclass |   10 ++++++++--
-> > > > >  1 files changed, 8 insertions(+), 2 deletions(-)
-> > > > 
-> > > > Since these look identical couldn't we symlink them? I'm not a big fan
-> > > > of writing duplicate data to a package :/.
-> > > 
-> > > OK I'll change it in v2
-> > 
-> > Note that I'm wondering if we can just symlink the directory entirely
-> > rather than the files themselves. There may be a reason that is a bad
-> > idea but I don't know...
-> 
-> There are different filenames (notice .conf in the end) so I have patch
-> doing symlinks for files not directories.
+Hi,
 
-I'd seen the modprobe.d conf files and thought here was some similarity.
-I have to admit I think systemd is nuts for requiring a copy of these
-files when it could have used the existing layout. It looks like change
-for the sake of change :(.
+I turned on sstate mirroring for angstrom recently and I'm getting =
+reports of build failures due to missing GLIBC_2.14 symbols:
 
-I'm nearly tempted to suggest we should just patch systemd to use the
-other filenames...
+arm-angstrom-linux-gnueabi-gcc: /lib/x86_64-linux-gnu/libc.so.6: version =
+`GLIBC_2.14' not found (required by arm-angstrom-linux-gnueabi-gcc)
 
-Cheers,
+The sstate tarballs are built on a Fedora16 VM and the breakage occurs =
+when it being used on systems with an older c library (e.g. debian). To =
+get rid of this problem there are multiple options, but I think the 2 =
+most obvious are:
 
-Richard
+1) inject host distroname and distroversion into the checksums
+2) build everything against a native libc
 
+Would it be appropriate to get 1) into oe-core before the branchpoint? =
+Right now my workaround is 'rm *native* *cross* -f' from time to time. =
+But that sucks for identical autobuilders.
+
+regards,
+
+Koen=
 
 
