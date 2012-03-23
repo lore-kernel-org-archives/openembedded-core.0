@@ -1,36 +1,35 @@
-Received: from mail-wg0-f43.google.com ([74.125.82.43])
+Received: from mail.dream-property.net ([82.149.226.172])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <andrei@gherzan.ro>) id 1SBDpU-0008BE-9Z
+	(envelope-from <obi@opendreambox.org>) id 1SBE7a-0008MR-9j
 	for openembedded-core@lists.openembedded.org;
-	Sat, 24 Mar 2012 00:23:32 +0100
-Received: by wgbdr12 with SMTP id dr12so2196375wgb.24
+	Sat, 24 Mar 2012 00:42:14 +0100
+Received: from localhost (localhost [127.0.0.1])
+	by mail.dream-property.net (Postfix) with ESMTP id BD78A315A499
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 23 Mar 2012 16:14:35 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=google.com; s=20120113;
-	h=mime-version:from:to:cc:subject:date:message-id:x-mailer
-	:x-gm-message-state;
-	bh=NmkY52HRcHk+QHUkAhjCFCEUgcW3hBTO6XaqYViRjjE=;
-	b=L0BSrBJKsoUm1PFZ2rF1MEtU0khpKVPCbq9CQ/jZirMixGh/lTPftQY9TpOG6+5bL5
-	kT6Lo5K1QIhYIuLMpwNwzfCTNjiKPls8Y6PDz9PZBgqwPRDpDwAkVvYHDN5yFBPaL8hc
-	9AMkFDn1O6VFaf4aMYFy5Wm8x1F2R4W+xUjHY6nx06uPcVKSp96LyvFHPZAGEVGgmkjH
-	Aq7cqi4hhsNMH30v7zvN/pz/2RsqF+ACHi6/6SpEATxCGzAAekQvAki2hJXGHuBHJ/WH
-	56IHFpVIdsv2k4YN41HJh3u+1F8GmJHvdrEyg5O83bju8BpigeW0oyg1K+UfNRtomHsA
-	e2nQ==
+	Sat, 24 Mar 2012 00:33:19 +0100 (CET)
+X-Virus-Scanned: Debian amavisd-new at mail.dream-property.net
+Received: from mail.dream-property.net ([127.0.0.1])
+	by localhost (mail.dream-property.net [127.0.0.1]) (amavisd-new,
+	port 10024) with LMTP id 4HZKciwTM6zQ
+	for <openembedded-core@lists.openembedded.org>;
+	Sat, 24 Mar 2012 00:33:12 +0100 (CET)
+Received: from [172.22.22.61] (drms-590ec3b4.pool.mediaWays.net
+	[89.14.195.180])
+	(using TLSv1 with cipher DHE-RSA-AES256-SHA (256/256 bits))
+	(No client certificate requested)
+	by mail.dream-property.net (Postfix) with ESMTPSA id 3B85B315A48B
+	for <openembedded-core@lists.openembedded.org>;
+	Sat, 24 Mar 2012 00:33:12 +0100 (CET)
+Message-ID: <4F6D0836.7000907@opendreambox.org>
+Date: Sat, 24 Mar 2012 00:33:10 +0100
+From: Andreas Oberritter <obi@opendreambox.org>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:11.0) Gecko/20120310 Thunderbird/11.0
 MIME-Version: 1.0
-Received: by 10.180.107.164 with SMTP id hd4mr776749wib.18.1332544475711;
-	Fri, 23 Mar 2012 16:14:35 -0700 (PDT)
-Received: from localhost.localdomain ([79.117.107.69])
-	by mx.google.com with ESMTPS id fz9sm17771991wib.3.2012.03.23.16.14.34
-	(version=TLSv1/SSLv3 cipher=OTHER);
-	Fri, 23 Mar 2012 16:14:35 -0700 (PDT)
-From: Andrei Gherzan <andrei@gherzan.ro>
 To: openembedded-core@lists.openembedded.org
-Date: Sat, 24 Mar 2012 01:14:27 +0200
-Message-Id: <1332544467-2071-1-git-send-email-andrei@gherzan.ro>
-X-Mailer: git-send-email 1.7.5.4
-X-Gm-Message-State: ALoCoQmF4MQblDebtOnfF12/qeA92tV4cVTaTi8hgnfpKlrLzSHI2EoqS0pSsAsafH4GfzuhknPs
-Subject: [PATCH] python: Add tk to DEPENDS
+References: <1332544467-2071-1-git-send-email-andrei@gherzan.ro>
+In-Reply-To: <1332544467-2071-1-git-send-email-andrei@gherzan.ro>
+Subject: Re: [PATCH] python: Add tk to DEPENDS
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -45,30 +44,44 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 23 Mar 2012 23:23:32 -0000
+X-List-Received-Date: Fri, 23 Mar 2012 23:42:14 -0000
+Content-Type: text/plain; charset=ISO-8859-1
+Content-Transfer-Encoding: 7bit
 
-This is needed for _tkinter python module.
+On 24.03.2012 00:14, Andrei Gherzan wrote:
+> This is needed for _tkinter python module.
+> 
+> [YOCTO #1937]
+> 
+> Signed-off-by: Andrei Gherzan <andrei@gherzan.ro>
+> ---
+>  meta/recipes-devtools/python/python_2.7.2.bb |    2 +-
+>  1 files changed, 1 insertions(+), 1 deletions(-)
+> 
+> diff --git a/meta/recipes-devtools/python/python_2.7.2.bb b/meta/recipes-devtools/python/python_2.7.2.bb
+> index cb0a1d5..6969929 100644
+> --- a/meta/recipes-devtools/python/python_2.7.2.bb
+> +++ b/meta/recipes-devtools/python/python_2.7.2.bb
+> @@ -1,5 +1,5 @@
+>  require python.inc
+> -DEPENDS = "python-native bzip2 db gdbm openssl readline sqlite3 zlib"
+> +DEPENDS = "python-native bzip2 db gdbm openssl readline sqlite3 zlib tk"
 
-[YOCTO #1937]
+Andrei,
 
-Signed-off-by: Andrei Gherzan <andrei@gherzan.ro>
----
- meta/recipes-devtools/python/python_2.7.2.bb |    2 +-
- 1 files changed, 1 insertions(+), 1 deletions(-)
+this breaks builds without x11:
 
-diff --git a/meta/recipes-devtools/python/python_2.7.2.bb b/meta/recipes-devtools/python/python_2.7.2.bb
-index cb0a1d5..6969929 100644
---- a/meta/recipes-devtools/python/python_2.7.2.bb
-+++ b/meta/recipes-devtools/python/python_2.7.2.bb
-@@ -1,5 +1,5 @@
- require python.inc
--DEPENDS = "python-native bzip2 db gdbm openssl readline sqlite3 zlib"
-+DEPENDS = "python-native bzip2 db gdbm openssl readline sqlite3 zlib tk"
- DEPENDS_sharprom = "python-native db readline zlib gdbm openssl"
- PR = "${INC_PR}.8"
- 
--- 
-1.7.5.4
+ERROR: Nothing PROVIDES 'virtual/libx11' (but .../meta-oe/recipes-devtools/tcltk/tk_8.5.8.bb DEPENDS on or otherwise requires it)
+ERROR: libx11-diet PROVIDES virtual/libx11 but was skipped: 'x11' not in DISTRO_FEATURES
+ERROR: libx11-trim PROVIDES virtual/libx11 but was skipped: 'x11' not in DISTRO_FEATURES
+ERROR: libx11 PROVIDES virtual/libx11 but was skipped: 'x11' not in DISTRO_FEATURES
+ERROR: libx11-nativesdk PROVIDES virtual/libx11 but was skipped: 'x11' not in DISTRO_FEATURES
+ERROR: Required build target 'tk' has no buildable providers.
+Missing or unbuildable dependency chain was: ['tk', 'virtual/libx11']
 
+Besides that, tk is not part of OE-core.
+
+Regards,
+Andreas
 
 
