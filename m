@@ -1,22 +1,24 @@
 Received: from mga11.intel.com ([192.55.52.93])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <elizabeth.flanagan@intel.com>) id 1SBEQY-0000au-1i
+	(envelope-from <elizabeth.flanagan@intel.com>) id 1SBEQY-0000au-Ou
 	for openembedded-core@lists.openembedded.org;
 	Sat, 24 Mar 2012 01:01:50 +0100
 Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-	by fmsmga102.fm.intel.com with ESMTP; 23 Mar 2012 16:51:48 -0700
+	by fmsmga102.fm.intel.com with ESMTP; 23 Mar 2012 16:51:49 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="144370021"
+X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="144370023"
 Received: from unknown (HELO cenodoxus.amr.corp.intel.com) ([10.255.15.233])
 	by fmsmga002.fm.intel.com with ESMTP; 23 Mar 2012 16:51:48 -0700
 From: Beth Flanagan <elizabeth.flanagan@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Fri, 23 Mar 2012 16:51:40 -0700
-Message-Id: <f0393ed61291561b5823079b9528e8df24d56a3f.1332546190.git.elizabeth.flanagan@intel.com>
+Date: Fri, 23 Mar 2012 16:51:41 -0700
+Message-Id: <f8e68e8fdc52aa91ef2d47542641c81f5e7c2b30.1332546190.git.elizabeth.flanagan@intel.com>
 X-Mailer: git-send-email 1.7.1
+In-Reply-To: <f0393ed61291561b5823079b9528e8df24d56a3f.1332546190.git.elizabeth.flanagan@intel.com>
+References: <f0393ed61291561b5823079b9528e8df24d56a3f.1332546190.git.elizabeth.flanagan@intel.com>
 In-Reply-To: <cover.1332546190.git.elizabeth.flanagan@intel.com>
 References: <cover.1332546190.git.elizabeth.flanagan@intel.com>
-Subject: [PATCH 1/8] license.bbclass: Add spdx mapping to GPL-1.0
+Subject: [PATCH 2/8] license.bbclass: Whitespace standardization
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -31,38 +33,83 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 24 Mar 2012 00:01:50 -0000
+X-List-Received-Date: Sat, 24 Mar 2012 00:01:51 -0000
 
 From: Elizabeth Flanagan <elizabeth.flanagan@intel.com>
 
-Perl is GPL-1.0. For consistency sake, adding an spdx map for
-GPLv1
+Removing tabs within check_license_flags to standardize to
+4 space tabbing
 
 Signed-off-by: Elizabeth Flanagan <elizabeth.flanagan@intel.com>
 ---
- meta/classes/license.bbclass |    4 +++-
- 1 files changed, 3 insertions(+), 1 deletions(-)
+ meta/classes/license.bbclass |   31 +++++++++++++++----------------
+ 1 files changed, 15 insertions(+), 16 deletions(-)
 
 diff --git a/meta/classes/license.bbclass b/meta/classes/license.bbclass
-index 9459b00..40dcbeb 100644
+index 40dcbeb..4b392ce 100644
 --- a/meta/classes/license.bbclass
 +++ b/meta/classes/license.bbclass
-@@ -18,12 +18,14 @@ do_populate_lic[cleandirs] = "${LICSSTATEDIR}"
- # We should really discuss standardizing this field, but that's a longer term goal.
- # For now, we can do this and it should grab the most common LICENSE naming variations.
- #
--# Changing GPL mapping to GPL-2 as it's not very likely to be GPL-1
- # We should NEVER have a GPL/LGPL without a version!!!!
- # Any mapping to MPL/LGPL/GPL should be fixed
- # see: https://wiki.yoctoproject.org/wiki/License_Audit
+@@ -266,23 +266,23 @@ def incompatible_license(d,dont_want_license):
+     dont_want_licenses = []
+     dont_want_licenses.append(d.getVar('INCOMPATIBLE_LICENSE', True))
+     if d.getVarFlag('SPDXLICENSEMAP', dont_want_license):
+-	dont_want_licenses.append(d.getVarFlag('SPDXLICENSEMAP', dont_want_license))
++        dont_want_licenses.append(d.getVarFlag('SPDXLICENSEMAP', dont_want_license))
  
- # GPL variations
-+SPDXLICENSEMAP[GPL-1] = "GPL-1.0"
-+SPDXLICENSEMAP[GPLv1] = "GPL-1.0"
-+SPDXLICENSEMAP[GPLv1.0] = "GPL-1.0"
- SPDXLICENSEMAP[GPL-2] = "GPL-2.0"
- SPDXLICENSEMAP[GPLv2] = "GPL-2.0"
- SPDXLICENSEMAP[GPLv2.0] = "GPL-2.0"
+     def include_license(license):
+-	if any(fnmatch(license, pattern) for pattern in dont_want_licenses):
+-	    return False
+-	else:
+-	    spdx_license = d.getVarFlag('SPDXLICENSEMAP', license)
+-	    if spdx_license and any(fnmatch(spdx_license, pattern) for pattern in dont_want_licenses):
+-		return False
+-	    else:
+-		return True
++        if any(fnmatch(license, pattern) for pattern in dont_want_licenses):
++            return False
++    else:
++        spdx_license = d.getVarFlag('SPDXLICENSEMAP', license)
++        if spdx_license and any(fnmatch(spdx_license, pattern) for pattern in dont_want_licenses):
++            return False
++        else:
++            return True
+ 
+     def choose_licenses(a, b):
+         if all(include_license(lic) for lic in a):
+-		return a
++            return a
+         else:
+-		return b
++            return b
+ 
+     """
+     If you want to exlude license named generically 'X', we surely want to exlude 'X+' as well.
+@@ -290,13 +290,13 @@ def incompatible_license(d,dont_want_license):
+     is not a 'X+' license.
+     """
+     if not re.search(r'[+]',dont_want_license):
+-	licenses=oe.license.flattened_licenses(re.sub(r'[+]', '', d.getVar('LICENSE', True)), choose_licenses)
++        licenses=oe.license.flattened_licenses(re.sub(r'[+]', '', d.getVar('LICENSE', True)), choose_licenses)
+     else:
+-	licenses=oe.license.flattened_licenses(d.getVar('LICENSE', True), choose_licenses)
++        licenses=oe.license.flattened_licenses(d.getVar('LICENSE', True), choose_licenses)
+ 
+     for onelicense in licenses:
+-	if not include_license(onelicense):
+-		return True
++        if not include_license(onelicense):
++            return True
+     return False
+ 
+ 
+@@ -361,7 +361,6 @@ def check_license_flags(d):
+             return unmatched_flag
+     return None
+ 
+-
+ SSTATETASKS += "do_populate_lic"
+ do_populate_lic[sstate-name] = "populate-lic"
+ do_populate_lic[sstate-inputdirs] = "${LICSSTATEDIR}"
 -- 
 1.7.1
 
