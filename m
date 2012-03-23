@@ -1,34 +1,37 @@
-Received: from mail-wi0-f169.google.com ([209.85.212.169])
+Received: from mail.dream-property.net ([82.149.226.172])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <bruce.ashfield@gmail.com>) id 1SB8sH-00022K-Si
+	(envelope-from <obi@opendreambox.org>) id 1SB8tJ-00024s-Oj
 	for openembedded-core@lists.openembedded.org;
-	Fri, 23 Mar 2012 19:06:05 +0100
-Received: by wibhm17 with SMTP id hm17so1957012wib.0
+	Fri, 23 Mar 2012 19:07:09 +0100
+Received: from localhost (localhost [127.0.0.1])
+	by mail.dream-property.net (Postfix) with ESMTP id A347B315A422
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 23 Mar 2012 10:57:09 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
-	:cc:content-type:content-transfer-encoding;
-	bh=M4DketV/Tk9lNUqLj1JdZ7WPQZOFSlqmCHD717UyC6Q=;
-	b=IxjchEJNR4m0fhKn2FXmyGTTMJhSF9XloW9lCD4E1meP5gcuoOy0/rR9rftdspa8sV
-	RCMbK4olewsiPCuo7ih6FqQEImXHV5DmTI+U1uIKp1oypJdnIvIpI9M3yIeXlkYxw4zD
-	ZO7yhvPnT6JvnI9OUUrmunpjYJzhXm3+CCDc9I5zqoO4fNlY4t8OFPELneYyN90QRnJq
-	6/s4zgzm/+GtU9llmDTuBEMqv+xPrkXuo8LJjBoe1OF0MkfTR/oettklV47lhvkwh5XJ
-	MzKTMym0VJUetc/h3zf/6PIWxInA6mFbWAPSLmhxmSEb8n7zdLxV2aH9AlMrblUG2pbi
-	dz3A==
+	Fri, 23 Mar 2012 18:58:15 +0100 (CET)
+X-Virus-Scanned: Debian amavisd-new at mail.dream-property.net
+Received: from mail.dream-property.net ([127.0.0.1])
+	by localhost (mail.dream-property.net [127.0.0.1]) (amavisd-new,
+	port 10024) with LMTP id IIs6NUIdJjQP
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 23 Mar 2012 18:58:08 +0100 (CET)
+Received: from [172.22.22.61] (drms-590ec3b4.pool.mediaWays.net
+	[89.14.195.180])
+	(using TLSv1 with cipher DHE-RSA-AES256-SHA (256/256 bits))
+	(No client certificate requested)
+	by mail.dream-property.net (Postfix) with ESMTPSA id 66845315A41F
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 23 Mar 2012 18:58:08 +0100 (CET)
+Message-ID: <4F6CB9AF.8090809@opendreambox.org>
+Date: Fri, 23 Mar 2012 18:58:07 +0100
+From: Andreas Oberritter <obi@opendreambox.org>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:11.0) Gecko/20120310 Thunderbird/11.0
 MIME-Version: 1.0
-Received: by 10.180.97.41 with SMTP id dx9mr8524593wib.9.1332525429655; Fri,
-	23 Mar 2012 10:57:09 -0700 (PDT)
-Received: by 10.216.38.135 with HTTP; Fri, 23 Mar 2012 10:57:09 -0700 (PDT)
-In-Reply-To: <01d8d027e7f39cd61467348d17ab94e468164c84.1332522200.git.bruce.ashfield@windriver.com>
-References: <cover.1332522200.git.bruce.ashfield@windriver.com>
-	<01d8d027e7f39cd61467348d17ab94e468164c84.1332522200.git.bruce.ashfield@windriver.com>
-Date: Fri, 23 Mar 2012 13:57:09 -0400
-Message-ID: <CADkTA4PcxbK+Z7HpLj8fWvjBasGBE18MP=m9LBuByDP8bkUJHw@mail.gmail.com>
-From: Bruce Ashfield <bruce.ashfield@gmail.com>
-To: richard.purdie@linuxfoundation.org
-Cc: saul.wold@intel.com, openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 2/3] linux-libc-headers: set default LINUXLIBCVERSION to 3.2
+To: openembedded-core@lists.openembedded.org
+References: <1332520659-12233-1-git-send-email-obi@opendreambox.org>
+	<1332520659-12233-2-git-send-email-obi@opendreambox.org>
+	<6382DE52-47CF-478A-A10A-26F27EF1AE06@dominion.thruhere.net>
+In-Reply-To: <6382DE52-47CF-478A-A10A-26F27EF1AE06@dominion.thruhere.net>
+Subject: Re: [PATCH 2/4] module.bbclass: sync pkg_post{inst, rm} with kernel.bbclass
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -43,57 +46,44 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 23 Mar 2012 18:06:06 -0000
+X-List-Received-Date: Fri, 23 Mar 2012 18:07:09 -0000
 Content-Type: text/plain; charset=ISO-8859-1
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 7bit
 
-On Fri, Mar 23, 2012 at 1:07 PM, Bruce Ashfield
-<bruce.ashfield@windriver.com> wrote:
-> Switch the default libc-headers to the 3.2 version.
+On 23.03.2012 18:20, Koen Kooi wrote:
+> 
+> Op 23 mrt. 2012, om 17:37 heeft Andreas Oberritter het volgende geschreven:
+> 
+>> * Run depmod when the rootfs gets generated.
+>>
+>> Signed-off-by: Andreas Oberritter <obi@opendreambox.org>
+>> ---
+>> meta/classes/module.bbclass |    9 +++++----
+>> 1 files changed, 5 insertions(+), 4 deletions(-)
+>>
+>> diff --git a/meta/classes/module.bbclass b/meta/classes/module.bbclass
+>> index 53c16b7..e370b24 100644
+>> --- a/meta/classes/module.bbclass
+>> +++ b/meta/classes/module.bbclass
+>> @@ -37,15 +37,16 @@ module_do_install() {
+>> }
+>>
+>> pkg_postinst_append () {
+>> -	if [ -n "$D" ]; then
+>> -		exit 1
+>> -	fi
+>> +if [ -n "$D" ]; then
+>> +	${HOST_PREFIX}depmod -A -b $D -F ${STAGING_KERNEL_DIR}/System.map-${KERNEL_VERSION} ${KERNEL_VERSION}
+>> +else
+>> 	depmod -a
+>> 	update-modules || true
+>> +fi
+> 
+> That encodes host system paths into the package, which is not a good thing for tools like narcissus and hob.
 
-I spoke to soon. I seeing a problem with iptables in the builds I left runn=
-ing.
-I know we looked at this just recently, so it may just be a matter of undoi=
-ng
-that fix.
+So should we remove the same lines from kernel.bbclass?
 
-I'm looking at it now, but waned to follow up right away.
-
-Bruce
-
->
-> Signed-off-by: Bruce Ashfield <bruce.ashfield@windriver.com>
-> ---
-> =A0meta/conf/distro/include/tcmode-default.inc | =A0 =A02 +-
-> =A01 files changed, 1 insertions(+), 1 deletions(-)
->
-> diff --git a/meta/conf/distro/include/tcmode-default.inc b/meta/conf/dist=
-ro/include/tcmode-default.inc
-> index 28c25db..b481163 100644
-> --- a/meta/conf/distro/include/tcmode-default.inc
-> +++ b/meta/conf/distro/include/tcmode-default.inc
-> @@ -22,7 +22,7 @@ SDKGCCVERSION ?=3D "4.6%"
-> =A0BINUVERSION ?=3D "2.22"
-> =A0EGLIBCVERSION ?=3D "2.13"
-> =A0UCLIBCVERSION ?=3D "0.9.33"
-> -LINUXLIBCVERSION ?=3D "3.1"
-> +LINUXLIBCVERSION ?=3D "3.2"
->
-> =A0PREFERRED_VERSION_gcc ?=3D "${GCCVERSION}"
-> =A0PREFERRED_VERSION_gcc-cross ?=3D "${GCCVERSION}"
-> --
-> 1.7.0.4
->
->
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
-
-
-
---=20
-"Thou shalt not follow the NULL pointer, for chaos and madness await
-thee at its end"
+Regards,
+Andreas
 
 
