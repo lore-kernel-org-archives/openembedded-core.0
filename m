@@ -1,36 +1,33 @@
-Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
-	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <richard.purdie@linuxfoundation.org>)
-	id 1SB3yH-0001hl-BU for openembedded-core@lists.openembedded.org;
-	Fri, 23 Mar 2012 13:51:57 +0100
-Received: from localhost (localhost [127.0.0.1])
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q2NCh1xf026740
+Received: from mail-pb0-f47.google.com ([209.85.160.47])
+	by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <raj.khem@gmail.com>) id 1SB46X-00029s-3w
+	for openembedded-core@lists.openembedded.org;
+	Fri, 23 Mar 2012 14:00:29 +0100
+Received: by pbcum15 with SMTP id um15so2281912pbc.6
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 23 Mar 2012 12:43:01 GMT
-Received: from tim.rpsys.net ([127.0.0.1])
-	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
-	port 10024) with LMTP
-	id 25941-10 for <openembedded-core@lists.openembedded.org>;
-	Fri, 23 Mar 2012 12:42:56 +0000 (GMT)
-Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q2NCgsGD026721
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO)
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 23 Mar 2012 12:42:55 GMT
-Message-ID: <1332506576.9740.410.camel@ted>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Date: Fri, 23 Mar 2012 12:42:56 +0000
-In-Reply-To: <20120323123027.GE3879@jama.jama.net>
-References: <1332485029-9148-1-git-send-email-Martin.Jansa@gmail.com>
-	<1332494193.9740.382.camel@ted> <20120323093623.GB3879@jama.jama.net>
-	<1332502793.9740.385.camel@ted> <20120323114938.GC3879@jama.jama.net>
-	<1332505323.9740.402.camel@ted> <20120323123027.GE3879@jama.jama.net>
-X-Mailer: Evolution 3.2.2- 
-Mime-Version: 1.0
-X-Virus-Scanned: amavisd-new at rpsys.net
-Subject: Re: [PATCH] kernel.bbclass: populate /etc/modules-load.d/ with module_autoload entries too
+	Fri, 23 Mar 2012 05:51:32 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=from:to:cc:subject:date:message-id:x-mailer;
+	bh=Ei8uEenHrd+qC0AIvERuaYOWCClWwFDoKso+g4NJo1U=;
+	b=KcYrNJPvp4VFAPkm6Rf583L2JCNAKmE3YTqGTfdOznfzu6s37BK+7dC4MoaiYA1RsO
+	aXegO4T3qzFNiWiZa3BavMulpwoDK46Wk3AmFhnG78XhMwJNX4iGcDfQJGZMhRknVj2z
+	CggxGjQ6uot0qEJLM+QjUGyN1MfFs15znoh5IjZnT9jHJKw1ZH0SV6oivybrp5lq2b3s
+	mk436TgfvDhl7CIPFPerLW+dd8MEimLPV02S+iEU2qvoTe/7x/IKtuS86mpOJmyKH08J
+	OAQZQQiFjv62+aUZ/0IZm/jj5Xo1is1iX/KwKuBmXygY4uloKBMALpvFNd8lzh4cES7p
+	dgDA==
+Received: by 10.68.135.74 with SMTP id pq10mr29891799pbb.24.1332507092051;
+	Fri, 23 Mar 2012 05:51:32 -0700 (PDT)
+Received: from localhost.localdomain (oldbuilder.nslu2-linux.org.
+	[140.211.169.168])
+	by mx.google.com with ESMTPS id m6sm5799294pbd.5.2012.03.23.05.51.30
+	(version=TLSv1/SSLv3 cipher=OTHER);
+	Fri, 23 Mar 2012 05:51:31 -0700 (PDT)
+From: Khem Raj <raj.khem@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Date: Fri, 23 Mar 2012 05:50:41 -0700
+Message-Id: <1332507041-30674-1-git-send-email-raj.khem@gmail.com>
+X-Mailer: git-send-email 1.7.5.4
+Subject: [PATCH] gdb-cross-canadian: Fix linking issues when python support is enabled
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -45,64 +42,63 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 23 Mar 2012 12:51:58 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Fri, 23 Mar 2012 13:00:29 -0000
 
-On Fri, 2012-03-23 at 13:30 +0100, Martin Jansa wrote:
-> On Fri, Mar 23, 2012 at 12:22:03PM +0000, Richard Purdie wrote:
-> > On Fri, 2012-03-23 at 12:49 +0100, Martin Jansa wrote:
-> > > On Fri, Mar 23, 2012 at 11:39:53AM +0000, Richard Purdie wrote:
-> > > > On Fri, 2012-03-23 at 10:36 +0100, Martin Jansa wrote:
-> > > > > On Fri, Mar 23, 2012 at 09:16:33AM +0000, Richard Purdie wrote:
-> > > > > > On Fri, 2012-03-23 at 07:43 +0100, Martin Jansa wrote:
-> > > > > > > * /etc/modules-load.d/foo.conf is used by systemd like /etc/modutils/foo was with sysvinit
-> > > > > > > 
-> > > > > > > Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
-> > > > > > > ---
-> > > > > > >  meta/classes/kernel.bbclass |   10 ++++++++--
-> > > > > > >  1 files changed, 8 insertions(+), 2 deletions(-)
-> > > > > > 
-> > > > > > Since these look identical couldn't we symlink them? I'm not a big fan
-> > > > > > of writing duplicate data to a package :/.
-> > > > > 
-> > > > > OK I'll change it in v2
-> > > > 
-> > > > Note that I'm wondering if we can just symlink the directory entirely
-> > > > rather than the files themselves. There may be a reason that is a bad
-> > > > idea but I don't know...
-> > > 
-> > > There are different filenames (notice .conf in the end) so I have patch
-> > > doing symlinks for files not directories.
-> > 
-> > I'd seen the modprobe.d conf files and thought here was some similarity.
-> 
-> but that's for module options e.g.
-> 
-> SHR root@gjama ~ $ cat /etc/modprobe.d/g_ether.conf
-> options g_ether dev_addr=00:1F:11:01:2C:9F host_addr=00:1F:11:01:2C:A0
-> 
-> not for module_autoload
+gdb-cross-canadian was linking with static version of libpython
+and looking for build host python when run. This could be mismatch
+between python-nativesdk and build host provided python. So we
+make it consistent to always use python-nativesdk
 
-Right, I understood that when I looked at the code in detail.
+Instead of adding bunch of -L we add -rpath and -rpath-link
+so that gdb finds all needed libraries in SDK and does not
+reach out into host
 
-> > I have to admit I think systemd is nuts for requiring a copy of these
-> > files when it could have used the existing layout. It looks like change
-> > for the sake of change :(.
-> 
-> then why not patch 
-> /usr/sbin/update-modules
-> to read /etc/modules-load.d/*.conf instead of /etc/modutils/* as this is
-> just simple script imported from debian to produce /etc/modules file
-> which is IMHO all what we need for old init script
-> (modutils-initscripts) to read.
+This should fix yocto PR# 2077 as well.
 
-I'd be open to that assuming we can have some kind of reasonable story
-on compatibility.
+Signed-off-by: Khem Raj <raj.khem@gmail.com>
+---
+ meta/recipes-devtools/gdb/gdb-cross-canadian.inc   |    7 ++++---
+ .../recipes-devtools/gdb/gdb-cross-canadian_7.4.bb |    2 +-
+ 2 files changed, 5 insertions(+), 4 deletions(-)
 
-Cheers,
-
-Richard
+diff --git a/meta/recipes-devtools/gdb/gdb-cross-canadian.inc b/meta/recipes-devtools/gdb/gdb-cross-canadian.inc
+index a7cac61..59412c4 100644
+--- a/meta/recipes-devtools/gdb/gdb-cross-canadian.inc
++++ b/meta/recipes-devtools/gdb/gdb-cross-canadian.inc
+@@ -1,4 +1,5 @@
+ inherit cross-canadian
++inherit python-dir
+ 
+ DESCRIPTION = "cross-canadian gdb for ${TARGET_ARCH} target - GNU debugger"
+ PN = "gdb-cross-canadian-${TRANSLATED_TARGET_ARCH}"
+@@ -14,9 +15,9 @@ do_configure_prepend() {
+ cat > ${WORKDIR}/python << EOF
+ #! /bin/sh
+ case "\$2" in
+-        --includes) echo "-I${STAGING_INCDIR}/python${PYTHON_BASEVERSION}/" ;;
+-        --ldflags) echo "-L${STAGING_LIBDIR}/../python${PYTHON_BASEVERSION}/config -lpthread -ldl -lutil -lm -lpython${PYTHON_BASEVERSION}" ;;
+-        --exec-prefix) echo "/usr" ;;
++        --includes) echo "-I${STAGING_INCDIR}/${PYTHON_DIR}/" ;;
++        --ldflags) echo "-Wl,-rpath-link,${STAGING_LIBDIR}/.. -Wl,-rpath,${libdir}/.. -lpthread -ldl -lutil -lm -lpython${PYTHON_BASEVERSION}" ;;
++        --exec-prefix) echo "${exec_prefix}/bin" ;;
+         *) exit 1 ;;
+ esac
+ exit 0
+diff --git a/meta/recipes-devtools/gdb/gdb-cross-canadian_7.4.bb b/meta/recipes-devtools/gdb/gdb-cross-canadian_7.4.bb
+index dbcffde..dfb7d81 100644
+--- a/meta/recipes-devtools/gdb/gdb-cross-canadian_7.4.bb
++++ b/meta/recipes-devtools/gdb/gdb-cross-canadian_7.4.bb
+@@ -1,7 +1,7 @@
+ require gdb-common.inc
+ require gdb-cross-canadian.inc
+ 
+-PR = "${INC_PR}.3"
++PR = "${INC_PR}.4"
+ 
+ GDBPROPREFIX = "--program-prefix='${TARGET_PREFIX}'"
+ EXPAT = "--with-expat"
+-- 
+1.7.5.4
 
 
 
