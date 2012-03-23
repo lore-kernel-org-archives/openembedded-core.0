@@ -1,55 +1,35 @@
-Received: from mail-gx0-f175.google.com ([209.85.161.175])
+Received: from mail-yw0-f47.google.com ([209.85.213.47])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <raj.khem@gmail.com>) id 1SAyoQ-0007mA-2P
-	for openembedded-core@lists.openembedded.org;
-	Fri, 23 Mar 2012 08:21:26 +0100
-Received: by ggcy3 with SMTP id y3so2505426ggc.6
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 23 Mar 2012 00:12:29 -0700 (PDT)
+	(envelope-from <raj.khem@gmail.com>)
+	id 1SAyrr-0007pi-U8; Fri, 23 Mar 2012 08:25:00 +0100
+Received: by yhjj56 with SMTP id j56so2523030yhj.6
+	for <multiple recipients>; Fri, 23 Mar 2012 00:16:03 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=message-id:date:from:user-agent:mime-version:to:cc:subject
-	:references:in-reply-to:content-type:content-transfer-encoding;
-	bh=j2GUKXMokr+eqJwIh92zhUHrwQ0pGb7JcqTyrGF+5Xw=;
-	b=bAciluCPs0DOmm2yggYTiKrT++DHf/eCtR7OQCGwlMMDspDbgThmZiL4EZQUDyZiHE
-	F7QugjtygbTpzWRslKVlj2UoTwd+nvtvEznFCxq9b+Wqr3wpMipWy9zQrr+wzikGZBBu
-	ybWfeP5RtZdh7LSghCOXBo4EnkxTpgSbcO6PQFBwaJWB1PxTB6BSDgv8kiWcob39KYaa
-	T3Bxlfn2jkFyqafR8xvhiDc+isEgimnCe5Wig63oEtkR/NmdV1EwjeZiAEPgygmlk/hi
-	JwJskGV0W9ty4ltOWxPeBZsEPN2ntz8CmVVITmQkIDZ7xB35CxDPGzOSd39vc98H5TnZ
-	SBuA==
-Received: by 10.68.132.99 with SMTP id ot3mr26561073pbb.160.1332486749500;
-	Fri, 23 Mar 2012 00:12:29 -0700 (PDT)
+	h=message-id:date:from:user-agent:mime-version:to:subject
+	:content-type:content-transfer-encoding;
+	bh=DyPzERTgb+RSziirYGszvl9DHNyJUZ6fQ3wNcVCUdr4=;
+	b=qafuxOtDYhZO63I9GBgGZic9Zyrf+k78D2lLc2Ke74I8hJ1jvEy8ncb7t2mit2TU5G
+	LtCwoUnou4ekYQyFRenBeoVsS0SoC6cLMWvoQ/JzYvC2nIUMYKntBP7t2iAquOV2GDR8
+	+CRes0ZVfBpXpaUB8sQ+zwa7Ra+GobwMVtoM/7O6hJXV/dJvmWi6hK3EyJCp6ZVr8WJL
+	8sI3kY37AyTtT1tgsim7HQ5MkKH8xZhX5HGInjLysORdURkk5SgsAmIoozjMue4cZ9dR
+	yXWGWmxYyLeA4YcoKr2Vk+gMt7HlAtl13xo+u0qFtUrlryvZHilQ7JDegyZ9s9hYmurK
+	eqHQ==
+Received: by 10.68.234.193 with SMTP id ug1mr14591067pbc.161.1332486963356;
+	Fri, 23 Mar 2012 00:16:03 -0700 (PDT)
 Received: from [192.168.1.79] (99-57-140-209.lightspeed.sntcca.sbcglobal.net.
 	[99.57.140.209])
-	by mx.google.com with ESMTPS id n7sm604564pbk.56.2012.03.23.00.12.26
-	(version=SSLv3 cipher=OTHER); Fri, 23 Mar 2012 00:12:27 -0700 (PDT)
-Message-ID: <4F6C2259.7000802@gmail.com>
-Date: Fri, 23 Mar 2012 00:12:25 -0700
+	by mx.google.com with ESMTPS id f7sm5249257pbr.3.2012.03.23.00.16.01
+	(version=SSLv3 cipher=OTHER); Fri, 23 Mar 2012 00:16:02 -0700 (PDT)
+Message-ID: <4F6C232F.30103@gmail.com>
+Date: Fri, 23 Mar 2012 00:15:59 -0700
 From: Khem Raj <raj.khem@gmail.com>
 User-Agent: Mozilla/5.0 (X11; Linux i686;
 	rv:11.0) Gecko/20120313 Thunderbird/11.0
 MIME-Version: 1.0
-To: =?ISO-8859-1?Q?Eric_B=E9nard?= <eric@eukrea.com>
-References: <cover.1332347414.git.nitin.a.kamble@intel.com>
-	<CAMKF1sq7hcTKrzFBYgmUOTcdQw6sC1FG4jUhsfKauqeXLQMgsg@mail.gmail.com>
-	<ADD6A3980E8C39419A432FF422031B4C0137B889@ORSMSX106.amr.corp.intel.com>
-	<CAMKF1srP52bxqwkaqPZTQbRmhp_V+4-iJ7wTKeKWfC1z4W=fyw@mail.gmail.com>
-	<ADD6A3980E8C39419A432FF422031B4C0137BAA8@ORSMSX106.amr.corp.intel.com>
-	<CAMKF1sobw_wT_ZKhXs9Y-d0jSG-QWzKOprgf7+zM8a_BjjQgEQ@mail.gmail.com>
-	<20120322131310.1c6455d1@eb-e6520>
-	<CAMKF1sqEGjWMpPTQxP3j1bbP6H2FQqAgHZGm399ejC-RyDxboQ@mail.gmail.com>
-	<20120322134340.1af3dfda@eb-e6520>
-	<CAMKF1srORF53h-V+fKTjJn2jWg=f6nOaMf_eUmYPLnW-ovc7NQ@mail.gmail.com>
-	<20120322141455.644058f0@eb-e6520>
-	<ADD6A3980E8C39419A432FF422031B4C0137BE5C@ORSMSX106.amr.corp.intel.com>
-	<CAMKF1srd0KanO6NfQtm0U39GZS_ANsu9KdRR0hirpKQrhMCxzg@mail.gmail.com>
-	<ADD6A3980E8C39419A432FF422031B4C0137BEEB@ORSMSX106.amr.corp.intel.com>
-	<CAMKF1sr=PedPsmpPSGC42Wvof9fHbR26JM2hgEZjA3h621ynxA@mail.gmail.com>
-	<20120322223127.136698cf@eb-e6520>
-In-Reply-To: <20120322223127.136698cf@eb-e6520>
-Cc: Martin Jansa <martin.jansa@gmail.com>,
-	Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 1/1] Revert "gdb-cross-canadian: build gdb with python support"
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>, 
+	openembedded-devel@lists.openembedded.org
+Subject: gcc 4.7.0 released and available for OE
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -64,53 +44,24 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 23 Mar 2012 07:21:26 -0000
+X-List-Received-Date: Fri, 23 Mar 2012 07:25:00 -0000
 Content-Type: text/plain; charset=ISO-8859-1; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
 
-On 03/22/2012 02:31 PM, Eric Bénard wrote:
-> Hi Khem, Hi Nitin,
->
-> Le Thu, 22 Mar 2012 12:16:44 -0700,
-> Khem Raj<raj.khem@gmail.com>  a écrit :
->> On Thu, Mar 22, 2012 at 10:38 AM, Kamble, Nitin A
->> <nitin.a.kamble@intel.com>  wrote:
->>> Looks like we need this patch for the python recipe to generate debug modules:
->>> http://patch-tracker.debian.org/patch/series/view/python2.7/2.7.2-8/debug-build.diff
->>
->> yep thats the one. Apply it to python and rebuild python-native and
->> stage it then see if that helps. You might have to adjust the FILES
->> and PACKAGES to put the new files in right places.
->
-> With this patch all the libraries (including libpython2.7) now have a _d
-> suffix : is that what we really want ?
->
-> Once that's hacked in the recipe so that do_compile works - in case
-> someone has an idea - I get a failure during installation of
-> python-nativesdk :
-> build/tmp-eglibc/work/x86_64-nativesdk-oesdk-linux/python-nativesdk-2.7.2-r1.9/image/usr/local/oecore-x86_64/sysroots/x86_64-oesdk-linux/usr/lib/python2.7/sysconfig.py :
-> return os.path.join(get_path('platstdlib'), "config" + (sys.pydebug and
-> "_d" or ""), "Makefile") | AttributeError: 'module' object has no
-> attribute 'pydebug
->
-> I checked on both debian&  fedora and they are using this patch only to
-> generate debug packages, not for the standard package.
-> Moreover, when I execute gdb on my PC (Fedora 16) it runs fine and I
-> don't have readline_d.so installed in lib-dynload so it seems possible
-> to get gdb to work with python without having debug symbols.
->
-> Eric
+Hi
 
-OK can you try following patch ? (untested) it does not fix the paths so 
-once you install sdk it will have to be fixed as you did with chrpath 
-for testing
+GCC 4.7.0 has been released and I have updated the recipes and I have 
+been using them for past 3-4 weeks. I was able to build sato images for 
+both uclibc and eglibc and also meta-toolchain targets for all combos 
+Please help in testing them and report
+any issues you see.
 
-http://paste.ubuntu.com/896082/
+The branch is
 
-I think issue is currently we are linking with static version of 
-libpython and also the search path to find python executable for gdb 
-when running is /usr/bin and not the python from SDK so this patch
-takes care of both
+http://git.openembedded.org/openembedded-core-contrib kraj/gcc-4.7
 
+Thanks
+
+-Khem
 
 
