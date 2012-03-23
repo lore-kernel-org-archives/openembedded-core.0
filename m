@@ -1,29 +1,31 @@
-Received: from mga02.intel.com ([134.134.136.20])
+Received: from hermes.mlbassoc.com ([64.234.241.98] helo=mail.chez-thomas.org)
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <dvhart@linux.intel.com>) id 1SB7KQ-0007hA-GR
+	(envelope-from <gary@mlbassoc.com>) id 1SB7LZ-0007kD-97
 	for openembedded-core@lists.openembedded.org;
-	Fri, 23 Mar 2012 17:27:02 +0100
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-	by orsmga101.jf.intel.com with ESMTP; 23 Mar 2012 09:18:05 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.67,351,1309762800"; d="scan'208";a="124343395"
-Received: from unknown (HELO envy.home) ([10.255.15.182])
-	by orsmga002.jf.intel.com with ESMTP; 23 Mar 2012 09:18:05 -0700
-Message-ID: <4F6CA210.4040501@linux.intel.com>
-Date: Fri, 23 Mar 2012 09:17:20 -0700
-From: Darren Hart <dvhart@linux.intel.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:10.0.1) Gecko/20120209 Thunderbird/10.0.1
+	Fri, 23 Mar 2012 17:28:13 +0100
+Received: by mail.chez-thomas.org (Postfix, from userid 1998)
+	id 76284F8126F; Fri, 23 Mar 2012 10:19:18 -0600 (MDT)
+X-Spam-Checker-Version: SpamAssassin 3.3.2 (2011-06-06) on
+	hermes.chez-thomas.org
+X-Spam-Level: 
+X-Spam-Status: No, score=-2.9 required=4.0 tests=ALL_TRUSTED,BAYES_00
+	autolearn=ham version=3.3.2
+Received: from hermes.chez-thomas.org (localhost.localdomain [127.0.0.1])
+	by mail.chez-thomas.org (Postfix) with ESMTP id B4A8DF8126E;
+	Fri, 23 Mar 2012 10:19:07 -0600 (MDT)
+Message-ID: <4F6CA27B.5050800@mlbassoc.com>
+Date: Fri, 23 Mar 2012 10:19:07 -0600
+From: Gary Thomas <gary@mlbassoc.com>
+User-Agent: Mozilla/5.0 (X11; Linux i686;
+	rv:10.0.1) Gecko/20120216 Thunderbird/10.0.1
 MIME-Version: 1.0
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-References: <CA+M6bXkMdv_bg9bDOYCS=Ng0sSB+2Yu6xRN4V0tKDV9RCJMy+A@mail.gmail.com>
-	<1332458784.9740.371.camel@ted> <20120322235342.GC13495@denix.org>
-	<1332465264.9740.380.camel@ted>
-	<20120323154826.GC9551@bill-the-cat>
-In-Reply-To: <20120323154826.GC9551@bill-the-cat>
-X-Enigmail-Version: 1.4
-Subject: Re: Consistency and use cases for IMAGE_FSTYPES
+To: openembedded-core@lists.openembedded.org
+References: <1332516428-9675-1-git-send-email-gary@mlbassoc.com>
+	<1332516428-9675-3-git-send-email-gary@mlbassoc.com>
+	<20120323153553.GJ3879@jama.jama.net>
+	<20120323154819.GK3879@jama.jama.net>
+In-Reply-To: <20120323154819.GK3879@jama.jama.net>
+Subject: Re: [PATCH 2/2] python: Fix minimal packaging dependencies
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -38,99 +40,87 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 23 Mar 2012 16:27:02 -0000
-Content-Type: text/plain; charset=ISO-8859-1
+X-List-Received-Date: Fri, 23 Mar 2012 16:28:13 -0000
+Content-Type: text/plain; charset=ISO-8859-1; format=flowed
 Content-Transfer-Encoding: 7bit
 
-
-
-On 03/23/2012 08:48 AM, Tom Rini wrote:
-> On Fri, Mar 23, 2012 at 01:14:24AM +0000, Richard Purdie wrote:
->> On Thu, 2012-03-22 at 19:53 -0400, Denys Dmytriyenko wrote:
->>> On Thu, Mar 22, 2012 at 11:26:24PM +0000, Richard Purdie wrote:
->>>> On Fri, 2012-03-09 at 14:39 -0700, Tom Rini wrote:
->>>>> Hey all,
->>>>>
->>>>> Over in meta-ti I kicked off a discussion
->>>>> (https://lists.yoctoproject.org/pipermail/meta-ti/2012-March/000779.html)
->>>>> about if we should be using '?=' or '+=' with IMAGE_FSTYPES in the
->>>>> machine conf files.  This has been discussed a little bit before
->>>>> (http://thread.gmane.org/gmane.comp.handhelds.openembedded.core/2060/focus=2061).
->>>>>  The problem is we have the following and I believe ultimately
->>>>> conflicting use cases:
->>>>
->>>> I've been under the impression that we decided upon:
->>>>
->>>>> - The machine needs to say 'I need or support the following formats'
->>>>
->>>> so the machine starts and sets:
->>>>
->>>> IMAGE_FSTYPES = "xxxx"
->>>>
->>>>> - The distro needs to say 'I always want format X'
->>>>
->>>> so the distro can do:
->>>>
->>>> IMAGE_FSTYPES += " yyy"
->>>>
->>>>> - The user needs to say 'I know best, give me only format X'
->>>>
->>>> So the user can do:
->>>>
->>>> IMAGE_FSTYPES = "X"
+On 2012-03-23 09:48, Martin Jansa wrote:
+> On Fri, Mar 23, 2012 at 04:35:53PM +0100, Martin Jansa wrote:
+>> On Fri, Mar 23, 2012 at 09:27:08AM -0600, Gary Thomas wrote:
+>>> If you install the top-level python package only on a minimal
+>>> system which has no other python packages installed then python
+>>> is not functional at all.  Without any extra packages installed
+>>> this error is seen:
+>>>    # python
+>>>    Traceback (most recent call last):
+>>>      File "/usr/lib/python2.7/site.py", line 64, in<module>
+>>>        import traceback
+>>>    ImportError: No module named traceback
 >>>
->>> Since local.conf gets parsed before machine.conf and distro.conf, the user 
->>> needs to do this override:
+>>> Installing python-lang only partly fixes the problem as this
+>>> error still exists:
+>>>    # python
+>>>    Traceback (most recent call last):
+>>>      File "/usr/lib/python2.7/site.py", line 569, in<module>
+>>>        main()
+>>>      File "/usr/lib/python2.7/site.py", line 551, in main
+>>>        known_paths = addusersitepackages(known_paths)
+>>>      File "/usr/lib/python2.7/site.py", line 278, in addusersitepackages
+>>>        user_site = getusersitepackages()
+>>>      File "/usr/lib/python2.7/site.py", line 253, in getusersitepackages
+>>>        user_base = getuserbase() # this will also set USER_BASE
+>>>      File "/usr/lib/python2.7/site.py", line 243, in getuserbase
+>>>        USER_BASE = get_config_var('userbase')
+>>>      File "/usr/lib/python2.7/sysconfig.py", line 520, in get_config_var
+>>>        return get_config_vars().get(name)
+>>>      File "/usr/lib/python2.7/sysconfig.py", line 400, in get_config_vars
+>>>        import re
+>>>    ImportError: No module named re
 >>>
->>> IMAGE_FSTYPES_local = "X"
+>>> Signed-off-by: Gary Thomas<gary@mlbassoc.com>
+>>> ---
+>>>   meta/recipes-devtools/python/python_2.7.2.bb |    3 ++-
+>>>   1 files changed, 2 insertions(+), 1 deletions(-)
 >>>
->>> Otherwise machine.conf will always overwrite it with "xxxx" with its 
->>> unconditional assignment.
+>>> diff --git a/meta/recipes-devtools/python/python_2.7.2.bb b/meta/recipes-devtools/python/python_2.7.2.bb
+>>> index 8111b31..f1ba42d 100644
+>>> --- a/meta/recipes-devtools/python/python_2.7.2.bb
+>>> +++ b/meta/recipes-devtools/python/python_2.7.2.bb
+>>> @@ -1,6 +1,6 @@
+>>>   require python.inc
+>>>   DEPENDS = "python-native bzip2 db gdbm openssl readline sqlite3 zlib"
+>>> -PR = "${INC_PR}.8"
+>>> +PR = "${INC_PR}.9"
+>>>
+>>>   DISTRO_SRC_URI ?= "file://sitecustomize.py"
+>>>   DISTRO_SRC_URI_linuxstdbase = ""
+>>> @@ -123,6 +123,7 @@ py_package_preprocess () {
+>>>   require python-${PYTHON_MAJMIN}-manifest.inc
 >>
->> Right, I'd forgotten that little detail :/.
+>> This should be fixed probably in
+>> scripts/contrib/python/generate-manifest-2.7.py
 >>
->> It actually makes me wonder if our include order is the right one but
->> now isn't the time to try changing that.
+>>>
+>>>   # manual dependency additions
+>>> +RRDEPENDS_${PN} = "${PN}-lang ${PN}-re"
 >>
->> I agree the neatest way to change it is probably something like
->> MACHINE_FSTYPES. I do worry a lot about backwards compatibility though
->> and I'd also point out where we're at in the release cycle (bug fix
->> only).
-> 
-> Well, one problem that would make this a bugfix is that no one does what
-> you say we agreed on today.  oe-core has qemu.inc using ?=, meta-intel
-> is using += and meta-ti is mixed (which is what got this started).
-> 
-> 
+>> And here is typo, how did you test this change?
+>
+> And also notice that there is no ${PN} in PACKAGES, so by "top-level
+> python package" you mean python-core right?
 
-Is this causing any nasty failures right now, or is it in the "this is a
-confusing mess and it would be nice to get it cleaned up" bucket? If the
-latter, I think I'd prefer to wait a bit an clean up the
-local.conf/machine.conf IMAGE_FSTYPES clobbering issue.
+Yes.  As far as my testing, it got muddled with something else and
+what I've proposed doesn't help, sorry.  I'm looking into how to fix
+this via the generate-manifest script and will send a different patch
+shortly [I hope].
 
-If this isn't really fixable (for whatever requirements bitbake has on
-load/parse order of config files), then Koen's EXTRA_IMAGE_FSTYPES seems
-like the most consistent mechanism with other things, like
-CORE_IMAGE_EXTRA_INSTALL (OK, maybe IMAGE_EXTRA_FSTYPES ?).
+Query: if I change the script, should I also bum PR in this recipe?
 
-So the default becomes:
-
-IMAGE_FSTYPES ?= ${IMAGE_EXTRA_FSTYPES}
-
-and DISTROs might define that as:
-
-IMAGE_FSTYPES += "yyy"
-
-and users can update local.conf to be:
-
-IMAGE_FSTYPES = "X"
-
-But, doesn't this meant the DISTRO append will still change the
-IMAGE_FSTYPES to "X yyy" even though the user intended "only X"?
 
 -- 
-Darren Hart
-Intel Open Source Technology Center
-Yocto Project - Linux Kernel
+------------------------------------------------------------
+Gary Thomas                 |  Consulting for the
+MLB Associates              |    Embedded world
+------------------------------------------------------------
 
 
