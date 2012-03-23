@@ -1,39 +1,35 @@
-Received: from mail-wi0-f169.google.com ([209.85.212.169])
-	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <martin.jansa@gmail.com>) id 1SB3R2-0000hg-Qn
-	for openembedded-core@lists.openembedded.org;
-	Fri, 23 Mar 2012 13:17:36 +0100
-Received: by wibhm17 with SMTP id hm17so1633168wib.0
+Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
+	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <richard.purdie@linuxfoundation.org>)
+	id 1SB3Uj-0000of-Si for openembedded-core@lists.openembedded.org;
+	Fri, 23 Mar 2012 13:21:26 +0100
+Received: from localhost (localhost [127.0.0.1])
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q2NCCURK026410
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 23 Mar 2012 05:08:40 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=date:from:to:subject:message-id:references:mime-version
-	:content-type:content-disposition:in-reply-to:user-agent;
-	bh=urjhGFNZxHbiQczZwMRg5THdfABnhvm+KAztP2pvY3g=;
-	b=sfc7IAxOV2MovWL2nfkutcLbfE5SJKJH284mB7XM4sVe7zqx64Af/PI6s48whRiIq/
-	ikn+eRiRMkk+eWYe87rMPkZ4qlZiVsxso5GxHfmrZ/V39TSWqvaNFM8jIBpV7BqzFA4s
-	+7gZL2jJgKbkROZ8U3ujWWQLFHvFS1ZVSFG6o5U78u2iYEAOU/puS+87HW0RvB4hUkOu
-	RoF62DbJA/arS7G+urY3AjSnhkvOmAWmdW5Amd2NjnbTEqRtcyOtqVNgFhAhsTBvCVU2
-	rq7UAGehnsybE7p9EDHQy5KeS/QtjLPvBTpWJZUi8AqzXuQkwrckP/1OEBPDd6iP5U7N
-	NPJw==
-Received: by 10.216.135.103 with SMTP id t81mr6879841wei.113.1332504520757;
-	Fri, 23 Mar 2012 05:08:40 -0700 (PDT)
-Received: from localhost ([94.230.152.246])
-	by mx.google.com with ESMTPS id l5sm13324002wia.11.2012.03.23.05.08.39
-	(version=TLSv1/SSLv3 cipher=OTHER);
-	Fri, 23 Mar 2012 05:08:40 -0700 (PDT)
-Date: Fri, 23 Mar 2012 13:08:41 +0100
-From: Martin Jansa <martin.jansa@gmail.com>
+	Fri, 23 Mar 2012 12:12:30 GMT
+Received: from tim.rpsys.net ([127.0.0.1])
+	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
+	port 10024) with LMTP
+	id 26101-04 for <openembedded-core@lists.openembedded.org>;
+	Fri, 23 Mar 2012 12:12:26 +0000 (GMT)
+Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q2NCCMAx026403
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO)
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 23 Mar 2012 12:12:23 GMT
+Message-ID: <1332504745.9740.398.camel@ted>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Message-ID: <20120323120841.GD3879@jama.jama.net>
-References: <1332471418-31459-1-git-send-email-raj.khem@gmail.com>
-	<1332471418-31459-2-git-send-email-raj.khem@gmail.com>
-	<1332504268.9740.394.camel@ted>
-MIME-Version: 1.0
-In-Reply-To: <1332504268.9740.394.camel@ted>
-User-Agent: Mutt/1.5.21 (2010-09-15)
-Subject: Re: [PATCH 2/2] pixman: disable iwmmxt
+Date: Fri, 23 Mar 2012 12:12:25 +0000
+In-Reply-To: <1332443701-24282-1-git-send-email-schnitzeltony@googlemail.com>
+References: <1332443701-24282-1-git-send-email-schnitzeltony@googlemail.com>
+X-Mailer: Evolution 3.2.2- 
+Mime-Version: 1.0
+X-Virus-Scanned: amavisd-new at rpsys.net
+X-MIME-Autoconverted: from 8bit to quoted-printable by tim.rpsys.net id
+	q2NCCURK026410
+Subject: Re: [PATCH] gtk-icon-cache.bbclass: Fix multiple rebuilds of the icon cache on first boot
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -48,54 +44,75 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 23 Mar 2012 12:17:36 -0000
-X-Groupsio-MsgNum: 19526
-Content-Type: multipart/signed; micalg=pgp-sha1;
-	protocol="application/pgp-signature"; boundary="pZs/OQEoSSbxGlYw"
-Content-Disposition: inline
-
---pZs/OQEoSSbxGlYw
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+X-List-Received-Date: Fri, 23 Mar 2012 12:21:26 -0000
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Fri, Mar 23, 2012 at 12:04:28PM +0000, Richard Purdie wrote:
-> On Thu, 2012-03-22 at 19:56 -0700, Khem Raj wrote:
-> > Pixman build system is borked and always wants iwmmxt intrinsics
-> > it errors like below
-> >=20
-> > | ../pixman/.libs/libpixman-1.so: error: undefined reference to
-> > '__builtin_arm_wand'
-> > | ../pixman/.libs/libpixman-1.so: error: undefined reference to
-> > '__builtin_arm_wsrlhi'
-> > | ../pixman/.libs/libpixman-1.so: error: undefined reference to
-> > '__builtin_arm_walign'
-> >=20
-> > Signed-off-by: Khem Raj <raj.khem@gmail.com>
-> > ---
-> >  meta/recipes-graphics/xorg-lib/pixman_0.25.2.bb |    6 +++++-
-> >  1 files changed, 5 insertions(+), 1 deletions(-)
+On Thu, 2012-03-22 at 20:15 +0100, Andreas M=C3=BCller wrote:
+> * Before this patch every inheritance of this class rebuilt the full ic=
+on cache at the first boot.
+> * With this patch the icon cache will only be build once at the first b=
+oot and on pkg installations that require it.
+> * This patch reduces the time needed for the first boot from 96 minutes=
+ to 5 minutes on the test machine.
+> * Build-tested incremental (BB_SIGNATURE_HANDLER =3D "OEBasicHash") & f=
+rom scratch
+> * Run-tested with systemd and opkg
 >=20
-> Merged to master, thanks!
+> Signed-off-by: Samuel Stirtzel <s.stirtzel@googlemail.com>
+> Signed-off-by: Andreas M=C3=BCller <schnitzeltony@googlemail.com>
+> ---
+>  meta/classes/gtk-icon-cache.bbclass                |   19 +++++++++---=
+----
+>  .../gtk+/gtk-update-icon-cache-runonce.bb          |   23 ++++++++++++=
+++++++++
+>  .../gtk-update-icon-cache-runonce.in               |   16 ++++++++++++=
++
+>  3 files changed, 50 insertions(+), 8 deletions(-)
+>  create mode 100644 meta/recipes-gnome/gtk+/gtk-update-icon-cache-runon=
+ce.bb
+>  create mode 100644 meta/recipes-gnome/gtk+/gtk-update-icon-cache-runon=
+ce/gtk-update-icon-cache-runonce.in
+>=20
+> diff --git a/meta/classes/gtk-icon-cache.bbclass b/meta/classes/gtk-ico=
+n-cache.bbclass
+> index 60e3401..b48aabe 100644
+> --- a/meta/classes/gtk-icon-cache.bbclass
+> +++ b/meta/classes/gtk-icon-cache.bbclass
+> @@ -9,14 +9,16 @@ if [ "x$D" !=3D "x" ]; then
+>          exit 1
+>  fi
+> =20
+> -# Update the pixbuf loaders in case they haven't been registered yet
+> -GDK_PIXBUF_MODULEDIR=3D${libdir}/gdk-pixbuf-2.0/2.10.0/loaders gdk-pix=
+buf-query-loaders --update-cache
+> -
+> -for icondir in /usr/share/icons/* ; do
+> -    if [ -d $icondir ] ; then
+> -        gtk-update-icon-cache -fqt  $icondir
+> -    fi
+> -done
+> +# do not execute in case a final run-once is waiting
+> +if [ ! -e ${sysconfdir}/init.d/gtk-update-icon-cache-runonce ]; then
+> +    # Update the pixbuf loaders in case they haven't been registered y=
+et
+> +    GDK_PIXBUF_MODULEDIR=3D${libdir}/gdk-pixbuf-2.0/2.10.0/loaders gdk=
+-pixbuf-query-loaders --update-cache
+> +    for icondir in /usr/share/icons/* ; do
+> +        if [ -d $icondir ] ; then
+> +            gtk-update-icon-cache -fqt  $icondir
+> +        fi
+> +    done
+> +fi
 
-khem, will you send patch for meta-oe .bbaappend so we don't have it
-twice in OECONF?
+
+Can't we just reduce this to adding a "touch
+${sysconfdir}/init.d/gtk-update-icon-cache-runonce" to the above code
+and then clear that file at boot time?
 
 Cheers,
 
---=20
-Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
+Richard
 
---pZs/OQEoSSbxGlYw
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: Digital signature
 
------BEGIN PGP SIGNATURE-----
-Version: GnuPG v2.0.18 (GNU/Linux)
 
-iEYEARECAAYFAk9sZ8kACgkQN1Ujt2V2gBwIqACgmQW3d3S2zBHghl8lfXwHirId
-NioAn29Vhthwu4jLOtGQyJBokute6jMf
-=7sGA
------END PGP SIGNATURE-----
-
---pZs/OQEoSSbxGlYw--
