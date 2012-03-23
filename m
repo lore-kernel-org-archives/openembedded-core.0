@@ -1,34 +1,34 @@
-Received: from mail-gy0-f175.google.com ([209.85.160.175])
-	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <tom.rini@gmail.com>) id 1SB8XM-00015p-Ip
-	for openembedded-core@lists.openembedded.org;
-	Fri, 23 Mar 2012 18:44:28 +0100
-Received: by ghbz2 with SMTP id z2so2963289ghb.6
+Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
+	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <richard.purdie@linuxfoundation.org>)
+	id 1SB8bV-0001Ci-Tk for openembedded-core@lists.openembedded.org;
+	Fri, 23 Mar 2012 18:48:46 +0100
+Received: from localhost (localhost [127.0.0.1])
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q2NHdowk029884
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 23 Mar 2012 10:35:32 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=sender:from:to:subject:date:message-id:x-mailer;
-	bh=N7eAyPU2whI+nXrMsyBGgbUo+1gH+JHp+A1KNQhcteY=;
-	b=uwBPccGZ1yHsQcaXmRk/tpkTMLo2ZuRztS9fDpl896NKgzOq08Bm61efQwnGfn4et0
-	wNHo8F3tLKK8hu8j65Li2jbH9w3qVzLdgGjkHnbB5QOvVT8E7w6+rE+BgPs8kUZVk7V8
-	gSU9dEWkw3L0fwnofiLmn/GJD2m/TSqe5pBTs1e/xERqolBdUefSLYm7tkoqcI0sGPXA
-	4jC599Oy7H6TiGAONsK2GyJEWg4U3/qvXm7hURVjxOA/6ZUCIaA/3Dpln0BN6wGinM8U
-	7+dOuJ7ffiUVYRN4lH+Y24CeqmP183QMQgtrHNxyQX+R6xNiGvE6O3C80Rj+SmXcwRg3
-	8s+w==
-Received: by 10.60.22.10 with SMTP id z10mr16469323oee.16.1332524131927;
-	Fri, 23 Mar 2012 10:35:31 -0700 (PDT)
-Received: from localhost.localdomain (ip68-230-54-74.ph.ph.cox.net.
-	[68.230.54.74])
-	by mx.google.com with ESMTPS id 8sm8305190obv.19.2012.03.23.10.35.30
-	(version=TLSv1/SSLv3 cipher=OTHER);
-	Fri, 23 Mar 2012 10:35:31 -0700 (PDT)
-Sender: Tom Rini <tom.rini@gmail.com>
-From: Tom Rini <trini@ti.com>
-To: openembedded-core@lists.openembedded.org
-Date: Fri, 23 Mar 2012 10:35:32 -0700
-Message-Id: <1332524132-24689-1-git-send-email-trini@ti.com>
-X-Mailer: git-send-email 1.7.0.4
-Subject: [PATCH] qemu.inc: Use '=' for IMAGE_FSTYPES
+	Fri, 23 Mar 2012 17:39:50 GMT
+Received: from tim.rpsys.net ([127.0.0.1])
+	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
+	port 10024) with LMTP
+	id 29050-01 for <openembedded-core@lists.openembedded.org>;
+	Fri, 23 Mar 2012 17:39:44 +0000 (GMT)
+Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q2NHdgwF029878
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO)
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 23 Mar 2012 17:39:43 GMT
+Message-ID: <1332524384.9740.462.camel@ted>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Date: Fri, 23 Mar 2012 17:39:44 +0000
+In-Reply-To: <1332520659-12233-2-git-send-email-obi@opendreambox.org>
+References: <1332520659-12233-1-git-send-email-obi@opendreambox.org>
+	<1332520659-12233-2-git-send-email-obi@opendreambox.org>
+X-Mailer: Evolution 3.2.2- 
+Mime-Version: 1.0
+X-Virus-Scanned: amavisd-new at rpsys.net
+Subject: Re: [PATCH 2/4] module.bbclass: sync pkg_post{inst, rm} with kernel.bbclass
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -43,32 +43,24 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 23 Mar 2012 17:44:28 -0000
+X-List-Received-Date: Fri, 23 Mar 2012 17:48:46 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-As per
-http://lists.linuxtogo.org/pipermail/openembedded-core/2012-March/019772.html
-a machine conf file should use '=' to set IMAGE_FSTYPES.
+On Fri, 2012-03-23 at 17:37 +0100, Andreas Oberritter wrote:
+> * Run depmod when the rootfs gets generated.
+> 
+> Signed-off-by: Andreas Oberritter <obi@opendreambox.org>
+> ---
+>  meta/classes/module.bbclass |    9 +++++----
+>  1 files changed, 5 insertions(+), 4 deletions(-)
 
-Signed-off-by: Tom Rini <trini@ti.com>
----
- meta/conf/machine/include/qemu.inc |    2 +-
- 1 files changed, 1 insertions(+), 1 deletions(-)
+The post install from kernel.bbclass should take care of this at rootfs
+time so we don't need to duplicate it?
 
-diff --git a/meta/conf/machine/include/qemu.inc b/meta/conf/machine/include/qemu.inc
-index 10ab76e..b613287 100644
---- a/meta/conf/machine/include/qemu.inc
-+++ b/meta/conf/machine/include/qemu.inc
-@@ -3,7 +3,7 @@ PREFERRED_PROVIDER_virtual/xserver ?= "xserver-kdrive"
- 
- MACHINE_FEATURES = "apm alsa pcmcia bluetooth irda usbgadget screen"
- 
--IMAGE_FSTYPES ?= "tar.bz2 ext3"
-+IMAGE_FSTYPES = "tar.bz2 ext3"
- 
- ROOT_FLASH_SIZE = "280"
- 
--- 
-1.7.0.4
+Cheers,
+
+Richard
 
 
 
