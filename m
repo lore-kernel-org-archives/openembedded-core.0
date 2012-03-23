@@ -1,34 +1,43 @@
-Received: from mail-wi0-f177.google.com ([209.85.212.177])
+Received: from mail-wi0-f171.google.com ([209.85.212.171])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <martin.jansa@gmail.com>) id 1SB5l8-00050X-6b
+	(envelope-from <koen@dominion.thruhere.net>) id 1SB5tn-00058A-Uz
 	for openembedded-core@lists.openembedded.org;
-	Fri, 23 Mar 2012 15:46:30 +0100
-Received: by wibhj13 with SMTP id hj13so1937748wib.6
+	Fri, 23 Mar 2012 15:55:28 +0100
+Received: by wibhj13 with SMTP id hj13so1878059wib.6
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 23 Mar 2012 07:37:34 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=from:to:cc:subject:date:message-id:x-mailer:in-reply-to:references;
-	bh=MVdET6Eh/5rvjuZV+3JswIjfM68a1Pnxs95WTWL2WvE=;
-	b=krSFQMv54v1nQKt2DZ/jvlA0BoI80lzE2jG59H/4q16bhtt5G0VO8WLfUOFbAfzbzY
-	HbCoQ6mL1sf0plpHy1bVoaefgagYB8UCEXcJOuRzd3APXD/hV99m4bD2d96ZeBO7rYyE
-	2qC2P5NDrl+QBvmPtgaQOrbR2Hnqy6Oq7beih9d6F1aWCxzoHQ5H42+J0xMiTtbYnRrX
-	GaJIUJGBBWvt8Bm+KB/cyu6YrVYaXWAPgmgjfd2+7OFFOdV04RU03z0WaJMwiHW74AEo
-	tkPe4+AeijxYTmpMWcWnc6IVam6sR5FAlkDMufN141f5bwta4rnRWinXx25eKlp6vxs8
-	MOGA==
-Received: by 10.180.102.102 with SMTP id fn6mr7158159wib.10.1332513454144;
-	Fri, 23 Mar 2012 07:37:34 -0700 (PDT)
-Received: from localhost ([94.230.152.246])
-	by mx.google.com with ESMTPS id 17sm14797140wis.0.2012.03.23.07.37.31
+	Fri, 23 Mar 2012 07:46:31 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=google.com; s=20120113;
+	h=subject:mime-version:content-type:from:in-reply-to:date:cc
+	:content-transfer-encoding:message-id:references:to:x-mailer
+	:x-gm-message-state;
+	bh=XCEYcLs1UHfGAbYJ7jOtoiwu5KopdzqeUWK86kOj+RI=;
+	b=VotFpma2+8TRMn/AG0DLGbbJ4M9GSC55qnht6Cttq8dF6kQalKkI6fnEyrh/T5Azxt
+	0mPPPu1kIKM3Bt3kyHwkCW0jq4UEPiLK2Eb1MwdjQutBS/YLtdQDXgIODFH56Nd+v6xk
+	K2ND6rwhL5LwV77KQLfliNquw7EUUENd63x26kcbUn5eJhVH7yUPmcDPkfOhlBdndsWL
+	dBFNlJmGa1obrrbpARxbX4BbOBpWqvHf9HukWzZBad+ClLFiRYMDScloRJ/zayLQlHxu
+	WN5p+nijxtgthOee8wySB8CxCA7lqoF0SA/idPaXQIM31hqfKC8Uum02MsQ0rA7pkcc7
+	bS6g==
+Received: by 10.180.73.143 with SMTP id l15mr7161317wiv.11.1332513991921;
+	Fri, 23 Mar 2012 07:46:31 -0700 (PDT)
+Received: from [172.20.1.36] (ip545070eb.adsl-surfen.hetnet.nl.
+	[84.80.112.235])
+	by mx.google.com with ESMTPS id n15sm14350405wiw.6.2012.03.23.07.46.30
 	(version=TLSv1/SSLv3 cipher=OTHER);
-	Fri, 23 Mar 2012 07:37:32 -0700 (PDT)
-From: Martin Jansa <martin.jansa@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Date: Fri, 23 Mar 2012 15:37:23 +0100
-Message-Id: <1332513443-16002-1-git-send-email-Martin.Jansa@gmail.com>
-X-Mailer: git-send-email 1.7.8.5
-In-Reply-To: <30ff40b68ca1bf9b04f5750e3018e6e50dfbf100.1332507302.git.Martin.Jansa@gmail.com>
-References: <30ff40b68ca1bf9b04f5750e3018e6e50dfbf100.1332507302.git.Martin.Jansa@gmail.com>
-Subject: [PATCHv2 5/6] update-modules: update script to read /etc/modules-load.d/ directory
+	Fri, 23 Mar 2012 07:46:31 -0700 (PDT)
+Mime-Version: 1.0 (Apple Message framework v1257)
+From: Koen Kooi <koen@dominion.thruhere.net>
+In-Reply-To: <37018070.ge2LN5YNq8@helios>
+Date: Fri, 23 Mar 2012 15:46:23 +0100
+Message-Id: <28CB7011-540E-4875-86E8-ABBF0E66DE18@dominion.thruhere.net>
+References: <1332429941-19621-1-git-send-email-koen@dominion.thruhere.net>
+	<1332429941-19621-2-git-send-email-koen@dominion.thruhere.net>
+	<37018070.ge2LN5YNq8@helios>
+To: Paul Eggleton <paul.eggleton@linux.intel.com>
+X-Mailer: Apple Mail (2.1257)
+X-Gm-Message-State: ALoCoQmMYD3UCxEI9CRDbBzzeZj9ePSpU9jrFGYxWMj+j41J6SAQcAdz0xkTtqeonN/3q3CCFdfP
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCHv3 2/3] buildhistory: record all builds
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -43,74 +52,23 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 23 Mar 2012 14:46:30 -0000
+X-List-Received-Date: Fri, 23 Mar 2012 14:55:28 -0000
+Content-Type: text/plain; charset=us-ascii
+Content-Transfer-Encoding: quoted-printable
 
-* show warning for old /etc/modutils/* files without .conf extension
-* v2: keep adding modules also from old /etc/modutils/* after showing
-  warning, this way update-modules will be backward compatible also on
-  images without kernel upgrade
 
-Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
----
- .../update-modules-1.0/update-modules              |   15 +++++++++++++--
- .../update-modules/update-modules_1.0.bb           |    2 +-
- 2 files changed, 14 insertions(+), 3 deletions(-)
+Op 23 mrt. 2012, om 15:33 heeft Paul Eggleton het volgende geschreven:
 
-diff --git a/meta/recipes-kernel/update-modules/update-modules-1.0/update-modules b/meta/recipes-kernel/update-modules/update-modules-1.0/update-modules
-index 7ee7df8..99040a1 100755
---- a/meta/recipes-kernel/update-modules/update-modules-1.0/update-modules
-+++ b/meta/recipes-kernel/update-modules/update-modules-1.0/update-modules
-@@ -103,8 +103,8 @@ createfile() {
- $HEADER"
- #
- # Please do not edit this file directly. If you want to change or add
--# anything please take a look at the files in /etc/modutils and read
--# the manpage for update-modules.
-+# anything please take a look at the files in /etc/modutils, /etc/modules-load.d 
-+# and read the manpage for update-modules.
- #
- EOF
- }
-@@ -161,6 +161,7 @@ fi
- createfile "$MODCONFTMPFILE"
- createfile "$MODULESTMPFILE"
- 
-+# well we're using /etc/modprobe.d/*.conf instead of /etc/modutils/*.conf anyway..
- for cfg in /etc/modutils/* $CONF ; do
- 	if [ -f "$cfg" ]; then # this check is necesarry to skip /etc/modutils/archs
- 		if echo $cfg | grep -q '\.dpkg-[a-z]*\|~$' ; then
-@@ -168,6 +169,16 @@ for cfg in /etc/modutils/* $CONF ; do
- 		elif echo $cfg | grep -q '\.conf$' ; then
- 			addfile "$cfg" "$MODCONFTMPFILE"
- 		else
-+			echo "Please migrate your $cfg file to /etc/modules-load.d/*.conf"
-+			addfile "$cfg" "$MODULESTMPFILE"
-+		fi
-+	fi
-+done
-+for cfg in /etc/modules-load.d/*.conf; do
-+	if [ -f "$cfg" ]; then # this check is necesarry to skip weird entries
-+		if echo $cfg | grep -q '\.dpkg-[a-z]*\|~$' ; then
-+		        true
-+		else
- 			addfile "$cfg" "$MODULESTMPFILE"
- 		fi
- 	fi
-diff --git a/meta/recipes-kernel/update-modules/update-modules_1.0.bb b/meta/recipes-kernel/update-modules/update-modules_1.0.bb
-index d9697de..2af75e6 100644
---- a/meta/recipes-kernel/update-modules/update-modules_1.0.bb
-+++ b/meta/recipes-kernel/update-modules/update-modules_1.0.bb
-@@ -5,7 +5,7 @@ LIC_FILES_CHKSUM = "file://${WORKDIR}/COPYING.GPL;md5=751419260aa954499f7abaabaa
- 
- RDEPENDS_${PN} = "module-init-tools-depmod"
- 
--PR = "r12"
-+PR = "r13"
- 
- SRC_URI = "file://update-modules \
-            file://COPYING.GPL"
--- 
-1.7.8.5
+> On Thursday 22 March 2012 16:25:40 Koen Kooi wrote:
+>> When nothing has changed an empty commit prefixed with "No changes" =
+will get
+>> generated
+>=20
+> So I guess what's missing from this commit message is an explanation =
+of why=20
+> you want this.
+
+Drat, I had assumed the commit title would be enough for that :)
 
 
 
