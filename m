@@ -1,56 +1,38 @@
-Received: from ch1ehsobe004.messaging.microsoft.com ([216.32.181.184]
-	helo=ch1outboundpool.messaging.microsoft.com)
+Received: from mail-we0-f175.google.com ([74.125.82.175])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <B29882@freescale.com>) id 1SBCAI-0005YL-3N
+	(envelope-from <martin.jansa@gmail.com>) id 1SBD7M-0006qy-K4
 	for openembedded-core@lists.openembedded.org;
-	Fri, 23 Mar 2012 22:36:54 +0100
-Received: from mail39-ch1-R.bigfish.com (10.43.68.247) by
-	CH1EHSOBE018.bigfish.com (10.43.70.68) with Microsoft SMTP Server id
-	14.1.225.23; Fri, 23 Mar 2012 21:12:41 +0000
-Received: from mail39-ch1 (localhost [127.0.0.1])	by mail39-ch1-R.bigfish.com
-	(Postfix) with ESMTP id B9A1980534	for
-	<openembedded-core@lists.openembedded.org>;
-	Fri, 23 Mar 2012 21:12:40 +0000 (UTC)
-X-SpamScore: -7
-X-BigFish: VS-7(zz9371I1432N98dKzz1202hzz8275bh8275dhz2dh2a8h668h839h8e2h8e3hbe9k)
-X-Forefront-Antispam-Report: CIP:70.37.183.190; KIP:(null); UIP:(null); IPV:NLI;
-	H:mail.freescale.net; RD:none; EFVD:NLI
-Received: from mail39-ch1 (localhost.localdomain [127.0.0.1]) by mail39-ch1
-	(MessageSwitch) id 133253715858995_10496;
-	Fri, 23 Mar 2012 21:12:38 +0000 (UTC)
-Received: from CH1EHSMHS002.bigfish.com (snatpool1.int.messaging.microsoft.com
-	[10.43.68.243])	by mail39-ch1.bigfish.com (Postfix) with ESMTP id
-	0AD6EE005B for <openembedded-core@lists.openembedded.org>;
-	Fri, 23 Mar 2012 21:12:38 +0000 (UTC)
-Received: from mail.freescale.net (70.37.183.190) by CH1EHSMHS002.bigfish.com
-	(10.43.70.2) with Microsoft SMTP Server (TLS) id 14.1.225.23;
-	Fri, 23 Mar 2012 21:12:37 +0000
-Received: from 039-SN1MPN1-001.039d.mgd.msft.net ([169.254.1.230]) by
-	039-SN1MMR1-002.039d.mgd.msft.net ([10.84.1.15]) with mapi id
-	14.01.0355.003; Fri, 23 Mar 2012 16:12:44 -0500
-From: McClintock Matthew-B29882 <B29882@freescale.com>
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Thread-Topic: [OE-core] [PATCH 2/2] useradd.bbclass: retry useradd/groupadd
-	commands to avoid lock race issues
-Thread-Index: AQHNCTmwlhCVlApWhk+Dd53Fllpzjw==
-Date: Fri, 23 Mar 2012 21:12:43 +0000
-Message-ID: <CAEsOVNdspSnSngMvuqfpuczM8OKmO9405oWVcGsz6SO+fRcr=Q@mail.gmail.com>
-References: <cover.1332453478.git.scott.a.garman@intel.com>
-	<1e1a2ceb4c6afa22a71d3c902b7a3b18cdee10cf.1332453478.git.scott.a.garman@intel.com>
-In-Reply-To: <1e1a2ceb4c6afa22a71d3c902b7a3b18cdee10cf.1332453478.git.scott.a.garman@intel.com>
-Accept-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [99.47.177.27]
-MIME-Version: 1.0
-X-OriginatorOrg: freescale.com
-Subject: Re: [PATCH 2/2] useradd.bbclass: retry useradd/groupadd commands to avoid lock race issues
+	Fri, 23 Mar 2012 23:37:56 +0100
+Received: by wera1 with SMTP id a1so3009682wer.6
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 23 Mar 2012 15:29:00 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=from:to:cc:subject:date:message-id:x-mailer:in-reply-to:references;
+	bh=ZtPCm5PhIjc7MZy177HAaG30Ntr9c3lHsk1XqUAD9yg=;
+	b=PkqybAjdGb4C5XusLDZvwTzpVUg1pa0+x36VHriBukP6tyYqJ51U8KswkOEVcxjwGn
+	w3BhXJwMCcGP8r24jRfW0/jpoIV9tN2ddw2QNnC8dEYHMFVCFAm6e6JqC2j/YH1e7Hj/
+	vcrB9XRhg/sAGmNUJYrQbja3xLE49fwwHJRR2v0cjCed7TzBb85oUpjBJLlhRtzZ0eJP
+	ma0IbRK3oHi2l7FycwudPpYM2xLRlicrGzJYeV3GDEhN3PJl0hIiwInj+mxp6m+89les
+	RDXXZbaa9x3EODdg4j7r5kuYNuVTtQQ9UyMxMSY6RmsOkpRfZJb79ygqTdfSM3OSgjxi
+	fEsQ==
+Received: by 10.216.141.212 with SMTP id g62mr8022264wej.2.1332541740072;
+	Fri, 23 Mar 2012 15:29:00 -0700 (PDT)
+Received: from localhost ([94.230.152.246])
+	by mx.google.com with ESMTPS id 9sm28693630wid.2.2012.03.23.15.28.58
+	(version=TLSv1/SSLv3 cipher=OTHER);
+	Fri, 23 Mar 2012 15:28:59 -0700 (PDT)
+From: Martin Jansa <martin.jansa@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Date: Fri, 23 Mar 2012 23:28:55 +0100
+Message-Id: <cover.1332541342.git.Martin.Jansa@gmail.com>
+X-Mailer: git-send-email 1.7.8.5
+In-Reply-To: <cover.1332365336.git.Martin.Jansa@gmail.com>
+References: <cover.1332365336.git.Martin.Jansa@gmail.com>
+Subject: [PATCHv 00/10] Merge native BBCLASSEXTENDs and SDK fix
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
-Reply-To: McClintock Matthew-B29882 <B29882@freescale.com>,
-	Patches and discussions about the oe-core layer
+Reply-To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
 List-Id: Patches and discussions about the oe-core layer
 	<openembedded-core.lists.openembedded.org>
@@ -61,130 +43,60 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 23 Mar 2012 21:36:54 -0000
-Content-Language: en-US
-Content-Type: text/plain; charset="iso-8859-1"
-Content-ID: <546122470749B44E84568FFBF92CF57D@mgd.freescale.com>
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Fri, 23 Mar 2012 22:37:56 -0000
 
-This should go in our edison 1.1.2 release as well.
+V2: removes 3 patches from original patchset because of RPs feedback
+  [oe-core][PATCH 04/13] base.bbclass: extract *virtclass_map_dependencies logic from native/nativesdk bbclasses and call it f
+  [oe-core][PATCH 05/13] xorg: add more native BBCLASSEXTENDs for gtk+-native                                                 
+  [oe-core][PATCH 06/13] gtk+: import native support from meta-oe                                                             
 
--M
+pango-native is not nice, but retested today on RP's request and it's really 
+mandatory dependency of librsvg (pangoft2 dependency is dropped in newer librsvg 
+versions, but pangocairo is mandatory in all).
 
-On Thu, Mar 22, 2012 at 11:43 PM, Scott Garman <scott.a.garman@intel.com> w=
-rote:
-> A race condition can occur when adding users and groups to the
-> passwd and group files, causing errors like the following:
->
-> =A0ERROR: Function 'useradd_sysroot' failed
-> =A0Tried to access "/etc/group" but this was locked.
->
-> This fix will cause the useradd code to retry the useradd and
-> groupadd commands up to 10 times (with a 1s sleep in between
-> attempts) before failing.
->
-> This fixes [YOCTO #1794]
->
-> Signed-off-by: Scott Garman <scott.a.garman@intel.com>
-> ---
-> =A0meta/classes/useradd.bbclass | =A0 36 ++++++++++++++++++++++++++++++++=
-++--
-> =A01 files changed, 34 insertions(+), 2 deletions(-)
->
-> diff --git a/meta/classes/useradd.bbclass b/meta/classes/useradd.bbclass
-> index 7981a68..0bbb371 100644
-> --- a/meta/classes/useradd.bbclass
-> +++ b/meta/classes/useradd.bbclass
-> @@ -45,7 +45,23 @@ if test "x$GROUPADD_PARAM" !=3D "x"; then
-> =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0groupname=3D`echo "$opts" | awk '{ print $=
-NF }'`
-> =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0group_exists=3D`grep "^$groupname:" $SYSRO=
-OT/etc/group || true`
-> =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0if test "x$group_exists" =3D "x"; then
-> - =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 eval $PSEUDO groupadd =A0$O=
-PT $opts
-> + =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 count=3D1
-> + =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 while true; do
-> + =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 eval $PSEUD=
-O groupadd $OPT $opts || true
-> + =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 group_exist=
-s=3D`grep "^$groupname:" $SYSROOT/etc/group || true`
-> + =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 if test "x$=
-group_exists" =3D "x"; then
-> + =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0=
- =A0 # File locking issues can require us to retry the command
-> + =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0=
- =A0 echo "WARNING: groupadd command did not succeed. Retrying..."
-> + =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0=
- =A0 sleep 1
-> + =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 else
-> + =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0=
- =A0 break
-> + =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 fi
-> + =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 count=3D`ex=
-pr $count + 1`
-> + =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 if test $co=
-unt =3D 11; then
-> + =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0=
- =A0 echo "ERROR: tried running groupadd command 10 times without success, =
-giving up"
-> + =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0=
- =A0 exit 1
-> + =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 fi
-> + =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 done
-> =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0else
-> =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0echo "Note: group $groupna=
-me already exists, not re-creating it"
-> =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0fi
-> @@ -70,7 +86,23 @@ if test "x$USERADD_PARAM" !=3D "x"; then
-> =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0username=3D`echo "$opts" | awk '{ print $N=
-F }'`
-> =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0user_exists=3D`grep "^$username:" $SYSROOT=
-/etc/passwd || true`
-> =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0if test "x$user_exists" =3D "x"; then
-> - =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 eval $PSEUDO useradd $OPT $=
-opts
-> + =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 count=3D1
-> + =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 while true; do
-> + =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 eval $PSEUD=
-O useradd $OPT $opts || true
-> + =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 user_exists=
-=3D`grep "^$username:" $SYSROOT/etc/passwd || true`
-> + =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 if test "x$=
-user_exists" =3D "x"; then
-> + =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0=
- =A0 # File locking issues can require us to retry the command
-> + =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0=
- =A0 echo "WARNING: useradd command did not succeed. Retrying..."
-> + =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0=
- =A0 sleep 1
-> + =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 else
-> + =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0=
- =A0 break
-> + =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 fi
-> + =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 count=3D`ex=
-pr $count + 1`
-> + =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 if test $co=
-unt =3D 11; then
-> + =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0=
- =A0 echo "ERROR: tried running useradd command 10 times without success, g=
-iving up"
-> + =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0=
- =A0 exit 1
-> + =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 fi
-> + =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 done
-> =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0else
-> =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0echo "Note: username $user=
-name already exists, not re-creating it"
-> =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0fi
-> --
-> 1.7.5.4
->
->
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core=
+The following changes since commit 7ad7c837bac0cd086098be0d7cdf5cd8388a8696:
+
+  taglib: Refresh patch after recent accidental breakage (2012-03-23 18:30:45 +0000)
+
+are available in the git repository at:
+  git://git.openembedded.org/openembedded-core-contrib jansa/pull
+  http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=jansa/pull
+
+Denis 'GNUtoo' Carikli (2):
+  xev: move from meta-demoapps
+  classes: scons: add EXTRA_OESCONS
+
+Martin Jansa (8):
+  bitbake.conf: use TUNE_PKGARCH instead of TARGET_ARCH in SDK_NAME
+  librsvg: import native support from meta-oe
+  pixman: add native support and perl-native to DEPENDS from meta-oe
+  cairo: import native support from meta-oe
+  tiff: import native support from meta-oe
+  libusb*: import native support from meta-oe
+  pango: import native support and --disable-introspection from meta-oe
+  rootfs_ipk: replace 3 opkg-cl calls with one in get_package_filename
+
+ .../recipes-graphics/xorg-app/xev_1.0.3.bb         |    7 -------
+ meta/classes/rootfs_ipk.bbclass                    |    7 ++++---
+ meta/classes/scons.bbclass                         |    6 ++++--
+ meta/conf/bitbake.conf                             |    4 ++--
+ meta/recipes-gnome/librsvg/librsvg_2.32.1.bb       |    2 ++
+ meta/recipes-graphics/cairo/cairo.inc              |    1 +
+ meta/recipes-graphics/cairo/cairo_1.10.2.bb        |    2 +-
+ meta/recipes-graphics/pango/pango.inc              |    3 +++
+ .../recipes-graphics/xorg-app/xev/diet-x11.patch   |    0
+ meta/recipes-graphics/xorg-app/xev_1.0.3.bb        |   10 ++++++++++
+ meta/recipes-graphics/xorg-lib/pixman_0.25.2.bb    |    3 ++-
+ meta/recipes-multimedia/libtiff/tiff_4.0.1.bb      |    1 +
+ meta/recipes-support/libusb/libusb-compat_0.1.3.bb |    7 +++++--
+ meta/recipes-support/libusb/libusb1_1.0.8.bb       |    2 ++
+ 14 files changed, 37 insertions(+), 18 deletions(-)
+ delete mode 100644 meta-demoapps/recipes-graphics/xorg-app/xev_1.0.3.bb
+ rename {meta-demoapps => meta}/recipes-graphics/xorg-app/xev/diet-x11.patch (100%)
+ create mode 100644 meta/recipes-graphics/xorg-app/xev_1.0.3.bb
+
+-- 
+1.7.8.5
 
 
 
