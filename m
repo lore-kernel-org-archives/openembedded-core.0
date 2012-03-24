@@ -1,22 +1,31 @@
-Received: from smtp3-g21.free.fr ([212.27.42.3])
+Received: from astoria.ccjclearline.com ([64.235.106.9])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <eric@eukrea.com>) id 1SBMJS-0007WN-Sp
+	(envelope-from <rpjday@crashcourse.ca>) id 1SBMZg-0007jO-Ab
 	for openembedded-core@lists.openembedded.org;
-	Sat, 24 Mar 2012 09:27:03 +0100
-Received: from eb-e6520 (unknown [82.233.81.124])
-	by smtp3-g21.free.fr (Postfix) with ESMTP id CDDEBA6286
-	for <openembedded-core@lists.openembedded.org>;
-	Sat, 24 Mar 2012 09:18:03 +0100 (CET)
-Date: Sat, 24 Mar 2012 09:18:03 +0100
-From: Eric =?ISO-8859-1?B?QuluYXJk?= <eric@eukrea.com>
-To: openembedded-core@lists.openembedded.org
-Message-ID: <20120324091803.4b1fe761@eb-e6520>
-In-Reply-To: <1332557774.1849.34.camel@dongxiao-osel>
-References: <1332557774.1849.34.camel@dongxiao-osel>
-Organization: =?ISO-8859-1?B?RXVrculh?= Electromatique
-X-Mailer: Claws Mail 3.8.0 (GTK+ 2.24.8; x86_64-redhat-linux-gnu)
-Mime-Version: 1.0
-Subject: Re: TMPDIR while building OE-Core
+	Sat, 24 Mar 2012 09:43:48 +0100
+Received: from cpec03f0ed08c7f-cm001ac318e826.cpe.net.cable.rogers.com
+	([99.241.91.63] helo=crashcourse.ca)
+	by astoria.ccjclearline.com with esmtpsa (TLSv1:AES256-SHA:256)
+	(Exim 4.69) (envelope-from <rpjday@crashcourse.ca>)
+	id 1SBMR2-0007Xi-2Z for openembedded-core@lists.openembedded.org;
+	Sat, 24 Mar 2012 04:34:52 -0400
+Date: Sat, 24 Mar 2012 04:34:40 -0400 (EDT)
+From: "Robert P. J. Day" <rpjday@crashcourse.ca>
+X-X-Sender: rpjday@oneiric
+To: OE Core mailing list <openembedded-core@lists.openembedded.org>
+Message-ID: <alpine.DEB.2.02.1203240420500.19324@oneiric>
+User-Agent: Alpine 2.02 (DEB 1266 2009-07-14)
+MIME-Version: 1.0
+X-AntiAbuse: This header was added to track abuse,
+	please include it with any abuse report
+X-AntiAbuse: Primary Hostname - astoria.ccjclearline.com
+X-AntiAbuse: Original Domain - lists.openembedded.org
+X-AntiAbuse: Originator/Caller UID/GID - [47 12] / [47 12]
+X-AntiAbuse: Sender Address Domain - crashcourse.ca
+X-Source: 
+X-Source-Args: 
+X-Source-Dir: 
+Subject: confusion between += and =+ and _append and _prepend ...
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -31,30 +40,63 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 24 Mar 2012 08:27:03 -0000
-Content-Type: text/plain; charset=ISO-8859-1
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Sat, 24 Mar 2012 08:43:48 -0000
+Content-Type: TEXT/PLAIN; charset=US-ASCII
 
-Hi,
 
-Le Sat, 24 Mar 2012 10:56:14 +0800,
-"Xu, Dongxiao" <dongxiao.xu@intel.com> a =E9crit :
-> While building the pure OE-Core, I found there are two TMPDIRs, one is
-> tmp-eglibc, another is tmp-eglibc-eglibc, any reason that make this
-> result? My local.conf is like:
->=20
-> BB_NUMBER_THREADS =3D "8"
-> PARALLEL_MAKE =3D "-j 8"
-> MACHINE ??=3D "qemuarm"
-> PACKAGE_CLASSES ?=3D "package_rpm"
-> EXTRA_IMAGE_FEATURES =3D "debug-tweaks"
-> USER_CLASSES ?=3D "buildstats image-mklibs image-prelink"
-> PATCHRESOLVE =3D "noop"
-> CONF_VERSION =3D "1"
->=20
-reported here :
-https://bugzilla.yoctoproject.org/show_bug.cgi?id=3D2167
+  when perusing the source for oe-core, it's going to be easy for a
+beginner to get confused about the right time(s) to use += versus =+
+versus _append versus _prepend because the source simply bounces
+around between them all arbitrarily.
 
-Eric
+  here's a single example.  the file bitbake.conf defines the default
+for PACKAGES:
+
+PACKAGES = "${PN}-dbg ${PN}-staticdev ${PN} ${PN}-doc ${PN}-dev ${PN}-locale"
+
+now it would seem that, if a recipe wanted to extend that list (as
+many do), the obvious approach is to augment the list with more
+entries.  and in the occasional situation where that default needs to
+be overridden, then a straight assignment can be used.
+
+  but searching the source shows every possible combination of adding
+to the PACKAGES variable:
+
+...
+meta/recipes-devtools/perl/perl_5.14.2.bb:PACKAGES_append = " perl-modules "
+meta/recipes-qt/qt4/qt-4.8.0.inc:PACKAGES_append = " ${QT_BASE_NAME}-tests-dbg ${QT_BASE_NAME}-tests"
+...
+meta/recipes-connectivity/bind/bind_9.8.1.bb:PACKAGES_prepend = "${PN}-utils "
+meta/recipes-connectivity/wpa-supplicant/wpa-supplicant-0.7.inc:PACKAGES_prepend = "wpa-supplicant-passphrase wpa-supplicant-cli "
+meta/recipes-extended/newt/libnewt_0.52.14.bb:PACKAGES_prepend = "whiptail "
+...
+
+  and there are, of course, many, many uses of "PACKAGES +=" and
+"PACKAGES =+".  and, sure, they'll all work but the variety is
+definitely going to confuse someone trying to figure out best
+practices.
+
+  and occasionally, there is a direct assignment when a simple
+appending would work fine, like with rpm:
+
+meta/recipes-devtools/rpm/rpm_5.4.0.bb:PACKAGES = "${PN}-dbg ${PN}
+${PN}-doc ${PN}-libs ${PN}-dev ${PN}-staticdev ${PN}-common
+${PN}-build python-rpm-dbg python-rpm-staticdev python-rpm
+perl-module-rpm perl-module-rpm-dev ${PN}-locale"
+
+  i realize this is all annoyingly picky pedantry but there should be
+some sort of standard for things like this, just for consistency.
+
+rday
+
+-- 
+
+========================================================================
+Robert P. J. Day                                 Ottawa, Ontario, CANADA
+                        http://crashcourse.ca
+
+Twitter:                                       http://twitter.com/rpjday
+LinkedIn:                               http://ca.linkedin.com/in/rpjday
+========================================================================
 
 
