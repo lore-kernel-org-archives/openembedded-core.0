@@ -1,24 +1,23 @@
-Received: from mga01.intel.com ([192.55.52.88])
+Received: from mga02.intel.com ([134.134.136.20])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <dongxiao.xu@intel.com>) id 1SBGw0-0003bU-T1
+	(envelope-from <dongxiao.xu@intel.com>) id 1SBHK7-0004CO-MU
 	for openembedded-core@lists.openembedded.org;
-	Sat, 24 Mar 2012 03:42:29 +0100
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-	by fmsmga101.fm.intel.com with ESMTP; 23 Mar 2012 19:33:31 -0700
+	Sat, 24 Mar 2012 04:07:23 +0100
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+	by orsmga101.jf.intel.com with ESMTP; 23 Mar 2012 19:58:26 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="144454943"
-Received: from dongxiao-osel.sh.intel.com (HELO localhost) ([10.239.36.11])
-	by fmsmga002.fm.intel.com with ESMTP; 23 Mar 2012 19:33:30 -0700
-From: Dongxiao Xu <dongxiao.xu@intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Sat, 24 Mar 2012 10:31:14 +0800
-Message-Id: <10968f8c0cf425011983ef7e0fe4c14b7da5ef74.1332555951.git.dongxiao.xu@intel.com>
-X-Mailer: git-send-email 1.7.4.1
-In-Reply-To: <cover.1332555951.git.dongxiao.xu@intel.com>
-References: <cover.1332555951.git.dongxiao.xu@intel.com>
-In-Reply-To: <cover.1332555951.git.dongxiao.xu@intel.com>
-References: <cover.1332555951.git.dongxiao.xu@intel.com>
-Subject: [PATCH 1/1] image_types.bbclass: Define runnable and deployable pattern
+X-IronPort-AV: E=Sophos;i="4.67,351,1309762800"; d="scan'208";a="124513021"
+Received: from dongxiao-osel.sh.intel.com (HELO [10.239.36.11])
+	([10.239.36.11])
+	by orsmga002.jf.intel.com with ESMTP; 23 Mar 2012 19:58:25 -0700
+From: "Xu, Dongxiao" <dongxiao.xu@intel.com>
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Date: Sat, 24 Mar 2012 10:56:14 +0800
+Message-ID: <1332557774.1849.34.camel@dongxiao-osel>
+Mime-Version: 1.0
+X-Mailer: Evolution 2.32.2 
+Subject: TMPDIR while building OE-Core
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -33,30 +32,29 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 24 Mar 2012 02:42:29 -0000
+X-List-Received-Date: Sat, 24 Mar 2012 03:07:23 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-Define runnable image type and machine pattern.
-Define deployable image type.
+Hi List,
 
-Signed-off-by: Dongxiao Xu <dongxiao.xu@intel.com>
----
- meta/classes/image_types.bbclass |    4 ++++
- 1 files changed, 4 insertions(+), 0 deletions(-)
+While building the pure OE-Core, I found there are two TMPDIRs, one is
+tmp-eglibc, another is tmp-eglibc-eglibc, any reason that make this
+result? My local.conf is like:
 
-diff --git a/meta/classes/image_types.bbclass b/meta/classes/image_types.bbclass
-index e92f519..3aa3f17 100644
---- a/meta/classes/image_types.bbclass
-+++ b/meta/classes/image_types.bbclass
-@@ -220,3 +220,7 @@ COMPRESS_DEPENDS_gz = ""
- COMPRESS_DEPENDS_bz2 = ""
- COMPRESS_DEPENDS_xz = "xz-native"
- 
-+RUNNABLE_IMAGE_TYPES ?= "ext2 ext3"
-+RUNNABLE_MACHINE_PATTERNS ?= "qemu"
-+
-+DEPLOYABLE_IMAGE_TYPES ?= "hddimg iso" 
--- 
-1.7.4.1
+BB_NUMBER_THREADS = "8"
+PARALLEL_MAKE = "-j 8"
+MACHINE ??= "qemuarm"
+PACKAGE_CLASSES ?= "package_rpm"
+EXTRA_IMAGE_FEATURES = "debug-tweaks"
+USER_CLASSES ?= "buildstats image-mklibs image-prelink"
+PATCHRESOLVE = "noop"
+CONF_VERSION = "1"
+
+Thanks,
+Dongxiao
+
+
 
 
 
