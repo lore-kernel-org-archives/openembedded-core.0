@@ -1,35 +1,37 @@
-Received: from astoria.ccjclearline.com ([64.235.106.9])
+Received: from mail-wi0-f171.google.com ([209.85.212.171])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <rpjday@crashcourse.ca>) id 1SBOL6-0001Qy-8c
+	(envelope-from <martin.jansa@gmail.com>) id 1SBOTR-0001Xo-SY
 	for openembedded-core@lists.openembedded.org;
-	Sat, 24 Mar 2012 11:36:52 +0100
-Received: from cpec03f0ed08c7f-cm001ac318e826.cpe.net.cable.rogers.com
-	([99.241.91.63] helo=crashcourse.ca)
-	by astoria.ccjclearline.com with esmtpsa (TLSv1:AES256-SHA:256)
-	(Exim 4.69) (envelope-from <rpjday@crashcourse.ca>)
-	id 1SBOCS-0003jf-FP for openembedded-core@lists.openembedded.org;
-	Sat, 24 Mar 2012 06:27:56 -0400
-Date: Sat, 24 Mar 2012 06:27:49 -0400 (EDT)
-From: "Robert P. J. Day" <rpjday@crashcourse.ca>
-X-X-Sender: rpjday@oneiric
+	Sat, 24 Mar 2012 11:45:30 +0100
+Received: by wibhj13 with SMTP id hj13so2593012wib.6
+	for <openembedded-core@lists.openembedded.org>;
+	Sat, 24 Mar 2012 03:36:32 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=date:from:to:subject:message-id:references:mime-version
+	:content-type:content-disposition:in-reply-to:user-agent;
+	bh=kSljYibepNNLH5mV+WYyqf8zXVzMLG7fRgvuNdHtQHA=;
+	b=Nc4OQxWzmP8fsom2tFmWaOJrTxcdznTqNxV7k+HTYW0o4OY/mwImCkeg9e6qgiqPGs
+	7I9t5omKeH9IvbbZFuw/i7NIJre1cIXfdBLpkcO8kF8IdcAlw7TwvmtQCFPAY8Vkizw7
+	dExur1dJkSD8BiEROm9AILeyyYyYv67n8t1bFtXLxhDL7Zecv/R3lKqmlPICRHs90Abr
+	lcvUXtPSQvsinjPNfvfOly9vwUtg17LVqFV84pOIXFLY3OfptSw5mMwGhn4VpI7LZzXN
+	h7wTwd16thhU5dBo7lEFP/nWh1OCG5Q35BuIJmpIxi6iNiWoymrr5+Jf89e9hwkssZUX
+	JXAQ==
+Received: by 10.180.95.34 with SMTP id dh2mr4091350wib.15.1332585392649;
+	Sat, 24 Mar 2012 03:36:32 -0700 (PDT)
+Received: from localhost ([94.230.152.246])
+	by mx.google.com with ESMTPS id fn2sm35903514wib.0.2012.03.24.03.36.31
+	(version=TLSv1/SSLv3 cipher=OTHER);
+	Sat, 24 Mar 2012 03:36:32 -0700 (PDT)
+Date: Sat, 24 Mar 2012 11:36:34 +0100
+From: Martin Jansa <martin.jansa@gmail.com>
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-In-Reply-To: <1332584294.9740.506.camel@ted>
-Message-ID: <alpine.DEB.2.02.1203240621540.25240@oneiric>
-References: <alpine.DEB.2.02.1203240515560.21886@oneiric>
-	<1332584294.9740.506.camel@ted>
-User-Agent: Alpine 2.02 (DEB 1266 2009-07-14)
+Message-ID: <20120324103634.GH4604@jama.jama.net>
+References: <alpine.DEB.2.02.1203240420500.19324@oneiric>
 MIME-Version: 1.0
-X-AntiAbuse: This header was added to track abuse,
-	please include it with any abuse report
-X-AntiAbuse: Primary Hostname - astoria.ccjclearline.com
-X-AntiAbuse: Original Domain - lists.openembedded.org
-X-AntiAbuse: Originator/Caller UID/GID - [47 12] / [47 12]
-X-AntiAbuse: Sender Address Domain - crashcourse.ca
-X-Source: 
-X-Source-Args: 
-X-Source-Dir: 
-Subject: Re: should i assume "SERIAL_CONSOLES" is a typo?
+In-Reply-To: <alpine.DEB.2.02.1203240420500.19324@oneiric>
+User-Agent: Mutt/1.5.21 (2010-09-15)
+Subject: Re: confusion between += and =+ and _append and _prepend ...
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -44,31 +46,89 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 24 Mar 2012 10:36:52 -0000
-Content-Type: TEXT/PLAIN; charset=US-ASCII
+X-List-Received-Date: Sat, 24 Mar 2012 10:45:30 -0000
+X-Groupsio-MsgNum: 19673
+Content-Type: multipart/signed; micalg=pgp-sha1;
+	protocol="application/pgp-signature"; boundary="+QwZB9vYiNIzNXIj"
+Content-Disposition: inline
 
-On Sat, 24 Mar 2012, Richard Purdie wrote:
+--+QwZB9vYiNIzNXIj
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-> On Sat, 2012-03-24 at 05:16 -0400, Robert P. J. Day wrote:
-> > meta/recipes-core/sysvinit/sysvinit-inittab_2.88dsf.bb:    tmp="${SERIAL_CONSOLES}"
->
-> Its not a typo, if you look at the code, it processes SERIAL_CONSOLE and
-> SERIAL_CONSOLES.
+On Sat, Mar 24, 2012 at 04:34:40AM -0400, Robert P. J. Day wrote:
+>=20
+>   when perusing the source for oe-core, it's going to be easy for a
+> beginner to get confused about the right time(s) to use +=3D versus =3D+
+> versus _append versus _prepend because the source simply bounces
+> around between them all arbitrarily.
+>=20
+>   here's a single example.  the file bitbake.conf defines the default
+> for PACKAGES:
+>=20
+> PACKAGES =3D "${PN}-dbg ${PN}-staticdev ${PN} ${PN}-doc ${PN}-dev ${PN}-l=
+ocale"
+>=20
+> now it would seem that, if a recipe wanted to extend that list (as
+> many do), the obvious approach is to augment the list with more
+> entries.  and in the occasional situation where that default needs to
+> be overridden, then a straight assignment can be used.
+>=20
+>   but searching the source shows every possible combination of adding
+> to the PACKAGES variable:
+>=20
+> ...
+> meta/recipes-devtools/perl/perl_5.14.2.bb:PACKAGES_append =3D " perl-modu=
+les "
+> meta/recipes-qt/qt4/qt-4.8.0.inc:PACKAGES_append =3D " ${QT_BASE_NAME}-te=
+sts-dbg ${QT_BASE_NAME}-tests"
+> ...
+> meta/recipes-connectivity/bind/bind_9.8.1.bb:PACKAGES_prepend =3D "${PN}-=
+utils "
+> meta/recipes-connectivity/wpa-supplicant/wpa-supplicant-0.7.inc:PACKAGES_=
+prepend =3D "wpa-supplicant-passphrase wpa-supplicant-cli "
+> meta/recipes-extended/newt/libnewt_0.52.14.bb:PACKAGES_prepend =3D "whipt=
+ail "
+> ...
+>=20
+>   and there are, of course, many, many uses of "PACKAGES +=3D" and
+> "PACKAGES =3D+".  and, sure, they'll all work but the variety is
+> definitely going to confuse someone trying to figure out best
+> practices.
+>=20
+>   and occasionally, there is a direct assignment when a simple
+> appending would work fine, like with rpm:
+>=20
+> meta/recipes-devtools/rpm/rpm_5.4.0.bb:PACKAGES =3D "${PN}-dbg ${PN}
+> ${PN}-doc ${PN}-libs ${PN}-dev ${PN}-staticdev ${PN}-common
+> ${PN}-build python-rpm-dbg python-rpm-staticdev python-rpm
+> perl-module-rpm perl-module-rpm-dev ${PN}-locale"
+>=20
+>   i realize this is all annoyingly picky pedantry but there should be
+> some sort of standard for things like this, just for consistency.
 
-  ah, i'd noticed that but i didn't see any example of a machine
-taking advantage of that.  and there's no mention of that variable in
-any of the docs that i can see.
+order of items in PACKAGES variable is important (FILES_foo) are picked
+in PACKAGES order so it's different if foo is before bar or after (if
+their FILES_ mask has some overlap).
 
-rday
+So sometimes you have to prepend, sometimes append.
 
--- 
+Cheers,
 
-========================================================================
-Robert P. J. Day                                 Ottawa, Ontario, CANADA
-                        http://crashcourse.ca
+--=20
+Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
 
-Twitter:                                       http://twitter.com/rpjday
-LinkedIn:                               http://ca.linkedin.com/in/rpjday
-========================================================================
+--+QwZB9vYiNIzNXIj
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: Digital signature
 
+-----BEGIN PGP SIGNATURE-----
+Version: GnuPG v2.0.18 (GNU/Linux)
 
+iEYEARECAAYFAk9to7IACgkQN1Ujt2V2gBwMLgCgg/3vECUzEK4QbSluwxMJsjk3
+/HcAn12QdazW2kYPdeq2RRl48bq2hCrA
+=5pcb
+-----END PGP SIGNATURE-----
+
+--+QwZB9vYiNIzNXIj--
