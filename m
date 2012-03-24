@@ -1,19 +1,19 @@
 Received: from astoria.ccjclearline.com ([64.235.106.9])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <rpjday@crashcourse.ca>) id 1SBMex-0007oD-Fg
+	(envelope-from <rpjday@crashcourse.ca>) id 1SBNE8-0000CR-LL
 	for openembedded-core@lists.openembedded.org;
-	Sat, 24 Mar 2012 09:49:15 +0100
+	Sat, 24 Mar 2012 10:25:36 +0100
 Received: from cpec03f0ed08c7f-cm001ac318e826.cpe.net.cable.rogers.com
 	([99.241.91.63] helo=crashcourse.ca)
 	by astoria.ccjclearline.com with esmtpsa (TLSv1:AES256-SHA:256)
 	(Exim 4.69) (envelope-from <rpjday@crashcourse.ca>)
-	id 1SBMWJ-0007yx-Eu for openembedded-core@lists.openembedded.org;
-	Sat, 24 Mar 2012 04:40:19 -0400
-Date: Sat, 24 Mar 2012 04:40:11 -0400 (EDT)
+	id 1SBN5U-0001CJ-Tu for openembedded-core@lists.openembedded.org;
+	Sat, 24 Mar 2012 05:16:41 -0400
+Date: Sat, 24 Mar 2012 05:16:34 -0400 (EDT)
 From: "Robert P. J. Day" <rpjday@crashcourse.ca>
 X-X-Sender: rpjday@oneiric
 To: OE Core mailing list <openembedded-core@lists.openembedded.org>
-Message-ID: <alpine.DEB.2.02.1203240436510.20052@oneiric>
+Message-ID: <alpine.DEB.2.02.1203240515560.21886@oneiric>
 User-Agent: Alpine 2.02 (DEB 1266 2009-07-14)
 MIME-Version: 1.0
 X-AntiAbuse: This header was added to track abuse,
@@ -25,7 +25,7 @@ X-AntiAbuse: Sender Address Domain - crashcourse.ca
 X-Source: 
 X-Source-Args: 
 X-Source-Dir: 
-Subject: "${bindir}" versus "${bindir}/*" ??
+Subject: should i assume "SERIAL_CONSOLES" is a typo?
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -40,21 +40,11 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 24 Mar 2012 08:49:15 -0000
+X-List-Received-Date: Sat, 24 Mar 2012 09:25:36 -0000
 Content-Type: TEXT/PLAIN; charset=US-ASCII
 
 
-  in bitbake.conf, numerous variables like "FILES_${PN}" are
-initialized with a combination of directory variables, with two
-different forms:
-
-  * ${bindir}
-  * ${bindir}/*
-
-is there a functional difference between those two?  my wildly
-speculative guess is that if "*" works as it does in the shell, it
-would simply skip any hidden objects.  is that the difference?  since
-i don't see that clarified anywhere.
+meta/recipes-core/sysvinit/sysvinit-inittab_2.88dsf.bb:    tmp="${SERIAL_CONSOLES}"
 
 rday
 
