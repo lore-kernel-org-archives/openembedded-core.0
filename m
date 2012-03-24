@@ -1,33 +1,33 @@
-Received: from familie-heinold.de ([85.214.48.103]
-	helo=mail.familie-heinold.de) by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <heinold@inf.fu-berlin.de>) id 1SBOza-0002TE-ER
-	for openembedded-core@lists.openembedded.org;
-	Sat, 24 Mar 2012 12:18:42 +0100
-Received: from mail.familie-heinold.de (localhost [127.0.0.1])
-	by mail.familie-heinold.de (Postfix) with ESMTP id 77F6D2232639;
-	Sat, 24 Mar 2012 12:09:47 +0100 (CET)
-Received: from mail.familie-heinold.de (localhost [127.0.0.1])
-	by mail.familie-heinold.de (Postfix) with ESMTP id CF279223263A;
-	Sat, 24 Mar 2012 12:09:45 +0100 (CET)
-X-Spam-Checker-Version: SpamAssassin 3.3.1 (2010-03-16) on
-	h873313.serverkompetenz.net
-X-Spam-Level: 
-X-Spam-Status: No, score=-1.5 required=5.0 tests=BAYES_00 autolearn=ham
-	version=3.3.1
-Received: from rhein.familie-heinold.de (g225005117.adsl.alicedsl.de
-	[92.225.5.117]) by mail.familie-heinold.de (Postfix) with ESMTPA;
-	Sat, 24 Mar 2012 12:09:45 +0100 (CET)
-Received: by rhein.familie-heinold.de (Postfix, from userid 1000)
-	id 3C6C93C4BF; Sat, 24 Mar 2012 12:09:45 +0100 (CET)
-From: Henning Heinold <heinold@inf.fu-berlin.de>
-To: openembedded-core@lists.openembedded.org
-Date: Sat, 24 Mar 2012 12:09:42 +0100
-Message-Id: <1332587383-23633-2-git-send-email-heinold@inf.fu-berlin.de>
-X-Mailer: git-send-email 1.7.9.1
-In-Reply-To: <1332587383-23633-1-git-send-email-heinold@inf.fu-berlin.de>
-References: <1332587383-23633-1-git-send-email-heinold@inf.fu-berlin.de>
-X-Virus-Scanned: ClamAV using ClamSMTP
-Subject: [PATCH] relocatable.bbclass: do not erease already existing ORIGIN paths and sanity resulting rpath
+Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
+	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <richard.purdie@linuxfoundation.org>)
+	id 1SBPG3-0002lK-5u for openembedded-core@lists.openembedded.org;
+	Sat, 24 Mar 2012 12:35:43 +0100
+Received: from localhost (localhost [127.0.0.1])
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q2OBQjFo005592;
+	Sat, 24 Mar 2012 11:26:45 GMT
+Received: from tim.rpsys.net ([127.0.0.1])
+	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
+	port 10024) with LMTP
+	id 03056-05; Sat, 24 Mar 2012 11:26:39 +0000 (GMT)
+Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q2OBQYSh005586
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO);
+	Sat, 24 Mar 2012 11:26:35 GMT
+Message-ID: <1332588396.9740.518.camel@ted>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Date: Sat, 24 Mar 2012 11:26:36 +0000
+In-Reply-To: <alpine.DEB.2.02.1203240558370.23984@oneiric>
+References: <alpine.DEB.2.02.1203240436510.20052@oneiric>
+	<1332582359.9740.489.camel@ted>
+	<alpine.DEB.2.02.1203240558370.23984@oneiric>
+X-Mailer: Evolution 3.2.2- 
+Mime-Version: 1.0
+X-Virus-Scanned: amavisd-new at rpsys.net
+Cc: "Rifenbark, Scott M" <scott.m.rifenbark@intel.com>
+Subject: Re: "${bindir}" versus "${bindir}/*" ??
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -42,47 +42,78 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 24 Mar 2012 11:18:42 -0000
+X-List-Received-Date: Sat, 24 Mar 2012 11:35:43 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-* let already exisiting ORIGIN path stay in the binary
-  otherwise binaries will not find there libs in directories
-  besides the standard defined directories
-* remove all whitespaces from the resulting path
+On Sat, 2012-03-24 at 06:01 -0400, Robert P. J. Day wrote:
+> On Sat, 24 Mar 2012, Richard Purdie wrote:
+> 
+> > On Sat, 2012-03-24 at 04:40 -0400, Robert P. J. Day wrote:
+> > > in bitbake.conf, numerous variables like "FILES_${PN}" are
+> > > initialized with a combination of directory variables, with two
+> > > different forms:
+> > >
+> > >   * ${bindir}
+> > >   * ${bindir}/*
+> > >
+> > > is there a functional difference between those two?  my wildly
+> > > speculative guess is that if "*" works as it does in the shell, it
+> > > would simply skip any hidden objects.  is that the difference?  since
+> > > i don't see that clarified anywhere.
+> >
+> > The former is recursive and the latter is not and will just match files
+> > in the directory (unhidden ones at that).
+> 
+>   ah, that clears up so much.  i'm actually embarrassed to ask such
+> obvious questions -- is that written up somewhere that i should have
+> run across it before asking about it?
+> 
+> rday
+> 
+> p.s.  By "unhidden ones at that," i'm assuming you mean *only*
+> unhidden ones?  so that its behaviour is entirely consistent with what
+> people would expect?
 
-Signed-off-by: Henning Heinold <heinold@inf.fu-berlin.de>
----
- meta/classes/relocatable.bbclass |    3 +++
- 1 files changed, 3 insertions(+), 0 deletions(-)
+I'm not passing judgement on that :).
 
-diff --git a/meta/classes/relocatable.bbclass b/meta/classes/relocatable.bbclass
-index 072f533..dff12ed 100644
---- a/meta/classes/relocatable.bbclass
-+++ b/meta/classes/relocatable.bbclass
-@@ -6,6 +6,7 @@ PREPROCESS_RELOCATE_DIRS ?= ""
- def process_dir (directory, d):
-     import subprocess as sub
-     import stat
-+    import re
- 
-     cmd = d.expand('${CHRPATH_BIN}')
-     tmpdir = d.getVar('TMPDIR')
-@@ -52,6 +53,7 @@ def process_dir (directory, d):
-             for rpath in rpaths:
-                 # If rpath is already dynamic continue
-                 if rpath.find("$ORIGIN") != -1:
-+                    new_rpaths.append(rpath)
-                     continue
-                 # If the rpath shares a root with base_prefix determine a new dynamic rpath from the
-                 # base_prefix shared root
-@@ -75,6 +77,7 @@ def process_dir (directory, d):
-             # if we have modified some rpaths call chrpath to update the binary
-             if len(new_rpaths):
-                 args = ":".join(new_rpaths)
-+		args = re.sub(r'\s', '', args)
-                 #bb.note("Setting rpath for %s to %s" %(fpath, args))
-                 sub.call([cmd, '-r', args, fpath])
- 
--- 
-1.7.9.1
+Keep in mind that the whole system grew fairly organically more so at
+some times that others and there are a ton on inconsistencies,
+particularly when you get deeply into the system. I think OE-Core has
+fixed a lot of details and has concentrated on the most user visible
+ones but there are more things that could be cleaned up. I doubt we ever
+will have a totally consistent system and I suspect if we did we'd hurt
+the power and flexibility which are some of the bigger assets of the
+project.
+
+FWIW, the behaviour of the FILES_* variables uses python's globbing
+functionality behind the scenes. If you know that it helps to understand
+it:
+
+http://docs.python.org/library/glob.html
+(which in turn refers you to shell expansion which is something most
+people are familiar with).
+
+I think what I'd ask is where you find these things, ask questions and
+get answers (such as the info about python glob above), can you please
+try and document it somewhere?
+
+Even if this is in the form of a Q&A type document it would perhaps save
+the information and someone like Scott Rifenbark could then go through
+this when he was time and integrate it into the manuals (assuming you
+don't want to send him direct patches for that). This particular change
+would make a good addition to:
+
+http://www.yoctoproject.org/docs/latest/poky-ref-manual/poky-ref-manual.html#var-FILES
+
+I'd also add that I sometimes hate the fact we use glob for FILES since
+it does limit some of the things you can do. .debug directories are a
+pet hate of mine in that regard.
+
+Cheers,
+
+Richard
+
+
 
 
