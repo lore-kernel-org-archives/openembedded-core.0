@@ -1,35 +1,33 @@
-Received: from astoria.ccjclearline.com ([64.235.106.9])
+Received: from mail-qa0-f47.google.com ([209.85.216.47])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <rpjday@crashcourse.ca>) id 1SBnIP-0007SK-7H
+	(envelope-from <mikew@criticallink.com>) id 1SBpsP-0002Pa-T0
 	for openembedded-core@lists.openembedded.org;
-	Sun, 25 Mar 2012 15:15:45 +0200
-Received: from cpec03f0ed08c7f-cm001ac318e826.cpe.net.cable.rogers.com
-	([99.241.91.63] helo=crashcourse.ca)
-	by astoria.ccjclearline.com with esmtpsa (TLSv1:AES256-SHA:256)
-	(Exim 4.69) (envelope-from <rpjday@crashcourse.ca>)
-	id 1SBn9k-0003Cg-3A for openembedded-core@lists.openembedded.org;
-	Sun, 25 Mar 2012 09:06:48 -0400
-Date: Sun, 25 Mar 2012 09:06:40 -0400 (EDT)
-From: "Robert P. J. Day" <rpjday@crashcourse.ca>
-X-X-Sender: rpjday@oneiric
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-In-Reply-To: <1332680241.28414.83.camel@ted>
-Message-ID: <alpine.DEB.2.02.1203250906080.19134@oneiric>
-References: <alpine.DEB.2.02.1203250742270.21548@oneiric>
-	<1332680241.28414.83.camel@ted>
-User-Agent: Alpine 2.02 (DEB 1266 2009-07-14)
+	Sun, 25 Mar 2012 18:01:06 +0200
+Received: by qatm19 with SMTP id m19so1958789qat.6
+	for <openembedded-core@lists.openembedded.org>;
+	Sun, 25 Mar 2012 08:52:06 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=google.com; s=20120113;
+	h=mime-version:from:date:message-id:subject:to:cc:content-type
+	:content-transfer-encoding:x-gm-message-state;
+	bh=wvG8qR2+U54qonWZ94qjuomjavpxMhhnqIZbwhlM8I0=;
+	b=ItJW7eTnmrVctiDRr457ys7JGvdLPGlVUcJ5D68yJRlqoqyHdH88HY6VGzZu0XZGeM
+	G4dLcyfCqYwc8t9OgBJmXQh5xzQqxV5w4azlMO2rvWd8XbkbQStu0kC96+RFAD/dzytg
+	jIF5VcOCbAFVknH1DXC7fTgyWpSzHH8PDwjSXdwFBge0+8C6hwXcWSm+5f7OZhy2CBzQ
+	wd5kscJjJqkOKKdmNNhQfyRjKwJcY6Upl61IqIFY93ZnNouKwwyILB1QVn6qfZyR7kOj
+	y0IicaHML+kG6EXfY/rapN1rcvVRy9vSbF4RyZ9YuY1+zuw9gLTPbtpHzuPh30Fy+ObP
+	o2Gg==
+Received: by 10.229.136.130 with SMTP id r2mr6978113qct.58.1332690726584; Sun,
+	25 Mar 2012 08:52:06 -0700 (PDT)
 MIME-Version: 1.0
-X-AntiAbuse: This header was added to track abuse,
-	please include it with any abuse report
-X-AntiAbuse: Primary Hostname - astoria.ccjclearline.com
-X-AntiAbuse: Original Domain - lists.openembedded.org
-X-AntiAbuse: Originator/Caller UID/GID - [47 12] / [47 12]
-X-AntiAbuse: Sender Address Domain - crashcourse.ca
-X-Source: 
-X-Source-Args: 
-X-Source-Dir: 
-Subject: Re: [PATCH] Various typoes fixed, all comments or output strings.
+Received: by 10.229.32.68 with HTTP; Sun, 25 Mar 2012 08:51:46 -0700 (PDT)
+From: Mike Williamson <michael.williamson@criticallink.com>
+Date: Sun, 25 Mar 2012 11:51:46 -0400
+Message-ID: <CAHEoWwvDxL4YCD=NNy=wVfWS+xMcSnQDG43Bftrg1jqzpYd5Tw@mail.gmail.com>
+To: openembedded-core@lists.openembedded.org
+X-Gm-Message-State: ALoCoQmpMcAN0myFibz8MfDc7MoDH+tBacE38zHnOCFZ0O0KDdLDX4jox7zp0F2/qPE7HvoQWg0h
+Cc: mac@mcrowe.com
+Subject: libtool-cross patch thread : follow up on do_install...
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -44,40 +42,30 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 25 Mar 2012 13:15:45 -0000
-Content-Type: TEXT/PLAIN; charset=US-ASCII
+X-List-Received-Date: Sun, 25 Mar 2012 16:01:06 -0000
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
-On Sun, 25 Mar 2012, Richard Purdie wrote:
+Hi,
 
-> On Sun, 2012-03-25 at 07:46 -0400, Robert P. J. Day wrote:
-> > Typoes fixed: "enviroment", "editted", "spliting", "scheulder".
-> >
-> > Signed-off-by: Robert P. J. Day <rpjday@crashcourse.ca>
-> >
-> > ---
->
-> Just for reference we can't patch .patch files like this. In the case of
-> a previous submission against taglib, it broke the build as the patch no
-> longer applied (the typo was in upstream).
->
-> I'm therefore happy to take these changes but we need to be careful
-> they're limited to places that won't cause build failures. In this
-> series, I'd prefer not to take the bison/flac changes since those are
-> upstream issues which should get fixed at source.
+I was investigating a build issue using a local recipe inheriting autotools
+employing libtool (a compile of unixodbc, needed by the new php recipe)
+and ran into an issue that appears to be solved by=C2=A0modifying the
+do_install() method of libtool-cross according to comments made
+in this patch thread:
 
-  ah, i hadn't noticed that.  feel free to knock out whatever is
-inconvenient, and i'll watch more carefully for that in the future.
+http://patches.openembedded.org/patch/15065/
 
-rday
+Basically, replace the do_install with "oe_runmake DESTDIR=3D${D} install"
+suggested by Khem Raj.   Mike Crowe seemed to think that it cleaned
+up issues he was having, but the thread seems to die at that point.
 
--- 
+The current recipe for libtool-cross does not reflect the modification
+mentioned, so I am wondering if this is not appropriate?
+Am I doing more harm than good?
 
-========================================================================
-Robert P. J. Day                                 Ottawa, Ontario, CANADA
-                        http://crashcourse.ca
+Thanks.
 
-Twitter:                                       http://twitter.com/rpjday
-LinkedIn:                               http://ca.linkedin.com/in/rpjday
-========================================================================
+-Mike
 
 
