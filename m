@@ -1,33 +1,33 @@
-Received: from mail-qa0-f47.google.com ([209.85.216.47])
+Received: from mail-pb0-f47.google.com ([209.85.160.47])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <mikew@criticallink.com>) id 1SBpsP-0002Pa-T0
+	(envelope-from <raj.khem@gmail.com>) id 1SBqlQ-00036N-FZ
 	for openembedded-core@lists.openembedded.org;
-	Sun, 25 Mar 2012 18:01:06 +0200
-Received: by qatm19 with SMTP id m19so1958789qat.6
+	Sun, 25 Mar 2012 18:57:56 +0200
+Received: by pbcum15 with SMTP id um15so4206825pbc.6
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 25 Mar 2012 08:52:06 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=google.com; s=20120113;
-	h=mime-version:from:date:message-id:subject:to:cc:content-type
-	:content-transfer-encoding:x-gm-message-state;
-	bh=wvG8qR2+U54qonWZ94qjuomjavpxMhhnqIZbwhlM8I0=;
-	b=ItJW7eTnmrVctiDRr457ys7JGvdLPGlVUcJ5D68yJRlqoqyHdH88HY6VGzZu0XZGeM
-	G4dLcyfCqYwc8t9OgBJmXQh5xzQqxV5w4azlMO2rvWd8XbkbQStu0kC96+RFAD/dzytg
-	jIF5VcOCbAFVknH1DXC7fTgyWpSzHH8PDwjSXdwFBge0+8C6hwXcWSm+5f7OZhy2CBzQ
-	wd5kscJjJqkOKKdmNNhQfyRjKwJcY6Upl61IqIFY93ZnNouKwwyILB1QVn6qfZyR7kOj
-	y0IicaHML+kG6EXfY/rapN1rcvVRy9vSbF4RyZ9YuY1+zuw9gLTPbtpHzuPh30Fy+ObP
-	o2Gg==
-Received: by 10.229.136.130 with SMTP id r2mr6978113qct.58.1332690726584; Sun,
-	25 Mar 2012 08:52:06 -0700 (PDT)
-MIME-Version: 1.0
-Received: by 10.229.32.68 with HTTP; Sun, 25 Mar 2012 08:51:46 -0700 (PDT)
-From: Mike Williamson <michael.williamson@criticallink.com>
-Date: Sun, 25 Mar 2012 11:51:46 -0400
-Message-ID: <CAHEoWwvDxL4YCD=NNy=wVfWS+xMcSnQDG43Bftrg1jqzpYd5Tw@mail.gmail.com>
+	Sun, 25 Mar 2012 09:48:56 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=from:to:cc:subject:date:message-id:x-mailer;
+	bh=PlSx5ZQYsQYrw7WcsbOHVLzgicTjJfHJ+AeocaAWGY0=;
+	b=MtPCAnTi1+SroBPZJ7MJIaOXu3vG2iqsrezV/1CjzUlFsutdbEoLMgZaL9SqRfedgg
+	8Loh9qNVwpfoOoBd9LGdxuz/tElk79DqwcCRrjuGTK1fB5MvCx8vn6wO9k82tWO7Wzie
+	MEE5vB/LIfCYLhRAwENak/SHnFUQ1niKpadcRZntYjvzv7xuotaDo5z53A4YnPisei66
+	7MYKlKZYtLyWfbs4N5ClI+SXO2OnFGckq4Ji9yLMyWo/NtNnwoLc4kwyHuhAkILAnEF7
+	+rHln4jX29tqa7xMvv7dxw+9oHxgg6Upoxa2WXGTasTCMytF26oyTj52Vqtio1greMjm
+	CWbA==
+Received: by 10.68.241.194 with SMTP id wk2mr27028392pbc.131.1332694136859;
+	Sun, 25 Mar 2012 09:48:56 -0700 (PDT)
+Received: from leto.gateway.2wire.net
+	(99-57-140-209.lightspeed.sntcca.sbcglobal.net. [99.57.140.209])
+	by mx.google.com with ESMTPS id w10sm10538807pbb.20.2012.03.25.09.48.54
+	(version=TLSv1/SSLv3 cipher=OTHER);
+	Sun, 25 Mar 2012 09:48:55 -0700 (PDT)
+From: Khem Raj <raj.khem@gmail.com>
 To: openembedded-core@lists.openembedded.org
-X-Gm-Message-State: ALoCoQmpMcAN0myFibz8MfDc7MoDH+tBacE38zHnOCFZ0O0KDdLDX4jox7zp0F2/qPE7HvoQWg0h
-Cc: mac@mcrowe.com
-Subject: libtool-cross patch thread : follow up on do_install...
+Date: Sun, 25 Mar 2012 09:48:43 -0700
+Message-Id: <1332694123-5078-1-git-send-email-raj.khem@gmail.com>
+X-Mailer: git-send-email 1.7.9.1
+Subject: [PATCH] tune/armv7: Add -mthumb to TUNE_CCARGS
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -42,30 +42,39 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 25 Mar 2012 16:01:06 -0000
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Sun, 25 Mar 2012 16:57:56 -0000
 
-Hi,
+armv7 is least common denominator of armv7-a
+armv7-m and armv7-r and armv7-m does not support
+ARM instructions but only thumb2 instruction set
+which means armv7 when chosen will complain if
+code is compiled in arm mode which is default
+in OE if not specified other wise
 
-I was investigating a build issue using a local recipe inheriting autotools
-employing libtool (a compile of unixodbc, needed by the new php recipe)
-and ran into an issue that appears to be solved by=C2=A0modifying the
-do_install() method of libtool-cross according to comments made
-in this patch thread:
+Fixes errors like below
 
-http://patches.openembedded.org/patch/15065/
+error: target CPU does not support ARM mode
 
-Basically, replace the do_install with "oe_runmake DESTDIR=3D${D} install"
-suggested by Khem Raj.   Mike Crowe seemed to think that it cleaned
-up issues he was having, but the thread seems to die at that point.
+Signed-off-by: Khem Raj <raj.khem@gmail.com>
+---
+ meta/conf/machine/include/arm/arch-armv7.inc |    2 +-
+ 1 files changed, 1 insertions(+), 1 deletions(-)
 
-The current recipe for libtool-cross does not reflect the modification
-mentioned, so I am wondering if this is not appropriate?
-Am I doing more harm than good?
+diff --git a/meta/conf/machine/include/arm/arch-armv7.inc b/meta/conf/machine/include/arm/arch-armv7.inc
+index 33d9f0d..563a6b4 100644
+--- a/meta/conf/machine/include/arm/arch-armv7.inc
++++ b/meta/conf/machine/include/arm/arch-armv7.inc
+@@ -4,7 +4,7 @@ ARMPKGARCH ?= "armv7"
+ 
+ TUNEVALID[armv7] = "Enable instructions for ARMv7"
+ TUNE_CONFLICTS[armv7] = "armv4 armv5 armv6"
+-TUNE_CCARGS += "${@bb.utils.contains("TUNE_FEATURES", "armv7", "-march=armv7", "", d)}"
++TUNE_CCARGS += "${@bb.utils.contains("TUNE_FEATURES", "armv7", "-march=armv7 -mthumb", "", d)}"
+ MACHINEOVERRIDES .= "${@bb.utils.contains("TUNE_FEATURES", "armv7", ":armv7", "" ,d)}"
+ 
+ require conf/machine/include/arm/arch-armv6.inc
+-- 
+1.7.9.1
 
-Thanks.
-
--Mike
 
 
