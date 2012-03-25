@@ -1,19 +1,56 @@
-Received: from ffm.saftware.de ([83.141.3.46])
+Received: from ch1ehsobe001.messaging.microsoft.com ([216.32.181.181]
+	helo=ch1outboundpool.messaging.microsoft.com)
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <obi@opendreambox.org>) id 1SBX3x-0007Ax-8o
+	(envelope-from <B29882@freescale.com>) id 1SBbM7-0007Fy-G9
 	for openembedded-core@lists.openembedded.org;
-	Sat, 24 Mar 2012 20:55:45 +0100
-From: Andreas Oberritter <obi@opendreambox.org>
-To: openembedded-core@lists.openembedded.org
-Date: Sat, 24 Mar 2012 20:46:47 +0100
-Message-Id: <1332618407-30816-1-git-send-email-obi@opendreambox.org>
-X-Mailer: git-send-email 1.7.5.4
-Cc: martin.jansa@gmail.com
-Subject: [PATCH] busybox: move watch to /usr/bin for compatibility with procps
+	Sun, 25 Mar 2012 01:30:47 +0100
+Received: from mail196-ch1-R.bigfish.com (10.43.68.240) by
+	CH1EHSOBE018.bigfish.com (10.43.70.68) with Microsoft SMTP Server id
+	14.1.225.23; Sun, 25 Mar 2012 00:06:33 +0000
+Received: from mail196-ch1 (localhost [127.0.0.1])	by
+	mail196-ch1-R.bigfish.com (Postfix) with ESMTP id 9D9FC100104	for
+	<openembedded-core@lists.openembedded.org>;
+	Sun, 25 Mar 2012 00:06:32 +0000 (UTC)
+X-SpamScore: -10
+X-BigFish: VS-10(zz9371I936eK1432N98dKzz1202hzzz2dh2a8h668h839h8e2h8e3hbe9k)
+X-Forefront-Antispam-Report: CIP:70.37.183.190; KIP:(null); UIP:(null); IPV:NLI;
+	H:mail.freescale.net; RD:none; EFVD:NLI
+Received: from mail196-ch1 (localhost.localdomain [127.0.0.1]) by mail196-ch1
+	(MessageSwitch) id 1332633990776383_12880;
+	Sun, 25 Mar 2012 00:06:30 +0000 (UTC)
+Received: from CH1EHSMHS007.bigfish.com (snatpool2.int.messaging.microsoft.com
+	[10.43.68.234])	by mail196-ch1.bigfish.com (Postfix) with ESMTP id
+	BB1773801EC	for <openembedded-core@lists.openembedded.org>;
+	Sun, 25 Mar 2012 00:06:30 +0000 (UTC)
+Received: from mail.freescale.net (70.37.183.190) by CH1EHSMHS007.bigfish.com
+	(10.43.70.7) with Microsoft SMTP Server (TLS) id 14.1.225.23;
+	Sun, 25 Mar 2012 00:06:30 +0000
+Received: from 039-SN1MPN1-001.039d.mgd.msft.net ([169.254.1.230]) by
+	039-SN1MMR1-002.039d.mgd.msft.net ([10.84.1.15]) with mapi id
+	14.01.0355.003; Sat, 24 Mar 2012 19:06:40 -0500
+From: McClintock Matthew-B29882 <B29882@freescale.com>
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Thread-Topic: [OE-core] should i assume "SERIAL_CONSOLES" is a typo?
+Thread-Index: AQHNChsnT5X+fdwk2kq++4Zn8fzURw==
+Date: Sun, 25 Mar 2012 00:06:40 +0000
+Message-ID: <CAEsOVNdOp6GVeGusJXit2xocy-V7a7nzejTpo3aKT9y9-sxtjA@mail.gmail.com>
+References: <alpine.DEB.2.02.1203240515560.21886@oneiric>
+	<1332584294.9740.506.camel@ted>
+	<alpine.DEB.2.02.1203240621540.25240@oneiric>
+In-Reply-To: <alpine.DEB.2.02.1203240621540.25240@oneiric>
+Accept-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [99.47.177.27]
+MIME-Version: 1.0
+X-OriginatorOrg: freescale.com
+Subject: Re: should i assume "SERIAL_CONSOLES" is a typo?
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
-Reply-To: Patches and discussions about the oe-core layer
+Reply-To: McClintock Matthew-B29882 <B29882@freescale.com>,
+	Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
 List-Id: Patches and discussions about the oe-core layer
 	<openembedded-core.lists.openembedded.org>
@@ -24,80 +61,30 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 24 Mar 2012 19:55:45 -0000
+X-List-Received-Date: Sun, 25 Mar 2012 00:30:47 -0000
+Content-Language: en-US
+Content-Type: text/plain; charset="iso-8859-1"
+Content-ID: <CD4699F75BCCC34E924D62FCE4D8B491@mgd.freescale.com>
+Content-Transfer-Encoding: quoted-printable
 
-Commit 68dc2a3fa30c03a196d650de34d0c657a7b85454 broke opkg upgrade:
+On Sat, Mar 24, 2012 at 5:27 AM, Robert P. J. Day <rpjday@crashcourse.ca> w=
+rote:
+> On Sat, 24 Mar 2012, Richard Purdie wrote:
+>
+>> On Sat, 2012-03-24 at 05:16 -0400, Robert P. J. Day wrote:
+>> > meta/recipes-core/sysvinit/sysvinit-inittab_2.88dsf.bb: =A0 =A0tmp=3D"=
+${SERIAL_CONSOLES}"
+>>
+>> Its not a typo, if you look at the code, it processes SERIAL_CONSOLE and
+>> SERIAL_CONSOLES.
+>
+> =A0ah, i'd noticed that but i didn't see any example of a machine
+> taking advantage of that. =A0and there's no mention of that variable in
+> any of the docs that i can see.
 
-| update-alternatives: Error: cannot register alternative watch to
-| /usr/bin/watch since it is already registered to /bin/watch
+Machines outside of oe-core can take advantage ;)
 
-Signed-off-by: Andreas Oberritter <obi@opendreambox.org>
----
-* Martin, can you please verify whether this really helps? I've built a
-  rootfs with both busybox watch and procps installed. I didn't actually
-  do an opkg upgrade.
-
- .../busybox/busybox-1.19.4/watch.in.usr-bin.patch  |   29 ++++++++++++++++++++
- meta/recipes-core/busybox/busybox_1.19.4.bb        |    3 +-
- 2 files changed, 31 insertions(+), 1 deletions(-)
- create mode 100644 meta/recipes-core/busybox/busybox-1.19.4/watch.in.usr-bin.patch
-
-diff --git a/meta/recipes-core/busybox/busybox-1.19.4/watch.in.usr-bin.patch b/meta/recipes-core/busybox/busybox-1.19.4/watch.in.usr-bin.patch
-new file mode 100644
-index 0000000..e8e1edf
---- /dev/null
-+++ b/meta/recipes-core/busybox/busybox-1.19.4/watch.in.usr-bin.patch
-@@ -0,0 +1,29 @@
-+Upstream-Status: Inappropriate [configuration]
-+
-+From f2372ab626a395d067704f4c318180fb6039de15 Mon Sep 17 00:00:00 2001
-+From: Andreas Oberritter <obi@opendreambox.org>
-+Date: Sat, 24 Mar 2012 17:36:48 +0100
-+Subject: [PATCH] watch: move from /bin to /usr/bin for compatibility with
-+ procps
-+
-+Signed-off-by: Andreas Oberritter <obi@opendreambox.org>
-+---
-+ include/applets.src.h |    2 +-
-+ 1 files changed, 1 insertions(+), 1 deletions(-)
-+
-+diff --git a/include/applets.src.h b/include/applets.src.h
-+index 87d9cbb..c148a8c 100644
-+--- a/include/applets.src.h
-++++ b/include/applets.src.h
-+@@ -404,7 +404,7 @@ IF_VLOCK(APPLET(vlock, BB_DIR_USR_BIN, BB_SUID_REQUIRE))
-+ IF_VOLNAME(APPLET(volname, BB_DIR_USR_BIN, BB_SUID_DROP))
-+ /* Needs to be run by root or be suid root - needs to write to /dev/TTY: */
-+ IF_WALL(APPLET(wall, BB_DIR_USR_BIN, BB_SUID_REQUIRE))
-+-IF_WATCH(APPLET(watch, BB_DIR_BIN, BB_SUID_DROP))
-++IF_WATCH(APPLET(watch, BB_DIR_USR_BIN, BB_SUID_DROP))
-+ IF_WATCHDOG(APPLET(watchdog, BB_DIR_SBIN, BB_SUID_DROP))
-+ IF_WC(APPLET(wc, BB_DIR_USR_BIN, BB_SUID_DROP))
-+ IF_WGET(APPLET(wget, BB_DIR_USR_BIN, BB_SUID_DROP))
-+-- 
-+1.7.5.4
-+
-diff --git a/meta/recipes-core/busybox/busybox_1.19.4.bb b/meta/recipes-core/busybox/busybox_1.19.4.bb
-index dff616d..3f22669 100644
---- a/meta/recipes-core/busybox/busybox_1.19.4.bb
-+++ b/meta/recipes-core/busybox/busybox_1.19.4.bb
-@@ -1,5 +1,5 @@
- require busybox.inc
--PR = "r0"
-+PR = "r1"
- 
- SRC_URI = "http://www.busybox.net/downloads/busybox-${PV}.tar.bz2;name=tarball \
-            file://udhcpscript.patch \
-@@ -8,6 +8,7 @@ SRC_URI = "http://www.busybox.net/downloads/busybox-${PV}.tar.bz2;name=tarball \
-            file://get_header_tar.patch \
-            file://busybox-appletlib-dependency.patch \
-            file://run-parts.in.usr-bin.patch \
-+           file://watch.in.usr-bin.patch \
-            file://busybox-udhcpc-no_deconfig.patch \
-            file://find-touchscreen.sh \
-            file://busybox-cron \
--- 
-1.7.5.4
+-M=
 
 
 
