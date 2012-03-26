@@ -1,25 +1,25 @@
-Received: from mail.windriver.com ([147.11.1.11])
+Received: from mail1.windriver.com ([147.11.146.13])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <Xiaofeng.Yan@windriver.com>) id 1SC7bj-0000Id-Ed
+	(envelope-from <Xiaofeng.Yan@windriver.com>) id 1SC7bn-0000Io-Jz
 	for openembedded-core@lists.openembedded.org;
-	Mon, 26 Mar 2012 12:57:03 +0200
+	Mon, 26 Mar 2012 12:57:08 +0200
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca [147.11.189.40])
-	by mail.windriver.com (8.14.3/8.14.3) with ESMTP id q2QAm2gp016211
+	by mail1.windriver.com (8.14.3/8.14.3) with ESMTP id q2QAm5ok009476
 	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 26 Mar 2012 03:48:03 -0700 (PDT)
+	Mon, 26 Mar 2012 03:48:06 -0700 (PDT)
 Received: from localhost (128.224.162.28) by ALA-HCA.corp.ad.wrs.com
 	(147.11.189.50) with Microsoft SMTP Server (TLS) id 14.1.255.0;
-	Mon, 26 Mar 2012 03:48:03 -0700
-Message-ID: <873e8cf8c1a014ffeacff6089afe930c6418a53a.1332758293.git.xiaofeng.yan@windriver.com>
+	Mon, 26 Mar 2012 03:48:06 -0700
+Message-ID: <c3904c882e88cedc6ff29841c4307a5871db0bff.1332758293.git.xiaofeng.yan@windriver.com>
 In-Reply-To: <cover.1332758293.git.xiaofeng.yan@windriver.com>
 References: <cover.1332758293.git.xiaofeng.yan@windriver.com>
-Old-Date: Mon, 26 Mar 2012 18:14:43 +0800
-Date: Mon, 26 Mar 2012 18:49:14 +0800
+Old-Date: Mon, 26 Mar 2012 18:16:06 +0800
+Date: Mon, 26 Mar 2012 18:49:17 +0800
 To: <openembedded-core@lists.openembedded.org>
 From: Xiaofeng Yan <xiaofeng.yan@windriver.com>
 MIME-Version: 1.0
-Subject: [PATCH 1/9] sourcepkg.bbclass: Remove sourcepkg.bbclass
+Subject: [PATCH 2/9] src_distribute.bbclass: Remove src__distribute.bbclass
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -34,134 +34,76 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 26 Mar 2012 10:57:03 -0000
+X-List-Received-Date: Mon, 26 Mar 2012 10:57:08 -0000
 Content-Type: text/plain
 
 From: Xiaofeng Yan <xiaofeng.yan@windriver.com>
 
-This bbclass has been merged into archiver.bbclass.
+This bbclass has been merged into archiver.bbclass
 
-[YOCTO #1977]
+[#YOCTO 1977]
 
 Signed-off-by: Xiaofeng Yan <xiaofeng.yan@windriver.com>
 ---
- meta/classes/sourcepkg.bbclass |  107 ----------------------------------------
- 1 files changed, 0 insertions(+), 107 deletions(-)
- delete mode 100644 meta/classes/sourcepkg.bbclass
+ meta/classes/src_distribute.bbclass |   49 -----------------------------------
+ 1 files changed, 0 insertions(+), 49 deletions(-)
+ delete mode 100644 meta/classes/src_distribute.bbclass
 
-diff --git a/meta/classes/sourcepkg.bbclass b/meta/classes/sourcepkg.bbclass
+diff --git a/meta/classes/src_distribute.bbclass b/meta/classes/src_distribute.bbclass
 deleted file mode 100644
-index 102c109..0000000
---- a/meta/classes/sourcepkg.bbclass
+index efa2720..0000000
+--- a/meta/classes/src_distribute.bbclass
 +++ /dev/null
-@@ -1,107 +0,0 @@
--DEPLOY_DIR_SRC ?= "${DEPLOY_DIR}/source"
--EXCLUDE_FROM ?= ".pc autom4te.cache"
+@@ -1,49 +0,0 @@
+-SRC_DISTRIBUTECOMMAND[func] = "1"
+-python do_distribute_sources () {
+-	l = bb.data.createCopy(d)
+-	bb.data.update_data(l)
 -
--# used as part of a path. make sure it's set
--DISTRO ?= "openembedded"
+-	sources_dir = d.getVar('SRC_DISTRIBUTEDIR', True)
+-	src_uri = d.getVar('SRC_URI', True).split()
+-	fetcher = bb.fetch2.Fetch(src_uri, d)
+-	ud = fetcher.ud
 -
--def get_src_tree(d):
+-	licenses = d.getVar('LICENSE', True).replace('&', '|')
+-	licenses = licenses.replace('(', '').replace(')', '')
+-	clean_licenses = ""
+-	for x in licenses.split():
+-		if x.strip() == '' or x == 'CLOSED':
+-			continue
 -
--	workdir = d.getVar('WORKDIR', True)
--	if not workdir:
--		bb.error("WORKDIR not defined, unable to find source tree.")
--		return
+-		if x != "|":
+-			clean_licenses += x
 -
--	s = d.getVar('S', 0)
--	if not s:
--		bb.error("S not defined, unable to find source tree.")
--		return
+-	for license in clean_licenses.split('|'):
+-		for url in ud.values():
+-			cmd = d.getVar('SRC_DISTRIBUTECOMMAND', True)
+-			if not cmd:
+-				raise bb.build.FuncFailed("Unable to distribute sources, SRC_DISTRIBUTECOMMAND not defined")
+-			url.setup_localpath(d)
+-			d.setVar('SRC', url.localpath)
+-			if url.type == 'file':
+-				if url.basename == '*':
+-					import os.path
+-					dest_dir = os.path.basename(os.path.dirname(os.path.abspath(url.localpath)))
+-					d.setVar('DEST', "%s_%s/" % (d.getVar('PF', True), dest_dir))
+-				else:
+-					d.setVar('DEST', "%s_%s" % (d.getVar('PF', True), url.basename))
+-			else:
+-				d.setVar('DEST', '')
 -
--	s_tree_raw = s.split('/')[1]
--	s_tree = d.expand(s_tree_raw)
--
--	src_tree_path = os.path.join(workdir, s_tree)
--	try:
--		os.listdir(src_tree_path)
--	except OSError:
--		bb.fatal("Expected to find source tree in '%s' which doesn't exist." % src_tree_path)
--	bb.debug("Assuming source tree is '%s'" % src_tree_path)
--
--	return s_tree
--
--sourcepkg_do_create_orig_tgz(){
--
--	mkdir -p ${DEPLOY_DIR_SRC}
--	cd ${WORKDIR}
--	for i in ${EXCLUDE_FROM}; do
--		echo $i >> temp/exclude-from-file
--	done
--
--	src_tree=${@get_src_tree(d)}
--	
--	echo $src_tree
--	bbnote "Creating .orig.tar.gz in ${DEPLOY_DIR_SRC}/${P}.orig.tar.gz"
--	tar cvzf ${DEPLOY_DIR_SRC}/${P}.orig.tar.gz --exclude-from temp/exclude-from-file $src_tree
--	tar -cf - -C $src_tree -ps . | tar -xf - -C $src_tree.orig
+-			d.setVar('SRC_DISTRIBUTEDIR', "%s/%s" % (sources_dir, license))
+-			bb.build.exec_func('SRC_DISTRIBUTECOMMAND', d)
 -}
 -
--sourcepkg_do_archive_bb() {
+-addtask distribute_sources before do_build after do_fetch
 -
--	src_tree=${@get_src_tree(d)}
--	dest=${WORKDIR}/$src_tree/${DISTRO}
--	mkdir -p $dest
--
--	cp ${FILE} $dest
+-addtask distribute_sources_all after do_distribute_sources
+-do_distribute_sources_all[recrdeptask] = "do_distribute_sources"
+-do_distribute_sources_all[nostamp] = "1"
+-do_distribute_sources_all () {
+-	:
 -}
--
--python sourcepkg_do_dumpdata() {
--
--	workdir = d.getVar('WORKDIR', True)
--	distro = d.getVar('DISTRO', True)
--	s_tree = get_src_tree(d)
--	openembeddeddir = os.path.join(workdir, s_tree, distro)
--	dumpfile = os.path.join(openembeddeddir, d.expand("${P}-${PR}.showdata.dump"))
--	
--	try:
--		os.mkdir(openembeddeddir)
--	except OSError:
--		# dir exists
--		pass
--
--	bb.note("Dumping metadata into '%s'" % dumpfile)
--	f = open(dumpfile, "w")
--	# emit variables and shell functions
--        bb.data.emit_env(f, d, True)
--	# emit the metadata which isnt valid shell
--	for e in d.keys():
--		if d.getVarFlag(e, 'python'):
--			f.write("\npython %s () {\n%s}\n" % (e, d.getVar(e, True)))
--	f.close()
--}
--
--sourcepkg_do_create_diff_gz(){
--
--	cd ${WORKDIR}
--	for i in ${EXCLUDE_FROM}; do
--		echo $i >> temp/exclude-from-file
--	done
--
--
--	src_tree=${@get_src_tree(d)}
--
--	for i in `find . -maxdepth 1 -type f`; do
--		mkdir -p $src_tree/${DISTRO}/files
--		cp $i $src_tree/${DISTRO}/files
--	done
--	
--	bbnote "Creating .diff.gz in ${DEPLOY_DIR_SRC}/${P}-${PR}.diff.gz"
--	LC_ALL=C TZ=UTC0 diff --exclude-from=temp/exclude-from-file -Naur $src_tree.orig $src_tree | gzip -c > ${DEPLOY_DIR_SRC}/${P}-${PR}.diff.gz
--	rm -rf $src_tree.orig
--}
--
--EXPORT_FUNCTIONS do_create_orig_tgz do_archive_bb do_dumpdata do_create_diff_gz
--
--addtask create_orig_tgz after do_unpack before do_patch
--addtask archive_bb after do_patch before do_dumpdata
--addtask dumpdata after archive_bb before do_create_diff_gz
--addtask create_diff_gz after do_dump_data before do_configure
--
 -- 
 1.7.0.4
 
