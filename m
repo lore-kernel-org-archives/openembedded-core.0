@@ -1,31 +1,34 @@
-Received: from mail1.windriver.com ([147.11.146.13])
-	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <Bruce.Ashfield@windriver.com>) id 1SCCsn-0002Pn-7m
-	for openembedded-core@lists.openembedded.org;
-	Mon, 26 Mar 2012 18:35:02 +0200
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca [147.11.189.40])
-	by mail1.windriver.com (8.14.3/8.14.3) with ESMTP id q2QGPqCL013447
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
-	Mon, 26 Mar 2012 09:25:52 -0700 (PDT)
-Received: from [128.224.146.67] (128.224.146.67) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server id 14.1.255.0;
-	Mon, 26 Mar 2012 09:25:53 -0700
-Message-ID: <4F70988B.4010403@windriver.com>
-Date: Mon, 26 Mar 2012 12:25:47 -0400
-From: Bruce Ashfield <bruce.ashfield@windriver.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:8.0) Gecko/20111124 Thunderbird/8.0
-MIME-Version: 1.0
-To: Martin Jansa <martin.jansa@gmail.com>
-References: <cover.1332507302.git.Martin.Jansa@gmail.com>
-	<0f5173c469e4ae3e5155d5d3f0643d3a63e25b91.1332507302.git.Martin.Jansa@gmail.com>
-	<4F6C79A8.30403@windriver.com>
-	<20120323133102.GG3879@jama.jama.net>
-	<20120326160246.GH3941@jama.jama.net>
-In-Reply-To: <20120326160246.GH3941@jama.jama.net>
-Cc: Patches and discussions about the oe-core layer
+Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
+	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <richard.purdie@linuxfoundation.org>)
+	id 1SCDMC-000322-6K for openembedded-core@lists.openembedded.org;
+	Mon, 26 Mar 2012 19:05:24 +0200
+Received: from localhost (localhost [127.0.0.1])
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q2QGuOr5031362
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 26 Mar 2012 17:56:24 +0100
+Received: from tim.rpsys.net ([127.0.0.1])
+	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
+	port 10024) with LMTP
+	id 29204-04 for <openembedded-core@lists.openembedded.org>;
+	Mon, 26 Mar 2012 17:56:19 +0100 (BST)
+Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q2QGuHJD031356
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO)
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 26 Mar 2012 17:56:17 +0100
+Message-ID: <1332780976.28414.130.camel@ted>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 4/6] kernel.bbclass: fix extra + in kernelrelease
+Date: Mon, 26 Mar 2012 17:56:16 +0100
+In-Reply-To: <20120326162531.GD21518@bill-the-cat>
+References: <1332524132-24689-1-git-send-email-trini@ti.com>
+	<1332753313.28414.91.camel@ted> <20120326162531.GD21518@bill-the-cat>
+X-Mailer: Evolution 3.2.2- 
+Mime-Version: 1.0
+X-Virus-Scanned: amavisd-new at rpsys.net
+Subject: Re: [PATCH] qemu.inc: Use '=' for IMAGE_FSTYPES
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -40,99 +43,93 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 26 Mar 2012 16:35:02 -0000
-Content-Type: text/plain; charset="ISO-8859-1"; format=flowed
+X-List-Received-Date: Mon, 26 Mar 2012 17:05:24 -0000
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 
-On 12-03-26 12:02 PM, Martin Jansa wrote:
-> On Fri, Mar 23, 2012 at 02:31:02PM +0100, Martin Jansa wrote:
->> On Fri, Mar 23, 2012 at 09:24:56AM -0400, Bruce Ashfield wrote:
->>> On 12-03-23 08:56 AM, Martin Jansa wrote:
->>>> * see http://lists.linuxtogo.org/pipermail/openembedded-core/2011-December/014308.html
->>>
->>> I was just looking at this in the past day or so and was
->>> wondering where it had gone. Saved me the effort!
->>>
->>
->> Please bump PR in kernel recipes you care about (I did for mine.. )
->
-> I was testing your patch
-> "linux-yocto: common-pc: Add PCNET32 to the config"
-> to see if this patch fixes + also in linux-yocto recipes and somehow it
-> seems still keeping +
->
-> OE @ ~/shr-core/tmp-eglibc/work/qemux86_64-oe-linux/linux-yocto/linux-yocto-3.2.11+git6+867fc7a19f2ea74253d1f20c3d61b7829635175b_4+4ca7e2c5d42e755e1b4c3e1478128f047a8ed2a8-r1/linux-qemux86-64-standard-build
-> $ ../linux/scripts/setlocalversion .
-> -yocto-standard
->
-> seems ok, but
-> root@qemux86-64:/lib/modules# opkg files kernel-module-uvesafb
-> Package kernel-module-uvesafb
-> (3.2.11+git6+867fc7a19f2ea74253d1f20c3d61b7829635175b_4+4ca7e2c5d42e755e1b4c3e1478128f047a8ed2a8-r1)
-> is installed on root and has the following files:
-> /lib/modules/
-> /lib/modules/3.2.11-yocto-standard+/kernel/drivers/video/
-> /lib/modules/3.2.11-yocto-standard+/kernel/drivers/video/uvesafb.ko
->
-> and also:
-> OE @ ~/shr-core/tmp-eglibc/work/qemux86_64-oe-linux/linux-yocto/linux-yocto-3.2.11+git6+867fc7a19f2ea74253d1f20c3d61b7829635175b_4+4ca7e2c5d42e755e1b4c3e1478128f047a8ed2a8-r1/linux-qemux86-64-standard-build
-> $ make kernelrelease
->    GEN
-> /OE/shr-core/tmp-eglibc/work/qemux86_64-oe-linux/linux-yocto/linux-yocto-3.2.11+git6+867fc7a19f2ea74253d1f20c3d61b7829635175b_4+4ca7e2c5d42e755e1b4c3e1478128f047a8ed2a8-r1/linux-qemux86-64-standard-build/Makefile
-> scripts/kconfig/conf --silentoldconfig Kconfig
-> 3.2.11-yocto-standard+
->
-> Any idea why it doesn't work with linux-yocto layout and works with
-> other kernels from git (tested on kernels from meta-smartphone).
+On Mon, 2012-03-26 at 09:25 -0700, Tom Rini wrote:
+> On Mon, Mar 26, 2012 at 10:15:13AM +0100, Richard Purdie wrote:
+> > On Fri, 2012-03-23 at 10:35 -0700, Tom Rini wrote:
+> > > As per
+> > > http://lists.linuxtogo.org/pipermail/openembedded-core/2012-March/019772.html
+> > > a machine conf file should use '=' to set IMAGE_FSTYPES.
+> > > 
+> > > Signed-off-by: Tom Rini <trini@ti.com>
+> > > ---
+> > >  meta/conf/machine/include/qemu.inc |    2 +-
+> > >  1 files changed, 1 insertions(+), 1 deletions(-)
+> > 
+> > As someone pointed out, what I mentioned in that email sadly doesn't
+> > work although it would be nice if they did. I suspect this is why we're
+> > using += since:
+> 
+> We aren't using += today.  We (openembedded-core) use ?=.  meta-intel
+> uses += and meta-ti is mixed (and I don't have meta-fsl-* handy).
+> 
+> > > - The machine needs to say 'I need or support the following formats'
+> > 
+> > so the machine ensures those formats exist at a minimum:
+> > 
+> > IMAGE_FSTYPES += "xxxx"
+> > 
+> > > - The distro needs to say 'I always want format X'
+> > 
+> > so the distro can do:
+> > 
+> > IMAGE_FSTYPES += " yyy"
+> > 
+> > > - The user needs to say 'I know best, give me only format X'
+> > 
+> > This one is the problem case so the user has to use overrides:
+> > 
+> > IMAGE_FSTYPES_override = "X"
+> > 
+> > (where override can be MACHINE or forcevariable)
+> > 
+> > > - The user needs to say 'I know best, give me what you support + X'
+> > 
+> > IMAGE_FSTYPES += " X"
+> > 
+> > 
+> > Whilst I think that is less than ideal since it forces use of overrides
+> > in local.conf to override, changing the += in machine conf files doesn't
+> > gain us much, it just breaks += in local.conf.
+> > 
+> > I'm open to other feedback though...
+> 
+> Well, I suggested ??= / ?= and posted some results from bitbake -e...
 
-I haven't had a chance to poke much at this yet, since I've been
-tied up working with some repository tweaks.
+Ok. += plays out as above. I realise its not what is in qemu.inc, it is
+used in meta-intel though which I looked at after qemu.inc and I guess
+has confused me.
 
-But I can have a look shortly. There are some old(ish) patches that
-deal with local version, both in the tree, and in some infrastructure
-that could be interacting here. I'll spawn some builds (and actually
-let the packaging run), and have a look.
+With ?= in machine.conf:
+
+The user defined IMAGE_FSTYPES would override the machine ones. Distro
+can still append to it. The downside is a user append would not work out
+as expected.
+
+So the question is which is the more user expected behaviour?
+
+=+ makes overwriting IMAGE_FSTYPES hard
+
+?= makes appending IMAGE_FSTYPES hard
+
+I suspect a user is more likely to want to append than overwrite.
+Getting an append to work with ?= is extremely non-obvious, even worse
+syntax than the =+ overwriting case with overrides.
+
+So bottom line, I'm tempted to recommend we use =+.
+
+Further thoughts?
 
 Cheers,
 
-Bruce
+Richard
 
->
-> Cheers,
->
->>
->>> Acked-by: Bruce Ashfield<bruce.ashfield@windriver.com>
->>>
->>>>
->>>> Signed-off-by: Martin Jansa<Martin.Jansa@gmail.com>
->>>> ---
->>>>    meta/classes/kernel.bbclass |    6 ++++++
->>>>    1 files changed, 6 insertions(+), 0 deletions(-)
->>>>
->>>> diff --git a/meta/classes/kernel.bbclass b/meta/classes/kernel.bbclass
->>>> index 5e4cdd4..736768e 100644
->>>> --- a/meta/classes/kernel.bbclass
->>>> +++ b/meta/classes/kernel.bbclass
->>>> @@ -204,6 +204,12 @@ sysroot_stage_all_append() {
->>>>    }
->>>>
->>>>    kernel_do_configure() {
->>>> +	# fixes extra + in /lib/modules/2.6.37+
->>>> +	# $ scripts/setlocalversion . =>   +
->>>> +	# $ make kernelversion =>   2.6.37
->>>> +	# $ make kernelrelease =>   2.6.37+
->>>> +	touch ${B}/.scmversion
->>>> +
->>>>    	# Copy defconfig to .config if .config does not exist. This allows
->>>>    	# recipes to manage the .config themselves in do_configure_prepend().
->>>>    	if [ -f "${WORKDIR}/defconfig" ]&&   [ ! -f "${B}/.config" ]; then
->>>
->>
->> --
->> Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
->
->
->
+
+
+
 
 
 
