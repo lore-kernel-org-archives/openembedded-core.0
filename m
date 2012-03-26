@@ -1,33 +1,38 @@
-Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
-	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <richard.purdie@linuxfoundation.org>)
-	id 1SC8KU-0001lM-Ei for openembedded-core@lists.openembedded.org;
-	Mon, 26 Mar 2012 13:43:18 +0200
-Received: from localhost (localhost [127.0.0.1])
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q2QBYKwN024795;
-	Mon, 26 Mar 2012 12:34:20 +0100
-Received: from tim.rpsys.net ([127.0.0.1])
-	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
-	port 10024) with LMTP
-	id 24700-01; Mon, 26 Mar 2012 12:34:16 +0100 (BST)
-Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q2QBY9bo024789
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO);
-	Mon, 26 Mar 2012 12:34:10 +0100
-Message-ID: <1332761648.28414.113.camel@ted>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Andreas Oberritter <obi@opendreambox.org>
-Date: Mon, 26 Mar 2012 12:34:08 +0100
-In-Reply-To: <4F6CDA62.3070908@opendreambox.org>
-References: <1331345726-9577-1-git-send-email-obi@opendreambox.org>
-	<4F5E1672.7090706@windriver.com> <1331567634.15192.20.camel@ted>
-	<4F6CDA62.3070908@opendreambox.org>
-X-Mailer: Evolution 3.2.2- 
-Mime-Version: 1.0
-X-Virus-Scanned: amavisd-new at rpsys.net
-Cc: Patches and discussions about the oe-core layer
+Received: from mail-iy0-f175.google.com ([209.85.210.175])
+	by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <schnitzeltony@googlemail.com>) id 1SC8Tg-0001xi-Ln
+	for openembedded-core@lists.openembedded.org;
+	Mon, 26 Mar 2012 13:52:48 +0200
+Received: by iaag37 with SMTP id g37so8803323iaa.6
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 26 Mar 2012 04:43:48 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=googlemail.com; s=20120113;
+	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
+	:content-type; bh=S16jipDfrQUg6GfeNr/0vDiSBTHZFlyuBb1QfZJGC3I=;
+	b=nIX6rRdashUoGlfe00Yh3d8XNOEiYPY6SNnu1fOTwC3fEsSkHOGgM16t6qlkJSAipk
+	sFNZrKudkbl4OuaKp2AQKhFY/zfpRTc15Y3SJEPfTcX0D/nfSK7tEHifydcDfQtdV3wC
+	i2OKP9M0eQv6eJWHSy+bZf/mJihzR2o6utEPH37axqaK2GJ3Uv6N7Bp3KF5kmOLA3lIL
+	gimm7THTb4bpg6OdtUTzOEVio6pj0dz4KURvsNiKcsvuMhsYSpUZrJcGz/g3ENrQPOJx
+	hQFpvtQVB6cxLAGa5ZJzOqnCpKKr6uBsN0BPp2YU0FAzihVmjJIHkp/RyvIrQW2Y4h6i
+	eeHg==
+MIME-Version: 1.0
+Received: by 10.42.72.130 with SMTP id o2mr14642255icj.8.1332762228557; Mon,
+	26 Mar 2012 04:43:48 -0700 (PDT)
+Received: by 10.42.165.137 with HTTP; Mon, 26 Mar 2012 04:43:48 -0700 (PDT)
+In-Reply-To: <1332753590.28414.94.camel@ted>
+References: <1332443701-24282-1-git-send-email-schnitzeltony@googlemail.com>
+	<1332504745.9740.398.camel@ted>
+	<CALbNGRT8Wb2gt7un4efD+szwz3kPZ5pns-4G6EusspH5iYYuZA@mail.gmail.com>
+	<1332545863.9740.477.camel@ted>
+	<CALbNGRTvipVQoipZFeuAwFcCr5APdzBh4jWm-sgn6c9hXs87+w@mail.gmail.com>
+	<1332753590.28414.94.camel@ted>
+Date: Mon, 26 Mar 2012 13:43:48 +0200
+Message-ID: <CALbNGRQXm_xah+101xFMk=wxFYck8GEnW3-O0Y6ynQ+p0AD8kw@mail.gmail.com>
+From: =?ISO-8859-1?Q?Andreas_M=FCller?= <schnitzeltony@googlemail.com>
+To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] package_ipk: apply umask to control and conffiles
+Subject: Re: [PATCH] gtk-icon-cache.bbclass: Fix multiple rebuilds of the icon cache on first boot
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -42,58 +47,91 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 26 Mar 2012 11:43:18 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Mon, 26 Mar 2012 11:52:48 -0000
+Content-Type: text/plain; charset=ISO-8859-1
 
-On Fri, 2012-03-23 at 21:17 +0100, Andreas Oberritter wrote:
-> On 12.03.2012 16:53, Richard Purdie wrote:
-> > On Mon, 2012-03-12 at 10:29 -0500, Mark Hatle wrote:
-> >> On 3/9/12 8:15 PM, Andreas Oberritter wrote:
-> >>> * Explicitly set umask to 022. Otherwise the build system's
-> >>>    umask leaks into the image.
-> >>
-> >> I'm surprised that do_package_ipk[umask] didn't work.  Perhaps its the way it's 
-> >> being invoked that is the issue.  (If bitbake doesn't run it, but something else 
-> >> does.. then the umask setting doesn't get used.)
-> >>
-> >> As for the change of the umask, the changes appear to be specific to the ipk 
-> >> case.  Is this the desired behavior, or could deb and rpm suffer from similar 
-> >> issues?  (I'm not familiar enough with opkg to know how it handles umask 
-> >> settings during package install/rootfs construction..)
-> >>
-> >> I believe that RPM sets a default umask when it goes through it's package 
-> >> installs/rootfs generation.  But does DEB?
-> > 
-> > I'm also a bit worried about this patch. I'd like to understand why a
-> > task level umask doesn't work. That shouldn't even make any difference
-> > since the permissions/owners/users from install should be getting
-> > used...
+On Mon, Mar 26, 2012 at 11:19 AM, Richard Purdie
+<richard.purdie@linuxfoundation.org> wrote:
+>> > There are two problems:
+>> >
+>> > a) Knowing these are postinstalls at first boot and not package installs
+>> > b) Deleting the unused "lock" files afterwards
+>> >
+>> > You'd therefore probably have to add something to the postinstalls core
+>> > which:
+>> >
+>> > a) Creates some file during final rootfs postinstalls on first boot
+>> > b) Clears some set of files after first boot.
+>> Isn't this exactly what we are doing?
+>> >
+>> > I don't see a major issue with doing either of these two things though
+>> > and it would simplify your patch whilst also allowing other similar
+>> > cases to work in a similar way.
+>> >
+>> We presented a working solution fixing an issue existing for long time
+>> and don't see that this suggestion gives major enhancements. Feel free
+>> to present a different solution.
 >
-> can you please give some advise on how to continue with this issue?
+> Right, what I'm trying to figure out is whether we can simplify that
+> implementation a little so we don't need a new recipe, dependencies and
+> a new init script. There is nothing wrong with that solution but I think
+> its possible to simplify things a little.
+OK - you are looking for a more generic approach (next candidate might
+be mime.bbclass/update-mime-database). Without taking care of how /
+where / by whom a framework for runonce-functionalty is going to be
+implemented - how about:
 
-I understand half the problem now, the files with the issues are ones
-created during the package_ipk task. That addresses one of my big
-concerns.
+ * Each class/recipe requiring runonce functionality adds code
+snippets by appending into a global variable. For
+gtk-icon-cache.bbclass something like
 
-The second thing I'd like to understand is why a task level umask
-doesn't resolve this. Looking at what you tried, this might be as simple
-as a typo:
+<snip>
+gtk-update-icon-cache-runonce = " \
+gtk-update-icon-cache-runonce() {
+    for icondir in @datadir@/icons/* ; do \
+        if [ -d $icondir ] ; then \
+            gtk-update-icon-cache -fqt $icondir
+        fi
+    done
+}
+"
 
-do_package_ipk[umask] = "022"
+# online
+RUNONCE_TASKS += "gtk-update-icon-cache-runonce"
+# offline - requires gtk+-native
+# RUNONCE_TASKS_OFFLINE += "gtk-update-icon-cache-runonce"
 
-when you really want:
+gtk_icon_cache_postinst() {
+if [ "x$D" != "x" ]; then
+        exit 1
+fi
 
-do_package_write_ipk[umask] = "022"
+# after 1st boot
+if [ ! -e ${sysconfdir}/init.d/runonce ]; then
+    ${gtk-update-icon-cache-runonce}
+fi
+}
+<\snip>
 
-If that works, lets set this for deb and rpm too so we're consistent and
-I'll merge that patch :)
+* In case the global variable RUNONCE_TASKS is not empty, the
+framework creates one systemwide initscript (
+${sysconfdir}/init.d/runonce ) + systemd-service ( we sent systemd
+implementation for gtk-icon-update approach in meta-oe [1] ). The
+contents of this script are the snippets and code to delete itself and
+systemd-stuff. Since the code snippets are identified by a name ( here
+gtk-update-icon-cache-runonce ), it is no problem to ensure that each
+snippet is added only once.
+* In case RUNONCE_TASK_OFFLINE  is not empty,  the framework creates
+one script with similar contents. This is called after
+offline-postinst. If we decide to have gtk+-native in oe-core, we
+could do gtk-icon-update offline ( as Koen suggested ).
 
-Cheers,
+> My worry is whether the simplifications I have in mind will work in the
+> systemd world :/.
+See above
 
-Richard
+Andreas
 
-
-
+[1] http://patches.openembedded.org/patch/24181/
 
 
