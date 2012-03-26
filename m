@@ -1,28 +1,31 @@
-Received: from mail1.windriver.com ([147.11.146.13])
+Received: from mga02.intel.com ([134.134.136.20])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <Bruce.Ashfield@windriver.com>) id 1SCErL-0004LW-NO
+	(envelope-from <dvhart@linux.intel.com>) id 1SCEzA-0004QX-Cv
 	for openembedded-core@lists.openembedded.org;
-	Mon, 26 Mar 2012 20:41:44 +0200
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca [147.11.189.40])
-	by mail1.windriver.com (8.14.3/8.14.3) with ESMTP id q2QIWWa9015190
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
-	Mon, 26 Mar 2012 11:32:33 -0700 (PDT)
-Received: from [128.224.146.67] (128.224.146.67) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server id 14.1.255.0;
-	Mon, 26 Mar 2012 11:32:33 -0700
-Message-ID: <4F70B63B.80400@windriver.com>
-Date: Mon, 26 Mar 2012 14:32:27 -0400
-From: Bruce Ashfield <bruce.ashfield@windriver.com>
+	Mon, 26 Mar 2012 20:49:44 +0200
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+	by orsmga101.jf.intel.com with ESMTP; 26 Mar 2012 11:40:41 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.67,351,1309762800"; d="scan'208";a="125298436"
+Received: from unknown (HELO envy.home) ([10.7.199.147])
+	by orsmga002.jf.intel.com with ESMTP; 26 Mar 2012 11:40:41 -0700
+Message-ID: <4F70B7FE.8080002@linux.intel.com>
+Date: Mon, 26 Mar 2012 11:39:58 -0700
+From: Darren Hart <dvhart@linux.intel.com>
 User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:8.0) Gecko/20111124 Thunderbird/8.0
+	rv:10.0.1) Gecko/20120209 Thunderbird/10.0.1
 MIME-Version: 1.0
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-References: <4F70988B.4010403@windriver.com>
-	<1332782988-18008-1-git-send-email-Martin.Jansa@gmail.com>
-In-Reply-To: <1332782988-18008-1-git-send-email-Martin.Jansa@gmail.com>
-Cc: Martin Jansa <martin.jansa@gmail.com>
-Subject: Re: [PATCH] kernel.bbclass: touch .scmversion also in ${S}
+References: <1332524132-24689-1-git-send-email-trini@ti.com>
+	<1332753313.28414.91.camel@ted>
+	<20120326162531.GD21518@bill-the-cat>
+	<1332780976.28414.130.camel@ted>
+	<20120326171359.GE21518@bill-the-cat>
+In-Reply-To: <20120326171359.GE21518@bill-the-cat>
+X-Enigmail-Version: 1.4
+Cc: Scott Rifenbark <srifenbark@gmail.com>
+Subject: Re: [PATCH] qemu.inc: Use '=' for IMAGE_FSTYPES
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -37,39 +40,25 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 26 Mar 2012 18:41:44 -0000
-Content-Type: text/plain; charset="ISO-8859-1"; format=flowed
+X-List-Received-Date: Mon, 26 Mar 2012 18:49:44 -0000
+Content-Type: text/plain; charset=ISO-8859-1
 Content-Transfer-Encoding: 7bit
 
-On 12-03-26 01:29 PM, Martin Jansa wrote:
-> Signed-off-by: Martin Jansa<Martin.Jansa@gmail.com>
-> ---
->   meta/classes/kernel.bbclass |    2 +-
->   1 files changed, 1 insertions(+), 1 deletions(-)
->
-> diff --git a/meta/classes/kernel.bbclass b/meta/classes/kernel.bbclass
-> index 6633b85..3519e7c 100644
-> --- a/meta/classes/kernel.bbclass
-> +++ b/meta/classes/kernel.bbclass
-> @@ -207,7 +207,7 @@ kernel_do_configure() {
->   	# $ scripts/setlocalversion . =>  +
->   	# $ make kernelversion =>  2.6.37
->   	# $ make kernelrelease =>  2.6.37+
-> -	touch ${B}/.scmversion
-> +	touch ${B}/.scmversion ${S}/.scmversion
 
-Acked-by: Bruce Ashfield <bruce.ashfield@windriver.com>
 
-I had the same patch here, and was about to send it. I blame my
-slow builder :P
+On 03/26/2012 10:13 AM, Tom Rini wrote:
 
-Cheers,
+> 
+> I think for the upcoming release, =+ is good enough and we can talk
+> about adding further variables after if it's still too complicated.  So,
+> now where's the repo that documenting these examples should go in?
+> 
 
-Bruce
+You want to talk to Scott Rifenbark, on CC.
 
->
->   	# Copy defconfig to .config if .config does not exist. This allows
->   	# recipes to manage the .config themselves in do_configure_prepend().
-
+-- 
+Darren Hart
+Intel Open Source Technology Center
+Yocto Project - Linux Kernel
 
 
