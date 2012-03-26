@@ -1,40 +1,28 @@
-Received: from mail-wg0-f43.google.com ([74.125.82.43])
+Received: from vms173021pub.verizon.net ([206.46.173.21])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <martin.jansa@gmail.com>) id 1SCFGA-00051l-J9
+	(envelope-from <denis@denix.org>) id 1SCFms-0005MC-Gw
 	for openembedded-core@lists.openembedded.org;
-	Mon, 26 Mar 2012 21:07:18 +0200
-Received: by wgbdr12 with SMTP id dr12so3756899wgb.24
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 26 Mar 2012 11:58:18 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=date:from:to:cc:subject:message-id:references:mime-version
-	:content-type:content-disposition:in-reply-to:user-agent;
-	bh=kn4uOCzEZ0KUHMjTHgzPux4ttwpZBBA1OOtN/mZB2T4=;
-	b=FBmj4YT/HX3ajo1p3gh6mbwCgVRJmuWn70rw8GgKQPXYPArq51TMPJlUDjBQK4jQrP
-	bQe3gkgjMj6c1a7qLJlQCDU9Q3iJCkkae4EXLq0eHadwIBzcNJ7kE/xggYbxD+YGDUOK
-	rJpgnbSN/sKKelOcorbWXF4aHkhmTHbk0m0704+vLQHMtjMiJVzJv8j6st/4ry8qEiP4
-	SsQ/l//pxhOeUM6ChT9YNO0k1Mz6FM0t9xNx1ZqIs0ONxOcmmKPQl/fJ0WAmfeF8Ko/Y
-	t9y/5fIEvcOOEltW0QtJv4t8jjZE5dP3IpYQ42gRiaDiLrbh3EylJOGa0QWStrHLCc3N
-	GD7g==
-Received: by 10.180.94.33 with SMTP id cz1mr21106230wib.13.1332788298612;
-	Mon, 26 Mar 2012 11:58:18 -0700 (PDT)
-Received: from localhost ([94.230.152.246])
-	by mx.google.com with ESMTPS id fw5sm43020987wib.0.2012.03.26.11.58.16
-	(version=TLSv1/SSLv3 cipher=OTHER);
-	Mon, 26 Mar 2012 11:58:17 -0700 (PDT)
-Date: Mon, 26 Mar 2012 20:58:15 +0200
-From: Martin Jansa <martin.jansa@gmail.com>
-To: Darren Hart <dvhart@linux.intel.com>
-Message-ID: <20120326185815.GA18447@jama.jama.net>
-References: <dc50f1d1204c1c48d8d4a5acb40edf619b306522.1332507302.git.Martin.Jansa@gmail.com>
-	<4e31dfddbb238cd5e3c2ce19a49996e113419212.1332507302.git.Martin.Jansa@gmail.com>
-	<4F70B998.3070405@linux.intel.com>
-MIME-Version: 1.0
-In-Reply-To: <4F70B998.3070405@linux.intel.com>
-User-Agent: Mutt/1.5.21 (2010-09-15)
-Cc: Patches and discussions about the oe-core layer
+	Mon, 26 Mar 2012 21:41:06 +0200
+Received: from gandalf.denix.org ([unknown] [71.178.225.66])
+	by vms173021.mailsrvcs.net
+	(Sun Java(tm) System Messaging Server 7u2-7.02 32bit (built Apr 16
+	2009)) with ESMTPA id <0M1I002SVBL2JQO0@vms173021.mailsrvcs.net> for
+	openembedded-core@lists.openembedded.org;
+	Mon, 26 Mar 2012 14:31:50 -0500 (CDT)
+Received: by gandalf.denix.org (Postfix, from userid 1000)	id E18FA201CB; Mon,
+	26 Mar 2012 15:31:49 -0400 (EDT)
+Date: Mon, 26 Mar 2012 15:31:49 -0400
+From: Denys Dmytriyenko <denis@denix.org>
+To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 2/6] kernel.bbclass: use symlinks for modutils files
+Message-id: <20120326193149.GA3368@denix.org>
+References: <1332524132-24689-1-git-send-email-trini@ti.com>
+	<1332753313.28414.91.camel@ted> <20120326162531.GD21518@bill-the-cat>
+	<1332780976.28414.130.camel@ted> <20120326171359.GE21518@bill-the-cat>
+MIME-version: 1.0
+In-reply-to: <20120326171359.GE21518@bill-the-cat>
+User-Agent: Mutt/1.5.20 (2009-06-14)
+Subject: Re: [PATCH] qemu.inc: Use '=' for IMAGE_FSTYPES
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -49,76 +37,97 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 26 Mar 2012 19:07:18 -0000
-X-Groupsio-MsgNum: 19773
-Content-Type: multipart/signed; micalg=pgp-sha1;
-	protocol="application/pgp-signature"; boundary="YiEDa0DAkWCtVeE4"
-Content-Disposition: inline
+X-List-Received-Date: Mon, 26 Mar 2012 19:41:06 -0000
+Content-type: text/plain; charset=us-ascii
+Content-disposition: inline
 
---YiEDa0DAkWCtVeE4
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+On Mon, Mar 26, 2012 at 10:13:59AM -0700, Tom Rini wrote:
+> On Mon, Mar 26, 2012 at 05:56:16PM +0100, Richard Purdie wrote:
+> > On Mon, 2012-03-26 at 09:25 -0700, Tom Rini wrote:
+> > > On Mon, Mar 26, 2012 at 10:15:13AM +0100, Richard Purdie wrote:
+> > > > On Fri, 2012-03-23 at 10:35 -0700, Tom Rini wrote:
+> > > > > As per
+> > > > > http://lists.linuxtogo.org/pipermail/openembedded-core/2012-March/019772.html
+> > > > > a machine conf file should use '=' to set IMAGE_FSTYPES.
+> > > > > 
+> > > > > Signed-off-by: Tom Rini <trini@ti.com>
+> > > > > ---
+> > > > >  meta/conf/machine/include/qemu.inc |    2 +-
+> > > > >  1 files changed, 1 insertions(+), 1 deletions(-)
+> > > > 
+> > > > As someone pointed out, what I mentioned in that email sadly doesn't
+> > > > work although it would be nice if they did. I suspect this is why we're
+> > > > using += since:
+> > > 
+> > > We aren't using += today.  We (openembedded-core) use ?=.  meta-intel
+> > > uses += and meta-ti is mixed (and I don't have meta-fsl-* handy).
+> > > 
+> > > > > - The machine needs to say 'I need or support the following formats'
+> > > > 
+> > > > so the machine ensures those formats exist at a minimum:
+> > > > 
+> > > > IMAGE_FSTYPES += "xxxx"
+> > > > 
+> > > > > - The distro needs to say 'I always want format X'
+> > > > 
+> > > > so the distro can do:
+> > > > 
+> > > > IMAGE_FSTYPES += " yyy"
+> > > > 
+> > > > > - The user needs to say 'I know best, give me only format X'
+> > > > 
+> > > > This one is the problem case so the user has to use overrides:
+> > > > 
+> > > > IMAGE_FSTYPES_override = "X"
+> > > > 
+> > > > (where override can be MACHINE or forcevariable)
+> > > > 
+> > > > > - The user needs to say 'I know best, give me what you support + X'
+> > > > 
+> > > > IMAGE_FSTYPES += " X"
+> > > > 
+> > > > 
+> > > > Whilst I think that is less than ideal since it forces use of overrides
+> > > > in local.conf to override, changing the += in machine conf files doesn't
+> > > > gain us much, it just breaks += in local.conf.
+> > > > 
+> > > > I'm open to other feedback though...
+> > > 
+> > > Well, I suggested ??= / ?= and posted some results from bitbake -e...
+> > 
+> > Ok. += plays out as above. I realise its not what is in qemu.inc, it is
+> > used in meta-intel though which I looked at after qemu.inc and I guess
+> > has confused me.
+> > 
+> > With ?= in machine.conf:
+> > 
+> > The user defined IMAGE_FSTYPES would override the machine ones. Distro
+> > can still append to it. The downside is a user append would not work out
+> > as expected.
+> > 
+> > So the question is which is the more user expected behaviour?
+> > 
+> > =+ makes overwriting IMAGE_FSTYPES hard
+> > 
+> > ?= makes appending IMAGE_FSTYPES hard
+> > 
+> > I suspect a user is more likely to want to append than overwrite.
+> > Getting an append to work with ?= is extremely non-obvious, even worse
+> > syntax than the =+ overwriting case with overrides.
+> > 
+> > So bottom line, I'm tempted to recommend we use =+.
+> 
+> I think for the upcoming release, =+ is good enough and we can talk
+> about adding further variables after if it's still too complicated.  So,
+> now where's the repo that documenting these examples should go in?
 
-On Mon, Mar 26, 2012 at 11:46:48AM -0700, Darren Hart wrote:
-> What is the motivation?
+So, did we come full circle on this? :) Started here:
+https://lists.yoctoproject.org/pipermail/meta-ti/2012-March/000779.html
 
-RP's review comment.
-=20
-> On 03/23/2012 05:56 AM, Martin Jansa wrote:
-> > Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
-> > ---
-> >  meta/classes/kernel.bbclass |    8 +++-----
-> >  1 files changed, 3 insertions(+), 5 deletions(-)
-> >=20
-> > diff --git a/meta/classes/kernel.bbclass b/meta/classes/kernel.bbclass
-> > index 975ae13..54ed7f7 100644
-> > --- a/meta/classes/kernel.bbclass
-> > +++ b/meta/classes/kernel.bbclass
-> > @@ -407,16 +407,14 @@ python populate_packages_prepend () {
-> >  		# appropriate modprobe commands to the postinst
-> >  		autoload =3D d.getVar('module_autoload_%s' % basename, True)
-> >  		if autoload:
-> > -			name =3D '%s/etc/modutils/%s' % (dvar, basename)
-> > -			f =3D open(name, 'w')
-> > -			for m in autoload.split():
-> > -				f.write('%s\n' % m)
-> > -			f.close()
-> >  			name =3D '%s/etc/modules-load.d/%s.conf' % (dvar, basename)
-> >  			f =3D open(name, 'w')
-> >  			for m in autoload.split():
-> >  				f.write('%s\n' % m)
-> >  			f.close()
-> > +			modutils_name =3D '%s/etc/modutils/%s' % (dvar, basename)
-> > +			modutils_target =3D '../modules-load.d/%s.conf' % (basename)
-> > +			os.symlink(modutils_target, modutils_name)
->=20
-> This basically undoes what was added in 1/2 and replaces it with
-> symblinks right?
->=20
-> If so, just do it as symlinks in the first place.
+I'm fine changing it for meta-ti, if we agree on a unified solution. Having an 
+EXTRA/MACHINE var for that in the future might simplify things...
 
-I have't squashed them because=20
-[PATCH 1/6] kernel.bbclass: populate /etc/modules-load.d/ with module_autol=
-oad
-was already applied to meta-oe's kernel.bbclass copy, before I got RP's
-review this patchset here, so I wanted to keep those patches 1to1.
+-- 
+Denys
 
-Cheers,
 
---=20
-Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
-
---YiEDa0DAkWCtVeE4
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: Digital signature
-
------BEGIN PGP SIGNATURE-----
-Version: GnuPG v2.0.18 (GNU/Linux)
-
-iEYEARECAAYFAk9wvEcACgkQN1Ujt2V2gBwI7QCfbbHTv/NhRAhncBGa5eGnD9kj
-wKQAoICwKU8NJKx8xYeTNl4VJ9cf/M6O
-=K1K9
------END PGP SIGNATURE-----
-
---YiEDa0DAkWCtVeE4--
