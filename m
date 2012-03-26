@@ -1,16 +1,16 @@
 Received: from mga09.intel.com ([134.134.136.24])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <dvhart@linux.intel.com>) id 1SCEmK-0004Ff-D6
+	(envelope-from <dvhart@linux.intel.com>) id 1SCEqX-0004J5-6z
 	for openembedded-core@lists.openembedded.org;
-	Mon, 26 Mar 2012 20:36:28 +0200
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-	by orsmga102.jf.intel.com with ESMTP; 26 Mar 2012 11:27:27 -0700
+	Mon, 26 Mar 2012 20:40:49 +0200
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+	by orsmga102.jf.intel.com with ESMTP; 26 Mar 2012 11:31:48 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.67,351,1309762800"; d="scan'208";a="125294166"
+X-IronPort-AV: E=Sophos;i="4.67,352,1309762800"; d="scan'208";a="121860035"
 Received: from unknown (HELO envy.home) ([10.7.199.147])
-	by orsmga002.jf.intel.com with ESMTP; 26 Mar 2012 11:27:27 -0700
-Message-ID: <4F70B4E3.700@linux.intel.com>
-Date: Mon, 26 Mar 2012 11:26:43 -0700
+	by orsmga001.jf.intel.com with ESMTP; 26 Mar 2012 11:31:48 -0700
+Message-ID: <4F70B5E8.10101@linux.intel.com>
+Date: Mon, 26 Mar 2012 11:31:04 -0700
 From: Darren Hart <dvhart@linux.intel.com>
 User-Agent: Mozilla/5.0 (X11; Linux x86_64;
 	rv:10.0.1) Gecko/20120209 Thunderbird/10.0.1
@@ -18,10 +18,10 @@ MIME-Version: 1.0
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
 References: <cover.1332744104.git.sgw@linux.intel.com>
-	<364f6a61d06cecb52e21639dc69f292a4b8a3591.1332744104.git.sgw@linux.intel.com>
-In-Reply-To: <364f6a61d06cecb52e21639dc69f292a4b8a3591.1332744104.git.sgw@linux.intel.com>
+	<6a68cf7d22e94be417215b12cac4cf1c5b9baefa.1332744104.git.sgw@linux.intel.com>
+In-Reply-To: <6a68cf7d22e94be417215b12cac4cf1c5b9baefa.1332744104.git.sgw@linux.intel.com>
 X-Enigmail-Version: 1.4
-Subject: Re: [Build App RFC 3/5] boot-directdisk: Fix Block Calcuation
+Subject: Re: [Build App RFC 4/5] vmdk: Update for direstdisk
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -36,75 +36,73 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 26 Mar 2012 18:36:28 -0000
+X-List-Received-Date: Mon, 26 Mar 2012 18:40:49 -0000
 Content-Type: text/plain; charset=ISO-8859-1
 Content-Transfer-Encoding: 7bit
 
+The conversion to directdisk is necessary due to the limitation in the
+mkdosfs version we carry and larger filesystems. Please note in the
+commit message so readers can know WHY the change was made.
 
 
 On 03/25/2012 11:47 PM, Saul Wold wrote:
-> This also changes the timeout to be settable
-> 
-> The block calcuation was not correctly rounding, see comment
-> 
-> Thanks to Darren Hart for fixing this.
-> 
-> Cc: Darren Hart <dvhart@linux.intel.com>
-
-Thanks, but be sure to use the option to get that added to actual email
-header :-)  That's "-c" for the send-pull-request script.
-
---
-Darren
-
 > Signed-off-by: Saul Wold <sgw@linux.intel.com>
 > ---
->  meta/classes/boot-directdisk.bbclass |   19 +++++++++++++------
->  1 files changed, 13 insertions(+), 6 deletions(-)
+>  meta/classes/image-vmdk.bbclass |   15 ++++++++++++---
+>  1 files changed, 12 insertions(+), 3 deletions(-)
 > 
-> diff --git a/meta/classes/boot-directdisk.bbclass b/meta/classes/boot-directdisk.bbclass
-> index 893164f..e9e1ba3 100644
-> --- a/meta/classes/boot-directdisk.bbclass
-> +++ b/meta/classes/boot-directdisk.bbclass
-> @@ -37,9 +37,8 @@ BOOTDD_EXTRA_SPACE ?= "16384"
->  # Get the build_syslinux_cfg() function from the syslinux class
+> diff --git a/meta/classes/image-vmdk.bbclass b/meta/classes/image-vmdk.bbclass
+> index 9d596cd..736d1d7 100644
+> --- a/meta/classes/image-vmdk.bbclass
+> +++ b/meta/classes/image-vmdk.bbclass
+> @@ -1,15 +1,23 @@
 >  
->  AUTO_SYSLINUXCFG = "1"
-> -LABELS = "boot"
->  SYSLINUX_ROOT ?= "root=/dev/sda2"
-> -SYSLINUX_TIMEOUT = "10" # 1 second
-> +SYSLINUX_TIMEOUT ?= "10"
->  
->  SYSLINUXCFG  = "${HDDDIR}/syslinux.cfg"
->  SYSLINUXMENU = "${HDDDIR}/menu"
-> @@ -55,15 +54,23 @@ build_boot_dd() {
->  	install -m 444 ${STAGING_LIBDIR}/syslinux/ldlinux.sys ${HDDDIR}/ldlinux.sys
->  
->  	BLOCKS=`du -bks ${HDDDIR} | cut -f 1`
-> -	SIZE=`expr $BLOCKS + ${BOOTDD_EXTRA_SPACE}`
-> +	BLOCKS=`expr $BLOCKS + ${BOOTDD_EXTRA_SPACE}`
+>  NOISO = "1"
 > +
-> +	# Ensure total sectors is an integral number of sectors per
-> +	# track or mcopy will complain. Sectors are 512 bytes, and we
-> +	# generate images with 32 sectors per track. This calculation is
-> +	# done in blocks, thus the mod by 16 instead of 32.
-> +	BLOCKS=$(expr $BLOCKS + $(expr 16 - $(expr $BLOCKS % 16)))
+> +SYSLINUX_ROOT = "root=/dev/hda2 "
+>  SYSLINUX_PROMPT = "0"
+>  SYSLINUX_TIMEOUT = "1"
+>  SYSLINUX_LABELS = "boot"
+> +LABELS_append = " ${SYSLINUX_LABELS} "
 > +
-> +	mkdosfs -n ${BOOTDD_VOLUME_ID} -S 512 -C ${HDDIMG} $BLOCKS 
-> +	mcopy -i ${HDDIMG} -s ${HDDDIR}/* ::/
+> +# need to define the dependency and the ROOTFS for directdisk
+> +do_bootdirectdisk[depends] += "${IMAGE_BASENAME}:do_rootfs"
+> +ROOTFS ?= "${DEPLOY_DIR_IMAGE}/${IMAGE_BASENAME}-${MACHINE}.ext3"
 >  
-> -	mkdosfs -n ${BOOTDD_VOLUME_ID} -d ${HDDDIR} -C ${HDDIMG} $SIZE 
->  	syslinux ${HDDIMG}
->  	chmod 644 ${HDDIMG}
+>  # creating VMDK relies on having a live hddimg so ensure we
+>  # inherit it here.
+> -inherit image-live
+> +#inherit image-live
+
+
+A development artifact I presume? No need to leave the old image type
+commented out. Should probably also remove the comment as with
+directdisk that is no longer the case - right?
+
+
+> +inherit boot-directdisk
 >  
->  	ROOTFSBLOCKS=`du -Lbks ${ROOTFS} | cut -f 1`
-> -	TOTALSIZE=`expr $SIZE + $ROOTFSBLOCKS`
-> -	END1=`expr $SIZE \* 1024`
-> +	TOTALSIZE=`expr $BLOCKS + $ROOTFSBLOCKS`
-> +	END1=`expr $BLOCKS \* 1024`
->  	END2=`expr $END1 + 512`
->  	END3=`expr \( $ROOTFSBLOCKS \* 1024 \) + $END1`
+>  create_vmdk_image () {
+> -	qemu-img convert -O vmdk ${DEPLOY_DIR_IMAGE}/${IMAGE_NAME}.hddimg ${DEPLOY_DIR_IMAGE}/${IMAGE_NAME}.vmdk
+> +	qemu-img convert -O vmdk ${DEPLOY_DIR_IMAGE}/${IMAGE_NAME}.hdddirect ${DEPLOY_DIR_IMAGE}/${IMAGE_NAME}.vmdk
+>  	ln -s ${IMAGE_NAME}.vmdk ${DEPLOY_DIR_IMAGE}/${IMAGE_LINK_NAME}.vmdk
 >  
+>  }
+> @@ -18,7 +26,8 @@ python do_vmdkimg() {
+>          bb.build.exec_func('create_vmdk_image', d)
+>  }
+>  
+> -addtask vmdkimg after do_bootimg before do_build
+> +#addtask vmdkimg after do_bootimg before do_build
+
+Ditto.
+
+> +addtask vmdkimg after do_bootdirectdisk before do_build
+>  do_vmdkimg[nostamp] = "1"
+>  
+>  do_vmdkimg[depends] += "qemu-native:do_populate_sysroot" 
+
+Thanks,
 
 -- 
 Darren Hart
