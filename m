@@ -1,26 +1,35 @@
-Received: from mga09.intel.com ([134.134.136.24])
-	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <paul.eggleton@linux.intel.com>) id 1SCBgS-0000uB-Hi
-	for openembedded-core@lists.openembedded.org;
-	Mon, 26 Mar 2012 17:18:12 +0200
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-	by orsmga102.jf.intel.com with ESMTP; 26 Mar 2012 08:09:11 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.67,351,1309762800"; d="scan'208";a="125224397"
-Received: from unknown (HELO helios.localnet) ([10.252.123.240])
-	by orsmga002.jf.intel.com with ESMTP; 26 Mar 2012 08:09:11 -0700
-From: Paul Eggleton <paul.eggleton@linux.intel.com>
-To: Andreas Oberritter <obi@opendreambox.org>
-Date: Mon, 26 Mar 2012 16:09:09 +0100
-Message-ID: <1380334.QcVfQnLvhe@helios>
-Organization: Intel Corporation
-User-Agent: KMail/4.8.0 (Linux/3.0.0-16-generic-pae; KDE/4.8.1; i686; ; )
-In-Reply-To: <4F7083DD.8020003@opendreambox.org>
-References: <1332250625-18091-1-git-send-email-obi@opendreambox.org>
-	<5951957.sAPiJHEkf3@helios> <4F7083DD.8020003@opendreambox.org>
-MIME-Version: 1.0
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH] scripts/bitbake: Allow to override path to pseudodone, make BUILDDIR optional
+Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
+	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <richard.purdie@linuxfoundation.org>)
+	id 1SCBjs-0000yH-OU for openembedded-core@lists.openembedded.org;
+	Mon, 26 Mar 2012 17:21:44 +0200
+Received: from localhost (localhost [127.0.0.1])
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q2QFCiKQ028367;
+	Mon, 26 Mar 2012 16:12:44 +0100
+Received: from tim.rpsys.net ([127.0.0.1])
+	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
+	port 10024) with LMTP
+	id 27512-08; Mon, 26 Mar 2012 16:12:40 +0100 (BST)
+Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q2QFCZde028361
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO);
+	Mon, 26 Mar 2012 16:12:36 +0100
+Message-ID: <1332774755.28414.118.camel@ted>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Date: Mon, 26 Mar 2012 16:12:35 +0100
+In-Reply-To: <1332772627.14363.1051.camel@phil-desktop>
+References: <1332694123-5078-1-git-send-email-raj.khem@gmail.com>
+	<1332759689.28414.104.camel@ted>
+	<1332759991.14363.1027.camel@phil-desktop>
+	<1332760875.28414.107.camel@ted>
+	<CAMKF1srb0tARAVLZKKvPoUCNQ5PVsBC-AEa0dLiw-3e7GaAEzA@mail.gmail.com>
+	<1332772627.14363.1051.camel@phil-desktop>
+X-Mailer: Evolution 3.2.2- 
+Mime-Version: 1.0
+X-Virus-Scanned: amavisd-new at rpsys.net
+Subject: Re: [PATCH] tune/armv7: Add -mthumb to TUNE_CCARGS
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -35,34 +44,42 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 26 Mar 2012 15:18:12 -0000
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
+X-List-Received-Date: Mon, 26 Mar 2012 15:21:45 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-On Monday 26 March 2012 16:57:33 Andreas Oberritter wrote:
-> I'm not convinced. If I delete tmp, pseudo gets deleted, but pseudodone
-> stays. In my opinion, pseudodone's intuitive location is tmp, if the
-> location of tmp is known - which it is in my case.
+On Mon, 2012-03-26 at 15:37 +0100, Phil Blundell wrote:
+> On Mon, 2012-03-26 at 07:13 -0700, Khem Raj wrote:
+> > On Mon, Mar 26, 2012 at 4:21 AM, Richard Purdie
+> > <richard.purdie@linuxfoundation.org> wrote:
+> > > On Mon, 2012-03-26 at 12:06 +0100, Phil Blundell wrote:
+> > >> On Mon, 2012-03-26 at 12:01 +0100, Richard Purdie wrote:
+> > >> > Looking at this file, if the above is true and armv7 can't do anything
+> > >> > other than thumb, shouldn't we just delete the non-thumb configurations
+> > >> > for "armv7"?
+> > >>
+> > >> It's not totally obvious to me that having a "lowest common denominator"
+> > >> configuration for ARMv7 is really all that valuable.  In fact I would be
+> > >> slightly surprised if anybody is targetting ARMv7-M with OE at all.
+> > >> What's the use-case for that?
+> > >
+> > > I have no idea, it appears the file doesn't make a lot of sense...
+> > >
+> > 
+> > on second thought I think we should delete this tune file since its
+> > somewhat useless.
+> 
+> Yes, agreed.  It looks like Richard added it originally so, if he
+> doesn't know ( / has forgotten) what it's good for I would guess that
+> nobody does.
 
-pseudodone exists so that the script does not have to ask bitbake every time 
-it is run where to find the pseudo executable (i.e., STAGING_BINDIR_NATIVE). 
-Now, at the moment the script is lazy and assumes if the file doesn't exist 
-then it needs to build pseudo even if that isn't needed. I have a fix for this 
-already, so this problem is taken care of.
- 
-> Can you please at least put $BUILDDIR/pseudodone into a variable, so I
-> can keep my patch small and maintainable?
-
-If the above is fixed and you can move freely between build directories without 
-re-running a setup script, then unless I'm mistaken your immediate problems 
-have now been addressed...?
+I was proxy for the tune file rewrite, I wasn't responsible for all the
+details. I'm find with removing it assuming nobody objects. I'm cc'ing
+Mark in case he remembers anything I don't.
 
 Cheers,
-Paul
 
--- 
+Richard 
 
-Paul Eggleton
-Intel Open Source Technology Centre
 
 
