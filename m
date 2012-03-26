@@ -1,34 +1,36 @@
 Received: from mail-we0-f175.google.com ([74.125.82.175])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <martin.jansa@gmail.com>) id 1SC9An-0002wy-1l
+	(envelope-from <s.stirtzel@googlemail.com>) id 1SC9Ui-00038M-O0
 	for openembedded-core@lists.openembedded.org;
-	Mon, 26 Mar 2012 14:37:21 +0200
-Received: by wera1 with SMTP id a1so4127450wer.6
+	Mon, 26 Mar 2012 14:57:56 +0200
+Received: by wera1 with SMTP id a1so4141179wer.6
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 26 Mar 2012 05:28:21 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=from:to:cc:subject:date:message-id:x-mailer:in-reply-to:references;
-	bh=B7n7KTZx75H+HL/wKVlEs7Q40GCKmTaClLzQe2b2K1g=;
-	b=I23GYhhp+Lq/dSiSKIQ8te2XT1cnFodo2EZKMW9AA+VydF7n3e7QnHJlziyGbUXA+o
-	FJ9RZ7ilEfYxenKwg46qVUCK2u23O4tv14JHb626A5I2mID6XZcvQDAKGaytTPf0s093
-	9jYge828YCtaVnPR0cXegx7xh2Q0y22ZtfXnj8gSqOk85jWaJnC+HiS1aNkANTsvzNgJ
-	U9qVuggmAkt5KaQB6nGi46iJ5mCeOkmA3TQ7pmTrJCkT3Xj40VO/glsaXzvunq4a+zcB
-	GEojqrTRxXrgQ24tsi/2cfIwmxbinkKryLEX9cem/hsefVvbQhRQEbqnmZhUstRXgCGb
-	2FSA==
-Received: by 10.180.88.67 with SMTP id be3mr17996024wib.20.1332764901577;
-	Mon, 26 Mar 2012 05:28:21 -0700 (PDT)
-Received: from localhost ([94.230.152.246])
-	by mx.google.com with ESMTPS id fn2sm66635879wib.0.2012.03.26.05.28.20
-	(version=TLSv1/SSLv3 cipher=OTHER);
-	Mon, 26 Mar 2012 05:28:20 -0700 (PDT)
-From: Martin Jansa <martin.jansa@gmail.com>
+	Mon, 26 Mar 2012 05:48:57 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=googlemail.com; s=20120113;
+	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
+	:content-type:content-transfer-encoding;
+	bh=U9uHWJN6cZpaxFMfjL9qK9X79GUUKh/jb+9+mPdpyxs=;
+	b=GY7AIcpU41EjoyM7T0zi5TFFU1aTVtM1vpVLoryw5EqugC0Mo8F4tKR/UrnTNwlgsa
+	DoDT2HK7JscPkQTa3dbb+BOvGvf0f4P2brJLRFb1VmYB3V4dVpkT5n7dPaO0pTnzvNAW
+	JjLhJiZlnUlcTHPsUBXIpJ0q1ahrVtPUef4jUHCZGgKYC+SbH8nMcN9+ZpMyz+ZgfMGA
+	m0QXPYSvERvupt5OyooMSJDjlpEaJM3CZcf/2P2QXmb88TcXopqD7R68yJBp5pLUfRfD
+	nfYKr+hD5ZmpwA1sYfGCuK1XuHjnt2SqcRSORNjhnhnj4mpOHQXeIsbNfG9vVJyWCS7Q
+	pklw==
+MIME-Version: 1.0
+Received: by 10.180.100.2 with SMTP id eu2mr18386432wib.1.1332766136994; Mon,
+	26 Mar 2012 05:48:56 -0700 (PDT)
+Received: by 10.223.97.77 with HTTP; Mon, 26 Mar 2012 05:48:56 -0700 (PDT)
+In-Reply-To: <27160280.DeolcF7eDi@helios>
+References: <CAGiJk9f9Mc06KbPVBcTFi_icr=P3ZGuBYrDT7oH+gC5dKVKpbA@mail.gmail.com>
+	<BFD998F2-6D5D-4E7D-8006-C133F0DF9C98@dominion.thruhere.net>
+	<CAGiJk9fNChJRLzHTLptShp+duFZy+o2bf_Enz6_kv_v-httwxg@mail.gmail.com>
+	<27160280.DeolcF7eDi@helios>
+Date: Mon, 26 Mar 2012 14:48:56 +0200
+Message-ID: <CAGiJk9cuP3=tc0Bv-Xw=8JZKcGrg4rvJurjtwxrj3HG1JS-knQ@mail.gmail.com>
+From: Samuel Stirtzel <s.stirtzel@googlemail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Mon, 26 Mar 2012 14:27:54 +0200
-Message-Id: <1332764874-19163-1-git-send-email-Martin.Jansa@gmail.com>
-X-Mailer: git-send-email 1.7.8.5
-In-Reply-To: <1332762240.28414.115.camel@ted>
-References: <1332762240.28414.115.camel@ted>
-Subject: [PATCHv2 08/10] libusb*: import native support from meta-oe
+Subject: Re: RFC: Porting KDE Plasma Active (WIP)
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -43,56 +45,72 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 26 Mar 2012 12:37:21 -0000
+X-List-Received-Date: Mon, 26 Mar 2012 12:57:56 -0000
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
-Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
----
- meta/recipes-support/libusb/libusb-compat_0.1.3.bb |    7 ++++---
- meta/recipes-support/libusb/libusb1_1.0.8.bb       |    2 ++
- 2 files changed, 6 insertions(+), 3 deletions(-)
+2012/3/1 Paul Eggleton <paul.eggleton@linux.intel.com>:
+> On Thursday 01 March 2012 15:15:11 Samuel Stirtzel wrote:
+>> For the packages kconfig_compiler (needs libkdecore) and
+>> makekdewidgets (needs libkdecore and libkdeui) it might work, as long
+>> as the programs got their libraries.
+>> Since building kdelibs native in OpenEmbedded would need a "full
+>> featured" Qt-native and the other dependencies it would cause a lot
+>> overhead.
+>> Building libkdecore and kconfig_compiler alone works, but libkdeui
+>> pulls "everything" else in.
+>
+> Ouch :( I can imagine trying to break these up would be quite tricky. Per=
+haps
+> it's something we have to live with for the time being. If we do rely on
+> external executables, then we should check and error out as early as poss=
+ible
+> if the required executables don't exist.
+>
+>> > No testlab in oe-core, but buildhistory pretty much does the same:
+>> > http://dominion.thruhere.net/koen/cms/the-testlab-strikes-again
+>> Thanks, I will look into that.
+>
+> FYI there's very basic documentation for buildhistory here:
+>
+> =C2=A0http://wiki.yoctoproject.org/wiki/Buildhistory
+>
+> Cheers,
+> Paul
+>
+> --
+>
+> Paul Eggleton
+> Intel Open Source Technology Centre
 
-diff --git a/meta/recipes-support/libusb/libusb-compat_0.1.3.bb b/meta/recipes-support/libusb/libusb-compat_0.1.3.bb
-index 43da5af..893bd68 100644
---- a/meta/recipes-support/libusb/libusb-compat_0.1.3.bb
-+++ b/meta/recipes-support/libusb/libusb-compat_0.1.3.bb
-@@ -12,10 +12,11 @@ DEPENDS = "libusb1"
- # so here libusb-0.1 is removed completely instead of adding virtual/libusb0.
- # Besides, libusb-0.1 uses a per 1ms polling that hurts a lot to power
- # consumption.
--PROVIDES = "libusb"
-+PROVIDES = "libusb virtual/libusb0"
-+BBCLASSEXTEND = "native nativesdk"
- 
- PE = "1"
--PR = "r4"
-+PR = "r5"
- 
- SRC_URI = "${SOURCEFORGE_MIRROR}/libusb/libusb-compat-${PV}.tar.bz2 \
-            file://0.1.0-beta1-gcc3.4-fix.patch"
-@@ -23,7 +24,7 @@ SRC_URI = "${SOURCEFORGE_MIRROR}/libusb/libusb-compat-${PV}.tar.bz2 \
- SRC_URI[md5sum] = "570ac2ea085b80d1f74ddc7c6a93c0eb"
- SRC_URI[sha256sum] = "a590a03b6188030ee1ca1a0af55685fcde005ca807b963970f839be776031d94"
- 
--inherit autotools pkgconfig binconfig
-+inherit autotools pkgconfig binconfig lib_package
- 
- EXTRA_OECONF = "--libdir=${base_libdir}"
- 
-diff --git a/meta/recipes-support/libusb/libusb1_1.0.8.bb b/meta/recipes-support/libusb/libusb1_1.0.8.bb
-index b8fa790..5a664ca 100644
---- a/meta/recipes-support/libusb/libusb1_1.0.8.bb
-+++ b/meta/recipes-support/libusb/libusb1_1.0.8.bb
-@@ -6,6 +6,8 @@ SECTION = "libs"
- LICENSE = "LGPLv2.1+"
- LIC_FILES_CHKSUM = "file://COPYING;md5=fbc093901857fcd118f065f900982c24"
- 
-+BBCLASSEXTEND = "native nativesdk"
-+
- PR = "r4"
- 
- SRC_URI = "${SOURCEFORGE_MIRROR}/libusb/libusb-${PV}.tar.bz2"
--- 
-1.7.8.5
+Sorry for the late answer,
+just wanted to say it worked, thanks both of you.
 
+Still working on Plasma Active, but many other things are finished.
+
+Most common applications work, for example:
+Calligra (not all of the toolkit), Kate, KCalc, Konqueror, Kwin &
+Kwin_gles (KDE window manager), Okular and the applications from
+KDE-baseapps.
+If anyone ever wanted to get a KDE application running on their
+OpenEmbedded device;
+Or better, ever wanted to do KDE development with OE, it now could be
+worth to try out meta-kde.
+
+Please note:
+* The meta-kde repository is still work in progress.
+* There is currently no mailing list hosting the meta-kde discussion,
+but this is subject to change.
+* The meta-kde layer could work with Poky too, please see the thread
+on the yocto mailing-list (coming soon).
+
+It would be nice if you'd like to test if meta-kde works for you,
+since it could be possible that some R-/DEPENDS are missing.
+E.g. if "bitbake konsole" just works.
+
+
+--=20
+Regards
+Samuel
 
 
