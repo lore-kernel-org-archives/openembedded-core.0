@@ -1,36 +1,41 @@
-Received: from mail.dream-property.net ([82.149.226.172])
+Received: from mail-wg0-f43.google.com ([74.125.82.43])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <obi@opendreambox.org>) id 1SCCHF-0001WY-Oq
+	(envelope-from <martin.jansa@gmail.com>) id 1SCCWM-00020Y-HL
 	for openembedded-core@lists.openembedded.org;
-	Mon, 26 Mar 2012 17:56:13 +0200
-Received: from localhost (localhost [127.0.0.1])
-	by mail.dream-property.net (Postfix) with ESMTP id 30A5D315A804;
-	Mon, 26 Mar 2012 17:47:16 +0200 (CEST)
-X-Virus-Scanned: Debian amavisd-new at mail.dream-property.net
-Received: from mail.dream-property.net ([127.0.0.1])
-	by localhost (mail.dream-property.net [127.0.0.1]) (amavisd-new,
-	port 10024)
-	with LMTP id tdgMEYNvjk8L; Mon, 26 Mar 2012 17:47:05 +0200 (CEST)
-Received: from [172.22.22.61] (drms-590c5e52.pool.mediaWays.net [89.12.94.82])
-	(using TLSv1 with cipher DHE-RSA-AES256-SHA (256/256 bits))
-	(No client certificate requested)
-	by mail.dream-property.net (Postfix) with ESMTPSA id 69EFC315A801;
-	Mon, 26 Mar 2012 17:47:05 +0200 (CEST)
-Message-ID: <4F708F78.4020502@opendreambox.org>
-Date: Mon, 26 Mar 2012 17:47:04 +0200
-From: Andreas Oberritter <obi@opendreambox.org>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:11.0) Gecko/20120310 Thunderbird/11.0
+	Mon, 26 Mar 2012 18:11:50 +0200
+Received: by wgbdr12 with SMTP id dr12so3629640wgb.24
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 26 Mar 2012 09:02:50 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=date:from:to:cc:subject:message-id:references:mime-version
+	:content-type:content-disposition:in-reply-to:user-agent;
+	bh=sLM2uPGupVVTKBpuVg/N8g/0eZC7do2nvUIj38Y3TA8=;
+	b=Pdf+vAZr4lkVdlPxQdPdwO5KUqsMya9fZl/zf5tG1z09fsm5zMRBPAFoU7RgFVB+j2
+	SKij6zH0k6+I4YCvaceXHV9pdyV7tGiMSw9NDwRWsmFYpeX4QjvxJxxzpkdAjOhKHV75
+	8ayxMyzTQcRVsozbOXu5wA6GJcdI+dwZYLFx+5OWGIaPgiMQn61F6TYY+ER9HMJ70lCL
+	UlsoAQ2GH616geJdb81Bu+E6raOBG1w1hAri7zsPIKT+WMgkyIb7h+k3AxN7EBitug4s
+	AVc5WwYrXgDNiAb5VDrFWRx/eouEK1aM7tec2awuzPttiiEXOIvkM7tG4IXiTXv+h9YQ
+	BDLA==
+Received: by 10.216.133.151 with SMTP id q23mr13080853wei.14.1332777770634;
+	Mon, 26 Mar 2012 09:02:50 -0700 (PDT)
+Received: from localhost ([94.230.152.246])
+	by mx.google.com with ESMTPS id k7sm68663352wia.5.2012.03.26.09.02.48
+	(version=TLSv1/SSLv3 cipher=OTHER);
+	Mon, 26 Mar 2012 09:02:49 -0700 (PDT)
+Date: Mon, 26 Mar 2012 18:02:46 +0200
+From: Martin Jansa <martin.jansa@gmail.com>
+To: Bruce Ashfield <bruce.ashfield@windriver.com>
+Message-ID: <20120326160246.GH3941@jama.jama.net>
+References: <cover.1332507302.git.Martin.Jansa@gmail.com>
+	<0f5173c469e4ae3e5155d5d3f0643d3a63e25b91.1332507302.git.Martin.Jansa@gmail.com>
+	<4F6C79A8.30403@windriver.com>
+	<20120323133102.GG3879@jama.jama.net>
 MIME-Version: 1.0
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-References: <1331345726-9577-1-git-send-email-obi@opendreambox.org>
-	<4F5E1672.7090706@windriver.com> <1331567634.15192.20.camel@ted>
-	<4F6CDA62.3070908@opendreambox.org>
-	<1332761648.28414.113.camel@ted>
-In-Reply-To: <1332761648.28414.113.camel@ted>
+In-Reply-To: <20120323133102.GG3879@jama.jama.net>
+User-Agent: Mutt/1.5.21 (2010-09-15)
 Cc: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] package_ipk: apply umask to control and conffiles
+Subject: Re: [PATCH 4/6] kernel.bbclass: fix extra + in kernelrelease
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -45,119 +50,114 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 26 Mar 2012 15:56:13 -0000
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Mon, 26 Mar 2012 16:11:50 -0000
+X-Groupsio-MsgNum: 19757
+Content-Type: multipart/signed; micalg=pgp-sha1;
+	protocol="application/pgp-signature"; boundary="k+G3HLlWI7eRTl+h"
+Content-Disposition: inline
 
-On 26.03.2012 13:34, Richard Purdie wrote:
-> On Fri, 2012-03-23 at 21:17 +0100, Andreas Oberritter wrote:
->> On 12.03.2012 16:53, Richard Purdie wrote:
->>> On Mon, 2012-03-12 at 10:29 -0500, Mark Hatle wrote:
->>>> On 3/9/12 8:15 PM, Andreas Oberritter wrote:
->>>>> * Explicitly set umask to 022. Otherwise the build system's
->>>>>    umask leaks into the image.
->>>>
->>>> I'm surprised that do_package_ipk[umask] didn't work.  Perhaps its the way it's 
->>>> being invoked that is the issue.  (If bitbake doesn't run it, but something else 
->>>> does.. then the umask setting doesn't get used.)
->>>>
->>>> As for the change of the umask, the changes appear to be specific to the ipk 
->>>> case.  Is this the desired behavior, or could deb and rpm suffer from similar 
->>>> issues?  (I'm not familiar enough with opkg to know how it handles umask 
->>>> settings during package install/rootfs construction..)
->>>>
->>>> I believe that RPM sets a default umask when it goes through it's package 
->>>> installs/rootfs generation.  But does DEB?
->>>
->>> I'm also a bit worried about this patch. I'd like to understand why a
->>> task level umask doesn't work. That shouldn't even make any difference
->>> since the permissions/owners/users from install should be getting
->>> used...
->>
->> can you please give some advise on how to continue with this issue?
-> 
-> I understand half the problem now, the files with the issues are ones
-> created during the package_ipk task. That addresses one of my big
-> concerns.
-> 
-> The second thing I'd like to understand is why a task level umask
-> doesn't resolve this. Looking at what you tried, this might be as simple
-> as a typo:
-> 
-> do_package_ipk[umask] = "022"
-> 
-> when you really want:
-> 
-> do_package_write_ipk[umask] = "022"
+--k+G3HLlWI7eRTl+h
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Richard,
+On Fri, Mar 23, 2012 at 02:31:02PM +0100, Martin Jansa wrote:
+> On Fri, Mar 23, 2012 at 09:24:56AM -0400, Bruce Ashfield wrote:
+> > On 12-03-23 08:56 AM, Martin Jansa wrote:
+> > > * see http://lists.linuxtogo.org/pipermail/openembedded-core/2011-Dec=
+ember/014308.html
+> >=20
+> > I was just looking at this in the past day or so and was
+> > wondering where it had gone. Saved me the effort!
+> >=20
+>=20
+> Please bump PR in kernel recipes you care about (I did for mine.. )
 
-thank you, that did it. It wasn't a typo, but lack of understanding of 
-the "magic" behind it, as I tried to apply the umask to the 
-do_package_ipk function instead of the do_package_write_ipk *task*.
+I was testing your patch
+"linux-yocto: common-pc: Add PCNET32 to the config"
+to see if this patch fixes + also in linux-yocto recipes and somehow it
+seems still keeping +
 
-Please see below for an updated patch.
+OE @ ~/shr-core/tmp-eglibc/work/qemux86_64-oe-linux/linux-yocto/linux-yocto=
+-3.2.11+git6+867fc7a19f2ea74253d1f20c3d61b7829635175b_4+4ca7e2c5d42e755e1b4=
+c3e1478128f047a8ed2a8-r1/linux-qemux86-64-standard-build
+$ ../linux/scripts/setlocalversion .
+-yocto-standard
 
-Regards,
-Andreas
+seems ok, but
+root@qemux86-64:/lib/modules# opkg files kernel-module-uvesafb
+Package kernel-module-uvesafb
+(3.2.11+git6+867fc7a19f2ea74253d1f20c3d61b7829635175b_4+4ca7e2c5d42e755e1b4=
+c3e1478128f047a8ed2a8-r1)
+is installed on root and has the following files:
+/lib/modules/
+/lib/modules/3.2.11-yocto-standard+/kernel/drivers/video/
+/lib/modules/3.2.11-yocto-standard+/kernel/drivers/video/uvesafb.ko
 
-> If that works, lets set this for deb and rpm too so we're consistent and
-> I'll merge that patch :)
+and also:
+OE @ ~/shr-core/tmp-eglibc/work/qemux86_64-oe-linux/linux-yocto/linux-yocto=
+-3.2.11+git6+867fc7a19f2ea74253d1f20c3d61b7829635175b_4+4ca7e2c5d42e755e1b4=
+c3e1478128f047a8ed2a8-r1/linux-qemux86-64-standard-build
+$ make kernelrelease
+  GEN
+/OE/shr-core/tmp-eglibc/work/qemux86_64-oe-linux/linux-yocto/linux-yocto-3.=
+2.11+git6+867fc7a19f2ea74253d1f20c3d61b7829635175b_4+4ca7e2c5d42e755e1b4c3e=
+1478128f047a8ed2a8-r1/linux-qemux86-64-standard-build/Makefile
+scripts/kconfig/conf --silentoldconfig Kconfig
+3.2.11-yocto-standard+
 
-From f9e4707d7a619e29530ac144ae1aba9d9e406884 Mon Sep 17 00:00:00 2001
-From: Andreas Oberritter <obi@opendreambox.org>
-Date: Sat, 10 Mar 2012 03:11:57 +0100
-Subject: [PATCH] package_{deb,ipk,rpm}: apply umask to files generated in
- do_package_write_{deb,ipk,rpm}
+Any idea why it doesn't work with linux-yocto layout and works with
+other kernels from git (tested on kernels from meta-smartphone).
 
-* Explicitly set umask to 022. Otherwise the build system's
-  umask may leak into the image.
+Cheers,
 
-Signed-off-by: Andreas Oberritter <obi@opendreambox.org>
----
- meta/classes/package_deb.bbclass |    1 +
- meta/classes/package_ipk.bbclass |    1 +
- meta/classes/package_rpm.bbclass |    1 +
- 3 files changed, 3 insertions(+), 0 deletions(-)
-
-diff --git a/meta/classes/package_deb.bbclass b/meta/classes/package_deb.bbclass
-index 1f7ec9c..9880258 100644
---- a/meta/classes/package_deb.bbclass
-+++ b/meta/classes/package_deb.bbclass
-@@ -421,6 +421,7 @@ python do_package_write_deb () {
- 	bb.build.exec_func("do_package_deb", d)
- }
- do_package_write_deb[dirs] = "${PKGWRITEDIRDEB}"
-+do_package_write_deb[umask] = "022"
- addtask package_write_deb before do_package_write after do_package
- 
- 
-diff --git a/meta/classes/package_ipk.bbclass b/meta/classes/package_ipk.bbclass
-index 565ef93..e4a217b 100644
---- a/meta/classes/package_ipk.bbclass
-+++ b/meta/classes/package_ipk.bbclass
-@@ -453,6 +453,7 @@ python do_package_write_ipk () {
- 	bb.build.exec_func("do_package_ipk", d)
- }
- do_package_write_ipk[dirs] = "${PKGWRITEDIRIPK}"
-+do_package_write_ipk[umask] = "022"
- addtask package_write_ipk before do_package_write after do_package
- 
- PACKAGEINDEXES += "package_update_index_ipk;"
-diff --git a/meta/classes/package_rpm.bbclass b/meta/classes/package_rpm.bbclass
-index e83fc55..daa9301 100644
---- a/meta/classes/package_rpm.bbclass
-+++ b/meta/classes/package_rpm.bbclass
-@@ -1056,6 +1056,7 @@ python do_package_write_rpm () {
- }
- 
- do_package_write_rpm[dirs] = "${PKGWRITEDIRRPM}"
-+do_package_write_rpm[umask] = "022"
- addtask package_write_rpm before do_package_write after do_package
- 
- PACKAGEINDEXES += "package_update_index_rpm; createrepo ${DEPLOY_DIR_RPM};"
--- 
-1.7.5.4
+>=20
+> > Acked-by: Bruce Ashfield <bruce.ashfield@windriver.com>
+> >=20
+> > >
+> > > Signed-off-by: Martin Jansa<Martin.Jansa@gmail.com>
+> > > ---
+> > >   meta/classes/kernel.bbclass |    6 ++++++
+> > >   1 files changed, 6 insertions(+), 0 deletions(-)
+> > >
+> > > diff --git a/meta/classes/kernel.bbclass b/meta/classes/kernel.bbclass
+> > > index 5e4cdd4..736768e 100644
+> > > --- a/meta/classes/kernel.bbclass
+> > > +++ b/meta/classes/kernel.bbclass
+> > > @@ -204,6 +204,12 @@ sysroot_stage_all_append() {
+> > >   }
+> > >
+> > >   kernel_do_configure() {
+> > > +	# fixes extra + in /lib/modules/2.6.37+
+> > > +	# $ scripts/setlocalversion . =3D>  +
+> > > +	# $ make kernelversion =3D>  2.6.37
+> > > +	# $ make kernelrelease =3D>  2.6.37+
+> > > +	touch ${B}/.scmversion
+> > > +
+> > >   	# Copy defconfig to .config if .config does not exist. This allows
+> > >   	# recipes to manage the .config themselves in do_configure_prepend=
+().
+> > >   	if [ -f "${WORKDIR}/defconfig" ]&&  [ ! -f "${B}/.config" ]; then
+> >=20
+>=20
+> --=20
+> Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
 
 
 
+--=20
+Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
+
+--k+G3HLlWI7eRTl+h
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: Digital signature
+
+-----BEGIN PGP SIGNATURE-----
+Version: GnuPG v2.0.18 (GNU/Linux)
+
+iEYEARECAAYFAk9wkyYACgkQN1Ujt2V2gBzLOQCghYxR+2xVE3KFyvWP/6G5hG2J
+0YIAnR5mqRl5NA81ABx1FP/aR5phP9Mr
+=frc4
+-----END PGP SIGNATURE-----
+
+--k+G3HLlWI7eRTl+h--
