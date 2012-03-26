@@ -1,37 +1,34 @@
-Received: from mail-qc0-f175.google.com ([209.85.216.175])
+Received: from mail-lb0-f175.google.com ([209.85.217.175])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <kergoth@gmail.com>) id 1SBtdR-0006i7-1M
+	(envelope-from <raj.khem@gmail.com>) id 1SC0oC-0005eB-6O
 	for openembedded-core@lists.openembedded.org;
-	Sun, 25 Mar 2012 22:01:53 +0200
-Received: by qcso7 with SMTP id o7so2838935qcs.6
+	Mon, 26 Mar 2012 05:41:28 +0200
+Received: by lbbgi4 with SMTP id gi4so3513809lbb.6
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 25 Mar 2012 12:52:53 -0700 (PDT)
+	Sun, 25 Mar 2012 20:32:29 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:sender:in-reply-to:references:from:date
-	:x-google-sender-auth:message-id:subject:to:cc:content-type
-	:content-transfer-encoding;
-	bh=SdU5xMlEry4+yscLgLwGFdX+EieO20J0xpy6RvqHRg4=;
-	b=DRwQabUXEAtPbBR6dN4r3IY3dNbj04DDonkoLW1dkTushNTaHi3C0sf/XxtpjsSMWz
-	OElOLC0BnJFryfjd6oqi4A2Nkh5kbakizK1YmtNniIMNC0TWjl+TSjntoK1Wdk9rw4Uo
-	YqiKK/tKaw7ownus5T4PztzOJTwWX5sHA7gpn5XaotV2Rcs3wasXvOwgBKBmPgeAQkUh
-	IwCyKJRe0E+RBhNxjD0O7ddJysETRsBoy2tvqqOuIj7g6/pbGZ9czk64V2rZpm2yMH0V
-	uJzrsD2L/vNjRuf3FyBDfnjJM9Zk8k0WIQ8Nji9xq2PWKCYNrpDYrPHwk2SMIkNM2QXB
-	qLig==
-Received: by 10.229.137.70 with SMTP id v6mr3320450qct.145.1332705173656; Sun,
-	25 Mar 2012 12:52:53 -0700 (PDT)
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc:content-type:content-transfer-encoding;
+	bh=ukeBtox6IXJ49O+AuKm9WsqRbCx9jUYCogyjNGsca+0=;
+	b=d4ukc/WQtrJkf34dDzr1C1aDW31aQQMU3UdZQNGr/AnaFnFZwdN38gfXSVKbKKeXIS
+	FjE+yngy2KOKG3sFabhN4AedYL8smY2xiHhwyc0KksYXoVGGYwIHZnqD4NdZYp1sqx3D
+	4XLpiLbswh1Trjy1I/0wn3zkCHGPrhYBcBveOPc3AjY1ac5JfMKCRssc6o12uSrdw2QN
+	7nvOm9WxAJZSrla5pafVgG/r4czYs+uprrLDfnvVg0h5fIQhQAaca0y90fts0PqxCSpy
+	jGgvkz6G9ndPngw74sut1PLnR89In7uSwqQB7Iagt2C8J9uph/+Y/MC9xRETWPAtmv8o
+	5C2A==
+Received: by 10.152.146.163 with SMTP id td3mr14831034lab.31.1332732748928;
+	Sun, 25 Mar 2012 20:32:28 -0700 (PDT)
 MIME-Version: 1.0
-Sender: kergoth@gmail.com
-Received: by 10.229.158.11 with HTTP; Sun, 25 Mar 2012 12:52:32 -0700 (PDT)
+Received: by 10.152.3.161 with HTTP; Sun, 25 Mar 2012 20:31:58 -0700 (PDT)
 In-Reply-To: <CAEsOVNc1KY0UW=dfDpsFRy_uiR83h=ar-jqd3y5+ktg8OZTmqQ@mail.gmail.com>
 References: <4DCCC4C4-51F4-43CF-ACF2-BF3D2BAD7BDC@dominion.thruhere.net>
 	<1332506475.9740.409.camel@ted>
 	<CAEsOVNfaP_NzdnigOOfgOcdhkHgQfEYVoS-K0pPn1dH4PdZpEQ@mail.gmail.com>
 	<20120323171347.GF9551@bill-the-cat>
 	<CAEsOVNc1KY0UW=dfDpsFRy_uiR83h=ar-jqd3y5+ktg8OZTmqQ@mail.gmail.com>
-From: Chris Larson <clarson@kergoth.com>
-Date: Sun, 25 Mar 2012 12:52:32 -0700
-X-Google-Sender-Auth: 0jlY1N-rlhEizPT5CNCVH1j0NzM
-Message-ID: <CABcZANnoLj1sASnhkvkUZTc4E7-iCQkmjFCE3-h9BmzpoOjoTA@mail.gmail.com>
+From: Khem Raj <raj.khem@gmail.com>
+Date: Sun, 25 Mar 2012 20:31:58 -0700
+Message-ID: <CAMKF1sqqHhtZ-Cd6KRoxnF5_yQ0JYjQBB4F3G_EiMryk2y-=EQ@mail.gmail.com>
 To: McClintock Matthew-B29882 <B29882@freescale.com>, 
 	Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
@@ -51,7 +48,7 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 25 Mar 2012 20:01:53 -0000
+X-List-Received-Date: Mon, 26 Mar 2012 03:41:29 -0000
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
 
@@ -120,14 +117,31 @@ ng
 > starts to take up a lot of space if we want to share this via ISOs
 > etc. I've been testing quite successfully with native cache that is
 > used on several distros. (We are just building it on an old distro).
+
+thats the key. You can build it on older distros and chances of those
+binaries running
+on newer distros are far more than building on fairly new distro and
+then trying to get the
+sstate working on newer distro
+
 > Maybe I'm getting completely lucky as well which would not surprise me
 > either.
+>
+> Another though is improving the initial user experience by pointing
+> the SSTATE_MIRROR to the autobuilder
 
-I really think in the long run maintaining solid chroots/vms for
-builds will be more sustainable than trying to pull that off. Then
-we'd know the native/cross shared states would be compatible with
-others using the standard setup.
---=20
-Christopher Larson
+and what if user has older distro than autobuilder. ?
+
+so the first builds go so much
+> faster (experienced users could turn it off). We would need some
+> policy of keeping around sstate-cache for releases and maybe keeping
+> the last month of sstate cache from the current builds.
+>
+> -M
+>
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
 
 
