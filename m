@@ -1,24 +1,36 @@
-Received: from mail.windriver.com ([147.11.1.11])
+Received: from mail-lpp01m010-f47.google.com ([209.85.215.47])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <bruce.ashfield@windriver.com>) id 1SCAa5-00087N-E8
+	(envelope-from <raj.khem@gmail.com>) id 1SCAoy-0008Lf-35
 	for openembedded-core@lists.openembedded.org;
-	Mon, 26 Mar 2012 16:07:34 +0200
-Received: from yow-bashfiel-l1.corp.ad.wrs.com
-	(yow-bashfiel-d3.ottawa.windriver.com [128.224.147.67])
-	by mail.windriver.com (8.14.3/8.14.3) with ESMTP id q2QDwNPL010189;
-	Mon, 26 Mar 2012 06:58:26 -0700 (PDT)
-From: Bruce Ashfield <bruce.ashfield@windriver.com>
-To: richard.purdie@linuxfoundation.org
-Date: Mon, 26 Mar 2012 09:57:58 -0400
-Message-Id: <4fafabde1f9e7d4ac9108f58219c28b5adc2f80b.1332770094.git.bruce.ashfield@windriver.com>
-X-Mailer: git-send-email 1.7.5.4
-In-Reply-To: <cover.1332770094.git.bruce.ashfield@windriver.com>
-References: <cover.1332770094.git.bruce.ashfield@windriver.com>
-In-Reply-To: <cover.1332770094.git.bruce.ashfield@windriver.com>
-References: <cover.1332770094.git.bruce.ashfield@windriver.com>
-Cc: dvhart@linux.intel.com, openembedded-core@lists.openembedded.org,
-	saul.wold@intel.com
-Subject: [PATCH 1/1] linux-yocto: common-pc: Add PCNET32 to the config
+	Mon, 26 Mar 2012 16:22:56 +0200
+Received: by lagw12 with SMTP id w12so3842677lag.6
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 26 Mar 2012 07:13:56 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:content-type:content-transfer-encoding;
+	bh=jAQZ7HesMuUxaBpx+gNvLHF4on+znN87buRdHt/m9PY=;
+	b=CbTrAX8njLaSNRC4LsSbAvfXnhc8RWphmZkYB9XzIu/PnvglMwaf4aaClRBCtUa7nl
+	rWbQalIrI+MlWcIEG0TEH2Pqz1KnnX8TD4YkJXu/nBtRRR9P5Es+UkGFGIZ3o0QI4vMQ
+	qhEjQLMq2nS416Zuvg6rMb9m7mPEAtEd4ThlqjVcB6OaBXPdyzTJfCWzM7M15fecaGaD
+	7D75T06AXf9F99BC7gri6qAbUdQFQpYwJD/Jk9vALVdhlRULpUkz1fcmy8vNdtmDvuu7
+	zhP9mXVHaX8lWwlt81mugHuvVjlhl2mS7aU+QBVkxMuwJXK0GSSXSDeDw9+IJtDRbtcp
+	Koxw==
+Received: by 10.112.83.105 with SMTP id p9mr8162581lby.43.1332771236332; Mon,
+	26 Mar 2012 07:13:56 -0700 (PDT)
+MIME-Version: 1.0
+Received: by 10.152.3.161 with HTTP; Mon, 26 Mar 2012 07:13:25 -0700 (PDT)
+In-Reply-To: <1332760875.28414.107.camel@ted>
+References: <1332694123-5078-1-git-send-email-raj.khem@gmail.com>
+	<1332759689.28414.104.camel@ted>
+	<1332759991.14363.1027.camel@phil-desktop>
+	<1332760875.28414.107.camel@ted>
+From: Khem Raj <raj.khem@gmail.com>
+Date: Mon, 26 Mar 2012 07:13:25 -0700
+Message-ID: <CAMKF1srb0tARAVLZKKvPoUCNQ5PVsBC-AEa0dLiw-3e7GaAEzA@mail.gmail.com>
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] tune/armv7: Add -mthumb to TUNE_CCARGS
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -33,54 +45,39 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 26 Mar 2012 14:07:34 -0000
+X-List-Received-Date: Mon, 26 Mar 2012 14:22:56 -0000
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
-Updating the meta SRCREV to pick up this commit:
+On Mon, Mar 26, 2012 at 4:21 AM, Richard Purdie
+<richard.purdie@linuxfoundation.org> wrote:
+> On Mon, 2012-03-26 at 12:06 +0100, Phil Blundell wrote:
+>> On Mon, 2012-03-26 at 12:01 +0100, Richard Purdie wrote:
+>> > Looking at this file, if the above is true and armv7 can't do anything
+>> > other than thumb, shouldn't we just delete the non-thumb configuration=
+s
+>> > for "armv7"?
+>>
+>> It's not totally obvious to me that having a "lowest common denominator"
+>> configuration for ARMv7 is really all that valuable. =C2=A0In fact I wou=
+ld be
+>> slightly surprised if anybody is targetting ARMv7-M with OE at all.
+>> What's the use-case for that?
+>
+> I have no idea, it appears the file doesn't make a lot of sense...
+>
 
-[
-    common-pc: Add PCNET32 to the config
+on second thought I think we should delete this tune file since its
+somewhat useless.
 
-    Qemu and VM Ware both support PCNET32 and the latter requires it for
-    32 bit images.
-
-    Signed-off-by: Darren Hart <dvhart@linux.intel.com>
-]
-
-Signed-off-by: Darren Hart <dvhart@linux.intel.com>5A
-Signed-off-by: Bruce Ashfield <bruce.ashfield@windriver.com>
----
- meta/recipes-kernel/linux/linux-yocto-rt_3.2.bb |    2 +-
- meta/recipes-kernel/linux/linux-yocto_3.2.bb    |    2 +-
- 2 files changed, 2 insertions(+), 2 deletions(-)
-
-diff --git a/meta/recipes-kernel/linux/linux-yocto-rt_3.2.bb b/meta/recipes-kernel/linux/linux-yocto-rt_3.2.bb
-index f31baeb..6184e46 100644
---- a/meta/recipes-kernel/linux/linux-yocto-rt_3.2.bb
-+++ b/meta/recipes-kernel/linux/linux-yocto-rt_3.2.bb
-@@ -16,7 +16,7 @@ LINUX_KERNEL_TYPE = "preempt-rt"
- 
- SRCREV_machine ?= "32ecb53e9ff759bbd297a10712b62a6575daaf86"
- SRCREV_machine_qemuppc ?= "0d5625bb868cc2471d5dd49eb7abe7eb5fe1044b"
--SRCREV_meta ?= "514847185c78c07f52e02750fbe0a03ca3a31d8f"
-+SRCREV_meta ?= "867fc7a19f2ea74253d1f20c3d61b7829635175b"
- 
- PR = "r1"
- PV = "${LINUX_VERSION}+git${SRCPV}"
-diff --git a/meta/recipes-kernel/linux/linux-yocto_3.2.bb b/meta/recipes-kernel/linux/linux-yocto_3.2.bb
-index 94423b6..5658d25 100644
---- a/meta/recipes-kernel/linux/linux-yocto_3.2.bb
-+++ b/meta/recipes-kernel/linux/linux-yocto_3.2.bb
-@@ -23,7 +23,7 @@ SRCREV_machine_qemuppc ?= "92de4e2f3c6b397c8b363e079cc4d5e9bcadf877"
- SRCREV_machine_qemux86 ?= "8ada1bb97415fe959a57a08504be4eb8a656ed30"
- SRCREV_machine_qemux86-64 ?= "4ca7e2c5d42e755e1b4c3e1478128f047a8ed2a8"
- SRCREV_machine ?= "01e948c2bdf7f5ad9f2b30047a8d3493a1a2880a"
--SRCREV_meta ?= "514847185c78c07f52e02750fbe0a03ca3a31d8f"
-+SRCREV_meta ?= "867fc7a19f2ea74253d1f20c3d61b7829635175b"
- 
- PR = "r1"
- PV = "${LINUX_VERSION}+git${SRCPV}"
--- 
-1.7.5.4
-
+> Cheers,
+>
+> Richard
+>
+>
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
 
 
