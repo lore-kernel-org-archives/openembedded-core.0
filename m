@@ -1,39 +1,34 @@
-Received: from mail-wg0-f43.google.com ([74.125.82.43])
+Received: from mail-we0-f175.google.com ([74.125.82.175])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <martin.jansa@gmail.com>) id 1SC925-0002n6-BB
+	(envelope-from <martin.jansa@gmail.com>) id 1SC9An-0002wy-1l
 	for openembedded-core@lists.openembedded.org;
-	Mon, 26 Mar 2012 14:28:21 +0200
-Received: by wgbdr12 with SMTP id dr12so3448357wgb.24
+	Mon, 26 Mar 2012 14:37:21 +0200
+Received: by wera1 with SMTP id a1so4127450wer.6
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 26 Mar 2012 05:19:21 -0700 (PDT)
+	Mon, 26 Mar 2012 05:28:21 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=date:from:to:subject:message-id:references:mime-version
-	:content-type:content-disposition:in-reply-to:user-agent;
-	bh=6cq2CPqAN9U4Og6ShlYSDnGzKbn4BcFyOv37WKWqSlA=;
-	b=mY5gN1aQfLBl7XPuV+VzyAzXu3U3hQZCr67761efv8eRd2C0Uti0mhqwKsZWuFW7oL
-	kjmNjz4F+aMp4K00pUNs+2hcj+8+8SZmwuEaFJ29pQ7n8p5rhMJVLOXnmJxeXzMr4yH6
-	b4gxoZq0jJnv+/MP4Lxg3/WRhc1EJTWifSxCF4usbRTM/x0gtFbLu467mpQpkJopwdc/
-	Y8KvJ7pq5xJ8SQJLFceZcvYqA7c/seK6l/ywTv4W8NR6hWaSGYMKrBDvKCRSxnSadg+Y
-	IXUDZnx6DW/a/LmjBO23H3gvu59cyYA6h78zkU3rKKeXKeYMSWmDy3z83/MgkpJ6d3jc
-	uIbA==
-Received: by 10.216.137.74 with SMTP id x52mr12642271wei.77.1332764361775;
-	Mon, 26 Mar 2012 05:19:21 -0700 (PDT)
+	h=from:to:cc:subject:date:message-id:x-mailer:in-reply-to:references;
+	bh=B7n7KTZx75H+HL/wKVlEs7Q40GCKmTaClLzQe2b2K1g=;
+	b=I23GYhhp+Lq/dSiSKIQ8te2XT1cnFodo2EZKMW9AA+VydF7n3e7QnHJlziyGbUXA+o
+	FJ9RZ7ilEfYxenKwg46qVUCK2u23O4tv14JHb626A5I2mID6XZcvQDAKGaytTPf0s093
+	9jYge828YCtaVnPR0cXegx7xh2Q0y22ZtfXnj8gSqOk85jWaJnC+HiS1aNkANTsvzNgJ
+	U9qVuggmAkt5KaQB6nGi46iJ5mCeOkmA3TQ7pmTrJCkT3Xj40VO/glsaXzvunq4a+zcB
+	GEojqrTRxXrgQ24tsi/2cfIwmxbinkKryLEX9cem/hsefVvbQhRQEbqnmZhUstRXgCGb
+	2FSA==
+Received: by 10.180.88.67 with SMTP id be3mr17996024wib.20.1332764901577;
+	Mon, 26 Mar 2012 05:28:21 -0700 (PDT)
 Received: from localhost ([94.230.152.246])
-	by mx.google.com with ESMTPS id w10sm66511272wiy.3.2012.03.26.05.19.20
+	by mx.google.com with ESMTPS id fn2sm66635879wib.0.2012.03.26.05.28.20
 	(version=TLSv1/SSLv3 cipher=OTHER);
-	Mon, 26 Mar 2012 05:19:21 -0700 (PDT)
-Date: Mon, 26 Mar 2012 14:19:19 +0200
+	Mon, 26 Mar 2012 05:28:20 -0700 (PDT)
 From: Martin Jansa <martin.jansa@gmail.com>
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Message-ID: <20120326121919.GE3941@jama.jama.net>
-References: <af4afbb6196cc0f3bacdca43776ae952c7bf4b05.1332541342.git.Martin.Jansa@gmail.com>
-	<313583f23e026bed3155643d1e8914313fce7478.1332541342.git.Martin.Jansa@gmail.com>
-	<1332762240.28414.115.camel@ted>
-MIME-Version: 1.0
+To: openembedded-core@lists.openembedded.org
+Date: Mon, 26 Mar 2012 14:27:54 +0200
+Message-Id: <1332764874-19163-1-git-send-email-Martin.Jansa@gmail.com>
+X-Mailer: git-send-email 1.7.8.5
 In-Reply-To: <1332762240.28414.115.camel@ted>
-User-Agent: Mutt/1.5.21 (2010-09-15)
-Subject: Re: [PATCHv 08/10] libusb*: import native support from meta-oe
+References: <1332762240.28414.115.camel@ted>
+Subject: [PATCHv2 08/10] libusb*: import native support from meta-oe
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -48,61 +43,56 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 26 Mar 2012 12:28:21 -0000
-X-Groupsio-MsgNum: 19744
-Content-Type: multipart/signed; micalg=pgp-sha1;
-	protocol="application/pgp-signature"; boundary="ffoCPvUAPMgSXi6H"
-Content-Disposition: inline
+X-List-Received-Date: Mon, 26 Mar 2012 12:37:21 -0000
 
---ffoCPvUAPMgSXi6H
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
+---
+ meta/recipes-support/libusb/libusb-compat_0.1.3.bb |    7 ++++---
+ meta/recipes-support/libusb/libusb1_1.0.8.bb       |    2 ++
+ 2 files changed, 6 insertions(+), 3 deletions(-)
 
-On Mon, Mar 26, 2012 at 12:44:00PM +0100, Richard Purdie wrote:
-> On Fri, 2012-03-23 at 23:30 +0100, Martin Jansa wrote:
-> > Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
-> > ---
-> >  meta/recipes-support/libusb/libusb-compat_0.1.3.bb |    7 +++++--
-> >  meta/recipes-support/libusb/libusb1_1.0.8.bb       |    2 ++
-> >  2 files changed, 7 insertions(+), 2 deletions(-)
-> >=20
-> > diff --git a/meta/recipes-support/libusb/libusb-compat_0.1.3.bb b/meta/=
-recipes-support/libusb/libusb-compat_0.1.3.bb
-> > index 43da5af..7edd422 100644
-> > --- a/meta/recipes-support/libusb/libusb-compat_0.1.3.bb
-> > +++ b/meta/recipes-support/libusb/libusb-compat_0.1.3.bb
-> > @@ -13,9 +13,12 @@ DEPENDS =3D "libusb1"
-> >  # Besides, libusb-0.1 uses a per 1ms polling that hurts a lot to power
-> >  # consumption.
-> >  PROVIDES =3D "libusb"
-> > +PROVIDES +=3D "virtual/libusb0"
-> > +PROVIDES_virtclass-native +=3D "virtual/libusb0-native"
->=20
-> Doesn't the -native class extension code handle the above correctly now?
->=20
-> i.e. PROVIDES =3D "libusb virtual/libusb0"
->=20
-> should be enough?
+diff --git a/meta/recipes-support/libusb/libusb-compat_0.1.3.bb b/meta/recipes-support/libusb/libusb-compat_0.1.3.bb
+index 43da5af..893bd68 100644
+--- a/meta/recipes-support/libusb/libusb-compat_0.1.3.bb
++++ b/meta/recipes-support/libusb/libusb-compat_0.1.3.bb
+@@ -12,10 +12,11 @@ DEPENDS = "libusb1"
+ # so here libusb-0.1 is removed completely instead of adding virtual/libusb0.
+ # Besides, libusb-0.1 uses a per 1ms polling that hurts a lot to power
+ # consumption.
+-PROVIDES = "libusb"
++PROVIDES = "libusb virtual/libusb0"
++BBCLASSEXTEND = "native nativesdk"
+ 
+ PE = "1"
+-PR = "r4"
++PR = "r5"
+ 
+ SRC_URI = "${SOURCEFORGE_MIRROR}/libusb/libusb-compat-${PV}.tar.bz2 \
+            file://0.1.0-beta1-gcc3.4-fix.patch"
+@@ -23,7 +24,7 @@ SRC_URI = "${SOURCEFORGE_MIRROR}/libusb/libusb-compat-${PV}.tar.bz2 \
+ SRC_URI[md5sum] = "570ac2ea085b80d1f74ddc7c6a93c0eb"
+ SRC_URI[sha256sum] = "a590a03b6188030ee1ca1a0af55685fcde005ca807b963970f839be776031d94"
+ 
+-inherit autotools pkgconfig binconfig
++inherit autotools pkgconfig binconfig lib_package
+ 
+ EXTRA_OECONF = "--libdir=${base_libdir}"
+ 
+diff --git a/meta/recipes-support/libusb/libusb1_1.0.8.bb b/meta/recipes-support/libusb/libusb1_1.0.8.bb
+index b8fa790..5a664ca 100644
+--- a/meta/recipes-support/libusb/libusb1_1.0.8.bb
++++ b/meta/recipes-support/libusb/libusb1_1.0.8.bb
+@@ -6,6 +6,8 @@ SECTION = "libs"
+ LICENSE = "LGPLv2.1+"
+ LIC_FILES_CHKSUM = "file://COPYING;md5=fbc093901857fcd118f065f900982c24"
+ 
++BBCLASSEXTEND = "native nativesdk"
++
+ PR = "r4"
+ 
+ SRC_URI = "${SOURCEFORGE_MIRROR}/libusb/libusb-${PV}.tar.bz2"
+-- 
+1.7.8.5
 
-Ah right, will simplify that (it's because it was needed in this form=20
-in bbappend).
 
-Cheers,
 
---=20
-Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
-
---ffoCPvUAPMgSXi6H
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: Digital signature
-
------BEGIN PGP SIGNATURE-----
-Version: GnuPG v2.0.18 (GNU/Linux)
-
-iEYEARECAAYFAk9wXscACgkQN1Ujt2V2gBxufgCaAtHSvGmWkIYf+SWhcrUm7LFc
-3ZsAoIgEsZYus7vFPSCNHyssGph1Z7nq
-=Xhkt
------END PGP SIGNATURE-----
-
---ffoCPvUAPMgSXi6H--
