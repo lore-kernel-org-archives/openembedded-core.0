@@ -1,39 +1,37 @@
-Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
-	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <richard.purdie@linuxfoundation.org>)
-	id 1SC6EW-0007Ds-VS for openembedded-core@lists.openembedded.org;
-	Mon, 26 Mar 2012 11:29:01 +0200
-Received: from localhost (localhost [127.0.0.1])
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q2Q9K1T3023758
+Received: from mail-we0-f175.google.com ([74.125.82.175])
+	by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <martin.jansa@gmail.com>) id 1SC6Ka-0007J0-U2
+	for openembedded-core@lists.openembedded.org;
+	Mon, 26 Mar 2012 11:35:16 +0200
+Received: by wera1 with SMTP id a1so4024158wer.6
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 26 Mar 2012 10:20:01 +0100
-Received: from tim.rpsys.net ([127.0.0.1])
-	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
-	port 10024) with LMTP
-	id 17410-06 for <openembedded-core@lists.openembedded.org>;
-	Mon, 26 Mar 2012 10:19:56 +0100 (BST)
-Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q2Q9Jo44023745
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO)
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 26 Mar 2012 10:19:51 +0100
-Message-ID: <1332753590.28414.94.camel@ted>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
+	Mon, 26 Mar 2012 02:26:17 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=date:from:to:subject:message-id:references:mime-version
+	:content-type:content-disposition:in-reply-to:user-agent;
+	bh=6N/EOd7zhzh9vxDVuQFi1DWh91mtlUyEa6TWRKiDr3s=;
+	b=BF516cwR39VKxogP+TI9AYcXK2TvLU4hlcdWGZLbFoLY94E2pbNxAUgaoUKBTrjSDF
+	yxqux/FDab4/hXKyOWLBJfAtGY8R82p+mNY4lDgsbXm2dcTRKYDuadKgqAblmSasqaR9
+	2/4l+gZ/0oPBXbkUwnaKgGlBiHCJCJx3QLV/AiH5rjZPm5ZupApnkNobYzGgkvTVg+3c
+	q/OpEQGE/ivOMFsReOvR6KRG2Nedjqr3AaNUcQz0HgxbR1pum9Htrf6C53BFOE9u/XgQ
+	PF33A92HRj/msHpGlJpkLcXuL/XeMo8d+dZXlV27PIz8NSYGEVsCblDZEVYNO8eR7wzc
+	c0AA==
+Received: by 10.180.102.102 with SMTP id fn6mr16906492wib.10.1332753977235;
+	Mon, 26 Mar 2012 02:26:17 -0700 (PDT)
+Received: from localhost ([94.230.152.246])
+	by mx.google.com with ESMTPS id l5sm39459959wia.11.2012.03.26.02.26.15
+	(version=TLSv1/SSLv3 cipher=OTHER);
+	Mon, 26 Mar 2012 02:26:16 -0700 (PDT)
+Date: Mon, 26 Mar 2012 11:26:13 +0200
+From: Martin Jansa <martin.jansa@gmail.com>
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Date: Mon, 26 Mar 2012 10:19:50 +0100
-In-Reply-To: <CALbNGRTvipVQoipZFeuAwFcCr5APdzBh4jWm-sgn6c9hXs87+w@mail.gmail.com>
-References: <1332443701-24282-1-git-send-email-schnitzeltony@googlemail.com>
-	<1332504745.9740.398.camel@ted>
-	<CALbNGRT8Wb2gt7un4efD+szwz3kPZ5pns-4G6EusspH5iYYuZA@mail.gmail.com>
-	<1332545863.9740.477.camel@ted>
-	<CALbNGRTvipVQoipZFeuAwFcCr5APdzBh4jWm-sgn6c9hXs87+w@mail.gmail.com>
-X-Mailer: Evolution 3.2.2- 
-Mime-Version: 1.0
-X-Virus-Scanned: amavisd-new at rpsys.net
-X-MIME-Autoconverted: from 8bit to quoted-printable by tim.rpsys.net id
-	q2Q9K1T3023758
-Subject: Re: [PATCH] gtk-icon-cache.bbclass: Fix multiple rebuilds of the icon cache on first boot
+Message-ID: <20120326092613.GA3941@jama.jama.net>
+References: <1332618407-30816-1-git-send-email-obi@opendreambox.org>
+MIME-Version: 1.0
+In-Reply-To: <1332618407-30816-1-git-send-email-obi@opendreambox.org>
+User-Agent: Mutt/1.5.21 (2010-09-15)
+Subject: Re: [PATCH] busybox: move watch to /usr/bin for compatibility with procps
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -48,128 +46,177 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 26 Mar 2012 09:29:01 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Mon, 26 Mar 2012 09:35:17 -0000
+X-Groupsio-MsgNum: 19718
+Content-Type: multipart/signed; micalg=pgp-sha1;
+	protocol="application/pgp-signature"; boundary="Dxnq1zWXvFF0Q93v"
+Content-Disposition: inline
+
+--Dxnq1zWXvFF0Q93v
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Mon, 2012-03-26 at 09:39 +0200, Andreas M=C3=BCller wrote:
-> On Sat, Mar 24, 2012 at 12:37 AM, Richard Purdie
-> <richard.purdie@linuxfoundation.org> wrote:
-> > On Fri, 2012-03-23 at 23:46 +0100, Andreas M=C3=BCller wrote:
-> >> On Fri, Mar 23, 2012 at 1:12 PM, Richard Purdie
-> >> <richard.purdie@linuxfoundation.org> wrote:
-> >> > On Thu, 2012-03-22 at 20:15 +0100, Andreas M=C3=BCller wrote:
-> >> >> * Before this patch every inheritance of this class rebuilt the f=
-ull icon cache at the first boot.
-> >> >> * With this patch the icon cache will only be build once at the f=
-irst boot and on pkg installations that require it.
-> >> >> * This patch reduces the time needed for the first boot from 96 m=
-inutes to 5 minutes on the test machine.
-> >> >> * Build-tested incremental (BB_SIGNATURE_HANDLER =3D "OEBasicHash=
-") & from scratch
-> >> >> * Run-tested with systemd and opkg
-> >> >>
-> >> >> Signed-off-by: Samuel Stirtzel <s.stirtzel@googlemail.com>
-> >> >> Signed-off-by: Andreas M=C3=BCller <schnitzeltony@googlemail.com>
-> >> >> ---
-> >> >>  meta/classes/gtk-icon-cache.bbclass                |   19 ++++++=
-+++-------
-> >> >>  .../gtk+/gtk-update-icon-cache-runonce.bb          |   23 ++++++=
-++++++++++++++
-> >> >>  .../gtk-update-icon-cache-runonce.in               |   16 ++++++=
-+++++++
-> >> >>  3 files changed, 50 insertions(+), 8 deletions(-)
-> >> >>  create mode 100644 meta/recipes-gnome/gtk+/gtk-update-icon-cache=
--runonce.bb
-> >> >>  create mode 100644 meta/recipes-gnome/gtk+/gtk-update-icon-cache=
--runonce/gtk-update-icon-cache-runonce.in
-> >> >>
-> >> >> diff --git a/meta/classes/gtk-icon-cache.bbclass b/meta/classes/g=
-tk-icon-cache.bbclass
-> >> >> index 60e3401..b48aabe 100644
-> >> >> --- a/meta/classes/gtk-icon-cache.bbclass
-> >> >> +++ b/meta/classes/gtk-icon-cache.bbclass
-> >> >> @@ -9,14 +9,16 @@ if [ "x$D" !=3D "x" ]; then
-> >> >>          exit 1
-> >> >>  fi
-> >> >>
-> >> >> -# Update the pixbuf loaders in case they haven't been registered=
- yet
-> >> >> -GDK_PIXBUF_MODULEDIR=3D${libdir}/gdk-pixbuf-2.0/2.10.0/loaders g=
-dk-pixbuf-query-loaders --update-cache
-> >> >> -
-> >> >> -for icondir in /usr/share/icons/* ; do
-> >> >> -    if [ -d $icondir ] ; then
-> >> >> -        gtk-update-icon-cache -fqt  $icondir
-> >> >> -    fi
-> >> >> -done
-> >> >> +# do not execute in case a final run-once is waiting
-> >> >> +if [ ! -e ${sysconfdir}/init.d/gtk-update-icon-cache-runonce ]; =
-then
-> >> >> +    # Update the pixbuf loaders in case they haven't been regist=
-ered yet
-> >> >> +    GDK_PIXBUF_MODULEDIR=3D${libdir}/gdk-pixbuf-2.0/2.10.0/loade=
-rs gdk-pixbuf-query-loaders --update-cache
-> >> >> +    for icondir in /usr/share/icons/* ; do
-> >> >> +        if [ -d $icondir ] ; then
-> >> >> +            gtk-update-icon-cache -fqt  $icondir
-> >> >> +        fi
-> >> >> +    done
-> >> >> +fi
-> >> >
-> >> >
-> >> > Can't we just reduce this to adding a "touch
-> >> > ${sysconfdir}/init.d/gtk-update-icon-cache-runonce" to the above c=
-ode
-> >> > and then clear that file at boot time?
-> >> >
-> >> Maybe it's a misunderstanding on my side but how shall an empty file
-> >> cover the three tasks during 1st boot:
-> >>
-> >> 1. Preventing all postints of running gtk-update-icon-cache by exist=
-ing
-> >> 2. Running gtk-update-icon-cache ( after postinsts )
-> >> 3. Deleting itself and thereby avoid running during subsequent boots
-> >> and ensuring that packages which are installed later do run
-> >> gtk-update-icon-cache.
-> >
-> > The first time something tries this it creates the "lock".
-> > Any subsequent postinstall sees the "lock" and knows not to run.
-> >
-> > There are two problems:
-> >
-> > a) Knowing these are postinstalls at first boot and not package insta=
-lls
-> > b) Deleting the unused "lock" files afterwards
-> >
-> > You'd therefore probably have to add something to the postinstalls co=
-re
-> > which:
-> >
-> > a) Creates some file during final rootfs postinstalls on first boot
-> > b) Clears some set of files after first boot.
-> Isn't this exactly what we are doing?
-> >
-> > I don't see a major issue with doing either of these two things thoug=
-h
-> > and it would simplify your patch whilst also allowing other similar
-> > cases to work in a similar way.
-> >
-> We presented a working solution fixing an issue existing for long time
-> and don't see that this suggestion gives major enhancements. Feel free
-> to present a different solution.
+On Sat, Mar 24, 2012 at 08:46:47PM +0100, Andreas Oberritter wrote:
+> Commit 68dc2a3fa30c03a196d650de34d0c657a7b85454 broke opkg upgrade:
+>=20
+> | update-alternatives: Error: cannot register alternative watch to
+> | /usr/bin/watch since it is already registered to /bin/watch
+>=20
+> Signed-off-by: Andreas Oberritter <obi@opendreambox.org>
+> ---
+> * Martin, can you please verify whether this really helps? I've built a
+>   rootfs with both busybox watch and procps installed. I didn't actually
+>   do an opkg upgrade.
 
-Right, what I'm trying to figure out is whether we can simplify that
-implementation a little so we don't need a new recipe, dependencies and
-a new init script. There is nothing wrong with that solution but I think
-its possible to simplify things a little.
+Maybe it does for 2nd and later upgrades, but for some reason I now get
+the same error from busybox upgrade too, probably because old u-a for
+watch is removed only in busybox's prerm and not during upgrade.
 
-My worry is whether the simplifications I have in mind will work in the
-systemd world :/.
+SHR root@Nokia-N900 / $ ll /usr/bin/watch*
+lrwxrwxrwx 1 root root   17 Mar 26 09:13 /usr/bin/watch ->
+=2E./../bin/busybox
+-r-xr-xr-x 1 root root 9508 Mar 26 08:48 /usr/bin/watch.procps
+SHR root@Nokia-N900 / $ ls -l /bin/watch
+lrwxrwxrwx 1 root root 7 Mar 23 16:06 /bin/watch -> busybox
+
+SHR root@Nokia-N900 / $ cat /etc/busybox.links  | grep watch
+/usr/bin/watch
+SHR root@Nokia-N900 / $ cat /var/lib/opkg/alternatives/watch
+/bin/watch
+busybox 50
+
+And also busybox is upgraded after procps so even with old alternative
+removed it would take 2 opkg upgrades to get it sorted.. but that's
+quite common issue :/. e.g. u-a for runlevel causes many postinst issues
+because update-rc.d assumes that runlevel is available during upgrade,
+but if sysvinit (as runlevel provider) is configured after e.g. dbus you
+get:
+
+Configuring dbus-1.
+Cannot create link over existing -/etc/resolv.conf-.
+/usr/sbin/update-rc.d: line 173: runlevel: not found
+Unable to determine current runlevel
+=2E..
+Configuring busybox-syslog.
+update-alternatives: Linking //etc/init.d/syslog to syslog.busybox
+update-alternatives: Linking //etc/syslog-startup.conf to syslog-startup.co=
+nf.busybox
+/usr/sbin/update-rc.d: line 173: runlevel: not found
+Unable to determine current runlevel
+=2E..
+Configuring busybox-udhcpc.
+/usr/sbin/update-rc.d: line 173: runlevel: not found
+Unable to determine current runlevel
+=2E..
+Configuring sysvinit.
+update-alternatives: Linking //bin/mountpoint to mountpoint.sysvinit
+update-alternatives: Linking //sbin/halt to halt.sysvinit
+update-alternatives: Linking //sbin/reboot to reboot.sysvinit
+update-alternatives: Linking //sbin/runlevel to runlevel.sysvinit
+update-alternatives: Linking //sbin/shutdown to shutdown.sysvinit
+update-alternatives: Linking //sbin/poweroff to poweroff.sysvinit
+update-alternatives: Linking //usr/bin/last to last.sysvinit
+update-alternatives: Linking //usr/bin/mesg to mesg.sysvinit
+update-alternatives: Linking //usr/bin/wall to wall.sysvinit
+update-alternatives: Linking //sbin/init to /sbin/init.sysvinit
+
+And dbus-1. busybox-syslog. busybox-udhcpc. postinsts are fine on 2nd run.
+
+So this patch looks good, but there are still issues with u-a calls in post=
+inst.
 
 Cheers,
+>=20
+>  .../busybox/busybox-1.19.4/watch.in.usr-bin.patch  |   29 ++++++++++++++=
+++++++
+>  meta/recipes-core/busybox/busybox_1.19.4.bb        |    3 +-
+>  2 files changed, 31 insertions(+), 1 deletions(-)
+>  create mode 100644 meta/recipes-core/busybox/busybox-1.19.4/watch.in.usr=
+-bin.patch
+>=20
+> diff --git a/meta/recipes-core/busybox/busybox-1.19.4/watch.in.usr-bin.pa=
+tch b/meta/recipes-core/busybox/busybox-1.19.4/watch.in.usr-bin.patch
+> new file mode 100644
+> index 0000000..e8e1edf
+> --- /dev/null
+> +++ b/meta/recipes-core/busybox/busybox-1.19.4/watch.in.usr-bin.patch
+> @@ -0,0 +1,29 @@
+> +Upstream-Status: Inappropriate [configuration]
+> +
+> +From f2372ab626a395d067704f4c318180fb6039de15 Mon Sep 17 00:00:00 2001
+> +From: Andreas Oberritter <obi@opendreambox.org>
+> +Date: Sat, 24 Mar 2012 17:36:48 +0100
+> +Subject: [PATCH] watch: move from /bin to /usr/bin for compatibility with
+> + procps
+> +
+> +Signed-off-by: Andreas Oberritter <obi@opendreambox.org>
+> +---
+> + include/applets.src.h |    2 +-
+> + 1 files changed, 1 insertions(+), 1 deletions(-)
+> +
+> +diff --git a/include/applets.src.h b/include/applets.src.h
+> +index 87d9cbb..c148a8c 100644
+> +--- a/include/applets.src.h
+> ++++ b/include/applets.src.h
+> +@@ -404,7 +404,7 @@ IF_VLOCK(APPLET(vlock, BB_DIR_USR_BIN, BB_SUID_REQUI=
+RE))
+> + IF_VOLNAME(APPLET(volname, BB_DIR_USR_BIN, BB_SUID_DROP))
+> + /* Needs to be run by root or be suid root - needs to write to /dev/TTY=
+: */
+> + IF_WALL(APPLET(wall, BB_DIR_USR_BIN, BB_SUID_REQUIRE))
+> +-IF_WATCH(APPLET(watch, BB_DIR_BIN, BB_SUID_DROP))
+> ++IF_WATCH(APPLET(watch, BB_DIR_USR_BIN, BB_SUID_DROP))
+> + IF_WATCHDOG(APPLET(watchdog, BB_DIR_SBIN, BB_SUID_DROP))
+> + IF_WC(APPLET(wc, BB_DIR_USR_BIN, BB_SUID_DROP))
+> + IF_WGET(APPLET(wget, BB_DIR_USR_BIN, BB_SUID_DROP))
+> +--=20
+> +1.7.5.4
+> +
+> diff --git a/meta/recipes-core/busybox/busybox_1.19.4.bb b/meta/recipes-c=
+ore/busybox/busybox_1.19.4.bb
+> index dff616d..3f22669 100644
+> --- a/meta/recipes-core/busybox/busybox_1.19.4.bb
+> +++ b/meta/recipes-core/busybox/busybox_1.19.4.bb
+> @@ -1,5 +1,5 @@
+>  require busybox.inc
+> -PR =3D "r0"
+> +PR =3D "r1"
+> =20
+>  SRC_URI =3D "http://www.busybox.net/downloads/busybox-${PV}.tar.bz2;name=
+=3Dtarball \
+>             file://udhcpscript.patch \
+> @@ -8,6 +8,7 @@ SRC_URI =3D "http://www.busybox.net/downloads/busybox-${P=
+V}.tar.bz2;name=3Dtarball \
+>             file://get_header_tar.patch \
+>             file://busybox-appletlib-dependency.patch \
+>             file://run-parts.in.usr-bin.patch \
+> +           file://watch.in.usr-bin.patch \
+>             file://busybox-udhcpc-no_deconfig.patch \
+>             file://find-touchscreen.sh \
+>             file://busybox-cron \
+> --=20
+> 1.7.5.4
+>=20
+>=20
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
 
-Richard
+--=20
+Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
 
+--Dxnq1zWXvFF0Q93v
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: Digital signature
 
+-----BEGIN PGP SIGNATURE-----
+Version: GnuPG v2.0.18 (GNU/Linux)
 
+iEYEARECAAYFAk9wNjUACgkQN1Ujt2V2gBz52gCff/Nv3I75eLNMQDJJPWZWkG7E
+c44AoJjK3Sy3u2Kqwdd/iC8Q0u+r4ywE
+=pYz5
+-----END PGP SIGNATURE-----
+
+--Dxnq1zWXvFF0Q93v--
