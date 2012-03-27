@@ -1,38 +1,23 @@
-Received: from mail-ob0-f175.google.com ([209.85.214.175])
+Received: from mail1.windriver.com ([147.11.146.13])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <tom.rini@gmail.com>) id 1SCL6u-0002D5-S9
+	(envelope-from <Xiaofeng.Yan@windriver.com>) id 1SCMCG-0003E7-7D
 	for openembedded-core@lists.openembedded.org;
-	Tue, 27 Mar 2012 03:22:09 +0200
-Received: by obqv19 with SMTP id v19so6240757obq.6
+	Tue, 27 Mar 2012 04:31:44 +0200
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca [147.11.189.40])
+	by mail1.windriver.com (8.14.3/8.14.3) with ESMTP id q2R2MhpV020956
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 26 Mar 2012 18:13:08 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=date:from:to:subject:message-id:references:mime-version
-	:content-type:content-disposition:in-reply-to:organization
-	:user-agent; bh=/WG1Vc8pg+xIvyW2miNTA1Dmy22hD1n3ZeXIs3i11fk=;
-	b=IDNhRMx6YhdwuxQbhwPbx0ldjhU8vG3Nf4Fuu9ITbncHFWR6QeqFm4zozQ8UFmcDdX
-	aPjoPPwVoLx0jkK0FzjburIoeLSPdn2zmu3N0b7JjZrgWlmhpj6H1Im1l+DkyUzmdikp
-	zl974obofk3ysj1y4otHjx887cwu0h/yuBjhHaAqmF47VlG8BfmrgbGJZL7pe0rwuZKT
-	TvH2YfbVQ2DIqpBsx1sDT09vvW2JbsMJ9tiiXufeMF3XFumrke9fUTOt46NLKW7SNET6
-	W91ga88bS3HrpFX6EWxucisjvr7gnHDJkDH2p1YmkFOeeHC1jAly2rNLqGctEa7YDfKF
-	+AQw==
-Received: by 10.60.3.104 with SMTP id b8mr29551690oeb.13.1332810788010;
-	Mon, 26 Mar 2012 18:13:08 -0700 (PDT)
-Received: from bill-the-cat (ip68-230-54-74.ph.ph.cox.net. [68.230.54.74])
-	by mx.google.com with ESMTPS id aj16sm2447589oec.4.2012.03.26.18.13.06
-	(version=TLSv1/SSLv3 cipher=OTHER);
-	Mon, 26 Mar 2012 18:13:06 -0700 (PDT)
-Date: Mon, 26 Mar 2012 18:13:05 -0700
-From: Tom Rini <tom.rini@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Message-ID: <20120327011305.GK21518@bill-the-cat>
-References: <1332587383-23633-1-git-send-email-heinold@inf.fu-berlin.de>
-	<20120326161722.GC21518@bill-the-cat>
+	Mon, 26 Mar 2012 19:22:43 -0700 (PDT)
+Received: from localhost (128.224.162.28) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server (TLS) id 14.1.255.0;
+	Mon, 26 Mar 2012 19:22:43 -0700
+Message-ID: <cover.1332814325.git.xiaofeng.yan@windriver.com>
+Old-Date: Tue, 27 Mar 2012 10:12:05 +0800
+Date: Tue, 27 Mar 2012 10:24:01 +0800
+To: <openembedded-core@lists.openembedded.org>
+From: Xiaofeng Yan <xiaofeng.yan@windriver.com>
 MIME-Version: 1.0
-In-Reply-To: <20120326161722.GC21518@bill-the-cat>
-Organization: Texas Instruments
-User-Agent: Mutt/1.5.20 (2009-06-14)
-Subject: Re: [PATCH] relocatable.bbclass: do not erease already existing ORIGIN
+Subject: [PATCH 0/9] Realize archiving functions
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -47,45 +32,58 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 27 Mar 2012 01:22:09 -0000
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+X-List-Received-Date: Tue, 27 Mar 2012 02:31:44 -0000
+Content-Type: text/plain
 
-On Mon, Mar 26, 2012 at 09:17:22AM -0700, Tom Rini wrote:
-> On Sat, Mar 24, 2012 at 12:09:41PM +0100, Henning Heinold wrote:
-> > Hi,
-> > 
-> > while building openjdk I discovered that relocatable.bbclass strips
-> > all PATHS with ORIGIN, that is problematic, when binaries like an jdk
-> > is installed not in the standard paths /lib or /usr/lib.
-> > 
-> > This patch let all exisiting ORIGIN stay in the binary. So
-> > far I only saw problems with some perl-native libs, where chrpath fails
-> > now, because the path is to long. But it seems they work anyway.
-> > 
-> > While letting the path stay in binary it occurs that whitespaces at the end
-> > of the last path sneaked some how in. So I made re.sub line to clean this up.
-> > 
-> > Bye Henning
-> > 
-> > PS: I have to appologize, that I send it to oe-dev before.
-> 
-> I replied to the oe-dev thread, but I have some concerns I need to work
-> out about this patch since perl is in a similar situation already.  And
-> that some perl-native libs are complaining after this patch is also
-> worrying given how much of a pain perl+$ORIGIN can be.
+From: Xiaofeng Yan <xiaofeng.yan@windriver.com>
 
-OK, can you describe the problem you see, exactly?  Using Angstrom, and
-current sources, building icedtea6-native gives me:
-trini@bill-the-cat:~/work/OE/angstrom/setup-scripts/build/tmp-angstrom_2010_x-eglibc/sysroots/x86_64-linux/usr/lib/jvm/icedtea6-native/bin$ readelf -d java | grep ORIGIN
- 0x000000000000000f (RPATH)              Library rpath: [$ORIGIN/../lib/amd64/jli:$ORIGIN/../jre/lib/amd64/jli]
- 0x000000006ffffffb (FLAGS_1)            Flags: ORIGIN
+Hi Saul,
 
-So rpath isn't being clobbered today, but we aren't using all of our own
-libs in these cases (zlib for example).  This is what I see both before
-and after your patch is applied.
+I have modified archiver.bbclass according to your suggestion.
+- If the original source is tarball, then copy this package to ${DEPLOY_DIR}/sources
+- If the original source comes from git, then archive this directory unpacked to tarball
 
--- 
-Tom
+If you have any suggestion, I will modify this bbclass.
+
+
+Pull URL: git://git.pokylinux.org/poky-contrib.git
+  Branch: xiaofeng/distro
+  Browse: http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=xiaofeng/distro
+
+Thanks,
+    Xiaofeng Yan <xiaofeng.yan@windriver.com>
+---
+
+
+Xiaofeng Yan (9):
+  sourcepkg.bbclass: Remove sourcepkg.bbclass
+  src_distribute.bbclass: Remove src__distribute.bbclass
+  src_distributelocal.bbclass: Remove src_distribute_local.bbclass
+  package_rpm: Add srpm function to this bbclass
+  archiver.bbclass: New bbclass for archiving sources, patches, logs
+    and scripts
+  archive-original-source.bbclass: Archive original source
+  archive-configured-source.bbclass: Archive configured source
+  archive-patched-source.bbclass: Archive patched source
+  local.conf.sample.extended: The set for archiving packages
+
+ meta-yocto/conf/local.conf.sample.extended     |   32 ++
+ meta/classes/archive-configured-source.bbclass |   14 +
+ meta/classes/archive-original-source.bbclass   |   14 +
+ meta/classes/archive-patched-source.bbclass    |   14 +
+ meta/classes/archiver.bbclass                  |  460 ++++++++++++++++++++++++
+ meta/classes/package_rpm.bbclass               |   53 +++-
+ meta/classes/sourcepkg.bbclass                 |  107 ------
+ meta/classes/src_distribute.bbclass            |   49 ---
+ meta/classes/src_distribute_local.bbclass      |   33 --
+ 9 files changed, 584 insertions(+), 192 deletions(-)
+ create mode 100644 meta/classes/archive-configured-source.bbclass
+ create mode 100644 meta/classes/archive-original-source.bbclass
+ create mode 100644 meta/classes/archive-patched-source.bbclass
+ create mode 100644 meta/classes/archiver.bbclass
+ delete mode 100644 meta/classes/sourcepkg.bbclass
+ delete mode 100644 meta/classes/src_distribute.bbclass
+ delete mode 100644 meta/classes/src_distribute_local.bbclass
+
 
 
