@@ -1,16 +1,16 @@
 Received: from mail.windriver.com ([147.11.1.11])
 	by linuxtogo.org with esmtp (Exim 4.72)
 	(envelope-from <Liezhi.Yang@windriver.com>)
-	id 1SCWv3-00074c-RJ; Tue, 27 Mar 2012 15:58:47 +0200
+	id 1SCWvG-000763-Ic; Tue, 27 Mar 2012 15:58:55 +0200
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca [147.11.189.40])
-	by mail.windriver.com (8.14.3/8.14.3) with ESMTP id q2RDncV0008828
+	by mail.windriver.com (8.14.3/8.14.3) with ESMTP id q2RDnqhe008865
 	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
-	Tue, 27 Mar 2012 06:49:38 -0700 (PDT)
+	Tue, 27 Mar 2012 06:49:52 -0700 (PDT)
 Received: from [128.224.162.196] (128.224.162.196) by ALA-HCA.corp.ad.wrs.com
 	(147.11.189.50) with Microsoft SMTP Server id 14.1.255.0;
-	Tue, 27 Mar 2012 06:49:39 -0700
-Message-ID: <4F71C570.4020703@windriver.com>
-Date: Tue, 27 Mar 2012 21:49:36 +0800
+	Tue, 27 Mar 2012 06:49:52 -0700
+Message-ID: <4F71C57E.4010001@windriver.com>
+Date: Tue, 27 Mar 2012 21:49:50 +0800
 From: Robert Yang <liezhi.yang@windriver.com>
 User-Agent: Mozilla/5.0 (X11; Linux i686;
 	rv:11.0) Gecko/20120310 Thunderbird/11.0
@@ -39,7 +39,7 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 27 Mar 2012 13:58:47 -0000
+X-List-Received-Date: Tue, 27 Mar 2012 13:58:56 -0000
 Content-Type: text/plain; charset="ISO-8859-1"; format=flowed
 Content-Transfer-Encoding: 7bit
 
@@ -146,7 +146,7 @@ On 03/27/2012 09:35 PM, Martin Jansa wrote:
 > Maybe add some param to add extra archs/machines or just list all used
 > xxx variants from 'sstate-xxx_'.
 >
-Thanks, add some param is good choice. Figure out the used variants from
+Thanks, add some param is a good choice. Figure out the used variants from
 sstate-xxx is the best way, but it seems not easy since it uses the "-" as
 the separator, and I had counted the number of field, it is not always the
 same.
