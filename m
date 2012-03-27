@@ -1,30 +1,24 @@
-Received: from mail.windriver.com ([147.11.1.11])
+Received: from mga03.intel.com ([143.182.124.21])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <Liezhi.Yang@windriver.com>)
-	id 1SCWvG-000763-Ic; Tue, 27 Mar 2012 15:58:55 +0200
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca [147.11.189.40])
-	by mail.windriver.com (8.14.3/8.14.3) with ESMTP id q2RDnqhe008865
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
-	Tue, 27 Mar 2012 06:49:52 -0700 (PDT)
-Received: from [128.224.162.196] (128.224.162.196) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server id 14.1.255.0;
-	Tue, 27 Mar 2012 06:49:52 -0700
-Message-ID: <4F71C57E.4010001@windriver.com>
-Date: Tue, 27 Mar 2012 21:49:50 +0800
-From: Robert Yang <liezhi.yang@windriver.com>
-User-Agent: Mozilla/5.0 (X11; Linux i686;
-	rv:11.0) Gecko/20120310 Thunderbird/11.0
+	(envelope-from <paul.eggleton@linux.intel.com>) id 1SCXfE-0000ch-5z
+	for openembedded-core@lists.openembedded.org;
+	Tue, 27 Mar 2012 16:46:24 +0200
+Received: from azsmga001.ch.intel.com ([10.2.17.19])
+	by azsmga101.ch.intel.com with ESMTP; 27 Mar 2012 07:37:22 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="123831316"
+Received: from unknown (HELO helios.localnet) ([10.252.123.228])
+	by azsmga001.ch.intel.com with ESMTP; 27 Mar 2012 07:37:21 -0700
+From: Paul Eggleton <paul.eggleton@linux.intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Tue, 27 Mar 2012 15:37:19 +0100
+Message-ID: <1443918.kuu0Jnlh65@helios>
+Organization: Intel Corporation
+User-Agent: KMail/4.8.0 (Linux/3.0.0-16-generic-pae; KDE/4.8.1; i686; ; )
+In-Reply-To: <cover.1332826876.git.sgw@linux.intel.com>
+References: <cover.1332826876.git.sgw@linux.intel.com>
 MIME-Version: 1.0
-To: Martin Jansa <martin.jansa@gmail.com>
-References: <20120224000137.466F310330@opal>
-	<20120327110632.GA3969@jama.jama.net>
-	<20120327113304.GB3969@jama.jama.net>
-	<4F71C069.30205@windriver.com>
-	<20120327133512.GC3969@jama.jama.net>
-In-Reply-To: <20120327133512.GC3969@jama.jama.net>
-Cc: openembedded-core@lists.openembedded.org,
-	openembedded-commits@lists.openembedded.org
-Subject: Re: [oe-commits] Robert Yang : A script to clean obsolete sstate cache files
+Subject: Re: [PATCH 0/6] Setup for VMDK to use Direct Disk
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -39,122 +33,28 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 27 Mar 2012 13:58:56 -0000
-Content-Type: text/plain; charset="ISO-8859-1"; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Tue, 27 Mar 2012 14:46:24 -0000
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
 
+On Monday 26 March 2012 22:42:54 Saul Wold wrote:
+> Updated comments per Darren's request, added cleanup to
+> image-types to only use one -i (inode-count) parameter.
 
+I tried this series on my build machine, but do_rootfs failed with "genext2fs: 
+not enough memory for filesystem".
 
-On 03/27/2012 09:35 PM, Martin Jansa wrote:
-> On Tue, Mar 27, 2012 at 09:28:09PM +0800, Robert Yang wrote:
->>
->> Hi Martin,
->>
->> Thanks for reporting this, and I'm very sorry for the inconvenience,
->> please see my comment inline ...
->>
->> On 03/27/2012 07:33 PM, Martin Jansa wrote:
->>> On Tue, Mar 27, 2012 at 01:06:33PM +0200, Martin Jansa wrote:
->>>> On Fri, Feb 24, 2012 at 12:01:37AM +0000, git@git.openembedded.org wrote:
->>>>> Module: openembedded-core.git
->>>>> Branch: master
->>>>> Commit: 7c99ef6d2173b14e1109a540ee5ae47b56d707e7
->>>>> URL:    http://git.openembedded.org/?p=openembedded-core.git&a=commit;h=7c99ef6d2173b14e1109a540ee5ae47b56d707e7
->>>>>
->>>>> Author: Robert Yang<liezhi.yang@windriver.com>
->>>>> Date:   Wed Feb 22 20:38:30 2012 +0800
->>>>>
->>>>> A script to clean obsolete sstate cache files
->>>>>
->>>>
->>>>> +# Use the "_" to substitute "-", e.g., x86-64 to x86_64
->>>>> +all_archs=`grep -r DEFAULTTUNE $tunedir | \
->>>>> +    sed -e 's/.*\"\(.*\)\"/\1/' -e 's/-/_/g' | sort -u`
->>>>> +# Add the qemu archs
->>>>> +all_archs="$all_archs qemuarm qemux86 qemumips qemuppc"
->>>>
->>>> This doesn't list any thumb variants, current list is:
->>>>
->>>> arm1136jfs arm920t arm926ejs arm9tdmi armv4 armv5 armv6 armv7 armv7a
->>>> core2 cortexa8_neon cortexa9_neon cortexm1 cortexm3 cortexr4 ep9312 i586
->>>> iwmmxt mips mips32 powerpc powerpc64 ppc603e ppce300c2 ppce500 ppce500mc
->>>> ppce500v2 ppce5500 strongarm x86 x86_64 xscale
->>>>
->>>> so thumb versions (e.g. armv4t) are not found in
->>>>
->>>>> +for arch in $all_archs; do
->>>>> +    ls | grep -q -w $arch
->>>>> +    [ $? -eq 0 ]&&   ava_archs="$ava_archs $arch"
->>>>> +done
->>>>
->>>> Cheers,
->>>
->>> And after extending list of machines in all_archs with armv4t and my
->>> machines I got only one file in sstate-cache left :/
->>>
->>> First run without armv4t found:
->>> OE crespo@shr ~/shr-core $ du -hs sstate-cache/; openembedded-core/scripts/sstate-cache-management.sh --cache-dir=sstate-cache --remove-duplicated; du -hs sstate-cache/
->>> 14G     sstate-cache/
->>> Figuring out the archs in the sstate cache dir ...
->>> The following archs have been found in the sstate cache dir:
->>> armv7a x86_64
->>> Removing the sstate-xxx_deploy-rpm.tgz ... (0 files)
->>> Removing the sstate-xxx_deploy-ipk.tgz ... (58 files)
->>> Removing the sstate-xxx_deploy-deb.tgz ... (0 files)
->>> Removing the sstate-xxx_deploy.tgz ... (0 files)
->>> Removing the sstate-xxx_package.tgz ... (62 files)
->>> Removing the sstate-xxx_populate-lic.tgz ... (46 files)
->>> Removing the sstate-xxx_populate-sysroot.tgz ... (102 files)
->>> 268 files have been removed
->>> 13G     sstate-cache/
->>>
->>> Second run with armv4t manually added
->>> -all_archs="$all_archs qemuarm qemux86 qemumips qemuppc"
->>> +all_archs="$all_archs qemuarm qemux86 qemumips qemuppc armv4t"
->>> OE crespo@shr ~/openembedded-core $ du -hs ../shr-core/sstate-cache/; scripts/sstate-cache-management.sh --cache-dir=../shr-core/sstate-cache --remove-duplicated; du -hs ../shr-core/sstate-cache/
->>> 13G     ../shr-core/sstate-cache/
->>> /OE/openembedded-core/meta/conf/machine/include
->>> Figuring out the archs in the sstate cache dir ...
->>> The following archs have been found in the sstate cache dir:
->>> armv4t armv7a x86_64
->>> Removing the sstate-xxx_deploy-rpm.tgz ... (0 files)
->>> Removing the sstate-xxx_deploy-ipk.tgz ... (460 files)
->>> Removing the sstate-xxx_deploy-deb.tgz ... (0 files)
->>> Removing the sstate-xxx_deploy.tgz ... (0 files)
->>> Removing the sstate-xxx_package.tgz ... (454 files)
->>> Removing the sstate-xxx_populate-lic.tgz ... (456 files)
->>> Removing the sstate-xxx_populate-sysroot.tgz ... (468 files)
->>> 1838 files have been removed
->>> 6.2G    ../shr-core/sstate-cache/
->>>
->>> Third run with machines I'm building manually added
->>> -all_archs="$all_archs qemuarm qemux86 qemumips qemuppc armv4t"
->>> +all_archs="$all_archs qemuarm qemux86 qemumips qemuppc armv4t om_gta01 om_gta02 om_gta04 nokia900 palmpre palmpre2 crespo spitz"
->>
->> The script figures the archs according to the 'meta/conf/machine/include',
->> this is incorrect since it only searches the oe-core layer, I will fix it.
->
-> The first issue is that armv4t and other thumb variants are also in
-> oe-core layer.
->
->> And where can I get the "om_gta01 om_gta02 om_gta04 ..." archs? I mean which
->> layer are they in? So that I can test them.
->
-> Those are machines from meta-smartphone sublayers
-> http://git.shr-project.org/git/?p=meta-smartphone.git;a=summary
->
-> Maybe add some param to add extra archs/machines or just list all used
-> xxx variants from 'sstate-xxx_'.
->
-Thanks, add some param is a good choice. Figure out the used variants from
-sstate-xxx is the best way, but it seems not easy since it uses the "-" as
-the separator, and I had counted the number of field, it is not always the
-same.
+The machine has 6GB RAM and 8GB swap. The rootfs directory is 15GB. 
 
-// Robert
+I guess this might have something to do with my DL_DIR not being clean 
+beforehand (since it seems to be copying it into the rootfs in its entirety).
 
+Cheers,
+Paul
 
-> Cheers,
->
+-- 
+
+Paul Eggleton
+Intel Open Source Technology Centre
 
 
