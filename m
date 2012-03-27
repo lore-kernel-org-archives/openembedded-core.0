@@ -1,28 +1,35 @@
-Received: from mail.windriver.com ([147.11.1.11])
+Received: from mail-bk0-f47.google.com ([209.85.214.47])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <mark.hatle@windriver.com>) id 1SCd3c-0007gr-G3
+	(envelope-from <joaohf@gmail.com>) id 1SCdPY-0007r8-WA
 	for openembedded-core@lists.openembedded.org;
-	Tue, 27 Mar 2012 22:31:56 +0200
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca [147.11.189.40])
-	by mail.windriver.com (8.14.3/8.14.3) with ESMTP id q2RKMp7Q014651
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
+	Tue, 27 Mar 2012 22:54:37 +0200
+Received: by bkcjg15 with SMTP id jg15so381334bkc.6
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 27 Mar 2012 13:22:53 -0700 (PDT)
-Received: from msp-dhcp8.wrs.com (172.25.34.8) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server id 14.1.255.0;
-	Tue, 27 Mar 2012 13:22:52 -0700
-Message-ID: <4F72219A.2020301@windriver.com>
-Date: Tue, 27 Mar 2012 15:22:50 -0500
-From: Mark Hatle <mark.hatle@windriver.com>
-Organization: Wind River Systems
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.6;
-	rv:10.0.2) Gecko/20120216 Thunderbird/10.0.2
+	Tue, 27 Mar 2012 13:45:35 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
+	:cc:content-type;
+	bh=In8bJjfTwN6pZDyA9+CRp/wPnCWu3zMYZkGg/VNmcW4=;
+	b=m4n1+UDkoOapey9GzoqUM8dnWBnehx6mbhV6Zsi+7hWsZr42tVo6VpXosiUie+jM78
+	62CFVB3k6G6hLsGaCzLbyary6M05TGBAXV8kr0ia9i7atdCzd5Ty8vs7EXFGKYYazUg8
+	DNKu2LwlWMoi2lelcUEYsgkOKs56LtrXxJWUKmZIXhbN4I1t4ZfgjQb46qHBxheGkjzn
+	ig1DxkC77AAcwCJOFI4mMrrBcSR0yYLlnUphhFzElcPW2fkTUSTUuhv+sIC/YvqOxq9S
+	oVx5pKHI5l6mxVWf5F58uYkfsa6lfHfekbyyyFR5XK/1wZzTCgLMbh+H7O5vHCKrNtrA
+	p7Mg==
 MIME-Version: 1.0
-To: <openembedded-core@lists.openembedded.org>
-References: <1332877869-12195-1-git-send-email-kergoth@gmail.com>
-	<1332877869-12195-3-git-send-email-kergoth@gmail.com>
-In-Reply-To: <1332877869-12195-3-git-send-email-kergoth@gmail.com>
-Subject: Re: [PATCH 3/3] powerpc: define TUNE_PKGARCH for powerpc/powerpc-nf
+Received: by 10.204.151.81 with SMTP id b17mr4720690bkw.17.1332881135690; Tue,
+	27 Mar 2012 13:45:35 -0700 (PDT)
+Received: by 10.205.40.4 with HTTP; Tue, 27 Mar 2012 13:45:35 -0700 (PDT)
+In-Reply-To: <1658718.eaPkFfPBtZ@helios>
+References: <cover.1332826876.git.sgw@linux.intel.com>
+	<1443918.kuu0Jnlh65@helios> <4F7203EA.4030104@linux.intel.com>
+	<1658718.eaPkFfPBtZ@helios>
+Date: Tue, 27 Mar 2012 17:45:35 -0300
+Message-ID: <CANFVK7_5o9TRPJQz0qVrsVjwLC_fgK_hYN-1oaa_kc6RG3Or2A@mail.gmail.com>
+From: =?UTF-8?Q?Jo=C3=A3o_Henrique_Freitas?= <joaohf@gmail.com>
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 0/6] Setup for VMDK to use Direct Disk
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -37,47 +44,57 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 27 Mar 2012 20:31:56 -0000
-Content-Type: text/plain; charset="ISO-8859-1"; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Tue, 27 Mar 2012 20:54:37 -0000
+Content-Type: multipart/alternative; boundary=0015175cabae9ee4ec04bc3f925c
 
-Patch 1 and 2 look fine, but I have questions on this one....
+--0015175cabae9ee4ec04bc3f925c
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
-On 3/27/12 2:51 PM, Christopher Larson wrote:
-> From: Christopher Larson<chris_larson@mentor.com>
+Hi,
+
+I guess we can just put that in the docs for now. For future improvement
+> though I wonder if we can trick the fetcher into just pulling across the
+> current files into the rootfs. I'll put that on my todo list for later.
 >
-> This allows setting DEFAULTTUNE to powerpc or powerpc-nf rather than just the
-> more specific cpu/machine tuning.
+
+
+The following thread suggest a patch to fix it:
+
+http://sourceforge.net/mailarchive/forum.php?thread_name=3D1307458172.10974=
+.64.camel%40skunk&forum_name=3Dgenext2fs-devel
+
+Thanks.
+
+--=20
+-----------------------------------------------------------
+Jo=C3=A3o Henrique Freitas - joaohf_at_gmail.com
+Campinas-SP-Brasil
+BSD051283
+LPI 1
+http://www.joaohfreitas.eti.br
+
+--0015175cabae9ee4ec04bc3f925c
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+
+<br>Hi,<br><br>
+<div class=3D"gmail_quote"><blockquote class=3D"gmail_quote" style=3D"margi=
+n:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex">I guess we can ju=
+st put that in the docs for now. For future improvement<br>
+though I wonder if we can trick the fetcher into just pulling across the<br=
 >
-> Signed-off-by: Christopher Larson<chris_larson@mentor.com>
-> ---
->   meta/conf/machine/include/powerpc/arch-powerpc.inc |    2 ++
->   1 files changed, 2 insertions(+), 0 deletions(-)
->
-> diff --git a/meta/conf/machine/include/powerpc/arch-powerpc.inc b/meta/conf/machine/include/powerpc/arch-powerpc.inc
-> index c5fd6b7..3438b46 100644
-> --- a/meta/conf/machine/include/powerpc/arch-powerpc.inc
-> +++ b/meta/conf/machine/include/powerpc/arch-powerpc.inc
-> @@ -26,6 +26,8 @@ AVAILTUNES += "powerpc powerpc-nf"
->   TUNE_FEATURES_tune-powerpc-nf ?= "m32 fpu-soft"
->   BASE_LIB_tune-powerpc-nf = "lib"
->   PACKAGE_EXTRA_ARCHS_tune-powerpc-nf = "powerpc-nf"
-> +TUNE_PKGARCH_tune-powerpc-nf = "powerpc-nf"
->   TUNE_FEATURES_tune-powerpc ?= "m32 fpu-hard"
->   BASE_LIB_tune-powerpc = "lib"
->   PACKAGE_EXTRA_ARCHS_tune-powerpc = "powerpc"
-> +TUNE_PKGARCH_tune-powerpc = "powerpc"
+current files into the rootfs. I&#39;ll put that on my todo list for later.=
+<br clear=3D"all"></blockquote></div><br><br>The following thread suggest a=
+ patch to fix it: <br><br><a href=3D"http://sourceforge.net/mailarchive/for=
+um.php?thread_name=3D1307458172.10974.64.camel%40skunk&amp;forum_name=3Dgen=
+ext2fs-devel">http://sourceforge.net/mailarchive/forum.php?thread_name=3D13=
+07458172.10974.64.camel%40skunk&amp;forum_name=3Dgenext2fs-devel</a><br>
+<br>Thanks.<br><br>-- <br>-------------------------------------------------=
+----------<br>Jo=C3=A3o Henrique Freitas - <a href=3D"http://joaohf_at_gmai=
+l.com">joaohf_at_gmail.com</a><br>Campinas-SP-Brasil<br>BSD051283<br>LPI 1<=
+br>
+<a href=3D"http://www.joaohfreitas.eti.br">http://www.joaohfreitas.eti.br</=
+a><br>
 
-Why is the above necessary?
-
-TUNE_PKGARCH_append is set to "${PPCPKGSFX_FPU}"
-
-PPCPKGSFX_FP is set to either '' or '-nf' based on the existance of fpu-soft.
-
-TUNE_PKGARCH is set by a number of the PowerPC tuning files...  If you are 
-looking for generic PowerPC there should be something setting TUNE_PKGARCH to 
-"powerpc" (or "powerpc64" in the default cases...)
-
---Mark
-
-
+--0015175cabae9ee4ec04bc3f925c--
