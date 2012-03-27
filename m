@@ -1,25 +1,31 @@
-Received: from mga14.intel.com ([143.182.124.37])
+Received: from astoria.ccjclearline.com ([64.235.106.9])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <paul.eggleton@linux.intel.com>) id 1SCeGI-0000Sb-Ov
+	(envelope-from <rpjday@crashcourse.ca>) id 1SCeOA-0000nn-4B
 	for openembedded-core@lists.openembedded.org;
-	Tue, 27 Mar 2012 23:49:07 +0200
-Received: from azsmga001.ch.intel.com ([10.2.17.19])
-	by azsmga102.ch.intel.com with ESMTP; 27 Mar 2012 14:40:04 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="124001184"
-Received: from unknown (HELO helios.localnet) ([10.252.123.228])
-	by azsmga001.ch.intel.com with ESMTP; 27 Mar 2012 14:40:02 -0700
-From: Paul Eggleton <paul.eggleton@linux.intel.com>
-To: "Robert P. J. Day" <rpjday@crashcourse.ca>
-Date: Tue, 27 Mar 2012 22:40:01 +0100
-Message-ID: <1601708.ZBzUYWUMic@helios>
-Organization: Intel Corporation
-User-Agent: KMail/4.8.0 (Linux/3.0.0-16-generic-pae; KDE/4.8.1; i686; ; )
-In-Reply-To: <alpine.DEB.2.02.1203271728430.7513@oneiric>
-References: <alpine.DEB.2.02.1203271728430.7513@oneiric>
+	Tue, 27 Mar 2012 23:57:14 +0200
+Received: from cpec03f0ed08c7f-cm001ac318e826.cpe.net.cable.rogers.com
+	([99.241.91.63] helo=crashcourse.ca)
+	by astoria.ccjclearline.com with esmtpsa (TLSv1:AES256-SHA:256)
+	(Exim 4.69) (envelope-from <rpjday@crashcourse.ca>)
+	id 1SCeFR-0007cJ-QB for openembedded-core@lists.openembedded.org;
+	Tue, 27 Mar 2012 17:48:13 -0400
+Date: Tue, 27 Mar 2012 17:48:03 -0400 (EDT)
+From: "Robert P. J. Day" <rpjday@crashcourse.ca>
+X-X-Sender: rpjday@oneiric
+To: OE Core mailing list <openembedded-core@lists.openembedded.org>
+Message-ID: <alpine.DEB.2.02.1203271734090.7770@oneiric>
+User-Agent: Alpine 2.02 (DEB 1266 2009-07-14)
 MIME-Version: 1.0
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: verifying all necessary OE-related software on your dev host
+X-AntiAbuse: This header was added to track abuse,
+	please include it with any abuse report
+X-AntiAbuse: Primary Hostname - astoria.ccjclearline.com
+X-AntiAbuse: Original Domain - lists.openembedded.org
+X-AntiAbuse: Originator/Caller UID/GID - [47 12] / [47 12]
+X-AntiAbuse: Sender Address Domain - crashcourse.ca
+X-Source: 
+X-Source-Args: 
+X-Source-Dir: 
+Subject: how much can bitbake tell me about my upcoming build?
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -34,32 +40,59 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 27 Mar 2012 21:49:07 -0000
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
+X-List-Received-Date: Tue, 27 Mar 2012 21:57:14 -0000
+Content-Type: TEXT/PLAIN; charset=US-ASCII
 
-On Tuesday 27 March 2012 17:33:18 Robert P. J. Day wrote:
-> the only thing a beginner might want to do is check that the dev host
-> has all essential S/W for OE work.  i know that's documented in the
-> yocto QS guide here:
-> 
-> http://www.yoctoproject.org/docs/current/yocto-project-qs/yocto-project-qs.h
-> tml
-> 
-> is there any automated way to check for this?  is there any OE/bitbake
-> equivalent to "please check that all necessary commands are
-> installed"?
 
-There are checks performed within sanity.bbclass to ensure the availability of 
-all of these commands, so this happens automatically the first time a build is 
-run.
+  so, let's say i've decided to use oe-core to build a qemux86 image:
 
-Cheers,
-Paul
+$ . oe-core/oe-init-build-env builds/qemux86
+
+before i go *any* further (before i even decide which image i'm going
+to bake), how much can bitbake tell me about this configuration?
+
+  i know
+
+$ bitbake -e
+
+can tell me my current environment, that's certainly useful.
+
+  i can also use
+
+$ bitbake -s
+
+to show me the current and preferred versions of all packages (related
+strictly to the current MACHINE setting in local.conf, correct?)
+
+  what other info can i get out of bitbake?  what about image-specific
+info?  is there a way to list the packages required for a given image?
+some equivalent of
+
+$ bitbake -s core-image-sato
+
+  what about a command that lists the available images without having
+to peruse the oe-core "images" directories?  and what about any of the
+other bitbake-related utilities?  i can see "bitbake-layers" being
+pretty useful.
+
+  in short, without starting an actual build, how much information can
+i extract using bitbake and bitbake-related utilities?
+
+rday
+
+p.s.  one thing i'd like is to be able to ask how much source i would
+need to download for a given build before i start.  is there any way
+to do that?
 
 -- 
 
-Paul Eggleton
-Intel Open Source Technology Centre
+========================================================================
+Robert P. J. Day                                 Ottawa, Ontario, CANADA
+                        http://crashcourse.ca
+
+Twitter:                                       http://twitter.com/rpjday
+LinkedIn:                               http://ca.linkedin.com/in/rpjday
+========================================================================
+
 
 
