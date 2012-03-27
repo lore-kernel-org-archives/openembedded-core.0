@@ -1,35 +1,26 @@
-Received: from mail-ob0-f175.google.com ([209.85.214.175])
+Received: from mga02.intel.com ([134.134.136.20])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <kergoth@gmail.com>) id 1SCcZ3-0007Ij-AT
+	(envelope-from <paul.eggleton@linux.intel.com>) id 1SCd1t-0007eU-Bp
 	for openembedded-core@lists.openembedded.org;
-	Tue, 27 Mar 2012 22:00:22 +0200
-Received: by obqv19 with SMTP id v19so309402obq.6
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 27 Mar 2012 12:51:18 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=from:to:cc:subject:date:message-id:x-mailer:in-reply-to:references;
-	bh=zZxf0aJaMCptINrLONZniwDZxUgcL9crRmOgQq5nLuQ=;
-	b=FkjQa87iSCVX6T6p1ZzPahkvV3aNlbv8lGEeeuLv+eTkOgzKT3x/syQr3YwML7LxTT
-	hhd3ocel507cEUv9zRHxHPwwlG+O4UXlqy1y9jk3OEUEzuPVSzwANIwwgamJziLkHLC4
-	EdTbvLNWxGYE+0xanTw1rcWQhRjfjcNgVox02hXESKKrPwqw5t5XWorS9IiiK0jXxlOR
-	WToUjNLH+7k3TUEddWgK3c1hclHOvs2NCXxjtDljw4CzgOIRYsKKBbLdh5WLZgNT9GnF
-	90dFom23ZBTTEWfQpHViWdxG80ZBOfMcZgsVHbWCxmC1NfqaJ+KNR9Qg+1P99qjn7bsN
-	Keig==
-Received: by 10.182.172.100 with SMTP id bb4mr34916497obc.28.1332877878175;
-	Tue, 27 Mar 2012 12:51:18 -0700 (PDT)
-Received: from localhost.localdomain (nat-lmt.mentorg.com. [139.181.28.34])
-	by mx.google.com with ESMTPS id v9sm797626obo.9.2012.03.27.12.51.16
-	(version=TLSv1/SSLv3 cipher=OTHER);
-	Tue, 27 Mar 2012 12:51:17 -0700 (PDT)
-From: Christopher Larson <kergoth@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Date: Tue, 27 Mar 2012 14:51:08 -0500
-Message-Id: <1332877869-12195-2-git-send-email-kergoth@gmail.com>
-X-Mailer: git-send-email 1.7.7
-In-Reply-To: <1332877869-12195-1-git-send-email-kergoth@gmail.com>
-References: <1332877869-12195-1-git-send-email-kergoth@gmail.com>
-Cc: Christopher Larson <chris_larson@mentor.com>, edmar@freescale.com
-Subject: [PATCH 2/3] powerpc e500: set -mfloat-gprs=double
+	Tue, 27 Mar 2012 22:30:10 +0200
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+	by orsmga101.jf.intel.com with ESMTP; 27 Mar 2012 13:21:06 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.67,352,1309762800"; d="scan'208";a="122359304"
+Received: from unknown (HELO helios.localnet) ([10.252.123.228])
+	by orsmga001.jf.intel.com with ESMTP; 27 Mar 2012 13:21:05 -0700
+From: Paul Eggleton <paul.eggleton@linux.intel.com>
+To: Saul Wold <sgw@linux.intel.com>
+Date: Tue, 27 Mar 2012 21:21:03 +0100
+Message-ID: <1658718.eaPkFfPBtZ@helios>
+Organization: Intel Corporation
+User-Agent: KMail/4.8.0 (Linux/3.0.0-16-generic-pae; KDE/4.8.1; i686; ; )
+In-Reply-To: <4F7203EA.4030104@linux.intel.com>
+References: <cover.1332826876.git.sgw@linux.intel.com>
+	<1443918.kuu0Jnlh65@helios> <4F7203EA.4030104@linux.intel.com>
+MIME-Version: 1.0
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH 0/6] Setup for VMDK to use Direct Disk
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -44,49 +35,54 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 27 Mar 2012 20:00:22 -0000
+X-List-Received-Date: Tue, 27 Mar 2012 20:30:10 -0000
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
 
-From: Christopher Larson <chris_larson@mentor.com>
+On Tuesday 27 March 2012 11:16:10 Saul Wold wrote:
+> Yes, there is an issue with genext2fs needing memory to build the
+> filesystem first.  I noted in another email thread that the Debian build
+> system had so resort to dd, mkfs.ext3, mounting and copying. The issue
+> with that is that it requires root privileges which is forbidden with
+> bitbake.
+> 
+> genext2fs combines the making and copying of the fs into one process, if
+> there is a way to populate the filesystem image with the bits without
+> root privs that's what we need to look towards.
 
-Use of FPRs instead of GPRs is incompatible with e500/SPE, so let's be
-explicit about the use of GPRs to avoid potential errors. For example, with
-the Sourcery G++ toolchain, one can hit: conftest.c:1:0: error: E500 and FPRs
-not supported.
+Yes, the mount alternative won't work for us. virt-make-fs from the libguestfs 
+tools might be a possibility but its large set of dependencies could be an 
+issue unless we can pare them down somehow.
 
-Signed-off-by: Christopher Larson <chris_larson@mentor.com>
----
- meta/conf/machine/include/tune-ppce500.inc   |    2 +-
- meta/conf/machine/include/tune-ppce500v2.inc |    2 +-
- 2 files changed, 2 insertions(+), 2 deletions(-)
+> This is turning into a non-trivial problem.
 
-diff --git a/meta/conf/machine/include/tune-ppce500.inc b/meta/conf/machine/include/tune-ppce500.inc
-index 1326720..feb1967 100644
---- a/meta/conf/machine/include/tune-ppce500.inc
-+++ b/meta/conf/machine/include/tune-ppce500.inc
-@@ -7,7 +7,7 @@ TUNE_CCARGS += "${@bb.utils.contains("TUNE_FEATURES", "ppce500", "-mcpu=8540", "
- TUNE_PKGARCH_tune-ppce500 = "ppce500"
- 
- TUNEVALID[spe] = "Enable SPE ABI extensions"
--TUNE_CCARGS += "${@bb.utils.contains("TUNE_FEATURES", "spe", "-mabi=spe -mspe", "", d)}"
-+TUNE_CCARGS += "${@bb.utils.contains("TUNE_FEATURES", "spe", "-mabi=spe -mspe -mfloat-gprs=double", "", d)}"
- 
- TARGET_FPU = "ppc-efs"
- 
-diff --git a/meta/conf/machine/include/tune-ppce500v2.inc b/meta/conf/machine/include/tune-ppce500v2.inc
-index e7b51c6..f0158d0 100644
---- a/meta/conf/machine/include/tune-ppce500v2.inc
-+++ b/meta/conf/machine/include/tune-ppce500v2.inc
-@@ -7,7 +7,7 @@ TUNE_CCARGS += "${@bb.utils.contains("TUNE_FEATURES", "ppce500v2", "-mcpu=8548",
- TUNE_PKGARCH_tune-ppce500v2 = "ppce500v2"
- 
- TUNEVALID[spe] = "Enable SPE ABI extensions"
--TUNE_CCARGS += "${@bb.utils.contains("TUNE_FEATURES", "spe", "-mabi=spe -mspe", "", d)}"
-+TUNE_CCARGS += '${@bb.utils.contains("TUNE_FEATURES", "spe", "-mabi=spe -mspe -mfloat-gprs=double", "", d)}'
- 
- TARGET_FPU = "ppc-efd"
- 
+Indeed :/
+
+> I am beginning to think that we might have to have 2 vmdk images for the
+> build appliance to work correctly. 1 for the rootfs and the second for
+> the build space (10G-20G) with DL_DIR populated.
+
+That might mitigate the problem, yes. If genext2fs requires the same amount of 
+RAM as the target filesystem then maybe we need to do an available  RAM check 
+first and bail out if there isn't enough.
+
+> > I guess this might have something to do with my DL_DIR not being clean
+> > beforehand (since it seems to be copying it into the rootfs in its
+> > entirety).
+>
+> I have created a clean DL_DIR to work with by doing a world fetch and
+> then using that DL_DIR to build into the image.
+
+I guess we can just put that in the docs for now. For future improvement 
+though I wonder if we can trick the fetcher into just pulling across the 
+current files into the rootfs. I'll put that on my todo list for later.
+
+Cheers,
+Paul
+
 -- 
-1.7.7
 
+Paul Eggleton
+Intel Open Source Technology Centre
 
 
