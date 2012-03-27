@@ -1,14 +1,31 @@
-Received: from ffm.saftware.de ([83.141.3.46])
+Received: from astoria.ccjclearline.com ([64.235.106.9])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <obi@opendreambox.org>) id 1SCe9q-0000Jv-No
+	(envelope-from <rpjday@crashcourse.ca>) id 1SCe9s-0000K1-DT
 	for openembedded-core@lists.openembedded.org;
-	Tue, 27 Mar 2012 23:42:26 +0200
-From: Andreas Oberritter <obi@opendreambox.org>
-To: openembedded-core@lists.openembedded.org
-Date: Tue, 27 Mar 2012 23:33:24 +0200
-Message-Id: <1332884004-5175-1-git-send-email-obi@opendreambox.org>
-X-Mailer: git-send-email 1.7.5.4
-Subject: [PATCH] procps: don't print error message with kernel 3.0+
+	Tue, 27 Mar 2012 23:42:28 +0200
+Received: from cpec03f0ed08c7f-cm001ac318e826.cpe.net.cable.rogers.com
+	([99.241.91.63] helo=crashcourse.ca)
+	by astoria.ccjclearline.com with esmtpsa (TLSv1:AES256-SHA:256)
+	(Exim 4.69) (envelope-from <rpjday@crashcourse.ca>)
+	id 1SCe1A-0006ta-GZ for openembedded-core@lists.openembedded.org;
+	Tue, 27 Mar 2012 17:33:28 -0400
+Date: Tue, 27 Mar 2012 17:33:18 -0400 (EDT)
+From: "Robert P. J. Day" <rpjday@crashcourse.ca>
+X-X-Sender: rpjday@oneiric
+To: OE Core mailing list <openembedded-core@lists.openembedded.org>
+Message-ID: <alpine.DEB.2.02.1203271728430.7513@oneiric>
+User-Agent: Alpine 2.02 (DEB 1266 2009-07-14)
+MIME-Version: 1.0
+X-AntiAbuse: This header was added to track abuse,
+	please include it with any abuse report
+X-AntiAbuse: Primary Hostname - astoria.ccjclearline.com
+X-AntiAbuse: Original Domain - lists.openembedded.org
+X-AntiAbuse: Originator/Caller UID/GID - [47 12] / [47 12]
+X-AntiAbuse: Sender Address Domain - crashcourse.ca
+X-Source: 
+X-Source-Args: 
+X-Source-Dir: 
+Subject: verifying all necessary OE-related software on your dev host
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -23,95 +40,42 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 27 Mar 2012 21:42:26 -0000
+X-List-Received-Date: Tue, 27 Mar 2012 21:42:28 -0000
+Content-Type: TEXT/PLAIN; charset=US-ASCII
 
-* All procps tools print a message like this when the kernel
-  version consists of only two numbers:
 
-| Non-standard uts for running kernel:
-| release ... gives version code ...
+  assuming all i've done so far is:
 
-* Import a patch from Debian to quieten this message.
+$ git clone git://git.openembedded.org/openembedded-core oe-core
+$ cd oe-core
+$ git clone git://git.openembedded.org/bitbake bitbake
 
-Signed-off-by: Andreas Oberritter <obi@opendreambox.org>
----
- .../procps/procps-3.2.8/gnu-kbsd-version.patch     |   44 ++++++++++++++++++++
- meta/recipes-extended/procps/procps_3.2.8.bb       |    3 +-
- 2 files changed, 46 insertions(+), 1 deletions(-)
- create mode 100644 meta/recipes-extended/procps/procps-3.2.8/gnu-kbsd-version.patch
+the only thing a beginner might want to do is check that the dev host
+has all essential S/W for OE work.  i know that's documented in the
+yocto QS guide here:
 
-diff --git a/meta/recipes-extended/procps/procps-3.2.8/gnu-kbsd-version.patch b/meta/recipes-extended/procps/procps-3.2.8/gnu-kbsd-version.patch
-new file mode 100644
-index 0000000..2582857
---- /dev/null
-+++ b/meta/recipes-extended/procps/procps-3.2.8/gnu-kbsd-version.patch
-@@ -0,0 +1,44 @@
-+Upstream-Status: Inappropriate [not author, no upstream]
-+
-+Imported from Debian.
-+Source: http://anonscm.debian.org/gitweb/?p=collab-maint/procps.git;a=blob;f=debian/patches/gnu-kbsd-version.patch;h=fe5489fc772a3355ff8c0dcf9b953bf0c05aa9f8;hb=b460cfd726b019f8d918b380f78af4c19c5f3e50
-+Bugtracker: http://bugs.debian.org/cgi-bin/bugreport.cgi?bug=632749
-+
-+Stops procps utilities from printing a warning when used with
-+kernels having only two digit versions, e.g. 3.0.
-+
-+Author: <csmall@debian.org>
-+Description: Rework version parsing so its ok with other OSes
-+--- a/proc/version.c
-++++ b/proc/version.c
-+@@ -35,15 +35,23 @@
-+ 
-+ static void init_Linux_version(void) __attribute__((constructor));
-+ static void init_Linux_version(void) {
-+-    static struct utsname uts;
-+-    int x = 0, y = 0, z = 0;	/* cleared in case sscanf() < 3 */
-++    int x = 0, y = 0, z = 0;	/* cleared in case sscanf() < 2 */
-++    FILE *fp;
-++    char buf[256];
-+     
-+-    if (uname(&uts) == -1)	/* failure implies impending death */
-+-	exit(1);
-+-    if (sscanf(uts.release, "%d.%d.%d", &x, &y, &z) < 3)
-++    if ( (fp=fopen("/proc/version","r")) == NULL) /* failure implies impending death */
-++      exit(1);
-++    if (fgets(buf, 256, fp) == NULL) {
-++      fprintf(stderr, "Cannot read kernel version from /proc/version\n");
-++      fclose(fp);
-++      exit(1);
-++    }
-++    fclose(fp);
-++    if (sscanf(buf, "Linux version %d.%d.%d", &x, &y, &z) < 2)
-+ 	fprintf(stderr,		/* *very* unlikely to happen by accident */
-+ 		"Non-standard uts for running kernel:\n"
-+-		"release %s=%d.%d.%d gives version code %d\n",
-+-		uts.release, x, y, z, LINUX_VERSION(x,y,z));
-++        "release %s=%d.%d.%d gives version code %d\n",
-++        buf,
-++        x, y, z, LINUX_VERSION(x,y,z));
-+     linux_version_code = LINUX_VERSION(x, y, z);
-+ }
-diff --git a/meta/recipes-extended/procps/procps_3.2.8.bb b/meta/recipes-extended/procps/procps_3.2.8.bb
-index 683badc..dfae0b8 100644
---- a/meta/recipes-extended/procps/procps_3.2.8.bb
-+++ b/meta/recipes-extended/procps/procps_3.2.8.bb
-@@ -1,6 +1,6 @@
- require procps.inc
- 
--PR = "r6"
-+PR = "r7"
- 
- inherit update-alternatives
- 
-@@ -14,6 +14,7 @@ SRC_URI += "file://procmodule.patch \
-             file://linux-limits.patch \
-             file://sysctl.conf \
-             file://procps-3.2.8+gmake-3.82.patch \
-+            file://gnu-kbsd-version.patch \
-            "
- 
- SRC_URI[md5sum] = "9532714b6846013ca9898984ba4cd7e0"
+http://www.yoctoproject.org/docs/current/yocto-project-qs/yocto-project-qs.html
+
+is there any automated way to check for this?  is there any OE/bitbake
+equivalent to "please check that all necessary commands are
+installed"?
+
+  is there anything else at all that a user might want to verify
+before starting to build their first image?   nothing leaps to mind,
+but i just want to make sure i'm not missing anything.
+
+rday
+
+p.s.  subsequent questions will get more interesting, i promise.
+
 -- 
-1.7.5.4
 
+========================================================================
+Robert P. J. Day                                 Ottawa, Ontario, CANADA
+                        http://crashcourse.ca
+
+Twitter:                                       http://twitter.com/rpjday
+LinkedIn:                               http://ca.linkedin.com/in/rpjday
+========================================================================
 
 
