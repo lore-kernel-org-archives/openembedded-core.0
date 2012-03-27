@@ -1,22 +1,20 @@
 Received: from mga11.intel.com ([192.55.52.93])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <lianhao.lu@intel.com>) id 1SCOMU-0000ea-Os
+	(envelope-from <sgw@linux.intel.com>) id 1SCPKA-0006em-7r
 	for openembedded-core@lists.openembedded.org;
-	Tue, 27 Mar 2012 06:50:26 +0200
+	Tue, 27 Mar 2012 07:52:06 +0200
 Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-	by fmsmga102.fm.intel.com with ESMTP; 26 Mar 2012 21:41:25 -0700
+	by fmsmga102.fm.intel.com with ESMTP; 26 Mar 2012 22:43:04 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="145997269"
-Received: from llu-piketon.sh.intel.com (HELO localhost) ([10.239.36.110])
-	by fmsmga002.fm.intel.com with ESMTP; 26 Mar 2012 21:41:24 -0700
-From: Lianhao Lu <lianhao.lu@intel.com>
+X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="146024232"
+Received: from unknown (HELO swold-mobl.domain.invalid) ([10.255.12.107])
+	by fmsmga002.fm.intel.com with ESMTP; 26 Mar 2012 22:43:04 -0700
+From: Saul Wold <sgw@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Tue, 27 Mar 2012 12:38:29 +0800
-Message-Id: <68f501edc836a42438c8eb49bf8c14cfc706eb9d.1332822880.git.lianhao.lu@intel.com>
-X-Mailer: git-send-email 1.7.0.4
-In-Reply-To: <cover.1332822880.git.lianhao.lu@intel.com>
-References: <cover.1332822880.git.lianhao.lu@intel.com>
-Subject: [PATCH 1/1] gcc-cross-canadian: Clean non shipped empty directories.
+Date: Mon, 26 Mar 2012 22:42:54 -0700
+Message-Id: <cover.1332826876.git.sgw@linux.intel.com>
+X-Mailer: git-send-email 1.7.7.6
+Subject: [PATCH 0/6] Setup for VMDK to use Direct Disk
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -31,38 +29,40 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 27 Mar 2012 04:50:27 -0000
+X-List-Received-Date: Tue, 27 Mar 2012 05:52:06 -0000
 
-Cleaning up non shipped empty directories.
+Updated comments per Darren's request, added cleanup to
+image-types to only use one -i (inode-count) parameter.
 
-Signed-off-by: Lianhao Lu <lianhao.lu@intel.com>
----
- meta/recipes-devtools/gcc/gcc-package-sdk.inc |   10 +++++-----
- 1 files changed, 5 insertions(+), 5 deletions(-)
+Sau!
+The following changes since commit 644b7503c37fd73730dd3d7841463b158b8934ed:
 
-diff --git a/meta/recipes-devtools/gcc/gcc-package-sdk.inc b/meta/recipes-devtools/gcc/gcc-package-sdk.inc
-index 95d6804..ffe9a9e 100644
---- a/meta/recipes-devtools/gcc/gcc-package-sdk.inc
-+++ b/meta/recipes-devtools/gcc/gcc-package-sdk.inc
-@@ -47,11 +47,11 @@ do_install () {
- 	rm -f ${D}${libdir}/libiberty.a
- 
- 	# Cleanup empty directories which are not shipped
--	# we use rmdir instead of 'rm -f' to ensure the directories are empty
--	rmdir ${D}${libdir}/../lib
--	rmdir ${D}${prefix}/${TARGET_SYS}/lib
--	rmdir ${D}${prefix}/${TARGET_SYS}
--	rmdir ${D}${includedir}
-+	# we use rmdir instead of 'rm -f' to ensure the non empty directories are not deleted
-+	local empty_dirs="${D}${libdir}/../lib ${D}${prefix}/${TARGET_SYS}/lib ${D}${prefix}/${TARGET_SYS} ${D}${includedir}"
-+	for i in $empty_dirs; do
-+		[ -d $i ] && rmdir --ignore-fail-on-non-empty $i
-+	done
- 
- 	# Insert symlinks into libexec so when tools without a prefix are searched for, the correct ones are
- 	# found.
+  guile: Deal with hardcoded path issues (2012-03-27 00:28:41 +0100)
+
+are available in the git repository at:
+  git://git.openembedded.org/openembedded-core-contrib sgw/self
+  http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=sgw/self
+
+Dexuan Cui (1):
+  self-hosted-image: pre-populate the builder user with poky source
+
+Saul Wold (5):
+  image-vmdk: Add symbolic link for a short named vmdk image
+  boot-directdisk: Fix Block Calcuation
+  vmdk: Update for direstdisk
+  builder: Enable auto starting of Hob
+  image_types: remove duplicate setting of -i for inode count
+
+ meta/classes/boot-directdisk.bbclass               |   19 ++++++---
+ meta/classes/image-vmdk.bbclass                    |   17 +++++++-
+ meta/classes/image_types.bbclass                   |    5 +-
+ meta/recipes-core/images/self-hosted-image.bb      |   41 +++++++++++++++++++-
+ meta/recipes-graphics/builder/builder_0.1.bb       |    2 +-
+ .../builder/files/builder_hob_start.sh             |   10 +++-
+ 6 files changed, 77 insertions(+), 17 deletions(-)
+
 -- 
-1.7.0.4
+1.7.7.6
 
 
 
