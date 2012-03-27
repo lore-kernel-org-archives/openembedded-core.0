@@ -1,31 +1,30 @@
-Received: from astoria.ccjclearline.com ([64.235.106.9])
+Received: from mail1.windriver.com ([147.11.146.13])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <rpjday@crashcourse.ca>) id 1SCeOA-0000nn-4B
+	(envelope-from <mark.hatle@windriver.com>) id 1SCeQC-0000qe-IP
 	for openembedded-core@lists.openembedded.org;
-	Tue, 27 Mar 2012 23:57:14 +0200
-Received: from cpec03f0ed08c7f-cm001ac318e826.cpe.net.cable.rogers.com
-	([99.241.91.63] helo=crashcourse.ca)
-	by astoria.ccjclearline.com with esmtpsa (TLSv1:AES256-SHA:256)
-	(Exim 4.69) (envelope-from <rpjday@crashcourse.ca>)
-	id 1SCeFR-0007cJ-QB for openembedded-core@lists.openembedded.org;
-	Tue, 27 Mar 2012 17:48:13 -0400
-Date: Tue, 27 Mar 2012 17:48:03 -0400 (EDT)
-From: "Robert P. J. Day" <rpjday@crashcourse.ca>
-X-X-Sender: rpjday@oneiric
-To: OE Core mailing list <openembedded-core@lists.openembedded.org>
-Message-ID: <alpine.DEB.2.02.1203271734090.7770@oneiric>
-User-Agent: Alpine 2.02 (DEB 1266 2009-07-14)
+	Tue, 27 Mar 2012 23:59:20 +0200
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca [147.11.189.40])
+	by mail1.windriver.com (8.14.3/8.14.3) with ESMTP id q2RLoHtK005726
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 27 Mar 2012 14:50:18 -0700 (PDT)
+Received: from msp-dhcp8.wrs.com (172.25.34.8) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server id 14.1.255.0;
+	Tue, 27 Mar 2012 14:50:18 -0700
+Message-ID: <4F723618.6060104@windriver.com>
+Date: Tue, 27 Mar 2012 16:50:16 -0500
+From: Mark Hatle <mark.hatle@windriver.com>
+Organization: Wind River Systems
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.6;
+	rv:10.0.2) Gecko/20120216 Thunderbird/10.0.2
 MIME-Version: 1.0
-X-AntiAbuse: This header was added to track abuse,
-	please include it with any abuse report
-X-AntiAbuse: Primary Hostname - astoria.ccjclearline.com
-X-AntiAbuse: Original Domain - lists.openembedded.org
-X-AntiAbuse: Originator/Caller UID/GID - [47 12] / [47 12]
-X-AntiAbuse: Sender Address Domain - crashcourse.ca
-X-Source: 
-X-Source-Args: 
-X-Source-Dir: 
-Subject: how much can bitbake tell me about my upcoming build?
+To: <openembedded-core@lists.openembedded.org>
+References: <1332877869-12195-1-git-send-email-kergoth@gmail.com>
+	<1332877869-12195-3-git-send-email-kergoth@gmail.com>
+	<4F72219A.2020301@windriver.com>
+	<CABcZANmm5BNHdMtSJJ_P6WNpkgrQ+1vhbHgDg1-9Dc_FXWbhgQ@mail.gmail.com>
+In-Reply-To: <CABcZANmm5BNHdMtSJJ_P6WNpkgrQ+1vhbHgDg1-9Dc_FXWbhgQ@mail.gmail.com>
+Subject: Re: [PATCH 3/3] powerpc: define TUNE_PKGARCH for powerpc/powerpc-nf
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -40,59 +39,73 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 27 Mar 2012 21:57:14 -0000
-Content-Type: TEXT/PLAIN; charset=US-ASCII
+X-List-Received-Date: Tue, 27 Mar 2012 21:59:21 -0000
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 7bit
 
+On 3/27/12 4:05 PM, Chris Larson wrote:
+> On Tue, Mar 27, 2012 at 1:22 PM, Mark Hatle<mark.hatle@windriver.com>  wrote:
+>> Patch 1 and 2 look fine, but I have questions on this one....
+>>
+>>
+>> On 3/27/12 2:51 PM, Christopher Larson wrote:
+>>>
+>>> From: Christopher Larson<chris_larson@mentor.com>
+>>>
+>>> This allows setting DEFAULTTUNE to powerpc or powerpc-nf rather than just
+>>> the
+>>> more specific cpu/machine tuning.
+>>>
+>>> Signed-off-by: Christopher Larson<chris_larson@mentor.com>
+>>> ---
+>>>   meta/conf/machine/include/powerpc/arch-powerpc.inc |    2 ++
+>>>   1 files changed, 2 insertions(+), 0 deletions(-)
+>>>
+>>> diff --git a/meta/conf/machine/include/powerpc/arch-powerpc.inc
+>>> b/meta/conf/machine/include/powerpc/arch-powerpc.inc
+>>> index c5fd6b7..3438b46 100644
+>>> --- a/meta/conf/machine/include/powerpc/arch-powerpc.inc
+>>> +++ b/meta/conf/machine/include/powerpc/arch-powerpc.inc
+>>> @@ -26,6 +26,8 @@ AVAILTUNES += "powerpc powerpc-nf"
+>>>   TUNE_FEATURES_tune-powerpc-nf ?= "m32 fpu-soft"
+>>>   BASE_LIB_tune-powerpc-nf = "lib"
+>>>   PACKAGE_EXTRA_ARCHS_tune-powerpc-nf = "powerpc-nf"
+>>> +TUNE_PKGARCH_tune-powerpc-nf = "powerpc-nf"
+>>>   TUNE_FEATURES_tune-powerpc ?= "m32 fpu-hard"
+>>>   BASE_LIB_tune-powerpc = "lib"
+>>>   PACKAGE_EXTRA_ARCHS_tune-powerpc = "powerpc"
+>>> +TUNE_PKGARCH_tune-powerpc = "powerpc"
+>>
+>>
+>> Why is the above necessary?
+>>
+>> TUNE_PKGARCH_append is set to "${PPCPKGSFX_FPU}"
+>>
+>> PPCPKGSFX_FP is set to either '' or '-nf' based on the existance of
+>> fpu-soft.
+>>
+>> TUNE_PKGARCH is set by a number of the PowerPC tuning files...  If you are
+>> looking for generic PowerPC there should be something setting TUNE_PKGARCH
+>> to "powerpc" (or "powerpc64" in the default cases...)
+>
+> This is what I'm saying. If you want to target generic powerpc, you
+> have to force TUNE_PKGARCH, as the generic don't have
+> TUNE_PKGARCH_tune- definitions. It seems to me in most cases you can
+> set DEFAULTTUNE and include an appropriate tune file and not need to
+> set TUNE_PKGARCH directly, which is not the case for the generic ones.
+> Was it not the intent that this was the case? Should every MACHINE
+> have to override TUNE_PKGARCH?
 
-  so, let's say i've decided to use oe-core to build a qemux86 image:
+On PowerPC TUNE_PKGARCH should be set to powerpc (or overriden by the machines). 
+  On PowerPC64, it should be set to powerpc64.  If this is not happening that is 
+the bug, lack of the default TUNE_PKGARCH.  (based on the original implementation.)
 
-$ . oe-core/oe-init-build-env builds/qemux86
+It was intended that having to have multiple TUNE_PKGARCH one for powerpc and 
+one for powerpc-nf was not the intention.
 
-before i go *any* further (before i even decide which image i'm going
-to bake), how much can bitbake tell me about this configuration?
+I'm open to changing it, but I took a lot of "feedback" over the initial 
+implementation and that is what ended up in it.
 
-  i know
-
-$ bitbake -e
-
-can tell me my current environment, that's certainly useful.
-
-  i can also use
-
-$ bitbake -s
-
-to show me the current and preferred versions of all packages (related
-strictly to the current MACHINE setting in local.conf, correct?)
-
-  what other info can i get out of bitbake?  what about image-specific
-info?  is there a way to list the packages required for a given image?
-some equivalent of
-
-$ bitbake -s core-image-sato
-
-  what about a command that lists the available images without having
-to peruse the oe-core "images" directories?  and what about any of the
-other bitbake-related utilities?  i can see "bitbake-layers" being
-pretty useful.
-
-  in short, without starting an actual build, how much information can
-i extract using bitbake and bitbake-related utilities?
-
-rday
-
-p.s.  one thing i'd like is to be able to ask how much source i would
-need to download for a given build before i start.  is there any way
-to do that?
-
--- 
-
-========================================================================
-Robert P. J. Day                                 Ottawa, Ontario, CANADA
-                        http://crashcourse.ca
-
-Twitter:                                       http://twitter.com/rpjday
-LinkedIn:                               http://ca.linkedin.com/in/rpjday
-========================================================================
-
+--Mark
 
 
