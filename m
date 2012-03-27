@@ -1,34 +1,24 @@
-Received: from astoria.ccjclearline.com ([64.235.106.9])
+Received: from mga01.intel.com ([192.55.52.88])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <rpjday@crashcourse.ca>) id 1SCbxy-0006XR-MN
+	(envelope-from <paul.eggleton@linux.intel.com>) id 1SCcBb-0006jW-74
 	for openembedded-core@lists.openembedded.org;
-	Tue, 27 Mar 2012 21:22:02 +0200
-Received: from cpec03f0ed08c7f-cm001ac318e826.cpe.net.cable.rogers.com
-	([99.241.91.63] helo=crashcourse.ca)
-	by astoria.ccjclearline.com with esmtpsa (TLSv1:AES256-SHA:256)
-	(Exim 4.69) (envelope-from <rpjday@crashcourse.ca>)
-	id 1SCbpG-0007oJ-Nz for openembedded-core@lists.openembedded.org;
-	Tue, 27 Mar 2012 15:13:02 -0400
-Date: Tue, 27 Mar 2012 15:12:52 -0400 (EDT)
-From: "Robert P. J. Day" <rpjday@crashcourse.ca>
-X-X-Sender: rpjday@oneiric
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-In-Reply-To: <CAHod+GcSKcRd_4abi1qrDS71==1c8cQ2og4bR_nfVaa+k1frvQ@mail.gmail.com>
-Message-ID: <alpine.DEB.2.02.1203271511070.29495@oneiric>
+	Tue, 27 Mar 2012 21:36:07 +0200
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+	by fmsmga101.fm.intel.com with ESMTP; 27 Mar 2012 12:27:05 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="146443155"
+Received: from unknown (HELO helios.localnet) ([10.252.123.228])
+	by fmsmga002.fm.intel.com with ESMTP; 27 Mar 2012 12:27:04 -0700
+From: Paul Eggleton <paul.eggleton@linux.intel.com>
+To: "Robert P. J. Day" <rpjday@crashcourse.ca>
+Date: Tue, 27 Mar 2012 20:27:02 +0100
+Message-ID: <1704770.YM0OKmOcSp@helios>
+Organization: Intel Corporation
+User-Agent: KMail/4.8.0 (Linux/3.0.0-16-generic-pae; KDE/4.8.1; i686; ; )
+In-Reply-To: <alpine.DEB.2.02.1203270815010.3125@oneiric>
 References: <alpine.DEB.2.02.1203270815010.3125@oneiric>
-	<CAHod+GcSKcRd_4abi1qrDS71==1c8cQ2og4bR_nfVaa+k1frvQ@mail.gmail.com>
-User-Agent: Alpine 2.02 (DEB 1266 2009-07-14)
 MIME-Version: 1.0
-X-AntiAbuse: This header was added to track abuse,
-	please include it with any abuse report
-X-AntiAbuse: Primary Hostname - astoria.ccjclearline.com
-X-AntiAbuse: Original Domain - lists.openembedded.org
-X-AntiAbuse: Originator/Caller UID/GID - [47 12] / [47 12]
-X-AntiAbuse: Sender Address Domain - crashcourse.ca
-X-Source: 
-X-Source-Args: 
-X-Source-Dir: 
+Cc: openembedded-core@lists.openembedded.org
 Subject: Re: adding a single package to an image -- what's the proper way?
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
@@ -44,48 +34,57 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 27 Mar 2012 19:22:02 -0000
-Content-Type: MULTIPART/MIXED; BOUNDARY="8323329-237142991-1332875577=:29495"
+X-List-Received-Date: Tue, 27 Mar 2012 19:36:07 -0000
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
 
---8323329-237142991-1332875577=:29495
-Content-Type: TEXT/PLAIN; charset=ISO-8859-2
-Content-Transfer-Encoding: QUOTED-PRINTABLE
+On Tuesday 27 March 2012 08:20:11 Robert P. J. Day wrote:
+>   i'm currently poring over the OE docs (including the ones at the
+> yocto site), and i'm trying to figure out how to simply add a package
+> to an image through one's local.conf file.
+> 
+>   the current yocto ref manual has an entire section about customizing
+> images:
+> 
+> http://www.yoctoproject.org/docs/current/poky-ref-manual/poky-ref-manual.htm
+> l#usingpoky-extend-customimage
+> 
+> but it discusses creating custom recipe files and custom tasks, and
+> using IMAGE_INSTALL and IMAGE_FEATURES and EXTRA_IMAGE_FEATURES, and
+> finally gets into using local.conf, suggesting:
+> 
+>   DISTRO_EXTRA_RDEPENDS += "strace"
+> 
+> is that, in fact, the accepted way if one simply wants to add a
+> package to an existing image build?  because as soon as the manual
+> mentions it, in the very next paragraph, it discourages its use.
 
-On Tue, 27 Mar 2012, Marko Kati=E6 wrote:
+Well, this clearly does not make sense if that's the way it is presented. 
 
-> I haven't tried this myself on images, but you can probably use
-> .bbappend for this. I think bbappend files provide a proper way for
-> extending recipes. So for instance,if you want to add a package to
-> the core-image-minimal image you would place the following in your
-> core-image-minimal.bbappend file:
->
-> IMAGE_INSTALL +=3D "your_package"
->
-> Of course, this solution assumes you have a local overlay.
->
-> Or maybe you could try placing the above IMAGE_INSTALL append to
-> your local.conf. But that's probably messy and not advised.
+The real answer to this question is it depends on why you're adding the 
+package.
 
-  and this is part of the frustration in trying to do what should be
-extremely simple things in OE -- they're just not documented.
-however, rather than harp on this issue, i'm going to backtrack and
-post a more general missive explaining what i'm trying to do.  back in
-a while ...
+1) If you just want to add a single package temporarily for testing, use 
+CORE_IMAGE_EXTRA_INSTALL += in local.conf (although I really wish we could 
+make this mechanism more generic so that it applies to any image, not just the 
+ones in OE-Core).
 
-rday
+2) If you want to add something permanently for every (non-minimal) image 
+produced using your DISTRO, set DISTRO_EXTRA_RDEPENDS in your distro 
+configuration. This will come into your image via task-distro-base which is 
+pulled in by task-base. I don't think we should be advocating doing anything 
+with DISTRO_EXTRA_RDEPENDS via local.conf.
 
---=20
+3) If you're adding it permanently for a single image, consider whether adding 
+your own custom image recipe would be more appropriate. FWIW, I don't think 
+bbappends for recipes are a good idea.
 
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-Robert P. J. Day                                 Ottawa, Ontario, CANADA
-                        http://crashcourse.ca
+Cheers,
+Paul
 
-Twitter:                                       http://twitter.com/rpjday
-LinkedIn:                               http://ca.linkedin.com/in/rpjday
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+-- 
 
---8323329-237142991-1332875577=:29495--
+Paul Eggleton
+Intel Open Source Technology Centre
+
+
