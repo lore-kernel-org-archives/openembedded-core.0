@@ -1,26 +1,34 @@
-Received: from mail1.windriver.com ([147.11.146.13])
+Received: from astoria.ccjclearline.com ([64.235.106.9])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <mark.hatle@windriver.com>) id 1SCeRp-0001K4-8p
+	(envelope-from <rpjday@crashcourse.ca>) id 1SCeSK-0001QH-0B
 	for openembedded-core@lists.openembedded.org;
-	Wed, 28 Mar 2012 00:01:01 +0200
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca [147.11.189.40])
-	by mail1.windriver.com (8.14.3/8.14.3) with ESMTP id q2RLpxPh005751
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 27 Mar 2012 14:51:59 -0700 (PDT)
-Received: from localhost.localdomain (172.25.34.61) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server (TLS) id 14.1.255.0;
-	Tue, 27 Mar 2012 14:52:00 -0700
-From: Mark Hatle <mark.hatle@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Tue, 27 Mar 2012 16:57:31 -0500
-Message-ID: <6fcf0f17e30fc31e281078a3d04200806148cb78.1332884952.git.mark.hatle@windriver.com>
-X-Mailer: git-send-email 1.7.3.4
-In-Reply-To: <cover.1332884952.git.mark.hatle@windriver.com>
-References: <cover.1332884952.git.mark.hatle@windriver.com>
+	Wed, 28 Mar 2012 00:01:32 +0200
+Received: from cpec03f0ed08c7f-cm001ac318e826.cpe.net.cable.rogers.com
+	([99.241.91.63] helo=crashcourse.ca)
+	by astoria.ccjclearline.com with esmtpsa (TLSv1:AES256-SHA:256)
+	(Exim 4.69) (envelope-from <rpjday@crashcourse.ca>)
+	id 1SCeJc-0007md-9S; Tue, 27 Mar 2012 17:52:32 -0400
+Date: Tue, 27 Mar 2012 17:52:11 -0400 (EDT)
+From: "Robert P. J. Day" <rpjday@crashcourse.ca>
+X-X-Sender: rpjday@oneiric
+To: Paul Eggleton <paul.eggleton@linux.intel.com>
+In-Reply-To: <1601708.ZBzUYWUMic@helios>
+Message-ID: <alpine.DEB.2.02.1203271750090.8603@oneiric>
+References: <alpine.DEB.2.02.1203271728430.7513@oneiric>
+	<1601708.ZBzUYWUMic@helios>
+User-Agent: Alpine 2.02 (DEB 1266 2009-07-14)
 MIME-Version: 1.0
-X-Originating-IP: [172.25.34.61]
-Subject: [PATCH 2/2] scripts/bitbake: Update to help rebuild pseudo-native
+X-AntiAbuse: This header was added to track abuse,
+	please include it with any abuse report
+X-AntiAbuse: Primary Hostname - astoria.ccjclearline.com
+X-AntiAbuse: Original Domain - lists.openembedded.org
+X-AntiAbuse: Originator/Caller UID/GID - [47 12] / [47 12]
+X-AntiAbuse: Sender Address Domain - crashcourse.ca
+X-Source: 
+X-Source-Args: 
+X-Source-Dir: 
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: verifying all necessary OE-related software on your dev host
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -35,80 +43,40 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 27 Mar 2012 22:01:02 -0000
-Content-Type: text/plain
+X-List-Received-Date: Tue, 27 Mar 2012 22:01:32 -0000
+Content-Type: TEXT/PLAIN; charset=US-ASCII
 
-Attempt to detect when pseudo-native has been updated.  If it has been updated,
-or if the user is attempting an operation with pseudo-native in the name, force
-a build of pseudo-native, prior to running the main build.
+On Tue, 27 Mar 2012, Paul Eggleton wrote:
 
-Note: This causes a build, then clean in the case of
-   bitbake -c cleansstate pseudo-native
+> On Tuesday 27 March 2012 17:33:18 Robert P. J. Day wrote:
+> > the only thing a beginner might want to do is check that the dev host
+> > has all essential S/W for OE work.  i know that's documented in the
+> > yocto QS guide here:
+> >
+> > http://www.yoctoproject.org/docs/current/yocto-project-qs/yocto-project-qs.h
+> > tml
+> >
+> > is there any automated way to check for this?  is there any OE/bitbake
+> > equivalent to "please check that all necessary commands are
+> > installed"?
+>
+> There are checks performed within sanity.bbclass to ensure the availability of
+> all of these commands, so this happens automatically the first time a build is
+> run.
 
-Signed-off-by: Mark Hatle <mark.hatle@windriver.com>
----
- scripts/bitbake |   36 +++++++++++++++++++++++++++++++-----
- 1 files changed, 31 insertions(+), 5 deletions(-)
+  ok, and i can point out that that checking is already "require"d by
+the default bitbake.conf file.  thanks.
 
-diff --git a/scripts/bitbake b/scripts/bitbake
-index 45c8697..eb9e14f 100755
---- a/scripts/bitbake
-+++ b/scripts/bitbake
-@@ -55,21 +55,47 @@ fi
- buildpseudo="1"
- if [ $needpseudo = "1" ] && [ -e "$BUILDDIR/pseudodone" ]; then
-     PSEUDOBINDIR=`cat $BUILDDIR/pseudodone`
--    if [ -e "$PSEUDOBINDIR/pseudo" -a -e "$PSEUDOBINDIR/tar" -a "$needtar" = "1" ]; then
-+    if [ -e "$PSEUDOBINDIR/pseudo" ]; then
-         buildpseudo="0"
-     fi
--    if [ -e "$PSEUDOBINDIR/pseudo" -a $needtar = "0" ]; then
--        buildpseudo="0"
-+
-+    # Verify that the pseudo recipes are older then the pseudodone file
-+    PSEUDO_RECIPE="`dirname $0`/../meta/recipes-devtools/pseudo"
-+    if [ $buildpseudo -eq 0 ] && [ ! -d "$PSEUDO_RECIPE" ]; then
-+        echo "Unable to verify if pseudo-native is up to date..." >&2
-+    elif [ $buildpseudo -eq 0 ]; then
-+	PSEUDO_NEWER=`find $PSEUDO_RECIPE -type f -newer $BUILDDIR/pseudodone`
-+	if [ -n "$PSEUDO_NEWER" ]; then
-+            buildpseudo="2"
-+	fi
-     fi
- fi
-+
-+# If tar is already built, we don't want to do it again...
-+if [ -e "$PSEUDOBINDIR/tar" -a "$needtar" = "1" ]; then
-+    needtar="0"
-+fi
-+
- if [ $needpseudo = "0" ]; then
-     buildpseudo="0"
- fi
- 
-+# If pseudo-native is an argument, assume the user wants to build pseudo-native!
-+if [ $needpseudo != "0" -a $buildpseudo -eq 0 ]; then
-+    for opt in $@; do
-+        if [ "$opt" = "pseudo-native" ]; then
-+            buildpseudo="3"
-+            break
-+        fi
-+    done
-+fi
-+
- OLDPATH=$PATH
- export PATH=`echo $PATH | sed s#[^:]*/scripts:##`
--if [ $buildpseudo = "1" ]; then
--    echo "Pseudo is not present but is required, building this first before the main build"
-+if [ $buildpseudo -gt 0 ]; then
-+    [ $buildpseudo -eq 1 ] && echo "Pseudo is not present but is required, building this first before the main build"
-+    [ $buildpseudo -eq 2 ] && echo "Pseudo may be out of date, rebuilding pseudo before the main build"
-+    [ $buildpseudo -eq 3 ] && echo "Building pseudo-native before main build"
-     export PSEUDO_BUILD=1
-     TARTARGET="tar-replacement-native"
-     if [ $needtar = "0" ]; then
+rday
+
 -- 
-1.7.3.4
 
+========================================================================
+Robert P. J. Day                                 Ottawa, Ontario, CANADA
+                        http://crashcourse.ca
+
+Twitter:                                       http://twitter.com/rpjday
+LinkedIn:                               http://ca.linkedin.com/in/rpjday
+========================================================================
 
 
