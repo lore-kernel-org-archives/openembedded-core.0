@@ -1,24 +1,24 @@
 Received: from mga01.intel.com ([192.55.52.88])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <paul.eggleton@linux.intel.com>) id 1SCV3W-00045s-W3
+	(envelope-from <paul.eggleton@linux.intel.com>) id 1SCV3X-00045s-Ux
 	for openembedded-core@lists.openembedded.org;
-	Tue, 27 Mar 2012 13:59:19 +0200
+	Tue, 27 Mar 2012 13:59:20 +0200
 Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-	by fmsmga101.fm.intel.com with ESMTP; 27 Mar 2012 04:50:18 -0700
+	by fmsmga101.fm.intel.com with ESMTP; 27 Mar 2012 04:50:20 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="146197003"
+X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="146197016"
 Received: from unknown (HELO helios.ger.corp.intel.com) ([10.252.123.228])
-	by fmsmga002.fm.intel.com with ESMTP; 27 Mar 2012 04:50:17 -0700
+	by fmsmga002.fm.intel.com with ESMTP; 27 Mar 2012 04:50:18 -0700
 From: Paul Eggleton <paul.eggleton@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Tue, 27 Mar 2012 12:50:09 +0100
-Message-Id: <0b6dadd78b527731df18b8fa308d714b6d3ef956.1332848153.git.paul.eggleton@linux.intel.com>
+Date: Tue, 27 Mar 2012 12:50:10 +0100
+Message-Id: <198e1157afad1418826484e4044f59c7741b57f9.1332848153.git.paul.eggleton@linux.intel.com>
 X-Mailer: git-send-email 1.7.5.4
 In-Reply-To: <cover.1332848153.git.paul.eggleton@linux.intel.com>
 References: <cover.1332848153.git.paul.eggleton@linux.intel.com>
 In-Reply-To: <cover.1332848153.git.paul.eggleton@linux.intel.com>
 References: <cover.1332848153.git.paul.eggleton@linux.intel.com>
-Subject: [PATCH 2/3] scripts/bitbake: allow switching between build directories
+Subject: [PATCH 3/3] scripts/bitbake: add/fix some comments
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -33,56 +33,62 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 27 Mar 2012 11:59:19 -0000
+X-List-Received-Date: Tue, 27 Mar 2012 11:59:20 -0000
 
-The recent addition of the check to ensure the user was in their build
-directory disabled the ability to switch between build directories
-without re-running the build environment setup script. We can rely
-upon checking for conf/bblayers.conf instead, so use this check.
-
-This does allow BUILDDIR (which is normally set by the environment
-script) to be unset; however if it is set then it is assumed to be the
-correct build directory and will be used in the error message that is
-shown when we can't find conf/bblayers.conf.
+Add some comments explaining what this script does, fix one grammatical
+error in a comment and make the tar-replacement-native comment give the
+full reason why it is needed.
 
 Signed-off-by: Paul Eggleton <paul.eggleton@linux.intel.com>
 ---
- scripts/bitbake |   15 ++++++++++-----
- 1 files changed, 10 insertions(+), 5 deletions(-)
+ scripts/bitbake |   16 +++++++++++++---
+ 1 files changed, 13 insertions(+), 3 deletions(-)
 
 diff --git a/scripts/bitbake b/scripts/bitbake
-index 1ba1839..f02e89b 100755
+index f02e89b..a8adeb7 100755
 --- a/scripts/bitbake
 +++ b/scripts/bitbake
-@@ -37,6 +37,16 @@ if [ "$py_v26_check" != "True" ]; then
- 	exit 1
+@@ -1,10 +1,20 @@
+ #!/bin/sh
+ 
++# This is the bitbake wrapper script that ensures everything is set up
++# correctly in the environment, builds pseudo separately if it hasn't
++# already been built, and then runs bitbake within pseudo.
++
+ export BBFETCH2=True
+ export BB_ENV_EXTRAWHITE="PSEUDO_BUILD PSEUDO_DISABLED $BB_ENV_EXTRAWHITE"
+ 
++# For certain operations (i.e. that won't be actually running any tasks)
++# we don't need pseudo
+ NO_BUILD_OPTS="--version -h --help -p --parse-only -s --show-versions -e --environment -g --graphviz"
++
++# Some options are useful to pass through to the initial pseudo build if
++# that needs to be run (for debugging)
+ PASSTHROUGH_OPTS="-D -DD -DDD -DDDD -v"
++
+ needpseudo="1"
+ for opt in $@; do
+ for key in $NO_BUILD_OPTS; do
+@@ -29,7 +39,7 @@ if [ "$py_v3_check" != "" ]; then
  fi
  
-+if [ ! -e conf/bblayers.conf ] ; then
-+    BDPRINT=""
-+    [ -n "$BUILDDIR" ] && BDPRINT=": $BUILDDIR"
-+    echo "Unable to find conf/bblayers.conf"
-+    echo "BitBake must be run from within your build directory$BDPRINT"
-+    exit 1
-+elif [ -z "$BUILDDIR" ] ; then
-+    BUILDDIR="`pwd`"
-+fi
-+
- needtar="1"
- TARVERSION=`tar --version | head -n 1 | cut -d ' ' -f 4`
- float_test() {
-@@ -47,11 +57,6 @@ float_test() {
- # but earlier versions do not
+ # Similarly, we now have code that doesn't parse correctly with older
+-# versions of Python, and rather than fixing that and be eternally
++# versions of Python, and rather than fixing that and being eternally
+ # vigilant for any other new feature use, just check the version here.
+ py_v26_check=`python -c 'import sys; print sys.version_info >= (2,6,0)'`
+ if [ "$py_v26_check" != "True" ]; then
+@@ -53,8 +63,8 @@ float_test() {
+      echo | awk 'END { exit ( !( '"$1"')); }'
+ }
+ 
+-# Tar version 1.24 and onwards handle symlinks in sstate packages correctly
+-# but earlier versions do not
++# Tar version 1.24 and onwards handle overwriting symlinks correctly
++# but earlier versions do not; this needs to work properly for sstate
  float_test "$TARVERSION > 1.23" && needtar="0"
  
--if [ "`pwd`" != "$BUILDDIR" ] ; then
--    echo "BitBake must be run from your build directory: $BUILDDIR"
--    exit 1
--fi
--
  buildpseudo="1"
- if [ $needpseudo = "1" ]; then
-     if [ -e "$BUILDDIR/pseudodone" ]; then
 -- 
 1.7.5.4
 
