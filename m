@@ -1,26 +1,35 @@
-Received: from mga01.intel.com ([192.55.52.88])
+Received: from astoria.ccjclearline.com ([64.235.106.9])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <sgw@linux.intel.com>) id 1SCb50-0005aG-7t
+	(envelope-from <rpjday@crashcourse.ca>) id 1SCbxy-0006XR-MN
 	for openembedded-core@lists.openembedded.org;
-	Tue, 27 Mar 2012 20:25:14 +0200
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-	by fmsmga101.fm.intel.com with ESMTP; 27 Mar 2012 11:16:11 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="146407067"
-Received: from unknown (HELO [10.255.12.80]) ([10.255.12.80])
-	by fmsmga002.fm.intel.com with ESMTP; 27 Mar 2012 11:16:11 -0700
-Message-ID: <4F7203EA.4030104@linux.intel.com>
-Date: Tue, 27 Mar 2012 11:16:10 -0700
-From: Saul Wold <sgw@linux.intel.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:10.0.1) Gecko/20120216 Thunderbird/10.0.1
+	Tue, 27 Mar 2012 21:22:02 +0200
+Received: from cpec03f0ed08c7f-cm001ac318e826.cpe.net.cable.rogers.com
+	([99.241.91.63] helo=crashcourse.ca)
+	by astoria.ccjclearline.com with esmtpsa (TLSv1:AES256-SHA:256)
+	(Exim 4.69) (envelope-from <rpjday@crashcourse.ca>)
+	id 1SCbpG-0007oJ-Nz for openembedded-core@lists.openembedded.org;
+	Tue, 27 Mar 2012 15:13:02 -0400
+Date: Tue, 27 Mar 2012 15:12:52 -0400 (EDT)
+From: "Robert P. J. Day" <rpjday@crashcourse.ca>
+X-X-Sender: rpjday@oneiric
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+In-Reply-To: <CAHod+GcSKcRd_4abi1qrDS71==1c8cQ2og4bR_nfVaa+k1frvQ@mail.gmail.com>
+Message-ID: <alpine.DEB.2.02.1203271511070.29495@oneiric>
+References: <alpine.DEB.2.02.1203270815010.3125@oneiric>
+	<CAHod+GcSKcRd_4abi1qrDS71==1c8cQ2og4bR_nfVaa+k1frvQ@mail.gmail.com>
+User-Agent: Alpine 2.02 (DEB 1266 2009-07-14)
 MIME-Version: 1.0
-To: Paul Eggleton <paul.eggleton@linux.intel.com>
-References: <cover.1332826876.git.sgw@linux.intel.com>
-	<1443918.kuu0Jnlh65@helios>
-In-Reply-To: <1443918.kuu0Jnlh65@helios>
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 0/6] Setup for VMDK to use Direct Disk
+X-AntiAbuse: This header was added to track abuse,
+	please include it with any abuse report
+X-AntiAbuse: Primary Hostname - astoria.ccjclearline.com
+X-AntiAbuse: Original Domain - lists.openembedded.org
+X-AntiAbuse: Originator/Caller UID/GID - [47 12] / [47 12]
+X-AntiAbuse: Sender Address Domain - crashcourse.ca
+X-Source: 
+X-Source-Args: 
+X-Source-Dir: 
+Subject: Re: adding a single package to an image -- what's the proper way?
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -35,45 +44,48 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 27 Mar 2012 18:25:14 -0000
-Content-Type: text/plain; charset=ISO-8859-1; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Tue, 27 Mar 2012 19:22:02 -0000
+Content-Type: MULTIPART/MIXED; BOUNDARY="8323329-237142991-1332875577=:29495"
 
-On 03/27/2012 07:37 AM, Paul Eggleton wrote:
-> On Monday 26 March 2012 22:42:54 Saul Wold wrote:
->> Updated comments per Darren's request, added cleanup to
->> image-types to only use one -i (inode-count) parameter.
+--8323329-237142991-1332875577=:29495
+Content-Type: TEXT/PLAIN; charset=ISO-8859-2
+Content-Transfer-Encoding: QUOTED-PRINTABLE
+
+On Tue, 27 Mar 2012, Marko Kati=E6 wrote:
+
+> I haven't tried this myself on images, but you can probably use
+> .bbappend for this. I think bbappend files provide a proper way for
+> extending recipes. So for instance,if you want to add a package to
+> the core-image-minimal image you would place the following in your
+> core-image-minimal.bbappend file:
 >
-> I tried this series on my build machine, but do_rootfs failed with "genext2fs:
-> not enough memory for filesystem".
-
-Yes, there is an issue with genext2fs needing memory to build the 
-filesystem first.  I noted in another email thread that the Debian build 
-system had so resort to dd, mkfs.ext3, mounting and copying. The issue 
-with that is that it requires root privileges which is forbidden with 
-bitbake.
-
-genext2fs combines the making and copying of the fs into one process, if 
-there is a way to populate the filesystem image with the bits without 
-root privs that's what we need to look towards.
-
-This is turning into a non-trivial problem.
-
-I am beginning to think that we might have to have 2 vmdk images for the 
-build appliance to work correctly. 1 for the rootfs and the second for 
-the build space (10G-20G) with DL_DIR populated.
-
+> IMAGE_INSTALL +=3D "your_package"
 >
-> The machine has 6GB RAM and 8GB swap. The rootfs directory is 15GB.
+> Of course, this solution assumes you have a local overlay.
 >
-> I guess this might have something to do with my DL_DIR not being clean
-> beforehand (since it seems to be copying it into the rootfs in its entirety).
->
-I have created a clean DL_DIR to work with by doing a world fetch and 
-then using that DL_DIR to build into the image.
+> Or maybe you could try placing the above IMAGE_INSTALL append to
+> your local.conf. But that's probably messy and not advised.
 
-> Cheers,
-> Paul
->
+  and this is part of the frustration in trying to do what should be
+extremely simple things in OE -- they're just not documented.
+however, rather than harp on this issue, i'm going to backtrack and
+post a more general missive explaining what i'm trying to do.  back in
+a while ...
 
+rday
 
+--=20
+
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+Robert P. J. Day                                 Ottawa, Ontario, CANADA
+                        http://crashcourse.ca
+
+Twitter:                                       http://twitter.com/rpjday
+LinkedIn:                               http://ca.linkedin.com/in/rpjday
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+
+--8323329-237142991-1332875577=:29495--
