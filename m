@@ -1,24 +1,41 @@
-Received: from mga03.intel.com ([143.182.124.21])
+Received: from mail-wg0-f43.google.com ([74.125.82.43])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <paul.eggleton@linux.intel.com>) id 1SCXfE-0000ch-5z
-	for openembedded-core@lists.openembedded.org;
-	Tue, 27 Mar 2012 16:46:24 +0200
-Received: from azsmga001.ch.intel.com ([10.2.17.19])
-	by azsmga101.ch.intel.com with ESMTP; 27 Mar 2012 07:37:22 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="123831316"
-Received: from unknown (HELO helios.localnet) ([10.252.123.228])
-	by azsmga001.ch.intel.com with ESMTP; 27 Mar 2012 07:37:21 -0700
-From: Paul Eggleton <paul.eggleton@linux.intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Tue, 27 Mar 2012 15:37:19 +0100
-Message-ID: <1443918.kuu0Jnlh65@helios>
-Organization: Intel Corporation
-User-Agent: KMail/4.8.0 (Linux/3.0.0-16-generic-pae; KDE/4.8.1; i686; ; )
-In-Reply-To: <cover.1332826876.git.sgw@linux.intel.com>
-References: <cover.1332826876.git.sgw@linux.intel.com>
+	(envelope-from <martin.jansa@gmail.com>)
+	id 1SCYK4-00031k-S8; Tue, 27 Mar 2012 17:28:37 +0200
+Received: by wgbdr12 with SMTP id dr12so29175wgb.24
+	for <multiple recipients>; Tue, 27 Mar 2012 08:19:36 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=date:from:to:cc:subject:message-id:references:mime-version
+	:content-type:content-disposition:in-reply-to:user-agent;
+	bh=PdmH6cl0KGekt91oxnRRpL3LThFfMQqUW5LlYqqkXOw=;
+	b=iVgR+Z/1M9LIjPTfQfnh0MK3oMlY1narKxfvmcFK5hnYG7XI46oag9HMe8OihNudf2
+	Nn5/wknrfAMJIgDnJGeUjqR3QSWnS76rILCo4uE9b6sHqEQkvqJGG0gOISPfqcv6Z/WG
+	sZJ6RVOatSTMxkIfDf3BQxUI5ZVW31ubvzF3dh9RiMHy4tOC6cIHSegB0WBb3Sl7A1U7
+	89dOmoRFIx8tnMJ0WYvAMswiiLiJ7Ntd5z63uDoaz5/X3yQbFFrdt1EhKwA4fKCUmKA+
+	ZqnDe4imMRsZrwXcYab6khzKNfh9W9OFF3qQp+VgL0aGLF/FXe164fbEbo3CqLhVRcLa
+	bXRg==
+Received: by 10.180.78.225 with SMTP id e1mr28434184wix.0.1332861575933;
+	Tue, 27 Mar 2012 08:19:35 -0700 (PDT)
+Received: from localhost ([94.230.152.246])
+	by mx.google.com with ESMTPS id fn2sm483173wib.0.2012.03.27.08.19.34
+	(version=TLSv1/SSLv3 cipher=OTHER);
+	Tue, 27 Mar 2012 08:19:35 -0700 (PDT)
+Date: Tue, 27 Mar 2012 17:19:33 +0200
+From: Martin Jansa <martin.jansa@gmail.com>
+To: Robert Yang <liezhi.yang@windriver.com>
+Message-ID: <20120327151933.GD3969@jama.jama.net>
+References: <20120224000137.466F310330@opal>
+	<20120327110632.GA3969@jama.jama.net>
+	<20120327113304.GB3969@jama.jama.net>
+	<4F71C069.30205@windriver.com>
+	<20120327133512.GC3969@jama.jama.net>
+	<4F71C570.4020703@windriver.com>
 MIME-Version: 1.0
-Subject: Re: [PATCH 0/6] Setup for VMDK to use Direct Disk
+In-Reply-To: <4F71C570.4020703@windriver.com>
+User-Agent: Mutt/1.5.21 (2010-09-15)
+Cc: openembedded-core@lists.openembedded.org,
+	openembedded-commits@lists.openembedded.org
+Subject: Re: [oe-commits] Robert Yang : A script to clean obsolete sstate cache files
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -33,28 +50,159 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 27 Mar 2012 14:46:24 -0000
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
+X-List-Received-Date: Tue, 27 Mar 2012 15:28:37 -0000
+X-Groupsio-MsgNum: 19826
+Content-Type: multipart/signed; micalg=pgp-sha1;
+	protocol="application/pgp-signature"; boundary="qGV0fN9tzfkG3CxV"
+Content-Disposition: inline
 
-On Monday 26 March 2012 22:42:54 Saul Wold wrote:
-> Updated comments per Darren's request, added cleanup to
-> image-types to only use one -i (inode-count) parameter.
+--qGV0fN9tzfkG3CxV
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-I tried this series on my build machine, but do_rootfs failed with "genext2fs: 
-not enough memory for filesystem".
+On Tue, Mar 27, 2012 at 09:49:36PM +0800, Robert Yang wrote:
+>=20
+>=20
+> On 03/27/2012 09:35 PM, Martin Jansa wrote:
+> > On Tue, Mar 27, 2012 at 09:28:09PM +0800, Robert Yang wrote:
+> >>
+> >> Hi Martin,
+> >>
+> >> Thanks for reporting this, and I'm very sorry for the inconvenience,
+> >> please see my comment inline ...
+> >>
+> >> On 03/27/2012 07:33 PM, Martin Jansa wrote:
+> >>> On Tue, Mar 27, 2012 at 01:06:33PM +0200, Martin Jansa wrote:
+> >>>> On Fri, Feb 24, 2012 at 12:01:37AM +0000, git@git.openembedded.org w=
+rote:
+> >>>>> Module: openembedded-core.git
+> >>>>> Branch: master
+> >>>>> Commit: 7c99ef6d2173b14e1109a540ee5ae47b56d707e7
+> >>>>> URL:    http://git.openembedded.org/?p=3Dopenembedded-core.git&a=3D=
+commit;h=3D7c99ef6d2173b14e1109a540ee5ae47b56d707e7
+> >>>>>
+> >>>>> Author: Robert Yang<liezhi.yang@windriver.com>
+> >>>>> Date:   Wed Feb 22 20:38:30 2012 +0800
+> >>>>>
+> >>>>> A script to clean obsolete sstate cache files
+> >>>>>
+> >>>>
+> >>>>> +# Use the "_" to substitute "-", e.g., x86-64 to x86_64
+> >>>>> +all_archs=3D`grep -r DEFAULTTUNE $tunedir | \
+> >>>>> +    sed -e 's/.*\"\(.*\)\"/\1/' -e 's/-/_/g' | sort -u`
+> >>>>> +# Add the qemu archs
+> >>>>> +all_archs=3D"$all_archs qemuarm qemux86 qemumips qemuppc"
+> >>>>
+> >>>> This doesn't list any thumb variants, current list is:
+> >>>>
+> >>>> arm1136jfs arm920t arm926ejs arm9tdmi armv4 armv5 armv6 armv7 armv7a
+> >>>> core2 cortexa8_neon cortexa9_neon cortexm1 cortexm3 cortexr4 ep9312 =
+i586
+> >>>> iwmmxt mips mips32 powerpc powerpc64 ppc603e ppce300c2 ppce500 ppce5=
+00mc
+> >>>> ppce500v2 ppce5500 strongarm x86 x86_64 xscale
+> >>>>
+> >>>> so thumb versions (e.g. armv4t) are not found in
+> >>>>
+> >>>>> +for arch in $all_archs; do
+> >>>>> +    ls | grep -q -w $arch
+> >>>>> +    [ $? -eq 0 ]&&   ava_archs=3D"$ava_archs $arch"
+> >>>>> +done
+> >>>>
+> >>>> Cheers,
+> >>>
+> >>> And after extending list of machines in all_archs with armv4t and my
+> >>> machines I got only one file in sstate-cache left :/
+> >>>
+> >>> First run without armv4t found:
+> >>> OE crespo@shr ~/shr-core $ du -hs sstate-cache/; openembedded-core/sc=
+ripts/sstate-cache-management.sh --cache-dir=3Dsstate-cache --remove-duplic=
+ated; du -hs sstate-cache/
+> >>> 14G     sstate-cache/
+> >>> Figuring out the archs in the sstate cache dir ...
+> >>> The following archs have been found in the sstate cache dir:
+> >>> armv7a x86_64
+> >>> Removing the sstate-xxx_deploy-rpm.tgz ... (0 files)
+> >>> Removing the sstate-xxx_deploy-ipk.tgz ... (58 files)
+> >>> Removing the sstate-xxx_deploy-deb.tgz ... (0 files)
+> >>> Removing the sstate-xxx_deploy.tgz ... (0 files)
+> >>> Removing the sstate-xxx_package.tgz ... (62 files)
+> >>> Removing the sstate-xxx_populate-lic.tgz ... (46 files)
+> >>> Removing the sstate-xxx_populate-sysroot.tgz ... (102 files)
+> >>> 268 files have been removed
+> >>> 13G     sstate-cache/
+> >>>
+> >>> Second run with armv4t manually added
+> >>> -all_archs=3D"$all_archs qemuarm qemux86 qemumips qemuppc"
+> >>> +all_archs=3D"$all_archs qemuarm qemux86 qemumips qemuppc armv4t"
+> >>> OE crespo@shr ~/openembedded-core $ du -hs ../shr-core/sstate-cache/;=
+ scripts/sstate-cache-management.sh --cache-dir=3D../shr-core/sstate-cache =
+--remove-duplicated; du -hs ../shr-core/sstate-cache/
+> >>> 13G     ../shr-core/sstate-cache/
+> >>> /OE/openembedded-core/meta/conf/machine/include
+> >>> Figuring out the archs in the sstate cache dir ...
+> >>> The following archs have been found in the sstate cache dir:
+> >>> armv4t armv7a x86_64
+> >>> Removing the sstate-xxx_deploy-rpm.tgz ... (0 files)
+> >>> Removing the sstate-xxx_deploy-ipk.tgz ... (460 files)
+> >>> Removing the sstate-xxx_deploy-deb.tgz ... (0 files)
+> >>> Removing the sstate-xxx_deploy.tgz ... (0 files)
+> >>> Removing the sstate-xxx_package.tgz ... (454 files)
+> >>> Removing the sstate-xxx_populate-lic.tgz ... (456 files)
+> >>> Removing the sstate-xxx_populate-sysroot.tgz ... (468 files)
+> >>> 1838 files have been removed
+> >>> 6.2G    ../shr-core/sstate-cache/
+> >>>
+> >>> Third run with machines I'm building manually added
+> >>> -all_archs=3D"$all_archs qemuarm qemux86 qemumips qemuppc armv4t"
+> >>> +all_archs=3D"$all_archs qemuarm qemux86 qemumips qemuppc armv4t om_g=
+ta01 om_gta02 om_gta04 nokia900 palmpre palmpre2 crespo spitz"
+> >>
+> >> The script figures the archs according to the 'meta/conf/machine/inclu=
+de',
+> >> this is incorrect since it only searches the oe-core layer, I will fix=
+ it.
+> >
+> > The first issue is that armv4t and other thumb variants are also in
+> > oe-core layer.
+> >
+> >> And where can I get the "om_gta01 om_gta02 om_gta04 ..." archs? I mean=
+ which
+> >> layer are they in? So that I can test them.
+> >
+> > Those are machines from meta-smartphone sublayers
+> > http://git.shr-project.org/git/?p=3Dmeta-smartphone.git;a=3Dsummary
+> >
+> > Maybe add some param to add extra archs/machines or just list all used
+> > xxx variants from 'sstate-xxx_'.
+> >
+> Thanks, add some param is good choice. Figure out the used variants from
+> sstate-xxx is the best way, but it seems not easy since it uses the "-" as
+> the separator, and I had counted the number of field, it is not always the
+> same.
 
-The machine has 6GB RAM and 8GB swap. The rootfs directory is 15GB. 
+I see, maybe add also param to specify stamps dir, which can be used to
+find all arch ever built if it's the same host which populated
+sstate-cache dir.
 
-I guess this might have something to do with my DL_DIR not being clean 
-beforehand (since it seems to be copying it into the rootfs in its entirety).
+That would include also all sdk and native variants etc.
 
 Cheers,
-Paul
 
--- 
+--=20
+Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
 
-Paul Eggleton
-Intel Open Source Technology Centre
+--qGV0fN9tzfkG3CxV
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: Digital signature
 
+-----BEGIN PGP SIGNATURE-----
+Version: GnuPG v2.0.18 (GNU/Linux)
 
+iEYEARECAAYFAk9x2oUACgkQN1Ujt2V2gBzxrACfdlmr1mz8cOHLS2OtvdqRrju5
+Y2oAoI0cCVGvSG1t8paHApjwQGB0lkxe
+=RKsl
+-----END PGP SIGNATURE-----
+
+--qGV0fN9tzfkG3CxV--
