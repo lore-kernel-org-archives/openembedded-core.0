@@ -1,33 +1,33 @@
 Received: from mail.dream-property.net ([82.149.226.172])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <obi@opendreambox.org>) id 1SCWHL-00076V-4m
+	(envelope-from <obi@opendreambox.org>) id 1SCWI3-00078u-GS
 	for openembedded-core@lists.openembedded.org;
-	Tue, 27 Mar 2012 15:17:39 +0200
+	Tue, 27 Mar 2012 15:18:23 +0200
 Received: from localhost (localhost [127.0.0.1])
-	by mail.dream-property.net (Postfix) with ESMTP id 678AB315A8DF;
-	Tue, 27 Mar 2012 15:08:40 +0200 (CEST)
+	by mail.dream-property.net (Postfix) with ESMTP id E4641315A8DF;
+	Tue, 27 Mar 2012 15:09:24 +0200 (CEST)
 X-Virus-Scanned: Debian amavisd-new at mail.dream-property.net
 Received: from mail.dream-property.net ([127.0.0.1])
 	by localhost (mail.dream-property.net [127.0.0.1]) (amavisd-new,
 	port 10024)
-	with LMTP id X-6mu9+MDXZ5; Tue, 27 Mar 2012 15:08:29 +0200 (CEST)
+	with LMTP id WZd55UI5KQSl; Tue, 27 Mar 2012 15:09:13 +0200 (CEST)
 Received: from [172.22.22.61] (drms-4d014418.pool.mediaWays.net [77.1.68.24])
 	(using TLSv1 with cipher DHE-RSA-AES256-SHA (256/256 bits))
 	(No client certificate requested)
-	by mail.dream-property.net (Postfix) with ESMTPSA id 3594B315A8DD;
-	Tue, 27 Mar 2012 15:08:29 +0200 (CEST)
-Message-ID: <4F71BBCC.4030307@opendreambox.org>
-Date: Tue, 27 Mar 2012 15:08:28 +0200
+	by mail.dream-property.net (Postfix) with ESMTPSA id C976F315A8DD;
+	Tue, 27 Mar 2012 15:09:11 +0200 (CEST)
+Message-ID: <4F71BBF7.4030001@opendreambox.org>
+Date: Tue, 27 Mar 2012 15:09:11 +0200
 From: Andreas Oberritter <obi@opendreambox.org>
 User-Agent: Mozilla/5.0 (X11; Linux x86_64;
 	rv:11.0) Gecko/20120310 Thunderbird/11.0
 MIME-Version: 1.0
 To: Paul Eggleton <paul.eggleton@linux.intel.com>
 References: <cover.1332848153.git.paul.eggleton@linux.intel.com>
-	<4a226262b48b8f0c56019183604b70c0f565d5f2.1332848153.git.paul.eggleton@linux.intel.com>
-In-Reply-To: <4a226262b48b8f0c56019183604b70c0f565d5f2.1332848153.git.paul.eggleton@linux.intel.com>
+	<0b6dadd78b527731df18b8fa308d714b6d3ef956.1332848153.git.paul.eggleton@linux.intel.com>
+In-Reply-To: <0b6dadd78b527731df18b8fa308d714b6d3ef956.1332848153.git.paul.eggleton@linux.intel.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 1/3] scripts/bitbake: try harder to check if pseudo exists
+Subject: Re: [PATCH 2/3] scripts/bitbake: allow switching between build directories
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -42,72 +42,62 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 27 Mar 2012 13:17:39 -0000
+X-List-Received-Date: Tue, 27 Mar 2012 13:18:23 -0000
 Content-Type: text/plain; charset=ISO-8859-1
 Content-Transfer-Encoding: 7bit
 
 On 27.03.2012 13:50, Paul Eggleton wrote:
-> If pseudodone doesn't exist, we can get STAGING_BINDIR_NATIVE by calling
-> bitbake -e and use that as the path to check for pseudo before we give
-> up and try to build it explicitly first.
+> The recent addition of the check to ensure the user was in their build
+> directory disabled the ability to switch between build directories
+> without re-running the build environment setup script. We can rely
+> upon checking for conf/bblayers.conf instead, so use this check.
 > 
-> This is useful for people who share TMPDIR between multiple build
-> directories.
+> This does allow BUILDDIR (which is normally set by the environment
+> script) to be unset; however if it is set then it is assumed to be the
+> correct build directory and will be used in the error message that is
+> shown when we can't find conf/bblayers.conf.
 > 
 > Signed-off-by: Paul Eggleton <paul.eggleton@linux.intel.com>
-
-This adds a 3s delay over the previous setup on my build system, which I 
-deem acceptable. See one minor suggestion inline.
 
 Acked-by: Andreas Oberritter <obi@opendreambox.org>
 
 > ---
->  scripts/bitbake |   12 +++++++++---
->  1 files changed, 9 insertions(+), 3 deletions(-)
+>  scripts/bitbake |   15 ++++++++++-----
+>  1 files changed, 10 insertions(+), 5 deletions(-)
 > 
 > diff --git a/scripts/bitbake b/scripts/bitbake
-> index 45c8697..1ba1839 100755
+> index 1ba1839..f02e89b 100755
 > --- a/scripts/bitbake
 > +++ b/scripts/bitbake
-> @@ -53,14 +53,21 @@ if [ "`pwd`" != "$BUILDDIR" ] ; then
+> @@ -37,6 +37,16 @@ if [ "$py_v26_check" != "True" ]; then
+>  	exit 1
 >  fi
 >  
+> +if [ ! -e conf/bblayers.conf ] ; then
+> +    BDPRINT=""
+> +    [ -n "$BUILDDIR" ] && BDPRINT=": $BUILDDIR"
+> +    echo "Unable to find conf/bblayers.conf"
+> +    echo "BitBake must be run from within your build directory$BDPRINT"
+> +    exit 1
+> +elif [ -z "$BUILDDIR" ] ; then
+> +    BUILDDIR="`pwd`"
+> +fi
+> +
+>  needtar="1"
+>  TARVERSION=`tar --version | head -n 1 | cut -d ' ' -f 4`
+>  float_test() {
+> @@ -47,11 +57,6 @@ float_test() {
+>  # but earlier versions do not
+>  float_test "$TARVERSION > 1.23" && needtar="0"
+>  
+> -if [ "`pwd`" != "$BUILDDIR" ] ; then
+> -    echo "BitBake must be run from your build directory: $BUILDDIR"
+> -    exit 1
+> -fi
+> -
 >  buildpseudo="1"
-> -if [ $needpseudo = "1" ] && [ -e "$BUILDDIR/pseudodone" ]; then
-> -    PSEUDOBINDIR=`cat $BUILDDIR/pseudodone`
-> +if [ $needpseudo = "1" ]; then
-> +    if [ -e "$BUILDDIR/pseudodone" ]; then
-> +        PSEUDOBINDIR=`cat $BUILDDIR/pseudodone`
-> +    else
-> +        PSEUDOBINDIR=`bitbake -e | grep STAGING_BINDIR_NATIVE=\" | cut -d '=' -f2 | cut -d '"' -f2`
-
-I think using sed might improve readability:
-
-bitbake -e | grep ^STAGING_BINDIR_NATIVE= | sed -e 's,^STAGING_BINDIR_NATIVE="\(.*\)"$,\1,'
-
-This may be a subjective impression, though.
-
-> +    fi
->      if [ -e "$PSEUDOBINDIR/pseudo" -a -e "$PSEUDOBINDIR/tar" -a "$needtar" = "1" ]; then
->          buildpseudo="0"
->      fi
->      if [ -e "$PSEUDOBINDIR/pseudo" -a $needtar = "0" ]; then
->          buildpseudo="0"
->      fi
-> +    if [ $buildpseudo = "0" -a ! -e "$BUILDDIR/pseudodone" ] ; then
-> +        echo $PSEUDOBINDIR > $BUILDDIR/pseudodone
-> +    fi
->  fi
->  if [ $needpseudo = "0" ]; then
->      buildpseudo="0"
-> @@ -104,7 +111,6 @@ BITBAKE=`which bitbake`
->  export PATH=$OLDPATH
 >  if [ $needpseudo = "1" ]; then
->      export PSEUDO_BUILD=2
-> -    PSEUDOBINDIR=`cat $BUILDDIR/pseudodone`
->      PSEUDO_BINDIR=$PSEUDOBINDIR PSEUDO_LIBDIR=$PSEUDOBINDIR/../lib/pseudo/lib PSEUDO_PREFIX=$PSEUDOBINDIR/../../ PSEUDO_DISABLED=1 $PSEUDOBINDIR/pseudo $BITBAKE $@
->  else
->      export PSEUDO_BUILD=0
+>      if [ -e "$BUILDDIR/pseudodone" ]; then
 
 
 
