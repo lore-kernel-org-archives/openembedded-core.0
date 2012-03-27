@@ -1,40 +1,32 @@
-Received: from mail-lpp01m010-f47.google.com ([209.85.215.47])
+Received: from mail.windriver.com ([147.11.1.11])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <raj.khem@gmail.com>) id 1SCeb9-0001eH-Sr
+	(envelope-from <mark.hatle@windriver.com>) id 1SCemN-0001kO-ND
 	for openembedded-core@lists.openembedded.org;
-	Wed, 28 Mar 2012 00:10:39 +0200
-Received: by lagw12 with SMTP id w12so460436lag.6
+	Wed, 28 Mar 2012 00:22:16 +0200
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca [147.11.189.40])
+	by mail.windriver.com (8.14.3/8.14.3) with ESMTP id q2RMDDO4029581
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 27 Mar 2012 15:01:38 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:content-type; bh=zPZ74B9BKmzjq2V8CUwn1oikItBEpYYIWrvuNfB/XOA=;
-	b=dquWuXn/OneD0UTMct0GvCvKjVjQJ8THCzaZQizzvOICMzcpP9YpfC53hu1lCWY51t
-	mxTZn+LWM3mWQ2doppX8agNXySGNEnawgFBAcAncB91E7F1iRAZM5vYAiwXzg/Rb+5qr
-	Kcdf9bi1+G0DzHruMXQRAL39F3Yyp/bB0v+o1p+XnTguL/Q2wh3DCaO5U69KfX5sy2NJ
-	R2p6PFMtXxIbKdASYs/NMfR2RTGp4Bm8PVju0a+Ea4bqGR9AlsorlAESVe+cAteSsivl
-	u7cAGSSZTAsNGjOMn2OmIon9vgAuBR9ZI5U7paev0LGbO11Dc/oHkgArXTIpAEwnQ6bJ
-	eqOw==
-Received: by 10.152.146.163 with SMTP id td3mr20101577lab.31.1332885698561;
-	Tue, 27 Mar 2012 15:01:38 -0700 (PDT)
+	Tue, 27 Mar 2012 15:13:13 -0700 (PDT)
+Received: from msp-dhcp8.wrs.com (172.25.34.8) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server id 14.1.255.0;
+	Tue, 27 Mar 2012 15:13:13 -0700
+Message-ID: <4F723B78.2060308@windriver.com>
+Date: Tue, 27 Mar 2012 17:13:12 -0500
+From: Mark Hatle <mark.hatle@windriver.com>
+Organization: Wind River Systems
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.6;
+	rv:10.0.2) Gecko/20120216 Thunderbird/10.0.2
 MIME-Version: 1.0
-Received: by 10.152.3.161 with HTTP; Tue, 27 Mar 2012 15:01:07 -0700 (PDT)
-In-Reply-To: <CAGiJk9evph+E_CzqN9iOAqAD9ypkcDvV9xj2LrkD1O05Dv=CbA@mail.gmail.com>
-References: <1332339926-27043-1-git-send-email-s.stirtzel@googlemail.com>
-	<4F6A2F2F.2090607@linux.intel.com>
-	<FC6FAFAF-2C6E-4EF7-8AD9-D2C30D2114DD@dominion.thruhere.net>
-	<CAGiJk9cw9KxmoPcmad1aR64vXaqKujUY7nH_pVePnfVPY-uedw@mail.gmail.com>
-	<CDC69864-7475-4B3C-B966-C3B6CC67B8E7@dominion.thruhere.net>
-	<CAGiJk9cUtvJn2uKRxBzP_0nvs78bYvEJ2JKsCx4HKdo1zxL9DA@mail.gmail.com>
-	<4F6B4C0B.3030504@linux.intel.com>
-	<CAAQYJAtjfhhckJOTo1dxit4S72wFQ5Jt+r4MMfN6-Qu-Bw=DOg@mail.gmail.com>
-	<CAGiJk9evph+E_CzqN9iOAqAD9ypkcDvV9xj2LrkD1O05Dv=CbA@mail.gmail.com>
-From: Khem Raj <raj.khem@gmail.com>
-Date: Tue, 27 Mar 2012 15:01:07 -0700
-Message-ID: <CAMKF1sqMyYATLuVF8WNhRvQZya8nj1LGmHKM30uSAnr8Pk42TQ@mail.gmail.com>
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] giflib: Move to OE-Core
+To: <openembedded-core@lists.openembedded.org>
+References: <1332877869-12195-1-git-send-email-kergoth@gmail.com>
+	<1332877869-12195-3-git-send-email-kergoth@gmail.com>
+	<4F72219A.2020301@windriver.com>
+	<CABcZANmm5BNHdMtSJJ_P6WNpkgrQ+1vhbHgDg1-9Dc_FXWbhgQ@mail.gmail.com>
+	<4F723618.6060104@windriver.com>
+	<F4FE715B8B374104BDAF129362EBDD00@gmail.com>
+In-Reply-To: <F4FE715B8B374104BDAF129362EBDD00@gmail.com>
+Subject: Re: [PATCH 3/3] powerpc: define TUNE_PKGARCH for powerpc/powerpc-nf
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -49,17 +41,57 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 27 Mar 2012 22:10:40 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Tue, 27 Mar 2012 22:22:16 -0000
+Content-Type: text/plain; charset="ISO-8859-1"; format=flowed
+Content-Transfer-Encoding: 7bit
 
-On Fri, Mar 23, 2012 at 1:00 AM, Samuel Stirtzel
-<s.stirtzel@googlemail.com> wrote:
-> There is a layer called meta-multimedia, would giflib, libpng and the
-> others fit into it?
+On 3/27/12 4:57 PM, Christopher Larson wrote:
+> On Tuesday, March 27, 2012 at 2:50 PM, Mark Hatle wrote:
+>> On 3/27/12 4:05 PM, Chris Larson wrote:
+>>
+>> On PowerPC TUNE_PKGARCH should be set to powerpc (or overriden by the machines).
+>> On PowerPC64, it should be set to powerpc64. If this is not happening that is
+>> the bug, lack of the default TUNE_PKGARCH. (based on the original implementation.)
+>
+> I don't think your point of view is covering all the issues.
+>
+> The default TUNE_PKGARCH is TUNE_PKGARCH_${TUNE_PKGARCH_tune-${DEFAULTTUNE}. If
+> arch-powerpc.inc sets TUNE_PKGARCH directly, as it used to, then all the more
+> specific tunings won't have their TUNE_PKGARCH_tune-<tune> obeyed, which was the
+> behavior prior to my submitting a patch which removed the explicit TUNE_PKGARCH
+> override in arch-powerpc.inc.
 
-From what you explained in another thread on its usage in KDE I think
-its better to have a copy of it in meta-kde FWIW since if KDE switched
-to using QT provided support for it then you can simply dump the recipe
-and it will be fairly local change.
+TUNE_PKGARCH_[override] should always replace TUNE_PKGARCH shouldn't it?  Why 
+isn't the override being obeyed is my issue.  I really don't care much about the 
+implementation other then originally I was told not to do that during various 
+reviews.. and that the tuning (override) would always replace TUNE_PKGARCH.
+
+> So we have two options. Either we override TUNE_PKGARCH directly in
+> arch-powerpc.inc again, thereby making powerpc tune- files like tune-ppce500v2
+> not have their TUNE_PKGARCH_tune-<tune> obeyed (or those tune- files have to
+> override TUNE_PKGARCH as well, which seems counter to the whole design of the
+> tuning implementation), or we add TUNE_PKGARCH_tune-<tune> definitions for the
+> generic tunings also.
+
+We need to be consistent as far as I'm concerned.  If we want to add 
+TUNE_PKGARCH_tune-<tune> to all of the tunings, and base architecture 
+definitions that is fine.  What I don't want is a mix of different ways this 
+stuff is implemented.  It's already complicated enough for people to look at and 
+identify what is going on today with subtle differences between the files.
+
+If you can explain why the override isn't overriding the default TUNE_PKGARCH 
+(and it's intentional and not a bug), and we can consistently modify all of the 
+elements... I'm happy to accept the changes to all of the tunings.
+
+--Mark
+
+> -Chris
+>
+>
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
+
 
 
