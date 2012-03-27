@@ -1,34 +1,38 @@
-Received: from mail-lpp01m010-f47.google.com ([209.85.215.47])
+Received: from mail-ob0-f175.google.com ([209.85.214.175])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <raj.khem@gmail.com>) id 1SCIgP-0008Ns-TC
+	(envelope-from <tom.rini@gmail.com>) id 1SCL6u-0002D5-S9
 	for openembedded-core@lists.openembedded.org;
-	Tue, 27 Mar 2012 00:46:37 +0200
-Received: by lagw12 with SMTP id w12so4251302lag.6
+	Tue, 27 Mar 2012 03:22:09 +0200
+Received: by obqv19 with SMTP id v19so6240757obq.6
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 26 Mar 2012 15:37:37 -0700 (PDT)
+	Mon, 26 Mar 2012 18:13:08 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:content-type:content-transfer-encoding;
-	bh=Hcw2+irlsSub6VY2SQqY4fsIOMy/WmA5hZHAV1qp0Ak=;
-	b=GW1L2qhmwkARPXilmmOH79WIPSw9zE220wAcNqu+XNxjzGTtAzkGakSYdoDamQ5Q18
-	wJFSrQkfNmGuM+cEjlhqPpjvbWjxsUcRuToIKNhvWaVrorl/UgDz93SxM7TIgslJvKIM
-	1VWt8P8TEXyQck5B1SLHxPmkJcqBowHg24sSxRb1Y7WJsoIDjtkoybRtp1Z/kiKXfPuM
-	7YY2+7GERSn6ZAnoo7acSpHuegmWuFUtjoS1KWUOpTRaUqOycx08K38ew78Gu6oNCZn6
-	WJsJlT4BNX12m3kGFpt0PJ3ANdM7PhTwsfxmsXb6IIrj72u0eibmZ48Q7tV5AIwPd7a6
-	6j2g==
-Received: by 10.152.113.229 with SMTP id jb5mr17250026lab.45.1332801457547;
-	Mon, 26 Mar 2012 15:37:37 -0700 (PDT)
+	h=date:from:to:subject:message-id:references:mime-version
+	:content-type:content-disposition:in-reply-to:organization
+	:user-agent; bh=/WG1Vc8pg+xIvyW2miNTA1Dmy22hD1n3ZeXIs3i11fk=;
+	b=IDNhRMx6YhdwuxQbhwPbx0ldjhU8vG3Nf4Fuu9ITbncHFWR6QeqFm4zozQ8UFmcDdX
+	aPjoPPwVoLx0jkK0FzjburIoeLSPdn2zmu3N0b7JjZrgWlmhpj6H1Im1l+DkyUzmdikp
+	zl974obofk3ysj1y4otHjx887cwu0h/yuBjhHaAqmF47VlG8BfmrgbGJZL7pe0rwuZKT
+	TvH2YfbVQ2DIqpBsx1sDT09vvW2JbsMJ9tiiXufeMF3XFumrke9fUTOt46NLKW7SNET6
+	W91ga88bS3HrpFX6EWxucisjvr7gnHDJkDH2p1YmkFOeeHC1jAly2rNLqGctEa7YDfKF
+	+AQw==
+Received: by 10.60.3.104 with SMTP id b8mr29551690oeb.13.1332810788010;
+	Mon, 26 Mar 2012 18:13:08 -0700 (PDT)
+Received: from bill-the-cat (ip68-230-54-74.ph.ph.cox.net. [68.230.54.74])
+	by mx.google.com with ESMTPS id aj16sm2447589oec.4.2012.03.26.18.13.06
+	(version=TLSv1/SSLv3 cipher=OTHER);
+	Mon, 26 Mar 2012 18:13:06 -0700 (PDT)
+Date: Mon, 26 Mar 2012 18:13:05 -0700
+From: Tom Rini <tom.rini@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Message-ID: <20120327011305.GK21518@bill-the-cat>
+References: <1332587383-23633-1-git-send-email-heinold@inf.fu-berlin.de>
+	<20120326161722.GC21518@bill-the-cat>
 MIME-Version: 1.0
-Received: by 10.152.3.161 with HTTP; Mon, 26 Mar 2012 15:37:07 -0700 (PDT)
-In-Reply-To: <69175f6050af8983d9ab9781c01fe4bb29168a3b.1332745722.git.lianhao.lu@intel.com>
-References: <cover.1332745722.git.lianhao.lu@intel.com>
-	<69175f6050af8983d9ab9781c01fe4bb29168a3b.1332745722.git.lianhao.lu@intel.com>
-From: Khem Raj <raj.khem@gmail.com>
-Date: Mon, 26 Mar 2012 15:37:07 -0700
-Message-ID: <CAMKF1soVQ2nWXrAOo-sxD9g+Qg7Gu21S+GAOTBGpRgDOQb8KGw@mail.gmail.com>
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 1/1] gcc-cross-canadian: Fixed packaging warnings.
+In-Reply-To: <20120326161722.GC21518@bill-the-cat>
+Organization: Texas Instruments
+User-Agent: Mutt/1.5.20 (2009-06-14)
+Subject: Re: [PATCH] relocatable.bbclass: do not erease already existing ORIGIN
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -43,55 +47,45 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 26 Mar 2012 22:46:38 -0000
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Tue, 27 Mar 2012 01:22:09 -0000
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-On Mon, Mar 26, 2012 at 12:10 AM, Lianhao Lu <lianhao.lu@intel.com> wrote:
-> Removed non-shipped empty directories:
-> =C2=A0-${prefix}/${TARGET_SYS}
-> =C2=A0-${libdir}/../lib
-> =C2=A0-${prefix}/include
->
-> Signed-off-by: Lianhao Lu <lianhao.lu@intel.com>
-> ---
-> =C2=A0meta/recipes-devtools/gcc/gcc-package-sdk.inc | =C2=A0 =C2=A07 ++++=
-+++
-> =C2=A01 files changed, 7 insertions(+), 0 deletions(-)
->
-> diff --git a/meta/recipes-devtools/gcc/gcc-package-sdk.inc b/meta/recipes=
--devtools/gcc/gcc-package-sdk.inc
-> index e2095e3..95d6804 100644
-> --- a/meta/recipes-devtools/gcc/gcc-package-sdk.inc
-> +++ b/meta/recipes-devtools/gcc/gcc-package-sdk.inc
-> @@ -46,6 +46,13 @@ do_install () {
-> =C2=A0 =C2=A0 =C2=A0 =C2=A0rm -f ${D}${libdir}/../lib/libiberty.a
-> =C2=A0 =C2=A0 =C2=A0 =C2=A0rm -f ${D}${libdir}/libiberty.a
->
-> + =C2=A0 =C2=A0 =C2=A0 # Cleanup empty directories which are not shipped
-> + =C2=A0 =C2=A0 =C2=A0 # we use rmdir instead of 'rm -f' to ensure the di=
-rectories are empty
+On Mon, Mar 26, 2012 at 09:17:22AM -0700, Tom Rini wrote:
+> On Sat, Mar 24, 2012 at 12:09:41PM +0100, Henning Heinold wrote:
+> > Hi,
+> > 
+> > while building openjdk I discovered that relocatable.bbclass strips
+> > all PATHS with ORIGIN, that is problematic, when binaries like an jdk
+> > is installed not in the standard paths /lib or /usr/lib.
+> > 
+> > This patch let all exisiting ORIGIN stay in the binary. So
+> > far I only saw problems with some perl-native libs, where chrpath fails
+> > now, because the path is to long. But it seems they work anyway.
+> > 
+> > While letting the path stay in binary it occurs that whitespaces at the end
+> > of the last path sneaked some how in. So I made re.sub line to clean this up.
+> > 
+> > Bye Henning
+> > 
+> > PS: I have to appologize, that I send it to oe-dev before.
+> 
+> I replied to the oe-dev thread, but I have some concerns I need to work
+> out about this patch since perl is in a similar situation already.  And
+> that some perl-native libs are complaining after this patch is also
+> worrying given how much of a pain perl+$ORIGIN can be.
 
-what if the directories don't exist at all ? then you break the build
-unnecessarily.
+OK, can you describe the problem you see, exactly?  Using Angstrom, and
+current sources, building icedtea6-native gives me:
+trini@bill-the-cat:~/work/OE/angstrom/setup-scripts/build/tmp-angstrom_2010_x-eglibc/sysroots/x86_64-linux/usr/lib/jvm/icedtea6-native/bin$ readelf -d java | grep ORIGIN
+ 0x000000000000000f (RPATH)              Library rpath: [$ORIGIN/../lib/amd64/jli:$ORIGIN/../jre/lib/amd64/jli]
+ 0x000000006ffffffb (FLAGS_1)            Flags: ORIGIN
 
-> + =C2=A0 =C2=A0 =C2=A0 rmdir ${D}${libdir}/../lib
-> + =C2=A0 =C2=A0 =C2=A0 rmdir ${D}${prefix}/${TARGET_SYS}/lib
-> + =C2=A0 =C2=A0 =C2=A0 rmdir ${D}${prefix}/${TARGET_SYS}
-> + =C2=A0 =C2=A0 =C2=A0 rmdir ${D}${includedir}
-> +
-> =C2=A0 =C2=A0 =C2=A0 =C2=A0# Insert symlinks into libexec so when tools w=
-ithout a prefix are searched for, the correct ones are
-> =C2=A0 =C2=A0 =C2=A0 =C2=A0# found.
-> =C2=A0 =C2=A0 =C2=A0 =C2=A0dest=3D${D}${libexecdir}/gcc/${TARGET_SYS}/${B=
-INV}/
-> --
-> 1.7.0.4
->
->
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
+So rpath isn't being clobbered today, but we aren't using all of our own
+libs in these cases (zlib for example).  This is what I see both before
+and after your patch is applied.
+
+-- 
+Tom
 
 
