@@ -1,26 +1,28 @@
-Received: from mga02.intel.com ([134.134.136.20])
+Received: from mail.windriver.com ([147.11.1.11])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <paul.eggleton@linux.intel.com>) id 1SCd1t-0007eU-Bp
+	(envelope-from <mark.hatle@windriver.com>) id 1SCd3c-0007gr-G3
 	for openembedded-core@lists.openembedded.org;
-	Tue, 27 Mar 2012 22:30:10 +0200
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-	by orsmga101.jf.intel.com with ESMTP; 27 Mar 2012 13:21:06 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.67,352,1309762800"; d="scan'208";a="122359304"
-Received: from unknown (HELO helios.localnet) ([10.252.123.228])
-	by orsmga001.jf.intel.com with ESMTP; 27 Mar 2012 13:21:05 -0700
-From: Paul Eggleton <paul.eggleton@linux.intel.com>
-To: Saul Wold <sgw@linux.intel.com>
-Date: Tue, 27 Mar 2012 21:21:03 +0100
-Message-ID: <1658718.eaPkFfPBtZ@helios>
-Organization: Intel Corporation
-User-Agent: KMail/4.8.0 (Linux/3.0.0-16-generic-pae; KDE/4.8.1; i686; ; )
-In-Reply-To: <4F7203EA.4030104@linux.intel.com>
-References: <cover.1332826876.git.sgw@linux.intel.com>
-	<1443918.kuu0Jnlh65@helios> <4F7203EA.4030104@linux.intel.com>
+	Tue, 27 Mar 2012 22:31:56 +0200
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca [147.11.189.40])
+	by mail.windriver.com (8.14.3/8.14.3) with ESMTP id q2RKMp7Q014651
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 27 Mar 2012 13:22:53 -0700 (PDT)
+Received: from msp-dhcp8.wrs.com (172.25.34.8) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server id 14.1.255.0;
+	Tue, 27 Mar 2012 13:22:52 -0700
+Message-ID: <4F72219A.2020301@windriver.com>
+Date: Tue, 27 Mar 2012 15:22:50 -0500
+From: Mark Hatle <mark.hatle@windriver.com>
+Organization: Wind River Systems
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.6;
+	rv:10.0.2) Gecko/20120216 Thunderbird/10.0.2
 MIME-Version: 1.0
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 0/6] Setup for VMDK to use Direct Disk
+To: <openembedded-core@lists.openembedded.org>
+References: <1332877869-12195-1-git-send-email-kergoth@gmail.com>
+	<1332877869-12195-3-git-send-email-kergoth@gmail.com>
+In-Reply-To: <1332877869-12195-3-git-send-email-kergoth@gmail.com>
+Subject: Re: [PATCH 3/3] powerpc: define TUNE_PKGARCH for powerpc/powerpc-nf
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -35,54 +37,47 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 27 Mar 2012 20:30:10 -0000
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
+X-List-Received-Date: Tue, 27 Mar 2012 20:31:56 -0000
+Content-Type: text/plain; charset="ISO-8859-1"; format=flowed
+Content-Transfer-Encoding: 7bit
 
-On Tuesday 27 March 2012 11:16:10 Saul Wold wrote:
-> Yes, there is an issue with genext2fs needing memory to build the
-> filesystem first.  I noted in another email thread that the Debian build
-> system had so resort to dd, mkfs.ext3, mounting and copying. The issue
-> with that is that it requires root privileges which is forbidden with
-> bitbake.
-> 
-> genext2fs combines the making and copying of the fs into one process, if
-> there is a way to populate the filesystem image with the bits without
-> root privs that's what we need to look towards.
+Patch 1 and 2 look fine, but I have questions on this one....
 
-Yes, the mount alternative won't work for us. virt-make-fs from the libguestfs 
-tools might be a possibility but its large set of dependencies could be an 
-issue unless we can pare them down somehow.
-
-> This is turning into a non-trivial problem.
-
-Indeed :/
-
-> I am beginning to think that we might have to have 2 vmdk images for the
-> build appliance to work correctly. 1 for the rootfs and the second for
-> the build space (10G-20G) with DL_DIR populated.
-
-That might mitigate the problem, yes. If genext2fs requires the same amount of 
-RAM as the target filesystem then maybe we need to do an available  RAM check 
-first and bail out if there isn't enough.
-
-> > I guess this might have something to do with my DL_DIR not being clean
-> > beforehand (since it seems to be copying it into the rootfs in its
-> > entirety).
+On 3/27/12 2:51 PM, Christopher Larson wrote:
+> From: Christopher Larson<chris_larson@mentor.com>
 >
-> I have created a clean DL_DIR to work with by doing a world fetch and
-> then using that DL_DIR to build into the image.
+> This allows setting DEFAULTTUNE to powerpc or powerpc-nf rather than just the
+> more specific cpu/machine tuning.
+>
+> Signed-off-by: Christopher Larson<chris_larson@mentor.com>
+> ---
+>   meta/conf/machine/include/powerpc/arch-powerpc.inc |    2 ++
+>   1 files changed, 2 insertions(+), 0 deletions(-)
+>
+> diff --git a/meta/conf/machine/include/powerpc/arch-powerpc.inc b/meta/conf/machine/include/powerpc/arch-powerpc.inc
+> index c5fd6b7..3438b46 100644
+> --- a/meta/conf/machine/include/powerpc/arch-powerpc.inc
+> +++ b/meta/conf/machine/include/powerpc/arch-powerpc.inc
+> @@ -26,6 +26,8 @@ AVAILTUNES += "powerpc powerpc-nf"
+>   TUNE_FEATURES_tune-powerpc-nf ?= "m32 fpu-soft"
+>   BASE_LIB_tune-powerpc-nf = "lib"
+>   PACKAGE_EXTRA_ARCHS_tune-powerpc-nf = "powerpc-nf"
+> +TUNE_PKGARCH_tune-powerpc-nf = "powerpc-nf"
+>   TUNE_FEATURES_tune-powerpc ?= "m32 fpu-hard"
+>   BASE_LIB_tune-powerpc = "lib"
+>   PACKAGE_EXTRA_ARCHS_tune-powerpc = "powerpc"
+> +TUNE_PKGARCH_tune-powerpc = "powerpc"
 
-I guess we can just put that in the docs for now. For future improvement 
-though I wonder if we can trick the fetcher into just pulling across the 
-current files into the rootfs. I'll put that on my todo list for later.
+Why is the above necessary?
 
-Cheers,
-Paul
+TUNE_PKGARCH_append is set to "${PPCPKGSFX_FPU}"
 
--- 
+PPCPKGSFX_FP is set to either '' or '-nf' based on the existance of fpu-soft.
 
-Paul Eggleton
-Intel Open Source Technology Centre
+TUNE_PKGARCH is set by a number of the PowerPC tuning files...  If you are 
+looking for generic PowerPC there should be something setting TUNE_PKGARCH to 
+"powerpc" (or "powerpc64" in the default cases...)
+
+--Mark
 
 
