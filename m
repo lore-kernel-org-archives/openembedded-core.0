@@ -1,33 +1,39 @@
-Received: from mail-pb0-f47.google.com ([209.85.160.47])
+Received: from mga14.intel.com ([143.182.124.37])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <raj.khem@gmail.com>) id 1SCuLM-0008U6-0W
+	(envelope-from <dexuan.cui@intel.com>) id 1SCupi-0000mB-Mo
 	for openembedded-core@lists.openembedded.org;
-	Wed, 28 Mar 2012 16:59:24 +0200
-Received: by pbcum15 with SMTP id um15so1721508pbc.6
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 28 Mar 2012 07:50:21 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=from:to:cc:subject:date:message-id:x-mailer;
-	bh=hkcn9udRI3oHsRFEvhybZ8fkinXvvRPWm9Q9fnieOkY=;
-	b=ohjwGfjHXGauZ06fRQFlU1NI5GsFkNQN8b49wJkRDyT9FU18bXLSG+/fM7dDyZRdM+
-	bRKPQIg5N7p3PqnHk9HWUboBJPQP9Q+r9O9i26tEySXdJQzQvpIppXMfyaolWOo/Lmbr
-	uA5UWr6W0jrKfPPaz7wiQQhCBo1lYdF6dnSnYglAL+gQYhqnTxM+EAHRpbssJGmOhO8J
-	weVZx7WpLkwEJ70g6CF+qpdvdr0UH5CujAIDbwiYnS8PuGe1O1NHI1dbYM06Iw7Cz1fn
-	sDdm2lYFcdAow9aSOHCtksdiYPBpTY6AS4yDyDmHwXbSOZaopHvjwc6u7Ipwsx86+kAw
-	2e2w==
-Received: by 10.68.132.6 with SMTP id oq6mr47668097pbb.66.1332946221112;
-	Wed, 28 Mar 2012 07:50:21 -0700 (PDT)
-Received: from localhost.localdomain (oldbuilder.nslu2-linux.org.
-	[140.211.169.168])
-	by mx.google.com with ESMTPS id jm4sm2824756pbc.73.2012.03.28.07.50.18
-	(version=TLSv1/SSLv3 cipher=OTHER);
-	Wed, 28 Mar 2012 07:50:19 -0700 (PDT)
-From: Khem Raj <raj.khem@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Date: Wed, 28 Mar 2012 07:49:21 -0700
-Message-Id: <1332946161-11606-1-git-send-email-raj.khem@gmail.com>
-X-Mailer: git-send-email 1.7.5.4
-Subject: [RFC][PATCH] gcc-configure: Pass distinct target flags
+	Wed, 28 Mar 2012 17:30:47 +0200
+Received: from azsmga001.ch.intel.com ([10.2.17.19])
+	by azsmga102.ch.intel.com with ESMTP; 28 Mar 2012 08:21:43 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; 
+	d="scan'208,217";a="124346938"
+Received: from azsmsx601.amr.corp.intel.com ([10.2.121.193])
+	by azsmga001.ch.intel.com with ESMTP; 28 Mar 2012 08:21:43 -0700
+Received: from shsmsx151.ccr.corp.intel.com (10.239.6.50) by
+	azsmsx601.amr.corp.intel.com (10.2.121.193) with Microsoft SMTP Server
+	(TLS) id 8.2.255.0; Wed, 28 Mar 2012 08:21:42 -0700
+Received: from shsmsx102.ccr.corp.intel.com ([169.254.2.36]) by
+	SHSMSX151.ccr.corp.intel.com ([169.254.3.91]) with mapi id
+	14.01.0355.002; Wed, 28 Mar 2012 23:21:40 +0800
+From: "Cui, Dexuan" <dexuan.cui@intel.com>
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Thread-Topic: [OE-core] [PATCH 0/6] Setup for VMDK to use Direct Disk
+Thread-Index: AQHNDEXFeZwGe9g1sUqxnXZ/FnBssJZ+D5uAgAAG24CAAb0/YA==
+Date: Wed, 28 Mar 2012 15:21:40 +0000
+Message-ID: <A25F549E4D43CD42B4C02DF47A1913230FCE9C53@SHSMSX102.ccr.corp.intel.com>
+References: <cover.1332826876.git.sgw@linux.intel.com>
+	<1443918.kuu0Jnlh65@helios> <4F7203EA.4030104@linux.intel.com>
+	<1658718.eaPkFfPBtZ@helios>
+	<CANFVK7_5o9TRPJQz0qVrsVjwLC_fgK_hYN-1oaa_kc6RG3Or2A@mail.gmail.com>
+In-Reply-To: <CANFVK7_5o9TRPJQz0qVrsVjwLC_fgK_hYN-1oaa_kc6RG3Or2A@mail.gmail.com>
+Accept-Language: zh-CN, en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [10.239.127.40]
+MIME-Version: 1.0
+Subject: Re: [PATCH 0/6] Setup for VMDK to use Direct Disk
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -42,81 +48,136 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 28 Mar 2012 14:59:24 -0000
+X-List-Received-Date: Wed, 28 Mar 2012 15:30:47 -0000
+Content-Language: en-US
+Content-Type: multipart/alternative;
+	boundary="_000_A25F549E4D43CD42B4C02DF47A1913230FCE9C53SHSMSX102ccrcor_"
 
-When building gcc-cross-canadian libgcc is built using
-headers from gcc-crosssdk and not the target sysroot
-because we do not pass proper CFLAGS for target bits
-so it ends up using CFLAGS that were meant for compiling
-canadian gcc itself. It does not show up as a problem
-when building SDK with eglibc because eglibc-nativesdk
-and eglibc have identical headers. The problem shows
-up clearly when you try to build uclibc based meta-toolchain
-since then nativesdk libc and target libc are different
+--_000_A25F549E4D43CD42B4C02DF47A1913230FCE9C53SHSMSX102ccrcor_
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 
-Signed-off-by: Khem Raj <raj.khem@gmail.com>
----
- meta/recipes-devtools/gcc/gcc-configure-common.inc |    4 ++++
- meta/recipes-devtools/gcc/gcc-configure-cross.inc  |    4 ++++
- meta/recipes-devtools/gcc/gcc-configure-sdk.inc    |    6 +++++-
- 3 files changed, 13 insertions(+), 1 deletions(-)
+SGkgam9hb2hmLA0KDQpUaGFuayBmb3IgdGhlIGhpbnQhDQoNCkkgaGF2ZSBnb3QgdGhlIHBhdGNo
+ZXMgZnJvbSBnZW5leHQyZnMtZGV2ZWwgbWFpbGluZyBsaXN0IGFuZCBkaWQgc29tZSB0ZXN0czoN
+Cg0KSSBjYW4gc3VjY2Vzc2Z1bGx5IGNyZWF0ZSBhIC5leHQyIGZpbGUgb2YgOC41R0Igd2l0aCBn
+ZW5leHQyZnMgbm93IQ0KDQoNCg0KSeKAmWxsIHNlbmQgYW4gdXBkYXRlIHRvIHRoZSBnZW5leHQy
+ZnMgcmVjaXBlIGxhdGVyLg0KDQoNCg0KVGhhbmtzLA0KDQotLSBEZXh1YW4NCg0KRnJvbTogb3Bl
+bmVtYmVkZGVkLWNvcmUtYm91bmNlc0BsaXN0cy5vcGVuZW1iZWRkZWQub3JnIFttYWlsdG86b3Bl
+bmVtYmVkZGVkLWNvcmUtYm91bmNlc0BsaXN0cy5vcGVuZW1iZWRkZWQub3JnXSBPbiBCZWhhbGYg
+T2YgSm8/byBIZW5yaXF1ZSBGcmVpdGFzDQpTZW50OiBXZWRuZXNkYXksIE1hcmNoIDI4LCAyMDEy
+IDQ6NDYgQU0NClRvOiBQYXRjaGVzIGFuZCBkaXNjdXNzaW9ucyBhYm91dCB0aGUgb2UtY29yZSBs
+YXllcg0KU3ViamVjdDogUmU6IFtPRS1jb3JlXSBbUEFUQ0ggMC82XSBTZXR1cCBmb3IgVk1ESyB0
+byB1c2UgRGlyZWN0IERpc2sNCg0KDQpIaSwNCkkgZ3Vlc3Mgd2UgY2FuIGp1c3QgcHV0IHRoYXQg
+aW4gdGhlIGRvY3MgZm9yIG5vdy4gRm9yIGZ1dHVyZSBpbXByb3ZlbWVudA0KdGhvdWdoIEkgd29u
+ZGVyIGlmIHdlIGNhbiB0cmljayB0aGUgZmV0Y2hlciBpbnRvIGp1c3QgcHVsbGluZyBhY3Jvc3Mg
+dGhlDQpjdXJyZW50IGZpbGVzIGludG8gdGhlIHJvb3Rmcy4gSSdsbCBwdXQgdGhhdCBvbiBteSB0
+b2RvIGxpc3QgZm9yIGxhdGVyLg0KDQoNClRoZSBmb2xsb3dpbmcgdGhyZWFkIHN1Z2dlc3QgYSBw
+YXRjaCB0byBmaXggaXQ6DQoNCmh0dHA6Ly9zb3VyY2Vmb3JnZS5uZXQvbWFpbGFyY2hpdmUvZm9y
+dW0ucGhwP3RocmVhZF9uYW1lPTEzMDc0NTgxNzIuMTA5NzQuNjQuY2FtZWwlNDBza3VuayZmb3J1
+bV9uYW1lPWdlbmV4dDJmcy1kZXZlbA0KDQpUaGFua3MuDQoNCi0tDQotLS0tLS0tLS0tLS0tLS0t
+LS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLQ0KSm/Do28gSGVucmlx
+dWUgRnJlaXRhcyAtIGpvYW9oZl9hdF9nbWFpbC5jb208aHR0cDovL2pvYW9oZl9hdF9nbWFpbC5j
+b20+DQpDYW1waW5hcy1TUC1CcmFzaWwNCkJTRDA1MTI4Mw0KTFBJIDENCmh0dHA6Ly93d3cuam9h
+b2hmcmVpdGFzLmV0aS5icg0K
 
-diff --git a/meta/recipes-devtools/gcc/gcc-configure-common.inc b/meta/recipes-devtools/gcc/gcc-configure-common.inc
-index 04eda9e..8ec8dd1 100644
---- a/meta/recipes-devtools/gcc/gcc-configure-common.inc
-+++ b/meta/recipes-devtools/gcc/gcc-configure-common.inc
-@@ -104,6 +104,10 @@ do_configure () {
- 	export CXXFLAGS_FOR_BUILD="${BUILD_CXXFLAGS}"
- 	export LDFLAGS_FOR_BUILD="${BUILD_LDFLAGS}"
- 	export ARCH_FLAGS_FOR_TARGET="${ARCH_FLAGS_FOR_TARGET}"
-+	export CFLAGS_FOR_TARGET="${TARGET_CFLAGS}"
-+	export CPPFLAGS_FOR_TARGET="${TARGET_CPPFLAGS}"
-+	export CXXFLAGS_FOR_TARGET="${TARGET_CXXFLAGS}"
-+	export LDFLAGS_FOR_TARGET="${TARGET_LDFLAGS}"
- 	(cd ${S} && gnu-configize) || die "failure running gnu-configize"
- 
- 	oe_runconf
-diff --git a/meta/recipes-devtools/gcc/gcc-configure-cross.inc b/meta/recipes-devtools/gcc/gcc-configure-cross.inc
-index 91834c2..65e340a 100644
---- a/meta/recipes-devtools/gcc/gcc-configure-cross.inc
-+++ b/meta/recipes-devtools/gcc/gcc-configure-cross.inc
-@@ -20,6 +20,10 @@ do_compile_prepend () {
- 	export LD_FOR_TARGET="${TARGET_SYS}-ld"
- 	export NM_FOR_TARGET="${TARGET_SYS}-nm"
- 	export CC_FOR_TARGET="${CCACHE} ${TARGET_SYS}-gcc ${TARGET_CC_ARCH}"
-+	export CFLAGS_FOR_TARGET="${TARGET_CFLAGS}"
-+	export CPPFLAGS_FOR_TARGET="${TARGET_CPPFLAGS}"
-+	export CXXFLAGS_FOR_TARGET="${TARGET_CXXFLAGS}"
-+	export LDFLAGS_FOR_TARGET="${TARGET_LDFLAGS}"
- }
- 
- LIBGCCS_VAR = "-lgcc_s"
-diff --git a/meta/recipes-devtools/gcc/gcc-configure-sdk.inc b/meta/recipes-devtools/gcc/gcc-configure-sdk.inc
-index 3043814..54e8ede 100644
---- a/meta/recipes-devtools/gcc/gcc-configure-sdk.inc
-+++ b/meta/recipes-devtools/gcc/gcc-configure-sdk.inc
-@@ -30,7 +30,7 @@ export WINDRES_FOR_TARGET = "${TARGET_PREFIX}windres"
- #
- # We need to override this and make sure the compiler can find staging
- #
--export ARCH_FLAGS_FOR_TARGET = "--sysroot=${STAGING_DIR_TARGET}"
-+export ARCH_FLAGS_FOR_TARGET = "--sysroot=${STAGING_DIR_TARGET} -isystem =${target_includedir}"
- 
- do_configure () {
- 	export CC_FOR_BUILD="${BUILD_CC}"
-@@ -39,6 +39,10 @@ do_configure () {
- 	export CPPFLAGS_FOR_BUILD="${BUILD_CPPFLAGS}"
- 	export CXXFLAGS_FOR_BUILD="${BUILD_CXXFLAGS}"
- 	export LDFLAGS_FOR_BUILD="${BUILD_LDFLAGS}"
-+	export CFLAGS_FOR_TARGET="${TARGET_CFLAGS}"
-+	export CPPFLAGS_FOR_TARGET="${TARGET_CPPFLAGS}"
-+	export CXXFLAGS_FOR_TARGET="${TARGET_CXXFLAGS}"
-+	export LDFLAGS_FOR_TARGET="${TARGET_LDFLAGS}"
- 	(cd ${S} && gnu-configize) || die "failure running gnu-configize"
- 	oe_runconf
- }
--- 
-1.7.5.4
+--_000_A25F549E4D43CD42B4C02DF47A1913230FCE9C53SHSMSX102ccrcor_
+Content-Type: text/html; charset="utf-8"
+Content-Transfer-Encoding: base64
 
+PGh0bWwgeG1sbnM6dj0idXJuOnNjaGVtYXMtbWljcm9zb2Z0LWNvbTp2bWwiIHhtbG5zOm89InVy
+bjpzY2hlbWFzLW1pY3Jvc29mdC1jb206b2ZmaWNlOm9mZmljZSIgeG1sbnM6dz0idXJuOnNjaGVt
+YXMtbWljcm9zb2Z0LWNvbTpvZmZpY2U6d29yZCIgeG1sbnM6bT0iaHR0cDovL3NjaGVtYXMubWlj
+cm9zb2Z0LmNvbS9vZmZpY2UvMjAwNC8xMi9vbW1sIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcv
+VFIvUkVDLWh0bWw0MCI+DQo8aGVhZD4NCjxtZXRhIGh0dHAtZXF1aXY9IkNvbnRlbnQtVHlwZSIg
+Y29udGVudD0idGV4dC9odG1sOyBjaGFyc2V0PXV0Zi04Ij4NCjxtZXRhIG5hbWU9IkdlbmVyYXRv
+ciIgY29udGVudD0iTWljcm9zb2Z0IFdvcmQgMTIgKGZpbHRlcmVkIG1lZGl1bSkiPg0KPHN0eWxl
+PjwhLS0NCi8qIEZvbnQgRGVmaW5pdGlvbnMgKi8NCkBmb250LWZhY2UNCgl7Zm9udC1mYW1pbHk6
+5a6L5L2TOw0KCXBhbm9zZS0xOjIgMSA2IDAgMyAxIDEgMSAxIDE7fQ0KQGZvbnQtZmFjZQ0KCXtm
+b250LWZhbWlseToiQ2FtYnJpYSBNYXRoIjsNCglwYW5vc2UtMToyIDQgNSAzIDUgNCA2IDMgMiA0
+O30NCkBmb250LWZhY2UNCgl7Zm9udC1mYW1pbHk6Q2FsaWJyaTsNCglwYW5vc2UtMToyIDE1IDUg
+MiAyIDIgNCAzIDIgNDt9DQpAZm9udC1mYWNlDQoJe2ZvbnQtZmFtaWx5OlRhaG9tYTsNCglwYW5v
+c2UtMToyIDExIDYgNCAzIDUgNCA0IDIgNDt9DQpAZm9udC1mYWNlDQoJe2ZvbnQtZmFtaWx5OiJc
+QOWui+S9kyI7DQoJcGFub3NlLTE6MiAxIDYgMCAzIDEgMSAxIDEgMTt9DQovKiBTdHlsZSBEZWZp
+bml0aW9ucyAqLw0KcC5Nc29Ob3JtYWwsIGxpLk1zb05vcm1hbCwgZGl2Lk1zb05vcm1hbA0KCXtt
+YXJnaW46MGNtOw0KCW1hcmdpbi1ib3R0b206LjAwMDFwdDsNCglmb250LXNpemU6MTIuMHB0Ow0K
+CWZvbnQtZmFtaWx5OuWui+S9kzt9DQphOmxpbmssIHNwYW4uTXNvSHlwZXJsaW5rDQoJe21zby1z
+dHlsZS1wcmlvcml0eTo5OTsNCgljb2xvcjpibHVlOw0KCXRleHQtZGVjb3JhdGlvbjp1bmRlcmxp
+bmU7fQ0KYTp2aXNpdGVkLCBzcGFuLk1zb0h5cGVybGlua0ZvbGxvd2VkDQoJe21zby1zdHlsZS1w
+cmlvcml0eTo5OTsNCgljb2xvcjpwdXJwbGU7DQoJdGV4dC1kZWNvcmF0aW9uOnVuZGVybGluZTt9
+DQpwLk1zb1BsYWluVGV4dCwgbGkuTXNvUGxhaW5UZXh0LCBkaXYuTXNvUGxhaW5UZXh0DQoJe21z
+by1zdHlsZS1wcmlvcml0eTo5OTsNCgltc28tc3R5bGUtbGluazoiUGxhaW4gVGV4dCBDaGFyIjsN
+CgltYXJnaW46MGNtOw0KCW1hcmdpbi1ib3R0b206LjAwMDFwdDsNCglmb250LXNpemU6MTAuNXB0
+Ow0KCWZvbnQtZmFtaWx5OiJDYWxpYnJpIiwic2Fucy1zZXJpZiI7fQ0Kc3Bhbi5FbWFpbFN0eWxl
+MTcNCgl7bXNvLXN0eWxlLXR5cGU6cGVyc29uYWwtcmVwbHk7DQoJZm9udC1mYW1pbHk6IkNhbGli
+cmkiLCJzYW5zLXNlcmlmIjsNCgljb2xvcjojMUY0OTdEO30NCnNwYW4uUGxhaW5UZXh0Q2hhcg0K
+CXttc28tc3R5bGUtbmFtZToiUGxhaW4gVGV4dCBDaGFyIjsNCgltc28tc3R5bGUtcHJpb3JpdHk6
+OTk7DQoJbXNvLXN0eWxlLWxpbms6IlBsYWluIFRleHQiOw0KCWZvbnQtZmFtaWx5OiJDYWxpYnJp
+Iiwic2Fucy1zZXJpZiI7fQ0KLk1zb0NocERlZmF1bHQNCgl7bXNvLXN0eWxlLXR5cGU6ZXhwb3J0
+LW9ubHk7fQ0KQHBhZ2UgV29yZFNlY3Rpb24xDQoJe3NpemU6NjEyLjBwdCA3OTIuMHB0Ow0KCW1h
+cmdpbjo3Mi4wcHQgOTAuMHB0IDcyLjBwdCA5MC4wcHQ7fQ0KZGl2LldvcmRTZWN0aW9uMQ0KCXtw
+YWdlOldvcmRTZWN0aW9uMTt9DQotLT48L3N0eWxlPjwhLS1baWYgZ3RlIG1zbyA5XT48eG1sPg0K
+PG86c2hhcGVkZWZhdWx0cyB2OmV4dD0iZWRpdCIgc3BpZG1heD0iMTAyNiIgLz4NCjwveG1sPjwh
+W2VuZGlmXS0tPjwhLS1baWYgZ3RlIG1zbyA5XT48eG1sPg0KPG86c2hhcGVsYXlvdXQgdjpleHQ9
+ImVkaXQiPg0KPG86aWRtYXAgdjpleHQ9ImVkaXQiIGRhdGE9IjEiIC8+DQo8L286c2hhcGVsYXlv
+dXQ+PC94bWw+PCFbZW5kaWZdLS0+DQo8L2hlYWQ+DQo8Ym9keSBsYW5nPSJaSC1DTiIgbGluaz0i
+Ymx1ZSIgdmxpbms9InB1cnBsZSI+DQo8ZGl2IGNsYXNzPSJXb3JkU2VjdGlvbjEiPg0KPHAgY2xh
+c3M9Ik1zb1BsYWluVGV4dCI+PHNwYW4gbGFuZz0iRU4tVVMiPkhpIGpvYW9oZiw8bzpwPjwvbzpw
+Pjwvc3Bhbj48L3A+DQo8cCBjbGFzcz0iTXNvUGxhaW5UZXh0Ij48c3BhbiBsYW5nPSJFTi1VUyI+
+VGhhbmsgZm9yIHRoZSBoaW50ITxvOnA+PC9vOnA+PC9zcGFuPjwvcD4NCjxwIGNsYXNzPSJNc29Q
+bGFpblRleHQiPjxzcGFuIGxhbmc9IkVOLVVTIj5JIGhhdmUgZ290IHRoZSBwYXRjaGVzIGZyb20g
+Z2VuZXh0MmZzLWRldmVsIG1haWxpbmcgbGlzdCBhbmQgZGlkIHNvbWUgdGVzdHM6PG86cD48L286
+cD48L3NwYW4+PC9wPg0KPHAgY2xhc3M9Ik1zb1BsYWluVGV4dCI+PHNwYW4gbGFuZz0iRU4tVVMi
+PkkgY2FuIHN1Y2Nlc3NmdWxseSBjcmVhdGUgYSAuZXh0MiBmaWxlIG9mIDguNUdCIHdpdGggZ2Vu
+ZXh0MmZzIG5vdyE8bzpwPjwvbzpwPjwvc3Bhbj48L3A+DQo8cCBjbGFzcz0iTXNvUGxhaW5UZXh0
+Ij48c3BhbiBsYW5nPSJFTi1VUyI+PG86cD4mbmJzcDs8L286cD48L3NwYW4+PC9wPg0KPHAgY2xh
+c3M9Ik1zb1BsYWluVGV4dCI+PHNwYW4gbGFuZz0iRU4tVVMiPkk8L3NwYW4+PHNwYW4gbGFuZz0i
+RU4tVVMiIHN0eWxlPSJmb250LWZhbWlseTomcXVvdDtDb3VyaWVyIE5ldyZxdW90OyI+4oCZPC9z
+cGFuPjxzcGFuIGxhbmc9IkVOLVVTIj5sbCBzZW5kIGFuIHVwZGF0ZSB0byB0aGUgZ2VuZXh0MmZz
+IHJlY2lwZSBsYXRlci48bzpwPjwvbzpwPjwvc3Bhbj48L3A+DQo8cCBjbGFzcz0iTXNvUGxhaW5U
+ZXh0Ij48c3BhbiBsYW5nPSJFTi1VUyI+PG86cD4mbmJzcDs8L286cD48L3NwYW4+PC9wPg0KPHAg
+Y2xhc3M9Ik1zb1BsYWluVGV4dCI+PHNwYW4gbGFuZz0iRU4tVVMiPlRoYW5rcyw8bzpwPjwvbzpw
+Pjwvc3Bhbj48L3A+DQo8cCBjbGFzcz0iTXNvUGxhaW5UZXh0Ij48c3BhbiBsYW5nPSJFTi1VUyI+
+LS0gRGV4dWFuPG86cD48L286cD48L3NwYW4+PC9wPg0KPHAgY2xhc3M9Ik1zb05vcm1hbCI+PHNw
+YW4gbGFuZz0iRU4tVVMiIHN0eWxlPSJmb250LXNpemU6MTAuNXB0O2ZvbnQtZmFtaWx5OiZxdW90
+O0NhbGlicmkmcXVvdDssJnF1b3Q7c2Fucy1zZXJpZiZxdW90Oztjb2xvcjojMUY0OTdEIj48bzpw
+PiZuYnNwOzwvbzpwPjwvc3Bhbj48L3A+DQo8ZGl2IHN0eWxlPSJib3JkZXI6bm9uZTtib3JkZXIt
+bGVmdDpzb2xpZCBibHVlIDEuNXB0O3BhZGRpbmc6MGNtIDBjbSAwY20gNC4wcHQiPg0KPGRpdj4N
+CjxkaXYgc3R5bGU9ImJvcmRlcjpub25lO2JvcmRlci10b3A6c29saWQgI0I1QzRERiAxLjBwdDtw
+YWRkaW5nOjMuMHB0IDBjbSAwY20gMGNtIj4NCjxwIGNsYXNzPSJNc29Ob3JtYWwiPjxiPjxzcGFu
+IGxhbmc9IkVOLVVTIiBzdHlsZT0iZm9udC1zaXplOjEwLjBwdDtmb250LWZhbWlseTomcXVvdDtU
+YWhvbWEmcXVvdDssJnF1b3Q7c2Fucy1zZXJpZiZxdW90OyI+RnJvbTo8L3NwYW4+PC9iPjxzcGFu
+IGxhbmc9IkVOLVVTIiBzdHlsZT0iZm9udC1zaXplOjEwLjBwdDtmb250LWZhbWlseTomcXVvdDtU
+YWhvbWEmcXVvdDssJnF1b3Q7c2Fucy1zZXJpZiZxdW90OyI+IG9wZW5lbWJlZGRlZC1jb3JlLWJv
+dW5jZXNAbGlzdHMub3BlbmVtYmVkZGVkLm9yZyBbbWFpbHRvOm9wZW5lbWJlZGRlZC1jb3JlLWJv
+dW5jZXNAbGlzdHMub3BlbmVtYmVkZGVkLm9yZ10NCjxiPk9uIEJlaGFsZiBPZiA8L2I+Sm8/byBI
+ZW5yaXF1ZSBGcmVpdGFzPGJyPg0KPGI+U2VudDo8L2I+IFdlZG5lc2RheSwgTWFyY2ggMjgsIDIw
+MTIgNDo0NiBBTTxicj4NCjxiPlRvOjwvYj4gUGF0Y2hlcyBhbmQgZGlzY3Vzc2lvbnMgYWJvdXQg
+dGhlIG9lLWNvcmUgbGF5ZXI8YnI+DQo8Yj5TdWJqZWN0OjwvYj4gUmU6IFtPRS1jb3JlXSBbUEFU
+Q0ggMC82XSBTZXR1cCBmb3IgVk1ESyB0byB1c2UgRGlyZWN0IERpc2s8bzpwPjwvbzpwPjwvc3Bh
+bj48L3A+DQo8L2Rpdj4NCjwvZGl2Pg0KPHAgY2xhc3M9Ik1zb05vcm1hbCI+PHNwYW4gbGFuZz0i
+RU4tVVMiPjxvOnA+Jm5ic3A7PC9vOnA+PC9zcGFuPjwvcD4NCjxwIGNsYXNzPSJNc29Ob3JtYWwi
+IHN0eWxlPSJtYXJnaW4tYm90dG9tOjEyLjBwdCI+PHNwYW4gbGFuZz0iRU4tVVMiPjxicj4NCkhp
+LDxvOnA+PC9vOnA+PC9zcGFuPjwvcD4NCjxkaXY+DQo8YmxvY2txdW90ZSBzdHlsZT0iYm9yZGVy
+Om5vbmU7Ym9yZGVyLWxlZnQ6c29saWQgI0NDQ0NDQyAxLjBwdDtwYWRkaW5nOjBjbSAwY20gMGNt
+IDYuMHB0O21hcmdpbi1sZWZ0OjQuOHB0O21hcmdpbi1yaWdodDowY20iPg0KPHAgY2xhc3M9Ik1z
+b05vcm1hbCI+PHNwYW4gbGFuZz0iRU4tVVMiPkkgZ3Vlc3Mgd2UgY2FuIGp1c3QgcHV0IHRoYXQg
+aW4gdGhlIGRvY3MgZm9yIG5vdy4gRm9yIGZ1dHVyZSBpbXByb3ZlbWVudDxicj4NCnRob3VnaCBJ
+IHdvbmRlciBpZiB3ZSBjYW4gdHJpY2sgdGhlIGZldGNoZXIgaW50byBqdXN0IHB1bGxpbmcgYWNy
+b3NzIHRoZTxicj4NCmN1cnJlbnQgZmlsZXMgaW50byB0aGUgcm9vdGZzLiBJJ2xsIHB1dCB0aGF0
+IG9uIG15IHRvZG8gbGlzdCBmb3IgbGF0ZXIuPGJyIGNsZWFyPSJhbGwiPg0KPG86cD48L286cD48
+L3NwYW4+PC9wPg0KPC9ibG9ja3F1b3RlPg0KPC9kaXY+DQo8cCBjbGFzcz0iTXNvTm9ybWFsIj48
+c3BhbiBsYW5nPSJFTi1VUyI+PGJyPg0KPGJyPg0KVGhlIGZvbGxvd2luZyB0aHJlYWQgc3VnZ2Vz
+dCBhIHBhdGNoIHRvIGZpeCBpdDogPGJyPg0KPGJyPg0KPGEgaHJlZj0iaHR0cDovL3NvdXJjZWZv
+cmdlLm5ldC9tYWlsYXJjaGl2ZS9mb3J1bS5waHA/dGhyZWFkX25hbWU9MTMwNzQ1ODE3Mi4xMDk3
+NC42NC5jYW1lbCU0MHNrdW5rJmFtcDtmb3J1bV9uYW1lPWdlbmV4dDJmcy1kZXZlbCI+aHR0cDov
+L3NvdXJjZWZvcmdlLm5ldC9tYWlsYXJjaGl2ZS9mb3J1bS5waHA/dGhyZWFkX25hbWU9MTMwNzQ1
+ODE3Mi4xMDk3NC42NC5jYW1lbCU0MHNrdW5rJmFtcDtmb3J1bV9uYW1lPWdlbmV4dDJmcy1kZXZl
+bDwvYT48YnI+DQo8YnI+DQpUaGFua3MuPGJyPg0KPGJyPg0KLS0gPGJyPg0KLS0tLS0tLS0tLS0t
+LS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS08YnI+DQpKb8Oj
+byBIZW5yaXF1ZSBGcmVpdGFzIC0gPGEgaHJlZj0iaHR0cDovL2pvYW9oZl9hdF9nbWFpbC5jb20i
+PmpvYW9oZl9hdF9nbWFpbC5jb208L2E+PGJyPg0KQ2FtcGluYXMtU1AtQnJhc2lsPGJyPg0KQlNE
+MDUxMjgzPGJyPg0KTFBJIDE8YnI+DQo8YSBocmVmPSJodHRwOi8vd3d3LmpvYW9oZnJlaXRhcy5l
+dGkuYnIiPmh0dHA6Ly93d3cuam9hb2hmcmVpdGFzLmV0aS5icjwvYT48bzpwPjwvbzpwPjwvc3Bh
+bj48L3A+DQo8L2Rpdj4NCjwvZGl2Pg0KPC9ib2R5Pg0KPC9odG1sPg0K
 
-
+--_000_A25F549E4D43CD42B4C02DF47A1913230FCE9C53SHSMSX102ccrcor_--
