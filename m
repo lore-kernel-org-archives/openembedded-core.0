@@ -1,38 +1,36 @@
-Received: from mail-we0-f175.google.com ([74.125.82.175])
+Received: from astoria.ccjclearline.com ([64.235.106.9])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <martin.jansa@gmail.com>) id 1SCqj6-00047T-HS
+	(envelope-from <rpjday@crashcourse.ca>) id 1SCqql-0004FF-TO
 	for openembedded-core@lists.openembedded.org;
-	Wed, 28 Mar 2012 13:07:40 +0200
-Received: by wera1 with SMTP id a1so559758wer.6
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 28 Mar 2012 03:58:38 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=date:from:to:subject:message-id:references:mime-version
-	:content-type:content-disposition:in-reply-to:user-agent;
-	bh=MW6BDZG/87uFXL8vhMSuCMlSNPmVCVWuhKvbbFdPsB0=;
-	b=d2BmpHoDzYGu12IZgZ818IE1+XPoVO5Ty7wrhn02+mRohVhcdV/Ej3jCM8t8uHqbKe
-	+q49KpvMNhmBHTkRVFxV1ao2QcDLi1zH2ort+5tEZEjqMwlCHC1H0eS7t/9Pu5uy5d0u
-	KmMKyOHSv9xgxG4UMJp2m1gVUO0hVf/La/fuN1QAWmFAvdwLaKbqxyd1E0MZBMWaNWJC
-	g8EVr+HrcE9dHvnHB/J+MFMXKi7S4B92Zc09q4GdNNNhnVI7cYHcR1vs6/EhlHyHFeGm
-	MAT8rWw0J+yUb33nBeAy0gSnBpfMtfGFSrc9tkx7I5EYt/gVXi1codIrR3B7Wa8icTOu
-	/NxQ==
-Received: by 10.216.134.136 with SMTP id s8mr17257483wei.6.1332932318684;
-	Wed, 28 Mar 2012 03:58:38 -0700 (PDT)
-Received: from localhost ([94.230.152.246])
-	by mx.google.com with ESMTPS id ea6sm26793848wib.5.2012.03.28.03.58.37
-	(version=TLSv1/SSLv3 cipher=OTHER);
-	Wed, 28 Mar 2012 03:58:37 -0700 (PDT)
-Date: Wed, 28 Mar 2012 12:58:37 +0200
-From: Martin Jansa <martin.jansa@gmail.com>
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Message-ID: <20120328105837.GB4004@jama.jama.net>
-References: <cover.1332929227.git.edwin.zhai@intel.com>
-	<af00d9bd88e6322d5080f985a36ac38afdf67ea5.1332929227.git.edwin.zhai@intel.com>
+	Wed, 28 Mar 2012 13:15:36 +0200
+Received: from cpec03f0ed08c7f-cm001ac318e826.cpe.net.cable.rogers.com
+	([99.241.91.63] helo=crashcourse.ca)
+	by astoria.ccjclearline.com with esmtpsa (TLSv1:AES256-SHA:256)
+	(Exim 4.69) (envelope-from <rpjday@crashcourse.ca>)
+	id 1SCqi2-0001tU-Pg; Wed, 28 Mar 2012 07:06:34 -0400
+Date: Wed, 28 Mar 2012 07:06:21 -0400 (EDT)
+From: "Robert P. J. Day" <rpjday@crashcourse.ca>
+X-X-Sender: rpjday@oneiric
+To: Paul Eggleton <paul.eggleton@linux.intel.com>
+In-Reply-To: <6668552.CMpgp5lzfB@helios>
+Message-ID: <alpine.DEB.2.02.1203280659340.27661@oneiric>
+References: <alpine.DEB.2.02.1203270815010.3125@oneiric>
+	<alpine.DEB.2.02.1203280532530.22292@oneiric>
+	<CAHod+GfV+mzvHF=SGtKWTL7GP87-pMeTbtf183m=jU_5PM=YYw@mail.gmail.com>
+	<6668552.CMpgp5lzfB@helios>
+User-Agent: Alpine 2.02 (DEB 1266 2009-07-14)
 MIME-Version: 1.0
-In-Reply-To: <af00d9bd88e6322d5080f985a36ac38afdf67ea5.1332929227.git.edwin.zhai@intel.com>
-User-Agent: Mutt/1.5.21 (2010-09-15)
-Subject: Re: [PATCH 1/1] virtual/libgl: switch back to mesa-xlib for qemuarm/qemumips
+X-AntiAbuse: This header was added to track abuse,
+	please include it with any abuse report
+X-AntiAbuse: Primary Hostname - astoria.ccjclearline.com
+X-AntiAbuse: Original Domain - lists.openembedded.org
+X-AntiAbuse: Originator/Caller UID/GID - [47 12] / [47 12]
+X-AntiAbuse: Sender Address Domain - crashcourse.ca
+X-Source: 
+X-Source-Args: 
+X-Source-Dir: 
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: adding a single package to an image -- what's the proper way?
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -47,85 +45,65 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 28 Mar 2012 11:07:40 -0000
-X-Groupsio-MsgNum: 19880
-Content-Type: multipart/signed; micalg=pgp-sha1;
-	protocol="application/pgp-signature"; boundary="uZ3hkaAS1mZxFaxD"
-Content-Disposition: inline
+X-List-Received-Date: Wed, 28 Mar 2012 11:15:36 -0000
+Content-Type: MULTIPART/MIXED; BOUNDARY="8323329-855044608-1332932407=:27661"
+Content-ID: <alpine.DEB.2.02.1203280700470.392@oneiric>
 
---uZ3hkaAS1mZxFaxD
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+--8323329-855044608-1332932407=:27661
+Content-Type: TEXT/PLAIN; CHARSET=ISO-8859-2
+Content-Transfer-Encoding: QUOTED-PRINTABLE
+Content-ID: <alpine.DEB.2.02.1203280700471.392@oneiric>
 
-On Wed, Mar 28, 2012 at 06:10:26PM +0800, edwin.zhai@intel.com wrote:
-> From: Martin Jansa <martin.jansa@gmail.com>
+On Wed, 28 Mar 2012, Paul Eggleton wrote:
 
-I don't think I've ever sent something like this.
-Actually I've sent patch:
-default-providers: switch virtual/libgl from mesa-xlib to mesa-dri
-* to match default virtual/xserver
+> On Wednesday 28 March 2012 12:51:46 Marko Kati=E6 wrote:
+> > I always use "bitbake -c clean -c cleansstate package" for that purpose=
+=2E
+>
+> Firstly, cleansstate does a clean already, so no need to specify that as =
+well.
+>
+> Secondly, images are always rebuilt so provided you comment out the
+> IMAGE_INSTALL_append or whatever you have done to change the image
+> contents, you can just build the image again and it will be rebuilt
+> as it was before.
 
-And this just reverts it + adds suspicious COMPATIBLE_MACHINE..
+  i was testing the various solutions presented, and the first couple
+worked just by changing the local.conf file (both adding and
+removing), but the third using DISTRO_EXTRA_RDEPENDS didn't appear to
+make a difference after i added the appropriate line to local.conf.
 
-Cheers,
+  if i add the line:
 
-> Still need mesa-xlib for emulation of GLX interface on qemuarm/qemumips, =
-where
-> mesa-dri doesn't work for pure qemu emulator.
->=20
-> [YOCTO #2066] fixed.
-> ---
->  meta/conf/distro/include/default-providers.inc |    2 +-
->  meta/recipes-graphics/mesa/mesa-xlib.inc       |    2 ++
->  2 files changed, 3 insertions(+), 1 deletions(-)
->=20
-> diff --git a/meta/conf/distro/include/default-providers.inc b/meta/conf/d=
-istro/include/default-providers.inc
-> index 54c90d3..3850a2f 100644
-> --- a/meta/conf/distro/include/default-providers.inc
-> +++ b/meta/conf/distro/include/default-providers.inc
-> @@ -5,7 +5,7 @@ PREFERRED_PROVIDER_virtual/db ?=3D "db"
->  PREFERRED_PROVIDER_virtual/db-native ?=3D "db-native"
->  PREFERRED_PROVIDER_virtual/xserver ?=3D "xserver-xorg"
->  PREFERRED_PROVIDER_virtual/xserver-xf86 ?=3D "xserver-xorg"
-> -PREFERRED_PROVIDER_virtual/libgl ?=3D "mesa-dri"
-> +PREFERRED_PROVIDER_virtual/libgl ?=3D "mesa-xlib"
->  PREFERRED_PROVIDER_virtual/update-alternatives ?=3D "update-alternatives=
--cworth"
->  PREFERRED_PROVIDER_virtual/update-alternatives-native ?=3D "opkg-native"
->  PREFERRED_PROVIDER_virtual/libx11 ?=3D "libx11-trim"
-> diff --git a/meta/recipes-graphics/mesa/mesa-xlib.inc b/meta/recipes-grap=
-hics/mesa/mesa-xlib.inc
-> index b720e14..c431eab 100644
-> --- a/meta/recipes-graphics/mesa/mesa-xlib.inc
-> +++ b/meta/recipes-graphics/mesa/mesa-xlib.inc
-> @@ -1 +1,3 @@
->  EXTRA_OECONF +=3D " --with-driver=3Dxlib --without-gallium-drivers"
-> +
-> +COMPATIBLE_MACHINE =3D "(qemuarm|qemumips|qemuppc)"
-> --=20
-> 1.7.5.4
->=20
->=20
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
+DISTRO_EXTRA_RDEPENDS +=3D "sysfsutils"
+
+do you know if this requires an explicit reconfiguration of some kind
+to be picked up?  it's exactly these niggling details i'm trying to
+clarify.
+
+  oh, wait, a totally fresh build just finished with that line in my
+local.conf, and that did *not* appear to add sysfsutils to my image,
+so this section in the reference manual seems wrong:
+
+http://www.yoctoproject.org/docs/current/poky-ref-manual/poky-ref-manual.ht=
+ml#usingpoky-extend-customimage-localconf
+
+about to summarize all of this on my wiki page.
+
+rday
 
 --=20
-Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
 
---uZ3hkaAS1mZxFaxD
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: Digital signature
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+Robert P. J. Day                                 Ottawa, Ontario, CANADA
+                        http://crashcourse.ca
 
------BEGIN PGP SIGNATURE-----
-Version: GnuPG v2.0.19 (GNU/Linux)
+Twitter:                                       http://twitter.com/rpjday
+LinkedIn:                               http://ca.linkedin.com/in/rpjday
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
 
-iEYEARECAAYFAk9y7t0ACgkQN1Ujt2V2gBzFlwCgmKr8ie2JFbOUlxXLZhEupGVi
-K5UAn0aTkuuA3c+84QHMc0n+qcGKOsma
-=GuZN
------END PGP SIGNATURE-----
-
---uZ3hkaAS1mZxFaxD--
+--8323329-855044608-1332932407=:27661--
