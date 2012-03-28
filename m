@@ -1,43 +1,26 @@
-Received: from mail-wi0-f177.google.com ([209.85.212.177])
+Received: from mga01.intel.com ([192.55.52.88])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <martin.jansa@gmail.com>) id 1SCziz-00044g-NY
+	(envelope-from <paul.eggleton@linux.intel.com>) id 1SCzsz-0004G5-H9
 	for openembedded-core@lists.openembedded.org;
-	Wed, 28 Mar 2012 22:44:09 +0200
-Received: by wibhj13 with SMTP id hj13so1259085wib.6
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 28 Mar 2012 13:35:07 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=date:from:to:subject:message-id:references:mime-version
-	:content-type:content-disposition:in-reply-to:user-agent;
-	bh=gWRDAjJ+bEzn2/Xh/CvepjB6eJHgw6SIESoyLhHOr2Q=;
-	b=TmiN2zqRECDeg5AdSvDdq0L4hKOagXR7cphnnm2q8ZLZwN2KYlJJV3ZAmXUggi0SHS
-	8yfwB0Q2gMCeSBUf16DbZhhRgsMgStntWTrxrldGxCpJK2177BrWDjie9tSDYGHuTXfK
-	erJTelHHSuIY5KNLshUzE330uL0Tw9TZ7MGsKlv6pJdBLbo9UhI1OV8jpzjvK30f82WJ
-	o3vwF1K1+0Z2xKh8FAe4hUsKhShP6guyY16w2XJTiWzUw4IPvB0OV7iJOu34gUrTE0fi
-	61zwSCsqu1UKv3x6kHm3wRxEfov3ooqw3wGW/T3/0AcbmYQiXEiimrFYCYUV1o2lUpTu
-	C++g==
-Received: by 10.216.136.72 with SMTP id v50mr18005634wei.73.1332966907253;
-	Wed, 28 Mar 2012 13:35:07 -0700 (PDT)
-Received: from localhost ([94.230.152.246])
-	by mx.google.com with ESMTPS id b3sm60730862wib.4.2012.03.28.13.35.05
-	(version=TLSv1/SSLv3 cipher=OTHER);
-	Wed, 28 Mar 2012 13:35:06 -0700 (PDT)
-Date: Wed, 28 Mar 2012 22:35:06 +0200
-From: Martin Jansa <martin.jansa@gmail.com>
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Message-ID: <20120328203505.GG4004@jama.jama.net>
-References: <1332471418-31459-1-git-send-email-raj.khem@gmail.com>
-	<1332504325.9740.395.camel@ted>
-	<20120323131701.GF3879@jama.jama.net>
-	<20120324022639.GF4604@jama.jama.net>
-	<CAMKF1souotjH46PYsQYC8LKDfa2ABD4FsrpxEUvCPqic3PnW1A@mail.gmail.com>
-	<20120328143347.GF4004@jama.jama.net>
-	<CAMKF1sqr0RtpNny_aLEkrnLQYsCGPsZL4ZVK51tCoATHFKLKrQ@mail.gmail.com>
+	Wed, 28 Mar 2012 22:54:29 +0200
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+	by fmsmga101.fm.intel.com with ESMTP; 28 Mar 2012 13:45:26 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="134312172"
+Received: from unknown (HELO helios.localnet) ([10.252.123.243])
+	by fmsmga001.fm.intel.com with ESMTP; 28 Mar 2012 13:45:24 -0700
+From: Paul Eggleton <paul.eggleton@linux.intel.com>
+To: Dexuan Cui <dexuan.cui@intel.com>, Saul Wold <sgw@linux.intel.com>,
+	openembedded-core@lists.openembedded.org
+Date: Wed, 28 Mar 2012 21:45:23 +0100
+Message-ID: <1489559.CsLVdoLD2R@helios>
+Organization: Intel Corporation
+User-Agent: KMail/4.8.0 (Linux/3.0.0-16-generic-pae; KDE/4.8.1; i686; ; )
+In-Reply-To: <5e91d5cc67fa356f9ed065aad28f978da7d29452.1332826876.git.sgw@linux.intel.com>
+References: <cover.1332826876.git.sgw@linux.intel.com>
+	<5e91d5cc67fa356f9ed065aad28f978da7d29452.1332826876.git.sgw@linux.intel.com>
 MIME-Version: 1.0
-In-Reply-To: <CAMKF1sqr0RtpNny_aLEkrnLQYsCGPsZL4ZVK51tCoATHFKLKrQ@mail.gmail.com>
-User-Agent: Mutt/1.5.21 (2010-09-15)
-Subject: Re: [PATCH 1/2] eglibc-2.15: Update SRCREV
+Subject: Re: [PATCH 1/6] self-hosted-image: pre-populate the builder user with poky source
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -52,120 +35,103 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 28 Mar 2012 20:44:09 -0000
-X-Groupsio-MsgNum: 19907
-Content-Type: multipart/signed; micalg=pgp-sha1;
-	protocol="application/pgp-signature"; boundary="YH9Qf6Fh2G5kB/85"
-Content-Disposition: inline
+X-List-Received-Date: Wed, 28 Mar 2012 20:54:29 -0000
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
 
---YH9Qf6Fh2G5kB/85
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+On Monday 26 March 2012 22:42:55 Saul Wold wrote:
+> From: Dexuan Cui <dexuan.cui@intel.com>
+> 
+> This patch installs the poky source into the /home/builder/poky/ of the
+> self-hosted-image.
+> This makes the user of self-hosted-image easier to start a build.
+> 
+> I think the recent poky master is stable enough, so I specify
+> a commit number by SRCREV -- we may want to update this number before
+> releasing 1.2.
+> 
+> This patch fixes [YOCTO #2065]
+> 
+> Signed-off-by: Dexuan Cui <dexuan.cui@intel.com>
+> 
+> Added code for supporting target based pseudo
+> fixed indentation
+> 
+> Signed-off-by: Saul Wold <sgw@linux.intel.com>
+> ---
+>  meta/recipes-core/images/self-hosted-image.bb |   41
+> +++++++++++++++++++++++- 1 files changed, 39 insertions(+), 2 deletions(-)
+> 
+> diff --git a/meta/recipes-core/images/self-hosted-image.bb
+> b/meta/recipes-core/images/self-hosted-image.bb index d56c2cb..5aa670d
+> 100644
+> --- a/meta/recipes-core/images/self-hosted-image.bb
+> +++ b/meta/recipes-core/images/self-hosted-image.bb
+> @@ -4,7 +4,7 @@ LICENSE = "MIT"
+>  LIC_FILES_CHKSUM =
+> "file://${COREBASE}/LICENSE;md5=3f40d7994397109285ec7b81fdeb3b58 \
+> file://${COREBASE}/meta/COPYING.MIT;md5=3da9cfbcb788c80a0384361b4de20420"
+> 
+> -PR = "r5"
+> +PR = "r6"
+> 
+>  CORE_IMAGE_EXTRA_INSTALL = "\
+>      task-self-hosted \
+> @@ -13,7 +13,10 @@ CORE_IMAGE_EXTRA_INSTALL = "\
+>  IMAGE_FEATURES += "x11-mini package-management"
+> 
+>  # Ensure there's enough space to do a core-image-minimal build, with
+> rm_work enabled -IMAGE_ROOTFS_EXTRA_SPACE = "2621440"
+> +IMAGE_ROOTFS_EXTRA_SPACE = "1048576"
+> +#IMAGE_ROOTFS_EXTRA_SPACE = "2621440"
+> +#IMAGE_ROOTFS_EXTRA_SPACE = "20971520"
+> +#IMAGE_ROOTFS_EXTRA_SPACE = "5242880"
+> 
+>  # Do a quiet boot with limited console messages
+>  APPEND += "quiet"
+> @@ -21,3 +24,37 @@ APPEND += "quiet"
+>  IMAGE_FSTYPES = "vmdk"
+> 
+>  inherit core-image
+> +
+> +SRCREV = "26a46938d3ea1821e7bec4fa6cc8379babad238b"
+> +SRC_URI = "git://git.yoctoproject.org/poky;protocol=git"
+> +
+> +fakeroot do_populate_poky_src () {
+> +	# Because fetch2's git's unpack uses -s cloneflag, the unpacked git repo
+> +	# will become invalid in the target.
+> +	rm -rf ${WORKDIR}/git/.git
+> +	rm -f ${WORKDIR}/git/.gitignore
+> +
+> +	cp -Rp ${WORKDIR}/git ${IMAGE_ROOTFS}/home/builder/poky
+> +
+> +	mkdir -p ${IMAGE_ROOTFS}/home/builder/poky/build/conf
+> +	cp -Rp ${DL_DIR} ${IMAGE_ROOTFS}/home/builder/poky/build
 
-On Wed, Mar 28, 2012 at 09:10:57AM -0700, Khem Raj wrote:
-> On Wed, Mar 28, 2012 at 7:33 AM, Martin Jansa <martin.jansa@gmail.com> wr=
-ote:
-> > On Wed, Mar 28, 2012 at 07:15:32AM -0700, Khem Raj wrote:
-> >> On Fri, Mar 23, 2012 at 7:26 PM, Martin Jansa <martin.jansa@gmail.com>=
- wrote:
-> >> > On Fri, Mar 23, 2012 at 02:17:02PM +0100, Martin Jansa wrote:
-> >> >> On Fri, Mar 23, 2012 at 12:05:25PM +0000, Richard Purdie wrote:
-> >> >> > On Thu, 2012-03-22 at 19:56 -0700, Khem Raj wrote:
-> >> >> > > Get new patches and remove the one that got merged upstream
-> >> >> > >
-> >> >> > > Signed-off-by: Khem Raj <raj.khem@gmail.com>
-> >> >> > > ---
-> >> >> > > =A0.../eglibc/eglibc-2.15/GLRO_dl_debug_mask.patch =A0 =A0| =A0=
-108 ++++++++++++++++++++
-> >> >> > > =A0.../eglibc-2.15/armv4-eabi-compile-fix.patch =A0 =A0 =A0 | =
-=A0 25 -----
-> >> >> > > =A0.../eglibc/eglibc-2.15/initgroups_keys.patch =A0 =A0 =A0 | =
-=A0 20 ++++
-> >> >> > > =A0meta/recipes-core/eglibc/eglibc_2.15.bb =A0 =A0 =A0 =A0 =A0 =
-=A0| =A0 =A05 +-
-> >> >> > > =A04 files changed, 131 insertions(+), 27 deletions(-)
-> >> >> > > =A0create mode 100644 meta/recipes-core/eglibc/eglibc-2.15/GLRO=
-_dl_debug_mask.patch
-> >> >> > > =A0delete mode 100644 meta/recipes-core/eglibc/eglibc-2.15/armv=
-4-eabi-compile-fix.patch
-> >> >> > > =A0create mode 100644 meta/recipes-core/eglibc/eglibc-2.15/init=
-groups_keys.patch
-> >> >> >
-> >> >> > Since 2.15 isn't the default I'm tempted to merge this despite th=
-e point
-> >> >> > we're at in the release cycle. I'd like to give anyone using this=
- the
-> >> >> > opportunity to comment first though.
-> >> >>
-> >> >> I'm testing this on all archs I'm using (armv4t, armv5te, armv7a,
-> >> >> x86-64) and will report tomorrow.
-> >> >
-> >> > Doesn't look related to this change, but I got interesing error on o=
-ther
-> >> > buildhost (on mine everything seems fine sofar including tests on
-> >> > target), I don't have log from armv4t build on mine, because it's on=
- tmpfs
-> >> > and there was unexpected reboot when I wasn't home :/.
-> >>
-> >> Hi Martin
-> >>
-> >> Does it look good for your testing ?
-> >
-> > Seems fine in runtime any hint about that build issue?
-> >
-> > Today I got another one :/
-> >
-> > "build-x86_64-oe-linux/shlib.lds:127: syntax error
-> > while building eglibc
-> >
-> > I had reports about this before, but wasn't able to reproduce it on my
-> > machine, today I got it for first time (maybe because of building with
-> > -j8 instead of -j4), so I've created simple testcase to compare interim
-> > outputs from shlib.lds creation:
-> > http://build.shr-project.org/tests/jama/shlib-issue/
-> >
->=20
-> yes I am aware of this problem. Somehow tokens in linker script
-> gets eaten up which results in unbalanced parens. I havent tracked
-> it down. I have seen this with eglibc 2.13 as well.
->=20
-> Are you using gold by any chance.
+Could we change this last line to:
 
-Not in that build I have seen it for first time (it was for qemux86-64
-with distroless oe-core).
+mkdir ${IMAGE_ROOTFS}/home/builder/poky/build/downloads
+cp -RpL  ${DL_DIR}/* ${IMAGE_ROOTFS}/home/builder/poky/build/downloads/
+
+This does two things:
+
+1) Handles if DL_DIR on the build machine is not called "downloads" (which by 
+chance mine was not when I tested it)
+
+2) I notice if you set up a separate downloads directory and then use own-
+mirrors to fetch from your original downloads directory (possibly unorthodox, 
+but it gets you a clean downloads directory without redownloading everything) 
+you get symlinks into the original downloads dir rather than copied files. I 
+don't know how many people will hit this but since we never want any symlinks 
+in this directory in the self-hosted image, I think using -L is worth doing 
+here.
 
 Cheers,
+Paul
 
->=20
-> > Cheers,
-> > --
-> > Martin 'JaMa' Jansa =A0 =A0 jabber: Martin.Jansa@gmail.com
-> >
-> > _______________________________________________
-> > Openembedded-core mailing list
-> > Openembedded-core@lists.openembedded.org
-> > http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
-> >
->=20
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
+-- 
 
---=20
-Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
+Paul Eggleton
+Intel Open Source Technology Centre
 
---YH9Qf6Fh2G5kB/85
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: Digital signature
 
------BEGIN PGP SIGNATURE-----
-Version: GnuPG v2.0.19 (GNU/Linux)
-
-iEYEARECAAYFAk9zdfkACgkQN1Ujt2V2gByLAwCcCsDkU8u7/C1DO8EUwbFmmgiv
-uAYAn1AEVSdwnFSrRzcHwrTJmksIvd0C
-=VfIX
------END PGP SIGNATURE-----
-
---YH9Qf6Fh2G5kB/85--
