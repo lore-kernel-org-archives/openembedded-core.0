@@ -1,34 +1,25 @@
-Received: from mail-vb0-f47.google.com ([209.85.212.47])
+Received: from mga01.intel.com ([192.55.52.88])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <dromede@gmail.com>) id 1SCqcT-00029z-5K
+	(envelope-from <paul.eggleton@linux.intel.com>) id 1SCqiB-00044x-JS
 	for openembedded-core@lists.openembedded.org;
-	Wed, 28 Mar 2012 13:00:49 +0200
-Received: by vbbfr13 with SMTP id fr13so659599vbb.6
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 28 Mar 2012 03:51:46 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
-	:content-type; bh=U4bDgWF6vCGiD0B89jq4AogvPpoGGhN3NfmrSytxuCQ=;
-	b=j1cKrjR5ssv1C21Ozwk72gh98CGgBjLTH2J6Q/NaSjyI1oyQDpk5EHPDlChhbVjgFN
-	Y7qz/tAjS6w9JBLBZVaHyX444rMC21rPzapEgY5FrhGrH+oM87tJrG0TxQn2XjCLGn8/
-	OvrEkNbuPz6r6pXoxx+BGuPsHCRaVAKaoBy9uhtwDm/j35/SU3a2BMBD8laecxjVPxc2
-	sfvr0lECVFeNI31mDgv3JLeYOoiIaOT3y+cR4QSqzTwzOueIIVlOH1fnQpZob+yqRose
-	7iOj3nYenljOGtuiaQXpRG+pGyHLXkCA+IPQkcp7E3XqdokS5nSzbgDvRdPDaY5D3eKB
-	F5wg==
-MIME-Version: 1.0
-Received: by 10.52.68.228 with SMTP id z4mr3553584vdt.1.1332931906656; Wed, 28
-	Mar 2012 03:51:46 -0700 (PDT)
-Received: by 10.52.19.193 with HTTP; Wed, 28 Mar 2012 03:51:46 -0700 (PDT)
-In-Reply-To: <alpine.DEB.2.02.1203280532530.22292@oneiric>
+	Wed, 28 Mar 2012 13:06:43 +0200
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+	by fmsmga101.fm.intel.com with ESMTP; 28 Mar 2012 03:57:32 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="146875702"
+Received: from unknown (HELO helios.localnet) ([10.252.123.244])
+	by fmsmga002.fm.intel.com with ESMTP; 28 Mar 2012 03:57:31 -0700
+From: Paul Eggleton <paul.eggleton@linux.intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Wed, 28 Mar 2012 11:57:30 +0100
+Message-ID: <6668552.CMpgp5lzfB@helios>
+Organization: Intel Corporation
+User-Agent: KMail/4.8.0 (Linux/3.0.0-16-generic-pae; KDE/4.8.1; i686; ; )
+In-Reply-To: <CAHod+GfV+mzvHF=SGtKWTL7GP87-pMeTbtf183m=jU_5PM=YYw@mail.gmail.com>
 References: <alpine.DEB.2.02.1203270815010.3125@oneiric>
-	<1704770.YM0OKmOcSp@helios> <20120328024204.GE17470@denix.org>
-	<C26382903E56411CA8FD5CF05308DA30@gmail.com>
 	<alpine.DEB.2.02.1203280532530.22292@oneiric>
-Date: Wed, 28 Mar 2012 12:51:46 +0200
-Message-ID: <CAHod+GfV+mzvHF=SGtKWTL7GP87-pMeTbtf183m=jU_5PM=YYw@mail.gmail.com>
-From: =?UTF-8?B?TWFya28gS2F0acSH?= <dromede@gmail.com>
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
+	<CAHod+GfV+mzvHF=SGtKWTL7GP87-pMeTbtf183m=jU_5PM=YYw@mail.gmail.com>
+MIME-Version: 1.0
 Subject: Re: adding a single package to an image -- what's the proper way?
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
@@ -44,109 +35,29 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 28 Mar 2012 11:00:49 -0000
-Content-Type: multipart/alternative; boundary=20cf3079bbc0ce582904bc4b64f6
-
---20cf3079bbc0ce582904bc4b64f6
-Content-Type: text/plain; charset=ISO-8859-1
-
-I always use "bitbake -c clean -c cleansstate package" for that purpose.
-
-On Wed, Mar 28, 2012 at 11:35 AM, Robert P. J. Day <rpjday@crashcourse.ca>wrote:
-
-> On Tue, 27 Mar 2012, Christopher Larson wrote:
->
-> > I IMAGE_INSTALL_append or IMAGE_INSTALL_append_pn-core-image-minimal
-> > or whatever when I need to quickly add a package temporarily,
-> > myself.
->
->   once i add this package and build a new image to verify it was
-> added, i want to revert and rebuild the original QEMU image again.  so
-> after removing that line from local.conf, what's the bitbake clean
-> incantation to remove all traces of sysfsutils from my build
-> directory, so that i can rebuild the image with a simple
->
->  $ bitbake core-image-minimal
->
-> thanks.
->
-> rday
->
-> --
->
-> ========================================================================
-> Robert P. J. Day                                 Ottawa, Ontario, CANADA
->                        http://crashcourse.ca
->
-> Twitter:                                       http://twitter.com/rpjday
-> LinkedIn:                               http://ca.linkedin.com/in/rpjday
-> ========================================================================
->
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
->
-
---20cf3079bbc0ce582904bc4b64f6
-Content-Type: text/html; charset=ISO-8859-1
+X-List-Received-Date: Wed, 28 Mar 2012 11:06:43 -0000
 Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="utf-8"
 
-I always use &quot;bitbake -c clean -c cleansstate package&quot; for that p=
-urpose.<br><br><div class=3D"gmail_quote">On Wed, Mar 28, 2012 at 11:35 AM,=
- Robert P. J. Day <span dir=3D"ltr">&lt;<a href=3D"mailto:rpjday@crashcours=
-e.ca">rpjday@crashcourse.ca</a>&gt;</span> wrote:<br>
-<blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1p=
-x #ccc solid;padding-left:1ex"><div class=3D"im">On Tue, 27 Mar 2012, Chris=
-topher Larson wrote:<br>
-<br>
-</div><div class=3D"im">&gt; I IMAGE_INSTALL_append or IMAGE_INSTALL_append=
-_pn-core-image-minimal<br>
-&gt; or whatever when I need to quickly add a package temporarily,<br>
-&gt; myself.<br>
-<br>
-</div> =A0once i add this package and build a new image to verify it was<br=
->
-added, i want to revert and rebuild the original QEMU image again. =A0so<br=
->
-after removing that line from local.conf, what&#39;s the bitbake clean<br>
-incantation to remove all traces of sysfsutils from my build<br>
-directory, so that i can rebuild the image with a simple<br>
-<br>
- =A0$ bitbake core-image-minimal<br>
-<br>
-thanks.<br>
-<div class=3D"im HOEnZb"><br>
-rday<br>
-<br>
---<br>
-<br>
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D<br>
-Robert P. J. Day =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =
-=A0 =A0 Ottawa, Ontario, CANADA<br>
- =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0<a href=3D"http://crashcour=
-se.ca" target=3D"_blank">http://crashcourse.ca</a><br>
-<br>
-Twitter: =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =
-=A0 =A0 =A0 <a href=3D"http://twitter.com/rpjday" target=3D"_blank">http://=
-twitter.com/rpjday</a><br>
-LinkedIn: =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 <a hr=
-ef=3D"http://ca.linkedin.com/in/rpjday" target=3D"_blank">http://ca.linkedi=
-n.com/in/rpjday</a><br>
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D<br>
-<br>
-</div><div class=3D"HOEnZb"><div class=3D"h5">_____________________________=
-__________________<br>
-Openembedded-core mailing list<br>
-<a href=3D"mailto:Openembedded-core@lists.openembedded.org">Openembedded-co=
-re@lists.openembedded.org</a><br>
-<a href=3D"http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded=
--core" target=3D"_blank">http://lists.linuxtogo.org/cgi-bin/mailman/listinf=
-o/openembedded-core</a><br>
-</div></div></blockquote></div><br>
+On Wednesday 28 March 2012 12:51:46 Marko Kati=C4=87 wrote:
+> I always use "bitbake -c clean -c cleansstate package" for that purpo=
+se.
 
---20cf3079bbc0ce582904bc4b64f6--
+Firstly, cleansstate does a clean already, so no need to specify that a=
+s well.
+
+Secondly, images are always rebuilt so provided you comment out the=20
+IMAGE_INSTALL_append or whatever you have done to change the image cont=
+ents,=20
+you can just build the image again and it will be rebuilt as it was bef=
+ore.
+
+Cheers,
+Paul
+
+--=20
+
+Paul Eggleton
+Intel Open Source Technology Centre
+
+
