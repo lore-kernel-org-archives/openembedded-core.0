@@ -1,36 +1,24 @@
-Received: from astoria.ccjclearline.com ([64.235.106.9])
+Received: from mail1.windriver.com ([147.11.146.13])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <rpjday@crashcourse.ca>) id 1SCpQW-0002fA-Gn
+	(envelope-from <Kai.Kang@windriver.com>) id 1SCpWn-0002kG-PT
 	for openembedded-core@lists.openembedded.org;
-	Wed, 28 Mar 2012 11:44:24 +0200
-Received: from cpec03f0ed08c7f-cm001ac318e826.cpe.net.cable.rogers.com
-	([99.241.91.63] helo=crashcourse.ca)
-	by astoria.ccjclearline.com with esmtpsa (TLSv1:AES256-SHA:256)
-	(Exim 4.69) (envelope-from <rpjday@crashcourse.ca>)
-	id 1SCpHn-0006Gt-VP for openembedded-core@lists.openembedded.org;
-	Wed, 28 Mar 2012 05:35:24 -0400
-Date: Wed, 28 Mar 2012 05:35:15 -0400 (EDT)
-From: "Robert P. J. Day" <rpjday@crashcourse.ca>
-X-X-Sender: rpjday@oneiric
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-In-Reply-To: <C26382903E56411CA8FD5CF05308DA30@gmail.com>
-Message-ID: <alpine.DEB.2.02.1203280532530.22292@oneiric>
-References: <alpine.DEB.2.02.1203270815010.3125@oneiric>
-	<1704770.YM0OKmOcSp@helios> <20120328024204.GE17470@denix.org>
-	<C26382903E56411CA8FD5CF05308DA30@gmail.com>
-User-Agent: Alpine 2.02 (DEB 1266 2009-07-14)
+	Wed, 28 Mar 2012 11:50:54 +0200
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca [147.11.189.40])
+	by mail1.windriver.com (8.14.3/8.14.3) with ESMTP id q2S9foJP013599
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 28 Mar 2012 02:41:50 -0700 (PDT)
+Received: from localhost.localdomain (128.224.162.241) by
+	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server
+	(TLS) id 14.1.255.0; Wed, 28 Mar 2012 02:41:50 -0700
+From: Kang Kai <kai.kang@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Wed, 28 Mar 2012 17:41:44 +0800
+Message-ID: <cover.1332927487.git.kai.kang@windriver.com>
+X-Mailer: git-send-email 1.7.5.4
 MIME-Version: 1.0
-X-AntiAbuse: This header was added to track abuse,
-	please include it with any abuse report
-X-AntiAbuse: Primary Hostname - astoria.ccjclearline.com
-X-AntiAbuse: Original Domain - lists.openembedded.org
-X-AntiAbuse: Originator/Caller UID/GID - [47 12] / [47 12]
-X-AntiAbuse: Sender Address Domain - crashcourse.ca
-X-Source: 
-X-Source-Args: 
-X-Source-Dir: 
-Subject: Re: adding a single package to an image -- what's the proper way?
+X-Originating-IP: [128.224.162.241]
+Subject: [PATCH 0/1] ghostscript: work around for parallel build issue
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -45,35 +33,34 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 28 Mar 2012 09:44:24 -0000
-Content-Type: TEXT/PLAIN; charset=US-ASCII
+X-List-Received-Date: Wed, 28 Mar 2012 09:50:54 -0000
+Content-Type: text/plain
 
-On Tue, 27 Mar 2012, Christopher Larson wrote:
+Hi,
 
-> I IMAGE_INSTALL_append or IMAGE_INSTALL_append_pn-core-image-minimal
-> or whatever when I need to quickly add a package temporarily,
-> myself.
+The patch is for Yocto 1202, to fix parallel build issue.
+Test it 100 times for mips and 4 times show the error mesage that "Files exists"
+but bitbake compile pass.
 
-  once i add this package and build a new image to verify it was
-added, i want to revert and rebuild the original QEMU image again.  so
-after removing that line from local.conf, what's the bitbake clean
-incantation to remove all traces of sysfsutils from my build
-directory, so that i can rebuild the image with a simple
+Regards,
 
-  $ bitbake core-image-minimal
+The following changes since commit 7b01671f54f70c28c98457058c51ffefcb07c0e8:
 
-thanks.
+  nspr 4.8.9: failed to build on x86_64 board (2012-03-27 13:26:37 +0100)
 
-rday
+are available in the git repository at:
+  git://git.pokylinux.org/poky-contrib kangkai/fix-gs
+  http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=kangkai/fix-gs
+
+Kang Kai (1):
+  ghostscript: fix parallel make issue
+
+ .../ghostscript-9.02-parallel-make.patch           |   13 +++++++++++++
+ .../ghostscript/ghostscript_9.05.bb                |    2 +-
+ 2 files changed, 14 insertions(+), 1 deletions(-)
 
 -- 
+1.7.5.4
 
-========================================================================
-Robert P. J. Day                                 Ottawa, Ontario, CANADA
-                        http://crashcourse.ca
-
-Twitter:                                       http://twitter.com/rpjday
-LinkedIn:                               http://ca.linkedin.com/in/rpjday
-========================================================================
 
 
