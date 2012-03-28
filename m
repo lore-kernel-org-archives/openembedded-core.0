@@ -1,41 +1,33 @@
-Received: from mail-we0-f175.google.com ([74.125.82.175])
+Received: from mail-pb0-f47.google.com ([209.85.160.47])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <martin.jansa@gmail.com>) id 1SCu5J-0008LA-SH
+	(envelope-from <raj.khem@gmail.com>) id 1SCuLM-0008U6-0W
 	for openembedded-core@lists.openembedded.org;
-	Wed, 28 Mar 2012 16:42:49 +0200
-Received: by wera1 with SMTP id a1so691198wer.6
+	Wed, 28 Mar 2012 16:59:24 +0200
+Received: by pbcum15 with SMTP id um15so1721508pbc.6
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 28 Mar 2012 07:33:47 -0700 (PDT)
+	Wed, 28 Mar 2012 07:50:21 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=date:from:to:subject:message-id:references:mime-version
-	:content-type:content-disposition:in-reply-to:user-agent;
-	bh=YK3vBy1E7WPHC6owWp3no1N+HL9bfPBZzBsZmd3/XS4=;
-	b=daEQFoayFhERybKLvanBCJ+GoTCraXVufHVvuWaRuKC3htzC3AQGqp1Vl+wEFT4365
-	U8rgvojRbBo9brtSJoqvwek0nmH+eRRQOB2cQY6VT8uM7eSlppDXiKoegEjtmfpDq2Wb
-	lpLrfz5EOxB7tWGK/JHd6O+qscJvMjr2CM2WGt83yH9RvZ+3dkmB6LhyJRuaLAdR05yO
-	KCxhPdzld1KNmqoMy1nRAkSvCO6/DFTrMc1JLrVDL17pwfpu3+mC3LcQ+SIGqWJFfCuC
-	/xDtnf+ci6tVzXK/LjXV7FRO384yXWlO3iNxZk2z9jpvFJMthdup3teWGJNZh1qMUcuF
-	Jfdw==
-Received: by 10.216.139.129 with SMTP id c1mr17178382wej.48.1332945227891;
-	Wed, 28 Mar 2012 07:33:47 -0700 (PDT)
-Received: from localhost ([94.230.152.246])
-	by mx.google.com with ESMTPS id n20sm2846329wiw.5.2012.03.28.07.33.46
+	h=from:to:cc:subject:date:message-id:x-mailer;
+	bh=hkcn9udRI3oHsRFEvhybZ8fkinXvvRPWm9Q9fnieOkY=;
+	b=ohjwGfjHXGauZ06fRQFlU1NI5GsFkNQN8b49wJkRDyT9FU18bXLSG+/fM7dDyZRdM+
+	bRKPQIg5N7p3PqnHk9HWUboBJPQP9Q+r9O9i26tEySXdJQzQvpIppXMfyaolWOo/Lmbr
+	uA5UWr6W0jrKfPPaz7wiQQhCBo1lYdF6dnSnYglAL+gQYhqnTxM+EAHRpbssJGmOhO8J
+	weVZx7WpLkwEJ70g6CF+qpdvdr0UH5CujAIDbwiYnS8PuGe1O1NHI1dbYM06Iw7Cz1fn
+	sDdm2lYFcdAow9aSOHCtksdiYPBpTY6AS4yDyDmHwXbSOZaopHvjwc6u7Ipwsx86+kAw
+	2e2w==
+Received: by 10.68.132.6 with SMTP id oq6mr47668097pbb.66.1332946221112;
+	Wed, 28 Mar 2012 07:50:21 -0700 (PDT)
+Received: from localhost.localdomain (oldbuilder.nslu2-linux.org.
+	[140.211.169.168])
+	by mx.google.com with ESMTPS id jm4sm2824756pbc.73.2012.03.28.07.50.18
 	(version=TLSv1/SSLv3 cipher=OTHER);
-	Wed, 28 Mar 2012 07:33:47 -0700 (PDT)
-Date: Wed, 28 Mar 2012 16:33:47 +0200
-From: Martin Jansa <martin.jansa@gmail.com>
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Message-ID: <20120328143347.GF4004@jama.jama.net>
-References: <1332471418-31459-1-git-send-email-raj.khem@gmail.com>
-	<1332504325.9740.395.camel@ted>
-	<20120323131701.GF3879@jama.jama.net>
-	<20120324022639.GF4604@jama.jama.net>
-	<CAMKF1souotjH46PYsQYC8LKDfa2ABD4FsrpxEUvCPqic3PnW1A@mail.gmail.com>
-MIME-Version: 1.0
-In-Reply-To: <CAMKF1souotjH46PYsQYC8LKDfa2ABD4FsrpxEUvCPqic3PnW1A@mail.gmail.com>
-User-Agent: Mutt/1.5.21 (2010-09-15)
-Subject: Re: [PATCH 1/2] eglibc-2.15: Update SRCREV
+	Wed, 28 Mar 2012 07:50:19 -0700 (PDT)
+From: Khem Raj <raj.khem@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Date: Wed, 28 Mar 2012 07:49:21 -0700
+Message-Id: <1332946161-11606-1-git-send-email-raj.khem@gmail.com>
+X-Mailer: git-send-email 1.7.5.4
+Subject: [RFC][PATCH] gcc-configure: Pass distinct target flags
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -50,88 +42,81 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 28 Mar 2012 14:42:50 -0000
-X-Groupsio-MsgNum: 19895
-Content-Type: multipart/signed; micalg=pgp-sha1;
-	protocol="application/pgp-signature"; boundary="4f28nU6agdXSinmL"
-Content-Disposition: inline
+X-List-Received-Date: Wed, 28 Mar 2012 14:59:24 -0000
 
---4f28nU6agdXSinmL
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+When building gcc-cross-canadian libgcc is built using
+headers from gcc-crosssdk and not the target sysroot
+because we do not pass proper CFLAGS for target bits
+so it ends up using CFLAGS that were meant for compiling
+canadian gcc itself. It does not show up as a problem
+when building SDK with eglibc because eglibc-nativesdk
+and eglibc have identical headers. The problem shows
+up clearly when you try to build uclibc based meta-toolchain
+since then nativesdk libc and target libc are different
 
-On Wed, Mar 28, 2012 at 07:15:32AM -0700, Khem Raj wrote:
-> On Fri, Mar 23, 2012 at 7:26 PM, Martin Jansa <martin.jansa@gmail.com> wr=
-ote:
-> > On Fri, Mar 23, 2012 at 02:17:02PM +0100, Martin Jansa wrote:
-> >> On Fri, Mar 23, 2012 at 12:05:25PM +0000, Richard Purdie wrote:
-> >> > On Thu, 2012-03-22 at 19:56 -0700, Khem Raj wrote:
-> >> > > Get new patches and remove the one that got merged upstream
-> >> > >
-> >> > > Signed-off-by: Khem Raj <raj.khem@gmail.com>
-> >> > > ---
-> >> > > =A0.../eglibc/eglibc-2.15/GLRO_dl_debug_mask.patch =A0 =A0| =A0108=
- ++++++++++++++++++++
-> >> > > =A0.../eglibc-2.15/armv4-eabi-compile-fix.patch =A0 =A0 =A0 | =A0 =
-25 -----
-> >> > > =A0.../eglibc/eglibc-2.15/initgroups_keys.patch =A0 =A0 =A0 | =A0 =
-20 ++++
-> >> > > =A0meta/recipes-core/eglibc/eglibc_2.15.bb =A0 =A0 =A0 =A0 =A0 =A0=
-| =A0 =A05 +-
-> >> > > =A04 files changed, 131 insertions(+), 27 deletions(-)
-> >> > > =A0create mode 100644 meta/recipes-core/eglibc/eglibc-2.15/GLRO_dl=
-_debug_mask.patch
-> >> > > =A0delete mode 100644 meta/recipes-core/eglibc/eglibc-2.15/armv4-e=
-abi-compile-fix.patch
-> >> > > =A0create mode 100644 meta/recipes-core/eglibc/eglibc-2.15/initgro=
-ups_keys.patch
-> >> >
-> >> > Since 2.15 isn't the default I'm tempted to merge this despite the p=
-oint
-> >> > we're at in the release cycle. I'd like to give anyone using this the
-> >> > opportunity to comment first though.
-> >>
-> >> I'm testing this on all archs I'm using (armv4t, armv5te, armv7a,
-> >> x86-64) and will report tomorrow.
-> >
-> > Doesn't look related to this change, but I got interesing error on other
-> > buildhost (on mine everything seems fine sofar including tests on
-> > target), I don't have log from armv4t build on mine, because it's on tm=
-pfs
-> > and there was unexpected reboot when I wasn't home :/.
->=20
-> Hi Martin
->=20
-> Does it look good for your testing ?
+Signed-off-by: Khem Raj <raj.khem@gmail.com>
+---
+ meta/recipes-devtools/gcc/gcc-configure-common.inc |    4 ++++
+ meta/recipes-devtools/gcc/gcc-configure-cross.inc  |    4 ++++
+ meta/recipes-devtools/gcc/gcc-configure-sdk.inc    |    6 +++++-
+ 3 files changed, 13 insertions(+), 1 deletions(-)
 
-Seems fine in runtime any hint about that build issue?
+diff --git a/meta/recipes-devtools/gcc/gcc-configure-common.inc b/meta/recipes-devtools/gcc/gcc-configure-common.inc
+index 04eda9e..8ec8dd1 100644
+--- a/meta/recipes-devtools/gcc/gcc-configure-common.inc
++++ b/meta/recipes-devtools/gcc/gcc-configure-common.inc
+@@ -104,6 +104,10 @@ do_configure () {
+ 	export CXXFLAGS_FOR_BUILD="${BUILD_CXXFLAGS}"
+ 	export LDFLAGS_FOR_BUILD="${BUILD_LDFLAGS}"
+ 	export ARCH_FLAGS_FOR_TARGET="${ARCH_FLAGS_FOR_TARGET}"
++	export CFLAGS_FOR_TARGET="${TARGET_CFLAGS}"
++	export CPPFLAGS_FOR_TARGET="${TARGET_CPPFLAGS}"
++	export CXXFLAGS_FOR_TARGET="${TARGET_CXXFLAGS}"
++	export LDFLAGS_FOR_TARGET="${TARGET_LDFLAGS}"
+ 	(cd ${S} && gnu-configize) || die "failure running gnu-configize"
+ 
+ 	oe_runconf
+diff --git a/meta/recipes-devtools/gcc/gcc-configure-cross.inc b/meta/recipes-devtools/gcc/gcc-configure-cross.inc
+index 91834c2..65e340a 100644
+--- a/meta/recipes-devtools/gcc/gcc-configure-cross.inc
++++ b/meta/recipes-devtools/gcc/gcc-configure-cross.inc
+@@ -20,6 +20,10 @@ do_compile_prepend () {
+ 	export LD_FOR_TARGET="${TARGET_SYS}-ld"
+ 	export NM_FOR_TARGET="${TARGET_SYS}-nm"
+ 	export CC_FOR_TARGET="${CCACHE} ${TARGET_SYS}-gcc ${TARGET_CC_ARCH}"
++	export CFLAGS_FOR_TARGET="${TARGET_CFLAGS}"
++	export CPPFLAGS_FOR_TARGET="${TARGET_CPPFLAGS}"
++	export CXXFLAGS_FOR_TARGET="${TARGET_CXXFLAGS}"
++	export LDFLAGS_FOR_TARGET="${TARGET_LDFLAGS}"
+ }
+ 
+ LIBGCCS_VAR = "-lgcc_s"
+diff --git a/meta/recipes-devtools/gcc/gcc-configure-sdk.inc b/meta/recipes-devtools/gcc/gcc-configure-sdk.inc
+index 3043814..54e8ede 100644
+--- a/meta/recipes-devtools/gcc/gcc-configure-sdk.inc
++++ b/meta/recipes-devtools/gcc/gcc-configure-sdk.inc
+@@ -30,7 +30,7 @@ export WINDRES_FOR_TARGET = "${TARGET_PREFIX}windres"
+ #
+ # We need to override this and make sure the compiler can find staging
+ #
+-export ARCH_FLAGS_FOR_TARGET = "--sysroot=${STAGING_DIR_TARGET}"
++export ARCH_FLAGS_FOR_TARGET = "--sysroot=${STAGING_DIR_TARGET} -isystem =${target_includedir}"
+ 
+ do_configure () {
+ 	export CC_FOR_BUILD="${BUILD_CC}"
+@@ -39,6 +39,10 @@ do_configure () {
+ 	export CPPFLAGS_FOR_BUILD="${BUILD_CPPFLAGS}"
+ 	export CXXFLAGS_FOR_BUILD="${BUILD_CXXFLAGS}"
+ 	export LDFLAGS_FOR_BUILD="${BUILD_LDFLAGS}"
++	export CFLAGS_FOR_TARGET="${TARGET_CFLAGS}"
++	export CPPFLAGS_FOR_TARGET="${TARGET_CPPFLAGS}"
++	export CXXFLAGS_FOR_TARGET="${TARGET_CXXFLAGS}"
++	export LDFLAGS_FOR_TARGET="${TARGET_LDFLAGS}"
+ 	(cd ${S} && gnu-configize) || die "failure running gnu-configize"
+ 	oe_runconf
+ }
+-- 
+1.7.5.4
 
-Today I got another one :/
 
-"build-x86_64-oe-linux/shlib.lds:127: syntax error
-while building eglibc
 
-I had reports about this before, but wasn't able to reproduce it on my
-machine, today I got it for first time (maybe because of building with
--j8 instead of -j4), so I've created simple testcase to compare interim=20
-outputs from shlib.lds creation:
-http://build.shr-project.org/tests/jama/shlib-issue/
-
-Cheers,
---=20
-Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
-
---4f28nU6agdXSinmL
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: Digital signature
-
------BEGIN PGP SIGNATURE-----
-Version: GnuPG v2.0.19 (GNU/Linux)
-
-iEYEARECAAYFAk9zIUsACgkQN1Ujt2V2gBxWbACgmNseDCtsYMjmxuht4TwGZwOq
-ogUAniKKWmzU0QjATSwZFAq6SJU+oi0p
-=ZTr5
------END PGP SIGNATURE-----
-
---4f28nU6agdXSinmL--
