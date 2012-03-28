@@ -1,27 +1,35 @@
-Received: from mga09.intel.com ([134.134.136.24])
-	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <sgw@linux.intel.com>) id 1SD0FM-0004po-CO
-	for openembedded-core@lists.openembedded.org;
-	Wed, 28 Mar 2012 23:17:36 +0200
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-	by orsmga102.jf.intel.com with ESMTP; 28 Mar 2012 14:08:12 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.67,351,1309762800"; d="scan'208";a="126257927"
-Received: from unknown (HELO [10.255.12.79]) ([10.255.12.79])
-	by orsmga002.jf.intel.com with ESMTP; 28 Mar 2012 14:08:11 -0700
-Message-ID: <4F737DBB.1060307@linux.intel.com>
-Date: Wed, 28 Mar 2012 14:08:11 -0700
-From: Saul Wold <sgw@linux.intel.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:10.0.1) Gecko/20120216 Thunderbird/10.0.1
-MIME-Version: 1.0
-To: Paul Eggleton <paul.eggleton@linux.intel.com>
-References: <cover.1332826876.git.sgw@linux.intel.com>
-	<5e91d5cc67fa356f9ed065aad28f978da7d29452.1332826876.git.sgw@linux.intel.com>
-	<1489559.CsLVdoLD2R@helios>
-In-Reply-To: <1489559.CsLVdoLD2R@helios>
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 1/6] self-hosted-image: pre-populate the builder user with poky source
+Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
+	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <richard.purdie@linuxfoundation.org>)
+	id 1SD0IZ-0004tP-A7 for openembedded-core@lists.openembedded.org;
+	Wed, 28 Mar 2012 23:20:55 +0200
+Received: from localhost (localhost [127.0.0.1])
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q2SLBqAg023289
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 28 Mar 2012 22:11:52 +0100
+Received: from tim.rpsys.net ([127.0.0.1])
+	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
+	port 10024) with LMTP
+	id 21554-04 for <openembedded-core@lists.openembedded.org>;
+	Wed, 28 Mar 2012 22:11:48 +0100 (BST)
+Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q2SLBiFa023283
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO)
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 28 Mar 2012 22:11:46 +0100
+Message-ID: <1332969104.28414.206.camel@ted>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Date: Wed, 28 Mar 2012 22:11:44 +0100
+In-Reply-To: <20120328185458.GB32193@denix.org>
+References: <1332524132-24689-1-git-send-email-trini@ti.com>
+	<1332753313.28414.91.camel@ted> <20120326162531.GD21518@bill-the-cat>
+	<1332780976.28414.130.camel@ted> <20120328185458.GB32193@denix.org>
+X-Mailer: Evolution 3.2.2- 
+Mime-Version: 1.0
+X-Virus-Scanned: amavisd-new at rpsys.net
+Subject: Re: [PATCH] qemu.inc: Use '=' for IMAGE_FSTYPES
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -36,105 +44,104 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 28 Mar 2012 21:17:36 -0000
-Content-Type: text/plain; charset=ISO-8859-1; format=flowed
+X-List-Received-Date: Wed, 28 Mar 2012 21:20:55 -0000
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 
-On 03/28/2012 01:45 PM, Paul Eggleton wrote:
-> On Monday 26 March 2012 22:42:55 Saul Wold wrote:
->> From: Dexuan Cui<dexuan.cui@intel.com>
->>
->> This patch installs the poky source into the /home/builder/poky/ of the
->> self-hosted-image.
->> This makes the user of self-hosted-image easier to start a build.
->>
->> I think the recent poky master is stable enough, so I specify
->> a commit number by SRCREV -- we may want to update this number before
->> releasing 1.2.
->>
->> This patch fixes [YOCTO #2065]
->>
->> Signed-off-by: Dexuan Cui<dexuan.cui@intel.com>
->>
->> Added code for supporting target based pseudo
->> fixed indentation
->>
->> Signed-off-by: Saul Wold<sgw@linux.intel.com>
->> ---
->>   meta/recipes-core/images/self-hosted-image.bb |   41
->> +++++++++++++++++++++++- 1 files changed, 39 insertions(+), 2 deletions(-)
->>
->> diff --git a/meta/recipes-core/images/self-hosted-image.bb
->> b/meta/recipes-core/images/self-hosted-image.bb index d56c2cb..5aa670d
->> 100644
->> --- a/meta/recipes-core/images/self-hosted-image.bb
->> +++ b/meta/recipes-core/images/self-hosted-image.bb
->> @@ -4,7 +4,7 @@ LICENSE = "MIT"
->>   LIC_FILES_CHKSUM =
->> "file://${COREBASE}/LICENSE;md5=3f40d7994397109285ec7b81fdeb3b58 \
->> file://${COREBASE}/meta/COPYING.MIT;md5=3da9cfbcb788c80a0384361b4de20420"
->>
->> -PR = "r5"
->> +PR = "r6"
->>
->>   CORE_IMAGE_EXTRA_INSTALL = "\
->>       task-self-hosted \
->> @@ -13,7 +13,10 @@ CORE_IMAGE_EXTRA_INSTALL = "\
->>   IMAGE_FEATURES += "x11-mini package-management"
->>
->>   # Ensure there's enough space to do a core-image-minimal build, with
->> rm_work enabled -IMAGE_ROOTFS_EXTRA_SPACE = "2621440"
->> +IMAGE_ROOTFS_EXTRA_SPACE = "1048576"
->> +#IMAGE_ROOTFS_EXTRA_SPACE = "2621440"
->> +#IMAGE_ROOTFS_EXTRA_SPACE = "20971520"
->> +#IMAGE_ROOTFS_EXTRA_SPACE = "5242880"
->>
->>   # Do a quiet boot with limited console messages
->>   APPEND += "quiet"
->> @@ -21,3 +24,37 @@ APPEND += "quiet"
->>   IMAGE_FSTYPES = "vmdk"
->>
->>   inherit core-image
->> +
->> +SRCREV = "26a46938d3ea1821e7bec4fa6cc8379babad238b"
->> +SRC_URI = "git://git.yoctoproject.org/poky;protocol=git"
->> +
->> +fakeroot do_populate_poky_src () {
->> +	# Because fetch2's git's unpack uses -s cloneflag, the unpacked git repo
->> +	# will become invalid in the target.
->> +	rm -rf ${WORKDIR}/git/.git
->> +	rm -f ${WORKDIR}/git/.gitignore
->> +
->> +	cp -Rp ${WORKDIR}/git ${IMAGE_ROOTFS}/home/builder/poky
->> +
->> +	mkdir -p ${IMAGE_ROOTFS}/home/builder/poky/build/conf
->> +	cp -Rp ${DL_DIR} ${IMAGE_ROOTFS}/home/builder/poky/build
->
-> Could we change this last line to:
->
-> mkdir ${IMAGE_ROOTFS}/home/builder/poky/build/downloads
-> cp -RpL  ${DL_DIR}/* ${IMAGE_ROOTFS}/home/builder/poky/build/downloads/
->
-> This does two things:
->
-> 1) Handles if DL_DIR on the build machine is not called "downloads" (which by
-> chance mine was not when I tested it)
->
-> 2) I notice if you set up a separate downloads directory and then use own-
-> mirrors to fetch from your original downloads directory (possibly unorthodox,
-> but it gets you a clean downloads directory without redownloading everything)
-> you get symlinks into the original downloads dir rather than copied files. I
-> don't know how many people will hit this but since we never want any symlinks
-> in this directory in the self-hosted image, I think using -L is worth doing
-> here.
->
-That seems like a completely reasonable change and makes good sense, 
-your right I did assume DL_DIR would include downloads.
+On Wed, 2012-03-28 at 14:54 -0400, Denys Dmytriyenko wrote:
+> On Mon, Mar 26, 2012 at 05:56:16PM +0100, Richard Purdie wrote:
+> > On Mon, 2012-03-26 at 09:25 -0700, Tom Rini wrote:
+> > > On Mon, Mar 26, 2012 at 10:15:13AM +0100, Richard Purdie wrote:
+> > > > On Fri, 2012-03-23 at 10:35 -0700, Tom Rini wrote:
+> > > > > As per
+> > > > > http://lists.linuxtogo.org/pipermail/openembedded-core/2012-March/019772.html
+> > > > > a machine conf file should use '=' to set IMAGE_FSTYPES.
+> > > > > 
+> > > > > Signed-off-by: Tom Rini <trini@ti.com>
+> > > > > ---
+> > > > >  meta/conf/machine/include/qemu.inc |    2 +-
+> > > > >  1 files changed, 1 insertions(+), 1 deletions(-)
+> > > > 
+> > > > As someone pointed out, what I mentioned in that email sadly doesn't
+> > > > work although it would be nice if they did. I suspect this is why we're
+> > > > using += since:
+> > > 
+> > > We aren't using += today.  We (openembedded-core) use ?=.  meta-intel
+> > > uses += and meta-ti is mixed (and I don't have meta-fsl-* handy).
+> > > 
+> > > > > - The machine needs to say 'I need or support the following formats'
+> > > > 
+> > > > so the machine ensures those formats exist at a minimum:
+> > > > 
+> > > > IMAGE_FSTYPES += "xxxx"
+> > > > 
+> > > > > - The distro needs to say 'I always want format X'
+> > > > 
+> > > > so the distro can do:
+> > > > 
+> > > > IMAGE_FSTYPES += " yyy"
+> > > > 
+> > > > > - The user needs to say 'I know best, give me only format X'
+> > > > 
+> > > > This one is the problem case so the user has to use overrides:
+> > > > 
+> > > > IMAGE_FSTYPES_override = "X"
+> > > > 
+> > > > (where override can be MACHINE or forcevariable)
+> > > > 
+> > > > > - The user needs to say 'I know best, give me what you support + X'
+> > > > 
+> > > > IMAGE_FSTYPES += " X"
+> > > > 
+> > > > 
+> > > > Whilst I think that is less than ideal since it forces use of overrides
+> > > > in local.conf to override, changing the += in machine conf files doesn't
+> > > > gain us much, it just breaks += in local.conf.
+> > > > 
+> > > > I'm open to other feedback though...
+> > > 
+> > > Well, I suggested ??= / ?= and posted some results from bitbake -e...
+> > 
+> > Ok. += plays out as above. I realise its not what is in qemu.inc, it is
+> > used in meta-intel though which I looked at after qemu.inc and I guess
+> > has confused me.
+> > 
+> > With ?= in machine.conf:
+> > 
+> > The user defined IMAGE_FSTYPES would override the machine ones. Distro
+> > can still append to it. The downside is a user append would not work out
+> > as expected.
+> > 
+> > So the question is which is the more user expected behaviour?
+> > 
+> > =+ makes overwriting IMAGE_FSTYPES hard
+> > 
+> > ?= makes appending IMAGE_FSTYPES hard
+> > 
+> > I suspect a user is more likely to want to append than overwrite.
+> > Getting an append to work with ?= is extremely non-obvious, even worse
+> > syntax than the =+ overwriting case with overrides.
+> > 
+> > So bottom line, I'm tempted to recommend we use =+.
+> > 
+> > Further thoughts?
+> 
+> Richard,
+> 
+> So, what is the subtle difference between += that we started with and =+ that 
+> you recommended at the end? I realize those are for append and prepend, but 
+> are they handled any different? Was your recommendation to use =+ at the end, 
+> instead of += that was used originally, based on some specifics? Thanks.
 
-Sau!
+I'm using += and =+ interchangeably. The contrast was with ?= which I
+argued against. Order in this case doesn't matter and I have no
+preference over += or =+, it simply doesn't matter.
 
-> Cheers,
-> Paul
->
+Cheers,
+
+Richard
+
+
+
 
 
