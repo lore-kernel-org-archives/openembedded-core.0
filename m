@@ -1,39 +1,37 @@
 Received: from mga14.intel.com ([143.182.124.37])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <dexuan.cui@intel.com>) id 1SCupi-0000mB-Mo
+	(envelope-from <dexuan.cui@intel.com>) id 1SCv3P-0000vX-GI
 	for openembedded-core@lists.openembedded.org;
-	Wed, 28 Mar 2012 17:30:47 +0200
+	Wed, 28 Mar 2012 17:44:55 +0200
 Received: from azsmga001.ch.intel.com ([10.2.17.19])
-	by azsmga102.ch.intel.com with ESMTP; 28 Mar 2012 08:21:43 -0700
+	by azsmga102.ch.intel.com with ESMTP; 28 Mar 2012 08:35:52 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; 
-	d="scan'208,217";a="124346938"
+X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="124354043"
 Received: from azsmsx601.amr.corp.intel.com ([10.2.121.193])
-	by azsmga001.ch.intel.com with ESMTP; 28 Mar 2012 08:21:43 -0700
-Received: from shsmsx151.ccr.corp.intel.com (10.239.6.50) by
+	by azsmga001.ch.intel.com with ESMTP; 28 Mar 2012 08:35:52 -0700
+Received: from shsmsx101.ccr.corp.intel.com (10.239.4.153) by
 	azsmsx601.amr.corp.intel.com (10.2.121.193) with Microsoft SMTP Server
-	(TLS) id 8.2.255.0; Wed, 28 Mar 2012 08:21:42 -0700
+	(TLS) id 8.2.255.0; Wed, 28 Mar 2012 08:35:51 -0700
 Received: from shsmsx102.ccr.corp.intel.com ([169.254.2.36]) by
-	SHSMSX151.ccr.corp.intel.com ([169.254.3.91]) with mapi id
-	14.01.0355.002; Wed, 28 Mar 2012 23:21:40 +0800
+	SHSMSX101.ccr.corp.intel.com ([169.254.1.142]) with mapi id
+	14.01.0355.002; Wed, 28 Mar 2012 23:35:49 +0800
 From: "Cui, Dexuan" <dexuan.cui@intel.com>
-To: Patches and discussions about the oe-core layer
+To: Saul Wold <sgw@linux.intel.com>, "openembedded-core@lists.openembedded.org"
 	<openembedded-core@lists.openembedded.org>
-Thread-Topic: [OE-core] [PATCH 0/6] Setup for VMDK to use Direct Disk
-Thread-Index: AQHNDEXFeZwGe9g1sUqxnXZ/FnBssJZ+D5uAgAAG24CAAb0/YA==
-Date: Wed, 28 Mar 2012 15:21:40 +0000
-Message-ID: <A25F549E4D43CD42B4C02DF47A1913230FCE9C53@SHSMSX102.ccr.corp.intel.com>
+Thread-Topic: [PATCH 1/6] self-hosted-image: pre-populate the builder user
+	with poky source
+Thread-Index: AQHNC9x9tQfWfHCZDE+TsYaNASK1gZZ/2JZQ
+Date: Wed, 28 Mar 2012 15:35:49 +0000
+Message-ID: <A25F549E4D43CD42B4C02DF47A1913230FCE9C6F@SHSMSX102.ccr.corp.intel.com>
 References: <cover.1332826876.git.sgw@linux.intel.com>
-	<1443918.kuu0Jnlh65@helios> <4F7203EA.4030104@linux.intel.com>
-	<1658718.eaPkFfPBtZ@helios>
-	<CANFVK7_5o9TRPJQz0qVrsVjwLC_fgK_hYN-1oaa_kc6RG3Or2A@mail.gmail.com>
-In-Reply-To: <CANFVK7_5o9TRPJQz0qVrsVjwLC_fgK_hYN-1oaa_kc6RG3Or2A@mail.gmail.com>
+	<5e91d5cc67fa356f9ed065aad28f978da7d29452.1332826876.git.sgw@linux.intel.com>
+In-Reply-To: <5e91d5cc67fa356f9ed065aad28f978da7d29452.1332826876.git.sgw@linux.intel.com>
 Accept-Language: zh-CN, en-US
 X-MS-Has-Attach: 
 X-MS-TNEF-Correlator: 
 x-originating-ip: [10.239.127.40]
 MIME-Version: 1.0
-Subject: Re: [PATCH 0/6] Setup for VMDK to use Direct Disk
+Subject: Re: [PATCH 1/6] self-hosted-image: pre-populate the builder user with poky source
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -48,136 +46,137 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 28 Mar 2012 15:30:47 -0000
+X-List-Received-Date: Wed, 28 Mar 2012 15:44:56 -0000
 Content-Language: en-US
-Content-Type: multipart/alternative;
-	boundary="_000_A25F549E4D43CD42B4C02DF47A1913230FCE9C53SHSMSX102ccrcor_"
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 
---_000_A25F549E4D43CD42B4C02DF47A1913230FCE9C53SHSMSX102ccrcor_
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Hi Saul,
+Did you test "bitbake core-image-minimal" inside the vmware guest?
+I got the following ERROR immediately:
 
-SGkgam9hb2hmLA0KDQpUaGFuayBmb3IgdGhlIGhpbnQhDQoNCkkgaGF2ZSBnb3QgdGhlIHBhdGNo
-ZXMgZnJvbSBnZW5leHQyZnMtZGV2ZWwgbWFpbGluZyBsaXN0IGFuZCBkaWQgc29tZSB0ZXN0czoN
-Cg0KSSBjYW4gc3VjY2Vzc2Z1bGx5IGNyZWF0ZSBhIC5leHQyIGZpbGUgb2YgOC41R0Igd2l0aCBn
-ZW5leHQyZnMgbm93IQ0KDQoNCg0KSeKAmWxsIHNlbmQgYW4gdXBkYXRlIHRvIHRoZSBnZW5leHQy
-ZnMgcmVjaXBlIGxhdGVyLg0KDQoNCg0KVGhhbmtzLA0KDQotLSBEZXh1YW4NCg0KRnJvbTogb3Bl
-bmVtYmVkZGVkLWNvcmUtYm91bmNlc0BsaXN0cy5vcGVuZW1iZWRkZWQub3JnIFttYWlsdG86b3Bl
-bmVtYmVkZGVkLWNvcmUtYm91bmNlc0BsaXN0cy5vcGVuZW1iZWRkZWQub3JnXSBPbiBCZWhhbGYg
-T2YgSm8/byBIZW5yaXF1ZSBGcmVpdGFzDQpTZW50OiBXZWRuZXNkYXksIE1hcmNoIDI4LCAyMDEy
-IDQ6NDYgQU0NClRvOiBQYXRjaGVzIGFuZCBkaXNjdXNzaW9ucyBhYm91dCB0aGUgb2UtY29yZSBs
-YXllcg0KU3ViamVjdDogUmU6IFtPRS1jb3JlXSBbUEFUQ0ggMC82XSBTZXR1cCBmb3IgVk1ESyB0
-byB1c2UgRGlyZWN0IERpc2sNCg0KDQpIaSwNCkkgZ3Vlc3Mgd2UgY2FuIGp1c3QgcHV0IHRoYXQg
-aW4gdGhlIGRvY3MgZm9yIG5vdy4gRm9yIGZ1dHVyZSBpbXByb3ZlbWVudA0KdGhvdWdoIEkgd29u
-ZGVyIGlmIHdlIGNhbiB0cmljayB0aGUgZmV0Y2hlciBpbnRvIGp1c3QgcHVsbGluZyBhY3Jvc3Mg
-dGhlDQpjdXJyZW50IGZpbGVzIGludG8gdGhlIHJvb3Rmcy4gSSdsbCBwdXQgdGhhdCBvbiBteSB0
-b2RvIGxpc3QgZm9yIGxhdGVyLg0KDQoNClRoZSBmb2xsb3dpbmcgdGhyZWFkIHN1Z2dlc3QgYSBw
-YXRjaCB0byBmaXggaXQ6DQoNCmh0dHA6Ly9zb3VyY2Vmb3JnZS5uZXQvbWFpbGFyY2hpdmUvZm9y
-dW0ucGhwP3RocmVhZF9uYW1lPTEzMDc0NTgxNzIuMTA5NzQuNjQuY2FtZWwlNDBza3VuayZmb3J1
-bV9uYW1lPWdlbmV4dDJmcy1kZXZlbA0KDQpUaGFua3MuDQoNCi0tDQotLS0tLS0tLS0tLS0tLS0t
-LS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLQ0KSm/Do28gSGVucmlx
-dWUgRnJlaXRhcyAtIGpvYW9oZl9hdF9nbWFpbC5jb208aHR0cDovL2pvYW9oZl9hdF9nbWFpbC5j
-b20+DQpDYW1waW5hcy1TUC1CcmFzaWwNCkJTRDA1MTI4Mw0KTFBJIDENCmh0dHA6Ly93d3cuam9h
-b2hmcmVpdGFzLmV0aS5icg0K
+------------------------
+ERROR:  OE-core's config sanity checker detected a potential misconfigurati=
+on.
+    Either fix the cause of this error or at your own risk disable the chec=
+ker (see sanity.conf).
+    Following is the list of potential problems / advisories:
 
---_000_A25F549E4D43CD42B4C02DF47A1913230FCE9C53SHSMSX102ccrcor_
-Content-Type: text/html; charset="utf-8"
-Content-Transfer-Encoding: base64
+    Pseudo is not functioning correctly, which will cause failures during p=
+ackage installation. Please check your configuration.
 
-PGh0bWwgeG1sbnM6dj0idXJuOnNjaGVtYXMtbWljcm9zb2Z0LWNvbTp2bWwiIHhtbG5zOm89InVy
-bjpzY2hlbWFzLW1pY3Jvc29mdC1jb206b2ZmaWNlOm9mZmljZSIgeG1sbnM6dz0idXJuOnNjaGVt
-YXMtbWljcm9zb2Z0LWNvbTpvZmZpY2U6d29yZCIgeG1sbnM6bT0iaHR0cDovL3NjaGVtYXMubWlj
-cm9zb2Z0LmNvbS9vZmZpY2UvMjAwNC8xMi9vbW1sIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcv
-VFIvUkVDLWh0bWw0MCI+DQo8aGVhZD4NCjxtZXRhIGh0dHAtZXF1aXY9IkNvbnRlbnQtVHlwZSIg
-Y29udGVudD0idGV4dC9odG1sOyBjaGFyc2V0PXV0Zi04Ij4NCjxtZXRhIG5hbWU9IkdlbmVyYXRv
-ciIgY29udGVudD0iTWljcm9zb2Z0IFdvcmQgMTIgKGZpbHRlcmVkIG1lZGl1bSkiPg0KPHN0eWxl
-PjwhLS0NCi8qIEZvbnQgRGVmaW5pdGlvbnMgKi8NCkBmb250LWZhY2UNCgl7Zm9udC1mYW1pbHk6
-5a6L5L2TOw0KCXBhbm9zZS0xOjIgMSA2IDAgMyAxIDEgMSAxIDE7fQ0KQGZvbnQtZmFjZQ0KCXtm
-b250LWZhbWlseToiQ2FtYnJpYSBNYXRoIjsNCglwYW5vc2UtMToyIDQgNSAzIDUgNCA2IDMgMiA0
-O30NCkBmb250LWZhY2UNCgl7Zm9udC1mYW1pbHk6Q2FsaWJyaTsNCglwYW5vc2UtMToyIDE1IDUg
-MiAyIDIgNCAzIDIgNDt9DQpAZm9udC1mYWNlDQoJe2ZvbnQtZmFtaWx5OlRhaG9tYTsNCglwYW5v
-c2UtMToyIDExIDYgNCAzIDUgNCA0IDIgNDt9DQpAZm9udC1mYWNlDQoJe2ZvbnQtZmFtaWx5OiJc
-QOWui+S9kyI7DQoJcGFub3NlLTE6MiAxIDYgMCAzIDEgMSAxIDEgMTt9DQovKiBTdHlsZSBEZWZp
-bml0aW9ucyAqLw0KcC5Nc29Ob3JtYWwsIGxpLk1zb05vcm1hbCwgZGl2Lk1zb05vcm1hbA0KCXtt
-YXJnaW46MGNtOw0KCW1hcmdpbi1ib3R0b206LjAwMDFwdDsNCglmb250LXNpemU6MTIuMHB0Ow0K
-CWZvbnQtZmFtaWx5OuWui+S9kzt9DQphOmxpbmssIHNwYW4uTXNvSHlwZXJsaW5rDQoJe21zby1z
-dHlsZS1wcmlvcml0eTo5OTsNCgljb2xvcjpibHVlOw0KCXRleHQtZGVjb3JhdGlvbjp1bmRlcmxp
-bmU7fQ0KYTp2aXNpdGVkLCBzcGFuLk1zb0h5cGVybGlua0ZvbGxvd2VkDQoJe21zby1zdHlsZS1w
-cmlvcml0eTo5OTsNCgljb2xvcjpwdXJwbGU7DQoJdGV4dC1kZWNvcmF0aW9uOnVuZGVybGluZTt9
-DQpwLk1zb1BsYWluVGV4dCwgbGkuTXNvUGxhaW5UZXh0LCBkaXYuTXNvUGxhaW5UZXh0DQoJe21z
-by1zdHlsZS1wcmlvcml0eTo5OTsNCgltc28tc3R5bGUtbGluazoiUGxhaW4gVGV4dCBDaGFyIjsN
-CgltYXJnaW46MGNtOw0KCW1hcmdpbi1ib3R0b206LjAwMDFwdDsNCglmb250LXNpemU6MTAuNXB0
-Ow0KCWZvbnQtZmFtaWx5OiJDYWxpYnJpIiwic2Fucy1zZXJpZiI7fQ0Kc3Bhbi5FbWFpbFN0eWxl
-MTcNCgl7bXNvLXN0eWxlLXR5cGU6cGVyc29uYWwtcmVwbHk7DQoJZm9udC1mYW1pbHk6IkNhbGli
-cmkiLCJzYW5zLXNlcmlmIjsNCgljb2xvcjojMUY0OTdEO30NCnNwYW4uUGxhaW5UZXh0Q2hhcg0K
-CXttc28tc3R5bGUtbmFtZToiUGxhaW4gVGV4dCBDaGFyIjsNCgltc28tc3R5bGUtcHJpb3JpdHk6
-OTk7DQoJbXNvLXN0eWxlLWxpbms6IlBsYWluIFRleHQiOw0KCWZvbnQtZmFtaWx5OiJDYWxpYnJp
-Iiwic2Fucy1zZXJpZiI7fQ0KLk1zb0NocERlZmF1bHQNCgl7bXNvLXN0eWxlLXR5cGU6ZXhwb3J0
-LW9ubHk7fQ0KQHBhZ2UgV29yZFNlY3Rpb24xDQoJe3NpemU6NjEyLjBwdCA3OTIuMHB0Ow0KCW1h
-cmdpbjo3Mi4wcHQgOTAuMHB0IDcyLjBwdCA5MC4wcHQ7fQ0KZGl2LldvcmRTZWN0aW9uMQ0KCXtw
-YWdlOldvcmRTZWN0aW9uMTt9DQotLT48L3N0eWxlPjwhLS1baWYgZ3RlIG1zbyA5XT48eG1sPg0K
-PG86c2hhcGVkZWZhdWx0cyB2OmV4dD0iZWRpdCIgc3BpZG1heD0iMTAyNiIgLz4NCjwveG1sPjwh
-W2VuZGlmXS0tPjwhLS1baWYgZ3RlIG1zbyA5XT48eG1sPg0KPG86c2hhcGVsYXlvdXQgdjpleHQ9
-ImVkaXQiPg0KPG86aWRtYXAgdjpleHQ9ImVkaXQiIGRhdGE9IjEiIC8+DQo8L286c2hhcGVsYXlv
-dXQ+PC94bWw+PCFbZW5kaWZdLS0+DQo8L2hlYWQ+DQo8Ym9keSBsYW5nPSJaSC1DTiIgbGluaz0i
-Ymx1ZSIgdmxpbms9InB1cnBsZSI+DQo8ZGl2IGNsYXNzPSJXb3JkU2VjdGlvbjEiPg0KPHAgY2xh
-c3M9Ik1zb1BsYWluVGV4dCI+PHNwYW4gbGFuZz0iRU4tVVMiPkhpIGpvYW9oZiw8bzpwPjwvbzpw
-Pjwvc3Bhbj48L3A+DQo8cCBjbGFzcz0iTXNvUGxhaW5UZXh0Ij48c3BhbiBsYW5nPSJFTi1VUyI+
-VGhhbmsgZm9yIHRoZSBoaW50ITxvOnA+PC9vOnA+PC9zcGFuPjwvcD4NCjxwIGNsYXNzPSJNc29Q
-bGFpblRleHQiPjxzcGFuIGxhbmc9IkVOLVVTIj5JIGhhdmUgZ290IHRoZSBwYXRjaGVzIGZyb20g
-Z2VuZXh0MmZzLWRldmVsIG1haWxpbmcgbGlzdCBhbmQgZGlkIHNvbWUgdGVzdHM6PG86cD48L286
-cD48L3NwYW4+PC9wPg0KPHAgY2xhc3M9Ik1zb1BsYWluVGV4dCI+PHNwYW4gbGFuZz0iRU4tVVMi
-PkkgY2FuIHN1Y2Nlc3NmdWxseSBjcmVhdGUgYSAuZXh0MiBmaWxlIG9mIDguNUdCIHdpdGggZ2Vu
-ZXh0MmZzIG5vdyE8bzpwPjwvbzpwPjwvc3Bhbj48L3A+DQo8cCBjbGFzcz0iTXNvUGxhaW5UZXh0
-Ij48c3BhbiBsYW5nPSJFTi1VUyI+PG86cD4mbmJzcDs8L286cD48L3NwYW4+PC9wPg0KPHAgY2xh
-c3M9Ik1zb1BsYWluVGV4dCI+PHNwYW4gbGFuZz0iRU4tVVMiPkk8L3NwYW4+PHNwYW4gbGFuZz0i
-RU4tVVMiIHN0eWxlPSJmb250LWZhbWlseTomcXVvdDtDb3VyaWVyIE5ldyZxdW90OyI+4oCZPC9z
-cGFuPjxzcGFuIGxhbmc9IkVOLVVTIj5sbCBzZW5kIGFuIHVwZGF0ZSB0byB0aGUgZ2VuZXh0MmZz
-IHJlY2lwZSBsYXRlci48bzpwPjwvbzpwPjwvc3Bhbj48L3A+DQo8cCBjbGFzcz0iTXNvUGxhaW5U
-ZXh0Ij48c3BhbiBsYW5nPSJFTi1VUyI+PG86cD4mbmJzcDs8L286cD48L3NwYW4+PC9wPg0KPHAg
-Y2xhc3M9Ik1zb1BsYWluVGV4dCI+PHNwYW4gbGFuZz0iRU4tVVMiPlRoYW5rcyw8bzpwPjwvbzpw
-Pjwvc3Bhbj48L3A+DQo8cCBjbGFzcz0iTXNvUGxhaW5UZXh0Ij48c3BhbiBsYW5nPSJFTi1VUyI+
-LS0gRGV4dWFuPG86cD48L286cD48L3NwYW4+PC9wPg0KPHAgY2xhc3M9Ik1zb05vcm1hbCI+PHNw
-YW4gbGFuZz0iRU4tVVMiIHN0eWxlPSJmb250LXNpemU6MTAuNXB0O2ZvbnQtZmFtaWx5OiZxdW90
-O0NhbGlicmkmcXVvdDssJnF1b3Q7c2Fucy1zZXJpZiZxdW90Oztjb2xvcjojMUY0OTdEIj48bzpw
-PiZuYnNwOzwvbzpwPjwvc3Bhbj48L3A+DQo8ZGl2IHN0eWxlPSJib3JkZXI6bm9uZTtib3JkZXIt
-bGVmdDpzb2xpZCBibHVlIDEuNXB0O3BhZGRpbmc6MGNtIDBjbSAwY20gNC4wcHQiPg0KPGRpdj4N
-CjxkaXYgc3R5bGU9ImJvcmRlcjpub25lO2JvcmRlci10b3A6c29saWQgI0I1QzRERiAxLjBwdDtw
-YWRkaW5nOjMuMHB0IDBjbSAwY20gMGNtIj4NCjxwIGNsYXNzPSJNc29Ob3JtYWwiPjxiPjxzcGFu
-IGxhbmc9IkVOLVVTIiBzdHlsZT0iZm9udC1zaXplOjEwLjBwdDtmb250LWZhbWlseTomcXVvdDtU
-YWhvbWEmcXVvdDssJnF1b3Q7c2Fucy1zZXJpZiZxdW90OyI+RnJvbTo8L3NwYW4+PC9iPjxzcGFu
-IGxhbmc9IkVOLVVTIiBzdHlsZT0iZm9udC1zaXplOjEwLjBwdDtmb250LWZhbWlseTomcXVvdDtU
-YWhvbWEmcXVvdDssJnF1b3Q7c2Fucy1zZXJpZiZxdW90OyI+IG9wZW5lbWJlZGRlZC1jb3JlLWJv
-dW5jZXNAbGlzdHMub3BlbmVtYmVkZGVkLm9yZyBbbWFpbHRvOm9wZW5lbWJlZGRlZC1jb3JlLWJv
-dW5jZXNAbGlzdHMub3BlbmVtYmVkZGVkLm9yZ10NCjxiPk9uIEJlaGFsZiBPZiA8L2I+Sm8/byBI
-ZW5yaXF1ZSBGcmVpdGFzPGJyPg0KPGI+U2VudDo8L2I+IFdlZG5lc2RheSwgTWFyY2ggMjgsIDIw
-MTIgNDo0NiBBTTxicj4NCjxiPlRvOjwvYj4gUGF0Y2hlcyBhbmQgZGlzY3Vzc2lvbnMgYWJvdXQg
-dGhlIG9lLWNvcmUgbGF5ZXI8YnI+DQo8Yj5TdWJqZWN0OjwvYj4gUmU6IFtPRS1jb3JlXSBbUEFU
-Q0ggMC82XSBTZXR1cCBmb3IgVk1ESyB0byB1c2UgRGlyZWN0IERpc2s8bzpwPjwvbzpwPjwvc3Bh
-bj48L3A+DQo8L2Rpdj4NCjwvZGl2Pg0KPHAgY2xhc3M9Ik1zb05vcm1hbCI+PHNwYW4gbGFuZz0i
-RU4tVVMiPjxvOnA+Jm5ic3A7PC9vOnA+PC9zcGFuPjwvcD4NCjxwIGNsYXNzPSJNc29Ob3JtYWwi
-IHN0eWxlPSJtYXJnaW4tYm90dG9tOjEyLjBwdCI+PHNwYW4gbGFuZz0iRU4tVVMiPjxicj4NCkhp
-LDxvOnA+PC9vOnA+PC9zcGFuPjwvcD4NCjxkaXY+DQo8YmxvY2txdW90ZSBzdHlsZT0iYm9yZGVy
-Om5vbmU7Ym9yZGVyLWxlZnQ6c29saWQgI0NDQ0NDQyAxLjBwdDtwYWRkaW5nOjBjbSAwY20gMGNt
-IDYuMHB0O21hcmdpbi1sZWZ0OjQuOHB0O21hcmdpbi1yaWdodDowY20iPg0KPHAgY2xhc3M9Ik1z
-b05vcm1hbCI+PHNwYW4gbGFuZz0iRU4tVVMiPkkgZ3Vlc3Mgd2UgY2FuIGp1c3QgcHV0IHRoYXQg
-aW4gdGhlIGRvY3MgZm9yIG5vdy4gRm9yIGZ1dHVyZSBpbXByb3ZlbWVudDxicj4NCnRob3VnaCBJ
-IHdvbmRlciBpZiB3ZSBjYW4gdHJpY2sgdGhlIGZldGNoZXIgaW50byBqdXN0IHB1bGxpbmcgYWNy
-b3NzIHRoZTxicj4NCmN1cnJlbnQgZmlsZXMgaW50byB0aGUgcm9vdGZzLiBJJ2xsIHB1dCB0aGF0
-IG9uIG15IHRvZG8gbGlzdCBmb3IgbGF0ZXIuPGJyIGNsZWFyPSJhbGwiPg0KPG86cD48L286cD48
-L3NwYW4+PC9wPg0KPC9ibG9ja3F1b3RlPg0KPC9kaXY+DQo8cCBjbGFzcz0iTXNvTm9ybWFsIj48
-c3BhbiBsYW5nPSJFTi1VUyI+PGJyPg0KPGJyPg0KVGhlIGZvbGxvd2luZyB0aHJlYWQgc3VnZ2Vz
-dCBhIHBhdGNoIHRvIGZpeCBpdDogPGJyPg0KPGJyPg0KPGEgaHJlZj0iaHR0cDovL3NvdXJjZWZv
-cmdlLm5ldC9tYWlsYXJjaGl2ZS9mb3J1bS5waHA/dGhyZWFkX25hbWU9MTMwNzQ1ODE3Mi4xMDk3
-NC42NC5jYW1lbCU0MHNrdW5rJmFtcDtmb3J1bV9uYW1lPWdlbmV4dDJmcy1kZXZlbCI+aHR0cDov
-L3NvdXJjZWZvcmdlLm5ldC9tYWlsYXJjaGl2ZS9mb3J1bS5waHA/dGhyZWFkX25hbWU9MTMwNzQ1
-ODE3Mi4xMDk3NC42NC5jYW1lbCU0MHNrdW5rJmFtcDtmb3J1bV9uYW1lPWdlbmV4dDJmcy1kZXZl
-bDwvYT48YnI+DQo8YnI+DQpUaGFua3MuPGJyPg0KPGJyPg0KLS0gPGJyPg0KLS0tLS0tLS0tLS0t
-LS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS08YnI+DQpKb8Oj
-byBIZW5yaXF1ZSBGcmVpdGFzIC0gPGEgaHJlZj0iaHR0cDovL2pvYW9oZl9hdF9nbWFpbC5jb20i
-PmpvYW9oZl9hdF9nbWFpbC5jb208L2E+PGJyPg0KQ2FtcGluYXMtU1AtQnJhc2lsPGJyPg0KQlNE
-MDUxMjgzPGJyPg0KTFBJIDE8YnI+DQo8YSBocmVmPSJodHRwOi8vd3d3LmpvYW9oZnJlaXRhcy5l
-dGkuYnIiPmh0dHA6Ly93d3cuam9hb2hmcmVpdGFzLmV0aS5icjwvYT48bzpwPjwvbzpwPjwvc3Bh
-bj48L3A+DQo8L2Rpdj4NCjwvZGl2Pg0KPC9ib2R5Pg0KPC9odG1sPg0K
+ERROR: Execution of event handler 'check_sanity_eventhandler' failed
+------------------------
 
---_000_A25F549E4D43CD42B4C02DF47A1913230FCE9C53SHSMSX102ccrcor_--
+I suspect in the guest, pseudo is not setup properly?
+
+Thanks,
+-- Dexuan
+
+> -----Original Message-----
+> From: Saul Wold [mailto:sgw@linux.intel.com]
+> Sent: Tuesday, March 27, 2012 1:43 PM
+> To: openembedded-core@lists.openembedded.org
+> Cc: Cui, Dexuan
+> Subject: [PATCH 1/6] self-hosted-image: pre-populate the builder user wit=
+h
+> poky source
+>=20
+> From: Dexuan Cui <dexuan.cui@intel.com>
+>=20
+> This patch installs the poky source into the /home/builder/poky/ of the
+> self-hosted-image.
+> This makes the user of self-hosted-image easier to start a build.
+>=20
+> I think the recent poky master is stable enough, so I specify a commit nu=
+mber
+> by SRCREV -- we may want to update this number before releasing 1.2.
+>=20
+> This patch fixes [YOCTO #2065]
+>=20
+> Signed-off-by: Dexuan Cui <dexuan.cui@intel.com>
+>=20
+> Added code for supporting target based pseudo fixed indentation
+>=20
+> Signed-off-by: Saul Wold <sgw@linux.intel.com>
+> ---
+>  meta/recipes-core/images/self-hosted-image.bb |   41
+> +++++++++++++++++++++++-
+>  1 files changed, 39 insertions(+), 2 deletions(-)
+>=20
+> diff --git a/meta/recipes-core/images/self-hosted-image.bb
+> b/meta/recipes-core/images/self-hosted-image.bb
+> index d56c2cb..5aa670d 100644
+> --- a/meta/recipes-core/images/self-hosted-image.bb
+> +++ b/meta/recipes-core/images/self-hosted-image.bb
+> @@ -4,7 +4,7 @@ LICENSE =3D "MIT"
+>  LIC_FILES_CHKSUM =3D
+> "file://${COREBASE}/LICENSE;md5=3D3f40d7994397109285ec7b81fdeb3b58 \
+>=20
+> file://${COREBASE}/meta/COPYING.MIT;md5=3D3da9cfbcb788c80a0384361b4de
+> 20420"
+>=20
+> -PR =3D "r5"
+> +PR =3D "r6"
+>=20
+>  CORE_IMAGE_EXTRA_INSTALL =3D "\
+>      task-self-hosted \
+> @@ -13,7 +13,10 @@ CORE_IMAGE_EXTRA_INSTALL =3D "\  IMAGE_FEATURES
+> +=3D "x11-mini package-management"
+>=20
+>  # Ensure there's enough space to do a core-image-minimal build, with
+> rm_work enabled -IMAGE_ROOTFS_EXTRA_SPACE =3D "2621440"
+> +IMAGE_ROOTFS_EXTRA_SPACE =3D "1048576"
+> +#IMAGE_ROOTFS_EXTRA_SPACE =3D "2621440"
+> +#IMAGE_ROOTFS_EXTRA_SPACE =3D "20971520"
+> +#IMAGE_ROOTFS_EXTRA_SPACE =3D "5242880"
+>=20
+>  # Do a quiet boot with limited console messages  APPEND +=3D "quiet"
+> @@ -21,3 +24,37 @@ APPEND +=3D "quiet"
+>  IMAGE_FSTYPES =3D "vmdk"
+>=20
+>  inherit core-image
+> +
+> +SRCREV =3D "26a46938d3ea1821e7bec4fa6cc8379babad238b"
+> +SRC_URI =3D "git://git.yoctoproject.org/poky;protocol=3Dgit"
+> +
+> +fakeroot do_populate_poky_src () {
+> +	# Because fetch2's git's unpack uses -s cloneflag, the unpacked git rep=
+o
+> +	# will become invalid in the target.
+> +	rm -rf ${WORKDIR}/git/.git
+> +	rm -f ${WORKDIR}/git/.gitignore
+> +
+> +	cp -Rp ${WORKDIR}/git ${IMAGE_ROOTFS}/home/builder/poky
+> +
+> +	mkdir -p ${IMAGE_ROOTFS}/home/builder/poky/build/conf
+> +	cp -Rp ${DL_DIR} ${IMAGE_ROOTFS}/home/builder/poky/build
+> +	echo "/usr/bin" >
+> ${IMAGE_ROOTFS}/home/builder/poky/build/pseudodone
+> +	echo "BB_NO_NETWORK =3D \"1\"" >
+> ${IMAGE_ROOTFS}/home/builder/poky/build/conf/auto.conf
+> +	echo "INHERIT +=3D \"rm_work\"" >>
+> ${IMAGE_ROOTFS}/home/builder/poky/build/conf/auto.conf
+> +        mkdir -p ${IMAGE_ROOTFS}/home/builder/pseudo
+> +        echo "export PSEUDO_PREFIX=3D/usr" >>
+> ${IMAGE_ROOTFS}/home/builder/.bashrc
+> +        echo "export PSEUDO_LOCALSTATEDIR=3D/home/builder/pseudo" >>
+> ${IMAGE_ROOTFS}/home/builder/.bashrc
+> +        echo "export PSEUDO_LIBDIR=3D/usr/lib/pseudo/lib64" >>
+> +${IMAGE_ROOTFS}/home/builder/.bashrc
+> +
+> +        chown builder.builder ${IMAGE_ROOTFS}/home/builder/pseudo
+> +
+> +	chown -R builder.builder  ${IMAGE_ROOTFS}/home/builder/poky }
+> +
+> +IMAGE_PREPROCESS_COMMAND +=3D "do_populate_poky_src; "
+> +
+> +python do_get_poky_src () {
+> +    bb.build.exec_func('base_do_fetch', d)
+> +    bb.build.exec_func('base_do_unpack', d) } addtask do_get_poky_src
+> +before do_rootfs
+> --
+> 1.7.7.6
+
+
+
