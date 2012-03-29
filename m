@@ -1,36 +1,19 @@
-Received: from mail.dream-property.net ([82.149.226.172])
+Received: from smtp2-g21.free.fr ([212.27.42.2])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <obi@opendreambox.org>) id 1SDERu-0007sO-KW
+	(envelope-from <eric@eukrea.com>) id 1SDEVr-0007wO-GU
 	for openembedded-core@lists.openembedded.org;
-	Thu, 29 Mar 2012 14:27:30 +0200
-Received: from localhost (localhost [127.0.0.1])
-	by mail.dream-property.net (Postfix) with ESMTP id 78AFF315AA06
+	Thu, 29 Mar 2012 14:31:35 +0200
+Received: from localhost.localdomain (unknown [82.240.38.71])
+	by smtp2-g21.free.fr (Postfix) with ESMTP id 008284B015A
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 29 Mar 2012 14:18:29 +0200 (CEST)
-X-Virus-Scanned: Debian amavisd-new at mail.dream-property.net
-Received: from mail.dream-property.net ([127.0.0.1])
-	by localhost (mail.dream-property.net [127.0.0.1]) (amavisd-new,
-	port 10024) with LMTP id r7XVfCgX5bw4
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 29 Mar 2012 14:18:21 +0200 (CEST)
-Received: from [172.22.22.61] (drms-590cf1a1.pool.mediaWays.net
-	[89.12.241.161])
-	(using TLSv1 with cipher DHE-RSA-AES256-SHA (256/256 bits))
-	(No client certificate requested)
-	by mail.dream-property.net (Postfix) with ESMTPSA id A6F2B315AA05
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 29 Mar 2012 14:18:21 +0200 (CEST)
-Message-ID: <4F74530D.10408@opendreambox.org>
-Date: Thu, 29 Mar 2012 14:18:21 +0200
-From: Andreas Oberritter <obi@opendreambox.org>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:11.0) Gecko/20120310 Thunderbird/11.0
+	Thu, 29 Mar 2012 14:22:30 +0200 (CEST)
+From: =?UTF-8?q?Eric=20B=C3=A9nard?= <eric@eukrea.com>
+To: openembedded-core@lists.openembedded.org
+Date: Thu, 29 Mar 2012 14:22:29 +0200
+Message-Id: <1333023749-31830-1-git-send-email-eric@eukrea.com>
+X-Mailer: git-send-email 1.7.7.6
 MIME-Version: 1.0
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-References: <CAGiJk9esiphHKT9GaH8dLgOFB_xbLDr86PX-rzzsR8X66OVNaQ@mail.gmail.com>
-In-Reply-To: <CAGiJk9esiphHKT9GaH8dLgOFB_xbLDr86PX-rzzsR8X66OVNaQ@mail.gmail.com>
-Subject: Re: Fetching code via git over ssh.
+Subject: [PATCH] license.bbclass: remove existing license.manifest before appending new data
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -45,27 +28,38 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 29 Mar 2012 12:27:30 -0000
-Content-Type: text/plain; charset=ISO-8859-1
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Thu, 29 Mar 2012 12:31:35 -0000
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
-On 29.03.2012 14:13, Samuel Stirtzel wrote:
-> Hi,
-> as I have set up a git server on one of my PCs and secured it with ssh.
-> I tried to use the repository in a recipe, cloning via "git clone
-> ssh://user@server/~/repo.git" works.
-> But bitbake tries to fetch the repository via scp instead of git (also
-> if I add protocol=git).
-> 
-> Tried something like this in my recipe:
-> SRC_URI = "ssh://user@server/~/repo.git;protocol=git;branch=master"
-> (note: the git repository is in the home directory of the user, so the
-> tilde is not causing an error)
-> 
-> 
-> Anyone else tried to fetch a repository on a ssh secured git server via bitbake?
-> 
+without this fix, we append license each time we build again the same ima=
+ge,
+ending with a large not up to date file.
 
-Use git://user@server/path;protocol=ssh
+Signed-off-by: Eric B=C3=A9nard <eric@eukrea.com>
+---
+ meta/classes/license.bbclass |    4 ++++
+ 1 files changed, 4 insertions(+), 0 deletions(-)
+
+diff --git a/meta/classes/license.bbclass b/meta/classes/license.bbclass
+index 394a6d4..c85233c 100644
+--- a/meta/classes/license.bbclass
++++ b/meta/classes/license.bbclass
+@@ -79,6 +79,10 @@ license_create_manifest() {
+ 	# Get list of installed packages
+ 	list_installed_packages | grep -v "locale" |sort > ${LICENSE_DIRECTORY}=
+/${IMAGE_NAME}/package.manifest
+ 	INSTALLED_PKGS=3D`cat ${LICENSE_DIRECTORY}/${IMAGE_NAME}/package.manife=
+st`
++	# remove existing license.manifest file
++	if [ -f ${LICENSE_DIRECTORY}/${IMAGE_NAME}/license.manifest ]; then
++		rm ${LICENSE_DIRECTORY}/${IMAGE_NAME}/license.manifest
++	fi
+ 	# list of installed packages is broken for deb
+ 	for pkg in ${INSTALLED_PKGS}; do
+ 		# not the best way to do this but licenses are not arch dependant iirc
+--=20
+1.7.7.6
+
 
 
