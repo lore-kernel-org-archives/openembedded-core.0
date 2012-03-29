@@ -1,33 +1,36 @@
-Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
-	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <richard.purdie@linuxfoundation.org>)
-	id 1SDItU-000586-MN for openembedded-core@lists.openembedded.org;
-	Thu, 29 Mar 2012 19:12:16 +0200
-Received: from localhost (localhost [127.0.0.1])
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q2TH3DZ7002212
+Received: from mail-ob0-f175.google.com ([209.85.214.175])
+	by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <tom.rini@gmail.com>) id 1SDJ9E-0005O8-QJ
+	for openembedded-core@lists.openembedded.org;
+	Thu, 29 Mar 2012 19:28:33 +0200
+Received: by obbwc20 with SMTP id wc20so1744749obb.6
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 29 Mar 2012 18:03:13 +0100
-Received: from tim.rpsys.net ([127.0.0.1])
-	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
-	port 10024) with LMTP
-	id 01564-07 for <openembedded-core@lists.openembedded.org>;
-	Thu, 29 Mar 2012 18:03:09 +0100 (BST)
-Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q2TH35eP002205
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO)
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 29 Mar 2012 18:03:07 +0100
-Message-ID: <1333040584.18082.4.camel@ted>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Date: Thu, 29 Mar 2012 18:03:04 +0100
-In-Reply-To: <4F7491BB.9000201@palm.com>
-References: <4F7491BB.9000201@palm.com>
-X-Mailer: Evolution 3.2.2- 
-Mime-Version: 1.0
-X-Virus-Scanned: amavisd-new at rpsys.net
-Subject: Re: chasing mirrors
+	Thu, 29 Mar 2012 10:19:28 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=sender:from:to:subject:date:message-id:x-mailer:in-reply-to
+	:references; bh=xHYkqRuQ6mnjK71HqCARXvU7AhQNCJYDYub8ytnCvpk=;
+	b=chxLFbFtCCdQ4Xmlu+FAvRlVk6QZZO693eK3/oJVSDdrh4EKz+FKMP5ANJeJf+GxOa
+	W6/Gtf+OfSstWA1Lcr20YQopKa6ze9W++SO6sL4dYAQF1dkfEmV5mND+1KX2ha/QzwFq
+	Ol8h5pRRofLsyCo/SGiOS1nduUpd8N0R/hb/eD0Wo3Whs1jXYgoV2xK/d96RADivhapj
+	MfHd1DieuEdS0dJYC+Hq35CWlSFGw3ymUQKGnR3TEal0iLfOQgdN5BFJqoyxnNwzySM/
+	mCXhTgIp/21oGNO8LSDY5+QKX32VD7Wzk1poclTsZ6S6rYVF4R3nQZQKaVF/yIZZveiq
+	b0ag==
+Received: by 10.182.141.10 with SMTP id rk10mr44129397obb.48.1333041568911;
+	Thu, 29 Mar 2012 10:19:28 -0700 (PDT)
+Received: from localhost.localdomain (ip68-230-54-74.ph.ph.cox.net.
+	[68.230.54.74])
+	by mx.google.com with ESMTPS id o9sm6646035obd.21.2012.03.29.10.19.27
+	(version=TLSv1/SSLv3 cipher=OTHER);
+	Thu, 29 Mar 2012 10:19:28 -0700 (PDT)
+Sender: Tom Rini <tom.rini@gmail.com>
+From: Tom Rini <trini@ti.com>
+To: openembedded-core@lists.openembedded.org
+Date: Thu, 29 Mar 2012 10:19:28 -0700
+Message-Id: <1333041568-29343-1-git-send-email-trini@ti.com>
+X-Mailer: git-send-email 1.7.0.4
+In-Reply-To: <1332958352-12828-1-git-send-email-trini@ti.com>
+References: <1332958352-12828-1-git-send-email-trini@ti.com>
+Subject: [PATCH v3] qemu.inc: Use '+=' for IMAGE_FSTYPES
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -42,25 +45,32 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 29 Mar 2012 17:12:16 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Thu, 29 Mar 2012 17:28:33 -0000
 
-On Thu, 2012-03-29 at 09:45 -0700, Rich Pixley wrote:
-> How do I determine which mirror was/is being used to download a 
-> particular component?
-> 
-> I'm expecting some info in a log, or from the output of "bitbake -D", 
-> but I'm not finding it.  And from a glance at the code I don't see any 
-> message statements around the mirror iterations although I could easily 
-> be missing it.
+As per
+http://lists.linuxtogo.org/pipermail/openembedded-core/2012-March/020053.html
+a machine conf file should use '+=' to set IMAGE_FSTYPES.
 
-It would appear in the do_fetch logs in WORKDIR/temp for the build in
-question.
+Signed-off-by: Tom Rini <trini@ti.com>
+---
+ meta/conf/machine/include/qemu.inc |    2 +-
+ 1 files changed, 1 insertions(+), 1 deletions(-)
 
-Cheers,
-
-Richard
+diff --git a/meta/conf/machine/include/qemu.inc b/meta/conf/machine/include/qemu.inc
+index 10ab76e..66b0caa 100644
+--- a/meta/conf/machine/include/qemu.inc
++++ b/meta/conf/machine/include/qemu.inc
+@@ -3,7 +3,7 @@ PREFERRED_PROVIDER_virtual/xserver ?= "xserver-kdrive"
+ 
+ MACHINE_FEATURES = "apm alsa pcmcia bluetooth irda usbgadget screen"
+ 
+-IMAGE_FSTYPES ?= "tar.bz2 ext3"
++IMAGE_FSTYPES += "tar.bz2 ext3"
+ 
+ ROOT_FLASH_SIZE = "280"
+ 
+-- 
+1.7.0.4
 
 
 
