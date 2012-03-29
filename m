@@ -1,39 +1,34 @@
-Received: from mail-wg0-f43.google.com ([74.125.82.43])
+Received: from mail.dream-property.net ([82.149.226.172])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <martin.jansa@gmail.com>) id 1SDEQH-0007o5-4t
+	(envelope-from <obi@opendreambox.org>) id 1SDEQa-0007qC-3t
 	for openembedded-core@lists.openembedded.org;
-	Thu, 29 Mar 2012 14:25:49 +0200
-Received: by wgbdr12 with SMTP id dr12so1393217wgb.24
+	Thu, 29 Mar 2012 14:26:08 +0200
+Received: from localhost (localhost [127.0.0.1])
+	by mail.dream-property.net (Postfix) with ESMTP id 1FDF1315AA05
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 29 Mar 2012 05:16:46 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=date:from:to:subject:message-id:references:mime-version
-	:content-type:content-disposition:in-reply-to:user-agent;
-	bh=hxH59AIzaQv+Ol7/bEBtXgBM2nQLPYJz0Iy2i+/y+/A=;
-	b=z+VEBSiYpxrDI2Ihb6wmELh9GErUL6ELZBjy0xCrcH92gGYLFcq7v+3KKXjfxPJH/M
-	f6YRXacvqJ9Jjcc2F/JqX6ICti1idKX/AJILegdmRz+Zz4Dcus8ERv5H9UFeEANXDL95
-	A5xx3TheDQdKHe5KCGavs6h1PJiZfbCHm78agwvE110/3A1yIUakHAFiOT/oRcDxPJl4
-	AGd5H7eXHxj+e47Xscm9m9EIxRVhn/P9sokfyI4rQcZmmbd7OypV/ZR6PGR0SF0mBlfJ
-	I2xGjrdVK25+3Q5Pi/SOJxrIetnK9ST8NWHe4qLLp7D0TG3Qh58ougJAYRjGk/aRm1kp
-	Ltcw==
-Received: by 10.180.92.130 with SMTP id cm2mr5185392wib.4.1333023406011;
-	Thu, 29 Mar 2012 05:16:46 -0700 (PDT)
-Received: from localhost ([94.230.152.246])
-	by mx.google.com with ESMTPS id ea6sm36376627wib.5.2012.03.29.05.16.44
-	(version=TLSv1/SSLv3 cipher=OTHER);
-	Thu, 29 Mar 2012 05:16:44 -0700 (PDT)
-Date: Thu, 29 Mar 2012 14:16:46 +0200
-From: Martin Jansa <martin.jansa@gmail.com>
+	Thu, 29 Mar 2012 14:17:07 +0200 (CEST)
+X-Virus-Scanned: Debian amavisd-new at mail.dream-property.net
+Received: from mail.dream-property.net ([127.0.0.1])
+	by localhost (mail.dream-property.net [127.0.0.1]) (amavisd-new,
+	port 10024) with LMTP id qY6fhqqvavep
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 29 Mar 2012 14:16:56 +0200 (CEST)
+Received: from [172.22.22.61] (drms-590cf1a1.pool.mediaWays.net
+	[89.12.241.161])
+	(using TLSv1 with cipher DHE-RSA-AES256-SHA (256/256 bits))
+	(No client certificate requested)
+	by mail.dream-property.net (Postfix) with ESMTPSA id A6B5B315AA08
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 29 Mar 2012 14:16:56 +0200 (CEST)
+Message-ID: <4F7452B7.8060409@opendreambox.org>
+Date: Thu, 29 Mar 2012 14:16:55 +0200
+From: Andreas Oberritter <obi@opendreambox.org>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:11.0) Gecko/20120310 Thunderbird/11.0
+MIME-Version: 1.0
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Message-ID: <20120329121646.GK4004@jama.jama.net>
-References: <4b37a73d52ca39e73b4d8230269af5d9e2d88c52.1333001415.git.Martin.Jansa@gmail.com>
-	<49e5bc38bdd5b01d3fb35b4d26a2d189ad2c2c44.1333001415.git.Martin.Jansa@gmail.com>
-	<1333015547.14983.11.camel@ted>
-MIME-Version: 1.0
-In-Reply-To: <1333015547.14983.11.camel@ted>
-User-Agent: Mutt/1.5.21 (2010-09-15)
-Subject: Re: [PATCH 2/2] kernel.bbclass: unify white spaces
+Subject: Python egg-info/pth
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -48,54 +43,45 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 29 Mar 2012 12:25:49 -0000
-X-Groupsio-MsgNum: 19945
-Content-Type: multipart/signed; micalg=pgp-sha1;
-	protocol="application/pgp-signature"; boundary="OOq1TgGhe8eTwFBO"
-Content-Disposition: inline
+X-List-Received-Date: Thu, 29 Mar 2012 12:26:08 -0000
+Content-Type: text/plain; charset=ISO-8859-1
+Content-Transfer-Encoding: 7bit
 
---OOq1TgGhe8eTwFBO
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Hi,
 
-On Thu, Mar 29, 2012 at 11:05:47AM +0100, Richard Purdie wrote:
-> On Thu, 2012-03-29 at 08:24 +0200, Martin Jansa wrote:
-> > * indentation was with spaces and tabs, unify to use tabs instead of
-> >   spaces, because "python populate_packages" expects tabs (or 8 spaces)
-> >   and we're doing populate_packages_preppend here
-> >=20
-> > Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
-> > ---
-> >  meta/classes/kernel.bbclass |   38 +++++++++++++++++++----------------=
----
-> >  1 files changed, 19 insertions(+), 19 deletions(-)
->=20
-> FWIW, we're supposed to be using tabs for shell code and spaces (4) for
-> python. Unfortunately populate_package() is special due to the number of
-> places we append/prepend it and the need to be consistent with
-> whitespace.
->=20
-> I'm therefore not sure it makes sense to re-indent the anonymous python.
+many python packages install egg-info files or directories and/or pth
+files inside the site-packages directory.
 
-Agreed, but that anonymous python used spaces and tabs in the same
-function which is ugly.
+AFAICT, egg-info is used to provide multiple versions of python
+site packages, if required, if no package manager like opkg is
+involved. Since this is not the case in OE, it only serves as a way
+for python programs to depend on specific versions of a python site
+package. This doesn't make much sense, because package version
+dependencies should already be handled by opkg (or rpm or deb).
 
-Cheers,
+So I'd like to understand whether it's useful to ship them at all or
+to package them separately. For example, python-twisted installs the
+following files:
 
---=20
-Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
+WARNING:   /usr/lib/python2.7/site-packages/Twisted-12.0.0-py2.7.egg-info
+WARNING:   /usr/lib/python2.7/site-packages/Twisted-12.0.0-py2.7.egg-info/top_level.txt
+WARNING:   /usr/lib/python2.7/site-packages/Twisted-12.0.0-py2.7.egg-info/requires.txt
+WARNING:   /usr/lib/python2.7/site-packages/Twisted-12.0.0-py2.7.egg-info/SOURCES.txt
+WARNING:   /usr/lib/python2.7/site-packages/Twisted-12.0.0-py2.7.egg-info/PKG-INFO
+WARNING:   /usr/lib/python2.7/site-packages/Twisted-12.0.0-py2.7.egg-info/dependency_links.txt
+WARNING:   /usr/lib/python2.7/site-packages/Twisted-12.0.0-py2.7.egg-info/not-zip-safe
 
---OOq1TgGhe8eTwFBO
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: Digital signature
+Twisted gets split into many sub-packages and an empty meta package.
+If the egg-info gets packaged into the meta package, it wouldn't be
+available if someone just installed twisted-web, for example.
 
------BEGIN PGP SIGNATURE-----
-Version: GnuPG v2.0.19 (GNU/Linux)
+Long story short: I don't see how egg-info can be useful in OE. How
+about removing egg-info in setuptools.bbclass or moving it to ${PN}-metadata
+for all python packages?
 
-iEYEARECAAYFAk90Uq4ACgkQN1Ujt2V2gBwqPACgpFLV7nf95d7fL0ZYt0q3gBAI
-koMAoKBBQ5oMuFwwdX96y45/iXQuvq5/
-=ysRB
------END PGP SIGNATURE-----
+How about pth files? Are they meaningful in an OE environment?
 
---OOq1TgGhe8eTwFBO--
+Regards,
+Andreas
+
+
