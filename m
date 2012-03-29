@@ -1,31 +1,34 @@
 Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
 	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
 	(envelope-from <richard.purdie@linuxfoundation.org>)
-	id 1SDN25-0001Li-PG for openembedded-core@lists.openembedded.org;
-	Thu, 29 Mar 2012 23:37:26 +0200
+	id 1SDN32-0001O4-9B for openembedded-core@lists.openembedded.org;
+	Thu, 29 Mar 2012 23:38:24 +0200
 Received: from localhost (localhost [127.0.0.1])
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q2TLSKQH005629;
-	Thu, 29 Mar 2012 22:28:20 +0100
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q2TLTLCX005643
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 29 Mar 2012 22:29:21 +0100
 Received: from tim.rpsys.net ([127.0.0.1])
 	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
 	port 10024) with LMTP
-	id 04773-10; Thu, 29 Mar 2012 22:28:16 +0100 (BST)
+	id 05108-05 for <openembedded-core@lists.openembedded.org>;
+	Thu, 29 Mar 2012 22:29:16 +0100 (BST)
 Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q2TLSAro005623
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO);
-	Thu, 29 Mar 2012 22:28:11 +0100
-Message-ID: <1333056489.18082.31.camel@ted>
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q2TLTAY8005637
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO)
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 29 Mar 2012 22:29:11 +0100
+Message-ID: <1333056549.18082.32.camel@ted>
 From: Richard Purdie <richard.purdie@linuxfoundation.org>
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Date: Thu, 29 Mar 2012 22:28:09 +0100
-In-Reply-To: <1333004316-6877-1-git-send-email-sledz@dresearch-fe.de>
-References: <1333004316-6877-1-git-send-email-sledz@dresearch-fe.de>
+Date: Thu, 29 Mar 2012 22:29:09 +0100
+In-Reply-To: <a913503c671f8442d554a5f54cf93bcf8219a53d.1332927487.git.kai.kang@windriver.com>
+References: <cover.1332927487.git.kai.kang@windriver.com>
+	<a913503c671f8442d554a5f54cf93bcf8219a53d.1332927487.git.kai.kang@windriver.com>
 X-Mailer: Evolution 3.2.2- 
 Mime-Version: 1.0
 X-Virus-Scanned: amavisd-new at rpsys.net
-Cc: Scott Garman <scott.a.garman@intel.com>
-Subject: Re: [PATCH] docbook-utils-native: fix syntax problem in jw.in
+Subject: Re: [PATCH 1/1] ghostscript: fix parallel make issue
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -40,48 +43,30 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 29 Mar 2012 21:37:26 -0000
+X-List-Received-Date: Thu, 29 Mar 2012 21:38:24 -0000
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 
-On Thu, 2012-03-29 at 08:58 +0200, Steffen Sledz wrote:
-> Fix runtime error occurred e.g. with docbook-to-man calls:
+On Wed, 2012-03-28 at 17:41 +0800, Kang Kai wrote:
+> [Yocto 1202]
 > 
->   grep: character class syntax is [[:space:]], not [:space:]
->   grep: character class syntax is [[:space:]], not [:space:]
->   jw: There is no frontend called "/docbook/utils-0.6.14/frontends/docbook".
+> Update ghostscript-9.02-parallel-make.patch to fix parallel make
+> failure.
+> Bump up PR.
 > 
-> See also:
-> 
->    <https://qa.mandriva.com/show_bug.cgi?id=61127>
-> 
-> Signed-off-by: Steffen Sledz <sledz@dresearch-fe.de>
+> Signed-off-by: Kang Kai <kai.kang@windriver.com>
 > ---
->  .../docbook-utils/docbook-utils-0.6.14/re.patch    |   15 +++++++++++++++
->  .../docbook-utils/docbook-utils-native_0.6.14.bb   |    7 +++++--
->  2 files changed, 20 insertions(+), 2 deletions(-)
->  create mode 100644 meta/recipes-devtools/docbook-utils/docbook-utils-0.6.14/re.patch
-> 
-> diff --git a/meta/recipes-devtools/docbook-utils/docbook-utils-0.6.14/re.patch b/meta/recipes-devtools/docbook-utils/docbook-utils-0.6.14/re.patch
-> new file mode 100644
-> index 0000000..1e53389
-> --- /dev/null
-> +++ b/meta/recipes-devtools/docbook-utils/docbook-utils-0.6.14/re.patch
-> @@ -0,0 +1,15 @@
+>  .../ghostscript-9.02-parallel-make.patch           |   13 +++++++++++++
+>  .../ghostscript/ghostscript_9.05.bb                |    2 +-
+>  2 files changed, 14 insertions(+), 1 deletions(-)
 
-
-There is no header on this patch saying what the patch does, why, where
-it came from or what its status is. Please resubmit with a header added:
-
-https://wiki.yoctoproject.org/wiki/Contribution_Guidelines#Patch_Header_Recommendations
-
-This is so when we look at the patch a year from now, we can understand
-why its there.
+Sadly the makefiles are littered with CP_ races. I've merged a patch
+which hopefully addresses them all rather than fixing them up one by one
+as they occur.
 
 Cheers,
 
 Richard
-
 
 
 
