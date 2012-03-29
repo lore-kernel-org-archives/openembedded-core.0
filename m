@@ -1,37 +1,27 @@
-Received: from mail-we0-f175.google.com ([74.125.82.175])
+Received: from mga09.intel.com ([134.134.136.24])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <martin.jansa@gmail.com>) id 1SDLxI-0008Vc-FB
+	(envelope-from <paul.eggleton@linux.intel.com>) id 1SDMJP-0000Jv-1S
 	for openembedded-core@lists.openembedded.org;
-	Thu, 29 Mar 2012 22:28:24 +0200
-Received: by wera1 with SMTP id a1so1285937wer.6
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 29 Mar 2012 13:19:20 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=date:from:to:subject:message-id:references:mime-version
-	:content-type:content-disposition:in-reply-to:user-agent;
-	bh=PmOEue6Z1NTAmwUh9PEfLsgm/vl/s3MWe4MjMeePoRI=;
-	b=GmqRof4e6gTlUqSFccFZ1P9pa8d797ZNsEict/TRjCRLDcVWfM63GXJFvWwz2Ijx29
-	fjB5z+Efx69Pr8LQYXK9UZKfhJHLONri5XtFHsMY3cfJvSUcu6H6/SCAoigetkc6Uhu5
-	zFnHiPRlUCDKJa+Ns/YMlIgN64FZdcw8e/1qbTGUiNUXOcc1v3pGd19I/cIE9QiZfkHz
-	/hPNsh6Iwc4nkBROhJQrKQP6ashcwshk+Uj0dEMUZgisSC6+Az3lcIFSEGuR0vNvMlgl
-	zDrcIBhgDsaAgBoXowvenJTQMuT1JLy5Soufm4ul00zlOu4ad+EZ9ppqC+PSbylejtc8
-	Gv5A==
-Received: by 10.180.91.165 with SMTP id cf5mr9045707wib.2.1333052360798;
-	Thu, 29 Mar 2012 13:19:20 -0700 (PDT)
-Received: from localhost ([94.230.152.246])
-	by mx.google.com with ESMTPS id j3sm33059095wiw.1.2012.03.29.13.19.19
-	(version=TLSv1/SSLv3 cipher=OTHER);
-	Thu, 29 Mar 2012 13:19:19 -0700 (PDT)
-Date: Thu, 29 Mar 2012 22:19:21 +0200
-From: Martin Jansa <martin.jansa@gmail.com>
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Message-ID: <20120329201921.GF25815@jama.jama.net>
-References: <CALbNGRTX6A08bv_sc8VKs9Kv7k8UT1fgMOz_yhhVTMK7DKBsjQ@mail.gmail.com>
+	Thu, 29 Mar 2012 22:51:15 +0200
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+	by orsmga102.jf.intel.com with ESMTP; 29 Mar 2012 13:42:10 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.67,352,1309762800"; d="scan'208";a="123259231"
+Received: from unknown (HELO helios.localnet) ([10.252.123.240])
+	by orsmga001.jf.intel.com with ESMTP; 29 Mar 2012 13:42:09 -0700
+From: Paul Eggleton <paul.eggleton@linux.intel.com>
+To: "Robert P. J. Day" <rpjday@crashcourse.ca>
+Date: Thu, 29 Mar 2012 21:42:08 +0100
+Message-ID: <4067879.36leZStCMh@helios>
+Organization: Intel Corporation
+User-Agent: KMail/4.8.0 (Linux/3.0.0-17-generic-pae; KDE/4.8.1; i686; ; )
+In-Reply-To: <alpine.DEB.2.02.1203291533390.5968@oneiric>
+References: <alpine.DEB.2.02.1203291505580.4586@oneiric>
+	<20120329212924.5d01d792@eb-e6520>
+	<alpine.DEB.2.02.1203291533390.5968@oneiric>
 MIME-Version: 1.0
-In-Reply-To: <CALbNGRTX6A08bv_sc8VKs9Kv7k8UT1fgMOz_yhhVTMK7DKBsjQ@mail.gmail.com>
-User-Agent: Mutt/1.5.21 (2010-09-15)
-Subject: Re: DEPENDS not extended to -native for BBCLASSEXTENDS when added by PACKAGECONFIG
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: argh ... "_append" versus "+=" and IMAGE_INSTALL confusion
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -46,63 +36,68 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 29 Mar 2012 20:28:24 -0000
-X-Groupsio-MsgNum: 19982
-Content-Type: multipart/signed; micalg=pgp-sha1;
-	protocol="application/pgp-signature"; boundary="xkXJwpr35CY/Lc3I"
-Content-Disposition: inline
-
---xkXJwpr35CY/Lc3I
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
+X-List-Received-Date: Thu, 29 Mar 2012 20:51:15 -0000
 Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="iso-8859-1"
 
-On Thu, Mar 29, 2012 at 06:10:46PM +0200, Andreas M=FCller wrote:
-> Hi,
+On Thursday 29 March 2012 15:35:10 Robert P. J. Day wrote:
+> On Thu, 29 Mar 2012, Eric B=E9nard wrote:
+> > Le Thu, 29 Mar 2012 15:23:20 -0400 (EDT),
+> >=20
+> > "Robert P. J. Day" <rpjday@crashcourse.ca> a =E9crit :
+> > >   so what is best practise here?
+> >=20
+> > for this one you have an answer on OE's wiki :
+> > http://www.openembedded.org/wiki/I_want_an_image_with_package_XYZ_i=
+nstalle
+> > d
 >=20
-> on my colleagues's build machine ( Ubuntu 11.04 / Angstrom based /
-> target overo / pullled all layers yesterday ) image building fails for
-> gtk+native with
+>   despite the fact that the current reference manual *explicitly*
+> says this?
 >=20
-> | configure: error: *** libX11 not found. Check 'config.log' for more det=
-ails.
->=20
-> and in config.log
->=20
-> | /usr/bin/ld: cannot find -lXrender
+> "Using IMAGE_INSTALL with the +=3D operator from the /conf/local.conf=
 
-Yes it does fail like this since PACKAGECONFIG was added to gtk+..
+> file or from within an image recipe is not recommended as it can caus=
+e
+> ordering issues."
 
-> After manually building libxrender-native build continues without issues.
->=20
-> Seems this issue is same as mentioned in [1] without result.
->=20
-> Martin: how did you fix that on your environment?
+I think what the manual is attempting to mitigate is a situation where =
+you do=20
+the following in your image recipe:
 
-by this patchset for oe-core
-http://lists.linuxtogo.org/pipermail/openembedded-core/2012-March/019619.ht=
-ml
-and this for meta-oe
-http://lists.linuxtogo.org/pipermail/openembedded-devel/2012-March/038711.h=
-tml
+-------- snip -------
+IMAGE_INSTALL +=3D "somepackage1 somepackage2"
 
-both regulary updated in shr branches in oe-core-contrib/meta-oe-contrib
+inherit core-image
+-------- snip -------
+
+In this instance, because IMAGE_INSTALL is set via ?=3D within core-
+image.bbclass, IMAGE_INSTALL will only be set to "somepackage1 somepack=
+age2"=20
+since the value is already set by the time it gets to the ?=3D. This is=
+ clearly=20
+not what you would want by using +=3D.
+
+Doing the following in an image recipe will work properly however:
+
+-------- snip -------
+inherit core-image
+
+IMAGE_INSTALL +=3D "somepackage1 somepackage2"
+-------- snip -------
+
+Personally I think the text you quoted from the manual should be adjust=
+ed;=20
+there's nothing wrong with IMAGE_INSTALL +=3D _in an image recipe_ prov=
+ided that=20
+you do it _after_ the inherit of core-image.
 
 Cheers,
+Paul
 
 --=20
-Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
 
---xkXJwpr35CY/Lc3I
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: Digital signature
+Paul Eggleton
+Intel Open Source Technology Centre
 
------BEGIN PGP SIGNATURE-----
-Version: GnuPG v2.0.19 (GNU/Linux)
 
-iEYEARECAAYFAk90w8kACgkQN1Ujt2V2gBya6QCgg6Tinov/2BmTkgmejxwJbkhZ
-WB4An3ewFcARmunUBt9K4BqlZjFx9uNl
-=nRxE
------END PGP SIGNATURE-----
-
---xkXJwpr35CY/Lc3I--
