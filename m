@@ -1,37 +1,26 @@
-Received: from mail-ee0-f47.google.com ([74.125.83.47])
+Received: from mail.windriver.com ([147.11.1.11])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <martin.jansa@gmail.com>) id 1SD8vC-0008F8-Lb
+	(envelope-from <Liezhi.Yang@windriver.com>) id 1SD9L6-00011R-UL
 	for openembedded-core@lists.openembedded.org;
-	Thu, 29 Mar 2012 08:33:22 +0200
-Received: by eekc1 with SMTP id c1so617624eek.6
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 28 Mar 2012 23:24:20 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=from:to:subject:date:message-id:x-mailer:in-reply-to:references
-	:in-reply-to:references;
-	bh=kb3Kzywy4Ehjqq4ck5B3DANOMoO9beDVzsVcBzwseJ8=;
-	b=Dl0syEhwDYQmy1Nm6wxd4RsLyncLLmyiVRQ+1VM+5xfIIgRfAZ0VSPoOQfxrk9bjOc
-	SaRHKW1DG/9IP0Y9HjvjvE8t20zCs+HhXVAC+iVJxnfF3F5Trh+JK7s/qT+hjin8WXZQ
-	+pFv12ep4qkiLX9rCJmYMXMVYVCvAU3Arccd08rjDHPX56hQlmN313ZY80miKp7diHLB
-	c7baCvasBMqrBWAS3aJGiEKRliEakW7ijJToI+RYpY2fiYEcqwpYWS2rZ3vgXWkx+kN+
-	yUEiD8odyA1yHQITj8Bpq/pse3h3GbyNOSovypUdjGgT8juTL+7pZ6TK+kyc3cX/wrWV
-	qFew==
-Received: by 10.180.105.194 with SMTP id go2mr2338306wib.22.1333002259944;
-	Wed, 28 Mar 2012 23:24:19 -0700 (PDT)
-Received: from localhost ([94.230.152.246])
-	by mx.google.com with ESMTPS id o2sm23900690wiv.11.2012.03.28.23.24.18
-	(version=TLSv1/SSLv3 cipher=OTHER);
-	Wed, 28 Mar 2012 23:24:19 -0700 (PDT)
-From: Martin Jansa <martin.jansa@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Date: Thu, 29 Mar 2012 08:24:07 +0200
-Message-Id: <49e5bc38bdd5b01d3fb35b4d26a2d189ad2c2c44.1333001415.git.Martin.Jansa@gmail.com>
-X-Mailer: git-send-email 1.7.8.5
-In-Reply-To: <4b37a73d52ca39e73b4d8230269af5d9e2d88c52.1333001415.git.Martin.Jansa@gmail.com>
-References: <4b37a73d52ca39e73b4d8230269af5d9e2d88c52.1333001415.git.Martin.Jansa@gmail.com>
-In-Reply-To: <cover.1333001415.git.Martin.Jansa@gmail.com>
-References: <cover.1333001415.git.Martin.Jansa@gmail.com>
-Subject: [PATCH 2/2] kernel.bbclass: unify white spaces
+	Thu, 29 Mar 2012 09:00:09 +0200
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca [147.11.189.40])
+	by mail.windriver.com (8.14.3/8.14.3) with ESMTP id q2T6p4bq015762
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
+	Wed, 28 Mar 2012 23:51:04 -0700 (PDT)
+Received: from [128.224.162.196] (128.224.162.196) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server id 14.1.255.0;
+	Wed, 28 Mar 2012 23:51:04 -0700
+Message-ID: <4F740656.4010903@windriver.com>
+Date: Thu, 29 Mar 2012 14:51:02 +0800
+From: Robert Yang <liezhi.yang@windriver.com>
+User-Agent: Mozilla/5.0 (X11; Linux i686;
+	rv:11.0) Gecko/20120310 Thunderbird/11.0
+MIME-Version: 1.0
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+References: <1332964015-1069-1-git-send-email-obi@opendreambox.org>
+In-Reply-To: <1332964015-1069-1-git-send-email-obi@opendreambox.org>
+Subject: Re: [PATCH] qt4: move from 4.8.0 to 4.8.1
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -46,105 +35,218 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 29 Mar 2012 06:33:22 -0000
+X-List-Received-Date: Thu, 29 Mar 2012 07:00:09 -0000
+Content-Type: text/plain; charset="ISO-8859-1"; format=flowed
+Content-Transfer-Encoding: 7bit
 
-* indentation was with spaces and tabs, unify to use tabs instead of
-  spaces, because "python populate_packages" expects tabs (or 8 spaces)
-  and we're doing populate_packages_preppend here
 
-Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
----
- meta/classes/kernel.bbclass |   38 +++++++++++++++++++-------------------
- 1 files changed, 19 insertions(+), 19 deletions(-)
+Hi Andreas,
 
-diff --git a/meta/classes/kernel.bbclass b/meta/classes/kernel.bbclass
-index 8cd5fc7..f1494b1 100644
---- a/meta/classes/kernel.bbclass
-+++ b/meta/classes/kernel.bbclass
-@@ -11,15 +11,15 @@ INITRAMFS_IMAGE ?= ""
- INITRAMFS_TASK ?= ""
- 
- python __anonymous () {
--    kerneltype = d.getVar('KERNEL_IMAGETYPE', True) or ''
--    if kerneltype == 'uImage':
--    	depends = d.getVar("DEPENDS", True)
--    	depends = "%s u-boot-mkimage-native" % depends
--    	d.setVar("DEPENDS", depends)
--
--    image = d.getVar('INITRAMFS_IMAGE', True)
--    if image:
--        d.setVar('INITRAMFS_TASK', '${INITRAMFS_IMAGE}:do_rootfs')
-+	kerneltype = d.getVar('KERNEL_IMAGETYPE', True) or ''
-+	if kerneltype == 'uImage':
-+		depends = d.getVar("DEPENDS", True)
-+		depends = "%s u-boot-mkimage-native" % depends
-+		d.setVar("DEPENDS", depends)
-+
-+	image = d.getVar('INITRAMFS_IMAGE', True)
-+	if image:
-+		d.setVar('INITRAMFS_TASK', '${INITRAMFS_IMAGE}:do_rootfs')
- }
- 
- inherit kernel-arch deploy
-@@ -91,7 +91,7 @@ kernel_do_compile() {
- do_compile_kernelmodules() {
- 	unset CFLAGS CPPFLAGS CXXFLAGS LDFLAGS MACHINE
- 	if (grep -q -i -e '^CONFIG_MODULES=y$' .config); then
--		oe_runmake ${PARALLEL_MAKE} modules  CC="${KERNEL_CC}" LD="${KERNEL_LD}"
-+		oe_runmake ${PARALLEL_MAKE} modules CC="${KERNEL_CC}" LD="${KERNEL_LD}"
- 	else
- 		bbnote "no modules to compile"
- 	fi
-@@ -115,7 +115,7 @@ kernel_do_install() {
- 
- 	#
- 	# Install various kernel output (zImage, map file, config, module support files)
--	#	
-+	#
- 	install -d ${D}/${KERNEL_IMAGEDEST}
- 	install -d ${D}/boot
- 	install -m 0644 ${KERNEL_OUTPUT} ${D}/${KERNEL_IMAGEDEST}/${KERNEL_IMAGETYPE}-${KERNEL_VERSION}
-@@ -188,7 +188,7 @@ kernel_do_install() {
- 	bin_files="arch/powerpc/boot/addnote arch/powerpc/boot/hack-coff \
- 	           arch/powerpc/boot/mktree"
- 	for entry in $bin_files; do
--	        rm -f $kerneldir/$entry
-+		rm -f $kerneldir/$entry
- 	done
- }
- 
-@@ -386,10 +386,10 @@ python populate_packages_prepend () {
- 		return deps
- 	
- 	def get_dependencies(file, pattern, format):
--                # file no longer includes PKGD
-+		# file no longer includes PKGD
- 		file = file.replace(d.getVar('PKGD', True) or '', '', 1)
--                # instead is prefixed with /lib/modules/${KERNEL_VERSION}
--                file = file.replace("/lib/modules/%s/" % d.getVar('KERNEL_VERSION', True) or '', '', 1)
-+		# instead is prefixed with /lib/modules/${KERNEL_VERSION}
-+		file = file.replace("/lib/modules/%s/" % d.getVar('KERNEL_VERSION', True) or '', '', 1)
- 
- 		if module_deps.has_key(file):
- 			import re
-@@ -493,11 +493,11 @@ python populate_packages_prepend () {
- do_sizecheck() {
- 	if [ ! -z "${KERNEL_IMAGE_MAXSIZE}" ]; then
- 		size=`ls -l ${KERNEL_OUTPUT} | awk '{ print $5}'`
--        	if [ $size -ge ${KERNEL_IMAGE_MAXSIZE} ]; then
-+		if [ $size -ge ${KERNEL_IMAGE_MAXSIZE} ]; then
- 			rm ${KERNEL_OUTPUT}
--                	die  "This kernel (size=$size > ${KERNEL_IMAGE_MAXSIZE}) is too big for your device. Please reduce the size of the kernel by making more of it modular."
--        	fi
--    	fi
-+			die "This kernel (size=$size > ${KERNEL_IMAGE_MAXSIZE}) is too big for your device. Please reduce the size of the kernel by making more of it modular."
-+		fi
-+	fi
- }
- 
- addtask sizecheck before do_install after do_compile
--- 
-1.7.8.5
+I have one question about the qt-x11-free, is it possible to enable
+the "-sm -accessibility" in oe-core, please? There is a meta-kde
+layer which requires the "-sm -accessibility", but they are disabled
+in oe-core currently:
 
+QT_DISTRO_FLAGS ?= "-no-accessibility -no-sm"
+
+So there is a "qt4-x11-free_4.8.0.bbappend" in meta-kde, once the
+the oe-core upgrade to 4.8.1, then the meta-kde has to uprade again.
+
+I checked the log of the qt4, can't find the relative log for
+"-no-accessibility -no-sm".
+
+If it is possible to enable them in oe-core, I'd like to send a patch for
+them.
+
+// Robert
+
+On 03/29/2012 03:46 AM, Andreas Oberritter wrote:
+> * No changes other than source checksums and PR at recipe level.
+> * DEFAULT_PREFERENCE still set to -1
+>
+> Signed-off-by: Andreas Oberritter<obi@opendreambox.org>
+> ---
+> * Considering that OE-core is in a stabilization phase, updating
+>    Qt may be a bad idea. However, version 4.8.0 has D_P=-1, so
+>    4.7.4 still gets built by default.
+>
+> * Even if this won't get applied now, other people might be
+>    interested in testing this version and giving feedback.
+>
+> * This recipe has been compile-tested on x86 and x86_64
+>    for mips32el (qt4-native and qt4-embedded).
+>
+>   meta/recipes-qt/qt4/{qt-4.8.0.inc =>  qt-4.8.1.inc} |    4 ++--
+>   .../0001-Added-Openembedded-crossarch-option.patch |    0
+>   .../{qt-4.8.0 =>  qt-4.8.1}/configure-lflags.patch  |    0
+>   .../configure_oe_compiler.patch                    |    0
+>   .../{qt-4.8.0 =>  qt-4.8.1}/fix-translations.patch  |    0
+>   .../recipes-qt/qt4/{qt-4.8.0 =>  qt-4.8.1}/g++.conf |    0
+>   .../hack-out-pg2-4.7.0.patch                       |    0
+>   .../qt4/{qt-4.8.0 =>  qt-4.8.1}/linux.conf          |    0
+>   .../{qt-4.8.0 =>  qt-4.8.1}/pulseaudio-config.patch |    0
+>   .../{qt-4.8.0 =>  qt-4.8.1}/qmake_cxx_eval.patch    |    0
+>   .../{qt-4.8.0 =>  qt-4.8.1}/qmake_pri_fixes.patch   |    0
+>   ...qt4-embedded_4.8.0.bb =>  qt4-embedded_4.8.1.bb} |    2 +-
+>   .../{qt4-native_4.8.0.bb =>  qt4-native_4.8.1.bb}   |    4 ++--
+>   meta/recipes-qt/qt4/qt4-tools-nativesdk_4.8.0.bb   |   10 ----------
+>   meta/recipes-qt/qt4/qt4-tools-nativesdk_4.8.1.bb   |   10 ++++++++++
+>   ...qt4-x11-free_4.8.0.bb =>  qt4-x11-free_4.8.1.bb} |    2 +-
+>   16 files changed, 16 insertions(+), 16 deletions(-)
+>   rename meta/recipes-qt/qt4/{qt-4.8.0.inc =>  qt-4.8.1.inc} (93%)
+>   rename meta/recipes-qt/qt4/{qt-4.8.0 =>  qt-4.8.1}/0001-Added-Openembedded-crossarch-option.patch (100%)
+>   rename meta/recipes-qt/qt4/{qt-4.8.0 =>  qt-4.8.1}/configure-lflags.patch (100%)
+>   rename meta/recipes-qt/qt4/{qt-4.8.0 =>  qt-4.8.1}/configure_oe_compiler.patch (100%)
+>   rename meta/recipes-qt/qt4/{qt-4.8.0 =>  qt-4.8.1}/fix-translations.patch (100%)
+>   rename meta/recipes-qt/qt4/{qt-4.8.0 =>  qt-4.8.1}/g++.conf (100%)
+>   rename meta/recipes-qt/qt4/{qt-4.8.0 =>  qt-4.8.1}/hack-out-pg2-4.7.0.patch (100%)
+>   rename meta/recipes-qt/qt4/{qt-4.8.0 =>  qt-4.8.1}/linux.conf (100%)
+>   rename meta/recipes-qt/qt4/{qt-4.8.0 =>  qt-4.8.1}/pulseaudio-config.patch (100%)
+>   rename meta/recipes-qt/qt4/{qt-4.8.0 =>  qt-4.8.1}/qmake_cxx_eval.patch (100%)
+>   rename meta/recipes-qt/qt4/{qt-4.8.0 =>  qt-4.8.1}/qmake_pri_fixes.patch (100%)
+>   rename meta/recipes-qt/qt4/{qt4-embedded_4.8.0.bb =>  qt4-embedded_4.8.1.bb} (89%)
+>   rename meta/recipes-qt/qt4/{qt4-native_4.8.0.bb =>  qt4-native_4.8.1.bb} (60%)
+>   delete mode 100644 meta/recipes-qt/qt4/qt4-tools-nativesdk_4.8.0.bb
+>   create mode 100644 meta/recipes-qt/qt4/qt4-tools-nativesdk_4.8.1.bb
+>   rename meta/recipes-qt/qt4/{qt4-x11-free_4.8.0.bb =>  qt4-x11-free_4.8.1.bb} (90%)
+>
+> diff --git a/meta/recipes-qt/qt4/qt-4.8.0.inc b/meta/recipes-qt/qt4/qt-4.8.1.inc
+> similarity index 93%
+> rename from meta/recipes-qt/qt4/qt-4.8.0.inc
+> rename to meta/recipes-qt/qt4/qt-4.8.1.inc
+> index c0d90cd..cd78401 100644
+> --- a/meta/recipes-qt/qt4/qt-4.8.0.inc
+> +++ b/meta/recipes-qt/qt4/qt-4.8.1.inc
+> @@ -22,8 +22,8 @@ SRC_URI = "http://get.qt.nokia.com/qt/source/qt-everywhere-opensource-src-${PV}.
+>              file://linux.conf \
+>              "
+>
+> -SRC_URI[md5sum] = "e8a5fdbeba2927c948d9f477a6abe904"
+> -SRC_URI[sha256sum] = "9392b74e485e15f75a3e07a527547d4f6747eaf55ebce71ba0e863a9fd320b6e"
+> +SRC_URI[md5sum] = "7960ba8e18ca31f0c6e4895a312f92ff"
+> +SRC_URI[sha256sum] = "ef851a36aa41b4ad7a3e4c96ca27eaed2a629a6d2fa06c20f072118caed87ae8"
+>
+>   S = "${WORKDIR}/qt-everywhere-opensource-src-${PV}"
+>
+> diff --git a/meta/recipes-qt/qt4/qt-4.8.0/0001-Added-Openembedded-crossarch-option.patch b/meta/recipes-qt/qt4/qt-4.8.1/0001-Added-Openembedded-crossarch-option.patch
+> similarity index 100%
+> rename from meta/recipes-qt/qt4/qt-4.8.0/0001-Added-Openembedded-crossarch-option.patch
+> rename to meta/recipes-qt/qt4/qt-4.8.1/0001-Added-Openembedded-crossarch-option.patch
+> diff --git a/meta/recipes-qt/qt4/qt-4.8.0/configure-lflags.patch b/meta/recipes-qt/qt4/qt-4.8.1/configure-lflags.patch
+> similarity index 100%
+> rename from meta/recipes-qt/qt4/qt-4.8.0/configure-lflags.patch
+> rename to meta/recipes-qt/qt4/qt-4.8.1/configure-lflags.patch
+> diff --git a/meta/recipes-qt/qt4/qt-4.8.0/configure_oe_compiler.patch b/meta/recipes-qt/qt4/qt-4.8.1/configure_oe_compiler.patch
+> similarity index 100%
+> rename from meta/recipes-qt/qt4/qt-4.8.0/configure_oe_compiler.patch
+> rename to meta/recipes-qt/qt4/qt-4.8.1/configure_oe_compiler.patch
+> diff --git a/meta/recipes-qt/qt4/qt-4.8.0/fix-translations.patch b/meta/recipes-qt/qt4/qt-4.8.1/fix-translations.patch
+> similarity index 100%
+> rename from meta/recipes-qt/qt4/qt-4.8.0/fix-translations.patch
+> rename to meta/recipes-qt/qt4/qt-4.8.1/fix-translations.patch
+> diff --git a/meta/recipes-qt/qt4/qt-4.8.0/g++.conf b/meta/recipes-qt/qt4/qt-4.8.1/g++.conf
+> similarity index 100%
+> rename from meta/recipes-qt/qt4/qt-4.8.0/g++.conf
+> rename to meta/recipes-qt/qt4/qt-4.8.1/g++.conf
+> diff --git a/meta/recipes-qt/qt4/qt-4.8.0/hack-out-pg2-4.7.0.patch b/meta/recipes-qt/qt4/qt-4.8.1/hack-out-pg2-4.7.0.patch
+> similarity index 100%
+> rename from meta/recipes-qt/qt4/qt-4.8.0/hack-out-pg2-4.7.0.patch
+> rename to meta/recipes-qt/qt4/qt-4.8.1/hack-out-pg2-4.7.0.patch
+> diff --git a/meta/recipes-qt/qt4/qt-4.8.0/linux.conf b/meta/recipes-qt/qt4/qt-4.8.1/linux.conf
+> similarity index 100%
+> rename from meta/recipes-qt/qt4/qt-4.8.0/linux.conf
+> rename to meta/recipes-qt/qt4/qt-4.8.1/linux.conf
+> diff --git a/meta/recipes-qt/qt4/qt-4.8.0/pulseaudio-config.patch b/meta/recipes-qt/qt4/qt-4.8.1/pulseaudio-config.patch
+> similarity index 100%
+> rename from meta/recipes-qt/qt4/qt-4.8.0/pulseaudio-config.patch
+> rename to meta/recipes-qt/qt4/qt-4.8.1/pulseaudio-config.patch
+> diff --git a/meta/recipes-qt/qt4/qt-4.8.0/qmake_cxx_eval.patch b/meta/recipes-qt/qt4/qt-4.8.1/qmake_cxx_eval.patch
+> similarity index 100%
+> rename from meta/recipes-qt/qt4/qt-4.8.0/qmake_cxx_eval.patch
+> rename to meta/recipes-qt/qt4/qt-4.8.1/qmake_cxx_eval.patch
+> diff --git a/meta/recipes-qt/qt4/qt-4.8.0/qmake_pri_fixes.patch b/meta/recipes-qt/qt4/qt-4.8.1/qmake_pri_fixes.patch
+> similarity index 100%
+> rename from meta/recipes-qt/qt4/qt-4.8.0/qmake_pri_fixes.patch
+> rename to meta/recipes-qt/qt4/qt-4.8.1/qmake_pri_fixes.patch
+> diff --git a/meta/recipes-qt/qt4/qt4-embedded_4.8.0.bb b/meta/recipes-qt/qt4/qt4-embedded_4.8.1.bb
+> similarity index 89%
+> rename from meta/recipes-qt/qt4/qt4-embedded_4.8.0.bb
+> rename to meta/recipes-qt/qt4/qt4-embedded_4.8.1.bb
+> index efbc02a..5c1c97e 100644
+> --- a/meta/recipes-qt/qt4/qt4-embedded_4.8.0.bb
+> +++ b/meta/recipes-qt/qt4/qt4-embedded_4.8.1.bb
+> @@ -1,7 +1,7 @@
+>   require qt-${PV}.inc
+>   require qt4-embedded.inc
+>
+> -PR = "${INC_PR}.1"
+> +PR = "${INC_PR}.0"
+>
+>   DEFAULT_PREFERENCE = "-1"
+>
+> diff --git a/meta/recipes-qt/qt4/qt4-native_4.8.0.bb b/meta/recipes-qt/qt4/qt4-native_4.8.1.bb
+> similarity index 60%
+> rename from meta/recipes-qt/qt4/qt4-native_4.8.0.bb
+> rename to meta/recipes-qt/qt4/qt4-native_4.8.1.bb
+> index 86c0500..d991c03 100644
+> --- a/meta/recipes-qt/qt4/qt4-native_4.8.0.bb
+> +++ b/meta/recipes-qt/qt4/qt4-native_4.8.1.bb
+> @@ -9,6 +9,6 @@ FILESEXTRAPATHS =. "${FILE_DIRNAME}/qt-${PV}:"
+>
+>   TOBUILD := "src/tools/bootstrap ${TOBUILD}"
+>
+> -SRC_URI[md5sum] = "e8a5fdbeba2927c948d9f477a6abe904"
+> -SRC_URI[sha256sum] = "9392b74e485e15f75a3e07a527547d4f6747eaf55ebce71ba0e863a9fd320b6e"
+> +SRC_URI[md5sum] = "7960ba8e18ca31f0c6e4895a312f92ff"
+> +SRC_URI[sha256sum] = "ef851a36aa41b4ad7a3e4c96ca27eaed2a629a6d2fa06c20f072118caed87ae8"
+>
+> diff --git a/meta/recipes-qt/qt4/qt4-tools-nativesdk_4.8.0.bb b/meta/recipes-qt/qt4/qt4-tools-nativesdk_4.8.0.bb
+> deleted file mode 100644
+> index 02917fe..0000000
+> --- a/meta/recipes-qt/qt4/qt4-tools-nativesdk_4.8.0.bb
+> +++ /dev/null
+> @@ -1,10 +0,0 @@
+> -require qt4-tools-nativesdk.inc
+> -
+> -PR = "${INC_PR}.0"
+> -
+> -SRC_URI += "file://qmake_pri_fixes.patch"
+> -
+> -DEFAULT_PREFERENCE = "-1"
+> -
+> -SRC_URI[md5sum] = "e8a5fdbeba2927c948d9f477a6abe904"
+> -SRC_URI[sha256sum] = "9392b74e485e15f75a3e07a527547d4f6747eaf55ebce71ba0e863a9fd320b6e"
+> diff --git a/meta/recipes-qt/qt4/qt4-tools-nativesdk_4.8.1.bb b/meta/recipes-qt/qt4/qt4-tools-nativesdk_4.8.1.bb
+> new file mode 100644
+> index 0000000..e6162fc
+> --- /dev/null
+> +++ b/meta/recipes-qt/qt4/qt4-tools-nativesdk_4.8.1.bb
+> @@ -0,0 +1,10 @@
+> +require qt4-tools-nativesdk.inc
+> +
+> +PR = "${INC_PR}.0"
+> +
+> +SRC_URI += "file://qmake_pri_fixes.patch"
+> +
+> +DEFAULT_PREFERENCE = "-1"
+> +
+> +SRC_URI[md5sum] = "7960ba8e18ca31f0c6e4895a312f92ff"
+> +SRC_URI[sha256sum] = "ef851a36aa41b4ad7a3e4c96ca27eaed2a629a6d2fa06c20f072118caed87ae8"
+> diff --git a/meta/recipes-qt/qt4/qt4-x11-free_4.8.0.bb b/meta/recipes-qt/qt4/qt4-x11-free_4.8.1.bb
+> similarity index 90%
+> rename from meta/recipes-qt/qt4/qt4-x11-free_4.8.0.bb
+> rename to meta/recipes-qt/qt4/qt4-x11-free_4.8.1.bb
+> index 6a0b0b8..edd3e0e 100644
+> --- a/meta/recipes-qt/qt4/qt4-x11-free_4.8.0.bb
+> +++ b/meta/recipes-qt/qt4/qt4-x11-free_4.8.1.bb
+> @@ -1,7 +1,7 @@
+>   require qt4-x11-free.inc
+>   require qt-${PV}.inc
+>
+> -PR = "${INC_PR}.1"
+> +PR = "${INC_PR}.0"
+>
+>   DEFAULT_PREFERENCE = "-1"
+>
 
 
