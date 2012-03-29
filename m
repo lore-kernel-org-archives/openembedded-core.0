@@ -1,22 +1,33 @@
-Received: from smtp-relay2.palm.com ([64.28.152.243])
-	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <prvs=428cd3cda=rich.pixley@palm.com>)
-	id 1SDIdh-0004ak-6n for openembedded-core@lists.openembedded.org;
-	Thu, 29 Mar 2012 18:55:57 +0200
-X-IronPort-AV: E=Sophos;i="4.75,338,1330934400"; d="scan'208";a="12576865"
-Received: from unknown (HELO ushqusdns4.palm.com) ([148.92.223.164])
-	by smtp-relay2.palm.com with ESMTP; 29 Mar 2012 09:45:47 -0700
-Received: from flamingo.palm.com (flamingo.palm.com [148.92.244.134])
-	by ushqusdns4.palm.com (8.14.4/8.14.4) with ESMTP id q2TGjl1M015337;
-	Thu, 29 Mar 2012 09:45:47 -0700
-Message-ID: <4F7491BB.9000201@palm.com>
-Date: Thu, 29 Mar 2012 09:45:47 -0700
-From: Rich Pixley <rich.pixley@palm.com>
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.7;
-	rv:12.0) Gecko/20120314 Thunderbird/12.0
-MIME-Version: 1.0
-To: openembedded-core@lists.openembedded.org
-Subject: chasing mirrors
+Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
+	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <richard.purdie@linuxfoundation.org>)
+	id 1SDItU-000586-MN for openembedded-core@lists.openembedded.org;
+	Thu, 29 Mar 2012 19:12:16 +0200
+Received: from localhost (localhost [127.0.0.1])
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q2TH3DZ7002212
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 29 Mar 2012 18:03:13 +0100
+Received: from tim.rpsys.net ([127.0.0.1])
+	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
+	port 10024) with LMTP
+	id 01564-07 for <openembedded-core@lists.openembedded.org>;
+	Thu, 29 Mar 2012 18:03:09 +0100 (BST)
+Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q2TH35eP002205
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO)
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 29 Mar 2012 18:03:07 +0100
+Message-ID: <1333040584.18082.4.camel@ted>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Date: Thu, 29 Mar 2012 18:03:04 +0100
+In-Reply-To: <4F7491BB.9000201@palm.com>
+References: <4F7491BB.9000201@palm.com>
+X-Mailer: Evolution 3.2.2- 
+Mime-Version: 1.0
+X-Virus-Scanned: amavisd-new at rpsys.net
+Subject: Re: chasing mirrors
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -31,18 +42,25 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 29 Mar 2012 16:55:57 -0000
-Content-Type: text/plain; charset=ISO-8859-1; format=flowed
+X-List-Received-Date: Thu, 29 Mar 2012 17:12:16 -0000
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 
-How do I determine which mirror was/is being used to download a 
-particular component?
+On Thu, 2012-03-29 at 09:45 -0700, Rich Pixley wrote:
+> How do I determine which mirror was/is being used to download a 
+> particular component?
+> 
+> I'm expecting some info in a log, or from the output of "bitbake -D", 
+> but I'm not finding it.  And from a glance at the code I don't see any 
+> message statements around the mirror iterations although I could easily 
+> be missing it.
 
-I'm expecting some info in a log, or from the output of "bitbake -D", 
-but I'm not finding it.  And from a glance at the code I don't see any 
-message statements around the mirror iterations although I could easily 
-be missing it.
+It would appear in the do_fetch logs in WORKDIR/temp for the build in
+question.
 
---rich
+Cheers,
+
+Richard
+
 
 
