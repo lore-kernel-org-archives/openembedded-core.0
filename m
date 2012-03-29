@@ -1,37 +1,37 @@
-Received: from astoria.ccjclearline.com ([64.235.106.9])
+Received: from mail-we0-f175.google.com ([74.125.82.175])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <rpjday@crashcourse.ca>) id 1SDLUq-0007sL-O0
+	(envelope-from <martin.jansa@gmail.com>) id 1SDLxI-0008Vc-FB
 	for openembedded-core@lists.openembedded.org;
-	Thu, 29 Mar 2012 21:59:01 +0200
-Received: from cpec03f0ed08c7f-cm001ac318e826.cpe.net.cable.rogers.com
-	([99.241.91.63] helo=crashcourse.ca)
-	by astoria.ccjclearline.com with esmtpsa (TLSv1:AES256-SHA:256)
-	(Exim 4.69) (envelope-from <rpjday@crashcourse.ca>)
-	id 1SDLM6-0005lA-8O for openembedded-core@lists.openembedded.org;
-	Thu, 29 Mar 2012 15:49:58 -0400
-Date: Thu, 29 Mar 2012 15:49:46 -0400 (EDT)
-From: "Robert P. J. Day" <rpjday@crashcourse.ca>
-X-X-Sender: rpjday@oneiric
+	Thu, 29 Mar 2012 22:28:24 +0200
+Received: by wera1 with SMTP id a1so1285937wer.6
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 29 Mar 2012 13:19:20 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=date:from:to:subject:message-id:references:mime-version
+	:content-type:content-disposition:in-reply-to:user-agent;
+	bh=PmOEue6Z1NTAmwUh9PEfLsgm/vl/s3MWe4MjMeePoRI=;
+	b=GmqRof4e6gTlUqSFccFZ1P9pa8d797ZNsEict/TRjCRLDcVWfM63GXJFvWwz2Ijx29
+	fjB5z+Efx69Pr8LQYXK9UZKfhJHLONri5XtFHsMY3cfJvSUcu6H6/SCAoigetkc6Uhu5
+	zFnHiPRlUCDKJa+Ns/YMlIgN64FZdcw8e/1qbTGUiNUXOcc1v3pGd19I/cIE9QiZfkHz
+	/hPNsh6Iwc4nkBROhJQrKQP6ashcwshk+Uj0dEMUZgisSC6+Az3lcIFSEGuR0vNvMlgl
+	zDrcIBhgDsaAgBoXowvenJTQMuT1JLy5Soufm4ul00zlOu4ad+EZ9ppqC+PSbylejtc8
+	Gv5A==
+Received: by 10.180.91.165 with SMTP id cf5mr9045707wib.2.1333052360798;
+	Thu, 29 Mar 2012 13:19:20 -0700 (PDT)
+Received: from localhost ([94.230.152.246])
+	by mx.google.com with ESMTPS id j3sm33059095wiw.1.2012.03.29.13.19.19
+	(version=TLSv1/SSLv3 cipher=OTHER);
+	Thu, 29 Mar 2012 13:19:19 -0700 (PDT)
+Date: Thu, 29 Mar 2012 22:19:21 +0200
+From: Martin Jansa <martin.jansa@gmail.com>
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-In-Reply-To: <CABcZANk4VfaVaSD=rLc8RjdcyaCUnN8oK3=oDXpBxZk_pSGfbA@mail.gmail.com>
-Message-ID: <alpine.DEB.2.02.1203291547020.6679@oneiric>
-References: <alpine.DEB.2.02.1203291505580.4586@oneiric>
-	<20120329212924.5d01d792@eb-e6520>
-	<alpine.DEB.2.02.1203291533390.5968@oneiric>
-	<CABcZANk4VfaVaSD=rLc8RjdcyaCUnN8oK3=oDXpBxZk_pSGfbA@mail.gmail.com>
-User-Agent: Alpine 2.02 (DEB 1266 2009-07-14)
+Message-ID: <20120329201921.GF25815@jama.jama.net>
+References: <CALbNGRTX6A08bv_sc8VKs9Kv7k8UT1fgMOz_yhhVTMK7DKBsjQ@mail.gmail.com>
 MIME-Version: 1.0
-X-AntiAbuse: This header was added to track abuse,
-	please include it with any abuse report
-X-AntiAbuse: Primary Hostname - astoria.ccjclearline.com
-X-AntiAbuse: Original Domain - lists.openembedded.org
-X-AntiAbuse: Originator/Caller UID/GID - [47 12] / [47 12]
-X-AntiAbuse: Sender Address Domain - crashcourse.ca
-X-Source: 
-X-Source-Args: 
-X-Source-Dir: 
-Subject: Re: argh ... "_append" versus "+=" and IMAGE_INSTALL confusion
+In-Reply-To: <CALbNGRTX6A08bv_sc8VKs9Kv7k8UT1fgMOz_yhhVTMK7DKBsjQ@mail.gmail.com>
+User-Agent: Mutt/1.5.21 (2010-09-15)
+Subject: Re: DEPENDS not extended to -native for BBCLASSEXTENDS when added by PACKAGECONFIG
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -46,62 +46,63 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 29 Mar 2012 19:59:01 -0000
-Content-Type: MULTIPART/MIXED; BOUNDARY="8323329-1375061681-1333050591=:6679"
+X-List-Received-Date: Thu, 29 Mar 2012 20:28:24 -0000
+X-Groupsio-MsgNum: 19982
+Content-Type: multipart/signed; micalg=pgp-sha1;
+	protocol="application/pgp-signature"; boundary="xkXJwpr35CY/Lc3I"
+Content-Disposition: inline
 
---8323329-1375061681-1333050591=:6679
-Content-Type: TEXT/PLAIN; charset=utf-8
-Content-Transfer-Encoding: QUOTED-PRINTABLE
+--xkXJwpr35CY/Lc3I
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-On Thu, 29 Mar 2012, Chris Larson wrote:
+On Thu, Mar 29, 2012 at 06:10:46PM +0200, Andreas M=FCller wrote:
+> Hi,
+>=20
+> on my colleagues's build machine ( Ubuntu 11.04 / Angstrom based /
+> target overo / pullled all layers yesterday ) image building fails for
+> gtk+native with
+>=20
+> | configure: error: *** libX11 not found. Check 'config.log' for more det=
+ails.
+>=20
+> and in config.log
+>=20
+> | /usr/bin/ld: cannot find -lXrender
 
-> On Thu, Mar 29, 2012 at 12:35 PM, Robert P. J. Day
-> <rpjday@crashcourse.ca> wrote:
-> > On Thu, 29 Mar 2012, Eric B=C3=A9nard wrote:
-> >
-> >> Le Thu, 29 Mar 2012 15:23:20 -0400 (EDT),
-> >> "Robert P. J. Day" <rpjday@crashcourse.ca> a =C3=A9crit :
-> >> > =C2=A0 so what is best practise here?
-> >> >
-> >> for this one you have an answer on OE's wiki :
-> >> http://www.openembedded.org/wiki/I_want_an_image_with_package_XYZ_inst=
-alled
-> >
-> > =C2=A0despite the fact that the current reference manual *explicitly*
-> > says this?
-> >
-> > "Using IMAGE_INSTALL with the +=3D operator from the /conf/local.conf
-> > file or from within an image recipe is not recommended as it can cause
-> > ordering issues."
-> >
-> > =C2=A0i actually did my research before i asked that question, you know=
-=2E
->
-> The two aren't conflicting. The wiki page talks about creating an
-> image or using bbappend, where +=3D works fine. You have to use _append
-> in local.conf because it's postponed, occurs at the end of the parse.
-> If you use +=3D there, the recipe will then set IMAGE_INSTALL, blowing
-> away the global value you +=3D'd to.
+Yes it does fail like this since PACKAGECONFIG was added to gtk+..
 
-  i'm confused ... the current ref manual specifically (as you can
-read above) discourages the use of +=3D "from within an image recipe",
-which is *precisely* what the wiki page is advocating.  so, yes, it
-*is* conflicting advice.
+> After manually building libxrender-native build continues without issues.
+>=20
+> Seems this issue is same as mentioned in [1] without result.
+>=20
+> Martin: how did you fix that on your environment?
 
-rday
+by this patchset for oe-core
+http://lists.linuxtogo.org/pipermail/openembedded-core/2012-March/019619.ht=
+ml
+and this for meta-oe
+http://lists.linuxtogo.org/pipermail/openembedded-devel/2012-March/038711.h=
+tml
+
+both regulary updated in shr branches in oe-core-contrib/meta-oe-contrib
+
+Cheers,
 
 --=20
+Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
 
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-Robert P. J. Day                                 Ottawa, Ontario, CANADA
-                        http://crashcourse.ca
+--xkXJwpr35CY/Lc3I
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: Digital signature
 
-Twitter:                                       http://twitter.com/rpjday
-LinkedIn:                               http://ca.linkedin.com/in/rpjday
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+-----BEGIN PGP SIGNATURE-----
+Version: GnuPG v2.0.19 (GNU/Linux)
 
---8323329-1375061681-1333050591=:6679--
+iEYEARECAAYFAk90w8kACgkQN1Ujt2V2gBya6QCgg6Tinov/2BmTkgmejxwJbkhZ
+WB4An3ewFcARmunUBt9K4BqlZjFx9uNl
+=nRxE
+-----END PGP SIGNATURE-----
+
+--xkXJwpr35CY/Lc3I--
