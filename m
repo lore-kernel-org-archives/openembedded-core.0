@@ -1,35 +1,32 @@
-Received: from astoria.ccjclearline.com ([64.235.106.9])
-	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <rpjday@crashcourse.ca>) id 1SDBMO-0003bK-Gr
+Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
+	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <rpurdie@rpsys.net>) id 1SDC8Z-0004Hn-RE
 	for openembedded-core@lists.openembedded.org;
-	Thu, 29 Mar 2012 11:09:36 +0200
-Received: from cpec03f0ed08c7f-cm001ac318e826.cpe.net.cable.rogers.com
-	([99.241.91.63] helo=crashcourse.ca)
-	by astoria.ccjclearline.com with esmtpsa (TLSv1:AES256-SHA:256)
-	(Exim 4.69) (envelope-from <rpjday@crashcourse.ca>)
-	id 1SDBDf-0007lY-0a for openembedded-core@lists.openembedded.org;
-	Thu, 29 Mar 2012 05:00:35 -0400
-Date: Thu, 29 Mar 2012 05:00:23 -0400 (EDT)
-From: "Robert P. J. Day" <rpjday@crashcourse.ca>
-X-X-Sender: rpjday@oneiric
+	Thu, 29 Mar 2012 11:59:24 +0200
+Received: from localhost (localhost [127.0.0.1])
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q2T9oLPm029296;
+	Thu, 29 Mar 2012 10:50:21 +0100
+Received: from tim.rpsys.net ([127.0.0.1])
+	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
+	port 10024) with LMTP
+	id 28549-03; Thu, 29 Mar 2012 10:50:17 +0100 (BST)
+Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q2T9oBV8029290
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO);
+	Thu, 29 Mar 2012 10:50:12 +0100
+Message-ID: <1333014610.14983.4.camel@ted>
+From: Richard Purdie <rpurdie@rpsys.net>
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-In-Reply-To: <20120329082756.GJ4004@jama.jama.net>
-Message-ID: <alpine.DEB.2.02.1203290459210.31549@oneiric>
-References: <alpine.DEB.2.02.1203290409580.29356@oneiric>
-	<20120329082756.GJ4004@jama.jama.net>
-User-Agent: Alpine 2.02 (DEB 1266 2009-07-14)
-MIME-Version: 1.0
-X-AntiAbuse: This header was added to track abuse,
-	please include it with any abuse report
-X-AntiAbuse: Primary Hostname - astoria.ccjclearline.com
-X-AntiAbuse: Original Domain - lists.openembedded.org
-X-AntiAbuse: Originator/Caller UID/GID - [47 12] / [47 12]
-X-AntiAbuse: Sender Address Domain - crashcourse.ca
-X-Source: 
-X-Source-Args: 
-X-Source-Dir: 
-Subject: Re: why use both IMAGE_FEATURES and EXTRA_IMAGE_FEATURES in a single .bb file?
+Date: Thu, 29 Mar 2012 10:50:10 +0100
+In-Reply-To: <20120328233549.GD32193@denix.org>
+References: <1332915061-19304-1-git-send-email-denis@denix.org>
+	<1332923884.28414.189.camel@ted> <20120328233549.GD32193@denix.org>
+X-Mailer: Evolution 3.2.2- 
+Mime-Version: 1.0
+X-Virus-Scanned: amavisd-new at rpsys.net
+Cc: Denys Dmytriyenko <denys@ti.com>
+Subject: Re: [PATCH] bc: use update-alternatives to make dc play nice with busybox
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -44,45 +41,46 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 29 Mar 2012 09:09:36 -0000
-Content-Type: TEXT/PLAIN; charset=US-ASCII
+X-List-Received-Date: Thu, 29 Mar 2012 09:59:24 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-On Thu, 29 Mar 2012, Martin Jansa wrote:
+On Wed, 2012-03-28 at 19:35 -0400, Denys Dmytriyenko wrote:
+> On Wed, Mar 28, 2012 at 09:38:04AM +0100, Richard Purdie wrote:
+> > On Wed, 2012-03-28 at 02:11 -0400, Denys Dmytriyenko wrote:
+> > > -inherit autotools
+> > > +do_install_append () {
+> > > +	mv ${D}${bindir}/dc ${D}${bindir}/dc.${PN}
+> > > +}
+> > > +
+> > > +inherit autotools update-alternatives
+> > > +
+> > > +ALTERNATIVE_NAME = "dc"
+> > > +ALTERNATIVE_LINK = "${bindir}/dc"
+> > > +ALTERNATIVE_PATH = "${bindir}/dc.${PN}"
+> > > +ALTERNATIVE_PRIORITY = "100"
+> > 
+> > 
+> > I think you should just be able to do:
+> > 
+> > """
+> > ALTERNATIVE_LINKS = "${bindir}/dc"
+> > ALTERNATIVE_PRIORITY = "100"
+> > 
+> > inherit autotools update-alternatives
+> > """
 
-> On Thu, Mar 29, 2012 at 04:11:57AM -0400, Robert P. J. Day wrote:
-> >
-> >   given the recent excitement over "+=" and "=+", i thought i'd point
-> > out again the occasional weirdness like this snippet from
-> > core-image-sato-sdk.bb:
-> >
-> > IMAGE_FEATURES += "apps-console-core ${SATO_IMAGE_FEATURES} dev-pkgs tools-sdk qt4-pkgs"
-> > EXTRA_IMAGE_FEATURES += "tools-debug tools-profile tools-testapps debug-tweaks"
->
-> sometimes this is usefull to define "base" in IMAGE_FEATURES and then
-> stuff which people tend to override in .bbappend put in EXTRA_IMAGE_FEATURES
->
-> Maybe that's not the case here.. but separate variables are good even if
-> it looks weird in .bb alone
->
-> FOO = "blah"
-> BAR = "base ${FOO}"
->
-> allows to remove/replace "blah" very easy with .bbappend.
+> Yes, quite right. I see plenty of other recipes do it the hard way though...
 
-  ok, i can see that.  but that's the sort of thing that should be
-explained somewhere in the basic OE documentation so users understand
-what it means when they run across it.
 
-rday
+All the more reason to get some better examples out there! :)
 
--- 
+Thanks for resending.
 
-========================================================================
-Robert P. J. Day                                 Ottawa, Ontario, CANADA
-                        http://crashcourse.ca
+Cheers,
 
-Twitter:                                       http://twitter.com/rpjday
-LinkedIn:                               http://ca.linkedin.com/in/rpjday
-========================================================================
+Richard
+
+
 
 
