@@ -1,35 +1,34 @@
-Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
-	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <richard.purdie@linuxfoundation.org>)
-	id 1SDF9H-0000ko-Ir for openembedded-core@lists.openembedded.org;
-	Thu, 29 Mar 2012 15:12:20 +0200
-Received: from localhost (localhost [127.0.0.1])
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q2TD3EMA031534
+Received: from mail-wg0-f43.google.com ([74.125.82.43])
+	by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <s.stirtzel@googlemail.com>) id 1SDFIF-0000rQ-7d
+	for openembedded-core@lists.openembedded.org;
+	Thu, 29 Mar 2012 15:21:35 +0200
+Received: by wgbdr12 with SMTP id dr12so1444296wgb.24
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 29 Mar 2012 14:03:14 +0100
-Received: from tim.rpsys.net ([127.0.0.1])
-	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
-	port 10024) with LMTP
-	id 30304-10 for <openembedded-core@lists.openembedded.org>;
-	Thu, 29 Mar 2012 14:03:06 +0100 (BST)
-Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q2TD2tKO031508
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO)
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 29 Mar 2012 14:02:59 +0100
-Message-ID: <1333026175.17502.0.camel@ted>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
+	Thu, 29 Mar 2012 06:12:32 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=googlemail.com; s=20120113;
+	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
+	:content-type; bh=exMUEc74pYLQVHlfL+2pnI2SZVUPx3DoE9HyjpQD6Yc=;
+	b=E22agG90ltZ9J8YBWCctbDjUFiRVvoRhQ1AjjOeZwsaB2ApNaRzKcP7pRiWVMC2kcE
+	8eVkl88eRAL9DS2GQBO2N6PbyNIzmByR0fN3grV2oBZ9OghkjJN9rMIXEDpuuO0oUjqG
+	jJYGcVs789UZhD9nAO5Eb892sraLTPK7PjkpmqPYhThZe/QlL40sth5fkhVMKObG0I1D
+	3xJNa0jt65RXJGmlc0W1s5fhdef7uFHxjFnhLBZAgUTC1dwBGAuBuZB4kDVXr/WTv+c2
+	imyR2lcstVYl2intP/dl49fY9RmVJ54XNMxE1jVWgDrCAZYSI5O1W7MtO3CLZoKbXHWK
+	DIlQ==
+MIME-Version: 1.0
+Received: by 10.180.79.72 with SMTP id h8mr5645277wix.1.1333026752030; Thu, 29
+	Mar 2012 06:12:32 -0700 (PDT)
+Received: by 10.223.97.77 with HTTP; Thu, 29 Mar 2012 06:12:31 -0700 (PDT)
+In-Reply-To: <4F74530D.10408@opendreambox.org>
+References: <CAGiJk9esiphHKT9GaH8dLgOFB_xbLDr86PX-rzzsR8X66OVNaQ@mail.gmail.com>
+	<4F74530D.10408@opendreambox.org>
+Date: Thu, 29 Mar 2012 15:12:31 +0200
+Message-ID: <CAGiJk9f0=rY4cfJtKbWYWho-A++j==8T7RkyiRguKxxDtj_MfQ@mail.gmail.com>
+From: Samuel Stirtzel <s.stirtzel@googlemail.com>
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Date: Thu, 29 Mar 2012 14:02:55 +0100
-In-Reply-To: <20120329121646.GK4004@jama.jama.net>
-References: <4b37a73d52ca39e73b4d8230269af5d9e2d88c52.1333001415.git.Martin.Jansa@gmail.com>
-	<49e5bc38bdd5b01d3fb35b4d26a2d189ad2c2c44.1333001415.git.Martin.Jansa@gmail.com>
-	<1333015547.14983.11.camel@ted> <20120329121646.GK4004@jama.jama.net>
-X-Mailer: Evolution 3.2.2- 
-Mime-Version: 1.0
-X-Virus-Scanned: amavisd-new at rpsys.net
-Subject: Re: [PATCH 2/2] kernel.bbclass: unify white spaces
+Subject: Re: Fetching code via git over ssh.
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -44,38 +43,35 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 29 Mar 2012 13:12:20 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Thu, 29 Mar 2012 13:21:35 -0000
+Content-Type: text/plain; charset=UTF-8
 
-On Thu, 2012-03-29 at 14:16 +0200, Martin Jansa wrote:
-> On Thu, Mar 29, 2012 at 11:05:47AM +0100, Richard Purdie wrote:
-> > On Thu, 2012-03-29 at 08:24 +0200, Martin Jansa wrote:
-> > > * indentation was with spaces and tabs, unify to use tabs instead of
-> > >   spaces, because "python populate_packages" expects tabs (or 8 spaces)
-> > >   and we're doing populate_packages_preppend here
-> > > 
-> > > Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
-> > > ---
-> > >  meta/classes/kernel.bbclass |   38 +++++++++++++++++++-------------------
-> > >  1 files changed, 19 insertions(+), 19 deletions(-)
-> > 
-> > FWIW, we're supposed to be using tabs for shell code and spaces (4) for
-> > python. Unfortunately populate_package() is special due to the number of
-> > places we append/prepend it and the need to be consistent with
-> > whitespace.
-> > 
-> > I'm therefore not sure it makes sense to re-indent the anonymous python.
-> 
-> Agreed, but that anonymous python used spaces and tabs in the same
-> function which is ugly.
+2012/3/29 Andreas Oberritter <obi@opendreambox.org>:
+> On 29.03.2012 14:13, Samuel Stirtzel wrote:
+>> Hi,
+>> as I have set up a git server on one of my PCs and secured it with ssh.
+>> I tried to use the repository in a recipe, cloning via "git clone
+>> ssh://user@server/~/repo.git" works.
+>> But bitbake tries to fetch the repository via scp instead of git (also
+>> if I add protocol=git).
+>>
+>> Tried something like this in my recipe:
+>> SRC_URI = "ssh://user@server/~/repo.git;protocol=git;branch=master"
+>> (note: the git repository is in the home directory of the user, so the
+>> tilde is not causing an error)
+>>
+>>
+>> Anyone else tried to fetch a repository on a ssh secured git server via bitbake?
+>>
+>
+> Use git://user@server/path;protocol=ssh
+>
 
-I'm fine with cleaning that up but lets continue to use tabs for shell
-and spaces for python where at all possible, then we're consistent :)
+Thanks it works.
 
-Cheers,
 
-Richard
-
+-- 
+Regards
+Samuel
 
 
