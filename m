@@ -1,38 +1,35 @@
-Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
-	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <richard.purdie@linuxfoundation.org>)
-	id 1SDBLF-0003Vw-B4 for openembedded-core@lists.openembedded.org;
-	Thu, 29 Mar 2012 11:08:25 +0200
-Received: from localhost (localhost [127.0.0.1])
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q2T8xNQi028899
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 29 Mar 2012 09:59:23 +0100
-Received: from tim.rpsys.net ([127.0.0.1])
-	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
-	port 10024) with LMTP
-	id 28549-02 for <openembedded-core@lists.openembedded.org>;
-	Thu, 29 Mar 2012 09:59:18 +0100 (BST)
-Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q2T8xCIM028893
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO)
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 29 Mar 2012 09:59:14 +0100
-Message-ID: <1333011551.14983.3.camel@ted>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
+Received: from astoria.ccjclearline.com ([64.235.106.9])
+	by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <rpjday@crashcourse.ca>) id 1SDBMO-0003bK-Gr
+	for openembedded-core@lists.openembedded.org;
+	Thu, 29 Mar 2012 11:09:36 +0200
+Received: from cpec03f0ed08c7f-cm001ac318e826.cpe.net.cable.rogers.com
+	([99.241.91.63] helo=crashcourse.ca)
+	by astoria.ccjclearline.com with esmtpsa (TLSv1:AES256-SHA:256)
+	(Exim 4.69) (envelope-from <rpjday@crashcourse.ca>)
+	id 1SDBDf-0007lY-0a for openembedded-core@lists.openembedded.org;
+	Thu, 29 Mar 2012 05:00:35 -0400
+Date: Thu, 29 Mar 2012 05:00:23 -0400 (EDT)
+From: "Robert P. J. Day" <rpjday@crashcourse.ca>
+X-X-Sender: rpjday@oneiric
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Date: Thu, 29 Mar 2012 09:59:11 +0100
-In-Reply-To: <20120329075812.GI4004@jama.jama.net>
-References: <27A3051A-BC1D-4937-B936-42760021F584@dominion.thruhere.net>
-	<1322240018.24330.37.camel@ted>
-	<A23FAF45-E1BD-41B6-B8EA-92BC2C74E429@dominion.thruhere.net>
-	<2E5909A2-C9B9-4228-9A16-0FD8F038A8C3@dominion.thruhere.net>
-	<20111129114052.GE7441@jama.jama.net>
-	<20120329075812.GI4004@jama.jama.net>
-X-Mailer: Evolution 3.2.2- 
-Mime-Version: 1.0
-X-Virus-Scanned: amavisd-new at rpsys.net
-Subject: Re: opkg-make-index cache failing
+In-Reply-To: <20120329082756.GJ4004@jama.jama.net>
+Message-ID: <alpine.DEB.2.02.1203290459210.31549@oneiric>
+References: <alpine.DEB.2.02.1203290409580.29356@oneiric>
+	<20120329082756.GJ4004@jama.jama.net>
+User-Agent: Alpine 2.02 (DEB 1266 2009-07-14)
+MIME-Version: 1.0
+X-AntiAbuse: This header was added to track abuse,
+	please include it with any abuse report
+X-AntiAbuse: Primary Hostname - astoria.ccjclearline.com
+X-AntiAbuse: Original Domain - lists.openembedded.org
+X-AntiAbuse: Originator/Caller UID/GID - [47 12] / [47 12]
+X-AntiAbuse: Sender Address Domain - crashcourse.ca
+X-Source: 
+X-Source-Args: 
+X-Source-Dir: 
+Subject: Re: why use both IMAGE_FEATURES and EXTRA_IMAGE_FEATURES in a single .bb file?
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -47,42 +44,45 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 29 Mar 2012 09:08:25 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Thu, 29 Mar 2012 09:09:36 -0000
+Content-Type: TEXT/PLAIN; charset=US-ASCII
 
-On Thu, 2012-03-29 at 09:58 +0200, Martin Jansa wrote:
-> Today I did some more tests and started using simple bash script to
-> reindex all Packages files just once (instead of rebuilding common arch
-> many times with bitbake package-index).
-> 
-> OPKG_MAKE_INDEX=~/shr-core/tmp-eglibc/sysroots/x86_64-linux/usr/bin/opkg-make-index
-> DEPLOY_IPK=~/shr-core/tmp-eglibc/deploy/ipk/
-> for PACKAGE_FILE in `find ${DEPLOY_IPK} -name Packages`; do
->   PACKAGE_DIR=`dirname ${PACKAGE_FILE}`
->   touch ${PACKAGE_FILE}
->   echo "Regenerating ${PACKAGE_FILE}"
->   time flock ${PACKAGE_FILE}.flock -c "${OPKG_MAKE_INDEX} -r ${PACKAGE_FILE} -p ${PACKAGE_FILE} -l ${PACKAGE_FILE}.filelist -m ${PACKAGE_DIR}/"
-> done
-> 
-> And on my machine it takes really long to finish
-> real    26m40.108s
-> user    23m6.673s
-> sys     0m14.464s
-> 
-> So I'll look into opkg-make-index changes again and to make it easier I would like 
-> to move all oe-core local patches:
-> http://git.openembedded.org/openembedded-core/tree/meta/recipes-devtools/opkg-utils/opkg-utils
-> to yocto git repo:
-> http://git.yoctoproject.org/cgit/cgit.cgi/opkg-utils/
-> should I send pull-request for opkg-utils repo here or somewhere else? e.g. yocto ML?
+On Thu, 29 Mar 2012, Martin Jansa wrote:
 
-I've been advising people to do that kind of thing on the Yocto mailing
-list since there is already lots of patch traffic on OE-Core...
+> On Thu, Mar 29, 2012 at 04:11:57AM -0400, Robert P. J. Day wrote:
+> >
+> >   given the recent excitement over "+=" and "=+", i thought i'd point
+> > out again the occasional weirdness like this snippet from
+> > core-image-sato-sdk.bb:
+> >
+> > IMAGE_FEATURES += "apps-console-core ${SATO_IMAGE_FEATURES} dev-pkgs tools-sdk qt4-pkgs"
+> > EXTRA_IMAGE_FEATURES += "tools-debug tools-profile tools-testapps debug-tweaks"
+>
+> sometimes this is usefull to define "base" in IMAGE_FEATURES and then
+> stuff which people tend to override in .bbappend put in EXTRA_IMAGE_FEATURES
+>
+> Maybe that's not the case here.. but separate variables are good even if
+> it looks weird in .bb alone
+>
+> FOO = "blah"
+> BAR = "base ${FOO}"
+>
+> allows to remove/replace "blah" very easy with .bbappend.
 
-Cheers,
+  ok, i can see that.  but that's the sort of thing that should be
+explained somewhere in the basic OE documentation so users understand
+what it means when they run across it.
 
-Richard
+rday
 
+-- 
+
+========================================================================
+Robert P. J. Day                                 Ottawa, Ontario, CANADA
+                        http://crashcourse.ca
+
+Twitter:                                       http://twitter.com/rpjday
+LinkedIn:                               http://ca.linkedin.com/in/rpjday
+========================================================================
 
 
