@@ -1,28 +1,31 @@
-Received: from mga02.intel.com ([134.134.136.20])
+Received: from astoria.ccjclearline.com ([64.235.106.9])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <paul.eggleton@linux.intel.com>) id 1SDO1b-0002Jt-8x
+	(envelope-from <rpjday@crashcourse.ca>) id 1SDOCM-0002Q5-DP
 	for openembedded-core@lists.openembedded.org;
-	Fri, 30 Mar 2012 00:40:59 +0200
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-	by orsmga101.jf.intel.com with ESMTP; 29 Mar 2012 15:31:54 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.67,352,1309762800"; d="scan'208";a="123314586"
-Received: from unknown (HELO helios.localnet) ([10.252.123.240])
-	by orsmga001.jf.intel.com with ESMTP; 29 Mar 2012 15:31:53 -0700
-From: Paul Eggleton <paul.eggleton@linux.intel.com>
-To: openembedded-core@lists.openembedded.org,
-	McClintock Matthew-B29882 <B29882@freescale.com>
-Date: Thu, 29 Mar 2012 23:31:52 +0100
-Message-ID: <2577166.UTuqosjzVt@helios>
-Organization: Intel Corporation
-User-Agent: KMail/4.8.0 (Linux/3.0.0-17-generic-pae; KDE/4.8.1; i686; ; )
-In-Reply-To: <CAEsOVNdZ5DrAb-HUq+0tTO8Jnf+_NbBRxV=KSLxAR_Gnr3Fc7g@mail.gmail.com>
-References: <cover.1332952962.git.dexuan.cui@intel.com>
-	<1333058859.18082.44.camel@ted>
-	<CAEsOVNdZ5DrAb-HUq+0tTO8Jnf+_NbBRxV=KSLxAR_Gnr3Fc7g@mail.gmail.com>
+	Fri, 30 Mar 2012 00:52:06 +0200
+Received: from cpec03f0ed08c7f-cm001ac318e826.cpe.net.cable.rogers.com
+	([99.241.91.63] helo=crashcourse.ca)
+	by astoria.ccjclearline.com with esmtpsa (TLSv1:AES256-SHA:256)
+	(Exim 4.69) (envelope-from <rpjday@crashcourse.ca>)
+	id 1SDO3b-00075a-Qe for openembedded-core@lists.openembedded.org;
+	Thu, 29 Mar 2012 18:43:03 -0400
+Date: Thu, 29 Mar 2012 18:42:47 -0400 (EDT)
+From: "Robert P. J. Day" <rpjday@crashcourse.ca>
+X-X-Sender: rpjday@oneiric
+To: OE Core mailing list <openembedded-core@lists.openembedded.org>
+Message-ID: <alpine.DEB.2.02.1203291840170.25072@oneiric>
+User-Agent: Alpine 2.02 (DEB 1266 2009-07-14)
 MIME-Version: 1.0
-Cc: "Hart, Darren" <darren.hart@intel.com>
-Subject: Re: [PATCH 0/1] genext2fs: support large files and filesystems without using large amounts of memor
+X-AntiAbuse: This header was added to track abuse,
+	please include it with any abuse report
+X-AntiAbuse: Primary Hostname - astoria.ccjclearline.com
+X-AntiAbuse: Original Domain - lists.openembedded.org
+X-AntiAbuse: Originator/Caller UID/GID - [47 12] / [47 12]
+X-AntiAbuse: Sender Address Domain - crashcourse.ca
+X-Source: 
+X-Source-Args: 
+X-Source-Dir: 
+Subject: [PATCH] Remove redundant reference to "task-self-hosted" from self-hosted-image.bb
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -37,22 +40,45 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 29 Mar 2012 22:40:59 -0000
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
+X-List-Received-Date: Thu, 29 Mar 2012 22:52:06 -0000
+Content-Type: TEXT/PLAIN; charset=US-ASCII
 
-On Thursday 29 March 2012 22:27:54 McClintock Matthew-B29882 wrote:
-> Can fuse offer some option here?
 
-Only if we could rely on fuse being available on everyone's system, which I'm 
-not sure is the case.
+This recipe already includes "task-self-hosted" in the IMAGE_INSTALL
+line:
 
-Cheers,
-Paul
+IMAGE_INSTALL = "task-core-boot task-core-apps-console task-core-ssh-openssh task-self-hosted"
+
+so there's no apparent need to include it again further down.
+
+Signed-off-by: Robert P. J. Day <rpjday@crashcourse.ca>
+
+---
+
+diff --git a/meta/recipes-core/images/self-hosted-image.bb b/meta/recipes-core/images/self-hosted-image.bb
+index 5aa670d..f1f3e57 100644
+--- a/meta/recipes-core/images/self-hosted-image.bb
++++ b/meta/recipes-core/images/self-hosted-image.bb
+@@ -6,10 +6,6 @@ LIC_FILES_CHKSUM = "file://${COREBASE}/LICENSE;md5=3f40d7994397109285ec7b81fdeb3
+
+ PR = "r6"
+
+-CORE_IMAGE_EXTRA_INSTALL = "\
+-    task-self-hosted \
+-    "
+-
+ IMAGE_FEATURES += "x11-mini package-management"
+
+ # Ensure there's enough space to do a core-image-minimal build, with rm_work enabled
 
 -- 
 
-Paul Eggleton
-Intel Open Source Technology Centre
+========================================================================
+Robert P. J. Day                                 Ottawa, Ontario, CANADA
+                        http://crashcourse.ca
+
+Twitter:                                       http://twitter.com/rpjday
+LinkedIn:                               http://ca.linkedin.com/in/rpjday
+========================================================================
 
 
