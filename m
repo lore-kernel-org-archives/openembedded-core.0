@@ -1,36 +1,31 @@
-Received: from mail-ob0-f175.google.com ([209.85.214.175])
+Received: from mail-qc0-f175.google.com ([209.85.216.175])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <tom.rini@gmail.com>) id 1SDJ9E-0005O8-QJ
+	(envelope-from <sakoman@gmail.com>) id 1SDKFz-0006On-OX
 	for openembedded-core@lists.openembedded.org;
-	Thu, 29 Mar 2012 19:28:33 +0200
-Received: by obbwc20 with SMTP id wc20so1744749obb.6
+	Thu, 29 Mar 2012 20:39:35 +0200
+Received: by qcso7 with SMTP id o7so1571652qcs.6
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 29 Mar 2012 10:19:28 -0700 (PDT)
+	Thu, 29 Mar 2012 11:30:31 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=sender:from:to:subject:date:message-id:x-mailer:in-reply-to
-	:references; bh=xHYkqRuQ6mnjK71HqCARXvU7AhQNCJYDYub8ytnCvpk=;
-	b=chxLFbFtCCdQ4Xmlu+FAvRlVk6QZZO693eK3/oJVSDdrh4EKz+FKMP5ANJeJf+GxOa
-	W6/Gtf+OfSstWA1Lcr20YQopKa6ze9W++SO6sL4dYAQF1dkfEmV5mND+1KX2ha/QzwFq
-	Ol8h5pRRofLsyCo/SGiOS1nduUpd8N0R/hb/eD0Wo3Whs1jXYgoV2xK/d96RADivhapj
-	MfHd1DieuEdS0dJYC+Hq35CWlSFGw3ymUQKGnR3TEal0iLfOQgdN5BFJqoyxnNwzySM/
-	mCXhTgIp/21oGNO8LSDY5+QKX32VD7Wzk1poclTsZ6S6rYVF4R3nQZQKaVF/yIZZveiq
-	b0ag==
-Received: by 10.182.141.10 with SMTP id rk10mr44129397obb.48.1333041568911;
-	Thu, 29 Mar 2012 10:19:28 -0700 (PDT)
-Received: from localhost.localdomain (ip68-230-54-74.ph.ph.cox.net.
-	[68.230.54.74])
-	by mx.google.com with ESMTPS id o9sm6646035obd.21.2012.03.29.10.19.27
-	(version=TLSv1/SSLv3 cipher=OTHER);
-	Thu, 29 Mar 2012 10:19:28 -0700 (PDT)
-Sender: Tom Rini <tom.rini@gmail.com>
-From: Tom Rini <trini@ti.com>
-To: openembedded-core@lists.openembedded.org
-Date: Thu, 29 Mar 2012 10:19:28 -0700
-Message-Id: <1333041568-29343-1-git-send-email-trini@ti.com>
-X-Mailer: git-send-email 1.7.0.4
-In-Reply-To: <1332958352-12828-1-git-send-email-trini@ti.com>
-References: <1332958352-12828-1-git-send-email-trini@ti.com>
-Subject: [PATCH v3] qemu.inc: Use '+=' for IMAGE_FSTYPES
+	h=mime-version:date:message-id:subject:from:to:cc:content-type;
+	bh=PWBOoTQUFRUMZfj5NqCIsf0rwy4FnRAU1OGdVEJDN9o=;
+	b=VziSiq+LrffKIcnCN/SW6u1nKQzPvcGNyhwCDG1lkeXM0Mpl8TNDMBAZOuc3uExAUo
+	ebT3uTCcEiAF+Dk+Yj9I9TQVVwcXvLSRlumah0aZjzEMg7xnRjODtmNND1L1aBgotXkI
+	XWjxgg+QSrN+knU9ggWxqhYFr4IQ2OiJT3DrwdHcnebtkkm2QMx1x4f4ucUmgNH402aL
+	joHQy3M/eMTLZRK6mVo9F1vs22Iy/+v20jAHF34Bfv+M+gvQGyj1madpCEkLbpqwPAXA
+	04MNtp4plrpbeIv6fA694loDnPJLAYAA1Vi1FezO1Ngbj8nok1VcDLZ8wtnC8lNgvUWr
+	k39g==
+MIME-Version: 1.0
+Received: by 10.229.135.133 with SMTP id n5mr13443900qct.57.1333045831283;
+	Thu, 29 Mar 2012 11:30:31 -0700 (PDT)
+Received: by 10.229.158.4 with HTTP; Thu, 29 Mar 2012 11:30:31 -0700 (PDT)
+Date: Thu, 29 Mar 2012 11:30:31 -0700
+Message-ID: <CAGDS+nnR4it2-C0FM1CeJBSakt9HmVizKQSO1wkc5EqxQKh22Q@mail.gmail.com>
+From: Steve Sakoman <sakoman@gmail.com>
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Cc: Peter Seebach <peter.seebach@windriver.com>
+Subject: pseudo failing with cc1: error: unrecognized command line option '-m32'
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -45,32 +40,95 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 29 Mar 2012 17:28:33 -0000
+X-List-Received-Date: Thu, 29 Mar 2012 18:39:35 -0000
+Content-Type: text/plain; charset=ISO-8859-1
 
-As per
-http://lists.linuxtogo.org/pipermail/openembedded-core/2012-March/020053.html
-a machine conf file should use '+=' to set IMAGE_FSTYPES.
+The pseudo build fails on both 32 and 64 bit build machines.  I am
+building for arm (omap).
 
-Signed-off-by: Tom Rini <trini@ti.com>
----
- meta/conf/machine/include/qemu.inc |    2 +-
- 1 files changed, 1 insertions(+), 1 deletions(-)
+Not sure if this is related to the recent pseudo recipes changes, but
+here are the details:
 
-diff --git a/meta/conf/machine/include/qemu.inc b/meta/conf/machine/include/qemu.inc
-index 10ab76e..66b0caa 100644
---- a/meta/conf/machine/include/qemu.inc
-+++ b/meta/conf/machine/include/qemu.inc
-@@ -3,7 +3,7 @@ PREFERRED_PROVIDER_virtual/xserver ?= "xserver-kdrive"
- 
- MACHINE_FEATURES = "apm alsa pcmcia bluetooth irda usbgadget screen"
- 
--IMAGE_FSTYPES ?= "tar.bz2 ext3"
-+IMAGE_FSTYPES += "tar.bz2 ext3"
- 
- ROOT_FLASH_SIZE = "280"
- 
--- 
-1.7.0.4
+NOTE: package pseudo-1.3-r7: task do_compile: Started
+ERROR: Function failed: do_compile (see
+/media/Work/yocto/tmp/work/armv7a-vfp-neon-poky-linux-gnueabi/pseudo-1.3-r7/temp/log.do_compile.26657
+for further information)
+ERROR: Logfile of failure stored in:
+/media/Work/yocto/tmp/work/armv7a-vfp-neon-poky-linux-gnueabi/pseudo-1.3-r7/temp/log.do_compile.26657
+Log data follows:
+| ERROR: Function failed: do_compile (see
+/media/Work/yocto/tmp/work/armv7a-vfp-neon-poky-linux-gnueabi/pseudo-1.3-r7/temp/log.do_compile.26657
+for further information)
+| SQLite header for version 3007010 found.
+| NOTE: make -j 8 -e MAKEFLAGS=
+| mkdir -p lib/pseudo/lib
+| ./makewrappers
+| ./maketables enums/*.in
+| mkdir -p bin
+| enums/msg_type.in: type: msg_type_t (prefix 'PSEUDO_MSG_ENUM')
+|    ping               shutdown           op                 ack
+|    nak
+|
+| enums/op.in: type: op_t (prefix 'OP_ENUM')
+|    chdir              chmod              chown              chroot
+|    close              creat              dup                fchmod
+|    fchown             fstat              link               mkdir
+|    mknod              open               rename             stat
+|    unlink             symlink            exec               may-unlink
+|    did-unlink         cancel-unlink
+|
+| enums/query_field.in: type: query_field_t (prefix 'PSQF_ENUM')
+|    access             client             dev                fd
+|    ftype              gid                id                 inode
+|    mode               op                 order              path
+|    perm               program            result             severity
+|    stamp              tag                text               type
+|    uid
+|
+| enums/query_type.in: type: query_type_t (prefix 'PSQT_ENUM')
+|   extra column: sql (default 'LITTLE BOBBY TABLES')
+|    exact              less               greater            bitand
+|    notequal           like               notlike            sqlpat
+|
+| enums/res.in: type: res_t (prefix 'RESULT_ENUM')
+|    succeed            fail               error
+|
+| enums/sev.in: type: sev_t (prefix 'SEVERITY_ENUM')
+|    debug              info               warn               error
+|    critical
+|
+| Writing datatypes... done.  Cleaning up.
+| ccache arm-poky-linux-gnueabi-gcc  -march=armv7-a
+-fno-tree-vectorize     -mthumb-interwork -mfloat-abi=softfp
+-mfpu=neon -mtune=cortex-a8
+--sysroot=/media/Work/yocto/tmp/sysroots/omap4-multi -O2 -pipe -g
+-feliminate-unused-debug-types -pipe -std=gnu99 -Wall -W -Wextra -fPIC
+-D_LARGEFILE64_SOURCE -D_ATFILE_SOURCE -m32 -DPSEUDO_PREFIX='"/usr"'
+-DPSEUDO_SUFFIX='""' -DPSEUDO_BINDIR='"bin"'
+-DPSEUDO_LIBDIR='"lib/pseudo/lib"'
+-DPSEUDO_LOCALSTATEDIR='"var/pseudo"' -DPSEUDO_VERSION='"1.3"' -O2 -g
+-L/media/Work/yocto/tmp/sysroots/omap4-multi/usr/lib
+-I/media/Work/yocto/tmp/sysroots/omap4-multi/usr/include
+-Wl,-R/media/Work/yocto/tmp/sysroots/omap4-multi/usr/lib -c -o
+pseudo_tables.o pseudo_tables.c
+| cc1: error: unrecognized command line option '-m32'
+| make: *** [pseudo_tables.o] Error 1
+| make: *** Waiting for unfinished jobs....
+| Checking for old/new clone mechanics...New clone.
+| ports/common/wrapfuncs.in: .......
+| ports/linux/wrapfuncs.in:
+.............................................................
+| ports/unix/wrapfuncs.in:
+.........................................................
+| ports/uids_generic/wrapfuncs.in: ........................
+| ports/linux/newclone/wrapfuncs.in: .
+| Writing functions... Warning: lchown from linux overriding unix
+| done.  Cleaning up.
+| ERROR: oe_runmake failed
+NOTE: package pseudo-1.3-r7: task do_compile: Failed
+ERROR: Task 7 (/home/sakoman/source/yocto/poky/meta/recipes-devtools/pseudo/pseudo_1.3.bb,
+do_compile) failed with exit code '1'
 
+Steve
 
 
