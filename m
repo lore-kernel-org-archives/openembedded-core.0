@@ -1,28 +1,37 @@
-Received: from mail.windriver.com ([147.11.1.11])
+Received: from mail-ee0-f47.google.com ([74.125.83.47])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <Liezhi.Yang@windriver.com>) id 1SDAeI-0002d1-IF
+	(envelope-from <martin.jansa@gmail.com>) id 1SDAqp-0002lZ-Bs
 	for openembedded-core@lists.openembedded.org;
-	Thu, 29 Mar 2012 10:24:02 +0200
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca [147.11.189.40])
-	by mail.windriver.com (8.14.3/8.14.3) with ESMTP id q2T8EwEb026618
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
+	Thu, 29 Mar 2012 10:36:59 +0200
+Received: by eekc1 with SMTP id c1so726167eek.6
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 29 Mar 2012 01:14:58 -0700 (PDT)
-Received: from [128.224.162.196] (128.224.162.196) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server id 14.1.255.0;
-	Thu, 29 Mar 2012 01:14:59 -0700
-Message-ID: <4F741A00.10909@windriver.com>
-Date: Thu, 29 Mar 2012 16:14:56 +0800
-From: Robert Yang <liezhi.yang@windriver.com>
-User-Agent: Mozilla/5.0 (X11; Linux i686;
-	rv:11.0) Gecko/20120310 Thunderbird/11.0
+	Thu, 29 Mar 2012 01:27:56 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=date:from:to:subject:message-id:references:mime-version
+	:content-type:content-disposition:in-reply-to:user-agent;
+	bh=7UnWqTlP7t5JPBYwJ4QK056gVrGkFZCgCOzIPF6urd8=;
+	b=dI7HTKMZ6jhEewWqK4cKDpIH9TZH1SkXE0tQFMd6cQ7EDhPyoz8QVmitcQP0FqH8TN
+	U0PGrejNdN5lW+V/nEcnVcwv/Y/VACNc0pVVc+x+YaJV0qjOG0WD7zOH1j3buETKXAVj
+	Y9E4xdwGF0eQuDipHK7SsFiXa2pjw/iZzOoUoprRgai48AF7uDcaercJl1IFyQe2TR53
+	hqiWx7o7bq8ZI0ge9xRX1EhvfTQIFR+AsnJOLQOq1t9hKIIsEyz7HBGC0htcMe4XrYSP
+	0r/X2JpC956PZN0SdSxSTaHRzrNzDfl0yVVr8vtJPMVsdEhzeekcE97ZbOF/Ebtpebuu
+	BgJQ==
+Received: by 10.180.92.130 with SMTP id cm2mr3387983wib.4.1333009676168;
+	Thu, 29 Mar 2012 01:27:56 -0700 (PDT)
+Received: from localhost ([94.230.152.246])
+	by mx.google.com with ESMTPS id gd4sm25407239wib.6.2012.03.29.01.27.54
+	(version=TLSv1/SSLv3 cipher=OTHER);
+	Thu, 29 Mar 2012 01:27:55 -0700 (PDT)
+Date: Thu, 29 Mar 2012 10:27:56 +0200
+From: Martin Jansa <martin.jansa@gmail.com>
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Message-ID: <20120329082756.GJ4004@jama.jama.net>
+References: <alpine.DEB.2.02.1203290409580.29356@oneiric>
 MIME-Version: 1.0
-To: <openembedded-core@lists.openembedded.org>
-References: <1332964015-1069-1-git-send-email-obi@opendreambox.org>
-	<4F740656.4010903@windriver.com>
-	<CAGiJk9c9CSF5cw6m5SfqyOmR2+PF9GiveZfhWm6pkGZ3pkXoZg@mail.gmail.com>
-In-Reply-To: <CAGiJk9c9CSF5cw6m5SfqyOmR2+PF9GiveZfhWm6pkGZ3pkXoZg@mail.gmail.com>
-Subject: Re: [PATCH] qt4: move from 4.8.0 to 4.8.1
+In-Reply-To: <alpine.DEB.2.02.1203290409580.29356@oneiric>
+User-Agent: Mutt/1.5.21 (2010-09-15)
+Subject: Re: why use both IMAGE_FEATURES and EXTRA_IMAGE_FEATURES in a single .bb file?
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -37,55 +46,54 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 29 Mar 2012 08:24:03 -0000
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Thu, 29 Mar 2012 08:36:59 -0000
+X-Groupsio-MsgNum: 19936
+Content-Type: multipart/signed; micalg=pgp-sha1;
+	protocol="application/pgp-signature"; boundary="/0U0QBNx7JIUZLHm"
+Content-Disposition: inline
 
+--/0U0QBNx7JIUZLHm
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
+On Thu, Mar 29, 2012 at 04:11:57AM -0400, Robert P. J. Day wrote:
+>=20
+>   given the recent excitement over "+=3D" and "=3D+", i thought i'd point
+> out again the occasional weirdness like this snippet from
+> core-image-sato-sdk.bb:
+>=20
+> IMAGE_FEATURES +=3D "apps-console-core ${SATO_IMAGE_FEATURES} dev-pkgs to=
+ols-sdk qt4-pkgs"
+> EXTRA_IMAGE_FEATURES +=3D "tools-debug tools-profile tools-testapps debug=
+-tweaks"
 
-On 03/29/2012 03:00 PM, Samuel Stirtzel wrote:
-> 2012/3/29 Robert Yang<liezhi.yang@windriver.com>:
->>
->> Hi Andreas,
->>
->> I have one question about the qt-x11-free, is it possible to enable
->> the "-sm -accessibility" in oe-core, please? There is a meta-kde
->> layer which requires the "-sm -accessibility", but they are disabled
->> in oe-core currently:
->>
->> QT_DISTRO_FLAGS ?= "-no-accessibility -no-sm"
->>
->> So there is a "qt4-x11-free_4.8.0.bbappend" in meta-kde, once the
->> the oe-core upgrade to 4.8.1, then the meta-kde has to uprade again.
->>
->> I checked the log of the qt4, can't find the relative log for
->> "-no-accessibility -no-sm".
->>
->> If it is possible to enable them in oe-core, I'd like to send a patch for
->> them.
->>
->> // Robert
->>
->>
->> On 03/29/2012 03:46 AM, Andreas Oberritter wrote:
->>>
->
-> Hi Robert,
-> this question was already discussed before (see [1]), but then I came
-> up with the .bbappend (as I had to change other things too).
-> If you still wand to send a patch to the qt4.inc, it should be no
-> problem as the previous thread had no negative feedback.
->
+sometimes this is usefull to define "base" in IMAGE_FEATURES and then
+stuff which people tend to override in .bbappend put in EXTRA_IMAGE_FEATURES
 
-Cool, I will send a separate patch after enough testing.
-Enable both "-sm" and "-accessibility".
+Maybe that's not the case here.. but separate variables are good even if
+it looks weird in .bb alone
 
-// Robert
+FOO =3D "blah"
+BAR =3D "base ${FOO}"
 
->
->
-> [1] http://lists.linuxtogo.org/pipermail/openembedded-core/2012-February/017792.html
->
->
+allows to remove/replace "blah" very easy with .bbappend.
 
+Cheers,
 
+--=20
+Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
+
+--/0U0QBNx7JIUZLHm
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: Digital signature
+
+-----BEGIN PGP SIGNATURE-----
+Version: GnuPG v2.0.19 (GNU/Linux)
+
+iEYEARECAAYFAk90HQwACgkQN1Ujt2V2gBwVFACfQOgdglpeEccpI67hYqGQqUX2
+HaAAoKLEz1ivQsCGV4GAwqPPH6imhXCP
+=ZG4S
+-----END PGP SIGNATURE-----
+
+--/0U0QBNx7JIUZLHm--
