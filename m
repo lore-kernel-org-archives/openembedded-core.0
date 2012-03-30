@@ -1,21 +1,26 @@
-Received: from smtp2-g21.free.fr ([212.27.42.2])
+Received: from mga14.intel.com ([143.182.124.37])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <eric@eukrea.com>) id 1SDXft-0007f1-QI
+	(envelope-from <paul.eggleton@linux.intel.com>) id 1SDYAR-0008Lw-6g
 	for openembedded-core@lists.openembedded.org;
-	Fri, 30 Mar 2012 10:59:14 +0200
-Received: from eb-e6520 (unknown [82.240.38.71])
-	by smtp2-g21.free.fr (Postfix) with ESMTP id 9A3044B00FD
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 30 Mar 2012 10:50:07 +0200 (CEST)
-Date: Fri, 30 Mar 2012 10:50:06 +0200
-From: Eric =?ISO-8859-1?B?QuluYXJk?= <eric@eukrea.com>
-To: openembedded-core@lists.openembedded.org
-Message-ID: <20120330105006.00955b5d@eb-e6520>
-In-Reply-To: <1333058593.18082.40.camel@ted>
-References: <20120329225332.0e8cc2f4@eb-e6520> <1333058593.18082.40.camel@ted>
-Organization: =?ISO-8859-1?B?RXVrculh?= Electromatique
-X-Mailer: Claws Mail 3.8.0 (GTK+ 2.24.8; x86_64-redhat-linux-gnu)
-Mime-Version: 1.0
+	Fri, 30 Mar 2012 11:30:47 +0200
+Received: from azsmga002.ch.intel.com ([10.2.17.35])
+	by azsmga102.ch.intel.com with ESMTP; 30 Mar 2012 02:21:42 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="83455007"
+Received: from unknown (HELO helios.localnet) ([10.252.123.235])
+	by AZSMGA002.ch.intel.com with ESMTP; 30 Mar 2012 02:21:41 -0700
+From: Paul Eggleton <paul.eggleton@linux.intel.com>
+To: Samuel Stirtzel <s.stirtzel@googlemail.com>
+Date: Fri, 30 Mar 2012 10:21:40 +0100
+Message-ID: <2370474.pLR3NF41dS@helios>
+Organization: Intel Corporation
+User-Agent: KMail/4.8.0 (Linux/3.0.0-17-generic-pae; KDE/4.8.1; i686; ; )
+In-Reply-To: <CAGiJk9deLrVFhtGF6pAvvWUgyo5kbAE77t9bnWciKtdtC4oD8g@mail.gmail.com>
+References: <20120329225332.0e8cc2f4@eb-e6520>
+	<CADkTA4MvYRmsLQogaQMHwUeP5y7ws5NvmXiBMgvsreiGNQrsJw@mail.gmail.com>
+	<CAGiJk9deLrVFhtGF6pAvvWUgyo5kbAE77t9bnWciKtdtC4oD8g@mail.gmail.com>
+MIME-Version: 1.0
+Cc: openembedded-core@lists.openembedded.org
 Subject: Re: Fetch time optimization (svn : gcc/eglibc - git : linux-yocto)
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
@@ -31,88 +36,34 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 30 Mar 2012 08:59:14 -0000
-Content-Type: text/plain; charset=ISO-8859-1
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Fri, 30 Mar 2012 09:30:47 -0000
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
 
-Le Thu, 29 Mar 2012 23:03:13 +0100,
-Richard Purdie <richard.purdie@linuxfoundation.org> a =E9crit :
+On Friday 30 March 2012 08:44:56 Samuel Stirtzel wrote:
+> this might be a bit off-topic, but another idea would be to add a
+> separate threading mechanism for fetching.
+> 
+> Current threading can help to use the CPU and memory load to it's optimum,
+> but sometimes you have to wait for a download to finish..
+> Instead there could be a separate set of threads that only download
+> the sources and make optimal use of the bandwidth too.
+> 
+> This would also allow to fetch files when the normal threads are busy
+> with configuring/building/packaging recipes.
 
-> On Thu, 2012-03-29 at 22:53 +0200, Eric B=E9nard wrote:
-> > I noticed in from scratch builds for qemuarm that the longest time is
-> > taken in fetching sources, especially those fetched using git
-> > (linux-yocto for example) & svn (gcc, eglibc & co).
->=20
-> Are you timing these as fetches from the source control systems or from
-> the mirror tarballs of the repositories. The tarballs should be
-> faster...
->=20
-the default configuration seems to fetch from source control systems
-as I always see very long time to fetch gcc/eglibc/linux-yocto
-(despite having a 2.2 MBytes/s downlink DSL line).
+What you're really suggesting here is a modified BitBake scheduler that 
+understands that fetch tasks that require network bandwidth are different from 
+other tasks such as compile ones which stress the CPU. It sounds like it might 
+be worth investigating at least. FYI, BitBake's schedulers are pluggable and 
+not particularly complicated (see bitbake/lib/bb/runqueue.py).
 
-> > To reduce the fetch time would that make sense to=20
-> > - fetch gcc/glibc & co from the archive of a stable version and then
-> >   apply patches on top of it (maybe patches stored in an archive
-> >   fetched from oe's website and applied in bulk or patches stored in OE)
->=20
-> Unfortunately the patches tend to get unwieldy. The tarballs of the svn
-> repos on the mirror should be about equal in size to the upstream
-> archive in this case.=20
->=20
-I don't think that's a size problem but that fetching through svn or
-git is far less efficient than http or ftp especially from gnu's svn
-which may be overloaded.
-Morover in a pure OE context we have no interest of all the source
-history provided by svn or git and that makes a very big volume to
-download.
+Cheers,
+Paul
 
-> > - do the same thing for the linux-yocto kernel or add a --reference
-> >   option to the git fetcher so that we can provide a local tree as a
-> >   reference ?
->=20
-> This is effectively how the repositories in DL_DIR are used. If you
-> place a tree in the right place there, it should reuse references...
->=20
-> > Do you have other ideas (appart from using a local mirror) to optimize
-> > the fetch time ?
->=20
-> I'd be interested firstly to understand if you're using the SCM directly
-> or using the mirror tarballs as that should make a big difference. In
-> the standard configuration it should be using mirror tarballs...
->=20
-that doesn't seems to be the case :
-from a clean oe-core + bitbake clone :
+-- 
 
-. ./openembedded-core/oe-init-build-env=20
-edit local.conf to select qemuarm & BBTHREAD to 8
-bitbake core-image-minimal -c fetchall
-
-and then I see bitbake stops at around 209 or 214 tasks waiting and
-I see that in ps :
-/home/ebenard/OE-CORE/build/tmp-eglibc/sysroots/x86_64-linux/usr/bin/git.re=
-al
-clone --bare --mirror
-git://git.yoctoproject.org/linux-yocto-3.2 /home/ebenard/OE-CORE/build/down=
-loads/git2/git.yoctoproject.org.linux-yocto-3.2
-and
-svn co -r 184847
-http://gcc.gnu.org/svn/gcc/branches/gcc-4_6-branch@184847
-
-... and both are actually fetching at only around 200 KiB/s which last
-for quite a long time as (from an other downloads dir) the final
-tree size are huge :
-du -s git.yoctoproject.org.linux-yocto-3.2/
-610824	git.yoctoproject.org.linux-yocto-3.2/
-du -s gcc.gnu.org/
-1602496	gcc.gnu.org/
-du -s www.eglibc.org/
-625048	www.eglibc.org
-If I launch at the same time :
-wget ftp://ftp.gnu.org/gnu/gcc/gcc-4.6.3/gcc-4.6.3.tar.bz2
-I get a download speed close to 1MB/s and the file to download is only
-64MB which would save bandwidth.
-
-Eric
+Paul Eggleton
+Intel Open Source Technology Centre
 
 
