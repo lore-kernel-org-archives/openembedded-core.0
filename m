@@ -1,29 +1,33 @@
-Received: from mga03.intel.com ([143.182.124.21])
+Received: from mail-wi0-f177.google.com ([209.85.212.177])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <edwin.zhai@intel.com>) id 1SDPU5-0003kK-1V
+	(envelope-from <bruce.ashfield@gmail.com>) id 1SDQO3-0004W8-Rw
 	for openembedded-core@lists.openembedded.org;
-	Fri, 30 Mar 2012 02:14:29 +0200
-Received: from azsmga001.ch.intel.com ([10.2.17.19])
-	by azsmga101.ch.intel.com with ESMTP; 29 Mar 2012 17:05:24 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="125031272"
-Received: from edwin-gen.sh.intel.com (HELO edwin-gen) ([10.239.36.17])
-	by azsmga001.ch.intel.com with SMTP; 29 Mar 2012 17:05:22 -0700
-Received: by edwin-gen (sSMTP sendmail emulation);
-	Fri, 30 Mar 2012 08:08:44 +0800
-Date: Fri, 30 Mar 2012 08:08:44 +0800
-From: "Zhai, Edwin" <edwin.zhai@intel.com>
+	Fri, 30 Mar 2012 03:12:19 +0200
+Received: by wibhj13 with SMTP id hj13so92124wib.6
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 29 Mar 2012 18:03:16 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
+	:content-type:content-transfer-encoding;
+	bh=5U1TuJZe0VeIibyeRDDi6Ybidbly96P8dibVg1s1/8s=;
+	b=wMrTdbxcbLX2ZHrHYstu59oQUNOxa9mtV12ZtZmtUY3B2hbQqTeOc9aHPYZ3N5XOhy
+	Gqpu68NDkfmSMibgjwBxaBoV2TbTD1dEcxpCeT8aU6fKA4bUBBAMBUqpNf7DLBinKsHM
+	dknGOtowt46p6XSWkc4gxdxioHYUEXDvImcZlScJw15WdF5qKczoN+Lwh+FcwIYLfRno
+	VWjBswDIm3HwY6aKMO6MRlQ9TTyG+ht4Aa8J00ELh5wOTt9F/4z8YMXeeaQ3bPV2mQFk
+	YGMT7atXqtPquG4c92g2a8qrTZJPKe+EEWgNXtiSq8K9co7W9z9SpKHLWD8BDg8NeVBt
+	NJ8w==
+MIME-Version: 1.0
+Received: by 10.180.102.129 with SMTP id fo1mr769052wib.6.1333069395995; Thu,
+	29 Mar 2012 18:03:15 -0700 (PDT)
+Received: by 10.216.38.135 with HTTP; Thu, 29 Mar 2012 18:03:15 -0700 (PDT)
+In-Reply-To: <1333058593.18082.40.camel@ted>
+References: <20120329225332.0e8cc2f4@eb-e6520> <1333058593.18082.40.camel@ted>
+Date: Thu, 29 Mar 2012 21:03:15 -0400
+Message-ID: <CADkTA4MvYRmsLQogaQMHwUeP5y7ws5NvmXiBMgvsreiGNQrsJw@mail.gmail.com>
+From: Bruce Ashfield <bruce.ashfield@gmail.com>
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Message-ID: <20120330000843.GF1450@edwin-gen>
-References: <cover.1332929227.git.edwin.zhai@intel.com>
-	<af00d9bd88e6322d5080f985a36ac38afdf67ea5.1332929227.git.edwin.zhai@intel.com>
-	<20120328105837.GB4004@jama.jama.net>
-	<1332934483.28414.200.camel@ted> <20120329005459.GC1450@edwin-gen>
-MIME-Version: 1.0
-In-Reply-To: <20120329005459.GC1450@edwin-gen>
-User-Agent: Mutt/1.5.20 (2009-06-14)
-Subject: Re: [PATCH 1/1] virtual/libgl: switch back to mesa-xlib for qemuarm/qemumips
+Subject: Re: Fetch time optimization (svn : gcc/eglibc - git : linux-yocto)
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -38,45 +42,79 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 30 Mar 2012 00:14:29 -0000
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+X-List-Received-Date: Fri, 30 Mar 2012 01:12:20 -0000
+Content-Type: text/plain; charset=ISO-8859-1
+Content-Transfer-Encoding: quoted-printable
 
-On Thu, Mar 29, 2012 at 08:54:59AM +0800, Zhai, Edwin wrote:
-> On Wed, Mar 28, 2012 at 12:34:43PM +0100, Richard Purdie wrote:
-> 
-> > 
-> > I'd like to understand why dri can't work under qemu too though.
-> 
-> I think this requires: emulated graphic HW capability in qemumips/qemuarm, and 
-> an drm driver to match the emulated HW. With them, we can turn on "enable-dri" 
-> for mesa-dri and fight the build issue.
+On Thu, Mar 29, 2012 at 6:03 PM, Richard Purdie
+<richard.purdie@linuxfoundation.org> wrote:
+> On Thu, 2012-03-29 at 22:53 +0200, Eric B=E9nard wrote:
+>> I noticed in from scratch builds for qemuarm that the longest time is
+>> taken in fetching sources, especially those fetched using git
+>> (linux-yocto for example) & svn (gcc, eglibc & co).
+>
+> Are you timing these as fetches from the source control systems or from
+> the mirror tarballs of the repositories. The tarballs should be
+> faster...
+>
+>> To reduce the fetch time would that make sense to
+>> - fetch gcc/glibc & co from the archive of a stable version and then
+>> =A0 apply patches on top of it (maybe patches stored in an archive
+>> =A0 fetched from oe's website and applied in bulk or patches stored in O=
+E)
+>
+> Unfortunately the patches tend to get unwieldy. The tarballs of the svn
+> repos on the mirror should be about equal in size to the upstream
+> archive in this case.
+>
+>> - do the same thing for the linux-yocto kernel or add a --reference
+>> =A0 option to the git fetcher so that we can provide a local tree as a
+>> =A0 reference ?
+>
+> This is effectively how the repositories in DL_DIR are used. If you
+> place a tree in the right place there, it should reuse references...
 
-Sorry, I mean Xfbdev.
+Agreed .. they definitely do here.
 
-> 
-> > 
-> > Cheers,
-> > 
-> > Richard
-> > 
-> > 
-> > _______________________________________________
-> > Openembedded-core mailing list
-> > Openembedded-core@lists.openembedded.org
-> > http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
-> 
-> -- 
-> best rgds,
-> edwin
-> 
+Richard probably recalls me asking for a --reference option several
+years ago as well .. but in the end, at some point the initial fetch happen=
+s
+and then the blobs are re-used. So setting up local mirrors, or pre-fetchin=
+g
+are options to make sure that the first download is primed and ready to
+go. For most builds I do, any time fetching just happens in the background
+and doesn't get in the way.
+
+>
+>> Do you have other ideas (appart from using a local mirror) to optimize
+>> the fetch time ?
+>
+> I'd be interested firstly to understand if you're using the SCM directly
+> or using the mirror tarballs as that should make a big difference. In
+> the standard configuration it should be using mirror tarballs...
+
+As would I, since there are some ideas, but they either break workflows,
+don't follow best practices or compromise the completeness of the data.
+
+Cheers,
+
+Bruce
+
+>
+> Cheers,
+>
+> Richard
+>
+>
 > _______________________________________________
 > Openembedded-core mailing list
 > Openembedded-core@lists.openembedded.org
 > http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
 
--- 
-best rgds,
-edwin
+
+
+--=20
+"Thou shalt not follow the NULL pointer, for chaos and madness await
+thee at its end"
 
 
