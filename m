@@ -1,32 +1,40 @@
-Received: from mail-qc0-f175.google.com ([209.85.216.175])
+Received: from mail-pz0-f51.google.com ([209.85.210.51])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <kergoth@gmail.com>) id 1SDk1V-0007v9-8O
-	for openembedded-core@openembedded.org; Sat, 31 Mar 2012 00:10:21 +0200
-Received: by qcso7 with SMTP id o7so636913qcs.6
-	for <openembedded-core@openembedded.org>;
-	Fri, 30 Mar 2012 15:01:16 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:sender:in-reply-to:references:from:date
-	:x-google-sender-auth:message-id:subject:to:content-type;
-	bh=Zi/tfl46xCFka2JidtVl+IY5yPM4esl+624eofqEdsU=;
-	b=nZzkZgkuzdOa6kpA6F+im0UVKinxiz7lfejeY1RzwI3X+Pv68wrjG04NmNJsdWY36L
-	ltDCIwxzRjei1xgEAHanWP+II5Pz8wFdZBhaNLccrXWjintn3NFAePRfS1dj5VfRcsnZ
-	sOH0dEYfSGfbSFvPQWar3Vgt51smBnuSMp4NbpNi5vnIuF01DqyB+Xg7AXh/Pvpy1HY+
-	NEw9Cyb37HegvOC4F2OhOW6B0bRogWUeXXlf3SxpzKhJ6BA61nvbV+9UwYC5NNlH5nH1
-	wuF8mylso4YxF131+0QK0ge8hmitK7omKT46RU86r+kob5Nd/+emETu5jasAXXcqF0MY
-	1UTw==
-Received: by 10.224.182.201 with SMTP id cd9mr542832qab.92.1333144876048; Fri,
-	30 Mar 2012 15:01:16 -0700 (PDT)
-MIME-Version: 1.0
-Sender: kergoth@gmail.com
-Received: by 10.229.158.11 with HTTP; Fri, 30 Mar 2012 15:00:55 -0700 (PDT)
+	(envelope-from <koen@dominion.thruhere.net>) id 1SDk2P-0007xT-S9
+	for openembedded-core@lists.openembedded.org;
+	Sat, 31 Mar 2012 00:11:18 +0200
+Received: by dadz8 with SMTP id z8so5359dad.10
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 30 Mar 2012 15:02:12 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=google.com; s=20120113;
+	h=subject:mime-version:content-type:from:in-reply-to:date:cc
+	:content-transfer-encoding:message-id:references:to:x-mailer
+	:x-gm-message-state;
+	bh=/cRmCxgc7dWbJJazoHjvU/ByE8iqCrU1Zqmry9/Ujx0=;
+	b=f+qaeME7zR6EOwYv2qFJbcN5bvuxWlnu0E34oxzEvEQZFFCBLD+NHjH/Ved47w189t
+	WA7sUlvBa8DQtfnIgprBJxhkB31wr1rLScH7i1yLhIG6c+Xe4PEi16b5X/olR03LQ/rg
+	UbUbRpjcvFWplTTJAQo0dBabHDGlYuTVIhbUUm8TimNOokUuJDPZILTcZ9uYLAUbKJZD
+	Z0O/RiK3mlYcYHb98VyDqZOOZjU1Qti2uvMz4jtKlzDtRL2PyieKqYx1cSfQigi2PLWa
+	95E6+XyGvBY7OzVTqA6EkurIecfhAuJ8Wfc7wSrTzwEByRwGm1APtaE2/HV/Oz3NVZO8
+	1pgg==
+Received: by 10.68.241.194 with SMTP id wk2mr595929pbc.131.1333144932248;
+	Fri, 30 Mar 2012 15:02:12 -0700 (PDT)
+Received: from [10.61.32.129] ([69.38.219.78])
+	by mx.google.com with ESMTPS id vz18sm5198319pbb.44.2012.03.30.15.02.10
+	(version=TLSv1/SSLv3 cipher=OTHER);
+	Fri, 30 Mar 2012 15:02:11 -0700 (PDT)
+Mime-Version: 1.0 (Apple Message framework v1257)
+From: Koen Kooi <koen@dominion.thruhere.net>
 In-Reply-To: <CABcZANnPwgsCz=f8_UhM3TZsBotBZ26FYp5Fbxjq_kYqqBs3cQ@mail.gmail.com>
+Date: Fri, 30 Mar 2012 15:02:18 -0700
+Message-Id: <025E8263-4786-499A-A57D-BF1D677452CC@dominion.thruhere.net>
 References: <CABcZANnPwgsCz=f8_UhM3TZsBotBZ26FYp5Fbxjq_kYqqBs3cQ@mail.gmail.com>
-From: Chris Larson <clarson@kergoth.com>
-Date: Fri, 30 Mar 2012 15:00:55 -0700
-X-Google-Sender-Auth: 6jXLvIeR3Aymzilh6VYdQYLk8Bg
-Message-ID: <CABcZANmFh0XKGdOeuAFWam9op+7ELWCqXy47Jctdd+8MYgTfiw@mail.gmail.com>
-To: openembedded-core@openembedded.org
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+X-Mailer: Apple Mail (2.1257)
+X-Gm-Message-State: ALoCoQlvFimeQykU+2A6PNLMNbTXc/AD7PYcVFYvn1jesU6tP2yWn9Dnub03crzQi1Z7lbvfvDrw
+Cc: openembedded-core@openembedded.org
 Subject: Re: [RFC] One shared state reuse solution
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
@@ -42,15 +50,20 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 30 Mar 2012 22:10:21 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Fri, 30 Mar 2012 22:11:18 -0000
+Content-Type: text/plain; charset=us-ascii
+Content-Transfer-Encoding: quoted-printable
 
-On Fri, Mar 30, 2012 at 2:54 PM, Chris Larson <clarson@kergoth.com> wrote:
+
+Op 30 mrt. 2012, om 14:54 heeft Chris Larson het volgende geschreven:
+
+> Greetings,
+>=20
 > Over the past day, I've implemented a solution for the shared state
 > reuse issues Mentor has seen with our poky-based product. This
 > solution is similar in concept to what we had in our Mentor Embedded
 > Linux 4 (non-yocto-based) product.
->
+>=20
 > This implementation restructures SSTATE_DIR such that non-target
 > sstate archives are placed in a directory specific to the host we're
 > running on, and allows fallback to sstates from compatible hosts. In
@@ -60,12 +73,55 @@ On Fri, Mar 30, 2012 at 2:54 PM, Chris Larson <clarson@kergoth.com> wrote:
 > machine and fully reuse that shared state on a u1004 machine, but if I
 > take the u1004 sstate-cache and pull it over to Centos5, all the
 > non-target recipes will be rebuilt.
+>=20
+> This has a list of "compatible hosts", which are used as fallback
+> regardless of what distro you're running on, so assumes you won't be
+> running on a host older than the ones you're using as your
+> compatibility baseline. I think this will satisfy the needs of most,
+> and as you'll see when you look at the implementation, is entirely
+> opt-in currently, so does no harm to anyone who chooses not to utilize
+> it.
+>=20
+> https://gist.github.com/2253903 - shows an example of how to make use
+> of this functionality
+> https://github.com/kergoth/oe-core/compare/sstate-structure - the =
+implementation
+>=20
+> Regarding the implementation, I realize it isn't as clean as it could
+> be, but the only way to resolve it in a cleaner way would be to modify
+> bitbake, which I wasn't prepared to do at this juncture. The
+> fundamental issue adding complexity is that SSTATE_DIR is pulled from
+> the configuration metadata, not cached per-recipe, so one can't
+> manipulate where individual recipes get their archives stored. As a
+> workaround, I set the global SSTATE_DIR to the host-bound location,
+> then when writing the archives for target recipes, moves the archive
+> up to the parent directory (to the root of the original SSTATE_DIR)
+> and symlinks it back.
+>=20
+> Richard had proposed modifying the filename rather than the directory
+> structure (e.g. via the sstate package arch), but this would make
+> things far more complex. In order to implement fallback, one would
+> have to mangle the filename, and one wouldn't be able to simply
+> leverage SSTATE_MIRRORS to fetch the variants in a simple way, as it
+> would have to attempt to fetch multiple filenames, which would require
+> invasive changes to sstate.bbclass. I think using the directory
+> structure is the easiest and cleanest route to the goal without
+> invasive changes, and given it's opt-in nature, I'd like to see this
+> go upstream, at a minimum as a temporary measure until/if a longer
+> term more invasive solution occurs.
+>=20
+> I'm looking for questions, comments, testers, and in particular,
+> thoughts on whether this will meet the needs of others with similar
+> requirements (e.g. others shipping metadata with associated shared
+> state).
 
-I forgot to mention, it allows fallback both within the SSTATE_DIR and
-for mirrors in SSTATE_MIRRORS, as it iterates over each mirror and
-adjusts the mirror uri to include each compatible host (including the
-current one).
--- 
-Christopher Larson
+This is not strictly related to your patchset, but has anyone thought =
+about license based blacklisting of sstate? I can imagine that an =
+autobuilder will build everything, includes things like evil 3d drivers, =
+but no want anyone to access the sstate for those builds.
+
+regards,
+
+Koen=
 
 
