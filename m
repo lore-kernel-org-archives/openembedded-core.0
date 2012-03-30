@@ -1,35 +1,23 @@
-Received: from mail-wg0-f43.google.com ([74.125.82.43])
+Received: from mail1.windriver.com ([147.11.146.13])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <s.stirtzel@googlemail.com>) id 1SDVij-0004xn-A8
+	(envelope-from <Liezhi.Yang@windriver.com>) id 1SDVjO-0004zp-KO
 	for openembedded-core@lists.openembedded.org;
-	Fri, 30 Mar 2012 08:54:01 +0200
-Received: by wgbdr12 with SMTP id dr12so212995wgb.24
+	Fri, 30 Mar 2012 08:54:43 +0200
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca [147.11.189.40])
+	by mail1.windriver.com (8.14.3/8.14.3) with ESMTP id q2U6jbej017028
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 29 Mar 2012 23:44:57 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=googlemail.com; s=20120113;
-	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
-	:content-type:content-transfer-encoding;
-	bh=B7KvrWofX1qt/+R7JXUSVOWxvQUFEgFKGb+WswXS6zo=;
-	b=Zpw9/F65uEFH/D4oKJ+YfQLNfyzHtdkowP4xiZMEw9lP4pSrJEm/0/YZtqFgneept7
-	FfPzpw0lYIRAzVFjNPmz+yfw/a2pMW826ixP/YnTl7afFO+XmiiAevctf7OfZsJsJABM
-	YpujjDUPoM+WgI4iUziFHpmdDppwBMVWqdPedgGQ0E/vKz2ZvUJd4vm2VG4K21puNvQF
-	0D1OO5Vy8CBp59KC9J6WGDl+pNg9C9VlUTg9iFNFkBLqn/Rm8L8aROqI9CVVwGZUij/o
-	hLXVGngAIuWWoMt0Ml4tVW4f9+gfX58PUU+GFY6+BdGGHRdDJ/zFHqHVFfuR74yXBEfY
-	jxmg==
+	Thu, 29 Mar 2012 23:45:37 -0700 (PDT)
+Received: from usp-ub10.corp.ad.wrs.com (128.224.163.69) by
+	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server id
+	14.1.255.0; Thu, 29 Mar 2012 23:45:38 -0700
+From: Robert Yang <liezhi.yang@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Fri, 30 Mar 2012 14:44:30 +0800
+Message-ID: <cover.1333089569.git.liezhi.yang@windriver.com>
+X-Mailer: git-send-email 1.7.1
 MIME-Version: 1.0
-Received: by 10.180.80.9 with SMTP id n9mr3326657wix.4.1333089896932; Thu, 29
-	Mar 2012 23:44:56 -0700 (PDT)
-Received: by 10.223.97.77 with HTTP; Thu, 29 Mar 2012 23:44:56 -0700 (PDT)
-In-Reply-To: <CADkTA4MvYRmsLQogaQMHwUeP5y7ws5NvmXiBMgvsreiGNQrsJw@mail.gmail.com>
-References: <20120329225332.0e8cc2f4@eb-e6520> <1333058593.18082.40.camel@ted>
-	<CADkTA4MvYRmsLQogaQMHwUeP5y7ws5NvmXiBMgvsreiGNQrsJw@mail.gmail.com>
-Date: Fri, 30 Mar 2012 08:44:56 +0200
-Message-ID: <CAGiJk9deLrVFhtGF6pAvvWUgyo5kbAE77t9bnWciKtdtC4oD8g@mail.gmail.com>
-From: Samuel Stirtzel <s.stirtzel@googlemail.com>
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: Fetch time optimization (svn : gcc/eglibc - git : linux-yocto)
+Subject: [PATCH 0/1] sstate-cache-management.sh: fixes and enhancement
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -44,111 +32,57 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 30 Mar 2012 06:54:01 -0000
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Fri, 30 Mar 2012 06:54:43 -0000
+Content-Type: text/plain
 
-2012/3/30 Bruce Ashfield <bruce.ashfield@gmail.com>:
-> On Thu, Mar 29, 2012 at 6:03 PM, Richard Purdie
-> <richard.purdie@linuxfoundation.org> wrote:
->> On Thu, 2012-03-29 at 22:53 +0200, Eric B=C3=A9nard wrote:
->>> I noticed in from scratch builds for qemuarm that the longest time is
->>> taken in fetching sources, especially those fetched using git
->>> (linux-yocto for example) & svn (gcc, eglibc & co).
->>
->> Are you timing these as fetches from the source control systems or from
->> the mirror tarballs of the repositories. The tarballs should be
->> faster...
->>
->>> To reduce the fetch time would that make sense to
->>> - fetch gcc/glibc & co from the archive of a stable version and then
->>> =C2=A0 apply patches on top of it (maybe patches stored in an archive
->>> =C2=A0 fetched from oe's website and applied in bulk or patches stored =
-in OE)
->>
->> Unfortunately the patches tend to get unwieldy. The tarballs of the svn
->> repos on the mirror should be about equal in size to the upstream
->> archive in this case.
->>
->>> - do the same thing for the linux-yocto kernel or add a --reference
->>> =C2=A0 option to the git fetcher so that we can provide a local tree as=
- a
->>> =C2=A0 reference ?
->>
->> This is effectively how the repositories in DL_DIR are used. If you
->> place a tree in the right place there, it should reuse references...
->
-> Agreed .. they definitely do here.
->
-> Richard probably recalls me asking for a --reference option several
-> years ago as well .. but in the end, at some point the initial fetch happ=
-ens
-> and then the blobs are re-used. So setting up local mirrors, or pre-fetch=
-ing
-> are options to make sure that the first download is primed and ready to
-> go. For most builds I do, any time fetching just happens in the backgroun=
-d
-> and doesn't get in the way.
->
->>
->>> Do you have other ideas (appart from using a local mirror) to optimize
->>> the fetch time ?
->>
->> I'd be interested firstly to understand if you're using the SCM directly
->> or using the mirror tarballs as that should make a big difference. In
->> the standard configuration it should be using mirror tarballs...
->
-> As would I, since there are some ideas, but they either break workflows,
-> don't follow best practices or compromise the completeness of the data.
->
-> Cheers,
->
-> Bruce
->
->>
->> Cheers,
->>
->> Richard
->>
->>
->> _______________________________________________
->> Openembedded-core mailing list
->> Openembedded-core@lists.openembedded.org
->> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
->
->
->
-> --
-> "Thou shalt not follow the NULL pointer, for chaos and madness await
-> thee at its end"
->
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
+Testing info:
+* The output for "-d": (I entered "y" when ask whether continue)
+  $ /path/to/poky/scripts/sstate-cache-management.sh \
+        --cache-dir=/path/to/sstate-cache/ -d
+  Figuring out the archs in the layers ... Done
+  Figuring out the archs in the sstate cache dir ... Done
+  The following archs have been found in the cache dir:
+  armv5te i686 mips ppc603e qemumips qemux86 qemux86_64 x86_64
 
-Hi,
-this might be a bit off-topic, but another idea would be to add a
-separate threading mechanism for fetching.
+  Figuring out the sstate-xxx_deploy-rpm.tgz ... (2320 files will be removed)
+  Figuring out the sstate-xxx_deploy-ipk.tgz ... (0 files will be removed)
+  Figuring out the sstate-xxx_deploy-deb.tgz ... (0 files will be removed)
+  Figuring out the sstate-xxx_deploy.tgz ... (6 files will be removed)
+  Figuring out the sstate-xxx_package.tgz ... (2292 files will be removed)
+  Figuring out the sstate-xxx_populate-lic.tgz ... (1736 files will be removed)
+  Figuring out the sstate-xxx_populate-sysroot.tgz ... (1632 files will be removed)
+  7986 files will be removed! Do you want to continue (y/n)? y
+  Removing sstate-xxx_deploy.tgz (6 files) ... Done
+  Removing sstate-xxx_deploy-rpm.tgz (2320 files) ... Done
+  Removing sstate-xxx_package.tgz (2292 files) ... Done
+  Removing sstate-xxx_populate-lic.tgz (1736 files) ... Done
+  Removing sstate-xxx_populate-sysroot.tgz (1632 files) ... Done
+  7986 files have been removed!
 
-Current threading can help to use the CPU and memory load to it's optimum,
-but sometimes you have to wait for a download to finish..
-Instead there could be a separate set of threads that only download
-the sources and make optimal use of the bandwidth too.
+* The output for "--stamps-dir": (I entered "y" when ask whether continue)
+  $ /path/to/poky/scripts/sstate-cache-management.sh \
+        --cache-dir=/path/to/sstate-cache/ --stamps-dir=tmp/stamps/
+  Figuring out all the md5sums in stamps dir ... Done
+  Figuring out the files which will be removed ... Done
+  7866 files will be removed! Do you want to continue (y/n)? y
+  Removing sstate cache files ... (7866 files)
+  7866 files have been removed
 
-This would also allow to fetch files when the normal threads are busy
-with configuring/building/packaging recipes.
+//Robert
 
+The following changes since commit c8afc79b5d3205355ad61d2589221bf8babe8395:
 
-The downside would be that it requires some sort of inter process
-communication.
-Or it could be regulated with a simple check if the download is finished..
+  libc-packgae.bbclass: Add i686 support in locale_arch_options (2012-03-29 22:22:58 +0100)
 
-How does this idea sound to you?
+are available in the git repository at:
+  git://git.pokylinux.org/poky-contrib robert/sstate
+  http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=robert/sstate
 
+Robert Yang (1):
+  sstate-cache-management.sh: fixes and enhancement
 
---=20
-Regards
-Samuel
+ scripts/sstate-cache-management.sh |  289 ++++++++++++++++++++++++++++++------
+ 1 files changed, 240 insertions(+), 49 deletions(-)
+
 
 
