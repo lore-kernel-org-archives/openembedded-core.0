@@ -1,35 +1,19 @@
-Received: from astoria.ccjclearline.com ([64.235.106.9])
+Received: from smtp2-g21.free.fr ([212.27.42.2])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <rpjday@crashcourse.ca>) id 1SDfJW-0008C2-5e
+	(envelope-from <eric@eukrea.com>) id 1SDfec-0008OM-7s
 	for openembedded-core@lists.openembedded.org;
-	Fri, 30 Mar 2012 19:08:38 +0200
-Received: from cpec03f0ed08c7f-cm001ac318e826.cpe.net.cable.rogers.com
-	([99.241.91.63] helo=crashcourse.ca)
-	by astoria.ccjclearline.com with esmtpsa (TLSv1:AES256-SHA:256)
-	(Exim 4.69) (envelope-from <rpjday@crashcourse.ca>)
-	id 1SDfAk-00075x-59 for openembedded-core@lists.openembedded.org;
-	Fri, 30 Mar 2012 12:59:34 -0400
-Date: Fri, 30 Mar 2012 12:59:21 -0400 (EDT)
-From: "Robert P. J. Day" <rpjday@crashcourse.ca>
-X-X-Sender: rpjday@oneiric
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-In-Reply-To: <20120330141955.4a500400@eb-e6520>
-Message-ID: <alpine.DEB.2.02.1203301258570.25344@oneiric>
-References: <alpine.DEB.2.02.1203300627340.32185@oneiric>
-	<20120330141955.4a500400@eb-e6520>
-User-Agent: Alpine 2.02 (DEB 1266 2009-07-14)
+	Fri, 30 Mar 2012 19:30:26 +0200
+Received: from localhost.localdomain (unknown [82.240.38.71])
+	by smtp2-g21.free.fr (Postfix) with ESMTP id 3C2F54B01B6
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 30 Mar 2012 19:21:19 +0200 (CEST)
+From: =?UTF-8?q?Eric=20B=C3=A9nard?= <eric@eukrea.com>
+To: openembedded-core@lists.openembedded.org
+Date: Fri, 30 Mar 2012 19:21:18 +0200
+Message-Id: <1333128078-31642-1-git-send-email-eric@eukrea.com>
+X-Mailer: git-send-email 1.7.7.6
 MIME-Version: 1.0
-X-AntiAbuse: This header was added to track abuse,
-	please include it with any abuse report
-X-AntiAbuse: Primary Hostname - astoria.ccjclearline.com
-X-AntiAbuse: Original Domain - lists.openembedded.org
-X-AntiAbuse: Originator/Caller UID/GID - [47 12] / [47 12]
-X-AntiAbuse: Sender Address Domain - crashcourse.ca
-X-Source: 
-X-Source-Args: 
-X-Source-Dir: 
-Subject: Re: why i'm being so annoyingly pedantic about nitpicky details
+Subject: [PATCH] license.py: fix behaviour of copyleft_compliance
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -44,39 +28,67 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 30 Mar 2012 17:08:38 -0000
-Content-Type: MULTIPART/MIXED; BOUNDARY="8323329-1151994447-1333126766=:25344"
+X-List-Received-Date: Fri, 30 Mar 2012 17:30:26 -0000
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
---8323329-1151994447-1333126766=:25344
-Content-Type: TEXT/PLAIN; charset=iso-8859-1
-Content-Transfer-Encoding: QUOTED-PRINTABLE
+actually if a package has a license in its LICENSE variable
+which is not in the whitelist nor in the blacklist and even
+if an other license in this variable is in the whitelist,
+the package gets excluded and is not taken in account in the
+copyleft_compliance.
+This patch solves this by excluding a recipe if the LICENSE
+variable includes a pattern from the blacklist and doesn't
+include a variable from the whitelist.
 
-On Fri, 30 Mar 2012, Eric B=E9nard wrote:
+Example in busybox which has LICENSE=3D"GPLv2 & BSD-4-Clause",
+with the actual behaviour (where he blacklist contains only
+CLOSED Proprietary) we get :
+DEBUG: copyleft: busybox-1.19.4 is excluded: recipe has excluded licenses=
+: BSD-4-Clause
+which is not sane because busybox is covered by a copyleft license
+which is GPLv2 and should match the default whitelist which is
+GPL* LGPL*.
 
-> Le Fri, 30 Mar 2012 06:31:39 -0400 (EDT),
-> "Robert P. J. Day" <rpjday@crashcourse.ca> a =E9crit :
-> >   in other words, there will be more pedantry, but the end result will
-> > be released as cc-by-sa, so consider it an investment. :-)
-> >
-> I hope that openembedded-core@lists.openembedded.org will be mentioned
-> as one of the precious author's assistant ;-)
+Signed-off-by: Eric B=C3=A9nard <eric@eukrea.com>
+---
+ meta/lib/oe/license.py |   11 +++++++----
+ 1 files changed, 7 insertions(+), 4 deletions(-)
 
-  i'm pretty sure that will be covered.
-
-rday
-
+diff --git a/meta/lib/oe/license.py b/meta/lib/oe/license.py
+index 5914506..c19911e 100644
+--- a/meta/lib/oe/license.py
++++ b/meta/lib/oe/license.py
+@@ -86,8 +86,10 @@ def is_included(licensestr, whitelist=3DNone, blacklis=
+t=3DNone):
+     """
+=20
+     def include_license(license):
+-        return (any(fnmatch(license, pattern) for pattern in whitelist) =
+and not
+-                any(fnmatch(license, pattern) for pattern in blacklist))
++        return any(fnmatch(license, pattern) for pattern in whitelist)
++
++    def exclude_license(license):
++        return any(fnmatch(license, pattern) for pattern in blacklist)
+=20
+     def choose_licenses(alpha, beta):
+         """Select the option in an OR which is the 'best' (has the most
+@@ -106,8 +108,9 @@ def is_included(licensestr, whitelist=3DNone, blackli=
+st=3DNone):
+         blacklist =3D []
+=20
+     licenses =3D flattened_licenses(licensestr, choose_licenses)
+-    excluded =3D filter(lambda lic: not include_license(lic), licenses)
+-    if excluded:
++    excluded =3D filter(lambda lic: exclude_license(lic), licenses)
++    included =3D filter(lambda lic: include_license(lic), licenses)
++    if excluded and not included:
+         return False, excluded
+     else:
+         return True, None
 --=20
+1.7.7.6
 
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-Robert P. J. Day                                 Ottawa, Ontario, CANADA
-                        http://crashcourse.ca
 
-Twitter:                                       http://twitter.com/rpjday
-LinkedIn:                               http://ca.linkedin.com/in/rpjday
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
 
---8323329-1151994447-1333126766=:25344--
