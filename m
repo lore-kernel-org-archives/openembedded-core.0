@@ -1,38 +1,27 @@
-Received: from mail-we0-f175.google.com ([74.125.82.175])
+Received: from vms173015pub.verizon.net ([206.46.173.15])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <martin.jansa@gmail.com>) id 1SDVxk-0005bI-AL
-	for openembedded-core@lists.openembedded.org;
-	Fri, 30 Mar 2012 09:09:33 +0200
-Received: by wera1 with SMTP id a1so161415wer.6
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 30 Mar 2012 00:00:28 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=date:from:to:subject:message-id:references:mime-version
-	:content-type:content-disposition:in-reply-to:user-agent;
-	bh=a+Ny7/nur9gsBNciR8e2PwAz3AUbc/LyDgtilhvDv3g=;
-	b=Vxyaujtg7zg+uJnXIyr0GbsiXJxEuokR/vEUQaPTBTp5AeuHq1gco+cIA/DDAVGbZe
-	5bcs3hyRGXtEZ1xrySjohWvrTfl/i3HMEYmnBPB+bdxBuIBQLsRVh3f/J5jIhpjq8GLI
-	o5/MoYrQBkJtnZA+ogD3F3buQkEfiA5FfuRxbLugTw9YOztrflqT0IO4p0RxcOB6ol2F
-	Q69ORH7AMUk1HgaCEza2Le+T9R6Cxd9EUKMmt3mXFMeKKz7BzverX5Kfj+S4KLP0m/PM
-	QHBw7kTDPiaTTkbu5CooyVpqsaCEWJjpmM5zh+OTYjYih6YEAQVh7sTURzUNyFLFKajJ
-	ZeSA==
-Received: by 10.180.85.70 with SMTP id f6mr3462144wiz.5.1333090827097;
-	Fri, 30 Mar 2012 00:00:27 -0700 (PDT)
-Received: from localhost ([94.230.152.246])
-	by mx.google.com with ESMTPS id o2sm6465294wiv.11.2012.03.30.00.00.25
-	(version=TLSv1/SSLv3 cipher=OTHER);
-	Fri, 30 Mar 2012 00:00:26 -0700 (PDT)
-Date: Fri, 30 Mar 2012 09:00:28 +0200
-From: Martin Jansa <martin.jansa@gmail.com>
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Message-ID: <20120330070028.GI25815@jama.jama.net>
-References: <20120329225332.0e8cc2f4@eb-e6520> <1333058593.18082.40.camel@ted>
-	<CADkTA4MvYRmsLQogaQMHwUeP5y7ws5NvmXiBMgvsreiGNQrsJw@mail.gmail.com>
-MIME-Version: 1.0
-In-Reply-To: <CADkTA4MvYRmsLQogaQMHwUeP5y7ws5NvmXiBMgvsreiGNQrsJw@mail.gmail.com>
-User-Agent: Mutt/1.5.21 (2010-09-15)
-Subject: Re: Fetch time optimization (svn : gcc/eglibc - git : linux-yocto)
+	(envelope-from <denis@denix.org>)
+	id 1SDW5E-0005hJ-7j; Fri, 30 Mar 2012 09:17:16 +0200
+Received: from gandalf.denix.org ([unknown] [71.178.225.66])
+	by vms173015.mailsrvcs.net
+	(Sun Java(tm) System Messaging Server 7u2-7.02 32bit (built Apr 16
+	2009))
+	with ESMTPA id <0M1O0098WRTMOM51@vms173015.mailsrvcs.net>; Fri,
+	30 Mar 2012 02:08:11 -0500 (CDT)
+Received: by gandalf.denix.org (Postfix, from userid 1000)	id C9D52201AE; Fri,
+	30 Mar 2012 03:08:10 -0400 (EDT)
+Date: Fri, 30 Mar 2012 03:08:10 -0400
+From: Denys Dmytriyenko <denis@denix.org>
+To: Oren Leaffer <oren@ephemeron-labs.com>
+Message-id: <20120330070810.GA5488@denix.org>
+References: <CALvD2Lj2HbbAmfsaQyiifz5DLe+3-ewX7TPBAkFGJRxSp2_P5w@mail.gmail.com>
+MIME-version: 1.0
+In-reply-to: <CALvD2Lj2HbbAmfsaQyiifz5DLe+3-ewX7TPBAkFGJRxSp2_P5w@mail.gmail.com>
+User-Agent: Mutt/1.5.20 (2009-06-14)
+Cc: meta-ti@yoctoproject.org, bitbake-devel@lists.openembedded.org,
+	angstrom-distro-devel@linuxtogo.org,
+	openembedded-core@lists.openembedded.org
+Subject: Re: [bitbake-devel] do_rootfs failed ... bug in log_check?
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -47,78 +36,85 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 30 Mar 2012 07:09:33 -0000
-X-Groupsio-MsgNum: 20012
-Content-Type: multipart/signed; micalg=pgp-sha1;
-	protocol="application/pgp-signature"; boundary="9iyR+p8Z2cn535Lj"
-Content-Disposition: inline
+X-List-Received-Date: Fri, 30 Mar 2012 07:17:16 -0000
+Content-type: text/plain; charset=us-ascii
+Content-disposition: inline
 
---9iyR+p8Z2cn535Lj
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+On Fri, Mar 30, 2012 at 02:27:13AM -0400, Oren Leaffer wrote:
+> Hi,
+> 
+> I'm getting the following failure on "bitbake -v -D -D -D systemd-image":
+> ERROR: Task 8 (/home/ol/setup-scripts/sources/meta-angstrom/recipes-images/angstrom/systemd-image.bb,
+> do_rootfs) failed with exit code '1'
+> NOTE: Tasks Summary: Attempted 3283 tasks of which 3282 didn't need to
+> be rerun and 1 failed.
+> + cd /home/ol/setup-scripts/build/tmp-angstrom_2010_x-eglibc/work/armv7a-angstrom-linux-gnueabi/bblayers-1.0-r0/bblayers-1.0
+> + buildhistory_commit
+> + '[' '!' -d /home/ol/setup-scripts/build/tmp-angstrom_2010_x-eglibc/buildhistory
+> ']'
+> + cd /home/ol/setup-scripts/build/tmp-angstrom_2010_x-eglibc/buildhistory/
+> + '[' '!' -d .git ']'
+> ++ git status --porcelain
+> + repostatus=
+> + '[' '' '!=' '' ']'
 
-On Thu, Mar 29, 2012 at 09:03:15PM -0400, Bruce Ashfield wrote:
-> On Thu, Mar 29, 2012 at 6:03 PM, Richard Purdie
-> <richard.purdie@linuxfoundation.org> wrote:
-> > On Thu, 2012-03-29 at 22:53 +0200, Eric B=E9nard wrote:
-> >> I noticed in from scratch builds for qemuarm that the longest time is
-> >> taken in fetching sources, especially those fetched using git
-> >> (linux-yocto for example) & svn (gcc, eglibc & co).
-> >
-> > Are you timing these as fetches from the source control systems or from
-> > the mirror tarballs of the repositories. The tarballs should be
-> > faster...
-> >
-> >> To reduce the fetch time would that make sense to
-> >> - fetch gcc/glibc & co from the archive of a stable version and then
-> >> =A0 apply patches on top of it (maybe patches stored in an archive
-> >> =A0 fetched from oe's website and applied in bulk or patches stored in=
- OE)
-> >
-> > Unfortunately the patches tend to get unwieldy. The tarballs of the svn
-> > repos on the mirror should be about equal in size to the upstream
-> > archive in this case.
-> >
-> >> - do the same thing for the linux-yocto kernel or add a --reference
-> >> =A0 option to the git fetcher so that we can provide a local tree as a
-> >> =A0 reference ?
-> >
-> > This is effectively how the repositories in DL_DIR are used. If you
-> > place a tree in the right place there, it should reuse references...
->=20
-> Agreed .. they definitely do here.
+We have been discussing this topic past couple days here:
+http://thread.gmane.org/gmane.linux.distributions.angstrom.devel/6260/focus=6274
 
-What's right place?
+Moreover, bitbake-devel is probably the wrongest list for this discussion or 
+patch. I'm copying other related lists, but probably the main one should be 
+openembedded-core, as the patch tries to fix it's package_ipk class...
 
-I guess the idea was to use --reference for e.g. some other kernel recipe
-sources checkout.
 
-And I guess that building linux-foo won't notice that there is e.g.
-/OE/downloads/git2/gitorious.org.shr.linux.git:
-=66rom which it can share a lot of objects using --reference
+> From what I can tell, this is caused because the log_check command in
+> setup-scripts/sources/openembedded-core/meta/classes/package_ipk.class
+> matches on line 177 to
+> 
+> file://3.2.1/0042-xhci-Properly-handle-COMP_2ND_BW_ERR.patch
+> 
+> and to
+> 
+> file://3.2.6/0072-target-Fail-INQUIRY-commands-with-EVPD-0-but-PAGE-CO.patch
 
-Bob Ham (rah on #oe) said that he is working on some sort of support
-for --reference with bitbake after I've refused to add just another
-linux-bar recipe to meta-smartphone, but not sure how he plans to
-implement it to be usefull and working oob in different env with
-different sources available in downloads dir.
+And your analysis seems correct, as the grep matches the patch names of 
+beaglebone kernel from meta-ti.
 
-Cheers,
 
---=20
-Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
+> It occurs to me that this might be a result of the level of
+> verbosity/debugging that I specified.
 
---9iyR+p8Z2cn535Lj
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: Digital signature
+Actually, it does not depend on the verbosity/debug level, as it controls the 
+output on the console and not in the log.do_rootfs file.
 
------BEGIN PGP SIGNATURE-----
-Version: GnuPG v2.0.19 (GNU/Linux)
 
-iEYEARECAAYFAk91WgwACgkQN1Ujt2V2gBymYQCgrY6YZMOJVfSlJgGPiMNQARBQ
-h4gAnikx74aVzEdnM/6G9mvJ6SVicSzt
-=Or4I
------END PGP SIGNATURE-----
+> Attached is my patch that does two things:
+> 1) makes the error message from log_check slightly more informative
 
---9iyR+p8Z2cn535Lj--
+I don't think this part is really necessary - you always know which packaging 
+system you use, so ipk/deb/rpm_log_check is rather easily identifiable...
+
+
+> 2) changes the text that log_check is using to identify errors to
+> incorporate regular expressions
+
+So, this changes the regular expression to look for ^ERR and ^Fail at the 
+beginning of the line...
+
+
+> This makes it less likely to issue false positives, I hope that it
+> doesn't increase the changes of false negatives, but I'm a rank
+> amateur at this, so I wouldn't bet on it.
+
+While the change should fix this particular issue, I'm also worried about 
+increasing chances of missing the actual errors when they don't start with ERR 
+and Fail at the beginning of the line.
+
+Either way, you may want to resubmit the cleaned up patch to openembedded-core 
+list for other to comment.
+
+P.S. Sorry for somewhat excessive cross-posting.
+
+-- 
+Denys
+
+
