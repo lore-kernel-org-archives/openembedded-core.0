@@ -1,34 +1,35 @@
-Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
-	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <richard.purdie@linuxfoundation.org>)
-	id 1SDYs2-0000vr-OD for openembedded-core@lists.openembedded.org;
-	Fri, 30 Mar 2012 12:15:50 +0200
-Received: from localhost (localhost [127.0.0.1])
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q2UA6l0Q012076
+Received: from mail-wg0-f43.google.com ([74.125.82.43])
+	by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <s.stirtzel@googlemail.com>) id 1SDYt4-00010h-9j
+	for openembedded-core@lists.openembedded.org;
+	Fri, 30 Mar 2012 12:16:54 +0200
+Received: by wgbdr12 with SMTP id dr12so364249wgb.24
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 30 Mar 2012 11:06:47 +0100
-Received: from tim.rpsys.net ([127.0.0.1])
-	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
-	port 10024) with LMTP
-	id 11886-01 for <openembedded-core@lists.openembedded.org>;
-	Fri, 30 Mar 2012 11:06:42 +0100 (BST)
-Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q2UA6bQl012070
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO)
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 30 Mar 2012 11:06:38 +0100
-Message-ID: <1333101996.18082.56.camel@ted>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Date: Fri, 30 Mar 2012 11:06:36 +0100
-In-Reply-To: <20120330070028.GI25815@jama.jama.net>
+	Fri, 30 Mar 2012 03:07:50 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=googlemail.com; s=20120113;
+	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
+	:content-type; bh=91P8/60GreWeatymotrFAR7iJuc6uEQORv1aYRT3ptA=;
+	b=M2PfBboAh4AK1AodfSRMLqbaBpWOLmvLsrd1zr5niX/dmDwYi0cDRMgZjZWF62mgPZ
+	G8asVMoQ1kYYoi4poMTIrXryu+cm+u09bDFgZ4e3wn1RN4FPH508N2rxJFLV16jztIke
+	aFJVBBjIVpnW3jMufG7BdHWAKdyrZWQbmSULsHRwy3YkYZwVyDZJsNfS9RvJ5ZjP+HpC
+	fhre378K9LbnvmiBXndROLytj2vl2B8HRsyabJq92wKc4laOgG4GIJNdBct6akItIZXU
+	7nSldjRkToKDxljoxyZw+/qa94SbY2hMJqF6CLG8rurAy8e256qOUVv/ECKrJjY9YfNG
+	Dbuw==
+MIME-Version: 1.0
+Received: by 10.180.100.2 with SMTP id eu2mr5006196wib.1.1333102070110; Fri,
+	30 Mar 2012 03:07:50 -0700 (PDT)
+Received: by 10.223.97.77 with HTTP; Fri, 30 Mar 2012 03:07:49 -0700 (PDT)
+In-Reply-To: <1333099931.18082.52.camel@ted>
 References: <20120329225332.0e8cc2f4@eb-e6520> <1333058593.18082.40.camel@ted>
 	<CADkTA4MvYRmsLQogaQMHwUeP5y7ws5NvmXiBMgvsreiGNQrsJw@mail.gmail.com>
-	<20120330070028.GI25815@jama.jama.net>
-X-Mailer: Evolution 3.2.2- 
-Mime-Version: 1.0
-X-Virus-Scanned: amavisd-new at rpsys.net
+	<CAGiJk9deLrVFhtGF6pAvvWUgyo5kbAE77t9bnWciKtdtC4oD8g@mail.gmail.com>
+	<1333099931.18082.52.camel@ted>
+Date: Fri, 30 Mar 2012 12:07:49 +0200
+Message-ID: <CAGiJk9faGyjgRObDSGk5smQRy6to=U_0UDUuALpEgpZ9s7VFKA@mail.gmail.com>
+From: Samuel Stirtzel <s.stirtzel@googlemail.com>
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
 Subject: Re: Fetch time optimization (svn : gcc/eglibc - git : linux-yocto)
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
@@ -44,50 +45,75 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 30 Mar 2012 10:15:51 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Fri, 30 Mar 2012 10:16:54 -0000
+Content-Type: text/plain; charset=UTF-8
 
-On Fri, 2012-03-30 at 09:00 +0200, Martin Jansa wrote:
-> On Thu, Mar 29, 2012 at 09:03:15PM -0400, Bruce Ashfield wrote:
-> > On Thu, Mar 29, 2012 at 6:03 PM, Richard Purdie
-> > <richard.purdie@linuxfoundation.org> wrote:
-> > >> - do the same thing for the linux-yocto kernel or add a --reference
-> > >>   option to the git fetcher so that we can provide a local tree as a
-> > >>   reference ?
-> > >
-> > > This is effectively how the repositories in DL_DIR are used. If you
-> > > place a tree in the right place there, it should reuse references...
-> > 
-> > Agreed .. they definitely do here.
-> 
-> What's right place?
-> 
-> I guess the idea was to use --reference for e.g. some other kernel recipe
-> sources checkout.
-> 
-> And I guess that building linux-foo won't notice that there is e.g.
-> /OE/downloads/git2/gitorious.org.shr.linux.git:
-> from which it can share a lot of objects using --reference
-> 
-> Bob Ham (rah on #oe) said that he is working on some sort of support
-> for --reference with bitbake after I've refused to add just another
-> linux-bar recipe to meta-smartphone, but not sure how he plans to
-> implement it to be usefull and working oob in different env with
-> different sources available in downloads dir.
+2012/3/30 Richard Purdie <richard.purdie@linuxfoundation.org>:
+> On Fri, 2012-03-30 at 08:44 +0200, Samuel Stirtzel wrote:
+>> this might be a bit off-topic, but another idea would be to add a
+>> separate threading mechanism for fetching.
+>>
+>> Current threading can help to use the CPU and memory load to it's optimum,
+>> but sometimes you have to wait for a download to finish..
+>> Instead there could be a separate set of threads that only download
+>> the sources and make optimal use of the bandwidth too.
+>>
+>> This would also allow to fetch files when the normal threads are busy
+>> with configuring/building/packaging recipes.
+>>
+>>
+>> The downside would be that it requires some sort of inter process
+>> communication.
+>> Or it could be regulated with a simple check if the download is finished..
+>>
+>> How does this idea sound to you?
+>
+> Its easier than you think to do this, bitbake has a plugable scheduler
+> implementation so you'd just have to write one which ignores "fetch"
+> operations from the total thread count.
+>
+> Sadly this isn't really the place most people have a bottleneck in day
+> to day usage of the system. People have tried various algorithms for
+> enhancing the scheduler and as far as I know never found anything that
+> makes a significant difference, much to everyone's surprise :/.
+>
+> Cheers,
+>
+> Richard
+>
+>
+>
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
 
-You could conceivably symlink all your different kernel directories
-together within git2/. As far as I can tell, the fetcher simply wouldn't
-care in most cases. The branch structures could get a little mangled I
-guess and you'd not want to share the resulting mirror tarballs.
+Of course this will only reduce the time of recipes if they are build
+for the first time,
+or when the version/URL changes.
+It is not that important, I agree,
+but it would improve the situation for first time users, or new installations.
 
-There is an argument for using one large shared container for all the
-git objects as another way of solving this. I don't know how well git
-has that supported but at the object level its a non-issue at least.
 
-Cheers,
+Example for 2 threads:
+http://pastebin.com/kviwQZJ3
+It is very likely that the current situation also uses cpu and network
+resources at the same time,
+but it might occur that the build-task has to wait for a download to
+finish or vice versa.
 
-Richard
+Ignoring fetch tasks from the thread count would only do half of the
+job and _could_ cause network bottlenecks ;)
+Fetching should be "independent" from the dependency chain.
+E.g.: it should not wait with the downloads for dependencies to finish building,
+the download sequence should still match the dependency chain sequence.
 
+
+
+If it is really that easy, then I will look into it.
+
+-- 
+Regards
+Samuel
 
 
