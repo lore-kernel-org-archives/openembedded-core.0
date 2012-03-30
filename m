@@ -1,34 +1,37 @@
-Received: from mail-we0-f175.google.com ([74.125.82.175])
+Received: from mail-qc0-f175.google.com ([209.85.216.175])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <martin.jansa@gmail.com>) id 1SDbzM-0004Lo-TA
+	(envelope-from <sakoman@gmail.com>) id 1SDcfh-00054E-Po
 	for openembedded-core@lists.openembedded.org;
-	Fri, 30 Mar 2012 15:35:36 +0200
-Received: by wera1 with SMTP id a1so349272wer.6
+	Fri, 30 Mar 2012 16:19:21 +0200
+Received: by qcso7 with SMTP id o7so358355qcs.6
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 30 Mar 2012 06:26:32 -0700 (PDT)
+	Fri, 30 Mar 2012 07:10:16 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=from:to:cc:subject:date:message-id:x-mailer:in-reply-to:references;
-	bh=Q7MJiJENqtaREWGoTr/Ff1pqbAHn/Og3Z6rTHxxMkEU=;
-	b=MqbaLhjjQaelMzDYAvVKUEpUG+q7yvHukiZpxXQmkH/lfb/ajg/Eesr8M3TuA3ATlS
-	dbNNMmL6gUVuqmdglNN4Rl3VE2guLwDr00Dhfa2p7pUDD0LtSwQ/hVO79MLdMU6feySX
-	Ct8pYhPiJEH7fPolVuUQ8Bg8kTLetHL3MflcyqyPq+5ExrbmLAiwO1a4lvuqwaWroZmf
-	NkIdgRUX6mFMblrvz36fk/QHGo+0ulo9qKzdCeHt1Cizb1cjdL+vp6Oz2qRB+NeueyUm
-	o6V++IWEoKOb0cHOq8KAX7fq8xcnPMuttisKOrCTWwniGHW8sTdzg7LZ3c4trdSDamwy
-	0EyA==
-Received: by 10.180.104.65 with SMTP id gc1mr6478727wib.13.1333113992353;
-	Fri, 30 Mar 2012 06:26:32 -0700 (PDT)
-Received: from localhost ([94.230.152.246])
-	by mx.google.com with ESMTPS id ff9sm6368367wib.2.2012.03.30.06.26.31
-	(version=TLSv1/SSLv3 cipher=OTHER);
-	Fri, 30 Mar 2012 06:26:31 -0700 (PDT)
-From: Martin Jansa <martin.jansa@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Date: Fri, 30 Mar 2012 15:26:27 +0200
-Message-Id: <1333113987-28576-1-git-send-email-Martin.Jansa@gmail.com>
-X-Mailer: git-send-email 1.7.8.5
-In-Reply-To: <20120330131340.GT25815@jama.jama.net>
-References: <20120330131340.GT25815@jama.jama.net>
-Subject: [RFC][PATCH] arch-armv7a.inc: fix PACKAGE_EXTRA_ARCHS after armv7.inc was removed
+	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
+	:cc:content-type;
+	bh=hm5oNplxUhXAWgqmbIaZjB+jgOc7VBpVoQHHXEn8iuM=;
+	b=jrAdPs2rpMSLzs4LU02ecwriNKi9gCcfk6GeriUr+JtNDYg0IC+RdBnhfV8/fCv2Fx
+	pD8wkxA1b+WVSxkwfh7OcIDJyWrYsoCXlOWXblCIQ8VUcdOLVcjpLGFeQUb0dLYTq1fT
+	0M4ysVmEXKltBFJGDaX8zyNO26I4brxL4QTg+jKpwC/kR6OIpXMxCH/BOyp359kowoAs
+	tWBsOk8oEwG3pcRFA6y1dKtJTwMh/rYj+GK+3zYKmyL8xCz66hyw/YTUwioRqWyZJriL
+	xzvfcUA9OJ+OImo1KUNJ8l4obUm38U1hu28l5xhGNs2U7r67Mi/zXc101OUlndHr36Kr
+	RAIA==
+MIME-Version: 1.0
+Received: by 10.229.115.21 with SMTP id g21mr873213qcq.77.1333116616524; Fri,
+	30 Mar 2012 07:10:16 -0700 (PDT)
+Received: by 10.229.158.4 with HTTP; Fri, 30 Mar 2012 07:10:16 -0700 (PDT)
+In-Reply-To: <20120329135727.16cc3f61@wrlaptop>
+References: <CAGDS+nnR4it2-C0FM1CeJBSakt9HmVizKQSO1wkc5EqxQKh22Q@mail.gmail.com>
+	<4F74AC6F.5040009@windriver.com>
+	<CAGDS+nnEOMQs+OXtchFWq-Jr+zVxhGd4KTtaK3PBS4JYJVGG-g@mail.gmail.com>
+	<20120329135727.16cc3f61@wrlaptop>
+Date: Fri, 30 Mar 2012 07:10:16 -0700
+Message-ID: <CAGDS+nkPcbDFg5Ahq9jTktHHG7RUE5+e+LA2S_Kxw=BBJ321aw@mail.gmail.com>
+From: Steve Sakoman <sakoman@gmail.com>
+To: Peter Seebach <peter.seebach@windriver.com>
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: pseudo failing with cc1: error: unrecognized command line option '-m32'
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -43,64 +46,43 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 30 Mar 2012 13:35:37 -0000
+X-List-Received-Date: Fri, 30 Mar 2012 14:19:22 -0000
+Content-Type: text/plain; charset=ISO-8859-1
 
-Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
----
- meta/conf/machine/include/arm/arch-armv7a.inc |   16 ++++++++--------
- 1 files changed, 8 insertions(+), 8 deletions(-)
+On Thu, Mar 29, 2012 at 11:57 AM, Peter Seebach
+<peter.seebach@windriver.com> wrote:
+> On Thu, 29 Mar 2012 11:53:23 -0700
+> Steve Sakoman <sakoman@gmail.com> wrote:
+>
+>> Clearly not something a sane person would do . . .
+>
+> Now that is a persuasive argument in favor of making it work if I've
+> ever heard one!
+>
+> I'm doing too many things right now to fix this, but if you want to try
+> to fix it, I'd be interested in seeing patches.
 
-diff --git a/meta/conf/machine/include/arm/arch-armv7a.inc b/meta/conf/machine/include/arm/arch-armv7a.inc
-index 92640e2..2542f45 100644
---- a/meta/conf/machine/include/arm/arch-armv7a.inc
-+++ b/meta/conf/machine/include/arm/arch-armv7a.inc
-@@ -16,9 +16,9 @@ TUNE_FEATURES_tune-armv7a ?= "armv7a vfp"
- TUNE_FEATURES_tune-armv7at ?= "armv7a vfp thumb"
- TUNE_FEATURES_tune-armv7a-neon ?= "armv7a vfp neon"
- TUNE_FEATURES_tune-armv7at-neon ?= "armv7a vfp neon thumb"
--PACKAGE_EXTRA_ARCHS_tune-armv7a = "${PACKAGE_EXTRA_ARCHS_tune-armv7} armv7a armv7a-vfp"
-+PACKAGE_EXTRA_ARCHS_tune-armv7a = "${PACKAGE_EXTRA_ARCHS_tune-armv6} armv7a armv7a-vfp"
- PACKAGE_EXTRA_ARCHS_tune-armv7a-neon = "${PACKAGE_EXTRA_ARCHS_tune-armv7a} armv7a-vfp-neon"
--PACKAGE_EXTRA_ARCHS_tune-armv7at = "${PACKAGE_EXTRA_ARCHS_tune-armv7t} armv7a armv7a-vfp armv7at2-vfp"
-+PACKAGE_EXTRA_ARCHS_tune-armv7at = "${PACKAGE_EXTRA_ARCHS_tune-armv6t} armv7a armv7a-vfp armv7at2-vfp"
- PACKAGE_EXTRA_ARCHS_tune-armv7at-neon = "${PACKAGE_EXTRA_ARCHS_tune-armv7at} armv7a-vfp-neon armv7at2-vfp-neon"
- 
- # VFP Tunes
-@@ -27,8 +27,8 @@ TUNE_FEATURES_tune-armv7ahf ?= "${TUNE_FEATURES_tune-armv7a} callconvention-hard
- TUNE_FEATURES_tune-armv7athf ?= "${TUNE_FEATURES_tune-armv7at} callconvention-hard"
- TUNE_FEATURES_tune-armv7ahf-neon ?= "${TUNE_FEATURES_tune-armv7a-neon} callconvention-hard"
- TUNE_FEATURES_tune-armv7athf-neon ?= "${TUNE_FEATURES_tune_armv7at-neon} callconvention-hard"
--PACKAGE_EXTRA_ARCHS_tune-armv7ahf = "${PACKAGE_EXTRA_ARCHS_tune-armv7hf} armv7ahf-vfp"
--PACKAGE_EXTRA_ARCHS_tune-armv7athf = "${PACKAGE_EXTRA_ARCHS_tune-armv7thf} armv7ahf-vfp armv7at2hf-vfp"
-+PACKAGE_EXTRA_ARCHS_tune-armv7ahf = "${PACKAGE_EXTRA_ARCHS_tune-armv6hf} armv7ahf-vfp"
-+PACKAGE_EXTRA_ARCHS_tune-armv7athf = "${PACKAGE_EXTRA_ARCHS_tune-armv6thf} armv7ahf-vfp armv7at2hf-vfp"
- PACKAGE_EXTRA_ARCHS_tune-armv7ahf-neon = "${PACKAGE_EXTRA_ARCHS_tune-armv7ahf} armv7ahf-vfp-neon"
- PACKAGE_EXTRA_ARCHS_tune-armv7athf-neon = "${PACKAGE_EXTRA_ARCHS_tune-armv7athf} armv7ahf-vfp-neon armv7at2hf-vfp-neon"
- 
-@@ -38,8 +38,8 @@ TUNE_FEATURES_tune-armv7ab ?= "${TUNE_FEATURES_tune-armv7a} bigendian"
- TUNE_FEATURES_tune-armv7atb ?= "${TUNE_FEATURES_tune-armv7at} bigendian"
- TUNE_FEATURES_tune-armv7ab-neon ?= "${TUNE_FEATURES_tune-armv7a-neon} bigendian"
- TUNE_FEATURES_tune-armv7atb-neon ?= "${TUNE_FEATURES_tune-armv7at-neon} bigendian"
--PACKAGE_EXTRA_ARCHS_tune-armv7ab = "${PACKAGE_EXTRA_ARCHS_tune-armv7} armv7ab-vfp"
--PACKAGE_EXTRA_ARCHS_tune-armv7atb = "${PACKAGE_EXTRA_ARCHS_tune-armv7t} armv7ab-vfp armv7at2b-vfp"
-+PACKAGE_EXTRA_ARCHS_tune-armv7ab = "${PACKAGE_EXTRA_ARCHS_tune-armv6} armv7ab-vfp"
-+PACKAGE_EXTRA_ARCHS_tune-armv7atb = "${PACKAGE_EXTRA_ARCHS_tune-armv6t} armv7ab-vfp armv7at2b-vfp"
- PACKAGE_EXTRA_ARCHS_tune-armv7ab-neon = "${PACKAGE_EXTRA_ARCHS_tune-armv7a} armv7ab-vfp-neon"
- PACKAGE_EXTRA_ARCHS_tune-armv7atb-neon = "${PACKAGE_EXTRA_ARCHS_tune-armv7at} armv7ab-vfp-neon armv7at2b-vfp-neon"
- 
-@@ -49,8 +49,8 @@ TUNE_FEATURES_tune-armv7ahfb ?= "${TUNE_FEATURES_tune-armv7ab} callconvention-ha
- TUNE_FEATURES_tune-armv7athfb ?= "${TUNE_FEATURES_tune-armv7atb} callconvention-hard"
- TUNE_FEATURES_tune-armv7ahfb-neon ?= "${TUNE_FEATURES_tune-armv7ab-neon} callconvention-hard"
- TUNE_FEATURES_tune-armv7athfb-neon ?= "${TUNE_FEATURES_tune_armv7atb-neon} callconvention-hard"
--PACKAGE_EXTRA_ARCHS_tune-armv7ahfb = "${PACKAGE_EXTRA_ARCHS_tune-armv7hfb} armv7ahfb-vfp"
--PACKAGE_EXTRA_ARCHS_tune-armv7athfb = "${PACKAGE_EXTRA_ARCHS_tune-armv7thfb} armv7ahfb-vfp armv7at2hfb-vfp"
-+PACKAGE_EXTRA_ARCHS_tune-armv7ahfb = "${PACKAGE_EXTRA_ARCHS_tune-armv6hfb} armv7ahfb-vfp"
-+PACKAGE_EXTRA_ARCHS_tune-armv7athfb = "${PACKAGE_EXTRA_ARCHS_tune-armv6thfb} armv7ahfb-vfp armv7at2hfb-vfp"
- PACKAGE_EXTRA_ARCHS_tune-armv7ahfb-neon = "${PACKAGE_EXTRA_ARCHS_tune-armv7ahfb} armv7ahfb-vfp-neon"
- PACKAGE_EXTRA_ARCHS_tune-armv7athfb-neon = "${PACKAGE_EXTRA_ARCHS_tune-armv7athfb} armv7ahfb-vfp-neon armv7at2hfb-vfp-neon"
- 
--- 
-1.7.8.5
+FWIW, this patch:
 
+http://www.sakoman.com/cgi-bin/gitweb.cgi?p=poky.git;a=commitdiff;h=e8fb8258707e798828d033fc8e1c051a27d4c0ed
+
+Gives the following results at runtime:
+
+root@omap3-multi:~/pseudo-1.3# ./run_tests.sh -v
+test-chroot: Passed.
+test-dir-move: Passed.
+test-env_i: Passed.
+test-execl: Passed.
+test-pseudo_disable-fork-env_i: Failed.
+test-pseudo_disable-fork: Failed.
+test-pseudo_unload-fork-env_i: Failed.
+test-pseudo_unload-fork: Failed.
+test-reexec-chroot: Passed.
+5/9 test(s) passed.
+
+I don't have a lot of time to debug this today, but if you have any
+ideas I am happy to try them!
+
+Steve
 
 
