@@ -1,19 +1,33 @@
-Received: from pd95cb174.dip0.t-ipconnect.de ([217.92.177.116] helo=localhost)
+Received: from mail-wi0-f171.google.com ([209.85.212.171])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <sledz@localhost.localdomain>) id 1SDYXu-0000Fy-Pb
+	(envelope-from <martin.jansa@gmail.com>) id 1SDYbu-0000Jr-En
 	for openembedded-core@lists.openembedded.org;
-	Fri, 30 Mar 2012 11:55:02 +0200
-Received: by localhost (Postfix, from userid 1000)
-	id 41401443C0B; Fri, 30 Mar 2012 11:45:57 +0200 (CEST)
-From: Steffen Sledz <sledz@dresearch-fe.de>
+	Fri, 30 Mar 2012 11:59:10 +0200
+Received: by wibhj13 with SMTP id hj13so373413wib.6
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 30 Mar 2012 02:50:06 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=googlemail.com; s=20120113;
+	h=from:to:cc:subject:date:message-id:x-mailer;
+	bh=PZOds4Y6kFD0F+AKNDo+wNLOVfPjSULG9WBT5Oietcg=;
+	b=T9UAEmse1EqFrfoRwIaL9XMOc74w5vpwSEKU5r6ZKdT5/0nve4UC2eh2gdhk6NjUbw
+	w8GIvz0YRiTtUQwScj8QsU8bBFtbSE5+FPo+RPeGS/9gHElthEDOXD66ixZY/l3jXqzU
+	FuJ8ovI6ql16rEsFCFsjGdAztWGnH0JiaZ7b4rKCBXAAX4IVRZ9X5WjTbuSYrbAuBltS
+	Hemd4WHlyAQ9Lobehp7da1cfwOqkIly0KvKCLRPKjupUIL85ORaG9GzbZ0GT6YutsdgP
+	6EHPd1bt/xssZH8qZe92rsYChB7BevOP9bCtvYgf9yI/bTZ2sXpxCwe23UTaLZHGTBMt
+	5f9g==
+Received: by 10.180.97.41 with SMTP id dx9mr4753200wib.9.1333101006091;
+	Fri, 30 Mar 2012 02:50:06 -0700 (PDT)
+Received: from localhost ([94.230.152.246])
+	by mx.google.com with ESMTPS id 6sm5057261wiz.1.2012.03.30.02.50.04
+	(version=TLSv1/SSLv3 cipher=OTHER);
+	Fri, 30 Mar 2012 02:50:05 -0700 (PDT)
+From: Martin Jansa <martin.jansa@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Fri, 30 Mar 2012 11:45:47 +0200
-Message-Id: <1333100747-19358-1-git-send-email-sledz@dresearch-fe.de>
-X-Mailer: git-send-email 1.7.7
-In-Reply-To: <1333056489.18082.31.camel@ted>
-References: <1333056489.18082.31.camel@ted>
-Cc: Scott Garman <scott.a.garman@intel.com>
-Subject: [PATCH v2] docbook-utils-native: fix syntax problem in jw.in
+Date: Fri, 30 Mar 2012 11:50:01 +0200
+Message-Id: <1333101001-13652-1-git-send-email-Martin.Jansa@gmail.com>
+X-Mailer: git-send-email 1.7.8.5
+Subject: [PATCH] rootfs_ipk: don't echo opkg-cl output to log.do_rootfs
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -28,81 +42,33 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 30 Mar 2012 09:55:02 -0000
+X-List-Received-Date: Fri, 30 Mar 2012 09:59:10 -0000
 
-Fix runtime error occurred e.g. with docbook-to-man calls:
+* log_check can find some files with ERR or Fail substring e.g. in "Source: " field
 
-  grep: character class syntax is [[:space:]], not [:space:]
-  grep: character class syntax is [[:space:]], not [:space:]
-  jw: There is no frontend called "/docbook/utils-0.6.14/frontends/docbook".
-
-See also:
-
-   <https://qa.mandriva.com/show_bug.cgi?id=61127>
-
-Signed-off-by: Steffen Sledz <sledz@dresearch-fe.de>
+Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
 ---
- .../docbook-utils/docbook-utils-0.6.14/re.patch    |   29 ++++++++++++++++++++
- .../docbook-utils/docbook-utils-native_0.6.14.bb   |    7 +++-
- 2 files changed, 34 insertions(+), 2 deletions(-)
- create mode 100644 meta/recipes-devtools/docbook-utils/docbook-utils-0.6.14/re.patch
+ meta/classes/rootfs_ipk.bbclass |    2 ++
+ 1 files changed, 2 insertions(+), 0 deletions(-)
 
-diff --git a/meta/recipes-devtools/docbook-utils/docbook-utils-0.6.14/re.patch b/meta/recipes-devtools/docbook-utils/docbook-utils-0.6.14/re.patch
-new file mode 100644
-index 0000000..db079d6
---- /dev/null
-+++ b/meta/recipes-devtools/docbook-utils/docbook-utils-0.6.14/re.patch
-@@ -0,0 +1,29 @@
-+Upstream-Status: Pending
-+
-+Fix runtime error occurred e.g. with docbook-to-man calls:
-+
-+  grep: character class syntax is [[:space:]], not [:space:]
-+  grep: character class syntax is [[:space:]], not [:space:]
-+  jw: There is no frontend called "/docbook/utils-0.6.14/frontends/docbook".
-+
-+See also:
-+
-+   <https://qa.mandriva.com/show_bug.cgi?id=61127>
-+
-+Signed-off-by: Steffen Sledz <sledz@dresearch-fe.de>
-+
-+diff -Nurd docbook-utils-0.6.14-orig/bin/jw.in docbook-utils-0.6.14/bin/jw.in
-+--- docbook-utils-0.6.14-orig/bin/jw.in	2012-03-29 07:50:00.789564826 +0200
-++++ docbook-utils-0.6.14/bin/jw.in	2012-03-29 07:52:10.371302967 +0200
-+@@ -80,9 +80,9 @@
-+ SGML_CATALOGS_DIR="/etc/sgml"
-+ if [ -f "$SGML_CONF" ]
-+ then
-+-  RE='^[:space:]*SGML_BASE_DIR[:space:]*=[:space:]*'
-++  RE='^[[:space:]]*SGML_BASE_DIR[[:space:]]*=[[:space:]]*'
-+   SGML_BASE_DIR=`grep $RE $SGML_CONF | sed "s/$RE//"`
-+-  RE='^[:space:]*SGML_CATALOGS_DIR[:space:]*=[:space:]*'
-++  RE='^[[:space:]]*SGML_CATALOGS_DIR[[:space:]]*=[[:space:]]*'
-+   SGML_CATALOGS_DIR=`grep $RE $SGML_CONF | sed "s/$RE//"`
-+ fi
-+ 
-diff --git a/meta/recipes-devtools/docbook-utils/docbook-utils-native_0.6.14.bb b/meta/recipes-devtools/docbook-utils/docbook-utils-native_0.6.14.bb
-index 96459dc..2a89479 100644
---- a/meta/recipes-devtools/docbook-utils/docbook-utils-native_0.6.14.bb
-+++ b/meta/recipes-devtools/docbook-utils/docbook-utils-native_0.6.14.bb
-@@ -7,9 +7,12 @@ LICENSE = "GPLv2"
- LIC_FILES_CHKSUM = "file://COPYING;md5=94d55d512a9ba36caa9b7df079bae19f"
- DEPENDS = "openjade-native sgmlspl-native docbook-dsssl-stylesheets-native docbook-sgml-dtd-3.1-native"
+diff --git a/meta/classes/rootfs_ipk.bbclass b/meta/classes/rootfs_ipk.bbclass
+index 13bd4bf..8685fa3 100644
+--- a/meta/classes/rootfs_ipk.bbclass
++++ b/meta/classes/rootfs_ipk.bbclass
+@@ -128,9 +128,11 @@ list_installed_packages() {
  
--PR = "r2"
-+PR = "r3"
+ get_package_filename() {
+ 	info=`opkg-cl ${IPKG_ARGS} info $1 | grep -B 7 -A 7 "^Status.* \(\(installed\)\|\(unpacked\)\)" || true`
++	set +x
+ 	name=`echo "${info}" | awk '/^Package/ {printf $2"_"}'`
+ 	name=$name`echo "${info}" | awk -F: '/^Version/ {printf $NF"_"}' | sed 's/^\s*//g'`
+ 	name=$name`echo "${info}" | awk '/^Archi/ {print $2".ipk"}'`
++	set -x
  
--SRC_URI = "ftp://sources.redhat.com/pub/docbook-tools/new-trials/SOURCES/docbook-utils-${PV}.tar.gz"
-+SRC_URI = "\
-+	ftp://sources.redhat.com/pub/docbook-tools/new-trials/SOURCES/docbook-utils-${PV}.tar.gz \
-+	file://re.patch \
-+"
- 
- SRC_URI[md5sum] = "6b41b18c365c01f225bc417cf632d81c"
- SRC_URI[sha256sum] = "48faab8ee8a7605c9342fb7b906e0815e3cee84a489182af38e8f7c0df2e92e9"
+ 	fullname=`find ${DEPLOY_DIR_IPK} -name "$name" || true`
+ 	if [ "$fullname" = "" ] ; then
 -- 
-1.7.7
+1.7.8.5
 
 
 
