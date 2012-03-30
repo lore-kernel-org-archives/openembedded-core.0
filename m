@@ -1,24 +1,35 @@
-Received: from smtp2-g21.free.fr ([212.27.42.2])
+Received: from astoria.ccjclearline.com ([64.235.106.9])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <eric@eukrea.com>) id 1SDefE-0007Xh-0a
+	(envelope-from <rpjday@crashcourse.ca>) id 1SDfJW-0008C2-5e
 	for openembedded-core@lists.openembedded.org;
-	Fri, 30 Mar 2012 18:27:00 +0200
-Received: from eb-e6520 (unknown [82.240.38.71])
-	by smtp2-g21.free.fr (Postfix) with ESMTP id 8943A4B0088
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 30 Mar 2012 18:17:53 +0200 (CEST)
-Date: Fri, 30 Mar 2012 18:17:52 +0200
-From: Eric =?ISO-8859-1?B?QuluYXJk?= <eric@eukrea.com>
-To: openembedded-core@lists.openembedded.org
-Message-ID: <20120330181752.080630b5@eb-e6520>
-In-Reply-To: <1333123344.18082.94.camel@ted>
-References: <20120329225332.0e8cc2f4@eb-e6520> <1333058593.18082.40.camel@ted>
-	<20120330105006.00955b5d@eb-e6520> <1333120364.18082.77.camel@ted>
-	<20120330172440.54592fce@eb-e6520> <1333123344.18082.94.camel@ted>
-Organization: =?ISO-8859-1?B?RXVrculh?= Electromatique
-X-Mailer: Claws Mail 3.8.0 (GTK+ 2.24.8; x86_64-redhat-linux-gnu)
-Mime-Version: 1.0
-Subject: Re: Fetch time optimization (svn : gcc/eglibc - git : linux-yocto)
+	Fri, 30 Mar 2012 19:08:38 +0200
+Received: from cpec03f0ed08c7f-cm001ac318e826.cpe.net.cable.rogers.com
+	([99.241.91.63] helo=crashcourse.ca)
+	by astoria.ccjclearline.com with esmtpsa (TLSv1:AES256-SHA:256)
+	(Exim 4.69) (envelope-from <rpjday@crashcourse.ca>)
+	id 1SDfAk-00075x-59 for openembedded-core@lists.openembedded.org;
+	Fri, 30 Mar 2012 12:59:34 -0400
+Date: Fri, 30 Mar 2012 12:59:21 -0400 (EDT)
+From: "Robert P. J. Day" <rpjday@crashcourse.ca>
+X-X-Sender: rpjday@oneiric
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+In-Reply-To: <20120330141955.4a500400@eb-e6520>
+Message-ID: <alpine.DEB.2.02.1203301258570.25344@oneiric>
+References: <alpine.DEB.2.02.1203300627340.32185@oneiric>
+	<20120330141955.4a500400@eb-e6520>
+User-Agent: Alpine 2.02 (DEB 1266 2009-07-14)
+MIME-Version: 1.0
+X-AntiAbuse: This header was added to track abuse,
+	please include it with any abuse report
+X-AntiAbuse: Primary Hostname - astoria.ccjclearline.com
+X-AntiAbuse: Original Domain - lists.openembedded.org
+X-AntiAbuse: Originator/Caller UID/GID - [47 12] / [47 12]
+X-AntiAbuse: Sender Address Domain - crashcourse.ca
+X-Source: 
+X-Source-Args: 
+X-Source-Dir: 
+Subject: Re: why i'm being so annoyingly pedantic about nitpicky details
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -33,28 +44,39 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 30 Mar 2012 16:27:00 -0000
-Content-Type: text/plain; charset=ISO-8859-1
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Fri, 30 Mar 2012 17:08:38 -0000
+Content-Type: MULTIPART/MIXED; BOUNDARY="8323329-1151994447-1333126766=:25344"
 
-Le Fri, 30 Mar 2012 17:02:24 +0100,
-Richard Purdie <richard.purdie@linuxfoundation.org> a =E9crit :
-> The linux-yocto kernel recipe heavily uses the SCM to do things so
-> whilst it does have a higher download cost, it as adds value and is
-> ultimately a maintainers choice too.
->=20
-OK now that I've given a closer look at the linux-yocto recipes &
-bbclass I understand better why you need it in that recipe and that
-this recipe is heavily based on git's features.
+--8323329-1151994447-1333126766=:25344
+Content-Type: TEXT/PLAIN; charset=iso-8859-1
+Content-Transfer-Encoding: QUOTED-PRINTABLE
 
-> So whilst I hear what you're saying, I don't think we can change
-> anything other than the PREMIRROR...
->=20
-then maybe for the new users testing OE, having PREMIRRORs set in the
-default configuration would be a great thing so that they don't believe
-OE is a big slow beast just because they have to wait hours for git or
-svn to fetch sources.
+On Fri, 30 Mar 2012, Eric B=E9nard wrote:
 
-Eric
+> Le Fri, 30 Mar 2012 06:31:39 -0400 (EDT),
+> "Robert P. J. Day" <rpjday@crashcourse.ca> a =E9crit :
+> >   in other words, there will be more pedantry, but the end result will
+> > be released as cc-by-sa, so consider it an investment. :-)
+> >
+> I hope that openembedded-core@lists.openembedded.org will be mentioned
+> as one of the precious author's assistant ;-)
 
+  i'm pretty sure that will be covered.
 
+rday
+
+--=20
+
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+Robert P. J. Day                                 Ottawa, Ontario, CANADA
+                        http://crashcourse.ca
+
+Twitter:                                       http://twitter.com/rpjday
+LinkedIn:                               http://ca.linkedin.com/in/rpjday
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+
+--8323329-1151994447-1333126766=:25344--
