@@ -1,37 +1,34 @@
-Received: from mail-qc0-f175.google.com ([209.85.216.175])
-	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <sakoman@gmail.com>) id 1SDcfh-00054E-Po
-	for openembedded-core@lists.openembedded.org;
-	Fri, 30 Mar 2012 16:19:21 +0200
-Received: by qcso7 with SMTP id o7so358355qcs.6
+Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
+	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <richard.purdie@linuxfoundation.org>)
+	id 1SDcg4-00056X-O3 for openembedded-core@lists.openembedded.org;
+	Fri, 30 Mar 2012 16:19:44 +0200
+Received: from localhost (localhost [127.0.0.1])
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q2UEAeoO013748
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 30 Mar 2012 07:10:16 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
-	:cc:content-type;
-	bh=hm5oNplxUhXAWgqmbIaZjB+jgOc7VBpVoQHHXEn8iuM=;
-	b=jrAdPs2rpMSLzs4LU02ecwriNKi9gCcfk6GeriUr+JtNDYg0IC+RdBnhfV8/fCv2Fx
-	pD8wkxA1b+WVSxkwfh7OcIDJyWrYsoCXlOWXblCIQ8VUcdOLVcjpLGFeQUb0dLYTq1fT
-	0M4ysVmEXKltBFJGDaX8zyNO26I4brxL4QTg+jKpwC/kR6OIpXMxCH/BOyp359kowoAs
-	tWBsOk8oEwG3pcRFA6y1dKtJTwMh/rYj+GK+3zYKmyL8xCz66hyw/YTUwioRqWyZJriL
-	xzvfcUA9OJ+OImo1KUNJ8l4obUm38U1hu28l5xhGNs2U7r67Mi/zXc101OUlndHr36Kr
-	RAIA==
-MIME-Version: 1.0
-Received: by 10.229.115.21 with SMTP id g21mr873213qcq.77.1333116616524; Fri,
-	30 Mar 2012 07:10:16 -0700 (PDT)
-Received: by 10.229.158.4 with HTTP; Fri, 30 Mar 2012 07:10:16 -0700 (PDT)
-In-Reply-To: <20120329135727.16cc3f61@wrlaptop>
-References: <CAGDS+nnR4it2-C0FM1CeJBSakt9HmVizKQSO1wkc5EqxQKh22Q@mail.gmail.com>
-	<4F74AC6F.5040009@windriver.com>
-	<CAGDS+nnEOMQs+OXtchFWq-Jr+zVxhGd4KTtaK3PBS4JYJVGG-g@mail.gmail.com>
-	<20120329135727.16cc3f61@wrlaptop>
-Date: Fri, 30 Mar 2012 07:10:16 -0700
-Message-ID: <CAGDS+nkPcbDFg5Ahq9jTktHHG7RUE5+e+LA2S_Kxw=BBJ321aw@mail.gmail.com>
-From: Steve Sakoman <sakoman@gmail.com>
-To: Peter Seebach <peter.seebach@windriver.com>
-Cc: Patches and discussions about the oe-core layer
+	Fri, 30 Mar 2012 15:10:40 +0100
+Received: from tim.rpsys.net ([127.0.0.1])
+	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
+	port 10024) with LMTP
+	id 13284-04 for <openembedded-core@lists.openembedded.org>;
+	Fri, 30 Mar 2012 15:10:36 +0100 (BST)
+Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q2UEAWPu013742
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO)
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 30 Mar 2012 15:10:33 +0100
+Message-ID: <1333116632.18082.72.camel@ted>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Subject: Re: pseudo failing with cc1: error: unrecognized command line option '-m32'
+Date: Fri, 30 Mar 2012 15:10:32 +0100
+In-Reply-To: <91da393da433b492fb7db038bd767c8428f24321.1332541342.git.Martin.Jansa@gmail.com>
+References: <af4afbb6196cc0f3bacdca43776ae952c7bf4b05.1332541342.git.Martin.Jansa@gmail.com>
+	<91da393da433b492fb7db038bd767c8428f24321.1332541342.git.Martin.Jansa@gmail.com>
+X-Mailer: Evolution 3.2.2- 
+Mime-Version: 1.0
+X-Virus-Scanned: amavisd-new at rpsys.net
+Subject: Re: [PATCHv 05/10] pixman: add native support and perl-native to DEPENDS from meta-oe
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -46,43 +43,38 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 30 Mar 2012 14:19:22 -0000
-Content-Type: text/plain; charset=ISO-8859-1
+X-List-Received-Date: Fri, 30 Mar 2012 14:19:44 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-On Thu, Mar 29, 2012 at 11:57 AM, Peter Seebach
-<peter.seebach@windriver.com> wrote:
-> On Thu, 29 Mar 2012 11:53:23 -0700
-> Steve Sakoman <sakoman@gmail.com> wrote:
->
->> Clearly not something a sane person would do . . .
->
-> Now that is a persuasive argument in favor of making it work if I've
-> ever heard one!
->
-> I'm doing too many things right now to fix this, but if you want to try
-> to fix it, I'd be interested in seeing patches.
+On Fri, 2012-03-23 at 23:30 +0100, Martin Jansa wrote:
+> Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
+> ---
+>  meta/recipes-graphics/xorg-lib/pixman_0.25.2.bb |    3 ++-
+>  1 files changed, 2 insertions(+), 1 deletions(-)
+> 
+> diff --git a/meta/recipes-graphics/xorg-lib/pixman_0.25.2.bb b/meta/recipes-graphics/xorg-lib/pixman_0.25.2.bb
+> index bf239d9..e4e3460 100644
+> --- a/meta/recipes-graphics/xorg-lib/pixman_0.25.2.bb
+> +++ b/meta/recipes-graphics/xorg-lib/pixman_0.25.2.bb
+> @@ -12,7 +12,8 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=14096c769ae0cbb5fcb94ec468be11b3 \
+>                      file://pixman/pixman-matrix.c;endline=25;md5=ba6e8769bfaaee2c41698755af04c4be \
+>                      file://pixman/pixman-arm-neon-asm.h;endline=24;md5=9a9cc1e51abbf1da58f4d9528ec9d49b \
+>                     "
+> -DEPENDS += "zlib libpng"
+> +DEPENDS += "zlib libpng perl-native"
+> +BBCLASSEXTEND = "native"
 
-FWIW, this patch:
+Er, why does this need perl-native? If it really does, the correct way
+to do this is with "inherit perlnative" and then PATH gets set
+correctly. I'd prefer not to add that dependency if its not needed
+though.
 
-http://www.sakoman.com/cgi-bin/gitweb.cgi?p=poky.git;a=commitdiff;h=e8fb8258707e798828d033fc8e1c051a27d4c0ed
+Cheers,
 
-Gives the following results at runtime:
+Richard
 
-root@omap3-multi:~/pseudo-1.3# ./run_tests.sh -v
-test-chroot: Passed.
-test-dir-move: Passed.
-test-env_i: Passed.
-test-execl: Passed.
-test-pseudo_disable-fork-env_i: Failed.
-test-pseudo_disable-fork: Failed.
-test-pseudo_unload-fork-env_i: Failed.
-test-pseudo_unload-fork: Failed.
-test-reexec-chroot: Passed.
-5/9 test(s) passed.
 
-I don't have a lot of time to debug this today, but if you have any
-ideas I am happy to try them!
 
-Steve
 
 
