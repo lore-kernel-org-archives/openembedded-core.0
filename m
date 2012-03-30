@@ -1,33 +1,36 @@
-Received: from mail-ob0-f175.google.com ([209.85.214.175])
+Received: from mail-qa0-f41.google.com ([209.85.216.41])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <kergoth@gmail.com>) id 1SDkmz-0000RE-PV
+	(envelope-from <kergoth@gmail.com>) id 1SDkqy-0000rO-E7
 	for openembedded-core@lists.openembedded.org;
-	Sat, 31 Mar 2012 00:59:25 +0200
-Received: by obbwc20 with SMTP id wc20so1679894obb.6
+	Sat, 31 Mar 2012 01:03:32 +0200
+Received: by qafl39 with SMTP id l39so970594qaf.7
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 30 Mar 2012 15:50:20 -0700 (PDT)
+	Fri, 30 Mar 2012 15:54:27 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=from:to:cc:subject:date:message-id:x-mailer;
-	bh=eo8o3dcEFoFNclKlnTLZkTm/qeSHRIZqMUOhY8PtEJI=;
-	b=ZhVi+0IeEB4ppdkuozTjhWPBtPWQ67Rd07o8xPA5CQUpaIWUKBc4zWP02T6KISKJbf
-	c6qQykiqu/ZdRwocPMgRHDWqnbDNJ/jHBxfgmZs8miR6heon5jWQxq4INpqA18ay6GV4
-	7tiNNRtK168EkQ/tmJrkV7wuwksXw/leUPs987jG5XwJuqi5TbTDgsvXkyC/0j6OEPPm
-	LJk8mXVVNUJ3smwwhSJt8XAqO/b4vf+N0DHRmBhTEKeRuGQD5DDlxopcCef1d+hkSDnN
-	JAWpvN3iC9UejSkNJ0RSsHQ1QtIk3u0yRt3xF1fJT0kt9Cdzml7WTjGKUMB8MR+aZLQ0
-	Dcuw==
-Received: by 10.60.24.170 with SMTP id v10mr161166oef.60.1333147820370;
-	Fri, 30 Mar 2012 15:50:20 -0700 (PDT)
-Received: from localhost.localdomain (nat-lmt.mentorg.com. [139.181.28.34])
-	by mx.google.com with ESMTPS id om2sm3806455obc.6.2012.03.30.15.50.19
-	(version=TLSv1/SSLv3 cipher=OTHER);
-	Fri, 30 Mar 2012 15:50:19 -0700 (PDT)
-From: Christopher Larson <kergoth@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Date: Fri, 30 Mar 2012 17:50:14 -0500
-Message-Id: <1333147814-4990-1-git-send-email-kergoth@gmail.com>
-X-Mailer: git-send-email 1.7.7
-Cc: Christopher Larson <chris_larson@mentor.com>
-Subject: [PATCH] tune-ppce500: correct the -mfloat-gprs compiler option
+	h=mime-version:sender:in-reply-to:references:from:date
+	:x-google-sender-auth:message-id:subject:to:content-type
+	:content-transfer-encoding;
+	bh=aTL7fp14aFJ7qb1O02GZS/ogpfjdr4xRa7urVjf3IHo=;
+	b=FjdWzCP42mxj/Y8NGdR6O8TALXy5AnTW8uDwFOvoREqMy3by9go3yfBRnZNK3+eQe5
+	4nMLSjYnUW6/kvph+ir15brJmTV4NkYwFXhVK0IPKDWYjsYel51WnPxpiZz4W9Qveqot
+	Z4Z6qRxYRrRzBV9fnPu3SMfC2tF/rpMV7q+dxQbAYSYi5oKZWsdqJWR0TBRhfz2d5hdF
+	E0ricV4vQMKz7sGsRVj2XALNy5CghGpnpxaKREs6AuhxDj4RyldjFoLjM1mHofGYe8Uz
+	IwxkfzVkiTiFAXwkztkHOU1sJsRHhiso0eKXcnJr6rIMWbtiQNSuNS0upg+uVFzhkb5e
+	uZZw==
+Received: by 10.224.182.201 with SMTP id cd9mr701075qab.92.1333148067169; Fri,
+	30 Mar 2012 15:54:27 -0700 (PDT)
+MIME-Version: 1.0
+Sender: kergoth@gmail.com
+Received: by 10.229.158.11 with HTTP; Fri, 30 Mar 2012 15:54:06 -0700 (PDT)
+In-Reply-To: <alpine.DEB.2.02.1203301541110.1720@oneiric>
+References: <alpine.DEB.2.02.1203301541110.1720@oneiric>
+From: Chris Larson <clarson@kergoth.com>
+Date: Fri, 30 Mar 2012 15:54:06 -0700
+X-Google-Sender-Auth: Mg8aMcafSzXqYYUf6GV9rZNsVR0
+Message-ID: <CABcZANmzTAM6AtdcBpebsahAq7jkN15VKht66m0XK2xPTL364Q@mail.gmail.com>
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: wanting to clarify bitbake parsing of all .conf files
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -42,33 +45,22 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 30 Mar 2012 22:59:26 -0000
+X-List-Received-Date: Fri, 30 Mar 2012 23:03:32 -0000
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
-From: Christopher Larson <chris_larson@mentor.com>
+On Fri, Mar 30, 2012 at 12:47 PM, Robert P. J. Day
+<rpjday@crashcourse.ca> wrote:
+> =C2=A0first, i'm assuming those conf files are processed in exactly that
+> order, right? =C2=A0and second, all of that parsing and including is done
+> and completed before reading the first line of the task or recipe file
+> that's the bitbake target, right?
 
-Per Edmar at Freescale, e500v2 needs -mfloat-gprs=double, but e500v1 needs
--mfloat-gprs=single.
-
-Signed-off-by: Christopher Larson <chris_larson@mentor.com>
----
- meta/conf/machine/include/tune-ppce500.inc |    2 +-
- 1 files changed, 1 insertions(+), 1 deletions(-)
-
-diff --git a/meta/conf/machine/include/tune-ppce500.inc b/meta/conf/machine/include/tune-ppce500.inc
-index feb1967..c966560 100644
---- a/meta/conf/machine/include/tune-ppce500.inc
-+++ b/meta/conf/machine/include/tune-ppce500.inc
-@@ -7,7 +7,7 @@ TUNE_CCARGS += "${@bb.utils.contains("TUNE_FEATURES", "ppce500", "-mcpu=8540", "
- TUNE_PKGARCH_tune-ppce500 = "ppce500"
- 
- TUNEVALID[spe] = "Enable SPE ABI extensions"
--TUNE_CCARGS += "${@bb.utils.contains("TUNE_FEATURES", "spe", "-mabi=spe -mspe -mfloat-gprs=double", "", d)}"
-+TUNE_CCARGS += "${@bb.utils.contains("TUNE_FEATURES", "spe", "-mabi=spe -mspe -mfloat-gprs=single", "", d)}"
- 
- TARGET_FPU = "ppc-efs"
- 
--- 
-1.7.7
-
+Yes, and yes. bitbake.conf is parsed, which becomes the configuration
+metadata. From there, base.bbclass and the classes in INHERIT get
+parsed and added to that, as well. Finally, that configuration
+metadata flows down into the recipes when they're parsed.
+--=20
+Christopher Larson
 
 
