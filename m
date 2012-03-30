@@ -1,39 +1,21 @@
-Received: from mail-qc0-f175.google.com ([209.85.216.175])
+Received: from mga11.intel.com ([192.55.52.93])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <kergoth@gmail.com>) id 1SDkQ5-0008RD-5z
+	(envelope-from <nitin.a.kamble@intel.com>) id 1SDkRm-0008Tk-2L
 	for openembedded-core@lists.openembedded.org;
-	Sat, 31 Mar 2012 00:35:46 +0200
-Received: by qcso7 with SMTP id o7so646631qcs.6
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 30 Mar 2012 15:26:39 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:sender:in-reply-to:references:from:date
-	:x-google-sender-auth:message-id:subject:to:content-type
-	:content-transfer-encoding;
-	bh=am+1VeXd5qsjvt3KhbvBmtrC2jtufWzjfeaZDQX8pLs=;
-	b=tkOrknrX9cTe75bbepvJ72tdjAOrlLPI5eFHC05eCTbhGXRcAcuK/apU5NNKuaVazy
-	5VHo0pe3V4xMwy4HX8vgGMXTlZq5tAo2itnrRW1P+cUlqwnqWD5uCjUJCKR77K5Vj9So
-	bo6Fr95xJfIjIf984H5vG4/fETSrHvlA0GvvQoFOQVtq/jZO06g/JROudP+xk38Fkz4h
-	3j2TsiKuJ225gueNcdsDSfkEAAZhZMOUfzT0tD+pGRSbjS3WcqEy99cFCN9calO7TQu7
-	NfK/jhdfBOETbRSVP2ngXBsfjqWcJHa4gP8uYdnLRc3xZJ5Jn329Od3idVCBvlGuGlgz
-	QoqQ==
-Received: by 10.224.205.130 with SMTP id fq2mr718914qab.53.1333146399396; Fri,
-	30 Mar 2012 15:26:39 -0700 (PDT)
+	Sat, 31 Mar 2012 00:37:30 +0200
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+	by fmsmga102.fm.intel.com with ESMTP; 30 Mar 2012 15:28:24 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="135846722"
+Received: from nbuild0.sc.intel.com ([172.25.110.36])
+	by fmsmga001.fm.intel.com with ESMTP; 30 Mar 2012 15:28:24 -0700
+From: nitin.a.kamble@intel.com
+To: openembedded-core@lists.openembedded.org
+Date: Fri, 30 Mar 2012 15:28:22 -0700
+Message-Id: <cover.1333145263.git.nitin.a.kamble@intel.com>
+X-Mailer: git-send-email 1.7.6.4
 MIME-Version: 1.0
-Sender: kergoth@gmail.com
-Received: by 10.229.158.11 with HTTP; Fri, 30 Mar 2012 15:26:18 -0700 (PDT)
-In-Reply-To: <4F763106.6080302@windriver.com>
-References: <CABcZANnPwgsCz=f8_UhM3TZsBotBZ26FYp5Fbxjq_kYqqBs3cQ@mail.gmail.com>
-	<4F762DE1.5070006@windriver.com>
-	<CABcZANmEdxCg+rh8utC4Qw+6K1oC=KKZvPY9M0CDvDCatSt4zg@mail.gmail.com>
-	<4F763106.6080302@windriver.com>
-From: Chris Larson <clarson@kergoth.com>
-Date: Fri, 30 Mar 2012 15:26:18 -0700
-X-Google-Sender-Auth: zDobJ4ZzCemIGNKwhbyB65bqk_0
-Message-ID: <CABcZANmPgHRmFtxYtNQH6h24_OuQc6F62bjfYMW4Qvmq-WXyww@mail.gmail.com>
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [RFC] One shared state reuse solution
+Subject: [PATCH 0/3] Misc Fixes
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -48,53 +30,32 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 30 Mar 2012 22:35:46 -0000
+X-List-Received-Date: Fri, 30 Mar 2012 22:37:30 -0000
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 
-On Fri, Mar 30, 2012 at 3:17 PM, Mark Hatle <mark.hatle@windriver.com> wrot=
-e:
-> On 3/30/12 5:09 PM, Chris Larson wrote:
->>
->> On Fri, Mar 30, 2012 at 3:04 PM, Mark Hatle<mark.hatle@windriver.com>
->> =C2=A0wrote:
->>>
->>>
->>> We've worked on a similar problem in the past. =C2=A0In specific cases =
-we've
->>> added a checksum of the host's glibc to the mix. =C2=A0The problem we w=
-ere
->>> solving was in glibc uprevs during the RHEL 4 world.. new APIs would
->>> arrive
->>> and things would break -- or workaround would break.
->>>
->>> Have you considered adding that to the mix in an attempt to help
->>> determine
->>> compatible host distributions?
->>
->>
->> It's been discussed in the past, but the problem is, as far as I know,
->> glibc isn't the only build host dependency we have. It's the most
->> visible, since glibc versioned symbols are the first place one
->> generally sees this sort of failure, but I think the safe bet is to
->> operate based upon the distro name/version, to avoid any potential
->> other compatibility issues with other host libraries that get linked
->> against. It'd be nice to ensure that glibc is the only dependency, at
->> which point that sort of approach would be more reliable, but I don't
->> think we're there yet (please correct me if I'm wrong here).
->
->
-> It would be nice if the host libc was the only dependency. =C2=A0;)
->
-> Have you run any type of scan on the host dependencies to see where we
-> actually sit? =C2=A0I know a while back I ran a scan and was surprised at=
- how few
-> host dependencies there was in a fairly standard oe-core build.
+From: Nitin A Kamble <nitin.a.kamble@intel.com>
 
-I haven't -- that's a very good idea though. In fact, I hate to admit
-it, but I've never even run swabber before :) It's on the 'when I find
-the time' list..
---=20
-Christopher Larson
+The following changes since commit 06fc2d2ec8e72f063f2c67601b2f027f76971e05:
+
+  documentation/dev-manual/dev-manual-common-tasks.xml: Title change (2012-03-30 17:20:51 +0100)
+
+are available in the git repository at:
+  git://git.pokylinux.org/poky-contrib nitin/misc
+  http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=nitin/misc
+
+Nitin A Kamble (3):
+  nasm: fix issue with repeat configure
+  cross-canadian.bbclass: fix rpath for sdk executables
+  poky-tiny: avoid eglibc locale packaging
+
+ meta-yocto/conf/distro/poky-tiny.conf   |    3 +++
+ meta/classes/cross-canadian.bbclass     |    4 +++-
+ meta/recipes-devtools/nasm/nasm_2.07.bb |    8 ++++----
+ 3 files changed, 10 insertions(+), 5 deletions(-)
+
+-- 
+1.7.6.4
+
 
 
