@@ -1,34 +1,29 @@
-Received: from mail-bk0-f47.google.com ([209.85.214.47])
-	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <steve@sakoman.com>) id 1SE009-0005EP-Tu
-	for openembedded-core@lists.openembedded.org;
-	Sat, 31 Mar 2012 17:14:01 +0200
-Received: by bkcjg15 with SMTP id jg15so1301700bkc.6
-	for <openembedded-core@lists.openembedded.org>;
-	Sat, 31 Mar 2012 08:04:56 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=google.com; s=20120113;
-	h=mime-version:x-originating-ip:in-reply-to:references:date
-	:message-id:subject:from:to:cc:content-type:x-gm-message-state;
-	bh=Gfqtn3drdpz7SEaeB+NSMb3NIvBgh5yXX16yvfRJ9EY=;
-	b=JqaWd5pIK5XYHN/ZreQvBAUDpiHzBL2vfm7IWoMW8imhDzetFf2c+N17HNCrz7Tms+
-	jWL+KPO6R9ZTBY+y0rEYosLv33h65iSl7AiehXJ/jlL9GRRm9ullQ48ppsst+5rBfiUK
-	i9Rc8NH/WShFJXlUoaMSBkfAwTSh1UXjswrb2WPRD+L9HtSFVaFG393uWj0mO7nTLSQ/
-	XKymT+xNSqKqc4p3H2iDM8kGF7yLM050g6dfSrs87wOkPSS3vC+4HVZSFFX/z8XVePwt
-	kGwej/05xuEViOr5KzBubR1VBYcSpxP2EOvN2bmxlmEd9nHQUwco5eDSXBmSHenMhyYg
-	Ok9Q==
-MIME-Version: 1.0
-Received: by 10.204.150.86 with SMTP id x22mr939822bkv.136.1333206296007; Sat,
-	31 Mar 2012 08:04:56 -0700 (PDT)
-Received: by 10.204.36.8 with HTTP; Sat, 31 Mar 2012 08:04:55 -0700 (PDT)
-X-Originating-IP: [74.41.60.154]
-In-Reply-To: <1333202821.18082.225.camel@ted>
+Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
+	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <richard.purdie@linuxfoundation.org>)
+	id 1SE0SW-0005d8-GY for openembedded-core@lists.openembedded.org;
+	Sat, 31 Mar 2012 17:43:20 +0200
+Received: from localhost (localhost [127.0.0.1])
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q2VFY9Cd024604;
+	Sat, 31 Mar 2012 16:34:09 +0100
+Received: from tim.rpsys.net ([127.0.0.1])
+	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
+	port 10024) with LMTP
+	id 23140-06; Sat, 31 Mar 2012 16:34:05 +0100 (BST)
+Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q2VFY1Q7024598
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO);
+	Sat, 31 Mar 2012 16:34:02 +0100
+Message-ID: <1333208042.18082.234.camel@ted>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Steve Sakoman <steve@sakoman.com>
+Date: Sat, 31 Mar 2012 16:34:02 +0100
+In-Reply-To: <CAOSpxdYtrYctG3V=cKTvSPaNdimVDdP-MgCM0HQYdL3szAFVjg@mail.gmail.com>
 References: <1333202821.18082.225.camel@ted>
-Date: Sat, 31 Mar 2012 08:04:55 -0700
-Message-ID: <CAOSpxdYtrYctG3V=cKTvSPaNdimVDdP-MgCM0HQYdL3szAFVjg@mail.gmail.com>
-From: Steve Sakoman <steve@sakoman.com>
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-X-Gm-Message-State: ALoCoQlqzSIz5w0mpEAKHjOOm8n3N+ka1yjZ5afTpwBlEV+QSARoyJMy3nWWKwQ+wSCTResEN1sT
+	<CAOSpxdYtrYctG3V=cKTvSPaNdimVDdP-MgCM0HQYdL3szAFVjg@mail.gmail.com>
+X-Mailer: Evolution 3.2.2- 
+Mime-Version: 1.0
+X-Virus-Scanned: amavisd-new at rpsys.net
 Cc: "sanil.kumar" <sanil.kumar@huawei.com>,
 	openembedded-core <openembedded-core@lists.openembedded.org>
 Subject: Re: Re-execution of tasks - test report and results
@@ -46,32 +41,43 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 31 Mar 2012 15:14:02 -0000
-Content-Type: text/plain; charset=ISO-8859-1
+X-List-Received-Date: Sat, 31 Mar 2012 15:43:20 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-On Sat, Mar 31, 2012 at 7:07 AM, Richard Purdie
-<richard.purdie@linuxfoundation.org> wrote:
-> As some people have noticed, there are some rebuild issues happening due
-> to sstate and the use of hashes in the stamp files. By this I mean the
-> case where due to some checksum change, some task gets rerun and the
-> task was not written to run a second time.
+On Sat, 2012-03-31 at 08:04 -0700, Steve Sakoman wrote:
+> On Sat, Mar 31, 2012 at 7:07 AM, Richard Purdie
+> <richard.purdie@linuxfoundation.org> wrote:
+> > As some people have noticed, there are some rebuild issues happening due
+> > to sstate and the use of hashes in the stamp files. By this I mean the
+> > case where due to some checksum change, some task gets rerun and the
+> > task was not written to run a second time.
+> 
+> For the set of recipes I typically build with my autobuild script I
+> found it necessary to add code to do a -c cleansstate on the following
+> recipes:
+> 
+> shadow-native
+> boost
+> gcc
+> git
+> man-pages
+> net-tools
+> sqlite
+> wget
+> 
+> There seems to be a good amount of overlap with your list, but there
+> are a few that are not on your list.
 
-For the set of recipes I typically build with my autobuild script I
-found it necessary to add code to do a -c cleansstate on the following
-recipes:
+Hmm, yes. We already have a bug open against git but I'd like to
+understand shadow-native and sqlite. If you have the failure logs for
+those two, I think it would be worth opening bugs for them.
 
-shadow-native
-boost
-gcc
-git
-man-pages
-net-tools
-sqlite
-wget
+Cheers,
 
-There seems to be a good amount of overlap with your list, but there
-are a few that are not on your list.
+Richard
 
-Steve
+
+
 
 
