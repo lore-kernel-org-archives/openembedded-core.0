@@ -1,35 +1,37 @@
-Received: from mail-lpp01m010-f47.google.com ([209.85.215.47])
+Received: from mail-bk0-f47.google.com ([209.85.214.47])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <raj.khem@gmail.com>) id 1SDzcf-0003Ou-71
+	(envelope-from <steve@sakoman.com>) id 1SE009-0005EP-Tu
 	for openembedded-core@lists.openembedded.org;
-	Sat, 31 Mar 2012 16:49:45 +0200
-Received: by lagw12 with SMTP id w12so1731548lag.6
+	Sat, 31 Mar 2012 17:14:01 +0200
+Received: by bkcjg15 with SMTP id jg15so1301700bkc.6
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 31 Mar 2012 07:40:39 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:content-type; bh=sacc0Z+oDuY+4OEVAltW2mnfvc5lmhmTRrxF5oLZLgc=;
-	b=C5DUoJVRkaXMexoXeeVZWYMyAdKEwOIDFKQKyZuBaJJnz9tFThnhjagUmLA94O+/8U
-	ivtEW7yo6zzX4AXmd54VjUq3J0IGT5Og8fajgkEyghZCnBsVEWSHeToTtC4VQxra/FpK
-	DYkHqgtvZdi64Oig/O95inGI0My710iy0GLP36mTwBuV9UR2EYGqKET1zCuPUvZggDVw
-	W5JjsgQjaKiHkrRP/CoiYfnxhZv90dGEBz5v3JeEFhIYez4KT/KW1WeUxE30XpkZSAdM
-	NvfNAbTyjWPmqpzo+uxElo7mUsyzE206xGcUAooDGz8ECLubFggEefKsOsy8AmACcyGl
-	Xwxw==
-Received: by 10.152.146.163 with SMTP id td3mr2565775lab.31.1333204839430;
-	Sat, 31 Mar 2012 07:40:39 -0700 (PDT)
+	Sat, 31 Mar 2012 08:04:56 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=google.com; s=20120113;
+	h=mime-version:x-originating-ip:in-reply-to:references:date
+	:message-id:subject:from:to:cc:content-type:x-gm-message-state;
+	bh=Gfqtn3drdpz7SEaeB+NSMb3NIvBgh5yXX16yvfRJ9EY=;
+	b=JqaWd5pIK5XYHN/ZreQvBAUDpiHzBL2vfm7IWoMW8imhDzetFf2c+N17HNCrz7Tms+
+	jWL+KPO6R9ZTBY+y0rEYosLv33h65iSl7AiehXJ/jlL9GRRm9ullQ48ppsst+5rBfiUK
+	i9Rc8NH/WShFJXlUoaMSBkfAwTSh1UXjswrb2WPRD+L9HtSFVaFG393uWj0mO7nTLSQ/
+	XKymT+xNSqKqc4p3H2iDM8kGF7yLM050g6dfSrs87wOkPSS3vC+4HVZSFFX/z8XVePwt
+	kGwej/05xuEViOr5KzBubR1VBYcSpxP2EOvN2bmxlmEd9nHQUwco5eDSXBmSHenMhyYg
+	Ok9Q==
 MIME-Version: 1.0
-Received: by 10.152.3.161 with HTTP; Sat, 31 Mar 2012 07:40:09 -0700 (PDT)
-In-Reply-To: <CAMKF1srXwcC9s_wOb3OuSEt+QWeSOfn3yR6R6VGtGP3mhhRASw@mail.gmail.com>
-References: <cover.1333176251.git.lianhao.lu@intel.com>
-	<d33b7d21b1cc23f7c20743d85a261c4d610e2f41.1333176251.git.lianhao.lu@intel.com>
-	<eb2bbe99f15183d5c82ab5c12178a1e336a7c5ce.1333176251.git.lianhao.lu@intel.com>
-	<CAMKF1srXwcC9s_wOb3OuSEt+QWeSOfn3yR6R6VGtGP3mhhRASw@mail.gmail.com>
-From: Khem Raj <raj.khem@gmail.com>
-Date: Sat, 31 Mar 2012 07:40:09 -0700
-Message-ID: <CAMKF1sosTMMM0AUhPy6=4P7CQBAO2WJ3VCfObAb-+0g2+25mig@mail.gmail.com>
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 4/5] eglibc-nativesdk: Set GCC_ADDONS.
+Received: by 10.204.150.86 with SMTP id x22mr939822bkv.136.1333206296007; Sat,
+	31 Mar 2012 08:04:56 -0700 (PDT)
+Received: by 10.204.36.8 with HTTP; Sat, 31 Mar 2012 08:04:55 -0700 (PDT)
+X-Originating-IP: [74.41.60.154]
+In-Reply-To: <1333202821.18082.225.camel@ted>
+References: <1333202821.18082.225.camel@ted>
+Date: Sat, 31 Mar 2012 08:04:55 -0700
+Message-ID: <CAOSpxdYtrYctG3V=cKTvSPaNdimVDdP-MgCM0HQYdL3szAFVjg@mail.gmail.com>
+From: Steve Sakoman <steve@sakoman.com>
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
+X-Gm-Message-State: ALoCoQlqzSIz5w0mpEAKHjOOm8n3N+ka1yjZ5afTpwBlEV+QSARoyJMy3nWWKwQ+wSCTResEN1sT
+Cc: "sanil.kumar" <sanil.kumar@huawei.com>,
+	openembedded-core <openembedded-core@lists.openembedded.org>
+Subject: Re: Re-execution of tasks - test report and results
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -44,13 +46,32 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 31 Mar 2012 14:49:45 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Sat, 31 Mar 2012 15:14:02 -0000
+Content-Type: text/plain; charset=ISO-8859-1
 
-On Sat, Mar 31, 2012 at 7:39 AM, Khem Raj <raj.khem@gmail.com> wrote:
-> nptl is bogus now a days. so please delete it completely.
+On Sat, Mar 31, 2012 at 7:07 AM, Richard Purdie
+<richard.purdie@linuxfoundation.org> wrote:
+> As some people have noticed, there are some rebuild issues happening due
+> to sstate and the use of hashes in the stamp files. By this I mean the
+> case where due to some checksum change, some task gets rerun and the
+> task was not written to run a second time.
 
-heh I must have said in GLIBC_ADDON context its bogus. Since its _the_
-only thread implementation in eglibc/glibc
+For the set of recipes I typically build with my autobuild script I
+found it necessary to add code to do a -c cleansstate on the following
+recipes:
+
+shadow-native
+boost
+gcc
+git
+man-pages
+net-tools
+sqlite
+wget
+
+There seems to be a good amount of overlap with your list, but there
+are a few that are not on your list.
+
+Steve
 
 
