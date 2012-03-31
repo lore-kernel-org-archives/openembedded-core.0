@@ -1,34 +1,33 @@
 Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
 	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
 	(envelope-from <richard.purdie@linuxfoundation.org>)
-	id 1SE1qV-0000Wr-7Z for openembedded-core@lists.openembedded.org;
-	Sat, 31 Mar 2012 19:12:11 +0200
+	id 1SE1rV-0000ZG-VX for openembedded-core@lists.openembedded.org;
+	Sat, 31 Mar 2012 19:13:14 +0200
 Received: from localhost (localhost [127.0.0.1])
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q2VH36Zt025083
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q2VH48ng025096
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 31 Mar 2012 18:03:06 +0100
+	Sat, 31 Mar 2012 18:04:08 +0100
 Received: from tim.rpsys.net ([127.0.0.1])
 	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
 	port 10024) with LMTP
-	id 24555-05 for <openembedded-core@lists.openembedded.org>;
-	Sat, 31 Mar 2012 18:03:01 +0100 (BST)
+	id 25076-01 for <openembedded-core@lists.openembedded.org>;
+	Sat, 31 Mar 2012 18:04:02 +0100 (BST)
 Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q2VH2u8g025077
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q2VH40Kd025090
 	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO)
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 31 Mar 2012 18:02:57 +0100
-Message-ID: <1333213376.18082.251.camel@ted>
+	Sat, 31 Mar 2012 18:04:01 +0100
+Message-ID: <1333213440.18082.252.camel@ted>
 From: Richard Purdie <richard.purdie@linuxfoundation.org>
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Date: Sat, 31 Mar 2012 18:02:56 +0100
-In-Reply-To: <512eae1ae0678b247076db900304725702acc91e.1333145263.git.nitin.a.kamble@intel.com>
-References: <cover.1333145263.git.nitin.a.kamble@intel.com>
-	<512eae1ae0678b247076db900304725702acc91e.1333145263.git.nitin.a.kamble@intel.com>
+Date: Sat, 31 Mar 2012 18:04:00 +0100
+In-Reply-To: <cover.1333176251.git.lianhao.lu@intel.com>
+References: <cover.1333176251.git.lianhao.lu@intel.com>
 X-Mailer: Evolution 3.2.2- 
 Mime-Version: 1.0
 X-Virus-Scanned: amavisd-new at rpsys.net
-Subject: Re: [PATCH 1/3] nasm: fix issue with repeat configure
+Subject: Re: [PATCH 0/5] Misc fixings of nativesdk
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -43,34 +42,37 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 31 Mar 2012 17:12:11 -0000
+X-List-Received-Date: Sat, 31 Mar 2012 17:13:14 -0000
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 
-On Fri, 2012-03-30 at 15:28 -0700, nitin.a.kamble@intel.com wrote:
-> From: Nitin A Kamble <nitin.a.kamble@intel.com>
+On Sat, 2012-03-31 at 14:49 +0800, Lianhao Lu wrote:
+> This patch serie fixed bunch of things for nativesdk recipes, including:
 > 
-> This Fixes bug: [YOCTO #2176]
+> 1. Fixed the issue of reading in incorrect pkgdata files of do_package_write_xxx.
+> 2. Avoided crosssdk tasks generating different task hashs for different MACHINE.
+> 3. Dropped unnecessary target tasks for nativesdk.
 > 
-> This fixes the following issue as mentioned in the bug:
-> If nasm-native has to be rebuilt (due to a signature change) it will fail:
+> The following changes since commit 627998726ca3ee2ed2510c0f666747f688d06c56:
+>   Steffen Sledz (1):
+>         docbook-utils-native: fix syntax problem in jw.in
 > 
-> | checking for a BSD-compatible install... /usr/bin/install -c
-> | /media/large/tmp/work/x86_64-linux/nasm-native-2.07-r1/nasm-2.07/configure:
-> line 4261: syntax error near unexpected token `-W'
-> | /media/large/tmp/work/x86_64-linux/nasm-native-2.07-r1/nasm-2.07/configure:
-> line 4261: `PA_ADD_CFLAGS(-W)'
-> | ERROR: oe_runconf failed
-> NOTE: package nasm-native-2.07-r1: task do_configure: Failed
+> are available in the git repository at:
 > 
-> The failure appears to be caused by do_patch_fixaclocal being run a second time
+>   git://git.yoctoproject.org/poky-contrib llu/nativesdkfixing
+>   http://git.yoctoproject.org/cgit.cgi/poky-contrib/log/?h=llu/nativesdkfixing
 > 
-> Signed-off-by: Nitin A Kamble <nitin.a.kamble@intel.com>
-> ---
->  meta/recipes-devtools/nasm/nasm_2.07.bb |    8 ++++----
->  1 files changed, 4 insertions(+), 4 deletions(-)
+> Lianhao Lu (5):
+>   nativesdk.bbclass: Set PACKAGE_ARCHS to SDK_PACKAGE_ARCHS.
+>   crosssdk.bbclass: Set TUNE_PKGARCH to SDK_PKGARCH.
+>   autotools.bbclass: Drop -nativesdk dependency to lib-cross.
+>   eglibc-nativesdk: Set GCC_ADDONS.
+>   pkgconfig.bbclass: corrected dependency for -nativesdk.
 
-Merged to master, thanks.
+I merged these apart from the eglibc patch which needs some small tweaks
+before it goes in.
+
+Cheers,
 
 Richard
 
