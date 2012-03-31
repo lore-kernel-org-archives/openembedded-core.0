@@ -1,33 +1,34 @@
-Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
-	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <richard.purdie@linuxfoundation.org>)
-	id 1SDzAk-00038z-Kr for openembedded-core@lists.openembedded.org;
-	Sat, 31 Mar 2012 16:20:54 +0200
-Received: from localhost (localhost [127.0.0.1])
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q2VEBnHA024191
+Received: from mail-lpp01m010-f47.google.com ([209.85.215.47])
+	by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <raj.khem@gmail.com>) id 1SDzbh-0003MX-SL
+	for openembedded-core@lists.openembedded.org;
+	Sat, 31 Mar 2012 16:48:45 +0200
+Received: by lagw12 with SMTP id w12so1730954lag.6
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 31 Mar 2012 15:11:49 +0100
-Received: from tim.rpsys.net ([127.0.0.1])
-	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
-	port 10024) with LMTP
-	id 23140-04 for <openembedded-core@lists.openembedded.org>;
-	Sat, 31 Mar 2012 15:11:45 +0100 (BST)
-Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q2VEBgx8024185
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO)
-	for <openembedded-core@lists.openembedded.org>;
-	Sat, 31 Mar 2012 15:11:43 +0100
-Message-ID: <1333203102.18082.231.camel@ted>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
+	Sat, 31 Mar 2012 07:39:40 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:content-type:content-transfer-encoding;
+	bh=ZMPgIwsNqheBetdi3oShfLdOX/WRvwR4Q2fF0qLbpiw=;
+	b=wO4xGeZH08UyRS69XyZ+IP1Ar+8Pkqf1m8rc3aBJO+akPI2nhjlYfsYQCIvKZ019lc
+	AztwU3OQMobQHcSYyok4DlpBAA+cfRwOes+J5RRuHxecud4ayXtGhmv7Nm77b1iqxL4H
+	KlpXIaPUN7tmgVN6shoYjt2WTIpaHwfMCLW8Xlj/DVBgTYuC7l0eCORVagBv18d5mfhh
+	DKdWLFeQ7ujMXbnX+m+muu25fkZh02XVXm791DcdDebQC91aClmOfLaRMP8BnxKsG7FH
+	5ZGq1sYTu/89KQuKIdKTsV91uU8CGMi0//LxsSLIxJNV7TDCp4cikbN2XCDMmitcCWbf
+	Ld/A==
+Received: by 10.152.131.74 with SMTP id ok10mr215353lab.17.1333204779861; Sat,
+	31 Mar 2012 07:39:39 -0700 (PDT)
+MIME-Version: 1.0
+Received: by 10.152.3.161 with HTTP; Sat, 31 Mar 2012 07:39:09 -0700 (PDT)
+In-Reply-To: <eb2bbe99f15183d5c82ab5c12178a1e336a7c5ce.1333176251.git.lianhao.lu@intel.com>
+References: <cover.1333176251.git.lianhao.lu@intel.com>
+	<d33b7d21b1cc23f7c20743d85a261c4d610e2f41.1333176251.git.lianhao.lu@intel.com>
+	<eb2bbe99f15183d5c82ab5c12178a1e336a7c5ce.1333176251.git.lianhao.lu@intel.com>
+From: Khem Raj <raj.khem@gmail.com>
+Date: Sat, 31 Mar 2012 07:39:09 -0700
+Message-ID: <CAMKF1srXwcC9s_wOb3OuSEt+QWeSOfn3yR6R6VGtGP3mhhRASw@mail.gmail.com>
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Date: Sat, 31 Mar 2012 15:11:42 +0100
-In-Reply-To: <eb2bbe99f15183d5c82ab5c12178a1e336a7c5ce.1333176251.git.lianhao.lu@intel.com>
-References: <d33b7d21b1cc23f7c20743d85a261c4d610e2f41.1333176251.git.lianhao.lu@intel.com>
-	<eb2bbe99f15183d5c82ab5c12178a1e336a7c5ce.1333176251.git.lianhao.lu@intel.com>
-X-Mailer: Evolution 3.2.2- 
-Mime-Version: 1.0
-X-Virus-Scanned: amavisd-new at rpsys.net
 Subject: Re: [PATCH 4/5] eglibc-nativesdk: Set GCC_ADDONS.
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
@@ -43,39 +44,15 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 31 Mar 2012 14:20:54 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Sat, 31 Mar 2012 14:48:46 -0000
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
-On Sat, 2012-03-31 at 14:49 +0800, Lianhao Lu wrote:
-> Set only necessary GCC_ADDONS for eglibc-nativesdk so that it is not
-> dependant on the target eglibc's GCC_ADDONS settings.
+On Fri, Mar 30, 2012 at 11:49 PM, Lianhao Lu <lianhao.lu@intel.com> wrote:
+>
+> =C2=A0GLIBC_ADDONS ?=3D "ports,nptl,libidn"
+> +GLIBC_ADDONS_virtclass-nativesdk =3D "nptl"
 
-You mean GLIBC_ADDONS, right? :)
-
-> Signed-off-by: Lianhao Lu <lianhao.lu@intel.com>
-> ---
->  meta/recipes-core/eglibc/eglibc_2.13.bb |    3 ++-
->  meta/recipes-core/eglibc/eglibc_2.15.bb |    3 ++-
->  2 files changed, 4 insertions(+), 2 deletions(-)
-
-This is a tricky problem as this is only correct for SDKMACHINEs which
-are IA based (which the only tested combinations are atm).
-
-Ideally this would go in conf/machine-sdk/* as SDK_GLIBC_ADDONS and then
-in eglibc.inc we'd do:
-
-GLIBC_ADDONS ?= "ports,nptl,libidn"
-SDK_GLIBC_ADDONS ?= "${GLIBC_ADDONS}"
-GLIBC_ADDONS_virtclass-nativesdk = "${SDK_GLIBC_ADDONS}"
-
-which I appreciate is more complex but I think its more correct in case
-someone wants to try a different SDKMACHINE.
-
-Cheers,
-
-Richard
-
-
+nptl is bogus now a days. so please delete it completely.
 
 
