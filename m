@@ -1,33 +1,29 @@
-Received: from mail-pz0-f51.google.com ([209.85.210.51])
+Received: from mail.windriver.com ([147.11.1.11])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <raj.khem@gmail.com>) id 1SDmKA-00045t-Ve
+	(envelope-from <Liezhi.Yang@windriver.com>) id 1SDn9e-00051T-3H
 	for openembedded-core@lists.openembedded.org;
-	Sat, 31 Mar 2012 02:37:47 +0200
-Received: by dadz8 with SMTP id z8so102967dad.10
+	Sat, 31 Mar 2012 03:30:58 +0200
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca [147.11.189.40])
+	by mail.windriver.com (8.14.3/8.14.3) with ESMTP id q2V1LpkA026241
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 30 Mar 2012 17:28:41 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=from:to:cc:subject:date:message-id:x-mailer;
-	bh=dI0aqDecn3pwLN05DMiis8S4rkOS1ObvmktuvSqaq3w=;
-	b=jQyaZa0+Y+SBl7+VdnZ8a2qP1jTlH07npIAW0UjT3FVddl00ykFmwSQTg72aMc8X87
-	Rpcz97SYZNoJcKPqrHTlSq81CKbU6bL7/esR5mmwdffLA5vktjRnad6yYzpeUU/AkGVv
-	pCrGFu+Ic+RR8K6fmtlAGDBCQriafykxrmUqM6AzqGt7JhEfKhXaCXzDoXZH8RkQhn4l
-	cYHRsN66XSLG5IPNfycbfUxC91pCb/ptXz6s/N/0JpTKvZmlPSqZWtuo8yWuzEiBjbaw
-	jRuW2NxTbUC6iWRi581OhnE2pI54qmNtshJQ4lZm558dRvtpfHrHJHoA7hWgj0YlkIIx
-	hCGA==
-Received: by 10.68.203.4 with SMTP id km4mr1525297pbc.53.1333153721144;
-	Fri, 30 Mar 2012 17:28:41 -0700 (PDT)
-Received: from localhost.localdomain (oldbuilder.nslu2-linux.org.
-	[140.211.169.168])
-	by mx.google.com with ESMTPS id b7sm8444705pba.2.2012.03.30.17.28.39
-	(version=TLSv1/SSLv3 cipher=OTHER);
-	Fri, 30 Mar 2012 17:28:40 -0700 (PDT)
-From: Khem Raj <raj.khem@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Date: Fri, 30 Mar 2012 17:27:41 -0700
-Message-Id: <1333153661-32563-1-git-send-email-raj.khem@gmail.com>
-X-Mailer: git-send-email 1.7.5.4
-Subject: [PATCH] qt-4.7.4: Fix build with gcc 4.7
+	Fri, 30 Mar 2012 18:21:51 -0700 (PDT)
+Received: from [128.224.162.196] (128.224.162.196) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server id 14.1.255.0;
+	Fri, 30 Mar 2012 18:21:52 -0700
+Message-ID: <4F765C2E.1090308@windriver.com>
+Date: Sat, 31 Mar 2012 09:21:50 +0800
+From: Robert Yang <liezhi.yang@windriver.com>
+User-Agent: Mozilla/5.0 (X11; Linux i686;
+	rv:11.0) Gecko/20120310 Thunderbird/11.0
+MIME-Version: 1.0
+To: <openembedded-core@lists.openembedded.org>
+References: <cover.1332318835.git.liezhi.yang@windriver.com>
+	<89c2f191e064e431f50af0b36ede86a32c76a86a.1332318835.git.liezhi.yang@windriver.com>
+	<1332333371.9740.150.camel@ted> <4F69E9A1.2080505@windriver.com>
+	<1333113898.18082.67.camel@ted>
+In-Reply-To: <1333113898.18082.67.camel@ted>
+Subject: Re: [PATCH 1/1] gstreamer 0.10.x: remove do_configure_prepend
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -42,134 +38,98 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 31 Mar 2012 00:37:47 -0000
+X-List-Received-Date: Sat, 31 Mar 2012 01:30:58 -0000
+Content-Type: text/plain; charset="ISO-8859-1"; format=flowed
+Content-Transfer-Encoding: 7bit
 
-g++ 4.7 is detecting inheritence problems
-which we solve by explictly specifying
-elements in constructors
 
-Signed-off-by: Khem Raj <raj.khem@gmail.com>
----
- meta/recipes-qt/qt4/qt-4.7.4.inc             |    1 +
- meta/recipes-qt/qt4/qt-4.7.4/gcc47-fix.patch |   67 ++++++++++++++++++++++++++
- meta/recipes-qt/qt4/qt4-embedded_4.7.4.bb    |    2 +-
- meta/recipes-qt/qt4/qt4-x11-free_4.7.4.bb    |    2 +-
- 4 files changed, 70 insertions(+), 2 deletions(-)
- create mode 100644 meta/recipes-qt/qt4/qt-4.7.4/gcc47-fix.patch
 
-diff --git a/meta/recipes-qt/qt4/qt-4.7.4.inc b/meta/recipes-qt/qt4/qt-4.7.4.inc
-index f8956f7..6ea9efc 100644
---- a/meta/recipes-qt/qt4/qt-4.7.4.inc
-+++ b/meta/recipes-qt/qt4/qt-4.7.4.inc
-@@ -20,6 +20,7 @@ SRC_URI = "http://get.qt.nokia.com/qt/source/qt-everywhere-opensource-src-${PV}.
-            file://g++.conf \
-            file://linux.conf \
-            file://fix-qtbug-20925.patch \
-+	   file://gcc47-fix.patch \
-            "
- 
- SRC_URI[md5sum] = "9831cf1dfa8d0689a06c2c54c5c65aaf"
-diff --git a/meta/recipes-qt/qt4/qt-4.7.4/gcc47-fix.patch b/meta/recipes-qt/qt4/qt-4.7.4/gcc47-fix.patch
-new file mode 100644
-index 0000000..1a73626
---- /dev/null
-+++ b/meta/recipes-qt/qt4/qt-4.7.4/gcc47-fix.patch
-@@ -0,0 +1,67 @@
-+Fix compiler errors e.g.
-+
-+| ../3rdparty/javascriptcore/JavaScriptCore/runtime/JSGlobalObject.h:270:100: error: invalid static_cast from type 'QTJSC::JSVariableObject::JSVariableObjectData* const' to type 'QTJSC::JSGlobalObject::JSGlobalObjectData*'
-+
-+Signed-off-by: Khem Raj <raj.khem@gmail.com>
-+
-+Upstream-Status: Pending
-+
-+Index: qt-everywhere-opensource-src-4.7.4/src/3rdparty/javascriptcore/JavaScriptCore/runtime/JSGlobalObject.h
-+===================================================================
-+--- qt-everywhere-opensource-src-4.7.4.orig/src/3rdparty/javascriptcore/JavaScriptCore/runtime/JSGlobalObject.h	2012-03-30 15:29:20.733188940 -0700
-++++ qt-everywhere-opensource-src-4.7.4/src/3rdparty/javascriptcore/JavaScriptCore/runtime/JSGlobalObject.h	2012-03-30 15:29:46.525190187 -0700
-+@@ -57,9 +57,8 @@
-+     
-+     class JSGlobalObject : public JSVariableObject {
-+     protected:
-+-        using JSVariableObject::JSVariableObjectData;
-+ 
-+-        struct JSGlobalObjectData : public JSVariableObjectData {
-++        struct JSGlobalObjectData : public JSVariableObject::JSVariableObjectData {
-+             // We use an explicit destructor function pointer instead of a
-+             // virtual destructor because we want to avoid adding a vtable
-+             // pointer to this struct. Adding a vtable pointer would force the
-+Index: qt-everywhere-opensource-src-4.7.4/src/3rdparty/javascriptcore/JavaScriptCore/runtime/JSStaticScopeObject.h
-+===================================================================
-+--- qt-everywhere-opensource-src-4.7.4.orig/src/3rdparty/javascriptcore/JavaScriptCore/runtime/JSStaticScopeObject.h	2012-03-30 15:31:40.713195714 -0700
-++++ qt-everywhere-opensource-src-4.7.4/src/3rdparty/javascriptcore/JavaScriptCore/runtime/JSStaticScopeObject.h	2012-03-30 15:32:01.449196717 -0700
-+@@ -32,8 +32,7 @@
-+     
-+     class JSStaticScopeObject : public JSVariableObject {
-+     protected:
-+-        using JSVariableObject::JSVariableObjectData;
-+-        struct JSStaticScopeObjectData : public JSVariableObjectData {
-++        struct JSStaticScopeObjectData : public JSVariableObject::JSVariableObjectData {
-+             JSStaticScopeObjectData()
-+                 : JSVariableObjectData(&symbolTable, &registerStore + 1)
-+             {
-+Index: qt-everywhere-opensource-src-4.7.4/src/3rdparty/webkit/JavaScriptCore/runtime/JSGlobalObject.h
-+===================================================================
-+--- qt-everywhere-opensource-src-4.7.4.orig/src/3rdparty/webkit/JavaScriptCore/runtime/JSGlobalObject.h	2012-03-30 15:46:29.841238746 -0700
-++++ qt-everywhere-opensource-src-4.7.4/src/3rdparty/webkit/JavaScriptCore/runtime/JSGlobalObject.h	2012-03-30 15:47:19.525241150 -0700
-+@@ -57,7 +57,7 @@
-+     protected:
-+         using JSVariableObject::JSVariableObjectData;
-+ 
-+-        struct JSGlobalObjectData : public JSVariableObjectData {
-++        struct JSGlobalObjectData : public JSVariableObject::JSVariableObjectData {
-+             // We use an explicit destructor function pointer instead of a
-+             // virtual destructor because we want to avoid adding a vtable
-+             // pointer to this struct. Adding a vtable pointer would force the
-+Index: qt-everywhere-opensource-src-4.7.4/src/3rdparty/webkit/JavaScriptCore/runtime/JSStaticScopeObject.h
-+===================================================================
-+--- qt-everywhere-opensource-src-4.7.4.orig/src/3rdparty/webkit/JavaScriptCore/runtime/JSStaticScopeObject.h	2012-03-30 15:47:50.789242663 -0700
-++++ qt-everywhere-opensource-src-4.7.4/src/3rdparty/webkit/JavaScriptCore/runtime/JSStaticScopeObject.h	2012-03-30 16:25:51.465353133 -0700
-+@@ -32,10 +32,9 @@
-+     
-+     class JSStaticScopeObject : public JSVariableObject {
-+     protected:
-+-        using JSVariableObject::JSVariableObjectData;
-+-        struct JSStaticScopeObjectData : public JSVariableObjectData {
-++        struct JSStaticScopeObjectData : public JSVariableObject::JSVariableObjectData {
-+             JSStaticScopeObjectData()
-+-                : JSVariableObjectData(&symbolTable, &registerStore + 1)
-++                : JSVariableObject::JSVariableObjectData(&symbolTable, &registerStore + 1)
-+             {
-+             }
-+             SymbolTable symbolTable;
-diff --git a/meta/recipes-qt/qt4/qt4-embedded_4.7.4.bb b/meta/recipes-qt/qt4/qt4-embedded_4.7.4.bb
-index a1fcafb..75b2cee 100644
---- a/meta/recipes-qt/qt4/qt4-embedded_4.7.4.bb
-+++ b/meta/recipes-qt/qt4/qt4-embedded_4.7.4.bb
-@@ -1,7 +1,7 @@
- require qt-${PV}.inc
- require qt4-embedded.inc
- 
--PR = "${INC_PR}.7"
-+PR = "${INC_PR}.8"
- 
- QT_CONFIG_FLAGS_append_armv6 = " -no-neon "
- 
-diff --git a/meta/recipes-qt/qt4/qt4-x11-free_4.7.4.bb b/meta/recipes-qt/qt4/qt4-x11-free_4.7.4.bb
-index e7f848e..e845759 100644
---- a/meta/recipes-qt/qt4/qt4-x11-free_4.7.4.bb
-+++ b/meta/recipes-qt/qt4/qt4-x11-free_4.7.4.bb
-@@ -1,7 +1,7 @@
- require qt4-x11-free.inc
- require qt-${PV}.inc
- 
--PR = "${INC_PR}.7"
-+PR = "${INC_PR}.8"
- 
- QT_CONFIG_FLAGS_append_armv6 = " -no-neon "
- 
--- 
-1.7.5.4
+On 03/30/2012 09:24 PM, Richard Purdie wrote:
+> On Wed, 2012-03-21 at 22:45 +0800, Robert Yang wrote:
+>> Hi Richard,
+>>
+>> Please see my comments inline ...
+>>
+>> On 03/21/2012 08:36 PM, Richard Purdie wrote:
+>>> On Wed, 2012-03-21 at 16:38 +0800, Robert Yang wrote:
+>>>> Remove the do_configure_prepend which is used for removing
+>>>> ${S}/m4/lib-link.m4 to compile under libtool 2.2.2, but our libtool has
+>>>> been upgraded to 2.4.2, and:
+>>>>
+>>>> for the 3 recipes:
+>>>>       gst-plugins-bad_0.10.22.bb
+>>>>       gst-plugins-base_0.10.35.bb
+>>>>       gst-plugins-good_0.10.30.bb
+>>>>
+>>>> They don't have m4/lib-link.m4 any more.
+>>>>
+>>>> For the gst-plugins-ugly_0.10.18.bb, though it has m4/lib-link.m4, our
+>>>> libtool version is now 2.4.2, so we can remove the do_configure_prepend
+>>>> from all of them.
+>>>>
+>>>> [YOCTO #2148]
+>>>>
+>>>> Signed-off-by: Robert Yang<liezhi.yang@windriver.com>
+>>>> ---
+>>>>    .../gstreamer/gst-plugins-bad_0.10.22.bb           |    7 +------
+>>>>    .../gstreamer/gst-plugins-base_0.10.35.bb          |    7 +------
+>>>>    .../gstreamer/gst-plugins-good_0.10.30.bb          |    7 +------
+>>>>    .../gstreamer/gst-plugins-ugly_0.10.18.bb          |    7 +------
+>>>>    4 files changed, 4 insertions(+), 24 deletions(-)
+>>>
+>>> Not so easy I'm afraid. We need to ensure our libtool is being used.
+>>> Even if the version matches, our libtool is patched to ensure the
+>>> sysroot and rpaths work correctly. I'm therefore a little nervous about
+>>> removing these at this point.
+>>>
+>>
+>> Yes, I agree with you, though I checked the log.do_configure and log.do_compile,
+>> it used our libtool. The safe way maybe just remove the
+>> do_configure_prepend from gst-plugins-bad, gst-plugins-base and
+>> gst-plugins-good since they don't have the ${S}/m4/lib-link.m4 any more.
+>>
+>> For gst-plugins-ugly, we can remove when it would not have ${S}/m4/lib-link.m4.
+>>
+>> I noticed this because there was error when build gst-plugins-base/bad/good:
+>>
+>> rm: cannot remove `/path/to/m4/lib-link.m4': No such file or directory.
+>>
+>> Here is an updated patch and pull request which only removes
+>> do_configure_prepend for gst-plugins-base/bad/good:
+>> (I'm not sure whether send a V2 is preferred or not for such case).
+>>
+>> git://git.pokylinux.org/poky-contrib robert/gst_v2
+>> http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=robert/gst_v2
+>>
+>> Subject: [PATCH 1/1] gstreamer 0.10.x: remove do_configure_prepend
+>>
+>> Remove the do_configure_prepend which is used for removing
+>> ${S}/m4/lib-link.m4, but the 3 recipes don't have m4/lib-link.m4 any
+>> more:
+>>       gst-plugins-bad_0.10.22.bb
+>>       gst-plugins-base_0.10.35.bb
+>>       gst-plugins-good_0.10.30.bb
+>
+> For what its worth, I just looked at the tarballs for these and the .m4
+> files are still there in the two I checked. This patch is therefore not
+> right in its current form.
+>
 
+I'm very sorry for this, it seems that I had checked in a wrong way before,
+I checked them after the build, but I should check the tarball directly or
+in do_patch stage, I will drop this.
+
+// Robert
+
+> Cheers,
+>
+> Richard
+>
+>
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
+>
 
 
