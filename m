@@ -1,24 +1,24 @@
-Received: from mga01.intel.com ([192.55.52.88])
+Received: from mga02.intel.com ([134.134.136.20])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <lianhao.lu@intel.com>) id 1SDsKN-0005iR-CF
+	(envelope-from <lianhao.lu@intel.com>) id 1SDsKO-0005ih-In
 	for openembedded-core@lists.openembedded.org;
-	Sat, 31 Mar 2012 09:02:23 +0200
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-	by fmsmga101.fm.intel.com with ESMTP; 30 Mar 2012 23:53:19 -0700
+	Sat, 31 Mar 2012 09:02:24 +0200
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+	by orsmga101.jf.intel.com with ESMTP; 30 Mar 2012 23:53:18 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="148113553"
+X-IronPort-AV: E=Sophos;i="4.67,352,1309762800"; d="scan'208";a="123918741"
 Received: from llu-piketon.sh.intel.com (HELO localhost) ([10.239.36.110])
-	by fmsmga002.fm.intel.com with ESMTP; 30 Mar 2012 23:53:19 -0700
+	by orsmga001.jf.intel.com with ESMTP; 30 Mar 2012 23:53:17 -0700
 From: Lianhao Lu <lianhao.lu@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Sat, 31 Mar 2012 14:49:25 +0800
-Message-Id: <cffbb91699ff957fba458132a19a9c1799129dc9.1333176251.git.lianhao.lu@intel.com>
+Date: Sat, 31 Mar 2012 14:49:24 +0800
+Message-Id: <eb2bbe99f15183d5c82ab5c12178a1e336a7c5ce.1333176251.git.lianhao.lu@intel.com>
 X-Mailer: git-send-email 1.7.0.4
 In-Reply-To: <d33b7d21b1cc23f7c20743d85a261c4d610e2f41.1333176251.git.lianhao.lu@intel.com>
 References: <d33b7d21b1cc23f7c20743d85a261c4d610e2f41.1333176251.git.lianhao.lu@intel.com>
 In-Reply-To: <cover.1333176251.git.lianhao.lu@intel.com>
 References: <cover.1333176251.git.lianhao.lu@intel.com>
-Subject: [PATCH 5/5] pkgconfig.bbclass: corrected dependency for -nativesdk.
+Subject: [PATCH 4/5] eglibc-nativesdk: Set GCC_ADDONS.
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -33,27 +33,59 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 31 Mar 2012 07:02:23 -0000
+X-List-Received-Date: Sat, 31 Mar 2012 07:02:24 -0000
 
-For -nativesdk, the dependency should be pkgconfig-nativesdk instead of
-pkgconfig.
+Set only necessary GCC_ADDONS for eglibc-nativesdk so that it is not
+dependant on the target eglibc's GCC_ADDONS settings.
 
 Signed-off-by: Lianhao Lu <lianhao.lu@intel.com>
 ---
- meta/classes/pkgconfig.bbclass |    1 +
- 1 files changed, 1 insertions(+), 0 deletions(-)
+ meta/recipes-core/eglibc/eglibc_2.13.bb |    3 ++-
+ meta/recipes-core/eglibc/eglibc_2.15.bb |    3 ++-
+ 2 files changed, 4 insertions(+), 2 deletions(-)
 
-diff --git a/meta/classes/pkgconfig.bbclass b/meta/classes/pkgconfig.bbclass
-index 53e793a..ddcf878 100644
---- a/meta/classes/pkgconfig.bbclass
-+++ b/meta/classes/pkgconfig.bbclass
-@@ -2,5 +2,6 @@ DEPENDS_prepend = "pkgconfig-native "
+diff --git a/meta/recipes-core/eglibc/eglibc_2.13.bb b/meta/recipes-core/eglibc/eglibc_2.13.bb
+index e02c80f..e480772 100644
+--- a/meta/recipes-core/eglibc/eglibc_2.13.bb
++++ b/meta/recipes-core/eglibc/eglibc_2.13.bb
+@@ -3,7 +3,7 @@ require eglibc.inc
+ SRCREV = "15508"
  
- PKGCONFIGRDEP = "pkgconfig"
- PKGCONFIGRDEP_virtclass-native = ""
-+PKGCONFIGRDEP_virtclass-nativesdk = "pkgconfig-nativesdk"
+ DEPENDS += "gperf-native"
+-PR = "r22"
++PR = "r23"
+ PR_append = "+svnr${SRCPV}"
  
- RDEPENDS_${PN}-dev += "${PKGCONFIGRDEP}"
+ EGLIBC_BRANCH="eglibc-2_13"
+@@ -37,6 +37,7 @@ BUILD_CPPFLAGS = "-I${STAGING_INCDIR_NATIVE}"
+ TARGET_CPPFLAGS = "-I${STAGING_DIR_TARGET}${layout_includedir}"
+ 
+ GLIBC_ADDONS ?= "ports,nptl,libidn"
++GLIBC_ADDONS_virtclass-nativesdk = "nptl"
+ 
+ GLIBC_BROKEN_LOCALES = " _ER _ET so_ET yn_ER sid_ET tr_TR mn_MN gez_ET gez_ER bn_BD te_IN es_CR.ISO-8859-1"
+ 
+diff --git a/meta/recipes-core/eglibc/eglibc_2.15.bb b/meta/recipes-core/eglibc/eglibc_2.15.bb
+index 75ccace..4e7fe1e 100644
+--- a/meta/recipes-core/eglibc/eglibc_2.15.bb
++++ b/meta/recipes-core/eglibc/eglibc_2.15.bb
+@@ -3,7 +3,7 @@ require eglibc.inc
+ SRCREV = "17386"
+ 
+ DEPENDS += "gperf-native"
+-PR = "r2"
++PR = "r3"
+ PR_append = "+svnr${SRCPV}"
+ 
+ EGLIBC_BRANCH="eglibc-2_15"
+@@ -42,6 +42,7 @@ BUILD_CPPFLAGS = "-I${STAGING_INCDIR_NATIVE}"
+ TARGET_CPPFLAGS = "-I${STAGING_DIR_TARGET}${layout_includedir}"
+ 
+ GLIBC_ADDONS ?= "ports,nptl,libidn"
++GLIBC_ADDONS_virtclass-nativesdk = "nptl"
+ 
+ GLIBC_BROKEN_LOCALES = " _ER _ET so_ET yn_ER sid_ET tr_TR mn_MN gez_ET gez_ER bn_BD te_IN es_CR.ISO-8859-1"
+ 
 -- 
 1.7.0.4
 
