@@ -1,33 +1,34 @@
 Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
 	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
 	(envelope-from <richard.purdie@linuxfoundation.org>)
-	id 1SE1lZ-0000KF-Dc for openembedded-core@lists.openembedded.org;
-	Sat, 31 Mar 2012 19:07:05 +0200
+	id 1SE1qG-0000Uq-Oe for openembedded-core@lists.openembedded.org;
+	Sat, 31 Mar 2012 19:11:56 +0200
 Received: from localhost (localhost [127.0.0.1])
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q2VGvxNs025042
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q2VH2oBD025073
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 31 Mar 2012 17:57:59 +0100
+	Sat, 31 Mar 2012 18:02:50 +0100
 Received: from tim.rpsys.net ([127.0.0.1])
 	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
 	port 10024) with LMTP
-	id 24555-04 for <openembedded-core@lists.openembedded.org>;
-	Sat, 31 Mar 2012 17:57:54 +0100 (BST)
+	id 23140-10 for <openembedded-core@lists.openembedded.org>;
+	Sat, 31 Mar 2012 18:02:45 +0100 (BST)
 Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q2VGvpvh025036
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q2VH2fpR025067
 	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO)
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 31 Mar 2012 17:57:52 +0100
-Message-ID: <1333213071.18082.249.camel@ted>
+	Sat, 31 Mar 2012 18:02:42 +0100
+Message-ID: <1333213361.18082.250.camel@ted>
 From: Richard Purdie <richard.purdie@linuxfoundation.org>
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Date: Sat, 31 Mar 2012 17:57:51 +0100
-In-Reply-To: <alpine.DEB.2.02.1203302010020.17135@oneiric>
-References: <alpine.DEB.2.02.1203302010020.17135@oneiric>
+Date: Sat, 31 Mar 2012 18:02:41 +0100
+In-Reply-To: <0f8cf941e9e7d9c25cd882bae083b536b715cd17.1333145263.git.nitin.a.kamble@intel.com>
+References: <512eae1ae0678b247076db900304725702acc91e.1333145263.git.nitin.a.kamble@intel.com>
+	<0f8cf941e9e7d9c25cd882bae083b536b715cd17.1333145263.git.nitin.a.kamble@intel.com>
 X-Mailer: Evolution 3.2.2- 
 Mime-Version: 1.0
 X-Virus-Scanned: amavisd-new at rpsys.net
-Subject: Re: why does "bitbake -e" check the license of a *non*-included recipe file?
+Subject: Re: [PATCH 2/3] cross-canadian.bbclass: fix rpath for sdk executables
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -42,63 +43,55 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 31 Mar 2012 17:07:05 -0000
+X-List-Received-Date: Sat, 31 Mar 2012 17:11:57 -0000
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 
-On Fri, 2012-03-30 at 20:17 -0400, Robert P. J. Day wrote:
-> goofing around with "bitbake -e" and, with a clean oe-core checkout,
-> both of the following work:
+On Fri, 2012-03-30 at 15:28 -0700, nitin.a.kamble@intel.com wrote:
+> From: Nitin A Kamble <nitin.a.kamble@intel.com>
 > 
-> $ bitbake -e
-> $ bitbake -e core-image-core
+> This makes the libraries located in places like this findable:
+> /usr/local/oecore-x86_64/sysroots/x86_64-oesdk-linux/usr/lib
 > 
->   now, just for fun, i added a trivial recipe file to that images/
-> directory to see what kind of error message i would get if i neglected
-> to include a license, so i added the rday.bb recipe file (one of the
-> files i was using to test assignment):
+> Which avoids linking cross canadian sdk executables with host libraries like this:
 > 
-> RDAY ??= "rday1"
-> RDAY ??= "rday2"
-> RDAY ?= "rday3"
+> $ ldd /usr/local/oecore-x86_64/sysroots/x86_64-oesdk-linux/usr/bin/x86_64-oe-linux/x86_64-oe-linux-gdb
+>         linux-vdso.so.1 =>  (0x00007fffb7fff000)
+>         libreadline.so.6 => /usr/local/oecore-x86_64/sysroots/x86_64-oesdk-linux/usr/lib/x86_64-oe-linux/../libreadline.so.6 (0x00007fbfb5511000)
+>         libdl.so.2 => /usr/local/oecore-x86_64/sysroots/x86_64-oesdk-linux/lib/libdl.so.2 (0x00007fbfb530c000)
+>         libncurses.so.5 => /usr/local/oecore-x86_64/sysroots/x86_64-oesdk-linux/lib/libncurses.so.5 (0x00007fbfb50e9000)
+>         libtinfo.so.5 => /usr/local/oecore-x86_64/sysroots/x86_64-oesdk-linux/lib/libtinfo.so.5 (0x00007fbfb4ec2000)
+>         libz.so.1 => /usr/local/oecore-x86_64/sysroots/x86_64-oesdk-linux/usr/lib/x86_64-oe-linux/../libz.so.1 (0x00007fbfb4cac000)
+>         libm.so.6 => /usr/local/oecore-x86_64/sysroots/x86_64-oesdk-linux/lib/libm.so.6 (0x00007fbfb4a2a000)
+>         libpthread.so.0 => /usr/local/oecore-x86_64/sysroots/x86_64-oesdk-linux/lib/libpthread.so.0 (0x00007fbfb480d000)
+>         libutil.so.1 => /usr/local/oecore-x86_64/sysroots/x86_64-oesdk-linux/lib/libutil.so.1 (0x00007fbfb4609000)
+>         libexpat.so.1 => /usr/local/oecore-x86_64/sysroots/x86_64-oesdk-linux/usr/lib/x86_64-oe-linux/../libexpat.so.1 (0x00007fbfb43e0000)
+>         libc.so.6 => /usr/local/oecore-x86_64/sysroots/x86_64-oesdk-linux/lib/libc.so.6 (0x00007fbfb4059000)
+>         /usr/local/oecore-x86_64/sysroots/x86_64-oesdk-linux/lib/ld-linux-x86-64.so.2 => /lib64/ld-linux-x86-64.so.2 (0x0000003f05000000)
 > 
-> then tested:
+> Signed-off-by: Nitin A Kamble <nitin.a.kamble@intel.com>
+> ---
+>  meta/classes/cross-canadian.bbclass |    4 +++-
+>  1 files changed, 3 insertions(+), 1 deletions(-)
 > 
-> $ bitbake -e rday
-> Loading cache: 100% |######################################################################| ETA:  00:00:00
-> Loaded 1106 entries from dependency cache.
-> ERROR: This recipe does not have the LICENSE field set (rday)                              | ETA:  --:--:--
-> ERROR: Unable to parse /home/rpjday/oe/oe-core/meta/recipes-core/images/rday.bb: Exited with "1"
-> ERROR: Command execution failed: Exited with 1
-> 
-> Summary: There were 3 ERROR messages shown, returning a non-zero exit code.
-> $
-> 
-> so that's pretty much what i expected.  what i *didn't* expect was
-> that this would still work:
-> 
-> $ bitbake -e
+> diff --git a/meta/classes/cross-canadian.bbclass b/meta/classes/cross-canadian.bbclass
+> index e187b88..4ff092c 100644
+> --- a/meta/classes/cross-canadian.bbclass
+> +++ b/meta/classes/cross-canadian.bbclass
+> @@ -48,7 +48,9 @@ DPKG_ARCH = "${SDK_ARCH}"
+>  CPPFLAGS = "${BUILDSDK_CPPFLAGS}"
+>  CFLAGS = "${BUILDSDK_CFLAGS}"
+>  CXXFLAGS = "${BUILDSDK_CFLAGS}"
+> -LDFLAGS = "${BUILDSDK_LDFLAGS}"
+> +LDFLAGS = "${BUILDSDK_LDFLAGS} \
+> +	-Wl,-rpath-link,${STAGING_LIBDIR}/.. \
+> +	 -Wl,-rpath,${libdir}/.. "
+>  
+>  DEPENDS_GETTEXT = "gettext-native gettext-nativesdk"
 
-This only parses the configuration. No recipes are parsed.
-
-> while this would now fail:
-> 
-> $ bitbake -e core-image-core
-> Loading cache: 100% |######################################################################| ETA:  00:00:00
-> Loaded 1106 entries from dependency cache.
-> ERROR: This recipe does not have the LICENSE field set (rday)                              | ETA:  --:--:--
-> ERROR: Unable to parse /home/rpjday/oe/oe-core/meta/recipes-core/images/rday.bb: Exited with "1"
-> ERROR: Command execution failed: Exited with 1
-> 
-> Summary: There were 3 ERROR messages shown, returning a non-zero exit code.
-> $
-> 
->   the recipe file "rday.bb" is not being included in any of the other
-> images, so why should its lack of a license file cause that kind of
-> problem?
-
-The license validity checks are at recipe parse time, not at execution
-time.
+I've merged this, fixing the whitespace myself this time. Please keep an
+eye on whitespace in future (as commented on the version of this that
+went to the poky list accidentally).
 
 Cheers,
 
