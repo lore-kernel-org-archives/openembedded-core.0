@@ -1,26 +1,33 @@
-Received: from mail.windriver.com ([147.11.1.11])
+Received: from mail-iy0-f175.google.com ([209.85.210.175])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <Bruce.Ashfield@windriver.com>) id 1SEKPm-0004rV-BK
+	(envelope-from <schnitzeltony@googlemail.com>) id 1SEKgh-00053L-IW
 	for openembedded-core@lists.openembedded.org;
-	Sun, 01 Apr 2012 15:01:50 +0200
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca [147.11.189.40])
-	by mail.windriver.com (8.14.3/8.14.3) with ESMTP id q31CqcHL006589
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
-	Sun, 1 Apr 2012 05:52:38 -0700 (PDT)
-Received: from bruce-ashfields-macbook.local (128.224.18.112) by
-	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server id
-	14.1.255.0; Sun, 1 Apr 2012 05:52:38 -0700
-Message-ID: <4F784F92.5020908@windriver.com>
-Date: Sun, 1 Apr 2012 08:52:34 -0400
-From: Bruce Ashfield <bruce.ashfield@windriver.com>
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.7;
-	rv:9.0) Gecko/20111222 Thunderbird/9.0.1
+	Sun, 01 Apr 2012 15:19:19 +0200
+Received: by iaag37 with SMTP id g37so3003786iaa.6
+	for <openembedded-core@lists.openembedded.org>;
+	Sun, 01 Apr 2012 06:10:12 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=googlemail.com; s=20120113;
+	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
+	:content-type:content-transfer-encoding;
+	bh=fsM3aMaGgLKvnNYRmcn6muXzo0CImnS23/wTE5RWLi8=;
+	b=fFHFJRUV4eaFxn1Z3Dmlws3ao+zjpNZK0EPJ4q5JHvXa+lkXP6hnEzsXRuJjLH+0ZR
+	yLH2hLOk6j+jxnyv7sU+h9xSe4RA9wK4hyoWC3Yjl7V94pe5G0Trlhxdnnbu5t2aBwZi
+	4gHbra7bksUGsrroQyUZnJVgp5WhosqOlUDJ20qQBYUoZWBB8x/OWjSdnPQbQqvE6I2c
+	a3nL4TfhXGl+4Ax1QIujJOSJcK5tbmu6kcO06tq5DFAjNXWvzeK2T1uOzdJlJpt8XuZf
+	nsItepqZG1MzFK4aeUTLP1moXLviU2IGanFMiC9mP39cbfggFVh0Kn1f7hiRLTmFvmtu
+	8yXw==
 MIME-Version: 1.0
-To: Darren Hart <dvhart@linux.intel.com>
-References: <cover.1333264701.git.dvhart@linux.intel.com>
-In-Reply-To: <cover.1333264701.git.dvhart@linux.intel.com>
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 0/1] tiny: Update linux-yocto-tiny to 3.2
+Received: by 10.50.222.162 with SMTP id qn2mr3036969igc.65.1333285812224; Sun,
+	01 Apr 2012 06:10:12 -0700 (PDT)
+Received: by 10.42.165.137 with HTTP; Sun, 1 Apr 2012 06:10:12 -0700 (PDT)
+In-Reply-To: <CALbNGRQFQ6=kFVCeVfOgUTPvBVpeSxZZQ2Zak96O5UjjRxxoqQ@mail.gmail.com>
+References: <CALbNGRQFQ6=kFVCeVfOgUTPvBVpeSxZZQ2Zak96O5UjjRxxoqQ@mail.gmail.com>
+Date: Sun, 1 Apr 2012 15:10:12 +0200
+Message-ID: <CALbNGRT4h0ioq5J0r011Znn3tHaHQLR9WkeaQteTGMsTu_B0NA@mail.gmail.com>
+From: =?ISO-8859-1?Q?Andreas_M=FCller?= <schnitzeltony@googlemail.com>
+To: openembedded-core@lists.openembedded.org
+Subject: Re: What causes a variable being static/global
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -35,59 +42,33 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 01 Apr 2012 13:01:50 -0000
-Content-Type: text/plain; charset="ISO-8859-1"; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Sun, 01 Apr 2012 13:19:19 -0000
+Content-Type: text/plain; charset=ISO-8859-1
+Content-Transfer-Encoding: quoted-printable
 
-On 12-04-01 3:19 AM, Darren Hart wrote:
-> The following changes since commit c97f7f4e4ecd6c431712059c34ebc17b68b055ae:
+On Tue, Mar 27, 2012 at 5:32 PM, Andreas M=FCller
+<schnitzeltony@googlemail.com> wrote:
+> Hi,
 >
->    cross-canadian.bbclass: fix rpath for sdk executables (2012-03-31 18:00:36 +0100)
+> some more stupid questions:
+>
+> What causes a variable being global (accessible by all recipes)?
+> Does the declaration in *.conf lead to global variable?
+> Are there other mechanisms forcing global scope?
+>
+> Thanks in advance
+>
+> Andreas
 
-Acked-by: Bruce Ashfield <bruce.ashfield@windriver.com>
+Maybe my intention was not clear. For a generic run-once
+implementation (see patch for gtk-icon-cache.bbclass [1]) I need
+variables which are shared by all recipes. Each recipe can append data
+so the 'sum' is used at image creation. What steps are necessary
+creating a variable which is existing as one instance for all recipes
+using it?
 
->
-> are available in the git repository at:
->    git://git.infradead.org/users/dvhart/oe-core.git dvhart/tiny
->    http://git.infradead.org/users/dvhart/oe-core.git/shortlog/refs/heads/dvhart/tiny
->
-> Darren Hart (1):
->    tiny: Update linux-yocto-tiny to 3.2
->
->   meta/recipes-kernel/linux/linux-yocto-tiny/ata.cfg |    9 -
->   .../recipes-kernel/linux/linux-yocto-tiny/core.cfg |   19 -
->   .../linux/linux-yocto-tiny/debug.cfg               |    5 -
->   .../linux/linux-yocto-tiny/devtmpfs.cfg            |    6 -
->   .../linux/linux-yocto-tiny/e1000.cfg               |    7 -
->   .../recipes-kernel/linux/linux-yocto-tiny/ext2.cfg |    1 -
->   .../recipes-kernel/linux/linux-yocto-tiny/ext3.cfg |    2 -
->   .../recipes-kernel/linux/linux-yocto-tiny/lzma.cfg |    3 -
->   meta/recipes-kernel/linux/linux-yocto-tiny/net.cfg |   26 -
->   .../linux/linux-yocto-tiny/qemux86/defconfig       |  613 --------------------
->   .../linux/linux-yocto-tiny/ramfs.cfg               |    6 -
->   .../linux/linux-yocto-tiny/rtc-pc.cfg              |   13 -
->   .../linux/linux-yocto-tiny/serial.cfg              |    7 -
->   meta/recipes-kernel/linux/linux-yocto-tiny/smp.cfg |    7 -
->   meta/recipes-kernel/linux/linux-yocto-tiny_3.0.bb  |   39 --
->   meta/recipes-kernel/linux/linux-yocto-tiny_3.2.bb  |   25 +
->   16 files changed, 25 insertions(+), 763 deletions(-)
->   delete mode 100644 meta/recipes-kernel/linux/linux-yocto-tiny/ata.cfg
->   delete mode 100644 meta/recipes-kernel/linux/linux-yocto-tiny/core.cfg
->   delete mode 100644 meta/recipes-kernel/linux/linux-yocto-tiny/debug.cfg
->   delete mode 100644 meta/recipes-kernel/linux/linux-yocto-tiny/devtmpfs.cfg
->   delete mode 100644 meta/recipes-kernel/linux/linux-yocto-tiny/e1000.cfg
->   delete mode 100644 meta/recipes-kernel/linux/linux-yocto-tiny/ext2.cfg
->   delete mode 100644 meta/recipes-kernel/linux/linux-yocto-tiny/ext3.cfg
->   delete mode 100644 meta/recipes-kernel/linux/linux-yocto-tiny/lzma.cfg
->   delete mode 100644 meta/recipes-kernel/linux/linux-yocto-tiny/net.cfg
->   delete mode 100644 meta/recipes-kernel/linux/linux-yocto-tiny/qemux86/defconfig
->   delete mode 100644 meta/recipes-kernel/linux/linux-yocto-tiny/ramfs.cfg
->   delete mode 100644 meta/recipes-kernel/linux/linux-yocto-tiny/rtc-pc.cfg
->   delete mode 100644 meta/recipes-kernel/linux/linux-yocto-tiny/serial.cfg
->   delete mode 100644 meta/recipes-kernel/linux/linux-yocto-tiny/smp.cfg
->   delete mode 100644 meta/recipes-kernel/linux/linux-yocto-tiny_3.0.bb
->   create mode 100644 meta/recipes-kernel/linux/linux-yocto-tiny_3.2.bb
->
+Andreas
 
+[1]  http://patches.openembedded.org/patch/24179/
 
 
