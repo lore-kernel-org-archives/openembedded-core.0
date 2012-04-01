@@ -1,34 +1,25 @@
-Received: from astoria.ccjclearline.com ([64.235.106.9])
+Received: from mga09.intel.com ([134.134.136.24])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <rpjday@crashcourse.ca>) id 1SE8ET-0002NM-5Z
+	(envelope-from <paul.eggleton@linux.intel.com>) id 1SE96F-0003uQ-Oe
 	for openembedded-core@lists.openembedded.org;
-	Sun, 01 Apr 2012 02:01:21 +0200
-Received: from cpec03f0ed08c7f-cm001ac318e826.cpe.net.cable.rogers.com
-	([99.241.91.63] helo=crashcourse.ca)
-	by astoria.ccjclearline.com with esmtpsa (TLSv1:AES256-SHA:256)
-	(Exim 4.69) (envelope-from <rpjday@crashcourse.ca>)
-	id 1SE85g-0008Ai-Az; Sat, 31 Mar 2012 19:52:16 -0400
-Date: Sat, 31 Mar 2012 19:52:01 -0400 (EDT)
-From: "Robert P. J. Day" <rpjday@crashcourse.ca>
-X-X-Sender: rpjday@oneiric
-To: Paul Eggleton <paul.eggleton@linux.intel.com>
-In-Reply-To: <1607664.qKyoFqIBt3@helios>
-Message-ID: <alpine.DEB.2.02.1203311949120.14842@oneiric>
-References: <alpine.DEB.2.02.1203311910320.12870@oneiric>
-	<1607664.qKyoFqIBt3@helios>
-User-Agent: Alpine 2.02 (DEB 1266 2009-07-14)
+	Sun, 01 Apr 2012 02:56:56 +0200
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+	by orsmga102.jf.intel.com with ESMTP; 31 Mar 2012 17:47:48 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.67,352,1309762800"; d="scan'208";a="124083826"
+Received: from unknown (HELO helios.localnet) ([10.252.123.233])
+	by orsmga001.jf.intel.com with ESMTP; 31 Mar 2012 17:47:47 -0700
+From: Paul Eggleton <paul.eggleton@linux.intel.com>
+To: Samuel Stirtzel <s.stirtzel@googlemail.com>
+Date: Sun, 01 Apr 2012 01:47:45 +0100
+Message-ID: <2905489.oBl1N3jSJA@helios>
+Organization: Intel Corporation
+User-Agent: KMail/4.8.0 (Linux/3.0.0-17-generic-pae; KDE/4.8.1; i686; ; )
+In-Reply-To: <CAGiJk9f9Mc06KbPVBcTFi_icr=P3ZGuBYrDT7oH+gC5dKVKpbA@mail.gmail.com>
+References: <CAGiJk9f9Mc06KbPVBcTFi_icr=P3ZGuBYrDT7oH+gC5dKVKpbA@mail.gmail.com>
 MIME-Version: 1.0
-X-AntiAbuse: This header was added to track abuse,
-	please include it with any abuse report
-X-AntiAbuse: Primary Hostname - astoria.ccjclearline.com
-X-AntiAbuse: Original Domain - lists.openembedded.org
-X-AntiAbuse: Originator/Caller UID/GID - [47 12] / [47 12]
-X-AntiAbuse: Sender Address Domain - crashcourse.ca
-X-Source: 
-X-Source-Args: 
-X-Source-Dir: 
 Cc: openembedded-core@lists.openembedded.org
-Subject: Re: is "fakeroot" still used as a variable "flag"?
+Subject: Re: RFC: Porting KDE Plasma Active (WIP)
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -43,32 +34,38 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 01 Apr 2012 00:01:21 -0000
-Content-Type: TEXT/PLAIN; charset=US-ASCII
+X-List-Received-Date: Sun, 01 Apr 2012 00:56:56 -0000
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
 
-On Sun, 1 Apr 2012, Paul Eggleton wrote:
+On Thursday 02 February 2012 12:50:16 Samuel Stirtzel wrote:
+> There are other CMake configure pitfalls (all cross compiling scripts
+> in kdelibs are commented out) but it seems that at least the most of
+> them showed already during build time.
 
-> On Saturday 31 March 2012 19:12:12 Robert P. J. Day wrote:
-> >   the bitbake manual lists "fakeroot" as a possible variable flag,
-> > along with things like "nostamp", "noexec" and so on.  but i don't see
-> > fakeroot being used as a flag anywhere in the source tree.  has that
-> > changed?
->
-> No, fakeroot is still used - it is a flag for functions indicating fakeroot
-> (these days pseudo) should be enabled when the function is executed.
+Unfortunately when I tried to build kdelibs4 I got the following:
 
-  whoops, never mind, i misread that section in the manual.
+| cd /home/paul/poky/poky/build-kde/tmp/work/i586-poky-
+linux/kdelibs4-4.8.0+git1+1439483a67135f483632f4c4cd239e96d2ed61fc-
+r0/git/build/kjs && /home/paul/poky/poky/build-kde/tmp/sysroots/x86_64-
+linux/usr/bin/icemaker /home/paul/poky/poky/build-kde/tmp/work/i586-poky-
+linux/kdelibs4-4.8.0+git1+1439483a67135f483632f4c4cd239e96d2ed61fc-
+r0/git/kjs/bytecode
+| /bin/sh: /home/paul/poky/poky/build-kde/tmp/sysroots/x86_64-
+linux/usr/bin/icemaker: No such file or directory
+| make[2]: *** [kjs/opcodes.h] Error 127
+| make[2]: Leaving directory `/home/paul/poky/poky/build-kde/tmp/work/i586-
+poky-linux/kdelibs4-4.8.0+git1+1439483a67135f483632f4c4cd239e96d2ed61fc-
+r0/git/build'
 
-rday
+Any ideas? Is this a PARALLEL_MAKE issue?
+
+Cheers,
+Paul
 
 -- 
 
-========================================================================
-Robert P. J. Day                                 Ottawa, Ontario, CANADA
-                        http://crashcourse.ca
-
-Twitter:                                       http://twitter.com/rpjday
-LinkedIn:                               http://ca.linkedin.com/in/rpjday
-========================================================================
+Paul Eggleton
+Intel Open Source Technology Centre
 
 
