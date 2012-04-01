@@ -1,24 +1,32 @@
-Received: from mga14.intel.com ([143.182.124.37])
+Received: from mail.windriver.com ([147.11.1.11])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <edwin.zhai@intel.com>) id 1SEAqd-0007TX-ES
-	for openembedded-core@lists.openembedded.org;
-	Sun, 01 Apr 2012 04:48:55 +0200
-Received: from azsmga001.ch.intel.com ([10.2.17.19])
-	by azsmga102.ch.intel.com with ESMTP; 31 Mar 2012 19:39:47 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="125670257"
-Received: from gzhai-xps.sh.intel.com ([10.239.36.76])
-	by azsmga001.ch.intel.com with ESMTP; 31 Mar 2012 19:39:47 -0700
-From: edwin.zhai@intel.com
-To: openembedded-core@lists.openembedded.org
-Date: Sun,  1 Apr 2012 10:24:28 +0800
-Message-Id: <eade13c5319cbe9e1a640501f8520b80a3210604.1333246894.git.edwin.zhai@intel.com>
-X-Mailer: git-send-email 1.7.5.4
-In-Reply-To: <cover.1333246894.git.edwin.zhai@intel.com>
-References: <cover.1333246894.git.edwin.zhai@intel.com>
-In-Reply-To: <cover.1333246894.git.edwin.zhai@intel.com>
-References: <cover.1333246894.git.edwin.zhai@intel.com>
-Subject: [PATCH 1/1] qemugl: Fix GL apps failure on Ubuntu 11 host with nVidia GLX driver
+	(envelope-from <Liezhi.Yang@windriver.com>)
+	id 1SEAsU-0007ZQ-7S; Sun, 01 Apr 2012 04:50:50 +0200
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca [147.11.189.40])
+	by mail.windriver.com (8.14.3/8.14.3) with ESMTP id q312fd8S018450
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
+	Sat, 31 Mar 2012 19:41:39 -0700 (PDT)
+Received: from [128.224.162.196] (128.224.162.196) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server id 14.1.255.0;
+	Sat, 31 Mar 2012 19:41:40 -0700
+Message-ID: <4F77C061.7060208@windriver.com>
+Date: Sun, 1 Apr 2012 10:41:37 +0800
+From: Robert Yang <liezhi.yang@windriver.com>
+User-Agent: Mozilla/5.0 (X11; Linux i686;
+	rv:11.0) Gecko/20120310 Thunderbird/11.0
+MIME-Version: 1.0
+To: Martin Jansa <martin.jansa@gmail.com>
+References: <20120224000137.466F310330@opal>
+	<20120327110632.GA3969@jama.jama.net>
+	<20120327113304.GB3969@jama.jama.net>
+	<4F71C069.30205@windriver.com>
+	<20120327133512.GC3969@jama.jama.net>
+	<4F71C570.4020703@windriver.com>
+	<20120327151933.GD3969@jama.jama.net>
+In-Reply-To: <20120327151933.GD3969@jama.jama.net>
+Cc: openembedded-core@lists.openembedded.org,
+	openembedded-commits@lists.openembedded.org
+Subject: Re: [oe-commits] Robert Yang : A script to clean obsolete sstate cache files
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -33,60 +41,134 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 01 Apr 2012 02:48:55 -0000
+X-List-Received-Date: Sun, 01 Apr 2012 02:50:50 -0000
+Content-Type: text/plain; charset="ISO-8859-1"; format=flowed
+Content-Transfer-Encoding: 7bit
 
-From: Zhai Edwin <edwin.zhai@intel.com>
 
-Previous version of nVidia GLX driver in Ubuntu 10 cause qemu segfault, so we
-fall back to Mesa GLX driver if detecting nVidia driver installed. From Ubuntu
-11, nVidia GLX driver works well, while previous work around cause GL apps
-failure. So this work around is limited in Ubuntu 10 only, and will be removed
-in future.
+Hi Martin,
 
-[YOCTO #1886] got fixed.
+The fixes have been merged into oe-core, and it changed a lot.
 
-Signed-off-by: Zhai Edwin <edwin.zhai@intel.com>
----
- scripts/runqemu-internal |   11 ++++++++---
- 1 files changed, 8 insertions(+), 3 deletions(-)
+// Robert
 
-diff --git a/scripts/runqemu-internal b/scripts/runqemu-internal
-index 73b8b41..92f245a 100755
---- a/scripts/runqemu-internal
-+++ b/scripts/runqemu-internal
-@@ -467,11 +467,15 @@ cat << EOM
- WARNING: nVidia proprietary OpenGL libraries detected.
- nVidia's OpenGL libraries are known to have compatibility issues with qemu,
- resulting in a segfault. Please uninstall these drivers or ensure the mesa libGL
--libraries precede nvidia's via LD_PRELOAD(Already do it on Ubuntu).
-+libraries precede nvidia's via LD_PRELOAD(Already do it on Ubuntu 10).
- EOM
- 
- # Automatically use Ubuntu system's mesa libGL, other distro can add its own path
--    if grep -i ubuntu /etc/lsb-release &> /dev/null
-+if grep -i ubuntu /etc/lsb-release &> /dev/null
-+then
-+    # precede nvidia's driver on Ubuntu 10
-+    UBUNTU_MAIN_VERSION=`cat /etc/lsb-release |grep DISTRIB_RELEASE |cut -d=  -f 2| cut -d. -f 1`
-+    if [ $UBUNTU_MAIN_VERSION -eq 10 ];
-     then
-         GL_PATH=""
-         if test -e /usr/lib/libGL.so
-@@ -482,10 +486,11 @@ EOM
-             GL_PATH="/usr/lib/x86_64-linux-gnu/libGL.so"
-         fi
- 
--        echo "Skip nVidia's libGL on Ubuntu!"
-+        echo "Skip nVidia's libGL on Ubuntu 10!"
-         GL_LD_PRELOAD="$GL_PATH $LD_PRELOAD"
-     fi
- fi
-+fi
- 
- echo "Running $QEMU..."
- # -no-reboot is a mandatory option - see bug #100
--- 
-1.7.5.4
-
+On 03/27/2012 11:19 PM, Martin Jansa wrote:
+> On Tue, Mar 27, 2012 at 09:49:36PM +0800, Robert Yang wrote:
+>>
+>>
+>> On 03/27/2012 09:35 PM, Martin Jansa wrote:
+>>> On Tue, Mar 27, 2012 at 09:28:09PM +0800, Robert Yang wrote:
+>>>>
+>>>> Hi Martin,
+>>>>
+>>>> Thanks for reporting this, and I'm very sorry for the inconvenience,
+>>>> please see my comment inline ...
+>>>>
+>>>> On 03/27/2012 07:33 PM, Martin Jansa wrote:
+>>>>> On Tue, Mar 27, 2012 at 01:06:33PM +0200, Martin Jansa wrote:
+>>>>>> On Fri, Feb 24, 2012 at 12:01:37AM +0000, git@git.openembedded.org wrote:
+>>>>>>> Module: openembedded-core.git
+>>>>>>> Branch: master
+>>>>>>> Commit: 7c99ef6d2173b14e1109a540ee5ae47b56d707e7
+>>>>>>> URL:    http://git.openembedded.org/?p=openembedded-core.git&a=commit;h=7c99ef6d2173b14e1109a540ee5ae47b56d707e7
+>>>>>>>
+>>>>>>> Author: Robert Yang<liezhi.yang@windriver.com>
+>>>>>>> Date:   Wed Feb 22 20:38:30 2012 +0800
+>>>>>>>
+>>>>>>> A script to clean obsolete sstate cache files
+>>>>>>>
+>>>>>>
+>>>>>>> +# Use the "_" to substitute "-", e.g., x86-64 to x86_64
+>>>>>>> +all_archs=`grep -r DEFAULTTUNE $tunedir | \
+>>>>>>> +    sed -e 's/.*\"\(.*\)\"/\1/' -e 's/-/_/g' | sort -u`
+>>>>>>> +# Add the qemu archs
+>>>>>>> +all_archs="$all_archs qemuarm qemux86 qemumips qemuppc"
+>>>>>>
+>>>>>> This doesn't list any thumb variants, current list is:
+>>>>>>
+>>>>>> arm1136jfs arm920t arm926ejs arm9tdmi armv4 armv5 armv6 armv7 armv7a
+>>>>>> core2 cortexa8_neon cortexa9_neon cortexm1 cortexm3 cortexr4 ep9312 i586
+>>>>>> iwmmxt mips mips32 powerpc powerpc64 ppc603e ppce300c2 ppce500 ppce500mc
+>>>>>> ppce500v2 ppce5500 strongarm x86 x86_64 xscale
+>>>>>>
+>>>>>> so thumb versions (e.g. armv4t) are not found in
+>>>>>>
+>>>>>>> +for arch in $all_archs; do
+>>>>>>> +    ls | grep -q -w $arch
+>>>>>>> +    [ $? -eq 0 ]&&    ava_archs="$ava_archs $arch"
+>>>>>>> +done
+>>>>>>
+>>>>>> Cheers,
+>>>>>
+>>>>> And after extending list of machines in all_archs with armv4t and my
+>>>>> machines I got only one file in sstate-cache left :/
+>>>>>
+>>>>> First run without armv4t found:
+>>>>> OE crespo@shr ~/shr-core $ du -hs sstate-cache/; openembedded-core/scripts/sstate-cache-management.sh --cache-dir=sstate-cache --remove-duplicated; du -hs sstate-cache/
+>>>>> 14G     sstate-cache/
+>>>>> Figuring out the archs in the sstate cache dir ...
+>>>>> The following archs have been found in the sstate cache dir:
+>>>>> armv7a x86_64
+>>>>> Removing the sstate-xxx_deploy-rpm.tgz ... (0 files)
+>>>>> Removing the sstate-xxx_deploy-ipk.tgz ... (58 files)
+>>>>> Removing the sstate-xxx_deploy-deb.tgz ... (0 files)
+>>>>> Removing the sstate-xxx_deploy.tgz ... (0 files)
+>>>>> Removing the sstate-xxx_package.tgz ... (62 files)
+>>>>> Removing the sstate-xxx_populate-lic.tgz ... (46 files)
+>>>>> Removing the sstate-xxx_populate-sysroot.tgz ... (102 files)
+>>>>> 268 files have been removed
+>>>>> 13G     sstate-cache/
+>>>>>
+>>>>> Second run with armv4t manually added
+>>>>> -all_archs="$all_archs qemuarm qemux86 qemumips qemuppc"
+>>>>> +all_archs="$all_archs qemuarm qemux86 qemumips qemuppc armv4t"
+>>>>> OE crespo@shr ~/openembedded-core $ du -hs ../shr-core/sstate-cache/; scripts/sstate-cache-management.sh --cache-dir=../shr-core/sstate-cache --remove-duplicated; du -hs ../shr-core/sstate-cache/
+>>>>> 13G     ../shr-core/sstate-cache/
+>>>>> /OE/openembedded-core/meta/conf/machine/include
+>>>>> Figuring out the archs in the sstate cache dir ...
+>>>>> The following archs have been found in the sstate cache dir:
+>>>>> armv4t armv7a x86_64
+>>>>> Removing the sstate-xxx_deploy-rpm.tgz ... (0 files)
+>>>>> Removing the sstate-xxx_deploy-ipk.tgz ... (460 files)
+>>>>> Removing the sstate-xxx_deploy-deb.tgz ... (0 files)
+>>>>> Removing the sstate-xxx_deploy.tgz ... (0 files)
+>>>>> Removing the sstate-xxx_package.tgz ... (454 files)
+>>>>> Removing the sstate-xxx_populate-lic.tgz ... (456 files)
+>>>>> Removing the sstate-xxx_populate-sysroot.tgz ... (468 files)
+>>>>> 1838 files have been removed
+>>>>> 6.2G    ../shr-core/sstate-cache/
+>>>>>
+>>>>> Third run with machines I'm building manually added
+>>>>> -all_archs="$all_archs qemuarm qemux86 qemumips qemuppc armv4t"
+>>>>> +all_archs="$all_archs qemuarm qemux86 qemumips qemuppc armv4t om_gta01 om_gta02 om_gta04 nokia900 palmpre palmpre2 crespo spitz"
+>>>>
+>>>> The script figures the archs according to the 'meta/conf/machine/include',
+>>>> this is incorrect since it only searches the oe-core layer, I will fix it.
+>>>
+>>> The first issue is that armv4t and other thumb variants are also in
+>>> oe-core layer.
+>>>
+>>>> And where can I get the "om_gta01 om_gta02 om_gta04 ..." archs? I mean which
+>>>> layer are they in? So that I can test them.
+>>>
+>>> Those are machines from meta-smartphone sublayers
+>>> http://git.shr-project.org/git/?p=meta-smartphone.git;a=summary
+>>>
+>>> Maybe add some param to add extra archs/machines or just list all used
+>>> xxx variants from 'sstate-xxx_'.
+>>>
+>> Thanks, add some param is good choice. Figure out the used variants from
+>> sstate-xxx is the best way, but it seems not easy since it uses the "-" as
+>> the separator, and I had counted the number of field, it is not always the
+>> same.
+>
+> I see, maybe add also param to specify stamps dir, which can be used to
+> find all arch ever built if it's the same host which populated
+> sstate-cache dir.
+>
+> That would include also all sdk and native variants etc.
+>
+> Cheers,
+>
 
 
