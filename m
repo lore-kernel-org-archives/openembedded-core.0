@@ -1,26 +1,31 @@
-Received: from mga09.intel.com ([134.134.136.24])
+Received: from astoria.ccjclearline.com ([64.235.106.9])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <paul.eggleton@linux.intel.com>) id 1SEdJ7-00006e-9e
+	(envelope-from <rpjday@crashcourse.ca>) id 1SEfjE-00023y-DC
 	for openembedded-core@lists.openembedded.org;
-	Mon, 02 Apr 2012 11:12:13 +0200
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-	by orsmga102.jf.intel.com with ESMTP; 02 Apr 2012 02:03:03 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.67,351,1309762800"; d="scan'208";a="127715302"
-Received: from unknown (HELO helios.localnet) ([10.252.123.252])
-	by orsmga002.jf.intel.com with ESMTP; 02 Apr 2012 02:03:02 -0700
-From: Paul Eggleton <paul.eggleton@linux.intel.com>
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-Date: Mon, 02 Apr 2012 10:02:57 +0100
-Message-ID: <1536285.gssKeMVGyU@helios>
-Organization: Intel Corporation
-User-Agent: KMail/4.8.0 (Linux/3.0.0-17-generic-pae; KDE/4.8.1; i686; ; )
-In-Reply-To: <1333338343.647.8.camel@ted>
-References: <1333202821.18082.225.camel@ted> <1333212913.18082.247.camel@ted>
-	<1333338343.647.8.camel@ted>
+	Mon, 02 Apr 2012 13:47:20 +0200
+Received: from cpec03f0ed08c7f-cm001ac318e826.cpe.net.cable.rogers.com
+	([99.241.91.63] helo=crashcourse.ca)
+	by astoria.ccjclearline.com with esmtpsa (TLSv1:AES256-SHA:256)
+	(Exim 4.69) (envelope-from <rpjday@crashcourse.ca>)
+	id 1SEfaP-0003gG-25 for openembedded-core@lists.openembedded.org;
+	Mon, 02 Apr 2012 07:38:13 -0400
+Date: Mon, 2 Apr 2012 07:37:58 -0400 (EDT)
+From: "Robert P. J. Day" <rpjday@crashcourse.ca>
+X-X-Sender: rpjday@oneiric
+To: OE Core mailing list <openembedded-core@lists.openembedded.org>
+Message-ID: <alpine.DEB.2.02.1204020736460.9309@oneiric>
+User-Agent: Alpine 2.02 (DEB 1266 2009-07-14)
 MIME-Version: 1.0
-Cc: openembedded-core@lists.openembedded.org, Steve Sakoman <steve@sakoman.com>
-Subject: Re: Re-execution of tasks - test report and results
+X-AntiAbuse: This header was added to track abuse,
+	please include it with any abuse report
+X-AntiAbuse: Primary Hostname - astoria.ccjclearline.com
+X-AntiAbuse: Original Domain - lists.openembedded.org
+X-AntiAbuse: Originator/Caller UID/GID - [47 12] / [47 12]
+X-AntiAbuse: Sender Address Domain - crashcourse.ca
+X-Source: 
+X-Source-Args: 
+X-Source-Dir: 
+Subject: so what's the deal with "..._append +="?
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -35,47 +40,31 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 02 Apr 2012 09:12:13 -0000
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
+X-List-Received-Date: Mon, 02 Apr 2012 11:47:20 -0000
+Content-Type: TEXT/PLAIN; charset=US-ASCII
 
-On Monday 02 April 2012 04:45:43 Richard Purdie wrote:
-> diff --git a/meta/recipes-core/gettext/gettext_0.18.1.1.bb
-> b/meta/recipes-core/gettext/gettext_0.18.1.1.bb index 4144d2b..0ed5dd9
-> 100644
-> --- a/meta/recipes-core/gettext/gettext_0.18.1.1.bb
-> +++ b/meta/recipes-core/gettext/gettext_0.18.1.1.bb
-> @@ -7,7 +7,7 @@ LIC_FILES_CHKSUM =
-> "file://COPYING;md5=d32239bcb673463ab874e80d47fae504"
-> 
->  PR = "r10"
->  DEPENDS = "libxml2-native gettext-native virtual/libiconv ncurses expat"
-> -DEPENDS_virtclass-native = "libxml2-native"
-> +DEPENDS_virtclass-native = "libxml2-native gettext-minimal-native"
->  PROVIDES = "virtual/libintl virtual/gettext"
->  PROVIDES_virtclass-native = "virtual/gettext-native"
->  CONFLICTS_${PN} = "proxy-libintl"
-> @@ -95,4 +95,8 @@ do_install_append() {
->      rm -f ${D}${libdir}/preloadable_libintl.so
->  }
-> 
-> +do_install_append_virtclass-native () {
-> +	rm ${D}${datadir}/aclocal/*
-> +}
-> +
->  BBCLASSEXTEND = "native nativesdk"
-> 
-> although I'm travelling at the moment and have not tested this yet.
 
-I've tested this just now and it does fix the problem. The only thing missing 
-is a PR bump.
+  pretty sure i mentioned this once before but this just looks weird:
 
-Cheers,
-Paul
+$ grep -r "_append +=" *
+meta/recipes-support/gmp/gmp_5.0.4.bb:SRC_URI_append += "file://use-includedir.patch \
+meta/recipes-core/eglibc/eglibc-package.inc:FILES_${PN}-dev_append += "${bindir}/rpcgen ${libdir}/*_nonshared.a \
+meta/recipes-core/eglibc/eglibc-package.inc:FILES_${PN}-staticdev_append += "${libdir}/*.a ${base_libdir}/*.a"
+meta/recipes-graphics/xorg-lib/libxp_1.0.1.bb:CFLAGS_append += " -I ${S}/include/X11/XprintUtil -I ${S}/include/X11/extensions"
+$
+
+  should those be just simple assignments?
+
+rday
 
 -- 
 
-Paul Eggleton
-Intel Open Source Technology Centre
+========================================================================
+Robert P. J. Day                                 Ottawa, Ontario, CANADA
+                        http://crashcourse.ca
+
+Twitter:                                       http://twitter.com/rpjday
+LinkedIn:                               http://ca.linkedin.com/in/rpjday
+========================================================================
 
 
