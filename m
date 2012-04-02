@@ -1,28 +1,37 @@
-Received: from mga11.intel.com ([192.55.52.93])
+Received: from mga03.intel.com ([143.182.124.21])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <paul.eggleton@linux.intel.com>) id 1SEQp7-0006FM-4k
+	(envelope-from <dexuan.cui@intel.com>) id 1SEX7M-0006z0-FC
 	for openembedded-core@lists.openembedded.org;
-	Sun, 01 Apr 2012 21:52:25 +0200
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-	by fmsmga102.fm.intel.com with ESMTP; 01 Apr 2012 12:43:17 -0700
+	Mon, 02 Apr 2012 04:35:40 +0200
+Received: from azsmga002.ch.intel.com ([10.2.17.35])
+	by azsmga101.ch.intel.com with ESMTP; 01 Apr 2012 19:26:31 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="148464559"
-Received: from unknown (HELO helios.localnet) ([10.252.123.252])
-	by fmsmga002.fm.intel.com with ESMTP; 01 Apr 2012 12:43:16 -0700
-From: Paul Eggleton <paul.eggleton@linux.intel.com>
-To: "Cui, Dexuan" <dexuan.cui@intel.com>
-Date: Sun, 01 Apr 2012 20:43:14 +0100
-Message-ID: <1627697.cshU2EUhO7@helios>
-Organization: Intel Corporation
-User-Agent: KMail/4.8.0 (Linux/3.0.0-17-generic-pae; KDE/4.8.1; i686; ; )
-In-Reply-To: <A25F549E4D43CD42B4C02DF47A1913230FCEC5F0@SHSMSX102.ccr.corp.intel.com>
-References: <cover.1332826876.git.sgw@linux.intel.com>
-	<A25F549E4D43CD42B4C02DF47A1913230FCEBD18@SHSMSX102.ccr.corp.intel.com>
-	<A25F549E4D43CD42B4C02DF47A1913230FCEC5F0@SHSMSX102.ccr.corp.intel.com>
-MIME-Version: 1.0
-Cc: Patches and discussions about the oe-core layer
+X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="84158043"
+Received: from azsmsx601.amr.corp.intel.com ([10.2.121.193])
+	by AZSMGA002.ch.intel.com with ESMTP; 01 Apr 2012 19:26:31 -0700
+Received: from shsmsx101.ccr.corp.intel.com (10.239.4.153) by
+	azsmsx601.amr.corp.intel.com (10.2.121.193) with Microsoft SMTP Server
+	(TLS) id 8.2.255.0; Sun, 1 Apr 2012 19:26:31 -0700
+Received: from shsmsx102.ccr.corp.intel.com ([169.254.2.36]) by
+	SHSMSX101.ccr.corp.intel.com ([169.254.1.142]) with mapi id
+	14.01.0355.002; Mon, 2 Apr 2012 10:26:29 +0800
+From: "Cui, Dexuan" <dexuan.cui@intel.com>
+To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 0/6] Setup for VMDK to use Direct Disk
+Thread-Topic: [OE-core] [PATCH 1/5] genext2fs: support large files and
+	filesystems without using large amounts of memory
+Thread-Index: AQHNECIaYzPUAnYRmEahTmIcukUvKJaGzffQ
+Date: Mon, 2 Apr 2012 02:26:28 +0000
+Message-ID: <A25F549E4D43CD42B4C02DF47A1913230FCEC9E7@SHSMSX102.ccr.corp.intel.com>
+References: <cover.1333295122.git.dexuan.cui@intel.com>
+	<c76f9db84c2eabe0bf704b253a957f695f421936.1333295123.git.dexuan.cui@intel.com>
+In-Reply-To: <c76f9db84c2eabe0bf704b253a957f695f421936.1333295123.git.dexuan.cui@intel.com>
+Accept-Language: zh-CN, en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [10.239.127.40]
+MIME-Version: 1.0
+Subject: Re: [PATCH 1/5] genext2fs: support large files and	filesystems without using large amounts of memory
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -37,41 +46,71 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 01 Apr 2012 19:52:25 -0000
-Content-Transfer-Encoding: 7Bit
+X-List-Received-Date: Mon, 02 Apr 2012 02:35:40 -0000
+Content-Language: en-US
 Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 
-On Sunday 01 April 2012 10:28:35 Cui, Dexuan wrote:
-> Hi Paul, I believe this is true:
-> genext2fs-1.4.1 can create a corrupt file system when
-> the size of the file system exceeds some limit.
-> 
-> e.g., when I create an image of 2.8GB, the image can be mounted
-> properly, but when I create an image of about 4.5GB(yes, I found
-> genext2fs-1.4.1 is actually able to create an image of 4.5GB; I also
-> found it's unable to create an image of about 5.5GB, always
-> reporting "couldn't allocate a block (no free space)"),
-> the generated image can show something like this when it's
-> booted:
-> 
-> EXT3-fs error (device hda2): ext3_lookup: deleted inode referenced...
-> 
-> However, with Corey's patches (from the genext2fs's mailing list)
-> applied, I can't see the issues.
+BTW, we can see http://sourceforge.net/mailarchive/message.php?msg_id=3D290=
+71716 for what Corey, the author of the patches to genext2fs, said:
+"We (MontaVista) and our customers have been using these patches in product=
+ion since the time I sent them out and we haven't had any issues"
 
-I can confirm this.
+So, the quality of the patches seems pretty good.
 
-With these patches applied I also compared (a) using genext2fs to create a 
-30GB rootfs, and (b) letting genext2fs create a filesystem with just enough 
-space and then resizing it to 30GB with resize2fs. There was no benefit in the 
-latter - it took 5 minutes longer.
+Thanks,
+-- Dexuan
 
-Cheers,
-Paul
 
--- 
-
-Paul Eggleton
-Intel Open Source Technology Centre
+> -----Original Message-----
+> From: openembedded-core-bounces@lists.openembedded.org
+> [mailto:openembedded-core-bounces@lists.openembedded.org] On Behalf Of
+> Dexuan Cui
+> Sent: Monday, April 02, 2012 12:10 AM
+> To: openembedded-core@lists.openembedded.org
+> Subject: [OE-core] [PATCH 1/5] genext2fs: support large files and filesys=
+tems
+> without using large amounts of memory
+>=20
+> update_to_1.95.patch was generated by making a diff bewteen the 1.4.1
+> release
+> and the latest 1.9.5 version in the cvs repo:
+> http://genext2fs.cvs.sourceforge.net/viewvc/genext2fs/genext2fs/genext2fs=
+.c?
+> revision=3D1.95
+>=20
+> The patches 0001-0019 come from mailing list of genext2fs-devel
+> http://sourceforge.net/mailarchive/forum.php?forum_name=3Dgenext2fs-devel=
+&
+> max_rows=3D100&style=3Dflat&viewmonth=3D201106
+>=20
+> Signed-off-by: Dexuan Cui <dexuan.cui@intel.com>
+> ---
+>  ...01-Fix-warnings-remove-some-unused-macros.patch |   72 ++
+>  .../0002-Add-put_blk-and-put_nod-routines.patch    | 1123
+> ++++++++++++++++++++
+>  .../0003-Add-get_blkmap-and-put_blkmap.patch       |  222 ++++
+>  ...lker-for-walking-through-directory-entrie.patch |  357 +++++++
+>  ...05-Make-filesystem-struct-not-an-overloay.patch |  374 +++++++
+>  ...0006-Improve-the-efficiency-of-extend_blk.patch |  272 +++++
+>  ...ove-hdlinks-into-the-filesystem-structure.patch |  175 +++
+>  ...t-the-creation-of-the-filesystem-structur.patch |   95 ++
+>  ...e-byte-swapping-into-the-get-put-routines.patch |  421 ++++++++
+>  ...rt-over-to-keeping-the-filesystem-on-disk.patch |  839 ++++++++++++++=
++
+>  ...les-into-the-filesystem-a-piece-at-a-time.patch |  103 ++
+>  ...upport-large-file-support-and-rework-hole.patch |  211 ++++
+>  .../0013-Add-volume-id-support.patch               |   86 ++
+>  ...014-Remove-unneeded-setting-of-s_reserved.patch |   28 +
+>  ...-Rework-creating-the-lost-found-directory.patch |   57 +
+>  ...ix-the-documentation-for-the-new-L-option.patch |   29 +
+>  .../0017-Fix-file-same-comparison.patch            |   30 +
+>  ...andle-files-changing-while-we-are-working.patch |   89 ++
+>  ...ke-sure-superblock-is-clear-on-allocation.patch |   42 +
+>  .../genext2fs-1.4.1/fix-nbblocks-cast.patch        |   18 +-
+>  .../genext2fs/genext2fs-1.4.1/update_to_1.95.patch |  119 ++
+>  meta/recipes-devtools/genext2fs/genext2fs_1.4.1.bb |   24 +-
+>  22 files changed, 4776 insertions(+), 10 deletions(-)
+> ...
 
 
