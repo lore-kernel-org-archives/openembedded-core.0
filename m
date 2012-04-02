@@ -1,19 +1,21 @@
 Received: from smtp3-g21.free.fr ([212.27.42.3])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <eric@eukrea.com>) id 1SEo8s-0002IO-AY
+	(envelope-from <eric@eukrea.com>) id 1SEo8v-0002If-CT
 	for openembedded-core@lists.openembedded.org;
-	Mon, 02 Apr 2012 22:46:22 +0200
+	Mon, 02 Apr 2012 22:46:25 +0200
 Received: from localhost.localdomain (unknown [82.233.81.124])
-	by smtp3-g21.free.fr (Postfix) with ESMTP id 4B4E0A623C
+	by smtp3-g21.free.fr (Postfix) with ESMTP id 51EA4A622E
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  2 Apr 2012 22:37:11 +0200 (CEST)
+	Mon,  2 Apr 2012 22:37:15 +0200 (CEST)
 From: =?UTF-8?q?Eric=20B=C3=A9nard?= <eric@eukrea.com>
 To: openembedded-core@lists.openembedded.org
-Date: Mon,  2 Apr 2012 22:37:09 +0200
-Message-Id: <1333399030-28619-1-git-send-email-eric@eukrea.com>
+Date: Mon,  2 Apr 2012 22:37:10 +0200
+Message-Id: <1333399030-28619-2-git-send-email-eric@eukrea.com>
 X-Mailer: git-send-email 1.7.7.6
+In-Reply-To: <1333399030-28619-1-git-send-email-eric@eukrea.com>
+References: <1333399030-28619-1-git-send-email-eric@eukrea.com>
 MIME-Version: 1.0
-Subject: [PATCH 1/2] license.py: fix behaviour of copyleft_compliance
+Subject: [PATCH 2/2] copyleft_compliance: also print the reason for including a package
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -28,68 +30,53 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 02 Apr 2012 20:46:22 -0000
+X-List-Received-Date: Mon, 02 Apr 2012 20:46:25 -0000
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
 
-actually if a package has a license in its LICENSE variable
-which is not in the whitelist nor in the blacklist and even
-if an other license in this variable is in the whitelist,
-the package gets excluded and is not taken in account in the
-copyleft_compliance.
-This patch solves this by excluding a recipe _only_ if the
-LICENSE variable includes a pattern from the blacklist and
-including a recipe only if it includes a variable from the
-whitelist _and_ none from the blacklist.
-
-Example in busybox which has LICENSE=3D"GPLv2 & BSD-4-Clause",
-with the actual behaviour (where he blacklist contains only
-CLOSED Proprietary) we get :
-DEBUG: copyleft: busybox-1.19.4 is excluded: recipe has excluded licenses=
-: BSD-4-Clause
-which is not sane because busybox is covered by a copyleft license
-which is GPLv2 and should match the default whitelist which is
-GPL* LGPL*.
-
 Signed-off-by: Eric B=C3=A9nard <eric@eukrea.com>
 ---
-v2: updated and tested after Kergoth's review on IRC
+ meta/classes/copyleft_compliance.bbclass |    8 ++++----
+ 1 files changed, 4 insertions(+), 4 deletions(-)
 
- meta/lib/oe/license.py |   11 +++++++----
- 1 files changed, 7 insertions(+), 4 deletions(-)
-
-diff --git a/meta/lib/oe/license.py b/meta/lib/oe/license.py
-index 5914506..173e319 100644
---- a/meta/lib/oe/license.py
-+++ b/meta/lib/oe/license.py
-@@ -86,8 +86,10 @@ def is_included(licensestr, whitelist=3DNone, blacklis=
-t=3DNone):
-     """
+diff --git a/meta/classes/copyleft_compliance.bbclass b/meta/classes/copy=
+left_compliance.bbclass
+index 4082e7e..3ca7337 100644
+--- a/meta/classes/copyleft_compliance.bbclass
++++ b/meta/classes/copyleft_compliance.bbclass
+@@ -47,14 +47,14 @@ def copyleft_should_include(d):
+     exclude =3D oe.data.typed_value('COPYLEFT_LICENSE_EXCLUDE', d)
 =20
-     def include_license(license):
--        return (any(fnmatch(license, pattern) for pattern in whitelist) =
-and not
--                any(fnmatch(license, pattern) for pattern in blacklist))
-+        return any(fnmatch(license, pattern) for pattern in whitelist)
-+
-+    def exclude_license(license):
-+        return any(fnmatch(license, pattern) for pattern in blacklist)
-=20
-     def choose_licenses(alpha, beta):
-         """Select the option in an OR which is the 'best' (has the most
-@@ -106,8 +108,9 @@ def is_included(licensestr, whitelist=3DNone, blackli=
-st=3DNone):
-         blacklist =3D []
-=20
-     licenses =3D flattened_licenses(licensestr, choose_licenses)
--    excluded =3D filter(lambda lic: not include_license(lic), licenses)
-+    excluded =3D filter(lambda lic: exclude_license(lic), licenses)
-+    included =3D filter(lambda lic: include_license(lic), licenses)
-     if excluded:
-         return False, excluded
+     try:
+-        is_included, excluded =3D oe.license.is_included(d.getVar('LICEN=
+SE', True), include, exclude)
++        is_included, reason =3D oe.license.is_included(d.getVar('LICENSE=
+', True), include, exclude)
+     except oe.license.LicenseError as exc:
+         bb.fatal('%s: %s' % (d.getVar('PF', True), exc))
      else:
--        return True, None
-+        return True, included
+         if is_included:
+-            return True, None
++            return True, 'recipe has included licenses: %s' % ', '.join(=
+reason)
+         else:
+-            return False, 'recipe has excluded licenses: %s' % ', '.join=
+(excluded)
++            return False, 'recipe has excluded licenses: %s' % ', '.join=
+(reason)
+=20
+ python do_prepare_copyleft_sources () {
+     """Populate a tree of the recipe sources and emit patch series files=
+"""
+@@ -67,7 +67,7 @@ python do_prepare_copyleft_sources () {
+         bb.debug(1, 'copyleft: %s is excluded: %s' % (p, reason))
+         return
+     else:
+-        bb.debug(1, 'copyleft: %s is included' % p)
++        bb.debug(1, 'copyleft: %s is included: %s' % (p, reason))
+=20
+     sources_dir =3D d.getVar('COPYLEFT_SOURCES_DIR', True)
+     src_uri =3D d.getVar('SRC_URI', True).split()
 --=20
 1.7.7.6
 
