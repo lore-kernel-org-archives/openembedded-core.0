@@ -1,32 +1,23 @@
-Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
-	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <richard.purdie@linuxfoundation.org>)
-	id 1SEg57-0002gi-0q for openembedded-core@lists.openembedded.org;
-	Mon, 02 Apr 2012 14:09:57 +0200
-Received: from localhost (localhost [127.0.0.1])
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q32C0njX008359
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 2 Apr 2012 13:00:49 +0100
-Received: from tim.rpsys.net ([127.0.0.1])
-	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
-	port 10024) with LMTP
-	id 07587-04 for <openembedded-core@lists.openembedded.org>;
-	Mon,  2 Apr 2012 13:00:40 +0100 (BST)
-Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q32C0Zwx008288
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO)
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 2 Apr 2012 13:00:38 +0100
-Message-ID: <1333368035.647.28.camel@ted>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
+Received: from mail.pbcl.net ([88.198.119.4] helo=hetzner.pbcl.net)
+	by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <philb@gnu.org>) id 1SEg84-0002kk-W5
+	for openembedded-core@lists.openembedded.org;
+	Mon, 02 Apr 2012 14:13:01 +0200
+Received: from elite.brightsigndigital.co.uk ([81.142.160.137]
+	helo=[172.30.1.145])
+	by hetzner.pbcl.net with esmtpsa (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+	(Exim 4.72) (envelope-from <philb@gnu.org>) id 1SEfzH-0000TK-5z
+	for openembedded-core@lists.openembedded.org;
+	Mon, 02 Apr 2012 14:03:55 +0200
+From: Phil Blundell <philb@gnu.org>
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Date: Mon, 02 Apr 2012 13:00:35 +0100
+Date: Mon, 02 Apr 2012 13:03:54 +0100
 In-Reply-To: <alpine.DEB.2.02.1204020736460.9309@oneiric>
 References: <alpine.DEB.2.02.1204020736460.9309@oneiric>
-X-Mailer: Evolution 3.2.2- 
+X-Mailer: Evolution 3.0.2- 
+Message-ID: <1333368235.2668.34.camel@phil-desktop>
 Mime-Version: 1.0
-X-Virus-Scanned: amavisd-new at rpsys.net
 Subject: Re: so what's the deal with "..._append +="?
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
@@ -42,7 +33,7 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 02 Apr 2012 12:09:57 -0000
+X-List-Received-Date: Mon, 02 Apr 2012 12:13:01 -0000
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 
@@ -58,12 +49,16 @@ On Mon, 2012-04-02 at 07:37 -0400, Robert P. J. Day wrote:
 > 
 >   should those be just simple assignments?
 
-The += does add in a whitespace character. I agree it would be less
-confusing if they were just plain _append = " xxx" though.
+Probably most of them should lose the _append and just use +=.  I doubt
+many/any of them are actually relying on the delayed semantics of
+_append.  
 
-Cheers,
+If they do require the delayed appending then yes, they should be
+straight assignments with _append.  All except the last example would
+need a space adding on the right hand side though, in that case.
 
-Richard
+p.
+
 
 
 
