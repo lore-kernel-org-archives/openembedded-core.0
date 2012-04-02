@@ -1,38 +1,31 @@
-Received: from mail-pz0-f51.google.com ([209.85.210.51])
+Received: from astoria.ccjclearline.com ([64.235.106.9])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <raj.khem@gmail.com>) id 1SEodr-0003Du-13
+	(envelope-from <rpjday@crashcourse.ca>) id 1SEp2T-0003fd-US
 	for openembedded-core@lists.openembedded.org;
-	Mon, 02 Apr 2012 23:18:23 +0200
-Received: by dadz8 with SMTP id z8so2805549dad.10
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 02 Apr 2012 14:09:13 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=date:from:to:subject:message-id:references:mime-version
-	:content-type:content-disposition:in-reply-to:user-agent;
-	bh=wXyG9qsA1roFmubw3E0cZN2hH4Ot4JsA21El+ejLoPA=;
-	b=XxBVRFSihxu7z0fSsHTd/Fyo/Dw/LrV9gOGkH2yNOLa/kr1LDNjQD+XY6+poQLQO8/
-	w7d33/xLgJ+jwS8m/71eWvehw5S8aULA40PaBNz0aNhtZCFOZ0UM/jxivTsUpFbirjOl
-	9QXy6qIDh5V89+MwOwe1P17GIWOokntaTA6HCVeDuiGCMh6CYuwRI8cf8qmJmuAsTogG
-	rjxs4TOaZzMQVTzIzgAWpBccac8gJZGLfKCqAS1hPwNLe0mopETjKcHaOy8eeFLg6JmJ
-	Xq48Kft6kg/usZSwN6DZMvGy3uSfh8EJLIOyllsC27PpbzTTeqJZPlugQKy8hr+dzEVA
-	/U7A==
-Received: by 10.68.222.165 with SMTP id qn5mr23209187pbc.88.1333400953527;
-	Mon, 02 Apr 2012 14:09:13 -0700 (PDT)
-Received: from sakrah.homelinux.org
-	(99-57-140-209.lightspeed.sntcca.sbcglobal.net. [99.57.140.209])
-	by mx.google.com with ESMTPS id b1sm14724872pbm.68.2012.04.02.14.09.11
-	(version=TLSv1/SSLv3 cipher=OTHER);
-	Mon, 02 Apr 2012 14:09:12 -0700 (PDT)
-Date: Mon, 2 Apr 2012 14:08:59 -0700
-From: Khem Raj <raj.khem@gmail.com>
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Message-ID: <20120402210859.GA26880@sakrah.homelinux.org>
-References: <1331773718-14372-1-git-send-email-obi@opendreambox.org>
+	Mon, 02 Apr 2012 23:43:50 +0200
+Received: from cpec03f0ed08c7f-cm001ac318e826.cpe.net.cable.rogers.com
+	([99.241.91.63] helo=crashcourse.ca)
+	by astoria.ccjclearline.com with esmtpsa (TLSv1:AES256-SHA:256)
+	(Exim 4.69) (envelope-from <rpjday@crashcourse.ca>)
+	id 1SEote-0002Wh-Sd for openembedded-core@lists.openembedded.org;
+	Mon, 02 Apr 2012 17:34:42 -0400
+Date: Mon, 2 Apr 2012 17:34:26 -0400 (EDT)
+From: "Robert P. J. Day" <rpjday@crashcourse.ca>
+X-X-Sender: rpjday@oneiric
+To: OE Core mailing list <openembedded-core@lists.openembedded.org>
+Message-ID: <alpine.DEB.2.02.1204021730530.6159@oneiric>
+User-Agent: Alpine 2.02 (DEB 1266 2009-07-14)
 MIME-Version: 1.0
-In-Reply-To: <1331773718-14372-1-git-send-email-obi@opendreambox.org>
-User-Agent: Mutt/1.5.21 (2010-09-15)
-Subject: Re: [PATCH] parted: don't pass --disable-Werror to configure
+X-AntiAbuse: This header was added to track abuse,
+	please include it with any abuse report
+X-AntiAbuse: Primary Hostname - astoria.ccjclearline.com
+X-AntiAbuse: Original Domain - lists.openembedded.org
+X-AntiAbuse: Originator/Caller UID/GID - [47 12] / [47 12]
+X-AntiAbuse: Sender Address Domain - crashcourse.ca
+X-Source: 
+X-Source-Args: 
+X-Source-Dir: 
+Subject: should all class files be inherited by *something*?
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -47,50 +40,32 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 02 Apr 2012 21:18:23 -0000
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-
-On (15/03/12 02:08), Andreas Oberritter wrote:
-> * Fixes the following warning:
-> 
-> | configure: WARNING: unrecognized options: --disable-Werror
+X-List-Received-Date: Mon, 02 Apr 2012 21:43:50 -0000
+Content-Type: TEXT/PLAIN; charset=US-ASCII
 
 
-should 'W' be 'w' in --disable-Werror
+  poking around the meta/classes/*.bbclass files and one looked a bit
+odd -- scons.bbclass.  i was under the impression that class files
+were supposed represent a *general* kind of functionality so i was
+curious as to what this file represented.
 
-> 
-> Signed-off-by: Andreas Oberritter <obi@opendreambox.org>
-> ---
-> * No PR bump required because it doesn't change anything
->   apart from the log message mentioned above.
-> 
->  meta/recipes-extended/parted/parted_3.0.bb |    2 +-
->  1 files changed, 1 insertions(+), 1 deletions(-)
-> 
-> diff --git a/meta/recipes-extended/parted/parted_3.0.bb b/meta/recipes-extended/parted/parted_3.0.bb
-> index 29daf01..2fba6d1 100644
-> --- a/meta/recipes-extended/parted/parted_3.0.bb
-> +++ b/meta/recipes-extended/parted/parted_3.0.bb
-> @@ -13,7 +13,7 @@ SRC_URI = "${GNU_MIRROR}/parted/parted-${PV}.tar.gz \
->  SRC_URI[md5sum] = "a94e84a9b9944715c4453f82ccc639bf"
->  SRC_URI[sha256sum] = "8886eece015202f6bd5ce8414f4b68838452cef509f2e3389ad56128219837b7"
->  
-> -EXTRA_OECONF = "--disable-Werror --disable-device-mapper"
-> +EXTRA_OECONF = "--disable-device-mapper"
->  
->  inherit autotools pkgconfig gettext
->  
-> -- 
-> 1.7.5.4
-> 
-> 
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
+  more to the point, it doesn't look like anything in oe-core inherits
+that class.  so what exactly is its purpose?
+
+  and following up on that, another example of that kind of file is
+oelint.bbclass -- again, i don't see anything in oe-core that inherits
+it.
+
+rday
 
 -- 
--Khem
+
+========================================================================
+Robert P. J. Day                                 Ottawa, Ontario, CANADA
+                        http://crashcourse.ca
+
+Twitter:                                       http://twitter.com/rpjday
+LinkedIn:                               http://ca.linkedin.com/in/rpjday
+========================================================================
 
 
