@@ -1,35 +1,33 @@
-Received: from astoria.ccjclearline.com ([64.235.106.9])
+Received: from mail.dream-property.net ([82.149.226.172])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <rpjday@crashcourse.ca>) id 1SEp9F-0003v4-OC
+	(envelope-from <obi@opendreambox.org>) id 1SEpDg-0003zh-EL
 	for openembedded-core@lists.openembedded.org;
-	Mon, 02 Apr 2012 23:50:50 +0200
-Received: from cpec03f0ed08c7f-cm001ac318e826.cpe.net.cable.rogers.com
-	([99.241.91.63] helo=crashcourse.ca)
-	by astoria.ccjclearline.com with esmtpsa (TLSv1:AES256-SHA:256)
-	(Exim 4.69) (envelope-from <rpjday@crashcourse.ca>)
-	id 1SEp0Q-0002pM-Pu for openembedded-core@lists.openembedded.org;
-	Mon, 02 Apr 2012 17:41:42 -0400
-Date: Mon, 2 Apr 2012 17:41:28 -0400 (EDT)
-From: "Robert P. J. Day" <rpjday@crashcourse.ca>
-X-X-Sender: rpjday@oneiric
+	Mon, 02 Apr 2012 23:55:24 +0200
+Received: from localhost (localhost [127.0.0.1])
+	by mail.dream-property.net (Postfix) with ESMTP id 79693315ACCB;
+	Mon,  2 Apr 2012 23:46:17 +0200 (CEST)
+X-Virus-Scanned: Debian amavisd-new at mail.dream-property.net
+Received: from mail.dream-property.net ([127.0.0.1])
+	by localhost (mail.dream-property.net [127.0.0.1]) (amavisd-new,
+	port 10024)
+	with LMTP id KATbu2Nlx3PA; Mon,  2 Apr 2012 23:46:10 +0200 (CEST)
+Received: from [172.22.22.61] (drms-4d014fab.pool.mediaWays.net [77.1.79.171])
+	(using TLSv1 with cipher DHE-RSA-AES256-SHA (256/256 bits))
+	(No client certificate requested)
+	by mail.dream-property.net (Postfix) with ESMTPSA id 80A55315ABF9;
+	Mon,  2 Apr 2012 23:46:10 +0200 (CEST)
+Message-ID: <4F7A1E21.1070600@opendreambox.org>
+Date: Mon, 02 Apr 2012 23:46:09 +0200
+From: Andreas Oberritter <obi@opendreambox.org>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:11.0) Gecko/20120310 Thunderbird/11.0
+MIME-Version: 1.0
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-In-Reply-To: <CABcZANkiGGT2see21u3cTMa8QiAFaskRchhLEMAAo==zrfS4Xg@mail.gmail.com>
-Message-ID: <alpine.DEB.2.02.1204021740540.6667@oneiric>
-References: <alpine.DEB.2.02.1204021730530.6159@oneiric>
-	<CABcZANkiGGT2see21u3cTMa8QiAFaskRchhLEMAAo==zrfS4Xg@mail.gmail.com>
-User-Agent: Alpine 2.02 (DEB 1266 2009-07-14)
-MIME-Version: 1.0
-X-AntiAbuse: This header was added to track abuse,
-	please include it with any abuse report
-X-AntiAbuse: Primary Hostname - astoria.ccjclearline.com
-X-AntiAbuse: Original Domain - lists.openembedded.org
-X-AntiAbuse: Originator/Caller UID/GID - [47 12] / [47 12]
-X-AntiAbuse: Sender Address Domain - crashcourse.ca
-X-Source: 
-X-Source-Args: 
-X-Source-Dir: 
-Subject: Re: should all class files be inherited by *something*?
+References: <1331773718-14372-1-git-send-email-obi@opendreambox.org>
+	<20120402210859.GA26880@sakrah.homelinux.org>
+In-Reply-To: <20120402210859.GA26880@sakrah.homelinux.org>
+Subject: Re: [PATCH] parted: don't pass --disable-Werror to configure
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -44,51 +42,23 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 02 Apr 2012 21:50:50 -0000
-Content-Type: MULTIPART/MIXED; BOUNDARY="8323329-1298240268-1333402892=:6667"
+X-List-Received-Date: Mon, 02 Apr 2012 21:55:24 -0000
+Content-Type: text/plain; charset=ISO-8859-1
+Content-Transfer-Encoding: 7bit
 
---8323329-1298240268-1333402892=:6667
-Content-Type: TEXT/PLAIN; charset=utf-8
-Content-Transfer-Encoding: QUOTED-PRINTABLE
+On 02.04.2012 23:08, Khem Raj wrote:
+> On (15/03/12 02:08), Andreas Oberritter wrote:
+>> * Fixes the following warning:
+>>
+>> | configure: WARNING: unrecognized options: --disable-Werror
+> 
+> 
+> should 'W' be 'w' in --disable-Werror
 
-On Mon, 2 Apr 2012, Chris Larson wrote:
+Maybe (didn't verify), but it doesn't seem to be required anyway, so
+it's better to not use the option.
 
-> On Mon, Apr 2, 2012 at 2:34 PM, Robert P. J. Day <rpjday@crashcourse.ca> =
-wrote:
-> > =C2=A0poking around the meta/classes/*.bbclass files and one looked a b=
-it
-> > odd -- scons.bbclass. =C2=A0i was under the impression that class files
-> > were supposed represent a *general* kind of functionality so i was
-> > curious as to what this file represented.
-> >
-> > =C2=A0more to the point, it doesn't look like anything in oe-core inher=
-its
-> > that class. =C2=A0so what exactly is its purpose?
-> >
-> > =C2=A0and following up on that, another example of that kind of file is
-> > oelint.bbclass -- again, i don't see anything in oe-core that inherits
-> > it.
->
-> There will *always* be classes that aren't inherited by anything. Look
-> at devshell. Some classes will always be opt-in only.
+Regards,
+Andreas
 
-  yes, i twigged to that seconds after i pressed the ENTER key.  it
-*always* happens that way.  grrrrrrr.
 
-rday
-
---=20
-
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-Robert P. J. Day                                 Ottawa, Ontario, CANADA
-                        http://crashcourse.ca
-
-Twitter:                                       http://twitter.com/rpjday
-LinkedIn:                               http://ca.linkedin.com/in/rpjday
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-
---8323329-1298240268-1333402892=:6667--
