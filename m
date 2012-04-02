@@ -1,37 +1,33 @@
-Received: from mga03.intel.com ([143.182.124.21])
-	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <dexuan.cui@intel.com>) id 1SEX7M-0006z0-FC
-	for openembedded-core@lists.openembedded.org;
-	Mon, 02 Apr 2012 04:35:40 +0200
-Received: from azsmga002.ch.intel.com ([10.2.17.35])
-	by azsmga101.ch.intel.com with ESMTP; 01 Apr 2012 19:26:31 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="84158043"
-Received: from azsmsx601.amr.corp.intel.com ([10.2.121.193])
-	by AZSMGA002.ch.intel.com with ESMTP; 01 Apr 2012 19:26:31 -0700
-Received: from shsmsx101.ccr.corp.intel.com (10.239.4.153) by
-	azsmsx601.amr.corp.intel.com (10.2.121.193) with Microsoft SMTP Server
-	(TLS) id 8.2.255.0; Sun, 1 Apr 2012 19:26:31 -0700
-Received: from shsmsx102.ccr.corp.intel.com ([169.254.2.36]) by
-	SHSMSX101.ccr.corp.intel.com ([169.254.1.142]) with mapi id
-	14.01.0355.002; Mon, 2 Apr 2012 10:26:29 +0800
-From: "Cui, Dexuan" <dexuan.cui@intel.com>
+Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
+	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <richard.purdie@linuxfoundation.org>)
+	id 1SEY5x-0008Ll-RU for openembedded-core@lists.openembedded.org;
+	Mon, 02 Apr 2012 05:38:18 +0200
+Received: from localhost (localhost [127.0.0.1])
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q323TA3O004636
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 2 Apr 2012 04:29:10 +0100
+Received: from tim.rpsys.net ([127.0.0.1])
+	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
+	port 10024) with LMTP
+	id 27688-06 for <openembedded-core@lists.openembedded.org>;
+	Mon,  2 Apr 2012 04:29:05 +0100 (BST)
+Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q323Svim004630
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO)
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 2 Apr 2012 04:29:00 +0100
+Message-ID: <1333337337.647.3.camel@ted>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Thread-Topic: [OE-core] [PATCH 1/5] genext2fs: support large files and
-	filesystems without using large amounts of memory
-Thread-Index: AQHNECIaYzPUAnYRmEahTmIcukUvKJaGzffQ
-Date: Mon, 2 Apr 2012 02:26:28 +0000
-Message-ID: <A25F549E4D43CD42B4C02DF47A1913230FCEC9E7@SHSMSX102.ccr.corp.intel.com>
+Date: Mon, 02 Apr 2012 04:28:57 +0100
+In-Reply-To: <cover.1333295122.git.dexuan.cui@intel.com>
 References: <cover.1333295122.git.dexuan.cui@intel.com>
-	<c76f9db84c2eabe0bf704b253a957f695f421936.1333295123.git.dexuan.cui@intel.com>
-In-Reply-To: <c76f9db84c2eabe0bf704b253a957f695f421936.1333295123.git.dexuan.cui@intel.com>
-Accept-Language: zh-CN, en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [10.239.127.40]
-MIME-Version: 1.0
-Subject: Re: [PATCH 1/5] genext2fs: support large files and	filesystems without using large amounts of memory
+X-Mailer: Evolution 3.2.2- 
+Mime-Version: 1.0
+X-Virus-Scanned: amavisd-new at rpsys.net
+Subject: Re: [PATCH 0/5] dexuan: more build appliance patches: [Apr 1, 2012]
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -46,71 +42,44 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 02 Apr 2012 02:35:40 -0000
-Content-Language: en-US
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Mon, 02 Apr 2012 03:38:18 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-BTW, we can see http://sourceforge.net/mailarchive/message.php?msg_id=3D290=
-71716 for what Corey, the author of the patches to genext2fs, said:
-"We (MontaVista) and our customers have been using these patches in product=
-ion since the time I sent them out and we haven't had any issues"
+On Mon, 2012-04-02 at 00:10 +0800, Dexuan Cui wrote:
+> BTW:
+> I added a "Upstream-Status: inappropriat" into every patches to genext2fs.
+> 
+> With the patches, I only spent about 10~15 minutes to create a 4.5GB
+> .rootfs.ext3 file by genext2fs.
+> 
+> 
+> The following changes since commit 8691a588267472eb5a32b978a0eb9ddfd0c91733:
+> 
+>   cross-canadian.bbclass: fix rpath for sdk executables (2012-03-31 18:00:59 +0100)
+> 
+> are available in the git repository at:
+>   git://git.yoctoproject.org/poky-contrib dcui/master
+>   http://git.yoctoproject.org/cgit.cgi/poky-contrib/log/?h=dcui/master
+> 
+> Dexuan Cui (5):
+>   genext2fs: support large files and  filesystems without using large
+>     amounts of memory
+>   self-hosted-image: improve do_populate_poky_src
+>   self-hosted-image: renew the poky src's SRCREV that's installed into
+>     the target
+>   builder: uncomment the settings for BB_NUMBER_THREADS and
+>     PARALLEL_MAKE
+>   self-hosted-image: fix indentation: 8 spaces --> Tab
 
-So, the quality of the patches seems pretty good.
+I've merged these to master, thanks. Whilst I'm reluctant to do so at
+this point in the release process for such major changes, I think in
+this case it does make sense since the genext2fs changes seem to fix a
+number of problematic issues.
 
-Thanks,
--- Dexuan
+Cheers,
 
+Richard
 
-> -----Original Message-----
-> From: openembedded-core-bounces@lists.openembedded.org
-> [mailto:openembedded-core-bounces@lists.openembedded.org] On Behalf Of
-> Dexuan Cui
-> Sent: Monday, April 02, 2012 12:10 AM
-> To: openembedded-core@lists.openembedded.org
-> Subject: [OE-core] [PATCH 1/5] genext2fs: support large files and filesys=
-tems
-> without using large amounts of memory
->=20
-> update_to_1.95.patch was generated by making a diff bewteen the 1.4.1
-> release
-> and the latest 1.9.5 version in the cvs repo:
-> http://genext2fs.cvs.sourceforge.net/viewvc/genext2fs/genext2fs/genext2fs=
-.c?
-> revision=3D1.95
->=20
-> The patches 0001-0019 come from mailing list of genext2fs-devel
-> http://sourceforge.net/mailarchive/forum.php?forum_name=3Dgenext2fs-devel=
-&
-> max_rows=3D100&style=3Dflat&viewmonth=3D201106
->=20
-> Signed-off-by: Dexuan Cui <dexuan.cui@intel.com>
-> ---
->  ...01-Fix-warnings-remove-some-unused-macros.patch |   72 ++
->  .../0002-Add-put_blk-and-put_nod-routines.patch    | 1123
-> ++++++++++++++++++++
->  .../0003-Add-get_blkmap-and-put_blkmap.patch       |  222 ++++
->  ...lker-for-walking-through-directory-entrie.patch |  357 +++++++
->  ...05-Make-filesystem-struct-not-an-overloay.patch |  374 +++++++
->  ...0006-Improve-the-efficiency-of-extend_blk.patch |  272 +++++
->  ...ove-hdlinks-into-the-filesystem-structure.patch |  175 +++
->  ...t-the-creation-of-the-filesystem-structur.patch |   95 ++
->  ...e-byte-swapping-into-the-get-put-routines.patch |  421 ++++++++
->  ...rt-over-to-keeping-the-filesystem-on-disk.patch |  839 ++++++++++++++=
-+
->  ...les-into-the-filesystem-a-piece-at-a-time.patch |  103 ++
->  ...upport-large-file-support-and-rework-hole.patch |  211 ++++
->  .../0013-Add-volume-id-support.patch               |   86 ++
->  ...014-Remove-unneeded-setting-of-s_reserved.patch |   28 +
->  ...-Rework-creating-the-lost-found-directory.patch |   57 +
->  ...ix-the-documentation-for-the-new-L-option.patch |   29 +
->  .../0017-Fix-file-same-comparison.patch            |   30 +
->  ...andle-files-changing-while-we-are-working.patch |   89 ++
->  ...ke-sure-superblock-is-clear-on-allocation.patch |   42 +
->  .../genext2fs-1.4.1/fix-nbblocks-cast.patch        |   18 +-
->  .../genext2fs/genext2fs-1.4.1/update_to_1.95.patch |  119 ++
->  meta/recipes-devtools/genext2fs/genext2fs_1.4.1.bb |   24 +-
->  22 files changed, 4776 insertions(+), 10 deletions(-)
-> ...
 
 
