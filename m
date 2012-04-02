@@ -1,21 +1,27 @@
-Received: from smtp3-g21.free.fr ([212.27.42.3])
+Received: from mga03.intel.com ([143.182.124.21])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <eric@eukrea.com>) id 1SEo8v-0002If-CT
+	(envelope-from <paul.eggleton@linux.intel.com>) id 1SEoR7-00034v-Iv
 	for openembedded-core@lists.openembedded.org;
-	Mon, 02 Apr 2012 22:46:25 +0200
-Received: from localhost.localdomain (unknown [82.233.81.124])
-	by smtp3-g21.free.fr (Postfix) with ESMTP id 51EA4A622E
-	for <openembedded-core@lists.openembedded.org>;
-	Mon,  2 Apr 2012 22:37:15 +0200 (CEST)
-From: =?UTF-8?q?Eric=20B=C3=A9nard?= <eric@eukrea.com>
-To: openembedded-core@lists.openembedded.org
-Date: Mon,  2 Apr 2012 22:37:10 +0200
-Message-Id: <1333399030-28619-2-git-send-email-eric@eukrea.com>
-X-Mailer: git-send-email 1.7.7.6
-In-Reply-To: <1333399030-28619-1-git-send-email-eric@eukrea.com>
-References: <1333399030-28619-1-git-send-email-eric@eukrea.com>
+	Mon, 02 Apr 2012 23:05:13 +0200
+Received: from azsmga002.ch.intel.com ([10.2.17.35])
+	by azsmga101.ch.intel.com with ESMTP; 02 Apr 2012 13:56:04 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="84491033"
+Received: from unknown (HELO helios.localnet) ([10.252.120.26])
+	by AZSMGA002.ch.intel.com with ESMTP; 02 Apr 2012 13:56:03 -0700
+From: Paul Eggleton <paul.eggleton@linux.intel.com>
+To: Chris Larson <clarson@kergoth.com>
+Date: Mon, 02 Apr 2012 21:56:01 +0100
+Message-ID: <9212261.tfl0GIN7V6@helios>
+Organization: Intel Corporation
+User-Agent: KMail/4.8.0 (Linux/3.0.0-17-generic-pae; KDE/4.8.1; i686; ; )
+In-Reply-To: <CABcZANmXVJe1Jw005U5u3USmZeMC9vjwOFCBQABA3moKcN5A9g@mail.gmail.com>
+References: <cover.1331685330.git.paul.eggleton@linux.intel.com>
+	<2119548.Y71LEXUF5X@helios>
+	<CABcZANmXVJe1Jw005U5u3USmZeMC9vjwOFCBQABA3moKcN5A9g@mail.gmail.com>
 MIME-Version: 1.0
-Subject: [PATCH 2/2] copyleft_compliance: also print the reason for including a package
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH 1/6] scripts/bitbake: ensure user is in build directory
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -30,55 +36,32 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 02 Apr 2012 20:46:25 -0000
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Mon, 02 Apr 2012 21:05:14 -0000
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
 
-Signed-off-by: Eric B=C3=A9nard <eric@eukrea.com>
----
- meta/classes/copyleft_compliance.bbclass |    8 ++++----
- 1 files changed, 4 insertions(+), 4 deletions(-)
+On Monday 02 April 2012 13:32:15 Chris Larson wrote:
+> On Mon, Apr 2, 2012 at 1:12 PM, Paul Eggleton
+> <paul.eggleton@linux.intel.com> wrote:
+> > This has been implemented differently now:
+> > 
+> > http://cgit.openembedded.org/openembedded-core/commit/?id=769384decb095fb3
+> > c49eb13b8f7f69c978d0bcba
+> This'll break the ability to run bitbake from subdirs underneath
+> BUILDDIR, which is perfectly valid, and supported by bitbake's code
+> which traverses up the current working path to find
+> conf/bblayers.conf.
 
-diff --git a/meta/classes/copyleft_compliance.bbclass b/meta/classes/copy=
-left_compliance.bbclass
-index 4082e7e..3ca7337 100644
---- a/meta/classes/copyleft_compliance.bbclass
-+++ b/meta/classes/copyleft_compliance.bbclass
-@@ -47,14 +47,14 @@ def copyleft_should_include(d):
-     exclude =3D oe.data.typed_value('COPYLEFT_LICENSE_EXCLUDE', d)
-=20
-     try:
--        is_included, excluded =3D oe.license.is_included(d.getVar('LICEN=
-SE', True), include, exclude)
-+        is_included, reason =3D oe.license.is_included(d.getVar('LICENSE=
-', True), include, exclude)
-     except oe.license.LicenseError as exc:
-         bb.fatal('%s: %s' % (d.getVar('PF', True), exc))
-     else:
-         if is_included:
--            return True, None
-+            return True, 'recipe has included licenses: %s' % ', '.join(=
-reason)
-         else:
--            return False, 'recipe has excluded licenses: %s' % ', '.join=
-(excluded)
-+            return False, 'recipe has excluded licenses: %s' % ', '.join=
-(reason)
-=20
- python do_prepare_copyleft_sources () {
-     """Populate a tree of the recipe sources and emit patch series files=
-"""
-@@ -67,7 +67,7 @@ python do_prepare_copyleft_sources () {
-         bb.debug(1, 'copyleft: %s is excluded: %s' % (p, reason))
-         return
-     else:
--        bb.debug(1, 'copyleft: %s is included' % p)
-+        bb.debug(1, 'copyleft: %s is included: %s' % (p, reason))
-=20
-     sources_dir =3D d.getVar('COPYLEFT_SOURCES_DIR', True)
-     src_uri =3D d.getVar('SRC_URI', True).split()
---=20
-1.7.7.6
+I don't know if you've tried this recently but it no longer works with current 
+versions of OE-Core and bitbake (can't find local.conf). I'm not exactly sure 
+why not and it's likely we should fix it, but right now it's broken anyway.
 
+Cheers,
+Paul
+
+-- 
+
+Paul Eggleton
+Intel Open Source Technology Centre
 
 
