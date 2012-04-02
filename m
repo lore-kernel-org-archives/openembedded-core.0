@@ -1,16 +1,35 @@
-Received: from smtp206.alice.it ([82.57.200.102])
+Received: from astoria.ccjclearline.com ([64.235.106.9])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <andrea.adami@gmail.com>) id 1SEp8N-0003sE-AC
+	(envelope-from <rpjday@crashcourse.ca>) id 1SEp9F-0003v4-OC
 	for openembedded-core@lists.openembedded.org;
-	Mon, 02 Apr 2012 23:49:55 +0200
-Received: from mizar.localdomain (79.17.249.93) by smtp206.alice.it
-	(8.6.023.02) id 4F1836AD08DE8485; Mon, 2 Apr 2012 23:35:15 +0200
-From: Andrea Adami <andrea.adami@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Date: Mon,  2 Apr 2012 23:35:13 +0200
-Message-Id: <1333402513-26781-1-git-send-email-andrea.adami@gmail.com>
-X-Mailer: git-send-email 1.7.3.4
-Subject: [PATCH] udev: generalize the check in touchscreen rule
+	Mon, 02 Apr 2012 23:50:50 +0200
+Received: from cpec03f0ed08c7f-cm001ac318e826.cpe.net.cable.rogers.com
+	([99.241.91.63] helo=crashcourse.ca)
+	by astoria.ccjclearline.com with esmtpsa (TLSv1:AES256-SHA:256)
+	(Exim 4.69) (envelope-from <rpjday@crashcourse.ca>)
+	id 1SEp0Q-0002pM-Pu for openembedded-core@lists.openembedded.org;
+	Mon, 02 Apr 2012 17:41:42 -0400
+Date: Mon, 2 Apr 2012 17:41:28 -0400 (EDT)
+From: "Robert P. J. Day" <rpjday@crashcourse.ca>
+X-X-Sender: rpjday@oneiric
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+In-Reply-To: <CABcZANkiGGT2see21u3cTMa8QiAFaskRchhLEMAAo==zrfS4Xg@mail.gmail.com>
+Message-ID: <alpine.DEB.2.02.1204021740540.6667@oneiric>
+References: <alpine.DEB.2.02.1204021730530.6159@oneiric>
+	<CABcZANkiGGT2see21u3cTMa8QiAFaskRchhLEMAAo==zrfS4Xg@mail.gmail.com>
+User-Agent: Alpine 2.02 (DEB 1266 2009-07-14)
+MIME-Version: 1.0
+X-AntiAbuse: This header was added to track abuse,
+	please include it with any abuse report
+X-AntiAbuse: Primary Hostname - astoria.ccjclearline.com
+X-AntiAbuse: Original Domain - lists.openembedded.org
+X-AntiAbuse: Originator/Caller UID/GID - [47 12] / [47 12]
+X-AntiAbuse: Sender Address Domain - crashcourse.ca
+X-Source: 
+X-Source-Args: 
+X-Source-Dir: 
+Subject: Re: should all class files be inherited by *something*?
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -25,49 +44,51 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 02 Apr 2012 21:49:55 -0000
+X-List-Received-Date: Mon, 02 Apr 2012 21:50:50 -0000
+Content-Type: MULTIPART/MIXED; BOUNDARY="8323329-1298240268-1333402892=:6667"
 
-* The actual rule only works for devices reporting ts pressure
-* and ignores the other touchscreens (happens e.g. on ipaq h1940).
-* a0,1,*18   a = absolute axes (ABS_X 0x00 ABS_Y 0x01 ABS_PRESSURE 0x18)
-* (see include/linux/input.h)
-*
-* Guidelines for touchscreen seem suggesting only ABS_X and ABS_Y are mandatory
-* (http://kernel.org/doc/Documentation/input/event-codes.txt)
-*
-* Bump PR
+--8323329-1298240268-1333402892=:6667
+Content-Type: TEXT/PLAIN; charset=utf-8
+Content-Transfer-Encoding: QUOTED-PRINTABLE
 
-Signed-off-by: Andrea Adami <andrea.adami@gmail.com>
----
- meta/recipes-core/udev/udev/local.rules |    3 +--
- meta/recipes-core/udev/udev_164.bb      |    2 +-
- 2 files changed, 2 insertions(+), 3 deletions(-)
+On Mon, 2 Apr 2012, Chris Larson wrote:
 
-diff --git a/meta/recipes-core/udev/udev/local.rules b/meta/recipes-core/udev/udev/local.rules
-index 625e49a..49e8d28 100644
---- a/meta/recipes-core/udev/udev/local.rules
-+++ b/meta/recipes-core/udev/udev/local.rules
-@@ -31,5 +31,4 @@ KERNEL=="rtc0", SYMLINK+="rtc"
- ACTION=="add", DEVPATH=="/devices/*", ENV{MODALIAS}=="?*", RUN+="/sbin/modprobe $env{MODALIAS}"
- 
- # Create a symlink to any touchscreen input device
--SUBSYSTEM=="input", KERNEL=="event[0-9]*", ATTRS{modalias}=="input:*-e0*,3,*a0,1,*18,*", SYMLINK+="input/touchscreen0"
--
-+SUBSYSTEM=="input", KERNEL=="event[0-9]*", ATTRS{modalias}=="input:*-e0*,3,*a0,1,*", SYMLINK+="input/touchscreen0"
-diff --git a/meta/recipes-core/udev/udev_164.bb b/meta/recipes-core/udev/udev_164.bb
-index c5813ec..0462ff2 100644
---- a/meta/recipes-core/udev/udev_164.bb
-+++ b/meta/recipes-core/udev/udev_164.bb
-@@ -1,6 +1,6 @@
- include udev.inc
- 
--PR = "r13"
-+PR = "r14"
- 
- SRC_URI += "file://udev-166-v4l1-1.patch"
- 
--- 
-1.7.3.4
+> On Mon, Apr 2, 2012 at 2:34 PM, Robert P. J. Day <rpjday@crashcourse.ca> =
+wrote:
+> > =C2=A0poking around the meta/classes/*.bbclass files and one looked a b=
+it
+> > odd -- scons.bbclass. =C2=A0i was under the impression that class files
+> > were supposed represent a *general* kind of functionality so i was
+> > curious as to what this file represented.
+> >
+> > =C2=A0more to the point, it doesn't look like anything in oe-core inher=
+its
+> > that class. =C2=A0so what exactly is its purpose?
+> >
+> > =C2=A0and following up on that, another example of that kind of file is
+> > oelint.bbclass -- again, i don't see anything in oe-core that inherits
+> > it.
+>
+> There will *always* be classes that aren't inherited by anything. Look
+> at devshell. Some classes will always be opt-in only.
 
+  yes, i twigged to that seconds after i pressed the ENTER key.  it
+*always* happens that way.  grrrrrrr.
 
+rday
 
+--=20
+
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+Robert P. J. Day                                 Ottawa, Ontario, CANADA
+                        http://crashcourse.ca
+
+Twitter:                                       http://twitter.com/rpjday
+LinkedIn:                               http://ca.linkedin.com/in/rpjday
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+
+--8323329-1298240268-1333402892=:6667--
