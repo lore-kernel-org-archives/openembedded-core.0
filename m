@@ -1,36 +1,16 @@
-Received: from mail-qc0-f175.google.com ([209.85.216.175])
+Received: from smtp206.alice.it ([82.57.200.102])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <kergoth@gmail.com>) id 1SEp7s-0003q1-Ax
+	(envelope-from <andrea.adami@gmail.com>) id 1SEp8N-0003sE-AC
 	for openembedded-core@lists.openembedded.org;
-	Mon, 02 Apr 2012 23:49:24 +0200
-Received: by qcso7 with SMTP id o7so1871093qcs.6
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 02 Apr 2012 14:40:15 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:sender:in-reply-to:references:from:date
-	:x-google-sender-auth:message-id:subject:to:content-type
-	:content-transfer-encoding;
-	bh=BTFPxdynzfgE6QNuus6AEAM0sONjIPUStR4jeAZioVs=;
-	b=JGvvWWK+5P3uRzlghY8wjN+n2GtIuJopxVIAqucrOLiC0LDmoWix70RYzP/+ZeG7Zf
-	VbFynWm6ANSpfr0aTg4krmKb+XMbTl1n53XMbGJ7ClaypeCWKCJ6DqdNnGK7alFONx+9
-	o2ZJJfPFvjqEovP/8oad3DkvgtLa7Wuwx1HeFJxvLN/oSMoHhKKoYvqDaDWVbY7n/7eN
-	efs5yXIDE4HrSFujsi9dLRsIXO2O2NMJSub7lmPW9ZkX8xZQvXgkaGwjeiyZVaaCTZMA
-	FViq77+Bo5Tz9ZmdqMP1V8wf7Z8tfNBjbJbtp4GuRGAMu5CE+hgQMVnCTRgsG9nJKBA+
-	DHoQ==
-Received: by 10.229.111.199 with SMTP id t7mr4038973qcp.84.1333402815400; Mon,
-	02 Apr 2012 14:40:15 -0700 (PDT)
-MIME-Version: 1.0
-Sender: kergoth@gmail.com
-Received: by 10.229.24.196 with HTTP; Mon, 2 Apr 2012 14:39:55 -0700 (PDT)
-In-Reply-To: <alpine.DEB.2.02.1204021730530.6159@oneiric>
-References: <alpine.DEB.2.02.1204021730530.6159@oneiric>
-From: Chris Larson <clarson@kergoth.com>
-Date: Mon, 2 Apr 2012 14:39:55 -0700
-X-Google-Sender-Auth: vV2yx0FVZPxGFd0e13GNaJyfGLc
-Message-ID: <CABcZANkiGGT2see21u3cTMa8QiAFaskRchhLEMAAo==zrfS4Xg@mail.gmail.com>
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: should all class files be inherited by *something*?
+	Mon, 02 Apr 2012 23:49:55 +0200
+Received: from mizar.localdomain (79.17.249.93) by smtp206.alice.it
+	(8.6.023.02) id 4F1836AD08DE8485; Mon, 2 Apr 2012 23:35:15 +0200
+From: Andrea Adami <andrea.adami@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Date: Mon,  2 Apr 2012 23:35:13 +0200
+Message-Id: <1333402513-26781-1-git-send-email-andrea.adami@gmail.com>
+X-Mailer: git-send-email 1.7.3.4
+Subject: [PATCH] udev: generalize the check in touchscreen rule
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -45,28 +25,49 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 02 Apr 2012 21:49:24 -0000
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Mon, 02 Apr 2012 21:49:55 -0000
 
-On Mon, Apr 2, 2012 at 2:34 PM, Robert P. J. Day <rpjday@crashcourse.ca> wr=
-ote:
-> =C2=A0poking around the meta/classes/*.bbclass files and one looked a bit
-> odd -- scons.bbclass. =C2=A0i was under the impression that class files
-> were supposed represent a *general* kind of functionality so i was
-> curious as to what this file represented.
->
-> =C2=A0more to the point, it doesn't look like anything in oe-core inherit=
-s
-> that class. =C2=A0so what exactly is its purpose?
->
-> =C2=A0and following up on that, another example of that kind of file is
-> oelint.bbclass -- again, i don't see anything in oe-core that inherits
-> it.
+* The actual rule only works for devices reporting ts pressure
+* and ignores the other touchscreens (happens e.g. on ipaq h1940).
+* a0,1,*18   a = absolute axes (ABS_X 0x00 ABS_Y 0x01 ABS_PRESSURE 0x18)
+* (see include/linux/input.h)
+*
+* Guidelines for touchscreen seem suggesting only ABS_X and ABS_Y are mandatory
+* (http://kernel.org/doc/Documentation/input/event-codes.txt)
+*
+* Bump PR
 
-There will *always* be classes that aren't inherited by anything. Look
-at devshell. Some classes will always be opt-in only.
---=20
-Christopher Larson
+Signed-off-by: Andrea Adami <andrea.adami@gmail.com>
+---
+ meta/recipes-core/udev/udev/local.rules |    3 +--
+ meta/recipes-core/udev/udev_164.bb      |    2 +-
+ 2 files changed, 2 insertions(+), 3 deletions(-)
+
+diff --git a/meta/recipes-core/udev/udev/local.rules b/meta/recipes-core/udev/udev/local.rules
+index 625e49a..49e8d28 100644
+--- a/meta/recipes-core/udev/udev/local.rules
++++ b/meta/recipes-core/udev/udev/local.rules
+@@ -31,5 +31,4 @@ KERNEL=="rtc0", SYMLINK+="rtc"
+ ACTION=="add", DEVPATH=="/devices/*", ENV{MODALIAS}=="?*", RUN+="/sbin/modprobe $env{MODALIAS}"
+ 
+ # Create a symlink to any touchscreen input device
+-SUBSYSTEM=="input", KERNEL=="event[0-9]*", ATTRS{modalias}=="input:*-e0*,3,*a0,1,*18,*", SYMLINK+="input/touchscreen0"
+-
++SUBSYSTEM=="input", KERNEL=="event[0-9]*", ATTRS{modalias}=="input:*-e0*,3,*a0,1,*", SYMLINK+="input/touchscreen0"
+diff --git a/meta/recipes-core/udev/udev_164.bb b/meta/recipes-core/udev/udev_164.bb
+index c5813ec..0462ff2 100644
+--- a/meta/recipes-core/udev/udev_164.bb
++++ b/meta/recipes-core/udev/udev_164.bb
+@@ -1,6 +1,6 @@
+ include udev.inc
+ 
+-PR = "r13"
++PR = "r14"
+ 
+ SRC_URI += "file://udev-166-v4l1-1.patch"
+ 
+-- 
+1.7.3.4
+
 
 
