@@ -1,35 +1,32 @@
-Received: from astoria.ccjclearline.com ([64.235.106.9])
+Received: from mail-iy0-f175.google.com ([209.85.210.175])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <rpjday@crashcourse.ca>) id 1SEgBn-0002o0-T4
+	(envelope-from <jefro.net@gmail.com>) id 1SEjby-0006Ba-K4
 	for openembedded-core@lists.openembedded.org;
-	Mon, 02 Apr 2012 14:16:52 +0200
-Received: from cpec03f0ed08c7f-cm001ac318e826.cpe.net.cable.rogers.com
-	([99.241.91.63] helo=crashcourse.ca)
-	by astoria.ccjclearline.com with esmtpsa (TLSv1:AES256-SHA:256)
-	(Exim 4.69) (envelope-from <rpjday@crashcourse.ca>)
-	id 1SEg2z-0005Jd-7e for openembedded-core@lists.openembedded.org;
-	Mon, 02 Apr 2012 08:07:45 -0400
-Date: Mon, 2 Apr 2012 08:07:30 -0400 (EDT)
-From: "Robert P. J. Day" <rpjday@crashcourse.ca>
-X-X-Sender: rpjday@oneiric
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-In-Reply-To: <1333368035.647.28.camel@ted>
-Message-ID: <alpine.DEB.2.02.1204020805360.10711@oneiric>
-References: <alpine.DEB.2.02.1204020736460.9309@oneiric>
-	<1333368035.647.28.camel@ted>
-User-Agent: Alpine 2.02 (DEB 1266 2009-07-14)
+	Mon, 02 Apr 2012 17:56:06 +0200
+Received: by iaag37 with SMTP id g37so4357923iaa.6
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 02 Apr 2012 08:46:57 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=mime-version:sender:date:x-google-sender-auth:message-id:subject
+	:from:to:content-type;
+	bh=MZkcU2IfKZw4pygBbsWIixUomBObnu8sC0g8lth0ToQ=;
+	b=yyDMJXX29ULT1Pkvfaqc6GfBU30J04/BGas6Mk73PhLTuzIvHsMXylI1q9Gvl7LOLf
+	vEvvFsh6qhq5Q7EEnKxwt8B81zTQ8vwuZ3F5CGP4vUyM6Uzq7vHGAeFO5wGn06JKoim+
+	dUASvIAUisLwqJf7cjDPxmygoNY4MV1r5IbrcgyCISNk5BNV/Rnegr64IR+5t+wEYmv0
+	4XaHqBRsR66tOb7eliHsDl7StPUCfKNGb5Gy22xOtFrSSn6s9BfGBVUdPyB32Ysy/c2H
+	cMZUA7m9cmU7C5NumjWznPhaKwcKF/XgwaK7Wwgra0zvPL2EDMLBNpzBh41/giPwgd3m
+	2m8w==
 MIME-Version: 1.0
-X-AntiAbuse: This header was added to track abuse,
-	please include it with any abuse report
-X-AntiAbuse: Primary Hostname - astoria.ccjclearline.com
-X-AntiAbuse: Original Domain - lists.openembedded.org
-X-AntiAbuse: Originator/Caller UID/GID - [47 12] / [47 12]
-X-AntiAbuse: Sender Address Domain - crashcourse.ca
-X-Source: 
-X-Source-Args: 
-X-Source-Dir: 
-Subject: Re: so what's the deal with "..._append +="?
+Received: by 10.50.51.137 with SMTP id k9mr6067343igo.73.1333381616570; Mon,
+	02 Apr 2012 08:46:56 -0700 (PDT)
+Sender: jefro.net@gmail.com
+Received: by 10.50.163.72 with HTTP; Mon, 2 Apr 2012 08:46:56 -0700 (PDT)
+Date: Mon, 2 Apr 2012 08:46:56 -0700
+X-Google-Sender-Auth: TfXga3WSS4vBTq9m4ocfmZVR9_s
+Message-ID: <CA+YB3rZJqOrrkezmvrQOkoVR21qcCW8TU1pM6RXGq7eCp7nbXA@mail.gmail.com>
+From: Jeff Osier-Mixon <jefro@jefro.net>
+To: openembedded-core <openembedded-core@lists.openembedded.org>
+Subject: Yocto Project BSP Summit: IRC channel
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -44,41 +41,18 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 02 Apr 2012 12:16:52 -0000
-Content-Type: TEXT/PLAIN; charset=US-ASCII
+X-List-Received-Date: Mon, 02 Apr 2012 15:56:06 -0000
+Content-Type: text/plain; charset=ISO-8859-1
 
-On Mon, 2 Apr 2012, Richard Purdie wrote:
+For those attending the BSP Summit remotely, I have also set up an IRC
+channel for backchat. The channel is #yocto-bsp-summit on freenode.
+Join with your favorite IRC client or go to:
 
-> On Mon, 2012-04-02 at 07:37 -0400, Robert P. J. Day wrote:
-> > pretty sure i mentioned this once before but this just looks weird:
-> >
-> > $ grep -r "_append +=" *
-> > meta/recipes-support/gmp/gmp_5.0.4.bb:SRC_URI_append += "file://use-includedir.patch \
-> > meta/recipes-core/eglibc/eglibc-package.inc:FILES_${PN}-dev_append += "${bindir}/rpcgen ${libdir}/*_nonshared.a \
-> > meta/recipes-core/eglibc/eglibc-package.inc:FILES_${PN}-staticdev_append += "${libdir}/*.a ${base_libdir}/*.a"
-> > meta/recipes-graphics/xorg-lib/libxp_1.0.1.bb:CFLAGS_append += " -I ${S}/include/X11/XprintUtil -I ${S}/include/X11/extensions"
-> > $
-> >
-> >   should those be just simple assignments?
->
-> The += does add in a whitespace character. I agree it would be less
-> confusing if they were just plain _append = " xxx" though.
+http://webchat.freenode.net/?channels=#yocto-bsp-summit
 
-  dang, i'd forgotten about the whitespace.  but still, it's
-definitely non-intuitive to use what appears to be a double-append
-operation.  anyway, i'll leave that for people higher up the food
-chain to decide if they want to do anything about it.
-
-rday
 
 -- 
-
-========================================================================
-Robert P. J. Day                                 Ottawa, Ontario, CANADA
-                        http://crashcourse.ca
-
-Twitter:                                       http://twitter.com/rpjday
-LinkedIn:                               http://ca.linkedin.com/in/rpjday
-========================================================================
+Jeff Osier-Mixon http://jefro.net/blog
+Yocto Project Community Manager @Intel http://yoctoproject.org
 
 
