@@ -1,35 +1,38 @@
-Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
-	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <richard.purdie@linuxfoundation.org>)
-	id 1SEYMA-0000FU-Ih for openembedded-core@lists.openembedded.org;
-	Mon, 02 Apr 2012 05:55:02 +0200
-Received: from localhost (localhost [127.0.0.1])
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q323jtKY004777;
-	Mon, 2 Apr 2012 04:45:55 +0100
-Received: from tim.rpsys.net ([127.0.0.1])
-	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
-	port 10024) with LMTP
-	id 03987-03; Mon,  2 Apr 2012 04:45:48 +0100 (BST)
-Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q323jgLd004771
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO);
-	Mon, 2 Apr 2012 04:45:44 +0100
-Message-ID: <1333338343.647.8.camel@ted>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
+Received: from mail-we0-f175.google.com ([74.125.82.175])
+	by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <s.stirtzel@googlemail.com>) id 1SEcZW-0007oJ-Qs
+	for openembedded-core@lists.openembedded.org;
+	Mon, 02 Apr 2012 10:25:07 +0200
+Received: by wera1 with SMTP id a1so1497807wer.6
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 02 Apr 2012 01:15:58 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=googlemail.com; s=20120113;
+	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
+	:content-type; bh=31BLGP/4AMHQm+n0K1ijBv7DaJmbS9B+yB0OBxABmnI=;
+	b=06KnJFU3rLgR9cbusH7EfVg5f7L3/KjTPxGx0Y1m6H2abdFQ1bG1EVzMkIHldp+8qn
+	nS7HLY8YEgauk1N5rXsYSYOrgjuqQeSt4OL+bPFDj8FIKXzFPtYlcpRbblcz2PJKGtf7
+	eFO6yloI7fMI3RuVYfcPlD8Z5JesestnLhTz/Zc4hkkjKyi8Lu+5vupymjtwPGAGYrMi
+	OvosQ2fdkqMgCQo/RsPxxNZoEdKOQJeVOQph75qdFzgJtqJ5ogS/H7ztbb5HkMkWfwpS
+	gXgftVHR8xtUy9V2RVfWWdTS8VTf+Ep4lMj/1tsrw5wouUmkwJncnZXsljYqYpdcMWAK
+	xjlg==
+MIME-Version: 1.0
+Received: by 10.180.80.9 with SMTP id n9mr22685840wix.4.1333354558725; Mon, 02
+	Apr 2012 01:15:58 -0700 (PDT)
+Received: by 10.223.89.83 with HTTP; Mon, 2 Apr 2012 01:15:58 -0700 (PDT)
+In-Reply-To: <1333104347.18082.65.camel@ted>
+References: <20120329225332.0e8cc2f4@eb-e6520> <1333058593.18082.40.camel@ted>
+	<CADkTA4MvYRmsLQogaQMHwUeP5y7ws5NvmXiBMgvsreiGNQrsJw@mail.gmail.com>
+	<CAGiJk9deLrVFhtGF6pAvvWUgyo5kbAE77t9bnWciKtdtC4oD8g@mail.gmail.com>
+	<1333099931.18082.52.camel@ted>
+	<CAGiJk9faGyjgRObDSGk5smQRy6to=U_0UDUuALpEgpZ9s7VFKA@mail.gmail.com>
+	<1333104347.18082.65.camel@ted>
+Date: Mon, 2 Apr 2012 10:15:58 +0200
+Message-ID: <CAGiJk9de5XSqZnHDoHxHb1NdHHjPxDzRLSFtbE4uECY3sJUBew@mail.gmail.com>
+From: Samuel Stirtzel <s.stirtzel@googlemail.com>
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Date: Mon, 02 Apr 2012 04:45:43 +0100
-In-Reply-To: <1333212913.18082.247.camel@ted>
-References: <1333202821.18082.225.camel@ted>
-	<CAOSpxdYtrYctG3V=cKTvSPaNdimVDdP-MgCM0HQYdL3szAFVjg@mail.gmail.com>
-	<1333208042.18082.234.camel@ted>
-	<CAOSpxdYFKMVW99UNaWvNGwZ+WhSjUXoXD2XCP1zcuOYBcXFCqg@mail.gmail.com>
-	<1333212913.18082.247.camel@ted>
-X-Mailer: Evolution 3.2.2- 
-Mime-Version: 1.0
-X-Virus-Scanned: amavisd-new at rpsys.net
-Cc: Steve Sakoman <steve@sakoman.com>
-Subject: Re: Re-execution of tasks - test report and results
+Subject: Re: Fetch time optimization (svn : gcc/eglibc - git : linux-yocto)
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -44,96 +47,63 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 02 Apr 2012 03:55:02 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Mon, 02 Apr 2012 08:25:07 -0000
+Content-Type: text/plain; charset=UTF-8
 
-On Sat, 2012-03-31 at 17:55 +0100, Richard Purdie wrote:
-> On Sat, 2012-03-31 at 08:59 -0700, Steve Sakoman wrote:
-> > On Sat, Mar 31, 2012 at 8:34 AM, Richard Purdie
-> > <richard.purdie@linuxfoundation.org> wrote:
-> > 
-> > > Hmm, yes. We already have a bug open against git but I'd like to
-> > > understand shadow-native and sqlite. If you have the failure logs for
-> > > those two, I think it would be worth opening bugs for them.
-> > 
-> > Details for shadow-native and sqlite below:
-> > 
-> > shadow-native:
-> > 
-> > | aclocal: unknown warning category `cross'
-> > | configure.in:496: warning: macro `AM_GNU_GETTEXT_VERSION' not found in library
-> > | configure.in:497: warning: macro `AM_GNU_GETTEXT' not found in library
-> > | autoreconf: configure.in: tracing
-> > | autoreconf: configure.in: AM_GNU_GETTEXT_VERSION is used, but not
-> > AM_GNU_GETTEXT
-> > | autoreconf: running: libtoolize --copy --force
-> > | libtoolize: putting auxiliary files in `.'.
-> > | libtoolize: copying file `./ltmain.sh'
-> > | libtoolize: Consider adding `AC_CONFIG_MACRO_DIR([m4])' to configure.in and
-> > | libtoolize: rerunning libtoolize, to keep the correct libtool macros in-tree.
-> > | libtoolize: Consider adding `-I m4' to ACLOCAL_AMFLAGS in Makefile.am.
-> > | aclocal: unknown warning category `cross'
-> > | configure.in:496: warning: macro `AM_GNU_GETTEXT_VERSION' not found in library
-> > | configure.in:497: warning: macro `AM_GNU_GETTEXT' not found in library
-> > | autoreconf: running:
-> > /media/data/yocto/tmp/sysroots/x86_64-linux/usr/bin/autoconf
-> > --include=/media/data/yocto/tmp/sysroots/x86_64-linux/usr/share/aclocal-1.11
-> > --include=/media/data/yocto/tmp/work/x86_64-linux/shadow-native-4.1.4.3-r3/shadow-4.1.4.3/aclocal-copy/
-> > --force --warnings=cross
-> > | configure.in:496: error: possibly undefined macro: AM_GNU_GETTEXT_VERSION
-> > |       If this token and others are legitimate, please use m4_pattern_allow.
-> > |       See the Autoconf documentation.
-> > | configure.in:497: error: possibly undefined macro: AM_GNU_GETTEXT
-> > | autoreconf: /media/data/yocto/tmp/sysroots/x86_64-linux/usr/bin/autoconf
-> > failed with exit status: 1
-> > | ERROR: autoreconf execution failed.
-> > NOTE: package shadow-native-4.1.4.3-r3: task do_configure: Failed
-> > ERROR: Task 1316
-> > (/home/steve/source/yocto/poky/meta/recipes-extended/shadow/shadow-native_4.1.4.3.bb,
-> > do_configure) failed with exit code '1'
-> 
-> This looks like a missing gettext dependency...
+2012/3/30 Richard Purdie <richard.purdie@linuxfoundation.org>:
+> On Fri, 2012-03-30 at 12:07 +0200, Samuel Stirtzel wrote:
+>> Of course this will only reduce the time of recipes if they are build
+>> for the first time,
+>> or when the version/URL changes.
+>> It is not that important, I agree,
+>> but it would improve the situation for first time users, or new installations.
+>>
+>> Example for 2 threads:
+>> http://pastebin.com/kviwQZJ3
+>> It is very likely that the current situation also uses cpu and network
+>> resources at the same time,
+>> but it might occur that the build-task has to wait for a download to
+>> finish or vice versa.
+>>
+>> Ignoring fetch tasks from the thread count would only do half of the
+>> job and _could_ cause network bottlenecks ;)
+>> Fetching should be "independent" from the dependency chain.
+>
+> This simply isn't true and there is also no benefit to splitting them to
+> be independent. The fetch tasks have dependencies just like any other
+> task (for example git:// urls depend on git-native being built unless
+> its in ASSUME_PROVIDED).
+You are right, my mistake.
+Adding some line like PARALLEL_FETCH to the config will do the rest.
 
-I think its more subtle than that. I think gettext-minimal-native and
-gettext-native are trampling over each other's files. This can probably
-be reproduced with:
+>
+>> E.g.: it should not wait with the downloads for dependencies to finish building,
+>> the download sequence should still match the dependency chain sequence.
+>
+> I'm afraid I don't understand what you mean. I think you will find that
+> if you exclude the "fetch" tasks from the normal "cpu" thread count you
+> will get the behaviour you are describing.
 
-bitbake gettext-minimal-native
-bitbake gettext-native
-bitbake gettext-native -c clean
-bitbake shadow-native
+I was erroneously assuming that the download only starts after all
+dependencies finished building,
+but of course this was only derivated as the threads where blocked by
+the build tasks.
+So yes the method you mentioned will work.
+>
+> Cheers,
+>
+> Richard
+>
+>
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
 
-I think the fix should be something like:
 
-diff --git a/meta/recipes-core/gettext/gettext_0.18.1.1.bb b/meta/recipes-core/gettext/gettext_0.18.1.1.bb
-index 4144d2b..0ed5dd9 100644
---- a/meta/recipes-core/gettext/gettext_0.18.1.1.bb
-+++ b/meta/recipes-core/gettext/gettext_0.18.1.1.bb
-@@ -7,7 +7,7 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=d32239bcb673463ab874e80d47fae504"
- 
- PR = "r10"
- DEPENDS = "libxml2-native gettext-native virtual/libiconv ncurses expat"
--DEPENDS_virtclass-native = "libxml2-native"
-+DEPENDS_virtclass-native = "libxml2-native gettext-minimal-native"
- PROVIDES = "virtual/libintl virtual/gettext"
- PROVIDES_virtclass-native = "virtual/gettext-native"
- CONFLICTS_${PN} = "proxy-libintl"
-@@ -95,4 +95,8 @@ do_install_append() {
-     rm -f ${D}${libdir}/preloadable_libintl.so
- }
- 
-+do_install_append_virtclass-native () {
-+	rm ${D}${datadir}/aclocal/*
-+}
-+
- BBCLASSEXTEND = "native nativesdk"
 
-although I'm travelling at the moment and have not tested this yet.
-
-Cheers,
-
-Richard
-
+-- 
+Regards
+Samuel
 
 
