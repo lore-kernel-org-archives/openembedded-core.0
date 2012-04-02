@@ -1,31 +1,25 @@
-Received: from astoria.ccjclearline.com ([64.235.106.9])
+Received: from mga03.intel.com ([143.182.124.21])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <rpjday@crashcourse.ca>) id 1SEp2T-0003fd-US
+	(envelope-from <paul.eggleton@linux.intel.com>) id 1SEp71-0003ni-L1
 	for openembedded-core@lists.openembedded.org;
-	Mon, 02 Apr 2012 23:43:50 +0200
-Received: from cpec03f0ed08c7f-cm001ac318e826.cpe.net.cable.rogers.com
-	([99.241.91.63] helo=crashcourse.ca)
-	by astoria.ccjclearline.com with esmtpsa (TLSv1:AES256-SHA:256)
-	(Exim 4.69) (envelope-from <rpjday@crashcourse.ca>)
-	id 1SEote-0002Wh-Sd for openembedded-core@lists.openembedded.org;
-	Mon, 02 Apr 2012 17:34:42 -0400
-Date: Mon, 2 Apr 2012 17:34:26 -0400 (EDT)
-From: "Robert P. J. Day" <rpjday@crashcourse.ca>
-X-X-Sender: rpjday@oneiric
-To: OE Core mailing list <openembedded-core@lists.openembedded.org>
-Message-ID: <alpine.DEB.2.02.1204021730530.6159@oneiric>
-User-Agent: Alpine 2.02 (DEB 1266 2009-07-14)
+	Mon, 02 Apr 2012 23:48:31 +0200
+Received: from azsmga001.ch.intel.com ([10.2.17.19])
+	by azsmga101.ch.intel.com with ESMTP; 02 Apr 2012 14:39:22 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="126281220"
+Received: from unknown (HELO helios.localnet) ([10.252.120.26])
+	by azsmga001.ch.intel.com with ESMTP; 02 Apr 2012 14:39:21 -0700
+From: Paul Eggleton <paul.eggleton@linux.intel.com>
+To: "Robert P. J. Day" <rpjday@crashcourse.ca>
+Date: Mon, 02 Apr 2012 22:39:20 +0100
+Message-ID: <1695746.vzEQQB1zRy@helios>
+Organization: Intel Corporation
+User-Agent: KMail/4.8.0 (Linux/3.0.0-17-generic-pae; KDE/4.8.1; i686; ; )
+In-Reply-To: <alpine.DEB.2.02.1204021730530.6159@oneiric>
+References: <alpine.DEB.2.02.1204021730530.6159@oneiric>
 MIME-Version: 1.0
-X-AntiAbuse: This header was added to track abuse,
-	please include it with any abuse report
-X-AntiAbuse: Primary Hostname - astoria.ccjclearline.com
-X-AntiAbuse: Original Domain - lists.openembedded.org
-X-AntiAbuse: Originator/Caller UID/GID - [47 12] / [47 12]
-X-AntiAbuse: Sender Address Domain - crashcourse.ca
-X-Source: 
-X-Source-Args: 
-X-Source-Dir: 
-Subject: should all class files be inherited by *something*?
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: should all class files be inherited by *something*?
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -40,32 +34,41 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 02 Apr 2012 21:43:50 -0000
-Content-Type: TEXT/PLAIN; charset=US-ASCII
+X-List-Received-Date: Mon, 02 Apr 2012 21:48:31 -0000
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
 
+On Monday 02 April 2012 17:34:26 Robert P. J. Day wrote:
+>   poking around the meta/classes/*.bbclass files and one looked a bit
+> odd -- scons.bbclass.  i was under the impression that class files
+> were supposed represent a *general* kind of functionality so i was
+> curious as to what this file represented.
+>
+>   more to the point, it doesn't look like anything in oe-core inherits
+> that class.  so what exactly is its purpose?
 
-  poking around the meta/classes/*.bbclass files and one looked a bit
-odd -- scons.bbclass.  i was under the impression that class files
-were supposed represent a *general* kind of functionality so i was
-curious as to what this file represented.
+I believe it's for supporting the scons build system. scons isn't hugely 
+popular though so I guess it's not surprising that nothing in OE-Core uses it.
 
-  more to the point, it doesn't look like anything in oe-core inherits
-that class.  so what exactly is its purpose?
+>   and following up on that, another example of that kind of file is
+> oelint.bbclass -- again, i don't see anything in oe-core that inherits
+> it.
 
-  and following up on that, another example of that kind of file is
-oelint.bbclass -- again, i don't see anything in oe-core that inherits
-it.
+I think oelint.bbclass is a really out-of-date recipe lint checking tool. I 
+wonder if anyone has used it lately. There could be value in bringing it up-
+to-date though.
 
-rday
+It's worth noting that we may have a number of classes that are supposed to be 
+generally useful in OE-Core that aren't used within OE-Core itself. This is a 
+good idea because it reduces the proliferation of different versions of such 
+classes in multiple layers.
+
+Cheers,
+Paul
 
 -- 
 
-========================================================================
-Robert P. J. Day                                 Ottawa, Ontario, CANADA
-                        http://crashcourse.ca
-
-Twitter:                                       http://twitter.com/rpjday
-LinkedIn:                               http://ca.linkedin.com/in/rpjday
-========================================================================
+Paul Eggleton
+Intel Open Source Technology Centre
 
 
