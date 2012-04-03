@@ -1,21 +1,22 @@
-Received: from mga01.intel.com ([192.55.52.88])
+Received: from mga09.intel.com ([134.134.136.24])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <nitin.a.kamble@intel.com>) id 1SFCoO-0005q1-LL
+	(envelope-from <nitin.a.kamble@intel.com>) id 1SFCoQ-0005q2-7X
 	for openembedded-core@lists.openembedded.org;
-	Wed, 04 Apr 2012 01:06:52 +0200
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-	by fmsmga101.fm.intel.com with ESMTP; 03 Apr 2012 15:57:42 -0700
+	Wed, 04 Apr 2012 01:06:54 +0200
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+	by orsmga102.jf.intel.com with ESMTP; 03 Apr 2012 15:57:43 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="149325047"
+X-IronPort-AV: E=Sophos;i="4.67,352,1309762800"; d="scan'208";a="125036679"
 Received: from nbuild2.sc.intel.com ([172.25.110.37])
-	by fmsmga002.fm.intel.com with ESMTP; 03 Apr 2012 15:57:42 -0700
+	by orsmga001.jf.intel.com with ESMTP; 03 Apr 2012 15:57:43 -0700
 From: nitin.a.kamble@intel.com
 To: openembedded-core@lists.openembedded.org
-Date: Tue,  3 Apr 2012 15:57:39 -0700
-Message-Id: <cover.1333493785.git.nitin.a.kamble@intel.com>
+Date: Tue,  3 Apr 2012 15:57:41 -0700
+Message-Id: <3c9f0f3047f80b6290ea2ceb4fcecdb7b286c1d5.1333493785.git.nitin.a.kamble@intel.com>
 X-Mailer: git-send-email 1.7.7.6
-MIME-Version: 1.0
-Subject: [PATCH 0/2] Few bugfixes
+In-Reply-To: <cover.1333493785.git.nitin.a.kamble@intel.com>
+References: <cover.1333493785.git.nitin.a.kamble@intel.com>
+Subject: [PATCH 1/2] gcc-cross-intermediate: fix do_install for x32
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -30,29 +31,39 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 03 Apr 2012 23:06:52 -0000
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Tue, 03 Apr 2012 23:06:54 -0000
 
 From: Nitin A Kamble <nitin.a.kamble@intel.com>
 
-The following changes since commit 46600e37cf87e9aa68e70f1d21caad8eac974a24:
+This Fixes [Ycoto #2223] bug.
 
-  elfutils: disable lzma (and bzip2 for native) (2012-04-03 21:32:34 +0100)
+The gcc osdir is obtained in the do_install by invocation of
+command "gcc -print-multi-os-directory". For x32 it returns gcc
+osdir for the default abi which is x86_64. Fix this by adding
+target abi parameter to the gcc command line to get correct gcc
+osdir with invocation of command "gcc -mx32 -print-multi-os-directory"
 
-are available in the git repository at:
-  git://git.pokylinux.org/poky-contrib nitin/bugfixes
-  http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=nitin/bugfixes
-
-Nitin A Kamble (2):
-  gcc-cross-intermediate: fix do_install for x32
-  eglibc packaging: locale packaging configuration
-
- meta/classes/libc-package.bbclass                  |    8 ++++++++
- meta/recipes-core/eglibc/eglibc-options.inc        |    6 ------
+Signed-off-by: Nitin A Kamble <nitin.a.kamble@intel.com>
+---
  .../gcc/gcc-cross-intermediate.inc                 |    3 ++-
- 3 files changed, 10 insertions(+), 7 deletions(-)
+ 1 files changed, 2 insertions(+), 1 deletions(-)
 
+diff --git a/meta/recipes-devtools/gcc/gcc-cross-intermediate.inc b/meta/recipes-devtools/gcc/gcc-cross-intermediate.inc
+index 316a764..1995725 100644
+--- a/meta/recipes-devtools/gcc/gcc-cross-intermediate.inc
++++ b/meta/recipes-devtools/gcc/gcc-cross-intermediate.inc
+@@ -35,9 +35,10 @@ do_compile () {
+ }
+ 
+ do_install () {
++	set -x
+ 	oe_runmake 'DESTDIR=${D}' install
+ 	install -d ${D}${target_base_libdir}/
+-	osdir=`${D}${STAGING_BINDIR_TOOLCHAIN}.${PN}/${TARGET_PREFIX}gcc -print-multi-os-directory`
++	osdir=`${D}${STAGING_BINDIR_TOOLCHAIN}.${PN}/${TARGET_PREFIX}gcc ${TARGET_CC_ARCH} -print-multi-os-directory`
+ 	mv ${D}${exec_prefix}/${TARGET_SYS}/lib/$osdir/* ${D}${target_base_libdir}/
+ 
+ 	# We don't really need this (here shares/ contains man/, info/, locale/).
 -- 
 1.7.7.6
 
