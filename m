@@ -1,34 +1,34 @@
-Received: from mail-wg0-f43.google.com ([74.125.82.43])
-	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <andrei@gherzan.ro>) id 1SF1hc-0005NA-JW
-	for openembedded-core@lists.openembedded.org;
-	Tue, 03 Apr 2012 13:15:08 +0200
-Received: by wgbdr12 with SMTP id dr12so3112691wgb.24
+Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
+	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <richard.purdie@linuxfoundation.org>)
+	id 1SF3cU-0007KP-CB for openembedded-core@lists.openembedded.org;
+	Tue, 03 Apr 2012 15:17:59 +0200
+Received: from localhost (localhost [127.0.0.1])
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q33D8luQ022257
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 03 Apr 2012 04:05:59 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=google.com; s=20120113;
-	h=from:to:cc:subject:date:message-id:x-mailer:x-gm-message-state;
-	bh=8+tSq0aCAvKmNwl+FXpJAGZEFEBFbNMc8LSkEhZAwpk=;
-	b=axKGWKDQxOJSsceu0ivuo4fAeLMQPv2ymM1nwf6oIamRVo2Ay1o31scdVGtGfYqwJR
-	sdIi35i7d620kXcA3XL6Q/50xJ78o9aXV0ysFK9K7f0BVo/8Z8G10Y1uRu8FA9PJloTH
-	bcQVuAsvNZkSYAYWBOzs+DT8SclaVqW82vslHusuNuXLkheO6NDYUlnNuJXpJ6ZNU5s8
-	omK1tGpoqgn9vpJ82xqoOfnnofdZO0ILKBPgQoUWs2QTRGJ1gwDfHFH7D/eXCObyLwnb
-	+D6kkXZcu+zqrtQHM6nqijcaPFZ8ns+GelUqPeaJ/U4KsGiFMwUczHxta8hDtNyCsZWU
-	wz7A==
-Received: by 10.180.85.35 with SMTP id e3mr5287120wiz.6.1333451159437;
-	Tue, 03 Apr 2012 04:05:59 -0700 (PDT)
-Received: from localhost.localdomain ([89.121.200.106])
-	by mx.google.com with ESMTPS id ff2sm68076715wib.9.2012.04.03.04.05.56
-	(version=TLSv1/SSLv3 cipher=OTHER);
-	Tue, 03 Apr 2012 04:05:56 -0700 (PDT)
-From: Andrei Gherzan <andrei@gherzan.ro>
-To: openembedded-core@lists.openembedded.org
-Date: Tue,  3 Apr 2012 14:05:48 +0300
-Message-Id: <1333451148-32709-1-git-send-email-andrei@gherzan.ro>
-X-Mailer: git-send-email 1.7.5.4
-X-Gm-Message-State: ALoCoQnhC30C/YBxLO7LszTXpWtpLhGd2IF9VIbEsYQXSWyZsl1eRhh9HXIrUHmvHtt61y4QvLXl
-Subject: [PATCH] license.bbclass: Check if copyfile succeeded with isfile
+	Tue, 3 Apr 2012 14:08:47 +0100
+Received: from tim.rpsys.net ([127.0.0.1])
+	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
+	port 10024) with LMTP
+	id 20808-09 for <openembedded-core@lists.openembedded.org>;
+	Tue,  3 Apr 2012 14:08:42 +0100 (BST)
+Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q33D8aCl022251
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO)
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 3 Apr 2012 14:08:40 +0100
+Message-ID: <1333458515.11559.20.camel@ted>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Date: Tue, 03 Apr 2012 14:08:35 +0100
+In-Reply-To: <4ca2d5696ad0249c2524d5d99728647f0df6b92a.1333411736.git.lianhao.lu@intel.com>
+References: <cover.1333411736.git.lianhao.lu@intel.com>
+	<4ca2d5696ad0249c2524d5d99728647f0df6b92a.1333411736.git.lianhao.lu@intel.com>
+X-Mailer: Evolution 3.2.2- 
+Mime-Version: 1.0
+X-Virus-Scanned: amavisd-new at rpsys.net
+Subject: Re: [PATCH 1/1] eglibc: SDK_GLIBC_ADDONS for eglibc-nativesdk.
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -43,36 +43,27 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 03 Apr 2012 11:15:08 -0000
+X-List-Received-Date: Tue, 03 Apr 2012 13:17:59 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-A cleaner way to check if copyfile suceeded is to use os.path.isfile.
-In this way we can omit warns in some python versions where copyfile
-return the same non-0 value even is this action is successfull.
+On Tue, 2012-04-03 at 08:13 +0800, Lianhao Lu wrote:
+> Use SDK_GLIBC_ADDONS for eglibc-nativesdk so that it is not
+> dependant on the target eglibc's GLIBC_ADDONS settings.
+> 
+> Signed-off-by: Lianhao Lu <lianhao.lu@intel.com>
+> ---
+>  meta/conf/machine-sdk/i586.conf         |    2 ++
+>  meta/conf/machine-sdk/i686.conf         |    2 ++
+>  meta/conf/machine-sdk/x86_64.conf       |    4 +++-
+>  meta/recipes-core/eglibc/eglibc.inc     |    4 ++++
+>  meta/recipes-core/eglibc/eglibc_2.13.bb |    5 ++---
+>  meta/recipes-core/eglibc/eglibc_2.15.bb |    4 +---
+>  6 files changed, 14 insertions(+), 7 deletions(-)
 
-Signed-off-by: Andrei Gherzan <andrei@gherzan.ro>
----
- meta/classes/license.bbclass |    5 +++--
- 1 files changed, 3 insertions(+), 2 deletions(-)
+Merged to master, thanks.
 
-diff --git a/meta/classes/license.bbclass b/meta/classes/license.bbclass
-index c85233c..6c4a673 100644
---- a/meta/classes/license.bbclass
-+++ b/meta/classes/license.bbclass
-@@ -215,9 +215,10 @@ python do_populate_lic() {
-         if spdx_generic and license_source:
-             # we really should copy to generic_ + spdx_generic, however, that ends up messing the manifest
-             # audit up. This should be fixed in emit_pkgdata (or, we actually got and fix all the recipes)
--            ret = bb.copyfile(os.path.join(license_source, spdx_generic), os.path.join(os.path.join(d.getVar('LICSSTATEDIR', True), pn), "generic_" + license_type))
-+
-+            bb.copyfile(os.path.join(license_source, spdx_generic), os.path.join(os.path.join(d.getVar('LICSSTATEDIR', True), pn), "generic_" + license_type))
-+            if not os.path.isfile(os.path.join(os.path.join(d.getVar('LICSSTATEDIR', True), pn), "generic_" + license_type)):
-             # If the copy didn't occur, something horrible went wrong and we fail out
--            if not ret:
-                 bb.warn("%s for %s could not be copied for some reason. It may not exist. WARN for now." % (spdx_generic, pn))
-         else:
-             # And here is where we warn people that their licenses are lousy
--- 
-1.7.5.4
+Richard
 
 
 
