@@ -1,32 +1,24 @@
-Received: from mail-lpp01m010-f47.google.com ([209.85.215.47])
+Received: from [78.110.170.148] (helo=tinyArch.localdomain)
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <raj.khem@gmail.com>) id 1SEwOo-0008DV-Ug
+	(envelope-from <ml@communistcode.co.uk>) id 1SEylk-0002Js-EZ
 	for openembedded-core@lists.openembedded.org;
-	Tue, 03 Apr 2012 07:35:23 +0200
-Received: by lagw12 with SMTP id w12so4100293lag.6
+	Tue, 03 Apr 2012 10:07:12 +0200
+Received: from [192.168.0.51] (unknown [195.171.99.130])
+	by tinyArch.localdomain (Postfix) with ESMTPSA id A4DA62CFD9
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 02 Apr 2012 22:26:14 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:content-type; bh=hLIYldAXynvm0yYA2/z1TPNnxaoo9STTv6KdFNNfUoM=;
-	b=zGVpKamVzdrk+4SDoSwFNS0OXwIcJamIZPqmlkXYwG842L/am1ptJp1ZwyKWazT1tB
-	OL0FVJgYouiEqArfQMvNHJUm2odb1976rOvSFdTeu2ez5nCVe2OU3yrkbILJ4UL+2MZD
-	gf3gnaQzDRcLTqLmHjIenWbHZKdVzw7sSbfxdXltPqQjIVjrsc/hPYoVHWZ4sYGMEJHJ
-	r/AbFbN/9qEDjZeQW6RlXSCSyL4OX7djCZ/6Rx0yqj/5jLzDX8JbPkuDIESSAITKhJlF
-	T7U3Kx0eo4+uRZPYN8tY+WsWLguwkGtVa+feJSLKjx7h+4YJFFRWpkfSvkcxuCuJgHI/
-	6iCA==
-Received: by 10.152.113.229 with SMTP id jb5mr12530500lab.45.1333430774085;
-	Mon, 02 Apr 2012 22:26:14 -0700 (PDT)
+	Tue,  3 Apr 2012 08:55:58 +0100 (BST)
+Message-ID: <4F7AADA3.1020603@communistcode.co.uk>
+Date: Tue, 03 Apr 2012 08:58:27 +0100
+From: Jack Mitchell <ml@communistcode.co.uk>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:11.0) Gecko/20120328 Thunderbird/11.0.1
 MIME-Version: 1.0
-Received: by 10.152.3.161 with HTTP; Mon, 2 Apr 2012 22:25:43 -0700 (PDT)
-In-Reply-To: <1333367425.647.23.camel@ted>
-References: <1333367425.647.23.camel@ted>
-From: Khem Raj <raj.khem@gmail.com>
-Date: Mon, 2 Apr 2012 22:25:43 -0700
-Message-ID: <CAMKF1srj=MZVNuyJp=iDRGSMHV8k8kA97wVEDHwun8mcaZ+RyQ@mail.gmail.com>
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] gst-ffmpeg: Fix build failures from sstate relocation
+To: openembedded-core@lists.openembedded.org
+References: <4F4B890D.90809@communistcode.co.uk>
+	<4F61C5DF.8090705@communistcode.co.uk>
+	<20120402165615.GB24832@sakrah.homelinux.org>
+In-Reply-To: <20120402165615.GB24832@sakrah.homelinux.org>
+Subject: Re: cpufrequtils do_install issue
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -41,15 +33,84 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 03 Apr 2012 05:35:23 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Tue, 03 Apr 2012 08:07:12 -0000
+Content-Type: text/plain; charset=ISO-8859-1; format=flowed
+Content-Transfer-Encoding: 7bit
 
-On Mon, Apr 2, 2012 at 4:50 AM, Richard Purdie
-<richard.purdie@linuxfoundation.org> wrote:
-> -
-> -# Hack to get STAGING_LIBDIR into the linker path when building ffmpeg
-> -CC = "${CCACHE} ${HOST_PREFIX}gcc ${TARGET_CC_ARCH} -L${STAGING_LIBDIR}"
+On 02/04/12 17:56, Khem Raj wrote:
+> On (15/03/12 10:35), Jack Mitchell wrote:
+>> On 27/02/12 13:45, Jack Mitchell wrote:
+>>> I am having issues compiling the systemd-image for beaglebone
+>>> under Angstrom. I receive the following error message which seems
+>>> to state that 'install' is missing, is anyone else having trouble
+>>> or could provide some insight to this?
+>>>
+>>>     ERROR: Function failed: do_install (see
+>>>     /home/jack/angstrom/build/tmp-angstrom_2010_x-eglibc/work/armv7a-angstrom-linux-gnueabi/cpufrequtils-008-r3/temp/log.do_install.16223
+>>>     for further information)
+>>>     + cd
+>>>     /home/jack/angstrom/build/tmp-angstrom_2010_x-eglibc/work/armv7a-angstrom-linux-gnueabi/cpufrequtils-008-r3/git
+>>>     + do_install
+>>>     + oe_runmake -e install
+>>>     DESTDIR=/home/jack/angstrom/build/tmp-angstrom_2010_x-eglibc/work/armv7a-angstrom-linux-gnueabi/cpufrequtils-008-r3/image
+>>>     + '[' xmake = x ']'
+>>>     + bbnote make -j12 V=1 CROSS=arm-angstrom-linux-gnueabi-
+>>>     'LIBTOOL=arm-angstrom-linux-gnueabi-libtool --tag cc'
+>>>     STRIPCMD=echo -e install
+>>>     DESTDIR=/home/jack/angstrom/build/tmp-angstrom_2010_x-eglibc/work/armv7a-angstrom-linux-gnueabi/cpufrequtils-008-r3/image
+>>>     + echo 'NOTE: make -j12 V=1 CROSS=arm-angstrom-linux-gnueabi-
+>>>     LIBTOOL=arm-angstrom-linux-gnueabi-libtool --tag cc STRIPCMD=echo
+>>>     -e install
+>>>     DESTDIR=/home/jack/angstrom/build/tmp-angstrom_2010_x-eglibc/work/armv7a-angstrom-linux-gnueabi/cpufrequtils-008-r3/image'
+>>>     NOTE: make -j12 V=1 CROSS=arm-angstrom-linux-gnueabi-
+>>>     LIBTOOL=arm-angstrom-linux-gnueabi-libtool --tag cc STRIPCMD=echo
+>>>     -e install
+>>>     DESTDIR=/home/jack/angstrom/build/tmp-angstrom_2010_x-eglibc/work/armv7a-angstrom-linux-gnueabi/cpufrequtils-008-r3/image
+>>>     + make -j12 V=1 CROSS=arm-angstrom-linux-gnueabi-
+>>>     'LIBTOOL=arm-angstrom-linux-gnueabi-libtool --tag cc'
+>>>     STRIPCMD=echo -e install
+>>>     DESTDIR=/home/jack/angstrom/build/tmp-angstrom_2010_x-eglibc/work/armv7a-angstrom-linux-gnueabi/cpufrequtils-008-r3/image
+>>>     /usr/bin/install -c -d
+>>>     /home/jack/angstrom/build/tmp-angstrom_2010_x-eglibc/work/armv7a-angstrom-linux-gnueabi/cpufrequtils-008-r3/image/usr/lib
+>>>     /usr/bin/install -c -d
+>>>     /home/jack/angstrom/build/tmp-angstrom_2010_x-eglibc/work/armv7a-angstrom-linux-gnueabi/cpufrequtils-008-r3/image/usr/bin
+>>>     /usr/bin/install -c -m 644 -D man/cpufreq-set.1
+>>>     /home/jack/angstrom/build/tmp-angstrom_2010_x-eglibc/work/armv7a-angstrom-linux-gnueabi/cpufrequtils-008-r3/image/usr/share/man/man1/cpufreq-set.1
+>>>     /usr/bin/install -c -d
+>>>     /home/jack/angstrom/build/tmp-angstrom_2010_x-eglibc/work/armv7a-angstrom-linux-gnueabi/cpufrequtils-008-r3/image/usr/share/locale
+>>>     make: /usr/bin/install: Command not found
+>> Ok, I fixed this finally! In archlinux `install` is not located in
+>> /usr/bin/install but in /bin/install so a quick symlink and that was
+>> fixed. However, should bitbake be going into my system to use
+>> install like this, and should it be hard-coded in cpufrequtils?
+> I think the package makefile is probably hardcoding the path here nothin
+> that bitbake can do. You need to fix package build system to be cross
+> compile friendly
+>
+Hi Khem,
 
-yep right thing to do.
+Thanks for the reply. I did solve this issue (I could have sworn I 
+posted a follow up email) and it was a hard coded link in the package. 
+Cpufrequtils is vastly dated and it was just a dependency that something 
+else was bringing in so I didn't really care for it. In the end I 
+symlinked my install binary to where it expected it and that allowed me 
+to build.
+
+For the record the new kid on the block in this area is called 
+'cpupower' it builds on cpufrequtils and brings it up to date (last 
+cpufrequtils commit was sometime in 2009 if I remember correctly!) and 
+is much better. If anyone is attempting to use cpufrequtils I would 
+recommend checking it out instead.
+
+Regards,
+
+-- 
+
+   Jack Mitchell (jack@embed.me.uk)
+   Embedded Systems Engineer
+   http://www.embed.me.uk
+
+--
+
 
 
