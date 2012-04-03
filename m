@@ -1,34 +1,35 @@
-Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
-	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <richard.purdie@linuxfoundation.org>)
-	id 1SF3cU-0007KP-CB for openembedded-core@lists.openembedded.org;
-	Tue, 03 Apr 2012 15:17:59 +0200
-Received: from localhost (localhost [127.0.0.1])
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q33D8luQ022257
+Received: from mail-lpp01m010-f47.google.com ([209.85.215.47])
+	by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <raj.khem@gmail.com>) id 1SF49a-0007jf-Bc
+	for openembedded-core@lists.openembedded.org;
+	Tue, 03 Apr 2012 15:52:10 +0200
+Received: by lagw12 with SMTP id w12so4542001lag.6
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 3 Apr 2012 14:08:47 +0100
-Received: from tim.rpsys.net ([127.0.0.1])
-	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
-	port 10024) with LMTP
-	id 20808-09 for <openembedded-core@lists.openembedded.org>;
-	Tue,  3 Apr 2012 14:08:42 +0100 (BST)
-Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q33D8aCl022251
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO)
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 3 Apr 2012 14:08:40 +0100
-Message-ID: <1333458515.11559.20.camel@ted>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
+	Tue, 03 Apr 2012 06:43:00 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:content-type; bh=vNky9kr3XMHlERIRuOKKGCA3USC2uLbM/IA2GJ/PV4A=;
+	b=Ra0kpDzSC5Z53wtgIpHuZ4/IMqkQRTEW9ufa+/Qokyg+6XJazDie8kpSDqmpMrgsj6
+	RByeG7tG/xgUTTVXKvYfGl/m95g8O5QorVZl7sIcbG2uy8Z2yL4wPWrB9PDZA4Y0zNAN
+	SXbnM0OQcrfOP6n2aj3/r+wayL6J1qNjQs4LRUqdwNZDxCM136d7SknwB6nzdFYCorKm
+	qk68sLJbbVA08+7XlNy1yABFpSm0E1cVEacls1Nf0DF3znWIxZw8WVz8/WvVIM5QEIwM
+	toAR1+7ItwAjA6HiGgwZ5hWpnWyB48voYXbyNb/eRM0i9Qglr6sYywpom3QLZXl3J34y
+	mKsw==
+Received: by 10.152.111.198 with SMTP id ik6mr6291546lab.38.1333460580838;
+	Tue, 03 Apr 2012 06:43:00 -0700 (PDT)
+MIME-Version: 1.0
+Received: by 10.152.3.161 with HTTP; Tue, 3 Apr 2012 06:42:30 -0700 (PDT)
+In-Reply-To: <4F7AADA3.1020603@communistcode.co.uk>
+References: <4F4B890D.90809@communistcode.co.uk>
+	<4F61C5DF.8090705@communistcode.co.uk>
+	<20120402165615.GB24832@sakrah.homelinux.org>
+	<4F7AADA3.1020603@communistcode.co.uk>
+From: Khem Raj <raj.khem@gmail.com>
+Date: Tue, 3 Apr 2012 06:42:30 -0700
+Message-ID: <CAMKF1soCWnGaZJ0iv=k7MHMxYgyyDeCZQ3kesxvOh4GFYGvcdA@mail.gmail.com>
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Date: Tue, 03 Apr 2012 14:08:35 +0100
-In-Reply-To: <4ca2d5696ad0249c2524d5d99728647f0df6b92a.1333411736.git.lianhao.lu@intel.com>
-References: <cover.1333411736.git.lianhao.lu@intel.com>
-	<4ca2d5696ad0249c2524d5d99728647f0df6b92a.1333411736.git.lianhao.lu@intel.com>
-X-Mailer: Evolution 3.2.2- 
-Mime-Version: 1.0
-X-Virus-Scanned: amavisd-new at rpsys.net
-Subject: Re: [PATCH 1/1] eglibc: SDK_GLIBC_ADDONS for eglibc-nativesdk.
+Subject: Re: cpufrequtils do_install issue
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -43,27 +44,16 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 03 Apr 2012 13:17:59 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Tue, 03 Apr 2012 13:52:10 -0000
+Content-Type: text/plain; charset=UTF-8
 
-On Tue, 2012-04-03 at 08:13 +0800, Lianhao Lu wrote:
-> Use SDK_GLIBC_ADDONS for eglibc-nativesdk so that it is not
-> dependant on the target eglibc's GLIBC_ADDONS settings.
-> 
-> Signed-off-by: Lianhao Lu <lianhao.lu@intel.com>
-> ---
->  meta/conf/machine-sdk/i586.conf         |    2 ++
->  meta/conf/machine-sdk/i686.conf         |    2 ++
->  meta/conf/machine-sdk/x86_64.conf       |    4 +++-
->  meta/recipes-core/eglibc/eglibc.inc     |    4 ++++
->  meta/recipes-core/eglibc/eglibc_2.13.bb |    5 ++---
->  meta/recipes-core/eglibc/eglibc_2.15.bb |    4 +---
->  6 files changed, 14 insertions(+), 7 deletions(-)
+On Tue, Apr 3, 2012 at 12:58 AM, Jack Mitchell <ml@communistcode.co.uk> wrote:
+>
+> For the record the new kid on the block in this area is called 'cpupower' it
+> builds on cpufrequtils and brings it up to date (last cpufrequtils commit
+> was sometime in 2009 if I remember correctly!) and is much better. If anyone
+> is attempting to use cpufrequtils I would recommend checking it out instead.
 
-Merged to master, thanks.
-
-Richard
-
+if you have cpupower recipes for OE I would encourage you to contribute
 
 
