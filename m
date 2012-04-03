@@ -1,27 +1,24 @@
-Received: from mail1.windriver.com ([147.11.146.13])
+Received: from mga03.intel.com ([143.182.124.21])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <mark.hatle@windriver.com>) id 1SF8E8-0000HY-JD
+	(envelope-from <paul.eggleton@linux.intel.com>) id 1SF8Fc-0000K9-DE
 	for openembedded-core@lists.openembedded.org;
-	Tue, 03 Apr 2012 20:13:08 +0200
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca [147.11.189.40])
-	by mail1.windriver.com (8.14.3/8.14.3) with ESMTP id q33I3wV7017925
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 3 Apr 2012 11:03:58 -0700 (PDT)
-Received: from msp-dhcp14.wrs.com (172.25.34.14) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server id 14.1.255.0;
-	Tue, 3 Apr 2012 11:03:57 -0700
-Message-ID: <4F7B3B8C.6000200@windriver.com>
-Date: Tue, 3 Apr 2012 13:03:56 -0500
-From: Mark Hatle <mark.hatle@windriver.com>
-Organization: Wind River Systems
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.6;
-	rv:10.0.2) Gecko/20120216 Thunderbird/10.0.2
-MIME-Version: 1.0
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-References: <4F7B38C7.6010909@mlbassoc.com>
+	Tue, 03 Apr 2012 20:14:40 +0200
+Received: from azsmga002.ch.intel.com ([10.2.17.35])
+	by azsmga101.ch.intel.com with ESMTP; 03 Apr 2012 11:05:25 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="84875015"
+Received: from unknown (HELO helios.localnet) ([10.252.120.14])
+	by AZSMGA002.ch.intel.com with ESMTP; 03 Apr 2012 11:05:25 -0700
+From: Paul Eggleton <paul.eggleton@linux.intel.com>
+To: Gary Thomas <gary@mlbassoc.com>
+Date: Tue, 03 Apr 2012 19:05:23 +0100
+Message-ID: <2362664.v47zrqRqfa@helios>
+Organization: Intel Corporation
+User-Agent: KMail/4.8.0 (Linux/3.0.0-17-generic-pae; KDE/4.8.1; i686; ; )
 In-Reply-To: <4F7B38C7.6010909@mlbassoc.com>
+References: <4F7B38C7.6010909@mlbassoc.com>
+MIME-Version: 1.0
+Cc: openembedded-core@lists.openembedded.org
 Subject: Re: Schizophrenic package management
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
@@ -37,30 +34,30 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 03 Apr 2012 18:13:09 -0000
-Content-Type: text/plain; charset="ISO-8859-1"; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Tue, 03 Apr 2012 18:14:40 -0000
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
 
-On 4/3/12 12:52 PM, Gary Thomas wrote:
+On Tuesday 03 April 2012 11:52:07 Gary Thomas wrote:
 > Why are both opkg-native and rpm-native needed to build images?
 > When I asked this previously, I was told that rpm was used because
 > it has superior dependency tracking.  Fair enough (I guess), but
 > then why is opkg required if I build an image using
->     PACKAGE_CLASSES = "package_rpm"
->
+>    PACKAGE_CLASSES = "package_rpm"
 
-rpm-native is used for internal dependency scanning.  The exact tool is 
-"rpmdeps".  These dependencies may or may not be rolled up into package level 
-dependencies by the packaging tool (which may be opkg, deb or rpm).  (see 
-package.bbclass)
+On the face of it it seems odd; however the reason you get both built no 
+matter which you choose is we need some component of each one regardless of 
+what packaging system is chosen:
 
-opkg-native is used for handling alternatives and similar during packaging and 
-image creation.  So it's also needed.
+* opkg is needed to provide update-alternatives-cworth
+* rpm is needed to provide rpmdeps
 
-I don't believe opkg, or rpm are needed on the target image though, unless of 
-course you select one of them as the packaging type and you want target package 
-management.
+Cheers,
+Paul
 
---Mark
+-- 
+
+Paul Eggleton
+Intel Open Source Technology Centre
 
 
