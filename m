@@ -1,37 +1,28 @@
-Received: from mail-qc0-f175.google.com ([209.85.216.175])
+Received: from hermes.mlbassoc.com ([64.234.241.98] helo=mail.chez-thomas.org)
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <kergoth@gmail.com>) id 1SF8VB-0000Xd-Uq
+	(envelope-from <gary@mlbassoc.com>) id 1SF8X9-0000ax-Io
 	for openembedded-core@lists.openembedded.org;
-	Tue, 03 Apr 2012 20:30:46 +0200
-Received: by qcso7 with SMTP id o7so2426228qcs.6
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 03 Apr 2012 11:21:36 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=googlemail.com; s=20120113;
-	h=mime-version:sender:in-reply-to:references:from:date
-	:x-google-sender-auth:message-id:subject:to:content-type
-	:content-transfer-encoding;
-	bh=FVUzdRSw9PunSwZIsgmfVfRL8hZXopHnuWLmRRaHPZk=;
-	b=ywxE5LTqxdB8BLtVdxpeXoEhT6SxnQvmpFfObqFBTjkIFXZn9ow2VLSSWuHRTTd4NQ
-	YpCWUutzjc8UGBelQW6zeLTAxi91bJLiYlGAyoLeY9eaHp4wkIQ0jrsnC4SzAUsGk5PE
-	JHZkbA4cNuJ0F7gqWfBv4Z8MloDXcobTaBysKq7ydoOQJ4PZ9lK8Il7+1TiBTl98bCNd
-	12iDrtXlombxCzZafkyQyb4WytesWdk4mZoJF/ep7mD0n3uXwHXB9T3NmKU8/3Oo1Yas
-	UETI9bbfl3En1mQIrxpisei5WY5XGmce8TT+JVz5M95WTeqLxj/XGbqgm5OaNbMeKCFi
-	D+ow==
-Received: by 10.224.210.66 with SMTP id gj2mr2730404qab.3.1333477296045; Tue,
-	03 Apr 2012 11:21:36 -0700 (PDT)
+	Tue, 03 Apr 2012 20:32:47 +0200
+Received: by mail.chez-thomas.org (Postfix, from userid 1998)
+	id 8F503F81243; Tue,  3 Apr 2012 12:23:39 -0600 (MDT)
+X-Spam-Checker-Version: SpamAssassin 3.3.2 (2011-06-06) on
+	hermes.chez-thomas.org
+X-Spam-Level: 
+X-Spam-Status: No, score=-2.9 required=4.0 tests=ALL_TRUSTED,BAYES_00
+	autolearn=unavailable version=3.3.2
+Received: from hermes.chez-thomas.org (localhost.localdomain [127.0.0.1])
+	by mail.chez-thomas.org (Postfix) with ESMTP id B7B79F81242;
+	Tue,  3 Apr 2012 12:23:37 -0600 (MDT)
+Message-ID: <4F7B4029.7020109@mlbassoc.com>
+Date: Tue, 03 Apr 2012 12:23:37 -0600
+From: Gary Thomas <gary@mlbassoc.com>
+User-Agent: Mozilla/5.0 (X11; Linux i686;
+	rv:10.0.1) Gecko/20120216 Thunderbird/10.0.1
 MIME-Version: 1.0
-Sender: kergoth@gmail.com
-Received: by 10.229.24.196 with HTTP; Tue, 3 Apr 2012 11:21:15 -0700 (PDT)
-In-Reply-To: <4F7B3EAE.2000301@windriver.com>
+To: openembedded-core@lists.openembedded.org
 References: <4F7B38C7.6010909@mlbassoc.com> <4F7B3B8C.6000200@windriver.com>
 	<4F7B3C75.5030200@mlbassoc.com> <4F7B3EAE.2000301@windriver.com>
-From: Chris Larson <clarson@kergoth.com>
-Date: Tue, 3 Apr 2012 11:21:15 -0700
-X-Google-Sender-Auth: 2ELJ-WVaQDcNX7SHj9twkAt8pXg
-Message-ID: <CABcZANmodJB6t5MT+tYGvugCaf8Cba=FRS_HEb4Q5q=VGQXOPg@mail.gmail.com>
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
+In-Reply-To: <4F7B3EAE.2000301@windriver.com>
 Subject: Re: Schizophrenic package management
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
@@ -47,75 +38,56 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 03 Apr 2012 18:30:46 -0000
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Tue, 03 Apr 2012 18:32:47 -0000
+Content-Type: text/plain; charset=ISO-8859-1; format=flowed
+Content-Transfer-Encoding: 7bit
 
-On Tue, Apr 3, 2012 at 11:17 AM, Mark Hatle <mark.hatle@windriver.com> wrot=
-e:
+On 2012-04-03 12:17, Mark Hatle wrote:
 > On 4/3/12 1:07 PM, Gary Thomas wrote:
->>
 >> On 2012-04-03 12:03, Mark Hatle wrote:
->>>
 >>> On 4/3/12 12:52 PM, Gary Thomas wrote:
->>>>
 >>>> Why are both opkg-native and rpm-native needed to build images?
 >>>> When I asked this previously, I was told that rpm was used because
 >>>> it has superior dependency tracking. Fair enough (I guess), but
 >>>> then why is opkg required if I build an image using
->>>> PACKAGE_CLASSES =3D "package_rpm"
+>>>> PACKAGE_CLASSES = "package_rpm"
 >>>>
 >>>
->>> rpm-native is used for internal dependency scanning. The exact tool is
->>> "rpmdeps". These dependencies may or may not be rolled up into package =
-level
->>> dependencies by the packaging
+>>> rpm-native is used for internal dependency scanning. The exact tool is "rpmdeps". These dependencies may or may not be rolled up into package level dependencies by the packaging
 >>> tool (which may be opkg, deb or rpm). (see package.bbclass)
 >>>
->>> opkg-native is used for handling alternatives and similar during
->>> packaging and image creation. So it's also needed.
+>>> opkg-native is used for handling alternatives and similar during packaging and image creation. So it's also needed.
 >>
->>
->> Why? =C2=A0Surely one or the other should be useful for this. =C2=A0I'm =
-sure
+>> Why? Surely one or the other should be useful for this. I'm sure
 >> that RedHat doesn't need opkg to build their images...
->
 >
 > (repeating Paul for the sake of threads when someone searches)
 >
-> OE uses the update-alternatives method of handing multiple packages that
-> provide the same functionality. =C2=A0Packaging systems themselves don't =
-do this,
-> the helpers do.
+> OE uses the update-alternatives method of handing multiple packages that provide the same functionality. Packaging systems themselves don't do this, the helpers do.
 >
-> opkg-native provides update-alternatives-cworth (according to Paul E) and
-> that is needed by the other components in the system to determine which
-> version of a particular piece of functionality is needed during image
-> creation.
+> opkg-native provides update-alternatives-cworth (according to Paul E) and that is needed by the other components in the system to determine which version of a particular piece of
+> functionality is needed during image creation.
 >
-> There is an "alternative" update-alternatives package, but I don't believ=
-e
-> there is a native version. =C2=A0If anything that is all that should be
-> required...
+> There is an "alternative" update-alternatives package, but I don't believe there is a native version. If anything that is all that should be required...
 >
-> (And RedHat based linux distributions don't have any concept of
-> alternatives. They generally decide which binary package will provide the
-> functionality and that is the defacto standard for a given release. =C2=
-=A0OE on
-> the other hand is closer to Debian based systems in that regard. =C2=A0We=
- can
-> build multiple packages that may provide the same functionality, then it'=
-s
-> up to the package install time to determine which version of the
-> functionality is used as the default.)
+> (And RedHat based linux distributions don't have any concept of alternatives. They generally decide which binary package will provide the functionality and that is the defacto
+> standard for a given release. OE on the other hand is closer to Debian based systems in that regard. We can build multiple packages that may provide the same functionality, then
+> it's up to the package install time to determine which version of the functionality is used as the default.)
 
-What's quite interesting to me is that chkconfig has an alternatives
-command in its source tree which seems to behave just like
-update-alternatives and is written in C, and includes a man page. See
-http://www.fastcoder.net/downloads/chkconfig-1.3.30c.tar.gz -
-./alternatives.c, ./alternatives.8. I'd suggest we look closer at this
-rather than continuing to rely on update-alternatives-cworth.
---=20
-Christopher Larson
+Thanks for the explanation.  Sorry to be stubborn on this, it just seems
+really convoluted that neither opkg nor rpm are sufficient to complete
+the build, but I'll accept it as so.
+
+>>>
+>>> I don't believe opkg, or rpm are needed on the target image though, unless of course you select one of them as the packaging type and you want target package management.
+>>
+>> Yes, of course. I just don't see the need to have to build both
+>> just to create my image.
+
+-- 
+------------------------------------------------------------
+Gary Thomas                 |  Consulting for the
+MLB Associates              |    Embedded world
+------------------------------------------------------------
 
 
