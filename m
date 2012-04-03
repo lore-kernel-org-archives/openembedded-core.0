@@ -1,22 +1,39 @@
-Received: from mga11.intel.com ([192.55.52.93])
+Received: from mga14.intel.com ([143.182.124.37])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <lianhao.lu@intel.com>) id 1SErah-0006Zd-7x
+	(envelope-from <lianhao.lu@intel.com>) id 1SErf8-0006gN-8g
 	for openembedded-core@lists.openembedded.org;
-	Tue, 03 Apr 2012 02:27:19 +0200
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-	by fmsmga102.fm.intel.com with ESMTP; 02 Apr 2012 17:18:09 -0700
+	Tue, 03 Apr 2012 02:31:54 +0200
+Received: from azsmga001.ch.intel.com ([10.2.17.19])
+	by azsmga102.ch.intel.com with ESMTP; 02 Apr 2012 17:22:44 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="148904172"
-Received: from llu-piketon.sh.intel.com (HELO localhost) ([10.239.36.110])
-	by fmsmga002.fm.intel.com with ESMTP; 02 Apr 2012 17:18:09 -0700
-From: Lianhao Lu <lianhao.lu@intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Tue,  3 Apr 2012 08:13:51 +0800
-Message-Id: <4ca2d5696ad0249c2524d5d99728647f0df6b92a.1333411736.git.lianhao.lu@intel.com>
-X-Mailer: git-send-email 1.7.0.4
-In-Reply-To: <cover.1333411736.git.lianhao.lu@intel.com>
-References: <cover.1333411736.git.lianhao.lu@intel.com>
-Subject: [PATCH 1/1] eglibc: SDK_GLIBC_ADDONS for eglibc-nativesdk.
+X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="126334758"
+Received: from azsmsx601.amr.corp.intel.com ([10.2.121.193])
+	by azsmga001.ch.intel.com with ESMTP; 02 Apr 2012 17:22:44 -0700
+Received: from shsmsx151.ccr.corp.intel.com (10.239.6.50) by
+	azsmsx601.amr.corp.intel.com (10.2.121.193) with Microsoft SMTP Server
+	(TLS) id 8.2.255.0; Mon, 2 Apr 2012 17:22:43 -0700
+Received: from shsmsx101.ccr.corp.intel.com ([169.254.1.142]) by
+	SHSMSX151.ccr.corp.intel.com ([169.254.3.91]) with mapi id
+	14.01.0355.002; Tue, 3 Apr 2012 08:22:42 +0800
+From: "Lu, Lianhao" <lianhao.lu@intel.com>
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Thread-Topic: [OE-core] [PATCH 4/5] eglibc-nativesdk: Set GCC_ADDONS.
+Thread-Index: AQHNDwsCwvj0Z6EWUkysk9K8OcaCuZaD892AgAAASICABEyH4A==
+Date: Tue, 3 Apr 2012 00:22:41 +0000
+Message-ID: <857BE142E5399E46B20FD45B9DB8A7BC0FD1A2D4@SHSMSX101.ccr.corp.intel.com>
+References: <cover.1333176251.git.lianhao.lu@intel.com>
+	<d33b7d21b1cc23f7c20743d85a261c4d610e2f41.1333176251.git.lianhao.lu@intel.com>
+	<eb2bbe99f15183d5c82ab5c12178a1e336a7c5ce.1333176251.git.lianhao.lu@intel.com>
+	<CAMKF1srXwcC9s_wOb3OuSEt+QWeSOfn3yR6R6VGtGP3mhhRASw@mail.gmail.com>
+	<CAMKF1sosTMMM0AUhPy6=4P7CQBAO2WJ3VCfObAb-+0g2+25mig@mail.gmail.com>
+In-Reply-To: <CAMKF1sosTMMM0AUhPy6=4P7CQBAO2WJ3VCfObAb-+0g2+25mig@mail.gmail.com>
+Accept-Language: zh-CN, en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [10.239.127.40]
+MIME-Version: 1.0
+Subject: Re: [PATCH 4/5] eglibc-nativesdk: Set GCC_ADDONS.
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -31,115 +48,29 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 03 Apr 2012 00:27:19 -0000
+X-List-Received-Date: Tue, 03 Apr 2012 00:31:54 -0000
+Content-Language: en-US
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 
-Use SDK_GLIBC_ADDONS for eglibc-nativesdk so that it is not
-dependant on the target eglibc's GLIBC_ADDONS settings.
+I've recreated the patches per Richard's comment. However, removing nptl fr=
+om the add-on settings resulted an eglibc configure error saying that it is=
+ an required add-on.=20
 
-Signed-off-by: Lianhao Lu <lianhao.lu@intel.com>
----
- meta/conf/machine-sdk/i586.conf         |    2 ++
- meta/conf/machine-sdk/i686.conf         |    2 ++
- meta/conf/machine-sdk/x86_64.conf       |    4 +++-
- meta/recipes-core/eglibc/eglibc.inc     |    4 ++++
- meta/recipes-core/eglibc/eglibc_2.13.bb |    5 ++---
- meta/recipes-core/eglibc/eglibc_2.15.bb |    4 +---
- 6 files changed, 14 insertions(+), 7 deletions(-)
+-Lianhao
 
-diff --git a/meta/conf/machine-sdk/i586.conf b/meta/conf/machine-sdk/i586.conf
-index 0b748a5..190f2bd 100644
---- a/meta/conf/machine-sdk/i586.conf
-+++ b/meta/conf/machine-sdk/i586.conf
-@@ -1,2 +1,4 @@
- SDK_ARCH = "i586"
- SDK_CC_ARCH = "-march=i586"
-+
-+SDK_GLIBC_ADDONS = "nptl"
-diff --git a/meta/conf/machine-sdk/i686.conf b/meta/conf/machine-sdk/i686.conf
-index ffdb461..3e8e4f4 100644
---- a/meta/conf/machine-sdk/i686.conf
-+++ b/meta/conf/machine-sdk/i686.conf
-@@ -1,2 +1,4 @@
- SDK_ARCH = "i686"
- SDK_CC_ARCH = "-march=i686"
-+
-+SDK_GLIBC_ADDONS = "nptl"
-diff --git a/meta/conf/machine-sdk/x86_64.conf b/meta/conf/machine-sdk/x86_64.conf
-index a6adb28..9495842 100644
---- a/meta/conf/machine-sdk/x86_64.conf
-+++ b/meta/conf/machine-sdk/x86_64.conf
-@@ -1 +1,3 @@
--SDK_ARCH = "x86_64"
-\ No newline at end of file
-+SDK_ARCH = "x86_64"
-+
-+SDK_GLIBC_ADDONS = "nptl"
-diff --git a/meta/recipes-core/eglibc/eglibc.inc b/meta/recipes-core/eglibc/eglibc.inc
-index da5c187..8e3fe50 100644
---- a/meta/recipes-core/eglibc/eglibc.inc
-+++ b/meta/recipes-core/eglibc/eglibc.inc
-@@ -50,3 +50,7 @@ do_configure_prepend() {
- 	sed -e "s#@BASH@#/bin/sh#" -i ${S}/elf/ldd.bash.in
- 	echo '${OE_FEATURES}' > ${B}/option-groups.config
- }
-+
-+GLIBC_ADDONS ?= "ports,nptl,libidn"
-+SDK_GLIBC_ADDONS ?= "ports,nptl,libidn"
-+GLIBC_ADDONS_virtclass-nativesdk = "${SDK_GLIBC_ADDONS}"
-diff --git a/meta/recipes-core/eglibc/eglibc_2.13.bb b/meta/recipes-core/eglibc/eglibc_2.13.bb
-index e02c80f..927f72f 100644
---- a/meta/recipes-core/eglibc/eglibc_2.13.bb
-+++ b/meta/recipes-core/eglibc/eglibc_2.13.bb
-@@ -3,7 +3,7 @@ require eglibc.inc
- SRCREV = "15508"
- 
- DEPENDS += "gperf-native"
--PR = "r22"
-+PR = "r23"
- PR_append = "+svnr${SRCPV}"
- 
- EGLIBC_BRANCH="eglibc-2_13"
-@@ -36,8 +36,6 @@ PROVIDES_${PN}-dbg = "glibc-dbg"
- BUILD_CPPFLAGS = "-I${STAGING_INCDIR_NATIVE}"
- TARGET_CPPFLAGS = "-I${STAGING_DIR_TARGET}${layout_includedir}"
- 
--GLIBC_ADDONS ?= "ports,nptl,libidn"
--
- GLIBC_BROKEN_LOCALES = " _ER _ET so_ET yn_ER sid_ET tr_TR mn_MN gez_ET gez_ER bn_BD te_IN es_CR.ISO-8859-1"
- 
- FILESPATH = "${@base_set_filespath([ '${FILE_DIRNAME}/eglibc-${PV}', '${FILE_DIRNAME}/eglibc', '${FILE_DIRNAME}/files', '${FILE_DIRNAME}' ], d)}"
-@@ -60,6 +58,7 @@ python __anonymous () {
- 
- export libc_cv_slibdir = "${base_libdir}"
- 
-+
- EXTRA_OECONF = "--enable-kernel=${OLDEST_KERNEL} \
-                 --without-cvs --disable-profile --disable-debug --without-gd \
-                 --enable-clocale=gnu \
-diff --git a/meta/recipes-core/eglibc/eglibc_2.15.bb b/meta/recipes-core/eglibc/eglibc_2.15.bb
-index 75ccace..1575e7f 100644
---- a/meta/recipes-core/eglibc/eglibc_2.15.bb
-+++ b/meta/recipes-core/eglibc/eglibc_2.15.bb
-@@ -3,7 +3,7 @@ require eglibc.inc
- SRCREV = "17386"
- 
- DEPENDS += "gperf-native"
--PR = "r2"
-+PR = "r3"
- PR_append = "+svnr${SRCPV}"
- 
- EGLIBC_BRANCH="eglibc-2_15"
-@@ -41,8 +41,6 @@ PROVIDES_${PN}-dbg = "glibc-dbg"
- BUILD_CPPFLAGS = "-I${STAGING_INCDIR_NATIVE}"
- TARGET_CPPFLAGS = "-I${STAGING_DIR_TARGET}${layout_includedir}"
- 
--GLIBC_ADDONS ?= "ports,nptl,libidn"
--
- GLIBC_BROKEN_LOCALES = " _ER _ET so_ET yn_ER sid_ET tr_TR mn_MN gez_ET gez_ER bn_BD te_IN es_CR.ISO-8859-1"
- 
- FILESPATH = "${@base_set_filespath([ '${FILE_DIRNAME}/eglibc-${PV}', '${FILE_DIRNAME}/eglibc', '${FILE_DIRNAME}/files', '${FILE_DIRNAME}' ], d)}"
--- 
-1.7.0.4
+Khem Raj wrote on 2012-03-31:
+> On Sat, Mar 31, 2012 at 7:39 AM, Khem Raj <raj.khem@gmail.com> wrote:
+>> nptl is bogus now a days. so please delete it completely.
+>=20
+> heh I must have said in GLIBC_ADDON context its bogus. Since its _the_
+> only thread implementation in eglibc/glibc
+>=20
+> _______________________________________________ Openembedded-core
+> mailing list Openembedded-core@lists.openembedded.org
+> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
+
+
 
 
 
