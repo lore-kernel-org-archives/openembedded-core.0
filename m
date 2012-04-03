@@ -1,24 +1,31 @@
-Received: from [78.110.170.148] (helo=tinyArch.localdomain)
+Received: from mail-we0-f175.google.com ([74.125.82.175])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <ml@communistcode.co.uk>) id 1SEylk-0002Js-EZ
+	(envelope-from <s.stirtzel@googlemail.com>) id 1SEzDN-0002ZC-SE
 	for openembedded-core@lists.openembedded.org;
-	Tue, 03 Apr 2012 10:07:12 +0200
-Received: from [192.168.0.51] (unknown [195.171.99.130])
-	by tinyArch.localdomain (Postfix) with ESMTPSA id A4DA62CFD9
+	Tue, 03 Apr 2012 10:35:45 +0200
+Received: by wera1 with SMTP id a1so2150438wer.6
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  3 Apr 2012 08:55:58 +0100 (BST)
-Message-ID: <4F7AADA3.1020603@communistcode.co.uk>
-Date: Tue, 03 Apr 2012 08:58:27 +0100
-From: Jack Mitchell <ml@communistcode.co.uk>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:11.0) Gecko/20120328 Thunderbird/11.0.1
+	Tue, 03 Apr 2012 01:26:37 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=googlemail.com; s=20120113;
+	h=mime-version:date:message-id:subject:from:to:content-type;
+	bh=Jikaf2ok8iNkVX9iJVuPD4CLLtr6ttf7UTFlFGIHcGU=;
+	b=YeAIAmFS41ipiMwPTqMQizAnOvO+47MXPEXGF+Ep8kf5Ya41fO+4oOIphRl5PA/YDd
+	WTmCbang39FB8rf+gC25ZLVNzOy6wxt0gmdGQ2ifByyWo04SGRNItrBqCVVdOZ4cTvh/
+	fTPbVsMi3WkkeQMLQpnh7HOXX/apIn+1rgWGe+AEWYJqUFw9M50/FmaS++fcdvmBZw/x
+	Bt88fnm6/9iDMp2dx8C9EOr70PeDfS4Rs8rJ8/5+wydwujNe5lxDnZOR/g/FpanIkdIV
+	aj1ez+VrzBjcze/5+S86oYjYrFHVg8pE5c5hi9CSOoKQ9lJM/B07dswivZ8uI32SKYD9
+	WDVg==
 MIME-Version: 1.0
-To: openembedded-core@lists.openembedded.org
-References: <4F4B890D.90809@communistcode.co.uk>
-	<4F61C5DF.8090705@communistcode.co.uk>
-	<20120402165615.GB24832@sakrah.homelinux.org>
-In-Reply-To: <20120402165615.GB24832@sakrah.homelinux.org>
-Subject: Re: cpufrequtils do_install issue
+Received: by 10.180.102.100 with SMTP id fn4mr34175038wib.1.1333441596959;
+	Tue, 03 Apr 2012 01:26:36 -0700 (PDT)
+Received: by 10.223.89.83 with HTTP; Tue, 3 Apr 2012 01:26:36 -0700 (PDT)
+Date: Tue, 3 Apr 2012 10:26:36 +0200
+Message-ID: <CAGiJk9cA_NvrK9R_HrGFkTU853VBp3Ct3-j9nEQSZ00DTw2VLA@mail.gmail.com>
+From: Samuel Stirtzel <s.stirtzel@googlemail.com>
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Odd behavior of docbook-xsl-native
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -33,84 +40,18 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 03 Apr 2012 08:07:12 -0000
-Content-Type: text/plain; charset=ISO-8859-1; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Tue, 03 Apr 2012 08:35:46 -0000
+Content-Type: text/plain; charset=UTF-8
 
-On 02/04/12 17:56, Khem Raj wrote:
-> On (15/03/12 10:35), Jack Mitchell wrote:
->> On 27/02/12 13:45, Jack Mitchell wrote:
->>> I am having issues compiling the systemd-image for beaglebone
->>> under Angstrom. I receive the following error message which seems
->>> to state that 'install' is missing, is anyone else having trouble
->>> or could provide some insight to this?
->>>
->>>     ERROR: Function failed: do_install (see
->>>     /home/jack/angstrom/build/tmp-angstrom_2010_x-eglibc/work/armv7a-angstrom-linux-gnueabi/cpufrequtils-008-r3/temp/log.do_install.16223
->>>     for further information)
->>>     + cd
->>>     /home/jack/angstrom/build/tmp-angstrom_2010_x-eglibc/work/armv7a-angstrom-linux-gnueabi/cpufrequtils-008-r3/git
->>>     + do_install
->>>     + oe_runmake -e install
->>>     DESTDIR=/home/jack/angstrom/build/tmp-angstrom_2010_x-eglibc/work/armv7a-angstrom-linux-gnueabi/cpufrequtils-008-r3/image
->>>     + '[' xmake = x ']'
->>>     + bbnote make -j12 V=1 CROSS=arm-angstrom-linux-gnueabi-
->>>     'LIBTOOL=arm-angstrom-linux-gnueabi-libtool --tag cc'
->>>     STRIPCMD=echo -e install
->>>     DESTDIR=/home/jack/angstrom/build/tmp-angstrom_2010_x-eglibc/work/armv7a-angstrom-linux-gnueabi/cpufrequtils-008-r3/image
->>>     + echo 'NOTE: make -j12 V=1 CROSS=arm-angstrom-linux-gnueabi-
->>>     LIBTOOL=arm-angstrom-linux-gnueabi-libtool --tag cc STRIPCMD=echo
->>>     -e install
->>>     DESTDIR=/home/jack/angstrom/build/tmp-angstrom_2010_x-eglibc/work/armv7a-angstrom-linux-gnueabi/cpufrequtils-008-r3/image'
->>>     NOTE: make -j12 V=1 CROSS=arm-angstrom-linux-gnueabi-
->>>     LIBTOOL=arm-angstrom-linux-gnueabi-libtool --tag cc STRIPCMD=echo
->>>     -e install
->>>     DESTDIR=/home/jack/angstrom/build/tmp-angstrom_2010_x-eglibc/work/armv7a-angstrom-linux-gnueabi/cpufrequtils-008-r3/image
->>>     + make -j12 V=1 CROSS=arm-angstrom-linux-gnueabi-
->>>     'LIBTOOL=arm-angstrom-linux-gnueabi-libtool --tag cc'
->>>     STRIPCMD=echo -e install
->>>     DESTDIR=/home/jack/angstrom/build/tmp-angstrom_2010_x-eglibc/work/armv7a-angstrom-linux-gnueabi/cpufrequtils-008-r3/image
->>>     /usr/bin/install -c -d
->>>     /home/jack/angstrom/build/tmp-angstrom_2010_x-eglibc/work/armv7a-angstrom-linux-gnueabi/cpufrequtils-008-r3/image/usr/lib
->>>     /usr/bin/install -c -d
->>>     /home/jack/angstrom/build/tmp-angstrom_2010_x-eglibc/work/armv7a-angstrom-linux-gnueabi/cpufrequtils-008-r3/image/usr/bin
->>>     /usr/bin/install -c -m 644 -D man/cpufreq-set.1
->>>     /home/jack/angstrom/build/tmp-angstrom_2010_x-eglibc/work/armv7a-angstrom-linux-gnueabi/cpufrequtils-008-r3/image/usr/share/man/man1/cpufreq-set.1
->>>     /usr/bin/install -c -d
->>>     /home/jack/angstrom/build/tmp-angstrom_2010_x-eglibc/work/armv7a-angstrom-linux-gnueabi/cpufrequtils-008-r3/image/usr/share/locale
->>>     make: /usr/bin/install: Command not found
->> Ok, I fixed this finally! In archlinux `install` is not located in
->> /usr/bin/install but in /bin/install so a quick symlink and that was
->> fixed. However, should bitbake be going into my system to use
->> install like this, and should it be hard-coded in cpufrequtils?
-> I think the package makefile is probably hardcoding the path here nothin
-> that bitbake can do. You need to fix package build system to be cross
-> compile friendly
->
-Hi Khem,
+Hi,
+I just noticed that building docbook-xsl-native appended the following
+line to my user ~/.bashrc:
+. /work/oe-core/tmp-eglibc/work/x86_64-linux/docbook-xsl-native-1.76.1-r0/docbook-xsl-1.76.1/.profile.incl
 
-Thanks for the reply. I did solve this issue (I could have sworn I 
-posted a follow up email) and it was a hard coded link in the package. 
-Cpufrequtils is vastly dated and it was just a dependency that something 
-else was bringing in so I didn't really care for it. In the end I 
-symlinked my install binary to where it expected it and that allowed me 
-to build.
-
-For the record the new kid on the block in this area is called 
-'cpupower' it builds on cpufrequtils and brings it up to date (last 
-cpufrequtils commit was sometime in 2009 if I remember correctly!) and 
-is much better. If anyone is attempting to use cpufrequtils I would 
-recommend checking it out instead.
-
-Regards,
+Has anyone else noticed this behavior?
 
 -- 
-
-   Jack Mitchell (jack@embed.me.uk)
-   Embedded Systems Engineer
-   http://www.embed.me.uk
-
---
-
+Regards
+Samuel
 
 
