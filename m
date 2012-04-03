@@ -1,26 +1,34 @@
-Received: from mail.windriver.com ([147.11.1.11])
-	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <mark.hatle@windriver.com>) id 1SFA9V-0002in-Q8
-	for openembedded-core@lists.openembedded.org;
-	Tue, 03 Apr 2012 22:16:30 +0200
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca [147.11.189.40])
-	by mail.windriver.com (8.14.3/8.14.3) with ESMTP id q33K7JwA002755
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
+Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
+	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <richard.purdie@linuxfoundation.org>)
+	id 1SFAeL-00036X-C8 for openembedded-core@lists.openembedded.org;
+	Tue, 03 Apr 2012 22:48:21 +0200
+Received: from localhost (localhost [127.0.0.1])
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q33KdBQT025123
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 3 Apr 2012 13:07:19 -0700 (PDT)
-Received: from localhost.localdomain (172.25.34.110) by
-	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server
-	(TLS) id 14.1.255.0; Tue, 3 Apr 2012 13:07:19 -0700
-From: Mark Hatle <mark.hatle@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Tue, 3 Apr 2012 15:07:14 -0500
-Message-ID: <cb731e1f6d08aba906b97a15a66b8a2d75d5e9ba.1333483453.git.mark.hatle@windriver.com>
-X-Mailer: git-send-email 1.7.1
-In-Reply-To: <cover.1333483453.git.mark.hatle@windriver.com>
-References: <cover.1333483453.git.mark.hatle@windriver.com>
-MIME-Version: 1.0
-X-Originating-IP: [172.25.34.110]
-Subject: [PATCH 3/7 v2] conf/machine/include: Cleanup MIPS tunings to match README
+	Tue, 3 Apr 2012 21:39:11 +0100
+Received: from tim.rpsys.net ([127.0.0.1])
+	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
+	port 10024) with LMTP
+	id 24480-04 for <openembedded-core@lists.openembedded.org>;
+	Tue,  3 Apr 2012 21:39:08 +0100 (BST)
+Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q33KcrCO025115
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO)
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 3 Apr 2012 21:39:02 +0100
+Message-ID: <1333485531.11559.25.camel@ted>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Date: Tue, 03 Apr 2012 21:38:51 +0100
+In-Reply-To: <f0dc600fd3f7638b0cd378f3fbdc4bc47da5aab9.1333460617.git.paul.eggleton@linux.intel.com>
+References: <cover.1333460617.git.paul.eggleton@linux.intel.com>
+	<f0dc600fd3f7638b0cd378f3fbdc4bc47da5aab9.1333460617.git.paul.eggleton@linux.intel.com>
+X-Mailer: Evolution 3.2.2- 
+Mime-Version: 1.0
+X-Virus-Scanned: amavisd-new at rpsys.net
+Subject: Re: [PATCH 1/1] elfutils: disable lzma (and bzip2 for native)
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -35,169 +43,25 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 03 Apr 2012 20:16:30 -0000
-Content-Type: text/plain
+X-List-Received-Date: Tue, 03 Apr 2012 20:48:21 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-Cleanup the MIPS tunings to match the new tuning README file.  Also
-add a MIPS specific README file to explain the MIPS specifical
-architectural issues.
+On Tue, 2012-04-03 at 14:44 +0100, Paul Eggleton wrote:
+> Fix some library dependency issues:
+> * Disable lzma as xz-native is unstated in DEPENDS
+> * Disable bzip2 for native as it is in ASSUME_PROVIDED and thus isn't
+>   available when elfutils-native is normally built, but if it gets
+>   rebuilt the link will be made; plus we don't need it.
+> 
+> Signed-off-by: Paul Eggleton <paul.eggleton@linux.intel.com>
+> ---
+>  meta/recipes-devtools/elfutils/elfutils_0.148.bb |    5 +++--
+>  1 files changed, 3 insertions(+), 2 deletions(-)
 
-Finally correct the variant configurations within the tune-mips32.inc.
+Merged to master, thanks.
 
-Signed-off-by: Mark Hatle <mark.hatle@windriver.com>
----
- meta/conf/machine/include/mips/README        |   36 ++++++++++++++++++++++++
- meta/conf/machine/include/mips/arch-mips.inc |   38 ++++++++++++++++++++++++-
- meta/conf/machine/include/tune-mips32.inc    |   17 ++++++++---
- 3 files changed, 84 insertions(+), 7 deletions(-)
- create mode 100644 meta/conf/machine/include/mips/README
-
-diff --git a/meta/conf/machine/include/mips/README b/meta/conf/machine/include/mips/README
-new file mode 100644
-index 0000000..c375f31
---- /dev/null
-+++ b/meta/conf/machine/include/mips/README
-@@ -0,0 +1,36 @@
-+2012/03/30 - Mark Hatle <mark.hatle@windriver.com>
-+  - Initial Version
-+
-+MIPS currently defines 12 ABIs.  Combinations of:
-+ *) Big/Little Endian
-+ *) Hardware/Software Floating Point
-+ *) o32, n32, n64 ABI
-+
-+TUNE_ARCH, the GNU canonical arch, is defined as:
-+
-+mips${MIPSPKGSFX_BYTE}${MIPSPKGSFX_ENDIAN}
-+
-+The package arch is defined in such a way to generated a standard naming
-+scheme.  The scheme is: <mips variant>[-nf][-n32]
-+
-+TUNE_PKGARCH is defined as:
-+
-+${MIPSPKGSFX_VARIANT_tune-${DEFAULTTUNE}}${MIPSPKGSFX_FPU}${MIPSPKGSFX_ABI}
-+
-+The following is a list of MIPS specific variables:
-+
-+MIPSPKGSFX_BYTE - This is defined as either blank and "64" for MIPS64 CPUs.
-+
-+MIPSPKGSFX_ENDIAN - For bigendian hardware this is blank, otherwise it's
-+defined as "el".
-+
-+MIPSPKGSFX_VARIANT_tune-<tune> - In the default tunings it is set to the
-+same value as TUNE_ARCH.  In custom, optimized tunings, the value should
-+be modified to more precisely describe the tuning.
-+
-+MIPSPKGSFX_FPU - The value is set to "" or "-nf", where "-nf" indicates 
-+that the tune is using a non-floating point ABI.
-+
-+MIPSPKGSFX_ABI - This is used to specify an alternative ABI when the previous
-+values are not enough to distringuish the package.  "-n32" is added when
-+building for N32 ABI.
-diff --git a/meta/conf/machine/include/mips/arch-mips.inc b/meta/conf/machine/include/mips/arch-mips.inc
-index b7ded76..8758ecd 100644
---- a/meta/conf/machine/include/mips/arch-mips.inc
-+++ b/meta/conf/machine/include/mips/arch-mips.inc
-@@ -36,32 +36,66 @@ MIPSPKGSFX_FPU = "${@bb.utils.contains("TUNE_FEATURES", "fpu-hard" , "", "-nf",
- MIPSPKGSFX_ABI = "${@bb.utils.contains("TUNE_FEATURES", "n32", "-n32", "", d)}"
- 
- TUNE_ARCH = "mips${MIPSPKGSFX_BYTE}${MIPSPKGSFX_ENDIAN}"
--TUNE_PKGARCH ?= "${TUNE_ARCH}${MIPSPKGSFX_FPU}${MIPSPKGSFX_ABI}"
-+TUNE_PKGARCH = "${MIPSPKGSFX_VARIANT_tune-${DEFAULTTUNE}}${MIPSPKGSFX_FPU}${MIPSPKGSFX_ABI}"
- 
- # Base tunes
- AVAILTUNES += "mips mips64-n32 mips64 mipsel mips64el-n32 mips64el mips-nf mips64-nf-n32 mips64-nf mipsel-nf mips64el-nf-n32 mips64el-nf"
- TUNE_FEATURES_tune-mips = "o32 bigendian fpu-hard"
- BASE_LIB_tune-mips = "lib"
-+MIPSPKGSFX_VARIANT_tune-mips = "${TUNE_ARCH}"
-+PACKAGE_EXTRA_ARCHS_tune-mips = "mips"
-+
- TUNE_FEATURES_tune-mips64-n32 = "n32 bigendian fpu-hard"
- BASE_LIB_tune-mips64-n32 = "lib32"
-+MIPSPKGSFX_VARIANT_tune-mips64-n32 = "${TUNE_ARCH}"
-+PACKAGE_EXTRA_ARCHS_tune-mips64-n32 = "mips64-n32"
-+
- TUNE_FEATURES_tune-mips64 = "n64 bigendian fpu-hard"
- BASE_LIB_tune-mips64 = "lib64"
-+MIPSPKGSFX_VARIANT_tune-mips64 = "${TUNE_ARCH}"
-+PACKAGE_EXTRA_ARCHS_tune-mips64 = "mips64"
-+
- TUNE_FEATURES_tune-mipsel = "o32 fpu-hard"
- BASE_LIB_tune-mipsel = "lib"
-+MIPSPKGSFX_VARIANT_tune-mipsel = "${TUNE_ARCH}"
-+PACKAGE_EXTRA_ARCHS_tune-mipsel = "mipsel"
-+
- TUNE_FEATURES_tune-mips64el-n32 = "n32 fpu-hard"
- BASE_LIB_tune-mips64el-n32 = "lib32"
-+MIPSPKGSFX_VARIANT_tune-mips64el-n32 = "${TUNE_ARCH}"
-+PACKAGE_EXTRA_ARCHS_tune-mips64el-n32 = "mips64el-n32"
-+
- TUNE_FEATURES_tune-mips64el = "n64 fpu-hard"
- BASE_LIB_tune-mips64el = "lib64"
-+MIPSPKGSFX_VARIANT_tune-mips64el = "${TUNE_ARCH}"
-+PACKAGE_EXTRA_ARCHS_tune-mips64el = "mips64el"
-+
- TUNE_FEATURES_tune-mips-nf = "o32 bigendian"
- BASE_LIB_tune-mips-nf = "lib"
-+MIPSPKGSFX_VARIANT_tune-mips-nf = "${TUNE_ARCH}"
-+PACKAGE_EXTRA_ARCHS_tune-mips-nf = "mips-nf"
-+
- TUNE_FEATURES_tune-mips64-nf-n32 = "n32 bigendian"
- BASE_LIB_tune-mips64-nf-n32 = "lib32"
-+MIPSPKGSFX_VARIANT_tune-mips64-nf-n32 = "${TUNE_ARCH}"
-+PACKAGE_EXTRA_ARCHS_tune-mips64-nf-n32 = "mips64-nf-n32"
-+
- TUNE_FEATURES_tune-mips64-nf = "n64 bigendian"
- BASE_LIB_tune-mips64-nf = "lib64"
-+MIPSPKGSFX_VARIANT_tune-mips64-nf = "${TUNE_ARCH}"
-+PACKAGE_EXTRA_ARCHS_tune-mips64-nf = "mips64-nf"
-+
- TUNE_FEATURES_tune-mipsel-nf = "o32"
- BASE_LIB_tune-mipsel-nf = "lib"
-+MIPSPKGSFX_VARIANT_tune-mipsel-nf = "${TUNE_ARCH}"
-+PACKAGE_EXTRA_ARCHS_tune-mipsel-nf = "mipsel-nf"
-+
- TUNE_FEATURES_tune-mips64el-nf-n32 = "n32"
- BASE_LIB_tune-mips64el-nf-n32 = "lib32"
-+MIPSPKGSFX_VARIANT_tune-mips64el-nf-n32 = "${TUNE_ARCH}"
-+PACKAGE_EXTRA_ARCHS_tune-mips64el-nf-n32 = "mips64el-nf-n32"
-+
- TUNE_FEATURES_tune-mips64el-nf = "n64"
- BASE_LIB_tune-mips64el-nf = "lib64"
--
-+MIPSPKGSFX_VARIANT_tune-mips64el-nf = "${TUNE_ARCH}"
-+PACKAGE_EXTRA_ARCHS_tune-mips64el-nf = "mips64el-nf"
-diff --git a/meta/conf/machine/include/tune-mips32.inc b/meta/conf/machine/include/tune-mips32.inc
-index 45d865e..93ed5ee 100644
---- a/meta/conf/machine/include/tune-mips32.inc
-+++ b/meta/conf/machine/include/tune-mips32.inc
-@@ -7,12 +7,19 @@ TUNE_CONFLICTS[mips32] = "n64 n32"
- TUNE_CCARGS += "${@bb.utils.contains("TUNE_FEATURES", "mips32", "-march=mips32", "", d)}"
- 
- AVAILTUNES += "mips32 mips32el mips32-nf mips32el-nf"
-+
- TUNE_FEATURES_tune-mips32 = "${TUNE_FEATURES_tune-mips} mips32"
--PACKAGE_EXTRA_ARCHS_tune-mips32 = "mips"
-+MIPSPKGSFX_VARIANT_tune-mips32 = "mips32"
-+PACKAGE_EXTRA_ARCHS_tune-mips32 = "mips mips32"
-+
- TUNE_FEATURES_tune-mips32el = "${TUNE_FEATURES_tune-mipsel} mips32"
--PACKAGE_EXTRA_ARCHS_tune-mips32el = "mipsel"
-+MIPSPKGSFX_VARIANT_tune-mips32el = "mips32el"
-+PACKAGE_EXTRA_ARCHS_tune-mips32el = "mipsel mips32el"
-+
- TUNE_FEATURES_tune-mips32-nf = "${TUNE_FEATURES_tune-mips-nf} mips32"
--PACKAGE_EXTRA_ARCHS_tune-mips32-nf = "mips-nf"
--TUNE_FEATURES_tune-mips32el-nf = "${TUNE_FEATURES_tune-mipsel-nf} mips32"
--PACKAGE_EXTRA_ARCHS_tune-mips32el-nf = "mipsel-nf"
-+MIPSPKGSFX_VARIANT_tune-mips32-nf = "mips32"
-+PACKAGE_EXTRA_ARCHS_tune-mips32-nf = "mips-nf mips32-nf"
- 
-+TUNE_FEATURES_tune-mips32el-nf = "${TUNE_FEATURES_tune-mipsel-nf} mips32"
-+MIPSPKGSFX_VARIANT_tune-mips32el-nf = "mips32el"
-+PACKAGE_EXTRA_ARCHS_tune-mips32el-nf = "mipsel-nf mips32el-nf"
--- 
-1.7.1
+Richard
 
 
 
