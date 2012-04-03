@@ -1,31 +1,34 @@
-Received: from astoria.ccjclearline.com ([64.235.106.9])
+Received: from mail-wg0-f43.google.com ([74.125.82.43])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <rpjday@crashcourse.ca>) id 1SF13N-0004YF-1h
+	(envelope-from <andrei@gherzan.ro>) id 1SF1hc-0005NA-JW
 	for openembedded-core@lists.openembedded.org;
-	Tue, 03 Apr 2012 12:33:33 +0200
-Received: from cpec03f0ed08c7f-cm001ac318e826.cpe.net.cable.rogers.com
-	([99.241.91.63] helo=crashcourse.ca)
-	by astoria.ccjclearline.com with esmtpsa (TLSv1:AES256-SHA:256)
-	(Exim 4.69) (envelope-from <rpjday@crashcourse.ca>)
-	id 1SF0uX-00011F-56 for openembedded-core@lists.openembedded.org;
-	Tue, 03 Apr 2012 06:24:25 -0400
-Date: Tue, 3 Apr 2012 06:24:06 -0400 (EDT)
-From: "Robert P. J. Day" <rpjday@crashcourse.ca>
-X-X-Sender: rpjday@oneiric
-To: OE Core mailing list <openembedded-core@lists.openembedded.org>
-Message-ID: <alpine.DEB.2.02.1204030619430.5778@oneiric>
-User-Agent: Alpine 2.02 (DEB 1266 2009-07-14)
-MIME-Version: 1.0
-X-AntiAbuse: This header was added to track abuse,
-	please include it with any abuse report
-X-AntiAbuse: Primary Hostname - astoria.ccjclearline.com
-X-AntiAbuse: Original Domain - lists.openembedded.org
-X-AntiAbuse: Originator/Caller UID/GID - [47 12] / [47 12]
-X-AntiAbuse: Sender Address Domain - crashcourse.ca
-X-Source: 
-X-Source-Args: 
-X-Source-Dir: 
-Subject: is there a plan to briefly document all of the oe-core classes?
+	Tue, 03 Apr 2012 13:15:08 +0200
+Received: by wgbdr12 with SMTP id dr12so3112691wgb.24
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 03 Apr 2012 04:05:59 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=google.com; s=20120113;
+	h=from:to:cc:subject:date:message-id:x-mailer:x-gm-message-state;
+	bh=8+tSq0aCAvKmNwl+FXpJAGZEFEBFbNMc8LSkEhZAwpk=;
+	b=axKGWKDQxOJSsceu0ivuo4fAeLMQPv2ymM1nwf6oIamRVo2Ay1o31scdVGtGfYqwJR
+	sdIi35i7d620kXcA3XL6Q/50xJ78o9aXV0ysFK9K7f0BVo/8Z8G10Y1uRu8FA9PJloTH
+	bcQVuAsvNZkSYAYWBOzs+DT8SclaVqW82vslHusuNuXLkheO6NDYUlnNuJXpJ6ZNU5s8
+	omK1tGpoqgn9vpJ82xqoOfnnofdZO0ILKBPgQoUWs2QTRGJ1gwDfHFH7D/eXCObyLwnb
+	+D6kkXZcu+zqrtQHM6nqijcaPFZ8ns+GelUqPeaJ/U4KsGiFMwUczHxta8hDtNyCsZWU
+	wz7A==
+Received: by 10.180.85.35 with SMTP id e3mr5287120wiz.6.1333451159437;
+	Tue, 03 Apr 2012 04:05:59 -0700 (PDT)
+Received: from localhost.localdomain ([89.121.200.106])
+	by mx.google.com with ESMTPS id ff2sm68076715wib.9.2012.04.03.04.05.56
+	(version=TLSv1/SSLv3 cipher=OTHER);
+	Tue, 03 Apr 2012 04:05:56 -0700 (PDT)
+From: Andrei Gherzan <andrei@gherzan.ro>
+To: openembedded-core@lists.openembedded.org
+Date: Tue,  3 Apr 2012 14:05:48 +0300
+Message-Id: <1333451148-32709-1-git-send-email-andrei@gherzan.ro>
+X-Mailer: git-send-email 1.7.5.4
+X-Gm-Message-State: ALoCoQnhC30C/YBxLO7LszTXpWtpLhGd2IF9VIbEsYQXSWyZsl1eRhh9HXIrUHmvHtt61y4QvLXl
+Subject: [PATCH] license.bbclass: Check if copyfile succeeded with isfile
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -40,46 +43,36 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 03 Apr 2012 10:33:33 -0000
-Content-Type: TEXT/PLAIN; charset=US-ASCII
+X-List-Received-Date: Tue, 03 Apr 2012 11:15:08 -0000
 
+A cleaner way to check if copyfile suceeded is to use os.path.isfile.
+In this way we can omit warns in some python versions where copyfile
+return the same non-0 value even is this action is successfull.
 
-  short followup on my (massively uninformed) post from yesterday --
-is there any plan on documenting all of the oe-core classes, perhaps
-even just a couple paragraphs?
+Signed-off-by: Andrei Gherzan <andrei@gherzan.ro>
+---
+ meta/classes/license.bbclass |    5 +++--
+ 1 files changed, 3 insertions(+), 2 deletions(-)
 
-  currently, the yocto reference manual has a classes reference
-section:
-
-http://www.yoctoproject.org/docs/latest/poky-ref-manual/poky-ref-manual.html#ref-classes
-
-but it's obviously incomplete.  and in the docbook documentation for
-that manual, the xml file even has a lengthy comment:
-
-<!-- Undocumented classes are:
-        allarch.bbclass
-        binconfig.bbclass
-        bootimg.bbclass
-        buildstats.bbclass
-        ccache.inc
-        cmake.bbclass
-        cml1.bbclass
-        cross.bbclass
-        cross-canadian.bbclass
-	... etc etc ...
-
-any plans to add explanations for those?
-
-rday
-
+diff --git a/meta/classes/license.bbclass b/meta/classes/license.bbclass
+index c85233c..6c4a673 100644
+--- a/meta/classes/license.bbclass
++++ b/meta/classes/license.bbclass
+@@ -215,9 +215,10 @@ python do_populate_lic() {
+         if spdx_generic and license_source:
+             # we really should copy to generic_ + spdx_generic, however, that ends up messing the manifest
+             # audit up. This should be fixed in emit_pkgdata (or, we actually got and fix all the recipes)
+-            ret = bb.copyfile(os.path.join(license_source, spdx_generic), os.path.join(os.path.join(d.getVar('LICSSTATEDIR', True), pn), "generic_" + license_type))
++
++            bb.copyfile(os.path.join(license_source, spdx_generic), os.path.join(os.path.join(d.getVar('LICSSTATEDIR', True), pn), "generic_" + license_type))
++            if not os.path.isfile(os.path.join(os.path.join(d.getVar('LICSSTATEDIR', True), pn), "generic_" + license_type)):
+             # If the copy didn't occur, something horrible went wrong and we fail out
+-            if not ret:
+                 bb.warn("%s for %s could not be copied for some reason. It may not exist. WARN for now." % (spdx_generic, pn))
+         else:
+             # And here is where we warn people that their licenses are lousy
 -- 
+1.7.5.4
 
-========================================================================
-Robert P. J. Day                                 Ottawa, Ontario, CANADA
-                        http://crashcourse.ca
-
-Twitter:                                       http://twitter.com/rpjday
-LinkedIn:                               http://ca.linkedin.com/in/rpjday
-========================================================================
 
 
