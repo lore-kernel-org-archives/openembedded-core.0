@@ -1,42 +1,40 @@
-Received: from mail-wg0-f43.google.com ([74.125.82.43])
+Received: from mail.dream-property.net ([82.149.226.172])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <martin.jansa@gmail.com>) id 1SFXcq-00045n-IS
+	(envelope-from <obi@opendreambox.org>) id 1SFXho-0004Bq-42
 	for openembedded-core@lists.openembedded.org;
-	Wed, 04 Apr 2012 23:20:20 +0200
-Received: by wgbdr12 with SMTP id dr12so605214wgb.24
+	Wed, 04 Apr 2012 23:25:28 +0200
+Received: from localhost (localhost [127.0.0.1])
+	by mail.dream-property.net (Postfix) with ESMTP id 6A06B315AD6A
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 04 Apr 2012 14:11:09 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=date:from:to:subject:message-id:references:mime-version
-	:content-type:content-disposition:in-reply-to:user-agent;
-	bh=U1zdB+CTj8Xeg3Lg9ND+mwo+LUKLUbWqabwGhjrfE+o=;
-	b=wRcUPotqesluOS68Z2IH7sbZG5dCA/YGw9RAoQAEYeKgpdFZrM6mxcGKIY/XfDR4sQ
-	7c4l4UmyDWwh03sAXOdvDMgksSYGjrE+3rdpwgjrAeb3EtGRg3ZZvvY+Lj6iUrPqlOh1
-	UHLedd0w/pvsaXWNWCg2QH6VyHhz0/FGnEELf0i4TnQA5aUTduqn0z1VtxMfvoAroR2T
-	7jfybfza39ajcbs7LK2nNSpDVz/AqMW8QmUg+obQ9QKO8nLCuz8onn7TV+UTyN3Ck6H2
-	Jb6zFIXqpzPLcVA7RIssVG4codeNux06F12jaX9qTZHqlhL0AsDR1WPXtHFTsoxn0clG
-	Zqiw==
-Received: by 10.216.132.202 with SMTP id o52mr2360500wei.106.1333573869548;
-	Wed, 04 Apr 2012 14:11:09 -0700 (PDT)
-Received: from localhost ([94.230.152.246])
-	by mx.google.com with ESMTPS id e6sm7873783wix.8.2012.04.04.14.11.07
-	(version=TLSv1/SSLv3 cipher=OTHER);
-	Wed, 04 Apr 2012 14:11:08 -0700 (PDT)
-Date: Wed, 4 Apr 2012 23:11:08 +0200
-From: Martin Jansa <martin.jansa@gmail.com>
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Message-ID: <20120404211108.GJ4181@jama.jama.net>
-References: <1332471418-31459-1-git-send-email-raj.khem@gmail.com>
-	<1332504325.9740.395.camel@ted>
-	<20120323131701.GF3879@jama.jama.net>
-	<20120324022639.GF4604@jama.jama.net>
-	<CAMKF1souotjH46PYsQYC8LKDfa2ABD4FsrpxEUvCPqic3PnW1A@mail.gmail.com>
-	<20120328143347.GF4004@jama.jama.net>
+	Wed,  4 Apr 2012 23:16:19 +0200 (CEST)
+X-Virus-Scanned: Debian amavisd-new at mail.dream-property.net
+Received: from mail.dream-property.net ([127.0.0.1])
+	by localhost (mail.dream-property.net [127.0.0.1]) (amavisd-new,
+	port 10024) with LMTP id mpE+tRotkwPO
+	for <openembedded-core@lists.openembedded.org>;
+	Wed,  4 Apr 2012 23:16:12 +0200 (CEST)
+Received: from [172.22.22.61] (drms-4d0147c1.pool.mediaWays.net [77.1.71.193])
+	(using TLSv1 with cipher DHE-RSA-AES256-SHA (256/256 bits))
+	(No client certificate requested)
+	by mail.dream-property.net (Postfix) with ESMTPSA id B5D29315AD69
+	for <openembedded-core@lists.openembedded.org>;
+	Wed,  4 Apr 2012 23:16:11 +0200 (CEST)
+Message-ID: <4F7CBA1A.3040506@opendreambox.org>
+Date: Wed, 04 Apr 2012 23:16:10 +0200
+From: Andreas Oberritter <obi@opendreambox.org>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:11.0) Gecko/20120329 Thunderbird/11.0.1
 MIME-Version: 1.0
-In-Reply-To: <20120328143347.GF4004@jama.jama.net>
-User-Agent: Mutt/1.5.21 (2010-09-15)
-Subject: Re: [PATCH 1/2] eglibc-2.15: Update SRCREV
+To: openembedded-core@lists.openembedded.org
+References: <20120403131537.5CE3310218@opal>
+	<20120404165943.GE4181@jama.jama.net>
+	<4F7C8796.9070705@opendreambox.org>
+	<20120404174521.GF4181@jama.jama.net>
+	<4F7C8B6A.1000008@opendreambox.org>
+	<20120404180615.GG4181@jama.jama.net>
+	<20120404182250.GH4181@jama.jama.net>
+In-Reply-To: <20120404182250.GH4181@jama.jama.net>
+Subject: Re: [oe-commits] Andreas Oberritter : gdb: build with expat, add missing RRECOMMENDS_gdbserver
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -51,103 +49,85 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 04 Apr 2012 21:20:20 -0000
-X-Groupsio-MsgNum: 20289
-Content-Type: multipart/signed; micalg=pgp-sha1;
-	protocol="application/pgp-signature"; boundary="fKov5AqTsvseSZ0Z"
-Content-Disposition: inline
+X-List-Received-Date: Wed, 04 Apr 2012 21:25:28 -0000
+Content-Type: text/plain; charset=ISO-8859-1
+Content-Transfer-Encoding: 7bit
 
---fKov5AqTsvseSZ0Z
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+On 04.04.2012 20:22, Martin Jansa wrote:
+> On Wed, Apr 04, 2012 at 08:06:15PM +0200, Martin Jansa wrote:
+>> On Wed, Apr 04, 2012 at 07:56:58PM +0200, Andreas Oberritter wrote:
+>>> On 04.04.2012 19:45, Martin Jansa wrote:
+>>>> On Wed, Apr 04, 2012 at 07:40:38PM +0200, Andreas Oberritter wrote:
+>>>>> On 04.04.2012 18:59, Martin Jansa wrote:
+>>>>>> On Tue, Apr 03, 2012 at 01:15:37PM +0000, git@git.openembedded.org wrote:
+>>>>>>> Module: openembedded-core.git
+>>>>>>> Branch: master
+>>>>>>> Commit: 38ee88e3b32b7444d7f1eb64f1b4f69a48fe0458
+>>>>>>> URL:    http://git.openembedded.org/?p=openembedded-core.git&a=commit;h=38ee88e3b32b7444d7f1eb64f1b4f69a48fe0458
+>>>>>>>
+>>>>>>> Author: Andreas Oberritter <obi@opendreambox.org>
+>>>>>>> Date:   Tue Apr  3 00:23:55 2012 +0200
+>>>>>>>
+>>>>>>> gdb: build with expat, add missing RRECOMMENDS_gdbserver
+>>>>>>>
+>>>>>>> * Fixes communication between gdbserver and gdb-cross
+>>>>>>>   by using the same expat settings for both recipes.
+>>>>>>> * Adds missing build dependencies for expat/expat-native.
+>>>>>>> * Adds missing glibc-thread-db runtime recommendation
+>>>>>>>   to gdbserver, which was set only for gdb.
+>>>>>>>
+>>>>>>> Signed-off-by: Andreas Oberritter <obi@opendreambox.org>
+>>>>>>> Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+>>>>>>
+>>>>>> Here it's trying to use host's expat when building target gdb and fails...
+>>>>>>
+>>>>>> | checking for libexpat... no
+>>>>>> | configure: error: expat is missing or unusable
+>>>>>> | make[1]: *** [configure-gdb] Error 1
+>>>>>> | make[1]: Leaving directory `/OE/shr-core/tmp-eglibc/work/armv7a-vfp-neon-oe-linux-gnueabi/gdb/gdb-7.4-r7.0/build-arm-oe-linux-gnueabi'
+>>>>>> | make: *** [all] Error 2
+>>>>>> | ERROR: oe_runmake failed
+>>>>>> NOTE: package gdb-7.4-r7.0: task do_compile: Failed
+>>>>>> ERROR: Task 3561 (/OE/shr-core/openembedded-core/meta/recipes-devtools/gdb/gdb_7.4.bb, do_compile) failed with exit code '1'
+>>>>>>
+>>>>>> from config.log:
+>>>>>> configure:10704: checking for libexpat
+>>>>>> configure:10723: arm-oe-linux-gnueabi-gcc  -march=armv7-a -fno-tree-vectorize     -mthumb-interwork -mfloat-abi=softfp -mfpu=neon -mtune=cortex-a8 --sysroot=/OE/shr-core/tmp-eglibc/sysroots/om-gta04 -o conftest -O2 -pipe -g -feliminate-unused-debug-types    -Wl,-O1 -Wl,--hash-style=gnu -Wl,--as-needed conftest.c -ldl -lncurses -lz -lm    /usr/lib/libexpat.so >&5
+>>>>>> /OE/shr-core/tmp-eglibc/sysroots/x86_64-linux/usr/libexec/armv7a-vfp-neon-oe-linux-gnueabi/gcc/arm-oe-linux-gnueabi/4.6.4/ld: error: /usr/lib/libexpat.so: incompatible target
+>>>>>> conftest.c:98: error: undefined reference to 'XML_ParserCreate'
+>>>>>> collect2: ld returned 1 exit status
+>>>>>
+>>>>> Does "bitbake expat" help? Here I have:
+>>>>
+>>>> expat was built already, so no doesn't help.
+>>>>
+>>>>
+>>>> -EXPAT = "--with-expat"
+>>>> +EXPAT = "--with-expat --with-libexpat-prefix=${STAGING_DIR_HOST}"
+>>>>
+>>>> helps..
+>>>
+>>> OK. Can you please submit an incremental patch? I wonder why it didn't
+>>> happen on my system, although I have libexpat-dev installed (Ubuntu).
+>>
+>> I've tested it only with target gdb (so I don't feel comfortable to send
+>> patch before testing -cross-canadian and -cross, but I don't have time
+>> for it now).
+>>
+>>> Which Linux distribution are you using?
+>>
+>> Gentoo minimal chroot
+>> http://git.shr-project.org/git/?p=shr-chroot.git;a=summary
+> 
+> confirmed on other host also using shr-chroot.. if you want to test it
+> yourself, here is patch (or somewhere there if reabased already)
+> http://git.openembedded.org/openembedded-core-contrib/commit/?h=shr&id=ef16c225a564d465ebab800204434b0d684c4069
 
-On Wed, Mar 28, 2012 at 04:33:47PM +0200, Martin Jansa wrote:
-> On Wed, Mar 28, 2012 at 07:15:32AM -0700, Khem Raj wrote:
-> > On Fri, Mar 23, 2012 at 7:26 PM, Martin Jansa <martin.jansa@gmail.com> =
-wrote:
-> > > On Fri, Mar 23, 2012 at 02:17:02PM +0100, Martin Jansa wrote:
-> > >> On Fri, Mar 23, 2012 at 12:05:25PM +0000, Richard Purdie wrote:
-> > >> > On Thu, 2012-03-22 at 19:56 -0700, Khem Raj wrote:
-> > >> > > Get new patches and remove the one that got merged upstream
-> > >> > >
-> > >> > > Signed-off-by: Khem Raj <raj.khem@gmail.com>
-> > >> > > ---
-> > >> > > =A0.../eglibc/eglibc-2.15/GLRO_dl_debug_mask.patch =A0 =A0| =A01=
-08 ++++++++++++++++++++
-> > >> > > =A0.../eglibc-2.15/armv4-eabi-compile-fix.patch =A0 =A0 =A0 | =
-=A0 25 -----
-> > >> > > =A0.../eglibc/eglibc-2.15/initgroups_keys.patch =A0 =A0 =A0 | =
-=A0 20 ++++
-> > >> > > =A0meta/recipes-core/eglibc/eglibc_2.15.bb =A0 =A0 =A0 =A0 =A0 =
-=A0| =A0 =A05 +-
-> > >> > > =A04 files changed, 131 insertions(+), 27 deletions(-)
-> > >> > > =A0create mode 100644 meta/recipes-core/eglibc/eglibc-2.15/GLRO_=
-dl_debug_mask.patch
-> > >> > > =A0delete mode 100644 meta/recipes-core/eglibc/eglibc-2.15/armv4=
--eabi-compile-fix.patch
-> > >> > > =A0create mode 100644 meta/recipes-core/eglibc/eglibc-2.15/initg=
-roups_keys.patch
-> > >> >
-> > >> > Since 2.15 isn't the default I'm tempted to merge this despite the=
- point
-> > >> > we're at in the release cycle. I'd like to give anyone using this =
-the
-> > >> > opportunity to comment first though.
-> > >>
-> > >> I'm testing this on all archs I'm using (armv4t, armv5te, armv7a,
-> > >> x86-64) and will report tomorrow.
-> > >
-> > > Doesn't look related to this change, but I got interesing error on ot=
-her
-> > > buildhost (on mine everything seems fine sofar including tests on
-> > > target), I don't have log from armv4t build on mine, because it's on =
-tmpfs
-> > > and there was unexpected reboot when I wasn't home :/.
-> >=20
-> > Hi Martin
-> >=20
-> > Does it look good for your testing ?
->=20
-> Seems fine in runtime any hint about that build issue?
->=20
-> Today I got another one :/
->=20
-> "build-x86_64-oe-linux/shlib.lds:127: syntax error
-> while building eglibc
->=20
-> I had reports about this before, but wasn't able to reproduce it on my
-> machine, today I got it for first time (maybe because of building with
-> -j8 instead of -j4), so I've created simple testcase to compare interim=
-=20
-> outputs from shlib.lds creation:
-> http://build.shr-project.org/tests/jama/shlib-issue/
+I've built gdb-cross with your patch applied without problems.
+gdb-cross-canadian-mipsel is still compiling. However, since the problem
+you discovered didn't show on my machine, this may not be meaningful at all.
 
-To follow this monolog, the problem is in file Makerules itself, gcc
-output is the same as well as output from sed, but Makerules file is
-partially rewritten during build and if shlib.lds gets generated in
-wrong time then it results in this
+Regards,
+Andreas
 
-touch /OE/shr-core/tmp-eglibc/work/armv4t-oe-linux-gnueabi/eglibc/eglibc-2.=
-15-r3+svnr17386/eglibc-2_15/libc/Makerules
 
-after eglibc build fail is enough to recreate correct shlibs.lds
-
-Cheers,
-
---=20
-Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
-
---fKov5AqTsvseSZ0Z
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: Digital signature
-
------BEGIN PGP SIGNATURE-----
-Version: GnuPG v2.0.19 (GNU/Linux)
-
-iEYEARECAAYFAk98uOwACgkQN1Ujt2V2gBzSwgCgi3Pfb1jTc84XPNKB91ESFO6p
-VfcAoKwiNI6dIaLbZ9vhOlSNgQmDqtT8
-=XH3t
------END PGP SIGNATURE-----
-
---fKov5AqTsvseSZ0Z--
