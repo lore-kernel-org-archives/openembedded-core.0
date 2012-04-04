@@ -1,21 +1,37 @@
-Received: from mga11.intel.com ([192.55.52.93])
+Received: from mail-qc0-f175.google.com ([209.85.216.175])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <sgw@linux.intel.com>) id 1SFEO6-0007Yi-RT
+	(envelope-from <kergoth@gmail.com>) id 1SFEQF-0007ba-CO
 	for openembedded-core@lists.openembedded.org;
-	Wed, 04 Apr 2012 02:47:51 +0200
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-	by fmsmga102.fm.intel.com with ESMTP; 03 Apr 2012 17:38:40 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="137320006"
-Received: from unknown (HELO swold-mobl.bigsur.com) ([10.255.12.141])
-	by fmsmga001.fm.intel.com with ESMTP; 03 Apr 2012 17:38:40 -0700
-From: Saul Wold <sgw@linux.intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Tue,  3 Apr 2012 17:38:39 -0700
-Message-Id: <1333499919-11883-1-git-send-email-sgw@linux.intel.com>
-X-Mailer: git-send-email 1.7.7.6
-Cc: paul.eggelton@intel.com
-Subject: [PATCH] self-hosted-image: Increase space for build and allow builder user sudo access
+	Wed, 04 Apr 2012 02:50:03 +0200
+Received: by qcso7 with SMTP id o7so192732qcs.6
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 03 Apr 2012 17:40:52 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=mime-version:sender:in-reply-to:references:from:date
+	:x-google-sender-auth:message-id:subject:to:content-type
+	:content-transfer-encoding;
+	bh=Jl96LrdnoAYboeSObm5GzB7bRHGTFOhEjYQH4FDQQPw=;
+	b=V2bed3h1mrGai9auw4OoWWmJ1L1f3NUlHoLelPGdt+0etD7boo77XYoaFCOppI/crE
+	Bz0wrhWCKTT2JgGIDikp4bxD4Nj45Ou0BB3t5iCiwteOl8aOJOXa99CQLxNDkwUZvYsc
+	NJMI82/Q6SYMXv5dZOy7hFgRdlDyxhBrL290wAXTiizKPUtDNYTy479chXcCFNa1A6uM
+	11SMDCypXcsWKpg3H0YBLsOQCd9WEq2hmeWzFKA3Z1Xu96nAfI3kNcnjNSZNcBCh3+dq
+	Y1UTyBL/B6pLwjbrjw4pd0RNtqImD/PXYAgH1a+R9q5YKEpV4+WWl98bAXojIRVEqn7a
+	ip+g==
+Received: by 10.229.111.199 with SMTP id t7mr5996461qcp.84.1333500052818; Tue,
+	03 Apr 2012 17:40:52 -0700 (PDT)
+MIME-Version: 1.0
+Sender: kergoth@gmail.com
+Received: by 10.229.24.196 with HTTP; Tue, 3 Apr 2012 17:40:32 -0700 (PDT)
+In-Reply-To: <558f20b409b75d18d426a471c3aa5bd296df9aa7.1333481624.git.mark.hatle@windriver.com>
+References: <cover.1333481624.git.mark.hatle@windriver.com>
+	<558f20b409b75d18d426a471c3aa5bd296df9aa7.1333481624.git.mark.hatle@windriver.com>
+From: Chris Larson <clarson@kergoth.com>
+Date: Tue, 3 Apr 2012 17:40:32 -0700
+X-Google-Sender-Auth: yCYwQykBGC5wbs3j1y6XUsC7yEU
+Message-ID: <CABcZANmri96mAVWO+bPubUTb2eY4s7Cy2msMPrb9EGCQ=O4kAQ@mail.gmail.com>
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 1/7] conf/machine/include/README: Add readme to explain cpu tunings
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -30,47 +46,28 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 04 Apr 2012 00:47:51 -0000
+X-List-Received-Date: Wed, 04 Apr 2012 00:50:03 -0000
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
-We need to have about 40G to do a full sato build even with rm_work enabled
-Add sudo priveleges inorder to allow the builder user to setup the tap/tun
-devices needed by runqemu
+On Tue, Apr 3, 2012 at 12:47 PM, Mark Hatle <mark.hatle@windriver.com> wrot=
+e:
+> Add a new README that covers the basic items used with various cpu
+> tunings. =C2=A0The goal is to better help people understand the various
+> settings and where things should or should not be defined.
+>
+> Corresponding architecture README files will also be generated to
+> explain the particulars of architectural tunings.
+>
+> Also remove the default TUNE_PKGARCH setting in bitbake.conf. =C2=A0This
+> was done to ensure an error occurs if an invalid tuning is defined.
+>
+> Signed-off-by: Mark Hatle <mark.hatle@windriver.com>
 
-Signed-off-by: Saul Wold <sgw@linux.intel.com>
----
- meta/recipes-core/images/self-hosted-image.bb |   10 +++++-----
- 1 files changed, 5 insertions(+), 5 deletions(-)
-
-diff --git a/meta/recipes-core/images/self-hosted-image.bb b/meta/recipes-core/images/self-hosted-image.bb
-index 39f0fc4..46dcc5f 100644
---- a/meta/recipes-core/images/self-hosted-image.bb
-+++ b/meta/recipes-core/images/self-hosted-image.bb
-@@ -12,11 +12,8 @@ CORE_IMAGE_EXTRA_INSTALL = "\
- 
- IMAGE_FEATURES += "x11-mini package-management"
- 
--# Ensure there's enough space to do a core-image-minimal build, with rm_work enabled
--IMAGE_ROOTFS_EXTRA_SPACE = "1048576"
--#IMAGE_ROOTFS_EXTRA_SPACE = "2621440"
--#IMAGE_ROOTFS_EXTRA_SPACE = "20971520"
--#IMAGE_ROOTFS_EXTRA_SPACE = "5242880"
-+# Ensure there's enough space to do a core-image-sato build, with rm_work enabled
-+IMAGE_ROOTFS_EXTRA_SPACE = "41943040"
- 
- # Do a quiet boot with limited console messages
- APPEND += "quiet"
-@@ -54,6 +51,9 @@ fakeroot do_populate_poky_src () {
- 	chown builder.builder ${IMAGE_ROOTFS}/home/builder/pseudo
- 
- 	chown -R builder.builder  ${IMAGE_ROOTFS}/home/builder/poky
-+
-+	# Allow builder to use sudo to setup tap/tun
-+	echo "builder ALL=(ALL) NOPASSWD: ALL" > /etc/sudoers
- }
- 
- IMAGE_PREPROCESS_COMMAND += "do_populate_poky_src; "
--- 
-1.7.7.6
-
+This looks great, nice work on all of this. One question I have, which
+isn't answered in the documentation you add, is when/where
+ABIEXTENSION is utilized.
+--=20
+Christopher Larson
 
 
