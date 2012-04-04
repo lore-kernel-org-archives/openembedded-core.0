@@ -1,37 +1,35 @@
-Received: from out1-smtp.messagingengine.com ([66.111.4.25])
+Received: from mail.dream-property.net ([82.149.226.172])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <walters@verbum.org>) id 1SFYUh-00052Z-Bb
+	(envelope-from <obi@opendreambox.org>) id 1SFYYd-000571-DL
 	for openembedded-core@lists.openembedded.org;
-	Thu, 05 Apr 2012 00:15:59 +0200
-Received: from compute5.internal (compute5.nyi.mail.srv.osa [10.202.2.45])
-	by gateway1.nyi.mail.srv.osa (Postfix) with ESMTP id 4BAE721CE0
+	Thu, 05 Apr 2012 00:20:03 +0200
+Received: from localhost (localhost [127.0.0.1])
+	by mail.dream-property.net (Postfix) with ESMTP id 4F020315AD6E
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  4 Apr 2012 15:01:30 -0400 (EDT)
-Received: from frontend2.nyi.mail.srv.osa ([10.202.2.161])
-	by compute5.internal (MEProxy); Wed, 04 Apr 2012 15:01:30 -0400
-DKIM-Signature: v=1; a=rsa-sha1; c=relaxed/relaxed; d=
-	messagingengine.com; h=message-id:subject:from:to:date
-	:in-reply-to:references:content-type:content-transfer-encoding
-	:mime-version; s=smtpout; bh=tZgr1f1gM4ftJHVESw3YYVmTX1U=; b=Esf
-	/C8lMxyUMNhOiwQ42CxTwltdZL9j9HhCOfLuvMgbaSrp0vaVb3sSGvAbZq/VyH51
-	6wGA3lSs9ugYCjtTsqEx/LxmoKfRaEW2OZ3WnNWZsGKMSJf2e5zlgmSl8grdibW4
-	vCzrl1G/sM3xlPhWIyZpFbX+RuSpR7zNVsdXMGAI=
-X-Sasl-enc: ntG35g+imItdvIDsujjF+kSRBPzxMNDHOm7E4scsQArm 1333566090
-Received: from [10.16.189.124] (nat-pool-rdu.redhat.com [66.187.233.202])
-	by mail.messagingengine.com (Postfix) with ESMTPSA id F1173482592
+	Thu,  5 Apr 2012 00:10:54 +0200 (CEST)
+X-Virus-Scanned: Debian amavisd-new at mail.dream-property.net
+Received: from mail.dream-property.net ([127.0.0.1])
+	by localhost (mail.dream-property.net [127.0.0.1]) (amavisd-new,
+	port 10024) with LMTP id O7k+yaH2o8KL
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  4 Apr 2012 15:01:29 -0400 (EDT)
-Message-ID: <1333566060.10230.76.camel@lenny>
-From: Colin Walters <walters@verbum.org>
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Date: Wed, 04 Apr 2012 15:01:00 -0400
-In-Reply-To: <4F7B3EAE.2000301@windriver.com>
-References: <4F7B38C7.6010909@mlbassoc.com> <4F7B3B8C.6000200@windriver.com>
-	<4F7B3C75.5030200@mlbassoc.com> <4F7B3EAE.2000301@windriver.com>
-X-Mailer: Evolution 3.2.3 (3.2.3-1.fc16) 
-Mime-Version: 1.0
-Subject: Re: Schizophrenic package management
+	Thu,  5 Apr 2012 00:10:47 +0200 (CEST)
+Received: from [172.22.22.61] (drms-4d0147c1.pool.mediaWays.net [77.1.71.193])
+	(using TLSv1 with cipher DHE-RSA-AES256-SHA (256/256 bits))
+	(No client certificate requested)
+	by mail.dream-property.net (Postfix) with ESMTPSA id 929B3315A8C7
+	for <openembedded-core@lists.openembedded.org>;
+	Thu,  5 Apr 2012 00:10:47 +0200 (CEST)
+Message-ID: <4F7CC6E6.6020006@opendreambox.org>
+Date: Thu, 05 Apr 2012 00:10:46 +0200
+From: Andreas Oberritter <obi@opendreambox.org>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:11.0) Gecko/20120329 Thunderbird/11.0.1
+MIME-Version: 1.0
+To: openembedded-core@lists.openembedded.org
+References: <cover.1333481624.git.mark.hatle@windriver.com>
+	<c1765e7544603baa60bec27185a947aeee404bee.1333481624.git.mark.hatle@windriver.com>
+In-Reply-To: <c1765e7544603baa60bec27185a947aeee404bee.1333481624.git.mark.hatle@windriver.com>
+Subject: Re: [PATCH 3/7] conf/machine/include: Cleanup MIPS tunings to match README
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -46,21 +44,24 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 04 Apr 2012 22:15:59 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Wed, 04 Apr 2012 22:20:03 -0000
+Content-Type: text/plain; charset=ISO-8859-1
 Content-Transfer-Encoding: 7bit
 
-On Tue, 2012-04-03 at 13:17 -0500, Mark Hatle wrote:
+On 03.04.2012 21:47, Mark Hatle wrote:
+> Cleanup the MIPS tunings to match the new tuning README file.  Also
+> add a MIPS specific README file to explain the MIPS specifical
+> architectural issues.
+> 
+> Finally correct the variant configurations within the tune-mips32.inc.
 
-> (And RedHat based linux distributions don't have any concept of alternatives. 
+What was mipsel-oe-linux before now became mips32el-oe-linux, i.e.
+tmp/work/mipsel-oe-linux now is tmp/work/mips32el-oe-linux. I'm not sure
+what else broke.
 
-True...until about 10 years ago.
+Was this intentional?
 
-    Sun Jan 27 2002 Erik Troan <ewt@redhat.com>
-    - reimplemented update-alternatives as just alternatives
-
-http://pkgs.fedoraproject.org/gitweb/?p=chkconfig.git;a=commit;h=e68fd156aa94245e111a50ff4bee31f304b52727
-
-
+Regards,
+Andreas
 
 
