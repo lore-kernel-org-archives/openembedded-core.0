@@ -1,41 +1,14 @@
-Received: from mail.dream-property.net ([82.149.226.172])
+Received: from ffm.saftware.de ([83.141.3.46])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <obi@opendreambox.org>) id 1SFYeM-0005Be-BT
+	(envelope-from <obi@opendreambox.org>) id 1SFYpp-0005Jv-Np
 	for openembedded-core@lists.openembedded.org;
-	Thu, 05 Apr 2012 00:25:58 +0200
-Received: from localhost (localhost [127.0.0.1])
-	by mail.dream-property.net (Postfix) with ESMTP id 8186E315AD6E
-	for <openembedded-core@lists.openembedded.org>;
-	Thu,  5 Apr 2012 00:16:49 +0200 (CEST)
-X-Virus-Scanned: Debian amavisd-new at mail.dream-property.net
-Received: from mail.dream-property.net ([127.0.0.1])
-	by localhost (mail.dream-property.net [127.0.0.1]) (amavisd-new,
-	port 10024) with LMTP id 6He9wzojkmEw
-	for <openembedded-core@lists.openembedded.org>;
-	Thu,  5 Apr 2012 00:16:42 +0200 (CEST)
-Received: from [172.22.22.61] (drms-4d0147c1.pool.mediaWays.net [77.1.71.193])
-	(using TLSv1 with cipher DHE-RSA-AES256-SHA (256/256 bits))
-	(No client certificate requested)
-	by mail.dream-property.net (Postfix) with ESMTPSA id 9EB26315A8C7
-	for <openembedded-core@lists.openembedded.org>;
-	Thu,  5 Apr 2012 00:16:42 +0200 (CEST)
-Message-ID: <4F7CC849.5060109@opendreambox.org>
-Date: Thu, 05 Apr 2012 00:16:41 +0200
+	Thu, 05 Apr 2012 00:37:49 +0200
 From: Andreas Oberritter <obi@opendreambox.org>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:11.0) Gecko/20120329 Thunderbird/11.0.1
-MIME-Version: 1.0
 To: openembedded-core@lists.openembedded.org
-References: <20120403131537.5CE3310218@opal>
-	<20120404165943.GE4181@jama.jama.net>
-	<4F7C8796.9070705@opendreambox.org>
-	<20120404174521.GF4181@jama.jama.net>
-	<4F7C8B6A.1000008@opendreambox.org>
-	<20120404180615.GG4181@jama.jama.net>
-	<20120404182250.GH4181@jama.jama.net>
-	<4F7CBA1A.3040506@opendreambox.org>
-In-Reply-To: <4F7CBA1A.3040506@opendreambox.org>
-Subject: Re: [oe-commits] Andreas Oberritter : gdb: build with expat, add missing RRECOMMENDS_gdbserver
+Date: Thu,  5 Apr 2012 00:28:36 +0200
+Message-Id: <1333578516-25609-1-git-send-email-obi@opendreambox.org>
+X-Mailer: git-send-email 1.7.5.4
+Subject: [PATCH] gst-plugins-base: fix build of subparse plugin
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -50,18 +23,75 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 04 Apr 2012 22:25:58 -0000
-Content-Type: text/plain; charset=ISO-8859-1
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Wed, 04 Apr 2012 22:37:49 -0000
 
-On 04.04.2012 23:16, Andreas Oberritter wrote:
-> I've built gdb-cross with your patch applied without problems.
-> gdb-cross-canadian-mipsel is still compiling. However, since the problem
-> you discovered didn't show on my machine, this may not be meaningful at all.
+* Fixes the following configure error by prefixing
+  PKG_CONFIG_SYSROOT_DIR:
 
-FWIW, gdb-cross-canadian-mipsel also finished without errors.
+| grep: /usr/include/gstreamer-0.10/gst/gstconfig.h: No such file or directory
 
-> Regards,
-> Andreas
+Signed-off-by: Andreas Oberritter <obi@opendreambox.org>
+---
+ .../configure.ac-fix-subparse-plugin.patch         |   27 ++++++++++++++++++++
+ .../gstreamer/gst-plugins-base_0.10.36.bb          |    5 ++-
+ 2 files changed, 30 insertions(+), 2 deletions(-)
+ create mode 100644 meta/recipes-multimedia/gstreamer/gst-plugins-base-0.10.36/configure.ac-fix-subparse-plugin.patch
+
+diff --git a/meta/recipes-multimedia/gstreamer/gst-plugins-base-0.10.36/configure.ac-fix-subparse-plugin.patch b/meta/recipes-multimedia/gstreamer/gst-plugins-base-0.10.36/configure.ac-fix-subparse-plugin.patch
+new file mode 100644
+index 0000000..b8602c8
+--- /dev/null
++++ b/meta/recipes-multimedia/gstreamer/gst-plugins-base-0.10.36/configure.ac-fix-subparse-plugin.patch
+@@ -0,0 +1,27 @@
++Upstream-Status: Submitted [similar patch by other author, bugzilla]
++Bugtracker-URL: https://bugzilla.gnome.org/show_bug.cgi?id=663600
++
++Prepend PKG_CONFIG_SYSROOT to includedir, so configure doesn't
++search for gstconfig.h in /usr/include.
++
++Signed-off-by: Andreas Oberritter <obi@opendreambox.org>
++---
++ configure.ac |    2 +-
++ 1 files changed, 1 insertions(+), 1 deletions(-)
++
++diff --git a/configure.ac b/configure.ac
++index 1901bcf..460fb0a 100644
++--- a/configure.ac
+++++ b/configure.ac
++@@ -435,7 +435,7 @@ AG_GST_CHECK_PLUGIN(volume)
++ dnl check for gstreamer core features (subsystems)
++ dnl FIXME: this assumes srcdir == builddir for uninstalled setups
++ GST_CONFIGPATH=`$PKG_CONFIG --variable=includedir gstreamer-0.10`"/gst/gstconfig.h"
++-AG_GST_PARSE_SUBSYSTEM_DISABLES($GST_CONFIGPATH)
+++AG_GST_PARSE_SUBSYSTEM_DISABLES($PKG_CONFIG_SYSROOT_DIR$GST_CONFIGPATH)
++ AM_CONDITIONAL(USE_XML, test $GST_DISABLE_XML != "1")
++ 
++ dnl disable plug-ins that require libxml2's HTML support if it is not available
++-- 
++1.7.5.4
++
+diff --git a/meta/recipes-multimedia/gstreamer/gst-plugins-base_0.10.36.bb b/meta/recipes-multimedia/gstreamer/gst-plugins-base_0.10.36.bb
+index 5499829..da4a726 100644
+--- a/meta/recipes-multimedia/gstreamer/gst-plugins-base_0.10.36.bb
++++ b/meta/recipes-multimedia/gstreamer/gst-plugins-base_0.10.36.bb
+@@ -9,12 +9,13 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=0636e73ff0215e8d672dc4c32c317bb3 \
+ DEPENDS += "${@base_contains('DISTRO_FEATURES', 'x11', 'virtual/libx11 libxv', '', d)}"
+ DEPENDS += "alsa-lib freetype liboil libogg libvorbis libtheora avahi util-linux tremor"
+ 
+-SRC_URI += " file://gst-plugins-base-tremor.patch"
++SRC_URI += "file://gst-plugins-base-tremor.patch \
++            file://configure.ac-fix-subparse-plugin.patch"
+ 
+ SRC_URI[md5sum] = "776c73883e567f67b9c4a2847d8d041a"
+ SRC_URI[sha256sum] = "2cd3b0fa8e9b595db8f514ef7c2bdbcd639a0d63d154c00f8c9b609321f49976"
+ 
+-PR = "r2"
++PR = "r3"
+ 
+ inherit gettext
+ 
+-- 
+1.7.5.4
+
 
 
