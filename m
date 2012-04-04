@@ -1,43 +1,38 @@
-Received: from mail-bk0-f47.google.com ([209.85.214.47])
-	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <sledz@dresearch-fe.de>) id 1SFNWR-0003Xq-09
-	for openembedded-core@lists.openembedded.org;
-	Wed, 04 Apr 2012 12:33:03 +0200
-Received: by bkcjg15 with SMTP id jg15so103692bkc.6
+Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
+	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <richard.purdie@linuxfoundation.org>)
+	id 1SFOZi-00066L-JI for openembedded-core@lists.openembedded.org;
+	Wed, 04 Apr 2012 13:40:30 +0200
+Received: from localhost (localhost [127.0.0.1])
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q34BVKX1032615
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 04 Apr 2012 03:23:52 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=google.com; s=20120113;
-	h=message-id:date:from:user-agent:mime-version:to:cc:subject
-	:references:in-reply-to:x-enigmail-version:content-type
-	:content-transfer-encoding:x-gm-message-state;
-	bh=l5paycF/RCncFpFrMTAFTMwvB+J3jwEeJiecdcnZuZI=;
-	b=bKQBEdD5Nr/mc8NqYiJ5N8rBaSAz+sT1ojmdwxOs3Et5lRjBe2hME7SDKbEVsk1rsL
-	AwdN3aX3/UuBQyABe9tjeXKHeCcM8WiYXikeX+esPng/jkPGBAzT+p8GoXGvdpKXzex5
-	FsB55F0DDmAIeP2KowOyJJqxUndRUYt9m+ugpInrrqgNMfRAWtb0U4Jac+1e9XoG04+r
-	F7cdY66f2msQbYDvYdP6mFl1XpFLLnZhibYENGVDMyF1kgXALlKeaAQDUjUipgs9c3ZR
-	lR6Mw+g1HGTXS2CxuFV5UMa23nMfGY2aEFuCa7c5JUj2fqEa7Nw05dWOSCbhTlGs9CyZ
-	SMAQ==
-Received: by 10.204.154.139 with SMTP id o11mr7021868bkw.4.1333535032526;
-	Wed, 04 Apr 2012 03:23:52 -0700 (PDT)
-Received: from mobil-400-586.intern.dresearch.de
-	(pd95cbf07.dip0.t-ipconnect.de. [217.92.191.7])
-	by mx.google.com with ESMTPS id x4sm673616bkv.8.2012.04.04.03.23.51
-	(version=SSLv3 cipher=OTHER); Wed, 04 Apr 2012 03:23:51 -0700 (PDT)
-Message-ID: <4F7C2135.6040904@dresearch-fe.de>
-Date: Wed, 04 Apr 2012 12:23:49 +0200
-From: Steffen Sledz <sledz@dresearch-fe.de>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:11.0) Gecko/20120328 Thunderbird/11.0.1
-MIME-Version: 1.0
+	Wed, 4 Apr 2012 12:31:20 +0100
+Received: from tim.rpsys.net ([127.0.0.1])
+	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
+	port 10024) with LMTP
+	id 32341-02 for <openembedded-core@lists.openembedded.org>;
+	Wed,  4 Apr 2012 12:31:16 +0100 (BST)
+Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q34BV8LB032609
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO)
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 4 Apr 2012 12:31:11 +0100
+Message-ID: <1333539066.11559.36.camel@ted>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-References: <4F7B38C7.6010909@mlbassoc.com> <4F7B3B8C.6000200@windriver.com>
-	<4F7B3C75.5030200@mlbassoc.com> <4F7B3EAE.2000301@windriver.com>
-In-Reply-To: <4F7B3EAE.2000301@windriver.com>
-X-Enigmail-Version: 1.4
-X-Gm-Message-State: ALoCoQk3hSkD0Zzad4Czio9MvijypaBL8UTpmr0AKAl4CAQJ+JkdQcWyALdEr3MsRKGLFIFTtf5c
-Subject: Re: Schizophrenic package management
+Date: Wed, 04 Apr 2012 12:31:06 +0100
+In-Reply-To: <20120404094728.01c3ba51@eb-e6520>
+References: <loom.20120404T082801-1@post.gmane.org>
+	<20120404091834.367f9617@eb-e6520>
+	<CAGiJk9f_=5pVUurpPT4pO3qPZC=bOn2Qg_1iaaE=A5g+0cG1Vw@mail.gmail.com>
+	<20120404094728.01c3ba51@eb-e6520>
+X-Mailer: Evolution 3.2.2- 
+Mime-Version: 1.0
+X-Virus-Scanned: amavisd-new at rpsys.net
+X-MIME-Autoconverted: from 8bit to quoted-printable by tim.rpsys.net id
+	q34BVKX1032615
+Subject: Re: How to rebuilt the package after modified the source code in open embedded bitbake ...
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -52,63 +47,80 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 04 Apr 2012 10:33:03 -0000
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Wed, 04 Apr 2012 11:40:30 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On 03.04.2012 20:17, Mark Hatle wrote:
-> On 4/3/12 1:07 PM, Gary Thomas wrote:
-> ...
-> (And RedHat based linux distributions don't have any concept of alternatives.
-> They generally decide which binary package will provide the functionality
-> and that is the defacto standard for a given release.  OE on the other hand
-> is closer to Debian based systems in that regard.  We can build multiple
-> packages that may provide the same functionality, then it's up to the
-> package install time to determine which version of the functionality is
-> used as the default.)
+On Wed, 2012-04-04 at 09:47 +0200, Eric B=C3=A9nard wrote:
+> Le Wed, 4 Apr 2012 09:21:02 +0200,
+> Samuel Stirtzel <s.stirtzel@googlemail.com> a =C3=A9crit :
+>=20
+> > 2012/4/4 Eric B=C3=A9nard <eric@eukrea.com>:
+> > > Hi Surenda,
+> > >
+> > > Le Wed, 4 Apr 2012 06:34:39 +0000 (UTC),
+> > > surendra dhobale <surendra.dhobalelinux@gmail.com> a =C3=A9crit :
+> > >>  I am working with the open embedded environment.
+> > >>
+> > >> I have added one u-boot package in that. First time by default the=
+ compilation
+> > >> done successfully using the bitbake. But Now i made some changes i=
+n the source
+> > >> .
+> > >>
+> > >> Now i have to built the same package with neglecting the fetch() s=
+tage.
+> > >> and rebuilt it means need to compilation.
+> > >>
+> > >> Is any commands for that...
+> > >> Can please anyone explain me in deatails about that. I am newbie i=
+n the open
+> > >> embedded.
+> > >>
+> > > bitbake u-boot -c cleansstate
+> > > bitbake u-boot
+> > >
+> > > Eric
+> >=20
+> > Hi,
+> > please note this will delete local changes (in thework directory) to
+> > the sourcecode!
+> >=20
+> > If you only want to compile again you can use
+> >=20
+> > bitbake -c compile -f u-boot
+> > and then "bitbake u-boot" to build the other tasks.
 
-FYI: openSUSE 12.1 (rpm-based) uses
+There is some documentation in the manual about this:
+http://www.yoctoproject.org/docs/latest/poky-ref-manual/poky-ref-manual.h=
+tml#platdev-appdev-insitu
 
-Name        : update-alternatives
-Version     : 1.15.8.10
-Release     : 9.1.2
-Architecture: x86_64
-Install Date: Fri Nov 18 12:16:48 2011
-Group       : System/Management
-Size        : 67090
-License     : GPLv2+
-Signature   : RSA/SHA256, Sat Oct 29 12:13:51 2011, Key ID b88b2fd43dbdc284
-Source RPM  : update-alternatives-1.15.8.10-9.1.2.src.rpm
-Build Date  : Sat Oct 29 12:13:28 2011
-Build Host  : build16
-Relocations : (not relocatable)
-Packager    : http://bugs.opensuse.org
-Vendor      : openSUSE
-URL         : http://ftp.de.debian.org/debian/pool/main/d/dpkg/
-Summary     : Maintain symbolic links determining default commands
-Description :
-update-alternatives creates, removes, maintains and displays
-information about the symbolic links comprising the alternatives
-system. It is possible for several programs fulfilling the same or
-similar functions to be installed on a single system at the same time.
-For example, many systems have several text editors installed at once.
-This gives choice to the users of a system, allowing each to use a
-different editor, if desired, but makes it difficult for a program to
-make a good choice of editor to invoke if the user has not specified a
-particular preference.
-Distribution: openSUSE 12.1
+> oops, I read his message to fast and didn't notice the "i made some
+> changes in the source code , which is created in the Temp work
+> directory".
+>=20
+> For this kind of work, I prefer to do :
+> bitbake u-boot -c configure
+> copy the source from workdir to a directory outside OE
+> then change to this dir and
+> git init
+> git add .
+> git commit -m init
+> then you can hack it outside OE (and compile it using a meta-toolchain
+> for example)
+> and in the end you can easily produce a patch using git that you
+> integrate back into OE.
 
-> ...
+Eric: You should probably look at the externalsrc.bbclass since it gives
+you a way to do things like this yet also build and package it with the
+usual build system:
 
-Steffen
+http://www.yoctoproject.org/docs/latest/poky-ref-manual/poky-ref-manual.h=
+tml#ref-classes-externalsrc
 
--- 
-DResearch Fahrzeugelektronik GmbH
-Otto-Schmirgal-Str. 3, 10319 Berlin, Germany
-Tel: +49 30 515932-237 mailto:sledz@dresearch-fe.de
-Fax: +49 30 515932-299
-Geschäftsführer: Dr. Michael Weber, Werner Mögle;
-Amtsgericht Berlin Charlottenburg; HRB 130120 B;
-Ust.-IDNr. DE273952058
+Cheers,
+
+Richard
+
 
 
