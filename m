@@ -1,25 +1,25 @@
-Received: from mga02.intel.com ([134.134.136.20])
+Received: from mga09.intel.com ([134.134.136.24])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <sgw@linux.intel.com>) id 1SFTc5-0003to-8a
+	(envelope-from <sgw@linux.intel.com>) id 1SFTcw-0003wf-2D
 	for openembedded-core@lists.openembedded.org;
-	Wed, 04 Apr 2012 19:03:17 +0200
+	Wed, 04 Apr 2012 19:04:10 +0200
 Received: from orsmga001.jf.intel.com ([10.7.209.18])
-	by orsmga101.jf.intel.com with ESMTP; 04 Apr 2012 09:54:05 -0700
+	by orsmga102.jf.intel.com with ESMTP; 04 Apr 2012 09:54:51 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.67,352,1309762800"; d="scan'208";a="125306592"
+X-IronPort-AV: E=Sophos;i="4.67,352,1309762800"; d="scan'208";a="125306814"
 Received: from unknown (HELO [10.255.12.141]) ([10.255.12.141])
-	by orsmga001.jf.intel.com with ESMTP; 04 Apr 2012 09:54:05 -0700
-Message-ID: <4F7C7CAD.9050408@linux.intel.com>
-Date: Wed, 04 Apr 2012 09:54:05 -0700
+	by orsmga001.jf.intel.com with ESMTP; 04 Apr 2012 09:54:51 -0700
+Message-ID: <4F7C7CDB.1070205@linux.intel.com>
+Date: Wed, 04 Apr 2012 09:54:51 -0700
 From: Saul Wold <sgw@linux.intel.com>
 User-Agent: Mozilla/5.0 (X11; Linux x86_64;
 	rv:11.0) Gecko/20120329 Thunderbird/11.0.1
 MIME-Version: 1.0
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-References: <1333135290-13424-1-git-send-email-raj.khem@gmail.com>
-In-Reply-To: <1333135290-13424-1-git-send-email-raj.khem@gmail.com>
-Subject: Re: [PATCH] webkit: Fix build with gcc-4.7
+References: <1333399030-28619-1-git-send-email-eric@eukrea.com>
+In-Reply-To: <1333399030-28619-1-git-send-email-eric@eukrea.com>
+Subject: Re: [PATCH 1/2] license.py: fix behaviour of copyleft_compliance
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -34,71 +34,67 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 04 Apr 2012 17:03:17 -0000
-Content-Type: text/plain; charset=ISO-8859-1; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Wed, 04 Apr 2012 17:04:10 -0000
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 
-On 03/30/2012 12:21 PM, Khem Raj wrote:
-> Include unistd.h for all linux and not
-> just for android.
+On 04/02/2012 01:37 PM, Eric Bénard wrote:
+> actually if a package has a license in its LICENSE variable
+> which is not in the whitelist nor in the blacklist and even
+> if an other license in this variable is in the whitelist,
+> the package gets excluded and is not taken in account in the
+> copyleft_compliance.
+> This patch solves this by excluding a recipe _only_ if the
+> LICENSE variable includes a pattern from the blacklist and
+> including a recipe only if it includes a variable from the
+> whitelist _and_ none from the blacklist.
 >
-> Signed-off-by: Khem Raj<raj.khem@gmail.com>
+> Example in busybox which has LICENSE="GPLv2&  BSD-4-Clause",
+> with the actual behaviour (where he blacklist contains only
+> CLOSED Proprietary) we get :
+> DEBUG: copyleft: busybox-1.19.4 is excluded: recipe has excluded licenses: BSD-4-Clause
+> which is not sane because busybox is covered by a copyleft license
+> which is GPLv2 and should match the default whitelist which is
+> GPL* LGPL*.
+>
+> Signed-off-by: Eric Bénard<eric@eukrea.com>
 > ---
->   .../recipes-sato/webkit/files/function-scope.patch |   21 ++++++++++++++++++++
->   meta/recipes-sato/webkit/webkit-gtk_svn.bb         |    3 +-
->   2 files changed, 23 insertions(+), 1 deletions(-)
->   create mode 100644 meta/recipes-sato/webkit/files/function-scope.patch
+> v2: updated and tested after Kergoth's review on IRC
 >
-> diff --git a/meta/recipes-sato/webkit/files/function-scope.patch b/meta/recipes-sato/webkit/files/function-scope.patch
-> new file mode 100644
-> index 0000000..a20a805
-> --- /dev/null
-> +++ b/meta/recipes-sato/webkit/files/function-scope.patch
-> @@ -0,0 +1,21 @@
-> +we need to include unistd.h on all linux platforms therefore
-> +extend the conditional inclusion accordingly
-> +
-> +This gets proper declation of sleep() into the source file
-> +
-> +Signed-off-by: Khem Raj<raj.khem@gmail.com>
-> +
-> +Upstream-Status: Pending
-> +Index: webkit-gtk-1.7.2+svnr101488-r3/Tools/DumpRenderTree/TestNetscapePlugIn/PluginTest.cpp
-> +===================================================================
-> +--- webkit-gtk-1.7.2+svnr101488-r3.orig/Tools/DumpRenderTree/TestNetscapePlugIn/PluginTest.cpp	2012-03-30 12:11:04.912613223 -0700
-> ++++ webkit-gtk-1.7.2+svnr101488-r3/Tools/DumpRenderTree/TestNetscapePlugIn/PluginTest.cpp	2012-03-30 12:14:21.840622752 -0700
-> +@@ -29,7 +29,7 @@
-> + #include<assert.h>
-> + #include<string.h>
-> +
-> +-#if defined(ANDROID)
-> ++#if defined(__linux__)
-> + #include<unistd.h>
-> + #endif
-> +
-> diff --git a/meta/recipes-sato/webkit/webkit-gtk_svn.bb b/meta/recipes-sato/webkit/webkit-gtk_svn.bb
-> index 9181c2c..7db573d 100644
-> --- a/meta/recipes-sato/webkit/webkit-gtk_svn.bb
-> +++ b/meta/recipes-sato/webkit/webkit-gtk_svn.bb
-> @@ -15,7 +15,7 @@ SRCREV_FORMAT = "source"
+>   meta/lib/oe/license.py |   11 +++++++----
+>   1 files changed, 7 insertions(+), 4 deletions(-)
 >
->   SRCREV = "101488"
->   PV = "1.7.2+svnr${SRCPV}"
-> -PR = "r3"
-> +PR = "r4"
+> diff --git a/meta/lib/oe/license.py b/meta/lib/oe/license.py
+> index 5914506..173e319 100644
+> --- a/meta/lib/oe/license.py
+> +++ b/meta/lib/oe/license.py
+> @@ -86,8 +86,10 @@ def is_included(licensestr, whitelist=None, blacklist=None):
+>       """
 >
->   SRC_URI = "\
->     svn://svn.webkit.org/repository/webkit/trunk/;module=Source;proto=http;name=source \
-> @@ -28,6 +28,7 @@ SRC_URI = "\
->     file://GNUmakefile.am \
->     file://gtk-doc.make \
->     file://nodolt.patch \
-> +  file://function-scope.patch \
->    "
+>       def include_license(license):
+> -        return (any(fnmatch(license, pattern) for pattern in whitelist) and not
+> -                any(fnmatch(license, pattern) for pattern in blacklist))
+> +        return any(fnmatch(license, pattern) for pattern in whitelist)
+> +
+> +    def exclude_license(license):
+> +        return any(fnmatch(license, pattern) for pattern in blacklist)
 >
->   S = "${WORKDIR}/"
+>       def choose_licenses(alpha, beta):
+>           """Select the option in an OR which is the 'best' (has the most
+> @@ -106,8 +108,9 @@ def is_included(licensestr, whitelist=None, blacklist=None):
+>           blacklist = []
+>
+>       licenses = flattened_licenses(licensestr, choose_licenses)
+> -    excluded = filter(lambda lic: not include_license(lic), licenses)
+> +    excluded = filter(lambda lic: exclude_license(lic), licenses)
+> +    included = filter(lambda lic: include_license(lic), licenses)
+>       if excluded:
+>           return False, excluded
+>       else:
+> -        return True, None
+> +        return True, included
 
-Merged this along with the 2 QT patches for gcc to OE-Core
+Merged both of these into OE-Core
 
 Thanks
 	Sau!
