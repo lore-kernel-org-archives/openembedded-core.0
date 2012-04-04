@@ -1,37 +1,43 @@
-Received: from mail.dream-property.net ([82.149.226.172])
+Received: from mail-qc0-f175.google.com ([209.85.216.175])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <obi@opendreambox.org>) id 1SFUb2-0006ca-2u
+	(envelope-from <msm-fsl@mcclintock.net>) id 1SFUgu-0006wU-TT
 	for openembedded-core@lists.openembedded.org;
-	Wed, 04 Apr 2012 20:06:16 +0200
-Received: from localhost (localhost [127.0.0.1])
-	by mail.dream-property.net (Postfix) with ESMTP id A45DB315AD50
+	Wed, 04 Apr 2012 20:12:21 +0200
+Received: by qcso7 with SMTP id o7so334633qcs.6
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  4 Apr 2012 19:57:07 +0200 (CEST)
-X-Virus-Scanned: Debian amavisd-new at mail.dream-property.net
-Received: from mail.dream-property.net ([127.0.0.1])
-	by localhost (mail.dream-property.net [127.0.0.1]) (amavisd-new,
-	port 10024) with LMTP id 60nWzFDwR4Oc
-	for <openembedded-core@lists.openembedded.org>;
-	Wed,  4 Apr 2012 19:57:00 +0200 (CEST)
-Received: from [172.22.22.61] (drms-4d0147c1.pool.mediaWays.net [77.1.71.193])
-	(using TLSv1 with cipher DHE-RSA-AES256-SHA (256/256 bits))
-	(No client certificate requested)
-	by mail.dream-property.net (Postfix) with ESMTPSA id D9EBF315AD40
-	for <openembedded-core@lists.openembedded.org>;
-	Wed,  4 Apr 2012 19:56:59 +0200 (CEST)
-Message-ID: <4F7C8B6A.1000008@opendreambox.org>
-Date: Wed, 04 Apr 2012 19:56:58 +0200
-From: Andreas Oberritter <obi@opendreambox.org>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:11.0) Gecko/20120329 Thunderbird/11.0.1
+	Wed, 04 Apr 2012 11:03:09 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=mcclintock.net; s=google;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:content-type; bh=+2XCGz/5WnywVTHVOwY46DUTnhuQFzusl07ZSgtOVJg=;
+	b=XiYWevb7ovF0f0FGL8V7tGJUdk0mzJbb0SaZPsEs4kzNKTg4ZQsmU1OMKIo9DzO4/j
+	MIs+XgiCmkOAOfqYSROl0PcamJWJ2SD5Alvp9dOimdxiN9FohldIu+JuwYlAVryfMnho
+	ab9trLZLS6G1rp88WS8uRhUsZ7/1RzfHgbFJo=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=google.com; s=20120113;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:content-type:x-gm-message-state;
+	bh=+2XCGz/5WnywVTHVOwY46DUTnhuQFzusl07ZSgtOVJg=;
+	b=Tzs04hqdKyiNMZm3hGX6irPuo3MYlGJIQuHkhKARTr2FhkjUhjnREXqXfJL8Lrl2Gf
+	UohP+LOwgqsXftrWYOsczD5mQKN5LELwcapiG79OlfdJ5FwB8Xx3vR3+P9mbYWj3AJYQ
+	DPwCaQchQm1921rkolumw9Cs3ajyqZgOqxQ29ys0K1AFMklDr41sShhVRj3p0UtiElZr
+	ZHgZfIHqH26SRJyovUABKTbWZ7KyXZzshOSJNVKg/rwotEVyVn9FK9vG19QWcLydGvQj
+	Zm+g7hUDsTwptEe8QSjerz3sZd0Egek+XgUM/KevnHLcrzItj79jtSLOafUXeG1FTCvo
+	OROQ==
+Received: by 10.229.137.77 with SMTP id v13mr1356892qct.60.1333562589734; Wed,
+	04 Apr 2012 11:03:09 -0700 (PDT)
 MIME-Version: 1.0
-To: openembedded-core@lists.openembedded.org
-References: <20120403131537.5CE3310218@opal>
-	<20120404165943.GE4181@jama.jama.net>
-	<4F7C8796.9070705@opendreambox.org>
-	<20120404174521.GF4181@jama.jama.net>
-In-Reply-To: <20120404174521.GF4181@jama.jama.net>
-Subject: Re: [oe-commits] Andreas Oberritter : gdb: build with expat, add missing RRECOMMENDS_gdbserver
+Received: by 10.229.11.234 with HTTP; Wed, 4 Apr 2012 11:02:49 -0700 (PDT)
+In-Reply-To: <23c9e1f3a0ba5acbb54ae85cb194310020d3e80e.1333481624.git.mark.hatle@windriver.com>
+References: <cover.1333481624.git.mark.hatle@windriver.com>
+	<23c9e1f3a0ba5acbb54ae85cb194310020d3e80e.1333481624.git.mark.hatle@windriver.com>
+From: Matthew McClintock <msm-fsl@mcclintock.net>
+Date: Wed, 4 Apr 2012 11:02:49 -0700
+Message-ID: <CAEsOVNd+9mg92Q0vx2Zqbx9Wjrxn+BcVVAMztRqpt_-a5Cf3RA@mail.gmail.com>
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+X-Gm-Message-State: ALoCoQlZ2oLfvbbDwlB10MUAlVf+fxw3yJXlAhAdRGeFxDJu8j89toxOx85/qL+wZah7A2WLhVze
+Subject: Re: [PATCH 4/7] conf/machine/include: Cleanup PowerPC tunings to match README
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -46,66 +52,24 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 04 Apr 2012 18:06:16 -0000
+X-List-Received-Date: Wed, 04 Apr 2012 18:12:21 -0000
 Content-Type: text/plain; charset=ISO-8859-1
-Content-Transfer-Encoding: 7bit
 
-On 04.04.2012 19:45, Martin Jansa wrote:
-> On Wed, Apr 04, 2012 at 07:40:38PM +0200, Andreas Oberritter wrote:
->> On 04.04.2012 18:59, Martin Jansa wrote:
->>> On Tue, Apr 03, 2012 at 01:15:37PM +0000, git@git.openembedded.org wrote:
->>>> Module: openembedded-core.git
->>>> Branch: master
->>>> Commit: 38ee88e3b32b7444d7f1eb64f1b4f69a48fe0458
->>>> URL:    http://git.openembedded.org/?p=openembedded-core.git&a=commit;h=38ee88e3b32b7444d7f1eb64f1b4f69a48fe0458
->>>>
->>>> Author: Andreas Oberritter <obi@opendreambox.org>
->>>> Date:   Tue Apr  3 00:23:55 2012 +0200
->>>>
->>>> gdb: build with expat, add missing RRECOMMENDS_gdbserver
->>>>
->>>> * Fixes communication between gdbserver and gdb-cross
->>>>   by using the same expat settings for both recipes.
->>>> * Adds missing build dependencies for expat/expat-native.
->>>> * Adds missing glibc-thread-db runtime recommendation
->>>>   to gdbserver, which was set only for gdb.
->>>>
->>>> Signed-off-by: Andreas Oberritter <obi@opendreambox.org>
->>>> Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
->>>
->>> Here it's trying to use host's expat when building target gdb and fails...
->>>
->>> | checking for libexpat... no
->>> | configure: error: expat is missing or unusable
->>> | make[1]: *** [configure-gdb] Error 1
->>> | make[1]: Leaving directory `/OE/shr-core/tmp-eglibc/work/armv7a-vfp-neon-oe-linux-gnueabi/gdb/gdb-7.4-r7.0/build-arm-oe-linux-gnueabi'
->>> | make: *** [all] Error 2
->>> | ERROR: oe_runmake failed
->>> NOTE: package gdb-7.4-r7.0: task do_compile: Failed
->>> ERROR: Task 3561 (/OE/shr-core/openembedded-core/meta/recipes-devtools/gdb/gdb_7.4.bb, do_compile) failed with exit code '1'
->>>
->>> from config.log:
->>> configure:10704: checking for libexpat
->>> configure:10723: arm-oe-linux-gnueabi-gcc  -march=armv7-a -fno-tree-vectorize     -mthumb-interwork -mfloat-abi=softfp -mfpu=neon -mtune=cortex-a8 --sysroot=/OE/shr-core/tmp-eglibc/sysroots/om-gta04 -o conftest -O2 -pipe -g -feliminate-unused-debug-types    -Wl,-O1 -Wl,--hash-style=gnu -Wl,--as-needed conftest.c -ldl -lncurses -lz -lm    /usr/lib/libexpat.so >&5
->>> /OE/shr-core/tmp-eglibc/sysroots/x86_64-linux/usr/libexec/armv7a-vfp-neon-oe-linux-gnueabi/gcc/arm-oe-linux-gnueabi/4.6.4/ld: error: /usr/lib/libexpat.so: incompatible target
->>> conftest.c:98: error: undefined reference to 'XML_ParserCreate'
->>> collect2: ld returned 1 exit status
->>
->> Does "bitbake expat" help? Here I have:
-> 
-> expat was built already, so no doesn't help.
-> 
-> 
-> -EXPAT = "--with-expat"
-> +EXPAT = "--with-expat --with-libexpat-prefix=${STAGING_DIR_HOST}"
-> 
-> helps..
+On Tue, Apr 3, 2012 at 12:47 PM, Mark Hatle <mark.hatle@windriver.com> wrote:
+> +ABIEXTENSION .= "${SPEABIEXTENSION}"
+>
+>  AVAILTUNES += "ppce500"
+>  TUNE_FEATURES_tune-ppce500 = "m32 spe ppce500"
+> +TUNE_PKGARCH_tune-ppce500 = "ppce500"
+>  PACKAGE_EXTRA_ARCHS_tune-ppce500 = "ppce500"
 
-OK. Can you please submit an incremental patch? I wonder why it didn't
-happen on my system, although I have libexpat-dev installed (Ubuntu).
-Which Linux distribution are you using?
+meta/conf/machine/include/tune-ppce500.inc:PACKAGE_EXTRA_ARCHS_tune-ppce500
+= "ppce500"
+meta/conf/machine/include/tune-ppce500v2.inc:PACKAGE_EXTRA_ARCHS_tune-ppce500v2
+= "ppce500v2"
 
-Regards,
-Andreas
+Should these have ${PACKAGE_EXTRA_ARCHS_tune-powerpc} as well?
+
+-M
 
 
