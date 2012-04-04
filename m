@@ -1,26 +1,37 @@
-Received: from mga01.intel.com ([192.55.52.88])
+Received: from mail-vb0-f47.google.com ([209.85.212.47])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <sgw@linux.intel.com>) id 1SFEdA-00087V-BP
+	(envelope-from <otavio.salvador@gmail.com>) id 1SFFdc-0000bw-Ry
 	for openembedded-core@lists.openembedded.org;
-	Wed, 04 Apr 2012 03:03:25 +0200
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-	by fmsmga101.fm.intel.com with ESMTP; 03 Apr 2012 17:54:13 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="137323658"
-Received: from unknown (HELO [10.255.12.141]) ([10.255.12.141])
-	by fmsmga001.fm.intel.com with ESMTP; 03 Apr 2012 17:54:13 -0700
-Message-ID: <4F7B9BB5.8060409@linux.intel.com>
-Date: Tue, 03 Apr 2012 17:54:13 -0700
-From: Saul Wold <sgw@linux.intel.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:10.0.1) Gecko/20120216 Thunderbird/10.0.1
+	Wed, 04 Apr 2012 04:07:56 +0200
+Received: by vbbfr13 with SMTP id fr13so281923vbb.6
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 03 Apr 2012 18:58:46 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=mime-version:sender:in-reply-to:references:date
+	:x-google-sender-auth:message-id:subject:from:to:content-type
+	:content-transfer-encoding;
+	bh=1m+dUHbROPMLStW15imjiWyTfmyFXWYLNOk0x1+GTkU=;
+	b=fnQZWk2oH/Xaud3sIAi2Q1xCf2PjKwetk/2Y26/btkMesY3FpyzsV3GK8sYH5d5rF2
+	/iukn1+1vggQyOxzTePzki5rKGoaPsRNG3PiYXq+kkpRro2ScKaTKpXGKOb1dX8le1QN
+	zOubAH2n+DltUG7nke66eU88JSlxdFPjLhPqC/Lev6cb2eY56fyWeu9CCOHDycF/Nbnw
+	8I4Ry4gM9rj81tj8xONRnevlMGQDAHluqcWy4SxdfNi3vk1ZpuSmI4YzExdFo51q8LyV
+	OYy9aKZii//E0evtkfz4BDGU/JkmZFmhF6ZRi2ELmf2IggtFdmveoOmGt4uJIG/gMCt8
+	v0Tw==
 MIME-Version: 1.0
+Received: by 10.220.107.208 with SMTP id c16mr6736122vcp.65.1333504725972;
+	Tue, 03 Apr 2012 18:58:45 -0700 (PDT)
+Sender: otavio.salvador@gmail.com
+Received: by 10.220.151.10 with HTTP; Tue, 3 Apr 2012 18:58:45 -0700 (PDT)
+In-Reply-To: <558f20b409b75d18d426a471c3aa5bd296df9aa7.1333481624.git.mark.hatle@windriver.com>
+References: <cover.1333481624.git.mark.hatle@windriver.com>
+	<558f20b409b75d18d426a471c3aa5bd296df9aa7.1333481624.git.mark.hatle@windriver.com>
+Date: Tue, 3 Apr 2012 22:58:45 -0300
+X-Google-Sender-Auth: cPHh1qLJfTZCDHvtkXGqh6Ar1t4
+Message-ID: <CAP9ODKqJ4Exbb38ic1OB6h9FieWErR0yGkyEzk9usPSuxh6RUw@mail.gmail.com>
+From: Otavio Salvador <otavio@ossystems.com.br>
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-References: <1333499919-11883-1-git-send-email-sgw@linux.intel.com>
-In-Reply-To: <1333499919-11883-1-git-send-email-sgw@linux.intel.com>
-Cc: paul.eggleton@intel.com
-Subject: Re: [PATCH] self-hosted-image: Increase space for build and allow builder user sudo access
+Subject: Re: [PATCH 1/7] conf/machine/include/README: Add readme to explain cpu tunings
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -35,51 +46,25 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 04 Apr 2012 01:03:25 -0000
-Content-Type: text/plain; charset=ISO-8859-1; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Wed, 04 Apr 2012 02:07:57 -0000
+Content-Type: text/plain; charset=ISO-8859-1
+Content-Transfer-Encoding: quoted-printable
 
-On 04/03/2012 05:38 PM, Saul Wold wrote:
-> We need to have about 40G to do a full sato build even with rm_work enabled
-> Add sudo priveleges inorder to allow the builder user to setup the tap/tun
-> devices needed by runqemu
->
-> Signed-off-by: Saul Wold<sgw@linux.intel.com>
-> ---
->   meta/recipes-core/images/self-hosted-image.bb |   10 +++++-----
->   1 files changed, 5 insertions(+), 5 deletions(-)
->
-> diff --git a/meta/recipes-core/images/self-hosted-image.bb b/meta/recipes-core/images/self-hosted-image.bb
-> index 39f0fc4..46dcc5f 100644
-> --- a/meta/recipes-core/images/self-hosted-image.bb
-> +++ b/meta/recipes-core/images/self-hosted-image.bb
-> @@ -12,11 +12,8 @@ CORE_IMAGE_EXTRA_INSTALL = "\
->
->   IMAGE_FEATURES += "x11-mini package-management"
->
-> -# Ensure there's enough space to do a core-image-minimal build, with rm_work enabled
-> -IMAGE_ROOTFS_EXTRA_SPACE = "1048576"
-> -#IMAGE_ROOTFS_EXTRA_SPACE = "2621440"
-> -#IMAGE_ROOTFS_EXTRA_SPACE = "20971520"
-> -#IMAGE_ROOTFS_EXTRA_SPACE = "5242880"
-> +# Ensure there's enough space to do a core-image-sato build, with rm_work enabled
-> +IMAGE_ROOTFS_EXTRA_SPACE = "41943040"
->
->   # Do a quiet boot with limited console messages
->   APPEND += "quiet"
-> @@ -54,6 +51,9 @@ fakeroot do_populate_poky_src () {
->   	chown builder.builder ${IMAGE_ROOTFS}/home/builder/pseudo
->
->   	chown -R builder.builder  ${IMAGE_ROOTFS}/home/builder/poky
-> +
-> +	# Allow builder to use sudo to setup tap/tun
-> +	echo "builder ALL=(ALL) NOPASSWD: ALL">  /etc/sudoers
->   }
->
->   IMAGE_PREPROCESS_COMMAND += "do_populate_poky_src; "
+On Tue, Apr 3, 2012 at 16:47, Mark Hatle <mark.hatle@windriver.com> wrote:
+...
+> +TUNE_ARCH - The GNU canonical arch for a specific architecture. =A0i.e.
+> +arm, armeb, mips, mips64, etc. =A0This value is by bitbake to setup
+> +configure. TUNE_ARCH definitions are specific to a given architecture.
+> +They may be a single static definitions, or may be dynamically adjusted.
+> +See each architectures README for details for that CPU family.
 
-Yup, forgot the PR Bump!  It been fixed in mut
+... This value /is used by bitbake/ ...
 
-Sau!
+--=20
+Otavio Salvador=A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0O=
+.S. Systems
+E-mail: otavio@ossystems.com.br=A0 http://www.ossystems.com.br
+Mobile: +55 53 9981-7854=A0 =A0 =A0 =A0=A0 =A0 =A0 =A0http://projetos.ossys=
+tems.com.br
 
 
