@@ -1,29 +1,20 @@
-Received: from mail1.windriver.com ([147.11.146.13])
+Received: from mga09.intel.com ([134.134.136.24])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <mark.hatle@windriver.com>) id 1SFWVo-0002eA-JK
+	(envelope-from <paul.eggleton@linux.intel.com>) id 1SFWdX-0002qR-7t
 	for openembedded-core@lists.openembedded.org;
-	Wed, 04 Apr 2012 22:09:00 +0200
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca [147.11.189.40])
-	by mail1.windriver.com (8.14.3/8.14.3) with ESMTP id q34JxmZD006245
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 4 Apr 2012 12:59:48 -0700 (PDT)
-Received: from msp-dhcp14.wrs.com (172.25.34.14) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server id 14.1.255.0;
-	Wed, 4 Apr 2012 12:59:48 -0700
-Message-ID: <4F7CA833.1000300@windriver.com>
-Date: Wed, 4 Apr 2012 14:59:47 -0500
-From: Mark Hatle <mark.hatle@windriver.com>
-Organization: Wind River Systems
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.6;
-	rv:10.0.2) Gecko/20120216 Thunderbird/10.0.2
-MIME-Version: 1.0
-To: <openembedded-core@lists.openembedded.org>
-References: <cover.1333481624.git.mark.hatle@windriver.com>
-	<23c9e1f3a0ba5acbb54ae85cb194310020d3e80e.1333481624.git.mark.hatle@windriver.com>
-	<CAEsOVNcABe4RpUo2gO4s7_7eRGBDorXeCrP=kSt3Bb7gp92X1Q@mail.gmail.com>
-In-Reply-To: <CAEsOVNcABe4RpUo2gO4s7_7eRGBDorXeCrP=kSt3Bb7gp92X1Q@mail.gmail.com>
-Subject: Re: [PATCH 4/7] conf/machine/include: Cleanup PowerPC tunings to match README
+	Wed, 04 Apr 2012 22:16:59 +0200
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+	by orsmga102.jf.intel.com with ESMTP; 04 Apr 2012 13:07:47 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.67,351,1309762800"; d="scan'208";a="128736128"
+Received: from unknown (HELO helios.ger.corp.intel.com) ([10.252.120.18])
+	by orsmga002.jf.intel.com with ESMTP; 04 Apr 2012 13:07:46 -0700
+From: Paul Eggleton <paul.eggleton@linux.intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Wed,  4 Apr 2012 21:07:36 +0100
+Message-Id: <cover.1333569870.git.paul.eggleton@linux.intel.com>
+X-Mailer: git-send-email 1.7.5.4
+Subject: [PATCH 0/1] Fix for self-hosted-image v2
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -38,45 +29,32 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 04 Apr 2012 20:09:01 -0000
-Content-Type: text/plain; charset="ISO-8859-1"; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Wed, 04 Apr 2012 20:16:59 -0000
 
-On 4/4/12 1:03 PM, Matthew McClintock wrote:
-> On Tue, Apr 3, 2012 at 12:47 PM, Mark Hatle<mark.hatle@windriver.com>  wrote:
->> --- a/meta/conf/machine/include/tune-ppce500.inc
->> +++ b/meta/conf/machine/include/tune-ppce500.inc
->> @@ -4,13 +4,17 @@ require conf/machine/include/powerpc/arch-powerpc.inc
->>
->>   TUNEVALID[ppce500] = "Enable ppce500 specific processor optimizations"
->>   TUNE_CCARGS += "${@bb.utils.contains("TUNE_FEATURES", "ppce500", "-mcpu=8540", "", d)}"
->> -TUNE_PKGARCH_tune-ppce500 = "ppce500"
->>
->>   TUNEVALID[spe] = "Enable SPE ABI extensions"
->> -TUNE_CCARGS += "${@bb.utils.contains("TUNE_FEATURES", "spe", "-mabi=spe -mspe -mfloat-gprs=double", "", d)}"
->> +TUNE_CCARGS += "${@bb.utils.contains("TUNE_FEATURES", [ "ppce500", "spe" ], "-mabi=spe -mspe -mfloat-gprs=single", "", d)}"
->> +TARGET_FPU .= "${@bb.utils.contains("TUNE_FEATURES", [ "ppce500" , "spe" ], "ppc-efs", "", d)}"
->
-> Should these TARGET_FPU's be in a common file? Maybe some of these
-> other bits could be moved to a common file too? Setting this
-> TARGET_FPU above and TUNE_FEATURES in the same file seems redundant?
-> Or maybe this is for the multilib scenario and I'm missing
-> something...
+Simplified version of previous patch to decrease reserved space in
+ext3 image. It turns out no additional variable really needs to be
+introduced into image_types.bbclass, although this does mean running
+tune2fs twice.
 
-Normally I'd say yes, but the SPE settings are a bit unique for the ppce500[v2] 
-series of CPUs.  Duplicating it shouldn't cause any unique problems to occur. 
-(If future CPUs were to include the e500 or e500v2 SPE unit, we could consider 
-moving the code.. or more likely renaming the spe element is to "spe-single" and 
-"spe-double"...)
+Note that this patch should be applied on top of Saul's recent
+self-hosted-image patch once that is merged.
 
-But at this point I believe they are dead ends....
+The following changes since commit 7c794db563cc35f6deaab1dd0fef35015d47e567:
 
---Mark
+  self-hosted-image: Increase space for build and allow builder user sudo access (2012-04-04 16:16:27 +0100)
 
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
+are available in the git repository at:
+  git://git.openembedded.org/openembedded-core-contrib paule/self
+  http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=paule/self
+
+Paul Eggleton (1):
+  self-hosted-image: decrease reserved space to 0.5%
+
+ meta/recipes-core/images/self-hosted-image.bb |    7 ++++++-
+ 1 files changed, 6 insertions(+), 1 deletions(-)
+
+-- 
+1.7.5.4
 
 
 
