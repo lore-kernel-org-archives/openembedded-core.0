@@ -1,24 +1,26 @@
-Received: from mga11.intel.com ([192.55.52.93])
+Received: from mga01.intel.com ([192.55.52.88])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <dexuan.cui@intel.com>) id 1SFpOw-0006kI-IH
+	(envelope-from <paul.eggleton@linux.intel.com>) id 1SFpY5-0006xo-RS
 	for openembedded-core@lists.openembedded.org;
-	Thu, 05 Apr 2012 18:19:10 +0200
+	Thu, 05 Apr 2012 18:28:38 +0200
 Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-	by fmsmga102.fm.intel.com with ESMTP; 05 Apr 2012 09:09:58 -0700
+	by fmsmga101.fm.intel.com with ESMTP; 05 Apr 2012 09:19:24 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="150028189"
-Received: from dcui-desktop.sh.intel.com ([10.239.36.12])
-	by fmsmga002.fm.intel.com with ESMTP; 05 Apr 2012 09:09:58 -0700
-From: Dexuan Cui <dexuan.cui@intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Fri,  6 Apr 2012 00:10:13 +0800
-Message-Id: <e6f97ee855aed80cf23f89aa0f5fbb7a5a3ca592.1333642153.git.dexuan.cui@intel.com>
-X-Mailer: git-send-email 1.7.6
-In-Reply-To: <cover.1333642153.git.dexuan.cui@intel.com>
+X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="150031623"
+Received: from unknown (HELO helios.localnet) ([10.252.120.33])
+	by fmsmga002.fm.intel.com with ESMTP; 05 Apr 2012 09:19:24 -0700
+From: Paul Eggleton <paul.eggleton@linux.intel.com>
+To: Dexuan Cui <dexuan.cui@intel.com>
+Date: Thu, 05 Apr 2012 17:19:22 +0100
+Message-ID: <1567550.pQkNRWCquK@helios>
+Organization: Intel Corporation
+User-Agent: KMail/4.8.0 (Linux/3.0.0-17-generic-pae; KDE/4.8.1; i686; ; )
+In-Reply-To: <db6ed82ab474a1b521b8f9bcb14abee243ac63a9.1333642153.git.dexuan.cui@intel.com>
 References: <cover.1333642153.git.dexuan.cui@intel.com>
-In-Reply-To: <cover.1333642153.git.dexuan.cui@intel.com>
-References: <cover.1333642153.git.dexuan.cui@intel.com>
-Subject: [PATCH 3/3] task-self-hosted: install xterm into the target
+	<db6ed82ab474a1b521b8f9bcb14abee243ac63a9.1333642153.git.dexuan.cui@intel.com>
+MIME-Version: 1.0
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH 2/3] xterm: port the recipe from OE and upgrade to v278
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -33,39 +35,29 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 05 Apr 2012 16:19:10 -0000
+X-List-Received-Date: Thu, 05 Apr 2012 16:28:38 -0000
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
 
-xterm is needed by the "Run image" functionality of the hob:
-See bitbake/lib/bb/ui/crumbs/builder.py's runqemu_image().
+On Friday 06 April 2012 00:10:12 Dexuan Cui wrote:
+> The recipe is ported from OE:
+> http://git.openembedded.org/openembedded/tree/recipes/xorg-app/xterm_266.bb
+> 
+> I upgraded it from v266 to v278.
+> I added LICENSE, LIC_FILES_CHKSUM and updated SRC_URI checksums.
 
-Signed-off-by: Dexuan Cui <dexuan.cui@intel.com>
----
- meta/recipes-core/tasks/task-self-hosted.bb |    3 ++-
- 1 files changed, 2 insertions(+), 1 deletions(-)
+I think it's unfortunate we have to pull in xterm just for the sake of showing 
+the qemu output - can we not use matchbox-terminal for this?
 
-diff --git a/meta/recipes-core/tasks/task-self-hosted.bb b/meta/recipes-core/tasks/task-self-hosted.bb
-index 87928b6..4fd3070 100644
---- a/meta/recipes-core/tasks/task-self-hosted.bb
-+++ b/meta/recipes-core/tasks/task-self-hosted.bb
-@@ -3,7 +3,7 @@
- #
- 
- DESCRIPTION = "Create Basic Image Tasks"
--PR = "r7"
-+PR = "r8"
- LICENSE = "MIT"
- LIC_FILES_CHKSUM = "file://${COREBASE}/LICENSE;md5=3f40d7994397109285ec7b81fdeb3b58 \
-                     file://${COREBASE}/meta/COPYING.MIT;md5=3da9cfbcb788c80a0384361b4de20420"
-@@ -179,6 +179,7 @@ RDEPENDS_task-self-hosted-extended = "\
-     wget \
-     which \
-     xinetd \
-+    xterm \
-     zip \
-     zlib \
-     "
+If we have to have it, Dexuan can you please compare this to the meta-oe xterm 
+recipe as that is likely to be more up-to-date than the one in OE-Classic?
+
+Thanks,
+Paul
+
 -- 
-1.7.6
 
+Paul Eggleton
+Intel Open Source Technology Centre
 
 
