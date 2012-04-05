@@ -1,24 +1,24 @@
 Received: from mga11.intel.com ([192.55.52.93])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <dexuan.cui@intel.com>) id 1SFpOw-0006kN-Cf
+	(envelope-from <dexuan.cui@intel.com>) id 1SFpOw-0006kI-IH
 	for openembedded-core@lists.openembedded.org;
 	Thu, 05 Apr 2012 18:19:10 +0200
 Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-	by fmsmga102.fm.intel.com with ESMTP; 05 Apr 2012 09:09:57 -0700
+	by fmsmga102.fm.intel.com with ESMTP; 05 Apr 2012 09:09:58 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="150028187"
+X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="150028189"
 Received: from dcui-desktop.sh.intel.com ([10.239.36.12])
-	by fmsmga002.fm.intel.com with ESMTP; 05 Apr 2012 09:09:57 -0700
+	by fmsmga002.fm.intel.com with ESMTP; 05 Apr 2012 09:09:58 -0700
 From: Dexuan Cui <dexuan.cui@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Fri,  6 Apr 2012 00:10:12 +0800
-Message-Id: <db6ed82ab474a1b521b8f9bcb14abee243ac63a9.1333642153.git.dexuan.cui@intel.com>
+Date: Fri,  6 Apr 2012 00:10:13 +0800
+Message-Id: <e6f97ee855aed80cf23f89aa0f5fbb7a5a3ca592.1333642153.git.dexuan.cui@intel.com>
 X-Mailer: git-send-email 1.7.6
 In-Reply-To: <cover.1333642153.git.dexuan.cui@intel.com>
 References: <cover.1333642153.git.dexuan.cui@intel.com>
 In-Reply-To: <cover.1333642153.git.dexuan.cui@intel.com>
 References: <cover.1333642153.git.dexuan.cui@intel.com>
-Subject: [PATCH 2/3] xterm: port the recipe from OE and upgrade to v278
+Subject: [PATCH 3/3] task-self-hosted: install xterm into the target
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -35,49 +35,35 @@ List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedde
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Thu, 05 Apr 2012 16:19:10 -0000
 
-The recipe is ported from OE:
-http://git.openembedded.org/openembedded/tree/recipes/xorg-app/xterm_266.bb
-
-I upgraded it from v266 to v278.
-I added LICENSE, LIC_FILES_CHKSUM and updated SRC_URI checksums.
+xterm is needed by the "Run image" functionality of the hob:
+See bitbake/lib/bb/ui/crumbs/builder.py's runqemu_image().
 
 Signed-off-by: Dexuan Cui <dexuan.cui@intel.com>
 ---
- meta/recipes-graphics/xorg-app/xterm_278.bb |   25 +++++++++++++++++++++++++
- 1 files changed, 25 insertions(+), 0 deletions(-)
- create mode 100644 meta/recipes-graphics/xorg-app/xterm_278.bb
+ meta/recipes-core/tasks/task-self-hosted.bb |    3 ++-
+ 1 files changed, 2 insertions(+), 1 deletions(-)
 
-diff --git a/meta/recipes-graphics/xorg-app/xterm_278.bb b/meta/recipes-graphics/xorg-app/xterm_278.bb
-new file mode 100644
-index 0000000..64c8866
---- /dev/null
-+++ b/meta/recipes-graphics/xorg-app/xterm_278.bb
-@@ -0,0 +1,25 @@
-+require xorg-app-common.inc
-+DESCRIPTION = "xterm is the standard terminal emulator for the X Window System."
-+DEPENDS = "libxaw xproto xextproto libxext libxau libxpm ncurses"
-+PR = "${INC_PR}.0"
-+
-+SRC_URI = "ftp://invisible-island.net/xterm/${PN}-${PV}.tgz"
-+
-+LICENSE = "MIT & MIT-style"
-+LIC_FILES_CHKSUM = "file://package/debian/copyright;md5=d1415419990d510a698de36fb386f797"
-+
-+SRC_URI[md5sum] = "3eeddfe35cb0a2db1924cfe0c20be443"
-+SRC_URI[sha256sum] = "1372f9afe07bc35bfd47482db146c649223dadd0b472da31f8c337ab37f90585"
-+
-+EXTRA_OECONF = " --x-includes=${STAGING_INCDIR} \
-+                 --x-libraries=${STAGING_LIBDIR} \
-+                 FREETYPE_CONFIG=${STAGING_BINDIR_CROSS}/freetype-config \
-+                 --disable-imake \
-+                 --disable-setuid"
-+
-+do_configure() {
-+        sed -e "s%/usr/contrib/X11R6%${STAGING_LIBDIR}%g" -i configure
-+        oe_runconf
-+}
-+
-+FILES_${PN} += " /usr/lib/X11"
+diff --git a/meta/recipes-core/tasks/task-self-hosted.bb b/meta/recipes-core/tasks/task-self-hosted.bb
+index 87928b6..4fd3070 100644
+--- a/meta/recipes-core/tasks/task-self-hosted.bb
++++ b/meta/recipes-core/tasks/task-self-hosted.bb
+@@ -3,7 +3,7 @@
+ #
+ 
+ DESCRIPTION = "Create Basic Image Tasks"
+-PR = "r7"
++PR = "r8"
+ LICENSE = "MIT"
+ LIC_FILES_CHKSUM = "file://${COREBASE}/LICENSE;md5=3f40d7994397109285ec7b81fdeb3b58 \
+                     file://${COREBASE}/meta/COPYING.MIT;md5=3da9cfbcb788c80a0384361b4de20420"
+@@ -179,6 +179,7 @@ RDEPENDS_task-self-hosted-extended = "\
+     wget \
+     which \
+     xinetd \
++    xterm \
+     zip \
+     zlib \
+     "
 -- 
 1.7.6
 
