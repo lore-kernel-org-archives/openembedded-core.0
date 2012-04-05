@@ -1,39 +1,27 @@
-Received: from mga03.intel.com ([143.182.124.21])
+Received: from mga11.intel.com ([192.55.52.93])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <dexuan.cui@intel.com>) id 1SFpzN-0007HH-F7
+	(envelope-from <paul.eggleton@linux.intel.com>) id 1SFq1M-0007Jo-Qe
 	for openembedded-core@lists.openembedded.org;
-	Thu, 05 Apr 2012 18:56:49 +0200
-Received: from azsmga001.ch.intel.com ([10.2.17.19])
-	by azsmga101.ch.intel.com with ESMTP; 05 Apr 2012 09:47:36 -0700
+	Thu, 05 Apr 2012 18:58:52 +0200
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+	by fmsmga102.fm.intel.com with ESMTP; 05 Apr 2012 09:49:40 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="127531309"
-Received: from azsmsx601.amr.corp.intel.com ([10.2.121.193])
-	by azsmga001.ch.intel.com with ESMTP; 05 Apr 2012 09:47:36 -0700
-Received: from shsmsx151.ccr.corp.intel.com (10.239.6.50) by
-	azsmsx601.amr.corp.intel.com (10.2.121.193) with Microsoft SMTP Server
-	(TLS) id 8.2.255.0; Thu, 5 Apr 2012 09:47:36 -0700
-Received: from shsmsx102.ccr.corp.intel.com ([169.254.2.125]) by
-	SHSMSX151.ccr.corp.intel.com ([169.254.3.91]) with mapi id
-	14.01.0355.002; Fri, 6 Apr 2012 00:47:34 +0800
-From: "Cui, Dexuan" <dexuan.cui@intel.com>
-To: Paul Eggleton <paul.eggleton@linux.intel.com>
-Thread-Topic: [OE-core] [PATCH 2/3] xterm: port the recipe from OE and
-	upgrade to v278
-Thread-Index: AQHNE0ffRlyUWLsMmEyUJ5tWc6tLr5aMcAHA
-Date: Thu, 5 Apr 2012 16:47:33 +0000
-Message-ID: <A25F549E4D43CD42B4C02DF47A1913230FCFCEBD@SHSMSX102.ccr.corp.intel.com>
-References: <cover.1333642153.git.dexuan.cui@intel.com>
-	<db6ed82ab474a1b521b8f9bcb14abee243ac63a9.1333642153.git.dexuan.cui@intel.com>
-	<1567550.pQkNRWCquK@helios>
-In-Reply-To: <1567550.pQkNRWCquK@helios>
-Accept-Language: zh-CN, en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [10.239.127.40]
+X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="150042734"
+Received: from unknown (HELO helios.localnet) ([10.252.120.33])
+	by fmsmga002.fm.intel.com with ESMTP; 05 Apr 2012 09:49:39 -0700
+From: Paul Eggleton <paul.eggleton@linux.intel.com>
+To: "Cui, Dexuan" <dexuan.cui@intel.com>
+Date: Thu, 05 Apr 2012 17:49:35 +0100
+Message-ID: <5300945.hufXIED5X0@helios>
+Organization: Intel Corporation
+User-Agent: KMail/4.8.0 (Linux/3.0.0-17-generic-pae; KDE/4.8.1; i686; ; )
+In-Reply-To: <A25F549E4D43CD42B4C02DF47A1913230FCFCE89@SHSMSX102.ccr.corp.intel.com>
+References: <cover.1333569870.git.paul.eggleton@linux.intel.com>
+	<f7de5b50bca5996190ca0c1c10e2b56f20f11e8d.1333569870.git.paul.eggleton@linux.intel.com>
+	<A25F549E4D43CD42B4C02DF47A1913230FCFCE89@SHSMSX102.ccr.corp.intel.com>
 MIME-Version: 1.0
-Cc: "openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 2/3] xterm: port the recipe from OE and upgrade to v278
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH 1/1] self-hosted-image: decrease reserved space to	0.5%
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -48,35 +36,25 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 05 Apr 2012 16:56:49 -0000
-Content-Language: en-US
+X-List-Received-Date: Thu, 05 Apr 2012 16:58:53 -0000
+Content-Transfer-Encoding: 7Bit
 Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
 
-Paul Eggleton wrote on 2012-04-06:
-> On Friday 06 April 2012 00:10:12 Dexuan Cui wrote:
->> The recipe is ported from OE:
->>=20
-> http://git.openembedded.org/openembedded/tree/recipes/xorg-app/xterm_2
-> 66.bb
->>=20
->> I upgraded it from v266 to v278.
->> I added LICENSE, LIC_FILES_CHKSUM and updated SRC_URI checksums.
->=20
-> I think it's unfortunate we have to pull in xterm just for the sake of sh=
-owing
-> the qemu output - can we not use matchbox-terminal for this?
-Thanks for the suggestion!
-I suppose we could, but we need to fix bitbake as it uses /usr/bin/xterm
-by hardcode...
+On Thursday 05 April 2012 16:41:05 Cui, Dexuan wrote:
+> This reminds me of something slightly similar:
+> Can we enable the -z option of genext2fs in IMAGE_CMD_ext3()?
+> For a 40G image, this would save the building host many giga bytes, and make
+> the conversion "from .ext3 to .hdddirect" faster.
 
-> If we have to have it, Dexuan can you please compare this to the meta-oe
-> xterm recipe as that is likely to be more up-to-date than the one in
-> OE-Classic?
-Ok, I'll investigate this.
+In principle if it works then we should be able to do it, but I have no idea 
+if there are any other side-effects of using -z.
 
-Thanks,
--- Dexuan
+Cheers,
+Paul
 
+-- 
+
+Paul Eggleton
+Intel Open Source Technology Centre
 
 
