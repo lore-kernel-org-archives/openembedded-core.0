@@ -1,22 +1,25 @@
-Received: from mga01.intel.com ([192.55.52.88])
+Received: from mga11.intel.com ([192.55.52.93])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <lianhao.lu@intel.com>) id 1SFoOS-0005nN-KQ
+	(envelope-from <dvhart@linux.intel.com>) id 1SFpGS-0006fr-UK
 	for openembedded-core@lists.openembedded.org;
-	Thu, 05 Apr 2012 17:14:37 +0200
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-	by fmsmga101.fm.intel.com with ESMTP; 05 Apr 2012 08:05:25 -0700
+	Thu, 05 Apr 2012 18:10:25 +0200
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+	by fmsmga102.fm.intel.com with ESMTP; 05 Apr 2012 09:01:11 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="150005548"
-Received: from llu-piketon.sh.intel.com (HELO localhost) ([10.239.36.110])
-	by fmsmga002.fm.intel.com with ESMTP; 05 Apr 2012 08:05:24 -0700
-From: Lianhao Lu <lianhao.lu@intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Thu,  5 Apr 2012 23:00:34 +0800
-Message-Id: <c41184f84bc40618994e624cf24697ad61e810a0.1333637904.git.lianhao.lu@intel.com>
-X-Mailer: git-send-email 1.7.0.4
-In-Reply-To: <cover.1333637904.git.lianhao.lu@intel.com>
-References: <cover.1333637904.git.lianhao.lu@intel.com>
-Subject: [PATCH 1/1] python: multilib header support.
+X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="138084324"
+Received: from unknown (HELO envy.home) ([10.255.12.143])
+	by fmsmga001.fm.intel.com with ESMTP; 05 Apr 2012 09:01:11 -0700
+Message-ID: <4F7DC1A0.9040607@linux.intel.com>
+Date: Thu, 05 Apr 2012 09:00:32 -0700
+From: Darren Hart <dvhart@linux.intel.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:10.0.1) Gecko/20120209 Thunderbird/10.0.1
+MIME-Version: 1.0
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+X-Enigmail-Version: 1.4
+Cc: tocallaghan@meyn.net
+Subject: Building core-image-rt - how to specify the rt kernel
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -31,61 +34,49 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 05 Apr 2012 15:14:37 -0000
+X-List-Received-Date: Thu, 05 Apr 2012 16:10:25 -0000
+Content-Type: text/plain; charset=ISO-8859-1
+Content-Transfer-Encoding: 7bit
 
-Add intercept multilib header for pyconfig.h in python.
+When building core-image-rt from the oe-core recipes-rt section, T
+OCallaghan noticed he wasn't getting the linux-yocto-rt kernel. The
+problem was that he was not setting the
+PREFERRED_PROVIDER_virtual/kernel to linux-yocto-rt.
 
-Signed-off-by: Lianhao Lu <lianhao.lu@intel.com>
----
- .../python/python-2.7-manifest.inc                 |    2 +-
- meta/recipes-devtools/python/python_2.7.2.bb       |    6 ++++--
- 2 files changed, 5 insertions(+), 3 deletions(-)
+When I prepared the recipes-rt section, I wanted to be able to
+automatically select the linux-yocto-rt kernel when building the
+core-image-rt image. Unfortunately, the image recipe cannot set this
+value as I understand it due to parse ordering and some fundamental
+concepts about how the system works.
 
-diff --git a/meta/recipes-devtools/python/python-2.7-manifest.inc b/meta/recipes-devtools/python/python-2.7-manifest.inc
-index ca01553..1e16c6b 100644
---- a/meta/recipes-devtools/python/python-2.7-manifest.inc
-+++ b/meta/recipes-devtools/python/python-2.7-manifest.inc
-@@ -40,7 +40,7 @@ FILES_${PN}-compression="${libdir}/python2.7/gzip.* ${libdir}/python2.7/zipfile.
- DESCRIPTION_${PN}-core="Python Interpreter and core modules (needed!)"
- RDEPENDS_${PN}-core="${PN}-lang ${PN}-re"
- FILES_${PN}-core="${libdir}/python2.7/__future__.* ${libdir}/python2.7/_abcoll.* ${libdir}/python2.7/abc.* ${libdir}/python2.7/copy.* ${libdir}/python2.7/copy_reg.* ${libdir}/python2.7/ConfigParser.* ${libdir}/python2.7/genericpath.* ${libdir}/python2.7/getopt.* ${libdir}/python2.7/linecache.* ${libdir}/python2.7/new.* ${libdir}/python2.7/os.* ${libdir}/python2.7/posixpath.* ${libdir}/python2.7/struct.* ${libdir}/python2.7/warnings.* ${libdir}/python2.7/site.* ${libdir}/python2.7/stat.* ${libdir}/python2.7/UserDict.* ${libdir}/python2.7/UserList.* ${libdir}/python2.7/UserString.* ${libdir}/python2.7/lib-dynload/binascii.so ${libdir}/python2.7/lib-dynload/_struct.so ${libdir}/python2.7/lib-dynload/time.so ${libdir}/python2.7/lib-dynload/xreadlines.so \
--${libdir}/python2.7/types.* ${libdir}/python2.7/platform.* ${bindir}/python* ${libdir}/python2.7/_weakrefset.* ${libdir}/python2.7/sysconfig.* ${libdir}/python2.7/config/Makefile ${includedir}/python${PYTHON_MAJMIN}/pyconfig.h ${libdir}/python${PYTHON_MAJMIN}/sitecustomize.py "
-+${libdir}/python2.7/types.* ${libdir}/python2.7/platform.* ${bindir}/python* ${libdir}/python2.7/_weakrefset.* ${libdir}/python2.7/sysconfig.* ${libdir}/python2.7/config/Makefile ${includedir}/python${PYTHON_MAJMIN}/pyconfig*.h ${libdir}/python${PYTHON_MAJMIN}/sitecustomize.py "
- 
- DESCRIPTION_${PN}-crypt="Python Basic Cryptographic and Hashing Support"
- RDEPENDS_${PN}-crypt="${PN}-core"
-diff --git a/meta/recipes-devtools/python/python_2.7.2.bb b/meta/recipes-devtools/python/python_2.7.2.bb
-index 8cf45da..b6997c1 100644
---- a/meta/recipes-devtools/python/python_2.7.2.bb
-+++ b/meta/recipes-devtools/python/python_2.7.2.bb
-@@ -1,6 +1,6 @@
- require python.inc
- DEPENDS = "python-native bzip2 db gdbm openssl readline sqlite3 zlib"
--PR = "${INC_PR}.9"
-+PR = "${INC_PR}.10"
- 
- DISTRO_SRC_URI ?= "file://sitecustomize.py"
- DISTRO_SRC_URI_linuxstdbase = ""
-@@ -25,7 +25,7 @@ SRC_URI += "\
- 
- S = "${WORKDIR}/Python-${PV}"
- 
--inherit autotools
-+inherit autotools multilib_header
- 
- # The 3 lines below are copied from the libffi recipe, ctypes ships its own copy of the libffi sources
- #Somehow gcc doesn't set __SOFTFP__ when passing -mfloatabi=softp :(
-@@ -110,6 +110,8 @@ do_install() {
- 	if [ -e ${WORKDIR}/sitecustomize.py ]; then
- 		install -m 0644 ${WORKDIR}/sitecustomize.py ${D}/${libdir}/python${PYTHON_MAJMIN}
- 	fi
-+
-+	oe_multilib_header python${PYTHON_MAJMIN}/pyconfig.h
- }
- 
- SSTATE_SCAN_FILES += "Makefile"
+I documented the requirement to explicitly set this in the
+recipes-rt/README, but that may not be an obvious place to look.
+
+We have a couple of options here. We can try to improve the error
+messages which are verbose and don't provide much direction for someone
+new to the process:
+
+ERROR: Multiple .bb files are due to be built which each provide
+virtual/kernel
+(/test_yocto/poky/meta/recipes-kernel/linux/linux-yocto-rt_3.2.bb
+/test_yocto/poky/meta/recipes-kernel/linux/linux-yocto_3.2.bb).
+ This usually means one provides something the other doesn't and should.
+
+We could document rt explicitly in the developer guide, although thus
+far we haven't done much with these sorts of focused tactical issues in
+the docs (I don't think). This also doesn't scale particularly well.
+
+Finally, I could rip recipes-rt out of oe-core and maintain it in a
+meta-rt layer whose layer.conf sets:
+
+PREFERRED_PROVIDER_virtual/kernel ?= "linux-yocto-rt"
+
+I'd appreciate thoughts on why one approach would be more appropriate
+than another.
+
 -- 
-1.7.0.4
-
+Darren Hart
+Intel Open Source Technology Center
+Yocto Project - Linux Kernel
 
 
