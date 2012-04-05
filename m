@@ -1,24 +1,24 @@
 Received: from mga11.intel.com ([192.55.52.93])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <dexuan.cui@intel.com>) id 1SFpOv-0006kI-S7
+	(envelope-from <dexuan.cui@intel.com>) id 1SFpOw-0006kN-Cf
 	for openembedded-core@lists.openembedded.org;
 	Thu, 05 Apr 2012 18:19:10 +0200
 Received: from fmsmga002.fm.intel.com ([10.253.24.26])
 	by fmsmga102.fm.intel.com with ESMTP; 05 Apr 2012 09:09:57 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="150028183"
+X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="150028187"
 Received: from dcui-desktop.sh.intel.com ([10.239.36.12])
-	by fmsmga002.fm.intel.com with ESMTP; 05 Apr 2012 09:09:56 -0700
+	by fmsmga002.fm.intel.com with ESMTP; 05 Apr 2012 09:09:57 -0700
 From: Dexuan Cui <dexuan.cui@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Fri,  6 Apr 2012 00:10:11 +0800
-Message-Id: <515847c54a45a2cb7922cec91d2aeac26a4a7dea.1333642153.git.dexuan.cui@intel.com>
+Date: Fri,  6 Apr 2012 00:10:12 +0800
+Message-Id: <db6ed82ab474a1b521b8f9bcb14abee243ac63a9.1333642153.git.dexuan.cui@intel.com>
 X-Mailer: git-send-email 1.7.6
 In-Reply-To: <cover.1333642153.git.dexuan.cui@intel.com>
 References: <cover.1333642153.git.dexuan.cui@intel.com>
 In-Reply-To: <cover.1333642153.git.dexuan.cui@intel.com>
 References: <cover.1333642153.git.dexuan.cui@intel.com>
-Subject: [PATCH 1/3] libxaw: move it from meta-demoapps/ into meta/ and upgrade it to 1.0.10
+Subject: [PATCH 2/3] xterm: port the recipe from OE and upgrade to v278
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -35,49 +35,49 @@ List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedde
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Thu, 05 Apr 2012 16:19:10 -0000
 
-Add LICENSE and LIC_FILES_CHKSUM;
-Add SRC_URI checksums;
-Remove do_install_append since 1.0.10's Makefile has done the work.
+The recipe is ported from OE:
+http://git.openembedded.org/openembedded/tree/recipes/xorg-app/xterm_266.bb
 
-libxaw is needed by xterm.
+I upgraded it from v266 to v278.
+I added LICENSE, LIC_FILES_CHKSUM and updated SRC_URI checksums.
 
 Signed-off-by: Dexuan Cui <dexuan.cui@intel.com>
 ---
- .../recipes-graphics/xorg-lib/libxaw_1.0.10.bb     |   15 +++++++--------
- 1 files changed, 7 insertions(+), 8 deletions(-)
- rename meta-demoapps/recipes-graphics/xorg-lib/libxaw_1.0.5.bb => meta/recipes-graphics/xorg-lib/libxaw_1.0.10.bb (59%)
+ meta/recipes-graphics/xorg-app/xterm_278.bb |   25 +++++++++++++++++++++++++
+ 1 files changed, 25 insertions(+), 0 deletions(-)
+ create mode 100644 meta/recipes-graphics/xorg-app/xterm_278.bb
 
-diff --git a/meta-demoapps/recipes-graphics/xorg-lib/libxaw_1.0.5.bb b/meta/recipes-graphics/xorg-lib/libxaw_1.0.10.bb
-similarity index 59%
-rename from meta-demoapps/recipes-graphics/xorg-lib/libxaw_1.0.5.bb
-rename to meta/recipes-graphics/xorg-lib/libxaw_1.0.10.bb
-index 489f456..a10577e 100644
---- a/meta-demoapps/recipes-graphics/xorg-lib/libxaw_1.0.5.bb
-+++ b/meta/recipes-graphics/xorg-lib/libxaw_1.0.10.bb
-@@ -3,16 +3,15 @@ require xorg-lib-common.inc
- DESCRIPTION = "X Athena Widget Set"
- DEPENDS += "xproto virtual/libx11 libxext xextproto libxt libxmu libxpm libxp printproto libxau"
- PROVIDES = "xaw"
--PR = "r1"
--PE = "1"
-+PR = "r0"
- 
--XORG_PN = "libXaw"
-+LICENSE = "MIT & MIT-style"
-+LIC_FILES_CHKSUM = "file://COPYING;md5=1c65719d42900bb81b83e8293c20a364"
+diff --git a/meta/recipes-graphics/xorg-app/xterm_278.bb b/meta/recipes-graphics/xorg-app/xterm_278.bb
+new file mode 100644
+index 0000000..64c8866
+--- /dev/null
++++ b/meta/recipes-graphics/xorg-app/xterm_278.bb
+@@ -0,0 +1,25 @@
++require xorg-app-common.inc
++DESCRIPTION = "xterm is the standard terminal emulator for the X Window System."
++DEPENDS = "libxaw xproto xextproto libxext libxau libxpm ncurses"
++PR = "${INC_PR}.0"
 +
-+SRC_URI[md5sum] = "f1ea52debce7a18cc26b21647a00ad8b"
-+SRC_URI[sha256sum] = "2d96bcf92638b8ec5c91d379f5ec2e7b15133adeb2ba22066d48bf3239ee1bdd"
- 
--do_install_append () {
--	ln -sf libXaw6.so.6 ${D}${libdir}/libXaw.so.6
--	ln -sf libXaw7.so.7 ${D}${libdir}/libXaw.so.7
--	ln -sf libXaw7.so.7 ${D}${libdir}/libXaw.so
--}
-+XORG_PN = "libXaw"
- 
- PACKAGES =+ "libxaw6 libxaw7 libxaw8"
- 
++SRC_URI = "ftp://invisible-island.net/xterm/${PN}-${PV}.tgz"
++
++LICENSE = "MIT & MIT-style"
++LIC_FILES_CHKSUM = "file://package/debian/copyright;md5=d1415419990d510a698de36fb386f797"
++
++SRC_URI[md5sum] = "3eeddfe35cb0a2db1924cfe0c20be443"
++SRC_URI[sha256sum] = "1372f9afe07bc35bfd47482db146c649223dadd0b472da31f8c337ab37f90585"
++
++EXTRA_OECONF = " --x-includes=${STAGING_INCDIR} \
++                 --x-libraries=${STAGING_LIBDIR} \
++                 FREETYPE_CONFIG=${STAGING_BINDIR_CROSS}/freetype-config \
++                 --disable-imake \
++                 --disable-setuid"
++
++do_configure() {
++        sed -e "s%/usr/contrib/X11R6%${STAGING_LIBDIR}%g" -i configure
++        oe_runconf
++}
++
++FILES_${PN} += " /usr/lib/X11"
 -- 
 1.7.6
 
