@@ -1,26 +1,25 @@
 Received: from mga01.intel.com ([192.55.52.88])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <paul.eggleton@linux.intel.com>) id 1SFpY5-0006xo-RS
+	(envelope-from <sgw@linux.intel.com>) id 1SFpr9-00078S-2H
 	for openembedded-core@lists.openembedded.org;
-	Thu, 05 Apr 2012 18:28:38 +0200
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-	by fmsmga101.fm.intel.com with ESMTP; 05 Apr 2012 09:19:24 -0700
+	Thu, 05 Apr 2012 18:48:19 +0200
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+	by fmsmga101.fm.intel.com with ESMTP; 05 Apr 2012 09:38:42 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="150031623"
-Received: from unknown (HELO helios.localnet) ([10.252.120.33])
-	by fmsmga002.fm.intel.com with ESMTP; 05 Apr 2012 09:19:24 -0700
-From: Paul Eggleton <paul.eggleton@linux.intel.com>
-To: Dexuan Cui <dexuan.cui@intel.com>
-Date: Thu, 05 Apr 2012 17:19:22 +0100
-Message-ID: <1567550.pQkNRWCquK@helios>
-Organization: Intel Corporation
-User-Agent: KMail/4.8.0 (Linux/3.0.0-17-generic-pae; KDE/4.8.1; i686; ; )
-In-Reply-To: <db6ed82ab474a1b521b8f9bcb14abee243ac63a9.1333642153.git.dexuan.cui@intel.com>
-References: <cover.1333642153.git.dexuan.cui@intel.com>
-	<db6ed82ab474a1b521b8f9bcb14abee243ac63a9.1333642153.git.dexuan.cui@intel.com>
+X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="138101746"
+Received: from unknown (HELO [10.255.12.141]) ([10.255.12.141])
+	by fmsmga001.fm.intel.com with ESMTP; 05 Apr 2012 09:38:41 -0700
+Message-ID: <4F7DCA91.8090906@linux.intel.com>
+Date: Thu, 05 Apr 2012 09:38:41 -0700
+From: Saul Wold <sgw@linux.intel.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:11.0) Gecko/20120329 Thunderbird/11.0.1
 MIME-Version: 1.0
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 2/3] xterm: port the recipe from OE and upgrade to v278
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+References: <cover.1333642153.git.dexuan.cui@intel.com>
+In-Reply-To: <cover.1333642153.git.dexuan.cui@intel.com>
+Subject: Re: [PATCH 0/3] dexuan: build appliance: install xterm into the target [Apr 6, 2012]
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -35,29 +34,37 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 05 Apr 2012 16:28:38 -0000
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
+X-List-Received-Date: Thu, 05 Apr 2012 16:48:19 -0000
+Content-Type: text/plain; charset=ISO-8859-1; format=flowed
+Content-Transfer-Encoding: 7bit
 
-On Friday 06 April 2012 00:10:12 Dexuan Cui wrote:
-> The recipe is ported from OE:
-> http://git.openembedded.org/openembedded/tree/recipes/xorg-app/xterm_266.bb
-> 
-> I upgraded it from v266 to v278.
-> I added LICENSE, LIC_FILES_CHKSUM and updated SRC_URI checksums.
+On 04/05/2012 09:10 AM, Dexuan Cui wrote:
+> The following changes since commit a8b5a3ed58d2a136867fc55b53443b59557c6459:
+>
+>    self-hosted-image: use the correct location of the file sudoers (2012-04-05 12:01:31 +0800)
+>
+> are available in the git repository at:
+>    git://git.pokylinux.org/poky-contrib dcui/self
+>    http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=dcui/self
+>
+> Dexuan Cui (3):
+>    libxaw: move it from meta-demoapps/ into meta/ and upgrade it to
+>      1.0.10
+>    xterm: port the recipe from OE and upgrade to v278
+>    task-self-hosted: install xterm into the target
+>
+>   meta/recipes-core/tasks/task-self-hosted.bb        |    3 +-
+>   meta/recipes-graphics/xorg-app/xterm_278.bb        |   25 ++++++++++++++++++++
+>   .../recipes-graphics/xorg-lib/libxaw_1.0.10.bb     |   15 +++++------
+>   3 files changed, 34 insertions(+), 9 deletions(-)
+>   create mode 100644 meta/recipes-graphics/xorg-app/xterm_278.bb
+>   rename meta-demoapps/recipes-graphics/xorg-lib/libxaw_1.0.5.bb =>  meta/recipes-graphics/xorg-lib/libxaw_1.0.10.bb (59%)
+>
+I am not sure adding xterm to oe-core at this point is the right answer, 
+it might be better to look at the root cause which maybe hob using a 
+hard-coded xterm instead of trying to determin what terminal is available.
 
-I think it's unfortunate we have to pull in xterm just for the sake of showing 
-the qemu output - can we not use matchbox-terminal for this?
+Sau!
 
-If we have to have it, Dexuan can you please compare this to the meta-oe xterm 
-recipe as that is likely to be more up-to-date than the one in OE-Classic?
-
-Thanks,
-Paul
-
--- 
-
-Paul Eggleton
-Intel Open Source Technology Centre
 
 
