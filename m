@@ -1,22 +1,27 @@
-Received: from mga01.intel.com ([192.55.52.88])
+Received: from masterfoo.zenlinux.com ([207.192.74.254])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <lianhao.lu@intel.com>) id 1SG2kS-0005Qp-E8
+	(envelope-from <scott.a.garman@intel.com>) id 1SG3CQ-00064Y-V5
 	for openembedded-core@lists.openembedded.org;
-	Fri, 06 Apr 2012 08:34:16 +0200
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-	by fmsmga101.fm.intel.com with ESMTP; 05 Apr 2012 23:25:03 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="138358694"
-Received: from llu-piketon.sh.intel.com (HELO localhost) ([10.239.36.110])
-	by fmsmga001.fm.intel.com with ESMTP; 05 Apr 2012 23:25:02 -0700
-From: Lianhao Lu <lianhao.lu@intel.com>
+	Fri, 06 Apr 2012 09:03:11 +0200
+Received: from localhost (c-76-105-137-48.hsd1.or.comcast.net [76.105.137.48])
+	(using TLSv1 with cipher DHE-RSA-AES128-SHA (128/128 bits))
+	(No client certificate requested)
+	by masterfoo.zenlinux.com (Postfix) with ESMTP id 34F813047E
+	for <openembedded-core@lists.openembedded.org>;
+	Fri,  6 Apr 2012 02:53:50 -0400 (EDT)
+From: Scott Garman <scott.a.garman@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Fri,  6 Apr 2012 14:20:04 +0800
-Message-Id: <af03fd7f8452c7795fce23e3276e456dc431266f.1333693070.git.lianhao.lu@intel.com>
-X-Mailer: git-send-email 1.7.0.4
-In-Reply-To: <cover.1333693070.git.lianhao.lu@intel.com>
-References: <cover.1333693070.git.lianhao.lu@intel.com>
-Subject: [PATCH 1/1] connman: ensure ofono package is generated.
+Date: Thu,  5 Apr 2012 23:53:47 -0700
+Message-Id: <cover.1333695164.git.scott.a.garman@intel.com>
+X-Mailer: git-send-email 1.7.5.4
+X-MasterFoo-MailScanner-Information: Please contact the ISP for more
+	information
+X-MailScanner-ID: 34F813047E.B13F4
+X-MasterFoo-MailScanner: Found to be clean
+X-MasterFoo-MailScanner-SpamCheck: not spam
+X-MasterFoo-MailScanner-From: scott.a.garman@intel.com
+X-Spam-Status: No
+Subject: [PATCH 0/1] shadow-native: disable logging to syslog
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -31,31 +36,39 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 06 Apr 2012 06:34:16 -0000
+X-List-Received-Date: Fri, 06 Apr 2012 07:03:11 -0000
 
-Make sure ofono package is generated when buidling connman, because
-dynamic package connman-plugin-ofono has a RDEPENDS on ofono.
+Hello,
 
-Signed-off-by: Lianhao Lu <lianhao.lu@intel.com>
----
- meta/recipes-connectivity/connman/connman.inc |    2 ++
- 1 files changed, 2 insertions(+), 0 deletions(-)
+This pull request includes a patch to shadow to disable logging to
+syslog, to prevent sysroot user and group additions from writing
+entries to the host's syslog.
 
-diff --git a/meta/recipes-connectivity/connman/connman.inc b/meta/recipes-connectivity/connman/connman.inc
-index 1a6dd1b..3ed5667 100644
---- a/meta/recipes-connectivity/connman/connman.inc
-+++ b/meta/recipes-connectivity/connman/connman.inc
-@@ -39,6 +39,8 @@ EXTRA_OECONF += "\
-     --disable-ntpd \
- "
- 
-+do_package[depends] = "${MLPREFIX}ofono:do_package"
-+
- INITSCRIPT_NAME = "connman"
- INITSCRIPT_PARAMS = "start 05 5 2 3 . stop 22 0 1 6 ."
- 
+I have build-tested this with core-image-sato (which builds a few
+useradd-based recipes, such as avahi and dbus) for all 5 of our
+qemu architectures, while watching my syslog to verify that no
+useradd or groupadd entries were written. 
+
+Scott
+
+The following changes since commit 1a82989345fb98becb487d270fd93a5e6dffeb47:
+
+  runqemu-internal: Add console=tty for qemuppc and NFS (2012-04-06 01:12:15 +0100)
+
+are available in the git repository at:
+  git://git.pokylinux.org/poky-contrib sgarman/shadow-syslog-fix-oe
+  http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=sgarman/shadow-syslog-fix-oe
+
+Scott Garman (1):
+  shadow-native: disable logging to syslog
+
+ .../shadow/files/disable-syslog.patch              |   34 ++++++++++++++++++++
+ .../shadow/shadow-native_4.1.4.3.bb                |    5 ++-
+ 2 files changed, 37 insertions(+), 2 deletions(-)
+ create mode 100644 meta/recipes-extended/shadow/files/disable-syslog.patch
+
 -- 
-1.7.0.4
+1.7.5.4
 
 
 
