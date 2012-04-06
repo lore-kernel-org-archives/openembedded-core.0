@@ -1,24 +1,41 @@
-Received: from mga01.intel.com ([192.55.52.88])
+Received: from mga14.intel.com ([143.182.124.37])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <edwin.zhai@intel.com>) id 1SG4XT-0007JB-Ai
+	(envelope-from <dexuan.cui@intel.com>) id 1SG7El-0001mG-Vo
 	for openembedded-core@lists.openembedded.org;
-	Fri, 06 Apr 2012 10:28:59 +0200
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-	by fmsmga101.fm.intel.com with ESMTP; 06 Apr 2012 01:19:45 -0700
+	Fri, 06 Apr 2012 13:21:52 +0200
+Received: from azsmga002.ch.intel.com ([10.2.17.35])
+	by azsmga102.ch.intel.com with ESMTP; 06 Apr 2012 04:12:37 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="138392893"
-Received: from gzhai-xps.sh.intel.com ([10.239.36.76])
-	by fmsmga001.fm.intel.com with ESMTP; 06 Apr 2012 01:19:45 -0700
-From: edwin.zhai@intel.com
-To: openembedded-core@lists.openembedded.org
-Date: Fri,  6 Apr 2012 16:04:24 +0800
-Message-Id: <0d5664e615f94682afe05c5889c53373ba837b36.1333699326.git.edwin.zhai@intel.com>
-X-Mailer: git-send-email 1.7.5.4
-In-Reply-To: <cover.1333699326.git.edwin.zhai@intel.com>
-References: <cover.1333699326.git.edwin.zhai@intel.com>
-In-Reply-To: <cover.1333699326.git.edwin.zhai@intel.com>
-References: <cover.1333699326.git.edwin.zhai@intel.com>
-Subject: [PATCH 1/1] qemu: Fix gl failure from 64b target on 32b host
+X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="86037547"
+Received: from azsmsx601.amr.corp.intel.com ([10.2.121.193])
+	by AZSMGA002.ch.intel.com with ESMTP; 06 Apr 2012 04:12:37 -0700
+Received: from shsmsx101.ccr.corp.intel.com (10.239.4.153) by
+	azsmsx601.amr.corp.intel.com (10.2.121.193) with Microsoft SMTP Server
+	(TLS) id 8.2.255.0; Fri, 6 Apr 2012 04:12:37 -0700
+Received: from shsmsx102.ccr.corp.intel.com ([169.254.2.125]) by
+	SHSMSX101.ccr.corp.intel.com ([169.254.1.142]) with mapi id
+	14.01.0355.002; Fri, 6 Apr 2012 19:12:36 +0800
+From: "Cui, Dexuan" <dexuan.cui@intel.com>
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>, Darren Hart
+	<dvhart@linux.intel.com>
+Thread-Topic: [OE-core] Do we have a package that installs the kernel
+	headers and config into the target?
+Thread-Index: Ac0TpDNglZsuvcTWTNSj8hhUp7EH6P//g5AA//9u5YCAALYcAP//ZSGg//6NyGA=
+Date: Fri, 6 Apr 2012 11:12:34 +0000
+Message-ID: <A25F549E4D43CD42B4C02DF47A1913230FCFD897@SHSMSX102.ccr.corp.intel.com>
+References: <A25F549E4D43CD42B4C02DF47A1913230FCFD3A2@SHSMSX102.ccr.corp.intel.com>
+	<4F7E6914.7080908@linux.intel.com>
+	<A25F549E4D43CD42B4C02DF47A1913230FCFD49B@SHSMSX102.ccr.corp.intel.com>
+	<4F7E881E.1000106@linux.intel.com>
+	<A25F549E4D43CD42B4C02DF47A1913230FCFD667@SHSMSX102.ccr.corp.intel.com>
+In-Reply-To: <A25F549E4D43CD42B4C02DF47A1913230FCFD667@SHSMSX102.ccr.corp.intel.com>
+Accept-Language: zh-CN, en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [10.239.127.40]
+MIME-Version: 1.0
+Subject: Re: Do we have a package that installs the kernel headers and config into the target?
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -33,108 +50,30 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 06 Apr 2012 08:28:59 -0000
+X-List-Received-Date: Fri, 06 Apr 2012 11:21:52 -0000
+Content-Language: en-US
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 
-From: Zhai Edwin <edwin.zhai@intel.com>
+Cui, Dexuan wrote on 2012-04-06:
+> Darren Hart wrote on 2012-04-06:
+>> On 04/05/2012 09:41 PM, Cui, Dexuan wrote:
+>> While I understand there are valid use cases, I think this is generally
+>> contrary to workflow of the project. We build the OS, it runs on the
+>> target. This is building a general purpose OS, and then having it build
+>> itself out more. It doesn't feel like an embedded workflow.
+BTW, my question might be simplified as:
+If we strictly follow the rule the target OS shouldn't build itself out
+more, why do we supply a recipe core-image-sato-sdk.bb that can
+create an image with tools-sdk that includes development tools
+like gcc? :-)
 
-Data from 64b target is truncated by 32b host. This patch makes type of data
-buf in host same as target.
+Or, while we recommend the common embedded workflow, we
+also somewhat support (or tolerate) the way "the target builds
+itself out more"?
 
-[YOCTO #2221] got fixed.
-
-Signed-off-by: Zhai Edwin <edwin.zhai@intel.com>
----
- .../qemu/qemu-0.15.1/opengl-args-copy-fix.patch    |   66 ++++++++++++++++++++
- meta/recipes-devtools/qemu/qemu_0.15.1.bb          |    1 +
- 2 files changed, 67 insertions(+), 0 deletions(-)
- create mode 100644 meta/recipes-devtools/qemu/qemu-0.15.1/opengl-args-copy-fix.patch
-
-diff --git a/meta/recipes-devtools/qemu/qemu-0.15.1/opengl-args-copy-fix.patch b/meta/recipes-devtools/qemu/qemu-0.15.1/opengl-args-copy-fix.patch
-new file mode 100644
-index 0000000..ddf4e4a
---- /dev/null
-+++ b/meta/recipes-devtools/qemu/qemu-0.15.1/opengl-args-copy-fix.patch
-@@ -0,0 +1,66 @@
-+This patch fix GL application failure from 64b target on 32b host
-+
-+64b target produce 64b args buffer, but qemu parse it as 32b and get wrong
-+data. To avoid this, the type of args buffer in qemu should be same as target,
-+that is, target_phys_addr_t. The only potential issue is that we need copy
-+the data in buffer one by one, or else data corruption when 32b/64b for
-+target/host combination. 
-+
-+Upstream-Status: Inappropriate [other] - depends on qemu gl patch
-+
-+Signed-off-by: Zhai Edwin <edwin.zhai@intel.com>
-+
-+Index: qemu-0.15.1/target-i386/opengl_func.h
-+===================================================================
-+--- qemu-0.15.1.orig/target-i386/opengl_func.h	2012-04-06 10:00:08.000000000 +0800
-++++ qemu-0.15.1/target-i386/opengl_func.h	2012-04-06 10:47:38.000000000 +0800
-+@@ -25,10 +25,10 @@
-+ #include "mesa_gl.h"
-+ #include "mesa_glext.h"
-+ 
-+-/* Argument list are internally of a type that can hold a target pointer
-+- * or a host pointer. If 32b target runs on 64b host, it should be big enough
-+- * to hold host pointer */
-+-typedef long unsigned int arg_t;
-++/* Argument list are internally of a type that point to a buffer passed from
-++ * target. It should have same type as target, so that we can support 32b
-++ * target on 64b host, and vice versa */
-++typedef target_phys_addr_t arg_t;
-+ 
-+ enum {
-+     TYPE_NONE,
-+Index: qemu-0.15.1/Makefile.target
-+===================================================================
-+--- qemu-0.15.1.orig/Makefile.target	2012-04-06 10:00:08.000000000 +0800
-++++ qemu-0.15.1/Makefile.target	2012-04-06 10:00:08.000000000 +0800
-+@@ -128,7 +128,7 @@
-+ gl_beginend.h: ../target-i386/beginend_funcs.sh
-+ 	$< > $@
-+ opengl_exec.o : opengl_exec.c server_stub.c gl_func.h opengl_func.h gl_beginend.h
-+-	$(CC) $(GL_CFLAGS) $(DEFINES) -c -o $@ $< -I. -I../target-i386
-++	$(CC) $(GL_CFLAGS) $(DEFINES) -c -o $@ $< -I.. -I. -I../fpu -I../target-i386 -DNEED_CPU_H
-+ 
-+ #########################################################
-+ # Linux user emulator target
-+Index: qemu-0.15.1/target-i386/opengl_exec.c
-+===================================================================
-+--- qemu-0.15.1.orig/target-i386/opengl_exec.c	2012-04-06 10:00:08.000000000 +0800
-++++ qemu-0.15.1/target-i386/opengl_exec.c	2012-04-06 10:39:22.000000000 +0800
-+@@ -37,16 +37,12 @@
-+ #include <mesa_gl.h>
-+ #include <mesa_glx.h>
-+ 
-+-// TODO
-+-typedef long unsigned int target_phys_addr_t;
-+-
-++#include "exec.h"
-+ #include "opengl_func.h"
-+ 
-+ #include "mesa_glu.h"
-+ #include "mesa_mipmap.c"
-+ 
-+-#include "../qemu-common.h"
-+-
-+ //#define SYSTEMATIC_ERROR_CHECK
-+ #define BUFFER_BEGINEND
-+ #define glGetError() 0
-diff --git a/meta/recipes-devtools/qemu/qemu_0.15.1.bb b/meta/recipes-devtools/qemu/qemu_0.15.1.bb
-index 3a4ef32..d01e79d 100644
---- a/meta/recipes-devtools/qemu/qemu_0.15.1.bb
-+++ b/meta/recipes-devtools/qemu/qemu_0.15.1.bb
-@@ -29,6 +29,7 @@ QEMUGLPATCHES = "\
-     file://enable-i386-linux-user.patch \
-     file://qemugl-fix.patch \
-     file://opengl-sdl-fix.patch \
-+    file://opengl-args-copy-fix.patch \
-     "
- 
- SRC_URI_append_virtclass-native = "\
--- 
-1.7.5.4
+Thanks,
+-- Dexuan
 
 
 
