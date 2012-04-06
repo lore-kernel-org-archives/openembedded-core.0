@@ -1,37 +1,31 @@
-Received: from mail-qa0-f41.google.com ([209.85.216.41])
+Received: from mga11.intel.com ([192.55.52.93])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <sakoman@gmail.com>) id 1SGA1p-0004kb-AM
+	(envelope-from <dvhart@linux.intel.com>) id 1SGBr2-0006Sg-7T
 	for openembedded-core@lists.openembedded.org;
-	Fri, 06 Apr 2012 16:20:41 +0200
-Received: by qafl39 with SMTP id l39so514224qaf.7
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 06 Apr 2012 07:11:28 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
-	:cc:content-type;
-	bh=QmCM30wouoCrVZyhZ12rRJ/q+beWjpGrw6N9MIyD+9Q=;
-	b=ntZFcyITzEaQCP8HTsxN49vuKzz3vnHZCTIEGeq7d21gYdPwYI6au7sVoIj4IeLRjR
-	aMCvpdMNRVjlzyI7Wqspj0PAQBm2i4Rj7O7U891BGKsxQT0iabN+WAf4W9rLrJyde/AY
-	Ie+DD0IcbwUPsBKLH3ONKW4+Tb4EER/wMZv5YL/+106A9haozOWJ/Ei2AXqSDF3upNdM
-	Jt7dvAlfvRSUkvmMBYFczBKnFJpfnbBJAmKL+p8gkBE1Dh4BRl3W/kaUfT8L0AlndO4B
-	EEsMxWxJ3nXb4lQe/x8qO9/zy07JGNySdgZOpdM6qSmnyuwO8EoHuV6a0AzizbGvMJh5
-	bC5A==
+	Fri, 06 Apr 2012 18:17:40 +0200
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+	by fmsmga102.fm.intel.com with ESMTP; 06 Apr 2012 09:08:24 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="138550182"
+Received: from unknown (HELO envy.home) ([10.255.12.143])
+	by fmsmga001.fm.intel.com with ESMTP; 06 Apr 2012 09:08:23 -0700
+Message-ID: <4F7F14D0.1060408@linux.intel.com>
+Date: Fri, 06 Apr 2012 09:07:44 -0700
+From: Darren Hart <dvhart@linux.intel.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:10.0.1) Gecko/20120209 Thunderbird/10.0.1
 MIME-Version: 1.0
-Received: by 10.224.184.141 with SMTP id ck13mr7219293qab.44.1333721487908;
-	Fri, 06 Apr 2012 07:11:27 -0700 (PDT)
-Received: by 10.229.94.206 with HTTP; Fri, 6 Apr 2012 07:11:27 -0700 (PDT)
-In-Reply-To: <A25F549E4D43CD42B4C02DF47A1913230FCFD667@SHSMSX102.ccr.corp.intel.com>
+To: "Cui, Dexuan" <dexuan.cui@intel.com>
 References: <A25F549E4D43CD42B4C02DF47A1913230FCFD3A2@SHSMSX102.ccr.corp.intel.com>
 	<4F7E6914.7080908@linux.intel.com>
 	<A25F549E4D43CD42B4C02DF47A1913230FCFD49B@SHSMSX102.ccr.corp.intel.com>
 	<4F7E881E.1000106@linux.intel.com>
 	<A25F549E4D43CD42B4C02DF47A1913230FCFD667@SHSMSX102.ccr.corp.intel.com>
-Date: Fri, 6 Apr 2012 07:11:27 -0700
-Message-ID: <CAGDS+nk68AgTj9Z0_QumFwH2+V7NO8ojLubLROWpv6gxyx9V_Q@mail.gmail.com>
-From: Steve Sakoman <sakoman@gmail.com>
-To: Patches and discussions about the oe-core layer
+	<A25F549E4D43CD42B4C02DF47A1913230FCFD897@SHSMSX102.ccr.corp.intel.com>
+In-Reply-To: <A25F549E4D43CD42B4C02DF47A1913230FCFD897@SHSMSX102.ccr.corp.intel.com>
+X-Enigmail-Version: 1.4
+Cc: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Cc: Darren Hart <dvhart@linux.intel.com>
 Subject: Re: Do we have a package that installs the kernel headers and config into the target?
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
@@ -47,37 +41,37 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 06 Apr 2012 14:20:41 -0000
+X-List-Received-Date: Fri, 06 Apr 2012 16:17:40 -0000
 Content-Type: text/plain; charset=ISO-8859-1
+Content-Transfer-Encoding: 7bit
 
-On Fri, Apr 6, 2012 at 12:48 AM, Cui, Dexuan <dexuan.cui@intel.com> wrote:
-> Darren Hart wrote on 2012-04-06:
 
->> While I understand there are valid use cases, I think this is generally
->> contrary to workflow of the project. We build the OS, it runs on the
->> target. This is building a general purpose OS, and then having it build
->> itself out more. It doesn't feel like an embedded workflow.
-> I totally agree with you.
->
-> Unluckily we'll have to face an imperfect world:
-> E.g., in the ESDC contest, after the students boot the board with
-> Yocto Linux, they attach a Realtek wifi device and try to build and
-> install the driver.
 
-FWIW, I get this same complaint from clients quite often.
+On 04/06/2012 04:12 AM, Cui, Dexuan wrote:
+> Cui, Dexuan wrote on 2012-04-06:
+>> Darren Hart wrote on 2012-04-06:
+>>> On 04/05/2012 09:41 PM, Cui, Dexuan wrote:
+>>> While I understand there are valid use cases, I think this is generally
+>>> contrary to workflow of the project. We build the OS, it runs on the
+>>> target. This is building a general purpose OS, and then having it build
+>>> itself out more. It doesn't feel like an embedded workflow.
+> BTW, my question might be simplified as:
+> If we strictly follow the rule the target OS shouldn't build itself out
+> more, why do we supply a recipe core-image-sato-sdk.bb that can
+> create an image with tools-sdk that includes development tools
+> like gcc? :-)
+> 
+> Or, while we recommend the common embedded workflow, we
+> also somewhat support (or tolerate) the way "the target builds
+> itself out more"?
+> 
 
-The reason is usually quite similar to that described above -- they
-are adding new hardware to their product and have been given driver
-source code and a make file from the vendor.  They want to do a quick
-evaluation and don't want to deal with the hassle of fighting with
-vendor code that often isn't cross compile friendly.
+Yup, agree.
 
-I've always been able to help them through the issue, either by doing
-a recipe for them or teaching them how to get the appropriate
-headers/config onto their hardware for a native build.  But it would
-be nice to just say "use zypper to install package xyz" to enable a
-native module build.
 
-Steve
+-- 
+Darren Hart
+Intel Open Source Technology Center
+Yocto Project - Linux Kernel
 
 
