@@ -1,43 +1,45 @@
-Received: from mail-pb0-f47.google.com ([209.85.160.47])
+Received: from mail-pz0-f51.google.com ([209.85.210.51])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <koen@dominion.thruhere.net>) id 1SG9Os-0003vm-Fj
+	(envelope-from <koen@dominion.thruhere.net>) id 1SG9Q2-0003yW-2M
 	for openembedded-core@lists.openembedded.org;
-	Fri, 06 Apr 2012 15:40:26 +0200
-Received: by pbcum15 with SMTP id um15so2180823pbc.6
+	Fri, 06 Apr 2012 15:41:38 +0200
+Received: by dadz8 with SMTP id z8so2845337dad.10
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 06 Apr 2012 06:31:13 -0700 (PDT)
+	Fri, 06 Apr 2012 06:32:24 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=google.com; s=20120113;
 	h=references:in-reply-to:mime-version:content-transfer-encoding
 	:content-type:message-id:cc:x-mailer:from:subject:date:to
 	:x-gm-message-state;
-	bh=Zd4i9K3Bn2IWBh1G2pRvs4utoySewYc+eDavD3kNPv8=;
-	b=DyjUaQCHYJ3g7u3a0DnXm1du0OC2VSXPg911VEJT9WRepXiuwjU85G+aemywjEK0ow
-	SkcEf2xvAHw9yCf3eqBzfdlQteqOHtRtvZdFyVrW0kLgZfj2V5AOauwwk6LOThUqONui
-	Y1Esct5YQ4gDdcIgSyD5iz9Yv5+7wfXgFo8Hx4hN85R9xByUNX9xBvonE5hWnyxnQP7M
-	o2ewuXmPm73p/pj95GJXN9sKAeybsogxCpD9x7DhgeoAX2GKS2F16x1omVNcs6yitVa8
-	co1NFh8vN0oD3bkFgO4P2+OTGsqhaDw9BFIfNTcleo0GHbKNGoE7iL8uMBIZvxkB+E86
-	SUfA==
-Received: by 10.68.216.234 with SMTP id ot10mr15808900pbc.107.1333719072934;
-	Fri, 06 Apr 2012 06:31:12 -0700 (PDT)
+	bh=ofZaaCMt7Zwu76GcuIsv4BgtF7d3JpIbtMZsx0NhD1k=;
+	b=Lkt9D6xhoMJIinblPrAsja4wuIkMcbvY5z5pStucNNPITaQtklE3WraPk3al672O/i
+	jYzg2CEwhLOOcdRR0QgUqTzf7NEZHS1yniSw5R2gp/xDEzetWbsIshm265ledbeoUaLz
+	Dk7jJqt6Y2jh99qHX5i/ijDsdz8HsJI+NFB8kQ/5eHbl3DTqf0Rkdpz55al1vnSGQ16f
+	jf8auhME2R1w0C/XY6rwaAGm4BJyxpSnwqntaeaTixLyvvllID5ILAaA6joaJiQK+EiD
+	KykwUcfa+BHZbExzVOlxhwjkslMCY7qUKmf40QVg08rPFFvgZ4unf20DSs88+j2Adl+9
+	SleQ==
+Received: by 10.68.239.233 with SMTP id vv9mr16037933pbc.75.1333719140950;
+	Fri, 06 Apr 2012 06:32:20 -0700 (PDT)
 Received: from [192.168.68.136] ([207.239.114.206])
-	by mx.google.com with ESMTPS id v6sm6305431pbu.41.2012.04.06.06.31.09
+	by mx.google.com with ESMTPS id s10sm6315543pbp.14.2012.04.06.06.32.18
 	(version=TLSv1/SSLv3 cipher=OTHER);
-	Fri, 06 Apr 2012 06:31:09 -0700 (PDT)
-References: <1333622218-5230-1-git-send-email-stefan@herbrechtsmeier.net>
-	<4F7E6066.2080907@linux.intel.com>
-In-Reply-To: <4F7E6066.2080907@linux.intel.com>
+	Fri, 06 Apr 2012 06:32:19 -0700 (PDT)
+References: <cover.1333295122.git.dexuan.cui@intel.com>
+	<1333337337.647.3.camel@ted>
+	<949066CF-9C65-4057-9432-B4904A8B3AFD@dominion.thruhere.net>
+	<A25F549E4D43CD42B4C02DF47A1913230FCFCF55@SHSMSX102.ccr.corp.intel.com>
+In-Reply-To: <A25F549E4D43CD42B4C02DF47A1913230FCFCF55@SHSMSX102.ccr.corp.intel.com>
 Mime-Version: 1.0 (1.0)
-Message-Id: <9F60AC4C-D174-4A8C-930A-6397842763AF@dominion.thruhere.net>
+Message-Id: <BEE164D2-9C82-4144-BFD6-52EA787FF8E9@dominion.thruhere.net>
 Cc: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
 X-Mailer: iPhone Mail (9B179)
 From: Koen Kooi <koen@dominion.thruhere.net>
-Date: Fri, 6 Apr 2012 06:31:08 -0700
+Date: Fri, 6 Apr 2012 06:32:18 -0700
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-X-Gm-Message-State: ALoCoQm4SBI+SyXWdtWSmfe11ekkNuiqxhbeqci6Y6Ry4PE7R1p+/O4dEcslUS1cyrxi2okTBI1z
-Subject: Re: [PATCH] linux-firmware: keep version string in libertas firmware
+X-Gm-Message-State: ALoCoQmMQjF12t2ESjtqupUDfLXQ0TQRYcOaJn/NpkzMzKzIN1rdZ8MUTwinRnuSQMi5NsNWN5zL
+Subject: Re: [PATCH 0/5] dexuan: more build appliance patches:	[Apr 1, 2012]
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -52,72 +54,51 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 06 Apr 2012 13:40:26 -0000
+X-List-Received-Date: Fri, 06 Apr 2012 13:41:38 -0000
 Content-Transfer-Encoding: quoted-printable
 Content-Type: text/plain;
 	charset=us-ascii
 
 
 
-Op 5 apr. 2012 om 20:17 heeft Saul Wold <sgw@linux.intel.com> het volgende g=
-eschreven:
+Op 5 apr. 2012 om 10:21 heeft "Cui, Dexuan" <dexuan.cui@intel.com> het volge=
+nde geschreven:
 
-> On 04/05/2012 03:36 AM, Stefan Herbrechtsmeier wrote:
->> Recent Linux kernel tries to load the libertas firmware with the version
->> string in its name first. This results in a delayed firmware load on
->> system boot. Keep the default libertas firmware name and add a link for
->> older driver versions.
+> Koen Kooi wrote on 2012-04-04:
+>>>> are available in the git repository at:
+>>>> git://git.yoctoproject.org/poky-contrib dcui/master
+>>>> http://git.yoctoproject.org/cgit.cgi/poky-contrib/log/?h=3Ddcui/master
+>>>> Dexuan Cui (5):
+>>>> genext2fs: support large files and  filesystems without using large
+>>>>   amounts of memory
+>>> I've merged these to master, thanks. Whilst I'm reluctant to do so at
+>>> this point in the release process for such major changes, I think in
+>>> this case it does make sense since the genext2fs changes seem to fix a
+>>> number of problematic issues.
 >>=20
->> Signed-off-by: Stefan Herbrechtsmeier<stefan@herbrechtsmeier.net>
->> ---
->>  .../linux-firmware/linux-firmware_git.bb           |   10 +++++++---
->>  1 files changed, 7 insertions(+), 3 deletions(-)
+>> I'm getting:
 >>=20
->> diff --git a/meta/recipes-kernel/linux-firmware/linux-firmware_git.bb b/m=
-eta/recipes-kernel/linux-firmware/linux-firmware_git.bb
->> index 52929fa..3675978 100644
->> --- a/meta/recipes-kernel/linux-firmware/linux-firmware_git.bb
->> +++ b/meta/recipes-kernel/linux-firmware/linux-firmware_git.bb
->> @@ -38,8 +38,8 @@ do_install() {
->>      cp -r * ${D}/lib/firmware/
+>> | genext2fs: set_file_size: ftruncate: Invalid argument
 >>=20
->>      # Libertas sd8686
->> -    install -m 0644 libertas/sd8686_v9.bin ${D}/lib/firmware/sd8686.bin
->> -    install -m 0644 libertas/sd8686_v9_helper.bin ${D}/lib/firmware/sd86=
-86_helper.bin
->> +    ln -sf libertas/sd8686_v9.bin ${D}/lib/firmware/sd8686.bin
->> +    ln -sf libertas/sd8686_v9_helper.bin ${D}/lib/firmware/sd8686_helper=
-.bin
->>=20
->>      # Realtek rtl8192*
->>      install -m 0644 LICENCE.rtlwifi_firmware.txt ${D}/lib/firmware/rtlwi=
-fi/LICENCE.rtlwifi_firmware.txt
->> @@ -51,7 +51,11 @@ do_install() {
->>  PACKAGES =3D+ "${PN}-sd8686 ${PN}-rtl8192cu linux-firmware-rtl8192ce lin=
-ux-firmware-rtl8192su ${PN}-wl12xx"
->>=20
->>  LICENSE_${PN}-sd8686 =3D "Firmware:LICENSE.libertas"
->> -FILES_${PN}-sd8686 =3D "/lib/firmware/sd8686* /lib/firmware/LICENCE.libe=
-rtas"
->> +FILES_${PN}-sd8686 =3D " \
->> +  /lib/firmware/libertas/sd8686_v9* \
->> +  /lib/firmware/sd8686* \
->> +  /lib/firmware/LICENCE.libertas \
->> +"
->>=20
->>  LICENSE_${PN}-rtl8192cu =3D "Firmware:LICENCE.rtlwifi_firmware"
->>  FILES_${PN}-rtl8192cu =3D " \
+>> Trying to see why that happens and find out how to fix it.
+> Hi Koen, did you get the cause?
 >=20
-> Merged into OE-Core
+> This is the prototype of the function:
+> int ftruncate(int fd, off_t length);
+>=20
+> I suppose you're using a 32-bit building host so the off_t in your host ca=
+n't exceed 4G?
 
-why? It's missing a PR bump. We're close to a release, can we please stop pu=
-shing broken commits, especially when a large part of the developers are tra=
-velling?
-
+no, 64bit host
 
 >=20
-> Thanks
->    Sau!
+> We do need to test it in a 32-bit host and at least we need to document th=
+e issue.
+>=20
+> Thanks,
+> -- Dexuan
+>=20
+>=20
 >=20
 > _______________________________________________
 > Openembedded-core mailing list
