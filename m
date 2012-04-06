@@ -1,25 +1,37 @@
 Received: from mga03.intel.com ([143.182.124.21])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <sgw@linux.intel.com>) id 1SFzrr-0007P3-2E
+	(envelope-from <lianhao.lu@intel.com>) id 1SFzvd-0007VJ-1P
 	for openembedded-core@lists.openembedded.org;
-	Fri, 06 Apr 2012 05:29:43 +0200
-Received: from azsmga002.ch.intel.com ([10.2.17.35])
-	by azsmga101.ch.intel.com with ESMTP; 05 Apr 2012 20:20:32 -0700
+	Fri, 06 Apr 2012 05:33:37 +0200
+Received: from azsmga001.ch.intel.com ([10.2.17.19])
+	by azsmga101.ch.intel.com with ESMTP; 05 Apr 2012 20:24:23 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="85936745"
-Received: from unknown (HELO [10.255.12.141]) ([10.255.12.141])
-	by AZSMGA002.ch.intel.com with ESMTP; 05 Apr 2012 20:20:32 -0700
-Message-ID: <4F7E6100.8010809@linux.intel.com>
-Date: Thu, 05 Apr 2012 20:20:32 -0700
-From: Saul Wold <sgw@linux.intel.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:11.0) Gecko/20120329 Thunderbird/11.0.1
+X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="127735109"
+Received: from azsmsx601.amr.corp.intel.com ([10.2.121.193])
+	by azsmga001.ch.intel.com with ESMTP; 05 Apr 2012 20:24:23 -0700
+Received: from shsmsx151.ccr.corp.intel.com (10.239.6.50) by
+	azsmsx601.amr.corp.intel.com (10.2.121.193) with Microsoft SMTP Server
+	(TLS) id 8.2.255.0; Thu, 5 Apr 2012 20:24:22 -0700
+Received: from shsmsx102.ccr.corp.intel.com ([169.254.2.125]) by
+	SHSMSX151.ccr.corp.intel.com ([169.254.3.91]) with mapi id
+	14.01.0355.002; Fri, 6 Apr 2012 11:24:18 +0800
+From: "Lu, Lianhao" <lianhao.lu@intel.com>
+To: Saul Wold <sgw@linux.intel.com>, Patches and discussions about the oe-core
+	layer <openembedded-core@lists.openembedded.org>
+Thread-Topic: [OE-core] [PATCH 2/2] connman: Fixed multilib support.
+Thread-Index: AQHNEyLe9klGfbT9d0+lqBk1GYaSDZaMml2AgACGrLA=
+Date: Fri, 6 Apr 2012 03:24:17 +0000
+Message-ID: <857BE142E5399E46B20FD45B9DB8A7BC0FD2EFD9@SHSMSX102.ccr.corp.intel.com>
+References: <0e25605bf5ef290a098abc577c99607a99493df5.1333626413.git.lianhao.lu@intel.com>
+	<f00fe78b88d2be6d6f02ecfb8a619b84d4ea35a0.1333626413.git.lianhao.lu@intel.com>
+	<4F7E5F93.7020207@linux.intel.com>
+In-Reply-To: <4F7E5F93.7020207@linux.intel.com>
+Accept-Language: zh-CN, en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [10.239.127.40]
 MIME-Version: 1.0
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-References: <cover.1333659001.git.andrei@gherzan.ro>
-In-Reply-To: <cover.1333659001.git.andrei@gherzan.ro>
-Subject: Re: [PATCH 0/6] Add patches to compile some modules and to skip warnings about some other
+Subject: Re: [PATCH 2/2] connman: Fixed multilib support.
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -34,51 +46,70 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 06 Apr 2012 03:29:43 -0000
-Content-Type: text/plain; charset=ISO-8859-1; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Fri, 06 Apr 2012 03:33:37 -0000
+Content-Language: en-US
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 
-On 04/05/2012 01:54 PM, Andrei Gherzan wrote:
-> The following changes since commit 5607729d9901c394b7cd4db6e38fe7fb19116f39:
->
->    self-hosted-image: Increase space for build and allow builder user sudo access (2012-04-04 17:17:55 +0100)
->
-> are available in the git repository at:
->    git://git.yoctoproject.org/poky-contrib ag/pythonbug2
->    http://git.yoctoproject.org/cgit.cgi/poky-contrib/log/?h=ag/pythonbug2
->
-> Andrei Gherzan (6):
->    gdbm: Activate -enable-libgdbm-compat and add symlinks to headers in
->      include/gdbm
-Merged into OE-Core
+Saul Wold wrote on 2012-04-06:
+> On 04/05/2012 04:49 AM, Lianhao Lu wrote:
+>> 1. Added static depends to ofono.
+>> 2. Corrected the package content of connman-test.
+>>=20
+>> This is part of the bug fixing [YOCTO #2216].
+>>=20
+>> Signed-off-by: Lianhao Lu<lianhao.lu@intel.com>
+>> ---
+>>   meta/recipes-connectivity/connman/connman.inc     |    3 ++-
+>>   meta/recipes-connectivity/connman/connman_0.79.bb |    1 +
+>>   2 files changed, 3 insertions(+), 1 deletions(-)
+>> diff --git a/meta/recipes-connectivity/connman/connman.inc b/meta/recipe=
+s-connectivity/connman/connman.inc
+>> index d9d663c..bfe6620 100644
+>> --- a/meta/recipes-connectivity/connman/connman.inc
+>> +++ b/meta/recipes-connectivity/connman/connman.inc
+>> @@ -17,6 +17,7 @@ LIC_FILES_CHKSUM =3D "file://COPYING;md5=3D12f884d2ae1=
+ff87c09e5b7ccc2c4ca7e \
+>>   DEPENDS  =3D "dbus glib-2.0 ppp iptables gnutls \
+>>               ${@base_contains('DISTRO_FEATURES', 'bluetooth','bluez4',
+>>               '', d)} \ ${@base_contains('DISTRO_FEATURES',
+>>               'wifi','wpa-supplicant', '', d)} \ +            ofono \ "
+> Why is this needed here?
 
->    python: Add patch for 64bit platform
->    python: Add patch to search for db.h in inc_dirs and remove warning
->    python: Add patch to avoid warning about bsddb module
->    python: Add patch to avoid warning about _tkinter
->    python: Add patch to avoid warning about sunaudiodev module
->
-We are going hold these, I will be integrating them into a master-next 
-for holding.
+connman-plugin-ofono is RDEPENDS on ofono.=20
+I put ofono here just like the bluez4 depends to make sure ofono package is=
+ generated. Maybe I should use
+do_package[depends] =3D "ofono:do_package" instead of putting it in the mis=
+leading DEPENDS.
 
-Thanks
+-Lianhao
 
-Sau!
+>>   EXTRA_OECONF +=3D "\
+>> @@ -90,7 +91,7 @@ PACKAGES =3D+ "${PN}-tools ${PN}-tests"
+>>=20
+>>   FILES_${PN}-tools =3D "${bindir}/wispr"
+>> -FILES_${PN}-tests =3D "${bindir}/*-test ${libdir}/${PN}/test/*"
+>> +FILES_${PN}-tests =3D "${bindir}/*-test ${libdir}/${BPN}/test/*"
+>>   RDEPENDS_${PN}-tests =3D "python-dbus"
+> I tweaked your patch to just take this multilib bits.
+>=20
+> Sau!
+>=20
+>=20
+>>   FILES_${PN} =3D "${bindir}/* ${sbindir}/* ${libexecdir}/* ${libdir}/li=
+b*.so.* \
+>> diff --git a/meta/recipes-connectivity/connman/connman_0.79.bb b/meta/re=
+cipes-connectivity/connman/connman_0.79.bb
+>> index 0c3a6fe..f87c4dd 100644
+>> --- a/meta/recipes-connectivity/connman/connman_0.79.bb
+>> +++ b/meta/recipes-connectivity/connman/connman_0.79.bb
+>> @@ -8,3 +8,4 @@ SRC_URI  =3D "git://git.kernel.org/pub/scm/network/connm=
+an/connman.git \
+>>               file://disable_alg-test.patch \
+>>               file://connman"
+>>   S =3D "${WORKDIR}/git"
+>> +PR =3D "r1"
 
 
->   .../python/python/avoid_warning_about_bsddb.patch  |   23 ++++++++
->   .../python/avoid_warning_about_tkinter.patch       |   25 +++++++++
->   .../avoid_warning_for_sunos_specific_module.patch  |   23 ++++++++
->   .../python/check-if-target-is-64b-not-host.patch   |   57 ++++++++++++++++++++
->   ...search_db_h_in_inc_dirs_and_avoid_warning.patch |   40 ++++++++++++++
->   meta/recipes-devtools/python/python_2.7.2.bb       |    7 ++-
->   meta/recipes-support/gdbm/gdbm_1.10.bb             |   13 ++++-
->   7 files changed, 186 insertions(+), 2 deletions(-)
->   create mode 100644 meta/recipes-devtools/python/python/avoid_warning_about_bsddb.patch
->   create mode 100644 meta/recipes-devtools/python/python/avoid_warning_about_tkinter.patch
->   create mode 100644 meta/recipes-devtools/python/python/avoid_warning_for_sunos_specific_module.patch
->   create mode 100644 meta/recipes-devtools/python/python/check-if-target-is-64b-not-host.patch
->   create mode 100644 meta/recipes-devtools/python/python/search_db_h_in_inc_dirs_and_avoid_warning.patch
->
 
 
