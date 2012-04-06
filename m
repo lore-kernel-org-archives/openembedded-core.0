@@ -1,20 +1,20 @@
-Received: from mga11.intel.com ([192.55.52.93])
+Received: from mga01.intel.com ([192.55.52.88])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <josh@linux.intel.com>) id 1SFxEn-0004sc-M1
+	(envelope-from <lianhao.lu@intel.com>) id 1SFzJU-0006Tl-KQ
 	for openembedded-core@lists.openembedded.org;
-	Fri, 06 Apr 2012 02:41:13 +0200
+	Fri, 06 Apr 2012 04:54:12 +0200
 Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-	by fmsmga102.fm.intel.com with ESMTP; 05 Apr 2012 17:32:00 -0700
+	by fmsmga101.fm.intel.com with ESMTP; 05 Apr 2012 19:44:59 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="138271600"
-Received: from unknown (HELO shamshir.amr.corp.intel.com) ([10.255.12.114])
-	by fmsmga001.fm.intel.com with ESMTP; 05 Apr 2012 17:32:00 -0700
-From: josh@linux.intel.com
+X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="138307127"
+Received: from llu-piketon.sh.intel.com (HELO localhost) ([10.239.36.110])
+	by fmsmga001.fm.intel.com with ESMTP; 05 Apr 2012 19:44:58 -0700
+From: Lianhao Lu <lianhao.lu@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Thu,  5 Apr 2012 17:31:55 -0700
-Message-Id: <1333672315-13193-1-git-send-email-josh@linux.intel.com>
-X-Mailer: git-send-email 1.7.7.6
-Subject: [PATCH] mesa-common: package gl.pc in libgl-dev
+Date: Fri,  6 Apr 2012 10:40:01 +0800
+Message-Id: <cover.1333679903.git.lianhao.lu@intel.com>
+X-Mailer: git-send-email 1.7.0.4
+Subject: [PATCH V2 0/1] multilib header support for python
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -29,34 +29,28 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 06 Apr 2012 00:41:13 -0000
+X-List-Received-Date: Fri, 06 Apr 2012 02:54:12 -0000
 
-From: Joshua Lock <josh@linux.intel.com>
+Added multilib header support for python, so that lib32-python and python won't have
+conflicting file pyconfig.h.
 
-gl.pc should be packaged in libgl-dev not the mesa-dev package
+The following changes since commit 1a82989345fb98becb487d270fd93a5e6dffeb47:
+  Saul Wold (1):
+        runqemu-internal: Add console=tty for qemuppc and NFS
 
-Fixes [YOCTO #2059]
+are available in the git repository at:
 
-Signed-off-by: Joshua Lock <josh@linux.intel.com>
----
- meta/recipes-graphics/mesa/mesa-common.inc |    2 +-
- 1 files changed, 1 insertions(+), 1 deletions(-)
+  git://git.yoctoproject.org/poky-contrib llu/multilib2
+  http://git.yoctoproject.org/cgit.cgi/poky-contrib/log/?h=llu/multilib2
 
-diff --git a/meta/recipes-graphics/mesa/mesa-common.inc b/meta/recipes-graphics/mesa/mesa-common.inc
-index 59e8e64..2b90aed 100644
---- a/meta/recipes-graphics/mesa/mesa-common.inc
-+++ b/meta/recipes-graphics/mesa/mesa-common.inc
-@@ -46,7 +46,7 @@ FILES_libglu = "${libdir}/libGLU.so.*"
- FILES_libosmesa = "${libdir}/libOSMesa.so.*"
- 
- FILES_libegl-dev = "${libdir}/libEGL.* ${includedir}/EGL"
--FILES_libgl-dev = "${libdir}/libGL.* ${includedir}/GL"
-+FILES_libgl-dev = "${libdir}/libGL.* ${includedir}/GL ${libdir}/pkgconfig/gl.pc"
- FILES_libglu-dev = "${libdir}/libGLU.* ${includedir}/GL/glu*.h"
- FILES_libosmesa-dev = "${libdir}/libOSMesa.* ${includedir}/osmesa.h"
- 
--- 
-1.7.7.6
+Lianhao Lu (1):
+  python: multilib header support.
+
+ .../python/python-2.7-manifest.inc                 |    2 +-
+ meta/recipes-devtools/python/python.inc            |    2 +-
+ meta/recipes-devtools/python/python_2.7.2.bb       |    4 +++-
+ scripts/contrib/python/generate-manifest-2.7.py    |    2 +-
+ 4 files changed, 6 insertions(+), 4 deletions(-)
 
 
 
