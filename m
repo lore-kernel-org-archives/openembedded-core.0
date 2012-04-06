@@ -1,40 +1,37 @@
-Received: from mail-pb0-f47.google.com ([209.85.160.47])
+Received: from mail-lb0-f175.google.com ([209.85.217.175])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <darren@apps.dvhart.com>) id 1SGFyf-0007W1-Tf
+	(envelope-from <raj.khem@gmail.com>) id 1SGGtE-0008LY-Ca
 	for openembedded-core@lists.openembedded.org;
-	Fri, 06 Apr 2012 22:41:50 +0200
-Received: by mail-pb0-f47.google.com with SMTP id um15so2434215pbc.6
+	Fri, 06 Apr 2012 23:40:16 +0200
+Received: by lbky2 with SMTP id y2so833023lbk.6
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 06 Apr 2012 13:32:38 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=google.com; s=20120113;
-	h=sender:from:to:cc:subject:date:message-id:x-mailer:in-reply-to
-	:references:x-gm-message-state;
-	bh=0n+DpJRAtZk+vwVmQPZ5bqUEzZdGpnP7xliqyw6tp9Y=;
-	b=mvk1mCn1X/lIAnSxhQtJWB+BE62zXklzhRHMuEZAzdOHp3EKJCLGVE7TscjRASw6GE
-	ozIeA8JBwV7nWBvHb8Jvg2Dm8r0NhJpx2zFnmnL7JBNCF9gU8mvE6Jzy7AmDCRr+nxxP
-	qBI9oFAR8Wm7kP8yGwtDT9g2nYNh0gq0pAwCCyRcpqLoOhg1rJk6nmXpbPDVaZk+WYuU
-	AOPm1nKYfDNARvz1Ox3gjUJac/xemp9S+P79xKTIzl/BVZ8l3t2JSAguT2vtbM5jE15z
-	GyGtheF/VBe2QCEwSjrzjNHN6K+HeUEJuLJo4z2b8tZE3ILHtajN5b7D46p/MHNyQhR4
-	C/1g==
-Received: by 10.68.197.65 with SMTP id is1mr18381506pbc.70.1333744357475;
-	Fri, 06 Apr 2012 13:32:37 -0700 (PDT)
-Received: from localhost (static-50-53-99-101.bvtn.or.frontiernet.net.
-	[50.53.99.101])
-	by mx.google.com with ESMTPS id t5sm7142378pbm.64.2012.04.06.13.32.36
-	(version=TLSv1/SSLv3 cipher=OTHER);
-	Fri, 06 Apr 2012 13:32:36 -0700 (PDT)
-Sender: Darren Hart <darren@apps.dvhart.com>
-From: Darren Hart <dvhart@linux.intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Fri,  6 Apr 2012 13:32:34 -0700
-Message-Id: <867a4b3a4bf7d2256c77acc10b4d4e142e53f13b.1333744298.git.dvhart@linux.intel.com>
-X-Mailer: git-send-email 1.7.5.4
-In-Reply-To: <cover.1333744298.git.dvhart@linux.intel.com>
-References: <cover.1333744298.git.dvhart@linux.intel.com>
-X-Gm-Message-State: ALoCoQn5RhrFvdfKjsRNfUVHWsxZHfe9XY/6r+jwkKZtiwxvOOQNT2WbdgSZvGfFZ/htpLQDJYvw
-Cc: Darren Hart <dvhart@linux.intel.com>, Rahul Saxena <rahul.saxena@intel.com>
-Subject: [PATCH 1/1] grub-efi: Include GPT partition EXT FS support
+	Fri, 06 Apr 2012 14:31:03 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:content-type:content-transfer-encoding;
+	bh=jJIWs1iofwb64dFdUjZH6zO+89gCjUAdkS6D516cb28=;
+	b=YzYH4BNWV8a3wMUS1VPrrTIt+BSDDpip88HSmmogAa/Md464u6Lx2U3K2aP0tgR9sl
+	tPZ8RLMvpJNaI5itceAXB4ZX42gbaTTTkH7U0UoyEHaJc06Xpyt7Rw4IDhBOWZH8/umu
+	2QJOHjrNnpWmCTcyPRxVfQ8OE+9/N1IWCAqK10K6KxKfDXPIuH73qjqiTxIQQuFNwc0i
+	SRGBJP+3ABtY5jVrFIo5IIJCpsaKerwi9+hS1PTKE7SNkjm2/4DIEjX0VWCkoolFDzdb
+	+g2wVBt2AKGV0BWdPwOCw5rpqjOtM/aZKNQv79YUOCfJK4QC7d+KHFG1w1jcNggVOJuD
+	VUxg==
+Received: by 10.152.115.38 with SMTP id jl6mr10624075lab.24.1333747862859;
+	Fri, 06 Apr 2012 14:31:02 -0700 (PDT)
+MIME-Version: 1.0
+Received: by 10.152.129.134 with HTTP; Fri, 6 Apr 2012 14:30:32 -0700 (PDT)
+In-Reply-To: <4F7F28FB.20600@windriver.com>
+References: <cover.1333481624.git.mark.hatle@windriver.com>
+	<c1765e7544603baa60bec27185a947aeee404bee.1333481624.git.mark.hatle@windriver.com>
+	<4F7CC6E6.6020006@opendreambox.org>
+	<CAMKF1soi+==bbEKMD+FLdk+8BvWNK3Nj24EJVhoyT5e=_5MvDw@mail.gmail.com>
+	<4F7F28FB.20600@windriver.com>
+From: Khem Raj <raj.khem@gmail.com>
+Date: Fri, 6 Apr 2012 14:30:32 -0700
+Message-ID: <CAMKF1srkXSBHFtO__F9m9TQ=dJzfn+7kfmXoK4=tWknEdc80eg@mail.gmail.com>
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 3/7] conf/machine/include: Cleanup MIPS tunings to match README
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -49,81 +46,59 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 06 Apr 2012 20:41:50 -0000
+X-List-Received-Date: Fri, 06 Apr 2012 21:40:16 -0000
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
-Fixes [YOCTO 2257]
+On Fri, Apr 6, 2012 at 10:33 AM, Mark Hatle <mark.hatle@windriver.com> wrot=
+e:
+> On 4/4/12 11:17 PM, Khem Raj wrote:
+>>
+>> On Wed, Apr 4, 2012 at 3:10 PM, Andreas Oberritter<obi@opendreambox.org>
+>> =C2=A0wrote:
+>>>
+>>>
+>>> What was mipsel-oe-linux before now became mips32el-oe-linux, i.e.
+>>> tmp/work/mipsel-oe-linux now is tmp/work/mips32el-oe-linux. I'm not sur=
+e
+>>> what else broke.
+>>>
+>>> Was this intentional?
+>>
+>>
+>> I dont think so. mips-*-* in general indicates 32bit BE mips and
+>> mipsel-*-* indicates
+>> 32bit LE mips so devicing mips32 and mips32el may be more explicit but
+>> is not widely
+>> used norm
+>
+>
+> If that has changed it was certainly not intentional. =C2=A0As Khem said =
+the
+> expected GNU canonical archs are:
+>
+> mips-*-*
+> mipsel-*-*
+> mips64-*-*
+> mips64el-*-*
+>
+> mips32 should work, but it was not expected to have changed.
+>
+> Looking through, the GNU canonical arch should only match the above. =C2=
+=A0The
+> namings in the tmp/work directory are strictly following the -package arc=
+h-
+> namings, which don't affect system configuration.
+>
+> I checked the logs from my test builds, and the mips32* reused the mips*
+> builds because the canonical arch of the configuration and such were the
+> same.
+>
+> (Looked at config.log in a couple of packages...) =C2=A0if you see mips32=
+-* in
+> the config.log, let me know.
 
-GPT partitions are common for EFI systems. Add support for them by
-including the part_gpt partition module in the grub-efi image. In
-order to allow for loading a Linux kernel from an EXT* filesystem,
-include the ext2 module as well.
-
-With this fix applied, I was able to boot from a USB key using a
-GPT partition table with the following layout:
-
-  $ sudo gdisk -l /dev/sdc
-  GPT fdisk (gdisk) version 0.8.2
-
-  Partition table scan:
-    MBR: protective
-    BSD: not present
-    APM: not present
-    GPT: present
-
-  Found valid GPT with protective MBR; using GPT.
-  Disk /dev/sdc: 7669824 sectors, 3.7 GiB
-  Logical sector size: 512 bytes
-  Disk identifier (GUID): 68FA7CD4-E0C3-4A8E-82B5-1331C9B17A3C
-  Partition table holds up to 128 entries
-  First usable sector is 34, last usable sector is 7669790
-  Partitions will be aligned on 2-sector boundaries
-  Total free space is 7428816 sectors (3.5 GiB)
-
-  Number  Start (sector)    End (sector)  Size       Code  Name
-     1              34           32801   16.0 MiB    0700      # FAT16
-     2           32802          240974   101.6 MiB   0700      # EXT3
-
-From within GRUB, booted as bootia32.efi from the BOOT partition, I
-booted the OS with the following commands:
-
-  grub> linux (hd0,gpt2)/vmlinuz rootwait root=/dev/sda2 console=ttyS0,115200
-  grub> boot
-
-This change will enable BSP developers to use the grub-efi image in
-their own images as well as enable upcoming changes to the installer
-to support EFI.
-
-Signed-off-by: Darren Hart <dvhart@linux.intel.com>
-CC: Kishore Bodke <kishore.k.bodke@intel.com>
-CC: Rahul Saxena <rahul.saxena@intel.com>
----
- meta/recipes-bsp/grub/grub-efi-native_1.99.bb |    4 ++--
- 1 files changed, 2 insertions(+), 2 deletions(-)
-
-diff --git a/meta/recipes-bsp/grub/grub-efi-native_1.99.bb b/meta/recipes-bsp/grub/grub-efi-native_1.99.bb
-index c951152..93e9290 100644
---- a/meta/recipes-bsp/grub/grub-efi-native_1.99.bb
-+++ b/meta/recipes-bsp/grub/grub-efi-native_1.99.bb
-@@ -16,7 +16,7 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=d32239bcb673463ab874e80d47fae504"
- # FIXME: We should be able to optionally drop freetype as a dependency
- DEPENDS = "help2man-native autogen-native"
- RDEPENDS_${PN} = "diffutils freetype"
--PR = "r5"
-+PR = "r6"
- 
- # Native packages do not normally rebuild when the target changes.
- # Ensure this is built once per HOST-TARGET pair.
-@@ -61,7 +61,7 @@ EXTRA_OECONF = "--with-platform=efi --disable-grub-mkfont \
- do_mkimage() {
- 	./grub-mkimage -p /EFI/BOOT -d ./grub-core/ \
- 		       -O ${GRUB_TARGET}-efi -o ./${GRUB_IMAGE} \
--	               boot linux fat serial part_msdos normal efi_gop
-+	               boot linux ext2 fat serial part_msdos part_gpt normal efi_gop
- }
- addtask mkimage after do_compile before do_install
- 
--- 
-1.7.5.4
-
+see angstrom buildhistory its all filled with changes from mips -> mips32
+its unwanted.
 
 
