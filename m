@@ -1,38 +1,26 @@
-Received: from mga03.intel.com ([143.182.124.21])
+Received: from mga02.intel.com ([134.134.136.20])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <dexuan.cui@intel.com>) id 1SG0L5-0007iA-PM
+	(envelope-from <dvhart@linux.intel.com>) id 1SG0Q0-000876-BD
 	for openembedded-core@lists.openembedded.org;
-	Fri, 06 Apr 2012 05:59:55 +0200
-Received: from azsmga001.ch.intel.com ([10.2.17.19])
-	by azsmga101.ch.intel.com with ESMTP; 05 Apr 2012 20:50:42 -0700
+	Fri, 06 Apr 2012 06:05:00 +0200
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+	by orsmga101.jf.intel.com with ESMTP; 05 Apr 2012 20:55:40 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="127741715"
-Received: from azsmsx601.amr.corp.intel.com ([10.2.121.193])
-	by azsmga001.ch.intel.com with ESMTP; 05 Apr 2012 20:50:42 -0700
-Received: from shsmsx151.ccr.corp.intel.com (10.239.6.50) by
-	azsmsx601.amr.corp.intel.com (10.2.121.193) with Microsoft SMTP Server
-	(TLS) id 8.2.255.0; Thu, 5 Apr 2012 20:50:42 -0700
-Received: from shsmsx102.ccr.corp.intel.com ([169.254.2.125]) by
-	SHSMSX151.ccr.corp.intel.com ([169.254.3.91]) with mapi id
-	14.01.0355.002; Fri, 6 Apr 2012 11:50:41 +0800
-From: "Cui, Dexuan" <dexuan.cui@intel.com>
+X-IronPort-AV: E=Sophos;i="4.67,351,1309762800"; d="scan'208";a="129304820"
+Received: from unknown (HELO envy.home) ([10.255.12.143])
+	by orsmga002.jf.intel.com with ESMTP; 05 Apr 2012 20:55:40 -0700
+Message-ID: <4F7E6914.7080908@linux.intel.com>
+Date: Thu, 05 Apr 2012 20:55:00 -0700
+From: Darren Hart <dvhart@linux.intel.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:10.0.1) Gecko/20120209 Thunderbird/10.0.1
+MIME-Version: 1.0
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Thread-Topic: [OE-core] [PATCH 1/3] libxaw: move it from meta-demoapps/ into
-	meta/ and upgrade it to 1.0.10
-Thread-Index: AQHNE2C2eH0b1KeYO0G2/aCwrgO+BZaNKSaA
-Date: Fri, 6 Apr 2012 03:50:40 +0000
-Message-ID: <A25F549E4D43CD42B4C02DF47A1913230FCFD412@SHSMSX102.ccr.corp.intel.com>
-References: <cover.1333642153.git.dexuan.cui@intel.com>
-	<515847c54a45a2cb7922cec91d2aeac26a4a7dea.1333642153.git.dexuan.cui@intel.com>
-	<20120405191606.GS4181@jama.jama.net>
-In-Reply-To: <20120405191606.GS4181@jama.jama.net>
-Accept-Language: zh-CN, en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [10.239.127.40]
-MIME-Version: 1.0
-Subject: Re: [PATCH 1/3] libxaw: move it from meta-demoapps/ into meta/ and upgrade it to 1.0.10
+References: <A25F549E4D43CD42B4C02DF47A1913230FCFD3A2@SHSMSX102.ccr.corp.intel.com>
+In-Reply-To: <A25F549E4D43CD42B4C02DF47A1913230FCFD3A2@SHSMSX102.ccr.corp.intel.com>
+X-Enigmail-Version: 1.4
+Subject: Re: Do we have a package that installs the kernel headers and config into the target?
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -47,31 +35,30 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 06 Apr 2012 03:59:56 -0000
-Content-Language: en-US
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
-
-Martin Jansa wrote on 2012-04-06:
-> On Fri, Apr 06, 2012 at 12:10:11AM +0800, Dexuan Cui wrote:
->> Add LICENSE and LIC_FILES_CHKSUM;
->> Add SRC_URI checksums;
->> Remove do_install_append since 1.0.10's Makefile has done the work.
->=20
-> This is also in meta-oe
-> meta-openembedded/meta-oe/recipes-graphics/xorg-lib/libxaw_1.0.9.bb
->=20
-> as with xterm, can you compare and merge those changes?
-Hi Martin, thanks for the suggestion!
-
-Now I try to avoid introducing new recipes at this phase of release cycle.
-I'm trying to use a poky variable to tell bitbake which terminal should be
-used(currently the Run image functionality in hob uses /usr/bin/xterm by
-hardcode).
-
-Thanks,
--- Dexuan
+X-List-Received-Date: Fri, 06 Apr 2012 04:05:00 -0000
+Content-Type: text/plain; charset=ISO-8859-1
+Content-Transfer-Encoding: 7bit
 
 
+
+On 04/05/2012 08:20 PM, Cui, Dexuan wrote:
+> In a typical Linux distribution, there is a build link(or directory) that specifies the directory where the kernel headers and kernel config are put.
+> 
+> E.g. in my Ubuntu 11.04, a package linux-headers-2.6.38-8-generic installs .config, include/ and Kconfig into /usr/src/linux-headers-2.6.38-8-generic/ and makes a link /lib/modules/2.6.38-8-generic/build to point to the directory.
+> 
+> However, looks in Yocto, we don't have such a package? Do we have a plan to add it?
+> 
+> I'm asking the question because in the ESDC contest, the students found in Yocto they couldn't build the wifi driver's source code that was downloaded from realtek.com:  http://www.realtek.com.tw/downloads/downloadsView.aspx?Langid=1&PFid=48&Level=5&Conn=4&ProdID=226&DownTypeID=3&GetDown=false&Downloads=true
+> In Ubuntu, they can build the driver fine.
+> 
+
+There is an open bug:
+https://bugzilla.yoctoproject.org/show_bug.cgi?id=1614
+
+
+-- 
+Darren Hart
+Intel Open Source Technology Center
+Yocto Project - Linux Kernel
 
 
