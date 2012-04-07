@@ -1,26 +1,26 @@
 Received: from mga09.intel.com ([134.134.136.24])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <sgw@linux.intel.com>) id 1SGc9X-0001SG-H8
+	(envelope-from <sgw@linux.intel.com>) id 1SGfgh-0004YJ-Ll
 	for openembedded-core@lists.openembedded.org;
-	Sat, 07 Apr 2012 22:22:31 +0200
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-	by orsmga102.jf.intel.com with ESMTP; 07 Apr 2012 13:13:15 -0700
+	Sun, 08 Apr 2012 02:08:59 +0200
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+	by orsmga102.jf.intel.com with ESMTP; 07 Apr 2012 16:59:44 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.67,352,1309762800"; d="scan'208";a="126435015"
+X-IronPort-AV: E=Sophos;i="4.67,351,1309762800"; d="scan'208";a="129862295"
 Received: from unknown (HELO [10.255.12.159]) ([10.255.12.159])
-	by orsmga001.jf.intel.com with ESMTP; 07 Apr 2012 13:13:15 -0700
-Message-ID: <4F809FDB.6030303@linux.intel.com>
-Date: Sat, 07 Apr 2012 13:13:15 -0700
+	by orsmga002.jf.intel.com with ESMTP; 07 Apr 2012 16:59:43 -0700
+Message-ID: <4F80D4EF.8090704@linux.intel.com>
+Date: Sat, 07 Apr 2012 16:59:43 -0700
 From: Saul Wold <sgw@linux.intel.com>
 User-Agent: Mozilla/5.0 (X11; Linux x86_64;
 	rv:11.0) Gecko/20120329 Thunderbird/11.0.1
 MIME-Version: 1.0
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-References: <cover.1333699326.git.edwin.zhai@intel.com>
-	<0d5664e615f94682afe05c5889c53373ba837b36.1333699326.git.edwin.zhai@intel.com>
-In-Reply-To: <0d5664e615f94682afe05c5889c53373ba837b36.1333699326.git.edwin.zhai@intel.com>
-Subject: Re: [PATCH 1/1] qemu: Fix gl failure from 64b target on 32b host
+References: <cover.1333695164.git.scott.a.garman@intel.com>
+In-Reply-To: <cover.1333695164.git.scott.a.garman@intel.com>
+Cc: Scott Garman <scott.a.garman@intel.com>
+Subject: Re: [PATCH 0/1] shadow-native: disable logging to syslog
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -35,112 +35,62 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 07 Apr 2012 20:22:31 -0000
+X-List-Received-Date: Sun, 08 Apr 2012 00:09:00 -0000
 Content-Type: text/plain; charset=ISO-8859-1; format=flowed
 Content-Transfer-Encoding: 7bit
 
-On 04/06/2012 01:04 AM, edwin.zhai@intel.com wrote:
-> From: Zhai Edwin<edwin.zhai@intel.com>
+On 04/05/2012 11:53 PM, Scott Garman wrote:
+> Hello,
 >
-> Data from 64b target is truncated by 32b host. This patch makes type of data
-> buf in host same as target.
+> This pull request includes a patch to shadow to disable logging to
+> syslog, to prevent sysroot user and group additions from writing
+> entries to the host's syslog.
 >
-> [YOCTO #2221] got fixed.
+> I have build-tested this with core-image-sato (which builds a few
+> useradd-based recipes, such as avahi and dbus) for all 5 of our
+> qemu architectures, while watching my syslog to verify that no
+> useradd or groupadd entries were written.
 >
-> Signed-off-by: Zhai Edwin<edwin.zhai@intel.com>
-> ---
->   .../qemu/qemu-0.15.1/opengl-args-copy-fix.patch    |   66 ++++++++++++++++++++
->   meta/recipes-devtools/qemu/qemu_0.15.1.bb          |    1 +
->   2 files changed, 67 insertions(+), 0 deletions(-)
->   create mode 100644 meta/recipes-devtools/qemu/qemu-0.15.1/opengl-args-copy-fix.patch
->
-> diff --git a/meta/recipes-devtools/qemu/qemu-0.15.1/opengl-args-copy-fix.patch b/meta/recipes-devtools/qemu/qemu-0.15.1/opengl-args-copy-fix.patch
-> new file mode 100644
-> index 0000000..ddf4e4a
-> --- /dev/null
-> +++ b/meta/recipes-devtools/qemu/qemu-0.15.1/opengl-args-copy-fix.patch
-> @@ -0,0 +1,66 @@
-> +This patch fix GL application failure from 64b target on 32b host
-> +
-> +64b target produce 64b args buffer, but qemu parse it as 32b and get wrong
-> +data. To avoid this, the type of args buffer in qemu should be same as target,
-> +that is, target_phys_addr_t. The only potential issue is that we need copy
-> +the data in buffer one by one, or else data corruption when 32b/64b for
-> +target/host combination.
-> +
-> +Upstream-Status: Inappropriate [other] - depends on qemu gl patch
-> +
-> +Signed-off-by: Zhai Edwin<edwin.zhai@intel.com>
-> +
-> +Index: qemu-0.15.1/target-i386/opengl_func.h
-> +===================================================================
-> +--- qemu-0.15.1.orig/target-i386/opengl_func.h	2012-04-06 10:00:08.000000000 +0800
-> ++++ qemu-0.15.1/target-i386/opengl_func.h	2012-04-06 10:47:38.000000000 +0800
-> +@@ -25,10 +25,10 @@
-> + #include "mesa_gl.h"
-> + #include "mesa_glext.h"
-> +
-> +-/* Argument list are internally of a type that can hold a target pointer
-> +- * or a host pointer. If 32b target runs on 64b host, it should be big enough
-> +- * to hold host pointer */
-> +-typedef long unsigned int arg_t;
-> ++/* Argument list are internally of a type that point to a buffer passed from
-> ++ * target. It should have same type as target, so that we can support 32b
-> ++ * target on 64b host, and vice versa */
-> ++typedef target_phys_addr_t arg_t;
-> +
-> + enum {
-> +     TYPE_NONE,
-> +Index: qemu-0.15.1/Makefile.target
-> +===================================================================
-> +--- qemu-0.15.1.orig/Makefile.target	2012-04-06 10:00:08.000000000 +0800
-> ++++ qemu-0.15.1/Makefile.target	2012-04-06 10:00:08.000000000 +0800
-> +@@ -128,7 +128,7 @@
-> + gl_beginend.h: ../target-i386/beginend_funcs.sh
-> + 	$<  >  $@
-> + opengl_exec.o : opengl_exec.c server_stub.c gl_func.h opengl_func.h gl_beginend.h
-> +-	$(CC) $(GL_CFLAGS) $(DEFINES) -c -o $@ $<  -I. -I../target-i386
-> ++	$(CC) $(GL_CFLAGS) $(DEFINES) -c -o $@ $<  -I.. -I. -I../fpu -I../target-i386 -DNEED_CPU_H
-> +
-> + #########################################################
-> + # Linux user emulator target
-> +Index: qemu-0.15.1/target-i386/opengl_exec.c
-> +===================================================================
-> +--- qemu-0.15.1.orig/target-i386/opengl_exec.c	2012-04-06 10:00:08.000000000 +0800
-> ++++ qemu-0.15.1/target-i386/opengl_exec.c	2012-04-06 10:39:22.000000000 +0800
-> +@@ -37,16 +37,12 @@
-> + #include<mesa_gl.h>
-> + #include<mesa_glx.h>
-> +
-> +-// TODO
-> +-typedef long unsigned int target_phys_addr_t;
-> +-
-> ++#include "exec.h"
-> + #include "opengl_func.h"
-> +
-> + #include "mesa_glu.h"
-> + #include "mesa_mipmap.c"
-> +
-> +-#include "../qemu-common.h"
-> +-
-> + //#define SYSTEMATIC_ERROR_CHECK
-> + #define BUFFER_BEGINEND
-> + #define glGetError() 0
-> diff --git a/meta/recipes-devtools/qemu/qemu_0.15.1.bb b/meta/recipes-devtools/qemu/qemu_0.15.1.bb
-> index 3a4ef32..d01e79d 100644
-> --- a/meta/recipes-devtools/qemu/qemu_0.15.1.bb
-> +++ b/meta/recipes-devtools/qemu/qemu_0.15.1.bb
-> @@ -29,6 +29,7 @@ QEMUGLPATCHES = "\
->       file://enable-i386-linux-user.patch \
->       file://qemugl-fix.patch \
->       file://opengl-sdl-fix.patch \
-> +    file://opengl-args-copy-fix.patch \
->       "
->
->   SRC_URI_append_virtclass-native = "\
 
-Needs a PR bump, which I added for testing.
+With this patch applied, the following error was seen on the AB:
+
+| Running useradd commands...
+| WARNING: useradd command did not succeed. Retrying...
+| WARNING: useradd command did not succeed. Retrying...
+| WARNING: useradd command did not succeed. Retrying...
+| WARNING: useradd command did not succeed. Retrying...
+| WARNING: useradd command did not succeed. Retrying...
+| WARNING: useradd command did not succeed. Retrying...
+| WARNING: useradd command did not succeed. Retrying...
+| WARNING: useradd command did not succeed. Retrying...
+| WARNING: useradd command did not succeed. Retrying...
+| WARNING: useradd command did not succeed. Retrying...
+| ERROR: tried running useradd command 10 times without success, giving up
+
+Check the AB here:
+
+http://autobuilder.yoctoproject.org:8010/builders/nightly-arm/builds/369/steps/shell_19/logs/stdio
+
 
 Sau!
+
+> Scott
+>
+> The following changes since commit 1a82989345fb98becb487d270fd93a5e6dffeb47:
+>
+>    runqemu-internal: Add console=tty for qemuppc and NFS (2012-04-06 01:12:15 +0100)
+>
+> are available in the git repository at:
+>    git://git.pokylinux.org/poky-contrib sgarman/shadow-syslog-fix-oe
+>    http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=sgarman/shadow-syslog-fix-oe
+>
+> Scott Garman (1):
+>    shadow-native: disable logging to syslog
+>
+>   .../shadow/files/disable-syslog.patch              |   34 ++++++++++++++++++++
+>   .../shadow/shadow-native_4.1.4.3.bb                |    5 ++-
+>   2 files changed, 37 insertions(+), 2 deletions(-)
+>   create mode 100644 meta/recipes-extended/shadow/files/disable-syslog.patch
+>
 
 
