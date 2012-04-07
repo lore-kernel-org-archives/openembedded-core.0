@@ -1,32 +1,41 @@
-Received: from mail.windriver.com ([147.11.1.11])
+Received: from mail-pb0-f47.google.com ([209.85.160.47])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <mark.hatle@windriver.com>) id 1SGJNA-00048S-3o
+	(envelope-from <raj.khem@gmail.com>) id 1SGMYg-00070x-Ig
 	for openembedded-core@lists.openembedded.org;
-	Sat, 07 Apr 2012 02:19:20 +0200
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca [147.11.189.40])
-	by mail.windriver.com (8.14.3/8.14.3) with ESMTP id q370A5Kd020929
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
+	Sat, 07 Apr 2012 05:43:26 +0200
+Received: by pbcum15 with SMTP id um15so2602644pbc.6
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 6 Apr 2012 17:10:05 -0700 (PDT)
-Received: from msp-dhcp16.wrs.com (172.25.34.16) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server id 14.1.255.0;
-	Fri, 6 Apr 2012 17:10:04 -0700
-Message-ID: <4F7F85DC.2000301@windriver.com>
-Date: Fri, 6 Apr 2012 19:10:04 -0500
-From: Mark Hatle <mark.hatle@windriver.com>
-Organization: Wind River Systems
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.6;
-	rv:10.0.2) Gecko/20120216 Thunderbird/10.0.2
+	Fri, 06 Apr 2012 20:34:12 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=message-id:date:from:user-agent:mime-version:to:subject:references
+	:in-reply-to:x-enigmail-version:content-type
+	:content-transfer-encoding;
+	bh=klbmr2n9cX57M15Ybuo4Hh2sUVsrQ4NuFN0F0Sw4PD8=;
+	b=X4+2WzylhXEum0n2NA+Yv0b7iPtHsnlc6dO2GiSVPBzJ95YHK45wdZZZYKXyW5CKyc
+	mbeIHpLmQKFITA/sNjqVpEnJKCmb9lXVgjXjcRTOc3xRM5KTIvotE8/VDWJDit9IHzar
+	b6ZxK1BZlMCFTBVACqudtXzufyG/P8/rNQX2JtVyBp4KQ7hpGD9b3Nzn10J610aXBRrM
+	juwIH2PSGq+JVKhPANAUz6oJn/o88Fx4dKMvkxi1IDJMAHKd0705RNJD0ao6KXYCkCYm
+	uR9KERX9j2PrEU30mlGHX+atKmgxMKF1NKCEmBTyz27UMTj8lIfPblI+910ut8L3VWSZ
+	iCfg==
+Received: by 10.68.136.162 with SMTP id qb2mr504116pbb.67.1333769651953;
+	Fri, 06 Apr 2012 20:34:11 -0700 (PDT)
+Received: from [192.168.1.79] (99-57-140-209.lightspeed.sntcca.sbcglobal.net.
+	[99.57.140.209])
+	by mx.google.com with ESMTPS id i1sm7989307pbj.70.2012.04.06.20.34.09
+	(version=SSLv3 cipher=OTHER); Fri, 06 Apr 2012 20:34:10 -0700 (PDT)
+Message-ID: <4F7FB5B0.5050503@gmail.com>
+Date: Fri, 06 Apr 2012 20:34:08 -0700
+From: Khem Raj <raj.khem@gmail.com>
+User-Agent: Mozilla/5.0 (X11; Linux i686;
+	rv:11.0) Gecko/20120402 Thunderbird/11.0.1
 MIME-Version: 1.0
-To: <openembedded-core@lists.openembedded.org>
-References: <cover.1333481624.git.mark.hatle@windriver.com>
-	<c1765e7544603baa60bec27185a947aeee404bee.1333481624.git.mark.hatle@windriver.com>
-	<4F7CC6E6.6020006@opendreambox.org>
-	<CAMKF1soi+==bbEKMD+FLdk+8BvWNK3Nj24EJVhoyT5e=_5MvDw@mail.gmail.com>
-	<4F7F28FB.20600@windriver.com>
-	<CAMKF1srkXSBHFtO__F9m9TQ=dJzfn+7kfmXoK4=tWknEdc80eg@mail.gmail.com>
-In-Reply-To: <CAMKF1srkXSBHFtO__F9m9TQ=dJzfn+7kfmXoK4=tWknEdc80eg@mail.gmail.com>
-Subject: Re: [PATCH 3/7] conf/machine/include: Cleanup MIPS tunings to match README
+To: openembedded-core@lists.openembedded.org
+References: <1332202974-27977-1-git-send-email-denis@denix.org>
+	<4F689BD8.4040201@linux.intel.com>
+	<AE26A546-7EFB-4EB6-B3F1-398A6B291444@dominion.thruhere.net>
+In-Reply-To: <AE26A546-7EFB-4EB6-B3F1-398A6B291444@dominion.thruhere.net>
+X-Enigmail-Version: 1.4
+Subject: Re: [PATCH] rt-tests: fix dependency on eglibc, clean LDFLAGS passing
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -41,91 +50,57 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 07 Apr 2012 00:19:20 -0000
-Content-Type: text/plain; charset="UTF-8"; format=flowed
+X-List-Received-Date: Sat, 07 Apr 2012 03:43:26 -0000
+Content-Type: text/plain; charset=ISO-8859-1
 Content-Transfer-Encoding: 7bit
 
-Just ran a local build with the qemumips machine, this is a standard mips32 target.
+-----BEGIN PGP SIGNED MESSAGE-----
+Hash: SHA1
 
- From the configure line for eglibc:
+On 03/20/2012 08:11 AM, Koen Kooi wrote:
+> 
+> Op 20 mrt. 2012, om 16:01 heeft Darren Hart het volgende 
+> geschreven:
+> 
+>> 
+>> 
+>> On 03/19/2012 05:22 PM, Denys Dmytriyenko wrote:
+>>> From: Denys Dmytriyenko <denys@ti.com>
+>>> 
+>>> Replace dependency on eglibc with virtual/libc Pass LDFLAGS to 
+>>> TARGET_CC_ARCH, instead of CFLAGS as Makefile overrides it
+>>> 
+>>> Signed-off-by: Denys Dmytriyenko <denys@ti.com>
+>> 
+>> Thanks Denys,
+>> 
+>> Looking through the rt-tests sources I don't see TARGET_CC_ARCH 
+>> anywhere. Have you confirmed that changes made there make their 
+>> way into the actual build?
+> 
+> TARGET_CC_ARCH is an OE thing, it's is what ends up in $CC.
+> 
 
-/msp-lpggp1/mhatle/git/oe-core/build-mips32/tmp-eglibc/work/mips32-oe-linux/eglibc-2.13-r23+svnr15508/eglibc-2_13/libc/configure 
---build=x86_64-linux --host=mips-oe-linux --target=mips-oe-linux --prefix=/usr 
---exec_prefix=/usr --bindir=/usr/bin --sbindir=/usr/sbin 
---libexecdir=/usr/libexec --datadir=/usr/share --sysconfdir=/etc 
---sharedstatedir=/com --localstatedir=/var --libdir=/usr/lib 
---includedir=/usr/include --oldincludedir=/usr/include --infodir=/usr/share/info 
---mandir=/usr/share/man --disable-silent-rules --disable-dependency-tracking 
---with-libtool-sysroot=/msp-lpggp1/mhatle/git/oe-core/build-mips32/tmp-eglibc/sysroots/qemumips 
---enable-kernel=2.6.16 --without-cvs --disable-profile --disable-debug 
---without-gd --enable-clocale=gnu --enable-add-ons=ports,nptl,libidn,ports 
---with-headers=/msp-lpggp1/mhatle/git/oe-core/build-mips32/tmp-eglibc/sysroots/qemumips/usr/include 
---without-selinux
+for record you should not need to pass LDFLAGS to TARGET_CC_ARCH in
+OE-Core
+if you were doing it to silence  hash style warnings
+we have fixed toolchain for that
 
-The system is correctly setting the target to "mips-oe-linux".
 
-I checked and bash is the same way.
-
-So the canonical arch is correct, the mips32 is only the packaging arch.  It was 
-always intended that the packaging arch be used in full on MIPS.  (This will 
-allow us to specify mips32r2, mipsiii, mipsiv, etc as necessary if we expand the 
-mips tunings.)
-
-So right now, I don't see any failure conditions with an oe-core build.  (This 
-is oe-core as of earlier today.)
-
---Mark
-
-On 4/6/12 4:30 PM, Khem Raj wrote:
-> On Fri, Apr 6, 2012 at 10:33 AM, Mark Hatle<mark.hatle@windriver.com>  wrote:
->> On 4/4/12 11:17 PM, Khem Raj wrote:
->>>
->>> On Wed, Apr 4, 2012 at 3:10 PM, Andreas Oberritter<obi@opendreambox.org>
->>>   wrote:
->>>>
->>>>
->>>> What was mipsel-oe-linux before now became mips32el-oe-linux, i.e.
->>>> tmp/work/mipsel-oe-linux now is tmp/work/mips32el-oe-linux. I'm not sure
->>>> what else broke.
->>>>
->>>> Was this intentional?
->>>
->>>
->>> I dont think so. mips-*-* in general indicates 32bit BE mips and
->>> mipsel-*-* indicates
->>> 32bit LE mips so devicing mips32 and mips32el may be more explicit but
->>> is not widely
->>> used norm
->>
->>
->> If that has changed it was certainly not intentional.  As Khem said the
->> expected GNU canonical archs are:
->>
->> mips-*-*
->> mipsel-*-*
->> mips64-*-*
->> mips64el-*-*
->>
->> mips32 should work, but it was not expected to have changed.
->>
->> Looking through, the GNU canonical arch should only match the above.  The
->> namings in the tmp/work directory are strictly following the -package arch-
->> namings, which don't affect system configuration.
->>
->> I checked the logs from my test builds, and the mips32* reused the mips*
->> builds because the canonical arch of the configuration and such were the
->> same.
->>
->> (Looked at config.log in a couple of packages...)  if you see mips32-* in
->> the config.log, let me know.
->
-> see angstrom buildhistory its all filled with changes from mips ->  mips32
-> its unwanted.
->
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
+> regards,
+> 
+> Koen
+> 
+> _______________________________________________ Openembedded-core 
+> mailing list Openembedded-core@lists.openembedded.org 
 > http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
+-----BEGIN PGP SIGNATURE-----
+Version: GnuPG v1.4.11 (GNU/Linux)
+Comment: Using GnuPG with Mozilla - http://enigmail.mozdev.org/
 
+iEYEARECAAYFAk9/ta8ACgkQuwUzVZGdMxQGeACgj4VzDL18gKXxxI6pp0zhTOKs
+a6kAn0GccFNh94ttjzSWxp7Q6UYTY/4R
+=yKil
+-----END PGP SIGNATURE-----
 
 
