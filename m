@@ -1,38 +1,26 @@
-Received: from mail-qc0-f175.google.com ([209.85.216.175])
+Received: from mga09.intel.com ([134.134.136.24])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <kergoth@gmail.com>) id 1SGYP1-0006OA-JM
+	(envelope-from <sgw@linux.intel.com>) id 1SGc9X-0001SG-H8
 	for openembedded-core@lists.openembedded.org;
-	Sat, 07 Apr 2012 18:22:15 +0200
-Received: by qcso7 with SMTP id o7so1762823qcs.6
-	for <openembedded-core@lists.openembedded.org>;
-	Sat, 07 Apr 2012 09:13:01 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:sender:in-reply-to:references:from:date
-	:x-google-sender-auth:message-id:subject:to:content-type
-	:content-transfer-encoding;
-	bh=LgYioyjSUPvMCqWDCuCSz2/hM9Xxf8qmnBKULCWP5Sc=;
-	b=TcEvlGXX94uMJgiAwisNS3cbeBSok90ZoDUu8Vf3f/VVHpC51jBvIKtusoktfzK1lt
-	1ZweuObrtl05AeJ59I1CVkWgISjKD6kyw3t4avUi/myW8EQbP3lYn9LqF00MZ3VVvTRK
-	bm8jOLbE0jXx8sShcZ6B3JjeVuKoIuQyNqQwRG/NtCCdI/ZIGDCp5fea33vsGVMATIRu
-	WjXpe63LUaN8ppg7wqjsuNQvgIV2iLT86COQ3uPP1owozI008etxf/Sd2p5xMiAvFz5A
-	sUbW/NUePDLFA3yAHYsvBNZ8RZWXq+/lt3shND7puNMNRDaUYTPzY77l/QozTlj79NYX
-	3Lxg==
-Received: by 10.224.180.1 with SMTP id bs1mr2332478qab.2.1333815180900; Sat,
-	07 Apr 2012 09:13:00 -0700 (PDT)
+	Sat, 07 Apr 2012 22:22:31 +0200
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+	by orsmga102.jf.intel.com with ESMTP; 07 Apr 2012 13:13:15 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.67,352,1309762800"; d="scan'208";a="126435015"
+Received: from unknown (HELO [10.255.12.159]) ([10.255.12.159])
+	by orsmga001.jf.intel.com with ESMTP; 07 Apr 2012 13:13:15 -0700
+Message-ID: <4F809FDB.6030303@linux.intel.com>
+Date: Sat, 07 Apr 2012 13:13:15 -0700
+From: Saul Wold <sgw@linux.intel.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:11.0) Gecko/20120329 Thunderbird/11.0.1
 MIME-Version: 1.0
-Sender: kergoth@gmail.com
-Received: by 10.229.79.79 with HTTP; Sat, 7 Apr 2012 09:12:40 -0700 (PDT)
-In-Reply-To: <4F7FD33A.9070801@gmail.com>
-References: <1332877869-12195-1-git-send-email-kergoth@gmail.com>
-	<1332877869-12195-2-git-send-email-kergoth@gmail.com>
-	<4F7FD33A.9070801@gmail.com>
-From: Chris Larson <clarson@kergoth.com>
-Date: Sat, 7 Apr 2012 09:12:40 -0700
-X-Google-Sender-Auth: hajg3cSJFtrwWks17nM9iKHNFa0
-Message-ID: <CABcZANmN2OK2UB+7mrNn6LKnyZTtu_qucYBBKxfHX6VA74n8sA@mail.gmail.com>
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 2/3] powerpc e500: set -mfloat-gprs=double
+References: <cover.1333699326.git.edwin.zhai@intel.com>
+	<0d5664e615f94682afe05c5889c53373ba837b36.1333699326.git.edwin.zhai@intel.com>
+In-Reply-To: <0d5664e615f94682afe05c5889c53373ba837b36.1333699326.git.edwin.zhai@intel.com>
+Subject: Re: [PATCH 1/1] qemu: Fix gl failure from 64b target on 32b host
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -47,42 +35,112 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 07 Apr 2012 16:22:15 -0000
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Sat, 07 Apr 2012 20:22:31 -0000
+Content-Type: text/plain; charset=ISO-8859-1; format=flowed
+Content-Transfer-Encoding: 7bit
 
-On Fri, Apr 6, 2012 at 10:40 PM, Khem Raj <raj.khem@gmail.com> wrote:
-> On 03/27/2012 12:51 PM, Christopher Larson wrote:
->> From: Christopher Larson <chris_larson@mentor.com>
->>
->> Use of FPRs instead of GPRs is incompatible with e500/SPE, so let's
->> be explicit about the use of GPRs to avoid potential errors. For
->> example, with the Sourcery G++ toolchain, one can hit:
->> conftest.c:1:0: error: E500 and FPRs not supported.
->>
->> Signed-off-by: Christopher Larson <chris_larson@mentor.com> ---
->> meta/conf/machine/include/tune-ppce500.inc =C2=A0 | =C2=A0 =C2=A02 +-
->> meta/conf/machine/include/tune-ppce500v2.inc | =C2=A0 =C2=A02 +- 2 files
->> changed, 2 insertions(+), 2 deletions(-)
->>
->> diff --git a/meta/conf/machine/include/tune-ppce500.inc
->> b/meta/conf/machine/include/tune-ppce500.inc index 1326720..feb1967
->> 100644 --- a/meta/conf/machine/include/tune-ppce500.inc +++
->> b/meta/conf/machine/include/tune-ppce500.inc @@ -7,7 +7,7 @@
->> TUNE_CCARGS +=3D "${@bb.utils.contains("TUNE_FEATURES", "ppce500",
->> "-mcpu=3D8540", " TUNE_PKGARCH_tune-ppce500 =3D "ppce500"
->>
->> TUNEVALID[spe] =3D "Enable SPE ABI extensions" -TUNE_CCARGS +=3D
->> "${@bb.utils.contains("TUNE_FEATURES", "spe", "-mabi=3Dspe -mspe",
->> "", d)}" +TUNE_CCARGS +=3D "${@bb.utils.contains("TUNE_FEATURES",
->> "spe", "-mabi=3Dspe -mspe -mfloat-gprs=3Ddouble", "", d)}"
->>
+On 04/06/2012 01:04 AM, edwin.zhai@intel.com wrote:
+> From: Zhai Edwin<edwin.zhai@intel.com>
 >
-> IIRC e500v1 does not have double precision floating point support.
+> Data from 64b target is truncated by 32b host. This patch makes type of data
+> buf in host same as target.
+>
+> [YOCTO #2221] got fixed.
+>
+> Signed-off-by: Zhai Edwin<edwin.zhai@intel.com>
+> ---
+>   .../qemu/qemu-0.15.1/opengl-args-copy-fix.patch    |   66 ++++++++++++++++++++
+>   meta/recipes-devtools/qemu/qemu_0.15.1.bb          |    1 +
+>   2 files changed, 67 insertions(+), 0 deletions(-)
+>   create mode 100644 meta/recipes-devtools/qemu/qemu-0.15.1/opengl-args-copy-fix.patch
+>
+> diff --git a/meta/recipes-devtools/qemu/qemu-0.15.1/opengl-args-copy-fix.patch b/meta/recipes-devtools/qemu/qemu-0.15.1/opengl-args-copy-fix.patch
+> new file mode 100644
+> index 0000000..ddf4e4a
+> --- /dev/null
+> +++ b/meta/recipes-devtools/qemu/qemu-0.15.1/opengl-args-copy-fix.patch
+> @@ -0,0 +1,66 @@
+> +This patch fix GL application failure from 64b target on 32b host
+> +
+> +64b target produce 64b args buffer, but qemu parse it as 32b and get wrong
+> +data. To avoid this, the type of args buffer in qemu should be same as target,
+> +that is, target_phys_addr_t. The only potential issue is that we need copy
+> +the data in buffer one by one, or else data corruption when 32b/64b for
+> +target/host combination.
+> +
+> +Upstream-Status: Inappropriate [other] - depends on qemu gl patch
+> +
+> +Signed-off-by: Zhai Edwin<edwin.zhai@intel.com>
+> +
+> +Index: qemu-0.15.1/target-i386/opengl_func.h
+> +===================================================================
+> +--- qemu-0.15.1.orig/target-i386/opengl_func.h	2012-04-06 10:00:08.000000000 +0800
+> ++++ qemu-0.15.1/target-i386/opengl_func.h	2012-04-06 10:47:38.000000000 +0800
+> +@@ -25,10 +25,10 @@
+> + #include "mesa_gl.h"
+> + #include "mesa_glext.h"
+> +
+> +-/* Argument list are internally of a type that can hold a target pointer
+> +- * or a host pointer. If 32b target runs on 64b host, it should be big enough
+> +- * to hold host pointer */
+> +-typedef long unsigned int arg_t;
+> ++/* Argument list are internally of a type that point to a buffer passed from
+> ++ * target. It should have same type as target, so that we can support 32b
+> ++ * target on 64b host, and vice versa */
+> ++typedef target_phys_addr_t arg_t;
+> +
+> + enum {
+> +     TYPE_NONE,
+> +Index: qemu-0.15.1/Makefile.target
+> +===================================================================
+> +--- qemu-0.15.1.orig/Makefile.target	2012-04-06 10:00:08.000000000 +0800
+> ++++ qemu-0.15.1/Makefile.target	2012-04-06 10:00:08.000000000 +0800
+> +@@ -128,7 +128,7 @@
+> + gl_beginend.h: ../target-i386/beginend_funcs.sh
+> + 	$<  >  $@
+> + opengl_exec.o : opengl_exec.c server_stub.c gl_func.h opengl_func.h gl_beginend.h
+> +-	$(CC) $(GL_CFLAGS) $(DEFINES) -c -o $@ $<  -I. -I../target-i386
+> ++	$(CC) $(GL_CFLAGS) $(DEFINES) -c -o $@ $<  -I.. -I. -I../fpu -I../target-i386 -DNEED_CPU_H
+> +
+> + #########################################################
+> + # Linux user emulator target
+> +Index: qemu-0.15.1/target-i386/opengl_exec.c
+> +===================================================================
+> +--- qemu-0.15.1.orig/target-i386/opengl_exec.c	2012-04-06 10:00:08.000000000 +0800
+> ++++ qemu-0.15.1/target-i386/opengl_exec.c	2012-04-06 10:39:22.000000000 +0800
+> +@@ -37,16 +37,12 @@
+> + #include<mesa_gl.h>
+> + #include<mesa_glx.h>
+> +
+> +-// TODO
+> +-typedef long unsigned int target_phys_addr_t;
+> +-
+> ++#include "exec.h"
+> + #include "opengl_func.h"
+> +
+> + #include "mesa_glu.h"
+> + #include "mesa_mipmap.c"
+> +
+> +-#include "../qemu-common.h"
+> +-
+> + //#define SYSTEMATIC_ERROR_CHECK
+> + #define BUFFER_BEGINEND
+> + #define glGetError() 0
+> diff --git a/meta/recipes-devtools/qemu/qemu_0.15.1.bb b/meta/recipes-devtools/qemu/qemu_0.15.1.bb
+> index 3a4ef32..d01e79d 100644
+> --- a/meta/recipes-devtools/qemu/qemu_0.15.1.bb
+> +++ b/meta/recipes-devtools/qemu/qemu_0.15.1.bb
+> @@ -29,6 +29,7 @@ QEMUGLPATCHES = "\
+>       file://enable-i386-linux-user.patch \
+>       file://qemugl-fix.patch \
+>       file://opengl-sdl-fix.patch \
+> +    file://opengl-args-copy-fix.patch \
+>       "
+>
+>   SRC_URI_append_virtclass-native = "\
 
-Yeah, I know, I sent a later patch to fix it, but Mark already fixed
-it in his tuning rework. :)
---=20
-Christopher Larson
+Needs a PR bump, which I added for testing.
+
+Sau!
 
 
