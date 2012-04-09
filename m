@@ -1,20 +1,24 @@
 Received: from mga01.intel.com ([192.55.52.88])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <sgw@linux.intel.com>) id 1SH6s4-0007rk-Lu
+	(envelope-from <sgw@linux.intel.com>) id 1SH6s5-0007rk-Ca
 	for openembedded-core@lists.openembedded.org;
-	Mon, 09 Apr 2012 07:10:32 +0200
+	Mon, 09 Apr 2012 07:10:33 +0200
 Received: from fmsmga002.fm.intel.com ([10.253.24.26])
 	by fmsmga101.fm.intel.com with ESMTP; 08 Apr 2012 22:01:15 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="151367375"
+X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="151367376"
 Received: from unknown (HELO swold-mobl.bigsur.com) ([10.255.12.159])
 	by fmsmga002.fm.intel.com with ESMTP; 08 Apr 2012 22:01:15 -0700
 From: Saul Wold <sgw@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Sun,  8 Apr 2012 22:01:04 -0700
-Message-Id: <cover.1333914345.git.sgw@linux.intel.com>
+Date: Sun,  8 Apr 2012 22:01:05 -0700
+Message-Id: <a2b0781b39e39310a71fa81e559161da140036ef.1333914345.git.sgw@linux.intel.com>
 X-Mailer: git-send-email 1.7.7.6
-Subject: [CONSOLIDATED PULL 0/6] Various Patches
+In-Reply-To: <cover.1333914345.git.sgw@linux.intel.com>
+References: <cover.1333914345.git.sgw@linux.intel.com>
+In-Reply-To: <cover.1333914345.git.sgw@linux.intel.com>
+References: <cover.1333914345.git.sgw@linux.intel.com>
+Subject: [CONSOLIDATED PULL 1/6] create-pull-request: Assume remote branch from local branch
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -29,56 +33,60 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 09 Apr 2012 05:10:32 -0000
+X-List-Received-Date: Mon, 09 Apr 2012 05:10:33 -0000
 
-Richard,
+From: Darren Hart <dvhart@linux.intel.com>
 
-This is a set patches to address various 1.2 bugs along with
-a change to the create-pull-request script from Darren.
+It is common to use the same remote branch name as the local branch
+name. In this case, it would be nice not to have to specify the
+remote branch name.
 
-Please review the package.bbclass change, seems correct to me.
+Make the -b argument optional and assume the remote branch is the same
+name as the local branch. Print a NOTE to this effect so as not to
+catch the user by surprise:
 
-Thanks
-	Sau!
+NOTE: Assuming remote branch 'notthere', use -b to override.
 
-The following changes since commit 1a82989345fb98becb487d270fd93a5e6dffeb47:
+If the remote branch doesn't exist, a WARNING is displayed just as if
+the user had used -b to specify a non-existent branch:
 
-  runqemu-internal: Add console=tty for qemuppc and NFS (2012-04-06 01:12:15 +0100)
+WARNING: Branch 'notthere' was not found on the contrib git tree.
+         Please check your remote and branch parameter before sending.
 
-are available in the git repository at:
-  git://git.openembedded.org/openembedded-core-contrib sgw/stage
-  http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=oe-mut
+Signed-off-by: Darren Hart <dvhart@linux.intel.com>
+---
+ scripts/create-pull-request |   11 ++++++++---
+ 1 files changed, 8 insertions(+), 3 deletions(-)
 
-Andrei Gherzan (1):
-  package.bbclass: needs_ldconfig from linux_so is needed in global
-    namespace
-
-Darren Hart (2):
-  create-pull-request: Assume remote branch from local branch
-  grub-efi: Include GPT partition EXT FS support
-
-Joshua Lock (1):
-  mesa-common: package gl.pc in libgl-dev
-
-Lianhao Lu (1):
-  python: multilib header support.
-
-Zhai Edwin (1):
-  qemu: Fix gl failure from 64b target on 32b host
-
- meta/classes/package.bbclass                       |    4 +-
- meta/recipes-bsp/grub/grub-efi-native_1.99.bb      |    4 +-
- .../python/python-2.7-manifest.inc                 |    2 +-
- meta/recipes-devtools/python/python.inc            |    2 +-
- meta/recipes-devtools/python/python_2.7.2.bb       |    4 +-
- .../qemu/qemu-0.15.1/opengl-args-copy-fix.patch    |   66 ++++++++++++++++++++
- meta/recipes-devtools/qemu/qemu_0.15.1.bb          |    3 +-
- meta/recipes-graphics/mesa/mesa-common.inc         |    2 +-
- scripts/contrib/python/generate-manifest-2.7.py    |    2 +-
- scripts/create-pull-request                        |   11 +++-
- 10 files changed, 88 insertions(+), 12 deletions(-)
- create mode 100644 meta/recipes-devtools/qemu/qemu-0.15.1/opengl-args-copy-fix.patch
-
+diff --git a/scripts/create-pull-request b/scripts/create-pull-request
+index 600fa7a..9a8913d 100755
+--- a/scripts/create-pull-request
++++ b/scripts/create-pull-request
+@@ -34,8 +34,8 @@ RFC=0
+ usage() {
+ CMD=$(basename $0)
+ cat <<EOM
+-Usage: $CMD [-h] [-o output_dir] [-m msg_body_file] [-s subject] [-r relative_to] [-i commit_id] -u remote -b branch
+-  -b branch           Branch name in the specified remote
++Usage: $CMD [-h] [-o output_dir] [-m msg_body_file] [-s subject] [-r relative_to] [-i commit_id] -u remote [-b branch]
++  -b branch           Branch name in the specified remote (default: current branch)
+   -c                  Create an RFC (Request for Comment) patch series
+   -h                  Display this help message
+   -i commit_id        Ending commit (default: HEAD)
+@@ -120,7 +120,12 @@ while getopts "b:chi:m:o:p:r:s:u:" OPT; do
+ 	esac
+ done
+ 
+-if [ -z "$BRANCH" ] || [ -z "$REMOTE_URL" ]; then
++if [ -z "$BRANCH" ]; then
++	BRANCH=$(git branch | grep -e "^\* " | cut -d' ' -f2)
++	echo "NOTE: Assuming remote branch '$BRANCH', use -b to override."
++fi
++	
++if [ -z "$REMOTE_URL" ]; then
+ 	usage
+ 	exit 1
+ fi
 -- 
 1.7.7.6
 
