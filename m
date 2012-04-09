@@ -1,24 +1,42 @@
-Received: from mga01.intel.com ([192.55.52.88])
+Received: from mga03.intel.com ([143.182.124.21])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <sgw@linux.intel.com>) id 1SH6s8-0007rk-7K
+	(envelope-from <dexuan.cui@intel.com>) id 1SH8TJ-000511-N5
 	for openembedded-core@lists.openembedded.org;
-	Mon, 09 Apr 2012 07:10:36 +0200
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-	by fmsmga101.fm.intel.com with ESMTP; 08 Apr 2012 22:01:16 -0700
+	Mon, 09 Apr 2012 08:53:05 +0200
+Received: from azsmga001.ch.intel.com ([10.2.17.19])
+	by azsmga101.ch.intel.com with ESMTP; 08 Apr 2012 23:43:48 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="151367387"
-Received: from unknown (HELO swold-mobl.bigsur.com) ([10.255.12.159])
-	by fmsmga002.fm.intel.com with ESMTP; 08 Apr 2012 22:01:16 -0700
-From: Saul Wold <sgw@linux.intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Sun,  8 Apr 2012 22:01:10 -0700
-Message-Id: <0fb3fe174a91ded2e3e9aa665151536f82ebbc82.1333914345.git.sgw@linux.intel.com>
-X-Mailer: git-send-email 1.7.7.6
-In-Reply-To: <cover.1333914345.git.sgw@linux.intel.com>
-References: <cover.1333914345.git.sgw@linux.intel.com>
-In-Reply-To: <cover.1333914345.git.sgw@linux.intel.com>
-References: <cover.1333914345.git.sgw@linux.intel.com>
-Subject: [CONSOLIDATED PULL 6/6] grub-efi: Include GPT partition EXT FS support
+X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="128607346"
+Received: from azsmsx601.amr.corp.intel.com ([10.2.121.193])
+	by azsmga001.ch.intel.com with ESMTP; 08 Apr 2012 23:43:48 -0700
+Received: from shsmsx151.ccr.corp.intel.com (10.239.6.50) by
+	azsmsx601.amr.corp.intel.com (10.2.121.193) with Microsoft SMTP Server
+	(TLS) id 8.2.255.0; Sun, 8 Apr 2012 23:43:47 -0700
+Received: from shsmsx102.ccr.corp.intel.com ([169.254.2.125]) by
+	SHSMSX151.ccr.corp.intel.com ([169.254.3.91]) with mapi id
+	14.01.0355.002; Mon, 9 Apr 2012 14:43:45 +0800
+From: "Cui, Dexuan" <dexuan.cui@intel.com>
+To: Darren Hart <dvhart@linux.intel.com>
+Thread-Topic: [OE-core] Do we have a package that installs the kernel
+	headers and config into the target?
+Thread-Index: Ac0TpDNglZsuvcTWTNSj8hhUp7EH6P//g5AA//9u5YCAALYcAP//ZSGggAFG7YD/+2vnEA==
+Date: Mon, 9 Apr 2012 06:43:44 +0000
+Message-ID: <A25F549E4D43CD42B4C02DF47A1913230FCFF550@SHSMSX102.ccr.corp.intel.com>
+References: <A25F549E4D43CD42B4C02DF47A1913230FCFD3A2@SHSMSX102.ccr.corp.intel.com>
+	<4F7E6914.7080908@linux.intel.com>
+	<A25F549E4D43CD42B4C02DF47A1913230FCFD49B@SHSMSX102.ccr.corp.intel.com>
+	<4F7E881E.1000106@linux.intel.com>
+	<A25F549E4D43CD42B4C02DF47A1913230FCFD667@SHSMSX102.ccr.corp.intel.com>
+	<4F7F1873.5040607@linux.intel.com>
+In-Reply-To: <4F7F1873.5040607@linux.intel.com>
+Accept-Language: zh-CN, en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [10.239.127.40]
+MIME-Version: 1.0
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: Do we have a package that installs the kernel headers and config into the target?
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -33,83 +51,32 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 09 Apr 2012 05:10:36 -0000
+X-List-Received-Date: Mon, 09 Apr 2012 06:53:06 -0000
+Content-Language: en-US
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 
-From: Darren Hart <dvhart@linux.intel.com>
+Darren Hart wrote on 2012-04-07:
+> On 04/06/2012 12:48 AM, Cui, Dexuan wrote:
+> It seems to me some work is needed at ESDC to account for proper
+> development techniques and not reward sloppy development. Writing
+> maintainable code is an important part of professional software
+> engineers do every day. Rewarding shortcuts and deliverables by any
+> means necessary does students and the industry a disservice.
+I agree.
 
-Fixes [YOCTO 2257]
+Actually we delivered a 5-hour Yocto training (consisting of 4 sessions)
+to the sophomore and junior students, but the feedbacks show many
+students think, with the limited time, they only want to focus on
+developing things that could make them win a prize, and they feel
+Yocto isn't so easy as they expected -- they actually don't care
+Yocto's powerful capability of customization and they only want a
+distribution that has integrated every possible library or tool they
+need...
 
-GPT partitions are common for EFI systems. Add support for them by
-including the part_gpt partition module in the grub-efi image. In
-order to allow for loading a Linux kernel from an EXT* filesystem,
-include the ext2 module as well.
+Thanks,
+-- Dexuan
 
-With this fix applied, I was able to boot from a USB key using a
-GPT partition table with the following layout:
-
-  $ sudo gdisk -l /dev/sdc
-  GPT fdisk (gdisk) version 0.8.2
-
-  Partition table scan:
-    MBR: protective
-    BSD: not present
-    APM: not present
-    GPT: present
-
-  Found valid GPT with protective MBR; using GPT.
-  Disk /dev/sdc: 7669824 sectors, 3.7 GiB
-  Logical sector size: 512 bytes
-  Disk identifier (GUID): 68FA7CD4-E0C3-4A8E-82B5-1331C9B17A3C
-  Partition table holds up to 128 entries
-  First usable sector is 34, last usable sector is 7669790
-  Partitions will be aligned on 2-sector boundaries
-  Total free space is 7428816 sectors (3.5 GiB)
-
-  Number  Start (sector)    End (sector)  Size       Code  Name
-     1              34           32801   16.0 MiB    0700      # FAT16
-     2           32802          240974   101.6 MiB   0700      # EXT3
-
-From within GRUB, booted as bootia32.efi from the BOOT partition, I
-booted the OS with the following commands:
-
-  grub> linux (hd0,gpt2)/vmlinuz rootwait root=/dev/sda2 console=ttyS0,115200
-  grub> boot
-
-This change will enable BSP developers to use the grub-efi image in
-their own images as well as enable upcoming changes to the installer
-to support EFI.
-
-Signed-off-by: Darren Hart <dvhart@linux.intel.com>
-CC: Kishore Bodke <kishore.k.bodke@intel.com>
-CC: Rahul Saxena <rahul.saxena@intel.com>
----
- meta/recipes-bsp/grub/grub-efi-native_1.99.bb |    4 ++--
- 1 files changed, 2 insertions(+), 2 deletions(-)
-
-diff --git a/meta/recipes-bsp/grub/grub-efi-native_1.99.bb b/meta/recipes-bsp/grub/grub-efi-native_1.99.bb
-index c951152..93e9290 100644
---- a/meta/recipes-bsp/grub/grub-efi-native_1.99.bb
-+++ b/meta/recipes-bsp/grub/grub-efi-native_1.99.bb
-@@ -16,7 +16,7 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=d32239bcb673463ab874e80d47fae504"
- # FIXME: We should be able to optionally drop freetype as a dependency
- DEPENDS = "help2man-native autogen-native"
- RDEPENDS_${PN} = "diffutils freetype"
--PR = "r5"
-+PR = "r6"
- 
- # Native packages do not normally rebuild when the target changes.
- # Ensure this is built once per HOST-TARGET pair.
-@@ -61,7 +61,7 @@ EXTRA_OECONF = "--with-platform=efi --disable-grub-mkfont \
- do_mkimage() {
- 	./grub-mkimage -p /EFI/BOOT -d ./grub-core/ \
- 		       -O ${GRUB_TARGET}-efi -o ./${GRUB_IMAGE} \
--	               boot linux fat serial part_msdos normal efi_gop
-+	               boot linux ext2 fat serial part_msdos part_gpt normal efi_gop
- }
- addtask mkimage after do_compile before do_install
- 
--- 
-1.7.7.6
 
 
 
