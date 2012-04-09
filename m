@@ -1,37 +1,34 @@
-Received: from mail-qc0-f175.google.com ([209.85.216.175])
+Received: from mail1.windriver.com ([147.11.146.13])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <kergoth@gmail.com>) id 1SHFjC-0000a8-Ru
+	(envelope-from <mark.hatle@windriver.com>) id 1SHGU3-0002RR-WA
 	for openembedded-core@lists.openembedded.org;
-	Mon, 09 Apr 2012 16:37:59 +0200
-Received: by qcso7 with SMTP id o7so2340047qcs.6
+	Mon, 09 Apr 2012 17:26:24 +0200
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca [147.11.189.40])
+	by mail1.windriver.com (8.14.3/8.14.3) with ESMTP id q39FH6Yw005825
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 09 Apr 2012 07:28:41 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:sender:in-reply-to:references:from:date
-	:x-google-sender-auth:message-id:subject:to:cc:content-type;
-	bh=jgMQkrKB2MMkN/J18mRs+mBlIf02e8SwOTEBssZXmAU=;
-	b=pbZUJ9vCgSEkHnuOfg+Wv8USrVzW6dDgKgYKGOWdGjH3JG6bTHeiTjuksancx4t2xJ
-	nlONmNNyoQ/y1LnECnOvbODiJqudBbq8B5PbkIcsPwASMAC/sXBr3Xe0ttVj3QI/cIDl
-	JSDsLSDjxN8j+JyCLN7rl6zHRlUkydO8P+UYPVOdxLpR0r9g0btRo9Q1/AHFcPHGgubm
-	zHL4v8xnfHr6H9vx6+HdlKoAm/xQQ1sNhrqOwAUlS3q+6ZjfoQnNzXzpb6W/inLrLMqj
-	nQ67p43NZ/Xf5rrdmq7AAeI0pSyg3puDmbT8598socWGDDOT4LZDprU73KlC5hXhlVZ2
-	Vv0w==
-Received: by 10.224.173.194 with SMTP id q2mr4827727qaz.15.1333981721800; Mon,
-	09 Apr 2012 07:28:41 -0700 (PDT)
+	Mon, 9 Apr 2012 08:17:06 -0700 (PDT)
+Received: from msp-dhcp17.wrs.com (172.25.34.17) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server id 14.1.255.0;
+	Mon, 9 Apr 2012 08:17:05 -0700
+Message-ID: <4F82FD70.9080609@windriver.com>
+Date: Mon, 9 Apr 2012 10:17:04 -0500
+From: Mark Hatle <mark.hatle@windriver.com>
+Organization: Wind River Systems
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.6;
+	rv:10.0.2) Gecko/20120216 Thunderbird/10.0.2
 MIME-Version: 1.0
-Sender: kergoth@gmail.com
-Received: by 10.229.79.79 with HTTP; Mon, 9 Apr 2012 07:28:19 -0700 (PDT)
-In-Reply-To: <4F80D4EF.8090704@linux.intel.com>
-References: <cover.1333695164.git.scott.a.garman@intel.com>
-	<4F80D4EF.8090704@linux.intel.com>
-From: Chris Larson <clarson@kergoth.com>
-Date: Mon, 9 Apr 2012 07:28:19 -0700
-X-Google-Sender-Auth: 6bm-yVsZVof71r5RS6XWJAgNqhs
-Message-ID: <CABcZANkYGDJ=bAuPsJp2yVicE5Bm0roq+JZW0KkJYOqN=wDpJw@mail.gmail.com>
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Cc: Scott Garman <scott.a.garman@intel.com>
-Subject: Re: [PATCH 0/1] shadow-native: disable logging to syslog
+To: <openembedded-core@lists.openembedded.org>
+References: <cover.1333481624.git.mark.hatle@windriver.com>
+	<c1765e7544603baa60bec27185a947aeee404bee.1333481624.git.mark.hatle@windriver.com>
+	<4F7CC6E6.6020006@opendreambox.org>
+	<CAMKF1soi+==bbEKMD+FLdk+8BvWNK3Nj24EJVhoyT5e=_5MvDw@mail.gmail.com>
+	<4F7F28FB.20600@windriver.com>
+	<CAMKF1srkXSBHFtO__F9m9TQ=dJzfn+7kfmXoK4=tWknEdc80eg@mail.gmail.com>
+	<4F7F85DC.2000301@windriver.com>
+	<4F820472.1080109@opendreambox.org>
+In-Reply-To: <4F820472.1080109@opendreambox.org>
+Subject: Re: [PATCH 3/7] conf/machine/include: Cleanup MIPS tunings to match README
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -46,46 +43,100 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 09 Apr 2012 14:37:59 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Mon, 09 Apr 2012 15:26:24 -0000
+Content-Type: text/plain; charset="ISO-8859-1"; format=flowed
+Content-Transfer-Encoding: 7bit
 
-On Sat, Apr 7, 2012 at 4:59 PM, Saul Wold <sgw@linux.intel.com> wrote:
-> On 04/05/2012 11:53 PM, Scott Garman wrote:
+On 4/8/12 4:34 PM, Andreas Oberritter wrote:
+> On 07.04.2012 02:10, Mark Hatle wrote:
+>> Just ran a local build with the qemumips machine, this is a standard
+>> mips32 target.
 >>
->> Hello,
+>>  From the configure line for eglibc:
 >>
->> This pull request includes a patch to shadow to disable logging to
->> syslog, to prevent sysroot user and group additions from writing
->> entries to the host's syslog.
+>> /msp-lpggp1/mhatle/git/oe-core/build-mips32/tmp-eglibc/work/mips32-oe-linux/eglibc-2.13-r23+svnr15508/eglibc-2_13/libc/configure
+>> --build=x86_64-linux --host=mips-oe-linux --target=mips-oe-linux
+>> --prefix=/usr --exec_prefix=/usr --bindir=/usr/bin --sbindir=/usr/sbin
+>> --libexecdir=/usr/libexec --datadir=/usr/share --sysconfdir=/etc
+>> --sharedstatedir=/com --localstatedir=/var --libdir=/usr/lib
+>> --includedir=/usr/include --oldincludedir=/usr/include
+>> --infodir=/usr/share/info --mandir=/usr/share/man --disable-silent-rules
+>> --disable-dependency-tracking
+>> --with-libtool-sysroot=/msp-lpggp1/mhatle/git/oe-core/build-mips32/tmp-eglibc/sysroots/qemumips
+>> --enable-kernel=2.6.16 --without-cvs --disable-profile --disable-debug
+>> --without-gd --enable-clocale=gnu
+>> --enable-add-ons=ports,nptl,libidn,ports
+>> --with-headers=/msp-lpggp1/mhatle/git/oe-core/build-mips32/tmp-eglibc/sysroots/qemumips/usr/include
+>> --without-selinux
 >>
->> I have build-tested this with core-image-sato (which builds a few
->> useradd-based recipes, such as avahi and dbus) for all 5 of our
->> qemu architectures, while watching my syslog to verify that no
->> useradd or groupadd entries were written.
+>> The system is correctly setting the target to "mips-oe-linux".
 >>
+>> I checked and bash is the same way.
+>>
+>> So the canonical arch is correct, the mips32 is only the packaging
+>> arch.  It was always intended that the packaging arch be used in full on
+>> MIPS.  (This will allow us to specify mips32r2, mipsiii, mipsiv, etc as
+>> necessary if we expand the mips tunings.)
 >
-> With this patch applied, the following error was seen on the AB:
->
-> | Running useradd commands...
-> | WARNING: useradd command did not succeed. Retrying...
-> | WARNING: useradd command did not succeed. Retrying...
-> | WARNING: useradd command did not succeed. Retrying...
-> | WARNING: useradd command did not succeed. Retrying...
-> | WARNING: useradd command did not succeed. Retrying...
-> | WARNING: useradd command did not succeed. Retrying...
-> | WARNING: useradd command did not succeed. Retrying...
-> | WARNING: useradd command did not succeed. Retrying...
-> | WARNING: useradd command did not succeed. Retrying...
-> | WARNING: useradd command did not succeed. Retrying...
-> | ERROR: tried running useradd command 10 times without success, giving up
->
-> Check the AB here:
->
-> http://autobuilder.yoctoproject.org:8010/builders/nightly-arm/builds/369/steps/shell_19/logs/stdio
+> I don't think such a change should be done only few days before a
+> release. Until this patch was applied, the packaging arch has always
+> been mipsel, not mips32el. Please, revert or fix this!
 
-We've (Mentor) hit this failure, usually from openssh's do_install,
-from our automated builds at random over the past week or two.
--- 
-Christopher Larson
+This is easy to change to the previous behavior...  however it was a bug in the 
+original implementation.
+
+But again, I stress nothing changed except for the packaging arch... the way the 
+packages are configured, compiled, installed remain the same, only the package 
+arch has changed.  The only place that may be affected by this is the package 
+feed mechanism.
+
+To revert to the previous behavior, in the meta/conf/machine/include/tune-mips.inc:
+
+--- a/meta/conf/machine/include/tune-mips32.inc
++++ b/meta/conf/machine/include/tune-mips32.inc
+@@ -9,17 +9,17 @@ TUNE_CCARGS += "${@bb.utils.contains("TUNE_FEATURES", "mips32"
+  AVAILTUNES += "mips32 mips32el mips32-nf mips32el-nf"
+
+  TUNE_FEATURES_tune-mips32 = "${TUNE_FEATURES_tune-mips} mips32"
+-MIPSPKGSFX_VARIANT_tune-mips32 = "mips32"
++MIPSPKGSFX_VARIANT_tune-mips32 = "mips"
+  PACKAGE_EXTRA_ARCHS_tune-mips32 = "mips mips32"
+
+  TUNE_FEATURES_tune-mips32el = "${TUNE_FEATURES_tune-mipsel} mips32"
+-MIPSPKGSFX_VARIANT_tune-mips32el = "mips32el"
++MIPSPKGSFX_VARIANT_tune-mips32el = "mipsel"
+  PACKAGE_EXTRA_ARCHS_tune-mips32el = "mipsel mips32el"
+
+  TUNE_FEATURES_tune-mips32-nf = "${TUNE_FEATURES_tune-mips-nf} mips32"
+-MIPSPKGSFX_VARIANT_tune-mips32-nf = "mips32"
++MIPSPKGSFX_VARIANT_tune-mips32-nf = "mips"
+  PACKAGE_EXTRA_ARCHS_tune-mips32-nf = "mips-nf mips32-nf"
+
+  TUNE_FEATURES_tune-mips32el-nf = "${TUNE_FEATURES_tune-mipsel-nf} mips32"
+-MIPSPKGSFX_VARIANT_tune-mips32el-nf = "mips32el"
++MIPSPKGSFX_VARIANT_tune-mips32el-nf = "mipsel"
+  PACKAGE_EXTRA_ARCHS_tune-mips32el-nf = "mipsel-nf mips32el-nf"
+
+Before I submit this patch though, I would like others to weigh in on the issue. 
+  This was a mistake in the earlier version of the code.  The "variant" wasn't 
+be set as it should have been.
+
+The problem is that if you set the tune to "mips", you get the default compiler 
+behavior.  However, if you set the tune to mips32, you get "-march=mips32" added 
+to your CCARGS.  This will produce slightly different binaries, thus "mips" and 
+mips32" are not equal.
+
+--Mark
+
+>> So right now, I don't see any failure conditions with an oe-core build.
+>> (This is oe-core as of earlier today.)
+>>
+>> --Mark
+>
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
+
 
 
