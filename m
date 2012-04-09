@@ -1,24 +1,24 @@
 Received: from mga01.intel.com ([192.55.52.88])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <sgw@linux.intel.com>) id 1SH6s6-0007rk-PF
+	(envelope-from <sgw@linux.intel.com>) id 1SH6s7-0007rk-F2
 	for openembedded-core@lists.openembedded.org;
-	Mon, 09 Apr 2012 07:10:34 +0200
+	Mon, 09 Apr 2012 07:10:35 +0200
 Received: from fmsmga002.fm.intel.com ([10.253.24.26])
 	by fmsmga101.fm.intel.com with ESMTP; 08 Apr 2012 22:01:16 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="151367379"
+X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="151367381"
 Received: from unknown (HELO swold-mobl.bigsur.com) ([10.255.12.159])
 	by fmsmga002.fm.intel.com with ESMTP; 08 Apr 2012 22:01:16 -0700
 From: Saul Wold <sgw@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Sun,  8 Apr 2012 22:01:07 -0700
-Message-Id: <da4ebcee95ddeed3594220f12cb9addb866b2a57.1333914345.git.sgw@linux.intel.com>
+Date: Sun,  8 Apr 2012 22:01:08 -0700
+Message-Id: <d9fe1c28992fafd1a998f9b95db6da9f0e3fd68c.1333914345.git.sgw@linux.intel.com>
 X-Mailer: git-send-email 1.7.7.6
 In-Reply-To: <cover.1333914345.git.sgw@linux.intel.com>
 References: <cover.1333914345.git.sgw@linux.intel.com>
 In-Reply-To: <cover.1333914345.git.sgw@linux.intel.com>
 References: <cover.1333914345.git.sgw@linux.intel.com>
-Subject: [CONSOLIDATED PULL 3/6] python: multilib header support.
+Subject: [CONSOLIDATED PULL 4/6] qemu: Fix gl failure from 64b target on 32b host
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -35,80 +35,117 @@ List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedde
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Mon, 09 Apr 2012 05:10:35 -0000
 
-From: Lianhao Lu <lianhao.lu@intel.com>
+From: Zhai Edwin <edwin.zhai@intel.com>
 
-Add intercept multilib header for pyconfig.h in python.
-This is part of the bug fixing [YOCTO #2216].
+Data from 64b target is truncated by 32b host. This patch makes type of data
+buf in host same as target.
 
-Signed-off-by: Lianhao Lu <lianhao.lu@intel.com>
+[YOCTO #2221] got fixed.
+
+Signed-off-by: Zhai Edwin <edwin.zhai@intel.com>
+
+[Bumped PR - sgw]
+
+Signed-off-by: Saul Wold <sgw@linux.intel.com>
 ---
- .../python/python-2.7-manifest.inc                 |    2 +-
- meta/recipes-devtools/python/python.inc            |    2 +-
- meta/recipes-devtools/python/python_2.7.2.bb       |    4 +++-
- scripts/contrib/python/generate-manifest-2.7.py    |    2 +-
- 4 files changed, 6 insertions(+), 4 deletions(-)
+ .../qemu/qemu-0.15.1/opengl-args-copy-fix.patch    |   66 ++++++++++++++++++++
+ meta/recipes-devtools/qemu/qemu_0.15.1.bb          |    3 +-
+ 2 files changed, 68 insertions(+), 1 deletions(-)
+ create mode 100644 meta/recipes-devtools/qemu/qemu-0.15.1/opengl-args-copy-fix.patch
 
-diff --git a/meta/recipes-devtools/python/python-2.7-manifest.inc b/meta/recipes-devtools/python/python-2.7-manifest.inc
-index ca01553..1e16c6b 100644
---- a/meta/recipes-devtools/python/python-2.7-manifest.inc
-+++ b/meta/recipes-devtools/python/python-2.7-manifest.inc
-@@ -40,7 +40,7 @@ FILES_${PN}-compression="${libdir}/python2.7/gzip.* ${libdir}/python2.7/zipfile.
- DESCRIPTION_${PN}-core="Python Interpreter and core modules (needed!)"
- RDEPENDS_${PN}-core="${PN}-lang ${PN}-re"
- FILES_${PN}-core="${libdir}/python2.7/__future__.* ${libdir}/python2.7/_abcoll.* ${libdir}/python2.7/abc.* ${libdir}/python2.7/copy.* ${libdir}/python2.7/copy_reg.* ${libdir}/python2.7/ConfigParser.* ${libdir}/python2.7/genericpath.* ${libdir}/python2.7/getopt.* ${libdir}/python2.7/linecache.* ${libdir}/python2.7/new.* ${libdir}/python2.7/os.* ${libdir}/python2.7/posixpath.* ${libdir}/python2.7/struct.* ${libdir}/python2.7/warnings.* ${libdir}/python2.7/site.* ${libdir}/python2.7/stat.* ${libdir}/python2.7/UserDict.* ${libdir}/python2.7/UserList.* ${libdir}/python2.7/UserString.* ${libdir}/python2.7/lib-dynload/binascii.so ${libdir}/python2.7/lib-dynload/_struct.so ${libdir}/python2.7/lib-dynload/time.so ${libdir}/python2.7/lib-dynload/xreadlines.so \
--${libdir}/python2.7/types.* ${libdir}/python2.7/platform.* ${bindir}/python* ${libdir}/python2.7/_weakrefset.* ${libdir}/python2.7/sysconfig.* ${libdir}/python2.7/config/Makefile ${includedir}/python${PYTHON_MAJMIN}/pyconfig.h ${libdir}/python${PYTHON_MAJMIN}/sitecustomize.py "
-+${libdir}/python2.7/types.* ${libdir}/python2.7/platform.* ${bindir}/python* ${libdir}/python2.7/_weakrefset.* ${libdir}/python2.7/sysconfig.* ${libdir}/python2.7/config/Makefile ${includedir}/python${PYTHON_MAJMIN}/pyconfig*.h ${libdir}/python${PYTHON_MAJMIN}/sitecustomize.py "
- 
- DESCRIPTION_${PN}-crypt="Python Basic Cryptographic and Hashing Support"
- RDEPENDS_${PN}-crypt="${PN}-core"
-diff --git a/meta/recipes-devtools/python/python.inc b/meta/recipes-devtools/python/python.inc
-index aaf11ac..2f17b00 100644
---- a/meta/recipes-devtools/python/python.inc
-+++ b/meta/recipes-devtools/python/python.inc
-@@ -3,7 +3,7 @@ HOMEPAGE = "http://www.python.org"
- LICENSE = "PSFv2"
- SECTION = "devel/python"
- # bump this on every change in contrib/python/generate-manifest-2.7.py
--INC_PR = "r1"
-+INC_PR = "r2"
- 
- LIC_FILES_CHKSUM = "file://LICENSE;md5=2dffb81509b47974467ea23409909b1c"
- 
-diff --git a/meta/recipes-devtools/python/python_2.7.2.bb b/meta/recipes-devtools/python/python_2.7.2.bb
-index 8cf45da..49ba13c 100644
---- a/meta/recipes-devtools/python/python_2.7.2.bb
-+++ b/meta/recipes-devtools/python/python_2.7.2.bb
-@@ -25,7 +25,7 @@ SRC_URI += "\
- 
- S = "${WORKDIR}/Python-${PV}"
- 
--inherit autotools
-+inherit autotools multilib_header
- 
- # The 3 lines below are copied from the libffi recipe, ctypes ships its own copy of the libffi sources
- #Somehow gcc doesn't set __SOFTFP__ when passing -mfloatabi=softp :(
-@@ -110,6 +110,8 @@ do_install() {
- 	if [ -e ${WORKDIR}/sitecustomize.py ]; then
- 		install -m 0644 ${WORKDIR}/sitecustomize.py ${D}/${libdir}/python${PYTHON_MAJMIN}
- 	fi
+diff --git a/meta/recipes-devtools/qemu/qemu-0.15.1/opengl-args-copy-fix.patch b/meta/recipes-devtools/qemu/qemu-0.15.1/opengl-args-copy-fix.patch
+new file mode 100644
+index 0000000..ddf4e4a
+--- /dev/null
++++ b/meta/recipes-devtools/qemu/qemu-0.15.1/opengl-args-copy-fix.patch
+@@ -0,0 +1,66 @@
++This patch fix GL application failure from 64b target on 32b host
 +
-+	oe_multilib_header python${PYTHON_MAJMIN}/pyconfig.h
- }
++64b target produce 64b args buffer, but qemu parse it as 32b and get wrong
++data. To avoid this, the type of args buffer in qemu should be same as target,
++that is, target_phys_addr_t. The only potential issue is that we need copy
++the data in buffer one by one, or else data corruption when 32b/64b for
++target/host combination. 
++
++Upstream-Status: Inappropriate [other] - depends on qemu gl patch
++
++Signed-off-by: Zhai Edwin <edwin.zhai@intel.com>
++
++Index: qemu-0.15.1/target-i386/opengl_func.h
++===================================================================
++--- qemu-0.15.1.orig/target-i386/opengl_func.h	2012-04-06 10:00:08.000000000 +0800
+++++ qemu-0.15.1/target-i386/opengl_func.h	2012-04-06 10:47:38.000000000 +0800
++@@ -25,10 +25,10 @@
++ #include "mesa_gl.h"
++ #include "mesa_glext.h"
++ 
++-/* Argument list are internally of a type that can hold a target pointer
++- * or a host pointer. If 32b target runs on 64b host, it should be big enough
++- * to hold host pointer */
++-typedef long unsigned int arg_t;
+++/* Argument list are internally of a type that point to a buffer passed from
+++ * target. It should have same type as target, so that we can support 32b
+++ * target on 64b host, and vice versa */
+++typedef target_phys_addr_t arg_t;
++ 
++ enum {
++     TYPE_NONE,
++Index: qemu-0.15.1/Makefile.target
++===================================================================
++--- qemu-0.15.1.orig/Makefile.target	2012-04-06 10:00:08.000000000 +0800
+++++ qemu-0.15.1/Makefile.target	2012-04-06 10:00:08.000000000 +0800
++@@ -128,7 +128,7 @@
++ gl_beginend.h: ../target-i386/beginend_funcs.sh
++ 	$< > $@
++ opengl_exec.o : opengl_exec.c server_stub.c gl_func.h opengl_func.h gl_beginend.h
++-	$(CC) $(GL_CFLAGS) $(DEFINES) -c -o $@ $< -I. -I../target-i386
+++	$(CC) $(GL_CFLAGS) $(DEFINES) -c -o $@ $< -I.. -I. -I../fpu -I../target-i386 -DNEED_CPU_H
++ 
++ #########################################################
++ # Linux user emulator target
++Index: qemu-0.15.1/target-i386/opengl_exec.c
++===================================================================
++--- qemu-0.15.1.orig/target-i386/opengl_exec.c	2012-04-06 10:00:08.000000000 +0800
+++++ qemu-0.15.1/target-i386/opengl_exec.c	2012-04-06 10:39:22.000000000 +0800
++@@ -37,16 +37,12 @@
++ #include <mesa_gl.h>
++ #include <mesa_glx.h>
++ 
++-// TODO
++-typedef long unsigned int target_phys_addr_t;
++-
+++#include "exec.h"
++ #include "opengl_func.h"
++ 
++ #include "mesa_glu.h"
++ #include "mesa_mipmap.c"
++ 
++-#include "../qemu-common.h"
++-
++ //#define SYSTEMATIC_ERROR_CHECK
++ #define BUFFER_BEGINEND
++ #define glGetError() 0
+diff --git a/meta/recipes-devtools/qemu/qemu_0.15.1.bb b/meta/recipes-devtools/qemu/qemu_0.15.1.bb
+index 3a4ef32..05ea5f8 100644
+--- a/meta/recipes-devtools/qemu/qemu_0.15.1.bb
++++ b/meta/recipes-devtools/qemu/qemu_0.15.1.bb
+@@ -3,7 +3,7 @@ require qemu.inc
+ LIC_FILES_CHKSUM = "file://COPYING;md5=441c28d2cf86e15a37fa47e15a72fbac \
+                     file://COPYING.LIB;endline=24;md5=c04def7ae38850e7d3ef548588159913"
  
- SSTATE_SCAN_FILES += "Makefile"
-diff --git a/scripts/contrib/python/generate-manifest-2.7.py b/scripts/contrib/python/generate-manifest-2.7.py
-index 267d678..7b43137 100755
---- a/scripts/contrib/python/generate-manifest-2.7.py
-+++ b/scripts/contrib/python/generate-manifest-2.7.py
-@@ -169,7 +169,7 @@ if __name__ == "__main__":
-     "lib-dynload/binascii.so lib-dynload/_struct.so lib-dynload/time.so " +
-     "lib-dynload/xreadlines.so types.* platform.* ${bindir}/python* "  + 
-     "_weakrefset.* sysconfig.* config/Makefile " +
--    "${includedir}/python${PYTHON_MAJMIN}/pyconfig.h " +
-+    "${includedir}/python${PYTHON_MAJMIN}/pyconfig*.h " +
-     "${libdir}/python${PYTHON_MAJMIN}/sitecustomize.py ")
+-PR = "r4"
++PR = "r5"
  
-     m.addPackage( "${PN}-dev", "Python Development Package", "${PN}-core",
+ FILESPATH = "${FILE_DIRNAME}/qemu-${PV}"
+ FILESDIR = "${WORKDIR}"
+@@ -29,6 +29,7 @@ QEMUGLPATCHES = "\
+     file://enable-i386-linux-user.patch \
+     file://qemugl-fix.patch \
+     file://opengl-sdl-fix.patch \
++    file://opengl-args-copy-fix.patch \
+     "
+ 
+ SRC_URI_append_virtclass-native = "\
 -- 
 1.7.7.6
 
