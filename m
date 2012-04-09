@@ -1,34 +1,27 @@
-Received: from mail1.windriver.com ([147.11.146.13])
+Received: from mga02.intel.com ([134.134.136.20])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <mark.hatle@windriver.com>) id 1SHGU3-0002RR-WA
+	(envelope-from <sgw@linux.intel.com>) id 1SHGgY-0002hA-QQ
 	for openembedded-core@lists.openembedded.org;
-	Mon, 09 Apr 2012 17:26:24 +0200
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca [147.11.189.40])
-	by mail1.windriver.com (8.14.3/8.14.3) with ESMTP id q39FH6Yw005825
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 9 Apr 2012 08:17:06 -0700 (PDT)
-Received: from msp-dhcp17.wrs.com (172.25.34.17) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server id 14.1.255.0;
-	Mon, 9 Apr 2012 08:17:05 -0700
-Message-ID: <4F82FD70.9080609@windriver.com>
-Date: Mon, 9 Apr 2012 10:17:04 -0500
-From: Mark Hatle <mark.hatle@windriver.com>
-Organization: Wind River Systems
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.6;
-	rv:10.0.2) Gecko/20120216 Thunderbird/10.0.2
+	Mon, 09 Apr 2012 17:39:19 +0200
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+	by orsmga101.jf.intel.com with ESMTP; 09 Apr 2012 08:30:01 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.67,351,1309762800"; d="scan'208";a="130323474"
+Received: from unknown (HELO [10.255.12.159]) ([10.255.12.159])
+	by orsmga002.jf.intel.com with ESMTP; 09 Apr 2012 08:30:01 -0700
+Message-ID: <4F830078.9020403@linux.intel.com>
+Date: Mon, 09 Apr 2012 08:30:00 -0700
+From: Saul Wold <sgw@linux.intel.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:11.0) Gecko/20120329 Thunderbird/11.0.1
 MIME-Version: 1.0
-To: <openembedded-core@lists.openembedded.org>
-References: <cover.1333481624.git.mark.hatle@windriver.com>
-	<c1765e7544603baa60bec27185a947aeee404bee.1333481624.git.mark.hatle@windriver.com>
-	<4F7CC6E6.6020006@opendreambox.org>
-	<CAMKF1soi+==bbEKMD+FLdk+8BvWNK3Nj24EJVhoyT5e=_5MvDw@mail.gmail.com>
-	<4F7F28FB.20600@windriver.com>
-	<CAMKF1srkXSBHFtO__F9m9TQ=dJzfn+7kfmXoK4=tWknEdc80eg@mail.gmail.com>
-	<4F7F85DC.2000301@windriver.com>
-	<4F820472.1080109@opendreambox.org>
-In-Reply-To: <4F820472.1080109@opendreambox.org>
-Subject: Re: [PATCH 3/7] conf/machine/include: Cleanup MIPS tunings to match README
+To: Scott Garman <scott.a.garman@intel.com>
+References: <cover.1333695164.git.scott.a.garman@intel.com>
+	<4F80D4EF.8090704@linux.intel.com> <4F826CEE.9040107@intel.com>
+In-Reply-To: <4F826CEE.9040107@intel.com>
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 0/1] shadow-native: disable logging to syslog
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -43,100 +36,92 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 09 Apr 2012 15:26:24 -0000
-Content-Type: text/plain; charset="ISO-8859-1"; format=flowed
+X-List-Received-Date: Mon, 09 Apr 2012 15:39:19 -0000
+Content-Type: text/plain; charset=ISO-8859-1; format=flowed
 Content-Transfer-Encoding: 7bit
 
-On 4/8/12 4:34 PM, Andreas Oberritter wrote:
-> On 07.04.2012 02:10, Mark Hatle wrote:
->> Just ran a local build with the qemumips machine, this is a standard
->> mips32 target.
+On 04/08/2012 10:00 PM, Scott Garman wrote:
+> On 04/07/2012 04:59 PM, Saul Wold wrote:
+>> On 04/05/2012 11:53 PM, Scott Garman wrote:
+>>> Hello,
+>>>
+>>> This pull request includes a patch to shadow to disable logging to
+>>> syslog, to prevent sysroot user and group additions from writing
+>>> entries to the host's syslog.
+>>>
+>>> I have build-tested this with core-image-sato (which builds a few
+>>> useradd-based recipes, such as avahi and dbus) for all 5 of our
+>>> qemu architectures, while watching my syslog to verify that no
+>>> useradd or groupadd entries were written.
+>>>
 >>
->>  From the configure line for eglibc:
+>> With this patch applied, the following error was seen on the AB:
 >>
->> /msp-lpggp1/mhatle/git/oe-core/build-mips32/tmp-eglibc/work/mips32-oe-linux/eglibc-2.13-r23+svnr15508/eglibc-2_13/libc/configure
->> --build=x86_64-linux --host=mips-oe-linux --target=mips-oe-linux
->> --prefix=/usr --exec_prefix=/usr --bindir=/usr/bin --sbindir=/usr/sbin
->> --libexecdir=/usr/libexec --datadir=/usr/share --sysconfdir=/etc
->> --sharedstatedir=/com --localstatedir=/var --libdir=/usr/lib
->> --includedir=/usr/include --oldincludedir=/usr/include
->> --infodir=/usr/share/info --mandir=/usr/share/man --disable-silent-rules
->> --disable-dependency-tracking
->> --with-libtool-sysroot=/msp-lpggp1/mhatle/git/oe-core/build-mips32/tmp-eglibc/sysroots/qemumips
->> --enable-kernel=2.6.16 --without-cvs --disable-profile --disable-debug
->> --without-gd --enable-clocale=gnu
->> --enable-add-ons=ports,nptl,libidn,ports
->> --with-headers=/msp-lpggp1/mhatle/git/oe-core/build-mips32/tmp-eglibc/sysroots/qemumips/usr/include
->> --without-selinux
+>> | Running useradd commands...
+>> | WARNING: useradd command did not succeed. Retrying...
+>> | WARNING: useradd command did not succeed. Retrying...
+>> | WARNING: useradd command did not succeed. Retrying...
+>> | WARNING: useradd command did not succeed. Retrying...
+>> | WARNING: useradd command did not succeed. Retrying...
+>> | WARNING: useradd command did not succeed. Retrying...
+>> | WARNING: useradd command did not succeed. Retrying...
+>> | WARNING: useradd command did not succeed. Retrying...
+>> | WARNING: useradd command did not succeed. Retrying...
+>> | WARNING: useradd command did not succeed. Retrying...
+>> | ERROR: tried running useradd command 10 times without success,
+>> giving up
 >>
->> The system is correctly setting the target to "mips-oe-linux".
+>> Check the AB here:
 >>
->> I checked and bash is the same way.
+>> http://autobuilder.yoctoproject.org:8010/builders/nightly-arm/builds/369/steps/shell_19/logs/stdio
 >>
->> So the canonical arch is correct, the mips32 is only the packaging
->> arch.  It was always intended that the packaging arch be used in full on
->> MIPS.  (This will allow us to specify mips32r2, mipsiii, mipsiv, etc as
->> necessary if we expand the mips tunings.)
 >
-> I don't think such a change should be done only few days before a
-> release. Until this patch was applied, the packaging arch has always
-> been mipsel, not mips32el. Please, revert or fix this!
-
-This is easy to change to the previous behavior...  however it was a bug in the 
-original implementation.
-
-But again, I stress nothing changed except for the packaging arch... the way the 
-packages are configured, compiled, installed remain the same, only the package 
-arch has changed.  The only place that may be affected by this is the package 
-feed mechanism.
-
-To revert to the previous behavior, in the meta/conf/machine/include/tune-mips.inc:
-
---- a/meta/conf/machine/include/tune-mips32.inc
-+++ b/meta/conf/machine/include/tune-mips32.inc
-@@ -9,17 +9,17 @@ TUNE_CCARGS += "${@bb.utils.contains("TUNE_FEATURES", "mips32"
-  AVAILTUNES += "mips32 mips32el mips32-nf mips32el-nf"
-
-  TUNE_FEATURES_tune-mips32 = "${TUNE_FEATURES_tune-mips} mips32"
--MIPSPKGSFX_VARIANT_tune-mips32 = "mips32"
-+MIPSPKGSFX_VARIANT_tune-mips32 = "mips"
-  PACKAGE_EXTRA_ARCHS_tune-mips32 = "mips mips32"
-
-  TUNE_FEATURES_tune-mips32el = "${TUNE_FEATURES_tune-mipsel} mips32"
--MIPSPKGSFX_VARIANT_tune-mips32el = "mips32el"
-+MIPSPKGSFX_VARIANT_tune-mips32el = "mipsel"
-  PACKAGE_EXTRA_ARCHS_tune-mips32el = "mipsel mips32el"
-
-  TUNE_FEATURES_tune-mips32-nf = "${TUNE_FEATURES_tune-mips-nf} mips32"
--MIPSPKGSFX_VARIANT_tune-mips32-nf = "mips32"
-+MIPSPKGSFX_VARIANT_tune-mips32-nf = "mips"
-  PACKAGE_EXTRA_ARCHS_tune-mips32-nf = "mips-nf mips32-nf"
-
-  TUNE_FEATURES_tune-mips32el-nf = "${TUNE_FEATURES_tune-mipsel-nf} mips32"
--MIPSPKGSFX_VARIANT_tune-mips32el-nf = "mips32el"
-+MIPSPKGSFX_VARIANT_tune-mips32el-nf = "mipsel"
-  PACKAGE_EXTRA_ARCHS_tune-mips32el-nf = "mipsel-nf mips32el-nf"
-
-Before I submit this patch though, I would like others to weigh in on the issue. 
-  This was a mistake in the earlier version of the code.  The "variant" wasn't 
-be set as it should have been.
-
-The problem is that if you set the tune to "mips", you get the default compiler 
-behavior.  However, if you set the tune to mips32, you get "-march=mips32" added 
-to your CCARGS.  This will produce slightly different binaries, thus "mips" and 
-mips32" are not equal.
-
---Mark
-
->> So right now, I don't see any failure conditions with an oe-core build.
->> (This is oe-core as of earlier today.)
->>
->> --Mark
+> Hi Saul,
 >
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
+> The syslog disable patch cannot trigger this error, I'm pretty certain
+> you have encountered another problem.
+>
+> The useradd class now uses code which checks that the user account or
+> group account was created in the passwd and group files, respectively.
+> If the account was not created (which is verified via a grep command),
+> the script sleeps for 1 second and tries again, up to 10 times. This is
+> intended to avoid lockfile races, as useradd and groupadd lock the
+> passwd and group files when creating accounts.
+>
+> It seems extremely unlikely that the passwd file was locked for a full
+> 10s worth of attempts to access it. I also see from the logs that the
+> base-passwd package was installed before this error was encountered,
+> which *should* rule out the possibility that the useradd command was
+> failing because /etc/passwd didn't exist yet.
+>
+> Later useradd commands are also failing in this manner, which makes me
+> suspect that something is wrong with the /etc/passwd file in this image.
+> The groupadd commands, on the other hand, are succeeding without any
+> retries.
+>
+> So it would be helpful for me to know answers to the following:
+>
+> Was this a build from scratch or from sstate?
+>
+This was from sstate.
 
+> Is this problem reproducible? (I'm starting a build from scratch
+> overnight on my end)
+>
+Only saw it on one build over the weekend, but turns out a bug already 
+existed with this issue, but it was filed as a PAM build failure (see 
+2218) , which maybe I need to re-assign to you.
+
+
+> What does the etc/passwd file in this image look like?
+>
+You can get it from the AB yourself, correct?  If not, let me know please.
+
+Sau!
+
+> Thanks,
+>
+> Scott
+>
 
 
