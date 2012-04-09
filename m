@@ -1,14 +1,28 @@
-Received: from ffm.saftware.de ([83.141.3.46])
+Received: from vms173015pub.verizon.net ([206.46.173.15])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <obi@opendreambox.org>) id 1SGzy4-00059z-KA
+	(envelope-from <denis@denix.org>) id 1SH352-0008Rn-A7
 	for openembedded-core@lists.openembedded.org;
-	Sun, 08 Apr 2012 23:48:16 +0200
-From: Andreas Oberritter <obi@opendreambox.org>
-To: openembedded-core@lists.openembedded.org
-Date: Sun,  8 Apr 2012 23:36:49 +0200
-Message-Id: <1333921009-15203-1-git-send-email-obi@opendreambox.org>
-X-Mailer: git-send-email 1.7.5.4
-Subject: [PATCH] gdb: add --with-libexpat-prefix
+	Mon, 09 Apr 2012 03:07:48 +0200
+Received: from gandalf.denix.org ([unknown] [71.178.225.66])
+	by vms173015.mailsrvcs.net
+	(Sun Java(tm) System Messaging Server 7u2-7.02 32bit (built Apr 16
+	2009)) with ESMTPA id <0M2600L0WTCN37O1@vms173015.mailsrvcs.net> for
+	openembedded-core@lists.openembedded.org;
+	Sun, 08 Apr 2012 19:58:04 -0500 (CDT)
+Received: by gandalf.denix.org (Postfix, from userid 1000)	id F01AB201CF; Sun,
+	08 Apr 2012 20:57:58 -0400 (EDT)
+Date: Sun, 08 Apr 2012 20:57:58 -0400
+From: Denys Dmytriyenko <denis@denix.org>
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Message-id: <20120409005758.GB10246@denix.org>
+References: <4F5FF91F.5010407@opendreambox.org>
+	<20120314083509.GA22878@rhein.zuhause.netz>
+	<20120402200909.GB26494@sakrah.homelinux.org>
+MIME-version: 1.0
+In-reply-to: <20120402200909.GB26494@sakrah.homelinux.org>
+User-Agent: Mutt/1.5.20 (2009-06-14)
+Subject: Re: gdb 7.4 and libexpat
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -23,42 +37,27 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 08 Apr 2012 21:48:16 -0000
+X-List-Received-Date: Mon, 09 Apr 2012 01:07:51 -0000
+Content-type: text/plain; charset=us-ascii
+Content-disposition: inline
 
-From: Martin Jansa <Martin.Jansa@gmail.com>
+On Mon, Apr 02, 2012 at 01:09:09PM -0700, Khem Raj wrote:
+> On (14/03/12 09:35), Henning Heinold wrote:
+> > On Wed, Mar 14, 2012 at 02:49:19AM +0100, Andreas Oberritter wrote:
+> > Hi,
+> > 
+> > option 2 is my favourite.
+> 
+> yes enable expat on both ends is better.
 
-* otherwise it sometimes finds host's expat
+...
 
-Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
-Signed-off-by: Andreas Oberritter <obi@opendreambox.org>
----
- meta/recipes-devtools/gdb/gdb-common.inc |    4 ++--
- 1 files changed, 2 insertions(+), 2 deletions(-)
+> having xml support is good to have better debugging experience.
 
-diff --git a/meta/recipes-devtools/gdb/gdb-common.inc b/meta/recipes-devtools/gdb/gdb-common.inc
-index a8fca6f..5dd4f74 100644
---- a/meta/recipes-devtools/gdb/gdb-common.inc
-+++ b/meta/recipes-devtools/gdb/gdb-common.inc
-@@ -11,7 +11,7 @@ LTTNGUST_mipsel = ""
- LTTNGUST_mips64 = ""
- LTTNGUST_mips64el = ""
- 
--INC_PR = "r7"
-+INC_PR = "r8"
- 
- LIC_FILES_CHKSUM = "file://COPYING;md5=59530bdf33659b29e73d4adb9f9f6552 \
- 		file://COPYING.LIB;md5=9f604d8a4f8e74f4f5140845a21b6674 \
-@@ -36,7 +36,7 @@ B = "${WORKDIR}/build-${TARGET_SYS}"
- 
- EXTRA_OEMAKE = "'SUBDIRS=intl mmalloc libiberty opcodes bfd sim gdb etc utils'"
- 
--EXPAT = "--with-expat"
-+EXPAT = "--with-expat --with-libexpat-prefix=${STAGING_DIR_HOST}"
- 
- EXTRA_OECONF = "--disable-gdbtk --disable-tui --disable-x \
-                 --with-curses --disable-multilib --with-system-readline --disable-sim \
+I was wondering if this statement was meant to be April 1st joke or 
+something... :)
+
 -- 
-1.7.5.4
-
+Denys
 
 
