@@ -1,23 +1,25 @@
-Received: from mail1.windriver.com ([147.11.146.13])
+Received: from mail.windriver.com ([147.11.1.11])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <Liezhi.Yang@windriver.com>) id 1SHE14-0006Y2-Jm
+	(envelope-from <Liezhi.Yang@windriver.com>) id 1SHE16-0006Y3-80
 	for openembedded-core@lists.openembedded.org;
-	Mon, 09 Apr 2012 14:48:18 +0200
+	Mon, 09 Apr 2012 14:48:20 +0200
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca [147.11.189.40])
-	by mail1.windriver.com (8.14.3/8.14.3) with ESMTP id q39Cd1T0004392
+	by mail.windriver.com (8.14.3/8.14.3) with ESMTP id q39Cd2XK010346
 	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 9 Apr 2012 05:39:01 -0700 (PDT)
+	Mon, 9 Apr 2012 05:39:02 -0700 (PDT)
 Received: from usp-ub10.corp.ad.wrs.com (128.224.163.69) by
 	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server id
-	14.1.255.0; Mon, 9 Apr 2012 05:39:01 -0700
+	14.1.255.0; Mon, 9 Apr 2012 05:39:02 -0700
 From: Robert Yang <liezhi.yang@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Mon, 9 Apr 2012 20:38:50 +0800
-Message-ID: <cover.1333974508.git.liezhi.yang@windriver.com>
+Date: Mon, 9 Apr 2012 20:38:51 +0800
+Message-ID: <ed9fadef0aa71a1e9cd32330ec503ffb6e0a9be8.1333974508.git.liezhi.yang@windriver.com>
 X-Mailer: git-send-email 1.7.1
+In-Reply-To: <cover.1333974508.git.liezhi.yang@windriver.com>
+References: <cover.1333974508.git.liezhi.yang@windriver.com>
 MIME-Version: 1.0
-Subject: [PATCH 0/1] git 1.7.7: remove perl.mak before compile
+Subject: [PATCH 1/1] git 1.7.7: remove perl.mak before compile
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -32,32 +34,46 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 09 Apr 2012 12:48:19 -0000
+X-List-Received-Date: Mon, 09 Apr 2012 12:48:20 -0000
 Content-Type: text/plain
 
-Test info:
+The git may fail to rebuild when perl's Config.pm or config.h changes,
+this is because Makefile detects that perl/perl.mak is out of date.
+Remove perl.mak to let Makefile regenerate it would fix the error.
+Both git and git-native have this problem.
 
-* $ bitbake git-native -ccompile
-* $ touch tmp/sysroots/i686-linux/usr/lib/perl-native/perl/5.14.2/Config.pm
-* $ bitake git-native -f -ccompile
+To reproduce the error: (On x86_64 host)
 
-git-native (or git) built successfully.
+$ bitbake git-native
+$ touch tmp/sysroots/x86_64-linux/usr/lib/perl-native/perl/5.14.2/Config.pm
+$ bitbake git-native -ccompile -f
 
-// Robert
+[YOCTO #2156]
 
-The following changes since commit 1a82989345fb98becb487d270fd93a5e6dffeb47:
-
-  runqemu-internal: Add console=tty for qemuppc and NFS (2012-04-06 01:12:15 +0100)
-
-are available in the git repository at:
-  git://git.pokylinux.org/poky-contrib robert/git
-  http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=robert/git
-
-Robert Yang (1):
-  git 1.7.7: remove perl.mak before compile
-
+Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
+---
  meta/recipes-devtools/git/git.inc |    6 ++++++
  1 files changed, 6 insertions(+), 0 deletions(-)
+
+diff --git a/meta/recipes-devtools/git/git.inc b/meta/recipes-devtools/git/git.inc
+index be3831b..ce2f574 100644
+--- a/meta/recipes-devtools/git/git.inc
++++ b/meta/recipes-devtools/git/git.inc
+@@ -12,6 +12,12 @@ EXTRA_OECONF = "--with-perl=${STAGING_BINDIR_NATIVE}/perl-native/perl --without-
+ 
+ inherit autotools perlnative
+ 
++do_compile_prepend () {
++	# Remove perl/perl.mak to fix the out-of-date perl.mak error
++	# during rebuild
++	rm -f perl/perl.mak
++}
++
+ do_install () {
+ 	oe_runmake install DESTDIR="${D}" bindir=${bindir} \
+ 		template_dir=${datadir}/git-core/templates \
+-- 
+1.7.1
 
 
 
