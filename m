@@ -1,24 +1,24 @@
 Received: from mga01.intel.com ([192.55.52.88])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <sgw@linux.intel.com>) id 1SH6s7-0007rr-TN
+	(envelope-from <sgw@linux.intel.com>) id 1SH6s8-0007rk-7K
 	for openembedded-core@lists.openembedded.org;
 	Mon, 09 Apr 2012 07:10:36 +0200
 Received: from fmsmga002.fm.intel.com ([10.253.24.26])
 	by fmsmga101.fm.intel.com with ESMTP; 08 Apr 2012 22:01:16 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="151367384"
+X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="151367387"
 Received: from unknown (HELO swold-mobl.bigsur.com) ([10.255.12.159])
 	by fmsmga002.fm.intel.com with ESMTP; 08 Apr 2012 22:01:16 -0700
 From: Saul Wold <sgw@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Sun,  8 Apr 2012 22:01:09 -0700
-Message-Id: <e9019755ac42d79c814f345d569a190997d80107.1333914345.git.sgw@linux.intel.com>
+Date: Sun,  8 Apr 2012 22:01:10 -0700
+Message-Id: <0fb3fe174a91ded2e3e9aa665151536f82ebbc82.1333914345.git.sgw@linux.intel.com>
 X-Mailer: git-send-email 1.7.7.6
 In-Reply-To: <cover.1333914345.git.sgw@linux.intel.com>
 References: <cover.1333914345.git.sgw@linux.intel.com>
 In-Reply-To: <cover.1333914345.git.sgw@linux.intel.com>
 References: <cover.1333914345.git.sgw@linux.intel.com>
-Subject: [CONSOLIDATED PULL 5/6] package.bbclass: needs_ldconfig from linux_so is needed in global namespace
+Subject: [CONSOLIDATED PULL 6/6] grub-efi: Include GPT partition EXT FS support
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -35,53 +35,79 @@ List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedde
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Mon, 09 Apr 2012 05:10:36 -0000
 
-From: Andrei Gherzan <andrei@gherzan.ro>
+From: Darren Hart <dvhart@linux.intel.com>
 
-"The suite of statements in a function definition executes with a local namespace
-that is different from the global namespace. This means that all variables created
-within a function are local to that function. When the suite finishes, these
-working variables are discarded."
+Fixes [YOCTO 2257]
 
-In this way the needs_ldconfig variable in linux_so never gets True in the statements
-below this function. As global statement is generally discouraged, a return value
-would be a clean and fast way to solve this issue.
+GPT partitions are common for EFI systems. Add support for them by
+including the part_gpt partition module in the grub-efi image. In
+order to allow for loading a Linux kernel from an EXT* filesystem,
+include the ext2 module as well.
 
-[YOCTO #2205]
+With this fix applied, I was able to boot from a USB key using a
+GPT partition table with the following layout:
 
-Signed-off-by: Andrei Gherzan <andrei@gherzan.ro>
+  $ sudo gdisk -l /dev/sdc
+  GPT fdisk (gdisk) version 0.8.2
+
+  Partition table scan:
+    MBR: protective
+    BSD: not present
+    APM: not present
+    GPT: present
+
+  Found valid GPT with protective MBR; using GPT.
+  Disk /dev/sdc: 7669824 sectors, 3.7 GiB
+  Logical sector size: 512 bytes
+  Disk identifier (GUID): 68FA7CD4-E0C3-4A8E-82B5-1331C9B17A3C
+  Partition table holds up to 128 entries
+  First usable sector is 34, last usable sector is 7669790
+  Partitions will be aligned on 2-sector boundaries
+  Total free space is 7428816 sectors (3.5 GiB)
+
+  Number  Start (sector)    End (sector)  Size       Code  Name
+     1              34           32801   16.0 MiB    0700      # FAT16
+     2           32802          240974   101.6 MiB   0700      # EXT3
+
+From within GRUB, booted as bootia32.efi from the BOOT partition, I
+booted the OS with the following commands:
+
+  grub> linux (hd0,gpt2)/vmlinuz rootwait root=/dev/sda2 console=ttyS0,115200
+  grub> boot
+
+This change will enable BSP developers to use the grub-efi image in
+their own images as well as enable upcoming changes to the installer
+to support EFI.
+
+Signed-off-by: Darren Hart <dvhart@linux.intel.com>
+CC: Kishore Bodke <kishore.k.bodke@intel.com>
+CC: Rahul Saxena <rahul.saxena@intel.com>
 ---
- meta/classes/package.bbclass |    4 +++-
- 1 files changed, 3 insertions(+), 1 deletions(-)
+ meta/recipes-bsp/grub/grub-efi-native_1.99.bb |    4 ++--
+ 1 files changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/meta/classes/package.bbclass b/meta/classes/package.bbclass
-index d35667a..c98e8fa 100644
---- a/meta/classes/package.bbclass
-+++ b/meta/classes/package.bbclass
-@@ -1263,6 +1263,7 @@ python package_do_shlibs() {
- 	lf = bb.utils.lockfile(d.expand("${PACKAGELOCK}"))
+diff --git a/meta/recipes-bsp/grub/grub-efi-native_1.99.bb b/meta/recipes-bsp/grub/grub-efi-native_1.99.bb
+index c951152..93e9290 100644
+--- a/meta/recipes-bsp/grub/grub-efi-native_1.99.bb
++++ b/meta/recipes-bsp/grub/grub-efi-native_1.99.bb
+@@ -16,7 +16,7 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=d32239bcb673463ab874e80d47fae504"
+ # FIXME: We should be able to optionally drop freetype as a dependency
+ DEPENDS = "help2man-native autogen-native"
+ RDEPENDS_${PN} = "diffutils freetype"
+-PR = "r5"
++PR = "r6"
  
- 	def linux_so(root, path, file):
-+		needs_ldconfig = False
- 		cmd = d.getVar('OBJDUMP', True) + " -p " + pipes.quote(os.path.join(root, file)) + " 2>/dev/null"
- 		cmd = "PATH=\"%s\" %s" % (d.getVar('PATH', True), cmd)
- 		fd = os.popen(cmd)
-@@ -1283,6 +1284,7 @@ python package_do_shlibs() {
- 					needs_ldconfig = True
- 				if snap_symlinks and (file != this_soname):
- 					renames.append((os.path.join(root, file), os.path.join(root, this_soname)))
-+		return needs_ldconfig
+ # Native packages do not normally rebuild when the target changes.
+ # Ensure this is built once per HOST-TARGET pair.
+@@ -61,7 +61,7 @@ EXTRA_OECONF = "--with-platform=efi --disable-grub-mkfont \
+ do_mkimage() {
+ 	./grub-mkimage -p /EFI/BOOT -d ./grub-core/ \
+ 		       -O ${GRUB_TARGET}-efi -o ./${GRUB_IMAGE} \
+-	               boot linux fat serial part_msdos normal efi_gop
++	               boot linux ext2 fat serial part_msdos part_gpt normal efi_gop
+ }
+ addtask mkimage after do_compile before do_install
  
- 	def darwin_so(root, path, file):
- 		fullpath = os.path.join(root, file)
-@@ -1382,7 +1384,7 @@ python package_do_shlibs() {
- 				if targetos == "darwin" or targetos == "darwin8":
- 					darwin_so(root, dirs, file)
- 				elif os.access(path, os.X_OK) or lib_re.match(file):
--					linux_so(root, dirs, file)
-+					needs_ldconfig = linux_so(root, dirs, file)
- 		for (old, new) in renames:
- 		    	bb.note("Renaming %s to %s" % (old, new))
- 			os.rename(old, new)
 -- 
 1.7.7.6
 
