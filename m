@@ -1,45 +1,20 @@
-Received: from mga09.intel.com ([134.134.136.24])
+Received: from mga01.intel.com ([192.55.52.88])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <scott.a.garman@intel.com>) id 1SH6rF-0007ol-Vn
+	(envelope-from <sgw@linux.intel.com>) id 1SH6s4-0007rk-Lu
 	for openembedded-core@lists.openembedded.org;
-	Mon, 09 Apr 2012 07:09:42 +0200
-Received: from mail-pb0-f52.google.com ([209.85.160.52])
-	by mga09.intel.com with ESMTP/TLS/RC4-SHA; 08 Apr 2012 22:00:24 -0700
-Received: by pbcuo15 with SMTP id uo15so15698654pbc.25
-	for <openembedded-core@lists.openembedded.org>;
-	Sun, 08 Apr 2012 22:00:24 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=google.com; s=20120113;
-	h=message-id:date:from:user-agent:mime-version:to:cc:subject
-	:references:in-reply-to:content-type:content-transfer-encoding
-	:x-gm-message-state;
-	bh=9P2+KltPdIGv+6G6ffwNxdWrchBQEeIMzvfOLvbj9wo=;
-	b=KdhKiLAhOxe074p3vrmoFOWxuCV8KLJHx4LRhcNAOvwZvSvhx8c9Y+eZZkS2/D85sP
-	Y3LctNhEN1rtAhMxDbwKF8U6zIFXFXgb3H497N0il3xaOJTjdpsZkdqfsV+mIQ+IpJZ4
-	QPJqJmC2GhefrisCezck3DHPRox9R0GSJzIuKwpiLMuAOek2ylp6w6mIF7dxRwfS0CJF
-	XqJ5vs+aoN4CRhf2qPaMas2bNKJV8RdeS3m1Mt41qeQu2LUhojePZ+xXBrOos+6tlKRO
-	eg2MZZ6eA1wzxppauc0wpR+KW/aPOZo9qMMPF28zraYP2Ypi/iArxW3+KAeS7iVXeP0p
-	jj7Q==
-Received: by 10.68.219.226 with SMTP id pr2mr16529906pbc.66.1333947624609;
-	Sun, 08 Apr 2012 22:00:24 -0700 (PDT)
-Received: from [192.168.1.12] (c-76-105-137-48.hsd1.or.comcast.net.
-	[76.105.137.48])
-	by mx.google.com with ESMTPS id st4sm9582170pbc.51.2012.04.08.22.00.22
-	(version=SSLv3 cipher=OTHER); Sun, 08 Apr 2012 22:00:23 -0700 (PDT)
-Message-ID: <4F826CEE.9040107@intel.com>
-Date: Sun, 08 Apr 2012 22:00:30 -0700
-From: Scott Garman <scott.a.garman@intel.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:11.0) Gecko/20120329 Thunderbird/11.0.1
-MIME-Version: 1.0
-To: Saul Wold <sgw@linux.intel.com>
-References: <cover.1333695164.git.scott.a.garman@intel.com>
-	<4F80D4EF.8090704@linux.intel.com>
-In-Reply-To: <4F80D4EF.8090704@linux.intel.com>
-X-Gm-Message-State: ALoCoQk7Y4RF4cGmN62X0D453I+0ZoL8Bz1pOWRwX1Y4rTVyXPuevyV5isiXEvX7xG8CqVLVZBUI
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 0/1] shadow-native: disable logging to syslog
+	Mon, 09 Apr 2012 07:10:32 +0200
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+	by fmsmga101.fm.intel.com with ESMTP; 08 Apr 2012 22:01:15 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="151367375"
+Received: from unknown (HELO swold-mobl.bigsur.com) ([10.255.12.159])
+	by fmsmga002.fm.intel.com with ESMTP; 08 Apr 2012 22:01:15 -0700
+From: Saul Wold <sgw@linux.intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Sun,  8 Apr 2012 22:01:04 -0700
+Message-Id: <cover.1333914345.git.sgw@linux.intel.com>
+X-Mailer: git-send-email 1.7.7.6
+Subject: [CONSOLIDATED PULL 0/6] Various Patches
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -54,82 +29,58 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 09 Apr 2012 05:09:42 -0000
-Content-Type: text/plain; charset=ISO-8859-1; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Mon, 09 Apr 2012 05:10:32 -0000
 
-On 04/07/2012 04:59 PM, Saul Wold wrote:
-> On 04/05/2012 11:53 PM, Scott Garman wrote:
->> Hello,
->>
->> This pull request includes a patch to shadow to disable logging to
->> syslog, to prevent sysroot user and group additions from writing
->> entries to the host's syslog.
->>
->> I have build-tested this with core-image-sato (which builds a few
->> useradd-based recipes, such as avahi and dbus) for all 5 of our
->> qemu architectures, while watching my syslog to verify that no
->> useradd or groupadd entries were written.
->>
->
-> With this patch applied, the following error was seen on the AB:
->
-> | Running useradd commands...
-> | WARNING: useradd command did not succeed. Retrying...
-> | WARNING: useradd command did not succeed. Retrying...
-> | WARNING: useradd command did not succeed. Retrying...
-> | WARNING: useradd command did not succeed. Retrying...
-> | WARNING: useradd command did not succeed. Retrying...
-> | WARNING: useradd command did not succeed. Retrying...
-> | WARNING: useradd command did not succeed. Retrying...
-> | WARNING: useradd command did not succeed. Retrying...
-> | WARNING: useradd command did not succeed. Retrying...
-> | WARNING: useradd command did not succeed. Retrying...
-> | ERROR: tried running useradd command 10 times without success, giving up
->
-> Check the AB here:
->
-> http://autobuilder.yoctoproject.org:8010/builders/nightly-arm/builds/369/steps/shell_19/logs/stdio
+Richard,
 
-Hi Saul,
+This is a set patches to address various 1.2 bugs along with
+a change to the create-pull-request script from Darren.
 
-The syslog disable patch cannot trigger this error, I'm pretty certain 
-you have encountered another problem.
+Please review the package.bbclass change, seems correct to me.
 
-The useradd class now uses code which checks that the user account or 
-group account was created in the passwd and group files, respectively. 
-If the account was not created (which is verified via a grep command), 
-the script sleeps for 1 second and tries again, up to 10 times. This is 
-intended to avoid lockfile races, as useradd and groupadd lock the 
-passwd and group files when creating accounts.
+Thanks
+	Sau!
 
-It seems extremely unlikely that the passwd file was locked for a full 
-10s worth of attempts to access it. I also see from the logs that the 
-base-passwd package was installed before this error was encountered, 
-which *should* rule out the possibility that the useradd command was 
-failing because /etc/passwd didn't exist yet.
+The following changes since commit 1a82989345fb98becb487d270fd93a5e6dffeb47:
 
-Later useradd commands are also failing in this manner, which makes me 
-suspect that something is wrong with the /etc/passwd file in this image. 
-The groupadd commands, on the other hand, are succeeding without any 
-retries.
+  runqemu-internal: Add console=tty for qemuppc and NFS (2012-04-06 01:12:15 +0100)
 
-So it would be helpful for me to know answers to the following:
+are available in the git repository at:
+  git://git.openembedded.org/openembedded-core-contrib sgw/stage
+  http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=oe-mut
 
-Was this a build from scratch or from sstate?
+Andrei Gherzan (1):
+  package.bbclass: needs_ldconfig from linux_so is needed in global
+    namespace
 
-Is this problem reproducible? (I'm starting a build from scratch 
-overnight on my end)
+Darren Hart (2):
+  create-pull-request: Assume remote branch from local branch
+  grub-efi: Include GPT partition EXT FS support
 
-What does the etc/passwd file in this image look like?
+Joshua Lock (1):
+  mesa-common: package gl.pc in libgl-dev
 
-Thanks,
+Lianhao Lu (1):
+  python: multilib header support.
 
-Scott
+Zhai Edwin (1):
+  qemu: Fix gl failure from 64b target on 32b host
+
+ meta/classes/package.bbclass                       |    4 +-
+ meta/recipes-bsp/grub/grub-efi-native_1.99.bb      |    4 +-
+ .../python/python-2.7-manifest.inc                 |    2 +-
+ meta/recipes-devtools/python/python.inc            |    2 +-
+ meta/recipes-devtools/python/python_2.7.2.bb       |    4 +-
+ .../qemu/qemu-0.15.1/opengl-args-copy-fix.patch    |   66 ++++++++++++++++++++
+ meta/recipes-devtools/qemu/qemu_0.15.1.bb          |    3 +-
+ meta/recipes-graphics/mesa/mesa-common.inc         |    2 +-
+ scripts/contrib/python/generate-manifest-2.7.py    |    2 +-
+ scripts/create-pull-request                        |   11 +++-
+ 10 files changed, 88 insertions(+), 12 deletions(-)
+ create mode 100644 meta/recipes-devtools/qemu/qemu-0.15.1/opengl-args-copy-fix.patch
 
 -- 
-Scott Garman
-Embedded Linux Engineer - Yocto Project
-Intel Open Source Technology Center
+1.7.7.6
+
 
 
