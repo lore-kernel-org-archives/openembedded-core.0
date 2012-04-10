@@ -1,43 +1,36 @@
-Received: from mail-we0-f175.google.com ([74.125.82.175])
+Received: from mail.pbcl.net ([88.198.119.4] helo=hetzner.pbcl.net)
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <koen@dominion.thruhere.net>) id 1SHXGC-00009p-Ud
+	(envelope-from <philb@gnu.org>) id 1SHXRU-0000NC-O3
 	for openembedded-core@lists.openembedded.org;
-	Tue, 10 Apr 2012 11:21:12 +0200
-Received: by wera1 with SMTP id a1so3071798wer.6
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 10 Apr 2012 02:11:55 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=google.com; s=20120113;
-	h=subject:mime-version:content-type:from:in-reply-to:date:cc
-	:content-transfer-encoding:message-id:references:to:x-mailer
-	:x-gm-message-state;
-	bh=Eh08j4pT1RXNk22LBo1JM2N2ClVVLcfJBXgWVCk4hXE=;
-	b=ZfmSOWTWCFCNoxVhTHolkhbSJKzwdJz7S0ZaZVhOcOKlv+FDINpYapYHvPosfvHu5T
-	cedjLEPeLCGf685Y0VdbV5h7eAENdo0uoyNYxU5qC941tX3K3fBJ68f3Y/+qvQt5CANJ
-	v86Cb8mIUTo78jr0Ojq8aMgv/nj5Z+XgNUeGuRZjtBd2jtUZLjq4bRYfS3h/8qQvagre
-	uASqUDAL7OxSDtoTA0oiP/uit7VF5a/sozv/94perQ3T6Iz3pKrnfuyrRk2dnnXuF6jE
-	e4esczVU8sneQJR/z6JODz3oY8ldy5DarRSB+Ml8xLojWD7CEdRFxR4m5BCVDPvzi6IK
-	Ohxw==
-Received: by 10.180.96.228 with SMTP id dv4mr5089874wib.14.1334049115183;
-	Tue, 10 Apr 2012 02:11:55 -0700 (PDT)
-Received: from [172.20.0.96] (ip545070eb.adsl-surfen.hetnet.nl.
-	[84.80.112.235])
-	by mx.google.com with ESMTPS id b3sm36392723wib.4.2012.04.10.02.11.53
-	(version=TLSv1/SSLv3 cipher=OTHER);
-	Tue, 10 Apr 2012 02:11:54 -0700 (PDT)
-Mime-Version: 1.0 (Apple Message framework v1257)
-From: Koen Kooi <koen@dominion.thruhere.net>
-In-Reply-To: <1334048766.6861.2.camel@ted>
-Date: Tue, 10 Apr 2012 11:11:52 +0200
-Message-Id: <A5A4632D-2BD8-486E-A7E5-BCBA23334368@dominion.thruhere.net>
-References: <20120406001738.706A810217@opal>
-	<20120410083815.GC3583@jama.jama.net> <1334048766.6861.2.camel@ted>
+	Tue, 10 Apr 2012 11:32:52 +0200
+Received: from elite.brightsigndigital.co.uk ([81.142.160.137]
+	helo=[172.30.1.145])
+	by hetzner.pbcl.net with esmtpsa (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+	(Exim 4.72) (envelope-from <philb@gnu.org>) id 1SHXIX-0001Ji-F8
+	for openembedded-core@lists.openembedded.org;
+	Tue, 10 Apr 2012 11:23:37 +0200
+From: Phil Blundell <philb@gnu.org>
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-X-Mailer: Apple Mail (2.1257)
-X-Gm-Message-State: ALoCoQkJ7KE1AWulQ3c4ocby+LnQcxtqL76Lf7yN6FmoP536XE8IoxE8W2LkSUxX4Yi8z3VwpzIC
-Cc: openembedded-commits@lists.openembedded.org
-Subject: Re: [oe-commits] Andrei Gherzan : gdbm: Activate -enable-libgdbm-compat and add symlinks to headers in include/ gdbm
+Date: Tue, 10 Apr 2012 10:23:36 +0100
+In-Reply-To: <4F835832.8070905@windriver.com>
+References: <cover.1333481624.git.mark.hatle@windriver.com>
+	<c1765e7544603baa60bec27185a947aeee404bee.1333481624.git.mark.hatle@windriver.com>
+	<4F7CC6E6.6020006@opendreambox.org>
+	<CAMKF1soi+==bbEKMD+FLdk+8BvWNK3Nj24EJVhoyT5e=_5MvDw@mail.gmail.com>
+	<4F7F28FB.20600@windriver.com>
+	<CAMKF1srkXSBHFtO__F9m9TQ=dJzfn+7kfmXoK4=tWknEdc80eg@mail.gmail.com>
+	<4F7F85DC.2000301@windriver.com> <4F820472.1080109@opendreambox.org>
+	<4F82FD70.9080609@windriver.com> <4F83413F.7010608@opendreambox.org>
+	<4F8345BD.6090500@windriver.com>
+	<1334005382.3382.10.camel@x121e.pbcl.net>
+	<4F8352CD.7070500@windriver.com>
+	<1334007051.3382.19.camel@x121e.pbcl.net>
+	<4F835832.8070905@windriver.com>
+X-Mailer: Evolution 3.0.2- 
+Message-ID: <1334049817.28712.96.camel@phil-desktop>
+Mime-Version: 1.0
+Subject: Re: ARM tunings was Re: [PATCH 3/7] conf/machine/include: Cleanup MIPS tunings to match README
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -52,64 +45,40 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 10 Apr 2012 09:21:13 -0000
-Content-Type: text/plain; charset=us-ascii
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Tue, 10 Apr 2012 09:32:52 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
+On Mon, 2012-04-09 at 16:44 -0500, Mark Hatle wrote:
+> Depends on the distribution and reasons for these feeds.  What is typical is 
+> that a base distribution will be generated for a common compatible (reasonable) 
+> architecture.. i.e. armv5 -- with specific optimized package (glibc, openssl, 
+> etc) for the target arch, i.e. armv7a.  Then you have a couple of packages 
+> hand-tuned for size, speed, or other that define or not thumb and add even a 
+> higher level of optimization.  It's possible, folks do it today.. but it's not 
+> always obvious.  (I have existing customers today that run a mix like I 
+> described through their own package feed like system.  They really don't care at 
+> all that the core system is tuned for a given processor -- they only care that 
+> their specific applications and certain areas are specifically tuned to their 
+> use-cases.)  Note, this is not what I would consider a typical use-case!
 
-Op 10 apr. 2012, om 11:06 heeft Richard Purdie het volgende geschreven:
+Sorry, I'm not quite sure I understand what point you're trying to make
+here.  Are you describing what your customers are currently doing with
+OE, or are you saying that this is something that they would like to do
+with OE but don't feel they are able to at present, or something else?
 
-> On Tue, 2012-04-10 at 10:38 +0200, Martin Jansa wrote:
->> On Fri, Apr 06, 2012 at 12:17:38AM +0000, git@git.openembedded.org =
-wrote:
->>> Module: openembedded-core.git
->>> Branch: master
->>> Commit: e4d2ee00419f675ba8b7fb5d75256762253d8b32
->>> URL:    =
-http://git.openembedded.org/?p=3Dopenembedded-core.git&a=3Dcommit;h=3De4d2=
-ee00419f675ba8b7fb5d75256762253d8b32
->>>=20
->>> Author: Andrei Gherzan <andrei@gherzan.ro>
->>> Date:   Fri Mar 23 17:56:29 2012 +0200
->>>=20
->>> gdbm: Activate -enable-libgdbm-compat and add symlinks to headers in =
-include/gdbm
->>>=20
->>> ndbm.h is needed by python for dbm module. This is why =
--enable-libgdbm-compat was added
->>> to configure.
->>> The second change is because python is looking for the gdbm headers =
-in include/gdbm.
->>> The easiest way to solve this issue is to add symlinks in =
-include/gdbm.
->>>=20
->>> [YOCTO #1937]
->>>=20
->>> Signed-off-by: Andrei Gherzan <andrei@gherzan.ro>
->>=20
->> This breaks every package in feed which depends on old package name
->> libgdbm4 (>=3D 1.10)
->>=20
->> Because now there are 2 .so files in ${PN} and no LEAD_SONAME =
-defined.
->>=20
->> Are you going to=20
->>=20
->> 1) send PR bumps to all packages which depends on libgdbm4
->>   (e.g. apr-util python pulseaudio perl gst-plugins-good and probably =
-more)
->> 2) define LEAD_SONAME and bump PR in gdbm recipe
->> 3) move -compat libs to ${PN}-compat or some other package name, so =
-that
->>   old libgdbm4 still exists (and maybe + 1) because some people could
->>   build those with gdbm as dependency now)
->=20
-> I like the idea of putting the compat libs into a separate package...
+I'm still not entirely clear on what you feel is broken about the
+current state of the ARM tunings.  What exactly is the scenario that
+works with the "traditional workstaton/server Linux OS" and can't be
+replicated with OE?
 
-me too
+But, all that aside, it seems ultimately that the exact way the
+PACKAGE_ARCHs are structured ought to be a DISTRO policy decision and
+not something that's mandated by the underlying infrastructure.  That
+would perhaps remove some of the need for tinkering with these things in
+oe-core itself.
 
-regards,
+p.
 
-Koen=
 
 
