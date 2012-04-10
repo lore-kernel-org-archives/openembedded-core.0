@@ -1,32 +1,35 @@
-Received: from mail.dream-property.net ([82.149.226.172])
-	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <obi@opendreambox.org>) id 1SHbSy-00047z-2V
-	for openembedded-core@lists.openembedded.org;
-	Tue, 10 Apr 2012 15:50:40 +0200
+Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
+	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <richard.purdie@linuxfoundation.org>)
+	id 1SHbT2-00048G-MQ for openembedded-core@lists.openembedded.org;
+	Tue, 10 Apr 2012 15:50:44 +0200
 Received: from localhost (localhost [127.0.0.1])
-	by mail.dream-property.net (Postfix) with ESMTP id 8F8C6315AFF5
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q3ADfQVs027324
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 10 Apr 2012 15:41:24 +0200 (CEST)
-X-Virus-Scanned: Debian amavisd-new at mail.dream-property.net
-Received: from mail.dream-property.net ([127.0.0.1])
-	by localhost (mail.dream-property.net [127.0.0.1]) (amavisd-new,
-	port 10024) with LMTP id AY9TkaCuiHc4
+	Tue, 10 Apr 2012 14:41:26 +0100
+Received: from tim.rpsys.net ([127.0.0.1])
+	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
+	port 10024) with LMTP
+	id 26433-07 for <openembedded-core@lists.openembedded.org>;
+	Tue, 10 Apr 2012 14:41:21 +0100 (BST)
+Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q3ADfJFf027318
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO)
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 10 Apr 2012 15:41:13 +0200 (CEST)
-Received: from [172.22.22.61] (drms-590ed64d.pool.mediaWays.net [89.14.214.77])
-	(using TLSv1 with cipher DHE-RSA-AES256-SHA (256/256 bits))
-	(No client certificate requested)
-	by mail.dream-property.net (Postfix) with ESMTPSA id 592FE315AFF1
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 10 Apr 2012 15:41:13 +0200 (CEST)
-Message-ID: <4F843878.2060705@opendreambox.org>
-Date: Tue, 10 Apr 2012 15:41:12 +0200
-From: Andreas Oberritter <obi@opendreambox.org>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:11.0) Gecko/20120329 Thunderbird/11.0.1
-MIME-Version: 1.0
-To: openembedded-core@lists.openembedded.org
-Subject: libpython2
+	Tue, 10 Apr 2012 14:41:20 +0100
+Message-ID: <1334065279.10826.14.camel@ted>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Date: Tue, 10 Apr 2012 14:41:19 +0100
+In-Reply-To: <1967D97F-63A7-49DA-930F-A0C6F1F4112F@dominion.thruhere.net>
+References: <1333626507-32182-1-git-send-email-stefan@herbrechtsmeier.net>
+	<4F7E607E.9050101@linux.intel.com>
+	<1967D97F-63A7-49DA-930F-A0C6F1F4112F@dominion.thruhere.net>
+X-Mailer: Evolution 3.2.2- 
+Mime-Version: 1.0
+X-Virus-Scanned: amavisd-new at rpsys.net
+Subject: Re: [PATCH] u-boot: add machine name to spl image name
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -41,35 +44,75 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 10 Apr 2012 13:50:40 -0000
-Content-Type: text/plain; charset=ISO-8859-1
+X-List-Received-Date: Tue, 10 Apr 2012 13:50:44 -0000
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 
-Hi,
+On Fri, 2012-04-06 at 06:29 -0700, Koen Kooi wrote:
+> 
+> Op 5 apr. 2012 om 20:18 heeft Saul Wold <sgw@linux.intel.com> het volgende geschreven:
+> 
+> > On 04/05/2012 04:48 AM, Stefan Herbrechtsmeier wrote:
+> >> Signed-off-by: Stefan Herbrechtsmeier<stefan@herbrechtsmeier.net>
+> >> ---
+> >>  meta/recipes-bsp/u-boot/u-boot.inc        |    2 +-
+> >>  meta/recipes-bsp/u-boot/u-boot_2011.03.bb |    2 +-
+> >>  meta/recipes-bsp/u-boot/u-boot_2011.06.bb |    2 +-
+> >>  3 files changed, 3 insertions(+), 3 deletions(-)
+> >> 
+> >> diff --git a/meta/recipes-bsp/u-boot/u-boot.inc b/meta/recipes-bsp/u-boot/u-boot.inc
+> >> index 700d5d3..0445c34 100644
+> >> --- a/meta/recipes-bsp/u-boot/u-boot.inc
+> >> +++ b/meta/recipes-bsp/u-boot/u-boot.inc
+> >> @@ -32,7 +32,7 @@ UBOOT_MAKE_TARGET ?= "all"
+> >>  # deploy directory.  For those versions they can set the following variables
+> >>  # to allow packaging the SPL.
+> >>  SPL_BINARY ?= ""
+> >> -SPL_IMAGE ?= "${SPL_BINARY}-${PV}-${PR}"
+> >> +SPL_IMAGE ?= "${SPL_BINARY}-${MACHINE}-${PV}-${PR}"
+> >>  SPL_SYMLINK ?= "${SPL_BINARY}-${MACHINE}"
+> >> 
+> >>  do_compile () {
+> >> diff --git a/meta/recipes-bsp/u-boot/u-boot_2011.03.bb b/meta/recipes-bsp/u-boot/u-boot_2011.03.bb
+> >> index 1ebdbea..e99bc2c 100644
+> >> --- a/meta/recipes-bsp/u-boot/u-boot_2011.03.bb
+> >> +++ b/meta/recipes-bsp/u-boot/u-boot_2011.03.bb
+> >> @@ -17,7 +17,7 @@ FILESDIR = "${@os.path.dirname(d.getVar('FILE',1))}/u-boot-git/${MACHINE}"
+> >>  SRCREV = "19b54a701811220221fc4d5089a2bb18892018ca"
+> >> 
+> >>  PV = "v2011.03+git${SRCPV}"
+> >> -PR = "r5"
+> >> +PR = "r6"
+> >> 
+> >>  SRC_URI = "git://git.denx.de/u-boot.git;branch=master;protocol=git"
+> >> 
+> >> diff --git a/meta/recipes-bsp/u-boot/u-boot_2011.06.bb b/meta/recipes-bsp/u-boot/u-boot_2011.06.bb
+> >> index 8ebdbff..680401f 100644
+> >> --- a/meta/recipes-bsp/u-boot/u-boot_2011.06.bb
+> >> +++ b/meta/recipes-bsp/u-boot/u-boot_2011.06.bb
+> >> @@ -17,7 +17,7 @@ FILESDIR = "${@os.path.dirname(d.getVar('FILE',1))}/u-boot-git/${MACHINE}"
+> >>  SRCREV = "b1af6f532e0d348b153d5c148369229d24af361a"
+> >> 
+> >>  PV = "v2011.06+git${SRCPV}"
+> >> -PR = "r0"
+> >> +PR = "r1"
+> >> 
+> >>  SRC_URI = "git://git.denx.de/u-boot.git;branch=master;protocol=git"
+> >> 
+> > 
+> > Merged into OE-Core
+> 
+> wait a minute, why was this merged?
 
-bitbake complains:
+In retrospect it shouldn't. It was presented to me as part of a series
+and I wasn't careful enough about sifting through the commits, likely
+the jetlag wasn't helping. I'll aim to try harder, people can help by
+pointing out patches they don't think should be going into the release
+at this point...
 
-"NOTE: multiple providers are available for runtime libpython2 (python,
-python-nativesdk)
-NOTE: consider defining a PREFERRED_PROVIDER entry to match libpython2"
+Cheers,
 
-That's because I'm building a recipe for a binary that RDEPENDS_${PN} on
-libpython2. So I added PREFERRED_PROVIDER_libpython2 = "python" to my
-disto.conf, but the warning cited above persists.
-
-python_2.7.2.bb contains:
-
-PACKAGES =+ "lib${BPN}2"
-...
-BBCLASSEXTEND = "nativesdk"
-
-Shouldn't it rather create libpython2 and libpython2-nativesdk or
-something similar?
-
-What could be the reason for the warning to persist?
-
-Regards,
-Andreas
+Richard
 
 
 
