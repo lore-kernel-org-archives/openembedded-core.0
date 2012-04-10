@@ -1,28 +1,37 @@
-Received: from mail1.windriver.com ([147.11.146.13])
+Received: from mga03.intel.com ([143.182.124.21])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <Liezhi.Yang@windriver.com>) id 1SHQg1-00082s-LT
+	(envelope-from <lianhao.lu@intel.com>) id 1SHRVN-0000oN-HL
 	for openembedded-core@lists.openembedded.org;
-	Tue, 10 Apr 2012 04:19:26 +0200
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca [147.11.189.40])
-	by mail1.windriver.com (8.14.3/8.14.3) with ESMTP id q3A2A7Yu013977
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 9 Apr 2012 19:10:07 -0700 (PDT)
-Received: from [128.224.162.196] (128.224.162.196) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server id 14.1.255.0;
-	Mon, 9 Apr 2012 19:10:06 -0700
-Message-ID: <4F83967D.6020403@windriver.com>
-Date: Tue, 10 Apr 2012 10:10:05 +0800
-From: Robert Yang <liezhi.yang@windriver.com>
-User-Agent: Mozilla/5.0 (X11; Linux i686;
-	rv:11.0) Gecko/20120310 Thunderbird/11.0
+	Tue, 10 Apr 2012 05:12:29 +0200
+Received: from azsmga002.ch.intel.com ([10.2.17.35])
+	by azsmga101.ch.intel.com with ESMTP; 09 Apr 2012 20:03:11 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="87170185"
+Received: from azsmsx601.amr.corp.intel.com ([10.2.121.193])
+	by AZSMGA002.ch.intel.com with ESMTP; 09 Apr 2012 20:03:11 -0700
+Received: from shsmsx101.ccr.corp.intel.com (10.239.4.153) by
+	azsmsx601.amr.corp.intel.com (10.2.121.193) with Microsoft SMTP Server
+	(TLS) id 8.2.255.0; Mon, 9 Apr 2012 20:03:10 -0700
+Received: from shsmsx102.ccr.corp.intel.com ([169.254.2.125]) by
+	SHSMSX101.ccr.corp.intel.com ([169.254.1.142]) with mapi id
+	14.01.0355.002; Tue, 10 Apr 2012 11:03:10 +0800
+From: "Lu, Lianhao" <lianhao.lu@intel.com>
+To: Saul Wold <sgw@linux.intel.com>, Patches and discussions about the oe-core
+	layer <openembedded-core@lists.openembedded.org>
+Thread-Topic: [OE-core] [PATCH 1/1] connman: ensure ofono package is generated.
+Thread-Index: AQHNE74MXGyev1wJCkueoP/rnHeuxpaSf+iAgADkWEA=
+Date: Tue, 10 Apr 2012 03:03:09 +0000
+Message-ID: <857BE142E5399E46B20FD45B9DB8A7BC0FD33527@SHSMSX102.ccr.corp.intel.com>
+References: <cover.1333693070.git.lianhao.lu@intel.com>
+	<af03fd7f8452c7795fce23e3276e456dc431266f.1333693070.git.lianhao.lu@intel.com>
+	<4F8352E3.1040902@linux.intel.com>
+In-Reply-To: <4F8352E3.1040902@linux.intel.com>
+Accept-Language: zh-CN, en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [10.239.127.40]
 MIME-Version: 1.0
-To: <openembedded-core@lists.openembedded.org>
-References: <cover.1333966697.git.liezhi.yang@windriver.com>
-	<857BE142E5399E46B20FD45B9DB8A7BC0FD32945@SHSMSX102.ccr.corp.intel.com>
-	<4F82D450.2000602@windriver.com>
-In-Reply-To: <4F82D450.2000602@windriver.com>
-Subject: Re: [PATCH 0/1] meta-toolchain: runqemu falied on	FC16/Opensuse12.1 x86_64
+Subject: Re: [PATCH 1/1] connman: ensure ofono package is generated.
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -37,80 +46,53 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 10 Apr 2012 02:19:26 -0000
-Content-Type: text/plain; charset="ISO-8859-1"; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Tue, 10 Apr 2012 03:12:29 -0000
+Content-Language: en-US
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 
 
+Saul Wold wrote on 2012-04-10:
+> On 04/05/2012 11:20 PM, Lianhao Lu wrote:
+>> Make sure ofono package is generated when buidling connman, because
+>> dynamic package connman-plugin-ofono has a RDEPENDS on ofono.
+>>=20
+> Since this is for a plugin, can the connman-plugin-ofono be generated in
+> a separate package (or possibly even a separate recipe that depends on
+> ofono, instead of making connman depend on ofono, I am not sure the
+> solution below is correct either.
 
-On 04/09/2012 08:21 PM, Robert Yang wrote:
->
->
-> On 04/09/2012 06:36 PM, Lu, Lianhao wrote:
->>
->> Robert Yang wrote on 2012-04-09:
->>> Test info:
->>> * Have tested on:
->>> * Fedora 16 x86_64
->>> * Opensuse 12.1 x86_64
->>
->> Robert,
->> Hongna just found a qemu launch error on openSuse x86_64 using the 2.15
->> eglibc-nativesdk, something about the SDL initialization error. Did your
->> platform work well?
->>
->
+connman-plugin-ofono is already generated in a separate dynamic package, ju=
+st like other dynamic connman-plugin-bluez4. I think we'd better build the =
+connman-plugin-ofono based on the value distro_features, just like we did f=
+or connman-plugin-bluez4 in commit http://git.yoctoproject.org/cgit/cgit.cg=
+i/poky/commit?id=3D1288313411f8db7628e9ec4c04f2ad7f830e994d. I'll remake th=
+e patch.=20
 
-Here is the update information from Hongna:
+-Lianhao=20
 
-I have finished the test on opensuse x86-64, both qemuarm and qemux86 do
-cross debug pass using 2.15 toolchain.
+> Sau!
+>=20
+>> Signed-off-by: Lianhao Lu<lianhao.lu@intel.com>
+>> ---
+>>   meta/recipes-connectivity/connman/connman.inc |    2 ++
+>>   1 files changed, 2 insertions(+), 0 deletions(-)
+>> diff --git a/meta/recipes-connectivity/connman/connman.inc b/meta/recipe=
+s-connectivity/connman/connman.inc
+>> index 1a6dd1b..3ed5667 100644
+>> --- a/meta/recipes-connectivity/connman/connman.inc
+>> +++ b/meta/recipes-connectivity/connman/connman.inc
+>> @@ -39,6 +39,8 @@ EXTRA_OECONF +=3D "\
+>>       --disable-ntpd \
+>>   "
+>> +do_package[depends] =3D "${MLPREFIX}ofono:do_package"
+>> +
+>>   INITSCRIPT_NAME =3D "connman"
+>>   INITSCRIPT_PARAMS =3D "start 05 5 2 3 . stop 22 0 1 6 ."
 
-// Robert
+Best Regards,
+Lianhao
 
-> Maybe he just used "ssh" without "-X" or "-Y" ? There would be an SDL
-> initialization error when ssh without "-X" or "-Y". It worked well for me.
->
-> // Robert
->
->>> * Ubuntu 10.04
->>> * The testing commands are:
->>> $ bitbake core-image-sato meta-toolchain meta-toolchain-sdk
->>>
->>> And untar the sdk, then runqemu from the sdk to start the target.
->>> // Robert
->>>
->>> The following changes since commit 1a82989345fb98becb487d270fd93a5e6dffeb47:
->>>
->>> runqemu-internal: Add console=tty for qemuppc and NFS (2012-04-06 01:12:15
->>> +0100)
->>> are available in the git repository at:
->>> git://git.pokylinux.org/poky-contrib robert/tc
->>> http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=robert/tc
->>> Robert Yang (1):
->>> meta-toolchain: runqemu falied on FC16/Opensuse12.1 x86_64
->>> meta/conf/distro/include/tcmode-default.inc | 4 ++--
->>> 1 files changed, 2 insertions(+), 2 deletions(-)
->>>
->>> _______________________________________________ Openembedded-core
->>> mailing list Openembedded-core@lists.openembedded.org
->>> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
->>
->> Best Regards,
->> Lianhao
->>
->>
->>
->> _______________________________________________
->> Openembedded-core mailing list
->> Openembedded-core@lists.openembedded.org
->> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
->>
->
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
->
+
 
 
