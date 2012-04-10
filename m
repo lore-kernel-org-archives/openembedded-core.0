@@ -1,14 +1,39 @@
-Received: from ffm.saftware.de ([83.141.3.46])
+Received: from mail-wi0-f171.google.com ([209.85.212.171])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <obi@opendreambox.org>) id 1SHhlg-0004Kz-Ov
+	(envelope-from <andrei@gherzan.ro>) id 1SHhsd-0004RA-Rm
 	for openembedded-core@lists.openembedded.org;
-	Tue, 10 Apr 2012 22:34:24 +0200
-From: Andreas Oberritter <obi@opendreambox.org>
-To: openembedded-core@lists.openembedded.org
-Date: Tue, 10 Apr 2012 22:25:04 +0200
-Message-Id: <1334089504-25910-1-git-send-email-obi@opendreambox.org>
-X-Mailer: git-send-email 1.7.5.4
-Subject: [PATCH] busybox: fix options -b, -a and -P
+	Tue, 10 Apr 2012 22:41:35 +0200
+Received: by wibhj13 with SMTP id hj13so3259363wib.6
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 10 Apr 2012 13:32:17 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=google.com; s=20120113;
+	h=mime-version:x-originating-ip:in-reply-to:references:from:date
+	:message-id:subject:to:content-type:x-gm-message-state;
+	bh=rrzQxLWk38gUH4PX7Z89BDizcUOCyX3gYt2mw8gsdPI=;
+	b=KAKexf5gz7P5FQgRKECA8GO8NIihF7ZLnMP/7HZ8ndMF2VTSeF8KWPtWI43AzaeoEE
+	akHWsXhqAIB9MRMnObQ2xBJ14lxqd0XMprjYLAsCEoUt4qB6/o7tUYP/NUZaPiWZILRk
+	OsIiisQ0ATDgXa1sXYw3w6NDfEPP/RfCXt4Ye4gGibjSLCckIkJpi5E29u0G+Zd7gKvR
+	GnDRoDXyUkncFFdOFU37DcEKEaLsZdUnBodq9/BbeP9q8C+Q2Ir0mgep34xpJlw19X6j
+	f+NP6xunl47ozYoTXfyZsizLRmAIKEceHrClrdqFlGIwElFoJwatgdqchrqFEj6+odL/
+	6wqQ==
+Received: by 10.180.76.240 with SMTP id n16mr10087291wiw.10.1334089937714;
+	Tue, 10 Apr 2012 13:32:17 -0700 (PDT)
+MIME-Version: 1.0
+Received: by 10.227.158.16 with HTTP; Tue, 10 Apr 2012 13:31:57 -0700 (PDT)
+X-Originating-IP: [79.115.103.32]
+In-Reply-To: <4F8486F9.7050807@linux.intel.com>
+References: <CAK18fxFb3xkxbiyCDBncgpyvqOVCgOvzViveLa=aw3CyQPKiQA@mail.gmail.com>
+	<20120410152244.GA2852@deadlock.dhs.org>
+	<CAK18fxHsg0974jsk9yicybcqgCVBuj_qDAbj9R3v1LMsu0S2pw@mail.gmail.com>
+	<4F8486F9.7050807@linux.intel.com>
+From: Andrei Gherzan <andrei@gherzan.ro>
+Date: Tue, 10 Apr 2012 23:31:57 +0300
+Message-ID: <CAK18fxH2UdV0C0KvF=Gw6qhZAzRz1CrkyEmi748Ux__E34NYkg@mail.gmail.com>
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+X-Gm-Message-State: ALoCoQlhRTZT7mdr1CSQ5ubyeHs61HVCNWdD8IFp7ehvm7jUPG4fWjz3gW86FYeQUwtkoCjO6CoL
+Subject: Re: js 185 -> js186_1.0.0
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -23,81 +48,63 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 10 Apr 2012 20:34:24 -0000
+X-List-Received-Date: Tue, 10 Apr 2012 20:41:35 -0000
+Content-Type: multipart/alternative; boundary=f46d043c7b22d5fefc04bd59045d
 
-* busybox-udhcpc-no_deconfig.patch broke the options,
-  preventing udhcpc from forking into the background
-  if no lease can be obtained.
+--f46d043c7b22d5fefc04bd59045d
+Content-Type: text/plain; charset=ISO-8859-1
 
-Signed-off-by: Andreas Oberritter <obi@opendreambox.org>
----
- .../busybox-udhcpc-no_deconfig.patch               |   19 +++++++++++++------
- meta/recipes-core/busybox/busybox_1.19.4.bb        |    2 +-
- 2 files changed, 14 insertions(+), 7 deletions(-)
+On Tue, Apr 10, 2012 at 22:16, Joshua Lock <josh@linux.intel.com> wrote:
 
-diff --git a/meta/recipes-core/busybox/busybox-1.19.4/busybox-udhcpc-no_deconfig.patch b/meta/recipes-core/busybox/busybox-1.19.4/busybox-udhcpc-no_deconfig.patch
-index 481d8b3..13004f7 100644
---- a/meta/recipes-core/busybox/busybox-1.19.4/busybox-udhcpc-no_deconfig.patch
-+++ b/meta/recipes-core/busybox/busybox-1.19.4/busybox-udhcpc-no_deconfig.patch
-@@ -1,4 +1,4 @@
--From 16c5fa61059f9862b2534c75dad75f7ece338208 Mon Sep 17 00:00:00 2001
-+From 53626cd06a3ef05ed847daea802ef0aa9661caa7 Mon Sep 17 00:00:00 2001
- From: Anders Darander <anders@chargestorm.se>
- Date: Thu, 3 Nov 2011 08:51:31 +0100
- Subject: [PATCH] busybox-udhcpc-no_deconfig.patch
-@@ -23,12 +23,16 @@ Signed-off-by: Qing He <qing.he@intel.com>
- Updated to Busybox 1.19.3
- 
- Signed-off-by: Anders Darander <anders@chargestorm.se>
-+
-+Fixed options -b, -a and -P.
-+
-+Signed-off-by: Andreas Oberritter <obi@opendreambox.org>
- ---
-- networking/udhcp/dhcpc.c |   27 ++++++++++++++++++++-------
-- 1 files changed, 20 insertions(+), 7 deletions(-)
-+ networking/udhcp/dhcpc.c |   29 +++++++++++++++++++++--------
-+ 1 files changed, 21 insertions(+), 8 deletions(-)
- 
- diff --git a/networking/udhcp/dhcpc.c b/networking/udhcp/dhcpc.c
--index 4d755e6..eb80484 100644
-+index 4d755e6..a21e2c6 100644
- --- a/networking/udhcp/dhcpc.c
- +++ b/networking/udhcp/dhcpc.c
- @@ -29,6 +29,9 @@
-@@ -41,14 +45,17 @@ index 4d755e6..eb80484 100644
-  /* struct client_config_t client_config is in bb_common_bufsiz1 */
-  
-  
--@@ -82,6 +85,7 @@ enum {
-+@@ -82,8 +85,9 @@ enum {
-  	OPT_x = 1 << 18,
-  	OPT_f = 1 << 19,
-  	OPT_B = 1 << 20,
- +	OPT_D = 1 << 21,
-  /* The rest has variable bit positions, need to be clever */
-- 	OPTBIT_B = 20,
-+-	OPTBIT_B = 20,
-++	OPTBIT_D = 21,
-  	USE_FOR_MMU(             OPTBIT_b,)
-+ 	IF_FEATURE_UDHCPC_ARPING(OPTBIT_a,)
-+ 	IF_FEATURE_UDHCP_PORT(   OPTBIT_P,)
- @@ -899,7 +903,8 @@ static void perform_renew(void)
-  		state = RENEW_REQUESTED;
-  		break;
-diff --git a/meta/recipes-core/busybox/busybox_1.19.4.bb b/meta/recipes-core/busybox/busybox_1.19.4.bb
-index 3f22669..ad8297e 100644
---- a/meta/recipes-core/busybox/busybox_1.19.4.bb
-+++ b/meta/recipes-core/busybox/busybox_1.19.4.bb
-@@ -1,5 +1,5 @@
- require busybox.inc
--PR = "r1"
-+PR = "r2"
- 
- SRC_URI = "http://www.busybox.net/downloads/busybox-${PV}.tar.bz2;name=tarball \
-            file://udhcpscript.patch \
--- 
-1.7.5.4
+>
+>
+> On 10/04/12 09:02, Andrei Gherzan wrote:
+>
+>> Thank you very much for this clarification.
+>>
+>> @Saul, about upgrading js. This upgrade will break web, web-webkit and
+>> maybe more. How do you want to solve this issue? I compiled js180.
+>>
+>
+> Whilst web-webkit lists js in its DEPENDS I'm not sure it's actually
+> required. It's not listed in the web-webkit configure.ac
+>
+> We need to figure out what we want to do with web and web-webkit before we
+> spend too much time avoiding breaking them.
+>
 
 
+Good point.
 
+@g
+
+--f46d043c7b22d5fefc04bd59045d
+Content-Type: text/html; charset=ISO-8859-1
+Content-Transfer-Encoding: quoted-printable
+
+<div class=3D"gmail_quote">On Tue, Apr 10, 2012 at 22:16, Joshua Lock <span=
+ dir=3D"ltr">&lt;<a href=3D"mailto:josh@linux.intel.com">josh@linux.intel.c=
+om</a>&gt;</span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"marg=
+in:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex">
+
+<br>
+<br>
+On 10/04/12 09:02, Andrei Gherzan wrote:<br>
+<blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1p=
+x #ccc solid;padding-left:1ex">
+Thank you very much for this clarification.<br>
+<br>
+@Saul, about upgrading js. This upgrade will break web, web-webkit and<br>
+maybe more. How do you want to solve this issue? I compiled js180.<br>
+</blockquote>
+<br>
+Whilst web-webkit lists js in its DEPENDS I&#39;m not sure it&#39;s actuall=
+y required. It&#39;s not listed in the web-webkit <a href=3D"http://configu=
+re.ac" target=3D"_blank">configure.ac</a><br>
+<br>
+We need to figure out what we want to do with web and web-webkit before we =
+spend too much time avoiding breaking them.<br>
+</blockquote><div>=A0</div><div><br></div><div>Good point.</div><div><br></=
+div><div>@g</div></div>
+
+--f46d043c7b22d5fefc04bd59045d--
