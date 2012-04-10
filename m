@@ -1,24 +1,24 @@
 Received: from mga02.intel.com ([134.134.136.20])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <sgw@linux.intel.com>) id 1SHVcU-0000u0-OQ
+	(envelope-from <sgw@linux.intel.com>) id 1SHVcU-0000tx-Vw
 	for openembedded-core@lists.openembedded.org;
-	Tue, 10 Apr 2012 09:36:06 +0200
+	Tue, 10 Apr 2012 09:36:07 +0200
 Received: from orsmga002.jf.intel.com ([10.7.209.21])
-	by orsmga101.jf.intel.com with ESMTP; 10 Apr 2012 00:26:46 -0700
+	by orsmga101.jf.intel.com with ESMTP; 10 Apr 2012 00:26:47 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.67,351,1309762800"; d="scan'208";a="130584262"
+X-IronPort-AV: E=Sophos;i="4.67,351,1309762800"; d="scan'208";a="130584265"
 Received: from unknown (HELO swold-mobl.bigsur.com) ([10.255.12.159])
 	by orsmga002.jf.intel.com with ESMTP; 10 Apr 2012 00:26:46 -0700
 From: Saul Wold <sgw@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Tue, 10 Apr 2012 00:26:40 -0700
-Message-Id: <82c1a5cf8fe780376b62046dfb218bd95da6d2c5.1334042473.git.sgw@linux.intel.com>
+Date: Tue, 10 Apr 2012 00:26:41 -0700
+Message-Id: <bc8c7e0c313a31bd2d105ff35765be361d5aec8d.1334042473.git.sgw@linux.intel.com>
 X-Mailer: git-send-email 1.7.7.6
 In-Reply-To: <cover.1334042473.git.sgw@linux.intel.com>
 References: <cover.1334042473.git.sgw@linux.intel.com>
 In-Reply-To: <cover.1334042473.git.sgw@linux.intel.com>
 References: <cover.1334042473.git.sgw@linux.intel.com>
-Subject: [CONSOLIDATED PULL [v2] 13/14] syslinux: Update distro-tracking fields
+Subject: [CONSOLIDATED PULL [v2] 14/14] hello-mod: Move hello-mod from meta to meta-skeleton
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -37,36 +37,40 @@ X-List-Received-Date: Tue, 10 Apr 2012 07:36:07 -0000
 
 From: Darren Hart <dvhart@linux.intel.com>
 
-Add reason for not updating syslinux this release.
+Fixes [YOCTO #1501]
+
+hello-mod is an example kernel module, and does not provide any real
+functionality. As such, it would be better placed under meta-skeleton than
+meta.
 
 Signed-off-by: Darren Hart <dvhart@linux.intel.com>
 ---
- .../conf/distro/include/distro_tracking_fields.inc |    5 +++--
- 1 files changed, 3 insertions(+), 2 deletions(-)
+ .../recipes-kernel/hello-mod/files/COPYING         |    0
+ .../recipes-kernel/hello-mod/files/Makefile        |    0
+ .../recipes-kernel/hello-mod/files/hello.c         |    0
+ .../recipes-kernel/hello-mod/hello-mod_0.1.bb      |    0
+ 4 files changed, 0 insertions(+), 0 deletions(-)
+ rename {meta => meta-skeleton}/recipes-kernel/hello-mod/files/COPYING (100%)
+ rename {meta => meta-skeleton}/recipes-kernel/hello-mod/files/Makefile (100%)
+ rename {meta => meta-skeleton}/recipes-kernel/hello-mod/files/hello.c (100%)
+ rename {meta => meta-skeleton}/recipes-kernel/hello-mod/hello-mod_0.1.bb (100%)
 
-diff --git a/meta/conf/distro/include/distro_tracking_fields.inc b/meta/conf/distro/include/distro_tracking_fields.inc
-index caaf1bc..ce640f4 100644
---- a/meta/conf/distro/include/distro_tracking_fields.inc
-+++ b/meta/conf/distro/include/distro_tracking_fields.inc
-@@ -1518,15 +1518,16 @@ RECIPE_COMMENTS_pn-bash = ""
- 
- RECIPE_STATUS_pn-syslinux = "yellow"
- # need mangling on LDFLAGS
--RECIPE_LAST_UPDATE_pn-syslinux = "Nov 16, 2010"
-+RECIPE_LAST_UPDATE_pn-syslinux = "Apr 4, 2012"
- RECIPE_MAINTAINER_pn-syslinux = "Darren Hart <dvhart@linux.intel.com>"
- RECIPE_DEPENDENCY_CHECK_pn-syslinux = "not done"
--RECIPE_LATEST_VERSION_pn-syslinux = "3.86"
-+RECIPE_LATEST_VERSION_pn-syslinux = "4.03"
- RECIPE_PATCH_pn-syslinux+cross-build = "use poky toolchain instead of host"
- RECIPE_INTEL_SECTION_pn-syslinux = "base utils"
- RECIPE_TIME_BETWEEN_LAST_TWO_RELEASES_pn-syslinux = "2 months"
- RECIPE_LATEST_RELEASE_DATE_pn-syslinux = "Apr 01, 2010"
- RECIPE_COMMENTS_pn-syslinux = ""
-+RECIPE_NO_UPDATE_REASON_pn-syslinux-"Waiting for 4.06 for 3.3 kernel headers support"
- 
- RECIPE_STATUS_pn-sysvinit = "green"
- RECIPE_LAST_UPDATE_pn-sysvinit = "Jun 18, 2010"
+diff --git a/meta/recipes-kernel/hello-mod/files/COPYING b/meta-skeleton/recipes-kernel/hello-mod/files/COPYING
+similarity index 100%
+rename from meta/recipes-kernel/hello-mod/files/COPYING
+rename to meta-skeleton/recipes-kernel/hello-mod/files/COPYING
+diff --git a/meta/recipes-kernel/hello-mod/files/Makefile b/meta-skeleton/recipes-kernel/hello-mod/files/Makefile
+similarity index 100%
+rename from meta/recipes-kernel/hello-mod/files/Makefile
+rename to meta-skeleton/recipes-kernel/hello-mod/files/Makefile
+diff --git a/meta/recipes-kernel/hello-mod/files/hello.c b/meta-skeleton/recipes-kernel/hello-mod/files/hello.c
+similarity index 100%
+rename from meta/recipes-kernel/hello-mod/files/hello.c
+rename to meta-skeleton/recipes-kernel/hello-mod/files/hello.c
+diff --git a/meta/recipes-kernel/hello-mod/hello-mod_0.1.bb b/meta-skeleton/recipes-kernel/hello-mod/hello-mod_0.1.bb
+similarity index 100%
+rename from meta/recipes-kernel/hello-mod/hello-mod_0.1.bb
+rename to meta-skeleton/recipes-kernel/hello-mod/hello-mod_0.1.bb
 -- 
 1.7.7.6
 
