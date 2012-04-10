@@ -1,38 +1,47 @@
-Received: from mail-we0-f175.google.com ([74.125.82.175])
+Received: from mga10.intel.com ([192.55.52.92] helo=fmsmga102.fm.intel.com)
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <andrei@gherzan.ro>) id 1SHdht-00083p-Nl
+	(envelope-from <saul.wold@intel.com>) id 1SHdiI-000863-UY
 	for openembedded-core@lists.openembedded.org;
-	Tue, 10 Apr 2012 18:14:13 +0200
-Received: by wera1 with SMTP id a1so3320432wer.6
+	Tue, 10 Apr 2012 18:14:39 +0200
+Received: from mail-pz0-f44.google.com ([209.85.210.44])
+	by mga11.intel.com with ESMTP/TLS/RC4-SHA; 10 Apr 2012 09:04:15 -0700
+Received: by dadz14 with SMTP id z14so22959021dad.17
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 10 Apr 2012 09:04:56 -0700 (PDT)
+	Tue, 10 Apr 2012 09:04:15 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=google.com; s=20120113;
-	h=mime-version:x-originating-ip:in-reply-to:references:from:date
-	:message-id:subject:to:content-type:x-gm-message-state;
-	bh=e8GpklJcI/ltVWJvcYtQhdiwIA531y1yqBSrxgBMhTs=;
-	b=jrkmVsg6DdxWGAgC0MjhPITnFVcOeczGUwqlhL/XPkfgE9AFZDE9INO96Kq2/mMy8r
-	Yw317HzxKIYZgbe+bolpX8gcxenBTS9rotG4uzNUOOtiTZ+Krld6+QVnOEaQ2PNj2xwr
-	APpKntoieMdBttefw1lZclSV5FJ7cHkbPITBD3EeMd4mxVaWkWVgCYOo/1btD/M+AYxU
-	ZDJ3d9O6Bn8eJqLd0nFjr3juU58o7qV2IJTP7NhmbLmwXJPxGSfzd/zyF5z3oj2fMRWl
-	PKltS03b3CBdEyng8OJmTifX3PkyopwX2ax8C3VNCubaPRnJ+oHsTQYmafAY1M7spHWB
-	5QVA==
-Received: by 10.180.104.231 with SMTP id gh7mr8300702wib.10.1334073896046;
-	Tue, 10 Apr 2012 09:04:56 -0700 (PDT)
+	h=message-id:date:from:organization:user-agent:mime-version:to:cc
+	:subject:references:in-reply-to:content-type
+	:content-transfer-encoding:x-gm-message-state;
+	bh=ekoOu5wtf03a01e3q4ulsFx2b5IwSHJT9YvyyVYRZsA=;
+	b=QrZe4YbdpOrzuZ5lXQBaw5X4BCYzar+GxREme/jyzhDbYM+a3sHaLMFbNih7qHo7f+
+	ze5xMyRaML4fZ2CDzJM5NraVuN0M9MT55soBCkK+dI+ZwZhHzwS2giHnX+Ypvpc4mcr5
+	gpMzs4HfIYrBkRPwK4ks+X2R3mQzSdRifh5eq3AEx5U0e7S9roxH8TLyCVoyQ760va26
+	3D9X4r2uj5ABofVpHrRT24cFUR5GT6XZa4f7KMKfNRxEquSmYwMxRE1DzR7JI1bTGaX6
+	c5nLXUsAolcGS71WSIaoLWyXyUYdgXWMjF8MGLRkAwpCooyU3M2Yz7K+iWQj5lSOxi+O
+	WiAg==
+Received: by 10.68.132.36 with SMTP id or4mr29691903pbb.115.1334073855012;
+	Tue, 10 Apr 2012 09:04:15 -0700 (PDT)
+Received: from [10.6.18.71] (c-71-193-189-117.hsd1.wa.comcast.net.
+	[71.193.189.117])
+	by mx.google.com with ESMTPS id l1sm215458pbe.54.2012.04.10.09.04.12
+	(version=SSLv3 cipher=OTHER); Tue, 10 Apr 2012 09:04:13 -0700 (PDT)
+Message-ID: <4F8459FB.7010900@intel.com>
+Date: Tue, 10 Apr 2012 09:04:11 -0700
+From: Saul Wold <saul.wold@intel.com>
+Organization: Intel
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:11.0) Gecko/20120329 Thunderbird/11.0.1
 MIME-Version: 1.0
-Received: by 10.227.158.16 with HTTP; Tue, 10 Apr 2012 09:04:35 -0700 (PDT)
-X-Originating-IP: [89.121.200.106]
-In-Reply-To: <A5A4632D-2BD8-486E-A7E5-BCBA23334368@dominion.thruhere.net>
-References: <20120406001738.706A810217@opal>
-	<20120410083815.GC3583@jama.jama.net> <1334048766.6861.2.camel@ted>
-	<A5A4632D-2BD8-486E-A7E5-BCBA23334368@dominion.thruhere.net>
-From: Andrei Gherzan <andrei@gherzan.ro>
-Date: Tue, 10 Apr 2012 19:04:35 +0300
-Message-ID: <CAK18fxGOdxzvQJPXTga2P2CGbR69qt2JLSHYhv-QJagYAxdgxA@mail.gmail.com>
-To: Patches and discussions about the oe-core layer
+To: Andrei Gherzan <andrei@gherzan.ro>
+References: <CAK18fxFb3xkxbiyCDBncgpyvqOVCgOvzViveLa=aw3CyQPKiQA@mail.gmail.com>
+	<20120410152244.GA2852@deadlock.dhs.org>
+	<CAK18fxHsg0974jsk9yicybcqgCVBuj_qDAbj9R3v1LMsu0S2pw@mail.gmail.com>
+In-Reply-To: <CAK18fxHsg0974jsk9yicybcqgCVBuj_qDAbj9R3v1LMsu0S2pw@mail.gmail.com>
+X-Gm-Message-State: ALoCoQkVvZX+iXwJwl3RSG4dq1mUMsrsEt97qFWOLyG2Vsu8utdboMsSZjVPJKKDCxmhn5oVGxKx
+Cc: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-X-Gm-Message-State: ALoCoQkT9yQxqNxKuFulFhsqa6o0t+Dn6UJx63ZwU5lvdf/HkxSEJWyP5g43E5DFYZ0pkvojQqoj
-Subject: Re: [oe-commits] Andrei Gherzan : gdbm: Activate -enable-libgdbm-compat and add symlinks to headers in include/ gdbm
+Subject: Re: js 185 -> js186_1.0.0
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -47,157 +56,62 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 10 Apr 2012 16:14:13 -0000
-Content-Type: multipart/alternative; boundary=f46d044288bcad928004bd5548c1
+X-List-Received-Date: Tue, 10 Apr 2012 16:14:39 -0000
+Content-Type: text/plain; charset=ISO-8859-1; format=flowed
+Content-Transfer-Encoding: 7bit
 
---f46d044288bcad928004bd5548c1
-Content-Type: text/plain; charset=ISO-8859-1
+On 04/10/2012 09:02 AM, Andrei Gherzan wrote:
+> Thank you very much for this clarification.
+>
+> @Saul, about upgrading js. This upgrade will break web, web-webkit and
+> maybe more. How do you want to solve this issue? I compiled js180.
+>
+What kind of breakage?
 
-Thanks a lot for your observations. I will go with the third option as the
-majority voted. :)
+If they need rebuilds then we bump PR to force that, but if it's API 
+kind of breakage, then we need to understand that and if they are fixes 
+for those update them also.
 
-On Tue, Apr 10, 2012 at 12:11, Koen Kooi <koen@dominion.thruhere.net> wrote:
+Sau!
 
+
+> @g
 >
-> Op 10 apr. 2012, om 11:06 heeft Richard Purdie het volgende geschreven:
 >
-> > On Tue, 2012-04-10 at 10:38 +0200, Martin Jansa wrote:
-> >> On Fri, Apr 06, 2012 at 12:17:38AM +0000, git@git.openembedded.orgwrote:
-> >>> Module: openembedded-core.git
-> >>> Branch: master
-> >>> Commit: e4d2ee00419f675ba8b7fb5d75256762253d8b32
-> >>> URL:
-> http://git.openembedded.org/?p=openembedded-core.git&a=commit;h=e4d2ee00419f675ba8b7fb5d75256762253d8b32
-> >>>
-> >>> Author: Andrei Gherzan <andrei@gherzan.ro>
-> >>> Date:   Fri Mar 23 17:56:29 2012 +0200
-> >>>
-> >>> gdbm: Activate -enable-libgdbm-compat and add symlinks to headers in
-> include/gdbm
-> >>>
-> >>> ndbm.h is needed by python for dbm module. This is why
-> -enable-libgdbm-compat was added
-> >>> to configure.
-> >>> The second change is because python is looking for the gdbm headers in
-> include/gdbm.
-> >>> The easiest way to solve this issue is to add symlinks in include/gdbm.
-> >>>
-> >>> [YOCTO #1937]
-> >>>
-> >>> Signed-off-by: Andrei Gherzan <andrei@gherzan.ro>
-> >>
-> >> This breaks every package in feed which depends on old package name
-> >> libgdbm4 (>= 1.10)
-> >>
-> >> Because now there are 2 .so files in ${PN} and no LEAD_SONAME defined.
-> >>
-> >> Are you going to
-> >>
-> >> 1) send PR bumps to all packages which depends on libgdbm4
-> >>   (e.g. apr-util python pulseaudio perl gst-plugins-good and probably
-> more)
-> >> 2) define LEAD_SONAME and bump PR in gdbm recipe
-> >> 3) move -compat libs to ${PN}-compat or some other package name, so that
-> >>   old libgdbm4 still exists (and maybe + 1) because some people could
-> >>   build those with gdbm as dependency now)
-> >
-> > I like the idea of putting the compat libs into a separate package...
+> On Tue, Apr 10, 2012 at 18:22, Sergey 'Jin' Bostandzhyan
+> <jin@mediatomb.cc> wrote:
 >
-> me too
+>     Hi,
 >
-> regards,
+>     On Tue, Apr 10, 2012 at 06:14:58PM +0300, Andrei Gherzan wrote:
+>      > Have a problem while updating js to version 185. This version
+>     renames the
+>      > library in libmozjs185. What to do in order to avoid breaking
+>     packages which
+>      > need libjs? Another interesting thing is that js is now called
+>     js185_1.0.0
+>      > which seems to be actually another package / implementation? I
+>     will try to test
+>      > this using symlinks while compiling web package.
 >
-> Koen
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
+>     JS 1.8.5 is not backwards compatible! This is the reason why they
+>     renamed the
+>     libs, you can not link older software against JS 1.8.5 without
+>     adaptions, the
+>     new version has a new API.
+>
+>     Kind regards,
+>     Jin
+>
+>
+>
+>     _______________________________________________
+>     Openembedded-core mailing list
+>     Openembedded-core@lists.openembedded.org
+>     <mailto:Openembedded-core@lists.openembedded.org>
+>     http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
+>
 >
 
---f46d044288bcad928004bd5548c1
-Content-Type: text/html; charset=ISO-8859-1
-Content-Transfer-Encoding: quoted-printable
-
-<div class=3D"gmail_quote">Thanks a lot for your observations. I will go wi=
-th the third option as the majority voted. :)</div><div class=3D"gmail_quot=
-e"><br></div><div class=3D"gmail_quote">On Tue, Apr 10, 2012 at 12:11, Koen=
- Kooi <span dir=3D"ltr">&lt;<a href=3D"mailto:koen@dominion.thruhere.net" t=
-arget=3D"_blank">koen@dominion.thruhere.net</a>&gt;</span> wrote:<br>
 
 
-<blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1p=
-x #ccc solid;padding-left:1ex"><br>
-Op 10 apr. 2012, om 11:06 heeft Richard Purdie het volgende geschreven:<br>
-<div><div><br>
-&gt; On Tue, 2012-04-10 at 10:38 +0200, Martin Jansa wrote:<br>
-&gt;&gt; On Fri, Apr 06, 2012 at 12:17:38AM +0000, <a href=3D"mailto:git@gi=
-t.openembedded.org" target=3D"_blank">git@git.openembedded.org</a> wrote:<b=
-r>
-&gt;&gt;&gt; Module: openembedded-core.git<br>
-&gt;&gt;&gt; Branch: master<br>
-&gt;&gt;&gt; Commit: e4d2ee00419f675ba8b7fb5d75256762253d8b32<br>
-&gt;&gt;&gt; URL: =A0 =A0<a href=3D"http://git.openembedded.org/?p=3Dopenem=
-bedded-core.git&amp;a=3Dcommit;h=3De4d2ee00419f675ba8b7fb5d75256762253d8b32=
-" target=3D"_blank">http://git.openembedded.org/?p=3Dopenembedded-core.git&=
-amp;a=3Dcommit;h=3De4d2ee00419f675ba8b7fb5d75256762253d8b32</a><br>
-
-
-
-&gt;&gt;&gt;<br>
-&gt;&gt;&gt; Author: Andrei Gherzan &lt;<a href=3D"mailto:andrei@gherzan.ro=
-" target=3D"_blank">andrei@gherzan.ro</a>&gt;<br>
-&gt;&gt;&gt; Date: =A0 Fri Mar 23 17:56:29 2012 +0200<br>
-&gt;&gt;&gt;<br>
-&gt;&gt;&gt; gdbm: Activate -enable-libgdbm-compat and add symlinks to head=
-ers in include/gdbm<br>
-&gt;&gt;&gt;<br>
-&gt;&gt;&gt; ndbm.h is needed by python for dbm module. This is why -enable=
--libgdbm-compat was added<br>
-&gt;&gt;&gt; to configure.<br>
-&gt;&gt;&gt; The second change is because python is looking for the gdbm he=
-aders in include/gdbm.<br>
-&gt;&gt;&gt; The easiest way to solve this issue is to add symlinks in incl=
-ude/gdbm.<br>
-&gt;&gt;&gt;<br>
-&gt;&gt;&gt; [YOCTO #1937]<br>
-&gt;&gt;&gt;<br>
-&gt;&gt;&gt; Signed-off-by: Andrei Gherzan &lt;<a href=3D"mailto:andrei@ghe=
-rzan.ro" target=3D"_blank">andrei@gherzan.ro</a>&gt;<br>
-&gt;&gt;<br>
-&gt;&gt; This breaks every package in feed which depends on old package nam=
-e<br>
-&gt;&gt; libgdbm4 (&gt;=3D 1.10)<br>
-&gt;&gt;<br>
-&gt;&gt; Because now there are 2 .so files in ${PN} and no LEAD_SONAME defi=
-ned.<br>
-&gt;&gt;<br>
-&gt;&gt; Are you going to<br>
-&gt;&gt;<br>
-&gt;&gt; 1) send PR bumps to all packages which depends on libgdbm4<br>
-&gt;&gt; =A0 (e.g. apr-util python pulseaudio perl gst-plugins-good and pro=
-bably more)<br>
-&gt;&gt; 2) define LEAD_SONAME and bump PR in gdbm recipe<br>
-&gt;&gt; 3) move -compat libs to ${PN}-compat or some other package name, s=
-o that<br>
-&gt;&gt; =A0 old libgdbm4 still exists (and maybe + 1) because some people =
-could<br>
-&gt;&gt; =A0 build those with gdbm as dependency now)<br>
-&gt;<br>
-&gt; I like the idea of putting the compat libs into a separate package...<=
-br>
-<br>
-</div></div>me too<br>
-<br>
-regards,<br>
-<br>
-Koen<br>
-<div><div>_______________________________________________<br>
-Openembedded-core mailing list<br>
-<a href=3D"mailto:Openembedded-core@lists.openembedded.org" target=3D"_blan=
-k">Openembedded-core@lists.openembedded.org</a><br>
-<a href=3D"http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded=
--core" target=3D"_blank">http://lists.linuxtogo.org/cgi-bin/mailman/listinf=
-o/openembedded-core</a><br>
-</div></div></blockquote></div><br>
-
---f46d044288bcad928004bd5548c1--
