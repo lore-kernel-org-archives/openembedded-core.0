@@ -1,42 +1,20 @@
-Received: from mail-we0-f175.google.com ([74.125.82.175])
+Received: from mga02.intel.com ([134.134.136.20])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <koen@dominion.thruhere.net>) id 1SHV17-0008Ua-J1
+	(envelope-from <sgw@linux.intel.com>) id 1SHVcP-0000tx-6S
 	for openembedded-core@lists.openembedded.org;
-	Tue, 10 Apr 2012 08:57:29 +0200
-Received: by wera1 with SMTP id a1so3006107wer.6
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 09 Apr 2012 23:48:12 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=google.com; s=20120113;
-	h=content-type:mime-version:subject:from:in-reply-to:date
-	:content-transfer-encoding:message-id:references:to:x-mailer
-	:x-gm-message-state;
-	bh=BPKyG1TxJyinPkd4KJ47tGouTZtNuKOzZxox/GuzUPQ=;
-	b=WBbewJ+hvh1tbhEEMNHSLM32CZKwsr4nqxEoF+Yjr0Ox/Hp2sd1UEdhWzaJzypzXRu
-	3XVgmfEiYPRegMkRwbnZV4gr9/dzZZHxZU68AQtKSB2KMoNEVYd6jbD/ofDt2u8edzwK
-	iP4NX3Vva/JE7FZgqXjsNF1RyOnGfeha5ahCR98qoEz1DSm5LtJNJiKplz705MSxQBWs
-	mUtNvYimmOFYy7Azq8YPNMPJ5ofXb2i+3VQXtNxYRX0Xo/K+9LhIfq02Eqi8hveovVIc
-	+4Gbv9cO1ISALWfCxZR76wLjW1mzgUyHyLkrzLDjw33k9RNVBr3H+GphNBUa62vs8tf4
-	dW/A==
-Received: by 10.180.101.230 with SMTP id fj6mr4122922wib.13.1334040492397;
-	Mon, 09 Apr 2012 23:48:12 -0700 (PDT)
-Received: from [172.20.1.36] (ip545070eb.adsl-surfen.hetnet.nl.
-	[84.80.112.235])
-	by mx.google.com with ESMTPS id ca3sm26943013wib.6.2012.04.09.23.48.10
-	(version=TLSv1/SSLv3 cipher=OTHER);
-	Mon, 09 Apr 2012 23:48:10 -0700 (PDT)
-Mime-Version: 1.0 (Apple Message framework v1257)
-From: Koen Kooi <koen@dominion.thruhere.net>
-In-Reply-To: <0953244152d03d27f6c60729c58484af81f95a1d.1334027369.git.lianhao.lu@intel.com>
-Date: Tue, 10 Apr 2012 08:48:25 +0200
-Message-Id: <637B72D9-1F2D-4CD3-8903-36E73E7CC465@dominion.thruhere.net>
-References: <cover.1334027369.git.lianhao.lu@intel.com>
-	<0953244152d03d27f6c60729c58484af81f95a1d.1334027369.git.lianhao.lu@intel.com>
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-X-Mailer: Apple Mail (2.1257)
-X-Gm-Message-State: ALoCoQnBV1aqUdWGeat/C0W34rC/O+vn+dsrlbinl+jVbU4WNLY/JkRH5HzEpRQJ1VWS1ZKhkD47
-Subject: Re: [PATCH V2 1/1] connman: optionally build ofono plugin.
+	Tue, 10 Apr 2012 09:36:02 +0200
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+	by orsmga101.jf.intel.com with ESMTP; 10 Apr 2012 00:26:42 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.67,351,1309762800"; d="scan'208";a="130584234"
+Received: from unknown (HELO swold-mobl.bigsur.com) ([10.255.12.159])
+	by orsmga002.jf.intel.com with ESMTP; 10 Apr 2012 00:26:42 -0700
+From: Saul Wold <sgw@linux.intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Tue, 10 Apr 2012 00:26:27 -0700
+Message-Id: <cover.1334042473.git.sgw@linux.intel.com>
+X-Mailer: git-send-email 1.7.7.6
+Subject: [CONSOLIDATED PULL [v2] 00/14] Updated with more Fixes
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -51,62 +29,92 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 10 Apr 2012 06:57:29 -0000
-Content-Type: text/plain; charset=us-ascii
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Tue, 10 Apr 2012 07:36:02 -0000
 
-This changes the default behaviour, so it should not go in for 1.2
+Richard,
 
-Op 10 apr. 2012, om 05:16 heeft Lianhao Lu het volgende geschreven:
+Here is a second larger collection of patches from 
+the team.
 
-> Only build ofono plugin when 3g feature is enabled. Also add =
-dependency
-> to ofono when ofono plugin is being built.
->=20
-> This is part of the buf fixing [YOCTO #2216].
->=20
-> Signed-off-by: Lianhao Lu <lianhao.lu@intel.com>
-> ---
-> meta/recipes-connectivity/connman/connman.inc |    3 ++-
-> 1 files changed, 2 insertions(+), 1 deletions(-)
->=20
-> diff --git a/meta/recipes-connectivity/connman/connman.inc =
-b/meta/recipes-connectivity/connman/connman.inc
-> index 1a6dd1b..c3827f1 100644
-> --- a/meta/recipes-connectivity/connman/connman.inc
-> +++ b/meta/recipes-connectivity/connman/connman.inc
-> @@ -17,6 +17,7 @@ LIC_FILES_CHKSUM =3D =
-"file://COPYING;md5=3D12f884d2ae1ff87c09e5b7ccc2c4ca7e \
-> DEPENDS  =3D "dbus glib-2.0 ppp iptables gnutls \
->             ${@base_contains('DISTRO_FEATURES', 'bluetooth','bluez4', =
-'', d)} \
->             ${@base_contains('DISTRO_FEATURES', =
-'wifi','wpa-supplicant', '', d)} \
-> +            ${@base_contains('DISTRO_FEATURES', '3g','ofono', '', d)} =
-\
->             "
->=20
-> EXTRA_OECONF +=3D "\
-> @@ -30,7 +31,7 @@ EXTRA_OECONF +=3D "\
->     ${@base_contains('DISTRO_FEATURES', 'wifi','--enable-wifi', =
-'--disable-wifi', d)} \
->     ${@base_contains('DISTRO_FEATURES', =
-'bluetooth','--enable-bluetooth', '--disable-bluetooth', d)} \
->     --enable-dnsproxy \
-> -    --enable-ofono \
-> +    ${@base_contains('DISTRO_FEATURES', '3g','--enable-ofono', =
-'--disable-ofono', d)} \
->     --enable-tools \
->     --enable-test \
->     --disable-polkit \
-> --=20
-> 1.7.0.4
->=20
->=20
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
+This set address at least 10 of the 1.2 bugs.
+
+Sau!
+
+The following changes since commit 1a82989345fb98becb487d270fd93a5e6dffeb47:
+
+  runqemu-internal: Add console=tty for qemuppc and NFS (2012-04-06 01:12:15 +0100)
+
+are available in the git repository at:
+  git://git.openembedded.org/openembedded-core-contrib sgw/stage
+  http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=sgw/stage
+
+Andrei Gherzan (1):
+  package.bbclass: needs_ldconfig from linux_so is needed in global
+    namespace
+
+Darren Hart (4):
+  create-pull-request: Assume remote branch from local branch
+  grub-efi: Include GPT partition EXT FS support
+  syslinux: Update distro-tracking fields
+  hello-mod: Move hello-mod from meta to meta-skeleton
+
+Joshua Lock (1):
+  mesa-common: package gl.pc in libgl-dev
+
+Lianhao Lu (1):
+  adt-installer: Fixed ppc kernel naming.
+
+Martin Jansa (1):
+  gdb: add --with-libexpat-prefix
+
+Robert Yang (2):
+  git 1.7.7: remove perl.mak before compile
+  meta-toolchain: runqemu falied on FC16/Opensuse12.1 x86_64
+
+Saul Wold (1):
+  at: Fix origin location of install pam.conf from from ${P} -> ${BP}
+
+Scott Garman (1):
+  shadow-native: disable logging to syslog
+
+Xiaofeng Yan (1):
+  opkg: Add the condition for the content of arch.conf when enable
+    multilib
+
+Zhai Edwin (1):
+  qemu: Fix gl failure from 64b target on 32b host
+
+ .../recipes-kernel/hello-mod/files/COPYING         |    0
+ .../recipes-kernel/hello-mod/files/Makefile        |    0
+ .../recipes-kernel/hello-mod/files/hello.c         |    0
+ .../recipes-kernel/hello-mod/hello-mod_0.1.bb      |    0
+ meta/classes/package.bbclass                       |    4 +-
+ .../conf/distro/include/distro_tracking_fields.inc |    5 +-
+ meta/conf/distro/include/tcmode-default.inc        |    4 +-
+ meta/recipes-bsp/grub/grub-efi-native_1.99.bb      |    4 +-
+ meta/recipes-devtools/gdb/gdb-common.inc           |    4 +-
+ meta/recipes-devtools/git/git.inc                  |    6 ++
+ .../installer/adt-installer/adt_installer          |    4 +-
+ .../installer/adt-installer/adt_installer.conf     |   20 +++---
+ .../installer/adt-installer_1.0.bb                 |    2 +-
+ meta/recipes-devtools/opkg/opkg-config-base_1.0.bb |    7 ++-
+ .../qemu/qemu-0.15.1/opengl-args-copy-fix.patch    |   66 ++++++++++++++++++++
+ meta/recipes-devtools/qemu/qemu_0.15.1.bb          |    3 +-
+ meta/recipes-extended/at/at_3.1.13.bb              |    4 +-
+ .../shadow/files/disable-syslog.patch              |   34 ++++++++++
+ .../shadow/shadow-native_4.1.4.3.bb                |    5 +-
+ meta/recipes-graphics/mesa/mesa-common.inc         |    2 +-
+ scripts/create-pull-request                        |   11 +++-
+ 21 files changed, 153 insertions(+), 32 deletions(-)
+ rename {meta => meta-skeleton}/recipes-kernel/hello-mod/files/COPYING (100%)
+ rename {meta => meta-skeleton}/recipes-kernel/hello-mod/files/Makefile (100%)
+ rename {meta => meta-skeleton}/recipes-kernel/hello-mod/files/hello.c (100%)
+ rename {meta => meta-skeleton}/recipes-kernel/hello-mod/hello-mod_0.1.bb (100%)
+ create mode 100644 meta/recipes-devtools/qemu/qemu-0.15.1/opengl-args-copy-fix.patch
+ create mode 100644 meta/recipes-extended/shadow/files/disable-syslog.patch
+
+-- 
+1.7.7.6
 
 
 
