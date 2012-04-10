@@ -1,28 +1,28 @@
-Received: from mail.windriver.com ([147.11.1.11])
+Received: from mail1.windriver.com ([147.11.146.13])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <mark.hatle@windriver.com>) id 1SHOy7-0006Dz-Lg
+	(envelope-from <Liezhi.Yang@windriver.com>) id 1SHQg1-00082s-LT
 	for openembedded-core@lists.openembedded.org;
-	Tue, 10 Apr 2012 02:30:00 +0200
+	Tue, 10 Apr 2012 04:19:26 +0200
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca [147.11.189.40])
-	by mail.windriver.com (8.14.3/8.14.3) with ESMTP id q3A0KduJ004186
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
-	Mon, 9 Apr 2012 17:20:39 -0700 (PDT)
-Received: from msp-dhcp17.wrs.com (172.25.34.17) by ALA-HCA.corp.ad.wrs.com
+	by mail1.windriver.com (8.14.3/8.14.3) with ESMTP id q3A2A7Yu013977
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 9 Apr 2012 19:10:07 -0700 (PDT)
+Received: from [128.224.162.196] (128.224.162.196) by ALA-HCA.corp.ad.wrs.com
 	(147.11.189.50) with Microsoft SMTP Server id 14.1.255.0;
-	Mon, 9 Apr 2012 17:20:39 -0700
-Message-ID: <4F837CD6.2070800@windriver.com>
-Date: Mon, 9 Apr 2012 19:20:38 -0500
-From: Mark Hatle <mark.hatle@windriver.com>
-Organization: Wind River Systems
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.6;
-	rv:11.0) Gecko/20120327 Thunderbird/11.0.1
+	Mon, 9 Apr 2012 19:10:06 -0700
+Message-ID: <4F83967D.6020403@windriver.com>
+Date: Tue, 10 Apr 2012 10:10:05 +0800
+From: Robert Yang <liezhi.yang@windriver.com>
+User-Agent: Mozilla/5.0 (X11; Linux i686;
+	rv:11.0) Gecko/20120310 Thunderbird/11.0
 MIME-Version: 1.0
-To: Andreas Oberritter <obi@opendreambox.org>
-References: <cover.1334014014.git.mark.hatle@windriver.com>
-	<4F837B70.2020307@opendreambox.org>
-In-Reply-To: <4F837B70.2020307@opendreambox.org>
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 0/1] MIPS/MIPS32 tune -> MIPS
+To: <openembedded-core@lists.openembedded.org>
+References: <cover.1333966697.git.liezhi.yang@windriver.com>
+	<857BE142E5399E46B20FD45B9DB8A7BC0FD32945@SHSMSX102.ccr.corp.intel.com>
+	<4F82D450.2000602@windriver.com>
+In-Reply-To: <4F82D450.2000602@windriver.com>
+Subject: Re: [PATCH 0/1] meta-toolchain: runqemu falied on	FC16/Opensuse12.1 x86_64
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -37,48 +37,80 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 10 Apr 2012 00:30:00 -0000
+X-List-Received-Date: Tue, 10 Apr 2012 02:19:26 -0000
 Content-Type: text/plain; charset="ISO-8859-1"; format=flowed
 Content-Transfer-Encoding: 7bit
 
-On 4/9/12 7:14 PM, Andreas Oberritter wrote:
-> On 10.04.2012 01:31, Mark Hatle wrote:
->> The following is in reference to the recent discussion about the mips32
->> -package- arch changing from mips to mips32.  One of the potential options
->> was to get rid of the previous "mips" and replace it with the mips32
->> definition standard.  This patch does just that.
->>
->> Working with Khem, we have moved the default "mips" (32-bit) tune to be
->> -march=mips32 based, and produce package with the package arch of "mips".
->>
->> The side effect of this work is that the prior 'mips' tune was actually
->> "mips1".  I don't believe that was really desired by anyone, but it is a
->> change.  Also there is no longer a "mips32" tune, just an include file
->> that automatically inherits and chooses the "mips" tune.
+
+
+On 04/09/2012 08:21 PM, Robert Yang wrote:
 >
-> There's no backwards compatibility, but I'm fine with the new options.
-> The "mips" tune already gets selected by default in arch-mips.inc, so
-> you can remove it from tune-mips32.inc. Actually I'd prefer removing
-> tune-mips32.inc completely, so people will notice the
-> backwards-incompatible change.
+>
+> On 04/09/2012 06:36 PM, Lu, Lianhao wrote:
+>>
+>> Robert Yang wrote on 2012-04-09:
+>>> Test info:
+>>> * Have tested on:
+>>> * Fedora 16 x86_64
+>>> * Opensuse 12.1 x86_64
+>>
+>> Robert,
+>> Hongna just found a qemu launch error on openSuse x86_64 using the 2.15
+>> eglibc-nativesdk, something about the SDL initialization error. Did your
+>> platform work well?
+>>
+>
 
-This is backwards compatible if someone was previously including the mips32 
-tune.  It only "breaks" if someone was setting the default tune to "mips32" or 
-"mips32el" manually.
+Here is the update information from Hongna:
 
-If that is a concern, then adding a:
+I have finished the test on opensuse x86-64, both qemuarm and qemux86 do
+cross debug pass using 2.15 toolchain.
 
-TUNE_FEATURES_tune-mips32 = "${TUNE_FEATURES_tune-mips}"
-MIPSPKGSFX_VARIANT_tune-mips32 = "${MIPSPKGSFX_VARIANT_tune-mips}"
-PACKAGE_EXTRA_ARCHS_tune-mips32 = "${PACKAGE_EXTRA_ARCHS_tune-mips}"
+// Robert
 
-(and the same for mips32el).  That would ensure that they remain the same, and 
-that the package arch of "mips" can't deviate.
-
---Mark
-
-> Regards,
-> Andreas
-
+> Maybe he just used "ssh" without "-X" or "-Y" ? There would be an SDL
+> initialization error when ssh without "-X" or "-Y". It worked well for me.
+>
+> // Robert
+>
+>>> * Ubuntu 10.04
+>>> * The testing commands are:
+>>> $ bitbake core-image-sato meta-toolchain meta-toolchain-sdk
+>>>
+>>> And untar the sdk, then runqemu from the sdk to start the target.
+>>> // Robert
+>>>
+>>> The following changes since commit 1a82989345fb98becb487d270fd93a5e6dffeb47:
+>>>
+>>> runqemu-internal: Add console=tty for qemuppc and NFS (2012-04-06 01:12:15
+>>> +0100)
+>>> are available in the git repository at:
+>>> git://git.pokylinux.org/poky-contrib robert/tc
+>>> http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=robert/tc
+>>> Robert Yang (1):
+>>> meta-toolchain: runqemu falied on FC16/Opensuse12.1 x86_64
+>>> meta/conf/distro/include/tcmode-default.inc | 4 ++--
+>>> 1 files changed, 2 insertions(+), 2 deletions(-)
+>>>
+>>> _______________________________________________ Openembedded-core
+>>> mailing list Openembedded-core@lists.openembedded.org
+>>> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
+>>
+>> Best Regards,
+>> Lianhao
+>>
+>>
+>>
+>> _______________________________________________
+>> Openembedded-core mailing list
+>> Openembedded-core@lists.openembedded.org
+>> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
+>>
+>
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
+>
 
 
