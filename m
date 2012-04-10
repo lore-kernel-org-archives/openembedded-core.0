@@ -1,24 +1,24 @@
 Received: from mga02.intel.com ([134.134.136.20])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <sgw@linux.intel.com>) id 1SHVcR-0000tx-CF
+	(envelope-from <sgw@linux.intel.com>) id 1SHVcR-0000u0-Nu
 	for openembedded-core@lists.openembedded.org;
 	Tue, 10 Apr 2012 09:36:03 +0200
 Received: from orsmga002.jf.intel.com ([10.7.209.21])
 	by orsmga101.jf.intel.com with ESMTP; 10 Apr 2012 00:26:43 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.67,351,1309762800"; d="scan'208";a="130584235"
+X-IronPort-AV: E=Sophos;i="4.67,351,1309762800"; d="scan'208";a="130584238"
 Received: from unknown (HELO swold-mobl.bigsur.com) ([10.255.12.159])
-	by orsmga002.jf.intel.com with ESMTP; 10 Apr 2012 00:26:42 -0700
+	by orsmga002.jf.intel.com with ESMTP; 10 Apr 2012 00:26:43 -0700
 From: Saul Wold <sgw@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Tue, 10 Apr 2012 00:26:28 -0700
-Message-Id: <62570b7e3db44fbc3461f650abe6c4613940e068.1334042473.git.sgw@linux.intel.com>
+Date: Tue, 10 Apr 2012 00:26:29 -0700
+Message-Id: <d9d4fe9885e398df2062b3f2aed3fc274c656736.1334042473.git.sgw@linux.intel.com>
 X-Mailer: git-send-email 1.7.7.6
 In-Reply-To: <cover.1334042473.git.sgw@linux.intel.com>
 References: <cover.1334042473.git.sgw@linux.intel.com>
 In-Reply-To: <cover.1334042473.git.sgw@linux.intel.com>
 References: <cover.1334042473.git.sgw@linux.intel.com>
-Subject: [CONSOLIDATED PULL [v2] 01/14] create-pull-request: Assume remote branch from local branch
+Subject: [CONSOLIDATED PULL [v2] 02/14] mesa-common: package gl.pc in libgl-dev
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -33,60 +33,32 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 10 Apr 2012 07:36:03 -0000
+X-List-Received-Date: Tue, 10 Apr 2012 07:36:04 -0000
 
-From: Darren Hart <dvhart@linux.intel.com>
+From: Joshua Lock <josh@linux.intel.com>
 
-It is common to use the same remote branch name as the local branch
-name. In this case, it would be nice not to have to specify the
-remote branch name.
+gl.pc should be packaged in libgl-dev not the mesa-dev package
 
-Make the -b argument optional and assume the remote branch is the same
-name as the local branch. Print a NOTE to this effect so as not to
-catch the user by surprise:
+Fixes [YOCTO #2059]
 
-NOTE: Assuming remote branch 'notthere', use -b to override.
-
-If the remote branch doesn't exist, a WARNING is displayed just as if
-the user had used -b to specify a non-existent branch:
-
-WARNING: Branch 'notthere' was not found on the contrib git tree.
-         Please check your remote and branch parameter before sending.
-
-Signed-off-by: Darren Hart <dvhart@linux.intel.com>
+Signed-off-by: Joshua Lock <josh@linux.intel.com>
 ---
- scripts/create-pull-request |   11 ++++++++---
- 1 files changed, 8 insertions(+), 3 deletions(-)
+ meta/recipes-graphics/mesa/mesa-common.inc |    2 +-
+ 1 files changed, 1 insertions(+), 1 deletions(-)
 
-diff --git a/scripts/create-pull-request b/scripts/create-pull-request
-index 600fa7a..9a8913d 100755
---- a/scripts/create-pull-request
-+++ b/scripts/create-pull-request
-@@ -34,8 +34,8 @@ RFC=0
- usage() {
- CMD=$(basename $0)
- cat <<EOM
--Usage: $CMD [-h] [-o output_dir] [-m msg_body_file] [-s subject] [-r relative_to] [-i commit_id] -u remote -b branch
--  -b branch           Branch name in the specified remote
-+Usage: $CMD [-h] [-o output_dir] [-m msg_body_file] [-s subject] [-r relative_to] [-i commit_id] -u remote [-b branch]
-+  -b branch           Branch name in the specified remote (default: current branch)
-   -c                  Create an RFC (Request for Comment) patch series
-   -h                  Display this help message
-   -i commit_id        Ending commit (default: HEAD)
-@@ -120,7 +120,12 @@ while getopts "b:chi:m:o:p:r:s:u:" OPT; do
- 	esac
- done
+diff --git a/meta/recipes-graphics/mesa/mesa-common.inc b/meta/recipes-graphics/mesa/mesa-common.inc
+index 59e8e64..2b90aed 100644
+--- a/meta/recipes-graphics/mesa/mesa-common.inc
++++ b/meta/recipes-graphics/mesa/mesa-common.inc
+@@ -46,7 +46,7 @@ FILES_libglu = "${libdir}/libGLU.so.*"
+ FILES_libosmesa = "${libdir}/libOSMesa.so.*"
  
--if [ -z "$BRANCH" ] || [ -z "$REMOTE_URL" ]; then
-+if [ -z "$BRANCH" ]; then
-+	BRANCH=$(git branch | grep -e "^\* " | cut -d' ' -f2)
-+	echo "NOTE: Assuming remote branch '$BRANCH', use -b to override."
-+fi
-+	
-+if [ -z "$REMOTE_URL" ]; then
- 	usage
- 	exit 1
- fi
+ FILES_libegl-dev = "${libdir}/libEGL.* ${includedir}/EGL"
+-FILES_libgl-dev = "${libdir}/libGL.* ${includedir}/GL"
++FILES_libgl-dev = "${libdir}/libGL.* ${includedir}/GL ${libdir}/pkgconfig/gl.pc"
+ FILES_libglu-dev = "${libdir}/libGLU.* ${includedir}/GL/glu*.h"
+ FILES_libosmesa-dev = "${libdir}/libOSMesa.* ${includedir}/osmesa.h"
+ 
 -- 
 1.7.7.6
 
