@@ -1,25 +1,33 @@
-Received: from mail.windriver.com ([147.11.1.11])
+Received: from mail.dream-property.net ([82.149.226.172])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <mark.hatle@windriver.com>) id 1SHOCL-0005MG-H9
+	(envelope-from <obi@opendreambox.org>) id 1SHOsO-00068R-Cn
 	for openembedded-core@lists.openembedded.org;
-	Tue, 10 Apr 2012 01:40:37 +0200
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca [147.11.189.40])
-	by mail.windriver.com (8.14.3/8.14.3) with ESMTP id q39NVHIs029220
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
-	Mon, 9 Apr 2012 16:31:17 -0700 (PDT)
-Received: from localhost.localdomain (172.25.34.110) by
-	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server
-	(TLS) id 14.1.255.0; Mon, 9 Apr 2012 16:31:17 -0700
-From: Mark Hatle <mark.hatle@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Mon, 9 Apr 2012 18:31:07 -0500
-Message-ID: <a608dd6d5aec06056da9c20078b5cd171d6b6470.1334014014.git.mark.hatle@windriver.com>
-X-Mailer: git-send-email 1.7.1
-In-Reply-To: <cover.1334014014.git.mark.hatle@windriver.com>
-References: <cover.1334014014.git.mark.hatle@windriver.com>
+	Tue, 10 Apr 2012 02:24:04 +0200
+Received: from localhost (localhost [127.0.0.1])
+	by mail.dream-property.net (Postfix) with ESMTP id 39717315AFBB;
+	Tue, 10 Apr 2012 02:14:49 +0200 (CEST)
+X-Virus-Scanned: Debian amavisd-new at mail.dream-property.net
+Received: from mail.dream-property.net ([127.0.0.1])
+	by localhost (mail.dream-property.net [127.0.0.1]) (amavisd-new,
+	port 10024)
+	with LMTP id DoM74cabEL-T; Tue, 10 Apr 2012 02:14:42 +0200 (CEST)
+Received: from [172.22.22.61] (drms-590ce6c6.pool.mediaWays.net
+	[89.12.230.198])
+	(using TLSv1 with cipher DHE-RSA-AES256-SHA (256/256 bits))
+	(No client certificate requested)
+	by mail.dream-property.net (Postfix) with ESMTPSA id DE9F8315AFB9;
+	Tue, 10 Apr 2012 02:14:41 +0200 (CEST)
+Message-ID: <4F837B70.2020307@opendreambox.org>
+Date: Tue, 10 Apr 2012 02:14:40 +0200
+From: Andreas Oberritter <obi@opendreambox.org>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:11.0) Gecko/20120329 Thunderbird/11.0.1
 MIME-Version: 1.0
-X-Originating-IP: [172.25.34.110]
-Subject: [PATCH 1/1] tune-mips32: Update the default MIPS tuning to be mips32
+To: Mark Hatle <mark.hatle@windriver.com>
+References: <cover.1334014014.git.mark.hatle@windriver.com>
+In-Reply-To: <cover.1334014014.git.mark.hatle@windriver.com>
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH 0/1] MIPS/MIPS32 tune -> MIPS
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -34,107 +42,31 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 09 Apr 2012 23:40:37 -0000
-Content-Type: text/plain
+X-List-Received-Date: Tue, 10 Apr 2012 00:24:04 -0000
+Content-Type: text/plain; charset=ISO-8859-1
+Content-Transfer-Encoding: 7bit
 
-Previously the default mips tuning was defined as "mips1"
-internally in the compiler.  Revise this and change to "mips32".
+On 10.04.2012 01:31, Mark Hatle wrote:
+> The following is in reference to the recent discussion about the mips32
+> -package- arch changing from mips to mips32.  One of the potential options
+> was to get rid of the previous "mips" and replace it with the mips32
+> definition standard.  This patch does just that.
+> 
+> Working with Khem, we have moved the default "mips" (32-bit) tune to be
+> -march=mips32 based, and produce package with the package arch of "mips".
+> 
+> The side effect of this work is that the prior 'mips' tune was actually
+> "mips1".  I don't believe that was really desired by anyone, but it is a
+> change.  Also there is no longer a "mips32" tune, just an include file
+> that automatically inherits and chooses the "mips" tune.
 
-This eliminates the need for the mips32 specific tunings, which were
-not being used anyway.  (They exists and were used, but were not
-differentiated by package arch prior to a recent commit.)
+There's no backwards compatibility, but I'm fine with the new options.
+The "mips" tune already gets selected by default in arch-mips.inc, so
+you can remove it from tune-mips32.inc. Actually I'd prefer removing
+tune-mips32.inc completely, so people will notice the
+backwards-incompatible change.
 
-Signed-off-by: Mark Hatle <mark.hatle@windriver.com>
----
- meta/conf/machine/include/mips/arch-mips.inc |   13 +++++++++----
- meta/conf/machine/include/tune-mips32.inc    |   24 +-----------------------
- 2 files changed, 10 insertions(+), 27 deletions(-)
-
-diff --git a/meta/conf/machine/include/mips/arch-mips.inc b/meta/conf/machine/include/mips/arch-mips.inc
-index 8758ecd..c7768a1 100644
---- a/meta/conf/machine/include/mips/arch-mips.inc
-+++ b/meta/conf/machine/include/mips/arch-mips.inc
-@@ -28,6 +28,11 @@ TUNEVALID[fpu-hard] = "Use hardware FPU"
- TUNE_CCARGS += "${@bb.utils.contains("TUNE_FEATURES", "fpu-hard", "-mhard-float", "-msoft-float", d)}"
- TARGET_FPU = "${@bb.utils.contains("TUNE_FEATURES", "fpu-hard", "", "soft", d)}"
- 
-+# mips32 is the default o32 tuning
-+TUNEVALID[mips32] = "Enable mips32 specific processor optimizations"
-+TUNE_CONFLICTS[mips32] = "n64 n32"
-+TUNE_CCARGS += "${@bb.utils.contains("TUNE_FEATURES", "mips32", "-march=mips32", "", d)}"
-+
- # Package naming
- MIPSPKGSFX_ENDIAN = "${@bb.utils.contains("TUNE_FEATURES", "bigendian", "", "el", d)}"
- MIPSPKGSFX_BYTE = "${@bb.utils.contains("TUNE_FEATURES", "n64" , "64", "", d)}"
-@@ -40,7 +45,7 @@ TUNE_PKGARCH = "${MIPSPKGSFX_VARIANT_tune-${DEFAULTTUNE}}${MIPSPKGSFX_FPU}${MIPS
- 
- # Base tunes
- AVAILTUNES += "mips mips64-n32 mips64 mipsel mips64el-n32 mips64el mips-nf mips64-nf-n32 mips64-nf mipsel-nf mips64el-nf-n32 mips64el-nf"
--TUNE_FEATURES_tune-mips = "o32 bigendian fpu-hard"
-+TUNE_FEATURES_tune-mips = "mips32 o32 bigendian fpu-hard"
- BASE_LIB_tune-mips = "lib"
- MIPSPKGSFX_VARIANT_tune-mips = "${TUNE_ARCH}"
- PACKAGE_EXTRA_ARCHS_tune-mips = "mips"
-@@ -55,7 +60,7 @@ BASE_LIB_tune-mips64 = "lib64"
- MIPSPKGSFX_VARIANT_tune-mips64 = "${TUNE_ARCH}"
- PACKAGE_EXTRA_ARCHS_tune-mips64 = "mips64"
- 
--TUNE_FEATURES_tune-mipsel = "o32 fpu-hard"
-+TUNE_FEATURES_tune-mipsel = "mips32 o32 fpu-hard"
- BASE_LIB_tune-mipsel = "lib"
- MIPSPKGSFX_VARIANT_tune-mipsel = "${TUNE_ARCH}"
- PACKAGE_EXTRA_ARCHS_tune-mipsel = "mipsel"
-@@ -70,7 +75,7 @@ BASE_LIB_tune-mips64el = "lib64"
- MIPSPKGSFX_VARIANT_tune-mips64el = "${TUNE_ARCH}"
- PACKAGE_EXTRA_ARCHS_tune-mips64el = "mips64el"
- 
--TUNE_FEATURES_tune-mips-nf = "o32 bigendian"
-+TUNE_FEATURES_tune-mips-nf = "mips32 o32 bigendian"
- BASE_LIB_tune-mips-nf = "lib"
- MIPSPKGSFX_VARIANT_tune-mips-nf = "${TUNE_ARCH}"
- PACKAGE_EXTRA_ARCHS_tune-mips-nf = "mips-nf"
-@@ -85,7 +90,7 @@ BASE_LIB_tune-mips64-nf = "lib64"
- MIPSPKGSFX_VARIANT_tune-mips64-nf = "${TUNE_ARCH}"
- PACKAGE_EXTRA_ARCHS_tune-mips64-nf = "mips64-nf"
- 
--TUNE_FEATURES_tune-mipsel-nf = "o32"
-+TUNE_FEATURES_tune-mipsel-nf = "mips32 o32"
- BASE_LIB_tune-mipsel-nf = "lib"
- MIPSPKGSFX_VARIANT_tune-mipsel-nf = "${TUNE_ARCH}"
- PACKAGE_EXTRA_ARCHS_tune-mipsel-nf = "mipsel-nf"
-diff --git a/meta/conf/machine/include/tune-mips32.inc b/meta/conf/machine/include/tune-mips32.inc
-index 93ed5ee..f7bad90 100644
---- a/meta/conf/machine/include/tune-mips32.inc
-+++ b/meta/conf/machine/include/tune-mips32.inc
-@@ -1,25 +1,3 @@
--DEFAULTTUNE ?= "mips32"
-+DEFAULTTUNE ?= "mips"
- 
- require conf/machine/include/mips/arch-mips.inc
--
--TUNEVALID[mips32] = "Enable mips32 specific processor optimizations"
--TUNE_CONFLICTS[mips32] = "n64 n32"
--TUNE_CCARGS += "${@bb.utils.contains("TUNE_FEATURES", "mips32", "-march=mips32", "", d)}"
--
--AVAILTUNES += "mips32 mips32el mips32-nf mips32el-nf"
--
--TUNE_FEATURES_tune-mips32 = "${TUNE_FEATURES_tune-mips} mips32"
--MIPSPKGSFX_VARIANT_tune-mips32 = "mips32"
--PACKAGE_EXTRA_ARCHS_tune-mips32 = "mips mips32"
--
--TUNE_FEATURES_tune-mips32el = "${TUNE_FEATURES_tune-mipsel} mips32"
--MIPSPKGSFX_VARIANT_tune-mips32el = "mips32el"
--PACKAGE_EXTRA_ARCHS_tune-mips32el = "mipsel mips32el"
--
--TUNE_FEATURES_tune-mips32-nf = "${TUNE_FEATURES_tune-mips-nf} mips32"
--MIPSPKGSFX_VARIANT_tune-mips32-nf = "mips32"
--PACKAGE_EXTRA_ARCHS_tune-mips32-nf = "mips-nf mips32-nf"
--
--TUNE_FEATURES_tune-mips32el-nf = "${TUNE_FEATURES_tune-mipsel-nf} mips32"
--MIPSPKGSFX_VARIANT_tune-mips32el-nf = "mips32el"
--PACKAGE_EXTRA_ARCHS_tune-mips32el-nf = "mipsel-nf mips32el-nf"
--- 
-1.7.1
-
+Regards,
+Andreas
 
 
