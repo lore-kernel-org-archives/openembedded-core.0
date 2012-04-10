@@ -1,24 +1,35 @@
-Received: from mga02.intel.com ([134.134.136.20])
+Received: from mail-wg0-f43.google.com ([74.125.82.43])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <sgw@linux.intel.com>) id 1SHVcU-0000tx-Vw
-	for openembedded-core@lists.openembedded.org;
-	Tue, 10 Apr 2012 09:36:07 +0200
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-	by orsmga101.jf.intel.com with ESMTP; 10 Apr 2012 00:26:47 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.67,351,1309762800"; d="scan'208";a="130584265"
-Received: from unknown (HELO swold-mobl.bigsur.com) ([10.255.12.159])
-	by orsmga002.jf.intel.com with ESMTP; 10 Apr 2012 00:26:46 -0700
-From: Saul Wold <sgw@linux.intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Tue, 10 Apr 2012 00:26:41 -0700
-Message-Id: <bc8c7e0c313a31bd2d105ff35765be361d5aec8d.1334042473.git.sgw@linux.intel.com>
-X-Mailer: git-send-email 1.7.7.6
-In-Reply-To: <cover.1334042473.git.sgw@linux.intel.com>
-References: <cover.1334042473.git.sgw@linux.intel.com>
-In-Reply-To: <cover.1334042473.git.sgw@linux.intel.com>
-References: <cover.1334042473.git.sgw@linux.intel.com>
-Subject: [CONSOLIDATED PULL [v2] 14/14] hello-mod: Move hello-mod from meta to meta-skeleton
+	(envelope-from <martin.jansa@gmail.com>)
+	id 1SHW0S-0002F5-F4; Tue, 10 Apr 2012 10:00:52 +0200
+Received: by wgbdr12 with SMTP id dr12so4014843wgb.24
+	for <multiple recipients>; Tue, 10 Apr 2012 00:51:35 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=date:from:to:cc:subject:message-id:references:mime-version
+	:content-type:content-disposition:in-reply-to:user-agent;
+	bh=fUg7LGCs+tLl9FGjL+xBTfdW7yvm1WynzPtuavhlK+I=;
+	b=KhDePXo8PKA59HaPZqOPG+ZSSJSErklhf7j1EWCEM1mBgYKcWxjGY44rLA8iqKmfC0
+	ZsOGZAE+jDwaifH1eSeAN9GyyYyg7WnIJAsZs31LyBuvTtY6kiPqykN3X8bK55iog/2H
+	Q1r/jcJHZngkQp7pFpuMTKTqdlqgow0i6dDrH4QyV/JD9arYcwHyUOXzIektHCauoojl
+	mRZfioflDfaZc2cxVTMR+G6l20CKFlLr0ZWEr450DqUOHNKFn5/bubGGNiH58RsMmi3c
+	TWiVQlbCQsggUPr+bU3sDx4yJNSL7QlJzLRK5/ZVRVaGSBIhkdqNO41Co5xfadqik4Oh
+	5Hig==
+Received: by 10.216.139.25 with SMTP id b25mr5484608wej.41.1334044294911;
+	Tue, 10 Apr 2012 00:51:34 -0700 (PDT)
+Received: from localhost ([94.230.152.246])
+	by mx.google.com with ESMTPS id b3sm35993241wib.4.2012.04.10.00.51.33
+	(version=TLSv1/SSLv3 cipher=OTHER);
+	Tue, 10 Apr 2012 00:51:34 -0700 (PDT)
+Date: Tue, 10 Apr 2012 09:51:33 +0200
+From: Martin Jansa <martin.jansa@gmail.com>
+To: openembedded-devel@lists.openembedded.org
+Message-ID: <20120410075133.GB3583@jama.jama.net>
+References: <1333829385-32212-1-git-send-email-raj.khem@gmail.com>
+MIME-Version: 1.0
+In-Reply-To: <1333829385-32212-1-git-send-email-raj.khem@gmail.com>
+User-Agent: Mutt/1.5.21 (2010-09-15)
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [oe] [toolchain-layer][PATCH] gcc-4.6: Update to 2012.03 linaro release
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -33,46 +44,65 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 10 Apr 2012 07:36:07 -0000
+X-List-Received-Date: Tue, 10 Apr 2012 08:00:52 -0000
+X-Groupsio-MsgNum: 20482
+Content-Type: multipart/signed; micalg=pgp-sha1;
+	protocol="application/pgp-signature"; boundary="XOIedfhf+7KOe/yw"
+Content-Disposition: inline
 
-From: Darren Hart <dvhart@linux.intel.com>
+--XOIedfhf+7KOe/yw
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Fixes [YOCTO #1501]
+On Sat, Apr 07, 2012 at 01:09:45PM -0700, Khem Raj wrote:
+> Signed-off-by: Khem Raj <raj.khem@gmail.com>
+> ---
+>  .../gcc-4.6/linaro/gcc-4.6-linaro-r106876.patch    |  109 ++++
+>  .../gcc-4.6/linaro/gcc-4.6-linaro-r106877.patch    |  239 ++++++++
+>  .../gcc-4.6/linaro/gcc-4.6-linaro-r106878.patch    |   69 +++
+>  .../gcc-4.6/linaro/gcc-4.6-linaro-r106879.patch    |  643 ++++++++++++++=
+++++++
+>  .../gcc-4.6/linaro/gcc-4.6-linaro-r106882.patch    |   53 ++
+>  .../gcc/gcc-4_6-branch-linaro-backports.inc        |    5 +
+>  .../recipes-devtools/gcc/gcc-common-4.6.inc        |    2 +-
+>  7 files changed, 1119 insertions(+), 1 deletions(-)
+>  create mode 100644 toolchain-layer/recipes-devtools/gcc/gcc-4.6/linaro/g=
+cc-4.6-linaro-r106876.patch
+>  create mode 100644 toolchain-layer/recipes-devtools/gcc/gcc-4.6/linaro/g=
+cc-4.6-linaro-r106877.patch
+>  create mode 100644 toolchain-layer/recipes-devtools/gcc/gcc-4.6/linaro/g=
+cc-4.6-linaro-r106878.patch
+>  create mode 100644 toolchain-layer/recipes-devtools/gcc/gcc-4.6/linaro/g=
+cc-4.6-linaro-r106879.patch
+>  create mode 100644 toolchain-layer/recipes-devtools/gcc/gcc-4.6/linaro/g=
+cc-4.6-linaro-r106882.patch
 
-hello-mod is an example kernel module, and does not provide any real
-functionality. As such, it would be better placed under meta-skeleton than
-meta.
+FWIW: this upgrade again triggered gcc-cross-initiall do_compile errors
+for incremental builds, it failed for 3 from 4 archs I'm building and
+each with different error. Reexecuting the same target again worked fine,=
+=20
+so I still belive there is some sort of race condition with shared gcc work=
+dir.
 
-Signed-off-by: Darren Hart <dvhart@linux.intel.com>
----
- .../recipes-kernel/hello-mod/files/COPYING         |    0
- .../recipes-kernel/hello-mod/files/Makefile        |    0
- .../recipes-kernel/hello-mod/files/hello.c         |    0
- .../recipes-kernel/hello-mod/hello-mod_0.1.bb      |    0
- 4 files changed, 0 insertions(+), 0 deletions(-)
- rename {meta => meta-skeleton}/recipes-kernel/hello-mod/files/COPYING (100%)
- rename {meta => meta-skeleton}/recipes-kernel/hello-mod/files/Makefile (100%)
- rename {meta => meta-skeleton}/recipes-kernel/hello-mod/files/hello.c (100%)
- rename {meta => meta-skeleton}/recipes-kernel/hello-mod/hello-mod_0.1.bb (100%)
+I've uploaded cooker and do_compile logs here:
+http://build.shr-project.org/tests/jama/gcc-upgrade-issue/
 
-diff --git a/meta/recipes-kernel/hello-mod/files/COPYING b/meta-skeleton/recipes-kernel/hello-mod/files/COPYING
-similarity index 100%
-rename from meta/recipes-kernel/hello-mod/files/COPYING
-rename to meta-skeleton/recipes-kernel/hello-mod/files/COPYING
-diff --git a/meta/recipes-kernel/hello-mod/files/Makefile b/meta-skeleton/recipes-kernel/hello-mod/files/Makefile
-similarity index 100%
-rename from meta/recipes-kernel/hello-mod/files/Makefile
-rename to meta-skeleton/recipes-kernel/hello-mod/files/Makefile
-diff --git a/meta/recipes-kernel/hello-mod/files/hello.c b/meta-skeleton/recipes-kernel/hello-mod/files/hello.c
-similarity index 100%
-rename from meta/recipes-kernel/hello-mod/files/hello.c
-rename to meta-skeleton/recipes-kernel/hello-mod/files/hello.c
-diff --git a/meta/recipes-kernel/hello-mod/hello-mod_0.1.bb b/meta-skeleton/recipes-kernel/hello-mod/hello-mod_0.1.bb
-similarity index 100%
-rename from meta/recipes-kernel/hello-mod/hello-mod_0.1.bb
-rename to meta-skeleton/recipes-kernel/hello-mod/hello-mod_0.1.bb
--- 
-1.7.7.6
+Cheers,
 
+--=20
+Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
 
+--XOIedfhf+7KOe/yw
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: Digital signature
 
+-----BEGIN PGP SIGNATURE-----
+Version: GnuPG v2.0.19 (GNU/Linux)
+
+iEYEARECAAYFAk+D5oUACgkQN1Ujt2V2gBym2ACgsy5oVcJt05tj/N5PuE6Q8T1M
+sjoAnidUcqs4hJYHu2J6tF3jv3p9uQXO
+=S1dG
+-----END PGP SIGNATURE-----
+
+--XOIedfhf+7KOe/yw--
