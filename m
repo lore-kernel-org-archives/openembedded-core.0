@@ -1,20 +1,24 @@
 Received: from mga14.intel.com ([143.182.124.37])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <sgw@linux.intel.com>) id 1SHmaR-0002rH-D9
+	(envelope-from <sgw@linux.intel.com>) id 1SHmaS-0002rH-IP
 	for openembedded-core@lists.openembedded.org;
-	Wed, 11 Apr 2012 03:43:07 +0200
+	Wed, 11 Apr 2012 03:43:08 +0200
 Received: from azsmga001.ch.intel.com ([10.2.17.19])
 	by azsmga102.ch.intel.com with ESMTP; 10 Apr 2012 18:33:48 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="129434388"
+X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="129434389"
 Received: from unknown (HELO swold-mobl.bigsur.com) ([10.255.12.159])
-	by azsmga001.ch.intel.com with ESMTP; 10 Apr 2012 18:33:47 -0700
+	by azsmga001.ch.intel.com with ESMTP; 10 Apr 2012 18:33:48 -0700
 From: Saul Wold <sgw@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Tue, 10 Apr 2012 18:33:41 -0700
-Message-Id: <cover.1334107957.git.sgw@linux.intel.com>
+Date: Tue, 10 Apr 2012 18:33:42 -0700
+Message-Id: <baa3cbb0ca324bfccaa902e535b750ecc2e1ff1c.1334107957.git.sgw@linux.intel.com>
 X-Mailer: git-send-email 1.7.7.6
-Subject: [CONSOLIDATED PULL (for RC3) 0/5] Please review and pull this morning
+In-Reply-To: <cover.1334107957.git.sgw@linux.intel.com>
+References: <cover.1334107957.git.sgw@linux.intel.com>
+In-Reply-To: <cover.1334107957.git.sgw@linux.intel.com>
+References: <cover.1334107957.git.sgw@linux.intel.com>
+Subject: [CONSOLIDATED PULL (for RC3) 1/5] connman: add ofono dependency.
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -31,43 +35,32 @@ List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedde
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Wed, 11 Apr 2012 01:43:08 -0000
 
-Richard,
+From: Lianhao Lu <lianhao.lu@intel.com>
 
-This is a set of fixes for RC3, there is a pending set for
-meta-yocto to review.
+Added dependency to ofono because we always enable ofono plug-in.
 
-Sau!
+We did this because the 1.2 release cycle is coming to an end. We should
+use PACKAGECONFIG in 1.3.
 
-The following changes since commit bde1744018afd4616e114b20ffdc21b9abddcedc:
+This is part of the 1.2 bug fixing [YOCTO #2216].
 
-  hello-mod: Move hello-mod from meta to meta-skeleton (2012-04-10 13:16:00 +0100)
+Signed-off-by: Lianhao Lu <lianhao.lu@intel.com>
+---
+ meta/recipes-connectivity/connman/connman.inc |    1 +
+ 1 files changed, 1 insertions(+), 0 deletions(-)
 
-are available in the git repository at:
-  git://git.openembedded.org/openembedded-core-contrib sgw/stage
-  http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=sgw/stage
-
-Lianhao Lu (1):
-  connman: add ofono dependency.
-
-Nitin A Kamble (1):
-  tclibc-eglibc.inc: make locale packages dependency conditional
-
-Saul Wold (2):
-  boot-directdisk: remove the default setting of SYSLINUXCFG and
-    SYSLINUXMENU
-  task-self-hosted: Add vte and eglibc-gconv-ibm850
-
-Yang Shi (1):
-  initrdscripts: fix init-live.sh and use unionfs
-
- meta/classes/boot-directdisk.bbclass               |    3 --
- meta/conf/distro/include/tclibc-eglibc.inc         |   23 +++++++++++++------
- meta/recipes-connectivity/connman/connman.inc      |    1 +
- meta/recipes-core/initrdscripts/files/init-live.sh |   23 ++++++++++++++++---
- .../initrdscripts/initramfs-live-boot_1.0.bb       |    9 +++++++-
- meta/recipes-core/tasks/task-self-hosted.bb        |    4 ++-
- 6 files changed, 47 insertions(+), 16 deletions(-)
-
+diff --git a/meta/recipes-connectivity/connman/connman.inc b/meta/recipes-connectivity/connman/connman.inc
+index 1a6dd1b..bfe6620 100644
+--- a/meta/recipes-connectivity/connman/connman.inc
++++ b/meta/recipes-connectivity/connman/connman.inc
+@@ -17,6 +17,7 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=12f884d2ae1ff87c09e5b7ccc2c4ca7e \
+ DEPENDS  = "dbus glib-2.0 ppp iptables gnutls \
+             ${@base_contains('DISTRO_FEATURES', 'bluetooth','bluez4', '', d)} \
+             ${@base_contains('DISTRO_FEATURES', 'wifi','wpa-supplicant', '', d)} \
++            ofono \
+             "
+ 
+ EXTRA_OECONF += "\
 -- 
 1.7.7.6
 
