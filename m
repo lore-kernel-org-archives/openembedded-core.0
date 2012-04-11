@@ -1,37 +1,24 @@
-Received: from mail-wg0-f43.google.com ([74.125.82.43])
+Received: from mail1.windriver.com ([147.11.146.13])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <andrei@gherzan.ro>) id 1SI01D-0007Iy-Oj
+	(envelope-from <Florin.Sarbu@windriver.com>) id 1SI0K7-0007hY-1h
 	for openembedded-core@lists.openembedded.org;
-	Wed, 11 Apr 2012 18:03:39 +0200
-Received: by wgbdr12 with SMTP id dr12so876663wgb.24
+	Wed, 11 Apr 2012 18:23:11 +0200
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca [147.11.189.40])
+	by mail1.windriver.com (8.14.3/8.14.3) with ESMTP id q3BGDoci013512
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 11 Apr 2012 08:54:21 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=google.com; s=20120113;
-	h=from:to:subject:date:message-id:x-mailer:in-reply-to:references
-	:x-gm-message-state;
-	bh=MsFi07iP4/ASwmNAqnGcRciZ9uuEcaLKITHKUdG5Z4M=;
-	b=eMlAGNff3EwoIF2XtR2mBzbPOavv4NaQlLYHfZhfQ3rPK2R2BA0yL0S/roZ78DirJ/
-	HHJFWXkscb1/LL8OGn6GpYtTNO8vUsY+0Wdu1bXUrfPPaci3vV3IeTDsOfscb9CGvrfo
-	WPH+7He9BsRQI6F2/MoMSCT6QB3TtpgforELNcW0gIHRRYNmfxWi4Qk9KWDHvapWnlHR
-	GvZZllHocDRNKOHaVPsfL3pGNfHWV1OtOSbqWg5zPMcTda/rAp621p9IGKgq1YhHQh5X
-	U6HmvTzDaGMCz882e5wTjvCmKIjxZi9lba5i0mIePPxTnB+tu+pUiItObi1raiUeabeV
-	Iaww==
-Received: by 10.216.52.8 with SMTP id d8mr888702wec.104.1334159660449;
-	Wed, 11 Apr 2012 08:54:20 -0700 (PDT)
-Received: from localhost.localdomain ([89.121.200.106])
-	by mx.google.com with ESMTPS id n8sm10877794wix.10.2012.04.11.08.54.19
-	(version=TLSv1/SSLv3 cipher=OTHER);
-	Wed, 11 Apr 2012 08:54:19 -0700 (PDT)
-From: Andrei Gherzan <andrei@gherzan.ro>
-To: openembedded-core@lists.openembedded.org
-Date: Wed, 11 Apr 2012 18:54:13 +0300
-Message-Id: <c76e09de7b542e3860f49ed8fb7733d60b21b5bc.1334159446.git.andrei@gherzan.ro>
-X-Mailer: git-send-email 1.7.5.4
-In-Reply-To: <cover.1334159446.git.andrei@gherzan.ro>
-References: <cover.1334159446.git.andrei@gherzan.ro>
-X-Gm-Message-State: ALoCoQlph1M+Ki/KCNsQXKVzg0VQoGdl56Ws2UTfTSCJGESl5NGULqplwURTH+OHgvgnDzR6B9Su
-Subject: [V4 1/2] gdbm: Package compat libs in gdbm-compat
+	Wed, 11 Apr 2012 09:13:50 -0700 (PDT)
+Received: from otp-fsarbu-l1.corp.ad.wrs.com (128.224.171.127) by
+	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server
+	(TLS) id 14.1.255.0; Wed, 11 Apr 2012 09:13:50 -0700
+From: Florin Sarbu <florin.sarbu@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Wed, 11 Apr 2012 19:13:41 +0300
+Message-ID: <1334160821-11771-1-git-send-email-florin.sarbu@windriver.com>
+X-Mailer: git-send-email 1.7.9.1
+MIME-Version: 1.0
+X-Originating-IP: [128.224.171.127]
+Subject: [PATCH] vala: Add vala package as a devtool (version 0.12.1)
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -46,40 +33,65 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 11 Apr 2012 16:03:39 -0000
+X-List-Received-Date: Wed, 11 Apr 2012 16:23:11 -0000
+Content-Type: text/plain
 
-In order to avoid breaking packages which depend on old package name libgdbm4 (>= 1.10),
-compat libs are packaged into a separate package named gdbm-compat.
+Added the vala package from meta-oe to support future systemd integration.
 
-Signed-off-by: Andrei Gherzan <andrei@gherzan.ro>
+Signed-off-by: Florin Sarbu <florin.sarbu@windriver.com>
 ---
- meta/recipes-support/gdbm/gdbm_1.10.bb |    7 ++++++-
- 1 files changed, 6 insertions(+), 1 deletions(-)
+ meta/recipes-devtools/vala/vala.inc       |   25 +++++++++++++++++++++++++
+ meta/recipes-devtools/vala/vala_0.12.1.bb |    7 +++++++
+ 2 files changed, 32 insertions(+), 0 deletions(-)
+ create mode 100644 meta/recipes-devtools/vala/vala.inc
+ create mode 100644 meta/recipes-devtools/vala/vala_0.12.1.bb
 
-diff --git a/meta/recipes-support/gdbm/gdbm_1.10.bb b/meta/recipes-support/gdbm/gdbm_1.10.bb
-index 26b8009..6b68d27 100644
---- a/meta/recipes-support/gdbm/gdbm_1.10.bb
-+++ b/meta/recipes-support/gdbm/gdbm_1.10.bb
-@@ -4,7 +4,7 @@ SECTION = "libs"
- LICENSE = "GPLv3"
- LIC_FILES_CHKSUM = "file://COPYING;md5=241da1b9fe42e642cbb2c24d5e0c4d24"
- 
--PR = "r2"
-+PR = "r3"
- 
- SRC_URI = "${GNU_MIRROR}/gdbm/gdbm-${PV}.tar.gz"
- 
-@@ -25,3 +25,8 @@ do_install_append () {
-     ln -sf ../ndbm.h ${D}/${includedir}/gdbm/ndbm.h
-     ln -sf ../gdbm.h ${D}/${includedir}/gdbm/gdbm.h
- }
+diff --git a/meta/recipes-devtools/vala/vala.inc b/meta/recipes-devtools/vala/vala.inc
+new file mode 100644
+index 0000000..0815c66
+--- /dev/null
++++ b/meta/recipes-devtools/vala/vala.inc
+@@ -0,0 +1,25 @@
++DESCRIPTION = "Vala is a C#-like language dedicated to ease GObject programming. \
++Vala compiles to plain C and has no runtime environment nor penalities whatsoever."
++SECTION = "devel"
++DEPENDS = "glib-2.0 dbus"
++BBCLASSEXTEND = "native"
++DEPENDS_virtclass-native = "glib-2.0-native dbus-native"
++HOMEPAGE = "http://vala-project.org"
++LICENSE = "LGPLv2.1"
++LIC_FILES_CHKSUM = "file://COPYING;md5=fbc093901857fcd118f065f900982c24"
++INC_PR = "r0"
 +
-+PACKAGES =+ "${PN}-compat \
-+            "
-+FILES_${PN}-compat = "${libdir}/libgdbm_compat${SOLIBS} \
-+                     "
++#
++# WARNING: This source release has specifically been built for OpenEmbedded.
++# Don't update to any upstream release without consulting the recipe maintainer.
++#
++
++SRC_URI = "\
++  http://downloads.freesmartphone.org/sources/vala-${PV}.tar.bz2;name=archive \
++"
++
++inherit autotools
++
++EXTRA_OECONF = "--disable-vapigen"
++
++FILES_${PN}-doc += "${datadir}/devhelp"
+diff --git a/meta/recipes-devtools/vala/vala_0.12.1.bb b/meta/recipes-devtools/vala/vala_0.12.1.bb
+new file mode 100644
+index 0000000..1049ed6
+--- /dev/null
++++ b/meta/recipes-devtools/vala/vala_0.12.1.bb
+@@ -0,0 +1,7 @@
++require vala.inc
++SRC_URI = "ftp://ftp.gnome.org/pub/GNOME/sources/vala/0.12/vala-${PV}.tar.bz2"
++
++FILES_${PN} += "${datadir}/vala-0.12/vapi"
++
++SRC_URI[md5sum] = "bf35262cc611de447147d01cbac33767"
++SRC_URI[sha256sum] = "d9a2be21bb8ab88eab838e7f3a4d0aaa2a1fddf35615dca32bef6a0051f58ea8"
 -- 
-1.7.5.4
+1.7.9.1
 
 
 
