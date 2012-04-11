@@ -1,23 +1,22 @@
-Received: from mail1.windriver.com ([147.11.146.13])
+Received: from mail.windriver.com ([147.11.1.11])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <Florin.Sarbu@windriver.com>) id 1SI0K7-0007hY-1h
+	(envelope-from <Florin.Sarbu@windriver.com>) id 1SI32L-0002cm-E2
 	for openembedded-core@lists.openembedded.org;
-	Wed, 11 Apr 2012 18:23:11 +0200
+	Wed, 11 Apr 2012 21:17:01 +0200
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca [147.11.189.40])
-	by mail1.windriver.com (8.14.3/8.14.3) with ESMTP id q3BGDoci013512
+	by mail.windriver.com (8.14.3/8.14.3) with ESMTP id q3BFxxFp004449
 	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 11 Apr 2012 09:13:50 -0700 (PDT)
+	Wed, 11 Apr 2012 08:59:59 -0700 (PDT)
 Received: from otp-fsarbu-l1.corp.ad.wrs.com (128.224.171.127) by
-	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server
-	(TLS) id 14.1.255.0; Wed, 11 Apr 2012 09:13:50 -0700
+	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server id
+	14.1.255.0; Wed, 11 Apr 2012 08:59:59 -0700
 From: Florin Sarbu <florin.sarbu@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Wed, 11 Apr 2012 19:13:41 +0300
-Message-ID: <1334160821-11771-1-git-send-email-florin.sarbu@windriver.com>
+Date: Wed, 11 Apr 2012 18:59:55 +0300
+Message-ID: <1334159995-3392-1-git-send-email-florin.sarbu@windriver.com>
 X-Mailer: git-send-email 1.7.9.1
 MIME-Version: 1.0
-X-Originating-IP: [128.224.171.127]
 Subject: [PATCH] vala: Add vala package as a devtool (version 0.12.1)
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
@@ -33,7 +32,7 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 11 Apr 2012 16:23:11 -0000
+X-List-Received-Date: Wed, 11 Apr 2012 19:17:01 -0000
 Content-Type: text/plain
 
 Added the vala package from meta-oe to support future systemd integration.
