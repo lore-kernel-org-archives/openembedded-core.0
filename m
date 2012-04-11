@@ -1,33 +1,38 @@
 Received: from mail-yx0-f175.google.com ([209.85.213.175])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <otavio.salvador@gmail.com>) id 1SHoFD-0004pi-IL
+	(envelope-from <otavio.salvador@gmail.com>) id 1SHoFE-0004pi-SE
 	for openembedded-core@lists.openembedded.org;
-	Wed, 11 Apr 2012 05:29:19 +0200
-Received: by yenm3 with SMTP id m3so291427yen.6
+	Wed, 11 Apr 2012 05:29:21 +0200
+Received: by mail-yx0-f175.google.com with SMTP id m3so291427yen.6
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 10 Apr 2012 20:20:00 -0700 (PDT)
+	Tue, 10 Apr 2012 20:20:04 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=sender:from:to:subject:date:message-id:x-mailer;
-	bh=XNU0jaygFysC989OVOVAiYKL5Hm2ErQF3NkoR69+gj8=;
-	b=uOKsRVFK5R1aO78peOY4zR+cbbw228HcPt9s8UG10G5ZvQi4AOomBTui0qBjOQ3fxG
-	kOKgC19Nagjdz7Pmbv0ag6+uNAw+WvjK2eJEtiW4A6iV1StNN9PVWWD9pPAkdxDk52dD
-	I3lF+B/HtyG92XBI/xUJzaB9wlPI7rOy7GrAmri4DN3OD4MWJFBb1X0PUAnb8H9QJgZT
-	wtg2qaXpAVIjMb2L+I9jZGZkr9OIBR5YFcHRG1AGYfBL9X+cYjcW8oySW8t/qi4YdwPW
-	CKIJbt0xkaVn0gqQdgp4qFuKTMfgCttLBMTVJYvzST+3hvvML5CsAA2YM3IQYX47oL+N
-	YI3w==
-Received: by 10.236.9.35 with SMTP id 23mr11735002yhs.41.1334114400617;
-	Tue, 10 Apr 2012 20:20:00 -0700 (PDT)
+	h=sender:from:to:subject:date:message-id:x-mailer:in-reply-to
+	:references:in-reply-to:references;
+	bh=JQv/MHcVtrTXZXpMibWf/TE22irJTH8hIx3G9Uc1i4o=;
+	b=ki0ojQKDtTe4003bNtwFVN3rUD5AgN2ps4TmJnHV3q7cWBZ3nwry23tFO5aUDHtZIZ
+	Y6tx8s9PFG3dxh9M9ZtRFXk4WySDEz2tWG4+7/6qpL8GZ8EvgmcEBFaSnJs0u9bZMH8B
+	qaDY4LSEOS2iB6IOsE7dmjYNqHDmF7rYqi/HSNa6qBZ0wOZOteUBn0jyLKJxQScz9fGF
+	QbEz93OscfOHUcNy06iFkSZ0NycwouDBZ6xwvyh0b2hyEdr5L/QDhcNS8UYNV9oSX+FG
+	G+RukXSGLFzEv41Dbhd0NvrvQalwvih2G0mEi+Sr+kPTLAu3bDw5DNZElyxVm/oHsWnG
+	YfTw==
+Received: by 10.236.136.33 with SMTP id v21mr11900273yhi.17.1334114404524;
+	Tue, 10 Apr 2012 20:20:04 -0700 (PDT)
 Received: from localhost.localdomain ([186.218.100.214])
-	by mx.google.com with ESMTPS id r62sm5091146yhb.14.2012.04.10.20.19.59
+	by mx.google.com with ESMTPS id r62sm5091146yhb.14.2012.04.10.20.20.03
 	(version=TLSv1/SSLv3 cipher=OTHER);
-	Tue, 10 Apr 2012 20:20:00 -0700 (PDT)
+	Tue, 10 Apr 2012 20:20:03 -0700 (PDT)
 Sender: Otavio Salvador <otavio.salvador@gmail.com>
 From: Otavio Salvador <otavio@ossystems.com.br>
 To: openembedded-core@lists.openembedded.org
-Date: Wed, 11 Apr 2012 03:19:49 +0000
-Message-Id: <cover.1334114318.git.otavio@ossystems.com.br>
+Date: Wed, 11 Apr 2012 03:19:51 +0000
+Message-Id: <8268f5fbc018200d52efc4e84e29c3f5757694c9.1334114318.git.otavio@ossystems.com.br>
 X-Mailer: git-send-email 1.7.2.5
-Subject: [PATCH 0/3] Important fixes for rc3
+In-Reply-To: <cover.1334114318.git.otavio@ossystems.com.br>
+References: <cover.1334114318.git.otavio@ossystems.com.br>
+In-Reply-To: <cover.1334114318.git.otavio@ossystems.com.br>
+References: <cover.1334114318.git.otavio@ossystems.com.br>
+Subject: [PATCH 2/3] distrodata.bbclass: fix comment typo
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -42,37 +47,31 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 11 Apr 2012 03:29:19 -0000
+X-List-Received-Date: Wed, 11 Apr 2012 03:29:21 -0000
 
-The patches in this set are all important IMO and I do think they
-ought to be included.
+Fixes:
 
-The following changes since commit bde1744018afd4616e114b20ffdc21b9abddcedc:
+  - xf86-intput-synaptics-12.6.9.tar.gz
+  + xf86-input-synaptics-12.6.9.tar.gz
 
-  hello-mod: Move hello-mod from meta to meta-skeleton (2012-04-10 13:16:00 +0100)
+Signed-off-by: Otavio Salvador <otavio@ossystems.com.br>
+---
+ meta/classes/distrodata.bbclass |    2 +-
+ 1 files changed, 1 insertions(+), 1 deletions(-)
 
-are available in the git repository at:
-  git://github.com/OSSystems/oe-core master
-  https://github.com/OSSystems/oe-core/tree/HEAD
-
-Otavio Salvador (3):
-  connman: backport test script fixes
-  distrodata.bbclass: fix comment typo
-  flex: backport Debian patches to fix generated code warnings
-
- meta/classes/distrodata.bbclass                    |    2 +-
- .../connman/test-set-ipv4-method-api-fix.patch     |   50 +++++++++++++++++
- .../connman/test-set-ipv6-method-api-fix.patch     |   55 ++++++++++++++++++
- meta/recipes-connectivity/connman/connman_0.79.bb  |    4 +
- .../flex/flex/avoid-FORTIFY-warnings.patch         |   59 ++++++++++++++++++++
- .../flex/int-is-not-the-same-size-as-size_t.patch  |   42 ++++++++++++++
- meta/recipes-devtools/flex/flex_2.5.35.bb          |    5 +-
- 7 files changed, 215 insertions(+), 2 deletions(-)
- create mode 100644 meta/recipes-connectivity/connman/connman/test-set-ipv4-method-api-fix.patch
- create mode 100644 meta/recipes-connectivity/connman/connman/test-set-ipv6-method-api-fix.patch
- create mode 100644 meta/recipes-devtools/flex/flex/avoid-FORTIFY-warnings.patch
- create mode 100644 meta/recipes-devtools/flex/flex/int-is-not-the-same-size-as-size_t.patch
-
+diff --git a/meta/classes/distrodata.bbclass b/meta/classes/distrodata.bbclass
+index aba4bd7..4b2dee5 100644
+--- a/meta/classes/distrodata.bbclass
++++ b/meta/classes/distrodata.bbclass
+@@ -237,7 +237,7 @@ python do_checkpkg() {
+ 	such as:
+ 		gnome-common-2.20.0.tar.gz (most common format)
+ 		gtk+-2.90.1.tar.gz
+-		xf86-intput-synaptics-12.6.9.tar.gz
++		xf86-input-synaptics-12.6.9.tar.gz
+ 		dri2proto-2.3.tar.gz
+ 		blktool_4.orig.tar.gz
+ 		libid3tag-0.15.1b.tar.gz
 -- 
 1.7.2.5
 
