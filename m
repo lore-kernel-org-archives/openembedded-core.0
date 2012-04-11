@@ -1,31 +1,31 @@
-Received: from mail-iy0-f175.google.com ([209.85.210.175])
+Received: from mail-yx0-f175.google.com ([209.85.213.175])
 	by linuxtogo.org with esmtp (Exim 4.72)
 	(envelope-from <jefro.net@gmail.com>)
-	id 1SHzEd-0005lj-B3; Wed, 11 Apr 2012 17:13:27 +0200
-Received: by iaag37 with SMTP id g37so1435959iaa.6
-	for <multiple recipients>; Wed, 11 Apr 2012 08:04:07 -0700 (PDT)
+	id 1SHzHj-0005ua-Me; Wed, 11 Apr 2012 17:16:39 +0200
+Received: by yenm3 with SMTP id m3so512019yen.6
+	for <multiple recipients>; Wed, 11 Apr 2012 08:07:20 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
 	h=mime-version:sender:date:x-google-sender-auth:message-id:subject
-	:from:to:content-type;
-	bh=aEYaTzfl+ZsBde+Sow2aJfeCeDWn8pOz4nJk6Hb/NLY=;
-	b=pq+M/9WH05XS6R7ueeQ6lj8e2LYUcUvIVvEvLDJOdzZrQkbV/j/+f+yD3NPCMeiWoy
-	Zq9jvYnaQGImlS4hSTXKdQJFdu2EQoo0bZ7OffOxoKH7RosCPFEKfwUbSXlqtgDTsQo4
-	y4YrDxhSpjKiq7ggFf1mVS1PQYQBb90qarCrJA6TUaJ7bAos+7yY8s6jM79eYlabcx3D
-	6Zs6SxLJF7EFtaZRol1Nf6d4lR3iJX+nrQ8aKEVwRIYayaeLZQaXCakgC4WERXMuzlvB
-	VOoz7Sd3uuMTnrvQcNQdlSeLmTtjw0TVq+Wu7Sn1sJnx4RQhUjC8fCE9E2ecQS2tt4Z3
-	EROA==
+	:from:to:content-type:content-transfer-encoding;
+	bh=Dj3UBoTrdlr5wjsEoFbQxD+o/qtR5gmMa6ShKUMiRs0=;
+	b=jppIIcFQBV16GDIxtyTipLhcFJ0aUmskNNEWsK7lZYC6JVNOuRYg0IpXV+isTp3PyT
+	NomzVqbTIoG6VAG6CR1ZfXMEjQB+myCcjxQ67kTnaHKhcD5aGUajXIjf6dDDx2AeSxc/
+	ILhq7xq/uXb0NwOQu6Lz9z8B431BvqkqiOEaIR7AL+Mt8/IqaZaqePXC68N3Jq5i6evc
+	l/bGOUNAYpMl+MSpsKP/gZcQ7AlcEuZ3K2EJXj7abG3VfRosXVJQqtNMS1PYTZOQ5QVX
+	jguVoqaYLFFUAqraoxL4RRZu2zcofB8Zz5Bo8r5Nx9tWQCz/yb3UcatwPEshiJ+2Zr2f
+	ql2w==
 MIME-Version: 1.0
-Received: by 10.42.203.67 with SMTP id fh3mr9673717icb.44.1334156647331; Wed,
-	11 Apr 2012 08:04:07 -0700 (PDT)
+Received: by 10.50.197.164 with SMTP id iv4mr6004263igc.73.1334156839386; Wed,
+	11 Apr 2012 08:07:19 -0700 (PDT)
 Sender: jefro.net@gmail.com
-Received: by 10.50.112.71 with HTTP; Wed, 11 Apr 2012 08:04:07 -0700 (PDT)
-Date: Wed, 11 Apr 2012 08:04:07 -0700
-X-Google-Sender-Auth: bNXXFVan9ZwpugJ0MUAnKxvj2oI
-Message-ID: <CA+YB3rYkfjfymQjdnaWG0DD+4e=EL1W1qCQh+_rzt-UaboN3SA@mail.gmail.com>
+Received: by 10.50.112.71 with HTTP; Wed, 11 Apr 2012 08:07:19 -0700 (PDT)
+Date: Wed, 11 Apr 2012 08:07:19 -0700
+X-Google-Sender-Auth: sgjrhK8oCaViUbygY744Fho_ryw
+Message-ID: <CA+YB3rbm0DGA6rToaoTDFK=L=EuO=jU7=FYS4vB854FXNXZgUA@mail.gmail.com>
 From: Jeff Osier-Mixon <jefro@jefro.net>
 To: openembedded-core <openembedded-core@lists.openembedded.org>, 
 	openembedded-devel@lists.openembedded.org, tsc <tsc@lists.openembedded.org>
-Subject: MINUTES: OE TSC 13 March 2012
+Subject: MINUTES: OE TSC 10 April 2012 (date corrected)
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -40,18 +40,21 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 11 Apr 2012 15:13:27 -0000
+X-List-Received-Date: Wed, 11 Apr 2012 15:16:40 -0000
 Content-Type: text/plain; charset=ISO-8859-1
+Content-Transfer-Encoding: quoted-printable
+
+[Sorry - this was yesterday's meeting, date corrected]
 
 OpenEmbedded Technical Steering Committee
-13 March 2012
+10 April 2012
 
 Attending:
-   Richard Purdie (RP)
-   Paul Eggleton (bluelightning)
-   Mark Hatle (fray)
-   Tom Rini (Tartarus)
-   Khem (khem)
+=A0 Richard Purdie (RP)
+=A0 Paul Eggleton (bluelightning)
+=A0 Mark Hatle (fray)
+=A0 Tom Rini (Tartarus)
+=A0 Khem (khem)
 
 Minutes: Jefro (Jefro)
 
@@ -59,48 +62,51 @@ ________________________________________________
 Agenda & Summary
 
 1. pick a chair
-    fray
+=A0 =A0fray
 
 2. lingering issues
 
- a. raise awareness of "janitor" list, QA "bugs"
-    item to stand on agenda
-    => fray to start publicity about "janitor" bugs
-    not done yet, waiting for things to calm down this week
+=A0a. raise awareness of "janitor" list, QA "bugs"
+=A0 =A0item to stand on agenda
+=A0 =A0=3D> fray to start publicity about "janitor" bugs
+=A0 =A0not done yet, waiting for things to calm down this week
 
 3. new issues
 
- a. discuss communication with OE community about
-            release-oriented phases
-    => fray willing to manage page as TSC activity
-    => RP to send email updates, TSC to handle in future
-    => future agenda: document release process
-   RP raised awareness at collab
-   Song sent note to oe-core & yocto lists yesterday
-   RP talked to Dave & Song about making info more public
-=>  fray will stay in sync with Dave/RP/Song & create wiki when appropriate
+=A0a. discuss communication with OE community about
+=A0 =A0 =A0 =A0 =A0 =A0release-oriented phases
+=A0 =A0=3D> fray willing to manage page as TSC activity
+=A0 =A0=3D> RP to send email updates, TSC to handle in future
+=A0 =A0=3D> future agenda: document release process
+=A0 RP raised awareness at collab
+=A0 Song sent note to oe-core & yocto lists yesterday
+=A0 RP talked to Dave & Song about making info more public
+=3D> =A0fray will stay in sync with Dave/RP/Song & create wiki when appropr=
+iate
 
- b. mips/mips32 tuning issue
-    the mips32 tuning has previous produced "mips" tagged packages
+=A0b. mips/mips32 tuning issue
+=A0 =A0the mips32 tuning has previous produced "mips" tagged packages
 [package arch],
-      and so did the default "mips" tuning.  This lead to two
+=A0 =A0 =A0and so did the default "mips" tuning. =A0This lead to two
 packages with the
-      same filenames, but very different contents
-    fray fixed the defect.. which is leading to a concern of a
+=A0 =A0 =A0same filenames, but very different contents
+=A0 =A0fray fixed the defect.. which is leading to a concern of a
 filename change at the last minute..
-=>  fray will summarize to list with possible options & ask for comments
+=3D> =A0fray will summarize to list with possible options & ask for comment=
+s
 
 4. status
 
- a. elections
-    board would like to extend for 2 years to avoid election churn
-    no objections
+=A0a. elections
+=A0 =A0board would like to extend for 2 years to avoid election churn
+=A0 =A0no objections
 
- b. infrastructure
-    nothing new
+=A0b. infrastructure
+=A0 =A0nothing new
 
- c. oe-core release
-    RP is very worried about the quality of the release and number of open bugs
+=A0c. oe-core release
+=A0 =A0RP is very worried about the quality of the release and number of op=
+en bugs
 
 ________________________________________________
 Raw Transcript
@@ -121,7 +127,8 @@ resolution and a technical decision (maintainer or tsc) IMHO
 (9:02:28 AM) Jefro: sounds like an agenda item for tsc
 (9:02:45 AM) Jefro: set as 3b
 (9:02:46 AM) fray: ya..
-(9:02:50 AM) RP__: fray: I was just worried about Phil's reply to your patch
+(9:02:50 AM) RP__: fray: I was just worried about Phil's reply to your patc=
+h
 (9:03:06 AM) RP__: fray: Why isn't your description adding up for him?
 (9:03:28 AM) fray: Phil isn't the one I'm worried aobut (unless I
 missed a response)
@@ -133,7 +140,8 @@ sense to keep trying this..
 (9:04:24 AM) fray: (what I implemented was Khem's suggestion BTW)
 (9:04:56 AM) khem: mips1 is default he suggested
 (9:05:22 AM) fray: I havn't seen that email then..
-(9:05:46 AM) Jefro: should we begin? perhaps counting this discussion in minutes
+(9:05:46 AM) Jefro: should we begin? perhaps counting this discussion in mi=
+nutes
 (9:06:04 AM) fray: we should begin..
 (9:06:14 AM) fray: I can quickly recap the discussion as I know it
 when we get to 3b
@@ -147,7 +155,7 @@ when we get to 3b
 (9:07:11 AM) fray: 'er.. #2
 (9:07:25 AM) fray: I have not yet publicised it.. I was waiting for
 things to calm down hopefully this week..
-(9:07:35 AM) fray: any comments?  or on to 3?
+(9:07:35 AM) fray: any comments? =A0or on to 3?
 (9:07:41 AM) Tartarus: no comments
 (9:07:43 AM) fray: (and yes, keep it on the agenda)
 (9:07:49 AM) bluelightning: no comments here
@@ -165,7 +173,8 @@ the MIPS/MIPS32 issue
 (9:09:39 AM) bluelightning: don't think I have anything to raise atm
 (9:10:02 AM) fray: ok, if anyone thinks of an additional issue, please
 speak up.. otherwise back to 3a
-(9:10:18 AM) fray: I suspect RP had to step away.. so we can table that part..
+(9:10:18 AM) fray: I suspect RP had to step away.. so we can table that par=
+t..
 (9:10:30 AM) fray: I agree it needs to be kept on the agenda until we
 get it decided and completed
 (9:10:37 AM) fray: anyone else?
@@ -175,7 +184,7 @@ issue is (as I see it)
 (9:12:03 AM) fray: About 2-3 weeks ago, it became clear to me that
 (via a PPC issue) that the tunings had become somewhat inconsistent.
 So I set about looking for the inconsistencies, correcting them and
-documenting the variables used in the tunings.  This work was merged
+documenting the variables used in the tunings. =A0This work was merged
 last week as a general cleanup/bug fix..
 (9:12:13 AM) RP__: With all the travel I've not really done much with
 3a other than raise awareness at collab
@@ -186,7 +195,8 @@ MIPS "cleanup"....
 OE-Core and yocto lists yesterday
 (9:13:00 AM) RP__: fray: the issues is that the "mips" package arch
 became "mips32"?
-(9:13:02 AM) bluelightning: was only an immediate deadlines thing though I think
+(9:13:02 AM) bluelightning: was only an immediate deadlines thing though I =
+think
 (9:13:04 AM) fray: ... the mips32 tuning has previous produced "mips"
 tagged packages [package arch], and so did the default "mips" tuning.
 This lead to two packages with the same filenames, but very different
@@ -220,7 +230,7 @@ tunings created files of the same name, but different contents..
 (9:16:47 AM) fray: I fixed the defect.. which is leading to a concern
 of a filename change at the last minute..
 (9:17:06 AM) fray: Possible solutions, revert this part of the fix and
-retain the duplicate filenames and fix that "in the future"  (I really
+retain the duplicate filenames and fix that "in the future" =A0(I really
 don't like that option)
 (9:17:17 AM) fray: Keep it "as-is"..
 (9:17:37 AM) fray: or what khem suggested, change the "mips"
@@ -229,7 +239,7 @@ definition to "mips32".
 compiler settings which were "mips1"... as far as we know there are no
 real mips1 systems running Linux..
 (9:18:21 AM) fray: mips3 or 4 may be the oldest.. but even those are
--very- old systems..  everything these days is mips32 or mips32r2
+-very- old systems.. =A0everything these days is mips32 or mips32r2
 AFAIK)
 (9:18:37 AM) fray: so the last patch I sent was an effort to implement
 Khem's suggestion
@@ -242,7 +252,7 @@ there is no tune for them, and "mips" is no longer compatible.. (I
 think)
 (9:19:31 AM) fray: ok.. summary for the TSC.. I'll send out something
 similar to the list..
-(9:19:57 AM) fray: does the TSC have an opinion on this?  or is this a
+(9:19:57 AM) fray: does the TSC have an opinion on this? =A0or is this a
 maintainer (RP) decision, or?
 (9:20:03 AM) Guest23807 left the room (quit: Ping timeout: 245 seconds).
 (9:20:18 AM) Tartarus: Hmm
@@ -275,10 +285,10 @@ see this as a huge problem though)
 this chat. You will be automatically rejoined in the chat when the
 account reconnects.
 (9:26:23 AM) mode (+v Jefro) by ChanServ
-(9:26:24 AM) fray: another way to summarize..  in the "last" release..
- mips (tune) -> mips (package) and mips32 (tune) -> mips (package) ---
- recent change  mips (tune) -> mips (package) and mips32 (tune) ->
-mips32 (package) -- with the changed based on Khem's suggestion   mips
+(9:26:24 AM) fray: another way to summarize.. =A0in the "last" release..
+=A0mips (tune) -> mips (package) and mips32 (tune) -> mips (package) ---
+=A0recent change =A0mips (tune) -> mips (package) and mips32 (tune) ->
+mips32 (package) -- with the changed based on Khem's suggestion =A0 mips
 (tune) -> mips (package) and mips32 (goes away)
 (9:26:37 AM) fray: (and mips [tune] is now mips32 based)
 (9:27:12 AM) Tartarus: yeah, lemme say that back with a different notation
@@ -294,11 +304,11 @@ mips (tune file) -> mips (package suffix), mips32 ABI
 (9:28:33 AM) Tartarus: ?
 (9:28:53 AM) fray: (ABI is o32 -- the instructions and optimizations
 move from mips1 to mips32)
-(9:29:20 AM) fray: RP__, ok..  I will write up a summary sent it out,
+(9:29:20 AM) fray: RP__, ok.. =A0I will write up a summary sent it out,
 with possible options..
 (9:30:37 AM) RP__: fray: I just think we need a clear summary for
 people who've not read/understood the whole thread
-(9:30:52 AM) fray: ok.  I'll leave it at that then..
+(9:30:52 AM) fray: ok. =A0I'll leave it at that then..
 (9:30:53 AM) fray: on to 4
 (9:31:02 AM) fray: a elections?
 (9:31:06 AM) RP__: Then we could make a conscious decision to change
@@ -327,7 +337,7 @@ current offsets?
 while, particularly when there aren't a queue of people wanting to
 join the TSC
 (9:34:08 AM) RP__: feeling was staggered enough
-(9:34:09 AM) fray: ok..  I see no issue then
+(9:34:09 AM) fray: ok.. =A0I see no issue then
 (9:34:23 AM) RP__: and we might batch future elections (2 people at a time)
 (9:34:32 AM) fray: I could see that being reasonable as well
 (9:35:19 AM) fray: ok, any other comments or 4b?
@@ -339,14 +349,14 @@ the conversation too
 picture and allow them to talk to the board if they have any concerns
 (9:35:51 AM) fray: All I care is that the election process is
 staggered in some way..
-(9:36:11 AM) fray: ok, moving on then.. 4b  infrastructure..
+(9:36:11 AM) fray: ok, moving on then.. 4b =A0infrastructure..
 (9:36:13 AM) fray: anything to report?
 (9:37:07 AM) RP__: nothing from me
 (9:37:26 AM) fray: ok.. I'll move on to 4c
 (9:37:33 AM) fray: oe-core release status
 (9:37:38 AM) ***Jefro back in 1 minute
 (9:39:00 AM) fray: RP__ any updates beyond what Song already sent out?
- Are you able to keep up with the pending requests and other items?
+=A0Are you able to keep up with the pending requests and other items?
 (9:42:41 AM) fray: ok.. looks like RP had to step away..
 (9:42:50 AM) fray: If there is anything he needs to report, he can do
 so to Jefro..
@@ -354,7 +364,7 @@ so to Jefro..
 have to get a few thing done in the next 15 mintues)
 (9:43:27 AM) Tartarus: looks like the end to me
 (9:43:41 AM) Jefro: and so I face the final curtain
-(9:43:55 AM) fray: ok..  meeting over -- RP please contact Jefro if
+(9:43:55 AM) fray: ok.. =A0meeting over -- RP please contact Jefro if
 you have anything for the minutes
 (9:44:08 AM) ***Jefro will ping him later
 (9:45:28 AM) Tartarus: I can send 'em now Jefro if needed
@@ -364,12 +374,18 @@ you have anything for the minutes
 (9:47:48 AM) Jefro: I'll ping RP later for any comments he had on
 oe-core release status
 ...
-(9:54:32 AM) RP__: OE-Core status was as per the technical meeting we just had
+(9:54:32 AM) RP__: OE-Core status was as per the technical meeting we just =
+had
 (9:54:44 AM) RP__: I'm very worried about the quality of the release
 and number of open bugs<
 
 
--- 
+--
+Jeff Osier-Mixon http://jefro.net/blog
+Yocto Project Community Manager @Intel http://yoctoproject.org
+
+
+--=20
 Jeff Osier-Mixon http://jefro.net/blog
 Yocto Project Community Manager @Intel http://yoctoproject.org
 
