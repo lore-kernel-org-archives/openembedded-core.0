@@ -1,39 +1,37 @@
-Received: from mail-wi0-f177.google.com ([209.85.212.177])
+Received: from mail-wg0-f43.google.com ([74.125.82.43])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <andrei@gherzan.ro>) id 1SI01C-0007Gq-Rq
+	(envelope-from <andrei@gherzan.ro>) id 1SI01D-0007Iy-Oj
 	for openembedded-core@lists.openembedded.org;
-	Wed, 11 Apr 2012 18:03:38 +0200
-Received: by mail-wi0-f177.google.com with SMTP id hj13so910823wib.6
+	Wed, 11 Apr 2012 18:03:39 +0200
+Received: by wgbdr12 with SMTP id dr12so876663wgb.24
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 11 Apr 2012 08:54:22 -0700 (PDT)
+	Wed, 11 Apr 2012 08:54:21 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=google.com; s=20120113;
 	h=from:to:subject:date:message-id:x-mailer:in-reply-to:references
-	:in-reply-to:references:x-gm-message-state;
-	bh=HCoZ1Xy5oTvTX2rYtOACzia4ygYkuqRk7U4ftmE9RpM=;
-	b=SEJdYYxXFXJR5c2+i4Otk0bzWYwMi0hmTKPSiEgkHxh7vNObf2Yu+WxGskQyUUo7Qf
-	X4lHunyGGLMybX2m3OBg8iDoJinY6dL8heky/kviiTG6yFwLgYQiGWbpMLFYqplRJZnU
-	Cgcee1aU3t+f6crzGF+tskuxvfSxYQspRbjjSmZKpIKxNDTjW6M9+hgE52hoVP7RCLZ9
-	isY1/u4+bCdn4D2lcPh0bUEiYF1E7cGE7+n9DvpyJ2Ryjzajfhg/6aAwdcOXPjK/yiPd
-	TQsXSNuLBHQ9E9tV8XTUM2E52+p+vKBfEz4LVR9UsFApL9PUjYYTiJmlpoOA54jhQALs
-	nO0w==
-Received: by 10.216.136.72 with SMTP id v50mr8986478wei.73.1334159662060;
-	Wed, 11 Apr 2012 08:54:22 -0700 (PDT)
-Received: from localhost.localdomain ([89.121.200.106])
-	by mx.google.com with ESMTPS id n8sm10877794wix.10.2012.04.11.08.54.20
-	(version=TLSv1/SSLv3 cipher=OTHER);
+	:x-gm-message-state;
+	bh=MsFi07iP4/ASwmNAqnGcRciZ9uuEcaLKITHKUdG5Z4M=;
+	b=eMlAGNff3EwoIF2XtR2mBzbPOavv4NaQlLYHfZhfQ3rPK2R2BA0yL0S/roZ78DirJ/
+	HHJFWXkscb1/LL8OGn6GpYtTNO8vUsY+0Wdu1bXUrfPPaci3vV3IeTDsOfscb9CGvrfo
+	WPH+7He9BsRQI6F2/MoMSCT6QB3TtpgforELNcW0gIHRRYNmfxWi4Qk9KWDHvapWnlHR
+	GvZZllHocDRNKOHaVPsfL3pGNfHWV1OtOSbqWg5zPMcTda/rAp621p9IGKgq1YhHQh5X
+	U6HmvTzDaGMCz882e5wTjvCmKIjxZi9lba5i0mIePPxTnB+tu+pUiItObi1raiUeabeV
+	Iaww==
+Received: by 10.216.52.8 with SMTP id d8mr888702wec.104.1334159660449;
 	Wed, 11 Apr 2012 08:54:20 -0700 (PDT)
+Received: from localhost.localdomain ([89.121.200.106])
+	by mx.google.com with ESMTPS id n8sm10877794wix.10.2012.04.11.08.54.19
+	(version=TLSv1/SSLv3 cipher=OTHER);
+	Wed, 11 Apr 2012 08:54:19 -0700 (PDT)
 From: Andrei Gherzan <andrei@gherzan.ro>
 To: openembedded-core@lists.openembedded.org
-Date: Wed, 11 Apr 2012 18:54:14 +0300
-Message-Id: <a9b864635df3ef1e7c3ceeeb05adc491d4e5b97b.1334159446.git.andrei@gherzan.ro>
+Date: Wed, 11 Apr 2012 18:54:13 +0300
+Message-Id: <c76e09de7b542e3860f49ed8fb7733d60b21b5bc.1334159446.git.andrei@gherzan.ro>
 X-Mailer: git-send-email 1.7.5.4
-In-Reply-To: <c76e09de7b542e3860f49ed8fb7733d60b21b5bc.1334159446.git.andrei@gherzan.ro>
-References: <c76e09de7b542e3860f49ed8fb7733d60b21b5bc.1334159446.git.andrei@gherzan.ro>
 In-Reply-To: <cover.1334159446.git.andrei@gherzan.ro>
 References: <cover.1334159446.git.andrei@gherzan.ro>
-X-Gm-Message-State: ALoCoQlCmdeuvdjkUvJms5DKER9krgdEinyCcn+ZrRoxheE8xOgMrQEL7KOswLtgSBMfVuiTVVzg
-Subject: [V4 2/2] PR bump packages with gdbm in DEPENDS
+X-Gm-Message-State: ALoCoQlph1M+Ki/KCNsQXKVzg0VQoGdl56Ws2UTfTSCJGESl5NGULqplwURTH+OHgvgnDzR6B9Su
+Subject: [V4 1/2] gdbm: Package compat libs in gdbm-compat
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -48,69 +46,38 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 11 Apr 2012 16:03:38 -0000
+X-List-Received-Date: Wed, 11 Apr 2012 16:03:39 -0000
 
-This is done because of this change in gdbm:
-"gdbm: Package compat libs in gdbm-compat"
+In order to avoid breaking packages which depend on old package name libgdbm4 (>= 1.10),
+compat libs are packaged into a separate package named gdbm-compat.
 
 Signed-off-by: Andrei Gherzan <andrei@gherzan.ro>
 ---
- meta/recipes-devtools/perl/perl_5.14.2.bb          |    2 +-
- meta/recipes-devtools/python/python_2.7.2.bb       |    2 +-
- .../pulseaudio/pulseaudio_1.1.bb                   |    2 +-
- meta/recipes-support/apr/apr-util_1.4.1.bb         |    2 +-
- 4 files changed, 4 insertions(+), 4 deletions(-)
+ meta/recipes-support/gdbm/gdbm_1.10.bb |    7 ++++++-
+ 1 files changed, 6 insertions(+), 1 deletions(-)
 
-diff --git a/meta/recipes-devtools/perl/perl_5.14.2.bb b/meta/recipes-devtools/perl/perl_5.14.2.bb
-index 92ca9b8..8f3ad25 100644
---- a/meta/recipes-devtools/perl/perl_5.14.2.bb
-+++ b/meta/recipes-devtools/perl/perl_5.14.2.bb
-@@ -7,7 +7,7 @@ LIC_FILES_CHKSUM = "file://Copying;md5=2b4c6ffbcfcbdee469f02565f253d81a \
- # We need gnugrep (for -I)
- DEPENDS = "virtual/db grep-native"
- DEPENDS += "gdbm zlib"
--PR = "r4"
-+PR = "r5"
+diff --git a/meta/recipes-support/gdbm/gdbm_1.10.bb b/meta/recipes-support/gdbm/gdbm_1.10.bb
+index 26b8009..6b68d27 100644
+--- a/meta/recipes-support/gdbm/gdbm_1.10.bb
++++ b/meta/recipes-support/gdbm/gdbm_1.10.bb
+@@ -4,7 +4,7 @@ SECTION = "libs"
+ LICENSE = "GPLv3"
+ LIC_FILES_CHKSUM = "file://COPYING;md5=241da1b9fe42e642cbb2c24d5e0c4d24"
  
- # 5.10.1 has Module::Build built-in
- PROVIDES += "libmodule-build-perl"
-diff --git a/meta/recipes-devtools/python/python_2.7.2.bb b/meta/recipes-devtools/python/python_2.7.2.bb
-index a3a2c96..00a5558 100644
---- a/meta/recipes-devtools/python/python_2.7.2.bb
-+++ b/meta/recipes-devtools/python/python_2.7.2.bb
-@@ -1,6 +1,6 @@
- require python.inc
- DEPENDS = "python-native bzip2 db gdbm openssl readline sqlite3 zlib"
--PR = "${INC_PR}.14"
-+PR = "${INC_PR}.15"
+-PR = "r2"
++PR = "r3"
  
- DISTRO_SRC_URI ?= "file://sitecustomize.py"
- DISTRO_SRC_URI_linuxstdbase = ""
-diff --git a/meta/recipes-multimedia/pulseaudio/pulseaudio_1.1.bb b/meta/recipes-multimedia/pulseaudio/pulseaudio_1.1.bb
-index e98a591..fd61149 100644
---- a/meta/recipes-multimedia/pulseaudio/pulseaudio_1.1.bb
-+++ b/meta/recipes-multimedia/pulseaudio/pulseaudio_1.1.bb
-@@ -1,6 +1,6 @@
- require pulseaudio.inc
+ SRC_URI = "${GNU_MIRROR}/gdbm/gdbm-${PV}.tar.gz"
  
--PR = "r7"
-+PR = "r8"
- 
- DEPENDS += "libjson gdbm speex libxml-parser-perl-native"
- 
-diff --git a/meta/recipes-support/apr/apr-util_1.4.1.bb b/meta/recipes-support/apr/apr-util_1.4.1.bb
-index 029cf7e..deb608f 100644
---- a/meta/recipes-support/apr/apr-util_1.4.1.bb
-+++ b/meta/recipes-support/apr/apr-util_1.4.1.bb
-@@ -9,7 +9,7 @@ LICENSE = "Apache-2.0"
- LIC_FILES_CHKSUM = "file://LICENSE;md5=519e0a18e03f7c023070568c14b077bb \
-                     file://include/apu_version.h;endline=17;md5=806685a84e71f10c80144c48eb35df42"
- 
--PR = "r0"
-+PR = "r1"
- 
- SRC_URI = "${APACHE_MIRROR}/apr/${BPN}-${PV}.tar.gz \
-            file://configfix.patch \
+@@ -25,3 +25,8 @@ do_install_append () {
+     ln -sf ../ndbm.h ${D}/${includedir}/gdbm/ndbm.h
+     ln -sf ../gdbm.h ${D}/${includedir}/gdbm/gdbm.h
+ }
++
++PACKAGES =+ "${PN}-compat \
++            "
++FILES_${PN}-compat = "${libdir}/libgdbm_compat${SOLIBS} \
++                     "
 -- 
 1.7.5.4
 
