@@ -1,42 +1,33 @@
-Received: from mail-wg0-f43.google.com ([74.125.82.43])
+Received: from mail-yx0-f175.google.com ([209.85.213.175])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <koen@dominion.thruhere.net>) id 1SHnBG-0003mQ-Gh
+	(envelope-from <otavio.salvador@gmail.com>) id 1SHoFD-0004pi-IL
 	for openembedded-core@lists.openembedded.org;
-	Wed, 11 Apr 2012 04:21:10 +0200
-Received: by wgbdr12 with SMTP id dr12so311225wgb.24
+	Wed, 11 Apr 2012 05:29:19 +0200
+Received: by yenm3 with SMTP id m3so291427yen.6
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 10 Apr 2012 19:11:52 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=google.com; s=20120113;
-	h=content-type:mime-version:subject:from:in-reply-to:date
-	:content-transfer-encoding:message-id:references:to:x-mailer
-	:x-gm-message-state;
-	bh=p/0kgCaGygNaZa4IsrS8Flu3lvCqhnAtfQK4cm0XEeM=;
-	b=OHlBjeoDvC1RFQQ54rq5GQbSys4W1efwRx8yNnjHefA9pEZQJXd0TCS98cTY+gzAVr
-	RqyUDhvhabi8hG9sEr++UlLve+nf7ILaiz1hZowcvcx0Q6vV80Gv3668xQZEOSLDgf4y
-	PtpDz4plGY1MF2pO9zMmQK0F9oVOSd10+YUEPM6xO70YIZdfkZrwMh4Dm59Z+XeiCNd/
-	1kGwucxM2yVj+4g8Un++MDimUjiOziCt/3/DRF7wNRTpIgxT2ArQHQPDaWfiEiSQGrWw
-	+JKVUNGgZmgZvQwnpEXbVJqt8vg7UjhdTnJGLWvBoxyR+pELQ0v1+BpgL+704FqzUl1l
-	bHKA==
-Received: by 10.180.78.40 with SMTP id y8mr2227482wiw.15.1334110312101;
-	Tue, 10 Apr 2012 19:11:52 -0700 (PDT)
-Received: from [172.20.1.36] (ip545070eb.adsl-surfen.hetnet.nl.
-	[84.80.112.235])
-	by mx.google.com with ESMTPS id b3sm41606741wib.4.2012.04.10.19.11.50
+	Tue, 10 Apr 2012 20:20:00 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=sender:from:to:subject:date:message-id:x-mailer;
+	bh=XNU0jaygFysC989OVOVAiYKL5Hm2ErQF3NkoR69+gj8=;
+	b=uOKsRVFK5R1aO78peOY4zR+cbbw228HcPt9s8UG10G5ZvQi4AOomBTui0qBjOQ3fxG
+	kOKgC19Nagjdz7Pmbv0ag6+uNAw+WvjK2eJEtiW4A6iV1StNN9PVWWD9pPAkdxDk52dD
+	I3lF+B/HtyG92XBI/xUJzaB9wlPI7rOy7GrAmri4DN3OD4MWJFBb1X0PUAnb8H9QJgZT
+	wtg2qaXpAVIjMb2L+I9jZGZkr9OIBR5YFcHRG1AGYfBL9X+cYjcW8oySW8t/qi4YdwPW
+	CKIJbt0xkaVn0gqQdgp4qFuKTMfgCttLBMTVJYvzST+3hvvML5CsAA2YM3IQYX47oL+N
+	YI3w==
+Received: by 10.236.9.35 with SMTP id 23mr11735002yhs.41.1334114400617;
+	Tue, 10 Apr 2012 20:20:00 -0700 (PDT)
+Received: from localhost.localdomain ([186.218.100.214])
+	by mx.google.com with ESMTPS id r62sm5091146yhb.14.2012.04.10.20.19.59
 	(version=TLSv1/SSLv3 cipher=OTHER);
-	Tue, 10 Apr 2012 19:11:51 -0700 (PDT)
-Mime-Version: 1.0 (Apple Message framework v1257)
-From: Koen Kooi <koen@dominion.thruhere.net>
-In-Reply-To: <ad12e7da22c3eb883b621adc78cea8e2c755739f.1334107957.git.sgw@linux.intel.com>
-Date: Wed, 11 Apr 2012 04:11:50 +0200
-Message-Id: <93AC0EA6-8807-4A56-B55A-E7CA0C67B09F@dominion.thruhere.net>
-References: <cover.1334107957.git.sgw@linux.intel.com>
-	<ad12e7da22c3eb883b621adc78cea8e2c755739f.1334107957.git.sgw@linux.intel.com>
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-X-Mailer: Apple Mail (2.1257)
-X-Gm-Message-State: ALoCoQmW7uPvX7VuSjbh41YvvxaEXABkD0/6cVGselS7MovzHNM+eQ2YXuzelbppspVIh3RsXCme
-Subject: Re: [CONSOLIDATED PULL (for RC3) 5/5] tclibc-eglibc.inc: make locale packages dependency conditional
+	Tue, 10 Apr 2012 20:20:00 -0700 (PDT)
+Sender: Otavio Salvador <otavio.salvador@gmail.com>
+From: Otavio Salvador <otavio@ossystems.com.br>
+To: openembedded-core@lists.openembedded.org
+Date: Wed, 11 Apr 2012 03:19:49 +0000
+Message-Id: <cover.1334114318.git.otavio@ossystems.com.br>
+X-Mailer: git-send-email 1.7.2.5
+Subject: [PATCH 0/3] Important fixes for rc3
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -51,19 +42,39 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 11 Apr 2012 02:21:10 -0000
-Content-Type: text/plain; charset=us-ascii
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Wed, 11 Apr 2012 03:29:19 -0000
 
+The patches in this set are all important IMO and I do think they
+ought to be included.
 
-Op 11 apr. 2012, om 03:33 heeft Saul Wold het volgende geschreven:
+The following changes since commit bde1744018afd4616e114b20ffdc21b9abddcedc:
 
-> From: Nitin A Kamble <nitin.a.kamble@intel.com>
-> 
-> Only add locale package dependencies if the eglibc is configured
-> with locale support.
->  This avoids dependencies issues for distros such as poky-tiny
+  hello-mod: Move hello-mod from meta to meta-skeleton (2012-04-10 13:16:00 +0100)
 
-That's a packaging change and hence needs a PR bump.
+are available in the git repository at:
+  git://github.com/OSSystems/oe-core master
+  https://github.com/OSSystems/oe-core/tree/HEAD
+
+Otavio Salvador (3):
+  connman: backport test script fixes
+  distrodata.bbclass: fix comment typo
+  flex: backport Debian patches to fix generated code warnings
+
+ meta/classes/distrodata.bbclass                    |    2 +-
+ .../connman/test-set-ipv4-method-api-fix.patch     |   50 +++++++++++++++++
+ .../connman/test-set-ipv6-method-api-fix.patch     |   55 ++++++++++++++++++
+ meta/recipes-connectivity/connman/connman_0.79.bb  |    4 +
+ .../flex/flex/avoid-FORTIFY-warnings.patch         |   59 ++++++++++++++++++++
+ .../flex/int-is-not-the-same-size-as-size_t.patch  |   42 ++++++++++++++
+ meta/recipes-devtools/flex/flex_2.5.35.bb          |    5 +-
+ 7 files changed, 215 insertions(+), 2 deletions(-)
+ create mode 100644 meta/recipes-connectivity/connman/connman/test-set-ipv4-method-api-fix.patch
+ create mode 100644 meta/recipes-connectivity/connman/connman/test-set-ipv6-method-api-fix.patch
+ create mode 100644 meta/recipes-devtools/flex/flex/avoid-FORTIFY-warnings.patch
+ create mode 100644 meta/recipes-devtools/flex/flex/int-is-not-the-same-size-as-size_t.patch
+
+-- 
+1.7.2.5
+
 
 
