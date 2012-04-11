@@ -1,37 +1,20 @@
-Received: from mail-wg0-f43.google.com ([74.125.82.43])
+Received: from mga14.intel.com ([143.182.124.37])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <julian.pidancet@gmail.com>) id 1SHlDq-00081H-8L
+	(envelope-from <sgw@linux.intel.com>) id 1SHmaR-0002rH-D9
 	for openembedded-core@lists.openembedded.org;
-	Wed, 11 Apr 2012 02:15:42 +0200
-Received: by wgbdr12 with SMTP id dr12so263755wgb.24
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 10 Apr 2012 17:06:24 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=message-id:date:from:user-agent:mime-version:to:cc:subject
-	:references:in-reply-to:content-type:content-transfer-encoding;
-	bh=Fir2iXhuMNy9vqxxeSRBwEgFOVchtq54lg6//t0NcFY=;
-	b=PlKN7d4Ju2cFvsjNY6T3YRFjp73JdXm2DS/n08IcDEKmGVGmcCdtDSvL2AQvZ0KNO8
-	apNpprLA3ZhgFj6oq03x1QJLhhbLinxRJiKF9l7Sa0ejOZ+AXBRJ3sT4o78n3F5XWgDa
-	Pr+nvSWTB0boUhXhTBAUEQSgqf/fdMsU+KhNtiphY1KYBqZxIe14uxI3T1UwSlmNBGuk
-	2ct69gzAvjA1wLhQiKsxMtUwTYKRmskUjnrIbEF+bXuYxuxPMr16WO4O4Ot+0utDwzXr
-	ihz+Zp1U80JbkSD2d8UH48g76jdaqdIfI6fyxMWEULXc6oQ8mtDp+UO7cfb4egnIcQYU
-	rJLw==
-Received: by 10.216.139.12 with SMTP id b12mr7615909wej.4.1334102784003;
-	Tue, 10 Apr 2012 17:06:24 -0700 (PDT)
-Received: from [192.168.1.110] (188-223-88-44.zone14.bethere.co.uk.
-	[188.223.88.44])
-	by mx.google.com with ESMTPS id gg2sm3203049wib.7.2012.04.10.17.06.22
-	(version=SSLv3 cipher=OTHER); Tue, 10 Apr 2012 17:06:23 -0700 (PDT)
-Message-ID: <4F84D58F.8020608@gmail.com>
-Date: Wed, 11 Apr 2012 01:51:27 +0100
-From: Julian Pidancet <julian.pidancet@gmail.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:10.0.3) Gecko/20120402 Thunderbird/10.0.3
-MIME-Version: 1.0
+	Wed, 11 Apr 2012 03:43:07 +0200
+Received: from azsmga001.ch.intel.com ([10.2.17.19])
+	by azsmga102.ch.intel.com with ESMTP; 10 Apr 2012 18:33:48 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="129434388"
+Received: from unknown (HELO swold-mobl.bigsur.com) ([10.255.12.159])
+	by azsmga001.ch.intel.com with ESMTP; 10 Apr 2012 18:33:47 -0700
+From: Saul Wold <sgw@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-References: <7E680CB2A76BB8438D08CF13C09FC53A46B06325@FMSMSX151.amr.corp.intel.com>
-In-Reply-To: <7E680CB2A76BB8438D08CF13C09FC53A46B06325@FMSMSX151.amr.corp.intel.com>
-Subject: Re: Yocto Project 1.2 M4 schedule
+Date: Tue, 10 Apr 2012 18:33:41 -0700
+Message-Id: <cover.1334107957.git.sgw@linux.intel.com>
+X-Mailer: git-send-email 1.7.7.6
+Subject: [CONSOLIDATED PULL (for RC3) 0/5] Please review and pull this morning
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -46,38 +29,47 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 11 Apr 2012 00:15:42 -0000
-Content-Type: text/plain; charset=ISO-8859-1
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Wed, 11 Apr 2012 01:43:08 -0000
 
-On 04/09/12 19:01, Liu, Song wrote:
-> Hi all,
-> 
-> This is to restate and clarify the schedule for Yocto Project 1.2 M4 (milestone 4). If you are concerned or have patches you would like to merge, please see the following dates:
-> 
-> 1. RC3 official patch cut-off time: 12:00AM April 8th, 2012, PDT
-> 2. RC3 build: April 11th, 2012, PDT
-> 3. RC4 official patch cut-off time: 12:00AM April 15th, 2012, PDT
-> 4. RC4 build: April 18th, 2012, PDT
-> 5. YP 1.2 release: April 27th, 2012, PDT
-> 
-> You can also check out the schedule here: https://www.google.com/calendar/embed?height=600&wkst=1&bgcolor=%23FFFFFF&src=mg0m150m30gs891eqqhtfu5jgg%40group.calendar.google.com&color=%238C500B&src=sc7rov4ck552t2f0pav120t7r0%40group.calendar.google.com&color=%23528800&src=theyoctoproject%40gmail.com&color=%23182C57&ctz=America%2FLos_Angeles 
-> 
-> Please feel free to let me and Beth know if you have any concerns or questions.
-> 
-> Thanks!
-> Song
-> PM, Yocto Project
+Richard,
 
-Hi,
+This is a set of fixes for RC3, there is a pending set for
+meta-yocto to review.
 
-I don't see any commits tagged for these milestones in
-git.openembedded.org/openembedded-core at the moment. Will there be a
-release tag or a release branch created on the git repository when YP
-1.2 comes out, to indicate people that there's a "stable" version of
-oe-core they can use ?
+Sau!
+
+The following changes since commit bde1744018afd4616e114b20ffdc21b9abddcedc:
+
+  hello-mod: Move hello-mod from meta to meta-skeleton (2012-04-10 13:16:00 +0100)
+
+are available in the git repository at:
+  git://git.openembedded.org/openembedded-core-contrib sgw/stage
+  http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=sgw/stage
+
+Lianhao Lu (1):
+  connman: add ofono dependency.
+
+Nitin A Kamble (1):
+  tclibc-eglibc.inc: make locale packages dependency conditional
+
+Saul Wold (2):
+  boot-directdisk: remove the default setting of SYSLINUXCFG and
+    SYSLINUXMENU
+  task-self-hosted: Add vte and eglibc-gconv-ibm850
+
+Yang Shi (1):
+  initrdscripts: fix init-live.sh and use unionfs
+
+ meta/classes/boot-directdisk.bbclass               |    3 --
+ meta/conf/distro/include/tclibc-eglibc.inc         |   23 +++++++++++++------
+ meta/recipes-connectivity/connman/connman.inc      |    1 +
+ meta/recipes-core/initrdscripts/files/init-live.sh |   23 ++++++++++++++++---
+ .../initrdscripts/initramfs-live-boot_1.0.bb       |    9 +++++++-
+ meta/recipes-core/tasks/task-self-hosted.bb        |    4 ++-
+ 6 files changed, 47 insertions(+), 16 deletions(-)
 
 -- 
-Julian
+1.7.7.6
+
 
 
