@@ -1,29 +1,36 @@
-Received: from mail1.windriver.com ([147.11.146.13])
+Received: from mail-qa0-f54.google.com ([209.85.216.54])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <mark.hatle@windriver.com>) id 1SINB5-0001tN-5b
+	(envelope-from <sakoman@gmail.com>) id 1SINKc-000214-BI
 	for openembedded-core@lists.openembedded.org;
-	Thu, 12 Apr 2012 18:47:23 +0200
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca [147.11.189.40])
-	by mail1.windriver.com (8.14.3/8.14.3) with ESMTP id q3CGbvHB002709
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
-	Thu, 12 Apr 2012 09:37:58 -0700 (PDT)
-Received: from msp-dhcp21.wrs.com (172.25.34.21) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server id 14.1.255.0;
-	Thu, 12 Apr 2012 09:37:57 -0700
-Message-ID: <4F8704E4.7020400@windriver.com>
-Date: Thu, 12 Apr 2012 11:37:56 -0500
-From: Mark Hatle <mark.hatle@windriver.com>
-Organization: Wind River Systems
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.6;
-	rv:11.0) Gecko/20120327 Thunderbird/11.0.1
+	Thu, 12 Apr 2012 18:57:14 +0200
+Received: by qao25 with SMTP id 25so1799465qao.6
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 12 Apr 2012 09:47:53 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
+	:cc:content-type;
+	bh=IuJdIooI+zPha4m0DDD9DYZE/xwK+NZQYUzHCPLHmls=;
+	b=lJT4io4ASC4lMJOPCYdPH+CjWIkFl4NsK2oNolx/htypyAPE/84IsY+pKq5adX+EQv
+	6RAUKiBo6reQ2wYEesf2+JakzaiPl7pb8esyhw8cLjnuKlx/UuAvyDpLrXh4ragEpGKm
+	GAW65voL0UREePhooHX1w5Tfe4JnCLCfm3AmeKRTUBxmjYs6bTrYb/WUGwkXJVOibG/r
+	RNJGJmsuAHCFeLqFu1gRIynDUI28gmuw3lq1TqHpvxwuC8BJuLz8S/qvncL5w8RQBCdE
+	jIqrSw+eWY6OFbVlDSDSHy80hTWa11fI0eOWGGDCWcJYlonT46+/vGQ82BENZU6BOnnN
+	Zj/A==
 MIME-Version: 1.0
-To: Steve Sakoman <sakoman@gmail.com>
+Received: by 10.224.117.6 with SMTP id o6mr5048016qaq.18.1334249273758; Thu,
+	12 Apr 2012 09:47:53 -0700 (PDT)
+Received: by 10.229.94.206 with HTTP; Thu, 12 Apr 2012 09:47:53 -0700 (PDT)
+In-Reply-To: <4F8704E4.7020400@windriver.com>
 References: <1334179880.31685.12.camel@ted> <4F85FACB.8080205@windriver.com>
 	<CAGDS+nmSY2TD8HRzYfrcOeUjxwyb1D_dDQkTBtMseNG0cUbc6A@mail.gmail.com>
 	<CAGDS+nntS5YWw0U8wSJYBdgdhnaGsnLr71F6SdMFECoMsCVHRw@mail.gmail.com>
 	<4F86F8D2.2050402@windriver.com>
 	<CAGDS+nnQtcD7X4xLUnWTB1aBouceo99hE-zY+w57JHE0nBYV=g@mail.gmail.com>
-In-Reply-To: <CAGDS+nnQtcD7X4xLUnWTB1aBouceo99hE-zY+w57JHE0nBYV=g@mail.gmail.com>
+	<4F8704E4.7020400@windriver.com>
+Date: Thu, 12 Apr 2012 09:47:53 -0700
+Message-ID: <CAGDS+nn-4=9JeOZtubh+H4bh7Lij_8NoL+Ab5dsprDraeQtooQ@mail.gmail.com>
+From: Steve Sakoman <sakoman@gmail.com>
+To: Mark Hatle <mark.hatle@windriver.com>
 Cc: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
 Subject: Re: [PATCH] package_rpm: Fix useradd preinst ordering issues
@@ -41,47 +48,22 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 12 Apr 2012 16:47:23 -0000
-Content-Type: text/plain; charset="ISO-8859-1"; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Thu, 12 Apr 2012 16:57:14 -0000
+Content-Type: text/plain; charset=ISO-8859-1
 
-On 4/12/12 10:55 AM, Steve Sakoman wrote:
-> On Thu, Apr 12, 2012 at 8:46 AM, Mark Hatle<mark.hatle@windriver.com>  wrote:
->> On 4/12/12 10:36 AM, Steve Sakoman wrote:
->>>
->>> On Thu, Apr 12, 2012 at 6:39 AM, Steve Sakoman<sakoman@gmail.com>    wrote:
->>
->>
->> That is very odd, the system is supposed to identify all of the dependencies
->> needed for the first set of packages... (the three base-passwd, base-files
->> and shadow).
+> Ya, if you could point me to the image recipe that eliminates BB and uses
+> the discrete versions of things I'll look into this.
 >
-> Perhaps the issue is with the bash package -- for some reason rpm
-> doesn't realize that bash provides /bin/sh?
->
->> The end result is a list of 10-12 binaries to be installed that meet those
->> requirements, as well as the original three requested packages.
->>
->> We also shouldn't specify bash because busybox provides /bin/sh in a lot of
->> configurations.
->>
->> Which image did you try to build and I'll see what I can replicate here.
->
-> The images I built are not standard oe-core/yocto images, they are
-> custom images that don't include busybox.  Perhaps that is why I am
-> seeing the issue and others aren't.
->
-> If you are really interested in replicating let me know and I can
-> provide you with pointers to my image recipes.
+> I can try to do it with hob, but I'm not sure of everything I'd have to
+> select.
 
-Ya, if you could point me to the image recipe that eliminates BB and uses the 
-discrete versions of things I'll look into this.
+Here is one of the images that shows the issue:
 
-I can try to do it with hob, but I'm not sure of everything I'd have to select.
+http://www.sakoman.com/cgi-bin/gitweb.cgi?p=meta-sakoman.git;a=blob_plain;f=recipes-sakoman/images/sakoman-systemd-image.bb;h=d1f1202528af6ed73171a9a26148f18da9ee389c;hb=HEAD
 
---Mark
+It pulls in a few things from meta-oe and my meta-sakoman layer so
+this may be more trouble that you want to deal with . . .
 
-> Steve
-
+Steve
 
 
