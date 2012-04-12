@@ -1,27 +1,42 @@
-Received: from mail.windriver.com ([147.11.1.11])
+Received: from mail-wg0-f43.google.com ([74.125.82.43])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <Liezhi.Yang@windriver.com>) id 1SIKie-0007Bu-PI
+	(envelope-from <koen@dominion.thruhere.net>) id 1SIKqC-0007JB-Hr
 	for openembedded-core@lists.openembedded.org;
-	Thu, 12 Apr 2012 16:09:53 +0200
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca [147.11.189.40])
-	by mail.windriver.com (8.14.3/8.14.3) with ESMTP id q3CE0VuS016923
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
+	Thu, 12 Apr 2012 16:17:40 +0200
+Received: by wgbdr12 with SMTP id dr12so1706601wgb.24
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 12 Apr 2012 07:00:31 -0700 (PDT)
-Received: from [128.224.162.196] (128.224.162.196) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server id 14.1.255.0;
-	Thu, 12 Apr 2012 07:00:31 -0700
-Message-ID: <4F86DFFE.3010206@windriver.com>
-Date: Thu, 12 Apr 2012 22:00:30 +0800
-From: Robert Yang <liezhi.yang@windriver.com>
-User-Agent: Mozilla/5.0 (X11; Linux i686;
-	rv:11.0) Gecko/20120310 Thunderbird/11.0
-MIME-Version: 1.0
-To: <openembedded-core@lists.openembedded.org>
-References: <cover.1333085308.git.liezhi.yang@windriver.com>
-	<ac05d9a1b72099761bbc1a8312cd0d4ad8600b4a.1333085308.git.liezhi.yang@windriver.com>
-In-Reply-To: <ac05d9a1b72099761bbc1a8312cd0d4ad8600b4a.1333085308.git.liezhi.yang@windriver.com>
-Subject: Re: [PATCH 1/1] qt4-x11-free: enable -accessibility and -sm
+	Thu, 12 Apr 2012 07:08:20 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=google.com; s=20120113;
+	h=subject:mime-version:content-type:from:in-reply-to:date:cc
+	:content-transfer-encoding:message-id:references:to:x-mailer
+	:x-gm-message-state;
+	bh=Ucrw4rsHk+zpkvPskdFelP0Je5g5wSr/taxmDZg39Qk=;
+	b=awFvXrjNFdYe8s+c1cPyz1/PIa6ifBxUbucU/Df2WxPZHBVsjGnnHuoyTjEuhdVgld
+	K2nKD0WTlGiN75jSWGCE6JSPO2KavpKqmKQMlJh0PfymiTrlbCI2gnosq59O+ktIExKc
+	ZMsaWVVo2KDlxirukp35IED4nSEExfR1edEb3MTqRkgXSMwaPMgtfdTtpY5pVNYptlWG
+	Gch7YKpH9G9Y4hcdHOD7M9V3hcn9czYLnpfiC88I9NX/pKZ0Kb/ummSn6BgRqVgQCpuv
+	6HKO0mEy2jU3eqeCxyoJS3viw21a1dlx0hnIer5bVENlgR5c3aSpdoY/lE1bFaaBTptb
+	KJKQ==
+Received: by 10.180.95.34 with SMTP id dh2mr6289645wib.15.1334239700204;
+	Thu, 12 Apr 2012 07:08:20 -0700 (PDT)
+Received: from [172.20.1.36] (ip545070eb.adsl-surfen.hetnet.nl.
+	[84.80.112.235])
+	by mx.google.com with ESMTPS id e6sm52531210wix.8.2012.04.12.07.08.18
+	(version=TLSv1/SSLv3 cipher=OTHER);
+	Thu, 12 Apr 2012 07:08:18 -0700 (PDT)
+Mime-Version: 1.0 (Apple Message framework v1257)
+From: Koen Kooi <koen@dominion.thruhere.net>
+In-Reply-To: <1334238147-15338-1-git-send-email-ml@communistcode.co.uk>
+Date: Thu, 12 Apr 2012 16:08:16 +0200
+Message-Id: <2244DB0D-6E70-4128-BBBA-EFABB2C489EE@dominion.thruhere.net>
+References: <1334238147-15338-1-git-send-email-ml@communistcode.co.uk>
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+X-Mailer: Apple Mail (2.1257)
+X-Gm-Message-State: ALoCoQnG4u/paGYmiKA7/TSpnz2bwB9S1TSI6qCrtdlRDXQHxnRSVQ08gExVqZqSJwaywntB5/34
+Cc: Jack Mitchell <jack.mitchell@dbbroadcast.co.uk>
+Subject: Re: [PATCH] New recipe - jansson, C library for encoding, decoding and manipulating JSON data
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -36,49 +51,25 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 12 Apr 2012 14:09:53 -0000
-Content-Type: text/plain; charset="ISO-8859-1"; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Thu, 12 Apr 2012 14:17:40 -0000
+Content-Type: text/plain; charset=us-ascii
+Content-Transfer-Encoding: quoted-printable
 
 
-Is there any suggestions for this one please?
+Op 12 apr. 2012, om 15:42 heeft ml@communistcode.co.uk het volgende =
+geschreven:
 
-// Robert
-
-On 03/30/2012 01:29 PM, Robert Yang wrote:
-> Is it possible to enable the "-sm -accessibility" in oe-core, please?
-> There is a meta-kde layer which requires the "-sm -accessibility", but
-> they are disabled in meta/recipes-qt/qt4/qt4.inc:
->
-> QT_DISTRO_FLAGS ?= "-no-accessibility -no-sm"
->
-> I checked the log of the qt4, can't find the related log for
-> "-no-accessibility -no-sm".
->
-> Another way is use the bbappend, but it would be great if it can be
-> enabled in oe-core.
->
-> This only enables for qt4-x11, doesn't enable for qt4-embedded, and
-> have done testing on: qemux86, qemuarm, qemumips, qemuppc.
->
-> Signed-off-by: Robert Yang<liezhi.yang@windriver.com>
+> From: Jack Mitchell <jack.mitchell@dbbroadcast.co.uk>
+>=20
+> Signed-off-by: Jack Mitchell <jack.mitchell@dbbroadcast.co.uk>
 > ---
->   meta/recipes-qt/qt4/qt4-x11-free.inc |    3 +++
->   1 files changed, 3 insertions(+), 0 deletions(-)
->
-> diff --git a/meta/recipes-qt/qt4/qt4-x11-free.inc b/meta/recipes-qt/qt4/qt4-x11-free.inc
-> index 072c522..a59198d 100644
-> --- a/meta/recipes-qt/qt4/qt4-x11-free.inc
-> +++ b/meta/recipes-qt/qt4/qt4-x11-free.inc
-> @@ -13,6 +13,9 @@ QT_GLFLAGS_qemuppc = "-opengl"
->   QT_CONFIG_FLAGS += "-no-xinerama -no-xkb"
->   QT_BASE_LIB  ?= "libqt"
->
-> +# required by kdelibs4
-> +QT_DISTRO_FLAGS = "-accessibility -sm"
-> +
->   inherit qt4x11
->
->   do_install_append() {
+> meta-oe/recipes-support/jansson/jansson.inc    |    8 ++++++++
+> meta-oe/recipes-support/jansson/jansson_2.3.bb |    4 ++++
+
+I'll ask the standard question: why is this needed in oe-core?
+
+regards,
+
+Koen=
 
 
