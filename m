@@ -1,36 +1,44 @@
-Received: from mail.dream-property.net ([82.149.226.172])
+Received: from mail-we0-f175.google.com ([74.125.82.175])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <obi@opendreambox.org>) id 1SILJM-0007gb-Ae
+	(envelope-from <koen@dominion.thruhere.net>) id 1SILKn-0007kH-Uf
 	for openembedded-core@lists.openembedded.org;
-	Thu, 12 Apr 2012 16:47:48 +0200
-Received: from localhost (localhost [127.0.0.1])
-	by mail.dream-property.net (Postfix) with ESMTP id 6792B315B11C
+	Thu, 12 Apr 2012 16:49:18 +0200
+Received: by wera1 with SMTP id a1so1316329wer.6
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 12 Apr 2012 16:38:30 +0200 (CEST)
-X-Virus-Scanned: Debian amavisd-new at mail.dream-property.net
-Received: from mail.dream-property.net ([127.0.0.1])
-	by localhost (mail.dream-property.net [127.0.0.1]) (amavisd-new,
-	port 10024) with LMTP id uHqEVIv+VYVf
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 12 Apr 2012 16:38:19 +0200 (CEST)
-Received: from [172.22.22.61] (drms-590c5060.pool.mediaWays.net [89.12.80.96])
-	(using TLSv1 with cipher DHE-RSA-AES256-SHA (256/256 bits))
-	(No client certificate requested)
-	by mail.dream-property.net (Postfix) with ESMTPSA id DCCC2315B112
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 12 Apr 2012 16:38:18 +0200 (CEST)
-Message-ID: <4F86E8D9.30608@opendreambox.org>
-Date: Thu, 12 Apr 2012 16:38:17 +0200
-From: Andreas Oberritter <obi@opendreambox.org>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:11.0) Gecko/20120329 Thunderbird/11.0.1
-MIME-Version: 1.0
-To: openembedded-core@lists.openembedded.org
-References: <1334238147-15338-1-git-send-email-ml@communistcode.co.uk>
-	<2244DB0D-6E70-4128-BBBA-EFABB2C489EE@dominion.thruhere.net>
-	<4F86E3FF.3050905@communistcode.co.uk>
-In-Reply-To: <4F86E3FF.3050905@communistcode.co.uk>
-Subject: Re: [PATCH] New recipe - jansson, C library for encoding, decoding and manipulating JSON data
+	Thu, 12 Apr 2012 07:39:57 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=google.com; s=20120113;
+	h=content-type:mime-version:subject:from:in-reply-to:date
+	:content-transfer-encoding:message-id:references:to:x-mailer
+	:x-gm-message-state;
+	bh=pQd6Kz29zVsBY97yGrZDyZg5HEGEg9otOJqE5h3mHjk=;
+	b=o0IeFzj3pKZG0v3gpJZT9lv3tkj14LsJoQApOPQskE8v/gu0fou9dEYXUgfufT+Ptl
+	75ZCU74isAMFaN3KjfwgDLG2W3haAIkO15u/qmYuUL3HEu/0UF0Hd1czpU7v2NOdv0rP
+	/UsXMUSjx4di8GNepbzESA6OajOlXeznGKcdd6CJx5IoAbroxGWJJGuxtJwOQRBg8xhA
+	5L5bxzfmfcQjKTB+KvshUahCdg9fO6zI6kB5JnMgtOdIU5/17W9NiMDgehw/Czl8csvs
+	efZczM7W5exL5l3i4I0ZoENGtuEe6PrWwhpsCcqSrc+QGzY8Q51khF2E9TER7oIdkElF
+	d8fQ==
+Received: by 10.216.132.40 with SMTP id n40mr1654571wei.68.1334241596657;
+	Thu, 12 Apr 2012 07:39:56 -0700 (PDT)
+Received: from [172.20.1.36] (ip545070eb.adsl-surfen.hetnet.nl.
+	[84.80.112.235])
+	by mx.google.com with ESMTPS id n8sm22212993wix.10.2012.04.12.07.39.55
+	(version=TLSv1/SSLv3 cipher=OTHER);
+	Thu, 12 Apr 2012 07:39:55 -0700 (PDT)
+Mime-Version: 1.0 (Apple Message framework v1257)
+From: Koen Kooi <koen@dominion.thruhere.net>
+In-Reply-To: <CAP9ODKp2s_PY9RPgkfC6O597v-05ha-+bbbZFFApwrRTa5zNGg@mail.gmail.com>
+Date: Thu, 12 Apr 2012 16:39:52 +0200
+Message-Id: <AF3E65EA-522E-49C3-BFA0-9EA50C39721C@dominion.thruhere.net>
+References: <7E680CB2A76BB8438D08CF13C09FC53A46B06325@FMSMSX151.amr.corp.intel.com>
+	<4F84D58F.8020608@gmail.com> <1334221321.31685.24.camel@ted>
+	<4543FDF1-0512-4B36-ABB3-DBB957B86E88@dominion.thruhere.net>
+	<CAP9ODKp2s_PY9RPgkfC6O597v-05ha-+bbbZFFApwrRTa5zNGg@mail.gmail.com>
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+X-Mailer: Apple Mail (2.1257)
+X-Gm-Message-State: ALoCoQmAQh+4AZNGdRkQn7zF+3j6Cvaz8YULLcsIAD9SzCEHN6nTtEIf/HE4C+YHpOacEk7H1JRY
+Subject: Re: Yocto Project 1.2 M4 schedule
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -45,37 +53,29 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 12 Apr 2012 14:47:48 -0000
-Content-Type: text/plain; charset=ISO-8859-1
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Thu, 12 Apr 2012 14:49:18 -0000
+Content-Type: text/plain; charset=iso-8859-1
+Content-Transfer-Encoding: quoted-printable
 
-On 12.04.2012 16:17, Jack Mitchell wrote:
-> On 12/04/12 15:08, Koen Kooi wrote:
->> Op 12 apr. 2012, om 15:42 heeft ml@communistcode.co.uk het volgende
->> geschreven:
->>
->>> From: Jack Mitchell<jack.mitchell@dbbroadcast.co.uk>
->>>
->>> Signed-off-by: Jack Mitchell<jack.mitchell@dbbroadcast.co.uk>
->>> ---
->>> meta-oe/recipes-support/jansson/jansson.inc    |    8 ++++++++
->>> meta-oe/recipes-support/jansson/jansson_2.3.bb |    4 ++++
 
-    ^^^^^^^
+Op 12 apr. 2012, om 16:24 heeft Otavio Salvador het volgende geschreven:
 
->> I'll ask the standard question: why is this needed in oe-core?
->>
->> regards,
->>
->> Koen
+> On Thu, Apr 12, 2012 at 06:29, Koen Kooi <koen@dominion.thruhere.net> =
+wrote:
+>> I'm still a big fan of using 'yoctoproject-1.2' as substring for tags =
+and branches. The objections I heard to that didn't make sense to me, =
+but I see this as a purely technical matter where others see it as =
+something different :)
+>=20
+> OE-Core branch could be 2012-1.
 
-I think there's a misunderstanding. Jack sent the patch to the wrong list.
+Yes, but experience has shown that PHBs and new yocto users want to see =
+'yocto' in the name and go apeshit when it's missing. OTOH people will =
+hate whatever gets chosen, so let's get this over with and pick a name =
+and strongly recommend other layers to adopt it as well.=20
 
-Jack, patches for meta-oe should be submitted to
-openembedded-devel@lists.openembedded.org, with [meta-oe] as part of the
-subject. See http://www.openembedded.org/wiki/Mailing_lists.
-
-Regards,
-Andreas
+We can't do worse than fedora: =
+http://lists.fedoraproject.org/pipermail/announce/2012-February/003044.htm=
+l=
 
 
