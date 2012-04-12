@@ -1,34 +1,32 @@
-Received: from mail-qc0-f175.google.com ([209.85.216.175])
+Received: from mail.pbcl.net ([88.198.119.4] helo=hetzner.pbcl.net)
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <sakoman@gmail.com>) id 1SIRZM-0002Xc-Lc
+	(envelope-from <philb@gnu.org>) id 1SIRk1-0002fT-Po
 	for openembedded-core@lists.openembedded.org;
-	Thu, 12 Apr 2012 23:28:44 +0200
-Received: by qcso7 with SMTP id o7so1551050qcs.6
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 12 Apr 2012 14:19:23 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
-	:content-type:content-transfer-encoding;
-	bh=zhv5jIKd0Y+QXJ0S53FZtUmU68A8nK+4RyWF1zFcNCU=;
-	b=j/ne2V7pbsO1HrZ4jo3Bf9k4PBYhFsRtAl8ABYfMg+u5VNjeVU6m4Bzrww8Oi9NrfP
-	Vu1H8HNefUq2c8sJJVJzfT6pu5P2p2+ZeC1H80oiJb8v1T6RPEQe76c236NsFE6YMAsH
-	GSUu9yzxHYo1NxNJLfdvrVw5+d+erLX1PD9vZGKO+okavx/4RF3pzhjkHdzldxTNMFc+
-	AOpzLh37OAiBVLdgoSrt4DPYhJyhz8jYKi7cEndQuP4x73Ncd4tyXlBth6Z/rF64No9t
-	NtFu1AcMGBdehKavst3EP0T7PlVNUgFjbRPEONEskXuS9GHwkbWmldQ4J4V0vBHNeIQb
-	xNAw==
-MIME-Version: 1.0
-Received: by 10.224.31.202 with SMTP id z10mr197468qac.31.1334265563795; Thu,
-	12 Apr 2012 14:19:23 -0700 (PDT)
-Received: by 10.229.94.206 with HTTP; Thu, 12 Apr 2012 14:19:23 -0700 (PDT)
-In-Reply-To: <d03c20067d20533415b1af87a73e3ea2315aa21b.1334265557.git.mark.hatle@windriver.com>
-References: <cover.1334265557.git.mark.hatle@windriver.com>
-	<d03c20067d20533415b1af87a73e3ea2315aa21b.1334265557.git.mark.hatle@windriver.com>
-Date: Thu, 12 Apr 2012 14:19:23 -0700
-Message-ID: <CAGDS+nm97T4XEgz8zx+SZLuih1Vt1kL5444b8qiANgysZE2JfQ@mail.gmail.com>
-From: Steve Sakoman <sakoman@gmail.com>
+	Thu, 12 Apr 2012 23:39:45 +0200
+Received: from blundell.swaffham-prior.co.uk ([91.216.112.25]
+	helo=[192.168.114.6])
+	by hetzner.pbcl.net with esmtpsa (TLS1.0:RSA_AES_256_CBC_SHA1:32)
+	(Exim 4.72) (envelope-from <philb@gnu.org>) id 1SIRb1-0004Hf-FR
+	for openembedded-core@lists.openembedded.org;
+	Thu, 12 Apr 2012 23:30:27 +0200
+Message-ID: <1334266176.3382.75.camel@x121e.pbcl.net>
+From: Phil Blundell <philb@gnu.org>
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 2/2] rpm: Ensure that we check both providename and filepaths
+Date: Thu, 12 Apr 2012 22:29:36 +0100
+In-Reply-To: <20120412211330.GG13291@denix.org>
+References: <7E680CB2A76BB8438D08CF13C09FC53A46B06325@FMSMSX151.amr.corp.intel.com>
+	<4F84D58F.8020608@gmail.com> <1334221321.31685.24.camel@ted>
+	<4543FDF1-0512-4B36-ABB3-DBB957B86E88@dominion.thruhere.net>
+	<CAMKF1soezt5BK0Qnx1Jda_uHXuFKiW9apSxXOu650SqcsqqKCA@mail.gmail.com>
+	<D08D0BD0-4C47-4062-9B08-F44FD1683EED@dominion.thruhere.net>
+	<CAP9ODKraSBuER3diXxFR8sFW4xN=UKHi=76fTNBm=isJTban8g@mail.gmail.com>
+	<1334256020.7309.45.camel@ted> <4F873102.6020603@balister.org>
+	<DE32AA93-7E17-480C-9027-DB6EA6F2A0C0@dominion.thruhere.net>
+	<20120412211330.GG13291@denix.org>
+X-Mailer: Evolution 3.2.2-1 
+Mime-Version: 1.0
+Subject: Re: Yocto Project 1.2 M4 schedule
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -43,22 +41,20 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 12 Apr 2012 21:28:45 -0000
-Content-Type: text/plain; charset=ISO-8859-1
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Thu, 12 Apr 2012 21:39:45 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-On Thu, Apr 12, 2012 at 2:21 PM, Mark Hatle <mark.hatle@windriver.com> wrot=
-e:
-> In lib/rpmts.c we need to make sure to look for missing dependencies,
-> such as /bin/sh, in both the providename and filepaths DB. =A0Previously
-> the system would key off an initial '/' and only look in the filepaths DB=
-.
->
-> This causes problems when a package such as "bash", has a Provides: /bin/=
-sh.
->
-> Signed-off-by: Mark Hatle <mark.hatle@windriver.com>
+On Thu, 2012-04-12 at 17:13 -0400, Denys Dmytriyenko wrote:
+> Should we put it to vote? While we still have time before the release, we need 
+> to agree on the naming eventually.
 
-Tested-by: Steve Sakoman <steve@sakoman.com>
+To be honest, it seems to me like a vote would be a waste of time.  It's
+only a name, after all.  This is Richard's project and I think he should
+probably just pick a tag name that he likes and be done with it.
+
+p.
+
+
 
 
