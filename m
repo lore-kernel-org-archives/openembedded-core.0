@@ -1,38 +1,59 @@
-Received: from mail-qc0-f175.google.com ([209.85.216.175])
+Received: from tx2ehsobe005.messaging.microsoft.com ([65.55.88.15]
+	helo=tx2outboundpool.messaging.microsoft.com)
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <sakoman@gmail.com>) id 1SIMDd-0000Wg-8M
+	(envelope-from <B29882@freescale.com>) id 1SIMMT-0000gN-LV
 	for openembedded-core@lists.openembedded.org;
-	Thu, 12 Apr 2012 17:45:57 +0200
-Received: by qcso7 with SMTP id o7so1329921qcs.6
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 12 Apr 2012 08:36:36 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
-	:cc:content-type:content-transfer-encoding;
-	bh=o/JmYVNbYktet5ZwCZhpxxO2hOnJgZdHdEzAVXkITCM=;
-	b=HEqYpygm303UREo1NRG0YtKbec5m8WpzeG83U4gS8lIjCSs52jZjq1QbttCXcFitIC
-	5nL62AyjgocAEtcWqu1BcREZEsM0IQ35ZdqKojvBsAedzJrXRafOvl6/Ay5FwNZ5icgp
-	3glgSzL301SF8tN9pnpnCbZHCblylwcB2RhlqgWxhTlMLPtRffYBgT6xHd9zZvXrHucE
-	Q+YAJ0NSx72jneUIhtawnDscWfaW3IalP2sWAa+1kFwHT0IijujCfq2TEvSx8jbaNf8i
-	eajBg7t2ms/bT+gfPmGM/wlZ1xxluJdW4U4xeOBqiicb9xWYL7TLAeiLynOtS49xtiZ8
-	Xe1w==
-MIME-Version: 1.0
-Received: by 10.229.137.85 with SMTP id v21mr1196480qct.70.1334244996608; Thu,
-	12 Apr 2012 08:36:36 -0700 (PDT)
-Received: by 10.229.94.206 with HTTP; Thu, 12 Apr 2012 08:36:36 -0700 (PDT)
-In-Reply-To: <CAGDS+nmSY2TD8HRzYfrcOeUjxwyb1D_dDQkTBtMseNG0cUbc6A@mail.gmail.com>
-References: <1334179880.31685.12.camel@ted> <4F85FACB.8080205@windriver.com>
-	<CAGDS+nmSY2TD8HRzYfrcOeUjxwyb1D_dDQkTBtMseNG0cUbc6A@mail.gmail.com>
-Date: Thu, 12 Apr 2012 08:36:36 -0700
-Message-ID: <CAGDS+nntS5YWw0U8wSJYBdgdhnaGsnLr71F6SdMFECoMsCVHRw@mail.gmail.com>
-From: Steve Sakoman <sakoman@gmail.com>
+	Thu, 12 Apr 2012 17:55:05 +0200
+Received: from mail22-tx2-R.bigfish.com (10.9.14.253) by
+	TX2EHSOBE007.bigfish.com (10.9.40.27) with Microsoft SMTP Server id
+	14.1.225.23; Thu, 12 Apr 2012 15:45:44 +0000
+Received: from mail22-tx2 (localhost [127.0.0.1])	by mail22-tx2-R.bigfish.com
+	(Postfix) with ESMTP id D13D730016E	for
+	<openembedded-core@lists.openembedded.org>;
+	Thu, 12 Apr 2012 15:45:44 +0000 (UTC)
+X-SpamScore: -9
+X-BigFish: VS-9(zz9371Ic89bh1432N98dKzz1202hzz8275ch8275bhz2dh2a8h668h839h8e2h8e3hbe9i)
+X-Forefront-Antispam-Report: CIP:70.37.183.190; KIP:(null); UIP:(null); IPV:NLI;
+	H:mail.freescale.net; RD:none; EFVD:NLI
+Received: from mail22-tx2 (localhost.localdomain [127.0.0.1]) by mail22-tx2
+	(MessageSwitch) id 1334245543691891_27071;
+	Thu, 12 Apr 2012 15:45:43 +0000 (UTC)
+Received: from TX2EHSMHS015.bigfish.com (unknown [10.9.14.251])	by
+	mail22-tx2.bigfish.com (Postfix) with ESMTP id A4284420084	for
+	<openembedded-core@lists.openembedded.org>;
+	Thu, 12 Apr 2012 15:45:43 +0000 (UTC)
+Received: from mail.freescale.net (70.37.183.190) by TX2EHSMHS015.bigfish.com
+	(10.9.99.115) with Microsoft SMTP Server (TLS) id 14.1.225.23;
+	Thu, 12 Apr 2012 15:45:42 +0000
+Received: from 039-SN1MPN1-001.039d.mgd.msft.net ([169.254.1.132]) by
+	039-SN1MMR1-003.039d.mgd.msft.net ([10.84.1.16]) with mapi id
+	14.01.0355.003; Thu, 12 Apr 2012 10:45:42 -0500
+From: McClintock Matthew-B29882 <B29882@freescale.com>
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] package_rpm: Fix useradd preinst ordering issues
+Thread-Topic: [OE-core] Yocto Project 1.2 M4 schedule
+Thread-Index: AQHNGMNQhZ+TZMKgekW4ywXi0lVeyg==
+Date: Thu, 12 Apr 2012 15:45:41 +0000
+Message-ID: <CAEsOVNfn+yEZ6rLhjxgu9iQ1+1OsWeQ9ia_T_VihUMFxUB3dtg@mail.gmail.com>
+References: <7E680CB2A76BB8438D08CF13C09FC53A46B06325@FMSMSX151.amr.corp.intel.com>
+	<4F84D58F.8020608@gmail.com> <1334221321.31685.24.camel@ted>
+	<4543FDF1-0512-4B36-ABB3-DBB957B86E88@dominion.thruhere.net>
+	<CAP9ODKp2s_PY9RPgkfC6O597v-05ha-+bbbZFFApwrRTa5zNGg@mail.gmail.com>
+	<AF3E65EA-522E-49C3-BFA0-9EA50C39721C@dominion.thruhere.net>
+	<20120412165158.52c84ded@eb-e6520>
+In-Reply-To: <20120412165158.52c84ded@eb-e6520>
+Accept-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [99.47.177.27]
+MIME-Version: 1.0
+X-OriginatorOrg: freescale.com
+Subject: Re: Yocto Project 1.2 M4 schedule
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
-Reply-To: Patches and discussions about the oe-core layer
+Reply-To: McClintock Matthew-B29882 <B29882@freescale.com>,
+	Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
 List-Id: Patches and discussions about the oe-core layer
 	<openembedded-core.lists.openembedded.org>
@@ -43,238 +64,41 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 12 Apr 2012 15:45:57 -0000
-Content-Type: text/plain; charset=ISO-8859-1
+X-List-Received-Date: Thu, 12 Apr 2012 15:55:06 -0000
+Content-Language: en-US
+Content-Type: text/plain; charset="iso-8859-1"
+Content-ID: <85B02EE37112DF4CB6AFCBE44F755369@mgd.freescale.com>
 Content-Transfer-Encoding: quoted-printable
 
-On Thu, Apr 12, 2012 at 6:39 AM, Steve Sakoman <sakoman@gmail.com> wrote:
-
-> FWIW, after pulling current poky this morning all of my image builds
-> are failing with errors like this:
+On Thu, Apr 12, 2012 at 9:51 AM, Eric B=E9nard <eric@eukrea.com> wrote:
+> Le Thu, 12 Apr 2012 16:39:52 +0200,
+> Koen Kooi <koen@dominion.thruhere.net> a =E9crit :
 >
-> | Installing base dependencies first (base-passwd, base-files and
-> shadow) since rpm is special
-> | error: Failed dependencies:
-> | =A0 =A0 =A0 /bin/sh is needed by base-passwd-3.5.24-r0.armv7a
-> | =A0 =A0 =A0 /bin/sh is needed by shadow-4.1.4.3-r8.armv7a
-> | =A0 =A0 =A0 /bin/sh is needed by libgcc1-4.6.3+svnr184847-r24.armv7a
-> | =A0 =A0 =A0 /bin/sh is needed by libc6-2.13-r23+svnr15508.armv7a
->
-> I'll investigate, but since it is late in the release process thought
-> I would mention the issue.
-
-I have no idea if this is the proper fix, but adding bash to the list
-of packages to install first fixed the issue for me:
-
-diff --git a/meta/classes/package_rpm.bbclass b/meta/classes/package_rpm.bb=
-class
-index fd00fb1..a5f0b06 100644
---- a/meta/classes/package_rpm.bbclass
-+++ b/meta/classes/package_rpm.bbclass
-@@ -475,7 +475,8 @@ EOF
-                echo "Skipping pre install due to exisitng image"
-        else
-                echo "# Initial Install manifest" >
-${target_rootfs}/install/initial_install.manifest
--               echo "Installing base dependencies first (base-passwd,
-base-files and shadow) since rpm is special"
-+               echo "Installing base dependencies first (bash,
-base-passwd, base-files and shadow) since rpm is special"
-+               grep /bash-[0-9]
-${target_rootfs}/install/total_solution.manifest >>
-${target_rootfs}/install/initial_install.manife
-                grep /base-passwd-[0-9]
-${target_rootfs}/install/total_solution.manifest >>
-${target_rootfs}/install/initial_install
-                grep /base-files-[0-9]
-${target_rootfs}/install/total_solution.manifest >>
-${target_rootfs}/install/initial_install.
-                grep /shadow-[0-9]
-${target_rootfs}/install/total_solution.manifest >>
-${target_rootfs}/install/initial_install.mani
-
-I'm concerned we are on a slippery slope here!
-
-Steve
-
-
->>> diff --git a/meta/classes/package_rpm.bbclass
->>> b/meta/classes/package_rpm.bbclass
->>> index 16a2c87..1b0f6f2 100644
->>> --- a/meta/classes/package_rpm.bbclass
->>> +++ b/meta/classes/package_rpm.bbclass
->>> @@ -166,22 +167,23 @@ rpm_common_comand () {
->>> =A0# install or remove the pkg
->>> =A0rpm_update_pkg () {
->>>
->>> + =A0 =A0manifest=3D$1
->>> + =A0 =A0btmanifest=3D$manifest.bt
->>> =A0 =A0 =A0local target_rootfs=3D"${INSTALL_ROOTFS_RPM}"
->>>
->>> =A0 =A0 =A0# Save the rpm's build time for incremental image generation=
-, and the
->>> file
->>> =A0 =A0 =A0# would be moved to ${T}
->>> - =A0 =A0rm -f ${target_rootfs}/install/total_solution_bt.manifest
->>> - =A0 =A0for i in `cat ${target_rootfs}/install/total_solution.manifest=
-`; do
->>> + =A0 =A0rm -f $btmanifest
->>> + =A0 =A0for i in `cat $manifest`; do
->>> =A0 =A0 =A0 =A0 =A0# Use "rpm" rather than "${RPM}" here, since we don'=
-t need the
->>> =A0 =A0 =A0 =A0 =A0# '--dbpath' option
->>> - =A0 =A0 =A0 =A0echo "$i `rpm -qp --qf '%{BUILDTIME}\n' $i`">> =A0\
->>> - =A0 =A0 =A0 =A0 =A0 =A0${target_rootfs}/install/total_solution_bt.man=
-ifest
->>> + =A0 =A0 =A0 =A0echo "$i `rpm -qp --qf '%{BUILDTIME}\n' $i`">> =A0$btm=
-anifest
->>> =A0 =A0 =A0done
->>>
->>> =A0 =A0 =A0# Only install the different pkgs if incremental image gener=
-ation is
->>> set
->>> =A0 =A0 =A0if [ "${INC_RPM_IMAGE_GEN}" =3D "1" -a -f
->>> ${T}/total_solution_bt.manifest -a \
->>> =A0 =A0 =A0 =A0 =A0"${IMAGE_PKGTYPE}" =3D "rpm" ]; then
->>> - =A0 =A0 =A0 =A0cur_list=3D"${target_rootfs}/install/total_solution_bt=
-.manifest"
->>> + =A0 =A0 =A0 =A0cur_list=3D"$btmanifest"
->>> =A0 =A0 =A0 =A0 =A0pre_list=3D"${T}/total_solution_bt.manifest"
->>> =A0 =A0 =A0 =A0 =A0sort -u $cur_list -o $cur_list
->>> =A0 =A0 =A0 =A0 =A0sort -u $pre_list -o $pre_list
->>> @@ -203,8 +205,7 @@ rpm_update_pkg () {
->>> =A0 =A0 =A0 =A0 =A0 =A0 =A0-Uvh ${target_rootfs}/install/incremental.ma=
-nifest
->>> =A0 =A0 =A0else
->>> =A0 =A0 =A0 =A0 =A0# Attempt to install
->>> - =A0 =A0 =A0 =A0rpm_common_comand --replacepkgs \
->>> - =A0 =A0 =A0 =A0 =A0 =A0-Uhv ${target_rootfs}/install/total_solution.m=
-anifest
->>> + =A0 =A0 =A0 =A0rpm_common_comand --replacepkgs -Uhv $manifest
->>> =A0 =A0 =A0fi
->>> =A0}
->>>
->>> @@ -440,14 +441,7 @@ package_install_internal_rpm () {
->>>
->>> =A0 =A0 =A0 =A0fi
->>>
->>> - =A0 =A0 =A0 # If base-passwd or shadow are in the list of packages to=
- install,
->>> - =A0 =A0 =A0 # ensure they are installed first to support later packag=
-es that
->>> - =A0 =A0 =A0 # may create custom users/groups (fixes Yocto bug #2127)
->>> - =A0 =A0 =A0 infile=3D${target_rootfs}/install/install_solution.manife=
-st
->>> - =A0 =A0 =A0 outfile=3D${target_rootfs}/install/total_solution.manifes=
-t
->>> - =A0 =A0 =A0 cat $infile | grep /base-passwd-[0-9]> =A0$outfile || tru=
-e
->>> - =A0 =A0 =A0 cat $infile | grep /shadow-[0-9]>> =A0$outfile || true
->>> - =A0 =A0 =A0 cat $infile | grep -v /shadow-[0-9] | grep -v /base-passw=
-d-[0-9]>>
->>> =A0$outfile || true
->>> + =A0 =A0 =A0 cat ${target_rootfs}/install/install_solution.manifest>
->>> =A0${target_rootfs}/install/total_solution.manifest
->>> =A0 =A0 =A0 =A0cat ${target_rootfs}/install/install_multilib_solution.m=
-anifest>>
->>> =A0${target_rootfs}/install/total_solution.manifest
->>>
->>> =A0 =A0 =A0 =A0# Construct install scriptlet wrapper
->>> @@ -474,8 +468,45 @@ EOF
->>>
->>> =A0 =A0 =A0 =A0chmod 0755 ${WORKDIR}/scriptlet_wrapper
->>>
->>> - =A0 =A0rpm_update_pkg
->>> + =A0 =A0 =A0 # RPM is special. It can't handle dependencies and preins=
-tall
->>> scripts correctly. Its
->>> + =A0 =A0 =A0 # probably a feature. The only way to convince rpm to act=
-ually run
->>> the preinstall scripts
->>> + =A0 =A0 =A0 # for base-passwd and shadow first before installing pack=
-ages that
->>> depend on these packages
->>> + =A0 =A0 =A0 # is to do two image installs, installing one set of pack=
-ages,
->>> then the other.
->>> + =A0 =A0 =A0 if [ "${INC_RPM_IMAGE_GEN}" =3D "1" -a -f
->>> ${T}/total_solution_bt.manifest ]; then
->>> + =A0 =A0 =A0 =A0 =A0 =A0 =A0 echo "Skipping pre install due to exisitn=
-g image"
->>> + =A0 =A0 =A0 else
->>> + =A0 =A0 =A0 =A0 =A0 =A0 =A0 echo "# Intial Install manifest">
->>> =A0${target_rootfs}/install/initial_install.manifest
->>> + =A0 =A0 =A0 =A0 =A0 =A0 =A0 echo "Installing base dependencies first =
-(base-passwd,
->>> base-files and shadow) since rpm is special"
->>> + =A0 =A0 =A0 =A0 =A0 =A0 =A0 grep /base-passwd-[0-9]
->>> ${target_rootfs}/install/total_solution.manifest>>
->>> =A0${target_rootfs}/install/initial_install.manifest || true
->>> + =A0 =A0 =A0 =A0 =A0 =A0 =A0 grep /base-files-[0-9]
->>> ${target_rootfs}/install/total_solution.manifest>>
->>> =A0${target_rootfs}/install/initial_install.manifest || true
->>> + =A0 =A0 =A0 =A0 =A0 =A0 =A0 grep /shadow-[0-9]
->>> ${target_rootfs}/install/total_solution.manifest>>
->>> =A0${target_rootfs}/install/initial_install.manifest || true
->>> +
->>> + =A0 =A0 =A0 =A0 =A0 =A0 =A0 # Generate an install solution by doing a=
- --justdb
->>> install, then recreate it with
->>> + =A0 =A0 =A0 =A0 =A0 =A0 =A0 # an actual package install!
->>> + =A0 =A0 =A0 =A0 =A0 =A0 =A0 mkdir -p ${target_rootfs}/initial
->>> +
->>> + =A0 =A0 =A0 =A0 =A0 =A0 =A0 ${RPM} --predefine "_rpmds_sysinfo_path
->>> ${target_rootfs}/etc/rpm/sysinfo" \
->>> + =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 --predefine "_rpmrc_platf=
-orm_path
->>> ${target_rootfs}/etc/rpm/platform" \
->>> + =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 -D "_dbpath ${target_root=
-fs}/initial" -D "`cat
->>> ${confbase}-base_archs.macro`" \
->>> + =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 -D "__dbi_txn create nofs=
-ync" \
->>> + =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 -U --justdb --noscripts -=
--notriggers
->>> --noparentdirs --nolinktos --ignoresize \
->>> + =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 ${target_rootfs}/install/=
-initial_install.manifest
->>> +
->>> + =A0 =A0 =A0 =A0 =A0 =A0 =A0 ${RPM} -D "_dbpath ${target_rootfs}/initi=
-al" -qa --yaml \
->>> + =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 -D "__dbi_txn create nofs=
-ync private" \
->>> + =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 | grep -i 'Packageorigin'=
- | cut -d : -f 2>
->>> =A0${target_rootfs}/install/initial_solution.manifest
->>> +
->>> + =A0 =A0 =A0 =A0 =A0 =A0 =A0 rpm_update_pkg
->>> ${target_rootfs}/install/initial_solution.manifest
->>> +
->>> + =A0 =A0 =A0 =A0 =A0 =A0 =A0 grep -Fv -f
->>> ${target_rootfs}/install/initial_solution.manifest
->>> ${target_rootfs}/install/total_solution.manifest>
->>> =A0${target_rootfs}/install/total_solution.manifest.new
->>> + =A0 =A0 =A0 =A0 =A0 =A0 =A0 mv ${target_rootfs}/install/total_solutio=
-n.manifest.new
->>> ${target_rootfs}/install/total_solution.manifest
->>> +
->>> + =A0 =A0 =A0 =A0 =A0 =A0 =A0 rm -rf ${target_rootfs}/initial
->>> + =A0 =A0 =A0 fi
->>> +
->>> + =A0 =A0 =A0 echo "Installing main solution manifest
->>> (${target_rootfs}/install/total_solution.manifest)"
->>>
->>> + =A0 =A0 =A0 rpm_update_pkg ${target_rootfs}/install/total_solution.ma=
-nifest
->>> =A0}
->>>
->>> =A0python write_specfile () {
->>>
 >>
+>> Op 12 apr. 2012, om 16:24 heeft Otavio Salvador het volgende geschreven:
 >>
->> _______________________________________________
->> Openembedded-core mailing list
->> Openembedded-core@lists.openembedded.org
->> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
+>> > On Thu, Apr 12, 2012 at 06:29, Koen Kooi <koen@dominion.thruhere.net> =
+wrote:
+>> >> I'm still a big fan of using 'yoctoproject-1.2' as substring for tags=
+ and branches. The objections I heard to that didn't make sense to me, but =
+I see this as a purely technical matter where others see it as something di=
+fferent :)
+>> >
+>> > OE-Core branch could be 2012-1.
+>>
+>> Yes, but experience has shown that PHBs and new yocto users want to see =
+'yocto' in the name and go apeshit when it's missing. OTOH people will hate=
+ whatever gets chosen, so let's get this over with and pick a name and stro=
+ngly recommend other layers to adopt it as well.
+>>
+> FWIW I'm also in favor of a tag yocto-1.2 for the OE-core release which
+> yocto 1.2 is based on.
+
+This is one of those things were someone just needs to decide or a
+group of people need to vote. It's not worth debating anymore - you
+can't make everyone happy. As long as it's tagged though.
+
+-M=
+
 
 
