@@ -1,38 +1,27 @@
-Received: from mail-vb0-f47.google.com ([209.85.212.47])
+Received: from mga11.intel.com ([192.55.52.93])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <otavio.salvador@gmail.com>) id 1SIL6H-0007VA-Vp
+	(envelope-from <paul.eggleton@linux.intel.com>) id 1SILHU-0007dW-0c
 	for openembedded-core@lists.openembedded.org;
-	Thu, 12 Apr 2012 16:34:18 +0200
-Received: by vbbfr13 with SMTP id fr13so1554340vbb.6
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 12 Apr 2012 07:24:57 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:sender:in-reply-to:references:date
-	:x-google-sender-auth:message-id:subject:from:to:content-type
-	:content-transfer-encoding;
-	bh=TQW31kG6Hdt0uvhcS4ESgrOIOJwn0c9vxv0OLnJLn2Q=;
-	b=TEIBKpgYAYUxKwalfqi8e9zWRNUwTygOZ+sqwOZkXU0853hRL74DtnfAa/ZvnBxCbT
-	mGYPbeAdTw/ecVnt4R+Tqxo1G0cjO4hdPPhGJRLA/FpjKemfpd2NTDHHcd5ZECczkMgJ
-	nm7O8ACyPXpBk7TReBosaZiptLSSqCeUSpJcWwZEt4cc1yEJZfVpgN44Mo0gxCDT0jeg
-	wKTKornZSxUHjdJbad8f9MhpA/YqMH36y+ltts9z2Ps2QTnRxZIT1Tc+F8UnWoCdomjn
-	XL8cqpxpe8tG4HvPaLn6nJV2FBmpnBnJQBl5kvzkwqsnXV2iSIHkWcNvMlaOmq5tPLul
-	Akkg==
+	Thu, 12 Apr 2012 16:45:52 +0200
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+	by fmsmga102.fm.intel.com with ESMTP; 12 Apr 2012 07:36:31 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="152825959"
+Received: from unknown (HELO helios.localnet) ([10.252.120.59])
+	by fmsmga002.fm.intel.com with ESMTP; 12 Apr 2012 07:36:30 -0700
+From: Paul Eggleton <paul.eggleton@linux.intel.com>
+To: Jack Mitchell <ml@communistcode.co.uk>
+Date: Thu, 12 Apr 2012 15:36:28 +0100
+Message-ID: <1711875.SIkgiBNdgV@helios>
+Organization: Intel Corporation
+User-Agent: KMail/4.8.2 (Linux/3.0.0-17-generic-pae; KDE/4.8.2; i686; ; )
+In-Reply-To: <4F86E3FF.3050905@communistcode.co.uk>
+References: <1334238147-15338-1-git-send-email-ml@communistcode.co.uk>
+	<2244DB0D-6E70-4128-BBBA-EFABB2C489EE@dominion.thruhere.net>
+	<4F86E3FF.3050905@communistcode.co.uk>
 MIME-Version: 1.0
-Received: by 10.52.18.212 with SMTP id y20mr1113156vdd.50.1334240697439; Thu,
-	12 Apr 2012 07:24:57 -0700 (PDT)
-Sender: otavio.salvador@gmail.com
-Received: by 10.220.2.195 with HTTP; Thu, 12 Apr 2012 07:24:57 -0700 (PDT)
-In-Reply-To: <4543FDF1-0512-4B36-ABB3-DBB957B86E88@dominion.thruhere.net>
-References: <7E680CB2A76BB8438D08CF13C09FC53A46B06325@FMSMSX151.amr.corp.intel.com>
-	<4F84D58F.8020608@gmail.com> <1334221321.31685.24.camel@ted>
-	<4543FDF1-0512-4B36-ABB3-DBB957B86E88@dominion.thruhere.net>
-Date: Thu, 12 Apr 2012 11:24:57 -0300
-X-Google-Sender-Auth: 5nxJYMTQIhUrmWWPC_idvJkR-qw
-Message-ID: <CAP9ODKp2s_PY9RPgkfC6O597v-05ha-+bbbZFFApwrRTa5zNGg@mail.gmail.com>
-From: Otavio Salvador <otavio@ossystems.com.br>
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: Yocto Project 1.2 M4 schedule
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH] New recipe - jansson, C library for encoding, decoding and manipulating JSON data
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -47,24 +36,30 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 12 Apr 2012 14:34:18 -0000
-Content-Type: text/plain; charset=ISO-8859-1
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Thu, 12 Apr 2012 14:45:52 -0000
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
 
-On Thu, Apr 12, 2012 at 06:29, Koen Kooi <koen@dominion.thruhere.net> wrote=
-:
-> I'm still a big fan of using 'yoctoproject-1.2' as substring for tags and=
- branches. The objections I heard to that didn't make sense to me, but I se=
-e this as a purely technical matter where others see it as something differ=
-ent :)
+On Thursday 12 April 2012 15:17:35 Jack Mitchell wrote:
+> It was in oe-classic so I believed it would be useful to port it over
+> oe-core. I thought that the location I chose was the most suitable place
+> for it. There doesn't seem to be a general 'user-cotrib/devel' layer
+> into which these packages can go, I was unsure of it's relevance but a
+> patch declined is a patch archived, right?
 
-OE-Core branch could be 2012-1.
+I think that this recipe is definitely useful, but there's a question as to 
+where the best place for it is. FYI, the (loose) criteria for something being 
+included in OE-Core itself is it is either something everyone will need or it 
+is something needed by something else in OE-Core.
 
---=20
-Otavio Salvador=A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0O=
-.S. Systems
-E-mail: otavio@ossystems.com.br=A0 http://www.ossystems.com.br
-Mobile: +55 53 9981-7854=A0 =A0 =A0 =A0=A0 =A0 =A0 =A0http://projetos.ossys=
-tems.com.br
+If there isn't an obvious place then meta-oe is where it should probably go.
+
+Cheers,
+Paul
+
+-- 
+
+Paul Eggleton
+Intel Open Source Technology Centre
 
 
