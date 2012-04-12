@@ -1,42 +1,27 @@
-Received: from mail-we0-f175.google.com ([74.125.82.175])
+Received: from mail1.windriver.com ([147.11.146.13])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <koen@dominion.thruhere.net>) id 1SIDfI-000433-GX
+	(envelope-from <Florin.Sarbu@windriver.com>) id 1SIEOO-0005Ie-Gp
 	for openembedded-core@lists.openembedded.org;
-	Thu, 12 Apr 2012 08:37:56 +0200
-Received: by wera1 with SMTP id a1so1046691wer.6
+	Thu, 12 Apr 2012 09:24:32 +0200
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca [147.11.189.40])
+	by mail1.windriver.com (8.14.3/8.14.3) with ESMTP id q3C7FBcZ023412
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 11 Apr 2012 23:28:36 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=google.com; s=20120113;
-	h=references:in-reply-to:mime-version:content-transfer-encoding
-	:content-type:message-id:cc:x-mailer:from:subject:date:to
-	:x-gm-message-state;
-	bh=DlWerrac+SqE3hz1G2CZHFypKdPN5uXqgfd2LOhbvVg=;
-	b=QM4lRSEEl+f99GZUZNJZrbkEeRprsjv/6WchhZOJwZsA0RTJZhhQuB3ZV6SMBgubG7
-	V6TBqopJwF8hcknEKU8eLVk5kXC2IK8Ksi9Qyd0JxspHAXut10yCvCtDu1uXk4ez8/ji
-	eA7dMVEZSR8dyuAG5kmRKcefH3FgnPB+jqDWUvPLcacSytip/k8QKtfuuyzzFt5rJLl+
-	6THIZ3eQvkVhGULGrCAZyJy632nysEsZt9S9EUQQlf2jERhsVQD954aZh6YBLHxmPQF1
-	tqhVV/rCUiq4j9SAaSEuFVu43ABjyz2OASsjgqOR5KsWgNj02QYSZJci4vvSJSZhnoPF
-	kLHA==
-Received: by 10.180.92.71 with SMTP id ck7mr2846595wib.21.1334212116593;
-	Wed, 11 Apr 2012 23:28:36 -0700 (PDT)
-Received: from [172.20.1.66] (ip545070eb.adsl-surfen.hetnet.nl.
-	[84.80.112.235])
-	by mx.google.com with ESMTPS id ex2sm18137226wib.8.2012.04.11.23.28.34
-	(version=TLSv1/SSLv3 cipher=OTHER);
-	Wed, 11 Apr 2012 23:28:35 -0700 (PDT)
+	Thu, 12 Apr 2012 00:15:11 -0700 (PDT)
+Received: from [128.224.171.127] (128.224.171.127) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server id 14.1.255.0;
+	Thu, 12 Apr 2012 00:15:11 -0700
+Message-ID: <4F8680FD.1030606@windriver.com>
+Date: Thu, 12 Apr 2012 10:15:09 +0300
+From: Florin Sarbu <florin.sarbu@windriver.com>
+User-Agent: Mozilla/5.0 (X11; Linux i686;
+	rv:11.0) Gecko/20120411 Thunderbird/11.0.1
+MIME-Version: 1.0
+To: <openembedded-core@lists.openembedded.org>
 References: <1334160473-7046-1-git-send-email-florin.sarbu@windriver.com>
-In-Reply-To: <1334160473-7046-1-git-send-email-florin.sarbu@windriver.com>
-Mime-Version: 1.0 (1.0)
-Message-Id: <109F6B28-8525-47CE-A367-B5279375B639@dominion.thruhere.net>
-Cc: "<openembedded-core@lists.openembedded.org>"
-	<openembedded-core@lists.openembedded.org>
-X-Mailer: iPad Mail (9B176)
-From: Koen Kooi <koen@dominion.thruhere.net>
-Date: Thu, 12 Apr 2012 08:28:46 +0200
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-X-Gm-Message-State: ALoCoQlaozQI5U9JxNCUuvZf8qmVihmqageQ2/8doXTyMgChXja5iGarjN5KRutdKtVjw9c4rgmV
+	<109F6B28-8525-47CE-A367-B5279375B639@dominion.thruhere.net>
+In-Reply-To: <109F6B28-8525-47CE-A367-B5279375B639@dominion.thruhere.net>
+X-Originating-IP: [128.224.171.127]
 Subject: Re: [PATCH] vala: Add vala package as a devtool (version 0.12.1)
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
@@ -52,93 +37,90 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 12 Apr 2012 06:37:56 -0000
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain;
-	charset=us-ascii
+X-List-Received-Date: Thu, 12 Apr 2012 07:24:33 -0000
+Content-Type: text/plain; charset="ISO-8859-1"; format=flowed
+Content-Transfer-Encoding: 7bit
+
+Yeah, I kinda figured that one out last night when going through the 
+deps again. meta-oe systemd had a dependency on vala.bbclass which in 
+turn dragged in vala native. Eliminating the unnecessary vala bbclass 
+usage, vala native is not needed anymore.
+Hence the confusion.
+Excuse the trouble caused
 
 
-
-Op 11 apr. 2012 om 18:07 heeft Florin Sarbu <florin.sarbu@windriver.com> het=
- volgende geschreven:
-
-> Added the vala package from meta-oe to support future systemd integration.=
-
-
-But systemd doesn't need vala......
-
-
->=20
-> Signed-off-by: Florin Sarbu <florin.sarbu@windriver.com>
-> ---
-> meta/recipes-devtools/vala/vala.inc       |   25 +++++++++++++++++++++++++=
-
-> meta/recipes-devtools/vala/vala_0.12.1.bb |    7 +++++++
-> 2 files changed, 32 insertions(+), 0 deletions(-)
-> create mode 100644 meta/recipes-devtools/vala/vala.inc
-> create mode 100644 meta/recipes-devtools/vala/vala_0.12.1.bb
->=20
-> diff --git a/meta/recipes-devtools/vala/vala.inc b/meta/recipes-devtools/v=
-ala/vala.inc
-> new file mode 100644
-> index 0000000..0815c66
-> --- /dev/null
-> +++ b/meta/recipes-devtools/vala/vala.inc
-> @@ -0,0 +1,25 @@
-> +DESCRIPTION =3D "Vala is a C#-like language dedicated to ease GObject pro=
-gramming. \
-> +Vala compiles to plain C and has no runtime environment nor penalities wh=
-atsoever."
-> +SECTION =3D "devel"
-> +DEPENDS =3D "glib-2.0 dbus"
-> +BBCLASSEXTEND =3D "native"
-> +DEPENDS_virtclass-native =3D "glib-2.0-native dbus-native"
-> +HOMEPAGE =3D "http://vala-project.org"
-> +LICENSE =3D "LGPLv2.1"
-> +LIC_FILES_CHKSUM =3D "file://COPYING;md5=3Dfbc093901857fcd118f065f900982c=
-24"
-> +INC_PR =3D "r0"
-> +
-> +#
-> +# WARNING: This source release has specifically been built for OpenEmbedd=
-ed.
-> +# Don't update to any upstream release without consulting the recipe main=
-tainer.
-> +#
-> +
-> +SRC_URI =3D "\
-> +  http://downloads.freesmartphone.org/sources/vala-${PV}.tar.bz2;name=3Da=
-rchive \
-> +"
-> +
-> +inherit autotools
-> +
-> +EXTRA_OECONF =3D "--disable-vapigen"
-> +
-> +FILES_${PN}-doc +=3D "${datadir}/devhelp"
-> diff --git a/meta/recipes-devtools/vala/vala_0.12.1.bb b/meta/recipes-devt=
-ools/vala/vala_0.12.1.bb
-> new file mode 100644
-> index 0000000..1049ed6
-> --- /dev/null
-> +++ b/meta/recipes-devtools/vala/vala_0.12.1.bb
-> @@ -0,0 +1,7 @@
-> +require vala.inc
-> +SRC_URI =3D "ftp://ftp.gnome.org/pub/GNOME/sources/vala/0.12/vala-${PV}.t=
-ar.bz2"
-> +
-> +FILES_${PN} +=3D "${datadir}/vala-0.12/vapi"
-> +
-> +SRC_URI[md5sum] =3D "bf35262cc611de447147d01cbac33767"
-> +SRC_URI[sha256sum] =3D "d9a2be21bb8ab88eab838e7f3a4d0aaa2a1fddf35615dca32=
-bef6a0051f58ea8"
-> --=20
-> 1.7.9.1
->=20
->=20
+On 04/12/2012 09:28 AM, Koen Kooi wrote:
+>
+> Op 11 apr. 2012 om 18:07 heeft Florin Sarbu<florin.sarbu@windriver.com>  het volgende geschreven:
+>
+>> Added the vala package from meta-oe to support future systemd integration.
+> But systemd doesn't need vala......
+>
+>
+>> Signed-off-by: Florin Sarbu<florin.sarbu@windriver.com>
+>> ---
+>> meta/recipes-devtools/vala/vala.inc       |   25 +++++++++++++++++++++++++
+>> meta/recipes-devtools/vala/vala_0.12.1.bb |    7 +++++++
+>> 2 files changed, 32 insertions(+), 0 deletions(-)
+>> create mode 100644 meta/recipes-devtools/vala/vala.inc
+>> create mode 100644 meta/recipes-devtools/vala/vala_0.12.1.bb
+>>
+>> diff --git a/meta/recipes-devtools/vala/vala.inc b/meta/recipes-devtools/vala/vala.inc
+>> new file mode 100644
+>> index 0000000..0815c66
+>> --- /dev/null
+>> +++ b/meta/recipes-devtools/vala/vala.inc
+>> @@ -0,0 +1,25 @@
+>> +DESCRIPTION = "Vala is a C#-like language dedicated to ease GObject programming. \
+>> +Vala compiles to plain C and has no runtime environment nor penalities whatsoever."
+>> +SECTION = "devel"
+>> +DEPENDS = "glib-2.0 dbus"
+>> +BBCLASSEXTEND = "native"
+>> +DEPENDS_virtclass-native = "glib-2.0-native dbus-native"
+>> +HOMEPAGE = "http://vala-project.org"
+>> +LICENSE = "LGPLv2.1"
+>> +LIC_FILES_CHKSUM = "file://COPYING;md5=fbc093901857fcd118f065f900982c24"
+>> +INC_PR = "r0"
+>> +
+>> +#
+>> +# WARNING: This source release has specifically been built for OpenEmbedded.
+>> +# Don't update to any upstream release without consulting the recipe maintainer.
+>> +#
+>> +
+>> +SRC_URI = "\
+>> +  http://downloads.freesmartphone.org/sources/vala-${PV}.tar.bz2;name=archive \
+>> +"
+>> +
+>> +inherit autotools
+>> +
+>> +EXTRA_OECONF = "--disable-vapigen"
+>> +
+>> +FILES_${PN}-doc += "${datadir}/devhelp"
+>> diff --git a/meta/recipes-devtools/vala/vala_0.12.1.bb b/meta/recipes-devtools/vala/vala_0.12.1.bb
+>> new file mode 100644
+>> index 0000000..1049ed6
+>> --- /dev/null
+>> +++ b/meta/recipes-devtools/vala/vala_0.12.1.bb
+>> @@ -0,0 +1,7 @@
+>> +require vala.inc
+>> +SRC_URI = "ftp://ftp.gnome.org/pub/GNOME/sources/vala/0.12/vala-${PV}.tar.bz2"
+>> +
+>> +FILES_${PN} += "${datadir}/vala-0.12/vapi"
+>> +
+>> +SRC_URI[md5sum] = "bf35262cc611de447147d01cbac33767"
+>> +SRC_URI[sha256sum] = "d9a2be21bb8ab88eab838e7f3a4d0aaa2a1fddf35615dca32bef6a0051f58ea8"
+>> -- 
+>> 1.7.9.1
+>>
+>>
+>> _______________________________________________
+>> Openembedded-core mailing list
+>> Openembedded-core@lists.openembedded.org
+>> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
 > _______________________________________________
 > Openembedded-core mailing list
 > Openembedded-core@lists.openembedded.org
 > http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
+
 
 
