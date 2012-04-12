@@ -1,14 +1,27 @@
-Received: from ffm.saftware.de ([83.141.3.46])
+Received: from mail.windriver.com ([147.11.1.11])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <obi@opendreambox.org>) id 1SIKXT-0006gO-Ky
+	(envelope-from <Liezhi.Yang@windriver.com>) id 1SIKie-0007Bu-PI
 	for openembedded-core@lists.openembedded.org;
-	Thu, 12 Apr 2012 15:58:19 +0200
-From: Andreas Oberritter <obi@opendreambox.org>
-To: openembedded-core@lists.openembedded.org
-Date: Thu, 12 Apr 2012 15:48:57 +0200
-Message-Id: <1334238537-7179-1-git-send-email-obi@opendreambox.org>
-X-Mailer: git-send-email 1.7.5.4
-Subject: [PATCH] wpa-supplicant: move wpa_passphrase to bindir
+	Thu, 12 Apr 2012 16:09:53 +0200
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca [147.11.189.40])
+	by mail.windriver.com (8.14.3/8.14.3) with ESMTP id q3CE0VuS016923
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 12 Apr 2012 07:00:31 -0700 (PDT)
+Received: from [128.224.162.196] (128.224.162.196) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server id 14.1.255.0;
+	Thu, 12 Apr 2012 07:00:31 -0700
+Message-ID: <4F86DFFE.3010206@windriver.com>
+Date: Thu, 12 Apr 2012 22:00:30 +0800
+From: Robert Yang <liezhi.yang@windriver.com>
+User-Agent: Mozilla/5.0 (X11; Linux i686;
+	rv:11.0) Gecko/20120310 Thunderbird/11.0
+MIME-Version: 1.0
+To: <openembedded-core@lists.openembedded.org>
+References: <cover.1333085308.git.liezhi.yang@windriver.com>
+	<ac05d9a1b72099761bbc1a8312cd0d4ad8600b4a.1333085308.git.liezhi.yang@windriver.com>
+In-Reply-To: <ac05d9a1b72099761bbc1a8312cd0d4ad8600b4a.1333085308.git.liezhi.yang@windriver.com>
+Subject: Re: [PATCH 1/1] qt4-x11-free: enable -accessibility and -sm
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -23,49 +36,49 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 12 Apr 2012 13:58:19 -0000
+X-List-Received-Date: Thu, 12 Apr 2012 14:09:53 -0000
+Content-Type: text/plain; charset="ISO-8859-1"; format=flowed
+Content-Transfer-Encoding: 7bit
 
-* wpa_passphrase doesn't require special privileges.
 
-Signed-off-by: Andreas Oberritter <obi@opendreambox.org>
----
-* NOTE: Depends on patch "wpa-supplicant: remove unused files" sent yesterday.
+Is there any suggestions for this one please?
 
- .../wpa-supplicant/wpa-supplicant-0.7.inc          |    4 +++-
- .../wpa-supplicant/wpa-supplicant_0.7.3.bb         |    2 +-
- 2 files changed, 4 insertions(+), 2 deletions(-)
+// Robert
 
-diff --git a/meta/recipes-connectivity/wpa-supplicant/wpa-supplicant-0.7.inc b/meta/recipes-connectivity/wpa-supplicant/wpa-supplicant-0.7.inc
-index d92acac..aabb3df 100644
---- a/meta/recipes-connectivity/wpa-supplicant/wpa-supplicant-0.7.inc
-+++ b/meta/recipes-connectivity/wpa-supplicant/wpa-supplicant-0.7.inc
-@@ -36,9 +36,11 @@ do_compile () {
- do_install () {
- 	install -d ${D}${sbindir}
- 	install -m 755 wpa_supplicant ${D}${sbindir}
--	install -m 755 wpa_passphrase ${D}${sbindir}
- 	install -m 755 wpa_cli        ${D}${sbindir}
- 
-+	install -d ${D}${bindir}
-+	install -m 755 wpa_passphrase ${D}${bindir}
-+
- 	install -d ${D}${docdir}/wpa_supplicant
- 	install -m 644 README ${WORKDIR}/wpa_supplicant.conf ${D}${docdir}/wpa_supplicant
- 
-diff --git a/meta/recipes-connectivity/wpa-supplicant/wpa-supplicant_0.7.3.bb b/meta/recipes-connectivity/wpa-supplicant/wpa-supplicant_0.7.3.bb
-index 94c88ba..dc2eb6c 100644
---- a/meta/recipes-connectivity/wpa-supplicant/wpa-supplicant_0.7.3.bb
-+++ b/meta/recipes-connectivity/wpa-supplicant/wpa-supplicant_0.7.3.bb
-@@ -1,6 +1,6 @@
- require wpa-supplicant-0.7.inc
- 
--PR = "r8"
-+PR = "r9"
- 
- SRC_URI[md5sum] = "f516f191384a9a546e3f5145c08addda"
- SRC_URI[sha256sum] = "d0cd50caa85346ccc376dcda5ed3c258eef19a93b3cade39d25760118ad59443"
--- 
-1.7.5.4
-
+On 03/30/2012 01:29 PM, Robert Yang wrote:
+> Is it possible to enable the "-sm -accessibility" in oe-core, please?
+> There is a meta-kde layer which requires the "-sm -accessibility", but
+> they are disabled in meta/recipes-qt/qt4/qt4.inc:
+>
+> QT_DISTRO_FLAGS ?= "-no-accessibility -no-sm"
+>
+> I checked the log of the qt4, can't find the related log for
+> "-no-accessibility -no-sm".
+>
+> Another way is use the bbappend, but it would be great if it can be
+> enabled in oe-core.
+>
+> This only enables for qt4-x11, doesn't enable for qt4-embedded, and
+> have done testing on: qemux86, qemuarm, qemumips, qemuppc.
+>
+> Signed-off-by: Robert Yang<liezhi.yang@windriver.com>
+> ---
+>   meta/recipes-qt/qt4/qt4-x11-free.inc |    3 +++
+>   1 files changed, 3 insertions(+), 0 deletions(-)
+>
+> diff --git a/meta/recipes-qt/qt4/qt4-x11-free.inc b/meta/recipes-qt/qt4/qt4-x11-free.inc
+> index 072c522..a59198d 100644
+> --- a/meta/recipes-qt/qt4/qt4-x11-free.inc
+> +++ b/meta/recipes-qt/qt4/qt4-x11-free.inc
+> @@ -13,6 +13,9 @@ QT_GLFLAGS_qemuppc = "-opengl"
+>   QT_CONFIG_FLAGS += "-no-xinerama -no-xkb"
+>   QT_BASE_LIB  ?= "libqt"
+>
+> +# required by kdelibs4
+> +QT_DISTRO_FLAGS = "-accessibility -sm"
+> +
+>   inherit qt4x11
+>
+>   do_install_append() {
 
 
