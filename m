@@ -1,30 +1,38 @@
-Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
-	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <richard.purdie@linuxfoundation.org>)
-	id 1SIfG2-00082n-Gj for openembedded-core@lists.openembedded.org;
-	Fri, 13 Apr 2012 14:05:42 +0200
-Received: from localhost (localhost [127.0.0.1])
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q3DBuNSh002085
+Received: from mail-wg0-f43.google.com ([74.125.82.43])
+	by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <martin.jansa@gmail.com>) id 1SIfpf-0008Vh-Cw
+	for openembedded-core@lists.openembedded.org;
+	Fri, 13 Apr 2012 14:42:31 +0200
+Received: by wgbdr12 with SMTP id dr12so2519506wgb.24
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 13 Apr 2012 12:56:23 +0100
-Received: from tim.rpsys.net ([127.0.0.1])
-	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
-	port 10024) with LMTP
-	id 00827-08 for <openembedded-core@lists.openembedded.org>;
-	Fri, 13 Apr 2012 12:56:19 +0100 (BST)
-Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q3DBuDBW002078
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO)
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 13 Apr 2012 12:56:16 +0100
-Message-ID: <1334318173.7309.70.camel@ted>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: openembedded-core <openembedded-core@lists.openembedded.org>
-Date: Fri, 13 Apr 2012 12:56:13 +0100
-X-Mailer: Evolution 3.2.2- 
-Mime-Version: 1.0
-X-Virus-Scanned: amavisd-new at rpsys.net
-Subject: [PATCH] gcc-4.6: Add fix for relocation problem and ccache
+	Fri, 13 Apr 2012 05:33:10 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=date:from:to:subject:message-id:references:mime-version
+	:content-type:content-disposition:in-reply-to:user-agent;
+	bh=5XEu22v5Cqa77NGAf6lkO1x4jwNZjTjEveM8Cf8Tvg4=;
+	b=S9w8OSylZCpLh4fKUWPFGDweJw++XyfaAUfzDMEiUDRepIExqGkZF55GFsdB+uI9Kr
+	ajTTofyors9wFTBOrcpvUE5YwFzIWKbep90XyBh6jiWX2k3em1GStVpcbi8QjxFkHKsi
+	hSpzZilgDwzfg0qLsadhTe3b0ui6pJbJE2iuVHd3zpGl3jL9EsUu7loPOIdyWEFV0XUH
+	WjouQyCFNP93MEPrq9TI4ee99nZ8MQm8EBMnE9N8rtp6UGJOfrvDzKXYoLKvMuvSLXHh
+	GYqI943W07QHmMhsJchQxR0WCrWS9EHrACQPiq6a9m8vKJmW1oXFM+6hXbQlx6Y9KVbz
+	X7wQ==
+Received: by 10.216.138.223 with SMTP id a73mr859849wej.86.1334320390223;
+	Fri, 13 Apr 2012 05:33:10 -0700 (PDT)
+Received: from localhost ([94.230.152.246])
+	by mx.google.com with ESMTPS id w10sm7570130wiy.3.2012.04.13.05.33.08
+	(version=TLSv1/SSLv3 cipher=OTHER);
+	Fri, 13 Apr 2012 05:33:09 -0700 (PDT)
+Date: Fri, 13 Apr 2012 14:33:09 +0200
+From: Martin Jansa <martin.jansa@gmail.com>
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Message-ID: <20120413123309.GD3651@jama.jama.net>
+References: <cover.1334313002.git.andrei@gherzan.ro>
+	<8ef395eb05e1acafcf4ea012c281911a1f5e71ad.1334313002.git.andrei@gherzan.ro>
+MIME-Version: 1.0
+In-Reply-To: <8ef395eb05e1acafcf4ea012c281911a1f5e71ad.1334313002.git.andrei@gherzan.ro>
+User-Agent: Mutt/1.5.21 (2010-09-15)
+Subject: Re: [V5 1/2] gdbm: Package compat libs in gdbm-compat
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -39,73 +47,75 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 13 Apr 2012 12:05:42 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Fri, 13 Apr 2012 12:42:31 -0000
+X-Groupsio-MsgNum: 20702
+Content-Type: multipart/signed; micalg=pgp-sha1;
+	protocol="application/pgp-signature"; boundary="sXc4Kmr5FA7axrvy"
+Content-Disposition: inline
 
-If the toolchain is reused from sstate and ccache is installed, build failures
-were occuring due to gcc trying to access the original sysroot rather than the
-new one, particularly if the old sysroot existed but was not readable by the
-current user.
+--sXc4Kmr5FA7axrvy
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-This turns out of the an issue inside gcc to do with preservation of the sysroot
-option. See the gcc patch for more details. It only triggers when preprocessed
-sources are used which happens when ccache is used.
+On Fri, Apr 13, 2012 at 01:34:18PM +0300, Andrei Gherzan wrote:
+> In order to avoid breaking packages which depend on old package name libg=
+dbm4 (>=3D 1.10),
+> compat libs are packaged into a separate package named gdbm-compat.
+>=20
+> Signed-off-by: Andrei Gherzan <andrei@gherzan.ro>
 
-[YOCTO #2074]
+Acked-by: Martin Jansa <Martin.Jansa@gmail.com>
+> ---
+>  meta/recipes-support/gdbm/gdbm_1.10.bb |    7 ++++++-
+>  1 files changed, 6 insertions(+), 1 deletions(-)
+>=20
+> diff --git a/meta/recipes-support/gdbm/gdbm_1.10.bb b/meta/recipes-suppor=
+t/gdbm/gdbm_1.10.bb
+> index 26b8009..6b68d27 100644
+> --- a/meta/recipes-support/gdbm/gdbm_1.10.bb
+> +++ b/meta/recipes-support/gdbm/gdbm_1.10.bb
+> @@ -4,7 +4,7 @@ SECTION =3D "libs"
+>  LICENSE =3D "GPLv3"
+>  LIC_FILES_CHKSUM =3D "file://COPYING;md5=3D241da1b9fe42e642cbb2c24d5e0c4=
+d24"
+> =20
+> -PR =3D "r2"
+> +PR =3D "r3"
+> =20
+>  SRC_URI =3D "${GNU_MIRROR}/gdbm/gdbm-${PV}.tar.gz"
+> =20
+> @@ -25,3 +25,8 @@ do_install_append () {
+>      ln -sf ../ndbm.h ${D}/${includedir}/gdbm/ndbm.h
+>      ln -sf ../gdbm.h ${D}/${includedir}/gdbm/gdbm.h
+>  }
+> +
+> +PACKAGES =3D+ "${PN}-compat \
+> +            "
+> +FILES_${PN}-compat =3D "${libdir}/libgdbm_compat${SOLIBS} \
+> +                     "
+> --=20
+> 1.7.5.4
+>=20
+>=20
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
 
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
----
-diff --git a/meta/recipes-devtools/gcc/gcc-4.6.inc b/meta/recipes-devtools/gcc/gcc-4.6.inc
-index d40a534..3b2e97e 100644
---- a/meta/recipes-devtools/gcc/gcc-4.6.inc
-+++ b/meta/recipes-devtools/gcc/gcc-4.6.inc
-@@ -73,6 +73,7 @@ SRC_URI = "svn://gcc.gnu.org/svn/gcc/branches;module=${BRANCH};proto=http \
- 	   file://gcc-arm-set-cost.patch \
- 	   file://GPLUSPLUS_INCLUDE_DIR_with_sysroot.patch \
- 	   file://fortran-cross-compile-hack.patch \
-+	   file://cpp-honour-sysroot.patch \
- 	  "
- 
- SRC_URI_append_sh3  = " file://sh3-installfix-fixheaders.patch "
-diff --git a/meta/recipes-devtools/gcc/gcc-4.6/cpp-honour-sysroot.patch b/meta/recipes-devtools/gcc/gcc-4.6/cpp-honour-sysroot.patch
-new file mode 100644
-index 0000000..808596f
---- a/dev/null
-+++ b/meta/recipes-devtools/gcc/gcc-4.6/cpp-honour-sysroot.patch
-@@ -0,0 +1,29 @@
-+Currently, if the gcc toolchain is relocated and installed from sstate, then you try and compile
-+preprocessed source (.i files), the compiler will try and access the builtin sysroot location 
-+rather than the --sysroot option specified on the commandline. If access to that directory is 
-+permission denied (unreadable), gcc will error.
-+
-+This happens when ccache is in use due to the fact it uses preprocessed source files.
-+
-+The fix below adds %I to the cpp-output spec macro so the default sustitutions for -iprefix, 
-+-isystem, -isysroot happen and the correct sysroot is used.
-+
-+[YOCTO #2074]
-+
-+Upstream-Status: Pending
-+
-+RP 2012/04/13
-+
-+Index: gcc-4_6-branch/gcc/gcc.c
-+===================================================================
-+--- gcc-4_6-branch.orig/gcc/gcc.c	2012-04-13 11:21:23.119758988 +0000
-++++ gcc-4_6-branch/gcc/gcc.c	2012-04-13 11:21:54.095758269 +0000
-+@@ -953,7 +953,7 @@
-+                     %W{o*:--output-pch=%*}}%V}}}}}}", 0, 0, 0},
-+   {".i", "@cpp-output", 0, 0, 0},
-+   {"@cpp-output",
-+-   "%{!M:%{!MM:%{!E:cc1 -fpreprocessed %i %(cc1_options) %{!fsyntax-only:%(invoke_as)}}}}", 0, 0, 0},
-++   "%{!M:%{!MM:%{!E:cc1 -fpreprocessed %i %I %(cc1_options) %{!fsyntax-only:%(invoke_as)}}}}", 0, 0, 0},
-+   {".s", "@assembler", 0, 0, 0},
-+   {"@assembler",
-+    "%{!M:%{!MM:%{!E:%{!S:as %(asm_debug) %(asm_options) %i %A }}}}", 0, 0, 0},
---
-cgit 0.9.0.1
+--=20
+Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
 
+--sXc4Kmr5FA7axrvy
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: Digital signature
 
+-----BEGIN PGP SIGNATURE-----
+Version: GnuPG v2.0.19 (GNU/Linux)
 
+iEYEARECAAYFAk+IHQUACgkQN1Ujt2V2gBx/hwCgmhjdc0AIGbg7LA1FWAOrlzE2
+/gcAoIJfxkrhNPyhlfzV6lvEsD1/V/eQ
+=Cueu
+-----END PGP SIGNATURE-----
 
+--sXc4Kmr5FA7axrvy--
