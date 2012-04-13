@@ -1,34 +1,37 @@
 Received: from mail-qa0-f54.google.com ([209.85.216.54])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <andrei@gherzan.ro>) id 1SIdyc-0005zD-Jg
+	(envelope-from <andrei@gherzan.ro>) id 1SIdym-0005zD-Qe
 	for openembedded-core@lists.openembedded.org;
-	Fri, 13 Apr 2012 12:43:38 +0200
-Received: by qao25 with SMTP id 25so2321614qao.6
+	Fri, 13 Apr 2012 12:43:48 +0200
+Received: by mail-qa0-f54.google.com with SMTP id 25so2321614qao.6
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 13 Apr 2012 03:34:16 -0700 (PDT)
+	Fri, 13 Apr 2012 03:34:29 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=google.com; s=20120113;
-	h=from:to:cc:subject:date:message-id:x-mailer:x-gm-message-state;
-	bh=llk9HTPGr5WZ8oIzAwkfA89soaqbjgVEIxg6zxgtenc=;
-	b=ijCz7koYbeHsmakl3bdcepbpaSuyO2TdNrCLARTTzCusknrgXHsU5bVkB5Lqy+nOS4
-	WyMrWcIC4rs9G4Db3gOF9e/E8AXR1f7w0p/280k8F+7QrcMpPWPMC2sq46C7c/zIBsVn
-	DFGWIyoAEf4eC1TJ7g90O54zUayDRLgGzBoAWnssdXT89vLUplnUQPH+VyCLBoypuIVu
-	aoYEgzbFPWW3k1Upy9EyxPtobh0/PhLqNR77y/hbOReqpsqxGaBd7vCpGwfbxFs4jyFf
-	fqkQi+UPwB0+cwj5Ksw46eL+uBOtfbyITxqqHmLsMbqYzPBfU+qkxELcPylF3XCSuZci
-	vYXA==
-Received: by 10.224.203.10 with SMTP id fg10mr1668795qab.66.1334313256886;
-	Fri, 13 Apr 2012 03:34:16 -0700 (PDT)
+	h=from:to:subject:date:message-id:x-mailer:in-reply-to:references
+	:x-gm-message-state;
+	bh=MsFi07iP4/ASwmNAqnGcRciZ9uuEcaLKITHKUdG5Z4M=;
+	b=RvCwQKn+I2Xa2IQlLqfjxoYY6iN8nScjCQFCl91G0XUY3LIgP2GN9iKz+blGKc+FW6
+	05ucVhD0OqbtPY9q9Xs3Y4MUyFMuoaUXXlsdBGRFNnNltbTWUP4nK/zSBM6O+8dlHLiH
+	+809ybmLfuj5FCOozVqE9p+y9qY3pdikTmNDKOQ5qUAToLNwsfragMvYCTCloDofsN6v
+	BtmZxaq/DTN3/XiuW+CwEyNNdp9aOw86I2/61ECY887ZAfZsa1Uvr2E5IRlVjnhku0KV
+	F5hgutoRGHio+XfFjDcFp0pwnuWbq57+mNfwvsfMKmAUan/0Ild45A64R7Ol9XnUYYt5
+	c/Mw==
+Received: by 10.229.201.105 with SMTP id ez41mr421118qcb.39.1334313269534;
+	Fri, 13 Apr 2012 03:34:29 -0700 (PDT)
 Received: from localhost.localdomain ([93.114.75.57])
-	by mx.google.com with ESMTPS id dv7sm16852332qab.15.2012.04.13.03.34.14
+	by mx.google.com with ESMTPS id i12sm16864210qad.9.2012.04.13.03.34.27
 	(version=TLSv1/SSLv3 cipher=OTHER);
-	Fri, 13 Apr 2012 03:34:15 -0700 (PDT)
+	Fri, 13 Apr 2012 03:34:28 -0700 (PDT)
 From: Andrei Gherzan <andrei@gherzan.ro>
 To: openembedded-core@lists.openembedded.org
-Date: Fri, 13 Apr 2012 13:33:57 +0300
-Message-Id: <cover.1334313002.git.andrei@gherzan.ro>
+Date: Fri, 13 Apr 2012 13:34:18 +0300
+Message-Id: <8ef395eb05e1acafcf4ea012c281911a1f5e71ad.1334313002.git.andrei@gherzan.ro>
 X-Mailer: git-send-email 1.7.5.4
-X-Gm-Message-State: ALoCoQlUkldv1jMVB35/F9MzhitcgDCcHUTPv3ZAerDGYQB8WLaqLuGvpr/qwYU30kmMrMK+yVA/
-Subject: [V5 0/2] Package gdbm compat libs in gdbm-compat and PR bumps
+In-Reply-To: <cover.1334313002.git.andrei@gherzan.ro>
+References: <cover.1334313002.git.andrei@gherzan.ro>
+X-Gm-Message-State: ALoCoQmB652p+suPFXZWpzkfdyBPpBwu5fPH40LeUEiuKMBsYMhE8D63kvuXPONnuqqugnB37kBS
+Subject: [V5 1/2] gdbm: Package compat libs in gdbm-compat
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -43,30 +46,38 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 13 Apr 2012 10:43:38 -0000
+X-List-Received-Date: Fri, 13 Apr 2012 10:43:49 -0000
 
-V4 had some commits sent to oe-core and are not merged and forgot about
-those. This led to a confict in python bb file.
+In order to avoid breaking packages which depend on old package name libgdbm4 (>= 1.10),
+compat libs are packaged into a separate package named gdbm-compat.
 
-The following changes since commit 6703173449ad21e1623ac75a66535cb2ed52aeeb:
+Signed-off-by: Andrei Gherzan <andrei@gherzan.ro>
+---
+ meta/recipes-support/gdbm/gdbm_1.10.bb |    7 ++++++-
+ 1 files changed, 6 insertions(+), 1 deletions(-)
 
-  package_rpm.bbclass: Set tmppath for rpm to somewhere which won't conflict with the rootfs (2012-04-12 21:25:10 +0100)
-
-are available in the git repository at:
-  git://git.yoctoproject.org/poky-contrib ag/gdbm
-  http://git.yoctoproject.org/cgit.cgi/poky-contrib/log/?h=ag/gdbm
-
-Andrei Gherzan (2):
-  gdbm: Package compat libs in gdbm-compat
-  PR bump packages with gdbm in DEPENDS
-
- meta/recipes-devtools/perl/perl_5.14.2.bb          |    2 +-
- meta/recipes-devtools/python/python_2.7.2.bb       |    2 +-
- .../pulseaudio/pulseaudio_1.1.bb                   |    2 +-
- meta/recipes-support/apr/apr-util_1.4.1.bb         |    2 +-
- meta/recipes-support/gdbm/gdbm_1.10.bb             |    7 ++++++-
- 5 files changed, 10 insertions(+), 5 deletions(-)
-
+diff --git a/meta/recipes-support/gdbm/gdbm_1.10.bb b/meta/recipes-support/gdbm/gdbm_1.10.bb
+index 26b8009..6b68d27 100644
+--- a/meta/recipes-support/gdbm/gdbm_1.10.bb
++++ b/meta/recipes-support/gdbm/gdbm_1.10.bb
+@@ -4,7 +4,7 @@ SECTION = "libs"
+ LICENSE = "GPLv3"
+ LIC_FILES_CHKSUM = "file://COPYING;md5=241da1b9fe42e642cbb2c24d5e0c4d24"
+ 
+-PR = "r2"
++PR = "r3"
+ 
+ SRC_URI = "${GNU_MIRROR}/gdbm/gdbm-${PV}.tar.gz"
+ 
+@@ -25,3 +25,8 @@ do_install_append () {
+     ln -sf ../ndbm.h ${D}/${includedir}/gdbm/ndbm.h
+     ln -sf ../gdbm.h ${D}/${includedir}/gdbm/gdbm.h
+ }
++
++PACKAGES =+ "${PN}-compat \
++            "
++FILES_${PN}-compat = "${libdir}/libgdbm_compat${SOLIBS} \
++                     "
 -- 
 1.7.5.4
 
