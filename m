@@ -1,24 +1,32 @@
 Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
 	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
 	(envelope-from <richard.purdie@linuxfoundation.org>)
-	id 1SIiaZ-00040T-Nv for openembedded-core@lists.openembedded.org;
-	Fri, 13 Apr 2012 17:39:07 +0200
+	id 1SIiee-00044c-DS for openembedded-core@lists.openembedded.org;
+	Fri, 13 Apr 2012 17:43:20 +0200
 Received: from localhost (localhost [127.0.0.1])
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q3DFTg0c004407;
-	Fri, 13 Apr 2012 16:29:42 +0100
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q3DFXvnk004478;
+	Fri, 13 Apr 2012 16:33:57 +0100
 Received: from tim.rpsys.net ([127.0.0.1])
 	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
 	port 10024) with LMTP
-	id 03662-09; Fri, 13 Apr 2012 16:29:38 +0100 (BST)
+	id 03662-10; Fri, 13 Apr 2012 16:33:53 +0100 (BST)
 Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q3DFTYjY004400
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q3DFXmWe004471
 	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO);
-	Fri, 13 Apr 2012 16:29:36 +0100
-Date: Fri, 13 Apr 2012 16:29:36 +0100
-From: richard.purdie@linuxfoundation.org
-Message-ID: <1334330976.7309.77.camel@ted>
+	Fri, 13 Apr 2012 16:33:49 +0100
+Message-ID: <1334331230.7309.80.camel@ted>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Date: Fri, 13 Apr 2012 16:33:50 +0100
+In-Reply-To: <4F8844AD.8090406@windriver.com>
+References: <cover.1334265557.git.mark.hatle@windriver.com>
+	<3d06ef85d583f8ef824cb7ca91ff070dcddd0e8b.1334265557.git.mark.hatle@windriver.com>
+	<4F884293.6000101@linux.intel.com> <4F8844AD.8090406@windriver.com>
+X-Mailer: Evolution 3.2.2- 
+Mime-Version: 1.0
 X-Virus-Scanned: amavisd-new at rpsys.net
-Subject: Re: [PATCH] perl: fix re-execution of task
+Subject: Re: [PATCH 1/2] pseudo: Tell pseudo to avoid specifying an RPATH
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -33,102 +41,36 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 13 Apr 2012 15:39:07 -0000
-
-> ---
- a/meta/recipes-devtools/perl/perl_5.14.2.bb
-> +++
- b/meta/recipes-devtools/perl/perl_5.14.2.bb
-> @@ -164,8 +164,12 @@
- do_configure() {
->  	esac
->          # These are strewn all over the source
- tree
->          for foo in `grep -I -m1 \/usr\/include\/.*\\.h ${WORKDIR}/*
- -r | cut -f 1 -d ":"` ; do
-> -            echo Fixing: $foo
-> -           
- sed -e "s%/usr/include/%${STAGING_INCDIR}/%g" -i $foo
-> +		# D2194:Fixing
- the issue "patch file link is replaced with modified file"
-> +		# Ignore if
- file is a link, as actual file will also get caught during grep 
-> +		if [
- ! -h $foo ]; then
-> +			echo Fixing: $foo
-> +			sed -e
- "s%/usr/include/%${STAGING_INCDIR}/%g" -i $foo
-> +	    	fi
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Venkata ramana gollamudi <ramana.gollamudi@huawei.com>
-Cc: "'openembedded-core@lists.openembedded.org'"
- <openembedded-core@lists.openembedded.org>, Sanil kumar
- <sanil.kumar@huawei.com>
-Date: Fri, 13 Apr 2012 16:29:36 +0100
-In-Reply-To: <36ED13F3654AE54CA763E6821D93A5711043A0F7@szxeml534-mbs.china.huawei.com>
-References: 
-	<36ED13F3654AE54CA763E6821D93A5711043A0F7@szxeml534-mbs.china.huawei.com>
+X-List-Received-Date: Fri, 13 Apr 2012 15:43:20 -0000
 Content-Type: text/plain; charset="UTF-8"
-X-Mailer: Evolution 3.2.2- 
 Content-Transfer-Encoding: 7bit
-Mime-Version: 1.0
 
-On Fri, 2012-04-13 at 11:46 +0000, Venkata ramana gollamudi wrote:
-> perl package do_configure is changing "/perl-5.14.2/patches/h2ph-multiarch.diff"
->  from link to normal file in the process of correcting the paths.
-> So when patch task is re-executed after complete package building, giving error.
+On Fri, 2012-04-13 at 10:22 -0500, Mark Hatle wrote:
+> > We might still need this rpath or something similar since the nativesdk
+> > now breaks not finding the correct version of the included libc.so.6
 > 
-> This path correction is not required for links as the link target file
->  will be also be modified individually.
-> Fix done to ignore the path correction during do_configure,
->  if file is a link.
+> In this case, I don't think embedding a static RPATH makes sense, but perhaps a 
+> $ORIGIN path might?
 > 
-> [Yocto #2194]
+> Can chrpath be used to add an rpath after compilation and linking, if so that is 
+> what I would suggest to do.  Otherwise I'm not exactly sure how to resolve this...
 > 
-> Signed-off-by: Venkata Ramana Gollamudi <ramana.gollamudi@huawei.com>
-> ---
->  meta/recipes-devtools/perl/perl_5.14.2.bb |    8 ++++++--
->  1 files changed, 6 insertions(+), 2 deletions(-)
-> 
-> diff --git a/meta/recipes-devtools/perl/perl_5.14.2.bb b/meta/recipes-devtools/perl/perl_5.14.2.bb
-> index 92ca9b8..414aa22 100644
-> --- a/meta/recipes-devtools/perl/perl_5.14.2.bb
-> +++ b/meta/recipes-devtools/perl/perl_5.14.2.bb
-> @@ -164,8 +164,12 @@ do_configure() {
->  	esac
->          # These are strewn all over the source tree
->          for foo in `grep -I -m1 \/usr\/include\/.*\\.h ${WORKDIR}/* -r | cut -f 1 -d ":"` ; do
-> -            echo Fixing: $foo
-> -            sed -e "s%/usr/include/%${STAGING_INCDIR}/%g" -i $foo
-> +		# D2194:Fixing the issue "patch file link is replaced with modified file"
-> +		# Ignore if file is a link, as actual file will also get caught during grep 
-> +		if [ ! -h $foo ]; then
-> +			echo Fixing: $foo
-> +			sed -e "s%/usr/include/%${STAGING_INCDIR}/%g" -i $foo
-> +	    	fi
->          done
->  
->          rm -f config
+> Note, typically pseudo is -not- linked the "sdk" version of the libc, but is 
+> linked to the host libc.  In the past when exporting and sdk with something like 
+> pseudo you needed to either build on a common machine (where everything was 
+> compatible) or have a way to rebuild pseudo on the final target system.  Perhaps 
+> that is what is needed?
 
-I think its a bad idea to assume patches are symlinks. Could we add
-something like --exclude=patches to the grep command?
+We need to embed a full static rpath and then our nativesdk relocation
+code will then handle adding in the correct $ORIGIN for us.
 
-Secondly, the above will still cause problems if ${STAGING_INCDIR}
-contains /usr/include which it usually will, for example if:
-
-STAGING_INCDIR=/foo/usr/include
-
-then you can end up with:
-
-/foo/foo/foo/foo/usr/include
-
-after a few runs. This fix therefore still needs some work.
+The way the sdk works, it will link against the sdk libc btw and this
+avoids the need to rebuild on the target system. We just need the rpath
+in there so it can figure things out correctly.
 
 Cheers,
 
 Richard
-
-
 
 
 
