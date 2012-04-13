@@ -1,55 +1,48 @@
-Received: from va3ehsobe001.messaging.microsoft.com ([216.32.180.11]
-	helo=va3outboundpool.messaging.microsoft.com)
+Received: from mga05.intel.com ([192.55.52.89] helo=fmsmga101.fm.intel.com)
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <B29882@freescale.com>) id 1SInhk-0006B4-5X
+	(envelope-from <saul.wold@intel.com>) id 1SIovS-0007WL-8K
 	for openembedded-core@lists.openembedded.org;
-	Fri, 13 Apr 2012 23:06:52 +0200
-Received: from mail170-va3-R.bigfish.com (10.7.14.240) by
-	VA3EHSOBE004.bigfish.com (10.7.40.24) with Microsoft SMTP Server id
-	14.1.225.23; Fri, 13 Apr 2012 20:57:30 +0000
-Received: from mail170-va3 (localhost [127.0.0.1])	by
-	mail170-va3-R.bigfish.com (Postfix) with ESMTP id 2E8CA1C03C6	for
-	<openembedded-core@lists.openembedded.org>;
-	Fri, 13 Apr 2012 20:57:30 +0000 (UTC)
-X-SpamScore: -9
-X-BigFish: VS-9(zzbb2dI9371I936eK1432N98dKb922lzz1202hzz8275dhz2dh2a8h668h839h8e2h8e3hbe9i)
-X-Forefront-Antispam-Report: CIP:70.37.183.190; KIP:(null); UIP:(null); IPV:NLI;
-	H:mail.freescale.net; RD:none; EFVD:NLI
-Received: from mail170-va3 (localhost.localdomain [127.0.0.1]) by mail170-va3
-	(MessageSwitch) id 1334350648704598_16315;
-	Fri, 13 Apr 2012 20:57:28 +0000 (UTC)
-Received: from VA3EHSMHS027.bigfish.com (unknown [10.7.14.237])	by
-	mail170-va3.bigfish.com (Postfix) with ESMTP id A21D9160050	for
-	<openembedded-core@lists.openembedded.org>;
-	Fri, 13 Apr 2012 20:57:28 +0000 (UTC)
-Received: from mail.freescale.net (70.37.183.190) by VA3EHSMHS027.bigfish.com
-	(10.7.99.37) with Microsoft SMTP Server (TLS) id 14.1.225.23;
-	Fri, 13 Apr 2012 20:57:25 +0000
-Received: from 039-SN1MPN1-001.039d.mgd.msft.net ([169.254.1.132]) by
-	039-SN1MMR1-002.039d.mgd.msft.net ([10.84.1.15]) with mapi id
-	14.01.0355.003; Fri, 13 Apr 2012 15:57:25 -0500
-From: McClintock Matthew-B29882 <B29882@freescale.com>
+	Sat, 14 Apr 2012 00:25:06 +0200
+Received: from mail-pz0-f44.google.com ([209.85.210.44])
+	by mga01.intel.com with ESMTP/TLS/RC4-SHA; 13 Apr 2012 15:15:43 -0700
+Received: by mail-pz0-f44.google.com with SMTP id z14so14537726dad.17
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 13 Apr 2012 15:15:43 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=google.com; s=20120113;
+	h=message-id:date:from:organization:user-agent:mime-version:to:cc
+	:subject:references:in-reply-to:content-type
+	:content-transfer-encoding:x-gm-message-state;
+	bh=gLPgnl3uM0wpTkPhLjbioeqycqxeZhUG59T5F3+WbJI=;
+	b=k2E/4nCDXVeNX3xhOpOd71Tv5nEQpvb/czAARfOpn3fU9BTZeVCMNsRlynqyuZggfy
+	kwd6kT6zZDXL/eVW3OstlsRLFfCNvuE1BNj+y4iIMpK54LzpF1A46J7EKch1PsI8+Mzw
+	89tZQPSLXux7KwxafaZJeWE3WUAJgQln1w/la8eiQkW9CYROi8JtMJ4WC4aZTV7tmEFY
+	sez6qXt/ffKeICjzrkDnB4W72VCHluX9w70/PzM+htMBJZ9/77A5pbqRdtDj8LGHRs7w
+	Dn91QrIy04ggHQCvxLHQR1xp8mvqCnLMkKWCJdaQ38QfOqvObdBcVXvTjdEddLut+d7s
+	dM5A==
+Received: by 10.68.238.42 with SMTP id vh10mr7939972pbc.70.1334355343136;
+	Fri, 13 Apr 2012 15:15:43 -0700 (PDT)
+Received: from [10.6.18.71] (c-71-193-189-117.hsd1.wa.comcast.net.
+	[71.193.189.117])
+	by mx.google.com with ESMTPS id sx2sm1757246pbc.26.2012.04.13.15.15.40
+	(version=SSLv3 cipher=OTHER); Fri, 13 Apr 2012 15:15:41 -0700 (PDT)
+Message-ID: <4F88A58B.9040100@intel.com>
+Date: Fri, 13 Apr 2012 15:15:39 -0700
+From: Saul Wold <saul.wold@intel.com>
+Organization: Intel
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:11.0) Gecko/20120329 Thunderbird/11.0.1
+MIME-Version: 1.0
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Thread-Topic: [OE-core] [PATCHv2] gcc-4.6: Add fix for relocation problem
-	and ccache
-Thread-Index: AQHNGbgGgjcaWxaVa0iU1mvH3XOoIA==
-Date: Fri, 13 Apr 2012 20:57:24 +0000
-Message-ID: <CAEsOVNeScLQ-GP0vi_J3feti4BgH0RsoJiweNjYQakGOcNqFHg@mail.gmail.com>
-References: <1334318173.7309.70.camel@ted> <1334322828.7309.73.camel@ted>
-In-Reply-To: <1334322828.7309.73.camel@ted>
-Accept-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [99.47.177.27]
-MIME-Version: 1.0
-X-OriginatorOrg: freescale.com
-Subject: Re: [PATCHv2] gcc-4.6: Add fix for relocation problem and ccache
+References: <cover.1334349764.git.bruce.ashfield@windriver.com>
+In-Reply-To: <cover.1334349764.git.bruce.ashfield@windriver.com>
+X-Gm-Message-State: ALoCoQkHfdiVkhYM7HDr63sXaSVILJcSUWV0i3gCkLLr74vy2P8iKX3771gpdRiJNfYDgP0i+9Wn
+Subject: Re: [PATCH 0/2] linux-yocto: (hopefully) final fixes
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
-Reply-To: McClintock Matthew-B29882 <B29882@freescale.com>,
-	Patches and discussions about the oe-core layer
+Reply-To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
 List-Id: Patches and discussions about the oe-core layer
 	<openembedded-core.lists.openembedded.org>
@@ -60,131 +53,78 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 13 Apr 2012 21:06:52 -0000
-Content-Language: en-US
-Content-Type: text/plain; charset="iso-8859-1"
-Content-ID: <8398F35748C1F04EB6CD286BCA700AA6@mgd.freescale.com>
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Fri, 13 Apr 2012 22:25:06 -0000
+Content-Type: text/plain; charset=ISO-8859-1; format=flowed
+Content-Transfer-Encoding: 7bit
 
-I suspect this would effect 1.1.2.
+On 04/13/2012 01:55 PM, Bruce Ashfield wrote:
+> Richard/Saul,
+>
+> Here are two last commits for linux-yocto. One is a pending
+> SRCREV update for the romley. It's included to make sure that the
+> meta branch head matches the SRCREVs. Otherwise, we are relying
+> on branch renaming for everyone. There's no risk, and this is already
+> in use by the BSP layer.
+>
+> The second commit is a change that I've been working on all week
+> with Andrea and his work on extending linux-yocto-tiny. The
+> work that was done to support out of tree features was missing
+> .cfg and defconfig support. This meant that you could run into
+> patching issues.
+>
+> To fix it, I pulled back changes that I made a few weeks ago
+> to allow all types of fragments, features, and defconfigs to
+> be supported. The diffstat is largely a movement of code from
+> the recipe back to the tools (where it belonged), but the intent
+> stays the same.
+>
+> I've tested this on every use case I could find ..
+>
+>    - core BSPs
+>    - Nitin's x32 use case
+>    - Andrea's use case
+>    - kernel.org test case
+>    - Constructed tests with fragments, nested features, etc.
+>
+> Andrea has also tested his use case.
+>
+> These all pass, and the code fixes an intended feature for 1.2 as
+> well as fixing the immediate bug in question.
+>
+> This is for YOCTO 2250.
+>
+> Cheers,
+>
+> Bruce
+>
+> cc: andrea.adami@gmail.com
+>
+>
+> The following changes since commit 023a12b70b1bbbd3625ab5a6df2ae9943a14bea5:
+>
+>    linux-yocto/meta-yocto: update hardware reference SRCREVs (2012-04-13 16:35:59 -0400)
+>
+> are available in the git repository at:
+>    git://git.pokylinux.org/poky-contrib zedd/kernel-oe
+>    http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=zedd/kernel-oe
+>
+> Bruce Ashfield (2):
+>    linux-yocto/3.2: add igb support to romley
+>    linux-yocto: allow .cfg, .scc, .patch and defconfigs to be processed
+>      in order
+>
+>   meta/classes/kernel-yocto.bbclass                  |   74 ++------------------
+>   .../kern-tools/kern-tools-native_git.bb            |    2 +-
+>   meta/recipes-kernel/linux/linux-yocto-rt_3.2.bb    |    2 +-
+>   meta/recipes-kernel/linux/linux-yocto-tiny_3.2.bb  |    2 +-
+>   meta/recipes-kernel/linux/linux-yocto_3.2.bb       |    2 +-
+>   5 files changed, 11 insertions(+), 71 deletions(-)
+>
 
--M
+Merged into OE-Core
 
-On Fri, Apr 13, 2012 at 8:13 AM, Richard Purdie
-<richard.purdie@linuxfoundation.org> wrote:
-> If the toolchain is reused from sstate and ccache is installed, build fai=
-lures
-> were occuring due to gcc trying to access the original sysroot rather tha=
-n the
-> new one, particularly if the old sysroot existed but was not readable by =
-the
-> current user.
->
-> This turns out of the an issue inside gcc to do with preservation of the =
-sysroot
-> option. See the gcc patch for more details. It only triggers when preproc=
-essed
-> sources are used which happens when ccache is used.
->
-> The same issue occurs with c++ and c++-cpp-output so the same fix is appl=
-ied there.
->
-> [YOCTO #2074]
->
-> Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-> ---
-> diff --git a/meta/recipes-devtools/gcc/gcc-4.6.inc b/meta/recipes-devtool=
-s/gcc/gcc-4.6.inc
-> index d40a534..020e21b 100644
-> --- a/meta/recipes-devtools/gcc/gcc-4.6.inc
-> +++ b/meta/recipes-devtools/gcc/gcc-4.6.inc
-> @@ -1,6 +1,6 @@
-> =A0require gcc-common.inc
->
-> -PR =3D "r24"
-> +PR =3D "r25"
->
-> =A0# Third digit in PV should be incremented after a minor release
-> =A0# happens from this branch on gcc e.g. currently its 4.6.0
-> @@ -73,6 +73,7 @@ SRC_URI =3D "svn://gcc.gnu.org/svn/gcc/branches;module=
-=3D${BRANCH};proto=3Dhttp \
-> =A0 =A0 =A0 =A0 =A0 file://gcc-arm-set-cost.patch \
-> =A0 =A0 =A0 =A0 =A0 file://GPLUSPLUS_INCLUDE_DIR_with_sysroot.patch \
-> =A0 =A0 =A0 =A0 =A0 file://fortran-cross-compile-hack.patch \
-> + =A0 =A0 =A0 =A0 =A0file://cpp-honour-sysroot.patch \
-> =A0 =A0 =A0 =A0 =A0"
->
-> =A0SRC_URI_append_sh3 =A0=3D " file://sh3-installfix-fixheaders.patch "
-> diff --git a/meta/recipes-devtools/gcc/gcc-4.6/cpp-honour-sysroot.patch b=
-/meta/recipes-devtools/gcc/gcc-4.6/cpp-honour-sysroot.patch
-> new file mode 100644
-> index 0000000..4792c20
-> --- /dev/null
-> +++ b/meta/recipes-devtools/gcc/gcc-4.6/cpp-honour-sysroot.patch
-> @@ -0,0 +1,40 @@
-> +Currently, if the gcc toolchain is relocated and installed from sstate, =
-then you try and compile
-> +preprocessed source (.i or .ii files), the compiler will try and access =
-the builtin sysroot location
-> +rather than the --sysroot option specified on the commandline. If access=
- to that directory is
-> +permission denied (unreadable), gcc will error.
-> +
-> +This happens when ccache is in use due to the fact it uses preprocessed =
-source files.
-> +
-> +The fix below adds %I to the cpp-output spec macro so the default substi=
-tutions for -iprefix,
-> +-isystem, -isysroot happen and the correct sysroot is used.
-> +
-> +[YOCTO #2074]
-> +
-> +Upstream-Status: Pending
-> +
-> +RP 2012/04/13
-> +
-> +Index: gcc-4_6-branch/gcc/gcc.c
-> +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-> +--- gcc-4_6-branch.orig/gcc/gcc.c =A0 =A0 =A02012-04-13 12:24:37.9396711=
-40 +0000
-> ++++ gcc-4_6-branch/gcc/gcc.c =A0 2012-04-13 12:24:54.439670688 +0000
-> +@@ -953,7 +953,7 @@
-> + =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 %W{o*:--output-pch=3D%*}}%V}}}}=
-}}", 0, 0, 0},
-> + =A0 {".i", "@cpp-output", 0, 0, 0},
-> + =A0 {"@cpp-output",
-> +- =A0 "%{!M:%{!MM:%{!E:cc1 -fpreprocessed %i %(cc1_options) %{!fsyntax-o=
-nly:%(invoke_as)}}}}", 0, 0, 0},
-> ++ =A0 "%{!M:%{!MM:%{!E:cc1 -fpreprocessed %i %I %(cc1_options) %{!fsynta=
-x-only:%(invoke_as)}}}}", 0, 0, 0},
-> + =A0 {".s", "@assembler", 0, 0, 0},
-> + =A0 {"@assembler",
-> + =A0 =A0"%{!M:%{!MM:%{!E:%{!S:as %(asm_debug) %(asm_options) %i %A }}}}"=
-, 0, 0, 0},
-> +Index: gcc-4_6-branch/gcc/cp/lang-specs.h
-> +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-> +--- gcc-4_6-branch.orig/gcc/cp/lang-specs.h =A0 =A02012-04-13 12:25:01.0=
-19670594 +0000
-> ++++ gcc-4_6-branch/gcc/cp/lang-specs.h 2012-04-13 12:25:07.567670180 +00=
-00
-> +@@ -64,5 +64,5 @@
-> + =A0 {".ii", "@c++-cpp-output", 0, 0, 0},
-> + =A0 {"@c++-cpp-output",
-> + =A0 =A0"%{!M:%{!MM:%{!E:\
-> +- =A0 =A0cc1plus -fpreprocessed %i %(cc1_options) %2\
-> ++ =A0 =A0cc1plus -fpreprocessed %i %I %(cc1_options) %2\
-> + =A0 =A0 %{!fsyntax-only:%(invoke_as)}}}}", 0, 0, 0},
->
->
->
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core=
+Thanks
+	Sau!
 
 
 
