@@ -1,38 +1,30 @@
-Received: from mga03.intel.com ([143.182.124.21])
+Received: from mail.windriver.com ([147.11.1.11])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <nitin.a.kamble@intel.com>) id 1SIS6e-0003Fp-LB
+	(envelope-from <Kai.Kang@windriver.com>) id 1SIVn2-0006vX-AW
 	for openembedded-core@lists.openembedded.org;
-	Fri, 13 Apr 2012 00:03:08 +0200
-Received: from azsmga001.ch.intel.com ([10.2.17.19])
-	by azsmga101.ch.intel.com with ESMTP; 12 Apr 2012 14:53:46 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="130284250"
-Received: from azsmsx601.amr.corp.intel.com ([10.2.121.193])
-	by azsmga001.ch.intel.com with ESMTP; 12 Apr 2012 14:53:42 -0700
-Received: from fmsmsx105.amr.corp.intel.com (10.19.9.36) by
-	azsmsx601.amr.corp.intel.com (10.2.121.193) with Microsoft SMTP Server
-	(TLS) id 8.2.255.0; Thu, 12 Apr 2012 14:53:42 -0700
-Received: from fmsmsx152.amr.corp.intel.com ([169.254.7.134]) by
-	FMSMSX105.amr.corp.intel.com ([169.254.5.196]) with mapi id
-	14.01.0355.002; Thu, 12 Apr 2012 14:53:41 -0700
-From: "Kamble, Nitin A" <nitin.a.kamble@intel.com>
-To: McClintock Matthew-B29882 <B29882@freescale.com>, Patches and discussions
-	about the oe-core layer <openembedded-core@lists.openembedded.org>
-Thread-Topic: Bug 1570 - ICU not endian safe and web2 fails on ppc
-Thread-Index: AQHNCZ7g1B2M5TvhxEybgidZTrMVNJZ5sPMAgAACrYCAAOTJAIAdQR/A
-Date: Thu, 12 Apr 2012 21:53:38 +0000
-Message-ID: <ADD6A3980E8C39419A432FF422031B4C0305E4EB@fmsmsx152.amr.corp.intel.com>
-References: <alpine.DEB.2.02.1203240515560.21886@oneiric>
-	<1332584294.9740.506.camel@ted>
-	<alpine.DEB.2.02.1203240621540.25240@oneiric>
-	<CAEsOVNdOp6GVeGusJXit2xocy-V7a7nzejTpo3aKT9y9-sxtjA@mail.gmail.com>
-In-Reply-To: <CAEsOVNdOp6GVeGusJXit2xocy-V7a7nzejTpo3aKT9y9-sxtjA@mail.gmail.com>
-Accept-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [10.22.254.138]
+	Fri, 13 Apr 2012 03:59:08 +0200
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca [147.11.189.40])
+	by mail.windriver.com (8.14.3/8.14.3) with ESMTP id q3D1nkYp021364
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
+	Thu, 12 Apr 2012 18:49:46 -0700 (PDT)
+Received: from [128.224.162.202] (128.224.162.202) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server (TLS) id 14.1.255.0;
+	Thu, 12 Apr 2012 18:49:45 -0700
+Message-ID: <4F878641.1010207@windriver.com>
+Date: Fri, 13 Apr 2012 09:49:53 +0800
+From: Kang Kai <Kai.Kang@windriver.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:10.0.2) Gecko/20120216 Thunderbird/10.0.2
 MIME-Version: 1.0
-Subject: Bug 1570 - ICU not endian safe and web2 fails on ppc
+To: Andreas Oberritter <obi@opendreambox.org>
+References: <4F87233E.2030604@opendreambox.org>
+In-Reply-To: <4F87233E.2030604@opendreambox.org>
+X-Originating-IP: [128.224.162.202]
+X-MIME-Autoconverted: from 8bit to quoted-printable by mail.windriver.com id
+	q3D1nkYp021364
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: cleanup-workdir
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -47,21 +39,38 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 12 Apr 2012 22:03:08 -0000
-Content-Language: en-US
-Content-Type: text/plain; charset="us-ascii"
+X-List-Received-Date: Fri, 13 Apr 2012 01:59:08 -0000
+Content-Type: text/plain; charset="UTF-8"; format=flowed
 Content-Transfer-Encoding: quoted-printable
 
-Gary,
-   May be Matthew may be able to provide some help with his Freescale backg=
-round.
+On 2012=E5=B9=B404=E6=9C=8813=E6=97=A5 02:47, Andreas Oberritter wrote:
+> Hello Kai,
+>
+> because I was low on disk space, I just tried scripts/cleanup-workdir
+> for the first time. My observations:
 
-I could not add Matthew to the bug, so ccing him here.
+Hi Andreas,
+ =20
 
-https://bugzilla.yoctoproject.org/show_bug.cgi?id=3D1570
+> 1.) It deletes work directories that were built for other machines
+> (archs) than the current one. I guess the list of architectures to
+> handle should be queried from bitbake to avoid this.
+Do you mean that you build for 2 archs under the same "build" directory?
+Even in this way the script only delete the packages' build dir for old=20
+versions.
+Your requirement is that cleanup-workdir just clean the build dirs for=20
+current arch, right?
 
+> 2.) It doesn't delete work directories of previously deleted recipes.
+Because when the recipe gone, I can NOT tell whether the directory is=20
+left by bitbake or created by user.
+I will list them and let user to choose delete them or not.
 
-Nitin
+Regards,
+Kai
+>
+> Regards,
+> Andreas
 
 
 
