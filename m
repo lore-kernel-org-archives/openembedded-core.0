@@ -1,44 +1,30 @@
-Received: from szxga01-in.huawei.com ([58.251.152.64])
-	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <ramana.gollamudi@huawei.com>) id 1SIfDa-0007xk-7a
-	for openembedded-core@lists.openembedded.org;
-	Fri, 13 Apr 2012 14:03:10 +0200
-Received: from huawei.com (szxga05-in [172.24.2.49])
-	by szxga05-in.huawei.com (iPlanet Messaging Server 5.2 HotFix 2.14
-	(built Aug
-	8 2006)) with ESMTP id <0M2F003N51Z132@szxga05-in.huawei.com> for
-	openembedded-core@lists.openembedded.org;
-	Fri, 13 Apr 2012 19:45:01 +0800 (CST)
-Received: from szxrg02-dlp.huawei.com ([172.24.2.119])
-	by szxga05-in.huawei.com (iPlanet Messaging Server 5.2 HotFix 2.14
-	(built Aug
-	8 2006)) with ESMTP id <0M2F00JJY1XZEH@szxga05-in.huawei.com> for
-	openembedded-core@lists.openembedded.org;
-	Fri, 13 Apr 2012 19:45:01 +0800 (CST)
-Received: from szxeml202-edg.china.huawei.com ([172.24.2.119])
-	by szxrg02-dlp.huawei.com (MOS 4.1.9-GA)	with ESMTP id AII57693; Fri,
-	13 Apr 2012 19:45:01 +0800
-Received: from SZXEML437-HUB.china.huawei.com (10.72.61.72)
-	by szxeml202-edg.china.huawei.com (172.24.2.42) with Microsoft SMTP
-	Server (TLS) id 14.1.323.3; Fri, 13 Apr 2012 19:44:48 +0800
-Received: from SZXEML534-MBS.china.huawei.com ([169.254.6.253])
-	by szxeml437-hub.china.huawei.com ([10.72.61.72]) with mapi id
-	14.01.0323.003; Fri, 13 Apr 2012 19:44:51 +0800
-Date: Fri, 13 Apr 2012 11:44:49 +0000
-From: Venkata ramana gollamudi <ramana.gollamudi@huawei.com>
-X-Originating-IP: [10.18.96.93]
-To: "'openembedded-core@lists.openembedded.org'"
-	<openembedded-core@lists.openembedded.org>
-Message-id: <36ED13F3654AE54CA763E6821D93A5711043A0EE@szxeml534-mbs.china.huawei.com>
-MIME-version: 1.0
-Accept-Language: en-US, zh-CN
-Thread-topic: [PATCH] eglibc: fix re-execution of task
-Thread-index: Ac0ZatUFKv3ZX9hyTH6NeaUmZP6wcQ==
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-X-CFilter-Loop: Reflected
-Cc: Sanil kumar <sanil.kumar@huawei.com>
-Subject: [PATCH] eglibc: fix re-execution of task
+Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
+	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <richard.purdie@linuxfoundation.org>)
+	id 1SIfG2-00082n-Gj for openembedded-core@lists.openembedded.org;
+	Fri, 13 Apr 2012 14:05:42 +0200
+Received: from localhost (localhost [127.0.0.1])
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q3DBuNSh002085
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 13 Apr 2012 12:56:23 +0100
+Received: from tim.rpsys.net ([127.0.0.1])
+	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
+	port 10024) with LMTP
+	id 00827-08 for <openembedded-core@lists.openembedded.org>;
+	Fri, 13 Apr 2012 12:56:19 +0100 (BST)
+Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q3DBuDBW002078
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO)
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 13 Apr 2012 12:56:16 +0100
+Message-ID: <1334318173.7309.70.camel@ted>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: openembedded-core <openembedded-core@lists.openembedded.org>
+Date: Fri, 13 Apr 2012 12:56:13 +0100
+X-Mailer: Evolution 3.2.2- 
+Mime-Version: 1.0
+X-Virus-Scanned: amavisd-new at rpsys.net
+Subject: [PATCH] gcc-4.6: Add fix for relocation problem and ccache
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -53,89 +39,73 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 13 Apr 2012 12:03:10 -0000
-Content-type: text/plain; charset=us-ascii
-Content-language: en-US
-Content-transfer-encoding: 7BIT
+X-List-Received-Date: Fri, 13 Apr 2012 12:05:42 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-Task do_patch_append calling do_fix_ia_headers is removing files using "rm" not "rm -f".
-So first time execution of patch task is success, while re-execution of patch task
-fails as it tries to remove the files already removed.
+If the toolchain is reused from sstate and ccache is installed, build failures
+were occuring due to gcc trying to access the original sysroot rather than the
+new one, particularly if the old sysroot existed but was not readable by the
+current user.
 
-So changed "rm" to "rm -f".
+This turns out of the an issue inside gcc to do with preservation of the sysroot
+option. See the gcc patch for more details. It only triggers when preprocessed
+sources are used which happens when ccache is used.
 
-[Yocto #2194]
+[YOCTO #2074]
 
-Signed-off-by: Venkata Ramana Gollamudi <ramana.gollamudi@huawei.com>
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 ---
- meta/recipes-core/eglibc/eglibc_2.13.bb |    8 ++++----
- meta/recipes-core/eglibc/eglibc_2.15.bb |    8 ++++----
- 2 files changed, 8 insertions(+), 8 deletions(-)
+diff --git a/meta/recipes-devtools/gcc/gcc-4.6.inc b/meta/recipes-devtools/gcc/gcc-4.6.inc
+index d40a534..3b2e97e 100644
+--- a/meta/recipes-devtools/gcc/gcc-4.6.inc
++++ b/meta/recipes-devtools/gcc/gcc-4.6.inc
+@@ -73,6 +73,7 @@ SRC_URI = "svn://gcc.gnu.org/svn/gcc/branches;module=${BRANCH};proto=http \
+ 	   file://gcc-arm-set-cost.patch \
+ 	   file://GPLUSPLUS_INCLUDE_DIR_with_sysroot.patch \
+ 	   file://fortran-cross-compile-hack.patch \
++	   file://cpp-honour-sysroot.patch \
+ 	  "
+ 
+ SRC_URI_append_sh3  = " file://sh3-installfix-fixheaders.patch "
+diff --git a/meta/recipes-devtools/gcc/gcc-4.6/cpp-honour-sysroot.patch b/meta/recipes-devtools/gcc/gcc-4.6/cpp-honour-sysroot.patch
+new file mode 100644
+index 0000000..808596f
+--- a/dev/null
++++ b/meta/recipes-devtools/gcc/gcc-4.6/cpp-honour-sysroot.patch
+@@ -0,0 +1,29 @@
++Currently, if the gcc toolchain is relocated and installed from sstate, then you try and compile
++preprocessed source (.i files), the compiler will try and access the builtin sysroot location 
++rather than the --sysroot option specified on the commandline. If access to that directory is 
++permission denied (unreadable), gcc will error.
++
++This happens when ccache is in use due to the fact it uses preprocessed source files.
++
++The fix below adds %I to the cpp-output spec macro so the default sustitutions for -iprefix, 
++-isystem, -isysroot happen and the correct sysroot is used.
++
++[YOCTO #2074]
++
++Upstream-Status: Pending
++
++RP 2012/04/13
++
++Index: gcc-4_6-branch/gcc/gcc.c
++===================================================================
++--- gcc-4_6-branch.orig/gcc/gcc.c	2012-04-13 11:21:23.119758988 +0000
+++++ gcc-4_6-branch/gcc/gcc.c	2012-04-13 11:21:54.095758269 +0000
++@@ -953,7 +953,7 @@
++                     %W{o*:--output-pch=%*}}%V}}}}}}", 0, 0, 0},
++   {".i", "@cpp-output", 0, 0, 0},
++   {"@cpp-output",
++-   "%{!M:%{!MM:%{!E:cc1 -fpreprocessed %i %(cc1_options) %{!fsyntax-only:%(invoke_as)}}}}", 0, 0, 0},
+++   "%{!M:%{!MM:%{!E:cc1 -fpreprocessed %i %I %(cc1_options) %{!fsyntax-only:%(invoke_as)}}}}", 0, 0, 0},
++   {".s", "@assembler", 0, 0, 0},
++   {"@assembler",
++    "%{!M:%{!MM:%{!E:%{!S:as %(asm_debug) %(asm_options) %i %A }}}}", 0, 0, 0},
+--
+cgit 0.9.0.1
 
-diff --git a/meta/recipes-core/eglibc/eglibc_2.13.bb b/meta/recipes-core/eglibc/eglibc_2.13.bb
-index 927f72f..872767e 100644
---- a/meta/recipes-core/eglibc/eglibc_2.13.bb
-+++ b/meta/recipes-core/eglibc/eglibc_2.13.bb
-@@ -141,7 +141,7 @@ do_fix_ia_headers() {
- 	cp ${S}/sysdeps/unix/sysv/linux/x86_64/bits/environments.h ${S}/sysdeps/unix/sysv/linux/i386/bits/environments.h
- 	cp ${S}/sysdeps/unix/sysv/linux/x86_64/bits/fcntl.h ${S}/sysdeps/unix/sysv/linux/i386/bits/fcntl.h
- 	cp ${S}/sysdeps/x86_64/fpu/bits/fenv.h ${S}/sysdeps/i386/fpu/bits/fenv.h
--	rm ${S}/sysdeps/i386/bits/huge_vall.h
-+	rm -f ${S}/sysdeps/i386/bits/huge_vall.h
- 	cp ${S}/sysdeps/x86_64/bits/link.h ${S}/sysdeps/i386/bits/link.h
- 	cp ${S}/sysdeps/x86_64/bits/mathdef.h ${S}/sysdeps/i386/bits/mathdef.h
- 	cp ${S}/sysdeps/x86_64/fpu/bits/mathinline.h ${S}/sysdeps/i386/fpu/bits/mathinline.h
-@@ -150,14 +150,14 @@ do_fix_ia_headers() {
- 	cp ${S}/nptl/sysdeps/unix/sysv/linux/x86_64/bits/pthreadtypes.h ${S}/nptl/sysdeps/unix/sysv/linux/i386/bits/pthreadtypes.h
- 	cp ${S}/sysdeps/x86_64/bits/select.h ${S}/sysdeps/i386/bits/select.h
- 	cp ${S}/nptl/sysdeps/unix/sysv/linux/x86_64/bits/semaphore.h ${S}/nptl/sysdeps/unix/sysv/linux/i386/bits/semaphore.h
--	rm ${S}/sysdeps/unix/sysv/linux/x86_64/bits/sem.h
-+	rm -f ${S}/sysdeps/unix/sysv/linux/x86_64/bits/sem.h
- 	cp ${S}/sysdeps/x86_64/bits/setjmp.h ${S}/sysdeps/i386/bits/setjmp.h
- 	cp ${S}/sysdeps/unix/sysv/linux/x86_64/bits/shm.h ${S}/sysdeps/unix/sysv/linux/i386/bits/shm.h
- 	cp ${S}/sysdeps/unix/sysv/linux/x86_64/bits/sigcontext.h ${S}/sysdeps/unix/sysv/linux/i386/bits/sigcontext.h
- 	cp ${S}/sysdeps/unix/sysv/linux/x86_64/bits/stat.h ${S}/sysdeps/unix/sysv/linux/i386/bits/stat.h
--	rm ${S}/sysdeps/i386/i486/bits/string.h ; cp ${S}/sysdeps/x86_64/bits/string.h ${S}/sysdeps/i386/bits/string.h
-+	rm -f ${S}/sysdeps/i386/i486/bits/string.h ; cp ${S}/sysdeps/x86_64/bits/string.h ${S}/sysdeps/i386/bits/string.h 
- 	# Skip syscall.h, see do_install
--	rm ${S}/sysdeps/unix/sysv/linux/i386/bits/wchar.h
-+	rm -f ${S}/sysdeps/unix/sysv/linux/i386/bits/wchar.h 
- 	cp ${S}/sysdeps/x86_64/bits/wordsize.h ${S}/sysdeps/i386/bits/wordsize.h
- 	cp ${S}/sysdeps/x86_64/bits/xtitypes.h ${S}/sysdeps/i386/bits/xtitypes.h
- 	# i386 version is correct, x86_64 is incorrect for fpu_control.h
-diff --git a/meta/recipes-core/eglibc/eglibc_2.15.bb b/meta/recipes-core/eglibc/eglibc_2.15.bb
-index 1575e7f..dd04378 100644
---- a/meta/recipes-core/eglibc/eglibc_2.15.bb
-+++ b/meta/recipes-core/eglibc/eglibc_2.15.bb
-@@ -154,7 +154,7 @@ do_fix_ia_headers() {
- 	cp ${S}/sysdeps/unix/sysv/linux/x86_64/bits/environments.h ${S}/sysdeps/unix/sysv/linux/i386/bits/environments.h
- 	cp ${S}/sysdeps/unix/sysv/linux/x86_64/bits/fcntl.h ${S}/sysdeps/unix/sysv/linux/i386/bits/fcntl.h
- 	cp ${S}/sysdeps/x86_64/fpu/bits/fenv.h ${S}/sysdeps/i386/fpu/bits/fenv.h
--	rm ${S}/sysdeps/i386/bits/huge_vall.h
-+	rm -f ${S}/sysdeps/i386/bits/huge_vall.h 
- 	cp ${S}/sysdeps/x86_64/bits/link.h ${S}/sysdeps/i386/bits/link.h
- 	cp ${S}/sysdeps/x86_64/bits/mathdef.h ${S}/sysdeps/i386/bits/mathdef.h
- 	cp ${S}/sysdeps/x86_64/fpu/bits/mathinline.h ${S}/sysdeps/i386/fpu/bits/mathinline.h
-@@ -163,14 +163,14 @@ do_fix_ia_headers() {
- 	cp ${S}/nptl/sysdeps/unix/sysv/linux/x86_64/bits/pthreadtypes.h ${S}/nptl/sysdeps/unix/sysv/linux/i386/bits/pthreadtypes.h
- 	cp ${S}/sysdeps/x86_64/bits/select.h ${S}/sysdeps/i386/bits/select.h
- 	cp ${S}/nptl/sysdeps/unix/sysv/linux/x86_64/bits/semaphore.h ${S}/nptl/sysdeps/unix/sysv/linux/i386/bits/semaphore.h
--	rm ${S}/sysdeps/unix/sysv/linux/x86_64/bits/sem.h
-+	rm -f ${S}/sysdeps/unix/sysv/linux/x86_64/bits/sem.h 
- 	cp ${S}/sysdeps/x86_64/bits/setjmp.h ${S}/sysdeps/i386/bits/setjmp.h
- 	cp ${S}/sysdeps/unix/sysv/linux/x86_64/bits/shm.h ${S}/sysdeps/unix/sysv/linux/i386/bits/shm.h
- 	cp ${S}/sysdeps/unix/sysv/linux/x86_64/bits/sigcontext.h ${S}/sysdeps/unix/sysv/linux/i386/bits/sigcontext.h
- 	cp ${S}/sysdeps/unix/sysv/linux/x86_64/bits/stat.h ${S}/sysdeps/unix/sysv/linux/i386/bits/stat.h
--	rm ${S}/sysdeps/i386/i486/bits/string.h ; cp ${S}/sysdeps/x86_64/bits/string.h ${S}/sysdeps/i386/bits/string.h
-+	rm -f ${S}/sysdeps/i386/i486/bits/string.h ; cp ${S}/sysdeps/x86_64/bits/string.h ${S}/sysdeps/i386/bits/string.h
- 	# Skip syscall.h, see do_install
--	rm ${S}/sysdeps/unix/sysv/linux/i386/bits/wchar.h
-+	rm -f ${S}/sysdeps/unix/sysv/linux/i386/bits/wchar.h 
- 	cp ${S}/sysdeps/x86_64/bits/wordsize.h ${S}/sysdeps/i386/bits/wordsize.h
- 	cp ${S}/sysdeps/x86_64/bits/xtitypes.h ${S}/sysdeps/i386/bits/xtitypes.h
- 	# i386 version is correct, x86_64 is incorrect for fpu_control.h
--- 
-1.7.7
 
 
 
