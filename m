@@ -1,24 +1,34 @@
-Received: from mga01.intel.com ([192.55.52.88])
+Received: from mail-qa0-f54.google.com ([209.85.216.54])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <dexuan.cui@intel.com>) id 1SIdV9-0005Vv-4A
+	(envelope-from <andrei@gherzan.ro>) id 1SIdyc-0005zD-Jg
 	for openembedded-core@lists.openembedded.org;
-	Fri, 13 Apr 2012 12:13:11 +0200
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-	by fmsmga101.fm.intel.com with ESMTP; 13 Apr 2012 03:03:49 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="141281505"
-Received: from dcui-desktop.sh.intel.com ([10.239.36.12])
-	by fmsmga001.fm.intel.com with ESMTP; 13 Apr 2012 03:03:48 -0700
-From: Dexuan Cui <dexuan.cui@intel.com>
+	Fri, 13 Apr 2012 12:43:38 +0200
+Received: by qao25 with SMTP id 25so2321614qao.6
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 13 Apr 2012 03:34:16 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=google.com; s=20120113;
+	h=from:to:cc:subject:date:message-id:x-mailer:x-gm-message-state;
+	bh=llk9HTPGr5WZ8oIzAwkfA89soaqbjgVEIxg6zxgtenc=;
+	b=ijCz7koYbeHsmakl3bdcepbpaSuyO2TdNrCLARTTzCusknrgXHsU5bVkB5Lqy+nOS4
+	WyMrWcIC4rs9G4Db3gOF9e/E8AXR1f7w0p/280k8F+7QrcMpPWPMC2sq46C7c/zIBsVn
+	DFGWIyoAEf4eC1TJ7g90O54zUayDRLgGzBoAWnssdXT89vLUplnUQPH+VyCLBoypuIVu
+	aoYEgzbFPWW3k1Upy9EyxPtobh0/PhLqNR77y/hbOReqpsqxGaBd7vCpGwfbxFs4jyFf
+	fqkQi+UPwB0+cwj5Ksw46eL+uBOtfbyITxqqHmLsMbqYzPBfU+qkxELcPylF3XCSuZci
+	vYXA==
+Received: by 10.224.203.10 with SMTP id fg10mr1668795qab.66.1334313256886;
+	Fri, 13 Apr 2012 03:34:16 -0700 (PDT)
+Received: from localhost.localdomain ([93.114.75.57])
+	by mx.google.com with ESMTPS id dv7sm16852332qab.15.2012.04.13.03.34.14
+	(version=TLSv1/SSLv3 cipher=OTHER);
+	Fri, 13 Apr 2012 03:34:15 -0700 (PDT)
+From: Andrei Gherzan <andrei@gherzan.ro>
 To: openembedded-core@lists.openembedded.org
-Date: Fri, 13 Apr 2012 18:04:09 +0800
-Message-Id: <01480f0f7418b8ceac72201e1b285495d2e23d58.1334311268.git.dexuan.cui@intel.com>
-X-Mailer: git-send-email 1.7.6
-In-Reply-To: <cover.1334311268.git.dexuan.cui@intel.com>
-References: <cover.1334311268.git.dexuan.cui@intel.com>
-In-Reply-To: <cover.1334311268.git.dexuan.cui@intel.com>
-References: <cover.1334311268.git.dexuan.cui@intel.com>
-Subject: [PATCH 1/1] nspr: fix package spliting
+Date: Fri, 13 Apr 2012 13:33:57 +0300
+Message-Id: <cover.1334313002.git.andrei@gherzan.ro>
+X-Mailer: git-send-email 1.7.5.4
+X-Gm-Message-State: ALoCoQlUkldv1jMVB35/F9MzhitcgDCcHUTPv3ZAerDGYQB8WLaqLuGvpr/qwYU30kmMrMK+yVA/
+Subject: [V5 0/2] Package gdbm compat libs in gdbm-compat and PR bumps
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -33,43 +43,32 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 13 Apr 2012 10:13:11 -0000
+X-List-Received-Date: Fri, 13 Apr 2012 10:43:38 -0000
 
-Here /usr/lib/lib*.so files are binaries rather than symbol links.
-We should package them into ${PN} rather than ${PN}-dev, or else,
-when a package, that rdepends on nspr, is packaged, we get a
-"non-dev package rdepends on nspr-dev" ERROR.
+V4 had some commits sent to oe-core and are not merged and forgot about
+those. This led to a confict in python bb file.
 
-Signed-off-by: Dexuan Cui <dexuan.cui@intel.com>
----
- meta/recipes-support/nspr/nspr_4.8.9.bb |    7 ++++---
- 1 files changed, 4 insertions(+), 3 deletions(-)
+The following changes since commit 6703173449ad21e1623ac75a66535cb2ed52aeeb:
 
-diff --git a/meta/recipes-support/nspr/nspr_4.8.9.bb b/meta/recipes-support/nspr/nspr_4.8.9.bb
-index 8b840d9..d3c683c 100644
---- a/meta/recipes-support/nspr/nspr_4.8.9.bb
-+++ b/meta/recipes-support/nspr/nspr_4.8.9.bb
-@@ -5,7 +5,7 @@ LIC_FILES_CHKSUM = "file://configure.in;beginline=3;endline=40;md5=99d4d7d68bbc4
-                     file://Makefile.in;beginline=4;endline=38;md5=c2b512182a334e1bfa1edc4d1c84a298 "
- SECTION = "libs/network"
- 
--PR = "r2"
-+PR = "r3"
- 
- SRC_URI = "ftp://ftp.mozilla.org/pub/mozilla.org/nspr/releases/v${PV}/src/nspr-${PV}.tar.gz \
-            file://remove-rpath-from-tests.patch \
-@@ -160,6 +160,7 @@ do_install_append() {
-     install -m 0755 ${TESTS} ${D}${libdir}/nspr/tests
- }
- 
--FILES_${PN} = "${bindir}/*"
--FILES_${PN}-dev += "${libdir}/nspr/tests/*"
-+FILES_${PN} = "${bindir}/* ${libdir}/lib*.so"
-+FILES_${PN}-dev = "${libdir}/nspr/tests/* ${libdir}/pkgconfig \
-+                ${includedir}/* ${datadir}/aclocal/* "
- FILES_${PN}-dbg += "${libdir}/nspr/tests/.debug/*"
+  package_rpm.bbclass: Set tmppath for rpm to somewhere which won't conflict with the rootfs (2012-04-12 21:25:10 +0100)
+
+are available in the git repository at:
+  git://git.yoctoproject.org/poky-contrib ag/gdbm
+  http://git.yoctoproject.org/cgit.cgi/poky-contrib/log/?h=ag/gdbm
+
+Andrei Gherzan (2):
+  gdbm: Package compat libs in gdbm-compat
+  PR bump packages with gdbm in DEPENDS
+
+ meta/recipes-devtools/perl/perl_5.14.2.bb          |    2 +-
+ meta/recipes-devtools/python/python_2.7.2.bb       |    2 +-
+ .../pulseaudio/pulseaudio_1.1.bb                   |    2 +-
+ meta/recipes-support/apr/apr-util_1.4.1.bb         |    2 +-
+ meta/recipes-support/gdbm/gdbm_1.10.bb             |    7 ++++++-
+ 5 files changed, 10 insertions(+), 5 deletions(-)
+
 -- 
-1.7.6
+1.7.5.4
 
 
 
