@@ -1,36 +1,27 @@
-Received: from mail-qa0-f54.google.com ([209.85.216.54])
+Received: from mga02.intel.com ([134.134.136.20])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <kergoth@gmail.com>) id 1SJBUG-0003cN-56
+	(envelope-from <dongxiao.xu@intel.com>) id 1SJCsE-0004ga-Kf
 	for openembedded-core@lists.openembedded.org;
-	Sun, 15 Apr 2012 00:30:32 +0200
-Received: by qao25 with SMTP id 25so3153855qao.6
-	for <openembedded-core@lists.openembedded.org>;
-	Sat, 14 Apr 2012 15:21:08 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:sender:in-reply-to:references:from:date
-	:x-google-sender-auth:message-id:subject:to:content-type
-	:content-transfer-encoding;
-	bh=xetnYErv/LiZIK3diB41taAoZYDXQOyChUOdKoYxAgA=;
-	b=iucIlAhsrVtTsxoCGozuHKrvDKkm7P2nWLlf9PuSy3+LY+L6Czkk8CGa159p5ayfH+
-	/gGvknDg+Ko8oUxFiiPa0LhFDMwbdE/tVLG/ubdDbmfhwAdAJ9u8VvWZ14fpnwmKziZj
-	FHSkbnJUc9Ck1+j4YYdlfdiEthDgd9XM97aoONb6sQFBYBSRY0zb6wxpNOsyqRyN2cKQ
-	WcR0Jr6k0QsTeWXvKYoZ7qDkk9/+P04dKBaOEnkpvNB7CtvOHf9/Kt/X+KZb1WpSDwlx
-	G5pA9OMFptKX/wMWKiadCgskZ5o7KQGE4Tdp9YB5i5VxBFQ3PLONfa07Zr0zXngqxgXE
-	Vx4g==
-Received: by 10.224.212.2 with SMTP id gq2mr8818294qab.41.1334442068889; Sat,
-	14 Apr 2012 15:21:08 -0700 (PDT)
-MIME-Version: 1.0
-Sender: kergoth@gmail.com
-Received: by 10.229.79.79 with HTTP; Sat, 14 Apr 2012 15:20:48 -0700 (PDT)
-In-Reply-To: <1334424684.8545.3.camel@ted>
-References: <1334424684.8545.3.camel@ted>
-From: Chris Larson <clarson@kergoth.com>
-Date: Sat, 14 Apr 2012 15:20:48 -0700
-X-Google-Sender-Auth: bMY-KR8QzJ0AxrX_4knzMZT04oc
-Message-ID: <CABcZANk2u452F=XdUKngEbaFih8mxLK2Q7PMmDQvwUOH=C7-tA@mail.gmail.com>
+	Sun, 15 Apr 2012 01:59:22 +0200
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+	by orsmga101.jf.intel.com with ESMTP; 14 Apr 2012 16:49:58 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.67,352,1309762800"; d="scan'208";a="129646710"
+Received: from dongxiao-osel.sh.intel.com (HELO [10.239.36.11])
+	([10.239.36.11])
+	by orsmga001.jf.intel.com with ESMTP; 14 Apr 2012 16:49:57 -0700
+From: "Xu, Dongxiao" <dongxiao.xu@intel.com>
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Subject: Re: update-alternatives: Fix for compatibility with multilib recipes
+In-Reply-To: <5007F7A3-3E6D-4DB5-A345-B7FD4322A283@dominion.thruhere.net>
+References: <cover.1334400035.git.dongxiao.xu@intel.com>
+	<7a59efe236b3ebd7472ce95bf75b9b5a27ba656c.1334400035.git.dongxiao.xu@intel.com>
+	<5007F7A3-3E6D-4DB5-A345-B7FD4322A283@dominion.thruhere.net>
+Date: Sun, 15 Apr 2012 07:47:06 +0800
+Message-ID: <1334447226.27917.42.camel@dongxiao-osel>
+Mime-Version: 1.0
+X-Mailer: Evolution 2.32.2 
+Subject: Re: [PATCH 1/1] gst-plugins-bad: add curl as build dependency
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -45,22 +36,75 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 14 Apr 2012 22:30:32 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Sat, 14 Apr 2012 23:59:22 -0000
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Sat, Apr 14, 2012 at 10:31 AM, Richard Purdie
-<richard.purdie@linuxfoundation.org> wrote:
-> =C2=A0def update_alternatives_after_parse(d):
-> + =C2=A0 =C2=A0if bb.data.inherits_class('native', d) or bb.data.inherits=
-_class('nativesdk', d):
-> + =C2=A0 =C2=A0 =C2=A0 =C2=A0return
-> +
+On Sat, 2012-04-14 at 13:23 +0200, Koen Kooi wrote:
+> Op 14 apr. 2012, om 12:44 heeft Dongxiao Xu het volgende geschreven:
+>=20
+> > gst-plugins-bad needs curl.h to finish its build, so add curl as its
+> > dependency.
+>=20
+> I can't be sure without the exact failure log, but: missing PR bump
 
-Not an issue, but wanted to point out we have a utility function for
-this sort of thing, for future reference. bb.utils.inherits(d,
-'native', 'nativesdk'), iirc.
---=20
-Christopher Larson
+Add a dependency here doesn't impact the original build. If the original
+build is successful, it means curl has already been built by chance. Do
+we still need to bump PR in this case?
+
+Besides, this is the detailed log:
+
+i586-poky-linux-libtool: compile:  i586-poky-linux-gcc -m32 -march=3Di586
+--sysroot=3D/distro/sdb/build-master/tmp/sysroots/qemux86 -std=3Dgnu99
+-DHAVE_CONFIG_H -I. -I../.. -pthread
+-I/distro/sdb/build-master/tmp/sysroots/qemux86/usr/include/gstreamer-0.10 =
+-I/distro/sdb/build-master/tmp/sysroots/qemux86/usr/include/glib-2.0 -I/dis=
+tro/sdb/build-master/tmp/sysroots/qemux86/usr/lib/glib-2.0/include -I/distr=
+o/sdb/build-master/tmp/sysroots/qemux86/usr/include/libxml2 -pthread -I/dis=
+tro/sdb/build-master/tmp/sysroots/qemux86/usr/include/gstreamer-0.10 -I/dis=
+tro/sdb/build-master/tmp/sysroots/qemux86/usr/include/glib-2.0 -I/distro/sd=
+b/build-master/tmp/sysroots/qemux86/usr/lib/glib-2.0/include -I/distro/sdb/=
+build-master/tmp/sysroots/qemux86/usr/include/libxml2 -DG_THREADS_MANDATORY=
+ -DG_DISABLE_CAST_CHECKS -DG_DISABLE_ASSERT -Wall -Wdeclaration-after-state=
+ment -Wvla -Wpointer-arith -Wmissing-declarations -Wmissing-prototypes -Wre=
+dundant-decls -Wwrite-strings -Wformat-security -Wold-style-definition -Win=
+it-self -Wmissing-include-dirs -Waddress -Wno-multichar -Wnested-externs -O=
+2 -pipe -g -feliminate-unused-debug-types -c gstcurlsink.c  -fPIC -DPIC -o =
+.libs/libgstcurl_la-gstcurlsink.o
+i586-poky-linux-libtool: compile:  i586-poky-linux-gcc -m32 -march=3Di586
+--sysroot=3D/distro/sdb/build-master/tmp/sysroots/qemux86 -std=3Dgnu99
+-DHAVE_CONFIG_H -I. -I../.. -pthread
+-I/distro/sdb/build-master/tmp/sysroots/qemux86/usr/include/gstreamer-0.10 =
+-I/distro/sdb/build-master/tmp/sysroots/qemux86/usr/include/glib-2.0 -I/dis=
+tro/sdb/build-master/tmp/sysroots/qemux86/usr/lib/glib-2.0/include -I/distr=
+o/sdb/build-master/tmp/sysroots/qemux86/usr/include/libxml2 -pthread -I/dis=
+tro/sdb/build-master/tmp/sysroots/qemux86/usr/include/gstreamer-0.10 -I/dis=
+tro/sdb/build-master/tmp/sysroots/qemux86/usr/include/glib-2.0 -I/distro/sd=
+b/build-master/tmp/sysroots/qemux86/usr/lib/glib-2.0/include -I/distro/sdb/=
+build-master/tmp/sysroots/qemux86/usr/include/libxml2 -DG_THREADS_MANDATORY=
+ -DG_DISABLE_CAST_CHECKS -DG_DISABLE_ASSERT -Wall -Wdeclaration-after-state=
+ment -Wvla -Wpointer-arith -Wmissing-declarations -Wmissing-prototypes -Wre=
+dundant-decls -Wwrite-strings -Wformat-security -Wold-style-definition -Win=
+it-self -Wmissing-include-dirs -Waddress -Wno-multichar -Wnested-externs -O=
+2 -pipe -g -feliminate-unused-debug-types -c gstcurl.c  -fPIC -DPIC -o .lib=
+s/libgstcurl_la-gstcurl.o
+gstcurlsink.c:45:23: fatal error: curl/curl.h: No such file or directory
+compilation terminated.
+make[3]: *** [libgstcurl_la-gstcurlsink.lo] Error 1
+make[3]: *** Waiting for unfinished jobs....
+
+Thanks,
+Dongxiao
+>=20
+> regards,
+>=20
+> Koen
+>=20
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
+
+
 
 
