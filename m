@@ -1,35 +1,36 @@
 Received: from mail-lpp01m010-f47.google.com ([209.85.215.47])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <raj.khem@gmail.com>) id 1SIsfN-0003hG-JQ
+	(envelope-from <raj.khem@gmail.com>) id 1SItgn-0004fk-DZ
 	for openembedded-core@lists.openembedded.org;
-	Sat, 14 Apr 2012 04:24:45 +0200
-Received: by lagw12 with SMTP id w12so2689634lag.6
+	Sat, 14 Apr 2012 05:30:17 +0200
+Received: by lagw12 with SMTP id w12so2704252lag.6
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 13 Apr 2012 19:15:23 -0700 (PDT)
+	Fri, 13 Apr 2012 20:20:55 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
 	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc:content-type:content-transfer-encoding;
-	bh=plPt+cywBwzzGytd/H5EEqV5cGuZb7a48xMEpidMO2U=;
-	b=ASJ1ac8BOeuzP/MMuAzMVnjtCdHbLSUgfNVUGcXpXORBPvnKmgRHc6tWz9U657TA1F
-	b3ceG4tukxVw3PIlRfFWvcrH+bempczGN3lFHzTTKiJ+LVSQ29xzUK5J7Php6yc8prTJ
-	bTH8hUWKunouCgFVso/WwJwLLZrgBwhpTYiYkQfcJUe6R3d+QgFcnYs418jKPN9PkauH
-	FCS/N4ethV9UDaSB7oX/1mRA22QcZWx74F6GLwyQSegiDX6OxMra5czaEoQJWiPHsoWW
-	HtUd/7fCOGeCqe20mF1VRYroSTXq+GBVWrFSFxWQ0bU841z5yh2F+rtiodJ391lrHmDx
-	rC7A==
-Received: by 10.152.146.234 with SMTP id tf10mr3275787lab.31.1334369723139;
-	Fri, 13 Apr 2012 19:15:23 -0700 (PDT)
+	:content-type:content-transfer-encoding;
+	bh=HaWx75CianUfyifqxq3+/6FjhwUi+dvsA5XLEsO9oz8=;
+	b=Axrd64ETl3E7bLzIM2Zg1vhbNEUDSfbM3Mfoo0Tp0jw/La2ztRNraKO5toNujir5L/
+	TsvWTpq1hngXZpUenJYvPNbTwSW2HFUlXFUXznoyspmUPpJ7J6YQk2sEtvkpp3sZGiOs
+	rD9UQCMgwWdaEMAJcxGIF7/lFP6Vh6i1ZztfW3pMM8Cx+QuEx+N5H0gnlqussLaAAN74
+	IAPyOT88YhPnwXI/oN5WJGCwm7HD3VTVzwuEae2V+j19XeMckjakNuZnCyMuW3zGO3OW
+	zrtusKJbcrdnKq2xoN0zkuWhH8cdD2++3REdBSMPgs2atoYTL69f+3D3Gd4Ke+c7RTSQ
+	0hgw==
+Received: by 10.152.133.144 with SMTP id pc16mr3461006lab.0.1334373655166;
+	Fri, 13 Apr 2012 20:20:55 -0700 (PDT)
 MIME-Version: 1.0
-Received: by 10.152.129.134 with HTTP; Fri, 13 Apr 2012 19:14:52 -0700 (PDT)
-In-Reply-To: <4F88A76C.2000308@linux.intel.com>
-References: <36ED13F3654AE54CA763E6821D93A5711043A0E3@szxeml534-mbs.china.huawei.com>
-	<4F88A76C.2000308@linux.intel.com>
+Received: by 10.152.129.134 with HTTP; Fri, 13 Apr 2012 20:20:24 -0700 (PDT)
+In-Reply-To: <ADD6A3980E8C39419A432FF422031B4C03060012@fmsmsx152.amr.corp.intel.com>
+References: <cover.1334308316.git.liezhi.yang@windriver.com>
+	<638c4f827223820ee30ff0820df4179d41acfb60.1334308316.git.liezhi.yang@windriver.com>
+	<CAMKF1soUx3Ov3Z1jZJpn3=hj_u79j5VaTVEG-S27SMQ8icsUWg@mail.gmail.com>
+	<ADD6A3980E8C39419A432FF422031B4C03060012@fmsmsx152.amr.corp.intel.com>
 From: Khem Raj <raj.khem@gmail.com>
-Date: Fri, 13 Apr 2012 19:14:52 -0700
-Message-ID: <CAMKF1so2tFrdJgQHEcTXmN8vU4KetHL0QUjv+3=Yhi=o3DjESg@mail.gmail.com>
+Date: Fri, 13 Apr 2012 20:20:24 -0700
+Message-ID: <CAMKF1spMNCc3dUkp-SyOMvWhc3diKY3nbiFUxQuDb1PjBsPKiA@mail.gmail.com>
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Cc: Sanil kumar <sanil.kumar@huawei.com>
-Subject: Re: [PATCH] boost: fix re-execution of task
+Subject: Re: [PATCH 1/1] grub 1.99: fix build for gcc 4.7
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -44,74 +45,59 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 14 Apr 2012 02:24:45 -0000
+X-List-Received-Date: Sat, 14 Apr 2012 03:30:17 -0000
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
 
-On Fri, Apr 13, 2012 at 3:23 PM, Saul Wold <sgw@linux.intel.com> wrote:
-> On 04/13/2012 04:42 AM, Venkata ramana gollamudi wrote:
->>
->> After building boost package, re-execution of boostconfig task followed =
-by
->> re-execution of compile task is giving following error
->> "error: duplicate initialization of gcc with the following parameters"
->> during compilation
->> It is because multiple entries of gcc are being added during boostconfig
->> re-execution
->> there by failing the compilation.
->>
->> The patch fixes adding multiple "Using gcc" entries into
->> /tools/build/v2/user-config.jam
->>
->> [Yocto #2194]
->>
->> Signed-off-by: Venkata Ramana Gollamudi<ramana.gollamudi@huawei.com>
->> ---
->> =C2=A0meta/recipes-support/boost/boost.inc | =C2=A0 =C2=A06 +++++-
->> =C2=A01 files changed, 5 insertions(+), 1 deletions(-)
->>
->> diff --git a/meta/recipes-support/boost/boost.inc
->> b/meta/recipes-support/boost/boost.inc
->> index d70a7e2..c9306df 100644
->> --- a/meta/recipes-support/boost/boost.inc
->> +++ b/meta/recipes-support/boost/boost.inc
->> @@ -135,7 +135,11 @@ BJAM_OPTS =C2=A0 =C2=A0=3D '${BJAM_TOOLS} \
->> =C2=A0do_boostconfig() {
->> =C2=A0 =C2=A0 =C2=A0 =C2=A0cp -f boost/config/platform/linux.hpp
->> boost/config/platform/linux-gnueabi.hpp
->>
->> - =C2=A0 =C2=A0 =C2=A0 echo 'using gcc : 4.3.1 : ${CXX} : compileflags
->> -DBOOST_SP_USE_PTHREADS -I${includedir} linkflags -L${libdir} ;'>>
->> =C2=A0${S}/tools/build/v2/user-config.jam
->> + =C2=A0 =C2=A0 =C2=A0 # D2194:Fixing the failure of "error: duplicate i=
-nitialization of
->> gcc with the following parameters" during compilation.
->> + =C2=A0 =C2=A0 =C2=A0 if ! grep -qe "^using gcc : 4.3.1"
->> ${S}/tools/build/v2/user-config.jam
->> + =C2=A0 =C2=A0 =C2=A0 then
->> + =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 echo 'using gcc : 4.3=
-.1 : ${CXX} : compileflags
->> -DBOOST_SP_USE_PTHREADS -I${includedir} linkflags -L${libdir} ;'>>
->> =C2=A0${S}/tools/build/v2/user-config.jam
->> + =C2=A0 =C2=A0 =C2=A0 fi
->> =C2=A0}
->>
->> =C2=A0addtask do_boostconfig after do_patch before do_configure
+On Fri, Apr 13, 2012 at 4:43 PM, Kamble, Nitin A
+<nitin.a.kamble@intel.com> wrote:
 >
 >
-> Merged into OE-Core
+>> -----Original Message-----
+>> From: openembedded-core-bounces@lists.openembedded.org
+>> [mailto:openembedded-core-bounces@lists.openembedded.org] On Behalf Of
+>> Khem Raj
+>> Sent: Friday, April 13, 2012 1:21 PM
+>> To: Patches and discussions about the oe-core layer
+>> Subject: Re: [OE-core] [PATCH 1/1] grub 1.99: fix build for gcc 4.7
+>>
+>> On Fri, Apr 13, 2012 at 2:41 AM, Robert Yang
+>> <liezhi.yang@windriver.com> wrote:
+>> > There was an error when build with gcc 4.7 (FC 17 64bit):
+>> > | fs/zfs/zfs.c: In function 'get_filesystem_dnode':
+>> > | fs/zfs/zfs.c:1449:7: error: dereferencing type-punned pointer will
+>> > | break strict-aliasing rules [-Werror=3Dstrict-aliasing]
+>> > ......
+>> > cc1: all warnings being treated as errors
+>> >
+>> > While compare the compile command between gcc 4.4.4 and gcc 4.7.0,
+>> > they are the same (both of them have -Wall and -Werror), it seems
+>> that
+>> > gcc
+>> > 4.7.0 has changed its algorithm for the strict aliasing check, but I
+>> > didn't find the related information from its release note.
+>> >
+>> > Add "-fno-strict-aliasing" to gcc's option would fix the problem,
+>> this
+>> > would disable the optimization for strict-aliasing.
+>>
+>> This seems a bit more than whats needed. You could try adding -Wno-
+>> error=3Dstrict-aliasing to CFLAGS
+>>
+>> on another note. I do not see this failing with gcc-4.7(target
+>> compiler) here when I build grub for qemux86 so I am a bit puzzled
+>>
+>
+>
+> Khem,
+> =C2=A0There is another grub recipe issue, it is building target binaries =
+with distro compiler. Probably because of that you did not see issue with 4=
+.7 cross compiler. We have fix for that issue now.
 
-I had some feedback on this patch series. I wonder if it was so meaningless=
-.
-
->
-> Thanks
-> =C2=A0 =C2=A0 =C2=A0 =C2=A0Sau!
->
->
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
+hmmm interesting that clarifies. So I guess once you fix it to do
+_proper_ cross compile build then I guess the problem gets fixed when
+we use gcc 4.6 but as soon as we move to gcc-4.7 this will reappear so
+in any case this issue needs to fixed in a good manner I think
+in anycase.
 
 
