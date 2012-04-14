@@ -1,20 +1,22 @@
-Received: from mga11.intel.com ([192.55.52.93])
+Received: from mga14.intel.com ([143.182.124.37])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <nitin.a.kamble@intel.com>) id 1SIyy7-0001Ir-HY
+	(envelope-from <nitin.a.kamble@intel.com>) id 1SIyy8-0001NX-Qz
 	for openembedded-core@lists.openembedded.org;
-	Sat, 14 Apr 2012 11:08:31 +0200
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-	by fmsmga102.fm.intel.com with ESMTP; 14 Apr 2012 01:59:08 -0700
+	Sat, 14 Apr 2012 11:10:54 +0200
+Received: from azsmga001.ch.intel.com ([10.2.17.19])
+	by azsmga102.ch.intel.com with ESMTP; 14 Apr 2012 01:59:09 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="153560251"
+X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="130842072"
 Received: from nbuild0.sc.intel.com ([172.25.110.36])
-	by fmsmga002.fm.intel.com with ESMTP; 14 Apr 2012 01:59:08 -0700
+	by azsmga001.ch.intel.com with ESMTP; 14 Apr 2012 01:59:09 -0700
 From: nitin.a.kamble@intel.com
 To: openembedded-core@lists.openembedded.org
-Date: Sat, 14 Apr 2012 01:59:06 -0700
-Message-Id: <cover.1334390876.git.nitin.a.kamble@intel.com>
+Date: Sat, 14 Apr 2012 01:59:05 -0700
+Message-Id: <b903308f5d95b5c7987c251cbf9da62682363149.1334390876.git.nitin.a.kamble@intel.com>
 X-Mailer: git-send-email 1.7.6.5
-Subject: [v2 0/4] grub & eglibc fixes for fedora 17 alpha
+In-Reply-To: <cover.1334390876.git.nitin.a.kamble@intel.com>
+References: <cover.1334390876.git.nitin.a.kamble@intel.com>
+Subject: [v2 1/4] eglibc: fix builds on fedora 17 alpha
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -29,48 +31,79 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 14 Apr 2012 09:08:32 -0000
+X-List-Received-Date: Sat, 14 Apr 2012 09:10:55 -0000
 
 From: Nitin A Kamble <nitin.a.kamble@intel.com>
 
-These are various grub fixes for correctly building grub recipes for various targets.
-These are tested for emenlow, sugerbay, qemux86, qemux86-64 machines
+Generally distros keep perl at /sur/bin/perl
+Fedora 17 alpha also has /bin/perl
 
-The eglibc commits is thes same as in the v1 pull request.
+this causes eglibc build on such distros to put perl interpreter path in
+the perl scripts as /bin/perl
 
-Nitin
+But we set perl location for target as /usr/bin/perl
 
-The following changes since commit ee71422b9893f9f77173fb2612d1ffbbc68643c3:
+This mismatch of perl path causes failure of rootfs image creation
+like this:
 
-  linux-yocto: allow .cfg, .scc, .patch and defconfigs to be processed in order (2012-04-13 22:44:46 +0100)
+| error: Failed dependencies:
+|       /bin/perl is needed by eglibc-utils-2.13-r23+svnr15508.i586
+NOTE: package core-image-sato-1.0-r0: task do_rootfs: Failed
+ERROR: Task 8
+(/home/nitin/prj/poky.git/meta/recipes-sato/images/core-image-sato.bb,
+do_rootfs) failed with exit code '1'
 
-are available in the git repository at:
-  git://git.pokylinux.org/poky-contrib nitin/grub3
-  http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=nitin/grub3
+This Fixes bug : [YOCTO #2286]
 
-Nitin A Kamble (4):
-  eglibc: fix builds on fedora 17 alpha
-  grub-1.99: use gcc-cross for building the target binaries
-  grub-efi-native, grub: fix build with gcc 4.7
-  grub-1.99: fix configure error
+Signed-off-by: Nitin A Kamble <nitin.a.kamble@intel.com>
+---
+ meta/recipes-core/eglibc/eglibc-package.inc |    5 +++++
+ meta/recipes-core/eglibc/eglibc_2.13.bb     |    2 +-
+ meta/recipes-core/eglibc/eglibc_2.15.bb     |    2 +-
+ 3 files changed, 7 insertions(+), 2 deletions(-)
 
- .../grub-1.99-fix-enable_execute_stack-check.patch |   27 ++++
- .../grub/files/grub-1.99-fpmath-sse-387-fix.patch  |   37 +++++
- ...rub-1.99-gcc-4.7.0-strict-aliasing-errors.patch |  147 ++++++++++++++++++++
- ...b-1.99-gcc-4.7.0-uninitialized-var-errors.patch |   41 ++++++
- .../grub/files/grub-1.99-gcc-4.7.0.patch           |   34 +++++
- meta/recipes-bsp/grub/grub-efi-native_1.99.bb      |   10 +-
- meta/recipes-bsp/grub/grub_1.99.bb                 |   10 +-
- meta/recipes-core/eglibc/eglibc-package.inc        |    5 +
- meta/recipes-core/eglibc/eglibc_2.13.bb            |    2 +-
- meta/recipes-core/eglibc/eglibc_2.15.bb            |    2 +-
- 10 files changed, 309 insertions(+), 6 deletions(-)
- create mode 100644 meta/recipes-bsp/grub/files/grub-1.99-fix-enable_execute_stack-check.patch
- create mode 100644 meta/recipes-bsp/grub/files/grub-1.99-fpmath-sse-387-fix.patch
- create mode 100644 meta/recipes-bsp/grub/files/grub-1.99-gcc-4.7.0-strict-aliasing-errors.patch
- create mode 100644 meta/recipes-bsp/grub/files/grub-1.99-gcc-4.7.0-uninitialized-var-errors.patch
- create mode 100644 meta/recipes-bsp/grub/files/grub-1.99-gcc-4.7.0.patch
-
+diff --git a/meta/recipes-core/eglibc/eglibc-package.inc b/meta/recipes-core/eglibc/eglibc-package.inc
+index 9e45fc1..d13cb35 100644
+--- a/meta/recipes-core/eglibc/eglibc-package.inc
++++ b/meta/recipes-core/eglibc/eglibc-package.inc
+@@ -76,6 +76,11 @@ do_install_append () {
+ 	rm -f ${D}${sysconfdir}/localtime
+ 
+ 	oe_multilib_header bits/syscall.h
++	
++	if [ -f ${D}${bindir}/mtrace ]
++	then
++		sed -e "s# /bin/perl# ${bindir}/perl#" -i ${D}${bindir}/mtrace 
++	fi
+ }
+ 
+ do_install_locale () {
+diff --git a/meta/recipes-core/eglibc/eglibc_2.13.bb b/meta/recipes-core/eglibc/eglibc_2.13.bb
+index ec06261..d8a41dc 100644
+--- a/meta/recipes-core/eglibc/eglibc_2.13.bb
++++ b/meta/recipes-core/eglibc/eglibc_2.13.bb
+@@ -3,7 +3,7 @@ require eglibc.inc
+ SRCREV = "15508"
+ 
+ DEPENDS += "gperf-native"
+-PR = "r25"
++PR = "r26"
+ PR_append = "+svnr${SRCPV}"
+ 
+ EGLIBC_BRANCH="eglibc-2_13"
+diff --git a/meta/recipes-core/eglibc/eglibc_2.15.bb b/meta/recipes-core/eglibc/eglibc_2.15.bb
+index caed9e9..713efc3 100644
+--- a/meta/recipes-core/eglibc/eglibc_2.15.bb
++++ b/meta/recipes-core/eglibc/eglibc_2.15.bb
+@@ -3,7 +3,7 @@ require eglibc.inc
+ SRCREV = "17386"
+ 
+ DEPENDS += "gperf-native"
+-PR = "r5"
++PR = "r6"
+ PR_append = "+svnr${SRCPV}"
+ 
+ EGLIBC_BRANCH="eglibc-2_15"
 -- 
 1.7.7
 
