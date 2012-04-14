@@ -1,42 +1,35 @@
-Received: from mail-wi0-f169.google.com ([209.85.212.169])
-	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <koen@dominion.thruhere.net>) id 1SJ1DQ-0000tH-KP
-	for openembedded-core@lists.openembedded.org;
-	Sat, 14 Apr 2012 13:32:28 +0200
-Received: by wibhm17 with SMTP id hm17so6119168wib.0
+Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
+	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <richard.purdie@linuxfoundation.org>)
+	id 1SJ2Dz-0001x7-Fz for openembedded-core@lists.openembedded.org;
+	Sat, 14 Apr 2012 14:37:07 +0200
+Received: from localhost (localhost [127.0.0.1])
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q3ECRits013466
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 14 Apr 2012 04:23:06 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=google.com; s=20120113;
-	h=content-type:mime-version:subject:from:in-reply-to:date
-	:content-transfer-encoding:message-id:references:to:x-mailer
-	:x-gm-message-state;
-	bh=e/3w4OJJqbXTPs27++jDlv2euP6op4yoxP9X76pGw7A=;
-	b=g4HbyQipTZwI0Lu+ofM7JKjxuQP2d1QtT2tAclIP23QF/5JTc8Ej5Fg3ywJ1bD7evl
-	PXSK358iUGTqA96AMqoUJ0IfQTxDbJgbuOQ1NlOvg1XWtvpbM8pKjZWDs81q5yAxYq3N
-	lzg8SgkJpNFQVySAUoLjK0Hu6eT4QuLIhfzr3AcXiKreQJt96wck5pdcPPE2gElTjmUo
-	2/AmxD1RPuhxsUCOnS2+yABk4tIgn6F9EHS+gRJ5466WbwyDXZXx71bPx4yg6GOoImf6
-	Re95R0c2DiionSoeinfZ4OvcwO6jXsvTlrebAwF2SGinjdui+CgNrfjky21maftgRftp
-	D4ug==
-Received: by 10.180.105.194 with SMTP id go2mr3557520wib.22.1334402586231;
-	Sat, 14 Apr 2012 04:23:06 -0700 (PDT)
-Received: from [172.20.1.36] (ip545070eb.adsl-surfen.hetnet.nl.
-	[84.80.112.235])
-	by mx.google.com with ESMTPS id k6sm3614406wie.9.2012.04.14.04.23.04
-	(version=TLSv1/SSLv3 cipher=OTHER);
-	Sat, 14 Apr 2012 04:23:05 -0700 (PDT)
-Mime-Version: 1.0 (Apple Message framework v1257)
-From: Koen Kooi <koen@dominion.thruhere.net>
-In-Reply-To: <7a59efe236b3ebd7472ce95bf75b9b5a27ba656c.1334400035.git.dongxiao.xu@intel.com>
-Date: Sat, 14 Apr 2012 13:23:01 +0200
-Message-Id: <5007F7A3-3E6D-4DB5-A345-B7FD4322A283@dominion.thruhere.net>
-References: <cover.1334400035.git.dongxiao.xu@intel.com>
-	<7a59efe236b3ebd7472ce95bf75b9b5a27ba656c.1334400035.git.dongxiao.xu@intel.com>
+	Sat, 14 Apr 2012 13:27:44 +0100
+Received: from tim.rpsys.net ([127.0.0.1])
+	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
+	port 10024) with LMTP
+	id 13264-01 for <openembedded-core@lists.openembedded.org>;
+	Sat, 14 Apr 2012 13:27:38 +0100 (BST)
+Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q3ECRZVr013460
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO)
+	for <openembedded-core@lists.openembedded.org>;
+	Sat, 14 Apr 2012 13:27:37 +0100
+Message-ID: <1334406457.7309.103.camel@ted>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-X-Mailer: Apple Mail (2.1257)
-X-Gm-Message-State: ALoCoQn7L8/y67iAGvOZeKGoYdfoIuDRGeeoIJ+AnxwSJK7pzljr9MjIkumwfvk+gv5KJRrIXjrc
-Subject: Re: [PATCH 1/1] gst-plugins-bad: add curl as build dependency
+Date: Sat, 14 Apr 2012 13:27:37 +0100
+In-Reply-To: <1334398490.7309.93.camel@ted>
+References: <cover.1334390876.git.nitin.a.kamble@intel.com>
+	<b903308f5d95b5c7987c251cbf9da62682363149.1334390876.git.nitin.a.kamble@intel.com>
+	<1334398490.7309.93.camel@ted>
+X-Mailer: Evolution 3.2.2- 
+Mime-Version: 1.0
+X-Virus-Scanned: amavisd-new at rpsys.net
+Subject: Re: [v2 1/4] eglibc: fix builds on fedora 17 alpha
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -51,20 +44,71 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 14 Apr 2012 11:32:28 -0000
-Content-Type: text/plain; charset=us-ascii
+X-List-Received-Date: Sat, 14 Apr 2012 12:37:08 -0000
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 
+On Sat, 2012-04-14 at 11:14 +0100, Richard Purdie wrote:
+> On Sat, 2012-04-14 at 01:59 -0700, nitin.a.kamble@intel.com wrote:
+> > From: Nitin A Kamble <nitin.a.kamble@intel.com>
+> > 
+> > Generally distros keep perl at /sur/bin/perl
+> > Fedora 17 alpha also has /bin/perl
+> > 
+> > this causes eglibc build on such distros to put perl interpreter path in
+> > the perl scripts as /bin/perl
+> > 
+> > But we set perl location for target as /usr/bin/perl
+> > 
+> > This mismatch of perl path causes failure of rootfs image creation
+> > like this:
+> > 
+> > | error: Failed dependencies:
+> > |       /bin/perl is needed by eglibc-utils-2.13-r23+svnr15508.i586
+> > NOTE: package core-image-sato-1.0-r0: task do_rootfs: Failed
+> > ERROR: Task 8
+> > (/home/nitin/prj/poky.git/meta/recipes-sato/images/core-image-sato.bb,
+> > do_rootfs) failed with exit code '1'
+> > 
+> > This Fixes bug : [YOCTO #2286]
+> > 
+> > Signed-off-by: Nitin A Kamble <nitin.a.kamble@intel.com>
+> > ---
+> >  meta/recipes-core/eglibc/eglibc-package.inc |    5 +++++
+> >  meta/recipes-core/eglibc/eglibc_2.13.bb     |    2 +-
+> >  meta/recipes-core/eglibc/eglibc_2.15.bb     |    2 +-
+> >  3 files changed, 7 insertions(+), 2 deletions(-)
+> > 
+> > diff --git a/meta/recipes-core/eglibc/eglibc-package.inc b/meta/recipes-core/eglibc/eglibc-package.inc
+> > index 9e45fc1..d13cb35 100644
+> > --- a/meta/recipes-core/eglibc/eglibc-package.inc
+> > +++ b/meta/recipes-core/eglibc/eglibc-package.inc
+> > @@ -76,6 +76,11 @@ do_install_append () {
+> >  	rm -f ${D}${sysconfdir}/localtime
+> >  
+> >  	oe_multilib_header bits/syscall.h
+> > +	
+> > +	if [ -f ${D}${bindir}/mtrace ]
+> > +	then
+> > +		sed -e "s# /bin/perl# ${bindir}/perl#" -i ${D}${bindir}/mtrace 
+> > +	fi
+> >  }
+> 
+> I'd recommend something like:
+> 
+> sed -i -e '1s,#!.*perl,#! ${bindir}/perl,' ${D}${bindir}/mtrace 
+> 
+> which will only match on the first line and matches .*perl rather
+> than /bin/perl.
 
-Op 14 apr. 2012, om 12:44 heeft Dongxiao Xu het volgende geschreven:
+I found some other issues with this and the contents of the -nativesdk
+eglibc-utils package. I've merged an updated version which uses
+${bindir}/env perl and hardcodes /usr/bin/env in the -nativesdk case
+(which is an assumption nativesdk makes in general).
 
-> gst-plugins-bad needs curl.h to finish its build, so add curl as its
-> dependency.
+Cheers,
 
-I can't be sure without the exact failure log, but: missing PR bump
+Richard
 
-regards,
-
-Koen
 
 
