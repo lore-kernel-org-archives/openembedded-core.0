@@ -1,33 +1,20 @@
-Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
-	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <richard.purdie@linuxfoundation.org>)
-	id 1SIyQA-0006aK-NR for openembedded-core@lists.openembedded.org;
-	Sat, 14 Apr 2012 10:33:26 +0200
-Received: from localhost (localhost [127.0.0.1])
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q3E8O0Lu012319;
-	Sat, 14 Apr 2012 09:24:00 +0100
-Received: from tim.rpsys.net ([127.0.0.1])
-	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
-	port 10024) with LMTP
-	id 09992-08; Sat, 14 Apr 2012 09:23:55 +0100 (BST)
-Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q3E8NmfJ012312
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO);
-	Sat, 14 Apr 2012 09:23:50 +0100
-Message-ID: <1334391830.7309.87.camel@ted>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Date: Sat, 14 Apr 2012 09:23:50 +0100
-In-Reply-To: <CAMKF1so2tFrdJgQHEcTXmN8vU4KetHL0QUjv+3=Yhi=o3DjESg@mail.gmail.com>
-References: <36ED13F3654AE54CA763E6821D93A5711043A0E3@szxeml534-mbs.china.huawei.com>
-	<4F88A76C.2000308@linux.intel.com>
-	<CAMKF1so2tFrdJgQHEcTXmN8vU4KetHL0QUjv+3=Yhi=o3DjESg@mail.gmail.com>
-X-Mailer: Evolution 3.2.2- 
-Mime-Version: 1.0
-X-Virus-Scanned: amavisd-new at rpsys.net
-Cc: Sanil kumar <sanil.kumar@huawei.com>
-Subject: Re: [PATCH] boost: fix re-execution of task
+Received: from mga11.intel.com ([192.55.52.93])
+	by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <nitin.a.kamble@intel.com>) id 1SIyy7-0001Ir-HY
+	for openembedded-core@lists.openembedded.org;
+	Sat, 14 Apr 2012 11:08:31 +0200
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+	by fmsmga102.fm.intel.com with ESMTP; 14 Apr 2012 01:59:08 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="153560251"
+Received: from nbuild0.sc.intel.com ([172.25.110.36])
+	by fmsmga002.fm.intel.com with ESMTP; 14 Apr 2012 01:59:08 -0700
+From: nitin.a.kamble@intel.com
+To: openembedded-core@lists.openembedded.org
+Date: Sat, 14 Apr 2012 01:59:06 -0700
+Message-Id: <cover.1334390876.git.nitin.a.kamble@intel.com>
+X-Mailer: git-send-email 1.7.6.5
+Subject: [v2 0/4] grub & eglibc fixes for fedora 17 alpha
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -42,82 +29,50 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 14 Apr 2012 08:33:27 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Sat, 14 Apr 2012 09:08:32 -0000
 
-On Fri, 2012-04-13 at 19:14 -0700, Khem Raj wrote:
-> On Fri, Apr 13, 2012 at 3:23 PM, Saul Wold <sgw@linux.intel.com> wrote:
-> > On 04/13/2012 04:42 AM, Venkata ramana gollamudi wrote:
-> >>
-> >> After building boost package, re-execution of boostconfig task followed by
-> >> re-execution of compile task is giving following error
-> >> "error: duplicate initialization of gcc with the following parameters"
-> >> during compilation
-> >> It is because multiple entries of gcc are being added during boostconfig
-> >> re-execution
-> >> there by failing the compilation.
-> >>
-> >> The patch fixes adding multiple "Using gcc" entries into
-> >> /tools/build/v2/user-config.jam
-> >>
-> >> [Yocto #2194]
-> >>
-> >> Signed-off-by: Venkata Ramana Gollamudi<ramana.gollamudi@huawei.com>
-> >> ---
-> >>  meta/recipes-support/boost/boost.inc |    6 +++++-
-> >>  1 files changed, 5 insertions(+), 1 deletions(-)
-> >>
-> >> diff --git a/meta/recipes-support/boost/boost.inc
-> >> b/meta/recipes-support/boost/boost.inc
-> >> index d70a7e2..c9306df 100644
-> >> --- a/meta/recipes-support/boost/boost.inc
-> >> +++ b/meta/recipes-support/boost/boost.inc
-> >> @@ -135,7 +135,11 @@ BJAM_OPTS    = '${BJAM_TOOLS} \
-> >>  do_boostconfig() {
-> >>        cp -f boost/config/platform/linux.hpp
-> >> boost/config/platform/linux-gnueabi.hpp
-> >>
-> >> -       echo 'using gcc : 4.3.1 : ${CXX} : compileflags
-> >> -DBOOST_SP_USE_PTHREADS -I${includedir} linkflags -L${libdir} ;'>>
-> >>  ${S}/tools/build/v2/user-config.jam
-> >> +       # D2194:Fixing the failure of "error: duplicate initialization of
-> >> gcc with the following parameters" during compilation.
-> >> +       if ! grep -qe "^using gcc : 4.3.1"
-> >> ${S}/tools/build/v2/user-config.jam
-> >> +       then
-> >> +               echo 'using gcc : 4.3.1 : ${CXX} : compileflags
-> >> -DBOOST_SP_USE_PTHREADS -I${includedir} linkflags -L${libdir} ;'>>
-> >>  ${S}/tools/build/v2/user-config.jam
-> >> +       fi
-> >>  }
-> >>
-> >>  addtask do_boostconfig after do_patch before do_configure
-> >
-> >
-> > Merged into OE-Core
-> 
-> I had some feedback on this patch series. I wonder if it was so meaningless.
+From: Nitin A Kamble <nitin.a.kamble@intel.com>
 
-I'd taken it before your feedback, the merge email was just a bit
-later :(.
+These are various grub fixes for correctly building grub recipes for various targets.
+These are tested for emenlow, sugerbay, qemux86, qemux86-64 machines
 
-I'm really struggling to get fixes into the tree yet keep things
-building and stable for -rc4 at the moment. I've been disappointed with
-the lack of testing some patches have had. I accelerated getting some
-things in so that they could get good exposure on the autobuilder at
-least.
+The eglibc commits is thes same as in the v1 pull request.
 
-FWIW, D2194 is referencing the Yocto bugzilla, not any other internal
-defect tracking system. I'll take patches to improve comments but I
-really want to get some of the rebuilding issues fixed for release as
-people keep hitting them and they're a pain.
+Nitin
 
-Cheers,
+The following changes since commit ee71422b9893f9f77173fb2612d1ffbbc68643c3:
 
-Richard
+  linux-yocto: allow .cfg, .scc, .patch and defconfigs to be processed in order (2012-04-13 22:44:46 +0100)
 
+are available in the git repository at:
+  git://git.pokylinux.org/poky-contrib nitin/grub3
+  http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=nitin/grub3
 
+Nitin A Kamble (4):
+  eglibc: fix builds on fedora 17 alpha
+  grub-1.99: use gcc-cross for building the target binaries
+  grub-efi-native, grub: fix build with gcc 4.7
+  grub-1.99: fix configure error
+
+ .../grub-1.99-fix-enable_execute_stack-check.patch |   27 ++++
+ .../grub/files/grub-1.99-fpmath-sse-387-fix.patch  |   37 +++++
+ ...rub-1.99-gcc-4.7.0-strict-aliasing-errors.patch |  147 ++++++++++++++++++++
+ ...b-1.99-gcc-4.7.0-uninitialized-var-errors.patch |   41 ++++++
+ .../grub/files/grub-1.99-gcc-4.7.0.patch           |   34 +++++
+ meta/recipes-bsp/grub/grub-efi-native_1.99.bb      |   10 +-
+ meta/recipes-bsp/grub/grub_1.99.bb                 |   10 +-
+ meta/recipes-core/eglibc/eglibc-package.inc        |    5 +
+ meta/recipes-core/eglibc/eglibc_2.13.bb            |    2 +-
+ meta/recipes-core/eglibc/eglibc_2.15.bb            |    2 +-
+ 10 files changed, 309 insertions(+), 6 deletions(-)
+ create mode 100644 meta/recipes-bsp/grub/files/grub-1.99-fix-enable_execute_stack-check.patch
+ create mode 100644 meta/recipes-bsp/grub/files/grub-1.99-fpmath-sse-387-fix.patch
+ create mode 100644 meta/recipes-bsp/grub/files/grub-1.99-gcc-4.7.0-strict-aliasing-errors.patch
+ create mode 100644 meta/recipes-bsp/grub/files/grub-1.99-gcc-4.7.0-uninitialized-var-errors.patch
+ create mode 100644 meta/recipes-bsp/grub/files/grub-1.99-gcc-4.7.0.patch
+
+-- 
+1.7.7
 
 
 
