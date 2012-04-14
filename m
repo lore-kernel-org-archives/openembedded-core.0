@@ -1,20 +1,24 @@
-Received: from mga09.intel.com ([134.134.136.24])
+Received: from mga03.intel.com ([143.182.124.21])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <dongxiao.xu@intel.com>) id 1SJ0ea-00006E-Ov
+	(envelope-from <dongxiao.xu@intel.com>) id 1SJ0eb-00006F-V7
 	for openembedded-core@lists.openembedded.org;
-	Sat, 14 Apr 2012 12:56:28 +0200
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-	by orsmga102.jf.intel.com with ESMTP; 14 Apr 2012 03:47:05 -0700
+	Sat, 14 Apr 2012 12:56:30 +0200
+Received: from azsmga002.ch.intel.com ([10.2.17.35])
+	by azsmga101.ch.intel.com with ESMTP; 14 Apr 2012 03:47:06 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.67,351,1309762800"; d="scan'208";a="132448367"
+X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="89010316"
 Received: from dongxiao-osel.sh.intel.com (HELO localhost) ([10.239.36.11])
-	by orsmga002.jf.intel.com with ESMTP; 14 Apr 2012 03:47:04 -0700
+	by AZSMGA002.ch.intel.com with ESMTP; 14 Apr 2012 03:47:06 -0700
 From: Dongxiao Xu <dongxiao.xu@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Sat, 14 Apr 2012 18:44:13 +0800
-Message-Id: <cover.1334400035.git.dongxiao.xu@intel.com>
+Date: Sat, 14 Apr 2012 18:44:14 +0800
+Message-Id: <7a59efe236b3ebd7472ce95bf75b9b5a27ba656c.1334400035.git.dongxiao.xu@intel.com>
 X-Mailer: git-send-email 1.7.4.1
-Subject: [PATCH 0/1][PULL] gst-plugins-bad: dependency fix
+In-Reply-To: <cover.1334400035.git.dongxiao.xu@intel.com>
+References: <cover.1334400035.git.dongxiao.xu@intel.com>
+In-Reply-To: <cover.1334400035.git.dongxiao.xu@intel.com>
+References: <cover.1334400035.git.dongxiao.xu@intel.com>
+Subject: [PATCH 1/1] gst-plugins-bad: add curl as build dependency
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -29,31 +33,29 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 14 Apr 2012 10:56:29 -0000
+X-List-Received-Date: Sat, 14 Apr 2012 10:56:30 -0000
 
-Hi Richard and Saul,
+gst-plugins-bad needs curl.h to finish its build, so add curl as its
+dependency.
 
-This pull request adds curl as gst-plugins-bad's dependency.
-
-Please help to review and pull.
-
-Thanks,
-Dongxiao
-
-The following changes since commit be298b6f0168bbd6baf90602da35904c441deade:
-
-  nspr: fix package spliting (2012-04-14 09:33:54 +0100)
-
-are available in the git repository at:
-  git://git.pokylinux.org/poky-contrib dxu4/hob-bugfix-oecore
-  http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=dxu4/hob-bugfix-oecore
-
-Dongxiao Xu (1):
-  gst-plugins-bad: add curl as build dependency
-
+Signed-off-by: Dongxiao Xu <dongxiao.xu@intel.com>
+---
  .../gstreamer/gst-plugins-bad_0.10.23.bb           |    2 +-
  1 files changed, 1 insertions(+), 1 deletions(-)
 
+diff --git a/meta/recipes-multimedia/gstreamer/gst-plugins-bad_0.10.23.bb b/meta/recipes-multimedia/gstreamer/gst-plugins-bad_0.10.23.bb
+index 656b61e..fbe1709 100644
+--- a/meta/recipes-multimedia/gstreamer/gst-plugins-bad_0.10.23.bb
++++ b/meta/recipes-multimedia/gstreamer/gst-plugins-bad_0.10.23.bb
+@@ -6,7 +6,7 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=0636e73ff0215e8d672dc4c32c317bb3 \
+                     file://COPYING.LIB;md5=55ca817ccb7d5b5b66355690e9abc605 \
+                     file://gst/tta/crc32.h;beginline=12;endline=29;md5=71a904d99ce7ae0c1cf129891b98145c"
+ 
+-DEPENDS += "gst-plugins-base libmusicbrainz tremor librsvg"
++DEPENDS += "gst-plugins-base libmusicbrainz tremor librsvg curl"
+ 
+ PR = "r1"
+ 
 -- 
 1.7.4.1
 
