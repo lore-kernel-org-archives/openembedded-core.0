@@ -1,30 +1,33 @@
 Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
 	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
 	(envelope-from <richard.purdie@linuxfoundation.org>)
-	id 1SJNN1-0000Tt-Qf for openembedded-core@lists.openembedded.org;
-	Sun, 15 Apr 2012 13:11:51 +0200
+	id 1SJNOj-0000Wb-K6 for openembedded-core@lists.openembedded.org;
+	Sun, 15 Apr 2012 13:13:37 +0200
 Received: from localhost (localhost [127.0.0.1])
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q3FB2SYK020624
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q3FB4ETa020635
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 15 Apr 2012 12:02:28 +0100
+	Sun, 15 Apr 2012 12:04:14 +0100
 Received: from tim.rpsys.net ([127.0.0.1])
 	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
 	port 10024) with LMTP
-	id 17299-09 for <openembedded-core@lists.openembedded.org>;
-	Sun, 15 Apr 2012 12:02:21 +0100 (BST)
+	id 18284-04 for <openembedded-core@lists.openembedded.org>;
+	Sun, 15 Apr 2012 12:04:09 +0100 (BST)
 Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q3FB2G1x020618
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q3FB45ZX020629
 	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO)
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 15 Apr 2012 12:02:18 +0100
-Message-ID: <1334487738.15570.2.camel@ted>
+	Sun, 15 Apr 2012 12:04:06 +0100
+Message-ID: <1334487847.16992.0.camel@ted>
 From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: openembedded-core <openembedded-core@lists.openembedded.org>
-Date: Sun, 15 Apr 2012 12:02:18 +0100
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Date: Sun, 15 Apr 2012 12:04:07 +0100
+In-Reply-To: <4F8AA8C8.2080507@windriver.com>
+References: <4F8AA8C8.2080507@windriver.com>
 X-Mailer: Evolution 3.2.2- 
 Mime-Version: 1.0
 X-Virus-Scanned: amavisd-new at rpsys.net
-Subject: [PATCH] guile: Fix binary relocation issue for precompiled guile objects
+Subject: Re: meta-toolchain-sdk: unfs-server buid error
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -39,48 +42,65 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 15 Apr 2012 11:11:52 -0000
+X-List-Received-Date: Sun, 15 Apr 2012 11:13:37 -0000
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 
-When guile-native was relocated, there were messages like:
+On Sun, 2012-04-15 at 18:54 +0800, Robert Yang wrote:
+> Hi all,
+> 
+> Does anyone meet the same error? I've met this from yesterday.
+> 
+> The host is Fedora 16 64bit,
+> MACHINE = "qemuarm"
+> 
+> $ bitbake meta-toolchain-sdk
+> 
+> | NOTE: Executing autoreconf --verbose --install --force --exclude=autopoint 
+> -I/buildarea/lyang1/sdk/tmp/sysroots/x86_64-linux/usr/share/aclocal-1.11 -I 
+> /buildarea/lyang1/sdk/tmp/work/x86_64-nativesdk-pokysdk-linux/unfs-server-nativesdk-2.1+2.2beta47-r1/nfs-server-2.2beta47//aclocal-copy/
+> | autoreconf: Entering directory `.'
+> | autoreconf: configure.in: not using Gettext
+> | autoreconf: running: aclocal -I 
+> /buildarea/lyang1/sdk/tmp/sysroots/x86_64-linux/usr/share/aclocal-1.11 -I 
+> /buildarea/lyang1/sdk/tmp/work/x86_64-nativesdk-pokysdk-linux/unfs-server-nativesdk-2.1+2.2beta47-r1/nfs-server-2.2beta47//aclocal-copy/ 
+> -I /buildarea/lyang1/sdk/tmp/sysroots/x86_64-linux/usr/share/aclocal-1.11 -I 
+> /buildarea/lyang1/sdk/tmp/work/x86_64-nativesdk-pokysdk-linux/unfs-server-nativesdk-2.1+2.2beta47-r1/nfs-server-2.2beta47//aclocal-copy/ 
+> --force --warnings=cross
+> | aclocal: unknown warning category `cross'
+> | autoreconf: configure.in: tracing
+> | autoreconf: configure.in: not using Libtool
+> | autoreconf: running: 
+> /buildarea/lyang1/sdk/tmp/sysroots/x86_64-linux/usr/bin/autoconf 
+> --include=/buildarea/lyang1/sdk/tmp/sysroots/x86_64-linux/usr/share/aclocal-1.11 
+> --include=/buildarea/lyang1/sdk/tmp/work/x86_64-nativesdk-pokysdk-linux/unfs-server-nativesdk-2.1+2.2beta47-r1/nfs-server-2.2beta47//aclocal-copy/ 
+> --force --warnings=cross
+> | configure.in:43: error: possibly undefined macro: AC_PROG_RPCGEN
+> |       If this token and others are legitimate, please use m4_pattern_allow.
+> |       See the Autoconf documentation.
+> | configure.in:44: error: possibly undefined macro: AC_RPCGEN_C
+> | configure.in:45: error: possibly undefined macro: AC_RPCGEN_I
+> | configure.in:53: error: possibly undefined macro: AC_GNULIBC
+> | configure.in:65: error: possibly undefined macro: AC_XDRPROC_T
+> | configure.in:85: error: possibly undefined macro: AC_AUTHDES_GETUCRED
+> | configure.in:86: error: possibly undefined macro: AC_BROKEN_SETFSUID
+> | configure.in:87: error: possibly undefined macro: AC_MOUNTLIST
+> | configure.in:88: error: possibly undefined macro: AC_FSUSAGE
+> | configure.in:91: error: possibly undefined macro: AC_BSD_SIGNALS
+> | autoreconf: /buildarea/lyang1/sdk/tmp/sysroots/x86_64-linux/usr/bin/autoconf 
+> failed with exit status: 1
+> | ERRO
+> NOTE: package unfs-server-nativesdk-2.1+2.2beta47-r1: task do_configure: Failed
+> ERROR: Task 1036 
+> (virtual:nativesdk:/buildarea/lyang1/poky/meta/recipes-devtools/unfs-server/unfs-server_2.1+2.2beta47.bb, 
+> do_configure) failed with exit code '1'
 
-;;; note: source file /srv/home/pokybuild/yocto-autobuilder/yocto-slave/emenlow/build/build/tmp/sysroots/x86_64-linux/usr/share/guile/2.0/ice-9/eval.scm
-;;;       newer than compiled /srv/home/pokybuild/yocto-autobuilder/yocto-slave/fri2/build/build/tmp/sysroots/x86_64-linux/usr/lib/guile/2.0/ccache/ice-9/eval.go
+This is from bug 2194. Clean unfs-server-nativesdk and the build will
+work again.
 
-and this confuses things like the autogen-native "guile --version"
-check. This patch ensures the wrapper script sets the necessary
-variables correctly.
+Cheers,
 
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
----
-diff --git a/meta/recipes-devtools/guile/guile_2.0.3.bb b/meta/recipes-devtools/guile/guile_2.0.3.bb
-index b638a18..164ab8c 100644
---- a/meta/recipes-devtools/guile/guile_2.0.3.bb
-+++ b/meta/recipes-devtools/guile/guile_2.0.3.bb
-@@ -24,7 +24,7 @@ SRC_URI = "${GNU_MIRROR}/guile/guile-${PV}.tar.gz \
- SRC_URI[md5sum] = "3b8b4e1083037f29d2c4704a6d55f2a8"
- SRC_URI[sha256sum] = "a53b21159befe3e89bbaca71e9e62cf00af0f49fcca297c407944b988d59eb08"
- 
--PR = "r4"
-+PR = "r5"
- 
- inherit autotools gettext
- BBCLASSEXTEND = "native"
-@@ -58,9 +58,11 @@ do_install_append_virtclass-native() {
- 	install -m 0755  ${D}${bindir}/guile ${D}${bindir}/${HOST_SYS}-guile
- 
- 	create_wrapper ${D}/${bindir}/guile \
--		GUILE_LOAD_PATH=${STAGING_DATADIR_NATIVE}/guile/2.0
-+		GUILE_LOAD_PATH=${STAGING_DATADIR_NATIVE}/guile/2.0 \
-+		GUILE_LOAD_COMPILED_PATH=${STAGING_LIBDIR_NATIVE}/guile/2.0/ccache
- 	create_wrapper ${D}${bindir}/${HOST_SYS}-guile
--		GUILE_LOAD_PATH=${STAGING_DATADIR_NATIVE}/guile/2.0
-+		GUILE_LOAD_PATH=${STAGING_DATADIR_NATIVE}/guile/2.0 \
-+		GUILE_LOAD_COMPILED_PATH=${STAGING_LIBDIR_NATIVE}/guile/2.0/ccache
- }
- 
- SYSROOT_PREPROCESS_FUNCS = "guile_cross_config"
+Richard
 
 
 
