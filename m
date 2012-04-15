@@ -1,30 +1,30 @@
 Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
 	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
 	(envelope-from <richard.purdie@linuxfoundation.org>)
-	id 1SJRaO-00079Z-GY for openembedded-core@lists.openembedded.org;
-	Sun, 15 Apr 2012 17:41:56 +0200
+	id 1SJS7e-000132-KD for openembedded-core@lists.openembedded.org;
+	Sun, 15 Apr 2012 18:16:18 +0200
 Received: from localhost (localhost [127.0.0.1])
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q3FFWXTS022359
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q3FG6t9P022591
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 15 Apr 2012 16:32:33 +0100
+	Sun, 15 Apr 2012 17:06:55 +0100
 Received: from tim.rpsys.net ([127.0.0.1])
 	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
 	port 10024) with LMTP
-	id 21820-03 for <openembedded-core@lists.openembedded.org>;
-	Sun, 15 Apr 2012 16:32:28 +0100 (BST)
+	id 20693-09 for <openembedded-core@lists.openembedded.org>;
+	Sun, 15 Apr 2012 17:06:51 +0100 (BST)
 Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q3FFWRl0022353
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q3FG6kjp022584
 	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO)
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 15 Apr 2012 16:32:28 +0100
-Message-ID: <1334503949.16992.31.camel@ted>
+	Sun, 15 Apr 2012 17:06:47 +0100
+Message-ID: <1334506007.16992.33.camel@ted>
 From: Richard Purdie <richard.purdie@linuxfoundation.org>
 To: openembedded-core <openembedded-core@lists.openembedded.org>
-Date: Sun, 15 Apr 2012 16:32:29 +0100
+Date: Sun, 15 Apr 2012 17:06:47 +0100
 X-Mailer: Evolution 3.2.2- 
 Mime-Version: 1.0
 X-Virus-Scanned: amavisd-new at rpsys.net
-Subject: [PATCH] man-pages: Fix to allow re-execution of tasks
+Subject: [PATCH] net-tools: Fix do_patch to be re-executable
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -39,56 +39,47 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 15 Apr 2012 15:41:56 -0000
+X-List-Received-Date: Sun, 15 Apr 2012 16:16:18 -0000
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 
-The all target in the makefile triggers "screen" and "remove" targets,
-neither of which do anything useful/sane for our usecases. The simplest
-way to get the makefile to behave is to only use the install target.
+This recipe's do_patch was not able to be re-executed due to its custom
+patching functions. This fixes things so that it can be re-executed.
 
-Clean up the recipe a bit whilst making these changes and simplify things.
+It also fixes the unpack task re-execution by ensuring ${S} is clean
+before the unpack starts.
 
 [YOCTO #2194]
 
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 ---
-diff --git a/meta/recipes-extended/man-pages/man-pages_3.36.bb b/meta/recipes-extended/man-pages/man-pages_3.36.bb
-index 4e888dc..6025a87 100644
---- a/meta/recipes-extended/man-pages/man-pages_3.36.bb
-+++ b/meta/recipes-extended/man-pages/man-pages_3.36.bb
-@@ -3,7 +3,7 @@ DESCRIPTION = "The Linux man-pages project documents the Linux kernel and C libr
- SECTION = "console/utils"
- HOMEPAGE = "http://www.kernel.org/pub/linux/docs/man-pages"
- LICENSE = "GPLv2+"
--PR = "r0"
-+PR = "r1"
- 
- LIC_FILES_CHKSUM = "file://README;md5=0422377a748010b2b738342e24f141c1"
- SRC_URI = "${KERNELORG_MIRROR}/linux/docs/man-pages/Archive/${BPN}-${PV}.tar.gz"
-@@ -13,19 +13,15 @@ SRC_URI[sha256sum] = "c0575e31f73cd9dc2761c274217e06e7130fdfee510170957a9d72d012
- 
- RDEPENDS_${PN} = "man"
- 
--do_configure_prepend() {
--	rm -rf not_installed
--}
--
- do_configure () {
--      :
-+	:
+diff --git a/meta/recipes-extended/net-tools/net-tools_1.60-23.bb
+b/meta/recipes-extended/net-tools/net-tools_1.60-23.bb
+index 213fb60..c8d2c57 100644
+--- a/meta/recipes-extended/net-tools/net-tools_1.60-23.bb
++++ b/meta/recipes-extended/net-tools/net-tools_1.60-23.bb
+@@ -31,11 +31,19 @@ PARALLEL_MAKE = ""
+ # up all previously applied patches in the start
+ nettools_do_patch() {
+ 	cd ${S}
+-	patch -p1 < ${WORKDIR}/${BPN}_${PV}.diff
++	quilt pop -a || true
++	if [ -d ${S}/.pc-nettools ]; then
++		mv ${S}/.pc-nettools ${S}/.pc
++		QUILT_PATCHES=${S}/debian/patches quilt pop -a
++		rm -rf ${S}/.pc ${S}/debian
++	fi
++	patch -p1 < ${WORKDIR}/${BPN}_${PV}.diff	
+ 	QUILT_PATCHES=${S}/debian/patches quilt push -a
+-	rm -rf ${S}/patches ${S}/.pc
++	mv ${S}/.pc ${S}/.pc-nettools
  }
  
- do_compile() {
--	oe_runmake -f Makefile DESTDIR=${D} MANDIR=${D}${mandir}
-+	:
- }
- 
--fakeroot do_install() {
-+do_install() {
-         oe_runmake install DESTDIR=${D}
- }
- 
++do_unpack[cleandirs] += "${S}"
++
+ # We invoke base do_patch at end, to incorporate any local patch
+ python do_patch() {
+ 	bb.build.exec_func('nettools_do_patch', d)
 
 
 
