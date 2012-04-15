@@ -1,30 +1,30 @@
 Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
 	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
 	(envelope-from <richard.purdie@linuxfoundation.org>)
-	id 1SJR5h-0006ir-UY for openembedded-core@lists.openembedded.org;
-	Sun, 15 Apr 2012 17:10:14 +0200
+	id 1SJRaO-00079Z-GY for openembedded-core@lists.openembedded.org;
+	Sun, 15 Apr 2012 17:41:56 +0200
 Received: from localhost (localhost [127.0.0.1])
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q3FF0ocF021828
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q3FFWXTS022359
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 15 Apr 2012 16:00:50 +0100
+	Sun, 15 Apr 2012 16:32:33 +0100
 Received: from tim.rpsys.net ([127.0.0.1])
 	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
 	port 10024) with LMTP
-	id 20693-06 for <openembedded-core@lists.openembedded.org>;
-	Sun, 15 Apr 2012 16:00:46 +0100 (BST)
+	id 21820-03 for <openembedded-core@lists.openembedded.org>;
+	Sun, 15 Apr 2012 16:32:28 +0100 (BST)
 Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q3FF0efe021822
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q3FFWRl0022353
 	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO)
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 15 Apr 2012 16:00:42 +0100
-Message-ID: <1334502042.16992.29.camel@ted>
+	Sun, 15 Apr 2012 16:32:28 +0100
+Message-ID: <1334503949.16992.31.camel@ted>
 From: Richard Purdie <richard.purdie@linuxfoundation.org>
 To: openembedded-core <openembedded-core@lists.openembedded.org>
-Date: Sun, 15 Apr 2012 16:00:42 +0100
+Date: Sun, 15 Apr 2012 16:32:29 +0100
 X-Mailer: Evolution 3.2.2- 
 Mime-Version: 1.0
 X-Virus-Scanned: amavisd-new at rpsys.net
-Subject: [PATCH] pseudo: Ensure the correct libraries are used at runtime
+Subject: [PATCH] man-pages: Fix to allow re-execution of tasks
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -39,73 +39,55 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 15 Apr 2012 15:10:14 -0000
+X-List-Received-Date: Sun, 15 Apr 2012 15:41:56 -0000
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 
-There can be a conflict between the nativesdk libc and the host system's
-libc. It is assumed the nativesdk version is of an equal or higher version.
-This is a particular issue for pseudo if its loading a system binary
-since the system's libc might be used of an older verison which would
-then confuse libpseudo.so when loaded as a preload.
+The all target in the makefile triggers "screen" and "remove" targets,
+neither of which do anything useful/sane for our usecases. The simplest
+way to get the makefile to behave is to only use the install target.
 
-To avoid this, set LD_LIBRARY_PATH so the nativesdk libc is always
-used.
+Clean up the recipe a bit whilst making these changes and simplify things.
 
-Since we now use --without-rpath, we can remove the MAKEOPTS RPATH workaround.
-
-[YOCTO #2299]
+[YOCTO #2194]
 
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 ---
-diff --git a/meta/recipes-devtools/pseudo/pseudo.inc b/meta/recipes-devtools/pseudo/pseudo.inc
-index d710058..6ac1301 100644
---- a/meta/recipes-devtools/pseudo/pseudo.inc
-+++ b/meta/recipes-devtools/pseudo/pseudo.inc
-@@ -13,10 +13,7 @@ FILES_${PN} = "${libdir}/pseudo/lib*/libpseudo.so ${bindir}/* ${localstatedir}/p
- FILES_${PN}-dbg += "${libdir}/pseudo/lib*/.debug"
- PROVIDES += "virtual/fakeroot"
+diff --git a/meta/recipes-extended/man-pages/man-pages_3.36.bb b/meta/recipes-extended/man-pages/man-pages_3.36.bb
+index 4e888dc..6025a87 100644
+--- a/meta/recipes-extended/man-pages/man-pages_3.36.bb
++++ b/meta/recipes-extended/man-pages/man-pages_3.36.bb
+@@ -3,7 +3,7 @@ DESCRIPTION = "The Linux man-pages project documents the Linux kernel and C libr
+ SECTION = "console/utils"
+ HOMEPAGE = "http://www.kernel.org/pub/linux/docs/man-pages"
+ LICENSE = "GPLv2+"
+-PR = "r0"
++PR = "r1"
  
--# In the nativesdk case, we'll already search the searchpaths
--# pseudo tries to build in so override RPATH
- MAKEOPTS = ""
--MAKEOPTS_virtclass-nativesdk = "'RPATH='"
+ LIC_FILES_CHKSUM = "file://README;md5=0422377a748010b2b738342e24f141c1"
+ SRC_URI = "${KERNELORG_MIRROR}/linux/docs/man-pages/Archive/${BPN}-${PV}.tar.gz"
+@@ -13,19 +13,15 @@ SRC_URI[sha256sum] = "c0575e31f73cd9dc2761c274217e06e7130fdfee510170957a9d72d012
  
- inherit siteinfo
+ RDEPENDS_${PN} = "man"
  
-@@ -78,6 +75,8 @@ do_install_append_virtclass-nativesdk () {
- 		mkdir -p ${D}${prefix}/lib/pseudo/lib
- 		cp lib/pseudo/lib/libpseudo.so ${D}${prefix}/lib/pseudo/lib/.
- 	fi
-+
-+	create_wrapper ${D}${bindir}/pseudo LD_LIBRARY_PATH=${base_libdir}:${libdir}
+-do_configure_prepend() {
+-	rm -rf not_installed
+-}
+-
+ do_configure () {
+-      :
++	:
  }
  
- BBCLASSEXTEND = "native nativesdk"
-diff --git a/meta/recipes-devtools/pseudo/pseudo_1.3.bb b/meta/recipes-devtools/pseudo/pseudo_1.3.bb
-index 080b739..b16b2d9 100644
---- a/meta/recipes-devtools/pseudo/pseudo_1.3.bb
-+++ b/meta/recipes-devtools/pseudo/pseudo_1.3.bb
-@@ -1,6 +1,6 @@
- require pseudo.inc
+ do_compile() {
+-	oe_runmake -f Makefile DESTDIR=${D} MANDIR=${D}${mandir}
++	:
+ }
  
--PR = "r8"
-+PR = "r9"
- 
- SRC_URI = "http://www.yoctoproject.org/downloads/${BPN}/${BPN}-${PV}.tar.bz2"
- 
-diff --git a/meta/recipes-devtools/pseudo/pseudo_git.bb b/meta/recipes-devtools/pseudo/pseudo_git.bb
-index 7857275..5771295 100644
---- a/meta/recipes-devtools/pseudo/pseudo_git.bb
-+++ b/meta/recipes-devtools/pseudo/pseudo_git.bb
-@@ -2,7 +2,7 @@ require pseudo.inc
- 
- SRCREV = "f0375c9aaefbccfd41aebbf6d332bb4d9e8f980c"
- PV = "1.3+git${SRCPV}"
--PR = "r23"
-+PR = "r24"
- 
- DEFAULT_PREFERENCE = "-1"
+-fakeroot do_install() {
++do_install() {
+         oe_runmake install DESTDIR=${D}
+ }
  
 
 
