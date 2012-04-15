@@ -1,30 +1,32 @@
-Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
-	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <richard.purdie@linuxfoundation.org>)
-	id 1SJT2p-000201-3K for openembedded-core@lists.openembedded.org;
-	Sun, 15 Apr 2012 19:15:23 +0200
-Received: from localhost (localhost [127.0.0.1])
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q3FH5xw7022978
+Received: from mail-lb0-f175.google.com ([209.85.217.175])
+	by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <raj.khem@gmail.com>) id 1SJZFF-0007oo-9y
+	for openembedded-core@lists.openembedded.org;
+	Mon, 16 Apr 2012 01:52:37 +0200
+Received: by lbjn8 with SMTP id n8so171644lbj.6
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 15 Apr 2012 18:05:59 +0100
-Received: from tim.rpsys.net ([127.0.0.1])
-	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
-	port 10024) with LMTP
-	id 21820-04 for <openembedded-core@lists.openembedded.org>;
-	Sun, 15 Apr 2012 18:05:55 +0100 (BST)
-Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q3FH5pKo022972
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO)
-	for <openembedded-core@lists.openembedded.org>;
-	Sun, 15 Apr 2012 18:05:51 +0100
-Message-ID: <1334509553.16992.34.camel@ted>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: openembedded-core <openembedded-core@lists.openembedded.org>
-Date: Sun, 15 Apr 2012 18:05:53 +0100
-X-Mailer: Evolution 3.2.2- 
-Mime-Version: 1.0
-X-Virus-Scanned: amavisd-new at rpsys.net
-Subject: [PATCH] gcc-configure-common.inc: Stop gcc looking at build system paths
+	Sun, 15 Apr 2012 16:43:12 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:content-type; bh=GE1+JDp8wHj2Rnzr6vog4AwF283Sobq+KWOG07aYFqI=;
+	b=YZkQbXlzghDQJlxt9BFqwjv3i0TZML+EscolE29PbuYjCnYWdd1ZKQZWtd7vsYV7lh
+	yxXLAMYDRLjSrRKc+VK4FLHd7vqeoIvz3g4CAtJOo8ocs9qcA8iP3e4aeU7YCEQB83oj
+	uA0tgfvwfZTfktgh+lxa+znL1/iVO2M3Mgu8ND/MPYPtFfP/S2z7AmaeOlDo5egEA7im
+	+6Ffb6771DNgsF+WlVE2/L0aau91dsEPhPhn3NbPuVKQvumt0wEaoniUkVN4ykMTn38f
+	cSyrrxzGxfon0p01z1D0aDjnAUYM1iXaujpsOGTLv5bCRTCsQpKZ4R5J4/vdwgF3hcxj
+	mbOw==
+Received: by 10.112.83.105 with SMTP id p9mr4276919lby.43.1334533392180; Sun,
+	15 Apr 2012 16:43:12 -0700 (PDT)
+MIME-Version: 1.0
+Received: by 10.152.129.134 with HTTP; Sun, 15 Apr 2012 16:42:41 -0700 (PDT)
+In-Reply-To: <1334509553.16992.34.camel@ted>
+References: <1334509553.16992.34.camel@ted>
+From: Khem Raj <raj.khem@gmail.com>
+Date: Sun, 15 Apr 2012 16:42:41 -0700
+Message-ID: <CAMKF1srUybfieu7yw8NGy5b9myojC=KZXRuue7xB0ELZObgHHQ@mail.gmail.com>
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] gcc-configure-common.inc: Stop gcc looking at build system paths
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -39,41 +41,15 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 15 Apr 2012 17:15:23 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Sun, 15 Apr 2012 23:52:37 -0000
+Content-Type: text/plain; charset=UTF-8
 
-There were puzzling failures when you make a force recompile of any gcc
-component. The error was in do_configure with cross-compilation badness
-being detected in config.log files.
+On Sun, Apr 15, 2012 at 10:05 AM, Richard Purdie
+<richard.purdie@linuxfoundation.org> wrote:
+> gcc_cv_collect2_libs
 
-gcc is different in that many of the config.log files are generated during
-the do_compile phase. This means this host contamination issue has always
-been present but only shows up on a rebuild.
-
-The fix is to force the appropriate configuration variable to "none required"
-then gcc won't look in the bad locations.
-
-[YOCTO #2279]
-
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
----
-diff --git a/meta/recipes-devtools/gcc/gcc-configure-common.inc b/meta/recipes-devtools/gcc/gcc-configure-common.inc
-index 7a96e91..9542dc9 100644
---- a/meta/recipes-devtools/gcc/gcc-configure-common.inc
-+++ b/meta/recipes-devtools/gcc/gcc-configure-common.inc
-@@ -107,6 +107,10 @@ do_configure () {
- 	export CXXFLAGS_FOR_BUILD="${BUILD_CXXFLAGS}"
- 	export LDFLAGS_FOR_BUILD="${BUILD_LDFLAGS}"
- 	export ARCH_FLAGS_FOR_TARGET="${ARCH_FLAGS_FOR_TARGET}"
-+	# We need to set this else there is cross-compilation badness
-+	# in the config.log files (which might not get generated until do_compile
-+	# hence being missed by the insane do_configure check).
-+	export gcc_cv_collect2_libs="none required"
- 	(cd ${S} && gnu-configize) || die "failure running gnu-configize"
- 
- 	oe_runconf
-
-
+is it the /usr/lib/cmplrs/cc2.11 access issue ?
+in that case the fix it fine. However if its something in LTO
+then we need to dig deeper
 
 
