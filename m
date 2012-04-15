@@ -1,27 +1,20 @@
-Received: from mga02.intel.com ([134.134.136.20])
+Received: from mga01.intel.com ([192.55.52.88])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <dongxiao.xu@intel.com>) id 1SJCsE-0004ga-Kf
+	(envelope-from <paul.eggleton@linux.intel.com>) id 1SJEw1-0006yD-3D
 	for openembedded-core@lists.openembedded.org;
-	Sun, 15 Apr 2012 01:59:22 +0200
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-	by orsmga101.jf.intel.com with ESMTP; 14 Apr 2012 16:49:58 -0700
+	Sun, 15 Apr 2012 04:11:25 +0200
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+	by fmsmga101.fm.intel.com with ESMTP; 14 Apr 2012 19:02:00 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.67,352,1309762800"; d="scan'208";a="129646710"
-Received: from dongxiao-osel.sh.intel.com (HELO [10.239.36.11])
-	([10.239.36.11])
-	by orsmga001.jf.intel.com with ESMTP; 14 Apr 2012 16:49:57 -0700
-From: "Xu, Dongxiao" <dongxiao.xu@intel.com>
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-In-Reply-To: <5007F7A3-3E6D-4DB5-A345-B7FD4322A283@dominion.thruhere.net>
-References: <cover.1334400035.git.dongxiao.xu@intel.com>
-	<7a59efe236b3ebd7472ce95bf75b9b5a27ba656c.1334400035.git.dongxiao.xu@intel.com>
-	<5007F7A3-3E6D-4DB5-A345-B7FD4322A283@dominion.thruhere.net>
-Date: Sun, 15 Apr 2012 07:47:06 +0800
-Message-ID: <1334447226.27917.42.camel@dongxiao-osel>
-Mime-Version: 1.0
-X-Mailer: Evolution 2.32.2 
-Subject: Re: [PATCH 1/1] gst-plugins-bad: add curl as build dependency
+X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="141825617"
+Received: from unknown (HELO helios.ger.corp.intel.com) ([10.252.120.47])
+	by fmsmga001.fm.intel.com with ESMTP; 14 Apr 2012 19:01:59 -0700
+From: Paul Eggleton <paul.eggleton@linux.intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Sun, 15 Apr 2012 03:01:56 +0100
+Message-Id: <cover.1334455199.git.paul.eggleton@linux.intel.com>
+X-Mailer: git-send-email 1.7.5.4
+Subject: [PATCH 0/1] Fix connman-gnome for connman 0.79
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -36,75 +29,40 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 14 Apr 2012 23:59:22 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Sun, 15 Apr 2012 02:11:25 -0000
 
-On Sat, 2012-04-14 at 13:23 +0200, Koen Kooi wrote:
-> Op 14 apr. 2012, om 12:44 heeft Dongxiao Xu het volgende geschreven:
->=20
-> > gst-plugins-bad needs curl.h to finish its build, so add curl as its
-> > dependency.
->=20
-> I can't be sure without the exact failure log, but: missing PR bump
+The following change since commit 4396db54dba4afdb9f1099f4e386dc25c76f49fb:
 
-Add a dependency here doesn't impact the original build. If the original
-build is successful, it means curl has already been built by chance. Do
-we still need to bump PR in this case?
+  grub: Add missing dependency on autogen-native to avoid build failures (2012-04-14 23:42:16 +0100)
 
-Besides, this is the detailed log:
+is available in the git repository at:
+  git://git.openembedded.org/openembedded-core-contrib paule/connman-gnome
+  http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=paule/connman-gnome
 
-i586-poky-linux-libtool: compile:  i586-poky-linux-gcc -m32 -march=3Di586
---sysroot=3D/distro/sdb/build-master/tmp/sysroots/qemux86 -std=3Dgnu99
--DHAVE_CONFIG_H -I. -I../.. -pthread
--I/distro/sdb/build-master/tmp/sysroots/qemux86/usr/include/gstreamer-0.10 =
--I/distro/sdb/build-master/tmp/sysroots/qemux86/usr/include/glib-2.0 -I/dis=
-tro/sdb/build-master/tmp/sysroots/qemux86/usr/lib/glib-2.0/include -I/distr=
-o/sdb/build-master/tmp/sysroots/qemux86/usr/include/libxml2 -pthread -I/dis=
-tro/sdb/build-master/tmp/sysroots/qemux86/usr/include/gstreamer-0.10 -I/dis=
-tro/sdb/build-master/tmp/sysroots/qemux86/usr/include/glib-2.0 -I/distro/sd=
-b/build-master/tmp/sysroots/qemux86/usr/lib/glib-2.0/include -I/distro/sdb/=
-build-master/tmp/sysroots/qemux86/usr/include/libxml2 -DG_THREADS_MANDATORY=
- -DG_DISABLE_CAST_CHECKS -DG_DISABLE_ASSERT -Wall -Wdeclaration-after-state=
-ment -Wvla -Wpointer-arith -Wmissing-declarations -Wmissing-prototypes -Wre=
-dundant-decls -Wwrite-strings -Wformat-security -Wold-style-definition -Win=
-it-self -Wmissing-include-dirs -Waddress -Wno-multichar -Wnested-externs -O=
-2 -pipe -g -feliminate-unused-debug-types -c gstcurlsink.c  -fPIC -DPIC -o =
-.libs/libgstcurl_la-gstcurlsink.o
-i586-poky-linux-libtool: compile:  i586-poky-linux-gcc -m32 -march=3Di586
---sysroot=3D/distro/sdb/build-master/tmp/sysroots/qemux86 -std=3Dgnu99
--DHAVE_CONFIG_H -I. -I../.. -pthread
--I/distro/sdb/build-master/tmp/sysroots/qemux86/usr/include/gstreamer-0.10 =
--I/distro/sdb/build-master/tmp/sysroots/qemux86/usr/include/glib-2.0 -I/dis=
-tro/sdb/build-master/tmp/sysroots/qemux86/usr/lib/glib-2.0/include -I/distr=
-o/sdb/build-master/tmp/sysroots/qemux86/usr/include/libxml2 -pthread -I/dis=
-tro/sdb/build-master/tmp/sysroots/qemux86/usr/include/gstreamer-0.10 -I/dis=
-tro/sdb/build-master/tmp/sysroots/qemux86/usr/include/glib-2.0 -I/distro/sd=
-b/build-master/tmp/sysroots/qemux86/usr/lib/glib-2.0/include -I/distro/sdb/=
-build-master/tmp/sysroots/qemux86/usr/include/libxml2 -DG_THREADS_MANDATORY=
- -DG_DISABLE_CAST_CHECKS -DG_DISABLE_ASSERT -Wall -Wdeclaration-after-state=
-ment -Wvla -Wpointer-arith -Wmissing-declarations -Wmissing-prototypes -Wre=
-dundant-decls -Wwrite-strings -Wformat-security -Wold-style-definition -Win=
-it-self -Wmissing-include-dirs -Waddress -Wno-multichar -Wnested-externs -O=
-2 -pipe -g -feliminate-unused-debug-types -c gstcurl.c  -fPIC -DPIC -o .lib=
-s/libgstcurl_la-gstcurl.o
-gstcurlsink.c:45:23: fatal error: curl/curl.h: No such file or directory
-compilation terminated.
-make[3]: *** [libgstcurl_la-gstcurlsink.lo] Error 1
-make[3]: *** Waiting for unfinished jobs....
+Paul Eggleton (1):
+  connman-gnome: connman 0.79 API fixes
 
-Thanks,
-Dongxiao
->=20
-> regards,
->=20
-> Koen
->=20
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
+ ...0001-Monitor-the-Manager-s-State-property.patch |   48 +
+ .../0002-Update-for-ConnMan-0.79-API-changes.patch |  865 ++++++++++++++++++
+ .../0003-Fix-setting-IPv4-configuration.patch      |   85 ++
+ ...Handle-WiFi-authentication-using-an-agent.patch |  923 ++++++++++++++++++++
+ ...emove-all-handling-of-Passphrase-property.patch |  249 ++++++
+ ...ix-status-descriptions-in-properties-tree.patch |   42 +
+ .../connman/connman-gnome/3g.patch                 |  507 -----------
+ .../connman/connman-gnome/security-type.patch      |   41 -
+ .../connman/connman-gnome_0.5.bb                   |   14 +-
+ 9 files changed, 2221 insertions(+), 553 deletions(-)
+ create mode 100644 meta/recipes-connectivity/connman/connman-gnome/0001-Monitor-the-Manager-s-State-property.patch
+ create mode 100644 meta/recipes-connectivity/connman/connman-gnome/0002-Update-for-ConnMan-0.79-API-changes.patch
+ create mode 100644 meta/recipes-connectivity/connman/connman-gnome/0003-Fix-setting-IPv4-configuration.patch
+ create mode 100644 meta/recipes-connectivity/connman/connman-gnome/0004-Handle-WiFi-authentication-using-an-agent.patch
+ create mode 100644 meta/recipes-connectivity/connman/connman-gnome/0005-Remove-all-handling-of-Passphrase-property.patch
+ create mode 100644 meta/recipes-connectivity/connman/connman-gnome/0006-Fix-status-descriptions-in-properties-tree.patch
+ delete mode 100644 meta/recipes-connectivity/connman/connman-gnome/3g.patch
+ delete mode 100644 meta/recipes-connectivity/connman/connman-gnome/security-type.patch
 
+-- 
+1.7.5.4
 
 
 
