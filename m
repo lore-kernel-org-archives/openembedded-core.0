@@ -1,24 +1,32 @@
-Received: from mga09.intel.com ([134.134.136.24])
+Received: from mail-gy0-f175.google.com ([209.85.160.175])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <elizabeth.flanagan@intel.com>) id 1SJsK3-0004af-Lp
+	(envelope-from <kergoth@gmail.com>) id 1SJsvG-00053Z-Fn
 	for openembedded-core@lists.openembedded.org;
-	Mon, 16 Apr 2012 22:14:51 +0200
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-	by orsmga102.jf.intel.com with ESMTP; 16 Apr 2012 13:05:26 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.67,352,1309762800"; d="scan'208";a="130306130"
-Received: from envy.jf.intel.com ([10.7.201.175])
-	by orsmga001.jf.intel.com with ESMTP; 16 Apr 2012 13:05:26 -0700
-From: Beth Flanagan <elizabeth.flanagan@intel.com>
+	Mon, 16 Apr 2012 22:53:18 +0200
+Received: by ghbz2 with SMTP id z2so2767925ghb.6
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 16 Apr 2012 13:43:52 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=from:to:cc:subject:date:message-id:x-mailer;
+	bh=YFEc0FKJi3Ycqkqb7CavQ8iEEfj6hyk6f8uar8pIjKQ=;
+	b=ie9Ur7cN/Rumv3Hnl/ispkynV+v5YZU8fpupmjL/uhwjcePa7ptNuqA5lGTwpMrCVz
+	OpWSFpGvdRX89u1a+4dWs2RB2KPRG+ZnnOW+qSOtiANa7mAWN42txBhtccgTwsRIvDKI
+	CKucyq0iwOIu59Q/1YhXFBLFjL4nVlhxXZVcP9BqnbUm7uzKlwXEv8PIboLEPQsmIWt7
+	dmHBkl+AnyehZzIoesPpFsMsp/I6razjoQ2IlDVL/vO3aBXhEKudiQlpyVFr6D1a4VXm
+	sxXCMzLmSoUPu7G58NG2K59MIrlDveE4001eg1kR6LtNz+xoLUT0vV5+HYCAESOng4dl
+	kPhw==
+Received: by 10.60.28.33 with SMTP id y1mr17792574oeg.62.1334609032586;
+	Mon, 16 Apr 2012 13:43:52 -0700 (PDT)
+Received: from localhost.localdomain (nat-lmt.mentorg.com. [139.181.28.34])
+	by mx.google.com with ESMTPS id r8sm16557555oer.6.2012.04.16.13.43.49
+	(version=TLSv1/SSLv3 cipher=OTHER);
+	Mon, 16 Apr 2012 13:43:50 -0700 (PDT)
+From: Christopher Larson <kergoth@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Mon, 16 Apr 2012 13:10:32 -0700
-Message-Id: <f21050583e1ff9e045767afab27bef48028a3d6c.1334606582.git.elizabeth.flanagan@intel.com>
-X-Mailer: git-send-email 1.7.1
-In-Reply-To: <cover.1334606582.git.elizabeth.flanagan@intel.com>
-References: <cover.1334606582.git.elizabeth.flanagan@intel.com>
-In-Reply-To: <cover.1334606582.git.elizabeth.flanagan@intel.com>
-References: <cover.1334606582.git.elizabeth.flanagan@intel.com>
-Subject: [PATCH 2/2] core-image-sato-sdk: typo in DESCRIPTION
+Date: Mon, 16 Apr 2012 15:43:38 -0500
+Message-Id: <cover.1334608810.git.kergoth@gmail.com>
+X-Mailer: git-send-email 1.7.7
+Subject: [PATCH 0/7] External csl toolchain improvements
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -33,30 +41,37 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 16 Apr 2012 20:14:51 -0000
+X-List-Received-Date: Mon, 16 Apr 2012 20:53:18 -0000
 
-Fix for a minor type in DESCRIPTION
+This cleans up the recipe and simplifies it, fixes up locale handling,
+silences QA packaging warnings, and includes toolchain version in the metadata
+checksums for target recipes. Obviously this is intended for after the final
+release.
 
-Signed-off-by: Beth Flanagan <elizabeth.flanagan@intel.com>
----
- meta/recipes-sato/images/core-image-sato-sdk.bb |    2 +-
- 1 files changed, 1 insertions(+), 1 deletions(-)
+The following changes since commit 4e1a8ed1ab7e7bd950e511c79ddfe072cb280a6e:
 
-diff --git a/meta/recipes-sato/images/core-image-sato-sdk.bb b/meta/recipes-sato/images/core-image-sato-sdk.bb
-index 6dfd470..eed1698 100644
---- a/meta/recipes-sato/images/core-image-sato-sdk.bb
-+++ b/meta/recipes-sato/images/core-image-sato-sdk.bb
-@@ -3,7 +3,7 @@
- #
- DESCRIPTION = "Image with Sato support that includes everything within \
- core-image-sato plus meta-toolchain, development headers and libraries to \
--form a standalone SD."
-+form a standalone SDK."
- 
- IMAGE_FEATURES += "apps-console-core ${SATO_IMAGE_FEATURES} dev-pkgs tools-sdk qt4-pkgs"
- EXTRA_IMAGE_FEATURES += "tools-debug tools-profile tools-testapps debug-tweaks"
+  bitbake.conf: Include abi_version.conf in a early stage (2012-04-16 12:51:50 +0100)
+
+are available in the git repository at:
+  git://github.com/kergoth/oe-core external-csl-improvements
+
+Christopher Larson (7):
+  external-csl-toolchain: split out a libstdc++-staticdev package
+  libc-package: fix handling for 'precompiled' locales
+  csl-versions.inc: capture version in signatures
+  tcmode-external-csl: use the existing precompiled locale files
+  external-csl-toolchain: silence .a/.debug QA warnings
+  external-csl-toolchain: cleanup, simplify, use base_libdir
+  external-csl-toolchain: update for locale bits
+
+ meta/classes/libc-package.bbclass                |   12 ++--
+ meta/conf/distro/include/csl-versions.inc        |    4 +
+ meta/conf/distro/include/tcmode-external-csl.inc |    4 +
+ meta/recipes-core/meta/external-csl-toolchain.bb |   70 ++++++++++-----------
+ 4 files changed, 48 insertions(+), 42 deletions(-)
+
 -- 
-1.7.1
+1.7.7
 
 
 
