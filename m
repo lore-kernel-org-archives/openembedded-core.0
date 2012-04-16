@@ -1,24 +1,25 @@
-Received: from mga03.intel.com ([143.182.124.21])
+Received: from mga02.intel.com ([134.134.136.20])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <paul.eggleton@linux.intel.com>) id 1SJpAH-0001Gy-OV
+	(envelope-from <paul.eggleton@linux.intel.com>) id 1SJpIU-0001kQ-LX
 	for openembedded-core@lists.openembedded.org;
-	Mon, 16 Apr 2012 18:52:33 +0200
-Received: from azsmga001.ch.intel.com ([10.2.17.19])
-	by azsmga101.ch.intel.com with ESMTP; 16 Apr 2012 09:43:06 -0700
+	Mon, 16 Apr 2012 19:01:02 +0200
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+	by orsmga101.jf.intel.com with ESMTP; 16 Apr 2012 09:51:36 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="131525091"
-Received: from unknown (HELO helios.ger.corp.intel.com) ([10.252.120.96])
-	by azsmga001.ch.intel.com with ESMTP; 16 Apr 2012 09:43:05 -0700
+X-IronPort-AV: E=Sophos;i="4.67,352,1309762800"; d="scan'208";a="130227948"
+Received: from unknown (HELO helios.localnet) ([10.252.120.96])
+	by orsmga001.jf.intel.com with ESMTP; 16 Apr 2012 09:51:36 -0700
 From: Paul Eggleton <paul.eggleton@linux.intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Mon, 16 Apr 2012 17:43:02 +0100
-Message-Id: <d019790ba99d06f2f520d26b0f0a862c77353645.1334594354.git.paul.eggleton@linux.intel.com>
-X-Mailer: git-send-email 1.7.5.4
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Date: Mon, 16 Apr 2012 17:51:33 +0100
+Message-ID: <1469677.3CtmNycder@helios>
+Organization: Intel Corporation
+User-Agent: KMail/4.8.2 (Linux/3.0.0-17-generic-pae; KDE/4.8.2; i686; ; )
 In-Reply-To: <cover.1334594354.git.paul.eggleton@linux.intel.com>
 References: <cover.1334594354.git.paul.eggleton@linux.intel.com>
-In-Reply-To: <cover.1334594354.git.paul.eggleton@linux.intel.com>
-References: <cover.1334594354.git.paul.eggleton@linux.intel.com>
-Subject: [PATCH 1/1] perl: fix re-execution of patch/configure
+MIME-Version: 1.0
+Subject: Re: [PATCH 0/1] Fix perl re-execution issues
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -33,61 +34,27 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 16 Apr 2012 16:52:34 -0000
+X-List-Received-Date: Mon, 16 Apr 2012 17:01:02 -0000
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
 
-The perl recipe's do_configure() does some manual sed replacements over
-the entire WORKDIR. Fix the following issues with this:
+On Monday 16 April 2012 17:43:01 Paul Eggleton wrote:
+> Fix re-execution issues within perl.
+> 
+> Note: I identified that some references to /usr/include are still not
+> being substituted before or after this patch - you can see these by
+> doing "grep -rI '/usr/include' *" 
 
-* Skip patches, which fixes re-execution of do_patch after do_configure
-  has run once
-* Ensure that the replacement operation does nothing if do_configure is
-  re-executed
-* Avoid unnecessarily modifying /usr/include paths within documentation
-  that will end up being packaged
-* Fix a quoting issue in the expression used in the grep command that
-  ended up causing files that did not contain .*\.h after /usr/include
-  to be matched and modified.
+er, that should be:
 
-The files modified during do_configure have been compared before and
-after this patch to ensure there are no unexpected changes. Some
-/usr/include paths that are not within documentation are no longer
-being substituted however these are all within comments or scripts for
-other Unix operating systems that are not applicable.
+grep -rI "'/usr/include'" *
 
-[YOCTO #2194]
+Cheers,
+Paul
 
-Signed-off-by: Paul Eggleton <paul.eggleton@linux.intel.com>
----
- meta/recipes-devtools/perl/perl_5.14.2.bb |    6 +++---
- 1 files changed, 3 insertions(+), 3 deletions(-)
-
-diff --git a/meta/recipes-devtools/perl/perl_5.14.2.bb b/meta/recipes-devtools/perl/perl_5.14.2.bb
-index 8f3ad25..ecb2262 100644
---- a/meta/recipes-devtools/perl/perl_5.14.2.bb
-+++ b/meta/recipes-devtools/perl/perl_5.14.2.bb
-@@ -7,7 +7,7 @@ LIC_FILES_CHKSUM = "file://Copying;md5=2b4c6ffbcfcbdee469f02565f253d81a \
- # We need gnugrep (for -I)
- DEPENDS = "virtual/db grep-native"
- DEPENDS += "gdbm zlib"
--PR = "r5"
-+PR = "r6"
- 
- # 5.10.1 has Module::Build built-in
- PROVIDES += "libmodule-build-perl"
-@@ -163,9 +163,9 @@ do_configure() {
- 			;;
- 	esac
-         # These are strewn all over the source tree
--        for foo in `grep -I -m1 \/usr\/include\/.*\\.h ${WORKDIR}/* -r | cut -f 1 -d ":"` ; do
-+        for foo in `grep -I --exclude="*.patch" --exclude="*.diff" --exclude="*.pod" --exclude="README*" -m1 "/usr/include/.*\.h" ${WORKDIR}/* -r -l` ${S}/utils/h2xs.PL ; do
-             echo Fixing: $foo
--            sed -e "s%/usr/include/%${STAGING_INCDIR}/%g" -i $foo
-+            sed -e 's|\([ "^'\''I]\+\)/usr/include/|\1${STAGING_INCDIR}/|g' -i $foo
-         done
- 
-         rm -f config
 -- 
-1.7.5.4
 
+Paul Eggleton
+Intel Open Source Technology Centre
 
 
