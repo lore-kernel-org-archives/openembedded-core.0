@@ -1,30 +1,30 @@
 Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
 	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
 	(envelope-from <richard.purdie@linuxfoundation.org>)
-	id 1SJix5-0001yM-Kg for openembedded-core@lists.openembedded.org;
-	Mon, 16 Apr 2012 12:14:31 +0200
+	id 1SJjNx-0002Gw-7e for openembedded-core@lists.openembedded.org;
+	Mon, 16 Apr 2012 12:42:17 +0200
 Received: from localhost (localhost [127.0.0.1])
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q3GA57KJ030684
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q3GAWrB9030973
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 16 Apr 2012 11:05:07 +0100
+	Mon, 16 Apr 2012 11:32:53 +0100
 Received: from tim.rpsys.net ([127.0.0.1])
 	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
 	port 10024) with LMTP
-	id 30534-01 for <openembedded-core@lists.openembedded.org>;
-	Mon, 16 Apr 2012 11:05:03 +0100 (BST)
+	id 30079-07 for <openembedded-core@lists.openembedded.org>;
+	Mon, 16 Apr 2012 11:32:49 +0100 (BST)
 Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q3GA4xjR030662
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q3GAWhZW030966
 	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO)
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 16 Apr 2012 11:05:00 +0100
-Message-ID: <1334570702.16992.70.camel@ted>
+	Mon, 16 Apr 2012 11:32:44 +0100
+Message-ID: <1334572366.16992.72.camel@ted>
 From: Richard Purdie <richard.purdie@linuxfoundation.org>
 To: openembedded-core <openembedded-core@lists.openembedded.org>
-Date: Mon, 16 Apr 2012 11:05:02 +0100
+Date: Mon, 16 Apr 2012 11:32:46 +0100
 X-Mailer: Evolution 3.2.2- 
 Mime-Version: 1.0
 X-Virus-Scanned: amavisd-new at rpsys.net
-Subject: [PATCH] docbook-utils-native: Fix re-execution of the unpack task
+Subject: [PATCH] dropbear: Allow tasks to be safely re-executed
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -39,43 +39,47 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 16 Apr 2012 10:14:31 -0000
+X-List-Received-Date: Mon, 16 Apr 2012 10:42:17 -0000
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 
-If the do_unpack task is re-executed, the sed_done stamp was not removed, the
-sed commands wouldn't re-run and the build would fail in do_compile. This
-patch ensures the stamp is in ${S} and that we clean that directory
-when unpack runs so it is a build from sctatch at that point.
+Re-running the debug_patch task would cause the build to fail. This patch
+moves the extra patch handling directly into SRC_URI and removes the need
+for the separate task, allowing safe re-execution of each task.
 
 [YOCTO #2194]
 
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 ---
-diff --git a/meta/recipes-devtools/docbook-utils/docbook-utils-native_0.6.14.bb b/meta/recipes-devtools/docbook-utils/docbook-utils-native_0.6.14.bb
-index 2a89479..5e1384d 100644
---- a/meta/recipes-devtools/docbook-utils/docbook-utils-native_0.6.14.bb
-+++ b/meta/recipes-devtools/docbook-utils/docbook-utils-native_0.6.14.bb
-@@ -21,16 +21,17 @@ inherit autotools native
+diff --git a/meta/recipes-core/dropbear/dropbear.inc b/meta/recipes-core/dropbear/dropbear.inc
+index 1894715..2d6aeb2 100644
+--- a/meta/recipes-core/dropbear/dropbear.inc
++++ b/meta/recipes-core/dropbear/dropbear.inc
+@@ -16,7 +16,7 @@ SRC_URI = "http://matt.ucc.asn.au/dropbear/releases/dropbear-${PV}.tar.gz \
+ 		 file://dropbear-0.53.1-static_build_fix.patch \
+ 	         file://configure.patch \
+ 	         file://fix-2kb-keys.patch \
+-	         file://allow-nopw.patch;apply=no \
++	         ${@base_contains("DISTRO_TYPE", "debug", "file://allow-nopw.patch", "",d)} \
+ 	         file://init \
+                  ${@base_contains('DISTRO_FEATURES', 'pam', '${PAM_SRC_URI}', '', d)} "
  
- do_configure_prepend() {
- 	# Fix hard-coded references to /etc/sgml
--	if [ ! -e ${WORKDIR}/.sed_done ]; then
-+	if [ ! -e ${S}/.sed_done ]; then
- 		sed -i -e "s|/etc/sgml|${sysconfdir}/sgml|g" bin/jw.in
- 		sed -i -e "s|/etc/sgml|${sysconfdir}/sgml|g" doc/man/Makefile.am
- 		sed -i -e "s|/etc/sgml|${sysconfdir}/sgml|g" doc/HTML/Makefile.am
+@@ -40,15 +40,6 @@ EXTRA_OECONF += "\
  
- 		# Point jw to the native sysroot catalog
- 		sed -i -e 's|^SGML_EXTRA_CATALOGS=""|SGML_EXTRA_CATALOGS=":${sysconfdir}/sgml/catalog"|g' bin/jw.in
--		touch ${WORKDIR}/.sed_done
-+		touch ${S}/.sed_done
- 	fi
- }
-+do_unpack[cleandirs] += "${S}"
+ DISTRO_TYPE ?= "${@base_contains("IMAGE_FEATURES", "debug-tweaks", "debug", "",d)}"
  
+-do_debug_patch() {
+-	if [ "${DISTRO_TYPE}" = "debug" ]; then
+-		bbnote "WARNING: applying allow-nopw.patch which allows password-less logins!"
+-		patch -p1 < ${WORKDIR}/allow-nopw.patch
+-	fi
+-}
+-
+-addtask do_debug_patch after do_patch before do_configure
+-
  do_install() {
- 	install -d ${D}${bindir}
+ 	install -d ${D}${sysconfdir} \
+ 		   ${D}${sysconfdir}/init.d \
 
 
 
