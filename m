@@ -1,25 +1,35 @@
-Received: from mga02.intel.com ([134.134.136.20])
-	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <sgw@linux.intel.com>) id 1SJoCM-0000BQ-8X
-	for openembedded-core@lists.openembedded.org;
-	Mon, 16 Apr 2012 17:50:38 +0200
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-	by orsmga101.jf.intel.com with ESMTP; 16 Apr 2012 08:41:12 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.67,352,1309762800"; d="scan'208";a="130198920"
-Received: from unknown (HELO [10.255.12.25]) ([10.255.12.25])
-	by orsmga001.jf.intel.com with ESMTP; 16 Apr 2012 08:41:12 -0700
-Message-ID: <4F8C3D98.9070600@linux.intel.com>
-Date: Mon, 16 Apr 2012 08:41:12 -0700
-From: Saul Wold <sgw@linux.intel.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:11.0) Gecko/20120329 Thunderbird/11.0.1
-MIME-Version: 1.0
+Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
+	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <richard.purdie@linuxfoundation.org>)
+	id 1SJoLV-0000UE-CR for openembedded-core@lists.openembedded.org;
+	Mon, 16 Apr 2012 18:00:06 +0200
+Received: from localhost (localhost [127.0.0.1])
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q3GFoeS2001566
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 16 Apr 2012 16:50:40 +0100
+Received: from tim.rpsys.net ([127.0.0.1])
+	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
+	port 10024) with LMTP
+	id 00569-08 for <openembedded-core@lists.openembedded.org>;
+	Mon, 16 Apr 2012 16:50:35 +0100 (BST)
+Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q3GFoX5i001560
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO)
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 16 Apr 2012 16:50:34 +0100
+Message-ID: <1334591435.616.5.camel@ted>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-References: <cover.1334311268.git.dexuan.cui@intel.com>
-In-Reply-To: <cover.1334311268.git.dexuan.cui@intel.com>
-Subject: Re: [PATCH 0/1] Dexuan: nspr: fix package splitin
+Date: Mon, 16 Apr 2012 16:50:35 +0100
+In-Reply-To: <4F8C2EA9.5090100@windriver.com>
+References: <4F847380.6000401@windriver.com>
+	<4F8489DE.1050905@opendreambox.org> <4F8C24CB.3080607@opendreambox.org>
+	<4F8C2EA9.5090100@windriver.com>
+X-Mailer: Evolution 3.2.2- 
+Mime-Version: 1.0
+X-Virus-Scanned: amavisd-new at rpsys.net
+Subject: Re: MIPS vs MIPS32 tunings -- summary and questions
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -34,29 +44,32 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 16 Apr 2012 15:50:38 -0000
-Content-Type: text/plain; charset=ISO-8859-1; format=flowed
+X-List-Received-Date: Mon, 16 Apr 2012 16:00:06 -0000
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 
-On 04/13/2012 03:04 AM, Dexuan Cui wrote:
-> The following changes since commit f81b0593e74a31cb2d992df0583948ff57e3ed98:
->
->    gdbm: Activate -enable-libgdbm-compat and add symlinks to headers in include/gdbm (2012-03-23 17:56:29 +0200)
->
-> are available in the git repository at:
->    git://git.pokylinux.org/poky-contrib dcui/master
->    http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=dcui/master
->
-> Dexuan Cui (1):
->    nspr: fix package spliting
->
->   meta/recipes-support/nspr/nspr_4.8.9.bb |    7 ++++---
->   1 files changed, 4 insertions(+), 3 deletions(-)
->
+On Mon, 2012-04-16 at 22:37 +0800, Robert Yang wrote:
+> 
+> On 04/16/2012 09:55 PM, Andreas Oberritter wrote:
+> > On 10.04.2012 21:28, Andreas Oberritter wrote:
+> >> I'm fine with either way that restores mips/mipsel for mips32 targets
+> >> *before the release*, because the online update feeds broke and all
+> >> packages had to be built again from scratch.
+> >
+> > Richard, can you please state your opinion about this issue?
+> >
+> > The mips package feed (e.g. qemumips) is now broken since weeks. Can I
+> 
+> I'm a little confused with this, I've just done a build with
+> MACHINE = "qemumips", both build and runqemu worked well.
 
-Merged into OE-Core
+Builds will work fine however the package architecture for mips32
+changes from "mipsel" to "mips32el" which broken things for people with
+existing package feeds.
 
-Thanks
-	Sau!
+Cheers,
+
+Richard
+
 
 
