@@ -1,30 +1,23 @@
-Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
-	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <richard.purdie@linuxfoundation.org>)
-	id 1SJl2x-0004Vd-0v for openembedded-core@lists.openembedded.org;
-	Mon, 16 Apr 2012 14:28:43 +0200
-Received: from localhost (localhost [127.0.0.1])
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q3GCJIpq031891
+Received: from mail.windriver.com ([147.11.1.11])
+	by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <Liezhi.Yang@windriver.com>) id 1SJmGY-0005vL-G3
+	for openembedded-core@lists.openembedded.org;
+	Mon, 16 Apr 2012 15:46:50 +0200
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca [147.11.189.40])
+	by mail.windriver.com (8.14.3/8.14.3) with ESMTP id q3GDbOjQ019402
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 16 Apr 2012 13:19:18 +0100
-Received: from tim.rpsys.net ([127.0.0.1])
-	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
-	port 10024) with LMTP
-	id 31522-02 for <openembedded-core@lists.openembedded.org>;
-	Mon, 16 Apr 2012 13:19:14 +0100 (BST)
-Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q3GCJ7iM031885
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO)
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 16 Apr 2012 13:19:09 +0100
-Message-ID: <1334578750.16992.83.camel@ted>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: openembedded-core <openembedded-core@lists.openembedded.org>
-Date: Mon, 16 Apr 2012 13:19:10 +0100
-X-Mailer: Evolution 3.2.2- 
-Mime-Version: 1.0
-X-Virus-Scanned: amavisd-new at rpsys.net
-Subject: [PATCH] bitbake.conf: Add PARALLEL_MAKE to BB_HASHBASE_WHITELIST
+	Mon, 16 Apr 2012 06:37:24 -0700 (PDT)
+Received: from usp-ub10.corp.ad.wrs.com (128.224.163.69) by
+	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server id
+	14.1.255.0; Mon, 16 Apr 2012 06:37:24 -0700
+From: Robert Yang <liezhi.yang@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Mon, 16 Apr 2012 21:38:11 +0800
+Message-ID: <cover.1334583221.git.liezhi.yang@windriver.com>
+X-Mailer: git-send-email 1.7.1
+MIME-Version: 1.0
+Subject: [PATCH 0/3] meta-toolchain-sdk: /bin/perl is needed by some pkgs on FC 17
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -39,31 +32,34 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 16 Apr 2012 12:28:43 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Mon, 16 Apr 2012 13:46:50 -0000
+Content-Type: text/plain
 
-The value of PARALLEL_MAKE shouldn't affect sstate checksums. In general it
-doesn't as the value is injected as a task override and the sstate checksum
-doesn't track these. That isn't the case for linux-yocto in particular so
-adding it the list of variables to ignore is useful.
+Test info:
+Tested on FC 13/16/17 64bit
+1) $ bitbake  meta-toolchain-sdk core-image-sato
+2) untar the sdk, and use the sdk to build some pkgs (autoreconf, configure and make)
 
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
----
-diff --git a/meta/conf/bitbake.conf b/meta/conf/bitbake.conf
-index 501863b..911854b 100644
---- a/meta/conf/bitbake.conf
-+++ b/meta/conf/bitbake.conf
-@@ -737,7 +737,7 @@ BB_CONSOLELOG ?= "${TMPDIR}/cooker.log.${DATETIME}"
- 
- # Setup our default hash policy
- BB_SIGNATURE_HANDLER ?= "OEBasic"
--BB_HASHBASE_WHITELIST ?= "TMPDIR FILE PATH PWD BB_TASKHASH BBPATH DL_DIR SSTATE_DIR THISDIR FILESEXTRAPATHS FILE_DIRNAME HOME LOGNAME SHELL TERM USER FILESPATH STAGING_DIR_HOST STAGING_DIR_TARGET COREBASE PRSERV_HOST PRSERV_PORT PRSERV_DUMPDIR PRSERV_DUMPFILE PRSERV_LOCKDOWN"
-+BB_HASHBASE_WHITELIST ?= "TMPDIR FILE PATH PWD BB_TASKHASH BBPATH DL_DIR SSTATE_DIR THISDIR FILESEXTRAPATHS FILE_DIRNAME HOME LOGNAME SHELL TERM USER FILESPATH STAGING_DIR_HOST STAGING_DIR_TARGET COREBASE PRSERV_HOST PRSERV_PORT PRSERV_DUMPDIR PRSERV_DUMPFILE PRSERV_LOCKDOWN PARALLEL_MAKE"
- BB_HASHCONFIG_WHITELIST ?= "${BB_HASHBASE_WHITELIST} DATE TIME SESSION_MANAGER DBUS_SESSION_BUS_ADDRESS SSH_AGENT_PID XDG_SESSION_COOKIE SSH_AUTH_SOCK XAUTHORITY"
- 
- MLPREFIX ??= ""
+// Robert
 
+The following changes since commit 4e1a8ed1ab7e7bd950e511c79ddfe072cb280a6e:
+
+  bitbake.conf: Include abi_version.conf in a early stage (2012-04-16 12:51:50 +0100)
+
+are available in the git repository at:
+  git://git.pokylinux.org/poky-contrib robert/fc17_sdk
+  http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=robert/fc17_sdk
+
+Robert Yang (3):
+  glib-2.0: fix builds on fedora 17
+  autoconf-nativesdk: fix builds on fedora 17
+  automake-nativesdk: fix builds on fedora 17
+
+ meta/recipes-core/glib-2.0/glib-2.0_2.30.3.bb     |   12 +++++++++++-
+ meta/recipes-devtools/autoconf/autoconf.inc       |   16 +++++++++++++++-
+ meta/recipes-devtools/autoconf/autoconf_2.68.bb   |    2 +-
+ meta/recipes-devtools/automake/automake_1.11.2.bb |   20 +++++++++++++++++---
+ 4 files changed, 44 insertions(+), 6 deletions(-)
 
 
 
