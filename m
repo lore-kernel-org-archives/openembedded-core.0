@@ -1,26 +1,26 @@
-Received: from mail1.windriver.com ([147.11.146.13])
+Received: from mail.windriver.com ([147.11.1.11])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <mark.hatle@windriver.com>) id 1SJv30-00007E-4p
+	(envelope-from <mark.hatle@windriver.com>) id 1SJv4O-0000AT-LC
 	for openembedded-core@lists.openembedded.org;
-	Tue, 17 Apr 2012 01:09:26 +0200
+	Tue, 17 Apr 2012 01:10:52 +0200
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca [147.11.189.40])
-	by mail1.windriver.com (8.14.3/8.14.3) with ESMTP id q3GN00FR000395
+	by mail.windriver.com (8.14.3/8.14.3) with ESMTP id q3GN1Qsc013831
 	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 16 Apr 2012 16:00:00 -0700 (PDT)
+	Mon, 16 Apr 2012 16:01:26 -0700 (PDT)
 Received: from localhost.localdomain (172.25.34.61) by ALA-HCA.corp.ad.wrs.com
 	(147.11.189.50) with Microsoft SMTP Server (TLS) id 14.1.255.0;
-	Mon, 16 Apr 2012 15:59:51 -0700
+	Mon, 16 Apr 2012 16:01:20 -0700
 From: Mark Hatle <mark.hatle@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Mon, 16 Apr 2012 18:04:17 -0500
-Message-ID: <c46df3724a1d66348996d141dda7a206a9b1c53d.1334616144.git.mark.hatle@windriver.com>
+Date: Mon, 16 Apr 2012 18:05:46 -0500
+Message-ID: <26e5ad781257066f9e195e4efcef52cbbade86b6.1334616144.git.mark.hatle@windriver.com>
 X-Mailer: git-send-email 1.7.3.4
 In-Reply-To: <cover.1334616144.git.mark.hatle@windriver.com>
 References: <cover.1334616144.git.mark.hatle@windriver.com>
 MIME-Version: 1.0
 X-Originating-IP: [172.25.34.61]
-Subject: [PATCH 06/17] hdparm: Use update-alternatives
+Subject: [PATCH 07/17] iputils: Use update-alternatives
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -35,53 +35,40 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 16 Apr 2012 23:09:26 -0000
+X-List-Received-Date: Mon, 16 Apr 2012 23:10:53 -0000
 Content-Type: text/plain
 
-Switch to using update-alternatives, this ensures that the
-call to update-alternatives and package provides are correct.
+Use MANUAL_ALTERNATIVE_LINKS to ensure that the package provides
+are being setup properly.
 
 Signed-off-by: Mark Hatle <mark.hatle@windriver.com>
 ---
- meta/recipes-extended/hdparm/hdparm_9.39.bb |   16 ++++++----------
- 1 files changed, 6 insertions(+), 10 deletions(-)
+ meta/recipes-extended/iputils/iputils_s20101006.bb |    5 ++++-
+ 1 files changed, 4 insertions(+), 1 deletions(-)
 
-diff --git a/meta/recipes-extended/hdparm/hdparm_9.39.bb b/meta/recipes-extended/hdparm/hdparm_9.39.bb
-index ed076cc..42867a9 100644
---- a/meta/recipes-extended/hdparm/hdparm_9.39.bb
-+++ b/meta/recipes-extended/hdparm/hdparm_9.39.bb
-@@ -8,7 +8,7 @@ LIC_FILES_CHKSUM = "file://LICENSE.TXT;md5=910a8a42c962d238619c75fdb78bdb24 \
-                     file://wiper/GPLv2.txt;md5=fcb02dc552a041dee27e4b85c7396067 \
-                     file://wiper/wiper.sh;beginline=7;endline=31;md5=b7bc642addc152ea307505bf1a296f09"
+diff --git a/meta/recipes-extended/iputils/iputils_s20101006.bb b/meta/recipes-extended/iputils/iputils_s20101006.bb
+index a092192..aadcaf3 100644
+--- a/meta/recipes-extended/iputils/iputils_s20101006.bb
++++ b/meta/recipes-extended/iputils/iputils_s20101006.bb
+@@ -13,7 +13,7 @@ LIC_FILES_CHKSUM = "file://ping.c;beginline=1;endline=35;md5=f9ceb201733e9a6cf8f
  
--PR = "r1"
-+PR = "r2"
+ DEPENDS = "sysfsutils openssl docbook-utils-native sgmlspl-native"
  
- PACKAGES += "wiper"
+-PR = "r3"
++PR = "r4"
  
-@@ -24,17 +24,13 @@ SRC_URI[sha256sum] = "72d550af4526aa96f0841c79321a0ee39d636cbaf1f294e52193e90c05
- 
- EXTRA_OEMAKE += 'STRIP="echo"'
+ SRC_URI = "http://www.skbuff.net/iputils/${BPN}-${PV}.tar.bz2 \
+            file://debian/fix-dead-host-ping-stats.diff \
+@@ -47,6 +47,9 @@ do_install () {
+ 	done
+ }
  
 +inherit update-alternatives
++MANUAL_ALTERNATIVE_LINKS = "${base_bindir}/ping ${base_bindir}/ping6"
 +
-+ALTERNATIVE_LINKS = "${base_sbindir}/hdparm"
-+ALTERNATIVE_PRIORITY = "100"
-+
- do_install () {
- 	install -d ${D}/${base_sbindir} ${D}/${mandir}/man8 ${D}/${bindir}
- 	oe_runmake 'DESTDIR=${D}' 'sbindir=${base_sbindir}' install
--	mv ${D}${base_sbindir}/hdparm ${D}${base_sbindir}/hdparm.${PN}
- 	cp ${S}/wiper/wiper.sh ${D}/${bindir}
- }
--
--pkg_postinst_${PN} () {
--	update-alternatives --install ${base_sbindir}/hdparm hdparm hdparm.${PN} 100
--}
--
--pkg_prerm_${PN} () {
--	update-alternatives --remove hdparm hdparm.${PN}
--}
+ # Busybox also provides ping and ping6, so use update-alternatives
+ # Also fixup SUID bit for applications that need it
+ pkg_postinst_${PN}-ping () {
 -- 
 1.7.3.4
 
