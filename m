@@ -1,24 +1,26 @@
-Received: from mga03.intel.com ([143.182.124.21])
+Received: from mail.windriver.com ([147.11.1.11])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <dongxiao.xu@intel.com>) id 1SJgv8-0005jD-VX
+	(envelope-from <Liezhi.Yang@windriver.com>) id 1SJgwv-0005nj-Ge
 	for openembedded-core@lists.openembedded.org;
-	Mon, 16 Apr 2012 10:04:23 +0200
-Received: from azsmga002.ch.intel.com ([10.2.17.35])
-	by azsmga101.ch.intel.com with ESMTP; 16 Apr 2012 00:54:57 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="89461238"
-Received: from dongxiao-osel.sh.intel.com (HELO localhost) ([10.239.36.11])
-	by AZSMGA002.ch.intel.com with ESMTP; 16 Apr 2012 00:54:56 -0700
-From: Dongxiao Xu <dongxiao.xu@intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Mon, 16 Apr 2012 15:52:01 +0800
-Message-Id: <762170e63dc2157f377eec792e12499d38036c4b.1334562084.git.dongxiao.xu@intel.com>
-X-Mailer: git-send-email 1.7.4.1
-In-Reply-To: <cover.1334562084.git.dongxiao.xu@intel.com>
-References: <cover.1334562084.git.dongxiao.xu@intel.com>
-In-Reply-To: <cover.1334562084.git.dongxiao.xu@intel.com>
-References: <cover.1334562084.git.dongxiao.xu@intel.com>
-Subject: [PATCH 1/1] bitbake.conf: Include abi_version.conf in a early stage
+	Mon, 16 Apr 2012 10:06:13 +0200
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca [147.11.189.40])
+	by mail.windriver.com (8.14.3/8.14.3) with ESMTP id q3G7ulOm003696
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 16 Apr 2012 00:56:47 -0700 (PDT)
+Received: from [128.224.162.196] (128.224.162.196) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server id 14.1.255.0;
+	Mon, 16 Apr 2012 00:56:47 -0700
+Message-ID: <4F8BD0BE.7090602@windriver.com>
+Date: Mon, 16 Apr 2012 15:56:46 +0800
+From: Robert Yang <liezhi.yang@windriver.com>
+User-Agent: Mozilla/5.0 (X11; Linux i686;
+	rv:11.0) Gecko/20120310 Thunderbird/11.0
+MIME-Version: 1.0
+To: <openembedded-core@lists.openembedded.org>
+References: <4F8B88C5.2050100@windriver.com>
+In-Reply-To: <4F8B88C5.2050100@windriver.com>
+Subject: Re: meta-toolchain-sdk failed on Ubuntu 10.10 and FC17 64bit
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -33,38 +35,76 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 16 Apr 2012 08:04:23 -0000
+X-List-Received-Date: Mon, 16 Apr 2012 08:06:14 -0000
+Content-Type: text/plain; charset="ISO-8859-1"; format=flowed
+Content-Transfer-Encoding: 7bit
 
-We may define new OELAYOUT_ABI variable in ${DISTRO}.conf, therefore we
-need to move the abi_version.conf before that.
 
-Signed-off-by: Dongxiao Xu <dongxiao.xu@intel.com>
----
- meta/conf/bitbake.conf |    2 +-
- 1 files changed, 1 insertions(+), 1 deletions(-)
 
-diff --git a/meta/conf/bitbake.conf b/meta/conf/bitbake.conf
-index b4669d3..501863b 100644
---- a/meta/conf/bitbake.conf
-+++ b/meta/conf/bitbake.conf
-@@ -648,6 +648,7 @@ CPU_FEATURES_arm ?= "vfp"
- # Include the rest of the config files.
- ##################################################################
- 
-+require conf/abi_version.conf
- include conf/site.conf
- include conf/auto.conf
- include conf/local.conf
-@@ -659,7 +660,6 @@ include conf/distro/${DISTRO}.conf
- include conf/distro/defaultsetup.conf
- include conf/documentation.conf
- require conf/sanity.conf
--require conf/abi_version.conf
- 
- ##################################################################
- # Weak variables (usually to retain backwards compatibility)
--- 
-1.7.4.1
+On 04/16/2012 10:49 AM, Robert Yang wrote:
+>
+> The errors are below, does anyone meet the same errors, please?
+>
+> On Ubuntu 10.10 32bit:
+>
+> MACHINE ?= "qemumips"
+> $ bitbake core-image-sato meta-toolchain-sdk
+>
+> | eds-dbus-dev ##################################################
+> | Installing NATIVESDK packages
+> | Processing task-sdk-host-nativesdk...
+> | Processing task-cross-canadian-mips...
+> | error: Failed dependencies:
+> | libcurl.so.4 is needed by qemu-nativesdk-0.15.1-r5.i686
+> NOTE: package meta-toolchain-gmae-1.0-r7: task do_populate_sdk: Failed
+> ERROR: Task 21
+> (/buildarea2/lyang1/poky/meta/recipes-core/meta/meta-toolchain-gmae.bb,
+> do_populate_sdk) failed with exit code '1'
+> Waiting for 1 running tasks to finish:
+> 0:
+> linux-yocto-3.2.11+git1+135c75bf9615334b5b8bb9108d612fe7dfbdb901_1+0e0c67635b74199d534f75500e5c1654a1219bc6-r1
+> do_package_write_rpm (pid 12511)
+> NOTE: package
+> linux-yocto-3.2.11+git1+135c75bf9615334b5b8bb9108d612fe7dfbdb901_1+0e0c67635b74199d534f75500e5c1654a1219bc6-r1:
+> task do_package_write_rpm: Succeeded
+> NOTE: Tasks Summary: Attempted 5931 tasks of which 498 didn't need to be rerun
+> and 1 failed.
+>
+> Summary: 1 task failed:
+> /buildarea2/lyang1/poky/meta/recipes-core/meta/meta-toolchain-gmae.bb,
+> do_populate_sdk
+> Summary: There were 22 WARNING messages shown.
+> Summary: There was 1 ERROR message shown, returning a non-zero exit code.
+>
+>
+> On FC 17 64bit:
+> MACHINE ?= "qemuppc"
+> $ bitbake meta-toolchain-sdk
+>
+> | hdrload: 155 0.728660 MB 0.000876 secs
+> | hdrget: 4539 0.000000 MB 0.005195 secs
+> | Processing task-core-standalone-gmae-sdk-target...
+> | Processing task-core-standalone-gmae-sdk-target-dbg...
+> | error: Failed dependencies:
+> | /bin/perl is needed by libglib-2.0-utils-2.30.3-r0.ppc603e
 
+Found 2 more pkgs have the similar issue: automake and autoconf, I will
+send a patch for them.
+
+// Robert
+
+
+> NOTE: package meta-toolchain-gmae-1.0-r7: task do_populate_sdk: Failed
+> ERROR: Task 8
+> (/buildarea2/lyang1/poky/meta/recipes-core/meta/meta-toolchain-gmae.bb,
+> do_populate_sdk) failed with exit code '1'
+> NOTE: Tasks Summary: Attempted 3775 tasks of which 3746 didn't need to be rerun
+> and 1 failed.
+>
+> Summary: 1 task failed:
+> /buildarea2/lyang1/poky/meta/recipes-core/meta/meta-toolchain-gmae.bb,
+> do_populate_sdk
+> Summary: There was 1 ERROR message shown, returning a non-zero exit code.
+>
 
 
