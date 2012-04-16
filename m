@@ -1,30 +1,41 @@
-Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
-	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <richard.purdie@linuxfoundation.org>)
-	id 1SJjNx-0002Gw-7e for openembedded-core@lists.openembedded.org;
-	Mon, 16 Apr 2012 12:42:17 +0200
-Received: from localhost (localhost [127.0.0.1])
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q3GAWrB9030973
+Received: from mail-wi0-f177.google.com ([209.85.212.177])
+	by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <koen@dominion.thruhere.net>) id 1SJjeu-0002V9-6U
+	for openembedded-core@lists.openembedded.org;
+	Mon, 16 Apr 2012 12:59:48 +0200
+Received: by mail-wi0-f177.google.com with SMTP id hj13so4497944wib.6
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 16 Apr 2012 11:32:53 +0100
-Received: from tim.rpsys.net ([127.0.0.1])
-	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
-	port 10024) with LMTP
-	id 30079-07 for <openembedded-core@lists.openembedded.org>;
-	Mon, 16 Apr 2012 11:32:49 +0100 (BST)
-Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q3GAWhZW030966
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO)
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 16 Apr 2012 11:32:44 +0100
-Message-ID: <1334572366.16992.72.camel@ted>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: openembedded-core <openembedded-core@lists.openembedded.org>
-Date: Mon, 16 Apr 2012 11:32:46 +0100
-X-Mailer: Evolution 3.2.2- 
-Mime-Version: 1.0
-X-Virus-Scanned: amavisd-new at rpsys.net
-Subject: [PATCH] dropbear: Allow tasks to be safely re-executed
+	Mon, 16 Apr 2012 03:50:25 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=google.com; s=20120113;
+	h=content-type:mime-version:subject:from:in-reply-to:date
+	:content-transfer-encoding:message-id:references:to:x-mailer
+	:x-gm-message-state;
+	bh=nAjFoolc3lctKUnrBvHSuGVI702ODe3Age5pt08cFcY=;
+	b=AIC1T7lxCFbb1pyiQQ3isc7lmartQT93PCMWp/ewkg35vhFqcHGdf497RUYOvhhDRG
+	sfrAiuWRRCbWa1xNn18RXFQeYllF5npQOdlrGxwYXWNLEZd+4cUvelIlrZS7VGtnel3z
+	BJ/wQpW84lGYSzeVcXg6rkRNOCNrb2uWIxpRYgbeVFIje+6cdaqcCHxSXEus9+kaWQYm
+	wqGtGKZEpr93zLiRBeGHglC8t9Gd7TaDcCXT9WtOL6koofhewmLmOCDOXyE1zuHl8ZgV
+	BfMTtHmBlWsnbpjKsfO2lRsFsiojSK/tcZINcVQDBsx87GeaeJRFyya93VGoh7OLqsFU
+	dsOg==
+Received: by 10.180.104.65 with SMTP id gc1mr17559244wib.13.1334573425712;
+	Mon, 16 Apr 2012 03:50:25 -0700 (PDT)
+Received: from [172.20.0.96] (ip545070eb.adsl-surfen.hetnet.nl.
+	[84.80.112.235])
+	by mx.google.com with ESMTPS id b3sm18880412wib.4.2012.04.16.03.50.24
+	(version=TLSv1/SSLv3 cipher=OTHER);
+	Mon, 16 Apr 2012 03:50:24 -0700 (PDT)
+Mime-Version: 1.0 (Apple Message framework v1257)
+From: Koen Kooi <koen@dominion.thruhere.net>
+In-Reply-To: <1334569676.16992.67.camel@ted>
+Date: Mon, 16 Apr 2012 12:50:21 +0200
+Message-Id: <111FD132-7323-472B-8052-283E454DCB6E@dominion.thruhere.net>
+References: <1334569676.16992.67.camel@ted>
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+X-Mailer: Apple Mail (2.1257)
+X-Gm-Message-State: ALoCoQktCrkwd4ahc/pzPSd6ju8XpjFu0KF9Ei8cNZcnscl8H05Fh2dL5eawR+QPbl3lkPttVfJ8
+Subject: Re: [PATCH] python: Fix re-execution problem due to patching configure and configure.in
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -39,48 +50,28 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 16 Apr 2012 10:42:17 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
-
-Re-running the debug_patch task would cause the build to fail. This patch
-moves the extra patch handling directly into SRC_URI and removes the need
-for the separate task, allowing safe re-execution of each task.
-
-[YOCTO #2194]
-
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
----
-diff --git a/meta/recipes-core/dropbear/dropbear.inc b/meta/recipes-core/dropbear/dropbear.inc
-index 1894715..2d6aeb2 100644
---- a/meta/recipes-core/dropbear/dropbear.inc
-+++ b/meta/recipes-core/dropbear/dropbear.inc
-@@ -16,7 +16,7 @@ SRC_URI = "http://matt.ucc.asn.au/dropbear/releases/dropbear-${PV}.tar.gz \
- 		 file://dropbear-0.53.1-static_build_fix.patch \
- 	         file://configure.patch \
- 	         file://fix-2kb-keys.patch \
--	         file://allow-nopw.patch;apply=no \
-+	         ${@base_contains("DISTRO_TYPE", "debug", "file://allow-nopw.patch", "",d)} \
- 	         file://init \
-                  ${@base_contains('DISTRO_FEATURES', 'pam', '${PAM_SRC_URI}', '', d)} "
- 
-@@ -40,15 +40,6 @@ EXTRA_OECONF += "\
- 
- DISTRO_TYPE ?= "${@base_contains("IMAGE_FEATURES", "debug-tweaks", "debug", "",d)}"
- 
--do_debug_patch() {
--	if [ "${DISTRO_TYPE}" = "debug" ]; then
--		bbnote "WARNING: applying allow-nopw.patch which allows password-less logins!"
--		patch -p1 < ${WORKDIR}/allow-nopw.patch
--	fi
--}
--
--addtask do_debug_patch after do_patch before do_configure
--
- do_install() {
- 	install -d ${D}${sysconfdir} \
- 		   ${D}${sysconfdir}/init.d \
+X-List-Received-Date: Mon, 16 Apr 2012 10:59:48 -0000
+Content-Type: text/plain; charset=us-ascii
+Content-Transfer-Encoding: quoted-printable
 
 
+Op 16 apr. 2012, om 11:47 heeft Richard Purdie het volgende geschreven:
+
+> There was a patch patching both configure and configure.in. Since the =
+recipes
+> all autoreconf, this is pointless and means subsequent patch tasks =
+fail.
+>=20
+> The fix is to only patch configure.in.
+>=20
+> [YOCTO #2194]
+>=20
+> Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+
+Since this changes the sources it needs a PR bump.
+
+regards,
+
+Koen=
 
 
