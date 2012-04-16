@@ -1,34 +1,37 @@
 Received: from mail-ob0-f175.google.com ([209.85.214.175])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <kergoth@gmail.com>) id 1SJsvY-00055f-2k
+	(envelope-from <kergoth@gmail.com>) id 1SJsvY-00055f-Rp
 	for openembedded-core@lists.openembedded.org;
-	Mon, 16 Apr 2012 22:53:36 +0200
-Received: by obceq6 with SMTP id eq6so1435981obc.6
+	Mon, 16 Apr 2012 22:53:37 +0200
+Received: by mail-ob0-f175.google.com with SMTP id eq6so1435981obc.6
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 16 Apr 2012 13:44:10 -0700 (PDT)
+	Mon, 16 Apr 2012 13:44:13 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=from:to:subject:date:message-id:x-mailer:in-reply-to:references;
-	bh=UegGEKK8HXpKepX6fThQcuvrgV4hKNe9aeDrylXkp+8=;
-	b=OyoYHhr/x3Aaff7T5SH1yYvVa7NPCoAkVfux9WzBvX2fWeedE9n+cxqOjgNbkCTFh0
-	NIvYenoZuCeori5bRYRddFIZuVA7/b2jyK+pDaJZwBHKADPko/b0RexklJVDf+E8rgUf
-	bb/bgas74z/fAM5C+fnXDNime8TPq6ebN23MMoxffhQQzj57ANxdGdDaXriABSbYgIpY
-	7paA2u6qs/z0hGtoG6o1T0PgFcCgywaYwLp9VIDyPBBKIlquUs6geyCjz/csHdHi9o+v
-	ZPIRr4OT/U96d2FWIbDab3Q1ADIVyBv+Q0GNQ+kdgtWEOE4f/NOzL0XxCozb3BTncokH
-	WA6Q==
-Received: by 10.182.72.38 with SMTP id a6mr1041265obv.38.1334609050334;
-	Mon, 16 Apr 2012 13:44:10 -0700 (PDT)
+	h=from:to:subject:date:message-id:x-mailer:in-reply-to:references
+	:in-reply-to:references;
+	bh=CgcPMoFzZI3QX28JWFK1yE9keg8r9y2gSCDJXO/cv2A=;
+	b=nhDm8iqZ3CD3EVviK6+v93KmrUvpbdhog53zF0dyYmAGnb4IFttydxEJSk7845Os36
+	XoRejJ1KA+A/qZxT0tzNJS/qQqO3mVJhfb9JD+gAOyq4nu+bwI2VPz2+SL9XHiNt3KGT
+	PHlzvC4ZGQ/M3JGkkC9/toN5yHnXo8h9MhNDYKPlw8LlpN/MHr3iq4ojVpEIsH/xIpKy
+	jwraEq8ajWAhi8EVhWV3kWiEZQHp0tI9cTdQbMrMvNjQO9Z07Xh8LMgEzSmXBSK3kZRB
+	QnYlwyoeBU12xoLdJdSRbP03IdY1e1rOJBDeWZ58MitVjyPxyWspN+kBMZ1D43wICZpS
+	bh+Q==
+Received: by 10.182.89.39 with SMTP id bl7mr17749645obb.65.1334609053599;
+	Mon, 16 Apr 2012 13:44:13 -0700 (PDT)
 Received: from localhost.localdomain (nat-lmt.mentorg.com. [139.181.28.34])
-	by mx.google.com with ESMTPS id hh2sm20659762obb.1.2012.04.16.13.44.09
+	by mx.google.com with ESMTPS id hh2sm20659762obb.1.2012.04.16.13.44.12
 	(version=TLSv1/SSLv3 cipher=OTHER);
-	Mon, 16 Apr 2012 13:44:09 -0700 (PDT)
+	Mon, 16 Apr 2012 13:44:13 -0700 (PDT)
 From: Christopher Larson <kergoth@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Mon, 16 Apr 2012 15:43:58 -0500
-Message-Id: <ce2d88eb2d575a0459aa2c7cf725b6f890909515.1334608810.git.kergoth@gmail.com>
+Date: Mon, 16 Apr 2012 15:44:01 -0500
+Message-Id: <c1bfa3bdc3bb5f58a95c11e8c970ac49e1bcf150.1334608810.git.kergoth@gmail.com>
 X-Mailer: git-send-email 1.7.7
+In-Reply-To: <ce2d88eb2d575a0459aa2c7cf725b6f890909515.1334608810.git.kergoth@gmail.com>
+References: <ce2d88eb2d575a0459aa2c7cf725b6f890909515.1334608810.git.kergoth@gmail.com>
 In-Reply-To: <cover.1334608810.git.kergoth@gmail.com>
 References: <cover.1334608810.git.kergoth@gmail.com>
-Subject: [PATCH 1/7] external-csl-toolchain: split out a libstdc++-staticdev package
+Subject: [PATCH 4/7] tcmode-external-csl: use the existing precompiled locale files
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -43,48 +46,28 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 16 Apr 2012 20:53:36 -0000
-
-This silences one of the QA warnings.
+X-List-Received-Date: Mon, 16 Apr 2012 20:53:37 -0000
 
 Signed-off-by: Christopher Larson <kergoth@gmail.com>
 ---
- meta/recipes-core/meta/external-csl-toolchain.bb |    8 ++++----
- 1 files changed, 4 insertions(+), 4 deletions(-)
+ meta/conf/distro/include/tcmode-external-csl.inc |    4 ++++
+ 1 files changed, 4 insertions(+), 0 deletions(-)
 
-diff --git a/meta/recipes-core/meta/external-csl-toolchain.bb b/meta/recipes-core/meta/external-csl-toolchain.bb
-index 3e820ff..bafa331 100644
---- a/meta/recipes-core/meta/external-csl-toolchain.bb
-+++ b/meta/recipes-core/meta/external-csl-toolchain.bb
-@@ -88,7 +88,7 @@ external_toolchain_sysroot_adjust() {
-        fi
- }
+diff --git a/meta/conf/distro/include/tcmode-external-csl.inc b/meta/conf/distro/include/tcmode-external-csl.inc
+index 1fc366c..3b54e35 100644
+--- a/meta/conf/distro/include/tcmode-external-csl.inc
++++ b/meta/conf/distro/include/tcmode-external-csl.inc
+@@ -35,6 +35,10 @@ PREFERRED_PROVIDER_virtual/libiconv = "external-csl-toolchain"
+ PREFERRED_PROVIDER_glibc-thread-db = "external-csl-toolchain"
+ PREFERRED_PROVIDER_virtual/linux-libc-headers = "external-csl-toolchain"
  
--PACKAGES =+ "libgcc libgcc-dev libstdc++ libstdc++-dev linux-libc-headers linux-libc-headers-dev gdbserver gdbserver-dbg"
-+PACKAGES =+ "libgcc libgcc-dev libstdc++ libstdc++-dev libstdc++-staticdev linux-libc-headers linux-libc-headers-dev gdbserver gdbserver-dbg"
++# No need to re-compile the locale files
++GLIBC_INTERNAL_USE_BINARY_LOCALE = "precompiled"
++ENABLE_BINARY_LOCALE_GENERATION = ""
++
+ TARGET_CPPFLAGS_prepend = " -isystem${EXTERNAL_TOOLCHAIN}/${TARGET_SYS}/include "
+ TARGET_LDFLAGS_prepend = " -L${EXTERNAL_TOOLCHAIN}/${TARGET_SYS}/lib -Wl,-rpath-link,${EXTERNAL_TOOLCHAIN}/${TARGET_SYS}/lib "
  
- INSANE_SKIP_libgcc = "1"
- INSANE_SKIP_libstdc++ = "1"
-@@ -111,6 +111,7 @@ PKGV_libgcc = "${CSL_VER_GCC}"
- PKGV_libgcc-dev = "${CSL_VER_GCC}"
- PKGV_libstdc++ = "${CSL_VER_GCC}"
- PKGV_libstdc++-dev = "${CSL_VER_GCC}"
-+PKGV_libstdc++-staticdev = "${CSL_VER_GCC}"
- PKGV_linux-libc-headers = "${CSL_VER_KERNEL}"
- PKGV_linux-libc-headers-dev = "${CSL_VER_KERNEL}"
- PKGV_gdbserver = "${CSL_VER_GDB}"
-@@ -122,9 +123,8 @@ FILES_libstdc++ = "${libdir}/libstdc++.so.*"
- FILES_libstdc++-dev = "${includedir}/c++/${PV} \
- 	${libdir}/libstdc++.so \
- 	${libdir}/libstdc++.la \
--	${libdir}/libstdc++.a \
--	${libdir}/libsupc++.la \
--	${libdir}/libsupc++.a"
-+	${libdir}/libsupc++.la"
-+FILES_libstdc++-staticdev = "${libdir}/libstdc++.a ${libdir}/libsupc++.a"
- FILES_linux-libc-headers = "${includedir}/asm* \
- 	${includedir}/linux \
- 	${includedir}/mtd \
 -- 
 1.7.7
 
