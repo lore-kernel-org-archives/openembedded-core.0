@@ -1,41 +1,34 @@
-Received: from mail-wg0-f43.google.com ([74.125.82.43])
-	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <koen@dominion.thruhere.net>) id 1SJjfK-0002yU-9n
-	for openembedded-core@lists.openembedded.org;
-	Mon, 16 Apr 2012 13:00:14 +0200
-Received: by wgbdr12 with SMTP id dr12so4250256wgb.24
+Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
+	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <richard.purdie@linuxfoundation.org>)
+	id 1SJjyp-0003GD-5k for openembedded-core@lists.openembedded.org;
+	Mon, 16 Apr 2012 13:20:23 +0200
+Received: from localhost (localhost [127.0.0.1])
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q3GBAxfc031356
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 16 Apr 2012 03:50:49 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=google.com; s=20120113;
-	h=content-type:mime-version:subject:from:in-reply-to:date
-	:content-transfer-encoding:message-id:references:to:x-mailer
-	:x-gm-message-state;
-	bh=THUEiBBSbyvBlhr0rBIKV1m6xy/raTeIldjm4ZJ5ksQ=;
-	b=QnZ5DNPDRIRkC+PIk6ebE4/FHYM8FuiHOKRBSPy0Ym6fciZ2U6utjdREYCfxqpq9fR
-	mMHBDtJWX/shxZMpUYmtD7EFUHxGw7pEvnjn3znS7AS0AghtdGhnm8NJ+uB2DPoXFhjN
-	tYvOk2v+PGr9NYVSBGVLCmk4zNBy1mUjyCiE5ersgYwoceb3edKWmiYCbEBSoPb/x+8h
-	/f9m/KbdjDAZGmNzy/ho+XyuHBg3INDpYmcHXPsAY+yaJq7zK3PZLgMW5uWoP9ST8aFQ
-	YJTSXKzOOLMuKihRV3Syfsd7lfXaVPQi1lcNa5j6eP3vlubT7QY/ULPP4T16gsQIZ1TP
-	ItzA==
-Received: by 10.180.88.169 with SMTP id bh9mr17760050wib.5.1334573449744;
-	Mon, 16 Apr 2012 03:50:49 -0700 (PDT)
-Received: from [172.20.0.96] (ip545070eb.adsl-surfen.hetnet.nl.
-	[84.80.112.235])
-	by mx.google.com with ESMTPS id b3sm18880412wib.4.2012.04.16.03.50.47
-	(version=TLSv1/SSLv3 cipher=OTHER);
-	Mon, 16 Apr 2012 03:50:48 -0700 (PDT)
-Mime-Version: 1.0 (Apple Message framework v1257)
-From: Koen Kooi <koen@dominion.thruhere.net>
-In-Reply-To: <1334569715.16992.68.camel@ted>
-Date: Mon, 16 Apr 2012 12:50:47 +0200
-Message-Id: <CA052A33-7623-4671-A276-524DE18CA921@dominion.thruhere.net>
-References: <1334569715.16992.68.camel@ted>
+	Mon, 16 Apr 2012 12:10:59 +0100
+Received: from tim.rpsys.net ([127.0.0.1])
+	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
+	port 10024) with LMTP
+	id 30079-09 for <openembedded-core@lists.openembedded.org>;
+	Mon, 16 Apr 2012 12:10:55 +0100 (BST)
+Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q3GBAqbc031350
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO)
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 16 Apr 2012 12:10:53 +0100
+Message-ID: <1334574653.16992.74.camel@ted>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-X-Mailer: Apple Mail (2.1257)
-X-Gm-Message-State: ALoCoQmqhMW1T4XJL2+05jL540OsTQHPiyj0V8aUrPp2/oThtAaqUktbJVCegk3GDU/2x8rLrGNj
-Subject: Re: [PATCH] wget: Fix re-execution issue
+Date: Mon, 16 Apr 2012 12:10:53 +0100
+In-Reply-To: <111FD132-7323-472B-8052-283E454DCB6E@dominion.thruhere.net>
+References: <1334569676.16992.67.camel@ted>
+	<111FD132-7323-472B-8052-283E454DCB6E@dominion.thruhere.net>
+X-Mailer: Evolution 3.2.2- 
+Mime-Version: 1.0
+X-Virus-Scanned: amavisd-new at rpsys.net
+Subject: Re: [PATCH] python: Fix re-execution problem due to patching configure and configure.in
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -50,25 +43,30 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 16 Apr 2012 11:00:14 -0000
-Content-Type: text/plain; charset=us-ascii
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Mon, 16 Apr 2012 11:20:23 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
+On Mon, 2012-04-16 at 12:50 +0200, Koen Kooi wrote:
+> Op 16 apr. 2012, om 11:47 heeft Richard Purdie het volgende geschreven:
+> 
+> > There was a patch patching both configure and configure.in. Since the recipes
+> > all autoreconf, this is pointless and means subsequent patch tasks fail.
+> > 
+> > The fix is to only patch configure.in.
+> > 
+> > [YOCTO #2194]
+> > 
+> > Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+> 
+> Since this changes the sources it needs a PR bump.
 
-Op 16 apr. 2012, om 11:48 heeft Richard Purdie het volgende geschreven:
+It has no effect on the packaged output which was always the criteria
+for PR bumps as I understood things.
 
-> The patch in this recipe patches both configure and configure.in which =
-leads
-> to build failures once configure has executed and regenerated =
-configure.
->=20
-> The fix to make patch re-executable is not to patch configure and
-> only patch configure.in.
->=20
-> [YOCTO #2194]
->=20
-> Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+Cheers,
 
-Like the python recipe: pr bump=
+Richard
+
 
 
