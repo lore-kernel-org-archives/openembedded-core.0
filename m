@@ -1,25 +1,20 @@
-Received: from mga02.intel.com ([134.134.136.20])
+Received: from mga09.intel.com ([134.134.136.24])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <paul.eggleton@linux.intel.com>) id 1SJpIU-0001kQ-LX
+	(envelope-from <elizabeth.flanagan@intel.com>) id 1SJsId-0004Xr-JL
 	for openembedded-core@lists.openembedded.org;
-	Mon, 16 Apr 2012 19:01:02 +0200
+	Mon, 16 Apr 2012 22:13:23 +0200
 Received: from orsmga001.jf.intel.com ([10.7.209.18])
-	by orsmga101.jf.intel.com with ESMTP; 16 Apr 2012 09:51:36 -0700
+	by orsmga102.jf.intel.com with ESMTP; 16 Apr 2012 13:03:57 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.67,352,1309762800"; d="scan'208";a="130227948"
-Received: from unknown (HELO helios.localnet) ([10.252.120.96])
-	by orsmga001.jf.intel.com with ESMTP; 16 Apr 2012 09:51:36 -0700
-From: Paul Eggleton <paul.eggleton@linux.intel.com>
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Date: Mon, 16 Apr 2012 17:51:33 +0100
-Message-ID: <1469677.3CtmNycder@helios>
-Organization: Intel Corporation
-User-Agent: KMail/4.8.2 (Linux/3.0.0-17-generic-pae; KDE/4.8.2; i686; ; )
-In-Reply-To: <cover.1334594354.git.paul.eggleton@linux.intel.com>
-References: <cover.1334594354.git.paul.eggleton@linux.intel.com>
-MIME-Version: 1.0
-Subject: Re: [PATCH 0/1] Fix perl re-execution issues
+X-IronPort-AV: E=Sophos;i="4.67,352,1309762800"; d="scan'208";a="130305538"
+Received: from envy.jf.intel.com ([10.7.201.175])
+	by orsmga001.jf.intel.com with ESMTP; 16 Apr 2012 13:03:57 -0700
+From: Beth Flanagan <elizabeth.flanagan@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Mon, 16 Apr 2012 13:09:08 -0700
+Message-Id: <cover.1334606582.git.elizabeth.flanagan@intel.com>
+X-Mailer: git-send-email 1.7.1
+Subject: [PATCH 0/2] Image description fixes
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -34,27 +29,36 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 16 Apr 2012 17:01:02 -0000
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
+X-List-Received-Date: Mon, 16 Apr 2012 20:13:23 -0000
 
-On Monday 16 April 2012 17:43:01 Paul Eggleton wrote:
-> Fix re-execution issues within perl.
-> 
-> Note: I identified that some references to /usr/include are still not
-> being substituted before or after this patch - you can see these by
-> doing "grep -rI '/usr/include' *" 
+[YOCTO #2227]
 
-er, that should be:
+This changeset fixes two issues.
 
-grep -rI "'/usr/include'" *
+core-image-rt* DESCRIPTION: because of the require for core-image-minimal,
+DESCRIPTION is reset to the imported value. Moved the require to the beginning.
 
-Cheers,
-Paul
+A better solution may be to set all the image DESCRIPTIONS to ?= but that
+may introduce some issues. 
 
--- 
+This also fixes a small typo in core-image-sato-sdk.
 
-Paul Eggleton
-Intel Open Source Technology Centre
+The following changes since commit 5326847ef821c382aac26b474ab0e35939c463b7:
+
+  Hob: fixed a little view issue about package selection page (2012-04-16 12:56:25 +0100)
+
+are available in the git repository at:
+  git://git.yoctoproject.org/poky-contrib eflanagan/image_desc
+  http://git.yoctoproject.org/cgit.cgi/poky-contrib/log/?h=eflanagan/image_desc
+
+Beth Flanagan (2):
+  core-image-rt-*.bb: require munges DESCRIPTION
+  core-image-sato-sdk: typo in DESCRIPTION
+
+ meta/recipes-rt/images/core-image-rt-sdk.bb     |    3 +--
+ meta/recipes-rt/images/core-image-rt.bb         |    3 +--
+ meta/recipes-sato/images/core-image-sato-sdk.bb |    2 +-
+ 3 files changed, 3 insertions(+), 5 deletions(-)
+
 
 
