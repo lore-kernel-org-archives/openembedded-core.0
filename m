@@ -1,25 +1,42 @@
-Received: from mail1.windriver.com ([147.11.146.13])
+Received: from mail-wg0-f41.google.com ([74.125.82.41])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <Liezhi.Yang@windriver.com>) id 1SJmGa-0005vP-QL
+	(envelope-from <koen@dominion.thruhere.net>) id 1SJmW0-0006bH-E6
 	for openembedded-core@lists.openembedded.org;
-	Mon, 16 Apr 2012 15:46:53 +0200
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca [147.11.189.40])
-	by mail1.windriver.com (8.14.3/8.14.3) with ESMTP id q3GDbRX8022670
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
+	Mon, 16 Apr 2012 16:02:48 +0200
+Received: by wgbds1 with SMTP id ds1so7271348wgb.0
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 16 Apr 2012 06:37:27 -0700 (PDT)
-Received: from usp-ub10.corp.ad.wrs.com (128.224.163.69) by
-	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server id
-	14.1.255.0; Mon, 16 Apr 2012 06:37:27 -0700
-From: Robert Yang <liezhi.yang@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Mon, 16 Apr 2012 21:38:14 +0800
-Message-ID: <3f7359690123356107fdc1a60f664a11bb54debb.1334583221.git.liezhi.yang@windriver.com>
-X-Mailer: git-send-email 1.7.1
-In-Reply-To: <cover.1334583221.git.liezhi.yang@windriver.com>
+	Mon, 16 Apr 2012 06:53:23 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=google.com; s=20120113;
+	h=content-type:mime-version:subject:from:in-reply-to:date
+	:content-transfer-encoding:message-id:references:to:x-mailer
+	:x-gm-message-state;
+	bh=MdugOu6Gc5Pbadt/dh/RHz/RT48GOo/cA9H0mHUvryM=;
+	b=OXKjQ0EWGFnGgdHcHTl2lj5gU63FVTdDm+VATlMB8YBjUj1Zv9Nn1HoLFY63jIPZEH
+	f+AmvN+jgsAR7ipgpRtX+uZ0KjDQ/ddp4QO6jYyDX/9K+MpTHsq1tw1+R4NG/kezaOD4
+	hw0RuiRaKQ+ef2Sx4V+H1RrNm/qtZwUjVo8hHfNUfOYVxK297hvgGpkks2Ga3473Zcz+
+	vIBlBVQX1YqJyF/bDPiMkA/2vp2zY0k2fNr1JEhtGNLcvhDnaJtZDKePLcPB45Qc5Jgg
+	Dq0Q/hSVUmvBK62B3Lf5yWMDbniWBR4/qPTmvLAEllspYBXJlU388FdbEPuBGMmW7CE3
+	/5Pw==
+Received: by 10.180.96.228 with SMTP id dv4mr19000876wib.14.1334584403574;
+	Mon, 16 Apr 2012 06:53:23 -0700 (PDT)
+Received: from [172.20.0.96] (ip545070eb.adsl-surfen.hetnet.nl.
+	[84.80.112.235])
+	by mx.google.com with ESMTPS id ea6sm19821167wib.5.2012.04.16.06.53.21
+	(version=TLSv1/SSLv3 cipher=OTHER);
+	Mon, 16 Apr 2012 06:53:22 -0700 (PDT)
+Mime-Version: 1.0 (Apple Message framework v1257)
+From: Koen Kooi <koen@dominion.thruhere.net>
+In-Reply-To: <6d586b1ec34616f2eb4d485c58cf67ad9524d9c7.1334583221.git.liezhi.yang@windriver.com>
+Date: Mon, 16 Apr 2012 15:53:19 +0200
+Message-Id: <DE326386-EBAD-41FD-A618-91BA010EBE7B@dominion.thruhere.net>
 References: <cover.1334583221.git.liezhi.yang@windriver.com>
-MIME-Version: 1.0
-Subject: [PATCH 3/3] automake-nativesdk: fix builds on fedora 17
+	<6d586b1ec34616f2eb4d485c58cf67ad9524d9c7.1334583221.git.liezhi.yang@windriver.com>
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+X-Mailer: Apple Mail (2.1257)
+X-Gm-Message-State: ALoCoQkWGTloTSnBC2y2N8mhTpUnUSWJjEB5L2Iud9LTg25/vNaR532P/KmiyzQwWqLX7M7i9eB9
+Subject: Re: [PATCH 1/3] glib-2.0: fix builds on fedora 17
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -34,82 +51,15 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 16 Apr 2012 13:46:53 -0000
-Content-Type: text/plain
+X-List-Received-Date: Mon, 16 Apr 2012 14:02:48 -0000
+Content-Type: text/plain; charset=us-ascii
+Content-Transfer-Encoding: 7bit
 
-Generally distros keep perl at /sur/bin/perl
-Fedora 17 also has /bin/perl
 
-this causes automake-nativesdk build on such distros to put perl
-interpreter path in the perl scripts as /bin/perl
+Op 16 apr. 2012, om 15:38 heeft Robert Yang het volgende geschreven:
 
-But we set perl location for target as /usr/bin/perl
+> Generally distros keep perl at /sur/bin/perl
 
-This mismatch of perl path causes failure of rootfs image creation
-like this:
-
-| error: Failed dependencies:
-|       /bin/perl is needed by automake-nativesdk-1.11.2-r2.x86_64
-NOTE: package meta-toolchain-gmae-1.0-r7: task do_populate_sdk: Failed
-
-The second sed command is for such a case:
-
-eval 'case $# in 0) exec /bin/perl -S "$0";; *) exec /bin/perl -S "$0" "$@";; esac'
-
-This line has two "/bin/perl" and we can't use a line number to tell
-sed which line it is since the line numbers in different files are
-defferent.
-
-[YOCTO #2304]
-
-Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
----
- meta/recipes-devtools/automake/automake_1.11.2.bb |   20 +++++++++++++++++---
- 1 files changed, 17 insertions(+), 3 deletions(-)
-
-diff --git a/meta/recipes-devtools/automake/automake_1.11.2.bb b/meta/recipes-devtools/automake/automake_1.11.2.bb
-index 4271336..66589fe 100644
---- a/meta/recipes-devtools/automake/automake_1.11.2.bb
-+++ b/meta/recipes-devtools/automake/automake_1.11.2.bb
-@@ -34,19 +34,33 @@ PATHFIXPATCH = "file://path_prog_fixes.patch"
- PATHFIXPATCH_virtclass-native = ""
- PATHFIXPATCH_virtclass-nativesdk = ""
- 
-+PERLPATH = "${bindir}/perl"
-+PERLPATH_virtclass-native = "/usr/bin/perl"
-+PERLPATH_virtclass-nativesdk = "/usr/bin/perl"
-+
- SRC_URI += "${PATHFIXPATCH} \
- 	    file://prefer-cpio-over-pax-for-ustar-archives.patch \
- 	    file://python-libdir.patch \
-             file://automake_1.11.2_fix_for_pkglibexec_SCRIPTS.patch \
-             file://py-compile-compile-only-optimized-byte-code.patch"
- 
--PR = "r2"
-+PR = "r3"
- SRC_URI[md5sum] = "18194e804d415767bae8f703c963d456"
- SRC_URI[sha256sum] = "4f46d1f9380c8a3506280750f630e9fc915cb1a435b724be56b499d016368718"
- 
- do_install () {
--	oe_runmake 'DESTDIR=${D}' install
--	install -d ${D}${datadir}
-+    oe_runmake 'DESTDIR=${D}' install
-+    install -d ${D}${datadir}
-+
-+    # Some distros have both /bin/perl and /usr/bin/perl, but we set perl location
-+    # for target as /usr/bin/perl, so fix it to /usr/bin/perl.
-+    for i in aclocal aclocal-1.11 automake automake-1.11; do
-+        if [ -f ${D}${bindir}/$i ]; then
-+            sed -i -e '1s,#!.*perl,#! ${PERLPATH},' \
-+            -e 's,exec .*/bin/perl \(.*\) exec .*/bin/perl \(.*\),exec ${PERLPATH} \1 exec ${PERLPATH} \2,' \
-+            ${D}${bindir}/$i
-+        fi
-+    done
- }
- 
- BBCLASSEXTEND = "native nativesdk"
--- 
-1.7.1
-
+/usr
 
 
