@@ -1,25 +1,34 @@
-Received: from mail1.windriver.com ([147.11.146.13])
+Received: from mail.dream-property.net ([82.149.226.172])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <Liezhi.Yang@windriver.com>) id 1SJnmC-00083H-TC
+	(envelope-from <obi@opendreambox.org>) id 1SJnnk-000884-Jz
 	for openembedded-core@lists.openembedded.org;
-	Mon, 16 Apr 2012 17:23:37 +0200
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca [147.11.189.40])
-	by mail1.windriver.com (8.14.3/8.14.3) with ESMTP id q3GFEAcA024057
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 16 Apr 2012 08:14:10 -0700 (PDT)
-Received: from usp-ub10.corp.ad.wrs.com (128.224.163.69) by
-	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server id
-	14.1.255.0; Mon, 16 Apr 2012 08:14:10 -0700
-From: Robert Yang <liezhi.yang@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Mon, 16 Apr 2012 23:14:59 +0800
-Message-ID: <23138099c77cd3dc6af309c81ef52da03a9ad004.1334589214.git.liezhi.yang@windriver.com>
-X-Mailer: git-send-email 1.7.1
-In-Reply-To: <cover.1334589214.git.liezhi.yang@windriver.com>
-References: <cover.1334589214.git.liezhi.yang@windriver.com>
+	Mon, 16 Apr 2012 17:25:12 +0200
+Received: from localhost (localhost [127.0.0.1])
+	by mail.dream-property.net (Postfix) with ESMTP id 9FEF3315B289;
+	Mon, 16 Apr 2012 17:15:49 +0200 (CEST)
+X-Virus-Scanned: Debian amavisd-new at mail.dream-property.net
+Received: from mail.dream-property.net ([127.0.0.1])
+	by localhost (mail.dream-property.net [127.0.0.1]) (amavisd-new,
+	port 10024)
+	with LMTP id q9aqI4Zkrcrb; Mon, 16 Apr 2012 17:15:39 +0200 (CEST)
+Received: from [192.168.2.108] (p5B119AE4.dip.t-dialin.net [91.17.154.228])
+	(using TLSv1 with cipher DHE-RSA-AES256-SHA (256/256 bits))
+	(No client certificate requested)
+	by mail.dream-property.net (Postfix) with ESMTPSA id 05E58315B287;
+	Mon, 16 Apr 2012 17:15:38 +0200 (CEST)
+Message-ID: <4F8C379A.3070903@opendreambox.org>
+Date: Mon, 16 Apr 2012 17:15:38 +0200
+From: Andreas Oberritter <obi@opendreambox.org>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:11.0) Gecko/20120329 Thunderbird/11.0.1
 MIME-Version: 1.0
-Subject: [PATCH 1/1] qemu-nativesdk: can't find libcurl.so.4
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
+References: <4F847380.6000401@windriver.com>
+	<4F8489DE.1050905@opendreambox.org>
+	<4F8C24CB.3080607@opendreambox.org> <1334587325.616.4.camel@ted>
+In-Reply-To: <1334587325.616.4.camel@ted>
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: MIPS vs MIPS32 tunings -- summary and questions
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -34,77 +43,181 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 16 Apr 2012 15:23:37 -0000
-Content-Type: text/plain
+X-List-Received-Date: Mon, 16 Apr 2012 15:25:12 -0000
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-There is an error when build meta-toolchain-sdk on Ubuntu 10.10:
+On 16.04.2012 16:42, Richard Purdie wrote:
+> On Mon, 2012-04-16 at 15:55 +0200, Andreas Oberritter wrote:
+>> On 10.04.2012 21:28, Andreas Oberritter wrote:
+>>> On 10.04.2012 19:53, Mark Hatle wrote:
+>>>> We still do not have a clean answer for how to resolve the concerns in
+>>>> the recent thread "conf/machine/include: Cleanup MIPS tunings to match
+>>>> README".  The following is in response to a request I received to
+>>>> summarize the discussion so far, and include the options to resolve the
+>>>> issue for the current OE-Core release.
+>>>>
+>>>> If you are interested in this, please be sure to read until the end
+>>>> before commenting.
+>>>>
+>>>> Background:
+>>>>
+>>>> About 2 weeks ago, in response to a number of patches sent for PowerPC
+>>>> issues, I set to the task of documenting and cleaning up the various
+>>>> tune files.  It was discovered that since they were originally
+>>>> implemented, a number of minor conflicts and defects had crept into the
+>>>> system.  The recent patch set added a number of README files and
+>>>> attempted to resolve any duplication, or confusion between items.
+>>>>
+>>>> During this work it was discovered that there were two tunings that
+>>>> produced the same package architecture:
+>>>>
+>>>> mips (tune), optimized for mips1 - o32 ABI, produced packages with a
+>>>> "mips" arch
+>>>>
+>>>> mips32 (tune), optimized for mips32 - o32 ABI, produced packages also
+>>>> with a "mips" arch.
+>>>>
+>>>> While "mips1" should work on a "mips32" system, the reverse is not
+>>>> true.  There was no way to distinguish, in a package feed, the
+>>>> difference between the two sets of binaries.
+>>>>
+>>>> I updated the MIPS tune files to resolve this issue.  The result was:
+>>>>
+>>>> mips (tune), mips1 - o32 ABI, produced packages with a "mips" arch
+>>>>
+>>>> mips32 (tune), mips32 - o32 ABI, produced packages with a "mips32" arch
+>>>>
+>>>> This lead to the thread mentioned above.  At first there were concerns
+>>>> that the GNU target arch had changed (from mips to mips32), this was not
+>>>> the case.  The only change is in the produced package arch names.  So
+>>>> the package feeds and image generation are the only components affected
+>>>> by this change.
+>>>>
+>>>> After various discussion with folks, such as Khem Raj, it is unlikely
+>>>> that anyone would be using oe-core with a "mips1" target.  There may be
+>>>> some mips3 or mips4 targets, but we find it highly unlikely based on our
+>>>> current experience. Khem suggested resolving this my simply making the
+>>>> "mips" include mips32 as the default optimization.
+>>>>
+>>>> Image generation was verified to produce the same images before and
+>>>> after this change for the qemumips target.  I am unable to verify the
+>>>> package feeds, as I do not have a suitable setup for this.
+>>>>
+>>>> So possible solutions to this particular issue, which we do need on
+>>>> prior to the upcoming release:
+>>>>
+>>>> 1) Revert the behavior and match that last release.  We have two tunes
+>>>> that produce different binaries w/ the same "mips" package arch.
+>>>>    * This preserves previous behavior, but IMHO continues to implement
+>>>> the defect
+>>>>
+>>>> mips (tune) - mips1 processor, o32 ABI - mips package arch
+>>>> mips32 (tune) - mips32 processor, o32 ABI - mips package arch
+>>>>
+>>>> 2) Keep it as it is currently checked in.  Provide the ability to build
+>>>> a basic "mips" and a more optimized "mips32" tuned target and package set.
+>>>>    * This fixes the defect and provides the opportunity for "mips" to be
+>>>> a basic common package arch, while mips32 (or additional mips3? mips4?
+>>>> mips32r2?) tunes could be used to augment this for specific systems.
+>>>>
+>>>> mips (tune) - mips1 processor, o32 ABI - mips package arch
+>>>> mips32 (tune) - mips32 processor, o32 ABI - mips32 package arch
+>>>
+>>> If the tune should reflect the optimization, then mips should be renamed
+>>> to mips1 and specified explicitly using -march=mips1, in order to
+>>> protect against changing defaults when using a newer compiler. However,
+>>> as Phil pointed out, there are many more optimization settings, e.g. -O2
+>>> vs. -Os, that aren't encoded into the package arch, so the goal to have
+>>> distinct package archs for different binaries won't be reached.
+>>>
+>>> I don't see what a common "mips" package arch would give us. Within OE,
+>>> you'd usually compile all your applications for the package arch of your
+>>> target system. Adding compatible package archs to the feed just
+>>> increases the complexity of online updates.
+>>>
+>>>> 3) Define only one mips tune, with a target package arch of "mips". 
+>>>> Changing the basic mips tune, and corresponding mips package arch to
+>>>> include mips32 optimizations and instructions.
+>>>>    * This preserves the "mips" tune, but changes the behavior of the
+>>>> tune from default compiler, to mips32 optimization
+>>>>    * Anyone requiring mips3 or mips4 will need to add a tune, and that
+>>>> tune will not be compatible with "mips"
+>>>
+>>> Also, mips1 could be added back anytime if anybody starts using it.
+>>>
+>>>> mips (tune) - mips32 processor, o32 ABI - mips package arch
+>>>>
+>>>>   3a) Preserve the mips32 tune entries, but define it as being equal to
+>>>> mips
+>>>>       * Preserves the tune entries for compatibility, but is anyone
+>>>> directly using them?
+>>>>
+>>>>   3b) Remove the mips32 tune entries -- effectively eliminating mips32
+>>>> as a tune
+>>>>       * Removes the tune entries (cleans up the tunes), no compatibility
+>>>> -- but it's unlikely anyone was directly specifying "mips32" as their
+>>>> machine's DEFAULTTUNE.
+>>>
+>>> Actually I have (had) machines specifying mips32el and mips32el-nf as
+>>> their DEFAULTTUNEs, which your first patch, that got applied upstream,
+>>> broke. But I've already switched to use your latest patch using mipsel
+>>> and mipsel-nf instead, (which I prefer over the former).
+>>>
+>>>> My recommendation is either 2 or 3.  The 3a/b variation is simply an
+>>>> implementation detail to me, and I will be happy to implement it either
+>>>> way if this is the chosen direction.
+>>>
+>>> I'm fine with either way that restores mips/mipsel for mips32 targets
+>>> *before the release*, because the online update feeds broke and all
+>>> packages had to be built again from scratch.
+>>
+>> Richard, can you please state your opinion about this issue?
+>>
+>> The mips package feed (e.g. qemumips) is now broken since weeks. Can I
+>> expect this to be corrected before the release, or should anybody
+>> relying on mipsel package feeds stop using oe-core's
+>> meta/conf/machine/include/mips/arch-mips.inc?
+> 
+> Sorry, I got distracted by a ton of other issues. I think the cleanup
+> did make sense and things are more correct now, its just a shame about
+> the package feed naming issue.
+> 
+> There comes a point we need to try and clean up some of these things so
+> my proposal would be that people who don't want to use the new naming
+> set the following in their distro config:
+> 
+> MIPSPKGSFX_VARIANT_tune-mips32el = "mipsel"
+> 
+> and then should still be able to use the arch-mips.inc from OE-Core.
+> Does that work for people?
 
-| Installing NATIVESDK packages
-| Processing task-sdk-host-nativesdk...
-| Processing task-cross-canadian-mips...
-| error: Failed dependencies:
-|       libcurl.so.4 is needed by qemu-nativesdk-0.15.1-r5.i686
-NOTE: package meta-toolchain-gmae-1.0-r7: task do_populate_sdk: Failed
-ERROR: Task 21 (/buildarea2/lyang1/poky/meta/recipes-core/meta/meta-toolchain-gmae.bb, do_populate_sdk) failed with exit code '1'
+I wonder why this point has to be during the stabilisation phase before
+the release, considering much less intrusive changes are not getting
+applied.
 
-This is because the curl-native generates libcurl.so.4, but
-curl-nativesdk generates libcurl.so.5, qemu-nativesdk needs libcurl.so,
-but its DEPENDS doesn't have curl-nativesdk, so it links the one from
-curl-native, this is incorrect. Fix its DEPENDS, let it depend on
-curl-nativesdk will fix the problem.
+Setting this variable is a partial workaround. PACKAGE_EXTRA_ARCHS also
+broke for tune-mips32.inc, so this has to be set, too. The easiest thing
+for everybody would however be to revert "Cleanup MIPS tunings to match
+README" and to drop tune-mips, which was unused.
 
-[YOCTO #2305]
+Maybe I would have understood why the patch "Cleanup MIPS tunings to
+match README" was applied, if the README hadn't been created just the
+same day. Usually the README should describe how something works and not
+serve as an artificial reason to break things.
 
-Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
----
- meta/recipes-devtools/qemu/qemu.inc       |    4 ++--
- meta/recipes-devtools/qemu/qemu_0.15.1.bb |    2 +-
- meta/recipes-devtools/qemu/qemu_git.bb    |    2 +-
- 3 files changed, 4 insertions(+), 4 deletions(-)
+If the overall conclusion is that optimisation settings should be
+encoded in the package architecture, I still wonder why -Os and -O2
+aren't encoded or why tune-mips still creates 'mips' and not 'mips1'
+packages.
 
-diff --git a/meta/recipes-devtools/qemu/qemu.inc b/meta/recipes-devtools/qemu/qemu.inc
-index 8dee060..1754629 100644
---- a/meta/recipes-devtools/qemu/qemu.inc
-+++ b/meta/recipes-devtools/qemu/qemu.inc
-@@ -57,8 +57,8 @@ do_install () {
- 	install -m 0755 ${WORKDIR}/powerpc_rom.bin ${D}${datadir}/qemu
- }
- 
--DEPENDS_virtclass-native = "zlib-native alsa-lib-native glib-2.0-native"
--DEPENDS_virtclass-nativesdk = "zlib-nativesdk libsdl-nativesdk glib-2.0-nativesdk \
-+DEPENDS_virtclass-native = "zlib-native alsa-lib-native glib-2.0-native curl-native"
-+DEPENDS_virtclass-nativesdk = "zlib-nativesdk libsdl-nativesdk glib-2.0-nativesdk curl-nativesdk \
-                                ${@base_contains('DISTRO_FEATURES', 'x11', 'qemugl-nativesdk', '', d)}"
- RDEPENDS_virtclass-nativesdk = "libsdl-nativesdk"
- EXTRA_OECONF_virtclass-nativesdk += "--target-list=${@get_qemu_target_list(d)} --disable-werror --disable-vnc-tls"
-diff --git a/meta/recipes-devtools/qemu/qemu_0.15.1.bb b/meta/recipes-devtools/qemu/qemu_0.15.1.bb
-index 05ea5f8..789b72b 100644
---- a/meta/recipes-devtools/qemu/qemu_0.15.1.bb
-+++ b/meta/recipes-devtools/qemu/qemu_0.15.1.bb
-@@ -3,7 +3,7 @@ require qemu.inc
- LIC_FILES_CHKSUM = "file://COPYING;md5=441c28d2cf86e15a37fa47e15a72fbac \
-                     file://COPYING.LIB;endline=24;md5=c04def7ae38850e7d3ef548588159913"
- 
--PR = "r5"
-+PR = "r6"
- 
- FILESPATH = "${FILE_DIRNAME}/qemu-${PV}"
- FILESDIR = "${WORKDIR}"
-diff --git a/meta/recipes-devtools/qemu/qemu_git.bb b/meta/recipes-devtools/qemu/qemu_git.bb
-index bcec9bb..6d5e250 100644
---- a/meta/recipes-devtools/qemu/qemu_git.bb
-+++ b/meta/recipes-devtools/qemu/qemu_git.bb
-@@ -6,7 +6,7 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=441c28d2cf86e15a37fa47e15a72fbac \
-                     file://COPYING.LIB;endline=24;md5=c04def7ae38850e7d3ef548588159913"
- 
- PV = "0.14.0"
--PR = "r3"
-+PR = "r4"
- 
- FILESPATH = "${FILE_DIRNAME}/qemu-${PV}/:${FILE_DIRNAME}/qemu-git/"
- FILESDIR = "${WORKDIR}"
--- 
-1.7.1
+So, inconsistent but deployed code has been replaced by inconsistent but
+new code. And there's no time left to improve the new inconsistent code
+so short before the release, I guess.
 
+Sorry for the rant.
+
+Regards,
+Andreas
 
 
