@@ -1,44 +1,41 @@
-Received: from szxga03-in.huawei.com ([58.251.152.66])
+Received: from mail-wi0-f171.google.com ([209.85.212.171])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <ramana.gollamudi@huawei.com>) id 1SK4fo-00061R-EZ
+	(envelope-from <koen@dominion.thruhere.net>) id 1SK52V-0006GC-Q9
 	for openembedded-core@lists.openembedded.org;
-	Tue, 17 Apr 2012 11:26:08 +0200
-Received: from huawei.com (szxga03-in [172.24.2.9])
-	by szxga03-in.huawei.com (iPlanet Messaging Server 5.2 HotFix 2.14
-	(built Aug
-	8 2006)) with ESMTP id <0M2M004XU9864A@szxga03-in.huawei.com> for
-	openembedded-core@lists.openembedded.org;
-	Tue, 17 Apr 2012 17:04:54 +0800 (CST)
-Received: from szxrg02-dlp.huawei.com ([172.24.2.119])
-	by szxga03-in.huawei.com (iPlanet Messaging Server 5.2 HotFix 2.14
-	(built Aug
-	8 2006)) with ESMTP id <0M2M00L97986NX@szxga03-in.huawei.com> for
-	openembedded-core@lists.openembedded.org;
-	Tue, 17 Apr 2012 17:04:54 +0800 (CST)
-Received: from szxeml211-edg.china.huawei.com ([172.24.2.119])
-	by szxrg02-dlp.huawei.com (MOS 4.1.9-GA)	with ESMTP id AIK31099; Tue,
-	17 Apr 2012 17:04:23 +0800
-Received: from SZXEML406-HUB.china.huawei.com (10.82.67.93)
-	by szxeml211-edg.china.huawei.com (172.24.2.182) with Microsoft SMTP
-	Server (TLS) id 14.1.323.3; Tue, 17 Apr 2012 17:03:45 +0800
-Received: from SZXEML534-MBX.china.huawei.com ([169.254.2.43])
-	by szxeml406-hub.china.huawei.com ([10.82.67.93]) with mapi id
-	14.01.0323.003; Tue, 17 Apr 2012 17:04:16 +0800
-Date: Tue, 17 Apr 2012 09:04:15 +0000
-From: Venkata ramana gollamudi <ramana.gollamudi@huawei.com>
-X-Originating-IP: [10.18.96.93]
-To: "'openembedded-core@lists.openembedded.org'"
+	Tue, 17 Apr 2012 11:49:35 +0200
+Received: by wibhj13 with SMTP id hj13so273938wib.6
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 17 Apr 2012 02:40:10 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=google.com; s=20120113;
+	h=content-type:mime-version:subject:from:in-reply-to:date
+	:content-transfer-encoding:message-id:references:to:x-mailer
+	:x-gm-message-state;
+	bh=GQNbdMpNDiaFFmNJQru49rsIlOjtVjPIjvhqxqyK3to=;
+	b=P+ZqRhFqHXvRW0vsoLRToPNaIlMdAPjMDAE1u4HQyI0P/sc8tn+r8C/yKUnSVS9F9w
+	IDQbn8ZNppz7nouWgs/pcJlCg8gJ4BwjBAo3XCLqwe2otjvEmiM6AYcDqpARugqLNn0E
+	zdzUR3SOVr/fI/bq6hFqGRlT9dNEeWW68qQ7f9NteHldmxBnt5M7UA87LD6RKaW6GRbY
+	inhbXDof9shcI0C5NVOqPhsdlR9az6Q2uaZWPbPMAshJoDbi7bQLj6ioR2crB5irrQFy
+	m3EzpmjF41Z5A73M9f6omdZs6o3ommpKLpfbD0ZBVx216KaHhM+UOzFkcijpYlqePLGi
+	nMeQ==
+Received: by 10.180.24.66 with SMTP id s2mr26889267wif.7.1334655609950;
+	Tue, 17 Apr 2012 02:40:09 -0700 (PDT)
+Received: from [172.20.0.96] (ip545070eb.adsl-surfen.hetnet.nl.
+	[84.80.112.235])
+	by mx.google.com with ESMTPS id ca3sm25742595wib.6.2012.04.17.02.40.07
+	(version=TLSv1/SSLv3 cipher=OTHER);
+	Tue, 17 Apr 2012 02:40:08 -0700 (PDT)
+Mime-Version: 1.0 (Apple Message framework v1257)
+From: Koen Kooi <koen@dominion.thruhere.net>
+In-Reply-To: <1332618407-30816-1-git-send-email-obi@opendreambox.org>
+Date: Tue, 17 Apr 2012 11:40:05 +0200
+Message-Id: <F744A0A9-A640-4453-8119-18D2DF60364E@dominion.thruhere.net>
+References: <1332618407-30816-1-git-send-email-obi@opendreambox.org>
+To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Message-id: <36ED13F3654AE54CA763E6821D93A5711043E81A@szxeml534-mbx.china.huawei.com>
-MIME-version: 1.0
-Accept-Language: en-US, zh-CN
-Thread-topic: [PATCH] perl: fix re-execution of compile task
-Thread-index: Ac0ceQ7RX7eF6AbtRHS8Dzl5kU3VLQ==
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-X-CFilter-Loop: Reflected
-Cc: Sanil kumar <sanil.kumar@huawei.com>
-Subject: [PATCH] perl: fix re-execution of compile task
+X-Mailer: Apple Mail (2.1257)
+X-Gm-Message-State: ALoCoQkN4nL5lCrfmnmOqTqHXxTERU2Qde/EvmOSqeQbox+fbWXQCkQEHD9Uubj1z1453vB4szk9
+Subject: Re: [PATCH] busybox: move watch to /usr/bin for compatibility with procps
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -53,41 +50,106 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 17 Apr 2012 09:26:09 -0000
-Content-type: text/plain; charset=us-ascii
-Content-language: en-US
-Content-transfer-encoding: 7BIT
+X-List-Received-Date: Tue, 17 Apr 2012 09:49:35 -0000
+Content-Type: text/plain; charset=us-ascii
+Content-Transfer-Encoding: quoted-printable
 
-After building perl package, re-execution of compile task recursively
- substitutes the path, making it an invalid path.
+Ping
 
-Fixed to prevent recursive substitution.
+Op 24 mrt. 2012, om 20:46 heeft Andreas Oberritter het volgende =
+geschreven:
 
-Similar case as [Yocto #2194]
-
-Signed-off-by: Venkata Ramana Gollamudi <ramana.gollamudi@huawei.com>
----
- meta/recipes-devtools/perl/perl_5.14.2.bb |    5 +++--
- 1 files changed, 3 insertions(+), 2 deletions(-)
-
-diff --git a/meta/recipes-devtools/perl/perl_5.14.2.bb b/meta/recipes-devtools/perl/perl_5.14.2.bb
-index ecb2262..809fc72 100644
---- a/meta/recipes-devtools/perl/perl_5.14.2.bb
-+++ b/meta/recipes-devtools/perl/perl_5.14.2.bb
-@@ -174,8 +174,9 @@ do_configure() {
- }
- 
- do_compile() {
--        sed -i -e 's|/usr/include|${STAGING_INCDIR}|g' ext/Errno/Errno_pm.PL
--        sed -i -e 's|/usr/include|${STAGING_INCDIR}|g' cpan/Compress-Raw-Zlib/config.in
-+        # Fix to avoid recursive substitution of path
-+        sed -i -e "s|\([ \"\']\+\)/usr/include|\1${STAGING_INCDIR}|g" ext/Errno/Errno_pm.PL
-+        sed -i -e "s|\([ \"\']\+\)/usr/include|\1${STAGING_INCDIR}|g" cpan/Compress-Raw-Zlib/config.in
-         sed -i -e 's|/usr/lib|""|g' cpan/Compress-Raw-Zlib/config.in
-         sed -i -e 's|SYSROOTLIB|${STAGING_LIBDIR}|g' cpan/ExtUtils-MakeMaker/lib/ExtUtils/Liblist/Kid.pm
- 
--- 
-1.7.7
+> Commit 68dc2a3fa30c03a196d650de34d0c657a7b85454 broke opkg upgrade:
+>=20
+> | update-alternatives: Error: cannot register alternative watch to
+> | /usr/bin/watch since it is already registered to /bin/watch
+>=20
+> Signed-off-by: Andreas Oberritter <obi@opendreambox.org>
+> ---
+> * Martin, can you please verify whether this really helps? I've built =
+a
+>  rootfs with both busybox watch and procps installed. I didn't =
+actually
+>  do an opkg upgrade.
+>=20
+> .../busybox/busybox-1.19.4/watch.in.usr-bin.patch  |   29 =
+++++++++++++++++++++
+> meta/recipes-core/busybox/busybox_1.19.4.bb        |    3 +-
+> 2 files changed, 31 insertions(+), 1 deletions(-)
+> create mode 100644 =
+meta/recipes-core/busybox/busybox-1.19.4/watch.in.usr-bin.patch
+>=20
+> diff --git =
+a/meta/recipes-core/busybox/busybox-1.19.4/watch.in.usr-bin.patch =
+b/meta/recipes-core/busybox/busybox-1.19.4/watch.in.usr-bin.patch
+> new file mode 100644
+> index 0000000..e8e1edf
+> --- /dev/null
+> +++ b/meta/recipes-core/busybox/busybox-1.19.4/watch.in.usr-bin.patch
+> @@ -0,0 +1,29 @@
+> +Upstream-Status: Inappropriate [configuration]
+> +
+> +=46rom f2372ab626a395d067704f4c318180fb6039de15 Mon Sep 17 00:00:00 =
+2001
+> +From: Andreas Oberritter <obi@opendreambox.org>
+> +Date: Sat, 24 Mar 2012 17:36:48 +0100
+> +Subject: [PATCH] watch: move from /bin to /usr/bin for compatibility =
+with
+> + procps
+> +
+> +Signed-off-by: Andreas Oberritter <obi@opendreambox.org>
+> +---
+> + include/applets.src.h |    2 +-
+> + 1 files changed, 1 insertions(+), 1 deletions(-)
+> +
+> +diff --git a/include/applets.src.h b/include/applets.src.h
+> +index 87d9cbb..c148a8c 100644
+> +--- a/include/applets.src.h
+> ++++ b/include/applets.src.h
+> +@@ -404,7 +404,7 @@ IF_VLOCK(APPLET(vlock, BB_DIR_USR_BIN, =
+BB_SUID_REQUIRE))
+> + IF_VOLNAME(APPLET(volname, BB_DIR_USR_BIN, BB_SUID_DROP))
+> + /* Needs to be run by root or be suid root - needs to write to =
+/dev/TTY: */
+> + IF_WALL(APPLET(wall, BB_DIR_USR_BIN, BB_SUID_REQUIRE))
+> +-IF_WATCH(APPLET(watch, BB_DIR_BIN, BB_SUID_DROP))
+> ++IF_WATCH(APPLET(watch, BB_DIR_USR_BIN, BB_SUID_DROP))
+> + IF_WATCHDOG(APPLET(watchdog, BB_DIR_SBIN, BB_SUID_DROP))
+> + IF_WC(APPLET(wc, BB_DIR_USR_BIN, BB_SUID_DROP))
+> + IF_WGET(APPLET(wget, BB_DIR_USR_BIN, BB_SUID_DROP))
+> +--=20
+> +1.7.5.4
+> +
+> diff --git a/meta/recipes-core/busybox/busybox_1.19.4.bb =
+b/meta/recipes-core/busybox/busybox_1.19.4.bb
+> index dff616d..3f22669 100644
+> --- a/meta/recipes-core/busybox/busybox_1.19.4.bb
+> +++ b/meta/recipes-core/busybox/busybox_1.19.4.bb
+> @@ -1,5 +1,5 @@
+> require busybox.inc
+> -PR =3D "r0"
+> +PR =3D "r1"
+>=20
+> SRC_URI =3D =
+"http://www.busybox.net/downloads/busybox-${PV}.tar.bz2;name=3Dtarball \
+>            file://udhcpscript.patch \
+> @@ -8,6 +8,7 @@ SRC_URI =3D =
+"http://www.busybox.net/downloads/busybox-${PV}.tar.bz2;name=3Dtarball \
+>            file://get_header_tar.patch \
+>            file://busybox-appletlib-dependency.patch \
+>            file://run-parts.in.usr-bin.patch \
+> +           file://watch.in.usr-bin.patch \
+>            file://busybox-udhcpc-no_deconfig.patch \
+>            file://find-touchscreen.sh \
+>            file://busybox-cron \
+> --=20
+> 1.7.5.4
+>=20
+>=20
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
 
 
 
