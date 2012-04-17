@@ -1,35 +1,26 @@
-Received: from mail-ee0-f47.google.com ([74.125.83.47])
+Received: from mga02.intel.com ([134.134.136.20])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <martin.jansa@gmail.com>)
-	id 1SK8f0-0002XR-W1; Tue, 17 Apr 2012 15:41:35 +0200
-Received: by eekc1 with SMTP id c1so1323517eek.6
-	for <multiple recipients>; Tue, 17 Apr 2012 06:32:08 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=date:from:to:cc:subject:message-id:references:mime-version
-	:content-type:content-disposition:in-reply-to:user-agent;
-	bh=QoCZjsDNoHjDI53m9rCgDQFQwAyRci5ttMr2wdn10NU=;
-	b=Qav4sUwKdStJlR4v6iBp5fVYSxWt75fA7qTiQEn1OjU45s5dxxx2yJ8TIUoSSAU4MJ
-	+HBMYsrxoVBeLsFvC6RwVMRa06tcaDww9jCH4WSqBVSNGQFtz91bP++RewzbnOEvx07A
-	EmRBMolnf1rcTf/H9sRPPLpjJl8inOg5MKBqLyzdBYAm+OOL1lzLIT2ulbx3dct6Fr1r
-	ksIgIhkatiPCOWRjoEXFk5n+JpvvS+T4ekXUdFcO6Pv5bgBrsQTvplYDwrwf8xoUgsP1
-	BhKmdh3htkk6kbirS8mYEgrdgMXfzYsok5Mm12QefhTbR6kcxQfeqX9URf62Cxvr75wT
-	nBow==
-Received: by 10.14.99.6 with SMTP id w6mr2312171eef.68.1334669528830;
-	Tue, 17 Apr 2012 06:32:08 -0700 (PDT)
-Received: from localhost ([94.230.152.246])
-	by mx.google.com with ESMTPS id n55sm102573908eef.6.2012.04.17.06.32.07
-	(version=TLSv1/SSLv3 cipher=OTHER);
-	Tue, 17 Apr 2012 06:32:07 -0700 (PDT)
-Date: Tue, 17 Apr 2012 15:32:07 +0200
-From: Martin Jansa <martin.jansa@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Message-ID: <20120417133207.GC3665@jama.jama.net>
-References: <20120417131445.7F9BF10219@opal>
+	(envelope-from <sgw@linux.intel.com>) id 1SK9Kk-0000kT-Am
+	for openembedded-core@lists.openembedded.org;
+	Tue, 17 Apr 2012 16:24:42 +0200
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+	by orsmga101.jf.intel.com with ESMTP; 17 Apr 2012 07:15:15 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.67,351,1309762800"; d="scan'208";a="133496433"
+Received: from unknown (HELO [10.255.12.25]) ([10.255.12.25])
+	by orsmga002.jf.intel.com with ESMTP; 17 Apr 2012 07:15:14 -0700
+Message-ID: <4F8D7AF2.1040401@linux.intel.com>
+Date: Tue, 17 Apr 2012 07:15:14 -0700
+From: Saul Wold <sgw@linux.intel.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:11.0) Gecko/20120329 Thunderbird/11.0.1
 MIME-Version: 1.0
-In-Reply-To: <20120417131445.7F9BF10219@opal>
-User-Agent: Mutt/1.5.21 (2010-09-15)
-Cc: openembedded-commits@lists.openembedded.org
-Subject: Re: [oe-commits] Richard Purdie : gst-plugins-bad: Add missing PR bump after curl change
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+References: <36ED13F3654AE54CA763E6821D93A5711043E81A@szxeml534-mbx.china.huawei.com>
+In-Reply-To: <36ED13F3654AE54CA763E6821D93A5711043E81A@szxeml534-mbx.china.huawei.com>
+Cc: Sanil kumar <sanil.kumar@huawei.com>
+Subject: Re: [PATCH] perl: fix re-execution of compile task
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -44,105 +35,43 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 17 Apr 2012 13:41:35 -0000
-X-Groupsio-MsgNum: 20882
-Content-Type: multipart/signed; micalg=pgp-sha1;
-	protocol="application/pgp-signature"; boundary="NKoe5XOeduwbEQHU"
-Content-Disposition: inline
+X-List-Received-Date: Tue, 17 Apr 2012 14:24:42 -0000
+Content-Type: text/plain; charset=ISO-8859-1; format=flowed
+Content-Transfer-Encoding: 7bit
 
---NKoe5XOeduwbEQHU
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-
-
-Please revert DISTRO_FEATURES_LIBC_DEFAULT change as it doesn't belong
-to this commit.
-
-On Tue, Apr 17, 2012 at 01:14:45PM +0000, git@git.openembedded.org wrote:
-> Module: openembedded-core.git
-> Branch: master
-> Commit: 2865d01773e405212aa6f531139898d90a6819a8
-> URL:    http://git.openembedded.org/?p=3Dopenembedded-core.git&a=3Dcommit=
-;h=3D2865d01773e405212aa6f531139898d90a6819a8
->=20
-> Author: Richard Purdie <richard.purdie@linuxfoundation.org>
-> Date:   Tue Apr 17 12:33:01 2012 +0100
->=20
-> gst-plugins-bad: Add missing PR bump after curl change
->=20
-> Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
->=20
+On 04/17/2012 02:04 AM, Venkata ramana gollamudi wrote:
+> After building perl package, re-execution of compile task recursively
+>   substitutes the path, making it an invalid path.
+>
+> Fixed to prevent recursive substitution.
+>
+> Similar case as [Yocto #2194]
+>
+> Signed-off-by: Venkata Ramana Gollamudi<ramana.gollamudi@huawei.com>
 > ---
->=20
->  meta/conf/distro/include/default-distrovars.inc    |    4 +++-
->  .../gstreamer/gst-plugins-bad_0.10.23.bb           |    2 +-
->  2 files changed, 4 insertions(+), 2 deletions(-)
->=20
-> diff --git a/meta/conf/distro/include/default-distrovars.inc b/meta/conf/=
-distro/include/default-distrovars.inc
-> index 16b3108..f770919 100644
-> --- a/meta/conf/distro/include/default-distrovars.inc
-> +++ b/meta/conf/distro/include/default-distrovars.inc
-> @@ -10,12 +10,14 @@ LIMIT_BUILT_LOCALES ?=3D "POSIX en_US en_GB"
->  ENABLE_BINARY_LOCALE_GENERATION ?=3D "1"
->  LOCALE_UTF8_ONLY ?=3D "0"
-> =20
-> -DISTRO_FEATURES_LIBC ?=3D "ipv4 ipv6 libc-backtrace libc-big-macros libc=
--bsd libc-cxx-tests libc-catgets libc-charsets libc-crypt \
-> +DISTRO_FEATURES_LIBC_DEFAULT ?=3D "ipv4 ipv6 libc-backtrace libc-big-mac=
-ros libc-bsd libc-cxx-tests libc-catgets libc-charsets libc-crypt \
->  					libc-crypt-ufc libc-db-aliases libc-envz libc-fcvt libc-fmtmsg libc=
--fstab libc-ftraverse \
->  					libc-getlogin libc-idn libc-inet-anl libc-libm libc-libm-big libc-l=
-ocales libc-locale-code \
->  					libc-memusage libc-nis libc-nsswitch libc-rcmd libc-rtld-debug libc=
--spawn libc-streams libc-sunrpc \
->  					libc-utmp libc-utmpx libc-wordexp libc-posix-clang-wchar libc-posix=
--regexp libc-posix-regexp-glibc \
->  					libc-posix-wchar-io"
-> +DISTRO_FEATURES_LIBC ?=3D "${DISTRO_FEATURES_LIBC_DEFAULT}"
-> +DISTRO_FEATURES_LIBC_virtclass-nativesdk =3D "${DISTRO_FEATURES_LIBC_DEF=
-AULT}"
->  DISTRO_FEATURES ?=3D "alsa argp bluetooth ext2 irda largefile pcmcia usb=
-gadget usbhost wifi xattr nfs zeroconf pci 3g x11 ${DISTRO_FEATURES_LIBC}"
-> =20
->  IMAGE_FEATURES ?=3D ""
-> diff --git a/meta/recipes-multimedia/gstreamer/gst-plugins-bad_0.10.23.bb=
- b/meta/recipes-multimedia/gstreamer/gst-plugins-bad_0.10.23.bb
-> index fbe1709..a277417 100644
-> --- a/meta/recipes-multimedia/gstreamer/gst-plugins-bad_0.10.23.bb
-> +++ b/meta/recipes-multimedia/gstreamer/gst-plugins-bad_0.10.23.bb
-> @@ -8,7 +8,7 @@ LIC_FILES_CHKSUM =3D "file://COPYING;md5=3D0636e73ff0215e=
-8d672dc4c32c317bb3 \
-> =20
->  DEPENDS +=3D "gst-plugins-base libmusicbrainz tremor librsvg curl"
-> =20
-> -PR =3D "r1"
-> +PR =3D "r2"
-> =20
->  inherit gettext
-> =20
->=20
->=20
-> _______________________________________________
-> Openembedded-commits mailing list
-> Openembedded-commits@lists.openembedded.org
-> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-commits
+>   meta/recipes-devtools/perl/perl_5.14.2.bb |    5 +++--
+>   1 files changed, 3 insertions(+), 2 deletions(-)
+>
+> diff --git a/meta/recipes-devtools/perl/perl_5.14.2.bb b/meta/recipes-devtools/perl/perl_5.14.2.bb
+> index ecb2262..809fc72 100644
+> --- a/meta/recipes-devtools/perl/perl_5.14.2.bb
+> +++ b/meta/recipes-devtools/perl/perl_5.14.2.bb
+> @@ -174,8 +174,9 @@ do_configure() {
+>   }
+>
+>   do_compile() {
+> -        sed -i -e 's|/usr/include|${STAGING_INCDIR}|g' ext/Errno/Errno_pm.PL
+> -        sed -i -e 's|/usr/include|${STAGING_INCDIR}|g' cpan/Compress-Raw-Zlib/config.in
+> +        # Fix to avoid recursive substitution of path
+> +        sed -i -e "s|\([ \"\']\+\)/usr/include|\1${STAGING_INCDIR}|g" ext/Errno/Errno_pm.PL
+> +        sed -i -e "s|\([ \"\']\+\)/usr/include|\1${STAGING_INCDIR}|g" cpan/Compress-Raw-Zlib/config.in
+>           sed -i -e 's|/usr/lib|""|g' cpan/Compress-Raw-Zlib/config.in
+>           sed -i -e 's|SYSROOTLIB|${STAGING_LIBDIR}|g' cpan/ExtUtils-MakeMaker/lib/ExtUtils/Liblist/Kid.pm
+>
 
---=20
-Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
+Merged into OE-Core
 
---NKoe5XOeduwbEQHU
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: Digital signature
+Thanks
+	Sau!
 
------BEGIN PGP SIGNATURE-----
-Version: GnuPG v2.0.19 (GNU/Linux)
 
-iEYEARECAAYFAk+NcNcACgkQN1Ujt2V2gBzkTACeMqaUuKcN3szfUkgbsNvhMj5W
-ujYAoKO6sMh8i/DHMGF52IZ6fInTl8O4
-=/XzF
------END PGP SIGNATURE-----
-
---NKoe5XOeduwbEQHU--
