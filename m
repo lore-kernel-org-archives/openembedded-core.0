@@ -1,24 +1,24 @@
-Received: from mga02.intel.com ([134.134.136.20])
+Received: from mail1.windriver.com ([147.11.146.13])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <sgw@linux.intel.com>) id 1SKGNa-0001IB-9f
+	(envelope-from <mark.hatle@windriver.com>) id 1SKGbx-0001sV-SZ
 	for openembedded-core@lists.openembedded.org;
-	Tue, 17 Apr 2012 23:56:06 +0200
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-	by orsmga101.jf.intel.com with ESMTP; 17 Apr 2012 14:46:37 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.67,351,1309762800"; d="scan'208";a="133663356"
-Received: from unknown (HELO swold-mobl.bigsur.com) ([10.255.12.25])
-	by orsmga002.jf.intel.com with ESMTP; 17 Apr 2012 14:46:36 -0700
-From: Saul Wold <sgw@linux.intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Tue, 17 Apr 2012 14:46:34 -0700
-Message-Id: <9a90470c28e09f1a8b4ae0c627d335b7f0907b6d.1334699033.git.sgw@linux.intel.com>
-X-Mailer: git-send-email 1.7.7.6
-In-Reply-To: <cover.1334699033.git.sgw@linux.intel.com>
-References: <cover.1334699033.git.sgw@linux.intel.com>
-In-Reply-To: <cover.1334699033.git.sgw@linux.intel.com>
-References: <cover.1334699033.git.sgw@linux.intel.com>
-Subject: [PATCH 3/3] self-hosted-image: remove BB_NO_NETWORK and update Poky SRCREV
+	Wed, 18 Apr 2012 00:10:58 +0200
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca [147.11.189.40])
+	by mail1.windriver.com (8.14.3/8.14.3) with ESMTP id q3HM1UZB019059
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 17 Apr 2012 15:01:30 -0700 (PDT)
+Received: from localhost.localdomain (172.25.34.61) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server (TLS) id 14.1.255.0;
+	Tue, 17 Apr 2012 15:01:29 -0700
+From: Mark Hatle <mark.hatle@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Tue, 17 Apr 2012 17:05:51 -0500
+Message-ID: <cover.1334700265.git.mark.hatle@windriver.com>
+X-Mailer: git-send-email 1.7.3.4
+MIME-Version: 1.0
+X-Originating-IP: [172.25.34.61]
+Subject: [PATCH 0/1] Fix incorrect update-alternative settings in matchbox-wm-2
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -33,45 +33,27 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 17 Apr 2012 21:56:07 -0000
+X-List-Received-Date: Tue, 17 Apr 2012 22:10:58 -0000
+Content-Type: text/plain
 
-Signed-off-by: Saul Wold <sgw@linux.intel.com>
----
- meta/recipes-core/images/self-hosted-image.bb |    5 ++---
- 1 files changed, 2 insertions(+), 3 deletions(-)
+This looks like it was a simple copy/paste induced error.. fixed.w
 
-diff --git a/meta/recipes-core/images/self-hosted-image.bb b/meta/recipes-core/images/self-hosted-image.bb
-index 46e7209..fbcdf4c 100644
---- a/meta/recipes-core/images/self-hosted-image.bb
-+++ b/meta/recipes-core/images/self-hosted-image.bb
-@@ -5,7 +5,7 @@ LICENSE = "MIT"
- LIC_FILES_CHKSUM = "file://${COREBASE}/LICENSE;md5=3f40d7994397109285ec7b81fdeb3b58 \
-                     file://${COREBASE}/meta/COPYING.MIT;md5=3da9cfbcb788c80a0384361b4de20420"
- 
--PR = "r11"
-+PR = "r12"
- 
- IMAGE_FEATURES += "x11-mini package-management"
- 
-@@ -19,7 +19,7 @@ IMAGE_FSTYPES = "vmdk"
- 
- inherit core-image
- 
--SRCREV = "8691a588267472eb5a32b978a0eb9ddfd0c91733"
-+SRCREV = "20ff9db92165e6d16897671d2b1d370661962712"
- SRC_URI = "git://git.yoctoproject.org/poky;protocol=git"
- 
- IMAGE_CMD_ext3_append () {
-@@ -43,7 +43,6 @@ fakeroot do_populate_poky_src () {
- 	rm -rf ${IMAGE_ROOTFS}/home/builder/poky/build/downloads/git2_*
- 
- 	echo "/usr/bin" > ${IMAGE_ROOTFS}/home/builder/poky/build/pseudodone
--	echo "BB_NO_NETWORK = \"1\"" > ${IMAGE_ROOTFS}/home/builder/poky/build/conf/auto.conf
- 	echo "INHERIT += \"rm_work\"" >> ${IMAGE_ROOTFS}/home/builder/poky/build/conf/auto.conf
- 	mkdir -p ${IMAGE_ROOTFS}/home/builder/pseudo
- 	echo "export PSEUDO_PREFIX=/usr" >> ${IMAGE_ROOTFS}/home/builder/.bashrc
+The following changes since commit 89788fbd10fdfbbe54927339d7ec516d0e4d7ef5:
+
+  libproxy: Allow to build in non-gplv3 configuration (2012-04-17 14:08:27 +0100)
+
+are available in the git repository at:
+  git://git.pokylinux.org/poky-contrib mhatle/fixes
+  http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=mhatle/fixes
+
+Mark Hatle (1):
+  matchbox-wm-2: Fix incorrect update-alternatives
+
+ .../matchbox-wm-2/matchbox-wm-2_git.bb             |    4 ++--
+ 1 files changed, 2 insertions(+), 2 deletions(-)
+
 -- 
-1.7.7.6
+1.7.3.4
 
 
 
