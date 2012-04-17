@@ -1,24 +1,27 @@
-Received: from mga14.intel.com ([143.182.124.37])
+Received: from masterfoo.zenlinux.com ([207.192.74.254])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <paul.eggleton@linux.intel.com>) id 1SKHoe-0003Ns-HM
+	(envelope-from <scott.a.garman@intel.com>) id 1SKI2y-0003ac-6L
 	for openembedded-core@lists.openembedded.org;
-	Wed, 18 Apr 2012 01:28:08 +0200
-Received: from azsmga001.ch.intel.com ([10.2.17.19])
-	by azsmga102.ch.intel.com with ESMTP; 17 Apr 2012 16:18:39 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="132134362"
-Received: from unknown (HELO helios.ger.corp.intel.com) ([10.252.120.85])
-	by azsmga001.ch.intel.com with ESMTP; 17 Apr 2012 16:18:38 -0700
-From: Paul Eggleton <paul.eggleton@linux.intel.com>
+	Wed, 18 Apr 2012 01:42:56 +0200
+Received: from localhost (c-76-105-137-48.hsd1.or.comcast.net [76.105.137.48])
+	(using TLSv1 with cipher DHE-RSA-AES128-SHA (128/128 bits))
+	(No client certificate requested)
+	by masterfoo.zenlinux.com (Postfix) with ESMTP id A5FDB2FF65
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 17 Apr 2012 19:33:26 -0400 (EDT)
+From: Scott Garman <scott.a.garman@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Wed, 18 Apr 2012 00:18:35 +0100
-Message-Id: <967c78b6c30d6d6620db8066aac28224153d3359.1334704605.git.paul.eggleton@linux.intel.com>
+Date: Tue, 17 Apr 2012 16:33:28 -0700
+Message-Id: <cover.1334705370.git.scott.a.garman@intel.com>
 X-Mailer: git-send-email 1.7.5.4
-In-Reply-To: <cover.1334704605.git.paul.eggleton@linux.intel.com>
-References: <cover.1334704605.git.paul.eggleton@linux.intel.com>
-In-Reply-To: <cover.1334704605.git.paul.eggleton@linux.intel.com>
-References: <cover.1334704605.git.paul.eggleton@linux.intel.com>
-Subject: [PATCH 1/1] libproxy: remove dependency on gconf when x11 not in DISTRO_FEATURES
+X-MasterFoo-MailScanner-Information: Please contact the ISP for more
+	information
+X-MailScanner-ID: A5FDB2FF65.ABC31
+X-MasterFoo-MailScanner: Found to be clean
+X-MasterFoo-MailScanner-SpamCheck: not spam
+X-MasterFoo-MailScanner-From: scott.a.garman@intel.com
+X-Spam-Status: No
+Subject: [PATCH 0/1] glxgears fix
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -33,42 +36,38 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 17 Apr 2012 23:28:08 -0000
+X-List-Received-Date: Tue, 17 Apr 2012 23:42:56 -0000
 
-This allows libzypp to successfully build when x11 is not in
-DISTRO_FEATURES (avoiding the libzypp -> libproxy -> gconf -> gtk+
-dependency chain which without X results in gtk+ failing at
-do_configure).
+Hello,
 
-Fixes [YOCTO #2320].
+This pull request fixes a bug where glxgears would fail with the
+following error:
 
-Signed-off-by: Paul Eggleton <paul.eggleton@linux.intel.com>
----
- meta/recipes-support/libproxy/libproxy_0.4.7.bb |    4 ++--
- 1 files changed, 2 insertions(+), 2 deletions(-)
+Error: couldn't get an RGB, Double-buffered visual.
 
-diff --git a/meta/recipes-support/libproxy/libproxy_0.4.7.bb b/meta/recipes-support/libproxy/libproxy_0.4.7.bb
-index 11b2abf..6d99861 100644
---- a/meta/recipes-support/libproxy/libproxy_0.4.7.bb
-+++ b/meta/recipes-support/libproxy/libproxy_0.4.7.bb
-@@ -8,7 +8,7 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=7d7044444a7b1b116e8783edcdb44ff4 \
- 
- DEPENDS = "gconf"
- 
--PR = "r2"
-+PR = "r3"
- 
- SRC_URI = "http://libproxy.googlecode.com/files/libproxy-${PV}.tar.gz \
-            file://g++-namepace.patch \
-@@ -31,7 +31,7 @@ do_configure_prepend() {
- }
- 
- python() {
--    if (d.getVar("INCOMPATIBLE_LICENSE", True) or "").find("GPLv3") != -1:
-+    if base_contains("INCOMPATIBLE_LICENSE", "GPLv3", "x", "", d) == "x" or base_contains("DISTRO_FEATURES", "x11", "x", "", d) == "":
-         d.setVar("EXTRA_OECMAKE", d.getVar("EXTRA_OECMAKE").replace("-DWITH_GNOME=yes", "-DWITH_GNOME=no"))
-         d.setVar("DEPENDS", " ".join(i for i in d.getVar("DEPENDS").split() if i != "gconf"))
- }
+This was occurring for images which use RPM because do_rootfs could
+allow qemugl to be installed after libgl1, and qemugl's postinst needs
+to run after libgl1 is installed to replace the libGL library.
+
+This commit changes the postinst to run at first boot instead of during
+do_rootfs.
+
+This is an urgent fix to include with 1.2. - [YOCTO #2309]
+
+The following changes since commit dc0fe3fbf9ca862c1d0d90468e6da326f58e3b41:
+
+  qemugl: make postinst run at first boot (2012-04-18 00:21:51 +0100)
+
+are available in the git repository at:
+  git://git.pokylinux.org/poky-contrib sgarman/glxgears-oe
+  http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=glxgears-oe
+
+Scott Garman (1):
+  qemugl: make postinst run at first boot
+
+ meta/recipes-graphics/mesa/qemugl_git.bb |   16 +++++++++++-----
+ 1 files changed, 11 insertions(+), 5 deletions(-)
+
 -- 
 1.7.5.4
 
