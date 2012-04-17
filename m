@@ -1,37 +1,14 @@
-Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
-	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <richard.purdie@linuxfoundation.org>)
-	id 1SK6pU-0000LJ-L7 for openembedded-core@lists.openembedded.org;
-	Tue, 17 Apr 2012 13:44:16 +0200
-Received: from localhost (localhost [127.0.0.1])
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q3HBYpBl012603
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 17 Apr 2012 12:34:51 +0100
-Received: from tim.rpsys.net ([127.0.0.1])
-	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
-	port 10024) with LMTP
-	id 12105-08 for <openembedded-core@lists.openembedded.org>;
-	Tue, 17 Apr 2012 12:34:46 +0100 (BST)
-Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q3HBYfrV012597
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO)
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 17 Apr 2012 12:34:42 +0100
-Message-ID: <1334662484.616.87.camel@ted>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Date: Tue, 17 Apr 2012 12:34:44 +0100
-In-Reply-To: <4F8C2F74.9010903@opendreambox.org>
-References: <cover.1334400035.git.dongxiao.xu@intel.com>
-	<7a59efe236b3ebd7472ce95bf75b9b5a27ba656c.1334400035.git.dongxiao.xu@intel.com>
-	<5007F7A3-3E6D-4DB5-A345-B7FD4322A283@dominion.thruhere.net>
-	<1334447226.27917.42.camel@dongxiao-osel>
-	<4F8C2F74.9010903@opendreambox.org>
-X-Mailer: Evolution 3.2.2- 
-Mime-Version: 1.0
-X-Virus-Scanned: amavisd-new at rpsys.net
-Subject: Re: [PATCH 1/1] gst-plugins-bad: add curl as build dependency
+Received: from ffm.saftware.de ([83.141.3.46])
+	by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <obi@opendreambox.org>) id 1SK8FC-00021i-G7
+	for openembedded-core@lists.openembedded.org;
+	Tue, 17 Apr 2012 15:14:54 +0200
+From: Andreas Oberritter <obi@opendreambox.org>
+To: openembedded-core@lists.openembedded.org
+Date: Tue, 17 Apr 2012 15:05:18 +0200
+Message-Id: <1334667923-13908-1-git-send-email-obi@opendreambox.org>
+X-Mailer: git-send-email 1.7.5.4
+Subject: [PATCH 0/5] Misc resent patches for master or master-next
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -46,66 +23,66 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 17 Apr 2012 11:44:16 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Tue, 17 Apr 2012 13:14:54 -0000
 
-On Mon, 2012-04-16 at 16:40 +0200, Andreas Oberritter wrote:
-> On 15.04.2012 01:47, Xu, Dongxiao wrote:
-> > On Sat, 2012-04-14 at 13:23 +0200, Koen Kooi wrote:
-> >> Op 14 apr. 2012, om 12:44 heeft Dongxiao Xu het volgende geschreven:
-> >>
-> >>> gst-plugins-bad needs curl.h to finish its build, so add curl as its
-> >>> dependency.
-> >>
-> >> I can't be sure without the exact failure log, but: missing PR bump
-> > 
-> > Add a dependency here doesn't impact the original build. If the original
-> > build is successful, it means curl has already been built by chance. Do
-> > we still need to bump PR in this case?
-> > 
-> > Besides, this is the detailed log:
-> > 
-> > i586-poky-linux-libtool: compile:  i586-poky-linux-gcc -m32 -march=i586
-> > --sysroot=/distro/sdb/build-master/tmp/sysroots/qemux86 -std=gnu99
-> > -DHAVE_CONFIG_H -I. -I../.. -pthread
-> > -I/distro/sdb/build-master/tmp/sysroots/qemux86/usr/include/gstreamer-0.10 -I/distro/sdb/build-master/tmp/sysroots/qemux86/usr/include/glib-2.0 -I/distro/sdb/build-master/tmp/sysroots/qemux86/usr/lib/glib-2.0/include -I/distro/sdb/build-master/tmp/sysroots/qemux86/usr/include/libxml2 -pthread -I/distro/sdb/build-master/tmp/sysroots/qemux86/usr/include/gstreamer-0.10 -I/distro/sdb/build-master/tmp/sysroots/qemux86/usr/include/glib-2.0 -I/distro/sdb/build-master/tmp/sysroots/qemux86/usr/lib/glib-2.0/include -I/distro/sdb/build-master/tmp/sysroots/qemux86/usr/include/libxml2 -DG_THREADS_MANDATORY -DG_DISABLE_CAST_CHECKS -DG_DISABLE_ASSERT -Wall -Wdeclaration-after-statement -Wvla -Wpointer-arith -Wmissing-declarations -Wmissing-prototypes -Wredundant-decls -Wwrite-strings -Wformat-security -Wold-style-definition -Winit-self -Wmissing-include-dirs -Waddress -Wno-multichar -Wnested-externs -O2 -pipe -g -feliminate-unused-debug-types -c gstcurlsink.c  -fPIC -DPIC -o .libs/libg!
- stc
->  ur
-> >  l_la-gstcurlsink.o
-> > i586-poky-linux-libtool: compile:  i586-poky-linux-gcc -m32 -march=i586
-> > --sysroot=/distro/sdb/build-master/tmp/sysroots/qemux86 -std=gnu99
-> > -DHAVE_CONFIG_H -I. -I../.. -pthread
-> > -I/distro/sdb/build-master/tmp/sysroots/qemux86/usr/include/gstreamer-0.10 -I/distro/sdb/build-master/tmp/sysroots/qemux86/usr/include/glib-2.0 -I/distro/sdb/build-master/tmp/sysroots/qemux86/usr/lib/glib-2.0/include -I/distro/sdb/build-master/tmp/sysroots/qemux86/usr/include/libxml2 -pthread -I/distro/sdb/build-master/tmp/sysroots/qemux86/usr/include/gstreamer-0.10 -I/distro/sdb/build-master/tmp/sysroots/qemux86/usr/include/glib-2.0 -I/distro/sdb/build-master/tmp/sysroots/qemux86/usr/lib/glib-2.0/include -I/distro/sdb/build-master/tmp/sysroots/qemux86/usr/include/libxml2 -DG_THREADS_MANDATORY -DG_DISABLE_CAST_CHECKS -DG_DISABLE_ASSERT -Wall -Wdeclaration-after-statement -Wvla -Wpointer-arith -Wmissing-declarations -Wmissing-prototypes -Wredundant-decls -Wwrite-strings -Wformat-security -Wold-style-definition -Winit-self -Wmissing-include-dirs -Waddress -Wno-multichar -Wnested-externs -O2 -pipe -g -feliminate-unused-debug-types -c gstcurl.c  -fPIC -DPIC -o .libs/libgstcu!
- rl_
->  la
-> >  -gstcurl.o
-> > gstcurlsink.c:45:23: fatal error: curl/curl.h: No such file or directory
-> > compilation terminated.
-> > make[3]: *** [libgstcurl_la-gstcurlsink.lo] Error 1
-> > make[3]: *** Waiting for unfinished jobs....
-> 
-> That's certainly wrong, because for me curl is a new dependency, i.e. it
-> didn't need to be built before this patch went in.
-> 
-> The error above is probably the symptom of a race condition, where curl
-> was rebuilt and thus removed from the sysroot after gst-plugins-bad was
-> configured.
-> 
-> So either a PR bump is required or --disable-curl (or such) should have
-> been used instead.
+I'm resending patches that either haven't received any comments
+so far (2 through 5) or where I don't know how to continue (1).
 
-I want the builds to be deterministic so either enabling curl (via
-DEPENDS) or disabling it through the configure option would be fine. I
-went with adding curl since gst-plugins-bad is one of the last packages
-to build on the autobuilder and hence it would usually have had curl
-built so that is the most tested configuration I'm aware of.
+Some comments on the patches:
+1) [fix] module.bbclass behaves differently than kernel.bbclass. My intention
+   is to make them behave the same way. My first try was to copy pkg-
+   postinst from kernel.bbclass to module.bbclass, but this was rejected
+   by Koen, because it would leak build paths into the package. Richard
+   suggested that calling depmod wasn't needed at all, because it was
+   already called by pkg-postinst of kernel-image. So far I haven't had
+   any problems with this patch.
+   The main motivation to modify pkg-postinst was to improve the duration
+   of the first boot, because module.bbclass forced pkg-postinst to get
+   executed on first boot.
+2) [fix] I wrote a local recipe, that fetched a tarball from a debian mirror.
+   snapshot.debian.net didn't contain it, so it returned a html page
+   instead of a 404.
+3) [fix] Using PKGSUFFIX was suggested by Richard, in order to get rid of
+   a preferred-provider warning.
+4) [cleanup] Only removes unused files from wpa-supplicant just to get a better
+   overview of the recipe.
+5) [cleanup] Moves wpa_passphrase to bindir, which seems to be a more adequate
+   location and which is the location used by Debian and Ubuntu.
 
-I've pushed a PR bump.
+I see that master-next hasn't received any updates since April 2nd.
+Are patches that were submitted after that date going to get reviewed
+after the release or should they get resubmitted after the release?
 
-Cheers,
+Andreas Oberritter (5):
+  {kernel,module}.bbclass: don't run depmod for module packages during
+    do_rootfs
+  mirrors: remove snapshot.debian.net
+  python: use PKGSUFFIX for libpython2
+  wpa-supplicant: remove unused files
+  wpa-supplicant: move wpa_passphrase to bindir
 
-Richard
+ meta/classes/kernel.bbclass                        |    4 +-
+ meta/classes/mirrors.bbclass                       |    1 -
+ meta/classes/module.bbclass                        |    7 +-
+ .../wpa-supplicant-0.7.3/defaults-sane             |    8 -
+ .../wpa-supplicant/wpa-supplicant-0.7.3/defconfig  |  157 ----------------
+ .../wpa-supplicant/wpa-supplicant-0.7.3/init.sh    |   50 -----
+ .../wpa_supplicant-0.5.7-always-scan.patch         |   14 --
+ ...a_supplicant-fix-deprecated-dbus-function.patch |  189 --------------------
+ .../wpa_supplicant_default.conf                    |   13 --
+ .../wpa-supplicant/wpa-supplicant-0.7.inc          |    8 +-
+ .../wpa-supplicant/wpa-supplicant_0.7.3.bb         |    2 +-
+ meta/recipes-devtools/python/python_2.7.2.bb       |    7 +-
+ 12 files changed, 14 insertions(+), 446 deletions(-)
+ delete mode 100644 meta/recipes-connectivity/wpa-supplicant/wpa-supplicant-0.7.3/defaults-sane
+ delete mode 100644 meta/recipes-connectivity/wpa-supplicant/wpa-supplicant-0.7.3/defconfig
+ delete mode 100644 meta/recipes-connectivity/wpa-supplicant/wpa-supplicant-0.7.3/init.sh
+ delete mode 100644 meta/recipes-connectivity/wpa-supplicant/wpa-supplicant-0.7.3/wpa_supplicant-0.5.7-always-scan.patch
+ delete mode 100644 meta/recipes-connectivity/wpa-supplicant/wpa-supplicant-0.7.3/wpa_supplicant-fix-deprecated-dbus-function.patch
+ delete mode 100644 meta/recipes-connectivity/wpa-supplicant/wpa-supplicant-0.7.3/wpa_supplicant_default.conf
+
+-- 
+1.7.5.4
 
 
 
