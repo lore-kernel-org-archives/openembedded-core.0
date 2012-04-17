@@ -1,26 +1,25 @@
-Received: from mga11.intel.com ([192.55.52.93])
+Received: from mga01.intel.com ([192.55.52.88])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <sgw@linux.intel.com>) id 1SK9P6-0000uR-NI
+	(envelope-from <sgw@linux.intel.com>) id 1SK9R4-0000xG-6d
 	for openembedded-core@lists.openembedded.org;
-	Tue, 17 Apr 2012 16:29:12 +0200
+	Tue, 17 Apr 2012 16:31:14 +0200
 Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-	by fmsmga102.fm.intel.com with ESMTP; 17 Apr 2012 07:19:45 -0700
+	by fmsmga101.fm.intel.com with ESMTP; 17 Apr 2012 07:21:46 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="154671861"
+X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="154672510"
 Received: from unknown (HELO [10.255.12.25]) ([10.255.12.25])
-	by fmsmga002.fm.intel.com with ESMTP; 17 Apr 2012 07:19:45 -0700
-Message-ID: <4F8D7C01.6060400@linux.intel.com>
-Date: Tue, 17 Apr 2012 07:19:45 -0700
+	by fmsmga002.fm.intel.com with ESMTP; 17 Apr 2012 07:21:46 -0700
+Message-ID: <4F8D7C7A.70905@linux.intel.com>
+Date: Tue, 17 Apr 2012 07:21:46 -0700
 From: Saul Wold <sgw@linux.intel.com>
 User-Agent: Mozilla/5.0 (X11; Linux x86_64;
 	rv:11.0) Gecko/20120329 Thunderbird/11.0.1
 MIME-Version: 1.0
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-References: <cover.1334594354.git.paul.eggleton@linux.intel.com>
-In-Reply-To: <cover.1334594354.git.paul.eggleton@linux.intel.com>
-Cc: Paul Eggleton <paul.eggleton@linux.intel.com>
-Subject: Re: [PATCH 0/1] Fix perl re-execution issues
+References: <1334659037-5186-1-git-send-email-obi@opendreambox.org>
+In-Reply-To: <1334659037-5186-1-git-send-email-obi@opendreambox.org>
+Subject: Re: [PATCH] avahi-daemon: fix missing init script links
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -35,34 +34,54 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 17 Apr 2012 14:29:12 -0000
+X-List-Received-Date: Tue, 17 Apr 2012 14:31:14 -0000
 Content-Type: text/plain; charset=ISO-8859-1; format=flowed
 Content-Transfer-Encoding: 7bit
 
-On 04/16/2012 09:43 AM, Paul Eggleton wrote:
-> Fix re-execution issues within perl.
+On 04/17/2012 03:37 AM, Andreas Oberritter wrote:
+> * update-rc.d wasn't executed when the rootfs was built, because
+>    pkg_postinst_avahi-daemon exited early. It wasn't run either
+>    on first boot, because the exit code was 0.
 >
-> Note: I identified that some references to /usr/include are still not
-> being substituted before or after this patch - you can see these by
-> doing "grep -rI '/usr/include' *" in WORKDIR after do_configure(). I do
-> not know enough about how we build perl to know if these are an issue or
-> not, thus I left them alone.
+> Signed-off-by: Andreas Oberritter<obi@opendreambox.org>
+> ---
+>   meta/recipes-connectivity/avahi/avahi.inc |    9 ++++-----
+>   1 files changed, 4 insertions(+), 5 deletions(-)
 >
+> diff --git a/meta/recipes-connectivity/avahi/avahi.inc b/meta/recipes-connectivity/avahi/avahi.inc
+> index 731ad9a..61ca25f 100644
+> --- a/meta/recipes-connectivity/avahi/avahi.inc
+> +++ b/meta/recipes-connectivity/avahi/avahi.inc
+> @@ -14,7 +14,7 @@ SECTION = "network"
+>   # python scripts are under GPLv2+
+>   LICENSE = "GPLv2+&  LGPLv2.1+"
 >
-> The following change since commit 4e1a8ed1ab7e7bd950e511c79ddfe072cb280a6e:
+> -INC_PR = "r1"
+> +INC_PR = "r2"
 >
->    bitbake.conf: Include abi_version.conf in a early stage (2012-04-16 12:51:50 +0100)
+>   DEPENDS = "expat libcap libdaemon dbus glib-2.0"
 >
-> is available in the git repository at:
->    git://git.openembedded.org/openembedded-core-contrib paule/perl-reexec
->    http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=paule/perl-reexec
+> @@ -123,17 +123,16 @@ do_install_avahi-autoipd() {
+>   }
 >
-> Paul Eggleton (1):
->    perl: fix re-execution of patch/configure
+>   # At the time the postinst runs, dbus might not be setup so only restart if running
+> +# Don't exit early, because update-rc.d needs to run subsequently.
 >
->   meta/recipes-devtools/perl/perl_5.14.2.bb |    6 +++---
->   1 files changed, 3 insertions(+), 3 deletions(-)
+>   pkg_postinst_avahi-daemon () {
+> -	if [ "x$D" != "x" ]; then
+> -		exit 0
+> -	fi
+> -
+> +if [ -z "$D" ]; then
+>   	DBUSPID=`pidof dbus-daemon`
 >
+>   	if [ "x$DBUSPID" != "x" ]; then
+>   		/etc/init.d/dbus-1 force-reload
+>   	fi
+> +fi
+>   }
+>
+>   pkg_postinst_avahi-autoipd () {
 
 Merged into OE-Core
 
