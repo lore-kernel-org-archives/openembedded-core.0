@@ -1,27 +1,26 @@
-Received: from mga02.intel.com ([134.134.136.20])
+Received: from mga11.intel.com ([192.55.52.93])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <sgw@linux.intel.com>) id 1SK9O6-0000qI-KT
+	(envelope-from <sgw@linux.intel.com>) id 1SK9P6-0000uR-NI
 	for openembedded-core@lists.openembedded.org;
-	Tue, 17 Apr 2012 16:28:10 +0200
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-	by orsmga101.jf.intel.com with ESMTP; 17 Apr 2012 07:18:43 -0700
+	Tue, 17 Apr 2012 16:29:12 +0200
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+	by fmsmga102.fm.intel.com with ESMTP; 17 Apr 2012 07:19:45 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.67,351,1309762800"; d="scan'208";a="133497841"
+X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="154671861"
 Received: from unknown (HELO [10.255.12.25]) ([10.255.12.25])
-	by orsmga002.jf.intel.com with ESMTP; 17 Apr 2012 07:18:43 -0700
-Message-ID: <4F8D7BC3.5000801@linux.intel.com>
-Date: Tue, 17 Apr 2012 07:18:43 -0700
+	by fmsmga002.fm.intel.com with ESMTP; 17 Apr 2012 07:19:45 -0700
+Message-ID: <4F8D7C01.6060400@linux.intel.com>
+Date: Tue, 17 Apr 2012 07:19:45 -0700
 From: Saul Wold <sgw@linux.intel.com>
 User-Agent: Mozilla/5.0 (X11; Linux x86_64;
 	rv:11.0) Gecko/20120329 Thunderbird/11.0.1
 MIME-Version: 1.0
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-References: <cover.1334611909.git.paul.eggleton@linux.intel.com>
-	<4f9c9967e64cc974799fe6d886212caba2de6529.1334611909.git.paul.eggleton@linux.intel.com>
-In-Reply-To: <4f9c9967e64cc974799fe6d886212caba2de6529.1334611909.git.paul.eggleton@linux.intel.com>
+References: <cover.1334594354.git.paul.eggleton@linux.intel.com>
+In-Reply-To: <cover.1334594354.git.paul.eggleton@linux.intel.com>
 Cc: Paul Eggleton <paul.eggleton@linux.intel.com>
-Subject: Re: [PATCH 1/1] connman-gnome: fix segfault on connect
+Subject: Re: [PATCH 0/1] Fix perl re-execution issues
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -36,79 +35,33 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 17 Apr 2012 14:28:10 -0000
+X-List-Received-Date: Tue, 17 Apr 2012 14:29:12 -0000
 Content-Type: text/plain; charset=ISO-8859-1; format=flowed
 Content-Transfer-Encoding: 7bit
 
-On 04/16/2012 02:37 PM, Paul Eggleton wrote:
-> Fixes a segfault in the properties application when connecting to a WiFi
-> service succeeds.
+On 04/16/2012 09:43 AM, Paul Eggleton wrote:
+> Fix re-execution issues within perl.
 >
-> Signed-off-by: Paul Eggleton<paul.eggleton@linux.intel.com>
-> ---
->   ...me-fix-segfault-due-to-unchecked-null-val.patch |   30 ++++++++++++++++++++
->   .../connman/connman-gnome_0.5.bb                   |    5 ++-
->   2 files changed, 33 insertions(+), 2 deletions(-)
->   create mode 100644 meta/recipes-connectivity/connman/connman-gnome/0007-connman-gnome-fix-segfault-due-to-unchecked-null-val.patch
+> Note: I identified that some references to /usr/include are still not
+> being substituted before or after this patch - you can see these by
+> doing "grep -rI '/usr/include' *" in WORKDIR after do_configure(). I do
+> not know enough about how we build perl to know if these are an issue or
+> not, thus I left them alone.
 >
-> diff --git a/meta/recipes-connectivity/connman/connman-gnome/0007-connman-gnome-fix-segfault-due-to-unchecked-null-val.patch b/meta/recipes-connectivity/connman/connman-gnome/0007-connman-gnome-fix-segfault-due-to-unchecked-null-val.patch
-> new file mode 100644
-> index 0000000..3e054ba
-> --- /dev/null
-> +++ b/meta/recipes-connectivity/connman/connman-gnome/0007-connman-gnome-fix-segfault-due-to-unchecked-null-val.patch
-> @@ -0,0 +1,30 @@
-> +From 7225bf8e8e9bee42d7d7d02ba754b9fb30a877b6 Mon Sep 17 00:00:00 2001
-> +From: Paul Eggleton<paul.eggleton@linux.intel.com>
-> +Date: Mon, 16 Apr 2012 19:15:35 +0100
-> +Subject: [PATCH] connman-gnome: fix segfault due to unchecked null value
-> +
-> +If value is NULL here we should not pass it to g_value_get_boxed().
-> +
-> +Upstream-Status: Submitted
-> +
-> +Signed-off-by: Paul Eggleton<paul.eggleton@linux.intel.com>
-> +---
-> + common/connman-dbus.c |    2 +-
-> + 1 files changed, 1 insertions(+), 1 deletions(-)
-> +
-> +diff --git a/common/connman-dbus.c b/common/connman-dbus.c
-> +index 33ac623..822fc98 100644
-> +--- a/common/connman-dbus.c
-> ++++ b/common/connman-dbus.c
-> +@@ -437,7 +437,7 @@ static void service_properties(DBusGProxy *proxy, GHashTable *hash,
-> + 	DBG("name %s type %d icon %s", name, type, icon);
-> +
-> + 	value = g_hash_table_lookup(hash, "IPv4.Configuration");
-> +-	ipv4 = g_value_get_boxed (value);
-> ++	ipv4 = value ? g_value_get_boxed (value) : NULL;
-> +
-> + 	if (!ipv4)
-> + 		goto done;
-> +--
-> +1.7.5.4
-> +
-> diff --git a/meta/recipes-connectivity/connman/connman-gnome_0.5.bb b/meta/recipes-connectivity/connman/connman-gnome_0.5.bb
-> index 93aac21..e2e8deb 100644
-> --- a/meta/recipes-connectivity/connman/connman-gnome_0.5.bb
-> +++ b/meta/recipes-connectivity/connman/connman-gnome_0.5.bb
-> @@ -8,7 +8,7 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=eb723b61539feef013de476e68b5c50a \
 >
->   DEPENDS = "gtk+ dbus"
+> The following change since commit 4e1a8ed1ab7e7bd950e511c79ddfe072cb280a6e:
 >
-> -PR = "r9"
-> +PR = "r10"
+>    bitbake.conf: Include abi_version.conf in a early stage (2012-04-16 12:51:50 +0100)
 >
->   SRCREV = "42c652d123ea133d0a0930b96e8e39dbd0c597b5"
->   SRC_URI = "git://git.kernel.org/pub/scm/network/connman/connman-gnome.git \
-> @@ -17,7 +17,8 @@ SRC_URI = "git://git.kernel.org/pub/scm/network/connman/connman-gnome.git \
->              file://0003-Fix-setting-IPv4-configuration.patch \
->              file://0004-Handle-WiFi-authentication-using-an-agent.patch \
->              file://0005-Remove-all-handling-of-Passphrase-property.patch \
-> -           file://0006-Fix-status-descriptions-in-properties-tree.patch"
-> +           file://0006-Fix-status-descriptions-in-properties-tree.patch \
-> +           file://0007-connman-gnome-fix-segfault-due-to-unchecked-null-val.patch"
+> is available in the git repository at:
+>    git://git.openembedded.org/openembedded-core-contrib paule/perl-reexec
+>    http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=paule/perl-reexec
 >
->   S = "${WORKDIR}/git"
+> Paul Eggleton (1):
+>    perl: fix re-execution of patch/configure
+>
+>   meta/recipes-devtools/perl/perl_5.14.2.bb |    6 +++---
+>   1 files changed, 3 insertions(+), 3 deletions(-)
 >
 
 Merged into OE-Core
