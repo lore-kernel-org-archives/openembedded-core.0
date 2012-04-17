@@ -1,33 +1,35 @@
-Received: from mail-we0-f175.google.com ([74.125.82.175])
+Received: from mail-wg0-f43.google.com ([74.125.82.43])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <s.stirtzel@googlemail.com>)
-	id 1SKAat-0002B9-6Y; Tue, 17 Apr 2012 17:45:27 +0200
-Received: by wera1 with SMTP id a1so4139877wer.6
-	for <multiple recipients>; Tue, 17 Apr 2012 08:36:01 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=googlemail.com; s=20120113;
-	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
-	:cc:content-type;
-	bh=+LEPq/YHdlnd01W+eqaZOl/dv3f1S8ACJwDilB5P3CI=;
-	b=B4aRirWoJnMIrgugWv4BP/2YZDh1da8Iz1gsuaXvMyLdnzaOCuNgEhT+uaZfpi/eGQ
-	c/ZmJpV63qtAbcub2Pl6psPo4Q9K6t5JvcMu74WyUA+9dHOXMQ0DolNAF3YTX3/eCYsX
-	mKaWmmcHRIa5D8gtLq9qTV8K5WSDe4963lDsnqQ6iXD1ISVYSfEV/YBOq3jIDPuVjEcl
-	IQSilCbW3D1klhHK75aO39xUArP2YSSLAKZwfHjQVYX54jnKLIRAa5dbfjlmr19IQfmL
-	4df4mb7X8o649KVVSIC6YbkJoU86hVhuH8+08yvDWoXMRpT9Xy8rMPSOAKLOf4Wdvlm1
-	9fjw==
-MIME-Version: 1.0
-Received: by 10.180.100.230 with SMTP id fb6mr8155319wib.3.1334676812361; Tue,
-	17 Apr 2012 08:33:32 -0700 (PDT)
-Received: by 10.223.14.149 with HTTP; Tue, 17 Apr 2012 08:33:32 -0700 (PDT)
-In-Reply-To: <4F8D8AB7.7000002@opendreambox.org>
+	(envelope-from <martin.jansa@gmail.com>)
+	id 1SKAe6-0002KK-QC; Tue, 17 Apr 2012 17:48:46 +0200
+Received: by wgbdr12 with SMTP id dr12so5435102wgb.24
+	for <multiple recipients>; Tue, 17 Apr 2012 08:39:20 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=date:from:to:cc:subject:message-id:references:mime-version
+	:content-type:content-disposition:in-reply-to:user-agent;
+	bh=/ryjIMN9i5C/64yOIlYjm8rRXaY5KvqboFN08gvXiAU=;
+	b=EPuJBzAdyP3fITzhDCmIwHKZB/2tVjttLWwuFroVSNaktLezCj8FdJ37bNMB4j2NNV
+	yHWLklHmyiBS0UVJD5xzhnIU1lwSvQIZlFa6mqwiMgoMZG5y66JxosBQofGf3Dr0kN4I
+	tNQ/exlNKMg9nS3vJtNygKcjIeh5WLspm4qUfphr1RYl8KJcEzv21Fkodrzcazxwld4j
+	daf3mdJEat2j4Rl5VEd4gG9ciw05FP7rfOPM8hK68UzIeisHtL0iRimThskUiurw/kx4
+	tAGl7oVvfN8/FOgYeR4cPNEfSGV/nBt5Jz05TnZIp3vf1s5hipiGf6ozpayIgJWY+BHt
+	tySw==
+Received: by 10.216.132.6 with SMTP id n6mr10071381wei.26.1334677160686;
+	Tue, 17 Apr 2012 08:39:20 -0700 (PDT)
+Received: from localhost ([94.230.152.246])
+	by mx.google.com with ESMTPS id k6sm27643084wiy.7.2012.04.17.08.39.19
+	(version=TLSv1/SSLv3 cipher=OTHER);
+	Tue, 17 Apr 2012 08:39:19 -0700 (PDT)
+Date: Tue, 17 Apr 2012 17:39:19 +0200
+From: Martin Jansa <martin.jansa@gmail.com>
+To: openembedded-devel@lists.openembedded.org
+Message-ID: <20120417153919.GG3665@jama.jama.net>
 References: <4F8D8AB7.7000002@opendreambox.org>
-Date: Tue, 17 Apr 2012 17:33:32 +0200
-Message-ID: <CAGiJk9eXcHu=jTdK8_3oV-X1He+vsD4Rpoj4WTuWyNq0TiWaTg@mail.gmail.com>
-From: Samuel Stirtzel <s.stirtzel@googlemail.com>
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Cc: openembedded-devel <openembedded-devel@lists.openembedded.org>
-Subject: Re: waning "it is recommended to set SYSTEMD_PACKAGES as <existing-package>-systemd"
+MIME-Version: 1.0
+In-Reply-To: <4F8D8AB7.7000002@opendreambox.org>
+User-Agent: Mutt/1.5.21 (2010-09-15)
+Cc: openembedded-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [oe] waning "it is recommended to set SYSTEMD_PACKAGES as <existing-package>-systemd"
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -42,43 +44,64 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 17 Apr 2012 15:45:27 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Tue, 17 Apr 2012 15:48:47 -0000
+X-Groupsio-MsgNum: 20891
+Content-Type: multipart/signed; micalg=pgp-sha1;
+	protocol="application/pgp-signature"; boundary="f5QefDQHtn8hx44O"
+Content-Disposition: inline
 
-2012/4/17 Andreas Oberritter <obi@opendreambox.org>:
+--f5QefDQHtn8hx44O
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+
+On Tue, Apr 17, 2012 at 05:22:31PM +0200, Andreas Oberritter wrote:
 > Hi,
->
+>=20
 > the following warnings keep appearing on every fresh invocation of
 > bitbake since a few months, I think:
->
-> WARNING: .../meta-oe/recipes-devtools/cloud9/cloud9_0.6.bb: it is recommended to set SYSTEMD_PACKAGES as <existing-package>-systemd
-> WARNING: .../meta-oe/recipes-connectivity/gateone/gateone_git.bb: it is recommended to set SYSTEMD_PACKAGES as <existing-package>-systemd
-> WARNING: .../meta/recipes-extended/lighttpd/lighttpd_1.4.30.bb: it is recommended to set SYSTEMD_PACKAGES as <existing-package>-systemd
->
+>=20
+> WARNING: .../meta-oe/recipes-devtools/cloud9/cloud9_0.6.bb: it is recomme=
+nded to set SYSTEMD_PACKAGES as <existing-package>-systemd
+> WARNING: .../meta-oe/recipes-connectivity/gateone/gateone_git.bb: it is r=
+ecommended to set SYSTEMD_PACKAGES as <existing-package>-systemd
+> WARNING: .../meta/recipes-extended/lighttpd/lighttpd_1.4.30.bb: it is rec=
+ommended to set SYSTEMD_PACKAGES as <existing-package>-systemd
+
+yes they are there since systemd.bbclass rework, see
+http://lists.linuxtogo.org/pipermail/openembedded-devel/2012-February/03801=
+1.html
+=20
 > Is anybody working on fixing them? Is anybody else also seeing them,
 > or is this likely caused by some missing variable in my distro conf?
+
+Not sure if someone is working on fixing them, but all is needed is to
+add ${PN}-systemd subpackage and add it to tasks which expects to get
+those apps with systemd support included.
+
 > I am not using systemd.
 
-Hi,
-these warnings get created at recipe parsing time regardless of
-whether you are using Systemd or not,
-so this is not a problem of your distro conf.
+It's pity that those are "parsing warnings" not QA warnings when
+packaging it - so that only people building them would see them, maybe=20
+Andreas M=FCller will reply why it's checked while parsing.
 
-Don't know if anyone already has patches for them, but I see the warnings too.
+I'm using systemd but not cloud9|gateone|lighttpd.
 
->
-> Regards,
-> Andreas
->
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
+Cheers,
 
+--=20
+Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
 
+--f5QefDQHtn8hx44O
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: Digital signature
 
--- 
-Regards
-Samuel
+-----BEGIN PGP SIGNATURE-----
+Version: GnuPG v2.0.19 (GNU/Linux)
 
+iEYEARECAAYFAk+NjqcACgkQN1Ujt2V2gBwGFACfYgw8ffcjrT6g3kw3nhqEemov
+lywAoLQJuvGoSn0Ym0wou4KL15MOAxzy
+=2wXp
+-----END PGP SIGNATURE-----
 
+--f5QefDQHtn8hx44O--
