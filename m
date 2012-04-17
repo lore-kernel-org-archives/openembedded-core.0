@@ -1,30 +1,35 @@
-Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
-	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <richard.purdie@linuxfoundation.org>)
-	id 1SK6az-0008P6-O8 for openembedded-core@lists.openembedded.org;
-	Tue, 17 Apr 2012 13:29:17 +0200
+Received: from mail.dream-property.net ([82.149.226.172])
+	by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <obi@opendreambox.org>) id 1SK6bW-0008RT-Qu
+	for openembedded-core@lists.openembedded.org;
+	Tue, 17 Apr 2012 13:29:50 +0200
 Received: from localhost (localhost [127.0.0.1])
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q3HBJpGG012428
+	by mail.dream-property.net (Postfix) with ESMTP id 13671315AEAE
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 17 Apr 2012 12:19:51 +0100
-Received: from tim.rpsys.net ([127.0.0.1])
-	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
-	port 10024) with LMTP
-	id 11972-06 for <openembedded-core@lists.openembedded.org>;
-	Tue, 17 Apr 2012 12:19:46 +0100 (BST)
-Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q3HBJhFB012421
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO)
+	Tue, 17 Apr 2012 13:20:27 +0200 (CEST)
+X-Virus-Scanned: Debian amavisd-new at mail.dream-property.net
+Received: from mail.dream-property.net ([127.0.0.1])
+	by localhost (mail.dream-property.net [127.0.0.1]) (amavisd-new,
+	port 10024) with LMTP id 8Ym4B2aWJfXq
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 17 Apr 2012 12:19:44 +0100
-Message-ID: <1334661587.616.79.camel@ted>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: openembedded-core <openembedded-core@lists.openembedded.org>
-Date: Tue, 17 Apr 2012 12:19:47 +0100
-X-Mailer: Evolution 3.2.2- 
-Mime-Version: 1.0
-X-Virus-Scanned: amavisd-new at rpsys.net
-Subject: [PATCH] sanity.bbclass: If the sanity tests fail, don't mark them as complete
+	Tue, 17 Apr 2012 13:20:16 +0200 (CEST)
+Received: from [10.200.6.10] (unknown [82.149.226.166])
+	(using TLSv1 with cipher DHE-RSA-AES256-SHA (256/256 bits))
+	(No client certificate requested)
+	by mail.dream-property.net (Postfix) with ESMTPSA id 42585315AEB7
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 17 Apr 2012 13:20:16 +0200 (CEST)
+Message-ID: <4F8D51EF.3090005@opendreambox.org>
+Date: Tue, 17 Apr 2012 13:20:15 +0200
+From: Andreas Oberritter <obi@opendreambox.org>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:11.0) Gecko/20120329 Thunderbird/11.0.1
+MIME-Version: 1.0
+To: openembedded-core@lists.openembedded.org
+References: <cover.1334616144.git.mark.hatle@windriver.com>
+	<62DAF410-1C09-4FE9-B049-35761619728C@dominion.thruhere.net>
+In-Reply-To: <62DAF410-1C09-4FE9-B049-35761619728C@dominion.thruhere.net>
+Subject: Re: [PATCH 00/17] Fix update-alternatives and RPM package dependencies
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -39,36 +44,26 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 17 Apr 2012 11:29:18 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Tue, 17 Apr 2012 11:29:50 -0000
+Content-Type: text/plain; charset=ISO-8859-1
 Content-Transfer-Encoding: 7bit
 
-From adf7a93daf5b648972b8d059cba49f28a64efe82 Mon Sep 17 00:00:00 2001
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-Date: Tue, 17 Apr 2012 11:16:18 +0000
-Subject: 
+On 17.04.2012 09:03, Koen Kooi wrote:
+> 
+> Op 17 apr. 2012, om 00:45 heeft Mark Hatle het volgende geschreven:
+> 
+>> It was recently noticed that many packages that use update-alternatives were
+>> not setting package level provides.  So a package that required /usr/bin/env
+>> would not be satisfied by coreutils, even though it had a /usr/bin/env
+>> alternative.
+> 
+> Related to your patch: the upgrade paths for /usr/bin/watch are still broken because busybox still installs it into /bin/watch. I forget who was supposed to fix that, but it would be nice to get that done before the release.
 
-If the sanity tests fail, we still were writing out the stamp which means
-they'd get skipped the next time we run bitbake. This is clearly wrong
-and we should only write out the stamp file if the sanity tests complete
-successfully.
+Are you sure? Please take a look at
+fa8b2d2bed63fa4fc2af45f094998b0f9e69d272. Is something wrong with this
+patch?
 
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
----
-diff --git a/meta/classes/sanity.bbclass b/meta/classes/sanity.bbclass
-index 1b941ac..4d4abd3 100644
---- a/meta/classes/sanity.bbclass
-+++ b/meta/classes/sanity.bbclass
-@@ -378,7 +378,7 @@ def check_sanity(e):
-         if last_sstate_dir != sstate_dir:
-             messages = messages + check_sanity_sstate_dir_change(sstate_dir, e.data)
- 
--    if os.path.exists("conf"):
-+    if os.path.exists("conf") and not messages:
-         f = file(sanityverfile, 'w')
-         f.write("SANITY_VERSION %s\n" % sanity_version) 
-         f.write("TMPDIR %s\n" % tmpdir) 
-
-
+Regards,
+Andreas
 
 
