@@ -1,24 +1,20 @@
-Received: from mga01.intel.com ([192.55.52.88])
+Received: from mga14.intel.com ([143.182.124.37])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <sgw@linux.intel.com>) id 1SKGco-00025J-Pz
+	(envelope-from <paul.eggleton@linux.intel.com>) id 1SKHod-0003Ns-Mn
 	for openembedded-core@lists.openembedded.org;
-	Wed, 18 Apr 2012 00:11:51 +0200
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-	by fmsmga101.fm.intel.com with ESMTP; 17 Apr 2012 15:02:21 -0700
+	Wed, 18 Apr 2012 01:28:07 +0200
+Received: from azsmga001.ch.intel.com ([10.2.17.19])
+	by azsmga102.ch.intel.com with ESMTP; 17 Apr 2012 16:18:39 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="154859733"
-Received: from unknown (HELO swold-mobl.bigsur.com) ([10.255.12.25])
-	by fmsmga002.fm.intel.com with ESMTP; 17 Apr 2012 15:02:16 -0700
-From: Saul Wold <sgw@linux.intel.com>
+X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="132134357"
+Received: from unknown (HELO helios.ger.corp.intel.com) ([10.252.120.85])
+	by azsmga001.ch.intel.com with ESMTP; 17 Apr 2012 16:18:37 -0700
+From: Paul Eggleton <paul.eggleton@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Tue, 17 Apr 2012 15:02:13 -0700
-Message-Id: <966be26ed8f5c76adc6872395a625f990fcfbb04.1334700068.git.sgw@linux.intel.com>
-X-Mailer: git-send-email 1.7.7.6
-In-Reply-To: <cover.1334700068.git.sgw@linux.intel.com>
-References: <cover.1334700068.git.sgw@linux.intel.com>
-In-Reply-To: <cover.1334700068.git.sgw@linux.intel.com>
-References: <cover.1334700068.git.sgw@linux.intel.com>
-Subject: [PATCH 3/3] self-hosted-image: remove BB_NO_NETWORK and update Poky SRCREV
+Date: Wed, 18 Apr 2012 00:18:34 +0100
+Message-Id: <cover.1334704605.git.paul.eggleton@linux.intel.com>
+X-Mailer: git-send-email 1.7.5.4
+Subject: [PATCH 0/1] [1.2] Allow building libzypp without x11 in DISTRO_FEATURES
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -33,54 +29,24 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 17 Apr 2012 22:11:51 -0000
+X-List-Received-Date: Tue, 17 Apr 2012 23:28:08 -0000
 
-Remove BB_NO_NETWORK because we can not guarentee that all
-downloads will be available in the self-hosted image for
-the possible targets being built.  If this image is run with
-out networking, failures may be seen and BB_NO_NETWORK
-should be set via the Hob
+The following changes since commit 70541d5e82ee05289eb0095bed4b121d12a00729:
 
-Update the Poky SRCREV so it has the latest set of fixes and
-patches.
+  self-hosted-image: remove BB_NO_NETWORK and update Poky SRCREV (2012-04-17 23:16:07 +0100)
 
-Signed-off-by: Saul Wold <sgw@linux.intel.com>
----
- meta/recipes-core/images/self-hosted-image.bb |    5 ++---
- 1 files changed, 2 insertions(+), 3 deletions(-)
+are available in the git repository at:
+  git://git.openembedded.org/openembedded-core-contrib paule/libproxy-nox
+  http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=paule/libproxy-nox
 
-diff --git a/meta/recipes-core/images/self-hosted-image.bb b/meta/recipes-core/images/self-hosted-image.bb
-index 46e7209..fbcdf4c 100644
---- a/meta/recipes-core/images/self-hosted-image.bb
-+++ b/meta/recipes-core/images/self-hosted-image.bb
-@@ -5,7 +5,7 @@ LICENSE = "MIT"
- LIC_FILES_CHKSUM = "file://${COREBASE}/LICENSE;md5=3f40d7994397109285ec7b81fdeb3b58 \
-                     file://${COREBASE}/meta/COPYING.MIT;md5=3da9cfbcb788c80a0384361b4de20420"
- 
--PR = "r11"
-+PR = "r12"
- 
- IMAGE_FEATURES += "x11-mini package-management"
- 
-@@ -19,7 +19,7 @@ IMAGE_FSTYPES = "vmdk"
- 
- inherit core-image
- 
--SRCREV = "8691a588267472eb5a32b978a0eb9ddfd0c91733"
-+SRCREV = "20ff9db92165e6d16897671d2b1d370661962712"
- SRC_URI = "git://git.yoctoproject.org/poky;protocol=git"
- 
- IMAGE_CMD_ext3_append () {
-@@ -43,7 +43,6 @@ fakeroot do_populate_poky_src () {
- 	rm -rf ${IMAGE_ROOTFS}/home/builder/poky/build/downloads/git2_*
- 
- 	echo "/usr/bin" > ${IMAGE_ROOTFS}/home/builder/poky/build/pseudodone
--	echo "BB_NO_NETWORK = \"1\"" > ${IMAGE_ROOTFS}/home/builder/poky/build/conf/auto.conf
- 	echo "INHERIT += \"rm_work\"" >> ${IMAGE_ROOTFS}/home/builder/poky/build/conf/auto.conf
- 	mkdir -p ${IMAGE_ROOTFS}/home/builder/pseudo
- 	echo "export PSEUDO_PREFIX=/usr" >> ${IMAGE_ROOTFS}/home/builder/.bashrc
+Paul Eggleton (1):
+  libproxy: remove dependency on gconf when x11 not in DISTRO_FEATURES
+
+ meta/recipes-support/libproxy/libproxy_0.4.7.bb |    4 ++--
+ 1 files changed, 2 insertions(+), 2 deletions(-)
+
 -- 
-1.7.7.6
+1.7.5.4
 
 
 
