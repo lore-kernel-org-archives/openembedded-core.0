@@ -1,49 +1,36 @@
-Received: from mail-we0-f175.google.com ([74.125.82.175])
-	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <koen@dominion.thruhere.net>) id 1SKZo7-0002iN-1p
-	for openembedded-core@lists.openembedded.org;
-	Wed, 18 Apr 2012 20:40:47 +0200
-Received: by wera1 with SMTP id a1so4968379wer.6
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 18 Apr 2012 11:31:19 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=google.com; s=20120113;
-	h=content-type:mime-version:subject:from:in-reply-to:date
-	:content-transfer-encoding:message-id:references:to:x-mailer
-	:x-gm-message-state;
-	bh=9pQ3gPp/l2BaXJ1fQXjZ5KFfQGxrVYzS9UtULpeb+zI=;
-	b=Yivi/biVohkZ3VsJo4SLK2KzDWErmQ+AXySC0FTkpMAJG+pzqE8ru2++qRvxyOYk5Y
-	5iXbRNHaa7XpvxIeqtzhGOEJTq4IyK+vGe+nMOHVA8sQDvoSdIEy/KP2z6dcHAvqWgPs
-	JHHbwpBwiGdTLnCQhFrfKB0z+b3yq8I89ox+L2vcoSxR6HnQYuJDs2zYvL8ybfn5Ij9a
-	t7jQ4LihQdX04m9Pk4FA30vq/EbP1H1HOyoUeSeZ/xRGXoXgiWBljx3EmjvRiEKZLSzy
-	82AKoU/Sfua6c7C2XwqV8qqr/LBMbBPldY0br3qUnfy8LPDSpCuS6Vm59+SgA8Ahmb9d
-	nKiA==
-Received: by 10.216.137.97 with SMTP id x75mr2176771wei.25.1334773879254;
-	Wed, 18 Apr 2012 11:31:19 -0700 (PDT)
-Received: from [172.20.1.36] (ip545070eb.adsl-surfen.hetnet.nl.
-	[84.80.112.235])
-	by mx.google.com with ESMTPS id n8sm57991765wix.10.2012.04.18.11.31.17
-	(version=TLSv1/SSLv3 cipher=OTHER);
-	Wed, 18 Apr 2012 11:31:18 -0700 (PDT)
-Mime-Version: 1.0 (Apple Message framework v1257)
-From: Koen Kooi <koen@dominion.thruhere.net>
-In-Reply-To: <4F8F03A9.8040908@opendreambox.org>
-Date: Wed, 18 Apr 2012 20:31:21 +0200
-Message-Id: <7E8E5E21-B01C-46DD-958B-828E6AE65797@dominion.thruhere.net>
-References: <4F8C3B19.40400@windriver.com> <4F8EA5CC.6010101@opendreambox.org>
-	<1334749226.24091.67.camel@ted> <4F8EA972.1090304@opendreambox.org>
-	<20120418115428.GJ3635@jama.jama.net>
-	<1334750426.24091.73.camel@ted> <4F8EAEAC.4080605@opendreambox.org>
-	<1334753155.24091.84.camel@ted> <4F8ED1BE.8010109@opendreambox.org>
-	<4F8EDC02.5040605@windriver.com>
-	<20120418154612.GN3635@jama.jama.net>
-	<F1EB8D66-C971-4BFF-AECB-62C65E517743@dominion.thruhere.net>
-	<4F8F03A9.8040908@opendreambox.org>
+Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
+	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <richard.purdie@linuxfoundation.org>)
+	id 1SKaCZ-0003Vu-CF for openembedded-core@lists.openembedded.org;
+	Wed, 18 Apr 2012 21:06:03 +0200
+Received: from localhost (localhost [127.0.0.1])
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q3IIuavx005253;
+	Wed, 18 Apr 2012 19:56:36 +0100
+Received: from tim.rpsys.net ([127.0.0.1])
+	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
+	port 10024) with LMTP
+	id 04516-04; Wed, 18 Apr 2012 19:56:32 +0100 (BST)
+Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q3IIuSGG005245
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO);
+	Wed, 18 Apr 2012 19:56:29 +0100
+Message-ID: <1334775390.24091.173.camel@ted>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-X-Mailer: Apple Mail (2.1257)
-X-Gm-Message-State: ALoCoQkbdL7DhvrCpkXYjHY1+YAJQZ8HOP/2CUjhlFjasc/DOY26BsOPkod/SvL/UzEUUU8b27fk
-Subject: Re: MIPS vs MIPS32 tunings -- summary and questions
+Date: Wed, 18 Apr 2012 19:56:30 +0100
+In-Reply-To: <CABcZANmrzmSPJNZH2VqtO0o=L_Wk0-VK_PEP4m0+TRWQ8cYMjg@mail.gmail.com>
+References: <1334760467.24091.100.camel@ted>
+	<20120418145330.GM3635@jama.jama.net> <1334762445.24091.110.camel@ted>
+	<CABcZANkaABCKZ+WmhhGTZEvFnHYwrP7uNSSvNTxxKxfun4JaPA@mail.gmail.com>
+	<1334768537.24091.156.camel@ted>
+	<CABcZANk+nFT1F7=WBNdE_z3pj=zAzrSQBuD6-DcKT8+OCLKr9g@mail.gmail.com>
+	<CABcZANmrzmSPJNZH2VqtO0o=L_Wk0-VK_PEP4m0+TRWQ8cYMjg@mail.gmail.com>
+X-Mailer: Evolution 3.2.2- 
+Mime-Version: 1.0
+X-Virus-Scanned: amavisd-new at rpsys.net
+Cc: yocto <yocto@yoctoproject.org>
+Subject: Re: Yocto Project 1.2 Release Status
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -58,121 +45,76 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 18 Apr 2012 18:40:47 -0000
-Content-Type: text/plain; charset=us-ascii
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Wed, 18 Apr 2012 19:06:03 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
+
+On Wed, 2012-04-18 at 10:11 -0700, Chris Larson wrote:
+> On Wed, Apr 18, 2012 at 10:06 AM, Chris Larson <clarson@kergoth.com> wrote:
+> > On Wed, Apr 18, 2012 at 10:02 AM, Richard Purdie
+> > <richard.purdie@linuxfoundation.org> wrote:
+> >> On Wed, 2012-04-18 at 09:22 -0700, Chris Larson wrote:
+> >>> On Wed, Apr 18, 2012 at 8:20 AM, Richard Purdie
+> >>> <richard.purdie@linuxfoundation.org> wrote:
+> >>> > On Wed, 2012-04-18 at 16:53 +0200, Martin Jansa wrote:
+> >>> Just because people have things to push or are pushing things which
+> >>> aren't bugfixes doesn't mean their time is being taken up by anything
+> >>> but stabilization right now. Your statement implies that everything
+> >>> being pushed is being currently worked on, which is incorrect. I'm
+> >>> sure Mentor isn't the only company with a backlog of already complete
+> >>> local changes to get upstream..
+> >>
+> >> So you're saying Mentor has been working on stabilization and has a
+> >> queue of bugfixes which they've not shared?
+> >
+> > No, I never said they were just bugfixes. If they were low impact
+> > bugfixes, they'd have a shot at making it into the release, especially
+> > if they're critical, no?
+
+They would have had a shot until very recently, yes. I'm hoping we're
+about done with the release at this point as a line has to be drawn
+somewhere and I think now is it.
+
+> Further, again you're ignoring previous work. Whether we've been
+> working on stabilization right now is irrelevent given we have
+> previous work to push. Mentor has been using OE for its products for
+> years, to expect that a very small team which has to focus on customer
+> issues is going to catch up on all of that effort in a short period of
+> time is unreasonable. We've been working against our backlog for
+> months, and will continue to do so until we're caught up. The frozen
+> tree just slows that down even more.
+>
+> If you want folks like us working more closely with upstream, then you
+> have to realize that folks are going to have changes to push which
+> aren't bugfixes (or aren't critical), and contrary to your
+> implication, does not imply that folks are ignoring the stabilization
+> efffort. Previous work needs to go up, and isn't occupying current
+> development effort.
+
+Let me be clear, nothing I said is meant as a criticism as we all have
+constraints to work within, me included and I'm familiar with the
+problem. 
+
+In the Mentor case I can feel some sympathy as I remember ELC-E 2007
+where Embedded Alley presented about OE. I was sitting next to Holger in
+the audience and they announced major improvements to BitBake. This was
+somewhat of a surprise to the BitBake developers sitting there and I
+went and asked where the patches were. I'm not sure we ever did get
+them. I can therefore imagine some of the backlog you speak of. I know
+this is going to change and get better in future, we need to work
+through the backlog and that will take time on all sides. Every partner
+in the project has some issues they are working through in one form or
+another  be it backlog, transition or otherwise.
+
+Posting non-bugfixes is fine at the moment as long as people have a
+reasonable expectation about the fact they won't merge immediately. I
+appreciate you understand that, equally there are others on this mailing
+list who don't and I do have to keep mentioning it for that reason :(.
+
+Cheers,
+
+Richard
 
 
-Op 18 apr. 2012, om 20:10 heeft Andreas Oberritter het volgende =
-geschreven:
-
-> On 18.04.2012 19:01, Koen Kooi wrote:
->>=20
->> Op 18 apr. 2012, om 17:46 heeft Martin Jansa het volgende geschreven:
->>=20
->>> On Wed, Apr 18, 2012 at 10:21:38AM -0500, Mark Hatle wrote:
->>>> On 4/18/12 9:37 AM, Andreas Oberritter wrote:
->>>>> On 18.04.2012 14:45, Richard Purdie wrote:
->>>>>> On Wed, 2012-04-18 at 14:08 +0200, Andreas Oberritter wrote:
->>>>>>> On 18.04.2012 14:00, Richard Purdie wrote:
->>>>>>>> On Wed, 2012-04-18 at 13:54 +0200, Martin Jansa wrote:
->>>>>>>>> I had a lot of those (e.g. because armv7a-vfp-neon was =
-including 20
->>>>>>>>> arm*feed.conf variants in /etc/opkg most of them empty - =
-without
->>>>>>>>> Packages.gz).
->>>>>>>>>=20
->>>>>>>>> So I've added "filter" to distro-feed-configs
->>>>>>>>> =
-http://git.shr-project.org/git/?p=3Dmeta-smartphone.git;a=3Dcommit;h=3D236=
-aa553bb0f82f741c6edb793e96f421f24f4fa
->>>>>>>>> to add only feeds I'm generating (and I also don't want armv5* =
-packages
->>>>>>>>> installed on armv7a-vfp-neon target unless user explicitly =
-adds armv5*
->>>>>>>>> feed).
->>>>>>>>=20
->>>>>>>> This is the better solution. I think we need to get a better =
-default
->>>>>>>> feed-config generation mechanism into the core. Distros may =
-still need
->>>>>>>> to tweak it but it would be good to share some of the best =
-practises...
->>>>>>>=20
->>>>>>> Did you look at the patch? Which default setting of
->>>>>>> SUPPORTED_EXTRA_ARCHS do you suggest?
->>>>>>=20
->>>>>> I did. I didn't say the above patch was a perfect solution.
->>>>>>=20
->>>>>>> Do you think it's feasible to add
->>>>>>> every single downloadable arch to this variable? If a user of my =
-distro
->>>>>>> decides to build it for some arm or x86 cpu, should he need to =
-know
->>>>>>> which archs to add at this place?
->>>>>>=20
->>>>>> This is a place where the build system meets and interfaces with =
-the
->>>>>> distro. No one policy in the build system is going to fit every =
-distro's
->>>>>> needs, not should we ever aim to so.
->>>>>=20
->>>>> At least we should have defaults that actually work for someone. =
-Now we
->>>>> don't and considering that distro-feed-configs.bb is the only =
-place
->>>>> where PACKAGE_EXTRA_ARCHS is actually used, this would be very =
-easy to
->>>>> accomplish. Especially because it worked well by default before =
-Mark
->>>>> broke it.
->>>>=20
->>>> PACKAGE_EXTRA_ARCHS is also used by Zypper, RPM configuration and =
-other places.=20
->>>> In those cases it is a full list of all available (and compatible) =
-package=20
->>>> architecture types.
->>>>=20
->>>> Coming from the RPM world, it seems very odd to me that a set of =
-"extra_archs"=20
->>>> can not list well, extra compatible archs without causing an error. =
- I have no=20
->>>> idea how to reconcile this behavior, without making a package =
-manager=20
->>>> distro-feed specific solution.  (For RPM we absolutely want the =
-existing behavior.)
->>>=20
->>> The problem Andreas is seeing is not fatal AFAIK.. just couple (or a
->>> lot) of 404 (Packages files not available) while doing opkg update =
-is
->>> not nice for end user.=20
->>>=20
->>> Downloading many existing Packages files without any Package in it
->>> is also suboptimal, but maybe good start.. so we can teach
->>> meta/classes/package_ipk.bbclass:package_update_index_ipk() to =
-create
->>> Packages files not only for existing
->>> ipkgarchs=3D"${ALL_MULTILIB_PACKAGE_ARCHS} ${SDK_PACKAGE_ARCHS}"
->>> but for all (replace "if [ -e $pkgdir/ ]; then" with something like=20=
-
->>> "if [ ! -e $pkgdir/ ]; then mkdir -p $pkgdir; fi")
->>=20
->> That implies you're exposing feeds straight from OE, which is a bad, =
-bad idea.
->=20
-> Can you please elaborate on why this is a bad idea?
-
-The main reason is that packages will get recreated with different MD5 =
-sums, upsetting opkg. And worse, they will have different contents =
-because PR bumps get left out a lot (but less than they used to). It's =
-analogous to using WORKDIR/rootfs for nfsroot. It might work for you, =
-but in general it's a bad idea.
-What we do in angstrom is disallow duplicate files to get uploaded, so =
-foo_1.0-r0.ipk won't get overwritten by a 'newer' foo_1.0-r0.ipk, it =
-will only go away if foo_1.0-r1.ipk gets uploaded.
-
-regards,
-
-Koen=
 
 
