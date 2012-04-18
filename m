@@ -1,41 +1,39 @@
 Received: from mail-we0-f175.google.com ([74.125.82.175])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <koen@dominion.thruhere.net>) id 1SKOny-0005Uf-Mu
+	(envelope-from <martin.jansa@gmail.com>) id 1SKOs4-0005ul-Gb
 	for openembedded-core@lists.openembedded.org;
-	Wed, 18 Apr 2012 08:55:54 +0200
-Received: by wera1 with SMTP id a1so4548794wer.6
+	Wed, 18 Apr 2012 09:00:08 +0200
+Received: by wera1 with SMTP id a1so4550645wer.6
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 17 Apr 2012 23:46:27 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=google.com; s=20120113;
-	h=content-type:mime-version:subject:from:in-reply-to:date
-	:content-transfer-encoding:message-id:references:to:x-mailer
-	:x-gm-message-state;
-	bh=ollZBJlTraHO7H1GCkCWZB+Ts78AwQZqPBcKNrGAcfo=;
-	b=oKnmOqwuoIju7pBzuiAqTuc0S6KRwZVisyPqIRm8AGIoQTbSOiXThwOJQxNIBpDin4
-	odC+cSsmFFG7v0Kf3ylXN63XyeJcgcD+qIiIk8+J/26RoXonW6uWlDRVeGiNAEG1AgZS
-	jRHoZ4+FS99ZsHc8zUKs2aHJtIfPg7mB/vA0iZOn0hPlCes2ORfcUnrj3ccZpkOjBgu4
-	5Ih1fKa8SAlNnyWvujzgtjXcBu8z4RYFMIh+DcgzvAkDezM8FaNpsrcL2uXDZWk88Z2/
-	AqwvmGjvw0EbedXlQmAx3po9XJdirHqZsRlNQbV9kWAvxauje4r6Fts6J1eP0Z8t+odd
-	85JQ==
-Received: by 10.180.82.132 with SMTP id i4mr13873881wiy.12.1334731587929;
-	Tue, 17 Apr 2012 23:46:27 -0700 (PDT)
-Received: from [172.20.0.96] (ip545070eb.adsl-surfen.hetnet.nl.
-	[84.80.112.235])
-	by mx.google.com with ESMTPS id 17sm33024037wis.0.2012.04.17.23.46.26
+	Tue, 17 Apr 2012 23:50:41 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=date:from:to:subject:message-id:references:mime-version
+	:content-type:content-disposition:in-reply-to:user-agent;
+	bh=FRovH8RLY7Ri0C3vh8OU4IJsON9ZzNLt6Wv8RKsdHRE=;
+	b=0IBBu2ox4ltduMRG/3okpAMUv37Oin/JT73bLyfJi/lFdYZoG2DJhpIaGMMGT4sFgN
+	gtsJu+KuFt5fliFe7m4vAfjkIWR5sGGGph9hV9auP58dQnzaKxNTsqEHaUV3B/aqdA/B
+	G5X/mtU6BjXecIehES/6VHKZ8uSRa9fuJljxBdoeD4pnnYtGeh63xHQ18hAiBbok9OuU
+	pHpCBjSWW1rLuh0EQp8l0VQ1JAwx9InxvJ6dzPEKAiKsbL+uy2w83kt3nLl1wSa0jp7J
+	al7ymadIvQaQBrZbjqafC5c0boodkey8QL1IurcjZax7GFHwRMu7wZQBotAlPU12cxQn
+	4c6w==
+Received: by 10.216.139.67 with SMTP id b45mr821814wej.0.1334731841707;
+	Tue, 17 Apr 2012 23:50:41 -0700 (PDT)
+Received: from localhost ([94.230.152.246])
+	by mx.google.com with ESMTPS id n20sm52115826wiw.5.2012.04.17.23.50.40
 	(version=TLSv1/SSLv3 cipher=OTHER);
-	Tue, 17 Apr 2012 23:46:27 -0700 (PDT)
-Mime-Version: 1.0 (Apple Message framework v1257)
-From: Koen Kooi <koen@dominion.thruhere.net>
-In-Reply-To: <cover.1334700068.git.sgw@linux.intel.com>
-Date: Wed, 18 Apr 2012 08:46:26 +0200
-Message-Id: <6EA0A289-9E34-4DBC-80CC-B0F58A57CA12@dominion.thruhere.net>
-References: <cover.1334700068.git.sgw@linux.intel.com>
+	Tue, 17 Apr 2012 23:50:40 -0700 (PDT)
+Date: Wed, 18 Apr 2012 08:50:41 +0200
+From: Martin Jansa <martin.jansa@gmail.com>
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-X-Mailer: Apple Mail (2.1257)
-X-Gm-Message-State: ALoCoQnLxieZ0e2yWF9xcmoBUBHRdlX4CYSvR0h4VIVGIh7ghudgGsV39ySiLoCDt4UtIQycU6V6
-Subject: Re: [PATCH 0/3] v2 Self-Hosted Image patches
+Message-ID: <20120418065041.GC3635@jama.jama.net>
+References: <cover.1334699033.git.sgw@linux.intel.com>
+	<cad24a8ebe31104e0521b419a32b06b4cec3f93f.1334699033.git.sgw@linux.intel.com>
+	<C5C354B5-E296-435A-AF64-2E23D3BBCF15@dominion.thruhere.net>
+MIME-Version: 1.0
+In-Reply-To: <C5C354B5-E296-435A-AF64-2E23D3BBCF15@dominion.thruhere.net>
+User-Agent: Mutt/1.5.21 (2010-09-15)
+Subject: Re: [PATCH 1/3] lsb: Add DISTRO Info to the lsb-release
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -50,26 +48,70 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 18 Apr 2012 06:55:54 -0000
+X-List-Received-Date: Wed, 18 Apr 2012 07:00:08 -0000
+X-Groupsio-MsgNum: 20929
+Content-Type: multipart/signed; micalg=pgp-sha1;
+	protocol="application/pgp-signature"; boundary="WfZ7S8PLGjBY9Voh"
+Content-Disposition: inline
+
+--WfZ7S8PLGjBY9Voh
 Content-Type: text/plain; charset=us-ascii
-Content-Transfer-Encoding: 7bit
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
+On Wed, Apr 18, 2012 at 08:45:23AM +0200, Koen Kooi wrote:
+>=20
+> Op 17 apr. 2012, om 23:46 heeft Saul Wold het volgende geschreven:
+>=20
+> > This is needed for distro checking code in the self-hosted-image
+> >=20
+> > Signed-off-by: Saul Wold <sgw@linux.intel.com>
+> > ---
+> > meta/recipes-extended/lsb/lsb_1.4.bb |    5 +++++
+> > 1 files changed, 5 insertions(+), 0 deletions(-)
+> >=20
+> > diff --git a/meta/recipes-extended/lsb/lsb_1.4.bb b/meta/recipes-extend=
+ed/lsb/lsb_1.4.bb
+> > index f2f25ba..e414d93 100644
+> > --- a/meta/recipes-extended/lsb/lsb_1.4.bb
+> > +++ b/meta/recipes-extended/lsb/lsb_1.4.bb
+> > @@ -4,6 +4,8 @@ HOMEPAGE =3D "http://prdownloads.sourceforge.net/lsb"
+> > LICENSE =3D "GPLv2+"
+> > PR =3D "r2"
+> >=20
+> > +DEPENDS=3D"util-linux"
+> > +
+> > LIC_FILES_CHKSUM =3D "file://README;md5=3D12da544b1a3a5a1795a21160b4947=
+1cf"
+> >=20
+> > SRC_URI =3D "${SOURCEFORGE_MIRROR}/project/lsb/lsb_release/${PV}/lsb-re=
+lease-${PV}.tar.gz \
+> > @@ -31,6 +33,9 @@ do_install(){
+> > 		echo -n "core-4.1-${TARGET_ARCH}" >>  ${D}/etc/lsb-release
+> > 	fi
+> > 	echo "\"" >> ${D}/etc/lsb-release
+> > +	echo "DISTRIB_ID=3D${DISTRO}" >> ${D}/etc/lsb-release
+> > +	echo "DISTRIB_RELEASE=3D${DISTRO_VERSION}" >> ${D}/etc/lsb-release
+> > +	echo "DISTRIB_DESCRIPTION=3D\"${DISTRO_NAME} ${DISTRO_VERSION}\"" >> =
+${D}/etc/lsb-release
+>=20
+> MIssing PR bump
 
-Op 18 apr. 2012, om 00:02 heeft Saul Wold het volgende geschreven:
+And spaces around =3D in added DEPENDS
 
-> Richard,
-> 
-> This set of changes adds the lsb_release command and 
-> sets the i/etc/lsb-release file up correctly for the 
-> release.
-> 
-> I also am removing the BB_NO_NETWORK from the self-hosted
-> image to allow it to have network, and updating the SRCREV,
-> which you might have to do again to get these patches actaully 
-> into the image.
-> 
-> V2: better commit messages
+--=20
+Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
 
-V3: add PR bumps :)
+--WfZ7S8PLGjBY9Voh
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: Digital signature
 
+-----BEGIN PGP SIGNATURE-----
+Version: GnuPG v2.0.19 (GNU/Linux)
 
+iEYEARECAAYFAk+OZEEACgkQN1Ujt2V2gBy2tgCgi99YEYib3nuisHj3ggEFshjK
+B1AAoJGd6ICvdWHLXlZpdhOIKh+p/Ymj
+=vL3q
+-----END PGP SIGNATURE-----
+
+--WfZ7S8PLGjBY9Voh--
