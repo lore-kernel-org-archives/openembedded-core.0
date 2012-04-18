@@ -1,44 +1,42 @@
-Received: from mail-wg0-f43.google.com ([74.125.82.43])
+Received: from mail-wi0-f169.google.com ([209.85.212.169])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <koen@dominion.thruhere.net>) id 1SKR9z-000768-08
+	(envelope-from <koen@dominion.thruhere.net>) id 1SKRL1-0001gZ-6v
 	for openembedded-core@lists.openembedded.org;
-	Wed, 18 Apr 2012 11:26:47 +0200
-Received: by wgbdr12 with SMTP id dr12so6041508wgb.24
+	Wed, 18 Apr 2012 11:38:11 +0200
+Received: by wibhm17 with SMTP id hm17so394554wib.0
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 18 Apr 2012 02:17:19 -0700 (PDT)
+	Wed, 18 Apr 2012 02:28:44 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=google.com; s=20120113;
-	h=content-type:mime-version:subject:from:in-reply-to:date
+	h=subject:mime-version:content-type:from:in-reply-to:date:cc
 	:content-transfer-encoding:message-id:references:to:x-mailer
 	:x-gm-message-state;
-	bh=uc9uy+qC21AZ6O4E+88vTLlkJbLot6KEaNsmmtCwl9M=;
-	b=hVAWIwawCnLtMRdA01uessl2+PhQa40/r/5B6Zq3GCSptriKdubiiudu3tsX2qNitt
-	iMHnnfWjHGa3sGz7yRr9I2QSugslKsW9Rk5kHzRGFt5SYauK9VWUg8jkI+XCP8SElEwz
-	oHqNZ5A9LUgjUbL/fIaF/E+pu9oamij1r8Un1uapaoU+xPoAvzcfasG1HGzhvlV96blt
-	ulKbQoQ27VtokbibazGsDqwPuBPEz1QT8gcbv4tyBPBMENNkyk7IVxiX9heNqDEz1sC5
-	P7UL7rl4R3CgOnXQunfHzEPnlW6RTdN/HOWYMDEsr0wa3eJppUFT+kERjYufq07DZA/d
-	RSRg==
-Received: by 10.216.135.105 with SMTP id t83mr937687wei.105.1334740639645;
-	Wed, 18 Apr 2012 02:17:19 -0700 (PDT)
+	bh=8e8xUD1/meDaTssfJY/JjFipeODGaBWPhZFluBpzb8U=;
+	b=GiT+hpkpPrue5HgwOnNzEcQQ/n/bmbfoFQ+FIWNvwUMqRvHPGSzEM26Rly+v9QWR6c
+	R+dxxlZN9W+H0r3jk/TC7rcowZn2ImHGNS1Qwlx+NodkYl+RB49Mn1m7nfRdzirxeE8b
+	HxwGbRy+bMHFblailXqJcXtpIjnZqXvNN7KrVWNeGc3VRvSL9OK7NHcdQQ2aIzhzpbge
+	haHMe4nfuo0DKMTvYU/oysz/1eE16J941VXsodXQ8kne/gTuvG2eNNUjnB8Ta1Ex9sPI
+	GDvtfniHCM8gacx4nWROzs6r1tGxkpafHRh50PutD/VdBbjZyu/c4nnQGPnbDFjZlK5A
+	0/pA==
+Received: by 10.180.81.37 with SMTP id w5mr4430885wix.16.1334741324012;
+	Wed, 18 Apr 2012 02:28:44 -0700 (PDT)
 Received: from [172.20.0.96] (ip545070eb.adsl-surfen.hetnet.nl.
 	[84.80.112.235])
-	by mx.google.com with ESMTPS id u9sm33239800wix.0.2012.04.18.02.17.18
+	by mx.google.com with ESMTPS id ea6sm33294734wib.5.2012.04.18.02.28.42
 	(version=TLSv1/SSLv3 cipher=OTHER);
-	Wed, 18 Apr 2012 02:17:18 -0700 (PDT)
+	Wed, 18 Apr 2012 02:28:42 -0700 (PDT)
 Mime-Version: 1.0 (Apple Message framework v1257)
 From: Koen Kooi <koen@dominion.thruhere.net>
-In-Reply-To: <CALbNGRRi3peWrpGyN68Rr7tF17y1qv49AfyoqqTQx7WCDEsz+w@mail.gmail.com>
-Date: Wed, 18 Apr 2012 11:17:16 +0200
-Message-Id: <9AAD89B7-59E0-45F3-92DE-1945F571765F@dominion.thruhere.net>
-References: <4F8D8AB7.7000002@opendreambox.org>
-	<20120417153919.GG3665@jama.jama.net>
-	<E06E57AF-94D1-42DF-9435-ECE3DAC0DBC4@dominion.thruhere.net>
-	<CALbNGRRi3peWrpGyN68Rr7tF17y1qv49AfyoqqTQx7WCDEsz+w@mail.gmail.com>
+In-Reply-To: <1334221321.31685.24.camel@ted>
+Date: Wed, 18 Apr 2012 11:28:41 +0200
+Message-Id: <818A5ABA-BD12-43CF-94FC-539A757435DD@dominion.thruhere.net>
+References: <7E680CB2A76BB8438D08CF13C09FC53A46B06325@FMSMSX151.amr.corp.intel.com>
+	<4F84D58F.8020608@gmail.com> <1334221321.31685.24.camel@ted>
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
 X-Mailer: Apple Mail (2.1257)
-X-Gm-Message-State: ALoCoQl/NKPJrRH1X1gkEFDWlnzxmYS8/FFuEXBU/H4MSHmO1Z/yhtE1H+BXuTEtZ8lmaRqPcEN7
-Subject: Re: [oe] waning "it is recommended to set SYSTEMD_PACKAGES as <existing-package>-systemd"
+X-Gm-Message-State: ALoCoQms8u46t+FFTq4Ffomps3U74tJU4G4x1aUyufNn5n2tgkUQmkMV8Z6wSfd5LQpBZ/gOrTmA
+Subject: Re: Yocto Project 1.2 M4 schedule
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -53,35 +51,76 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 18 Apr 2012 09:26:47 -0000
-Content-Type: text/plain; charset=iso-8859-1
+X-List-Received-Date: Wed, 18 Apr 2012 09:38:11 -0000
+Content-Type: text/plain; charset=us-ascii
 Content-Transfer-Encoding: quoted-printable
 
 
-Op 18 apr. 2012, om 11:02 heeft Andreas M=FCller het volgende =
-geschreven:
+Op 12 apr. 2012, om 11:02 heeft Richard Purdie het volgende geschreven:
 
-> On Tue, Apr 17, 2012 at 5:45 PM, Koen Kooi =
-<koen@dominion.thruhere.net> wrote:
+> On Wed, 2012-04-11 at 01:51 +0100, Julian Pidancet wrote:
+>> On 04/09/12 19:01, Liu, Song wrote:
+>>> Hi all,
+>>>=20
+>>> This is to restate and clarify the schedule for Yocto Project 1.2 M4 =
+(milestone 4). If you are concerned or have patches you would like to =
+merge, please see the following dates:
+>>>=20
+>>> 1. RC3 official patch cut-off time: 12:00AM April 8th, 2012, PDT
+>>> 2. RC3 build: April 11th, 2012, PDT
+>>> 3. RC4 official patch cut-off time: 12:00AM April 15th, 2012, PDT
+>>> 4. RC4 build: April 18th, 2012, PDT
+>>> 5. YP 1.2 release: April 27th, 2012, PDT
+>>>=20
+>>> You can also check out the schedule here: =
+https://www.google.com/calendar/embed?height=3D600&wkst=3D1&bgcolor=3D%23F=
+FFFFF&src=3Dmg0m150m30gs891eqqhtfu5jgg%40group.calendar.google.com&color=3D=
+%238C500B&src=3Dsc7rov4ck552t2f0pav120t7r0%40group.calendar.google.com&col=
+or=3D%23528800&src=3Dtheyoctoproject%40gmail.com&color=3D%23182C57&ctz=3DA=
+merica%2FLos_Angeles=20
+>>>=20
+>>> Please feel free to let me and Beth know if you have any concerns or =
+questions.
+>>>=20
+>>> Thanks!
+>>> Song
+>>> PM, Yocto Project
 >>=20
->> Op 17 apr. 2012, om 17:39 heeft Martin Jansa het volgende geschreven:
+>> Hi,
 >>=20
->>> On Tue, Apr 17, 2012 at 05:22:31PM +0200, Andreas Oberritter wrote:
->>>> Hi,
->>>>=20
->>>> the following warnings keep appearing on every fresh invocation of
->>>> bitbake since a few months, I think:
->>>>=20
->>>> WARNING: .../meta-oe/recipes-devtools/cloud9/cloud9_0.6.bb: it is =
-recommended to set SYSTEMD_PACKAGES as <existing-package>-systemd
->>>> WARNING: .../meta-oe/recipes-connectivity/gateone/gateone_git.bb: =
-it is recommended to set SYSTEMD_PACKAGES as <existing-package>-systemd
->>=20
->> The above 2 only have systemd support, so the WARNING is completely =
-bogus and should be silenced.
-> Another chapter of 'eat systemd or die'
+>> I don't see any commits tagged for these milestones in
+>> git.openembedded.org/openembedded-core at the moment. Will there be a
+>> release tag or a release branch created on the git repository when YP
+>> 1.2 comes out, to indicate people that there's a "stable" version of
+>> oe-core they can use ?
+>=20
+> Yes, there will be a branch created on OE-Core.=20
+>=20
+> At this point the actual branch naming/tagging is a little in flux.
+> There was some discussion about this at collaboration summit and the =
+BSP
+> summit but there was no conclusion.
+>=20
+> I've tried to write an email on the subject and it basically goes =
+around
+> in circles. Ideally we need a scheme which can be used in all the =
+layers
+> which doesn't contain numbers as these may conflict with various layer
+> schemes. The poky release names at least do that. Ideally people also
+> want something sortable with more context such as the year. Doing this
+> without numbers is harder.
+>=20
+> I'm reluctant to change the numbering/branch scheme at this point in a
+> release as its unfair to release engineering and the documentation
+> maintainers.
 
-At the risk of feeding the troll: I've not seen anyone contribute decent =
-sysv scripts for those recipes. So what is your point exactly?=
+Any update on this? I'd like to have the angstrom scripts and =
+repositories ready before the end of the week and having some form of =
+agreement on branch/tag naming would be awesome.
+
+regards,
+
+Koen
+
 
 
