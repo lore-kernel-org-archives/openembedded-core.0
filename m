@@ -1,39 +1,35 @@
-Received: from mail-we0-f175.google.com ([74.125.82.175])
+Received: from mail-iy0-f175.google.com ([209.85.210.175])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <martin.jansa@gmail.com>) id 1SKOs4-0005ul-Gb
+	(envelope-from <schnitzeltony@googlemail.com>) id 1SKPAJ-00069B-Eb
 	for openembedded-core@lists.openembedded.org;
-	Wed, 18 Apr 2012 09:00:08 +0200
-Received: by wera1 with SMTP id a1so4550645wer.6
+	Wed, 18 Apr 2012 09:18:59 +0200
+Received: by iaag37 with SMTP id g37so10276700iaa.6
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 17 Apr 2012 23:50:41 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=date:from:to:subject:message-id:references:mime-version
-	:content-type:content-disposition:in-reply-to:user-agent;
-	bh=FRovH8RLY7Ri0C3vh8OU4IJsON9ZzNLt6Wv8RKsdHRE=;
-	b=0IBBu2ox4ltduMRG/3okpAMUv37Oin/JT73bLyfJi/lFdYZoG2DJhpIaGMMGT4sFgN
-	gtsJu+KuFt5fliFe7m4vAfjkIWR5sGGGph9hV9auP58dQnzaKxNTsqEHaUV3B/aqdA/B
-	G5X/mtU6BjXecIehES/6VHKZ8uSRa9fuJljxBdoeD4pnnYtGeh63xHQ18hAiBbok9OuU
-	pHpCBjSWW1rLuh0EQp8l0VQ1JAwx9InxvJ6dzPEKAiKsbL+uy2w83kt3nLl1wSa0jp7J
-	al7ymadIvQaQBrZbjqafC5c0boodkey8QL1IurcjZax7GFHwRMu7wZQBotAlPU12cxQn
-	4c6w==
-Received: by 10.216.139.67 with SMTP id b45mr821814wej.0.1334731841707;
-	Tue, 17 Apr 2012 23:50:41 -0700 (PDT)
-Received: from localhost ([94.230.152.246])
-	by mx.google.com with ESMTPS id n20sm52115826wiw.5.2012.04.17.23.50.40
-	(version=TLSv1/SSLv3 cipher=OTHER);
-	Tue, 17 Apr 2012 23:50:40 -0700 (PDT)
-Date: Wed, 18 Apr 2012 08:50:41 +0200
-From: Martin Jansa <martin.jansa@gmail.com>
+	Wed, 18 Apr 2012 00:09:31 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=googlemail.com; s=20120113;
+	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
+	:content-type; bh=m2r2HEqNaoAaMmNs+CEBwAwfT/sG/XJ/WieRpVVVRfg=;
+	b=MdQdV35Ek8S5SfzNgU39vkW5NDTQQDez4ln15yKHZNlbbwbxUYPT7spJ9ngcTQzq5r
+	ySOoukt2qA/St9Ik4PsB7F7acCA0DYRksUY8P8XYlHJ09B60GhcbJM9GZ6ImQTIqa6mJ
+	0FVttXNJPU8ZtPmGN2YzDoMWBwxZaLpcmMAetbITS/QJIyLmjPaW/Cl8wSECNPn2gm/Z
+	vPjWMcJ7WV5rTJvJNyWPYmam+u1ZC1vtSPCLdRYZf8TwnA/wKIPqQwyBdfJzTVhCdvSP
+	Qz94+OadenylIpyyBHkv0w1Y28EA0hdXBKKKaf9gV88erk3aIY+m0FeS+GMR7BhFDvru
+	wQTA==
+MIME-Version: 1.0
+Received: by 10.50.155.168 with SMTP id vx8mr810199igb.11.1334732971734; Wed,
+	18 Apr 2012 00:09:31 -0700 (PDT)
+Received: by 10.42.165.137 with HTTP; Wed, 18 Apr 2012 00:09:31 -0700 (PDT)
+In-Reply-To: <E06E57AF-94D1-42DF-9435-ECE3DAC0DBC4@dominion.thruhere.net>
+References: <4F8D8AB7.7000002@opendreambox.org>
+	<20120417153919.GG3665@jama.jama.net>
+	<E06E57AF-94D1-42DF-9435-ECE3DAC0DBC4@dominion.thruhere.net>
+Date: Wed, 18 Apr 2012 09:09:31 +0200
+Message-ID: <CALbNGRQc5Q+-zcORQ4HBsJVZ+ybaRpivjMuV2J2OcoKRq-9AdA@mail.gmail.com>
+From: =?ISO-8859-1?Q?Andreas_M=FCller?= <schnitzeltony@googlemail.com>
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Message-ID: <20120418065041.GC3635@jama.jama.net>
-References: <cover.1334699033.git.sgw@linux.intel.com>
-	<cad24a8ebe31104e0521b419a32b06b4cec3f93f.1334699033.git.sgw@linux.intel.com>
-	<C5C354B5-E296-435A-AF64-2E23D3BBCF15@dominion.thruhere.net>
-MIME-Version: 1.0
-In-Reply-To: <C5C354B5-E296-435A-AF64-2E23D3BBCF15@dominion.thruhere.net>
-User-Agent: Mutt/1.5.21 (2010-09-15)
-Subject: Re: [PATCH 1/3] lsb: Add DISTRO Info to the lsb-release
+Subject: Re: [oe] waning "it is recommended to set SYSTEMD_PACKAGES as <existing-package>-systemd"
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -48,70 +44,46 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 18 Apr 2012 07:00:08 -0000
-X-Groupsio-MsgNum: 20929
-Content-Type: multipart/signed; micalg=pgp-sha1;
-	protocol="application/pgp-signature"; boundary="WfZ7S8PLGjBY9Voh"
-Content-Disposition: inline
+X-List-Received-Date: Wed, 18 Apr 2012 07:18:59 -0000
+Content-Type: text/plain; charset=ISO-8859-1
 
---WfZ7S8PLGjBY9Voh
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+On Tue, Apr 17, 2012 at 5:45 PM, Koen Kooi <koen@dominion.thruhere.net> wrote:
+>
+> Op 17 apr. 2012, om 17:39 heeft Martin Jansa het volgende geschreven:
+>
+>> On Tue, Apr 17, 2012 at 05:22:31PM +0200, Andreas Oberritter wrote:
+>>> Hi,
+>>>
+>>> the following warnings keep appearing on every fresh invocation of
+>>> bitbake since a few months, I think:
+>>>
+>>> WARNING: .../meta-oe/recipes-devtools/cloud9/cloud9_0.6.bb: it is recommended to set SYSTEMD_PACKAGES as <existing-package>-systemd
+>>> WARNING: .../meta-oe/recipes-connectivity/gateone/gateone_git.bb: it is recommended to set SYSTEMD_PACKAGES as <existing-package>-systemd
+>
+> The above 2 only have systemd support, so the WARNING is completely bogus and should be silenced.
+The warning is created in case the SYSTEMD_PACKAGES = "${PN}" instead
+of SYSTEMD_PACKAGES = "${PN}-systemd". Intention was to force the
+separation to keep systemd stuff out of images not supporting systemd.
+Problem with this: Images need to be changed e.g need to add
+gateone-systemd instead of gateone.
 
-On Wed, Apr 18, 2012 at 08:45:23AM +0200, Koen Kooi wrote:
->=20
-> Op 17 apr. 2012, om 23:46 heeft Saul Wold het volgende geschreven:
->=20
-> > This is needed for distro checking code in the self-hosted-image
-> >=20
-> > Signed-off-by: Saul Wold <sgw@linux.intel.com>
-> > ---
-> > meta/recipes-extended/lsb/lsb_1.4.bb |    5 +++++
-> > 1 files changed, 5 insertions(+), 0 deletions(-)
-> >=20
-> > diff --git a/meta/recipes-extended/lsb/lsb_1.4.bb b/meta/recipes-extend=
-ed/lsb/lsb_1.4.bb
-> > index f2f25ba..e414d93 100644
-> > --- a/meta/recipes-extended/lsb/lsb_1.4.bb
-> > +++ b/meta/recipes-extended/lsb/lsb_1.4.bb
-> > @@ -4,6 +4,8 @@ HOMEPAGE =3D "http://prdownloads.sourceforge.net/lsb"
-> > LICENSE =3D "GPLv2+"
-> > PR =3D "r2"
-> >=20
-> > +DEPENDS=3D"util-linux"
-> > +
-> > LIC_FILES_CHKSUM =3D "file://README;md5=3D12da544b1a3a5a1795a21160b4947=
-1cf"
-> >=20
-> > SRC_URI =3D "${SOURCEFORGE_MIRROR}/project/lsb/lsb_release/${PV}/lsb-re=
-lease-${PV}.tar.gz \
-> > @@ -31,6 +33,9 @@ do_install(){
-> > 		echo -n "core-4.1-${TARGET_ARCH}" >>  ${D}/etc/lsb-release
-> > 	fi
-> > 	echo "\"" >> ${D}/etc/lsb-release
-> > +	echo "DISTRIB_ID=3D${DISTRO}" >> ${D}/etc/lsb-release
-> > +	echo "DISTRIB_RELEASE=3D${DISTRO_VERSION}" >> ${D}/etc/lsb-release
-> > +	echo "DISTRIB_DESCRIPTION=3D\"${DISTRO_NAME} ${DISTRO_VERSION}\"" >> =
-${D}/etc/lsb-release
->=20
-> MIssing PR bump
+In the RFC for systemd.bbclass I suggested to make systemd a disto
+feature together with an automatic RDEPENDS for *-systemd packages.
+This was commented as no go [1]. The alternate suggestion making
+systemd as image feature ended up in nothing.
 
-And spaces around =3D in added DEPENDS
+Another suggestion was made to separate out systemd into an own layer
+[2]. Guess this is not in due to release hysteria.
 
---=20
-Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
+I faced similar situation with gtk-iconcache runonce [3]: In case a
+solution is not perfect it simply ends up in nothing although the
+current situation is not acceptable.
 
---WfZ7S8PLGjBY9Voh
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: Digital signature
+I lost interest making gurus happy so do what you want with it
 
------BEGIN PGP SIGNATURE-----
-Version: GnuPG v2.0.19 (GNU/Linux)
+Andreas
+[1] http://lists.linuxtogo.org/pipermail/openembedded-devel/2012-February/037788.html
+[2] http://lists.linuxtogo.org/pipermail/openembedded-devel/2012-April/038932.html
+[3] http://lists.linuxtogo.org/pipermail/openembedded-core/2012-March/019760.html
 
-iEYEARECAAYFAk+OZEEACgkQN1Ujt2V2gBy2tgCgi99YEYib3nuisHj3ggEFshjK
-B1AAoJGd6ICvdWHLXlZpdhOIKh+p/Ymj
-=vL3q
------END PGP SIGNATURE-----
 
---WfZ7S8PLGjBY9Voh--
