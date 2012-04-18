@@ -1,32 +1,35 @@
-Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
-	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <richard.purdie@linuxfoundation.org>)
-	id 1SKWpl-0004T8-Vv for openembedded-core@lists.openembedded.org;
-	Wed, 18 Apr 2012 17:30:18 +0200
-Received: from localhost (localhost [127.0.0.1])
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q3IFKoPc002983;
-	Wed, 18 Apr 2012 16:20:50 +0100
-Received: from tim.rpsys.net ([127.0.0.1])
-	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
-	port 10024) with LMTP
-	id 02534-06; Wed, 18 Apr 2012 16:20:45 +0100 (BST)
-Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q3IFKhdU002976
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO);
-	Wed, 18 Apr 2012 16:20:44 +0100
-Message-ID: <1334762445.24091.110.camel@ted>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Date: Wed, 18 Apr 2012 16:20:45 +0100
-In-Reply-To: <20120418145330.GM3635@jama.jama.net>
-References: <1334760467.24091.100.camel@ted>
-	<20120418145330.GM3635@jama.jama.net>
-X-Mailer: Evolution 3.2.2- 
-Mime-Version: 1.0
-X-Virus-Scanned: amavisd-new at rpsys.net
-Cc: yocto <yocto@yoctoproject.org>
-Subject: Re: Yocto Project 1.2 Release Status
+Received: from mail1.windriver.com ([147.11.146.13])
+	by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <mark.hatle@windriver.com>) id 1SKWqa-0004X0-Ot
+	for openembedded-core@lists.openembedded.org;
+	Wed, 18 Apr 2012 17:31:09 +0200
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca [147.11.189.40])
+	by mail1.windriver.com (8.14.3/8.14.3) with ESMTP id q3IFLec9001220
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 18 Apr 2012 08:21:40 -0700 (PDT)
+Received: from msp-dhcp23.wrs.com (172.25.34.23) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server id 14.1.255.0;
+	Wed, 18 Apr 2012 08:21:39 -0700
+Message-ID: <4F8EDC02.5040605@windriver.com>
+Date: Wed, 18 Apr 2012 10:21:38 -0500
+From: Mark Hatle <mark.hatle@windriver.com>
+Organization: Wind River Systems
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.6;
+	rv:11.0) Gecko/20120327 Thunderbird/11.0.1
+MIME-Version: 1.0
+To: <openembedded-core@lists.openembedded.org>
+References: <4F847380.6000401@windriver.com>
+	<4F8489DE.1050905@opendreambox.org>
+	<4F8C24CB.3080607@opendreambox.org> <1334587325.616.4.camel@ted>
+	<4F8C379A.3070903@opendreambox.org> <4F8C3B19.40400@windriver.com>
+	<4F8EA5CC.6010101@opendreambox.org> <1334749226.24091.67.camel@ted>
+	<4F8EA972.1090304@opendreambox.org>
+	<20120418115428.GJ3635@jama.jama.net>
+	<1334750426.24091.73.camel@ted> <4F8EAEAC.4080605@opendreambox.org>
+	<1334753155.24091.84.camel@ted> <4F8ED1BE.8010109@opendreambox.org>
+In-Reply-To: <4F8ED1BE.8010109@opendreambox.org>
+Subject: Re: MIPS vs MIPS32 tunings -- summary and questions
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -41,42 +44,70 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 18 Apr 2012 15:30:18 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Wed, 18 Apr 2012 15:31:09 -0000
+Content-Type: text/plain; charset="ISO-8859-1"; format=flowed
 Content-Transfer-Encoding: 7bit
 
-On Wed, 2012-04-18 at 16:53 +0200, Martin Jansa wrote:
-> On Wed, Apr 18, 2012 at 03:47:47PM +0100, Richard Purdie wrote:
-> > I thought I'd update everyone with the current 1.2 status.
-> > 
-> > I'm going to branch master for release at this point. We've fixed a lot
-> > of issues, I'm hoping the -rc4 build will be a good one. There are signs
-> > there are some more minor issues around and bugs do keep getting opened.
-> > These are still being investigated so we'll continue to let that happen.
-> > Once we have a QA report for -rc4, we'll be in a better position to make
-> > a call on how things are looking.
-> 
-> Does it mean that after creating branch, master will be open for
-> postponed patches from ML and master-next or do you want to keep master
-> as close to release branch as possible for some time (e.g. for those
-> 1.2.1 fixes)?
+On 4/18/12 9:37 AM, Andreas Oberritter wrote:
+> On 18.04.2012 14:45, Richard Purdie wrote:
+>> On Wed, 2012-04-18 at 14:08 +0200, Andreas Oberritter wrote:
+>>> On 18.04.2012 14:00, Richard Purdie wrote:
+>>>> On Wed, 2012-04-18 at 13:54 +0200, Martin Jansa wrote:
+>>>>> I had a lot of those (e.g. because armv7a-vfp-neon was including 20
+>>>>> arm*feed.conf variants in /etc/opkg most of them empty - without
+>>>>> Packages.gz).
+>>>>>
+>>>>> So I've added "filter" to distro-feed-configs
+>>>>> http://git.shr-project.org/git/?p=meta-smartphone.git;a=commit;h=236aa553bb0f82f741c6edb793e96f421f24f4fa
+>>>>> to add only feeds I'm generating (and I also don't want armv5* packages
+>>>>> installed on armv7a-vfp-neon target unless user explicitly adds armv5*
+>>>>> feed).
+>>>>
+>>>> This is the better solution. I think we need to get a better default
+>>>> feed-config generation mechanism into the core. Distros may still need
+>>>> to tweak it but it would be good to share some of the best practises...
+>>>
+>>> Did you look at the patch? Which default setting of
+>>> SUPPORTED_EXTRA_ARCHS do you suggest?
+>>
+>> I did. I didn't say the above patch was a perfect solution.
+>>
+>>>   Do you think it's feasible to add
+>>> every single downloadable arch to this variable? If a user of my distro
+>>> decides to build it for some arm or x86 cpu, should he need to know
+>>> which archs to add at this place?
+>>
+>> This is a place where the build system meets and interfaces with the
+>> distro. No one policy in the build system is going to fit every distro's
+>> needs, not should we ever aim to so.
+>
+> At least we should have defaults that actually work for someone. Now we
+> don't and considering that distro-feed-configs.bb is the only place
+> where PACKAGE_EXTRA_ARCHS is actually used, this would be very easy to
+> accomplish. Especially because it worked well by default before Mark
+> broke it.
 
-I have hoped people would work more on the stabilisation and testing but
-I don't think I'll be able to hold off the pressure to start master
-rolling again at some point relatively soon.
+PACKAGE_EXTRA_ARCHS is also used by Zypper, RPM configuration and other places. 
+  In those cases it is a full list of all available (and compatible) package 
+architecture types.
 
-It won't happen immediately as the 1.2 release is building which means I
-have no resources to test master right now so I will hold off until
-those are available.
+Coming from the RPM world, it seems very odd to me that a set of "extra_archs" 
+can not list well, extra compatible archs without causing an error.  I have no 
+idea how to reconcile this behavior, without making a package manager 
+distro-feed specific solution.  (For RPM we absolutely want the existing behavior.)
 
-To be honest at a personal level, I'm also pretty worn out after the
-past couple of weeks of bug fixing, triage and review and would ideally
-like to disappear for a couple of weeks. Realistically this isn't going
-to happen now but maybe in a few weeks...
+--Mark
 
-Cheers,
-
-Richard
+> I guess it's indeed better to just override the necessary bits in my
+> distro instead of trying to get working defaults upstream.
+>
+> Regards,
+> Andreas
+>
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
 
 
 
