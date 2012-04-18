@@ -1,30 +1,35 @@
-Received: from outpost1.zedat.fu-berlin.de ([130.133.4.66])
+Received: from mail-iy0-f175.google.com ([209.85.210.175])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <heinold@mi.fu-berlin.de>) id 1SKQIR-0007MH-Rj
+	(envelope-from <schnitzeltony@googlemail.com>) id 1SKQvg-0002Zu-P0
 	for openembedded-core@lists.openembedded.org;
-	Wed, 18 Apr 2012 10:31:27 +0200
-Received: from relay1.zedat.fu-berlin.de ([130.133.4.67])
-	by outpost1.zedat.fu-berlin.de (Exim 4.69) with esmtp
-	(envelope-from <heinold@mi.fu-berlin.de>)
-	id <1SKQ0Q-0005ME-FB>; Wed, 18 Apr 2012 10:12:50 +0200
-Received: from andorra.imp.fu-berlin.de ([160.45.42.84])
-	by relay1.zedat.fu-berlin.de (Exim 4.69) with esmtp
-	(envelope-from <heinold@mi.fu-berlin.de>)
-	id <1SKQ0P-0000Wc-VR>; Wed, 18 Apr 2012 10:12:50 +0200
-Received: from heinold by internal andorra.imp.fu-berlin.de with local (Exim
-	4.72) id 1SKQ0M-0007g8-Ql; Wed, 18 Apr 2012 10:12:46 +0200
-Date: Wed, 18 Apr 2012 10:12:46 +0200
-From: Henning Heinold <heinold@inf.fu-berlin.de>
-To: openembedded-devel@lists.openembedded.org
-Message-ID: <20120418081246.GA28842@mi.fu-berlin.de>
-References: <20120417224028.5f80ebd7@eb-e6520>
+	Wed, 18 Apr 2012 11:12:00 +0200
+Received: by iaag37 with SMTP id g37so10391980iaa.6
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 18 Apr 2012 02:02:33 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=googlemail.com; s=20120113;
+	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
+	:content-type; bh=WefxVIAamVZi8u1jW06Mjefw0y2RTMSQyS3wnVs9Ym4=;
+	b=BaIwauPP3SfWTt5eAhJecGU30OgaZs4NoyUhkQw/vG5+0GPFIEG8wYB53lWsH3Mr9b
+	DHAzl35kseU414bTsliS3PTNJThiOwdnEMCKzzSCI/MJ2jQlb7VsHwjKlSncd0gAxXn7
+	+LGENSYObl1VkXZrTKdi2dDRoUThSDL93J6+j6w+MKbTk1rc9PM+h9ECwS+MrBEktV1V
+	f0ly81E2IU02otyzaUbAGSlOjiGmKiybP1+6t9/wkVY4eQhfO9rK14pS4c+94ii29/9g
+	FydFrvW4BmXgkHt0Sx1bWcpdS3we6vsfO3BpGtwEX/zKufXEy71cAb5BHc/+adDRtPuZ
+	bapg==
 MIME-Version: 1.0
-In-Reply-To: <20120417224028.5f80ebd7@eb-e6520>
-User-Agent: Mutt/1.5.20 (2009-06-14)
-Sender: Henning Heinold <heinold@mi.fu-berlin.de>
-X-Originating-IP: 160.45.42.84
-Cc: yocto@yoctoproject.org, openembedded-core@lists.openembedded.org
-Subject: Re: [oe] meta-chromium
+Received: by 10.42.68.71 with SMTP id w7mr831124ici.26.1334739753144; Wed, 18
+	Apr 2012 02:02:33 -0700 (PDT)
+Received: by 10.42.165.137 with HTTP; Wed, 18 Apr 2012 02:02:33 -0700 (PDT)
+In-Reply-To: <E06E57AF-94D1-42DF-9435-ECE3DAC0DBC4@dominion.thruhere.net>
+References: <4F8D8AB7.7000002@opendreambox.org>
+	<20120417153919.GG3665@jama.jama.net>
+	<E06E57AF-94D1-42DF-9435-ECE3DAC0DBC4@dominion.thruhere.net>
+Date: Wed, 18 Apr 2012 11:02:33 +0200
+Message-ID: <CALbNGRRi3peWrpGyN68Rr7tF17y1qv49AfyoqqTQx7WCDEsz+w@mail.gmail.com>
+From: =?ISO-8859-1?Q?Andreas_M=FCller?= <schnitzeltony@googlemail.com>
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [oe] waning "it is recommended to set SYSTEMD_PACKAGES as <existing-package>-systemd"
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -39,35 +44,25 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 18 Apr 2012 08:31:28 -0000
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Wed, 18 Apr 2012 09:12:01 -0000
+Content-Type: text/plain; charset=ISO-8859-1
 
-On Tue, Apr 17, 2012 at 10:40:28PM +0200, Eric Bénard wrote:
-> Hi,
-> 
-> we have pushed the begining of our (Eukréa Electromatique's team and
-> especially Denis) work to get Chromium to build with OpenEmbedded Core
-> to : git://github.com/eukrea/meta-chromium.git
-> https://github.com/eukrea/meta-chromium
-> 
-> For the moment it's only tested on ARMv7 platforms (i.MX515 and i.MX535
-> based) where it seems robust and quite fast on most of the HTML5 tests
-> we ran (only WebGL doesn't yet work).
-> 
-> Feel free to send patches to improve the recipes and add support for
-> other platforms.
-> 
-> TODO :
-> - enable WebGL with OpenGL ES support
-> - support other platforms than armv7
-> - merge with meta-mozilla to create a meta-browser layer
-> 
-> Eric
+On Tue, Apr 17, 2012 at 5:45 PM, Koen Kooi <koen@dominion.thruhere.net> wrote:
+>
+> Op 17 apr. 2012, om 17:39 heeft Martin Jansa het volgende geschreven:
+>
+>> On Tue, Apr 17, 2012 at 05:22:31PM +0200, Andreas Oberritter wrote:
+>>> Hi,
+>>>
+>>> the following warnings keep appearing on every fresh invocation of
+>>> bitbake since a few months, I think:
+>>>
+>>> WARNING: .../meta-oe/recipes-devtools/cloud9/cloud9_0.6.bb: it is recommended to set SYSTEMD_PACKAGES as <existing-package>-systemd
+>>> WARNING: .../meta-oe/recipes-connectivity/gateone/gateone_git.bb: it is recommended to set SYSTEMD_PACKAGES as <existing-package>-systemd
+>
+> The above 2 only have systemd support, so the WARNING is completely bogus and should be silenced.
+Another chapter of 'eat systemd or die'
 
-Cool and thanks.
-
-Bye Henning
+Andreas
 
 
