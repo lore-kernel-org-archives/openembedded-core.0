@@ -1,36 +1,27 @@
-Received: from mail.cvg.de ([62.153.82.30])
+Received: from mga02.intel.com ([134.134.136.20])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <enrico.scholz@sigma-chemnitz.de>) id 1SKXGA-0004xU-De
+	(envelope-from <dvhart@linux.intel.com>) id 1SKXIg-0005MJ-Vq
 	for openembedded-core@lists.openembedded.org;
-	Wed, 18 Apr 2012 17:57:34 +0200
-Received: from ensc-virt.intern.sigma-chemnitz.de
-	(ensc-virt.intern.sigma-chemnitz.de [192.168.3.24])
-	by mail.cvg.de (8.14.4/8.14.4) with ESMTP id q3IFm0aX024733
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO);
-	Wed, 18 Apr 2012 17:48:01 +0200
-Received: from ensc by ensc-virt.intern.sigma-chemnitz.de with local (Exim
-	4.76) (envelope-from <ensc@sigma-chemnitz.de>)
-	id 1SKX6u-00050N-Ag; Wed, 18 Apr 2012 17:48:00 +0200
-From: Enrico Scholz <enrico.scholz@sigma-chemnitz.de>
-To: openembedded-core@lists.openembedded.org
-References: <cover.1334594354.git.paul.eggleton@linux.intel.com>
-	<d019790ba99d06f2f520d26b0f0a862c77353645.1334594354.git.paul.eggleton@linux.intel.com>
-Date: Wed, 18 Apr 2012 17:48:00 +0200
-In-Reply-To: <d019790ba99d06f2f520d26b0f0a862c77353645.1334594354.git.paul.eggleton@linux.intel.com>
-	(Paul Eggleton's message of "Mon, 16 Apr 2012 17:43:02 +0100")
-Message-ID: <lypqb52g9b.fsf@ensc-virt.intern.sigma-chemnitz.de>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/23.3 (gnu/linux)
+	Wed, 18 Apr 2012 18:00:11 +0200
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+	by orsmga101.jf.intel.com with ESMTP; 18 Apr 2012 08:50:42 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.67,352,1309762800"; d="scan'208";a="131254633"
+Received: from unknown (HELO envy.home) ([10.255.12.120])
+	by orsmga001.jf.intel.com with ESMTP; 18 Apr 2012 08:50:42 -0700
+Message-ID: <4F8EE2B1.9050806@linux.intel.com>
+Date: Wed, 18 Apr 2012 08:50:09 -0700
+From: Darren Hart <dvhart@linux.intel.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:10.0.1) Gecko/20120209 Thunderbird/10.0.1
 MIME-Version: 1.0
-Sender: Enrico Scholz <enrico.scholz@sigma-chemnitz.de>
-X-DSPAM-Result: Innocent
-X-DSPAM-Probability: 0
-X-DSPAM-Confidence: 1
-X-Spam-Score: -5.4
-X-Spam-Level: -----
-X-Spam-Tests: AWL,BAYES_00,SPF_NEUTRAL,T_RP_MATCHES_RCVD,DSPAM_INNOCENT
-X-Scanned-By: MIMEDefang 2.73
-Cc: Paul Eggleton <paul.eggleton-VuQAYsv1563Yd54FQh9/CA@public.gmane.org>
-Subject: Re: [PATCH 1/1] perl: fix re-execution of patch/configure
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+References: <cover.1334763599.git.dvhart@linux.intel.com>
+	<5840692e28971d911b9c95eb85c2aff0eb028e3c.1334763599.git.dvhart@linux.intel.com>
+In-Reply-To: <5840692e28971d911b9c95eb85c2aff0eb028e3c.1334763599.git.dvhart@linux.intel.com>
+X-Enigmail-Version: 1.4
+Subject: Re: [PATCH 1/1] gthumb: Disable parallel make for gthumb install
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -45,25 +36,47 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 18 Apr 2012 15:57:34 -0000
-Content-Type: text/plain; charset=us-ascii
+X-List-Received-Date: Wed, 18 Apr 2012 16:00:11 -0000
+Content-Type: text/plain; charset=ISO-8859-1
+Content-Transfer-Encoding: 7bit
 
-Paul Eggleton <paul.eggleton-VuQAYsv1563Yd54FQh9/CA@public.gmane.org>
-writes:
+On 04/18/2012 08:40 AM, Darren Hart wrote:
+> With PARALLEL_MAKE set to 14, I frequently see the gthumb do_install
+> task hang. Make is spinning at 100% CPU and the build makes no
+> more progress.
+> 
+> The following work-around proposed by Richard Purdie allows progress
+> to be made.
 
-> -        for foo in `grep -I -m1 \/usr\/include\/.*\\.h ${WORKDIR}/* -r | cut -f 1 -d ":"` ; do
-> +        for foo in `grep -I --exclude="*.patch" --exclude="*.diff" --exclude="*.pod" --exclude="README*" -m1 "/usr/include/.*\.h" ${WORKDIR}/* -r -l` ${S}/utils/h2xs.PL ; do
+Ooops, forgot to add:
 
-It would be much better to replace the 'grep -r' by 'find -type f ... |
-xargs grep'.  'grep -r' is very bad because:
+Fixes [YOCTO #2319]
 
-* '-r' is not standardized
+> 
+> Signed-off-by: Darren Hart <dvhart@linux.intel.com>
+> CC: Joshua Lock <josh@linux.intel.com>
+> CC: Richard Purdie <richard.purdie@linuxfoundation.org>
+> ---
+>  meta/recipes-gnome/gthumb/gthumb_2.12.4.bb |    2 ++
+>  1 files changed, 2 insertions(+), 0 deletions(-)
+> 
+> diff --git a/meta/recipes-gnome/gthumb/gthumb_2.12.4.bb b/meta/recipes-gnome/gthumb/gthumb_2.12.4.bb
+> index 5c87dc1..5821dc4 100644
+> --- a/meta/recipes-gnome/gthumb/gthumb_2.12.4.bb
+> +++ b/meta/recipes-gnome/gthumb/gthumb_2.12.4.bb
+> @@ -8,6 +8,8 @@ PR = "r2"
+>  
+>  EXTRA_OECONF = "--disable-gnome-keyring --disable-libsoup --disable-exiv2 --disable-clutter"
+>  
+> +PARALLEL_MAKEINST=""
+> +
+>  inherit gnome pkgconfig
+>  
+>  FILES_${PN} += "${datadir}/icons"
 
-* it can return symlinks which might point to read-only locations
-  (e.g. patches/config.sh* are such links).  'sed -i' on such files
-  can make the build fail.
-
-
-Enrico
+-- 
+Darren Hart
+Intel Open Source Technology Center
+Yocto Project - Linux Kernel
 
 
