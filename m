@@ -1,35 +1,30 @@
 Received: from outpost1.zedat.fu-berlin.de ([130.133.4.66])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <heinold@mi.fu-berlin.de>) id 1SKQCa-0007HN-D3
+	(envelope-from <heinold@mi.fu-berlin.de>) id 1SKQIR-0007MH-Rj
 	for openembedded-core@lists.openembedded.org;
-	Wed, 18 Apr 2012 10:25:24 +0200
+	Wed, 18 Apr 2012 10:31:27 +0200
 Received: from relay1.zedat.fu-berlin.de ([130.133.4.67])
-	by outpost1.zedat.fu-berlin.de (Exim 4.69)
-	for openembedded-core@lists.openembedded.org with esmtp
+	by outpost1.zedat.fu-berlin.de (Exim 4.69) with esmtp
 	(envelope-from <heinold@mi.fu-berlin.de>)
-	id <1SKQ3T-00064V-Hl>; Wed, 18 Apr 2012 10:15:59 +0200
+	id <1SKQ0Q-0005ME-FB>; Wed, 18 Apr 2012 10:12:50 +0200
 Received: from andorra.imp.fu-berlin.de ([160.45.42.84])
-	by relay1.zedat.fu-berlin.de (Exim 4.69)
-	for openembedded-core@lists.openembedded.org with esmtp
+	by relay1.zedat.fu-berlin.de (Exim 4.69) with esmtp
 	(envelope-from <heinold@mi.fu-berlin.de>)
-	id <1SKQ3T-0001Gt-Ex>; Wed, 18 Apr 2012 10:15:59 +0200
+	id <1SKQ0P-0000Wc-VR>; Wed, 18 Apr 2012 10:12:50 +0200
 Received: from heinold by internal andorra.imp.fu-berlin.de with local (Exim
-	4.72) id 1SKQ3S-0007py-BP
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 18 Apr 2012 10:15:58 +0200
-Date: Wed, 18 Apr 2012 10:15:58 +0200
+	4.72) id 1SKQ0M-0007g8-Ql; Wed, 18 Apr 2012 10:12:46 +0200
+Date: Wed, 18 Apr 2012 10:12:46 +0200
 From: Henning Heinold <heinold@inf.fu-berlin.de>
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Message-ID: <20120418081558.GB28842@mi.fu-berlin.de>
-References: <cover.1334705370.git.scott.a.garman@intel.com>
-	<41a0ab8337b5d29e4fe1d114bf678cb601956e1e.1334705370.git.scott.a.garman@intel.com>
+To: openembedded-devel@lists.openembedded.org
+Message-ID: <20120418081246.GA28842@mi.fu-berlin.de>
+References: <20120417224028.5f80ebd7@eb-e6520>
 MIME-Version: 1.0
-In-Reply-To: <41a0ab8337b5d29e4fe1d114bf678cb601956e1e.1334705370.git.scott.a.garman@intel.com>
+In-Reply-To: <20120417224028.5f80ebd7@eb-e6520>
 User-Agent: Mutt/1.5.20 (2009-06-14)
 Sender: Henning Heinold <heinold@mi.fu-berlin.de>
 X-Originating-IP: 160.45.42.84
-Subject: Re: [PATCH 1/1] qemugl: make postinst run at first boot
+Cc: yocto@yoctoproject.org, openembedded-core@lists.openembedded.org
+Subject: Re: [oe] meta-chromium
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -44,38 +39,34 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 18 Apr 2012 08:25:24 -0000
-Content-Type: text/plain; charset=us-ascii
+X-List-Received-Date: Wed, 18 Apr 2012 08:31:28 -0000
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
 
-On Tue, Apr 17, 2012 at 04:33:29PM -0700, Scott Garman wrote:
-> The previous postinst script was not working for images which use
-> RPM because do_rootfs could allow qemugl to be installed after
-> libgl1, and the postinst needs to run after libgl1 is installed.
+On Tue, Apr 17, 2012 at 10:40:28PM +0200, Eric Bénard wrote:
+> Hi,
 > 
-> Hence, it's being changed to run at first boot instead of during
-> do_rootfs.
+> we have pushed the begining of our (Eukréa Electromatique's team and
+> especially Denis) work to get Chromium to build with OpenEmbedded Core
+> to : git://github.com/eukrea/meta-chromium.git
+> https://github.com/eukrea/meta-chromium
 > 
-> Signed-off-by: Scott Garman <scott.a.garman@intel.com>
-> ---
->  meta/recipes-graphics/mesa/qemugl_git.bb |   16 +++++++++++-----
->  1 files changed, 11 insertions(+), 5 deletions(-)
+> For the moment it's only tested on ARMv7 platforms (i.MX515 and i.MX535
+> based) where it seems robust and quite fast on most of the HTML5 tests
+> we ran (only WebGL doesn't yet work).
 > 
-> diff --git a/meta/recipes-graphics/mesa/qemugl_git.bb b/meta/recipes-graphics/mesa/qemugl_git.bb
-> index 378aa65..32980d3 100644
-> --- a/meta/recipes-graphics/mesa/qemugl_git.bb
-> +++ b/meta/recipes-graphics/mesa/qemugl_git.bb
-> @@ -19,7 +19,7 @@ S = "${WORKDIR}/git"
->  SRCREV = "d888bbc723c00d197d34a39b5b7448660ec1b1c0"
->  
->  PV = "0.0+git${SRCPV}"
-> -PR = "r10"
-> +PR = "r11"
->  
->  DEFAULT_PREFERENCE = "-1"
-^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> Feel free to send patches to improve the recipes and add support for
+> other platforms.
+> 
+> TODO :
+> - enable WebGL with OpenGL ES support
+> - support other platforms than armv7
+> - merge with meta-mozilla to create a meta-browser layer
+> 
+> Eric
 
-Is this still needed?
+Cool and thanks.
 
 Bye Henning
 
