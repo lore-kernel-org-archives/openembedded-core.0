@@ -1,31 +1,35 @@
-Received: from masterfoo.zenlinux.com ([207.192.74.254])
+Received: from mail.dream-property.net ([82.149.226.172])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <scott.a.garman@intel.com>) id 1SKI30-0003al-CY
+	(envelope-from <obi@opendreambox.org>) id 1SKIVv-0004D2-15
 	for openembedded-core@lists.openembedded.org;
-	Wed, 18 Apr 2012 01:42:59 +0200
-Received: from localhost (c-76-105-137-48.hsd1.or.comcast.net [76.105.137.48])
-	(using TLSv1 with cipher DHE-RSA-AES128-SHA (128/128 bits))
-	(No client certificate requested)
-	by masterfoo.zenlinux.com (Postfix) with ESMTP id 446B82FF66
+	Wed, 18 Apr 2012 02:12:51 +0200
+Received: from localhost (localhost [127.0.0.1])
+	by mail.dream-property.net (Postfix) with ESMTP id 56A45315B31B
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 17 Apr 2012 19:33:29 -0400 (EDT)
-From: Scott Garman <scott.a.garman@intel.com>
+	Wed, 18 Apr 2012 02:03:26 +0200 (CEST)
+X-Virus-Scanned: Debian amavisd-new at mail.dream-property.net
+Received: from mail.dream-property.net ([127.0.0.1])
+	by localhost (mail.dream-property.net [127.0.0.1]) (amavisd-new,
+	port 10024) with LMTP id h2KCxUzBXP6f
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 18 Apr 2012 02:03:15 +0200 (CEST)
+Received: from [10.200.6.10] (unknown [82.149.226.166])
+	(using TLSv1 with cipher DHE-RSA-AES256-SHA (256/256 bits))
+	(No client certificate requested)
+	by mail.dream-property.net (Postfix) with ESMTPSA id 4828D315B305
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 18 Apr 2012 02:03:15 +0200 (CEST)
+Message-ID: <4F8E04C1.8040508@opendreambox.org>
+Date: Wed, 18 Apr 2012 02:03:13 +0200
+From: Andreas Oberritter <obi@opendreambox.org>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:11.0) Gecko/20120329 Thunderbird/11.0.1
+MIME-Version: 1.0
 To: openembedded-core@lists.openembedded.org
-Date: Tue, 17 Apr 2012 16:33:29 -0700
-Message-Id: <41a0ab8337b5d29e4fe1d114bf678cb601956e1e.1334705370.git.scott.a.garman@intel.com>
-X-Mailer: git-send-email 1.7.5.4
-In-Reply-To: <cover.1334705370.git.scott.a.garman@intel.com>
-References: <cover.1334705370.git.scott.a.garman@intel.com>
-In-Reply-To: <cover.1334705370.git.scott.a.garman@intel.com>
-References: <cover.1334705370.git.scott.a.garman@intel.com>
-X-MasterFoo-MailScanner-Information: Please contact the ISP for more
-	information
-X-MailScanner-ID: 446B82FF66.39E04
-X-MasterFoo-MailScanner: Found to be clean
-X-MasterFoo-MailScanner-SpamCheck: not spam
-X-MasterFoo-MailScanner-From: scott.a.garman@intel.com
-X-Spam-Status: No
-Subject: [PATCH 1/1] qemugl: make postinst run at first boot
+References: <cover.1334704605.git.paul.eggleton@linux.intel.com>
+	<967c78b6c30d6d6620db8066aac28224153d3359.1334704605.git.paul.eggleton@linux.intel.com>
+In-Reply-To: <967c78b6c30d6d6620db8066aac28224153d3359.1334704605.git.paul.eggleton@linux.intel.com>
+Subject: Re: [PATCH 1/1] libproxy: remove dependency on gconf when x11 not in DISTRO_FEATURES
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -40,57 +44,59 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 17 Apr 2012 23:42:59 -0000
+X-List-Received-Date: Wed, 18 Apr 2012 00:12:51 -0000
+Content-Type: text/plain; charset=ISO-8859-1
+Content-Transfer-Encoding: 7bit
 
-The previous postinst script was not working for images which use
-RPM because do_rootfs could allow qemugl to be installed after
-libgl1, and the postinst needs to run after libgl1 is installed.
+On 18.04.2012 01:18, Paul Eggleton wrote:
+> This allows libzypp to successfully build when x11 is not in
+> DISTRO_FEATURES (avoiding the libzypp -> libproxy -> gconf -> gtk+
+> dependency chain which without X results in gtk+ failing at
+> do_configure).
+> 
+> Fixes [YOCTO #2320].
+> 
+> Signed-off-by: Paul Eggleton <paul.eggleton@linux.intel.com>
+> ---
+>  meta/recipes-support/libproxy/libproxy_0.4.7.bb |    4 ++--
+>  1 files changed, 2 insertions(+), 2 deletions(-)
+> 
+> diff --git a/meta/recipes-support/libproxy/libproxy_0.4.7.bb b/meta/recipes-support/libproxy/libproxy_0.4.7.bb
+> index 11b2abf..6d99861 100644
+> --- a/meta/recipes-support/libproxy/libproxy_0.4.7.bb
+> +++ b/meta/recipes-support/libproxy/libproxy_0.4.7.bb
+> @@ -8,7 +8,7 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=7d7044444a7b1b116e8783edcdb44ff4 \
+>  
+>  DEPENDS = "gconf"
+>  
+> -PR = "r2"
+> +PR = "r3"
+>  
+>  SRC_URI = "http://libproxy.googlecode.com/files/libproxy-${PV}.tar.gz \
+>             file://g++-namepace.patch \
+> @@ -31,7 +31,7 @@ do_configure_prepend() {
+>  }
+>  
+>  python() {
+> -    if (d.getVar("INCOMPATIBLE_LICENSE", True) or "").find("GPLv3") != -1:
+> +    if base_contains("INCOMPATIBLE_LICENSE", "GPLv3", "x", "", d) == "x" or base_contains("DISTRO_FEATURES", "x11", "x", "", d) == "":
+>          d.setVar("EXTRA_OECMAKE", d.getVar("EXTRA_OECMAKE").replace("-DWITH_GNOME=yes", "-DWITH_GNOME=no"))
+>          d.setVar("DEPENDS", " ".join(i for i in d.getVar("DEPENDS").split() if i != "gconf"))
+>  }
 
-Hence, it's being changed to run at first boot instead of during
-do_rootfs.
+A very similar patch I submitted was rejected, because this problem
+should be solved using PACKAGECONFIG.
 
-Signed-off-by: Scott Garman <scott.a.garman@intel.com>
----
- meta/recipes-graphics/mesa/qemugl_git.bb |   16 +++++++++++-----
- 1 files changed, 11 insertions(+), 5 deletions(-)
+See
+http://git.openembedded.org/openembedded-core-contrib/commit/?h=obi/current&id=224921423b6bcd7dc7e8570a4f3d8b3ba1291720
 
-diff --git a/meta/recipes-graphics/mesa/qemugl_git.bb b/meta/recipes-graphics/mesa/qemugl_git.bb
-index 378aa65..32980d3 100644
---- a/meta/recipes-graphics/mesa/qemugl_git.bb
-+++ b/meta/recipes-graphics/mesa/qemugl_git.bb
-@@ -19,7 +19,7 @@ S = "${WORKDIR}/git"
- SRCREV = "d888bbc723c00d197d34a39b5b7448660ec1b1c0"
- 
- PV = "0.0+git${SRCPV}"
--PR = "r10"
-+PR = "r11"
- 
- DEFAULT_PREFERENCE = "-1"
- 
-@@ -34,11 +34,17 @@ do_install () {
-     fi
- }
- 
-+# This cannot be converted to run at pacakge install time, because
-+# it depends on being run after the libgl1 package is installed,
-+# and RPM cannot guarantee the order of pacakge insallation.
- pkg_postinst_${PN} () {
--    if [ "${PN}" != "qemugl-nativesdk" ]; then
--        rm -f $D${libdir}/libGL.so.1.2
--        ln -s libGL-qemu.so.1.2 $D${libdir}/libGL.so.1.2
--    fi
-+#!/bin/sh -e
-+if [ x"$D" = "x" ]; then
-+	rm -f ${libdir}/libGL.so.1.2
-+	ln -s libGL-qemu.so.1.2 ${libdir}/libGL.so.1.2
-+else
-+	exit 1
-+fi
- }
- 
- BBCLASSEXTEND = "nativesdk"
--- 
-1.7.5.4
+Has something changed since when I submitted the patch? Should I resend
+my patches to remove gconf etc. dependencies when x11 is not defined?
 
+See patches 7 through 11 at
+http://git.openembedded.org/openembedded-core-contrib/log/?h=obi/current
+
+Regards,
+Andreas
 
 
