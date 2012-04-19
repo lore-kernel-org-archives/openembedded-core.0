@@ -1,30 +1,21 @@
-Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
-	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <richard.purdie@linuxfoundation.org>)
-	id 1SKzaL-0004Wz-7b for openembedded-core@lists.openembedded.org;
-	Fri, 20 Apr 2012 00:12:18 +0200
-Received: from localhost (localhost [127.0.0.1])
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q3JM2mMr019072
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 19 Apr 2012 23:02:48 +0100
-Received: from tim.rpsys.net ([127.0.0.1])
-	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
-	port 10024) with LMTP
-	id 18528-03 for <openembedded-core@lists.openembedded.org>;
-	Thu, 19 Apr 2012 23:02:44 +0100 (BST)
-Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q3JM2cnj019066
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO)
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 19 Apr 2012 23:02:39 +0100
-Message-ID: <1334872962.3028.2.camel@ted>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: openembedded-core <openembedded-core@lists.openembedded.org>
-Date: Thu, 19 Apr 2012 23:02:42 +0100
-X-Mailer: Evolution 3.2.2- 
-Mime-Version: 1.0
-X-Virus-Scanned: amavisd-new at rpsys.net
-Subject: [PATCH] bootimg.bbclass: Tweak iso images to become hybrid images
+Received: from mga09.intel.com ([134.134.136.24])
+	by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <sgw@linux.intel.com>) id 1SL0Eg-0006ny-2B
+	for openembedded-core@lists.openembedded.org;
+	Fri, 20 Apr 2012 00:53:58 +0200
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+	by orsmga102.jf.intel.com with ESMTP; 19 Apr 2012 15:44:28 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.67,351,1309762800"; d="scan'208";a="134590345"
+Received: from unknown (HELO swold-mobl.bigsur.com) ([10.255.12.104])
+	by orsmga002.jf.intel.com with ESMTP; 19 Apr 2012 15:44:27 -0700
+From: Saul Wold <sgw@linux.intel.com>
+To: openembedded-core@lists.openembedded.org,
+	dvhart@linux.intel.com
+Date: Thu, 19 Apr 2012 15:44:14 -0700
+Message-Id: <cover.1334875218.git.sgw@linux.intel.com>
+X-Mailer: git-send-email 1.7.7.6
+Subject: [PATCH 00/10] Updates and Packaging fixes
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -39,35 +30,65 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 19 Apr 2012 22:12:18 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Thu, 19 Apr 2012 22:53:58 -0000
 
-From: Damien Lespiau <damien.lespiau@intel.com>
+Richard,
 
-This allows iso images to be written to usb keys and booted on systems which
-have a BIOS which support this. There is no real down side to tweaking the iso
-images in this way.
+Here is a small batch of updates along with some final packaging
+tweaks, not that I modified the kernel.bbclass and changed quilt
+to have the native recipe provide the quiltrc.
 
-[YOCTO #1763 partial]
+I also added a gcc-plugins package for an ARM plugin.
 
-Signed-off-by: Damien Lespiau <damien.lespiau@intel.com>
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
----
-diff --git a/meta/classes/bootimg.bbclass b/meta/classes/bootimg.bbclass
-index f4981d8..370b378 100644
---- a/meta/classes/bootimg.bbclass
-+++ b/meta/classes/bootimg.bbclass
-@@ -103,6 +103,8 @@ build_iso() {
- 			-r ${ISODIR}
- 	fi
- 
-+	isohybrid ${DEPLOY_DIR_IMAGE}/${IMAGE_NAME}.iso
-+
- 	cd ${DEPLOY_DIR_IMAGE}
- 	rm -f ${DEPLOY_DIR_IMAGE}/${IMAGE_LINK_NAME}.iso
- 	ln -s ${IMAGE_NAME}.iso ${DEPLOY_DIR_IMAGE}/${IMAGE_LINK_NAME}.iso
+I will be creating a consolidated pull with these later today along with
+many community based changes.
 
+Sau!  
+
+The following changes since commit 00256125873ff6f1630743a712e882e5f473a9d2:
+
+  self-hosted-image: Update poky revision to point at the 1.2 release branch (2012-04-18 15:59:20 +0100)
+
+are available in the git repository at:
+  git://git.openembedded.org/openembedded-core-contrib sgw/fix
+  http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=sgw/fix
+
+Saul Wold (10):
+  binutils: add embedspu for ppc builds
+  libgcc: Package additional *crt*.o files for PPC
+  xserver-kdrive: Add xkb to existing docs list
+  kernel: Fix packaging issue
+  gcc: Add plugins package for ARM, fix /usr/incude packaging
+  quilt: move empty quiltrc to native
+  sysstat: Upgrade to 10.0.3
+  lame: Upgrade to 3.99.5
+  sqlite3: Upgrade to 3.7.11
+  distro_tracking: Update Manual Check
+
+ meta/classes/kernel.bbclass                        |    4 +-
+ .../conf/distro/include/distro_tracking_fields.inc |   58 ++++++++++----------
+ meta/recipes-devtools/binutils/binutils.inc        |    1 +
+ meta/recipes-devtools/gcc/gcc-package-target.inc   |    8 +++-
+ meta/recipes-devtools/gcc/libgcc_4.6.bb            |    2 +-
+ meta/recipes-devtools/quilt/quilt-0.51.inc         |    5 --
+ meta/recipes-devtools/quilt/quilt-native.inc       |    6 ++
+ meta/recipes-devtools/quilt/quilt-native_0.51.bb   |    2 +-
+ meta/recipes-devtools/quilt/quilt_0.51.bb          |    2 +-
+ meta/recipes-extended/sysstat/sysstat_10.0.3.bb    |    8 ---
+ meta/recipes-extended/sysstat/sysstat_10.0.4.bb    |    8 +++
+ .../xorg-xserver/xserver-kdrive.inc                |    2 +-
+ .../lame/{lame_3.99.3.bb => lame_3.99.5.bb}        |    4 +-
+ meta/recipes-support/sqlite/sqlite3_3.7.10.bb      |   11 ----
+ meta/recipes-support/sqlite/sqlite3_3.7.11.bb      |   11 ++++
+ 15 files changed, 71 insertions(+), 61 deletions(-)
+ delete mode 100644 meta/recipes-extended/sysstat/sysstat_10.0.3.bb
+ create mode 100644 meta/recipes-extended/sysstat/sysstat_10.0.4.bb
+ rename meta/recipes-multimedia/lame/{lame_3.99.3.bb => lame_3.99.5.bb} (86%)
+ delete mode 100644 meta/recipes-support/sqlite/sqlite3_3.7.10.bb
+ create mode 100644 meta/recipes-support/sqlite/sqlite3_3.7.11.bb
+
+-- 
+1.7.7.6
 
 
 
