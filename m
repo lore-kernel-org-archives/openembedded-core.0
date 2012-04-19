@@ -1,25 +1,26 @@
-Received: from mga01.intel.com ([192.55.52.88])
+Received: from vms173017pub.verizon.net ([206.46.173.17])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <sgw@linux.intel.com>) id 1SKvAC-0000a0-Gn
+	(envelope-from <denis@denix.org>) id 1SKvBm-0000cs-La
 	for openembedded-core@lists.openembedded.org;
-	Thu, 19 Apr 2012 19:29:00 +0200
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-	by fmsmga101.fm.intel.com with ESMTP; 19 Apr 2012 10:19:26 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="143710387"
-Received: from unknown (HELO [10.255.12.104]) ([10.255.12.104])
-	by fmsmga001.fm.intel.com with ESMTP; 19 Apr 2012 10:19:26 -0700
-Message-ID: <4F90491E.2020108@linux.intel.com>
-Date: Thu, 19 Apr 2012 10:19:26 -0700
-From: Saul Wold <sgw@linux.intel.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:11.0) Gecko/20120329 Thunderbird/11.0.1
-MIME-Version: 1.0
+	Thu, 19 Apr 2012 19:30:38 +0200
+Received: from gandalf.denix.org ([unknown] [71.178.225.66])
+	by vms173017.mailsrvcs.net
+	(Sun Java(tm) System Messaging Server 7u2-7.02 32bit (built Apr 16
+	2009)) with ESMTPA id <0M2Q005SPLIKZPO0@vms173017.mailsrvcs.net> for
+	openembedded-core@lists.openembedded.org;
+	Thu, 19 Apr 2012 12:20:45 -0500 (CDT)
+Received: by gandalf.denix.org (Postfix, from userid 1000)	id AEE93200AA; Thu,
+	19 Apr 2012 13:20:44 -0400 (EDT)
+Date: Thu, 19 Apr 2012 13:20:44 -0400
+From: Denys Dmytriyenko <denis@denix.org>
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-References: <cover.1334751924.git.dongxiao.xu@intel.com>
-In-Reply-To: <cover.1334751924.git.dongxiao.xu@intel.com>
-Subject: Re: [PATCH 0/1][PULL] Hob: Workaround for RPM architecture renaming issue
+Message-id: <20120419172044.GA5572@denix.org>
+References: <1334830839-25853-1-git-send-email-ken.werner@linaro.org>
+MIME-version: 1.0
+In-reply-to: <1334830839-25853-1-git-send-email-ken.werner@linaro.org>
+User-Agent: Mutt/1.5.20 (2009-06-14)
+Subject: Re: [PATCH] bdwgc: Set ARM_INSTRUCTION_SET to "arm"
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -34,37 +35,45 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 19 Apr 2012 17:29:02 -0000
-Content-Type: text/plain; charset=ISO-8859-1; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Thu, 19 Apr 2012 17:30:38 -0000
+Content-type: text/plain; charset=us-ascii
+Content-disposition: inline
 
-On 04/18/2012 05:48 AM, Dongxiao Xu wrote:
-> Hi Richard,
->
-> This pull request contains a workaround for RPM architecture renaming issue.
->
-> Please help to review and pull.
->
-> Thanks,
-> Dongxiao
->
-> The following changes since commit 48ef8dbb0d1bdbc7e0e62665b5112282637f3266:
->
->    lsb: Fix PR bump, fix bashisms, correct dependency issue, tweak package description (2012-04-18 12:06:48 +0100)
->
-> are available in the git repository at:
->    git://git.pokylinux.org/poky-contrib dxu4/hob-bugfix-oecore
->    http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=dxu4/hob-bugfix-oecore
->
-> Dongxiao Xu (1):
->    packageinfo.bbclass: A workaround for RPM architecture renaming
->
->   meta/classes/packageinfo.bbclass |   13 ++++++++++++-
->   1 files changed, 12 insertions(+), 1 deletions(-)
->
-Merged into OE-Core
+On Thu, Apr 19, 2012 at 12:20:39PM +0200, Ken Werner wrote:
+> The bdwgc recipe uses a version of libatomic that fails when building in Thumb
+> mode. This has been fixed upstream already. The
+> pulseaudio/libatomics-ops_1.2.bb has the same issue and sets the
+> ARM_INSTRUCTION_SET to "arm" (probably until a new version gets pulled in).
+> This patch applies the same workaround to the bdwgc/bdwgc_20110107.bb recipe.
+> 
+> Signed-off-by: Ken Werner <ken.werner@linaro.org>
 
-Thanks
-	Sau!
+Acked-by: Denys Dmytriyenko <denys@ti.com>
+
+
+> ---
+>  meta/recipes-support/bdwgc/bdwgc_20110107.bb |    2 ++
+>  1 files changed, 2 insertions(+), 0 deletions(-)
+> 
+> diff --git a/meta/recipes-support/bdwgc/bdwgc_20110107.bb b/meta/recipes-support/bdwgc/bdwgc_20110107.bb
+> index 327e59b..bc7b613 100644
+> --- a/meta/recipes-support/bdwgc/bdwgc_20110107.bb
+> +++ b/meta/recipes-support/bdwgc/bdwgc_20110107.bb
+> @@ -33,5 +33,7 @@ PR = "r1"
+>  
+>  S = "${WORKDIR}/bdwgc"
+>  
+> +ARM_INSTRUCTION_SET = "arm"
+> +
+>  inherit autotools
+>  BBCLASSEXTEND = "native nativesdk"
+> -- 
+> 1.7.5.4
+> 
+> 
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
 
 
