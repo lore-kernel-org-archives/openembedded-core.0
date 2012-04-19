@@ -1,25 +1,30 @@
-Received: from mga02.intel.com ([134.134.136.20])
-	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <sgw@linux.intel.com>) id 1SKlxK-0000n5-VE
-	for openembedded-core@lists.openembedded.org;
-	Thu, 19 Apr 2012 09:39:07 +0200
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-	by orsmga101.jf.intel.com with ESMTP; 19 Apr 2012 00:29:37 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.67,351,1309762800"; d="scan'208";a="134254141"
-Received: from unknown (HELO [10.255.12.104]) ([10.255.12.104])
-	by orsmga002.jf.intel.com with ESMTP; 19 Apr 2012 00:29:37 -0700
-Message-ID: <4F8FBEE1.4030500@linux.intel.com>
-Date: Thu, 19 Apr 2012 00:29:37 -0700
-From: Saul Wold <sgw@linux.intel.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:11.0) Gecko/20120329 Thunderbird/11.0.1
-MIME-Version: 1.0
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-References: <1334229041-22552-1-git-send-email-florin.sarbu@windriver.com>
-In-Reply-To: <1334229041-22552-1-git-send-email-florin.sarbu@windriver.com>
-Subject: Re: [PATCH] Update intltool to version 0.50.0
+Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
+	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <richard.purdie@linuxfoundation.org>)
+	id 1SKmBT-0000y0-Qw for openembedded-core@lists.openembedded.org;
+	Thu, 19 Apr 2012 09:53:44 +0200
+Received: from localhost (localhost [127.0.0.1])
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q3J7iG3k010410
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 19 Apr 2012 08:44:16 +0100
+Received: from tim.rpsys.net ([127.0.0.1])
+	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
+	port 10024) with LMTP
+	id 08921-04 for <openembedded-core@lists.openembedded.org>;
+	Thu, 19 Apr 2012 08:44:12 +0100 (BST)
+Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q3J7i8UM010404
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO)
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 19 Apr 2012 08:44:09 +0100
+Message-ID: <1334821451.5336.6.camel@ted>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: openembedded-core <openembedded-core@lists.openembedded.org>
+Date: Thu, 19 Apr 2012 08:44:11 +0100
+X-Mailer: Evolution 3.2.2- 
+Mime-Version: 1.0
+X-Virus-Scanned: amavisd-new at rpsys.net
+Subject: [PATCH] qemu: Backport a patch to solve SSE2 instruction emulation issues
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -34,43 +39,118 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 19 Apr 2012 07:39:07 -0000
-Content-Type: text/plain; charset=ISO-8859-1; format=flowed
+X-List-Received-Date: Thu, 19 Apr 2012 07:53:44 -0000
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 
-On 04/12/2012 04:10 AM, Florin Sarbu wrote:
-> Uprev to version 0.50.0 and move SRC_URI from .inc into the .bb specifying the version
->
-> Signed-off-by: Florin Sarbu<florin.sarbu@windriver.com>
-> ---
->   .../intltool-0.40.6/intltool-nowarn-0.40.0.patch   |   52 --------------------
->   .../intltool/intltool-0.40.6/noperlcheck.patch     |   40 ---------------
->   .../intltool-0.40.6/remove-xml-check.patch         |   32 ------------
->   .../intltool/intltool-0.40.6/use-nativeperl.patch  |   20 --------
->   .../intltool-0.50.0/intltool-nowarn-0.50.0.patch   |   40 +++++++++++++++
->   .../intltool/intltool-0.50.0/noperlcheck.patch     |   40 +++++++++++++++
->   .../intltool-0.50.0/remove-xml-check.patch         |   29 +++++++++++
->   .../intltool/intltool-0.50.0/use-nativeperl.patch  |   20 ++++++++
->   meta/recipes-devtools/intltool/intltool.inc        |    1 -
->   meta/recipes-devtools/intltool/intltool_0.40.6.bb  |   19 -------
->   meta/recipes-devtools/intltool/intltool_0.50.0.bb  |   20 ++++++++
->   11 files changed, 149 insertions(+), 164 deletions(-)
->   delete mode 100644 meta/recipes-devtools/intltool/intltool-0.40.6/intltool-nowarn-0.40.0.patch
->   delete mode 100644 meta/recipes-devtools/intltool/intltool-0.40.6/noperlcheck.patch
->   delete mode 100644 meta/recipes-devtools/intltool/intltool-0.40.6/remove-xml-check.patch
->   delete mode 100644 meta/recipes-devtools/intltool/intltool-0.40.6/use-nativeperl.patch
->   create mode 100644 meta/recipes-devtools/intltool/intltool-0.50.0/intltool-nowarn-0.50.0.patch
->   create mode 100644 meta/recipes-devtools/intltool/intltool-0.50.0/noperlcheck.patch
->   create mode 100644 meta/recipes-devtools/intltool/intltool-0.50.0/remove-xml-check.patch
->   create mode 100644 meta/recipes-devtools/intltool/intltool-0.50.0/use-nativeperl.patch
->   delete mode 100644 meta/recipes-devtools/intltool/intltool_0.40.6.bb
->   create mode 100644 meta/recipes-devtools/intltool/intltool_0.50.0.bb
->
-There seems to be an additional problem that the noperlcheck patch is 
-not applying correctly, so this will need to be rebased also.
+This fix addresses various issues seen in qemux86-64 images:
+ * scroll bars in matchbox-terminal not working
+ * files not appearing in pcmanfm
+ * warnings on the console from glib/gobject about invalid gdouble values
 
-Thanks
-	Sau!
+Its due to an emulation issue in qemu which the backported patch fixes.
+
+I managed to debug it to a specific function, Khem found the qemu patch
+to backport, thanks Khem!
+
+[YOCTO #1906]
+
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+---
+diff --git a/meta/recipes-devtools/qemu/qemu-0.15.1/a4d1f142542935b90d2eb30f3aead4edcf455fe6.patch b/meta/recipes-devtools/qemu/qemu-0.15.1/a4d1f142542935b90d2eb30f3aead4edcf455fe6.patch
+new file mode 100644
+index 0000000..405d557
+--- a/dev/null
++++ b/meta/recipes-devtools/qemu/qemu-0.15.1/a4d1f142542935b90d2eb30f3aead4edcf455fe6.patch
+@@ -0,0 +1,66 @@
++From a4d1f142542935b90d2eb30f3aead4edcf455fe6 Mon Sep 17 00:00:00 2001
++From: Aurelien Jarno <aurelien@aurel32.net>
++Date: Sat, 7 Jan 2012 15:20:11 +0100
++Subject: [PATCH 1/1] target-i386: fix {min,max}{pd,ps,sd,ss} SSE2 instructions
++
++minpd, minps, minsd, minss and maxpd, maxps, maxsd, maxss SSE2
++instructions have been broken when switching target-i386 to softfloat.
++It's not possible to use comparison instructions on float types anymore
++to softfloat, so use the floatXX_lt function instead, as the
++float_XX_min and float_XX_max functions can't be used due to the Intel
++specific behaviour.
++
++As it implements the correct NaNs behaviour, let's remove the
++corresponding entry from the TODO.
++
++It fixes GDM screen display on Debian Lenny.
++
++Thanks to Peter Maydell and Jason Wessel for their analysis of the
++problem.
++
++Signed-off-by: Aurelien Jarno <aurelien@aurel32.net>
++---
++ target-i386/TODO      |    1 -
++ target-i386/ops_sse.h |    9 +++++++--
++ 2 files changed, 7 insertions(+), 3 deletions(-)
++
++This fixes scrollbar issues in matchbox-terminal/vte on qemux86-64 and
++files not appearing in pcmanfm, as well as glib/gobject errors to do with gdoubles
++on the console [YOCTO #1906]
++
++Upstream-Status: Backport
++
++Index: qemu-0.15.1/target-i386/TODO
++===================================================================
++--- qemu-0.15.1.orig/target-i386/TODO	2011-10-12 16:41:43.000000000 +0000
+++++ qemu-0.15.1/target-i386/TODO	2012-04-19 07:30:38.704073075 +0000
++@@ -15,7 +15,6 @@
++ - DRx register support
++ - CR0.AC emulation
++ - SSE alignment checks
++-- fix SSE min/max with nans
++ 
++ Optimizations/Features:
++ 
++Index: qemu-0.15.1/target-i386/ops_sse.h
++===================================================================
++--- qemu-0.15.1.orig/target-i386/ops_sse.h	2011-10-12 16:41:43.000000000 +0000
+++++ qemu-0.15.1/target-i386/ops_sse.h	2012-04-19 07:30:38.712073076 +0000
++@@ -584,10 +584,15 @@
++ #define FPU_SUB(size, a, b) float ## size ## _sub(a, b, &env->sse_status)
++ #define FPU_MUL(size, a, b) float ## size ## _mul(a, b, &env->sse_status)
++ #define FPU_DIV(size, a, b) float ## size ## _div(a, b, &env->sse_status)
++-#define FPU_MIN(size, a, b) (a) < (b) ? (a) : (b)
++-#define FPU_MAX(size, a, b) (a) > (b) ? (a) : (b)
++ #define FPU_SQRT(size, a, b) float ## size ## _sqrt(b, &env->sse_status)
++ 
+++/* Note that the choice of comparison op here is important to get the
+++ * special cases right: for min and max Intel specifies that (-0,0),
+++ * (NaN, anything) and (anything, NaN) return the second argument.
+++ */
+++#define FPU_MIN(size, a, b) float ## size ## _lt(a, b, &env->sse_status) ? (a) : (b)
+++#define FPU_MAX(size, a, b) float ## size ## _lt(b, a, &env->sse_status) ? (a) : (b)
+++
++ SSE_HELPER_S(add, FPU_ADD)
++ SSE_HELPER_S(sub, FPU_SUB)
++ SSE_HELPER_S(mul, FPU_MUL)
+diff --git a/meta/recipes-devtools/qemu/qemu_0.15.1.bb b/meta/recipes-devtools/qemu/qemu_0.15.1.bb
+index 05ea5f8..e90f339 100644
+--- a/meta/recipes-devtools/qemu/qemu_0.15.1.bb
++++ b/meta/recipes-devtools/qemu/qemu_0.15.1.bb
+@@ -3,7 +3,7 @@ require qemu.inc
+ LIC_FILES_CHKSUM = "file://COPYING;md5=441c28d2cf86e15a37fa47e15a72fbac \
+                     file://COPYING.LIB;endline=24;md5=c04def7ae38850e7d3ef548588159913"
+ 
+-PR = "r5"
++PR = "r6"
+ 
+ FILESPATH = "${FILE_DIRNAME}/qemu-${PV}"
+ FILESDIR = "${WORKDIR}"
+@@ -18,6 +18,7 @@ SRC_URI = "\
+     file://fallback-to-safe-mmap_min_addr.patch \
+     file://larger_default_ram_size.patch \
+     file://arm-bgr.patch \
++    file://a4d1f142542935b90d2eb30f3aead4edcf455fe6.patch \
+     "
+ 
+ # Only use the GL passthrough patches for native/nativesdk versions
+
 
 
 
