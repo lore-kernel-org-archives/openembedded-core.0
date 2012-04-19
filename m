@@ -1,28 +1,31 @@
-Received: from static-92-33-14-100.sme.bredbandsbolaget.se ([92.33.14.100]
-	helo=mailhost.lundinova.se) by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <jonas.danielsson@lundinova.se>) id 1SKmv6-0001wQ-8R
-	for openembedded-core@lists.openembedded.org;
-	Thu, 19 Apr 2012 10:40:52 +0200
-Received: from jkd-desktop (unknown [10.240.22.76])
-	(using TLSv1 with cipher DHE-RSA-AES128-SHA (128/128 bits))
-	(No client certificate requested)
-	by mailhost.lundinova.se (Postfix) with ESMTP id 8CD5AE826A
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 19 Apr 2012 10:31:23 +0200 (CEST)
-Date: Thu, 19 Apr 2012 10:31:22 +0200
-From: Jonas Danielsson <jonas.danielsson@lundinova.se>
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Message-ID: <20120419083122.GB22585@jkd-desktop>
-References: <1334781049-7980-1-git-send-email-jonas.danielsson@lundinova.se>
-	<4F8F43C0.6020608@linux.intel.com>
-	<20120419080828.GA8581@jkd-desktop>
-	<20120419081315.GA22585@jkd-desktop>
-	<20120419081902.GB3671@jama.jama.net>
-MIME-Version: 1.0
-In-Reply-To: <20120419081902.GB3671@jama.jama.net>
-User-Agent: Mutt/1.5.21 (2010-09-15)
-Subject: [PATCH v3] bluez4: make alsa support conditional upon DISTRO_FEATURES
+Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
+	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <richard.purdie@linuxfoundation.org>)
+	id 1SKolu-0003xU-Md for openembedded-core@lists.openembedded.org;
+	Thu, 19 Apr 2012 12:39:30 +0200
+Received: from localhost (localhost [127.0.0.1])
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q3JATgWu012680;
+	Thu, 19 Apr 2012 11:29:42 +0100
+Received: from tim.rpsys.net ([127.0.0.1])
+	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
+	port 10024) with LMTP
+	id 10906-05; Thu, 19 Apr 2012 11:29:38 +0100 (BST)
+Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q3JATXOn012674
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO);
+	Thu, 19 Apr 2012 11:29:36 +0100
+Message-ID: <1334831377.5336.43.camel@ted>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: niqingliang@insigma.com.cn, Patches and discussions about the oe-core
+	layer <openembedded-core@lists.openembedded.org>
+Date: Thu, 19 Apr 2012 11:29:37 +0100
+In-Reply-To: <1334821781.1256.63.camel@localhost.localdomain>
+References: <1334821451.5336.6.camel@ted>
+	<1334821781.1256.63.camel@localhost.localdomain>
+X-Mailer: Evolution 3.2.2- 
+Mime-Version: 1.0
+X-Virus-Scanned: amavisd-new at rpsys.net
+Subject: Re: [PATCH] qemu: Backport a patch to solve SSE2 instruction emulation issues
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -37,67 +40,21 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 19 Apr 2012 08:40:52 -0000
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
+X-List-Received-Date: Thu, 19 Apr 2012 10:39:30 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
+On Thu, 2012-04-19 at 15:49 +0800, Ni Qingliang wrote:
+> why not update to qemu-1.0.1 ?
 
-Do not enable alsa in bluez4 unless it's included in DISTRO_FEATURES.
+That requires a bit more work and is not suitable for a point release.
+We do need to update in the 1.3 cycle but that is a lot more work and
+will happen later. I think this is therefore a reasonable way to fix the
+bug in question.
 
-Signed-off-by: Jonas Danielsson <jonas.danielsson@lundinova.se>
----
- meta/recipes-connectivity/bluez/bluez4.inc     |    6 ++++--
- meta/recipes-connectivity/bluez/bluez4_4.99.bb |    3 ++-
- 2 files changed, 6 insertions(+), 3 deletions(-)
+Cheers,
 
-diff --git a/meta/recipes-connectivity/bluez/bluez4.inc b/meta/recipes-connectivity/bluez/bluez4.inc
-index fbbe0bf..6dc06f4 100644
---- a/meta/recipes-connectivity/bluez/bluez4.inc
-+++ b/meta/recipes-connectivity/bluez/bluez4.inc
-@@ -7,9 +7,12 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=12f884d2ae1ff87c09e5b7ccc2c4ca7e \
-                     file://COPYING.LIB;md5=fb504b67c50331fc78734fed90fb0e09 \
-                     file://src/main.c;beginline=1;endline=24;md5=9bc54b93cd7e17bf03f52513f39f926e \
-                     file://sbc/sbc.c;beginline=1;endline=25;md5=1a40781ed30d50d8639323a184aeb191"
--DEPENDS = "udev alsa-lib libusb dbus-glib glib-2.0 libcheck"
-+DEPENDS = "udev libusb dbus-glib glib-2.0 libcheck"
- RDEPENDS_${PN}-dev = "bluez-hcidump"
- 
-+PACKAGECONFIG ??= "${@base_contains('DISTRO_FEATURES', 'alsa', 'alsa', '', d)}"
-+PACKAGECONFIG[alsa] = "--enable-alsa,--disable-alsa,alsa-lib"
-+
- ASNEEDED = ""
- 
- SRC_URI = "\
-@@ -21,7 +24,6 @@ inherit autotools
- 
- EXTRA_OECONF = "\
-   --disable-gstreamer \
--  --enable-alsa \
-   --enable-usb \
-   --enable-tools \
-   --enable-bccmd \
-diff --git a/meta/recipes-connectivity/bluez/bluez4_4.99.bb b/meta/recipes-connectivity/bluez/bluez4_4.99.bb
-index 5033d34..32831e7 100644
---- a/meta/recipes-connectivity/bluez/bluez4_4.99.bb
-+++ b/meta/recipes-connectivity/bluez/bluez4_4.99.bb
-@@ -1,6 +1,6 @@
- require bluez4.inc
- 
--PR = "r1"
-+PR = "r2"
- 
- SRC_URI += "file://bluetooth.conf \
-             file://sbc_mmx.patch \
-@@ -19,6 +19,7 @@ do_install_append() {
- 
- RDEPENDS_${PN}-dev = "bluez-hcidump"
- 
-+ALLOW_EMPTY_libasound-module-bluez = "1"
- PACKAGES =+ "libasound-module-bluez"
- 
- FILES_libasound-module-bluez = "${libdir}/alsa-lib/lib*.so ${datadir}/alsa"
--- 
-1.7.5.4
+Richard
 
 
 
