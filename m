@@ -1,39 +1,30 @@
-Received: from e06smtp17.uk.ibm.com ([195.75.94.113])
-	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <ken.werner@linaro.org>) id 1SKomf-0003zl-A3
-	for openembedded-core@lists.openembedded.org;
-	Thu, 19 Apr 2012 12:40:17 +0200
-Received: from /spool/local
-	by e06smtp17.uk.ibm.com with IBM ESMTP SMTP Gateway: Authorized Use
-	Only! Violators will be prosecuted
-	for <openembedded-core@lists.openembedded.org> from
-	<ken.werner@linaro.org>; Thu, 19 Apr 2012 11:20:48 +0100
-Received: from d06nrmr1806.portsmouth.uk.ibm.com (9.149.39.193)
-	by e06smtp17.uk.ibm.com (192.168.101.147) with IBM ESMTP SMTP Gateway:
-	Authorized Use Only! Violators will be prosecuted; 
-	Thu, 19 Apr 2012 11:20:46 +0100
-Received: from d06av02.portsmouth.uk.ibm.com (d06av02.portsmouth.uk.ibm.com
-	[9.149.37.228])
-	by d06nrmr1806.portsmouth.uk.ibm.com (8.13.8/8.13.8/NCO v10.0) with
-	ESMTP id q3JAKjb92695192
+Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
+	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <richard.purdie@linuxfoundation.org>)
+	id 1SKqSQ-0005p8-Iz for openembedded-core@lists.openembedded.org;
+	Thu, 19 Apr 2012 14:27:30 +0200
+Received: from localhost (localhost [127.0.0.1])
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q3JCI15W013701
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 19 Apr 2012 11:20:46 +0100
-Received: from d06av02.portsmouth.uk.ibm.com (loopback [127.0.0.1])
-	by d06av02.portsmouth.uk.ibm.com (8.14.4/8.13.1/NCO v10.0 AVout) with
-	ESMTP id q3JAKjXa028646
+	Thu, 19 Apr 2012 13:18:01 +0100
+Received: from tim.rpsys.net ([127.0.0.1])
+	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
+	port 10024) with LMTP
+	id 13350-02 for <openembedded-core@lists.openembedded.org>;
+	Thu, 19 Apr 2012 13:17:57 +0100 (BST)
+Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q3JCHr1h013694
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO)
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 19 Apr 2012 04:20:45 -0600
-Received: from bolide.boeblingen.de.ibm.com
-	(dyn-9-152-213-71.boeblingen.de.ibm.com [9.152.213.71])
-	by d06av02.portsmouth.uk.ibm.com (8.14.4/8.13.1/NCO v10.0 AVin) with
-	ESMTP id q3JAKjU9028617; Thu, 19 Apr 2012 04:20:45 -0600
-From: Ken Werner <ken.werner@linaro.org>
-To: openembedded-core@lists.openembedded.org
-Date: Thu, 19 Apr 2012 12:20:39 +0200
-Message-Id: <1334830839-25853-1-git-send-email-ken.werner@linaro.org>
-X-Mailer: git-send-email 1.7.5.4
-x-cbid: 12041910-0542-0000-0000-0000019665CA
-Subject: [PATCH] bdwgc: Set ARM_INSTRUCTION_SET to "arm"
+	Thu, 19 Apr 2012 13:17:55 +0100
+Message-ID: <1334837877.13017.0.camel@ted>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: openembedded-core <openembedded-core@lists.openembedded.org>
+Date: Thu, 19 Apr 2012 13:17:57 +0100
+X-Mailer: Evolution 3.2.2- 
+Mime-Version: 1.0
+X-Virus-Scanned: amavisd-new at rpsys.net
+Subject: [PATCH] package.bbclass: Ensure kernel modules get stripped
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -48,33 +39,36 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 19 Apr 2012 10:40:17 -0000
+X-List-Received-Date: Thu, 19 Apr 2012 12:27:31 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-The bdwgc recipe uses a version of libatomic that fails when building in Thumb
-mode. This has been fixed upstream already. The
-pulseaudio/libatomics-ops_1.2.bb has the same issue and sets the
-ARM_INSTRUCTION_SET to "arm" (probably until a new version gets pulled in).
-This patch applies the same workaround to the bdwgc/bdwgc_20110107.bb recipe.
+Kernel modules are not marked as executable but we do expect to strip them.
+This patch adds in missing code to ensure we do this. Without this images
+are getting sigificantly bloated in size.
 
-Signed-off-by: Ken Werner <ken.werner@linaro.org>
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 ---
- meta/recipes-support/bdwgc/bdwgc_20110107.bb |    2 ++
- 1 files changed, 2 insertions(+), 0 deletions(-)
-
-diff --git a/meta/recipes-support/bdwgc/bdwgc_20110107.bb b/meta/recipes-support/bdwgc/bdwgc_20110107.bb
-index 327e59b..bc7b613 100644
---- a/meta/recipes-support/bdwgc/bdwgc_20110107.bb
-+++ b/meta/recipes-support/bdwgc/bdwgc_20110107.bb
-@@ -33,5 +33,7 @@ PR = "r1"
- 
- S = "${WORKDIR}/bdwgc"
- 
-+ARM_INSTRUCTION_SET = "arm"
+diff --git a/meta/classes/package.bbclass b/meta/classes/package.bbclass
+index c3f077a..44e551f 100644
+--- a/meta/classes/package.bbclass
++++ b/meta/classes/package.bbclass
+@@ -870,6 +870,14 @@ python split_and_strip_files () {
+ 				elf_file = int(file_list[file][5:])
+ 				#bb.note("Strip %s" % file)
+ 				runstrip(file, elf_file, d)
 +
- inherit autotools
- BBCLASSEXTEND = "native nativesdk"
--- 
-1.7.5.4
++
++	if (d.getVar('INHIBIT_PACKAGE_STRIP', True) != '1'):	
++		for root, dirs, files in os.walk(dvar):
++			for f in files:
++				if not f.endswith(".ko"):
++					continue
++				runstrip(os.path.join(root, f), None, d)
+ 	#
+ 	# End of strip
+ 	#
+
 
 
 
