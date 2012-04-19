@@ -1,30 +1,29 @@
-Received: from mx.insigma.com.cn ([115.236.48.170] helo=WX-Edge.insigma.com.cn)
-	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <niqingliang@insigma.com.cn>) id 1SKmJQ-0001Tp-0V
+Received: from static-92-33-14-100.sme.bredbandsbolaget.se ([92.33.14.100]
+	helo=mailhost.lundinova.se) by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <jonas.danielsson@lundinova.se>) id 1SKmYw-0001dj-3Z
 	for openembedded-core@lists.openembedded.org;
-	Thu, 19 Apr 2012 10:01:57 +0200
-Received: from WX-EXCHMB2.insigma.com.cn (10.0.1.203) by
-	WX-Edge.insigma.com.cn (10.0.1.205) with Microsoft SMTP Server (TLS) id
-	8.3.83.0; Thu, 19 Apr 2012 15:52:07 +0800
-Received: from [192.168.0.98] (122.224.76.38) by Wx-ExchMB2.insigma.com.cn
-	(10.0.1.203) with Microsoft SMTP Server id 8.3.83.0; Thu, 19 Apr 2012
-	15:51:58 +0800
-Message-ID: <1334821781.1256.63.camel@localhost.localdomain>
-From: Ni Qingliang <niqingliang@insigma.com.cn>
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Date: Thu, 19 Apr 2012 15:49:41 +0800
-In-Reply-To: <1334821451.5336.6.camel@ted>
-References: <1334821451.5336.6.camel@ted>
-Organization: Insigma
-X-Mailer: Evolution 3.2.3 
+	Thu, 19 Apr 2012 10:17:58 +0200
+Received: from jkd-desktop (unknown [10.240.22.76])
+	(using TLSv1 with cipher DHE-RSA-AES128-SHA (128/128 bits))
+	(No client certificate requested)
+	by mailhost.lundinova.se (Postfix) with ESMTP id 629AAE826A;
+	Thu, 19 Apr 2012 10:08:29 +0200 (CEST)
+Date: Thu, 19 Apr 2012 10:08:28 +0200
+From: Jonas Danielsson <jonas.danielsson@lundinova.se>
+To: Saul Wold <sgw@linux.intel.com>
+Message-ID: <20120419080828.GA8581@jkd-desktop>
+References: <1334781049-7980-1-git-send-email-jonas.danielsson@lundinova.se>
+	<4F8F43C0.6020608@linux.intel.com>
 MIME-Version: 1.0
-Subject: Re: [PATCH] qemu: Backport a patch to solve SSE2 instruction emulation issues
+In-Reply-To: <4F8F43C0.6020608@linux.intel.com>
+User-Agent: Mutt/1.5.21 (2010-09-15)
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] bluez4: make alsa support conditional upon DISTRO_FEATURES
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
-Reply-To: niqingliang@insigma.com.cn,
-	Patches and discussions about the oe-core layer
+Reply-To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
 List-Id: Patches and discussions about the oe-core layer
 	<openembedded-core.lists.openembedded.org>
@@ -35,132 +34,96 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 19 Apr 2012 08:01:57 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Thu, 19 Apr 2012 08:17:58 -0000
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 
-why not update to qemu-1.0.1 ?
+On Wed, Apr 18, 2012 at 03:44:16PM -0700, Saul Wold wrote:
+> On 04/18/2012 01:30 PM, Jonas Danielsson wrote:
+> >Do not enable alsa in bluez4 unless it's included in DISTRO_FEATURES.
+> >
+> >Signed-off-by: Jonas Danielsson<jonas.danielsson@lundinova.se>
+> >---
+> >  meta/recipes-connectivity/bluez/bluez4.inc     |    7 +++++--
+> >  meta/recipes-connectivity/bluez/bluez4_4.99.bb |   11 +++++++----
+> >  2 files changed, 12 insertions(+), 6 deletions(-)
+> >
+> >diff --git a/meta/recipes-connectivity/bluez/bluez4.inc b/meta/recipes-connectivity/bluez/bluez4.inc
+> >index fbbe0bf..0ce7c31 100644
+> >--- a/meta/recipes-connectivity/bluez/bluez4.inc
+> >+++ b/meta/recipes-connectivity/bluez/bluez4.inc
+> >@@ -7,7 +7,10 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=12f884d2ae1ff87c09e5b7ccc2c4ca7e \
+> >                      file://COPYING.LIB;md5=fb504b67c50331fc78734fed90fb0e09 \
+> >                      file://src/main.c;beginline=1;endline=24;md5=9bc54b93cd7e17bf03f52513f39f926e \
+> >                      file://sbc/sbc.c;beginline=1;endline=25;md5=1a40781ed30d50d8639323a184aeb191"
+> >-DEPENDS = "udev alsa-lib libusb dbus-glib glib-2.0 libcheck"
+> >+DEPENDS = "\
+> >+  udev ${@base_contains('DISTRO_FEATURES', 'alsa', 'alsa-lib', '', d)} \
+> >+  libusb dbus-glib glib-2.0 libcheck \
+> >+  "
+> >  RDEPENDS_${PN}-dev = "bluez-hcidump"
+> >
+> >  ASNEEDED = ""
+> >@@ -21,7 +24,7 @@ inherit autotools
+> >
+> >  EXTRA_OECONF = "\
+> >    --disable-gstreamer \
+> >-  --enable-alsa \
+> >+  ${@base_contains('DISTRO_FEATURES', 'alsa', '--enable-alsa', '--disable-alsa', d)} \
+> >    --enable-usb \
+> >    --enable-tools \
+> >    --enable-bccmd \
+> 
+> Thanks for the contribution, there are some adjustments that I would
+> suggest making to more maintainable.
+> 
 
-On Thu, 2012-04-19 at 15:44 +0800, Richard Purdie wrote:
-> This fix addresses various issues seen in qemux86-64 images:
->  * scroll bars in matchbox-terminal not working
->  * files not appearing in pcmanfm
->  * warnings on the console from glib/gobject about invalid gdouble values
-> 
-> Its due to an emulation issue in qemu which the backported patch fixes.
-> 
-> I managed to debug it to a specific function, Khem found the qemu patch
-> to backport, thanks Khem!
-> 
-> [YOCTO #1906]
-> 
-> Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-> ---
-> diff --git a/meta/recipes-devtools/qemu/qemu-0.15.1/a4d1f142542935b90d2eb30f3aead4edcf455fe6.patch b/meta/recipes-devtools/qemu/qemu-0.15.1/a4d1f142542935b90d2eb30f3aead4edcf455fe6.patch
-> new file mode 100644
-> index 0000000..405d557
-> --- a/dev/null
-> +++ b/meta/recipes-devtools/qemu/qemu-0.15.1/a4d1f142542935b90d2eb30f3aead4edcf455fe6.patch
-> @@ -0,0 +1,66 @@
-> +From a4d1f142542935b90d2eb30f3aead4edcf455fe6 Mon Sep 17 00:00:00 2001
-> +From: Aurelien Jarno <aurelien@aurel32.net>
-> +Date: Sat, 7 Jan 2012 15:20:11 +0100
-> +Subject: [PATCH 1/1] target-i386: fix {min,max}{pd,ps,sd,ss} SSE2 instructions
-> +
-> +minpd, minps, minsd, minss and maxpd, maxps, maxsd, maxss SSE2
-> +instructions have been broken when switching target-i386 to softfloat.
-> +It's not possible to use comparison instructions on float types anymore
-> +to softfloat, so use the floatXX_lt function instead, as the
-> +float_XX_min and float_XX_max functions can't be used due to the Intel
-> +specific behaviour.
-> +
-> +As it implements the correct NaNs behaviour, let's remove the
-> +corresponding entry from the TODO.
-> +
-> +It fixes GDM screen display on Debian Lenny.
-> +
-> +Thanks to Peter Maydell and Jason Wessel for their analysis of the
-> +problem.
-> +
-> +Signed-off-by: Aurelien Jarno <aurelien@aurel32.net>
-> +---
-> + target-i386/TODO      |    1 -
-> + target-i386/ops_sse.h |    9 +++++++--
-> + 2 files changed, 7 insertions(+), 3 deletions(-)
-> +
-> +This fixes scrollbar issues in matchbox-terminal/vte on qemux86-64 and
-> +files not appearing in pcmanfm, as well as glib/gobject errors to do with gdoubles
-> +on the console [YOCTO #1906]
-> +
-> +Upstream-Status: Backport
-> +
-> +Index: qemu-0.15.1/target-i386/TODO
-> +===================================================================
-> +--- qemu-0.15.1.orig/target-i386/TODO	2011-10-12 16:41:43.000000000 +0000
-> ++++ qemu-0.15.1/target-i386/TODO	2012-04-19 07:30:38.704073075 +0000
-> +@@ -15,7 +15,6 @@
-> + - DRx register support
-> + - CR0.AC emulation
-> + - SSE alignment checks
-> +-- fix SSE min/max with nans
-> + 
-> + Optimizations/Features:
-> + 
-> +Index: qemu-0.15.1/target-i386/ops_sse.h
-> +===================================================================
-> +--- qemu-0.15.1.orig/target-i386/ops_sse.h	2011-10-12 16:41:43.000000000 +0000
-> ++++ qemu-0.15.1/target-i386/ops_sse.h	2012-04-19 07:30:38.712073076 +0000
-> +@@ -584,10 +584,15 @@
-> + #define FPU_SUB(size, a, b) float ## size ## _sub(a, b, &env->sse_status)
-> + #define FPU_MUL(size, a, b) float ## size ## _mul(a, b, &env->sse_status)
-> + #define FPU_DIV(size, a, b) float ## size ## _div(a, b, &env->sse_status)
-> +-#define FPU_MIN(size, a, b) (a) < (b) ? (a) : (b)
-> +-#define FPU_MAX(size, a, b) (a) > (b) ? (a) : (b)
-> + #define FPU_SQRT(size, a, b) float ## size ## _sqrt(b, &env->sse_status)
-> + 
-> ++/* Note that the choice of comparison op here is important to get the
-> ++ * special cases right: for min and max Intel specifies that (-0,0),
-> ++ * (NaN, anything) and (anything, NaN) return the second argument.
-> ++ */
-> ++#define FPU_MIN(size, a, b) float ## size ## _lt(a, b, &env->sse_status) ? (a) : (b)
-> ++#define FPU_MAX(size, a, b) float ## size ## _lt(b, a, &env->sse_status) ? (a) : (b)
-> ++
-> + SSE_HELPER_S(add, FPU_ADD)
-> + SSE_HELPER_S(sub, FPU_SUB)
-> + SSE_HELPER_S(mul, FPU_MUL)
-> diff --git a/meta/recipes-devtools/qemu/qemu_0.15.1.bb b/meta/recipes-devtools/qemu/qemu_0.15.1.bb
-> index 05ea5f8..e90f339 100644
-> --- a/meta/recipes-devtools/qemu/qemu_0.15.1.bb
-> +++ b/meta/recipes-devtools/qemu/qemu_0.15.1.bb
-> @@ -3,7 +3,7 @@ require qemu.inc
->  LIC_FILES_CHKSUM = "file://COPYING;md5=441c28d2cf86e15a37fa47e15a72fbac \
->                      file://COPYING.LIB;endline=24;md5=c04def7ae38850e7d3ef548588159913"
->  
-> -PR = "r5"
-> +PR = "r6"
->  
->  FILESPATH = "${FILE_DIRNAME}/qemu-${PV}"
->  FILESDIR = "${WORKDIR}"
-> @@ -18,6 +18,7 @@ SRC_URI = "\
->      file://fallback-to-safe-mmap_min_addr.patch \
->      file://larger_default_ram_size.patch \
->      file://arm-bgr.patch \
-> +    file://a4d1f142542935b90d2eb30f3aead4edcf455fe6.patch \
->      "
->  
->  # Only use the GL passthrough patches for native/nativesdk versions
-> 
-> 
-> 
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
+Thank you for comments! A new version will follow.
 
--- 
-Yi Qingliang
-niqingliang@insigma.com.cn
-https://niqingliang2003.wordpress.com
+Jonas
 
+> You should be using PACKAGECONFIG here instead of base_contains.
+> 
+> 
+> >diff --git a/meta/recipes-connectivity/bluez/bluez4_4.99.bb b/meta/recipes-connectivity/bluez/bluez4_4.99.bb
+> >index 5033d34..5f1ef45 100644
+> >--- a/meta/recipes-connectivity/bluez/bluez4_4.99.bb
+> >+++ b/meta/recipes-connectivity/bluez/bluez4_4.99.bb
+> >@@ -1,6 +1,6 @@
+> >  require bluez4.inc
+> >
+> >-PR = "r1"
+> >+PR = "r2"
+> >
+> >  SRC_URI += "file://bluetooth.conf \
+> >              file://sbc_mmx.patch \
+> >@@ -19,13 +19,16 @@ do_install_append() {
+> >
+> >  RDEPENDS_${PN}-dev = "bluez-hcidump"
+> >
+> >-PACKAGES =+ "libasound-module-bluez"
+> >+PACKAGES =+ "${@base_contains('DISTRO_FEATURES', 'alsa', 'libasound-module-bluez', '', d)}"
+> >
+> >-FILES_libasound-module-bluez = "${libdir}/alsa-lib/lib*.so ${datadir}/alsa"
+> >+FILES_libasound-module-bluez = "\
+> >+  ${@base_contains('DISTRO_FEATURES', 'alsa', '${libdir}/alsa-lib/lib*.so', '', d)} \
+> >+  ${@base_contains('DISTRO_FEATURES', 'alsa', '${datadir}/alsa', '', d)} \
+> >+"
+> 
+> Also, you can use ALLOW_EMPTY_libasound-module-bluez = "1" so that
+> it does not matter if the files are available
+> 
+> >  FILES_${PN} += "${libdir}/bluetooth/plugins ${libdir}/bluetooth/plugins/*.so ${base_libdir}/udev/ ${systemd_unitdir}/"
+> >  FILES_${PN}-dev += "\
+> >    ${libdir}/bluetooth/plugins/*.la \
+> >-  ${libdir}/alsa-lib/*.la \
+> >+  ${@base_contains('DISTRO_FEATURES', 'alsa', '${libdir}/alsa-lib/*.la', '', d)} \
+> >  "
+> >
+> The base_contains is not needed here, if the alsa-lib/*.la files are
+> not there then I don't think any warnings or errors will occur
+> 
+> >  FILES_${PN}-dbg += "\
+> 
 
 
