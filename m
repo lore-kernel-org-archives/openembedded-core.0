@@ -1,25 +1,27 @@
-Received: from mga09.intel.com ([134.134.136.24])
+Received: from mga01.intel.com ([192.55.52.88])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <sgw@linux.intel.com>) id 1SL0El-0006oH-JI
+	(envelope-from <dvhart@linux.intel.com>) id 1SL0Qt-0007dN-7j
 	for openembedded-core@lists.openembedded.org;
-	Fri, 20 Apr 2012 00:54:03 +0200
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-	by orsmga102.jf.intel.com with ESMTP; 19 Apr 2012 15:44:30 -0700
+	Fri, 20 Apr 2012 01:06:35 +0200
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+	by fmsmga101.fm.intel.com with ESMTP; 19 Apr 2012 15:57:05 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.67,351,1309762800"; d="scan'208";a="134590365"
-Received: from unknown (HELO swold-mobl.bigsur.com) ([10.255.12.104])
-	by orsmga002.jf.intel.com with ESMTP; 19 Apr 2012 15:44:30 -0700
-From: Saul Wold <sgw@linux.intel.com>
-To: openembedded-core@lists.openembedded.org,
-	dvhart@linux.intel.com
-Date: Thu, 19 Apr 2012 15:44:22 -0700
-Message-Id: <457c8ef2ead74ea1c1cdec8a7fb8fb291b66dfa8.1334875218.git.sgw@linux.intel.com>
-X-Mailer: git-send-email 1.7.7.6
-In-Reply-To: <cover.1334875218.git.sgw@linux.intel.com>
+X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="143825916"
+Received: from unknown (HELO envy.home) ([10.255.12.13])
+	by fmsmga001.fm.intel.com with ESMTP; 19 Apr 2012 15:57:05 -0700
+Message-ID: <4F909820.8000502@linux.intel.com>
+Date: Thu, 19 Apr 2012 15:56:32 -0700
+From: Darren Hart <dvhart@linux.intel.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:10.0.1) Gecko/20120209 Thunderbird/10.0.1
+MIME-Version: 1.0
+To: Saul Wold <sgw@linux.intel.com>
 References: <cover.1334875218.git.sgw@linux.intel.com>
-In-Reply-To: <cover.1334875218.git.sgw@linux.intel.com>
-References: <cover.1334875218.git.sgw@linux.intel.com>
-Subject: [PATCH 08/10] lame: Upgrade to 3.99.5
+	<33d6305e28845e6fd225e76f3add810cb0aa7cad.1334875218.git.sgw@linux.intel.com>
+In-Reply-To: <33d6305e28845e6fd225e76f3add810cb0aa7cad.1334875218.git.sgw@linux.intel.com>
+X-Enigmail-Version: 1.4
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH 04/10] kernel: Fix packaging issue
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -34,34 +36,45 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 19 Apr 2012 22:54:04 -0000
+X-List-Received-Date: Thu, 19 Apr 2012 23:06:35 -0000
+Content-Type: text/plain; charset=ISO-8859-1
+Content-Transfer-Encoding: 7bit
 
-Signed-off-by: Saul Wold <sgw@linux.intel.com>
----
- .../lame/{lame_3.99.3.bb => lame_3.99.5.bb}        |    4 ++--
- 1 files changed, 2 insertions(+), 2 deletions(-)
- rename meta/recipes-multimedia/lame/{lame_3.99.3.bb => lame_3.99.5.bb} (86%)
+On 04/19/2012 03:44 PM, Saul Wold wrote:
+> Remove /etc since it is empty, when creating a machine that does not
+> deliver any module config files, the /etc is empty and is then warned
+> about not being shipped, so we remove it.
+> 
+> This occurs in the routerstationpro with the following warning:
+> WARNING: For recipe linux-yocto, the following files/directories were installed but not shipped in any package:
+> WARNING:   /etc
+> 
+> Signed-off-by: Saul Wold <sgw@linux.intel.com>
+> ---
+>  meta/classes/kernel.bbclass |    4 +++-
+>  1 files changed, 3 insertions(+), 1 deletions(-)
+> 
+> diff --git a/meta/classes/kernel.bbclass b/meta/classes/kernel.bbclass
+> index 3519e7c..19dad8e 100644
+> --- a/meta/classes/kernel.bbclass
+> +++ b/meta/classes/kernel.bbclass
+> @@ -464,9 +464,11 @@ python populate_packages_prepend () {
+>  	# avoid warnings. removedirs only raises an OSError if an empty
+>  	# directory cannot be removed.
+>  	dvar = d.getVar('PKGD', True)
+> -	for dir in ["%s/etc/modprobe.d" % (dvar), "%s/etc/modules-load.d" % (dvar)]:
+> +	for dir in ["%s/etc/modprobe.d" % (dvar), "%s/etc/modules-load.d" % (dvar), "%s/etc" % (dvar)]:
+>  		if len(os.listdir(dir)) == 0:
+>  			os.rmdir(dir)
+> +	if len(os.listdir("%s/etc" % (dvar))) == 0:
+> +		os.rmdir("%s/etc" % (dvar))
 
-diff --git a/meta/recipes-multimedia/lame/lame_3.99.3.bb b/meta/recipes-multimedia/lame/lame_3.99.5.bb
-similarity index 86%
-rename from meta/recipes-multimedia/lame/lame_3.99.3.bb
-rename to meta/recipes-multimedia/lame/lame_3.99.5.bb
-index 9248202..a0c4cf5 100644
---- a/meta/recipes-multimedia/lame/lame_3.99.3.bb
-+++ b/meta/recipes-multimedia/lame/lame_3.99.5.bb
-@@ -13,8 +13,8 @@ PR = "r0"
- SRC_URI = "${SOURCEFORGE_MIRROR}/lame/lame-${PV}.tar.gz \
-            file://no-gtk1.patch"
- 
--SRC_URI[md5sum] = "5ad31e33e70455eb3a7b79a5dd934fce"
--SRC_URI[sha256sum] = "d4ea3c8d00d2cc09338425a25dbfeb4d587942cb3c83a677c09aeb1e850c74cf"
-+SRC_URI[md5sum] = "84835b313d4a8b68f5349816d33e07ce"
-+SRC_URI[sha256sum] = "24346b4158e4af3bd9f2e194bb23eb473c75fb7377011523353196b19b9a23ff"
- 
- inherit autotools
- 
+This second test is redundant now that %s/etc is in the "for dir in ...
+" line.
+
 -- 
-1.7.7.6
-
+Darren Hart
+Intel Open Source Technology Center
+Yocto Project - Linux Kernel
 
 
