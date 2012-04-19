@@ -1,25 +1,25 @@
 Received: from mga09.intel.com ([134.134.136.24])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <sgw@linux.intel.com>) id 1SL0Ek-0006oH-GN
+	(envelope-from <sgw@linux.intel.com>) id 1SL0Ek-0006ny-2G
 	for openembedded-core@lists.openembedded.org;
 	Fri, 20 Apr 2012 00:54:02 +0200
 Received: from orsmga002.jf.intel.com ([10.7.209.21])
-	by orsmga102.jf.intel.com with ESMTP; 19 Apr 2012 15:44:30 -0700
+	by orsmga102.jf.intel.com with ESMTP; 19 Apr 2012 15:44:29 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.67,351,1309762800"; d="scan'208";a="134590362"
+X-IronPort-AV: E=Sophos;i="4.67,351,1309762800"; d="scan'208";a="134590358"
 Received: from unknown (HELO swold-mobl.bigsur.com) ([10.255.12.104])
-	by orsmga002.jf.intel.com with ESMTP; 19 Apr 2012 15:44:30 -0700
+	by orsmga002.jf.intel.com with ESMTP; 19 Apr 2012 15:44:29 -0700
 From: Saul Wold <sgw@linux.intel.com>
 To: openembedded-core@lists.openembedded.org,
 	dvhart@linux.intel.com
-Date: Thu, 19 Apr 2012 15:44:21 -0700
-Message-Id: <11aafa47e790d6921a8733b8718c36dded9ebe65.1334875218.git.sgw@linux.intel.com>
+Date: Thu, 19 Apr 2012 15:44:19 -0700
+Message-Id: <aef2b3d03e99292b919ace29de0e870380fc18fd.1334875218.git.sgw@linux.intel.com>
 X-Mailer: git-send-email 1.7.7.6
 In-Reply-To: <cover.1334875218.git.sgw@linux.intel.com>
 References: <cover.1334875218.git.sgw@linux.intel.com>
 In-Reply-To: <cover.1334875218.git.sgw@linux.intel.com>
 References: <cover.1334875218.git.sgw@linux.intel.com>
-Subject: [PATCH 07/10] sysstat: Upgrade to 10.0.3
+Subject: [PATCH 05/10] gcc: Add plugins package for ARM, fix /usr/incude packaging
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -36,42 +36,48 @@ List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedde
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Thu, 19 Apr 2012 22:54:02 -0000
 
+WARNING: For recipe gcc, the following files/directories were installed but not shipped in any package:
+WARNING:   /usr/include
+WARNING:   /usr/lib/gcc/arm-poky-linux-gnueabi/4.6.4/plugin/libgcc
+WARNING:   /usr/lib/gcc/arm-poky-linux-gnueabi/4.6.4/plugin/libgcc/config
+WARNING:   /usr/lib/gcc/arm-poky-linux-gnueabi/4.6.4/plugin/libgcc/config/arm
+WARNING:   /usr/lib/gcc/arm-poky-linux-gnueabi/4.6.4/plugin/libgcc/config/arm/bpabi-lib.h
 Signed-off-by: Saul Wold <sgw@linux.intel.com>
 ---
- meta/recipes-extended/sysstat/sysstat_10.0.3.bb |    8 --------
- meta/recipes-extended/sysstat/sysstat_10.0.4.bb |    8 ++++++++
- 2 files changed, 8 insertions(+), 8 deletions(-)
- delete mode 100644 meta/recipes-extended/sysstat/sysstat_10.0.3.bb
- create mode 100644 meta/recipes-extended/sysstat/sysstat_10.0.4.bb
+ meta/recipes-devtools/gcc/gcc-package-target.inc |    8 +++++++-
+ 1 files changed, 7 insertions(+), 1 deletions(-)
 
-diff --git a/meta/recipes-extended/sysstat/sysstat_10.0.3.bb b/meta/recipes-extended/sysstat/sysstat_10.0.3.bb
-deleted file mode 100644
-index 7ef6c60..0000000
---- a/meta/recipes-extended/sysstat/sysstat_10.0.3.bb
-+++ /dev/null
-@@ -1,8 +0,0 @@
--require sysstat.inc
--
--LIC_FILES_CHKSUM = "file://COPYING;md5=8ca43cbc842c2336e835926c2166c28b"
--
--PR = "r1"
--
--SRC_URI[md5sum] = "0e1ed5200f31f69a3b90ff1e81c07745"
--SRC_URI[sha256sum] = "7c0dd172f09edaff100b33db29ef502e15e71867b505c6d519f76a24fabcc1f5"
-diff --git a/meta/recipes-extended/sysstat/sysstat_10.0.4.bb b/meta/recipes-extended/sysstat/sysstat_10.0.4.bb
-new file mode 100644
-index 0000000..7a5bcdc
---- /dev/null
-+++ b/meta/recipes-extended/sysstat/sysstat_10.0.4.bb
-@@ -0,0 +1,8 @@
-+require sysstat.inc
+diff --git a/meta/recipes-devtools/gcc/gcc-package-target.inc b/meta/recipes-devtools/gcc/gcc-package-target.inc
+index 3076670..a499c88 100644
+--- a/meta/recipes-devtools/gcc/gcc-package-target.inc
++++ b/meta/recipes-devtools/gcc/gcc-package-target.inc
+@@ -1,5 +1,5 @@
+ PACKAGES = "\
+-  ${PN} ${PN}-symlinks \
++  ${PN} ${PN}-plugins ${PN}-symlinks \
+   g++ g++-symlinks \
+   cpp cpp-symlinks \
+   g77 g77-symlinks \
+@@ -40,6 +40,11 @@ FILES_${PN}-symlinks = "\
+   ${bindir}/gccbug \
+ "
+ 
++FILES_${PN}-plugins = "\
++  ${gcclibdir}/${TARGET_SYS}/${BINV}/plugin \
++"
++ALLOW_EMPTY_${PN}-plugins = "1"
 +
-+LIC_FILES_CHKSUM = "file://COPYING;md5=8ca43cbc842c2336e835926c2166c28b"
-+
-+PR = "r0"
-+
-+SRC_URI[md5sum] = "c84fd7774080dae34f47257175a0b187"
-+SRC_URI[sha256sum] = "66dbef6e5583c320d5aa5a47a7407b8bf2c20f2cf0d171d36ffa21db034f34ba"
+ FILES_g77 = "\
+   ${bindir}/${TARGET_PREFIX}g77 \
+   ${libexecdir}/gcc/${TARGET_SYS}/${BINV}/f771 \
+@@ -88,6 +93,7 @@ do_install () {
+ 	rm -r ${D}${libdir}/gcc/${TARGET_SYS}/${BINV}/install-tools
+ 	rm -r ${D}${libexecdir}/gcc/${TARGET_SYS}/${BINV}/install-tools
+ 	rm -rf ${D}${libexecdir}/gcc/${TARGET_SYS}/${BINV}/*.la
++	rmdir ${D}${includedir}
+ 
+ 	# Hack around specs file assumptions
+ 	test -f ${D}${libdir}/gcc/${TARGET_SYS}/${BINV}/specs && sed -i -e '/^*cross_compile:$/ { n; s/1/0/; }' ${D}${libdir}/gcc/${TARGET_SYS}/${BINV}/specs
 -- 
 1.7.7.6
 
