@@ -1,27 +1,27 @@
-Received: from mga09.intel.com ([134.134.136.24])
+Received: from masterfoo.zenlinux.com ([207.192.74.254])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <sgw@linux.intel.com>) id 1SLKJo-0003Ai-TA
+	(envelope-from <scott.a.garman@intel.com>) id 1SLMRI-0004oa-R0
 	for openembedded-core@lists.openembedded.org;
-	Fri, 20 Apr 2012 22:20:37 +0200
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-	by orsmga102.jf.intel.com with ESMTP; 20 Apr 2012 13:10:47 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.67,351,1309762800"; d="scan'208";a="134944311"
-Received: from unknown (HELO [10.255.12.163]) ([10.255.12.163])
-	by orsmga002.jf.intel.com with ESMTP; 20 Apr 2012 13:10:47 -0700
-Message-ID: <4F91C2C7.5040509@linux.intel.com>
-Date: Fri, 20 Apr 2012 13:10:47 -0700
-From: Saul Wold <sgw@linux.intel.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:11.0) Gecko/20120329 Thunderbird/11.0.1
-MIME-Version: 1.0
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-References: <cover.1334940120.git.sgw@linux.intel.com>
-	<d2330607b1757ad68add6ab2b37c6182b4f28d00.1334940120.git.sgw@linux.intel.com>
-	<20120420200415.GE8228@denix.org>
-In-Reply-To: <20120420200415.GE8228@denix.org>
-Subject: Re: [CONSOLIDATED PULL 02/43] rt-tests: fix dependency on eglibc, clean LDFLAGS passing
+	Sat, 21 Apr 2012 00:36:28 +0200
+Received: from localhost (c-76-105-137-48.hsd1.or.comcast.net [76.105.137.48])
+	(using TLSv1 with cipher DHE-RSA-AES128-SHA (128/128 bits))
+	(No client certificate requested)
+	by masterfoo.zenlinux.com (Postfix) with ESMTP id CD4DF2FF40
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 20 Apr 2012 18:26:53 -0400 (EDT)
+From: Scott Garman <scott.a.garman@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Fri, 20 Apr 2012 15:27:02 -0700
+Message-Id: <cover.1334960759.git.scott.a.garman@intel.com>
+X-Mailer: git-send-email 1.7.5.4
+X-MasterFoo-MailScanner-Information: Please contact the ISP for more
+	information
+X-MailScanner-ID: CD4DF2FF40.67674
+X-MasterFoo-MailScanner: Found to be clean
+X-MasterFoo-MailScanner-SpamCheck: not spam
+X-MasterFoo-MailScanner-From: scott.a.garman@intel.com
+X-Spam-Status: No
+Subject: [PATCH 0/1] distro tracking manual checks
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -36,27 +36,29 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 20 Apr 2012 20:20:37 -0000
-Content-Type: text/plain; charset=ISO-8859-1; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Fri, 20 Apr 2012 22:36:29 -0000
 
-On 04/20/2012 01:04 PM, Denys Dmytriyenko wrote:
-> On Fri, Apr 20, 2012 at 09:44:53AM -0700, Saul Wold wrote:
->> From: Denys Dmytriyenko<denys@ti.com>
->>
->> Replace dependency on eglibc with virtual/libc
->> Pass LDFLAGS to TARGET_CC_ARCH, instead of CFLAGS as Makefile overrides it
->>
->> Signed-off-by: Denys Dmytriyenko<denys@ti.com>
->
-> That's already been fixed differently:
-> http://cgit.openembedded.org/openembedded-core/commit/?id=fb89e4585644db0958a633a637fc70f0459af26a
->
-Thanks, I had it in my holding bin and must have just not matched up 
-with this patch.
+You know the drill - distro tracking updates for recipes that require
+manual checking.
 
-I will update my branch with this removed.
+Scott
 
-Sau!
+The following changes since commit 00256125873ff6f1630743a712e882e5f473a9d2:
+
+  self-hosted-image: Update poky revision to point at the 1.2 release branch (2012-04-18 15:59:20 +0100)
+
+are available in the git repository at:
+  git://git.pokylinux.org/poky-contrib sgarman/manual-checks-oe
+  http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=sgarman/manual-checks-oe
+
+Scott Garman (1):
+  distro_tracking: manual check updates
+
+ .../conf/distro/include/distro_tracking_fields.inc |   24 ++++++++++----------
+ 1 files changed, 12 insertions(+), 12 deletions(-)
+
+-- 
+1.7.5.4
+
 
 
