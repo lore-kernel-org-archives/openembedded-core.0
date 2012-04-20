@@ -1,24 +1,24 @@
 Received: from mga01.intel.com ([192.55.52.88])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <sgw@linux.intel.com>) id 1SLH7I-0005tX-DK
+	(envelope-from <sgw@linux.intel.com>) id 1SLH7J-0005xk-17
 	for openembedded-core@lists.openembedded.org;
-	Fri, 20 Apr 2012 18:55:28 +0200
+	Fri, 20 Apr 2012 18:55:29 +0200
 Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-	by fmsmga101.fm.intel.com with ESMTP; 20 Apr 2012 09:45:37 -0700
+	by fmsmga101.fm.intel.com with ESMTP; 20 Apr 2012 09:45:38 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="156167823"
+X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="156167839"
 Received: from unknown (HELO swold-mobl.bigsur.com) ([10.255.12.163])
-	by fmsmga002.fm.intel.com with ESMTP; 20 Apr 2012 09:45:37 -0700
+	by fmsmga002.fm.intel.com with ESMTP; 20 Apr 2012 09:45:38 -0700
 From: Saul Wold <sgw@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Fri, 20 Apr 2012 09:44:55 -0700
-Message-Id: <c96ac930033351b58aafd19a9b25687fe1166012.1334940120.git.sgw@linux.intel.com>
+Date: Fri, 20 Apr 2012 09:45:02 -0700
+Message-Id: <966f028f4afbaf476a82fa2a3bd70cc62fbc6147.1334940120.git.sgw@linux.intel.com>
 X-Mailer: git-send-email 1.7.7.6
 In-Reply-To: <cover.1334940120.git.sgw@linux.intel.com>
 References: <cover.1334940120.git.sgw@linux.intel.com>
 In-Reply-To: <cover.1334940120.git.sgw@linux.intel.com>
 References: <cover.1334940120.git.sgw@linux.intel.com>
-Subject: [CONSOLIDATED PULL 04/43] connman: backport test script fixes
+Subject: [CONSOLIDATED PULL 11/43] grep: Use update-alternatives
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -33,153 +33,100 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 20 Apr 2012 16:55:28 -0000
+X-List-Received-Date: Fri, 20 Apr 2012 16:55:30 -0000
 
-From: Otavio Salvador <otavio@ossystems.com.br>
+From: Mark Hatle <mark.hatle@windriver.com>
 
-Those fixes are required to get the test scripts to work with current
-0.79 DBus API.
+Use ALTERNATIVE_LINKS to be sure the links and provide info is setup
+properly.
 
-Signed-off-by: Otavio Salvador <otavio@ossystems.com.br>
+Signed-off-by: Mark Hatle <mark.hatle@windriver.com>
 ---
- .../connman/test-set-ipv4-method-api-fix.patch     |   50 ++++++++++++++++++
- .../connman/test-set-ipv6-method-api-fix.patch     |   55 ++++++++++++++++++++
- meta/recipes-connectivity/connman/connman_0.79.bb  |    4 +-
- 3 files changed, 108 insertions(+), 1 deletions(-)
- create mode 100644 meta/recipes-connectivity/connman/connman/test-set-ipv4-method-api-fix.patch
- create mode 100644 meta/recipes-connectivity/connman/connman/test-set-ipv6-method-api-fix.patch
+ meta/recipes-extended/grep/grep_2.5.1a.bb |   25 +++++++++----------------
+ meta/recipes-extended/grep/grep_2.9.bb    |   22 ++++++++--------------
+ 2 files changed, 17 insertions(+), 30 deletions(-)
 
-diff --git a/meta/recipes-connectivity/connman/connman/test-set-ipv4-method-api-fix.patch b/meta/recipes-connectivity/connman/connman/test-set-ipv4-method-api-fix.patch
-new file mode 100644
-index 0000000..78eb19a
---- /dev/null
-+++ b/meta/recipes-connectivity/connman/connman/test-set-ipv4-method-api-fix.patch
-@@ -0,0 +1,50 @@
-+From 0b817dd3096f5c3ca8f0b868ee55ea550054137b Mon Sep 17 00:00:00 2001
-+From: Daniel Wagner <daniel.wagner@bmw-carit.de>
-+Date: Mon, 19 Mar 2012 14:03:27 +0100
-+Subject: [PATCH 3/3] set-ipv4-method: The arguments have to be wrapped into a
-+ variant
+diff --git a/meta/recipes-extended/grep/grep_2.5.1a.bb b/meta/recipes-extended/grep/grep_2.5.1a.bb
+index 64064fc..332a4d0 100644
+--- a/meta/recipes-extended/grep/grep_2.5.1a.bb
++++ b/meta/recipes-extended/grep/grep_2.5.1a.bb
+@@ -5,7 +5,7 @@ SECTION = "console/utils"
+ LICENSE = "GPLv2"
+ LIC_FILES_CHKSUM = "file://COPYING;md5=0636e73ff0215e8d672dc4c32c317bb3"
+ 
+-PR = "r1"
++PR = "r2"
+ 
+ SRC_URI = "${GNU_MIRROR}/grep/grep-${PV}.tar.bz2 \
+            file://uclibc-fix.patch"
+@@ -21,23 +21,16 @@ do_configure_prepend () {
+ 	rm -f ${S}/m4/init.m4
+ }
+ 
++inherit update-alternatives
 +
-+Fixes BMC#24986
++ALTERNATIVE_LINKS = "${base_bindir}/grep ${base_bindir}/egrep ${base_bindir}/fgrep"
++ALTERNATIVE_PRIORITY = "100"
 +
-+Upstream-Status: Backport
+ do_install () {
+ 	autotools_do_install
+ 	install -d ${D}${base_bindir}
+-	mv ${D}${bindir}/grep ${D}${base_bindir}/grep.${PN}
+-	mv ${D}${bindir}/egrep ${D}${base_bindir}/egrep.${PN}
+-	mv ${D}${bindir}/fgrep ${D}${base_bindir}/fgrep.${PN}
++	mv ${D}${bindir}/grep ${D}${base_bindir}/grep
++	mv ${D}${bindir}/egrep ${D}${base_bindir}/egrep
++	mv ${D}${bindir}/fgrep ${D}${base_bindir}/fgrep
+ 	rmdir ${D}${bindir}/
+ }
+-
+-pkg_postinst_${PN} () {
+-	update-alternatives --install ${base_bindir}/grep grep grep.${PN} 100
+-	update-alternatives --install ${base_bindir}/egrep egrep egrep.${PN} 100
+-	update-alternatives --install ${base_bindir}/fgrep fgrep fgrep.${PN} 100
+-}
+-
+-pkg_prerm_${PN} () {
+-	update-alternatives --remove grep grep.${PN}
+-	update-alternatives --remove egrep egrep.${PN}
+-	update-alternatives --remove fgrep fgrep.${PN}
+-}
+diff --git a/meta/recipes-extended/grep/grep_2.9.bb b/meta/recipes-extended/grep/grep_2.9.bb
+index 1bc79f2..7710e65 100644
+--- a/meta/recipes-extended/grep/grep_2.9.bb
++++ b/meta/recipes-extended/grep/grep_2.9.bb
+@@ -21,23 +21,17 @@ do_configure_prepend () {
+ 	rm -f ${S}/m4/init.m4
+ }
+ 
++inherit update-alternatives
 +
-+Signed-off-by: Otavio Salvador <otavio@ossystems.com.br>
-+---
-+ test/set-ipv4-method |   11 +++++++----
-+ 1 file changed, 7 insertions(+), 4 deletions(-)
++ALTERNATIVE_LINKS = "${base_bindir}/grep ${base_bindir}/egrep ${base_bindir}/fgrep"
++ALTERNATIVE_PRIORITY = "100"
 +
-+diff --git a/test/set-ipv4-method b/test/set-ipv4-method
-+index 820b24b..235113f 100755
-+--- a/test/set-ipv4-method
-++++ b/test/set-ipv4-method
-+@@ -3,6 +3,9 @@
-+ import sys
-+ import dbus
-+ 
-++def make_variant(string):
-++	return dbus.String(string, variant_level=1)
-++
-+ def print_usage():
-+ 	print "Usage: %s <service> [off|dhcp|manual <address> [netmask] [gateway]]" % (sys.argv[0])
-+ 
-+@@ -20,13 +23,13 @@ properties = service.GetProperties()
-+ 
-+ print "Setting method %s for %s" % (sys.argv[2], sys.argv[1])
-+ 
-+-ipv4_configuration = { "Method": sys.argv[2] }
-++ipv4_configuration = { "Method": make_variant(sys.argv[2]) }
-+ if (len(sys.argv) > 3):
-+-	ipv4_configuration["Address"] = sys.argv[3]
-++	ipv4_configuration["Address"] = make_variant(sys.argv[3])
-+ if (len(sys.argv) > 4):
-+-	ipv4_configuration["Netmask"] = sys.argv[4]
-++	ipv4_configuration["Netmask"] = make_variant(sys.argv[4])
-+ if (len(sys.argv) > 5):
-+-        ipv4_configuration["Gateway"] = sys.argv[5]
-++        ipv4_configuration["Gateway"] = make_variant(sys.argv[5])
-+ 
-+ service.SetProperty("IPv4.Configuration", ipv4_configuration)
-+ print "New IPv4.Configuration: ", ipv4_configuration
-+-- 
-+1.7.9.5
-+
-diff --git a/meta/recipes-connectivity/connman/connman/test-set-ipv6-method-api-fix.patch b/meta/recipes-connectivity/connman/connman/test-set-ipv6-method-api-fix.patch
-new file mode 100644
-index 0000000..773127b
---- /dev/null
-+++ b/meta/recipes-connectivity/connman/connman/test-set-ipv6-method-api-fix.patch
-@@ -0,0 +1,55 @@
-+From 2885e71c9c0df7ea9866e91ab79d255eaa8de53d Mon Sep 17 00:00:00 2001
-+From: Daniel Wagner <daniel.wagner@bmw-carit.de>
-+Date: Mon, 19 Mar 2012 14:03:28 +0100
-+Subject: [PATCH 2/3] set-ipv6-method: The arguments have to be wrapped into a
-+ variant
-+
-+Fixes BMC#24986
-+
-+Upstream-Status: Backport
-+
-+Signed-off-by: Otavio Salvador <otavio@ossystems.com.br>
-+---
-+ test/set-ipv6-method |   13 ++++++++-----
-+ 1 file changed, 8 insertions(+), 5 deletions(-)
-+
-+diff --git a/test/set-ipv6-method b/test/set-ipv6-method
-+index 7f60b88..4f2de09 100755
-+--- a/test/set-ipv6-method
-++++ b/test/set-ipv6-method
-+@@ -3,6 +3,9 @@
-+ import sys
-+ import dbus
-+ 
-++def make_variant(string):
-++	return dbus.String(string, variant_level=1)
-++
-+ def print_usage():
-+ 	print "Usage: %s <service> off|manual|auto [<address> [prefixlen] [gateway]] [<privacy>]" % (sys.argv[0])
-+ 
-+@@ -19,17 +22,17 @@ properties = service.GetProperties()
-+ 
-+ print "Setting method %s for %s" % (sys.argv[2], sys.argv[1])
-+ 
-+-ipv6_configuration = { "Method": sys.argv[2] }
-++ipv6_configuration = { "Method": make_variant(sys.argv[2])}
-+ if sys.argv[2] == "auto":
-+ 	if (len(sys.argv) > 3):
-+-		ipv6_configuration["Privacy"] = sys.argv[3]
-++		ipv6_configuration["Privacy"] = make_variant(sys.argv[3])
-+ else:
-+ 	if (len(sys.argv) > 3):
-+-		ipv6_configuration["Address"] = sys.argv[3]
-++		ipv6_configuration["Address"] = make_variant(sys.argv[3])
-+ 	if (len(sys.argv) > 4):
-+-		ipv6_configuration["PrefixLength"] = sys.argv[4]
-++		ipv6_configuration["PrefixLength"] = make_variant(sys.argv[4])
-+ 	if (len(sys.argv) > 5):
-+-		ipv6_configuration["Gateway"] = sys.argv[5]
-++		ipv6_configuration["Gateway"] = make_variant(sys.argv[5])
-+ 
-+ service.SetProperty("IPv6.Configuration", ipv6_configuration)
-+ print "New IPv6.Configuration: ", ipv6_configuration
-+-- 
-+1.7.9.5
-+
-diff --git a/meta/recipes-connectivity/connman/connman_0.79.bb b/meta/recipes-connectivity/connman/connman_0.79.bb
-index da48e94..4c57dab 100644
---- a/meta/recipes-connectivity/connman/connman_0.79.bb
-+++ b/meta/recipes-connectivity/connman/connman_0.79.bb
-@@ -7,6 +7,8 @@ SRC_URI  = "git://git.kernel.org/pub/scm/network/connman/connman.git \
-             file://ethernet_default.patch \
-             file://disable_alg-test.patch \
-             file://0001-plugin.h-Change-visibility-to-default-for-debug-symb.patch \
-+            file://test-set-ipv4-method-api-fix.patch \
-+            file://test-set-ipv6-method-api-fix.patch \
-             file://connman"
- S = "${WORKDIR}/git"
--PR = "r2"
-+PR = "r3"
+ do_install () {
+ 	autotools_do_install
+ 	install -d ${D}${base_bindir}
+-	mv ${D}${bindir}/grep ${D}${base_bindir}/grep.${PN}
+-	mv ${D}${bindir}/egrep ${D}${base_bindir}/egrep.${PN}
+-	mv ${D}${bindir}/fgrep ${D}${base_bindir}/fgrep.${PN}
++	mv ${D}${bindir}/grep ${D}${base_bindir}/grep
++	mv ${D}${bindir}/egrep ${D}${base_bindir}/egrep
++	mv ${D}${bindir}/fgrep ${D}${base_bindir}/fgrep
+ 	rmdir ${D}${bindir}/
+ }
+ 
+-pkg_postinst_${PN} () {
+-	update-alternatives --install ${base_bindir}/grep grep grep.${PN} 100
+-	update-alternatives --install ${base_bindir}/egrep egrep egrep.${PN} 100
+-	update-alternatives --install ${base_bindir}/fgrep fgrep fgrep.${PN} 100
+-}
+-
+-pkg_prerm_${PN} () {
+-	update-alternatives --remove grep grep.${PN}
+-	update-alternatives --remove egrep egrep.${PN}
+-	update-alternatives --remove fgrep fgrep.${PN}
+-}
 -- 
 1.7.7.6
 
