@@ -1,24 +1,24 @@
 Received: from mga01.intel.com ([192.55.52.88])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <sgw@linux.intel.com>) id 1SLH7E-0005je-IZ
+	(envelope-from <sgw@linux.intel.com>) id 1SLH7H-0005tX-4m
 	for openembedded-core@lists.openembedded.org;
-	Fri, 20 Apr 2012 18:55:25 +0200
+	Fri, 20 Apr 2012 18:55:27 +0200
 Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-	by fmsmga101.fm.intel.com with ESMTP; 20 Apr 2012 09:45:36 -0700
+	by fmsmga101.fm.intel.com with ESMTP; 20 Apr 2012 09:45:37 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="156167817"
+X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="156167828"
 Received: from unknown (HELO swold-mobl.bigsur.com) ([10.255.12.163])
-	by fmsmga002.fm.intel.com with ESMTP; 20 Apr 2012 09:45:36 -0700
+	by fmsmga002.fm.intel.com with ESMTP; 20 Apr 2012 09:45:37 -0700
 From: Saul Wold <sgw@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Fri, 20 Apr 2012 09:44:52 -0700
-Message-Id: <eba75c041a60939d158a949742574cffc0e4a204.1334940120.git.sgw@linux.intel.com>
+Date: Fri, 20 Apr 2012 09:44:58 -0700
+Message-Id: <48d8199062c2f9a8c6e0b435e7dfe0292bca507f.1334940120.git.sgw@linux.intel.com>
 X-Mailer: git-send-email 1.7.7.6
 In-Reply-To: <cover.1334940120.git.sgw@linux.intel.com>
 References: <cover.1334940120.git.sgw@linux.intel.com>
 In-Reply-To: <cover.1334940120.git.sgw@linux.intel.com>
 References: <cover.1334940120.git.sgw@linux.intel.com>
-Subject: [CONSOLIDATED PULL 01/43] augeas: Add libxml2 dependency
+Subject: [CONSOLIDATED PULL 07/43] wpa-supplicant: move wpa_passphrase to bindir
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -33,43 +33,47 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 20 Apr 2012 16:55:26 -0000
+X-List-Received-Date: Fri, 20 Apr 2012 16:55:28 -0000
 
-From: Martin Donnelly <martin.donnelly@ge.com>
+From: Andreas Oberritter <obi@opendreambox.org>
 
-This patch fixes the following Augeas configure error.
+* wpa_passphrase doesn't require special privileges.
 
-| checking for LIBXML... no
-| configure: error: Package requirements (libxml-2.0) were not met:
-|
-| No package 'libxml-2.0' found
-|
-| Consider adjusting the PKG_CONFIG_PATH environment variable if you
-| installed software in a non-standard prefix.
-|
-| Alternatively, you may set the environment variables LIBXML_CFLAGS
-| and LIBXML_LIBS to avoid the need to call pkg-config.
-| See the pkg-config man page for more details.
-| ERROR: oe_runconf failed
-
-Signed-off-by: Martin Donnelly <martin.donnelly@ge.com>
+Signed-off-by: Andreas Oberritter <obi@opendreambox.org>
 ---
- meta/recipes-extended/augeas/augeas.inc |    2 +-
- 1 files changed, 1 insertions(+), 1 deletions(-)
+ .../wpa-supplicant/wpa-supplicant-0.7.inc          |    4 +++-
+ .../wpa-supplicant/wpa-supplicant_0.7.3.bb         |    2 +-
+ 2 files changed, 4 insertions(+), 2 deletions(-)
 
-diff --git a/meta/recipes-extended/augeas/augeas.inc b/meta/recipes-extended/augeas/augeas.inc
-index 40be762..9fe864d 100644
---- a/meta/recipes-extended/augeas/augeas.inc
-+++ b/meta/recipes-extended/augeas/augeas.inc
-@@ -7,7 +7,7 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=bbb461211a33b134d42ed5ee802b37ff"
+diff --git a/meta/recipes-connectivity/wpa-supplicant/wpa-supplicant-0.7.inc b/meta/recipes-connectivity/wpa-supplicant/wpa-supplicant-0.7.inc
+index d92acac..aabb3df 100644
+--- a/meta/recipes-connectivity/wpa-supplicant/wpa-supplicant-0.7.inc
++++ b/meta/recipes-connectivity/wpa-supplicant/wpa-supplicant-0.7.inc
+@@ -36,9 +36,11 @@ do_compile () {
+ do_install () {
+ 	install -d ${D}${sbindir}
+ 	install -m 755 wpa_supplicant ${D}${sbindir}
+-	install -m 755 wpa_passphrase ${D}${sbindir}
+ 	install -m 755 wpa_cli        ${D}${sbindir}
  
- SRC_URI = "http://augeas.net/download/${BP}.tar.gz"
++	install -d ${D}${bindir}
++	install -m 755 wpa_passphrase ${D}${bindir}
++
+ 	install -d ${D}${docdir}/wpa_supplicant
+ 	install -m 644 README ${WORKDIR}/wpa_supplicant.conf ${D}${docdir}/wpa_supplicant
  
--DEPENDS = "readline"
-+DEPENDS = "readline libxml2"
+diff --git a/meta/recipes-connectivity/wpa-supplicant/wpa-supplicant_0.7.3.bb b/meta/recipes-connectivity/wpa-supplicant/wpa-supplicant_0.7.3.bb
+index 94c88ba..dc2eb6c 100644
+--- a/meta/recipes-connectivity/wpa-supplicant/wpa-supplicant_0.7.3.bb
++++ b/meta/recipes-connectivity/wpa-supplicant/wpa-supplicant_0.7.3.bb
+@@ -1,6 +1,6 @@
+ require wpa-supplicant-0.7.inc
  
- inherit autotools
+-PR = "r8"
++PR = "r9"
  
+ SRC_URI[md5sum] = "f516f191384a9a546e3f5145c08addda"
+ SRC_URI[sha256sum] = "d0cd50caa85346ccc376dcda5ed3c258eef19a93b3cade39d25760118ad59443"
 -- 
 1.7.7.6
 
