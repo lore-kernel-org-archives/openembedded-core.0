@@ -1,24 +1,24 @@
 Received: from mga11.intel.com ([192.55.52.93])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <sgw@linux.intel.com>) id 1SLH7B-0005g0-GQ
+	(envelope-from <sgw@linux.intel.com>) id 1SLH7C-0005g2-24
 	for openembedded-core@lists.openembedded.org;
 	Fri, 20 Apr 2012 18:55:22 +0200
 Received: from fmsmga002.fm.intel.com ([10.253.24.26])
 	by fmsmga102.fm.intel.com with ESMTP; 20 Apr 2012 09:45:44 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="156167920"
+X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="156167922"
 Received: from unknown (HELO swold-mobl.bigsur.com) ([10.255.12.163])
 	by fmsmga002.fm.intel.com with ESMTP; 20 Apr 2012 09:45:44 -0700
 From: Saul Wold <sgw@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Fri, 20 Apr 2012 09:45:28 -0700
-Message-Id: <4c6bc49ad300ae99ebb822d304a4d896eed7b756.1334940120.git.sgw@linux.intel.com>
+Date: Fri, 20 Apr 2012 09:45:29 -0700
+Message-Id: <64ccaa20d275b54963973f68f53a31b4f6e044c4.1334940120.git.sgw@linux.intel.com>
 X-Mailer: git-send-email 1.7.7.6
 In-Reply-To: <cover.1334940120.git.sgw@linux.intel.com>
 References: <cover.1334940120.git.sgw@linux.intel.com>
 In-Reply-To: <cover.1334940120.git.sgw@linux.intel.com>
 References: <cover.1334940120.git.sgw@linux.intel.com>
-Subject: [CONSOLIDATED PULL 37/43] gcc: Add plugins package for ARM, fix /usr/incude packaging
+Subject: [CONSOLIDATED PULL 38/43] quilt: move empty quiltrc to native sysconfdir
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -35,48 +35,86 @@ List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedde
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Fri, 20 Apr 2012 16:55:22 -0000
 
-WARNING: For recipe gcc, the following files/directories were installed but not shipped in any package:
-WARNING:   /usr/include
-WARNING:   /usr/lib/gcc/arm-poky-linux-gnueabi/4.6.4/plugin/libgcc
-WARNING:   /usr/lib/gcc/arm-poky-linux-gnueabi/4.6.4/plugin/libgcc/config
-WARNING:   /usr/lib/gcc/arm-poky-linux-gnueabi/4.6.4/plugin/libgcc/config/arm
-WARNING:   /usr/lib/gcc/arm-poky-linux-gnueabi/4.6.4/plugin/libgcc/config/arm/bpabi-lib.h
+patch.bbclass orignally pointed at /usr/bin/quiltrc for an empty
+version to ensure that no user setting were picked up, change this
+to /etc/quiltrc in the Native sysroot since we now have a native
+sysconfdir.
+
+Make sure that the quiltrc is actually installed in the Native
+sysconfdir, not the target, so fix this after the recipe split.
+
 Signed-off-by: Saul Wold <sgw@linux.intel.com>
 ---
- meta/recipes-devtools/gcc/gcc-package-target.inc |    8 +++++++-
- 1 files changed, 7 insertions(+), 1 deletions(-)
+ meta/classes/patch.bbclass                       |    2 +-
+ meta/recipes-devtools/quilt/quilt-0.51.inc       |    5 -----
+ meta/recipes-devtools/quilt/quilt-native.inc     |    6 ++++++
+ meta/recipes-devtools/quilt/quilt-native_0.51.bb |    2 +-
+ meta/recipes-devtools/quilt/quilt_0.51.bb        |    2 +-
+ 5 files changed, 9 insertions(+), 8 deletions(-)
 
-diff --git a/meta/recipes-devtools/gcc/gcc-package-target.inc b/meta/recipes-devtools/gcc/gcc-package-target.inc
-index 3076670..a499c88 100644
---- a/meta/recipes-devtools/gcc/gcc-package-target.inc
-+++ b/meta/recipes-devtools/gcc/gcc-package-target.inc
-@@ -1,5 +1,5 @@
- PACKAGES = "\
--  ${PN} ${PN}-symlinks \
-+  ${PN} ${PN}-plugins ${PN}-symlinks \
-   g++ g++-symlinks \
-   cpp cpp-symlinks \
-   g77 g77-symlinks \
-@@ -40,6 +40,11 @@ FILES_${PN}-symlinks = "\
-   ${bindir}/gccbug \
- "
+diff --git a/meta/classes/patch.bbclass b/meta/classes/patch.bbclass
+index 31db9e3..3c4d997 100644
+--- a/meta/classes/patch.bbclass
++++ b/meta/classes/patch.bbclass
+@@ -1,7 +1,7 @@
+ # Copyright (C) 2006  OpenedHand LTD
  
-+FILES_${PN}-plugins = "\
-+  ${gcclibdir}/${TARGET_SYS}/${BINV}/plugin \
-+"
-+ALLOW_EMPTY_${PN}-plugins = "1"
+ # Point to an empty file so any user's custom settings don't break things
+-QUILTRCFILE ?= "${STAGING_BINDIR_NATIVE}/quiltrc"
++QUILTRCFILE ?= "${STAGING_ETCDIR_NATIVE}/quiltrc"
+ 
+ PATCHDEPENDENCY = "${PATCHTOOL}-native:do_populate_sysroot"
+ 
+diff --git a/meta/recipes-devtools/quilt/quilt-0.51.inc b/meta/recipes-devtools/quilt/quilt-0.51.inc
+index e89013a..824e624 100644
+--- a/meta/recipes-devtools/quilt/quilt-0.51.inc
++++ b/meta/recipes-devtools/quilt/quilt-0.51.inc
+@@ -24,11 +24,6 @@ RDEPENDS_${PN} = "bash"
+ # quilt ignores DESTDIR
+ do_install () {
+ 	oe_runmake 'BUILD_ROOT=${D}' install
+-	if [ "${BUILD_ARCH}" == "${HOST_ARCH}" ]; then
+-		# Dummy quiltrc file for patch.bbclass
+-		install -d ${D}${bindir}/
+-		touch ${D}${bindir}/quiltrc
+-	fi
+ 	# cleanup unpackaged files
+ 	rm -rf ${D}/${datadir}/emacs
+ }
+diff --git a/meta/recipes-devtools/quilt/quilt-native.inc b/meta/recipes-devtools/quilt/quilt-native.inc
+index 7efea02..9345d88 100644
+--- a/meta/recipes-devtools/quilt/quilt-native.inc
++++ b/meta/recipes-devtools/quilt/quilt-native.inc
+@@ -11,3 +11,9 @@ EXTRA_OECONF = "--disable-nls"
+ do_configure () {
+ 	oe_runconf
+ }
 +
- FILES_g77 = "\
-   ${bindir}/${TARGET_PREFIX}g77 \
-   ${libexecdir}/gcc/${TARGET_SYS}/${BINV}/f771 \
-@@ -88,6 +93,7 @@ do_install () {
- 	rm -r ${D}${libdir}/gcc/${TARGET_SYS}/${BINV}/install-tools
- 	rm -r ${D}${libexecdir}/gcc/${TARGET_SYS}/${BINV}/install-tools
- 	rm -rf ${D}${libexecdir}/gcc/${TARGET_SYS}/${BINV}/*.la
-+	rmdir ${D}${includedir}
++do_install_append () {
++	# Dummy quiltrc file for patch.bbclass
++	install -d ${D}${sysconfdir}/
++	touch ${D}${sysconfdir}/quiltrc
++}
+diff --git a/meta/recipes-devtools/quilt/quilt-native_0.51.bb b/meta/recipes-devtools/quilt/quilt-native_0.51.bb
+index b99b9b6..1494bf2 100644
+--- a/meta/recipes-devtools/quilt/quilt-native_0.51.bb
++++ b/meta/recipes-devtools/quilt/quilt-native_0.51.bb
+@@ -1,4 +1,4 @@
+ require quilt-${PV}.inc
+ require quilt-native.inc
  
- 	# Hack around specs file assumptions
- 	test -f ${D}${libdir}/gcc/${TARGET_SYS}/${BINV}/specs && sed -i -e '/^*cross_compile:$/ { n; s/1/0/; }' ${D}${libdir}/gcc/${TARGET_SYS}/${BINV}/specs
+-PR = "r0"
++PR = "r1"
+diff --git a/meta/recipes-devtools/quilt/quilt_0.51.bb b/meta/recipes-devtools/quilt/quilt_0.51.bb
+index bc62161..6865cd8 100644
+--- a/meta/recipes-devtools/quilt/quilt_0.51.bb
++++ b/meta/recipes-devtools/quilt/quilt_0.51.bb
+@@ -4,4 +4,4 @@ RDEPENDS_${PN} += "patch diffstat bzip2 util-linux"
+ SRC_URI += "file://aclocal.patch \
+             file://gnu_patch_test_fix_target.patch \
+            "
+-PR = "r2"
++PR = "r3"
 -- 
 1.7.7.6
 
