@@ -1,26 +1,26 @@
-Received: from vms173003pub.verizon.net ([206.46.173.3])
+Received: from mga09.intel.com ([134.134.136.24])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <denis@denix.org>) id 1SLKDg-00035q-RN
+	(envelope-from <sgw@linux.intel.com>) id 1SLKJo-0003Ai-TA
 	for openembedded-core@lists.openembedded.org;
-	Fri, 20 Apr 2012 22:14:17 +0200
-Received: from gandalf.denix.org ([unknown] [71.178.225.66])
-	by vms173003.mailsrvcs.net
-	(Sun Java(tm) System Messaging Server 7u2-7.02 32bit (built Apr 16
-	2009)) with ESMTPA id <0M2S006O3NR3BC11@vms173003.mailsrvcs.net> for
-	openembedded-core@lists.openembedded.org;
-	Fri, 20 Apr 2012 15:04:16 -0500 (CDT)
-Received: by gandalf.denix.org (Postfix, from userid 1000)	id B7A9E201A7; Fri,
-	20 Apr 2012 16:04:15 -0400 (EDT)
-Date: Fri, 20 Apr 2012 16:04:15 -0400
-From: Denys Dmytriyenko <denis@denix.org>
+	Fri, 20 Apr 2012 22:20:37 +0200
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+	by orsmga102.jf.intel.com with ESMTP; 20 Apr 2012 13:10:47 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.67,351,1309762800"; d="scan'208";a="134944311"
+Received: from unknown (HELO [10.255.12.163]) ([10.255.12.163])
+	by orsmga002.jf.intel.com with ESMTP; 20 Apr 2012 13:10:47 -0700
+Message-ID: <4F91C2C7.5040509@linux.intel.com>
+Date: Fri, 20 Apr 2012 13:10:47 -0700
+From: Saul Wold <sgw@linux.intel.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:11.0) Gecko/20120329 Thunderbird/11.0.1
+MIME-Version: 1.0
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Message-id: <20120420200415.GE8228@denix.org>
 References: <cover.1334940120.git.sgw@linux.intel.com>
 	<d2330607b1757ad68add6ab2b37c6182b4f28d00.1334940120.git.sgw@linux.intel.com>
-MIME-version: 1.0
-In-reply-to: <d2330607b1757ad68add6ab2b37c6182b4f28d00.1334940120.git.sgw@linux.intel.com>
-User-Agent: Mutt/1.5.20 (2009-06-14)
+	<20120420200415.GE8228@denix.org>
+In-Reply-To: <20120420200415.GE8228@denix.org>
 Subject: Re: [CONSOLIDATED PULL 02/43] rt-tests: fix dependency on eglibc, clean LDFLAGS passing
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
@@ -36,50 +36,27 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 20 Apr 2012 20:14:17 -0000
-Content-type: text/plain; charset=us-ascii
-Content-disposition: inline
+X-List-Received-Date: Fri, 20 Apr 2012 20:20:37 -0000
+Content-Type: text/plain; charset=ISO-8859-1; format=flowed
+Content-Transfer-Encoding: 7bit
 
-On Fri, Apr 20, 2012 at 09:44:53AM -0700, Saul Wold wrote:
-> From: Denys Dmytriyenko <denys@ti.com>
-> 
-> Replace dependency on eglibc with virtual/libc
-> Pass LDFLAGS to TARGET_CC_ARCH, instead of CFLAGS as Makefile overrides it
-> 
-> Signed-off-by: Denys Dmytriyenko <denys@ti.com>
+On 04/20/2012 01:04 PM, Denys Dmytriyenko wrote:
+> On Fri, Apr 20, 2012 at 09:44:53AM -0700, Saul Wold wrote:
+>> From: Denys Dmytriyenko<denys@ti.com>
+>>
+>> Replace dependency on eglibc with virtual/libc
+>> Pass LDFLAGS to TARGET_CC_ARCH, instead of CFLAGS as Makefile overrides it
+>>
+>> Signed-off-by: Denys Dmytriyenko<denys@ti.com>
+>
+> That's already been fixed differently:
+> http://cgit.openembedded.org/openembedded-core/commit/?id=fb89e4585644db0958a633a637fc70f0459af26a
+>
+Thanks, I had it in my holding bin and must have just not matched up 
+with this patch.
 
-That's already been fixed differently:
-http://cgit.openembedded.org/openembedded-core/commit/?id=fb89e4585644db0958a633a637fc70f0459af26a
+I will update my branch with this removed.
 
--- 
-Denys
-
-
-> ---
->  meta/recipes-rt/rt-tests/rt-tests_0.83.bb |    3 +--
->  1 files changed, 1 insertions(+), 2 deletions(-)
-> 
-> diff --git a/meta/recipes-rt/rt-tests/rt-tests_0.83.bb b/meta/recipes-rt/rt-tests/rt-tests_0.83.bb
-> index 6c4931e..e38ada9 100644
-> --- a/meta/recipes-rt/rt-tests/rt-tests_0.83.bb
-> +++ b/meta/recipes-rt/rt-tests/rt-tests_0.83.bb
-> @@ -18,8 +18,7 @@ SRC_URI = "git://github.com/clrkwllms/rt-tests.git \
->  
->  S = "${WORKDIR}/git"
->  
-> -# need to append rt-tests' default CFLAGS to ours
-> -CFLAGS += "-I${S}/src/include -D_GNU_SOURCE -Wall -Wno-nonnulli"
-> +TARGET_CC_ARCH += "${LDFLAGS}"
->  
->  # calling 'uname -m' is broken on crossbuilds
->  EXTRA_OEMAKE = "NUMA=0"
-> -- 
-> 1.7.7.6
-> 
-> 
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
+Sau!
 
 
