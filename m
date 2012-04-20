@@ -1,24 +1,24 @@
 Received: from mga01.intel.com ([192.55.52.88])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <sgw@linux.intel.com>) id 1SLH7O-0005je-Q7
+	(envelope-from <sgw@linux.intel.com>) id 1SLH7Q-0005je-C7
 	for openembedded-core@lists.openembedded.org;
-	Fri, 20 Apr 2012 18:55:35 +0200
+	Fri, 20 Apr 2012 18:55:39 +0200
 Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-	by fmsmga101.fm.intel.com with ESMTP; 20 Apr 2012 09:45:39 -0700
+	by fmsmga101.fm.intel.com with ESMTP; 20 Apr 2012 09:45:38 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="156167856"
+X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="156167835"
 Received: from unknown (HELO swold-mobl.bigsur.com) ([10.255.12.163])
-	by fmsmga002.fm.intel.com with ESMTP; 20 Apr 2012 09:45:39 -0700
+	by fmsmga002.fm.intel.com with ESMTP; 20 Apr 2012 09:45:38 -0700
 From: Saul Wold <sgw@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Fri, 20 Apr 2012 09:45:05 -0700
-Message-Id: <cf03b1bea3db2a20b13888f752ae76589704a9d8.1334940120.git.sgw@linux.intel.com>
+Date: Fri, 20 Apr 2012 09:45:01 -0700
+Message-Id: <7dcff6e7656e0930fb9102df201cb2021b3c1eb6.1334940120.git.sgw@linux.intel.com>
 X-Mailer: git-send-email 1.7.7.6
 In-Reply-To: <cover.1334940120.git.sgw@linux.intel.com>
 References: <cover.1334940120.git.sgw@linux.intel.com>
 In-Reply-To: <cover.1334940120.git.sgw@linux.intel.com>
 References: <cover.1334940120.git.sgw@linux.intel.com>
-Subject: [CONSOLIDATED PULL 14/43] iputils: Use update-alternatives
+Subject: [CONSOLIDATED PULL 10/43] coreutils_*.bb: Sync up file path with busybox and minor cleanup
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -33,41 +33,131 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 20 Apr 2012 16:55:36 -0000
+X-List-Received-Date: Fri, 20 Apr 2012 16:55:44 -0000
 
 From: Mark Hatle <mark.hatle@windriver.com>
 
-Use MANUAL_ALTERNATIVE_LINKS to ensure that the package provides
-are being setup properly.
+We need to ensure that the filepaths used by coreutils and busybox are
+the same.  Do this for base64, mktemp and df.  Also remove references
+to hostname/uptime in 8.14 version as these were only relevant for the
+older 6.9 version.
+
+su from the 6.9 version is removed, as it should come from shadow.
+
+(No PR bumps, as the previous patch did that.)
 
 Signed-off-by: Mark Hatle <mark.hatle@windriver.com>
 ---
- meta/recipes-extended/iputils/iputils_s20101006.bb |    5 ++++-
- 1 files changed, 4 insertions(+), 1 deletions(-)
+ meta/recipes-core/coreutils/coreutils_6.9.bb  |   10 +++++++---
+ meta/recipes-core/coreutils/coreutils_8.14.bb |   23 +++--------------------
+ 2 files changed, 10 insertions(+), 23 deletions(-)
 
-diff --git a/meta/recipes-extended/iputils/iputils_s20101006.bb b/meta/recipes-extended/iputils/iputils_s20101006.bb
-index a092192..aadcaf3 100644
---- a/meta/recipes-extended/iputils/iputils_s20101006.bb
-+++ b/meta/recipes-extended/iputils/iputils_s20101006.bb
-@@ -13,7 +13,7 @@ LIC_FILES_CHKSUM = "file://ping.c;beginline=1;endline=35;md5=f9ceb201733e9a6cf8f
+diff --git a/meta/recipes-core/coreutils/coreutils_6.9.bb b/meta/recipes-core/coreutils/coreutils_6.9.bb
+index 32ea321..597d457 100644
+--- a/meta/recipes-core/coreutils/coreutils_6.9.bb
++++ b/meta/recipes-core/coreutils/coreutils_6.9.bb
+@@ -34,7 +34,7 @@ ALTERNATIVE_PRIORITY = "100"
+ ALTERNATIVE_LINKS = ""
  
- DEPENDS = "sysfsutils openssl docbook-utils-native sgmlspl-native"
+ # [ gets a special treatment and is not included in this
+-bindir_progs = "base64 basename cksum comm csplit cut dir dircolors dirname du \
++bindir_progs = "basename cksum comm csplit cut dir dircolors dirname du \
+                 env expand expr factor fmt fold groups head hostid id install \
+                 join link logname md5sum mkfifo nice nl nohup od paste pathchk \
+                 pinky pr printenv printf ptx readlink seq sha1sum sha224sum sha256sum \
+@@ -43,7 +43,7 @@ bindir_progs = "base64 basename cksum comm csplit cut dir dircolors dirname du \
+ ALTERNATIVE_LINKS += "${bindir}/${@' ${bindir}/'.join((d.getVar('bindir_progs', True)).split())}"
  
--PR = "r3"
-+PR = "r4"
+ # hostname gets a special treatment and is not included in this
+-base_bindir_progs = "cat chgrp chmod chown cp date dd echo false kill ln ls mkdir \
++base_bindir_progs = "base64 cat chgrp chmod chown cp date dd df echo false kill ln ls mkdir \
+                      mknod mv pwd rm rmdir sleep stty sync touch true uname"
+ ALTERNATIVE_LINKS += "${base_bindir}/${@' ${base_bindir}/'.join((d.getVar('base_bindir_progs', True)).split())}"
  
- SRC_URI = "http://www.skbuff.net/iputils/${BPN}-${PV}.tar.bz2 \
-            file://debian/fix-dead-host-ping-stats.diff \
-@@ -47,6 +47,9 @@ do_install () {
- 	done
+@@ -69,12 +69,16 @@ do_install_append() {
+ 	# hostname and uptime separated. busybox's versions are preferred
+ 	mv ${D}${bindir}/hostname ${D}${base_bindir}/hostname.${PN}
+ 	mv ${D}${bindir}/uptime ${D}${bindir}/uptime.${PN}
++
++	# remove su, it should come from shadow or another package
++	rm ${D}${bindir}/su
  }
  
-+inherit update-alternatives
-+MANUAL_ALTERNATIVE_LINKS = "${base_bindir}/ping ${base_bindir}/ping6"
-+
- # Busybox also provides ping and ping6, so use update-alternatives
- # Also fixup SUID bit for applications that need it
- pkg_postinst_${PN}-ping () {
+ pkg_postinst_${PN} () {
+-	# Special cases. uptime and hostname is broken, prefer busybox's version. [ needs to be treated separately.
++	# Special cases. uptime and hostname is broken, prefer busybox's version.
+ 	update-alternatives --install ${bindir}/uptime uptime uptime.${PN} 10
+ 	update-alternatives --install ${base_bindir}/hostname hostname hostname.${PN} 10
++	# [ needs to be treated separately.
+ 	update-alternatives --install '${bindir}/[' '[' 'lbracket.${PN}' 100
+ }
+ 
+diff --git a/meta/recipes-core/coreutils/coreutils_8.14.bb b/meta/recipes-core/coreutils/coreutils_8.14.bb
+index 9ccb813..9994526 100644
+--- a/meta/recipes-core/coreutils/coreutils_8.14.bb
++++ b/meta/recipes-core/coreutils/coreutils_8.14.bb
+@@ -24,7 +24,7 @@ EXTRA_OECONF_virtclass-native = "--without-gmp"
+ ALTERNATIVE_PRIORITY = "100"
+ ALTERNATIVE_LINKS = ""
+ 
+-# [ df mktemp base64 gets a special treatment and is not included in this
++# [ gets a special treatment and is not included in this
+ bindir_progs = "basename chcon cksum comm csplit cut dir dircolors dirname du \
+                 env expand expr factor fmt fold groups head hostid id install \
+                 join link logname md5sum mkfifo nice nl nohup nproc od paste pathchk \
+@@ -33,18 +33,14 @@ bindir_progs = "basename chcon cksum comm csplit cut dir dircolors dirname du \
+                 tr truncate tsort tty unexpand uniq unlink uptime users vdir wc who whoami yes"
+ ALTERNATIVE_LINKS += "${bindir}/${@' ${bindir}/'.join((d.getVar('bindir_progs', True)).split())}"
+ 
+-# hostname gets a special treatment and is not included in this
+-base_bindir_progs = "cat chgrp chmod chown cp date dd echo false kill ln ls mkdir \
+-                     mknod mv pwd rm rmdir sleep stty sync touch true uname"
++base_bindir_progs = "base64 cat chgrp chmod chown cp date dd df echo false kill ln ls mkdir \
++                     mknod mktemp mv pwd rm rmdir sleep stty sync touch true uname"
+ ALTERNATIVE_LINKS += "${base_bindir}/${@' ${base_bindir}/'.join((d.getVar('base_bindir_progs', True)).split())}"
+ 
+ sbindir_progs= "chroot"
+ ALTERNATIVE_LINKS += "${sbindir}/${@' ${sbindir}/'.join((d.getVar('sbindir_progs', True)).split())}"
+ 
+ # Manual file provides for manually controlled alternatives
+-MANUAL_ALTERNATIVE_LINKS += "${base_bindir}/df:${bindir}/df.${PN}"
+-MANUAL_ALTERNATIVE_LINKS += "${base_bindir}/mktemp:${bindir}/mktemp.${PN}"
+-MANUAL_ALTERNATIVE_LINKS += "${base_bindir}/base64:${bindir}/base64.${PN}"
+ MANUAL_ALTERNATIVE_LINKS += "${bindir}/[:${bindir}/lbracket.${PN}"
+ 
+ do_install_append() {
+@@ -54,9 +50,6 @@ do_install_append() {
+ 	install -d ${D}${sbindir}
+ 	for i in ${sbindir_progs}; do mv ${D}${bindir}/$i ${D}${sbindir}/$i; done
+ 
+-	# Process the special items due to mismatch with busybox
+-	for i in df mktemp base64; do mv ${D}${bindir}/$i ${D}${bindir}/$i.${PN}; done
+-
+ 	# [ requires special handling because [.coreutils will cause the sed stuff
+ 	# in update-alternatives to fail, therefore use lbracket - the name used
+ 	# for the actual source file.
+@@ -69,21 +62,11 @@ do_install_append() {
+ pkg_postinst_${PN} () {
+ 	# Special cases. [ needs to be treated separately.
+ 	update-alternatives --install '${bindir}/[' '[' 'lbracket.${PN}' 100
+-	
+-	# Special cases. base64, mktemp and df need to be treated separately, because busybox have them in base_binding not bindir
+-	update-alternatives --install ${base_bindir}/base64 base64 ${bindir}/base64.${PN} 100;
+-	update-alternatives --install ${base_bindir}/mktemp mktemp ${bindir}/mktemp.${PN} 100;
+-	update-alternatives --install ${base_bindir}/df df ${bindir}/df.${PN} 100;
+ }
+ 
+ pkg_prerm_${PN} () {
+ 	# The special cases
+-	update-alternatives --remove hostname hostname.${PN}
+-	update-alternatives --remove uptime uptime.${PN}
+ 	update-alternatives --remove '[' 'lbracket.${PN}'
+-	update-alternatives --remove base64 ${bindir}/base64.${PN}
+-	update-alternatives --remove mktemp ${bindir}/mktemp.${PN}
+-	update-alternatives --remove df ${bindir}.df.${PN}
+ }
+ 
+ BBCLASSEXTEND = "native"
 -- 
 1.7.7.6
 
