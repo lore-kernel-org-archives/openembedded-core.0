@@ -1,22 +1,24 @@
-Received: from mga09.intel.com ([134.134.136.24])
+Received: from mga11.intel.com ([192.55.52.93])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <nitin.a.kamble@intel.com>) id 1SLGck-0003Mj-4M
+	(envelope-from <sgw@linux.intel.com>) id 1SLH71-0005g0-Jl
 	for openembedded-core@lists.openembedded.org;
-	Fri, 20 Apr 2012 18:23:54 +0200
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-	by orsmga102.jf.intel.com with ESMTP; 20 Apr 2012 09:14:23 -0700
+	Fri, 20 Apr 2012 18:55:11 +0200
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+	by fmsmga102.fm.intel.com with ESMTP; 20 Apr 2012 09:45:40 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.67,351,1309762800"; d="scan'208";a="134871633"
-Received: from nbuild0.sc.intel.com ([172.25.110.36])
-	by orsmga002.jf.intel.com with ESMTP; 20 Apr 2012 09:14:23 -0700
-From: nitin.a.kamble@intel.com
+X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="156167887"
+Received: from unknown (HELO swold-mobl.bigsur.com) ([10.255.12.163])
+	by fmsmga002.fm.intel.com with ESMTP; 20 Apr 2012 09:45:40 -0700
+From: Saul Wold <sgw@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Fri, 20 Apr 2012 09:14:22 -0700
-Message-Id: <253b7b71d5608c46d1ceaec9eaca1ad26bf5c552.1334938400.git.nitin.a.kamble@intel.com>
-X-Mailer: git-send-email 1.7.6.5
-In-Reply-To: <cover.1334938400.git.nitin.a.kamble@intel.com>
-References: <cover.1334938400.git.nitin.a.kamble@intel.com>
-Subject: [PATCH 1/1] libproxy: fix compilation with gcc 4.7
+Date: Fri, 20 Apr 2012 09:45:12 -0700
+Message-Id: <f13dd36d54db32c16a2d46112d2b7e76be169438.1334940120.git.sgw@linux.intel.com>
+X-Mailer: git-send-email 1.7.7.6
+In-Reply-To: <cover.1334940120.git.sgw@linux.intel.com>
+References: <cover.1334940120.git.sgw@linux.intel.com>
+In-Reply-To: <cover.1334940120.git.sgw@linux.intel.com>
+References: <cover.1334940120.git.sgw@linux.intel.com>
+Subject: [CONSOLIDATED PULL 21/43] console-tools: Use update-alternatives
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -31,72 +33,67 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 20 Apr 2012 16:23:54 -0000
+X-List-Received-Date: Fri, 20 Apr 2012 16:55:12 -0000
 
-From: Nitin A Kamble <nitin.a.kamble@intel.com>
+From: Mark Hatle <mark.hatle@windriver.com>
 
-Signed-off-by: Nitin A Kamble <nitin.a.kamble@intel.com>
+Use update-alternatives and sync to the way the replace kbd package
+does things.  Using update-alternatives ensures that the proper provides
+are setup in the packages.
+
+Signed-off-by: Mark Hatle <mark.hatle@windriver.com>
 ---
- .../libproxy/libproxy_fix_for_gcc4.7.patch         |   30 ++++++++++++++++++++
- meta/recipes-support/libproxy/libproxy_0.4.7.bb    |    3 +-
- 2 files changed, 32 insertions(+), 1 deletions(-)
- create mode 100644 meta/recipes-support/libproxy/libproxy/libproxy_fix_for_gcc4.7.patch
+ .../console-tools/console-tools_0.3.2.bb           |   27 +++----------------
+ 1 files changed, 5 insertions(+), 22 deletions(-)
 
-diff --git a/meta/recipes-support/libproxy/libproxy/libproxy_fix_for_gcc4.7.patch b/meta/recipes-support/libproxy/libproxy/libproxy_fix_for_gcc4.7.patch
-new file mode 100644
-index 0000000..a772f09
---- /dev/null
-+++ b/meta/recipes-support/libproxy/libproxy/libproxy_fix_for_gcc4.7.patch
-@@ -0,0 +1,30 @@
-+Upstream-Status: Pending
-+
-+Signed-Off-By: Nitin A Kamble <nitin.a.kamble@intel.com>
-+2012/04/20
-+Fixes this issue with gcc 4.7
-+
-+| cd /srv/home/nitin/builds/bERROR: Function failed: do_compile (see /srv/home/nitin/builds/build-gcc47/tmp/work/x86_64-poky-linux/libproxy-0.4.7-r3/temp/log.do_compile.7514 for further information)
-+| uild-gcc47/tmp/work/x86_64-poky-linux/libproxy-0.4.7-r3/libproxy-0.4.7/libproxy && /srv/home/nitin/builds/build-gcc47/tmp/sysroots/x86_64-linux/usr/bin/x86_64-poky-linux/x86_64-poky-linux-g++   -Dlibproxy_EXPORTS -D_POSIX_C_SOURCE=1 -DLIBEXECDIR=\"/usr/libexec\" -DMM_MODULE_BUILTIN=config_sysconfig -fvisibility=hidden    -m64  --sysroot=/srv/home/nitin/builds/build-gcc47/tmp/sysroots/qemux86-64  -O2 -pipe -g -feliminate-unused-debug-types -fpermissive -fvisibility-inlines-hidden -fpermissive -O2 -g -fPIC -I/srv/home/nitin/builds/build-gcc47/tmp/work/x86_64-poky-linux/libproxy-0.4.7-r3/libproxy-0.4.7 -I/srv/home/nitin/builds/build-gcc47/tmp/sysroots/qemux86-64/usr/include/glib-2.0 -I/srv/home/nitin/builds/build-gcc47/tmp/sysroots/qemux86-64/usr/lib/glib-2.0/include    -o CMakeFiles/libproxy.dir/modules/config_sysconfig.cpp.o -c /srv/home/nitin/builds/build-gcc47/tmp/work/x86_64-poky-linux/libproxy-0.4.7-r3/libproxy-0.4.7/libproxy/modules/config_sysconfig.cpp
-+| /srv/home/nitin/builds/build-gcc47/tmp/work/x86_64-poky-linux/libproxy-0.4.7-r3/libproxy-0.4.7/libproxy/modules/config_sysconfig.cpp: In function 'bool should_use_sysconfig()':
-+| /srv/home/nitin/builds/build-gcc47/tmp/work/x86_64-poky-linux/libproxy-0.4.7-r3/libproxy-0.4.7/libproxy/modules/config_sysconfig.cpp:107:18: error: 'getuid' was not declared in this scope
-+| make[2]: *** [libproxy/CMakeFiles/libproxy.dir/modules/config_sysconfig.cpp.o] Error 1
-+| make[2]: Leaving directory `/srv/home/nitin/builds/build-gcc47/tmp/work/x86_64-poky-linux/libproxy-0.4.7-r3/libproxy-0.4.7'
-+| make[1]: *** [libproxy/CMakeFiles/libproxy.dir/all] Error 2
-+| make[1]: Leaving directory `/srv/home/nitin/builds/build-gcc47/tmp/work/x86_64-poky-linux/libproxy-0.4.7-r3/libproxy-0.4.7'
-+| make: *** [all] Error 2
-+| ERROR: oe_runmake failed
-+NOTE: package libproxy-0.4.7-r3: task do_compile: Failed
-+
-+Index: libproxy-0.4.7/libproxy/modules/config_sysconfig.cpp
-+===================================================================
-+--- libproxy-0.4.7.orig/libproxy/modules/config_sysconfig.cpp
-++++ libproxy-0.4.7/libproxy/modules/config_sysconfig.cpp
-+@@ -21,6 +21,7 @@
-+ #include <cstdlib>
-+ #include <map>
-+ #include <fstream>
-++#include <unistd.h>
-+ 
-+ #include "../extension_config.hpp"
-+ using namespace libproxy;
-diff --git a/meta/recipes-support/libproxy/libproxy_0.4.7.bb b/meta/recipes-support/libproxy/libproxy_0.4.7.bb
-index 6d99861..e3721a8 100644
---- a/meta/recipes-support/libproxy/libproxy_0.4.7.bb
-+++ b/meta/recipes-support/libproxy/libproxy_0.4.7.bb
-@@ -8,10 +8,11 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=7d7044444a7b1b116e8783edcdb44ff4 \
+diff --git a/meta/recipes-core/console-tools/console-tools_0.3.2.bb b/meta/recipes-core/console-tools/console-tools_0.3.2.bb
+index 5f1d640..6027d4a 100644
+--- a/meta/recipes-core/console-tools/console-tools_0.3.2.bb
++++ b/meta/recipes-core/console-tools/console-tools_0.3.2.bb
+@@ -3,7 +3,7 @@ LICENSE = "GPLv2"
+ LIC_FILES_CHKSUM = "file://COPYING.kbd;md5=9b2d91511d3d80d4d20ac6e6b0137fe9"
+ SUMMARY = "Allows you to set-up and manipulate the Linux console."
+ DESCRIPTION = "Provides tools that enable the set-up and manipulation of the linux console and console-font files."
+-PR = "r4"
++PR = "r5"
  
- DEPENDS = "gconf"
+ SRC_URI = "${SOURCEFORGE_MIRROR}/lct/console-tools-${PV}.tar.gz \
+            file://codepage.patch \
+@@ -30,28 +30,11 @@ do_compile () {
+ 	oe_runmake 'SUBDIRS=${SUBDIRS}'
+ }
  
--PR = "r3"
-+PR = "r4"
+-inherit autotools gettext
++inherit autotools gettext update-alternatives
  
- SRC_URI = "http://libproxy.googlecode.com/files/libproxy-${PV}.tar.gz \
-            file://g++-namepace.patch \
-+           file://libproxy_fix_for_gcc4.7.patch \
-           "
+-do_install () {
+-	autotools_do_install
+-	mv ${D}${bindir}/chvt ${D}${bindir}/chvt.${PN}
+-	mv ${D}${bindir}/deallocvt ${D}${bindir}/deallocvt.${PN}
+-	mv ${D}${bindir}/openvt ${D}${bindir}/openvt.${PN}
+-	mv ${D}${bindir}/fgconsole ${D}${bindir}/fgconsole.${PN}
+-}
+-
+-pkg_postinst_${PN} () {
+-	update-alternatives --install ${bindir}/chvt chvt chvt.${PN} 100
+-	update-alternatives --install ${bindir}/deallocvt deallocvt deallocvt.${PN} 100
+-	update-alternatives --install ${bindir}/openvt openvt openvt.${PN} 100
+-	update-alternatives --install ${bindir}/fgconsole fgconsole fgconsole.${PN} 100
+-}
++ALTERNATIVE_PRIORITY = "100"
  
- SRC_URI[md5sum] = "509e03a488a61cd62bfbaf3ab6a2a7a5"
+-pkg_prerm_${PN} () {
+-	update-alternatives --remove chvt chvt.${PN}
+-	update-alternatives --remove deallocvt deallocvt.${PN}
+-	update-alternatives --remove openvt openvt.${PN}
+-	update-alternatives --remove fgconsole fgconsole.${PN}
+-}
++bindir_progs = "chvt deallocvt fgconsole openvt"
++ALTERNATIVE_LINKS = "${bindir}/${@' ${bindir}/'.join((d.getVar('bindir_progs', True)).split())}"
+ 
+ RDEPENDS_${PN} = "bash"
 -- 
-1.7.7
+1.7.7.6
 
 
 
