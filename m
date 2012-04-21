@@ -1,20 +1,21 @@
-Received: from mga11.intel.com ([192.55.52.93])
-	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <dongxiao.xu@intel.com>) id 1SLc63-00085Y-H5
+Received: from mailout-de.gmx.net ([213.165.64.23])
+	by linuxtogo.org with smtp (Exim 4.72)
+	(envelope-from <cheepeero@gmx.net>) id 1SLj39-00054U-2R
 	for openembedded-core@lists.openembedded.org;
-	Sat, 21 Apr 2012 17:19:35 +0200
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-	by fmsmga102.fm.intel.com with ESMTP; 21 Apr 2012 08:08:58 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="156509505"
-Received: from dongxiao-osel.sh.intel.com (HELO localhost) ([10.239.36.11])
-	by fmsmga002.fm.intel.com with ESMTP; 21 Apr 2012 08:08:57 -0700
-From: Dongxiao Xu <dongxiao.xu@intel.com>
+	Sun, 22 Apr 2012 00:45:03 +0200
+Received: (qmail invoked by alias); 21 Apr 2012 22:28:52 -0000
+Received: from unknown (EHLO jethro.cheepee.homedns.org) [95.76.68.223]
+	by mail.gmx.net (mp033) with SMTP; 22 Apr 2012 00:28:52 +0200
+X-Authenticated: #14774724
+X-Provags-ID: V01U2FsdGVkX1/UvPJo08/UuJPCiIPuRLR4w9nWweyqh/fJ9xenxw
+	Q56LcyadCPEBr8
+From: Ciprian Ciubotariu <cheepeero@gmx.net>
 To: openembedded-core@lists.openembedded.org
-Date: Sat, 21 Apr 2012 23:05:52 +0800
-Message-Id: <cover.1335020669.git.dongxiao.xu@intel.com>
-X-Mailer: git-send-email 1.7.4.1
-Subject: [PATCH 0/1][PULL] Fix bug 2355
+Date: Sun, 22 Apr 2012 01:28:43 +0300
+Message-Id: <1335047323-12316-1-git-send-email-cheepeero@gmx.net>
+X-Mailer: git-send-email 1.7.3.4
+X-Y-GMX-Trusted: 0
+Subject: [oe] Fix bad linkage towards host qt-mobility sensors module
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -29,36 +30,101 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 21 Apr 2012 15:19:35 -0000
+X-List-Received-Date: Sat, 21 Apr 2012 22:45:04 -0000
 
-Hi Richard,
+Prevent qmake from using mobilityconfig.prf from host system when build webkit.
+---
+ meta/recipes-qt/qt4/qt-4.8.0.inc                  |    1 +
+ meta/recipes-qt/qt4/qt-4.8.0/no-qt-mobility.patch |   52 +++++++++++++++++++++
+ meta/recipes-qt/qt4/qt4-x11-free_4.8.0.bb         |    2 +-
+ 3 files changed, 54 insertions(+), 1 deletions(-)
+ create mode 100644 meta/recipes-qt/qt4/qt-4.8.0/no-qt-mobility.patch
 
-This patch is to fix bug 2355, please help to review and pull.
-
-Thanks,
-Dongxiao
-
-The following changes since commit 00256125873ff6f1630743a712e882e5f473a9d2:
-
-  self-hosted-image: Update poky revision to point at the 1.2 release branch (2012-04-18 15:59:20 +0100)
-
-are available in the git repository at:
-  git://git.pokylinux.org/poky-contrib dxu4/hob-bugfix-oecore
-  http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=dxu4/hob-bugfix-oecore
-
-Dongxiao Xu (1):
-  qt4: move functions from python to shell style
-
- meta/recipes-qt/qt4/qt4-embedded.inc        |    2 +-
- meta/recipes-qt/qt4/qt4-tools-nativesdk.inc |   15 ++++++++++++---
- meta/recipes-qt/qt4/qt4-x11-free.inc        |    2 +-
- meta/recipes-qt/qt4/qt4.inc                 |   27 +++++++++++++++++++++++----
- meta/recipes-qt/qt4/qt4_arch.inc            |   25 -------------------------
- 5 files changed, 37 insertions(+), 34 deletions(-)
- delete mode 100644 meta/recipes-qt/qt4/qt4_arch.inc
-
+diff --git a/meta/recipes-qt/qt4/qt-4.8.0.inc b/meta/recipes-qt/qt4/qt-4.8.0.inc
+index c0d90cd..af8db2a 100644
+--- a/meta/recipes-qt/qt4/qt-4.8.0.inc
++++ b/meta/recipes-qt/qt4/qt-4.8.0.inc
+@@ -20,6 +20,7 @@ SRC_URI = "http://get.qt.nokia.com/qt/source/qt-everywhere-opensource-src-${PV}.
+            file://pulseaudio-config.patch \
+            file://g++.conf \
+            file://linux.conf \
++           file://no-qt-mobility.patch \
+            "
+ 
+ SRC_URI[md5sum] = "e8a5fdbeba2927c948d9f477a6abe904"
+diff --git a/meta/recipes-qt/qt4/qt-4.8.0/no-qt-mobility.patch b/meta/recipes-qt/qt4/qt-4.8.0/no-qt-mobility.patch
+new file mode 100644
+index 0000000..ed66509
+--- /dev/null
++++ b/meta/recipes-qt/qt4/qt-4.8.0/no-qt-mobility.patch
+@@ -0,0 +1,52 @@
++diff --git a/src/3rdparty/webkit/Source/WebCore/features.pri b/src/3rdparty/webkit/Source/WebCore/features.pri
++index f04d0b4..aac0482 100644
++--- a/src/3rdparty/webkit/Source/WebCore/features.pri
+++++ b/src/3rdparty/webkit/Source/WebCore/features.pri
++@@ -14,7 +14,7 @@ meegotouch {
++ }
++ 
++ ## load mobilityconfig if mobility is available
++-load(mobilityconfig, true)
+++#load(mobilityconfig, true)
++ 
++ ## Define default features macros for optional components
++ ## (look for defs in config.h and included files!)
++diff --git a/src/3rdparty/webkit/Source/WebKit/qt/examples/platformplugin/platformplugin.pro b/src/3rdparty/webkit/Source/WebKit/qt/examples/platformplugin/platformplugin.pro
++index 80cecb3..856351a 100644
++--- a/src/3rdparty/webkit/Source/WebKit/qt/examples/platformplugin/platformplugin.pro
+++++ b/src/3rdparty/webkit/Source/WebKit/qt/examples/platformplugin/platformplugin.pro
++@@ -4,7 +4,7 @@ TEMPLATE = lib
++ CONFIG += plugin
++ 
++ ## load mobilityconfig if mobility is available
++-load(mobilityconfig, true)
+++#load(mobilityconfig, true)
++ 
++ # HTML5 Media Support
++ # We require QtMultimedia
++diff --git a/src/3rdparty/webkit/Source/WebKit/qt/symbian/platformplugin/platformplugin.pro b/src/3rdparty/webkit/Source/WebKit/qt/symbian/platformplugin/platformplugin.pro
++index fd31e1e..52f1b46 100644
++--- a/src/3rdparty/webkit/Source/WebKit/qt/symbian/platformplugin/platformplugin.pro
+++++ b/src/3rdparty/webkit/Source/WebKit/qt/symbian/platformplugin/platformplugin.pro
++@@ -11,7 +11,7 @@ QT       += core gui \
++             xml
++ 
++ ## load mobilityconfig if mobility is available
++-load(mobilityconfig, true)
+++#load(mobilityconfig, true)
++ 
++ isEmpty(OUTPUT_DIR): OUTPUT_DIR = ../../../..
++ 
++diff --git a/src/3rdparty/webkit/Source/WebKit/qt/tests/tests.pri b/src/3rdparty/webkit/Source/WebKit/qt/tests/tests.pri
++index 812fe93..ccbc5a0 100644
++--- a/src/3rdparty/webkit/Source/WebKit/qt/tests/tests.pri
+++++ b/src/3rdparty/webkit/Source/WebKit/qt/tests/tests.pri
++@@ -7,7 +7,7 @@ CONFIG(QTDIR_build) { load(qttest_p4) }
++ ELSE { TARGET = tst_$$TARGET }
++ 
++ # Load mobilityconfig if Qt Mobility is available
++-load(mobilityconfig, true)
+++#load(mobilityconfig, true)
++ contains(MOBILITY_CONFIG, multimedia) {
++     # This define is used by tests depending on Qt Multimedia
++     DEFINES -= WTF_USE_QT_MULTIMEDIA=0
+diff --git a/meta/recipes-qt/qt4/qt4-x11-free_4.8.0.bb b/meta/recipes-qt/qt4/qt4-x11-free_4.8.0.bb
+index 6a0b0b8..63a3769 100644
+--- a/meta/recipes-qt/qt4/qt4-x11-free_4.8.0.bb
++++ b/meta/recipes-qt/qt4/qt4-x11-free_4.8.0.bb
+@@ -1,7 +1,7 @@
+ require qt4-x11-free.inc
+ require qt-${PV}.inc
+ 
+-PR = "${INC_PR}.1"
++PR = "${INC_PR}.2"
+ 
+ DEFAULT_PREFERENCE = "-1"
+ 
 -- 
-1.7.4.1
+1.7.3.4
 
 
 
