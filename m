@@ -1,21 +1,32 @@
-Received: from mailout-de.gmx.net ([213.165.64.23])
-	by linuxtogo.org with smtp (Exim 4.72)
-	(envelope-from <cheepeero@gmx.net>) id 1SLj39-00054U-2R
+Received: from mail-we0-f175.google.com ([74.125.82.175])
+	by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <mpnorman@gmail.com>) id 1SLvPW-0002Qe-TC
 	for openembedded-core@lists.openembedded.org;
-	Sun, 22 Apr 2012 00:45:03 +0200
-Received: (qmail invoked by alias); 21 Apr 2012 22:28:52 -0000
-Received: from unknown (EHLO jethro.cheepee.homedns.org) [95.76.68.223]
-	by mail.gmx.net (mp033) with SMTP; 22 Apr 2012 00:28:52 +0200
-X-Authenticated: #14774724
-X-Provags-ID: V01U2FsdGVkX1/UvPJo08/UuJPCiIPuRLR4w9nWweyqh/fJ9xenxw
-	Q56LcyadCPEBr8
-From: Ciprian Ciubotariu <cheepeero@gmx.net>
+	Sun, 22 Apr 2012 13:56:58 +0200
+Received: by wera1 with SMTP id a1so7023945wer.6
+	for <openembedded-core@lists.openembedded.org>;
+	Sun, 22 Apr 2012 04:47:27 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
+	:content-type:content-transfer-encoding;
+	bh=GWnWnKvXrvLbaZg3k+dPlg4VqOcxe46HoaGeqcUJpPM=;
+	b=TaRSDrJ53l5sdG/Nk+k+NnX7M+IGLgkGHhEhkocKpOBRZHzEb68p5i1d1WuRBtyAMB
+	Xa17N3CokQEd4TsYA5TY5Z2Xhf6xZx6xzCmPYAKOuPL5ieilflu2lWK3SZ5os/jN6CYA
+	yiz8IyAEMWh4Mb0iHWgSOGCRNiOnaP60t9UQthMwmi88Gv7dq/C5aiKT2rRSmkldZ2/Y
+	MYf1Lge8IPwwJ7bDXTVsD6Ez0sFcuOtjXRPnU8nNicr8/zIAK0KVHbb5FsliZhl0+KCu
+	KBuZql/n91jahCGCykreAlghmlknD1ufNKeqb0yU43DOCEr9PZOS8tJDynv7XSJ9ix4K
+	DAMA==
+MIME-Version: 1.0
+Received: by 10.180.98.8 with SMTP id ee8mr12829433wib.14.1335095247064; Sun,
+	22 Apr 2012 04:47:27 -0700 (PDT)
+Received: by 10.216.193.82 with HTTP; Sun, 22 Apr 2012 04:47:27 -0700 (PDT)
+In-Reply-To: <CAJtrzLNJgu-Joix2YMbeZEjm1=Ktap80i4N0OsjFZsCHDmmOSg@mail.gmail.com>
+References: <CAJtrzLNJgu-Joix2YMbeZEjm1=Ktap80i4N0OsjFZsCHDmmOSg@mail.gmail.com>
+Date: Sun, 22 Apr 2012 21:17:27 +0930
+Message-ID: <CAJtrzLMRLjgiP82w-=bg4wmtiwiRpkv3Q+sh006YG-ZO4vND4w@mail.gmail.com>
+From: Mark Norman <mpnorman@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Sun, 22 Apr 2012 01:28:43 +0300
-Message-Id: <1335047323-12316-1-git-send-email-cheepeero@gmx.net>
-X-Mailer: git-send-email 1.7.3.4
-X-Y-GMX-Trusted: 0
-Subject: [oe] Fix bad linkage towards host qt-mobility sensors module
+Subject: uclibc SDK not including libpthread_nonshared.a
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -30,101 +41,62 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 21 Apr 2012 22:45:04 -0000
+X-List-Received-Date: Sun, 22 Apr 2012 11:56:59 -0000
+Content-Type: text/plain; charset=ISO-8859-1
+Content-Transfer-Encoding: quoted-printable
 
-Prevent qmake from using mobilityconfig.prf from host system when build webkit.
----
- meta/recipes-qt/qt4/qt-4.8.0.inc                  |    1 +
- meta/recipes-qt/qt4/qt-4.8.0/no-qt-mobility.patch |   52 +++++++++++++++++++++
- meta/recipes-qt/qt4/qt4-x11-free_4.8.0.bb         |    2 +-
- 3 files changed, 54 insertions(+), 1 deletions(-)
- create mode 100644 meta/recipes-qt/qt4/qt-4.8.0/no-qt-mobility.patch
+Hi,
 
-diff --git a/meta/recipes-qt/qt4/qt-4.8.0.inc b/meta/recipes-qt/qt4/qt-4.8.0.inc
-index c0d90cd..af8db2a 100644
---- a/meta/recipes-qt/qt4/qt-4.8.0.inc
-+++ b/meta/recipes-qt/qt4/qt-4.8.0.inc
-@@ -20,6 +20,7 @@ SRC_URI = "http://get.qt.nokia.com/qt/source/qt-everywhere-opensource-src-${PV}.
-            file://pulseaudio-config.patch \
-            file://g++.conf \
-            file://linux.conf \
-+           file://no-qt-mobility.patch \
-            "
- 
- SRC_URI[md5sum] = "e8a5fdbeba2927c948d9f477a6abe904"
-diff --git a/meta/recipes-qt/qt4/qt-4.8.0/no-qt-mobility.patch b/meta/recipes-qt/qt4/qt-4.8.0/no-qt-mobility.patch
-new file mode 100644
-index 0000000..ed66509
---- /dev/null
-+++ b/meta/recipes-qt/qt4/qt-4.8.0/no-qt-mobility.patch
-@@ -0,0 +1,52 @@
-+diff --git a/src/3rdparty/webkit/Source/WebCore/features.pri b/src/3rdparty/webkit/Source/WebCore/features.pri
-+index f04d0b4..aac0482 100644
-+--- a/src/3rdparty/webkit/Source/WebCore/features.pri
-++++ b/src/3rdparty/webkit/Source/WebCore/features.pri
-+@@ -14,7 +14,7 @@ meegotouch {
-+ }
-+ 
-+ ## load mobilityconfig if mobility is available
-+-load(mobilityconfig, true)
-++#load(mobilityconfig, true)
-+ 
-+ ## Define default features macros for optional components
-+ ## (look for defs in config.h and included files!)
-+diff --git a/src/3rdparty/webkit/Source/WebKit/qt/examples/platformplugin/platformplugin.pro b/src/3rdparty/webkit/Source/WebKit/qt/examples/platformplugin/platformplugin.pro
-+index 80cecb3..856351a 100644
-+--- a/src/3rdparty/webkit/Source/WebKit/qt/examples/platformplugin/platformplugin.pro
-++++ b/src/3rdparty/webkit/Source/WebKit/qt/examples/platformplugin/platformplugin.pro
-+@@ -4,7 +4,7 @@ TEMPLATE = lib
-+ CONFIG += plugin
-+ 
-+ ## load mobilityconfig if mobility is available
-+-load(mobilityconfig, true)
-++#load(mobilityconfig, true)
-+ 
-+ # HTML5 Media Support
-+ # We require QtMultimedia
-+diff --git a/src/3rdparty/webkit/Source/WebKit/qt/symbian/platformplugin/platformplugin.pro b/src/3rdparty/webkit/Source/WebKit/qt/symbian/platformplugin/platformplugin.pro
-+index fd31e1e..52f1b46 100644
-+--- a/src/3rdparty/webkit/Source/WebKit/qt/symbian/platformplugin/platformplugin.pro
-++++ b/src/3rdparty/webkit/Source/WebKit/qt/symbian/platformplugin/platformplugin.pro
-+@@ -11,7 +11,7 @@ QT       += core gui \
-+             xml
-+ 
-+ ## load mobilityconfig if mobility is available
-+-load(mobilityconfig, true)
-++#load(mobilityconfig, true)
-+ 
-+ isEmpty(OUTPUT_DIR): OUTPUT_DIR = ../../../..
-+ 
-+diff --git a/src/3rdparty/webkit/Source/WebKit/qt/tests/tests.pri b/src/3rdparty/webkit/Source/WebKit/qt/tests/tests.pri
-+index 812fe93..ccbc5a0 100644
-+--- a/src/3rdparty/webkit/Source/WebKit/qt/tests/tests.pri
-++++ b/src/3rdparty/webkit/Source/WebKit/qt/tests/tests.pri
-+@@ -7,7 +7,7 @@ CONFIG(QTDIR_build) { load(qttest_p4) }
-+ ELSE { TARGET = tst_$$TARGET }
-+ 
-+ # Load mobilityconfig if Qt Mobility is available
-+-load(mobilityconfig, true)
-++#load(mobilityconfig, true)
-+ contains(MOBILITY_CONFIG, multimedia) {
-+     # This define is used by tests depending on Qt Multimedia
-+     DEFINES -= WTF_USE_QT_MULTIMEDIA=0
-diff --git a/meta/recipes-qt/qt4/qt4-x11-free_4.8.0.bb b/meta/recipes-qt/qt4/qt4-x11-free_4.8.0.bb
-index 6a0b0b8..63a3769 100644
---- a/meta/recipes-qt/qt4/qt4-x11-free_4.8.0.bb
-+++ b/meta/recipes-qt/qt4/qt4-x11-free_4.8.0.bb
-@@ -1,7 +1,7 @@
- require qt4-x11-free.inc
- require qt-${PV}.inc
- 
--PR = "${INC_PR}.1"
-+PR = "${INC_PR}.2"
- 
- DEFAULT_PREFERENCE = "-1"
- 
--- 
-1.7.3.4
+I have experienced some issues building external code using an oe-core
+built SDK. =A0I can get code to compile fine but when linking it
+complains about missing libpthread_nonshared.a or uclibc_nonshared.a.
+Neither library is included in the SDK directory. =A0I noticed that
+uclibc.inc
+attempts to include these two libraries into the -dev package (from
+meta/recipes-core/uclibc/uclibc.inc):
 
+FILES_${PN}-dev_append =3D "\
+=A0 =A0 =A0 =A0${libdir}/lib*.so \
+=A0 =A0 =A0 =A0${libdir}/*_nonshared.a \ =A0 =A0 =A0<---- Note
+=A0 =A0 =A0 =A0${libdir}/[S]*crt[1in].o \
+=A0 =A0 =A0 =A0${libdir}/crtreloc*.o \
+=A0 =A0 =A0 =A0${includedir}/*.h ${includedir}/*/*.h \
+=A0 =A0 =A0 "
+
+However, the two _nonshared.a libraries end up getting packaged in the
+-staticdev package. =A0I think this is because the -staticdev package
+gets processed before the -dev package (as defined in
+meta/conf/bitbake.conf). =A0The eglibc-package.inc also tries to package
+the _nonshared.a libraries into the -dev package but I did notice that
+the eglibc PACKAGES argument explicitly lists the -dev package before
+-staticdev. =A0I tried the same thing in uclibc.inc eg:
+
+--- a/meta/recipes-core/uclibc/uclibc.inc
++++ b/meta/recipes-core/uclibc/uclibc.inc
+@@ -48,9 +48,7 @@ RDEPENDS_${PN}-dev =3D "linux-libc-headers-dev"
+
+=A0INHIBIT_DEFAULT_DEPS =3D "1"
+
+-PACKAGES =3D+ "ldd uclibc-utils-dbg uclibc-utils uclibc-gconv
+uclibc-thread-db uclibc-argp uclibc-backtrace"
+-PACKAGES =3D+ "uclibc-libcrypt uclibc-libintl uclibc-libnsl
+uclibc-libresolv uclibc-libm"
+-PACKAGES =3D+ "uclibc-libdl uclibc-libutil uclibc-libpthread uclibc-librt"
++PACKAGES =3D "${PN}-dbg ${PN} ldd ${PN}-utils ${PN}-utils-dbg
+uclibc-thread-db uclibc-gconv ${PN}-dev ${PN}-staticdev ${PN}-doc
+uclibc-argp uclibc-backtrace uclibc-libcrypt uclibc-libintl
+uclibc-libnsl uclibc-libresolv uclibc-libm uclibc-libdl uclibc-libutil
+uclibc-libpthread uclibc-librt"
+
+
+Doing this caused the _nonshared.a libraries to successfully get
+packaged in the -dev package.
+
+Is this the correct way to get this to work? =A0If so I am happy to
+submit a proper patch, otherwise is there something else I am missing?
+
+Kind Regards
+
+Mark Norman
 
 
