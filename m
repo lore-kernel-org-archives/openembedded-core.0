@@ -1,30 +1,32 @@
-Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
-	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <richard.purdie@linuxfoundation.org>)
-	id 1SLyDy-00080m-Hm for openembedded-core@lists.openembedded.org;
-	Sun, 22 Apr 2012 16:57:14 +0200
-Received: from localhost (localhost [127.0.0.1])
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q3MElgX1009627
+Received: from mail-lpp01m010-f47.google.com ([209.85.215.47])
+	by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <raj.khem@gmail.com>) id 1SLzFh-0003mx-PH
+	for openembedded-core@lists.openembedded.org;
+	Sun, 22 Apr 2012 18:03:05 +0200
+Received: by lagw12 with SMTP id w12so7865352lag.6
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 22 Apr 2012 15:47:42 +0100
-Received: from tim.rpsys.net ([127.0.0.1])
-	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
-	port 10024) with LMTP
-	id 09111-03 for <openembedded-core@lists.openembedded.org>;
-	Sun, 22 Apr 2012 15:47:37 +0100 (BST)
-Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q3MElVUg009621
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO)
-	for <openembedded-core@lists.openembedded.org>;
-	Sun, 22 Apr 2012 15:47:32 +0100
-Message-ID: <1335106050.12692.29.camel@ted>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: openembedded-core <openembedded-core@lists.openembedded.org>
-Date: Sun, 22 Apr 2012 15:47:30 +0100
-X-Mailer: Evolution 3.2.2- 
-Mime-Version: 1.0
-X-Virus-Scanned: amavisd-new at rpsys.net
-Subject: [PATCH] initramfs-live-boot: Disable unionfs until its issue with the system rootdir are resolved
+	Sun, 22 Apr 2012 08:53:33 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:content-type; bh=lF88WiXN49O+C3k+r80+H5chxjVEzHQ8JW3UyibsUnc=;
+	b=iExbrrh7mrbYVzhGrpGahLXLDD0IPgS1F5IKvLxBDWAnmC0lcAgHxsG+OBcmRsP/Vo
+	B5f3bsaIyYZbzwN8n0jqWj+5ofcnRy0PaWwGHvIkmTwO8cnjA9uChuEKLE9bF5g0WCA5
+	kXSWdHX6RGGocFCywWT4y3gIoGlYviVTY6+bv/8gOMYW7b2JBKQXeTCCR8huuvF4oucr
+	xjerVuZVTLb9QXVfyc7KzjA0FSSGzua7NY8cCJFRP76Opi1oGkGeaoyfQKKkMQeJTCw9
+	Xub79TxEK/KAyhNEWPSqT52d1yurEEfV9mxMlStWgwVA8M5bTkbpbXbeR284VaHm7Wis
+	wDMQ==
+Received: by 10.152.146.234 with SMTP id tf10mr12460446lab.31.1335110013283;
+	Sun, 22 Apr 2012 08:53:33 -0700 (PDT)
+MIME-Version: 1.0
+Received: by 10.152.129.134 with HTTP; Sun, 22 Apr 2012 08:53:02 -0700 (PDT)
+In-Reply-To: <91F01C72-881B-47AD-BBC3-99F505939D29@dominion.thruhere.net>
+References: <91F01C72-881B-47AD-BBC3-99F505939D29@dominion.thruhere.net>
+From: Khem Raj <raj.khem@gmail.com>
+Date: Sun, 22 Apr 2012 08:53:02 -0700
+Message-ID: <CAMKF1spC+76TQ5M7RaO8uhGmkQgZg=cUPPppnithARxe=z3oJw@mail.gmail.com>
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: Suspicous tune args for armv5te machines
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -39,43 +41,35 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 22 Apr 2012 14:57:14 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Sun, 22 Apr 2012 16:03:05 -0000
+Content-Type: text/plain; charset=UTF-8
 
-There are issues with the current unionfs when making a union mount over "/".
-Until these are resolved we can't use unionfs for live booting so disable this
-temporarily as a workaround.
+On Sun, Apr 22, 2012 at 6:57 AM, Koen Kooi <koen@dominion.thruhere.net> wrote:
+> Hi,
+>
+> Is the following still valid for the current oe-core (and toolchain-layer) toolchains:
+>
+> koen@dominion:/OE/tentacle/sources/openembedded-core$ git grep CCARGS_pn
+> meta/conf/machine/include/tune-xscale.inc:TUNE_CCARGS_pn-webkit-gtk = "-march=armv4t"
+> meta/conf/machine/include/tune-xscale.inc:TUNE_CCARGS_pn-cairo = "-march=armv4t"
+>
+> ?
+>
+> I know why and when it was added by Marcin, but is this still needed?
 
-unionfs is usable in other circumstances.
+It was probably copied from angstrom. Its not needed since oldest gcc
+we have is 4.5
+last I tested it was not needed. Its been already deleted from
+angstrom few months ago
+this could be deleted as well.
 
-[YOCTO #2331 workaround]
-
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
----
-diff --git a/meta/recipes-core/initrdscripts/initramfs-live-boot_1.0.bb b/meta/recipes-core/initrdscripts/initramfs-live-boot_1.0.bb
-index 8f7511e..137a401 100644
---- a/meta/recipes-core/initrdscripts/initramfs-live-boot_1.0.bb
-+++ b/meta/recipes-core/initrdscripts/initramfs-live-boot_1.0.bb
-@@ -5,12 +5,13 @@ RDEPENDS = "udev"
- DEPENDS = "virtual/kernel"
- SRC_URI = "file://init-live.sh"
- 
--PR = "r9"
-+PR = "r10"
- 
- do_compile() {
--	if grep -q "CONFIG_UNION_FS=y" ${STAGING_KERNEL_DIR}/.config; then
--		sed -i 's/UNIONFS="no"/UNIONFS="yes"/g' ${WORKDIR}/init-live.sh
--	fi
-+	#if grep -q "CONFIG_UNION_FS=y" ${STAGING_KERNEL_DIR}/.config; then
-+	#	sed -i 's/UNIONFS="no"/UNIONFS="yes"/g' ${WORKDIR}/init-live.sh
-+	#fi
-+	:
- }
-  
- do_install() {
-
-
+>
+> regards,
+>
+> Koen
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
 
 
