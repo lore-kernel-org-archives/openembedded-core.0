@@ -1,32 +1,33 @@
-Received: from mail-lpp01m010-f47.google.com ([209.85.215.47])
+Received: from mail-vb0-f47.google.com ([209.85.212.47])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <raj.khem@gmail.com>) id 1SLzFh-0003mx-PH
+	(envelope-from <otavio.salvador@gmail.com>) id 1SM2PB-0006Dw-Dz
 	for openembedded-core@lists.openembedded.org;
-	Sun, 22 Apr 2012 18:03:05 +0200
-Received: by lagw12 with SMTP id w12so7865352lag.6
+	Sun, 22 Apr 2012 21:25:05 +0200
+Received: by vbbfr13 with SMTP id fr13so8416520vbb.6
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 22 Apr 2012 08:53:33 -0700 (PDT)
+	Sun, 22 Apr 2012 12:15:32 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:content-type; bh=lF88WiXN49O+C3k+r80+H5chxjVEzHQ8JW3UyibsUnc=;
-	b=iExbrrh7mrbYVzhGrpGahLXLDD0IPgS1F5IKvLxBDWAnmC0lcAgHxsG+OBcmRsP/Vo
-	B5f3bsaIyYZbzwN8n0jqWj+5ofcnRy0PaWwGHvIkmTwO8cnjA9uChuEKLE9bF5g0WCA5
-	kXSWdHX6RGGocFCywWT4y3gIoGlYviVTY6+bv/8gOMYW7b2JBKQXeTCCR8huuvF4oucr
-	xjerVuZVTLb9QXVfyc7KzjA0FSSGzua7NY8cCJFRP76Opi1oGkGeaoyfQKKkMQeJTCw9
-	Xub79TxEK/KAyhNEWPSqT52d1yurEEfV9mxMlStWgwVA8M5bTkbpbXbeR284VaHm7Wis
-	wDMQ==
-Received: by 10.152.146.234 with SMTP id tf10mr12460446lab.31.1335110013283;
-	Sun, 22 Apr 2012 08:53:33 -0700 (PDT)
-MIME-Version: 1.0
-Received: by 10.152.129.134 with HTTP; Sun, 22 Apr 2012 08:53:02 -0700 (PDT)
-In-Reply-To: <91F01C72-881B-47AD-BBC3-99F505939D29@dominion.thruhere.net>
-References: <91F01C72-881B-47AD-BBC3-99F505939D29@dominion.thruhere.net>
-From: Khem Raj <raj.khem@gmail.com>
-Date: Sun, 22 Apr 2012 08:53:02 -0700
-Message-ID: <CAMKF1spC+76TQ5M7RaO8uhGmkQgZg=cUPPppnithARxe=z3oJw@mail.gmail.com>
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: Suspicous tune args for armv5te machines
+	h=sender:from:to:subject:date:message-id:x-mailer;
+	bh=RDJYfykKiWqb4M/F1gQnbZNWvr0y6hd6d5flZ4koEvs=;
+	b=QcOpcj3oTlIYWXs67i6iAqFS6/13noyObqcsUtvah2tV0Jwbo4RdEpC8ROqJvPq6iY
+	9D9fMb/qP2ck28RZYCn3DBZAdYzAiesto5yy40D87AvxRqyjFeBnd5gPggvYcZYI+tKj
+	+adfxsuAFFiDy0xRt7I3Lftl/BvA9Ff9k8+0RpnZ4qw6eBnO0d1lzvD3srGcnxZPhPpc
+	NQ278ivHBCg45Hxj2PrpvLxTturduLHSZBzbAJBl/hFtbic3T6F0/k1fb6j/YMvrXe1p
+	pa6TRlHd1jQ+5MNMXJkBhnvAGDror5wFD5eMDWHeelhiVQXMgFBpHx6iqPhihPAiTzNb
+	3agw==
+Received: by 10.52.180.232 with SMTP id dr8mr10936430vdc.111.1335122132550;
+	Sun, 22 Apr 2012 12:15:32 -0700 (PDT)
+Received: from localhost.localdomain ([186.218.100.214])
+	by mx.google.com with ESMTPS id fd3sm21452715vdc.22.2012.04.22.12.15.31
+	(version=TLSv1/SSLv3 cipher=OTHER);
+	Sun, 22 Apr 2012 12:15:31 -0700 (PDT)
+Sender: Otavio Salvador <otavio.salvador@gmail.com>
+From: Otavio Salvador <otavio@ossystems.com.br>
+To: openembedded-core@lists.openembedded.org
+Date: Sun, 22 Apr 2012 16:15:21 -0300
+Message-Id: <cover.1335118369.git.otavio@ossystems.com.br>
+X-Mailer: git-send-email 1.7.2.5
+Subject: [PATCH 0/5] Patches from O.S. Systems' tree
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -41,35 +42,42 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 22 Apr 2012 16:03:05 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Sun, 22 Apr 2012 19:25:05 -0000
 
-On Sun, Apr 22, 2012 at 6:57 AM, Koen Kooi <koen@dominion.thruhere.net> wrote:
-> Hi,
->
-> Is the following still valid for the current oe-core (and toolchain-layer) toolchains:
->
-> koen@dominion:/OE/tentacle/sources/openembedded-core$ git grep CCARGS_pn
-> meta/conf/machine/include/tune-xscale.inc:TUNE_CCARGS_pn-webkit-gtk = "-march=armv4t"
-> meta/conf/machine/include/tune-xscale.inc:TUNE_CCARGS_pn-cairo = "-march=armv4t"
->
-> ?
->
-> I know why and when it was added by Marcin, but is this still needed?
+The u-boot new release has been tested on i.MX53 and has D_P = -1 to
+allow people to test it. Please give them a test.
 
-It was probably copied from angstrom. Its not needed since oldest gcc
-we have is 4.5
-last I tested it was not needed. Its been already deleted from
-angstrom few months ago
-this could be deleted as well.
+The following changes since commit b19af63a201933038a044f29570710fe38365f28:
 
->
-> regards,
->
-> Koen
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
+  self-hosted-image: Update poky revision to point at the 1.2 release branch (2012-04-22 16:07:44 +0100)
+
+are available in the git repository at:
+  git://github.com/OSSystems/oe-core master
+  https://github.com/OSSystems/oe-core/tree/HEAD
+
+Otavio Salvador (5):
+  connman: backport test script fixes
+  u-boot.inc: fix compilation when using 'gold' as linker
+  u-boot-fw-utils: add 2012.04 release
+  u-boot-mkimage: add 2012.04 release
+  u-boot: add 2012.04 release
+
+ meta/recipes-bsp/u-boot/u-boot-fw-utils_2012.04.bb |   33 ++++++++++++
+ meta/recipes-bsp/u-boot/u-boot-mkimage_2012.04.bb  |   33 ++++++++++++
+ meta/recipes-bsp/u-boot/u-boot.inc                 |    4 ++
+ meta/recipes-bsp/u-boot/u-boot_2012.04.bb          |   30 +++++++++++
+ .../connman/test-set-ipv4-method-api-fix.patch     |   50 ++++++++++++++++++
+ .../connman/test-set-ipv6-method-api-fix.patch     |   55 ++++++++++++++++++++
+ meta/recipes-connectivity/connman/connman_0.79.bb  |    4 +-
+ 7 files changed, 208 insertions(+), 1 deletions(-)
+ create mode 100644 meta/recipes-bsp/u-boot/u-boot-fw-utils_2012.04.bb
+ create mode 100644 meta/recipes-bsp/u-boot/u-boot-mkimage_2012.04.bb
+ create mode 100644 meta/recipes-bsp/u-boot/u-boot_2012.04.bb
+ create mode 100644 meta/recipes-connectivity/connman/connman/test-set-ipv4-method-api-fix.patch
+ create mode 100644 meta/recipes-connectivity/connman/connman/test-set-ipv6-method-api-fix.patch
+
+-- 
+1.7.2.5
+
 
 
