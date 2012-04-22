@@ -1,32 +1,38 @@
-Received: from mail-we0-f175.google.com ([74.125.82.175])
+Received: from mail-wi0-f177.google.com ([209.85.212.177])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <mpnorman@gmail.com>) id 1SLvPW-0002Qe-TC
+	(envelope-from <koen@dominion.thruhere.net>) id 1SLxR6-0007a3-4r
 	for openembedded-core@lists.openembedded.org;
-	Sun, 22 Apr 2012 13:56:58 +0200
-Received: by wera1 with SMTP id a1so7023945wer.6
+	Sun, 22 Apr 2012 16:06:44 +0200
+Received: by wibhj13 with SMTP id hj13so1846412wib.6
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 22 Apr 2012 04:47:27 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
-	:content-type:content-transfer-encoding;
-	bh=GWnWnKvXrvLbaZg3k+dPlg4VqOcxe46HoaGeqcUJpPM=;
-	b=TaRSDrJ53l5sdG/Nk+k+NnX7M+IGLgkGHhEhkocKpOBRZHzEb68p5i1d1WuRBtyAMB
-	Xa17N3CokQEd4TsYA5TY5Z2Xhf6xZx6xzCmPYAKOuPL5ieilflu2lWK3SZ5os/jN6CYA
-	yiz8IyAEMWh4Mb0iHWgSOGCRNiOnaP60t9UQthMwmi88Gv7dq/C5aiKT2rRSmkldZ2/Y
-	MYf1Lge8IPwwJ7bDXTVsD6Ez0sFcuOtjXRPnU8nNicr8/zIAK0KVHbb5FsliZhl0+KCu
-	KBuZql/n91jahCGCykreAlghmlknD1ufNKeqb0yU43DOCEr9PZOS8tJDynv7XSJ9ix4K
-	DAMA==
-MIME-Version: 1.0
-Received: by 10.180.98.8 with SMTP id ee8mr12829433wib.14.1335095247064; Sun,
-	22 Apr 2012 04:47:27 -0700 (PDT)
-Received: by 10.216.193.82 with HTTP; Sun, 22 Apr 2012 04:47:27 -0700 (PDT)
-In-Reply-To: <CAJtrzLNJgu-Joix2YMbeZEjm1=Ktap80i4N0OsjFZsCHDmmOSg@mail.gmail.com>
-References: <CAJtrzLNJgu-Joix2YMbeZEjm1=Ktap80i4N0OsjFZsCHDmmOSg@mail.gmail.com>
-Date: Sun, 22 Apr 2012 21:17:27 +0930
-Message-ID: <CAJtrzLMRLjgiP82w-=bg4wmtiwiRpkv3Q+sh006YG-ZO4vND4w@mail.gmail.com>
-From: Mark Norman <mpnorman@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Subject: uclibc SDK not including libpthread_nonshared.a
+	Sun, 22 Apr 2012 06:57:11 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=google.com; s=20120113;
+	h=from:content-type:content-transfer-encoding:subject:date:message-id
+	:to:mime-version:x-mailer:x-gm-message-state;
+	bh=zzA+LktSBYVbkZgXR34FH0oUOf2SZL3NV8OVoeRpZUo=;
+	b=M1qeGEZdGrxpOOjaXpEIqMiqkAM5fsmxOKfspShw46U/CiGGMwabu4Xib2yt0WTOEG
+	pHjCrvQqx/Mn1pZRXrPp1FKO/T2HWF55Sn76U/PZ4WiTYmGVqjnX64G4lpYcw8QW6Zbj
+	iDm3q2LTfBqchRqEyfelmYujSb4Q+leGX7y2mk2e5unTv53MLM7eU/KXaBPZCR9iOOiU
+	KL9GiSjZL7tLIygLurHFAn4gIMfuxblsTW+v4fUAlGl74LFIbfjEDV5TiKVo01FO0lPw
+	OC6nNl6s8k64IRGFSUC3WNPSXq5eM0LptymubtSFVRv32+oC+JRC9Icf8b1NrSDcho4B
+	6yrw==
+Received: by 10.180.79.72 with SMTP id h8mr13597903wix.1.1335103031913;
+	Sun, 22 Apr 2012 06:57:11 -0700 (PDT)
+Received: from [172.20.0.96] (ip545070eb.adsl-surfen.hetnet.nl.
+	[84.80.112.235])
+	by mx.google.com with ESMTPS id l5sm14773956wia.11.2012.04.22.06.57.10
+	(version=TLSv1/SSLv3 cipher=OTHER);
+	Sun, 22 Apr 2012 06:57:11 -0700 (PDT)
+From: Koen Kooi <koen@dominion.thruhere.net>
+Date: Sun, 22 Apr 2012 15:57:09 +0200
+Message-Id: <91F01C72-881B-47AD-BBC3-99F505939D29@dominion.thruhere.net>
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Mime-Version: 1.0 (Apple Message framework v1257)
+X-Mailer: Apple Mail (2.1257)
+X-Gm-Message-State: ALoCoQmaG+OZqMtFttSTB3ap56AXd5dWcYLu0/5O+GpbRRJpMPWegMF/RXXiLSXPyB0VvKrvFay9
+Subject: Suspicous tune args for armv5te machines
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -41,62 +47,27 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 22 Apr 2012 11:56:59 -0000
-Content-Type: text/plain; charset=ISO-8859-1
+X-List-Received-Date: Sun, 22 Apr 2012 14:06:44 -0000
+Content-Type: text/plain; charset=us-ascii
 Content-Transfer-Encoding: quoted-printable
 
 Hi,
 
-I have experienced some issues building external code using an oe-core
-built SDK. =A0I can get code to compile fine but when linking it
-complains about missing libpthread_nonshared.a or uclibc_nonshared.a.
-Neither library is included in the SDK directory. =A0I noticed that
-uclibc.inc
-attempts to include these two libraries into the -dev package (from
-meta/recipes-core/uclibc/uclibc.inc):
+Is the following still valid for the current oe-core (and =
+toolchain-layer) toolchains:
 
-FILES_${PN}-dev_append =3D "\
-=A0 =A0 =A0 =A0${libdir}/lib*.so \
-=A0 =A0 =A0 =A0${libdir}/*_nonshared.a \ =A0 =A0 =A0<---- Note
-=A0 =A0 =A0 =A0${libdir}/[S]*crt[1in].o \
-=A0 =A0 =A0 =A0${libdir}/crtreloc*.o \
-=A0 =A0 =A0 =A0${includedir}/*.h ${includedir}/*/*.h \
-=A0 =A0 =A0 "
+koen@dominion:/OE/tentacle/sources/openembedded-core$ git grep CCARGS_pn
+meta/conf/machine/include/tune-xscale.inc:TUNE_CCARGS_pn-webkit-gtk =3D =
+"-march=3Darmv4t"
+meta/conf/machine/include/tune-xscale.inc:TUNE_CCARGS_pn-cairo =3D =
+"-march=3Darmv4t"
 
-However, the two _nonshared.a libraries end up getting packaged in the
--staticdev package. =A0I think this is because the -staticdev package
-gets processed before the -dev package (as defined in
-meta/conf/bitbake.conf). =A0The eglibc-package.inc also tries to package
-the _nonshared.a libraries into the -dev package but I did notice that
-the eglibc PACKAGES argument explicitly lists the -dev package before
--staticdev. =A0I tried the same thing in uclibc.inc eg:
+?
 
---- a/meta/recipes-core/uclibc/uclibc.inc
-+++ b/meta/recipes-core/uclibc/uclibc.inc
-@@ -48,9 +48,7 @@ RDEPENDS_${PN}-dev =3D "linux-libc-headers-dev"
+I know why and when it was added by Marcin, but is this still needed?
 
-=A0INHIBIT_DEFAULT_DEPS =3D "1"
+regards,
 
--PACKAGES =3D+ "ldd uclibc-utils-dbg uclibc-utils uclibc-gconv
-uclibc-thread-db uclibc-argp uclibc-backtrace"
--PACKAGES =3D+ "uclibc-libcrypt uclibc-libintl uclibc-libnsl
-uclibc-libresolv uclibc-libm"
--PACKAGES =3D+ "uclibc-libdl uclibc-libutil uclibc-libpthread uclibc-librt"
-+PACKAGES =3D "${PN}-dbg ${PN} ldd ${PN}-utils ${PN}-utils-dbg
-uclibc-thread-db uclibc-gconv ${PN}-dev ${PN}-staticdev ${PN}-doc
-uclibc-argp uclibc-backtrace uclibc-libcrypt uclibc-libintl
-uclibc-libnsl uclibc-libresolv uclibc-libm uclibc-libdl uclibc-libutil
-uclibc-libpthread uclibc-librt"
-
-
-Doing this caused the _nonshared.a libraries to successfully get
-packaged in the -dev package.
-
-Is this the correct way to get this to work? =A0If so I am happy to
-submit a proper patch, otherwise is there something else I am missing?
-
-Kind Regards
-
-Mark Norman
+Koen=
 
 
