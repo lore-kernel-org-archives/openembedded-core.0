@@ -1,22 +1,26 @@
-Received: from mga11.intel.com ([192.55.52.93])
+Received: from mga14.intel.com ([143.182.124.37])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <lianhao.lu@intel.com>) id 1SMGVM-00061f-JQ
+	(envelope-from <dongxiao.xu@intel.com>) id 1SMGnl-0006DM-B9
 	for openembedded-core@lists.openembedded.org;
-	Mon, 23 Apr 2012 12:28:24 +0200
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-	by fmsmga102.fm.intel.com with ESMTP; 23 Apr 2012 03:18:50 -0700
+	Mon, 23 Apr 2012 12:47:25 +0200
+Received: from azsmga002.ch.intel.com ([10.2.17.35])
+	by azsmga102.ch.intel.com with ESMTP; 23 Apr 2012 03:37:50 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="144792269"
-Received: from llu-piketon.sh.intel.com (HELO localhost) ([10.239.36.110])
-	by fmsmga001.fm.intel.com with ESMTP; 23 Apr 2012 03:18:50 -0700
-From: Lianhao Lu <lianhao.lu@intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Mon, 23 Apr 2012 18:10:43 +0800
-Message-Id: <6800a5197769ac48bdcb8678d51382924ce7ded2.1335175751.git.lianhao.lu@intel.com>
-X-Mailer: git-send-email 1.7.0.4
-In-Reply-To: <cover.1335175751.git.lianhao.lu@intel.com>
-References: <cover.1335175751.git.lianhao.lu@intel.com>
-Subject: [PATCH 1/1] pseudo: PR bump.
+X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="92038257"
+Received: from dongxiao-osel.sh.intel.com (HELO [10.239.36.11])
+	([10.239.36.11])
+	by AZSMGA002.ch.intel.com with ESMTP; 23 Apr 2012 03:37:49 -0700
+From: "Xu, Dongxiao" <dongxiao.xu@intel.com>
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+In-Reply-To: <1335174346.26744.55.camel@dongxiao-osel>
+References: <cover.1335171085.git.dongxiao.xu@intel.com>
+	<1335174346.26744.55.camel@dongxiao-osel>
+Date: Mon, 23 Apr 2012 18:34:42 +0800
+Message-ID: <1335177282.26744.61.camel@dongxiao-osel>
+Mime-Version: 1.0
+X-Mailer: Evolution 2.32.2 
+Subject: Re: [PATCH 0/1 v2][PULL] Fix bug 2355
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -31,44 +35,99 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 23 Apr 2012 10:28:25 -0000
+X-List-Received-Date: Mon, 23 Apr 2012 10:47:25 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-Bump PR value due to the commit
-c6c701f424aeb502d20ff02d02712e56f4e259a5.
+On Mon, 2012-04-23 at 17:45 +0800, Xu, Dongxiao wrote:
+> On Mon, 2012-04-23 at 16:53 +0800, Dongxiao Xu wrote:
+> > Hi Richard,
+> > 
+> > This pull request is the second version to fix bug 2355, please help to review and pull.
+> 
+> Richard, there are some issue inside.
+> Please hold this change for a while.
 
-Signed-off-by: Lianhao Lu <lianhao.lu@intel.com>
----
- meta/recipes-devtools/pseudo/pseudo_1.3.bb |    2 +-
- meta/recipes-devtools/pseudo/pseudo_git.bb |    2 +-
- 2 files changed, 2 insertions(+), 2 deletions(-)
+I just used the following configuration in local.conf.
 
-diff --git a/meta/recipes-devtools/pseudo/pseudo_1.3.bb b/meta/recipes-devtools/pseudo/pseudo_1.3.bb
-index b16b2d9..187b46d 100644
---- a/meta/recipes-devtools/pseudo/pseudo_1.3.bb
-+++ b/meta/recipes-devtools/pseudo/pseudo_1.3.bb
-@@ -1,6 +1,6 @@
- require pseudo.inc
- 
--PR = "r9"
-+PR = "r10"
- 
- SRC_URI = "http://www.yoctoproject.org/downloads/${BPN}/${BPN}-${PV}.tar.bz2"
- 
-diff --git a/meta/recipes-devtools/pseudo/pseudo_git.bb b/meta/recipes-devtools/pseudo/pseudo_git.bb
-index 5771295..1852fab 100644
---- a/meta/recipes-devtools/pseudo/pseudo_git.bb
-+++ b/meta/recipes-devtools/pseudo/pseudo_git.bb
-@@ -2,7 +2,7 @@ require pseudo.inc
- 
- SRCREV = "f0375c9aaefbccfd41aebbf6d332bb4d9e8f980c"
- PV = "1.3+git${SRCPV}"
--PR = "r24"
-+PR = "r25"
- 
- DEFAULT_PREFERENCE = "-1"
- 
--- 
-1.7.0.4
+MACHINE="qemuppc"
+require conf/multilib.conf
+MULTILIBS = "multilib:lib64"
+DEFAULTTUNE_virtclass-multilib-lib64 = "powerpc64"
+
+When I did a simple parse, I met the following error:
+
+ERROR: Unable to determine endianness for architecture ''
+ERROR: Please add your architecture to siteinfo.bbclass
+NOTE: Error expanding variable set_arch
+ERROR: Unable to determine endianness for architecture ''
+ERROR: Please add your architecture to siteinfo.bbclass
+NOTE: Error during finalise of
+virtual:multilib:lib64:/home/dongxiao/poky/meta-yocto/recipes-kernel/linux-libc-headers/linux-libc-headers-yocto_git.bb
+ERROR: Unable to determine endianness for architecture ''
+ERROR: Please add your architecture to siteinfo.bbclass
+ERROR: Unable to determine endianness for architecture ''
+ERROR: Please add your architecture to siteinfo.bbclass
+ERROR: Unable to determine endianness for architecture ''
+ERROR: Please add your architecture to siteinfo.bbclass
+ERROR: Unable to determine endianness for architecture ''
+ERROR: Please add your architecture to siteinfo.bbclass
+ERROR: Unable to determine endianness for architecture ''
+ERROR: Please add your architecture to siteinfo.bbclass
+ERROR: Unable to
+parse /home/dongxiao/poky/meta/recipes-support/pth/pth_2.0.7.bb: Exited
+with "1"
+| ETA:  --:--:--
+ERROR: Command execution failed: Exited with 1
+
+
+Originally I suppose it is related to my patch, however, this issue
+still exists even without my patch.
+
+Is it because we don't support powerpc multilib?
+
+Thanks,
+Dongxiao
+
+
+> 
+> Thanks,
+> Dongxiao
+> 
+> > 
+> > Changes from v1:
+> > Add an inherit for siteinfo.bbclass
+> > 
+> > Thanks,
+> > Dongxiao
+> > 
+> > The following changes since commit 00256125873ff6f1630743a712e882e5f473a9d2:
+> > 
+> >   self-hosted-image: Update poky revision to point at the 1.2 release branch (2012-04-18 15:59:20 +0100)
+> > 
+> > are available in the git repository at:
+> >   git://git.pokylinux.org/poky-contrib dxu4/hob-bugfix-oecore
+> >   http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=dxu4/hob-bugfix-oecore
+> > 
+> > Dongxiao Xu (1):
+> >   qt4: move functions from python to shell style
+> > 
+> >  meta/recipes-qt/qt4/qt4-embedded.inc        |    2 +-
+> >  meta/recipes-qt/qt4/qt4-tools-nativesdk.inc |   15 +++++++++++--
+> >  meta/recipes-qt/qt4/qt4-x11-free.inc        |    2 +-
+> >  meta/recipes-qt/qt4/qt4.inc                 |   28 +++++++++++++++++++++++---
+> >  meta/recipes-qt/qt4/qt4_arch.inc            |   25 ------------------------
+> >  5 files changed, 38 insertions(+), 34 deletions(-)
+> >  delete mode 100644 meta/recipes-qt/qt4/qt4_arch.inc
+> > 
+> 
+> 
+> 
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
+
 
 
 
