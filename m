@@ -1,25 +1,20 @@
-Received: from mga03.intel.com ([143.182.124.21])
+Received: from mga09.intel.com ([134.134.136.24])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <dongxiao.xu@intel.com>) id 1SMG2O-0005L1-2g
+	(envelope-from <lianhao.lu@intel.com>) id 1SMGVK-00061e-PJ
 	for openembedded-core@lists.openembedded.org;
-	Mon, 23 Apr 2012 11:58:28 +0200
-Received: from azsmga002.ch.intel.com ([10.2.17.35])
-	by azsmga101.ch.intel.com with ESMTP; 23 Apr 2012 02:48:53 -0700
+	Mon, 23 Apr 2012 12:28:22 +0200
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+	by orsmga102.jf.intel.com with ESMTP; 23 Apr 2012 03:18:47 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="92026009"
-Received: from dongxiao-osel.sh.intel.com (HELO [10.239.36.11])
-	([10.239.36.11])
-	by AZSMGA002.ch.intel.com with ESMTP; 23 Apr 2012 02:48:53 -0700
-From: "Xu, Dongxiao" <dongxiao.xu@intel.com>
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-In-Reply-To: <cover.1335171085.git.dongxiao.xu@intel.com>
-References: <cover.1335171085.git.dongxiao.xu@intel.com>
-Date: Mon, 23 Apr 2012 17:45:46 +0800
-Message-ID: <1335174346.26744.55.camel@dongxiao-osel>
-Mime-Version: 1.0
-X-Mailer: Evolution 2.32.2 
-Subject: Re: [PATCH 0/1 v2][PULL] Fix bug 2355
+X-IronPort-AV: E=Sophos;i="4.67,351,1309762800"; d="scan'208";a="135600207"
+Received: from llu-piketon.sh.intel.com (HELO localhost) ([10.239.36.110])
+	by orsmga002.jf.intel.com with ESMTP; 23 Apr 2012 03:18:47 -0700
+From: Lianhao Lu <lianhao.lu@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Mon, 23 Apr 2012 18:10:39 +0800
+Message-Id: <cover.1335175751.git.lianhao.lu@intel.com>
+X-Mailer: git-send-email 1.7.0.4
+Subject: [PATCH 0/1] Bump PR for latest pseudo commit
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -34,48 +29,26 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 23 Apr 2012 09:58:28 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Mon, 23 Apr 2012 10:28:23 -0000
 
-On Mon, 2012-04-23 at 16:53 +0800, Dongxiao Xu wrote:
-> Hi Richard,
-> 
-> This pull request is the second version to fix bug 2355, please help to review and pull.
+This patch is to bump PR for latest pseudo commit
+c6c701f424aeb502d20ff02d02712e56f4e259a5.
 
-Richard, there are some issue inside.
-Please hold this change for a while.
+The following changes since commit b19af63a201933038a044f29570710fe38365f28:
+  Richard Purdie (1):
+        self-hosted-image: Update poky revision to point at the 1.2 release branch
 
-Thanks,
-Dongxiao
+are available in the git repository at:
 
-> 
-> Changes from v1:
-> Add an inherit for siteinfo.bbclass
-> 
-> Thanks,
-> Dongxiao
-> 
-> The following changes since commit 00256125873ff6f1630743a712e882e5f473a9d2:
-> 
->   self-hosted-image: Update poky revision to point at the 1.2 release branch (2012-04-18 15:59:20 +0100)
-> 
-> are available in the git repository at:
->   git://git.pokylinux.org/poky-contrib dxu4/hob-bugfix-oecore
->   http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=dxu4/hob-bugfix-oecore
-> 
-> Dongxiao Xu (1):
->   qt4: move functions from python to shell style
-> 
->  meta/recipes-qt/qt4/qt4-embedded.inc        |    2 +-
->  meta/recipes-qt/qt4/qt4-tools-nativesdk.inc |   15 +++++++++++--
->  meta/recipes-qt/qt4/qt4-x11-free.inc        |    2 +-
->  meta/recipes-qt/qt4/qt4.inc                 |   28 +++++++++++++++++++++++---
->  meta/recipes-qt/qt4/qt4_arch.inc            |   25 ------------------------
->  5 files changed, 38 insertions(+), 34 deletions(-)
->  delete mode 100644 meta/recipes-qt/qt4/qt4_arch.inc
-> 
+  git://git.yoctoproject.org/poky-contrib llu/pseudo
+  http://git.yoctoproject.org/cgit.cgi/poky-contrib/log/?h=llu/pseudo
 
+Lianhao Lu (1):
+  pseudo: PR bump.
+
+ meta/recipes-devtools/pseudo/pseudo_1.3.bb |    2 +-
+ meta/recipes-devtools/pseudo/pseudo_git.bb |    2 +-
+ 2 files changed, 2 insertions(+), 2 deletions(-)
 
 
 
