@@ -1,14 +1,23 @@
-Received: from ffm.saftware.de ([83.141.3.46])
+Received: from mail.windriver.com ([147.11.1.11])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <obi@opendreambox.org>) id 1SMRGq-0000hJ-Qx
+	(envelope-from <Xiaofeng.Yan@windriver.com>) id 1SMYn2-0002SR-59
 	for openembedded-core@lists.openembedded.org;
-	Mon, 23 Apr 2012 23:58:08 +0200
-From: Andreas Oberritter <obi@opendreambox.org>
-To: openembedded-core@lists.openembedded.org
-Date: Mon, 23 Apr 2012 23:48:32 +0200
-Message-Id: <1335217712-10154-1-git-send-email-obi@opendreambox.org>
-X-Mailer: git-send-email 1.7.5.4
-Subject: [PATCHv2] {kernel, module}.bbclass: don't run depmod for module packages during do_rootfs
+	Tue, 24 Apr 2012 07:59:52 +0200
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca [147.11.189.40])
+	by mail.windriver.com (8.14.3/8.14.3) with ESMTP id q3O5oGHm015833
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 23 Apr 2012 22:50:16 -0700 (PDT)
+Received: from localhost (128.224.162.28) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server (TLS) id 14.1.255.0;
+	Mon, 23 Apr 2012 22:50:16 -0700
+Message-ID: <cover.1335245655.git.xiaofeng.yan@windriver.com>
+Old-Date: Tue, 24 Apr 2012 13:34:15 +0800
+Date: Tue, 24 Apr 2012 13:50:16 +0800
+To: <openembedded-core@lists.openembedded.org>
+From: Xiaofeng Yan <xiaofeng.yan@windriver.com>
+MIME-Version: 1.0
+Subject: [PATCH 0/1]:gdk-pixbuf: Add --with-x11 when building lsb image
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -23,68 +32,30 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 23 Apr 2012 21:58:08 -0000
+X-List-Received-Date: Tue, 24 Apr 2012 05:59:52 -0000
+Content-Type: text/plain
 
-* depmod already gets executed by pkg_postinst_kernel-image.
+From: Xiaofeng Yan <xiaofeng.yan@windriver.com>
 
-* If you build a module using module.bbclass,
-  pkg_postinst returns 1 in do_rootfs, causing
-  pkg_postinst to run again on first boot. To
-  improve this situation, I copied pkg_postinst
-  from kernel.bbclass to module.bbclass. This was
-  rejected by Koen, because he doesn't like the
-  code from kernel.bblcass, which uses
-  ${STAGING_DIR_KERNEL}. Richard then suggested
-  that calling depmod during do_rootfs wasn't
-  necessary at all, because it already gets done by
-  kernel-image.
+LSB Test Suite complain "no library libgdk_pixbuf_xlib-2.0.so.0" \
+because of having "--without-x11" for gdk-pixbuf_2.24.1.bb.
+For passing lsb test I add PACKAGECONFIG support to the recipe and \
+have poky-lsb turn on the poky-lsb distro for this recipe.
 
-Signed-off-by: Andreas Oberritter <obi@opendreambox.org>
+Pull URL: git://git.pokylinux.org/poky-contrib.git
+  Branch: xiaofeng/2248
+  Browse: http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=xiaofeng/2248
+
+Thanks,
+    Xiaofeng Yan <xiaofeng.yan@windriver.com>
 ---
- meta/classes/kernel.bbclass |    4 +---
- meta/classes/module.bbclass |    7 +++----
- 2 files changed, 4 insertions(+), 7 deletions(-)
 
-diff --git a/meta/classes/kernel.bbclass b/meta/classes/kernel.bbclass
-index 3519e7c..c21ab96 100644
---- a/meta/classes/kernel.bbclass
-+++ b/meta/classes/kernel.bbclass
-@@ -276,9 +276,7 @@ fi
- }
- 
- pkg_postinst_modules () {
--if [ -n "$D" ]; then
--	${HOST_PREFIX}depmod -A -b $D -F ${STAGING_KERNEL_DIR}/System.map-${KERNEL_VERSION} ${KERNEL_VERSION}
--else
-+if [ -z "$D" ]; then
- 	depmod -a
- 	update-modules || true
- fi
-diff --git a/meta/classes/module.bbclass b/meta/classes/module.bbclass
-index 53c16b7..91628e4 100644
---- a/meta/classes/module.bbclass
-+++ b/meta/classes/module.bbclass
-@@ -37,15 +37,14 @@ module_do_install() {
- }
- 
- pkg_postinst_append () {
--	if [ -n "$D" ]; then
--		exit 1
--	fi
-+if [ -z "$D" ]; then
- 	depmod -a
- 	update-modules || true
-+fi
- }
- 
- pkg_postrm_append () {
--	update-modules || true
-+update-modules || true
- }
- 
- EXPORT_FUNCTIONS do_compile do_install
--- 
-1.7.5.4
+
+Xiaofeng Yan (1):
+  gdk-pixbuf: Add --with-x11 when building lsb image
+
+ meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf_2.24.1.bb |    3 ++-
+ 1 files changed, 2 insertions(+), 1 deletions(-)
 
 
 
