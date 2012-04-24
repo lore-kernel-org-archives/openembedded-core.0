@@ -1,37 +1,27 @@
-Received: from mail-we0-f175.google.com ([74.125.82.175])
+Received: from mail1.windriver.com ([147.11.146.13])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <martin.jansa@gmail.com>) id 1SMhQP-0007rr-S4
+	(envelope-from <mark.hatle@windriver.com>) id 1SMhhS-00082W-Rh
 	for openembedded-core@lists.openembedded.org;
-	Tue, 24 Apr 2012 17:13:05 +0200
-Received: by wera1 with SMTP id a1so557875wer.6
+	Tue, 24 Apr 2012 17:30:43 +0200
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca [147.11.189.40])
+	by mail1.windriver.com (8.14.3/8.14.3) with ESMTP id q3OFL6qh011693
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 24 Apr 2012 08:03:31 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=date:from:to:subject:message-id:references:mime-version
-	:content-type:content-disposition:in-reply-to:user-agent;
-	bh=bO78/V48QnmZEYICJoDR4U+0XazWpCXK5E6BN1uC5dc=;
-	b=dRjtYhBMPnp1t8+Ue3gDzm8AQ18uhcx5z307NFUkJVbTaE0H/E77Sc+vaiGq6CXumn
-	reipMTgXaPCULGHz6npdCynawWFBzbMCyBXrulS37DoYdUl6hJb0XizR0mncGO/hULqm
-	2bE/0UHqDqmqgfn3JAmQ63mXq0mkwkgUHQRoGGHDL6UHkt61YMEmC2zjJX6dHxvGh9Ds
-	CVvpiD29V89coZr8eZq+3r5KmFpItZgfXNfTNvB0+zqguTQqlaUdUdtqoPNZbCSN8opQ
-	SPB8y6y6o7d2Ox1fukAw9ur+wZ5m7wpKHdjHJyEes0qOU9iRDnI0WQDrGst2EYhkytQ1
-	MmDQ==
-Received: by 10.180.88.199 with SMTP id bi7mr32210346wib.12.1335279811190;
-	Tue, 24 Apr 2012 08:03:31 -0700 (PDT)
-Received: from localhost ([94.230.152.246])
-	by mx.google.com with ESMTPS id ca3sm30317199wib.6.2012.04.24.08.03.27
-	(version=TLSv1/SSLv3 cipher=OTHER);
-	Tue, 24 Apr 2012 08:03:28 -0700 (PDT)
-Date: Tue, 24 Apr 2012 17:03:29 +0200
-From: Martin Jansa <martin.jansa@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Message-ID: <20120424150329.GC3687@jama.jama.net>
-References: <cover.1333001415.git.Martin.Jansa@gmail.com>
-	<cover.1333028738.git.Martin.Jansa@gmail.com>
+	Tue, 24 Apr 2012 08:21:07 -0700 (PDT)
+Received: from msp-dhcp10.wrs.com (172.25.34.10) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server id 14.1.255.0;
+	Tue, 24 Apr 2012 08:21:06 -0700
+Message-ID: <4F96C4E1.9000508@windriver.com>
+Date: Tue, 24 Apr 2012 10:21:05 -0500
+From: Mark Hatle <mark.hatle@windriver.com>
+Organization: Wind River Systems
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.6;
+	rv:11.0) Gecko/20120327 Thunderbird/11.0.1
 MIME-Version: 1.0
-In-Reply-To: <cover.1333028738.git.Martin.Jansa@gmail.com>
-User-Agent: Mutt/1.5.21 (2010-09-15)
-Subject: Re: [PATCHv2 0/2] more kernel.bbclass updates
+To: <openembedded-core@lists.openembedded.org>
+References: <CAAA4K6J1SNRCr0uM1tT=DjyV47mk-KqGUZjT+B8qgujANw9ZTQ@mail.gmail.com>
+In-Reply-To: <CAAA4K6J1SNRCr0uM1tT=DjyV47mk-KqGUZjT+B8qgujANw9ZTQ@mail.gmail.com>
+Subject: Re: adding package nss in rootfs failed with dependency "/usr/local/bin/perl"
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -46,51 +36,46 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 24 Apr 2012 15:13:05 -0000
-X-Groupsio-MsgNum: 21149
-Content-Type: multipart/signed; micalg=pgp-sha1;
-	protocol="application/pgp-signature"; boundary="zCKi3GIZzVBPywwA"
-Content-Disposition: inline
+X-List-Received-Date: Tue, 24 Apr 2012 15:30:43 -0000
+Content-Type: text/plain; charset="ISO-8859-1"; format=flowed
+Content-Transfer-Encoding: 7bit
 
---zCKi3GIZzVBPywwA
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+On 4/24/12 8:23 AM, Jegan Chandru wrote:
+> Hi,
+>
+> I have cross compiled NSS 3.13.1 for x86 64 bit environment, but when I try to
+> add NSS package in rootfs, i am getting the following error,
+>
+> /error: Failed dependencies:
+> /usr/local/bin/perl is needed by nss-3.13.1-r0.x86_64/
+>
+> I know perl is needed for nss, but the path which is trying to look perl, is
+> quite confusing me, for perl doesn't exist in that location at all. Can anyone
+> please tell me whats going on here and what have I missed?
 
-On Thu, Mar 29, 2012 at 04:08:43PM +0200, Martin Jansa wrote:
-> The following changes since commit 432e36300d7231c9b01cd2c6c4b39b84cf4fdd=
-ca:
->=20
->   rpm: Ensure we depend on file (2012-03-28 18:40:20 +0100)
->=20
-> are available in the git repository at:
->   git://git.openembedded.org/openembedded-core-contrib jansa/kernel2
->   http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=
-=3Djansa/kernel2
->=20
-> Martin Jansa (2):
->   kernel.bbclass: merge uboot_mkimage improvements from meta-oe
->   kernel.bbclass: unify white spaces
->=20
->  meta/classes/kernel.bbclass |   67 ++++++++++++++++++++++++-------------=
------
->  1 files changed, 38 insertions(+), 29 deletions(-)
+This is a bug in the nss package.  It has an executable shell script that has a:
 
-Can this go to master-next?
+#! /usr/local/bin/perl
 
---=20
-Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
+in it, which causes RPM to add a dependency on that specific path, and nothing 
+is providing the path.
 
---zCKi3GIZzVBPywwA
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: Digital signature
+The fix is either, decide this is a sample/demo shell script and remove it from 
+the nss package -- or fix the script to use the proper perl location of 
+"${bindir}/perl"
 
------BEGIN PGP SIGNATURE-----
-Version: GnuPG v2.0.19 (GNU/Linux)
+> P.S: I am using Yocto-1.1.1 and Ubuntu host-11.10 64 bit.
 
-iEYEARECAAYFAk+WwMEACgkQN1Ujt2V2gBwtLgCcD0kePVQiiyr9nvLcwgFVmV8e
-+BMAoJB82RKMrAJsP7EY1Ord2aqLX5mX
-=96pX
------END PGP SIGNATURE-----
+--Mark
 
---zCKi3GIZzVBPywwA--
+> Thanks all for your help,
+> JC
+>
+>
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
+
+
+
