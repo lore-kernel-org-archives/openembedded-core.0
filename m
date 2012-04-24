@@ -1,38 +1,25 @@
-Received: from mail-iy0-f175.google.com ([209.85.210.175])
+Received: from mga11.intel.com ([192.55.52.93])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <andrei@gherzan.ro>) id 1SMnOU-0004L0-9h
+	(envelope-from <sgw@linux.intel.com>) id 1SMnnz-0004FV-LT
 	for openembedded-core@lists.openembedded.org;
-	Tue, 24 Apr 2012 23:35:30 +0200
-Received: by iaag37 with SMTP id g37so1605373iaa.6
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 24 Apr 2012 14:25:54 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=google.com; s=20120113;
-	h=mime-version:x-originating-ip:in-reply-to:references:from:date
-	:message-id:subject:to:content-type:x-gm-message-state;
-	bh=wIez1tAwO/A1Nq1HHPilK+UjsUHH1Rx7ISt7AzilURs=;
-	b=oOIjcl2M88fKjYMG5WWYD4D83pDRVqfsYQWFvh9oGufKqFUZVDHggqzzv1Iy1YX85U
-	bTysxGPHN/9+CDeXOnMPrf4tvzkUjly/zPpokxCLyRqNlB64EABpkE3A4kAEg8POx3Dt
-	KmBIKQL+FAeKvaLRe0k/fFHY2tAyYivxxEQuauuHPIt1O6QN0LrWwvxI4mFrRNJ42QYs
-	0SkPKHLeN7P9FUmo/KFeqZySySTjMWlvRj4U5dqL/vBBDVIjFn0ROKLhncwe+MjlySMd
-	w0/+JqRZsU4VXURjDhBTAz+QWf4pX6KU2gO0KSNbfraM9ALh3NOD83Lh971xLx1BI3vJ
-	k2IA==
-Received: by 10.50.88.225 with SMTP id bj1mr11874512igb.42.1335302754722; Tue,
-	24 Apr 2012 14:25:54 -0700 (PDT)
+	Wed, 25 Apr 2012 00:01:51 +0200
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+	by fmsmga102.fm.intel.com with ESMTP; 24 Apr 2012 14:52:15 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="145459292"
+Received: from unknown (HELO [10.255.12.125]) ([10.255.12.125])
+	by fmsmga001.fm.intel.com with ESMTP; 24 Apr 2012 14:52:15 -0700
+Message-ID: <4F97208F.3090304@linux.intel.com>
+Date: Tue, 24 Apr 2012 14:52:15 -0700
+From: Saul Wold <sgw@linux.intel.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:11.0) Gecko/20120329 Thunderbird/11.0.1
 MIME-Version: 1.0
-Received: by 10.64.25.18 with HTTP; Tue, 24 Apr 2012 14:25:34 -0700 (PDT)
-X-Originating-IP: [79.115.103.32]
-In-Reply-To: <CAK18fxG0_-aQDuPMA5drMAA8Kk-bnAPw-THrxafAOM6amvE2hA@mail.gmail.com>
-References: <CAK18fxFXyj7U1RgBSigrED+H6BjJjx3uCcWY2nVONCOULxL+iw@mail.gmail.com>
-	<CAPhnLPDr2epHUeCjDaeg473mv8cR9jf6gA-BpxT=jU_BDcq3sg@mail.gmail.com>
-	<CAK18fxG0_-aQDuPMA5drMAA8Kk-bnAPw-THrxafAOM6amvE2hA@mail.gmail.com>
-From: Andrei Gherzan <andrei@gherzan.ro>
-Date: Wed, 25 Apr 2012 00:25:34 +0300
-Message-ID: <CAK18fxFL9QbK2o-eLrf=rOi7jdzn+HYq8EL1OJC+YKWKX0YbzA@mail.gmail.com>
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-X-Gm-Message-State: ALoCoQmsgmne3xg+r1TRzo8CP0q0yi+RxYBusTuZVJPXN/WfXF2mdcwCqGlFS5WkOjrl74dVmDSZ
-Subject: Re: LICENSE_{X}-xxx is parsed?
+References: <1335047323-12316-1-git-send-email-cheepeero@gmx.net>
+In-Reply-To: <1335047323-12316-1-git-send-email-cheepeero@gmx.net>
+Subject: Re: [oe] Fix bad linkage towards host qt-mobility sensors module
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -47,175 +34,106 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 24 Apr 2012 21:35:30 -0000
-Content-Type: multipart/alternative; boundary=e89a8f2344175ce3cc04be73669b
+X-List-Received-Date: Tue, 24 Apr 2012 22:01:51 -0000
+Content-Type: text/plain; charset=ISO-8859-1; format=flowed
+Content-Transfer-Encoding: 7bit
 
---e89a8f2344175ce3cc04be73669b
-Content-Type: text/plain; charset=ISO-8859-1
-
-Digging into your commit i realized that this is already done. Thank you.
-
-@g
-
-On Wed, Apr 25, 2012 at 00:15, Andrei Gherzan <andrei@gherzan.ro> wrote:
-
-> On Tue, Apr 24, 2012 at 20:44, Flanagan, Elizabeth <
-> elizabeth.flanagan@intel.com> wrote:
->
->> On Tue, Apr 24, 2012 at 10:25 AM, Andrei Gherzan <andrei@gherzan.ro>
->> wrote:
->> > Hello everybody,
->> >
->> > Is there any mechanism of parsing LICENSE variables for every provided
->> > package in a bb file?
->> >
->> > To be a little more clear about this.
->> >
->> > If i have an app named myapp. Let's say the myapp_1.0.bb includes:
->> > LICENSE = "GPLv3 & LGPLv2.1"
->> > LICENSE_${PN} = LGPLv2.1
->> > LICENSE_${PN} -tests = GPLv3
->> >
->> > If this app is not whitelisted, this file will pe ignored (assuming
->> > INCOMPATIBLE_LICENSE = GPLv3) even if the only needed package on the
->> final
->> > fs is the ${PN} package.
->> >
->>
->> As you have package level licensing set, it will actually check the
->> LICENSE_${PN}. See:
->> bdf2d94c35b7e5ed1723f987696a6c865bff212c Which means it will go and
->> use the PN level
->> license to determine if it should be excluded. If no PN level exists
->> it should fall back to LICENSE
->>
->>
-> I realize this but still, what about the rest for packages provided in a
-> bb file?
->
->
->>  > For files in these case (like gnults) we use right now WHITELIST. In
->> this
->> > way license checking on those packages is skipped.
->> >
->> > If nobody works on this (or this is already done but i couldn't spot it
->> in
->> > the code) i can dig and propose a way to solve this issue.
->> >
->> > @g
->> > _______________________________________________
->> > Openembedded-core mailing list
->> > Openembedded-core@lists.openembedded.org
->> > http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
->> >
->>
->>
->>
->> --
->> Elizabeth Flanagan
->> Yocto Project
->> Build and Release
->>
->> _______________________________________________
->> Openembedded-core mailing list
->> Openembedded-core@lists.openembedded.org
->> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
->>
->
+On 04/21/2012 03:28 PM, Ciprian Ciubotariu wrote:
+> Prevent qmake from using mobilityconfig.prf from host system when build webkit.
+> ---
+>   meta/recipes-qt/qt4/qt-4.8.0.inc                  |    1 +
+>   meta/recipes-qt/qt4/qt-4.8.0/no-qt-mobility.patch |   52 +++++++++++++++++++++
+>   meta/recipes-qt/qt4/qt4-x11-free_4.8.0.bb         |    2 +-
+>   3 files changed, 54 insertions(+), 1 deletions(-)
+>   create mode 100644 meta/recipes-qt/qt4/qt-4.8.0/no-qt-mobility.patch
 >
 
---e89a8f2344175ce3cc04be73669b
-Content-Type: text/html; charset=ISO-8859-1
-Content-Transfer-Encoding: quoted-printable
+Could you please check if this is an issue in master which is using 
+4.8.1, if it still is then rebase this against master.
+	Sau!
 
-<div class=3D"gmail_extra">Digging into your commit i realized that this is=
- already done. Thank you.</div><div class=3D"gmail_extra"><br></div><div cl=
-ass=3D"gmail_extra">@g<br><br><div class=3D"gmail_quote">On Wed, Apr 25, 20=
-12 at 00:15, Andrei Gherzan <span dir=3D"ltr">&lt;<a href=3D"mailto:andrei@=
-gherzan.ro" target=3D"_blank">andrei@gherzan.ro</a>&gt;</span> wrote:<br>
-
-<blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1p=
-x #ccc solid;padding-left:1ex"><div class=3D"gmail_extra"><div class=3D"gma=
-il_quote"><div class=3D"im">On Tue, Apr 24, 2012 at 20:44, Flanagan, Elizab=
-eth <span dir=3D"ltr">&lt;<a href=3D"mailto:elizabeth.flanagan@intel.com" t=
-arget=3D"_blank">elizabeth.flanagan@intel.com</a>&gt;</span> wrote:<br>
-
-
-<blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1p=
-x #ccc solid;padding-left:1ex"><div>On Tue, Apr 24, 2012 at 10:25 AM, Andre=
-i Gherzan &lt;<a href=3D"mailto:andrei@gherzan.ro" target=3D"_blank">andrei=
-@gherzan.ro</a>&gt; wrote:<br>
-
-
-
-&gt; Hello everybody,<br>
-&gt;<br>
-&gt; Is there any=A0mechanism of parsing LICENSE variables for every provid=
-ed<br>
-&gt; package in a bb file?<br>
-&gt;<br>
-&gt; To be a little more clear about this.<br>
-&gt;<br>
-&gt; If i have an app named myapp. Let&#39;s say the <a href=3D"http://myap=
-p_1.0.bb" target=3D"_blank">myapp_1.0.bb</a> includes:<br>
-&gt; LICENSE =3D &quot;GPLv3 &amp; LGPLv2.1&quot;<br>
-&gt; LICENSE_${PN} =3D LGPLv2.1<br>
-&gt; LICENSE_${PN} -tests =3D GPLv3<br>
-&gt;<br>
-&gt; If this app is not whitelisted, this file will pe ignored (assuming<br=
+> diff --git a/meta/recipes-qt/qt4/qt-4.8.0.inc b/meta/recipes-qt/qt4/qt-4.8.0.inc
+> index c0d90cd..af8db2a 100644
+> --- a/meta/recipes-qt/qt4/qt-4.8.0.inc
+> +++ b/meta/recipes-qt/qt4/qt-4.8.0.inc
+> @@ -20,6 +20,7 @@ SRC_URI = "http://get.qt.nokia.com/qt/source/qt-everywhere-opensource-src-${PV}.
+>              file://pulseaudio-config.patch \
+>              file://g++.conf \
+>              file://linux.conf \
+> +           file://no-qt-mobility.patch \
+>              "
 >
-&gt; INCOMPATIBLE_LICENSE =3D GPLv3) even if the only needed package on the=
- final<br>
-&gt; fs is the ${PN} package.<br>
-&gt;<br>
-<br>
-</div>As you have package level licensing set, it will actually check the<b=
-r>
-LICENSE_${PN}. See:<br>
-bdf2d94c35b7e5ed1723f987696a6c865bff212c Which means it will go and<br>
-use the PN level<br>
-license to determine if it should be excluded. If no PN level exists<br>
-it should fall back to LICENSE<br>
-<div><br></div></blockquote><div><br></div></div><div>I=A0realize=A0this bu=
-t still, what about the rest for packages provided in a bb file?</div><div =
-class=3D"im"><div>=A0</div><blockquote class=3D"gmail_quote" style=3D"margi=
-n:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex">
+>   SRC_URI[md5sum] = "e8a5fdbeba2927c948d9f477a6abe904"
+> diff --git a/meta/recipes-qt/qt4/qt-4.8.0/no-qt-mobility.patch b/meta/recipes-qt/qt4/qt-4.8.0/no-qt-mobility.patch
+> new file mode 100644
+> index 0000000..ed66509
+> --- /dev/null
+> +++ b/meta/recipes-qt/qt4/qt-4.8.0/no-qt-mobility.patch
+> @@ -0,0 +1,52 @@
+> +diff --git a/src/3rdparty/webkit/Source/WebCore/features.pri b/src/3rdparty/webkit/Source/WebCore/features.pri
+> +index f04d0b4..aac0482 100644
+> +--- a/src/3rdparty/webkit/Source/WebCore/features.pri
+> ++++ b/src/3rdparty/webkit/Source/WebCore/features.pri
+> +@@ -14,7 +14,7 @@ meegotouch {
+> + }
+> +
+> + ## load mobilityconfig if mobility is available
+> +-load(mobilityconfig, true)
+> ++#load(mobilityconfig, true)
+> +
+> + ## Define default features macros for optional components
+> + ## (look for defs in config.h and included files!)
+> +diff --git a/src/3rdparty/webkit/Source/WebKit/qt/examples/platformplugin/platformplugin.pro b/src/3rdparty/webkit/Source/WebKit/qt/examples/platformplugin/platformplugin.pro
+> +index 80cecb3..856351a 100644
+> +--- a/src/3rdparty/webkit/Source/WebKit/qt/examples/platformplugin/platformplugin.pro
+> ++++ b/src/3rdparty/webkit/Source/WebKit/qt/examples/platformplugin/platformplugin.pro
+> +@@ -4,7 +4,7 @@ TEMPLATE = lib
+> + CONFIG += plugin
+> +
+> + ## load mobilityconfig if mobility is available
+> +-load(mobilityconfig, true)
+> ++#load(mobilityconfig, true)
+> +
+> + # HTML5 Media Support
+> + # We require QtMultimedia
+> +diff --git a/src/3rdparty/webkit/Source/WebKit/qt/symbian/platformplugin/platformplugin.pro b/src/3rdparty/webkit/Source/WebKit/qt/symbian/platformplugin/platformplugin.pro
+> +index fd31e1e..52f1b46 100644
+> +--- a/src/3rdparty/webkit/Source/WebKit/qt/symbian/platformplugin/platformplugin.pro
+> ++++ b/src/3rdparty/webkit/Source/WebKit/qt/symbian/platformplugin/platformplugin.pro
+> +@@ -11,7 +11,7 @@ QT       += core gui \
+> +             xml
+> +
+> + ## load mobilityconfig if mobility is available
+> +-load(mobilityconfig, true)
+> ++#load(mobilityconfig, true)
+> +
+> + isEmpty(OUTPUT_DIR): OUTPUT_DIR = ../../../..
+> +
+> +diff --git a/src/3rdparty/webkit/Source/WebKit/qt/tests/tests.pri b/src/3rdparty/webkit/Source/WebKit/qt/tests/tests.pri
+> +index 812fe93..ccbc5a0 100644
+> +--- a/src/3rdparty/webkit/Source/WebKit/qt/tests/tests.pri
+> ++++ b/src/3rdparty/webkit/Source/WebKit/qt/tests/tests.pri
+> +@@ -7,7 +7,7 @@ CONFIG(QTDIR_build) { load(qttest_p4) }
+> + ELSE { TARGET = tst_$$TARGET }
+> +
+> + # Load mobilityconfig if Qt Mobility is available
+> +-load(mobilityconfig, true)
+> ++#load(mobilityconfig, true)
+> + contains(MOBILITY_CONFIG, multimedia) {
+> +     # This define is used by tests depending on Qt Multimedia
+> +     DEFINES -= WTF_USE_QT_MULTIMEDIA=0
+> diff --git a/meta/recipes-qt/qt4/qt4-x11-free_4.8.0.bb b/meta/recipes-qt/qt4/qt4-x11-free_4.8.0.bb
+> index 6a0b0b8..63a3769 100644
+> --- a/meta/recipes-qt/qt4/qt4-x11-free_4.8.0.bb
+> +++ b/meta/recipes-qt/qt4/qt4-x11-free_4.8.0.bb
+> @@ -1,7 +1,7 @@
+>   require qt4-x11-free.inc
+>   require qt-${PV}.inc
+>
+> -PR = "${INC_PR}.1"
+> +PR = "${INC_PR}.2"
+>
+>   DEFAULT_PREFERENCE = "-1"
+>
 
 
-<div>
-&gt; For files in these case (like gnults) we use right now WHITELIST. In t=
-his<br>
-&gt; way license=A0checking=A0on those packages is skipped.<br>
-&gt;<br>
-&gt; If nobody works on this (or this is already done but i couldn&#39;t sp=
-ot it in<br>
-&gt; the code) i can dig and propose a way to solve this issue.<br>
-&gt;<br>
-&gt; @g<br>
-</div>&gt; _______________________________________________<br>
-&gt; Openembedded-core mailing list<br>
-&gt; <a href=3D"mailto:Openembedded-core@lists.openembedded.org" target=3D"=
-_blank">Openembedded-core@lists.openembedded.org</a><br>
-&gt; <a href=3D"http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openemb=
-edded-core" target=3D"_blank">http://lists.linuxtogo.org/cgi-bin/mailman/li=
-stinfo/openembedded-core</a><br>
-&gt;<br>
-<span><font color=3D"#888888"><br>
-<br>
-<br>
---<br>
-Elizabeth Flanagan<br>
-Yocto Project<br>
-Build and Release<br>
-<br>
-_______________________________________________<br>
-Openembedded-core mailing list<br>
-<a href=3D"mailto:Openembedded-core@lists.openembedded.org" target=3D"_blan=
-k">Openembedded-core@lists.openembedded.org</a><br>
-<a href=3D"http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded=
--core" target=3D"_blank">http://lists.linuxtogo.org/cgi-bin/mailman/listinf=
-o/openembedded-core</a><br>
-</font></span></blockquote></div></div><br></div>
-</blockquote></div><br></div>
-
---e89a8f2344175ce3cc04be73669b--
