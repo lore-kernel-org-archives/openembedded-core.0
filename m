@@ -1,37 +1,38 @@
-Received: from mga07.intel.com ([143.182.124.22] helo=azsmga101.ch.intel.com)
-	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <elizabeth.flanagan@intel.com>) id 1SMjwv-0006bL-Hi
-	for openembedded-core@lists.openembedded.org;
-	Tue, 24 Apr 2012 19:54:49 +0200
-Received: from mail-lpp01m010-f52.google.com ([209.85.215.52])
-	by mga03.intel.com with ESMTP/TLS/RC4-SHA; 24 Apr 2012 10:44:06 -0700
-Received: by lahi5 with SMTP id i5so644861lah.25
+Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
+	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <richard.purdie@linuxfoundation.org>)
+	id 1SMm2t-0000aL-D0 for openembedded-core@lists.openembedded.org;
+	Tue, 24 Apr 2012 22:09:07 +0200
+Received: from localhost (localhost [127.0.0.1])
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q3OJxXXQ016471
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 24 Apr 2012 10:44:04 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=google.com; s=20120113;
-	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
-	:content-type:content-transfer-encoding:x-gm-message-state;
-	bh=BKPs614EiMpdVq0uxCJESLR8dm4t4r/kTr/AMV/kshc=;
-	b=WOSURdsgEnP2Ax4synMANJXjMfFj9Kbm4VbhXxJTWbL+dmkFr9cMONtvBv8NsfE5En
-	KXuKlmKJBZ8xHmXwhsDFK61Qz5xW6ikbrpp0bPcf+0dSEaR3I93ZCeBGCEL5iNNKc79o
-	mMAhlaxBhUIMQRnF72LU52WTBnfK+MrX85J6rlDpkH/jlb2mkJH44cFyNJp6rC7oLFwk
-	TCP1CTNiuw7dNUkWWdoPKCh4u+tkOReJ/ZXO3ahberDdknVwfKstaSCFIsCtk8lnZkRB
-	NyjxuWlCFHM+iCNlJXZxnosghOr1ixmCNSkse1aPHJN8L8TQtXCTT+Mfxq1z6F8RyigW
-	SdnA==
-MIME-Version: 1.0
-Received: by 10.112.103.202 with SMTP id fy10mr10095134lbb.43.1335289444002;
-	Tue, 24 Apr 2012 10:44:04 -0700 (PDT)
-Received: by 10.112.107.137 with HTTP; Tue, 24 Apr 2012 10:44:03 -0700 (PDT)
-In-Reply-To: <CAK18fxFXyj7U1RgBSigrED+H6BjJjx3uCcWY2nVONCOULxL+iw@mail.gmail.com>
-References: <CAK18fxFXyj7U1RgBSigrED+H6BjJjx3uCcWY2nVONCOULxL+iw@mail.gmail.com>
-Date: Tue, 24 Apr 2012 10:44:03 -0700
-Message-ID: <CAPhnLPDr2epHUeCjDaeg473mv8cR9jf6gA-BpxT=jU_BDcq3sg@mail.gmail.com>
-From: "Flanagan, Elizabeth" <elizabeth.flanagan@intel.com>
+	Tue, 24 Apr 2012 20:59:33 +0100
+Received: from tim.rpsys.net ([127.0.0.1])
+	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
+	port 10024) with LMTP
+	id 14820-02 for <openembedded-core@lists.openembedded.org>;
+	Tue, 24 Apr 2012 20:59:29 +0100 (BST)
+Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q3OJxQg1016460
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO)
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 24 Apr 2012 20:59:27 +0100
+Message-ID: <1335297565.21409.32.camel@ted>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-X-Gm-Message-State: ALoCoQlbUmSMLEWw7PgjnK5JewRA2eE68AzDEC6+LqL8ijb2ag0miu04WwcZ02BkjdmqyHg28D7j
-Subject: Re: LICENSE_{X}-xxx is parsed?
+Date: Tue, 24 Apr 2012 20:59:25 +0100
+In-Reply-To: <1335286079.27021.102.camel@phil-desktop>
+References: <857BE142E5399E46B20FD45B9DB8A7BC0FD735E3@SHSMSX101.ccr.corp.intel.com>
+	<1335260575.27021.64.camel@phil-desktop>
+	<1335264349.12692.120.camel@ted>
+	<1335264491.27021.66.camel@phil-desktop>
+	<1335285237.21409.19.camel@ted>
+	<1335286079.27021.102.camel@phil-desktop>
+X-Mailer: Evolution 3.2.2- 
+Mime-Version: 1.0
+X-Virus-Scanned: amavisd-new at rpsys.net
+Subject: Re: is the virtual package <locale>-tanslation correct?
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -46,55 +47,84 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 24 Apr 2012 17:54:49 -0000
-Content-Type: text/plain; charset=ISO-8859-1
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Tue, 24 Apr 2012 20:09:07 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-On Tue, Apr 24, 2012 at 10:25 AM, Andrei Gherzan <andrei@gherzan.ro> wrote:
-> Hello everybody,
->
-> Is there any=A0mechanism of parsing LICENSE variables for every provided
-> package in a bb file?
->
-> To be a little more clear about this.
->
-> If i have an app named myapp. Let's say the myapp_1.0.bb includes:
-> LICENSE =3D "GPLv3 & LGPLv2.1"
-> LICENSE_${PN} =3D LGPLv2.1
-> LICENSE_${PN} -tests =3D GPLv3
->
-> If this app is not whitelisted, this file will pe ignored (assuming
-> INCOMPATIBLE_LICENSE =3D GPLv3) even if the only needed package on the fi=
-nal
-> fs is the ${PN} package.
->
+On Tue, 2012-04-24 at 17:47 +0100, Phil Blundell wrote:
+> On Tue, 2012-04-24 at 17:33 +0100, Richard Purdie wrote:
+> > On Tue, 2012-04-24 at 11:48 +0100, Phil Blundell wrote:
+> > > On Tue, 2012-04-24 at 11:45 +0100, Richard Purdie wrote:
+> > > > On Tue, 2012-04-24 at 10:42 +0100, Phil Blundell wrote:
+> > > > > Yes, that is the intended behaviour.  This is necessary to support
+> > > > > dynamically installed language packs.
+> > > > 
+> > > > What uses this out of interest?
+> > > 
+> > > I'm not entirely sure to be honest.  We used to use it quite heavily in
+> > > Familiar but I have no idea whether Angstrom does the same.  The systems
+> > > I'm working on nowadays don't tend to require language packs so I
+> > > haven't personally used that mechanism for a while.
+> > 
+> > How did the system use this? I can imagine querying the list of
+> > installed packages and then attempting installing xx-locale as a resuilt
+> > but I'm not sure how this other provider helps?
+> > 
+> > As far as I know, opkg doesn't directly support anything like this?
+> 
+> Ipkg did have (and I assume opkg still has, though I haven't checked) a
+> "greedy depends" mechanism which works exactly like this.  If it sees a
+> line like:
+> 
+> Recommends: xx-locale*
+> 
+> then it will install all the packages which Provide: xx-locale and whose
+> dependencies are already satisfied.  The way we used this in Familiar
+> was that the .ipk containing message catalogs for language CC and
+> package PN would Provide: PN-locale, CC-translation, and would Depend:
+> on PN and locale-base-CC.  PN itself would Recommend: PN-locale*, and
+> there was a language-pack-CC metapackage which would Depend: on
+> locale-base-cc and Recommend: CC-translation*.  So...
+> 
+> - if you did "ipkg install language-pack-de", it would install
+> locale-base-de (via the hard Depends) and then install PN-locale-de for
+> each PN that was already installed (via the Recommends).
+> 
+> - if you did "ipkg install frozen-bubble", it would install the program
+> itself (obviously) and then install the message catalogs for all the
+> locale-bases that were already installed.
+> 
+> Likewise, if you subsequently removed locale-base-de or frozen-bubble
+> then the dependency chain would cause all the corresponding message
+> catalogs to get ripped out as well.
+> 
+> Obviously this was about a decade ago so my recollection might not be
+> 100% reliable.  But I'm fairly sure that the basic gist of the above is
+> correct.
 
-As you have package level licensing set, it will actually check the
-LICENSE_${PN}. See:
-bdf2d94c35b7e5ed1723f987696a6c865bff212c Which means it will go and
-use the PN level
-license to determine if it should be excluded. If no PN level exists
-it should fall back to LICENSE
+This is interesting information, thanks! Back in <checks logs> 2007 I
+disabled some of the functionality you mention above since I couldn't
+find anyone who could explain to me what it was meant to be doing but it
+was causing problems:
 
-> For files in these case (like gnults) we use right now WHITELIST. In this
-> way license=A0checking=A0on those packages is skipped.
->
-> If nobody works on this (or this is already done but i couldn't spot it i=
-n
-> the code) i can dig and propose a way to solve this issue.
->
-> @g
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
->
+http://git.yoctoproject.org/cgit.cgi/poky/commit/meta/classes/package.bbclass?id=cee4b2a05a506817c65267ff9786c2e9c980306a
+
+and we still have that comment block in the code to this day. I'm sure
+at the time I tried to get opkg/ipkg to do something sensible with this
+and couldn't.
+
+It would certainly be interesting to revisit some of this and see if we
+could bring it back to life, maybe as part of the ipk backend this time
+instead of in the core. It is going to be package manager specific
+though and that may be the right place to add in some of these
+dependencies if they aren't going to be useful (or functional)
+elsewhere.
+
+Cheers,
+
+Richard
 
 
 
---=20
-Elizabeth Flanagan
-Yocto Project
-Build and Release
 
 
