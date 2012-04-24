@@ -1,24 +1,31 @@
-Received: from mga01.intel.com ([192.55.52.88])
-	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <dongxiao.xu@intel.com>) id 1SMb9K-0005Di-07
-	for openembedded-core@lists.openembedded.org;
-	Tue, 24 Apr 2012 10:31:02 +0200
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-	by fmsmga101.fm.intel.com with ESMTP; 24 Apr 2012 01:21:26 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="157494512"
-Received: from dongxiao-osel.sh.intel.com (HELO localhost) ([10.239.36.11])
-	by fmsmga002.fm.intel.com with ESMTP; 24 Apr 2012 01:21:26 -0700
-From: Dongxiao Xu <dongxiao.xu@intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Tue, 24 Apr 2012 16:18:15 +0800
-Message-Id: <466ec63d843bd1f13db3928871890b2e9f53c373.1335254875.git.dongxiao.xu@intel.com>
-X-Mailer: git-send-email 1.7.4.1
-In-Reply-To: <cover.1335254875.git.dongxiao.xu@intel.com>
-References: <cover.1335254875.git.dongxiao.xu@intel.com>
-In-Reply-To: <cover.1335254875.git.dongxiao.xu@intel.com>
-References: <cover.1335254875.git.dongxiao.xu@intel.com>
-Subject: [PATCH 1/1] sanity.bbclass: Add a new case to issue sanity_check()
+Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
+	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <richard.purdie@linuxfoundation.org>)
+	id 1SMbZ6-0005SY-5L for openembedded-core@lists.openembedded.org;
+	Tue, 24 Apr 2012 10:57:40 +0200
+Received: from localhost (localhost [127.0.0.1])
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q3O8m2SE005386;
+	Tue, 24 Apr 2012 09:48:02 +0100
+Received: from tim.rpsys.net ([127.0.0.1])
+	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
+	port 10024) with LMTP
+	id 04928-02; Tue, 24 Apr 2012 09:47:58 +0100 (BST)
+Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q3O8lqXj005379
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO);
+	Tue, 24 Apr 2012 09:47:53 +0100
+Message-ID: <1335257270.12692.108.camel@ted>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Darren Hart <dvhart@linux.intel.com>
+Date: Tue, 24 Apr 2012 09:47:50 +0100
+In-Reply-To: <4F95772B.2080007@linux.intel.com>
+References: <1334872962.3028.2.camel@ted> <4F95772B.2080007@linux.intel.com>
+X-Mailer: Evolution 3.2.2- 
+Mime-Version: 1.0
+X-Virus-Scanned: amavisd-new at rpsys.net
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] bootimg.bbclass: Tweak iso images to become hybrid images
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -33,32 +40,40 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 24 Apr 2012 08:31:02 -0000
+X-List-Received-Date: Tue, 24 Apr 2012 08:57:40 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-Judge if "SanityCheck" event is received, it will issue the
-sanity_check() and send "SanityCheckPassed" back if succeeded.
+On Mon, 2012-04-23 at 08:37 -0700, Darren Hart wrote:
+> 
+> On 04/19/2012 03:02 PM, Richard Purdie wrote:
+> > From: Damien Lespiau <damien.lespiau@intel.com>
+> > 
+> > This allows iso images to be written to usb keys and booted on systems which
+> > have a BIOS which support this. There is no real down side to tweaking the iso
+> > images in this way.
+> 
+> I like the idea, but there does appear to be one potential downside.
+> From the syslinux isolinux.txt documentation:
+> 
+> "The ISO 9660 filesystem is encapsulated in a partition (which starts
+> at offset zero, which may confuse some systems.)"
+> 
+> How many different systems and firmware has this been tested on?
+> 
+> I think it is a worthwhile patch, but we should be aware of the above in
+> case a regression is reported. In such an event, it seems a
+> NO_ISO_HYBRID flag could be set by the machine.conf to revert to the
+> older behavior.
 
-Signed-off-by: Dongxiao Xu <dongxiao.xu@intel.com>
----
- meta/classes/sanity.bbclass |    3 +++
- 1 files changed, 3 insertions(+), 0 deletions(-)
+Agreed, I think we should try this and see if there are any problems
+reported. I tested a few machines here and it seemed to work on most of
+them but this was with a USB key, not a CD image. This is probably our
+more common use case though.
 
-diff --git a/meta/classes/sanity.bbclass b/meta/classes/sanity.bbclass
-index c3d4e58..687ddeb 100644
---- a/meta/classes/sanity.bbclass
-+++ b/meta/classes/sanity.bbclass
-@@ -455,6 +455,9 @@ addhandler check_sanity_eventhandler
- python check_sanity_eventhandler() {
-     if bb.event.getName(e) == "ConfigParsed" and e.data.getVar("BB_WORKERCONTEXT", True) != "1" and e.data.getVar("DISABLE_SANITY_CHECKS", True) != "1":
-         check_sanity(e)
-+    elif bb.event.getName(e) == "SanityCheck":
-+        check_sanity(e)
-+        bb.event.fire(bb.event.SanityCheckPassed(), e.data)
- 
-     return
- }
--- 
-1.7.4.1
+Cheers,
+
+Richard
 
 
 
