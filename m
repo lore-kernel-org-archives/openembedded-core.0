@@ -1,20 +1,24 @@
-Received: from mga02.intel.com ([134.134.136.20])
+Received: from mga01.intel.com ([192.55.52.88])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <dongxiao.xu@intel.com>) id 1SMb9I-0005Dh-Ld
+	(envelope-from <dongxiao.xu@intel.com>) id 1SMb9K-0005Di-07
 	for openembedded-core@lists.openembedded.org;
-	Tue, 24 Apr 2012 10:31:00 +0200
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-	by orsmga101.jf.intel.com with ESMTP; 24 Apr 2012 01:21:25 -0700
+	Tue, 24 Apr 2012 10:31:02 +0200
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+	by fmsmga101.fm.intel.com with ESMTP; 24 Apr 2012 01:21:26 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.67,352,1309762800"; d="scan'208";a="133143982"
+X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="157494512"
 Received: from dongxiao-osel.sh.intel.com (HELO localhost) ([10.239.36.11])
-	by orsmga001.jf.intel.com with ESMTP; 24 Apr 2012 01:21:25 -0700
+	by fmsmga002.fm.intel.com with ESMTP; 24 Apr 2012 01:21:26 -0700
 From: Dongxiao Xu <dongxiao.xu@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Tue, 24 Apr 2012 16:18:14 +0800
-Message-Id: <cover.1335254875.git.dongxiao.xu@intel.com>
+Date: Tue, 24 Apr 2012 16:18:15 +0800
+Message-Id: <466ec63d843bd1f13db3928871890b2e9f53c373.1335254875.git.dongxiao.xu@intel.com>
 X-Mailer: git-send-email 1.7.4.1
-Subject: [PATCH 0/1][PULL] Bug 2361: Add two new events for Hob use.
+In-Reply-To: <cover.1335254875.git.dongxiao.xu@intel.com>
+References: <cover.1335254875.git.dongxiao.xu@intel.com>
+In-Reply-To: <cover.1335254875.git.dongxiao.xu@intel.com>
+References: <cover.1335254875.git.dongxiao.xu@intel.com>
+Subject: [PATCH 1/1] sanity.bbclass: Add a new case to issue sanity_check()
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -29,29 +33,30 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 24 Apr 2012 08:31:00 -0000
+X-List-Received-Date: Tue, 24 Apr 2012 08:31:02 -0000
 
-Hi Richard,
+Judge if "SanityCheck" event is received, it will issue the
+sanity_check() and send "SanityCheckPassed" back if succeeded.
 
-This pull request is for bug 2361, please help to review and pull.
-
-Thanks,
-Dongxiao
-
-The following changes since commit 85bebd85c4f6603ac8fc1290121c34b92cc434f9:
-
-  self-hosted-image: Update poky revision to point at the 1.2 release branch (2012-04-23 23:12:29 +0100)
-
-are available in the git repository at:
-  git://git.pokylinux.org/poky-contrib dxu4/hob-bugfix-oecore
-  http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=dxu4/hob-bugfix-oecore
-
-Dongxiao Xu (1):
-  sanity.bbclass: Add a new case to issue sanity_check()
-
+Signed-off-by: Dongxiao Xu <dongxiao.xu@intel.com>
+---
  meta/classes/sanity.bbclass |    3 +++
  1 files changed, 3 insertions(+), 0 deletions(-)
 
+diff --git a/meta/classes/sanity.bbclass b/meta/classes/sanity.bbclass
+index c3d4e58..687ddeb 100644
+--- a/meta/classes/sanity.bbclass
++++ b/meta/classes/sanity.bbclass
+@@ -455,6 +455,9 @@ addhandler check_sanity_eventhandler
+ python check_sanity_eventhandler() {
+     if bb.event.getName(e) == "ConfigParsed" and e.data.getVar("BB_WORKERCONTEXT", True) != "1" and e.data.getVar("DISABLE_SANITY_CHECKS", True) != "1":
+         check_sanity(e)
++    elif bb.event.getName(e) == "SanityCheck":
++        check_sanity(e)
++        bb.event.fire(bb.event.SanityCheckPassed(), e.data)
+ 
+     return
+ }
 -- 
 1.7.4.1
 
