@@ -1,28 +1,33 @@
-Received: from mail.pbcl.net ([88.198.119.4] helo=hetzner.pbcl.net)
+Received: from mail-yx0-f175.google.com ([209.85.213.175])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <philb@gnu.org>) id 1SMj3U-00032g-6d
+	(envelope-from <andrei@gherzan.ro>) id 1SMjdo-0006Qy-6V
 	for openembedded-core@lists.openembedded.org;
-	Tue, 24 Apr 2012 18:57:32 +0200
-Received: from elite.brightsigndigital.co.uk ([81.142.160.137]
-	helo=[172.30.1.145])
-	by hetzner.pbcl.net with esmtpsa (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
-	(Exim 4.72) (envelope-from <philb@gnu.org>) id 1SMiuF-0001Jy-Ko
-	for openembedded-core@lists.openembedded.org;
-	Tue, 24 Apr 2012 18:47:59 +0200
-From: Phil Blundell <philb@gnu.org>
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Date: Tue, 24 Apr 2012 17:47:58 +0100
-In-Reply-To: <1335285237.21409.19.camel@ted>
-References: <857BE142E5399E46B20FD45B9DB8A7BC0FD735E3@SHSMSX101.ccr.corp.intel.com>
-	<1335260575.27021.64.camel@phil-desktop>
-	<1335264349.12692.120.camel@ted>
-	<1335264491.27021.66.camel@phil-desktop>
-	<1335285237.21409.19.camel@ted>
-X-Mailer: Evolution 3.0.2- 
-Message-ID: <1335286079.27021.102.camel@phil-desktop>
-Mime-Version: 1.0
-Subject: Re: is the virtual package <locale>-tanslation correct?
+	Tue, 24 Apr 2012 19:35:04 +0200
+Received: by yenm3 with SMTP id m3so582199yen.6
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 24 Apr 2012 10:25:29 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=google.com; s=20120113;
+	h=mime-version:x-originating-ip:from:date:message-id:subject:to
+	:content-type:x-gm-message-state;
+	bh=d/kkDGDZKH2+XXYiWMukFMc5C8SHfAP+nBP94f3rXWI=;
+	b=OiWSebAWYYZcaillrqjF57xMkaHnFD9+ObaSCzWnUhRY73onVLz/ZZjQDLIj1vuwhN
+	7P/bDazl5PX5glpTRMuu98aa730XimJwYMB21fFUMPS8jb1iatbPCf1OitWPfc2PormV
+	euy2mK0eYIuWdMPS9TQOcIazicOJodXF6xkyQWMCLkdy26/jwOjgzOhieBDRmVNxjWIm
+	kA7ZWe68NsH+DJlkoN7SlTINbg0LqGcLEUgKBLCIYB68oKJh1kfS36XxFD+mi+NpA4hn
+	cjgnJ8n8zKhfpgikGGKtj/Dj3VKbgU6sP0GTN4kK6b1CZ9DRkdFENAORMRWGafW/Wcjo
+	9/0A==
+Received: by 10.50.88.225 with SMTP id bj1mr11278351igb.42.1335288328724; Tue,
+	24 Apr 2012 10:25:28 -0700 (PDT)
+MIME-Version: 1.0
+Received: by 10.64.25.18 with HTTP; Tue, 24 Apr 2012 10:25:08 -0700 (PDT)
+X-Originating-IP: [79.115.103.32]
+From: Andrei Gherzan <andrei@gherzan.ro>
+Date: Tue, 24 Apr 2012 20:25:08 +0300
+Message-ID: <CAK18fxFXyj7U1RgBSigrED+H6BjJjx3uCcWY2nVONCOULxL+iw@mail.gmail.com>
+To: openembedded <openembedded-core@lists.openembedded.org>
+X-Gm-Message-State: ALoCoQnwmBpH+/fAOejo59aa1HBf9uC3AwO7x9oKUxPrxTbui/zNFYX31Y9af+s4IFqMaULWYJEH
+Subject: LICENSE_{X}-xxx is parsed?
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -37,62 +42,57 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 24 Apr 2012 16:57:32 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Tue, 24 Apr 2012 17:35:04 -0000
+Content-Type: multipart/alternative; boundary=e89a8f23441781a02304be700a74
 
-On Tue, 2012-04-24 at 17:33 +0100, Richard Purdie wrote:
-> On Tue, 2012-04-24 at 11:48 +0100, Phil Blundell wrote:
-> > On Tue, 2012-04-24 at 11:45 +0100, Richard Purdie wrote:
-> > > On Tue, 2012-04-24 at 10:42 +0100, Phil Blundell wrote:
-> > > > Yes, that is the intended behaviour.  This is necessary to support
-> > > > dynamically installed language packs.
-> > > 
-> > > What uses this out of interest?
-> > 
-> > I'm not entirely sure to be honest.  We used to use it quite heavily in
-> > Familiar but I have no idea whether Angstrom does the same.  The systems
-> > I'm working on nowadays don't tend to require language packs so I
-> > haven't personally used that mechanism for a while.
-> 
-> How did the system use this? I can imagine querying the list of
-> installed packages and then attempting installing xx-locale as a resuilt
-> but I'm not sure how this other provider helps?
-> 
-> As far as I know, opkg doesn't directly support anything like this?
+--e89a8f23441781a02304be700a74
+Content-Type: text/plain; charset=ISO-8859-1
 
-Ipkg did have (and I assume opkg still has, though I haven't checked) a
-"greedy depends" mechanism which works exactly like this.  If it sees a
-line like:
+Hello everybody,
 
-Recommends: xx-locale*
+Is there any mechanism of parsing LICENSE variables for every provided
+package in a bb file?
 
-then it will install all the packages which Provide: xx-locale and whose
-dependencies are already satisfied.  The way we used this in Familiar
-was that the .ipk containing message catalogs for language CC and
-package PN would Provide: PN-locale, CC-translation, and would Depend:
-on PN and locale-base-CC.  PN itself would Recommend: PN-locale*, and
-there was a language-pack-CC metapackage which would Depend: on
-locale-base-cc and Recommend: CC-translation*.  So...
+To be a little more clear about this.
 
-- if you did "ipkg install language-pack-de", it would install
-locale-base-de (via the hard Depends) and then install PN-locale-de for
-each PN that was already installed (via the Recommends).
+If i have an app named myapp. Let's say the myapp_1.0.bb includes:
+LICENSE = "GPLv3 & LGPLv2.1"
+LICENSE_${PN} = LGPLv2.1
+LICENSE_${PN} -tests = GPLv3
 
-- if you did "ipkg install frozen-bubble", it would install the program
-itself (obviously) and then install the message catalogs for all the
-locale-bases that were already installed.
+If this app is not whitelisted, this file will pe ignored (assuming
+INCOMPATIBLE_LICENSE = GPLv3) even if the only needed package on the final
+fs is the ${PN} package.
 
-Likewise, if you subsequently removed locale-base-de or frozen-bubble
-then the dependency chain would cause all the corresponding message
-catalogs to get ripped out as well.
+For files in these case (like gnults) we use right now WHITELIST. In this
+way license checking on those packages is skipped.
 
-Obviously this was about a decade ago so my recollection might not be
-100% reliable.  But I'm fairly sure that the basic gist of the above is
-correct.
+If nobody works on this (or this is already done but i couldn't spot it in
+the code) i can dig and propose a way to solve this issue.
 
-p.
+@g
 
+--e89a8f23441781a02304be700a74
+Content-Type: text/html; charset=ISO-8859-1
+Content-Transfer-Encoding: quoted-printable
 
+<div>Hello everybody,</div><div><br></div><div>Is there any=A0mechanism of =
+parsing LICENSE variables for every provided package in a bb file?</div><di=
+v><br></div><div>To be a little more clear about this.</div><div><br></div>
 
+<div>If i have an app named myapp. Let&#39;s say the <a href=3D"http://myap=
+p_1.0.bb">myapp_1.0.bb</a> includes:</div><div>LICENSE =3D &quot;GPLv3 &amp=
+; LGPLv2.1&quot;</div><div>LICENSE_${PN} =3D LGPLv2.1</div><div>LICENSE_${P=
+N} -tests =3D GPLv3</div>
 
+<div><br></div><div>If this app is not whitelisted, this file will pe ignor=
+ed (assuming INCOMPATIBLE_LICENSE =3D GPLv3) even if the only needed packag=
+e on the final fs is the ${PN} package.</div><div><br></div><div>For files =
+in these case (like gnults) we use right now WHITELIST. In this way license=
+=A0checking=A0on those packages is skipped. =A0</div>
+
+<div><br></div><div>If nobody works on this (or this is already done but i =
+couldn&#39;t spot it in the code) i can dig and propose a way to solve this=
+ issue.</div><div><br></div>@g
+
+--e89a8f23441781a02304be700a74--
