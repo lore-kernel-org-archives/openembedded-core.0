@@ -1,38 +1,37 @@
-Received: from mga10.intel.com ([192.55.52.92] helo=fmsmga102.fm.intel.com)
+Received: from mail-qc0-f175.google.com ([209.85.216.175])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <elizabeth.flanagan@intel.com>) id 1SMoY3-0004jf-2H
+	(envelope-from <kergoth@gmail.com>) id 1SMole-0005EN-PC
 	for openembedded-core@lists.openembedded.org;
-	Wed, 25 Apr 2012 00:49:27 +0200
-Received: from mail-lb0-f180.google.com ([209.85.217.180])
-	by mga11.intel.com with ESMTP/TLS/RC4-SHA; 24 Apr 2012 15:38:45 -0700
-Received: by lbbgi4 with SMTP id gi4so851836lbb.25
+	Wed, 25 Apr 2012 01:03:30 +0200
+Received: by qcso7 with SMTP id o7so721974qcs.6
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 24 Apr 2012 15:38:43 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=google.com; s=20120113;
-	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
-	:content-type:content-transfer-encoding:x-gm-message-state;
-	bh=SbYTcKzyXypuYcwOWN8mkD1lSBfTExBO5KH57P0h2Z8=;
-	b=VS6NMp9/mq1Kp+jyau3XSouUxr9G0V7J/yUlXdOd5x/FKVMt68bmBfar65fdqQyTVa
-	tgxQpmMXnKqZdaBhskbS5Qt3GcMw/1ieWbVEcquHzK9U9dOQ6EzA4ayBFTDVVgIvZaqZ
-	Sp2psqBLxaR3ZJ9CKkUpIuKe3L7NM53vG2BJVauy/5Wl9bjpbIvq+RFG1LhGI49xAUCj
-	4f7q5jArlw/qWpg6+IgAUYzqbGTf9plPEaD9hKlqRTYQL+NYYt/lAASVa37bMMNuOnuU
-	1Gdxyc9BplmOl55ubMJr7RmMErfI+7LPNoO4OtpB58WPrhehz6Cu3z9hF2OazugNvZQM
-	j2yA==
+	Tue, 24 Apr 2012 15:53:55 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=mime-version:sender:in-reply-to:references:from:date
+	:x-google-sender-auth:message-id:subject:to:content-type;
+	bh=75mseeQvyd3G0rxo7fs0WJM8u9jrJzWsBzLKHea5pmI=;
+	b=FRiW+pCsyP9lvSnFXyLK18DJT31nQp/IKTI/X62avDRxIYWc9A/yGpbdnPy15xgTgp
+	ldt1fMW/81uQba16hJb696lDINAqhFPMqKDhtNyVPtNH/KZNZgDCCw6KApvOvE2R5gEh
+	BNy5yusi567855+8HmIALbsk3wfzFYrmMi6Nwukb7tf0+VkbK64NsRof7DZdtmhibDku
+	Q9Th4vdEd9kDe/F8Obgq+iZBPz8FWFxlwbrG6LiPjPr+MpMKQ56IQ4R4lVGelC5rLW9X
+	Y4uFWLnU/L6OdtdcqNsRw41EyfQY4PCI7yu8yoP08d98Vtp0h9LV4cnBht4gEX8yTm4n
+	gADQ==
+Received: by 10.229.137.139 with SMTP id w11mr42629qct.99.1335308035302; Tue,
+	24 Apr 2012 15:53:55 -0700 (PDT)
 MIME-Version: 1.0
-Received: by 10.152.147.100 with SMTP id tj4mr229221lab.39.1335307123240; Tue,
-	24 Apr 2012 15:38:43 -0700 (PDT)
-Received: by 10.112.107.137 with HTTP; Tue, 24 Apr 2012 15:38:43 -0700 (PDT)
-In-Reply-To: <CAK18fxG0_-aQDuPMA5drMAA8Kk-bnAPw-THrxafAOM6amvE2hA@mail.gmail.com>
+Sender: kergoth@gmail.com
+Received: by 10.229.79.79 with HTTP; Tue, 24 Apr 2012 15:53:34 -0700 (PDT)
+In-Reply-To: <CAPhnLPCWAKLiLUfKVaguN_cFA=PAgRhW4vZ-pa1XDtW=Wugvpg@mail.gmail.com>
 References: <CAK18fxFXyj7U1RgBSigrED+H6BjJjx3uCcWY2nVONCOULxL+iw@mail.gmail.com>
 	<CAPhnLPDr2epHUeCjDaeg473mv8cR9jf6gA-BpxT=jU_BDcq3sg@mail.gmail.com>
 	<CAK18fxG0_-aQDuPMA5drMAA8Kk-bnAPw-THrxafAOM6amvE2hA@mail.gmail.com>
-Date: Tue, 24 Apr 2012 15:38:43 -0700
-Message-ID: <CAPhnLPCWAKLiLUfKVaguN_cFA=PAgRhW4vZ-pa1XDtW=Wugvpg@mail.gmail.com>
-From: "Flanagan, Elizabeth" <elizabeth.flanagan@intel.com>
+	<CAPhnLPCWAKLiLUfKVaguN_cFA=PAgRhW4vZ-pa1XDtW=Wugvpg@mail.gmail.com>
+From: Chris Larson <clarson@kergoth.com>
+Date: Tue, 24 Apr 2012 15:53:34 -0700
+X-Google-Sender-Auth: y0x2duQ0Jz9aHIIbN-lxP7GialQ
+Message-ID: <CABcZANnyFDurr+B6nW5nJz+3kq2RXp4403Eqhcahkt53ififeA@mail.gmail.com>
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-X-Gm-Message-State: ALoCoQko4tmhFKr8GgT+7YQk6oyhfGyK5DgGffzIU5lJVR9HCje19IxXMJGdqWzQEnY/WjfxiCRC
 Subject: Re: LICENSE_{X}-xxx is parsed?
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
@@ -48,105 +47,29 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 24 Apr 2012 22:49:27 -0000
-Content-Type: text/plain; charset=ISO-8859-1
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Tue, 24 Apr 2012 23:03:31 -0000
+Content-Type: text/plain; charset=UTF-8
 
-On Tue, Apr 24, 2012 at 2:15 PM, Andrei Gherzan <andrei@gherzan.ro> wrote:
-> On Tue, Apr 24, 2012 at 20:44, Flanagan, Elizabeth
-> <elizabeth.flanagan@intel.com> wrote:
->>
->> On Tue, Apr 24, 2012 at 10:25 AM, Andrei Gherzan <andrei@gherzan.ro>
->> wrote:
->> > Hello everybody,
->> >
->> > Is there any=A0mechanism of parsing LICENSE variables for every provid=
-ed
->> > package in a bb file?
->> >
->> > To be a little more clear about this.
->> >
->> > If i have an app named myapp. Let's say the myapp_1.0.bb includes:
->> > LICENSE =3D "GPLv3 & LGPLv2.1"
->> > LICENSE_${PN} =3D LGPLv2.1
->> > LICENSE_${PN} -tests =3D GPLv3
->> >
->> > If this app is not whitelisted, this file will pe ignored (assuming
->> > INCOMPATIBLE_LICENSE =3D GPLv3) even if the only needed package on the
->> > final
->> > fs is the ${PN} package.
->> >
->>
->> As you have package level licensing set, it will actually check the
->> LICENSE_${PN}. See:
->> bdf2d94c35b7e5ed1723f987696a6c865bff212c Which means it will go and
->> use the PN level
->> license to determine if it should be excluded. If no PN level exists
->> it should fall back to LICENSE
->>
+On Tue, Apr 24, 2012 at 3:38 PM, Flanagan, Elizabeth
+<elizabeth.flanagan@intel.com> wrote:
+> The rest of the packages in the bb should be inheriting LICENSE if no
+> PN level license is set. Which obviously causes problems for the above
+> example.
 >
-> I=A0realize=A0this but still, what about the rest for packages provided i=
-n a bb
-> file?
-
-The rest of the packages in the bb should be inheriting LICENSE if no
-PN level license is set. Which obviously causes problems for the above
-example.
-
-In a case like above you'd want to do either of the following:
-
-a. Call out each package's license individually (better but can be
-painful for recipes with lots of packages)
-b. Leave GPLv3 out of LICENSE (easier but not technically accurate) so
-undefined package level licensing inherits the correct LICENSE.
-
-I'd personally do the first choice as it's cleaner.
-
--b
-
+> In a case like above you'd want to do either of the following:
 >
->>
->> > For files in these case (like gnults) we use right now WHITELIST. In
->> > this
->> > way license=A0checking=A0on those packages is skipped.
->> >
->> > If nobody works on this (or this is already done but i couldn't spot i=
-t
->> > in
->> > the code) i can dig and propose a way to solve this issue.
->> >
->> > @g
->> > _______________________________________________
->> > Openembedded-core mailing list
->> > Openembedded-core@lists.openembedded.org
->> > http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
->> >
->>
->>
->>
->> --
->> Elizabeth Flanagan
->> Yocto Project
->> Build and Release
->>
->> _______________________________________________
->> Openembedded-core mailing list
->> Openembedded-core@lists.openembedded.org
->> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
->
->
->
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
->
+> a. Call out each package's license individually (better but can be
+> painful for recipes with lots of packages)
+> b. Leave GPLv3 out of LICENSE (easier but not technically accurate) so
+> undefined package level licensing inherits the correct LICENSE.
 
-
-
---=20
-Elizabeth Flanagan
-Yocto Project
-Build and Release
+I wonder if a partially specified set of individual package settings
+should be identified by some sanity check (an explicit, rather than
+implicit, one, like recipe_sanity) as a potential bug / source of
+confusion. I suspect most of the time it should be one or the other,
+either no individual package LICENSEs are defined, or they all should
+be.
+-- 
+Christopher Larson
 
 
