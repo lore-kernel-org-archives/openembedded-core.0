@@ -1,31 +1,38 @@
-Received: from masterfoo.zenlinux.com ([207.192.74.254])
-	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <scott.a.garman@intel.com>) id 1SMugw-0006f6-4H
-	for openembedded-core@lists.openembedded.org;
-	Wed, 25 Apr 2012 07:23:02 +0200
-Received: from localhost (c-76-105-137-48.hsd1.or.comcast.net [76.105.137.48])
-	(using TLSv1 with cipher DHE-RSA-AES128-SHA (128/128 bits))
-	(No client certificate requested)
-	by masterfoo.zenlinux.com (Postfix) with ESMTP id A74F62FF65
+Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
+	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <richard.purdie@linuxfoundation.org>)
+	id 1SMxYo-0002V0-99 for openembedded-core@lists.openembedded.org;
+	Wed, 25 Apr 2012 10:26:50 +0200
+Received: from localhost (localhost [127.0.0.1])
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q3P8HEbo023087
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 25 Apr 2012 01:13:21 -0400 (EDT)
-From: Scott Garman <scott.a.garman@intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Tue, 24 Apr 2012 22:13:13 -0700
-Message-Id: <2141be5ebcb7b14e348ad7e8a516a19333388eeb.1335330662.git.scott.a.garman@intel.com>
-X-Mailer: git-send-email 1.7.5.4
-In-Reply-To: <cover.1335330662.git.scott.a.garman@intel.com>
-References: <cover.1335330662.git.scott.a.garman@intel.com>
-In-Reply-To: <cover.1335330662.git.scott.a.garman@intel.com>
-References: <cover.1335330662.git.scott.a.garman@intel.com>
-X-MasterFoo-MailScanner-Information: Please contact the ISP for more
-	information
-X-MailScanner-ID: A74F62FF65.D1849
-X-MasterFoo-MailScanner: Found to be clean
-X-MasterFoo-MailScanner-SpamCheck: not spam
-X-MasterFoo-MailScanner-From: scott.a.garman@intel.com
-X-Spam-Status: No
-Subject: [PATCH 2/2] openssl: upgrade to 1.0.0i
+	Wed, 25 Apr 2012 09:17:14 +0100
+Received: from tim.rpsys.net ([127.0.0.1])
+	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
+	port 10024) with LMTP
+	id 22601-03 for <openembedded-core@lists.openembedded.org>;
+	Wed, 25 Apr 2012 09:17:10 +0100 (BST)
+Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q3P8H3sB023081
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO)
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 25 Apr 2012 09:17:05 +0100
+Message-ID: <1335341824.21409.55.camel@ted>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Date: Wed, 25 Apr 2012 09:17:04 +0100
+In-Reply-To: <CAPhnLPDfjVWLKSDTwiZDCBNpHE7CKXuWfzTMccAuq-ruPtsW9w@mail.gmail.com>
+References: <CAK18fxFXyj7U1RgBSigrED+H6BjJjx3uCcWY2nVONCOULxL+iw@mail.gmail.com>
+	<CAPhnLPDr2epHUeCjDaeg473mv8cR9jf6gA-BpxT=jU_BDcq3sg@mail.gmail.com>
+	<CAK18fxG0_-aQDuPMA5drMAA8Kk-bnAPw-THrxafAOM6amvE2hA@mail.gmail.com>
+	<CAPhnLPCWAKLiLUfKVaguN_cFA=PAgRhW4vZ-pa1XDtW=Wugvpg@mail.gmail.com>
+	<CABcZANnyFDurr+B6nW5nJz+3kq2RXp4403Eqhcahkt53ififeA@mail.gmail.com>
+	<CAPhnLPDfjVWLKSDTwiZDCBNpHE7CKXuWfzTMccAuq-ruPtsW9w@mail.gmail.com>
+X-Mailer: Evolution 3.2.2- 
+Mime-Version: 1.0
+X-Virus-Scanned: amavisd-new at rpsys.net
+Subject: Re: LICENSE_{X}-xxx is parsed?
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -40,149 +47,65 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 25 Apr 2012 05:23:02 -0000
+X-List-Received-Date: Wed, 25 Apr 2012 08:26:50 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-Addresses CVE-2012-2110
+On Tue, 2012-04-24 at 16:13 -0700, Flanagan, Elizabeth wrote:
+> On Tue, Apr 24, 2012 at 3:53 PM, Chris Larson <clarson@kergoth.com> wrote:
+> > On Tue, Apr 24, 2012 at 3:38 PM, Flanagan, Elizabeth
+> > <elizabeth.flanagan@intel.com> wrote:
+> >> The rest of the packages in the bb should be inheriting LICENSE if no
+> >> PN level license is set. Which obviously causes problems for the above
+> >> example.
+> >>
+> >> In a case like above you'd want to do either of the following:
+> >>
+> >> a. Call out each package's license individually (better but can be
+> >> painful for recipes with lots of packages)
+> >> b. Leave GPLv3 out of LICENSE (easier but not technically accurate) so
+> >> undefined package level licensing inherits the correct LICENSE.
+> >
+> > I wonder if a partially specified set of individual package settings
+> > should be identified by some sanity check (an explicit, rather than
+> > implicit, one, like recipe_sanity) as a potential bug / source of
+> > confusion.
+> 
+> It's something I've been thinking heavily about how over the past few
+> month. How to implement full package level license support without
+> requiring too many recipe changes. The current setup licensing moves
+> us in the right direction, without having to do too many recipe
+> changes, but there are some inadequacies in it and we may have to
+> address them sooner or later.
 
-Fixes bug [YOCTO #2368]
+I like the idea that LICENSE is the default and is used where no other
+LICENSE is set. If our LICENSE field building code is clever enough to
+be able to find any LICENSE_xxx variables that are set now, we could
+just define LICENSE to be the default LICENSE unless something else is
+set. It would then be up to the license handling code to create the xxx
+& xxx expressions where needed.
 
-Signed-off-by: Scott Garman <scott.a.garman@intel.com>
----
- .../configure-targets.patch                        |    0
- .../debian/c_rehash-compat.patch                   |    0
- .../debian/ca.patch                                |    0
- .../debian/debian-targets.patch                    |    0
- .../debian/make-targets.patch                      |    0
- .../debian/man-dir.patch                           |    0
- .../debian/man-section.patch                       |    0
- .../debian/no-rpath.patch                          |    0
- .../debian/no-symbolic.patch                       |    0
- .../debian/pic.patch                               |    0
- .../debian/version-script.patch                    |    0
- .../engines-install-in-libdir-ssl.patch            |    0
- .../oe-ldflags.patch                               |    0
- .../openssl-fix-link.patch                         |    0
- .../openssl_fix_for_x32.patch                      |    0
- .../shared-libs.patch                              |    0
- meta/recipes-connectivity/openssl/openssl.inc      |    3 +--
- .../{openssl_1.0.0h.bb => openssl_1.0.0i.bb}       |    4 ++--
- 18 files changed, 3 insertions(+), 4 deletions(-)
- rename meta/recipes-connectivity/openssl/{openssl-1.0.0h => openssl-1.0.0i}/configure-targets.patch (100%)
- rename meta/recipes-connectivity/openssl/{openssl-1.0.0h => openssl-1.0.0i}/debian/c_rehash-compat.patch (100%)
- rename meta/recipes-connectivity/openssl/{openssl-1.0.0h => openssl-1.0.0i}/debian/ca.patch (100%)
- rename meta/recipes-connectivity/openssl/{openssl-1.0.0h => openssl-1.0.0i}/debian/debian-targets.patch (100%)
- rename meta/recipes-connectivity/openssl/{openssl-1.0.0h => openssl-1.0.0i}/debian/make-targets.patch (100%)
- rename meta/recipes-connectivity/openssl/{openssl-1.0.0h => openssl-1.0.0i}/debian/man-dir.patch (100%)
- rename meta/recipes-connectivity/openssl/{openssl-1.0.0h => openssl-1.0.0i}/debian/man-section.patch (100%)
- rename meta/recipes-connectivity/openssl/{openssl-1.0.0h => openssl-1.0.0i}/debian/no-rpath.patch (100%)
- rename meta/recipes-connectivity/openssl/{openssl-1.0.0h => openssl-1.0.0i}/debian/no-symbolic.patch (100%)
- rename meta/recipes-connectivity/openssl/{openssl-1.0.0h => openssl-1.0.0i}/debian/pic.patch (100%)
- rename meta/recipes-connectivity/openssl/{openssl-1.0.0h => openssl-1.0.0i}/debian/version-script.patch (100%)
- rename meta/recipes-connectivity/openssl/{openssl-1.0.0h => openssl-1.0.0i}/engines-install-in-libdir-ssl.patch (100%)
- rename meta/recipes-connectivity/openssl/{openssl-1.0.0h => openssl-1.0.0i}/oe-ldflags.patch (100%)
- rename meta/recipes-connectivity/openssl/{openssl-1.0.0h => openssl-1.0.0i}/openssl-fix-link.patch (100%)
- rename meta/recipes-connectivity/openssl/{openssl-1.0.0h => openssl-1.0.0i}/openssl_fix_for_x32.patch (100%)
- rename meta/recipes-connectivity/openssl/{openssl-1.0.0h => openssl-1.0.0i}/shared-libs.patch (100%)
- rename meta/recipes-connectivity/openssl/{openssl_1.0.0h.bb => openssl_1.0.0i.bb} (90%)
+This keeps things simpler for the recipes but still gets us where we
+need to be. I don't think forcing users to set LICENSE for every
+subpackage will be particularly useful, nor is having the top LICENSE
+field being a complete summary when we could calculate that.
 
-diff --git a/meta/recipes-connectivity/openssl/openssl-1.0.0h/configure-targets.patch b/meta/recipes-connectivity/openssl/openssl-1.0.0i/configure-targets.patch
-similarity index 100%
-rename from meta/recipes-connectivity/openssl/openssl-1.0.0h/configure-targets.patch
-rename to meta/recipes-connectivity/openssl/openssl-1.0.0i/configure-targets.patch
-diff --git a/meta/recipes-connectivity/openssl/openssl-1.0.0h/debian/c_rehash-compat.patch b/meta/recipes-connectivity/openssl/openssl-1.0.0i/debian/c_rehash-compat.patch
-similarity index 100%
-rename from meta/recipes-connectivity/openssl/openssl-1.0.0h/debian/c_rehash-compat.patch
-rename to meta/recipes-connectivity/openssl/openssl-1.0.0i/debian/c_rehash-compat.patch
-diff --git a/meta/recipes-connectivity/openssl/openssl-1.0.0h/debian/ca.patch b/meta/recipes-connectivity/openssl/openssl-1.0.0i/debian/ca.patch
-similarity index 100%
-rename from meta/recipes-connectivity/openssl/openssl-1.0.0h/debian/ca.patch
-rename to meta/recipes-connectivity/openssl/openssl-1.0.0i/debian/ca.patch
-diff --git a/meta/recipes-connectivity/openssl/openssl-1.0.0h/debian/debian-targets.patch b/meta/recipes-connectivity/openssl/openssl-1.0.0i/debian/debian-targets.patch
-similarity index 100%
-rename from meta/recipes-connectivity/openssl/openssl-1.0.0h/debian/debian-targets.patch
-rename to meta/recipes-connectivity/openssl/openssl-1.0.0i/debian/debian-targets.patch
-diff --git a/meta/recipes-connectivity/openssl/openssl-1.0.0h/debian/make-targets.patch b/meta/recipes-connectivity/openssl/openssl-1.0.0i/debian/make-targets.patch
-similarity index 100%
-rename from meta/recipes-connectivity/openssl/openssl-1.0.0h/debian/make-targets.patch
-rename to meta/recipes-connectivity/openssl/openssl-1.0.0i/debian/make-targets.patch
-diff --git a/meta/recipes-connectivity/openssl/openssl-1.0.0h/debian/man-dir.patch b/meta/recipes-connectivity/openssl/openssl-1.0.0i/debian/man-dir.patch
-similarity index 100%
-rename from meta/recipes-connectivity/openssl/openssl-1.0.0h/debian/man-dir.patch
-rename to meta/recipes-connectivity/openssl/openssl-1.0.0i/debian/man-dir.patch
-diff --git a/meta/recipes-connectivity/openssl/openssl-1.0.0h/debian/man-section.patch b/meta/recipes-connectivity/openssl/openssl-1.0.0i/debian/man-section.patch
-similarity index 100%
-rename from meta/recipes-connectivity/openssl/openssl-1.0.0h/debian/man-section.patch
-rename to meta/recipes-connectivity/openssl/openssl-1.0.0i/debian/man-section.patch
-diff --git a/meta/recipes-connectivity/openssl/openssl-1.0.0h/debian/no-rpath.patch b/meta/recipes-connectivity/openssl/openssl-1.0.0i/debian/no-rpath.patch
-similarity index 100%
-rename from meta/recipes-connectivity/openssl/openssl-1.0.0h/debian/no-rpath.patch
-rename to meta/recipes-connectivity/openssl/openssl-1.0.0i/debian/no-rpath.patch
-diff --git a/meta/recipes-connectivity/openssl/openssl-1.0.0h/debian/no-symbolic.patch b/meta/recipes-connectivity/openssl/openssl-1.0.0i/debian/no-symbolic.patch
-similarity index 100%
-rename from meta/recipes-connectivity/openssl/openssl-1.0.0h/debian/no-symbolic.patch
-rename to meta/recipes-connectivity/openssl/openssl-1.0.0i/debian/no-symbolic.patch
-diff --git a/meta/recipes-connectivity/openssl/openssl-1.0.0h/debian/pic.patch b/meta/recipes-connectivity/openssl/openssl-1.0.0i/debian/pic.patch
-similarity index 100%
-rename from meta/recipes-connectivity/openssl/openssl-1.0.0h/debian/pic.patch
-rename to meta/recipes-connectivity/openssl/openssl-1.0.0i/debian/pic.patch
-diff --git a/meta/recipes-connectivity/openssl/openssl-1.0.0h/debian/version-script.patch b/meta/recipes-connectivity/openssl/openssl-1.0.0i/debian/version-script.patch
-similarity index 100%
-rename from meta/recipes-connectivity/openssl/openssl-1.0.0h/debian/version-script.patch
-rename to meta/recipes-connectivity/openssl/openssl-1.0.0i/debian/version-script.patch
-diff --git a/meta/recipes-connectivity/openssl/openssl-1.0.0h/engines-install-in-libdir-ssl.patch b/meta/recipes-connectivity/openssl/openssl-1.0.0i/engines-install-in-libdir-ssl.patch
-similarity index 100%
-rename from meta/recipes-connectivity/openssl/openssl-1.0.0h/engines-install-in-libdir-ssl.patch
-rename to meta/recipes-connectivity/openssl/openssl-1.0.0i/engines-install-in-libdir-ssl.patch
-diff --git a/meta/recipes-connectivity/openssl/openssl-1.0.0h/oe-ldflags.patch b/meta/recipes-connectivity/openssl/openssl-1.0.0i/oe-ldflags.patch
-similarity index 100%
-rename from meta/recipes-connectivity/openssl/openssl-1.0.0h/oe-ldflags.patch
-rename to meta/recipes-connectivity/openssl/openssl-1.0.0i/oe-ldflags.patch
-diff --git a/meta/recipes-connectivity/openssl/openssl-1.0.0h/openssl-fix-link.patch b/meta/recipes-connectivity/openssl/openssl-1.0.0i/openssl-fix-link.patch
-similarity index 100%
-rename from meta/recipes-connectivity/openssl/openssl-1.0.0h/openssl-fix-link.patch
-rename to meta/recipes-connectivity/openssl/openssl-1.0.0i/openssl-fix-link.patch
-diff --git a/meta/recipes-connectivity/openssl/openssl-1.0.0h/openssl_fix_for_x32.patch b/meta/recipes-connectivity/openssl/openssl-1.0.0i/openssl_fix_for_x32.patch
-similarity index 100%
-rename from meta/recipes-connectivity/openssl/openssl-1.0.0h/openssl_fix_for_x32.patch
-rename to meta/recipes-connectivity/openssl/openssl-1.0.0i/openssl_fix_for_x32.patch
-diff --git a/meta/recipes-connectivity/openssl/openssl-1.0.0h/shared-libs.patch b/meta/recipes-connectivity/openssl/openssl-1.0.0i/shared-libs.patch
-similarity index 100%
-rename from meta/recipes-connectivity/openssl/openssl-1.0.0h/shared-libs.patch
-rename to meta/recipes-connectivity/openssl/openssl-1.0.0i/shared-libs.patch
-diff --git a/meta/recipes-connectivity/openssl/openssl.inc b/meta/recipes-connectivity/openssl/openssl.inc
-index 089b9a4..78cf272 100644
---- a/meta/recipes-connectivity/openssl/openssl.inc
-+++ b/meta/recipes-connectivity/openssl/openssl.inc
-@@ -4,8 +4,7 @@ HOMEPAGE = "http://www.openssl.org/"
- BUGTRACKER = "http://www.openssl.org/news/vulnerabilities.html"
- SECTION = "libs/network"
- 
--# Big Jump for OpenSSL 1.0 support with meta-oe
--INC_PR = "r15"
-+INC_PR = "r0"
- 
- # "openssl | SSLeay" dual license
- LICENSE = "openssl"
-diff --git a/meta/recipes-connectivity/openssl/openssl_1.0.0h.bb b/meta/recipes-connectivity/openssl/openssl_1.0.0i.bb
-similarity index 90%
-rename from meta/recipes-connectivity/openssl/openssl_1.0.0h.bb
-rename to meta/recipes-connectivity/openssl/openssl_1.0.0i.bb
-index 744fe2a..68b092f 100644
---- a/meta/recipes-connectivity/openssl/openssl_1.0.0h.bb
-+++ b/meta/recipes-connectivity/openssl/openssl_1.0.0i.bb
-@@ -31,8 +31,8 @@ SRC_URI += "file://configure-targets.patch \
-             file://openssl_fix_for_x32.patch \
-            "
- 
--SRC_URI[md5sum] = "a5bc483c570f2ac3758ce5c19b667fab"
--SRC_URI[sha256sum] = "7e3dfc21aa57ed33ea673170053d1921322803b8a6a624a4f0d2e4c308bd418d"
-+SRC_URI[md5sum] = "b4df9c11af454fd68178c85a1d5f328f"
-+SRC_URI[sha256sum] = "548262d15777c504be1ab9bb8fabef1e14a3de54837a6593c8f403dd843d5e57"
- 
- PACKAGES =+ " \
- 	${PN}-engines \
--- 
-1.7.5.4
+> > I suspect most of the time it should be one or the other,
+> > either no individual package LICENSEs are defined, or they all should
+> > be.
+> 
+> I would tend to agree. One thing I think we may want to start
+> considering (even if it does make me cringe a bit) is that if we go
+> this route, we may want to support LIC_SRC_URI_${PN} as well. It means
+> quite a few recipe changes, but it yet another step in more accurate
+> license auditing.
+
+Please, no ;-). Do something like the SRC_URI checksums (name the urls,
+then apply extra information to them, or use parameters in the urls.
+
+Cheers,
+
+Richard
 
 
 
