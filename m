@@ -1,33 +1,41 @@
-Received: from mail-pz0-f50.google.com ([209.85.210.50])
-	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <mpnorman@gmail.com>) id 1SMzrY-0004wD-Qs
-	for openembedded-core@lists.openembedded.org;
-	Wed, 25 Apr 2012 12:54:21 +0200
-Received: by dakh32 with SMTP id h32so2164116dak.9
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 25 Apr 2012 03:44:44 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=from:to:cc:subject:date:message-id:x-mailer;
-	bh=BfvhgFDZUimSb3Qwf8ybofeAiLGuK4uYBsHYUF7W83Q=;
-	b=0t+qyNAQRTr9eSz5KzUjdiZEYlYDrkczGhIBy4Bn8JRM9qCyv8KG4td2HXvJCd48+6
-	FzQg+Y0u+aCor1O5oWpI1yO4XuWI/H1kHxpm/EZ0Vc0tEDg2oKSdPQcVokRGd3M3xUiZ
-	8YuQdZ8CRd9CTMp/VuPl9tKfGfBCCVhif/wcZM5nYRLgRjxky85xgN9xQumw/u0dzf5w
-	UG/D9k7VMtby/oIgzOYE1gupLZusKv8Z9ZEGPS/nrLFyBic0qLa2FfoXMI8OpzG2ny2m
-	ikYZoy47Oia/UYob8fnCUaxA9T0tDxqlyUrUXVL93Zm0TYlccli3TzRxYPX80aj2gjNe
-	gTjA==
-Received: by 10.68.129.130 with SMTP id nw2mr2655643pbb.133.1335350684090;
-	Wed, 25 Apr 2012 03:44:44 -0700 (PDT)
-Received: from localhost.localdomain (182-239-169-239.ip.adam.com.au.
-	[182.239.169.239])
-	by mx.google.com with ESMTPS id y3sm20192463pbh.59.2012.04.25.03.44.39
-	(version=TLSv1/SSLv3 cipher=OTHER);
-	Wed, 25 Apr 2012 03:44:41 -0700 (PDT)
-From: Mark Norman <mpnorman@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Date: Wed, 25 Apr 2012 20:14:20 +0930
-Message-Id: <1335350660-4043-1-git-send-email-mpnorman@gmail.com>
-X-Mailer: git-send-email 1.7.1
-Subject: [PATCH v2] uclibc SDK not including libpthread_nonshared.a
+Received: from mail-out.m-online.net ([212.18.0.9])
+	by linuxtogo.org with esmtp (Exim 4.72) (envelope-from <wd@denx.de>)
+	id 1SN2S0-0007Yg-SR for openembedded-core@lists.openembedded.org;
+	Wed, 25 Apr 2012 15:40:08 +0200
+Received: from frontend1.mail.m-online.net (unknown [192.168.8.180])
+	by mail-out.m-online.net (Postfix) with ESMTP id 3Vd2N918Lsz4Kn99;
+	Wed, 25 Apr 2012 15:30:32 +0200 (CEST)
+Received: from localhost (dynscan1.mnet-online.de [192.168.8.164])
+	by mail.m-online.net (Postfix) with ESMTP id 3Vd2N86WVMz4KK2R;
+	Wed, 25 Apr 2012 15:30:32 +0200 (CEST)
+X-Virus-Scanned: amavisd-new at mnet-online.de
+Received: from smtp-auth.mnet-online.de ([192.168.8.180])
+	by localhost (dynscan1.mail.m-online.net [192.168.8.164]) (amavisd-new,
+	port 10024)
+	with ESMTP id HeXkUTkDAnfZ; Wed, 25 Apr 2012 15:30:32 +0200 (CEST)
+Received: from diddl.denx.de (host-80-81-18-216.customer.m-online.net
+	[80.81.18.216]) by smtp-auth.mnet-online.de (Postfix) with ESMTPA;
+	Wed, 25 Apr 2012 15:30:32 +0200 (CEST)
+Received: from gemini.denx.de (gemini.denx.de [10.0.0.2])
+	by diddl.denx.de (Postfix) with ESMTP id F18801A5A7F;
+	Wed, 25 Apr 2012 15:30:31 +0200 (CEST)
+Received: from gemini.denx.de (localhost [127.0.0.1])
+	by gemini.denx.de (Postfix) with ESMTP id DFEBD204AE2;
+	Wed, 25 Apr 2012 15:30:31 +0200 (CEST)
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>, 
+	Otavio Salvador <otavio@ossystems.com.br>
+From: Wolfgang Denk <wd@denx.de>
+MIME-Version: 1.0
+In-reply-to: <0d6637cfcd02587fe62c2c550aac5a33ce9cc72d.1335118370.git.otavio@ossystems.com.br>
+References: <cover.1335118369.git.otavio@ossystems.com.br>
+	<cover.1335118369.git.otavio@ossystems.com.br>
+	<0d6637cfcd02587fe62c2c550aac5a33ce9cc72d.1335118370.git.otavio@ossystems.com.br>
+Comments: In-reply-to Otavio Salvador <otavio@ossystems.com.br>
+	message dated "Sun, 22 Apr 2012 16:15:24 -0300."
+Date: Wed, 25 Apr 2012 15:30:31 +0200
+Message-Id: <20120425133031.DFEBD204AE2@gemini.denx.de>
+Subject: Re: [PATCH 3/5] u-boot-fw-utils: add 2012.04 release
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -42,44 +50,34 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 25 Apr 2012 10:54:21 -0000
+X-List-Received-Date: Wed, 25 Apr 2012 13:40:08 -0000
+Content-type: text/plain; charset=UTF-8
+Content-transfer-encoding: 8bit
 
-Modified the uclibc PACKAGES list order to ensure the uclibc-dev package is
-processed before uclibc-staticdev to allow *_nonshared.a libraries to be
-packaged in the uclibc-dev package.  The *_nonshared.a libraries are required
-by the SDK.
----
- meta/recipes-core/uclibc/uclibc.inc |    8 ++++----
- 1 files changed, 4 insertions(+), 4 deletions(-)
+Dear Otavio Salvador,
 
-diff --git a/meta/recipes-core/uclibc/uclibc.inc b/meta/recipes-core/uclibc/uclibc.inc
-index 893d8fd..f5b6bf7 100644
---- a/meta/recipes-core/uclibc/uclibc.inc
-+++ b/meta/recipes-core/uclibc/uclibc.inc
-@@ -13,7 +13,7 @@ SECTION = "libs"
- LIC_FILES_CHKSUM = "file://COPYING.LIB;md5=a6f89e2100d9b6cdffcea4f398e37343 \
- 		    file://COPYING.LIB.boilerplate;md5=aaddeadcddeb918297e0e4afc52ce46f \
- file://${S}/test/regex/testregex.c;startline=1;endline=31;md5=234efb227d0a40677f895e4a1e26e960"
--INC_PR = "r6"
-+INC_PR = "r7"
- 
- require uclibc-config.inc
- STAGINGCC = "gcc-cross-intermediate"
-@@ -48,9 +48,9 @@ RDEPENDS_${PN}-dev = "linux-libc-headers-dev"
- 
- INHIBIT_DEFAULT_DEPS = "1"
- 
--PACKAGES =+ "ldd uclibc-utils-dbg uclibc-utils uclibc-gconv uclibc-thread-db uclibc-argp uclibc-backtrace"
--PACKAGES =+ "uclibc-libcrypt uclibc-libintl uclibc-libnsl uclibc-libresolv uclibc-libm"
--PACKAGES =+ "uclibc-libdl uclibc-libutil uclibc-libpthread uclibc-librt"
-+# Ensure the uclibc-dev package is processed before uclibc-staticdev to allow
-+# *_nonshared.a libraries to be packaged in the uclibc-dev package.
-+PACKAGES = "${PN}-dbg ${PN}-dev ${PN}-staticdev ${PN} ${PN}-doc ldd uclibc-utils-dbg uclibc-utils uclibc-gconv uclibc-thread-db uclibc-argp uclibc-backtrace uclibc-libcrypt uclibc-libintl uclibc-libnsl uclibc-libresolv uclibc-libm uclibc-libdl uclibc-libutil uclibc-libpthread uclibc-librt"
- 
- FILES_uclibc-libcrypt = "${base_libdir}/libcrypt*.so.* ${base_libdir}/libcrypt-*.so"
- FILES_uclibc-libintl = "${base_libdir}/libintl*.so.* ${base_libdir}/libintl-*.so"
+In message <0d6637cfcd02587fe62c2c550aac5a33ce9cc72d.1335118370.git.otavio@ossystems.com.br> you wrote:
+> Signed-off-by: Otavio Salvador <otavio@ossystems.com.br>
+> ---
+>  meta/recipes-bsp/u-boot/u-boot-fw-utils_2012.04.bb |   33 ++++++++++++++++++++
+>  1 files changed, 33 insertions(+), 0 deletions(-)
+>  create mode 100644 meta/recipes-bsp/u-boot/u-boot-fw-utils_2012.04.bb
+
+Please update and use v2012.04.01 instead.  This is a bug fix release
+which fixes a nasty bug in the command line processing, which can
+cause incorrect execution of commands and scripts.
+
+Thanks.
+
+Best regards,
+
+Wolfgang Denk
+
 -- 
-1.7.1
-
+DENX Software Engineering GmbH,     MD: Wolfgang Denk & Detlev Zundel
+HRB 165235 Munich, Office: Kirchenstr.5, D-82194 Groebenzell, Germany
+Phone: (+49)-8142-66989-10 Fax: (+49)-8142-66989-80 Email: wd@denx.de
+"Out of register space (ugh)"
+- vi
 
 
