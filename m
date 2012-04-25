@@ -1,31 +1,27 @@
-Received: from mga14.intel.com ([143.182.124.37])
+Received: from masterfoo.zenlinux.com ([207.192.74.254])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <dvhart@linux.intel.com>) id 1SMtgp-0001qA-35
+	(envelope-from <scott.a.garman@intel.com>) id 1SMugp-0006eZ-FR
 	for openembedded-core@lists.openembedded.org;
-	Wed, 25 Apr 2012 06:18:51 +0200
-Received: from azsmga002.ch.intel.com ([10.2.17.35])
-	by azsmga102.ch.intel.com with ESMTP; 24 Apr 2012 21:09:14 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="92800597"
-Received: from unknown (HELO envy.home) ([10.255.12.165])
-	by AZSMGA002.ch.intel.com with ESMTP; 24 Apr 2012 21:09:13 -0700
-Message-ID: <4F9778CB.5050204@linux.intel.com>
-Date: Tue, 24 Apr 2012 21:08:43 -0700
-From: Darren Hart <dvhart@linux.intel.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:11.0) Gecko/20120329 Thunderbird/11.0.1
-MIME-Version: 1.0
-To: Andreas Oberritter <obi@opendreambox.org>
-References: <1335217712-10154-1-git-send-email-obi@opendreambox.org>
-	<4F974557.1000006@linux.intel.com>
-	<4F974863.8000808@opendreambox.org>
-	<4F974FE9.5030402@linux.intel.com>
-	<4F975780.8080207@opendreambox.org>
-In-Reply-To: <4F975780.8080207@opendreambox.org>
-X-Enigmail-Version: 1.4.1
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCHv2] {kernel, module}.bbclass: don't run depmod for module packages during do_rootfs
+	Wed, 25 Apr 2012 07:22:55 +0200
+Received: from localhost (c-76-105-137-48.hsd1.or.comcast.net [76.105.137.48])
+	(using TLSv1 with cipher DHE-RSA-AES128-SHA (128/128 bits))
+	(No client certificate requested)
+	by masterfoo.zenlinux.com (Postfix) with ESMTP id 82F0B2FF61
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 25 Apr 2012 01:13:15 -0400 (EDT)
+From: Scott Garman <scott.a.garman@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Tue, 24 Apr 2012 22:13:11 -0700
+Message-Id: <cover.1335330662.git.scott.a.garman@intel.com>
+X-Mailer: git-send-email 1.7.5.4
+X-MasterFoo-MailScanner-Information: Please contact the ISP for more
+	information
+X-MailScanner-ID: 82F0B2FF61.9AC7B
+X-MasterFoo-MailScanner: Found to be clean
+X-MasterFoo-MailScanner-SpamCheck: not spam
+X-MasterFoo-MailScanner-From: scott.a.garman@intel.com
+X-Spam-Status: No
+Subject: [PATCH 0/2] Recipe security updates: libpng and openssl
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -40,72 +36,72 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 25 Apr 2012 04:18:51 -0000
-Content-Type: text/plain; charset=ISO-8859-1
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Wed, 25 Apr 2012 05:22:55 -0000
 
+Hello,
 
+This upgrades libpng and openssl to adddress some recent CVEs. They
+have been build tested on all 5 of our QEMU architectures. 
 
-On 04/24/2012 06:46 PM, Andreas Oberritter wrote:
-> On 25.04.2012 03:14, Darren Hart wrote:
->>
->>
->> On 04/24/2012 05:42 PM, Andreas Oberritter wrote:
->>> On 25.04.2012 02:29, Darren Hart wrote:
->>>>
->>>>
->>>> On 04/23/2012 02:48 PM, Andreas Oberritter wrote:
->>>>> * depmod already gets executed by pkg_postinst_kernel-image.
->>>>>
->>>>> * If you build a module using module.bbclass,
->>>>>   pkg_postinst returns 1 in do_rootfs, causing
->>>>>   pkg_postinst to run again on first boot. To
->>>>>   improve this situation, I copied pkg_postinst
->>>>>   from kernel.bbclass to module.bbclass. This was
->>>>>   rejected by Koen, because he doesn't like the
->>>>>   code from kernel.bblcass, which uses
->>>>>   ${STAGING_DIR_KERNEL}. Richard then suggested
->>>>>   that calling depmod during do_rootfs wasn't
->>>>>   necessary at all, because it already gets done by
->>>>>   kernel-image.
->>>>>
->>>>
->>>> Thanks for adding that in. I'm fine not addressing the reliance on the
->>>> existence of $D for now (no worse than it was).
->>>
->>> Can you explain what could be improved?'
->>
->> I did in the previous thread:
->>
->> http://lists.linuxtogo.org/pipermail/openembedded-core/2012-April/021419.html
-> 
-> Sorry, I must have missed the inline comments when I replied to that mail.
-> 
-> From the manpage of test(1):
-> 
->        -d FILE
->               FILE exists and is a directory
-> 
->        -z STRING
->               the length of STRING is zero
-> 
-> I'm not sure what using -d should accomplish. (Virtually?) all postinst
-> scripts in OE test for $D's emptiness to decide whether they are called
-> offline (during do_rootfs) or online (on the target), so if a package
-> manager sets $D, it should rather stop doing that, instead of relying on
-> $D not being a directory by chance.
+There is another outstanding pull request that updated distro tracking
+for libpng, so I'm going to hold off on updating the distro tracking
+file until that gets into master.
 
-If it's standard throughout OE then it's really not worth discussing for
-this patch. It seems like a fragile method to me, but in the event of a
-problem we'd have a much larger issue on our hands.
+Scott
 
-So, looks good to me. Thanks for patiently addressing the feedback.
+The following changes since commit fd989e1bceef6df36619ba8944c8141abefd282e:
 
-Acked-by: Darren Hart <dvhart@linux.intel.com>
+  self-hosted-image: Update poky revision to point at the 1.2 release branch (2012-04-24 10:20:25 +0100)
+
+are available in the git repository at:
+  git://git.pokylinux.org/poky-contrib sgarman/security-updates-oe
+  http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=sgarman/security-updates-oe
+
+Scott Garman (2):
+  libpng: upgrade to 1.2.49
+  openssl: upgrade to 1.0.0i
+
+ .../configure-targets.patch                        |    0
+ .../debian/c_rehash-compat.patch                   |    0
+ .../debian/ca.patch                                |    0
+ .../debian/debian-targets.patch                    |    0
+ .../debian/make-targets.patch                      |    0
+ .../debian/man-dir.patch                           |    0
+ .../debian/man-section.patch                       |    0
+ .../debian/no-rpath.patch                          |    0
+ .../debian/no-symbolic.patch                       |    0
+ .../debian/pic.patch                               |    0
+ .../debian/version-script.patch                    |    0
+ .../engines-install-in-libdir-ssl.patch            |    0
+ .../oe-ldflags.patch                               |    0
+ .../openssl-fix-link.patch                         |    0
+ .../openssl_fix_for_x32.patch                      |    0
+ .../shared-libs.patch                              |    0
+ meta/recipes-connectivity/openssl/openssl.inc      |    3 +--
+ .../{openssl_1.0.0h.bb => openssl_1.0.0i.bb}       |    4 ++--
+ .../libpng/{libpng_1.2.46.bb => libpng_1.2.49.bb}  |   10 +++++-----
+ 19 files changed, 8 insertions(+), 9 deletions(-)
+ rename meta/recipes-connectivity/openssl/{openssl-1.0.0h => openssl-1.0.0i}/configure-targets.patch (100%)
+ rename meta/recipes-connectivity/openssl/{openssl-1.0.0h => openssl-1.0.0i}/debian/c_rehash-compat.patch (100%)
+ rename meta/recipes-connectivity/openssl/{openssl-1.0.0h => openssl-1.0.0i}/debian/ca.patch (100%)
+ rename meta/recipes-connectivity/openssl/{openssl-1.0.0h => openssl-1.0.0i}/debian/debian-targets.patch (100%)
+ rename meta/recipes-connectivity/openssl/{openssl-1.0.0h => openssl-1.0.0i}/debian/make-targets.patch (100%)
+ rename meta/recipes-connectivity/openssl/{openssl-1.0.0h => openssl-1.0.0i}/debian/man-dir.patch (100%)
+ rename meta/recipes-connectivity/openssl/{openssl-1.0.0h => openssl-1.0.0i}/debian/man-section.patch (100%)
+ rename meta/recipes-connectivity/openssl/{openssl-1.0.0h => openssl-1.0.0i}/debian/no-rpath.patch (100%)
+ rename meta/recipes-connectivity/openssl/{openssl-1.0.0h => openssl-1.0.0i}/debian/no-symbolic.patch (100%)
+ rename meta/recipes-connectivity/openssl/{openssl-1.0.0h => openssl-1.0.0i}/debian/pic.patch (100%)
+ rename meta/recipes-connectivity/openssl/{openssl-1.0.0h => openssl-1.0.0i}/debian/version-script.patch (100%)
+ rename meta/recipes-connectivity/openssl/{openssl-1.0.0h => openssl-1.0.0i}/engines-install-in-libdir-ssl.patch (100%)
+ rename meta/recipes-connectivity/openssl/{openssl-1.0.0h => openssl-1.0.0i}/oe-ldflags.patch (100%)
+ rename meta/recipes-connectivity/openssl/{openssl-1.0.0h => openssl-1.0.0i}/openssl-fix-link.patch (100%)
+ rename meta/recipes-connectivity/openssl/{openssl-1.0.0h => openssl-1.0.0i}/openssl_fix_for_x32.patch (100%)
+ rename meta/recipes-connectivity/openssl/{openssl-1.0.0h => openssl-1.0.0i}/shared-libs.patch (100%)
+ rename meta/recipes-connectivity/openssl/{openssl_1.0.0h.bb => openssl_1.0.0i.bb} (90%)
+ rename meta/recipes-multimedia/libpng/{libpng_1.2.46.bb => libpng_1.2.49.bb} (60%)
 
 -- 
-Darren Hart
-Intel Open Source Technology Center
-Yocto Project - Linux Kernel
+1.7.5.4
+
 
 
