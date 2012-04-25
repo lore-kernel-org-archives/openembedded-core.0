@@ -1,33 +1,35 @@
 Received: from mail-vb0-f47.google.com ([209.85.212.47])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <otavio.salvador@gmail.com>) id 1SN82H-00078T-8w
+	(envelope-from <otavio.salvador@gmail.com>) id 1SN82I-00078U-QH
 	for openembedded-core@lists.openembedded.org;
-	Wed, 25 Apr 2012 21:37:57 +0200
-Received: by vbbfr13 with SMTP id fr13so385329vbb.6
+	Wed, 25 Apr 2012 21:37:59 +0200
+Received: by vbbfr13 with SMTP id fr13so385351vbb.6
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 25 Apr 2012 12:28:20 -0700 (PDT)
+	Wed, 25 Apr 2012 12:28:22 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=sender:from:to:cc:subject:date:message-id:x-mailer;
-	bh=dzRH9e7+Df2tx7ekC5Q+DS9tYsrokT9KhpJOYMg7uBQ=;
-	b=YMJ/0u828g5fIPvwyRcZf6ZDoE0ExwHlfwlcvUO8p8+LMOs8TH0gjalMxY+TKSNCaO
-	zhM/S4yQ5VoxssB0GbvIM59pP4DQrLqvvXRSO2AtBiuscYzosK01d2FNzSMyRE0VSQou
-	kkr2f7kHQAd39rCdtuC5iFxaCHq2zcB4gej6hhlWD20bM39XetwwjPGPIj1sG7mNVVKt
-	iFCGWUsVxe7kPMT3Lhyn6dpRbcKkJiLri9pRE5rLfn71xltQzqxBY4j8KQy6inIIkbcC
-	7kL2yVIa25HZTGWJmHxCWoIu/oYz/m4+2qpKBJm7TIodc0j3vZLqigsRgNSIcwRrAige
-	+lLA==
-Received: by 10.220.57.205 with SMTP id d13mr3717880vch.53.1335382100616;
-	Wed, 25 Apr 2012 12:28:20 -0700 (PDT)
+	h=sender:from:to:cc:subject:date:message-id:x-mailer:in-reply-to
+	:references; bh=9yaE9u379p7YRyG2RtsLQfoQXWxqCh5wkcJ79OhDS/0=;
+	b=y+SmYfiHSm4V+Mko2h3FIezrRcINWJdZ0DFfihiztkE2NZgzm/mu48plyaysPyB9JY
+	iWlPiXJrkLWJwXH+pf/+pylfFGewFhG+bhrE55yeqaXTIYNvnuivRyBHL0DW+mRpzFmA
+	ghkLAtH+lzxf/0VGGbG67k6CqbcqPoWQZn6BsewnKvGdG56R4xMTZeMo0Uj0YHWyAtzq
+	ZierE6R3yLf25QAFdHws0SRBu5EZ2F+IHBJe5pIzi3u3wSVrRhr8L6G0fYwVa3aGr1XN
+	UQQhAy7f/ozoypC+7z0+zRMqP7S+KvsnLxS3QJQunaL1g4Jz/UNAmEM3qJ6OlhspifeI
+	rslg==
+Received: by 10.220.230.67 with SMTP id jl3mr3766640vcb.50.1335382102437;
+	Wed, 25 Apr 2012 12:28:22 -0700 (PDT)
 Received: from localhost.localdomain ([186.218.100.214])
-	by mx.google.com with ESMTPS id c17sm886075vdj.12.2012.04.25.12.28.18
+	by mx.google.com with ESMTPS id c17sm886075vdj.12.2012.04.25.12.28.20
 	(version=TLSv1/SSLv3 cipher=OTHER);
-	Wed, 25 Apr 2012 12:28:19 -0700 (PDT)
+	Wed, 25 Apr 2012 12:28:21 -0700 (PDT)
 Sender: Otavio Salvador <otavio.salvador@gmail.com>
 From: Otavio Salvador <otavio@ossystems.com.br>
 To: openembedded-core@lists.openembedded.org
-Date: Wed, 25 Apr 2012 16:28:07 -0300
-Message-Id: <1335382089-18056-1-git-send-email-otavio@ossystems.com.br>
+Date: Wed, 25 Apr 2012 16:28:08 -0300
+Message-Id: <1335382089-18056-2-git-send-email-otavio@ossystems.com.br>
 X-Mailer: git-send-email 1.7.2.5
-Subject: [PATCH 1/3] u-boot-fw-utils: update 2012.04 to 2012.04.01 release
+In-Reply-To: <1335382089-18056-1-git-send-email-otavio@ossystems.com.br>
+References: <1335382089-18056-1-git-send-email-otavio@ossystems.com.br>
+Subject: [PATCH 2/3] u-boot-mkimage: update 2012.04 to 2012.04.01 release
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -42,28 +44,26 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 25 Apr 2012 19:37:57 -0000
+X-List-Received-Date: Wed, 25 Apr 2012 19:37:59 -0000
 
 Signed-off-by: Otavio Salvador <otavio@ossystems.com.br>
 ---
- .../u-boot/u-boot-fw-utils_2012.04.01.bb           |   33 ++++++++++++++++++++
- meta/recipes-bsp/u-boot/u-boot-fw-utils_2012.04.bb |   33 --------------------
+ .../u-boot/u-boot-mkimage_2012.04.01.bb            |   33 ++++++++++++++++++++
+ meta/recipes-bsp/u-boot/u-boot-mkimage_2012.04.bb  |   33 --------------------
  2 files changed, 33 insertions(+), 33 deletions(-)
- create mode 100644 meta/recipes-bsp/u-boot/u-boot-fw-utils_2012.04.01.bb
- delete mode 100644 meta/recipes-bsp/u-boot/u-boot-fw-utils_2012.04.bb
+ create mode 100644 meta/recipes-bsp/u-boot/u-boot-mkimage_2012.04.01.bb
+ delete mode 100644 meta/recipes-bsp/u-boot/u-boot-mkimage_2012.04.bb
 
-diff --git a/meta/recipes-bsp/u-boot/u-boot-fw-utils_2012.04.01.bb b/meta/recipes-bsp/u-boot/u-boot-fw-utils_2012.04.01.bb
+diff --git a/meta/recipes-bsp/u-boot/u-boot-mkimage_2012.04.01.bb b/meta/recipes-bsp/u-boot/u-boot-mkimage_2012.04.01.bb
 new file mode 100644
-index 0000000..fe3422a
+index 0000000..aa107fe
 --- /dev/null
-+++ b/meta/recipes-bsp/u-boot/u-boot-fw-utils_2012.04.01.bb
++++ b/meta/recipes-bsp/u-boot/u-boot-mkimage_2012.04.01.bb
 @@ -0,0 +1,33 @@
-+DESCRIPTION = "U-boot bootloader fw_printenv/setenv utils"
++DESCRIPTION = "U-boot bootloader mkimage tool"
 +LICENSE = "GPLv2+"
 +LIC_FILES_CHKSUM = "file://COPYING;md5=1707d6db1d42237583f50183a5651ecb"
 +SECTION = "bootloader"
-+
-+DEPENDS = "mtd-utils"
 +
 +# This is needs to be validated among supported BSP's before we can
 +# make it default
@@ -80,29 +80,29 @@ index 0000000..fe3422a
 +
 +S = "${WORKDIR}/git"
 +
-+EXTRA_OEMAKE = 'HOSTCC="${CC}"'
++EXTRA_OEMAKE = 'HOSTCC="${CC}" HOSTLD="${LD}" HOSTLDFLAGS="${LDFLAGS}" HOSTSTRIP=true'
 +
 +do_compile () {
-+  oe_runmake env
++  oe_runmake tools
 +}
 +
 +do_install () {
-+  install -d ${D}${base_sbindir}
-+  install -m 755 ${S}/tools/env/fw_printenv ${D}${base_sbindir}/fw_printenv
-+  install -m 755 ${S}/tools/env/fw_printenv ${D}${base_sbindir}/fw_setenv
++  install -d ${D}${bindir}
++  install -m 0755 tools/mkimage ${D}${bindir}/uboot-mkimage
++  ln -sf uboot-mkimage ${D}${bindir}/mkimage
 +}
-diff --git a/meta/recipes-bsp/u-boot/u-boot-fw-utils_2012.04.bb b/meta/recipes-bsp/u-boot/u-boot-fw-utils_2012.04.bb
++
++BBCLASSEXTEND = "native nativesdk"
+diff --git a/meta/recipes-bsp/u-boot/u-boot-mkimage_2012.04.bb b/meta/recipes-bsp/u-boot/u-boot-mkimage_2012.04.bb
 deleted file mode 100644
-index 5ddb9f9..0000000
---- a/meta/recipes-bsp/u-boot/u-boot-fw-utils_2012.04.bb
+index 9d59ef3..0000000
+--- a/meta/recipes-bsp/u-boot/u-boot-mkimage_2012.04.bb
 +++ /dev/null
 @@ -1,33 +0,0 @@
--DESCRIPTION = "U-boot bootloader fw_printenv/setenv utils"
+-DESCRIPTION = "U-boot bootloader mkimage tool"
 -LICENSE = "GPLv2+"
 -LIC_FILES_CHKSUM = "file://COPYING;md5=1707d6db1d42237583f50183a5651ecb"
 -SECTION = "bootloader"
--
--DEPENDS = "mtd-utils"
 -
 -# This is needs to be validated among supported BSP's before we can
 -# make it default
@@ -119,17 +119,19 @@ index 5ddb9f9..0000000
 -
 -S = "${WORKDIR}/git"
 -
--EXTRA_OEMAKE = 'HOSTCC="${CC}"'
+-EXTRA_OEMAKE = 'HOSTCC="${CC}" HOSTLD="${LD}" HOSTLDFLAGS="${LDFLAGS}" HOSTSTRIP=true'
 -
 -do_compile () {
--  oe_runmake env
+-  oe_runmake tools
 -}
 -
 -do_install () {
--  install -d ${D}${base_sbindir}
--  install -m 755 ${S}/tools/env/fw_printenv ${D}${base_sbindir}/fw_printenv
--  install -m 755 ${S}/tools/env/fw_printenv ${D}${base_sbindir}/fw_setenv
+-  install -d ${D}${bindir}
+-  install -m 0755 tools/mkimage ${D}${bindir}/uboot-mkimage
+-  ln -sf uboot-mkimage ${D}${bindir}/mkimage
 -}
+-
+-BBCLASSEXTEND = "native nativesdk"
 -- 
 1.7.2.5
 
