@@ -1,31 +1,26 @@
-Received: from masterfoo.zenlinux.com ([207.192.74.254])
+Received: from mga14.intel.com ([143.182.124.37])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <scott.a.garman@intel.com>) id 1SMpyo-0006Mh-Sc
+	(envelope-from <dvhart@linux.intel.com>) id 1SMqGM-0006nS-GU
 	for openembedded-core@lists.openembedded.org;
-	Wed, 25 Apr 2012 02:21:10 +0200
-Received: from localhost (c-76-105-137-48.hsd1.or.comcast.net [76.105.137.48])
-	(using TLSv1 with cipher DHE-RSA-AES128-SHA (128/128 bits))
-	(No client certificate requested)
-	by masterfoo.zenlinux.com (Postfix) with ESMTP id 1EF402FF43
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 24 Apr 2012 20:11:32 -0400 (EDT)
-From: Scott Garman <scott.a.garman@intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Tue, 24 Apr 2012 17:11:26 -0700
-Message-Id: <49762500156a52102418293f3fe167b21e252d8a.1335312509.git.scott.a.garman@intel.com>
-X-Mailer: git-send-email 1.7.5.4
-In-Reply-To: <cover.1335312509.git.scott.a.garman@intel.com>
-References: <cover.1335312509.git.scott.a.garman@intel.com>
-In-Reply-To: <cover.1335312509.git.scott.a.garman@intel.com>
-References: <cover.1335312509.git.scott.a.garman@intel.com>
-X-MasterFoo-MailScanner-Information: Please contact the ISP for more
-	information
-X-MailScanner-ID: 1EF402FF43.35CCB
-X-MasterFoo-MailScanner: Found to be clean
-X-MasterFoo-MailScanner-SpamCheck: not spam
-X-MasterFoo-MailScanner-From: scott.a.garman@intel.com
-X-Spam-Status: No
-Subject: [PATCH 1/1] runqemu-ifup: enable ip masquerading for QEMU NAT addresses
+	Wed, 25 Apr 2012 02:39:18 +0200
+Received: from azsmga002.ch.intel.com ([10.2.17.35])
+	by azsmga102.ch.intel.com with ESMTP; 24 Apr 2012 17:29:42 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="92751511"
+Received: from unknown (HELO envy.home) ([10.255.12.165])
+	by AZSMGA002.ch.intel.com with ESMTP; 24 Apr 2012 17:29:42 -0700
+Message-ID: <4F974557.1000006@linux.intel.com>
+Date: Tue, 24 Apr 2012 17:29:11 -0700
+From: Darren Hart <dvhart@linux.intel.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:11.0) Gecko/20120329 Thunderbird/11.0.1
+MIME-Version: 1.0
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+References: <1335217712-10154-1-git-send-email-obi@opendreambox.org>
+In-Reply-To: <1335217712-10154-1-git-send-email-obi@opendreambox.org>
+X-Enigmail-Version: 1.4.1
+Subject: Re: [PATCHv2] {kernel, module}.bbclass: don't run depmod for module packages during do_rootfs
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -40,34 +35,82 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 25 Apr 2012 00:21:11 -0000
+X-List-Received-Date: Wed, 25 Apr 2012 00:39:18 -0000
+Content-Type: text/plain; charset=ISO-8859-1
+Content-Transfer-Encoding: 7bit
 
-Fix the IP masquerading settings so that networked QEMU sessions can
-reach external networks.
 
-This is a partial fix for [YOCTO #2329].
 
-Signed-off-by: Scott Garman <scott.a.garman@intel.com>
----
- scripts/runqemu-ifup |    3 ++-
- 1 files changed, 2 insertions(+), 1 deletions(-)
+On 04/23/2012 02:48 PM, Andreas Oberritter wrote:
+> * depmod already gets executed by pkg_postinst_kernel-image.
+> 
+> * If you build a module using module.bbclass,
+>   pkg_postinst returns 1 in do_rootfs, causing
+>   pkg_postinst to run again on first boot. To
+>   improve this situation, I copied pkg_postinst
+>   from kernel.bbclass to module.bbclass. This was
+>   rejected by Koen, because he doesn't like the
+>   code from kernel.bblcass, which uses
+>   ${STAGING_DIR_KERNEL}. Richard then suggested
+>   that calling depmod during do_rootfs wasn't
+>   necessary at all, because it already gets done by
+>   kernel-image.
+> 
 
-diff --git a/scripts/runqemu-ifup b/scripts/runqemu-ifup
-index 3bd9980..f80538f 100755
---- a/scripts/runqemu-ifup
-+++ b/scripts/runqemu-ifup
-@@ -100,7 +100,8 @@ dest=$[ (`echo $TAP | sed 's/tap//'` * 2) + 2 ]
- $ROUTE add -host 192.168.7.$dest $TAP
- 
- # setup NAT for tap0 interface to have internet access in QEMU
--$IPTABLES -A POSTROUTING -t nat -j MASQUERADE -s 192.168.7.0/24
-+$IPTABLES -A POSTROUTING -t nat -j MASQUERADE -s 192.168.7.$n/32
-+$IPTABLES -A POSTROUTING -t nat -j MASQUERADE -s 192.168.7.$dest/32
- echo 1 > /proc/sys/net/ipv4/ip_forward
- $IPTABLES -P FORWARD ACCEPT
- 
+Thanks for adding that in. I'm fine not addressing the reliance on the
+existence of $D for now (no worse than it was). Some whitespace issues
+persist in this version though.
+
+> Signed-off-by: Andreas Oberritter <obi@opendreambox.org>
+> ---
+>  meta/classes/kernel.bbclass |    4 +---
+>  meta/classes/module.bbclass |    7 +++----
+>  2 files changed, 4 insertions(+), 7 deletions(-)
+> 
+> diff --git a/meta/classes/kernel.bbclass b/meta/classes/kernel.bbclass
+> index 3519e7c..c21ab96 100644
+> --- a/meta/classes/kernel.bbclass
+> +++ b/meta/classes/kernel.bbclass
+> @@ -276,9 +276,7 @@ fi
+>  }
+>  
+>  pkg_postinst_modules () {
+> -if [ -n "$D" ]; then
+> -	${HOST_PREFIX}depmod -A -b $D -F ${STAGING_KERNEL_DIR}/System.map-${KERNEL_VERSION} ${KERNEL_VERSION}
+> -else
+> +if [ -z "$D" ]; then
+>  	depmod -a
+>  	update-modules || true
+>  fi
+> diff --git a/meta/classes/module.bbclass b/meta/classes/module.bbclass
+> index 53c16b7..91628e4 100644
+> --- a/meta/classes/module.bbclass
+> +++ b/meta/classes/module.bbclass
+> @@ -37,15 +37,14 @@ module_do_install() {
+>  }
+>  
+>  pkg_postinst_append () {
+> -	if [ -n "$D" ]; then
+> -		exit 1
+> -	fi
+> +if [ -z "$D" ]; then
+>  	depmod -a
+>  	update-modules || true
+> +fi
+>  }
+>  
+>  pkg_postrm_append () {
+> -	update-modules || true
+> +update-modules || true
+
+This appears to be purely a whitespace change - and for the worse.
+Please drop this from the patch.
+
+Thanks,
+
 -- 
-1.7.5.4
-
+Darren Hart
+Intel Open Source Technology Center
+Yocto Project - Linux Kernel
 
 
