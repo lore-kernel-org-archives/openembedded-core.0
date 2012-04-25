@@ -1,33 +1,33 @@
-Received: from mail-wg0-f43.google.com ([74.125.82.43])
+Received: from mail-pz0-f50.google.com ([209.85.210.50])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <pcjegan@gmail.com>) id 1SMy8v-0003Hz-Md
+	(envelope-from <mpnorman@gmail.com>) id 1SMzrY-0004wD-Qs
 	for openembedded-core@lists.openembedded.org;
-	Wed, 25 Apr 2012 11:04:09 +0200
-Received: by wgbdr1 with SMTP id dr1so526125wgb.24
+	Wed, 25 Apr 2012 12:54:21 +0200
+Received: by dakh32 with SMTP id h32so2164116dak.9
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 25 Apr 2012 01:54:34 -0700 (PDT)
+	Wed, 25 Apr 2012 03:44:44 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc:content-type;
-	bh=9ENrcUxv3m50XAulAhIDhbVEs+DRFEDhAOT7+7FEhP0=;
-	b=d9QdltUH/taDfndZut0Jmp6+BgSl+a/CIUCWdTBBKtFrQWK2ntxgBS6cm6CDXkUKbL
-	hEzuwnbwgN3AmKwG6IKPitVXj1EYi125cQqPPy/pgSFdmGjSQmpizqui8442PnHMgtkw
-	Vw95AyixOrClNR1rC399bpUwFhwbcQEynqjMzXLYDMXg149+MLBw3CEelPb64AgYlBQS
-	mLwJ/iVsAYYZwxEA0+v51XXBdEIvtc5YbtiuBCR1GKfDo0MhRIO7FKdy7Vbrcan0zkun
-	ZqN4Z+rzTWC8JuZS5hLqb79GeWV2CwJjZgRoL0gcFXdTIntHjZfHM3JjutU/iofj99yH
-	p0zQ==
-Received: by 10.180.83.72 with SMTP id o8mr4579612wiy.5.1335344074189; Wed, 25
-	Apr 2012 01:54:34 -0700 (PDT)
-MIME-Version: 1.0
-Received: by 10.216.185.195 with HTTP; Wed, 25 Apr 2012 01:54:13 -0700 (PDT)
-In-Reply-To: <CAAA4K6J1SNRCr0uM1tT=DjyV47mk-KqGUZjT+B8qgujANw9ZTQ@mail.gmail.com>
-References: <CAAA4K6J1SNRCr0uM1tT=DjyV47mk-KqGUZjT+B8qgujANw9ZTQ@mail.gmail.com>
-From: Jegan Chandru <pcjegan@gmail.com>
-Date: Wed, 25 Apr 2012 14:24:13 +0530
-Message-ID: <CAAA4K6L7GxoqUdOdn8MCd0YX8pKtJz-noEmbMarO93zYGCAmxw@mail.gmail.com>
+	h=from:to:cc:subject:date:message-id:x-mailer;
+	bh=BfvhgFDZUimSb3Qwf8ybofeAiLGuK4uYBsHYUF7W83Q=;
+	b=0t+qyNAQRTr9eSz5KzUjdiZEYlYDrkczGhIBy4Bn8JRM9qCyv8KG4td2HXvJCd48+6
+	FzQg+Y0u+aCor1O5oWpI1yO4XuWI/H1kHxpm/EZ0Vc0tEDg2oKSdPQcVokRGd3M3xUiZ
+	8YuQdZ8CRd9CTMp/VuPl9tKfGfBCCVhif/wcZM5nYRLgRjxky85xgN9xQumw/u0dzf5w
+	UG/D9k7VMtby/oIgzOYE1gupLZusKv8Z9ZEGPS/nrLFyBic0qLa2FfoXMI8OpzG2ny2m
+	ikYZoy47Oia/UYob8fnCUaxA9T0tDxqlyUrUXVL93Zm0TYlccli3TzRxYPX80aj2gjNe
+	gTjA==
+Received: by 10.68.129.130 with SMTP id nw2mr2655643pbb.133.1335350684090;
+	Wed, 25 Apr 2012 03:44:44 -0700 (PDT)
+Received: from localhost.localdomain (182-239-169-239.ip.adam.com.au.
+	[182.239.169.239])
+	by mx.google.com with ESMTPS id y3sm20192463pbh.59.2012.04.25.03.44.39
+	(version=TLSv1/SSLv3 cipher=OTHER);
+	Wed, 25 Apr 2012 03:44:41 -0700 (PDT)
+From: Mark Norman <mpnorman@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Cc: yocto@yoctoproject.org
-Subject: Re: adding package nss in rootfs failed with dependency "/usr/local/bin/perl"
+Date: Wed, 25 Apr 2012 20:14:20 +0930
+Message-Id: <1335350660-4043-1-git-send-email-mpnorman@gmail.com>
+X-Mailer: git-send-email 1.7.1
+Subject: [PATCH v2] uclibc SDK not including libpthread_nonshared.a
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -42,57 +42,44 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 25 Apr 2012 09:04:09 -0000
-Content-Type: multipart/alternative; boundary=f46d0442887e31ea4004be7d0508
+X-List-Received-Date: Wed, 25 Apr 2012 10:54:21 -0000
 
---f46d0442887e31ea4004be7d0508
-Content-Type: text/plain; charset=ISO-8859-1
+Modified the uclibc PACKAGES list order to ensure the uclibc-dev package is
+processed before uclibc-staticdev to allow *_nonshared.a libraries to be
+packaged in the uclibc-dev package.  The *_nonshared.a libraries are required
+by the SDK.
+---
+ meta/recipes-core/uclibc/uclibc.inc |    8 ++++----
+ 1 files changed, 4 insertions(+), 4 deletions(-)
 
-> This is a bug in the nss package.  It has an executable shell script that
-has a:
+diff --git a/meta/recipes-core/uclibc/uclibc.inc b/meta/recipes-core/uclibc/uclibc.inc
+index 893d8fd..f5b6bf7 100644
+--- a/meta/recipes-core/uclibc/uclibc.inc
++++ b/meta/recipes-core/uclibc/uclibc.inc
+@@ -13,7 +13,7 @@ SECTION = "libs"
+ LIC_FILES_CHKSUM = "file://COPYING.LIB;md5=a6f89e2100d9b6cdffcea4f398e37343 \
+ 		    file://COPYING.LIB.boilerplate;md5=aaddeadcddeb918297e0e4afc52ce46f \
+ file://${S}/test/regex/testregex.c;startline=1;endline=31;md5=234efb227d0a40677f895e4a1e26e960"
+-INC_PR = "r6"
++INC_PR = "r7"
+ 
+ require uclibc-config.inc
+ STAGINGCC = "gcc-cross-intermediate"
+@@ -48,9 +48,9 @@ RDEPENDS_${PN}-dev = "linux-libc-headers-dev"
+ 
+ INHIBIT_DEFAULT_DEPS = "1"
+ 
+-PACKAGES =+ "ldd uclibc-utils-dbg uclibc-utils uclibc-gconv uclibc-thread-db uclibc-argp uclibc-backtrace"
+-PACKAGES =+ "uclibc-libcrypt uclibc-libintl uclibc-libnsl uclibc-libresolv uclibc-libm"
+-PACKAGES =+ "uclibc-libdl uclibc-libutil uclibc-libpthread uclibc-librt"
++# Ensure the uclibc-dev package is processed before uclibc-staticdev to allow
++# *_nonshared.a libraries to be packaged in the uclibc-dev package.
++PACKAGES = "${PN}-dbg ${PN}-dev ${PN}-staticdev ${PN} ${PN}-doc ldd uclibc-utils-dbg uclibc-utils uclibc-gconv uclibc-thread-db uclibc-argp uclibc-backtrace uclibc-libcrypt uclibc-libintl uclibc-libnsl uclibc-libresolv uclibc-libm uclibc-libdl uclibc-libutil uclibc-libpthread uclibc-librt"
+ 
+ FILES_uclibc-libcrypt = "${base_libdir}/libcrypt*.so.* ${base_libdir}/libcrypt-*.so"
+ FILES_uclibc-libintl = "${base_libdir}/libintl*.so.* ${base_libdir}/libintl-*.so"
+-- 
+1.7.1
 
-> #! /usr/local/bin/perl
 
-> in it, which causes RPM to add a dependency on that specific path, and
-nothing
-> is providing the path.
 
-> The fix is either, decide this is a sample/demo shell script and remove
-it from
-> the nss package -- or fix the script to use the proper perl location of
-> "${bindir}/perl"
-
-Thanks Mark for pointing it out. That solved it. I fixed the script to use
-proper perl and added nss in rootfs with no problem.
-
--JC
-
---f46d0442887e31ea4004be7d0508
-Content-Type: text/html; charset=ISO-8859-1
-Content-Transfer-Encoding: quoted-printable
-
-<div class=3D"gmail_extra">&gt; This is a bug in the nss package. =A0It has=
- an executable shell script that has a:</div><div class=3D"gmail_extra"><br=
-></div><div class=3D"gmail_extra">&gt; #! /usr/local/bin/perl</div><div cla=
-ss=3D"gmail_extra">
-
-<br></div><div class=3D"gmail_extra">&gt; in it, which causes RPM to add a =
-dependency on that specific path, and nothing=A0</div><div class=3D"gmail_e=
-xtra">&gt; is providing the path.</div><div class=3D"gmail_extra"><br></div=
-><div class=3D"gmail_extra">
-
-&gt; The fix is either, decide this is a sample/demo shell script and remov=
-e it from=A0</div><div class=3D"gmail_extra">&gt; the nss package -- or fix=
- the script to use the proper perl location of=A0</div><div class=3D"gmail_=
-extra">
-
-&gt; &quot;${bindir}/perl&quot;</div><div class=3D"gmail_extra"><br></div><=
-div class=3D"gmail_extra">Thanks Mark for pointing it out. That solved it. =
-I fixed the script to use proper perl and added nss in rootfs with no probl=
-em.</div>
-
-<div class=3D"gmail_extra"><br></div><div class=3D"gmail_extra">-JC</div><d=
-iv class=3D"gmail_extra"><br><br>
-</div>
-
---f46d0442887e31ea4004be7d0508--
