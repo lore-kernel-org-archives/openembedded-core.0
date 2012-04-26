@@ -1,23 +1,25 @@
-Received: from mail1.windriver.com ([147.11.146.13])
+Received: from mga02.intel.com ([134.134.136.20])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <Peter.Seebach@windriver.com>) id 1SNDoO-0004Fz-2c
+	(envelope-from <edwin.zhai@intel.com>) id 1SNJc3-0007JG-3k
 	for openembedded-core@lists.openembedded.org;
-	Thu, 26 Apr 2012 03:48:00 +0200
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca [147.11.189.40])
-	by mail1.windriver.com (8.14.3/8.14.3) with ESMTP id q3Q1cM9a021035
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 25 Apr 2012 18:38:22 -0700 (PDT)
-Received: from wrlaptop (172.25.40.226) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server id 14.1.255.0;
-	Wed, 25 Apr 2012 18:38:22 -0700
-Date: Wed, 25 Apr 2012 20:38:05 -0500
-From: Peter Seebach <peter.seebach@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Message-ID: <20120425203805.71113201@wrlaptop>
-X-Mailer: Claws Mail 3.7.8 (GTK+ 2.24.4; x86_64-pc-linux-gnu)
+	Thu, 26 Apr 2012 09:59:39 +0200
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+	by orsmga101.jf.intel.com with ESMTP; 26 Apr 2012 00:50:01 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.67,352,1309762800"; d="scan'208";a="133973580"
+Received: from edwin-gen.sh.intel.com (HELO edwin-gen) ([10.239.36.17])
+	by orsmga001.jf.intel.com with SMTP; 26 Apr 2012 00:49:59 -0700
+Received: by edwin-gen (sSMTP sendmail emulation);
+	Thu, 26 Apr 2012 15:53:22 +0800
+Date: Thu, 26 Apr 2012 15:53:22 +0800
+From: "Zhai, Edwin" <edwin.zhai@intel.com>
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
+Message-ID: <20120426075321.GG1450@edwin-gen>
 MIME-Version: 1.0
-Subject: Toolchain library whitelisting: A first pass
+User-Agent: Mutt/1.5.20 (2009-06-14)
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Pango multilib issue
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -32,57 +34,39 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 26 Apr 2012 01:48:00 -0000
-Content-Type: text/plain; charset="US-ASCII"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Thu, 26 Apr 2012 07:59:39 -0000
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-This is a followup from some chat in #yocto and elsewhere.  To make a
-long story short, some of the commercial vendors (like Wind River) tend
-to ship prebuilt binaries for glibc, and want to require these binaries
-to be used as-is (unless the user has done something special and is
-building libc).  It would be convenient for people providing
-replacement toolchain layers to be able to catch attempts to build
-something that will fail because there are no corresponding libc
-binaries.
+RP,
 
-With prebuilt libraries, the library is not always built with the exact
-same flags that everything else is, but it needs to be ABI-compatible
-with them.  With that in mind, I coin the name "TUNEABI" to refer to
-the descriptor for a prebuilt library.  This is basically like a
-tuning, but it's special in that multiple tunings can refer back to it
-as a thing they are based on or will work with.  So I define a couple
-of values:
+I have found one common issues for multilib when system config file differ 
+between multilibs.
 
-1.  TUNEABI_WHITELIST.  This is a space-separated list of tuneabi
-values which are supported.  If this list does not exist, nothing
-happens; the check is a no-op.
-2.  TUNEABI_OVERRIDE.  If this value exists, it suppresses the check
-even if TUNEABI_WHITELIST is set.  This is sort of a placeholder for
-whatever people want to do about specifying a rebuild instead of using
-prebuilts.
-3.  TUNEABI_tune-foo.  This specifies the (space-separated list of)
-tuneabis that can support the tuning foo.  If absent, the tuning name
-is used.
+https://bugzilla.yoctoproject.org/show_bug.cgi?id=2356
+This bug caused by modules mechanism in pango:
 
-Intended use:  Imagine that you are distributing a toolchain layer
-which has only one ARM library, which is armv7 thumb2, you would
-specify TUNEABI_WHITELIST = armv7at.  Then a build for armv7at would
-work, but a build for armv6t would fail.  If you are using the
-interwork feature, you might also specify TUNEABI_tune-armv7a =
-armv7at; then armv7a builds would be allowed also.
+pango utils, pango-querymodules produce a system config file to indicate where
+to find the modules when 1st boot, like /usr/{lib64|lib}/pango/1.6.0/modules/
+for {x86-64|lib32}-pango respectively. 
 
-The intent of this is that if you're providing a toolchain, and you
-want to support a limited set of prebuilt libraries, this check should
-be able to let you specify what you need without necessarily having to
-replace all the existing tuning and configurations.  All you have to do
-is provide TUNEABI_tune-foo settings for any tunings you know to work
-with your libraries, and a TUNEABI_WHITELIST value, and the sanity
-check should catch everything likely.
+When installing lib32-pango on sato-image-qemux86-64, lib32 version of
+pango-querymodules override x86-64 version and produce a system config file
+with path for lib32 version of modules. Then x86-64 matchbox-desktop failed to
+open these modules and loaded corrupted fonts.
 
-Thoughts, feedback?
+To resolve this conflict, one possible solution is put the config file and 
+binary under different dir: $LIBDIR for config file, and 
+/usr/{libexec|lib64exec} for config binary(or create different dir under 
+/usr/bin/ for different multilib)
 
--s
+Any comments for this?
+
+Thanks,
+
+
 -- 
-Listen, get this.  Nobody with a good compiler needs to be justified.
+best rgds,
+edwin
 
 
