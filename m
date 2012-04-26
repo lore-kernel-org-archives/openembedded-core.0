@@ -1,30 +1,32 @@
-Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
-	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <richard.purdie@linuxfoundation.org>)
-	id 1SNOar-00079H-5g for openembedded-core@lists.openembedded.org;
-	Thu, 26 Apr 2012 15:18:45 +0200
-Received: from localhost (localhost [127.0.0.1])
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q3QD98Xi003234
+Received: from mail-wg0-f43.google.com ([74.125.82.43])
+	by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <martin.jansa@gmail.com>) id 1SNOkb-0007MH-JG
+	for openembedded-core@lists.openembedded.org;
+	Thu, 26 Apr 2012 15:28:49 +0200
+Received: by wgbdr1 with SMTP id dr1so998143wgb.24
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 26 Apr 2012 14:09:08 +0100
-Received: from tim.rpsys.net ([127.0.0.1])
-	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
-	port 10024) with LMTP
-	id 02847-03 for <openembedded-core@lists.openembedded.org>;
-	Thu, 26 Apr 2012 14:09:00 +0100 (BST)
-Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q3QD8tC0003221
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO)
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 26 Apr 2012 14:08:56 +0100
-Message-ID: <1335445736.20130.13.camel@ted>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: openembedded-core <openembedded-core@lists.openembedded.org>
-Date: Thu, 26 Apr 2012 14:08:56 +0100
-X-Mailer: Evolution 3.2.2- 
-Mime-Version: 1.0
-X-Virus-Scanned: amavisd-new at rpsys.net
-Subject: xf86-video-vesa: Add recommendation for xserver libint10 module which this driver needs
+	Thu, 26 Apr 2012 06:19:12 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=from:to:subject:date:message-id:x-mailer;
+	bh=FYVS8Zw/oM+h1ngtsM+kuBOV9+7xp9drbLlmMyyKyGo=;
+	b=Q8uq0qZqBhc3LstuSNAxshb3ehOYf/9Ud1b8YGSARlisW/j+8Fn0bNs4tItuiWR4Yx
+	PtYcH9DekRiP0W2lAg8ag6+R26KuYYxH80z78DzdExkMA5x03VcfcbrLbJecnvOud5te
+	CkPiyKs3Ze/q4HQqVbK4gGG2vx4/B2fSMhRhC3YxaJyEpL//zDYSLtsnMbWl+yJs8GCo
+	UNXm/CFaCnoQ8FO7n1QM/0WRvrSYqw/mB2PH11elXiZ4jBBpU3TPZ1O/eQ4YlOPgc7kK
+	IxgsA07vHrCii8S4QaNl61mDqRjnFJqNYPeKeOVK+xe/qD/oRxnJ7lv4mgVTZZ4CTHhp
+	h/Vg==
+Received: by 10.180.98.8 with SMTP id ee8mr16671145wib.14.1335446352781;
+	Thu, 26 Apr 2012 06:19:12 -0700 (PDT)
+Received: from localhost ([94.230.152.246])
+	by mx.google.com with ESMTPS id 6sm44719919wiz.1.2012.04.26.06.19.11
+	(version=TLSv1/SSLv3 cipher=OTHER);
+	Thu, 26 Apr 2012 06:19:11 -0700 (PDT)
+From: Martin Jansa <martin.jansa@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Date: Thu, 26 Apr 2012 15:19:06 +0200
+Message-Id: <cover.1335439784.git.Martin.Jansa@gmail.com>
+X-Mailer: git-send-email 1.7.8.5
+Subject: [PATCH 0/2] kernel.bbclass sync, new efl release, systemd machine support
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -39,36 +41,44 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 26 Apr 2012 13:18:45 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Thu, 26 Apr 2012 13:28:49 -0000
 
-Without this module, the driver doesn't work correctly.
+The following changes since commit 5a1f172d35be610688842a8a9a84f24edb9aeb51:
 
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
----
-diff --git a/meta/recipes-graphics/xorg-driver/xf86-video-vesa_2.3.0.bb b/meta/recipes-graphics/xorg-driver/xf86-video-vesa_2.3.0.bb
-index 30e3dee..f0c0167 100644
---- a/meta/recipes-graphics/xorg-driver/xf86-video-vesa_2.3.0.bb
-+++ b/meta/recipes-graphics/xorg-driver/xf86-video-vesa_2.3.0.bb
-@@ -11,12 +11,14 @@ can drive most VESA-compatible video cards, but only makes use of the \
- basic standard VESA core that is common to these cards. The driver \
- supports depths 8, 15 16 and 24."
- 
--PR = "${INC_PR}.0"
-+PR = "${INC_PR}.1"
- 
- DEPENDS += "virtual/libx11 libxvmc drm xf86driproto glproto \
- 	    virtual/libgl xineramaproto xf86driproto libpciaccess"
- 
- COMPATIBLE_HOST = '(i.86|x86_64).*-linux'
- 
-+RRECOMMENDS_${PN} += "xserver-xorg-module-libint10"
-+
- SRC_URI[md5sum] = "07fa32958aff9b463dd3af5481ef6626"
- SRC_URI[sha256sum] = "8ed85a0e94523539d81d5ae6639fa22ceb1c1e3baf89128915db65d4d2900d7a"
+  bitbake.conf: use TUNE_PKGARCH instead of TARGET_ARCH in SDK_NAME (2012-04-26 10:59:20 +0100)
 
+are available in the git repository at:
+  git://git.openembedded.org/openembedded-core-contrib jansa/pull
+  http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=jansa/pull
 
+Martin Jansa (2):
+  xorg: add more native BBCLASSEXTENDs from meta-oe
+  opkg-utils: bump SRCREV for Packages cache fix and other fixes
+
+ .../opkg-utils/opkg-utils/add-license-field.patch  |   39 -----------
+ .../opkg-utils/arfile_header_split.patch           |   27 -------
+ .../opkg-utils/index-ignore-filenotfound.patch     |   73 --------------------
+ .../opkg-utils/opkg-utils/mtime-int.patch          |   30 --------
+ .../opkg-utils/opkg-utils/shebang.patch            |   46 ------------
+ meta/recipes-devtools/opkg-utils/opkg-utils_git.bb |    7 +--
+ .../xorg-lib/libxcomposite_0.4.3.bb                |    1 +
+ .../recipes-graphics/xorg-lib/libxcursor_1.1.13.bb |    1 +
+ meta/recipes-graphics/xorg-lib/libxdamage_1.1.3.bb |    1 +
+ meta/recipes-graphics/xorg-lib/libxfixes_5.0.bb    |    2 +-
+ meta/recipes-graphics/xorg-lib/libxrandr_1.3.2.bb  |    2 +-
+ .../xorg-proto/compositeproto_0.4.2.bb             |    1 +
+ .../xorg-proto/damageproto_1.2.1.bb                |    1 +
+ meta/recipes-graphics/xorg-proto/fixesproto_5.0.bb |    2 +-
+ .../xorg-proto/randrproto_1.3.2.bb                 |    2 +-
+ 15 files changed, 10 insertions(+), 225 deletions(-)
+ delete mode 100644 meta/recipes-devtools/opkg-utils/opkg-utils/add-license-field.patch
+ delete mode 100644 meta/recipes-devtools/opkg-utils/opkg-utils/arfile_header_split.patch
+ delete mode 100644 meta/recipes-devtools/opkg-utils/opkg-utils/index-ignore-filenotfound.patch
+ delete mode 100644 meta/recipes-devtools/opkg-utils/opkg-utils/mtime-int.patch
+ delete mode 100644 meta/recipes-devtools/opkg-utils/opkg-utils/shebang.patch
+
+-- 
+1.7.8.5
 
 
 
