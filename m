@@ -1,27 +1,22 @@
-Received: from mail.windriver.com ([147.11.1.11])
+Received: from mga01.intel.com ([192.55.52.88])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <Peter.Seebach@windriver.com>) id 1SNXYS-0008Tr-RL
+	(envelope-from <nitin.a.kamble@intel.com>) id 1SNXiE-0000Wg-JM
 	for openembedded-core@lists.openembedded.org;
-	Fri, 27 Apr 2012 00:52:53 +0200
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca [147.11.189.40])
-	by mail.windriver.com (8.14.3/8.14.3) with ESMTP id q3QMhEV6027213
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 26 Apr 2012 15:43:14 -0700 (PDT)
-Received: from wrlaptop (172.25.40.226) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server id 14.1.255.0;
-	Thu, 26 Apr 2012 15:43:13 -0700
-Date: Thu, 26 Apr 2012 17:42:55 -0500
-From: Peter Seebach <peter.seebach@windriver.com>
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Message-ID: <20120426174255.6739e594@wrlaptop>
-In-Reply-To: <4F99C5C5.8090901@windriver.com>
-References: <20120425203805.71113201@wrlaptop>
-	<20120426160844.2d2a0b9f@wrlaptop> <4F99C5C5.8090901@windriver.com>
-X-Mailer: Claws Mail 3.7.8 (GTK+ 2.24.4; x86_64-pc-linux-gnu)
-MIME-Version: 1.0
-Subject: Re: Toolchain library whitelisting: A first pass (preliminary patch/RFC)
+	Fri, 27 Apr 2012 01:02:58 +0200
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+	by fmsmga101.fm.intel.com with ESMTP; 26 Apr 2012 15:53:20 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="158831712"
+Received: from nbuild0.sc.intel.com ([172.25.110.36])
+	by fmsmga002.fm.intel.com with ESMTP; 26 Apr 2012 15:53:20 -0700
+From: nitin.a.kamble@intel.com
+To: openembedded-core@lists.openembedded.org
+Date: Thu, 26 Apr 2012 15:53:18 -0700
+Message-Id: <385b9b6d43ea3d98d355edc50989d2e0ab488cd7.1335480719.git.nitin.a.kamble@intel.com>
+X-Mailer: git-send-email 1.7.6.5
+In-Reply-To: <cover.1335480719.git.nitin.a.kamble@intel.com>
+References: <cover.1335480719.git.nitin.a.kamble@intel.com>
+Subject: [PATCH 1/2] eglibc: package mtrace separately
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -36,75 +31,91 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 26 Apr 2012 22:52:53 -0000
-Content-Type: text/plain; charset="US-ASCII"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Thu, 26 Apr 2012 23:02:58 -0000
 
-On Thu, 26 Apr 2012 17:01:41 -0500
-Mark Hatle <mark.hatle@windriver.com> wrote:
+From: Nitin A Kamble <nitin.a.kamble@intel.com>
 
-> split does a whitespace based split automatically, I'm used to
-> seeing .split() everywhere.  (I won't comment on the other similar
-> split items)
+And install it only for nativesdk images
 
-Okay.
+This fixes bug: [YOCTO# 2374]
+
+Signed-off-by: Nitin A Kamble <nitin.a.kamble@intel.com>
+---
+ meta/recipes-core/eglibc/eglibc-package.inc |    8 +++++++-
+ meta/recipes-core/eglibc/eglibc_2.13.bb     |    2 +-
+ meta/recipes-core/eglibc/eglibc_2.15.bb     |    2 +-
+ 3 files changed, 9 insertions(+), 3 deletions(-)
+
+diff --git a/meta/recipes-core/eglibc/eglibc-package.inc b/meta/recipes-core/eglibc/eglibc-package.inc
+index 0db221f..e199901 100644
+--- a/meta/recipes-core/eglibc/eglibc-package.inc
++++ b/meta/recipes-core/eglibc/eglibc-package.inc
+@@ -20,11 +20,12 @@ USE_LDCONFIG ?= "1"
+ PKGSUFFIX = ""
+ PKGSUFFIX_virtclass-nativesdk = "-nativesdk"
  
-> > +    validities = data.getVarFlags('TUNEVALID') or ""
+-PACKAGES = "${PN}-dbg ${PN} catchsegv${PKGSUFFIX} sln${PKGSUFFIX} nscd${PKGSUFFIX} ldd${PKGSUFFIX} ${PN}-utils eglibc-extra-nss${PKGSUFFIX} eglibc-thread-db${PKGSUFFIX} ${PN}-pic ${PN}-dev ${PN}-staticdev ${PN}-doc libcidn${PKGSUFFIX} libmemusage${PKGSUFFIX} libsegfault${PKGSUFFIX} ${PN}-pcprofile libsotruss${PKGSUFFIX}"
++PACKAGES = "${PN}-dbg ${PN} catchsegv${PKGSUFFIX} sln${PKGSUFFIX} nscd${PKGSUFFIX} ldd${PKGSUFFIX} ${PN}-mtrace ${PN}-utils eglibc-extra-nss${PKGSUFFIX} eglibc-thread-db${PKGSUFFIX} ${PN}-pic ${PN}-dev ${PN}-staticdev ${PN}-doc libcidn${PKGSUFFIX} libmemusage${PKGSUFFIX} libsegfault${PKGSUFFIX} ${PN}-pcprofile libsotruss${PKGSUFFIX}"
  
-> "validities"?  that a new word?  ;)
-
-Pretty much.  I was trying to think of a name for "the set of valid
-things".  :)
-
-> Change the above to:
->      multilibs = data.getVar("MULTILIBS", True)
->      if multilibs:
-
-If someone has done:
-
-MULTILIBS = ""
-
-this then ends up being confused because pairs[0] of the single
-returned item is still "", and that's not valid.
+ # The ld.so in this eglibc supports the GNU_HASH
+ RPROVIDES_${PN} = "glibc${PKGSUFFIX} rtld(GNU_HASH)"
+ RPROVIDES_${PN}-utils = "glibc${PKGSUFFIX}-utils"
++RPROVIDES_${PN}-mtrace = "glibc${PKGSUFFIX}-mtrace"
+ RPROVIDES_${PN}-pic = "glibc${PKGSUFFIX}-pic"
+ RPROVIDES_${PN}-dev = "glibc${PKGSUFFIX}-dev"
+ RPROVIDES_${PN}-staticdev = "glibc${PKGSUFFIX}-staticdev"
+@@ -48,11 +49,14 @@ FILES_${PN}-dev_append += "${bindir}/rpcgen ${libdir}/*_nonshared.a \
+ 	${base_libdir}/*_nonshared.a ${base_libdir}/*.o ${datadir}/aclocal"
+ FILES_${PN}-staticdev_append += "${libdir}/*.a ${base_libdir}/*.a"
+ FILES_nscd${PKGSUFFIX} = "${sbindir}/nscd*"
++FILES_${PN}-mtrace = "${bindir}/mtrace"
+ FILES_${PN}-utils = "${bindir}/* ${sbindir}/*"
+ FILES_${PN}-dbg += "${libexecdir}/*/.debug ${libdir}/audit/.debug"
+ FILES_catchsegv${PKGSUFFIX} = "${bindir}/catchsegv"
+ RDEPENDS_catchsegv${PKGSUFFIX} = "libsegfault"
+ RDEPENDS_${PN}-utils += "bash"
++RDEPENDS_${PN}-utils_virtclass-nativesdk += "${PN}-mtrace"
++RDEPENDS_${PN}-mtrace += "perl"
+ FILES_${PN}-pcprofile = "${base_libdir}/libpcprofile.so"
+ FILES_eglibc-thread-db${PKGSUFFIX} = "${base_libdir}/libthread_db.so.* ${base_libdir}/libthread_db-*.so"
+ RPROVIDES_${PN}-dev += "libc-dev"
+@@ -68,6 +72,8 @@ SUMMARY_ldd = "print shared library dependencies"
+ DESCRIPTION_ldd = "/usr/bin/ldd prints shared library dependencies for each program or shared library specified on the command line."
+ SUMMARY_${PN}-utils = "Miscellaneous utilities provided by eglibc"
+ DESCRIPTION_${PN}-utils = "Miscellaneous utilities including getconf, iconf, locale, gencat, tzselect, zic, rpcinfo, ..."
++SUMMARY_${PN}-mtrace = "mtrace utility provided by eglibc"
++DESCRIPTION_${PN}-mtrace = "mtrace utility provided by eglibc"
+ DESCRIPTION_libsotruss = "Library to support sotruss which traces calls through PLTs"
  
-> > +		if pairs[1] == 'lib':
-> > +		    tune_error_set.append("The multilib 'lib' was
-> > specified, but that doesn't work. You need lib32 or lib64.")
+ inherit libc-common multilib_header
+diff --git a/meta/recipes-core/eglibc/eglibc_2.13.bb b/meta/recipes-core/eglibc/eglibc_2.13.bb
+index d8a41dc..73cd0aa 100644
+--- a/meta/recipes-core/eglibc/eglibc_2.13.bb
++++ b/meta/recipes-core/eglibc/eglibc_2.13.bb
+@@ -3,7 +3,7 @@ require eglibc.inc
+ SRCREV = "15508"
  
-> I'm surprised, why doesn't 'lib' work?  I was under the impression
-> the naming was completely arbitrary.
-
-I am surprised too, but if I use that name, I get a cryptic parse
-error from libxcb's recipe which I couldn't understand.
+ DEPENDS += "gperf-native"
+-PR = "r26"
++PR = "r27"
+ PR_append = "+svnr${SRCPV}"
  
-> Also we can definitely have more then just lib32 or lib64.  We
-> already often use libx32 in testing the x32 layer.
-
-Okay.  I can improve the message, for sure.
+ EGLIBC_BRANCH="eglibc-2_13"
+diff --git a/meta/recipes-core/eglibc/eglibc_2.15.bb b/meta/recipes-core/eglibc/eglibc_2.15.bb
+index 713efc3..f5219d1 100644
+--- a/meta/recipes-core/eglibc/eglibc_2.15.bb
++++ b/meta/recipes-core/eglibc/eglibc_2.15.bb
+@@ -3,7 +3,7 @@ require eglibc.inc
+ SRCREV = "17386"
  
-> If the tune isn't defined, then the multilib configuration is
-> invalid.  I thought we already had a check for that somewhere else..
-> but if not.. it wouldn't be a bad idea to mention that here for the
-> user.
-
-That probably wants to be tested too.
-
-> I wonder if this is an error or a warning.. I suspect it would be
-> unintentional, but I'm not sure it's a failure?
-
-I'm not totally sure.  I blamed that for my problem where I kept
-getting a TUNE_ARCH of "x86_64x86_64" or "i586i586", but it turned out
-to be a red herring.
-
-I could change that to a warning.
-
-> Your whitespace usage looks different.. perhaps that is just my
-> mailer.
-
-I almost certainly have tabs.
-
--s
+ DEPENDS += "gperf-native"
+-PR = "r6"
++PR = "r7"
+ PR_append = "+svnr${SRCPV}"
+ 
+ EGLIBC_BRANCH="eglibc-2_15"
 -- 
-Listen, get this.  Nobody with a good compiler needs to be justified.
+1.7.7
+
 
 
