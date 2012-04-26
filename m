@@ -1,37 +1,37 @@
-Received: from mail-wi0-f171.google.com ([209.85.212.171])
+Received: from mail-we0-f175.google.com ([74.125.82.175])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <martin.jansa@gmail.com>) id 1SNOkn-0007OI-M6
+	(envelope-from <martin.jansa@gmail.com>) id 1SNOl7-0007QN-6Z
 	for openembedded-core@lists.openembedded.org;
-	Thu, 26 Apr 2012 15:29:01 +0200
-Received: by wibhj13 with SMTP id hj13so5337020wib.6
+	Thu, 26 Apr 2012 15:29:21 +0200
+Received: by wera1 with SMTP id a1so798297wer.6
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 26 Apr 2012 06:19:24 -0700 (PDT)
+	Thu, 26 Apr 2012 06:19:44 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
 	h=from:to:subject:date:message-id:x-mailer:in-reply-to:references
 	:in-reply-to:references;
-	bh=Upck+96my4M+TvmVtKCoY97IkRKj8hnOQtYpGvH+1UY=;
-	b=RNDx/0ZCuqCc61y4xEcJAltrNbnkO+8Gal6xQqN25lOZaIHJrDH188zOBiKg2GMTqy
-	aJXihXEAtlJjNKQexGRA5TeAML6aNsTQOMjTLAJQ8mGYbZmL8+sE3c/qBEwiUPROs/TL
-	2qEnrnxGtJYOZG7v/CcTJKmz372mYqqqSNMJ/AvzwoPOOCXXTtiQHS4ZYOObsNT1YtFI
-	Qd/Zp5BHE/5rXse5lDGCpkGB5MvHpACvDH5t0JjVlnTpVu4cNor/cAn/hq4Vq05Cc1JN
-	hjR1LwFD4nziGN0kQEv88GS7Rs7V1kb3g4FWgD5cEK/snyIYXR+OaS/0eZzwfH37wlxU
-	rOgw==
-Received: by 10.180.83.198 with SMTP id s6mr16578555wiy.8.1335446364822;
-	Thu, 26 Apr 2012 06:19:24 -0700 (PDT)
+	bh=biHjuPq9ypLBSPZPtf7Wy1q2H76RXQv4Fd17CRya6oM=;
+	b=vcEnQKNecCSUqplRutzHk4Ne483UWncsoxUopdIGPbSnKeuyvV1VkX/kBzFfSwVjZ/
+	3qc2WpxSMzJNZ8Idcmf8wdRfVsZF2gLBnUUmCFpdiAzc1UoQjj7h91cIAebLpFpHTHa4
+	vHksscJ/B+dDBivJRofY6hSW+Gg/gAESQolSUppfGuCECPdRRSstS0v/D0RVz/hgYcCr
+	7n+3fht6gdUiEFU13mw+fcP80jFuDZ77bIS2GegqhRbqQZD7YuOlkl2wmIdeniwWC7QL
+	+PSf3ZjnUJyeEQGToPZJzPX9NhcMuRoTo+/4mdMvek8YSjUnKK4Ufnu+Qru/hEgRaaR+
+	QNOQ==
+Received: by 10.180.94.7 with SMTP id cy7mr18431313wib.3.1335446384175;
+	Thu, 26 Apr 2012 06:19:44 -0700 (PDT)
 Received: from localhost ([94.230.152.246])
-	by mx.google.com with ESMTPS id l5sm44761442wia.11.2012.04.26.06.19.23
+	by mx.google.com with ESMTPS id w10sm11030590wiy.3.2012.04.26.06.19.41
 	(version=TLSv1/SSLv3 cipher=OTHER);
-	Thu, 26 Apr 2012 06:19:24 -0700 (PDT)
+	Thu, 26 Apr 2012 06:19:41 -0700 (PDT)
 From: Martin Jansa <martin.jansa@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Thu, 26 Apr 2012 15:19:07 +0200
-Message-Id: <561f04be900f136c4670ccc788c439d79c6ca378.1335439784.git.Martin.Jansa@gmail.com>
+Date: Thu, 26 Apr 2012 15:19:08 +0200
+Message-Id: <e0f2862c212677d238136b7331fdd29c50b2fd6b.1335439784.git.Martin.Jansa@gmail.com>
 X-Mailer: git-send-email 1.7.8.5
 In-Reply-To: <cover.1335439784.git.Martin.Jansa@gmail.com>
 References: <cover.1335439784.git.Martin.Jansa@gmail.com>
 In-Reply-To: <cover.1335439784.git.Martin.Jansa@gmail.com>
 References: <cover.1335439784.git.Martin.Jansa@gmail.com>
-Subject: [PATCH 1/2] xorg: add more native BBCLASSEXTENDs from meta-oe
+Subject: [PATCH 2/2] opkg-utils: bump SRCREV for Packages cache fix and other fixes
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -46,137 +46,290 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 26 Apr 2012 13:29:01 -0000
-
-* We have now .bbappends in meta-oe, but adding native BBCLASSEXTEND
-  doesn't add any maintenance cost to oe-core and makes recipe upgrades
-  easier (no need to wait for .bbappend renames ready for meta-oe).
+X-List-Received-Date: Thu, 26 Apr 2012 13:29:21 -0000
 
 Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
 ---
- .../xorg-lib/libxcomposite_0.4.3.bb                |    1 +
- .../recipes-graphics/xorg-lib/libxcursor_1.1.13.bb |    1 +
- meta/recipes-graphics/xorg-lib/libxdamage_1.1.3.bb |    1 +
- meta/recipes-graphics/xorg-lib/libxfixes_5.0.bb    |    2 +-
- meta/recipes-graphics/xorg-lib/libxrandr_1.3.2.bb  |    2 +-
- .../xorg-proto/compositeproto_0.4.2.bb             |    1 +
- .../xorg-proto/damageproto_1.2.1.bb                |    1 +
- meta/recipes-graphics/xorg-proto/fixesproto_5.0.bb |    2 +-
- .../xorg-proto/randrproto_1.3.2.bb                 |    2 +-
- 9 files changed, 9 insertions(+), 4 deletions(-)
+ .../opkg-utils/opkg-utils/add-license-field.patch  |   39 -----------
+ .../opkg-utils/arfile_header_split.patch           |   27 -------
+ .../opkg-utils/index-ignore-filenotfound.patch     |   73 --------------------
+ .../opkg-utils/opkg-utils/mtime-int.patch          |   30 --------
+ .../opkg-utils/opkg-utils/shebang.patch            |   46 ------------
+ meta/recipes-devtools/opkg-utils/opkg-utils_git.bb |    7 +--
+ 6 files changed, 1 insertions(+), 221 deletions(-)
+ delete mode 100644 meta/recipes-devtools/opkg-utils/opkg-utils/add-license-field.patch
+ delete mode 100644 meta/recipes-devtools/opkg-utils/opkg-utils/arfile_header_split.patch
+ delete mode 100644 meta/recipes-devtools/opkg-utils/opkg-utils/index-ignore-filenotfound.patch
+ delete mode 100644 meta/recipes-devtools/opkg-utils/opkg-utils/mtime-int.patch
+ delete mode 100644 meta/recipes-devtools/opkg-utils/opkg-utils/shebang.patch
 
-diff --git a/meta/recipes-graphics/xorg-lib/libxcomposite_0.4.3.bb b/meta/recipes-graphics/xorg-lib/libxcomposite_0.4.3.bb
-index deaa366..7377711 100644
---- a/meta/recipes-graphics/xorg-lib/libxcomposite_0.4.3.bb
-+++ b/meta/recipes-graphics/xorg-lib/libxcomposite_0.4.3.bb
-@@ -16,6 +16,7 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=3f2907aad541f6f226fbc58cc1b3cdf1"
- 
- DEPENDS += " compositeproto virtual/libx11 libxfixes libxext"
- PROVIDES = "xcomposite"
-+BBCLASSEXTEND = "native"
- 
- PE = "1"
- PR = "r0"
-diff --git a/meta/recipes-graphics/xorg-lib/libxcursor_1.1.13.bb b/meta/recipes-graphics/xorg-lib/libxcursor_1.1.13.bb
-index c0f1a0f..4388596 100644
---- a/meta/recipes-graphics/xorg-lib/libxcursor_1.1.13.bb
-+++ b/meta/recipes-graphics/xorg-lib/libxcursor_1.1.13.bb
-@@ -12,6 +12,7 @@ LICENSE = "MIT-style"
- LIC_FILES_CHKSUM = "file://COPYING;md5=8902e6643f7bcd7793b23dcd5d8031a4"
- 
- DEPENDS += "libxrender libxfixes"
-+BBCLASSEXTEND = "native"
- 
- PR = "r0"
- PE = "1"
-diff --git a/meta/recipes-graphics/xorg-lib/libxdamage_1.1.3.bb b/meta/recipes-graphics/xorg-lib/libxdamage_1.1.3.bb
-index f2b4eac..dfc2425 100644
---- a/meta/recipes-graphics/xorg-lib/libxdamage_1.1.3.bb
-+++ b/meta/recipes-graphics/xorg-lib/libxdamage_1.1.3.bb
-@@ -18,6 +18,7 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=9fe101f30dd24134cf43146863241868"
- 
- DEPENDS += "virtual/libx11 damageproto libxfixes"
- PROVIDES = "xdamage"
-+BBCLASSEXTEND = "native"
- 
+diff --git a/meta/recipes-devtools/opkg-utils/opkg-utils/add-license-field.patch b/meta/recipes-devtools/opkg-utils/opkg-utils/add-license-field.patch
+deleted file mode 100644
+index 0d33459..0000000
+--- a/meta/recipes-devtools/opkg-utils/opkg-utils/add-license-field.patch
++++ /dev/null
+@@ -1,39 +0,0 @@
+-Add knowledge about License field in ipk headers
+-
+-Upstream-Status: Pending
+-
+-Signed-off-by: Khem Raj <raj.khem@gmail.com>
+-
+-Index: opkg-utils/opkg.py
+-===================================================================
+---- opkg-utils.orig/opkg.py	2010-11-01 04:52:35.000000000 -0700
+-+++ opkg-utils/opkg.py	2011-07-13 15:18:03.900037344 -0700
+-@@ -145,6 +145,7 @@
+-         self.priority = None
+-         self.tags = None
+-         self.fn = fn
+-+        self.license = None
+- 
+-         if fn:
+-             # see if it is deb format
+-@@ -319,6 +320,12 @@
+-     def get_section(self, section):
+-         return self.section
+- 
+-+    def set_license(self, license):
+-+        self.license = license
+-+
+-+    def get_license(self, license):
+-+        return self.license
+-+
+-     def get_file_list(self):
+-         if not self.fn:
+-             return []
+-@@ -425,6 +432,7 @@
+-         if self.description: out = out + "Description: %s\n" % (self.description)
+-         if self.oe: out = out + "OE: %s\n" % (self.oe)
+-         if self.homepage: out = out + "HomePage: %s\n" % (self.homepage)
+-+        if self.license: out = out + "License: %s\n" % (self.license)
+-         if self.priority: out = out + "Priority: %s\n" % (self.priority)
+-         if self.tags: out = out + "Tags: %s\n" % (self.tags)
+-         out = out + "\n"
+diff --git a/meta/recipes-devtools/opkg-utils/opkg-utils/arfile_header_split.patch b/meta/recipes-devtools/opkg-utils/opkg-utils/arfile_header_split.patch
+deleted file mode 100644
+index b679f8b..0000000
+--- a/meta/recipes-devtools/opkg-utils/opkg-utils/arfile_header_split.patch
++++ /dev/null
+@@ -1,27 +0,0 @@
+-From: Scott Anderson <o2e@saaworld.com>
+-Subject: ipkg-utils: Make arfile.py handle six digit UIDs
+-    
+-    Essentially, the problem is that arfile.py is splitting the ar header with
+-    white-space instead of fixed-width fields, so two fields would get treated
+-    as a single field.  This makes things better than before as it now honors
+-    the fixed field widths.
+-    
+-Upstream-Status: Pending (there is no upstream after openmoko imploded)
+-
+---- ipkg-utils/arfile.py.orig	2010-09-29 13:38:15.000000000 -0700
+-+++ ipkg-utils/arfile.py	2010-10-01 16:06:00.000000000 -0700
+-@@ -74,7 +74,12 @@
+-             if l == "\n":
+-                 l = self.f.readline()
+-                 if not l: break
+-             l = l.replace('`', '')
+--            descriptor = l.split()
+-+            # Field lengths from /usr/include/ar.h:
+-+            ar_field_lens = [ 16, 12, 6, 6, 8, 10, 2 ]
+-+            descriptor = []
+-+            for field_len in ar_field_lens:
+-+                descriptor.append(l[:field_len].strip())
+-+                l = l[field_len:]
+- #            print descriptor
+-             size = int(descriptor[5])
+-             memberName = descriptor[0][:-1]
+diff --git a/meta/recipes-devtools/opkg-utils/opkg-utils/index-ignore-filenotfound.patch b/meta/recipes-devtools/opkg-utils/opkg-utils/index-ignore-filenotfound.patch
+deleted file mode 100644
+index f0f0fcf..0000000
+--- a/meta/recipes-devtools/opkg-utils/opkg-utils/index-ignore-filenotfound.patch
++++ /dev/null
+@@ -1,73 +0,0 @@
+-If we're building an image and some package rebuilds while this is happening
+-some package can be removed/added to the ipk deploy directory. The image will
+-not depend on this package so we can safely ignore these cases rather than 
+-error out.
+-
+-RP - 26/8/09
+-
+-Upstream-Status: Inappropriate [embedded specific]
+-
+-Index: opkg-utils/opkg-make-index
+-===================================================================
+---- opkg-utils.orig/opkg-make-index	2009-08-26 17:21:26.000000000 +0100
+-+++ opkg-utils/opkg-make-index	2009-08-27 16:11:22.000000000 +0100
+-@@ -96,6 +96,7 @@
+- files=glob(pkg_dir + '/*.ipk') + glob(pkg_dir + '/*.deb')
+- files.sort()
+- for filename in files:
+-+  try:
+-      basename = os.path.basename(filename)
+-      pkg = None
+-      fnameStat = os.stat(filename)
+-@@ -130,6 +131,12 @@
+-                to_morgue(basename)
+-           if opt_s:
+-                print filename
+-+  except OSError:
+-+      sys.stderr.write("Package %s disappeared on us!\n" % (filename))
+-+      continue
+-+  except IOError:
+-+      sys.stderr.write("Package %s disappeared on us!\n" % (filename))
+-+      continue
+- 
+- pkgsStampsFile = open(stamplist_filename, "w")
+- for f in pkgsStamps.keys():
+-@@ -148,6 +155,7 @@
+- names = packages.packages.keys()
+- names.sort()
+- for name in names:
+-+  try:
+-      pkg = packages.packages[name]
+-      if locales_dir and pkg.depends:
+-          depends = string.split(pkg.depends, ',')
+-@@ -165,6 +173,13 @@
+-      if (verbose):
+-           sys.stderr.write("Writing info for package %s\n" % (pkg.package,))
+-      print pkg
+-+  except OSError:
+-+      sys.stderr.write("Package %s disappeared on us!\n" % (name))
+-+      continue
+-+  except IOError:
+-+      sys.stderr.write("Package %s disappeared on us!\n" % (name))
+-+      continue
+-+
+- if packages_filename:
+-      sys.stdout.close()
+-      sys.stdout = old_stdout
+-@@ -197,7 +197,15 @@
+- names = packages.packages.keys()
+- names.sort()
+- for name in names:
+--     for fn in packages[name].get_file_list():
+-+     try:
+-+          fnlist = packages[name].get_file_list()
+-+     except OSError, e:
+-+          sys.stderr.write("Package %s disappeared on us!\n" % (name))
+-+          continue
+-+     except IOError, e:
+-+          sys.stderr.write("Package %s disappeared on us!\n" % (name))
+-+          continue
+-+     for fn in fnlist:
+-           (h,t) = os.path.split(fn)
+-           if not t: continue
+-           if not files.has_key(t): files[t] = name+':'+fn
+diff --git a/meta/recipes-devtools/opkg-utils/opkg-utils/mtime-int.patch b/meta/recipes-devtools/opkg-utils/opkg-utils/mtime-int.patch
+deleted file mode 100644
+index 483a62a..0000000
+--- a/meta/recipes-devtools/opkg-utils/opkg-utils/mtime-int.patch
++++ /dev/null
+@@ -1,30 +0,0 @@
+-Convert mtime to int before comparing it
+-
+-The st_mtime attribute (which is a float) is compared against a value
+-from the timestamp database, which was stored as an integer there.
+-
+-When working on a filesystem with precise timestamps the comparision
+-will fail nearly everytime hence.
+-
+-Although it might be possible to enhance the database to store the
+-fractional part too, this will complicate things more than we would
+-gain by this change.
+-
+-Signed-off-by: Enrico Scholz <enrico.scholz@sigma-chemnitz.de>
+-
+-Upstream-Status: Pending
+-(Contacting the original author, no response yet.)
+-
+-Index: opkg-utils/opkg-make-index
+-===================================================================
+---- opkg-utils.orig/opkg-make-index
+-+++ opkg-utils/opkg-make-index
+-@@ -100,7 +100,7 @@ for filename in files:
+-      pkg = None
+-      fnameStat = os.stat(filename)
+-      if old_pkg_hash.has_key(basename):
+--          if pkgsStamps.has_key(basename) and fnameStat.st_mtime == pkgsStamps[basename]:
+-+          if pkgsStamps.has_key(basename) and int(fnameStat.st_mtime) == pkgsStamps[basename]:
+-             if (verbose):
+-                sys.stderr.write("Found %s in Packages\n" % (filename,))
+-             pkg = old_pkg_hash[basename]
+diff --git a/meta/recipes-devtools/opkg-utils/opkg-utils/shebang.patch b/meta/recipes-devtools/opkg-utils/opkg-utils/shebang.patch
+deleted file mode 100644
+index f6a2ef9..0000000
+--- a/meta/recipes-devtools/opkg-utils/opkg-utils/shebang.patch
++++ /dev/null
+@@ -1,46 +0,0 @@
+-Use python via the PATH, rather than hardcoding /usr/bin/python
+-
+-Upstream-Status: Pending
+-
+-Signed-off-by: Christopher Larson <kergoth@gmail.com>
+-
+---- opkg-utils.orig/opkg-list-fields
+-+++ opkg-utils/opkg-list-fields
+-@@ -1,4 +1,4 @@
+--#!/usr/bin/python
+-+#!/usr/bin/env python
+- 
+- import sys, opkg
+- 
+---- opkg-utils.orig/opkg-make-index
+-+++ opkg-utils/opkg-make-index
+-@@ -1,4 +1,4 @@
+--#!/usr/bin/python
+-+#!/usr/bin/env python
+- 
+- import sys, os, posixpath
+- from glob import glob
+---- opkg-utils.orig/opkg-show-deps
+-+++ opkg-utils/opkg-show-deps
+-@@ -1,4 +1,4 @@
+--#!/usr/bin/python
+-+#!/usr/bin/env python
+- 
+- import sys, os, posixpath
+- from glob import glob
+---- opkg-utils.orig/opkg-unbuild
+-+++ opkg-utils/opkg-unbuild
+-@@ -1,4 +1,4 @@
+--#!/usr/bin/python
+-+#!/usr/bin/env python
+- 
+- import sys, os, re
+- 
+---- opkg-utils.orig/opkg-update-index
+-+++ opkg-utils/opkg-update-index
+-@@ -1,4 +1,4 @@
+--#!/usr/bin/env python2.1
+-+#!/usr/bin/env python
+- 
+- import sys, os
+- from glob import glob
+diff --git a/meta/recipes-devtools/opkg-utils/opkg-utils_git.bb b/meta/recipes-devtools/opkg-utils/opkg-utils_git.bb
+index 4fe4038..1996c75 100644
+--- a/meta/recipes-devtools/opkg-utils/opkg-utils_git.bb
++++ b/meta/recipes-devtools/opkg-utils/opkg-utils_git.bb
+@@ -6,16 +6,11 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=94d55d512a9ba36caa9b7df079bae19f \
+                     file://opkg.py;beginline=1;endline=18;md5=15917491ad6bf7acc666ca5f7cc1e083"
+ RDEPENDS_${PN} = "python"
+ RDEPENDS_${PN}_virtclass-native = ""
+-SRCREV = "16665959c330b5958c0f0f4624a9ca7f823f98de"
++SRCREV = "44df9dd3dc411ca1255cb4b23bde7eb71aed4778"
+ PV = "0.1.8+git${SRCPV}"
  PR = "r1"
- PE = "1"
-diff --git a/meta/recipes-graphics/xorg-lib/libxfixes_5.0.bb b/meta/recipes-graphics/xorg-lib/libxfixes_5.0.bb
-index 0883cd1..1bdc3c0 100644
---- a/meta/recipes-graphics/xorg-lib/libxfixes_5.0.bb
-+++ b/meta/recipes-graphics/xorg-lib/libxfixes_5.0.bb
-@@ -17,7 +17,7 @@ PE = "1"
  
- XORG_PN = "libXfixes"
+ SRC_URI = "git://git.yoctoproject.org/opkg-utils;protocol=git \
+-           file://index-ignore-filenotfound.patch \
+-           file://mtime-int.patch \
+-           file://add-license-field.patch \
+-           file://arfile_header_split.patch \
+-           file://shebang.patch \
+            "
  
--BBCLASSEXTEND = "nativesdk"
-+BBCLASSEXTEND = "native nativesdk"
- 
- SRC_URI[md5sum] = "678071bd7f9f7467e2fc712d81022318"
- SRC_URI[sha256sum] = "537a2446129242737a35db40081be4bbcc126e56c03bf5f2b142b10a79cda2e3"
-diff --git a/meta/recipes-graphics/xorg-lib/libxrandr_1.3.2.bb b/meta/recipes-graphics/xorg-lib/libxrandr_1.3.2.bb
-index 7bc805f..6fc3cf5 100644
---- a/meta/recipes-graphics/xorg-lib/libxrandr_1.3.2.bb
-+++ b/meta/recipes-graphics/xorg-lib/libxrandr_1.3.2.bb
-@@ -18,7 +18,7 @@ PE = "1"
- 
- XORG_PN = "libXrandr"
- 
--BBCLASSEXTEND = "nativesdk"
-+BBCLASSEXTEND = "native nativesdk"
- 
- SRC_URI[md5sum] = "92473da2fccf5fac665be4fa4f2037fa"
- SRC_URI[sha256sum] = "7eaca216ab5233d7396119eb87c1989d350a3efead104d54b55f22cdd1d99b81"
-diff --git a/meta/recipes-graphics/xorg-proto/compositeproto_0.4.2.bb b/meta/recipes-graphics/xorg-proto/compositeproto_0.4.2.bb
-index 5917f20..093ee99 100644
---- a/meta/recipes-graphics/xorg-proto/compositeproto_0.4.2.bb
-+++ b/meta/recipes-graphics/xorg-proto/compositeproto_0.4.2.bb
-@@ -11,6 +11,7 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=2c4bfe136f4a4418ea2f2a96b7c8f3c5 \
-                     file://composite.h;endline=43;md5=cbd44d4079053aa75930ed2f02b92926"
- 
- CONFLICTS = "compositeext"
-+BBCLASSEXTEND = "native"
- 
- PR = "r0"
- PE = "1"
-diff --git a/meta/recipes-graphics/xorg-proto/damageproto_1.2.1.bb b/meta/recipes-graphics/xorg-proto/damageproto_1.2.1.bb
-index 6bfa1b2..de2d69c 100644
---- a/meta/recipes-graphics/xorg-proto/damageproto_1.2.1.bb
-+++ b/meta/recipes-graphics/xorg-proto/damageproto_1.2.1.bb
-@@ -12,6 +12,7 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=d5f5a2de65c3a84cbde769f07a769608 \
-                     file://damagewire.h;endline=23;md5=4a4501a592dbc7de5ce89255e50d0296"
- 
- CONFLICTS = "damageext"
-+BBCLASSEXTEND = "native"
- PR = "r0"
- PE = "1"
- 
-diff --git a/meta/recipes-graphics/xorg-proto/fixesproto_5.0.bb b/meta/recipes-graphics/xorg-proto/fixesproto_5.0.bb
-index d65922b..2c05cf7 100644
---- a/meta/recipes-graphics/xorg-proto/fixesproto_5.0.bb
-+++ b/meta/recipes-graphics/xorg-proto/fixesproto_5.0.bb
-@@ -16,7 +16,7 @@ CONFLICTS = "fixesext"
- PR = "r0"
- PE = "1"
- 
--BBCLASSEXTEND = "nativesdk"
-+BBCLASSEXTEND = "native nativesdk"
- 
- SRC_URI[md5sum] = "e7431ab84d37b2678af71e29355e101d"
- SRC_URI[sha256sum] = "ba2f3f31246bdd3f2a0acf8bd3b09ba99cab965c7fb2c2c92b7dc72870e424ce"
-diff --git a/meta/recipes-graphics/xorg-proto/randrproto_1.3.2.bb b/meta/recipes-graphics/xorg-proto/randrproto_1.3.2.bb
-index f0f81bc..e4fe37b 100644
---- a/meta/recipes-graphics/xorg-proto/randrproto_1.3.2.bb
-+++ b/meta/recipes-graphics/xorg-proto/randrproto_1.3.2.bb
-@@ -14,7 +14,7 @@ CONFLICTS = "randrext"
- PR = "r0"
- PE = "1"
- 
--BBCLASSEXTEND = "nativesdk"
-+BBCLASSEXTEND = "native nativesdk"
- 
- SRC_URI[md5sum] = "597491c0d8055e2a66f11350c4985775"
- SRC_URI[sha256sum] = "d90d00612cc49292bd8d9dc19efb1c9187385fbe87590d7279a02e5e1066dc71"
+ S = "${WORKDIR}/git"
 -- 
 1.7.8.5
 
