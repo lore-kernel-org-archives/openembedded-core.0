@@ -1,28 +1,23 @@
-Received: from mail.windriver.com ([147.11.1.11])
+Received: from mga14.intel.com ([143.182.124.37])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <mark.hatle@windriver.com>) id 1SNpG0-0004PO-5w
+	(envelope-from <sgw@linux.intel.com>) id 1SNsCi-0007RC-Df
 	for openembedded-core@lists.openembedded.org;
-	Fri, 27 Apr 2012 19:47:00 +0200
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca [147.11.189.40])
-	by mail.windriver.com (8.14.3/8.14.3) with ESMTP id q3RHbIiG005363
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
-	Fri, 27 Apr 2012 10:37:18 -0700 (PDT)
-Received: from msp-dhcp12.wrs.com (172.25.34.12) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server id 14.1.255.0;
-	Fri, 27 Apr 2012 10:37:18 -0700
-Message-ID: <4F9AD94D.70903@windriver.com>
-Date: Fri, 27 Apr 2012 12:37:17 -0500
-From: Mark Hatle <mark.hatle@windriver.com>
-Organization: Wind River Systems
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.6;
-	rv:12.0) Gecko/20120420 Thunderbird/12.0
+	Fri, 27 Apr 2012 22:55:48 +0200
+Received: from azsmga001.ch.intel.com ([10.2.17.19])
+	by azsmga102.ch.intel.com with ESMTP; 27 Apr 2012 13:46:08 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="136286167"
+Received: from unknown (HELO [10.255.12.123]) ([10.255.12.123])
+	by azsmga001.ch.intel.com with ESMTP; 27 Apr 2012 13:46:07 -0700
+Message-ID: <4F9B058F.6050705@linux.intel.com>
+Date: Fri, 27 Apr 2012 13:46:07 -0700
+From: Saul Wold <sgw@linux.intel.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:11.0) Gecko/20120329 Thunderbird/11.0.1
 MIME-Version: 1.0
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-References: <1335470063.20130.32.camel@ted> <4F99B139.5040103@windriver.com>
-	<1335546598.20130.113.camel@ted>
-In-Reply-To: <1335546598.20130.113.camel@ted>
-Cc: openembedded-core <openembedded-core@lists.openembedded.org>
-Subject: Re: package_rpm.bbclass: Replace shell provides/requires script with python version
+To: 'Patches and discussions about the oe-core layer'
+	<openembedded-core@lists.openembedded.org>
+Subject: Working through the Backlog
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -37,61 +32,30 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 27 Apr 2012 17:47:00 -0000
-Content-Type: text/plain; charset="UTF-8"; format=flowed
+X-List-Received-Date: Fri, 27 Apr 2012 20:55:49 -0000
+Content-Type: text/plain; charset=ISO-8859-1; format=flowed
 Content-Transfer-Encoding: 7bit
 
-On 4/27/12 12:09 PM, Richard Purdie wrote:
-> On Thu, 2012-04-26 at 15:34 -0500, Mark Hatle wrote:
->> On 4/26/12 2:54 PM, Richard Purdie wrote:
->>> The existing shell script is a fork bomb and forks off hundreds of
->>> grep/cur/wc calls as it reads from its input stream and iterates over
->>> the file data table for each line of input. This patch replaces the
->>> shell code with python code which doesn't exec anything and hence runs
->>> much faster without the exec() overhead. This speeds up rpm packaging
->>> considerably, as can be measured simply by timing it, or watching the
->>> processor utilisation.
->>
->> Just an FYI, the intent was to replace this code completely with a patch to RPM
->> when it got upgraded.  Then RPM could read in the dependencies directly and not
->> have to worry about hacky script solutions.
->>
->> Needless to say we're not yet at that point, so this is fine..  but hopefully
->> we're getting closer.
->
-> I agree with the objective. I've had the patch lying around for a while
-> and in use in my builds so it was already written and doesn't seem to
-> regress anything. It seems to make sense to include it for now until the
-> rpm upgrade happens and we fix things properly.
->
-> The patch also has a partner in crime:
->
-> http://git.yoctoproject.org/cgit.cgi/poky-contrib/commit/?h=rpurdie/t2&id=c0cbf016f59b06f461961df4d6cdfcd0928c96ee
->
-> but I suspect you'd dislike that one even if functionally it doesn't
-> change much at the moment.
 
-Ya..  this other one sets a bad precedent, even though the functional behavior 
-is the same currently.  (There is one odd thing, the lack of the #file stuff in 
-the first chunk, I'm surprised anything works since the dependency stuff is 
-never translated back to on-disk filename format.)
+As many of you may have noticed, we have been working through the 
+backlog on this mailing list.  I will sending out many Merged messages 
+to help track what we have pulled.
 
-My longer term intention is to either write out the per-file data directly into 
-the spec file so RPM can process it "per-file", or write the data to a data file 
-that works along side the .spec file, but again it's only loaded once, instead 
-of many times as it currently is.
+As Richard has already mentioned we are going to be moving to the newer 
+GCC and will be looking at updating eglibc shortly also.
 
-(The still TODO work of course is do something reasonable in ipkg and deb 
-packages that add these missing per-file dependencies.  I suspect we'll be 
-limited in many ways because, AFAIK, deb and ipkg can't do dependencies on path 
-names.)
+I will continue to work through the backlog and send comments or putting 
+together a Consolidated pull over the weekend based on what's here now. 
+If your patch has not been pulled or somehow missed, please ping or 
+resend the patch.
 
---Mark
+Thanks
+-- 
+     Sau!
 
-> Cheers,
->
-> Richard
->
+Saul Wold
+Yocto Component Wrangler @ Intel
+Yocto Project / Poky Build System
 
 
 
