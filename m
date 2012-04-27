@@ -1,42 +1,37 @@
-Received: from mail-bk0-f47.google.com ([209.85.214.47])
+Received: from mga11.intel.com ([192.55.52.93])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <ken.werner@linaro.org>) id 1SNo2W-00039r-49
+	(envelope-from <nitin.a.kamble@intel.com>) id 1SNo7l-0003GO-2s
 	for openembedded-core@lists.openembedded.org;
-	Fri, 27 Apr 2012 18:29:00 +0200
-Received: by mail-bk0-f47.google.com with SMTP id jm19so690534bkc.6
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 27 Apr 2012 09:19:24 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=google.com; s=20120113;
-	h=message-id:date:from:user-agent:mime-version:to:cc:subject
-	:references:in-reply-to:content-type:content-transfer-encoding
-	:x-gm-message-state;
-	bh=FI3yR4Q5TfYTt77RqLLAOhFTyrJ8mM2WrLZgXGa5e7Q=;
-	b=mc9NQ7zAFO3k0netW6Zgy5cYeQ1+H0T3K7RHP7w50O/9op4nljPJpXeZZtHeSonK+1
-	Q5gzbeSobcdlLQ0d68TyQwURrqgUxGUY96rHW0H0/ZgMvV/qvDSXQqDueRJ06uPdfFkc
-	ULvL4J/orijqlbzit4+FD9KWAHrwncD/fePcQ0Rn7KK2Om7AsmQ/PJ8jPW7hc8V0BPwh
-	yUvymRAYANWU41SxAwL8Y4sh2zTx2lKf2PlsOsjBNKg0rJ/MJULkiIv+YeKQW8ALabLF
-	Hw0vFED3DhsAIMtJNjClsTdzsT9Xg1IKPubC9TwPdh+S4/nyvtaAetL+9lin7YdcJg/I
-	E41Q==
-Received: by 10.205.129.8 with SMTP id hg8mr4125913bkc.25.1335543563906;
-	Fri, 27 Apr 2012 09:19:23 -0700 (PDT)
-Received: from [9.152.213.70] (deibp9eh1--blueice2n2.emea.ibm.com.
-	[195.212.29.172])
-	by mx.google.com with ESMTPS id c4sm12603780bkh.0.2012.04.27.09.19.22
-	(version=SSLv3 cipher=OTHER); Fri, 27 Apr 2012 09:19:22 -0700 (PDT)
-Message-ID: <4F9AC709.2020006@linaro.org>
-Date: Fri, 27 Apr 2012 18:19:21 +0200
-From: Ken Werner <ken.werner@linaro.org>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:11.0) Gecko/20120410 Thunderbird/11.0.1
+	Fri, 27 Apr 2012 18:34:25 +0200
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+	by fmsmga102.fm.intel.com with ESMTP; 27 Apr 2012 09:24:45 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="159103008"
+Received: from orsmsx605.amr.corp.intel.com ([10.22.226.10])
+	by fmsmga002.fm.intel.com with ESMTP; 27 Apr 2012 09:24:45 -0700
+Received: from orsmsx152.amr.corp.intel.com (10.22.226.39) by
+	orsmsx605.amr.corp.intel.com (10.22.226.10) with Microsoft SMTP Server
+	(TLS) id 8.2.255.0; Fri, 27 Apr 2012 09:24:40 -0700
+Received: from orsmsx106.amr.corp.intel.com ([169.254.5.108]) by
+	ORSMSX152.amr.corp.intel.com ([169.254.8.220]) with mapi id
+	14.01.0355.002; Fri, 27 Apr 2012 09:24:41 -0700
+From: "Kamble, Nitin A" <nitin.a.kamble@intel.com>
+To: Saul Wold <sgw@linux.intel.com>, Patches and discussions about the oe-core
+	layer <openembedded-core@lists.openembedded.org>
+Thread-Topic: [OE-core] [PATCH 1/2] eglibc: package mtrace separately
+Thread-Index: AQHNI/99P/rGA9O4aECmGavcKib22JavREwA//+X6pA=
+Date: Fri, 27 Apr 2012 16:24:40 +0000
+Message-ID: <ADD6A3980E8C39419A432FF422031B4C03093A5A@ORSMSX106.amr.corp.intel.com>
+References: <cover.1335480719.git.nitin.a.kamble@intel.com>
+	<385b9b6d43ea3d98d355edc50989d2e0ab488cd7.1335480719.git.nitin.a.kamble@intel.com>
+	<4F9ABCEC.60403@linux.intel.com>
+In-Reply-To: <4F9ABCEC.60403@linux.intel.com>
+Accept-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [10.22.254.139]
 MIME-Version: 1.0
-To: =?ISO-8859-1?Q?Eric_B=E9nard?= <eric@eukrea.com>
-References: <1335524357-16990-1-git-send-email-ken.werner@linaro.org>
-	<20120427145304.04e483d3@eb-e6520>
-In-Reply-To: <20120427145304.04e483d3@eb-e6520>
-X-Gm-Message-State: ALoCoQm9vmeBuBAE4D5Ss5NfCuxHtmGnU+AJfmwk0L4e9lC1/dkzrod70OgfW3q7Vcg9z9GeRI6i
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH] Qt 4.8 GCC 4.7 fixes
+Subject: Re: [PATCH 1/2] eglibc: package mtrace separately
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -51,36 +46,31 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 27 Apr 2012 16:29:00 -0000
-Content-Type: text/plain; charset=ISO-8859-1; format=flowed
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Fri, 27 Apr 2012 16:34:25 -0000
+Content-Language: en-US
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 
-On 04/27/2012 02:53 PM, Eric Bénard wrote:
-> Hi Ken,
->
-> Le Fri, 27 Apr 2012 12:59:17 +0200,
-> Ken Werner<ken.werner@linaro.org>  a écrit :
->
->> This change introduces two new patches to Qt 4.8. One prevents the build
->> system from using the -fuse-ld=gold GCC flag as this isn't upstream and
->> therefore not supported by many toolchains out there. The second patch
->
-> ld-is-gold is a DISTRO_FEATURES wich enables gold (and thus reduce link
-> time especially in qt's build) : has this patch an effect on the
-> possibility to still use gold ?
->
-> Eric
 
-No, the patch doesn't prevent the toolchain from linking using gold. 
-Upstream GCC+binutils supports either gold or the classic ld - a 
-decision you make at the configure time of your toolchain. However, 
-Debian and Ubuntu have patched their toolchains to allow the user to 
-pick the desired linker using the -fuse-ld option. Technically what they 
-do is a patch to the binutils which installs both the ld.bfd and ls.gold 
-plus a symlink that selects the default linker. And a GCC patch that 
-changes collect2 to support the -fuse-ld switch.
 
-Regards,
-Ken
+> -----Original Message-----
+> From: Saul Wold [mailto:sgw@linux.intel.com]
+> Sent: Friday, April 27, 2012 8:36 AM
+> To: Patches and discussions about the oe-core layer
+> Cc: Kamble, Nitin A
+> Subject: Re: [OE-core] [PATCH 1/2] eglibc: package mtrace separately
+>=20
+> On 04/26/2012 03:53 PM, nitin.a.kamble@intel.com wrote:
+> > From: Nitin A Kamble<nitin.a.kamble@intel.com>
+> >
+> > And install it only for nativesdk images
+> >
+> I think this needs to be in the -sdk images also, not just nativesdk.
+>=20
+
+Saul,
+ mtrace is getting installed on the sdk images also.
+
+Nitin
 
 
