@@ -1,37 +1,39 @@
-Received: from 5.mo2.mail-out.ovh.net ([87.98.181.248]
-	helo=mo2.mail-out.ovh.net) by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <eric@eukrea.com>) id 1SNlPU-0007IE-Tc
+Received: from mail-pz0-f50.google.com ([209.85.210.50])
+	by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <raj.khem@gmail.com>) id 1SNmXX-0001Hb-T8
 	for openembedded-core@lists.openembedded.org;
-	Fri, 27 Apr 2012 15:40:33 +0200
-Received: from mail27.ha.ovh.net (b6.ovh.net [213.186.33.56])
-	by mo2.mail-out.ovh.net (Postfix) with SMTP id E4F08DC2C0E
+	Fri, 27 Apr 2012 16:52:56 +0200
+Received: by dakh32 with SMTP id h32so1031672dak.9
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 27 Apr 2012 14:54:25 +0200 (CEST)
-Received: from b0.ovh.net (HELO queueout) (213.186.33.50)
-	by b0.ovh.net with SMTP; 27 Apr 2012 14:44:56 +0200
-Received: from unknown (HELO eb-e6520) (eric%eukrea.com@92.90.21.8)
-	by ns0.ovh.net with SMTP; 27 Apr 2012 14:44:53 +0200
-Date: Fri, 27 Apr 2012 14:53:04 +0200
-From: Eric =?ISO-8859-1?B?QuluYXJk?= <eric@eukrea.com>
-To: ken.werner@linaro.org
-X-Ovh-Mailout: 178.32.228.2 (mo2.mail-out.ovh.net)
-Message-ID: <20120427145304.04e483d3@eb-e6520>
-In-Reply-To: <1335524357-16990-1-git-send-email-ken.werner@linaro.org>
+	Fri, 27 Apr 2012 07:43:16 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=message-id:date:from:user-agent:mime-version:to:subject:references
+	:in-reply-to:x-enigmail-version:content-type
+	:content-transfer-encoding;
+	bh=eS7dms+C6vmJ+KkA+eOL8FBrkFXnBOY1XrUq+OK3IoA=;
+	b=m5x8bIdHP8cbxwOBT8DR5DpIchaJNRhSnwUMXrbPN/02nfs3Tv0jCSw8HvvoTiH+G0
+	ppu+ZhEHvHCd7x+LpqMFlmbUU1TJDlN8Kk/vGjPYm3TzRGhep/0w74jOezGtN4j3qPuj
+	mjcISSffpjrvCPt5G1ygxJv2X53vAy0I81DjSexNlmNiNUdqxwphLn2EYzwACIz+p6Wa
+	63Xp1uDoNwLGGrGd+eZ2ua47exXFaFWWJNtILAnW6vWKsxE+ps1F8jmAND476AA03tOk
+	FvZEiMP18neyrKzdoqWerqCZUQjXImcNbV2VkjELPYwzA+RhABNT0pgIfR6UtEBCugT5
+	/d1g==
+Received: by 10.68.239.99 with SMTP id vr3mr3571918pbc.10.1335537796699;
+	Fri, 27 Apr 2012 07:43:16 -0700 (PDT)
+Received: from [192.168.1.103] (99-57-140-209.lightspeed.sntcca.sbcglobal.net.
+	[99.57.140.209])
+	by mx.google.com with ESMTPS id qs6sm6675556pbb.29.2012.04.27.07.43.13
+	(version=SSLv3 cipher=OTHER); Fri, 27 Apr 2012 07:43:15 -0700 (PDT)
+Message-ID: <4F9AB080.8050106@gmail.com>
+Date: Fri, 27 Apr 2012 07:43:12 -0700
+From: Khem Raj <raj.khem@gmail.com>
+User-Agent: Mozilla/5.0 (X11; Linux i686;
+	rv:11.0) Gecko/20120411 Thunderbird/11.0.1
+MIME-Version: 1.0
+To: openembedded-core@lists.openembedded.org
 References: <1335524357-16990-1-git-send-email-ken.werner@linaro.org>
-Organization: =?ISO-8859-1?B?RXVrculh?= Electromatique
-X-Mailer: Claws Mail 3.8.0 (GTK+ 2.24.8; x86_64-redhat-linux-gnu)
-Mime-Version: 1.0
-X-Ovh-Tracer-Id: 10719974489290419650
-X-Ovh-Remote: 92.90.21.8 ()
-X-Ovh-Local: 213.186.33.20 (ns0.ovh.net)
-X-OVH-SPAMSTATE: OK
-X-OVH-SPAMSCORE: 0
-X-OVH-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrfeeggedrtdekucetufdoteggodetrfdofgetucfrrhhofhhilhgvmecuqfggjfenuceurghilhhouhhtmecufedttdenucenucfhrhhomhepgfhrihgtuceurohnrghrugcuoegvrhhitgesvghukhhrvggrrdgtohhmqeenucfjughrpeffhffvuffkjghfohfogggtgfesthhqredtredtud
-X-Spam-Check: DONE|U 0.5/N
-X-VR-SPAMSTATE: OK
-X-VR-SPAMSCORE: 0
-X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrfeeggedrtdekucetufdoteggodetrfdofgetucfrrhhofhhilhgvmecuqfggjfenuceurghilhhouhhtmecufedttdenucenucfhrhhomhepgfhrihgtuceurohnrghrugcuoegvrhhitgesvghukhhrvggrrdgtohhmqeenucfjughrpeffhffvuffkjghfohfogggtgfesthhqredtredtud
-Cc: openembedded-core@lists.openembedded.org
+	<1335526116.20130.67.camel@ted>
+In-Reply-To: <1335526116.20130.67.camel@ted>
+X-Enigmail-Version: 1.4.1
 Subject: Re: [PATCH] Qt 4.8 GCC 4.7 fixes
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
@@ -47,23 +49,32 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 27 Apr 2012 13:40:33 -0000
+X-List-Received-Date: Fri, 27 Apr 2012 14:52:56 -0000
 Content-Type: text/plain; charset=ISO-8859-1
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 7bit
 
-Hi Ken,
+-----BEGIN PGP SIGNED MESSAGE-----
+Hash: SHA1
 
-Le Fri, 27 Apr 2012 12:59:17 +0200,
-Ken Werner <ken.werner@linaro.org> a =E9crit :
+On 04/27/2012 04:28 AM, Richard Purdie wrote:
+> In the future could you put an "Upstream-Status:" header in any
+> patches which get added along with an indication of the author?
+> This helps a lot when you look at the patch in 12 months and wonder
+> who wrote it (you covered why) and also gives us an idea of which
+> patches might be worth prioritising to discuss with upstream.
 
-> This change introduces two new patches to Qt 4.8. One prevents the build
-> system from using the -fuse-ld=3Dgold GCC flag as this isn't upstream and
-> therefore not supported by many toolchains out there. The second patch
+I think its a forward port of this patch
 
-ld-is-gold is a DISTRO_FEATURES wich enables gold (and thus reduce link
-time especially in qt's build) : has this patch an effect on the
-possibility to still use gold ?
+http://git.openembedded.org/openembedded-core/tree/meta/recipes-qt/qt4/qt-4.7.4/gcc47-fix.patch
 
-Eric
+so you can add that to header
+-----BEGIN PGP SIGNATURE-----
+Version: GnuPG v1.4.11 (GNU/Linux)
+Comment: Using GnuPG with Mozilla - http://enigmail.mozdev.org/
+
+iEYEARECAAYFAk+asIAACgkQuwUzVZGdMxTGnACdGn8JxrpsgsCIWiQ0NhGdGJag
+vKUAn2oECoQqL9e+/GueKqfWbcKmxAnR
+=bHqW
+-----END PGP SIGNATURE-----
 
 
