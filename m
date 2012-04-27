@@ -1,25 +1,31 @@
-Received: from mail.windriver.com ([147.11.1.11])
-	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <Kai.Kang@windriver.com>) id 1SNhpy-0000nD-8m
-	for openembedded-core@lists.openembedded.org;
-	Fri, 27 Apr 2012 11:51:38 +0200
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca [147.11.189.40])
-	by mail.windriver.com (8.14.3/8.14.3) with ESMTP id q3R9fwa7003478
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
-	Fri, 27 Apr 2012 02:41:58 -0700 (PDT)
-Received: from localhost.localdomain (128.224.162.164) by
-	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server
-	(TLS) id 14.1.255.0; Fri, 27 Apr 2012 02:41:58 -0700
-From: Kang Kai <kai.kang@windriver.com>
-To: <saul.wold@intel.com>, <openembedded-core@lists.openembedded.org>
-Date: Fri, 27 Apr 2012 17:41:56 +0800
-Message-ID: <3d7e7ac1deae6e67d0b716ac5dca31635a1fc68a.1335519550.git.kai.kang@windriver.com>
-X-Mailer: git-send-email 1.7.5.4
-In-Reply-To: <cover.1335519550.git.kai.kang@windriver.com>
-References: <cover.1335519550.git.kai.kang@windriver.com>
-MIME-Version: 1.0
-X-Originating-IP: [128.224.162.164]
-Subject: [PATCH 1/1] alsa-tools: update to 1.0.25
+Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
+	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <richard.purdie@linuxfoundation.org>)
+	id 1SNipw-0002E2-6J for openembedded-core@lists.openembedded.org;
+	Fri, 27 Apr 2012 12:55:40 +0200
+Received: from localhost (localhost [127.0.0.1])
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q3RAjxmX014871;
+	Fri, 27 Apr 2012 11:46:00 +0100
+Received: from tim.rpsys.net ([127.0.0.1])
+	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
+	port 10024) with LMTP
+	id 12808-08; Fri, 27 Apr 2012 11:45:55 +0100 (BST)
+Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q3RAjnKm014865
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO);
+	Fri, 27 Apr 2012 11:45:50 +0100
+Message-ID: <1335523550.20130.56.camel@ted>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: "Zhai, Edwin" <edwin.zhai@intel.com>
+Date: Fri, 27 Apr 2012 11:45:50 +0100
+In-Reply-To: <20120427082009.GH1450@edwin-gen>
+References: <20120426075321.GG1450@edwin-gen> <20120427082009.GH1450@edwin-gen>
+X-Mailer: Evolution 3.2.2- 
+Mime-Version: 1.0
+X-Virus-Scanned: amavisd-new at rpsys.net
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: Pango multilib issue
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -34,58 +40,54 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 27 Apr 2012 09:51:38 -0000
-Content-Type: text/plain
+X-List-Received-Date: Fri, 27 Apr 2012 10:55:40 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-Update to version 1.0.25.
-Add option "--prefix" to GITCOMPILE_ARGS and FILES_${PN} to package
-the installed but not shipped files.
+On Fri, 2012-04-27 at 16:20 +0800, Zhai, Edwin wrote:
+> Any comments?
+> I'd like a agreement before any patch:)
+> 
+> Thanks,
+> Edwin
+> 
+> 
+> On Thu, Apr 26, 2012 at 03:53:22PM +0800, Zhai, Edwin wrote:
+> > RP,
+> > 
+> > I have found one common issues for multilib when system config file differ 
+> > between multilibs.
+> > 
+> > https://bugzilla.yoctoproject.org/show_bug.cgi?id=2356
+> > This bug caused by modules mechanism in pango:
+> > 
+> > pango utils, pango-querymodules produce a system config file to indicate where
+> > to find the modules when 1st boot, like /usr/{lib64|lib}/pango/1.6.0/modules/
+> > for {x86-64|lib32}-pango respectively. 
+> > 
+> > When installing lib32-pango on sato-image-qemux86-64, lib32 version of
+> > pango-querymodules override x86-64 version and produce a system config file
+> > with path for lib32 version of modules. Then x86-64 matchbox-desktop failed to
+> > open these modules and loaded corrupted fonts.
+> > 
+> > To resolve this conflict, one possible solution is put the config file and 
+> > binary under different dir: $LIBDIR for config file, and 
+> > /usr/{libexec|lib64exec} for config binary(or create different dir under 
+> > /usr/bin/ for different multilib)
+> > 
+> > Any comments for this?
 
-Signed-off-by: Kang Kai <kai.kang@windriver.com>
----
- .../autotools.patch                                |    0
- ...alsa-tools_1.0.24.1.bb => alsa-tools_1.0.25.bb} |   10 ++++++----
- 2 files changed, 6 insertions(+), 4 deletions(-)
- rename meta/recipes-multimedia/alsa/{alsa-tools-1.0.24.1 => alsa-tools-1.0.25}/autotools.patch (100%)
- rename meta/recipes-multimedia/alsa/{alsa-tools_1.0.24.1.bb => alsa-tools_1.0.25.bb} (73%)
+/libexec and /lib aren't really the correct locations for a
+configuration file like this.
 
-diff --git a/meta/recipes-multimedia/alsa/alsa-tools-1.0.24.1/autotools.patch b/meta/recipes-multimedia/alsa/alsa-tools-1.0.25/autotools.patch
-similarity index 100%
-rename from meta/recipes-multimedia/alsa/alsa-tools-1.0.24.1/autotools.patch
-rename to meta/recipes-multimedia/alsa/alsa-tools-1.0.25/autotools.patch
-diff --git a/meta/recipes-multimedia/alsa/alsa-tools_1.0.24.1.bb b/meta/recipes-multimedia/alsa/alsa-tools_1.0.25.bb
-similarity index 73%
-rename from meta/recipes-multimedia/alsa/alsa-tools_1.0.24.1.bb
-rename to meta/recipes-multimedia/alsa/alsa-tools_1.0.25.bb
-index 4c3e9dc..7d96b85 100644
---- a/meta/recipes-multimedia/alsa/alsa-tools_1.0.24.1.bb
-+++ b/meta/recipes-multimedia/alsa/alsa-tools_1.0.25.bb
-@@ -7,7 +7,7 @@ SECTION = "console/utils"
- LICENSE = "GPLv2 & LGPLv2+"
- DEPENDS = "alsa-lib ncurses"
- 
--PR = "r4"
-+PR = "r0"
- 
- LIC_FILES_CHKSUM = "file://hdsploader/COPYING;md5=94d55d512a9ba36caa9b7df079bae19f \
-                     file://ld10k1/COPYING.LIB;md5=7fbc338309ac38fefcd64b04bb903e34"
-@@ -15,9 +15,11 @@ LIC_FILES_CHKSUM = "file://hdsploader/COPYING;md5=94d55d512a9ba36caa9b7df079bae1
- SRC_URI = "ftp://ftp.alsa-project.org/pub/tools/alsa-tools-${PV}.tar.bz2 \
-            file://autotools.patch"
- 
--SRC_URI[md5sum] = "08fe93a12006093e590d7ecc02b119dd"
--SRC_URI[sha256sum] = "17d43de93ab2db98886d89a53e45341daa46a4ef6edd405db87f4b5a5dc64a05"
-+SRC_URI[md5sum] = "57bfec98a814d12e0f7ab379aaeccd87"
-+SRC_URI[sha256sum] = "a974d0f3e837796f67d04df88c783aebcf4ac3c5f9ac31e2b65c10e8cb4b1dca"
- 
- inherit autotools
- 
--EXTRA_OEMAKE += "GITCOMPILE_ARGS='--host=${HOST_SYS} --build=${BUILD_SYS} --target=${TARGET_SYS} --with-libtool-sysroot=${STAGING_DIR_HOST}' ACLOCAL_FLAGS='-I ${STAGING_DATADIR}/aclocal'"
-+EXTRA_OEMAKE += "GITCOMPILE_ARGS='--host=${HOST_SYS} --build=${BUILD_SYS} --target=${TARGET_SYS} --with-libtool-sysroot=${STAGING_DIR_HOST} --prefix=${prefix}' ACLOCAL_FLAGS='-I ${STAGING_DATADIR}/aclocal'"
-+
-+FILES_${PN} += "${datadir}/ld10k1"
--- 
-1.7.5.4
+I think in the mutlilib cases I'd like to move the config file a
+directory deeper so /etc/pango/${baselib}/pango.modules in the mutliib
+cases. The standard system file would remain in its existing location.
+
+Cheers,
+
+Richard
+
 
 
 
