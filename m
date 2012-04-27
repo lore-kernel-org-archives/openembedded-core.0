@@ -1,26 +1,42 @@
-Received: from mga03.intel.com ([143.182.124.21])
+Received: from mail-bk0-f47.google.com ([209.85.214.47])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <sgw@linux.intel.com>) id 1SNnMm-0002Oh-Lb
+	(envelope-from <ken.werner@linaro.org>) id 1SNo2H-00039r-J5
 	for openembedded-core@lists.openembedded.org;
-	Fri, 27 Apr 2012 17:45:52 +0200
-Received: from azsmga002.ch.intel.com ([10.2.17.35])
-	by azsmga101.ch.intel.com with ESMTP; 27 Apr 2012 08:36:12 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="93879179"
-Received: from unknown (HELO [10.255.12.123]) ([10.255.12.123])
-	by AZSMGA002.ch.intel.com with ESMTP; 27 Apr 2012 08:36:12 -0700
-Message-ID: <4F9ABCEC.60403@linux.intel.com>
-Date: Fri, 27 Apr 2012 08:36:12 -0700
-From: Saul Wold <sgw@linux.intel.com>
+	Fri, 27 Apr 2012 18:28:45 +0200
+Received: by bkcjm19 with SMTP id jm19so690534bkc.6
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 27 Apr 2012 09:19:07 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=google.com; s=20120113;
+	h=message-id:date:from:user-agent:mime-version:to:subject:references
+	:in-reply-to:content-type:content-transfer-encoding
+	:x-gm-message-state;
+	bh=BYYdYD7Ofz847PYIu0Q5Owd7Uvz4k037wIDluWSYfy8=;
+	b=fL1QOexXV3M+4+qK6vDMlh69gH9ICah0REpk6gpKy7OlyFBMY8bGxMvUniJmhmDjq9
+	49/KeodqTGtvZxh/pD27EDbD/0drbKrWCLa5yVpu7VCTL1HHlE6PKP0qvNAq1ZUpedvA
+	OgNYyS6PSlzzp+Nu+GevFufOygzMg2W68/7h0BqSsvNT5D8tfxG3yAe2S50WzXY54mJ3
+	XY3g2oX/UKOBpGt0cohmy/drW4z0ogHUTytSN5puXb8NiS2Ex+MzgFprIWf9wzAqM3dk
+	BEX3BrjGG8fjXzf8nHXZN3zPlrZFkIIUE0+cQcPyQ/uk/yHCGRludmcEbQjkK1iKsis7
+	LCvw==
+Received: by 10.204.148.74 with SMTP id o10mr943475bkv.111.1335543547126;
+	Fri, 27 Apr 2012 09:19:07 -0700 (PDT)
+Received: from [9.152.213.70] (deibp9eh1--blueice2n2.emea.ibm.com.
+	[195.212.29.172])
+	by mx.google.com with ESMTPS id gi5sm4590720bkc.3.2012.04.27.09.19.05
+	(version=SSLv3 cipher=OTHER); Fri, 27 Apr 2012 09:19:06 -0700 (PDT)
+Message-ID: <4F9AC6F9.5010608@linaro.org>
+Date: Fri, 27 Apr 2012 18:19:05 +0200
+From: Ken Werner <ken.werner@linaro.org>
 User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:11.0) Gecko/20120329 Thunderbird/11.0.1
+	rv:11.0) Gecko/20120410 Thunderbird/11.0.1
 MIME-Version: 1.0
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-References: <cover.1335480719.git.nitin.a.kamble@intel.com>
-	<385b9b6d43ea3d98d355edc50989d2e0ab488cd7.1335480719.git.nitin.a.kamble@intel.com>
-In-Reply-To: <385b9b6d43ea3d98d355edc50989d2e0ab488cd7.1335480719.git.nitin.a.kamble@intel.com>
-Subject: Re: [PATCH 1/2] eglibc: package mtrace separately
+References: <1335524357-16990-1-git-send-email-ken.werner@linaro.org>
+	<1335526116.20130.67.camel@ted>
+In-Reply-To: <1335526116.20130.67.camel@ted>
+X-Gm-Message-State: ALoCoQmNxo+prJci9T+VhtWttLZIluy+lZvjSBmbTnBAkPcoaJb6YQuSchVy5l0qF+gy8ya7xbAs
+Subject: Re: [PATCH] Qt 4.8 GCC 4.7 fixes
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -35,95 +51,46 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 27 Apr 2012 15:45:52 -0000
+X-List-Received-Date: Fri, 27 Apr 2012 16:28:45 -0000
 Content-Type: text/plain; charset=ISO-8859-1; format=flowed
 Content-Transfer-Encoding: 7bit
 
-On 04/26/2012 03:53 PM, nitin.a.kamble@intel.com wrote:
-> From: Nitin A Kamble<nitin.a.kamble@intel.com>
+On 04/27/2012 01:28 PM, Richard Purdie wrote:
+> On Fri, 2012-04-27 at 12:59 +0200, Ken Werner wrote:
+>> This change introduces two new patches to Qt 4.8. One prevents the build
+>> system from using the -fuse-ld=gold GCC flag as this isn't upstream and
+>> therefore not supported by many toolchains out there. The second patch
+>> fixes a compile time error when using toolchains based on GCC 4.7.
+>>
+>> Signed-off-by: Ken Werner<ken.werner@linaro.org>
+>> ---
+>>   meta/recipes-qt/qt4/qt-4.8.1.inc                   |    2 +
+>>   .../qt4/qt-4.8.1/disable-fuse-gold-flag.patch      |   26 ++++++++++++++++
+>>   meta/recipes-qt/qt4/qt-4.8.1/gcc47-fix.patch       |   31 ++++++++++++++++++++
+>>   meta/recipes-qt/qt4/qt4-embedded.inc               |    2 +-
+>>   4 files changed, 60 insertions(+), 1 deletions(-)
+>>   create mode 100644 meta/recipes-qt/qt4/qt-4.8.1/disable-fuse-gold-flag.patch
+>>   create mode 100644 meta/recipes-qt/qt4/qt-4.8.1/gcc47-fix.patch
 >
-> And install it only for nativesdk images
+> Thanks, this is very timely as it happens.
 >
-I think this needs to be in the -sdk images also, not just nativesdk.
+> In the future could you put an "Upstream-Status:" header in any patches
+> which get added along with an indication of the author? This helps a lot
+> when you look at the patch in 12 months and wonder who wrote it (you
+> covered why) and also gives us an idea of which patches might be worth
+> prioritising to discuss with upstream.
+>
+> In this case, I've added your changes to master-next and added in the
+> missing patch header pieces myself. I've just been working through the
+> remaining gcc 4.7 issues and this looks like the main one left.
+>
+> Cheers,
+>
+> Richard
 
-Sau!
+Ok, thanks!
 
-> This fixes bug: [YOCTO# 2374]
->
-> Signed-off-by: Nitin A Kamble<nitin.a.kamble@intel.com>
-> ---
->   meta/recipes-core/eglibc/eglibc-package.inc |    8 +++++++-
->   meta/recipes-core/eglibc/eglibc_2.13.bb     |    2 +-
->   meta/recipes-core/eglibc/eglibc_2.15.bb     |    2 +-
->   3 files changed, 9 insertions(+), 3 deletions(-)
->
-> diff --git a/meta/recipes-core/eglibc/eglibc-package.inc b/meta/recipes-core/eglibc/eglibc-package.inc
-> index 0db221f..e199901 100644
-> --- a/meta/recipes-core/eglibc/eglibc-package.inc
-> +++ b/meta/recipes-core/eglibc/eglibc-package.inc
-> @@ -20,11 +20,12 @@ USE_LDCONFIG ?= "1"
->   PKGSUFFIX = ""
->   PKGSUFFIX_virtclass-nativesdk = "-nativesdk"
->
-> -PACKAGES = "${PN}-dbg ${PN} catchsegv${PKGSUFFIX} sln${PKGSUFFIX} nscd${PKGSUFFIX} ldd${PKGSUFFIX} ${PN}-utils eglibc-extra-nss${PKGSUFFIX} eglibc-thread-db${PKGSUFFIX} ${PN}-pic ${PN}-dev ${PN}-staticdev ${PN}-doc libcidn${PKGSUFFIX} libmemusage${PKGSUFFIX} libsegfault${PKGSUFFIX} ${PN}-pcprofile libsotruss${PKGSUFFIX}"
-> +PACKAGES = "${PN}-dbg ${PN} catchsegv${PKGSUFFIX} sln${PKGSUFFIX} nscd${PKGSUFFIX} ldd${PKGSUFFIX} ${PN}-mtrace ${PN}-utils eglibc-extra-nss${PKGSUFFIX} eglibc-thread-db${PKGSUFFIX} ${PN}-pic ${PN}-dev ${PN}-staticdev ${PN}-doc libcidn${PKGSUFFIX} libmemusage${PKGSUFFIX} libsegfault${PKGSUFFIX} ${PN}-pcprofile libsotruss${PKGSUFFIX}"
->
->   # The ld.so in this eglibc supports the GNU_HASH
->   RPROVIDES_${PN} = "glibc${PKGSUFFIX} rtld(GNU_HASH)"
->   RPROVIDES_${PN}-utils = "glibc${PKGSUFFIX}-utils"
-> +RPROVIDES_${PN}-mtrace = "glibc${PKGSUFFIX}-mtrace"
->   RPROVIDES_${PN}-pic = "glibc${PKGSUFFIX}-pic"
->   RPROVIDES_${PN}-dev = "glibc${PKGSUFFIX}-dev"
->   RPROVIDES_${PN}-staticdev = "glibc${PKGSUFFIX}-staticdev"
-> @@ -48,11 +49,14 @@ FILES_${PN}-dev_append += "${bindir}/rpcgen ${libdir}/*_nonshared.a \
->   	${base_libdir}/*_nonshared.a ${base_libdir}/*.o ${datadir}/aclocal"
->   FILES_${PN}-staticdev_append += "${libdir}/*.a ${base_libdir}/*.a"
->   FILES_nscd${PKGSUFFIX} = "${sbindir}/nscd*"
-> +FILES_${PN}-mtrace = "${bindir}/mtrace"
->   FILES_${PN}-utils = "${bindir}/* ${sbindir}/*"
->   FILES_${PN}-dbg += "${libexecdir}/*/.debug ${libdir}/audit/.debug"
->   FILES_catchsegv${PKGSUFFIX} = "${bindir}/catchsegv"
->   RDEPENDS_catchsegv${PKGSUFFIX} = "libsegfault"
->   RDEPENDS_${PN}-utils += "bash"
-> +RDEPENDS_${PN}-utils_virtclass-nativesdk += "${PN}-mtrace"
-> +RDEPENDS_${PN}-mtrace += "perl"
->   FILES_${PN}-pcprofile = "${base_libdir}/libpcprofile.so"
->   FILES_eglibc-thread-db${PKGSUFFIX} = "${base_libdir}/libthread_db.so.* ${base_libdir}/libthread_db-*.so"
->   RPROVIDES_${PN}-dev += "libc-dev"
-> @@ -68,6 +72,8 @@ SUMMARY_ldd = "print shared library dependencies"
->   DESCRIPTION_ldd = "/usr/bin/ldd prints shared library dependencies for each program or shared library specified on the command line."
->   SUMMARY_${PN}-utils = "Miscellaneous utilities provided by eglibc"
->   DESCRIPTION_${PN}-utils = "Miscellaneous utilities including getconf, iconf, locale, gencat, tzselect, zic, rpcinfo, ..."
-> +SUMMARY_${PN}-mtrace = "mtrace utility provided by eglibc"
-> +DESCRIPTION_${PN}-mtrace = "mtrace utility provided by eglibc"
->   DESCRIPTION_libsotruss = "Library to support sotruss which traces calls through PLTs"
->
->   inherit libc-common multilib_header
-> diff --git a/meta/recipes-core/eglibc/eglibc_2.13.bb b/meta/recipes-core/eglibc/eglibc_2.13.bb
-> index d8a41dc..73cd0aa 100644
-> --- a/meta/recipes-core/eglibc/eglibc_2.13.bb
-> +++ b/meta/recipes-core/eglibc/eglibc_2.13.bb
-> @@ -3,7 +3,7 @@ require eglibc.inc
->   SRCREV = "15508"
->
->   DEPENDS += "gperf-native"
-> -PR = "r26"
-> +PR = "r27"
->   PR_append = "+svnr${SRCPV}"
->
->   EGLIBC_BRANCH="eglibc-2_13"
-> diff --git a/meta/recipes-core/eglibc/eglibc_2.15.bb b/meta/recipes-core/eglibc/eglibc_2.15.bb
-> index 713efc3..f5219d1 100644
-> --- a/meta/recipes-core/eglibc/eglibc_2.15.bb
-> +++ b/meta/recipes-core/eglibc/eglibc_2.15.bb
-> @@ -3,7 +3,7 @@ require eglibc.inc
->   SRCREV = "17386"
->
->   DEPENDS += "gperf-native"
-> -PR = "r6"
-> +PR = "r7"
->   PR_append = "+svnr${SRCPV}"
->
->   EGLIBC_BRANCH="eglibc-2_15"
+Regards,
+Ken
 
 
