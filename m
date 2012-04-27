@@ -1,37 +1,89 @@
-Received: from mga03.intel.com ([143.182.124.21])
+Received: from mail-wg0-f65.google.com ([74.125.82.65])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <lianhao.lu@intel.com>) id 1SNyRz-0005wH-DP
+	(envelope-from <martin.jansa@gmail.com>) id 1SO2dD-00059J-T2
 	for openembedded-core@lists.openembedded.org;
-	Sat, 28 Apr 2012 05:35:59 +0200
-Received: from azsmga001.ch.intel.com ([10.2.17.19])
-	by azsmga101.ch.intel.com with ESMTP; 27 Apr 2012 20:26:19 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="136378959"
-Received: from azsmsx601.amr.corp.intel.com ([10.2.121.193])
-	by azsmga001.ch.intel.com with ESMTP; 27 Apr 2012 20:26:19 -0700
-Received: from shsmsx151.ccr.corp.intel.com (10.239.6.50) by
-	azsmsx601.amr.corp.intel.com (10.2.121.193) with Microsoft SMTP Server
-	(TLS) id 8.2.255.0; Fri, 27 Apr 2012 20:26:19 -0700
-Received: from shsmsx102.ccr.corp.intel.com ([169.254.2.226]) by
-	SHSMSX151.ccr.corp.intel.com ([169.254.3.243]) with mapi id
-	14.01.0355.002; Sat, 28 Apr 2012 11:26:17 +0800
-From: "Lu, Lianhao" <lianhao.lu@intel.com>
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Thread-Topic: baselib_dir for udev in multilib cases
-Thread-Index: Ac0k7qsDFkap3MNwQxmCuVrGYNuFSA==
-Date: Sat, 28 Apr 2012 03:26:16 +0000
-Message-ID: <857BE142E5399E46B20FD45B9DB8A7BC0FD9594A@SHSMSX102.ccr.corp.intel.com>
-Accept-Language: zh-CN, en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [10.239.127.40]
-MIME-Version: 1.0
-Subject: baselib_dir for udev in multilib cases
-X-BeenThere: openembedded-core@lists.openembedded.org
+	Sat, 28 Apr 2012 10:03:51 +0200
+Received: by wgbdt11 with SMTP id dt11so151509wgb.0
+	for <openembedded-core@lists.openembedded.org>;
+	Sat, 28 Apr 2012 00:54:12 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=resent-from:resent-date:resent-message-id:resent-to:delivered-to
+	:received-spf:x-google-dkim-signature:from:to:date:message-id
+	:x-mailer:cc:subject:x-beenthere:x-mailman-version:precedence
+	:reply-to:list-id:list-unsubscribe:list-archive:list-post:list-help
+	:list-subscribe:mime-version:content-type:content-transfer-encoding
+	:errors-to; bh=SMYmEASn3JeaBc1Bjnsx+yxmnASdRLpfczIrGYLKgn0=;
+	b=pVd4RawRRkAvlP7aF6JhC7JxaPOAGD5mDwPq/OJtqFuNQIq4aA0ViCiwTvkCobU/qA
+	zT0shggO16nMPBEjkh9J7NGlbFFFcIWnd6oXxHKTJCVlK/7Lt3wNzP3SbB9OCXsojWif
+	tPIO1ltFfEBDWOaIQWihnrMR8ySMBXDj6kand9ZXAjOAT9JwK0FDbn4AxPEMaakkb+D0
+	rG+YVq9CadSwpB7vDHo6XBlpVmSRmPLZnaPCS0RF+AQOmsr7g5igODhAL39dm1cnlGH/
+	hiPhn9vx+6RTYluLeFP+7bGi7cfA7j+oiT3lVB9GqQzq2S55IqDWGPWo3uO/AZ+CA2jm
+	OtMQ==
+Received: by 10.180.105.69 with SMTP id gk5mr14611363wib.3.1335599651638;
+	Sat, 28 Apr 2012 00:54:11 -0700 (PDT)
+Received: from localhost ([94.230.152.246])
+	by mx.google.com with ESMTPS id j3sm16995337wiw.1.2012.04.28.00.54.10
+	(version=TLSv1/SSLv3 cipher=OTHER);
+	Sat, 28 Apr 2012 00:54:11 -0700 (PDT)
+Resent-From: Martin Jansa <Martin.Jansa@gmail.com>
+Resent-Date: Sat, 28 Apr 2012 09:54:15 +0200
+Resent-Message-ID: <20120428075415.GB3688@jama.jama.net>
+Resent-To: openembedded-core@lists.openembedded.org
+Received: by 10.236.61.4 with SMTP id v4csp384008yhc;
+	Fri, 27 Apr 2012 01:06:59 -0700 (PDT)
+Received: by 10.216.136.131 with SMTP id w3mr3405778wei.15.1335514019376;
+	Fri, 27 Apr 2012 01:06:59 -0700 (PDT)
+Received: from linuxtogo.org (linuxtogo.org. [188.40.83.200])
+	by mx.google.com with ESMTPS id w28si6871970weq.138.2012.04.27.01.06.56
+	(version=TLSv1/SSLv3 cipher=OTHER);
+	Fri, 27 Apr 2012 01:06:59 -0700 (PDT)
+Received-SPF: neutral (google.com: 188.40.83.200 is neither permitted nor
+	denied by best guess record for domain of
+	openembedded-devel-bounces@lists.openembedded.org)
+	client-ip=188.40.83.200; 
+Received: from localhost ([127.0.0.1]) by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <openembedded-devel-bounces@lists.openembedded.org>)
+	id 1SNgLd-0007oP-Si; Fri, 27 Apr 2012 10:16:13 +0200
+Received: from mail-wi0-f177.google.com ([209.85.212.177])
+	by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <koen@dominion.thruhere.net>) id 1SNgLc-0007oJ-Ed
+	for openembedded-devel@lists.openembedded.org;
+	Fri, 27 Apr 2012 10:16:12 +0200
+Received: by wibhj13 with SMTP id hj13so292015wib.6
+	for <openembedded-devel@lists.openembedded.org>;
+	Fri, 27 Apr 2012 01:06:34 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=google.com; s=20120113;
+	h=from:to:cc:subject:date:message-id:x-mailer:x-gm-message-state;
+	bh=ECepKG4oZqalKnS9esyoW+mNSimtw2zbeK0J/rrqQAc=;
+	b=M/a8RpQOYy6vxi8eJs0XJJuzP0WfCI9TyzNw7C37YGyoAo/il93NkeMRIpoFX1SSFc
+	F6Gn06tCRfKJbNFAK8Sc+AIt9i2xfZW4GvlR+pjCMc8ZfV0bkHPGGH8rYkBlPMOD4Q5n
+	LsG2ZOc/fC3ALLuxEz894k+JqDehiuUi04K3xDqTURF3fzlzccMFSQQi678N1EbQs26H
+	/Sp/Q/3hI4o0LjGd7kpHSWEuDzgDgCZ1wiJJNSAuZ2QcS9uXoka4B1wSF3/0mbind5E1
+	RZeWin+TYpBaXV/YFb2FDj/7pVCm7cuRkpMDTvenNkTjt1ol4WpR7O96WCUhvMhd97Iq
+	lpbQ==
+Received: by 10.180.92.130 with SMTP id cm2mr3549770wib.4.1335513994518;
+	Fri, 27 Apr 2012 01:06:34 -0700 (PDT)
+Received: from localhost (ip545070eb.adsl-surfen.hetnet.nl. [84.80.112.235])
+	by mx.google.com with ESMTPS id gd4sm4922425wib.6.2012.04.27.01.06.32
+	(version=TLSv1/SSLv3 cipher=OTHER);
+	Fri, 27 Apr 2012 01:06:33 -0700 (PDT)
+From: Koen Kooi <martin.jansa@gmail.com>
+To: openembedded-devel@lists.openembedded.org
+Date: Fri, 27 Apr 2012 10:06:28 +0200
+Message-Id: <1335513988-4447-1-git-send-email-koen@dominion.thruhere.net>
+X-Mailer: git-send-email 1.7.10
+X-Gm-Message-State: ALoCoQnVtPB5AP/I0aYBakYIWJrrFTAkxfF1pypbyzsjoZ0zuCwDL35Ff9IkDx4drUu4LxmtVqyW
+X-BeenThere: openembedded-devel@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
-Reply-To: Patches and discussions about the oe-core layer
+MIME-Version: 1.0
+Errors-To: openembedded-devel-bounces@lists.openembedded.org
+Cc: Koen Kooi <koen@dominion.thruhere.net>
+Subject: [oe] [meta-oe][PATCH] kernel bbclass: recreate uImage unless	KEEPUIMAGE is set
+X-BeenThere: openembedded-core@lists.openembedded.org
+Reply-To: openembedded-devel@lists.openembedded.org,
+	Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
 List-Id: Patches and discussions about the oe-core layer
 	<openembedded-core.lists.openembedded.org>
@@ -42,71 +94,42 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 28 Apr 2012 03:35:59 -0000
-Content-Language: en-US
+X-List-Received-Date: Sat, 28 Apr 2012 08:03:52 -0000
 Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 7bit
+
+The intent of the uImage code in this class includes the following
+
+1) be able to specify custom load addresses without needing to patch the kernel
+2) add better information to the uImage description field
+
+The current state is a NOP anyway, the kernel will always build a uImage when you tell it to 'make uImage'.
+
+Signed-off-by: Koen Kooi <koen@dominion.thruhere.net>
+---
+ meta-oe/classes/kernel.bbclass |    2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/meta-oe/classes/kernel.bbclass b/meta-oe/classes/kernel.bbclass
+index b7e9f54..98320fe 100644
+--- a/meta-oe/classes/kernel.bbclass
++++ b/meta-oe/classes/kernel.bbclass
+@@ -512,7 +512,7 @@ KERNEL_IMAGE_SYMLINK_NAME ?= "${KERNEL_IMAGETYPE}-${MACHINE}"
+ 
+ do_uboot_mkimage() {
+ 	if test "x${KERNEL_IMAGETYPE}" = "xuImage" ; then 
+-		if test ! -e arch/${ARCH}/boot/uImage ; then
++		if test "x${KEEPUIMAGE}" = "x" ; then
+ 			ENTRYPOINT=${UBOOT_ENTRYPOINT}
+ 			if test -n "${UBOOT_ENTRYSYMBOL}"; then
+ 				ENTRYPOINT=`${HOST_PREFIX}nm ${S}/vmlinux | \
+-- 
+1.7.10
 
 
-Koen Kooi wrote on 2012-04-27:
->=20
-> Op 27 apr. 2012, om 12:47 heeft Richard Purdie het volgende geschreven:
->=20
->> On Fri, 2012-04-27 at 13:04 +0800, Lianhao Lu wrote:
->>> Use the base_libdir to set the udev rules directory.
->>>=20
->>> Signed-off-by: Lianhao Lu <lianhao.lu@intel.com>
->>> ---
->>> meta/recipes-multimedia/alsa/alsa-utils_1.0.25.bb |    6 ++++--
->>> 1 files changed, 4 insertions(+), 2 deletions(-)
->>>=20
->>> diff --git a/meta/recipes-multimedia/alsa/alsa-utils_1.0.25.bb b/meta/r=
-ecipes-multimedia/alsa/alsa-utils_1.0.25.bb
->>> index 597e8b6..c39cd11 100644
->>> --- a/meta/recipes-multimedia/alsa/alsa-utils_1.0.25.bb
->>> +++ b/meta/recipes-multimedia/alsa/alsa-utils_1.0.25.bb
->>> @@ -21,7 +21,9 @@ SRC_URI[sha256sum] =3D "2e676a2f634bbfe279b260e10a96f=
-617cb72ee63c5bbf6c5f96bb61570
->>> -EXTRA_OECONF =3D "--disable-xmlto"
->>> +EXTRA_OECONF =3D "--disable-xmlto \
->>> +		--with-udev-rules-dir=3D${base_libdir}/udev/rules.d \
->>> +		"
->>> EXTRA_OECONF_append_libc-uclibc =3D " --disable-nls"
->>>=20
->>> inherit autotools gettext
->>=20
->> The udev configuration files are probably one case where using /lib
->> makes a lot of sense since we should only have one set of these. I
->> therefore think this should be added as an exception to the sanity
->> test...
->=20
-> And keep in mind it's more '/lib' than '${base_libdir}' since it isn't su=
-pposed to adhere to multilib naming. So even on /lib64 machines the
-> rules are in /lib.
->=20
-
-I changed the subject because I think we need more discussion about how to =
-handle udev in multilib cases.
-
-I might put the description under the wrong context. These patches were ori=
-ginally designed to fix the udev-rules not get packaged when the user have =
-a baselib_dir other than '/lib', because the udev userspace daemon(udevd) e=
-xpect the rules to be either in '${sysconfdir}/udev/rules.d' or '${baselib_=
-dir}/udev/rules.d'. These not packaged issues were found during multilib te=
-st because including the multilib.conf changes the baselib_dir.
-
-If we plan to have all the udev rules from multilib packages installed into=
- the same place, there are 2 options:
-1. install them into '${sysconfdir}/udev/rules.d'
-2. patch the udev to use '/lib' instead of '${baselib_dir}/' for rules.
-
-Besides this, some packages not only provide udev rules, but also programs =
-to be executed by udevd. These programs normally installed under '${baselib=
-_dir}/udev'. How to handle these programs? Should they follow the udev rule=
-s, i.e. to be installed into the same place in multilib case?
-
-Best Regards,
-Lianhao
-
+_______________________________________________
+Openembedded-devel mailing list
+Openembedded-devel@lists.openembedded.org
+http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-devel
 
 
