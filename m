@@ -1,39 +1,43 @@
-Received: from e06smtp18.uk.ibm.com ([195.75.94.114])
+Received: from mail-wi0-f171.google.com ([209.85.212.171])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <ken.werner@linaro.org>) id 1SNj38-0002xJ-GE
+	(envelope-from <koen@dominion.thruhere.net>) id 1SNjPR-0003VZ-11
 	for openembedded-core@lists.openembedded.org;
-	Fri, 27 Apr 2012 13:09:18 +0200
-Received: from /spool/local
-	by e06smtp18.uk.ibm.com with IBM ESMTP SMTP Gateway: Authorized Use
-	Only! Violators will be prosecuted
-	for <openembedded-core@lists.openembedded.org> from
-	<ken.werner@linaro.org>; Fri, 27 Apr 2012 11:59:40 +0100
-Received: from d06nrmr1507.portsmouth.uk.ibm.com (9.149.38.233)
-	by e06smtp18.uk.ibm.com (192.168.101.148) with IBM ESMTP SMTP Gateway:
-	Authorized Use Only! Violators will be prosecuted; 
-	Fri, 27 Apr 2012 11:59:38 +0100
-Received: from d06av08.portsmouth.uk.ibm.com (d06av08.portsmouth.uk.ibm.com
-	[9.149.37.249])
-	by d06nrmr1507.portsmouth.uk.ibm.com (8.13.8/8.13.8/NCO v10.0) with
-	ESMTP id q3RAxb2m2384084
+	Fri, 27 Apr 2012 13:32:21 +0200
+Received: by wibhj13 with SMTP id hj13so417214wib.6
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 27 Apr 2012 11:59:37 +0100
-Received: from d06av08.portsmouth.uk.ibm.com (loopback [127.0.0.1])
-	by d06av08.portsmouth.uk.ibm.com (8.14.4/8.13.1/NCO v10.0 AVout) with
-	ESMTP id q3RAxaK3007464
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 27 Apr 2012 04:59:37 -0600
-Received: from bolide.boeblingen.de.ibm.com
-	(dyn-9-152-213-71.boeblingen.de.ibm.com [9.152.213.71])
-	by d06av08.portsmouth.uk.ibm.com (8.14.4/8.13.1/NCO v10.0 AVin) with
-	ESMTP id q3RAxaAE007458; Fri, 27 Apr 2012 04:59:36 -0600
-From: Ken Werner <ken.werner@linaro.org>
-To: openembedded-core@lists.openembedded.org
-Date: Fri, 27 Apr 2012 12:59:17 +0200
-Message-Id: <1335524357-16990-1-git-send-email-ken.werner@linaro.org>
-X-Mailer: git-send-email 1.7.5.4
-x-cbid: 12042710-6892-0000-0000-000001AF1D34
-Subject: [PATCH] Qt 4.8 GCC 4.7 fixes
+	Fri, 27 Apr 2012 04:22:43 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=google.com; s=20120113;
+	h=content-type:mime-version:subject:from:in-reply-to:date
+	:content-transfer-encoding:message-id:references:to:x-mailer
+	:x-gm-message-state;
+	bh=BXNiXRIzCHi4P4gi+yUU8Mk52x80KZJgqijCRxInVGY=;
+	b=e6rKPXO67HD5MhbyCIaJMFi3HmOsYEpHyWCh98A0ni5MA6zx1YpPQtGwGWG6IS+5dA
+	SwAfK6Iie6C5cR+liy1ftmW75xej6h2VMXXP3FDphwsiGkVOZQL9oz8VLco6R8+ZoN97
+	z+w7UTf/FXso99T9u0+I5awlkZ6TduumRVHfsbKfOr7fiXY6v9KZCkiTrrNdH9If75H9
+	HzFOg2uok0ymjgPDqckvabi9JK+y+qT8YDWkTN/UZceAEq8p/YAeSxRLZkItLTClZ2W7
+	tVsIaPb602JVo8SdYNpEQip85GjaWdBdi7dSnBgciloVu4nEaIPXVkpuAeI0R0S76QrO
+	a2XQ==
+Received: by 10.180.75.176 with SMTP id d16mr5828547wiw.0.1335525762613;
+	Fri, 27 Apr 2012 04:22:42 -0700 (PDT)
+Received: from [172.20.0.96] (ip545070eb.adsl-surfen.hetnet.nl.
+	[84.80.112.235])
+	by mx.google.com with ESMTPS id du4sm6485886wib.10.2012.04.27.04.22.40
+	(version=TLSv1/SSLv3 cipher=OTHER);
+	Fri, 27 Apr 2012 04:22:41 -0700 (PDT)
+Mime-Version: 1.0 (Apple Message framework v1257)
+From: Koen Kooi <koen@dominion.thruhere.net>
+In-Reply-To: <1335523637.20130.57.camel@ted>
+Date: Fri, 27 Apr 2012 13:22:39 +0200
+Message-Id: <FF5FBEEF-9AEE-4B32-91F5-D84CBC1A26FD@dominion.thruhere.net>
+References: <f640dfb6acb1d703fefae61226547773f82a2a07.1335498445.git.lianhao.lu@intel.com>
+	<94e2c16d1d19f800c14e012b0fc24b8117944652.1335498445.git.lianhao.lu@intel.com>
+	<1335523637.20130.57.camel@ted>
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+X-Mailer: Apple Mail (2.1257)
+X-Gm-Message-State: ALoCoQkSx0RYETYxhDg24TSoUpfbxZZTm2CC3ECQ53DO1weCl159HWzErAJUNzTuY6vQp2bv2ItN
+Subject: Re: [PATCH 5/7] alsa-utils: use base_libdir for udev rules.
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -48,120 +52,63 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 27 Apr 2012 11:09:18 -0000
+X-List-Received-Date: Fri, 27 Apr 2012 11:32:21 -0000
+Content-Type: text/plain; charset=us-ascii
+Content-Transfer-Encoding: quoted-printable
 
-This change introduces two new patches to Qt 4.8. One prevents the build
-system from using the -fuse-ld=gold GCC flag as this isn't upstream and
-therefore not supported by many toolchains out there. The second patch
-fixes a compile time error when using toolchains based on GCC 4.7.
 
-Signed-off-by: Ken Werner <ken.werner@linaro.org>
----
- meta/recipes-qt/qt4/qt-4.8.1.inc                   |    2 +
- .../qt4/qt-4.8.1/disable-fuse-gold-flag.patch      |   26 ++++++++++++++++
- meta/recipes-qt/qt4/qt-4.8.1/gcc47-fix.patch       |   31 ++++++++++++++++++++
- meta/recipes-qt/qt4/qt4-embedded.inc               |    2 +-
- 4 files changed, 60 insertions(+), 1 deletions(-)
- create mode 100644 meta/recipes-qt/qt4/qt-4.8.1/disable-fuse-gold-flag.patch
- create mode 100644 meta/recipes-qt/qt4/qt-4.8.1/gcc47-fix.patch
+Op 27 apr. 2012, om 12:47 heeft Richard Purdie het volgende geschreven:
 
-diff --git a/meta/recipes-qt/qt4/qt-4.8.1.inc b/meta/recipes-qt/qt4/qt-4.8.1.inc
-index cd78401..b42ca01 100644
---- a/meta/recipes-qt/qt4/qt-4.8.1.inc
-+++ b/meta/recipes-qt/qt4/qt-4.8.1.inc
-@@ -20,6 +20,8 @@ SRC_URI = "http://get.qt.nokia.com/qt/source/qt-everywhere-opensource-src-${PV}.
-            file://pulseaudio-config.patch \
-            file://g++.conf \
-            file://linux.conf \
-+           file://gcc47-fix.patch \
-+           file://disable-fuse-gold-flag.patch \
-            "
- 
- SRC_URI[md5sum] = "7960ba8e18ca31f0c6e4895a312f92ff"
-diff --git a/meta/recipes-qt/qt4/qt-4.8.1/disable-fuse-gold-flag.patch b/meta/recipes-qt/qt4/qt-4.8.1/disable-fuse-gold-flag.patch
-new file mode 100644
-index 0000000..d49d7bc
---- /dev/null
-+++ b/meta/recipes-qt/qt4/qt-4.8.1/disable-fuse-gold-flag.patch
-@@ -0,0 +1,26 @@
-+Disable the -fuse-ld=gold flag. This option is a Debian/Ubuntu specific
-+extension to the g++ and causes upstream GCC to throw an error.
-+
-+Index: qt-everywhere-opensource-src-4.8.0/src/3rdparty/webkit/Source/common.pri
-+===================================================================
-+--- qt-everywhere-opensource-src-4.8.0.orig/src/3rdparty/webkit/Source/common.pri
-++++ qt-everywhere-opensource-src-4.8.0/src/3rdparty/webkit/Source/common.pri
-+@@ -3,12 +3,12 @@
-+ contains(JAVASCRIPTCORE_JIT,yes): DEFINES+=ENABLE_JIT=1
-+ contains(JAVASCRIPTCORE_JIT,no): DEFINES+=ENABLE_JIT=0
-+ 
-+-linux-g++ {
-+-isEmpty($$(SBOX_DPKG_INST_ARCH)):exists(/usr/bin/ld.gold) {
-+-    message(Using gold linker)
-+-    QMAKE_LFLAGS+=-fuse-ld=gold
-+-}
-+-}
-++#linux-g++ {
-++#isEmpty($$(SBOX_DPKG_INST_ARCH)):exists(/usr/bin/ld.gold) {
-++#    message(Using gold linker)
-++#    QMAKE_LFLAGS+=-fuse-ld=gold
-++#}
-++#}
-+ 
-+ # We use this flag on production branches
-+ # See https://bugs.webkit.org/show_bug.cgi?id=60824
-diff --git a/meta/recipes-qt/qt4/qt-4.8.1/gcc47-fix.patch b/meta/recipes-qt/qt4/qt-4.8.1/gcc47-fix.patch
-new file mode 100644
-index 0000000..8252817
---- /dev/null
-+++ b/meta/recipes-qt/qt4/qt-4.8.1/gcc47-fix.patch
-@@ -0,0 +1,31 @@
-+Fix compile error when using toolchains based on GCC 4.7.
-+
-+Index: qt-everywhere-opensource-src-4.8.0/src/3rdparty/javascriptcore/JavaScriptCore/runtime/JSGlobalObject.h
-+===================================================================
-+--- qt-everywhere-opensource-src-4.8.0.orig/src/3rdparty/javascriptcore/JavaScriptCore/runtime/JSGlobalObject.h
-++++ qt-everywhere-opensource-src-4.8.0/src/3rdparty/javascriptcore/JavaScriptCore/runtime/JSGlobalObject.h
-+@@ -57,9 +57,7 @@ namespace JSC {
-+     
-+     class JSGlobalObject : public JSVariableObject {
-+     protected:
-+-        using JSVariableObject::JSVariableObjectData;
-+-
-+-        struct JSGlobalObjectData : public JSVariableObjectData {
-++        struct JSGlobalObjectData : public JSVariableObject::JSVariableObjectData {
-+             // We use an explicit destructor function pointer instead of a
-+             // virtual destructor because we want to avoid adding a vtable
-+             // pointer to this struct. Adding a vtable pointer would force the
-+Index: qt-everywhere-opensource-src-4.8.0/src/3rdparty/javascriptcore/JavaScriptCore/runtime/JSStaticScopeObject.h
-+===================================================================
-+--- qt-everywhere-opensource-src-4.8.0.orig/src/3rdparty/javascriptcore/JavaScriptCore/runtime/JSStaticScopeObject.h
-++++ qt-everywhere-opensource-src-4.8.0/src/3rdparty/javascriptcore/JavaScriptCore/runtime/JSStaticScopeObject.h
-+@@ -32,8 +32,7 @@ namespace JSC{
-+     
-+     class JSStaticScopeObject : public JSVariableObject {
-+     protected:
-+-        using JSVariableObject::JSVariableObjectData;
-+-        struct JSStaticScopeObjectData : public JSVariableObjectData {
-++        struct JSStaticScopeObjectData : public JSVariableObjectData::JSVariableObjectData {
-+             JSStaticScopeObjectData()
-+                 : JSVariableObjectData(&symbolTable, &registerStore + 1)
-+             {
-diff --git a/meta/recipes-qt/qt4/qt4-embedded.inc b/meta/recipes-qt/qt4/qt4-embedded.inc
-index 8c15352..291e62a 100644
---- a/meta/recipes-qt/qt4/qt4-embedded.inc
-+++ b/meta/recipes-qt/qt4/qt4-embedded.inc
-@@ -2,7 +2,7 @@ DESCRIPTION = "Qt is a versatile cross-platform application framework -- this is
- SECTION = "libs"
- HOMEPAGE = "http://qt.nokia.com"
- DEPENDS += "directfb tslib"
--INC_PR = "r43"
-+INC_PR = "r44"
- 
- QT_BASE_LIB  ?= "libqt-embedded"
- 
--- 
-1.7.5.4
+> On Fri, 2012-04-27 at 13:04 +0800, Lianhao Lu wrote:
+>> Use the base_libdir to set the udev rules directory.
+>>=20
+>> Signed-off-by: Lianhao Lu <lianhao.lu@intel.com>
+>> ---
+>> meta/recipes-multimedia/alsa/alsa-utils_1.0.25.bb |    6 ++++--
+>> 1 files changed, 4 insertions(+), 2 deletions(-)
+>>=20
+>> diff --git a/meta/recipes-multimedia/alsa/alsa-utils_1.0.25.bb =
+b/meta/recipes-multimedia/alsa/alsa-utils_1.0.25.bb
+>> index 597e8b6..c39cd11 100644
+>> --- a/meta/recipes-multimedia/alsa/alsa-utils_1.0.25.bb
+>> +++ b/meta/recipes-multimedia/alsa/alsa-utils_1.0.25.bb
+>> @@ -6,7 +6,7 @@ LICENSE =3D "GPLv2+"
+>> LIC_FILES_CHKSUM =3D =
+"file://COPYING;md5=3D59530bdf33659b29e73d4adb9f9f6552 \
+>>                     =
+file://alsactl/utils.c;beginline=3D1;endline=3D20;md5=3Dfe9526b055e246b555=
+8809a5ae25c0b9"
+>> DEPENDS =3D "alsa-lib ncurses libsamplerate0"
+>> -PR =3D "r2"
+>> +PR =3D "r3"
+>>=20
+>> SRC_URI =3D =
+"ftp://ftp.alsa-project.org/pub/utils/alsa-utils-${PV}.tar.bz2 \
+>>            file://ncursesfix.patch \
+>> @@ -21,7 +21,9 @@ SRC_URI[sha256sum] =3D =
+"2e676a2f634bbfe279b260e10a96f617cb72ee63c5bbf6c5f96bb61570
+>> # http://bugs.openembedded.org/show_bug.cgi?id=3D2348
+>> # please close bug and remove this comment when properly fixed
+>> #
+>> -EXTRA_OECONF =3D "--disable-xmlto"
+>> +EXTRA_OECONF =3D "--disable-xmlto \
+>> +		--with-udev-rules-dir=3D${base_libdir}/udev/rules.d \
+>> +		"
+>> EXTRA_OECONF_append_libc-uclibc =3D " --disable-nls"
+>>=20
+>> inherit autotools gettext
+>=20
+> The udev configuration files are probably one case where using /lib
+> makes a lot of sense since we should only have one set of these. I
+> therefore think this should be added as an exception to the sanity
+> test...
 
+And keep in mind it's more '/lib' than '${base_libdir}' since it isn't =
+supposed to adhere to multilib naming. So even on /lib64 machines the =
+rules are in /lib.
+
+regards,
+
+Koen=
 
 
