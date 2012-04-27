@@ -1,23 +1,25 @@
-Received: from mail1.windriver.com ([147.11.146.13])
+Received: from mail.windriver.com ([147.11.1.11])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <Peter.Seebach@windriver.com>) id 1SNv6P-000364-0H
+	(envelope-from <Peter.Seebach@windriver.com>) id 1SNv6P-000365-9R
 	for openembedded-core@lists.openembedded.org;
 	Sat, 28 Apr 2012 02:01:29 +0200
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca [147.11.189.40])
-	by mail1.windriver.com (8.14.3/8.14.3) with ESMTP id q3RNpm4E001476
+	by mail.windriver.com (8.14.3/8.14.3) with ESMTP id q3RNpnYJ014379
 	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 27 Apr 2012 16:51:48 -0700 (PDT)
+	Fri, 27 Apr 2012 16:51:49 -0700 (PDT)
 Received: from localhost.localdomain (172.25.34.64) by ALA-HCA.corp.ad.wrs.com
 	(147.11.189.50) with Microsoft SMTP Server id 14.1.255.0;
-	Fri, 27 Apr 2012 16:51:48 -0700
+	Fri, 27 Apr 2012 16:51:49 -0700
 From: Peter Seebach <peter.seebach@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Fri, 27 Apr 2012 18:51:45 -0500
-Message-ID: <cover.1335569869.git.peter.seebach@windriver.com>
+Date: Fri, 27 Apr 2012 18:51:46 -0500
+Message-ID: <8fd6ef92079e16fdf31fe8b6f3194df7a858ed71.1335569869.git.peter.seebach@windriver.com>
 X-Mailer: git-send-email 1.7.0.4
+In-Reply-To: <cover.1335569869.git.peter.seebach@windriver.com>
+References: <cover.1335569869.git.peter.seebach@windriver.com>
 MIME-Version: 1.0
-Subject: [PATCH 0/2] sanity.bbclass: Toolchain sanity checks
+Subject: [PATCH 1/2] tune-sh4.inc: Fix spelling of big-endian feature set
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -35,47 +37,67 @@ List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedde
 X-List-Received-Date: Sat, 28 Apr 2012 00:01:29 -0000
 Content-Type: text/plain
 
-This is a somewhat cleaned up and fixed version of the toolchain sanity
-checks I've been working on.  (Also my first attempt to submit to OE, so
-I have probably made humorous mistakes.)
+In tune-sh3, tune-xscale, and tune-sh4, several FEATURES lines referred
+to nonexistent features like "sh3eb" when they should have referred to "sh3
+bigendian" or the like.  Caught by the TUNEVALID sanity check.
 
-Big outstanding issue:  Is it a bug that specifying the name "lib" for
-a multilib causes parse errors in at least one package?  If this is a
-package bug, I should find out how to fix the package(s) (libxcb blew
-up for me) instead of making that check for multilibs.
+Signed-off-by: Peter Seebach <peter.seebach@windriver.com>
+---
+ meta/conf/machine/include/tune-sh3.inc    |    2 +-
+ meta/conf/machine/include/tune-sh4.inc    |    4 ++--
+ meta/conf/machine/include/tune-xscale.inc |    2 +-
+ 3 files changed, 4 insertions(+), 4 deletions(-)
 
-Other issue:  The TUNEABI stuff is preliminary, and I'm not totally sure
-whether it will work in practice.  But it won't break anything unless
-you go out of your way to enable it.
-
-Mark Hatle's already been over this once, but second opinions are always
-welcome.
-
-The following changes since commit 5a1f172d35be610688842a8a9a84f24edb9aeb51:
-  Martin Jansa (1):
-        bitbake.conf: use TUNE_PKGARCH instead of TARGET_ARCH in SDK_NAME
-
-are available in the git repository at:
-
-  git://git.yoctoproject.org/poky-contrib seebs/toolchains
-  http://git.yoctoproject.org/cgit.cgi/poky-contrib/log/?h=seebs/toolchains
-
-Peter Seebach (2):
-  tune-sh4.inc: Fix spelling of big-endian feature set
-  sanity.bbclass: Implement initial toolchain sanity checks
-
- meta/classes/sanity.bbclass                      |   69 ++++++++++++++++++++++
- meta/conf/documentation.conf                     |    6 ++
- meta/conf/machine/include/README                 |    4 +
- meta/conf/machine/include/arm/arch-armv5-dsp.inc |    1 +
- meta/conf/machine/include/arm/arch-armv7a.inc    |    2 +-
- meta/conf/machine/include/ia32/arch-ia32.inc     |    2 +-
- meta/conf/machine/include/mips/arch-mips.inc     |    6 +-
- meta/conf/machine/include/tune-c3.inc            |    2 +-
- meta/conf/machine/include/tune-sh3.inc           |    2 +-
- meta/conf/machine/include/tune-sh4.inc           |    4 +-
- meta/conf/machine/include/tune-xscale.inc        |    2 +-
- 11 files changed, 90 insertions(+), 10 deletions(-)
+diff --git a/meta/conf/machine/include/tune-sh3.inc b/meta/conf/machine/include/tune-sh3.inc
+index 816c9c4..70bb10b 100644
+--- a/meta/conf/machine/include/tune-sh3.inc
++++ b/meta/conf/machine/include/tune-sh3.inc
+@@ -11,7 +11,7 @@ TUNE_ARCH_tune-sh3 = "sh3"
+ TUNE_PKGARCH_tune-sh3 = "sh3"
+ PACKAGE_EXTRA_ARCHS_tune-sh3 = "sh sh3"
+ 
+-TUNE_FEATURES_tune-sh3eb = "sh3eb"
++TUNE_FEATURES_tune-sh3eb = "sh3 bigendian"
+ TUNE_ARCH_tune-sh3eb = "sh3eb"
+ TUNE_PKGARCH_tune-sh3eb = "sh3eb"
+ PACKAGE_EXTRA_ARCHS_tune-sh3eb = "sheb sh3eb"
+diff --git a/meta/conf/machine/include/tune-sh4.inc b/meta/conf/machine/include/tune-sh4.inc
+index f971f23..00cfc3d 100644
+--- a/meta/conf/machine/include/tune-sh4.inc
++++ b/meta/conf/machine/include/tune-sh4.inc
+@@ -18,7 +18,7 @@ TUNE_ARCH_tune-sh4 = "sh4"
+ TUNE_PKGARCH_tune-sh4 = "sh4"
+ PACKAGE_EXTRA_ARCHS_tune-sh4 = "sh sh4"
+ 
+-TUNE_FEATURES_tune-sh4eb = "sh4eb"
++TUNE_FEATURES_tune-sh4eb = "sh4 bigendian"
+ TUNE_ARCH_tune-sh4eb = "sh4eb"
+ TUNE_PKGARCH_tune-sh4eb = "sh4eb"
+ PACKAGE_EXTRA_ARCHS_tune-sh4eb = "sheb sh4eb"
+@@ -28,7 +28,7 @@ TUNE_ARCH_tune-sh4a = "sh4"
+ TUNE_PKGARCH_tune-sh4a = "sh4a"
+ PACKAGE_EXTRA_ARCHS_tune-sh4a = "sh sh4 sh4a"
+ 
+-TUNE_FEATURES_tune-sh4aeb = "sh4aeb"
++TUNE_FEATURES_tune-sh4aeb = "sh4a bigendian"
+ TUNE_ARCH_tune-sh4aeb = "sh4eb"
+ TUNE_PKGARCH_tune-sh4aeb = "sh4aeb"
+ PACKAGE_EXTRA_ARCHS_tune-sh4aeb = "sheb sh4eb sh4aeb"
+diff --git a/meta/conf/machine/include/tune-xscale.inc b/meta/conf/machine/include/tune-xscale.inc
+index 54f3727..80a3683 100644
+--- a/meta/conf/machine/include/tune-xscale.inc
++++ b/meta/conf/machine/include/tune-xscale.inc
+@@ -10,7 +10,7 @@ TUNE_FEATURES_tune-xscale = "${TUNE_FEATURES_tune-armv5te} xscale"
+ PACKAGE_EXTRA_ARCHS_tune-xscale = "${PACKAGE_EXTRA_ARCHS_tune-armv5te}"
+ 
+ AVAILTUNES += "xscale-be"
+-TUNE_FEATURES_tune-xscale-be = "${TUNE_FEATURES_tune-armv5teb} xscale-be"
++TUNE_FEATURES_tune-xscale-be = "${TUNE_FEATURES_tune-armv5teb} xscale bigendian"
+ PACKAGE_EXTRA_ARCHS_tune-xscale-be = "${PACKAGE_EXTRA_ARCHS_tune-armv5teb}"
+ 
+ # webkit-gtk has alignment issues with double instructions on armv5 so
+-- 
+1.7.0.4
 
 
 
