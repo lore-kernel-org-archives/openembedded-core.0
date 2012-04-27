@@ -1,20 +1,22 @@
-Received: from mga02.intel.com ([134.134.136.20])
+Received: from mga11.intel.com ([192.55.52.93])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <lianhao.lu@intel.com>) id 1SNdVe-00018d-EL
+	(envelope-from <lianhao.lu@intel.com>) id 1SNdVh-00018f-4d
 	for openembedded-core@lists.openembedded.org;
-	Fri, 27 Apr 2012 07:14:22 +0200
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-	by orsmga101.jf.intel.com with ESMTP; 26 Apr 2012 22:04:43 -0700
+	Fri, 27 Apr 2012 07:14:25 +0200
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+	by fmsmga102.fm.intel.com with ESMTP; 26 Apr 2012 22:04:46 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.67,352,1309762800"; d="scan'208";a="134301052"
+X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="158918971"
 Received: from llu-piketon.sh.intel.com (HELO localhost) ([10.239.36.110])
-	by orsmga001.jf.intel.com with ESMTP; 26 Apr 2012 22:04:42 -0700
+	by fmsmga002.fm.intel.com with ESMTP; 26 Apr 2012 22:04:45 -0700
 From: Lianhao Lu <lianhao.lu@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Fri, 27 Apr 2012 13:03:40 +0800
-Message-Id: <cover.1335498445.git.lianhao.lu@intel.com>
+Date: Fri, 27 Apr 2012 13:04:01 +0800
+Message-Id: <f640dfb6acb1d703fefae61226547773f82a2a07.1335498445.git.lianhao.lu@intel.com>
 X-Mailer: git-send-email 1.7.0.4
-Subject: [PATCH 0/7] Misc fixings for multilib
+In-Reply-To: <cover.1335498445.git.lianhao.lu@intel.com>
+References: <cover.1335498445.git.lianhao.lu@intel.com>
+Subject: [PATCH 1/7] multilib.bbclass: Added multilib specific package QA.
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -29,59 +31,57 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 27 Apr 2012 05:14:22 -0000
+X-List-Received-Date: Fri, 27 Apr 2012 05:14:25 -0000
 
-1. Added a package QA check function in multilib case. It checkes whether 
-there is a package runtime dependency on packages with names not prefixed 
-by $MLPREFIX.
+Added a new PACKAGEFUNCS function to check the multilib packages'
+dependency.
 
-2. Fixed a bunch of recipes to use $libdir and $base_libdir instead of the 
-hard coded /usr/lib and /lib.
+Signed-off-by: Lianhao Lu <lianhao.lu@intel.com>
+---
+ meta/classes/multilib.bbclass |   31 +++++++++++++++++++++++++++++++
+ 1 files changed, 31 insertions(+), 0 deletions(-)
 
-The following changes since commit 5a1f172d35be610688842a8a9a84f24edb9aeb51:
-  Martin Jansa (1):
-        bitbake.conf: use TUNE_PKGARCH instead of TARGET_ARCH in SDK_NAME
-
-are available in the git repository at:
-
-  git://git.yoctoproject.org/poky-contrib llu/multilib
-  http://git.yoctoproject.org/cgit.cgi/poky-contrib/log/?h=llu/multilib
-
-Lianhao Lu (7):
-  multilib.bbclass: Added multilib specific package QA.
-  popt: Fixing pkgconfig file installation issue.
-  avahi: not using hard coded libdir.
-  pulseaudio: use base_libdir for udev rules.
-  alsa-utils: use base_libdir for udev rules.
-  xorg-app: Use ${libdir} for packaging.
-  xf86-input-vmmouse: use base_libdir for udev rules.
-
- meta/classes/multilib.bbclass                      |   31 ++++++++++++++++++++
- meta/recipes-connectivity/avahi/avahi.inc          |    4 +-
- meta/recipes-graphics/xorg-app/mkfontdir_1.0.7.bb  |    2 +-
- .../recipes-graphics/xorg-app/mkfontscale_1.1.0.bb |    2 +
- meta/recipes-graphics/xorg-app/x11perf_1.5.4.bb    |    2 +-
- meta/recipes-graphics/xorg-app/xauth_1.0.6.bb      |    2 +-
- meta/recipes-graphics/xorg-app/xdpyinfo_1.3.0.bb   |    2 +-
- meta/recipes-graphics/xorg-app/xhost_1.0.4.bb      |    2 +-
- meta/recipes-graphics/xorg-app/xinit_1.3.2.bb      |    2 +-
- meta/recipes-graphics/xorg-app/xinput_1.5.3.bb     |    2 +-
- meta/recipes-graphics/xorg-app/xkbcomp_1.2.3.bb    |    2 +
- meta/recipes-graphics/xorg-app/xmodmap_1.0.5.bb    |    2 +-
- meta/recipes-graphics/xorg-app/xorg-app-common.inc |    4 +-
- meta/recipes-graphics/xorg-app/xprop_1.2.1.bb      |    2 +-
- meta/recipes-graphics/xorg-app/xrandr_1.3.5.bb     |    2 +-
- meta/recipes-graphics/xorg-app/xset_1.2.2.bb       |    2 +-
- meta/recipes-graphics/xorg-app/xvinfo_1.1.1.bb     |    1 +
- meta/recipes-graphics/xorg-app/xwininfo_1.1.2.bb   |    2 +-
- .../xorg-driver/xf86-input-vmmouse_12.8.0.bb       |    6 +++-
- meta/recipes-multimedia/alsa/alsa-utils_1.0.25.bb  |    6 ++-
- meta/recipes-multimedia/pulseaudio/pulseaudio.inc  |    1 +
- .../pulseaudio/pulseaudio_1.1.bb                   |    2 +-
- meta/recipes-support/popt/popt/pkgconfig_fix.patch |   15 +++++++++
- meta/recipes-support/popt/popt_1.16.bb             |    6 ++-
- 24 files changed, 82 insertions(+), 22 deletions(-)
- create mode 100644 meta/recipes-support/popt/popt/pkgconfig_fix.patch
+diff --git a/meta/classes/multilib.bbclass b/meta/classes/multilib.bbclass
+index c2d2f85..58cd113 100644
+--- a/meta/classes/multilib.bbclass
++++ b/meta/classes/multilib.bbclass
+@@ -66,3 +66,34 @@ python __anonymous () {
+     clsextend.map_variable("PACKAGE_INSTALL")
+     clsextend.map_variable("INITSCRIPT_PACKAGES")
+ }
++
++PACKAGEFUNCS_append = "do_package_qa_multilib"
++
++python do_package_qa_multilib() {
++
++    def check_mlprefix(pkg, var, mlprefix):
++        values = bb.utils.explode_dep_versions(d.getVar('%s_%s' % (var, pkg), True) or d.getVar(var, True) or "")
++        candidates = []
++        for i in values.keys():
++            if i.startswith('virtual/'):
++                i = i[len('virtual/'):]
++            if not i.startswith(mlprefix):
++                candidates.append(i)
++        if len(candidates) > 0:
++            bb.warn("Multilib QA Issue: %s package %s - suspicious values '%s' in %s" 
++                   % (d.getVar('PN', True), pkg, ' '.join(candidates), var))
++
++    ml = d.getVar('MLPREFIX', True)
++    if not ml:
++        return
++
++    packages = d.getVar('PACKAGES', True)
++    for pkg in packages.split():
++        check_mlprefix(pkg, 'RDEPENDS', ml)
++        check_mlprefix(pkg, 'RPROVIDES', ml)
++        check_mlprefix(pkg, 'RRECOMMENDS', ml)
++        check_mlprefix(pkg, 'RSUGGESTS', ml)
++        check_mlprefix(pkg, 'RREPLACES', ml)
++        check_mlprefix(pkg, 'RCONFLICTS', ml)
++}
++
+-- 
+1.7.0.4
 
 
 
