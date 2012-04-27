@@ -1,25 +1,25 @@
-Received: from mga02.intel.com ([134.134.136.20])
+Received: from mga11.intel.com ([192.55.52.93])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <sgw@linux.intel.com>) id 1SNsrL-0000Wl-8i
+	(envelope-from <sgw@linux.intel.com>) id 1SNssB-0000ZN-UU
 	for openembedded-core@lists.openembedded.org;
-	Fri, 27 Apr 2012 23:37:47 +0200
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-	by orsmga101.jf.intel.com with ESMTP; 27 Apr 2012 14:28:07 -0700
+	Fri, 27 Apr 2012 23:38:40 +0200
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+	by fmsmga102.fm.intel.com with ESMTP; 27 Apr 2012 14:29:00 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.67,351,1309762800"; d="scan'208";a="137600212"
+X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="159192732"
 Received: from unknown (HELO [10.255.12.123]) ([10.255.12.123])
-	by orsmga002.jf.intel.com with ESMTP; 27 Apr 2012 14:28:07 -0700
-Message-ID: <4F9B0F67.6010708@linux.intel.com>
-Date: Fri, 27 Apr 2012 14:28:07 -0700
+	by fmsmga002.fm.intel.com with ESMTP; 27 Apr 2012 14:28:59 -0700
+Message-ID: <4F9B0F9B.7070900@linux.intel.com>
+Date: Fri, 27 Apr 2012 14:28:59 -0700
 From: Saul Wold <sgw@linux.intel.com>
 User-Agent: Mozilla/5.0 (X11; Linux x86_64;
 	rv:11.0) Gecko/20120329 Thunderbird/11.0.1
 MIME-Version: 1.0
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-References: <cover.1334114318.git.otavio@ossystems.com.br>
-In-Reply-To: <cover.1334114318.git.otavio@ossystems.com.br>
-Subject: Re: [PATCH 0/3] Important fixes for rc3
+References: <1333861256-22395-1-git-send-email-raj.khem@gmail.com>
+In-Reply-To: <1333861256-22395-1-git-send-email-raj.khem@gmail.com>
+Subject: Re: [PATCH] connman: Fix linking with gold linker
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -34,40 +34,81 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 27 Apr 2012 21:37:47 -0000
+X-List-Received-Date: Fri, 27 Apr 2012 21:38:40 -0000
 Content-Type: text/plain; charset=ISO-8859-1; format=flowed
 Content-Transfer-Encoding: 7bit
 
-On 04/10/2012 08:19 PM, Otavio Salvador wrote:
-> The patches in this set are all important IMO and I do think they
-> ought to be included.
+On 04/07/2012 10:00 PM, Khem Raj wrote:
+> Fixes errors like below
 >
-> The following changes since commit bde1744018afd4616e114b20ffdc21b9abddcedc:
+> /home/kraj/work/angstrom/build/tmp-angstrom_2010_x-eglibc/sysroots/x86_64-linux/usr/libexec/armv5te-angstrom-linux-gnueabi/gcc/arm-angstrom-linux-gnueabi/4.6.3/ld:
+> error: hidden symbol '__start___debug' is not defined locally
+> /home/kraj/work/angstrom/build/tmp-angstrom_2010_x-eglibc/sysroots/x86_64-linux/usr/libexec/armv5te-angstrom-linux-gnueabi/gcc/arm-angstrom-linux-gnueabi/4.6.3/ld:
+> error: hidden symbol '__stop___debug' is not defined locally
+> collect2: ld returned 1 exit status
+> make[1]: *** [plugins/loopback.la] Error 1
 >
->    hello-mod: Move hello-mod from meta to meta-skeleton (2012-04-10 13:16:00 +0100)
+> Signed-off-by: Khem Raj<raj.khem@gmail.com>
+> ---
+>   ...ange-visibility-to-default-for-debug-symb.patch |   35 ++++++++++++++++++++
+>   meta/recipes-connectivity/connman/connman_0.79.bb  |    3 +-
+>   2 files changed, 37 insertions(+), 1 deletions(-)
+>   create mode 100644 meta/recipes-connectivity/connman/connman/0001-plugin.h-Change-visibility-to-default-for-debug-symb.patch
 >
-> are available in the git repository at:
->    git://github.com/OSSystems/oe-core master
->    https://github.com/OSSystems/oe-core/tree/HEAD
->
-> Otavio Salvador (3):
->    connman: backport test script fixes
->    distrodata.bbclass: fix comment typo
->    flex: backport Debian patches to fix generated code warnings
->
->   meta/classes/distrodata.bbclass                    |    2 +-
->   .../connman/test-set-ipv4-method-api-fix.patch     |   50 +++++++++++++++++
->   .../connman/test-set-ipv6-method-api-fix.patch     |   55 ++++++++++++++++++
->   meta/recipes-connectivity/connman/connman_0.79.bb  |    4 +
->   .../flex/flex/avoid-FORTIFY-warnings.patch         |   59 ++++++++++++++++++++
->   .../flex/int-is-not-the-same-size-as-size_t.patch  |   42 ++++++++++++++
->   meta/recipes-devtools/flex/flex_2.5.35.bb          |    5 +-
->   7 files changed, 215 insertions(+), 2 deletions(-)
->   create mode 100644 meta/recipes-connectivity/connman/connman/test-set-ipv4-method-api-fix.patch
->   create mode 100644 meta/recipes-connectivity/connman/connman/test-set-ipv6-method-api-fix.patch
->   create mode 100644 meta/recipes-devtools/flex/flex/avoid-FORTIFY-warnings.patch
->   create mode 100644 meta/recipes-devtools/flex/flex/int-is-not-the-same-size-as-size_t.patch
->
+> diff --git a/meta/recipes-connectivity/connman/connman/0001-plugin.h-Change-visibility-to-default-for-debug-symb.patch b/meta/recipes-connectivity/connman/connman/0001-plugin.h-Change-visibility-to-default-for-debug-symb.patch
+> new file mode 100644
+> index 0000000..e6f03e6
+> --- /dev/null
+> +++ b/meta/recipes-connectivity/connman/connman/0001-plugin.h-Change-visibility-to-default-for-debug-symb.patch
+> @@ -0,0 +1,35 @@
+> +From 4ddaf78dad5a9ee4a0658235f71b75132192123e Mon Sep 17 00:00:00 2001
+> +From: Khem Raj<raj.khem@gmail.com>
+> +Date: Sat, 7 Apr 2012 18:52:12 -0700
+> +Subject: [PATCH] plugin.h: Change visibility to default for debug symbols
+> +
+> +gold refuses to link in undefined weak symbols which
+> +have hidden visibility
+> +
+> +Signed-off-by: Khem Raj<raj.khem@gmail.com>
+> +
+> +
+> +Upstream-Status: Pending
+> +---
+> + include/plugin.h |    4 ++--
+> + 1 files changed, 2 insertions(+), 2 deletions(-)
+> +
+> +diff --git a/include/plugin.h b/include/plugin.h
+> +index 692a4e5..a9361c3 100644
+> +--- a/include/plugin.h
+> ++++ b/include/plugin.h
+> +@@ -89,9 +89,9 @@ struct connman_plugin_desc {
+> + #else
+> + #define CONNMAN_PLUGIN_DEFINE(name, description, version, priority, init, exit) \
+> + 		extern struct connman_debug_desc __start___debug[] \
+> +-				__attribute__ ((weak, visibility("hidden"))); \
+> ++				__attribute__ ((weak, visibility("default"))); \
+> + 		extern struct connman_debug_desc __stop___debug[] \
+> +-				__attribute__ ((weak, visibility("hidden"))); \
+> ++				__attribute__ ((weak, visibility("default"))); \
+> + 		extern struct connman_plugin_desc connman_plugin_desc \
+> + 				__attribute__ ((visibility("default"))); \
+> + 		struct connman_plugin_desc connman_plugin_desc = { \
+> +--
+> +1.7.5.4
+> +
+> diff --git a/meta/recipes-connectivity/connman/connman_0.79.bb b/meta/recipes-connectivity/connman/connman_0.79.bb
+> index f87c4dd..da48e94 100644
+> --- a/meta/recipes-connectivity/connman/connman_0.79.bb
+> +++ b/meta/recipes-connectivity/connman/connman_0.79.bb
+> @@ -6,6 +6,7 @@ SRC_URI  = "git://git.kernel.org/pub/scm/network/connman/connman.git \
+>               file://add_xuser_dbus_permission.patch \
+>               file://ethernet_default.patch \
+>               file://disable_alg-test.patch \
+> +            file://0001-plugin.h-Change-visibility-to-default-for-debug-symb.patch \
+>               file://connman"
+>   S = "${WORKDIR}/git"
+> -PR = "r1"
+> +PR = "r2"
 
 Merged into OE-Core
 
