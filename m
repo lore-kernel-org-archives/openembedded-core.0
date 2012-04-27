@@ -1,27 +1,25 @@
-Received: from mga09.intel.com ([134.134.136.24])
+Received: from mga14.intel.com ([143.182.124.37])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <sgw@linux.intel.com>) id 1SNsLi-000875-F3
+	(envelope-from <sgw@linux.intel.com>) id 1SNsUJ-0008De-NK
 	for openembedded-core@lists.openembedded.org;
-	Fri, 27 Apr 2012 23:05:06 +0200
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-	by orsmga102.jf.intel.com with ESMTP; 27 Apr 2012 13:55:27 -0700
+	Fri, 27 Apr 2012 23:13:59 +0200
+Received: from azsmga002.ch.intel.com ([10.2.17.35])
+	by azsmga102.ch.intel.com with ESMTP; 27 Apr 2012 14:04:20 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.67,352,1309762800"; d="scan'208";a="134550287"
+X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="93981025"
 Received: from unknown (HELO [10.255.12.123]) ([10.255.12.123])
-	by orsmga001.jf.intel.com with ESMTP; 27 Apr 2012 13:55:26 -0700
-Message-ID: <4F9B07BE.3080703@linux.intel.com>
-Date: Fri, 27 Apr 2012 13:55:26 -0700
+	by AZSMGA002.ch.intel.com with ESMTP; 27 Apr 2012 14:04:19 -0700
+Message-ID: <4F9B09D3.5060004@linux.intel.com>
+Date: Fri, 27 Apr 2012 14:04:19 -0700
 From: Saul Wold <sgw@linux.intel.com>
 User-Agent: Mozilla/5.0 (X11; Linux x86_64;
 	rv:11.0) Gecko/20120329 Thunderbird/11.0.1
 MIME-Version: 1.0
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-References: <cover.1335312509.git.scott.a.garman@intel.com>
-	<49762500156a52102418293f3fe167b21e252d8a.1335312509.git.scott.a.garman@intel.com>
-In-Reply-To: <49762500156a52102418293f3fe167b21e252d8a.1335312509.git.scott.a.garman@intel.com>
-Cc: Scott Garman <scott.a.garman@intel.com>
-Subject: Re: [PATCH 1/1] runqemu-ifup: enable ip masquerading for QEMU NAT addresses
+References: <cover.1333659001.git.andrei@gherzan.ro>
+In-Reply-To: <cover.1333659001.git.andrei@gherzan.ro>
+Subject: Re: [PATCH 0/6] Add patches to compile some modules and to skip warnings about some other
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -36,39 +34,48 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 27 Apr 2012 21:05:06 -0000
+X-List-Received-Date: Fri, 27 Apr 2012 21:14:00 -0000
 Content-Type: text/plain; charset=ISO-8859-1; format=flowed
 Content-Transfer-Encoding: 7bit
 
-On 04/24/2012 05:11 PM, Scott Garman wrote:
-> Fix the IP masquerading settings so that networked QEMU sessions can
-> reach external networks.
+On 04/05/2012 01:54 PM, Andrei Gherzan wrote:
+> The following changes since commit 5607729d9901c394b7cd4db6e38fe7fb19116f39:
 >
-> This is a partial fix for [YOCTO #2329].
+>    self-hosted-image: Increase space for build and allow builder user sudo access (2012-04-04 17:17:55 +0100)
 >
-> Signed-off-by: Scott Garman<scott.a.garman@intel.com>
-> ---
->   scripts/runqemu-ifup |    3 ++-
->   1 files changed, 2 insertions(+), 1 deletions(-)
+> are available in the git repository at:
+>    git://git.yoctoproject.org/poky-contrib ag/pythonbug2
+>    http://git.yoctoproject.org/cgit.cgi/poky-contrib/log/?h=ag/pythonbug2
 >
-> diff --git a/scripts/runqemu-ifup b/scripts/runqemu-ifup
-> index 3bd9980..f80538f 100755
-> --- a/scripts/runqemu-ifup
-> +++ b/scripts/runqemu-ifup
-> @@ -100,7 +100,8 @@ dest=$[ (`echo $TAP | sed 's/tap//'` * 2) + 2 ]
->   $ROUTE add -host 192.168.7.$dest $TAP
+> Andrei Gherzan (6):
+>    gdbm: Activate -enable-libgdbm-compat and add symlinks to headers in
+>      include/gdbm
+>    python: Add patch for 64bit platform
+>    python: Add patch to search for db.h in inc_dirs and remove warning
+>    python: Add patch to avoid warning about bsddb module
+>    python: Add patch to avoid warning about _tkinter
+>    python: Add patch to avoid warning about sunaudiodev module
 >
->   # setup NAT for tap0 interface to have internet access in QEMU
-> -$IPTABLES -A POSTROUTING -t nat -j MASQUERADE -s 192.168.7.0/24
-> +$IPTABLES -A POSTROUTING -t nat -j MASQUERADE -s 192.168.7.$n/32
-> +$IPTABLES -A POSTROUTING -t nat -j MASQUERADE -s 192.168.7.$dest/32
->   echo 1>  /proc/sys/net/ipv4/ip_forward
->   $IPTABLES -P FORWARD ACCEPT
+>   .../python/python/avoid_warning_about_bsddb.patch  |   23 ++++++++
+>   .../python/avoid_warning_about_tkinter.patch       |   25 +++++++++
+>   .../avoid_warning_for_sunos_specific_module.patch  |   23 ++++++++
+>   .../python/check-if-target-is-64b-not-host.patch   |   57 ++++++++++++++++++++
+>   ...search_db_h_in_inc_dirs_and_avoid_warning.patch |   40 ++++++++++++++
+>   meta/recipes-devtools/python/python_2.7.2.bb       |    7 ++-
+>   meta/recipes-support/gdbm/gdbm_1.10.bb             |   13 ++++-
+>   7 files changed, 186 insertions(+), 2 deletions(-)
+>   create mode 100644 meta/recipes-devtools/python/python/avoid_warning_about_bsddb.patch
+>   create mode 100644 meta/recipes-devtools/python/python/avoid_warning_about_tkinter.patch
+>   create mode 100644 meta/recipes-devtools/python/python/avoid_warning_for_sunos_specific_module.patch
+>   create mode 100644 meta/recipes-devtools/python/python/check-if-target-is-64b-not-host.patch
+>   create mode 100644 meta/recipes-devtools/python/python/search_db_h_in_inc_dirs_and_avoid_warning.patch
 >
 
-Merged into OE-Core
+All of these have been merged into OE-Core, the gdbm one was added added 
+earlier for 1.2.
 
-Thanks
-	Sau!
+Thanks for your contributions
+
+Sau!
 
 
