@@ -1,27 +1,31 @@
-Received: from mga09.intel.com ([134.134.136.24])
+Received: from mail1.windriver.com ([147.11.146.13])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <edwin.zhai@intel.com>) id 1SNwP0-0004H2-N2
+	(envelope-from <Xiaofeng.Yan@windriver.com>) id 1SNyLe-0005rk-UI
 	for openembedded-core@lists.openembedded.org;
-	Sat, 28 Apr 2012 03:24:46 +0200
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-	by orsmga102.jf.intel.com with ESMTP; 27 Apr 2012 18:15:06 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.67,352,1309762800"; d="scan'208";a="134609767"
-Received: from edwin-gen.sh.intel.com (HELO [10.239.36.17]) ([10.239.36.17])
-	by orsmga001.jf.intel.com with ESMTP; 27 Apr 2012 18:15:06 -0700
-Message-ID: <4F9B44A2.1090007@intel.com>
-Date: Sat, 28 Apr 2012 09:15:14 +0800
-From: "Zhai, Edwin" <edwin.zhai@intel.com>
-User-Agent: Mozilla/5.0 (X11; U; Linux i686; en-US;
-	rv:1.9.2.14) Gecko/20110223 Lightning/1.0b2 Thunderbird/3.1.8
+	Sat, 28 Apr 2012 05:29:27 +0200
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca [147.11.189.40])
+	by mail1.windriver.com (8.14.3/8.14.3) with ESMTP id q3S3JkN5003511
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 27 Apr 2012 20:19:46 -0700 (PDT)
+Received: from [128.224.162.223] (128.224.162.223) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server (TLS) id 14.1.255.0;
+	Fri, 27 Apr 2012 20:19:45 -0700
+Message-ID: <4F9B61C7.9050606@windriver.com>
+Date: Sat, 28 Apr 2012 11:19:35 +0800
+From: Xiaofeng Yan <xiaofeng.yan@windriver.com>
+User-Agent: Mozilla/5.0 (X11; Linux i686;
+	rv:11.0) Gecko/20120329 Thunderbird/11.0.1
 MIME-Version: 1.0
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-References: <20120426075321.GG1450@edwin-gen>	
-	<20120427082009.GH1450@edwin-gen> <1335523550.20130.56.camel@ted>
-In-Reply-To: <1335523550.20130.56.camel@ted>
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: Pango multilib issue
+To: <openembedded-core@lists.openembedded.org>
+References: <cover.1335515558.git.xiaofeng.yan@windriver.com>
+	<f0e5fdf02154f91fc9af370dbc3ac2bfff375aff.1335515558.git.xiaofeng.yan@windriver.com>
+	<1335524304.20130.60.camel@ted>
+In-Reply-To: <1335524304.20130.60.camel@ted>
+X-Originating-IP: [128.224.162.223]
+X-MIME-Autoconverted: from 8bit to quoted-printable by mail1.windriver.com id
+	q3S3JkN5003511
+Subject: Re: [PATCH 1/1] gdk-pixbuf: Add --with-x11 when building lsb image
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -36,60 +40,72 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 28 Apr 2012 01:24:46 -0000
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Sat, 28 Apr 2012 03:29:27 -0000
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: quoted-printable
 
-On 04/27/2012 06:45 PM, Richard Purdie wrote:
-> On Fri, 2012-04-27 at 16:20 +0800, Zhai, Edwin wrote:
->> Any comments?
->> I'd like a agreement before any patch:)
+On 2012=E5=B9=B404=E6=9C=8827=E6=97=A5 18:58, Richard Purdie wrote:
+> On Fri, 2012-04-27 at 16:39 +0800, Xiaofeng Yan wrote:
+>> From: Xiaofeng Yan<xiaofeng.yan@windriver.com>
 >>
->> Thanks,
->> Edwin
+>> LSB Test Suite complain "no library libgdk_pixbuf_xlib-2.0.so.0" \
+>> because of having "--without-x11" for gdk-pixbuf_2.24.1.bb.
+>> Use the linuxstdbase override and also make it
+>> conditional on x11 being in DISTRO_FEATURES for passing lsb test
 >>
+>> [YOCTO #2284]
 >>
->> On Thu, Apr 26, 2012 at 03:53:22PM +0800, Zhai, Edwin wrote:
->>> RP,
->>>
->>> I have found one common issues for multilib when system config file differ
->>> between multilibs.
->>>
->>> https://bugzilla.yoctoproject.org/show_bug.cgi?id=2356
->>> This bug caused by modules mechanism in pango:
->>>
->>> pango utils, pango-querymodules produce a system config file to indicate where
->>> to find the modules when 1st boot, like /usr/{lib64|lib}/pango/1.6.0/modules/
->>> for {x86-64|lib32}-pango respectively.
->>>
->>> When installing lib32-pango on sato-image-qemux86-64, lib32 version of
->>> pango-querymodules override x86-64 version and produce a system config file
->>> with path for lib32 version of modules. Then x86-64 matchbox-desktop failed to
->>> open these modules and loaded corrupted fonts.
->>>
->>> To resolve this conflict, one possible solution is put the config file and
->>> binary under different dir: $LIBDIR for config file, and
->>> /usr/{libexec|lib64exec} for config binary(or create different dir under
->>> /usr/bin/ for different multilib)
->>>
->>> Any comments for this?
+>> Signed-off-by: Xiaofeng Yan<xiaofeng.yan@windriver.com>
+>> ---
+>>   meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf_2.24.1.bb |    5 +++--
+>>   1 files changed, 3 insertions(+), 2 deletions(-)
+>>
+>> diff --git a/meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf_2.24.1.bb b/meta=
+/recipes-gnome/gdk-pixbuf/gdk-pixbuf_2.24.1.bb
+>> index e31f717..3000c79 100644
+>> --- a/meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf_2.24.1.bb
+>> +++ b/meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf_2.24.1.bb
+>> @@ -19,7 +19,7 @@ SRC_URI =3D "http://ftp.acc.umu.se/pub/GNOME/sources=
+/gdk-pixbuf/2.24/gdk-pixbuf-${
+>>   SRC_URI[md5sum] =3D "72f39b34b20f68148c1609bd27415412"
+>>   SRC_URI[sha256sum] =3D "da7a3f00db360913716368e19e336402755cafa93769=
+f3cfa28a969303e4bee1"
+>>
+>> -PR =3D "r0"
+>> +PR =3D "r1"
+>>
+>>   inherit autotools pkgconfig gettext
+> Your patch will leave it enabled in the non-lsb case under many
+> circumstances. How about something like:
 >
-> /libexec and /lib aren't really the correct locations for a
-> configuration file like this.
+> @@ -28,10 +28,13 @@ LIBV =3D "2.10.0"
+>   EXTRA_OECONF =3D "\
+>     --without-libtiff \
+>     --with-libpng \
+> -  --without-x11 \
+> +  ${X11DEPENDS} \
+>     --disable-introspection \
+>   "
 >
-> I think in the mutlilib cases I'd like to move the config file a
-> directory deeper so /etc/pango/${baselib}/pango.modules in the mutliib
-> cases. The standard system file would remain in its existing location.
-
-
-This is okay. We should use /usr/bin/${baselib}/pango-querymodules as well.
-
-
+> +X11DEPENDS =3D "--without-x11"
+> +X11DEPENDS_linuxstdbase =3D "${@base_contains('DISTRO_FEATURES', 'x11'=
+, '--with-x11', '--without-x11', d)}"
+> +
+>   FILES_${PN} =3D "${bindir}/gdk-pixbuf-query-loaders \
+>   	${libdir}/lib*.so.*"
 >
+>
+> I'd also like to split the library into a separate package.
+got it, thanks for your suggestion.
 > Cheers,
 >
 > Richard
 >
+>
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
 >
 
 
