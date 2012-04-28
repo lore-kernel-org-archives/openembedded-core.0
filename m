@@ -1,24 +1,27 @@
-Received: from mga09.intel.com ([134.134.136.24])
+Received: from mail.windriver.com ([147.11.1.11])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <dongxiao.xu@intel.com>) id 1SO2yZ-0005bl-QO
+	(envelope-from <Bruce.Ashfield@windriver.com>) id 1SO8qz-0002iQ-Pf
 	for openembedded-core@lists.openembedded.org;
-	Sat, 28 Apr 2012 10:25:55 +0200
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-	by orsmga102.jf.intel.com with ESMTP; 28 Apr 2012 01:15:58 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.67,351,1309762800"; d="scan'208";a="137733129"
-Received: from dongxiao-osel.sh.intel.com (HELO localhost) ([10.239.36.11])
-	by orsmga002.jf.intel.com with ESMTP; 28 Apr 2012 01:15:57 -0700
-From: Dongxiao Xu <dongxiao.xu@intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Sat, 28 Apr 2012 16:12:29 +0800
-Message-Id: <1f5da4562c4858fa00b16b8bce10682f2619d7c6.1335600691.git.dongxiao.xu@intel.com>
-X-Mailer: git-send-email 1.7.4.1
-In-Reply-To: <cover.1335600691.git.dongxiao.xu@intel.com>
-References: <cover.1335600691.git.dongxiao.xu@intel.com>
-In-Reply-To: <cover.1335600691.git.dongxiao.xu@intel.com>
-References: <cover.1335600691.git.dongxiao.xu@intel.com>
-Subject: [PATCH 5/8] iproute2: upgrade to version 3.3.0
+	Sat, 28 Apr 2012 16:42:30 +0200
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca [147.11.189.40])
+	by mail.windriver.com (8.14.3/8.14.3) with ESMTP id q3SEWlwi026325
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
+	Sat, 28 Apr 2012 07:32:47 -0700 (PDT)
+Received: from bruce-ashfields-macbook.local (128.224.23.38) by
+	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server id
+	14.1.255.0; Sat, 28 Apr 2012 07:32:46 -0700
+Message-ID: <4F9BFF8D.6040702@windriver.com>
+Date: Sat, 28 Apr 2012 10:32:45 -0400
+From: Bruce Ashfield <bruce.ashfield@windriver.com>
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.7;
+	rv:9.0) Gecko/20111222 Thunderbird/9.0.1
+MIME-Version: 1.0
+To: <openembedded-devel@lists.openembedded.org>, Patches and discussions about
+	the oe-core layer <openembedded-core@lists.openembedded.org>
+References: <1335513988-4447-1-git-send-email-koen@dominion.thruhere.net>
+In-Reply-To: <1335513988-4447-1-git-send-email-koen@dominion.thruhere.net>
+Cc: Koen Kooi <koen@dominion.thruhere.net>, Koen Kooi <martin.jansa@gmail.com>
+Subject: Re: [oe] [meta-oe][PATCH] kernel bbclass: recreate uImage unless	KEEPUIMAGE is set
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -33,37 +36,59 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 28 Apr 2012 08:25:56 -0000
+X-List-Received-Date: Sat, 28 Apr 2012 14:42:30 -0000
+Content-Type: text/plain; charset="ISO-8859-1"; format=flowed
+Content-Transfer-Encoding: 7bit
 
-Signed-off-by: Dongxiao Xu <dongxiao.xu@intel.com>
----
- .../configure-cross.patch                          |    0
- .../{iproute2_3.2.0.bb => iproute2_3.3.0.bb}       |    2 +-
- 2 files changed, 1 insertions(+), 1 deletions(-)
- rename meta/recipes-connectivity/iproute2/{iproute2-3.2.0 => iproute2-3.3.0}/configure-cross.patch (100%)
- rename meta/recipes-connectivity/iproute2/{iproute2_3.2.0.bb => iproute2_3.3.0.bb} (97%)
+On 12-04-27 4:06 AM, Koen Kooi wrote:
+> The intent of the uImage code in this class includes the following
+>
+> 1) be able to specify custom load addresses without needing to patch the kernel
+> 2) add better information to the uImage description field
+>
+> The current state is a NOP anyway, the kernel will always build a uImage when you tell it to 'make uImage'.
+>
+> Signed-off-by: Koen Kooi<koen@dominion.thruhere.net>
+> ---
+>   meta-oe/classes/kernel.bbclass |    2 +-
+>   1 file changed, 1 insertion(+), 1 deletion(-)
+>
+> diff --git a/meta-oe/classes/kernel.bbclass b/meta-oe/classes/kernel.bbclass
+> index b7e9f54..98320fe 100644
+> --- a/meta-oe/classes/kernel.bbclass
+> +++ b/meta-oe/classes/kernel.bbclass
+> @@ -512,7 +512,7 @@ KERNEL_IMAGE_SYMLINK_NAME ?= "${KERNEL_IMAGETYPE}-${MACHINE}"
+>
+>   do_uboot_mkimage() {
+>   	if test "x${KERNEL_IMAGETYPE}" = "xuImage" ; then
+> -		if test ! -e arch/${ARCH}/boot/uImage ; then
+> +		if test "x${KEEPUIMAGE}" = "x" ; then
 
-diff --git a/meta/recipes-connectivity/iproute2/iproute2-3.2.0/configure-cross.patch b/meta/recipes-connectivity/iproute2/iproute2-3.3.0/configure-cross.patch
-similarity index 100%
-rename from meta/recipes-connectivity/iproute2/iproute2-3.2.0/configure-cross.patch
-rename to meta/recipes-connectivity/iproute2/iproute2-3.3.0/configure-cross.patch
-diff --git a/meta/recipes-connectivity/iproute2/iproute2_3.2.0.bb b/meta/recipes-connectivity/iproute2/iproute2_3.3.0.bb
-similarity index 97%
-rename from meta/recipes-connectivity/iproute2/iproute2_3.2.0.bb
-rename to meta/recipes-connectivity/iproute2/iproute2_3.3.0.bb
-index 5af12af..2c3c857 100644
---- a/meta/recipes-connectivity/iproute2/iproute2_3.2.0.bb
-+++ b/meta/recipes-connectivity/iproute2/iproute2_3.3.0.bb
-@@ -1,6 +1,6 @@
- require iproute2.inc
- 
--PR = "r1"
-+PR = "r0"
- 
- #v3.2.0 tag is "447c118f138171b260ad045ad6e1b17f9ef462e2"
- #but it was not fully tested and had build error, and the next commit fixed it.
--- 
-1.7.4.1
+I realize this is targeted meta-oe, and not directly to oe-core (but
+openembedded-core is cc'd + it's Saturday morning with no coffee here
+yet which means I may be misreading) .. so I thought I'd comment as
+this whizzed past.
+
+The existing users on top of the oe-core class expect (whether they
+know it or not) the opposite of this (i.e. do nothing, get the kernel's
+uImage). To keep their old behaviour, they now need to explicitly set a
+flag. I know that I'd have quite a few layers to update if this went
+directly into oe-core.
+
+How are the current meta-oe and related BSPs currently overriding
+the behaviour (I didn't go look, I'm invoking my Saturday morning clause
+again :) ? Is it a class override ? If so, can the layers that
+currently have an override set a flag (which is a simpler override) to
+get the behaviour they used to have, while leaving the boards with no
+override the behaviour that they used to have ?
+
+Cheers,
+
+Bruce
+
+>   			ENTRYPOINT=${UBOOT_ENTRYPOINT}
+>   			if test -n "${UBOOT_ENTRYSYMBOL}"; then
+>   				ENTRYPOINT=`${HOST_PREFIX}nm ${S}/vmlinux | \
 
 
 
