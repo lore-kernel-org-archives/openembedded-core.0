@@ -1,89 +1,24 @@
-Received: from mail-wg0-f65.google.com ([74.125.82.65])
+Received: from mga01.intel.com ([192.55.52.88])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <martin.jansa@gmail.com>) id 1SO2dD-00059J-T2
+	(envelope-from <dongxiao.xu@intel.com>) id 1SO2yB-0005LH-70
 	for openembedded-core@lists.openembedded.org;
-	Sat, 28 Apr 2012 10:03:51 +0200
-Received: by wgbdt11 with SMTP id dt11so151509wgb.0
-	for <openembedded-core@lists.openembedded.org>;
-	Sat, 28 Apr 2012 00:54:12 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=resent-from:resent-date:resent-message-id:resent-to:delivered-to
-	:received-spf:x-google-dkim-signature:from:to:date:message-id
-	:x-mailer:cc:subject:x-beenthere:x-mailman-version:precedence
-	:reply-to:list-id:list-unsubscribe:list-archive:list-post:list-help
-	:list-subscribe:mime-version:content-type:content-transfer-encoding
-	:errors-to; bh=SMYmEASn3JeaBc1Bjnsx+yxmnASdRLpfczIrGYLKgn0=;
-	b=pVd4RawRRkAvlP7aF6JhC7JxaPOAGD5mDwPq/OJtqFuNQIq4aA0ViCiwTvkCobU/qA
-	zT0shggO16nMPBEjkh9J7NGlbFFFcIWnd6oXxHKTJCVlK/7Lt3wNzP3SbB9OCXsojWif
-	tPIO1ltFfEBDWOaIQWihnrMR8ySMBXDj6kand9ZXAjOAT9JwK0FDbn4AxPEMaakkb+D0
-	rG+YVq9CadSwpB7vDHo6XBlpVmSRmPLZnaPCS0RF+AQOmsr7g5igODhAL39dm1cnlGH/
-	hiPhn9vx+6RTYluLeFP+7bGi7cfA7j+oiT3lVB9GqQzq2S55IqDWGPWo3uO/AZ+CA2jm
-	OtMQ==
-Received: by 10.180.105.69 with SMTP id gk5mr14611363wib.3.1335599651638;
-	Sat, 28 Apr 2012 00:54:11 -0700 (PDT)
-Received: from localhost ([94.230.152.246])
-	by mx.google.com with ESMTPS id j3sm16995337wiw.1.2012.04.28.00.54.10
-	(version=TLSv1/SSLv3 cipher=OTHER);
-	Sat, 28 Apr 2012 00:54:11 -0700 (PDT)
-Resent-From: Martin Jansa <Martin.Jansa@gmail.com>
-Resent-Date: Sat, 28 Apr 2012 09:54:15 +0200
-Resent-Message-ID: <20120428075415.GB3688@jama.jama.net>
-Resent-To: openembedded-core@lists.openembedded.org
-Received: by 10.236.61.4 with SMTP id v4csp384008yhc;
-	Fri, 27 Apr 2012 01:06:59 -0700 (PDT)
-Received: by 10.216.136.131 with SMTP id w3mr3405778wei.15.1335514019376;
-	Fri, 27 Apr 2012 01:06:59 -0700 (PDT)
-Received: from linuxtogo.org (linuxtogo.org. [188.40.83.200])
-	by mx.google.com with ESMTPS id w28si6871970weq.138.2012.04.27.01.06.56
-	(version=TLSv1/SSLv3 cipher=OTHER);
-	Fri, 27 Apr 2012 01:06:59 -0700 (PDT)
-Received-SPF: neutral (google.com: 188.40.83.200 is neither permitted nor
-	denied by best guess record for domain of
-	openembedded-devel-bounces@lists.openembedded.org)
-	client-ip=188.40.83.200; 
-Received: from localhost ([127.0.0.1]) by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <openembedded-devel-bounces@lists.openembedded.org>)
-	id 1SNgLd-0007oP-Si; Fri, 27 Apr 2012 10:16:13 +0200
-Received: from mail-wi0-f177.google.com ([209.85.212.177])
-	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <koen@dominion.thruhere.net>) id 1SNgLc-0007oJ-Ed
-	for openembedded-devel@lists.openembedded.org;
-	Fri, 27 Apr 2012 10:16:12 +0200
-Received: by wibhj13 with SMTP id hj13so292015wib.6
-	for <openembedded-devel@lists.openembedded.org>;
-	Fri, 27 Apr 2012 01:06:34 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=google.com; s=20120113;
-	h=from:to:cc:subject:date:message-id:x-mailer:x-gm-message-state;
-	bh=ECepKG4oZqalKnS9esyoW+mNSimtw2zbeK0J/rrqQAc=;
-	b=M/a8RpQOYy6vxi8eJs0XJJuzP0WfCI9TyzNw7C37YGyoAo/il93NkeMRIpoFX1SSFc
-	F6Gn06tCRfKJbNFAK8Sc+AIt9i2xfZW4GvlR+pjCMc8ZfV0bkHPGGH8rYkBlPMOD4Q5n
-	LsG2ZOc/fC3ALLuxEz894k+JqDehiuUi04K3xDqTURF3fzlzccMFSQQi678N1EbQs26H
-	/Sp/Q/3hI4o0LjGd7kpHSWEuDzgDgCZ1wiJJNSAuZ2QcS9uXoka4B1wSF3/0mbind5E1
-	RZeWin+TYpBaXV/YFb2FDj/7pVCm7cuRkpMDTvenNkTjt1ol4WpR7O96WCUhvMhd97Iq
-	lpbQ==
-Received: by 10.180.92.130 with SMTP id cm2mr3549770wib.4.1335513994518;
-	Fri, 27 Apr 2012 01:06:34 -0700 (PDT)
-Received: from localhost (ip545070eb.adsl-surfen.hetnet.nl. [84.80.112.235])
-	by mx.google.com with ESMTPS id gd4sm4922425wib.6.2012.04.27.01.06.32
-	(version=TLSv1/SSLv3 cipher=OTHER);
-	Fri, 27 Apr 2012 01:06:33 -0700 (PDT)
-From: Koen Kooi <martin.jansa@gmail.com>
-To: openembedded-devel@lists.openembedded.org
-Date: Fri, 27 Apr 2012 10:06:28 +0200
-Message-Id: <1335513988-4447-1-git-send-email-koen@dominion.thruhere.net>
-X-Mailer: git-send-email 1.7.10
-X-Gm-Message-State: ALoCoQnVtPB5AP/I0aYBakYIWJrrFTAkxfF1pypbyzsjoZ0zuCwDL35Ff9IkDx4drUu4LxmtVqyW
-X-BeenThere: openembedded-devel@lists.openembedded.org
+	Sat, 28 Apr 2012 10:25:31 +0200
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+	by fmsmga101.fm.intel.com with ESMTP; 28 Apr 2012 01:15:51 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="159322185"
+Received: from dongxiao-osel.sh.intel.com (HELO localhost) ([10.239.36.11])
+	by fmsmga002.fm.intel.com with ESMTP; 28 Apr 2012 01:15:50 -0700
+From: Dongxiao Xu <dongxiao.xu@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Sat, 28 Apr 2012 16:12:24 +0800
+Message-Id: <cover.1335600691.git.dongxiao.xu@intel.com>
+X-Mailer: git-send-email 1.7.4.1
+Subject: [PATCH 0/8][PULL] Recipe upgrades for ofono, iptables, etc.
+X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
-MIME-Version: 1.0
-Errors-To: openembedded-devel-bounces@lists.openembedded.org
-Cc: Koen Kooi <koen@dominion.thruhere.net>
-Subject: [oe] [meta-oe][PATCH] kernel bbclass: recreate uImage unless	KEEPUIMAGE is set
-X-BeenThere: openembedded-core@lists.openembedded.org
-Reply-To: openembedded-devel@lists.openembedded.org,
-	Patches and discussions about the oe-core layer
+Reply-To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
 List-Id: Patches and discussions about the oe-core layer
 	<openembedded-core.lists.openembedded.org>
@@ -94,42 +29,58 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 28 Apr 2012 08:03:52 -0000
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Sat, 28 Apr 2012 08:25:31 -0000
 
-The intent of the uImage code in this class includes the following
+Hi Saul,
 
-1) be able to specify custom load addresses without needing to patch the kernel
-2) add better information to the uImage description field
+This pull request upgrades some recipes.
 
-The current state is a NOP anyway, the kernel will always build a uImage when you tell it to 'make uImage'.
+Please help to review and pull.
 
-Signed-off-by: Koen Kooi <koen@dominion.thruhere.net>
----
- meta-oe/classes/kernel.bbclass |    2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+Thanks,
+Dongxiao
 
-diff --git a/meta-oe/classes/kernel.bbclass b/meta-oe/classes/kernel.bbclass
-index b7e9f54..98320fe 100644
---- a/meta-oe/classes/kernel.bbclass
-+++ b/meta-oe/classes/kernel.bbclass
-@@ -512,7 +512,7 @@ KERNEL_IMAGE_SYMLINK_NAME ?= "${KERNEL_IMAGETYPE}-${MACHINE}"
- 
- do_uboot_mkimage() {
- 	if test "x${KERNEL_IMAGETYPE}" = "xuImage" ; then 
--		if test ! -e arch/${ARCH}/boot/uImage ; then
-+		if test "x${KEEPUIMAGE}" = "x" ; then
- 			ENTRYPOINT=${UBOOT_ENTRYPOINT}
- 			if test -n "${UBOOT_ENTRYSYMBOL}"; then
- 				ENTRYPOINT=`${HOST_PREFIX}nm ${S}/vmlinux | \
+The following changes since commit 5a1f172d35be610688842a8a9a84f24edb9aeb51:
+
+  bitbake.conf: use TUNE_PKGARCH instead of TARGET_ARCH in SDK_NAME (2012-04-26 10:59:20 +0100)
+
+are available in the git repository at:
+  git://git.pokylinux.org/poky-contrib dxu4/upgrade
+  http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=dxu4/upgrade
+
+Dongxiao Xu (8):
+  gst-fluendo-mpegdemux: upgrade to version 0.10.70
+  telepathy-mission-control: upgrade to version 5.12.0
+  telepathy-glib: upgrade to version 0.18.1
+  bluez-hcidump: upgrade to version 2.4
+  iproute2: upgrade to version 3.3.0
+  ofono: upgrade to version 1.6
+  iptables: upgrade to version 1.4.13
+  distro_tracking_fields: Change for ofono, iptables, etc
+
+ .../conf/distro/include/distro_tracking_fields.inc |   46 ++++++++++----------
+ .../{bluez-hcidump_2.3.bb => bluez-hcidump_2.4.bb} |    4 +-
+ .../configure-cross.patch                          |    0
+ .../{iproute2_3.2.0.bb => iproute2_3.3.0.bb}       |    2 +-
+ .../ofono/{ofono_1.5.bb => ofono_1.6.bb}           |    2 +-
+ ...thy-glib_0.17.5.bb => telepathy-glib_0.18.1.bb} |    4 +-
+ ...11.0.bb => telepathy-mission-control_5.12.0.bb} |    6 +-
+ .../iptables/iptables/GNUmakefile.patch            |   18 --------
+ .../{iptables_1.4.12.2.bb => iptables_1.4.13.bb}   |    5 +-
+ ...0.10.69.bb => gst-fluendo-mpegdemux_0.10.70.bb} |    4 +-
+ 10 files changed, 36 insertions(+), 55 deletions(-)
+ rename meta/recipes-connectivity/bluez/{bluez-hcidump_2.3.bb => bluez-hcidump_2.4.bb} (83%)
+ rename meta/recipes-connectivity/iproute2/{iproute2-3.2.0 => iproute2-3.3.0}/configure-cross.patch (100%)
+ rename meta/recipes-connectivity/iproute2/{iproute2_3.2.0.bb => iproute2_3.3.0.bb} (97%)
+ rename meta/recipes-connectivity/ofono/{ofono_1.5.bb => ofono_1.6.bb} (97%)
+ rename meta/recipes-connectivity/telepathy/{telepathy-glib_0.17.5.bb => telepathy-glib_0.18.1.bb} (82%)
+ rename meta/recipes-connectivity/telepathy/{telepathy-mission-control_5.11.0.bb => telepathy-mission-control_5.12.0.bb} (91%)
+ delete mode 100644 meta/recipes-extended/iptables/iptables/GNUmakefile.patch
+ rename meta/recipes-extended/iptables/{iptables_1.4.12.2.bb => iptables_1.4.13.bb} (89%)
+ rename meta/recipes-multimedia/gstreamer/{gst-fluendo-mpegdemux_0.10.69.bb => gst-fluendo-mpegdemux_0.10.70.bb} (71%)
+
 -- 
-1.7.10
+1.7.4.1
 
-
-_______________________________________________
-Openembedded-devel mailing list
-Openembedded-devel@lists.openembedded.org
-http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-devel
 
 
