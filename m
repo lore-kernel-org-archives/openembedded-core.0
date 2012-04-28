@@ -1,34 +1,40 @@
-Received: from mail-pz0-f50.google.com ([209.85.210.50])
+Received: from mail-pb0-f47.google.com ([209.85.160.47])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <bruce.ashfield@gmail.com>)
-	id 1SO9N3-0003Ot-1a; Sat, 28 Apr 2012 17:15:37 +0200
-Received: by dakh32 with SMTP id h32so2158399dak.9
-	for <multiple recipients>; Sat, 28 Apr 2012 08:05:56 -0700 (PDT)
+	(envelope-from <raj.khem@gmail.com>) id 1SOExf-00046P-JA
+	for openembedded-core@lists.openembedded.org;
+	Sat, 28 Apr 2012 23:13:48 +0200
+Received: by pbbrq2 with SMTP id rq2so1961320pbb.6
+	for <openembedded-core@lists.openembedded.org>;
+	Sat, 28 Apr 2012 14:04:07 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
-	:cc:content-type:content-transfer-encoding;
-	bh=g7Ovy+oH5T3FI/wI9Ff69OBIepKjuErZTr1N7auLzpc=;
-	b=wlQt3goisja+SGk2mKiT52JnM5HCfPQ0qAhMGAfiho1Bi60hJyzcdmYGkb1xrIspdn
-	2Xbe2hSiwdOlzbQWeQoylKvr4/CROkhCvPdMmk1GMvhRShtROfQ0vAulB3otG9/MI1u3
-	z8O67OViluooAzaee+xUdcnzVam+D7IedXQ7ClrKsAr9nZf9clhG81SKY9jrLa5F1mGZ
-	gMcM263plXL+gPL/frPxp6mLrMwqdoIH17ECAGTjiOa+GAZUUZqFGw2KV31GK1z7rWIL
-	x3n7T9GOR+igd41RrOYUhx2mKfKDUrD8izErueZWDtFQqngIwz0syRLkAXKIms+iVb06
-	7pqA==
+	h=message-id:date:from:user-agent:mime-version:to:subject:references
+	:in-reply-to:x-enigmail-version:content-type
+	:content-transfer-encoding;
+	bh=HGwEPnBadza/+ejDI/sMH36kcnNw5mmcoNqvLpIdv4k=;
+	b=s7Viou4F9qJj8OoAh0ZMbzG4y6nPAPMpocXPSqc4gHcomtHkuNNeXDxFFYCwcRfKNI
+	3k0cpXlX7CMTW7yvL8tnAOxlB3lDvkHoKM0tv4DIJMGF/sHMsYGEtHW1XiSLtOi7TZFJ
+	k17Q7pihX6s6U7zHjEddwwpBSyFFFvRIMotBg/hy1kbh1FVD1KrnHeh7CtABAYoqCM3T
+	+n/kVb+OdsfqqWtN5JkGrFu6hqpvc4+H9xwfwNjewiLb6qo7IvSYqBuuAlXwlvAsnUnP
+	C3xYqjNkMXOz5c92Vj+Dd4+TIDiOUf5Fyw2RKFWwqmPSL1ZSE0B92/ft8JQJ58r94SaP
+	B7wQ==
+Received: by 10.68.217.227 with SMTP id pb3mr14238535pbc.138.1335647047018;
+	Sat, 28 Apr 2012 14:04:07 -0700 (PDT)
+Received: from [192.168.1.104] (99-57-140-209.lightspeed.sntcca.sbcglobal.net.
+	[99.57.140.209])
+	by mx.google.com with ESMTPS id h10sm10663714pbh.69.2012.04.28.14.04.04
+	(version=SSLv3 cipher=OTHER); Sat, 28 Apr 2012 14:04:05 -0700 (PDT)
+Message-ID: <4F9C5B42.1010409@gmail.com>
+Date: Sat, 28 Apr 2012 14:04:02 -0700
+From: Khem Raj <raj.khem@gmail.com>
+User-Agent: Mozilla/5.0 (X11; Linux i686;
+	rv:11.0) Gecko/20120411 Thunderbird/11.0.1
 MIME-Version: 1.0
-Received: by 10.68.189.168 with SMTP id gj8mr843746pbc.104.1335625556073; Sat,
-	28 Apr 2012 08:05:56 -0700 (PDT)
-Received: by 10.68.55.104 with HTTP; Sat, 28 Apr 2012 08:05:56 -0700 (PDT)
-In-Reply-To: <03646974-A740-46EE-9C85-63302F61595E@dominion.thruhere.net>
-References: <1335513988-4447-1-git-send-email-koen@dominion.thruhere.net>
-	<4F9BFF8D.6040702@windriver.com>
-	<03646974-A740-46EE-9C85-63302F61595E@dominion.thruhere.net>
-Date: Sat, 28 Apr 2012 11:05:56 -0400
-Message-ID: <CADkTA4PEsqyFvjsUkj_4zzRO7MtxLv-B7gKE7ZOYtjg=0WX19g@mail.gmail.com>
-From: Bruce Ashfield <bruce.ashfield@gmail.com>
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Cc: openembedded-devel <openembedded-devel@lists.openembedded.org>
-Subject: Re: [oe] [meta-oe][PATCH] kernel bbclass: recreate uImage unless KEEPUIMAGE is set
+To: openembedded-core@lists.openembedded.org
+References: <cover.1334152146.git.andrei@gherzan.ro>
+	<ef5c9d2ab1340a0d6ce1bf09a68a20c60e11eef0.1334152146.git.andrei@gherzan.ro>
+In-Reply-To: <ef5c9d2ab1340a0d6ce1bf09a68a20c60e11eef0.1334152146.git.andrei@gherzan.ro>
+X-Enigmail-Version: 1.4.1
+Subject: Re: [PATCH 1/1] js185: Integrate version 1.8.5
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -43,85 +49,107 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 28 Apr 2012 15:15:37 -0000
+X-List-Received-Date: Sat, 28 Apr 2012 21:13:48 -0000
 Content-Type: text/plain; charset=ISO-8859-1
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 7bit
 
-On Sat, Apr 28, 2012 at 10:57 AM, Koen Kooi <koen@dominion.thruhere.net> wr=
-ote:
+-----BEGIN PGP SIGNED MESSAGE-----
+Hash: SHA1
+
+On 04/11/2012 06:51 AM, Andrei Gherzan wrote:
+> Signed-off-by: Andrei Gherzan <andrei@gherzan.ro> --- 
+> meta/recipes-support/js/files/link_with_gcc.patch |   12 +++---- 
+> meta/recipes-support/js/files/usepic.patch        |   15 ++------ 
+> meta/recipes-support/js/js185_1.0.0.bb            |   36
+> +++++++++++++++++++++ 3 files changed, 45 insertions(+), 18
+> deletions(-) create mode 100644
+> meta/recipes-support/js/js185_1.0.0.bb
+> 
+> diff --git a/meta/recipes-support/js/files/link_with_gcc.patch
+> b/meta/recipes-support/js/files/link_with_gcc.patch index
+> 988df61..1bee233 100644 ---
+> a/meta/recipes-support/js/files/link_with_gcc.patch +++
+> b/meta/recipes-support/js/files/link_with_gcc.patch @@ -1,11 +1,9
+> @@ -Upstream-Status: Pending - -Index: src/config/Linux_All.mk 
+> +Index: js-1.8.5/js/src/ref-config/Linux_All.mk 
+> ===================================================================
 >
-> Op 28 apr. 2012, om 16:32 heeft Bruce Ashfield het volgende geschreven:
+> 
+- ---- src.orig/config/Linux_All.mk	2005-05-10 19:53:44.000000000 +0000
+> -+++ src/config/Linux_All.mk	2007-06-18 17:20:05.000000000 +0000 
+> -@@ -47,7 +47,7 @@ - OS_CFLAGS = -DXP_UNIX -DSVR4 -DSYSV
+> -D_BSD_SOURCE -DPOSIX_SOURCE -DHAVE_LOCALTIME_R +---
+> src.orig/ref-config/Linux_All.mk	2012-04-09 23:43:45.099107032
+> +0300 ++++ src/ref-config/Linux_All.mk	2012-04-09
+> 23:43:56.947106799 +0300 +@@ -48,7 +48,7 @@ + OS_CFLAGS = -DXP_UNIX
+> -DSVR4 -DSYSV -D_BSD_SOURCE -DPOSIX_SOURCE -DHAVE_LOCALTIME_R
+> -DLINUX
+> 
+> RANLIB = echo -MKSHLIB = $(LD) -shared $(XMKSHLIBOPTS) diff --git
+> a/meta/recipes-support/js/files/usepic.patch
+> b/meta/recipes-support/js/files/usepic.patch index 91b0923..7098188
+> 100644 --- a/meta/recipes-support/js/files/usepic.patch +++
+> b/meta/recipes-support/js/files/usepic.patch @@ -1,15 +1,8 @@ 
+> -Upstream-Status: Inappropriate [embedded specific] - -Mips needs
+> -fPIC to compile properly. These tests are broken anyway as they
+> test -the build system architecture, not the target. This is a
+> hack. - -RP 10/6/2010 -
+
+
+why is patch header gone
+
+> -Index: src/config/Linux_All.mk +Index:
+> src/ref-config/Linux_All.mk 
+> ===================================================================
 >
->> On 12-04-27 4:06 AM, Koen Kooi wrote:
->>> The intent of the uImage code in this class includes the following
->>>
->>> 1) be able to specify custom load addresses without needing to patch th=
-e kernel
->>> 2) add better information to the uImage description field
->>>
->>> The current state is a NOP anyway, the kernel will always build a uImag=
-e when you tell it to 'make uImage'.
->>>
->>> Signed-off-by: Koen Kooi<koen@dominion.thruhere.net>
->>> ---
->>> =A0meta-oe/classes/kernel.bbclass | =A0 =A02 +-
->>> =A01 file changed, 1 insertion(+), 1 deletion(-)
->>>
->>> diff --git a/meta-oe/classes/kernel.bbclass b/meta-oe/classes/kernel.bb=
-class
->>> index b7e9f54..98320fe 100644
->>> --- a/meta-oe/classes/kernel.bbclass
->>> +++ b/meta-oe/classes/kernel.bbclass
->>> @@ -512,7 +512,7 @@ KERNEL_IMAGE_SYMLINK_NAME ?=3D "${KERNEL_IMAGETYPE}=
--${MACHINE}"
->>>
->>> =A0do_uboot_mkimage() {
->>> =A0 =A0 =A0if test "x${KERNEL_IMAGETYPE}" =3D "xuImage" ; then
->>> - =A0 =A0 =A0 =A0 =A0 =A0if test ! -e arch/${ARCH}/boot/uImage ; then
->>> + =A0 =A0 =A0 =A0 =A0 =A0if test "x${KEEPUIMAGE}" =3D "x" ; then
->>
->> I realize this is targeted meta-oe, and not directly to oe-core (but
->> openembedded-core is cc'd + it's Saturday morning with no coffee here
->> yet which means I may be misreading) .. so I thought I'd comment as
->> this whizzed past.
->>
->> The existing users on top of the oe-core class expect (whether they
->> know it or not) the opposite of this (i.e. do nothing, get the kernel's
->> uImage). To keep their old behaviour, they now need to explicitly set a
->> flag. I know that I'd have quite a few layers to update if this went
->> directly into oe-core.
->>
->> How are the current meta-oe and related BSPs currently overriding
->> the behaviour (I didn't go look, I'm invoking my Saturday morning clause
->> again :) ? Is it a class override ? If so, can the layers that
->> currently have an override set a flag (which is a simpler override) to
->> get the behaviour they used to have, while leaving the boards with no
->> override the behaviour that they used to have ?
+> 
+- ---- src.orig/config/Linux_All.mk	2010-06-10 22:09:43.000000000 +0100
+> -+++ src/config/Linux_All.mk	2010-06-10 22:09:55.000000000 +0100 
+> -@@ -90,14 +90,10 @@ +--- src.orig/ref-config/Linux_All.mk
+> 2012-04-09 23:47:06.775103048 +0300 ++++
+> src/ref-config/Linux_All.mk	2012-04-09 23:47:40.267102388 +0300 +@@
+> -92,14 +92,10 @@ # Use the editline library to provide line-editing
+> support. JS_EDITLINE = 1
+> 
+> diff --git a/meta/recipes-support/js/js185_1.0.0.bb
+> b/meta/recipes-support/js/js185_1.0.0.bb new file mode 100644 index
+> 0000000..c91d9b6 --- /dev/null +++
+> b/meta/recipes-support/js/js185_1.0.0.bb @@ -0,0 +1,36 @@ 
+> +DESCRIPTION = "Spidermonkey: a javascript engine written in C" 
+> +HOMEPAGE = "http://www.mozilla.org/js/spidermonkey/" +SECTION =
+> "libs" + +# the package is licensed under either of the following 
+> +LICENSE = "MPL-1 | GPLv2+ | LGPLv2.1+" +LIC_FILES_CHKSUM =
+> "file://jsapi.h;beginline=4;endline=39;md5=347c6bbf4fb4547de1fa5ad830030063"
 >
-> "used to have" is quite vague, since the OE-classic behaviour is to alway=
-s replace the uImage. And that's where I'm migrating machines from.
+> 
++PR = "r0"
+> + +DEPENDS = "nspr" + +SRC_URI =
+> "http://ftp.mozilla.org/pub/mozilla.org/js/js185-1.0.0.tar.gz \ +
+> file://link_with_gcc.patch \ +           file://usepic.patch \ +
+> " + +SRC_URI[md5sum] = "a4574365938222adca0a6bd33329cb32" 
+> +SRC_URI[sha256sum] =
+> "5d12f7e1f5b4a99436685d97b9b7b75f094d33580227aa998c406bbae6f2a687" 
+> + +S = "${WORKDIR}/${PN}-${PV}/js/src" + +inherit autotools + +#
+> Use the configure and avoid autoconf as v2.13 is mandatory 
+> +do_configure_prepend() { +	rm -f ${S}/configure.in +} + 
+> +EXTRA_OEMAKE = "'CC=${CC}' 'LD=${LD}' 'XCFLAGS=${CFLAGS}'
+> 'XLDFLAGS=${LDFLAGS} -Wl,-soname=libjs' \ +
+> 'BUILD_CC=${BUILD_CC}' 'BUILD_CFLAGS=${BUILD_CFLAGS}'
+> 'BUILD_LDFLAGS=${BUILD_LDFLAGS}'" + +EXTRA_OECONF =
+> '--with-nspr-libs="-lplds4 -lplc4 -lnspr4" \ +
+> --prefix=/usr' + +PARALLEL_MAKE = ""
 
-That's why I referenced oe-core, that's all I'm talking about. It's
-behaviour for
-every tagged release has been what I'm talking about. This is a change in
-that behaviour, and if that's the intended target for this, it is relevant.
+can you make sure this is really needed ?
 
-Cheers,
+> +
 
-Bruce
+-----BEGIN PGP SIGNATURE-----
+Version: GnuPG v1.4.11 (GNU/Linux)
+Comment: Using GnuPG with Mozilla - http://enigmail.mozdev.org/
 
->
->
->
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
-
-
-
---=20
-"Thou shalt not follow the NULL pointer, for chaos and madness await
-thee at its end"
+iEYEARECAAYFAk+cW0IACgkQuwUzVZGdMxSFhgCfUUBEACEl2mG/QrelmeS01b+i
+44IAn0JtcpeOtRFfIF1zqLNgZNjqk7Z8
+=rO7K
+-----END PGP SIGNATURE-----
 
 
