@@ -1,25 +1,27 @@
-Received: from mail.windriver.com ([147.11.1.11])
+Received: from mga09.intel.com ([134.134.136.24])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <Peter.Seebach@windriver.com>) id 1SNvGD-0003Hn-Qh
+	(envelope-from <edwin.zhai@intel.com>) id 1SNwP0-0004H2-N2
 	for openembedded-core@lists.openembedded.org;
-	Sat, 28 Apr 2012 02:11:38 +0200
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca [147.11.189.40])
-	by mail.windriver.com (8.14.3/8.14.3) with ESMTP id q3S01wx5015501
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 27 Apr 2012 17:01:58 -0700 (PDT)
-Received: from localhost.localdomain (172.25.34.64) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server id 14.1.255.0;
-	Fri, 27 Apr 2012 17:01:58 -0700
-From: Peter Seebach <peter.seebach@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Fri, 27 Apr 2012 19:01:57 -0500
-Message-ID: <f63a2f437adc71fbb9c622972a4137fc766bfed9.1335571265.git.peter.seebach@windriver.com>
-X-Mailer: git-send-email 1.7.0.4
-In-Reply-To: <cover.1335571265.git.peter.seebach@windriver.com>
-References: <cover.1335571265.git.peter.seebach@windriver.com>
+	Sat, 28 Apr 2012 03:24:46 +0200
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+	by orsmga102.jf.intel.com with ESMTP; 27 Apr 2012 18:15:06 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.67,352,1309762800"; d="scan'208";a="134609767"
+Received: from edwin-gen.sh.intel.com (HELO [10.239.36.17]) ([10.239.36.17])
+	by orsmga001.jf.intel.com with ESMTP; 27 Apr 2012 18:15:06 -0700
+Message-ID: <4F9B44A2.1090007@intel.com>
+Date: Sat, 28 Apr 2012 09:15:14 +0800
+From: "Zhai, Edwin" <edwin.zhai@intel.com>
+User-Agent: Mozilla/5.0 (X11; U; Linux i686; en-US;
+	rv:1.9.2.14) Gecko/20110223 Lightning/1.0b2 Thunderbird/3.1.8
 MIME-Version: 1.0
-Subject: v2 [PATCH 2/2] sanity.bbclass: Implement initial toolchain sanity checks
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
+References: <20120426075321.GG1450@edwin-gen>	
+	<20120427082009.GH1450@edwin-gen> <1335523550.20130.56.camel@ted>
+In-Reply-To: <1335523550.20130.56.camel@ted>
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: Pango multilib issue
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -34,230 +36,61 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 28 Apr 2012 00:11:38 -0000
-Content-Type: text/plain
+X-List-Received-Date: Sat, 28 Apr 2012 01:24:46 -0000
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-(Fixed copy-and-paste error in documentation.conf.)
+On 04/27/2012 06:45 PM, Richard Purdie wrote:
+> On Fri, 2012-04-27 at 16:20 +0800, Zhai, Edwin wrote:
+>> Any comments?
+>> I'd like a agreement before any patch:)
+>>
+>> Thanks,
+>> Edwin
+>>
+>>
+>> On Thu, Apr 26, 2012 at 03:53:22PM +0800, Zhai, Edwin wrote:
+>>> RP,
+>>>
+>>> I have found one common issues for multilib when system config file differ
+>>> between multilibs.
+>>>
+>>> https://bugzilla.yoctoproject.org/show_bug.cgi?id=2356
+>>> This bug caused by modules mechanism in pango:
+>>>
+>>> pango utils, pango-querymodules produce a system config file to indicate where
+>>> to find the modules when 1st boot, like /usr/{lib64|lib}/pango/1.6.0/modules/
+>>> for {x86-64|lib32}-pango respectively.
+>>>
+>>> When installing lib32-pango on sato-image-qemux86-64, lib32 version of
+>>> pango-querymodules override x86-64 version and produce a system config file
+>>> with path for lib32 version of modules. Then x86-64 matchbox-desktop failed to
+>>> open these modules and loaded corrupted fonts.
+>>>
+>>> To resolve this conflict, one possible solution is put the config file and
+>>> binary under different dir: $LIBDIR for config file, and
+>>> /usr/{libexec|lib64exec} for config binary(or create different dir under
+>>> /usr/bin/ for different multilib)
+>>>
+>>> Any comments for this?
+>
+> /libexec and /lib aren't really the correct locations for a
+> configuration file like this.
+>
+> I think in the mutlilib cases I'd like to move the config file a
+> directory deeper so /etc/pango/${baselib}/pango.modules in the mutliib
+> cases. The standard system file would remain in its existing location.
 
-This introduces a sanity check for the toolchain, which verifies
-each tuning (including any multilibs), producing meaningful diagnostics
-for problems, and also provides some higher-level tuning features.
 
-The TUNEVALID and TUNECONFLICT/TUNECONFLICTS settings were not
-implemented, and there were some loose ends (like not knowing how
-the conflict one was spelled).  Listed one or two missing features
-in TUNEVALID, also (in a previous patch) fixed the references to
-features which didn't exist.
+This is okay. We should use /usr/bin/${baselib}/pango-querymodules as well.
 
-This patch also provides a whitelisting mechanism (which is completely
-unused) to allow vendors providing prebuilt toolchain components to
-restrict tunings to those based on or compatible with a particular ABI.
 
-Signed-off-by: Peter Seebach <peter.seebach@windriver.com>
----
- meta/classes/sanity.bbclass                      |   69 ++++++++++++++++++++++
- meta/conf/documentation.conf                     |    6 ++
- meta/conf/machine/include/README                 |    4 +
- meta/conf/machine/include/arm/arch-armv5-dsp.inc |    1 +
- meta/conf/machine/include/arm/arch-armv7a.inc    |    2 +-
- meta/conf/machine/include/ia32/arch-ia32.inc     |    2 +-
- meta/conf/machine/include/mips/arch-mips.inc     |    6 +-
- meta/conf/machine/include/tune-c3.inc            |    2 +-
- 8 files changed, 86 insertions(+), 6 deletions(-)
-
-diff --git a/meta/classes/sanity.bbclass b/meta/classes/sanity.bbclass
-index 687ddeb..ff11fec 100644
---- a/meta/classes/sanity.bbclass
-+++ b/meta/classes/sanity.bbclass
-@@ -11,6 +11,72 @@ def raise_sanity_error(msg):
-     
-     %s""" % msg)
- 
-+# Check a single tune for validity.
-+def check_toolchain_tune(data, tune, multilib):
-+    tune_errors = []
-+    if not tune or tune == "":
-+        return "No tuning found for %s multilib." % multilib
-+    bb.note("Sanity-checking tuning '%s' (%s) features:" % (tune, multilib))
-+    features = data.getVar("TUNE_FEATURES_tune-%s" % tune, True) or ""
-+    if features == '':
-+        return "Tuning '%s' has no defined features, and cannot be used." % tune
-+    features = features.split()
-+    valid_tunes = data.getVarFlags('TUNEVALID') or ""
-+    conflicts = data.getVarFlags('TUNECONFLICTS') or ""
-+    split_conflicts = {}
-+    for feature in features:
-+        if feature in conflicts:
-+            if feature not in split_conflicts:
-+                split_conflicts[feature] = conflicts[feature].split()
-+            for other in features:
-+                if other in split_conflicts[feature]:
-+                    tune_errors.append("Feature '%s' conflicts with '%s'." %
-+                        ( feature, other ))
-+        if feature in valid_tunes:
-+            bb.note("  %s: %s" % (feature, valid_tunes[feature]))
-+        else:
-+            tune_errors.append("Feature '%s' is not defined." % feature)
-+    whitelist = data.getVar("TUNEABI_WHITELIST", True) or ''
-+    if whitelist != '':
-+        override = data.getVar("TUNEABI_OVERRIDE", True) or ''
-+        if not override:
-+            tuneabi = data.getVar("TUNEABI_tune-%s" % tune, True) or ""
-+            if tuneabi == "":
-+                tuneabi = tune
-+            if True not in [x in whitelist.split() for x in tuneabi.split()]:
-+                tune_errors.append("Tuning '%s' (%s) cannot be used with any supported tuning/ABI." %
-+                    (tune, tuneabi))
-+    if tune_errors:
-+        return "Tuning '%s' has the following errors:\n" + '\n'.join(tune_errors)
-+
-+def check_toolchain(data):
-+    tune_error_set = []
-+    deftune = data.getVar("DEFAULTTUNE", True)
-+    tune_errors = check_toolchain_tune(data, deftune, 'default')
-+    if tune_errors:
-+        tune_error_set.append(tune_errors)
-+
-+    multilibs = data.getVar("MULTILIBS", True) or ""
-+    if multilibs != "":
-+        for pairs in [x.split(':') for x in multilibs.split()]:
-+            if pairs[0] != 'multilib':
-+                bb.warn("Got an unexpected '%s' in MULTILIBS." % pairs[0])
-+            else:
-+                if pairs[1] == 'lib':
-+                    tune_error_set.append("The multilib 'lib' was specified, but that causes parse errors.")
-+                else:
-+                    tune = data.getVar("DEFAULTTUNE_virtclass-multilib-%s" % pairs[1], True)
-+                    if tune == deftune:
-+                        bb.warn("Multilib '%s' (%s) is also the default tuning." % (pairs[1], deftune))
-+                    else:
-+                        tune_errors = check_toolchain_tune(data, tune, pairs[1])
-+                    if tune_errors:
-+                        tune_error_set.append(tune_errors)
-+    if tune_error_set:
-+        return "Toolchain tunings invalid:\n" + '\n'.join(tune_error_set)
-+
-+    return ""
-+
- def check_conf_exists(fn, data):
-     bbpath = []
-     fn = data.expand(fn)
-@@ -327,6 +393,9 @@ def check_sanity(e):
-         messages = messages + pseudo_msg + '\n'
- 
-     check_supported_distro(e)
-+    toolchain_msg = check_toolchain(e.data)
-+    if toolchain_msg != "":
-+        messages = messages + toolchain_msg + '\n'
- 
-     # Check if DISPLAY is set if IMAGETEST is set
-     if not data.getVar( 'DISPLAY', e.data, True ) and data.getVar( 'IMAGETEST', e.data, True ) == 'qemu':
-diff --git a/meta/conf/documentation.conf b/meta/conf/documentation.conf
-index f4d6241..99c16fb 100644
---- a/meta/conf/documentation.conf
-+++ b/meta/conf/documentation.conf
-@@ -34,6 +34,12 @@ TARGET_CC_ARCH[doc] = "FIXME"
- TARGET_FPU[doc] = "Floating point option (mostly for FPU-less systems), can be 'soft' or empty \
- for hardware floating point instructions."
- 
-+# WARNING:  Because the flags on these have semantic implecations,
-+# they must not actually be defined.
-+#TUNEVALID[doc] = "Descriptions of valid tuning features, stored as flags."
-+#TUNECONFLICTS[doc] = "List of conflicting features for a given feature."
-+TUNEABI[doc] = "A base ABI used by a given tuning, used with prebuilt binaries."
-+
- ASSUME_PROVIDED[doc] = "List of packages (recipes actually) which are assumed to be implicitly available.\
-  These packages won't be built by bitbake."
- ASSUME_SHLIBS[doc] = "List of shlib:package[_version] mappings. Useful for lib packages in ASSUME_PROVIDED,\
-diff --git a/meta/conf/machine/include/README b/meta/conf/machine/include/README
-index 6a3a63d..e4b59c9 100644
---- a/meta/conf/machine/include/README
-+++ b/meta/conf/machine/include/README
-@@ -24,6 +24,10 @@ TUNEVALID[feature] - The <feature> is defined with a human readable
- explanation for what it does.  All architectural, cpu, abi, etc tuning 
- features must be defined using TUNEVALID.
- 
-+TUNECONFLICTS[feature] - A list of features which conflict with <feature>.
-+New sanity checks will try to reject combinations in which a single
-+tuning ends up with features which conflict with each other.
-+
- TUNE_FEATURES - This is automatically defined as TUNE_FEATURES_tune-<tune>.
- See TUNE_FEATURES_tune-<tune> for more information.
- 
-diff --git a/meta/conf/machine/include/arm/arch-armv5-dsp.inc b/meta/conf/machine/include/arm/arch-armv5-dsp.inc
-index 9f03a0f..0f64562 100644
---- a/meta/conf/machine/include/arm/arch-armv5-dsp.inc
-+++ b/meta/conf/machine/include/arm/arch-armv5-dsp.inc
-@@ -1,4 +1,5 @@
- ARMPKGSFX_DSP = "${@bb.utils.contains("TUNE_FEATURES", [ "armv5", "dsp" ], "e", "", d)}"
-+TUNEVALID[dsp] = "ARM DSP functionality"
- 
- require conf/machine/include/arm/arch-armv5.inc
- 
-diff --git a/meta/conf/machine/include/arm/arch-armv7a.inc b/meta/conf/machine/include/arm/arch-armv7a.inc
-index 629960d..c90aff5 100644
---- a/meta/conf/machine/include/arm/arch-armv7a.inc
-+++ b/meta/conf/machine/include/arm/arch-armv7a.inc
-@@ -2,7 +2,7 @@ DEFAULTTUNE ?= "armv7a"
- 
- ARMPKGARCH ?= "armv7a"
- 
--TUNEVALID[armv7-a] = "Enable instructions for ARMv7-a"
-+TUNEVALID[armv7a] = "Enable instructions for ARMv7-a"
- TUNE_CONFLICTS[armv7a] = "armv4 armv5 armv6 armv7"
- TUNE_CCARGS += "${@bb.utils.contains("TUNE_FEATURES", "armv7a", "-march=armv7-a -fno-tree-vectorize", "", d)}"
- MACHINEOVERRIDES .= "${@bb.utils.contains("TUNE_FEATURES", "armv7a", ":armv7a", "" ,d)}"
-diff --git a/meta/conf/machine/include/ia32/arch-ia32.inc b/meta/conf/machine/include/ia32/arch-ia32.inc
-index a5dae88..15f67d7 100644
---- a/meta/conf/machine/include/ia32/arch-ia32.inc
-+++ b/meta/conf/machine/include/ia32/arch-ia32.inc
-@@ -27,7 +27,7 @@ TUNE_ASARGS += "${@bb.utils.contains("TUNE_FEATURES", "mx32", "-x32", "", d)}"
- 
- # ELF64 ABI
- TUNEVALID[m64] = "IA32e (x86_64) ELF64 standard ABI"
--TUNECONFLICT[m64] = "m32 mx32"
-+TUNECONFLICTS[m64] = "m32 mx32"
- TUNE_ARCH .= "${@bb.utils.contains("TUNE_FEATURES", "m64", "${X86ARCH64}", "" ,d)}"
- TUNE_CCARGS += "${@bb.utils.contains("TUNE_FEATURES", "m64", "-m64", "", d)}"
- 
-diff --git a/meta/conf/machine/include/mips/arch-mips.inc b/meta/conf/machine/include/mips/arch-mips.inc
-index 8758ecd..9f12920 100644
---- a/meta/conf/machine/include/mips/arch-mips.inc
-+++ b/meta/conf/machine/include/mips/arch-mips.inc
-@@ -12,15 +12,15 @@ TUNE_CCARGS += "${@bb.utils.contains("TUNE_FEATURES", "bigendian", "-meb", "-mel
- 
- # ABI flags
- TUNEVALID[o32] = "MIPS o32 ABI"
--TUNECONFLICT[o32] = "n32 n64"
-+TUNECONFLICTS[o32] = "n32 n64"
- TUNE_CCARGS += "${@bb.utils.contains("TUNE_FEATURES", "o32", "-mabi=32", "", d)}"
- 
- TUNEVALID[n32] = "MIPS64 n32 ABI"
--TUNECONFLICT[n32] = "o32 n64"
-+TUNECONFLICTS[n32] = "o32 n64"
- TUNE_CCARGS += "${@bb.utils.contains("TUNE_FEATURES", "n32", "-mabi=n32", "", d)}"
- 
- TUNEVALID[n64] = "MIPS64 n64 ABI"
--TUNECONFLICT[n64] = "o32 n32"
-+TUNECONFLICTS[n64] = "o32 n32"
- TUNE_CCARGS += "${@bb.utils.contains("TUNE_FEATURES", "n64", "-mabi=64", "", d)}"
- 
- # Floating point
-diff --git a/meta/conf/machine/include/tune-c3.inc b/meta/conf/machine/include/tune-c3.inc
-index 06fac8f..79bb67b 100644
---- a/meta/conf/machine/include/tune-c3.inc
-+++ b/meta/conf/machine/include/tune-c3.inc
-@@ -1,7 +1,7 @@
- require conf/machine/include/ia32/arch-ia32.inc
- 
- TUNEVALID[c3] = "VIA Cyrix III or VIA C3 specific optimizations"
--TUNECONFLICT[c3] = "m64 mx32"
-+TUNECONFLICTS[c3] = "m64 mx32"
- TUNE_CCARGS += "${@bb.utils.contains("TUNE_FEATURES", "c3", "-march=c3 -mtune=c3", "", d)}"
- 
- AVAILTUNES += "c3"
--- 
-1.7.0.4
+>
+> Cheers,
+>
+> Richard
+>
+>
 
 
 
