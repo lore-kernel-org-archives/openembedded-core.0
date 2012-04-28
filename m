@@ -1,25 +1,25 @@
-Received: from mail1.windriver.com ([147.11.146.13])
+Received: from mail.windriver.com ([147.11.1.11])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <Peter.Seebach@windriver.com>) id 1SNv6P-000366-Dr
+	(envelope-from <Peter.Seebach@windriver.com>) id 1SNvGD-0003Hn-Qh
 	for openembedded-core@lists.openembedded.org;
-	Sat, 28 Apr 2012 02:01:29 +0200
+	Sat, 28 Apr 2012 02:11:38 +0200
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca [147.11.189.40])
-	by mail1.windriver.com (8.14.3/8.14.3) with ESMTP id q3RNpoHb001479
+	by mail.windriver.com (8.14.3/8.14.3) with ESMTP id q3S01wx5015501
 	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 27 Apr 2012 16:51:50 -0700 (PDT)
+	Fri, 27 Apr 2012 17:01:58 -0700 (PDT)
 Received: from localhost.localdomain (172.25.34.64) by ALA-HCA.corp.ad.wrs.com
 	(147.11.189.50) with Microsoft SMTP Server id 14.1.255.0;
-	Fri, 27 Apr 2012 16:51:50 -0700
+	Fri, 27 Apr 2012 17:01:58 -0700
 From: Peter Seebach <peter.seebach@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Fri, 27 Apr 2012 18:51:47 -0500
-Message-ID: <f705d78daf24e291d96d9ccd07ac7755dc3b362a.1335569869.git.peter.seebach@windriver.com>
+Date: Fri, 27 Apr 2012 19:01:57 -0500
+Message-ID: <f63a2f437adc71fbb9c622972a4137fc766bfed9.1335571265.git.peter.seebach@windriver.com>
 X-Mailer: git-send-email 1.7.0.4
-In-Reply-To: <cover.1335569869.git.peter.seebach@windriver.com>
-References: <cover.1335569869.git.peter.seebach@windriver.com>
+In-Reply-To: <cover.1335571265.git.peter.seebach@windriver.com>
+References: <cover.1335571265.git.peter.seebach@windriver.com>
 MIME-Version: 1.0
-Subject: [PATCH 2/2] sanity.bbclass: Implement initial toolchain sanity checks
+Subject: v2 [PATCH 2/2] sanity.bbclass: Implement initial toolchain sanity checks
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -34,8 +34,10 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 28 Apr 2012 00:01:29 -0000
+X-List-Received-Date: Sat, 28 Apr 2012 00:11:38 -0000
 Content-Type: text/plain
+
+(Fixed copy-and-paste error in documentation.conf.)
 
 This introduces a sanity check for the toolchain, which verifies
 each tuning (including any multilibs), producing meaningful diagnostics
@@ -151,7 +153,7 @@ index 687ddeb..ff11fec 100644
      # Check if DISPLAY is set if IMAGETEST is set
      if not data.getVar( 'DISPLAY', e.data, True ) and data.getVar( 'IMAGETEST', e.data, True ) == 'qemu':
 diff --git a/meta/conf/documentation.conf b/meta/conf/documentation.conf
-index f4d6241..f41c79f 100644
+index f4d6241..99c16fb 100644
 --- a/meta/conf/documentation.conf
 +++ b/meta/conf/documentation.conf
 @@ -34,6 +34,12 @@ TARGET_CC_ARCH[doc] = "FIXME"
@@ -161,7 +163,7 @@ index f4d6241..f41c79f 100644
 +# WARNING:  Because the flags on these have semantic implecations,
 +# they must not actually be defined.
 +#TUNEVALID[doc] = "Descriptions of valid tuning features, stored as flags."
-+#TUNEVALID[doc] = "List of conflicting features for a given feature."
++#TUNECONFLICTS[doc] = "List of conflicting features for a given feature."
 +TUNEABI[doc] = "A base ABI used by a given tuning, used with prebuilt binaries."
 +
  ASSUME_PROVIDED[doc] = "List of packages (recipes actually) which are assumed to be implicitly available.\
