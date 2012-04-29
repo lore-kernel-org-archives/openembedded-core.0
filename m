@@ -1,34 +1,33 @@
 Received: from mail-lb0-f175.google.com ([209.85.217.175])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <raj.khem@gmail.com>) id 1SOHRR-0006Kb-Ie
+	(envelope-from <raj.khem@gmail.com>) id 1SOHla-0006vD-D7
 	for openembedded-core@lists.openembedded.org;
-	Sun, 29 Apr 2012 01:52:41 +0200
-Received: by lbbgo4 with SMTP id go4so1234451lbb.6
+	Sun, 29 Apr 2012 02:13:30 +0200
+Received: by lbbgo4 with SMTP id go4so1238436lbb.6
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 28 Apr 2012 16:43:01 -0700 (PDT)
+	Sat, 28 Apr 2012 17:03:50 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
 	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
 	:content-type:content-transfer-encoding;
-	bh=dYM5HpeGp573QOItoKAUmQHj9uyxly1Tsdc/L59t39o=;
-	b=ILsElcJd67D9CCwHms22fUMq6m5Ckr6Ibgl4o5jaN/SHSFJ0t6A5ketdOwPmRJrSVQ
-	WR1E/Ne5c2S7/EkF7OTlc89PesszFnMGf5nldp3S8BcIHiWBYKNgdlRQAP+kAaAzO0ol
-	VkztS+X4v2EgbecgGCqLJath2YbqgANnOQTDUXbJDV8mUQQWI3nxbRs0PIJe9D56PUJQ
-	nhW0mbuLeMHjxxG6UE1lBARuZC3Z/7vz6EAXXW4MGsK2pVjkWXBZ/0yJKAMavuNn64wK
-	BEjFeWEYdCeffkteuBKXNTr0wmLZBbGiaXM53jA/rnw/WkLbwXd0hoIw3w2rMBua5mDa
-	G5CA==
-Received: by 10.152.111.198 with SMTP id ik6mr15326256lab.38.1335656581471;
-	Sat, 28 Apr 2012 16:43:01 -0700 (PDT)
+	bh=GOKe5loNO44taj/LcFLGy+EcBtbRNM/ikZ5/2ruPpX8=;
+	b=H0NWDgCNGVPH3JxreX0YSuwUJA36c6P4n6MIox8zX5kJy9uxZ7v7rWRYnVI0ozgRPR
+	N9q7ehIhuUrDCUW476D43ME+MtbU7+XuYY4sBf4IZzq3NEvxYWt+fCou8qyJIkm+aDae
+	Ac1JyY2v4aEMCbJtd6VEEQmWhiPj/vtg1Ymm9mwTUiDLcj0hd1ba4kHBMAfubMa9rZ03
+	AUiArfRmiJuX8fX6Z8lBkCrS9/eOIUOVDQ7C1k331hLWKe/43NKpcDhz/rB5lCa9pR4v
+	F69mTpmSucrsTmHs2WTVTL42BTM4U32UG0xAkOEcZ8hNpCnN8sDCcc7rY6dCd8tFgF9t
+	p2MQ==
+Received: by 10.152.111.198 with SMTP id ik6mr15359949lab.38.1335657830390;
+	Sat, 28 Apr 2012 17:03:50 -0700 (PDT)
 MIME-Version: 1.0
-Received: by 10.152.129.134 with HTTP; Sat, 28 Apr 2012 16:42:31 -0700 (PDT)
-In-Reply-To: <f63a2f437adc71fbb9c622972a4137fc766bfed9.1335571265.git.peter.seebach@windriver.com>
-References: <cover.1335571265.git.peter.seebach@windriver.com>
-	<f63a2f437adc71fbb9c622972a4137fc766bfed9.1335571265.git.peter.seebach@windriver.com>
+Received: by 10.152.129.134 with HTTP; Sat, 28 Apr 2012 17:03:20 -0700 (PDT)
+In-Reply-To: <1335539400.20130.108.camel@ted>
+References: <1335539400.20130.108.camel@ted>
 From: Khem Raj <raj.khem@gmail.com>
-Date: Sat, 28 Apr 2012 16:42:31 -0700
-Message-ID: <CAMKF1srEuuB2kfJsQWET1OZ1d32ZgLKqGMqoAAP+u+gaYJRA5g@mail.gmail.com>
+Date: Sat, 28 Apr 2012 17:03:20 -0700
+Message-ID: <CAMKF1srz89fv_D9vcjR23ThuOPPOCmOd_kmOH-tN3Zffu9nkeA@mail.gmail.com>
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Subject: Re: v2 [PATCH 2/2] sanity.bbclass: Implement initial toolchain sanity checks
+Subject: Re: [PATCH] package_rpm: Only rebuild the indexes if the packages have changed
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -43,38 +42,23 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 28 Apr 2012 23:52:41 -0000
+X-List-Received-Date: Sun, 29 Apr 2012 00:13:30 -0000
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
 
-On Fri, Apr 27, 2012 at 5:01 PM, Peter Seebach
-<peter.seebach@windriver.com> wrote:
-> + =C2=A0 =C2=A0valid_tunes =3D data.getVarFlags('TUNEVALID') or ""
-> + =C2=A0 =C2=A0conflicts =3D data.getVarFlags('TUNECONFLICTS') or ""
-> + =C2=A0 =C2=A0split_conflicts =3D {}
-> + =C2=A0 =C2=A0for feature in features:
-> + =C2=A0 =C2=A0 =C2=A0 =C2=A0if feature in conflicts:
-> + =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0if feature not in split_confli=
-cts:
-> + =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0split_conflicts[=
-feature] =3D conflicts[feature].split()
-> + =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0for other in features:
-> + =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0if other in spli=
-t_conflicts[feature]:
-> + =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0tu=
-ne_errors.append("Feature '%s' conflicts with '%s'." %
-> + =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0( feature, other ))
-> + =C2=A0 =C2=A0 =C2=A0 =C2=A0if feature in valid_tunes:
-> + =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0bb.note(" =C2=A0%s: %s" % (fea=
-ture, valid_tunes[feature]))
-> + =C2=A0 =C2=A0 =C2=A0 =C2=A0else:
-> + =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0tune_errors.append("Feature '%=
-s' is not defined." % feature)
+> + =C2=A0 =C2=A0if os.path.exists(path + "/solvedb.checksum") and open(pat=
+h + "/solvedb.checksum", "r").read() =3D=3D checksum:
+> + =C2=A0 =C2=A0 =C2=A0 =C2=A0open(path + "/solvedb.done", "w")
+> + =C2=A0 =C2=A0 =C2=A0 =C2=A0continue
+> +
+> + =C2=A0 =C2=A0if os.path.exists(path + "/solvedb"):
+> + =C2=A0 =C2=A0 =C2=A0 =C2=A0os.system("rm -rf %s" % (path + "/solvedb"))
 
+to be pythonic may be use shutils.rmtree() here
 
-can this piece be simplified. ? may be using sets or some other python cont=
-ructs
-I think its quite difficult to comprehend for me whats going on here
+> + =C2=A0 =C2=A0os.mkdir(path + "/solvedb")
+> + =C2=A0 =C2=A0m =3D open(path + "/solvedb/manifest", "w")
+> + =C2=A0 =C2=A0m.write("# Dynamically generated solve manifest\n")
+> + =C2=A0 =C2=A0for f in manifest:
 
 
