@@ -1,33 +1,38 @@
 Received: from mail-pz0-f50.google.com ([209.85.210.50])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <raj.khem@gmail.com>) id 1SOuq6-0002aW-8M
+	(envelope-from <raj.khem@gmail.com>) id 1SOuqJ-0002aW-Be
 	for openembedded-core@lists.openembedded.org;
-	Mon, 30 Apr 2012 19:56:46 +0200
-Received: by dakh32 with SMTP id h32so4082870dak.9
+	Mon, 30 Apr 2012 19:56:59 +0200
+Received: by mail-pz0-f50.google.com with SMTP id h32so4082870dak.9
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 30 Apr 2012 10:47:03 -0700 (PDT)
+	Mon, 30 Apr 2012 10:47:19 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=from:to:cc:subject:date:message-id:x-mailer;
-	bh=JBYSGw+Gpr6UOS6US8Fvob1gBL4+0BhHRhQf3pyYC6s=;
-	b=N42uEJJ/iySTkpkw1pY+ZwLO4/ZJBUtYal/ciVaDdMo99pbat9Rw1pAVYTrb2ZcU6i
-	rKeAWEjzZOKTqHqGR3i1xhHUHwtIEBWk1GnlSGvjoIJ+TdbRs5ZnP54qt6aRQBQHSZ6Y
-	TenGK8ZkE3qbcdrZWO4uXOg0mIKmlSXB4wj//JcPk+/2VBxAQUfDGe1PUPxcDtTcJhzo
-	FfaYi2enTc4EEFEkCTv+Bb7h9Cem8Je5t8vCol9LacS7ac5+nZdIVgQ55KOZmF7uB9Ia
-	2E/dbCrRw1m6pS1K32sOre9y49jnXxxofKL5DMDTqWH1fgykz4syjGGYoevMxlKjDI03
-	dJFQ==
-Received: by 10.68.216.98 with SMTP id op2mr50158833pbc.93.1335808023011;
-	Mon, 30 Apr 2012 10:47:03 -0700 (PDT)
+	h=from:to:subject:date:message-id:x-mailer:in-reply-to:references
+	:in-reply-to:references;
+	bh=Tpxhs4rsBz0YFzzZOi0pqyyo7Fsag/9pDuAoY58JzuY=;
+	b=AEy7dc3nZBRsvA+AWcoCzAIEnRNj9mdc3Wnw5whTmHMIf3Tk19o/vMsLAT9eeqO+be
+	JpkVfjLtV5eD3W3x8QqZDysBSDTEqhleH9ZgORBe1q5LVCwvUcri8Gc2CEbe7jN+oe26
+	oXR/DH3YQy271uqYHGWhh8sug519lfQ6TnDXBdC1rHSqGCIhrIvqhNDOzUEzaDI4KCIh
+	6i4syq+q906wEPNsgSi80OXyImpCvtKlU5ID23AjrsF6SJCR4BNSQt3NXTz011ozrxZq
+	iPYSalwZIL2VxyyRZIznnFRJrKh2AMKPINnXn80ebjhaPMaBSBOxTZo88fXJlnLbUQri
+	HKrA==
+Received: by 10.68.221.35 with SMTP id qb3mr18997147pbc.136.1335808039073;
+	Mon, 30 Apr 2012 10:47:19 -0700 (PDT)
 Received: from localhost.localdomain (oldbuilder.nslu2-linux.org.
 	[140.211.169.168])
-	by mx.google.com with ESMTPS id pj1sm16636150pbc.44.2012.04.30.10.47.00
+	by mx.google.com with ESMTPS id sx8sm8239860pbc.53.2012.04.30.10.47.17
 	(version=TLSv1/SSLv3 cipher=OTHER);
-	Mon, 30 Apr 2012 10:47:01 -0700 (PDT)
+	Mon, 30 Apr 2012 10:47:18 -0700 (PDT)
 From: Khem Raj <raj.khem@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Mon, 30 Apr 2012 10:46:07 -0700
-Message-Id: <cover.1335807802.git.raj.khem@gmail.com>
+Date: Mon, 30 Apr 2012 10:46:17 -0700
+Message-Id: <8942cc4a6f441ba2c9df183280c4af199fe9122b.1335807802.git.raj.khem@gmail.com>
 X-Mailer: git-send-email 1.7.5.4
-Subject: [PATCH 00/10] uclibc updates
+In-Reply-To: <392442de49633f6d0f3146fb5a86ad25e6c91015.1335807802.git.raj.khem@gmail.com>
+References: <392442de49633f6d0f3146fb5a86ad25e6c91015.1335807802.git.raj.khem@gmail.com>
+In-Reply-To: <cover.1335807802.git.raj.khem@gmail.com>
+References: <cover.1335807802.git.raj.khem@gmail.com>
+Subject: [PATCH 02/10] uclibc-0.9.33: Update to tip of 0.9.33 branch
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -42,52 +47,28 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 30 Apr 2012 17:56:46 -0000
+X-List-Received-Date: Mon, 30 Apr 2012 17:56:59 -0000
 
-This patchset updates uclibc git and 0.9.33 recipes to latest git commits
-Some recipes needed fixing for new posix_spawn feature in uclibc_git
-fixed some recipes to let them build on SH4 architecture
+Signed-off-by: Khem Raj <raj.khem@gmail.com>
+---
+ meta/recipes-core/uclibc/uclibc_0.9.33.bb |    4 ++--
+ 1 files changed, 2 insertions(+), 2 deletions(-)
 
-The following changes since commit b8dc9182ed8959ce5a6aa285c3c7f78df2432ac3:
-
-  qt-4.8.1: Fix compile failures on qemux86 (2012-04-30 10:42:07 +0100)
-
-are available in the git repository at:
-  git://git.openembedded.org/openembedded-core-contrib kraj/uclibc-update
-  http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=kraj/uclibc-update
-
-Khem Raj (10):
-  uclibc-git: Update to latest git tip
-  uclibc-0.9.33: Update to tip of 0.9.33 branch
-  glib-2.0: Dont disable iconv for uclibc
-  gettext,m4: Add -lrt to LDFLAGS for uclibc
-  musicbrainz: Specify libpthread on cmdline for uclibc
-  gdb: Dont need lttng-ust for SH4
-  gcc-cross.inc: Fix cross testing script
-  pcmanfm: Add sh3/sh4 to supported hosts
-  gdb: Add support for building gdb target for SH4
-  busybox: Pass HOST_CC_ARCH through CONFIG_EXTRA_CFLAGS
-
- meta/recipes-core/busybox/busybox.inc              |    2 +-
- meta/recipes-core/busybox/busybox_1.19.4.bb        |    2 +-
- meta/recipes-core/gettext/gettext_0.18.1.1.bb      |    6 +-
- meta/recipes-core/glib-2.0/glib-2.0/no-iconv.patch |  106 --
- meta/recipes-core/glib-2.0/glib-2.0_2.30.3.bb      |    5 +-
- meta/recipes-core/uclibc/uclibc_0.9.33.bb          |    4 +-
- meta/recipes-core/uclibc/uclibc_git.bb             |    4 +-
- meta/recipes-devtools/gcc/gcc-cross.inc            |    5 +-
- meta/recipes-devtools/gdb/gdb-common.inc           |    3 +-
- meta/recipes-devtools/gdb/gdb.inc                  |    1 +
- .../gdb/gdb/renesas-sh-native-support.patch        | 1389 ++++++++++++++++++++
- meta/recipes-devtools/m4/m4-1.4.16.inc             |    2 +-
- meta/recipes-devtools/m4/m4-1.4.9.inc              |    2 +-
- meta/recipes-devtools/m4/m4.inc                    |    2 +-
- .../musicbrainz/libmusicbrainz_3.0.3.bb            |    4 +-
- meta/recipes-sato/pcmanfm/pcmanfm_0.9.10.bb        |    2 +-
- 16 files changed, 1412 insertions(+), 127 deletions(-)
- delete mode 100644 meta/recipes-core/glib-2.0/glib-2.0/no-iconv.patch
- create mode 100644 meta/recipes-devtools/gdb/gdb/renesas-sh-native-support.patch
-
+diff --git a/meta/recipes-core/uclibc/uclibc_0.9.33.bb b/meta/recipes-core/uclibc/uclibc_0.9.33.bb
+index 461f5bd..43c8f74 100644
+--- a/meta/recipes-core/uclibc/uclibc_0.9.33.bb
++++ b/meta/recipes-core/uclibc/uclibc_0.9.33.bb
+@@ -1,8 +1,8 @@
+-SRCREV="5653245fa516c5823226582d9a02b1b18d5e8925"
++SRCREV="f7c18471f1ff8f3e54e462df0e96e19739869c78"
+ 
+ require uclibc.inc
+ 
+-PR = "${INC_PR}.0"
++PR = "${INC_PR}.1"
+ PROVIDES += "virtual/${TARGET_PREFIX}libc-for-gcc"
+ 
+ SRC_URI = "git://uclibc.org/uClibc.git;branch=${PV};protocol=git \
 -- 
 1.7.5.4
 
