@@ -1,24 +1,24 @@
 Received: from mga09.intel.com ([134.134.136.24])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <sgw@linux.intel.com>) id 1SOz7N-00084I-2v
+	(envelope-from <sgw@linux.intel.com>) id 1SOz7N-00084L-Cg
 	for openembedded-core@lists.openembedded.org;
 	Tue, 01 May 2012 00:30:53 +0200
 Received: from orsmga002.jf.intel.com ([10.7.209.21])
 	by orsmga102.jf.intel.com with ESMTP; 30 Apr 2012 15:21:08 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.67,351,1309762800"; d="scan'208";a="138453907"
+X-IronPort-AV: E=Sophos;i="4.67,351,1309762800"; d="scan'208";a="138453908"
 Received: from unknown (HELO swold-mobl.bigsur.com) ([10.255.12.182])
-	by orsmga002.jf.intel.com with ESMTP; 30 Apr 2012 15:21:07 -0700
+	by orsmga002.jf.intel.com with ESMTP; 30 Apr 2012 15:21:08 -0700
 From: Saul Wold <sgw@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Mon, 30 Apr 2012 15:20:51 -0700
-Message-Id: <25385a4e5d8e75252cf14eed1f156832b7921911.1335824356.git.sgw@linux.intel.com>
+Date: Mon, 30 Apr 2012 15:20:52 -0700
+Message-Id: <4ca855ea591592de515d508c9fd2b0c6fb0752e9.1335824356.git.sgw@linux.intel.com>
 X-Mailer: git-send-email 1.7.7.6
 In-Reply-To: <cover.1335824356.git.sgw@linux.intel.com>
 References: <cover.1335824356.git.sgw@linux.intel.com>
 In-Reply-To: <cover.1335824356.git.sgw@linux.intel.com>
 References: <cover.1335824356.git.sgw@linux.intel.com>
-Subject: [CONSOLIDATED PULL 07/19] telepathy-mission-control: upgrade to version 5.12.0
+Subject: [CONSOLIDATED PULL 08/19] telepathy-glib: upgrade to version 0.18.1
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -33,40 +33,34 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 30 Apr 2012 22:30:53 -0000
+X-List-Received-Date: Mon, 30 Apr 2012 22:30:54 -0000
 
 From: Dongxiao Xu <dongxiao.xu@intel.com>
 
 Signed-off-by: Dongxiao Xu <dongxiao.xu@intel.com>
 ---
- ...11.0.bb => telepathy-mission-control_5.12.0.bb} |    6 +++---
- 1 files changed, 3 insertions(+), 3 deletions(-)
- rename meta/recipes-connectivity/telepathy/{telepathy-mission-control_5.11.0.bb => telepathy-mission-control_5.12.0.bb} (91%)
+ ...thy-glib_0.17.5.bb => telepathy-glib_0.18.1.bb} |    4 ++--
+ 1 files changed, 2 insertions(+), 2 deletions(-)
+ rename meta/recipes-connectivity/telepathy/{telepathy-glib_0.17.5.bb => telepathy-glib_0.18.1.bb} (82%)
 
-diff --git a/meta/recipes-connectivity/telepathy/telepathy-mission-control_5.11.0.bb b/meta/recipes-connectivity/telepathy/telepathy-mission-control_5.12.0.bb
-similarity index 91%
-rename from meta/recipes-connectivity/telepathy/telepathy-mission-control_5.11.0.bb
-rename to meta/recipes-connectivity/telepathy/telepathy-mission-control_5.12.0.bb
-index 3adde76..65b5d89 100644
---- a/meta/recipes-connectivity/telepathy/telepathy-mission-control_5.11.0.bb
-+++ b/meta/recipes-connectivity/telepathy/telepathy-mission-control_5.12.0.bb
-@@ -8,7 +8,7 @@ DEPENDS = "libtelepathy dbus-glib gconf"
+diff --git a/meta/recipes-connectivity/telepathy/telepathy-glib_0.17.5.bb b/meta/recipes-connectivity/telepathy/telepathy-glib_0.18.1.bb
+similarity index 82%
+rename from meta/recipes-connectivity/telepathy/telepathy-glib_0.17.5.bb
+rename to meta/recipes-connectivity/telepathy/telepathy-glib_0.18.1.bb
+index 10dcd8b..81da5f8 100644
+--- a/meta/recipes-connectivity/telepathy/telepathy-glib_0.17.5.bb
++++ b/meta/recipes-connectivity/telepathy/telepathy-glib_0.18.1.bb
+@@ -7,8 +7,8 @@ PR = "r0"
  
- SRC_URI = "http://telepathy.freedesktop.org/releases/telepathy-mission-control/telepathy-mission-control-${PV}.tar.gz"
+ SRC_URI = "http://telepathy.freedesktop.org/releases/telepathy-glib/${BPN}-${PV}.tar.gz"
  
--PR = "r1"
-+PR = "r0"
+-SRC_URI[md5sum] = "d436c47689f2709540d849cf5af5ed03"
+-SRC_URI[sha256sum] = "011ad936f1d592dbc685073244750303fe2201246b16f9a7fa495cf9f8a3fe8d"
++SRC_URI[md5sum] = "461732739e3fbf8467991bbe661fb29a"
++SRC_URI[sha256sum] = "3738256689e34c22ddf9c4eb33f44ce7505c18fb1a14c53b8e56dd9c262f4c6d"
  
- inherit autotools pkgconfig
+ LIC_FILES_CHKSUM = "file://COPYING;md5=e413d83db6ee8f2c8e6055719096a48e"
  
-@@ -40,5 +40,5 @@ FILES_libmissioncontrol-dbg = "${libdir}/.debug/libmissioncontrol.so.*"
- FILES_libmissioncontrol-config-dbg = "${libdir}/.debug/libmissioncontrol-config.so.*"
- FILES_libmissioncontrol-server-dbg = "${libdir}/.debug/libmissioncontrol-server.so.*"
- 
--SRC_URI[md5sum] = "f7503d52cb432e03ba7b4ad5bb6165c6"
--SRC_URI[sha256sum] = "f5debdaf17c9dcb7299c95e8f9df427fb2e8fbb112f6c951b9a0e6ad330ddfa5"
-+SRC_URI[md5sum] = "f39dcfef785a37dc21efa9af06be2e61"
-+SRC_URI[sha256sum] = "660aeb65543e1b029dfde6a895934cb20b766644bae2a68c0030052aa6645e77"
 -- 
 1.7.7.6
 
