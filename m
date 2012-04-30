@@ -1,37 +1,37 @@
-Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
-	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <richard.purdie@linuxfoundation.org>)
-	id 1SOs8a-000051-4r for openembedded-core@lists.openembedded.org;
-	Mon, 30 Apr 2012 17:03:40 +0200
-Received: from localhost (localhost [127.0.0.1])
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q3UErwqq004511
+Received: from mail-lpp01m010-f47.google.com ([209.85.215.47])
+	by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <raj.khem@gmail.com>) id 1SOsEF-0000Kq-TL
+	for openembedded-core@lists.openembedded.org;
+	Mon, 30 Apr 2012 17:09:31 +0200
+Received: by lagw12 with SMTP id w12so1868545lag.6
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 30 Apr 2012 15:53:58 +0100
-Received: from tim.rpsys.net ([127.0.0.1])
-	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
-	port 10024) with LMTP
-	id 02742-09 for <openembedded-core@lists.openembedded.org>;
-	Mon, 30 Apr 2012 15:53:54 +0100 (BST)
-Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q3UErq0K004505
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO)
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 30 Apr 2012 15:53:53 +0100
-Message-ID: <1335797635.7415.22.camel@ted>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Date: Mon, 30 Apr 2012 15:53:55 +0100
-In-Reply-To: <CAMKF1sriyONx1y3q7RMmi+oEztr_rx0VmLnLk3fLYE4NEq0vcg@mail.gmail.com>
+	Mon, 30 Apr 2012 07:59:49 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:content-type; bh=nleRlmbCseGE+pHVpRNYgskDjDzol8bjSW2+I02x1c0=;
+	b=dl/ojv+i/jaJKMfqz4Dx70erjwEVmiWE2kZGdDyeRBjHCOh9q5sDBf4pIQABfCWrOS
+	euTCgEMjVBIsMYimqPvn/NUfu+uQ2PaRowtfIfeakEinLmHqVySEHp8vxYzkaNF5oTKn
+	fINmyzRdNNQaSaNUslboCiiiIXxskDwZR88iAFkMCE9os+NGBDYahlHAuN9raNGYoskT
+	5WNoEde4RiLF9T+wgwfPpM9lsNYbB7KNKJoT13GFHzvudEnPDFQhvO7QvORnTWxRswTj
+	T9bwKRIA4Db9xsVnnTo+X9oXwrTaYEDL22TcUo5YtBdnSegcPdnGb40tCajoXr8fuA2X
+	Gqww==
+Received: by 10.152.112.97 with SMTP id ip1mr20100259lab.31.1335797989723;
+	Mon, 30 Apr 2012 07:59:49 -0700 (PDT)
+MIME-Version: 1.0
+Received: by 10.152.129.134 with HTTP; Mon, 30 Apr 2012 07:59:18 -0700 (PDT)
+In-Reply-To: <1335797635.7415.22.camel@ted>
 References: <CAMKF1sq94g5aaYPQZ=UZtBT6iBxCMJ7ZrKer=gaCVoEjV=eWKA@mail.gmail.com>
 	<1335451639.20130.18.camel@ted> <1335468645.20130.27.camel@ted>
 	<1335474399.20130.35.camel@ted>
 	<CAMKF1so6gABH-H9uZ2R4ppr6F-zT9GtPg7j5fThzQQjWXKkG4g@mail.gmail.com>
 	<1335796919.7415.20.camel@ted>
 	<CAMKF1sriyONx1y3q7RMmi+oEztr_rx0VmLnLk3fLYE4NEq0vcg@mail.gmail.com>
-X-Mailer: Evolution 3.2.2- 
-Mime-Version: 1.0
-X-Virus-Scanned: amavisd-new at rpsys.net
+	<1335797635.7415.22.camel@ted>
+From: Khem Raj <raj.khem@gmail.com>
+Date: Mon, 30 Apr 2012 07:59:18 -0700
+Message-ID: <CAMKF1sofwSqoCOeaLAb9fPZ7HMQH49OsCZ37wYLJkGz_doCkEw@mail.gmail.com>
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
 Subject: Re: gcc 4.7 + mips64 architecture support
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
@@ -47,34 +47,19 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 30 Apr 2012 15:03:40 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Mon, 30 Apr 2012 15:09:32 -0000
+Content-Type: text/plain; charset=UTF-8
 
-On Mon, 2012-04-30 at 07:47 -0700, Khem Raj wrote:
-> On Mon, Apr 30, 2012 at 7:41 AM, Richard Purdie
-> > FWIW, gcc 4.7 and eglibc 2.15 are now the default in master.
-> 
-> yay
-> 
->  Test builds
-> > were looking good until the autobuilder ran out of disk space on the
-> > shared drive for sstate :(.
-> 
-> hopefully nothing new shows up
-> 
-> >
-> > Only known unresolved failure so far is "DISTRO=poky-tiny bitbake
-> > eglibc" which fails due to its cut down eglibc options.
-> >
-> 
-> hmmm. Whats the error ?
+On Mon, Apr 30, 2012 at 7:53 AM, Richard Purdie
+<richard.purdie@linuxfoundation.org> wrote:
+>> hmmm. Whats the error ?
+>
+> http://autobuilder.yoctoproject.org:8010/builders/nightly-tiny/builds/42/steps/shell_24/logs/stdio
 
-http://autobuilder.yoctoproject.org:8010/builders/nightly-tiny/builds/42/steps/shell_24/logs/stdio
+that should not happen. Its seems to be issue in eglibc option group
+handling somehow its asking for regexp which should be isolated in
+option groups
 
-Cheers,
-
-Richard
-
+Did this work fine with 4.6 ?
 
 
