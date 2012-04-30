@@ -1,24 +1,24 @@
 Received: from mga09.intel.com ([134.134.136.24])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <sgw@linux.intel.com>) id 1SOz7K-00084I-UG
+	(envelope-from <sgw@linux.intel.com>) id 1SOz7L-00084I-Kz
 	for openembedded-core@lists.openembedded.org;
 	Tue, 01 May 2012 00:30:51 +0200
 Received: from orsmga002.jf.intel.com ([10.7.209.21])
 	by orsmga102.jf.intel.com with ESMTP; 30 Apr 2012 15:21:06 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.67,351,1309762800"; d="scan'208";a="138453893"
+X-IronPort-AV: E=Sophos;i="4.67,351,1309762800"; d="scan'208";a="138453902"
 Received: from unknown (HELO swold-mobl.bigsur.com) ([10.255.12.182])
-	by orsmga002.jf.intel.com with ESMTP; 30 Apr 2012 15:21:05 -0700
+	by orsmga002.jf.intel.com with ESMTP; 30 Apr 2012 15:21:06 -0700
 From: Saul Wold <sgw@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Mon, 30 Apr 2012 15:20:45 -0700
-Message-Id: <f46d0631f480795aa2867932659e0056676015e3.1335824356.git.sgw@linux.intel.com>
+Date: Mon, 30 Apr 2012 15:20:47 -0700
+Message-Id: <124853480c7ef7af0187c285a21fece70a6c0a80.1335824356.git.sgw@linux.intel.com>
 X-Mailer: git-send-email 1.7.7.6
 In-Reply-To: <cover.1335824356.git.sgw@linux.intel.com>
 References: <cover.1335824356.git.sgw@linux.intel.com>
 In-Reply-To: <cover.1335824356.git.sgw@linux.intel.com>
 References: <cover.1335824356.git.sgw@linux.intel.com>
-Subject: [CONSOLIDATED PULL 01/19] xorg: add more native BBCLASSEXTENDs from meta-oe
+Subject: [CONSOLIDATED PULL 03/19] opkg-collateral: import fixes from OE-Classic
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -35,137 +35,74 @@ List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedde
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Mon, 30 Apr 2012 22:30:51 -0000
 
-From: Martin Jansa <Martin.Jansa@gmail.com>
+From: Andreas Oberritter <obi@opendreambox.org>
 
-* We have now .bbappends in meta-oe, but adding native BBCLASSEXTEND
-  doesn't add any maintenance cost to oe-core and makes recipe upgrades
-  easier (no need to wait for .bbappend renames ready for meta-oe).
+* Set lists_dir to /var/lib/opkg
 
-Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
+  commit 16808bc4817492beba512f4e73bce8c232d1eafa
+  Author: Marcin Juszkiewicz <hrw@openembedded.org>
+  Date:   Mon Mar 17 23:40:48 2008 +0000
+
+* Update new options sample and move the opkg.conf to correct place
+
+  commit cc9825d97962287df75e164aec456901292e1b7f
+  Author: Tick Chen <ticktock35@gmail.com>
+  Date:   Mon Dec 29 19:41:47 2008 +0800
+
+Signed-off-by: Andreas Oberritter <obi@opendreambox.org>
 ---
- .../xorg-lib/libxcomposite_0.4.3.bb                |    1 +
- .../recipes-graphics/xorg-lib/libxcursor_1.1.13.bb |    1 +
- meta/recipes-graphics/xorg-lib/libxdamage_1.1.3.bb |    1 +
- meta/recipes-graphics/xorg-lib/libxfixes_5.0.bb    |    2 +-
- meta/recipes-graphics/xorg-lib/libxrandr_1.3.2.bb  |    2 +-
- .../xorg-proto/compositeproto_0.4.2.bb             |    1 +
- .../xorg-proto/damageproto_1.2.1.bb                |    1 +
- meta/recipes-graphics/xorg-proto/fixesproto_5.0.bb |    2 +-
- .../xorg-proto/randrproto_1.3.2.bb                 |    2 +-
- 9 files changed, 9 insertions(+), 4 deletions(-)
+ meta/recipes-devtools/opkg/opkg-collateral.bb      |    8 +++++---
+ meta/recipes-devtools/opkg/opkg-collateral/lists   |    2 +-
+ .../opkg/opkg-collateral/opkg.conf.comments        |    3 +++
+ 3 files changed, 9 insertions(+), 4 deletions(-)
 
-diff --git a/meta/recipes-graphics/xorg-lib/libxcomposite_0.4.3.bb b/meta/recipes-graphics/xorg-lib/libxcomposite_0.4.3.bb
-index deaa366..7377711 100644
---- a/meta/recipes-graphics/xorg-lib/libxcomposite_0.4.3.bb
-+++ b/meta/recipes-graphics/xorg-lib/libxcomposite_0.4.3.bb
-@@ -16,6 +16,7 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=3f2907aad541f6f226fbc58cc1b3cdf1"
+diff --git a/meta/recipes-devtools/opkg/opkg-collateral.bb b/meta/recipes-devtools/opkg/opkg-collateral.bb
+index e3e0b5f..251c535 100644
+--- a/meta/recipes-devtools/opkg/opkg-collateral.bb
++++ b/meta/recipes-devtools/opkg/opkg-collateral.bb
+@@ -2,6 +2,8 @@ DESCRIPTION = "opkg configuration files"
+ SECTION = "base"
+ LICENSE = "MIT"
+ LIC_FILES_CHKSUM = "file://${COREBASE}/meta/COPYING.MIT;md5=3da9cfbcb788c80a0384361b4de20420"
++PR = "r1"
++
+ SRC_URI = "file://opkg.conf.comments \
+ 	   file://lists \
+ 	   file://dest \
+@@ -15,8 +17,8 @@ do_compile () {
+ }
  
- DEPENDS += " compositeproto virtual/libx11 libxfixes libxext"
- PROVIDES = "xcomposite"
-+BBCLASSEXTEND = "native"
+ do_install () {
+-	install -d ${D}${sysconfdir}/
+-	install -m 0644 ${WORKDIR}/opkg.conf ${D}${sysconfdir}/opkg.conf
++	install -d ${D}${sysconfdir}/opkg
++	install -m 0644 ${WORKDIR}/opkg.conf ${D}${sysconfdir}/opkg/opkg.conf
+ }
  
- PE = "1"
- PR = "r0"
-diff --git a/meta/recipes-graphics/xorg-lib/libxcursor_1.1.13.bb b/meta/recipes-graphics/xorg-lib/libxcursor_1.1.13.bb
-index c0f1a0f..4388596 100644
---- a/meta/recipes-graphics/xorg-lib/libxcursor_1.1.13.bb
-+++ b/meta/recipes-graphics/xorg-lib/libxcursor_1.1.13.bb
-@@ -12,6 +12,7 @@ LICENSE = "MIT-style"
- LIC_FILES_CHKSUM = "file://COPYING;md5=8902e6643f7bcd7793b23dcd5d8031a4"
+-CONFFILES_${PN} = "${sysconfdir}/opkg.conf"
++CONFFILES_${PN} = "${sysconfdir}/opkg/opkg.conf"
+diff --git a/meta/recipes-devtools/opkg/opkg-collateral/lists b/meta/recipes-devtools/opkg/opkg-collateral/lists
+index 3c524f8..f8aecd8 100644
+--- a/meta/recipes-devtools/opkg/opkg-collateral/lists
++++ b/meta/recipes-devtools/opkg/opkg-collateral/lists
+@@ -1,2 +1,2 @@
+-lists_dir ext /var/lib/ipkg
++lists_dir ext /var/lib/opkg
  
- DEPENDS += "libxrender libxfixes"
-+BBCLASSEXTEND = "native"
+diff --git a/meta/recipes-devtools/opkg/opkg-collateral/opkg.conf.comments b/meta/recipes-devtools/opkg/opkg-collateral/opkg.conf.comments
+index 51623f4..e1fdada 100644
+--- a/meta/recipes-devtools/opkg/opkg-collateral/opkg.conf.comments
++++ b/meta/recipes-devtools/opkg/opkg-collateral/opkg.conf.comments
+@@ -18,6 +18,9 @@
+ #option proxy_username <username>
+ #option proxy_password <password>
  
- PR = "r0"
- PE = "1"
-diff --git a/meta/recipes-graphics/xorg-lib/libxdamage_1.1.3.bb b/meta/recipes-graphics/xorg-lib/libxdamage_1.1.3.bb
-index f2b4eac..dfc2425 100644
---- a/meta/recipes-graphics/xorg-lib/libxdamage_1.1.3.bb
-+++ b/meta/recipes-graphics/xorg-lib/libxdamage_1.1.3.bb
-@@ -18,6 +18,7 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=9fe101f30dd24134cf43146863241868"
++# Enable GPGME signature
++# option check_signature 1
++
+ # Offline mode (for use in constructing flash images offline)
+ #option offline_root target
  
- DEPENDS += "virtual/libx11 damageproto libxfixes"
- PROVIDES = "xdamage"
-+BBCLASSEXTEND = "native"
- 
- PR = "r1"
- PE = "1"
-diff --git a/meta/recipes-graphics/xorg-lib/libxfixes_5.0.bb b/meta/recipes-graphics/xorg-lib/libxfixes_5.0.bb
-index 0883cd1..1bdc3c0 100644
---- a/meta/recipes-graphics/xorg-lib/libxfixes_5.0.bb
-+++ b/meta/recipes-graphics/xorg-lib/libxfixes_5.0.bb
-@@ -17,7 +17,7 @@ PE = "1"
- 
- XORG_PN = "libXfixes"
- 
--BBCLASSEXTEND = "nativesdk"
-+BBCLASSEXTEND = "native nativesdk"
- 
- SRC_URI[md5sum] = "678071bd7f9f7467e2fc712d81022318"
- SRC_URI[sha256sum] = "537a2446129242737a35db40081be4bbcc126e56c03bf5f2b142b10a79cda2e3"
-diff --git a/meta/recipes-graphics/xorg-lib/libxrandr_1.3.2.bb b/meta/recipes-graphics/xorg-lib/libxrandr_1.3.2.bb
-index 7bc805f..6fc3cf5 100644
---- a/meta/recipes-graphics/xorg-lib/libxrandr_1.3.2.bb
-+++ b/meta/recipes-graphics/xorg-lib/libxrandr_1.3.2.bb
-@@ -18,7 +18,7 @@ PE = "1"
- 
- XORG_PN = "libXrandr"
- 
--BBCLASSEXTEND = "nativesdk"
-+BBCLASSEXTEND = "native nativesdk"
- 
- SRC_URI[md5sum] = "92473da2fccf5fac665be4fa4f2037fa"
- SRC_URI[sha256sum] = "7eaca216ab5233d7396119eb87c1989d350a3efead104d54b55f22cdd1d99b81"
-diff --git a/meta/recipes-graphics/xorg-proto/compositeproto_0.4.2.bb b/meta/recipes-graphics/xorg-proto/compositeproto_0.4.2.bb
-index 5917f20..093ee99 100644
---- a/meta/recipes-graphics/xorg-proto/compositeproto_0.4.2.bb
-+++ b/meta/recipes-graphics/xorg-proto/compositeproto_0.4.2.bb
-@@ -11,6 +11,7 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=2c4bfe136f4a4418ea2f2a96b7c8f3c5 \
-                     file://composite.h;endline=43;md5=cbd44d4079053aa75930ed2f02b92926"
- 
- CONFLICTS = "compositeext"
-+BBCLASSEXTEND = "native"
- 
- PR = "r0"
- PE = "1"
-diff --git a/meta/recipes-graphics/xorg-proto/damageproto_1.2.1.bb b/meta/recipes-graphics/xorg-proto/damageproto_1.2.1.bb
-index 6bfa1b2..de2d69c 100644
---- a/meta/recipes-graphics/xorg-proto/damageproto_1.2.1.bb
-+++ b/meta/recipes-graphics/xorg-proto/damageproto_1.2.1.bb
-@@ -12,6 +12,7 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=d5f5a2de65c3a84cbde769f07a769608 \
-                     file://damagewire.h;endline=23;md5=4a4501a592dbc7de5ce89255e50d0296"
- 
- CONFLICTS = "damageext"
-+BBCLASSEXTEND = "native"
- PR = "r0"
- PE = "1"
- 
-diff --git a/meta/recipes-graphics/xorg-proto/fixesproto_5.0.bb b/meta/recipes-graphics/xorg-proto/fixesproto_5.0.bb
-index d65922b..2c05cf7 100644
---- a/meta/recipes-graphics/xorg-proto/fixesproto_5.0.bb
-+++ b/meta/recipes-graphics/xorg-proto/fixesproto_5.0.bb
-@@ -16,7 +16,7 @@ CONFLICTS = "fixesext"
- PR = "r0"
- PE = "1"
- 
--BBCLASSEXTEND = "nativesdk"
-+BBCLASSEXTEND = "native nativesdk"
- 
- SRC_URI[md5sum] = "e7431ab84d37b2678af71e29355e101d"
- SRC_URI[sha256sum] = "ba2f3f31246bdd3f2a0acf8bd3b09ba99cab965c7fb2c2c92b7dc72870e424ce"
-diff --git a/meta/recipes-graphics/xorg-proto/randrproto_1.3.2.bb b/meta/recipes-graphics/xorg-proto/randrproto_1.3.2.bb
-index f0f81bc..e4fe37b 100644
---- a/meta/recipes-graphics/xorg-proto/randrproto_1.3.2.bb
-+++ b/meta/recipes-graphics/xorg-proto/randrproto_1.3.2.bb
-@@ -14,7 +14,7 @@ CONFLICTS = "randrext"
- PR = "r0"
- PE = "1"
- 
--BBCLASSEXTEND = "nativesdk"
-+BBCLASSEXTEND = "native nativesdk"
- 
- SRC_URI[md5sum] = "597491c0d8055e2a66f11350c4985775"
- SRC_URI[sha256sum] = "d90d00612cc49292bd8d9dc19efb1c9187385fbe87590d7279a02e5e1066dc71"
 -- 
 1.7.7.6
 
