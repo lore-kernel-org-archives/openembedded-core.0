@@ -1,40 +1,27 @@
-Received: from mail-lpp01m010-f47.google.com ([209.85.215.47])
+Received: from mail1.windriver.com ([147.11.146.13])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <raj.khem@gmail.com>) id 1SOtZl-0001Y4-8a
+	(envelope-from <Peter.Seebach@windriver.com>) id 1SOu6n-0002Cc-30
 	for openembedded-core@lists.openembedded.org;
-	Mon, 30 Apr 2012 18:35:49 +0200
-Received: by lagw12 with SMTP id w12so1937910lag.6
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 30 Apr 2012 09:26:07 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:content-type; bh=qGrhQbc09CTOUvbKMx+PKSHwRMWoA+G4j02Ey2kPJKU=;
-	b=RgLL2o6VBlJB8HNyYMUV8U9yyUS4SrQgTb4VBu50XKdJzGt5UGEdH479R8mizfjYpN
-	CCSvzrYcuz8C80SNPmqeVg6Z1VFxgrDYdsEwoCjPOowYIAHdf4gNt2y9fORI8UdDT7VS
-	GRHRtNjX3HIQQygCHROm5sEyfDnifccXibckPj9AHi/olEkImEid41z3qBkumvOmjma2
-	Apv9EEmDtsP1urjGEc9l02jWeRW3kSzajcGwmpIzfM2Cx6jpjEnOYx+XCHqKPYl9A0Gm
-	xpvOlj4XLIwKlbNzk6Y7akbyD7wIWz2BgUyRFzuyFgvtmvkLqjM9PK+tJVp6T9SeADyH
-	Ng/w==
-Received: by 10.152.133.144 with SMTP id pc16mr20657396lab.0.1335803167140;
-	Mon, 30 Apr 2012 09:26:07 -0700 (PDT)
-MIME-Version: 1.0
-Received: by 10.152.129.134 with HTTP; Mon, 30 Apr 2012 09:25:36 -0700 (PDT)
-In-Reply-To: <1335800393.7415.26.camel@ted>
-References: <CAMKF1sq94g5aaYPQZ=UZtBT6iBxCMJ7ZrKer=gaCVoEjV=eWKA@mail.gmail.com>
-	<1335451639.20130.18.camel@ted> <1335468645.20130.27.camel@ted>
-	<1335474399.20130.35.camel@ted>
-	<CAMKF1so6gABH-H9uZ2R4ppr6F-zT9GtPg7j5fThzQQjWXKkG4g@mail.gmail.com>
-	<1335796919.7415.20.camel@ted>
-	<CAMKF1sriyONx1y3q7RMmi+oEztr_rx0VmLnLk3fLYE4NEq0vcg@mail.gmail.com>
-	<1335797635.7415.22.camel@ted>
-	<CAMKF1sofwSqoCOeaLAb9fPZ7HMQH49OsCZ37wYLJkGz_doCkEw@mail.gmail.com>
-	<1335800393.7415.26.camel@ted>
-From: Khem Raj <raj.khem@gmail.com>
-Date: Mon, 30 Apr 2012 09:25:36 -0700
-Message-ID: <CAMKF1sryCSAUMCt-VNu++JTmqNaiehzDqiYSH2oayjOOz3LjHA@mail.gmail.com>
+	Mon, 30 Apr 2012 19:09:57 +0200
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca [147.11.189.40])
+	by mail1.windriver.com (8.14.3/8.14.3) with ESMTP id q3UH0C0N000708
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
+	Mon, 30 Apr 2012 10:00:12 -0700 (PDT)
+Received: from wrlaptop (172.25.40.226) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server id 14.1.255.0;
+	Mon, 30 Apr 2012 10:00:11 -0700
+Date: Mon, 30 Apr 2012 11:59:48 -0500
+From: Peter Seebach <peter.seebach@windriver.com>
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Subject: Re: gcc 4.7 + mips64 architecture support
+Message-ID: <20120430115948.5ac3771a@wrlaptop>
+In-Reply-To: <CAMKF1srEuuB2kfJsQWET1OZ1d32ZgLKqGMqoAAP+u+gaYJRA5g@mail.gmail.com>
+References: <cover.1335571265.git.peter.seebach@windriver.com>
+	<f63a2f437adc71fbb9c622972a4137fc766bfed9.1335571265.git.peter.seebach@windriver.com>
+	<CAMKF1srEuuB2kfJsQWET1OZ1d32ZgLKqGMqoAAP+u+gaYJRA5g@mail.gmail.com>
+X-Mailer: Claws Mail 3.7.8 (GTK+ 2.24.4; x86_64-pc-linux-gnu)
+MIME-Version: 1.0
+Subject: Re: v2 [PATCH 2/2] sanity.bbclass: Implement initial toolchain sanity checks
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -49,27 +36,83 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 30 Apr 2012 16:35:49 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Mon, 30 Apr 2012 17:09:57 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Mon, Apr 30, 2012 at 8:39 AM, Richard Purdie
-<richard.purdie@linuxfoundation.org> wrote:
-> On Mon, 2012-04-30 at 07:59 -0700, Khem Raj wrote:
->> On Mon, Apr 30, 2012 at 7:53 AM, Richard Purdie
->> <richard.purdie@linuxfoundation.org> wrote:
->> >> hmmm. Whats the error ?
->> >
->> > http://autobuilder.yoctoproject.org:8010/builders/nightly-tiny/builds/42/steps/shell_24/logs/stdio
->>
->> that should not happen. Its seems to be issue in eglibc option group
->> handling somehow its asking for regexp which should be isolated in
->> option groups
->>
->> Did this work fine with 4.6 ?
->
-> Yes, it worked fine with 4.7 too. Only when we changed eglibc 2.13 ->
-> 2.15 did it show up.
+On Sat, 28 Apr 2012 16:42:31 -0700
+Khem Raj <raj.khem@gmail.com> wrote:
 
-ah definitely a eglibc config issue here. I will take a look at it.
+> > + =C2=A0 =C2=A0valid_tunes =3D data.getVarFlags('TUNEVALID') or ""
+> > + =C2=A0 =C2=A0conflicts =3D data.getVarFlags('TUNECONFLICTS') or ""
+> > + =C2=A0 =C2=A0split_conflicts =3D {}
+> > + =C2=A0 =C2=A0for feature in features:
+> > + =C2=A0 =C2=A0 =C2=A0 =C2=A0if feature in conflicts:
+> > + =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0if feature not in split_conf=
+licts:
+> > + =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0split_conflict=
+s[feature] =3D
+> > conflicts[feature].split()
+> > + =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0for other in features:
+> > + =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0if other in sp=
+lit_conflicts[feature]:
+> > + =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
+tune_errors.append("Feature '%s' conflicts
+> > with '%s'." %
+> > + =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
+ =C2=A0 =C2=A0( feature, other ))
+> > + =C2=A0 =C2=A0 =C2=A0 =C2=A0if feature in valid_tunes:
+> > + =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0bb.note(" =C2=A0%s: %s" % (f=
+eature, valid_tunes[feature]))
+> > + =C2=A0 =C2=A0 =C2=A0 =C2=A0else:
+> > + =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0tune_errors.append("Feature =
+'%s' is not defined." %
+> > feature) =20
+
+Using sets seems a little like overkill, because I really do want to
+check specifically which features are in conflict.  That said:
+
+> > + =C2=A0 =C2=A0valid_tunes =3D data.getVarFlags('TUNEVALID') or ""
+> > + =C2=A0 =C2=A0conflicts =3D data.getVarFlags('TUNECONFLICTS') or ""
+> > + =C2=A0 =C2=A0split_conflicts =3D {}
+> > + =C2=A0 =C2=A0for feature in features:
+> > + =C2=A0 =C2=A0 =C2=A0 =C2=A0if feature in conflicts:
+> > + =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0for conflict in conflicts[fe=
+ature].split():
+> > + =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0if conflict in=
+ features:
+> > + =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
+tune_errors.append("Feature '%s' conflicts
+> > with '%s'." %
+> > + =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
+ =C2=A0 =C2=A0( feature, conflict ))
+> > + =C2=A0 =C2=A0 =C2=A0 =C2=A0if feature in valid_tunes:
+> > + =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0bb.note(" =C2=A0%s: %s" % (f=
+eature, valid_tunes[feature]))
+> > + =C2=A0 =C2=A0 =C2=A0 =C2=A0else:
+> > + =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0tune_errors.append("Feature =
+'%s' is not defined." %
+> > feature)
+
+I can drop the "optimization" of caching the split results, since I
+believe most features only have one conflict anyway, and Python may
+well be optimizing it for me.
+
+Basically, the first part is "for each feature, if it has any=20
+conflicts,check them against all the other features."
+
+My original thought had been to write this the way I did the whitelist,
+something like:
+
+if True in [x in features for x in conflicts[feature].split()]
+
+but this wouldn't let me diagnose which feature conflicted.  So when I
+started on this, I was thinking that I had to know which feature I'd
+found in the conflicts list, but of course, the entries in the
+conflicts list *are* the features.  So I could simplify it as above.
+
+-s
+--=20
+Listen, get this.  Nobody with a good compiler needs to be justified.
 
 
