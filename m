@@ -1,34 +1,28 @@
-Received: from mail1.windriver.com ([147.11.146.13])
+Received: from mga09.intel.com ([134.134.136.24])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <mark.hatle@windriver.com>) id 1SOsYN-0000YD-2S
+	(envelope-from <sgw@linux.intel.com>) id 1SOsZf-0000b0-43
 	for openembedded-core@lists.openembedded.org;
-	Mon, 30 Apr 2012 17:30:19 +0200
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca [147.11.189.40])
-	by mail1.windriver.com (8.14.3/8.14.3) with ESMTP id q3UFKZhA028712
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 30 Apr 2012 08:20:35 -0700 (PDT)
-Received: from Macintosh-5.local (172.25.36.235) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server id 14.1.255.0;
-	Mon, 30 Apr 2012 08:20:35 -0700
-Message-ID: <4F9EADC4.7030401@windriver.com>
-Date: Mon, 30 Apr 2012 10:20:36 -0500
-From: Mark Hatle <mark.hatle@windriver.com>
-Organization: Wind River Systems
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.6;
-	rv:12.0) Gecko/20120420 Thunderbird/12.0
+	Mon, 30 Apr 2012 17:31:39 +0200
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+	by orsmga102.jf.intel.com with ESMTP; 30 Apr 2012 08:21:53 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.67,351,1309762800"; d="scan'208";a="138305044"
+Received: from unknown (HELO [10.255.12.182]) ([10.255.12.182])
+	by orsmga002.jf.intel.com with ESMTP; 30 Apr 2012 08:21:52 -0700
+Message-ID: <4F9EAE10.6090901@linux.intel.com>
+Date: Mon, 30 Apr 2012 08:21:52 -0700
+From: Saul Wold <sgw@linux.intel.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:11.0) Gecko/20120329 Thunderbird/11.0.1
 MIME-Version: 1.0
-To: <openembedded-core@lists.openembedded.org>
-References: <CAMKF1sq94g5aaYPQZ=UZtBT6iBxCMJ7ZrKer=gaCVoEjV=eWKA@mail.gmail.com>
-	<1335451639.20130.18.camel@ted> <1335468645.20130.27.camel@ted>
-	<1335474399.20130.35.camel@ted>
-	<CAMKF1so6gABH-H9uZ2R4ppr6F-zT9GtPg7j5fThzQQjWXKkG4g@mail.gmail.com>
-	<1335796919.7415.20.camel@ted>
-	<CAMKF1sriyONx1y3q7RMmi+oEztr_rx0VmLnLk3fLYE4NEq0vcg@mail.gmail.com>
-	<1335797635.7415.22.camel@ted>
-	<CAMKF1sofwSqoCOeaLAb9fPZ7HMQH49OsCZ37wYLJkGz_doCkEw@mail.gmail.com>
-In-Reply-To: <CAMKF1sofwSqoCOeaLAb9fPZ7HMQH49OsCZ37wYLJkGz_doCkEw@mail.gmail.com>
-Subject: Re: gcc 4.7 + mips64 architecture support
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+References: <cover.1335600691.git.dongxiao.xu@intel.com>
+	<baa0f344e516b3474cf5f1a5e8afcbc392be16de.1335600691.git.dongxiao.xu@intel.com>
+	<20120429084538.GA350@jama.jama.net>
+In-Reply-To: <20120429084538.GA350@jama.jama.net>
+Cc: Martin Jansa <martin.jansa@gmail.com>
+Subject: Re: [PATCH 6/8] ofono: upgrade to version 1.6
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -43,35 +37,61 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 30 Apr 2012 15:30:19 -0000
-Content-Type: text/plain; charset="ISO-8859-1"; format=flowed
+X-List-Received-Date: Mon, 30 Apr 2012 15:31:39 -0000
+Content-Type: text/plain; charset=ISO-8859-1; format=flowed
 Content-Transfer-Encoding: 7bit
 
-On 4/30/12 9:59 AM, Khem Raj wrote:
-> On Mon, Apr 30, 2012 at 7:53 AM, Richard Purdie
-> <richard.purdie@linuxfoundation.org>  wrote:
->>> hmmm. Whats the error ?
+On 04/29/2012 01:45 AM, Martin Jansa wrote:
+> On Sat, Apr 28, 2012 at 04:12:30PM +0800, Dongxiao Xu wrote:
+>> Signed-off-by: Dongxiao Xu<dongxiao.xu@intel.com>
+>> ---
+>>   .../ofono/{ofono_1.5.bb =>  ofono_1.6.bb}           |    2 +-
+>>   1 files changed, 1 insertions(+), 1 deletions(-)
+>>   rename meta/recipes-connectivity/ofono/{ofono_1.5.bb =>  ofono_1.6.bb} (97%)
 >>
->> http://autobuilder.yoctoproject.org:8010/builders/nightly-tiny/builds/42/steps/shell_24/logs/stdio
+>> diff --git a/meta/recipes-connectivity/ofono/ofono_1.5.bb b/meta/recipes-connectivity/ofono/ofono_1.6.bb
+>> similarity index 97%
+>> rename from meta/recipes-connectivity/ofono/ofono_1.5.bb
+>> rename to meta/recipes-connectivity/ofono/ofono_1.6.bb
+>> index dad813f..d0f273b 100644
+>> --- a/meta/recipes-connectivity/ofono/ofono_1.5.bb
+>> +++ b/meta/recipes-connectivity/ofono/ofono_1.6.bb
+>> @@ -1,6 +1,6 @@
+>>   require ofono.inc
+>>
+>> -PR = "r1"
+>> +PR = "r0"
 >
-> that should not happen. Its seems to be issue in eglibc option group
-> handling somehow its asking for regexp which should be isolated in
-> option groups
+> without checksum change it will fail, right?
 >
-> Did this work fine with 4.6 ?
+> I'll send patch I have for ofono upgrade in my branch.
+>
+This seems to have uncovered a problem with the Fetcher, it happily 
+pulls the upstream tarball, raises a BBFetchException, and writes the 
+checksum failure to the log file, but it seems to still mark the fetch 
+complete with a .done file and continues to build.
 
-If this is reproducable outside of the build system.. (I suspect it is), we 
-should mention this on the eglibc mailing list and see if they have any 
-suggestions.  I wouldn't be surprised if a bug has crept into the configuration 
-settings of eglibc.
+I will file a bug.
 
---Mark
+Sau!
 
+>>
+>>   SRC_URI  = "${KERNELORG_MIRROR}/linux/network/ofono/${BPN}-${PV}.tar.bz2 \
+>>   	          file://ofono"
+>> --
+>> 1.7.4.1
+>>
+>>
+>> _______________________________________________
+>> Openembedded-core mailing list
+>> Openembedded-core@lists.openembedded.org
+>> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
+>
+>
 >
 > _______________________________________________
 > Openembedded-core mailing list
 > Openembedded-core@lists.openembedded.org
 > http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
-
 
 
