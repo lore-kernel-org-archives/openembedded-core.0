@@ -1,40 +1,33 @@
-Received: from mail-wg0-f41.google.com ([74.125.82.41])
+Received: from mail-lb0-f175.google.com ([209.85.217.175])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <martin.jansa@gmail.com>) id 1SOrnH-0007kv-Ty
+	(envelope-from <raj.khem@gmail.com>) id 1SOrqg-0007q8-CS
 	for openembedded-core@lists.openembedded.org;
-	Mon, 30 Apr 2012 16:41:40 +0200
-Received: by wgbds1 with SMTP id ds1so2308344wgb.0
+	Mon, 30 Apr 2012 16:45:10 +0200
+Received: by lbbgo4 with SMTP id go4so1852494lbb.6
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 30 Apr 2012 07:31:58 -0700 (PDT)
+	Mon, 30 Apr 2012 07:35:28 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=date:from:to:subject:message-id:references:mime-version
-	:content-type:content-disposition:in-reply-to:user-agent;
-	bh=s8k2cq0aZaE9JqxKogfNWtZwn7CfwsdGbs3XEkjN1I0=;
-	b=xAyEsIOCtZR8za37/bU8nGrQzFm//gyJULRmXesUfBKB0YFR64cjfS4VO729BQB6Yo
-	VLRXMc+DQfc4Mf2Q8fhYTi9pERQnjwhgQZyPM0TrOTtObKVxo3O/VZdi7mfJqsY0qVGg
-	OC639860qg0XwrxUL43n9Eu4mBo96W8r0qjYTVctFbwBKpibXxypurZKAt15/QWvD+XD
-	hehipQNzDB5iS0AvMZeG/QhDvf3vfOouvWLjuo48tk0NyUWEikFfDE3rhKriRrMeyFRT
-	bBWNlGhQGuBPIBxuEiotngmmMpXadtLYYQtHgBCLOk+XMm6KZ08mpMOMjqAc8ZYAbnfC
-	Qacg==
-Received: by 10.180.85.70 with SMTP id f6mr20838679wiz.5.1335796317118;
-	Mon, 30 Apr 2012 07:31:57 -0700 (PDT)
-Received: from localhost ([94.230.152.246])
-	by mx.google.com with ESMTPS id b3sm28742539wib.4.2012.04.30.07.31.55
-	(version=TLSv1/SSLv3 cipher=OTHER);
-	Mon, 30 Apr 2012 07:31:55 -0700 (PDT)
-Date: Mon, 30 Apr 2012 16:31:55 +0200
-From: Martin Jansa <martin.jansa@gmail.com>
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:content-type:content-transfer-encoding;
+	bh=uM3iWanfUt1qbJp6OiDbFKHOHB+/ZXZVFXlB0pt9Hco=;
+	b=cCLn3WyBbHpb7nio21IIQSlHTRiA/Hnr9HSYSf9FjpYFcg8sLdO/cJ5zz0wrVer6Ix
+	qdOMnlwFKuX+OMZcewtaPSHehkJqmqptG6m0SAfQgS+V3N01tWZR05Z/PGHCCECpncDR
+	3767CzTOgbGLJObob9XXTxhuaeB0vP4Pbo+Nzo4B7gTW9fYH/mv9raUwnGc4gNSSR0oF
+	M071rCWb0ai08I9E23r7JVR7R9n9A/KaBvUnVoBx92bJv9QUqnPSWtKYl/AMsuFfc3lI
+	8KSXp5ljM8GjGqALCbx2Mm626bTujltmCZS1IEevmnxB/4ryBlFa5hNbrccgLUItu9mv
+	ZDrQ==
+Received: by 10.112.32.72 with SMTP id g8mr4059131lbi.43.1335796528409; Mon,
+	30 Apr 2012 07:35:28 -0700 (PDT)
+MIME-Version: 1.0
+Received: by 10.152.129.134 with HTTP; Mon, 30 Apr 2012 07:34:58 -0700 (PDT)
+In-Reply-To: <1335782052.7415.1.camel@ted>
+References: <1335782052.7415.1.camel@ted>
+From: Khem Raj <raj.khem@gmail.com>
+Date: Mon, 30 Apr 2012 07:34:58 -0700
+Message-ID: <CAMKF1spqp12AKBB1FLESE+WbzFb4sBf=J18aDNhYKRbYZoQECQ@mail.gmail.com>
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Message-ID: <20120430143155.GE3664@jama.jama.net>
-References: <CAMKF1sq94g5aaYPQZ=UZtBT6iBxCMJ7ZrKer=gaCVoEjV=eWKA@mail.gmail.com>
-	<20120429091230.GB350@jama.jama.net>
-	<20120430104345.GC3664@jama.jama.net>
-	<CAMKF1soz_mgP2bwDP_kqRVFcb5MrO3PTOTu7J+u+eWfR2W3jsQ@mail.gmail.com>
-MIME-Version: 1.0
-In-Reply-To: <CAMKF1soz_mgP2bwDP_kqRVFcb5MrO3PTOTu7J+u+eWfR2W3jsQ@mail.gmail.com>
-User-Agent: Mutt/1.5.21 (2010-09-15)
-Subject: Re: gcc 4.7 + mips64 architecture support
+Subject: Re: [PATCH] qt-4.8.1: Fix compile failures on qemux86
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -49,70 +42,177 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 30 Apr 2012 14:41:40 -0000
-X-Groupsio-MsgNum: 21326
-Content-Type: multipart/signed; micalg=pgp-sha1;
-	protocol="application/pgp-signature"; boundary="k3qmt+ucFURmlhDS"
-Content-Disposition: inline
-
---k3qmt+ucFURmlhDS
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+X-List-Received-Date: Mon, 30 Apr 2012 14:45:10 -0000
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
 
-On Mon, Apr 30, 2012 at 07:15:11AM -0700, Khem Raj wrote:
-> On Mon, Apr 30, 2012 at 3:43 AM, Martin Jansa <martin.jansa@gmail.com> wr=
-ote:
-> > I've found one more, which seems to happen only on x86(-64)
-> > /OE/shr-core/meta-openembedded/meta-oe/recipes-multimedia/libav/libav_0=
-=2E7.4.bb
-> > /OE/shr-core/tmp-eglibc/work/x86_64-oe-linux/libav/libav-0.7.4-r4.0/git=
-/libavcodec/x86/h264_qpel_mmx.c: Assembler messages:
-> > /OE/shr-core/tmp-eglibc/work/x86_64-oe-linux/libav/libav-0.7.4-r4.0/git=
-/libavcodec/x86/h264_qpel_mmx.c:1294: Error: operand type mismatch for `cmp'
-> > /OE/shr-core/tmp-eglibc/work/x86_64-oe-linux/libav/libav-0.7.4-r4.0/git=
-/libavcodec/x86/h264_qpel_mmx.c:1294: Error: operand type mismatch for `cmp'
-> > /OE/shr-core/tmp-eglibc/work/x86_64-oe-linux/libav/libav-0.7.4-r4.0/git=
-/libavcodec/x86/h264_qpel_mmx.c:1298: Error: operand type mismatch for `cmp'
-> > /OE/shr-core/tmp-eglibc/work/x86_64-oe-linux/libav/libav-0.7.4-r4.0/git=
-/libavcodec/x86/h264_qpel_mmx.c:1298: Error: operand type mismatch for `cmp'
-> > /OE/shr-core/tmp-eglibc/work/x86_64-oe-linux/libav/libav-0.7.4-r4.0/git=
-/libavcodec/x86/h264_qpel_mmx.c:964: Error: operand type mismatch for `cmp'
-> > /OE/shr-core/tmp-eglibc/work/x86_64-oe-linux/libav/libav-0.7.4-r4.0/git=
-/libavcodec/x86/h264_qpel_mmx.c:964: Error: operand type mismatch for `cmp'
-> > /OE/shr-core/tmp-eglibc/work/x86_64-oe-linux/libav/libav-0.7.4-r4.0/git=
-/libavcodec/x86/h264_qpel_mmx.c:964: Error: operand type mismatch for `cmp'
->=20
-> port the below commit from OE-Core/master
->=20
-> commit 1161c40a26146629613bd6a17b263175a492b751
-> Author: Khem Raj <raj.khem@gmail.com>
-> Date:   Fri Mar 30 12:07:39 2012 -0700
->=20
->     gst-ffmpeg: Fix build with gcc 4.7
->=20
->     A cmp instruction with two constants is invalid, therefore 'g' constr=
-aint
->     is not correct but must be "rm" instead.
->=20
->     Signed-off-by: Khem Raj <raj.khem@gmail.com>
->     Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+On Mon, Apr 30, 2012 at 3:34 AM, Richard Purdie
+<richard.purdie@linuxfoundation.org> wrote:
+> Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+> ---
+> diff --git a/meta/recipes-qt/qt4/qt-4.8.1.inc b/meta/recipes-qt/qt4/qt-4.=
+8.1.inc
+> index b42ca01..8c38cae 100644
+> --- a/meta/recipes-qt/qt4/qt-4.8.1.inc
+> +++ b/meta/recipes-qt/qt4/qt-4.8.1.inc
+> @@ -21,6 +21,7 @@ SRC_URI =3D "http://get.qt.nokia.com/qt/source/qt-every=
+where-opensource-src-${PV}.
+> =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0file://g++.conf \
+> =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0file://linux.conf \
+> =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0file://gcc47-fix.patch \
+> + =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 file://gcc47-fix2.patch \
+> =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0file://disable-fuse-gold-flag.pa=
+tch \
+> =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0"
+>
+> diff --git a/meta/recipes-qt/qt4/qt-4.8.1/gcc47-fix2.patch b/meta/recipes=
+-qt/qt4/qt-4.8.1/gcc47-fix2.patch
+> new file mode 100644
+> index 0000000..09513b6
+> --- a/dev/null
+> +++ b/meta/recipes-qt/qt4/qt-4.8.1/gcc47-fix2.patch
+> @@ -0,0 +1,50 @@
+> +Fixes for gcc 4.7.0, particularly on qemux86
+> +
+> +Origin: upstream, http://trac.webkit.org/changeset/93631
+> +Origin: upstream, http://trac.webkit.org/changeset/113848
+> +
+> +Bug: https://bugs.webkit.org/show_bug.cgi?id=3D62168
+> +Bug: https://bugs.webkit.org/show_bug.cgi?id=3D83584
+> +
+> +RP 2012/04/30
+> +
+> +Upstream-Status: Backport
+> +
 
-Thanks, works, done in meta-oe-contrib/jansa/test
+looks good. Are we able to build QT 4.8.x now
 
---=20
-Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
+> +Index: qt-everywhere-opensource-src-4.8.1/src/3rdparty/webkit/Source/Web=
+Core/dom/Element.cpp
+> +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+> +--- qt-everywhere-opensource-src-4.8.1.orig/src/3rdparty/webkit/Source/W=
+ebCore/dom/Element.cpp 2012-04-30 09:15:17.000000000 +0000
+> ++++ qt-everywhere-opensource-src-4.8.1/src/3rdparty/webkit/Source/WebCor=
+e/dom/Element.cpp =C2=A0 =C2=A0 =C2=A02012-04-30 09:22:04.586008994 +0000
+> +@@ -1080,7 +1080,7 @@
+> + {
+> + =C2=A0 =C2=A0 // Ref currentStyle in case it would otherwise be deleted=
+ when setRenderStyle() is called.
+> + =C2=A0 =C2=A0 RefPtr<RenderStyle> currentStyle(renderStyle());
+> +- =C2=A0 =C2=A0bool hasParentStyle =3D parentNodeForRenderingAndStyle() =
+? parentNodeForRenderingAndStyle()->renderStyle() : false;
+> ++ =C2=A0 =C2=A0bool hasParentStyle =3D parentNodeForRenderingAndStyle() =
+? static_cast<bool>(parentNodeForRenderingAndStyle()->renderStyle()) : fals=
+e;
+> + =C2=A0 =C2=A0 bool hasDirectAdjacentRules =3D currentStyle && currentSt=
+yle->childrenAffectedByDirectAdjacentRules();
+> + =C2=A0 =C2=A0 bool hasIndirectAdjacentRules =3D currentStyle && current=
+Style->childrenAffectedByForwardPositionalRules();
+> +
+> +Index: qt-everywhere-opensource-src-4.8.1/src/3rdparty/webkit/Source/Web=
+Core/html/HTMLImageElement.cpp
+> +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+> +--- qt-everywhere-opensource-src-4.8.1.orig/src/3rdparty/webkit/Source/W=
+ebCore/html/HTMLImageElement.cpp =C2=A0 =C2=A0 =C2=A0 2012-03-14 14:01:19.0=
+00000000 +0000
+> ++++ qt-everywhere-opensource-src-4.8.1/src/3rdparty/webkit/Source/WebCor=
+e/html/HTMLImageElement.cpp =C2=A0 =C2=A02012-04-30 09:22:04.586008994 +000=
+0
+> +@@ -74,7 +74,7 @@
+> + =C2=A0 =C2=A0 RefPtr<HTMLImageElement> image =3D adoptRef(new HTMLImage=
+Element(imgTag, document));
+> + =C2=A0 =C2=A0 if (optionalWidth)
+> + =C2=A0 =C2=A0 =C2=A0 =C2=A0 image->setWidth(*optionalWidth);
+> +- =C2=A0 =C2=A0if (optionalHeight > 0)
+> ++ =C2=A0 =C2=A0if (optionalHeight)
+> + =C2=A0 =C2=A0 =C2=A0 =C2=A0 image->setHeight(*optionalHeight);
+> + =C2=A0 =C2=A0 return image.release();
+> + }
+> +Index: qt-everywhere-opensource-src-4.8.1/src/3rdparty/webkit/Source/Web=
+Core/platform/graphics/TiledBackingStoreClient.h
+> +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+> +--- qt-everywhere-opensource-src-4.8.1.orig/src/3rdparty/webkit/Source/W=
+ebCore/platform/graphics/TiledBackingStoreClient.h =C2=A0 =C2=A0 2012-03-14=
+ 14:01:24.000000000 +0000
+> ++++ qt-everywhere-opensource-src-4.8.1/src/3rdparty/webkit/Source/WebCor=
+e/platform/graphics/TiledBackingStoreClient.h =C2=A02012-04-30 09:22:04.590=
+008963 +0000
+> +@@ -25,6 +25,7 @@
+> + #if ENABLE(TILED_BACKING_STORE)
+> + class TiledBackingStoreClient {
+> + public:
+> ++ =C2=A0 =C2=A0virtual ~TiledBackingStoreClient() { }
+> + =C2=A0 =C2=A0 virtual void tiledBackingStorePaintBegin() =3D 0;
+> + =C2=A0 =C2=A0 virtual void tiledBackingStorePaint(GraphicsContext*, con=
+st IntRect&) =3D 0;
+> + =C2=A0 =C2=A0 virtual void tiledBackingStorePaintEnd(const Vector<IntRe=
+ct>& paintedArea) =3D 0;
+> diff --git a/meta/recipes-qt/qt4/qt4-embedded_4.8.1.bb b/meta/recipes-qt/=
+qt4/qt4-embedded_4.8.1.bb
+> index e16264c..668565e 100644
+> --- a/meta/recipes-qt/qt4/qt4-embedded_4.8.1.bb
+> +++ b/meta/recipes-qt/qt4/qt4-embedded_4.8.1.bb
+> @@ -1,7 +1,7 @@
+> =C2=A0require qt-${PV}.inc
+> =C2=A0require qt4-embedded.inc
+>
+> -PR =3D "${INC_PR}.0"
+> +PR =3D "${INC_PR}.1"
+>
+> =C2=A0QT_CONFIG_FLAGS_append_armv6 =3D " -no-neon "
+>
+> diff --git a/meta/recipes-qt/qt4/qt4-native_4.8.1.bb b/meta/recipes-qt/qt=
+4/qt4-native_4.8.1.bb
+> index 533b5d6..a2a1dbd 100644
+> --- a/meta/recipes-qt/qt4/qt4-native_4.8.1.bb
+> +++ b/meta/recipes-qt/qt4/qt4-native_4.8.1.bb
+> @@ -1,6 +1,6 @@
+> =C2=A0require qt4-native.inc
+>
+> -PR =3D "${INC_PR}.0"
+> +PR =3D "${INC_PR}.1"
+>
+> =C2=A0# Find the g++.conf/linux.conf in the right directory.
+> =C2=A0FILESEXTRAPATHS =3D. "${FILE_DIRNAME}/qt-${PV}:"
+> diff --git a/meta/recipes-qt/qt4/qt4-tools-nativesdk_4.8.1.bb b/meta/reci=
+pes-qt/qt4/qt4-tools-nativesdk_4.8.1.bb
+> index c4bd3cf..e17a8ad 100644
+> --- a/meta/recipes-qt/qt4/qt4-tools-nativesdk_4.8.1.bb
+> +++ b/meta/recipes-qt/qt4/qt4-tools-nativesdk_4.8.1.bb
+> @@ -1,6 +1,6 @@
+> =C2=A0require qt4-tools-nativesdk.inc
+>
+> -PR =3D "${INC_PR}.0"
+> +PR =3D "${INC_PR}.1"
+>
+> =C2=A0SRC_URI +=3D "file://qmake_pri_fixes.patch"
+>
+> diff --git a/meta/recipes-qt/qt4/qt4-x11-free_4.8.1.bb b/meta/recipes-qt/=
+qt4/qt4-x11-free_4.8.1.bb
+> index 7afb51f..6978053 100644
+> --- a/meta/recipes-qt/qt4/qt4-x11-free_4.8.1.bb
+> +++ b/meta/recipes-qt/qt4/qt4-x11-free_4.8.1.bb
+> @@ -1,7 +1,7 @@
+> =C2=A0require qt4-x11-free.inc
+> =C2=A0require qt-${PV}.inc
+>
+> -PR =3D "${INC_PR}.0"
+> +PR =3D "${INC_PR}.1"
+>
+> =C2=A0QT_CONFIG_FLAGS_append_armv6 =3D " -no-neon "
+>
+>
+>
+>
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
 
---k3qmt+ucFURmlhDS
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: Digital signature
 
------BEGIN PGP SIGNATURE-----
-Version: GnuPG v2.0.19 (GNU/Linux)
-
-iEYEARECAAYFAk+eolsACgkQN1Ujt2V2gBxLtQCghUy3i7cp6pu02knxoqbzKOuj
-U8QAn0dJOFSBuOK3V2YLZ6wNYysAE+Dm
-=Xsdg
------END PGP SIGNATURE-----
-
---k3qmt+ucFURmlhDS--
