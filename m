@@ -1,38 +1,35 @@
-Received: from mail-pz0-f50.google.com ([209.85.210.50])
+Received: from mail-pb0-f47.google.com ([209.85.160.47])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <raj.khem@gmail.com>) id 1SOuqJ-0002aW-Be
+	(envelope-from <raj.khem@gmail.com>) id 1SOuqK-0002bu-7R
 	for openembedded-core@lists.openembedded.org;
-	Mon, 30 Apr 2012 19:56:59 +0200
-Received: by mail-pz0-f50.google.com with SMTP id h32so4082870dak.9
+	Mon, 30 Apr 2012 19:57:00 +0200
+Received: by pbbrq2 with SMTP id rq2so3372519pbb.6
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 30 Apr 2012 10:47:19 -0700 (PDT)
+	Mon, 30 Apr 2012 10:47:17 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=from:to:subject:date:message-id:x-mailer:in-reply-to:references
-	:in-reply-to:references;
-	bh=Tpxhs4rsBz0YFzzZOi0pqyyo7Fsag/9pDuAoY58JzuY=;
-	b=AEy7dc3nZBRsvA+AWcoCzAIEnRNj9mdc3Wnw5whTmHMIf3Tk19o/vMsLAT9eeqO+be
-	JpkVfjLtV5eD3W3x8QqZDysBSDTEqhleH9ZgORBe1q5LVCwvUcri8Gc2CEbe7jN+oe26
-	oXR/DH3YQy271uqYHGWhh8sug519lfQ6TnDXBdC1rHSqGCIhrIvqhNDOzUEzaDI4KCIh
-	6i4syq+q906wEPNsgSi80OXyImpCvtKlU5ID23AjrsF6SJCR4BNSQt3NXTz011ozrxZq
-	iPYSalwZIL2VxyyRZIznnFRJrKh2AMKPINnXn80ebjhaPMaBSBOxTZo88fXJlnLbUQri
-	HKrA==
-Received: by 10.68.221.35 with SMTP id qb3mr18997147pbc.136.1335808039073;
-	Mon, 30 Apr 2012 10:47:19 -0700 (PDT)
+	h=from:to:subject:date:message-id:x-mailer:in-reply-to:references;
+	bh=6tw4V0aLyDaQrW3QCF0kxR24Gb2+XAAvQDyMpRPihyI=;
+	b=tLUr451uxre0yYKMyudaDHEPgTSaQnsjLJVR0XSaDemcSyK3D72hOAQF2JWakoQT9Z
+	aYBNx3lndNm64aK1DzyljRFy/jgZRjWtPPf20eBHhcVknTNuw6eqAOJYEnvvQoz/8FBj
+	5pLQ80hQMbPf4eQWACkmDgYHpeYod1XkJcI9Zq0PRKJTq0dayXW1TOkG7lI3637O0sFG
+	aJm4TyriBARNyFVWxKRbmq1lHd98tjYttFvTodnFxNLe/8kgSR2vukh1IzM8/pYCfrEb
+	11EOkJAwHrkggrM7zVx4djknbHYhkzXx1xS7Ivpdyy2K+BlKVjKmm362jt6+gDPoY6lX
+	Cw+A==
+Received: by 10.68.200.68 with SMTP id jq4mr22314941pbc.42.1335808037254;
+	Mon, 30 Apr 2012 10:47:17 -0700 (PDT)
 Received: from localhost.localdomain (oldbuilder.nslu2-linux.org.
 	[140.211.169.168])
-	by mx.google.com with ESMTPS id sx8sm8239860pbc.53.2012.04.30.10.47.17
+	by mx.google.com with ESMTPS id sx8sm8239860pbc.53.2012.04.30.10.47.15
 	(version=TLSv1/SSLv3 cipher=OTHER);
-	Mon, 30 Apr 2012 10:47:18 -0700 (PDT)
+	Mon, 30 Apr 2012 10:47:16 -0700 (PDT)
 From: Khem Raj <raj.khem@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Mon, 30 Apr 2012 10:46:17 -0700
-Message-Id: <8942cc4a6f441ba2c9df183280c4af199fe9122b.1335807802.git.raj.khem@gmail.com>
+Date: Mon, 30 Apr 2012 10:46:16 -0700
+Message-Id: <392442de49633f6d0f3146fb5a86ad25e6c91015.1335807802.git.raj.khem@gmail.com>
 X-Mailer: git-send-email 1.7.5.4
-In-Reply-To: <392442de49633f6d0f3146fb5a86ad25e6c91015.1335807802.git.raj.khem@gmail.com>
-References: <392442de49633f6d0f3146fb5a86ad25e6c91015.1335807802.git.raj.khem@gmail.com>
 In-Reply-To: <cover.1335807802.git.raj.khem@gmail.com>
 References: <cover.1335807802.git.raj.khem@gmail.com>
-Subject: [PATCH 02/10] uclibc-0.9.33: Update to tip of 0.9.33 branch
+Subject: [PATCH 01/10] uclibc-git: Update to latest git tip
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -47,28 +44,31 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 30 Apr 2012 17:56:59 -0000
+X-List-Received-Date: Mon, 30 Apr 2012 17:57:00 -0000
 
 Signed-off-by: Khem Raj <raj.khem@gmail.com>
 ---
- meta/recipes-core/uclibc/uclibc_0.9.33.bb |    4 ++--
+ meta/recipes-core/uclibc/uclibc_git.bb |    4 ++--
  1 files changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/meta/recipes-core/uclibc/uclibc_0.9.33.bb b/meta/recipes-core/uclibc/uclibc_0.9.33.bb
-index 461f5bd..43c8f74 100644
---- a/meta/recipes-core/uclibc/uclibc_0.9.33.bb
-+++ b/meta/recipes-core/uclibc/uclibc_0.9.33.bb
-@@ -1,8 +1,8 @@
--SRCREV="5653245fa516c5823226582d9a02b1b18d5e8925"
-+SRCREV="f7c18471f1ff8f3e54e462df0e96e19739869c78"
+diff --git a/meta/recipes-core/uclibc/uclibc_git.bb b/meta/recipes-core/uclibc/uclibc_git.bb
+index 0088152..55e72ff 100644
+--- a/meta/recipes-core/uclibc/uclibc_git.bb
++++ b/meta/recipes-core/uclibc/uclibc_git.bb
+@@ -1,11 +1,11 @@
+-SRCREV="eb72efd81e0d5be6c836c5a084cc65b9734f544d"
++SRCREV="7bad8cf68b6e2434686bd80182f4a5bc22004416"
  
  require uclibc.inc
  
--PR = "${INC_PR}.0"
-+PR = "${INC_PR}.1"
+ # We prefer a release version so DP -1 for this
+ DEFAULT_PREFERENCE = "-1"
+ 
+-PV = "0.9.32+0.9.33-rc0"
++PV = "0.9.33+git${SRCPV}"
+ PR = "${INC_PR}.1"
  PROVIDES += "virtual/${TARGET_PREFIX}libc-for-gcc"
  
- SRC_URI = "git://uclibc.org/uClibc.git;branch=${PV};protocol=git \
 -- 
 1.7.5.4
 
