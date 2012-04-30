@@ -1,38 +1,37 @@
-Received: from mail-lpp01m010-f47.google.com ([209.85.215.47])
+Received: from mga03.intel.com ([143.182.124.21])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <raj.khem@gmail.com>) id 1SOsEF-0000Kq-TL
+	(envelope-from <nitin.a.kamble@intel.com>) id 1SOsSM-0000Tr-S2
 	for openembedded-core@lists.openembedded.org;
-	Mon, 30 Apr 2012 17:09:31 +0200
-Received: by lagw12 with SMTP id w12so1868545lag.6
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 30 Apr 2012 07:59:49 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:content-type; bh=nleRlmbCseGE+pHVpRNYgskDjDzol8bjSW2+I02x1c0=;
-	b=dl/ojv+i/jaJKMfqz4Dx70erjwEVmiWE2kZGdDyeRBjHCOh9q5sDBf4pIQABfCWrOS
-	euTCgEMjVBIsMYimqPvn/NUfu+uQ2PaRowtfIfeakEinLmHqVySEHp8vxYzkaNF5oTKn
-	fINmyzRdNNQaSaNUslboCiiiIXxskDwZR88iAFkMCE9os+NGBDYahlHAuN9raNGYoskT
-	5WNoEde4RiLF9T+wgwfPpM9lsNYbB7KNKJoT13GFHzvudEnPDFQhvO7QvORnTWxRswTj
-	T9bwKRIA4Db9xsVnnTo+X9oXwrTaYEDL22TcUo5YtBdnSegcPdnGb40tCajoXr8fuA2X
-	Gqww==
-Received: by 10.152.112.97 with SMTP id ip1mr20100259lab.31.1335797989723;
-	Mon, 30 Apr 2012 07:59:49 -0700 (PDT)
-MIME-Version: 1.0
-Received: by 10.152.129.134 with HTTP; Mon, 30 Apr 2012 07:59:18 -0700 (PDT)
-In-Reply-To: <1335797635.7415.22.camel@ted>
-References: <CAMKF1sq94g5aaYPQZ=UZtBT6iBxCMJ7ZrKer=gaCVoEjV=eWKA@mail.gmail.com>
-	<1335451639.20130.18.camel@ted> <1335468645.20130.27.camel@ted>
-	<1335474399.20130.35.camel@ted>
-	<CAMKF1so6gABH-H9uZ2R4ppr6F-zT9GtPg7j5fThzQQjWXKkG4g@mail.gmail.com>
-	<1335796919.7415.20.camel@ted>
-	<CAMKF1sriyONx1y3q7RMmi+oEztr_rx0VmLnLk3fLYE4NEq0vcg@mail.gmail.com>
-	<1335797635.7415.22.camel@ted>
-From: Khem Raj <raj.khem@gmail.com>
-Date: Mon, 30 Apr 2012 07:59:18 -0700
-Message-ID: <CAMKF1sofwSqoCOeaLAb9fPZ7HMQH49OsCZ37wYLJkGz_doCkEw@mail.gmail.com>
+	Mon, 30 Apr 2012 17:24:07 +0200
+Received: from azsmga002.ch.intel.com ([10.2.17.35])
+	by azsmga101.ch.intel.com with ESMTP; 30 Apr 2012 08:14:23 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="94632313"
+Received: from orsmsx606.amr.corp.intel.com ([10.22.226.128])
+	by AZSMGA002.ch.intel.com with ESMTP; 30 Apr 2012 08:14:21 -0700
+Received: from orsmsx153.amr.corp.intel.com (10.22.226.247) by
+	orsmsx606.amr.corp.intel.com (10.22.226.128) with Microsoft SMTP Server
+	(TLS) id 8.2.255.0; Mon, 30 Apr 2012 08:14:02 -0700
+Received: from orsmsx106.amr.corp.intel.com ([169.254.5.126]) by
+	ORSMSX153.amr.corp.intel.com ([10.22.226.247]) with mapi id
+	14.01.0355.002; Mon, 30 Apr 2012 08:14:02 -0700
+From: "Kamble, Nitin A" <nitin.a.kamble@intel.com>
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Subject: Re: gcc 4.7 + mips64 architecture support
+Thread-Topic: [OE-core] [PATCH 1/2] eglibc: package mtrace separately
+Thread-Index: AQHNI/99P/rGA9O4aECmGavcKib22JavREwAgABpEACAA9HIYA==
+Date: Mon, 30 Apr 2012 15:14:02 +0000
+Message-ID: <ADD6A3980E8C39419A432FF422031B4C0309FA16@ORSMSX106.amr.corp.intel.com>
+References: <cover.1335480719.git.nitin.a.kamble@intel.com>
+	<385b9b6d43ea3d98d355edc50989d2e0ab488cd7.1335480719.git.nitin.a.kamble@intel.com>
+	<4F9ABCEC.60403@linux.intel.com> <1335563534.7232.0.camel@ted>
+In-Reply-To: <1335563534.7232.0.camel@ted>
+Accept-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [10.22.254.138]
+MIME-Version: 1.0
+Subject: Re: [PATCH 1/2] eglibc: package mtrace separately
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -47,19 +46,40 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 30 Apr 2012 15:09:32 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Mon, 30 Apr 2012 15:24:07 -0000
+Content-Language: en-US
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 
-On Mon, Apr 30, 2012 at 7:53 AM, Richard Purdie
-<richard.purdie@linuxfoundation.org> wrote:
->> hmmm. Whats the error ?
->
-> http://autobuilder.yoctoproject.org:8010/builders/nightly-tiny/builds/42/steps/shell_24/logs/stdio
 
-that should not happen. Its seems to be issue in eglibc option group
-handling somehow its asking for regexp which should be isolated in
-option groups
 
-Did this work fine with 4.6 ?
+> -----Original Message-----
+> From: openembedded-core-bounces@lists.openembedded.org
+> [mailto:openembedded-core-bounces@lists.openembedded.org] On Behalf Of
+> Richard Purdie
+> Sent: Friday, April 27, 2012 2:52 PM
+> To: Patches and discussions about the oe-core layer
+> Subject: Re: [OE-core] [PATCH 1/2] eglibc: package mtrace separately
+>=20
+> On Fri, 2012-04-27 at 08:36 -0700, Saul Wold wrote:
+> > On 04/26/2012 03:53 PM, nitin.a.kamble@intel.com wrote:
+> > > From: Nitin A Kamble<nitin.a.kamble@intel.com>
+> > >
+> > > And install it only for nativesdk images
+> > >
+> > I think this needs to be in the -sdk images also, not just nativesdk.
+>=20
+> Why? Do we need mtrace in the nativesdk?
+>=20
+> I'm not sure why we're adding this.
+>=20
+This was in response to this bug:
+
+https://bugzilla.yoctoproject.org/show_bug.cgi?id=3D2374
+
+If I understand it correctly, Saul wanted to package mtrace separately to a=
+void the perl dependency issue on fedora 17.
+Nitin
+
 
 
