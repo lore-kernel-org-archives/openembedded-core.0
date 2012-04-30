@@ -1,40 +1,25 @@
-Received: from mail-out.m-online.net ([212.18.0.10])
-	by linuxtogo.org with esmtp (Exim 4.72) (envelope-from <wd@denx.de>)
-	id 1SOxtn-0006q4-KJ for openembedded-core@lists.openembedded.org;
-	Mon, 30 Apr 2012 23:12:47 +0200
-Received: from frontend1.mail.m-online.net (frontend1.mail.intern.m-online.net
-	[192.168.8.180])
-	by mail-out.m-online.net (Postfix) with ESMTP id 3VhJB32gpXz3hhZH;
-	Mon, 30 Apr 2012 23:03:07 +0200 (CEST)
-Received: from localhost (dynscan1.mnet-online.de [192.168.8.164])
-	by mail.m-online.net (Postfix) with ESMTP id 3VhJB34dLpz4KK3l;
-	Mon, 30 Apr 2012 23:03:07 +0200 (CEST)
-X-Virus-Scanned: amavisd-new at mnet-online.de
-Received: from smtp-auth.mnet-online.de ([192.168.8.180])
-	by localhost (dynscan1.mail.m-online.net [192.168.8.164]) (amavisd-new,
-	port 10024)
-	with ESMTP id WJalIUCfu2mG; Mon, 30 Apr 2012 23:03:07 +0200 (CEST)
-Received: from diddl.denx.de (host-80-81-18-216.customer.m-online.net
-	[80.81.18.216]) by smtp-auth.mnet-online.de (Postfix) with ESMTPA;
-	Mon, 30 Apr 2012 23:03:07 +0200 (CEST)
-Received: from gemini.denx.de (gemini.denx.de [10.0.0.2])
-	by diddl.denx.de (Postfix) with ESMTP id D38481A5832;
-	Mon, 30 Apr 2012 23:03:06 +0200 (CEST)
-Received: from gemini.denx.de (localhost [IPv6:::1])
-	by gemini.denx.de (Postfix) with ESMTP id B708A20021A;
-	Mon, 30 Apr 2012 23:03:06 +0200 (CEST)
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>, Khem Raj <raj.khem@gmail.com>
-From: Wolfgang Denk <wd@denx.de>
+Received: from mga03.intel.com ([143.182.124.21])
+	by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <sgw@linux.intel.com>) id 1SOxwL-0006sm-Rh
+	for openembedded-core@lists.openembedded.org;
+	Mon, 30 Apr 2012 23:15:26 +0200
+Received: from azsmga001.ch.intel.com ([10.2.17.19])
+	by azsmga101.ch.intel.com with ESMTP; 30 Apr 2012 14:05:42 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="137159412"
+Received: from unknown (HELO [10.255.12.182]) ([10.255.12.182])
+	by azsmga001.ch.intel.com with ESMTP; 30 Apr 2012 14:05:42 -0700
+Message-ID: <4F9EFEA5.1080407@linux.intel.com>
+Date: Mon, 30 Apr 2012 14:05:41 -0700
+From: Saul Wold <sgw@linux.intel.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:11.0) Gecko/20120329 Thunderbird/11.0.1
 MIME-Version: 1.0
-In-reply-to: <CAMKF1so3xwMOB30-yogUL9jCuHoTEsMgTDRxTLWKT_dYn-LkuQ@mail.gmail.com>
-References: <1335693807-17609-1-git-send-email-wd@denx.de>
-	<CAMKF1so3xwMOB30-yogUL9jCuHoTEsMgTDRxTLWKT_dYn-LkuQ@mail.gmail.com>
-Comments: In-reply-to Khem Raj <raj.khem@gmail.com>
-	message dated "Sun, 29 Apr 2012 08:41:50 -0700."
-Date: Mon, 30 Apr 2012 23:03:06 +0200
-Message-Id: <20120430210306.B708A20021A@gemini.denx.de>
-Subject: Re: [RFC] [PATCH] Add KERNEL_EXTRA_ARGS parameter
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+References: <1334159995-3392-1-git-send-email-florin.sarbu@windriver.com>
+In-Reply-To: <1334159995-3392-1-git-send-email-florin.sarbu@windriver.com>
+Subject: Re: [PATCH] vala: Add vala package as a devtool (version 0.12.1)
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -49,47 +34,70 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 30 Apr 2012 21:12:47 -0000
-Content-type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Mon, 30 Apr 2012 21:15:26 -0000
+Content-Type: text/plain; charset=ISO-8859-1; format=flowed
+Content-Transfer-Encoding: 7bit
 
-Dear Khem Raj,
-
-In message <CAMKF1so3xwMOB30-yogUL9jCuHoTEsMgTDRxTLWKT_dYn-LkuQ@mail.gmai=
-l.com> you wrote:
+On 04/11/2012 08:59 AM, Florin Sarbu wrote:
+> Added the vala package from meta-oe to support future systemd integration.
 >
-> > Add KERNEL_EXTRA_ARGS parameter so affected boards can add for exampl=
-e
-> >
-> > =C2=A0 =C2=A0 =C2=A0 =C2=A0KERNEL_EXTRA_ARGS =3D "LOADADDR=3D0x800080=
-00"
-> >
-> > to their configuration. =C2=A0We make this general enough so other ne=
-eded
-> > command line options can be passed as well when compiling the kernel.
->=20
-> will EXTRA_OEMAKE =3D "..." work ?
+> Signed-off-by: Florin Sarbu<florin.sarbu@windriver.com>
+> ---
+>   meta/recipes-devtools/vala/vala.inc       |   25 +++++++++++++++++++++++++
+>   meta/recipes-devtools/vala/vala_0.12.1.bb |    7 +++++++
+>   2 files changed, 32 insertions(+), 0 deletions(-)
+>   create mode 100644 meta/recipes-devtools/vala/vala.inc
+>   create mode 100644 meta/recipes-devtools/vala/vala_0.12.1.bb
+>
+> diff --git a/meta/recipes-devtools/vala/vala.inc b/meta/recipes-devtools/vala/vala.inc
+> new file mode 100644
+> index 0000000..0815c66
+> --- /dev/null
+> +++ b/meta/recipes-devtools/vala/vala.inc
+> @@ -0,0 +1,25 @@
+> +DESCRIPTION = "Vala is a C#-like language dedicated to ease GObject programming. \
+> +Vala compiles to plain C and has no runtime environment nor penalities whatsoever."
+> +SECTION = "devel"
+> +DEPENDS = "glib-2.0 dbus"
+> +BBCLASSEXTEND = "native"
+> +DEPENDS_virtclass-native = "glib-2.0-native dbus-native"
+> +HOMEPAGE = "http://vala-project.org"
+> +LICENSE = "LGPLv2.1"
+> +LIC_FILES_CHKSUM = "file://COPYING;md5=fbc093901857fcd118f065f900982c24"
+> +INC_PR = "r0"
+> +
+> +#
+> +# WARNING: This source release has specifically been built for OpenEmbedded.
+> +# Don't update to any upstream release without consulting the recipe maintainer.
+> +#
+> +
+> +SRC_URI = "\
+> +  http://downloads.freesmartphone.org/sources/vala-${PV}.tar.bz2;name=archive \
+> +"
+In the above comment you mention not to update the SRC_URI here, but 
+below in the actual .bb file you override the SRC_URI with the 
+ftp.gnome.org version, is that the correct one?
 
-No, it will not, as "meta/classes/kernel.bbclass" explicitly ignores
-all EXTRA_OEMAKE settings:
-
-...
-# For the kernel, we don't want the '-e MAKEFLAGS=3D' in EXTRA_OEMAKE.
-# We don't want to override kernel Makefile variables from the environmen=
-t
-EXTRA_OEMAKE =3D ""
-...
-
-
-Best regards,
-
-Wolfgang Denk
-
---=20
-DENX Software Engineering GmbH,     MD: Wolfgang Denk & Detlev Zundel
-HRB 165235 Munich, Office: Kirchenstr.5, D-82194 Groebenzell, Germany
-Phone: (+49)-8142-66989-10 Fax: (+49)-8142-66989-80 Email: wd@denx.de
-I express preference for a chronological  sequence  of  events  which
-precludes a violence.   - Terry Pratchett, _The Dark Side of the Sun_
+Also, until we get serious about systemd in poky, I think this patch 
+will be on hold, it is something we are going to work on for 1.3.
+> +
+> +inherit autotools
+> +
+> +EXTRA_OECONF = "--disable-vapigen"
+> +
+> +FILES_${PN}-doc += "${datadir}/devhelp"
+> diff --git a/meta/recipes-devtools/vala/vala_0.12.1.bb b/meta/recipes-devtools/vala/vala_0.12.1.bb
+> new file mode 100644
+> index 0000000..1049ed6
+> --- /dev/null
+> +++ b/meta/recipes-devtools/vala/vala_0.12.1.bb
+> @@ -0,0 +1,7 @@
+> +require vala.inc
+> +SRC_URI = "ftp://ftp.gnome.org/pub/GNOME/sources/vala/0.12/vala-${PV}.tar.bz2"
+> +
+> +FILES_${PN} += "${datadir}/vala-0.12/vapi"
+> +
+> +SRC_URI[md5sum] = "bf35262cc611de447147d01cbac33767"
+> +SRC_URI[sha256sum] = "d9a2be21bb8ab88eab838e7f3a4d0aaa2a1fddf35615dca32bef6a0051f58ea8"
 
 
