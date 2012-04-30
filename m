@@ -1,28 +1,40 @@
-Received: from mail1.windriver.com ([147.11.146.13])
-	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <Peter.Seebach@windriver.com>) id 1SOxfx-00067h-HW
-	for openembedded-core@lists.openembedded.org;
-	Mon, 30 Apr 2012 22:58:29 +0200
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca [147.11.189.40])
-	by mail1.windriver.com (8.14.3/8.14.3) with ESMTP id q3UKmkPc004778
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 30 Apr 2012 13:48:46 -0700 (PDT)
-Received: from wrlaptop (172.25.40.226) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server id 14.1.255.0;
-	Mon, 30 Apr 2012 13:48:46 -0700
-Date: Mon, 30 Apr 2012 15:48:23 -0500
-From: Peter Seebach <peter.seebach@windriver.com>
+Received: from mail-out.m-online.net ([212.18.0.10])
+	by linuxtogo.org with esmtp (Exim 4.72) (envelope-from <wd@denx.de>)
+	id 1SOxtn-0006q4-KJ for openembedded-core@lists.openembedded.org;
+	Mon, 30 Apr 2012 23:12:47 +0200
+Received: from frontend1.mail.m-online.net (frontend1.mail.intern.m-online.net
+	[192.168.8.180])
+	by mail-out.m-online.net (Postfix) with ESMTP id 3VhJB32gpXz3hhZH;
+	Mon, 30 Apr 2012 23:03:07 +0200 (CEST)
+Received: from localhost (dynscan1.mnet-online.de [192.168.8.164])
+	by mail.m-online.net (Postfix) with ESMTP id 3VhJB34dLpz4KK3l;
+	Mon, 30 Apr 2012 23:03:07 +0200 (CEST)
+X-Virus-Scanned: amavisd-new at mnet-online.de
+Received: from smtp-auth.mnet-online.de ([192.168.8.180])
+	by localhost (dynscan1.mail.m-online.net [192.168.8.164]) (amavisd-new,
+	port 10024)
+	with ESMTP id WJalIUCfu2mG; Mon, 30 Apr 2012 23:03:07 +0200 (CEST)
+Received: from diddl.denx.de (host-80-81-18-216.customer.m-online.net
+	[80.81.18.216]) by smtp-auth.mnet-online.de (Postfix) with ESMTPA;
+	Mon, 30 Apr 2012 23:03:07 +0200 (CEST)
+Received: from gemini.denx.de (gemini.denx.de [10.0.0.2])
+	by diddl.denx.de (Postfix) with ESMTP id D38481A5832;
+	Mon, 30 Apr 2012 23:03:06 +0200 (CEST)
+Received: from gemini.denx.de (localhost [IPv6:::1])
+	by gemini.denx.de (Postfix) with ESMTP id B708A20021A;
+	Mon, 30 Apr 2012 23:03:06 +0200 (CEST)
 To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Message-ID: <20120430154823.3a4ea3ee@wrlaptop>
-In-Reply-To: <4F9EF944.9080503@windriver.com>
-References: <cover.1335815704.git.peter.seebach@windriver.com>
-	<1a15132d9ff316a53f58764aad35bb09c5fbcf0e.1335815704.git.peter.seebach@windriver.com>
-	<4F9EF944.9080503@windriver.com>
-X-Mailer: Claws Mail 3.7.8 (GTK+ 2.24.4; x86_64-pc-linux-gnu)
+	<openembedded-core@lists.openembedded.org>, Khem Raj <raj.khem@gmail.com>
+From: Wolfgang Denk <wd@denx.de>
 MIME-Version: 1.0
-Subject: Re: [PATCH 2/2] sanity.bbclass: Implement initial toolchain sanity checks
+In-reply-to: <CAMKF1so3xwMOB30-yogUL9jCuHoTEsMgTDRxTLWKT_dYn-LkuQ@mail.gmail.com>
+References: <1335693807-17609-1-git-send-email-wd@denx.de>
+	<CAMKF1so3xwMOB30-yogUL9jCuHoTEsMgTDRxTLWKT_dYn-LkuQ@mail.gmail.com>
+Comments: In-reply-to Khem Raj <raj.khem@gmail.com>
+	message dated "Sun, 29 Apr 2012 08:41:50 -0700."
+Date: Mon, 30 Apr 2012 23:03:06 +0200
+Message-Id: <20120430210306.B708A20021A@gemini.denx.de>
+Subject: Re: [RFC] [PATCH] Add KERNEL_EXTRA_ARGS parameter
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -37,36 +49,47 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 30 Apr 2012 20:58:29 -0000
-Content-Type: text/plain; charset="US-ASCII"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Mon, 30 Apr 2012 21:12:47 -0000
+Content-type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
-On Mon, 30 Apr 2012 15:42:44 -0500
-Mark Hatle <mark.hatle@windriver.com> wrote:
+Dear Khem Raj,
 
-> Is the above debugging?  (I suspect it is)  I suggest the following...
+In message <CAMKF1so3xwMOB30-yogUL9jCuHoTEsMgTDRxTLWKT_dYn-LkuQ@mail.gmai=
+l.com> you wrote:
+>
+> > Add KERNEL_EXTRA_ARGS parameter so affected boards can add for exampl=
+e
+> >
+> > =C2=A0 =C2=A0 =C2=A0 =C2=A0KERNEL_EXTRA_ARGS =3D "LOADADDR=3D0x800080=
+00"
+> >
+> > to their configuration. =C2=A0We make this general enough so other ne=
+eded
+> > command line options can be passed as well when compiling the kernel.
+>=20
+> will EXTRA_OEMAKE =3D "..." work ?
 
-Actually, that one's intentional.  I originally did it for debugging,
-but I thought it was super convenient to actually get a list of the CPU
-feature set bitbake thought it was using.  We can't tell you whether
-you picked the right features, but we can tell you what they are.
+No, it will not, as "meta/classes/kernel.bbclass" explicitly ignores
+all EXTRA_OEMAKE settings:
 
-So for instance, with a qemux86 and a core2 lib32:
+...
+# For the kernel, we don't want the '-e MAKEFLAGS=3D' in EXTRA_OEMAKE.
+# We don't want to override kernel Makefile variables from the environmen=
+t
+EXTRA_OEMAKE =3D ""
+...
 
-NOTE: Sanity-checking tuning 'x86-64' (default) features:
-NOTE:   checking for conflicts: m64
-NOTE:   checking for conflicts with: m32
-NOTE:   m64: IA32e (x86_64) ELF64 standard ABI
-NOTE: Sanity-checking tuning 'core2' (lib32) features:
-NOTE:   m32: IA32 ELF32 standard ABI
-NOTE:   core2: Enable core2 specific processor optimizations
 
-I found this really handy, and left it there on purpose.  I could take
-it out, and/or move it to somewhere else, but I really do like having
-that information appear.
+Best regards,
 
--s
--- 
-Listen, get this.  Nobody with a good compiler needs to be justified.
+Wolfgang Denk
+
+--=20
+DENX Software Engineering GmbH,     MD: Wolfgang Denk & Detlev Zundel
+HRB 165235 Munich, Office: Kirchenstr.5, D-82194 Groebenzell, Germany
+Phone: (+49)-8142-66989-10 Fax: (+49)-8142-66989-80 Email: wd@denx.de
+I express preference for a chronological  sequence  of  events  which
+precludes a violence.   - Terry Pratchett, _The Dark Side of the Sun_
 
 
