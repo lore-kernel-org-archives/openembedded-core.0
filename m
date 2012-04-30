@@ -1,45 +1,27 @@
-Received: from mail-we0-f175.google.com ([74.125.82.175])
+Received: from mga09.intel.com ([134.134.136.24])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <koen@dominion.thruhere.net>) id 1SOsxK-0000rQ-Nb
+	(envelope-from <sgw@linux.intel.com>) id 1SOtZD-0001Vw-Ds
 	for openembedded-core@lists.openembedded.org;
-	Mon, 30 Apr 2012 17:56:06 +0200
-Received: by wera1 with SMTP id a1so2107571wer.6
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 30 Apr 2012 08:46:24 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=google.com; s=20120113;
-	h=subject:mime-version:content-type:from:in-reply-to:date:cc
-	:content-transfer-encoding:message-id:references:to:x-mailer
-	:x-gm-message-state;
-	bh=+mLhtC9HPXCrbzNaV2OQJCjZiXTYO5JrlpFgDLqUs/E=;
-	b=gRrt8ZaSaxrizXXI2hfJvAU0TDF0/F9tPcYkKCR/zMCGElqz3koNgJ6hBOO3ObAoHY
-	OzEGJTO6zlX4VUawZoIlfreBP1J3xpIgvHraFHK/nc4vZ6hHl3h6L1MkoZgrzNl3VV7g
-	FCIBrkw/1Olse1C6VEygAYcj5LwlqK+UqkZ31ZXOTEDe3tnx7mz/qo82wVcWKsKLUsaw
-	LrXaM0GVnq28vbNNYWNpw99skhLPmqi1/8ceqY9sMWlGWzYvZwJplx3dlw8cAuxQMc9I
-	SAVKZewnQ5X0ePtSRqxdgAiZVG3Da5Pmgj0skcdZHx/IT658n4q4Fk6abiXlBF3YYEP+
-	ZNjA==
-Received: by 10.180.93.196 with SMTP id cw4mr14253481wib.19.1335800784563;
-	Mon, 30 Apr 2012 08:46:24 -0700 (PDT)
-Received: from [172.20.0.96] (ip545070eb.adsl-surfen.hetnet.nl.
-	[84.80.112.235])
-	by mx.google.com with ESMTPS id ex2sm46243376wib.8.2012.04.30.08.46.22
-	(version=TLSv1/SSLv3 cipher=OTHER);
-	Mon, 30 Apr 2012 08:46:23 -0700 (PDT)
-Mime-Version: 1.0 (Apple Message framework v1257)
-From: Koen Kooi <koen@dominion.thruhere.net>
-In-Reply-To: <4F9EAE10.6090901@linux.intel.com>
-Date: Mon, 30 Apr 2012 17:46:21 +0200
-Message-Id: <B3F871E7-38D5-4430-B936-2D906C53E83A@dominion.thruhere.net>
-References: <cover.1335600691.git.dongxiao.xu@intel.com>
-	<baa0f344e516b3474cf5f1a5e8afcbc392be16de.1335600691.git.dongxiao.xu@intel.com>
-	<20120429084538.GA350@jama.jama.net>
-	<4F9EAE10.6090901@linux.intel.com>
+	Mon, 30 Apr 2012 18:35:15 +0200
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+	by orsmga102.jf.intel.com with ESMTP; 30 Apr 2012 09:25:32 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.67,352,1309762800"; d="scan'208";a="135225481"
+Received: from unknown (HELO [10.255.12.182]) ([10.255.12.182])
+	by orsmga001.jf.intel.com with ESMTP; 30 Apr 2012 09:25:31 -0700
+Message-ID: <4F9EBCFB.3030103@linux.intel.com>
+Date: Mon, 30 Apr 2012 09:25:31 -0700
+From: Saul Wold <sgw@linux.intel.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:11.0) Gecko/20120329 Thunderbird/11.0.1
+MIME-Version: 1.0
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-X-Mailer: Apple Mail (2.1257)
-X-Gm-Message-State: ALoCoQnT7LfJbpIwJe8m+V5mUcxDJaa5mKVzquAk6mOwX4GkCT0EmzmkqvoWoTLjydlgnbYaNZPj
+References: <cover.1335734193.git.Martin.Jansa@gmail.com>
+	<aaa5eab3838d2b85d4e1316afdd91d354527ae20.1335734193.git.Martin.Jansa@gmail.com>
+In-Reply-To: <aaa5eab3838d2b85d4e1316afdd91d354527ae20.1335734193.git.Martin.Jansa@gmail.com>
 Cc: Martin Jansa <martin.jansa@gmail.com>
-Subject: Re: [PATCH 6/8] ofono: upgrade to version 1.6
+Subject: Re: [PATCH 1/3] glib-2.0: upgrade to 2.32.1
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -54,50 +36,191 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 30 Apr 2012 15:56:06 -0000
-Content-Type: text/plain; charset=us-ascii
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Mon, 30 Apr 2012 16:35:16 -0000
+Content-Type: text/plain; charset=ISO-8859-1; format=flowed
+Content-Transfer-Encoding: 7bit
 
+On 04/29/2012 02:27 PM, Martin Jansa wrote:
+> * g_once_init_enter.patch shouldn't be needed after upstream commit
+>    794c1a30bc27b4c8d77537813acb1213d5ac80f2
+>
+> * LIC_FILES_CHKSUM change is only because PCRE was upgraded and now
+>    pcre.h says "Copyright (c) 1997-2012 University of Cambridge" instead
+>    of 2010 and COPYING file
+>    "Please see the file LICENCE in the PCRE distribution for licensing
+>    details."  but LICENSE file is not part of glib distribution (but still
+>    BSD in standalone PCRE)
+>
+> Signed-off-by: Martin Jansa<Martin.Jansa@gmail.com>
+> ---
+>   .../glib-2.0/glib-2.0/configure-libtool.patch      |   54 ++++++++++++++------
+>   .../glib-2.0/glib-2.0/g_once_init_enter.patch      |   24 ---------
+>   .../{glib-2.0_2.30.3.bb =>  glib-2.0_2.32.1.bb}     |    6 +--
+>   meta/recipes-core/glib-2.0/glib.inc                |    2 +-
+>   4 files changed, 41 insertions(+), 45 deletions(-)
+>   delete mode 100644 meta/recipes-core/glib-2.0/glib-2.0/g_once_init_enter.patch
+>   rename meta/recipes-core/glib-2.0/{glib-2.0_2.30.3.bb =>  glib-2.0_2.32.1.bb} (91%)
+>
+Martin:
 
-Op 30 apr. 2012, om 17:21 heeft Saul Wold het volgende geschreven:
+Did you see any issue similar to what was reported in 
+https://bugzilla.yoctoproject.org/show_bug.cgi?id=2369?
 
-> On 04/29/2012 01:45 AM, Martin Jansa wrote:
->> On Sat, Apr 28, 2012 at 04:12:30PM +0800, Dongxiao Xu wrote:
->>> Signed-off-by: Dongxiao Xu<dongxiao.xu@intel.com>
->>> ---
->>>  .../ofono/{ofono_1.5.bb =3D>  ofono_1.6.bb}           |    2 +-
->>>  1 files changed, 1 insertions(+), 1 deletions(-)
->>>  rename meta/recipes-connectivity/ofono/{ofono_1.5.bb =3D>  =
-ofono_1.6.bb} (97%)
->>>=20
->>> diff --git a/meta/recipes-connectivity/ofono/ofono_1.5.bb =
-b/meta/recipes-connectivity/ofono/ofono_1.6.bb
->>> similarity index 97%
->>> rename from meta/recipes-connectivity/ofono/ofono_1.5.bb
->>> rename to meta/recipes-connectivity/ofono/ofono_1.6.bb
->>> index dad813f..d0f273b 100644
->>> --- a/meta/recipes-connectivity/ofono/ofono_1.5.bb
->>> +++ b/meta/recipes-connectivity/ofono/ofono_1.6.bb
->>> @@ -1,6 +1,6 @@
->>>  require ofono.inc
->>>=20
->>> -PR =3D "r1"
->>> +PR =3D "r0"
->>=20
->> without checksum change it will fail, right?
->>=20
->> I'll send patch I have for ofono upgrade in my branch.
->>=20
-> This seems to have uncovered a problem with the Fetcher, it happily =
-pulls the upstream tarball, raises a BBFetchException, and writes the =
-checksum failure to the log file, but it seems to still mark the fetch =
-complete with a .done file and continues to build.
+There is a new alignment check at configure time requiring updating the 
+site file?
 
-I've had reports of that bug as well, it is also triggered by things =
-like redirects to fancy error pages.=20
+Sau!
 
-regards,
-
-Koen=
+> diff --git a/meta/recipes-core/glib-2.0/glib-2.0/configure-libtool.patch b/meta/recipes-core/glib-2.0/glib-2.0/configure-libtool.patch
+> index c21e378..1d69a3f 100644
+> --- a/meta/recipes-core/glib-2.0/glib-2.0/configure-libtool.patch
+> +++ b/meta/recipes-core/glib-2.0/glib-2.0/configure-libtool.patch
+> @@ -1,15 +1,31 @@
+> -# Poky renames libtool to $host_alias-libtool.
+> -# ./$host_alias-libtool isn't created until after configure runs with libtool>= 2.2.2
+> -# so we can't call # it at this point. We can safely assume a version is available
+> -# from PATH though
+> -# Rebased to glib-2.27.3 by Dongxiao Xu<dongxiao.xu@intel.com>
+> +From 1c5718648d49e795efee91c220a2bf9386c184f2 Mon Sep 17 00:00:00 2001
+> +From: Martin Jansa<Martin.Jansa@gmail.com>
+> +Date: Sat, 28 Apr 2012 18:24:50 +0200
+> +Subject: [PATCH] configure: use $host_alias-libtool instead of libtool
+> + directly
+> +
+> +Poky renames libtool to $host_alias-libtool.
+> +./$host_alias-libtool isn't created until after configure runs with
+> +libtool>= 2.2.2
+> +so we can't call # it at this point. We can safely assume a version is
+> +available
+> +from PATH though
+> +
+> +Rebased to glib-2.27.3 by Dongxiao Xu<dongxiao.xu@intel.com>
+> +Rebased to glib-2.32.1 by Martin Jansa<Martin.Jansa@gmail.com>
+>
+>   Upstream-Status: Inappropriate [configuration]
+>
+> -diff -ruN glib-2.27.3-orig/configure.ac glib-2.27.3/configure.ac
+> ---- glib-2.27.3-orig/configure.ac	2010-11-03 11:02:05.000000000 +0800
+> -+++ glib-2.27.3/configure.ac	2010-11-16 12:38:12.610485990 +0800
+> -@@ -1385,7 +1385,7 @@
+> +Signed-off-by: Martin Jansa<Martin.Jansa@gmail.com>
+> +---
+> + configure.ac |    8 ++++----
+> + 1 files changed, 4 insertions(+), 4 deletions(-)
+> +
+> +diff --git a/configure.ac b/configure.ac
+> +index a6478c6..9a93d60 100644
+> +--- a/configure.ac
+> ++++ b/configure.ac
+> +@@ -1470,7 +1470,7 @@ if test x"$glib_native_win32" = xyes; then
+>      G_MODULE_LDFLAGS=
+>    else
+>      export SED
+> @@ -18,16 +34,19 @@ diff -ruN glib-2.27.3-orig/configure.ac glib-2.27.3/configure.ac
+>    fi
+>    dnl G_MODULE_IMPL= don't reset, so cmd-line can override
+>    G_MODULE_NEED_USCORE=0
+> -@@ -1450,7 +1450,7 @@
+> +@@ -1535,9 +1535,9 @@ if test "$G_MODULE_IMPL" = "G_MODULE_IMPL_DL"; then
+>    	LDFLAGS="$LDFLAGS $G_MODULE_LDFLAGS"
+>    dnl *** check for OSF1/5.0 RTLD_GLOBAL brokenness
+>    	echo "void glib_plugin_test(void) { }">  plugin.c
+> --	${SHELL} ./libtool --mode=compile ${CC} -shared \
+> -+	${SHELL} ./$host_alias-libtool --mode=compile ${CC} -shared \
+> - 		-export-dynamic -o plugin.o plugin.c 2>&1>/dev/null
+> - 	AC_CACHE_CHECK([for RTLD_GLOBAL brokenness],
+> - 		glib_cv_rtldglobal_broken,[
+> -@@ -1524,7 +1524,7 @@
+> +-	${SHELL} ./libtool --mode=compile --tag=CC ${CC} ${CFLAGS} \
+> ++	${SHELL} ./$host_alias-libtool --mode=compile --tag=CC ${CC} ${CFLAGS} \
+> + 		${CPPFLAGS} -c -o plugin.lo plugin.c>/dev/null 2>&1
+> +-	${SHELL} ./libtool --mode=link --tag=CC ${CC} ${CFLAGS} \
+> ++	${SHELL} ./$host_alias-libtool --mode=link --tag=CC ${CC} ${CFLAGS} \
+> + 		${LDFLAGS} -module -o plugin.la -export-dynamic \
+> + 		-shrext ".o" -avoid-version plugin.lo \
+> + 		-rpath /dont/care>/dev/null 2>&1
+> +@@ -1614,7 +1614,7 @@ fi
+>
+>    AC_MSG_CHECKING(for the suffix of module shared libraries)
+>    export SED
+> @@ -36,3 +55,6 @@ diff -ruN glib-2.27.3-orig/configure.ac glib-2.27.3/configure.ac
+>    eval $shrext_cmds
+>    module=yes eval std_shrext=$shrext_cmds
+>    # chop the initial dot
+> +--
+> +1.7.8.6
+> +
+> diff --git a/meta/recipes-core/glib-2.0/glib-2.0/g_once_init_enter.patch b/meta/recipes-core/glib-2.0/glib-2.0/g_once_init_enter.patch
+> deleted file mode 100644
+> index 2eaa19b..0000000
+> --- a/meta/recipes-core/glib-2.0/glib-2.0/g_once_init_enter.patch
+> +++ /dev/null
+> @@ -1,24 +0,0 @@
+> -fix g_once_init_enter compile failure
+> -
+> -Kernelshark trips over a compile bug in glib-2.0 addressed by Open Embedded
+> -back in the 2.22 timeframe. It appears to still be present in 2.27.
+> -
+> -http://www.mail-archive.com/openembedded-devel@lists.openembedded.org/msg005
+> -
+> -Signed-off-by: Darren Hart<dvhart@linux.intel.com>
+> -
+> -Upstream-Status: Pending
+> -
+> -Index: glib-2.27.5/glib/gthread.h
+> -===================================================================
+> ---- glib-2.27.5.orig/glib/gthread.h
+> -+++ glib-2.27.5/glib/gthread.h
+> -@@ -344,7 +344,7 @@ void                    g_once_init_leav
+> - G_INLINE_FUNC gboolean
+> - g_once_init_enter (volatile gsize *value_location)
+> - {
+> --  if G_LIKELY ((gpointer) g_atomic_pointer_get (value_location) != NULL)
+> -+  if G_LIKELY ((gpointer) g_atomic_pointer_get ((volatile gpointer *)value_location) != NULL)
+> -     return FALSE;
+> -   else
+> -     return g_once_init_enter_impl (value_location);
+> diff --git a/meta/recipes-core/glib-2.0/glib-2.0_2.30.3.bb b/meta/recipes-core/glib-2.0/glib-2.0_2.32.1.bb
+> similarity index 91%
+> rename from meta/recipes-core/glib-2.0/glib-2.0_2.30.3.bb
+> rename to meta/recipes-core/glib-2.0/glib-2.0_2.32.1.bb
+> index f1f9217..354620f 100644
+> --- a/meta/recipes-core/glib-2.0/glib-2.0_2.30.3.bb
+> +++ b/meta/recipes-core/glib-2.0/glib-2.0_2.32.1.bb
+> @@ -1,6 +1,5 @@
+>   require glib.inc
+>
+> -PR = "r1"
+>   PE = "1"
+>
+>   DEPENDS += "libffi python-argparse-native zlib"
+> @@ -12,12 +11,11 @@ SHRT_VER = "${@d.getVar('PV',1).split('.')[0]}.${@d.getVar('PV',1).split('.')[1]
+>   SRC_URI = "${GNOME_MIRROR}/glib/${SHRT_VER}/glib-${PV}.tar.xz \
+>              file://configure-libtool.patch \
+>              file://60_wait-longer-for-threads-to-die.patch \
+> -           file://g_once_init_enter.patch \
+>              file://glib-2.0_fix_for_x32.patch \
+>              file://nodbus.patch \
+>             "
+> -SRC_URI[md5sum] = "0f9fa329c6c1012d0fd861ad3d8a4520"
+> -SRC_URI[sha256sum] = "e6cbb27c71c445993346e785e8609cc75cea2941e32312e544872feba572dd27"
+> +SRC_URI[md5sum] = "032c7cf9868c9aa186b490b155a41144"
+> +SRC_URI[sha256sum] = "484d5b7fc09f3fa398355adaf74b369768f5859866c299f229c99721990f8398"
+>
+>   # Only apply this patch for target recipe on uclibc
+>   SRC_URI_append_libc-uclibc = " ${@['', 'file://no-iconv.patch']['${PN}' == '${BPN}']}"
+> diff --git a/meta/recipes-core/glib-2.0/glib.inc b/meta/recipes-core/glib-2.0/glib.inc
+> index 835743a..33f7613 100644
+> --- a/meta/recipes-core/glib-2.0/glib.inc
+> +++ b/meta/recipes-core/glib-2.0/glib.inc
+> @@ -8,7 +8,7 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=3bf50002aefd002f49e7bb854063f7e7 \
+>                       file://gmodule/COPYING;md5=3bf50002aefd002f49e7bb854063f7e7 \
+>                       file://gmodule/gmodule.h;startline=4;endline=17;md5=76ab161b37202cd004073c42fac276ed \
+>                       file://glib/pcre/COPYING;md5=266ebc3ff74ee9ce6fad65577667c0f4 \
+> -                    file://glib/pcre/pcre.h;startline=11;endline=35;md5=ce867cf87ebbd2bb55e980d90328390d \
+> +                    file://glib/pcre/pcre.h;startline=11;endline=35;md5=2ffb79f0a0933f282f4f36cda635683d \
+>                       file://docs/reference/COPYING;md5=f51a5100c17af6bae00735cd791e1fcc"
+>   BUGTRACKER = "http://bugzilla.gnome.org"
+>   SECTION = "libs"
 
 
