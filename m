@@ -1,24 +1,24 @@
 Received: from mga09.intel.com ([134.134.136.24])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <sgw@linux.intel.com>) id 1SOz7M-00084M-RI
+	(envelope-from <sgw@linux.intel.com>) id 1SOz7N-00084I-2v
 	for openembedded-core@lists.openembedded.org;
 	Tue, 01 May 2012 00:30:53 +0200
 Received: from orsmga002.jf.intel.com ([10.7.209.21])
-	by orsmga102.jf.intel.com with ESMTP; 30 Apr 2012 15:21:07 -0700
+	by orsmga102.jf.intel.com with ESMTP; 30 Apr 2012 15:21:08 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.67,351,1309762800"; d="scan'208";a="138453906"
+X-IronPort-AV: E=Sophos;i="4.67,351,1309762800"; d="scan'208";a="138453907"
 Received: from unknown (HELO swold-mobl.bigsur.com) ([10.255.12.182])
 	by orsmga002.jf.intel.com with ESMTP; 30 Apr 2012 15:21:07 -0700
 From: Saul Wold <sgw@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Mon, 30 Apr 2012 15:20:50 -0700
-Message-Id: <34353d4e5de13b2a286e60d82454e7de2e8988ed.1335824356.git.sgw@linux.intel.com>
+Date: Mon, 30 Apr 2012 15:20:51 -0700
+Message-Id: <25385a4e5d8e75252cf14eed1f156832b7921911.1335824356.git.sgw@linux.intel.com>
 X-Mailer: git-send-email 1.7.7.6
 In-Reply-To: <cover.1335824356.git.sgw@linux.intel.com>
 References: <cover.1335824356.git.sgw@linux.intel.com>
 In-Reply-To: <cover.1335824356.git.sgw@linux.intel.com>
 References: <cover.1335824356.git.sgw@linux.intel.com>
-Subject: [CONSOLIDATED PULL 06/19] gst-fluendo-mpegdemux: upgrade to version 0.10.70
+Subject: [CONSOLIDATED PULL 07/19] telepathy-mission-control: upgrade to version 5.12.0
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -39,25 +39,34 @@ From: Dongxiao Xu <dongxiao.xu@intel.com>
 
 Signed-off-by: Dongxiao Xu <dongxiao.xu@intel.com>
 ---
- ...0.10.69.bb => gst-fluendo-mpegdemux_0.10.70.bb} |    4 ++--
- 1 files changed, 2 insertions(+), 2 deletions(-)
- rename meta/recipes-multimedia/gstreamer/{gst-fluendo-mpegdemux_0.10.69.bb => gst-fluendo-mpegdemux_0.10.70.bb} (71%)
+ ...11.0.bb => telepathy-mission-control_5.12.0.bb} |    6 +++---
+ 1 files changed, 3 insertions(+), 3 deletions(-)
+ rename meta/recipes-connectivity/telepathy/{telepathy-mission-control_5.11.0.bb => telepathy-mission-control_5.12.0.bb} (91%)
 
-diff --git a/meta/recipes-multimedia/gstreamer/gst-fluendo-mpegdemux_0.10.69.bb b/meta/recipes-multimedia/gstreamer/gst-fluendo-mpegdemux_0.10.70.bb
-similarity index 71%
-rename from meta/recipes-multimedia/gstreamer/gst-fluendo-mpegdemux_0.10.69.bb
-rename to meta/recipes-multimedia/gstreamer/gst-fluendo-mpegdemux_0.10.70.bb
-index d5a3a95..e6a6255 100644
---- a/meta/recipes-multimedia/gstreamer/gst-fluendo-mpegdemux_0.10.69.bb
-+++ b/meta/recipes-multimedia/gstreamer/gst-fluendo-mpegdemux_0.10.70.bb
-@@ -9,5 +9,5 @@ acpaths = "-I ${S}/common/m4 -I ${S}/m4"
+diff --git a/meta/recipes-connectivity/telepathy/telepathy-mission-control_5.11.0.bb b/meta/recipes-connectivity/telepathy/telepathy-mission-control_5.12.0.bb
+similarity index 91%
+rename from meta/recipes-connectivity/telepathy/telepathy-mission-control_5.11.0.bb
+rename to meta/recipes-connectivity/telepathy/telepathy-mission-control_5.12.0.bb
+index 3adde76..65b5d89 100644
+--- a/meta/recipes-connectivity/telepathy/telepathy-mission-control_5.11.0.bb
++++ b/meta/recipes-connectivity/telepathy/telepathy-mission-control_5.12.0.bb
+@@ -8,7 +8,7 @@ DEPENDS = "libtelepathy dbus-glib gconf"
  
- PR = "r0"
+ SRC_URI = "http://telepathy.freedesktop.org/releases/telepathy-mission-control/telepathy-mission-control-${PV}.tar.gz"
  
--SRC_URI[md5sum] = "098105ecb68779f34097faf35214fc97"
--SRC_URI[sha256sum] = "a62a1249f05c5b6d9d0ab31a0d5cb15f2682587dec0050fc57c1102a6d76b32d"
-+SRC_URI[md5sum] = "ceb9001be71e8cbc3e97f9b46c9b611e"
-+SRC_URI[sha256sum] = "b46f4a05f621e9742d22ac5c835c2f5d9aa495845b5c783475c03d1c46f47727"
+-PR = "r1"
++PR = "r0"
+ 
+ inherit autotools pkgconfig
+ 
+@@ -40,5 +40,5 @@ FILES_libmissioncontrol-dbg = "${libdir}/.debug/libmissioncontrol.so.*"
+ FILES_libmissioncontrol-config-dbg = "${libdir}/.debug/libmissioncontrol-config.so.*"
+ FILES_libmissioncontrol-server-dbg = "${libdir}/.debug/libmissioncontrol-server.so.*"
+ 
+-SRC_URI[md5sum] = "f7503d52cb432e03ba7b4ad5bb6165c6"
+-SRC_URI[sha256sum] = "f5debdaf17c9dcb7299c95e8f9df427fb2e8fbb112f6c951b9a0e6ad330ddfa5"
++SRC_URI[md5sum] = "f39dcfef785a37dc21efa9af06be2e61"
++SRC_URI[sha256sum] = "660aeb65543e1b029dfde6a895934cb20b766644bae2a68c0030052aa6645e77"
 -- 
 1.7.7.6
 
