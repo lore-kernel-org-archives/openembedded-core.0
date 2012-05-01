@@ -1,26 +1,44 @@
-Received: from mga02.intel.com ([134.134.136.20])
+Received: from mga12.intel.com ([143.182.124.36] helo=azsmga102.ch.intel.com)
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <sgw@linux.intel.com>) id 1SPI3M-0003VU-QS
+	(envelope-from <saul.wold@intel.com>) id 1SPI5y-0003Yn-QQ
 	for openembedded-core@lists.openembedded.org;
-	Tue, 01 May 2012 20:44:01 +0200
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-	by orsmga101.jf.intel.com with ESMTP; 01 May 2012 11:34:16 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.67,351,1309762800"; d="scan'208";a="138820649"
-Received: from unknown (HELO [10.255.12.182]) ([10.255.12.182])
-	by orsmga002.jf.intel.com with ESMTP; 01 May 2012 11:34:16 -0700
-Message-ID: <4FA02CA8.1090501@linux.intel.com>
-Date: Tue, 01 May 2012 11:34:16 -0700
-From: Saul Wold <sgw@linux.intel.com>
+	Tue, 01 May 2012 20:46:43 +0200
+Received: from mail-yw0-f52.google.com ([209.85.213.52])
+	by mga14.intel.com with ESMTP/TLS/RC4-SHA; 01 May 2012 11:35:53 -0700
+Received: by yhpp61 with SMTP id p61so2176595yhp.25
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 01 May 2012 11:35:52 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=google.com; s=20120113;
+	h=message-id:date:from:organization:user-agent:mime-version:to:cc
+	:subject:references:in-reply-to:content-type
+	:content-transfer-encoding:x-gm-message-state;
+	bh=T2kyrvug+1Byr0BOvBC/qDN8cj19JHDkaWRyj6ZqQI0=;
+	b=ge/Cok0JzXT9nszCa/sOVmW1jB+SJi7pFHRg+Tkqp68e711DkmP63U/m7zyqx6X/4U
+	9ZAqbM7hBdWFORCAexCyKEtQjmKwKJKT/Mn6ulSUV+hs7tMlvh3LDSN+sT8tLy2zG99f
+	aWg5Axydr4vdpHZRWADh3pMlACpmBu0aSMqH5XZtqNZRwpvZ7f2qiOsiIhTbV8GQcsTS
+	S2CdkwiIH8ORtQpE4SuMXRAHyzqRNZ5rA8BopR/TDocwI3DwT2FOB0M3JhgEJUaBGTKO
+	uDi9ZmZlPA188rj5Od1WxWs+AydPpZwZqClTWiVyQ3D2Q6gzzZVOuUVeRbI6SG0LbtIn
+	atzg==
+Received: by 10.68.231.10 with SMTP id tc10mr2069845pbc.126.1335897351962;
+	Tue, 01 May 2012 11:35:51 -0700 (PDT)
+Received: from [10.6.18.71] (c-71-193-189-117.hsd1.wa.comcast.net.
+	[71.193.189.117])
+	by mx.google.com with ESMTPS id nv2sm10139192pbb.6.2012.05.01.11.35.49
+	(version=SSLv3 cipher=OTHER); Tue, 01 May 2012 11:35:50 -0700 (PDT)
+Message-ID: <4FA02D04.1020501@intel.com>
+Date: Tue, 01 May 2012 11:35:48 -0700
+From: Saul Wold <saul.wold@intel.com>
+Organization: Intel
 User-Agent: Mozilla/5.0 (X11; Linux x86_64;
 	rv:11.0) Gecko/20120329 Thunderbird/11.0.1
 MIME-Version: 1.0
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-References: <cover.1335569869.git.peter.seebach@windriver.com>
-	<8fd6ef92079e16fdf31fe8b6f3194df7a858ed71.1335569869.git.peter.seebach@windriver.com>
-In-Reply-To: <8fd6ef92079e16fdf31fe8b6f3194df7a858ed71.1335569869.git.peter.seebach@windriver.com>
-Subject: Re: [PATCH 1/2] tune-sh4.inc: Fix spelling of big-endian feature set
+References: <cover.1335519550.git.kai.kang@windriver.com>
+In-Reply-To: <cover.1335519550.git.kai.kang@windriver.com>
+X-Gm-Message-State: ALoCoQm6ublQfLKLQvxshTDblDGxhl6u/lPwmxP3tSJuY/cULvZWiBlUvvBPxKjXsvMOG7+UjGWT
+Subject: Re: [PATCH 0/1] Update alsa-tools to 1.0.25
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -35,72 +53,36 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 01 May 2012 18:44:01 -0000
+X-List-Received-Date: Tue, 01 May 2012 18:46:43 -0000
 Content-Type: text/plain; charset=ISO-8859-1; format=flowed
 Content-Transfer-Encoding: 7bit
 
-On 04/27/2012 04:51 PM, Peter Seebach wrote:
-> In tune-sh3, tune-xscale, and tune-sh4, several FEATURES lines referred
-> to nonexistent features like "sh3eb" when they should have referred to "sh3
-> bigendian" or the like.  Caught by the TUNEVALID sanity check.
+On 04/27/2012 02:41 AM, Kang Kai wrote:
+> Hi Saul,
 >
-> Signed-off-by: Peter Seebach<peter.seebach@windriver.com>
-> ---
->   meta/conf/machine/include/tune-sh3.inc    |    2 +-
->   meta/conf/machine/include/tune-sh4.inc    |    4 ++--
->   meta/conf/machine/include/tune-xscale.inc |    2 +-
->   3 files changed, 4 insertions(+), 4 deletions(-)
+> This update alsa-tools to 1.0.25.
 >
-> diff --git a/meta/conf/machine/include/tune-sh3.inc b/meta/conf/machine/include/tune-sh3.inc
-> index 816c9c4..70bb10b 100644
-> --- a/meta/conf/machine/include/tune-sh3.inc
-> +++ b/meta/conf/machine/include/tune-sh3.inc
-> @@ -11,7 +11,7 @@ TUNE_ARCH_tune-sh3 = "sh3"
->   TUNE_PKGARCH_tune-sh3 = "sh3"
->   PACKAGE_EXTRA_ARCHS_tune-sh3 = "sh sh3"
+> Regards,
 >
-> -TUNE_FEATURES_tune-sh3eb = "sh3eb"
-> +TUNE_FEATURES_tune-sh3eb = "sh3 bigendian"
->   TUNE_ARCH_tune-sh3eb = "sh3eb"
->   TUNE_PKGARCH_tune-sh3eb = "sh3eb"
->   PACKAGE_EXTRA_ARCHS_tune-sh3eb = "sheb sh3eb"
-> diff --git a/meta/conf/machine/include/tune-sh4.inc b/meta/conf/machine/include/tune-sh4.inc
-> index f971f23..00cfc3d 100644
-> --- a/meta/conf/machine/include/tune-sh4.inc
-> +++ b/meta/conf/machine/include/tune-sh4.inc
-> @@ -18,7 +18,7 @@ TUNE_ARCH_tune-sh4 = "sh4"
->   TUNE_PKGARCH_tune-sh4 = "sh4"
->   PACKAGE_EXTRA_ARCHS_tune-sh4 = "sh sh4"
+> The following changes since commit 492a58cabdc053b2312712681dbcffa8270d4ea4:
 >
-> -TUNE_FEATURES_tune-sh4eb = "sh4eb"
-> +TUNE_FEATURES_tune-sh4eb = "sh4 bigendian"
->   TUNE_ARCH_tune-sh4eb = "sh4eb"
->   TUNE_PKGARCH_tune-sh4eb = "sh4eb"
->   PACKAGE_EXTRA_ARCHS_tune-sh4eb = "sheb sh4eb"
-> @@ -28,7 +28,7 @@ TUNE_ARCH_tune-sh4a = "sh4"
->   TUNE_PKGARCH_tune-sh4a = "sh4a"
->   PACKAGE_EXTRA_ARCHS_tune-sh4a = "sh sh4 sh4a"
+>    self-hosted-image: Update poky revision to point at the 1.2 release branch (2012-04-24 10:21:11 +0100)
 >
-> -TUNE_FEATURES_tune-sh4aeb = "sh4aeb"
-> +TUNE_FEATURES_tune-sh4aeb = "sh4a bigendian"
->   TUNE_ARCH_tune-sh4aeb = "sh4eb"
->   TUNE_PKGARCH_tune-sh4aeb = "sh4aeb"
->   PACKAGE_EXTRA_ARCHS_tune-sh4aeb = "sheb sh4eb sh4aeb"
-> diff --git a/meta/conf/machine/include/tune-xscale.inc b/meta/conf/machine/include/tune-xscale.inc
-> index 54f3727..80a3683 100644
-> --- a/meta/conf/machine/include/tune-xscale.inc
-> +++ b/meta/conf/machine/include/tune-xscale.inc
-> @@ -10,7 +10,7 @@ TUNE_FEATURES_tune-xscale = "${TUNE_FEATURES_tune-armv5te} xscale"
->   PACKAGE_EXTRA_ARCHS_tune-xscale = "${PACKAGE_EXTRA_ARCHS_tune-armv5te}"
+> are available in the git repository at:
+>    git://git.pokylinux.org/poky-contrib kangkai/update-alsa-tools
+>    http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=kangkai/update-alsa-tools
 >
->   AVAILTUNES += "xscale-be"
-> -TUNE_FEATURES_tune-xscale-be = "${TUNE_FEATURES_tune-armv5teb} xscale-be"
-> +TUNE_FEATURES_tune-xscale-be = "${TUNE_FEATURES_tune-armv5teb} xscale bigendian"
->   PACKAGE_EXTRA_ARCHS_tune-xscale-be = "${PACKAGE_EXTRA_ARCHS_tune-armv5teb}"
+> Kang Kai (1):
+>    alsa-tools: update to 1.0.25
 >
->   # webkit-gtk has alignment issues with double instructions on armv5 so
+>   .../autotools.patch                                |    0
+>   ...alsa-tools_1.0.24.1.bb =>  alsa-tools_1.0.25.bb} |   10 ++++++----
+>   2 files changed, 6 insertions(+), 4 deletions(-)
+>   rename meta/recipes-multimedia/alsa/{alsa-tools-1.0.24.1 =>  alsa-tools-1.0.25}/autotools.patch (100%)
+>   rename meta/recipes-multimedia/alsa/{alsa-tools_1.0.24.1.bb =>  alsa-tools_1.0.25.bb} (73%)
+>
 
-Merged this patch into OE-Core
+Merged into OE-Core
 
 Thanks
 	Sau!
