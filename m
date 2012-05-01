@@ -1,25 +1,26 @@
 Received: from mga03.intel.com ([143.182.124.21])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <sgw@linux.intel.com>) id 1SPIIg-0003f9-64
+	(envelope-from <sgw@linux.intel.com>) id 1SPIMH-00044v-Sv
 	for openembedded-core@lists.openembedded.org;
-	Tue, 01 May 2012 20:59:50 +0200
+	Tue, 01 May 2012 21:03:34 +0200
 Received: from azsmga002.ch.intel.com ([10.2.17.35])
-	by azsmga101.ch.intel.com with ESMTP; 01 May 2012 11:50:06 -0700
+	by azsmga101.ch.intel.com with ESMTP; 01 May 2012 11:53:49 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="95152456"
+X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="95153661"
 Received: from unknown (HELO [10.255.12.182]) ([10.255.12.182])
-	by AZSMGA002.ch.intel.com with ESMTP; 01 May 2012 11:50:05 -0700
-Message-ID: <4FA0305D.6010408@linux.intel.com>
-Date: Tue, 01 May 2012 11:50:05 -0700
+	by AZSMGA002.ch.intel.com with ESMTP; 01 May 2012 11:53:49 -0700
+Message-ID: <4FA0313D.2080605@linux.intel.com>
+Date: Tue, 01 May 2012 11:53:49 -0700
 From: Saul Wold <sgw@linux.intel.com>
 User-Agent: Mozilla/5.0 (X11; Linux x86_64;
 	rv:11.0) Gecko/20120329 Thunderbird/11.0.1
 MIME-Version: 1.0
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-References: <cover.1335508325.git.lianhao.lu@intel.com>
-In-Reply-To: <cover.1335508325.git.lianhao.lu@intel.com>
-Subject: Re: [PATCH V2 0/7] Misc fixings for multilib
+References: <1335524357-16990-1-git-send-email-ken.werner@linaro.org>
+In-Reply-To: <1335524357-16990-1-git-send-email-ken.werner@linaro.org>
+Cc: Ken Werner <ken.werner@linaro.org>
+Subject: Re: [PATCH] Qt 4.8 GCC 4.7 fixes
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -34,81 +35,125 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 01 May 2012 18:59:50 -0000
+X-List-Received-Date: Tue, 01 May 2012 19:03:34 -0000
 Content-Type: text/plain; charset=ISO-8859-1; format=flowed
 Content-Transfer-Encoding: 7bit
 
-On 04/26/2012 11:34 PM, Lianhao Lu wrote:
-> 1. Added a package QA check function in multilib case. It checkes whether
-> there is a package runtime dependency on packages with names not prefixed
-> by $MLPREFIX.
+On 04/27/2012 03:59 AM, Ken Werner wrote:
+> This change introduces two new patches to Qt 4.8. One prevents the build
+> system from using the -fuse-ld=gold GCC flag as this isn't upstream and
+> therefore not supported by many toolchains out there. The second patch
+> fixes a compile time error when using toolchains based on GCC 4.7.
 >
-> 2. Fixed a bunch of recipes to use $libdir and $base_libdir instead of the
-> hard coded /usr/lib and /lib.
+> Signed-off-by: Ken Werner<ken.werner@linaro.org>
+> ---
+>   meta/recipes-qt/qt4/qt-4.8.1.inc                   |    2 +
+>   .../qt4/qt-4.8.1/disable-fuse-gold-flag.patch      |   26 ++++++++++++++++
+>   meta/recipes-qt/qt4/qt-4.8.1/gcc47-fix.patch       |   31 ++++++++++++++++++++
+>   meta/recipes-qt/qt4/qt4-embedded.inc               |    2 +-
+>   4 files changed, 60 insertions(+), 1 deletions(-)
+>   create mode 100644 meta/recipes-qt/qt4/qt-4.8.1/disable-fuse-gold-flag.patch
+>   create mode 100644 meta/recipes-qt/qt4/qt-4.8.1/gcc47-fix.patch
 >
-> The following changes since commit 5a1f172d35be610688842a8a9a84f24edb9aeb51:
->    Martin Jansa (1):
->          bitbake.conf: use TUNE_PKGARCH instead of TARGET_ARCH in SDK_NAME
+> diff --git a/meta/recipes-qt/qt4/qt-4.8.1.inc b/meta/recipes-qt/qt4/qt-4.8.1.inc
+> index cd78401..b42ca01 100644
+> --- a/meta/recipes-qt/qt4/qt-4.8.1.inc
+> +++ b/meta/recipes-qt/qt4/qt-4.8.1.inc
+> @@ -20,6 +20,8 @@ SRC_URI = "http://get.qt.nokia.com/qt/source/qt-everywhere-opensource-src-${PV}.
+>              file://pulseaudio-config.patch \
+>              file://g++.conf \
+>              file://linux.conf \
+> +           file://gcc47-fix.patch \
+> +           file://disable-fuse-gold-flag.patch \
+>              "
 >
-> are available in the git repository at:
+>   SRC_URI[md5sum] = "7960ba8e18ca31f0c6e4895a312f92ff"
+> diff --git a/meta/recipes-qt/qt4/qt-4.8.1/disable-fuse-gold-flag.patch b/meta/recipes-qt/qt4/qt-4.8.1/disable-fuse-gold-flag.patch
+> new file mode 100644
+> index 0000000..d49d7bc
+> --- /dev/null
+> +++ b/meta/recipes-qt/qt4/qt-4.8.1/disable-fuse-gold-flag.patch
+> @@ -0,0 +1,26 @@
+> +Disable the -fuse-ld=gold flag. This option is a Debian/Ubuntu specific
+> +extension to the g++ and causes upstream GCC to throw an error.
+> +
+> +Index: qt-everywhere-opensource-src-4.8.0/src/3rdparty/webkit/Source/common.pri
+> +===================================================================
+> +--- qt-everywhere-opensource-src-4.8.0.orig/src/3rdparty/webkit/Source/common.pri
+> ++++ qt-everywhere-opensource-src-4.8.0/src/3rdparty/webkit/Source/common.pri
+> +@@ -3,12 +3,12 @@
+> + contains(JAVASCRIPTCORE_JIT,yes): DEFINES+=ENABLE_JIT=1
+> + contains(JAVASCRIPTCORE_JIT,no): DEFINES+=ENABLE_JIT=0
+> +
+> +-linux-g++ {
+> +-isEmpty($$(SBOX_DPKG_INST_ARCH)):exists(/usr/bin/ld.gold) {
+> +-    message(Using gold linker)
+> +-    QMAKE_LFLAGS+=-fuse-ld=gold
+> +-}
+> +-}
+> ++#linux-g++ {
+> ++#isEmpty($$(SBOX_DPKG_INST_ARCH)):exists(/usr/bin/ld.gold) {
+> ++#    message(Using gold linker)
+> ++#    QMAKE_LFLAGS+=-fuse-ld=gold
+> ++#}
+> ++#}
+> +
+> + # We use this flag on production branches
+> + # See https://bugs.webkit.org/show_bug.cgi?id=60824
+> diff --git a/meta/recipes-qt/qt4/qt-4.8.1/gcc47-fix.patch b/meta/recipes-qt/qt4/qt-4.8.1/gcc47-fix.patch
+> new file mode 100644
+> index 0000000..8252817
+> --- /dev/null
+> +++ b/meta/recipes-qt/qt4/qt-4.8.1/gcc47-fix.patch
+> @@ -0,0 +1,31 @@
+> +Fix compile error when using toolchains based on GCC 4.7.
+> +
+> +Index: qt-everywhere-opensource-src-4.8.0/src/3rdparty/javascriptcore/JavaScriptCore/runtime/JSGlobalObject.h
+> +===================================================================
+> +--- qt-everywhere-opensource-src-4.8.0.orig/src/3rdparty/javascriptcore/JavaScriptCore/runtime/JSGlobalObject.h
+> ++++ qt-everywhere-opensource-src-4.8.0/src/3rdparty/javascriptcore/JavaScriptCore/runtime/JSGlobalObject.h
+> +@@ -57,9 +57,7 @@ namespace JSC {
+> +
+> +     class JSGlobalObject : public JSVariableObject {
+> +     protected:
+> +-        using JSVariableObject::JSVariableObjectData;
+> +-
+> +-        struct JSGlobalObjectData : public JSVariableObjectData {
+> ++        struct JSGlobalObjectData : public JSVariableObject::JSVariableObjectData {
+> +             // We use an explicit destructor function pointer instead of a
+> +             // virtual destructor because we want to avoid adding a vtable
+> +             // pointer to this struct. Adding a vtable pointer would force the
+> +Index: qt-everywhere-opensource-src-4.8.0/src/3rdparty/javascriptcore/JavaScriptCore/runtime/JSStaticScopeObject.h
+> +===================================================================
+> +--- qt-everywhere-opensource-src-4.8.0.orig/src/3rdparty/javascriptcore/JavaScriptCore/runtime/JSStaticScopeObject.h
+> ++++ qt-everywhere-opensource-src-4.8.0/src/3rdparty/javascriptcore/JavaScriptCore/runtime/JSStaticScopeObject.h
+> +@@ -32,8 +32,7 @@ namespace JSC{
+> +
+> +     class JSStaticScopeObject : public JSVariableObject {
+> +     protected:
+> +-        using JSVariableObject::JSVariableObjectData;
+> +-        struct JSStaticScopeObjectData : public JSVariableObjectData {
+> ++        struct JSStaticScopeObjectData : public JSVariableObjectData::JSVariableObjectData {
+> +             JSStaticScopeObjectData()
+> +                 : JSVariableObjectData(&symbolTable,&registerStore + 1)
+> +             {
+> diff --git a/meta/recipes-qt/qt4/qt4-embedded.inc b/meta/recipes-qt/qt4/qt4-embedded.inc
+> index 8c15352..291e62a 100644
+> --- a/meta/recipes-qt/qt4/qt4-embedded.inc
+> +++ b/meta/recipes-qt/qt4/qt4-embedded.inc
+> @@ -2,7 +2,7 @@ DESCRIPTION = "Qt is a versatile cross-platform application framework -- this is
+>   SECTION = "libs"
+>   HOMEPAGE = "http://qt.nokia.com"
+>   DEPENDS += "directfb tslib"
+> -INC_PR = "r43"
+> +INC_PR = "r44"
 >
->    git://git.yoctoproject.org/poky-contrib llu/multilib
->    http://git.yoctoproject.org/cgit.cgi/poky-contrib/log/?h=llu/multilib
+>   QT_BASE_LIB  ?= "libqt-embedded"
 >
-> Lianhao Lu (7):
->    multilib.bbclass: Added multilib specific package QA.
-I think that we need to address some of these WARNING before merging 
-this change directly.  Is this supposed to address [YOCTO #2038]?
 
->    popt: Fixing pkgconfig file installation issue.
->    avahi: not using hard coded libdir.
-Merged into OE-Core
-
->    pulseaudio: use base_libdir for udev rules.
->    alsa-utils: use base_libdir for udev rules.
-I am still reviewing the udev changes.
-
->    xorg-app: Use ${libdir} and ${datadir} for packaging.
-Merged into OE-Core
->    xf86-input-vmmouse: use base_libdir for udev rules.
-Under review
+Merged into OE-Core, but still needs updated patch headers please
 
 Thanks
 	Sau!
-
->
->   meta/classes/multilib.bbclass                      |   31 ++++++++++++++++++++
->   meta/recipes-connectivity/avahi/avahi.inc          |    4 +-
->   meta/recipes-graphics/xorg-app/mkfontdir_1.0.7.bb  |    2 +-
->   .../recipes-graphics/xorg-app/mkfontscale_1.1.0.bb |    2 +
->   meta/recipes-graphics/xorg-app/x11perf_1.5.4.bb    |    2 +-
->   meta/recipes-graphics/xorg-app/xauth_1.0.6.bb      |    2 +-
->   meta/recipes-graphics/xorg-app/xdpyinfo_1.3.0.bb   |    2 +-
->   meta/recipes-graphics/xorg-app/xhost_1.0.4.bb      |    2 +-
->   meta/recipes-graphics/xorg-app/xinit_1.3.2.bb      |    2 +-
->   meta/recipes-graphics/xorg-app/xinput_1.5.3.bb     |    2 +-
->   meta/recipes-graphics/xorg-app/xkbcomp_1.2.3.bb    |    2 +
->   meta/recipes-graphics/xorg-app/xmodmap_1.0.5.bb    |    2 +-
->   meta/recipes-graphics/xorg-app/xorg-app-common.inc |    4 +-
->   meta/recipes-graphics/xorg-app/xprop_1.2.1.bb      |    2 +-
->   meta/recipes-graphics/xorg-app/xrandr_1.3.5.bb     |    2 +-
->   meta/recipes-graphics/xorg-app/xset_1.2.2.bb       |    2 +-
->   meta/recipes-graphics/xorg-app/xvinfo_1.1.1.bb     |    1 +
->   meta/recipes-graphics/xorg-app/xwininfo_1.1.2.bb   |    2 +-
->   .../xorg-driver/xf86-input-vmmouse_12.8.0.bb       |    6 +++-
->   meta/recipes-multimedia/alsa/alsa-utils_1.0.25.bb  |    6 ++-
->   meta/recipes-multimedia/pulseaudio/pulseaudio.inc  |    1 +
->   .../pulseaudio/pulseaudio_1.1.bb                   |    2 +-
->   meta/recipes-support/popt/popt/pkgconfig_fix.patch |   15 +++++++++
->   meta/recipes-support/popt/popt_1.16.bb             |    6 ++-
->   24 files changed, 82 insertions(+), 22 deletions(-)
->   create mode 100644 meta/recipes-support/popt/popt/pkgconfig_fix.patch
->
->
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
->
 
 
