@@ -1,29 +1,30 @@
-Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
-	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <richard.purdie@linuxfoundation.org>)
-	id 1SPFUm-0000be-IO for openembedded-core@lists.openembedded.org;
-	Tue, 01 May 2012 18:00:08 +0200
-Received: from localhost (localhost [127.0.0.1])
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q41FoPHi015328;
-	Tue, 1 May 2012 16:50:25 +0100
-Received: from tim.rpsys.net ([127.0.0.1])
-	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
-	port 10024) with LMTP
-	id 15117-01; Tue,  1 May 2012 16:50:21 +0100 (BST)
-Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q41FoEaB015322
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO);
-	Tue, 1 May 2012 16:50:16 +0100
-Message-ID: <1335887416.7415.125.camel@ted>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: openembedded-devel <openembedded-devel@openembedded.org>,
-	openembedded-core <openembedded-core@lists.openembedded.org>, yocto
-	<yocto@yoctoproject.org>
-Date: Tue, 01 May 2012 16:50:16 +0100
-X-Mailer: Evolution 3.2.2- 
-Mime-Version: 1.0
-X-Virus-Scanned: amavisd-new at rpsys.net
-Subject: 1.3 Planning Process
+Received: from mail1.windriver.com ([147.11.146.13])
+	by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <Peter.Seebach@windriver.com>) id 1SPFaz-0000gF-5w
+	for openembedded-core@lists.openembedded.org;
+	Tue, 01 May 2012 18:06:33 +0200
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca [147.11.189.40])
+	by mail1.windriver.com (8.14.3/8.14.3) with ESMTP id q41FukWX016000
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
+	Tue, 1 May 2012 08:56:46 -0700 (PDT)
+Received: from wrlaptop (172.25.40.226) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server id 14.1.255.0;
+	Tue, 1 May 2012 08:56:45 -0700
+Date: Tue, 1 May 2012 10:56:21 -0500
+From: Peter Seebach <peter.seebach@windriver.com>
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Message-ID: <20120501105621.041ac91e@wrlaptop>
+In-Reply-To: <B8BDFC7E-873F-4AC3-8B6B-111299DEB9A7@dominion.thruhere.net>
+References: <cover.1335815704.git.peter.seebach@windriver.com>
+	<1a15132d9ff316a53f58764aad35bb09c5fbcf0e.1335815704.git.peter.seebach@windriver.com>
+	<4F9EF944.9080503@windriver.com> <20120430154823.3a4ea3ee@wrlaptop>
+	<1335867674.7415.76.camel@ted>
+	<B8BDFC7E-873F-4AC3-8B6B-111299DEB9A7@dominion.thruhere.net>
+X-Mailer: Claws Mail 3.7.8 (GTK+ 2.24.4; x86_64-pc-linux-gnu)
+MIME-Version: 1.0
+Cc: koen@dominion.thruhere.net
+Subject: Re: [PATCH 2/2] sanity.bbclass: Implement initial toolchain sanity checks
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -38,36 +39,21 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 01 May 2012 16:00:08 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Tue, 01 May 2012 16:06:33 -0000
+Content-Type: text/plain; charset="US-ASCII"
 Content-Transfer-Encoding: 7bit
 
-I just wanted to highlight that the planning process for the next Yocto
-Project release (tentatively '1.3') is well under way now. I sent out a
-previous email about this but this is a quick reminder.
+On Tue, 1 May 2012 12:25:48 +0200
+Koen Kooi <koen@dominion.thruhere.net> wrote:
 
-We use the bugzilla (bugzilla.yoctoproject.org) to track proposed ideas
-and these will ultimately end up on
-https://wiki.yoctoproject.org/wiki/Yocto_1.3_Features as in previous
-releases as we work through the planning process. The aims and
-objectives for the next release are listed there (Continuity / Refresh,
-Continuity / Refresh and Usability).
+> TUNE_FEATURES     = "armv7a vfp neon cortexa8"
 
-I can't promise things listed will happen or in what time frame but I do
-know if they're not there, they're much less likely to happen! :)
+I'd like to suggest a separate patch which uses the TUNEVALID info
+to explain these, and also explores the tunings of any selected
+multilibs, because this is under-informative in some cases.
 
-Alternatively if anyone does want to discuss the future direction of the
-project(s), now is a good time to do it. Whilst I'm copying various
-lists, I'd suggest this discussion happens on OE-Core unless the
-question is clearly more appropriate elsewhere.
-
-Cheers,
-
-Richard
-
-
-
-
-
+-s
+-- 
+Listen, get this.  Nobody with a good compiler needs to be justified.
 
 
