@@ -1,22 +1,24 @@
 Received: from mga02.intel.com ([134.134.136.20])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <nitin.a.kamble@intel.com>) id 1SPLHC-0000o3-R5
+	(envelope-from <nitin.a.kamble@intel.com>) id 1SPLHD-0000o3-Hv
 	for openembedded-core@lists.openembedded.org;
 	Wed, 02 May 2012 00:10:31 +0200
 Received: from orsmga001.jf.intel.com ([10.7.209.18])
 	by orsmga101.jf.intel.com with ESMTP; 01 May 2012 15:00:46 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.67,352,1309762800"; d="scan'208";a="135871092"
+X-IronPort-AV: E=Sophos;i="4.67,352,1309762800"; d="scan'208";a="135871094"
 Received: from nbuild0.sc.intel.com ([172.25.110.36])
 	by orsmga001.jf.intel.com with ESMTP; 01 May 2012 15:00:46 -0700
 From: nitin.a.kamble@intel.com
 To: openembedded-core@lists.openembedded.org
-Date: Tue,  1 May 2012 15:00:40 -0700
-Message-Id: <b0d5193248111699e406cf352793898293bc2f89.1335909595.git.nitin.a.kamble@intel.com>
+Date: Tue,  1 May 2012 15:00:41 -0700
+Message-Id: <f21bcc16a9afaaf57cb8363d7ee475350fd8f937.1335909595.git.nitin.a.kamble@intel.com>
 X-Mailer: git-send-email 1.7.6.5
+In-Reply-To: <b0d5193248111699e406cf352793898293bc2f89.1335909595.git.nitin.a.kamble@intel.com>
+References: <b0d5193248111699e406cf352793898293bc2f89.1335909595.git.nitin.a.kamble@intel.com>
 In-Reply-To: <cover.1335909595.git.nitin.a.kamble@intel.com>
 References: <cover.1335909595.git.nitin.a.kamble@intel.com>
-Subject: [PATCH 1/6] qt4: fix compilation issue
+Subject: [PATCH 2/6] makedepend: upgrade from 1.0.3 to 1.0.4
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -35,84 +37,28 @@ X-List-Received-Date: Tue, 01 May 2012 22:10:31 -0000
 
 From: Nitin A Kamble <nitin.a.kamble@intel.com>
 
-gcc 4.7 uncovers a type mismatch in the code. And this commit fixes the issue:
-
-| /srv/home/nitin/builds/build-gcc47/tmp/sysroots/qemux86/usr/include/glib-2.0/glib/gthread.h:58:7: error: 'union' tag used in naming 'struct _GMutex' [-Werror=permissive]
-| In file included from ./wtf/Platform.h:1217:0,
-|                  from ./config.h:30,
-|                  from wtf/gobject/GOwnPtr.cpp:19:
-| wtf/gobject/GTypedefs.h:55:16: note: 'struct _GMutex' was previously declared here
-NOTE: package qt4-x11-free-4.8.1-r41.1: task do_compile: Failed
-
 Signed-off-by: Nitin A Kamble <nitin.a.kamble@intel.com>
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 ---
- meta/recipes-qt/qt4/qt-4.8.1.inc                   |    1 +
- .../qt4/qt-4.8.1/fix_conflicting_types.patch       |   29 ++++++++++++++++++++
- meta/recipes-qt/qt4/qt4-x11-free.inc               |    2 +-
- 3 files changed, 31 insertions(+), 1 deletions(-)
- create mode 100644 meta/recipes-qt/qt4/qt-4.8.1/fix_conflicting_types.patch
+ .../{makedepend_1.0.3.bb => makedepend_1.0.4.bb}   |    5 ++---
+ 1 files changed, 2 insertions(+), 3 deletions(-)
+ rename meta/recipes-graphics/xorg-util/{makedepend_1.0.3.bb => makedepend_1.0.4.bb} (82%)
 
-diff --git a/meta/recipes-qt/qt4/qt-4.8.1.inc b/meta/recipes-qt/qt4/qt-4.8.1.inc
-index 8c38cae..2fc4228 100644
---- a/meta/recipes-qt/qt4/qt-4.8.1.inc
-+++ b/meta/recipes-qt/qt4/qt-4.8.1.inc
-@@ -23,6 +23,7 @@ SRC_URI = "http://get.qt.nokia.com/qt/source/qt-everywhere-opensource-src-${PV}.
-            file://gcc47-fix.patch \
-            file://gcc47-fix2.patch \
-            file://disable-fuse-gold-flag.patch \
-+           file://fix_conflicting_types.patch \
-            "
+diff --git a/meta/recipes-graphics/xorg-util/makedepend_1.0.3.bb b/meta/recipes-graphics/xorg-util/makedepend_1.0.4.bb
+similarity index 82%
+rename from meta/recipes-graphics/xorg-util/makedepend_1.0.3.bb
+rename to meta/recipes-graphics/xorg-util/makedepend_1.0.4.bb
+index 86e5d81..fea0b22 100644
+--- a/meta/recipes-graphics/xorg-util/makedepend_1.0.3.bb
++++ b/meta/recipes-graphics/xorg-util/makedepend_1.0.4.bb
+@@ -18,6 +18,5 @@ BBCLASSEXTEND = "native"
  
- SRC_URI[md5sum] = "7960ba8e18ca31f0c6e4895a312f92ff"
-diff --git a/meta/recipes-qt/qt4/qt-4.8.1/fix_conflicting_types.patch b/meta/recipes-qt/qt4/qt-4.8.1/fix_conflicting_types.patch
-new file mode 100644
-index 0000000..8124505
---- /dev/null
-+++ b/meta/recipes-qt/qt4/qt-4.8.1/fix_conflicting_types.patch
-@@ -0,0 +1,29 @@
-+Upstream-Status: Pending
-+
-+This patch fixes the type mismatch fixing this compile issue:
-+
-+| /srv/home/nitin/builds/build-gcc47/tmp/sysroots/qemux86/usr/include/glib-2.0/glib/gthread.h:58:7: error: 'union' tag used in naming 'struct _GMutex' [-Werror=permissive]
-+| In file included from ./wtf/Platform.h:1217:0,
-+|                  from ./config.h:30,
-+|                  from wtf/gobject/GOwnPtr.cpp:19:
-+| wtf/gobject/GTypedefs.h:55:16: note: 'struct _GMutex' was previously declared here
-+NOTE: package qt4-x11-free-4.8.1-r41.1: task do_compile: Failed
-+
-+
-+Signed-Off-By: Nitin A Kamble <nitin.a.kamble@intel.com>
-+2012/04/30
-+
-+
-+Index:  qt-everywhere-opensource-src-4.8.1/src/3rdparty/webkit/Source/JavaScriptCore/wtf/gobject/GTypedefs.h
-+===================================================================
-+--- qt-everywhere-opensource-src-4.8.1/src/3rdparty.orig/webkit/Source/JavaScriptCore/wtf/gobject/GTypedefs.h
-++++ qt-everywhere-opensource-src-4.8.1/src/3rdparty/webkit/Source/JavaScriptCore/wtf/gobject/GTypedefs.h
-+@@ -52,7 +52,7 @@ typedef struct _GFile GFile;
-+ typedef struct _GHashTable GHashTable;
-+ typedef struct _GInputStream GInputStream;
-+ typedef struct _GList GList;
-+-typedef struct _GMutex GMutex;
-++typedef union _GMutex GMutex;
-+ typedef struct _GPatternSpec GPatternSpec;
-+ typedef struct _GPollableOutputStream GPollableOutputStream;
-+ typedef struct _GSocketClient GSocketClient;
-diff --git a/meta/recipes-qt/qt4/qt4-x11-free.inc b/meta/recipes-qt/qt4/qt4-x11-free.inc
-index a59198d..720b1bf 100644
---- a/meta/recipes-qt/qt4/qt4-x11-free.inc
-+++ b/meta/recipes-qt/qt4/qt4-x11-free.inc
-@@ -5,7 +5,7 @@ HOMEPAGE = "http://qt.nokia.com"
- SECTION = "x11/libs"
- DEPENDS += "virtual/libgl virtual/libx11 fontconfig libxft libxext libxrender libxrandr libxcursor"
+ LIC_FILES_CHKSUM = "file://COPYING;md5=43a6eda34b48ee821b3b66f4f753ce4f"
  
--INC_PR = "r41"
-+INC_PR = "r42"
- 
- QT_GLFLAGS ?= "${@base_contains('DISTRO_FEATURES', 'opengl', '-opengl', '-no-opengl', d)} "
- QT_GLFLAGS_qemux86 = "-opengl"
+-SRC_URI[md5sum] = "ec37ca8b810a40cdfb16a736b3360f6c"
+-SRC_URI[sha256sum] = "2d3466acc29b382a4368b30371f17a4083933281b97f8ef67fc8b785a60d52dc"
+-
++SRC_URI[md5sum] = "bf1c54028427829c9c3193bef710dbee"
++SRC_URI[sha256sum] = "f53b8ce5dec02a05f8994036a8ebac485a96324143ff2382e29578fdc096b04f"
 -- 
 1.7.7
 
