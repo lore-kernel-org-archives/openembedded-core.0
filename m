@@ -1,26 +1,36 @@
-Received: from mga02.intel.com ([134.134.136.20])
-	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <sgw@linux.intel.com>) id 1SPIS9-0004D5-RF
-	for openembedded-core@lists.openembedded.org;
-	Tue, 01 May 2012 21:09:38 +0200
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-	by orsmga101.jf.intel.com with ESMTP; 01 May 2012 11:59:53 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.67,352,1309762800"; d="scan'208";a="135815370"
-Received: from unknown (HELO [10.255.12.182]) ([10.255.12.182])
-	by orsmga001.jf.intel.com with ESMTP; 01 May 2012 11:59:53 -0700
-Message-ID: <4FA032A9.1070901@linux.intel.com>
-Date: Tue, 01 May 2012 11:59:53 -0700
-From: Saul Wold <sgw@linux.intel.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:11.0) Gecko/20120329 Thunderbird/11.0.1
-MIME-Version: 1.0
+Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
+	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <richard.purdie@linuxfoundation.org>)
+	id 1SPJ8y-0004uy-DX for openembedded-core@lists.openembedded.org;
+	Tue, 01 May 2012 21:53:52 +0200
+Received: from localhost (localhost [127.0.0.1])
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q41Ji9Nu016659
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 1 May 2012 20:44:09 +0100
+Received: from tim.rpsys.net ([127.0.0.1])
+	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
+	port 10024) with LMTP
+	id 16443-02 for <openembedded-core@lists.openembedded.org>;
+	Tue,  1 May 2012 20:44:05 +0100 (BST)
+Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q41Ji1eT016653
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO)
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 1 May 2012 20:44:03 +0100
+Message-ID: <1335901444.7415.129.camel@ted>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-References: <cover.1335439784.git.Martin.Jansa@gmail.com>
-In-Reply-To: <cover.1335439784.git.Martin.Jansa@gmail.com>
-Cc: Martin Jansa <martin.jansa@gmail.com>
-Subject: Re: [PATCH 0/2] kernel.bbclass sync, new efl release, systemd machine support
+Date: Tue, 01 May 2012 20:44:04 +0100
+In-Reply-To: <ADD6A3980E8C39419A432FF422031B4C0309FA16@ORSMSX106.amr.corp.intel.com>
+References: <cover.1335480719.git.nitin.a.kamble@intel.com>
+	<385b9b6d43ea3d98d355edc50989d2e0ab488cd7.1335480719.git.nitin.a.kamble@intel.com>
+	<4F9ABCEC.60403@linux.intel.com> <1335563534.7232.0.camel@ted>
+	<ADD6A3980E8C39419A432FF422031B4C0309FA16@ORSMSX106.amr.corp.intel.com>
+X-Mailer: Evolution 3.2.2- 
+Mime-Version: 1.0
+X-Virus-Scanned: amavisd-new at rpsys.net
+Subject: Re: [PATCH 1/2] eglibc: package mtrace separately
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -35,48 +45,45 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 01 May 2012 19:09:38 -0000
-Content-Type: text/plain; charset=ISO-8859-1; format=flowed
+X-List-Received-Date: Tue, 01 May 2012 19:53:52 -0000
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 
-On 04/26/2012 06:19 AM, Martin Jansa wrote:
-> The following changes since commit 5a1f172d35be610688842a8a9a84f24edb9aeb51:
->
->    bitbake.conf: use TUNE_PKGARCH instead of TARGET_ARCH in SDK_NAME (2012-04-26 10:59:20 +0100)
->
-> are available in the git repository at:
->    git://git.openembedded.org/openembedded-core-contrib jansa/pull
->    http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=jansa/pull
->
-> Martin Jansa (2):
->    xorg: add more native BBCLASSEXTENDs from meta-oe
->    opkg-utils: bump SRCREV for Packages cache fix and other fixes
->
->   .../opkg-utils/opkg-utils/add-license-field.patch  |   39 -----------
->   .../opkg-utils/arfile_header_split.patch           |   27 -------
->   .../opkg-utils/index-ignore-filenotfound.patch     |   73 --------------------
->   .../opkg-utils/opkg-utils/mtime-int.patch          |   30 --------
->   .../opkg-utils/opkg-utils/shebang.patch            |   46 ------------
->   meta/recipes-devtools/opkg-utils/opkg-utils_git.bb |    7 +--
->   .../xorg-lib/libxcomposite_0.4.3.bb                |    1 +
->   .../recipes-graphics/xorg-lib/libxcursor_1.1.13.bb |    1 +
->   meta/recipes-graphics/xorg-lib/libxdamage_1.1.3.bb |    1 +
->   meta/recipes-graphics/xorg-lib/libxfixes_5.0.bb    |    2 +-
->   meta/recipes-graphics/xorg-lib/libxrandr_1.3.2.bb  |    2 +-
->   .../xorg-proto/compositeproto_0.4.2.bb             |    1 +
->   .../xorg-proto/damageproto_1.2.1.bb                |    1 +
->   meta/recipes-graphics/xorg-proto/fixesproto_5.0.bb |    2 +-
->   .../xorg-proto/randrproto_1.3.2.bb                 |    2 +-
->   15 files changed, 10 insertions(+), 225 deletions(-)
->   delete mode 100644 meta/recipes-devtools/opkg-utils/opkg-utils/add-license-field.patch
->   delete mode 100644 meta/recipes-devtools/opkg-utils/opkg-utils/arfile_header_split.patch
->   delete mode 100644 meta/recipes-devtools/opkg-utils/opkg-utils/index-ignore-filenotfound.patch
->   delete mode 100644 meta/recipes-devtools/opkg-utils/opkg-utils/mtime-int.patch
->   delete mode 100644 meta/recipes-devtools/opkg-utils/opkg-utils/shebang.patch
->
-Merged into OE-Core
+On Mon, 2012-04-30 at 15:14 +0000, Kamble, Nitin A wrote:
+> 
+> > -----Original Message-----
+> > From: openembedded-core-bounces@lists.openembedded.org
+> > [mailto:openembedded-core-bounces@lists.openembedded.org] On Behalf Of
+> > Richard Purdie
+> > Sent: Friday, April 27, 2012 2:52 PM
+> > To: Patches and discussions about the oe-core layer
+> > Subject: Re: [OE-core] [PATCH 1/2] eglibc: package mtrace separately
+> > 
+> > On Fri, 2012-04-27 at 08:36 -0700, Saul Wold wrote:
+> > > On 04/26/2012 03:53 PM, nitin.a.kamble@intel.com wrote:
+> > > > From: Nitin A Kamble<nitin.a.kamble@intel.com>
+> > > >
+> > > > And install it only for nativesdk images
+> > > >
+> > > I think this needs to be in the -sdk images also, not just nativesdk.
+> > 
+> > Why? Do we need mtrace in the nativesdk?
+> > 
+> > I'm not sure why we're adding this.
+> > 
+> This was in response to this bug:
+> 
+> https://bugzilla.yoctoproject.org/show_bug.cgi?id=2374
+> 
+> If I understand it correctly, Saul wanted to package mtrace separately
+> to avoid the perl dependency issue on fedora 17.
 
-Thanks
-	Sau!
+Right, but lets just not install the mtrace package unless people want
+it.
+
+Cheers,
+
+Richard
+
 
 
