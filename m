@@ -1,38 +1,34 @@
-Received: from mail-we0-f175.google.com ([74.125.82.175])
-	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <martin.jansa@gmail.com>) id 1SPBQQ-0001C3-J1
-	for openembedded-core@lists.openembedded.org;
-	Tue, 01 May 2012 13:39:22 +0200
-Received: by wera1 with SMTP id a1so2628436wer.6
+Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
+	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <richard.purdie@linuxfoundation.org>)
+	id 1SPD7H-0005al-GI for openembedded-core@lists.openembedded.org;
+	Tue, 01 May 2012 15:27:43 +0200
+Received: from localhost (localhost [127.0.0.1])
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q41DI0EA014544
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 01 May 2012 04:29:39 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=date:from:to:cc:subject:message-id:references:mime-version
-	:content-type:content-disposition:in-reply-to:user-agent;
-	bh=26rfhhHkQmN0/zZNPHTBgyFCSIoRdf7mR8rMu1aWG7c=;
-	b=tDI+rlvzrNsRmITi+3lOeRd03BEarxPTYU8MCAt4wCZ3QCty6Acvg8mbxJ8z+8EbOf
-	3KfC9iDuAX2r1FvbydCB7mjofMJSwR2rF4xr3OgFT1OlwIPo+HStmhWMP4viV3LPueMO
-	BGLfq1tg3alQHQBPcb788kt8H102sUBkqglv3marzATN59PJpqK4EdbzD7khApObPUzi
-	A/vDmw5p9wP9r13DZORdeyZiR6scQuSaES+4KnoC58mkJTeeBFEPE7RCM48j+y8mPQN2
-	FfZUmZHYd8x0Y84VRdTtNRxtJ6unAQuDf8MDEQ/eLMsFu/SIsZTd8m9DSsGzPRYVt6s5
-	zYhA==
-Received: by 10.216.228.165 with SMTP id f37mr15008352weq.83.1335871777818;
-	Tue, 01 May 2012 04:29:37 -0700 (PDT)
-Received: from localhost ([94.230.152.246])
-	by mx.google.com with ESMTPS id fz9sm35725616wib.3.2012.05.01.04.29.34
-	(version=TLSv1/SSLv3 cipher=OTHER);
-	Tue, 01 May 2012 04:29:36 -0700 (PDT)
-Date: Tue, 1 May 2012 13:29:35 +0200
-From: Martin Jansa <martin.jansa@gmail.com>
+	Tue, 1 May 2012 14:18:00 +0100
+Received: from tim.rpsys.net ([127.0.0.1])
+	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
+	port 10024) with LMTP
+	id 13377-07 for <openembedded-core@lists.openembedded.org>;
+	Tue,  1 May 2012 14:17:52 +0100 (BST)
+Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q41DHnP5014500
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO)
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 1 May 2012 14:17:51 +0100
+Message-ID: <1335878270.7415.104.camel@ted>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Message-ID: <20120501112935.GA3623@jama.jama.net>
-References: <CAMKF1sq94g5aaYPQZ=UZtBT6iBxCMJ7ZrKer=gaCVoEjV=eWKA@mail.gmail.com>
-	<20120429091230.GB350@jama.jama.net>
-MIME-Version: 1.0
-In-Reply-To: <20120429091230.GB350@jama.jama.net>
-User-Agent: Mutt/1.5.21 (2010-09-15)
-Subject: Re: gcc 4.7 + mips64 architecture support
+Date: Tue, 01 May 2012 14:17:50 +0100
+In-Reply-To: <c5a3097cc2507d3fe49f113684912d4804ed02bd.1335824356.git.sgw@linux.intel.com>
+References: <cover.1335824356.git.sgw@linux.intel.com>
+	<c5a3097cc2507d3fe49f113684912d4804ed02bd.1335824356.git.sgw@linux.intel.com>
+X-Mailer: Evolution 3.2.2- 
+Mime-Version: 1.0
+X-Virus-Scanned: amavisd-new at rpsys.net
+Subject: Re: [CONSOLIDATED PULL 19/19] gcc-package-target: add libexec for plugins
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -47,100 +43,77 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 01 May 2012 11:39:22 -0000
-X-Groupsio-MsgNum: 21394
-Content-Type: multipart/signed; micalg=pgp-sha1;
-	protocol="application/pgp-signature"; boundary="a8Wt8u1KmwUX3Y2C"
-Content-Disposition: inline
+X-List-Received-Date: Tue, 01 May 2012 13:27:43 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
---a8Wt8u1KmwUX3Y2C
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+On Mon, 2012-04-30 at 15:21 -0700, Saul Wold wrote:
+> Fixes:
+> 
+> ERROR: For recipe gcc, the following files/directories were installed but not shipped in any package:
+> ERROR:   /usr/libexec/gcc/i586-poky-linux/4.7.1/plugin/gengtype
+> Signed-off-by: Saul Wold <sgw@linux.intel.com>
+> ---
+>  meta/recipes-devtools/gcc/gcc-4.7.inc            |    2 +-
+>  meta/recipes-devtools/gcc/gcc-package-target.inc |   11 ++++-------
+>  2 files changed, 5 insertions(+), 8 deletions(-)
 
-On Sun, Apr 29, 2012 at 11:12:30AM +0200, Martin Jansa wrote:
-> On Wed, Apr 25, 2012 at 04:31:53PM -0700, Khem Raj wrote:
-> > Hello
-> >=20
-> > Now that release is almost out of door. I would like some eyes on the
-> > gcc-4.7 work
-> > and mips64 architecture support that I have done meanwhile
-> >=20
-> > I have made sure that gcc-4.6 still keeps working and I have patches
-> > for gcc-4.5 too
-> > for meta-oe too. I have repeatedly built core-image-sato and
-> > core-image-minimal for uclibc/eglibc
-> > but more coverage would be nicer.
-> >=20
-> > The patches are posted here
-> >=20
-> > http://git.openembedded.org/openembedded-core-contrib/log/?h=3Dkraj/misc
-> >=20
-> > I would appreciate any feedback or testing on this
->=20
-> I got some errors while building gcc* recipes (overwriting header=20
-> files in work-shared or something like that) but that's not new, gcc-4.6
-> was failing the same - restarting build few times and it will succeed
-> once.
->=20
-> My minimal shr-lite-image compiles now fine and works on om-gta02
-> (armv4t) sofar without segfaults.. so looks good.
->=20
-> For normal image and feeds I've few more recipes which are failing with g=
-cc-4.7:
->=20
-> meta-openembedded/meta-efl/recipes-efl/webkit/webkit-efl_svn.bb
->   | Unknown parameter a interfaceName for tags/attrs
->   | make[2]: *** [DerivedSources/WebCore/HTMLNames.cpp] Error 255
->   http://norman-schleicher.de/jenkins/job/shr-core-branches-om-gta02-shr-=
-image/ws/shr-core/tmp-eglibc/work/armv4t-oe-linux-gnueabi/webkit-efl-1.7.3+=
-svnr105069-r1/
->   I'm upgrading this one instead of fixing it, because we had some
->   issues in runtime with current version, but new version needs newer
->   libsoup-2.4->glib-2.0->gobject-introspection->etc and fails with
->   different compilation issues.. so maybe if you know how to easily fix
->   it in current, we can, otherwise I'll continue to work on upgrade
->=20
->   BTW: similar fix as you did for webkit-gtk is in upstream r109509
->=20
-> meta-oe/recipes-extended/mml-widget/gtkmathview_0.8.0.bb
->   ../../../src/frontend/common/TemplateBuilder.hh:54:42: error: redeclara=
-tion of 'SmartPtr<typename ElementBuilder::type> elem'
->   ../../../src/frontend/common/TemplateBuilder.hh:50:49: error: 'SmartPtr=
-<typename ElementBuilder::type> elem' previously declared here
->   http://norman-schleicher.de/jenkins/job/shr-core-branches-om-gta02-shr-=
-image/ws/shr-core/tmp-eglibc/work/armv4t-oe-linux-gnueabi/gtkmathview-0.8.0=
--r1/
->=20
-> meta-smartphone/meta-shr/recipes-shr/3rdparty/numptyphysics_svn.bb
->   fixed in shr branch
->=20
-> meta-mozilla/recipes-mozilla/firefox/firefox_10.0.2.bb
->   | /var/lib/jenkins/jobs/shr-core-branches/workspace/shr-core/tmp-eglibc=
-/work/armv7a-vfp-neon-oe-linux-gnueabi/firefox-10.0.2-r1/mozilla-release/ip=
-c/chromium/src/base/file_util.cc:228:35: error: 'ftruncate' was not declare=
-d in this scope
->   probably easy to fix, adding Otavio to CC (maybe he has upgrade or fix
->   ready)
-
-there were 4 more issues, but fixed and pull request sent on github from
-https://github.com/shr-project/meta-mozilla/commits/fixes
+Saul, this patch does other things in addition to what is described
+above. Why?
 
 Cheers,
 
---=20
-Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
+Richard
 
---a8Wt8u1KmwUX3Y2C
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: Digital signature
 
------BEGIN PGP SIGNATURE-----
-Version: GnuPG v2.0.19 (GNU/Linux)
+> diff --git a/meta/recipes-devtools/gcc/gcc-4.7.inc b/meta/recipes-devtools/gcc/gcc-4.7.inc
+> index 784a3be..8adeb8d 100644
+> --- a/meta/recipes-devtools/gcc/gcc-4.7.inc
+> +++ b/meta/recipes-devtools/gcc/gcc-4.7.inc
+> @@ -1,6 +1,6 @@
+>  require gcc-common.inc
+>  
+> -PR = "r0"
+> +PR = "r1"
+>  
+>  # Third digit in PV should be incremented after a minor release
+>  # happens from this branch on gcc e.g. currently its 4.7.0
+> diff --git a/meta/recipes-devtools/gcc/gcc-package-target.inc b/meta/recipes-devtools/gcc/gcc-package-target.inc
+> index d58e001..392dfc4 100644
+> --- a/meta/recipes-devtools/gcc/gcc-package-target.inc
+> +++ b/meta/recipes-devtools/gcc/gcc-package-target.inc
+> @@ -1,5 +1,5 @@
+>  PACKAGES = "\
+> -  ${PN} ${PN}-plugins ${PN}-symlinks \
+> +  ${PN} ${PN}-symlinks \
+>    g++ g++-symlinks \
+>    cpp cpp-symlinks \
+>    g77 g77-symlinks \
+> @@ -36,20 +36,17 @@ FILES_${PN}-dev = "\
+>  "
+>  FILES_${PN}-plugin-dev = "\
+>    ${gcclibdir}/${TARGET_SYS}/${BINV}/plugin/include/ \
+> -  ${gcclibdir}/${TARGET_SYS}/${BINV}/plugin/gengtype \
+>    ${gcclibdir}/${TARGET_SYS}/${BINV}/plugin/gtype.state \
+> +  ${libexecdir}/gcc/${TARGET_SYS}/${BINV}/plugin/gengtype \
+>  "
+> +ALLOW_EMPTY_${PN}-plugin-dev = "1"
+> +
+>  FILES_${PN}-symlinks = "\
+>    ${bindir}/cc \
+>    ${bindir}/gcc \
+>    ${bindir}/gccbug \
+>  "
+>  
+> -FILES_${PN}-plugins = "\
+> -  ${gcclibdir}/${TARGET_SYS}/${BINV}/plugin \
+> -"
+> -ALLOW_EMPTY_${PN}-plugins = "1"
+> -
+>  FILES_g77 = "\
+>    ${bindir}/${TARGET_PREFIX}g77 \
+>    ${libexecdir}/gcc/${TARGET_SYS}/${BINV}/f771 \
 
-iEYEARECAAYFAk+fyR8ACgkQN1Ujt2V2gBzQiQCdEBtKBrb3x1Ds5019Fu4ZNRU/
-zUsAnitBYrvZo8OA85EeKJLoE11psHGb
-=5dS/
------END PGP SIGNATURE-----
 
---a8Wt8u1KmwUX3Y2C--
+
+
