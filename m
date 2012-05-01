@@ -1,33 +1,44 @@
-Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
-	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <richard.purdie@linuxfoundation.org>)
-	id 1SPJfL-0006KR-Ud for openembedded-core@lists.openembedded.org;
-	Tue, 01 May 2012 22:27:20 +0200
-Received: from localhost (localhost [127.0.0.1])
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q41KHavi016884;
-	Tue, 1 May 2012 21:17:36 +0100
-Received: from tim.rpsys.net ([127.0.0.1])
-	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
-	port 10024) with LMTP
-	id 16443-04; Tue,  1 May 2012 21:17:32 +0100 (BST)
-Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q41KHPLp016878
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO);
-	Tue, 1 May 2012 21:17:27 +0100
-Message-ID: <1335903448.7415.134.camel@ted>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Peter Seebach <peter.seebach@windriver.com>
-Date: Tue, 01 May 2012 21:17:28 +0100
-In-Reply-To: <20120501112318.6561f45d@wrlaptop>
-References: <cover.1335815704.git.peter.seebach@windriver.com>
-	<1a15132d9ff316a53f58764aad35bb09c5fbcf0e.1335815704.git.peter.seebach@windriver.com>
-	<1335869234.7415.94.camel@ted> <20120501112318.6561f45d@wrlaptop>
-X-Mailer: Evolution 3.2.2- 
-Mime-Version: 1.0
-X-Virus-Scanned: amavisd-new at rpsys.net
+Received: from mga05.intel.com ([192.55.52.89] helo=fmsmga101.fm.intel.com)
+	by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <scott.a.garman@intel.com>) id 1SPKav-0008Pe-BD
+	for openembedded-core@lists.openembedded.org;
+	Tue, 01 May 2012 23:26:49 +0200
+Received: from mail-pb0-f52.google.com ([209.85.160.52])
+	by mga01.intel.com with ESMTP/TLS/RC4-SHA; 01 May 2012 14:17:04 -0700
+Received: by pbbro8 with SMTP id ro8so11087606pbb.25
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 01 May 2012 14:17:03 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=google.com; s=20120113;
+	h=message-id:date:from:user-agent:mime-version:to:cc:subject
+	:references:in-reply-to:content-type:content-transfer-encoding
+	:x-gm-message-state;
+	bh=j5VIVHubNv6tU//qflcwSvRJVN6a71vkMWlkj09YuCg=;
+	b=f8OlRoexAGP+YgmtLGrh/P7FTO/BcSN93BWBH6+kdIrzesSqrnLpALYCf8LkzeAMRG
+	3wlIP1wwRP7tYIwcD9l6H1Z3BB10BwspFP+bRaT8rEI2bTPSdlDCMJodCRGgOGmOFCVq
+	s2FxJv0gZI/R86UN3BFMF2oFyEHbJnHRzH0C2BKti4YFBEAyXtYO12HoV1elQwAhnMsH
+	OS9EC0WK14H+R8EbhrQWgvjL5hhEECdvAbMQLW+rq05P2FexP49ti5Xp5FWPEQfHb7QI
+	U+q7Vg//vMtWlJld2lbLm2u+ucUQX33eki1Jqhu72OsO3mHP0bqBlhlYV6WNxVUsrTYo
+	vpVw==
+Received: by 10.68.211.197 with SMTP id ne5mr17937405pbc.143.1335907023888;
+	Tue, 01 May 2012 14:17:03 -0700 (PDT)
+Received: from [10.1.10.192] (c-50-137-42-92.hsd1.or.comcast.net.
+	[50.137.42.92])
+	by mx.google.com with ESMTPS id tx9sm9323145pbc.10.2012.05.01.14.17.01
+	(version=SSLv3 cipher=OTHER); Tue, 01 May 2012 14:17:02 -0700 (PDT)
+Message-ID: <4FA052CB.6050508@intel.com>
+Date: Tue, 01 May 2012 14:16:59 -0700
+From: Scott Garman <scott.a.garman@intel.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:11.0) Gecko/20120329 Thunderbird/11.0.1
+MIME-Version: 1.0
+To: yocto@yoctoproject.org
+References: <4FA001F0.7010705@intel.com>
+In-Reply-To: <4FA001F0.7010705@intel.com>
+X-Gm-Message-State: ALoCoQmlff745Edw3DNeipnuZB28drKwiRETABYUoBwcL92wT2sSta80dZt1vuzy414TrF9mugET
 Cc: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 2/2] sanity.bbclass: Implement initial toolchain sanity checks
+Subject: Re: Yocto Project 1.2.1 release plan.
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -42,66 +53,30 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 01 May 2012 20:27:21 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Tue, 01 May 2012 21:26:49 -0000
+Content-Type: text/plain; charset=ISO-8859-1; format=flowed
 Content-Transfer-Encoding: 7bit
 
-On Tue, 2012-05-01 at 11:23 -0500, Peter Seebach wrote:
-> On Tue, 1 May 2012 11:47:14 +0100
-> Richard Purdie <richard.purdie@linuxfoundation.org> wrote: 
-> > To be honest I'm really tempted to split this tuneabi stuff out into a
-> > different class. I appreciate the OSVs need something but it probably
-> > doesn't make sense with half an implementation sitting in the core
-> > like this, particularly when the code is near impenetrable like the
-> > above. I'm left wondering what TUNEABI is too...
-> 
-> The big reason I'd advocate for having it in the base stuff is that
-> otherwise, all the OSVs are going to do their own and do it
-> incompatibly.  The one thing worse than having one incomprehensible
-> thing is having many incomprehensible things with subtly different
-> semantics.
->  
-> > > +                bb.warn("Got an unexpected '%s' in MULTILIBS." %
-> > > pairs[0])
-> 
-> > Shouldn't this get added to the errors list?
-> 
-> Good question!  I was unable to find anything definite on the topic.
-> My thought is, if everything has to be multilib:, there's no reason for
-> the leading multilib: because it adds no information, so presumably
-> there logically *could* be something else, but I haven't seen any and
-> don't know about them.
+On 05/01/2012 08:32 AM, Scott Garman wrote:
+> Richard has already started pulling in some patches from master into the
+> denzil-next branch on oe-core:
+>
+> http://git.openembedded.org/openembedded-core/log/?h=denzil-next
+>
+> I'll be merging these on an ongoing basis into my sgarman/denzil-next
+> branch in the poky-contrib repo:
+>
+> http://git.yoctoproject.org/cgit/cgit.cgi/poky-contrib/log/?h=sgarman/denzil-next
 
-Ah, I see what's happened here. This variable is used to append to
-BBCLASSEXTEND where there are other values like "nativesdk" and
-"native". Looking at the code, I think you should process
-MULTILIB_VARIANTS.
+Sorry about this folks - my denzil-next branch was based on oe-core and 
+not poky. So I've just deleted the branch and will be re-creating it 
+shortly.
 
-The naming of the various multilib variables could probably do with
-improvement in places :/.
+Scott
 
-Another good sanity check might be to look at the BBCLASSEXTEND values
-and ensure they're in the list "native", "nativesdk", "multilib:xxx",
-"cross".
-
-> > > +            else:
-> > > +                if pairs[1] == 'lib':
-> > > +                    tune_error_set.append("The multilib 'lib' was
-> > > specified, but that causes parse errors.")
-> 
-> > Hmm, it does?
-> 
-> Yeah, that was the thing I ran into when I tried a default config
-> someone suggested; I thoughtfully corrected lib32 to lib, and libxcb
-> exploded with two pages of Python stack traces and diagnostics.  If
-> that's not intentional, I can drop this check and we can treat it as a
-> package bug.
-
-I think its a packaging bug. I'd be interested to see the error.
-
-Cheers,
-
-Richard
-
+-- 
+Scott Garman
+Embedded Linux Engineer - Yocto Project
+Intel Open Source Technology Center
 
 
