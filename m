@@ -1,27 +1,41 @@
-Received: from mga02.intel.com ([134.134.136.20])
+Received: from mga10.intel.com ([192.55.52.92] helo=fmsmga102.fm.intel.com)
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <sgw@linux.intel.com>) id 1SPEiI-0008DM-52
+	(envelope-from <scott.a.garman@intel.com>) id 1SPFD2-00005q-L4
 	for openembedded-core@lists.openembedded.org;
-	Tue, 01 May 2012 17:10:02 +0200
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-	by orsmga101.jf.intel.com with ESMTP; 01 May 2012 08:00:17 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.67,352,1309762800"; d="scan'208";a="135724600"
-Received: from unknown (HELO [10.255.12.182]) ([10.255.12.182])
-	by orsmga001.jf.intel.com with ESMTP; 01 May 2012 08:00:17 -0700
-Message-ID: <4F9FFA81.1040900@linux.intel.com>
-Date: Tue, 01 May 2012 08:00:17 -0700
-From: Saul Wold <sgw@linux.intel.com>
+	Tue, 01 May 2012 17:41:48 +0200
+Received: from mail-gy0-f180.google.com ([209.85.160.180])
+	by mga11.intel.com with ESMTP/TLS/RC4-SHA; 01 May 2012 08:32:04 -0700
+Received: by ghbz12 with SMTP id z12so1876447ghb.25
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 01 May 2012 08:32:03 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=google.com; s=20120113;
+	h=message-id:date:from:user-agent:mime-version:to:cc:subject
+	:content-type:content-transfer-encoding:x-gm-message-state;
+	bh=Vu7ZqIokqeBQATGHABgghm4DE7SEz+UFBdzT1HXPa8U=;
+	b=jB657UM/fxquNBXwFD+Od3juRo/1HsTfWFX3bStJT/BvrBpcbh5lYJFG3zUYm5ZOiy
+	kqOSHm2c5CTA9lFzveEL2sHrVj19/kkDO1KJzAnQSF4orgWpZg8Xp0bKzZfKXhx2Henl
+	VVgPeWh/bBkK3FEY6Pyr2T7//DllKglH5GukYPI+Ki4MNxomQJ1cwWsgxRmlnjM7Zebg
+	SVUOtmTg1+1xX88s6hcVYFaCoDQGaD03uk99Htk5r19LBc9VIQ7D3ZQAs0OO9GnKY59I
+	0S6JNEuieii+ShzIxNQmjObtW3GdPVbzfQ0BbdnYC13/PlMF2ik7R4po9MYYi/s40YBJ
+	T8og==
+Received: by 10.68.218.7 with SMTP id pc7mr51475674pbc.4.1335886323001;
+	Tue, 01 May 2012 08:32:03 -0700 (PDT)
+Received: from [192.168.1.12] (c-76-105-137-48.hsd1.or.comcast.net.
+	[76.105.137.48])
+	by mx.google.com with ESMTPS id wf6sm19476122pbc.8.2012.05.01.08.32.00
+	(version=SSLv3 cipher=OTHER); Tue, 01 May 2012 08:32:01 -0700 (PDT)
+Message-ID: <4FA001F0.7010705@intel.com>
+Date: Tue, 01 May 2012 08:32:00 -0700
+From: Scott Garman <scott.a.garman@intel.com>
 User-Agent: Mozilla/5.0 (X11; Linux x86_64;
 	rv:11.0) Gecko/20120329 Thunderbird/11.0.1
 MIME-Version: 1.0
-To: Patches and discussions about the oe-core layer
+To: yocto@yoctoproject.org
+X-Gm-Message-State: ALoCoQky0UQ49zhIVVQ/tLBKglJRkrksNmf013rDqUqTv19N7hQg7rI/4PG+Txx6AWGHo7CSJHyU
+Cc: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-References: <cover.1335824356.git.sgw@linux.intel.com>
-	<c5a3097cc2507d3fe49f113684912d4804ed02bd.1335824356.git.sgw@linux.intel.com>
-	<1335878270.7415.104.camel@ted> <4F9FE478.6070107@gmail.com>
-In-Reply-To: <4F9FE478.6070107@gmail.com>
-Subject: Re: [CONSOLIDATED PULL 19/19] gcc-package-target: add libexec for plugins
+Subject: Yocto Project 1.2.1 release plan.
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -36,95 +50,56 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 01 May 2012 15:10:02 -0000
+X-List-Received-Date: Tue, 01 May 2012 15:41:48 -0000
 Content-Type: text/plain; charset=ISO-8859-1; format=flowed
 Content-Transfer-Encoding: 7bit
 
-On 05/01/2012 06:26 AM, Khem Raj wrote:
-> -----BEGIN PGP SIGNED MESSAGE-----
-> Hash: SHA1
->
-> On 05/01/2012 06:17 AM, Richard Purdie wrote:
->> On Mon, 2012-04-30 at 15:21 -0700, Saul Wold wrote:
->>> Fixes:
->>>
->>> ERROR: For recipe gcc, the following files/directories were
->>> installed but not shipped in any package: ERROR:
->>> /usr/libexec/gcc/i586-poky-linux/4.7.1/plugin/gengtype
->
-> see part of this commit
-> http://git.openembedded.org/openembedded-core-contrib/commit/?h=kraj/misc&id=86542ceef469a20a77d2191f7c1f6e36911174d3
->
-Khem, this patch also seems to to multiple things.
+Hi all,
 
->>> Signed-off-by: Saul Wold<sgw@linux.intel.com>  ---
->>> meta/recipes-devtools/gcc/gcc-4.7.inc            |    2 +-
->>> meta/recipes-devtools/gcc/gcc-package-target.inc |   11
->>> ++++------- 2 files changed, 5 insertions(+), 8 deletions(-)
->>
->> Saul, this patch does other things in addition to what is
->> described above. Why?
->>
-I had a different change, and should have changed that back to not 
-remove the plug-in package.  I will update this patch in the tree.
+I'm going to be the maintainer of the Yocto Project 1.2.1 release, and 
+wanted to let everyone know some details about the current status of 
+this release.
 
-Sau!
+Richard has already started pulling in some patches from master into the 
+denzil-next branch on oe-core:
 
->> Cheers,
->>
->> Richard
->>
->>
->>> diff --git a/meta/recipes-devtools/gcc/gcc-4.7.inc
->>> b/meta/recipes-devtools/gcc/gcc-4.7.inc index 784a3be..8adeb8d
->>> 100644 --- a/meta/recipes-devtools/gcc/gcc-4.7.inc +++
->>> b/meta/recipes-devtools/gcc/gcc-4.7.inc @@ -1,6 +1,6 @@ require
->>> gcc-common.inc
->>>
->>> -PR = "r0" +PR = "r1"
->>>
->>> # Third digit in PV should be incremented after a minor release #
->>> happens from this branch on gcc e.g. currently its 4.7.0 diff
->>> --git a/meta/recipes-devtools/gcc/gcc-package-target.inc
->>> b/meta/recipes-devtools/gcc/gcc-package-target.inc index
->>> d58e001..392dfc4 100644 ---
->>> a/meta/recipes-devtools/gcc/gcc-package-target.inc +++
->>> b/meta/recipes-devtools/gcc/gcc-package-target.inc @@ -1,5 +1,5
->>> @@ PACKAGES = "\ -  ${PN} ${PN}-plugins ${PN}-symlinks \ +  ${PN}
->>> ${PN}-symlinks \ g++ g++-symlinks \ cpp cpp-symlinks \ g77
->>> g77-symlinks \ @@ -36,20 +36,17 @@ FILES_${PN}-dev = "\ "
->>> FILES_${PN}-plugin-dev = "\
->>> ${gcclibdir}/${TARGET_SYS}/${BINV}/plugin/include/ \ -
->>> ${gcclibdir}/${TARGET_SYS}/${BINV}/plugin/gengtype \
->>> ${gcclibdir}/${TARGET_SYS}/${BINV}/plugin/gtype.state \ +
->>> ${libexecdir}/gcc/${TARGET_SYS}/${BINV}/plugin/gengtype \ "
->>> +ALLOW_EMPTY_${PN}-plugin-dev = "1" + FILES_${PN}-symlinks = "\
->>> ${bindir}/cc \ ${bindir}/gcc \ ${bindir}/gccbug \ "
->>>
->>> -FILES_${PN}-plugins = "\ -
->>> ${gcclibdir}/${TARGET_SYS}/${BINV}/plugin \ -"
->>> -ALLOW_EMPTY_${PN}-plugins = "1" - FILES_g77 = "\
->>> ${bindir}/${TARGET_PREFIX}g77 \
->>> ${libexecdir}/gcc/${TARGET_SYS}/${BINV}/f771 \
->>
->>
->>
->> _______________________________________________ Openembedded-core
->> mailing list Openembedded-core@lists.openembedded.org
->> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
-> -----BEGIN PGP SIGNATURE-----
-> Version: GnuPG v1.4.11 (GNU/Linux)
-> Comment: Using GnuPG with Mozilla - http://enigmail.mozdev.org/
->
-> iEYEARECAAYFAk+f5HcACgkQuwUzVZGdMxTCWgCZAb0BcPwGMsign36/AGoPBQpk
-> ABoAn3lqySL2xGTUFvwQoAbXUz3eNQzr
-> =NpaZ
-> -----END PGP SIGNATURE-----
->
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
->
+http://git.openembedded.org/openembedded-core/log/?h=denzil-next
+
+I'll be merging these on an ongoing basis into my sgarman/denzil-next 
+branch in the poky-contrib repo:
+
+http://git.yoctoproject.org/cgit/cgit.cgi/poky-contrib/log/?h=sgarman/denzil-next
+
+The primary focus for getting patches into 1.2.1 is bugfixing, security 
+updates, and making sure the recently released Ubuntu, Fedora, and 
+OpenSUSE distros work with this release. All other kinds of patches 
+(e.g, performance) will have a very high bar to reach for them to be 
+accepted (i.e, it will have to be very clear they pose little risk to 
+introducing more bugs or stability issues). And of course anything that 
+breaks APIs or compatibility is off the table.
+
+It would help me out greatly if in your pull requests you could mention 
+when you want your commit to also be included in 1.2.1.
+
+Our intention is currently to include bugfixes for these bugs in the 
+eventual release of 1.2.1:
+
+https://bugzilla.yoctoproject.org/buglist.cgi?query_format=advanced&list_id=4572&bug_status=NEW&bug_status=ACCEPTED&bug_status=REOPENED&bug_status=NEEDINFO&bug_status=WaitForUpstream&bug_status=RESOLVED&bug_status=VERIFIED&bug_status=CLOSED&target_milestone=1.2.1
+
+This list is not set in stone and may change at any time. My very rough 
+guesstimate is that we will start testing release candidates for 1.2.1 
+in about 6-8 weeks.
+
+Thanks, and I look forward to helping to ensure that 1.2.1 is a solid 
+and well-tested release!
+
+Scott
+
+IRC: zenlinux
+
+-- 
+Scott Garman
+Embedded Linux Engineer - Yocto Project
+Intel Open Source Technology Center
 
 
