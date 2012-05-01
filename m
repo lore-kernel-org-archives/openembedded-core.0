@@ -1,25 +1,34 @@
-Received: from mail1.windriver.com ([147.11.146.13])
+Received: from mail-lb0-f175.google.com ([209.85.217.175])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <Peter.Seebach@windriver.com>) id 1SPGJ0-0001gF-PO
+	(envelope-from <raj.khem@gmail.com>) id 1SPH0J-0002Re-6k
 	for openembedded-core@lists.openembedded.org;
-	Tue, 01 May 2012 18:52:03 +0200
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca [147.11.189.40])
-	by mail1.windriver.com (8.14.3/8.14.3) with ESMTP id q41GgJNx016706
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
+	Tue, 01 May 2012 19:36:47 +0200
+Received: by lbbgo4 with SMTP id go4so2632862lbb.6
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 1 May 2012 09:42:19 -0700 (PDT)
-Received: from localhost.localdomain (172.25.34.64) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server id 14.1.255.0;
-	Tue, 1 May 2012 09:42:19 -0700
-From: Peter Seebach <peter.seebach@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Tue, 1 May 2012 11:42:16 -0500
-Message-ID: <70a51b94ae61168452373d0fa7bdb83b6eb46178.1335890271.git.peter.seebach@windriver.com>
-X-Mailer: git-send-email 1.7.0.4
-In-Reply-To: <cover.1335890271.git.peter.seebach@windriver.com>
-References: <cover.1335890271.git.peter.seebach@windriver.com>
+	Tue, 01 May 2012 10:27:03 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:content-type:content-transfer-encoding;
+	bh=f4Y/3YHvnG/s0jJPJpZyjjv2FjHffCQ95ZJNzBW56gc=;
+	b=04nVmgCyGwCfc42hd6LUPNQw4qT7faNpw53vnXFJkPp9CA50I0wvZ1OtXjY75SM22i
+	hxslCeXQfwT3ZCk7KwOkioXclheF7ItnrAXaiyPiTrSTexhGgJoFMExJ48k6u9HmhK0e
+	peEOfZko7GAkOgF2tUpk43+JxnnGY4btmgMtBl4Hm+iKnwjGXGCzRpySrDsCTruloH1a
+	IC5bre6+GoXMmWe2qzKS/+ZQSmHIm4H3+04Y59uhr4hdQvfKgiqIhy0P7dEJY4f59fu6
+	2JGrI/K62uOe/oEFRzHpth4t5oLksqyIzQtVq3QToi258BMO40h2K6wrFOuQD0nvQ4WQ
+	Cxyg==
+Received: by 10.152.145.228 with SMTP id sx4mr23057452lab.45.1335893223772;
+	Tue, 01 May 2012 10:27:03 -0700 (PDT)
 MIME-Version: 1.0
-Subject: [PATCH 2/2] sanity.bbclass: Implement initial toolchain sanity checks
+Received: by 10.152.129.134 with HTTP; Tue, 1 May 2012 10:26:33 -0700 (PDT)
+In-Reply-To: <7f53932a2701014255382dd2990858b1cfb28c3b.1335887732.git.kergoth@gmail.com>
+References: <cover.1335887732.git.kergoth@gmail.com>
+	<7f53932a2701014255382dd2990858b1cfb28c3b.1335887732.git.kergoth@gmail.com>
+From: Khem Raj <raj.khem@gmail.com>
+Date: Tue, 1 May 2012 10:26:33 -0700
+Message-ID: <CAMKF1sozSeO2aDcjBy7oQaXS1b17DFFbkQ_gocaCyrQQKBKUSA@mail.gmail.com>
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 4/8] external-csl-toolchain: cleanup, simplify, use base_libdir
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -34,143 +43,154 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 01 May 2012 16:52:03 -0000
-Content-Type: text/plain
+X-List-Received-Date: Tue, 01 May 2012 17:36:47 -0000
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
-This introduces a sanity check for the toolchain, which verifies
-each tuning (including any multilibs), producing meaningful diagnostics
-for problems, and also provides some higher-level tuning features.
+On Tue, May 1, 2012 at 8:58 AM, Christopher Larson <kergoth@gmail.com> wrot=
+e:
+> Signed-off-by: Christopher Larson <kergoth@gmail.com>
+> ---
+> =C2=A0meta/recipes-core/meta/external-csl-toolchain.bb | =C2=A0 55 ++++++=
++++++-----------
+> =C2=A01 files changed, 27 insertions(+), 28 deletions(-)
+>
+> diff --git a/meta/recipes-core/meta/external-csl-toolchain.bb b/meta/reci=
+pes-core/meta/external-csl-toolchain.bb
+> index fb553ab..a14e958 100644
+> --- a/meta/recipes-core/meta/external-csl-toolchain.bb
+> +++ b/meta/recipes-core/meta/external-csl-toolchain.bb
+> @@ -24,36 +24,40 @@ PROVIDES +=3D "\
+> =C2=A0 =C2=A0 =C2=A0 =C2=A0virtual/linux-libc-headers \
+> =C2=A0"
+> =C2=A0PV =3D "${CSL_VER_MAIN}"
+> -PR =3D "r3"
+> +PR =3D "r5"
+>
+> =C2=A0#SRC_URI =3D "http://www.codesourcery.com/public/gnu_toolchain/${CS=
+L_TARGET_SYS}/arm-${PV}-${TARGET_PREFIX}i686-pc-linux-gnu.tar.bz2"
+>
+> =C2=A0SRC_URI =3D "file://SUPPORTED"
+>
+> =C2=A0do_install() {
+> - =C2=A0 =C2=A0 =C2=A0 install -d ${D}${sysconfdir} ${D}${bindir} ${D}${s=
+bindir} ${D}${base_bindir} ${D}${libdir}
+> - =C2=A0 =C2=A0 =C2=A0 install -d ${D}${base_libdir} ${D}${base_sbindir} =
+${D}${datadir} ${D}/usr
+> + =C2=A0 =C2=A0 =C2=A0 # Use optimized files if available
+> + =C2=A0 =C2=A0 =C2=A0 sysroot=3D"${EXTERNAL_TOOLCHAIN}/${CSL_TARGET_SYS}=
+/libc"
+> + =C2=A0 =C2=A0 =C2=A0 if [ -d $sysroot/${CSL_TARGET_CORE} ]; then
+> + =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 sysroot=3D"$sysroot/${=
+CSL_TARGET_CORE}"
+> + =C2=A0 =C2=A0 =C2=A0 fi
+> +
+> + =C2=A0 =C2=A0 =C2=A0 cp -a $sysroot${base_libdir}/. ${D}${base_libdir}
+> + =C2=A0 =C2=A0 =C2=A0 cp -a $sysroot/etc/. ${D}${sysconfdir}
+> + =C2=A0 =C2=A0 =C2=A0 cp -a $sysroot/sbin/. ${D}${base_sbindir}
+>
+> - =C2=A0 =C2=A0 =C2=A0 if [ -d ${EXTERNAL_TOOLCHAIN}/${CSL_TARGET_SYS}/li=
+bc/${CSL_TARGET_CORE} ]; then
+> - =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 cp -a ${EXTERNAL_TOOLC=
+HAIN}/${CSL_TARGET_SYS}/libc/${CSL_TARGET_CORE}/lib/. =C2=A0${D}${base_libd=
+ir}
+> - =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 cp -a ${EXTERNAL_TOOLC=
+HAIN}/${CSL_TARGET_SYS}/libc/${CSL_TARGET_CORE}/etc/. =C2=A0${D}${sysconfdi=
+r}
+> - =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 cp -a ${EXTERNAL_TOOLC=
+HAIN}/${CSL_TARGET_SYS}/libc/${CSL_TARGET_CORE}/sbin/. ${D}${base_sbindir}
+> - =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 if [ ! -e ${EXTERNAL_T=
+OOLCHAIN}/${CSL_TARGET_SYS}/libc/${CSL_TARGET_CORE}/usr/include ]; then
+> - =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 cp -a ${EXTERNAL_TOOLCHAIN}/${CSL_TARGET_SYS}/libc/usr/include =C2=
+=A0${D}/usr/
+> + =C2=A0 =C2=A0 =C2=A0 install -d ${D}/usr
+> + =C2=A0 =C2=A0 =C2=A0 for usr_element in bin libexec sbin share ${base_l=
+ibdir}; do
+> + =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 usr_path=3D$sysroot/us=
+r/$usr_element
+> + =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 cp -a $usr_path ${D}/u=
+sr/
+> + =C2=A0 =C2=A0 =C2=A0 done
+> + =C2=A0 =C2=A0 =C2=A0 for datadir_element in man info; do
+> + =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 datadir_path=3D$sysroo=
+t/usr/$datadir_element
+> + =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 if [ -e $datadir_path =
+]; then
+> + =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 cp -a $datadir_path ${D}${datadir}/
+> =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0fi
+> - =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 cp -a ${EXTERNAL_TOOLC=
+HAIN}/${CSL_TARGET_SYS}/libc/${CSL_TARGET_CORE}/usr/. =C2=A0${D}/usr/
+> - =C2=A0 =C2=A0 =C2=A0 else
+> - =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 cp -a ${EXTERNAL_TOOLC=
+HAIN}/${CSL_TARGET_SYS}/libc/lib/. =C2=A0${D}${base_libdir}
+> - =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 cp -a ${EXTERNAL_TOOLC=
+HAIN}/${CSL_TARGET_SYS}/libc/etc/. =C2=A0${D}${sysconfdir}
+> - =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 cp -a ${EXTERNAL_TOOLC=
+HAIN}/${CSL_TARGET_SYS}/libc/sbin/. ${D}${base_sbindir}
+> - =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 cp -a ${EXTERNAL_TOOLC=
+HAIN}/${CSL_TARGET_SYS}/libc/usr/. =C2=A0${D}/usr/
+> - =C2=A0 =C2=A0 =C2=A0 fi
+> + =C2=A0 =C2=A0 =C2=A0 done
+>
+> - =C2=A0 =C2=A0 =C2=A0 if [ -e ${D}${prefix}/info ]; then
+> - =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 mv ${D}${prefix}/info =
+${D}${infodir}
+> - =C2=A0 =C2=A0 =C2=A0 fi
+> - =C2=A0 =C2=A0 =C2=A0 if [ -e ${D}${prefix}/man ]; then
+> - =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 mv ${D}${prefix}/man $=
+{D}${mandir}
+> + =C2=A0 =C2=A0 =C2=A0 # Some toolchains have headers under the core spec=
+ific area
+> + =C2=A0 =C2=A0 =C2=A0 if [ -e $sysroot/usr/include ]; then
+> + =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 cp -a $sysroot/usr/inc=
+lude/. ${D}${includedir}
+> + =C2=A0 =C2=A0 =C2=A0 else
+> + =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 cp -a $sysroot/../usr/=
+include/. ${D}${includedir}
+> =C2=A0 =C2=A0 =C2=A0 =C2=A0fi
 
-The TUNEVALID and TUNECONFLICT/TUNECONFLICTS settings were not
-implemented.  Listed one or two missing features in TUNEVALID,
-also (in a previous patch) fixed the references to
-features which didn't exist.
+can we avoid using /usr/ explicitly here
 
-This patch also provides a whitelisting mechanism (which is completely
-unused) to allow vendors providing prebuilt toolchain components to
-restrict tunings to those based on or compatible with a particular ABI.
----
- meta/classes/sanity.bbclass  |   76 ++++++++++++++++++++++++++++++++++++++++++
- meta/conf/documentation.conf |   10 +++++
- 2 files changed, 86 insertions(+), 0 deletions(-)
-
-diff --git a/meta/classes/sanity.bbclass b/meta/classes/sanity.bbclass
-index 687ddeb..4cc5a14 100644
---- a/meta/classes/sanity.bbclass
-+++ b/meta/classes/sanity.bbclass
-@@ -11,6 +11,79 @@ def raise_sanity_error(msg):
-     
-     %s""" % msg)
- 
-+# Check a single tune for validity.
-+def check_toolchain_tune(data, tune, multilib):
-+    tune_errors = []
-+    if not tune:
-+        return "No tuning found for %s multilib." % multilib
-+    bb.debug(2, "Sanity-checking tuning '%s' (%s) features:" % (tune, multilib))
-+    features = (data.getVar("TUNE_FEATURES_tune-%s" % tune, True) or "").split()
-+    if not features:
-+        return "Tuning '%s' has no defined features, and cannot be used." % tune
-+    valid_tunes = data.getVarFlags('TUNEVALID') or {}
-+    conflicts = data.getVarFlags('TUNECONFLICTS') or {}
-+    # [doc] is the documentation for the variable, not a real feature
-+    if 'doc' in valid_tunes:
-+        del valid_tunes['doc']
-+    if 'doc' in conflicts:
-+        del conflicts['doc']
-+    for feature in features:
-+        if feature in conflicts:
-+            for conflict in conflicts[feature].split():
-+                if conflict in features:
-+                    tune_errors.append("Feature '%s' conflicts with '%s'." %
-+                        (feature, conflict))
-+        if feature in valid_tunes:
-+            bb.debug(2, "  %s: %s" % (feature, valid_tunes[feature]))
-+        else:
-+            tune_errors.append("Feature '%s' is not defined." % feature)
-+    whitelist = data.getVar("TUNEABI_WHITELIST", True) or ''
-+    override = data.getVar("TUNEABI_OVERRIDE", True) or ''
-+    if whitelist:
-+        tuneabi = data.getVar("TUNEABI_tune-%s" % tune, True) or ''
-+        if not tuneabi:
-+            tuneabi = tune
-+        if True not in [x in whitelist.split() for x in tuneabi.split()]:
-+            tune_errors.append("Tuning '%s' (%s) cannot be used with any supported tuning/ABI." %
-+                (tune, tuneabi))
-+    if tune_errors:
-+        return "Tuning '%s' has the following errors:\n" + '\n'.join(tune_errors)
-+
-+def check_toolchain(data):
-+    tune_error_set = []
-+    deftune = data.getVar("DEFAULTTUNE", True)
-+    tune_errors = check_toolchain_tune(data, deftune, 'default')
-+    if tune_errors:
-+        tune_error_set.append(tune_errors)
-+
-+    multilibs = (data.getVar("MULTILIBS", True) or "").split()
-+    if multilibs:
-+        seen_libs = []
-+        seen_tunes = []
-+        for pairs in [x.split(':') for x in multilibs]:
-+            if pairs[0] != 'multilib':
-+                bb.warn("Got an unexpected '%s' in MULTILIBS." % pairs[0])
-+            else:
-+                if pairs[1] in seen_libs:
-+                    tune_error_set.append("The multilib '%s' appears more than once." % pairs[1])
-+                else:
-+                    seen_libs.append(pairs[1])
-+                tune = data.getVar("DEFAULTTUNE_virtclass-multilib-%s" % pairs[1], True)
-+                if tune in seen_tunes:
-+                    tune_error_set.append("The tuning '%s' appears in more than one multilib." % tune)
-+                else:
-+                    seen_libs.append(tune)
-+                if tune == deftune:
-+                    tune_error_set.append("Multilib '%s' (%s) is also the default tuning." % (pairs[1], deftune))
-+                else:
-+                    tune_errors = check_toolchain_tune(data, tune, pairs[1])
-+                if tune_errors:
-+                    tune_error_set.append(tune_errors)
-+    if tune_error_set:
-+        return "Toolchain tunings invalid:\n" + '\n'.join(tune_error_set)
-+
-+    return ""
-+
- def check_conf_exists(fn, data):
-     bbpath = []
-     fn = data.expand(fn)
-@@ -327,6 +400,9 @@ def check_sanity(e):
-         messages = messages + pseudo_msg + '\n'
- 
-     check_supported_distro(e)
-+    toolchain_msg = check_toolchain(e.data)
-+    if toolchain_msg != "":
-+        messages = messages + toolchain_msg + '\n'
- 
-     # Check if DISPLAY is set if IMAGETEST is set
-     if not data.getVar( 'DISPLAY', e.data, True ) and data.getVar( 'IMAGETEST', e.data, True ) == 'qemu':
-diff --git a/meta/conf/documentation.conf b/meta/conf/documentation.conf
-index 3e40a77..d410098 100644
---- a/meta/conf/documentation.conf
-+++ b/meta/conf/documentation.conf
-@@ -36,6 +36,16 @@ for hardware floating point instructions."
- 
- TUNEVALID[doc] = "Descriptions of valid tuning features, stored as flags."
- TUNECONFLICTS[doc] = "List of conflicting features for a given feature."
-+TUNEABI[doc] = """An underlying ABI used by a particular tuning in a given
-+toolchain layer.  This feature allows providers using prebuilt
-+libraries to check compatibility of a tuning against their selection
-+of libraries."""
-+TUNEABI_WHITELIST[doc] = "A whitelist of permissible TUNEABI values; if unset, all are allowed."
-+TUNEABI_OVERRIDE[doc] = "If set, ignores TUNEABI_WHITELIST."
-+
-+ ASSUME_PROVIDED[doc] = "List of packages (recipes actually) which are assumed to be implicitly available.\
-+  These packages won't be built by bitbake."
-+ ASSUME_SHLIBS[doc] = "List of shlib:package[_version] mappings. Useful for lib packages in ASSUME_PROVIDED,\
- 
- ASSUME_PROVIDED[doc] = "List of packages (recipes actually) which are assumed to be implicitly available.\
-  These packages won't be built by bitbake."
--- 
-1.7.0.4
-
+>
+> =C2=A0 =C2=A0 =C2=A0 =C2=A0rm ${D}${sysconfdir}/rpc
+> @@ -61,18 +65,13 @@ do_install() {
+>
+> =C2=A0 =C2=A0 =C2=A0 =C2=A0mv ${D}${libdir}/bin/* ${D}${bindir}/
+> =C2=A0 =C2=A0 =C2=A0 =C2=A0if [ -e ${D}${libdir}/bin/.debug ]; then
+> - =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 install -d ${D}${bindi=
+r}/.debug
+> =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0mv ${D}${libdir}/b=
+in/.debug/* ${D}${bindir}/.debug/
+> =C2=A0 =C2=A0 =C2=A0 =C2=A0fi
+> =C2=A0 =C2=A0 =C2=A0 =C2=A0ln -s ../../bin/gdbserver ${D}${libdir}/bin/sy=
+sroot-gdbserver
+>
+> =C2=A0 =C2=A0 =C2=A0 =C2=A0sed -i -e 's/__packed/__attribute__ ((packed))=
+/' ${D}${includedir}/mtd/ubi-user.h
+> - =C2=A0 =C2=A0 =C2=A0 sed -i -e "s# /lib# ../../lib#g" -e "s# /usr/lib# =
+.#g" ${D}${libdir}/libc.so
+> - =C2=A0 =C2=A0 =C2=A0 sed -i -e "s# /lib# ../../lib#g" -e "s# /usr/lib# =
+.#g" ${D}${libdir}/libpthread.so
+> -}
+> -
+> -do_install_locale_append () {
+> - =C2=A0 =C2=A0 =C2=A0 rm -r ${D}${datadir}/locale ${D}${libdir}/locale
+> + =C2=A0 =C2=A0 =C2=A0 =C2=A0sed -i -e "s# ${base_libdir}# ../..${base_li=
+bdir}#g" -e "s# ${libdir}# .#g" ${D}${libdir}/libc.so
+> + =C2=A0 =C2=A0 =C2=A0 =C2=A0sed -i -e "s# ${base_libdir}# ../..${base_li=
+bdir}#g" -e "s# ${libdir}# .#g" ${D}${libdir}/libpthread.so
+> =C2=A0}
+>
+> =C2=A0SYSROOT_PREPROCESS_FUNCS +=3D "external_toolchain_sysroot_adjust"
+> --
+> 1.7.7
+>
+>
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
 
 
