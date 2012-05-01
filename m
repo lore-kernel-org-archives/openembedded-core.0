@@ -1,37 +1,38 @@
 Received: from mail-ob0-f175.google.com ([209.85.214.175])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <kergoth@gmail.com>) id 1SPFgM-000137-AI
+	(envelope-from <kergoth@gmail.com>) id 1SPFgR-00012z-Rp
 	for openembedded-core@lists.openembedded.org;
 	Tue, 01 May 2012 18:12:12 +0200
-Received: by obhx4 with SMTP id x4so5080249obh.6
+Received: by obhx4 with SMTP id x4so5080055obh.6
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 01 May 2012 09:02:20 -0700 (PDT)
+	Tue, 01 May 2012 09:02:11 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=from:to:subject:date:message-id:x-mailer:in-reply-to:references
+	h=from:to:cc:subject:date:message-id:x-mailer:in-reply-to:references
 	:in-reply-to:references;
-	bh=QiBQorRdN9xxskhwgm/TVYViU9IKIRVJ/3MyAn7wM2U=;
-	b=dO6INX80953mwAM6bB0PoY9PP4ll9DPZc6H134C89k01e5I49jPXMcYFKnTYitnsGC
-	nwdn0UImXHXxJr8TDJ8qGvtp6aQ3v16DrASngmyjXN9RG7irEZMk4bxLouDlhj9xx0/O
-	SE+rtXiTBKHYSaUnUcScvTr0cQ3WHGo/06rqs0vkEnE5nxQ6v1jwfN0NQQL2QqlBJNlc
-	RJdQFR4KncNrw1SkKlbEBJdh6dxf+lxwg45oZ9VyviyF5G1rH18S+eS7qG02iskLmWbB
-	O1SmQRlY9Cb+9vmYhuOXSg7PasqbjabDsQRcY0m4YTN31wxaYBiiDPrWt334lfcZayIx
-	Tiew==
-Received: by 10.182.179.73 with SMTP id de9mr4312741obc.44.1335888140210;
-	Tue, 01 May 2012 09:02:20 -0700 (PDT)
+	bh=xFAid3nFC5MRYJuzgeMNcukfKXZN8lSQ9QafXwcYbws=;
+	b=rD43eXwTyynfVqIeGezfcPWcy/7txn7LKphhZ7IAOzCbkWPfgr5yxMLFI7kgkKpbeb
+	dne4FYE+b6jWHaBU3X381evDGNkGppg7zmFnCzNRZOoOO2x6jhiWeTMNfndzcKNshhAq
+	nvqBzCvis0Ed1Pr/4wrMBg8gpiJRVy1GZBzRSw6bDb3/btx5NUAI6w/I6eUuDil0qkmp
+	94DPCj3nupW9KCW9pg0BNKolylSovqq4V+FViljp6jtcecMczuU0Wz85zDjEV+IhK0If
+	csMcbUndx4JM6mpay46tqn5FBbV2xk3CGVvIu2yjADPX92RVdxLFZbRngj93QuucrKUF
+	bFvA==
+Received: by 10.182.222.2 with SMTP id qi2mr34845762obc.27.1335888131680;
+	Tue, 01 May 2012 09:02:11 -0700 (PDT)
 Received: from localhost.localdomain (nat-lmt.mentorg.com. [139.181.28.34])
-	by mx.google.com with ESMTPS id h2sm20758865obn.20.2012.05.01.09.02.18
+	by mx.google.com with ESMTPS id h2sm20758865obn.20.2012.05.01.09.02.09
 	(version=TLSv1/SSLv3 cipher=OTHER);
-	Tue, 01 May 2012 09:02:19 -0700 (PDT)
+	Tue, 01 May 2012 09:02:09 -0700 (PDT)
 From: Christopher Larson <kergoth@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Tue,  1 May 2012 11:02:45 -0500
-Message-Id: <8409784e486b7f181231fd46bee5fcdc384de7d3.1335888041.git.kergoth@gmail.com>
+Date: Tue,  1 May 2012 11:02:40 -0500
+Message-Id: <d616cdfe116596ffeea294bcd406c90cf60c6e4f.1335888041.git.kergoth@gmail.com>
 X-Mailer: git-send-email 1.7.7
 In-Reply-To: <cover.1335888041.git.kergoth@gmail.com>
 References: <cover.1335888041.git.kergoth@gmail.com>
 In-Reply-To: <cover.1335888041.git.kergoth@gmail.com>
 References: <cover.1335888041.git.kergoth@gmail.com>
-Subject: [PATCH 6/6] base.bbclass: use isinstance for base_eventhandler
+Cc: Christopher Larson <chris_larson@mentor.com>
+Subject: [PATCH 1/6] mesa: add missing flex-native/bison-native deps
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -48,46 +49,30 @@ List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedde
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Tue, 01 May 2012 16:12:12 -0000
 
-Signed-off-by: Christopher Larson <kergoth@gmail.com>
----
- meta/classes/base.bbclass |   16 ++++++----------
- 1 files changed, 6 insertions(+), 10 deletions(-)
+From: Christopher Larson <chris_larson@mentor.com>
 
-diff --git a/meta/classes/base.bbclass b/meta/classes/base.bbclass
-index 07ef9a2..bb39b7b 100644
---- a/meta/classes/base.bbclass
-+++ b/meta/classes/base.bbclass
-@@ -248,12 +248,13 @@ def buildcfg_neededvars(d):
+A quick glance at configure.ac shows that both are required to build mesa, but
+we were relying on their being built implicitly via other recipes in the
+dependency chain. Make it explicit.
+
+Signed-off-by: Christopher Larson <chris_larson@mentor.com>
+---
+ meta/recipes-graphics/mesa/mesa-common.inc |    2 +-
+ 1 files changed, 1 insertions(+), 1 deletions(-)
+
+diff --git a/meta/recipes-graphics/mesa/mesa-common.inc b/meta/recipes-graphics/mesa/mesa-common.inc
+index 1c376b7..f697e67 100644
+--- a/meta/recipes-graphics/mesa/mesa-common.inc
++++ b/meta/recipes-graphics/mesa/mesa-common.inc
+@@ -19,7 +19,7 @@ PE = "2"
+ PROTO_DEPS = "xf86driproto glproto"
+ LIB_DEPS = "virtual/libx11 libxext libxxf86vm libxdamage libxfixes libxml2-native"
  
- addhandler base_eventhandler
- python base_eventhandler() {
--	from bb.event import getName
--
--	name = getName(e)
--
--	if name.startswith("BuildStarted"):
-+        if isinstance(e, bb.event.ConfigParsed):
- 		e.data.setVar('BB_VERSION', bb.__version__)
-+                generate_git_config(e)
-+                pkgarch_mapping(e.data)
-+                preferred_ml_updates(e.data)
-+
-+	if isinstance(e, bb.event.BuildStarted):
- 		statuslines = []
- 		for func in oe.data.typed_value('BUILDCFG_FUNCS', e.data):
- 			g = globals()
-@@ -266,11 +267,6 @@ python base_eventhandler() {
+-DEPENDS = "makedepend-native python-native ${PROTO_DEPS} ${LIB_DEPS}"
++DEPENDS = "makedepend-native python-native flex-native bison-native ${PROTO_DEPS} ${LIB_DEPS}"
  
- 		statusheader = e.data.getVar('BUILDCFG_HEADER', True)
- 		bb.plain('\n%s\n%s\n' % (statusheader, '\n'.join(statuslines)))
--
--        if name == "ConfigParsed":
--                generate_git_config(e)
--                pkgarch_mapping(e.data)
--                preferred_ml_updates(e.data)
- }
+ PROVIDES = "virtual/libgl"
  
- addtask configure after do_patch
 -- 
 1.7.7
 
