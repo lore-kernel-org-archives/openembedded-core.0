@@ -1,48 +1,59 @@
-Received: from mga05.intel.com ([192.55.52.89] helo=fmsmga101.fm.intel.com)
+Received: from va3ehsobe001.messaging.microsoft.com ([216.32.180.11]
+	helo=va3outboundpool.messaging.microsoft.com)
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <scott.a.garman@intel.com>) id 1SPKav-0008Pe-BD
+	(envelope-from <B29882@freescale.com>) id 1SPKsY-0000CV-Cy
 	for openembedded-core@lists.openembedded.org;
-	Tue, 01 May 2012 23:26:49 +0200
-Received: from mail-pb0-f52.google.com ([209.85.160.52])
-	by mga01.intel.com with ESMTP/TLS/RC4-SHA; 01 May 2012 14:17:04 -0700
-Received: by pbbro8 with SMTP id ro8so11087606pbb.25
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 01 May 2012 14:17:03 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=google.com; s=20120113;
-	h=message-id:date:from:user-agent:mime-version:to:cc:subject
-	:references:in-reply-to:content-type:content-transfer-encoding
-	:x-gm-message-state;
-	bh=j5VIVHubNv6tU//qflcwSvRJVN6a71vkMWlkj09YuCg=;
-	b=f8OlRoexAGP+YgmtLGrh/P7FTO/BcSN93BWBH6+kdIrzesSqrnLpALYCf8LkzeAMRG
-	3wlIP1wwRP7tYIwcD9l6H1Z3BB10BwspFP+bRaT8rEI2bTPSdlDCMJodCRGgOGmOFCVq
-	s2FxJv0gZI/R86UN3BFMF2oFyEHbJnHRzH0C2BKti4YFBEAyXtYO12HoV1elQwAhnMsH
-	OS9EC0WK14H+R8EbhrQWgvjL5hhEECdvAbMQLW+rq05P2FexP49ti5Xp5FWPEQfHb7QI
-	U+q7Vg//vMtWlJld2lbLm2u+ucUQX33eki1Jqhu72OsO3mHP0bqBlhlYV6WNxVUsrTYo
-	vpVw==
-Received: by 10.68.211.197 with SMTP id ne5mr17937405pbc.143.1335907023888;
-	Tue, 01 May 2012 14:17:03 -0700 (PDT)
-Received: from [10.1.10.192] (c-50-137-42-92.hsd1.or.comcast.net.
-	[50.137.42.92])
-	by mx.google.com with ESMTPS id tx9sm9323145pbc.10.2012.05.01.14.17.01
-	(version=SSLv3 cipher=OTHER); Tue, 01 May 2012 14:17:02 -0700 (PDT)
-Message-ID: <4FA052CB.6050508@intel.com>
-Date: Tue, 01 May 2012 14:16:59 -0700
-From: Scott Garman <scott.a.garman@intel.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:11.0) Gecko/20120329 Thunderbird/11.0.1
-MIME-Version: 1.0
-To: yocto@yoctoproject.org
-References: <4FA001F0.7010705@intel.com>
-In-Reply-To: <4FA001F0.7010705@intel.com>
-X-Gm-Message-State: ALoCoQmlff745Edw3DNeipnuZB28drKwiRETABYUoBwcL92wT2sSta80dZt1vuzy414TrF9mugET
-Cc: Patches and discussions about the oe-core layer
+	Tue, 01 May 2012 23:45:02 +0200
+Received: from mail140-va3-R.bigfish.com (10.7.14.252) by
+	VA3EHSOBE005.bigfish.com (10.7.40.25) with Microsoft SMTP Server id
+	14.1.225.23; Tue, 1 May 2012 21:20:05 +0000
+Received: from mail140-va3 (localhost [127.0.0.1])	by
+	mail140-va3-R.bigfish.com (Postfix) with ESMTP id 91DBBC00E2	for
+	<openembedded-core@lists.openembedded.org>;
+	Tue,  1 May 2012 21:20:04 +0000 (UTC)
+X-SpamScore: -9
+X-BigFish: VS-9(zz9371I1432N98dKzz1202hzz8275bh8275dhz2dh2a8h668h839h8e2h8e3hbe9i)
+X-Forefront-Antispam-Report: CIP:70.37.183.190; KIP:(null); UIP:(null); IPV:NLI;
+	H:mail.freescale.net; RD:none; EFVD:NLI
+Received: from mail140-va3 (localhost.localdomain [127.0.0.1]) by mail140-va3
+	(MessageSwitch) id 1335907203404536_17287;
+	Tue,  1 May 2012 21:20:03 +0000 (UTC)
+Received: from VA3EHSMHS032.bigfish.com (unknown [10.7.14.253])	by
+	mail140-va3.bigfish.com (Postfix) with ESMTP id 4EEB5160086	for
+	<openembedded-core@lists.openembedded.org>;
+	Tue,  1 May 2012 21:20:03 +0000 (UTC)
+Received: from mail.freescale.net (70.37.183.190) by VA3EHSMHS032.bigfish.com
+	(10.7.99.42) with Microsoft SMTP Server (TLS) id 14.1.225.23;
+	Tue, 1 May 2012 21:20:01 +0000
+Received: from 039-SN1MPN1-001.039d.mgd.msft.net ([169.254.1.132]) by
+	039-SN1MMR1-002.039d.mgd.msft.net ([10.84.1.15]) with mapi id
+	14.01.0355.003; Tue, 1 May 2012 16:20:07 -0500
+From: McClintock Matthew-B29882 <B29882@freescale.com>
+To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Subject: Re: Yocto Project 1.2.1 release plan.
+Thread-Topic: [OE-core] Bug 1570 - ICU not endian safe and web2 fails on ppc
+Thread-Index: AQHNGPa+tt3LMEkuTUWQjWDsOCrv75a14iUA
+Date: Tue, 1 May 2012 21:20:06 +0000
+Message-ID: <CAEsOVNdJJ8ooSajaQ_DRkhKs_kLKa5Y489+B+W4=qnTOmiReoA@mail.gmail.com>
+References: <alpine.DEB.2.02.1203240515560.21886@oneiric>
+	<1332584294.9740.506.camel@ted>
+	<alpine.DEB.2.02.1203240621540.25240@oneiric>
+	<CAEsOVNdOp6GVeGusJXit2xocy-V7a7nzejTpo3aKT9y9-sxtjA@mail.gmail.com>
+	<ADD6A3980E8C39419A432FF422031B4C0305E4EB@fmsmsx152.amr.corp.intel.com>
+In-Reply-To: <ADD6A3980E8C39419A432FF422031B4C0305E4EB@fmsmsx152.amr.corp.intel.com>
+Accept-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [99.47.177.27]
+MIME-Version: 1.0
+X-OriginatorOrg: freescale.com
+Cc: McClintock Matthew-B29882 <B29882@freescale.com>
+Subject: Re: Bug 1570 - ICU not endian safe and web2 fails on ppc
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
-Reply-To: Patches and discussions about the oe-core layer
+Reply-To: McClintock Matthew-B29882 <B29882@freescale.com>,
+	Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
 List-Id: Patches and discussions about the oe-core layer
 	<openembedded-core.lists.openembedded.org>
@@ -53,30 +64,25 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 01 May 2012 21:26:49 -0000
-Content-Type: text/plain; charset=ISO-8859-1; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Tue, 01 May 2012 21:45:02 -0000
+Content-Language: en-US
+Content-Type: text/plain; charset="iso-8859-1"
+Content-ID: <209EE7481A710F4181199195F053B59E@mgd.freescale.com>
+Content-Transfer-Encoding: quoted-printable
 
-On 05/01/2012 08:32 AM, Scott Garman wrote:
-> Richard has already started pulling in some patches from master into the
-> denzil-next branch on oe-core:
+On Thu, Apr 12, 2012 at 4:53 PM, Kamble, Nitin A
+<nitin.a.kamble@intel.com> wrote:
+> Gary,
+> =A0 May be Matthew may be able to provide some help with his Freescale ba=
+ckground.
 >
-> http://git.openembedded.org/openembedded-core/log/?h=denzil-next
+> I could not add Matthew to the bug, so ccing him here.
 >
-> I'll be merging these on an ongoing basis into my sgarman/denzil-next
-> branch in the poky-contrib repo:
->
-> http://git.yoctoproject.org/cgit/cgit.cgi/poky-contrib/log/?h=sgarman/denzil-next
+> https://bugzilla.yoctoproject.org/show_bug.cgi?id=3D1570
 
-Sorry about this folks - my denzil-next branch was based on oe-core and 
-not poky. So I've just deleted the branch and will be re-creating it 
-shortly.
+Sorry for the late reply but this issue looks resolved...
 
-Scott
+-M=
 
--- 
-Scott Garman
-Embedded Linux Engineer - Yocto Project
-Intel Open Source Technology Center
 
 
