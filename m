@@ -1,20 +1,22 @@
-Received: from mga03.intel.com ([143.182.124.21])
+Received: from mga02.intel.com ([134.134.136.20])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <nitin.a.kamble@intel.com>) id 1SPLHC-0000o2-2B
+	(envelope-from <nitin.a.kamble@intel.com>) id 1SPLHC-0000o3-R5
 	for openembedded-core@lists.openembedded.org;
-	Wed, 02 May 2012 00:10:30 +0200
-Received: from azsmga001.ch.intel.com ([10.2.17.19])
-	by azsmga101.ch.intel.com with ESMTP; 01 May 2012 15:00:45 -0700
+	Wed, 02 May 2012 00:10:31 +0200
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+	by orsmga101.jf.intel.com with ESMTP; 01 May 2012 15:00:46 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="137620685"
+X-IronPort-AV: E=Sophos;i="4.67,352,1309762800"; d="scan'208";a="135871092"
 Received: from nbuild0.sc.intel.com ([172.25.110.36])
-	by azsmga001.ch.intel.com with ESMTP; 01 May 2012 15:00:45 -0700
+	by orsmga001.jf.intel.com with ESMTP; 01 May 2012 15:00:46 -0700
 From: nitin.a.kamble@intel.com
 To: openembedded-core@lists.openembedded.org
-Date: Tue,  1 May 2012 15:00:43 -0700
-Message-Id: <cover.1335909595.git.nitin.a.kamble@intel.com>
+Date: Tue,  1 May 2012 15:00:40 -0700
+Message-Id: <b0d5193248111699e406cf352793898293bc2f89.1335909595.git.nitin.a.kamble@intel.com>
 X-Mailer: git-send-email 1.7.6.5
-Subject: [PATCH 0/6] Recipe upgrades
+In-Reply-To: <cover.1335909595.git.nitin.a.kamble@intel.com>
+References: <cover.1335909595.git.nitin.a.kamble@intel.com>
+Subject: [PATCH 1/6] qt4: fix compilation issue
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -29,58 +31,88 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 01 May 2012 22:10:30 -0000
+X-List-Received-Date: Tue, 01 May 2012 22:10:31 -0000
 
 From: Nitin A Kamble <nitin.a.kamble@intel.com>
 
-The following changes since commit d89f7b9cab1946a3267e3b0402f168f946d480b2:
+gcc 4.7 uncovers a type mismatch in the code. And this commit fixes the issue:
 
-  documentation/Makefile: Fixed figures publishing bug (2012-05-01 20:50:56 +0100)
+| /srv/home/nitin/builds/build-gcc47/tmp/sysroots/qemux86/usr/include/glib-2.0/glib/gthread.h:58:7: error: 'union' tag used in naming 'struct _GMutex' [-Werror=permissive]
+| In file included from ./wtf/Platform.h:1217:0,
+|                  from ./config.h:30,
+|                  from wtf/gobject/GOwnPtr.cpp:19:
+| wtf/gobject/GTypedefs.h:55:16: note: 'struct _GMutex' was previously declared here
+NOTE: package qt4-x11-free-4.8.1-r41.1: task do_compile: Failed
 
-are available in the git repository at:
-  git://git.pokylinux.org/poky-contrib nitin/upgrades
-  http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=nitin/upgrades
-
-Nitin A Kamble (6):
-  qt4: fix compilation issue
-  makedepend: upgrade from 1.0.3 to 1.0.4
-  quilt: upgrade from 0.51 to 0.60
-  gdb: upgrade from 7.4 to 7.4.1
-  python: upgrade from 2.7.2 to 2.7.3
-  distro-tracking: update as per recent recipe upgrades
-
- meta/conf/distro/include/default-versions.inc      |    4 +-
- .../conf/distro/include/distro_tracking_fields.inc |   20 +++++-----
- meta/recipes-devtools/gdb/gdb-common.inc           |    6 ++--
- ...canadian_7.4.bb => gdb-cross-canadian_7.4.1.bb} |    2 +-
- .../gdb/{gdb-cross_7.4.bb => gdb-cross_7.4.1.bb}   |    0
- .../gdb/{gdb_7.4.bb => gdb_7.4.1.bb}               |    0
- ...thon-native_2.7.2.bb => python-native_2.7.3.bb} |    6 +---
- meta/recipes-devtools/python/python.inc            |    8 ++--
- .../python/python/04-default-is-optimized.patch    |   30 +++++++++------
- .../python/fix_for_using_different_libdir.patch    |   30 +++++++++-------
- .../python/sys_platform_is_now_always_linux2.patch |   39 --------------------
- .../python/{python_2.7.2.bb => python_2.7.3.bb}    |    3 +-
- .../quilt/{quilt-0.51.inc => quilt-0.60.inc}       |    4 +-
- .../{quilt-native_0.51.bb => quilt-native_0.60.bb} |    2 +-
- .../quilt/{quilt_0.51.bb => quilt_0.60.bb}         |    2 +-
- .../{makedepend_1.0.3.bb => makedepend_1.0.4.bb}   |    5 +--
+Signed-off-by: Nitin A Kamble <nitin.a.kamble@intel.com>
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+---
  meta/recipes-qt/qt4/qt-4.8.1.inc                   |    1 +
- .../qt4/qt-4.8.1/fix_conflicting_types.patch       |   29 +++++++++++++++
+ .../qt4/qt-4.8.1/fix_conflicting_types.patch       |   29 ++++++++++++++++++++
  meta/recipes-qt/qt4/qt4-x11-free.inc               |    2 +-
- 19 files changed, 94 insertions(+), 99 deletions(-)
- rename meta/recipes-devtools/gdb/{gdb-cross-canadian_7.4.bb => gdb-cross-canadian_7.4.1.bb} (88%)
- rename meta/recipes-devtools/gdb/{gdb-cross_7.4.bb => gdb-cross_7.4.1.bb} (100%)
- rename meta/recipes-devtools/gdb/{gdb_7.4.bb => gdb_7.4.1.bb} (100%)
- rename meta/recipes-devtools/python/{python-native_2.7.2.bb => python-native_2.7.3.bb} (92%)
- delete mode 100644 meta/recipes-devtools/python/python/sys_platform_is_now_always_linux2.patch
- rename meta/recipes-devtools/python/{python_2.7.2.bb => python_2.7.3.bb} (98%)
- rename meta/recipes-devtools/quilt/{quilt-0.51.inc => quilt-0.60.inc} (84%)
- rename meta/recipes-devtools/quilt/{quilt-native_0.51.bb => quilt-native_0.60.bb} (83%)
- rename meta/recipes-devtools/quilt/{quilt_0.51.bb => quilt_0.60.bb} (98%)
- rename meta/recipes-graphics/xorg-util/{makedepend_1.0.3.bb => makedepend_1.0.4.bb} (82%)
+ 3 files changed, 31 insertions(+), 1 deletions(-)
  create mode 100644 meta/recipes-qt/qt4/qt-4.8.1/fix_conflicting_types.patch
 
+diff --git a/meta/recipes-qt/qt4/qt-4.8.1.inc b/meta/recipes-qt/qt4/qt-4.8.1.inc
+index 8c38cae..2fc4228 100644
+--- a/meta/recipes-qt/qt4/qt-4.8.1.inc
++++ b/meta/recipes-qt/qt4/qt-4.8.1.inc
+@@ -23,6 +23,7 @@ SRC_URI = "http://get.qt.nokia.com/qt/source/qt-everywhere-opensource-src-${PV}.
+            file://gcc47-fix.patch \
+            file://gcc47-fix2.patch \
+            file://disable-fuse-gold-flag.patch \
++           file://fix_conflicting_types.patch \
+            "
+ 
+ SRC_URI[md5sum] = "7960ba8e18ca31f0c6e4895a312f92ff"
+diff --git a/meta/recipes-qt/qt4/qt-4.8.1/fix_conflicting_types.patch b/meta/recipes-qt/qt4/qt-4.8.1/fix_conflicting_types.patch
+new file mode 100644
+index 0000000..8124505
+--- /dev/null
++++ b/meta/recipes-qt/qt4/qt-4.8.1/fix_conflicting_types.patch
+@@ -0,0 +1,29 @@
++Upstream-Status: Pending
++
++This patch fixes the type mismatch fixing this compile issue:
++
++| /srv/home/nitin/builds/build-gcc47/tmp/sysroots/qemux86/usr/include/glib-2.0/glib/gthread.h:58:7: error: 'union' tag used in naming 'struct _GMutex' [-Werror=permissive]
++| In file included from ./wtf/Platform.h:1217:0,
++|                  from ./config.h:30,
++|                  from wtf/gobject/GOwnPtr.cpp:19:
++| wtf/gobject/GTypedefs.h:55:16: note: 'struct _GMutex' was previously declared here
++NOTE: package qt4-x11-free-4.8.1-r41.1: task do_compile: Failed
++
++
++Signed-Off-By: Nitin A Kamble <nitin.a.kamble@intel.com>
++2012/04/30
++
++
++Index:  qt-everywhere-opensource-src-4.8.1/src/3rdparty/webkit/Source/JavaScriptCore/wtf/gobject/GTypedefs.h
++===================================================================
++--- qt-everywhere-opensource-src-4.8.1/src/3rdparty.orig/webkit/Source/JavaScriptCore/wtf/gobject/GTypedefs.h
+++++ qt-everywhere-opensource-src-4.8.1/src/3rdparty/webkit/Source/JavaScriptCore/wtf/gobject/GTypedefs.h
++@@ -52,7 +52,7 @@ typedef struct _GFile GFile;
++ typedef struct _GHashTable GHashTable;
++ typedef struct _GInputStream GInputStream;
++ typedef struct _GList GList;
++-typedef struct _GMutex GMutex;
+++typedef union _GMutex GMutex;
++ typedef struct _GPatternSpec GPatternSpec;
++ typedef struct _GPollableOutputStream GPollableOutputStream;
++ typedef struct _GSocketClient GSocketClient;
+diff --git a/meta/recipes-qt/qt4/qt4-x11-free.inc b/meta/recipes-qt/qt4/qt4-x11-free.inc
+index a59198d..720b1bf 100644
+--- a/meta/recipes-qt/qt4/qt4-x11-free.inc
++++ b/meta/recipes-qt/qt4/qt4-x11-free.inc
+@@ -5,7 +5,7 @@ HOMEPAGE = "http://qt.nokia.com"
+ SECTION = "x11/libs"
+ DEPENDS += "virtual/libgl virtual/libx11 fontconfig libxft libxext libxrender libxrandr libxcursor"
+ 
+-INC_PR = "r41"
++INC_PR = "r42"
+ 
+ QT_GLFLAGS ?= "${@base_contains('DISTRO_FEATURES', 'opengl', '-opengl', '-no-opengl', d)} "
+ QT_GLFLAGS_qemux86 = "-opengl"
 -- 
 1.7.7
 
