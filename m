@@ -1,37 +1,37 @@
-Received: from mail-qa0-f48.google.com ([209.85.216.48])
+Received: from mail-qa0-f47.google.com ([209.85.216.47])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <kergoth@gmail.com>) id 1SPFcB-0000in-0O
+	(envelope-from <kergoth@gmail.com>) id 1SPFcB-0000k0-Js
 	for openembedded-core@lists.openembedded.org;
 	Tue, 01 May 2012 18:07:47 +0200
-Received: by mail-qa0-f48.google.com with SMTP id y23so2546606qad.7
+Received: by qabg1 with SMTP id g1so2420088qab.6
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 01 May 2012 08:58:05 -0700 (PDT)
+	Tue, 01 May 2012 08:58:04 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
 	h=from:to:subject:date:message-id:x-mailer:in-reply-to:references
 	:in-reply-to:references;
-	bh=YSIy86WWA5+69YWcmcIcRqP5VVYtmdZe2JVUEuS2Rv0=;
-	b=LXUGVaGNsrzAmpVB7A14/PkSWmrKjmXr9oX6y608KQIaSrpWVz9yEP5hOS+kOBO8is
-	QRz6qIu5vSR31Voq9j1CfipmXk1gzs0OMjUk85Eyed+RTdxJ3qXF0ou0bE8aHdEcRvDM
-	eT7Dm5uIuRWQTO0iAk6KlsXSpjuaFnWG+JC0nJP2w8Yq+mzRJFG3QietxpGZ0r6Z2rVa
-	B4OJ8zTbukcocYF6FBA7H0JsBL4QZj3A8O+pekBVA/0sUHYPcQBcuTtuveZq3SsWJrDd
-	tPJ0A/flapq8qWOe1soEYCYwNOVqBnScS2c3PEAp6vVkEifKsEnfwh8+2Jbx2OO17Eg5
-	L+mw==
-Received: by 10.60.27.7 with SMTP id p7mr6208463oeg.56.1335887885765;
-	Tue, 01 May 2012 08:58:05 -0700 (PDT)
-Received: from localhost.localdomain (nat-lmt.mentorg.com. [139.181.28.34])
-	by mx.google.com with ESMTPS id h7sm16733267oeh.9.2012.05.01.08.58.04
-	(version=TLSv1/SSLv3 cipher=OTHER);
+	bh=V7JDd74SztfEU5QlIBC88q4izoKOtRxBQn6QT5q3HjI=;
+	b=U48vHywgW3gIQY1sHiUc5rK563DT/Qh+UrHoRVoi+B3xP3Cm3gbbn585ZV54gQ72Yy
+	sjX1TkMSeDHs4x5rYbmCPFYLAv1Qd5zDnZK5XlcewBehxCbcggmHZYjNGutpfrlnevTl
+	oliBlry1YbwDsFq6GRpDWIrCtFSCw+1A4SZyTBbsggUIG0dEgbVaM50/mgYjaB7RqKEi
+	e7XPw5+dL6usk1Q4tfrKlp0qplAkno5SIUZvCU+i3ksccZZ2/W81lJqLKjkmuTr5GiP5
+	3Mcqb9aYfKDvW6kcg0YH+xQlq0kvnPIIXcwDhIgVomp0d3njOdyLFKTGUskBJ7QzrqTM
+	nU9w==
+Received: by 10.60.4.199 with SMTP id m7mr33461090oem.65.1335887884072;
 	Tue, 01 May 2012 08:58:04 -0700 (PDT)
+Received: from localhost.localdomain (nat-lmt.mentorg.com. [139.181.28.34])
+	by mx.google.com with ESMTPS id h7sm16733267oeh.9.2012.05.01.08.58.02
+	(version=TLSv1/SSLv3 cipher=OTHER);
+	Tue, 01 May 2012 08:58:03 -0700 (PDT)
 From: Christopher Larson <kergoth@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Tue,  1 May 2012 10:58:22 -0500
-Message-Id: <7f53932a2701014255382dd2990858b1cfb28c3b.1335887732.git.kergoth@gmail.com>
+Date: Tue,  1 May 2012 10:58:21 -0500
+Message-Id: <d7ac0d8eb3c97638933bb4704e705c1865eb03f6.1335887732.git.kergoth@gmail.com>
 X-Mailer: git-send-email 1.7.7
 In-Reply-To: <cover.1335887732.git.kergoth@gmail.com>
 References: <cover.1335887732.git.kergoth@gmail.com>
 In-Reply-To: <cover.1335887732.git.kergoth@gmail.com>
 References: <cover.1335887732.git.kergoth@gmail.com>
-Subject: [PATCH 4/8] external-csl-toolchain: cleanup, simplify, use base_libdir
+Subject: [PATCH 3/8] external-csl-toolchain: silence .a/.debug QA warnings
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -50,96 +50,25 @@ X-List-Received-Date: Tue, 01 May 2012 16:07:47 -0000
 
 Signed-off-by: Christopher Larson <kergoth@gmail.com>
 ---
- meta/recipes-core/meta/external-csl-toolchain.bb |   55 +++++++++++-----------
- 1 files changed, 27 insertions(+), 28 deletions(-)
+ meta/recipes-core/meta/external-csl-toolchain.bb |    5 ++---
+ 1 files changed, 2 insertions(+), 3 deletions(-)
 
 diff --git a/meta/recipes-core/meta/external-csl-toolchain.bb b/meta/recipes-core/meta/external-csl-toolchain.bb
-index fb553ab..a14e958 100644
+index bafa331..fb553ab 100644
 --- a/meta/recipes-core/meta/external-csl-toolchain.bb
 +++ b/meta/recipes-core/meta/external-csl-toolchain.bb
-@@ -24,36 +24,40 @@ PROVIDES += "\
- 	virtual/linux-libc-headers \
- "
- PV = "${CSL_VER_MAIN}"
--PR = "r3"
-+PR = "r5"
+@@ -90,9 +90,8 @@ external_toolchain_sysroot_adjust() {
  
- #SRC_URI = "http://www.codesourcery.com/public/gnu_toolchain/${CSL_TARGET_SYS}/arm-${PV}-${TARGET_PREFIX}i686-pc-linux-gnu.tar.bz2"
+ PACKAGES =+ "libgcc libgcc-dev libstdc++ libstdc++-dev libstdc++-staticdev linux-libc-headers linux-libc-headers-dev gdbserver gdbserver-dbg"
  
- SRC_URI = "file://SUPPORTED"
+-INSANE_SKIP_libgcc = "1"
+-INSANE_SKIP_libstdc++ = "1"
+-INSANE_SKIP_gdbserver = "1"
++# This test should be fixed to ignore .a files in .debug dirs
++INSANE_SKIP_${PN}-dbg = "staticdev"
  
- do_install() {
--	install -d ${D}${sysconfdir} ${D}${bindir} ${D}${sbindir} ${D}${base_bindir} ${D}${libdir}
--	install -d ${D}${base_libdir} ${D}${base_sbindir} ${D}${datadir} ${D}/usr
-+	# Use optimized files if available
-+	sysroot="${EXTERNAL_TOOLCHAIN}/${CSL_TARGET_SYS}/libc"
-+	if [ -d $sysroot/${CSL_TARGET_CORE} ]; then
-+		sysroot="$sysroot/${CSL_TARGET_CORE}"
-+	fi
-+
-+	cp -a $sysroot${base_libdir}/. ${D}${base_libdir}
-+	cp -a $sysroot/etc/. ${D}${sysconfdir}
-+	cp -a $sysroot/sbin/. ${D}${base_sbindir}
- 
--	if [ -d ${EXTERNAL_TOOLCHAIN}/${CSL_TARGET_SYS}/libc/${CSL_TARGET_CORE} ]; then
--		cp -a ${EXTERNAL_TOOLCHAIN}/${CSL_TARGET_SYS}/libc/${CSL_TARGET_CORE}/lib/.  ${D}${base_libdir}
--		cp -a ${EXTERNAL_TOOLCHAIN}/${CSL_TARGET_SYS}/libc/${CSL_TARGET_CORE}/etc/.  ${D}${sysconfdir}
--		cp -a ${EXTERNAL_TOOLCHAIN}/${CSL_TARGET_SYS}/libc/${CSL_TARGET_CORE}/sbin/. ${D}${base_sbindir}
--		if [ ! -e ${EXTERNAL_TOOLCHAIN}/${CSL_TARGET_SYS}/libc/${CSL_TARGET_CORE}/usr/include ]; then
--			cp -a ${EXTERNAL_TOOLCHAIN}/${CSL_TARGET_SYS}/libc/usr/include  ${D}/usr/
-+	install -d ${D}/usr
-+	for usr_element in bin libexec sbin share ${base_libdir}; do
-+		usr_path=$sysroot/usr/$usr_element
-+		cp -a $usr_path ${D}/usr/
-+	done
-+	for datadir_element in man info; do
-+		datadir_path=$sysroot/usr/$datadir_element
-+		if [ -e $datadir_path ]; then
-+			cp -a $datadir_path ${D}${datadir}/
- 		fi
--		cp -a ${EXTERNAL_TOOLCHAIN}/${CSL_TARGET_SYS}/libc/${CSL_TARGET_CORE}/usr/.  ${D}/usr/
--	else
--		cp -a ${EXTERNAL_TOOLCHAIN}/${CSL_TARGET_SYS}/libc/lib/.  ${D}${base_libdir}
--		cp -a ${EXTERNAL_TOOLCHAIN}/${CSL_TARGET_SYS}/libc/etc/.  ${D}${sysconfdir}
--		cp -a ${EXTERNAL_TOOLCHAIN}/${CSL_TARGET_SYS}/libc/sbin/. ${D}${base_sbindir}
--		cp -a ${EXTERNAL_TOOLCHAIN}/${CSL_TARGET_SYS}/libc/usr/.  ${D}/usr/
--	fi
-+	done
- 
--	if [ -e ${D}${prefix}/info ]; then
--		mv ${D}${prefix}/info ${D}${infodir}
--	fi
--	if [ -e ${D}${prefix}/man ]; then
--		mv ${D}${prefix}/man ${D}${mandir}
-+	# Some toolchains have headers under the core specific area
-+	if [ -e $sysroot/usr/include ]; then
-+		cp -a $sysroot/usr/include/. ${D}${includedir}
-+	else
-+		cp -a $sysroot/../usr/include/. ${D}${includedir}
- 	fi
- 
- 	rm ${D}${sysconfdir}/rpc
-@@ -61,18 +65,13 @@ do_install() {
- 
- 	mv ${D}${libdir}/bin/* ${D}${bindir}/
- 	if [ -e ${D}${libdir}/bin/.debug ]; then
--		install -d ${D}${bindir}/.debug
- 		mv ${D}${libdir}/bin/.debug/* ${D}${bindir}/.debug/
- 	fi
- 	ln -s ../../bin/gdbserver ${D}${libdir}/bin/sysroot-gdbserver
- 
- 	sed -i -e 's/__packed/__attribute__ ((packed))/' ${D}${includedir}/mtd/ubi-user.h
--	sed -i -e "s# /lib# ../../lib#g" -e "s# /usr/lib# .#g" ${D}${libdir}/libc.so
--	sed -i -e "s# /lib# ../../lib#g" -e "s# /usr/lib# .#g" ${D}${libdir}/libpthread.so
--}
--
--do_install_locale_append () {
--	rm -r ${D}${datadir}/locale ${D}${libdir}/locale
-+        sed -i -e "s# ${base_libdir}# ../..${base_libdir}#g" -e "s# ${libdir}# .#g" ${D}${libdir}/libc.so
-+        sed -i -e "s# ${base_libdir}# ../..${base_libdir}#g" -e "s# ${libdir}# .#g" ${D}${libdir}/libpthread.so
- }
- 
- SYSROOT_PREPROCESS_FUNCS += "external_toolchain_sysroot_adjust"
+ PKG_${PN} = "eglibc"
+ PKG_${PN}-dev = "eglibc-dev"
 -- 
 1.7.7
 
