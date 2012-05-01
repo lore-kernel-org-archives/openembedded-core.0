@@ -1,30 +1,32 @@
-Received: from mail1.windriver.com ([147.11.146.13])
+Received: from mail-ob0-f175.google.com ([209.85.214.175])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <Peter.Seebach@windriver.com>) id 1SPFaz-0000gF-5w
+	(envelope-from <kergoth@gmail.com>) id 1SPFc6-0000im-Kt
 	for openembedded-core@lists.openembedded.org;
-	Tue, 01 May 2012 18:06:33 +0200
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca [147.11.189.40])
-	by mail1.windriver.com (8.14.3/8.14.3) with ESMTP id q41FukWX016000
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
-	Tue, 1 May 2012 08:56:46 -0700 (PDT)
-Received: from wrlaptop (172.25.40.226) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server id 14.1.255.0;
-	Tue, 1 May 2012 08:56:45 -0700
-Date: Tue, 1 May 2012 10:56:21 -0500
-From: Peter Seebach <peter.seebach@windriver.com>
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Message-ID: <20120501105621.041ac91e@wrlaptop>
-In-Reply-To: <B8BDFC7E-873F-4AC3-8B6B-111299DEB9A7@dominion.thruhere.net>
-References: <cover.1335815704.git.peter.seebach@windriver.com>
-	<1a15132d9ff316a53f58764aad35bb09c5fbcf0e.1335815704.git.peter.seebach@windriver.com>
-	<4F9EF944.9080503@windriver.com> <20120430154823.3a4ea3ee@wrlaptop>
-	<1335867674.7415.76.camel@ted>
-	<B8BDFC7E-873F-4AC3-8B6B-111299DEB9A7@dominion.thruhere.net>
-X-Mailer: Claws Mail 3.7.8 (GTK+ 2.24.4; x86_64-pc-linux-gnu)
-MIME-Version: 1.0
-Cc: koen@dominion.thruhere.net
-Subject: Re: [PATCH 2/2] sanity.bbclass: Implement initial toolchain sanity checks
+	Tue, 01 May 2012 18:07:42 +0200
+Received: by obhx4 with SMTP id x4so5074723obh.6
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 01 May 2012 08:57:58 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=from:to:subject:date:message-id:x-mailer;
+	bh=okF8LkLcycQv6zEnUtXHs4Dmv1ArG+kJ3nN0eTn7z24=;
+	b=tgbwKzJs7jkc9VGpUgXTXcvFX6pt8YkRdwmRLzp+Ajt0ys1XyUOj3OMX7w6RoOFN1G
+	U0KKnYLT1DM0jALIiUR77bij4f+c15vdoJy3/ADGSueGUZP7skLRAFG6V383jmQqQuPF
+	d0Y2I0hB+eTsbLo4s/2hZb3QM0owo0j9/B+fm1DwRFHbByi5bdiZkrTPqEXNW39R4vxX
+	9GSRS2MSNzwYTc31pfJzcJy/N8A45dAT5EQS06j2gtTNybuo7NZtmzvUGuGS2QXmK/nV
+	NIB7Xl2NYSkM+6uhM5+xGlJZ0DYSpF7ZUSDXKoeRQDYVqSUm0vPMHATl7SmwjRwVP9pz
+	cCmg==
+Received: by 10.182.188.41 with SMTP id fx9mr32169486obc.3.1335887878869;
+	Tue, 01 May 2012 08:57:58 -0700 (PDT)
+Received: from localhost.localdomain (nat-lmt.mentorg.com. [139.181.28.34])
+	by mx.google.com with ESMTPS id h7sm16733267oeh.9.2012.05.01.08.57.56
+	(version=TLSv1/SSLv3 cipher=OTHER);
+	Tue, 01 May 2012 08:57:57 -0700 (PDT)
+From: Christopher Larson <kergoth@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Date: Tue,  1 May 2012 10:58:18 -0500
+Message-Id: <cover.1335887732.git.kergoth@gmail.com>
+X-Mailer: git-send-email 1.7.7
+Subject: [PATCH 0/8] External CSL toolchain improvements
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -39,21 +41,62 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 01 May 2012 16:06:33 -0000
-Content-Type: text/plain; charset="US-ASCII"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Tue, 01 May 2012 16:07:42 -0000
 
-On Tue, 1 May 2012 12:25:48 +0200
-Koen Kooi <koen@dominion.thruhere.net> wrote:
+See the commit message summaries for details, but this syncs up my local
+external-csl-toolchain recipe with upstream, which includes general cleanup
+and use of base_libdir to fix issues with mips64, splits out
+libstdc++-staticdev, adds CSL_VER_MAIN to target recipe signatures, and fixes
+and uses precompiled locales rather than regenerating them.
 
-> TUNE_FEATURES     = "armv7a vfp neon cortexa8"
+Most of this is straightforward, but I would appreciate review in particular
+of the "libc-package: rework 'precompiled' locale handling". Thanks.
 
-I'd like to suggest a separate patch which uses the TUNEVALID info
-to explain these, and also explores the tunings of any selected
-multilibs, because this is under-informative in some cases.
+The following changes since commit 26d822ad059dd4839cc6fee2a65714e73cc146e1:
 
--s
+  nfs-utils: don't try to unload nfsd module (2012-05-01 14:28:47 +0100)
+
+are available in the git repository at:
+  git://github.com/kergoth/oe-core external-csl-improvements
+
+Christopher Larson (8):
+      csl-versions.inc: capture version in signatures
+      external-csl-toolchain: split out a libstdc++-staticdev package
+      external-csl-toolchain: silence .a/.debug QA warnings
+      external-csl-toolchain: cleanup, simplify, use base_libdir
+      external-csl-toolchain: update SUPPORTED to match toolchain
+      tclibc-eglibc: drop hardcoded locale-base-en-us/en-gb
+      libc-package: rework ''precompiled' locale handling
+      tcmode-external-csl: use the existing precompiled locale files
+
+ meta/classes/libc-package.bbclass                  |   96 ++++----
+ meta/conf/distro/include/csl-versions.inc          |    4 +
+ meta/conf/distro/include/tclibc-eglibc.inc         |   12 +-
+ meta/conf/distro/include/tcmode-external-csl.inc   |    4 +
+ meta/recipes-core/meta/external-csl-toolchain.bb   |   68 +++---
+ .../meta/external-csl-toolchain/SUPPORTED          |  257 +++++++++++++++++++-
+ 6 files changed, 346 insertions(+), 95 deletions(-)
+
+Christopher Larson (8):
+  csl-versions.inc: capture version in signatures
+  external-csl-toolchain: split out a libstdc++-staticdev package
+  external-csl-toolchain: silence .a/.debug QA warnings
+  external-csl-toolchain: cleanup, simplify, use base_libdir
+  external-csl-toolchain: update SUPPORTED to match toolchain
+  tclibc-eglibc: drop hardcoded locale-base-en-us/en-gb
+  libc-package: rework ''precompiled' locale handling
+  tcmode-external-csl: use the existing precompiled locale files
+
+ meta/classes/libc-package.bbclass                  |   96 ++++----
+ meta/conf/distro/include/csl-versions.inc          |    4 +
+ meta/conf/distro/include/tclibc-eglibc.inc         |   12 +-
+ meta/conf/distro/include/tcmode-external-csl.inc   |    4 +
+ meta/recipes-core/meta/external-csl-toolchain.bb   |   68 +++---
+ .../meta/external-csl-toolchain/SUPPORTED          |  257 +++++++++++++++++++-
+ 6 files changed, 346 insertions(+), 95 deletions(-)
+
 -- 
-Listen, get this.  Nobody with a good compiler needs to be justified.
+1.7.7
+
 
 
