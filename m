@@ -1,37 +1,37 @@
-Received: from mail-qc0-f175.google.com ([209.85.216.175])
+Received: from mail-gy0-f175.google.com ([209.85.160.175])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <kergoth@gmail.com>) id 1SPFcH-0000rb-6E
+	(envelope-from <kergoth@gmail.com>) id 1SPFcJ-0000tU-9I
 	for openembedded-core@lists.openembedded.org;
-	Tue, 01 May 2012 18:07:53 +0200
-Received: by qcso7 with SMTP id o7so1981943qcs.6
+	Tue, 01 May 2012 18:07:55 +0200
+Received: by ghbz2 with SMTP id z2so2003523ghb.6
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 01 May 2012 08:58:09 -0700 (PDT)
+	Tue, 01 May 2012 08:58:11 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
 	h=from:to:subject:date:message-id:x-mailer:in-reply-to:references
 	:in-reply-to:references;
-	bh=4r/84YO2NCaOg5qKZyckHYOO5lBixc++laVy9vLPbwQ=;
-	b=IWIQ7Sdi0+VYsXT+nyUKn691dm5ciYN+PROYlwlD3JNE0qOUoPh3v9T23hcxwc73g+
-	F4gXOu4YkZ3lS1ef68SDrrnAkMKMcy+f82FXbT02656jdz8sOI8+9iXBfZwYOl/S56L+
-	VIl3EXqA9Gd2iRhAlRXXAjR/6a4r268u22XA9jOQKl+EEQKF8tFwDDa02IOnrGFzvpXD
-	XDxAu8sjqGAVF3CPNt6lNjnWeebfk82xjaB3x8qORbVXBjJ6583Gl5Zcwy6oKpMU1ug5
-	MoDBE+i4rlgyXXyDiHdbtcWeNULSl1Tv3IEhvQwYmFl8YgShXBvbhpQ/ZaEY4xpabgpn
-	1oxg==
-Received: by 10.60.20.231 with SMTP id q7mr21456742oee.63.1335887887525;
-	Tue, 01 May 2012 08:58:07 -0700 (PDT)
+	bh=2Jj/DDq7C18K6n7kHdJm1u8Zafbn0npb2ZMNHknkU84=;
+	b=BI8yEz5MFf7Gp3iMvK85ZloPo2kfPVuemI4t9F/6voxwN8ja2O9kkU2FxMp4LpskdD
+	2whw1M7Q+h6B/el+6PZbzmQXOdl6dYWQfK5rvsZ67NMnNDPlM+8UCm/RMlW5MivxfAFY
+	tDcxojfwCPAjM9qOZz0O/Mk9ZeA1kf8naKmLhIKJEp3hjPp0wHRpuuRnsYYchufzIOlt
+	OvZGLrTu4A1M2MjyUrGHDciX6UJJBRWcgRf7d5iiVlq8LOKWu0qE/Yp52crmPIYgMwQe
+	Fof1ZqYOSW1Lzl7dB7hXwLBcyqF42WJ7j7dB5XBPxnNRhS45OYxJOTxb5FVZ5zEK65+G
+	Zc0g==
+Received: by 10.60.27.7 with SMTP id p7mr6208990oeg.56.1335887891714;
+	Tue, 01 May 2012 08:58:11 -0700 (PDT)
 Received: from localhost.localdomain (nat-lmt.mentorg.com. [139.181.28.34])
-	by mx.google.com with ESMTPS id h7sm16733267oeh.9.2012.05.01.08.58.05
+	by mx.google.com with ESMTPS id h7sm16733267oeh.9.2012.05.01.08.58.09
 	(version=TLSv1/SSLv3 cipher=OTHER);
-	Tue, 01 May 2012 08:58:06 -0700 (PDT)
+	Tue, 01 May 2012 08:58:10 -0700 (PDT)
 From: Christopher Larson <kergoth@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Tue,  1 May 2012 10:58:23 -0500
-Message-Id: <3bb8e9d6b98dae75b18ea68c6520ccf6d02c0ed3.1335887732.git.kergoth@gmail.com>
+Date: Tue,  1 May 2012 10:58:25 -0500
+Message-Id: <ee9525604dcafd589821a38da630ce851c5de67f.1335887732.git.kergoth@gmail.com>
 X-Mailer: git-send-email 1.7.7
 In-Reply-To: <cover.1335887732.git.kergoth@gmail.com>
 References: <cover.1335887732.git.kergoth@gmail.com>
 In-Reply-To: <cover.1335887732.git.kergoth@gmail.com>
 References: <cover.1335887732.git.kergoth@gmail.com>
-Subject: [PATCH 5/8] external-csl-toolchain: update SUPPORTED to match toolchain
+Subject: [PATCH 7/8] libc-package: rework 'precompiled' locale handling
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -46,277 +46,167 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 01 May 2012 16:07:53 -0000
+X-List-Received-Date: Tue, 01 May 2012 16:07:55 -0000
+
+There were a couple problems with the handling of precompiled locales.
+
+- it gathered the list of locales from the directories - this breaks due to
+  the naming mismatch, e.g. en_US.UTF-8 vs en_US.utf8.
+- it retained its hardcoded assumption that the non-suffixed locale (en_US, as
+  opposed to en_US.*) is UTF-8, while the others are otherwise. Hardcoding
+  this is both inflexible and just plain wrong for some toolchains. It's most
+  common in desktop distros for 'en_US' to be non-utf8, and ''en_US.UTF-8' is
+  utf8, and this is the case in some external toolchains as well.
+
+The code now uses the SUPPORTED file to hold the knowledge it needs. This file
+not only holds the list of locales to generate, but also maps the locale names
+to the charsets they correspond to. The code now uses this to assemble its
+charset map, falling back to the '.' suffix as charset when the locale is not
+in the map. For precompiled, it now uses the locale->charset knowledge it has,
+thereby allowing non-utf8 non-suffixed locale names, whereas for
+non-precompiled, it reverts to the previous assumption, renaming the utf8
+locale and forcibly suffixing the others.
+
+So, a person maintaining an external toolchain recipe is responsible for
+ensuring that the SUPPORTED file they provide matches up with the compiled
+locales in the toolchain, if they want to utilize precompiled locales.
+
+I believe in the long term the compiled case should do the same thing
+precompiled does, and use SUPPORTED or a similar mechanism to encode the
+knowledge, and if people want all the non-suffixed names to be utf8, they can
+change that file to do so. This would avoid the hardcoded assumption in the
+code, as well as consolidating the behavior between the compiled and
+precompiled cases.
 
 Signed-off-by: Christopher Larson <kergoth@gmail.com>
 ---
- .../meta/external-csl-toolchain/SUPPORTED          |  257 +++++++++++++++++++-
- 1 files changed, 255 insertions(+), 2 deletions(-)
+ meta/classes/libc-package.bbclass |   96 +++++++++++++++++-------------------
+ 1 files changed, 45 insertions(+), 51 deletions(-)
 
-diff --git a/meta/recipes-core/meta/external-csl-toolchain/SUPPORTED b/meta/recipes-core/meta/external-csl-toolchain/SUPPORTED
-index fe9406a..3f74688 100644
---- a/meta/recipes-core/meta/external-csl-toolchain/SUPPORTED
-+++ b/meta/recipes-core/meta/external-csl-toolchain/SUPPORTED
-@@ -1,4 +1,257 @@
--en_GB.UTF-8 UTF-8
-+aa_DJ ISO-8859-1
-+aa_ER UTF-8
-+aa_ER@saaho UTF-8
-+aa_ET UTF-8
-+af_ZA ISO-8859-1
-+am_ET UTF-8
-+an_ES ISO-8859-15
-+ar_AE ISO-8859-6
-+ar_BH ISO-8859-6
-+ar_DZ ISO-8859-6
-+ar_EG ISO-8859-6
-+ar_IN UTF-8
-+ar_IQ ISO-8859-6
-+ar_JO ISO-8859-6
-+ar_KW ISO-8859-6
-+ar_LB ISO-8859-6
-+ar_LY ISO-8859-6
-+ar_MA ISO-8859-6
-+ar_OM ISO-8859-6
-+ar_QA ISO-8859-6
-+ar_SA ISO-8859-6
-+ar_SD ISO-8859-6
-+ar_SY ISO-8859-6
-+ar_TN ISO-8859-6
-+ar_YE ISO-8859-6
-+ast_ES ISO-8859-15
-+be_BY CP1251
-+be_BY@latin UTF-8
-+ber_DZ UTF-8
-+ber_MA UTF-8
-+bg_BG CP1251
-+bn_BD UTF-8
-+bn_IN UTF-8
-+bo_CN UTF-8
-+bo_IN UTF-8
-+br_FR ISO-8859-1
-+br_FR@euro ISO-8859-15
-+bs_BA ISO-8859-2
-+byn_ER UTF-8
-+ca_AD ISO-8859-15
-+ca_ES ISO-8859-1
-+ca_ES@euro ISO-8859-15
-+ca_FR ISO-8859-15
-+ca_IT ISO-8859-15
-+crh_UA UTF-8
-+cs_CZ ISO-8859-2
-+csb_PL UTF-8
-+cy_GB ISO-8859-14
-+da_DK ISO-8859-1
-+de_AT ISO-8859-1
-+de_AT@euro ISO-8859-15
-+de_BE ISO-8859-1
-+de_BE@euro ISO-8859-15
-+de_CH ISO-8859-1
-+de_DE ISO-8859-1
-+de_DE@euro ISO-8859-15
-+de_LU ISO-8859-1
-+de_LU@euro ISO-8859-15
-+dv_MV UTF-8
-+dz_BT UTF-8
-+el_GR ISO-8859-7
-+el_CY ISO-8859-7
-+en_AG UTF-8
-+en_AU ISO-8859-1
-+en_BW ISO-8859-1
-+en_CA ISO-8859-1
-+en_DK ISO-8859-1
- en_GB ISO-8859-1
--en_US.UTF-8 UTF-8
-+en_HK ISO-8859-1
-+en_IE ISO-8859-1
-+en_IE@euro ISO-8859-15
-+en_IN UTF-8
-+en_NG UTF-8
-+en_NZ ISO-8859-1
-+en_PH ISO-8859-1
-+en_SG ISO-8859-1
- en_US ISO-8859-1
-+en_ZA ISO-8859-1
-+en_ZW ISO-8859-1
-+es_AR ISO-8859-1
-+es_BO ISO-8859-1
-+es_CL ISO-8859-1
-+es_CO ISO-8859-1
-+es_DO ISO-8859-1
-+es_EC ISO-8859-1
-+es_ES ISO-8859-1
-+es_ES@euro ISO-8859-15
-+es_GT ISO-8859-1
-+es_HN ISO-8859-1
-+es_MX ISO-8859-1
-+es_NI ISO-8859-1
-+es_PA ISO-8859-1
-+es_PE ISO-8859-1
-+es_PR ISO-8859-1
-+es_PY ISO-8859-1
-+es_SV ISO-8859-1
-+es_US ISO-8859-1
-+es_UY ISO-8859-1
-+es_VE ISO-8859-1
-+et_EE ISO-8859-1
-+eu_ES ISO-8859-1
-+eu_ES@euro ISO-8859-15
-+fa_IR UTF-8
-+fi_FI ISO-8859-1
-+fi_FI@euro ISO-8859-15
-+fil_PH UTF-8
-+fo_FO ISO-8859-1
-+fr_BE ISO-8859-1
-+fr_BE@euro ISO-8859-15
-+fr_CA ISO-8859-1
-+fr_CH ISO-8859-1
-+fr_FR ISO-8859-1
-+fr_FR@euro ISO-8859-15
-+fr_LU ISO-8859-1
-+fr_LU@euro ISO-8859-15
-+fur_IT UTF-8
-+fy_NL UTF-8
-+fy_DE UTF-8
-+ga_IE ISO-8859-1
-+ga_IE@euro ISO-8859-15
-+gd_GB ISO-8859-15
-+gez_ER UTF-8
-+gez_ER@abegede UTF-8
-+gez_ET UTF-8
-+gez_ET@abegede UTF-8
-+gl_ES ISO-8859-1
-+gl_ES@euro ISO-8859-15
-+gu_IN UTF-8
-+gv_GB ISO-8859-1
-+ha_NG UTF-8
-+he_IL ISO-8859-8
-+hi_IN UTF-8
-+hne_IN UTF-8
-+hr_HR ISO-8859-2
-+hsb_DE ISO-8859-2
-+ht_HT UTF-8
-+hu_HU ISO-8859-2
-+hy_AM UTF-8
-+id_ID ISO-8859-1
-+ig_NG UTF-8
-+ik_CA UTF-8
-+is_IS ISO-8859-1
-+it_CH ISO-8859-1
-+it_IT ISO-8859-1
-+it_IT@euro ISO-8859-15
-+iu_CA UTF-8
-+iw_IL ISO-8859-8
-+ka_GE GEORGIAN-PS
-+kk_KZ PT154
-+kk_KZ RK1048
-+kl_GL ISO-8859-1
-+km_KH UTF-8
-+kn_IN UTF-8
-+ks_IN UTF-8
-+ks_IN@devanagari UTF-8
-+ku_TR ISO-8859-9
-+kw_GB ISO-8859-1
-+ky_KG UTF-8
-+lg_UG ISO-8859-10
-+li_BE UTF-8
-+li_NL UTF-8
-+lo_LA UTF-8
-+lt_LT ISO-8859-13
-+lv_LV ISO-8859-13
-+mai_IN UTF-8
-+mg_MG ISO-8859-15
-+mi_NZ ISO-8859-13
-+mk_MK ISO-8859-5
-+ml_IN UTF-8
-+mn_MN UTF-8
-+mr_IN UTF-8
-+ms_MY ISO-8859-1
-+mt_MT ISO-8859-3
-+my_MM UTF-8
-+nan_TW@latin UTF-8
-+nb_NO ISO-8859-1
-+nds_DE UTF-8
-+nds_NL UTF-8
-+ne_NP UTF-8
-+nl_AW UTF-8
-+nl_BE ISO-8859-1
-+nl_BE@euro ISO-8859-15
-+nl_NL ISO-8859-1
-+nl_NL@euro ISO-8859-15
-+nn_NO ISO-8859-1
-+nr_ZA UTF-8
-+nso_ZA UTF-8
-+oc_FR ISO-8859-1
-+om_ET UTF-8
-+om_KE ISO-8859-1
-+or_IN UTF-8
-+pa_IN UTF-8
-+pa_PK UTF-8
-+pap_AN UTF-8
-+pl_PL ISO-8859-2
-+ps_AF UTF-8
-+pt_BR ISO-8859-1
-+pt_PT ISO-8859-1
-+pt_PT@euro ISO-8859-15
-+ro_RO ISO-8859-2
-+ru_RU ISO-8859-5
-+ru_UA KOI8-U
-+rw_RW UTF-8
-+sa_IN UTF-8
-+sc_IT UTF-8
-+sd_IN UTF-8
-+sd_IN@devanagari UTF-8
-+se_NO UTF-8
-+shs_CA UTF-8
-+si_LK UTF-8
-+sid_ET UTF-8
-+sk_SK ISO-8859-2
-+sl_SI ISO-8859-2
-+so_DJ ISO-8859-1
-+so_ET UTF-8
-+so_KE ISO-8859-1
-+so_SO ISO-8859-1
-+sq_AL ISO-8859-1
-+sr_ME UTF-8
-+sr_RS UTF-8
-+sr_RS@latin UTF-8
-+ss_ZA UTF-8
-+st_ZA ISO-8859-1
-+sv_FI ISO-8859-1
-+sv_FI@euro ISO-8859-15
-+sv_SE ISO-8859-1
-+ta_IN UTF-8
-+te_IN UTF-8
-+tg_TJ KOI8-T
-+th_TH TIS-620
-+ti_ER UTF-8
-+ti_ET UTF-8
-+tig_ER UTF-8
-+tk_TM UTF-8
-+tl_PH ISO-8859-1
-+tn_ZA UTF-8
-+tr_CY ISO-8859-9
-+tr_TR ISO-8859-9
-+ts_ZA UTF-8
-+ug_CN UTF-8
-+uk_UA KOI8-U
-+ur_PK UTF-8
-+uz_UZ ISO-8859-1
-+uz_UZ@cyrillic UTF-8
-+ve_ZA UTF-8
-+vi_VN UTF-8
-+wa_BE ISO-8859-1
-+wa_BE@euro ISO-8859-15
-+wo_SN UTF-8
-+xh_ZA ISO-8859-1
-+yi_US CP1255
-+yo_NG UTF-8
-+zh_CN GB2312
-+zh_HK BIG5-HKSCS
-+zh_SG GB2312
-+zh_TW BIG5
-+zu_ZA ISO-8859-1
+diff --git a/meta/classes/libc-package.bbclass b/meta/classes/libc-package.bbclass
+index bb4ba68..51edba2 100644
+--- a/meta/classes/libc-package.bbclass
++++ b/meta/classes/libc-package.bbclass
+@@ -207,40 +207,30 @@ python package_do_split_gconvs () {
+ 
+ 	dot_re = re.compile("(.*)\.(.*)")
+ 
+-#GLIBC_GENERATE_LOCALES var specifies which locales to be supported, empty or "all" means all locales 
+-	if use_bin != "precompiled":
+-		supported = d.getVar('GLIBC_GENERATE_LOCALES', True)
+-		if not supported or supported == "all":
+-			f = open(base_path_join(d.getVar('WORKDIR', True), "SUPPORTED"), "r")
+-			supported = f.readlines()
+-			f.close()
+-		else:
+-			supported = supported.split()
+-			supported = map(lambda s:s.replace(".", " ") + "\n", supported)
+-	else:
+-		supported = []
+-		full_bin_path = d.getVar('PKGD', True) + binary_locales_dir
+-		for dir in os.listdir(full_bin_path):
+-			dbase = dir.split(".")
+-			d2 = "  "
+-			if len(dbase) > 1:
+-				d2 = "." + dbase[1].upper() + "  "
+-			supported.append(dbase[0] + d2)
++	# Read in supported locales and associated encodings
++	supported = {}
++	with open(base_path_join(d.getVar('WORKDIR', True), "SUPPORTED")) as f:
++		for line in f.readlines():
++			try:
++				locale, charset = line.rstrip().split()
++			except ValueError:
++				continue
++			supported[locale] = charset
+ 
+-	# Collate the locales by base and encoding
+-	utf8_only = int(d.getVar('LOCALE_UTF8_ONLY', True) or 0)
+-	encodings = {}
+-	for l in supported:
+-		l = l[:-1]
+-		(locale, charset) = l.split(" ")
+-		if utf8_only and charset != 'UTF-8':
+-			continue
+-		m = dot_re.match(locale)
+-		if m:
+-			locale = m.group(1)
+-		if not encodings.has_key(locale):
+-			encodings[locale] = []
+-		encodings[locale].append(charset)
++	# GLIBC_GENERATE_LOCALES var specifies which locales to be generated. empty or "all" means all locales
++	to_generate = d.getVar('GLIBC_GENERATE_LOCALES', True)
++	if not to_generate or to_generate == 'all':
++		to_generate = supported.keys()
++	else:
++		to_generate = to_generate.split()
++		for locale in to_generate:
++			if locale not in supported:
++				if '.' in locale:
++					charset = locale.split('.')[1]
++				else:
++					charset = 'UTF-8'
++					bb.warn("Unsupported locale '%s', assuming encoding '%s'" % (locale, charset))
++				supported[locale] = charset
+ 
+ 	def output_locale_source(name, pkgname, locale, encoding):
+ 		d.setVar('RDEPENDS_%s' % pkgname, 'localedef %s-localedata-%s %s-charmap-%s' % \
+@@ -271,7 +261,7 @@ python package_do_split_gconvs () {
+ 
+ 		use_cross_localedef = d.getVar("LOCALE_GENERATION_WITH_CROSS-LOCALEDEF", True) or "0"
+ 		if use_cross_localedef == "1":
+-	    		target_arch = d.getVar('TARGET_ARCH', True)
++			target_arch = d.getVar('TARGET_ARCH', True)
+ 			locale_arch_options = { \
+ 				"arm":     " --uint32-align=4 --little-endian ", \
+ 				"powerpc": " --uint32-align=4 --big-endian ",    \
+@@ -334,25 +324,29 @@ python package_do_split_gconvs () {
+ 		bb.note("preparing tree for binary locale generation")
+ 		bb.build.exec_func("do_prep_locale_tree", d)
+ 
+-	# Reshuffle names so that UTF-8 is preferred over other encodings
+-	non_utf8 = []
+-	for l in encodings.keys():
+-		if len(encodings[l]) == 1:
+-			output_locale(l, l, encodings[l][0])
+-			if encodings[l][0] != "UTF-8":
+-				non_utf8.append(l)
++	utf8_only = int(d.getVar('LOCALE_UTF8_ONLY', True) or 0)
++	encodings = {}
++	for locale in to_generate:
++		charset = supported[locale]
++		if utf8_only and charset != 'UTF-8':
++			continue
++
++		m = dot_re.match(locale)
++		if m:
++			base = m.group(1)
+ 		else:
+-			if "UTF-8" in encodings[l]:
+-				output_locale(l, l, "UTF-8")
+-				encodings[l].remove("UTF-8")
+-			else:
+-				non_utf8.append(l)
+-			for e in encodings[l]:
+-				output_locale('%s.%s' % (l, e), l, e)
++			base = locale
+ 
+-	if non_utf8 != [] and use_bin != "precompiled":
+-		bb.note("the following locales are supported only in legacy encodings:")
+-		bb.note("  " + " ".join(non_utf8))
++		# Precompiled locales are kept as is, obeying SUPPORTED, while
++		# others are adjusted, ensuring that the non-suffixed locales
++		# are utf-8, while the suffixed are not.
++		if use_bin == "precompiled":
++			output_locale(locale, base, charset)
++		else:
++			if charset == 'UTF-8':
++				output_locale(base, base, charset)
++			else:
++				output_locale('%s.%s' % (base, charset), base, charset)
+ 
+ 	if use_bin == "compile":
+ 		makefile = base_path_join(d.getVar("WORKDIR", True), "locale-tree", "Makefile")
 -- 
 1.7.7
 
