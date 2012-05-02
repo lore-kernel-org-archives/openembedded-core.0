@@ -1,25 +1,36 @@
-Received: from mail1.windriver.com ([147.11.146.13])
+Received: from mga14.intel.com ([143.182.124.37])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <Peter.Seebach@windriver.com>) id 1SPOmT-0004Nu-PV
+	(envelope-from <lianhao.lu@intel.com>) id 1SPPGU-0005Ah-N1
 	for openembedded-core@lists.openembedded.org;
-	Wed, 02 May 2012 03:55:02 +0200
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca [147.11.189.40])
-	by mail1.windriver.com (8.14.3/8.14.3) with ESMTP id q421jHwo024492
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 1 May 2012 18:45:17 -0700 (PDT)
-Received: from localhost.localdomain (172.25.34.64) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server id 14.1.255.0;
-	Tue, 1 May 2012 18:45:17 -0700
-From: Peter Seebach <peter.seebach@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Tue, 1 May 2012 20:45:12 -0500
-Message-ID: <24944576961308660582b4a62b2c609fcef0bcea.1335922726.git.peter.seebach@windriver.com>
-X-Mailer: git-send-email 1.7.0.4
-In-Reply-To: <cover.1335922726.git.peter.seebach@windriver.com>
-References: <cover.1335922726.git.peter.seebach@windriver.com>
+	Wed, 02 May 2012 04:26:02 +0200
+Received: from azsmga002.ch.intel.com ([10.2.17.35])
+	by azsmga102.ch.intel.com with ESMTP; 01 May 2012 19:16:02 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="95303804"
+Received: from azsmsx601.amr.corp.intel.com ([10.2.121.193])
+	by AZSMGA002.ch.intel.com with ESMTP; 01 May 2012 19:16:02 -0700
+Received: from shsmsx151.ccr.corp.intel.com (10.239.6.50) by
+	azsmsx601.amr.corp.intel.com (10.2.121.193) with Microsoft SMTP Server
+	(TLS) id 8.2.255.0; Tue, 1 May 2012 19:16:01 -0700
+Received: from shsmsx102.ccr.corp.intel.com ([169.254.2.226]) by
+	SHSMSX151.ccr.corp.intel.com ([169.254.3.243]) with mapi id
+	14.01.0355.002; Wed, 2 May 2012 10:16:00 +0800
+From: "Lu, Lianhao" <lianhao.lu@intel.com>
+To: Saul Wold <sgw@linux.intel.com>, Patches and discussions about the oe-core
+	layer <openembedded-core@lists.openembedded.org>
+Thread-Topic: [OE-core] [PATCH V2 0/7] Misc fixings for multilib
+Thread-Index: AQHNJD/ihQsQenKDNUCY5wGwb4kk7Za0x9WAgAD3pgA=
+Date: Wed, 2 May 2012 02:15:59 +0000
+Message-ID: <857BE142E5399E46B20FD45B9DB8A7BC0FD9C602@SHSMSX102.ccr.corp.intel.com>
+References: <cover.1335508325.git.lianhao.lu@intel.com>
+	<4FA0305D.6010408@linux.intel.com>
+In-Reply-To: <4FA0305D.6010408@linux.intel.com>
+Accept-Language: zh-CN, en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [10.239.127.40]
 MIME-Version: 1.0
-Subject: [PATCH 3/3] sanity.bbclass: Check for bogus values in BBCLASSEXTEND
+Subject: Re: [PATCH V2 0/7] Misc fixings for multilib
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -34,50 +45,66 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 02 May 2012 01:55:02 -0000
-Content-Type: text/plain
+X-List-Received-Date: Wed, 02 May 2012 02:26:03 -0000
+Content-Language: en-US
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 
-Suggestion that came out of my sanity-checks of multilibs; verify
-that stuff in BBCLASSEXTEND is valid.
 
-Signed-off-by: Peter Seebach <peter.seebach@windriver.com>
----
- meta/classes/sanity.bbclass |   13 +++++++++++++
- 1 files changed, 13 insertions(+), 0 deletions(-)
+Saul Wold wrote on 2012-05-02:
+> On 04/26/2012 11:34 PM, Lianhao Lu wrote:
+>> 1. Added a package QA check function in multilib case. It checkes whethe=
+r
+>> there is a package runtime dependency on packages with names not prefixe=
+d
+>> by $MLPREFIX.
+>>=20
+>> 2. Fixed a bunch of recipes to use $libdir and $base_libdir instead of t=
+he
+>> hard coded /usr/lib and /lib.
+>>=20
+>> The following changes since commit 5a1f172d35be610688842a8a9a84f24edb9ae=
+b51:
+>>    Martin Jansa (1):
+>>          bitbake.conf: use TUNE_PKGARCH instead of TARGET_ARCH in SDK_NA=
+ME
+>> are available in the git repository at:
+>>=20
+>>    git://git.yoctoproject.org/poky-contrib llu/multilib
+>>    http://git.yoctoproject.org/cgit.cgi/poky-contrib/log/?h=3Dllu/multil=
+ib
+>> Lianhao Lu (7):
+>>    multilib.bbclass: Added multilib specific package QA.
+> I think that we need to address some of these WARNING before merging
+> this change directly.  Is this supposed to address [YOCTO #2038]?
 
-diff --git a/meta/classes/sanity.bbclass b/meta/classes/sanity.bbclass
-index 635049e..9f3f1d5 100644
---- a/meta/classes/sanity.bbclass
-+++ b/meta/classes/sanity.bbclass
-@@ -81,6 +81,15 @@ def check_toolchain(data):
- 
-     return ""
- 
-+def check_bbclassextend(data):
-+    allowed = ('native', 'nativesdk', 'multilib', 'cross')
-+    extends = (data.getVar("BBCLASSEXTEND", True) or "").split()
-+    errors = []
-+    for pair in [x.split(':') for x in extends]:
-+        if pair[0] not in allowed:
-+            errors.append('BBCLASSEXTEND has invalid value: %s' % pair[0])
-+    return '\n'.join(errors)
-+
- def check_conf_exists(fn, data):
-     bbpath = []
-     fn = data.expand(fn)
-@@ -401,6 +410,10 @@ def check_sanity(e):
-     if toolchain_msg != "":
-         messages = messages + toolchain_msg + '\n'
- 
-+    bbclassextend_msg = check_bbclassextend(e.data)
-+    if bbclassextend_msg != "":
-+        messages = messages + bbclassextend_msg + '\n'
-+
-     # Check if DISPLAY is set if IMAGETEST is set
-     if not data.getVar( 'DISPLAY', e.data, True ) and data.getVar( 'IMAGETEST', e.data, True ) == 'qemu':
-         messages = messages + 'qemuimagetest needs a X desktop to start qemu, please set DISPLAY correctly (e.g. DISPLAY=:1.0)\n'
--- 
-1.7.0.4
+No. This patch is intended to find potential RDEPENDS problems for those re=
+cipes which=20
+might not be so friendly with multilib cases. We'd like to detect those pot=
+ential RDEPENDS=20
+problems as early as possible, not by the failure of the do_rootfs task. II=
+RC Dongxiao had=20
+a patch in his merge pending list to address most of the "eglibc-locale" RD=
+EPENDS warnings,
+right Dongxiao?
 
+-Lianhao
+
+>>    popt: Fixing pkgconfig file installation issue.
+>>    avahi: not using hard coded libdir.
+> Merged into OE-Core
+>=20
+>>    pulseaudio: use base_libdir for udev rules.
+>>    alsa-utils: use base_libdir for udev rules.
+> I am still reviewing the udev changes.
+>=20
+>>    xorg-app: Use ${libdir} and ${datadir} for packaging.=20
+> Merged into OE-Core=20
+>>    xf86-input-vmmouse: use base_libdir for udev rules.
+> Under review
+>=20
+> Thanks
+> 	Sau!
+>=20
 
 
