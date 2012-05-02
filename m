@@ -1,36 +1,26 @@
-Received: from mga14.intel.com ([143.182.124.37])
+Received: from mga02.intel.com ([134.134.136.20])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <lianhao.lu@intel.com>) id 1SPPGU-0005Ah-N1
+	(envelope-from <sgw@linux.intel.com>) id 1SPQYa-0006KC-En
 	for openembedded-core@lists.openembedded.org;
-	Wed, 02 May 2012 04:26:02 +0200
-Received: from azsmga002.ch.intel.com ([10.2.17.35])
-	by azsmga102.ch.intel.com with ESMTP; 01 May 2012 19:16:02 -0700
+	Wed, 02 May 2012 05:48:49 +0200
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+	by orsmga101.jf.intel.com with ESMTP; 01 May 2012 20:38:46 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="95303804"
-Received: from azsmsx601.amr.corp.intel.com ([10.2.121.193])
-	by AZSMGA002.ch.intel.com with ESMTP; 01 May 2012 19:16:02 -0700
-Received: from shsmsx151.ccr.corp.intel.com (10.239.6.50) by
-	azsmsx601.amr.corp.intel.com (10.2.121.193) with Microsoft SMTP Server
-	(TLS) id 8.2.255.0; Tue, 1 May 2012 19:16:01 -0700
-Received: from shsmsx102.ccr.corp.intel.com ([169.254.2.226]) by
-	SHSMSX151.ccr.corp.intel.com ([169.254.3.243]) with mapi id
-	14.01.0355.002; Wed, 2 May 2012 10:16:00 +0800
-From: "Lu, Lianhao" <lianhao.lu@intel.com>
-To: Saul Wold <sgw@linux.intel.com>, Patches and discussions about the oe-core
-	layer <openembedded-core@lists.openembedded.org>
-Thread-Topic: [OE-core] [PATCH V2 0/7] Misc fixings for multilib
-Thread-Index: AQHNJD/ihQsQenKDNUCY5wGwb4kk7Za0x9WAgAD3pgA=
-Date: Wed, 2 May 2012 02:15:59 +0000
-Message-ID: <857BE142E5399E46B20FD45B9DB8A7BC0FD9C602@SHSMSX102.ccr.corp.intel.com>
-References: <cover.1335508325.git.lianhao.lu@intel.com>
-	<4FA0305D.6010408@linux.intel.com>
-In-Reply-To: <4FA0305D.6010408@linux.intel.com>
-Accept-Language: zh-CN, en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [10.239.127.40]
+X-IronPort-AV: E=Sophos;i="4.67,351,1309762800"; d="scan'208";a="138992445"
+Received: from unknown (HELO [10.255.12.167]) ([10.255.12.167])
+	by orsmga002.jf.intel.com with ESMTP; 01 May 2012 20:38:46 -0700
+Message-ID: <4FA0AC45.9030102@linux.intel.com>
+Date: Tue, 01 May 2012 20:38:45 -0700
+From: Saul Wold <sgw@linux.intel.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:11.0) Gecko/20120329 Thunderbird/11.0.1
 MIME-Version: 1.0
-Subject: Re: [PATCH V2 0/7] Misc fixings for multilib
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+References: <cover.1335909595.git.nitin.a.kamble@intel.com>
+	<b0d5193248111699e406cf352793898293bc2f89.1335909595.git.nitin.a.kamble@intel.com>
+In-Reply-To: <b0d5193248111699e406cf352793898293bc2f89.1335909595.git.nitin.a.kamble@intel.com>
+Subject: Re: [PATCH 1/6] qt4: fix compilation issue
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -45,66 +35,315 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 02 May 2012 02:26:03 -0000
-Content-Language: en-US
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Wed, 02 May 2012 03:48:49 -0000
+Content-Type: text/plain; charset=ISO-8859-1; format=flowed
+Content-Transfer-Encoding: 7bit
+
+On 05/01/2012 03:00 PM, nitin.a.kamble@intel.com wrote:
+> From: Nitin A Kamble<nitin.a.kamble@intel.com>
+>
+> gcc 4.7 uncovers a type mismatch in the code. And this commit fixes the issue:
+>
+> | /srv/home/nitin/builds/build-gcc47/tmp/sysroots/qemux86/usr/include/glib-2.0/glib/gthread.h:58:7: error: 'union' tag used in naming 'struct _GMutex' [-Werror=permissive]
+> | In file included from ./wtf/Platform.h:1217:0,
+> |                  from ./config.h:30,
+> |                  from wtf/gobject/GOwnPtr.cpp:19:
+> | wtf/gobject/GTypedefs.h:55:16: note: 'struct _GMutex' was previously declared here
+> NOTE: package qt4-x11-free-4.8.1-r41.1: task do_compile: Failed
+>
+> Signed-off-by: Nitin A Kamble<nitin.a.kamble@intel.com>
+> Signed-off-by: Richard Purdie<richard.purdie@linuxfoundation.org>
+> ---
+>   meta/recipes-qt/qt4/qt-4.8.1.inc                   |    1 +
+>   .../qt4/qt-4.8.1/fix_conflicting_types.patch       |   29 ++++++++++++++++++++
+>   meta/recipes-qt/qt4/qt4-x11-free.inc               |    2 +-
+>   3 files changed, 31 insertions(+), 1 deletions(-)
+>   create mode 100644 meta/recipes-qt/qt4/qt-4.8.1/fix_conflicting_types.patch
+>
+> diff --git a/meta/recipes-qt/qt4/qt-4.8.1.inc b/meta/recipes-qt/qt4/qt-4.8.1.inc
+> index 8c38cae..2fc4228 100644
+> --- a/meta/recipes-qt/qt4/qt-4.8.1.inc
+> +++ b/meta/recipes-qt/qt4/qt-4.8.1.inc
+> @@ -23,6 +23,7 @@ SRC_URI = "http://get.qt.nokia.com/qt/source/qt-everywhere-opensource-src-${PV}.
+>              file://gcc47-fix.patch \
+>              file://gcc47-fix2.patch \
+>              file://disable-fuse-gold-flag.patch \
+> +           file://fix_conflicting_types.patch \
+>              "
+>
+>   SRC_URI[md5sum] = "7960ba8e18ca31f0c6e4895a312f92ff"
+> diff --git a/meta/recipes-qt/qt4/qt-4.8.1/fix_conflicting_types.patch b/meta/recipes-qt/qt4/qt-4.8.1/fix_conflicting_types.patch
+> new file mode 100644
+> index 0000000..8124505
+> --- /dev/null
+> +++ b/meta/recipes-qt/qt4/qt-4.8.1/fix_conflicting_types.patch
+> @@ -0,0 +1,29 @@
+> +Upstream-Status: Pending
+> +
+> +This patch fixes the type mismatch fixing this compile issue:
+> +
+> +| /srv/home/nitin/builds/build-gcc47/tmp/sysroots/qemux86/usr/include/glib-2.0/glib/gthread.h:58:7: error: 'union' tag used in naming 'struct _GMutex' [-Werror=permissive]
+> +| In file included from ./wtf/Platform.h:1217:0,
+> +|                  from ./config.h:30,
+> +|                  from wtf/gobject/GOwnPtr.cpp:19:
+> +| wtf/gobject/GTypedefs.h:55:16: note: 'struct _GMutex' was previously declared here
+> +NOTE: package qt4-x11-free-4.8.1-r41.1: task do_compile: Failed
+> +
+> +
+> +Signed-Off-By: Nitin A Kamble<nitin.a.kamble@intel.com>
+> +2012/04/30
+> +
+> +
+> +Index:  qt-everywhere-opensource-src-4.8.1/src/3rdparty/webkit/Source/JavaScriptCore/wtf/gobject/GTypedefs.h
+> +===================================================================
+> +--- qt-everywhere-opensource-src-4.8.1/src/3rdparty.orig/webkit/Source/JavaScriptCore/wtf/gobject/GTypedefs.h
+> ++++ qt-everywhere-opensource-src-4.8.1/src/3rdparty/webkit/Source/JavaScriptCore/wtf/gobject/GTypedefs.h
+> +@@ -52,7 +52,7 @@ typedef struct _GFile GFile;
+> + typedef struct _GHashTable GHashTable;
+> + typedef struct _GInputStream GInputStream;
+> + typedef struct _GList GList;
+> +-typedef struct _GMutex GMutex;
+> ++typedef union _GMutex GMutex;
+> + typedef struct _GPatternSpec GPatternSpec;
+> + typedef struct _GPollableOutputStream GPollableOutputStream;
+> + typedef struct _GSocketClient GSocketClient;
+> diff --git a/meta/recipes-qt/qt4/qt4-x11-free.inc b/meta/recipes-qt/qt4/qt4-x11-free.inc
+> index a59198d..720b1bf 100644
+> --- a/meta/recipes-qt/qt4/qt4-x11-free.inc
+> +++ b/meta/recipes-qt/qt4/qt4-x11-free.inc
+> @@ -5,7 +5,7 @@ HOMEPAGE = "http://qt.nokia.com"
+>   SECTION = "x11/libs"
+>   DEPENDS += "virtual/libgl virtual/libx11 fontconfig libxft libxext libxrender libxrandr libxcursor"
+>
+> -INC_PR = "r41"
+> +INC_PR = "r42"
+>
+>   QT_GLFLAGS ?= "${@base_contains('DISTRO_FEATURES', 'opengl', '-opengl', '-no-opengl', d)} "
+>   QT_GLFLAGS_qemux86 = "-opengl"
+
+Nitin,
+
+Was this supposed to fix:
+| ccache i586-poky-linux-g++  -m32   -march=i586 
+--sysroot=/home/pokybuild/yocto-autobuilder/yocto-slave/nightly-x86/build/build/tmp/sysroots/qemux86 
+-c -O2 -pipe -feliminate-unused-debug-types -fpermissive 
+-fvisibility-inlines-hidden 
+-I/home/pokybuild/yocto-autobuilder/yocto-slave/nightly-x86/build/build/tmp/sysroots/qemux86/usr/include 
+-I/home/pokybuild/yocto-autobuilder/yocto-slave/nightly-x86/build/build/tmp/sysroots/qemux86/usr/include/freetype2 
+-Wall -Wextra -Wreturn-type -fno-strict-aliasing -Wcast-align 
+-Wchar-subscripts -Wformat-security -Wreturn-type -Wno-unused-parameter 
+-Wno-sign-compare -Wno-switch -Wno-switch-enum -Wundef 
+-Wmissing-noreturn -Winit-self -Werror -Wno-c++0x-compat 
+-fno-stack-protector -Wno-c++0x-compat -O3 -pthread -fPIC -fPIC -fPIC 
+-D_REENTRANT -DNDEBUG -DBUILDING_QT__=1 -DNDEBUG 
+-DQT_ASCII_CAST_WARNINGS -DBUILDING_JavaScriptCore -DBUILDING_WTF 
+-DENABLE_GLIB_SUPPORT=1 -D_LARGEFILE64_SOURCE -D_LARGEFILE_SOURCE 
+-DQT_NO_DEBUG -DQT_CORE_LIB -DQT_HAVE_MMX -DQT_HAVE_3DNOW -DQT_HAVE_SSE 
+-DQT_HAVE_MMXEXT -DQT_HAVE_SSE2 -DQT_HAVE_SSE3 -DQT_HAVE_SSSE3 
+-DQT_HAVE_SSE4_1 -DQT_HAVE_SSE4_2 -DQT_HAVE_AVX -DQT_SHARED 
+-I../../../../../mkspecs/linux-g++ -I. -I../../../../../include/QtCore 
+-I../../../../../include -I. -I../../Source -I../ThirdParty -Iassembler 
+-Ibytecode -Ibytecompiler -Iheap -Idfg -Idebugger -Iinterpreter -Ijit 
+-Iparser -Iprofiler -Iruntime -Iwtf -Iwtf/gobject 
+-I/home/pokybuild/yocto-autobuilder/yocto-slave/nightly-x86/build/build/tmp/work/i586-poky-linux/qt4-x11-free-4.8.1-r42.1/qt-everywhere-opensource-src-4.8.1/src/3rdparty/webkit/Source/JavaScriptCore/wtf/symbian 
+-Iwtf/unicode -Iyarr -IAPI -IForwardingHeaders -Igenerated 
+-I../../Source -I../../include -I/include/QtWebKit -I/include 
+-I/home/pokybuild/yocto-autobuilder/yocto-slave/nightly-x86/build/build/tmp/sysroots/qemux86/usr/include/freetype2 
+-I/home/pokybuild/yocto-autobuilder/yocto-slave/nightly-x86/build/build/tmp/sysroots/qemux86/usr/include/freetype2 
+-I/home/pokybuild/yocto-autobuilder/yocto-slave/nightly-x86/build/build/tmp/sysroots/qemux86/usr/include/glib-2.0 
+-I/home/pokybuild/yocto-autobuilder/yocto-slave/nightly-x86/build/build/tmp/sysroots/qemux86/usr/lib/glib-2.0/include 
+-I.moc/release-static -o .obj/release-static/OSRandomSource.o 
+wtf/OSRandomSource.cpp
+| moc wtf/qt/MainThreadQt.cpp
+| ccache i586-poky-linux-g++  -m32   -march=i586 
+--sysroot=/home/pokybuild/yocto-autobuilder/yocto-slave/nightly-x86/build/build/tmp/sysroots/qemux86 
+-c -O2 -pipe -feliminate-unused-debug-types -fpermissive 
+-fvisibility-inlines-hidden 
+-I/home/pokybuild/yocto-autobuilder/yocto-slave/nightly-x86/build/build/tmp/sysroots/qemux86/usr/include 
+-I/home/pokybuild/yocto-autobuilder/yocto-slave/nightly-x86/build/build/tmp/sysroots/qemux86/usr/include/freetype2 
+-Wall -Wextra -Wreturn-type -fno-strict-aliasing -Wcast-align 
+-Wchar-subscripts -Wformat-security -Wreturn-type -Wno-unused-parameter 
+-Wno-sign-compare -Wno-switch -Wno-switch-enum -Wundef 
+-Wmissing-noreturn -Winit-self -Werror -Wno-c++0x-compat 
+-fno-stack-protector -Wno-c++0x-compat -O3 -pthread -fPIC -fPIC -fPIC 
+-D_REENTRANT -DNDEBUG -DBUILDING_QT__=1 -DNDEBUG 
+-DQT_ASCII_CAST_WARNINGS -DBUILDING_JavaScriptCore -DBUILDING_WTF 
+-DENABLE_GLIB_SUPPORT=1 -D_LARGEFILE64_SOURCE -D_LARGEFILE_SOURCE 
+-DQT_NO_DEBUG -DQT_CORE_LIB -DQT_HAVE_MMX -DQT_HAVE_3DNOW -DQT_HAVE_SSE 
+-DQT_HAVE_MMXEXT -DQT_HAVE_SSE2 -DQT_HAVE_SSE3 -DQT_HAVE_SSSE3 
+-DQT_HAVE_SSE4_1 -DQT_HAVE_SSE4_2 -DQT_HAVE_AVX -DQT_SHARED 
+-I../../../../../mkspecs/linux-g++ -I. -I../../../../../include/QtCore 
+-I../../../../../include -I. -I../../Source -I../ThirdParty -Iassembler 
+-Ibytecode -Ibytecompiler -Iheap -Idfg -Idebugger -Iinterpreter -Ijit 
+-Iparser -Iprofiler -Iruntime -Iwtf -Iwtf/gobject 
+-I/home/pokybuild/yocto-autobuilder/yocto-slave/nightly-x86/build/build/tmp/work/i586-poky-linux/qt4-x11-free-4.8.1-r42.1/qt-everywhere-opensource-src-4.8.1/src/3rdparty/webkit/Source/JavaScriptCore/wtf/symbian 
+-Iwtf/unicode -Iyarr -IAPI -IForwardingHeaders -Igenerated 
+-I../../Source -I../../include -I/include/QtWebKit -I/include 
+-I/home/pokybuild/yocto-autobuilder/yocto-slave/nightly-x86/build/build/tmp/sysroots/qemux86/usr/include/freetype2 
+-I/home/pokybuild/yocto-autobuilder/yocto-slave/nightly-x86/build/build/tmp/sysroots/qemux86/usr/include/freetype2 
+-I/home/pokybuild/yocto-autobuilder/yocto-slave/nightly-x86/build/build/tmp/sysroots/qemux86/usr/include/glib-2.0 
+-I/home/pokybuild/yocto-autobuilder/yocto-slave/nightly-x86/build/build/tmp/sysroots/qemux86/usr/lib/glib-2.0/include 
+-I.moc/release-static -o .obj/release-static/StringQt.o wtf/qt/StringQt.cpp
+| moc wtf/qt/ThreadingQt.cpp
+| ccache i586-poky-linux-g++  -m32   -march=i586 
+--sysroot=/home/pokybuild/yocto-autobuilder/yocto-slave/nightly-x86/build/build/tmp/sysroots/qemux86 
+-c -O2 -pipe -feliminate-unused-debug-types -fpermissive 
+-fvisibility-inlines-hidden 
+-I/home/pokybuild/yocto-autobuilder/yocto-slave/nightly-x86/build/build/tmp/sysroots/qemux86/usr/include 
+-I/home/pokybuild/yocto-autobuilder/yocto-slave/nightly-x86/build/build/tmp/sysroots/qemux86/usr/include/freetype2 
+-Wall -Wextra -Wreturn-type -fno-strict-aliasing -Wcast-align 
+-Wchar-subscripts -Wformat-security -Wreturn-type -Wno-unused-parameter 
+-Wno-sign-compare -Wno-switch -Wno-switch-enum -Wundef 
+-Wmissing-noreturn -Winit-self -Werror -Wno-c++0x-compat 
+-fno-stack-protector -Wno-c++0x-compat -O3 -pthread -fPIC -fPIC -fPIC 
+-D_REENTRANT -DNDEBUG -DBUILDING_QT__=1 -DNDEBUG 
+-DQT_ASCII_CAST_WARNINGS -DBUILDING_JavaScriptCore -DBUILDING_WTF 
+-DENABLE_GLIB_SUPPORT=1 -D_LARGEFILE64_SOURCE -D_LARGEFILE_SOURCE 
+-DQT_NO_DEBUG -DQT_CORE_LIB -DQT_HAVE_MMX -DQT_HAVE_3DNOW -DQT_HAVE_SSE 
+-DQT_HAVE_MMXEXT -DQT_HAVE_SSE2 -DQT_HAVE_SSE3 -DQT_HAVE_SSSE3 
+-DQT_HAVE_SSE4_1 -DQT_HAVE_SSE4_2 -DQT_HAVE_AVX -DQT_SHARED 
+-I../../../../../mkspecs/linux-g++ -I. -I../../../../../include/QtCore 
+-I../../../../../include -I. -I../../Source -I../ThirdParty -Iassembler 
+-Ibytecode -Ibytecompiler -Iheap -Idfg -Idebugger -Iinterpreter -Ijit 
+-Iparser -Iprofiler -Iruntime -Iwtf -Iwtf/gobject 
+-I/home/pokybuild/yocto-autobuilder/yocto-slave/nightly-x86/build/build/tmp/work/i586-poky-linux/qt4-x11-free-4.8.1-r42.1/qt-everywhere-opensource-src-4.8.1/src/3rdparty/webkit/Source/JavaScriptCore/wtf/symbian 
+-Iwtf/unicode -Iyarr -IAPI -IForwardingHeaders -Igenerated 
+-I../../Source -I../../include -I/include/QtWebKit -I/include 
+-I/home/pokybuild/yocto-autobuilder/yocto-slave/nightly-x86/build/build/tmp/sysroots/qemux86/usr/include/freetype2 
+-I/home/pokybuild/yocto-autobuilder/yocto-slave/nightly-x86/build/build/tmp/sysroots/qemux86/usr/include/freetype2 
+-I/home/pokybuild/yocto-autobuilder/yocto-slave/nightly-x86/build/build/tmp/sysroots/qemux86/usr/include/glib-2.0 
+-I/home/pokybuild/yocto-autobuilder/yocto-slave/nightly-x86/build/build/tmp/sysroots/qemux86/usr/lib/glib-2.0/include 
+-I.moc/release-static -o .obj/release-static/PageAllocationAligned.o 
+wtf/PageAllocationAligned.cpp
+| ccache i586-poky-linux-g++  -m32   -march=i586 
+--sysroot=/home/pokybuild/yocto-autobuilder/yocto-slave/nightly-x86/build/build/tmp/sysroots/qemux86 
+-c -O2 -pipe -feliminate-unused-debug-types -fpermissive 
+-fvisibility-inlines-hidden 
+-I/home/pokybuild/yocto-autobuilder/yocto-slave/nightly-x86/build/build/tmp/sysroots/qemux86/usr/include 
+-I/home/pokybuild/yocto-autobuilder/yocto-slave/nightly-x86/build/build/tmp/sysroots/qemux86/usr/include/freetype2 
+-Wall -Wextra -Wreturn-type -fno-strict-aliasing -Wcast-align 
+-Wchar-subscripts -Wformat-security -Wreturn-type -Wno-unused-parameter 
+-Wno-sign-compare -Wno-switch -Wno-switch-enum -Wundef 
+-Wmissing-noreturn -Winit-self -Werror -Wno-c++0x-compat 
+-fno-stack-protector -Wno-c++0x-compat -O3 -pthread -fPIC -fPIC -fPIC 
+-D_REENTRANT -DNDEBUG -DBUILDING_QT__=1 -DNDEBUG 
+-DQT_ASCII_CAST_WARNINGS -DBUILDING_JavaScriptCore -DBUILDING_WTF 
+-DENABLE_GLIB_SUPPORT=1 -D_LARGEFILE64_SOURCE -D_LARGEFILE_SOURCE 
+-DQT_NO_DEBUG -DQT_CORE_LIB -DQT_HAVE_MMX -DQT_HAVE_3DNOW -DQT_HAVE_SSE 
+-DQT_HAVE_MMXEXT -DQT_HAVE_SSE2 -DQT_HAVE_SSE3 -DQT_HAVE_SSSE3 
+-DQT_HAVE_SSE4_1 -DQT_HAVE_SSE4_2 -DQT_HAVE_AVX -DQT_SHARED 
+-I../../../../../mkspecs/linux-g++ -I. -I../../../../../include/QtCore 
+-I../../../../../include -I. -I../../Source -I../ThirdParty -Iassembler 
+-Ibytecode -Ibytecompiler -Iheap -Idfg -Idebugger -Iinterpreter -Ijit 
+-Iparser -Iprofiler -Iruntime -Iwtf -Iwtf/gobject 
+-I/home/pokybuild/yocto-autobuilder/yocto-slave/nightly-x86/build/build/tmp/work/i586-poky-linux/qt4-x11-free-4.8.1-r42.1/qt-everywhere-opensource-src-4.8.1/src/3rdparty/webkit/Source/JavaScriptCore/wtf/symbian 
+-Iwtf/unicode -Iyarr -IAPI -IForwardingHeaders -Igenerated 
+-I../../Source -I../../include -I/include/QtWebKit -I/include 
+-I/home/pokybuild/yocto-autobuilder/yocto-slave/nightly-x86/build/build/tmp/sysroots/qemux86/usr/include/freetype2 
+-I/home/pokybuild/yocto-autobuilder/yocto-slave/nightly-x86/build/build/tmp/sysroots/qemux86/usr/include/freetype2 
+-I/home/pokybuild/yocto-autobuilder/yocto-slave/nightly-x86/build/build/tmp/sysroots/qemux86/usr/include/glib-2.0 
+-I/home/pokybuild/yocto-autobuilder/yocto-slave/nightly-x86/build/build/tmp/sysroots/qemux86/usr/lib/glib-2.0/include 
+-I.moc/release-static -o .obj/release-static/PageBlock.o wtf/PageBlock.cpp
+| In file included from 
+/home/pokybuild/yocto-autobuilder/yocto-slave/nightly-x86/build/build/tmp/sysroots/qemux86/usr/include/glib-2.0/glib/gtypes.h:34:0,
+|                  from 
+/home/pokybuild/yocto-autobuilder/yocto-slave/nightly-x86/build/build/tmp/sysroots/qemux86/usr/include/glib-2.0/glib/galloca.h:34,
+|                  from 
+/home/pokybuild/yocto-autobuilder/yocto-slave/nightly-x86/build/build/tmp/sysroots/qemux86/usr/include/glib-2.0/glib.h:32,
+|                  from wtf/gobject/GRefPtr.cpp:24:
+| 
+/home/pokybuild/yocto-autobuilder/yocto-slave/nightly-x86/build/build/tmp/sysroots/qemux86/usr/lib/glib-2.0/include/glibconfig.h:159:16: 
+error: 'struct' tag used in naming 'union _GMutex' [-Werror=permissive]
+| In file included from ./wtf/Platform.h:1217:0,
+|                  from ./config.h:30,
+|                  from wtf/gobject/GRefPtr.cpp:19:
+| wtf/gobject/GTypedefs.h:55:15: note: 'union _GMutex' was previously 
+declared here
+| In file included from 
+/home/pokybuild/yocto-autobuilder/yocto-slave/nightly-x86/build/build/tmp/sysroots/qemux86/usr/include/glib-2.0/glib/gasyncqueue.h:34:0,
+|                  from 
+/home/pokybuild/yocto-autobuilder/yocto-slave/nightly-x86/build/build/tmp/sysroots/qemux86/usr/include/glib-2.0/glib.h:34,
+|                  from wtf/gobject/GRefPtr.cpp:24:
+| 
+/home/pokybuild/yocto-autobuilder/yocto-slave/nightly-x86/build/build/tmp/sysroots/qemux86/usr/include/glib-2.0/glib/gthread.h:71:16: 
+error: 'struct' tag used in naming 'union _GMutex' [-Werror=permissive]
+| In file included from ./wtf/Platform.h:1217:0,
+|                  from ./config.h:30,
+|                  from wtf/gobject/GRefPtr.cpp:19:
+| wtf/gobject/GTypedefs.h:55:15: note: 'union _GMutex' was previously 
+declared here
+| cc1plus: all warnings being treated as errors
+| make[2]: *** [.obj/release-static/GRefPtr.o] Error 1
+| make[2]: *** Waiting for unfinished jobs....
+| In file included from 
+/home/pokybuild/yocto-autobuilder/yocto-slave/nightly-x86/build/build/tmp/sysroots/qemux86/usr/include/glib-2.0/glib/gtypes.h:34:0,
+|                  from 
+/home/pokybuild/yocto-autobuilder/yocto-slave/nightly-x86/build/build/tmp/sysroots/qemux86/usr/include/glib-2.0/glib/galloca.h:34,
+|                  from 
+/home/pokybuild/yocto-autobuilder/yocto-slave/nightly-x86/build/build/tmp/sysroots/qemux86/usr/include/glib-2.0/glib.h:32,
+|                  from 
+/home/pokybuild/yocto-autobuilder/yocto-slave/nightly-x86/build/build/tmp/sysroots/qemux86/usr/include/glib-2.0/gobject/gbinding.h:30,
+|                  from 
+/home/pokybuild/yocto-autobuilder/yocto-slave/nightly-x86/build/build/tmp/sysroots/qemux86/usr/include/glib-2.0/glib-object.h:25,
+|                  from 
+/home/pokybuild/yocto-autobuilder/yocto-slave/nightly-x86/build/build/tmp/sysroots/qemux86/usr/include/glib-2.0/gio/gioenums.h:30,
+|                  from 
+/home/pokybuild/yocto-autobuilder/yocto-slave/nightly-x86/build/build/tmp/sysroots/qemux86/usr/include/glib-2.0/gio/giotypes.h:30,
+|                  from 
+/home/pokybuild/yocto-autobuilder/yocto-slave/nightly-x86/build/build/tmp/sysroots/qemux86/usr/include/glib-2.0/gio/gio.h:28,
+|                  from wtf/gobject/GOwnPtr.cpp:24:
+| 
+/home/pokybuild/yocto-autobuilder/yocto-slave/nightly-x86/build/build/tmp/sysroots/qemux86/usr/lib/glib-2.0/include/glibconfig.h:159:16: 
+error: 'struct' tag used in naming 'union _GMutex' [-Werror=permissive]
+| In file included from ./wtf/Platform.h:1217:0,
+|                  from ./config.h:30,
+|                  from wtf/gobject/GOwnPtr.cpp:19:
+| wtf/gobject/GTypedefs.h:55:15: note: 'union _GMutex' was previously 
+declared here
+| In file included from 
+/home/pokybuild/yocto-autobuilder/yocto-slave/nightly-x86/build/build/tmp/sysroots/qemux86/usr/include/glib-2.0/glib/gasyncqueue.h:34:0,
+|                  from 
+/home/pokybuild/yocto-autobuilder/yocto-slave/nightly-x86/build/build/tmp/sysroots/qemux86/usr/include/glib-2.0/glib.h:34,
+|                  from 
+/home/pokybuild/yocto-autobuilder/yocto-slave/nightly-x86/buERROR: 
+Function failed: do_compile (see 
+/home/pokybuild/yocto-autobuilder/yocto-slave/nightly-x86/build/build/tmp/work/i586-poky-linux/qt4-x11-free-4.8.1-r42.1/temp/log.do_compile.14166 
+for further information)
+| ild/build/tmp/sysroots/qemux86/usr/include/glib-2.0/gobject/gbinding.h:30,
+|                  from 
+/home/pokybuild/yocto-autobuilder/yocto-slave/nightly-x86/build/build/tmp/sysroots/qemux86/usr/include/glib-2.0/glib-object.h:25,
+|                  from 
+/home/pokybuild/yocto-autobuilder/yocto-slave/nightly-x86/build/build/tmp/sysroots/qemux86/usr/include/glib-2.0/gio/gioenums.h:30,
+|                  from 
+/home/pokybuild/yocto-autobuilder/yocto-slave/nightly-x86/build/build/tmp/sysroots/qemux86/usr/include/glib-2.0/gio/giotypes.h:30,
+|                  from 
+/home/pokybuild/yocto-autobuilder/yocto-slave/nightly-x86/build/build/tmp/sysroots/qemux86/usr/include/glib-2.0/gio/gio.h:28,
+|                  from wtf/gobject/GOwnPtr.cpp:24:
+| 
+/home/pokybuild/yocto-autobuilder/yocto-slave/nightly-x86/build/build/tmp/sysroots/qemux86/usr/include/glib-2.0/glib/gthread.h:71:16: 
+error: 'struct' tag used in naming 'union _GMutex' [-Werror=permissive]
+| In file included from ./wtf/Platform.h:1217:0,
+|                  from ./config.h:30,
+|                  from wtf/gobject/GOwnPtr.cpp:19:
+| wtf/gobject/GTypedefs.h:55:15: note: 'union _GMutex' was previously 
+declared here
+| cc1plus: all warnings being treated as errors
+| make[2]: *** [.obj/release-static/GOwnPtr.o] Error 1
+| make[2]: Leaving directory 
+`/home/pokybuild/yocto-autobuilder/yocto-slave/nightly-x86/build/build/tmp/work/i586-poky-linux/qt4-x11-free-4.8.1-r42.1/qt-everywhere-opensource-src-4.8.1/src/3rdparty/webkit/Source/JavaScriptCore'
+| make[1]: *** 
+[sub-JavaScriptCore-JavaScriptCore-pro-make_default-ordered] Error 2
+| make[1]: *** Waiting for unfinished jobs....
+| make[1]: Leaving directory 
+`/home/pokybuild/yocto-autobuilder/yocto-slave/nightly-x86/build/build/tmp/work/i586-poky-linux/qt4-x11-free-4.8.1-r42.1/qt-everywhere-opensource-src-4.8.1/src/3rdparty/webkit/Source'
+| make: *** [sub-webkit-make_default-ordered] Error 2
+| ERROR: oe_runmake failed
+
+Your patch is included in this build, but still seems to fail.
+
+Sau!
 
 
-Saul Wold wrote on 2012-05-02:
-> On 04/26/2012 11:34 PM, Lianhao Lu wrote:
->> 1. Added a package QA check function in multilib case. It checkes whethe=
-r
->> there is a package runtime dependency on packages with names not prefixe=
-d
->> by $MLPREFIX.
->>=20
->> 2. Fixed a bunch of recipes to use $libdir and $base_libdir instead of t=
-he
->> hard coded /usr/lib and /lib.
->>=20
->> The following changes since commit 5a1f172d35be610688842a8a9a84f24edb9ae=
-b51:
->>    Martin Jansa (1):
->>          bitbake.conf: use TUNE_PKGARCH instead of TARGET_ARCH in SDK_NA=
-ME
->> are available in the git repository at:
->>=20
->>    git://git.yoctoproject.org/poky-contrib llu/multilib
->>    http://git.yoctoproject.org/cgit.cgi/poky-contrib/log/?h=3Dllu/multil=
-ib
->> Lianhao Lu (7):
->>    multilib.bbclass: Added multilib specific package QA.
-> I think that we need to address some of these WARNING before merging
-> this change directly.  Is this supposed to address [YOCTO #2038]?
 
-No. This patch is intended to find potential RDEPENDS problems for those re=
-cipes which=20
-might not be so friendly with multilib cases. We'd like to detect those pot=
-ential RDEPENDS=20
-problems as early as possible, not by the failure of the do_rootfs task. II=
-RC Dongxiao had=20
-a patch in his merge pending list to address most of the "eglibc-locale" RD=
-EPENDS warnings,
-right Dongxiao?
-
--Lianhao
-
->>    popt: Fixing pkgconfig file installation issue.
->>    avahi: not using hard coded libdir.
-> Merged into OE-Core
->=20
->>    pulseaudio: use base_libdir for udev rules.
->>    alsa-utils: use base_libdir for udev rules.
-> I am still reviewing the udev changes.
->=20
->>    xorg-app: Use ${libdir} and ${datadir} for packaging.=20
-> Merged into OE-Core=20
->>    xf86-input-vmmouse: use base_libdir for udev rules.
-> Under review
->=20
-> Thanks
-> 	Sau!
->=20
 
 
