@@ -1,35 +1,38 @@
-Received: from mail-pb0-f47.google.com ([209.85.160.47])
+Received: from mail-pz0-f45.google.com ([209.85.210.45])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <raj.khem@gmail.com>) id 1SPgn8-0000e4-WB
+	(envelope-from <raj.khem@gmail.com>) id 1SPgnA-0000dm-G3
 	for openembedded-core@lists.openembedded.org;
-	Wed, 02 May 2012 23:08:55 +0200
-Received: by pbbrq2 with SMTP id rq2so1388721pbb.6
+	Wed, 02 May 2012 23:08:56 +0200
+Received: by mail-pz0-f45.google.com with SMTP id v2so499403dad.4
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 02 May 2012 13:59:09 -0700 (PDT)
+	Wed, 02 May 2012 13:59:13 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=from:to:subject:date:message-id:x-mailer:in-reply-to:references;
-	bh=9p5pL3w/kZlfPCuuGIipzzXUGEFjTnFn1JgN83laBD4=;
-	b=IfOwZDfTENdEAI4t+pnz3NoBSswTS04rzt+GJsPHWOctVCsOYvse0uCVzFdejfi44f
-	bqBvwT+sQ3X/Wq7I1XtZmdHL+iMWCOCN4+bnUJsYM81aUkZD1Luy6OOSEh1x/4EUbgAK
-	O8zj+AyfnS9M0aK0R7jus7Q5U7+vx4VaU5tslrFPpn6lTk23Cs4hjP18qtNnSLcvwL81
-	DM39+OOPCbjFyArVFRaOwrKCEJ29e5i7fMoL7wToDM34/l9yTLbQ7zWrM04CBdA8kNLH
-	p7W2HKhIrrDcWqlO13LPvhc0nzj9GlbxXwMsnHYt93ZDcClAy9T65aJKHeiSSaU1nzYn
-	TlAA==
-Received: by 10.68.221.227 with SMTP id qh3mr952264pbc.43.1335992349609;
-	Wed, 02 May 2012 13:59:09 -0700 (PDT)
+	h=from:to:subject:date:message-id:x-mailer:in-reply-to:references
+	:in-reply-to:references;
+	bh=QKVj4G7ofk//vqG6uK6qyV6nXD3NGaE9QRNTGL2unZc=;
+	b=0BwRs9ErxCwpBTb1yfuduUNHBJNUAGFQ7A/TQgykir9HvbE1OURuxs4qkTgpLdUN/d
+	Zn+KTIrOT+3dZP+GqaeEyZ4+Fb4NcIHkFws7BqrDud/nigmVp41uPDRapXQViCRB5LbD
+	tBvkhZsps04JP7GNUB1qFmM6mbezZPmp+SrWP0DbZF2pkn+uatlwSoFEB//GITdyRS3p
+	CAMTpCl5L5SpaavqLRKNIFq4Dq/BGwG1gsYQu6lwguiBPCuSJTIM3TmtmKA8ql8U0Nij
+	t3HQm1jcdJLVE7zHAN0aVzZXDPfSu8XBr9U+UqZQ1gtwsIfwT/SLmUJsPd+IkuKPtKOz
+	ypJQ==
+Received: by 10.68.190.197 with SMTP id gs5mr835751pbc.87.1335992353750;
+	Wed, 02 May 2012 13:59:13 -0700 (PDT)
 Received: from localhost.localdomain (oldbuilder.nslu2-linux.org.
 	[140.211.169.168])
-	by mx.google.com with ESMTPS id vl10sm2960290pbc.37.2012.05.02.13.59.07
+	by mx.google.com with ESMTPS id vl10sm2960290pbc.37.2012.05.02.13.59.11
 	(version=TLSv1/SSLv3 cipher=OTHER);
-	Wed, 02 May 2012 13:59:08 -0700 (PDT)
+	Wed, 02 May 2012 13:59:12 -0700 (PDT)
 From: Khem Raj <raj.khem@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Wed,  2 May 2012 13:58:12 -0700
-Message-Id: <907b74f1035fcd569920630c6fc68751cfb8ca14.1335992192.git.raj.khem@gmail.com>
+Date: Wed,  2 May 2012 13:58:14 -0700
+Message-Id: <e856f0509fbd6ab1682f7ebabc4a1188d458d6e5.1335992192.git.raj.khem@gmail.com>
 X-Mailer: git-send-email 1.7.5.4
+In-Reply-To: <907b74f1035fcd569920630c6fc68751cfb8ca14.1335992192.git.raj.khem@gmail.com>
+References: <907b74f1035fcd569920630c6fc68751cfb8ca14.1335992192.git.raj.khem@gmail.com>
 In-Reply-To: <cover.1335992192.git.raj.khem@gmail.com>
 References: <cover.1335992192.git.raj.khem@gmail.com>
-Subject: [PATCH 1/3] kmod: Add recipes
+Subject: [PATCH 3/3] image.bbclass, kernel.bbclass: Use kmod-native instead of module-init-tools-cross
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -44,159 +47,60 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 02 May 2012 21:08:55 -0000
-
-kmod is replacement for module-init-tools
+X-List-Received-Date: Wed, 02 May 2012 21:08:56 -0000
 
 Signed-off-by: Khem Raj <raj.khem@gmail.com>
 ---
- meta/recipes-kernel/kmod/kmod-native_git.bb      |   14 +++++
- meta/recipes-kernel/kmod/kmod.inc                |   31 +++++++++++
- meta/recipes-kernel/kmod/kmod/depmod-search.conf |    6 ++
- meta/recipes-kernel/kmod/kmod_git.bb             |   62 ++++++++++++++++++++++
- 4 files changed, 113 insertions(+), 0 deletions(-)
- create mode 100644 meta/recipes-kernel/kmod/kmod-native_git.bb
- create mode 100644 meta/recipes-kernel/kmod/kmod.inc
- create mode 100644 meta/recipes-kernel/kmod/kmod/depmod-search.conf
- create mode 100644 meta/recipes-kernel/kmod/kmod_git.bb
+ meta/classes/image.bbclass  |    2 +-
+ meta/classes/kernel.bbclass |    7 +++----
+ 2 files changed, 4 insertions(+), 5 deletions(-)
 
-diff --git a/meta/recipes-kernel/kmod/kmod-native_git.bb b/meta/recipes-kernel/kmod/kmod-native_git.bb
-new file mode 100644
-index 0000000..96de8b8
---- /dev/null
-+++ b/meta/recipes-kernel/kmod/kmod-native_git.bb
-@@ -0,0 +1,14 @@
-+# Copyright (C) 2012 Khem Raj <raj.khem@gmail.com>
-+# Released under the MIT license (see COPYING.MIT for the terms)
-+
-+require kmod.inc
-+inherit native
-+
-+PR = "${INC_PR}.0"
-+
-+do_install_append (){
-+	for tool in depmod insmod lsmod modinfo modprobe rmmod
-+	do
-+		ln -s kmod ${D}${bindir}/$tool
-+	done
-+}
-diff --git a/meta/recipes-kernel/kmod/kmod.inc b/meta/recipes-kernel/kmod/kmod.inc
-new file mode 100644
-index 0000000..940a317
---- /dev/null
-+++ b/meta/recipes-kernel/kmod/kmod.inc
-@@ -0,0 +1,31 @@
-+# Copyright (C) 2012 Khem Raj <raj.khem@gmail.com>
-+# Released under the MIT license (see COPYING.MIT for the terms)
-+
-+DESCRIPTION = "kmod is a set of tools to handle common tasks with Linux kernel modules like \
-+               insert, remove, list, check properties, resolve dependencies and aliases."
-+HOMEPAGE = "http://packages.profusion.mobi/kmod/"
-+LICENSE = "GPL-2.0+ & LGPL-2.1+"
-+LICENSE_libkmod = "LGPL-2.1+"
-+SECTION = "base"
-+PV = "7+git${SRCREV}"
-+INC_PR = "r0"
-+DEPENDS += "gnome-doc-utils-native"
-+LIC_FILES_CHKSUM = "file://COPYING;md5=751419260aa954499f7abaabaa882bbe \
-+                    file://libkmod/COPYING;md5=a6f89e2100d9b6cdffcea4f398e37343 \
-+                   "
-+inherit autotools
-+
-+SRC_URI = "git://git.profusion.mobi/kmod.git;protocol=git;branch=master \
-+           file://depmod-search.conf \
-+          "
-+
-+SRCREV = "02629fa02e96763db7460a930239cc93649a52f8"
-+
-+S = "${WORKDIR}/git"
-+
-+EXTRA_AUTORECONF += "--install --symlink"
-+EXTRA_OECONF +="--enable-debug --enable-logging --enable-tools"
-+
-+do_configure_prepend () {
-+        gtkdocize --docdir ${S}/libkmod/docs || touch ${S}/libkmod/docs/gtk-doc.make
-+}
-diff --git a/meta/recipes-kernel/kmod/kmod/depmod-search.conf b/meta/recipes-kernel/kmod/kmod/depmod-search.conf
-new file mode 100644
-index 0000000..527c0bb
---- /dev/null
-+++ b/meta/recipes-kernel/kmod/kmod/depmod-search.conf
-@@ -0,0 +1,6 @@
-+#
-+# /etc/depmod.d/depmod.conf
-+#
-+
-+search updates extramodules built-in
-+
-diff --git a/meta/recipes-kernel/kmod/kmod_git.bb b/meta/recipes-kernel/kmod/kmod_git.bb
-new file mode 100644
-index 0000000..928fa88
---- /dev/null
-+++ b/meta/recipes-kernel/kmod/kmod_git.bb
-@@ -0,0 +1,62 @@
-+# Copyright (C) 2012 Khem Raj <raj.khem@gmail.com>
-+# Released under the MIT license (see COPYING.MIT for the terms)
-+
-+require kmod.inc
-+
-+PR = "${INC_PR}.0"
-+
-+PROVIDES_${PN} += "module-init-tools-insmod-static module-init-tools-depmod module-init-tools"
-+RPROVIDES_${PN} += "module-init-tools-insmod-static module-init-tools-depmod module-init-tools"
-+CONFLICTS_${PN} += "module-init-tools-insmod-static module-init-tools-depmod module-init-tools"
-+
-+# autotools set prefix to /usr, however we want them in /bin and /sbin
-+bindir = "${base_bindir}"
-+sbindir = "${base_sbindir}"
-+# libdir = "${base_libdir}"
-+
-+SRC_URI += " \
-+            file://depmod-search.conf \
-+           "
-+
-+do_install_append () {
-+        install -dm755 ${D}${base_bindir}
-+        install -dm755 ${D}${base_sbindir}
-+        # add symlinks to kmod
-+        ln -s ..${base_bindir}/kmod ${D}${base_bindir}/lsmod.kmod
-+        for tool in {ins,rm,dep}mod mod{info,probe}; do
-+                ln -s ..${base_bindir}/kmod ${D}${base_sbindir}/${tool}.kmod
-+        done
-+        # configuration directories
-+        install -dm755 ${D}${base_libdir}/depmod.d
-+        install -dm755 ${D}${base_libdir}/modprobe.d
-+        install -dm755 ${D}${sysconfdir}/depmod.d
-+        install -dm755 ${D}${sysconfdir}/modprobe.d
-+
-+        # install depmod.d file for search/ dir
-+        install -Dm644 "${WORKDIR}/depmod-search.conf" "${D}${base_libdir}/depmod.d/search.conf"
-+}
-+
-+pkg_postinst_kmod() {
-+        for f in sbin/insmod sbin/modprobe sbin/rmmod sbin/modinfo; do
-+                bn=`basename $f`
-+                update-alternatives --install /$f $bn /$f.kmod 60
-+        done
-+        update-alternatives --install /bin/lsmod bin-lsmod /bin/lsmod.kmod 60
-+        update-alternatives --install /sbin/lsmod lsmod /bin/lsmod.kmod 60
-+        update-alternatives --install /sbin/depmod depmod /sbin/depmod.kmod 60
-+}
-+
-+pkg_prerm_kmod() {
-+        for f in sbin/insmod sbin/modprobe sbin/rmmod sbin/modinfo; do
-+                bn=`basename $f`
-+                update-alternatives --remove $bn /$f.kmod
-+        done
-+        update-alternatives --remove bin-lsmod /bin/lsmod.kmod
-+        update-alternatives --remove lsmod /bin/lsmod.kmod
-+        update-alternatives --remove depmod /sbin/depmod.kmod
-+}
-+
-+PACKAGES =+ "libkmod"
-+
-+FILES_libkmod = "${base_libdir}/libkmod*${SOLIBS}"
-+FILES_${PN} += "${base_libdir}/depmod.d ${base_libdir}/modprobe.d"
+diff --git a/meta/classes/image.bbclass b/meta/classes/image.bbclass
+index 907c59b..4610731 100644
+--- a/meta/classes/image.bbclass
++++ b/meta/classes/image.bbclass
+@@ -178,7 +178,7 @@ fakeroot do_rootfs () {
+ 		KERNEL_VERSION=`cat ${STAGING_KERNEL_DIR}/kernel-abiversion`
+ 
+ 		mkdir -p ${IMAGE_ROOTFS}/lib/modules/$KERNEL_VERSION
+-		${TARGET_PREFIX}depmod -a -b ${IMAGE_ROOTFS} -F ${STAGING_KERNEL_DIR}/System.map-$KERNEL_VERSION $KERNEL_VERSION
++		depmod -a -b ${IMAGE_ROOTFS} -F ${STAGING_KERNEL_DIR}/System.map-$KERNEL_VERSION $KERNEL_VERSION
+ 	fi
+ 
+ 	${IMAGE_PREPROCESS_COMMAND}
+diff --git a/meta/classes/kernel.bbclass b/meta/classes/kernel.bbclass
+index 139bad9..6334510 100644
+--- a/meta/classes/kernel.bbclass
++++ b/meta/classes/kernel.bbclass
+@@ -1,7 +1,7 @@
+ inherit linux-kernel-base module_strip
+ 
+ PROVIDES += "virtual/kernel"
+-DEPENDS += "virtual/${TARGET_PREFIX}gcc virtual/${TARGET_PREFIX}depmod virtual/${TARGET_PREFIX}gcc${KERNEL_CCSUFFIX} update-modules"
++DEPENDS += "virtual/${TARGET_PREFIX}gcc kmod-native virtual/${TARGET_PREFIX}gcc${KERNEL_CCSUFFIX} update-modules"
+ 
+ # we include gcc above, we dont need virtual/libc
+ INHIBIT_DEFAULT_DEPS = "1"
+@@ -269,7 +269,7 @@ if [ ! -e "$D/lib/modules/${KERNEL_VERSION}" ]; then
+ 	mkdir -p $D/lib/modules/${KERNEL_VERSION}
+ fi
+ if [ -n "$D" ]; then
+-	${HOST_PREFIX}depmod -A -b $D -F ${STAGING_KERNEL_DIR}/System.map-${KERNEL_VERSION} ${KERNEL_VERSION}
++	depmod -a -b $D -F ${STAGING_KERNEL_DIR}/System.map-${KERNEL_VERSION} ${KERNEL_VERSION}
+ else
+ 	depmod -a
+ fi
+@@ -347,9 +347,8 @@ python populate_packages_prepend () {
+ 		if m:
+ 			kernelver_stripped = m.group(1)
+ 		path = d.getVar("PATH", True)
+-		host_prefix = d.getVar("HOST_PREFIX", True) or ""
+ 
+-		cmd = "PATH=\"%s\" %sdepmod -n -a -r -b %s -F %s/boot/System.map-%s %s" % (path, host_prefix, dvar, dvar, kernelver, kernelver_stripped)
++		cmd = "PATH=\"%s\" depmod -n -a -b %s -F %s/boot/System.map-%s %s" % (path, dvar, dvar, kernelver, kernelver_stripped)
+ 		f = os.popen(cmd, 'r')
+ 
+ 		deps = {}
 -- 
 1.7.5.4
 
