@@ -1,38 +1,40 @@
-Received: from mail-pz0-f45.google.com ([209.85.210.45])
+Received: from mail-pb0-f47.google.com ([209.85.160.47])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <raj.khem@gmail.com>) id 1SPgnA-0000dm-G3
+	(envelope-from <raj.khem@gmail.com>) id 1SPgwX-00013E-Ea
 	for openembedded-core@lists.openembedded.org;
-	Wed, 02 May 2012 23:08:56 +0200
-Received: by mail-pz0-f45.google.com with SMTP id v2so499403dad.4
+	Wed, 02 May 2012 23:18:37 +0200
+Received: by pbbrq2 with SMTP id rq2so1396384pbb.6
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 02 May 2012 13:59:13 -0700 (PDT)
+	Wed, 02 May 2012 14:08:52 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=from:to:subject:date:message-id:x-mailer:in-reply-to:references
-	:in-reply-to:references;
-	bh=QKVj4G7ofk//vqG6uK6qyV6nXD3NGaE9QRNTGL2unZc=;
-	b=0BwRs9ErxCwpBTb1yfuduUNHBJNUAGFQ7A/TQgykir9HvbE1OURuxs4qkTgpLdUN/d
-	Zn+KTIrOT+3dZP+GqaeEyZ4+Fb4NcIHkFws7BqrDud/nigmVp41uPDRapXQViCRB5LbD
-	tBvkhZsps04JP7GNUB1qFmM6mbezZPmp+SrWP0DbZF2pkn+uatlwSoFEB//GITdyRS3p
-	CAMTpCl5L5SpaavqLRKNIFq4Dq/BGwG1gsYQu6lwguiBPCuSJTIM3TmtmKA8ql8U0Nij
-	t3HQm1jcdJLVE7zHAN0aVzZXDPfSu8XBr9U+UqZQ1gtwsIfwT/SLmUJsPd+IkuKPtKOz
-	ypJQ==
-Received: by 10.68.190.197 with SMTP id gs5mr835751pbc.87.1335992353750;
-	Wed, 02 May 2012 13:59:13 -0700 (PDT)
-Received: from localhost.localdomain (oldbuilder.nslu2-linux.org.
-	[140.211.169.168])
-	by mx.google.com with ESMTPS id vl10sm2960290pbc.37.2012.05.02.13.59.11
-	(version=TLSv1/SSLv3 cipher=OTHER);
-	Wed, 02 May 2012 13:59:12 -0700 (PDT)
+	h=message-id:date:from:user-agent:mime-version:to:subject:references
+	:in-reply-to:x-enigmail-version:content-type
+	:content-transfer-encoding;
+	bh=/BbRYuNhM4Q0lae3YMqqQ6izwGu+HV9uo8IZzTWCHjM=;
+	b=ZJ5vOU6spOiYBUK2cvhdVA83bKGaKED0uhb1jiyak37iWOjgEBU59WO4UZh9lkEDGO
+	uLxrXyBA0lj2aMD7665ialwbyZI1MYY/yLL9qlyYhxOVi1J4INgZsZZAFxgc8IYeinS8
+	hc5y0rQOJaHpt6MbQJmRzxyphqgUAjLdQ1GfkZCFl/OtyRhdjGYlYlW3CZi3jU95gtTP
+	uqO5adkzclLcghmZVfIczjsGrxwm8xp75x600bTIKjW3x1ofC16VyHBl/ZWxygpTxrx1
+	1Xz65M8Lj4/z+vBN5Lrf+uGLooQ7VaF+0KVgW3cdjjRBIpo5yjdog3Yp7cZlLUiRYwyB
+	kYiQ==
+Received: by 10.68.218.198 with SMTP id pi6mr809268pbc.121.1335992932009;
+	Wed, 02 May 2012 14:08:52 -0700 (PDT)
+Received: from [172.23.3.173] (natint3.juniper.net. [66.129.224.36])
+	by mx.google.com with ESMTPS id og6sm2978625pbb.42.2012.05.02.14.08.49
+	(version=SSLv3 cipher=OTHER); Wed, 02 May 2012 14:08:50 -0700 (PDT)
+Message-ID: <4FA1A25F.9030502@gmail.com>
+Date: Wed, 02 May 2012 14:08:47 -0700
 From: Khem Raj <raj.khem@gmail.com>
+User-Agent: Mozilla/5.0 (X11; Linux i686;
+	rv:11.0) Gecko/20120411 Thunderbird/11.0.1
+MIME-Version: 1.0
 To: openembedded-core@lists.openembedded.org
-Date: Wed,  2 May 2012 13:58:14 -0700
-Message-Id: <e856f0509fbd6ab1682f7ebabc4a1188d458d6e5.1335992192.git.raj.khem@gmail.com>
-X-Mailer: git-send-email 1.7.5.4
-In-Reply-To: <907b74f1035fcd569920630c6fc68751cfb8ca14.1335992192.git.raj.khem@gmail.com>
-References: <907b74f1035fcd569920630c6fc68751cfb8ca14.1335992192.git.raj.khem@gmail.com>
-In-Reply-To: <cover.1335992192.git.raj.khem@gmail.com>
-References: <cover.1335992192.git.raj.khem@gmail.com>
-Subject: [PATCH 3/3] image.bbclass, kernel.bbclass: Use kmod-native instead of module-init-tools-cross
+References: <cover.1335967122.git.Martin.Jansa@gmail.com>
+	<eec6dc7f29ff7e5297e2827196cc81ffd9a76831.1335967122.git.Martin.Jansa@gmail.com>
+	<20120502140940.GB3682@jama.jama.net>
+In-Reply-To: <20120502140940.GB3682@jama.jama.net>
+X-Enigmail-Version: 1.4.1
+Subject: Re: [PATCH 1/2] site/arm-common: alignment values for guin32, guin64 and unsigned long
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -47,62 +49,58 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 02 May 2012 21:08:56 -0000
+X-List-Received-Date: Wed, 02 May 2012 21:18:37 -0000
+Content-Type: text/plain; charset=ISO-8859-1
+Content-Transfer-Encoding: 7bit
 
-Signed-off-by: Khem Raj <raj.khem@gmail.com>
----
- meta/classes/image.bbclass  |    2 +-
- meta/classes/kernel.bbclass |    7 +++----
- 2 files changed, 4 insertions(+), 5 deletions(-)
+-----BEGIN PGP SIGNED MESSAGE-----
+Hash: SHA1
 
-diff --git a/meta/classes/image.bbclass b/meta/classes/image.bbclass
-index 907c59b..4610731 100644
---- a/meta/classes/image.bbclass
-+++ b/meta/classes/image.bbclass
-@@ -178,7 +178,7 @@ fakeroot do_rootfs () {
- 		KERNEL_VERSION=`cat ${STAGING_KERNEL_DIR}/kernel-abiversion`
- 
- 		mkdir -p ${IMAGE_ROOTFS}/lib/modules/$KERNEL_VERSION
--		${TARGET_PREFIX}depmod -a -b ${IMAGE_ROOTFS} -F ${STAGING_KERNEL_DIR}/System.map-$KERNEL_VERSION $KERNEL_VERSION
-+		depmod -a -b ${IMAGE_ROOTFS} -F ${STAGING_KERNEL_DIR}/System.map-$KERNEL_VERSION $KERNEL_VERSION
- 	fi
- 
- 	${IMAGE_PREPROCESS_COMMAND}
-diff --git a/meta/classes/kernel.bbclass b/meta/classes/kernel.bbclass
-index 139bad9..6334510 100644
---- a/meta/classes/kernel.bbclass
-+++ b/meta/classes/kernel.bbclass
-@@ -1,7 +1,7 @@
- inherit linux-kernel-base module_strip
- 
- PROVIDES += "virtual/kernel"
--DEPENDS += "virtual/${TARGET_PREFIX}gcc virtual/${TARGET_PREFIX}depmod virtual/${TARGET_PREFIX}gcc${KERNEL_CCSUFFIX} update-modules"
-+DEPENDS += "virtual/${TARGET_PREFIX}gcc kmod-native virtual/${TARGET_PREFIX}gcc${KERNEL_CCSUFFIX} update-modules"
- 
- # we include gcc above, we dont need virtual/libc
- INHIBIT_DEFAULT_DEPS = "1"
-@@ -269,7 +269,7 @@ if [ ! -e "$D/lib/modules/${KERNEL_VERSION}" ]; then
- 	mkdir -p $D/lib/modules/${KERNEL_VERSION}
- fi
- if [ -n "$D" ]; then
--	${HOST_PREFIX}depmod -A -b $D -F ${STAGING_KERNEL_DIR}/System.map-${KERNEL_VERSION} ${KERNEL_VERSION}
-+	depmod -a -b $D -F ${STAGING_KERNEL_DIR}/System.map-${KERNEL_VERSION} ${KERNEL_VERSION}
- else
- 	depmod -a
- fi
-@@ -347,9 +347,8 @@ python populate_packages_prepend () {
- 		if m:
- 			kernelver_stripped = m.group(1)
- 		path = d.getVar("PATH", True)
--		host_prefix = d.getVar("HOST_PREFIX", True) or ""
- 
--		cmd = "PATH=\"%s\" %sdepmod -n -a -r -b %s -F %s/boot/System.map-%s %s" % (path, host_prefix, dvar, dvar, kernelver, kernelver_stripped)
-+		cmd = "PATH=\"%s\" depmod -n -a -b %s -F %s/boot/System.map-%s %s" % (path, dvar, dvar, kernelver, kernelver_stripped)
- 		f = os.popen(cmd, 'r')
- 
- 		deps = {}
--- 
-1.7.5.4
+On 05/02/2012 07:09 AM, Martin Jansa wrote:
+> On Wed, May 02, 2012 at 03:59:45PM +0200, Martin Jansa wrote:
+>> From: Tomas Frydrych <tomas@sleepfive.com>
+>> 
+>> These are required to build recent versions of glib-2.0
+> 
+> similar patch is needed also for other site files, just noticed it
+> while building for qemux86-64
 
+would you also include rest of architectures too please ?
+
+> 
+>> 
+>> Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com> --- 
+>> meta/site/arm-common |    3 +++ 1 files changed, 3 insertions(+),
+>> 0 deletions(-)
+>> 
+>> diff --git a/meta/site/arm-common b/meta/site/arm-common index
+>> c3ffe08..cad8027 100644 --- a/meta/site/arm-common +++
+>> b/meta/site/arm-common @@ -76,6 +76,9 @@
+>> glib_cv_sizeof_ptrdiff_t=${glib_cv_sizeof_ptrdiff_t=4} 
+>> glib_cv_sizeof_size_t=${glib_cv_sizeof_size_t=4} 
+>> glib_cv_sizeof_system_thread=${glib_cv_sizeof_system_thread=4} 
+>> glib_cv_sys_use_pid_niceness_surrogate=${glib_cv_sys_use_pid_niceness_surrogate=yes}
+>>
+>> 
++ac_cv_alignof_guint32=4
+>> +ac_cv_alignof_guint64=8 +ac_cv_alignof_unsigned_long=4
+>> 
+>> #gstreamer as_cv_unaligned_access=${as_cv_unaligned_access=no} --
+>>  1.7.8.6
+>> 
+> 
+> 
+> 
+> _______________________________________________ Openembedded-core
+> mailing list Openembedded-core@lists.openembedded.org 
+> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
+-----BEGIN PGP SIGNATURE-----
+Version: GnuPG v1.4.11 (GNU/Linux)
+Comment: Using GnuPG with Mozilla - http://enigmail.mozdev.org/
+
+iEYEARECAAYFAk+hol8ACgkQuwUzVZGdMxQEkgCfZY5mVAR5RxST2olpH41m6V+d
+iQwAnRBaSrzbM/RGWmb8cZJjXwMAg6KJ
+=tUvc
+-----END PGP SIGNATURE-----
 
 
