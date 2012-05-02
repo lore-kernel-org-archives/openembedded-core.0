@@ -1,33 +1,38 @@
 Received: from mail-pz0-f45.google.com ([209.85.210.45])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <raj.khem@gmail.com>) id 1SPgir-0000Jb-2O
+	(envelope-from <raj.khem@gmail.com>) id 1SPgj3-0000Jb-Ju
 	for openembedded-core@lists.openembedded.org;
-	Wed, 02 May 2012 23:04:29 +0200
-Received: by dadv2 with SMTP id v2so493772dad.4
+	Wed, 02 May 2012 23:04:43 +0200
+Received: by mail-pz0-f45.google.com with SMTP id v2so493772dad.4
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 02 May 2012 13:54:43 -0700 (PDT)
+	Wed, 02 May 2012 13:54:58 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=from:to:cc:subject:date:message-id:x-mailer;
-	bh=6MWd2tZzG2aJcvycWlJdZtlksvkC+XxcGWDuxlC9lCg=;
-	b=SYv0ivd2mqd0UyeLreZN8P7rnbLh+A6M+5UVcX837ZKfy1ou3wJ0wZctu1XzvMg7cj
-	AJ8bQdTjdg1TIzhalUxxST0/duOhxTEMa1yzsxzyZbfKiE/gO9YsX6ObIk8O/q9HutIx
-	D9aWymBZWJkWBSB3XhetChjr+PYvxtM0WkW4a+6n3uOnZ+EjcP/xMlgrMt7aNIRgSh0L
-	TLOLpE6GSRK7tVNEPvxYtzI3VlhT4EsRuisETCzzW8OE/mkx+dZNJaYgYMNAp2x+uN6R
-	knA9CAc0YL9RIYOsqmVggeaC9T+1nPuh9iq2FTt73q9Do06/gBvEV3LgEfqmWQAtJD3M
-	nBWA==
-Received: by 10.68.220.2 with SMTP id ps2mr758053pbc.109.1335992083441;
-	Wed, 02 May 2012 13:54:43 -0700 (PDT)
+	h=from:to:subject:date:message-id:x-mailer:in-reply-to:references
+	:in-reply-to:references;
+	bh=ejNF7Z/P9bue+D6IOtx+slVelmTwJYU0bn56o4g9+6M=;
+	b=zTawF7SDXeG3Yl+TOUD0L8p9VItP0XAvul06AwXIbPrh83+dcsbq0EFFAFj3qhDyw1
+	lWgx7oSP+6GCDvNWQR9YKuHvCNLzG4OpnWO1e3qyFrYeR4Mp1hWLP9YBkLz0syoL9YYK
+	TKYb2bKcbcxYckVJ4p7um09PH8DbNpa4IDFFrXBCjyTfLRZdDQaKQSJkZil1lLKkDmq2
+	mHZ5G8trNGwf5OkX2VFRFLLaM2Kdg+CrnwK5w0H4Ia6kaHTauILyT/goQ1bPO/98lcLw
+	YYCT7sQ/5y7C94k176UjeHJTMH9uPkFozC9SdOWYFnz8MNo4zdeW8KJcXwmYo+mF3RpY
+	F6gA==
+Received: by 10.68.202.230 with SMTP id kl6mr699396pbc.134.1335992098868;
+	Wed, 02 May 2012 13:54:58 -0700 (PDT)
 Received: from localhost.localdomain (oldbuilder.nslu2-linux.org.
 	[140.211.169.168])
-	by mx.google.com with ESMTPS id nt8sm2955141pbb.12.2012.05.02.13.54.41
+	by mx.google.com with ESMTPS id pg6sm2949558pbb.41.2012.05.02.13.54.56
 	(version=TLSv1/SSLv3 cipher=OTHER);
-	Wed, 02 May 2012 13:54:42 -0700 (PDT)
+	Wed, 02 May 2012 13:54:57 -0700 (PDT)
 From: Khem Raj <raj.khem@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Wed,  2 May 2012 13:53:46 -0700
-Message-Id: <cover.1335991900.git.raj.khem@gmail.com>
+Date: Wed,  2 May 2012 13:53:55 -0700
+Message-Id: <7ca56149e5c8663c2de473f31e472ea3f2e30ee6.1335991900.git.raj.khem@gmail.com>
 X-Mailer: git-send-email 1.7.5.4
-Subject: [PATCH 0/7] Misc fixes
+In-Reply-To: <0c57b76bc47680ccf576d412a3dc7e726f1daba2.1335991900.git.raj.khem@gmail.com>
+References: <0c57b76bc47680ccf576d412a3dc7e726f1daba2.1335991900.git.raj.khem@gmail.com>
+In-Reply-To: <cover.1335991900.git.raj.khem@gmail.com>
+References: <cover.1335991900.git.raj.khem@gmail.com>
+Subject: [PATCH 2/7] xserver-xorg: Fix build on powerpc
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -42,64 +47,74 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 02 May 2012 21:04:29 -0000
+X-List-Received-Date: Wed, 02 May 2012 21:04:43 -0000
 
-These fixes are independent but feeding into the bigger items
-e.g. mips64/sh4 support, supporting xorg-xserver on qemumachines
-etc.
-
-The following changes since commit 35b5fb2dd2131d4c7dc6635c14c6e08ea6926457:
-
-  eglibc-package: remove /var (2012-05-01 12:36:18 +0100)
-
-are available in the git repository at:
-  git://git.openembedded.org/openembedded-core-contrib kraj/misc-updates
-  http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=kraj/misc-updates
-
-Khem Raj (6):
-  unfs-server: Do not use DESTDIR
-  xserver-xorg: Fix build on powerpc
-  libatomics-ops: Make it build for SH4
-  qemu-git: Move to tip of git
-  openssl: Fix build for mips64(el)
-  uclibc: Return correct endianness for mips64
-
-Yuri Bushmelev (1):
-  Enable PARALLEL_MAKE for testing
-
- meta/recipes-bsp/pciutils/pciutils_3.1.9.bb        |    1 -
- meta/recipes-bsp/pcmciautils/pcmciautils.inc       |    1 -
- meta/recipes-connectivity/iproute2/iproute2.inc    |    1 -
- .../nfs-utils/nfs-utils_1.2.3.bb                   |    1 -
- .../openssl/openssl-1.0.0i/configure-targets.patch |   17 ++---
- .../recipes-connectivity/openssl/openssl_1.0.0i.bb |    2 +-
- meta/recipes-core/eggdbus/eggdbus_0.6.bb           |    1 -
- meta/recipes-core/uclibc/uclibc-config.inc         |    2 +-
- meta/recipes-devtools/autoconf/autoconf_2.68.bb    |    1 -
- .../recipes-devtools/qemu/qemu-git/powerpc_rom.bin |  Bin 0 -> 4096 bytes
- meta/recipes-devtools/qemu/qemu_git.bb             |   18 ++----
- .../unfs-server/unfs-server_2.1+2.2beta47.bb       |    4 +-
- meta/recipes-extended/groff/groff_1.20.1.bb        |    1 -
- meta/recipes-extended/mailx/mailx_12.5.bb          |    1 -
- .../net-tools/net-tools_1.60-23.bb                 |    1 -
- meta/recipes-extended/sat-solver/sat-solver_git.bb |    1 -
- .../fontconfig/fontconfig_2.8.0.bb                 |    1 -
- meta/recipes-graphics/libsdl/libsdl_1.2.15.bb      |    1 -
- meta/recipes-graphics/xcb/libpthread-stubs_0.3.bb  |    1 -
- meta/recipes-graphics/xcb/xcb-util.inc             |    1 -
- .../xorg-xserver/xserver-xorg-1.11.2.inc           |    9 ++-
- .../xserver-xorg-1.11.2/gcc-47-warning.patch       |   33 +++++++++
- .../libatomics-ops/gentoo/sh4-atomic-ops.patch     |   70 ++++++++++++++++++++
- .../pulseaudio/libatomics-ops_1.2.bb               |    6 +-
- meta/recipes-multimedia/pulseaudio/pulseaudio.inc  |    1 -
- meta/recipes-multimedia/speex/speex_1.2rc1.bb      |    1 -
- meta/recipes-support/icu/icu-3.6.inc               |    1 -
- meta/recipes-support/libpcre/libpcre_8.21.bb       |    1 -
- 28 files changed, 129 insertions(+), 50 deletions(-)
- create mode 100644 meta/recipes-devtools/qemu/qemu-git/powerpc_rom.bin
+Signed-off-by: Khem Raj <raj.khem@gmail.com>
+---
+ .../xorg-xserver/xserver-xorg-1.11.2.inc           |    9 +++--
+ .../xserver-xorg-1.11.2/gcc-47-warning.patch       |   33 ++++++++++++++++++++
+ 2 files changed, 38 insertions(+), 4 deletions(-)
  create mode 100644 meta/recipes-graphics/xorg-xserver/xserver-xorg-1.11.2/gcc-47-warning.patch
- create mode 100644 meta/recipes-multimedia/pulseaudio/libatomics-ops/gentoo/sh4-atomic-ops.patch
 
+diff --git a/meta/recipes-graphics/xorg-xserver/xserver-xorg-1.11.2.inc b/meta/recipes-graphics/xorg-xserver/xserver-xorg-1.11.2.inc
+index f5fa629..6a86af4 100644
+--- a/meta/recipes-graphics/xorg-xserver/xserver-xorg-1.11.2.inc
++++ b/meta/recipes-graphics/xorg-xserver/xserver-xorg-1.11.2.inc
+@@ -1,10 +1,11 @@
+-SRC_URI += "file://crosscompile.patch"
+-
+ # Misc build failure for master HEAD
+-SRC_URI += "file://fix_open_max_preprocessor_error.patch"
++SRC_URI += "file://crosscompile.patch \
++            file://fix_open_max_preprocessor_error.patch \
++            file://gcc-47-warning.patch \
++           "
+ 
+ SRC_URI[md5sum] = "8796fff441e5435ee36a72579008af24"
+ SRC_URI[sha256sum] = "fa415decf02027ca278b06254ccfbcceba2a83c2741405257ebf749da4a73cf2"
+ 
+-PR = "r1"
++PR = "r2"
+ 
+diff --git a/meta/recipes-graphics/xorg-xserver/xserver-xorg-1.11.2/gcc-47-warning.patch b/meta/recipes-graphics/xorg-xserver/xserver-xorg-1.11.2/gcc-47-warning.patch
+new file mode 100644
+index 0000000..ed4eaac
+--- /dev/null
++++ b/meta/recipes-graphics/xorg-xserver/xserver-xorg-1.11.2/gcc-47-warning.patch
+@@ -0,0 +1,33 @@
++This patch fixes errors on powerpc like below
++
++| lnx_video.c: In function 'unmapVidMem':
++| lnx_video.c:472:24: error: cast from pointer to integer of different size [-Werror=pointer-to-int-cast]
++
++Its in 1.12 branch 
++
++http://cgit.freedesktop.org/xorg/xserver/commit/?h=server-1.12-branch&id=eb3377ffb8a7baa26c9831e56ed782d48b28fa71
++
++Upstream-Status: Backport
++
++Signed-off-by: Khem Raj <raj.khem@gmail.com>
++
++Index: xorg-server-1.11.2/hw/xfree86/os-support/linux/lnx_video.c
++===================================================================
++--- xorg-server-1.11.2.orig/hw/xfree86/os-support/linux/lnx_video.c	2012-05-01 06:32:34.186489019 -0700
+++++ xorg-server-1.11.2/hw/xfree86/os-support/linux/lnx_video.c	2012-05-01 06:49:14.926537452 -0700
++@@ -469,11 +469,11 @@
++ static void
++ unmapVidMem(int ScreenNum, pointer Base, unsigned long Size)
++ {
++-    memType alignOff = (memType)Base 
++-	- ((memType)Base & ~(getpagesize() - 1));
+++    uintptr_t alignOff = (uintptr_t)Base 
+++	- ((uintptr_t)Base & ~(getpagesize() - 1));
++ 
++-    DebugF("alignment offset: %lx\n",alignOff);
++-    munmap((caddr_t)((memType)Base - alignOff), (Size + alignOff));
+++    DebugF("alignment offset: %lx\n",(unsigned long)alignOff);
+++    munmap((void*)((uintptr_t)Base - alignOff), (Size + alignOff));
++ }
++ 
++ 
 -- 
 1.7.5.4
 
