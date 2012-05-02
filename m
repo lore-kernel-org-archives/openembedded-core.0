@@ -1,23 +1,41 @@
-Received: from mail1.windriver.com ([147.11.146.13])
+Received: from mail-wg0-f41.google.com ([74.125.82.41])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <jason.wessel@windriver.com>) id 1SPacO-00080N-0i
-	for Openembedded-core@lists.openembedded.org;
-	Wed, 02 May 2012 16:33:24 +0200
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca [147.11.189.40])
-	by mail1.windriver.com (8.14.3/8.14.3) with ESMTP id q42ENcdO004478
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
-	for <Openembedded-core@lists.openembedded.org>;
-	Wed, 2 May 2012 07:23:38 -0700 (PDT)
-Received: from localhost.localdomain (128.224.60.100) by
-	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server id
-	14.1.255.0; Wed, 2 May 2012 07:23:38 -0700
-From: Jason Wessel <jason.wessel@windriver.com>
-To: <Openembedded-core@lists.openembedded.org>
-Date: Wed, 2 May 2012 09:23:36 -0500
-Message-ID: <1335968616-2436-1-git-send-email-jason.wessel@windriver.com>
-X-Mailer: git-send-email 1.6.6.2
-MIME-Version: 1.0
-Subject: [PATCH] qemu-native: depend on unfs-server-native
+	(envelope-from <koen@dominion.thruhere.net>) id 1SPaig-00085p-L7
+	for openembedded-core@lists.openembedded.org;
+	Wed, 02 May 2012 16:39:54 +0200
+Received: by wgbds1 with SMTP id ds1so3899803wgb.0
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 02 May 2012 07:30:10 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=google.com; s=20120113;
+	h=content-type:mime-version:subject:from:in-reply-to:date
+	:content-transfer-encoding:message-id:references:to:x-mailer
+	:x-gm-message-state;
+	bh=vEwJ+AmmgbWSaVeBY9B7NweHWsWpDfQnZQceungy2kY=;
+	b=aLiNs6z3O8VG5r9aSInA3TX51a7L3mbNfBJLKY7NoXR0f9g/inNPH4fCZ/zT02dS1q
+	vhmkfWapWrCwfuNwyGOKtYmtoen6qi/K/8TiV9fboNsTpiM17V4HkBXrS2NjnJEbOzA+
+	mKHYQ38fdeJ4CDGRYQpXQeOjX0eNo3Lrl4Ani/T4BR5AjOk9a8p/YhFGzoe/mIdB8Rde
+	UdJRJOLUNywp8me3FJhzm4iAxsVsp27zSzb4PVwwxq5wmQuouZkAAVTqcXi5Y5Nw+FsC
+	Kbbvw8wUzM3OZwoJrTUnxT2kaCkL4s8L3xnJD8lgrgb3SX4yfMGvFsyMvJD+wki8hK9A
+	E42g==
+Received: by 10.180.88.67 with SMTP id be3mr14616291wib.20.1335969010392;
+	Wed, 02 May 2012 07:30:10 -0700 (PDT)
+Received: from [172.20.1.36] (ip545070eb.adsl-surfen.hetnet.nl.
+	[84.80.112.235])
+	by mx.google.com with ESMTPS id gg2sm7172063wib.7.2012.05.02.07.30.08
+	(version=TLSv1/SSLv3 cipher=OTHER);
+	Wed, 02 May 2012 07:30:08 -0700 (PDT)
+Mime-Version: 1.0 (Apple Message framework v1257)
+From: Koen Kooi <koen@dominion.thruhere.net>
+In-Reply-To: <1335968616-2436-1-git-send-email-jason.wessel@windriver.com>
+Date: Wed, 2 May 2012 16:29:54 +0200
+Message-Id: <DE7E5733-CC28-46DD-A4BC-C1AA663F925B@dominion.thruhere.net>
+References: <1335968616-2436-1-git-send-email-jason.wessel@windriver.com>
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+X-Mailer: Apple Mail (2.1257)
+X-Gm-Message-State: ALoCoQmPeyWJIBDftp3fOYR3j3nD0dLWvt+aOnkYxbF6ZE0LoFaspZIbk+VGmQ9BrpNT8aaZ36wL
+Subject: Re: [PATCH] qemu-native: depend on unfs-server-native
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -32,32 +50,20 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 02 May 2012 14:33:24 -0000
-Content-Type: text/plain
+X-List-Received-Date: Wed, 02 May 2012 14:39:54 -0000
+Content-Type: text/plain; charset=us-ascii
+Content-Transfer-Encoding: quoted-printable
 
-The user mode NFS server does not get built by default when you are
-using a purely command line driven development environment without SDK
-tools.  In order to accommodate simple test configurations and have
-all the tools built for the minimal validation with qemu-native,
-simply add the dependency to unfs-server-native.
 
-Signed-off-by: Jason Wessel <jason.wessel@windriver.com>
----
- meta/conf/machine/include/qemu.inc |    2 +-
- 1 files changed, 1 insertions(+), 1 deletions(-)
+Op 2 mei 2012, om 16:23 heeft Jason Wessel het volgende geschreven:
 
-diff --git a/meta/conf/machine/include/qemu.inc b/meta/conf/machine/include/qemu.inc
-index 421a149..742b629 100644
---- a/meta/conf/machine/include/qemu.inc
-+++ b/meta/conf/machine/include/qemu.inc
-@@ -14,4 +14,4 @@ RDEPENDS_kernel-base = ""
- # Use a common kernel recipe for all QEMU machines
- PREFERRED_PROVIDER_virtual/kernel ?= "linux-yocto"
- 
--EXTRA_IMAGEDEPENDS += "qemu-native qemu-helper-native"
-+EXTRA_IMAGEDEPENDS += "qemu-native qemu-helper-native unfs-server-native"
--- 
-1.6.6.2
+> The user mode NFS server does not get built by default when you are
+> using a purely command line driven development environment without SDK
+> tools.  In order to accommodate simple test configurations and have
+> all the tools built for the minimal validation with qemu-native,
+> simply add the dependency to unfs-server-native.
 
+So all images I build for e.g. qemux86 now have an nfs-server? Can we =
+please move settings like that to the specific images?=
 
 
