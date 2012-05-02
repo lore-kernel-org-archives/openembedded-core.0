@@ -1,37 +1,23 @@
-Received: from mga11.intel.com ([192.55.52.93])
+Received: from mail.windriver.com ([147.11.1.11])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <nitin.a.kamble@intel.com>) id 1SPOjm-0004L0-2x
+	(envelope-from <Peter.Seebach@windriver.com>) id 1SPOmQ-0004Nl-AM
 	for openembedded-core@lists.openembedded.org;
-	Wed, 02 May 2012 03:52:14 +0200
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-	by fmsmga102.fm.intel.com with ESMTP; 01 May 2012 18:42:29 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="160706917"
-Received: from orsmsx604.amr.corp.intel.com ([10.22.226.87])
-	by fmsmga002.fm.intel.com with ESMTP; 01 May 2012 18:42:28 -0700
-Received: from orsmsx105.amr.corp.intel.com (10.22.225.132) by
-	orsmsx604.amr.corp.intel.com (10.22.226.87) with Microsoft SMTP Server
-	(TLS) id 8.2.255.0; Tue, 1 May 2012 18:42:28 -0700
-Received: from orsmsx106.amr.corp.intel.com ([169.254.5.126]) by
-	ORSMSX105.amr.corp.intel.com ([169.254.4.173]) with mapi id
-	14.01.0355.002; Tue, 1 May 2012 18:42:28 -0700
-From: "Kamble, Nitin A" <nitin.a.kamble@intel.com>
-To: Saul Wold <sgw@linux.intel.com>, Patches and discussions about the oe-core
-	layer <openembedded-core@lists.openembedded.org>
-Thread-Topic: [OE-core] [PATCH 4/6] gdb: upgrade from 7.4 to 7.4.1
-Thread-Index: AQHNJ+Xm4Yb8cHSVwEKAuzq+Ejm7CZa2Jr6A//+SsPA=
-Date: Wed, 2 May 2012 01:42:27 +0000
-Message-ID: <ADD6A3980E8C39419A432FF422031B4C030A5341@ORSMSX106.amr.corp.intel.com>
-References: <b0d5193248111699e406cf352793898293bc2f89.1335909595.git.nitin.a.kamble@intel.com>
-	<5d131cb45b8cb298fda838defe6d5eaed0c15919.1335909595.git.nitin.a.kamble@intel.com>
-	<4FA089E9.10509@linux.intel.com>
-In-Reply-To: <4FA089E9.10509@linux.intel.com>
-Accept-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [10.22.254.138]
+	Wed, 02 May 2012 03:54:58 +0200
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca [147.11.189.40])
+	by mail.windriver.com (8.14.3/8.14.3) with ESMTP id q421jDLa016606
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 1 May 2012 18:45:13 -0700 (PDT)
+Received: from localhost.localdomain (172.25.34.64) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server id 14.1.255.0;
+	Tue, 1 May 2012 18:45:13 -0700
+From: Peter Seebach <peter.seebach@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Tue, 1 May 2012 20:45:09 -0500
+Message-ID: <cover.1335922726.git.peter.seebach@windriver.com>
+X-Mailer: git-send-email 1.7.0.4
 MIME-Version: 1.0
-Subject: Re: [PATCH 4/6] gdb: upgrade from 7.4 to 7.4.1
+Subject: v4 or so [PATCH 0/3] sanity.bbclass and friends: toolchain sanity
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -46,28 +32,45 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 02 May 2012 01:52:14 -0000
-Content-Language: en-US
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Wed, 02 May 2012 01:54:58 -0000
+Content-Type: text/plain
 
-> > -SRC_URI[md5sum] =3D "7877875c8af7c7ef7d06d329ac961d3f"
-> > -SRC_URI[sha256sum] =3D
-> "e2c18e2f4a5feab897595455a3d623cebbba9e9dd2dbe9a5510ed7ad43ae01d2"
-> > +SRC_URI[md5sum] =3D "5fb7fca9ef7a9e3cfee0e2f2c0e52051"
-> > +SRC_URI[sha256sum] =3D
-> "f99d2be831ead324712ae4f11868e07e545272f10aac4186060f1386f2629b3"
-> >
-> Got a WARNING here and the checksum is wrong.
->=20
-> Sau!
+And yes, I'm aware that "toolchain sanity checks" is sort of a
+self-defeating concept.
 
-It was a cut/paste error, the sha256sum is one digit short. Somehow it did =
-not raise error on my build.
+Okay, cleanups:
+* Now checking MULTILIB_VARIANTS, not MULTILIBS.  Simpler and less indented.
+* Added a third commit to do the BBCLASSEXTEND checks since those seem like
+  a good idea, and it's less work to do it than to create a todo item.
+* Did you know that, despite a lot of this being Python, you can't use
+  triple-quote strings in documentation.conf?  I didn't, and apparently
+  that "fix" went in untested.  (Also the addition of duplicate but indented
+  copies of two later lines, which didn't parse.  Looks like I got a bit
+  careless with my cut and paste there.)
 
-I will fix the issue and send it along with other commits.
+The following changes since commit 35b5fb2dd2131d4c7dc6635c14c6e08ea6926457:
+  Saul Wold (1):
+        eglibc-package: remove /var
 
-Nitin
+are available in the git repository at:
+
+  git://git.yoctoproject.org/poky-contrib seebs/toolchains
+  http://git.yoctoproject.org/cgit.cgi/poky-contrib/log/?h=seebs/toolchains
+
+Peter Seebach (3):
+  conf/machine: Clean up configuration values.
+  sanity.bbclass: Implement initial toolchain sanity checks
+  sanity.bbclass: Check for bogus values in BBCLASSEXTEND
+
+ meta/classes/sanity.bbclass                      |   86 ++++++++++++++++++++++
+ meta/conf/documentation.conf                     |    9 ++
+ meta/conf/machine/include/README                 |    4 +
+ meta/conf/machine/include/arm/arch-armv5-dsp.inc |    1 +
+ meta/conf/machine/include/arm/arch-armv7a.inc    |    2 +-
+ meta/conf/machine/include/ia32/arch-ia32.inc     |    2 +-
+ meta/conf/machine/include/mips/arch-mips.inc     |    6 +-
+ meta/conf/machine/include/tune-c3.inc            |    2 +-
+ 8 files changed, 106 insertions(+), 6 deletions(-)
 
 
 
