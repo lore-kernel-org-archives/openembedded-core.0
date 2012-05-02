@@ -1,38 +1,38 @@
-Received: from mail-pz0-f45.google.com ([209.85.210.45])
+Received: from mail-pb0-f47.google.com ([209.85.160.47])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <raj.khem@gmail.com>) id 1SPgj8-0000Jb-UX
+	(envelope-from <raj.khem@gmail.com>) id 1SPgjA-0000L2-Oh
 	for openembedded-core@lists.openembedded.org;
-	Wed, 02 May 2012 23:04:47 +0200
-Received: by mail-pz0-f45.google.com with SMTP id v2so493772dad.4
+	Wed, 02 May 2012 23:04:48 +0200
+Received: by mail-pb0-f47.google.com with SMTP id rq2so1385234pbb.6
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 02 May 2012 13:55:04 -0700 (PDT)
+	Wed, 02 May 2012 13:55:06 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
 	h=from:to:subject:date:message-id:x-mailer:in-reply-to:references
 	:in-reply-to:references;
-	bh=F7RvqtU6iUUJFuOtKt0lFmmmgQNOfEABtx2DWSidyqY=;
-	b=qy7ygYfbE85HfwhSw5Hl5syHVvgQtumDMuxtjW4AotuWycpE0rEB7jDjBu7mxmIx9k
-	FWawY43ZhhUR1CND+OvgkxpQhLfOdgOoEYroYb1aEqtLFDTllllKesJgTqT/tcK4I8q4
-	FBQKwTx70tA46CtksOclCygYPEN2t2ppkeM79dXaQrhDWFe0Mtjyzri2KWkYqey+ELK9
-	I9aXjamf4wczb3gW/XQ4Ern8XZG233LxmFUz0MDZg6AGGaeluSPENL/moiM//wVIVLfV
-	eMmKRTdNJfYWjyK70HfOfGttijmdMNNijDYV171i4ueIbeOCIA8oSfCzaVGpI2M93tGP
-	UV+Q==
-Received: by 10.68.227.134 with SMTP id sa6mr781633pbc.101.1335992104197;
-	Wed, 02 May 2012 13:55:04 -0700 (PDT)
+	bh=3GA4mpiHeIqviWbprTcoBPQT6hkFuz149e386CeuZQ8=;
+	b=jTFIB5z6xstmsSzznL5FVmIfuVtb9yfiqza3rmHSZPKVlTsb2xi+FIN6wmQKxUjPin
+	yzwf1HQOmPCr7e8QIo+k0G3mjtKaC7ZaB/DPnXxVRHvKxT0cogdMQ5S+hKMxQDgsthqY
+	nfTcHaoGugMiSsKGOk6L0q4nIJsvut4pFL2BrySwDFlcxd0keVhUUZRrzMB4njG//+Ut
+	6FH7eFUZBK2yyDM2ozqqshWkpMiG5p/pIt5uRA3ZzrEsACusBlWIv5aLWHkopTYX8z2p
+	IiUH5vTqTWEwv8zgJgmt9XYgDzO1R7jsyH+IGHhTzpsOymjsSbSXH5+aD0BHGhiTXa9V
+	AzmQ==
+Received: by 10.68.202.130 with SMTP id ki2mr900666pbc.52.1335992106032;
+	Wed, 02 May 2012 13:55:06 -0700 (PDT)
 Received: from localhost.localdomain (oldbuilder.nslu2-linux.org.
 	[140.211.169.168])
-	by mx.google.com with ESMTPS id pg6sm2949558pbb.41.2012.05.02.13.55.02
+	by mx.google.com with ESMTPS id pg6sm2949558pbb.41.2012.05.02.13.55.04
 	(version=TLSv1/SSLv3 cipher=OTHER);
-	Wed, 02 May 2012 13:55:03 -0700 (PDT)
+	Wed, 02 May 2012 13:55:04 -0700 (PDT)
 From: Khem Raj <raj.khem@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Wed,  2 May 2012 13:53:58 -0700
-Message-Id: <bf66597d441b73ad013875abb961f185cff2eaf7.1335991900.git.raj.khem@gmail.com>
+Date: Wed,  2 May 2012 13:53:59 -0700
+Message-Id: <47dd443428cddc9e709f208aad6829e83dfd98ab.1335991900.git.raj.khem@gmail.com>
 X-Mailer: git-send-email 1.7.5.4
 In-Reply-To: <0c57b76bc47680ccf576d412a3dc7e726f1daba2.1335991900.git.raj.khem@gmail.com>
 References: <0c57b76bc47680ccf576d412a3dc7e726f1daba2.1335991900.git.raj.khem@gmail.com>
 In-Reply-To: <cover.1335991900.git.raj.khem@gmail.com>
 References: <cover.1335991900.git.raj.khem@gmail.com>
-Subject: [PATCH 5/7] openssl: Fix build for mips64(el)
+Subject: [PATCH 6/7] uclibc: Return correct endianness for mips64
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -47,63 +47,27 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 02 May 2012 21:04:47 -0000
+X-List-Received-Date: Wed, 02 May 2012 21:04:49 -0000
+
+Regular expression did not check for mips64
 
 Signed-off-by: Khem Raj <raj.khem@gmail.com>
 ---
- .../openssl/openssl-1.0.0i/configure-targets.patch |   17 ++++++++---------
- .../recipes-connectivity/openssl/openssl_1.0.0i.bb |    2 +-
- 2 files changed, 9 insertions(+), 10 deletions(-)
+ meta/recipes-core/uclibc/uclibc-config.inc |    2 +-
+ 1 files changed, 1 insertions(+), 1 deletions(-)
 
-diff --git a/meta/recipes-connectivity/openssl/openssl-1.0.0i/configure-targets.patch b/meta/recipes-connectivity/openssl/openssl-1.0.0i/configure-targets.patch
-index 6d23771..91b5502 100644
---- a/meta/recipes-connectivity/openssl/openssl-1.0.0i/configure-targets.patch
-+++ b/meta/recipes-connectivity/openssl/openssl-1.0.0i/configure-targets.patch
-@@ -1,13 +1,12 @@
--Upstream-Status: Inappropriate [embedded specific]
- 
- The number of colons are important :)
- 
- 
--Index: openssl-1.0.0a/Configure
-+Index: openssl-1.0.0h/Configure
- ===================================================================
----- openssl-1.0.0a.orig/Configure
--+++ openssl-1.0.0a/Configure
--@@ -380,6 +380,22 @@ my %table=(
-+--- openssl-1.0.0h.orig/Configure	2012-04-23 09:16:09.521511921 -0700
-++++ openssl-1.0.0h/Configure	2012-04-23 09:17:41.829516389 -0700
-+@@ -380,6 +380,22 @@
-  "linux-alpha-ccc","ccc:-fast -readonly_strings -DL_ENDIAN -DTERMIO::-D_REENTRANT:::SIXTY_FOUR_BIT_LONG RC4_CHUNK DES_INT DES_PTR DES_RISC1 DES_UNROLL:${alpha_asm}",
-  "linux-alpha+bwx-ccc","ccc:-fast -readonly_strings -DL_ENDIAN -DTERMIO::-D_REENTRANT:::SIXTY_FOUR_BIT_LONG RC4_CHAR RC4_CHUNK DES_INT DES_PTR DES_RISC1 DES_UNROLL:${alpha_asm}",
-  
-@@ -22,10 +21,10 @@ Index: openssl-1.0.0a/Configure
- +"linux-avr32","$ENV{'CC'}:-DTERMIO -O3 -fomit-frame-pointer -Wall::-D_REENTRANT::-ldl:BN_LLONG DES_RISC1:${no_asm}:dlfcn:linux-shared:-fPIC::.so.\$(SHLIB_MAJOR).",
- +
- +#### Linux on MIPS/MIPS64
--+"linux-mips","$ENV{'CC'}:-DB_ENDIAN -DTERMIO -O3 -fomit-frame-pointer -Wall::-D_REENTRANT::-ldl:BN_LLONG RC2_CHAR RC4_INDEX DES_INT DES_UNROLL DES_RISC2::::::::::::dlfcn:linux-shared:-fPIC::.so.\$(SHLIB_MAJOR).\$(SHLIB_MINOR)",
--+"linux-mips64","$ENV{'CC'}:-DB_ENDIAN -DTERMIO -mabi=64 -O3 -fomit-frame-pointer -Wall::-D_REENTRANT::-ldl:SIXTY_FOUR_BIT_LONG RC2_CHAR RC4_INDEX DES_INT DES_UNROLL DES_RISC2::::::::::::dlfcn:linux-shared:-fPIC::.so.\$(SHLIB_MAJOR).\$(SHLIB_MINOR)",
--+"linux-mips64el","$ENV{'CC'}:-DL_ENDIAN -DTERMIO -mabi=64 -O3 -fomit-frame-pointer -Wall::-D_REENTRANT::-ldl:SIXTY_FOUR_BIT_LONG RC2_CHAR RC4_INDEX DES_INT DES_UNROLL DES_RISC2::::::::::::dlfcn:linux-shared:-fPIC::.so.\$(SHLIB_MAJOR).\$(SHLIB_MINOR)",
--+"linux-mipsel","$ENV{'CC'}:-DL_ENDIAN -DTERMIO -O3 -fomit-frame-pointer -Wall::-D_REENTRANT::-ldl:BN_LLONG RC2_CHAR RC4_INDEX DES_INT DES_UNROLL DES_RISC2::::::::::::dlfcn:linux-shared:-fPIC::.so.\$(SHLIB_MAJOR).\$(SHLIB_MINOR)",
-++"linux-mips","$ENV{'CC'}:-DB_ENDIAN -DTERMIO -O3 -fomit-frame-pointer -Wall::-D_REENTRANT::-ldl:BN_LLONG RC2_CHAR RC4_INDEX DES_INT DES_UNROLL DES_RISC2:${no_asm}:dlfcn:linux-shared:-fPIC::.so.\$(SHLIB_MAJOR).\$(SHLIB_MINOR)",
-++"linux-mips64","$ENV{'CC'}:-DB_ENDIAN -DTERMIO -mabi=64 -O3 -fomit-frame-pointer -Wall::-D_REENTRANT::-ldl:SIXTY_FOUR_BIT_LONG RC2_CHAR RC4_INDEX DES_INT DES_UNROLL DES_RISC2:${no_asm}:dlfcn:linux-shared:-fPIC::.so.\$(SHLIB_MAJOR).\$(SHLIB_MINOR)",
-++"linux-mips64el","$ENV{'CC'}:-DL_ENDIAN -DTERMIO -mabi=64 -O3 -fomit-frame-pointer -Wall::-D_REENTRANT::-ldl:SIXTY_FOUR_BIT_LONG RC2_CHAR RC4_INDEX DES_INT DES_UNROLL DES_RISC2:${no_asm}:dlfcn:linux-shared:-fPIC::.so.\$(SHLIB_MAJOR).\$(SHLIB_MINOR)",
-++"linux-mipsel","$ENV{'CC'}:-DL_ENDIAN -DTERMIO -O3 -fomit-frame-pointer -Wall::-D_REENTRANT::-ldl:BN_LLONG RC2_CHAR RC4_INDEX DES_INT DES_UNROLL DES_RISC2:${no_asm}:dlfcn:linux-shared:-fPIC::.so.\$(SHLIB_MAJOR).\$(SHLIB_MINOR)",
- +
-  #### *BSD [do see comment about ${BSDthreads} above!]
-  "BSD-generic32","gcc:-DTERMIOS -O3 -fomit-frame-pointer -Wall::${BSDthreads}:::BN_LLONG RC2_CHAR RC4_INDEX DES_INT DES_UNROLL:${no_asm}:dlfcn:bsd-gcc-shared:-fPIC::.so.\$(SHLIB_MAJOR).\$(SHLIB_MINOR)",
-diff --git a/meta/recipes-connectivity/openssl/openssl_1.0.0i.bb b/meta/recipes-connectivity/openssl/openssl_1.0.0i.bb
-index 68b092f..ca15a38 100644
---- a/meta/recipes-connectivity/openssl/openssl_1.0.0i.bb
-+++ b/meta/recipes-connectivity/openssl/openssl_1.0.0i.bb
-@@ -6,7 +6,7 @@ DEPENDS += "ocf-linux"
- 
- CFLAG += "-DHAVE_CRYPTODEV -DUSE_CRYPTODEV_DIGESTS"
- 
--PR = "${INC_PR}.1"
-+PR = "${INC_PR}.2"
- 
- LIC_FILES_CHKSUM = "file://LICENSE;md5=f9a8f968107345e0b75aa8c2ecaa7ec8"
+diff --git a/meta/recipes-core/uclibc/uclibc-config.inc b/meta/recipes-core/uclibc/uclibc-config.inc
+index 0e0c188..265626c 100644
+--- a/meta/recipes-core/uclibc/uclibc-config.inc
++++ b/meta/recipes-core/uclibc/uclibc-config.inc
+@@ -75,7 +75,7 @@ def map_uclibc_endian(a, d):
+ 	if re.match('^(avr32|e1|frv|(parisc|hppa)|m68k|microblaze|powerpc.*|(sparc|sun).*)$', a):
+ 		return 'BIG'
+ 	# Possibly BE
+-	elif re.match('^(((arm|sa110).*eb)|h8300.*eb|(parisc|hppa).*eb|mips|sh.*eb|xtensa.*eb)$', a):
++	elif re.match('^(((arm|sa110).*eb)|h8300.*eb|(parisc|hppa).*eb|mips|mips64|sh.*eb|xtensa.*eb)$', a):
+ 		return 'BIG'
+ 	return 'LITTLE'
  
 -- 
 1.7.5.4
