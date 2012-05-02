@@ -1,38 +1,38 @@
-Received: from mail-pb0-f47.google.com ([209.85.160.47])
+Received: from mail-pz0-f45.google.com ([209.85.210.45])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <raj.khem@gmail.com>) id 1SPgj7-0000Ln-Ti
+	(envelope-from <raj.khem@gmail.com>) id 1SPgj8-0000Jb-UX
 	for openembedded-core@lists.openembedded.org;
-	Wed, 02 May 2012 23:04:46 +0200
-Received: by pbbrq2 with SMTP id rq2so1385298pbb.6
+	Wed, 02 May 2012 23:04:47 +0200
+Received: by mail-pz0-f45.google.com with SMTP id v2so493772dad.4
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 02 May 2012 13:55:00 -0700 (PDT)
+	Wed, 02 May 2012 13:55:04 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
 	h=from:to:subject:date:message-id:x-mailer:in-reply-to:references
 	:in-reply-to:references;
-	bh=CrStIM7aTekXoq3WztfvhpNBPrtMQmXKSY7ahOYbo4g=;
-	b=llNhTyMHCwIJIgaGYVE+sj31B+uyTXLQXf7pbIJbxABrzWYEmIaPzysdHZIrchfaJ6
-	AuP5As20nFwuy/P6iVPZtOhcduUAik29xiwaOjsoA9cEExAunxFa76w2L2jXu+Y6BoRH
-	C6Ha82cSWEXFJ8qbE0V5sofaDfSP9l9srdLQYX06FFBByv9ZAUfPIVCAwrEBwCpUSMFE
-	hoUQMuqdvp/9HA9G6mv52GOBMTYjBbyGUVWlXAj8eITWo/Usppof/CyKW4KI3PbRklCT
-	ut0jXstvqdSTLEw9xzd0DKc+4m7Q8dxG7NrScbdY24pVyg3dvdTsuRpKWQ+YGCU3/lvI
-	J6Lw==
-Received: by 10.68.228.106 with SMTP id sh10mr754283pbc.107.1335992100634;
-	Wed, 02 May 2012 13:55:00 -0700 (PDT)
+	bh=F7RvqtU6iUUJFuOtKt0lFmmmgQNOfEABtx2DWSidyqY=;
+	b=qy7ygYfbE85HfwhSw5Hl5syHVvgQtumDMuxtjW4AotuWycpE0rEB7jDjBu7mxmIx9k
+	FWawY43ZhhUR1CND+OvgkxpQhLfOdgOoEYroYb1aEqtLFDTllllKesJgTqT/tcK4I8q4
+	FBQKwTx70tA46CtksOclCygYPEN2t2ppkeM79dXaQrhDWFe0Mtjyzri2KWkYqey+ELK9
+	I9aXjamf4wczb3gW/XQ4Ern8XZG233LxmFUz0MDZg6AGGaeluSPENL/moiM//wVIVLfV
+	eMmKRTdNJfYWjyK70HfOfGttijmdMNNijDYV171i4ueIbeOCIA8oSfCzaVGpI2M93tGP
+	UV+Q==
+Received: by 10.68.227.134 with SMTP id sa6mr781633pbc.101.1335992104197;
+	Wed, 02 May 2012 13:55:04 -0700 (PDT)
 Received: from localhost.localdomain (oldbuilder.nslu2-linux.org.
 	[140.211.169.168])
-	by mx.google.com with ESMTPS id pg6sm2949558pbb.41.2012.05.02.13.54.58
+	by mx.google.com with ESMTPS id pg6sm2949558pbb.41.2012.05.02.13.55.02
 	(version=TLSv1/SSLv3 cipher=OTHER);
-	Wed, 02 May 2012 13:54:59 -0700 (PDT)
+	Wed, 02 May 2012 13:55:03 -0700 (PDT)
 From: Khem Raj <raj.khem@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Wed,  2 May 2012 13:53:56 -0700
-Message-Id: <a3a55198a8b6f40debf754501c5f0f2b317603ed.1335991900.git.raj.khem@gmail.com>
+Date: Wed,  2 May 2012 13:53:58 -0700
+Message-Id: <bf66597d441b73ad013875abb961f185cff2eaf7.1335991900.git.raj.khem@gmail.com>
 X-Mailer: git-send-email 1.7.5.4
 In-Reply-To: <0c57b76bc47680ccf576d412a3dc7e726f1daba2.1335991900.git.raj.khem@gmail.com>
 References: <0c57b76bc47680ccf576d412a3dc7e726f1daba2.1335991900.git.raj.khem@gmail.com>
 In-Reply-To: <cover.1335991900.git.raj.khem@gmail.com>
 References: <cover.1335991900.git.raj.khem@gmail.com>
-Subject: [PATCH 3/7] libatomics-ops: Make it build for SH4
+Subject: [PATCH 5/7] openssl: Fix build for mips64(el)
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -47,113 +47,64 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 02 May 2012 21:04:46 -0000
+X-List-Received-Date: Wed, 02 May 2012 21:04:47 -0000
 
 Signed-off-by: Khem Raj <raj.khem@gmail.com>
 ---
- .../libatomics-ops/gentoo/sh4-atomic-ops.patch     |   70 ++++++++++++++++++++
- .../pulseaudio/libatomics-ops_1.2.bb               |    6 +-
- 2 files changed, 74 insertions(+), 2 deletions(-)
- create mode 100644 meta/recipes-multimedia/pulseaudio/libatomics-ops/gentoo/sh4-atomic-ops.patch
+ .../openssl/openssl-1.0.0i/configure-targets.patch |   17 ++++++++---------
+ .../recipes-connectivity/openssl/openssl_1.0.0i.bb |    2 +-
+ 2 files changed, 9 insertions(+), 10 deletions(-)
 
-diff --git a/meta/recipes-multimedia/pulseaudio/libatomics-ops/gentoo/sh4-atomic-ops.patch b/meta/recipes-multimedia/pulseaudio/libatomics-ops/gentoo/sh4-atomic-ops.patch
-new file mode 100644
-index 0000000..dfdd29c
---- /dev/null
-+++ b/meta/recipes-multimedia/pulseaudio/libatomics-ops/gentoo/sh4-atomic-ops.patch
-@@ -0,0 +1,70 @@
-+This patch is taken from Gentoo
-+http://sources.gentoo.org/cgi-bin/viewvc.cgi/gentoo-x86/dev-libs/libatomic_ops/files/libatomic_ops-1.2-sh4.patch?revision=1.1&view=markup
-+
-+Upstream-Status: Pending
-+Signed-off-by: Khem Raj <raj.khem@gmail.com>
-+
-+Index: libatomic_ops-1.2/src/atomic_ops.h
-+===================================================================
-+--- libatomic_ops-1.2.orig/src/atomic_ops.h	2012-04-30 13:56:17.000000000 -0700
-++++ libatomic_ops-1.2/src/atomic_ops.h	2012-04-30 13:58:28.747602349 -0700
-+@@ -223,6 +223,10 @@
-+ # if defined(__mips__) 
-+ #   include "atomic_ops/sysdeps/gcc/mips.h"
-+ # endif
-++# if defined(__sh__) || defined(SH4)
-++#   include "atomic_ops/sysdeps/gcc/sh.h"
-++#   define AO_CAN_EMUL_CAS
-++# endif /* __sh__ */
-+ #endif /* __GNUC__ && !AO_USE_PTHREAD_DEFS */
-+ 
-+ #if defined(__INTEL_COMPILER) && !defined(AO_USE_PTHREAD_DEFS)
-+Index: libatomic_ops-1.2/src/atomic_ops/sysdeps/Makefile.am
-+===================================================================
-+--- libatomic_ops-1.2.orig/src/atomic_ops/sysdeps/Makefile.am	2012-04-30 10:52:18.000000000 -0700
-++++ libatomic_ops-1.2/src/atomic_ops/sysdeps/Makefile.am	2012-04-30 14:00:11.511609965 -0700
-+@@ -28,7 +28,7 @@
-+ 	  gcc/powerpc.h gcc/sparc.h \
-+ 	  gcc/hppa.h gcc/m68k.h gcc/s390.h \
-+ 	  gcc/ia64.h gcc/x86_64.h gcc/cris.h \
-+-	  gcc/mips.h \
-++	  gcc/mips.h gcc/sh.h \
-+ 	\
-+ 	  icc/ia64.h \
-+ 	\
-+Index: libatomic_ops-1.2/src/atomic_ops/sysdeps/gcc/sh.h
-+===================================================================
-+--- /dev/null	1970-01-01 00:00:00.000000000 +0000
-++++ libatomic_ops-1.2/src/atomic_ops/sysdeps/gcc/sh.h	2012-04-30 13:58:28.755602350 -0700
-+@@ -0,0 +1,31 @@
-++/*
-++ * Copyright (c) 2009 by Takashi YOSHII. All rights reserved.
-++ *
-++ * THIS MATERIAL IS PROVIDED AS IS, WITH ABSOLUTELY NO WARRANTY EXPRESSED
-++ * OR IMPLIED.  ANY USE IS AT YOUR OWN RISK.
-++ *
-++ * Permission is hereby granted to use or copy this program
-++ * for any purpose,  provided the above notices are retained on all copies.
-++ * Permission to modify the code and to distribute modified code is granted,
-++ * provided the above notices are retained, and a notice that the code was
-++ * modified is included with the above copyright notice.
-++ */
-++
-++#include "../all_atomic_load_store.h"
-++#include "../ordered.h"
-++
-++/* sh has tas.b(byte) only */
-++#include "../test_and_set_t_is_char.h"
-++
-++AO_INLINE AO_TS_VAL_t
-++AO_test_and_set_full(volatile AO_TS_t *addr)
-++{
-++  int oldval;
-++  __asm__ __volatile__(
-++        "tas.b @%1; movt %0"
-++        : "=r" (oldval)
-++        : "r" (addr)
-++        : "t", "memory");
-++  return oldval? AO_TS_CLEAR : AO_TS_SET;
-++}
-++#define AO_HAVE_test_and_set_full
-diff --git a/meta/recipes-multimedia/pulseaudio/libatomics-ops_1.2.bb b/meta/recipes-multimedia/pulseaudio/libatomics-ops_1.2.bb
-index d0162e6..eba43cd 100644
---- a/meta/recipes-multimedia/pulseaudio/libatomics-ops_1.2.bb
-+++ b/meta/recipes-multimedia/pulseaudio/libatomics-ops_1.2.bb
-@@ -6,13 +6,15 @@ LICENSE = "GPLv2 & MIT"
- LIC_FILES_CHKSUM = "file://doc/COPYING;md5=94d55d512a9ba36caa9b7df079bae19f \
-                     file://doc/LICENSING.txt;md5=607073e04548eac7d1f763e480477bab \
- 		   "
--PR = "r9"
-+PR = "r10"
+diff --git a/meta/recipes-connectivity/openssl/openssl-1.0.0i/configure-targets.patch b/meta/recipes-connectivity/openssl/openssl-1.0.0i/configure-targets.patch
+index 6d23771..91b5502 100644
+--- a/meta/recipes-connectivity/openssl/openssl-1.0.0i/configure-targets.patch
++++ b/meta/recipes-connectivity/openssl/openssl-1.0.0i/configure-targets.patch
+@@ -1,13 +1,12 @@
+-Upstream-Status: Inappropriate [embedded specific]
  
- SRC_URI = "http://www.hpl.hp.com/research/linux/atomic_ops/download/libatomic_ops-${PV}.tar.gz \
-            file://fedora/libatomic_ops-1.2-ppclwzfix.patch \
-            file://gentoo/libatomic_ops-1.2-mips.patch \
-            file://doublefix.patch \
--           file://libatomics-ops_fix_for_x32.patch"
-+           file://libatomics-ops_fix_for_x32.patch \
-+           file://gentoo/sh4-atomic-ops.patch \
-+          "
+ The number of colons are important :)
  
- SRC_URI[md5sum] = "1b65e48271c81e3fa2d7a9a69bab7504"
- SRC_URI[sha256sum] = "a3d8768aa8fd2f6ae79be2d756b3a6b48816b3889ae906be3d5ffb2de5a5c781"
+ 
+-Index: openssl-1.0.0a/Configure
++Index: openssl-1.0.0h/Configure
+ ===================================================================
+---- openssl-1.0.0a.orig/Configure
+-+++ openssl-1.0.0a/Configure
+-@@ -380,6 +380,22 @@ my %table=(
++--- openssl-1.0.0h.orig/Configure	2012-04-23 09:16:09.521511921 -0700
+++++ openssl-1.0.0h/Configure	2012-04-23 09:17:41.829516389 -0700
++@@ -380,6 +380,22 @@
+  "linux-alpha-ccc","ccc:-fast -readonly_strings -DL_ENDIAN -DTERMIO::-D_REENTRANT:::SIXTY_FOUR_BIT_LONG RC4_CHUNK DES_INT DES_PTR DES_RISC1 DES_UNROLL:${alpha_asm}",
+  "linux-alpha+bwx-ccc","ccc:-fast -readonly_strings -DL_ENDIAN -DTERMIO::-D_REENTRANT:::SIXTY_FOUR_BIT_LONG RC4_CHAR RC4_CHUNK DES_INT DES_PTR DES_RISC1 DES_UNROLL:${alpha_asm}",
+  
+@@ -22,10 +21,10 @@ Index: openssl-1.0.0a/Configure
+ +"linux-avr32","$ENV{'CC'}:-DTERMIO -O3 -fomit-frame-pointer -Wall::-D_REENTRANT::-ldl:BN_LLONG DES_RISC1:${no_asm}:dlfcn:linux-shared:-fPIC::.so.\$(SHLIB_MAJOR).",
+ +
+ +#### Linux on MIPS/MIPS64
+-+"linux-mips","$ENV{'CC'}:-DB_ENDIAN -DTERMIO -O3 -fomit-frame-pointer -Wall::-D_REENTRANT::-ldl:BN_LLONG RC2_CHAR RC4_INDEX DES_INT DES_UNROLL DES_RISC2::::::::::::dlfcn:linux-shared:-fPIC::.so.\$(SHLIB_MAJOR).\$(SHLIB_MINOR)",
+-+"linux-mips64","$ENV{'CC'}:-DB_ENDIAN -DTERMIO -mabi=64 -O3 -fomit-frame-pointer -Wall::-D_REENTRANT::-ldl:SIXTY_FOUR_BIT_LONG RC2_CHAR RC4_INDEX DES_INT DES_UNROLL DES_RISC2::::::::::::dlfcn:linux-shared:-fPIC::.so.\$(SHLIB_MAJOR).\$(SHLIB_MINOR)",
+-+"linux-mips64el","$ENV{'CC'}:-DL_ENDIAN -DTERMIO -mabi=64 -O3 -fomit-frame-pointer -Wall::-D_REENTRANT::-ldl:SIXTY_FOUR_BIT_LONG RC2_CHAR RC4_INDEX DES_INT DES_UNROLL DES_RISC2::::::::::::dlfcn:linux-shared:-fPIC::.so.\$(SHLIB_MAJOR).\$(SHLIB_MINOR)",
+-+"linux-mipsel","$ENV{'CC'}:-DL_ENDIAN -DTERMIO -O3 -fomit-frame-pointer -Wall::-D_REENTRANT::-ldl:BN_LLONG RC2_CHAR RC4_INDEX DES_INT DES_UNROLL DES_RISC2::::::::::::dlfcn:linux-shared:-fPIC::.so.\$(SHLIB_MAJOR).\$(SHLIB_MINOR)",
+++"linux-mips","$ENV{'CC'}:-DB_ENDIAN -DTERMIO -O3 -fomit-frame-pointer -Wall::-D_REENTRANT::-ldl:BN_LLONG RC2_CHAR RC4_INDEX DES_INT DES_UNROLL DES_RISC2:${no_asm}:dlfcn:linux-shared:-fPIC::.so.\$(SHLIB_MAJOR).\$(SHLIB_MINOR)",
+++"linux-mips64","$ENV{'CC'}:-DB_ENDIAN -DTERMIO -mabi=64 -O3 -fomit-frame-pointer -Wall::-D_REENTRANT::-ldl:SIXTY_FOUR_BIT_LONG RC2_CHAR RC4_INDEX DES_INT DES_UNROLL DES_RISC2:${no_asm}:dlfcn:linux-shared:-fPIC::.so.\$(SHLIB_MAJOR).\$(SHLIB_MINOR)",
+++"linux-mips64el","$ENV{'CC'}:-DL_ENDIAN -DTERMIO -mabi=64 -O3 -fomit-frame-pointer -Wall::-D_REENTRANT::-ldl:SIXTY_FOUR_BIT_LONG RC2_CHAR RC4_INDEX DES_INT DES_UNROLL DES_RISC2:${no_asm}:dlfcn:linux-shared:-fPIC::.so.\$(SHLIB_MAJOR).\$(SHLIB_MINOR)",
+++"linux-mipsel","$ENV{'CC'}:-DL_ENDIAN -DTERMIO -O3 -fomit-frame-pointer -Wall::-D_REENTRANT::-ldl:BN_LLONG RC2_CHAR RC4_INDEX DES_INT DES_UNROLL DES_RISC2:${no_asm}:dlfcn:linux-shared:-fPIC::.so.\$(SHLIB_MAJOR).\$(SHLIB_MINOR)",
+ +
+  #### *BSD [do see comment about ${BSDthreads} above!]
+  "BSD-generic32","gcc:-DTERMIOS -O3 -fomit-frame-pointer -Wall::${BSDthreads}:::BN_LLONG RC2_CHAR RC4_INDEX DES_INT DES_UNROLL:${no_asm}:dlfcn:bsd-gcc-shared:-fPIC::.so.\$(SHLIB_MAJOR).\$(SHLIB_MINOR)",
+diff --git a/meta/recipes-connectivity/openssl/openssl_1.0.0i.bb b/meta/recipes-connectivity/openssl/openssl_1.0.0i.bb
+index 68b092f..ca15a38 100644
+--- a/meta/recipes-connectivity/openssl/openssl_1.0.0i.bb
++++ b/meta/recipes-connectivity/openssl/openssl_1.0.0i.bb
+@@ -6,7 +6,7 @@ DEPENDS += "ocf-linux"
+ 
+ CFLAG += "-DHAVE_CRYPTODEV -DUSE_CRYPTODEV_DIGESTS"
+ 
+-PR = "${INC_PR}.1"
++PR = "${INC_PR}.2"
+ 
+ LIC_FILES_CHKSUM = "file://LICENSE;md5=f9a8f968107345e0b75aa8c2ecaa7ec8"
+ 
 -- 
 1.7.5.4
 
