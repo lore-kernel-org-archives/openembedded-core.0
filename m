@@ -1,29 +1,33 @@
-Received: from mail1.windriver.com ([147.11.146.13])
+Received: from mail-pz0-f45.google.com ([209.85.210.45])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <mark.hatle@windriver.com>) id 1SPfh3-0007Dc-6Z
+	(envelope-from <raj.khem@gmail.com>) id 1SPgir-0000Jb-2O
 	for openembedded-core@lists.openembedded.org;
-	Wed, 02 May 2012 21:58:33 +0200
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca [147.11.189.40])
-	by mail1.windriver.com (8.14.3/8.14.3) with ESMTP id q42Jml8E009946
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
+	Wed, 02 May 2012 23:04:29 +0200
+Received: by dadv2 with SMTP id v2so493772dad.4
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 2 May 2012 12:48:47 -0700 (PDT)
-Received: from msp-dhcp15.wrs.com (172.25.34.15) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server id 14.1.255.0;
-	Wed, 2 May 2012 12:48:46 -0700
-Message-ID: <4FA18F9D.5090805@windriver.com>
-Date: Wed, 2 May 2012 14:48:45 -0500
-From: Mark Hatle <mark.hatle@windriver.com>
-Organization: Wind River Systems
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.6;
-	rv:12.0) Gecko/20120428 Thunderbird/12.0.1
-MIME-Version: 1.0
-To: <openembedded-core@lists.openembedded.org>
-References: <4FA17B2A.5060903@palm.com> <4FA17FA7.9030805@windriver.com>
-	<4FA187F4.9040003@palm.com> <4FA18DA7.6010205@windriver.com>
-	<4FA18EC8.5040504@palm.com>
-In-Reply-To: <4FA18EC8.5040504@palm.com>
-Subject: Re: SetScene tasks hang forever?
+	Wed, 02 May 2012 13:54:43 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=from:to:cc:subject:date:message-id:x-mailer;
+	bh=6MWd2tZzG2aJcvycWlJdZtlksvkC+XxcGWDuxlC9lCg=;
+	b=SYv0ivd2mqd0UyeLreZN8P7rnbLh+A6M+5UVcX837ZKfy1ou3wJ0wZctu1XzvMg7cj
+	AJ8bQdTjdg1TIzhalUxxST0/duOhxTEMa1yzsxzyZbfKiE/gO9YsX6ObIk8O/q9HutIx
+	D9aWymBZWJkWBSB3XhetChjr+PYvxtM0WkW4a+6n3uOnZ+EjcP/xMlgrMt7aNIRgSh0L
+	TLOLpE6GSRK7tVNEPvxYtzI3VlhT4EsRuisETCzzW8OE/mkx+dZNJaYgYMNAp2x+uN6R
+	knA9CAc0YL9RIYOsqmVggeaC9T+1nPuh9iq2FTt73q9Do06/gBvEV3LgEfqmWQAtJD3M
+	nBWA==
+Received: by 10.68.220.2 with SMTP id ps2mr758053pbc.109.1335992083441;
+	Wed, 02 May 2012 13:54:43 -0700 (PDT)
+Received: from localhost.localdomain (oldbuilder.nslu2-linux.org.
+	[140.211.169.168])
+	by mx.google.com with ESMTPS id nt8sm2955141pbb.12.2012.05.02.13.54.41
+	(version=TLSv1/SSLv3 cipher=OTHER);
+	Wed, 02 May 2012 13:54:42 -0700 (PDT)
+From: Khem Raj <raj.khem@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Date: Wed,  2 May 2012 13:53:46 -0700
+Message-Id: <cover.1335991900.git.raj.khem@gmail.com>
+X-Mailer: git-send-email 1.7.5.4
+Subject: [PATCH 0/7] Misc fixes
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -38,96 +42,66 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 02 May 2012 19:58:33 -0000
-Content-Type: text/plain; charset="ISO-8859-1"; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Wed, 02 May 2012 21:04:29 -0000
 
-On 5/2/12 2:45 PM, Rich Pixley wrote:
-> On 5/2/12 12:40 , Mark Hatle wrote:
->> On 5/2/12 2:16 PM, Rich Pixley wrote:
->>> On 5/2/12 11:40 , Mark Hatle wrote:
->>>> On 5/2/12 1:21 PM, Rich Pixley wrote:
->>>>> I'm seeing a lot of builds apparently hanging forever, (the ones that
->>>>> work seem to work within seconds - the ones that hang seem to hang for
->>>>> at least 10's of minutes), with:
->>>>>
->>>>> rich@dolphin>      nice tail -f Log
->>>>> MACHINE           = "qemux86"
->>>>> DISTRO            = ""
->>>>> DISTRO_VERSION    = "oe-core.0"
->>>>> TUNE_FEATURES     = "m32 i586"
->>>>> TARGET_FPU        = ""
->>>>> meta              = "master:35b5fb2dd2131d4c7dc6635c14c6e08ea6926457"
->>>>>
->>>>> NOTE: Resolving any missing task queue dependencies
->>>>> NOTE: Preparing runqueue
->>>>> NOTE: Executing SetScene Tasks
->>>>>
->>>>> If I run top, I see one processor pinned at 98 - 99% utilization running
->>>>> python, but no other clues.
->>>>>
->>>>> Can anyone point me to doc, explain what's going on here, or point me in
->>>>> the right direction to debug this?
->>>> The only time I've seen "hang-like" behavior the system actually opened a
->>>> devshell and was awaiting input.   But based on your log, it doesn't look like
->>>> that is the case.
->>>>
->>>> Run bitbake with -DDD option, you will get considerably more debug information
->>>> and it might help point out what it thinks it is doing.
->>> NOTE: Executing SetScene Tasks
->>> DEBUG: Stamp for underlying task
->>> 12(virtual:native:/home/rich/projects/webos/openembedded-core/meta/recipes-devtools/opkg/opkg_svn.bb,
->>> do_populate_sysroot) is current, so skipping setscene variant
->>> DEBUG: Stamp for underlying task
->>> 16(virtual:native:/home/rich/projects/webos/openembedded-core/meta/recipes-devtools/opkg-utils/opkg-utils_git.bb,
->>> do_populate_sysroot) is current, so skipping setscene variant
->>> DEBUG: Stamp for underlying task
->>> 20(virtual:native:/home/rich/projects/webos/openembedded-core/meta/recipes-devtools/makedevs/makedevs_1.0.0.bb,
->>> do_populate_sysroot) is current, so skipping setscene variant
->>> DEBUG: Stamp for underlying task
->>> 24(/home/rich/projects/webos/openembedded-core/meta/recipes-core/eglibc/ldconfig-native_2.12.1.bb,
->>> do_populate_sysroot) is current, so skipping setscene variant
->>> DEBUG: Stamp for underlying task
->>> 32(virtual:native:/home/rich/projects/webos/openembedded-core/meta/recipes-devtools/genext2fs/genext2fs_1.4.1.bb,
->>> do_populate_sysroot) is current, so skipping setscene variant
->>> DEBUG: Stamp for underlying task
->>> 36(virtual:native:/home/rich/projects/webos/openembedded-core/meta/recipes-devtools/e2fsprogs/e2fsprogs_1.42.1.bb,
->>> do_populate_sysroot) is current, so skipping setscene variant
->>> DEBUG: Stamp for underlying task
->>> 40(virtual:native:/home/rich/projects/webos/openembedded-core/meta/recipes-devtools/qemu/qemu_0.15.1.bb,
->>> do_populate_sysroot) is current, so skipping setscene variant
->>> DEBUG: Stamp for underlying task
->>> 44(/home/rich/projects/webos/openembedded-core/meta/recipes-devtools/qemu/qemu-helper-native_1.0.bb,
->>> do_populate_sysroot) is current, so skipping setscene variant
->>>
->>> And then the spinning hang.
->> Sorry, I don't know how to continue debugging what might be wrong.  The only
->> other thing I can suggest is check that your filesystem is "real", not a
->> netapp/nfs/network emulated filesystem....
->>
->> And if you were continuing a previous build, start a new build directory and
->> retry it.
-> Local file system.  I'm building a second time expecting a null build
-> pass.  I was able to get a null build pass in the same directory yesterday.
->
-> Removing my build directory and starting over has been working, but
-> costs me a few hours each time, and this happens frequently enough that
-> I get no other work done.  :(.
+These fixes are independent but feeding into the bigger items
+e.g. mips64/sh4 support, supporting xorg-xserver on qemumachines
+etc.
 
-Ya, that is certainly not acceptable.  If you could file a bug on the 
-bugzilla.yoctoproject.org someone might be able to help you diagnose this 
-further and hopefully figure out a fix.
+The following changes since commit 35b5fb2dd2131d4c7dc6635c14c6e08ea6926457:
 
---Mark
+  eglibc-package: remove /var (2012-05-01 12:36:18 +0100)
 
-> Thanks for reading.
->
-> --rich
->
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
+are available in the git repository at:
+  git://git.openembedded.org/openembedded-core-contrib kraj/misc-updates
+  http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=kraj/misc-updates
+
+Khem Raj (6):
+  unfs-server: Do not use DESTDIR
+  xserver-xorg: Fix build on powerpc
+  libatomics-ops: Make it build for SH4
+  qemu-git: Move to tip of git
+  openssl: Fix build for mips64(el)
+  uclibc: Return correct endianness for mips64
+
+Yuri Bushmelev (1):
+  Enable PARALLEL_MAKE for testing
+
+ meta/recipes-bsp/pciutils/pciutils_3.1.9.bb        |    1 -
+ meta/recipes-bsp/pcmciautils/pcmciautils.inc       |    1 -
+ meta/recipes-connectivity/iproute2/iproute2.inc    |    1 -
+ .../nfs-utils/nfs-utils_1.2.3.bb                   |    1 -
+ .../openssl/openssl-1.0.0i/configure-targets.patch |   17 ++---
+ .../recipes-connectivity/openssl/openssl_1.0.0i.bb |    2 +-
+ meta/recipes-core/eggdbus/eggdbus_0.6.bb           |    1 -
+ meta/recipes-core/uclibc/uclibc-config.inc         |    2 +-
+ meta/recipes-devtools/autoconf/autoconf_2.68.bb    |    1 -
+ .../recipes-devtools/qemu/qemu-git/powerpc_rom.bin |  Bin 0 -> 4096 bytes
+ meta/recipes-devtools/qemu/qemu_git.bb             |   18 ++----
+ .../unfs-server/unfs-server_2.1+2.2beta47.bb       |    4 +-
+ meta/recipes-extended/groff/groff_1.20.1.bb        |    1 -
+ meta/recipes-extended/mailx/mailx_12.5.bb          |    1 -
+ .../net-tools/net-tools_1.60-23.bb                 |    1 -
+ meta/recipes-extended/sat-solver/sat-solver_git.bb |    1 -
+ .../fontconfig/fontconfig_2.8.0.bb                 |    1 -
+ meta/recipes-graphics/libsdl/libsdl_1.2.15.bb      |    1 -
+ meta/recipes-graphics/xcb/libpthread-stubs_0.3.bb  |    1 -
+ meta/recipes-graphics/xcb/xcb-util.inc             |    1 -
+ .../xorg-xserver/xserver-xorg-1.11.2.inc           |    9 ++-
+ .../xserver-xorg-1.11.2/gcc-47-warning.patch       |   33 +++++++++
+ .../libatomics-ops/gentoo/sh4-atomic-ops.patch     |   70 ++++++++++++++++++++
+ .../pulseaudio/libatomics-ops_1.2.bb               |    6 +-
+ meta/recipes-multimedia/pulseaudio/pulseaudio.inc  |    1 -
+ meta/recipes-multimedia/speex/speex_1.2rc1.bb      |    1 -
+ meta/recipes-support/icu/icu-3.6.inc               |    1 -
+ meta/recipes-support/libpcre/libpcre_8.21.bb       |    1 -
+ 28 files changed, 129 insertions(+), 50 deletions(-)
+ create mode 100644 meta/recipes-devtools/qemu/qemu-git/powerpc_rom.bin
+ create mode 100644 meta/recipes-graphics/xorg-xserver/xserver-xorg-1.11.2/gcc-47-warning.patch
+ create mode 100644 meta/recipes-multimedia/pulseaudio/libatomics-ops/gentoo/sh4-atomic-ops.patch
+
+-- 
+1.7.5.4
 
 
 
