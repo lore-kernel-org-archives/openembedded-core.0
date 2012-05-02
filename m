@@ -1,37 +1,38 @@
 Received: from mail-bk0-f47.google.com ([209.85.214.47])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <martin.jansa@gmail.com>) id 1SPal7-00088P-O7
+	(envelope-from <martin.jansa@gmail.com>) id 1SPalK-00088P-5H
 	for openembedded-core@lists.openembedded.org;
-	Wed, 02 May 2012 16:42:25 +0200
+	Wed, 02 May 2012 16:42:38 +0200
 Received: by mail-bk0-f47.google.com with SMTP id jm2so541647bkc.6
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 02 May 2012 07:32:43 -0700 (PDT)
+	Wed, 02 May 2012 07:32:56 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
 	h=from:to:cc:subject:date:message-id:x-mailer:in-reply-to:references
 	:in-reply-to:references;
-	bh=8RBwNvegoifsaGsv5vW6Nuo/fX5Cm6OPooB7n/VdFQE=;
-	b=kzo8dg7IR+Ia6p0TAnOjwi4WqXCqOL5HI/0MKj3PMYDKx+zdor+PHydJ6yMJuMVrDe
-	b2SygMuVwa8RWcOFxNDzgyreiVJJxvSDg8RY5KVoG+ByO/p4tPnkN9v3fgs6M/qDeZKI
-	3xERU47sJdkTVlxA1GqGu2CDD7zCYkDAJ9SfI5JtnPC5vtRmukMbNnONfuPPgd7yfMzw
-	1f1tQ8Qx7Okffm0Ko/+h38i31Y0RqCtGtieKe761a+yDkMVoDWxa/JpJtVehFYXPsUdK
-	i533kbzv/lMbIQX/AKIIGFYRO2xQbUWTUgIDElF8Xi5+9C+I1M425Acl6fNBK+TK38oG
-	HaZA==
-Received: by 10.205.133.19 with SMTP id hw19mr2773453bkc.0.1335969163284;
-	Wed, 02 May 2012 07:32:43 -0700 (PDT)
+	bh=eKgd6utnTPV+9FzJZTnmwxiGRJdtCyDi4PQWKou2dGo=;
+	b=K3sN6GNv06lAkHb5II0o2rMQwQ2LSw0XXbfAqw2NEobE7fLQHoUlb4S3XwWVYBJ2Vn
+	JhWLUXvxSq5CZrz0OaGMsItW1oxEnGq1vhdvpjbIt/0hpHEbpG1d385ZAXQqCTzGNGkF
+	eu/Sa3wjkpSxcTvQGlrbFVbW4oLPBOOIiz64pX4+0KT+WAnflbZ1rcQYDsIhq2SiHLPj
+	fWmKAcGmWnzWVBn4e9F88avjDRLf5gzwgHKrrUv+t4o75QwMblTexLipo0GeuKi5y4ca
+	aGrYUYnF33ofYI1bty7mQcZTuTQRQ5ySQzLnicQVKS+2ReW7dg/pCf7h9Q+jkp9PzfPU
+	UETA==
+Received: by 10.204.130.1 with SMTP id q1mr10061316bks.70.1335969176102;
+	Wed, 02 May 2012 07:32:56 -0700 (PDT)
 Received: from localhost ([94.230.152.246])
-	by mx.google.com with ESMTPS id s20sm4321728bks.2.2012.05.02.07.32.41
+	by mx.google.com with ESMTPS id n19sm4298547bkv.14.2012.05.02.07.32.54
 	(version=TLSv1/SSLv3 cipher=OTHER);
-	Wed, 02 May 2012 07:32:42 -0700 (PDT)
+	Wed, 02 May 2012 07:32:55 -0700 (PDT)
 From: Martin Jansa <martin.jansa@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Wed,  2 May 2012 16:32:35 +0200
-Message-Id: <8bad5055c1e2074bee56611b8b42477086087159.1335969047.git.Martin.Jansa@gmail.com>
+Date: Wed,  2 May 2012 16:32:36 +0200
+Message-Id: <ebc0c97cd803f441abd0691bf5d5609b6a9f5261.1335969047.git.Martin.Jansa@gmail.com>
 X-Mailer: git-send-email 1.7.8.6
-In-Reply-To: <cover.1335967122.git.Martin.Jansa@gmail.com>
+In-Reply-To: <8bad5055c1e2074bee56611b8b42477086087159.1335969047.git.Martin.Jansa@gmail.com>
 References: <cover.1335967122.git.Martin.Jansa@gmail.com>
+	<8bad5055c1e2074bee56611b8b42477086087159.1335969047.git.Martin.Jansa@gmail.com>
 In-Reply-To: <cover.1335969047.git.Martin.Jansa@gmail.com>
 References: <cover.1335969047.git.Martin.Jansa@gmail.com>
-Subject: [PATCH 3/4] qt-4.8.1: fix creating /include directory in build host root
+Subject: [PATCH 4/4] site/ix86-common, site/x86_64-linux: alignment values for guin32, guin64 and unsigned long
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -46,80 +47,44 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 02 May 2012 14:42:25 -0000
+X-List-Received-Date: Wed, 02 May 2012 14:42:38 -0000
+
+These are required to build recent versions of glib-2.0
 
 Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
 ---
- .../qt4/files/set-OUTPUT_DIR-if-empty.patch        |   19 +++++++++++++++++++
- meta/recipes-qt/qt4/qt-4.8.1.inc                   |    1 +
- meta/recipes-qt/qt4/qt4-embedded.inc               |    2 +-
- meta/recipes-qt/qt4/qt4-x11-free.inc               |    2 +-
- 4 files changed, 22 insertions(+), 2 deletions(-)
- create mode 100644 meta/recipes-qt/qt4/files/set-OUTPUT_DIR-if-empty.patch
+ meta/site/ix86-common  |    3 +++
+ meta/site/x86_64-linux |    3 +++
+ 2 files changed, 6 insertions(+), 0 deletions(-)
 
-diff --git a/meta/recipes-qt/qt4/files/set-OUTPUT_DIR-if-empty.patch b/meta/recipes-qt/qt4/files/set-OUTPUT_DIR-if-empty.patch
-new file mode 100644
-index 0000000..9cb72ba
---- /dev/null
-+++ b/meta/recipes-qt/qt4/files/set-OUTPUT_DIR-if-empty.patch
-@@ -0,0 +1,19 @@
-+Without this do_configure was trying to create /include/WebCore/libdummy.prl in root of build host filesystem
-+now it's in proper place ${WORKDIR}/qt-everywhere-opensource-src-4.8.1/src/3rdparty/webkit/include/WebCore/libdummy.prl
-+
-+First reported here:
-+http://www.mail-archive.com/openembedded-devel@lists.openembedded.org/msg24436.html
-+
-+Upstream-Status: Pending
-+
-+--- qt-everywhere-opensource-src-4.8.1/src/3rdparty/webkit/Source/WebKit2/DerivedSources.pro.orig	2012-05-01 07:48:08.457613310 +0200
-++++ qt-everywhere-opensource-src-4.8.1/src/3rdparty/webkit/Source/WebKit2/DerivedSources.pro	2012-05-01 07:48:15.493613232 +0200
-+@@ -3,6 +3,8 @@
-+ 
-+ CONFIG -= debug_and_release
-+ 
-++isEmpty(OUTPUT_DIR): OUTPUT_DIR = ../..
-++
-+ CONFIG(standalone_package) {
-+     isEmpty(WEBKIT2_GENERATED_SOURCES_DIR):WEBKIT2_GENERATED_SOURCES_DIR = $$PWD/generated
-+     isEmpty(WC_GENERATED_SOURCES_DIR):WC_GENERATED_SOURCES_DIR = $$PWD/../WebCore/generated
-diff --git a/meta/recipes-qt/qt4/qt-4.8.1.inc b/meta/recipes-qt/qt4/qt-4.8.1.inc
-index 2fc4228..b923e60 100644
---- a/meta/recipes-qt/qt4/qt-4.8.1.inc
-+++ b/meta/recipes-qt/qt4/qt-4.8.1.inc
-@@ -24,6 +24,7 @@ SRC_URI = "http://get.qt.nokia.com/qt/source/qt-everywhere-opensource-src-${PV}.
-            file://gcc47-fix2.patch \
-            file://disable-fuse-gold-flag.patch \
-            file://fix_conflicting_types.patch \
-+           file://set-OUTPUT_DIR-if-empty.patch \
-            "
+diff --git a/meta/site/ix86-common b/meta/site/ix86-common
+index a625f8e..20cac75 100644
+--- a/meta/site/ix86-common
++++ b/meta/site/ix86-common
+@@ -97,6 +97,9 @@ glib_cv_rtldglobal_broken=${glib_cv_rtldglobal_broken=yes}
+ glib_cv_stack_grows=${glib_cv_stack_grows=no}
+ utils_cv_sys_open_max=${utils_cv_sys_open_max=1015}
+ glib_cv_use_pid_surrogate=${glib_cv_use_pid_surrogate=yes}
++ac_cv_alignof_guint32=4
++ac_cv_alignof_guint64=4
++ac_cv_alignof_unsigned_long=4
  
- SRC_URI[md5sum] = "7960ba8e18ca31f0c6e4895a312f92ff"
-diff --git a/meta/recipes-qt/qt4/qt4-embedded.inc b/meta/recipes-qt/qt4/qt4-embedded.inc
-index 291e62a..0b304a0 100644
---- a/meta/recipes-qt/qt4/qt4-embedded.inc
-+++ b/meta/recipes-qt/qt4/qt4-embedded.inc
-@@ -2,7 +2,7 @@ DESCRIPTION = "Qt is a versatile cross-platform application framework -- this is
- SECTION = "libs"
- HOMEPAGE = "http://qt.nokia.com"
- DEPENDS += "directfb tslib"
--INC_PR = "r44"
-+INC_PR = "r45"
+ # guile
+ ac_cv_uchar=${ac_cv_uchar=no}
+diff --git a/meta/site/x86_64-linux b/meta/site/x86_64-linux
+index a0a9362..3acc294 100644
+--- a/meta/site/x86_64-linux
++++ b/meta/site/x86_64-linux
+@@ -52,6 +52,9 @@ glib_cv_sys_pthread_getspecific_posix=${glib_cv_sys_pthread_getspecific_posix=ye
+ glib_cv_sys_pthread_mutex_trylock_posix=${glib_cv_sys_pthread_mutex_trylock_posix=yes}
+ glib_cv_uscore=${glib_cv_uscore=no}
+ glib_cv_va_val_copy=${glib_cv_va_val_copy=no}
++ac_cv_alignof_guint32=4
++ac_cv_alignof_guint64=8
++ac_cv_alignof_unsigned_long=8
  
- QT_BASE_LIB  ?= "libqt-embedded"
- 
-diff --git a/meta/recipes-qt/qt4/qt4-x11-free.inc b/meta/recipes-qt/qt4/qt4-x11-free.inc
-index 720b1bf..da98962 100644
---- a/meta/recipes-qt/qt4/qt4-x11-free.inc
-+++ b/meta/recipes-qt/qt4/qt4-x11-free.inc
-@@ -5,7 +5,7 @@ HOMEPAGE = "http://qt.nokia.com"
- SECTION = "x11/libs"
- DEPENDS += "virtual/libgl virtual/libx11 fontconfig libxft libxext libxrender libxrandr libxcursor"
- 
--INC_PR = "r42"
-+INC_PR = "r43"
- 
- QT_GLFLAGS ?= "${@base_contains('DISTRO_FEATURES', 'opengl', '-opengl', '-no-opengl', d)} "
- QT_GLFLAGS_qemux86 = "-opengl"
+ nano_cv_func_regexec_segv_emptystr=${nano_cv_func_regexec_segv_emptystr=no}
+ samba_cv_HAVE_VA_COPY=${samba_cv_HAVE_VA_COPY=yes}
 -- 
 1.7.8.6
 
