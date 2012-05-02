@@ -1,20 +1,20 @@
-Received: from mail.windriver.com ([147.11.1.11])
+Received: from mail1.windriver.com ([147.11.146.13])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <jason.wessel@windriver.com>) id 1SPbBa-0000U3-1F
+	(envelope-from <jason.wessel@windriver.com>) id 1SPbCx-0000X8-W5
 	for Openembedded-core@lists.openembedded.org;
-	Wed, 02 May 2012 17:09:46 +0200
+	Wed, 02 May 2012 17:11:12 +0200
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca [147.11.189.40])
-	by mail.windriver.com (8.14.3/8.14.3) with ESMTP id q42EOTut015553
+	by mail1.windriver.com (8.14.3/8.14.3) with ESMTP id q42BUq9J002288
 	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <Openembedded-core@lists.openembedded.org>;
-	Wed, 2 May 2012 07:24:29 -0700 (PDT)
+	Wed, 2 May 2012 04:30:52 -0700 (PDT)
 Received: from localhost.localdomain (128.224.60.100) by
 	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server id
-	14.1.255.0; Wed, 2 May 2012 07:24:29 -0700
+	14.1.255.0; Wed, 2 May 2012 04:30:52 -0700
 From: Jason Wessel <jason.wessel@windriver.com>
 To: <Openembedded-core@lists.openembedded.org>
-Date: Wed, 2 May 2012 09:24:28 -0500
-Message-ID: <1335968668-3019-1-git-send-email-jason.wessel@windriver.com>
+Date: Wed, 2 May 2012 06:30:46 -0500
+Message-ID: <1335958246-4192-1-git-send-email-jason.wessel@windriver.com>
 X-Mailer: git-send-email 1.6.6.2
 MIME-Version: 1.0
 Subject: [PATCH] runqemu: Fix TAP='TUNSETGROUP: Invalid argument' by falling back to tunctl -u
@@ -32,7 +32,7 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 02 May 2012 15:09:46 -0000
+X-List-Received-Date: Wed, 02 May 2012 15:11:12 -0000
 Content-Type: text/plain
 
 By default the runqemu script tries to set the group permissions on any
