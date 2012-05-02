@@ -1,44 +1,23 @@
-Received: from mail-wi0-f171.google.com ([209.85.212.171])
+Received: from mail.windriver.com ([147.11.1.11])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <koen@dominion.thruhere.net>) id 1SPax3-0008Lq-OZ
-	for openembedded-core@lists.openembedded.org;
-	Wed, 02 May 2012 16:54:45 +0200
-Received: by wibhj13 with SMTP id hj13so4002068wib.6
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 02 May 2012 07:45:01 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=google.com; s=20120113;
-	h=subject:mime-version:content-type:from:in-reply-to:date:cc
-	:content-transfer-encoding:message-id:references:to:x-mailer
-	:x-gm-message-state;
-	bh=DJvAvkQas7QBqMyleE/40K8oyTkDIjJZy1RsSg3vxXY=;
-	b=fLVGe9g1lVQ0TLegcB44NWIWMZg8kYa4+yK0thk09I4I1au3koykpc+A1uIeNQOUtJ
-	FQ51KInKfthP+q7+a380wePAASg79SGIpl8zJ6cYjxv5vy0BDQ+AGF8mQH2rRVDWQ0bI
-	Vm437w+aSqsHBeK+KqcRcXU2Zci/9bC3MHH5Dk4s9d34Yh8PiBreL1+ri4IYNMt9kPHR
-	0rrKfTlI+jKW3ZJLieNPu+yUOnnUBMjP1ls3Im5EfCCNxmpVAUpYWc6aBFdepBBemRuc
-	5/c0DiWwGFvcsQLesGarjS7iE08g+TnXCUvyOtfpIu/tT6+HQhYdMentdN5zR+xSmxXl
-	+MNg==
-Received: by 10.180.105.69 with SMTP id gk5mr17104673wib.3.1335969901541;
-	Wed, 02 May 2012 07:45:01 -0700 (PDT)
-Received: from [172.20.1.36] (ip545070eb.adsl-surfen.hetnet.nl.
-	[84.80.112.235])
-	by mx.google.com with ESMTPS id w10sm7301158wiy.3.2012.05.02.07.44.58
-	(version=TLSv1/SSLv3 cipher=OTHER);
-	Wed, 02 May 2012 07:44:59 -0700 (PDT)
-Mime-Version: 1.0 (Apple Message framework v1257)
-From: Koen Kooi <koen@dominion.thruhere.net>
-In-Reply-To: <4FA145AD.4070606@windriver.com>
-Date: Wed, 2 May 2012 16:44:44 +0200
-Message-Id: <965C6250-6D1E-438E-8207-1E1D9DAF398A@dominion.thruhere.net>
-References: <1335968616-2436-1-git-send-email-jason.wessel@windriver.com>
-	<DE7E5733-CC28-46DD-A4BC-C1AA663F925B@dominion.thruhere.net>
-	<4FA145AD.4070606@windriver.com>
-To: Jason Wessel <jason.wessel@windriver.com>
-X-Mailer: Apple Mail (2.1257)
-X-Gm-Message-State: ALoCoQk038uvwoJHTjo4j+FXBpuRoFQ0NYWOTE2tfHm7OZ8ZleYEwD6RRKCXOxtnl/J8zDX/foXW
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] qemu-native: depend on unfs-server-native
+	(envelope-from <jason.wessel@windriver.com>) id 1SPbBa-0000U3-1F
+	for Openembedded-core@lists.openembedded.org;
+	Wed, 02 May 2012 17:09:46 +0200
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca [147.11.189.40])
+	by mail.windriver.com (8.14.3/8.14.3) with ESMTP id q42EOTut015553
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
+	for <Openembedded-core@lists.openembedded.org>;
+	Wed, 2 May 2012 07:24:29 -0700 (PDT)
+Received: from localhost.localdomain (128.224.60.100) by
+	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server id
+	14.1.255.0; Wed, 2 May 2012 07:24:29 -0700
+From: Jason Wessel <jason.wessel@windriver.com>
+To: <Openembedded-core@lists.openembedded.org>
+Date: Wed, 2 May 2012 09:24:28 -0500
+Message-ID: <1335968668-3019-1-git-send-email-jason.wessel@windriver.com>
+X-Mailer: git-send-email 1.6.6.2
+MIME-Version: 1.0
+Subject: [PATCH] runqemu: Fix TAP='TUNSETGROUP: Invalid argument' by falling back to tunctl -u
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -53,32 +32,105 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 02 May 2012 14:54:45 -0000
-Content-Type: text/plain; charset=iso-8859-1
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Wed, 02 May 2012 15:09:46 -0000
+Content-Type: text/plain
 
+By default the runqemu script tries to set the group permissions on any
+tap device it creates.  The TUNSETGROUP ioctl is not implemented on some
+popular host enterprise linux distributions.
 
-Op 2 mei 2012, om 16:33 heeft Jason Wessel het volgende geschreven:
+Internally the script will exit as follows:
 
-> On 05/02/2012 09:29 AM, Koen Kooi wrote:
->> Op 2 mei 2012, om 16:23 heeft Jason Wessel het volgende geschreven:
->>=20
->>> The user mode NFS server does not get built by default when you are
->>> using a purely command line driven development environment without =
-SDK
->>> tools.  In order to accommodate simple test configurations and have
->>> all the tools built for the minimal validation with qemu-native,
->>> simply add the dependency to unfs-server-native.
->> So all images I build for e.g. qemux86 now have an nfs-server? Can we =
-please move settings like that to the specific images?
->>=20
->=20
-> This is part of the simulation environment.  Not all of the run qemu =
-functionality works correctly without this.
+++ /opt/qemux86/bitbake_build/tmp/sysroots/x86_64-linux/usr/bin/tunctl -b -g 100
++ TAP='TUNSETGROUP: Invalid argument'
++ STATUS=1
++ '[' 1 -ne 0 ']'
++ echo 'tunctl failed:'
+tunctl failed:
++ echo TUNSETGROUP: Invalid argument
 
-I repeat:  Can we please move settings like that to the specific images?
+This patch implements a fallback to using the userid as the owner of
+the tap device which is supported by all 2.6 kernels, the default remains
+to try and use the groupid first.
 
-I don't need nor want nfs servers in the images I build for qemu. And =
-they work just fine without it.=
+Signed-off-by: Jason Wessel <jason.wessel@windriver.com>
+---
+ scripts/runqemu-ifup     |   20 +++++++++++++-------
+ scripts/runqemu-internal |    5 +++--
+ 2 files changed, 16 insertions(+), 9 deletions(-)
+
+diff --git a/scripts/runqemu-ifup b/scripts/runqemu-ifup
+index f80538f..e4c3daf 100755
+--- a/scripts/runqemu-ifup
++++ b/scripts/runqemu-ifup
+@@ -34,7 +34,7 @@
+ # 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
+ 
+ usage() {
+-	echo "sudo $(basename $0) <gid> <native-sysroot-basedir>"
++	echo "sudo $(basename $0) <uid> <gid> <native-sysroot-basedir>"
+ }
+ 
+ if [ $EUID -ne 0 ]; then
+@@ -42,13 +42,14 @@ if [ $EUID -ne 0 ]; then
+ 	exit 1
+ fi
+ 
+-if [ $# -ne 2 ]; then
++if [ $# -ne 3 ]; then
+ 	usage
+ 	exit 1
+ fi
+ 
+-GROUP="-g $1"
+-NATIVE_SYSROOT_DIR=$2
++USERID="-u $1"
++GROUP="-g $2"
++NATIVE_SYSROOT_DIR=$3
+ 
+ TUNCTL=$NATIVE_SYSROOT_DIR/usr/bin/tunctl
+ if [ ! -x "$TUNCTL" ]; then
+@@ -59,9 +60,14 @@ fi
+ TAP=`$TUNCTL -b $GROUP 2>&1`
+ STATUS=$?
+ if [ $STATUS -ne 0 ]; then
+-	echo "tunctl failed:"
+-	echo $TAP
+-	exit 1
++# If tunctl -g fails, try using tunctl -u, for older host kernels 
++# which do not support the TUNSETGROUP ioctl
++	TAP=`$TUNCTL -b $USERID 2>&1`
++	STATUS=$?
++	if [ $STATUS -ne 0 ]; then
++		echo "tunctl failed:"
++		exit 1
++	fi
+ fi
+ 
+ IFCONFIG=`which ifconfig 2> /dev/null`
+diff --git a/scripts/runqemu-internal b/scripts/runqemu-internal
+index 1831a09..fb0d806 100755
+--- a/scripts/runqemu-internal
++++ b/scripts/runqemu-internal
+@@ -173,13 +173,14 @@ if [ "$TAP" = "" ]; then
+     fi
+ 
+     GROUPID=`id -g`
++    USERID=`id -u`
+     echo "Setting up tap interface under sudo"
+     # Redirect stderr since we could see a LD_PRELOAD warning here if pseudo is loaded
+     # but inactive. This looks scary but is harmless
+-    tap=`sudo $QEMUIFUP $GROUPID $OECORE_NATIVE_SYSROOT 2> /dev/null`
++    tap=`sudo $QEMUIFUP $USERID $GROUPID $OECORE_NATIVE_SYSROOT 2> /dev/null`
+     if [ $? -ne 0 ]; then
+         # Re-run standalone to see verbose errors
+-        sudo $QEMUIFUP $GROUPID $OECORE_NATIVE_SYSROOT
++        sudo $QEMUIFUP $USERID $GROUPID $OECORE_NATIVE_SYSROOT
+         return
+     fi
+     LOCKFILE="$LOCKDIR/$tap"
+-- 
+1.6.6.2
+
 
 
