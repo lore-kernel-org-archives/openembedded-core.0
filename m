@@ -1,39 +1,37 @@
-Received: from mail-we0-f175.google.com ([74.125.82.175])
+Received: from mail-wi0-f177.google.com ([209.85.212.177])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <martin.jansa@gmail.com>) id 1SPotK-0006Sc-6d
+	(envelope-from <martin.jansa@gmail.com>) id 1SPoy3-0006c3-GM
 	for openembedded-core@lists.openembedded.org;
-	Thu, 03 May 2012 07:47:50 +0200
-Received: by wera1 with SMTP id a1so991702wer.6
+	Thu, 03 May 2012 07:52:43 +0200
+Received: by wibhj13 with SMTP id hj13so1216412wib.6
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 02 May 2012 22:38:05 -0700 (PDT)
+	Wed, 02 May 2012 22:42:58 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=date:from:to:subject:message-id:references:mime-version
-	:content-type:content-disposition:in-reply-to:user-agent;
-	bh=wPUhHZSPLr+Bxt9n5+Cmt/YhPIoyJ7iVWJGUob8PGm0=;
-	b=seRUWkj60xAP675T9E3jBUF7Dyx4b8qb3B+ioMix51f+VYX9IG4TLhIb8uSBJ8Y3ZJ
-	1J2PZp/A48v28AZOrBD3fyod05M4IYZoEyS3rniPRZUHeBJJDmc/lxBCR6o/gPF9OLMb
-	0RY8T6EbJEhbHGVlKPYR3DQzjKxQCmqNnxB7YAUb1ETmjxvJauqrU1dPAFuBbaAE6PMD
-	Gw/490hW3NWQLXxvpgZhTPyjrD+fXEm87brrwJ8rPhwhjwUmQbIlHUDYqIPPxbyZGhZE
-	x79Vb8JFdY/m5wtDTSOLZZpkViMv6PkbnG3PBCChqz9i/B/jhUg0UA7iui7moDlVZLKz
-	HPKg==
-Received: by 10.180.81.135 with SMTP id a7mr20579826wiy.16.1336023485196;
-	Wed, 02 May 2012 22:38:05 -0700 (PDT)
+	h=from:to:cc:subject:date:message-id:x-mailer:in-reply-to:references
+	:in-reply-to:references;
+	bh=G+NKn8c66YaYBPxUo3QhIZnUqVHvYLrqlAAt0Ne5SKg=;
+	b=k3qhUUoLIxmkdqDHJe6Uw9Yocckspt7PPk5s/Cbw+vHs1QBq08whclXaLF35g0sEDA
+	+tH8/7b91WjxI/RGvTNZ232tMzncP9K9JDZ5d/FOY9mxg6251UmbNjQJsxexhpmUJLWr
+	Qrby/UDRZ+atfjrgKqDTVkPJig9j3xtnjhWSMx4MkqRwHGqQOx9khBOZOMBFnEOBlP4T
+	eS+M/DUPeZu5My/xlUTmK5hNev//IQ11G+tiPq/DyYLcrHI9uvJM5J2q6/s7YmpD5Ylr
+	AExEOeHCkq2DsNyk50Yl8ITIlMJ02CbQXRUasfCL5/XxZgzPiYNK1+p74hjC+Wwe2lKE
+	2L/g==
+Received: by 10.180.104.230 with SMTP id gh6mr2133030wib.22.1336023778563;
+	Wed, 02 May 2012 22:42:58 -0700 (PDT)
 Received: from localhost ([94.230.152.246])
-	by mx.google.com with ESMTPS id k6sm49257578wie.9.2012.05.02.22.38.03
+	by mx.google.com with ESMTPS id gg2sm14816552wib.7.2012.05.02.22.42.56
 	(version=TLSv1/SSLv3 cipher=OTHER);
-	Wed, 02 May 2012 22:38:04 -0700 (PDT)
-Date: Thu, 3 May 2012 07:38:06 +0200
+	Wed, 02 May 2012 22:42:57 -0700 (PDT)
 From: Martin Jansa <martin.jansa@gmail.com>
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Message-ID: <20120503053806.GC4658@jama.jama.net>
+To: openembedded-core@lists.openembedded.org
+Date: Thu,  3 May 2012 07:42:52 +0200
+Message-Id: <f42d908150e61fe8209ab1e0c3bc3d9a171b22d9.1336023730.git.Martin.Jansa@gmail.com>
+X-Mailer: git-send-email 1.7.8.6
+In-Reply-To: <cover.1335967122.git.Martin.Jansa@gmail.com>
 References: <cover.1335967122.git.Martin.Jansa@gmail.com>
-	<eec6dc7f29ff7e5297e2827196cc81ffd9a76831.1335967122.git.Martin.Jansa@gmail.com>
-	<20120502140940.GB3682@jama.jama.net> <4FA1A25F.9030502@gmail.com>
-MIME-Version: 1.0
-In-Reply-To: <4FA1A25F.9030502@gmail.com>
-User-Agent: Mutt/1.5.21 (2010-09-15)
-Subject: Re: [PATCH 1/2] site/arm-common: alignment values for guin32, guin64 and unsigned long
+In-Reply-To: <cover.1336023730.git.Martin.Jansa@gmail.com>
+References: <cover.1336023730.git.Martin.Jansa@gmail.com>
+Subject: [PATCH 5/5] gtk-engines: fix build with glib-2.32
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -48,93 +46,66 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 03 May 2012 05:47:50 -0000
-X-Groupsio-MsgNum: 21551
-Content-Type: multipart/signed; micalg=pgp-sha1;
-	protocol="application/pgp-signature"; boundary="32u276st3Jlj2kUU"
-Content-Disposition: inline
+X-List-Received-Date: Thu, 03 May 2012 05:52:43 -0000
 
---32u276st3Jlj2kUU
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
+---
+ .../gtk-engines/gtk-engines-2.20.2/glib-2.32.patch |   23 ++++++++++++++++++++
+ .../gtk-engines/gtk-engines_2.20.2.bb              |    3 +-
+ 2 files changed, 25 insertions(+), 1 deletions(-)
+ create mode 100644 meta/recipes-gnome/gtk-engines/gtk-engines-2.20.2/glib-2.32.patch
 
-On Wed, May 02, 2012 at 02:08:47PM -0700, Khem Raj wrote:
-> -----BEGIN PGP SIGNED MESSAGE-----
-> Hash: SHA1
->=20
-> On 05/02/2012 07:09 AM, Martin Jansa wrote:
-> > On Wed, May 02, 2012 at 03:59:45PM +0200, Martin Jansa wrote:
-> >> From: Tomas Frydrych <tomas@sleepfive.com>
-> >>=20
-> >> These are required to build recent versions of glib-2.0
-> >=20
-> > similar patch is needed also for other site files, just noticed it
-> > while building for qemux86-64
->=20
-> would you also include rest of architectures too please ?
+diff --git a/meta/recipes-gnome/gtk-engines/gtk-engines-2.20.2/glib-2.32.patch b/meta/recipes-gnome/gtk-engines/gtk-engines-2.20.2/glib-2.32.patch
+new file mode 100644
+index 0000000..f0b878d
+--- /dev/null
++++ b/meta/recipes-gnome/gtk-engines/gtk-engines-2.20.2/glib-2.32.patch
+@@ -0,0 +1,23 @@
++From 8d49a386f467cbf8e0842d2218126f643e50f834 Mon Sep 17 00:00:00 2001
++From: Dominique Leuenberger <dimstar@opensuse.org>
++Date: Sun, 27 Nov 2011 14:24:57 +0000
++Subject: Fix build with glib 2.31: Only glib.h can be #include'd. Fixes bug #664914
++
++Upstream-Status: Backport
++
++---
++diff --git a/engines/clearlooks/src/animation.c b/engines/clearlooks/src/animation.c
++index 1f7a41f..56a9286 100644
++--- a/engines/clearlooks/src/animation.c
+++++ b/engines/clearlooks/src/animation.c
++@@ -28,7 +28,7 @@
++ #include "animation.h"
++ 
++ #ifdef HAVE_WORKING_ANIMATION
++-#include <glib/gtimer.h>
+++#include <glib.h>
++ 
++ struct _AnimationInfo {
++ 	GTimer *timer;
++--
++cgit v0.9.0.2
+diff --git a/meta/recipes-gnome/gtk-engines/gtk-engines_2.20.2.bb b/meta/recipes-gnome/gtk-engines/gtk-engines_2.20.2.bb
+index 3ca6e81..5b8ee88 100644
+--- a/meta/recipes-gnome/gtk-engines/gtk-engines_2.20.2.bb
++++ b/meta/recipes-gnome/gtk-engines/gtk-engines_2.20.2.bb
+@@ -8,7 +8,7 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=2d5025d4aa3495befef8f17206a5b0a1"
+ SECTION = "x11/base"
+ DEPENDS = "gtk+"
+ 
+-PR = "r1"
++PR = "r2"
+ 
+ PACKAGES_DYNAMIC = "gtk-engine-* gtk-theme-*"
+ 
+@@ -39,5 +39,6 @@ python populate_packages_prepend() {
+ 	# TODO: mark theme packages as arch all
+ }
+ 
++SRC_URI += "file://glib-2.32.patch"
+ SRC_URI[archive.md5sum] = "5deb287bc6075dc21812130604c7dc4f"
+ SRC_URI[archive.sha256sum] = "15b680abca6c773ecb85253521fa100dd3b8549befeecc7595b10209d62d66b5"
+-- 
+1.7.8.6
 
-I did for x86 and x86-64, for the rest I don't know the right values or
-care enough to find them somewhere.
 
-Cheers,
 
->=20
-> >=20
-> >>=20
-> >> Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com> ---=20
-> >> meta/site/arm-common |    3 +++ 1 files changed, 3 insertions(+),
-> >> 0 deletions(-)
-> >>=20
-> >> diff --git a/meta/site/arm-common b/meta/site/arm-common index
-> >> c3ffe08..cad8027 100644 --- a/meta/site/arm-common +++
-> >> b/meta/site/arm-common @@ -76,6 +76,9 @@
-> >> glib_cv_sizeof_ptrdiff_t=3D${glib_cv_sizeof_ptrdiff_t=3D4}=20
-> >> glib_cv_sizeof_size_t=3D${glib_cv_sizeof_size_t=3D4}=20
-> >> glib_cv_sizeof_system_thread=3D${glib_cv_sizeof_system_thread=3D4}=20
-> >> glib_cv_sys_use_pid_niceness_surrogate=3D${glib_cv_sys_use_pid_nicenes=
-s_surrogate=3Dyes}
-> >>
-> >>=20
-> +ac_cv_alignof_guint32=3D4
-> >> +ac_cv_alignof_guint64=3D8 +ac_cv_alignof_unsigned_long=3D4
-> >>=20
-> >> #gstreamer as_cv_unaligned_access=3D${as_cv_unaligned_access=3Dno} --
-> >>  1.7.8.6
-> >>=20
-> >=20
-> >=20
-> >=20
-> > _______________________________________________ Openembedded-core
-> > mailing list Openembedded-core@lists.openembedded.org=20
-> > http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
-> -----BEGIN PGP SIGNATURE-----
-> Version: GnuPG v1.4.11 (GNU/Linux)
-> Comment: Using GnuPG with Mozilla - http://enigmail.mozdev.org/
->=20
-> iEYEARECAAYFAk+hol8ACgkQuwUzVZGdMxQEkgCfZY5mVAR5RxST2olpH41m6V+d
-> iQwAnRBaSrzbM/RGWmb8cZJjXwMAg6KJ
-> =3DtUvc
-> -----END PGP SIGNATURE-----
->=20
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
-
---=20
-Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
-
---32u276st3Jlj2kUU
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: Digital signature
-
------BEGIN PGP SIGNATURE-----
-Version: GnuPG v2.0.19 (GNU/Linux)
-
-iEYEARECAAYFAk+iGb4ACgkQN1Ujt2V2gBwD4QCgq+fwwHc+uN/Cwey8cFu82X6T
-PHIAoLD0X8hWWM7K0ChIl1on3scvx3z2
-=9uaM
------END PGP SIGNATURE-----
-
---32u276st3Jlj2kUU--
